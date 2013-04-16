@@ -159,7 +159,7 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 		return;
 
 	bool canSplit = true;
-	bool canMerge = (kids[0]!=NULL);
+	bool canMerge = kids[0].Valid();
 
 	// always split at first level
 	if (parent) {
@@ -174,8 +174,7 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 		}
 		const float centroidDist = (campos - centroid).Length();
 		const bool errorSplit = (centroidDist < m_roughLength);
-		if( !(canSplit && (m_depth < GEOPATCH_MAX_DEPTH) && errorSplit) ) 
-		{
+		if( !(canSplit && (m_depth < GEOPATCH_MAX_DEPTH) && errorSplit) ) {
 			canSplit = false;
 		}
 	}
@@ -202,7 +201,12 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 	} else if (canMerge) {
 		PiVerify(SDL_mutexP(m_kidsLock)==0);
 		for (int i=0; i<NUM_KIDS; i++) { 
-			kids[i].Reset();
+			canMerge &= kids[i]->canBeMerged();		
+		}
+		if( canMerge ) {
+			for (int i=0; i<NUM_KIDS; i++) { 
+				kids[i].Reset();
+			}
 		}
 		PiVerify(SDL_mutexV(m_kidsLock)!=-1);
 	}
@@ -236,7 +240,7 @@ void GeoPatch::ReceiveHeightmaps(const SQuadSplitResult *psr)
 		const int nD = m_depth+1;
 		for (int i=0; i<NUM_KIDS; i++)
 		{
-			assert(NULL==kids[i]);
+			assert(!kids[i].Valid());
 			const SQuadSplitResult::SSplitResultData& data = psr->data(i);
 			assert(i==data.patchID.GetPatchIdx(nD));
 			assert(0==data.patchID.GetPatchIdx(nD+1));

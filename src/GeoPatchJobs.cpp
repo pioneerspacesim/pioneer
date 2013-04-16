@@ -21,24 +21,22 @@ uint32_t BasePatchJob::s_numActivePatchJobs = 0;
 bool BasePatchJob::s_abort = false;
 
 // Generates full-detail vertices, and also non-edge normals and colors 
-void BasePatchJob::GenerateMesh(double *heights, 
-	vector3f *normals, Color3ub *colors, 
-	const vector3d &v0,
-	const vector3d &v1,
-	const vector3d &v2,
-	const vector3d &v3,
-	const int edgeLen,
-	const double fracStep,
-	const Terrain *pTerrain) const
+void BasePatchJob::GenerateMesh(double *heights, vector3f *normals, Color3ub *colors, 
+								double *borderHeights, vector3d *borderVertexs,
+								const vector3d &v0,
+								const vector3d &v1,
+								const vector3d &v2,
+								const vector3d &v3,
+								const int edgeLen,
+								const double fracStep,
+								const Terrain *pTerrain) const
 {
 	const int borderedEdgeLen = edgeLen+2;
 	const int numBorderedVerts = borderedEdgeLen*borderedEdgeLen;
-	ScopedPtr<double> borderHeights(new double[numBorderedVerts]);
-	ScopedPtr<vector3d> borderVertexs(new vector3d[numBorderedVerts]);
 
 	// generate heights plus a 1 unit border
-	double *bhts = borderHeights.Get();
-	vector3d *vrts = borderVertexs.Get();
+	double *bhts = borderHeights;
+	vector3d *vrts = borderVertexs;
 	for (int y=-1; y<borderedEdgeLen-1 && !s_abort; y++) {
 		const double yfrac = double(y) * fracStep;
 		for (int x=-1; x<borderedEdgeLen-1 && !s_abort; x++) {
@@ -49,17 +47,17 @@ void BasePatchJob::GenerateMesh(double *heights,
 			*(vrts++) = p * (height + 1.0);
 		}
 	}
-	assert(bhts==&borderHeights.Get()[numBorderedVerts]);
+	assert(bhts==&borderHeights[numBorderedVerts]);
 
 	// Generate normals & colors for non-edge vertices since they never change
 	Color3ub *col = colors;
 	vector3f *nrm = normals;
 	double *hts = heights;
-	vrts = borderVertexs.Get();
+	vrts = borderVertexs;
 	for (int y=1; y<borderedEdgeLen-1 && !s_abort; y++) {
 		for (int x=1; x<borderedEdgeLen-1; x++) {
 			// height
-			const double height = borderHeights.Get()[x + y*borderedEdgeLen];
+			const double height = borderHeights[x + y*borderedEdgeLen];
 			assert(hts!=&heights[edgeLen*edgeLen]);
 			*(hts++) = height;
 
@@ -114,7 +112,7 @@ void SinglePatchJob::job_process(void * userData,int /* userId */)    // RUNS IN
 	const SSingleSplitRequest &srd = (*mData.Get());
 
 	// fill out the data
-	GenerateMesh(srd.heights, srd.normals, srd.colors, 
+	GenerateMesh(srd.heights, srd.normals, srd.colors, srd.borderHeights.Get(), srd.borderVertexs.Get(),
 		srd.v0, srd.v1, srd.v2, srd.v3, 
 		srd.edgeLen, srd.fracStep, srd.pTerrain);
 	// add this patches data
@@ -177,7 +175,7 @@ void QuadPatchJob::job_process(void * userData,int /* userId */)    // RUNS IN A
 		}
 
 		// fill out the data
-		GenerateMesh(srd.heights[i], srd.normals[i], srd.colors[i], 
+		GenerateMesh(srd.heights[i], srd.normals[i], srd.colors[i], srd.borderHeights[i].Get(), srd.borderVertexs[i].Get(),
 			vecs[i][0], vecs[i][1], vecs[i][2], vecs[i][3], 
 			srd.edgeLen, srd.fracStep, srd.pTerrain);
 		// add this patches data

@@ -899,6 +899,9 @@
     <ClInclude Include="..\..\src\Orbit.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\FloatComparison.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\Makefile.am">

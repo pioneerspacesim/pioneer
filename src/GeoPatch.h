@@ -124,6 +124,18 @@ public:
 	}
 
 	void Render(vector3d &campos, const Graphics::Frustum &frustum);
+
+	inline bool canBeMerged() const {
+		bool merge = true;
+		if (kids[0].Valid()) {
+			for (int i=0; i<NUM_KIDS; i++) {
+				merge &= kids[i]->canBeMerged();
+			}
+		}
+		merge &= !(mHasJobRequest);
+		return merge;
+	}
+
 	void LODUpdate(const vector3d &campos);
 	
 	void RequestSinglePatch();

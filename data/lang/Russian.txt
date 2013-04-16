@@ -542,6 +542,8 @@ TARGET_OBJECT_IN_SIGHTS
     Захват объекта маркером
 FIRE_LASER
     Огонь
+FIRE_MISSILE
+    Пуск ракеты
 SHIP_ORIENTATION
     Управление кораблем:
 PITCH_UP
@@ -684,6 +686,10 @@ SELECTED_SYSTEM
     Выбранная система
 HYPERSPACE_TARGET
     Цель гиперпрыжка
+DRAW_VERTICAL_LINES
+    Вертикальные линии
+DRAW_OUT_RANGE_LABELS
+    Названия далеких звезд
 FOLLOWING_SELECTION
     выбрать
 LOCKED

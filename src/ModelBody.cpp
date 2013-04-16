@@ -179,7 +179,6 @@ void ModelBody::CalcLighting(double &ambient, double &direct, const Camera *came
 	Color cl;
 	planet->GetSystemBody()->GetAtmosphereFlavor(&cl, &surfaceDensity);
 
-
 	// approximate optical thickness fraction as fraction of density remaining relative to earths
 	double opticalThicknessFraction = density/EARTH_ATMOSPHERE_SURFACE_DENSITY;
 
@@ -252,7 +251,7 @@ void ModelBody::CalcLighting(double &ambient, double &direct, const Camera *came
 // setLighting: set renderer lights according to current position and sun
 // positions. Original lighting is passed back in oldLights, oldAmbient, and
 // should be reset after rendering with ModelBody::ResetLighting.
-void ModelBody::SetLighting(Graphics::Renderer *r, const Camera *camera, std::vector<Graphics::Light> oldLights, Color *oldAmbient) {
+void ModelBody::SetLighting(Graphics::Renderer *r, const Camera *camera, std::vector<Graphics::Light> &oldLights, Color &oldAmbient) {
 	std::vector<Graphics::Light> newLights;
 	double ambient, direct;
 	CalcLighting(ambient, direct, camera);
@@ -262,7 +261,7 @@ void ModelBody::SetLighting(Graphics::Renderer *r, const Camera *camera, std::ve
 
 		oldLights.push_back(light);
 
-		float intensity = direct * camera->ShadowedIntensity(i, this);
+		const float intensity = direct * camera->ShadowedIntensity(i, this);
 
 		Color c = light.GetDiffuse();
 		Color cs = light.GetSpecular();
@@ -278,23 +277,24 @@ void ModelBody::SetLighting(Graphics::Renderer *r, const Camera *camera, std::ve
 		newLights.push_back(light);
 	}
 
-	*oldAmbient = r->GetAmbientColor();
+	oldAmbient = r->GetAmbientColor();
 	r->SetAmbientColor(Color(ambient));
 	r->SetLights(newLights.size(), &newLights[0]);
 }
 
 void ModelBody::ResetLighting(Graphics::Renderer *r, const std::vector<Graphics::Light> &oldLights, const Color &oldAmbient) {
 	// restore old lights
-	r->SetLights(oldLights.size(), &oldLights[0]);
+	if (!oldLights.empty())
+		r->SetLights(oldLights.size(), &oldLights[0]);
 	r->SetAmbientColor(oldAmbient);
 }
 
-void ModelBody::RenderModel(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform, bool setLighting)
+void ModelBody::RenderModel(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform, const bool setLighting)
 {
 	std::vector<Graphics::Light> oldLights;
 	Color oldAmbient;
 	if (setLighting)
-		SetLighting(r, camera, oldLights, &oldAmbient);
+		SetLighting(r, camera, oldLights, oldAmbient);
 
 	matrix4x4d m2 = GetInterpOrient();
 	m2.SetTranslate(GetInterpPosition());

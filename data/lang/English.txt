@@ -686,6 +686,10 @@ SELECTED_SYSTEM
     Selected system
 HYPERSPACE_TARGET
     Hyperspace target
+DRAW_VERTICAL_LINES
+    Draw vertical lines
+DRAW_OUT_RANGE_LABELS
+    Label out-of-range systems
 FOLLOWING_SELECTION
     following selection
 LOCKED

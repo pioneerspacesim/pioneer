@@ -106,6 +106,8 @@ private:
 	Gui::ImageButton *m_zoomOutButton;
 	Gui::ImageButton *m_galaxyButton;
 	Gui::TextEntry *m_searchBox;
+	Gui::ToggleButton *m_drawOutRangeLabelButton;
+	Gui::ToggleButton *m_drawSystemLegButton;
 
 	ScopedPtr<Graphics::Drawables::Disk> m_disk;
 
@@ -154,6 +156,7 @@ private:
 	int m_cacheZMin;
 	int m_cacheZMax;
 
+	ScopedPtr<Graphics::VertexArray> m_lineVerts;
 };
 
 #endif /* _SECTORVIEW_H */

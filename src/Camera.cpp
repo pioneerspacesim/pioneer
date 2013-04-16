@@ -318,7 +318,7 @@ std::list<Camera::Shadow> Camera::CalcShadows(int lightNum, const Body *b) const
 		const vector3d projectedCentre = ( b2pos - perpDist*lightDir ) / bRadius;
 		if (projectedCentre.Length() < 1 + srad + lrad) {
 			// some part of b is (partially) eclipsed
-			Camera::Shadow shadow = {lightNum, projectedCentre, srad, lrad};
+			Camera::Shadow shadow = { lightNum, projectedCentre, static_cast<float>(srad), static_cast<float>(lrad) };
 			shadows.push_back(shadow);
 		}
 	}
@@ -340,9 +340,9 @@ float discCovered(float dist, float rad) {
 	const float d = sqrt(std::max(0.f, 1.f - xl*xl));
 
 	const float th = Clamp(acosf(xl), 0.f, float(M_PI));
-	const float th2 = Clamp(acosf(xs/rad), 0.f, float(M_PI));
+	const float th2 = Clamp(acosf(xs), 0.f, float(M_PI));
 
-	assert(!isnan(d) && !isnan(th) && !isnan(th2));
+	assert(!is_nan(d) && !is_nan(th) && !is_nan(th2));
 
 	// covered area can be calculated as the sum of segments from the two
 	// discs plus/minus some triangles, and it works out as follows:
