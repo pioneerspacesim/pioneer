@@ -104,7 +104,15 @@ const std::string &DropDown::GetSelectedOption() const
 {
 	return m_popup->GetSelectedOption();
 }
-
+bool DropDown::SetOption(const std::string option)
+{
+	if(m_popup->SetOption(option))
+	{
+		m_label->SetText(option);
+		return true;
+	} 
+	return false;
+}
 void DropDown::Clear()
 {
 	m_popup->Clear();

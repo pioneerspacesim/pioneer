@@ -28,6 +28,7 @@ local doLoadDialog = function ()
 end
 
 local doSettingsScreen = function()
+  
   ui:SetInnerWidget(
     ui.templates.Settings({})
   )

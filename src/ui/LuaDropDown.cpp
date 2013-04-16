@@ -15,6 +15,20 @@ public:
 		return 1;
 	}
 	
+	static int l_set_option(lua_State *l) {
+		UI::DropDown *dropDown = LuaObject<UI::DropDown>::CheckFromLua(1);
+		std::string option = luaL_checkstring(l, 2);
+		bool success = dropDown->SetOption(option);
+		if(success) {
+			lua_pushvalue(l, 1);
+		}
+		else {
+			luaL_error(l, "no such video mode %s", option.c_str());
+			return 0;
+		}
+		return 1;
+	}
+	
 	static int l_attr_selected_option(lua_State *l) {
 		UI::DropDown *dropDown = LuaObject<UI::DropDown>::CheckFromLua(1);
 		const std::string &selectedOption(dropDown->GetSelectedOption());
@@ -41,6 +55,7 @@ template <> void LuaObject<UI::DropDown>::RegisterClass()
 
 	static const luaL_Reg l_methods[] = {
 		{ "AddOption", LuaDropDown::l_add_option },
+		{ "SetOption", LuaDropDown::l_set_option },
 		{ 0, 0 }
 	};
 	static const luaL_Reg l_attrs[] = {

@@ -24,7 +24,10 @@ ui.templates.Settings = function (args)
   local modeTable = Settings:GetVideoModes()
   local iniTable = Settings:GetGameConfig()
   local screenModeList = ui:DropDown()
-	for i = 1,#modeTable do screenModeList:AddOption(modeTable[i]) end
+  for i = 1,#modeTable do screenModeList:AddOption(modeTable[i]) end
+--   print ("option = ", screenModeList.selectedOption)
+  screenModeList:SetOption(iniTable["ScrWidth"].."x"..iniTable["ScrHeight"]);
+  print ("option = ", screenModeList.selectedOption)
   screenModeList.onOptionSelected:Connect(function() local option = screenModeList.selectedOption 
 					    print (option) end)
   
@@ -75,13 +78,13 @@ ui.templates.Settings = function (args)
 	    })
     ))  
   
-  print("videotable", #modeTable)
+--   print("videotable", #modeTable)
 --   print ("iniTable", #iniTable)
 --   print("BindViewForward", iniTable["BindViewForward"])
-  local i = 0
-  for x,y in pairs(iniTable) do
-    i = i +1
-  end
-  print("counted number: ", i)
+--   local i = 0
+--   for x,y in pairs(iniTable) do
+--     i = i +1
+--   end
+--   print("counted number: ", i)
   return settings
 end
