@@ -97,11 +97,11 @@ template <class T> bool pi_lua_strict_pull(lua_State * l, int index, T* & out) {
 }
 inline bool pi_lua_strict_pull(lua_State * l, int index, vector3d & out) {
 	const vector3d* tmp = LuaVector::GetFromLua(l, index);
-    if (tmp) {
-        out = *tmp;
-        return true;
-    }
-    return false;
+	if (tmp) {
+		out = *tmp;
+		return true;
+	}
+	return false;
 }
 
 #endif
