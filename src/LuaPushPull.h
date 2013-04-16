@@ -5,8 +5,8 @@
 #define _LUAPUSHPULL_H
 
 #include "lua/lua.hpp"
-#include "LuaTable.h"
 #include "LuaObject.h"
+#include "LuaVector.h"
 #include "Lua.h"
 #include <string>
 
@@ -18,10 +18,6 @@ inline void pi_lua_generic_push(lua_State * l, const char * value) { lua_pushstr
 inline void pi_lua_generic_push(lua_State * l, const std::string & value) {
 	lua_pushlstring(l, value.c_str(), value.size());
 }
-inline void pi_lua_generic_push(lua_State * l, LuaTable value) {
-	assert(value.GetLua() == l);
-	lua_pushvalue(l, value.GetIndex());
-}
 template <class T> void pi_lua_generic_push(lua_State * l, T* value) {
 	assert(l == Lua::manager->GetLuaState());
 	if (value)
@@ -30,9 +26,12 @@ template <class T> void pi_lua_generic_push(lua_State * l, T* value) {
 		lua_pushnil(l);
 }
 
+inline void pi_lua_generic_push(lua_State * l, const vector3d & value) { LuaVector::PushToLua(l, value); }
+
 inline void pi_lua_generic_pull(lua_State * l, int index, bool & out) { out = lua_toboolean(l, index); }
 inline void pi_lua_generic_pull(lua_State * l, int index, int & out) { out = lua_tointeger(l, index); }
 inline void pi_lua_generic_pull(lua_State * l, int index, unsigned int & out) { out = lua_tounsigned(l, index); }
+inline void pi_lua_generic_pull(lua_State * l, int index, float & out) { out = lua_tonumber(l, index); }
 inline void pi_lua_generic_pull(lua_State * l, int index, double & out) { out = lua_tonumber(l, index); }
 inline void pi_lua_generic_pull(lua_State * l, int index, const char * & out) { out = lua_tostring(l, index); }
 inline void pi_lua_generic_pull(lua_State * l, int index, std::string & out) {
@@ -40,12 +39,13 @@ inline void pi_lua_generic_pull(lua_State * l, int index, std::string & out) {
 	const char *buf = lua_tolstring(l, index, &len);
 	std::string(buf, len).swap(out);
 }
-inline void pi_lua_generic_pull(lua_State * l, int index, LuaTable & out) {
-	out = LuaTable(l, index);
-}
 template <class T> void pi_lua_generic_pull(lua_State * l, int index, T* & out) {
 	assert(l == Lua::manager->GetLuaState());
-	out = LuaObject<T>::GetFromLua(index);
+	out = LuaObject<T>::CheckFromLua(index);
+}
+
+inline void pi_lua_generic_pull(lua_State * l, int index, vector3d& out) {
+	out = *LuaVector::CheckFromLua(l, index);
 }
 
 inline bool pi_lua_strict_pull(lua_State * l, int index, bool & out) {
@@ -58,6 +58,13 @@ inline bool pi_lua_strict_pull(lua_State * l, int index, bool & out) {
 inline bool pi_lua_strict_pull(lua_State * l, int index, int & out) {
 	if (lua_type(l, index) == LUA_TNUMBER) {
 		out = lua_tointeger(l, index);
+		return true;
+	}
+	return false;
+}
+inline bool pi_lua_strict_pull(lua_State * l, int index, float & out) {
+	if (lua_type(l, index) == LUA_TNUMBER) {
+		out = lua_tonumber(l, index);
 		return true;
 	}
 	return false;
@@ -83,18 +90,15 @@ inline bool pi_lua_strict_pull(lua_State * l, int index, std::string & out) {
 	}
 	return false;
 }
-inline bool pi_lua_strict_pull(lua_State * l, int index, LuaTable & out) {
-	if (lua_type(l, index) == LUA_TTABLE) {
-		out = LuaTable(l, index);
-		return true;
-	}
-	return false;
-}
-
 template <class T> bool pi_lua_strict_pull(lua_State * l, int index, T* & out) {
 	assert(l == Lua::manager->GetLuaState());
-	if (lua_type(l, index) == LUA_TUSERDATA) {
-		out = LuaObject<T>::GetFromLua(index);
+	out = LuaObject<T>::GetFromLua(index);
+	return out != 0;
+}
+inline bool pi_lua_strict_pull(lua_State * l, int index, vector3d & out) {
+	const vector3d* tmp = LuaVector::GetFromLua(l, index);
+	if (tmp) {
+		out = *tmp;
 		return true;
 	}
 	return false;

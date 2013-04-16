@@ -1,3 +1,10 @@
+Alpha 34
+
+   * Internal changes
+     * SpaceStationTypes now loads data using the LuaTable wrapper (#2170)
+     * ShipType now loads data using the LuaTable wrapper (#2215)
+     * Reduced allocations and improved data locality in the eclipse code (#2200)
+
 Alpha 33
 
    * New features

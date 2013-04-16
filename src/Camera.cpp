@@ -271,12 +271,11 @@ void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d 
 	glPopMatrix();
 }
 
-std::list<Camera::Shadow> Camera::CalcShadows(int lightNum, const Body *b) const {
-	std::list<Camera::Shadow> shadows;
+void Camera::CalcShadows(const int lightNum, const Body *b, std::vector<Shadow> &shadowsOut) const {
 	// Set up data for eclipses. All bodies are assumed to be spheres.
 	const Body *lightBody = m_lightSources[lightNum].GetBody();
 	if (!lightBody)
-		return shadows;
+		return;
 
 	const double lightRadius = lightBody->GetPhysRadius();
 	const vector3d bLightPos = lightBody->GetPositionRelTo(b);
@@ -319,13 +318,12 @@ std::list<Camera::Shadow> Camera::CalcShadows(int lightNum, const Body *b) const
 		if (projectedCentre.Length() < 1 + srad + lrad) {
 			// some part of b is (partially) eclipsed
 			Camera::Shadow shadow = { lightNum, projectedCentre, static_cast<float>(srad), static_cast<float>(lrad) };
-			shadows.push_back(shadow);
+			shadowsOut.push_back(shadow);
 		}
 	}
-	return shadows;
 }
 
-float discCovered(float dist, float rad) {
+float discCovered(const float dist, const float rad) {
 	// proportion of unit disc covered by a second disc of radius rad placed
 	// dist from centre of first disc.
 	//
@@ -349,27 +347,30 @@ float discCovered(float dist, float rad) {
 	return Clamp((th + radsq*th2 - dist*d)/float(M_PI), 0.f, 1.f);
 }
 
-float Camera::ShadowedIntensity(int lightNum, const Body *b) const {
-	std::list<Camera::Shadow> shadows = CalcShadows(lightNum, b);
+static std::vector<Camera::Shadow> shadows;
+
+float Camera::ShadowedIntensity(const int lightNum, const Body *b) const {
+	shadows.clear();
+	shadows.reserve(16);
+	CalcShadows(lightNum, b, shadows);
 	float product = 1.0;
-	for (std::list<Camera::Shadow>::iterator it = shadows.begin(); it != shadows.end(); it++)
+	for (std::vector<Camera::Shadow>::const_iterator it = shadows.begin(), itEnd = shadows.end(); it!=itEnd; it++)
 		product *= 1.0 - discCovered(it->centre.Length() / it->lrad, it->srad / it->lrad);
 	return product;
 }
 
 // PrincipalShadows(b,n): returns the n biggest shadows on b in order of size
-std::list<Camera::Shadow> Camera::PrincipalShadows(const Body *b, int n) const {
-	std::list<Shadow> shadows;
+void Camera::PrincipalShadows(const Body *b, const int n, std::vector<Shadow> &shadowsOut) const {
+	shadows.clear();
+	shadows.reserve(16);
 	for (size_t i = 0; i < 4 && i < m_lightSources.size(); i++) {
-		const std::list<Shadow> s = CalcShadows(i, b);
-		shadows.insert(shadows.begin(), s.begin(), s.end());
+		CalcShadows(i, b, shadows);
 	}
-	shadows.sort();
-	std::list<Shadow> ret;
-	std::list<Shadow>::reverse_iterator it = shadows.rbegin();
+	shadowsOut.reserve(shadows.size());
+	std::sort(shadows.begin(), shadows.end());
+	std::vector<Shadow>::reverse_iterator it = shadows.rbegin(), itREnd = shadows.rend();
 	for (int i = 0; i < n; i++) {
-		if (it == shadows.rend()) break;
-		ret.push_back(*(it++));
+		if (it == itREnd) break;
+		shadowsOut.push_back(*(it++));
 	}
-	return ret;
 }

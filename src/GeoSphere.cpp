@@ -389,7 +389,7 @@ void GeoSphere::Update()
 	}
 }
 
-void GeoSphere::Render(Graphics::Renderer *renderer, vector3d campos, const float radius, const float scale, const std::list<Camera::Shadow> &shadows)
+void GeoSphere::Render(Graphics::Renderer *renderer, vector3d campos, const float radius, const float scale, const std::vector<Camera::Shadow> &shadows)
 {
 	// store this for later usage in the update method.
 	m_tempCampos = campos;

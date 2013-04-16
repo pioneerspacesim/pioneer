@@ -33,7 +33,7 @@ public:
 	~GeoSphere();
 
 	void Update();
-	void Render(Graphics::Renderer *renderer, vector3d campos, const float radius, const float scale, const std::list<Camera::Shadow> &shadows);
+	void Render(Graphics::Renderer *renderer, vector3d campos, const float radius, const float scale, const std::vector<Camera::Shadow> &shadows);
 
 	inline double GetHeight(vector3d p) const {
 		const double h = m_terrain->GetHeight(p);
@@ -63,7 +63,7 @@ public:
 
 	struct MaterialParameters {
 		SystemBody::AtmosphereParameters atmosphere;
-		std::list<Camera::Shadow> shadows;
+		std::vector<Camera::Shadow> shadows;
 	};
 
 	bool AddQuadSplitResult(SQuadSplitResult *res);

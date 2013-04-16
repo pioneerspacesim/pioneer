@@ -556,7 +556,8 @@ void UseEquipWidget::UpdateEquip()
 	lua_pushvalue(l, -2);
 	lua_pushstring(l, "MISSILE");
 	lua_call(l, 2, 1);
-	std::vector<std::string> missiles = LuaTable(l, -1).GetVector<std::string>();
+	LuaTable table(l, -1);
+	std::vector<std::string> missiles(table.Begin<std::string>(), table.End<std::string>());
 	lua_settop(l, pristine_stack);
 	int numSlots = missiles.size();
 
