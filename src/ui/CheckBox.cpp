@@ -36,6 +36,22 @@ void CheckBox::Draw()
 	}
 }
 
+void CheckBox::Toggle()
+{
+	HandleClick();
+}
+const bool CheckBox::IsChecked()
+{
+	return m_checked;
+}
+void CheckBox::SetState(const bool state)
+{
+	if (state != m_checked)
+	{
+		HandleClick();
+	}
+}
+
 void CheckBox::HandleClick()
 {
 	m_checked = !m_checked;

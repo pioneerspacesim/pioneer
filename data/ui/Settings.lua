@@ -10,81 +10,95 @@ return_to_menu.onClick:Connect(function () ui:SetInnerWidget(ui.templates.MainMe
 
 
 ui.templates.Settings = function (args) 
-  local gameTemplate = function()
-    return ui:VBox():PackEnd({
-	    ui:HBox():PackEnd({
-	      ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({ui:CheckBox(), ui:Label("Game Test"),
-	      })),
-	      ui:Margin(5),
-	      ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({ui:CheckBox(), ui:Label("Game Test2"),
-	      }))
-	    })
-	  })
-  end
-  local modeTable = Settings:GetVideoModes()
-  local iniTable = Settings:GetGameConfig()
-  local screenModeList = ui:DropDown()
-  for i = 1,#modeTable do screenModeList:AddOption(modeTable[i]) end
---   print ("option = ", screenModeList.selectedOption)
-  screenModeList:SetOption(iniTable["ScrWidth"].."x"..iniTable["ScrHeight"]);
-  print ("option = ", screenModeList.selectedOption)
-  screenModeList.onOptionSelected:Connect(function() local option = screenModeList.selectedOption 
-					    print (option) end)
-  
-  local videoTemplate = function()
-    return ui:VBox():PackEnd({
-	    ui:HBox():PackEnd({
-	      ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({screenModeList, ui:Label("Video Test"),
-	      })),
-	      ui:Margin(5),
-	      ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({ui:CheckBox(), ui:Label("Video Test2"),
-	      }))
-	    })
-	  })
-  end
-  local soundTemplate = function()
-    return ui:VBox():PackEnd({
-	    ui:HBox():PackEnd({
-	      ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({ui:CheckBox(), ui:Label("Sound Test"),
-	      })),
-	      ui:Margin(5),
-	      ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({ui:CheckBox(), ui:Label("Sound Test2"),
-	      }))
-	    })
-	  })
-  end
-  local languageTemplate = function()
-    return ui:VBox():PackEnd({
-	    ui:HBox():PackEnd({
-	      ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({ui:CheckBox(), ui:Label("Language Test"),
-	      })),
-	      ui:Margin(5),
-	      ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({ui:CheckBox(), ui:Label("Language Test2"),
-	      }))
-	    })
-	  })
-  end
-  local setTabs = UI.TabGroup.New()
-  setTabs:AddTab({ id = "Game",        title = l.GAME,     icon = "GameBoy", template = gameTemplate         })
-  setTabs:AddTab({ id = "Video",        title = l.VIDEO,     icon = "VideoCamera", template = videoTemplate         })
-  setTabs:AddTab({ id = "Sound",        title = l.SOUND,     icon = "Speaker", template = soundTemplate         })
-  setTabs:AddTab({ id = "Language",        title = l.LANGUAGE,     icon = "Globe1", template = languageTemplate         })
-  local settings =
-    ui:Background():SetInnerWidget(ui:Margin(30):SetInnerWidget(
-	    ui:VBox(10):PackEnd({
-		    setTabs.widget,
-		    return_to_menu
-		    
-	    })
-    ))  
-  
---   print("videotable", #modeTable)
---   print ("iniTable", #iniTable)
---   print("BindViewForward", iniTable["BindViewForward"])
---   local i = 0
---   for x,y in pairs(iniTable) do
---     i = i +1
---   end
---   print("counted number: ", i)
-  return settings
+	local gameTemplate = function()
+	return ui:VBox():PackEnd({
+		ui:HBox():PackEnd({
+			ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({ui:CheckBox(), ui:Label("Game Test"),
+			})),
+			ui:Margin(5),
+			ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({ui:CheckBox(), ui:Label("Game Test2"),
+			}))
+		})
+	})
+	end
+	local modeTable = Settings:GetVideoModes()
+	local iniTable = Settings:GetGameConfig()
+	
+	local fullScreenCheckBox = ui:CheckBox()
+	local shadersCheckBox = ui:CheckBox()
+	local compressionCheckBox = ui:CheckBox()
+	local screenModeList = ui:DropDown()
+	for i = 1,#modeTable do screenModeList:AddOption(modeTable[i]) end
+	--   print ("option = ", screenModeList.selectedOption)
+	screenModeList:SetOption(iniTable["ScrWidth"].."x"..iniTable["ScrHeight"]);
+	print ("option = ", screenModeList.selectedOption)
+	screenModeList.onOptionSelected:Connect(function() local option = screenModeList.selectedOption
+						
+						print (option) end)
+	fullScreenCheckBox:SetState(iniTable["StartFullscreen"])
+	compressionCheckBox:SetState(iniTable["UseTextureCompression"])
+	shadersCheckBox:SetState(iniTable["DisableShaders"])
+
+						
+	local videoTemplate = function()
+	return ui:Grid({1,2,1}, 1)
+		:SetCell(1,0,
+			ui:Scroller():SetInnerWidget(ui:VBox():PackEnd({
+			ui:Background():SetInnerWidget( ui:HBox(5):PackEnd({ui:Label("Video Test"),screenModeList})),
+			ui:Margin(5),
+			ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({ui:Label("Full Screen"), fullScreenCheckBox})),
+			ui:Margin(5),
+			ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({ui:Label("Compress Textures"), compressionCheckBox})),
+			ui:Margin(5),
+			ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({ui:Label("Disable Shaders"), shadersCheckBox})),
+			ui:Margin(5),
+		}))
+	)
+	
+	end
+	local soundTemplate = function()
+	return ui:VBox():PackEnd({
+		ui:HBox():PackEnd({
+			ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({ui:CheckBox(), ui:Label("Sound Test"),
+					})),
+					ui:Margin(5),
+					ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({ui:CheckBox(), ui:Label("Sound Test2"),
+			                                                                   }))
+		})
+	})
+	end
+	local languageTemplate = function()
+	return ui:VBox():PackEnd({
+		ui:HBox():PackEnd({
+			ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({ui:CheckBox(), ui:Label("Language Test"),
+					})),
+					ui:Margin(5),
+					ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({ui:CheckBox(), ui:Label("Language Test2"),
+			                                                                   }))
+		})
+	})
+	end
+	local setTabs = UI.TabGroup.New()
+	setTabs:AddTab({ id = "Game",        title = l.GAME,     icon = "GameBoy", template = gameTemplate         })
+	setTabs:AddTab({ id = "Video",        title = l.VIDEO,     icon = "VideoCamera", template = videoTemplate         })
+	setTabs:AddTab({ id = "Sound",        title = l.SOUND,     icon = "Speaker", template = soundTemplate         })
+	setTabs:AddTab({ id = "Language",        title = l.LANGUAGE,     icon = "Globe1", template = languageTemplate         })
+	local settings =
+	ui:Background():SetInnerWidget(ui:Margin(30):SetInnerWidget(
+		ui:VBox(10):PackEnd({
+			setTabs.widget,
+			return_to_menu
+			
+		})
+	))  
+
+	--   print("videotable", #modeTable)
+	--   print ("iniTable", #iniTable)
+	--   print("BindViewForward", iniTable["BindViewForward"])
+	--   local i = 0
+	--   for x,y in pairs(iniTable) do
+	--     i = i +1
+	--   end
+	--   print("counted number: ", i)
+	return settings
 end
