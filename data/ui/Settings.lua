@@ -57,15 +57,12 @@ ui.templates.Settings = function (args)
 	
 	end
 	local soundTemplate = function()
-	return ui:VBox():PackEnd({
-		ui:HBox():PackEnd({
-			ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({ui:CheckBox(), ui:Label("Sound Test"),
-					})),
-					ui:Margin(5),
-					ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({ui:CheckBox(), ui:Label("Sound Test2"),
-			                                                                   }))
-		})
-	})
+	return ui:Grid({1,2,1}, 1)
+	:SetCell(1,0,
+	         ui:Scroller():SetInnerWidget(ui:VBox():PackEnd({
+		ui:HBox(5):PackEnd(ui:HSlider(),ui:Label("1")),
+			}))
+	                                     )
 	end
 	local languageTemplate = function()
 	return ui:VBox():PackEnd({
