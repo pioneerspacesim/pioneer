@@ -40,8 +40,6 @@ static const int geo_sphere_edge_friends[NUM_PATCHES][4] = {
 
 static std::vector<GeoSphere*> s_allGeospheres;
 
-static bool s_exitFlag = false;
-
 void GeoSphere::Init()
 {
 	s_patchContext.Reset(new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]));
@@ -275,12 +273,12 @@ void GeoSphere::BuildFirstPatches()
 
 	const uint64_t maxShiftDepth = GeoPatchID::MAX_SHIFT_DEPTH;
 
-	m_patches[0].Reset(new GeoPatch(s_patchContext, this, p1, p2, p3, p4, 0, (0i64 << maxShiftDepth)));
-	m_patches[1].Reset(new GeoPatch(s_patchContext, this, p4, p3, p7, p8, 0, (1i64 << maxShiftDepth)));
-	m_patches[2].Reset(new GeoPatch(s_patchContext, this, p1, p4, p8, p5, 0, (2i64 << maxShiftDepth)));
-	m_patches[3].Reset(new GeoPatch(s_patchContext, this, p2, p1, p5, p6, 0, (3i64 << maxShiftDepth)));
-	m_patches[4].Reset(new GeoPatch(s_patchContext, this, p3, p2, p6, p7, 0, (4i64 << maxShiftDepth)));
-	m_patches[5].Reset(new GeoPatch(s_patchContext, this, p8, p7, p6, p5, 0, (5i64 << maxShiftDepth)));
+	m_patches[0].Reset(new GeoPatch(s_patchContext, this, p1, p2, p3, p4, 0, (0ULL << maxShiftDepth)));
+	m_patches[1].Reset(new GeoPatch(s_patchContext, this, p4, p3, p7, p8, 0, (1ULL << maxShiftDepth)));
+	m_patches[2].Reset(new GeoPatch(s_patchContext, this, p1, p4, p8, p5, 0, (2ULL << maxShiftDepth)));
+	m_patches[3].Reset(new GeoPatch(s_patchContext, this, p2, p1, p5, p6, 0, (3ULL << maxShiftDepth)));
+	m_patches[4].Reset(new GeoPatch(s_patchContext, this, p3, p2, p6, p7, 0, (4ULL << maxShiftDepth)));
+	m_patches[5].Reset(new GeoPatch(s_patchContext, this, p8, p7, p6, p5, 0, (5ULL << maxShiftDepth)));
 	for (int i=0; i<NUM_PATCHES; i++) {
 		for (int j=0; j<4; j++) {
 			m_patches[i]->edgeFriend[j] = m_patches[geo_sphere_edge_friends[i][j]].Get();

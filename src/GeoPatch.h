@@ -30,8 +30,8 @@ public:
 	ScopedPtr<BasePatchJob>		mCurrentJob;
 
 public:
-	static const uint32_t NUM_EDGES = 4;
-	static const uint32_t NUM_KIDS = NUM_EDGES;
+	static const int32_t NUM_EDGES = 4;
+	static const int32_t NUM_KIDS = NUM_EDGES;
 
 	RefCountedPtr<GeoPatchContext> ctx;
 	const vector3d v0, v1, v2, v3;
