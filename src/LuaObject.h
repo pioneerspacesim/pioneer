@@ -147,6 +147,9 @@ private:
 	// type
 	static int l_tostring(lua_State *l);
 
+	// __index metamethod
+	static int l_dispatch_index(lua_State *l);
+
     // determine if the object has a class in its ancestry
     bool Isa(const char *base) const;
 

@@ -22,8 +22,8 @@ Missile::Missile(ShipType::Id shipId, Body *owner, int power): Ship(shipId)
 		m_power = power;
 
 	m_owner = owner;
-	m_armed = false;
 	SetLabel(Lang::MISSILE);
+	Disarm();
 }
 
 void Missile::ECMAttack(int power_val)
@@ -122,3 +122,14 @@ void Missile::NotifyRemoved(const Body* const removedBody)
 	}
 }
 
+void Missile::Arm()
+{
+	m_armed = true;
+	Properties().Set("isArmed", true);
+}
+
+void Missile::Disarm()
+{
+	m_armed = false;
+	Properties().Set("isArmed", false);
+}

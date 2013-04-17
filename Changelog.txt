@@ -1,5 +1,8 @@
 Alpha 34
 
+   * New features
+     * New combat music track (#2209)
+
    * Internal changes
      * SpaceStationTypes now loads data using the LuaTable wrapper (#2170)
      * ShipType now loads data using the LuaTable wrapper (#2215)
@@ -387,7 +390,7 @@ Alpha 27
      * Application icon for Windows builds (#1537, #1166)
 
    * Fixes
-     * Avoid icons in some ternary systems overlapping each other (#1510, #1511) 
+     * Avoid icons in some ternary systems overlapping each other (#1510, #1511)
      * Fix overlapping text for long system descriptions (#1494, #1498)
      * Fix crash in SystemInfoView from leaking widget references (#1526,  #1493)
      * Clamp some newer terrain heights to non-negative values (#1534, #1530)

@@ -157,13 +157,13 @@ template <class Value> void LuaTable::LoadVector(const std::vector<Value> & v) c
 		Set(current_length+i+1, v[i]);
 }
 
-template <> void LuaTable::VecIter<LuaTable>::LoadCache() {
+template <> inline void LuaTable::VecIter<LuaTable>::LoadCache() {
 	if (m_dirtyCache) {
 		m_cache = m_table->Sub(m_currentIndex);
 		m_dirtyCache = false;
 	}
 }
-template <> void LuaTable::VecIter<LuaTable>::CleanCache() {
+template <> inline void LuaTable::VecIter<LuaTable>::CleanCache() {
 	if (!m_dirtyCache && m_cache.GetLua()) {
 		lua_remove(m_cache.GetLua(), m_cache.GetIndex());
 	}
