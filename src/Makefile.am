@@ -233,7 +233,6 @@ pioneer_SOURCES	= \
 	LuaSpaceStation.cpp \
 	LuaStar.cpp \
 	LuaStarSystem.cpp \
-	LuaTable.cpp \
 	LuaTimer.cpp \
 	LuaUtils.cpp \
 	MarketAgent.cpp \
