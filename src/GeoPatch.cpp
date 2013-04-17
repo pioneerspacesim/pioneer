@@ -44,12 +44,13 @@ GeoPatch::GeoPatch(const RefCountedPtr<GeoPatchContext> &ctx_, GeoSphere *gs,
 	clipRadius = std::max(clipRadius, (v1-clipCentroid).Length());
 	clipRadius = std::max(clipRadius, (v2-clipCentroid).Length());
 	clipRadius = std::max(clipRadius, (v3-clipCentroid).Length());
+	double distMult;
 	if (geosphere->m_sbody->type < SystemBody::TYPE_PLANET_ASTEROID) {
- 		m_distMult = 10 / Clamp(depth, 1, 10);
+ 		distMult = 10.0 / Clamp(depth, 1, 10);
  	} else {
- 		m_distMult = 5 / Clamp(depth, 1, 5);
+ 		distMult = 5.0 / Clamp(depth, 1, 5);
  	}
-	m_roughLength = GEOPATCH_SUBDIVIDE_AT_CAMDIST / pow(2.0, depth) * m_distMult;
+	m_roughLength = GEOPATCH_SUBDIVIDE_AT_CAMDIST / pow(2.0, depth) * distMult;
 	m_needUpdateVBOs = false;
 }
 

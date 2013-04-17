@@ -49,7 +49,6 @@ public:
 	int m_depth;
 	SDL_mutex *m_kidsLock;
 	bool m_needUpdateVBOs;
-	double m_distMult;
 
 	const GeoPatchID mPatchID;
 	bool mHasJobRequest;
