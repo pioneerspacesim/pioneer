@@ -4,8 +4,6 @@
 #ifndef __GEOPATCHID_H__
 #define __GEOPATCHID_H__
 
-#include <cstdint>
-
 class GeoPatchID
 {
 private:
