@@ -58,12 +58,12 @@ public:
 		float srad;
 		float lrad;
 
-		bool operator< (const Shadow& other) { return srad/lrad < other.srad/other.lrad; }
+		bool operator< (const Shadow& other) const { return srad/lrad < other.srad/other.lrad; }
 	};
 
-	std::list<Shadow> CalcShadows(int lightNum, const Body *b) const;
-	float ShadowedIntensity(int lightNum, const Body *b) const;
-	std::list<Shadow> PrincipalShadows(const Body *b, int n) const;
+	void CalcShadows(const int lightNum, const Body *b, std::vector<Shadow> &shadowsOut) const;
+	float ShadowedIntensity(const int lightNum, const Body *b) const;
+	void PrincipalShadows(const Body *b, const int n, std::vector<Shadow> &shadowsOut) const;
 
 	// lights with properties in camera space
 	const std::vector<LightSource> &GetLightSources() const { return m_lightSources; }

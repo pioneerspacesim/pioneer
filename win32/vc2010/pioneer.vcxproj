@@ -340,6 +340,7 @@
     <ClInclude Include="..\..\src\LuaStarSystem.h" />
     <ClInclude Include="..\..\src\LuaSystemBody.h" />
     <ClInclude Include="..\..\src\LuaSystemPath.h" />
+    <ClInclude Include="..\..\src\LuaTable.h" />
     <ClInclude Include="..\..\src\LuaTimer.h" />
     <ClInclude Include="..\..\src\LuaUtils.h" />
     <ClInclude Include="..\..\src\LuaVector.h" />
