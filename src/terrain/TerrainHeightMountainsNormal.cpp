@@ -24,7 +24,7 @@ TerrainHeightFractal<TerrainHeightMountainsNormal>::TerrainHeightFractal(const S
 }
 
 template <>
-double TerrainHeightFractal<TerrainHeightMountainsNormal>::GetHeight(const vector3d &p)
+double TerrainHeightFractal<TerrainHeightMountainsNormal>::GetHeight(const vector3d &p) const
 	//This is among the most complex of terrains, so I'll use this as an example:
 {
 	//We need a continental pattern to place our noise onto, the 0.7*ridged_octavnoise..... is important here

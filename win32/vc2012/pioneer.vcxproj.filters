@@ -420,6 +420,18 @@
     <ClCompile Include="..\..\src\Orbit.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\GeoPatchID.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GeoPatch.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GeoPatchContext.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GeoPatchJobs.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\LuaPropertiedObject.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -866,6 +878,21 @@
     <ClInclude Include="..\..\src\Orbit.h">
       <Filter>src</Filter>
     </ClInclude>
+<<<<<<< HEAD
+=======
+    <ClInclude Include="..\..\src\GeoPatchID.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GeoPatch.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GeoPatchContext.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GeoPatchJobs.h">
+      <Filter>src</Filter>
+    </ClInclude>
+>>>>>>> fluffyfreak/JustLookingAgain
     <ClInclude Include="..\..\src\PropertiedObject.h">
       <Filter>src</Filter>
     </ClInclude>

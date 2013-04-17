@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\jobswarm\CoreCount.cpp" />
+    <ClCompile Include="..\..\..\src\jobswarm\JobManager.cpp" />
+    <ClCompile Include="..\..\..\src\jobswarm\JobSwarm.cpp" />
+    <ClCompile Include="..\..\..\src\jobswarm\LockFreeQ.cpp" />
+    <ClCompile Include="..\..\..\src\jobswarm\ThreadConfig.cpp" />
+    <ClCompile Include="..\..\..\src\win32\OSWin32.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\win32\pch.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\jobswarm\CoreCount.h" />
+    <ClInclude Include="..\..\..\src\jobswarm\JobManager.h" />
+    <ClInclude Include="..\..\..\src\jobswarm\JobSwarm.h" />
+    <ClInclude Include="..\..\..\src\jobswarm\LockFreeQ.h" />
+    <ClInclude Include="..\..\..\src\jobswarm\pool.h" />
+    <ClInclude Include="..\..\..\src\jobswarm\ThreadConfig.h" />
+    <ClInclude Include="..\..\..\src\jobswarm\UserMemAlloc.h" />
+    <ClInclude Include="..\..\..\src\win32\pch.h">
+      <Filter>win32</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="win32">
+      <UniqueIdentifier>{00a8ea11-3e7b-440e-a1f9-0d4ad2cc4479}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -136,6 +136,7 @@ ObjectViewerView *Pi::objectViewerView;
 #endif
 
 Sound::MusicPlayer Pi::musicPlayer;
+ScopedPtr<JobManager> Pi::pJobs;
 
 static void draw_progress(float progress)
 {
@@ -246,6 +247,7 @@ std::string Pi::GetSaveDir()
 
 void Pi::Init()
 {
+	pJobs.Reset(new JobManager);
 
 	OS::NotifyLoadBegin();
 
@@ -927,6 +929,12 @@ void Pi::EndGame()
 	if (!config->Int("DisableSound")) AmbientSounds::Uninit();
 	Sound::DestroyAllEvents();
 
+	while(jobs().jobsRemaining()) {
+		jobs().update();
+		THREAD_CONFIG::tc_sleep(0);
+	}
+	assert(!jobs().jobsRemaining());
+
 	assert(game);
 	delete game;
 	game = 0;
@@ -1059,6 +1067,7 @@ void Pi::MainLoop()
 		}
 		cpan->Update();
 		musicPlayer.Update();
+		jobs().update();
 
 #if WITH_DEVKEYS
 		if (Pi::showDebugInfo && SDL_GetTicks() - last_stats > 1000) {

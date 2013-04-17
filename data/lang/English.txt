@@ -1240,3 +1240,7 @@ MONTH_DEC
     Dec
 MISCELLANEOUS
     Miscellaneous
+N_USE_ALL_THREADS
+    Use all threads
+N_NUM_THREADS
+    %{n} threads
