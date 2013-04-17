@@ -113,8 +113,8 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 	m_wheelState = rd.Float();
 	m_launchLockTimeout = rd.Float();
 	m_testLanded = rd.Bool();
-	m_flightState = FlightState(rd.Int32());
-	m_alertState = AlertState(rd.Int32());
+	SetFlightState(static_cast<FlightState>(rd.Int32()));
+	SetAlertState(static_cast<AlertState>(rd.Int32()));
 	m_lastFiringAlert = rd.Double();
 
 	m_hyperspace.dest = SystemPath::Unserialize(rd);
@@ -183,8 +183,9 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	m_thrusterFuel(1.0),
 	m_reserveFuel(0.0)
 {
-	m_flightState = FLYING;
-	m_alertState = ALERT_NONE;
+	SetFlightState(FLYING);
+	SetAlertState(ALERT_NONE);
+
 	m_lastFiringAlert = 0.0;
 	m_testLanded = false;
 	m_launchLockTimeout = 0;
@@ -192,7 +193,7 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	m_wheelState = 0;
 	m_dockedWith = 0;
 	m_dockedWithPort = 0;
-	m_type = &ShipType::types[shipId];
+	SetShipId(shipId);
 	m_thrusters.x = m_thrusters.y = m_thrusters.z = 0;
 	m_angThrusters.x = m_angThrusters.y = m_angThrusters.z = 0;
 	m_equipment.InitSlotSizes(shipId);
@@ -253,6 +254,12 @@ void Ship::SetPercentHull(float p)
 void Ship::UpdateMass()
 {
 	SetMass((m_stats.total_mass + GetFuel()*GetShipType()->fuelTankMass)*1000);
+}
+
+void Ship::SetFuel(const double f)
+{
+	m_thrusterFuel = Clamp(f, 0.0, 1.0);
+	Properties().Set("fuel", m_thrusterFuel*100); // XXX to match SetFuelPercent
 }
 
 double Ship::GetFuelUseRate() const {
@@ -629,6 +636,8 @@ void Ship::SetFlightState(Ship::FlightState newState)
 	}
 
 	m_flightState = newState;
+	Properties().Set("flightState", EnumStrings::GetString("ShipFlightState", m_flightState));
+
 	switch (m_flightState)
 	{
 		case FLYING: SetMoving(true); SetColliding(true); SetStatic(false); break;
@@ -811,6 +820,12 @@ double Ship::GetHullTemperature() const
 	} else {
 		return dragGs / 300.0;
 	}
+}
+
+void Ship::SetAlertState(AlertState as)
+{
+	m_alertState = as;
+	Properties().Set("alertStatus", EnumStrings::GetString("ShipAlertStatus", as));
 }
 
 void Ship::UpdateAlertState()
@@ -1229,9 +1244,15 @@ std::string Ship::MakeRandomLabel()
 	return regid;
 }
 
-void Ship::SetShipType(const ShipType::Id &shipId)
+void Ship::SetShipId(const ShipType::Id &shipId)
 {
 	m_type = &ShipType::types[shipId];
+	Properties().Set("shipId", shipId);
+}
+
+void Ship::SetShipType(const ShipType::Id &shipId)
+{
+	SetShipId(shipId);
 	m_equipment.InitSlotSizes(shipId);
 	SetModel(m_type->modelName.c_str());
 	m_skin.Apply(GetModel());
