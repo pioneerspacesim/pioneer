@@ -1070,7 +1070,7 @@ double AICmdFlyAround::MaxVel(double targdist, double targalt)
 	double vmaxprox = m_ship->GetAccelMin()*t;			// limit by target proximity
 	double vmaxstep = std::max(m_alt*0.05, m_alt-targalt);
 	vmaxstep /= Pi::game->GetTimeStep();			// limit by distance covered per timestep
-	return std::min(m_vel, std::min(vmaxprox, vmaxstep))*3.0;    //fkl
+	return std::min(m_vel, std::min(vmaxprox, vmaxstep));    //fkl
 }
 
 bool AICmdFlyAround::TimeStepUpdate()
