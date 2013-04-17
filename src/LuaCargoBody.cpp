@@ -3,7 +3,6 @@
 
 #include "LuaObject.h"
 #include "LuaUtils.h"
-#include "EnumStrings.h"
 #include "CargoBody.h"
 
 /*
@@ -27,12 +26,6 @@
  *
  *  experimental
  */
-static int l_cargobody_attr_type(lua_State *l)
-{
-	CargoBody *b = LuaObject<CargoBody>::CheckFromLua(1);
-	lua_pushstring(l, EnumStrings::GetString("EquipType", b->GetCargoType()));
-	return 1;
-}
 
 template <> const char *LuaObject<CargoBody>::s_type = "CargoBody";
 
@@ -40,11 +33,6 @@ template <> void LuaObject<CargoBody>::RegisterClass()
 {
 	const char *l_parent = "Body";
 
-	static const luaL_Reg l_attrs[] = {
-		{ "type", l_cargobody_attr_type },
-		{ 0, 0 }
-	};
-
-	LuaObjectBase::CreateClass(s_type, l_parent, NULL, l_attrs, NULL);
+	LuaObjectBase::CreateClass(s_type, l_parent, 0, 0, 0);
 	LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<CargoBody>::DynamicCastPromotionTest);
 }

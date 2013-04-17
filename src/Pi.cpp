@@ -152,6 +152,8 @@ static void draw_progress(float progress)
 
 static void LuaInit()
 {
+	LuaObject<PropertiedObject>::RegisterClass();
+
 	LuaObject<Body>::RegisterClass();
 	LuaObject<Ship>::RegisterClass();
 	LuaObject<SpaceStation>::RegisterClass();
@@ -160,6 +162,7 @@ static void LuaInit()
 	LuaObject<Player>::RegisterClass();
 	LuaObject<Missile>::RegisterClass();
 	LuaObject<CargoBody>::RegisterClass();
+
 	LuaObject<StarSystem>::RegisterClass();
 	LuaObject<SystemPath>::RegisterClass();
 	LuaObject<SystemBody>::RegisterClass();

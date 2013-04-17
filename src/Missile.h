@@ -22,8 +22,8 @@ public:
 	void ECMAttack(int power_val);
 	Body *GetOwner() const { return m_owner; }
 	bool IsArmed() const {return m_armed;}
-	void Arm() {m_armed = true;}
-	void Disarm() {m_armed = false;}
+	void Arm();
+	void Disarm();
 
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
