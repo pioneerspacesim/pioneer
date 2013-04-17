@@ -29,7 +29,6 @@ void Adjustment::Layout()
 	if (!m_slider) {
 		m_slider = GetContext()->HSlider();
 		m_slider->onValueChanged.connect(sigc::mem_fun(this, &Adjustment::OnScroll));
-// 		onSliderChanged->connect(sigc::mem_fun(this, &Adjustment::OnScroll));
 		m_slider->onMouseWheel.connect(sigc::mem_fun(this, &Adjustment::OnMouseWheel));
 		AddWidget(m_slider);
 	}
@@ -38,6 +37,7 @@ void Adjustment::Layout()
 
 	SetWidgetDimensions(m_slider, Point(childPreferredSize.x, 0), Point(size.x-childPreferredSize.x, childPreferredSize.y));
 	m_slider->Layout();
+	SetScrollPosition(m_pos);
 
 	SetWidgetDimensions(m_innerWidget, Point(), Point(size.x-sliderSize.x, std::max(size.y, childPreferredSize.y)));
 	m_innerWidget->Layout();
@@ -51,21 +51,20 @@ float Adjustment::GetScrollPosition() const
 
 void Adjustment::SetScrollPosition(float v)
 {
-	if (m_slider) m_slider->SetValue(v);
-// 	m_slider->onValueChanged.emit(v);
+	m_pos = v;
+	if ( m_slider) m_slider->SetValue(v);	
 }
 
 void Adjustment::OnScroll(float value)
 {
-	onSliderChanged.emit(value);
-	return;
-	
+	m_pos = value;
+	onSliderChanged.emit();
 }
 
 bool Adjustment::OnMouseWheel(const MouseWheelEvent &event)
 {
 	if (!m_slider) return false;
-	m_slider->SetValue(m_slider->GetValue() + (event.direction == MouseWheelEvent::WHEEL_UP ? -0.01f : 0.01f));
+	SetScrollPosition(m_slider->GetValue() + (event.direction == MouseWheelEvent::WHEEL_UP ? 0.01f : -0.01f));
 	return true;
 }
 

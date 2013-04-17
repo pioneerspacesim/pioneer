@@ -8,6 +8,7 @@ namespace Lua {
 
 void Init()
 {
+	LuaObject<UI::Adjustment>::RegisterClass();
 	LuaObject<UI::Align>::RegisterClass();
 	LuaObject<UI::Background>::RegisterClass();
 	LuaObject<UI::Box>::RegisterClass();

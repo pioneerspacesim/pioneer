@@ -80,6 +80,7 @@ libui_a_SOURCES = \
 	TextLayout.cpp \
 	Widget.cpp \
 	Lua.cpp \
+	LuaAdjustment.cpp \
 	LuaAlign.cpp \
 	LuaBackground.cpp \
 	LuaBox.cpp \

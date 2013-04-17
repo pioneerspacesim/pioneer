@@ -24,21 +24,24 @@ public:
 	void SetScrollPosition(float v);
 	UI::HSlider *GetSlider() const { return m_slider; }
 	
-	sigc::signal<void,float> onSliderChanged;
+	sigc::signal<void> onSliderChanged;
 
 protected:
 	friend class Context;
-	Adjustment(Context *context) : Container(context), m_innerWidget(0), m_slider(0) {}
+	Adjustment(Context *context) : Container(context), m_innerWidget(0), m_slider(0), m_pos(0.0f) {}
 
 	virtual void RemoveWidget(Widget *widget);
 
 private:
 	Widget *m_innerWidget;
 	HSlider *m_slider;
+	
+	float m_pos;
 
 	sigc::connection m_onMouseWheelConn;
 
 	void OnScroll(float value);
+// 	bool OnMouseUp(const MouseButtonEvent);
 	bool OnMouseWheel(const MouseWheelEvent &event);
 };
 

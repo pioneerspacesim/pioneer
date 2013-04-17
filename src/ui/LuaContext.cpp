@@ -242,6 +242,12 @@ public:
 		LuaObject<UI::TextEntry>::PushToLua(c->TextEntry(text));
 		return 1;
 	}
+	
+	static int l_adjustment(lua_State *l) {
+		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
+		LuaObject<UI::Adjustment>::PushToLua(c->Adjustment()->SetInnerWidget(c->Label(luaL_checkstring(l, 2))));
+		return 1;
+	}
 
 	static int l_attr_templates(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
@@ -283,6 +289,7 @@ template <> void LuaObject<UI::Context>::RegisterClass()
 		{ "List",            LuaContext::l_list            },
 		{ "DropDown",        LuaContext::l_dropdown        },
 		{ "TextEntry",       LuaContext::l_textentry       },
+		{ "Adjustment",       LuaContext::l_adjustment       },
 		{ 0, 0 }
 	};
 

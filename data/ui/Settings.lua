@@ -24,6 +24,12 @@ ui.templates.Settings = function (args)
 	local modeTable = Settings:GetVideoModes()
 	local iniTable = Settings:GetGameConfig()
 	
+	local detailLevel = {"Low", "Medium", "High"}
+	local detailDropDown = ui:DropDown()
+	for i = 1,#detailLevel do detailDropDown:AddOption(detailLevel[i]) end
+	detailDropDown.onOptionSelected:Connect(function() local option = detailDropDown.selectedOption
+						print(option) end)
+	
 	local fullScreenCheckBox = ui:CheckBox()
 	local shadersCheckBox = ui:CheckBox()
 	local compressionCheckBox = ui:CheckBox()
@@ -39,12 +45,15 @@ ui.templates.Settings = function (args)
 	compressionCheckBox:SetState(iniTable["UseTextureCompression"])
 	shadersCheckBox:SetState(iniTable["DisableShaders"])
 
+
 						
 	local videoTemplate = function()
 	return ui:Grid({1,2,1}, 1)
 		:SetCell(1,0,
 			ui:Scroller():SetInnerWidget(ui:VBox():PackEnd({
-			ui:Background():SetInnerWidget( ui:HBox(5):PackEnd({ui:Label("Video Test"),screenModeList})),
+			ui:Background():SetInnerWidget( ui:HBox(5):PackEnd({ui:Label("Screen Mode"),screenModeList})),
+			ui:Margin(5),
+			ui:Background():SetInnerWidget( ui:HBox(5):PackEnd({ui:Label("Detail Level"),detailDropDown})),
 			ui:Margin(5),
 			ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({ui:Label("Full Screen"), fullScreenCheckBox})),
 			ui:Margin(5),
@@ -56,13 +65,18 @@ ui.templates.Settings = function (args)
 	)
 	
 	end
-	local soundTemplate = function()
-	return ui:Grid({1,2,1}, 1)
-	:SetCell(1,0,
-	         ui:Scroller():SetInnerWidget(ui:VBox():PackEnd({
-		ui:HBox(5):PackEnd(ui:HSlider(),ui:Label("1")),
-			}))
-	                                     )
+	
+	local masterVolume = ui:Adjustment("Master Volume ")
+	masterVolume:SetScrollPosition(iniTable["MasterVolume"]);
+	local musicVolume = ui:Adjustment("Music Volume ")
+	musicVolume:SetScrollPosition(iniTable["MusicVolume"]);
+	local lab = ui:Label("a")
+	masterVolume.OnChange:Connect(function() local pos = masterVolume.ScrollPosition lab:SetText(pos) end )
+	local soundTemplate = function()	
+		return ui:Grid({1,2,1}, 2)
+		:SetCell(1,0,masterVolume) 
+		:SetCell(2,0,lab) 
+		:SetCell(1,1,musicVolume)
 	end
 	local languageTemplate = function()
 	return ui:VBox():PackEnd({
