@@ -51,7 +51,7 @@ void Star::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 		rad *= 0.99;
 		fpos = 0.99*fpos;
 		len *= 0.99;
-		if (rad <= 30.0) rad=30.0; 
+		if (rad <= 3.0) rad=3.0; 
 	}
 
 	matrix4x4d trans = matrix4x4d::Identity();
@@ -76,7 +76,7 @@ void Star::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	VertexArray vb(ATTRIB_POSITION | ATTRIB_DIFFUSE); //outer
 	VertexArray vc(ATTRIB_POSITION | ATTRIB_DIFFUSE); //outer2 
 
-	const Color bright(col[0], col[1], col[2], 1.f-1.f/(rad*0.1f)); 
+	const Color bright(col[0], col[1], col[2], 1.f-1.f/(rad*0.9f));   
 	const Color dark(0.0f, 0.0f, 0.0f, 0.f);
 
 	va.Add(vector3f(0.f), bright*0.75);  
