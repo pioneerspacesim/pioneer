@@ -14,7 +14,7 @@ Point Adjustment::PreferredSize()
 
 	const Point innerWidgetSize = m_innerWidget->PreferredSize();
 
-	return Point(SizeAdd(innerWidgetSize.x, sliderSize.x), innerWidgetSize.y);
+	return Point(innerWidgetSize.x, SizeAdd(innerWidgetSize.y, sliderSize.y));
 }
 
 void Adjustment::Layout()
@@ -35,11 +35,11 @@ void Adjustment::Layout()
 
 	const Point sliderSize = m_slider->PreferredSize();
 
-	SetWidgetDimensions(m_slider, Point(childPreferredSize.x, 0), Point(size.x-childPreferredSize.x, childPreferredSize.y));
+	SetWidgetDimensions(m_slider, Point(0, childPreferredSize.y), Point(size.x, sliderSize.y));
 	m_slider->Layout();
 	SetScrollPosition(m_pos);
 
-	SetWidgetDimensions(m_innerWidget, Point(), Point(size.x-sliderSize.x, std::max(size.y, childPreferredSize.y)));
+	SetWidgetDimensions(m_innerWidget, Point(), Point(childPreferredSize.x, std::max(size.y, childPreferredSize.y)));
 	m_innerWidget->Layout();
 	
 }

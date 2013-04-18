@@ -21,62 +21,115 @@ ui.templates.Settings = function (args)
 		})
 	})
 	end
-	local modeTable = Settings:GetVideoModes()
+	local modeList = Settings:GetVideoModes()
 	local iniTable = Settings:GetGameConfig()
 	
-	local detailLevel = {"Low", "Medium", "High"}
-	local detailDropDown = ui:DropDown()
-	for i = 1,#detailLevel do detailDropDown:AddOption(detailLevel[i]) end
-	detailDropDown.onOptionSelected:Connect(function() local option = detailDropDown.selectedOption
-						print(option) end)
+-- 	static const char *planet_textures_desc[2] = {
+-- 		Lang::OFF, Lang::ON
+-- 	};
+-- 	
+-- 	static const char *planet_fractal_desc[5] = {
+-- 	                                             Lang::VERY_LOW, Lang::LOW, Lang::MEDIUM, Lang::HIGH, Lang::VERY_HIGH
+-- 	                                            };
+	local setDropdown = function(list, drop)
+		for i = 1,#list do drop:AddOption(list[i]) end
+	end
+	local pDetailList = {l.LOW, l.MEDIUM, l.HIGH, l.VERY_HIGH, l.VERY_VERY_HIGH}
+	local pDetailDropdown = ui:DropDown()
+	setDropdown(pDetailList, pDetailDropdown)
+	pDetailDropdown:SetOption(pDetailList[iniTable["DetailPlanets"]+1])
+-- 	pDetailDropdown.onOptionSelected:Connect(function() local option = pDetailDropdown.selectedOption
+-- 						print(option) end)
+	
+	if iniTable["Textures"] == nil then
+		iniTable["Textures"] = "0"
+	end
+	local pTextureList = {l.OFF, l.ON}
+	local pTextureDropdown = ui:DropDown()
+	setDropdown(pTextureList,pTextureDropdown)
+	pTextureDropdown:SetOption(pTextureList[iniTable["Textures"]+1])
 	
 	local fullScreenCheckBox = ui:CheckBox()
 	local shadersCheckBox = ui:CheckBox()
 	local compressionCheckBox = ui:CheckBox()
-	local screenModeList = ui:DropDown()
-	for i = 1,#modeTable do screenModeList:AddOption(modeTable[i]) end
-	--   print ("option = ", screenModeList.selectedOption)
-	screenModeList:SetOption(iniTable["ScrWidth"].."x"..iniTable["ScrHeight"]);
-	print ("option = ", screenModeList.selectedOption)
-	screenModeList.onOptionSelected:Connect(function() local option = screenModeList.selectedOption
+	
+	local screenModeDropdown = ui:DropDown()
+	setDropdown(modeList,screenModeDropdown)
+-- 	for i = 1,#modeList do screenModeDropdown:AddOption(modeList[i]) end
+	--   print ("option = ", screenModeDropdown.selectedOption)
+	screenModeDropdown:SetOption(iniTable["ScrWidth"].."x"..iniTable["ScrHeight"]);
+-- 	print ("option = ", screenModeDropdown.selectedOption)
+	screenModeDropdown.onOptionSelected:Connect(function() local option = screenModeDropdown.selectedOption
 						
 						print (option) end)
 	fullScreenCheckBox:SetState(iniTable["StartFullscreen"])
 	compressionCheckBox:SetState(iniTable["UseTextureCompression"])
 	shadersCheckBox:SetState(iniTable["DisableShaders"])
+	shadersCheckBox:Toggle()
 
 
 						
 	local videoTemplate = function()
-	return ui:Grid({1,2,1}, 1)
-		:SetCell(1,0,
-			ui:Scroller():SetInnerWidget(ui:VBox():PackEnd({
-			ui:Background():SetInnerWidget( ui:HBox(5):PackEnd({ui:Label("Screen Mode"),screenModeList})),
+	local grid = ui:Grid({1,1},1)
+		:SetCell(0,0,ui:Background():SetInnerWidget(ui:Label(l.VIDEO_RESOLUTION)))
+		:SetCell(1,0,ui:Background():SetInnerWidget(screenModeDropdown))
+				
+	local grid2 = ui:Grid({2,1}, 1)
+		:SetCell(0,0,
+			ui:VBox():PackEnd({
+			ui:Background():SetInnerWidget( ui:HBox(5):PackEnd({ui:Label(l.VIDEO_RESOLUTION),screenModeDropdown})),
 			ui:Margin(5),
-			ui:Background():SetInnerWidget( ui:HBox(5):PackEnd({ui:Label("Detail Level"),detailDropDown})),
+			ui:Background():SetInnerWidget( ui:HBox(5):PackEnd({ui:Label(l.PLANET_DETAIL_DISTANCE),pDetailDropdown})),
 			ui:Margin(5),
-			ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({ui:Label("Full Screen"), fullScreenCheckBox})),
+			ui:Background():SetInnerWidget( ui:HBox(5):PackEnd({ui:Label(l.PLANET_TEXTURES),pTextureDropdown})),
 			ui:Margin(5),
-			ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({ui:Label("Compress Textures"), compressionCheckBox})),
+			ui:HBox():PackEnd({
+				ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({ui:Label(l.FULL_SCREEN), fullScreenCheckBox})),
+				ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({ui:Label(l.COMPRESS_TEXTURES), compressionCheckBox})),
+				}),
 			ui:Margin(5),
-			ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({ui:Label("Disable Shaders"), shadersCheckBox})),
-			ui:Margin(5),
-		}))
-	)
+			ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({ui:Label(l.USE_SHADERS), shadersCheckBox}))
+			}))
+	return ui:Scroller():SetInnerWidget(ui:VBox():PackEnd({grid}))
 	
 	end
 	
-	local masterVolume = ui:Adjustment("Master Volume ")
+	local masterVolume = ui:Adjustment(l.VOL_MASTER)
 	masterVolume:SetScrollPosition(iniTable["MasterVolume"]);
-	local musicVolume = ui:Adjustment("Music Volume ")
+	local musicVolume = ui:Adjustment(l.VOL_MUSIC)
 	musicVolume:SetScrollPosition(iniTable["MusicVolume"]);
-	local lab = ui:Label("a")
-	masterVolume.OnChange:Connect(function() local pos = masterVolume.ScrollPosition lab:SetText(pos) end )
+	local sfxVolume = ui:Adjustment(l.VOL_EFFECTS)
+	sfxVolume:SetScrollPosition(iniTable["SfxVolume"]);
+	
+	local controlFunc = function(adj,muteKey)
+		
+		local plus = UI.SmallLabeledButton.New("+")
+		local minus = UI.SmallLabeledButton.New("-")
+		local mute = ui:CheckBox()
+		local controls = ui:HBox():PackEnd({minus,plus,mute,ui:Label("Mute")})
+		mute:SetState(iniTable[muteKey])
+
+		plus.button.onClick:Connect(function() adj:SetScrollPosition(adj.ScrollPosition + 0.05) end)
+		minus.button.onClick:Connect(function() adj:SetScrollPosition(adj.ScrollPosition - 0.05) end)
+		return controls
+		
+	end
+	local adjChange = function(adj,label)
+		local pos = adj.ScrollPosition 
+		pos = pos*100;
+		adj.InnerWidget:SetText(label.." "..pos)
+	end
+	masterVolume.OnChange:Connect(function() adjChange(masterVolume, l.VOL_MASTER ) end)
+	musicVolume.OnChange:Connect(function() adjChange(musicVolume, l.VOL_MUSIC ) end)
+	sfxVolume.OnChange:Connect(function() adjChange(sfxVolume, l.VOL_EFFECTS ) end)
 	local soundTemplate = function()	
-		return ui:Grid({1,2,1}, 2)
+		return ui:Grid({1,2,1}, 3)
+		:SetCell(0,0,controlFunc(masterVolume,"MasterMuted")) 
 		:SetCell(1,0,masterVolume) 
-		:SetCell(2,0,lab) 
+		:SetCell(0,1,controlFunc(musicVolume,"MusicMuted")) 
 		:SetCell(1,1,musicVolume)
+		:SetCell(0,2,controlFunc(sfxVolume,"SfxMuted")) 
+		:SetCell(1,2,sfxVolume)
 	end
 	local languageTemplate = function()
 	return ui:VBox():PackEnd({
@@ -103,7 +156,7 @@ ui.templates.Settings = function (args)
 		})
 	))  
 
-	--   print("videotable", #modeTable)
+	--   print("videotable", #modeList)
 	--   print ("iniTable", #iniTable)
 	--   print("BindViewForward", iniTable["BindViewForward"])
 	--   local i = 0
