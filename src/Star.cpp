@@ -68,19 +68,38 @@ void Star::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 
 	Random(rand);
 
-	renderer->SetBlendMode(BLEND_ALPHA);
+	renderer->SetBlendMode(BLEND_ALPHA_ONE); 
 
-	//render star halo
-	VertexArray va(ATTRIB_POSITION | ATTRIB_DIFFUSE);
+	//render star halos
+	VertexArray va(ATTRIB_POSITION | ATTRIB_DIFFUSE); //inner
+	VertexArray vb(ATTRIB_POSITION | ATTRIB_DIFFUSE); //outer
+	VertexArray vc(ATTRIB_POSITION | ATTRIB_DIFFUSE); //outer2 
+
 	const Color bright(col[0], col[1], col[2], 1.f);
-	const Color dark(0.f, 0.f, 0.f, 0.f);
+	const Color dark(0.0f, 0.0f, 0.0f, 0.f);
 
-	va.Add(vector3f(0.f), bright);
-	for (float ang=0; ang<2*M_PI; ang+=0.26183+rand.Double(0,0.4)) {
-		va.Add(vector3f(rad*sin(ang), rad*cos(ang), 0), dark);
+	va.Add(vector3f(0.f), bright*0.75);  
+	vb.Add(vector3f(0.f,0.f,0.01f), bright*0.45);
+	vc.Add(vector3f(0.f,0.f,0.015f), bright*0.35);
+
+	float ang=0;
+	const float size=32;
+	for (ang=0; ang<2*M_PI; ang+=0.25) {//+rand.Double(0,0.04)) {
+
+		float xf = rad*sin(ang);
+		float yf = rad*cos(ang);
+
+		va.Add(vector3f(xf, yf, 0), dark);
+		vb.Add(vector3f(xf*size, yf*size, 0.01f), dark);
+		vc.Add(vector3f(xf*size, yf, 0.015f), dark); 
 	}
-	va.Add(vector3f(0.f, rad, 0.f), dark);
-
+	float lf = rad*cos(2*M_PI-ang);
+	va.Add(vector3f(0.f, lf, 0.f), dark);
+	vb.Add(vector3f(0.f, lf*size, 0.01f), dark);
+	vc.Add(vector3f(0.f, lf, 0.015f), dark);
+ 
+	renderer->DrawTriangles(&vc, Graphics::vtxColorMaterial, TRIANGLE_FAN);
+	renderer->DrawTriangles(&vb, Graphics::vtxColorMaterial, TRIANGLE_FAN); 
 	renderer->DrawTriangles(&va, Graphics::vtxColorMaterial, TRIANGLE_FAN);
 	renderer->SetBlendMode(BLEND_SOLID);
 
