@@ -66,13 +66,13 @@ public:
 	void _UpdateVBOs();
 
 	inline int GetEdgeIdxOf(const GeoPatch *e) const {
-		for (int i=0; i<NUM_KIDS; i++) {if (edgeFriend[i] == e) {return i;}}
+		for (uint32_t i=0; i<NUM_KIDS; i++) {if (edgeFriend[i] == e) {return i;}}
 		abort();
 		return -1;
 	}
 
 	int GetChildIdx(const GeoPatch *child) const {
-		for (int i=0; i<NUM_KIDS; i++) {
+		for (uint32_t i=0; i<NUM_KIDS; i++) {
 			if (kids[i] == child) return i;
 		}
 		abort();
@@ -98,7 +98,7 @@ public:
 	}
 
 	void NotifyEdgeFriendDeleted(const GeoPatch *e) {
-		const int idx = GetEdgeIdxOf(e);
+		const uint32_t idx = GetEdgeIdxOf(e);
 		assert(idx>=0 && idx<NUM_EDGES);
 		edgeFriend[idx] = NULL;
 	}
@@ -127,7 +127,7 @@ public:
 	inline bool canBeMerged() const {
 		bool merge = true;
 		if (kids[0].Valid()) {
-			for (int i=0; i<NUM_KIDS; i++) {
+			for (uint32_t i=0; i<NUM_KIDS; i++) {
 				merge &= kids[i]->canBeMerged();
 			}
 		}

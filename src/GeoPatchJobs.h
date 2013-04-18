@@ -128,6 +128,7 @@ public:
 	};
 
 	SBaseSplitResult(const int32_t face_, const int32_t depth_) : mFace(face_), mDepth(depth_) {}
+	virtual ~SBaseSplitResult() {}
 
 	inline int32_t face() const { return mFace; }
 	inline int32_t depth() const { return mDepth; }
