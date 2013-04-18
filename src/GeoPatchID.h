@@ -4,6 +4,8 @@
 #ifndef __GEOPATCHID_H__
 #define __GEOPATCHID_H__
 
+#include <SDL_stdinc.h>
+
 class GeoPatchID
 {
 private:

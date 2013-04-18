@@ -191,6 +191,10 @@ pioneer_SOURCES	= \
 	GalacticView.cpp \
 	Game.cpp \
 	GameMenuView.cpp \
+	GeoPatch.cpp \
+	GeoPatchContext.cpp \
+	GeoPatchID.cpp \
+	GeoPatchJobs.cpp \
 	GeoSphere.cpp \
 	HyperspaceCloud.cpp \
 	IniConfig.cpp \
@@ -300,6 +304,7 @@ pioneer_SOURCES	= \
 pioneer_LDADD = \
 	../contrib/miniz/libminiz.a \
 	../contrib/jenkins/libjenkins.a \
+	../contrib/jobswarm/libjobswarm.a \
 	collider/libcollider.a \
 	gui/libgui.a \
 	graphics/libgraphics.a \
