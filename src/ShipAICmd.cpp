@@ -708,7 +708,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 
 		if (
 			m_ship->GetPositionRelTo(m_targframe).Length()>target_radii &&
-			m_ship->GetVelocity().Length()>50000 && 
+			m_ship->GetVelocity().Length()>150000 && 
 			m_ship->GetFlightState() == Ship::FLYING
 			)
 		{
@@ -736,7 +736,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 
 		if (
 			m_ship->GetPositionRelTo(m_target->GetFrame()).Length()>target_radii &&
-			m_ship->GetVelocity().Length()>50000 && 
+			m_ship->GetVelocity().Length()>150000 && 
 			m_ship->GetFlightState() == Ship::FLYING
 			)
 		{
