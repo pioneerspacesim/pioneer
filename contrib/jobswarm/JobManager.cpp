@@ -1,5 +1,3 @@
-#include "libs.h"
-
 //********************************************************************************
 // Demonstrates how to use the JobSwarm system.
 //********************************************************************************
@@ -33,8 +31,6 @@ JobManager::~JobManager()
     {
         mpContext->processSwarmJobs();
     }
-
-	printf("mMaxNumTasks == (%u)\n", mMaxNumTasks);
 
 	JOB_SWARM::releaseJobSwarmContext(mpContext);
 }

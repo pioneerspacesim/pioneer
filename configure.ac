@@ -351,6 +351,7 @@ AC_CONFIG_FILES([
 	contrib/miniz/Makefile
 	contrib/jenkins/Makefile
 	contrib/vcacheopt/Makefile
+	contrib/jobswarm/Makefile
 	osx/Makefile
 	win32/Makefile])
 AC_OUTPUT

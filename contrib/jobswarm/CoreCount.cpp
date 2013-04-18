@@ -1,5 +1,3 @@
-#include "libs.h"
-
 #include "CoreCount.h"
 
 #if WINDOWS_BUILD

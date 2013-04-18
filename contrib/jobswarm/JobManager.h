@@ -6,6 +6,9 @@
 #include "ThreadConfig.h"
 #include "JobSwarm.h"
 
+#include <cstdlib>
+#include <climits>
+
 //********************************************************************************
 // A small class to handle each individual 'job'
 //********************************************************************************
