@@ -58,9 +58,9 @@ namespace JOB_SWARM
 class JobSwarmInterface
 {
 public:
-    virtual void job_process(void *userData,int userId) = 0;   // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
-    virtual void job_onFinish(void *userData,int userId) = 0;  // runs in primary thread of the context
-    virtual void job_onCancel(void *userData,int userId) = 0;  // runs in primary thread of the context
+    virtual void Process(void *userData,int userId) = 0;   // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
+    virtual void OnFinish(void *userData,int userId) = 0;  // runs in primary thread of the context
+    virtual void OnCancel(void *userData,int userId) = 0;  // runs in primary thread of the context
 };
 
 
@@ -71,20 +71,17 @@ class JobSwarmContext
 {
 public:
 
-    virtual SwarmJob *   createSwarmJob(JobSwarmInterface *iface,void *userData,int userId) = 0; // creates a job to be processed and returns a handle.
-    virtual void         cancel(SwarmJob *job) = 0; // cancels the job, use cannot delete the memory until he receives the onCancel event!
+    virtual SwarmJob *   CreateSwarmJob(JobSwarmInterface *iface,void *userData,int userId) = 0; // creates a job to be processed and returns a handle.
+    virtual void         Cancel(SwarmJob *job) = 0; // cancels the job, use cannot delete the memory until he receives the onCancel event!
 
-    virtual unsigned int processSwarmJobs(void) = 0; // This is a pump loop run in the main thread to handle the disposition of finished and/or cancelled jobs.
-    virtual void         setUseThreads(bool state) = 0; // Whether or not to run in hardware threads.  This is for debugging only, threading is always true by default.
+    virtual unsigned int ProcessSwarmJobs(void) = 0; // This is a pump loop run in the main thread to handle the disposition of finished and/or cancelled jobs.
+    virtual void         SetUseThreads(bool state) = 0; // Whether or not to run in hardware threads.  This is for debugging only, threading is always true by default.
 };
 
-JobSwarmContext * createJobSwarmContext(unsigned int maxThreadCount=4); // create a JobSwarmContext with the give number of physical threads
-bool              releaseJobSwarmContext(JobSwarmContext *c); // release a JobSwarmContet
+JobSwarmContext * CreateJobSwarmContext(unsigned int maxThreadCount=4); // create a JobSwarmContext with the give number of physical threads
+bool              ReleaseJobSwarmContext(JobSwarmContext *c); // release a JobSwarmContet
 
 
 }; // end of namespace
-
-
-extern JOB_SWARM::JobSwarmContext *gJobSwarmContext; // an optional global variable, i.e. singleton of the application's JobSwarmContext
 
 #endif

@@ -297,7 +297,7 @@ public:
 
     void onJobExecute(void)
     {
-        mInterface->threadMain();
+        mInterface->ThreadMain();
     }
 
 private:

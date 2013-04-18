@@ -50,19 +50,13 @@
 #include "LockFreeQ.h"
 #include "pool.h"
 
-JOB_SWARM::JobSwarmContext *gJobSwarmContext=0;
-
 namespace JOB_SWARM
 {
-
-
-
-
 
 class SwarmJob : public LOCK_FREE_Q::node_t
 {
 public:
-    SwarmJob(void)
+    SwarmJob()
     {
         mNext      = 0;
         mPrevious  = 0;
@@ -80,39 +74,39 @@ public:
         mUserId    = userId;
     }
 
-    void notifyCompletion(void)
+    void NotifyCompletion()
     {
         assert(mInterface);
         if ( mInterface )
         {
             if ( mCancelled )
-                mInterface->job_onCancel(mUserData,mUserId);
+                mInterface->OnCancel(mUserData,mUserId);
             else
-                mInterface->job_onFinish(mUserData,mUserId);
+                mInterface->OnFinish(mUserData,mUserId);
         }
         mInterface = 0;
     }
 
 
-    void onExecute(void)
+    void OnExecute()
     {
-        mInterface->job_process(mUserData,mUserId);
+        mInterface->Process(mUserData,mUserId);
     }
 
 
-    bool isCancelled(void) const {
+    bool IsCancelled() const {
         return mCancelled;
     };
 
-    void cancel(void)
+    void Cancel()
     {
         mCancelled = true;
     }
 
-    SwarmJob *  GetNext(void) const              {
+    SwarmJob *  GetNext() const              {
         return mNext;
     };
-    SwarmJob *  GetPrevious(void) const          {
+    SwarmJob *  GetPrevious() const          {
         return mPrevious;
     };
     void        SetNext(SwarmJob *next)         {
@@ -142,7 +136,7 @@ class ThreadWorker : public THREAD_CONFIG::ThreadInterface
 {
 public:
 
-    ThreadWorker(void)
+    ThreadWorker()
     {
         mSwarmJob    = 0;
         mJobScheduler = 0;
@@ -153,25 +147,20 @@ public:
         mFinished.init(MAX_COMPLETION);
     }
 
-    bool isRunning(void) const {
+    bool IsRunning() const {
         return mRunning;
     };
 
-    bool hasJob(void) const
-    {
-        bool ret = false;
-
-        if ( mSwarmJob != 0 ) ret = true;
-
-        return ret;
+    bool HasJob() const {
+        return (mSwarmJob!=0);
     }
 
-    ~ThreadWorker(void)
+    ~ThreadWorker()
     {
-        release();
+        Release();
     }
 
-    void release(void)
+    void Release()
     {
         THREAD_CONFIG::tc_releaseThreadEvent(mBusy);
         THREAD_CONFIG::tc_releaseThread(mThread);
@@ -179,19 +168,19 @@ public:
         mThread = 0;
     }
 
-    void setJobScheduler(JobScheduler *job);
+    void SetJobScheduler(JobScheduler *job);
 
     // occurs in another thread
-    void threadMain(void);
+    void ThreadMain();
 
-    SwarmJob * getFinished(void)
+    SwarmJob * GetFinished()
     {
         SwarmJob *ret = 0;
         mFinished.pop(ret);
         return ret;
     }
 
-    void setExit(void)
+    void SetExit()
     {
         mExit = true;
         mBusy->setEvent(); // force a signal on the event!
@@ -211,36 +200,29 @@ class JobScheduler : public JobSwarmContext
 {
 public:
 
-    JobScheduler(int maxThreadCount)
+    JobScheduler(const int maxThreadCount) : mUseThreads(true), mWaitFinish(false), mMaxThreadCount(maxThreadCount)
     {
-        mUseThreads = true;
-        maxThreadCount = maxThreadCount;
-
         mPending = LOCK_FREE_Q::createLockFreeQ();
-        mWaitFinish = false;
 
 		// changed the default number of jobs to 1000 as the terrain can pump out several hundred
         mJobs.Set(1000,100,65536,"JobScheduler->mJobs",__FILE__,__LINE__);
 
-        mMaxThreadCount = maxThreadCount;
-
         mThreads = MEMALLOC_NEW_ARRAY(ThreadWorker,mMaxThreadCount)[mMaxThreadCount]; // the number of worker threads....
 
-        for (unsigned int i=0; i<mMaxThreadCount; i++)
-        {
-            mThreads[i].setJobScheduler(this);
+        for (unsigned int i=0; i<mMaxThreadCount; i++) {
+            mThreads[i].SetJobScheduler(this);
         }
     }
 
-    ~JobScheduler(void)
+    ~JobScheduler()
     {
-        waitFinish();
+        WaitFinish();
         MEMALLOC_DELETE_ARRAY(ThreadWorker,mThreads);
         LOCK_FREE_Q::releaseLockFreeQ(mPending);
     }
 
     // Happens in main thread
-    SwarmJob * createSwarmJob(JobSwarmInterface *tji,void *userData,int userId)
+    SwarmJob * CreateSwarmJob(JobSwarmInterface *tji,void *userData,int userId)
     {
         SwarmJob *vret[2] = { mJobs.GetFreeLink() , mJobs.GetFreeLink() };
         //
@@ -263,7 +245,7 @@ public:
     }
 
     // Empty the finished list.  This happens in the main application thread!
-    unsigned int processSwarmJobs(void)
+    unsigned int ProcessSwarmJobs()
     {
         unsigned int ret = 0;
 
@@ -274,11 +256,11 @@ public:
 
             for (unsigned int i=0; i<mMaxThreadCount; i++)
             {
-                SwarmJob *job = mThreads[i].getFinished();
+                SwarmJob *job = mThreads[i].GetFinished();
                 if ( job )
                 {
                     completion = true;
-                    job->notifyCompletion();
+                    job->NotifyCompletion();
                     mJobs.Release(job);
                 }
             }
@@ -293,11 +275,11 @@ public:
                 SwarmJob *job = static_cast< SwarmJob *>(mPending->dequeue());
                 if ( job )
                 {
-                    if ( !job->isCancelled() )
+                    if ( !job->IsCancelled() )
                     {
-                        job->onExecute();
+                        job->OnExecute();
                     }
-                    job->notifyCompletion();
+                    job->NotifyCompletion();
                     mJobs.Release(job);
                 }
                 else
@@ -315,7 +297,7 @@ public:
     }
 
     // called from other thread to get a new job to perform
-    SwarmJob * getJob(void)
+    SwarmJob * GetJob()
     {
         SwarmJob *ret = 0;
 
@@ -328,18 +310,18 @@ public:
     }
 
     // called from main thread..tags a job as canceled, callbacks will still occur!!
-    void cancel(SwarmJob *job)
+    void Cancel(SwarmJob *job)
     {
-        job->cancel();
+        job->Cancel();
     }
 
 
-    void setUseThreads(bool state)
+    void SetUseThreads(bool state)
     {
         mUseThreads = state;
     }
 
-    void waitFinish(void)
+    void WaitFinish()
     {
         mWaitFinish = true;
 
@@ -350,13 +332,13 @@ public:
             for (unsigned int j=0; j<mMaxThreadCount; j++)
             {
                 ThreadWorker *tw = &mThreads[j];
-                tw->setExit();
+                tw->SetExit();
             }
 
             for (unsigned int i=0; i<mMaxThreadCount; i++)
             {
                 ThreadWorker *tw = &mThreads[i];
-                if ( tw->isRunning() )
+                if ( tw->IsRunning() )
                 {
                     busy = true;
                     break;
@@ -385,7 +367,7 @@ private:
 };
 
 
-void ThreadWorker::setJobScheduler(JobScheduler *job)
+void ThreadWorker::SetJobScheduler(JobScheduler *job)
 {
     mRunning      = true;
     mJobScheduler = job;
@@ -393,15 +375,15 @@ void ThreadWorker::setJobScheduler(JobScheduler *job)
     mThread       = THREAD_CONFIG::tc_createThread(this);
 }
 
-void ThreadWorker::threadMain(void)
+void ThreadWorker::ThreadMain()
 {
     while ( !mExit )
     {
         if ( mSwarmJob ) // if I have a job to do...
         {
-            if ( !mSwarmJob->isCancelled() )
+            if ( !mSwarmJob->IsCancelled() )
             {
-                mSwarmJob->onExecute();              // execute the job.
+                mSwarmJob->OnExecute();              // execute the job.
             }
             mFinished.push(mSwarmJob);
         }
@@ -413,7 +395,7 @@ void ThreadWorker::threadMain(void)
 
             if ( !mFinished.isFull() )
             {
-                job = mJobScheduler->getJob(); // get a new job to perform.
+                job = mJobScheduler->GetJob(); // get a new job to perform.
             }
 
             if (job )
@@ -433,14 +415,14 @@ void ThreadWorker::threadMain(void)
 
 
 
-JobSwarmContext * createJobSwarmContext(unsigned int maxThreads)
+JobSwarmContext * CreateJobSwarmContext(unsigned int maxThreads)
 {
     JobScheduler *tjf = MEMALLOC_NEW(JobScheduler)(maxThreads);
     JobSwarmContext *ret = static_cast< JobSwarmContext *>(tjf);
     return ret;
 }
 
-bool releaseJobSwarmContext(JobSwarmContext *tc)
+bool ReleaseJobSwarmContext(JobSwarmContext *tc)
 {
     bool ret = false;
     if ( tc )

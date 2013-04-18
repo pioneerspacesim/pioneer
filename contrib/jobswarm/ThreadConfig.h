@@ -83,7 +83,7 @@ void          tc_releaseThreadMutex(ThreadMutex *tm);
 class ThreadInterface
 {
 public:
-    virtual void threadMain(void) = 0;
+    virtual void ThreadMain(void) = 0;
 };
 
 class Thread

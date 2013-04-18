@@ -85,7 +85,7 @@ void BasePatchJob::GenerateMesh(double *heights, vector3f *normals, Color3ub *co
 // ********************************************************************************
 // Overloaded PureJob class to handle generating the mesh for each patch
 // ********************************************************************************
-void SinglePatchJob::job_onFinish(void * userData, int userId)  // runs in primary thread of the context
+void SinglePatchJob::OnFinish(void * userData, int userId)  // runs in primary thread of the context
 {
 	if(s_abort) {
 		// clean up after ourselves
@@ -94,17 +94,17 @@ void SinglePatchJob::job_onFinish(void * userData, int userId)  // runs in prima
 	} else {
 		GeoSphere::OnAddSingleSplitResult( mData->sysPath, mpResults );
 	}
-	BasePatchJob::job_onFinish(userData, userId);
+	BasePatchJob::OnFinish(userData, userId);
 }
 
-void SinglePatchJob::job_onCancel(void * userData, int userId)   // runs in primary thread of the context
+void SinglePatchJob::OnCancel(void * userData, int userId)   // runs in primary thread of the context
 {
 	mpResults->OnCancel();
 	delete mpResults;	mpResults = NULL;
-	BasePatchJob::job_onCancel(userData, userId);
+	BasePatchJob::OnCancel(userData, userId);
 }
 
-void SinglePatchJob::job_process(void * userData,int /* userId */)    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
+void SinglePatchJob::Process(void * userData,int /* userId */)    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
 {
 	if(s_abort)
 		return;
@@ -127,7 +127,7 @@ void SinglePatchJob::job_process(void * userData,int /* userId */)    // RUNS IN
 // ********************************************************************************
 // Overloaded PureJob class to handle generating the mesh for each patch
 // ********************************************************************************
-void QuadPatchJob::job_onFinish(void * userData, int userId)  // runs in primary thread of the context
+void QuadPatchJob::OnFinish(void * userData, int userId)  // runs in primary thread of the context
 {
 	if(s_abort) {
 		// clean up after ourselves
@@ -136,17 +136,17 @@ void QuadPatchJob::job_onFinish(void * userData, int userId)  // runs in primary
 	} else {
 		GeoSphere::OnAddQuadSplitResult( mData->sysPath, mpResults );
 	}
-	BasePatchJob::job_onFinish(userData, userId);
+	BasePatchJob::OnFinish(userData, userId);
 }
 
-void QuadPatchJob::job_onCancel(void * userData, int userId)   // runs in primary thread of the context
+void QuadPatchJob::OnCancel(void * userData, int userId)   // runs in primary thread of the context
 {
 	mpResults->OnCancel();
 	delete mpResults;	mpResults = NULL;
-	BasePatchJob::job_onCancel(userData, userId);
+	BasePatchJob::OnCancel(userData, userId);
 }
 
-void QuadPatchJob::job_process(void * userData,int /* userId */)    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
+void QuadPatchJob::Process(void * userData,int /* userId */)    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
 {
 	if(s_abort)
 		return;

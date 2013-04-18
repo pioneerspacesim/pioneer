@@ -32,27 +32,27 @@ public:
 		mJobStatus = EJB_INVALID;
 	}
 
-    virtual void init(unsigned int *counter)
+    virtual void Init(unsigned int *counter)
     {
         mCounter = counter;
 		mJobStatus = EJB_WORKING;
     }
 
-    virtual void job_process(void * userData,int /* userId */) = 0;    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
+    virtual void Process(void * userData,int /* userId */) = 0;    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
 
-    virtual void job_onFinish(void * /* userData */,int /* userId */)  // runs in primary thread of the context
+    virtual void OnFinish(void * /* userData */,int /* userId */)  // runs in primary thread of the context
     {
         (*mCounter)--;
 		mJobStatus = EJB_COMPLETE;
     }
 
-    virtual void job_onCancel(void * /* userData */,int /* userId */)   // runs in primary thread of the context
+    virtual void OnCancel(void * /* userData */,int /* userId */)   // runs in primary thread of the context
     {
         (*mCounter)--;
 		mJobStatus = EJB_CANCELLED;
     }
 
-	virtual bool job_is_running() const 
+	virtual bool IsJobRunning() const 
 	{ 
 		return (EJB_WORKING==mJobStatus); 
 	}
@@ -76,18 +76,17 @@ public:
 	~JobManager();
 
 	// adds the job to the list, takes ownership of pointer
-	bool					canAddJob() const { return (mTasksRemaining<MAX_NUMBER_JOBS); }
-	JobHandle				addJobFromThread(PureJob* pNewJob, unsigned char *userData);
-	JOB_SWARM::SwarmJob*	addJobMainThread(PureJob* pNewJob, unsigned char *userData);
+	bool					CanAddJob() const { return (mTasksRemaining<MAX_NUMBER_JOBS); }
+	JOB_SWARM::SwarmJob*	AddJob(PureJob* pNewJob, unsigned char *userData);
 
-	void update();
-	bool jobsRemaining() const;
-	void cancel(JOB_SWARM::SwarmJob* pJob);
+	void Update();
+	bool JobsRemaining() const;
+	void Cancel(JOB_SWARM::SwarmJob* pJob);
 
 	unsigned int NumOfThreadsUsed() const { return mNumThreadsUsed; }
 
 private:
-	JOB_SWARM::SwarmJob*		addIncomingJob(PureJob* pNewJob, unsigned char *userData);
+	JOB_SWARM::SwarmJob*		AddIncomingJob(PureJob* pNewJob, unsigned char *userData);
 	JOB_SWARM::JobSwarmContext	*mpContext;
 
 	JobHandle mPrevTasksRemaining;

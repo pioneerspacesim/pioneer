@@ -217,21 +217,21 @@ public:
 	{	
 	}
 
-	virtual void init(unsigned int *counter)
+	virtual void Init(unsigned int *counter)
 	{
 		++s_numActivePatchJobs;
-		PureJob::init( counter );
+		PureJob::Init( counter );
 	}
 
-	virtual void job_process(void * userData,int /* userId */)=0;    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
-	virtual void job_onFinish(void * userData, int userId)  // runs in primary thread of the context
+	virtual void Process(void * userData,int /* userId */)=0;    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
+	virtual void OnFinish(void * userData, int userId)  // runs in primary thread of the context
 	{
-		PureJob::job_onFinish(userData, userId);
+		PureJob::OnFinish(userData, userId);
 		--s_numActivePatchJobs;
 	}
-	virtual void job_onCancel(void * userData, int userId)   // runs in primary thread of the context
+	virtual void OnCancel(void * userData, int userId)   // runs in primary thread of the context
 	{
-		PureJob::job_onFinish(userData, userId);
+		PureJob::OnFinish(userData, userId);
 		--s_numActivePatchJobs;
 	}
 
@@ -264,14 +264,14 @@ public:
 
 	virtual ~SinglePatchJob()	{ /* empty */ }
 
-	virtual void init(unsigned int *counter)
+	virtual void Init(unsigned int *counter)
 	{
-		BasePatchJob::init( counter );
+		BasePatchJob::Init( counter );
 	}
 
-	virtual void job_process(void * userData,int /* userId */);    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
-	virtual void job_onFinish(void * userData, int userId);  // runs in primary thread of the context
-	virtual void job_onCancel(void * userData, int userId);   // runs in primary thread of the context
+	virtual void Process(void * userData,int /* userId */);    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
+	virtual void OnFinish(void * userData, int userId);  // runs in primary thread of the context
+	virtual void OnCancel(void * userData, int userId);   // runs in primary thread of the context
 
 private:
 	ScopedPtr<SSingleSplitRequest> mData;
@@ -288,14 +288,14 @@ public:
 
 	virtual ~QuadPatchJob()	{ /* empty */ }
 
-	virtual void init(unsigned int *counter)
+	virtual void Init(unsigned int *counter)
 	{
-		BasePatchJob::init( counter );
+		BasePatchJob::Init( counter );
 	}
 
-	virtual void job_process(void * userData,int /* userId */);    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
-	virtual void job_onFinish(void * userData, int userId);  // runs in primary thread of the context
-	virtual void job_onCancel(void * userData, int userId);   // runs in primary thread of the context
+	virtual void Process(void * userData,int /* userId */);    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
+	virtual void OnFinish(void * userData, int userId);  // runs in primary thread of the context
+	virtual void OnCancel(void * userData, int userId);   // runs in primary thread of the context
 
 private:
 	ScopedPtr<SQuadSplitRequest> mData;

@@ -929,11 +929,11 @@ void Pi::EndGame()
 	if (!config->Int("DisableSound")) AmbientSounds::Uninit();
 	Sound::DestroyAllEvents();
 
-	while(jobs().jobsRemaining()) {
-		jobs().update();
+	while(jobs().JobsRemaining()) {
+		jobs().Update();
 		THREAD_CONFIG::tc_sleep(0);
 	}
-	assert(!jobs().jobsRemaining());
+	assert(!jobs().JobsRemaining());
 
 	assert(game);
 	delete game;
@@ -1067,7 +1067,7 @@ void Pi::MainLoop()
 		}
 		cpan->Update();
 		musicPlayer.Update();
-		jobs().update();
+		jobs().Update();
 
 #if WITH_DEVKEYS
 		if (Pi::showDebugInfo && SDL_GetTicks() - last_stats > 1000) {

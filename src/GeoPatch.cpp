@@ -183,7 +183,7 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 	if (canSplit) {
 		if (!kids[0]) {
 			// don't do anything if we can't handle anymore jobs
-			if( !Pi::jobs().canAddJob() ) {
+			if( !Pi::jobs().CanAddJob() ) {
 				return;
 			}
 
@@ -193,7 +193,7 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 						ctx->frac, geosphere->m_terrain.Get());
 			assert(!mCurrentJob.Valid());
 			mCurrentJob.Reset(new QuadPatchJob(ssrd));
-			Pi::jobs().addJobMainThread(mCurrentJob.Get(), NULL);
+			Pi::jobs().AddJob(mCurrentJob.Get(), NULL);
 		} else {
 			for (int i=0; i<NUM_KIDS; i++) {
 				kids[i]->LODUpdate(campos);
@@ -217,7 +217,7 @@ void GeoPatch::RequestSinglePatch()
 {
 	if( !heights.Valid() ) {
 		// don't do anything if we can't handle anymore jobs
-		if( !Pi::jobs().canAddJob() ) {
+		if( !Pi::jobs().CanAddJob() ) {
 			return;
 		}
 
@@ -226,7 +226,7 @@ void GeoPatch::RequestSinglePatch()
 					geosphere->m_sbody->path, mPatchID, ctx->edgeLen, ctx->frac, geosphere->m_terrain.Get());
 		assert(!mCurrentJob.Valid());
 		mCurrentJob.Reset(new SinglePatchJob(ssrd));
-		Pi::jobs().addJobMainThread(mCurrentJob.Get(), NULL);
+		Pi::jobs().AddJob(mCurrentJob.Get(), NULL);
 	}
 }
 
