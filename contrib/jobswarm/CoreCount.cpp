@@ -1,20 +1,22 @@
 #include "CoreCount.h"
 
-#if WINDOWS_BUILD
+#if defined(WIN32)
 #include <windows.h>
-#elif MAC_BUILD
+#elif defined(__APPLE__)
 #include <sys/param.h>
 #include <sys/sysctl.h>
-#elif UNIX_BUILD
+#elif defined(__linux__)
 #include <unistd.h>
+#else
+#error "unsupported platform"
 #endif
 
 int getNumCores() {
-#if WINDOWS_BUILD
+#if defined(WIN32)
     SYSTEM_INFO sysinfo;
     GetSystemInfo(&sysinfo);
     return sysinfo.dwNumberOfProcessors;
-#elif MAC_BUILD
+#elif defined(__APPLE__)
     int nm[2];
     size_t len = 4;
     uint32_t count;
@@ -28,9 +30,7 @@ int getNumCores() {
         if(count < 1) { count = 1; }
     }
     return count;
-#elif UNIX_BUILD
+#elif defined(__linux__)
     return sysconf(_SC_NPROCESSORS_ONLN);
-#else
-	return 1;	// unsupported platform - feel free to add it!
 #endif
 }
