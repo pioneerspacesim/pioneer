@@ -10,7 +10,6 @@
 #include "ModelBody.h"
 #include "NavLights.h"
 #include "Quaternion.h"
-#include "RefList.h"
 #include "Serializer.h"
 #include "ShipType.h"
 #include "SpaceStationType.h"

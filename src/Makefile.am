@@ -114,7 +114,6 @@ noinst_HEADERS = \
 	Quaternion.h \
 	Random.h \
 	RefCounted.h \
-	RefList.h \
 	SDLWrappers.h \
 	SectorView.h \
 	Serializer.h \
