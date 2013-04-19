@@ -525,8 +525,8 @@ void WorldView::RefreshButtonStateAndVisibility()
 
 		//Calculate lat/lon for ship position
 		const vector3d dir = pos.NormalizedSafe();
-		const float lat = asin(dir.y) * RAD_2_DEG;
-		const float lon = atan2(dir.x, dir.z) * -RAD_2_DEG;
+		const float lat = RAD2DEG(asin(dir.y));
+		const float lon = RAD2DEG(atan2(dir.x, dir.z));
 
 		const char *rel_to = (Pi::player->GetFrame() ? Pi::player->GetFrame()->GetLabel().c_str() : "System");
 		const char *rot_frame = (Pi::player->GetFrame()->IsRotFrame() ? "yes" : "no");
