@@ -50,6 +50,12 @@ inline int isfinite(double x) { return _finite(x); }
 #	endif /* __MINGW32__ */
 #endif
 
+#ifdef _MSC_VER // MSVC doesn't support the %z specifier, but has its own %I specifier
+#define SIZET_FMT "%Iu"
+#else
+#define SIZET_FMT "%zu"
+#endif
+
 #include "fixed.h"
 #include "vector2.h"
 #include "vector3.h"
