@@ -23,6 +23,7 @@ As of 12 April 2013 (alpha 33), the Pioneer Developers are:
 * Craig Thomson
 * Dan Bennett
 * Darren Salt
+* DerpyHooves
 * Dionisis Kontominas
 * Enric Morales
 * Florian Schmidt
@@ -39,8 +40,8 @@ As of 12 April 2013 (alpha 33), the Pioneer Developers are:
 * Kimmo Kotajärvi
 * Konrad Mruk
 * Krzysztof Niedźwiecki
-* Lee Reilly
 * Lars Westerhoff
+* Lee Reilly
 * Leonardo Manna
 * Maksim Kulikov aka sapog662
 * Marcel Tulloh
