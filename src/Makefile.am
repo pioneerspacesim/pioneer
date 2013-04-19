@@ -19,7 +19,6 @@ noinst_HEADERS = \
 	AmbientSounds.h \
 	AnimationCurves.h \
 	Background.h \
-	BezierCurve.h \
 	Body.h \
 	ByteRange.h \
 	Camera.h \
