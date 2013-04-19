@@ -34,7 +34,8 @@ static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.9f);
 static const float ZOOM_SPEED = 1.f;
 static const float WHEEL_SENSITIVITY = .2f;	// Should be a variable in user settings.
 
-#define HUD_CROSSHAIR_SIZE	24.0f
+static const float HUD_CROSSHAIR_SIZE = 24.0f;
+static const float HUD_ALPHA          = 0.34f;
 
 WorldView::WorldView(): View()
 {

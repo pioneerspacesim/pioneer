@@ -3,6 +3,7 @@
 
 #include "utils.h"
 #include "libs.h"
+#include "gameconsts.h"
 #include "StringF.h"
 #include "gui/Gui.h"
 #include "Lang.h"
