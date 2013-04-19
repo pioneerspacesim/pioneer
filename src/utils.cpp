@@ -197,7 +197,7 @@ const char *pi_strcasestr (const char *haystack, const char *needle)
 					return haystack;
 
 				if (!*rhaystack)
-					return NULL;
+					return 0;
 
 				if (TOLOWER(*rhaystack) != TOLOWER(*rneedle))
 					break;

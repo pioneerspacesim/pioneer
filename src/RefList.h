@@ -38,7 +38,7 @@ public:
 	inline const T *Get(int ref) {
 		typename std::map<int,T>::iterator i = m_objects.find(ref);
 		if (i == m_objects.end())
-			return NULL;
+			return 0;
 		return const_cast<const T*>(&((*i).second));
 	}
 	inline const std::list<const T*> &GetAll() {

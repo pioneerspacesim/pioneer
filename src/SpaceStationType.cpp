@@ -121,7 +121,7 @@ const SpaceStationType::SBayGroup* SpaceStationType::FindGroupByBay(const int ze
 		}
 	}
 	// is it safer to return that the bay is locked?
-	return NULL;
+	return 0;
 }
 
 SpaceStationType::SBayGroup* SpaceStationType::GetGroupByBay(const int zeroBaseBayID)
@@ -135,7 +135,7 @@ SpaceStationType::SBayGroup* SpaceStationType::GetGroupByBay(const int zeroBaseB
 		}
 	}
 	// is it safer to return that the bay is locked?
-	return NULL;
+	return 0;
 }
 
 bool SpaceStationType::GetShipApproachWaypoints(const unsigned int port, const int stage, positionOrient_t &outPosOrient) const

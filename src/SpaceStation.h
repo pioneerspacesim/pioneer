@@ -130,7 +130,7 @@ private:
 	 */
 	struct shipDocking_t {
 		shipDocking_t():
-			ship(NULL), shipIndex(0),
+			ship(0), shipIndex(0),
 			stage(0), stagePos(0), fromPos(0.0), fromRot(1.0, 0.0, 0.0, 0.0)
 		{}
 
