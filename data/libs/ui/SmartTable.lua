@@ -7,6 +7,9 @@ _DefaultSort = function (self)
 	)
 end
 
+_DefaultCellWidget = function (data)
+	return ui:Label(data) end
+
 UI.SmartTable = {
 
 New = function (rowspec)
@@ -20,6 +23,7 @@ New = function (rowspec)
 	self.sortCol = nil
 	self.defaultSortFunction = _DefaultSort
 	self.sortFunction = self.defaultSortFunction
+	self.defaultCellWidget = _DefaultCellWidget
 
 	self.widget =
 		ui:VBox(10):PackEnd({
@@ -43,8 +47,16 @@ SetHeaders = function (self, headers)
 	end
 end,
 
-AddRow = function (self, rowData, rowWidgets)
-	table.insert(self.table, {data = rowData, widgets = rowWidgets})
+AddRow = function (self, cells)
+	local row = {data = {}, widgets = {}}
+	for _,cell in ipairs(cells) do
+		if not cell.widget then  -- if widget isn't specified use default one
+			cell.widget = self.defaultCellWidget(cell.data)
+		end
+		table.insert(row.data, cell.data)
+		table.insert(row.widgets, cell.widget)
+	end
+	table.insert(self.table, row)
 	self:Sort(self.sortCol)
 end,
 

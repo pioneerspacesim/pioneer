@@ -384,21 +384,19 @@ local missions = function (tabGroup)
 	}
 	MissionList:SetHeaders(headers)
 	
-	-- setup custom sort function
+	-- we're not happy with default sort function 
+	-- so we specify one by ourselves
 	local sortMissions = function (misList)
 		local col = misList.sortCol
-		
 		-- custom comparators for columns that we want
 		-- handle by ourselves
 		local cmpByReward = function (a,b) 
 			return a.data[col] > b.data[col] 
 		end
-		
 		local comparators = 
 		{ 	-- by column num
 			[5]	= cmpByReward,
 		}
-		
 		if comparators[col] then 
 			table.sort(misList.table, comparators[col])
 		else 
@@ -424,27 +422,18 @@ local missions = function (tabGroup)
 		end)
 
 		local description = mission:GetTypeDescription()
-		local rowData = 
-		{
-			description or t('NONE'),
-			mission.client.name,
-			missionLocationName,
-			mission.due,
-			mission.reward,
+		local row = 
+		{ -- if we don't specify widget, default one will be used 
+			{data = description or t('NONE')},
+			{data = mission.client.name},
+			{data = missionLocationName, widget = ui:MultiLineText(missionLocationName)},
+			{data = mission.due, widget = ui:Label(Format.Date(mission.due))},
+			{data = mission.reward, widget = ui:Label(Format.Money(mission.reward))},
 			-- nil description means mission type isn't registered.
-			(description and t(mission.status)) or t('INACTIVE'),
+			{data = (description and t(mission.status)) or t('INACTIVE')},
+			{widget = moreButton.widget}
 		}
-		local rowWidgets = 
-		{
-			ui:Label(description or t('NONE')),
-			ui:Label(mission.client.name),
-			ui:MultiLineText(missionLocationName),
-			ui:Label(Format.Date(mission.due)),
-			ui:Label(Format.Money(mission.reward)),
-			ui:Label((description and t(mission.status)) or t('INACTIVE')),
-			moreButton.widget,
-		}
-		MissionList:AddRow(rowData,rowWidgets)
+		MissionList:AddRow(row)
 	end
 
 	MissionScreen:SetInnerWidget(MissionList)
