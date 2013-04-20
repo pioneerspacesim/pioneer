@@ -86,15 +86,6 @@ void   tc_sleep(unsigned int ms)
 #endif
 }
 
-void tc_spinloop()
-{
-#ifdef __linux__
-    asm ( "pause" );
-#else
-    __asm { pause };
-#endif
-}
-
 static int _ThreadWorkerFunc(void *);
 
 class MyThread : public Thread

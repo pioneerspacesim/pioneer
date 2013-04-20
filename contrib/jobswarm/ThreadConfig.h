@@ -63,8 +63,6 @@ namespace THREAD_CONFIG
 unsigned int tc_timeGetTime();
 void     tc_sleep(unsigned int ms);
 
-void     tc_spinloop();
-
 class ThreadInterface
 {
 public:
