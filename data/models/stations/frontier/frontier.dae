@@ -26,10 +26,10 @@
                 Save 3ds Max Profile: Yes;
                 Formatted Arrays: Yes;
             </comments>
-            <source_data>file:///C:/Users/rivalin/Desktop/pioneernew/pioneer-04e2145-win32/data/models/stations/frontier/frontier.dae</source_data>
+            <source_data>file:///C:/Users/rivalin/Creative/Personal%20Work/Paragon/Paragon/paragon%2033/data/models/stations/frontier/frontier.dae</source_data>
         </contributor>
-        <created>2013-04-01T14:14:11Z</created>
-        <modified>2013-04-01T14:14:11Z</modified>
+        <created>2013-04-20T09:09:08Z</created>
+        <modified>2013-04-20T09:09:08Z</modified>
         <up_axis>Y_UP</up_axis>
     </asset>
     <library_cameras>
@@ -45825,37 +45825,64 @@
         <geometry id="Geometry-collision_pad1" name="collision_pad1">
             <mesh>
                 <source id="Geometry-collision_pad1-positions" name="positions">
-                    <float_array id="Geometry-collision_pad1-positions-array" count="81">
-                        270.605 105.444 270.803
-                        -270.605 105.444 270.803
-                        270.605 105.444 -270.407
-                        -270.605 105.444 -270.407
-                        0 105.444 270.803
-                        0 105.444 -270.407
-                        270.605 105.444 0.19825
-                        -270.605 105.444 0.19825
-                        0 105.444 0.19825
-                        270.605 153.271 270.803
-                        -270.605 153.271 270.803
-                        270.605 153.271 -270.407
-                        -270.605 153.271 -270.407
-                        0 153.271 270.803
-                        0 153.271 -270.407
-                        270.605 153.271 0.19825
-                        -270.605 153.271 0.19825
-                        0 153.271 0.19825
-                        270.605 127.219 270.803
-                        -270.605 127.219 270.803
-                        270.605 127.219 -270.407
-                        -270.605 127.219 -270.407
-                        0 127.219 270.803
-                        0 127.219 -270.407
-                        270.605 127.219 0.19825
-                        -270.605 127.219 0.19825
-                        0 127.219 0.19825
+                    <float_array id="Geometry-collision_pad1-positions-array" count="162">
+                        270.605 121.699 270.803
+                        -270.605 121.699 270.803
+                        270.605 121.699 -270.407
+                        -270.605 121.699 -270.407
+                        0 121.699 270.803
+                        0 121.699 -270.407
+                        270.605 121.699 0.19825
+                        -270.605 121.699 0.19825
+                        0 121.699 0.19825
+                        270.605 140.59 270.803
+                        -270.605 140.59 270.803
+                        270.605 140.59 -270.407
+                        -270.605 140.59 -270.407
+                        0 140.59 270.803
+                        0 140.59 -270.407
+                        270.605 140.59 0.19825
+                        -270.605 140.59 0.19825
+                        0 140.59 0.19825
+                        270.605 130.3 270.803
+                        -270.605 130.3 270.803
+                        270.605 130.3 -270.407
+                        -270.605 130.3 -270.407
+                        0 130.3 270.803
+                        0 130.3 -270.407
+                        270.605 130.3 0.19825
+                        -270.605 130.3 0.19825
+                        0 130.3 0.19825
+                        270.605 105.204 270.803
+                        -270.605 105.204 270.803
+                        270.605 105.204 -270.407
+                        -270.605 105.204 -270.407
+                        0 105.204 270.803
+                        0 105.204 -270.407
+                        270.605 105.204 0.19825
+                        -270.605 105.204 0.19825
+                        0 105.204 0.19825
+                        270.605 117.223 270.803
+                        -270.605 117.223 270.803
+                        270.605 117.223 -270.407
+                        -270.605 117.223 -270.407
+                        0 117.223 270.803
+                        0 117.223 -270.407
+                        270.605 117.223 0.19825
+                        -270.605 117.223 0.19825
+                        0 117.223 0.19825
+                        270.605 113.805 270.803
+                        -270.605 113.805 270.803
+                        270.605 113.805 -270.407
+                        -270.605 113.805 -270.407
+                        0 113.805 270.803
+                        0 113.805 -270.407
+                        270.605 113.805 0.19825
+                        -270.605 113.805 0.19825
+                        0 113.805 0.19825
                     </float_array>
                     <technique_common>
-                        <accessor count="27" source="#Geometry-collision_pad1-positions-array" stride="3">
+                        <accessor count="54" source="#Geometry-collision_pad1-positions-array" stride="3">
                             <param name="X" type="float" />
                             <param name="Y" type="float" />
                             <param name="Z" type="float" />
@@ -45877,11 +45904,11 @@
                 <vertices id="Geometry-collision_pad1-vertices">
                     <input semantic="POSITION" source="#Geometry-collision_pad1-positions" />
                 </vertices>
-                <polylist count="12" material="Material-material1">
+                <polylist count="24" material="Material-material1">
                     <input semantic="VERTEX" source="#Geometry-collision_pad1-vertices" offset="0" />
                     <input semantic="NORMAL" source="#Geometry-collision_pad1-normals" offset="1" />
-                    <vcount>4 4 4 4 4 4 4 4 4 4 4 4</vcount>
-                    <p>8 0 5 0 2 0 6 0 7 0 3 0 5 0 8 0 1 0 7 0 8 0 4 0 4 0 8 0 6 0 0 0 17 0 14 0 11 0 15 0 16 0 12 0 14 0 17 0 10 0 16 0 17 0 13 0 13 0 17 0 15 0 9 0 26 0 23 0 20 0 24 0 25 0 21 0 23 0 26 0 19 0 25 0 26 0 22 0 22 0 26 0 24 0 18 0</p>
+                    <vcount>4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4</vcount>
+                    <p>8 0 5 0 2 0 6 0 7 0 3 0 5 0 8 0 1 0 7 0 8 0 4 0 4 0 8 0 6 0 0 0 17 0 14 0 11 0 15 0 16 0 12 0 14 0 17 0 10 0 16 0 17 0 13 0 13 0 17 0 15 0 9 0 26 0 23 0 20 0 24 0 25 0 21 0 23 0 26 0 19 0 25 0 26 0 22 0 22 0 26 0 24 0 18 0 35 0 32 0 29 0 33 0 34 0 30 0 32 0 35 0 28 0 34 0 35 0 31 0 31 0 35 0 33 0 27 0 44 0 41 0 38 0 42 0 43 0 39 0 41 0 44 0 37 0 43 0 44 0 40 0 40 0 44 0 42 0 36 0 53 0 50 0 47 0 51 0 52 0 48 0 50 0 53 0 46 0 52 0 53 0 49 0 49 0 53 0 51 0 45 0</p>
                 </polylist>
                 <extra>
                     <technique profile="modo401">
@@ -46034,6 +46061,8 @@
                 </instance_geometry>
             </node>
             <node id="Geometry-collision_pad1Node" name="collision_pad1" type="NODE">
+                <translate sid="translation001">0 -1752 0</translate>
+                <scale sid="scale006">1 14.55 1</scale>
                 <instance_geometry url="#Geometry-collision_pad1">
                     <bind_material>
                         <technique_common>
@@ -46043,17 +46072,17 @@
                 </instance_geometry>
             </node>
             <node id="Camera-CameraNode" name="Camera" type="NODE">
-                <translate sid="translation001">0 0.75 4</translate>
-                <rotate sid="rotation003Y">0 1 0 0</rotate>
-                <rotate sid="rotation003X">1 0 0 -5</rotate>
-                <rotate sid="rotation003Z">0 0 1 0</rotate>
+                <translate sid="translation002">0 0.75 4</translate>
+                <rotate sid="rotation004Y">0 1 0 0</rotate>
+                <rotate sid="rotation004X">1 0 0 -5</rotate>
+                <rotate sid="rotation004Z">0 0 1 0</rotate>
                 <instance_camera url="#Camera-Camera" />
             </node>
             <node id="Light-Directional_LightNode" name="Directional_Light" type="NODE">
-                <translate sid="translation002">-2 2 2</translate>
-                <rotate sid="rotation004Y">0 1 0 -45</rotate>
-                <rotate sid="rotation004X">1 0 0 -30</rotate>
-                <rotate sid="rotation004Z">0 0 1 0</rotate>
+                <translate sid="translation003">-2 2 2</translate>
+                <rotate sid="rotation005Y">0 1 0 -45</rotate>
+                <rotate sid="rotation005X">1 0 0 -30</rotate>
+                <rotate sid="rotation005Z">0 0 1 0</rotate>
                 <instance_light url="#Light-Directional_Light" />
             </node>
             <extra>

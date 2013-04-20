@@ -2,7 +2,6 @@
 <COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
     <asset>
         <contributor>
-            <author>Blender User</author>
             <authoring_tool>modo 601 [Build 48460], Microsoft Windows 7 Service Pack 1 (6.1.7601 Service Pack 1)</authoring_tool>
             <comments>
                 Plug-in: [Build 48460];
@@ -27,10 +26,10 @@
                 Save 3ds Max Profile: Yes;
                 Formatted Arrays: Yes;
             </comments>
-            <source_data>file:///C:/Users/rivalin/Desktop/pioneer-04e2145-win32/pioneer-04e2145-win32/data/models/stations/tradestation/bcdocking.dae</source_data>
+            <source_data>file:///C:/Users/rivalin/Desktop/tradestationhangar10.dae</source_data>
         </contributor>
-        <created>2013-03-31T17:59:41Z</created>
-        <modified>2013-03-31T17:59:41Z</modified>
+        <created>2013-04-19T22:35:40Z</created>
+        <modified>2013-04-19T22:35:40Z</modified>
         <up_axis>Y_UP</up_axis>
     </asset>
     <library_cameras>
@@ -68,79 +67,55 @@
             </imager>
         </camera>
     </library_cameras>
-    <library_materials>
-        <material id="Material-Default" name="Default">
-            <instance_effect url="#Effect-Default" />
-        </material>
-    </library_materials>
-    <library_effects>
-        <effect id="Effect-Default" name="Default">
-            <profile_COMMON>
-                <technique sid="common">
-                    <phong>
-                        <diffuse>
-                            <color sid="diffuse_effect_rgb">0.8 0.8 0.8 1</color>
-                        </diffuse>
-                        <specular>
-                            <color sid="specular_effect_rgb">0.2 0.2 0.2 1</color>
-                        </specular>
-                        <shininess>
-                            <float sid="specular_effect_rgb">256</float>
-                        </shininess>
-                    </phong>
-                </technique>
-            </profile_COMMON>
-        </effect>
-    </library_effects>
     <library_geometries>
-        <geometry id="Geometry-mesh030" name="Cube">
+        <geometry id="Geometry-mesh292" name="Plane">
             <mesh>
-                <source id="Geometry-mesh030-positions" name="positions">
-                    <float_array id="Geometry-mesh030-positions-array" count="9">
-                        -0.5 -0.5 -0.5
-                        0.5 -0.5 -0.5
-                        0.5 0.5 -0.5
+                <source id="Geometry-mesh292-positions" name="positions">
+                    <float_array id="Geometry-mesh292-positions-array" count="9">
+                        0.0125 0 4.4175
+                        0.0125 0 4.4425
+                        -0.0125 0 4.4425
                     </float_array>
                     <technique_common>
-                        <accessor count="3" source="#Geometry-mesh030-positions-array" stride="3">
+                        <accessor count="3" source="#Geometry-mesh292-positions-array" stride="3">
                             <param name="X" type="float" />
                             <param name="Y" type="float" />
                             <param name="Z" type="float" />
                         </accessor>
                     </technique_common>
                 </source>
-                <source id="Geometry-mesh030-normals" name="normals">
-                    <float_array id="Geometry-mesh030-normals-array" count="3">
-                        0 0 -1
+                <source id="Geometry-mesh292-normals" name="normals">
+                    <float_array id="Geometry-mesh292-normals-array" count="3">
+                        0 1 0
                     </float_array>
                     <technique_common>
-                        <accessor count="1" source="#Geometry-mesh030-normals-array" stride="3">
+                        <accessor count="1" source="#Geometry-mesh292-normals-array" stride="3">
                             <param name="X" type="float" />
                             <param name="Y" type="float" />
                             <param name="Z" type="float" />
                         </accessor>
                     </technique_common>
                 </source>
-                <source id="Geometry-mesh030-Texture" name="Texture">
-                    <float_array id="Geometry-mesh030-Texture-array" count="6">
-                        0.75 0.333333
-                        1 0.333333
-                        0.75 0.666667
+                <source id="Geometry-mesh292-Texture" name="Texture">
+                    <float_array id="Geometry-mesh292-Texture-array" count="6">
+                        1 0
+                        1 1
+                        0 0
                     </float_array>
                     <technique_common>
-                        <accessor count="3" source="#Geometry-mesh030-Texture-array" stride="2">
+                        <accessor count="3" source="#Geometry-mesh292-Texture-array" stride="2">
                             <param name="S" type="float" />
                             <param name="T" type="float" />
                         </accessor>
                     </technique_common>
                 </source>
-                <vertices id="Geometry-mesh030-vertices">
-                    <input semantic="POSITION" source="#Geometry-mesh030-positions" />
+                <vertices id="Geometry-mesh292-vertices">
+                    <input semantic="POSITION" source="#Geometry-mesh292-positions" />
                 </vertices>
                 <polylist count="1" material="Material-Default">
-                    <input semantic="VERTEX" source="#Geometry-mesh030-vertices" offset="0" />
-                    <input semantic="NORMAL" source="#Geometry-mesh030-normals" offset="1" />
-                    <input semantic="TEXCOORD" source="#Geometry-mesh030-Texture" offset="2" set="0" />
+                    <input semantic="VERTEX" source="#Geometry-mesh292-vertices" offset="0" />
+                    <input semantic="NORMAL" source="#Geometry-mesh292-normals" offset="1" />
+                    <input semantic="TEXCOORD" source="#Geometry-mesh292-Texture" offset="2" set="0" />
                     <vcount>3</vcount>
                     <p>1 0 0 0 0 1 2 0 2</p>
                 </polylist>
@@ -156,7 +131,7 @@
         </geometry>
     </library_geometries>
     <library_lights>
-        <light id="Light-polyRender024" name="Render">
+        <light id="Light-polyRender285" name="Render">
             <technique_common>
                 <ambient>
                     <color sid="ambient_light_rgb">0.05 0.05 0.05</color>
@@ -282,59 +257,838 @@
     </library_nodes>
     <library_visual_scenes>
         <visual_scene id="DefaultScene">
-            <node id="polyRender024" name="Render" type="NODE">
-                <instance_light url="#Light-polyRender024" />
+            <node id="polyRender285" name="Render" type="NODE">
+                <instance_light url="#Light-polyRender285" />
             </node>
-            <node id="approach_stage1_bay1Node" name="approach_stage1_bay1" type="NODE">
-                <translate sid="translation001">0 2000 0</translate>
-                <rotate sid="rotation011Y">0 1 0 0</rotate>
-                <rotate sid="rotation011X">1 0 0 90</rotate>
-                <rotate sid="rotation011Z">0 0 1 0</rotate>
+            <node id="approach_stage1_bay11Node" name="approach_stage1_bay11" type="NODE">
+                <translate sid="translation001">1.06544e-013 1325 -30</translate>
+                <rotate sid="rotation143Y">0 1 0 0</rotate>
+                <rotate sid="rotation143X">1 0 0 0</rotate>
+                <rotate sid="rotation143Z">0 0 1 0</rotate>
             </node>
-            <node id="approach_stage2_bay1Node" name="approach_stage2_bay1" type="NODE">
-                <translate sid="translation002">0 1300 0</translate>
-                <rotate sid="rotation012Y">0 1 0 0</rotate>
-                <rotate sid="rotation012X">1 0 0 90</rotate>
-                <rotate sid="rotation012Z">0 0 1 0</rotate>
+            <node id="docking_stage2_bay7Node" name="docking_stage2_bay7" type="NODE">
+                <translate sid="translation002">-20 145 -20</translate>
+                <rotate sid="rotation144Y">0 1 0 0</rotate>
+                <rotate sid="rotation144X">1 0 0 0</rotate>
+                <rotate sid="rotation144Z">0 0 1 0</rotate>
             </node>
-            <node id="docking_stage1_bay1Node" name="docking_stage1_bay1" type="NODE">
-                <translate sid="translation003">0 1300 0</translate>
-                <rotate sid="rotation013Y">0 1 0 0</rotate>
-                <rotate sid="rotation013X">1 0 0 90</rotate>
-                <rotate sid="rotation013Z">0 0 1 0</rotate>
+            <node id="leaving_stage3_bay11Node" name="leaving_stage3_bay11" type="NODE">
+                <translate sid="translation003">1.06544e-013 248 -30</translate>
+                <rotate sid="rotation145Y">0 1 0 0</rotate>
+                <rotate sid="rotation145X">1 0 0 90</rotate>
+                <rotate sid="rotation145Z">0 0 1 0</rotate>
             </node>
-            <node id="docking_stage2_bay1Node" name="docking_stage2_bay1" type="NODE">
-                <translate sid="translation004">0 890 0</translate>
-                <rotate sid="rotation014Y">0 1 0 0</rotate>
-                <rotate sid="rotation014X">1 0 0 90</rotate>
-                <rotate sid="rotation014Z">0 0 1 0</rotate>
+            <node id="docking_stage3_bay20Node" name="docking_stage3_bay20" type="NODE">
+                <translate sid="translation004">72.3802 156.7 52.1569</translate>
+                <rotate sid="rotation146Y">0 1 0 0</rotate>
+                <rotate sid="rotation146X">1 0 0 -90</rotate>
+                <rotate sid="rotation146Z">0 0 1 0</rotate>
             </node>
-            <node id="docking_stage3_bay1Node" name="docking_stage3_bay1" type="NODE">
-                <translate sid="translation005">100 890 0</translate>
-                <rotate sid="rotation015Y">0 1 0 0</rotate>
-                <rotate sid="rotation015X">1 0 0 90</rotate>
-                <rotate sid="rotation015Z">0 0 1 0</rotate>
+            <node id="docking_stage2_bay18Node" name="docking_stage2_bay18" type="NODE">
+                <translate sid="translation005">20 145 20</translate>
+                <rotate sid="rotation147Y">0 1 0 0</rotate>
+                <rotate sid="rotation147X">1 0 0 0</rotate>
+                <rotate sid="rotation147Z">0 0 1 0</rotate>
             </node>
-            <node id="leaving_stage1_bay1Node" name="leaving_stage1_bay1" type="NODE">
-                <translate sid="translation006">100 890 0</translate>
-                <rotate sid="rotation016Y">0 1 0 0</rotate>
-                <rotate sid="rotation016X">1 0 0 90</rotate>
-                <rotate sid="rotation016Z">0 0 1 0</rotate>
+            <node id="docking_stage3_bay13Node" name="docking_stage3_bay13" type="NODE">
+                <translate sid="translation006">73.0165 127.7 -51.5204</translate>
+                <rotate sid="rotation148Y">0 1 0 0</rotate>
+                <rotate sid="rotation148X">1 0 0 -90</rotate>
+                <rotate sid="rotation148Z">0 0 1 0</rotate>
             </node>
             <node id="leaving_stage2_bay1Node" name="leaving_stage2_bay1" type="NODE">
-                <translate sid="translation007">0 890 0</translate>
-                <rotate sid="rotation017Y">0 1 0 0</rotate>
-                <rotate sid="rotation017X">1 0 0 90</rotate>
-                <rotate sid="rotation017Z">0 0 1 0</rotate>
+                <translate sid="translation007">0 -255 30</translate>
+                <rotate sid="rotation149Y">0 1 0 0</rotate>
+                <rotate sid="rotation149X">1 0 0 90</rotate>
+                <rotate sid="rotation149Z">0 0 1 0</rotate>
+            </node>
+            <node id="approach_stage2_bay11Node" name="approach_stage2_bay11" type="NODE">
+                <translate sid="translation008">1.06544e-013 248 -30</translate>
+                <rotate sid="rotation150Y">0 1 0 0</rotate>
+                <rotate sid="rotation150X">1 0 0 0</rotate>
+                <rotate sid="rotation150Z">0 0 1 0</rotate>
+            </node>
+            <node id="approach_stage2_bay7Node" name="approach_stage2_bay7" type="NODE">
+                <translate sid="translation009">-20 248 -20</translate>
+                <rotate sid="rotation151Y">0 1 0 0</rotate>
+                <rotate sid="rotation151X">1 0 0 0</rotate>
+                <rotate sid="rotation151Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage2_bay17Node" name="leaving_stage2_bay17" type="NODE">
+                <translate sid="translation010">20 145 20</translate>
+                <rotate sid="rotation152Y">0 1 0 0</rotate>
+                <rotate sid="rotation152X">1 0 0 0</rotate>
+                <rotate sid="rotation152Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage1_bay2Node" name="leaving_stage1_bay2" type="NODE">
+                <translate sid="translation013">-145 0 145</translate>
+                <translate sid="translation012">72.1249 158.9 -93.3381</translate>
+                <translate sid="translation011">0 0 0</translate>
+                <rotate sid="rotation154Y">0 1 0 180</rotate>
+                <rotate sid="rotation154X">1 0 0 -90</rotate>
+                <rotate sid="rotation154Z">0 0 1 180</rotate>
+                <rotate sid="rotation153Y">0 1 0 0</rotate>
+                <rotate sid="rotation153X">1 0 0 0</rotate>
+                <rotate sid="rotation153Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage1_bay9Node" name="docking_stage1_bay9" type="NODE">
+                <translate sid="translation014">-20 248 -20</translate>
+                <rotate sid="rotation155Y">0 1 0 0</rotate>
+                <rotate sid="rotation155X">1 0 0 0</rotate>
+                <rotate sid="rotation155Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage3_bay17Node" name="docking_stage3_bay17" type="NODE">
+                <translate sid="translation015">51.1669 157 73.37</translate>
+                <rotate sid="rotation156Y">0 1 0 0</rotate>
+                <rotate sid="rotation156X">1 0 0 -90</rotate>
+                <rotate sid="rotation156Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage1_bay5Node" name="docking_stage1_bay5" type="NODE">
+                <translate sid="translation016">-20 248 20</translate>
+                <rotate sid="rotation157Y">0 1 0 0</rotate>
+                <rotate sid="rotation157X">1 0 0 0</rotate>
+                <rotate sid="rotation157Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage3_bay13Node" name="leaving_stage3_bay13" type="NODE">
+                <translate sid="translation017">20 248 -20</translate>
+                <rotate sid="rotation158Y">0 1 0 0</rotate>
+                <rotate sid="rotation158X">1 0 0 90</rotate>
+                <rotate sid="rotation158Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage3_bay5Node" name="docking_stage3_bay5" type="NODE">
+                <translate sid="translation018">-51.9448 157.6 72.5923</translate>
+                <rotate sid="rotation159Y">0 1 0 0</rotate>
+                <rotate sid="rotation159X">1 0 0 -90</rotate>
+                <rotate sid="rotation159Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage1_bay17Node" name="leaving_stage1_bay17" type="NODE">
+                <translate sid="translation019">51.1669 157 73.37</translate>
+                <rotate sid="rotation160Y">0 1 0 0</rotate>
+                <rotate sid="rotation160X">1 0 0 -90</rotate>
+                <rotate sid="rotation160Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage1_bay10Node" name="docking_stage1_bay10" type="NODE">
+                <translate sid="translation020">-20 248 -20</translate>
+                <rotate sid="rotation161Y">0 1 0 0</rotate>
+                <rotate sid="rotation161X">1 0 0 0</rotate>
+                <rotate sid="rotation161Z">0 0 1 0</rotate>
+            </node>
+            <node id="approach_stage1_bay2Node" name="approach_stage1_bay2" type="NODE">
+                <translate sid="translation021">-20 1325 20</translate>
+                <rotate sid="rotation162Y">0 1 0 0</rotate>
+                <rotate sid="rotation162X">1 0 0 0</rotate>
+                <rotate sid="rotation162Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage3_bay12Node" name="leaving_stage3_bay12" type="NODE">
+                <translate sid="translation022">20 248 -20</translate>
+                <rotate sid="rotation163Y">0 1 0 0</rotate>
+                <rotate sid="rotation163X">1 0 0 90</rotate>
+                <rotate sid="rotation163Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage2_bay1Node" name="docking_stage2_bay1" type="NODE">
+                <translate sid="translation023">0 -255 30</translate>
+                <rotate sid="rotation164Y">0 1 0 0</rotate>
+                <rotate sid="rotation164X">1 0 0 90</rotate>
+                <rotate sid="rotation164Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage1_bay12Node" name="docking_stage1_bay12" type="NODE">
+                <translate sid="translation024">20 248 -20</translate>
+                <rotate sid="rotation165Y">0 1 0 0</rotate>
+                <rotate sid="rotation165X">1 0 0 0</rotate>
+                <rotate sid="rotation165Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage3_bay16Node" name="leaving_stage3_bay16" type="NODE">
+                <translate sid="translation025">30 248 7.9602e-015</translate>
+                <rotate sid="rotation166Y">0 1 0 0</rotate>
+                <rotate sid="rotation166X">1 0 0 90</rotate>
+                <rotate sid="rotation166Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage3_bay9Node" name="leaving_stage3_bay9" type="NODE">
+                <translate sid="translation026">-20 248 -20</translate>
+                <rotate sid="rotation167Y">0 1 0 0</rotate>
+                <rotate sid="rotation167X">1 0 0 90</rotate>
+                <rotate sid="rotation167Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage2_bay17Node" name="docking_stage2_bay17" type="NODE">
+                <translate sid="translation027">20 145 20</translate>
+                <rotate sid="rotation168Y">0 1 0 0</rotate>
+                <rotate sid="rotation168X">1 0 0 0</rotate>
+                <rotate sid="rotation168Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage2_bay3Node" name="leaving_stage2_bay3" type="NODE">
+                <translate sid="translation028">-20 145 20</translate>
+                <rotate sid="rotation169Y">0 1 0 0</rotate>
+                <rotate sid="rotation169X">1 0 0 0</rotate>
+                <rotate sid="rotation169Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage3_bay14Node" name="docking_stage3_bay14" type="NODE">
+                <translate sid="translation029">51.3084 127.5 -73.2287</translate>
+                <rotate sid="rotation170Y">0 1 0 0</rotate>
+                <rotate sid="rotation170X">1 0 0 -90</rotate>
+                <rotate sid="rotation170Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage3_bay10Node" name="leaving_stage3_bay10" type="NODE">
+                <translate sid="translation030">-20 248 -20</translate>
+                <rotate sid="rotation171Y">0 1 0 0</rotate>
+                <rotate sid="rotation171X">1 0 0 90</rotate>
+                <rotate sid="rotation171Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage1_bay20Node" name="docking_stage1_bay20" type="NODE">
+                <translate sid="translation031">20 248 20</translate>
+                <rotate sid="rotation172Y">0 1 0 0</rotate>
+                <rotate sid="rotation172X">1 0 0 0</rotate>
+                <rotate sid="rotation172Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage2_bay20Node" name="leaving_stage2_bay20" type="NODE">
+                <translate sid="translation032">20 145 20</translate>
+                <rotate sid="rotation173Y">0 1 0 0</rotate>
+                <rotate sid="rotation173X">1 0 0 0</rotate>
+                <rotate sid="rotation173Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage3_bay1Node" name="docking_stage3_bay1" type="NODE">
+                <translate sid="translation033">0 -255 88</translate>
+                <rotate sid="rotation174Y">0 1 0 0</rotate>
+                <rotate sid="rotation174X">1 0 0 -90</rotate>
+                <rotate sid="rotation174Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage3_bay17Node" name="leaving_stage3_bay17" type="NODE">
+                <translate sid="translation034">20 248 20</translate>
+                <rotate sid="rotation175Y">0 1 0 0</rotate>
+                <rotate sid="rotation175X">1 0 0 90</rotate>
+                <rotate sid="rotation175Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage3_bay2Node" name="docking_stage3_bay2" type="NODE">
+                <translate sid="translation037">-145 0 145</translate>
+                <translate sid="translation036">72.1249 158.9 -93.3381</translate>
+                <translate sid="translation035">0 0 0</translate>
+                <rotate sid="rotation177Y">0 1 0 180</rotate>
+                <rotate sid="rotation177X">1 0 0 -90</rotate>
+                <rotate sid="rotation177Z">0 0 1 180</rotate>
+                <rotate sid="rotation176Y">0 1 0 0</rotate>
+                <rotate sid="rotation176X">1 0 0 0</rotate>
+                <rotate sid="rotation176Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage2_bay16Node" name="leaving_stage2_bay16" type="NODE">
+                <translate sid="translation038">30 -255 1.42109e-014</translate>
+                <rotate sid="rotation178Y">0 1 0 0</rotate>
+                <rotate sid="rotation178X">1 0 0 0</rotate>
+                <rotate sid="rotation178Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage3_bay5Node" name="leaving_stage3_bay5" type="NODE">
+                <translate sid="translation039">-20 248 20</translate>
+                <rotate sid="rotation179Y">0 1 0 0</rotate>
+                <rotate sid="rotation179X">1 0 0 90</rotate>
+                <rotate sid="rotation179Z">0 0 1 0</rotate>
+            </node>
+            <node id="approach_stage1_bay16Node" name="approach_stage1_bay16" type="NODE">
+                <translate sid="translation040">30 1325 7.9602e-015</translate>
+                <rotate sid="rotation180Y">0 1 0 0</rotate>
+                <rotate sid="rotation180X">1 0 0 0</rotate>
+                <rotate sid="rotation180Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage1_bay7Node" name="leaving_stage1_bay7" type="NODE">
+                <translate sid="translation041">-51.9447 157.45 -72.5922</translate>
+                <rotate sid="rotation181Y">0 1 0 0</rotate>
+                <rotate sid="rotation181X">1 0 0 -90</rotate>
+                <rotate sid="rotation181Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage3_bay6Node" name="leaving_stage3_bay6" type="NODE">
+                <translate sid="translation042">-30 248 7.9602e-015</translate>
+                <rotate sid="rotation182Y">0 1 0 0</rotate>
+                <rotate sid="rotation182X">1 0 0 90</rotate>
+                <rotate sid="rotation182Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage3_bay15Node" name="docking_stage3_bay15" type="NODE">
+                <translate sid="translation043">51.4498 158.6 -73.0873</translate>
+                <rotate sid="rotation183Y">0 1 0 0</rotate>
+                <rotate sid="rotation183X">1 0 0 -90</rotate>
+                <rotate sid="rotation183Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage1_bay19Node" name="leaving_stage1_bay19" type="NODE">
+                <translate sid="translation044">72.5923 126.8 51.9448</translate>
+                <rotate sid="rotation184Y">0 1 0 0</rotate>
+                <rotate sid="rotation184X">1 0 0 -90</rotate>
+                <rotate sid="rotation184Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage2_bay8Node" name="docking_stage2_bay8" type="NODE">
+                <translate sid="translation045">-20 145 -20</translate>
+                <rotate sid="rotation185Y">0 1 0 0</rotate>
+                <rotate sid="rotation185X">1 0 0 0</rotate>
+                <rotate sid="rotation185Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage3_bay14Node" name="leaving_stage3_bay14" type="NODE">
+                <translate sid="translation046">20 248 -20</translate>
+                <rotate sid="rotation186Y">0 1 0 0</rotate>
+                <rotate sid="rotation186X">1 0 0 90</rotate>
+                <rotate sid="rotation186Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage1_bay7Node" name="docking_stage1_bay7" type="NODE">
+                <translate sid="translation047">-20 248 -20</translate>
+                <rotate sid="rotation187Y">0 1 0 0</rotate>
+                <rotate sid="rotation187X">1 0 0 0</rotate>
+                <rotate sid="rotation187Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage2_bay16Node" name="docking_stage2_bay16" type="NODE">
+                <translate sid="translation048">30 -255 7.9602e-015</translate>
+                <rotate sid="rotation188Y">0 1 0 0</rotate>
+                <rotate sid="rotation188X">1 0 0 0</rotate>
+                <rotate sid="rotation188Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage2_bay6Node" name="leaving_stage2_bay6" type="NODE">
+                <translate sid="translation049">-30 -255 1.42109e-014</translate>
+                <rotate sid="rotation189Y">0 1 0 0</rotate>
+                <rotate sid="rotation189X">1 0 0 0</rotate>
+                <rotate sid="rotation189Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage1_bay12Node" name="leaving_stage1_bay12" type="NODE">
+                <translate sid="translation050">73.0872 157.7 -51.4497</translate>
+                <rotate sid="rotation190Y">0 1 0 0</rotate>
+                <rotate sid="rotation190X">1 0 0 -90</rotate>
+                <rotate sid="rotation190Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage3_bay18Node" name="docking_stage3_bay18" type="NODE">
+                <translate sid="translation051">51.4497 127.4 73.0872</translate>
+                <rotate sid="rotation191Y">0 1 0 0</rotate>
+                <rotate sid="rotation191X">1 0 0 -90</rotate>
+                <rotate sid="rotation191Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage2_bay14Node" name="leaving_stage2_bay14" type="NODE">
+                <translate sid="translation052">20 145 -20</translate>
+                <rotate sid="rotation192Y">0 1 0 0</rotate>
+                <rotate sid="rotation192X">1 0 0 0</rotate>
+                <rotate sid="rotation192Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage1_bay6Node" name="docking_stage1_bay6" type="NODE">
+                <translate sid="translation053">-30 248 7.9602e-015</translate>
+                <rotate sid="rotation193Y">0 1 0 0</rotate>
+                <rotate sid="rotation193X">1 0 0 0</rotate>
+                <rotate sid="rotation193Z">0 0 1 0</rotate>
+            </node>
+            <node id="approach_stage2_bay1Node" name="approach_stage2_bay1" type="NODE">
+                <translate sid="translation054">0 248 30</translate>
+                <rotate sid="rotation194Y">0 1 0 0</rotate>
+                <rotate sid="rotation194X">1 0 0 90</rotate>
+                <rotate sid="rotation194Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage3_bay9Node" name="docking_stage3_bay9" type="NODE">
+                <translate sid="translation055">-73.2287 127.3 -51.3084</translate>
+                <rotate sid="rotation195Y">0 1 0 0</rotate>
+                <rotate sid="rotation195X">1 0 0 -90</rotate>
+                <rotate sid="rotation195Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage3_bay4Node" name="leaving_stage3_bay4" type="NODE">
+                <translate sid="translation056">-20 248 20</translate>
+                <rotate sid="rotation196Y">0 1 0 0</rotate>
+                <rotate sid="rotation196X">1 0 0 90</rotate>
+                <rotate sid="rotation196Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage3_bay4Node" name="docking_stage3_bay4" type="NODE">
+                <translate sid="translation057">-51.8741 126.9 72.663</translate>
+                <rotate sid="rotation197Y">0 1 0 0</rotate>
+                <rotate sid="rotation197X">1 0 0 -90</rotate>
+                <rotate sid="rotation197Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage2_bay10Node" name="leaving_stage2_bay10" type="NODE">
+                <translate sid="translation058">-20 145 -20</translate>
+                <rotate sid="rotation198Y">0 1 0 0</rotate>
+                <rotate sid="rotation198X">1 0 0 0</rotate>
+                <rotate sid="rotation198Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage2_bay9Node" name="leaving_stage2_bay9" type="NODE">
+                <translate sid="translation059">-20 145 -20</translate>
+                <rotate sid="rotation199Y">0 1 0 0</rotate>
+                <rotate sid="rotation199X">1 0 0 0</rotate>
+                <rotate sid="rotation199Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage3_bay20Node" name="leaving_stage3_bay20" type="NODE">
+                <translate sid="translation060">20 248 20</translate>
+                <rotate sid="rotation200Y">0 1 0 0</rotate>
+                <rotate sid="rotation200X">1 0 0 90</rotate>
+                <rotate sid="rotation200Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage1_bay16Node" name="leaving_stage1_bay16" type="NODE">
+                <translate sid="translation061">88 -255 0</translate>
+                <rotate sid="rotation201Y">0 1 0 0</rotate>
+                <rotate sid="rotation201X">1 0 0 -90</rotate>
+                <rotate sid="rotation201Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage3_bay10Node" name="docking_stage3_bay10" type="NODE">
+                <translate sid="translation062">-72.8045 157.9 -51.7327</translate>
+                <rotate sid="rotation202Y">0 1 0 0</rotate>
+                <rotate sid="rotation202X">1 0 0 -90</rotate>
+                <rotate sid="rotation202Z">0 0 1 0</rotate>
+            </node>
+            <node id="approach_stage2_bay16Node" name="approach_stage2_bay16" type="NODE">
+                <translate sid="translation063">30 248 7.9602e-015</translate>
+                <rotate sid="rotation203Y">0 1 0 0</rotate>
+                <rotate sid="rotation203X">1 0 0 0</rotate>
+                <rotate sid="rotation203Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage2_bay12Node" name="docking_stage2_bay12" type="NODE">
+                <translate sid="translation064">20 145 -20</translate>
+                <rotate sid="rotation204Y">0 1 0 0</rotate>
+                <rotate sid="rotation204X">1 0 0 0</rotate>
+                <rotate sid="rotation204Z">0 0 1 0</rotate>
+            </node>
+            <node id="approach_stage2_bay12Node" name="approach_stage2_bay12" type="NODE">
+                <translate sid="translation065">20 248 -20</translate>
+                <rotate sid="rotation205Y">0 1 0 0</rotate>
+                <rotate sid="rotation205X">1 0 0 0</rotate>
+                <rotate sid="rotation205Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage2_bay11Node" name="docking_stage2_bay11" type="NODE">
+                <translate sid="translation066">1.06544e-013 -255 -30</translate>
+                <rotate sid="rotation206Y">0 1 0 0</rotate>
+                <rotate sid="rotation206X">1 0 0 0</rotate>
+                <rotate sid="rotation206Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage2_bay12Node" name="leaving_stage2_bay12" type="NODE">
+                <translate sid="translation067">20 145 -20</translate>
+                <rotate sid="rotation207Y">0 1 0 0</rotate>
+                <rotate sid="rotation207X">1 0 0 0</rotate>
+                <rotate sid="rotation207Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage3_bay19Node" name="leaving_stage3_bay19" type="NODE">
+                <translate sid="translation068">20 248 20</translate>
+                <rotate sid="rotation208Y">0 1 0 0</rotate>
+                <rotate sid="rotation208X">1 0 0 90</rotate>
+                <rotate sid="rotation208Z">0 0 1 0</rotate>
+            </node>
+            <node id="approach_stage1_bay12Node" name="approach_stage1_bay12" type="NODE">
+                <translate sid="translation069">20 1325 -20</translate>
+                <rotate sid="rotation209Y">0 1 0 0</rotate>
+                <rotate sid="rotation209X">1 0 0 0</rotate>
+                <rotate sid="rotation209Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage3_bay2_Node" name="leaving_stage3_bay2_" type="NODE">
+                <translate sid="translation070">-20 248 20</translate>
+                <rotate sid="rotation210Y">0 1 0 0</rotate>
+                <rotate sid="rotation210X">1 0 0 90</rotate>
+                <rotate sid="rotation210Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage3_bay16Node" name="docking_stage3_bay16" type="NODE">
+                <translate sid="translation071">88 -255 0</translate>
+                <rotate sid="rotation211Y">0 1 0 0</rotate>
+                <rotate sid="rotation211X">1 0 0 -90</rotate>
+                <rotate sid="rotation211Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage1_bay2Node" name="docking_stage1_bay2" type="NODE">
+                <translate sid="translation072">-20 248 20</translate>
+                <rotate sid="rotation212Y">0 1 0 0</rotate>
+                <rotate sid="rotation212X">1 0 0 0</rotate>
+                <rotate sid="rotation212Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage2_bay4Node" name="leaving_stage2_bay4" type="NODE">
+                <translate sid="translation073">-20 145 20</translate>
+                <rotate sid="rotation213Y">0 1 0 0</rotate>
+                <rotate sid="rotation213X">1 0 0 0</rotate>
+                <rotate sid="rotation213Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage3_bay7Node" name="docking_stage3_bay7" type="NODE">
+                <translate sid="translation074">-51.9447 157.45 -72.5922</translate>
+                <rotate sid="rotation214Y">0 1 0 0</rotate>
+                <rotate sid="rotation214X">1 0 0 -90</rotate>
+                <rotate sid="rotation214Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage3_bay6Node" name="docking_stage3_bay6" type="NODE">
+                <translate sid="translation075">-88 -255 0</translate>
+                <rotate sid="rotation215Y">0 1 0 0</rotate>
+                <rotate sid="rotation215X">1 0 0 -90</rotate>
+                <rotate sid="rotation215Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage1_bay15Node" name="leaving_stage1_bay15" type="NODE">
+                <translate sid="translation076">51.4498 158.6 -73.0873</translate>
+                <rotate sid="rotation216Y">0 1 0 0</rotate>
+                <rotate sid="rotation216X">1 0 0 -90</rotate>
+                <rotate sid="rotation216Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage3_bay8Node" name="leaving_stage3_bay8" type="NODE">
+                <translate sid="translation077">-20 248 -20</translate>
+                <rotate sid="rotation217Y">0 1 0 0</rotate>
+                <rotate sid="rotation217X">1 0 0 90</rotate>
+                <rotate sid="rotation217Z">0 0 1 0</rotate>
+            </node>
+            <node id="approach_stage1_bay1Node" name="approach_stage1_bay1" type="NODE">
+                <translate sid="translation078">0 1325 30</translate>
+                <rotate sid="rotation218Y">0 1 0 0</rotate>
+                <rotate sid="rotation218X">1 0 0 90</rotate>
+                <rotate sid="rotation218Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage3_bay7Node" name="leaving_stage3_bay7" type="NODE">
+                <translate sid="translation079">-20 248 -20</translate>
+                <rotate sid="rotation219Y">0 1 0 0</rotate>
+                <rotate sid="rotation219X">1 0 0 90</rotate>
+                <rotate sid="rotation219Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage3_bay3Node" name="docking_stage3_bay3" type="NODE">
+                <translate sid="translation080">-72.9458 127.2 51.5911</translate>
+                <rotate sid="rotation220Y">0 1 0 0</rotate>
+                <rotate sid="rotation220X">1 0 0 -90</rotate>
+                <rotate sid="rotation220Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage1_bay4Node" name="docking_stage1_bay4" type="NODE">
+                <translate sid="translation081">-20 248 20</translate>
+                <rotate sid="rotation221Y">0 1 0 0</rotate>
+                <rotate sid="rotation221X">1 0 0 0</rotate>
+                <rotate sid="rotation221Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage1_bay14Node" name="leaving_stage1_bay14" type="NODE">
+                <translate sid="translation082">51.3084 127.5 -73.2287</translate>
+                <rotate sid="rotation222Y">0 1 0 0</rotate>
+                <rotate sid="rotation222X">1 0 0 -90</rotate>
+                <rotate sid="rotation222Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage1_bay15Node" name="docking_stage1_bay15" type="NODE">
+                <translate sid="translation083">20 248 -20</translate>
+                <rotate sid="rotation223Y">0 1 0 0</rotate>
+                <rotate sid="rotation223X">1 0 0 0</rotate>
+                <rotate sid="rotation223Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage1_bay13Node" name="docking_stage1_bay13" type="NODE">
+                <translate sid="translation084">20 248 -20</translate>
+                <rotate sid="rotation224Y">0 1 0 0</rotate>
+                <rotate sid="rotation224X">1 0 0 0</rotate>
+                <rotate sid="rotation224Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage3_bay11Node" name="docking_stage3_bay11" type="NODE">
+                <translate sid="translation085">0 -255 -88</translate>
+                <rotate sid="rotation225Y">0 1 0 0</rotate>
+                <rotate sid="rotation225X">1 0 0 -90</rotate>
+                <rotate sid="rotation225Z">0 0 1 0</rotate>
+            </node>
+            <node id="approach_stage2_bay17Node" name="approach_stage2_bay17" type="NODE">
+                <translate sid="translation086">20 248 20</translate>
+                <rotate sid="rotation226Y">0 1 0 0</rotate>
+                <rotate sid="rotation226X">1 0 0 0</rotate>
+                <rotate sid="rotation226Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage2_bay11Node" name="leaving_stage2_bay11" type="NODE">
+                <translate sid="translation087">1.06544e-013 -255 -30</translate>
+                <rotate sid="rotation227Y">0 1 0 0</rotate>
+                <rotate sid="rotation227X">1 0 0 0</rotate>
+                <rotate sid="rotation227Z">0 0 1 0</rotate>
+            </node>
+            <node id="approach_stage2_bay2Node" name="approach_stage2_bay2" type="NODE">
+                <translate sid="translation088">-20 248 20</translate>
+                <rotate sid="rotation228Y">0 1 0 0</rotate>
+                <rotate sid="rotation228X">1 0 0 0</rotate>
+                <rotate sid="rotation228Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage1_bay3Node" name="leaving_stage1_bay3" type="NODE">
+                <translate sid="translation089">-72.9458 127.2 51.5911</translate>
+                <rotate sid="rotation229Y">0 1 0 0</rotate>
+                <rotate sid="rotation229X">1 0 0 -90</rotate>
+                <rotate sid="rotation229Z">0 0 1 0</rotate>
+            </node>
+            <node id="approach_stage1_bay7Node" name="approach_stage1_bay7" type="NODE">
+                <translate sid="translation090">-20 1325 -20</translate>
+                <rotate sid="rotation230Y">0 1 0 0</rotate>
+                <rotate sid="rotation230X">1 0 0 0</rotate>
+                <rotate sid="rotation230Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage1_bay9Node" name="leaving_stage1_bay9" type="NODE">
+                <translate sid="translation091">-73.2287 127.3 -51.3084</translate>
+                <rotate sid="rotation231Y">0 1 0 0</rotate>
+                <rotate sid="rotation231X">1 0 0 -90</rotate>
+                <rotate sid="rotation231Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage1_bay18Node" name="docking_stage1_bay18" type="NODE">
+                <translate sid="translation092">20 248 20</translate>
+                <rotate sid="rotation232Y">0 1 0 0</rotate>
+                <rotate sid="rotation232X">1 0 0 0</rotate>
+                <rotate sid="rotation232Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage3_bay15Node" name="leaving_stage3_bay15" type="NODE">
+                <translate sid="translation093">20 248 -20</translate>
+                <rotate sid="rotation233Y">0 1 0 0</rotate>
+                <rotate sid="rotation233X">1 0 0 90</rotate>
+                <rotate sid="rotation233Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage2_bay5Node" name="docking_stage2_bay5" type="NODE">
+                <translate sid="translation094">-20 145 20</translate>
+                <rotate sid="rotation234Y">0 1 0 0</rotate>
+                <rotate sid="rotation234X">1 0 0 0</rotate>
+                <rotate sid="rotation234Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage1_bay10Node" name="leaving_stage1_bay10" type="NODE">
+                <translate sid="translation095">-72.8045 157.9 -51.7327</translate>
+                <rotate sid="rotation235Y">0 1 0 0</rotate>
+                <rotate sid="rotation235X">1 0 0 -90</rotate>
+                <rotate sid="rotation235Z">0 0 1 0</rotate>
+            </node>
+            <node id="approach_stage2_bay6Node" name="approach_stage2_bay6" type="NODE">
+                <translate sid="translation096">-30 248 7.9602e-015</translate>
+                <rotate sid="rotation236Y">0 1 0 0</rotate>
+                <rotate sid="rotation236X">1 0 0 0</rotate>
+                <rotate sid="rotation236Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage2_bay13Node" name="docking_stage2_bay13" type="NODE">
+                <translate sid="translation097">20 145 -20</translate>
+                <rotate sid="rotation237Y">0 1 0 0</rotate>
+                <rotate sid="rotation237X">1 0 0 0</rotate>
+                <rotate sid="rotation237Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage2_bay15Node" name="leaving_stage2_bay15" type="NODE">
+                <translate sid="translation098">20 145 -20</translate>
+                <rotate sid="rotation238Y">0 1 0 0</rotate>
+                <rotate sid="rotation238X">1 0 0 0</rotate>
+                <rotate sid="rotation238Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage2_bay19Node" name="docking_stage2_bay19" type="NODE">
+                <translate sid="translation099">20 145 20</translate>
+                <rotate sid="rotation239Y">0 1 0 0</rotate>
+                <rotate sid="rotation239X">1 0 0 0</rotate>
+                <rotate sid="rotation239Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage2_bay7Node" name="leaving_stage2_bay7" type="NODE">
+                <translate sid="translation100">-20 145 -20</translate>
+                <rotate sid="rotation240Y">0 1 0 0</rotate>
+                <rotate sid="rotation240X">1 0 0 0</rotate>
+                <rotate sid="rotation240Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage1_bay3Node" name="docking_stage1_bay3" type="NODE">
+                <translate sid="translation101">-20 248 20</translate>
+                <rotate sid="rotation241Y">0 1 0 0</rotate>
+                <rotate sid="rotation241X">1 0 0 0</rotate>
+                <rotate sid="rotation241Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage2_bay2Node" name="leaving_stage2_bay2" type="NODE">
+                <translate sid="translation102">-20 145 20</translate>
+                <rotate sid="rotation242Y">0 1 0 0</rotate>
+                <rotate sid="rotation242X">1 0 0 0</rotate>
+                <rotate sid="rotation242Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage2_bay18Node" name="leaving_stage2_bay18" type="NODE">
+                <translate sid="translation103">20 145 20</translate>
+                <rotate sid="rotation243Y">0 1 0 0</rotate>
+                <rotate sid="rotation243X">1 0 0 0</rotate>
+                <rotate sid="rotation243Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage2_bay8Node" name="leaving_stage2_bay8" type="NODE">
+                <translate sid="translation104">-20 145 -20</translate>
+                <rotate sid="rotation244Y">0 1 0 0</rotate>
+                <rotate sid="rotation244X">1 0 0 0</rotate>
+                <rotate sid="rotation244Z">0 0 1 0</rotate>
             </node>
             <node id="leaving_stage3_bay1Node" name="leaving_stage3_bay1" type="NODE">
-                <translate sid="translation008">0 1300 0</translate>
-                <rotate sid="rotation018Y">0 1 0 0</rotate>
-                <rotate sid="rotation018X">1 0 0 90</rotate>
-                <rotate sid="rotation018Z">0 0 1 0</rotate>
+                <translate sid="translation105">0 248 30</translate>
+                <rotate sid="rotation245Y">0 1 0 0</rotate>
+                <rotate sid="rotation245X">1 0 0 90</rotate>
+                <rotate sid="rotation245Z">0 0 1 0</rotate>
             </node>
-            <node id="Geometry-mesh030Node" name="Cube" type="NODE">
-                <instance_geometry url="#Geometry-mesh030">
+            <node id="leaving_stage1_bay11Node" name="leaving_stage1_bay11" type="NODE">
+                <translate sid="translation106">0 -255 -88</translate>
+                <rotate sid="rotation246Y">0 1 0 0</rotate>
+                <rotate sid="rotation246X">1 0 0 -90</rotate>
+                <rotate sid="rotation246Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage1_bay16Node" name="docking_stage1_bay16" type="NODE">
+                <translate sid="translation107">30 248 7.9602e-015</translate>
+                <rotate sid="rotation247Y">0 1 0 0</rotate>
+                <rotate sid="rotation247X">1 0 0 0</rotate>
+                <rotate sid="rotation247Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage1_bay1Node" name="docking_stage1_bay1" type="NODE">
+                <translate sid="translation108">0 248 30</translate>
+                <rotate sid="rotation248Y">0 1 0 0</rotate>
+                <rotate sid="rotation248X">1 0 0 90</rotate>
+                <rotate sid="rotation248Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage2_bay3Node" name="docking_stage2_bay3" type="NODE">
+                <translate sid="translation109">-20 145 20</translate>
+                <rotate sid="rotation249Y">0 1 0 0</rotate>
+                <rotate sid="rotation249X">1 0 0 0</rotate>
+                <rotate sid="rotation249Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage2_bay9Node" name="docking_stage2_bay9" type="NODE">
+                <translate sid="translation110">-20 145 -20</translate>
+                <rotate sid="rotation250Y">0 1 0 0</rotate>
+                <rotate sid="rotation250X">1 0 0 0</rotate>
+                <rotate sid="rotation250Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage1_bay8Node" name="leaving_stage1_bay8" type="NODE">
+                <translate sid="translation111">-51.5204 127.9 -73.0165</translate>
+                <rotate sid="rotation251Y">0 1 0 0</rotate>
+                <rotate sid="rotation251X">1 0 0 -90</rotate>
+                <rotate sid="rotation251Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage2_bay14Node" name="docking_stage2_bay14" type="NODE">
+                <translate sid="translation112">20 145 -20</translate>
+                <rotate sid="rotation252Y">0 1 0 0</rotate>
+                <rotate sid="rotation252X">1 0 0 0</rotate>
+                <rotate sid="rotation252Z">0 0 1 0</rotate>
+            </node>
+            <node id="approach_stage1_bay17Node" name="approach_stage1_bay17" type="NODE">
+                <translate sid="translation113">20 1325 20</translate>
+                <rotate sid="rotation253Y">0 1 0 0</rotate>
+                <rotate sid="rotation253X">1 0 0 0</rotate>
+                <rotate sid="rotation253Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage1_bay8Node" name="docking_stage1_bay8" type="NODE">
+                <translate sid="translation114">-20 248 -20</translate>
+                <rotate sid="rotation254Y">0 1 0 0</rotate>
+                <rotate sid="rotation254X">1 0 0 0</rotate>
+                <rotate sid="rotation254Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage3_bay8Node" name="docking_stage3_bay8" type="NODE">
+                <translate sid="translation115">-51.5204 127.9 -73.0165</translate>
+                <rotate sid="rotation255Y">0 1 0 0</rotate>
+                <rotate sid="rotation255X">1 0 0 -90</rotate>
+                <rotate sid="rotation255Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage1_bay11Node" name="docking_stage1_bay11" type="NODE">
+                <translate sid="translation116">1.06544e-013 248 -30</translate>
+                <rotate sid="rotation256Y">0 1 0 0</rotate>
+                <rotate sid="rotation256X">1 0 0 0</rotate>
+                <rotate sid="rotation256Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage1_bay18Node" name="leaving_stage1_bay18" type="NODE">
+                <translate sid="translation117">51.4497 127.4 73.0872</translate>
+                <rotate sid="rotation257Y">0 1 0 0</rotate>
+                <rotate sid="rotation257X">1 0 0 -90</rotate>
+                <rotate sid="rotation257Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage2_bay13Node" name="leaving_stage2_bay13" type="NODE">
+                <translate sid="translation118">20 145 -20</translate>
+                <rotate sid="rotation258Y">0 1 0 0</rotate>
+                <rotate sid="rotation258X">1 0 0 0</rotate>
+                <rotate sid="rotation258Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage1_bay1Node" name="leaving_stage1_bay1" type="NODE">
+                <translate sid="translation119">0 -255 88</translate>
+                <rotate sid="rotation259Y">0 1 0 0</rotate>
+                <rotate sid="rotation259X">1 0 0 -90</rotate>
+                <rotate sid="rotation259Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage3_bay3Node" name="leaving_stage3_bay3" type="NODE">
+                <translate sid="translation120">-20 248 20</translate>
+                <rotate sid="rotation260Y">0 1 0 0</rotate>
+                <rotate sid="rotation260X">1 0 0 90</rotate>
+                <rotate sid="rotation260Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage2_bay10Node" name="docking_stage2_bay10" type="NODE">
+                <translate sid="translation121">-20 145 -20</translate>
+                <rotate sid="rotation261Y">0 1 0 0</rotate>
+                <rotate sid="rotation261X">1 0 0 0</rotate>
+                <rotate sid="rotation261Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage3_bay18Node" name="leaving_stage3_bay18" type="NODE">
+                <translate sid="translation122">20 248 20</translate>
+                <rotate sid="rotation262Y">0 1 0 0</rotate>
+                <rotate sid="rotation262X">1 0 0 90</rotate>
+                <rotate sid="rotation262Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage1_bay20Node" name="leaving_stage1_bay20" type="NODE">
+                <translate sid="translation123">72.3802 156.7 52.1569</translate>
+                <rotate sid="rotation263Y">0 1 0 0</rotate>
+                <rotate sid="rotation263X">1 0 0 -90</rotate>
+                <rotate sid="rotation263Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage1_bay19Node" name="docking_stage1_bay19" type="NODE">
+                <translate sid="translation124">20 248 20</translate>
+                <rotate sid="rotation264Y">0 1 0 0</rotate>
+                <rotate sid="rotation264X">1 0 0 0</rotate>
+                <rotate sid="rotation264Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage3_bay19Node" name="docking_stage3_bay19" type="NODE">
+                <translate sid="translation125">72.5923 126.8 51.9448</translate>
+                <rotate sid="rotation265Y">0 1 0 0</rotate>
+                <rotate sid="rotation265X">1 0 0 -90</rotate>
+                <rotate sid="rotation265Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage1_bay13Node" name="leaving_stage1_bay13" type="NODE">
+                <translate sid="translation126">73.0165 127.7 -51.5204</translate>
+                <rotate sid="rotation266Y">0 1 0 0</rotate>
+                <rotate sid="rotation266X">1 0 0 -90</rotate>
+                <rotate sid="rotation266Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage2_bay5Node" name="leaving_stage2_bay5" type="NODE">
+                <translate sid="translation127">-20 145 20</translate>
+                <rotate sid="rotation267Y">0 1 0 0</rotate>
+                <rotate sid="rotation267X">1 0 0 0</rotate>
+                <rotate sid="rotation267Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage1_bay6Node" name="leaving_stage1_bay6" type="NODE">
+                <translate sid="translation128">-88 -255 0</translate>
+                <rotate sid="rotation268Y">0 1 0 0</rotate>
+                <rotate sid="rotation268X">1 0 0 -90</rotate>
+                <rotate sid="rotation268Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage2_bay19Node" name="leaving_stage2_bay19" type="NODE">
+                <translate sid="translation129">20 145 20</translate>
+                <rotate sid="rotation269Y">0 1 0 0</rotate>
+                <rotate sid="rotation269X">1 0 0 0</rotate>
+                <rotate sid="rotation269Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage2_bay15Node" name="docking_stage2_bay15" type="NODE">
+                <translate sid="translation130">20 145 -20</translate>
+                <rotate sid="rotation270Y">0 1 0 0</rotate>
+                <rotate sid="rotation270X">1 0 0 0</rotate>
+                <rotate sid="rotation270Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage2_bay6Node" name="docking_stage2_bay6" type="NODE">
+                <translate sid="translation131">-30 -255 7.9602e-015</translate>
+                <rotate sid="rotation271Y">0 1 0 0</rotate>
+                <rotate sid="rotation271X">1 0 0 0</rotate>
+                <rotate sid="rotation271Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage1_bay5Node" name="leaving_stage1_bay5" type="NODE">
+                <translate sid="translation132">-51.9448 157.6 72.5923</translate>
+                <rotate sid="rotation272Y">0 1 0 0</rotate>
+                <rotate sid="rotation272X">1 0 0 -90</rotate>
+                <rotate sid="rotation272Z">0 0 1 0</rotate>
+            </node>
+            <node id="approach_stage1_bay6Node" name="approach_stage1_bay6" type="NODE">
+                <translate sid="translation133">-30 1325 7.9602e-015</translate>
+                <rotate sid="rotation273Y">0 1 0 0</rotate>
+                <rotate sid="rotation273X">1 0 0 0</rotate>
+                <rotate sid="rotation273Z">0 0 1 0</rotate>
+            </node>
+            <node id="leaving_stage1_bay4Node" name="leaving_stage1_bay4" type="NODE">
+                <translate sid="translation134">-51.8741 126.9 72.663</translate>
+                <rotate sid="rotation274Y">0 1 0 0</rotate>
+                <rotate sid="rotation274X">1 0 0 -90</rotate>
+                <rotate sid="rotation274Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage1_bay17Node" name="docking_stage1_bay17" type="NODE">
+                <translate sid="translation135">20 248 20</translate>
+                <rotate sid="rotation275Y">0 1 0 0</rotate>
+                <rotate sid="rotation275X">1 0 0 0</rotate>
+                <rotate sid="rotation275Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage2_bay20Node" name="docking_stage2_bay20" type="NODE">
+                <translate sid="translation136">20 145 20</translate>
+                <rotate sid="rotation276Y">0 1 0 0</rotate>
+                <rotate sid="rotation276X">1 0 0 0</rotate>
+                <rotate sid="rotation276Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage1_bay14Node" name="docking_stage1_bay14" type="NODE">
+                <translate sid="translation137">20 248 -20</translate>
+                <rotate sid="rotation277Y">0 1 0 0</rotate>
+                <rotate sid="rotation277X">1 0 0 0</rotate>
+                <rotate sid="rotation277Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage3_bay12Node" name="docking_stage3_bay12" type="NODE">
+                <translate sid="translation138">73.0872 157.7 -51.4497</translate>
+                <rotate sid="rotation278Y">0 1 0 0</rotate>
+                <rotate sid="rotation278X">1 0 0 -90</rotate>
+                <rotate sid="rotation278Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage2_bay2Node" name="docking_stage2_bay2" type="NODE">
+                <translate sid="translation139">-20 145 20</translate>
+                <rotate sid="rotation279Y">0 1 0 0</rotate>
+                <rotate sid="rotation279X">1 0 0 0</rotate>
+                <rotate sid="rotation279Z">0 0 1 0</rotate>
+            </node>
+            <node id="docking_stage2_bay4Node" name="docking_stage2_bay4" type="NODE">
+                <translate sid="translation140">-20 145 20</translate>
+                <rotate sid="rotation280Y">0 1 0 0</rotate>
+                <rotate sid="rotation280X">1 0 0 0</rotate>
+                <rotate sid="rotation280Z">0 0 1 0</rotate>
+            </node>
+            <node id="Texture_GroupNode" name="Texture_Group" type="NODE" />
+            <node id="Geometry-mesh292Node" name="Plane" type="NODE">
+                <instance_geometry url="#Geometry-mesh292">
                     <bind_material>
                         <technique_common>
                             <instance_material symbol="Material-Default" target="#Material-Default" />
@@ -343,17 +1097,17 @@
                 </instance_geometry>
             </node>
             <node id="Camera-CameraNode" name="Camera" type="NODE">
-                <translate sid="translation009">0 0.75 4</translate>
-                <rotate sid="rotation019Y">0 1 0 0</rotate>
-                <rotate sid="rotation019X">1 0 0 -5</rotate>
-                <rotate sid="rotation019Z">0 0 1 0</rotate>
+                <translate sid="translation141">0 298.75 4</translate>
+                <rotate sid="rotation281Y">0 1 0 0</rotate>
+                <rotate sid="rotation281X">1 0 0 -5</rotate>
+                <rotate sid="rotation281Z">0 0 1 0</rotate>
                 <instance_camera url="#Camera-Camera" />
             </node>
             <node id="Light-Directional_LightNode" name="Directional_Light" type="NODE">
-                <translate sid="translation010">-2 2 2</translate>
-                <rotate sid="rotation020Y">0 1 0 -45</rotate>
-                <rotate sid="rotation020X">1 0 0 -30</rotate>
-                <rotate sid="rotation020Z">0 0 1 0</rotate>
+                <translate sid="translation142">-2 300 2</translate>
+                <rotate sid="rotation282Y">0 1 0 -45</rotate>
+                <rotate sid="rotation282X">1 0 0 -30</rotate>
+                <rotate sid="rotation282Z">0 0 1 0</rotate>
                 <instance_light url="#Light-Directional_Light" />
             </node>
             <extra>
