@@ -32,11 +32,47 @@ static KeyAction* const s_KeyBindings[] = {
 	0
 };
 
-bool KeyBinding::Matches(const SDL_Keysym *sym) const {
-	if (type == KEYBOARD_KEY) {
-		return (sym->sym == u.keyboard.key) && ((sym->mod & 0xfff) == u.keyboard.mod);
-	} else
+bool KeyBinding::IsActive() const
+{
+	if (type == BINDING_DISABLED) {
 		return false;
+	} else if (type == KEYBOARD_KEY) {
+		// 0xfff filters out numlock, capslock and other shit
+		if (u.keyboard.mod != 0)
+			return Pi::KeyState(u.keyboard.key) && ((Pi::KeyModState()&0xfff) == u.keyboard.mod);
+
+		return Pi::KeyState(u.keyboard.key) != 0;
+
+	} else if (type == JOYSTICK_BUTTON) {
+		return Pi::JoystickButtonState(u.joystickButton.joystick, u.joystickButton.button) != 0;
+	} else if (type == JOYSTICK_HAT) {
+		return Pi::JoystickHatState(u.joystickHat.joystick, u.joystickHat.hat) == u.joystickHat.direction;
+	} else
+		abort();
+
+	return false;
+}
+
+bool KeyBinding::Matches(const SDL_Keysym *sym) const {
+	return
+		(type == KEYBOARD_KEY) &&
+		(sym->sym == u.keyboard.key) &&
+		((sym->mod & 0xfff) == u.keyboard.mod);
+}
+
+bool KeyBinding::Matches(const SDL_JoyButtonEvent *joy) const {
+	return
+		(type == JOYSTICK_BUTTON) &&
+		(joy->which == u.joystickButton.joystick) &&
+		(joy->button == u.joystickButton.button);
+}
+
+bool KeyBinding::Matches(const SDL_JoyHatEvent *joy) const {
+	return
+		(type == JOYSTICK_HAT) &&
+		(joy->which == u.joystickHat.joystick) &&
+		(joy->hat == u.joystickHat.hat) &&
+		(joy->value == u.joystickHat.direction);
 }
 
 KeyBinding KeyBinding::keyboardBinding(SDL_Keycode key, SDL_Keymod mod) {
@@ -49,23 +85,12 @@ KeyBinding KeyBinding::keyboardBinding(SDL_Keycode key, SDL_Keymod mod) {
 	return kb;
 }
 
-bool KeyAction::IsActive() const
-{
-	if (binding.type == KEYBOARD_KEY) {
-		// 0xfff filters out numlock, capslock and other shit
-		if (binding.u.keyboard.mod != 0)
-			return Pi::KeyState(binding.u.keyboard.key) && ((Pi::KeyModState()&0xfff) == binding.u.keyboard.mod);
+bool KeyAction::IsActive() const {
+	return binding1.IsActive() || binding2.IsActive();
+}
 
-		return Pi::KeyState(binding.u.keyboard.key) != 0;
-
-	} else if (binding.type == JOYSTICK_BUTTON) {
-		return Pi::JoystickButtonState(binding.u.joystickButton.joystick, binding.u.joystickButton.button) != 0;
-	} else if (binding.type == JOYSTICK_HAT) {
-		return Pi::JoystickHatState(binding.u.joystickHat.joystick, binding.u.joystickHat.hat) == binding.u.joystickHat.direction;
-	} else
-		abort();
-
-	return false;
+bool KeyAction::Matches(const SDL_Keysym *sym) const {
+	return binding1.Matches(sym) || binding2.Matches(sym);
 }
 
 void KeyAction::CheckSDLEventAndDispatch(const SDL_Event *event) {
@@ -73,13 +98,7 @@ void KeyAction::CheckSDLEventAndDispatch(const SDL_Event *event) {
 		case SDL_KEYDOWN:
 		case SDL_KEYUP:
 		{
-			if (binding.type != KEYBOARD_KEY)
-				return;
-			SDL_Keysym sym = event->key.keysym;
-			// 0xfff filters out numlock, capslock and other shit
-			if (binding.u.keyboard.mod && ((sym.mod & 0xfff) != binding.u.keyboard.mod))
-				return;
-			if (sym.sym == binding.u.keyboard.key) {
+			if (Matches(&event->key.keysym)) {
 				if (event->key.state == SDL_PRESSED)
 					onPress.emit();
 				else if (event->key.state == SDL_RELEASED)
@@ -90,11 +109,7 @@ void KeyAction::CheckSDLEventAndDispatch(const SDL_Event *event) {
 		case SDL_JOYBUTTONDOWN:
 		case SDL_JOYBUTTONUP:
 		{
-			if (binding.type != JOYSTICK_BUTTON)
-				return;
-			if (binding.u.joystickButton.joystick != event->jbutton.which)
-				return;
-			if (binding.u.joystickButton.button != event->jbutton.button) {
+			if (binding1.Matches(&event->jbutton) || binding1.Matches(&event->jbutton)) {
 				if (event->jbutton.state == SDL_PRESSED)
 					onPress.emit();
 				else if (event->jbutton.state == SDL_RELEASED)
@@ -104,13 +119,7 @@ void KeyAction::CheckSDLEventAndDispatch(const SDL_Event *event) {
 		}
 		case SDL_JOYHATMOTION:
 		{
-			if (binding.type != JOYSTICK_HAT)
-				return;
-			if (binding.u.joystickHat.joystick != event->jhat.which)
-				return;
-			if (binding.u.joystickHat.hat != event->jhat.hat)
-				return;
-			if (event->jhat.value == binding.u.joystickHat.direction) {
+			if (binding1.Matches(&event->jhat) || binding2.Matches(&event->jhat)) {
 				onPress.emit();
 				// XXX to emit onRelease, we need to have access to the state of the joystick hat prior to this event,
 				// so that we can detect the case of switching from a direction that matches the binding to some other direction
@@ -338,7 +347,7 @@ void InitKeyBinding(KeyAction &kb, const std::string &bindName, SDL_Keycode defa
 		keyName = stringf("Key%0{u}", Uint32(defaultKey));
 		Pi::config->SetString(bindName.c_str(), keyName.c_str());
 	}
-	KeyBindingFromString(keyName.c_str(), &(kb.binding));
+	KeyBindingFromString(keyName.c_str(), &(kb.binding1));
 }
 
 void InitAxisBinding(AxisBinding &ab, const std::string &bindName, const std::string &defaultAxis) {

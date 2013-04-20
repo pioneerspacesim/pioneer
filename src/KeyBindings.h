@@ -8,6 +8,7 @@
 
 namespace KeyBindings {
 	enum Type {
+		BINDING_DISABLED,
 		KEYBOARD_KEY,
 		JOYSTICK_BUTTON,
 		JOYSTICK_HAT
@@ -35,19 +36,25 @@ namespace KeyBindings {
 		} u;
 
 		std::string Description() const;
+		bool IsActive() const;
 		bool Matches(const SDL_Keysym *sym) const;
+		bool Matches(const SDL_JoyButtonEvent *joy) const;
+		bool Matches(const SDL_JoyHatEvent *joy) const;
 
 		static KeyBinding keyboardBinding(SDL_Keycode key, SDL_Keymod mod);
 	};
 
 	struct KeyAction {
-		KeyBinding binding;
+		KeyBinding binding1;
+		KeyBinding binding2;
 
 		sigc::signal<void> onPress;
 		sigc::signal<void> onRelease;
 
 		bool IsActive() const;
 		void CheckSDLEventAndDispatch(const SDL_Event *event);
+
+		bool Matches(const SDL_Keysym *sym) const;
 	};
 
 	enum AxisDirection {

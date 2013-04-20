@@ -491,7 +491,7 @@ static void push_bindings(lua_State *l, const KeyBindings::BindingPrototype *pro
 			lua_pushstring(l, proto->label);
 			lua_setfield(l, -2, "label");
 			if (proto->kb) {
-				const KeyBindings::KeyBinding kb = proto->kb->binding;
+				const KeyBindings::KeyBinding kb = proto->kb->binding1;
 				lua_pushstring(l, KeyBindings::KeyBindingToString(kb).c_str());
 				lua_setfield(l, -2, "binding");
 				lua_pushstring(l, kb.Description().c_str());
@@ -579,9 +579,9 @@ static int l_engine_get_key_bindings(lua_State *l)
 
 static int set_key_binding(lua_State *l, const char *config_id, KeyBindings::KeyAction *action) {
 	const char *binding_config = luaL_checkstring(l, 2);
-	if (!KeyBindings::KeyBindingFromString(binding_config, &(action->binding)))
+	if (!KeyBindings::KeyBindingFromString(binding_config, &(action->binding1)))
 		return luaL_error(l, "invalid key binding given to Engine.SetKeyBinding");
-	Pi::config->SetString(config_id, KeyBindings::KeyBindingToString(action->binding));
+	Pi::config->SetString(config_id, KeyBindings::KeyBindingToString(action->binding1));
 	Pi::config->Save();
 	return 0;
 }
