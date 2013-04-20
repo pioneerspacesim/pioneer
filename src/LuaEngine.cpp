@@ -492,13 +492,13 @@ static void push_bindings(lua_State *l, const KeyBindings::BindingPrototype *pro
 			lua_setfield(l, -2, "label");
 			if (proto->kb) {
 				const KeyBindings::KeyBinding kb = proto->kb->binding1;
-				lua_pushstring(l, KeyBindings::KeyBindingToString(kb).c_str());
+				lua_pushstring(l, kb.ToString().c_str());
 				lua_setfield(l, -2, "binding");
 				lua_pushstring(l, kb.Description().c_str());
 				lua_setfield(l, -2, "bindingDescription");
 			} else if (proto->ab) {
 				const KeyBindings::AxisBinding &ab = *proto->ab;
-				lua_pushstring(l, KeyBindings::AxisBindingToString(ab).c_str());
+				lua_pushstring(l, ab.ToString().c_str());
 				lua_setfield(l, -2, "binding");
 				lua_pushstring(l, ab.Description().c_str());
 				lua_setfield(l, -2, "bindingDescription");
@@ -579,19 +579,23 @@ static int l_engine_get_key_bindings(lua_State *l)
 
 static int set_key_binding(lua_State *l, const char *config_id, KeyBindings::KeyAction *action) {
 	const char *binding_config = luaL_checkstring(l, 2);
-	if (!KeyBindings::KeyBindingFromString(binding_config, &(action->binding1)))
+	KeyBindings::KeyBinding kb;
+	if (!KeyBindings::KeyBinding::FromString(binding_config, kb))
 		return luaL_error(l, "invalid key binding given to Engine.SetKeyBinding");
-	Pi::config->SetString(config_id, KeyBindings::KeyBindingToString(action->binding1));
+	Pi::config->SetString(config_id, kb.ToString());
 	Pi::config->Save();
+	action->binding1 = kb;
 	return 0;
 }
 
 static int set_axis_binding(lua_State *l, const char *config_id, KeyBindings::AxisBinding *binding) {
 	const char *binding_config = luaL_checkstring(l, 2);
-	if (!KeyBindings::AxisBindingFromString(binding_config, binding))
+	KeyBindings::AxisBinding ab;
+	if (!KeyBindings::AxisBinding::FromString(binding_config, ab))
 		return luaL_error(l, "invalid axis binding given to Engine.SetKeyBinding");
-	Pi::config->SetString(config_id, KeyBindings::AxisBindingToString(*binding));
+	Pi::config->SetString(config_id, ab.ToString());
 	Pi::config->Save();
+	*binding = ab;
 	return 0;
 }
 

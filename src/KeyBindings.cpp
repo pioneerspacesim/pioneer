@@ -75,6 +75,117 @@ bool KeyBinding::Matches(const SDL_JoyHatEvent *joy) const {
 		(joy->value == u.joystickHat.direction);
 }
 
+std::string KeyBinding::Description() const {
+	std::ostringstream oss;
+
+	if (type == KEYBOARD_KEY) {
+		if (u.keyboard.mod & KMOD_SHIFT) oss << Lang::SHIFT;
+		if (u.keyboard.mod & KMOD_CTRL) oss << Lang::CTRL;
+		if (u.keyboard.mod & KMOD_ALT) oss << Lang::ALT;
+		if (u.keyboard.mod & KMOD_GUI) oss << Lang::META;
+		oss << SDL_GetKeyName(u.keyboard.key);
+	} else if (type == JOYSTICK_BUTTON) {
+		oss << Lang::JOY << int(u.joystickButton.joystick);
+		oss << Lang::BUTTON << int(u.joystickButton.button);
+	} else if (type == JOYSTICK_HAT) {
+		oss << Lang::JOY << int(u.joystickHat.joystick);
+		oss << Lang::HAT << int(u.joystickHat.hat);
+		oss << Lang::DIRECTION << int(u.joystickHat.direction);
+	} else
+		abort();
+
+	return oss.str();
+}
+
+/**
+ * Exampe strings:
+ *   Key55
+ *   Joy0Button2
+ *   Joy0Hat0Dir3
+ */
+bool KeyBinding::FromString(const char *str, KeyBinding &kb)
+{
+	const char *digits = "1234567890";
+	const char *p = str;
+
+	if (strncmp(p, "Key", 3) == 0) {
+		kb.type = KEYBOARD_KEY;
+		p += 3;
+
+		kb.u.keyboard.key = SDL_Keycode(atoi(p));
+		p += strspn(p, digits);
+
+		if (strncmp(p, "Mod", 3) == 0) {
+			p += 3;
+			kb.u.keyboard.mod = SDL_Keymod(atoi(p));
+		} else {
+			kb.u.keyboard.mod = KMOD_NONE;
+		}
+	} else if (strncmp(p, "Joy", 3) == 0) {
+		p += 3;
+
+		int joy = atoi(p);
+		p += strspn(p, digits);
+
+		if (strncmp(p, "Button", 6) == 0) {
+			p += 6;
+			kb.type = JOYSTICK_BUTTON;
+			kb.u.joystickButton.joystick = joy;
+			kb.u.joystickButton.button = atoi(p);
+		} else if (strncmp(p, "Hat", 3) == 0) {
+			p += 3;
+			kb.type = JOYSTICK_HAT;
+			kb.u.joystickHat.joystick = joy;
+			kb.u.joystickHat.hat = atoi(p);
+			p += strspn(p, digits);
+
+			if (strncmp(p, "Dir", 3) != 0)
+				return false;
+
+			p += 3;
+			kb.u.joystickHat.direction = atoi(p);
+		} else
+			return false;
+	}
+
+	return true;
+}
+
+KeyBinding KeyBinding::FromString(const char *str) {
+	KeyBinding kb;
+	if (!KeyBinding::FromString(str, kb))
+		kb.Clear();
+	return kb;
+}
+
+static std::ostream &operator<<(std::ostream &oss, const KeyBinding &kb)
+{
+	if (kb.type == BINDING_DISABLED) {
+		// blank
+	} else if (kb.type == KEYBOARD_KEY) {
+		oss << "Key" << int(kb.u.keyboard.key);
+		if (kb.u.keyboard.mod != 0) {
+			oss << "Mod" << int(kb.u.keyboard.mod);
+		}
+	} else if (kb.type == JOYSTICK_BUTTON) {
+		oss << "Joy" << int(kb.u.joystickButton.joystick);
+		oss << "Button" << int(kb.u.joystickButton.button);
+	} else if (kb.type == JOYSTICK_HAT) {
+		oss << "Joy" << int(kb.u.joystickHat.joystick);
+		oss << "Hat" << int(kb.u.joystickHat.hat);
+		oss << "Dir" << int(kb.u.joystickHat.direction);
+	} else {
+		assert(0 && "KeyBinding type field is invalid");
+	}
+	return oss;
+}
+
+std::string KeyBinding::ToString() const {
+	std::ostringstream oss;
+	oss << *this;
+	return oss.str();
+}
+
 KeyBinding KeyBinding::keyboardBinding(SDL_Keycode key, SDL_Keymod mod) {
 	KeyBinding kb;
 
@@ -83,6 +194,48 @@ KeyBinding KeyBinding::keyboardBinding(SDL_Keycode key, SDL_Keymod mod) {
 	kb.u.keyboard.mod  = mod;
 
 	return kb;
+}
+
+void KeyAction::SetFromString(const char *str)
+{
+	const size_t BUF_SIZE = 64;
+	const size_t len = strlen(str);
+	char buf[BUF_SIZE];
+	if (len >= BUF_SIZE) {
+		fprintf(stderr, "invalid KeyAction string\n");
+		binding1 = KeyBinding::FromString(str);
+		binding2.Clear();
+	} else {
+		const char *sep = strchr(str, ',');
+		if (sep) {
+			const size_t len1 = sep - str;
+			const size_t len2 = len - len1 - 1;
+			memcpy(buf, str, len1);
+			buf[len1] = '\0';
+			binding1 = KeyBinding::FromString(buf);
+			memcpy(buf, sep+1, len2);
+			buf[len2] = '\0';
+			binding2 = KeyBinding::FromString(buf);
+		} else {
+			binding1 = KeyBinding::FromString(str);
+			binding2.Clear();
+		}
+	}
+}
+
+std::string KeyAction::ToString() const
+{
+	std::ostringstream oss;
+	if ((binding1.type != BINDING_DISABLED) && (binding2.type != BINDING_DISABLED)) {
+		oss << binding1 << "," << binding2;
+	} else if (binding1.type != BINDING_DISABLED) {
+		oss << binding1;
+	} else if (binding2.type != BINDING_DISABLED) {
+		oss << binding2;
+	} else {
+		// blank
+	}
+	return oss.str();
 }
 
 bool KeyAction::IsActive() const {
@@ -130,28 +283,6 @@ void KeyAction::CheckSDLEventAndDispatch(const SDL_Event *event) {
 	}
 }
 
-std::string KeyBinding::Description() const {
-	std::ostringstream oss;
-
-	if (type == KEYBOARD_KEY) {
-		if (u.keyboard.mod & KMOD_SHIFT) oss << Lang::SHIFT;
-		if (u.keyboard.mod & KMOD_CTRL) oss << Lang::CTRL;
-		if (u.keyboard.mod & KMOD_ALT) oss << Lang::ALT;
-		if (u.keyboard.mod & KMOD_GUI) oss << Lang::META;
-		oss << SDL_GetKeyName(u.keyboard.key);
-	} else if (type == JOYSTICK_BUTTON) {
-		oss << Lang::JOY << int(u.joystickButton.joystick);
-		oss << Lang::BUTTON << int(u.joystickButton.button);
-	} else if (type == JOYSTICK_HAT) {
-		oss << Lang::JOY << int(u.joystickHat.joystick);
-		oss << Lang::HAT << int(u.joystickHat.hat);
-		oss << Lang::DIRECTION << int(u.joystickHat.direction);
-	} else
-		abort();
-
-	return oss.str();
-}
-
 AxisBinding::AxisBinding() {
 	this->joystick = 0;
 	this->axis = 0;
@@ -186,140 +317,50 @@ std::string AxisBinding::Description() const {
 	);
 }
 
-/**
- * Exampe strings:
- *   Key55
- *   Joy0Button2
- *   Joy0Hat0Dir3
- */
-bool KeyBindingFromString(const std::string &str, KeyBinding *kb)
-{
+bool AxisBinding::FromString(const char *str, AxisBinding &ab) {
 	const char *digits = "1234567890";
-	const char *p = str.c_str();
-
-	if (strncmp(p, "Key", 3) == 0) {
-		kb->type = KEYBOARD_KEY;
-		p += 3;
-
-		kb->u.keyboard.key = SDL_Keycode(atoi(p));
-		p += strspn(p, digits);
-
-		if (strncmp(p, "Mod", 3) == 0) {
-			p += 3;
-			kb->u.keyboard.mod = SDL_Keymod(atoi(p));
-		} else
-			kb->u.keyboard.mod = KMOD_NONE;
-
-		return true;
-
-	} else if (strncmp(p, "Joy", 3) == 0) {
-		p += 3;
-
-		int joy = atoi(p);
-		p += strspn(p, digits);
-
-		if (strncmp(p, "Button", 6) == 0) {
-			p += 6;
-			kb->type = JOYSTICK_BUTTON;
-			kb->u.joystickButton.joystick = joy;
-			kb->u.joystickButton.button = atoi(p);
-			return true;
-		} else if (strncmp(p, "Hat", 3) == 0) {
-			p += 3;
-			kb->type = JOYSTICK_HAT;
-			kb->u.joystickHat.joystick = joy;
-			kb->u.joystickHat.hat = atoi(p);
-			p += strspn(p, digits);
-
-			if (strncmp(p, "Dir", 3) != 0)
-				return false;
-
-			p += 3;
-			kb->u.joystickHat.direction = atoi(p);
-			return true;
-		}
-
-		return false;
-	}
-
-	return false;
-}
-
-KeyBinding KeyBindingFromString(const std::string &str) {
-	KeyBinding kb;
-
-	if (!KeyBindingFromString(str, &kb))
-		abort();
-
-	return kb;
-}
-
-std::string KeyBindingToString(const KeyBinding &kb) {
-	std::ostringstream oss;
-
-	if (kb.type == KEYBOARD_KEY) {
-		oss << "Key" << int(kb.u.keyboard.key);
-		if (kb.u.keyboard.mod != 0)
-			oss << "Mod" << int(kb.u.keyboard.mod);
-	} else if (kb.type == JOYSTICK_BUTTON) {
-		oss << "Joy" << int(kb.u.joystickButton.joystick);
-		oss << "Button" << int(kb.u.joystickButton.button);
-	} else if (kb.type == JOYSTICK_HAT) {
-		oss << "Joy" << int(kb.u.joystickHat.joystick);
-		oss << "Hat" << int(kb.u.joystickHat.hat);
-		oss << "Dir" << int(kb.u.joystickHat.direction);
-	} else
-		abort();
-
-	return oss.str();
-}
-
-bool AxisBindingFromString(const std::string &str, AxisBinding *ab) {
-	const char *digits = "1234567890";
-	const char *p = str.c_str();
+	const char *p = str;
 
 	if (p[0] == '-') {
-		ab->direction = NEGATIVE;
+		ab.direction = NEGATIVE;
 		p++;
 	}
 	else
-		ab->direction = POSITIVE;
+		ab.direction = POSITIVE;
 
 	if (strncmp(p, "Joy", 3) != 0)
 		return false;
 
 	p += 3;
-	ab->joystick = atoi(p);
+	ab.joystick = atoi(p);
 	p += strspn(p, digits);
 
 	if (strncmp(p, "Axis", 4) != 0)
 		return false;
 
 	p += 4;
-	ab->axis = atoi(p);
+	ab.axis = atoi(p);
 
 	return true;
 }
 
-AxisBinding AxisBindingFromString(const std::string &str) {
+AxisBinding AxisBinding::FromString(const char *str) {
 	AxisBinding ab;
-
-	if (!AxisBindingFromString(str, &ab))
-		abort();
-
+	if (!AxisBinding::FromString(str, ab))
+		ab.Clear();
 	return ab;
 }
 
-std::string AxisBindingToString(const AxisBinding &ab) {
+std::string AxisBinding::ToString() const {
 	std::ostringstream oss;
 
-	if (ab.direction == NEGATIVE)
+	if (direction == NEGATIVE)
 		oss << '-';
 
 	oss << "Joy";
-	oss << int(ab.joystick);
+	oss << int(joystick);
 	oss << "Axis";
-	oss << int(ab.axis);
+	oss << int(axis);
 
 	return oss.str();
 }
@@ -346,8 +387,12 @@ void InitKeyBinding(KeyAction &kb, const std::string &bindName, SDL_Keycode defa
 	if (keyName.length() == 0) {
 		keyName = stringf("Key%0{u}", Uint32(defaultKey));
 		Pi::config->SetString(bindName.c_str(), keyName.c_str());
+	} else {
+		if (!KeyBinding::FromString(keyName.c_str(), kb.binding1)) {
+			fprintf(stderr, "invalid key binding '%s' in config file for %s\n", keyName.c_str(), bindName.c_str());
+			kb.binding1.Clear();
+		}
 	}
-	KeyBindingFromString(keyName.c_str(), &(kb.binding1));
 }
 
 void InitAxisBinding(AxisBinding &ab, const std::string &bindName, const std::string &defaultAxis) {
@@ -355,8 +400,12 @@ void InitAxisBinding(AxisBinding &ab, const std::string &bindName, const std::st
 	if (axisName.length() == 0) {
 		axisName = defaultAxis;
 		Pi::config->SetString(bindName.c_str(), axisName.c_str());
+	} else {
+		if (!AxisBinding::FromString(axisName.c_str(), ab)) {
+			fprintf(stderr, "invalid axis binding '%s' in config file for %s\n", axisName.c_str(), bindName.c_str());
+			ab.Clear();
+		}
 	}
-	AxisBindingFromString(axisName.c_str(), &ab);
 }
 
 void UpdateBindings()
