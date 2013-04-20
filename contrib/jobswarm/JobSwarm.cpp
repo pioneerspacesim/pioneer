@@ -58,12 +58,12 @@ class SwarmJob : public LOCK_FREE_Q::node_t
 public:
     SwarmJob()
     {
-        mNext      = 0;
-        mPrevious  = 0;
-        mInterface = 0;
+        mNext      = NULL;
+        mPrevious  = NULL;
+        mInterface = NULL;
         mCancelled = false;
-        mUserData  = 0;
-        mUserId    = 0;
+        mUserData  = NULL;
+        mUserId    = NULL;
     }
 
     SwarmJob(JobSwarmInterface *iface,void *userData,int userId)
@@ -84,7 +84,7 @@ public:
             else
                 mInterface->OnFinish(mUserData,mUserId);
         }
-        mInterface = 0;
+        mInterface = NULL;
     }
 
 
@@ -138,11 +138,11 @@ public:
 
     ThreadWorker()
     {
-        mSwarmJob    = 0;
-        mJobScheduler = 0;
+        mSwarmJob    = NULL;
+        mJobScheduler = NULL;
         mExit         = false;
-        mBusy         = 0;
-        mThread     = 0;
+        mBusy         = NULL;
+        mThread     = NULL;
         mRunning    = false;
         mFinished.init(MAX_COMPLETION);
     }
@@ -164,8 +164,8 @@ public:
     {
         THREAD_CONFIG::tc_releaseThreadEvent(mBusy);
         THREAD_CONFIG::tc_releaseThread(mThread);
-        mBusy = 0;
-        mThread = 0;
+        mBusy = NULL;
+        mThread = NULL;
     }
 
     void SetJobScheduler(JobScheduler *job);
@@ -175,7 +175,7 @@ public:
 
     SwarmJob * GetFinished()
     {
-        SwarmJob *ret = 0;
+        SwarmJob *ret = NULL;
         mFinished.pop(ret);
         return ret;
     }
@@ -226,7 +226,7 @@ public:
     {
         SwarmJob *vret[2] = { mJobs.GetFreeLink() , mJobs.GetFreeLink() };
         //
-        SwarmJob *ret=0;
+        SwarmJob *ret=NULL;
         if( vret[0]==mPending->getHead() )
         {
             ret=vret[1];
@@ -299,7 +299,7 @@ public:
     // called from other thread to get a new job to perform
     SwarmJob * GetJob()
     {
-        SwarmJob *ret = 0;
+        SwarmJob *ret = NULL;
 
         if ( !mWaitFinish && mUseThreads )
         {
@@ -391,7 +391,7 @@ void ThreadWorker::ThreadMain()
         if ( !mExit )
         {
 
-            SwarmJob *job = 0;
+            SwarmJob *job = NULL;
 
             if ( !mFinished.isFull() )
             {
@@ -404,8 +404,7 @@ void ThreadWorker::ThreadMain()
             }
             else
             {
-                mSwarmJob = 0;
-                mBusy->resetEvent();
+                mSwarmJob = NULL;
                 mBusy->waitForSingleObject(10);
             }
         }

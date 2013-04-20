@@ -5,12 +5,6 @@
 //*** As long as your job size has any significant amount of 'work' to do, there is not real difference
 //*** in performance.  I will be uploading a fully lock-free version relatively soon.
 
-#if defined(__linux__)
-// lock free not working on linux
-#define USE_LOCK_FREE 0
-#else
-#define USE_LOCK_FREE 0 // set this to zero, to use locks
-#endif
 
 /*!
 **
@@ -73,95 +67,20 @@ public:
 
     MyLockFreeQ(void)
     {
-        mMutex = THREAD_CONFIG::tc_createThreadMutex();
+        mMutex = SDL_CreateMutex();
         //
-#if USE_LOCK_FREE
-        NodeNull.pNext=0;
-        //
-        Head.pNode=Tail.pNode=&NodeNull;
-        Head.count=Tail.count=0;
-#else
         Head.pNode=Tail.pNode=0;
         Head.count=Tail.count=0;
-#endif
     }
 
     ~MyLockFreeQ(void)
     {
-        THREAD_CONFIG::tc_releaseThreadMutex(mMutex);
+        SDL_DestroyMutex(mMutex);
     }
 
-#if USE_LOCK_FREE
-
-    // [x] loop-spin
-    // [ ] read write barrier
-    // [ ] optimize functions (atomic operations (__*)
-
-    ///////////////////////////////////////////////////////////////
-    // enqueue
-    ///////////////////////////////////////////////////////////////
-
-    virtual void enqueue(node_t *item)
-    {
-        TCount   otail;
-        //
-        item->pNext=0;
-        //
-        for( ;; )
-        {
-            THREAD_CONFIG::tc_interlockedExchange( &otail , *(int64_t*)&Tail );
-
-            // if tail next if 0 replace it with new item
-            if( THREAD_CONFIG::tc_interlockedCompareExchange( &otail.pNode->pNext , *(int*)&item , 0 ) ) break;
-
-            // else push tail back until it reaches end
-            THREAD_CONFIG::tc_interlockedCompareExchange( &Tail , *(int*)&otail.pNode->pNext , otail.count+1 , *(int*)&otail.pNode , otail.count );
-            //
-            THREAD_CONFIG::tc_spinloop();
-        }
-
-        // try and change tail pointer (it is also fixed in Pop)
-        THREAD_CONFIG::tc_interlockedCompareExchange( &Tail , *(int*)&item , otail.count+1 , *(int*)&otail.pNode , otail.count );
-    }
-
-    ///////////////////////////////////////////////////////////////
-    // dequeue
-    ///////////////////////////////////////////////////////////////
-
-    virtual node_t *dequeue(void)
-    {
-        TCount   ohead;
-        TCount   otail;
-        //
-        for( ;; )
-        {
-            THREAD_CONFIG::tc_interlockedExchange( &ohead , *(int64_t*)&Head );
-            THREAD_CONFIG::tc_interlockedExchange( &otail , *(int64_t*)&Tail );
-            //
-            node_t      *next=ohead.pNode->pNext;
-
-            // is queue empty
-            if( ohead.pNode==otail.pNode )
-            {
-                // is it really empty
-                if( !next ) return 0;
-
-                // or is just tail falling behind...
-                THREAD_CONFIG::tc_interlockedCompareExchange( &Tail , *(int*)&next , otail.count+1 , *(int*)&otail.pNode , otail.count );
-            }
-            else
-            {
-                if( THREAD_CONFIG::tc_interlockedCompareExchange( &Head , *(int*)&next , ohead.count+1 , *(int*)&ohead.pNode , ohead.count ) ) return next;
-            }
-            //
-            THREAD_CONFIG::tc_spinloop();
-        }
-    }
-
-#else
     virtual void enqueue(node_t *pNode)
     {
-        mMutex->lock();
+        SDL_mutexP(mMutex);
         //
         pNode->pNext = 0;
         //
@@ -175,13 +94,13 @@ public:
             Tail.pNode->pNext = pNode;
             Tail.pNode = pNode;
         }
-        mMutex->unlock();
+       SDL_mutexV(mMutex);
     }
 
     virtual node_t * dequeue(void)
     {
         node_t *ret = 0;
-        mMutex->lock();
+        SDL_mutexP(mMutex);
         //
         if ( Head.pNode )
         {
@@ -192,20 +111,17 @@ public:
                 Tail.pNode = 0;
             }
         }
-        mMutex->unlock();
+        SDL_mutexV(mMutex);
         return ret;
     }
-#endif
 
     virtual node_t * getHead()
     {
         return Head.pNode;
     }
 
-
-
 private:
-    THREAD_CONFIG::ThreadMutex *mMutex;
+    SDL_mutex *mMutex;
     //
     TCount          Head;
     TCount          Tail;

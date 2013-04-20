@@ -21,7 +21,7 @@ JobManager::JobManager(const int iNumThreads)
 	const int actualNumThreads = std::min( std::max( (iNumThreads<=(0) ? numCoresToUse : iNumThreads), MIN_THREADS ), MAX_THREADS );
 	mpContext = JOB_SWARM::CreateJobSwarmContext( actualNumThreads );
 	mNumThreadsUsed = actualNumThreads;
-	mIncomingMutex = THREAD_CONFIG::tc_createThreadMutex();
+	mIncomingMutex = SDL_CreateMutex();
 }
 
 JobManager::~JobManager()
@@ -31,6 +31,8 @@ JobManager::~JobManager()
     {
         mpContext->ProcessSwarmJobs();
     }
+
+	SDL_DestroyMutex(mIncomingMutex);
 
 	JOB_SWARM::ReleaseJobSwarmContext(mpContext);
 }
@@ -57,7 +59,7 @@ JOB_SWARM::SwarmJob* JobManager::AddIncomingJob(PureJob* pNewJob, unsigned char 
 void JobManager::Update()
 {
 	if (mIncomingJobs.size() > 0) {
-		mIncomingMutex->lock();
+		SDL_mutexP(mIncomingMutex);
 		std::deque<TIncomingJobData>::const_iterator iter = mIncomingJobs.begin();
 		std::deque<TIncomingJobData>::const_iterator itEnd = mIncomingJobs.end();
 		while(itEnd != iter) {
@@ -66,7 +68,7 @@ void JobManager::Update()
 		}
 		mNumTasksSoFar += mIncomingJobs.size();
 		mIncomingJobs.clear();
-		mIncomingMutex->unlock();
+		SDL_mutexV(mIncomingMutex);
 	}
 	// ok..now we wait until the task remaining counter is zero.
     if ( (mTasksRemaining != mPrevTasksRemaining) || (mPrevTasksRemaining != 0) )

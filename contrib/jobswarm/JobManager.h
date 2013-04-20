@@ -1,6 +1,7 @@
 #ifndef __JOBMANAGER_H__
 #define __JOBMANAGER_H__
 
+#include <SDL.h>
 #include <deque>
 
 #include "ThreadConfig.h"
@@ -97,8 +98,8 @@ private:
 	JobHandle mNumThreadsUsed;
 
 	typedef std::pair<PureJob*, unsigned char*> TIncomingJobData;
-	std::deque<TIncomingJobData>	mIncomingJobs;
-	THREAD_CONFIG::ThreadMutex*		mIncomingMutex;
+	std::deque<TIncomingJobData> mIncomingJobs;
+	SDL_mutex* mIncomingMutex;
 };
 
 #endif

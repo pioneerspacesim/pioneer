@@ -1,6 +1,7 @@
 #ifndef LOCK_FREE_Q_H
-
 #define LOCK_FREE_Q_H
+
+#include <SDL.h>
 
 #include "UserMemAlloc.h" // use this to optionally trap all memory allocations
 
