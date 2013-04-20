@@ -13,7 +13,7 @@ class LuaAdjustment {
 public:
 	static int l_set_inner_widget(lua_State *l) {
 		UI::Adjustment *adj = LuaObject<UI::Adjustment>::CheckFromLua(1);
-		UI::Widget *wid = LuaObject<UI::Widget>::CheckFromLua(2);;
+		UI::Widget *wid = LuaObject<UI::Widget>::CheckFromLua(2);
 
 		adj->SetInnerWidget(wid);
 		return 1;

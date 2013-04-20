@@ -26,6 +26,7 @@ class LuaNameGen;
 class ModelCache;
 class Player;
 class SectorView;
+class Settings;
 class Ship;
 class ShipCpanel;
 class SpaceStation;
@@ -136,6 +137,7 @@ public:
 	static SectorView *sectorView;
 	static GalacticView *galacticView;
 	static GameMenuView *gameMenuView;
+	static Settings *settings;
 	static SystemInfoView *systemInfoView;
 	static SystemView *systemView;
 	static WorldView *worldView;

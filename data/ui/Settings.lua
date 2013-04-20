@@ -23,6 +23,18 @@ ui.templates.Settings = function (args)
 	end
 	local modeList = Settings:GetVideoModes()
 	local iniTable = Settings:GetGameConfig()
+	local controlHeaders = Settings:GetControlHeaders()
+	for i = 1,#controlHeaders do print()
+		local keys = Settings:GetControlKeys(controlHeaders[i])
+		print("Header: ", controlHeaders[i])
+		for i,v in pairs(keys) do
+			print(i,": ",v)
+		end
+-- 					for x,y in pairs(keys) do print(x, y) end
+					end
+	
+-- 					local keys = Settings:GetControlKeys("Weapons")
+-- 	print("HEADER: ", controlHeaders[i])
 	
 -- 	static const char *planet_textures_desc[2] = {
 -- 		Lang::OFF, Lang::ON
