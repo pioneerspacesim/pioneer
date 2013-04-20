@@ -3,21 +3,7 @@
 
 /*!
 **
-** Copyright (c) 2009 by John W. Ratcliff mailto:jratcliffscarab@gmail.com
-**
-** If you find this code useful or you are feeling particularily generous I would
-** ask that you please go to http://www.amillionpixels.us and make a donation
-** to Troy DeMolay.
-**
-** Skype ID: jratcliff63367
-** Yahoo: jratcliff63367
-** AOL: jratcliff1961
-** email: jratcliffscarab@gmail.com
-** Personal website: http://jratcliffscarab.blogspot.com
-** Coding Website:   http://codesuppository.blogspot.com
-** FundRaising Blog: http://amillionpixels.blogspot.com
-** Fundraising site: http://www.amillionpixels.us
-** New Temple Site:  http://newtemple.blogspot.com
+** Copyright (c) 20011 by John W. Ratcliff mailto:jratcliffscarab@gmail.com
 **
 **
 ** The MIT license:
@@ -86,14 +72,14 @@ void   tc_sleep(unsigned int ms)
 #endif
 }
 
-void tc_spinloop()
-{
-#ifdef __linux__
-    asm ( "pause" );
-#else
-    __asm { pause };
-#endif
-}
+//void tc_spinloop()
+//{
+//#ifdef __linux__
+//    asm ( "pause" );
+//#else
+//    __asm { pause };
+//#endif
+//}
 
 static int _ThreadWorkerFunc(void *);
 
@@ -114,6 +100,20 @@ public:
     {
         mInterface->ThreadMain();
     }
+
+	virtual void Suspend(void)
+	{
+#ifdef HACD_WINDOWS
+		SuspendThread(mThread);
+#endif
+	}
+
+	virtual void Resume(void) 
+	{
+#ifdef HACD_WINDOWS
+		ResumeThread(mThread);
+#endif
+	}
 
 private:
     ThreadInterface *mInterface;
@@ -173,6 +173,23 @@ void ThreadEvent::waitForSingleObject(unsigned int ms)
 		VERIFY( SDL_CondWaitTimeout(mpEvent, mpEventMutex, ms) == 0 );	 	//Waits on a condition variable, with timeout Time
     }
 	SDL_mutexV(mpEventMutex);	// unlock
+}
+
+int tc_atomicAdd(int *addend,int amount)
+{
+#if defined(WIN32)
+	return InterlockedExchangeAdd((long*) addend, long (amount));
+#endif
+
+#if defined(__linux__)
+	return __sync_fetch_and_add ((int32_t*)addend, amount );
+#endif
+
+#if defined(__APPLE__)
+	int count = OSAtomicAdd32 (amount, (int32_t*)addend);
+	return count - *addend;
+#endif
+
 }
 
 ThreadEvent * tc_createThreadEvent()
