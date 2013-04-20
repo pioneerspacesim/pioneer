@@ -35,7 +35,6 @@ GeoPatch::GeoPatch(const RefCountedPtr<GeoPatchContext> &ctx_, GeoSphere *gs,
 	for (int i=0; i<NUM_KIDS; ++i) {
 		edgeFriend[i]	= NULL;
 	}
-	m_kidsLock = SDL_CreateMutex();
 		
 	clipCentroid = (v0+v1+v2+v3) * 0.25;
 	centroid = clipCentroid.Normalized();
@@ -57,7 +56,6 @@ GeoPatch::GeoPatch(const RefCountedPtr<GeoPatchContext> &ctx_, GeoSphere *gs,
 GeoPatch::~GeoPatch() {
 	assert(!mHasJobRequest);
 
-	SDL_DestroyMutex(m_kidsLock);
 	for (int i=0; i<NUM_KIDS; i++) {
 		if (edgeFriend[i]) edgeFriend[i]->NotifyEdgeFriendDeleted(this);
 	}
@@ -115,12 +113,9 @@ void GeoPatch::_UpdateVBOs() {
 }
 
 void GeoPatch::Render(vector3d &campos, const Graphics::Frustum &frustum) {
-	PiVerify(SDL_mutexP(m_kidsLock)==0);
 	if (kids[0]) {
 		for (int i=0; i<NUM_KIDS; i++) kids[i]->Render(campos, frustum);
-		SDL_mutexV(m_kidsLock);
 	} else if (heights.Valid()) {
-		SDL_mutexV(m_kidsLock);
 		_UpdateVBOs();
 
 		if (!frustum.TestPoint(clipCentroid, clipRadius))
@@ -200,7 +195,6 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 			}
 		}
 	} else if (canMerge) {
-		PiVerify(SDL_mutexP(m_kidsLock)==0);
 		for (int i=0; i<NUM_KIDS; i++) { 
 			canMerge &= kids[i]->canBeMerged();		
 		}
@@ -209,7 +203,6 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 				kids[i].Reset();
 			}
 		}
-		PiVerify(SDL_mutexV(m_kidsLock)!=-1);
 	}
 }
 
@@ -277,12 +270,10 @@ void GeoPatch::ReceiveHeightmaps(const SQuadSplitResult *psr)
 			kids[i]->normals.Reset(data.normals);
 			kids[i]->colors.Reset(data.colors);
 		}
-		PiVerify(SDL_mutexP(m_kidsLock)==0);
 		for (int i=0; i<NUM_EDGES; i++) { if(edgeFriend[i]) edgeFriend[i]->NotifyEdgeFriendSplit(this); }
 		for (int i=0; i<NUM_KIDS; i++) {
 			kids[i]->UpdateVBOs();
 		}
-		PiVerify(SDL_mutexV(m_kidsLock)!=-1);
 		assert(mCurrentJob.Valid());
 		delete mCurrentJob.Release();
 		mHasJobRequest = false;

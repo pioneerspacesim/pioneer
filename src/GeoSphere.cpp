@@ -69,6 +69,8 @@ void GeoSphere::OnChangeDetailLevel()
 
 	// wait for all jobs to be finished
 	while(BasePatchJob::GetNumActivePatchJobs()>0) {
+		// re-issue the cancel call
+		BasePatchJob::CancelAllPatchJobs();
 		THREAD_CONFIG::tc_sleep(0);
 	}
 	BasePatchJob::ResetPatchJobCancel();

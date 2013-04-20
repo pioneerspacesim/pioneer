@@ -47,7 +47,6 @@ public:
 	vector3d clipCentroid, centroid;
 	double clipRadius;
 	int m_depth;
-	SDL_mutex *m_kidsLock;
 	bool m_needUpdateVBOs;
 
 	const GeoPatchID mPatchID;
