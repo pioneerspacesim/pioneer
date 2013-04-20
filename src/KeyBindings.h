@@ -103,7 +103,7 @@ namespace KeyBindings {
 
 	void DispatchSDLEvent(const SDL_Event *event);
 
-#define KEY_BINDING(name,a,b,c) extern KeyAction name;
+#define KEY_BINDING(name,a,b,c,d) extern KeyAction name;
 #define AXIS_BINDING(name,a,b,c) extern AxisBinding name;
 #include "KeyBindings.inc.h"
 

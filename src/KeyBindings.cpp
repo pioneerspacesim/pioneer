@@ -10,7 +10,7 @@
 
 namespace KeyBindings {
 
-#define KEY_BINDING(name,a,b,c) KeyAction name;
+#define KEY_BINDING(name,a,b,c,d) KeyAction name;
 #define AXIS_BINDING(name,a,b,c) AxisBinding name;
 #include "KeyBindings.inc.h"
 
@@ -19,7 +19,7 @@ namespace KeyBindings {
 #define BINDING_PAGE_END() {0,0,0,0}};
 #define BINDING_GROUP(ui_name) \
 	{ ui_name, 0, 0, 0 },
-#define KEY_BINDING(name, config_name, ui_name, default_value) \
+#define KEY_BINDING(name, config_name, ui_name, def1, def2) \
 	{ ui_name, config_name, &KeyBindings::name, 0 },
 #define AXIS_BINDING(name, config_name, ui_name, default_value) \
 	{ ui_name, config_name, 0, &KeyBindings::name },
@@ -27,7 +27,7 @@ namespace KeyBindings {
 
 // static binding object lists for use by the dispatch function
 static KeyAction* const s_KeyBindings[] = {
-#define KEY_BINDING(name, b,c,d) &KeyBindings::name,
+#define KEY_BINDING(name, a,b,c,d) &KeyBindings::name,
 #include "KeyBindings.inc.h"
 	0
 };
@@ -382,17 +382,20 @@ void DispatchSDLEvent(const SDL_Event *event) {
 	}
 }
 
-void InitKeyBinding(KeyAction &kb, const std::string &bindName, SDL_Keycode defaultKey) {
+void InitKeyBinding(KeyAction &kb, const std::string &bindName, Uint32 defaultKey1, Uint32 defaultKey2) {
 	std::string keyName = Pi::config->String(bindName.c_str());
 	if (keyName.length() == 0) {
-		keyName = stringf("Key%0{u}", Uint32(defaultKey));
-		Pi::config->SetString(bindName.c_str(), keyName.c_str());
-	} else {
-		if (!KeyBinding::FromString(keyName.c_str(), kb.binding1)) {
-			fprintf(stderr, "invalid key binding '%s' in config file for %s\n", keyName.c_str(), bindName.c_str());
-			kb.binding1.Clear();
+		if (defaultKey1 && defaultKey2) {
+			keyName = stringf("Key%0{u},Key%1{u}", defaultKey1, defaultKey2);
+		} else if (defaultKey1 || defaultKey2) {
+			Uint32 k = (defaultKey1 | defaultKey2); // only one of them is non-zero, so this gets the non-zero value
+			keyName = stringf("Key%0{u}", k);
 		}
+		Pi::config->SetString(bindName.c_str(), keyName.c_str());
 	}
+
+	// set the binding from the configured or default value
+	kb.SetFromString(keyName.c_str());
 }
 
 void InitAxisBinding(AxisBinding &ab, const std::string &bindName, const std::string &defaultAxis) {
@@ -400,18 +403,21 @@ void InitAxisBinding(AxisBinding &ab, const std::string &bindName, const std::st
 	if (axisName.length() == 0) {
 		axisName = defaultAxis;
 		Pi::config->SetString(bindName.c_str(), axisName.c_str());
-	} else {
-		if (!AxisBinding::FromString(axisName.c_str(), ab)) {
-			fprintf(stderr, "invalid axis binding '%s' in config file for %s\n", axisName.c_str(), bindName.c_str());
-			ab.Clear();
-		}
+	}
+
+	// set the binding from the configured or default value
+	if (!AxisBinding::FromString(axisName.c_str(), ab)) {
+		fprintf(stderr, "invalid axis binding '%s' in config file for %s\n", axisName.c_str(), bindName.c_str());
+		ab.Clear();
 	}
 }
 
 void UpdateBindings()
 {
-#define KEY_BINDING(name, config_name, b, default_value) InitKeyBinding(KeyBindings::name, config_name, default_value);
-#define AXIS_BINDING(name, config_name, b, default_value) InitAxisBinding(KeyBindings::name, config_name, default_value);
+#define KEY_BINDING(name, config_name, b, default_value_1, default_value_2) \
+	InitKeyBinding(KeyBindings::name, config_name, default_value_1, default_value_2);
+#define AXIS_BINDING(name, config_name, b, default_value) \
+	InitAxisBinding(KeyBindings::name, config_name, default_value);
 #include "KeyBindings.inc.h"
 }
 

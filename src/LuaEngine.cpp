@@ -603,7 +603,7 @@ static int l_engine_set_key_binding(lua_State *l)
 {
 	const char *binding_id = luaL_checkstring(l, 1);
 
-#define KEY_BINDING(action, config_id, label, default_key) \
+#define KEY_BINDING(action, config_id, label, def1, def2) \
 	if (strcmp(binding_id, config_id) == 0) { return set_key_binding(l, config_id, &KeyBindings :: action); }
 #define AXIS_BINDING(action, config_id, label, default_axis) \
 	if (strcmp(binding_id, config_id) == 0) { return set_axis_binding(l, config_id, &KeyBindings :: action); }
