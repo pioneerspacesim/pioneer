@@ -70,12 +70,6 @@ void main(void)
 	vec3 surfaceNorm = normalize(skyNear * eyenorm - geosphereCenter);
 	for (int i=0; i<NUM_LIGHTS; ++i) {
 
-		//Calculate Specular Highlight
-		vec3 L = normalize(gl_LightSource[i].position.xyz - varyingEyepos.xyz); 
-		vec3 E = normalize(-varyingEyepos.xyz);
-		vec3 R = normalize(-reflect(L,vec3(0.0))); 
-		specularHighlight += pow(max(dot(R,E),0.0),64.0) * INV_NUM_LIGHTS;
-
 		vec3 lightDir = normalize(vec3(gl_LightSource[i].position));
 
 		float uneclipsed = 1.0;
@@ -124,6 +118,13 @@ void main(void)
 		float nDotVP =  max(0.0, dot(surfaceNorm, lightDir));
 		float nnDotVP = max(0.0, dot(surfaceNorm, -lightDir));  //need backlight to increase horizon
 		atmosDiffuse +=  gl_LightSource[i].diffuse * uneclipsed * 0.5*(nDotVP+0.5*clamp(1.0-nnDotVP*4.0,0.0,1.0) * INV_NUM_LIGHTS);
+
+		//Calculate Specular Highlight
+		vec3 L = normalize(gl_LightSource[i].position.xyz - varyingEyepos.xyz); 
+		vec3 E = normalize(-varyingEyepos.xyz);
+		vec3 R = normalize(-reflect(L,vec3(0.0))); 
+		specularHighlight += pow(max(dot(R,E),0.0),64.0) * uneclipsed * INV_NUM_LIGHTS;
+
 	}
 #endif
 
