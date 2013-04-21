@@ -83,7 +83,7 @@ private:
 	void OnChangeCityDetail(int level);
 	void OnChangeLanguage(std::string &lang);
 	void OnChangeVideoResolution(int res);
-	void OnChangeNumThreadsToUse(int num);
+	void OnChangeNumTerrainCores(int num);
 	void OnToggleShaders(Gui::ToggleButton *b, bool state);
 	void OnToggleFullscreen(Gui::ToggleButton *b, bool state);
 	void OnToggleCompressTextures(Gui::ToggleButton *b, bool state);
