@@ -944,92 +944,6 @@ static int l_ship_hyperspace_to(lua_State *l)
 }
 
 /*
- * Group: Attributes
- */
-
-/*
- * Attribute: alertStatus
- *
- * The current alert status of the ship. A <Constants.ShipAlertStatus> string.
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  experimental
- */
-static int l_ship_attr_alert_status(lua_State *l)
-{
-	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	lua_pushstring(l, EnumStrings::GetString("ShipAlertStatus", s->GetAlertState()));
-	return 1;
-}
-
-/*
- * Attribute: flightState
- *
- * The current flight state of the ship. A <Constants.ShipFlightState> string.
- *
- * Availability:
- *
- *  alpha 25
- *
- * Status:
- *
- *  experimental
- */
-static int l_ship_attr_flight_state(lua_State *l)
-{
-	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	lua_pushstring(l, EnumStrings::GetString("ShipFlightState", s->GetFlightState()));
-	return 1;
-}
-
-/*
- * Attribute: shipId
- *
- * The internal id of the ship type. This value can be passed to
- * <ShipType.GetShipType> to retrieve information about this ship type.
- *
- * Availability:
- *
- *  alpha 28
- *
- * Status:
- *
- *  stable
- */
-static int l_ship_attr_ship_id(lua_State *l)
-{
-	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	lua_pushstring(l, s->GetShipType()->id.c_str());
-	return 1;
-}
-
-/*
- * Attribute: fuel
- *
- * The current amount of fuel, as a percentage of full
- *
- * Availability:
- *
- *   alpha 20
- *
- * Status:
- *
- *   experimental
- */
-static int l_ship_attr_fuel(lua_State *l)
-{
-	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	lua_pushnumber(l, s->GetFuel() * 100.f);
-	return 1;
-}
-
-
-/*
  * Group: AI methods
  *
  * The AI methods are the script's equivalent of the autopilot. They are
@@ -1341,14 +1255,64 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ 0, 0 }
 	};
 
-	static const luaL_Reg l_attrs[] = {
-		{ "alertStatus", l_ship_attr_alert_status },
-		{ "flightState", l_ship_attr_flight_state },
-		{ "shipId",      l_ship_attr_ship_id },
-		{ "fuel",        l_ship_attr_fuel },
-		{ 0, 0 }
-	};
-
-	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, l_attrs, NULL);
+	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, 0, 0);
 	LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<Ship>::DynamicCastPromotionTest);
 }
+
+/*
+ * Group: Attributes
+ *
+ *
+ * Attribute: alertStatus
+ *
+ * The current alert status of the ship. A <Constants.ShipAlertStatus> string.
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
+ *
+ *
+ * Attribute: flightState
+ *
+ * The current flight state of the ship. A <Constants.ShipFlightState> string.
+ *
+ * Availability:
+ *
+ *  alpha 25
+ *
+ * Status:
+ *
+ *  experimental
+ *
+ *
+ * Attribute: shipId
+ *
+ * The internal id of the ship type. This value can be passed to
+ * <ShipType.GetShipType> to retrieve information about this ship type.
+ *
+ * Availability:
+ *
+ *  alpha 28
+ *
+ * Status:
+ *
+ *  stable
+ *
+ *
+ * Attribute: fuel
+ *
+ * The current amount of fuel, as a percentage of full
+ *
+ * Availability:
+ *
+ *   alpha 20
+ *
+ * Status:
+ *
+ *   experimental
+ */
+

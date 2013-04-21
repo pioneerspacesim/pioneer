@@ -97,10 +97,10 @@ void TerrainBody::Render(Graphics::Renderer *renderer, const Camera *camera, con
 		glScaled(rad, rad, rad);			// rad = real_rad / scale
 		campos = campos * (1.0/rad);		// position of camera relative to planet "model"
 
-		std::list<Camera::Shadow> shadows;
+		std::vector<Camera::Shadow> shadows;
 		if( camera ) {
-			shadows = camera->PrincipalShadows(this, 3);
-			for (std::list<Camera::Shadow>::iterator it = shadows.begin(), itEnd=shadows.end(); it!=itEnd; ++it) {
+			camera->PrincipalShadows(this, 3, shadows);
+			for (std::vector<Camera::Shadow>::iterator it = shadows.begin(), itEnd=shadows.end(); it!=itEnd; ++it) {
 				it->centre = ftran * it->centre;
 			}
 		}

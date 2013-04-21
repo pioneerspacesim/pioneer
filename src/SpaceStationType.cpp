@@ -6,10 +6,14 @@
 #include "Lua.h"
 #include "LuaVector.h"
 #include "LuaVector.h"
+#include "LuaTable.h"
 #include "Pi.h"
 #include "Ship.h"
 #include "StringF.h"
 #include "scenegraph/Model.h"
+#include "OS.h"
+
+#include <algorithm>
 
 static lua_State *s_lua;
 static std::string s_currentStationFile = "";
@@ -69,6 +73,38 @@ void SpaceStationType::OnSetupComplete()
 			PiVerify(2 == sscanf((*leaveIter)->GetName().c_str(), "leaving_stage%d_bay%d", &stage, &bay));
 			PiVerify(bay>0 && stage>0);
 			m_ports[bay].m_leaving[stage] = (*leaveIter)->GetTransform();
+		}
+
+		assert(numDockingStages > 0);
+		assert(numUndockStages > 0);
+
+		for (PortMap::const_iterator pIt = m_ports.begin(), pItEnd = m_ports.end(); pIt!=pItEnd; ++pIt)
+		{
+			if (uint32_t(numDockingStages-1) < pIt->second.m_docking.size()) {
+				OS::Error(
+					"(%s): numDockingStages (%d) vs number of docking stages (" SIZET_FMT ")\n"
+					"Must have at least the same number of entries as the number of docking stages "
+					"PLUS the docking timeout at the start of the array.",
+					modelName.c_str(), (numDockingStages-1), pIt->second.m_docking.size());
+
+			} else if (uint32_t(numDockingStages-1) != pIt->second.m_docking.size()) {
+				OS::Warning(
+					"(%s): numDockingStages (%d) vs number of docking stages (" SIZET_FMT ")\n",
+					modelName.c_str(), (numDockingStages-1), pIt->second.m_docking.size());
+			}
+			
+			if (0!=pIt->second.m_leaving.size() && uint32_t(numUndockStages) < pIt->second.m_leaving.size()) {
+				OS::Error(
+					"(%s): numUndockStages (%d) vs number of leaving stages (" SIZET_FMT ")\n"
+					"Must have at least the same number of entries as the number of leaving stages.",
+					modelName.c_str(), (numDockingStages-1), pIt->second.m_docking.size());
+
+			} else if(0!=pIt->second.m_leaving.size() && uint32_t(numUndockStages) != pIt->second.m_leaving.size()) {
+				OS::Warning(
+					"(%s): numUndockStages (%d) vs number of leaving stages (" SIZET_FMT ")\n",
+					modelName.c_str(), numUndockStages, pIt->second.m_leaving.size());
+			}
+			
 		}
 	}
 }
@@ -186,82 +222,19 @@ bool SpaceStationType::GetDockAnimPositionOrient(const unsigned int port, int st
 	return gotOrient;
 }
 
-static inline void _get_string(lua_State *l, const char *key, std::string &output)
-{
-	lua_pushstring(l, key);
-	lua_gettable(l, -2);
-	output = lua_tostring(l, -1);
-	lua_pop(l, 1);
-}
-
-static inline void _get_int(lua_State *l, const char *key, int &output)
-{
-	lua_pushstring(l, key);
-	lua_gettable(l, -2);
-	output = lua_tointeger(l, -1);
-	lua_pop(l, 1);
-}
-
-static inline void _get_uint(lua_State *l, const char *key, unsigned int &output)
-{
-	lua_pushstring(l, key);
-	lua_gettable(l, -2);
-	output = lua_tointeger(l, -1);
-	lua_pop(l, 1);
-}
-
-
-static inline void _get_bool(lua_State *l, const char *key, bool &output)
-{
-	lua_pushstring(l, key);
-	lua_gettable(l, -2);
-	output = lua_toboolean(l, -1);
-	lua_pop(l, 1);
-}
-
-static inline void _get_bool(lua_State *l, const char *key, bool &output, const bool default_output)
-{
-	lua_pushstring(l, key);
-	lua_gettable(l, -2);
-	if (lua_isnil(l, -1)) {
-		output = default_output;
-	} else {
-		output = lua_toboolean(l, -1);
-	}	
-	lua_pop(l, 1);
-}
-
-static inline void _get_float(lua_State *l, const char *key, float &output, const float default_output)
-{
-	lua_pushstring(l, key);
-	lua_gettable(l, -2);
-	if (lua_isnil(l, -1)) {
-		output = default_output;
-	} else {
-		output = lua_tonumber(l, -1);
-	}	
-	lua_pop(l, 1);
-}
-
 static int _get_stage_durations(lua_State *L, const char *key, int &outNumStages, double **outDurationArray)
 {
 	LUA_DEBUG_START(L);
-	lua_pushstring(L, key);
-	lua_gettable(L, -2);
-	if (lua_istable(L, -1)) {
-		const int numStages = lua_rawlen(L, -1);
-		if (numStages < 1)
-			return luaL_error(L, "Station must have at least 1 stage in %s", key);
-		outNumStages = numStages;
-		*outDurationArray = new double[numStages];
-		for (int i=1; i <= numStages; i++) {
-			lua_pushinteger(L, i);
-			lua_gettable(L, -2);
-			(*outDurationArray)[i-1] = lua_tonumber(L, -1);
-			lua_pop(L, 1);
-		}
+	LuaTable stages = LuaTable(L, -1).Sub(key);
+	if (stages.GetLua() == 0) {
+		luaL_error(L, "Not a proper table (%s)", key);
 	}
-	lua_pop(L, 1);
+	if (stages.Size() < 1)
+		return luaL_error(L, "Station must have at least 1 stage in %s", key);
+	outNumStages = stages.Size();
+	*outDurationArray = new double[stages.Size()];
+	std::copy(stages.Begin<double>(), stages.End<double>(), *outDurationArray);
+	lua_pop(L, 1); // Popping t
 	LUA_DEBUG_END(L, 0);
 	return 0;
 }
@@ -270,69 +243,45 @@ static int _get_stage_durations(lua_State *L, const char *key, int &outNumStages
 //	bay_groups = {
 //		{0, 500, {1}},
 //	},
-static int _get_bay_ids(lua_State *L, const char *key, SpaceStationType::TBayGroups &outBayGroups)
+static int _get_bay_ids(lua_State *L, const char *key, SpaceStationType::TBayGroups &outBayGroups, unsigned int &outNumDockingPorts)
 {
 	LUA_DEBUG_START(L);
-	lua_pushstring(L, key);
-	lua_gettable(L, -2);
-	if (lua_istable(L, -1)) {
-		const int numBayGroups = lua_rawlen(L, -1);
-		if (numBayGroups < 1) {
-			return luaL_error(L, "Station must have at least 1 group of bays in %s", key);
-		}
-
-		outBayGroups.reserve(numBayGroups);
-
-		for (int iGroup=1; iGroup <= numBayGroups; iGroup++) {
-			// get the number of items meaning minSize, maxSize and the array of day ids
-			lua_pushinteger(L, iGroup);
-			lua_gettable(L, -2);
-			if (lua_istable(L, -1)) {
-				const int numItems = lua_rawlen(L, -1);
-				if (numItems != 3) {
-					return luaL_error(L, "??? wtf %s", key);
-				}
-
-				SpaceStationType::SBayGroup newBay;
-				for (int iItem=1; iItem <= numItems; iItem++) {
-					lua_pushinteger(L, iItem);
-					lua_gettable(L, -2);
-					switch(iItem) {
-					case 1: 
-						newBay.minShipSize = lua_tointeger(L, -1);
-						break;
-					case 2: 
-						newBay.maxShipSize = lua_tointeger(L, -1);
-						break;
-					case 3: 
-						if (lua_istable(L, -1)) {
-							const int numBays = lua_rawlen(L, -1);
-							if (numBays < 1) {
-								return luaL_error(L, "Group must have at least 1 bay %s", key);
-							}
-							newBay.bayIDs.reserve(numBays);
-							for (int i=1; i <= numBays; i++) {
-								lua_pushinteger(L, i);
-								lua_gettable(L, -2);
-								const int bayID = lua_tointeger(L, -1);
-								if (bayID < 1) {
-									return luaL_error(L, "Valid bay ID ranges start from 1 %s", key);
-								}
-								newBay.bayIDs.push_back(bayID-1);
-								lua_pop(L, 1);
-							}
-						} 
-						break;
-					}
-					lua_pop(L, 1);
-				}
-				outBayGroups.push_back(newBay);
-
-			}
-			lua_pop(L, 1);
-		}
+	LuaTable t = LuaTable(L, -1).Sub(key);
+	if (t.GetLua() == 0) {
+		luaL_error(L, "The bay group isn't a proper table (%s)", key);
 	}
-	lua_pop(L, 1);
+	if (t.Size() < 1) {
+		return luaL_error(L, "Station must have at least 1 group of bays in %s", key);
+	}
+
+	LuaTable::VecIter<LuaTable> it_end = t.End<LuaTable>();
+	for (LuaTable::VecIter<LuaTable> it = t.Begin<LuaTable>(); it != it_end; ++it) {
+		SpaceStationType::SBayGroup newBay;
+		newBay.minShipSize = it->Get<int>(1);
+		newBay.maxShipSize = it->Get<int>(2);
+		LuaTable group = it->Sub(3);
+
+		if (group.GetLua() == 0) {
+			luaL_error(L, "A group is of the form {int, int, table} (%s)", key);
+		}
+
+		if (group.Size() == 0) {
+			return luaL_error(L, "Group must have at least 1 bay %s", key);
+		}
+
+		newBay.bayIDs.reserve(group.Size());
+		LuaTable::VecIter<int> jt_end = group.End<int>();
+		for (LuaTable::VecIter<int> jt = group.Begin<int>(); jt != jt_end; ++jt) {
+			if ((*jt) < 1) {
+				return luaL_error(L, "Valid bay ID ranges start from 1 %s", key);
+			}
+			newBay.bayIDs.push_back((*jt)-1);
+			++outNumDockingPorts;
+		}
+		lua_pop(L, 1); // Popping group
+		outBayGroups.push_back(newBay);
+	}
+	lua_pop(L, 1); // Popping t
 	LUA_DEBUG_END(L, 0);
 	return 0;
 }
@@ -342,15 +291,15 @@ static int _define_station(lua_State *L, SpaceStationType &station)
 	station.id = s_currentStationFile;
 
 	LUA_DEBUG_START(L);
-	_get_string(L, "model", station.modelName);
-	_get_uint(L, "num_docking_ports", station.numDockingPorts);
-	_get_bay_ids(L, "bay_groups", station.bayGroups);
-	_get_float(L, "angular_velocity", station.angVel, 0.f);
-	_get_float(L, "parking_distance", station.parkingDistance, 5000.f);
-	_get_float(L, "parking_gap_size", station.parkingGapSize, 2000.f);
+	LuaTable t(L, -1);
+	station.modelName = t.Get<std::string>("model");
+	station.angVel = t.Get("angular_velocity", 0.f);
+	station.parkingDistance = t.Get("parking_distance", 5000.f);
+	station.parkingGapSize = t.Get("parking_gap_size", 2000.f);
+	station.shipLaunchStage = t.Get<int>("ship_launch_stage");
+	_get_bay_ids(L, "bay_groups", station.bayGroups, station.numDockingPorts);
 	_get_stage_durations(L, "dock_anim_stage_duration", station.numDockingStages, &station.dockAnimStageDuration);
 	_get_stage_durations(L, "undock_anim_stage_duration", station.numUndockStages, &station.undockAnimStageDuration);
-	_get_int(L, "ship_launch_stage", station.shipLaunchStage);
 	LUA_DEBUG_END(L, 0);
 
 	assert(!station.modelName.empty());

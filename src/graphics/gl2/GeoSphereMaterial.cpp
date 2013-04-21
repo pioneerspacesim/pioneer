@@ -93,9 +93,9 @@ void GeoSphereSurfaceMaterial::SetGSUniforms()
 	vector3f srad;
 	vector3f lrad;
 	vector3f sdivlrad;
-	std::list<Camera::Shadow>::const_iterator it = params.shadows.begin();
+	std::vector<Camera::Shadow>::const_iterator it = params.shadows.begin(), itEnd = params.shadows.end();
 	int j = 0;
-	while (j<3 && it != params.shadows.end()) {
+	while (j<3 && it != itEnd) {
 		occultedLight[j] = it->occultedLight;
 		shadowCentreX[j] = it->centre[0];
 		shadowCentreY[j] = it->centre[1];
