@@ -10,7 +10,9 @@ uniform float geosphereAtmosInvScaleHeight;
 
 uniform int shadows;
 uniform ivec3 occultedLight;
-uniform mat3 shadowCentre;
+uniform vec3 shadowCentreX;
+uniform vec3 shadowCentreY;
+uniform vec3 shadowCentreZ;
 uniform vec3 srad;
 uniform vec3 lrad;
 uniform vec3 sdivlrad;
@@ -87,8 +89,7 @@ void main(void)
 			// This ignores variation in atmosphere density, and ignores outscatter along
 			// the eyeline, so is not very accurate. But it gives decent results.
 
-			// can't do shadowCentre[j] in frag shader, on some targets
-			vec3 centre = shadowCentre[j];
+			vec3 centre = vec3( shadowCentreX[j], shadowCentreY[j], shadowCentreZ[j] );
 
 			vec3 ap = a - dot(a,lightDir)*lightDir - centre;
 			vec3 bp = b - dot(b,lightDir)*lightDir - centre;

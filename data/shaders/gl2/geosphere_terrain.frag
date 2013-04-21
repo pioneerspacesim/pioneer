@@ -10,7 +10,9 @@ uniform float geosphereAtmosInvScaleHeight;
 
 uniform int shadows;
 uniform ivec3 occultedLight;
-uniform mat3 shadowCentre;
+uniform vec3 shadowCentreX;
+uniform vec3 shadowCentreY;
+uniform vec3 shadowCentreZ;
 uniform vec3 srad;
 uniform vec3 lrad;
 uniform vec3 sdivlrad;
@@ -77,7 +79,7 @@ void main(void)
 			if (i != occultedLight[j])
 				continue;
 				
-			vec3 centre = shadowCentre[j];
+			vec3 centre = vec3( shadowCentreX[j], shadowCentreY[j], shadowCentreZ[j] );
 			
 			// Apply eclipse:
 			vec3 projectedPoint = v - dot(lightDir,v)*lightDir;

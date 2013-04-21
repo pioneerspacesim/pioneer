@@ -33,7 +33,9 @@ void GeoSphereProgram::InitUniforms()
 
 	shadows.Init("shadows", m_program);
 	occultedLight.Init("occultedLight", m_program);
-	shadowCentre.Init("shadowCentre", m_program);
+	shadowCentreX.Init("shadowCentreX", m_program);
+	shadowCentreY.Init("shadowCentreY", m_program);
+	shadowCentreZ.Init("shadowCentreZ", m_program);
 	srad.Init("srad", m_program);
 	lrad.Init("lrad", m_program);
 	sdivlrad.Init("sdivlrad", m_program);
@@ -85,7 +87,9 @@ void GeoSphereSurfaceMaterial::SetGSUniforms()
 
 	// we handle up to three shadows at a time
 	int occultedLight[3] = {-1,-1,-1};
-	float shadowCentre[9];
+	vector3f shadowCentreX;
+	vector3f shadowCentreY;
+	vector3f shadowCentreZ;
 	vector3f srad;
 	vector3f lrad;
 	vector3f sdivlrad;
@@ -93,8 +97,9 @@ void GeoSphereSurfaceMaterial::SetGSUniforms()
 	int j = 0;
 	while (j<3 && it != params.shadows.end()) {
 		occultedLight[j] = it->occultedLight;
-		for (int k=0; k<3; k++)
-			shadowCentre[3*j+k] = it->centre[k];
+		shadowCentreX[j] = it->centre[0];
+		shadowCentreY[j] = it->centre[1];
+		shadowCentreZ[j] = it->centre[2];
 		srad[j] = it->srad;
 		lrad[j] = it->lrad;
 		sdivlrad[j] = it->srad / it->lrad;
@@ -103,7 +108,9 @@ void GeoSphereSurfaceMaterial::SetGSUniforms()
 	}
 	p->shadows.Set(j);
 	p->occultedLight.Set(occultedLight);
-	p->shadowCentre.Set(shadowCentre);
+	p->shadowCentreX.Set(shadowCentreX);
+	p->shadowCentreY.Set(shadowCentreY);
+	p->shadowCentreZ.Set(shadowCentreZ);
 	p->srad.Set(srad);
 	p->lrad.Set(lrad);
 	p->sdivlrad.Set(sdivlrad);

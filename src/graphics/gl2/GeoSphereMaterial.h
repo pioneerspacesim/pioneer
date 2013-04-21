@@ -27,7 +27,9 @@ namespace Graphics {
 
 			Uniform shadows;
 			Uniform occultedLight;
-			Uniform shadowCentre;
+			Uniform shadowCentreX;
+			Uniform shadowCentreY;
+			Uniform shadowCentreZ;
 			Uniform srad;
 			Uniform lrad;
 			Uniform sdivlrad;
