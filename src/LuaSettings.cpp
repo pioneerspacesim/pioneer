@@ -77,10 +77,16 @@ static int l_settings_get_game_config(lua_State *l)
     LUA_DEBUG_END(l, 1);
     return 1;
 }
-static int l_settings_get_control_headers(lua_State *l)
+static int l_settings_get_headers(lua_State *l)
 {
     LUA_DEBUG_START(l);
-    const std::vector<std::string> headers = Pi::settings->GetControlHeaders();
+//     const std::vector<std::string> headers1 = Pi::settings->GetControlHeaders();
+//     const std::vector<std::string> headers2 = Pi::settings->GetViewHeaders();
+    const std::vector<std::string> headers = Pi::settings->GetHeaders();
+//     headers.reserve(headers1.size()+headers2.size());
+//     headers.insert(headers.end(),headers1.begin(),headers1.end());
+//     headers.insert(headers.end(),headers2.begin(),headers2.end());
+    
     lua_newtable(l);
     int i = 1;
     for (std::vector<std::string>::const_iterator
@@ -91,15 +97,29 @@ static int l_settings_get_control_headers(lua_State *l)
     return 1;
 }
 
-static int l_settings_get_control_keys(lua_State *l)
+static int l_settings_get_keys(lua_State *l)
 {
     LUA_DEBUG_START(l);
     const std::string header = luaL_checkstring(l, 2);
-    const Settings::KeyStrings t = Pi::settings->GetPrettyKeyStrings(header, Pi::settings->GetControlKeys());
+    const Settings::KeyStrings t = Pi::settings->GetPrettyKeyStrings(header, Pi::settings->GetKeys());
+//     const Settings::KeyStrings t2 = Pi::settings->GetPrettyKeyStrings(header, Pi::settings->GetViewKeys());
+    
+//     t.insert(t2.begin(),t2.end());
     lua_newtable(l);
     for(Settings::KeyStrings::const_iterator it = t.begin(); it != t.end(); ++it) {
         pi_lua_settable(l,it->first.c_str(), it->second.c_str());
     }
+    
+    LUA_DEBUG_END(l, 1);
+    return 1;
+}
+
+static int l_settings_get_key_function(lua_State *l)
+{
+    LUA_DEBUG_START(l);
+    const std::string matcher = luaL_checkstring(l, 2);
+    const std::string function = Pi::settings->GetFunction(matcher);
+    lua_pushlstring(l, function.c_str(), function.size());
     LUA_DEBUG_END(l, 1);
     return 1;
 }
@@ -109,8 +129,9 @@ void LuaSettings::Register()
     static const luaL_Reg l_methods[] = {
         { "GetVideoModes",   l_settings_get_video_modes   },
         { "GetGameConfig",   l_settings_get_game_config   },
-        { "GetControlHeaders",   l_settings_get_control_headers   },
-        { "GetControlKeys", l_settings_get_control_keys },
+        { "GetHeaders",   l_settings_get_headers   },
+        { "GetKeys", l_settings_get_keys },
+	{ "GetKeyFunction", l_settings_get_key_function },
         { 0, 0 }
     };
 

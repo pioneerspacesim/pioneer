@@ -22,15 +22,33 @@ public:
     const KeyMap &GetControlKeys() const {
         return m_control_keys;
     }
+    const SVecType &GetViewHeaders() const {
+	    return m_view_headers;
+    }
+    const KeyMap &GetViewKeys() const {
+	    return m_view_keys;
+    }
+    const SVecType &GetHeaders() const {
+	    return m_headers;
+    }
+    const std::string GetFunction(const std::string) const;
+    const KeyMap &GetKeys() const {
+	    return m_keys;
+    }
     const KeyStrings GetPrettyKeyStrings(const std::string header,const KeyMap &key_map) const;
 
 private:
-
+    enum
+    {
+        Function, Label, Binding, Key
+    };
     void BuildControlBindingList(const KeyBindings::BindingPrototype *protos, KeyMap &key_map,SVecType &header_vec);
     KeyMap m_control_keys;
     KeyMap m_view_keys;
     SVecType m_control_headers;
     SVecType m_view_headers;
+    SVecType m_headers;
+    KeyMap m_keys;
 };
 
 #endif // SETTINGS_H

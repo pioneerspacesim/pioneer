@@ -5,6 +5,7 @@
 #include "Settings.h"
 #include "KeyBindings.h"
 #include "Pi.h"
+
 #if 0
 void Display(Settings::KeyMap &key_map)
 {
@@ -26,14 +27,36 @@ void Display(Settings::KeyMap &key_map)
 #endif
 Settings::Settings()
 {
+    
     BuildControlBindingList(KeyBindings::BINDING_PROTOS_CONTROLS, m_control_keys,m_control_headers);
     BuildControlBindingList(KeyBindings::BINDING_PROTOS_VIEW, m_view_keys,m_view_headers);
-
+    m_headers.reserve(m_control_headers.size()+m_view_headers.size());
+    m_headers.insert(m_headers.end(),m_control_headers.begin(),m_control_headers.end());
+    m_headers.insert(m_headers.end(),m_view_headers.begin(),m_view_headers.end());
+    m_keys.insert(m_control_keys.begin(),m_control_keys.end());
+    m_keys.insert(m_view_keys.begin(),m_view_keys.end());
 }
 
 Settings::~Settings()
 {
 
+}
+
+const std::string Settings::GetFunction(const std::string matcher) const
+{
+	for(KeyMap::const_iterator it = m_keys.begin(); it != m_keys.end(); ++it) {
+		std::string header = it->first;
+		InnerVector kids = it->second;
+		for (InnerVector::iterator it2 = kids.begin(); it2 != kids.end(); ++it2) {
+			std::vector<std::string> keys = *it2;
+			std::string key = keys[Key];
+			if(key.compare(matcher) == 0)
+			{
+				return keys[Function];
+			}
+		}
+	}
+	assert(0);
 }
 
 const Settings::KeyStrings Settings::GetPrettyKeyStrings(const std::string header, const Settings::KeyMap &key_map) const
@@ -47,11 +70,11 @@ const Settings::KeyStrings Settings::GetPrettyKeyStrings(const std::string heade
     KeyStrings prettyKeys;;
     for (InnerVector::iterator it = kids.begin(); it != kids.end(); ++it) {
         std::vector<std::string> keys = *it;
-        prettyKeys[keys[1]] = keys[3];
+        prettyKeys[keys[Label]] = keys[Key];
     }
     return prettyKeys;
 }
-
+// const Settings::GetFunction
 void Settings::BuildControlBindingList(const KeyBindings::BindingPrototype *protos,KeyMap &key_map,std::vector<std::string> &header_vec)
 {
     assert(protos);
@@ -67,19 +90,19 @@ void Settings::BuildControlBindingList(const KeyBindings::BindingPrototype *prot
         } else {
             std::vector<std::string> keys;
 
-            std::string func;
+            std::string func(proto->function);
             std::string lab;
             std::string bind;
-            std::string desc;
+            std::string key_string;//will probably need to be a vector for multiple assignments
 
 
-            func = proto->function;
+//             func = proto->function;
             lab = proto->label;
             if (proto->kb) {
                 KeyBindings::KeyBinding kb;
                 kb = KeyBindings::KeyBindingFromString(Pi::config->String(proto->function));
                 bind = KeyBindings::KeyBindingToString(kb);
-                desc = kb.Description();
+                key_string = kb.Description();
 
 
 //
@@ -87,7 +110,7 @@ void Settings::BuildControlBindingList(const KeyBindings::BindingPrototype *prot
                 KeyBindings::AxisBinding ab;
                 ab = KeyBindings::AxisBindingFromString(Pi::config->String(func));
                 bind = KeyBindings::AxisBindingToString(ab);
-                desc = ab.Description();
+                key_string = ab.Description();
 
             } else {
                 assert(0);
@@ -95,7 +118,7 @@ void Settings::BuildControlBindingList(const KeyBindings::BindingPrototype *prot
             keys.push_back(func);
             keys.push_back(lab);
             keys.push_back(bind);
-            keys.push_back(desc);
+            keys.push_back(key_string);
 
             key_map[header].push_back(keys);
         }
