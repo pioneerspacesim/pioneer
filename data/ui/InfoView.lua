@@ -384,24 +384,17 @@ local missions = function (tabGroup)
 	}
 	MissionList:SetHeaders(headers)
 	
-	-- we're not happy with default sort function 
-	-- so we specify one by ourselves
+	-- we're not happy with default sort function so we specify one by ourselves
 	local sortMissions = function (misList)
 		local col = misList.sortCol
-		-- custom comparators for columns that we want
-		-- handle by ourselves
 		local cmpByReward = function (a,b) 
-			return a.data[col] > b.data[col] 
+			return a.data[col] >= b.data[col] 
 		end
 		local comparators = 
 		{ 	-- by column num
 			[5]	= cmpByReward,
 		}
-		if comparators[col] then 
-			table.sort(misList.table, comparators[col])
-		else 
-			misList:defaultSortFunction()
-		end
+		misList:defaultSortFunction(comparators[col])
 	end
 	MissionList:SetSortFunction(sortMissions)
 

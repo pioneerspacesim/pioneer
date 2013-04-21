@@ -94,3 +94,64 @@ function build_table(f, s, k)
   end
   return t
 end
+
+--
+-- stable_sort: return a sorted table. Sort isn't fast but stable
+-- (default Lua table.sort is fast and unstable).
+-- stable_sort uses Merge sort algorithm.
+--
+-- sorted_table = stable_sort(unsorted_table, 
+--							  function (a,b) return a < b end)
+--
+
+function stable_sort(values, cmp)
+	if not cmp then 
+		cmp = function (a,b) return a <= b end
+	end
+	
+	local split = function (values) 
+	   local a = {} 
+	   local b = {} 
+	   local len = #values 
+	   local mid = math.floor(len/2)
+	   for i = 1, mid do 
+		  a[i] = values[i]
+	   end 
+	   for i = mid+1, len do 
+		  b[i-mid] = values[i]
+	   end 
+	   return a,b
+	end 
+
+	local merge = function (a,b) 
+	   local result = {}
+	   local a_len = #(a)
+	   local b_len = #(b)
+	   local i1 = 1
+	   local i2 = 1
+	   for j = 1, a_len+b_len do 
+		  if i2 > b_len 
+			 or (i1 <= a_len and cmp(a[i1], b[i2]))
+		  then
+			 result[j] = a[i1]
+			 i1 = i1 + 1
+		  else                      
+			 result[j] = b[i2]
+			 i2 = i2 + 1
+		  end
+	   end 
+	   return result 
+	end 
+
+	function merge_sort (values) 
+	   if #values > 1 then
+		  local a, b = split(values)
+		  a = merge_sort(a)
+		  b = merge_sort(b)
+		  values = merge(a, b)
+	   end
+	   return values
+	end
+	
+	return merge_sort(values)
+end

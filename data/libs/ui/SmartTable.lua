@@ -1,10 +1,11 @@
 local ui = Engine.ui
 
-_DefaultSort = function (self)
+_DefaultSort = function (self, cmp)
+	if not cmp then
+		cmp = function (a,b) return a.data[col] <= b.data[col] end
+	end
 	col = self.sortCol
-	table.sort(self.table, function (a,b) 
-		return a.data[col] < b.data[col] end
-	)
+	self.table = stable_sort(self.table, cmp)
 end
 
 _DefaultCellWidget = function (data)
@@ -22,7 +23,7 @@ New = function (rowspec)
 	self.table = {} -- data and widgets
 	self.sortCol = nil
 	self.defaultSortFunction = _DefaultSort
-	self.sortFunction = self.defaultSortFunction
+	self.sortFunction = _DefaultSort
 	self.defaultCellWidget = _DefaultCellWidget
 
 	self.widget =
@@ -70,7 +71,7 @@ end,
 
 UpdateBody = function (self)
 	self.body:Clear()
-	for i,row in ipairs(self.table) do
+	for _,row in ipairs(self.table) do
 		local rowGrid = ui:Grid(self.rowspec, 1)
 		rowGrid:SetRow(0, row.widgets)
 		self.body:PackEnd(rowGrid)
