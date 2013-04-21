@@ -34,6 +34,8 @@ typedef __int64 int64_t;
 #include <stdint.h>
 #endif
 
+#include "SDL_thread.h"
+
 namespace THREAD_CONFIG
 {
 
