@@ -29,7 +29,7 @@ Body::Body() : PropertiedObject(Lua::manager)
 	, m_clipRadius(0.0)
 	, m_physRadius(0.0)
 {
-	SetLabel("");
+	Properties().Set("label", m_label);
 }
 
 Body::~Body()
@@ -51,7 +51,8 @@ void Body::Save(Serializer::Writer &wr, Space *space)
 void Body::Load(Serializer::Reader &rd, Space *space)
 {
 	m_frame = space->GetFrameByIndex(rd.Int32());
-	SetLabel(rd.String());
+	m_label = rd.String();
+	Properties().Set("label", m_label);
 	m_dead = rd.Bool();
 
 	m_pos = rd.Vector3d();
