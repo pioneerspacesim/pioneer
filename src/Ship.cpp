@@ -128,7 +128,7 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 		m_gunTemperature[i] = rd.Float();
 	}
 	m_ecmRecharge = rd.Float();
-	m_type = &ShipType::types[rd.String()]; // XXX handle missing thirdparty ship
+	SetShipId(rd.String()); // XXX handle missing thirdparty ship
 	m_dockedWithPort = rd.Int32();
 	m_dockedWithIndex = rd.Int32();
 	m_equipment.InitSlotSizes(m_type->id);
