@@ -111,8 +111,8 @@ void main(void)
 			float maxd = sqrt( max(0.0, maxr*maxr - perpsq) );
 			float mind = sqrt( max(0.0, minr*minr - perpsq) );
 
-			float shadow = shadowInt(clamp(ad, -maxd, -mind), clamp(bd, -maxd, -mind), perpsq, maxr)
-				+ shadowInt(clamp(ad, mind, maxd), clamp(bd, mind, maxd), perpsq, maxr) 
+			float shadow = ( shadowInt(clamp(ad, -maxd, -mind), clamp(bd, -maxd, -mind), perpsq, maxr)
+				+ shadowInt(clamp(ad, mind, maxd), clamp(bd, mind, maxd), perpsq, maxr) )
 				/ (maxr-minr) + (clamp(bd, -mind, mind) - clamp(ad, -mind, mind));
 
 			float maxOcclusion = min(1.0, (sdivlrad[j])*(sdivlrad[j]));
