@@ -25,7 +25,11 @@ public:
 	virtual const char *GetTypeName() { return "StaticGeometry"; }
 	virtual void Accept(NodeVisitor &nv);
 	virtual void Render(const matrix4x4f &trans, RenderData *rd);
+
 	void AddMesh(RefCountedPtr<Graphics::StaticMesh>);
+	unsigned int GetNumMeshes() const { return m_meshes.size(); }
+	RefCountedPtr<Graphics::StaticMesh> GetMesh(unsigned int i) { return m_meshes.at(i); }
+
 	Aabb m_boundingBox;
 	Graphics::BlendMode m_blendMode;
 
