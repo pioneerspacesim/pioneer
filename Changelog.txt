@@ -44,6 +44,9 @@ Alpha 33
      * Fix object viewer crash (#2187)
      * Fix Lua console to allow continuation of incomplete commands (#2198)
 
+   * Script changes
+     * New StarSystem method: ExportToLua (#1700)
+
    * Internal changes
      * Converted some remaining GL code to use the renderer interface (#2184)
 
