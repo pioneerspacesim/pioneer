@@ -113,8 +113,10 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 	m_wheelState = rd.Float();
 	m_launchLockTimeout = rd.Float();
 	m_testLanded = rd.Bool();
-	SetFlightState(static_cast<FlightState>(rd.Int32()));
-	SetAlertState(static_cast<AlertState>(rd.Int32()));
+	m_flightState = static_cast<FlightState>(rd.Int32());
+	m_alertState = static_cast<AlertState>(rd.Int32());
+	Properties().Set("flightState", EnumStrings::GetString("ShipFlightState", m_flightState));
+	Properties().Set("alertStatus", EnumStrings::GetString("ShipAlertStatus", m_alertState));
 	m_lastFiringAlert = rd.Double();
 
 	m_hyperspace.dest = SystemPath::Unserialize(rd);
@@ -126,7 +128,7 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 		m_gunTemperature[i] = rd.Float();
 	}
 	m_ecmRecharge = rd.Float();
-	m_type = &ShipType::types[rd.String()]; // XXX handle missing thirdparty ship
+	SetShipId(rd.String()); // XXX handle missing thirdparty ship
 	m_dockedWithPort = rd.Int32();
 	m_dockedWithIndex = rd.Int32();
 	m_equipment.InitSlotSizes(m_type->id);
@@ -183,8 +185,10 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	m_thrusterFuel(1.0),
 	m_reserveFuel(0.0)
 {
-	SetFlightState(FLYING);
-	SetAlertState(ALERT_NONE);
+	m_flightState = FLYING;
+	m_alertState = ALERT_NONE;
+	Properties().Set("flightState", EnumStrings::GetString("ShipFlightState", m_flightState));
+	Properties().Set("alertStatus", EnumStrings::GetString("ShipAlertStatus", m_alertState));
 
 	m_lastFiringAlert = 0.0;
 	m_testLanded = false;

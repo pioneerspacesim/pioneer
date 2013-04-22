@@ -11,6 +11,7 @@
 #include "Ship.h"
 #include "StringF.h"
 #include "scenegraph/Model.h"
+#include "OS.h"
 
 #include <algorithm>
 
@@ -72,6 +73,38 @@ void SpaceStationType::OnSetupComplete()
 			PiVerify(2 == sscanf((*leaveIter)->GetName().c_str(), "leaving_stage%d_bay%d", &stage, &bay));
 			PiVerify(bay>0 && stage>0);
 			m_ports[bay].m_leaving[stage] = (*leaveIter)->GetTransform();
+		}
+
+		assert(numDockingStages > 0);
+		assert(numUndockStages > 0);
+
+		for (PortMap::const_iterator pIt = m_ports.begin(), pItEnd = m_ports.end(); pIt!=pItEnd; ++pIt)
+		{
+			if (uint32_t(numDockingStages-1) < pIt->second.m_docking.size()) {
+				OS::Error(
+					"(%s): numDockingStages (%d) vs number of docking stages (" SIZET_FMT ")\n"
+					"Must have at least the same number of entries as the number of docking stages "
+					"PLUS the docking timeout at the start of the array.",
+					modelName.c_str(), (numDockingStages-1), pIt->second.m_docking.size());
+
+			} else if (uint32_t(numDockingStages-1) != pIt->second.m_docking.size()) {
+				OS::Warning(
+					"(%s): numDockingStages (%d) vs number of docking stages (" SIZET_FMT ")\n",
+					modelName.c_str(), (numDockingStages-1), pIt->second.m_docking.size());
+			}
+			
+			if (0!=pIt->second.m_leaving.size() && uint32_t(numUndockStages) < pIt->second.m_leaving.size()) {
+				OS::Error(
+					"(%s): numUndockStages (%d) vs number of leaving stages (" SIZET_FMT ")\n"
+					"Must have at least the same number of entries as the number of leaving stages.",
+					modelName.c_str(), (numDockingStages-1), pIt->second.m_docking.size());
+
+			} else if(0!=pIt->second.m_leaving.size() && uint32_t(numUndockStages) != pIt->second.m_leaving.size()) {
+				OS::Warning(
+					"(%s): numUndockStages (%d) vs number of leaving stages (" SIZET_FMT ")\n",
+					modelName.c_str(), numUndockStages, pIt->second.m_leaving.size());
+			}
+			
 		}
 	}
 }
@@ -210,7 +243,7 @@ static int _get_stage_durations(lua_State *L, const char *key, int &outNumStages
 //	bay_groups = {
 //		{0, 500, {1}},
 //	},
-static int _get_bay_ids(lua_State *L, const char *key, SpaceStationType::TBayGroups &outBayGroups)
+static int _get_bay_ids(lua_State *L, const char *key, SpaceStationType::TBayGroups &outBayGroups, unsigned int &outNumDockingPorts)
 {
 	LUA_DEBUG_START(L);
 	LuaTable t = LuaTable(L, -1).Sub(key);
@@ -243,6 +276,7 @@ static int _get_bay_ids(lua_State *L, const char *key, SpaceStationType::TBayGro
 				return luaL_error(L, "Valid bay ID ranges start from 1 %s", key);
 			}
 			newBay.bayIDs.push_back((*jt)-1);
+			++outNumDockingPorts;
 		}
 		lua_pop(L, 1); // Popping group
 		outBayGroups.push_back(newBay);
@@ -259,13 +293,11 @@ static int _define_station(lua_State *L, SpaceStationType &station)
 	LUA_DEBUG_START(L);
 	LuaTable t(L, -1);
 	station.modelName = t.Get<std::string>("model");
-	station.numDockingPorts = t.Get<unsigned int>("num_docking_ports");
-	station.numDockingPorts = t.Get<float>("num_docking_ports");
 	station.angVel = t.Get("angular_velocity", 0.f);
 	station.parkingDistance = t.Get("parking_distance", 5000.f);
 	station.parkingGapSize = t.Get("parking_gap_size", 2000.f);
 	station.shipLaunchStage = t.Get<int>("ship_launch_stage");
-	_get_bay_ids(L, "bay_groups", station.bayGroups);
+	_get_bay_ids(L, "bay_groups", station.bayGroups, station.numDockingPorts);
 	_get_stage_durations(L, "dock_anim_stage_duration", station.numDockingStages, &station.dockAnimStageDuration);
 	_get_stage_durations(L, "undock_anim_stage_duration", station.numUndockStages, &station.undockAnimStageDuration);
 	LUA_DEBUG_END(L, 0);

@@ -2,32 +2,9 @@
 
 #define THREAD_CONFIG_H
 
-//* This project is now officially hosted at source forge at the location:
-//  http://sourceforge.net/projects/jobswarm/
-//
-// * If you would like to be a contributing member to this small project, please email me at mailto:jratcliffscarab@gmail.com with your SourceForge account name.
-//** This header file provides operating system specific services
-//** It is intended to hide the difference between Windows/Linux threading APIs
-//** Currently it only supports Windows, but I expect to have a Linux port
-//** available shortly.
-
 /*!
 **
-** Copyright (c) 2009 by John W. Ratcliff mailto:jratcliffscarab@gmail.com
-**
-** If you find this code useful or you are feeling particularily generous I would
-** ask that you please go to http://www.amillionpixels.us and make a donation
-** to Troy DeMolay.
-**
-** Skype ID: jratcliff63367
-** Yahoo: jratcliff63367
-** AOL: jratcliff1961
-** email: jratcliffscarab@gmail.com
-** Personal website: http://jratcliffscarab.blogspot.com
-** Coding Website:   http://codesuppository.blogspot.com
-** FundRaising Blog: http://amillionpixels.blogspot.com
-** Fundraising site: http://www.amillionpixels.us
-** New Temple Site:  http://newtemple.blogspot.com
+** Copyright (c) 20011 by John W. Ratcliff mailto:jratcliffscarab@gmail.com
 **
 **
 ** The MIT license:
@@ -57,11 +34,15 @@ typedef __int64 int64_t;
 #include <stdint.h>
 #endif
 
+#include "SDL_thread.h"
+
 namespace THREAD_CONFIG
 {
 
 unsigned int tc_timeGetTime();
 void     tc_sleep(unsigned int ms);
+
+//void     tc_spinloop();
 
 class ThreadInterface
 {
@@ -72,6 +53,8 @@ public:
 class Thread
 {
 public:
+	virtual void Suspend(void) = 0;
+	virtual void Resume(void) = 0;
 };
 
 Thread      * tc_createThread(ThreadInterface *tinterface);
@@ -89,6 +72,8 @@ private:
 	SDL_mutex *mpEventMutex;
 	SDL_cond *mpEvent;
 };
+
+int tc_atomicAdd(int *addend,int amount);
 
 ThreadEvent * tc_createThreadEvent();
 void          tc_releaseThreadEvent(ThreadEvent *t);

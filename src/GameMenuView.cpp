@@ -468,42 +468,28 @@ GameMenuView::GameMenuView(): View()
 		box1->SetSpacing(5.0f);
 		advancedTab->Add(box1, 10, 10);
 
-		// thread count selector
+		// terrain core count selector
 		{
-			m_videoModes = Graphics::GetAvailableVideoModes();
-			box1->PackEnd((new Gui::Label(Lang::VIDEO_RESOLUTION))->Color(1.0f,1.0f,0.0f));
+			box1->PackEnd((new Gui::Label(Lang::CPU_CORES_FOR_TERRAIN_GENERATION))->Color(1.0f,1.0f,0.0f));
 
 			m_threadCountGroup = new Gui::RadioGroup();
 
-			// box to put the scroll portal and its scroll bar into
-			Gui::HBox *scrollHBox = new Gui::HBox();
-			box1->PackEnd(scrollHBox);
-
-			Gui::VScrollBar *scroll = new Gui::VScrollBar();
-			Gui::VScrollPortal *portal = new Gui::VScrollPortal(200);
-			scroll->SetAdjustment(&portal->vscrollAdjust);
-			scrollHBox->PackEnd(portal);
-			scrollHBox->PackEnd(scroll);
-
-			Gui::VBox *vbox2 = new Gui::VBox();
-			portal->Add(vbox2);
-
-			const int numOfCores = getNumCores();
+			const uint32_t numOfCores = getNumCores();
 			const uint32_t numThreadsUsed = Pi::jobs().NumOfThreadsUsed();
 
 			// add each of the thread counts
-			for (int i = 0; i <= numOfCores; ++i) {
+			for (uint32_t i = 0; i <= numOfCores; ++i) {
 				Gui::RadioButton *temp = new Gui::RadioButton(m_threadCountGroup);
-				temp->onSelect.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangeNumThreadsToUse), i));
+				temp->onSelect.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangeNumTerrainCores), i));
 				Gui::HBox *hbox = new Gui::HBox();
 				hbox->SetSpacing(5.0f);
 				hbox->PackEnd(temp);
 				if(0==i) {
-					hbox->PackEnd(new Gui::Label(Lang::N_USE_ALL_THREADS));
+					hbox->PackEnd(new Gui::Label(Lang::USE_ALL_CORES));
 				} else {
-					hbox->PackEnd(new Gui::Label(stringf(Lang::N_NUM_THREADS, formatarg("n", i))));
+					hbox->PackEnd(new Gui::Label(stringf(Lang::USE_N_CORES, formatarg("n", i))));
 				}
-				vbox2->PackEnd(hbox);
+				box1->PackEnd(hbox);
 
 				//mark the current video mode
 				if (numThreadsUsed == i) {
@@ -645,7 +631,7 @@ void GameMenuView::OnChangeVideoResolution(int modeIndex)
 	Pi::config->Save();
 }
 
-void GameMenuView::OnChangeNumThreadsToUse(int num)
+void GameMenuView::OnChangeNumTerrainCores(int num)
 {
 }
 

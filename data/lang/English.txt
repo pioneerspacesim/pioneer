@@ -1240,7 +1240,9 @@ MONTH_DEC
     Dec
 MISCELLANEOUS
     Miscellaneous
-N_USE_ALL_THREADS
-    Use all threads
-N_NUM_THREADS
-    %{n} threads
+CPU_CORES_FOR_TERRAIN_GENERATION
+	CPU cores for terrain generation
+USE_ALL_THREADS
+    Use all cores
+USE_N_CORES
+    Use %{n} cores
