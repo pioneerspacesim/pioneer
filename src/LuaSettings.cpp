@@ -4,13 +4,13 @@
 
 #include "LuaSettings.h"
 #include "LuaObject.h"
-#include "LuaUtils.h"
 #include "Pi.h"
 #include "Settings.h"
-#include "graphics/Graphics.h"
-#include "Lang.h"
-#include "StringF.h"
-#include "../contrib/lua/llimits.h"
+
+
+
+#include "LuaTable.h"
+// #include "../contrib/lua/llimits.h"
 
 #if 0
 void stackdump_g(lua_State* l)
@@ -46,17 +46,10 @@ void stackdump_g(lua_State* l)
 static int l_settings_get_video_modes(lua_State *l)
 {
     LUA_DEBUG_START(l);
-    const std::vector<Graphics::VideoMode> m_videoModes = Graphics::GetAvailableVideoModes();
-    lua_createtable(l, m_videoModes.size(), 0);
-
-    int i = 1;
-    for (std::vector<Graphics::VideoMode>::const_iterator
-            it = m_videoModes.begin(); it != m_videoModes.end(); ++it) {
-        std::string tmp = stringf(Lang::X_BY_X, formatarg("x", int(it->width)), formatarg("y", int(it->height)));
-        lua_pushlstring(l, tmp.c_str(), tmp.size());
-        lua_rawseti(l, -2, i);
-        ++i;
-    }
+    
+    LuaTable t(l);
+    Settings::SVecType result = Pi::settings->GetVideoModes();
+    t.LoadVector(result);
 
     LUA_DEBUG_END(l, 1);
     return 1;
@@ -64,35 +57,30 @@ static int l_settings_get_video_modes(lua_State *l)
 static int l_settings_get_game_config(lua_State *l)
 {
     LUA_DEBUG_START(l);
-    const std::map<std::string, std::map<std::string, std::string > > &map = Pi::config->GetMap();
-    for(std::map<std::string, std::map<std::string, std::string > >::const_iterator it = map.begin();
-            it != map.end(); ++it) {
-        const std::map<std::string, std::string> &ini = it->second;
-        lua_newtable(l);
-        for(std::map<std::string, std::string>::const_iterator init = ini.begin();
-                init != ini.end(); ++init) {
-            pi_lua_settable(l,init->first.c_str(),init->second.c_str());
-        }
-    }
+
+    const Settings::MapStrings ini = Pi::settings->GetGameConfig();
+    LuaTable t(l);
+    t.LoadMap(ini);
+    
     LUA_DEBUG_END(l, 1);
     return 1;
+}
+static int l_settings_save_game_config(lua_State *l)
+{
+    LuaTable t(l, -1);
+    Settings::MapStrings ini = t.GetMap<std::string,std::string>();
+    if(!Pi::settings->SaveGameConfig(ini))
+        return luaL_error(l, "Could not save Config");
+    return 0;
 }
 static int l_settings_get_headers(lua_State *l)
 {
     LUA_DEBUG_START(l);
-//     const std::vector<std::string> headers1 = Pi::settings->GetControlHeaders();
-//     const std::vector<std::string> headers2 = Pi::settings->GetViewHeaders();
+
     const std::vector<std::string> headers = Pi::settings->GetHeaders();
-//     headers.reserve(headers1.size()+headers2.size());
-//     headers.insert(headers.end(),headers1.begin(),headers1.end());
-//     headers.insert(headers.end(),headers2.begin(),headers2.end());
+    LuaTable t(l);
+    t.LoadVector(headers);
     
-    lua_newtable(l);
-    int i = 1;
-    for (std::vector<std::string>::const_iterator
-            it = headers.begin(); it != headers.end(); ++it) {
-        pi_lua_settable(l,i++,it->c_str());
-    }
     LUA_DEBUG_END(l, 1);
     return 1;
 }
@@ -100,16 +88,12 @@ static int l_settings_get_headers(lua_State *l)
 static int l_settings_get_keys(lua_State *l)
 {
     LUA_DEBUG_START(l);
+    
     const std::string header = luaL_checkstring(l, 2);
-    const Settings::KeyStrings t = Pi::settings->GetPrettyKeyStrings(header, Pi::settings->GetKeys());
-//     const Settings::KeyStrings t2 = Pi::settings->GetPrettyKeyStrings(header, Pi::settings->GetViewKeys());
-    
-//     t.insert(t2.begin(),t2.end());
-    lua_newtable(l);
-    for(Settings::KeyStrings::const_iterator it = t.begin(); it != t.end(); ++it) {
-        pi_lua_settable(l,it->first.c_str(), it->second.c_str());
-    }
-    
+    const Settings::MapStrings keystrings = Pi::settings->GetPrettyKeyStrings(header, Pi::settings->GetKeys());
+    LuaTable t(l);
+    t.LoadMap(keystrings);
+
     LUA_DEBUG_END(l, 1);
     return 1;
 }
@@ -129,9 +113,10 @@ void LuaSettings::Register()
     static const luaL_Reg l_methods[] = {
         { "GetVideoModes",   l_settings_get_video_modes   },
         { "GetGameConfig",   l_settings_get_game_config   },
+	{ "SaveGameConfig",   l_settings_save_game_config   },
         { "GetHeaders",   l_settings_get_headers   },
         { "GetKeys", l_settings_get_keys },
-	{ "GetKeyFunction", l_settings_get_key_function },
+        { "GetKeyFunction", l_settings_get_key_function },
         { 0, 0 }
     };
 

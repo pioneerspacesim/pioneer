@@ -14,7 +14,7 @@ public:
     typedef std::vector <std::vector<std::string> > InnerVector;
     typedef std::map<std::string,InnerVector > KeyMap;
     typedef std::vector<std::string> SVecType;
-    typedef std::map<std::string,std::string> KeyStrings;
+    typedef std::map<std::string,std::string> MapStrings;
 
     const SVecType &GetControlHeaders() const {
         return m_control_headers;
@@ -35,8 +35,10 @@ public:
     const KeyMap &GetKeys() const {
 	    return m_keys;
     }
-    const KeyStrings GetPrettyKeyStrings(const std::string header,const KeyMap &key_map) const;
-
+    const MapStrings GetPrettyKeyStrings(const std::string header,const KeyMap &key_map) const;
+    const MapStrings GetGameConfig() const;
+    const SVecType GetVideoModes() const;
+    bool SaveGameConfig(const Settings::MapStrings ini) const;
 private:
     enum
     {

@@ -5,6 +5,9 @@
 #include "Settings.h"
 #include "KeyBindings.h"
 #include "Pi.h"
+#include "graphics/Graphics.h"
+#include "StringF.h"
+#include "Lang.h"
 
 #if 0
 void Display(Settings::KeyMap &key_map)
@@ -27,7 +30,7 @@ void Display(Settings::KeyMap &key_map)
 #endif
 Settings::Settings()
 {
-    
+
     BuildControlBindingList(KeyBindings::BINDING_PROTOS_CONTROLS, m_control_keys,m_control_headers);
     BuildControlBindingList(KeyBindings::BINDING_PROTOS_VIEW, m_view_keys,m_view_headers);
     m_headers.reserve(m_control_headers.size()+m_view_headers.size());
@@ -44,22 +47,22 @@ Settings::~Settings()
 
 const std::string Settings::GetFunction(const std::string matcher) const
 {
-	for(KeyMap::const_iterator it = m_keys.begin(); it != m_keys.end(); ++it) {
-		std::string header = it->first;
-		InnerVector kids = it->second;
-		for (InnerVector::iterator it2 = kids.begin(); it2 != kids.end(); ++it2) {
-			std::vector<std::string> keys = *it2;
-			std::string key = keys[Key];
-			if(key.compare(matcher) == 0)
-			{
-				return keys[Function];
-			}
-		}
-	}
-	assert(0);
+    for(KeyMap::const_iterator it = m_keys.begin(); it != m_keys.end(); ++it) {
+        std::string header = it->first;
+        InnerVector kids = it->second;
+        for (InnerVector::iterator it2 = kids.begin(); it2 != kids.end(); ++it2) {
+            std::vector<std::string> keys = *it2;
+            std::string key = keys[Key];
+            if(key.compare(matcher) == 0)
+            {
+                return keys[Function];
+            }
+        }
+    }
+    assert(0);
 }
 
-const Settings::KeyStrings Settings::GetPrettyKeyStrings(const std::string header, const Settings::KeyMap &key_map) const
+const Settings::MapStrings Settings::GetPrettyKeyStrings(const std::string header, const Settings::KeyMap &key_map) const
 {
     InnerVector kids;
     for(KeyMap::const_iterator it = key_map.begin(); it != key_map.end(); ++it) {
@@ -67,14 +70,46 @@ const Settings::KeyStrings Settings::GetPrettyKeyStrings(const std::string heade
         kids = it->second;
         break;
     }
-    KeyStrings prettyKeys;;
+    MapStrings prettyKeys;;
     for (InnerVector::iterator it = kids.begin(); it != kids.end(); ++it) {
         std::vector<std::string> keys = *it;
         prettyKeys[keys[Label]] = keys[Key];
     }
     return prettyKeys;
 }
-// const Settings::GetFunction
+
+const Settings::MapStrings Settings::GetGameConfig() const
+{
+    const std::map<std::string, MapStrings> &map = Pi::config->GetMap();
+    MapStrings result;
+    for(std::map<std::string, MapStrings>::const_iterator it = map.begin();it != map.end(); ++it) {
+	    result.insert(it->second.begin(),it->second.end());
+	    printf("%s\n",it->first.c_str());
+    }
+    return result;
+}
+bool Settings::SaveGameConfig(const Settings::MapStrings ini) const
+{
+    for(Settings::MapStrings::const_iterator it = ini.begin(); it != ini.end(); ++it){
+        
+        Pi::config->SetString(it->first.c_str(), it->second.c_str());
+        
+    }
+    return Pi::config->Save();
+}
+
+const Settings::SVecType Settings::GetVideoModes() const
+{
+    SVecType result;
+    const std::vector<Graphics::VideoMode> m_videoModes = Graphics::GetAvailableVideoModes();
+
+    for (std::vector<Graphics::VideoMode>::const_iterator it = m_videoModes.begin(); it != m_videoModes.end(); ++it) {
+        std::string tmp = stringf(Lang::X_BY_X, formatarg("x", int(it->width)), formatarg("y", int(it->height)));
+        result.push_back(tmp);
+    }
+    return result;
+}
+
 void Settings::BuildControlBindingList(const KeyBindings::BindingPrototype *protos,KeyMap &key_map,std::vector<std::string> &header_vec)
 {
     assert(protos);

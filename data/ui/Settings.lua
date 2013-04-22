@@ -3,14 +3,15 @@
 
 local ui = Engine.ui
 local l = Lang.GetDictionary()
-
+local iniTable = Settings:GetGameConfig()
 local return_to_menu = ui:Button():SetInnerWidget(ui:Label(l.RETURN_TO_MENU))
-return_to_menu.onClick:Connect(function () ui:SetInnerWidget(ui.templates.MainMenu()) end)
+return_to_menu.onClick:Connect(function () Settings:SaveGameConfig(iniTable)
+					ui:SetInnerWidget(ui.templates.MainMenu()) end)
 
 
 
 ui.templates.Settings = function (args) 
-	local iniTable = Settings:GetGameConfig()
+	
 	
 	local gameTemplate = function()
 	return ui:VBox():PackEnd({
@@ -56,7 +57,10 @@ ui.templates.Settings = function (args)
 		screenModeDropdown:SetOption(iniTable["ScrWidth"].."x"..iniTable["ScrHeight"]);
 	-- 	print ("option = ", screenModeDropdown.selectedOption)
 		screenModeDropdown.onOptionSelected:Connect(function() local option = screenModeDropdown.selectedOption
-							
+							for k, v in string.gmatch(option, "(%w+)x(%w+)") do
+								iniTable["ScrWidth"] = k
+								iniTable["ScrHeight"] = v
+							end
 							print (option) end)
 		fullScreenCheckBox:SetState(iniTable["StartFullscreen"])
 		compressionCheckBox:SetState(iniTable["UseTextureCompression"])
@@ -124,14 +128,16 @@ ui.templates.Settings = function (args)
 			return controls
 			
 		end
-		local adjChange = function(adj,label)
+		local adjChange = function(adj,label,ini)
 			local pos = adj.ScrollPosition 
+			iniTable[ini] = pos;
 			pos = pos*100;
 			adj.InnerWidget:SetText(label.." "..pos)
+			
 		end
-		masterVolume.OnChange:Connect(function() adjChange(masterVolume, l.VOL_MASTER ) end)
-		musicVolume.OnChange:Connect(function() adjChange(musicVolume, l.VOL_MUSIC ) end)
-		sfxVolume.OnChange:Connect(function() adjChange(sfxVolume, l.VOL_EFFECTS ) end)
+		masterVolume.OnChange:Connect(function() adjChange(masterVolume, l.VOL_MASTER,"MasterVolume" ) end)
+		musicVolume.OnChange:Connect(function() adjChange(musicVolume, l.VOL_MUSIC,"MusicVolume" ) end)
+		sfxVolume.OnChange:Connect(function() adjChange(sfxVolume, l.VOL_EFFECTS,"SfxVolume" ) end)
 		
 		return ui:Grid({1,2,1}, 3)
 			:SetCell(0,0,controlFunc(masterVolume,"MasterMuted")) 
