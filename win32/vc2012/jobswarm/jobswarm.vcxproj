@@ -97,8 +97,8 @@
     <ClCompile Include="..\..\..\contrib\jobswarm\CoreCount.cpp" />
     <ClCompile Include="..\..\..\contrib\jobswarm\JobManager.cpp" />
     <ClCompile Include="..\..\..\contrib\jobswarm\JobSwarm.cpp" />
+    <ClCompile Include="..\..\..\contrib\jobswarm\LockFreeQ.cpp" />
     <ClCompile Include="..\..\..\contrib\jobswarm\ThreadConfig.cpp" />
-    <ClCompile Include="..\..\..\contrib\jobswarm\ThreadSafeQueue.cpp" />
     <ClCompile Include="..\..\..\src\win32\OSWin32.cpp" />
     <ClCompile Include="..\..\..\src\win32\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -110,9 +110,9 @@
     <ClInclude Include="..\..\..\contrib\jobswarm\CoreCount.h" />
     <ClInclude Include="..\..\..\contrib\jobswarm\JobManager.h" />
     <ClInclude Include="..\..\..\contrib\jobswarm\JobSwarm.h" />
+    <ClInclude Include="..\..\..\contrib\jobswarm\LockFreeQ.h" />
     <ClInclude Include="..\..\..\contrib\jobswarm\pool.h" />
     <ClInclude Include="..\..\..\contrib\jobswarm\ThreadConfig.h" />
-    <ClInclude Include="..\..\..\contrib\jobswarm\ThreadSafeQueue.h" />
     <ClInclude Include="..\..\..\contrib\jobswarm\UserMemAlloc.h" />
     <ClInclude Include="..\..\..\src\win32\pch.h" />
   </ItemGroup>

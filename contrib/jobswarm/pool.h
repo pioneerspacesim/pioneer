@@ -4,9 +4,29 @@
 
 #include "UserMemAlloc.h"
 
+//** This is a doubly-linked list template class.  It's a little crufty as
+//** it is old.  However, it is stable and runs extremely fast.  It minimizes
+//** memory allocations by allocating nodes in chunks.  For the 99.99% case
+//** accessing the linked list to 'allocate' and 'free' is virtually
+//** instantaneous.
+
 /*!
 **
-** Copyright (c) 20011 by John W. Ratcliff mailto:jratcliffscarab@gmail.com
+** Copyright (c) 2009 by John W. Ratcliff mailto:jratcliffscarab@gmail.com
+**
+** If you find this code useful or you are feeling particularily generous I would
+** ask that you please go to http://www.amillionpixels.us and make a donation
+** to Troy DeMolay.
+**
+** Skype ID: jratcliff63367
+** Yahoo: jratcliff63367
+** AOL: jratcliff1961
+** email: jratcliffscarab@gmail.com
+** Personal website: http://jratcliffscarab.blogspot.com
+** Coding Website:   http://codesuppository.blogspot.com
+** FundRaising Blog: http://amillionpixels.blogspot.com
+** Fundraising site: http://www.amillionpixels.us
+** New Temple Site:  http://newtemple.blogspot.com
 **
 **
 ** The MIT license:
@@ -29,6 +49,8 @@
 ** CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 */
+
+
 
 
 
@@ -205,8 +227,12 @@ public:
         return mUsedCount;
     };
 
-	int GetUsedCount(void) const { return mUsedCount; };
-	int GetFreeCount(void) const { return mFreeCount; };
+    int GetUsedCount(void) const {
+        return mUsedCount;
+    };
+    int GetFreeCount(void) const {
+        return mFreeCount;
+    };
 
     Type * GetNext(void)
     {
@@ -343,7 +369,9 @@ public:
         return ret;
     }
 
-  bool isInitialized(void) const { return mInitialized; };
+    bool isInitialized(void) const {
+        return mInitialized;
+    };
 
 //private:
     bool         mInitialized;

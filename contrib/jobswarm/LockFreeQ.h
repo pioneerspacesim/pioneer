@@ -5,9 +5,38 @@
 
 #include "UserMemAlloc.h" // use this to optionally trap all memory allocations
 
+//* This project is now officially hosted at source forge at the location:
+//  http://sourceforge.net/projects/jobswarm/
+//
+// * If you would like to be a contributing member to this small project, please email me at mailto:jratcliffscarab@gmail.com with your SourceForge account name.
+//** This header file defines two types of lock-free ques.
+// The first is a standard circular queue of a fixed size that supports
+// a single reader and a single writer.  It does no locks, or interchange instructions.
+//
+// The second is intended to be a lock-free queue that supports access from
+// multiple threads simultaneously.
+//
+// The lock free queue implementation was written by David Pangerl
+//
+
+
 /*!
 **
-** Copyright (c) 20011 by John W. Ratcliff mailto:jratcliffscarab@gmail.com
+** Copyright (c) 2009 by John W. Ratcliff mailto:jratcliffscarab@gmail.com
+**
+** If you find this code useful or you are feeling particularily generous I would
+** ask that you please go to http://www.amillionpixels.us and make a donation
+** to Troy DeMolay.
+**
+** Skype ID: jratcliff63367
+** Yahoo: jratcliff63367
+** AOL: jratcliff1961
+** email: jratcliffscarab@gmail.com
+** Personal website: http://jratcliffscarab.blogspot.com
+** Coding Website:   http://codesuppository.blogspot.com
+** FundRaising Blog: http://amillionpixels.blogspot.com
+** Fundraising site: http://www.amillionpixels.us
+** New Temple Site:  http://newtemple.blogspot.com
 **
 **
 ** The MIT license:
@@ -31,7 +60,7 @@
 
 */
 
-namespace THREAD_SAFE_QUEUE
+namespace LOCK_FREE_Q
 {
 
 // reader-writer circular queue.. one thread writes, one thread reads only...
@@ -115,7 +144,7 @@ public:
     node_t *pNext;
 };
 
-  class ThreadSafeQueue
+class LockFreeQ
 {
 public:
     virtual node_t * getHead() = 0;
@@ -126,8 +155,8 @@ public:
 
 
 
-  ThreadSafeQueue * createThreadSafeQueue(void);
-  void releaseThreadSafeQueue(ThreadSafeQueue *q);
+LockFreeQ * createLockFreeQ(void);
+void        releaseLockFreeQ(LockFreeQ *q);
 
 };
 

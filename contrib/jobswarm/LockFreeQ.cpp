@@ -1,14 +1,28 @@
-#include "ThreadSafeQueue.h"
+#include "LockFreeQ.h"
 #include "ThreadConfig.h"
 
-//*** Note, even though the source file is called 'ThreadSafeQueue' this implementation is not *ye* lock-free
+//*** Note, even though the source file is called 'LockFreeQ' this implementation is not *ye* lock-free
 //*** As long as your job size has any significant amount of 'work' to do, there is not real difference
 //*** in performance.  I will be uploading a fully lock-free version relatively soon.
 
 
 /*!
 **
-** Copyright (c) 20011 by John W. Ratcliff mailto:jratcliffscarab@gmail.com
+** Copyright (c) 2009 by John W. Ratcliff mailto:jratcliffscarab@gmail.com
+**
+** If you find this code useful or you are feeling particularily generous I would
+** ask that you please go to http://www.amillionpixels.us and make a donation
+** to Troy DeMolay.
+**
+** Skype ID: jratcliff63367
+** Yahoo: jratcliff63367
+** AOL: jratcliff1961
+** email: jratcliffscarab@gmail.com
+** Personal website: http://jratcliffscarab.blogspot.com
+** Coding Website:   http://codesuppository.blogspot.com
+** FundRaising Blog: http://amillionpixels.blogspot.com
+** Fundraising site: http://www.amillionpixels.us
+** New Temple Site:  http://newtemple.blogspot.com
 **
 **
 ** The MIT license:
@@ -32,7 +46,7 @@
 
 */
 
-namespace THREAD_SAFE_QUEUE
+namespace LOCK_FREE_Q
 {
 
 #ifdef MSVC
@@ -47,11 +61,11 @@ struct TCount {
     unsigned int                           count;
 };
 
-class MyThreadSafeQueue : public ThreadSafeQueue
+class MyLockFreeQ : public LockFreeQ
 {
 public:
 
-    MyThreadSafeQueue(void)
+    MyLockFreeQ(void)
     {
         mMutex = SDL_CreateMutex();
         //
@@ -59,7 +73,7 @@ public:
         Head.count=Tail.count=0;
     }
 
-    ~MyThreadSafeQueue(void)
+    ~MyLockFreeQ(void)
     {
         SDL_DestroyMutex(mMutex);
     }
@@ -114,16 +128,16 @@ private:
 };
 
 
-ThreadSafeQueue * createThreadSafeQueue(void)
+LockFreeQ * createLockFreeQ(void)
 {
-    MyThreadSafeQueue *m = MEMALLOC_NEW(MyThreadSafeQueue);
-    return static_cast< ThreadSafeQueue *>(m);
+    MyLockFreeQ *m = MEMALLOC_NEW(MyLockFreeQ);
+    return static_cast< LockFreeQ *>(m);
 }
 
-void releaseThreadSafeQueue(ThreadSafeQueue *q)
+void        releaseLockFreeQ(LockFreeQ *q)
 {
-    MyThreadSafeQueue *m = static_cast< MyThreadSafeQueue *>(q);
-    MEMALLOC_DELETE(MyThreadSafeQueue,m);
+    MyLockFreeQ *m = static_cast< MyLockFreeQ *>(q);
+    MEMALLOC_DELETE(MyLockFreeQ,m);
 }
 
 };

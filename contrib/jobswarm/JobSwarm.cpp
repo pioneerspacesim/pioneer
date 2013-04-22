@@ -7,7 +7,21 @@
 
 /*!
 **
-** Copyright (c) 20011 by John W. Ratcliff mailto:jratcliffscarab@gmail.com
+** Copyright (c) 2009 by John W. Ratcliff mailto:jratcliffscarab@gmail.com
+**
+** If you find this code useful or you are feeling particularily generous I would
+** ask that you please go to http://www.amillionpixels.us and make a donation
+** to Troy DeMolay.
+**
+** Skype ID: jratcliff63367
+** Yahoo: jratcliff63367
+** AOL: jratcliff1961
+** email: jratcliffscarab@gmail.com
+** Personal website: http://jratcliffscarab.blogspot.com
+** Coding Website:   http://codesuppository.blogspot.com
+** FundRaising Blog: http://amillionpixels.blogspot.com
+** Fundraising site: http://www.amillionpixels.us
+** New Temple Site:  http://newtemple.blogspot.com
 **
 **
 ** The MIT license:
@@ -33,15 +47,13 @@
 
 #include "JobSwarm.h"
 #include "ThreadConfig.h"
-#include "ThreadSafeQueue.h"
+#include "LockFreeQ.h"
 #include "pool.h"
-
-#define MAX_THREADS 64
 
 namespace JOB_SWARM
 {
 
-class SwarmJob : public THREAD_SAFE_QUEUE::node_t
+class SwarmJob : public LOCK_FREE_Q::node_t
 {
 public:
     SwarmJob()
@@ -51,7 +63,7 @@ public:
         mInterface = NULL;
         mCancelled = false;
         mUserData  = NULL;
-        mUserId    = 0;
+        mUserId    = NULL;
     }
 
     SwarmJob(JobSwarmInterface *iface,void *userData,int userId)
@@ -91,10 +103,18 @@ public:
         mCancelled = true;
     }
 
-	SwarmJob *  GetNext(void) const              { return mNext; };
-	SwarmJob *  GetPrevious(void) const          { return mPrevious; };
-	void        SetNext(SwarmJob *next)         { mNext = next; };
-	void        SetPrevious(SwarmJob *previous) { mPrevious = previous; };
+    SwarmJob *  GetNext() const              {
+        return mNext;
+    };
+    SwarmJob *  GetPrevious() const          {
+        return mPrevious;
+    };
+    void        SetNext(SwarmJob *next)         {
+        mNext = next;
+    };
+    void        SetPrevious(SwarmJob *previous) {
+        mPrevious = previous;
+    };
 
 private:
     SwarmJob          *mNext;
@@ -110,7 +130,7 @@ class JobScheduler;
 // Each thread worker can keep track of 4 jobs.
 // There can be as many thread workers as there application desiers.
 
-#define MAX_COMPLETION 4096 // maximum number of completed jobs we will queue up before they get despooled by the main thread.
+#define MAX_COMPLETION 4096
 
 class ThreadWorker : public THREAD_CONFIG::ThreadInterface
 {
@@ -118,14 +138,21 @@ public:
 
     ThreadWorker()
     {
+        mSwarmJob    = NULL;
         mJobScheduler = NULL;
         mExit         = false;
+        mBusy         = NULL;
         mThread     = NULL;
-        mWaiting = true;
-		mWaitPending = false;
-		mExitComplete = false;
-		mThreadFlag = 0;
+        mRunning    = false;
         mFinished.init(MAX_COMPLETION);
+    }
+
+    bool IsRunning() const {
+        return mRunning;
+    };
+
+    bool HasJob() const {
+        return (mSwarmJob!=0);
     }
 
     ~ThreadWorker()
@@ -135,19 +162,13 @@ public:
 
     void Release()
     {
-		SetExit();
-		while ( !mExitComplete )
-		{
-			THREAD_CONFIG::tc_sleep(0);
-		}
+        THREAD_CONFIG::tc_releaseThreadEvent(mBusy);
         THREAD_CONFIG::tc_releaseThread(mThread);
-        
+        mBusy = NULL;
         mThread = NULL;
-		mWaiting = true;
-		mWaitPending = false;
     }
 
-    void SetJobScheduler(JobScheduler *job, unsigned int threadFlag);
+    void SetJobScheduler(JobScheduler *job);
 
     // occurs in another thread
     void ThreadMain();
@@ -162,74 +183,65 @@ public:
     void SetExit()
     {
         mExit = true;
-		WakeUp();
-	}
+        mBusy->setEvent(); // force a signal on the event!
+    }
 
-	bool WakeUp(void)
-	{
-		bool ret = mWaiting;
-
-		if ( mWaiting )
-		{
-			mWaiting = false; // no longer waiting, we have woken up the thread
-			mThread->Resume();
-		}
-
-		return ret;
-	}
-
-	bool ProcessWaitPending(void);
-	
 private:
-	void Wait(void); // wait until we are signalled again.
-
-	unsigned int				mThreadFlag;	// bit flag identifying this thread
-	bool						mWaitPending;
-	bool						mWaiting;
-	bool						mExit;					// exit condition
-	bool						mExitComplete;
-    THREAD_CONFIG::Thread		*mThread;
-    JobScheduler         		*mJobScheduler;    // provides new jobs to perform
-    THREAD_SAFE_QUEUE::CQueue< SwarmJob * > mFinished;     // jobs that have been completed and may be reported back to the application.
+    bool                  mRunning;
+    bool                  mExit;
+    THREAD_CONFIG::Thread               *mThread;
+    THREAD_CONFIG::ThreadEvent          *mBusy;
+    JobScheduler         *mJobScheduler;    // provides new jobs to perform
+    SwarmJob            *mSwarmJob;             // current job being worked on
+    LOCK_FREE_Q::CQueue< SwarmJob * > mFinished;     // jobs that have been completed and may be reported back to the application.
 };
 
 class JobScheduler : public JobSwarmContext
 {
 public:
 
-    JobScheduler(const int maxThreadCount) : mUseThreads(true), mMaxThreadCount(maxThreadCount)
+    JobScheduler(const int maxThreadCount) : mUseThreads(true), mWaitFinish(false), mMaxThreadCount(maxThreadCount)
     {
-        mPending = THREAD_SAFE_QUEUE::createThreadSafeQueue();
+        mPending = LOCK_FREE_Q::createLockFreeQ();
 
 		// changed the default number of jobs to 1000 as the terrain can pump out several hundred
         mJobs.Set(1000,100,65536,"JobScheduler->mJobs",__FILE__,__LINE__);
 
         mThreads = MEMALLOC_NEW_ARRAY(ThreadWorker,mMaxThreadCount)[mMaxThreadCount]; // the number of worker threads....
-		mPendingSleepCount = 0;
-		mThreadAwakeCount = 0;
+
         for (unsigned int i=0; i<mMaxThreadCount; i++) {
-			mThreadAsleep[i] = 1;
-			mPendingSleep[i] = 0;
-            mThreads[i].SetJobScheduler(this,i);
+            mThreads[i].SetJobScheduler(this);
         }
     }
 
     ~JobScheduler()
     {
-        delete []mThreads;
-        THREAD_SAFE_QUEUE::releaseThreadSafeQueue(mPending);
+        WaitFinish();
+        MEMALLOC_DELETE_ARRAY(ThreadWorker,mThreads);
+        LOCK_FREE_Q::releaseLockFreeQ(mPending);
     }
 
     // Happens in main thread
     SwarmJob * CreateSwarmJob(JobSwarmInterface *tji,void *userData,int userId)
     {
-        SwarmJob *ret = mJobs.GetFreeLink();
-		//
-		new ( ret ) SwarmJob(tji,userData,userId);
-		mPending->enqueue(ret);
-		THREAD_CONFIG::tc_atomicAdd(&mPendingCount,1);
-		wakeUpThreads(); // if the worker threads are aslpeep; wake them up to process this job
-		return ret;
+        SwarmJob *vret[2] = { mJobs.GetFreeLink() , mJobs.GetFreeLink() };
+        //
+        SwarmJob *ret=NULL;
+        if( vret[0]==mPending->getHead() )
+        {
+            ret=vret[1];
+            mJobs.Release( vret[0] );
+        }
+        else
+        {
+            ret=vret[0];
+            mJobs.Release( vret[1] );
+        }
+        //
+        new ( ret ) SwarmJob(tji,userData,userId);
+        mPending->enqueue(ret);
+        //
+        return ret;
     }
 
     // Empty the finished list.  This happens in the main application thread!
@@ -238,11 +250,7 @@ public:
         unsigned int ret = 0;
 
         bool completion = true;
-        THREAD_CONFIG::tc_sleep(0); // give up timeslice to threads
-		applySleep(); // if there are any threads waiting to go to sleep; let's put them to sleep
-		wakeUpThreads(); // if there is work to be done, then wake up the threads
-		// de-queue all completed jobs in the main thread.
-		while ( completion )
+        while ( completion )
         {
             completion = false;
 
@@ -285,7 +293,7 @@ public:
 
         }
 
-        return mJobs.GetUsedCount();
+        return ret;
     }
 
     // called from other thread to get a new job to perform
@@ -293,14 +301,11 @@ public:
     {
         SwarmJob *ret = NULL;
 
-        if ( mUseThreads )
+        if ( !mWaitFinish && mUseThreads )
         {
             ret = static_cast< SwarmJob *>(mPending->dequeue());
-			if ( ret )
-			{
-				THREAD_CONFIG::tc_atomicAdd(&mPendingCount,-1);
-			}
         }
+        //
         return ret;
     }
 
@@ -315,62 +320,8 @@ public:
     {
         mUseThreads = state;
     }
-	
-	void wakeUpThreads(void)
-	{
-		unsigned int jobsWaiting = mPendingCount;
 
-		if ( jobsWaiting ) // if there are any threads not currently running jobs...
-		{
-			for (unsigned int i=0; i<mMaxThreadCount; i++)
-			{
-				if ( mThreadAsleep[i] )
-				{
-					if ( mThreads[i].WakeUp() ) // enable the signal on this thread to wake it up to process jobs
-					{
-						mThreadAwakeCount++;
-						mThreadAsleep[i] = 0;
-						jobsWaiting--;
-						if ( jobsWaiting == 0 )  // if we have woken up enough threads to consume the pending jobs
-							break;
-					}
-					else
-					{
-						assert(false); // should always be able to wake it up!
-					}
-				}
-			}
-		}
-	}
-
-	void putToSleep(unsigned int threadIndex)
-	{
-		assert( mPendingSleep[threadIndex] == false );
-		THREAD_CONFIG::tc_atomicAdd(&mPendingSleep[threadIndex],1);
-		THREAD_CONFIG::tc_atomicAdd(&mPendingSleepCount,1);
-	}
-
-	// always called from the main thread.  puts to sleep any treads that had no work to do.
-	void applySleep(void)
-	{
-		if ( mPendingSleepCount ) // if there are any threads pending to be put to sleep...
-		{
-			for (unsigned int i=0; i<mMaxThreadCount; i++)
-			{
-				if ( mPendingSleep[i] )
-				{
-					mThreadAwakeCount--;
-					mThreadAsleep[i] = 1; // mark it as actually being asleep now.
-					THREAD_CONFIG::tc_atomicAdd(&mPendingSleep[i],-1);
-					THREAD_CONFIG::tc_atomicAdd(&mPendingSleepCount,-1);
-					mThreads[i].ProcessWaitPending();
-				}
-			}
-//			assert(mPendingSleepCount==0);
-		}
-	}
-
-    /*void WaitFinish()
+    void WaitFinish()
     {
         mWaitFinish = true;
 
@@ -403,29 +354,24 @@ public:
                 THREAD_CONFIG::tc_sleep(0);
             }
         }
-    }*/
+    }
 
 private:
     bool                    mUseThreads;
+    bool                    mWaitFinish;  // waiting for a finish completion event to occur...
     unsigned int            mMaxThreadCount;
-    THREAD_SAFE_QUEUE::ThreadSafeQueue *mPending;
+    LOCK_FREE_Q::LockFreeQ *mPending;
     Pool< SwarmJob >       mJobs;
     ThreadWorker           *mThreads;
-	int				mPendingCount;
-	unsigned int	mWaitPending;
-	int				mPendingSleepCount;
-	int				mThreadAwakeCount;
-	int				mPendingSleep[MAX_THREADS];
-	int				mThreadAsleep[MAX_THREADS];
 
 };
 
 
-void ThreadWorker::SetJobScheduler(JobScheduler *job, unsigned int threadFlag)
+void ThreadWorker::SetJobScheduler(JobScheduler *job)
 {
-    mThreadFlag = threadFlag;
+    mRunning      = true;
     mJobScheduler = job;
-    mWaiting	= true; // threads begin in a suspended state!
+    mBusy         = THREAD_CONFIG::tc_createThreadEvent();
     mThread       = THREAD_CONFIG::tc_createThread(this);
 }
 
@@ -433,60 +379,40 @@ void ThreadWorker::ThreadMain()
 {
     while ( !mExit )
     {
-        if ( mWaitPending || mWaiting )
-		{
-			// already asleep, or waiting to be put to sleep by the main thread...
-			THREAD_CONFIG::tc_sleep(0);
-		}
-		else
-		{
-			if ( !mFinished.isFull() )
-			{
-				SwarmJob *job = mJobScheduler->GetJob(); // get a new job to perform.
-				while ( job )
-				{
-					job->OnExecute();              // execute the job.
-					mFinished.push(job);
-					job = mJobScheduler->GetJob(); // get a new job to perform.
-				}
-				Wait();
-			}
-			else
-			{
-				Wait();
-			}
+        if ( mSwarmJob ) // if I have a job to do...
+        {
+            if ( !mSwarmJob->IsCancelled() )
+            {
+                mSwarmJob->OnExecute();              // execute the job.
+            }
+            mFinished.push(mSwarmJob);
+        }
+
+        if ( !mExit )
+        {
+
+            SwarmJob *job = NULL;
+
+            if ( !mFinished.isFull() )
+            {
+                job = mJobScheduler->GetJob(); // get a new job to perform.
+            }
+
+            if (job )
+            {
+                mSwarmJob = job;
+            }
+            else
+            {
+                mSwarmJob = NULL;
+                mBusy->waitForSingleObject(10);
+            }
         }
     }
-	mExitComplete = true;
+    mRunning = false;
 }
 
-void ThreadWorker::Wait(void)
-{
-	if ( !mExit )
-		return;
 
-	assert(!mWaitPending);
-	assert(!mWaiting);
-	mWaitPending = true;
-	mJobScheduler->putToSleep(mThreadFlag);
-}
-
-bool ThreadWorker::ProcessWaitPending(void)
-{
-	bool ret = mWaitPending;
-	assert(mWaiting==false);
-	assert(mWaitPending);
-	if ( mWaitPending )
-	{
-		if ( mWaiting == false )
-		{
-			mThread->Suspend(); // suspend thread execution
-			mWaiting = true; // indicate that we are currently waiting to be freshly signalled
-		}
-		mWaitPending = false;
-	}
-	return ret;
-}
 
 JobSwarmContext * CreateJobSwarmContext(unsigned int maxThreads)
 {
