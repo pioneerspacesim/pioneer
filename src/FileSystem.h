@@ -38,6 +38,11 @@ namespace FileSystem {
 	std::string GetUserDir();
 	std::string GetDataDir();
 
+	/// Makes a string safe for use as a file name
+	/// warning: this mapping is non-injective, that is,
+	/// multiple input names may produce the same output
+	std::string SanitiseFileName(const std::string &a);
+
 	/// Create path <a>/<b>, coping with 'a' or 'b' being empty,
 	/// 'b' being an absolute path, or 'a' not having a trailing separator
 	std::string JoinPath(const std::string &a, const std::string &b);

@@ -5,6 +5,7 @@
 #include "FileSystem.h"
 #include "StringRange.h"
 #include <cassert>
+#include <sstream>
 #include <algorithm>
 #include <iterator>
 #include <stdexcept>
@@ -19,6 +20,30 @@ namespace FileSystem {
 	FileSourceFS userFiles(GetUserDir());
 
 	// note: some functions (GetUserDir(), GetDataDir()) are in FileSystem{Posix,Win32}.cpp
+	std::string SanitiseFileName(const std::string &a)
+	{
+		const char *disabled_chars = "\\/'\":?<>|&*";
+		std::ostringstream ss;
+		if (a.empty() || (a[0] == '.')) {
+			ss << "x";
+		}
+
+		for (const char *c = a.c_str(), *end = c + a.size(); c != end; ++c) {
+			if (strchr(disabled_chars, *c) || (*c < ' ')) {
+				ss << "_";
+				ss.setf(std::ios::hex, std::ios::basefield);
+				ss.fill('0');
+				ss.width(2);
+				ss << int(*c);
+			} else if (*c == ' ') {
+				ss << '_';
+			} else {
+				ss << *c;
+			}
+		}
+
+		return ss.str();
+	}
 
 	std::string JoinPath(const std::string &a, const std::string &b)
 	{
