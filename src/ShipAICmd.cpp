@@ -253,9 +253,12 @@ bool AICmdKill::TimeStepUpdate()
 
 	if (targpos.Length() >= VICINITY_MIN+1000.0) {	// if really far from target, intercept
 //		printf("%s started AUTOPILOT\n", m_ship->GetLabel().c_str());
+		m_ship->SetJuice(20.0);
 		m_child = new AICmdFlyTo(m_ship, m_target);
 		ProcessChild(); return false;
 	}
+	else
+		m_ship->SetJuice(1.0);
 
 	// turn towards target lead direction, add inaccuracy
 	// trigger recheck when angular velocity reaches zero or after certain time
@@ -702,9 +705,13 @@ bool AICmdFlyTo::TimeStepUpdate()
 {
 	if (m_targframe && m_ship){
 		double cspeed = m_ship->GetVelocity().Length();
-		double setspeed = std::min((double)m_ship->GetPositionRelTo(m_targframe).Length()/1.0,std::min(cspeed*1.1,99999999999.0));
+		double setspeed = std::min((double)m_ship->GetPositionRelTo(m_targframe).Length()/1.0,std::min(cspeed*1.05,99999999999.0));
 		double target_radii = m_targframe->GetParent()->GetBody()->GetPhysRadius()*2.0; //15000000.0;//std::max(m_frame->GetBody()->GetPhysRadius()*1.5,15000.0);
 		//if (m_frame->GetBody()) target_radii=std::max(m_frame->GetBody()->GetPhysRadius()*1.5,15000.0);
+		if (m_targframe->GetBody()->IsType(Object::PLANET))			target_radii = m_targframe->GetParent()->GetBody()->GetPhysRadius()*2.0;
+		if (m_targframe->GetBody()->IsType(Object::SPACESTATION))	target_radii = 2500000;
+		if (m_targframe->GetBody()->IsType(Object::CITYONPLANET))	target_radii = 500000;
+		if (m_targframe->GetBody()->IsType(Object::SHIP))			target_radii = 250000000;
 
 		if (
 			m_ship->GetPositionRelTo(m_targframe).Length()>target_radii &&
@@ -719,20 +726,23 @@ bool AICmdFlyTo::TimeStepUpdate()
 		else if (
 			m_ship->GetPositionRelTo(m_targframe).Length()<=target_radii &&
 			m_ship->GetFlightState() == Ship::FLYING && 
-			m_ship->GetVelocity().Length()>m_ship->GetPositionRelTo(m_targframe).Length()/2.0
+			m_ship->GetVelocity().Length()>=550000 //m_ship->GetPositionRelTo(m_targframe).Length()/2.0
 			)
 		{
 			m_ship->SetVelocity(m_ship->GetOrient()*vector3d(0, 0, -49000));
 			return false;
 		}
 	}
-	else if (m_target && m_ship){
-		double setspeed = std::min((double)m_ship->GetPositionRelTo(m_target->GetFrame()).Length()/1.0,99999999999.0);
+	else if (m_target && m_ship){   //vincinty only...
+		//double setspeed = std::min((double)m_ship->GetPositionRelTo(m_target->GetFrame()).Length()/1.0,99999999999.0);
+		double cspeed = m_ship->GetVelocity().Length();
+		double setspeed = std::min((double)m_ship->GetPositionRelTo(m_target->GetFrame()).Length()/1.0,std::min(cspeed*1.05,99999999999.0));
 
 		double target_radii = 500000;
 		if (m_target->IsType(Object::PLANET))			target_radii = m_target->GetPhysRadius()*2.0;
-		if (m_target->IsType(Object::SPACESTATION))		target_radii = 500000;
+		if (m_target->IsType(Object::SPACESTATION))		target_radii = 2500000;
 		if (m_target->IsType(Object::CITYONPLANET))		target_radii = 500000;
+		if (m_target->IsType(Object::SHIP))				target_radii = 20000000;   //ship vincinty    965km 8842km/s
 
 		if (
 			m_ship->GetPositionRelTo(m_target->GetFrame()).Length()>target_radii &&
@@ -747,10 +757,10 @@ bool AICmdFlyTo::TimeStepUpdate()
 		else if (
 			m_ship->GetPositionRelTo(m_target->GetFrame()).Length()<=target_radii &&
 			m_ship->GetFlightState() == Ship::FLYING && 
-			m_ship->GetVelocity().Length()> setspeed/2.0
+			m_ship->GetVelocity().Length()>=550000
 			)
 		{
-			m_ship->SetVelocity(m_ship->GetOrient()*vector3d(0, 0, -49000));
+			m_ship->SetVelocity(m_ship->GetOrient()*vector3d(0, 0, -47000));
 			return false;
 		}
 	}
