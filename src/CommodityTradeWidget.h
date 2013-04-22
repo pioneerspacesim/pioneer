@@ -24,6 +24,8 @@ private:
 		onClickSell.emit(commodity_type);
 	}
 
+	void ManageRButton(Gui::RepeaterButton *b, sigc::slot<void> func);
+
 	std::map<int, Gui::Label*> m_stockLabels;
 	std::map<int, Gui::Label*> m_cargoLabels;
 	MarketAgent *m_seller;

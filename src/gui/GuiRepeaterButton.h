@@ -13,6 +13,8 @@ namespace Gui {
 	class RepeaterButton: public SolidButton {
 	public:
 		RepeaterButton(int msDelay, int msRepeat);
+		int GetRepeat();
+		void SetRepeat(int msRepeat);
 		virtual ~RepeaterButton();
 	private:
 		void OnPress();
