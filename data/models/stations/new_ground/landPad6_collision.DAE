@@ -6,8 +6,8 @@
       <authoring_tool>FBX COLLADA exporter</authoring_tool>
       <comments></comments>
     </contributor>
-    <created>2013-04-21T19:29:38Z</created>
-    <modified>2013-04-21T19:29:38Z</modified>
+    <created>2013-04-22T04:37:50Z</created>
+    <modified>2013-04-22T04:37:50Z</modified>
     <revision></revision>
     <title></title>
     <subject></subject>
@@ -4940,7 +4940,7 @@
   <library_visual_scenes>
     <visual_scene id="RootNode" name="RootNode">
       <node id="collision_main" name="collision_main">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 149.999969 0.000000 0.000000 1.000000 0.000000 0.000000 -1.000000 0.000000 -300.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+        <matrix sid="matrix">1.000000 0.000000 0.000000 149.999985 0.000000 0.000000 1.000000 0.000000 0.000000 -1.000000 0.000000 -300.000000 0.000000 0.000000 0.000000 1.000000</matrix>
         <instance_geometry url="#collision_main-lib"/>
       </node>
       <node id="collision_01" name="collision_01">
@@ -4960,7 +4960,7 @@
         <instance_geometry url="#collision_04-lib"/>
       </node>
       <node id="collision_main01" name="collision_main01">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 -150.000031 0.000000 0.000000 1.000000 0.000000 0.000000 -1.000000 0.000000 -300.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+        <matrix sid="matrix">1.000000 0.000000 0.000000 -150.000015 0.000000 0.000000 1.000000 0.000000 0.000000 -1.000000 0.000000 -300.000000 0.000000 0.000000 0.000000 1.000000</matrix>
         <instance_geometry url="#collision_main01-lib"/>
       </node>
       <node id="collision_05" name="collision_05">
@@ -4980,7 +4980,7 @@
         <instance_geometry url="#collision_08-lib"/>
       </node>
       <node id="collision_main02" name="collision_main02">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 149.999969 0.000000 0.000000 1.000000 0.000000 0.000000 -1.000000 0.000000 -0.000008 0.000000 0.000000 0.000000 1.000000</matrix>
+        <matrix sid="matrix">1.000000 0.000000 0.000000 149.999985 0.000000 0.000000 1.000000 0.000000 0.000000 -1.000000 0.000000 -0.000008 0.000000 0.000000 0.000000 1.000000</matrix>
         <instance_geometry url="#collision_main02-lib"/>
       </node>
       <node id="collision_09" name="collision_09">
@@ -5000,7 +5000,7 @@
         <instance_geometry url="#collision_12-lib"/>
       </node>
       <node id="collision_main03" name="collision_main03">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 -150.000031 0.000000 0.000000 1.000000 0.000000 0.000000 -1.000000 0.000000 -0.000008 0.000000 0.000000 0.000000 1.000000</matrix>
+        <matrix sid="matrix">1.000000 0.000000 0.000000 -150.000015 0.000000 0.000000 1.000000 0.000000 0.000000 -1.000000 0.000000 -0.000008 0.000000 0.000000 0.000000 1.000000</matrix>
         <instance_geometry url="#collision_main03-lib"/>
       </node>
       <node id="collision_13" name="collision_13">
@@ -5020,7 +5020,7 @@
         <instance_geometry url="#collision_16-lib"/>
       </node>
       <node id="collision_main04" name="collision_main04">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 149.999969 0.000000 0.000000 1.000000 0.000000 0.000000 -1.000000 0.000000 300.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+        <matrix sid="matrix">1.000000 0.000000 0.000000 149.999985 0.000000 0.000000 1.000000 0.000000 0.000000 -1.000000 0.000000 300.000000 0.000000 0.000000 0.000000 1.000000</matrix>
         <instance_geometry url="#collision_main04-lib"/>
       </node>
       <node id="collision_17" name="collision_17">
@@ -5040,7 +5040,7 @@
         <instance_geometry url="#collision_20-lib"/>
       </node>
       <node id="collision_main05" name="collision_main05">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 -150.000031 0.000000 0.000000 1.000000 0.000000 0.000000 -1.000000 0.000000 300.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+        <matrix sid="matrix">1.000000 0.000000 0.000000 -150.000015 0.000000 0.000000 1.000000 0.000000 0.000000 -1.000000 0.000000 300.000000 0.000000 0.000000 0.000000 1.000000</matrix>
         <instance_geometry url="#collision_main05-lib"/>
       </node>
       <node id="collision_21" name="collision_21">

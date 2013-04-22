@@ -1,30 +1,35 @@
-material m4plat_lift_column
+material m0Pad_material
+diffuse 1.0 1.0 1.0
+specular 0.5 0.5 0.5
+  
+material m1c_b_metall1
+diffuse 1.0 1.0 1.0
+specular 0.5 0.5 0.5
+tex_diff Steelplt.PNG
+  
+material m2c_b_metall1a
 diffuse 1.0 1.0 1.0
 specular 0.5 0.5 0.5
 tex_diff LiftColumn.PNG
+tex_glow LiftColumn_illum.png
   
-material m0c_b_metall1
+material m3palt_glow
 diffuse 1.0 1.0 1.0
 specular 0.5 0.5 0.5
-tex_diff c_metall.PNG
-  
-material m1c_b_metall1a
-diffuse 1.0 1.0 1.0
-specular 0.5 0.5 0.5
-tex_diff c_metall.PNG
-  
-material m3plat_ground_meta
-diffuse 1.0 1.0 1.0
-specular 0.5 0.5 0.5
-tex_diff c_metall.PNG
-  
-material m2palt_glow
-diffuse 1.0 1.0 1.0
-specular 0.5 0.5 0.5
-tex_diff Lights.PNG
-tex_glow Lights_ill.PNG
+tex_diff LiftColumn.PNG
+tex_glow LiftColumn_illum.png
 
-mesh landPad6_mesh.dae
-mesh landPad6_docking.dae
+material m4plat_ground_meta
+diffuse 1.0 1.0 1.0
+specular 0.5 0.5 0.5
+tex_diff c_metall.PNG
 
-collision landPad6_collision.dae
+material m5plat_lift_column
+diffuse 1.0 1.0 1.0
+specular 0.5 0.5 0.5
+tex_diff LiftColumn.PNG
+tex_glow LiftColumn_illum.png
+
+mesh landPad6_mesh.DAE
+
+collision landPad6_collision.DAE
