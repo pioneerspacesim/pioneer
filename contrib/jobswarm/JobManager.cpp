@@ -17,7 +17,7 @@ JobManager::JobManager(const int iNumThreads)
 	: mpContext(NULL), mPrevTasksRemaining(0), mTasksRemaining(0), mCurrentTaskID(0), mMaxNumTasks(0), mNumTasksSoFar(0), mIncomingMutex(0)
 {
 	// check and limit number of threads
-	const int32_t numCoresToUse = std::min( std::max( getNumCores(), MIN_THREADS ), MAX_THREADS );
+	const int32_t numCoresToUse = std::min( std::max( (getNumCores()-1), MIN_THREADS ), MAX_THREADS );
 	const int actualNumThreads = std::min( std::max( (iNumThreads<=(0) ? numCoresToUse : iNumThreads), MIN_THREADS ), MAX_THREADS );
 	mpContext = JOB_SWARM::CreateJobSwarmContext( actualNumThreads );
 	mNumThreadsUsed = actualNumThreads;
