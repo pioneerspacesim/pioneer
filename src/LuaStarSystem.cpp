@@ -352,8 +352,8 @@ static int l_starsystem_export_to_lua(lua_State *l)
 	const std::string finalPath = FileSystem::NormalisePath(FileSystem::JoinPath(FileSystem::GetUserDir(), filename));
 	s->ExportToLua(finalPath.c_str());
 
-	LUA_DEBUG_END(l, 1);
-	return 1;
+	LUA_DEBUG_END(l, 0);
+	return 0;
 }
 
 /*
