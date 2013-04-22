@@ -1242,7 +1242,8 @@ MISCELLANEOUS
     Miscellaneous
 CPU_CORES_FOR_TERRAIN_GENERATION
 	CPU cores for terrain generation
-USE_ALL_THREADS
+USE_ALL_CORES
     Use all cores
 USE_N_CORES
     Use %{n} cores
+	
