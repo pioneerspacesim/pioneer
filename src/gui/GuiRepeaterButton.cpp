@@ -15,6 +15,16 @@ RepeaterButton::RepeaterButton(int msDelay, int msRepeat)
 	onRelease.connect(sigc::mem_fun(this, &RepeaterButton::OnRelease));
 }
 
+int RepeaterButton::GetRepeat()
+{
+	return m_repeat;
+}
+
+void RepeaterButton::SetRepeat(int msRepeat)
+{
+	m_repeat = msRepeat;
+}
+
 RepeaterButton::~RepeaterButton()
 {
 	m_repeatCon.disconnect();
