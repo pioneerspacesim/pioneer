@@ -348,9 +348,14 @@ static int l_starsystem_export_to_lua(lua_State *l)
 	}
 
 	// construct the filename with folder and extension
-	const std::string filename(EXPORTED_SYSTEMS_DIR_NAME + "/" + s->GetName() + ".lua");
-	const std::string finalPath = FileSystem::NormalisePath(FileSystem::JoinPath(FileSystem::GetUserDir(), filename));
-	s->ExportToLua(finalPath.c_str());
+	try {
+		const std::string filename(EXPORTED_SYSTEMS_DIR_NAME + "/" + s->GetName() + ".lua");
+		const std::string finalPath = FileSystem::NormalisePath(
+				FileSystem::JoinPathBelow(FileSystem::GetUserDir(), filename));
+		s->ExportToLua(finalPath.c_str());
+	} catch (std::invalid_argument &e) {
+		return luaL_error(l, "could not export system -- name forms an invalid path");
+	}
 
 	LUA_DEBUG_END(l, 0);
 	return 0;
