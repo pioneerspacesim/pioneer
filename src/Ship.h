@@ -115,10 +115,12 @@ public:
 	FlightState GetFlightState() const { return m_flightState; }
 	void SetFlightState(FlightState s);
 	float GetWheelState() const { return m_wheelState; }
+	float GetJuice() const { return m_juice; }
 	bool SpawnCargo(CargoBody * c_body) const;
 
 	virtual bool IsInSpace() const { return (m_flightState != HYPERSPACE); }
 
+	void SetJuice(const double &juice) { m_juice = juice; }
 	void SetHyperspaceDest(const SystemPath &dest) { m_hyperspace.dest = dest; }
 	const SystemPath &GetHyperspaceDest() const { return m_hyperspace.dest; }
 	double GetHyperspaceDuration() const { return m_hyperspace.duration; }
@@ -288,6 +290,7 @@ private:
 	float m_launchLockTimeout;
 	float m_wheelState;
 	int m_wheelTransition;
+	double m_juice;
 
 	vector3d m_thrusters;
 	vector3d m_angThrusters;
