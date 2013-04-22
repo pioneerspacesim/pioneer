@@ -16,8 +16,6 @@
 #include "FileSelectorWidget.h"
 #include "graphics/Graphics.h"
 
-#include "jobswarm/CoreCount.h"
-
 class KeyGetter: public Gui::Fixed {
 public:
 	KeyGetter(const char *label, const KeyBindings::KeyBinding &kb): Gui::Fixed(350, 19) {
@@ -458,46 +456,6 @@ GameMenuView::GameMenuView(): View()
 
 		BuildControlBindingList(KeyBindings::BINDING_PROTOS_VIEW, box1, 0);
 	}
-
-	// Advanced / Under-The-Hood
-	{
-		Gui::Fixed *advancedTab = new Gui::Fixed(800, 600);
-		tabs->AddPage(new Gui::Label("Advanced"), advancedTab);
-
-		Gui::VBox *box1 = new Gui::VBox();
-		box1->SetSpacing(5.0f);
-		advancedTab->Add(box1, 10, 10);
-
-		// terrain core count selector
-		{
-			box1->PackEnd((new Gui::Label(Lang::CPU_CORES_FOR_TERRAIN_GENERATION))->Color(1.0f,1.0f,0.0f));
-
-			m_threadCountGroup = new Gui::RadioGroup();
-
-			const uint32_t numOfCores = getNumCores();
-			const uint32_t numThreadsUsed = Pi::jobs().NumOfThreadsUsed();
-
-			// add each of the thread counts
-			for (uint32_t i = 0; i <= numOfCores; ++i) {
-				Gui::RadioButton *temp = new Gui::RadioButton(m_threadCountGroup);
-				temp->onSelect.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangeNumTerrainCores), i));
-				Gui::HBox *hbox = new Gui::HBox();
-				hbox->SetSpacing(5.0f);
-				hbox->PackEnd(temp);
-				if(0==i) {
-					hbox->PackEnd(new Gui::Label(Lang::USE_ALL_CORES));
-				} else {
-					hbox->PackEnd(new Gui::Label(stringf(Lang::USE_N_CORES, formatarg("n", i))));
-				}
-				box1->PackEnd(hbox);
-
-				//mark the current video mode
-				if (numThreadsUsed == i) {
-					temp->SetSelected(true);
-				}
-			}
-		}
-	}
 }
 
 void GameMenuView::BuildControlBindingList(const KeyBindings::BindingPrototype *protos, Gui::VBox *box1, Gui::VBox *box2)
@@ -629,10 +587,6 @@ void GameMenuView::OnChangeVideoResolution(int modeIndex)
 	Pi::config->SetInt("ScrWidth", mode.width);
 	Pi::config->SetInt("ScrHeight", mode.height);
 	Pi::config->Save();
-}
-
-void GameMenuView::OnChangeNumTerrainCores(int num)
-{
 }
 
 void GameMenuView::OnToggleFullscreen(Gui::ToggleButton *b, bool state)
