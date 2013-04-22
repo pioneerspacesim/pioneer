@@ -1,35 +1,42 @@
-material m0Pad_material
-diffuse 1.0 1.0 1.0
-specular 0.5 0.5 0.5
-  
-material m1c_b_metall1
+# This model is based in part on geometry and textures by "Willi Hames"
+# The original mesh and textures are available from here for free:
+# http://www.scifi3d.com/details.asp?intGenreID=10&intCatID=17&key=85
+# 
+# The original mesh required a lot of cleanup and was very high-poly for game usage
+# so had to be simplified and in many cases outright deleted to get it down to budget.
+# The upper and lower desking were recreated, polygon winding issues resolved and re-UV'd.
+#
+# New textures and materials were made by me and new geometry for the 4 lifts.
+
+material m0c_b_metall1
 diffuse 1.0 1.0 1.0
 specular 0.5 0.5 0.5
 tex_diff Steelplt.PNG
   
-material m2c_b_metall1a
+material m1c_b_metall1a
 diffuse 1.0 1.0 1.0
 specular 0.5 0.5 0.5
 tex_diff LiftColumn.PNG
 tex_glow LiftColumn_illum.png
   
-material m3palt_glow
+material m2palt_glow
 diffuse 1.0 1.0 1.0
 specular 0.5 0.5 0.5
 tex_diff LiftColumn.PNG
 tex_glow LiftColumn_illum.png
 
-material m4plat_ground_meta
+material m3plat_ground_meta
 diffuse 1.0 1.0 1.0
 specular 0.5 0.5 0.5
 tex_diff c_metall.PNG
 
-material m5plat_lift_column
+material m4plat_lift_column
 diffuse 1.0 1.0 1.0
 specular 0.5 0.5 0.5
 tex_diff LiftColumn.PNG
 tex_glow LiftColumn_illum.png
 
+mesh landPad6_docking.DAE
 mesh landPad6_mesh.DAE
 
 collision landPad6_collision.DAE
