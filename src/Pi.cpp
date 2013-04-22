@@ -76,6 +76,7 @@
 #include "scenegraph/Lua.h"
 #include "ui/Context.h"
 #include "ui/Lua.h"
+#include "jobswarm/CoreCount.h"
 #include <algorithm>
 #include <sstream>
 
@@ -247,8 +248,6 @@ std::string Pi::GetSaveDir()
 
 void Pi::Init()
 {
-	pJobs.Reset(new JobManager);
-
 	OS::NotifyLoadBegin();
 
 	FileSystem::Init();
@@ -338,6 +337,13 @@ void Pi::Init()
 	navTunnelDisplayed = (config->Int("DisplayNavTunnel")) ? true : false;
 
 	EnumStrings::Init();
+
+	// get threads up
+	uint32_t numThreads = config->Int("WorkerThreads");
+	uint32_t numCores = getNumCores();
+	if (numThreads == 0) numThreads = std::max(numCores-1,1U);
+	pJobs.Reset(new JobManager(numThreads));
+	printf("started %d worker threads\n", pJobs->NumOfThreadsUsed());
 
 	// XXX early, Lua init needs it
 	ShipType::Init();
