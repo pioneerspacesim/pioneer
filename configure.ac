@@ -64,6 +64,7 @@ dnl ###########################################################################
 EXTRA_CFLAGS=
 EXTRA_CXXFLAGS=
 EXTRA_CPPFLAGS=
+EXTRA_LIBS=
 
 WARN_CFLAGS=
 WARN_CXXFLAGS=
@@ -113,6 +114,7 @@ AC_SUBST([OPTIMISE])
 
 dnl Debug stuff
 AC_ARG_ENABLE([debug], AS_HELP_STRING([--enable-debug], [Enable debugging code (stack checks, debug tools features, etc)]), [EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DDEBUG"])
+AC_ARG_ENABLE([ldb], AS_HELP_STRING([--enable-ldb], [Enable ldb support.]), [EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DENABLE_LDB" ; EXTRA_LIBS="$EXTRA_LIBS -lldbcore"])
 AC_ARG_WITH([fno-inline],  AS_HELP_STRING([--with-fno-inline], [Compile without inlining. Helps debugging segaults that occur in STL code]), [PIONEER_C_CXX_FLAG([-fno-inline])])
 AC_ARG_WITH([gprof],       AS_HELP_STRING([--with-gprof], [Compile with gprof profiler]), [PIONEER_C_CXX_FLAG([-pg])])
 
@@ -326,6 +328,7 @@ fi
 AC_SUBST([EXTRA_CFLAGS])
 AC_SUBST([EXTRA_CXXFLAGS])
 AC_SUBST([EXTRA_CPPFLAGS])
+AC_SUBST([EXTRA_LIBS])
 
 AC_SUBST([WARN_CFLAGS])
 AC_SUBST([WARN_CXXFLAGS])

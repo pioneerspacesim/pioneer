@@ -3,10 +3,19 @@ Alpha 34
    * New features
      * New combat music track (#2209)
 
+   * Model changes
+     * Station definition 'num_docking_ports' is no longer used; it is computed
+       from the bay definitions (#2219)
+     * Station model docking nodes are checked against the station definition
+       (#2219)
+
    * Internal changes
      * SpaceStationTypes now loads data using the LuaTable wrapper (#2170)
      * ShipType now loads data using the LuaTable wrapper (#2215)
      * Reduced allocations and improved data locality in the eclipse code (#2200)
+     * New dynamic object property system (#2161, #2226, #2225, #2223, #2221)
+     * Support linking against the LDB Lua debugging library (#2147)
+     * Stars with flattening due to fast rotation, i.e; ellipsoids (#2178)
 
 Alpha 33
 
@@ -35,6 +44,9 @@ Alpha 33
        only surface ports (#2172, #2171)
      * Fix object viewer crash (#2187)
      * Fix Lua console to allow continuation of incomplete commands (#2198)
+
+   * Script changes
+     * New StarSystem method: ExportToLua (#1700)
 
    * Internal changes
      * Converted some remaining GL code to use the renderer interface (#2184)
