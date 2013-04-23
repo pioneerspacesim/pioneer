@@ -4,6 +4,8 @@
 #include "libs.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
+#include "PropertiedObject.h"
+#include "PropertyMap.h"
 
 #include <map>
 #include <utility>
@@ -230,10 +232,10 @@ static void get_next_method_table(lua_State *l)
 	LUA_DEBUG_END(l, 1);
 }
 
-// takes method table, name on top of stack
+// takes table, name on top of stack
 // if found, returns true, leaves item to return to lua on top of stack
 // if not found, returns false
-static bool get_method(lua_State *l)
+static bool get_method_or_attr(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 
@@ -275,7 +277,7 @@ static bool get_method(lua_State *l)
 	return false;
 }
 
-static int dispatch_index(lua_State *l)
+int LuaObjectBase::l_dispatch_index(lua_State *l)
 {
 	// userdata are typed, tables are not
 	bool typeless = lua_istable(l, 1);
@@ -284,18 +286,30 @@ static int dispatch_index(lua_State *l)
 	// typeless objects have no parents, and are their own method table, so
 	// this is easy
 	if (typeless) {
-		if (get_method(l))
+		if (get_method_or_attr(l))
 			return 1;
 	}
 
 	// normal userdata object
 	else {
+
+		// first check properties. we don't need to drill through lua if the
+		// property is already available
+		lua_getuservalue(l, 1);
+		if (!lua_isnil(l, -1)) {
+			lua_pushvalue(l, 2);
+			if (get_method_or_attr(l))
+				return 1;
+			lua_pop(l, 1);
+		}
+		lua_pop(l, 1);
+
 		lua_getmetatable(l, 1);
 		while (1) {
 			get_next_method_table(l);
 
 			lua_pushvalue(l, 2);
-			if (get_method(l))
+			if (get_method_or_attr(l))
 				return 1;
 
 			// not found. remove name copy and method table
@@ -403,6 +417,14 @@ void LuaObjectBase::GetNames(std::vector<std::string> &names, const std::string 
 		return;
 	}
 
+	// properties
+	if (!methodsOnly) {
+		lua_getuservalue(l, -1);
+		if (!lua_isnil(l, -1))
+			get_names_from_table(l, names, prefix, false);
+		lua_pop(l, 1);
+	}
+
 	lua_getmetatable(l, -1);
 	while (1) {
 		get_next_method_table(l);
@@ -486,7 +508,7 @@ void LuaObjectBase::CreateObject(const luaL_Reg *methods, const luaL_Reg *attrs,
 
 	// index function
 	lua_pushstring(l, "__index");
-	lua_pushcfunction(l, dispatch_index);
+	lua_pushcfunction(l, l_dispatch_index);
 	if (protect)
 		lua_pushcclosure(l, secure_trampoline, 1);
 	lua_rawset(l, -3);
@@ -581,7 +603,7 @@ void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL
 	// finding the right function or attribute and walking the inheritance
 	// hierarchy as necessary
 	lua_pushstring(l, "__index");
-	lua_pushcfunction(l, dispatch_index);
+	lua_pushcfunction(l, l_dispatch_index);
 	lua_rawset(l, -3);
 
 	// record the type in the metatable so we know what we're looking at for
@@ -684,6 +706,13 @@ void LuaObjectBase::Register(LuaObjectBase *lo)
 
 	luaL_getmetatable(l, lo->m_type);                           // lo userdata, lo metatable
 	lua_setmetatable(l, -2);                                    // lo userdata
+
+	// attach properties table if available
+	PropertiedObject *po = dynamic_cast<PropertiedObject*>(lo->GetObject());
+	if (po) {
+		po->Properties().PushLuaTable();
+		lua_setuservalue(l, -2);
+	}
 
 	LUA_DEBUG_END(l, 0);
 }

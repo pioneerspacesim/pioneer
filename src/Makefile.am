@@ -107,6 +107,8 @@ noinst_HEADERS = \
 	PngWriter.h \
 	Polit.h \
 	Projectile.h \
+	PropertiedObject.h \
+	PropertyMap.h \
 	Quaternion.h \
 	Random.h \
 	RefCounted.h \
@@ -222,6 +224,7 @@ pioneer_SOURCES	= \
 	LuaObject.cpp \
 	LuaPlanet.cpp \
 	LuaPlayer.cpp \
+	LuaPropertiedObject.cpp \
 	LuaRand.cpp \
 	LuaRef.cpp \
 	LuaSystemBody.cpp \
@@ -251,6 +254,7 @@ pioneer_SOURCES	= \
 	PngWriter.cpp \
 	Polit.cpp \
 	Projectile.cpp \
+	PropertyMap.cpp \
 	SDLWrappers.cpp \
 	SectorView.cpp \
 	Serializer.cpp \
@@ -309,7 +313,7 @@ pioneer_LDADD = \
 pioneer_LDADD += \
 	$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 	$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS) \
-	$(PNG_LIBS) $(ASSIMP_LIBS)
+	$(PNG_LIBS) $(ASSIMP_LIBS) $(EXTRA_LIBS)
 
 if BUILD_WIN32
 pioneer_LDFLAGS = -Wl,-Map=pioneer.map

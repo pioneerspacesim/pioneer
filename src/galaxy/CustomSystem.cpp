@@ -192,10 +192,24 @@ static int l_csb_gc(lua_State *L)
 	return 0;
 }
 
+static int l_csb_aspect_ratio(lua_State *L)
+{
+	CustomSystemBody *csb = l_csb_check(L, 1);
+	const fixed *value = LuaFixed::CheckFromLua(L, 2);
+	csb->aspectRatio = *value;
+	if (csb->aspectRatio < fixed(1,1) ) { return luaL_error(
+		L, "Error: Custom system definition: Equatorial to Polar radius ratio cannot be less than 1."); }
+	if (csb->aspectRatio > fixed(10000,1) ) { return luaL_error(
+		L, "Error: Custom system definition: Equatorial to Polar radius ratio cannot be greater than 10000.0."); }
+	lua_settop(L, 1);
+	return 1;
+}
+
 static luaL_Reg LuaCustomSystemBody_meta[] = {
 	{ "new", &l_csb_new },
 	{ "seed", &l_csb_seed },
 	{ "radius", &l_csb_radius },
+	{ "equatorial_to_polar_radius", &l_csb_aspect_ratio },
 	{ "mass", &l_csb_mass },
 	{ "temp", &l_csb_temp },
 	{ "semi_major_axis", &l_csb_semi_major_axis },
@@ -547,6 +561,7 @@ CustomSystem::~CustomSystem()
 }
 
 CustomSystemBody::CustomSystemBody():
+	aspectRatio(fixed(1,1)),
 	averageTemp(1),
 	want_rand_offset(true),
 	latitude(0.0),

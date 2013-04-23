@@ -10,7 +10,6 @@ namespace Graphics {
 
 /* OpenGL renderer data structures and bufferobject stuff.
  * This can be used by both the Legacy and GL2 renderers
- * XXX 2013-Feb-2 this should be rewritten. Recommend renderer->CreateBuffer(...) approach
  */
 
 struct GLVertex {
