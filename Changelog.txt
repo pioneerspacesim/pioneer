@@ -18,9 +18,12 @@ Alpha 34
      * Stars with flattening due to fast rotation, i.e; ellipsoids (#2178)
      * Update bundled Lua to version 5.2.2 (#2230)
      * Model loader: improve instancing (#2228)
+     * UI: speeding up the buy and sell process in the marketplace (#2188)
+     * Sort missions list (#2183)
 
-   * Bug fixes
+   * Fixes
      * Fix lua system export (#2229)
+     * Fix Lua console so that it lets you continue incomplete commands (#2198)
 
 Alpha 33
 
