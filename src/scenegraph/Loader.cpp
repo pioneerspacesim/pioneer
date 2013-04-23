@@ -442,7 +442,7 @@ RefCountedPtr<Graphics::Material> Loader::GetShieldMaterial(RefCountedPtr<Graphi
 	if (!decMat.Valid()) {
 		Graphics::MaterialDescriptor matDesc;
 		matDesc.textures = 1;
-		matDesc.lighting = false;
+		matDesc.lighting = true;
 		matDesc.twoSided = false;
 		matDesc.alphaTest = false;
 		matDesc.specularMap = (NULL!=matIn->texture1);
@@ -762,6 +762,27 @@ void Loader::CreateThruster(Group* parent, const matrix4x4f &m, const std::strin
 	parent->AddChild(trans);
 }
 
+void Loader::CreateShield(aiNode *node, std::vector<RefCountedPtr<StaticGeometry> >& geoms, Group *parent, const matrix4x4f &m)
+{
+	MatrixTransform *trans = new MatrixTransform(m_renderer, m);
+	Shield *shield = new Shield(m_renderer);
+	shield->SetName("Shield");
+	
+	for(unsigned int i=0; i<node->mNumMeshes; i++) {
+		RefCountedPtr<StaticGeometry> geom = geoms.at(node->mMeshes[i]);
+		for(unsigned int nMesh=0; nMesh<geom->GetNumMeshes(); nMesh++) {
+			shield->AddMesh(geom->GetMesh(nMesh));
+			shield->SetNodeMask(NODE_TRANSPARENT);
+			shield->m_blendMode = Graphics::BLEND_ADDITIVE;
+			RefCountedPtr<Graphics::Material> mat = shield->GetMesh(0)->GetSurface(0)->GetMaterial();
+			shield->GetMesh(0)->GetSurface(0)->SetMaterial(GetShieldMaterial(mat));
+		}
+	}
+
+	trans->AddChild(shield);
+	parent->AddChild(trans);
+}
+
 void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPtr<StaticGeometry> >& geoms, const matrix4x4f &accum)
 {
 	Group *parent = _parent;
@@ -812,20 +833,12 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPt
 		return;
 	}
 
-	//nodes with visible geometry (StaticGeometry and decals)
+	//nodes with visible geometry (StaticGeometry, shields and decals)
 	if (node->mNumMeshes > 0) {
-		//is this node animated? add a transform
-		//does this node have children? Add a group
-		RefCountedPtr<StaticGeometry> geom;
-		const bool isShield = starts_with(nodename, "shield");
-		if (isShield) {
-			geom.Reset(new Shield(m_renderer));
-			geom->SetName(nodename + "_shield");
-		} else {
-			geom.Reset(new StaticGeometry(m_renderer));
-			geom->SetName(nodename + "_mesh");
-		}
-		RefCountedPtr<Graphics::StaticMesh> smesh(new Graphics::StaticMesh(Graphics::TRIANGLES));
+		if (starts_with(nodename, "shield")) {
+			CreateShield(node, geoms, parent, m);
+			return;
+		} 
 
 		//expecting decal_0X
 		unsigned int numDecal = 0;
@@ -846,23 +859,10 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPt
 				geom->m_blendMode = Graphics::BLEND_ALPHA;
 				geom->GetMesh(0)->GetSurface(0)->SetMaterial(GetDecalMaterial(numDecal));
 			}
-			if (isShield) {
-				geom->SetNodeMask(NODE_TRANSPARENT);
-				geom->m_blendMode = Graphics::BLEND_ADDITIVE;
-				RefCountedPtr<Graphics::Material> mat = surf->GetMaterial();
-				surf->SetMaterial(GetShieldMaterial(mat));
-			}
-			//update bounding box
-			//untransformed points, collision visitor will transform
-			Graphics::VertexArray *vts = surf->GetVertices();
-			for (unsigned int j=0; j<vts->position.size(); j++) {
-				const vector3f &vtx = vts->position[j];
-				geom->m_boundingBox.Update(vtx.x, vtx.y, vtx.z);
-			}
 
 			parent->AddChild(geom.Get());
-			}
 		}
+	}
 
 	for(unsigned int i=0; i<node->mNumChildren; i++) {
 		aiNode *child = node->mChildren[i];

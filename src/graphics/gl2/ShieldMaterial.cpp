@@ -25,7 +25,11 @@ ShieldProgram::ShieldProgram(const MaterialDescriptor &desc, int lights)
 		ss << "#define VERTEXCOLOR\n";
 
 	assert(!desc.alphaTest);
-	ss << "#define NUM_LIGHTS 0\n";
+	//using only one light
+	if (desc.lighting && lights > 0)
+		ss << stringf("#define NUM_LIGHTS %0{d}\n", lights);
+	else
+		ss << "#define NUM_LIGHTS 0\n";
 
 	if (desc.specularMap)
 		ss << "#define MAP_SPECULAR\n";
@@ -55,12 +59,17 @@ Program *ShieldMaterial::CreateProgram(const MaterialDescriptor &desc)
 
 void ShieldMaterial::Apply()
 {
+	if(!this->specialParameter0)
+		return;
+
 	ShieldProgram *p = static_cast<ShieldProgram*>(m_program);
 	const ShieldRenderParameters srp = *static_cast<ShieldRenderParameters*>(this->specialParameter0);
 	p->Use();
 	p->invLogZfarPlus1.Set(m_renderer->m_invLogZfarPlus1);
 
 	p->diffuse.Set(this->diffuse);
+	p->specular.Set(this->specular);
+	p->emission.Set(this->emissive);
 
 	p->texture0.Set(this->texture0, 0);
 	p->texture1.Set(this->texture1, 1);
@@ -77,6 +86,9 @@ void ShieldMaterial::Apply()
 
 void ShieldMaterial::Unapply()
 {
+	if(!this->specialParameter0)
+		return;
+
 	glPopAttrib();
 	// Might not be necessary to unbind textures, but let's not old graphics code (eg, old-UI)
 	if (texture4) {

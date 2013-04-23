@@ -60,6 +60,7 @@ private:
 	void ConvertNodes(aiNode *node, Group *parent, std::vector<RefCountedPtr<StaticGeometry> >& meshes, const matrix4x4f&);
 	void CreateLabel(Group *parent, const matrix4x4f&);
 	void CreateThruster(Group *parent, const matrix4x4f& nodeTrans, const std::string &name, const matrix4x4f &accum);
+	void CreateShield(aiNode *node, std::vector<RefCountedPtr<StaticGeometry> >& geoms, Group *parent, const matrix4x4f&);
 	void FindPatterns(PatternContainer &output); //find pattern texture files from the model directory
 	void LoadCollision(const std::string &filename);
 
