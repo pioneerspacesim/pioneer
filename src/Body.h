@@ -9,6 +9,7 @@
 #include "Object.h"
 #include "Frame.h"
 #include "Serializer.h"
+#include "PropertiedObject.h"
 #include <string>
 
 class ObjMesh;
@@ -16,7 +17,7 @@ class Space;
 class Camera;
 namespace Graphics { class Renderer; }
 
-class Body: public Object {
+class Body: public Object, public PropertiedObject {
 public:
 	OBJDEF(Body, Object, BODY);
 	Body();
@@ -68,7 +69,7 @@ public:
 	// for putting on planet surface, oriented +y up
 	void OrientOnSurface(double radius, double latitude, double longitude);
 
-	virtual void SetLabel(const std::string &label) { m_label = label; }
+	virtual void SetLabel(const std::string &label);
 	const std::string &GetLabel() const { return m_label; }
 	unsigned int GetFlags() const { return m_flags; }
 	// Only Space::KillBody() should call this method.

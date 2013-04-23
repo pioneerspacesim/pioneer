@@ -341,21 +341,74 @@ local onClick = function (mission)
 														cash   = Format.Money(mission.reward),
 														dist  = dist})
 										),
+										ui:Margin(10),
 										ui:Grid(2,1)
 											:SetColumn(0, {
-												ui:VBox():PackEnd(ui:MultiLineText(t('taximissiondetail')))
+												ui:VBox():PackEnd({
+													ui:Label(t("From:"))
+												})
 											})
 											:SetColumn(1, {
 												ui:VBox():PackEnd({
-													ui:Label(mission.start:GetStarSystem().name.." ("..mission.location.sectorX..","..mission.location.sectorY..","..mission.location.sectorZ..")"),
-													ui:Label(mission.location:GetStarSystem().name.." ("..mission.location.sectorX..","..mission.location.sectorY..","..mission.location.sectorZ..")"),
-													ui:Label(string.interp(taxi_flavours[mission.flavour].howmany, {group = mission.group})),
-													ui:Label(taxi_flavours[mission.flavour].danger),
-													ui:Label(Format.Date(mission.due)),
-													ui:Margin(10),
-													ui:Label(dist.." "..t("ly"))
+													ui:MultiLineText(mission.start:GetStarSystem().name.." ("..mission.start.sectorX..","..mission.start.sectorY..","..mission.start.sectorZ..")")
+												})
+											}),
+										ui:Grid(2,1)
+											:SetColumn(0, {
+												ui:VBox():PackEnd({
+													ui:Label(t("To:"))
 												})
 											})
+											:SetColumn(1, {
+												ui:VBox():PackEnd({
+													ui:MultiLineText(mission.location:GetStarSystem().name.." ("..mission.location.sectorX..","..mission.location.sectorY..","..mission.location.sectorZ..")")
+												})
+											}),
+										ui:Grid(2,1)
+											:SetColumn(0, {
+												ui:VBox():PackEnd({
+													ui:Label(t("Group details:"))
+												})
+											})
+											:SetColumn(1, {
+												ui:VBox():PackEnd({
+													ui:MultiLineText(string.interp(taxi_flavours[mission.flavour].howmany, {group = mission.group}))
+												})
+											}),
+										ui:Grid(2,1)
+											:SetColumn(0, {
+												ui:VBox():PackEnd({
+													ui:Label(t("Deadline:"))
+												})
+											})
+											:SetColumn(1, {
+												ui:VBox():PackEnd({
+													ui:Label(Format.Date(mission.due))
+												})
+											}),
+										ui:Grid(2,1)
+											:SetColumn(0, {
+												ui:VBox():PackEnd({
+													ui:Label(t("Danger:"))
+												})
+											})
+											:SetColumn(1, {
+												ui:VBox():PackEnd({
+													ui:MultiLineText(taxi_flavours[mission.flavour].danger)
+												})
+											}),
+										ui:Margin(5),
+										ui:Grid(2,1)
+											:SetColumn(0, {
+												ui:VBox():PackEnd({
+													ui:Label(t("Distance:"))
+												})
+											})
+											:SetColumn(1, {
+												ui:VBox():PackEnd({
+													ui:Label(dist.." "..t("ly"))
+												})
+											}),
 		})})
 		:SetColumn(1, {
 			ui:VBox(10):PackEnd(UI.InfoFace.New(mission.client))

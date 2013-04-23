@@ -12,6 +12,7 @@
 #include <string>
 #include "RefCounted.h"
 #include "galaxy/SystemPath.h"
+#include "Orbit.h"
 
 class CustomSystemBody;
 class CustomSystem;
@@ -28,20 +29,6 @@ enum EconType { // <enum name=EconType prefix=ECON_>
 
 class StarSystem;
 class Faction;
-
-struct Orbit {
-	Orbit(): orbitalPhaseAtStart(0.0) {};
-	vector3d OrbitalPosAtTime(double t) const;
-	// 0.0 <= t <= 1.0. Not for finding orbital pos
-	vector3d EvenSpacedPosAtTime(double t) const;
-	/* duplicated from SystemBody... should remove probably */
-	double eccentricity;
-	double semiMajorAxis;
-	double orbitalPhaseAtStart; // 0 to 2 pi radians
-	/* dup " " --------------------------------------- */
-	double period; // seconds
-	matrix3x3d rotMatrix;
-};
 
 struct RingStyle {
 	// note: radius values are given as proportions of the planet radius
@@ -120,9 +107,9 @@ public:
 	std::string GetAstroDescription() const;
 	const char *GetIcon() const;
 	BodySuperType GetSuperType() const;
-	double GetRadius() const {
+	double GetRadius() const { // polar radius
 		if (GetSuperType() <= SUPERTYPE_STAR)
-			return radius.ToDouble() * SOL_RADIUS;
+			return (radius.ToDouble() / aspectRatio.ToDouble()) * SOL_RADIUS;
 		else
 			return radius.ToDouble() * EARTH_RADIUS;
 	}
@@ -183,7 +170,8 @@ public:
 	Orbit orbit;
 	Uint32 seed; // Planet.cpp can use to generate terrain
 	std::string name;
-	fixed radius;
+	fixed radius; // in earth radii for planets, sol radii for stars. equatorial radius in case of bodies which are flattened at the poles
+	fixed aspectRatio; // ratio between equatorial and polar radius for bodies with eqatorial bulges
 	fixed mass; // earth masses if planet, solar masses if star
 	fixed orbMin, orbMax; // periapsism, apoapsis in AUs
 	fixed rotationPeriod; // in days
@@ -194,6 +182,7 @@ public:
 	fixed orbitalOffset;
 	fixed orbitalPhaseAtStart; // 0 to 2 pi
 	fixed axialTilt; // in radians
+	fixed inclination; // in radians, for surface bodies = latitude
 	int averageTemp;
 	BodyType type;
 	bool isCustomBody;
@@ -226,6 +215,7 @@ public:
 
 	static RefCountedPtr<StarSystem> GetCached(const SystemPath &path);
 	static void ShrinkCache();
+	void ExportToLua(const char *filename);
 
 	const std::string &GetName() const { return m_name; }
 	SystemPath GetPathOf(const SystemBody *sbody) const;
@@ -285,6 +275,8 @@ private:
 	void CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSystemBody*> &children, int *outHumanInfestedness, Random &rand);
 	void GenerateFromCustom(const CustomSystem *, Random &rand);
 	void Populate(bool addSpaceStations);
+	std::string ExportBodyToLua(FILE *f, SystemBody *body);
+	std::string GetStarTypes(SystemBody *body);
 
 	SystemPath m_path;
 	int m_numStars;

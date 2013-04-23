@@ -2,6 +2,9 @@ varying vec3 varyingEyepos;
 varying vec3 varyingNormal;
 varying vec4 vertexColor;
 
+uniform vec3 geosphereCenter;
+uniform float geosphereScaledRadius;
+
 #ifdef TERRAIN_WITH_LAVA
 varying vec4 varyingEmission;
 uniform Material material;

@@ -186,6 +186,7 @@
     <ClCompile Include="..\..\src\LuaObject.cpp" />
     <ClCompile Include="..\..\src\LuaPlanet.cpp" />
     <ClCompile Include="..\..\src\LuaPlayer.cpp" />
+    <ClCompile Include="..\..\src\LuaPropertiedObject.cpp" />
     <ClCompile Include="..\..\src\LuaRand.cpp" />
     <ClCompile Include="..\..\src\LuaRef.cpp" />
     <ClCompile Include="..\..\src\LuaSerializer.cpp" />
@@ -210,6 +211,7 @@
     <ClCompile Include="..\..\src\ModManager.cpp" />
     <ClCompile Include="..\..\src\NavLights.cpp" />
     <ClCompile Include="..\..\src\ObjectViewerView.cpp" />
+    <ClCompile Include="..\..\src\Orbit.cpp" />
     <ClCompile Include="..\..\src\perlin.cpp" />
     <ClCompile Include="..\..\src\Pi.cpp" />
     <ClCompile Include="..\..\src\Planet.cpp" />
@@ -227,6 +229,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\src\Projectile.cpp" />
+    <ClCompile Include="..\..\src\PropertyMap.cpp" />
     <ClCompile Include="..\..\src\SDLWrappers.cpp" />
     <ClCompile Include="..\..\src\SectorView.cpp" />
     <ClCompile Include="..\..\src\Serializer.cpp" />
@@ -361,6 +364,7 @@
     <ClInclude Include="..\..\src\NavLights.h" />
     <ClInclude Include="..\..\src\Object.h" />
     <ClInclude Include="..\..\src\ObjectViewerView.h" />
+    <ClInclude Include="..\..\src\Orbit.h" />
     <ClInclude Include="..\..\src\OS.h" />
     <ClInclude Include="..\..\src\perlin.h" />
     <ClInclude Include="..\..\src\PersistSystemData.h" />
@@ -370,6 +374,8 @@
     <ClInclude Include="..\..\src\PngWriter.h" />
     <ClInclude Include="..\..\src\Polit.h" />
     <ClInclude Include="..\..\src\Projectile.h" />
+    <ClInclude Include="..\..\src\PropertiedObject.h" />
+    <ClInclude Include="..\..\src\PropertyMap.h" />
     <ClInclude Include="..\..\src\Quaternion.h" />
     <ClInclude Include="..\..\src\Random.h" />
     <ClInclude Include="..\..\src\RefCounted.h" />

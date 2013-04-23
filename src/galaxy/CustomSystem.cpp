@@ -192,10 +192,24 @@ static int l_csb_gc(lua_State *L)
 	return 0;
 }
 
+static int l_csb_aspect_ratio(lua_State *L)
+{
+	CustomSystemBody *csb = l_csb_check(L, 1);
+	const fixed *value = LuaFixed::CheckFromLua(L, 2);
+	csb->aspectRatio = *value;
+	if (csb->aspectRatio < fixed(1,1) ) { return luaL_error(
+		L, "Error: Custom system definition: Equatorial to Polar radius ratio cannot be less than 1."); }
+	if (csb->aspectRatio > fixed(10000,1) ) { return luaL_error(
+		L, "Error: Custom system definition: Equatorial to Polar radius ratio cannot be greater than 10000.0."); }
+	lua_settop(L, 1);
+	return 1;
+}
+
 static luaL_Reg LuaCustomSystemBody_meta[] = {
 	{ "new", &l_csb_new },
 	{ "seed", &l_csb_seed },
 	{ "radius", &l_csb_radius },
+	{ "equatorial_to_polar_radius", &l_csb_aspect_ratio },
 	{ "mass", &l_csb_mass },
 	{ "temp", &l_csb_temp },
 	{ "semi_major_axis", &l_csb_semi_major_axis },
@@ -250,7 +264,8 @@ static int interpret_star_types(int *starTypes, lua_State *L, int idx)
 		lua_rawgeti(L, -1, i + 1);
 		if (lua_type(L, -1) == LUA_TSTRING) {
 			ty = LuaConstants::GetConstantFromArg(L, "BodyType", -1);
-			if (ty < SystemBody::TYPE_STAR_MIN || ty > SystemBody::TYPE_STAR_MAX) {
+			if ((ty < SystemBody::TYPE_STAR_MIN || ty > SystemBody::TYPE_STAR_MAX)
+					&& ty != SystemBody::TYPE_GRAVPOINT) {
 				luaL_error(L, "system star %d does not have a valid star type", i+1);
 				// unreachable (longjmp in luaL_error)
 			}
@@ -546,10 +561,12 @@ CustomSystem::~CustomSystem()
 }
 
 CustomSystemBody::CustomSystemBody():
-	averageTemp(0),
+	aspectRatio(fixed(1,1)),
+	averageTemp(1),
 	want_rand_offset(true),
 	latitude(0.0),
 	longitude(0.0),
+	volatileGas(0),
 	ringStatus(WANT_RANDOM_RINGS),
 	seed(0),
 	want_rand_seed(true)

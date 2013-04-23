@@ -131,19 +131,29 @@ void SystemView::ResetViewpoint()
 	m_time = Pi::game->GetTime();
 }
 
-void SystemView::PutOrbit(SystemBody *b, vector3d offset)
+void SystemView::PutOrbit(const Orbit *orbit, const vector3d &offset, const Color &color, double planetRadius)
 {
+	int num_vertices = 0;
 	vector3f vts[100];
-	Color green(0.f, 1.f, 0.f, 1.f);
 	for (int i = 0; i < int(COUNTOF(vts)); ++i) {
 		const double t = double(i) / double(COUNTOF(vts));
-		vector3d pos = b->orbit.EvenSpacedPosAtTime(t);
+		const vector3d pos = orbit->EvenSpacedPosTrajectory(t);
 		vts[i] = vector3f(offset + pos * double(m_zoom));
+		++num_vertices;
+		if (pos.Length() < planetRadius)
+			break;
 	}
-	m_renderer->DrawLines(COUNTOF(vts), vts, green, LINE_LOOP);
+
+	if (num_vertices > 1) {
+		// don't close the loop for hyperbolas and parabolas and crashed ellipses
+		if ((orbit->GetEccentricity() > 1.0) || (num_vertices < int(COUNTOF(vts))))
+			m_renderer->DrawLines(num_vertices, vts, color, LINE_STRIP);
+		else
+			m_renderer->DrawLines(num_vertices, vts, color, LINE_LOOP);
+	}
 }
 
-void SystemView::OnClickObject(SystemBody *b)
+void SystemView::OnClickObject(const SystemBody *b)
 {
 	m_selectedObject = b;
 	std::string desc;
@@ -165,11 +175,11 @@ void SystemView::OnClickObject(SystemBody *b)
 	if (b->parent) {
 		desc += std::string(Lang::SEMI_MAJOR_AXIS);
 	desc += ":\n";
-		data += format_distance(b->orbit.semiMajorAxis)+"\n";
+		data += format_distance(b->orbit.GetSemiMajorAxis())+"\n";
 
 		desc += std::string(Lang::ORBITAL_PERIOD);
 	desc += ":\n";
-		data += stringf(Lang::N_DAYS, formatarg("days", b->orbit.period / (24*60*60))) + "\n";
+		data += stringf(Lang::N_DAYS, formatarg("days", b->orbit.Period() / (24*60*60))) + "\n";
 	}
 	m_infoLabel->SetText(desc);
 	m_infoText->SetText(data);
@@ -184,7 +194,7 @@ void SystemView::OnClickObject(SystemBody *b)
 	}
 }
 
-void SystemView::PutLabel(SystemBody *b, vector3d offset)
+void SystemView::PutLabel(const SystemBody *b, const vector3d &offset)
 {
 	Gui::Screen::EnterOrtho();
 
@@ -201,7 +211,7 @@ void SystemView::PutLabel(SystemBody *b, vector3d offset)
 // i don't know how to name it
 #define ROUGH_SIZE_OF_TURD	10.0
 
-void SystemView::PutBody(SystemBody *b, vector3d offset, const matrix4x4f &trans)
+void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matrix4x4f &trans)
 {
 	if (b->type == SystemBody::TYPE_STARPORT_SURFACE) return;
 	if (b->type != SystemBody::TYPE_GRAVPOINT) {
@@ -227,19 +237,29 @@ void SystemView::PutBody(SystemBody *b, vector3d offset, const matrix4x4f &trans
 		PutLabel(b, offset);
 	}
 
-	if (b->children.size()) for(std::vector<SystemBody*>::iterator kid = b->children.begin(); kid != b->children.end(); ++kid) {
+	Frame *frame = Pi::player->GetFrame();
+	if(frame->IsRotFrame()) frame = frame->GetNonRotFrame();
+	if(frame->GetSystemBody() == b && frame->GetSystemBody()->GetMass() > 0) {
+		const double t0 = Pi::game->GetTime();
+		Orbit playerOrbit = Pi::player->ComputeOrbit();
+		PutOrbit(&playerOrbit, offset, Color(1.0f, 0.0f, 0.0f), b->GetRadius());
+		PutSelectionBox(offset + playerOrbit.OrbitalPosAtTime(m_time - t0)* double(m_zoom), Color(1.0f, 0.0f, 0.0f));
+	}
 
-		if (is_zero_general((*kid)->orbit.semiMajorAxis)) continue;
-		if ((*kid)->orbit.semiMajorAxis * m_zoom < ROUGH_SIZE_OF_TURD) {
-			PutOrbit(*kid, offset);
+	if (b->children.size()) {
+		for(std::vector<SystemBody*>::const_iterator kid = b->children.begin(); kid != b->children.end(); ++kid) {
+			if (is_zero_general((*kid)->orbit.GetSemiMajorAxis())) continue;
+			if ((*kid)->orbit.GetSemiMajorAxis() * m_zoom < ROUGH_SIZE_OF_TURD) {
+				PutOrbit(&((*kid)->orbit), offset, Color(0.f, 1.f, 0.f, 1.f));
+			}
+
+			// not using current time yet
+			vector3d pos = (*kid)->orbit.OrbitalPosAtTime(m_time);
+			pos *= double(m_zoom);
+			//glTranslatef(pos.x, pos.y, pos.z);
+
+			PutBody(*kid, offset + pos, trans);
 		}
-
-		// not using current time yet
-		vector3d pos = (*kid)->orbit.OrbitalPosAtTime(m_time);
-		pos *= double(m_zoom);
-		//glTranslatef(pos.x, pos.y, pos.z);
-
-		PutBody(*kid, offset + pos, trans);
 	}
 }
 
@@ -263,7 +283,6 @@ void SystemView::PutSelectionBox(const SystemBody *b, const vector3d &rootPos, c
 
 void SystemView::PutSelectionBox(const vector3d &worldPos, const Color &col)
 {
-	// XXX EnterOrtho shouldn't be necessary after Gui uses DrawLines2D correctly
 	Gui::Screen::EnterOrtho();
 
 	vector3d screenPos;
@@ -274,17 +293,13 @@ void SystemView::PutSelectionBox(const vector3d &worldPos, const Color &col)
 		const float y1 = float(screenPos.y - SystemView::PICK_OBJECT_RECT_SIZE * 0.5);
 		const float y2 = float(y1 + SystemView::PICK_OBJECT_RECT_SIZE);
 
-        const GLfloat vtx[8] = {
-                x1, y1,
-                x2, y1,
-                x2, y2,
-                x1, y2
+        const vector3f verts[4] = {
+                vector3f(x1, y1, 0.f),
+                vector3f(x2, y1, 0.f),
+                vector3f(x2, y2, 0.f),
+                vector3f(x1, y2, 0.f)
         };
-        glColor4f(col.r, col.g, col.b, col.a);
-        glEnableClientState(GL_VERTEX_ARRAY);
-        glVertexPointer(2, GL_FLOAT, 0, vtx);
-        glDrawArrays(GL_LINE_LOOP, 0, 4);
-        glDisableClientState(GL_VERTEX_ARRAY);
+		m_renderer->DrawLines(4, &verts[0], col, Graphics::LINE_LOOP);
 	}
 
 	Gui::Screen::LeaveOrtho();
@@ -293,7 +308,7 @@ void SystemView::PutSelectionBox(const vector3d &worldPos, const Color &col)
 static const GLfloat fogDensity = 0.1f;
 static const GLfloat fogColor[4] = { 0,0,0,1.0f };
 
-void SystemView::GetTransformTo(SystemBody *b, vector3d &pos)
+void SystemView::GetTransformTo(const SystemBody *b, vector3d &pos)
 {
 	if (b->parent) {
 		GetTransformTo(b->parent, pos);
@@ -313,7 +328,7 @@ void SystemView::Draw3D()
 			ResetViewpoint();
 		}
 	}
-	
+
 	if (m_realtime) {
 		m_time = Pi::game->GetTime();
 	}

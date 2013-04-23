@@ -1,7 +1,63 @@
+Alpha 34
+
+   * New features
+     * New combat music track (#2209)
+
+   * Model changes
+     * Station definition 'num_docking_ports' is no longer used; it is computed
+       from the bay definitions (#2219)
+     * Station model docking nodes are checked against the station definition
+       (#2219)
+
+   * Internal changes
+     * SpaceStationTypes now loads data using the LuaTable wrapper (#2170)
+     * ShipType now loads data using the LuaTable wrapper (#2215)
+     * Reduced allocations and improved data locality in the eclipse code (#2200)
+     * New dynamic object property system (#2161, #2226, #2225, #2223, #2221)
+     * Support linking against the LDB Lua debugging library (#2147)
+     * Stars with flattening due to fast rotation, i.e; ellipsoids (#2178)
+     * Update bundled Lua to version 5.2.2 (#2230)
+     * Model loader: improve instancing (#2228)
+     * UI: speeding up the buy and sell process in the marketplace (#2188)
+     * Sort missions list (#2183)
+
+   * Fixes
+     * Fix lua system export (#2229)
+     * Fix Lua console so that it lets you continue incomplete commands (#2198)
+
 Alpha 33
 
    * New features
      * Czech language support (#2136)
+     * Planets now cast shadows (ie, eclipses) on other planets (#1353)
+     * Missiles now have smoke trails (#2154)
+     * Station waypoints are now defined in the mesh themselves and dealt with
+       in C++, and their docking bays can be grouped together
+       (#2058, #2175)
+     * The System View (F3, F6) now shows the player's current orbit
+       (#2084, #2168, #2169, #146, #985)
+     * The Sector View (F2) now has options to hide vertical lines
+       and out-of-range system labels
+
+   * Minor changes and tweaks
+     * Clean up the Taxi, DeliverPackage and Assassination mission views
+       (#2142, #2151)
+     * Tweak Polish translation (#2167)
+     * Gas giants now have a thin layer of atmosphere (#1788, #1395)
+
+   * Fixes
+     * Fix hoop station unreliable docking detection (#2153, #2125)
+     * Fix ground and "big_crappy" station docking detection (#2197)
+     * Fix redscreen from TradeShips module when entering a system with
+       only surface ports (#2172, #2171)
+     * Fix object viewer crash (#2187)
+     * Fix Lua console to allow continuation of incomplete commands (#2198)
+
+   * Script changes
+     * New StarSystem method: ExportToLua (#1700)
+
+   * Internal changes
+     * Converted some remaining GL code to use the renderer interface (#2184)
 
 Alpha 32
 
@@ -11,7 +67,7 @@ Alpha 32
      * New ship "Lunar Shuttle" (#2082)
      * New ship "Deneb Transport" (#2119)
      * New fast random number generator (#1893, #2078, #2079)
-     * Upgraded hoop station (#2046)
+     * Upgraded hoop station (#2046, #2131, #2114)
      * Removed Lua model system (LMR) (#2029, #2071)
      * Removed LMR-based ships (#2061)
      * Removed Elite/Frontier content (#2093)
@@ -354,7 +410,7 @@ Alpha 27
      * Application icon for Windows builds (#1537, #1166)
 
    * Fixes
-     * Avoid icons in some ternary systems overlapping each other (#1510, #1511) 
+     * Avoid icons in some ternary systems overlapping each other (#1510, #1511)
      * Fix overlapping text for long system descriptions (#1494, #1498)
      * Fix crash in SystemInfoView from leaking widget references (#1526,  #1493)
      * Clamp some newer terrain heights to non-negative values (#1534, #1530)

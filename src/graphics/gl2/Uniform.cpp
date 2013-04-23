@@ -47,6 +47,18 @@ void Uniform::Set(const Color4f &c)
 		glUniform4f(m_location, c.r, c.g, c.b, c.a);
 }
 
+void Uniform::Set(const int v[3])
+{
+	if (m_location != -1)
+		glUniform3i(m_location, v[0],v[1],v[2]);
+}
+
+void Uniform::Set(const float m[9])
+{
+	if (m_location != -1)
+		glUniformMatrix3fv(m_location, 1, false, m);
+}
+
 void Uniform::Set(Texture *tex, unsigned int unit)
 {
 	if (m_location != -1 && tex) {

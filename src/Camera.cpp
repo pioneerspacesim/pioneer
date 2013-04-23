@@ -271,3 +271,106 @@ void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d 
 	glPopMatrix();
 }
 
+void Camera::CalcShadows(const int lightNum, const Body *b, std::vector<Shadow> &shadowsOut) const {
+	// Set up data for eclipses. All bodies are assumed to be spheres.
+	const Body *lightBody = m_lightSources[lightNum].GetBody();
+	if (!lightBody)
+		return;
+
+	const double lightRadius = lightBody->GetPhysRadius();
+	const vector3d bLightPos = lightBody->GetPositionRelTo(b);
+	const vector3d lightDir = bLightPos.Normalized();
+
+	double bRadius;
+	if (b->IsType(Object::TERRAINBODY)) bRadius = b->GetSystemBody()->GetRadius();
+	else bRadius = b->GetPhysRadius();
+
+	// Look for eclipsing third bodies:
+	for (Space::BodyIterator ib2 = Pi::game->GetSpace()->BodiesBegin(); ib2 != Pi::game->GetSpace()->BodiesEnd(); ++ib2) {
+		Body *b2 = *ib2;
+		if ( b2 == b || b2 == lightBody || !(b2->IsType(Object::PLANET) || b2->IsType(Object::STAR)))
+			continue;
+
+		double b2Radius = b2->GetSystemBody()->GetRadius();
+		vector3d b2pos = b2->GetPositionRelTo(b);
+		const double perpDist = lightDir.Dot(b2pos);
+
+		if ( perpDist <= 0 || perpDist > bLightPos.Length())
+			// b2 isn't between b and lightBody; no eclipse
+			continue;
+
+		// Project to the plane perpendicular to lightDir, taking the line between the shadowed sphere
+		// (b) and the light source as zero. Our calculations assume that the light source is at
+		// infinity. All lengths are normalised such that b has radius 1. srad is then the radius of the
+		// occulting sphere (b2), and lrad is the apparent radius of the light disc when considered to
+		// be at the distance of b2, and projectedCentre is the normalised projected position of the
+		// centre of b2 relative to the centre of b. The upshot is that from a point on b, with
+		// normalised projected position p, the picture is of a disc of radius lrad being occulted by a
+		// disc of radius srad centred at projectedCentre-p. To determine the light intensity at p, we
+		// then just need to estimate the proportion of the light disc being occulted.
+		const double srad = b2Radius / bRadius;
+		const double lrad = (lightRadius/bLightPos.Length())*perpDist / bRadius;
+		if (srad / lrad < 0.01) {
+			// any eclipse would have negligible effect - ignore
+			continue;
+		}
+		const vector3d projectedCentre = ( b2pos - perpDist*lightDir ) / bRadius;
+		if (projectedCentre.Length() < 1 + srad + lrad) {
+			// some part of b is (partially) eclipsed
+			Camera::Shadow shadow = { lightNum, projectedCentre, static_cast<float>(srad), static_cast<float>(lrad) };
+			shadowsOut.push_back(shadow);
+		}
+	}
+}
+
+float discCovered(const float dist, const float rad) {
+	// proportion of unit disc covered by a second disc of radius rad placed
+	// dist from centre of first disc.
+	//
+	// WLOG, the second disc is displaced horizontally to the right.
+	// xl = rightwards distance to intersection of the two circles.
+	// xs = normalised leftwards distance from centre of second disc to intersection.
+	// d = vertical distance to an intersection point
+	// The clampings handle the cases where one disc contains the other.
+	const float radsq = rad*rad;
+	const float xl = Clamp((dist*dist + 1.f - radsq) / (2.f*std::max(0.001f,dist)), -1.f, 1.f);
+	const float xs = Clamp((dist - xl)/std::max(0.001f,rad), -1.f, 1.f);
+	const float d = sqrt(std::max(0.f, 1.f - xl*xl));
+
+	const float th = Clamp(acosf(xl), 0.f, float(M_PI));
+	const float th2 = Clamp(acosf(xs), 0.f, float(M_PI));
+
+	assert(!is_nan(d) && !is_nan(th) && !is_nan(th2));
+
+	// covered area can be calculated as the sum of segments from the two
+	// discs plus/minus some triangles, and it works out as follows:
+	return Clamp((th + radsq*th2 - dist*d)/float(M_PI), 0.f, 1.f);
+}
+
+static std::vector<Camera::Shadow> shadows;
+
+float Camera::ShadowedIntensity(const int lightNum, const Body *b) const {
+	shadows.clear();
+	shadows.reserve(16);
+	CalcShadows(lightNum, b, shadows);
+	float product = 1.0;
+	for (std::vector<Camera::Shadow>::const_iterator it = shadows.begin(), itEnd = shadows.end(); it!=itEnd; it++)
+		product *= 1.0 - discCovered(it->centre.Length() / it->lrad, it->srad / it->lrad);
+	return product;
+}
+
+// PrincipalShadows(b,n): returns the n biggest shadows on b in order of size
+void Camera::PrincipalShadows(const Body *b, const int n, std::vector<Shadow> &shadowsOut) const {
+	shadows.clear();
+	shadows.reserve(16);
+	for (size_t i = 0; i < 4 && i < m_lightSources.size(); i++) {
+		CalcShadows(i, b, shadows);
+	}
+	shadowsOut.reserve(shadows.size());
+	std::sort(shadows.begin(), shadows.end());
+	std::vector<Shadow>::reverse_iterator it = shadows.rbegin(), itREnd = shadows.rend();
+	for (int i = 0; i < n; i++) {
+		if (it == itREnd) break;
+		shadowsOut.push_back(*(it++));
+	}
+}

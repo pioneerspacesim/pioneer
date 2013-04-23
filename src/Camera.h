@@ -52,6 +52,19 @@ public:
 		Graphics::Light m_light;
 	};
 
+	struct Shadow {
+		int occultedLight;
+		vector3d centre;
+		float srad;
+		float lrad;
+
+		bool operator< (const Shadow& other) const { return srad/lrad < other.srad/other.lrad; }
+	};
+
+	void CalcShadows(const int lightNum, const Body *b, std::vector<Shadow> &shadowsOut) const;
+	float ShadowedIntensity(const int lightNum, const Body *b) const;
+	void PrincipalShadows(const Body *b, const int n, std::vector<Shadow> &shadowsOut) const;
+
 	// lights with properties in camera space
 	const std::vector<LightSource> &GetLightSources() const { return m_lightSources; }
 	const int GetNumLightSources() const { return m_lightSources.size(); }

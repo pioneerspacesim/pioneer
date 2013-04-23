@@ -167,6 +167,7 @@
     <ClCompile Include="..\..\src\LuaObject.cpp" />
     <ClCompile Include="..\..\src\LuaPlanet.cpp" />
     <ClCompile Include="..\..\src\LuaPlayer.cpp" />
+    <ClCompile Include="..\..\src\LuaPropertiedObject.cpp" />
     <ClCompile Include="..\..\src\LuaRand.cpp" />
     <ClCompile Include="..\..\src\LuaRef.cpp" />
     <ClCompile Include="..\..\src\LuaSerializer.cpp" />
@@ -191,6 +192,7 @@
     <ClCompile Include="..\..\src\ModManager.cpp" />
     <ClCompile Include="..\..\src\NavLights.cpp" />
     <ClCompile Include="..\..\src\ObjectViewerView.cpp" />
+    <ClCompile Include="..\..\src\Orbit.cpp" />
     <ClCompile Include="..\..\src\perlin.cpp" />
     <ClCompile Include="..\..\src\Pi.cpp" />
     <ClCompile Include="..\..\src\Planet.cpp" />
@@ -208,6 +210,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\src\Projectile.cpp" />
+    <ClCompile Include="..\..\src\PropertyMap.cpp" />
     <ClCompile Include="..\..\src\SDLWrappers.cpp" />
     <ClCompile Include="..\..\src\SectorView.cpp" />
     <ClCompile Include="..\..\src\Serializer.cpp" />
@@ -287,6 +290,7 @@
     <ClInclude Include="..\..\src\FileSourceZip.h" />
     <ClInclude Include="..\..\src\FileSystem.h" />
     <ClInclude Include="..\..\src\fixed.h" />
+    <ClInclude Include="..\..\src\FloatComparison.h" />
     <ClInclude Include="..\..\src\FontCache.h" />
     <ClInclude Include="..\..\src\FormController.h" />
     <ClInclude Include="..\..\src\Frame.h" />
@@ -338,6 +342,7 @@
     <ClInclude Include="..\..\src\LuaStarSystem.h" />
     <ClInclude Include="..\..\src\LuaSystemBody.h" />
     <ClInclude Include="..\..\src\LuaSystemPath.h" />
+    <ClInclude Include="..\..\src\LuaTable.h" />
     <ClInclude Include="..\..\src\LuaTimer.h" />
     <ClInclude Include="..\..\src\LuaUtils.h" />
     <ClInclude Include="..\..\src\LuaVector.h" />
@@ -353,6 +358,7 @@
     <ClInclude Include="..\..\src\NavLights.h" />
     <ClInclude Include="..\..\src\Object.h" />
     <ClInclude Include="..\..\src\ObjectViewerView.h" />
+    <ClInclude Include="..\..\src\Orbit.h" />
     <ClInclude Include="..\..\src\perlin.h" />
     <ClInclude Include="..\..\src\PersistSystemData.h" />
     <ClInclude Include="..\..\src\Pi.h" />
@@ -361,6 +367,8 @@
     <ClInclude Include="..\..\src\PngWriter.h" />
     <ClInclude Include="..\..\src\Polit.h" />
     <ClInclude Include="..\..\src\Projectile.h" />
+    <ClInclude Include="..\..\src\PropertiedObject.h" />
+    <ClInclude Include="..\..\src\PropertyMap.h" />
     <ClInclude Include="..\..\src\Quaternion.h" />
     <ClInclude Include="..\..\src\RefCounted.h" />
     <ClInclude Include="..\..\src\RefList.h" />

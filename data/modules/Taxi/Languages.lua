@@ -212,14 +212,12 @@ Translate:Add({ English = {
   ["ly"] = "ly",
 
   -- Texts for the missions screen
-  taximissiondetail = [[
-  From:
-  To:
-  Group details:
-  Danger:
-  Deadline:
-
-  Distance:]],
+  ["From:"] = "From:",
+  ["To:"] = "To:",
+  ["Group details:"] = "Group details:",
+  ["Deadline:"] = "Deadline:",
+  ["Danger:"] = "Danger:",
+  ["Distance:"] = "Distance:",
 
  PIRATE_TAUNTS = {
 	"You're going to regret dealing with {client}",
@@ -442,14 +440,12 @@ Translate:Add({ Polski = {
   ["ly"] = "lś",
 
   -- Texts for the missions screen
-  taximissiondetail = [[
-  Z:
-  Do:
-  Pasażerów:
-  Zagrożenie:
-  Termin:
-
-  Dystans:]],
+  ["From:"] = "Z:",
+  ["To:"] = "Do:",
+  ["Group details:"] = "Osób w grupie:",
+  ["Deadline:"] = "Termin:",
+  ["Danger:"] = "Zagrożenie:",
+  ["Distance:"] = "Dystans:",
 
  PIRATE_TAUNTS = {
 	"Pożałujesz kontaktów z {client}",
@@ -1180,14 +1176,12 @@ Translate:Add({ Russian = {
   ["ly"] = "св.лет",
 
   -- Texts for the missions screen
-  taximissiondetail = [[
-  Начало маршрута:
-  Конец маршрута:
-  О группе:
-  Опасность:
-  Крайний срок:
-  
-  Расстояние:]],
+  ["From:"] = "Начало маршрута:",
+  ["To:"] = "Конец маршрута:",
+  ["Group details:"] = "О группе:",
+  ["Deadline:"] = "Крайний срок:",
+  ["Danger:"] = "Опасность:",
+  ["Distance:"] = "Расстояние:",
 
  PIRATE_TAUNTS = {
 	"Ты ответишь за контракт с {client}!!",
@@ -1410,14 +1404,12 @@ Translate:Add({ Deutsch = {
   ["ly"] = "ly",
 
   -- Texts for the missions screen
-  taximissiondetail = [[
-  Von:
-  Nach:
-  Gruppendetails:
-  Gefahr:
-  Deadline:
-
-  Distanz:]],
+  ["From:"] = "Von:",
+  ["To:"] = "Nach:",
+  ["Group details:"] = "Gruppendetails:",
+  ["Deadline:"] = "Deadline:",
+  ["Danger:"] = "Gefahr:",
+  ["Distance:"] = "Distanz:",
 
  PIRATE_TAUNTS = {
 	"Du wirst deine Kooperation mit {client} bedauern.",
@@ -1641,14 +1633,12 @@ Translate:Add({ Czech = {
   ["ly"] = "ly",
 
   -- Texts for the missions screen
-  taximissiondetail = [[
-  Odkud:
-  Kam:
-  Detail skupiny:
-  Nebezpečí:
-  Termín:
-
-  Vzdálenost:]],
+  ["From:"] = "Odkud:",
+  ["To:"] = "Kam:",
+  ["Group details:"] = "Detail skupiny:",
+  ["Deadline:"] = "Termín:",
+  ["Danger:"] = "Nebezpečí:",
+  ["Distance:"] = "Vzdálenost:",
 
  PIRATE_TAUNTS = {
 	"Budeš litovat, že jsis něco začal s {client}",

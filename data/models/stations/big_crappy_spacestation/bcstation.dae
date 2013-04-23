@@ -314,14 +314,6 @@
           </bind_material>
         </instance_geometry>
       </node>
-      <node id="collision_pad1" name="collision_pad1" type="NODE">
-        <translate sid="location">0 0 507.2925</translate>
-        <rotate sid="rotationZ">0 0 1 0</rotate>
-        <rotate sid="rotationY">0 1 0 0</rotate>
-        <rotate sid="rotationX">1 0 0 0</rotate>
-        <scale sid="scale">1 1 1</scale>
-        <instance_geometry url="#Plane-mesh"/>
-      </node>
       <node id="Inners" name="Inners" type="NODE">
         <translate sid="location">5.68434e-12 -1.19209e-5 0</translate>
         <rotate sid="rotationZ">0 0 1 -90.00002</rotate>

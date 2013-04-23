@@ -73,22 +73,26 @@ void SystemInfoView::OnBodyViewed(SystemBody *b)
 	_add_label_and_value(Lang::RADIUS, stringf(Lang::N_WHATEVER_RADII, formatarg("radius", b->radius.ToDouble()),
 		formatarg("units", std::string(b->GetSuperType() == SystemBody::SUPERTYPE_STAR ? Lang::SOLAR : Lang::EARTH))));
 
+	if (b->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
+		_add_label_and_value(Lang::EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO, stringf("%0{f.3}", b->aspectRatio.ToDouble()));
+	}
+
 	if (b->type != SystemBody::TYPE_STARPORT_ORBITAL) {
 		_add_label_and_value(Lang::SURFACE_TEMPERATURE, stringf(Lang::N_CELSIUS, formatarg("temperature", b->averageTemp-273)));
 		_add_label_and_value(Lang::SURFACE_GRAVITY, stringf("%0{f.3} m/s^2", b->CalcSurfaceGravity()));
 	}
 
 	if (b->parent) {
-		float days = float(b->orbit.period) / float(60*60*24);
+		float days = float(b->orbit.Period()) / float(60*60*24);
 		if (days > 1000) {
 			data = stringf(Lang::N_YEARS, formatarg("years", days/365));
 		} else {
-			data = stringf(Lang::N_DAYS, formatarg("days", b->orbit.period / (60*60*24)));
+			data = stringf(Lang::N_DAYS, formatarg("days", b->orbit.Period() / (60*60*24)));
 		}
 		_add_label_and_value(Lang::ORBITAL_PERIOD, data);
 		_add_label_and_value(Lang::PERIAPSIS_DISTANCE, format_distance(b->orbMin.ToDouble()*AU, 3));
 		_add_label_and_value(Lang::APOAPSIS_DISTANCE, format_distance(b->orbMax.ToDouble()*AU, 3));
-		_add_label_and_value(Lang::ECCENTRICITY, stringf("%0{f.2}", b->orbit.eccentricity));
+		_add_label_and_value(Lang::ECCENTRICITY, stringf("%0{f.2}", b->orbit.GetEccentricity()));
 		if (b->type != SystemBody::TYPE_STARPORT_ORBITAL) {
 			_add_label_and_value(Lang::AXIAL_TILT, stringf(Lang::N_DEGREES, formatarg("angle", b->axialTilt.ToDouble() * (180.0/M_PI))));
 			if (b->rotationPeriod != 0) {
