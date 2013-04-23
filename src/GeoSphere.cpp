@@ -64,6 +64,8 @@ static void print_info(const SystemBody *sbody, const Terrain *terrain)
 
 void GeoSphere::OnChangeDetailLevel()
 {
+#warning "cancel jobs"
+#if 0
 	// Cancel all of the pending patch jobs
 	BasePatchJob::CancelAllPatchJobs();
 
@@ -74,6 +76,7 @@ void GeoSphere::OnChangeDetailLevel()
 		THREAD_CONFIG::tc_sleep(0);
 	}
 	BasePatchJob::ResetPatchJobCancel();
+#endif
 
 	s_patchContext.Reset(new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]));
 	assert(s_patchContext->edgeLen <= GEOPATCH_MAX_EDGELEN);
@@ -178,6 +181,8 @@ GeoSphere::GeoSphere(const SystemBody *body) : m_sbody(body), m_terrain(Terrain:
 
 GeoSphere::~GeoSphere()
 {
+#warning "cancel jobs"
+#if 0
 	// Cancel all of the pending patch jobs
 	BasePatchJob::CancelAllPatchJobs();
 
@@ -186,6 +191,7 @@ GeoSphere::~GeoSphere()
 		THREAD_CONFIG::tc_sleep(0);
 	}
 	BasePatchJob::ResetPatchJobCancel();
+#endif
 
 	// update thread should not be able to access us now, so we can safely continue to delete
 	assert(std::count(s_allGeospheres.begin(), s_allGeospheres.end(), this) == 1);

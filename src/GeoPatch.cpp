@@ -177,18 +177,12 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 
 	if (canSplit) {
 		if (!kids[0]) {
-			// don't do anything if we can't handle anymore jobs
-			if( !Pi::jobs().CanAddJob() ) {
-				return;
-			}
-
+            assert(!mHasJobRequest);
 			mHasJobRequest = true;
 			SQuadSplitRequest *ssrd = new SQuadSplitRequest(v0, v1, v2, v3, centroid.Normalized(), m_depth,
 						geosphere->m_sbody->path, mPatchID, ctx->edgeLen,
 						ctx->frac, geosphere->m_terrain.Get());
-			assert(!mCurrentJob.Valid());
-			mCurrentJob.Reset(new QuadPatchJob(ssrd));
-			Pi::jobs().AddJob(mCurrentJob.Get(), NULL);
+			Pi::Jobs()->Queue(new QuadPatchJob(ssrd));
 		} else {
 			for (int i=0; i<NUM_KIDS; i++) {
 				kids[i]->LODUpdate(campos);
@@ -209,17 +203,11 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 void GeoPatch::RequestSinglePatch()
 {
 	if( !heights.Valid() ) {
-		// don't do anything if we can't handle anymore jobs
-		if( !Pi::jobs().CanAddJob() ) {
-			return;
-		}
-
+        assert(!mHasJobRequest);
 		mHasJobRequest = true;
 		SSingleSplitRequest *ssrd = new SSingleSplitRequest(v0, v1, v2, v3, centroid.Normalized(), m_depth,
 					geosphere->m_sbody->path, mPatchID, ctx->edgeLen, ctx->frac, geosphere->m_terrain.Get());
-		assert(!mCurrentJob.Valid());
-		mCurrentJob.Reset(new SinglePatchJob(ssrd));
-		Pi::jobs().AddJob(mCurrentJob.Get(), NULL);
+		Pi::Jobs()->Queue(new SinglePatchJob(ssrd));
 	}
 }
 
@@ -274,8 +262,6 @@ void GeoPatch::ReceiveHeightmaps(const SQuadSplitResult *psr)
 		for (int i=0; i<NUM_KIDS; i++) {
 			kids[i]->UpdateVBOs();
 		}
-		assert(mCurrentJob.Valid());
-		delete mCurrentJob.Release();
 		mHasJobRequest = false;
 	}
 }
@@ -290,7 +276,5 @@ void GeoPatch::ReceiveHeightmap(const SSingleSplitResult *psr)
 		normals.Reset(data.normals);
 		colors.Reset(data.colors);
 	}
-	assert(mCurrentJob.Valid());
-	delete mCurrentJob.Release();
 	mHasJobRequest = false;
 }
