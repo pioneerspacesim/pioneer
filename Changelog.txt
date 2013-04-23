@@ -16,6 +16,11 @@ Alpha 34
      * New dynamic object property system (#2161, #2226, #2225, #2223, #2221)
      * Support linking against the LDB Lua debugging library (#2147)
      * Stars with flattening due to fast rotation, i.e; ellipsoids (#2178)
+     * Update bundled Lua to version 5.2.2 (#2230)
+     * Model loader: improve instancing (#2228)
+
+   * Bug fixes
+     * Fix lua system export (#2229)
 
 Alpha 33
 
