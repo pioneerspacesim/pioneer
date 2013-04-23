@@ -8,6 +8,7 @@
 #include "graphics/Graphics.h"
 #include "StringF.h"
 #include "Lang.h"
+#include <sstream>
 
 #if 0
 void Display(Settings::KeyMap &key_map)
@@ -95,9 +96,42 @@ bool Settings::SaveGameConfig(const Settings::MapStrings ini) const
         Pi::config->SetString(it->first.c_str(), it->second.c_str());
         
     }
-    return Pi::config->Save();
+    Pi::config->Save();
+    
+    std::string t = "DetailPlanets";
+    Pi::detail.planets = GetInt(t, ini);
+    
+    t = "Textures";
+    Pi::detail.textures = GetInt(t, ini);
+    
+    t = "FractalMultiple";
+    Pi::detail.fracmult = GetInt(t,ini);
+    
+    t= "DetailCities";
+    Pi::detail.cities = GetInt(t,ini);
+    
+    t= "EnableJoystick";
+    Pi::SetJoystickEnabled(GetInt(t,ini));
+    
+    t = "InvertMouseY";
+    Pi::SetMouseYInvert(GetInt(t,ini));
+    
+    t = "DisplayNavTunnel";
+    Pi::SetNavTunnelDisplayed(GetInt(t,ini));
+    
+    Pi::OnChangeDetailLevel();
+    return true;
 }
-
+int Settings::GetInt(std::string &key, const MapStrings &ini) const
+{
+    
+    MapStrings::const_iterator it;
+    it = ini.find(key);
+    std::istringstream buffer(it->second);
+    int numb;
+    buffer >> numb;
+    return numb;
+}
 const Settings::SVecType Settings::GetVideoModes() const
 {
     SVecType result;

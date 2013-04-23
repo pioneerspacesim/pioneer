@@ -44,6 +44,7 @@ private:
     {
         Function, Label, Binding, Key
     };
+    int GetInt(std::string &key, const MapStrings &ini) const;
     void BuildControlBindingList(const KeyBindings::BindingPrototype *protos, KeyMap &key_map,SVecType &header_vec);
     KeyMap m_control_keys;
     KeyMap m_view_keys;

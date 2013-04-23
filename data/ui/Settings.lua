@@ -12,29 +12,111 @@ return_to_menu.onClick:Connect(function () Settings:SaveGameConfig(iniTable)
 
 ui.templates.Settings = function (args) 
 	
+	local checkboxHandler = function(cb, iniEntry, negate)
+		local updater = function()
+			local checked
+			print ("checked: ",cb.IsChecked)
+			if cb.IsChecked then checked = "1" else checked = "0" end
+			if negate == true then
+				print ("NEG", negate)
+				if checked == "1" then checked = "0" else checked = "1" end
+			end
+			print ("CHECKED: ", checked)
+			iniTable[iniEntry] = checked
+		end
+		cb:SetState(iniTable[iniEntry])
+		if negate == true then cb:Toggle() end
+		cb.onClick:Connect(updater )
+	end
+	
+	local handleDropDown = function(dd, dl, en) 
+		local option = dd.selectedOption
+		for i,v in ipairs(dl) do
+			if v == option then
+				iniTable[en] = ""..i-1
+			end
+		end
+	end
+	local setDropdown = function(list, drop)
+		for i,v in ipairs(list) do drop:AddOption(list[i]) end
+	end
 	
 	local gameTemplate = function()
-	return ui:VBox():PackEnd({
-		ui:HBox():PackEnd({
-			ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({ui:CheckBox(), ui:Label("Game Test"),
-			})),
-			ui:Margin(5),
-			ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({ui:CheckBox(), ui:Label("Game Test2"),
+			
+		local AAList = {"Off", "x2",  "x4", "x8",  "x16"}
+		local parseListOut = function(i)
+			if i == 1 then return "0" end
+			if i == 2 then return  "2" end
+			if i == 3 then return  "4" end
+			if i == 4 then return  "8" end
+			if i == 5 then return  "16" end
+		end
+		local parseListIn = function(i)
+			if i == "0" then return AAList[1] end
+			if i == "2" then return  AAList[2] end
+			if i == "4" then return  AAList[3] end
+			if i == "8" then return  AAList[4] end
+			if i == "16" then return  AAList[5] end
+		end
+		local AADropdown = ui:DropDown()
+		setDropdown(AAList, AADropdown)
+		local opt = parseListIn(iniTable["AntiAliasingMode"])
+		print (opt)
+		AADropdown:SetOption(opt)
+		AADropdown.onOptionSelected:Connect(function() 
+			local option = AADropdown.selectedOption
+			for i,v in ipairs(AAList) do
+				if v == option then
+					iniTable["AntiAliasingMode"] = parseListOut(i)
+					
+				end
+			end
+		end)
+		
+		local vSyncCheckbox = ui:CheckBox()
+		local navTunnelCheckbox = ui:CheckBox()
+		local invertMouse = ui:CheckBox()
+		
+		checkboxHandler(invertMouse, "InvertMouseY", false)
+		checkboxHandler(vSyncCheckbox,"VSync",false)
+		checkboxHandler(navTunnelCheckbox,"DisplayNavTunnel",false)
+		
+		return ui:Grid({0.25,1,0.25,1,0.25},1)
+			:SetCell(1,0, ui:VBox():PackEnd({			
+				ui:Background():SetInnerWidget(
+					ui:VBox():PackEnd({ui:Label("VSYNC"),
+					vSyncCheckbox,
+					ui:Margin(5)})
+				),
+				ui:Background():SetInnerWidget(
+					ui:VBox():PackEnd({ui:Label("AA"),
+					AADropdown,
+					ui:Margin(5)})
+				),
 			}))
-		})
-	})
+			:SetCell(3,0, ui:VBox():PackEnd({			
+				ui:Background():SetInnerWidget(
+					ui:VBox():PackEnd({ui:Label(l.DISPLAY_NAV_TUNNEL),
+					navTunnelCheckbox,
+					ui:Margin(5)})
+				),
+				ui:Background():SetInnerWidget(
+					ui:VBox():PackEnd({ui:Label(l.INVERT_MOUSE_Y),
+					invertMouse,
+					ui:Margin(5)})
+				),
+			}))
 	end
 					
 	local videoTemplate = function()
 		local modeList = Settings:GetVideoModes()
 		
-		local setDropdown = function(list, drop)
-			for i = 1,#list do drop:AddOption(list[i]) end
-		end
+		
 		local pDetailList = {l.LOW, l.MEDIUM, l.HIGH, l.VERY_HIGH, l.VERY_VERY_HIGH}
 		local pDetailDropdown = ui:DropDown()
 		setDropdown(pDetailList, pDetailDropdown)
 		pDetailDropdown:SetOption(pDetailList[iniTable["DetailPlanets"]+1])
+		pDetailDropdown.onOptionSelected:Connect(function() handleDropDown(pDetailDropdown, pDetailList, "DetailPlanets") end)
 	-- 	pDetailDropdown.onOptionSelected:Connect(function() local option = pDetailDropdown.selectedOption
 	-- 						print(option) end)
 		
@@ -45,6 +127,23 @@ ui.templates.Settings = function (args)
 		local pTextureDropdown = ui:DropDown()
 		setDropdown(pTextureList,pTextureDropdown)
 		pTextureDropdown:SetOption(pTextureList[iniTable["Textures"]+1])
+		pTextureDropdown.onOptionSelected:Connect(function() handleDropDown(pTextureDropdown,pTextureList,"Textures") end)
+		
+		if iniTable["FractalMultiple"] == nil then
+			iniTable["FractalMultiple"] = "0"
+		end
+		
+		local pFractalDetailList = {l.VERY_LOW, l.LOW, l.MEDIUM, l.HIGH, l.VERY_HIGH}
+		local pFractalDropDown = ui:DropDown()
+		setDropdown(pFractalDetailList, pFractalDropDown)
+		pFractalDropDown:SetOption(pFractalDetailList[iniTable["FractalMultiple"]+1])
+		pFractalDropDown.onOptionSelected:Connect(function() handleDropDown(pFractalDropDown, pFractalDetailList, "FractalMultiple") end)
+		
+		
+		local pDetailCities = ui:DropDown()
+		setDropdown(pDetailList, pDetailCities)
+		pDetailCities:SetOption(pDetailList[iniTable["DetailCities"]+1])
+		pDetailCities.onOptionSelected:Connect(function() handleDropDown(pDetailCities, pDetailList, "DetailCities") end)
 		
 		local fullScreenCheckBox = ui:CheckBox()
 		local shadersCheckBox = ui:CheckBox()
@@ -62,10 +161,13 @@ ui.templates.Settings = function (args)
 								iniTable["ScrHeight"] = v
 							end
 							print (option) end)
-		fullScreenCheckBox:SetState(iniTable["StartFullscreen"])
-		compressionCheckBox:SetState(iniTable["UseTextureCompression"])
-		shadersCheckBox:SetState(iniTable["DisableShaders"])
-		shadersCheckBox:Toggle()
+-- 		fullScreenCheckBox:SetState(iniTable["StartFullscreen"])
+		checkboxHandler(fullScreenCheckBox,"StartFullscreen",false)
+		checkboxHandler(compressionCheckBox, "UseTextureCompression", false)
+		checkboxHandler(shadersCheckBox, "DisableShaders", true)
+-- 		compressionCheckBox:SetState(iniTable["UseTextureCompression"])
+-- 		shadersCheckBox:SetState(iniTable["DisableShaders"])
+-- 		shadersCheckBox:Toggle()
 		local vbox = ui:Grid({0.25,3,0.25,1,0.25},1)
 			:SetCell(1,0, ui:VBox():PackEnd({			
 				ui:Background():SetInnerWidget(
@@ -81,6 +183,16 @@ ui.templates.Settings = function (args)
 				ui:Background():SetInnerWidget(
 					ui:VBox():PackEnd({ui:Label(l.PLANET_TEXTURES),
 					pTextureDropdown,
+					ui:Margin(5)})
+				),
+				ui:Background():SetInnerWidget(
+					ui:VBox():PackEnd({ui:Label(l.FRACTAL_DETAIL),
+					pFractalDropDown,
+					ui:Margin(5)})
+				),
+				ui:Background():SetInnerWidget(
+					ui:VBox():PackEnd({ui:Label(l.CITY_DETAIL_LEVEL),
+					pDetailCities,
 					ui:Margin(5)})
 				),
 			}))
@@ -121,7 +233,8 @@ ui.templates.Settings = function (args)
 			local minus = UI.SmallLabeledButton.New("-")
 			local mute = ui:CheckBox()
 			local controls = ui:HBox():PackEnd({minus,plus,mute,ui:Label("Mute")})
-			mute:SetState(iniTable[muteKey])
+			checkboxHandler(mute, muteKey, false)
+-- 			mute:SetState(iniTable[muteKey])
 
 			plus.button.onClick:Connect(function() adj:SetScrollPosition(adj.ScrollPosition + 0.05) end)
 			minus.button.onClick:Connect(function() adj:SetScrollPosition(adj.ScrollPosition - 0.05) end)
@@ -130,8 +243,8 @@ ui.templates.Settings = function (args)
 		end
 		local adjChange = function(adj,label,ini)
 			local pos = adj.ScrollPosition 
-			iniTable[ini] = pos;
-			pos = pos*100;
+			iniTable[ini] = pos
+			pos = pos*100
 			adj.InnerWidget:SetText(label.." "..pos)
 			
 		end
@@ -148,15 +261,16 @@ ui.templates.Settings = function (args)
 			:SetCell(1,2,sfxVolume)
 	end
 	local languageTemplate = function()
-	return ui:VBox():PackEnd({
-		ui:HBox():PackEnd({
-			ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({ui:CheckBox(), ui:Label("Language Test"),
-					})),
-					ui:Margin(5),
-					ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({ui:CheckBox(), ui:Label("Language Test2"),
-			                                                                   }))
-		})
-	})
+		local langs = Lang:GetCoreLanguages()
+		local langList = {}
+		for i,v in ipairs(langs) do
+			table.insert(langList,v)
+		end
+		local langDropdown = ui:DropDown()
+		setDropdown(langList,langDropdown)
+		langDropdown:SetOption(iniTable["Lang"])
+		langDropdown.onOptionSelected:Connect(function() iniTable["Lang"] = langDropdown.selectedOption end)
+		return ui:VBox():PackEnd({ui:Label(l.LANGUAGE_SELECTION),langDropdown})
 	end
 	
 	
