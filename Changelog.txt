@@ -13,7 +13,8 @@ Alpha 34
      * SpaceStationTypes now loads data using the LuaTable wrapper (#2170)
      * ShipType now loads data using the LuaTable wrapper (#2215)
      * Reduced allocations and improved data locality in the eclipse code (#2200)
-     * New dynamic object property system (#2161, #2226, #2225)
+     * New dynamic object property system (#2161, #2226, #2225, #2223, #2221)
+     * Support linking against the LDB Lua debugging library (#2147)
 
 Alpha 33
 
