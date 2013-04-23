@@ -54,9 +54,9 @@ private:
 	RefCountedPtr<Node> LoadMesh(const std::string &filename, const AnimList &animDefs); //load one mesh file so it can be added to the model scenegraph. Materials should be created before this!
 	void AddLog(const std::string&);
 	void CheckAnimationConflicts(const Animation*, const std::vector<Animation*>&); //detect animation overlap
-	void ConvertAiMeshesToSurfaces(std::vector<RefCountedPtr<Graphics::Surface> >&, const aiScene*, Model*); //model is only for material lookup
+	void ConvertAiMeshes(std::vector<RefCountedPtr<StaticGeometry> >&, const aiScene*); //model is only for material lookup
 	void ConvertAnimations(const aiScene *, const AnimList &, Node *meshRoot);
-	void ConvertNodes(aiNode *node, Group *parent, std::vector<RefCountedPtr<Graphics::Surface> >& meshes, const matrix4x4f&);
+	void ConvertNodes(aiNode *node, Group *parent, std::vector<RefCountedPtr<StaticGeometry> >& meshes, const matrix4x4f&);
 	void CreateLabel(Group *parent, const matrix4x4f&);
 	void CreateThruster(Group *parent, const matrix4x4f& nodeTrans, const std::string &name, const matrix4x4f &accum);
 	void FindPatterns(PatternContainer &output); //find pattern texture files from the model directory
