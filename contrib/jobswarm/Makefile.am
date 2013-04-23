@@ -6,14 +6,14 @@ libjobswarm_a_SOURCES = \
 	CoreCount.cpp \
 	JobManager.cpp \
 	JobSwarm.cpp \
-	ThreadConfig.cpp \
-	ThreadSafeQueue.cpp
+	LockFreeQ.cpp \
+	ThreadConfig.cpp
 
 noinst_HEADERS = \
 	CoreCount.h \
 	JobManager.h \
 	JobSwarm.h \
+	LockFreeQ.h \
 	pool.h \
 	ThreadConfig.h \
-	ThreadSafeQueue.h \
 	UserMemAlloc.h
