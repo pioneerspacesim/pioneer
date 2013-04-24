@@ -55,7 +55,7 @@ void BasePatchJob::GenerateMesh(double *heights, vector3f *normals, Color3ub *co
 	double *hts = heights;
 	vrts = borderVertexs;
 	for (int y=1; y<borderedEdgeLen-1 && !s_abort; y++) {
-		for (int x=1; x<borderedEdgeLen-1; x++) {
+		for (int x=1; x<borderedEdgeLen-1 && !s_abort; x++) {
 			// height
 			const double height = borderHeights[x + y*borderedEdgeLen];
 			assert(hts!=&heights[edgeLen*edgeLen]);
@@ -88,9 +88,11 @@ void BasePatchJob::GenerateMesh(double *heights, vector3f *normals, Color3ub *co
 void SinglePatchJob::OnFinish(void * userData, int userId)  // runs in primary thread of the context
 {
 	if(s_abort) {
-		// clean up after ourselves
-		mpResults->OnCancel();
-		delete mpResults;
+		if(mpResults) {
+			// clean up after ourselves
+			mpResults->OnCancel();
+			delete mpResults;
+		}
 	} else {
 		GeoSphere::OnAddSingleSplitResult( mData->sysPath, mpResults );
 	}
@@ -114,7 +116,7 @@ void SinglePatchJob::Process(void * userData,int /* userId */)    // RUNS IN ANO
 	// fill out the data
 	GenerateMesh(srd.heights, srd.normals, srd.colors, srd.borderHeights.Get(), srd.borderVertexs.Get(),
 		srd.v0, srd.v1, srd.v2, srd.v3, 
-		srd.edgeLen, srd.fracStep, srd.pTerrain);
+		srd.edgeLen, srd.fracStep, srd.pTerrain.Get());
 	// add this patches data
 	SSingleSplitResult *sr = new SSingleSplitResult(srd.patchID.GetPatchFaceIdx(), srd.depth);
 	sr->addResult(srd.heights, srd.normals, srd.colors, 
@@ -131,8 +133,10 @@ void QuadPatchJob::OnFinish(void * userData, int userId)  // runs in primary thr
 {
 	if(s_abort) {
 		// clean up after ourselves
-		mpResults->OnCancel();
-		delete mpResults;
+		if(mpResults) {
+			mpResults->OnCancel();
+			delete mpResults;
+		}
 	} else {
 		GeoSphere::OnAddQuadSplitResult( mData->sysPath, mpResults );
 	}
@@ -177,7 +181,7 @@ void QuadPatchJob::Process(void * userData,int /* userId */)    // RUNS IN ANOTH
 		// fill out the data
 		GenerateMesh(srd.heights[i], srd.normals[i], srd.colors[i], srd.borderHeights[i].Get(), srd.borderVertexs[i].Get(),
 			vecs[i][0], vecs[i][1], vecs[i][2], vecs[i][3], 
-			srd.edgeLen, srd.fracStep, srd.pTerrain);
+			srd.edgeLen, srd.fracStep, srd.pTerrain.Get());
 		// add this patches data
 		sr->addResult(i, srd.heights[i], srd.normals[i], srd.colors[i], 
 			vecs[i][0], vecs[i][1], vecs[i][2], vecs[i][3], 

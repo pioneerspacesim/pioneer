@@ -36,7 +36,7 @@ public:
 	const GeoPatchID patchID;
 	const int edgeLen;
 	const double fracStep;
-	Terrain *pTerrain;
+	ScopedPtr<Terrain> pTerrain;
 
 protected:
 	// deliberately prevent copy constructor access
@@ -260,7 +260,7 @@ protected:
 class SinglePatchJob : public BasePatchJob
 {
 public:
-	SinglePatchJob(SSingleSplitRequest *data) : BasePatchJob(), mData(data)	{ /* empty */ }
+	SinglePatchJob(SSingleSplitRequest *data) : BasePatchJob(), mData(data), mpResults(NULL)	{ /* empty */ }
 
 	virtual ~SinglePatchJob()	{ /* empty */ }
 
@@ -284,7 +284,7 @@ private:
 class QuadPatchJob : public BasePatchJob
 {
 public:
-	QuadPatchJob(SQuadSplitRequest *data) : BasePatchJob(), mData(data) { /* empty */ }
+	QuadPatchJob(SQuadSplitRequest *data) : BasePatchJob(), mData(data), mpResults(NULL) { /* empty */ }
 
 	virtual ~QuadPatchJob()	{ /* empty */ }
 

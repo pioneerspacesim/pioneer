@@ -183,9 +183,10 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 			}
 
 			mHasJobRequest = true;
+
 			SQuadSplitRequest *ssrd = new SQuadSplitRequest(v0, v1, v2, v3, centroid.Normalized(), m_depth,
 						geosphere->m_sbody->path, mPatchID, ctx->edgeLen,
-						ctx->frac, geosphere->m_terrain.Get());
+						ctx->frac, Terrain::InstanceTerrain(geosphere->m_sbody));
 			assert(!mCurrentJob.Valid());
 			mCurrentJob.Reset(new QuadPatchJob(ssrd));
 			Pi::jobs().AddJob(mCurrentJob.Get(), NULL);
@@ -216,7 +217,7 @@ void GeoPatch::RequestSinglePatch()
 
 		mHasJobRequest = true;
 		SSingleSplitRequest *ssrd = new SSingleSplitRequest(v0, v1, v2, v3, centroid.Normalized(), m_depth,
-					geosphere->m_sbody->path, mPatchID, ctx->edgeLen, ctx->frac, geosphere->m_terrain.Get());
+					geosphere->m_sbody->path, mPatchID, ctx->edgeLen, ctx->frac, Terrain::InstanceTerrain(geosphere->m_sbody));
 		assert(!mCurrentJob.Valid());
 		mCurrentJob.Reset(new SinglePatchJob(ssrd));
 		Pi::jobs().AddJob(mCurrentJob.Get(), NULL);

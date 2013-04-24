@@ -184,6 +184,7 @@ GeoSphere::~GeoSphere()
 
 	// wait for all jobs to be finished
 	while(BasePatchJob::GetNumActivePatchJobs()>0) {
+		Pi::jobs().Update();
 		THREAD_CONFIG::tc_sleep(0);
 	}
 	BasePatchJob::ResetPatchJobCancel();
