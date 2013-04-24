@@ -278,9 +278,6 @@ void Pi::Init()
 		OS::Error("SDL initialization failed: %s\n", SDL_GetError());
 	}
 
-	// needed for the UI
-	SDL_EnableUNICODE(1);
-
 	// Do rest of SDL video initialization and create Renderer
 	Graphics::Settings videoSettings = {};
 	videoSettings.width = config->Int("ScrWidth");

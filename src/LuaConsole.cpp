@@ -139,9 +139,11 @@ void LuaConsole::OnKeyPressed(const SDL_Keysym *sym) {
 	}
 
 
+	/* XXX SDL2 unicode
 	if (((sym->unicode == '\n') || (sym->unicode == '\r')) && ((sym->mod & KMOD_CTRL) == 0)) {
 		ExecOrContinue();
 	}
+	*/
 }
 
 void LuaConsole::UpdateCompletion(const std::string & statement) {

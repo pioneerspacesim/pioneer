@@ -22,10 +22,10 @@ bool EventDispatcher::DispatchSDLEvent(const SDL_Event &event)
 {
 	switch (event.type) {
 		case SDL_KEYDOWN:
-			return Dispatch(KeyboardEvent(KeyboardEvent::KEY_DOWN, KeySym(event.key.keysym.sym, SDL_Keymod(event.key.keysym.mod), event.key.keysym.unicode)));
+			return Dispatch(KeyboardEvent(KeyboardEvent::KEY_DOWN, KeySym(event.key.keysym.sym, SDL_Keymod(event.key.keysym.mod), 0))); // XXX SDL2 unicode
 
 		case SDL_KEYUP:
-			return Dispatch(KeyboardEvent(KeyboardEvent::KEY_UP, KeySym(event.key.keysym.sym, SDL_Keymod(event.key.keysym.mod), event.key.keysym.unicode)));
+			return Dispatch(KeyboardEvent(KeyboardEvent::KEY_UP, KeySym(event.key.keysym.sym, SDL_Keymod(event.key.keysym.mod), 0))); // XXX SDL2 unicode
 
 		case SDL_MOUSEBUTTONDOWN:
 			// XXX SDL2 use SDL_MouseWheelEvent
