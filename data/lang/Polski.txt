@@ -994,6 +994,8 @@ ECCENTRICITY
     Mimośród
 AXIAL_TILT
     Nachylenie osi
+EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO
+    Stosunek średnicy równikowej do międzybiegunowej
 N_DEGREES
     %angle{f.1} stopni
 DAY_LENGTH
