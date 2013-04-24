@@ -406,6 +406,10 @@ local missions = function (tabGroup)
 		else
 			missionLocationName = string.format('%s [%d,%d,%d]', mission.location:GetStarSystem().name, mission.location.sectorX, mission.location.sectorY, mission.location.sectorZ)
 		end
+		local dist = Game.system:DistanceTo(mission.location)
+		local locationBox = ui:VBox(2)
+		locationBox:PackEnd(ui:MultiLineText(missionLocationName))
+		locationBox:PackEnd(ui:Label(string.format('%.2f %s', dist, t('ly'))))
 
 		local moreButton = UI.SmallLabeledButton.New(t("More info..."))
 		moreButton.button.onClick:Connect(function ()
@@ -419,7 +423,7 @@ local missions = function (tabGroup)
 		{ -- if we don't specify widget, default one will be used 
 			{data = description or t('NONE')},
 			{data = mission.client.name},
-			{data = missionLocationName, widget = ui:MultiLineText(missionLocationName)},
+			{data = dist, widget = locationBox},
 			{data = mission.due, widget = ui:Label(Format.Date(mission.due))},
 			{data = mission.reward, widget = ui:Label(Format.Money(mission.reward))},
 			-- nil description means mission type isn't registered.
