@@ -54,6 +54,7 @@ noinst_HEADERS = \
 	HyperspaceCloud.h \
 	IniConfig.h \
 	Intro.h \
+	JobQueue.h \
 	GameConfig.h \
 	KeyBindings.h \
 	Lang.h \
@@ -199,6 +200,7 @@ pioneer_SOURCES	= \
 	HyperspaceCloud.cpp \
 	IniConfig.cpp \
 	Intro.cpp \
+	JobQueue.cpp \
 	GameConfig.cpp \
 	KeyBindings.cpp \
 	Lang.cpp \
@@ -304,7 +306,6 @@ pioneer_SOURCES	= \
 pioneer_LDADD = \
 	../contrib/miniz/libminiz.a \
 	../contrib/jenkins/libjenkins.a \
-	../contrib/jobswarm/libjobswarm.a \
 	collider/libcollider.a \
 	gui/libgui.a \
 	graphics/libgraphics.a \

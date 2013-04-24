@@ -76,7 +76,6 @@
 #include "scenegraph/Lua.h"
 #include "ui/Context.h"
 #include "ui/Lua.h"
-#include "jobswarm/CoreCount.h"
 #include <algorithm>
 #include <sstream>
 
@@ -137,7 +136,7 @@ ObjectViewerView *Pi::objectViewerView;
 #endif
 
 Sound::MusicPlayer Pi::musicPlayer;
-ScopedPtr<JobManager> Pi::pJobs;
+ScopedPtr<JobQueue> Pi::jobQueue;
 
 static void draw_progress(float progress)
 {
@@ -337,13 +336,6 @@ void Pi::Init()
 	navTunnelDisplayed = (config->Int("DisplayNavTunnel")) ? true : false;
 
 	EnumStrings::Init();
-
-	// get threads up
-	uint32_t numThreads = config->Int("WorkerThreads");
-	uint32_t numCores = getNumCores();
-	if (numThreads == 0) numThreads = std::max(numCores-1,1U);
-	pJobs.Reset(new JobManager(numThreads));
-	printf("started %d worker threads\n", pJobs->NumOfThreadsUsed());
 
 	// XXX early, Lua init needs it
 	ShipType::Init();
@@ -834,6 +826,14 @@ void Pi::InitGame()
 		std::fill(stick->axes.begin(), stick->axes.end(), 0.f);
 	}
 
+	// get threads up
+	uint32_t numThreads = config->Int("WorkerThreads");
+#warning "getNumCores"
+	uint32_t numCores = 8; //getNumCores();
+	if (numThreads == 0) numThreads = std::max(numCores-1,1U);
+	jobQueue.Reset(new JobQueue(numThreads));
+	printf("started %d worker threads\n", numThreads);
+
 	if (!config->Int("DisableSound")) AmbientSounds::Init();
 
 	LuaInitGame();
@@ -935,11 +935,7 @@ void Pi::EndGame()
 	if (!config->Int("DisableSound")) AmbientSounds::Uninit();
 	Sound::DestroyAllEvents();
 
-	while(jobs().JobsRemaining()) {
-		jobs().Update();
-		THREAD_CONFIG::tc_sleep(0);
-	}
-	assert(!jobs().JobsRemaining());
+	jobQueue.Reset();
 
 	assert(game);
 	delete game;
@@ -1073,7 +1069,8 @@ void Pi::MainLoop()
 		}
 		cpan->Update();
 		musicPlayer.Update();
-		jobs().Update();
+
+		jobQueue->FinishJobs();
 
 #if WITH_DEVKEYS
 		if (Pi::showDebugInfo && SDL_GetTicks() - last_stats > 1000) {

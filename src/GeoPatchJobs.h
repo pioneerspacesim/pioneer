@@ -11,7 +11,7 @@
 #include "galaxy/StarSystem.h"
 #include "terrain/Terrain.h"
 #include "GeoPatchID.h"
-#include "jobswarm/JobManager.h"
+#include "JobQueue.h"
 
 class GeoSphere;
 
@@ -206,7 +206,7 @@ protected:
 // ********************************************************************************
 // Overloaded PureJob class to handle generating the mesh for each patch
 // ********************************************************************************
-class BasePatchJob : public PureJob
+class BasePatchJob : public Job
 {
 public:
 	BasePatchJob()
@@ -214,24 +214,19 @@ public:
 	}
 
 	virtual ~BasePatchJob()
-	{	
+	{
 	}
 
-	virtual void Init(unsigned int *counter)
+	virtual void OnRun()    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
+    {
+        ++s_numActivePatchJobs;
+    }
+	virtual void OnFinish()  // runs in primary thread of the context
 	{
-		++s_numActivePatchJobs;
-		PureJob::Init( counter );
-	}
-
-	virtual void Process(void * userData,int /* userId */)=0;    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
-	virtual void OnFinish(void * userData, int userId)  // runs in primary thread of the context
-	{
-		PureJob::OnFinish(userData, userId);
 		--s_numActivePatchJobs;
 	}
-	virtual void OnCancel(void * userData, int userId)   // runs in primary thread of the context
+	virtual void OnCancel()   // runs in primary thread of the context
 	{
-		PureJob::OnFinish(userData, userId);
 		--s_numActivePatchJobs;
 	}
 
@@ -262,16 +257,9 @@ class SinglePatchJob : public BasePatchJob
 public:
 	SinglePatchJob(SSingleSplitRequest *data) : BasePatchJob(), mData(data)	{ /* empty */ }
 
-	virtual ~SinglePatchJob()	{ /* empty */ }
-
-	virtual void Init(unsigned int *counter)
-	{
-		BasePatchJob::Init( counter );
-	}
-
-	virtual void Process(void * userData,int /* userId */);    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
-	virtual void OnFinish(void * userData, int userId);  // runs in primary thread of the context
-	virtual void OnCancel(void * userData, int userId);   // runs in primary thread of the context
+	virtual void OnRun();      // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
+	virtual void OnFinish();   // runs in primary thread of the context
+	virtual void OnCancel();   // runs in primary thread of the context
 
 private:
 	ScopedPtr<SSingleSplitRequest> mData;
@@ -286,16 +274,9 @@ class QuadPatchJob : public BasePatchJob
 public:
 	QuadPatchJob(SQuadSplitRequest *data) : BasePatchJob(), mData(data) { /* empty */ }
 
-	virtual ~QuadPatchJob()	{ /* empty */ }
-
-	virtual void Init(unsigned int *counter)
-	{
-		BasePatchJob::Init( counter );
-	}
-
-	virtual void Process(void * userData,int /* userId */);    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
-	virtual void OnFinish(void * userData, int userId);  // runs in primary thread of the context
-	virtual void OnCancel(void * userData, int userId);   // runs in primary thread of the context
+	virtual void OnRun();      // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
+	virtual void OnFinish();   // runs in primary thread of the context
+	virtual void OnCancel();   // runs in primary thread of the context
 
 private:
 	ScopedPtr<SQuadSplitRequest> mData;
