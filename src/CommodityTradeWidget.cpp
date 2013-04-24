@@ -106,11 +106,13 @@ void CommodityTradeWidget::ShowAll()
 		if (Equip::types[i].description)
 			l->SetToolTip(Equip::types[i].description);
 		innerbox->Add(l,42,num*YSEP+iconOffset);
-		Gui::Button *b = new Gui::RepeaterButton(RBUTTON_DELAY, RBUTTON_REPEAT);
-		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &CommodityTradeWidget::OnClickBuy), i));
+		Gui::RepeaterButton *b = new Gui::RepeaterButton(RBUTTON_DELAY, RBUTTON_REPEAT);
+		sigc::slot<void> func = sigc::bind(sigc::mem_fun(this, &CommodityTradeWidget::OnClickBuy), i);
+		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &CommodityTradeWidget::ManageRButton), b, func));
 		innerbox->Add(b, 380, num*YSEP+iconOffset);
 		b = new Gui::RepeaterButton(RBUTTON_DELAY, RBUTTON_REPEAT);
-		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &CommodityTradeWidget::OnClickSell), i));
+		func = sigc::bind(sigc::mem_fun(this, &CommodityTradeWidget::OnClickSell), i);
+		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &CommodityTradeWidget::ManageRButton), b, func));
 		innerbox->Add(b, 415, num*YSEP+iconOffset);
 		char buf[128];
 		innerbox->Add(new Gui::Label(
@@ -163,3 +165,15 @@ void CommodityTradeWidget::UpdateStock(int commodity_type)
 	m_stockLabels[commodity_type]->SetText(buf);
 }
 
+// XXX think about moving it to RepeaterButton class
+void CommodityTradeWidget::ManageRButton(Gui::RepeaterButton *b, sigc::slot<void> func)
+{
+	// hint: if you loop func n times, you'll buy/sell n commodies 'at once'
+	func();
+
+	// XXX don't boost first iterations
+	int boost_percent = 10;
+	int msRepeat = b->GetRepeat();
+	msRepeat -= msRepeat * boost_percent / 100 ;
+	b->SetRepeat(msRepeat);
+}
