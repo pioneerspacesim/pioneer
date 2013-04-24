@@ -764,7 +764,7 @@ void Loader::CreateThruster(Group* parent, const matrix4x4f &m, const std::strin
 
 void Loader::CreateShield(aiNode *node, std::vector<RefCountedPtr<StaticGeometry> >& geoms, Group *parent, const matrix4x4f &m)
 {
-	MatrixTransform *trans = new MatrixTransform(m_renderer, m);
+	MatrixTransform *trans = new MatrixTransform(m_renderer, matrix4x4f::Identity()/*m*/);
 	Shield *shield = new Shield(m_renderer);
 	shield->SetName("Shield");
 	
