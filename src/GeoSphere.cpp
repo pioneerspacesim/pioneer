@@ -180,6 +180,7 @@ GeoSphere::~GeoSphere()
 {
 	// Cancel all of the pending patch jobs
 	BasePatchJob::CancelAllPatchJobs();
+	//Pi::jobs().CancelAllPendingJobs();
 
 	// wait for all jobs to be finished
 	while(BasePatchJob::GetNumActivePatchJobs()>0) {

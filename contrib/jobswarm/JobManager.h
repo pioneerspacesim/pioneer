@@ -82,6 +82,7 @@ public:
 
 	void Update();
 	bool JobsRemaining() const;
+	void CancelAllPendingJobs();
 	void Cancel(JOB_SWARM::SwarmJob* pJob);
 
 	unsigned int NumOfThreadsUsed() const { return mNumThreadsUsed; }

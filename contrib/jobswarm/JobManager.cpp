@@ -81,7 +81,15 @@ void JobManager::Update()
 
 bool JobManager::JobsRemaining() const { return (mTasksRemaining>0); }
 
+void JobManager::CancelAllPendingJobs()
+{
+	SDL_mutexP(mIncomingMutex);
+	mIncomingJobs.clear();
+	SDL_mutexV(mIncomingMutex);
+}
+
 void JobManager::Cancel(JOB_SWARM::SwarmJob* pJob)
 {
+	
 	mpContext->Cancel(pJob);
 }
