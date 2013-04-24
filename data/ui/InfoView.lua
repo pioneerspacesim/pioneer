@@ -426,7 +426,7 @@ local missions = function (tabGroup)
 		-- Format Due info
 		local dueLabel = ui:Label(Format.Date(mission.due))
 		local days = math.max(0, (mission.due - Game.time) / (24*60*60))
-		local daysLabel = ui:Label(string.format("%d %s", days, t('DAYS_LEFT'))):SetColor(1.0, 0.0, 1.0) -- purple
+		local daysLabel = ui:Label(string.format(t("%d days left"), days)):SetColor(1.0, 0.0, 1.0) -- purple
 		local dueBox = ui:VBox(2):PackEnd(dueLabel):PackEnd(daysLabel)
 		
 		local moreButton = UI.SmallLabeledButton.New(t("More info..."))

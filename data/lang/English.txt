@@ -704,8 +704,6 @@ NUMBER_HOURS
     %hours{f.1} hrs
 NUMBER_DAYS
     %days{f.0} days
-DAYS_LEFT
-	days left
 QUADRUPLE_SYSTEM
     Quadruple system
 TRIPLE_SYSTEM
