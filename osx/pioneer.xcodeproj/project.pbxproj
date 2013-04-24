@@ -246,6 +246,7 @@
 		4AA5280816E9EBD60036D4CB /* LuaModelSkin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AA5280716E9EBD60036D4CB /* LuaModelSkin.cpp */; };
 		4AA84A2716D0E18700220311 /* LuaEquipDef.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AA84A2116D0E18700220311 /* LuaEquipDef.cpp */; };
 		4AA84A2816D0E18700220311 /* LuaShipDef.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AA84A2316D0E18700220311 /* LuaShipDef.cpp */; };
+		4AA9F6CC17288E0900124C2E /* TerrainHeightEllipsoid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AA9F6CB17288E0900124C2E /* TerrainHeightEllipsoid.cpp */; };
 		4AAB881315F4AD3500AAF8A8 /* GeoSphereMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAB880415F4AD3500AAF8A8 /* GeoSphereMaterial.cpp */; };
 		4AAB881415F4AD3500AAF8A8 /* GL2Material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAB880615F4AD3500AAF8A8 /* GL2Material.cpp */; };
 		4AAB881515F4AD3500AAF8A8 /* MultiMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAB880815F4AD3500AAF8A8 /* MultiMaterial.cpp */; };
@@ -956,6 +957,7 @@
 		4AA84A2416D0E18700220311 /* LuaShipDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaShipDef.h; sourceTree = "<group>"; };
 		4AA84A2516D0E18700220311 /* LuaWrappable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaWrappable.h; sourceTree = "<group>"; };
 		4AA84A2616D0E18700220311 /* Random.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Random.h; sourceTree = "<group>"; };
+		4AA9F6CB17288E0900124C2E /* TerrainHeightEllipsoid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightEllipsoid.cpp; sourceTree = "<group>"; };
 		4AAB880415F4AD3500AAF8A8 /* GeoSphereMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GeoSphereMaterial.cpp; sourceTree = "<group>"; };
 		4AAB880515F4AD3500AAF8A8 /* GeoSphereMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeoSphereMaterial.h; sourceTree = "<group>"; };
 		4AAB880615F4AD3500AAF8A8 /* GL2Material.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GL2Material.cpp; sourceTree = "<group>"; };
@@ -1938,12 +1940,6 @@
 		4AB7D5CF1472A83E00158DE4 /* terrain */ = {
 			isa = PBXGroup;
 			children = (
-				4ADB0D0615C50DD900AE2123 /* TerrainHeightAsteroid2.cpp */,
-				4ADB0D0715C50DD900AE2123 /* TerrainHeightAsteroid3.cpp */,
-				4ADB0D0815C50DD900AE2123 /* TerrainHeightAsteroid4.cpp */,
-				4ADB0D0915C50DD900AE2123 /* TerrainHeightBarrenRock.cpp */,
-				4ADB0D0A15C50DD900AE2123 /* TerrainHeightBarrenRock2.cpp */,
-				4ADB0D0B15C50DD900AE2123 /* TerrainHeightBarrenRock3.cpp */,
 				4AB7D5D11472A83E00158DE4 /* Terrain.cpp */,
 				4AB7D5D21472A83E00158DE4 /* Terrain.h */,
 				4AB7D5D31472A83E00158DE4 /* TerrainColorAsteroid.cpp */,
@@ -1973,6 +1969,13 @@
 				4AB7D5EB1472A83E00158DE4 /* TerrainFeature.cpp */,
 				4AB7D5EC1472A83E00158DE4 /* TerrainFeature.h */,
 				4AB7D5ED1472A83E00158DE4 /* TerrainHeightAsteroid.cpp */,
+				4ADB0D0615C50DD900AE2123 /* TerrainHeightAsteroid2.cpp */,
+				4ADB0D0715C50DD900AE2123 /* TerrainHeightAsteroid3.cpp */,
+				4ADB0D0815C50DD900AE2123 /* TerrainHeightAsteroid4.cpp */,
+				4ADB0D0915C50DD900AE2123 /* TerrainHeightBarrenRock.cpp */,
+				4ADB0D0A15C50DD900AE2123 /* TerrainHeightBarrenRock2.cpp */,
+				4ADB0D0B15C50DD900AE2123 /* TerrainHeightBarrenRock3.cpp */,
+				4AA9F6CB17288E0900124C2E /* TerrainHeightEllipsoid.cpp */,
 				4AB7D5EE1472A83E00158DE4 /* TerrainHeightFlat.cpp */,
 				4AB7D5EF1472A83E00158DE4 /* TerrainHeightHillsCraters.cpp */,
 				4AB7D5F01472A83E00158DE4 /* TerrainHeightHillsCraters2.cpp */,
@@ -2669,6 +2672,7 @@
 				4A712413170EC89000BB9BCC /* Orbit.cpp in Sources */,
 				4A8AE19617208CE50005C2D9 /* LuaPropertiedObject.cpp in Sources */,
 				4A8AE19717208CE50005C2D9 /* PropertyMap.cpp in Sources */,
+				4AA9F6CC17288E0900124C2E /* TerrainHeightEllipsoid.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
