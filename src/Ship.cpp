@@ -1115,7 +1115,7 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	//angthrust negated, for some reason
 	GetModel()->SetThrust(vector3f(m_thrusters), -vector3f(m_angThrusters));
 
-	const bool shieldsVisible = (m_stats.shield_mass_left < m_stats.shield_mass) && m_stats.shield_mass_left>1;
+	const bool shieldsVisible = (m_stats.shield_mass_left < m_stats.shield_mass) && m_stats.shield_mass_left>0.1f;
 	GetModel()->SetShieldData(shieldsVisible, 0.01f*GetPercentShields());
 
 	if (m_landingGearAnimation)
