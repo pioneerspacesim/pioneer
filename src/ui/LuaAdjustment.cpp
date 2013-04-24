@@ -16,7 +16,7 @@ public:
 		UI::Widget *wid = LuaObject<UI::Widget>::CheckFromLua(2);
 
 		adj->SetInnerWidget(wid);
-		return 1;
+		return 0;
 	}
 	
 	static int l_set_scroll_position(lua_State *l) {
@@ -30,7 +30,15 @@ public:
 // 		}
 		
 		adj->SetScrollPosition(value);
-		return 1;
+		return 0;
+	}
+	
+	static int l_set_range(lua_State *l) {
+		UI::Adjustment *adj = LuaObject<UI::Adjustment>::CheckFromLua(1);
+		float lower = luaL_checknumber(l,2);
+		float higher = luaL_checknumber(l,3);
+		adj->SetRange(std::pair<float,float>(lower,higher));
+		return 0;
 	}
 	
 	static int l_attr_on_change(lua_State *l) {
@@ -73,6 +81,7 @@ template <> void LuaObject<UI::Adjustment>::RegisterClass()
 	static const luaL_Reg l_methods[] = {
 		{ "SetInnerWidget", LuaAdjustment::l_set_inner_widget },
 		{ "SetScrollPosition", LuaAdjustment::l_set_scroll_position },
+		{ "SetRange", LuaAdjustment::l_set_range },
 		
 		{ 0, 0 }
 	};

@@ -15,6 +15,13 @@ public:
 		label->SetText(text);
 		return 0;
 	}
+	
+	static int l_get_text(lua_State *l) {
+		UI::Label *label = LuaObject<UI::Label>::CheckFromLua(1);
+		const std::string text = label->GetText();
+		lua_pushlstring(l, text.c_str(), text.size());
+		return 1;
+	}
 
 };
 
@@ -30,6 +37,7 @@ template <> void LuaObject<UI::Label>::RegisterClass()
 
 	static const luaL_Reg l_methods[] = {
 		{ "SetText", &LuaLabel::l_set_text },
+		{ "GetText", &LuaLabel::l_get_text },
 		{ 0, 0 }
 	};
 

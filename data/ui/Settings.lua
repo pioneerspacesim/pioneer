@@ -76,10 +76,31 @@ ui.templates.Settings = function (args)
 		local vSyncCheckbox = ui:CheckBox()
 		local navTunnelCheckbox = ui:CheckBox()
 		local invertMouse = ui:CheckBox()
+		local enableJoystick = ui:CheckBox()
 		
 		checkboxHandler(invertMouse, "InvertMouseY", false)
 		checkboxHandler(vSyncCheckbox,"VSync",false)
 		checkboxHandler(navTunnelCheckbox,"DisplayNavTunnel",false)
+		checkboxHandler(enableJoystick,"EnableJoystick", false)
+		
+		local maxPhysics = ui:Adjustment("tmp")
+		if iniTable["MaxPhysicsCyclesPerRender"] == nil then 
+			iniTable["MaxPhysicsCyclesPerRender"] = ""..4
+		end
+		local physIni = iniTable["MaxPhysicsCyclesPerRender"]
+		maxPhysics:SetRange(4,20);
+		maxPhysics:SetScrollPosition(physIni);
+-- 		physIni = physIni * 10
+		maxPhysics.InnerWidget:SetText("Max Physics Ticks (4 - 14): "..physIni)
+		maxPhysics.OnChange:Connect(function() 
+			local pos = maxPhysics.ScrollPosition
+			pos = math.floor(pos)
+-- 			pos = math.floor(pos)
+-- 			if pos < 1 then pos = 1 end
+			iniTable["MaxPhysicsCyclesPerRender"] = ""..pos
+			
+			maxPhysics.InnerWidget:SetText("Max Physics Ticks (4 - 14): "..pos)
+		end)
 		
 		return ui:Grid({0.25,1,0.25,1,0.25},1)
 			:SetCell(1,0, ui:VBox():PackEnd({			
@@ -91,6 +112,11 @@ ui.templates.Settings = function (args)
 				ui:Background():SetInnerWidget(
 					ui:VBox():PackEnd({ui:Label("AA"),
 					AADropdown,
+					ui:Margin(5)})
+				),
+				ui:Background():SetInnerWidget(
+					ui:VBox():PackEnd({ui:Label("Physics"),
+					maxPhysics,
 					ui:Margin(5)})
 				),
 			}))
@@ -222,30 +248,35 @@ ui.templates.Settings = function (args)
 	local soundTemplate = function()
 		local masterVolume = ui:Adjustment(l.VOL_MASTER)
 		masterVolume:SetScrollPosition(iniTable["MasterVolume"]);
+		masterVolume:SetRange(0,100);
+		
 		local musicVolume = ui:Adjustment(l.VOL_MUSIC)
 		musicVolume:SetScrollPosition(iniTable["MusicVolume"]);
+		musicVolume:SetRange(0,100);
+		
 		local sfxVolume = ui:Adjustment(l.VOL_EFFECTS)
 		sfxVolume:SetScrollPosition(iniTable["SfxVolume"]);
+		sfxVolume:SetRange(0,100);
 		
 		local controlFunc = function(adj,muteKey)
 			
-			local plus = UI.SmallLabeledButton.New("+")
-			local minus = UI.SmallLabeledButton.New("-")
+			local plus = ui:Label("+")
+			local minus = ui:Label("-")
 			local mute = ui:CheckBox()
-			local controls = ui:HBox():PackEnd({minus,plus,mute,ui:Label("Mute")})
+			local controls = ui:HBox():PackEnd({ui:Background():SetInnerWidget(minus),ui:Background():SetInnerWidget(plus),mute,ui:Label("Mute")})
 			checkboxHandler(mute, muteKey, false)
 -- 			mute:SetState(iniTable[muteKey])
 
-			plus.button.onClick:Connect(function() adj:SetScrollPosition(adj.ScrollPosition + 0.05) end)
-			minus.button.onClick:Connect(function() adj:SetScrollPosition(adj.ScrollPosition - 0.05) end)
+			plus.onClick:Connect(function() adj:SetScrollPosition(adj.ScrollPosition + 1) end)
+			minus.onClick:Connect(function() adj:SetScrollPosition(adj.ScrollPosition - 1) end)
 			return controls
 			
 		end
 		local adjChange = function(adj,label,ini)
 			local pos = adj.ScrollPosition 
-			iniTable[ini] = pos
-			pos = pos*100
-			adj.InnerWidget:SetText(label.." "..pos)
+			iniTable[ini] = ""..pos/100
+-- 			pos = pos/100
+			adj.InnerWidget:SetText(label.." "..math.floor(pos))
 			
 		end
 		masterVolume.OnChange:Connect(function() adjChange(masterVolume, l.VOL_MASTER,"MasterVolume" ) end)
@@ -277,28 +308,49 @@ ui.templates.Settings = function (args)
 	
 	local keysTemplate = function()
 		local box = ui:VBox()
+		local box2 = ui:VBox()
 		local controlHeaders = Settings:GetHeaders()
 		for i = 1,#controlHeaders do 
 			local keys = Settings:GetKeys(controlHeaders[i])
-			box:PackEnd(ui:Label(controlHeaders[i]))
+			local header = ui:Label(controlHeaders[i]):SetFont("HEADING_NORMAL")
+			if i % 2 == 0 then
+				box:PackEnd(header)
+			else
+				box2:PackEnd(header)
+			end
 			for x,y in pairs(keys) do
 				local hbox = ui:HBox()
-				local label = ui:Label("")
-				hbox:PackEnd({ui:Margin(5),ui:Label(x),ui:Label(": "),ui:Background():SetInnerWidget(label)})
+				local label = ui:MultiLineText("")
+				local grd = ui:Grid({0.01,3,0.01,1,0.01},1)
+				hbox:PackEnd({ui:Margin(5),ui:MultiLineText(x):SetFont("SMALL")})
+				grd:SetCell(1,0,hbox)
+				grd:SetCell(3,0,ui:Background():SetInnerWidget(label))
 				
 				label:SetText(y)
 				label.onClick:Connect(function() 	local func = Settings:GetKeyFunction(y)
 									print (func.." clicked" )
 							end)
+-- 				label.onMouseOver:Connect(function() 
+-- 					local lab = ui:Label("")
+-- 					lab:SetText(label:GetText())
+-- 					lab = ui:ColorBackground(1,0,0):SetInnerWidget(lab) 
+-- 					label = lab.InnerWidget
+-- 				end)
 				ui.onKeyDown:Connect(function(s) 
 					for a,b in pairs(s) do
 						print ("keyup",a,b) 
 					end
 				end)
-				box:PackEnd(hbox)
+				if i % 2 == 0 then
+					box:PackEnd(grd)
+				else
+					box2:PackEnd(grd)
+				end
 			end
 		end
-		return box 
+		return ui:Grid({0.5,2,0.5,2,0.5},1)
+			:SetCell(1, 0, box)
+			:SetCell(3, 0, box2)
 	end
 	
 	local setTabs = UI.TabGroup.New()

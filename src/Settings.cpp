@@ -8,6 +8,8 @@
 #include "graphics/Graphics.h"
 #include "StringF.h"
 #include "Lang.h"
+#include "Sound.h"
+#include "SoundMusic.h"
 #include <sstream>
 
 #if 0
@@ -92,43 +94,71 @@ const Settings::MapStrings Settings::GetGameConfig() const
 bool Settings::SaveGameConfig(const Settings::MapStrings ini) const
 {
     for(Settings::MapStrings::const_iterator it = ini.begin(); it != ini.end(); ++it){
-        
         Pi::config->SetString(it->first.c_str(), it->second.c_str());
         
     }
     Pi::config->Save();
     
     std::string t = "DetailPlanets";
-    Pi::detail.planets = GetInt(t, ini);
+    Pi::detail.planets = GetNum<int>(t, ini);
     
     t = "Textures";
-    Pi::detail.textures = GetInt(t, ini);
+    Pi::detail.textures = GetNum<int>(t, ini);
     
     t = "FractalMultiple";
-    Pi::detail.fracmult = GetInt(t,ini);
+    Pi::detail.fracmult = GetNum<int>(t,ini);
     
     t= "DetailCities";
-    Pi::detail.cities = GetInt(t,ini);
-    
-    t= "EnableJoystick";
-    Pi::SetJoystickEnabled(GetInt(t,ini));
+    Pi::detail.cities = GetNum<int>(t,ini);
     
     t = "InvertMouseY";
-    Pi::SetMouseYInvert(GetInt(t,ini));
+    Pi::SetMouseYInvert(GetNum<int>(t,ini));
     
     t = "DisplayNavTunnel";
-    Pi::SetNavTunnelDisplayed(GetInt(t,ini));
+    Pi::SetNavTunnelDisplayed(GetNum<int>(t,ini));
+    
+    t = "EnableJoystick";
+    Pi::SetJoystickEnabled(GetNum<bool>(t,ini));
+    
+    t = "MasterMuted";
+    int iMute = GetNum<int>(t,ini);
+    Sound::Pause(iMute);
+    if(iMute == 0)
+    {
+	t = "MasterVolume";
+	Sound::SetMasterVolume(GetNum<float>(t,ini));
+    }
+    
+    t = "MusicMuted";
+    bool bMute = GetNum<bool>(t,ini);
+    Pi::GetMusicPlayer().SetEnabled(bMute);
+    if(!bMute)
+    {
+	t = "MusicVolume";
+	Pi::GetMusicPlayer().SetVolume(GetNum<float>(t,ini));
+    }
+    
+    t = "SfxMuted";
+    if(GetNum<int>(t,ini) == 1)
+	Sound::SetSfxVolume(0.f);
+    else
+    {
+	t = "SfxVolume";
+	Sound::SetSfxVolume(GetNum<float>(t,ini));
+    }
+	    
     
     Pi::OnChangeDetailLevel();
     return true;
 }
-int Settings::GetInt(std::string &key, const MapStrings &ini) const
+template <class T>
+T Settings::GetNum(std::string &key, const MapStrings &ini) const
 {
     
     MapStrings::const_iterator it;
     it = ini.find(key);
     std::istringstream buffer(it->second);
-    int numb;
+    T numb;
     buffer >> numb;
     return numb;
 }
