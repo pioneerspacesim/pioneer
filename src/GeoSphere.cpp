@@ -64,7 +64,7 @@ static void print_info(const SystemBody *sbody, const Terrain *terrain)
 
 void GeoSphere::OnChangeDetailLevel()
 {
-#warning "cancel jobs"
+//#warning "cancel jobs"
 #if 0
 	// Cancel all of the pending patch jobs
 	BasePatchJob::CancelAllPatchJobs();
@@ -181,7 +181,7 @@ GeoSphere::GeoSphere(const SystemBody *body) : m_sbody(body), m_terrain(Terrain:
 
 GeoSphere::~GeoSphere()
 {
-#warning "cancel jobs"
+//#warning "cancel jobs"
 #if 0
 	// Cancel all of the pending patch jobs
 	BasePatchJob::CancelAllPatchJobs();

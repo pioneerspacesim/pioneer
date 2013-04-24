@@ -828,8 +828,8 @@ void Pi::InitGame()
 
 	// get threads up
 	uint32_t numThreads = config->Int("WorkerThreads");
-#warning "getNumCores"
-	uint32_t numCores = 8; //getNumCores();
+//#warning "getNumCores"
+	uint32_t numCores = 7; //getNumCores();
 	if (numThreads == 0) numThreads = std::max(numCores-1,1U);
 	jobQueue.Reset(new JobQueue(numThreads));
 	printf("started %d worker threads\n", numThreads);
