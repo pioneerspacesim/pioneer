@@ -984,6 +984,8 @@ N_YEARS
     %years{f.1} лет
 N_DAYS
     %days{f.1} дн.
+DAYS_LEFT
+	дней осталось
 ORBITAL_PERIOD
     Период обращения
 PERIAPSIS_DISTANCE
