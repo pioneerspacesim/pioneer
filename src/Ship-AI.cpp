@@ -220,7 +220,7 @@ bool Ship::AIChangeVelBy(const vector3d &diffvel)
 vector3d Ship::AIChangeVelDir(const vector3d &reqdiffvel)
 {
 	// get max thrust in desired direction after external force compensation
-	vector3d maxthrust = GetMaxThrust(reqdiffvel);
+	vector3d maxthrust = GetMaxThrust(reqdiffvel); 
 	maxthrust += GetExternalForce() * GetOrient();
 	vector3d maxFA = maxthrust * (Pi::game->GetTimeStep() / GetMass());
 	maxFA.x = fabs(maxFA.x); maxFA.y = fabs(maxFA.y); maxFA.z = fabs(maxFA.z);
