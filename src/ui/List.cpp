@@ -56,6 +56,22 @@ const std::string &List::GetSelectedOption()
 	return m_options[m_selected];
 }
 
+bool List::SetOption(const std::string option)
+{
+      int ind = 0;
+      for(std::vector<std::string>::iterator it = m_options.begin(); it != m_options.end(); ++it)
+      {
+	if(option == *it)
+	{
+	  m_selected = ind;
+
+	  return true;
+	}
+	ind++;
+      }
+      return false;
+}
+
 void List::Clear()
 {
 	m_options.clear();

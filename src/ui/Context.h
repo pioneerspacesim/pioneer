@@ -15,6 +15,7 @@
 
 #include "Margin.h"
 #include "Align.h"
+#include "Adjustment.h"
 #include "Background.h"
 #include "ColorBackground.h"
 #include "Gradient.h"
@@ -97,6 +98,8 @@ public:
 
 	UI::HSlider *HSlider() { return new UI::HSlider(this); }
 	UI::VSlider *VSlider() { return new UI::VSlider(this); }
+	
+	UI::Adjustment *Adjustment() { return new UI::Adjustment(this); }
 
 	UI::List *List() { return new UI::List(this); }
 	UI::DropDown *DropDown() { return new UI::DropDown(this); }

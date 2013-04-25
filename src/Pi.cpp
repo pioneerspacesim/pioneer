@@ -28,6 +28,7 @@
 #include "LuaFormat.h"
 #include "LuaGame.h"
 #include "LuaLang.h"
+#include "LuaSettings.h"
 #include "LuaManager.h"
 #include "LuaMissile.h"
 #include "LuaMusic.h"
@@ -48,6 +49,7 @@
 #include "SDLWrappers.h"
 #include "SectorView.h"
 #include "Serializer.h"
+#include "Settings.h"
 #include "Sfx.h"
 #include "ShipCpanel.h"
 #include "ShipType.h"
@@ -108,6 +110,7 @@ UIView *Pi::infoView;
 SectorView *Pi::sectorView;
 GalacticView *Pi::galacticView;
 GameMenuView *Pi::gameMenuView;
+Settings *Pi::settings;
 SystemView *Pi::systemView;
 SystemInfoView *Pi::systemInfoView;
 ShipCpanel *Pi::cpan;
@@ -180,6 +183,7 @@ static void LuaInit()
 	LuaConstants::Register(Lua::manager->GetLuaState());
 	LuaLang::Register();
 	LuaEngine::Register();
+	LuaSettings::Register();
 	LuaEquipDef::Register();
 	LuaFileSystem::Register();
 	LuaGame::Register();
@@ -190,6 +194,7 @@ static void LuaInit()
 	LuaMusic::Register();
 	LuaDev::Register();
 	LuaConsole::Register();
+	
 
 	// XXX sigh
 	UI::Lua::Init();
@@ -339,6 +344,7 @@ void Pi::Init()
 
 	// XXX early, Lua init needs it
 	ShipType::Init();
+	
 
 	// XXX UI requires Lua  but Pi::ui must exist before we start loading
 	// templates. so now we have crap everywhere :/
@@ -516,6 +522,7 @@ void Pi::Init()
 	KeyBindings::toggleLuaConsole.onPress.connect(sigc::ptr_fun(&Pi::ToggleLuaConsole));
 
 	gameMenuView = new GameMenuView();
+	Pi::settings = new Settings();
 	config->Save();
 }
 
@@ -546,6 +553,7 @@ void Pi::Quit()
 	Projectile::FreeModel();
 	delete Pi::intro;
 	delete Pi::gameMenuView;
+	delete Pi::settings;
 	delete Pi::luaConsole;
 	NavLights::Uninit();
 	Sfx::Uninit();

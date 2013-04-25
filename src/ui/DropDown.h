@@ -20,6 +20,7 @@ public:
 
 	DropDown *AddOption(const std::string &text);
 	const std::string &GetSelectedOption() const;
+	bool SetOption(const std::string option);
 	void Clear();
 
 	sigc::signal<void,unsigned int,const std::string &> onOptionSelected;

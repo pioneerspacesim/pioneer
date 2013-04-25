@@ -8,7 +8,25 @@ namespace UI {
 
 class LuaCheckBox {
 public:
-
+	static int l_toggle(lua_State *l) {
+		UI::CheckBox *c = LuaObject<UI::CheckBox>::CheckFromLua(1);
+		c->Toggle();
+		return 1;
+	}
+	
+	static int l_set_state(lua_State *l) {
+		UI::CheckBox *c = LuaObject<UI::CheckBox>::CheckFromLua(1);
+		bool state;
+		luaL_checkint(l, 2) == 0 ? state = false : state = true;
+		c->SetState(state);
+		return 1;
+	}
+	
+	static int l_attr_is_checked(lua_State *l) {
+		UI::CheckBox *c = LuaObject<UI::CheckBox>::CheckFromLua(1);
+		lua_pushboolean(l, c->IsChecked());
+		return 1;
+	}
 };
 
 }
@@ -22,10 +40,17 @@ template <> void LuaObject<UI::CheckBox>::RegisterClass()
 	static const char *l_parent = "UI.Widget";
 
 	static const luaL_Reg l_methods[] = {
-
+		{ "Toggle", LuaCheckBox::l_toggle },
+		{ "SetState", LuaCheckBox::l_set_state },
 		{ 0, 0 }
 	};
+	static const luaL_Reg l_attrs[] = {
+		{ "IsChecked", LuaCheckBox::l_attr_is_checked },
+		
+		{ 0, 0 }
+	};
+	
 
-	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, 0, 0);
+	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, l_attrs, 0);
 	LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<UI::CheckBox>::DynamicCastPromotionTest);
 }

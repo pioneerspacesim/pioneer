@@ -82,6 +82,7 @@ noinst_HEADERS = \
 	LuaPushPull.h \
 	LuaRef.h \
 	LuaSerializer.h \
+	LuaSettings.h \
 	LuaShipDef.h \
 	LuaSpace.h \
 	LuaTable.h \
@@ -115,6 +116,7 @@ noinst_HEADERS = \
 	RefList.h \
 	SDLWrappers.h \
 	SectorView.h \
+	Settings.h \
 	Serializer.h \
 	StationAdvertForm.h \
 	StationBulletinBoardForm.h \
@@ -230,6 +232,7 @@ pioneer_SOURCES	= \
 	LuaSystemBody.cpp \
 	LuaSystemPath.cpp \
 	LuaSerializer.cpp \
+	LuaSettings.cpp \
 	LuaShip.cpp \
 	LuaShipDef.cpp \
 	LuaSpace.cpp \
@@ -257,6 +260,7 @@ pioneer_SOURCES	= \
 	PropertyMap.cpp \
 	SDLWrappers.cpp \
 	SectorView.cpp \
+	Settings.cpp \
 	Serializer.cpp \
 	StationAdvertForm.cpp \
 	StationBulletinBoardForm.cpp \

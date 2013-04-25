@@ -13,6 +13,9 @@ public:
 	virtual Point PreferredSize();
 	virtual void Layout();
 	virtual void Draw();
+	void Toggle();
+	const bool IsChecked();
+	void SetState(const bool state);
 
 protected:
 	friend class Context;

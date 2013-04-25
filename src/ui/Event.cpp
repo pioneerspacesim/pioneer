@@ -175,6 +175,7 @@ void KeyboardEvent::ToLuaTable(lua_State *l) const
 	pi_lua_settable(l, "type", EnumStrings::GetString("UIEventType", type));
 
 	pi_lua_settable(l, "action", EnumStrings::GetString("UIKeyboardAction", action));
+	pi_lua_settable(l, "keysym", keysym.sym);
 
 	// XXX expose sym and mod constants
 }
