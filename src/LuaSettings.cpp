@@ -6,6 +6,7 @@
 #include "LuaObject.h"
 #include "Pi.h"
 #include "Settings.h"
+#include "ui/Context.h"
 
 
 
@@ -104,19 +105,43 @@ static int l_settings_get_key_function(lua_State *l)
     const std::string matcher = luaL_checkstring(l, 2);
     const std::string function = Pi::settings->GetFunction(matcher);
     lua_pushlstring(l, function.c_str(), function.size());
+    if(function.size() == 0)
+        return luaL_error(l, "No function found");
     LUA_DEBUG_END(l, 1);
     return 1;
+}
+
+static int l_settings_key_grabber(lua_State *l)
+{
+    LUA_DEBUG_START(l);
+    UI::MultiLineText *wid = LuaObject<UI::MultiLineText>::CheckFromLua(2);
+    const std::string func = luaL_checkstring(l, 3);
+    Pi::settings->KeyGrabber(wid->GetContext(), func, wid);
+    
+    LUA_DEBUG_END(l, 1);
+    return 1;
+}
+
+static int l_settings_remove_floating_widget(lua_State *l)
+{
+    LUA_DEBUG_START(l);
+    Pi::settings->RemoveFWidget();
+    
+    LUA_DEBUG_END(l, 1);
+    return 0;
 }
 
 void LuaSettings::Register()
 {
     static const luaL_Reg l_methods[] = {
         { "GetVideoModes",   l_settings_get_video_modes   },
+	{ "KeyGrabber",   l_settings_key_grabber   },
         { "GetGameConfig",   l_settings_get_game_config   },
 	{ "SaveGameConfig",   l_settings_save_game_config   },
         { "GetHeaders",   l_settings_get_headers   },
         { "GetKeys", l_settings_get_keys },
         { "GetKeyFunction", l_settings_get_key_function },
+	{ "RemoveFWidget", l_settings_remove_floating_widget },
         { 0, 0 }
     };
 

@@ -10,30 +10,80 @@
 #include "Lang.h"
 #include "Sound.h"
 #include "SoundMusic.h"
+#include "ui/Context.h"
+#include "ui/Button.h"
+#include "ui/Label.h"
+#include "ui/FloatContainer.h"
+#include "ui/Event.h"
+
 #include <sstream>
 
-#if 0
-void Display(Settings::KeyMap &key_map)
-{
-    for (Settings::KeyMap::iterator it = key_map.begin(); it != key_map.end(); ++it)
-    {
-        for(std::vector<Settings::SVecType >::iterator it2 = it->second.begin(); it2 != it->second.end(); ++it2)
-        {
-            int x = 0;
-            for(Settings::SVecType::iterator it3 = it2->begin(); it3 != it2->end(); ++it3)
-            {
-                std::string th = *it3;
-                printf("%s[%d]:  %s\n",it->first.c_str(), x, th.c_str());
-                x++;
-            }
-            // 			printf("%s %s %s %s", it->first.c_str(), it2[0]->c_str(),it2[1].c_str(),it2[2].c_str());
-        }
-    }
-}
-#endif
+class KeyGetter {
+public:
+	KeyGetter(std::string label,std::string matcher, UI::Context *context,std::string fnName) {
+		m_function = fnName;
+		m_key = matcher.c_str();
+		std::string msg = Lang::PRESS_BUTTON_WANTED_FOR + label;
+		m_keyLabel = context->Label(msg);
+		m_widget = context->Background();
+		m_widget->SetInnerWidget(m_keyLabel);
+	}
+	UI::Background *GetWidget()
+	{
+		return m_widget;
+	}
+	UI::Label *GetLabel()
+	{
+		return m_keyLabel;
+	}
+	KeyBindings::KeyBinding &GetBinding()
+	{
+		return m_binding;
+	}
+	std::pair<std::string,std::string> HandleKeyChange(UI::KeyboardEvent event)
+	{
+
+		printf("funcname %s\n", m_function.c_str());
+		KeyBindings::KeyBindingFromString(m_key, &m_binding);
+		m_binding.type = KeyBindings::KEYBOARD_KEY;
+		m_binding.u.keyboard.key = event.keysym.sym;
+		// get rid of number lock, caps lock, etc
+		m_binding.u.keyboard.mod = SDLMod(event.keysym.mod & (KMOD_CTRL | KMOD_ALT | KMOD_META | KMOD_SHIFT));
+		Pi::config->SetString(m_function.c_str(), KeyBindings::KeyBindingToString(m_binding).c_str());
+		Pi::config->Save();
+		KeyBindings::UpdateBindings();
+		std::pair<std::string,std::string> ret  (m_function.c_str(),KeyBindings::KeyBindingToString(m_binding).c_str());
+		return ret;
+	}
+	sigc::signal<void, KeyBindings::KeyBinding> onChange;
+private:
+	KeyBindings::KeyBinding m_binding;
+	UI::Label *m_keyLabel;
+	UI::Background *m_widget;
+	std::string m_function;
+	std::string m_key;
+};
+
 Settings::Settings()
 {
 
+    InitControls();
+    m_keyGetter = 0;
+}
+
+Settings::~Settings()
+{
+	RemoveFWidget();
+}
+
+void Settings::InitControls()
+{
+    m_headers.clear();
+    m_keys.clear();
+    m_control_keys.clear();
+    m_control_headers.clear();
+    m_view_keys.clear();
+    m_view_headers.clear();
     BuildControlBindingList(KeyBindings::BINDING_PROTOS_CONTROLS, m_control_keys,m_control_headers);
     BuildControlBindingList(KeyBindings::BINDING_PROTOS_VIEW, m_view_keys,m_view_headers);
     m_headers.reserve(m_control_headers.size()+m_view_headers.size());
@@ -43,30 +93,67 @@ Settings::Settings()
     m_keys.insert(m_view_keys.begin(),m_view_keys.end());
 }
 
-Settings::~Settings()
+void Settings::KeyGrabber(UI::Context *context, std::string func, UI::MultiLineText *multi)
 {
+    Settings::SVecType keys = GetKeysVector(func);
+    RemoveFWidget();
+    assert(keys.size() > 0);
+    assert(m_keyGetter == 0);
+    m_keyGetter = new KeyGetter(keys[Label],keys[Key].c_str(), context, func);
+    context->AddFloatingWidget(m_keyGetter->GetWidget(),UI::Point(Graphics::GetScreenWidth()/2-200, Graphics::GetScreenHeight()/2), UI::Point(400,40));
+    m_keyDownConnection = context->onKeyUp.connect(sigc::bind(sigc::mem_fun(this, &Settings::OnChangeKeyBinding),multi,keys[Key]));
+}
 
+void Settings::RemoveFWidget()
+{
+    if(m_keyGetter != 0)
+    {
+	    UI::Background *l = m_keyGetter->GetWidget();
+	    UI::Context *c = l->GetContext();
+	    c->RemoveFloatingWidget(l);
+	    delete m_keyGetter;
+	    m_keyGetter = 0;
+	    m_keyDownConnection.disconnect();
+    }
 }
 
 const std::string Settings::GetFunction(const std::string matcher) const
+{
+    return GetKeysVector(matcher)[Function];
+}
+
+const Settings::SVecType Settings::GetKeysVector(const std::string matcher) const
 {
     for(KeyMap::const_iterator it = m_keys.begin(); it != m_keys.end(); ++it) {
         std::string header = it->first;
         InnerVector kids = it->second;
         for (InnerVector::iterator it2 = kids.begin(); it2 != kids.end(); ++it2) {
             std::vector<std::string> keys = *it2;
-            std::string key = keys[Key];
-            if(key.compare(matcher) == 0)
+            if(keys[Function].compare(matcher) == 0 || 
+		keys[Label].compare(matcher) == 0 || 
+		keys[Binding].compare(matcher) == 0 || 
+		keys[Key].compare(matcher) == 0)
             {
-                return keys[Function];
+                return keys;
             }
         }
     }
-    assert(0);
+    Settings::SVecType failedArray;
+    return failedArray;
 }
 
-const Settings::MapStrings Settings::GetPrettyKeyStrings(const std::string header, const Settings::KeyMap &key_map) const
+bool Settings::OnChangeKeyBinding(const UI::KeyboardEvent &event, UI::MultiLineText *multi,std::string label)
 {
+	std::pair<std::string,std::string> updateKeys = m_keyGetter->HandleKeyChange(event);
+	m_updatedKeys.push_back(updateKeys);
+	multi->SetText(m_keyGetter->GetBinding().Description());
+	RemoveFWidget();
+	return true;
+}
+
+const Settings::MapStrings Settings::GetPrettyKeyStrings(const std::string header, const Settings::KeyMap &key_map)
+{
+    InitControls();
     InnerVector kids;
     for(KeyMap::const_iterator it = key_map.begin(); it != key_map.end(); ++it) {
         if(it->first != header) continue;
@@ -91,13 +178,20 @@ const Settings::MapStrings Settings::GetGameConfig() const
     }
     return result;
 }
-bool Settings::SaveGameConfig(const Settings::MapStrings ini) const
+bool Settings::SaveGameConfig(const Settings::MapStrings ini)
 {
     for(Settings::MapStrings::const_iterator it = ini.begin(); it != ini.end(); ++it){
         Pi::config->SetString(it->first.c_str(), it->second.c_str());
         
     }
+    for(std::vector<std::pair<std::string, std::string> >::const_iterator it = m_updatedKeys.begin(); it != m_updatedKeys.end(); ++it)
+    {
+	    Pi::config->SetString(it->first.c_str(), it->second.c_str());
+    }
+    m_updatedKeys.clear();
+    
     Pi::config->Save();
+//     InitControls();
     
     std::string t = "DetailPlanets";
     Pi::detail.planets = GetNum<int>(t, ini);
@@ -151,6 +245,7 @@ bool Settings::SaveGameConfig(const Settings::MapStrings ini) const
     Pi::OnChangeDetailLevel();
     return true;
 }
+
 template <class T>
 T Settings::GetNum(std::string &key, const MapStrings &ini) const
 {
@@ -162,6 +257,7 @@ T Settings::GetNum(std::string &key, const MapStrings &ini) const
     buffer >> numb;
     return numb;
 }
+
 const Settings::SVecType Settings::GetVideoModes() const
 {
     SVecType result;

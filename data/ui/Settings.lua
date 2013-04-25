@@ -6,22 +6,25 @@ local l = Lang.GetDictionary()
 local iniTable = Settings:GetGameConfig()
 local return_to_menu = ui:Button():SetInnerWidget(ui:Label(l.RETURN_TO_MENU))
 return_to_menu.onClick:Connect(function () Settings:SaveGameConfig(iniTable)
+					   Settings:RemoveFWidget()
+					
 					ui:SetInnerWidget(ui.templates.MainMenu()) end)
 
 
 
 ui.templates.Settings = function (args) 
+	iniTable = Settings:GetGameConfig()
 	
 	local checkboxHandler = function(cb, iniEntry, negate)
 		local updater = function()
 			local checked
-			print ("checked: ",cb.IsChecked)
+
 			if cb.IsChecked then checked = "1" else checked = "0" end
 			if negate == true then
-				print ("NEG", negate)
+
 				if checked == "1" then checked = "0" else checked = "1" end
 			end
-			print ("CHECKED: ", checked)
+
 			iniTable[iniEntry] = checked
 		end
 		cb:SetState(iniTable[iniEntry])
@@ -61,7 +64,7 @@ ui.templates.Settings = function (args)
 		local AADropdown = ui:DropDown()
 		setDropdown(AAList, AADropdown)
 		local opt = parseListIn(iniTable["AntiAliasingMode"])
-		print (opt)
+-- 		print (opt)
 		AADropdown:SetOption(opt)
 		AADropdown.onOptionSelected:Connect(function() 
 			local option = AADropdown.selectedOption
@@ -186,7 +189,8 @@ ui.templates.Settings = function (args)
 								iniTable["ScrWidth"] = k
 								iniTable["ScrHeight"] = v
 							end
-							print (option) end)
+-- 							print (option) 
+			end)
 -- 		fullScreenCheckBox:SetState(iniTable["StartFullscreen"])
 		checkboxHandler(fullScreenCheckBox,"StartFullscreen",false)
 		checkboxHandler(compressionCheckBox, "UseTextureCompression", false)
@@ -328,7 +332,7 @@ ui.templates.Settings = function (args)
 				
 				label:SetText(y)
 				label.onClick:Connect(function() 	local func = Settings:GetKeyFunction(y)
-									print (func.." clicked" )
+									Settings:KeyGrabber(label,func)
 							end)
 -- 				label.onMouseOver:Connect(function() 
 -- 					local lab = ui:Label("")
@@ -336,11 +340,11 @@ ui.templates.Settings = function (args)
 -- 					lab = ui:ColorBackground(1,0,0):SetInnerWidget(lab) 
 -- 					label = lab.InnerWidget
 -- 				end)
-				ui.onKeyDown:Connect(function(s) 
-					for a,b in pairs(s) do
-						print ("keyup",a,b) 
-					end
-				end)
+-- 				ui.onKeyDown:Connect(function(s) 
+-- 					for a,b in pairs(s) do
+-- 						print ("keyup",a,b) 
+-- 					end
+-- 				end)
 				if i % 2 == 0 then
 					box:PackEnd(grd)
 				else
@@ -353,12 +357,20 @@ ui.templates.Settings = function (args)
 			:SetCell(3, 0, box2)
 	end
 	
-	local setTabs = UI.TabGroup.New()
+	local setTabs = nil
+	setTabs = UI.TabGroup.New()
 	setTabs:AddTab({ id = "Game",        title = l.GAME,     icon = "GameBoy", template = gameTemplate         })
 	setTabs:AddTab({ id = "Video",        title = l.VIDEO,     icon = "VideoCamera", template = videoTemplate         })
 	setTabs:AddTab({ id = "Sound",        title = l.SOUND,     icon = "Speaker", template = soundTemplate         })
 	setTabs:AddTab({ id = "Language",        title = l.LANGUAGE,     icon = "Globe1", template = languageTemplate         })
 	setTabs:AddTab({ id = "Controls",	title = "Control",	icon = "Gamepad", template= keysTemplate })
+	
+	for i = 1,5 do
+		setTabs.tabs[i].iconWidget.onClick:Connect(function() Settings:RemoveFWidget() end)
+	end
+	
+-- 	iniTable = Settings:GetGameConfig()
+	
 	local settings =  ui:Background():SetInnerWidget(ui:Scroller():SetInnerWidget(ui:Margin(30):SetInnerWidget(
 		ui:VBox(10):PackEnd({
 			setTabs.widget,
@@ -366,7 +378,7 @@ ui.templates.Settings = function (args)
 			
 		})
 	)))  
-	settings.onKeyDown:Connect(function(t) print "press" end)
+-- 	settings.onKeyDown:Connect(function(t) print "press" end)
 	ui:SetInnerWidget(settings)
 	
 end
