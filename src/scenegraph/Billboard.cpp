@@ -35,7 +35,7 @@ void Billboard::Accept(NodeVisitor &nv)
 	nv.ApplyBillboard(*this);
 }
 
-void Billboard::Render(const matrix4x4f &trans, RenderData *rd)
+void Billboard::Render(const matrix4x4f &trans, const RenderData *rd)
 {
 	Graphics::Renderer *r = GetRenderer();
 

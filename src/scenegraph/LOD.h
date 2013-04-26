@@ -18,7 +18,7 @@ public:
 	virtual const char *GetTypeName() { return "LOD"; }
 	virtual void Accept(NodeVisitor &v);
 	void AddLevel(float pixelRadius, Node *child);
-	virtual void Render(const matrix4x4f &trans, RenderData *rd);
+	virtual void Render(const matrix4x4f &trans, const RenderData *rd);
 protected:
 	virtual ~LOD() { }
 	std::vector<unsigned int> m_pixelSizes; //same amount as children

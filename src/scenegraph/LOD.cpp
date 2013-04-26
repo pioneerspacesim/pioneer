@@ -38,7 +38,7 @@ void LOD::AddLevel(float pixelSize, Node *nod)
 	AddChild(nod);
 }
 
-void LOD::Render(const matrix4x4f &trans, RenderData *rd)
+void LOD::Render(const matrix4x4f &trans, const RenderData *rd)
 {
 	//figure out approximate pixel size on screen and pick a child to render
 	const vector3f cameraPos(-trans[12], -trans[13], -trans[14]);

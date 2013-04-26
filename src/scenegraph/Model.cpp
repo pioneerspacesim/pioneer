@@ -84,7 +84,7 @@ Model *Model::MakeInstance() const
 	return m;
 }
 
-void Model::Render(const matrix4x4f &trans, RenderData *rd)
+void Model::Render(const matrix4x4f &trans, const RenderData *rd)
 {
 	//update color parameters (materials are shared by model instances)
 	if (m_curPattern) {
@@ -102,22 +102,22 @@ void Model::Render(const matrix4x4f &trans, RenderData *rd)
 			m_decalMaterials[i]->texture0 = m_curDecals[i];
 
 	//Override renderdata if this model is called from ModelNode
-	RenderData *params = (rd != 0) ? rd : &m_renderData;
+	RenderData params = (rd != 0) ? (*rd) : m_renderData;
 
 	m_renderer->SetBlendMode(Graphics::BLEND_SOLID);
 	m_renderer->SetTransform(trans);
 	//using the entire model bounding radius for all nodes at the moment.
 	//BR could also be a property of Node.
-	params->boundingRadius = GetDrawClipRadius();
+	params.boundingRadius = GetDrawClipRadius();
 
 	//render in two passes, if this is the top-level model
-	if (params->nodemask & MASK_IGNORE) {
-		m_root->Render(trans, params);
+	if (params.nodemask & MASK_IGNORE) {
+		m_root->Render(trans, &params);
 	} else {
-		params->nodemask = NODE_SOLID;
-		m_root->Render(trans, params);
-		params->nodemask = NODE_TRANSPARENT;
-		m_root->Render(trans, params);
+		params.nodemask = NODE_SOLID;
+		m_root->Render(trans, &params);
+		params.nodemask = NODE_TRANSPARENT;
+		m_root->Render(trans, &params);
 	}
 }
 
