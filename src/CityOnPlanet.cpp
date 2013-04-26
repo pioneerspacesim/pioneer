@@ -321,6 +321,7 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const Spa
 		return;
 
 	matrix4x4d rot[4];
+	matrix4x4f rotf[4];
 	rot[0] = station->GetOrient();
 
 	// change detail level if necessary
@@ -333,18 +334,22 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const Spa
 	for (int i=1; i<4; i++) {
 		rot[i] = rot[0] * matrix4x4d::RotateYMatrix(M_PI*0.5*double(i));
 	}
+	for (int i=0; i<4; i++) {
+		for (int e=0; e<16; e++) {
+			rotf[i][e] = float(rot[i][e]);
+		}
+	}
 
 	for (std::vector<BuildingDef>::const_iterator iter=m_enabledBuildings.begin(), itEND=m_enabledBuildings.end(); iter != itEND; ++iter) 
 	{
 		const vector3d pos = viewTransform * (*iter).pos;
+		const vector3f posf(pos);
 		if (!frustum.TestPoint(pos, (*iter).clipRadius))
 			continue;
 
-		matrix4x4f _rot;
-		for (int e=0; e<16; e++) _rot[e] = float(rot[(*iter).rotation][e]);
-		_rot[12] = float(pos.x);
-		_rot[13] = float(pos.y);
-		_rot[14] = float(pos.z);
+		matrix4x4f _rot(rotf[(*iter).rotation]);
+		_rot.SetTranslate(posf);
+
 		glPushMatrix();
 		(*iter).model->Render(_rot);
 		glPopMatrix();
