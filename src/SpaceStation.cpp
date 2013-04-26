@@ -623,21 +623,22 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 	if (!b->IsType(Object::PLANET)) {
 		// orbital spaceport -- don't make city turds or change lighting based on atmosphere
 		RenderModel(r, camera, viewCoords, viewTransform);
-	}
-
-	else {
+	} else {
+		// don't render city if too far away
+		// 1000000.0 * 1000000.0 = 100000000000000.0 (metres...I think)
+		if (viewCoords.LengthSqr() >= 100000000000000.0) {
+			return;
+		}
 		std::vector<Graphics::Light> oldLights;
 		Color oldAmbient;
 		SetLighting(r, camera, oldLights, oldAmbient);
 
 		Planet *planet = static_cast<Planet*>(b);
-		/* don't render city if too far away */
-		if (viewCoords.Length() < 1000000.0){
-			if (!m_adjacentCity) {
-				m_adjacentCity = new CityOnPlanet(planet, this, m_sbody->seed);
-			}
-			m_adjacentCity->Render(r, camera, this, viewCoords, viewTransform);
+		
+		if (!m_adjacentCity) {
+			m_adjacentCity = new CityOnPlanet(planet, this, m_sbody->seed);
 		}
+		m_adjacentCity->Render(r, camera, this, viewCoords, viewTransform);
 
 		RenderModel(r, camera, viewCoords, viewTransform, false);
 
