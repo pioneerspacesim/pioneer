@@ -443,9 +443,6 @@
     <ClInclude Include="..\..\src\Body.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\BufferObject.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\buildopts.h">
       <Filter>src</Filter>
     </ClInclude>

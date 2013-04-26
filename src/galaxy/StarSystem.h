@@ -240,7 +240,7 @@ public:
 	// index into this will be the SystemBody ID used by SystemPath
 	std::vector< RefCountedPtr<SystemBody> > m_bodies;
 
-	int GetCommodityBasePriceModPercent(int t) {
+	int GetCommodityBasePriceModPercent(const int t) const {
 		return m_tradeLevel[t];
 	}
 

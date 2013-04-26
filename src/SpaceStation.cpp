@@ -14,7 +14,7 @@
 #include "Planet.h"
 #include "Player.h"
 #include "Polit.h"
-#include "Polit.h"
+#include "Factions.h"
 #include "Serializer.h"
 #include "Ship.h"
 #include "Space.h"
@@ -606,8 +606,10 @@ bool SpaceStation::DoesSell(Equip::Type t) const {
 }
 
 Sint64 SpaceStation::GetPrice(Equip::Type t) const {
-	Sint64 mul = 100 + Pi::game->GetSpace()->GetStarSystem()->GetCommodityBasePriceModPercent(t);
-	return (mul * Sint64(Equip::types[t].basePrice)) / 100;
+	const StarSystem *pSS = Pi::game->GetSpace()->GetStarSystem().Get();
+	const Sint64 mul = 100 + pSS->GetCommodityBasePriceModPercent(t);
+	const int priceMod = pSS->GetFaction()->GetPriceModifier(pSS->GetEconType(),t);
+	return (mul * Sint64(Equip::types[t].basePrice + priceMod)) / 100;
 }
 
 // Renders space station and adjacent city if applicable
@@ -623,9 +625,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 	if (!b->IsType(Object::PLANET)) {
 		// orbital spaceport -- don't make city turds or change lighting based on atmosphere
 		RenderModel(r, camera, viewCoords, viewTransform);
-	}
-
-	else {
+	} else {
 		std::vector<Graphics::Light> oldLights;
 		Color oldAmbient;
 		SetLighting(r, camera, oldLights, oldAmbient);
