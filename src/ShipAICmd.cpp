@@ -820,8 +820,8 @@ bool AICmdFlyTo::TimeStepUpdate()
 			}
 			else if (coll == 1) {			// below feature height, target not below
 				double ang = m_ship->AIFaceDirection(m_ship->GetPosition());
+				//add engine juice on fast asteroid approach
 				m_ship->AIMatchVel(ang < 0.05 ? m_ship->GetJuice()*1000.0 * m_ship->GetPosition().Normalized() : vector3d(0.0));
-				//if (m_ship->GetVelocity().Length()>999999999) m_ship->SetVelocity(m_ship->GetOrient()*vector3d(0, 0, -1000));  //fkl
 			}
 			else {							// same thing for 2/3/4
 				if (!m_child) m_child = new AICmdFlyAround(m_ship, m_frame->GetBody(), erad*1.05, 0.0);
@@ -871,7 +871,6 @@ bool AICmdFlyTo::TimeStepUpdate()
 
 		// calculate target speed
 		double ispeed = (maxdecel < 1e-10) ? 0.0 : calc_ivel(targdist, m_endvel, maxdecel);
-		//ispeed*=180.0; //fkl
 
 		// cap target speed according to spare fuel remaining
 		double fuelspeed = m_ship->GetSpeedReachedWithFuel();
@@ -884,7 +883,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 	//	if (m_frame->GetParent() && ispeed > maxframespeed) ispeed = maxframespeed;
 
 		// cap perpspeed according to what's needed now
-		perpspeed = std::min(perpspeed, 2.0*sidefactor*timestep);//*180.0;//fkl
+		perpspeed = std::min(perpspeed, 2.0*sidefactor*timestep);
 	
 		// cap sdiff by thrust...
 		double sdiff = ispeed - curspeed;
@@ -1084,7 +1083,7 @@ double AICmdFlyAround::MaxVel(double targdist, double targalt)
 	double vmaxprox = m_ship->GetAccelMin()*t;			// limit by target proximity
 	double vmaxstep = std::max(m_alt*0.05, m_alt-targalt);
 	vmaxstep /= Pi::game->GetTimeStep();			// limit by distance covered per timestep
-	return std::min(m_vel, std::min(vmaxprox, vmaxstep));    //fkl
+	return std::min(m_vel, std::min(vmaxprox, vmaxstep));
 }
 
 bool AICmdFlyAround::TimeStepUpdate()
@@ -1116,15 +1115,15 @@ bool AICmdFlyAround::TimeStepUpdate()
 		Frame *obsframe = m_obstructor->GetFrame()->GetNonRotFrame();
 		vector3d tangent = GenerateTangent(m_ship, obsframe, targpos, m_alt);
 		vector3d tpos_obs = GetPosInFrame(obsframe, m_ship->GetFrame(), targpos);
-		if (m_targmode) v = m_vel;//*80.0; //fkl
+		if (m_targmode) v = m_vel;
 		else if (relpos.LengthSqr() < obsdist + tpos_obs.LengthSqr()) v = 0.0;
-		else v = MaxVel((tpos_obs-tangent).Length(), tpos_obs.Length()); //Fkl
+		else v = MaxVel((tpos_obs-tangent).Length(), tpos_obs.Length());
 		m_child = new AICmdFlyTo(m_ship, obsframe, tangent, v, true);
 		ProcessChild(); return false;
 	}
 
 	// limit m_vel by target proximity & distance covered per frame
-	double vel = (m_targmode) ? m_vel : MaxVel(relpos.Length(), targpos.Length());  //fkl
+	double vel = (m_targmode) ? m_vel : MaxVel(relpos.Length(), targpos.Length());
 
 	// all calculations in ship's frame
 	vector3d fwddir = (obsdir.Cross(relpos).Cross(obsdir)).NormalizedSafe();
@@ -1142,7 +1141,7 @@ bool AICmdFlyAround::TimeStepUpdate()
 	double ivel = calc_ivel(alt - m_alt, 0.0, m_ship->GetAccelMin());
 
 	vector3d finalvel = tanvel + ivel * obsdir;
-	m_ship->AIMatchVel(finalvel); //fkl
+	m_ship->AIMatchVel(finalvel);
 	m_ship->AIFaceDirection(fwddir);
 	m_ship->AIFaceUpdir(-obsdir);
 
