@@ -202,11 +202,11 @@ local getNearestStarport = function (ship, current)
 		local next_starport = starports[i]
 		if next_starport ~= current then
 			local next_distance
-			if (Engine.rand:Integer(1,100) <= 20) then
-			        next_distance = Game.player:DistanceTo(next_starport)  --20% follow your nearet ports.
-			else
+		--	if (Engine.rand:Integer(1,100) <= 20) then
+			        --next_distance = Game.player:DistanceTo(next_starport)  --20% follow your nearet ports.
+		--	else
 				next_distance = ship:DistanceTo(next_starport)
-			end
+		--	end
 			local next_canland = (trader.ATMOSHIELD or
 				(next_starport.type == 'STARPORT_ORBITAL') or
 				(not next_starport.path:GetSystemBody().parent.hasAtmosphere))
@@ -363,10 +363,10 @@ local spawnInitialShips = function (game_start)
 	-- the base number of AU between ships spawned in space
 	local range = (9 / (num_trade_ships * 0.75))
 	if game_start then
-		range = range * 1.5
+		range = range * 1.15
 	end
 	-- the base number of seconds between ships spawned in hyperspace
-	trade_ships['interval'] = (864000 / (num_trade_ships / 10))
+	trade_ships['interval'] = 1
 	-- get nearby system paths for hyperspace spawns to come from
 	local from_systems, dist = {}, 10
 	while #from_systems < 10 do
@@ -524,7 +524,8 @@ local cleanTradeShipsTable = function ()
 			end
 		end
 	end
-	if ( total-hyperspace < num_trade_ships ) then spawnReplacement() end
+	if ( total-hyperspace < num_trade_ships*0.5 ) then spawnReplacement() end
+
 	print('cleanTSTable:total:'..total..',active:'..total - hyperspace..',removed:'..removed)
 end
 
