@@ -14,6 +14,15 @@ diffuse 1.0 1.0 1.0
 specular 1.0 1.0 1.0
 shininess 80
 
+material shield
+tex_diff shielddiff.png
+tex_glow shieldglow.png
+tex_spec shieldspec.png
+diffuse 1.0 1.0 1.0
+opacity 98
+specular 1 1 1
+shininess 0
+
 collision DSMinerCollision.obj
 
 lod 1000
@@ -21,16 +30,19 @@ mesh DSMinerHull.obj
 mesh DSMinerDecal.dae
 mesh DSMinerGear.dae
 mesh DSMinerHatch.dae
+mesh shieldfield.DAE
 
 lod 200
 mesh DSMinerDecalLOD1.dae
 mesh DSMinerHullLOD1.obj
 mesh DSMinerGear.dae
 mesh DSMinerHatch.dae
+mesh shieldfield.DAE
 
 lod 75
 mesh DSMinerDecalLOD2.obj
 mesh DSMinerHullLOD2.obj
+mesh shieldfield.DAE
 
 
 anim gear_down 0 55
