@@ -566,8 +566,10 @@ void SpaceStation::TimeStepUpdate(const float timeStep)
 			m_navLights->SetColor(i+1, NavLights::NAVLIGHT_GREEN);
 			continue;
 		}
-		if (dt.stage == 1) //reserved
+		if (dt.stage == 1) {//reserved
 			m_navLights->SetColor(i+1, NavLights::NAVLIGHT_YELLOW);
+			continue;
+		}
 		if (dt.ship->GetFlightState() == Ship::FLYING)
 			continue;
 		PositionDockedShip(dt.ship, i);
