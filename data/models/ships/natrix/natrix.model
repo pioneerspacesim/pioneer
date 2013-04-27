@@ -11,10 +11,21 @@ tex_diff gear_diff.png
 diffuse 0.8 0.8 0.8
 specular 1.0 1.0 1.0
 
+material shield
+tex_diff shielddiff.png
+tex_glow shieldglow.png
+tex_spec shieldspec.png
+diffuse 1.0 1.0 1.0
+opacity 98
+specular 1 1 1
+shininess 0
+
 lod 100
 mesh natrix.dae
+mesh shieldfield.dae
 
 lod 10
 mesh natrix_low.dae
+mesh shieldfield.dae
 
 anim gear_down 1 20
