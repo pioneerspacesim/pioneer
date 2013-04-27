@@ -768,43 +768,43 @@ bool AICmdFlyTo::TimeStepUpdate()
 		}
 	}
 
-		if (!m_target && !m_targframe) return true;			// deleted object
+	if (!m_target && !m_targframe) return true;			// deleted object
 
-		// sort out gear, launching
-		if (m_ship->GetFlightState() == Ship::FLYING) m_ship->SetWheelState(false);
-		else { LaunchShip(m_ship); return false; }
+	// sort out gear, launching
+	if (m_ship->GetFlightState() == Ship::FLYING) m_ship->SetWheelState(false);
+	else { LaunchShip(m_ship); return false; }
 
-		// generate base target pos (with vicinity adjustment) & vel 
-		double timestep = Pi::game->GetTimeStep();
-		vector3d targpos, targvel;
-		if (m_target) {
-			targpos = m_target->GetPositionRelTo(m_ship->GetFrame());
-			targpos -= (targpos - m_ship->GetPosition()).NormalizedSafe() * m_dist;
-			targvel = m_target->GetVelocityRelTo(m_ship->GetFrame());
-		} else {
-			targpos = GetPosInFrame(m_ship->GetFrame(), m_targframe, m_posoff);
-			targvel = GetVelInFrame(m_ship->GetFrame(), m_targframe, m_posoff);		
-		}
-		Frame *targframe = m_target ? m_target->GetFrame() : m_targframe;
-		ParentSafetyAdjust(m_ship, targframe, targpos, targvel);
-		vector3d relpos = targpos - m_ship->GetPosition();
-		vector3d reldir = relpos.NormalizedSafe();
-		vector3d relvel = targvel - m_ship->GetVelocity();
-		double targdist = relpos.Length();
+	// generate base target pos (with vicinity adjustment) & vel 
+	double timestep = Pi::game->GetTimeStep();
+	vector3d targpos, targvel;
+	if (m_target) {
+		targpos = m_target->GetPositionRelTo(m_ship->GetFrame());
+		targpos -= (targpos - m_ship->GetPosition()).NormalizedSafe() * m_dist;
+		targvel = m_target->GetVelocityRelTo(m_ship->GetFrame());
+	} else {
+		targpos = GetPosInFrame(m_ship->GetFrame(), m_targframe, m_posoff);
+		targvel = GetVelInFrame(m_ship->GetFrame(), m_targframe, m_posoff);		
+	}
+	Frame *targframe = m_target ? m_target->GetFrame() : m_targframe;
+	ParentSafetyAdjust(m_ship, targframe, targpos, targvel);
+	vector3d relpos = targpos - m_ship->GetPosition();
+	vector3d reldir = relpos.NormalizedSafe();
+	vector3d relvel = targvel - m_ship->GetVelocity();
+	double targdist = relpos.Length();
 
-	#ifdef DEBUG_AUTOPILOT
-	if (m_ship->IsType(Object::PLAYER))
-	printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
-		targdist, relvel.Length(), m_ship->GetThrusterState().z, m_state);
-	#endif
+#ifdef DEBUG_AUTOPILOT
+if (m_ship->IsType(Object::PLAYER))
+printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
+	targdist, relvel.Length(), m_ship->GetThrusterState().z, m_state);
+#endif
 
-		// frame switch stuff - clear children/collision state
-		if (m_frame != m_ship->GetFrame()) {
-			if (m_child) { delete m_child; m_child = 0; }
-			if (m_tangent && m_frame) return true;		// regen tangent on frame switch
-			m_reldir = reldir;							// for +vel termination condition
-			m_frame = m_ship->GetFrame();
-		}
+	// frame switch stuff - clear children/collision state
+	if (m_frame != m_ship->GetFrame()) {
+		if (m_child) { delete m_child; m_child = 0; }
+		if (m_tangent && m_frame) return true;		// regen tangent on frame switch
+		m_reldir = reldir;							// for +vel termination condition
+		m_frame = m_ship->GetFrame();
+	}
 
 // TODO: collision needs to be processed according to vdiff, not reldir?
 
