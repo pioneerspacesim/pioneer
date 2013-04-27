@@ -73,6 +73,10 @@ void SystemInfoView::OnBodyViewed(SystemBody *b)
 	_add_label_and_value(Lang::RADIUS, stringf(Lang::N_WHATEVER_RADII, formatarg("radius", b->radius.ToDouble()),
 		formatarg("units", std::string(b->GetSuperType() == SystemBody::SUPERTYPE_STAR ? Lang::SOLAR : Lang::EARTH))));
 
+	if (b->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
+		_add_label_and_value(Lang::EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO, stringf("%0{f.3}", b->aspectRatio.ToDouble()));
+	}
+
 	if (b->type != SystemBody::TYPE_STARPORT_ORBITAL) {
 		_add_label_and_value(Lang::SURFACE_TEMPERATURE, stringf(Lang::N_CELSIUS, formatarg("temperature", b->averageTemp-273)));
 		_add_label_and_value(Lang::SURFACE_GRAVITY, stringf("%0{f.3} m/s^2", b->CalcSurfaceGravity()));

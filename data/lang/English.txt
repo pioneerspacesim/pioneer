@@ -994,6 +994,8 @@ ECCENTRICITY
     Eccentricity
 AXIAL_TILT
     Axial tilt
+EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO
+    Equatorial to polar radius ratio
 N_DEGREES
     %angle{f.1} degrees
 DAY_LENGTH

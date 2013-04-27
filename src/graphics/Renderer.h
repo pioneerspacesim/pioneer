@@ -26,6 +26,10 @@ namespace Graphics {
  * Terrain: not necessarily tricky to convert, but let's see if it's going to be
  * rewritten first... Terrain would likely get a special DrawTerrain(GeoPatch *) function.
  * Reboot postprocessing, again (I'd like this to be a non-optional part of GL2 renderer)
+ *
+ * XXX 2013-Apr-21: Surface is a bit pointless, and StaticMesh could be more
+ * flexible with vertex attributes. Recommendation: replace with CreateVertexBuffer, CreateIndexBuffer
+ * type approach and encourage these for most drawing. This will solve the terrain issue as well.
  */
 
 class Light;
@@ -57,7 +61,7 @@ enum BlendMode {
 	BLEND_SOLID,
 	BLEND_ADDITIVE,
 	BLEND_ALPHA,
-	BLEND_ALPHA_ONE, //XXX what the hell to call this
+	BLEND_ALPHA_ONE, //"additive alpha"
 	BLEND_ALPHA_PREMULT
 };
 
