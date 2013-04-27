@@ -3,11 +3,19 @@ Alpha 34
    * New features
      * New combat music track (#2209)
 
+   * Minor changes and tweaks
+     * Commodity Market buy/sell buttons now speed up when held down (#2188, #1734)
+     * Mission list can now be sorted by clicking the column headers (#2183, #2128)
+
    * Model changes
      * Station definition 'num_docking_ports' is no longer used; it is computed
        from the bay definitions (#2219)
      * Station model docking nodes are checked against the station definition
        (#2219)
+
+   * Fixes
+     * Fix lua system export (#2229)
+     * Fix Lua console so that it lets you continue incomplete commands (#2198)
 
    * Internal changes
      * SpaceStationTypes now loads data using the LuaTable wrapper (#2170)
@@ -18,12 +26,6 @@ Alpha 34
      * Stars with flattening due to fast rotation, i.e; ellipsoids (#2178)
      * Update bundled Lua to version 5.2.2 (#2230)
      * Model loader: improve instancing (#2228)
-     * UI: speeding up the buy and sell process in the marketplace (#2188)
-     * Sort missions list (#2183)
-
-   * Fixes
-     * Fix lua system export (#2229)
-     * Fix Lua console so that it lets you continue incomplete commands (#2198)
 
 Alpha 33
 
