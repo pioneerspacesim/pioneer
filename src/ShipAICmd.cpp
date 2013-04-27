@@ -806,29 +806,29 @@ bool AICmdFlyTo::TimeStepUpdate()
 			m_frame = m_ship->GetFrame();
 		}
 
-	// TODO: collision needs to be processed according to vdiff, not reldir?
+// TODO: collision needs to be processed according to vdiff, not reldir?
 
-		Body *body = m_frame->GetBody();
-		double erad = MaxEffectRad(body, m_ship);
-		if ((m_target && body != m_target)
-			|| (m_targframe && (!m_tangent || body != m_targframe->GetBody())))
-		{
-			int coll = CheckCollision(m_ship, reldir, targdist, targpos, m_endvel, erad);
-			if (coll == 0) {				// no collision
-				if (m_child) { delete m_child; m_child = 0; }
-			}
-			else if (coll == 1) {			// below feature height, target not below
-				double ang = m_ship->AIFaceDirection(m_ship->GetPosition());
-				//add engine juice on fast asteroid approach
-				m_ship->AIMatchVel(ang < 0.05 ? m_ship->GetJuice()*1000.0 * m_ship->GetPosition().Normalized() : vector3d(0.0));
-			}
-			else {							// same thing for 2/3/4
-				if (!m_child) m_child = new AICmdFlyAround(m_ship, m_frame->GetBody(), erad*1.05, 0.0);
-				static_cast<AICmdFlyAround*>(m_child)->SetTargPos(targpos);
-				ProcessChild();
-			}
-			if (coll) { m_state = -coll; return false; }
+	Body *body = m_frame->GetBody();
+	double erad = MaxEffectRad(body, m_ship);
+	if ((m_target && body != m_target)
+		|| (m_targframe && (!m_tangent || body != m_targframe->GetBody())))
+	{
+		int coll = CheckCollision(m_ship, reldir, targdist, targpos, m_endvel, erad);
+		if (coll == 0) {				// no collision
+			if (m_child) { delete m_child; m_child = 0; }
 		}
+		else if (coll == 1) {			// below feature height, target not below
+			double ang = m_ship->AIFaceDirection(m_ship->GetPosition());
+			//add engine juice on fast asteroid approach
+			m_ship->AIMatchVel(ang < 0.05 ? m_ship->GetJuice()*1000.0 * m_ship->GetPosition().Normalized() : vector3d(0.0));
+		}
+		else {							// same thing for 2/3/4
+			if (!m_child) m_child = new AICmdFlyAround(m_ship, m_frame->GetBody(), erad*1.05, 0.0);
+			static_cast<AICmdFlyAround*>(m_child)->SetTargPos(targpos);
+			ProcessChild();
+		}
+		if (coll) { m_state = -coll; return false; }
+	}
 	if (m_state < 0 && m_state > -6 && m_tangent) return true;			// bail out
 	if (m_state < 0) m_state = targdist > 10000000.0 ? 1 : 0;			// still lame
 
