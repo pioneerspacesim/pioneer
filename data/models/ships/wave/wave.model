@@ -28,11 +28,11 @@ specular 0 0 0
 
 lod 50
 mesh wave-mq.dae
-mesh shield.DAE
+mesh shieldfield.DAE
 
 lod 1000
 mesh wave.dae
-mesh shield.DAE
+mesh shieldfield.DAE
 anim gear_down 0 85
 
 collision wave-collision.obj
