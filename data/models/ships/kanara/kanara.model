@@ -19,10 +19,21 @@ specular 1.0 1.0 1.0
 tex_diff thrus.png
 shininess 128
 
+material shield
+tex_diff shielddiff.png
+tex_glow shieldglow.png
+tex_spec shieldspec.png
+diffuse 1.0 1.0 1.0
+opacity 98
+specular 1 1 1
+shininess 0
+
 lod 1000
 mesh kanara.dae
+mesh shieldfield.DAE
 
 lod 20
 mesh kanara-low.dae
+mesh shieldfield.DAE
 
 collision kanara_collision.obj
