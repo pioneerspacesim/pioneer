@@ -173,9 +173,10 @@ void SpaceStation::InitStation()
 		m_type = &SpaceStationType::orbitalStationTypes[ rand.Int32(SpaceStationType::orbitalStationTypes.size()) ];
 	}
 
-	assert(m_shipDocking.empty());
-	for (unsigned int i=0; i<m_type->numDockingPorts; i++) {
-		m_shipDocking.push_back(shipDocking_t());
+	if(m_shipDocking.empty()) {
+		for (unsigned int i=0; i<m_type->numDockingPorts; i++) {
+			m_shipDocking.push_back(shipDocking_t());
+		}
 	}
 
 	// This SpaceStation's bay groups is an instance of...
