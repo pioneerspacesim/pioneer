@@ -51,6 +51,7 @@
 		Constants.EquipType strings, updated by spawnInitialShips
 --]]
 local trade_ships, system_updated, from_paths, starports, vacuum_starports, imports, exports
+local num_trade_ships
 
 local addFuel = function (ship)
 	local drive = ship:GetEquip('ENGINE', 1)
@@ -200,7 +201,12 @@ local getNearestStarport = function (ship, current)
 	for i = 1, #starports do
 		local next_starport = starports[i]
 		if next_starport ~= current then
-			local next_distance = ship:DistanceTo(next_starport)
+			local next_distance
+			if (Engine.rand:Integer(1,100) <= 20) then
+			        next_distance = Game.player:DistanceTo(next_starport)  --20% follow your nearet ports.
+			else
+				next_distance = ship:DistanceTo(next_starport)
+			end
 			local next_canland = (trader.ATMOSHIELD or
 				(next_starport.type == 'STARPORT_ORBITAL') or
 				(not next_starport.path:GetSystemBody().parent.hasAtmosphere))
@@ -346,7 +352,7 @@ local spawnInitialShips = function (game_start)
 	-- determine how many trade ships to spawn
 	local lawlessness = Game.system.lawlessness
 	-- start with three ships per two billion population
-	local num_trade_ships = population * 1.5
+	num_trade_ships = population * 4
 	-- add the average of import_score and export_score
 	num_trade_ships = num_trade_ships + (import_score + export_score) / 2
 	-- reduce based on lawlessness
@@ -360,7 +366,7 @@ local spawnInitialShips = function (game_start)
 		range = range * 1.5
 	end
 	-- the base number of seconds between ships spawned in hyperspace
-	trade_ships['interval'] = (864000 / (num_trade_ships / 4))
+	trade_ships['interval'] = (864000 / (num_trade_ships / 10))
 	-- get nearby system paths for hyperspace spawns to come from
 	local from_systems, dist = {}, 10
 	while #from_systems < 10 do
@@ -440,7 +446,7 @@ local spawnInitialShips = function (game_start)
 		if trader.status == 'docked' then
 			local delay = fuel_added + addShipCargo(ship, 'export')
 			-- have ship wait 30-45 seconds per unit of cargo
-			trader['delay'] = Game.time + (delay * Engine.rand:Number(30, 45))
+			trader['delay'] = Game.time + (delay * Engine.rand:Number(4, 8))
 			Timer:CallAt(trader.delay, function () doUndock(ship) end)
 		else
 			addShipCargo(ship, 'import')
@@ -518,6 +524,7 @@ local cleanTradeShipsTable = function ()
 			end
 		end
 	end
+	if ( total-hyperspace < num_trade_ships ) then spawnReplacement() end
 	print('cleanTSTable:total:'..total..',active:'..total - hyperspace..',removed:'..removed)
 end
 
@@ -630,9 +637,9 @@ local onShipDocked = function (ship, starport)
 	-- delay undocking by 30-45 seconds for every unit of cargo transfered
 	-- or 2-3 minutes for every unit of hull repaired
 	if delay > 0 then
-		trader['delay'] = Game.time + (delay * Engine.rand:Number(30, 45))
+		trader['delay'] = Game.time + (delay * Engine.rand:Number(4, 8))
 	else
-		trader['delay'] = Game.time + Engine.rand:Number(600, 3600)
+		trader['delay'] = Game.time + Engine.rand:Number(6, 10)
 	end
 
 	if trader.status == 'docked' then
@@ -664,10 +671,10 @@ local onAICompleted = function (ship, ai_error)
 		end
 	elseif trader.status == 'orbit' then
 		if ai_error == 'NONE' then
-			trader['delay'] = Game.time + 21600 -- 6 hours
+			trader['delay'] = Game.time + 120 -- 6 hours
 			Timer:CallAt(trader.delay, function ()
 				if ship:exists() and ship.flightState ~= 'HYPERSPACE' then
-					trader['starport'] = getNearestStarport(ship, trader.starport)
+					trader['starport'] = getNearestStarport(ship)
 					ship:AIDockWith(trader.starport)
 					trader['status'] = 'inbound'
 					trader['delay'] = nil
