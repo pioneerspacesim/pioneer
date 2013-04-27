@@ -675,19 +675,18 @@ extern double calc_ivel(double dist, double vel, double acc);
 // Fly to vicinity of body
 AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target) : AICommand(ship, CMD_FLYTO)
 {
+	m_frame = 0; m_state = -6; m_lockhead = true; m_endvel = 0; m_tangent = false;
+	if (!target->IsType(Object::TERRAINBODY)) m_dist = VICINITY_MIN;
+	else m_dist = VICINITY_MUL*MaxEffectRad(target, ship);
 
-		m_frame = 0; m_state = -6; m_lockhead = true; m_endvel = 0; m_tangent = false;
-		if (!target->IsType(Object::TERRAINBODY)) m_dist = VICINITY_MIN;
-		else m_dist = VICINITY_MUL*MaxEffectRad(target, ship);
+	if (target->IsType(Object::SPACESTATION) && static_cast<SpaceStation*>(target)->IsGroundStation()) {
+		m_posoff = target->GetPosition() + 15000.0 * target->GetOrient().VectorY();
+	//	m_posoff += 500.0 * target->GetOrient().VectorX();
+		m_targframe = target->GetFrame(); m_target = 0;
+	}
+	else { m_target = target; m_targframe = 0; }
 
-		if (target->IsType(Object::SPACESTATION) && static_cast<SpaceStation*>(target)->IsGroundStation()) {
-			m_posoff = target->GetPosition() + 15000.0 * target->GetOrient().VectorY();
-	//		m_posoff += 500.0 * target->GetOrient().VectorX();
-			m_targframe = target->GetFrame(); m_target = 0;
-		}
-		else { m_target = target; m_targframe = 0; }
-
-		if (ship->GetPositionRelTo(target).Length() <= 15000.0) m_targframe = 0;
+	if (ship->GetPositionRelTo(target).Length() <= 15000.0) m_targframe = 0;
 }
 
 // Specified pos, endvel should be > 0
