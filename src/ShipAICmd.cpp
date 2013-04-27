@@ -829,68 +829,68 @@ bool AICmdFlyTo::TimeStepUpdate()
 			}
 			if (coll) { m_state = -coll; return false; }
 		}
-		if (m_state < 0 && m_state > -6 && m_tangent) return true;			// bail out
-		if (m_state < 0) m_state = targdist > 10000000.0 ? 1 : 0;			// still lame
+	if (m_state < 0 && m_state > -6 && m_tangent) return true;			// bail out
+	if (m_state < 0) m_state = targdist > 10000000.0 ? 1 : 0;			// still lame
 
-		double maxdecel = m_state ? m_ship->GetAccelFwd() : m_ship->GetAccelRev();
-		double gravdir = -reldir.Dot(m_ship->GetPosition().Normalized());
-		maxdecel -= gravdir * GetGravityAtPos(m_ship->GetFrame(), m_ship->GetPosition());
-		if (maxdecel < 0) maxdecel = 0.0;
+	double maxdecel = m_state ? m_ship->GetAccelFwd() : m_ship->GetAccelRev();
+	double gravdir = -reldir.Dot(m_ship->GetPosition().Normalized());
+	maxdecel -= gravdir * GetGravityAtPos(m_ship->GetFrame(), m_ship->GetPosition());
+	if (maxdecel < 0) maxdecel = 0.0;
 
-		// target ship acceleration adjustment
-		if (m_target && m_target->IsType(Object::SHIP)) {
-			Ship *targship = static_cast<Ship*>(m_target);
-			matrix3x3d orient = m_target->GetFrame()->GetOrientRelTo(m_frame);
-			vector3d targaccel = orient * targship->GetLastForce() / m_target->GetMass();
-			// fudge: targets accelerating towards you are usually going to flip
-			if (targaccel.Dot(reldir) < 0.0 && !targship->IsDecelerating()) targaccel *= 0.5;
-			relvel += targaccel * timestep;
-			maxdecel += targaccel.Dot(reldir);
-			// if we have margin lower than 10%, fly as if 10% anyway
-			maxdecel = std::max(maxdecel, 0.1*m_ship->GetAccelFwd());
-		}
+	// target ship acceleration adjustment
+	if (m_target && m_target->IsType(Object::SHIP)) {
+		Ship *targship = static_cast<Ship*>(m_target);
+		matrix3x3d orient = m_target->GetFrame()->GetOrientRelTo(m_frame);
+		vector3d targaccel = orient * targship->GetLastForce() / m_target->GetMass();
+		// fudge: targets accelerating towards you are usually going to flip
+		if (targaccel.Dot(reldir) < 0.0 && !targship->IsDecelerating()) targaccel *= 0.5;
+		relvel += targaccel * timestep;
+		maxdecel += targaccel.Dot(reldir);
+		// if we have margin lower than 10%, fly as if 10% anyway
+		maxdecel = std::max(maxdecel, 0.1*m_ship->GetAccelFwd());
+	}
 
-		double curspeed = -relvel.Dot(reldir);
-		double tt = sqrt(2.0*targdist / maxdecel);
-		if (tt < timestep) tt = timestep;
-		vector3d perpvel = relvel + reldir * curspeed;
-		double perpspeed = perpvel.Length();
-		vector3d perpdir = (perpspeed > 1e-30) ? perpvel / perpspeed : vector3d(0,0,1);
+	double curspeed = -relvel.Dot(reldir);
+	double tt = sqrt(2.0*targdist / maxdecel);
+	if (tt < timestep) tt = timestep;
+	vector3d perpvel = relvel + reldir * curspeed;
+	double perpspeed = perpvel.Length();
+	vector3d perpdir = (perpspeed > 1e-30) ? perpvel / perpspeed : vector3d(0,0,1);
 
-		double sidefactor = perpspeed / (tt*0.5);
-		if (curspeed > (tt+timestep)*maxdecel || maxdecel < sidefactor) {
-			m_ship->AIFaceDirection(relvel);
-			m_ship->AIMatchVel(targvel);
-			m_state = -5; return false;
-		}
-		else maxdecel = sqrt(maxdecel*maxdecel - sidefactor*sidefactor);
+	double sidefactor = perpspeed / (tt*0.5);
+	if (curspeed > (tt+timestep)*maxdecel || maxdecel < sidefactor) {
+		m_ship->AIFaceDirection(relvel);
+		m_ship->AIMatchVel(targvel);
+		m_state = -5; return false;
+	}
+	else maxdecel = sqrt(maxdecel*maxdecel - sidefactor*sidefactor);
 
-		// ignore targvel if we could clear with side thrusters in a fraction of minimum time
-	//	if (perpspeed < tt*0.01*m_ship->GetAccelMin()) perpspeed = 0;
+	// ignore targvel if we could clear with side thrusters in a fraction of minimum time
+//	if (perpspeed < tt*0.01*m_ship->GetAccelMin()) perpspeed = 0;
 
-		// calculate target speed
-		double ispeed = (maxdecel < 1e-10) ? 0.0 : calc_ivel(targdist, m_endvel, maxdecel);
+	// calculate target speed
+	double ispeed = (maxdecel < 1e-10) ? 0.0 : calc_ivel(targdist, m_endvel, maxdecel);
 
-		// cap target speed according to spare fuel remaining
-		double fuelspeed = m_ship->GetSpeedReachedWithFuel();
-		if (m_target && m_target->IsType(Object::SHIP)) fuelspeed -=
-			m_ship->GetVelocityRelTo(Pi::game->GetSpace()->GetRootFrame()).Length();
-		if (ispeed > curspeed && curspeed > 0.9*fuelspeed) ispeed = curspeed;
+	// cap target speed according to spare fuel remaining
+	double fuelspeed = m_ship->GetSpeedReachedWithFuel();
+	if (m_target && m_target->IsType(Object::SHIP)) fuelspeed -=
+		m_ship->GetVelocityRelTo(Pi::game->GetSpace()->GetRootFrame()).Length();
+	if (ispeed > curspeed && curspeed > 0.9*fuelspeed) ispeed = curspeed;
 
-		// Don't exit a frame faster than some fraction of radius
-	//	double maxframespeed = 0.2 * m_frame->GetRadius() / timestep;
-	//	if (m_frame->GetParent() && ispeed > maxframespeed) ispeed = maxframespeed;
+	// Don't exit a frame faster than some fraction of radius
+//	double maxframespeed = 0.2 * m_frame->GetRadius() / timestep;
+//	if (m_frame->GetParent() && ispeed > maxframespeed) ispeed = maxframespeed;
 
-		// cap perpspeed according to what's needed now
-		perpspeed = std::min(perpspeed, 2.0*sidefactor*timestep);
+	// cap perpspeed according to what's needed now
+	perpspeed = std::min(perpspeed, 2.0*sidefactor*timestep);
 	
-		// cap sdiff by thrust...
-		double sdiff = ispeed - curspeed;
-		double linaccel = sdiff < 0 ?
-			std::max(sdiff, -m_ship->GetAccelFwd()*timestep) :
-			std::min(sdiff, m_ship->GetAccelFwd()*timestep);
-		//linaccel*=180.0;
-		//sdiff/=180.0;
+	// cap sdiff by thrust...
+	double sdiff = ispeed - curspeed;
+	double linaccel = sdiff < 0 ?
+		std::max(sdiff, -m_ship->GetAccelFwd()*timestep) :
+		std::min(sdiff, m_ship->GetAccelFwd()*timestep);
+	//linaccel*=180.0;
+	//sdiff/=180.0;
 
 	// linear thrust application, decel check
 	vector3d vdiff = linaccel*reldir + perpspeed*perpdir;
