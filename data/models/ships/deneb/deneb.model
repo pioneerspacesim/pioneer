@@ -5,20 +5,33 @@ tex_diff deneb.png
 tex_glow deneb_glow.png
 tex_spec deneb_spec.png
 
+material shield
+tex_diff shielddiff.png
+tex_glow shieldglow.png
+tex_spec shieldspec.png
+diffuse 1.0 1.0 1.0
+opacity 98
+specular 1 1 1
+shininess 0
+
 collision deneb_collision.obj
 
 # LOD
 lod 1000
 mesh deneb.dae
+mesh shieldfield.DAE
 
 lod 500
 mesh deneb_medhigh.dae
+mesh shieldfield.DAE
 
 lod 100
 mesh deneb_med.dae
+mesh shieldfield.DAE
 
 lod 20
 mesh deneb_low.dae
+mesh shieldfield.DAE
 
 # Animations
 anim gear_down 0 73
