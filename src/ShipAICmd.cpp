@@ -892,31 +892,31 @@ bool AICmdFlyTo::TimeStepUpdate()
 		//linaccel*=180.0;
 		//sdiff/=180.0;
 
-		// linear thrust application, decel check
-		vector3d vdiff = linaccel*reldir + perpspeed*perpdir;
-		bool decel = sdiff <= 0;
-		m_ship->SetDecelerating(decel);
-		if (decel) m_ship->AIChangeVelBy(vdiff * m_ship->GetOrient());
-		else m_ship->AIChangeVelDir(vdiff * m_ship->GetOrient());
+	// linear thrust application, decel check
+	vector3d vdiff = linaccel*reldir + perpspeed*perpdir;
+	bool decel = sdiff <= 0;
+	m_ship->SetDecelerating(decel);
+	if (decel) m_ship->AIChangeVelBy(vdiff * m_ship->GetOrient());
+	else m_ship->AIChangeVelDir(vdiff * m_ship->GetOrient());
 
-		// work out which way to head 
-		vector3d head = reldir;
-		if (!m_state && sdiff < -1.2*maxdecel*timestep) m_state = 1;
-		if (m_state && sdiff < maxdecel*timestep*60) head = -head;
-		if (!m_state && decel) sidefactor = -sidefactor;
-		head = head*maxdecel + perpdir*sidefactor;
+	// work out which way to head 
+	vector3d head = reldir;
+	if (!m_state && sdiff < -1.2*maxdecel*timestep) m_state = 1;
+	if (m_state && sdiff < maxdecel*timestep*60) head = -head;
+	if (!m_state && decel) sidefactor = -sidefactor;
+	head = head*maxdecel + perpdir*sidefactor;
 
-		// face appropriate direction
-		if (m_state >= 3) m_ship->AIMatchAngVelObjSpace(vector3d(0.0));
-		else m_ship->AIFaceDirection(head);
-		if (body && body->IsType(Object::PLANET) && m_ship->GetPosition().LengthSqr() < 2*erad*erad)
-			m_ship->AIFaceUpdir(m_ship->GetPosition());		// turn bottom thruster towards planet
+	// face appropriate direction
+	if (m_state >= 3) m_ship->AIMatchAngVelObjSpace(vector3d(0.0));
+	else m_ship->AIFaceDirection(head);
+	if (body && body->IsType(Object::PLANET) && m_ship->GetPosition().LengthSqr() < 2*erad*erad)
+		m_ship->AIFaceUpdir(m_ship->GetPosition());		// turn bottom thruster towards planet
 
-		// termination conditions: check
-		if (m_state >= 3) return true;					// finished last adjustment, hopefully
-		if (m_endvel > 0.0) { if (reldir.Dot(m_reldir) < 0.9) return true; }
-		else if (targdist < 0.5*m_ship->GetAccelMin()*timestep*timestep) m_state = 3;
-		return false;
+	// termination conditions: check
+	if (m_state >= 3) return true;					// finished last adjustment, hopefully
+	if (m_endvel > 0.0) { if (reldir.Dot(m_reldir) < 0.9) return true; }
+	else if (targdist < 0.5*m_ship->GetAccelMin()*timestep*timestep) m_state = 3;
+	return false;
 }
 
 
