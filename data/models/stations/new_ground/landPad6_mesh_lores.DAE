@@ -11,62 +11,36 @@
     <up_axis>Y_UP</up_axis>
   </asset>
   <library_images>
-    <image id="m1c_b_metall1-diffuse-image">
+    <image id="m0c_b_metall1-diffuse-image">
       <init_from>D%3a\RefDesktop\Spaceships\scifi3d_com\landplat3DS\Steelplt.jpg</init_from>
     </image>
-    <image id="m2c_b_metall1a-diffuse-image">
+    <image id="m1c_b_metall1a-diffuse-image">
       <init_from>C%3a\Users\andrew\Desktop\LandPad1or6\LiftColumn.png</init_from>
     </image>
-    <image id="m3palt_glow-diffuse-image">
+    <image id="m2palt_glow-diffuse-image">
       <init_from>C%3a\Users\andrew\Desktop\LandPad1or6\LiftColumn.png</init_from>
     </image>
-    <image id="m3palt_glow-emissive-image">
+    <image id="m2palt_glow-emissive-image">
       <init_from>C%3a\Users\andrew\Desktop\LandPad1or6\LiftColumn_illum.png</init_from>
     </image>
-    <image id="m4plat_ground_meta-diffuse-image">
+    <image id="m3plat_ground_meta-diffuse-image">
       <init_from>D%3a\RefDesktop\Spaceships\scifi3d_com\landplat3DS\C_METALL.JPG</init_from>
     </image>
-    <image id="m5plat_lift_column-diffuse-image">
+    <image id="m4plat_lift_column-diffuse-image">
       <init_from>D%3a\RefDesktop\Spaceships\scifi3d_com\landplat3DS\LiftColumn.png</init_from>
     </image>
   </library_images>
   <library_effects>
-    <effect id="m0Pad_material-fx" name="m0Pad_material">
+    <effect id="m0c_b_metall1-fx" name="m0c_b_metall1">
       <profile_COMMON>
-        <technique sid="standard">
-          <phong>
-            <emission>
-              <color sid="emission">0   0   0   1</color>
-            </emission>
-            <ambient>
-              <color sid="ambient">0.8   0.8   0.8   1</color>
-            </ambient>
-            <diffuse>
-              <color sid="diffuse">0.8   0.8   0.8   1</color>
-            </diffuse>
-            <specular>
-              <color sid="specular">0.5   0.5   0.5   1</color>
-            </specular>
-            <shininess>
-              <float sid="shininess">32</float>
-            </shininess>
-            <reflective>
-              <color sid="reflective">0   0   0   1</color>
-            </reflective>
-          </phong>
-        </technique>
-      </profile_COMMON>
-    </effect>
-    <effect id="m1c_b_metall1-fx" name="m1c_b_metall1">
-      <profile_COMMON>
-        <newparam sid="m1c_b_metall1-diffuse-surface">
+        <newparam sid="m0c_b_metall1-diffuse-surface">
           <surface type="2D">
-            <init_from>m1c_b_metall1-diffuse-image</init_from>
+            <init_from>m0c_b_metall1-diffuse-image</init_from>
           </surface>
         </newparam>
-        <newparam sid="m1c_b_metall1-diffuse-sampler">
+        <newparam sid="m0c_b_metall1-diffuse-sampler">
           <sampler2D>
-            <source>m1c_b_metall1-diffuse-surface</source>
+            <source>m0c_b_metall1-diffuse-surface</source>
           </sampler2D>
         </newparam>
         <technique sid="standard">
@@ -78,7 +52,7 @@
               <color sid="ambient">0.752941   0.752941   0.788235   1</color>
             </ambient>
             <diffuse>
-              <texture texture="m1c_b_metall1-diffuse-sampler" texcoord="CHANNEL0" />
+              <texture texture="m0c_b_metall1-diffuse-sampler" texcoord="CHANNEL0" />
             </diffuse>
             <specular>
               <color sid="specular">0   0   0   1</color>
@@ -93,16 +67,16 @@
         </technique>
       </profile_COMMON>
     </effect>
-    <effect id="m2c_b_metall1a-fx" name="m2c_b_metall1a">
+    <effect id="m1c_b_metall1a-fx" name="m1c_b_metall1a">
       <profile_COMMON>
-        <newparam sid="m2c_b_metall1a-diffuse-surface">
+        <newparam sid="m1c_b_metall1a-diffuse-surface">
           <surface type="2D">
-            <init_from>m2c_b_metall1a-diffuse-image</init_from>
+            <init_from>m1c_b_metall1a-diffuse-image</init_from>
           </surface>
         </newparam>
-        <newparam sid="m2c_b_metall1a-diffuse-sampler">
+        <newparam sid="m1c_b_metall1a-diffuse-sampler">
           <sampler2D>
-            <source>m2c_b_metall1a-diffuse-surface</source>
+            <source>m1c_b_metall1a-diffuse-surface</source>
           </sampler2D>
         </newparam>
         <technique sid="standard">
@@ -114,7 +88,7 @@
               <color sid="ambient">0.486275   0.486275   0.509804   1</color>
             </ambient>
             <diffuse>
-              <texture texture="m2c_b_metall1a-diffuse-sampler" texcoord="CHANNEL0" />
+              <texture texture="m1c_b_metall1a-diffuse-sampler" texcoord="CHANNEL0" />
             </diffuse>
             <specular>
               <color sid="specular">0   0   0   1</color>
@@ -129,38 +103,38 @@
         </technique>
       </profile_COMMON>
     </effect>
-    <effect id="m3palt_glow-fx" name="m3palt_glow">
+    <effect id="m2palt_glow-fx" name="m2palt_glow">
       <profile_COMMON>
-        <newparam sid="m3palt_glow-emissive-surface">
+        <newparam sid="m2palt_glow-emissive-surface">
           <surface type="2D">
-            <init_from>m3palt_glow-emissive-image</init_from>
+            <init_from>m2palt_glow-emissive-image</init_from>
           </surface>
         </newparam>
-        <newparam sid="m3palt_glow-emissive-sampler">
+        <newparam sid="m2palt_glow-emissive-sampler">
           <sampler2D>
-            <source>m3palt_glow-emissive-surface</source>
+            <source>m2palt_glow-emissive-surface</source>
           </sampler2D>
         </newparam>
-        <newparam sid="m3palt_glow-diffuse-surface">
+        <newparam sid="m2palt_glow-diffuse-surface">
           <surface type="2D">
-            <init_from>m3palt_glow-diffuse-image</init_from>
+            <init_from>m2palt_glow-diffuse-image</init_from>
           </surface>
         </newparam>
-        <newparam sid="m3palt_glow-diffuse-sampler">
+        <newparam sid="m2palt_glow-diffuse-sampler">
           <sampler2D>
-            <source>m3palt_glow-diffuse-surface</source>
+            <source>m2palt_glow-diffuse-surface</source>
           </sampler2D>
         </newparam>
         <technique sid="standard">
           <phong>
             <emission>
-              <texture texture="m3palt_glow-emissive-sampler" texcoord="CHANNEL0" />
+              <texture texture="m2palt_glow-emissive-sampler" texcoord="CHANNEL0" />
             </emission>
             <ambient>
               <color sid="ambient">1   1   1   1</color>
             </ambient>
             <diffuse>
-              <texture texture="m3palt_glow-diffuse-sampler" texcoord="CHANNEL0" />
+              <texture texture="m2palt_glow-diffuse-sampler" texcoord="CHANNEL0" />
             </diffuse>
             <specular>
               <color sid="specular">0   0   0   1</color>
@@ -175,16 +149,16 @@
         </technique>
       </profile_COMMON>
     </effect>
-    <effect id="m4plat_ground_meta-fx" name="m4plat_ground_meta">
+    <effect id="m3plat_ground_meta-fx" name="m3plat_ground_meta">
       <profile_COMMON>
-        <newparam sid="m4plat_ground_meta-diffuse-surface">
+        <newparam sid="m3plat_ground_meta-diffuse-surface">
           <surface type="2D">
-            <init_from>m4plat_ground_meta-diffuse-image</init_from>
+            <init_from>m3plat_ground_meta-diffuse-image</init_from>
           </surface>
         </newparam>
-        <newparam sid="m4plat_ground_meta-diffuse-sampler">
+        <newparam sid="m3plat_ground_meta-diffuse-sampler">
           <sampler2D>
-            <source>m4plat_ground_meta-diffuse-surface</source>
+            <source>m3plat_ground_meta-diffuse-surface</source>
           </sampler2D>
         </newparam>
         <technique sid="standard">
@@ -196,7 +170,7 @@
               <color sid="ambient">0.498039   0.498039   0.498039   1</color>
             </ambient>
             <diffuse>
-              <texture texture="m4plat_ground_meta-diffuse-sampler" texcoord="CHANNEL0" />
+              <texture texture="m3plat_ground_meta-diffuse-sampler" texcoord="CHANNEL0" />
             </diffuse>
             <specular>
               <color sid="specular">0   0   0   1</color>
@@ -211,16 +185,16 @@
         </technique>
       </profile_COMMON>
     </effect>
-    <effect id="m5plat_lift_column-fx" name="m5plat_lift_column">
+    <effect id="m4plat_lift_column-fx" name="m4plat_lift_column">
       <profile_COMMON>
-        <newparam sid="m5plat_lift_column-diffuse-surface">
+        <newparam sid="m4plat_lift_column-diffuse-surface">
           <surface type="2D">
-            <init_from>m5plat_lift_column-diffuse-image</init_from>
+            <init_from>m4plat_lift_column-diffuse-image</init_from>
           </surface>
         </newparam>
-        <newparam sid="m5plat_lift_column-diffuse-sampler">
+        <newparam sid="m4plat_lift_column-diffuse-sampler">
           <sampler2D>
-            <source>m5plat_lift_column-diffuse-surface</source>
+            <source>m4plat_lift_column-diffuse-surface</source>
           </sampler2D>
         </newparam>
         <technique sid="standard">
@@ -232,7 +206,7 @@
               <color sid="ambient">0.498039   0.498039   0.498039   1</color>
             </ambient>
             <diffuse>
-              <texture texture="m5plat_lift_column-diffuse-sampler" texcoord="CHANNEL0" />
+              <texture texture="m4plat_lift_column-diffuse-sampler" texcoord="CHANNEL0" />
             </diffuse>
             <specular>
               <color sid="specular">0   0   0   1</color>
@@ -249,23 +223,20 @@
     </effect>
   </library_effects>
   <library_materials>
-    <material id="m0Pad_material" name="m0Pad_material">
-      <instance_effect url="#m0Pad_material-fx"/>
+    <material id="m0c_b_metall1" name="m0c_b_metall1">
+      <instance_effect url="#m0c_b_metall1-fx"/>
     </material>
-    <material id="m1c_b_metall1" name="m1c_b_metall1">
-      <instance_effect url="#m1c_b_metall1-fx"/>
+    <material id="m1c_b_metall1a" name="m1c_b_metall1a">
+      <instance_effect url="#m1c_b_metall1a-fx"/>
     </material>
-    <material id="m2c_b_metall1a" name="m2c_b_metall1a">
-      <instance_effect url="#m2c_b_metall1a-fx"/>
+    <material id="m2palt_glow" name="m2palt_glow">
+      <instance_effect url="#m2palt_glow-fx"/>
     </material>
-    <material id="m3palt_glow" name="m3palt_glow">
-      <instance_effect url="#m3palt_glow-fx"/>
+    <material id="m3plat_ground_meta" name="m3plat_ground_meta">
+      <instance_effect url="#m3plat_ground_meta-fx"/>
     </material>
-    <material id="m4plat_ground_meta" name="m4plat_ground_meta">
-      <instance_effect url="#m4plat_ground_meta-fx"/>
-    </material>
-    <material id="m5plat_lift_column" name="m5plat_lift_column">
-      <instance_effect url="#m5plat_lift_column-fx"/>
+    <material id="m4plat_lift_column" name="m4plat_lift_column">
+      <instance_effect url="#m4plat_lift_column-fx"/>
     </material>
   </library_materials>
   <library_geometries>
@@ -570,73 +541,11 @@
         </polylist>
       </mesh>
     </geometry>
-    <geometry id="meshId7" name="meshId7_name" >
-      <mesh>
-        <source id="meshId7-positions" name="meshId7-positions">
-          <float_array id="meshId7-positions-array" count="9"> -188.156 -0.561339 -10.7911 -188.156 17.1356 -10.7911 -182.368 15.7934 3.5318 </float_array>
-          <technique_common>
-            <accessor count="3" offset="0" source="#meshId7-positions-array" stride="3">
-              <param name="X" type="float" />
-              <param name="Y" type="float" />
-              <param name="Z" type="float" />
-            </accessor>
-          </technique_common>
-        </source>
-        <source id="meshId7-normals" name="meshId7-normals">
-          <float_array id="meshId7-normals-array" count="9"> -0.927157 0 0.374672 -0.927157 0 0.374672 -0.927157 0 0.374672 </float_array>
-          <technique_common>
-            <accessor count="3" offset="0" source="#meshId7-normals-array" stride="3">
-              <param name="X" type="float" />
-              <param name="Y" type="float" />
-              <param name="Z" type="float" />
-            </accessor>
-          </technique_common>
-        </source>
-        <source id="meshId7-tex0" name="meshId7-tex0">
-          <float_array id="meshId7-tex0-array" count="6"> 0.01 0.823333 0.01 0.676667 0.323333 0.676667 </float_array>
-          <technique_common>
-            <accessor count="3" offset="0" source="#meshId7-tex0-array" stride="2">
-              <param name="S" type="float" />
-              <param name="T" type="float" />
-            </accessor>
-          </technique_common>
-        </source>
-        <vertices id="meshId7-vertices">
-          <input semantic="POSITION" source="#meshId7-positions" />
-          <input semantic="NORMAL" source="#meshId7-normals" />
-          <input semantic="TEXCOORD" source="#meshId7-tex0"  />
-        </vertices>
-        <polylist count="1" material="theresonlyone">
-          <input offset="0" semantic="VERTEX" source="#meshId7-vertices" />
-          <vcount>3 </vcount>
-          <p>2 1 0 </p>
-        </polylist>
-      </mesh>
-    </geometry>
   </library_geometries>
   <library_visual_scenes>
     <visual_scene id="myScene" name="myScene">
       <node id="RootNode" name="RootNode">
         <matrix>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
-        <node id="DummyGeomToExport" name="DummyGeomToExport">
-          <matrix>0.021278 0 0 150 0 0 0.0254 0 0 -0.021278 0 -300 0 0 0 1</matrix>
-          <instance_geometry url="#meshId7">
-            <bind_material>
-              <technique_common>
-                <instance_material symbol="theresonlyone" target="#m0Pad_material" />
-              </technique_common>
-            </bind_material>
-          </instance_geometry>
-        </node>
-        <node id="docking_stage1_bay1" name="docking_stage1_bay1">
-          <matrix>0.254 0 0 150 0 0.254 0 73 0 0 0.254 -300 0 0 0 1</matrix>
-        </node>
-        <node id="approach_stage2_bay1" name="approach_stage2_bay1">
-          <matrix>1 0 0 150 0 1 0 73 0 0 1 -300 0 0 0 1</matrix>
-        </node>
-        <node id="approach_stage1_bay1" name="approach_stage1_bay1">
-          <matrix>1 0 0 150 0 1 0 500 0 0 1 -300 0 0 0 1</matrix>
-        </node>
         <node id="navlight_red" name="navlight_red">
           <matrix>1 0 0 250.942 0 0 1 101.471 0 -1 0 -332.876 0 0 0 1</matrix>
         </node>
@@ -654,15 +563,6 @@
         </node>
         <node id="navlight_pad1_04" name="navlight_pad1_04">
           <matrix>1 0 0 179.76 0 0 1 73 0 -1 0 -259.929 0 0 0 1</matrix>
-        </node>
-        <node id="docking_stage1_bay02" name="docking_stage1_bay02">
-          <matrix>0.254 0 0 -150 0 0.254 0 73 0 0 0.254 -300 0 0 0 1</matrix>
-        </node>
-        <node id="approach_stage2_bay02" name="approach_stage2_bay02">
-          <matrix>1 0 0 -150 0 1 0 73 0 0 1 -300 0 0 0 1</matrix>
-        </node>
-        <node id="approach_stage1_bay02" name="approach_stage1_bay02">
-          <matrix>1 0 0 -150 0 1 0 500 0 0 1 -300 0 0 0 1</matrix>
         </node>
         <node id="navlight_red01" name="navlight_red01">
           <matrix>1 0 0 -49.0579 0 0 1 101.471 0 -1 0 -332.876 0 0 0 1</matrix>
@@ -682,15 +582,6 @@
         <node id="navlight_pad2_08" name="navlight_pad2_08">
           <matrix>1 0 0 -120.24 0 0 1 73 0 -1 0 -259.929 0 0 0 1</matrix>
         </node>
-        <node id="docking_stage1_bay03" name="docking_stage1_bay03">
-          <matrix>0.254 0 0 150 0 0.254 0 73 0 0 0.254 -8e-006 0 0 0 1</matrix>
-        </node>
-        <node id="approach_stage2_bay03" name="approach_stage2_bay03">
-          <matrix>1 0 0 150 0 1 0 73 0 0 1 -8e-006 0 0 0 1</matrix>
-        </node>
-        <node id="approach_stage1_bay03" name="approach_stage1_bay03">
-          <matrix>1 0 0 150 0 1 0 500 0 0 1 -8e-006 0 0 0 1</matrix>
-        </node>
         <node id="navlight_red02" name="navlight_red02">
           <matrix>1 0 0 250.942 0 0 1 101.471 0 -1 0 -32.8759 0 0 0 1</matrix>
         </node>
@@ -708,15 +599,6 @@
         </node>
         <node id="navlight_pad3_04" name="navlight_pad3_04">
           <matrix>1 0 0 179.76 0 0 1 73 0 -1 0 40.0711 0 0 0 1</matrix>
-        </node>
-        <node id="docking_stage1_bay04" name="docking_stage1_bay04">
-          <matrix>0.254 0 0 -150 0 0.254 0 73 0 0 0.254 -8e-006 0 0 0 1</matrix>
-        </node>
-        <node id="approach_stage2_bay04" name="approach_stage2_bay04">
-          <matrix>1 0 0 -150 0 1 0 73 0 0 1 -8e-006 0 0 0 1</matrix>
-        </node>
-        <node id="approach_stage1_bay04" name="approach_stage1_bay04">
-          <matrix>1 0 0 -150 0 1 0 500 0 0 1 -8e-006 0 0 0 1</matrix>
         </node>
         <node id="navlight_red03" name="navlight_red03">
           <matrix>1 0 0 -49.0579 0 0 1 101.471 0 -1 0 -32.8759 0 0 0 1</matrix>
@@ -739,15 +621,6 @@
         <node id="navlight_pad5_01" name="navlight_pad5_01">
           <matrix>1 0 0 179.76 0 0 1 73 0 -1 0 340.071 0 0 0 1</matrix>
         </node>
-        <node id="docking_stage1_bay05" name="docking_stage1_bay05">
-          <matrix>0.254 0 0 150 0 0.254 0 73 0 0 0.254 300 0 0 0 1</matrix>
-        </node>
-        <node id="approach_stage2_bay05" name="approach_stage2_bay05">
-          <matrix>1 0 0 150 0 1 0 73 0 0 1 300 0 0 0 1</matrix>
-        </node>
-        <node id="approach_stage1_bay05" name="approach_stage1_bay05">
-          <matrix>1 0 0 150 0 1 0 500 0 0 1 300 0 0 0 1</matrix>
-        </node>
         <node id="navlight_red04" name="navlight_red04">
           <matrix>1 0 0 250.942 0 0 1 101.471 0 -1 0 267.124 0 0 0 1</matrix>
         </node>
@@ -766,15 +639,6 @@
         <node id="navlight_pad6_00" name="navlight_pad6_00">
           <matrix>1 0 0 -120.24 0 0 1 73 0 -1 0 340.071 0 0 0 1</matrix>
         </node>
-        <node id="docking_stage1_bay06" name="docking_stage1_bay06">
-          <matrix>0.254 0 0 -150 0 0.254 0 73 0 0 0.254 300 0 0 0 1</matrix>
-        </node>
-        <node id="approach_stage2_bay06" name="approach_stage2_bay06">
-          <matrix>1 0 0 -150 0 1 0 73 0 0 1 300 0 0 0 1</matrix>
-        </node>
-        <node id="approach_stage1_bay06" name="approach_stage1_bay06">
-          <matrix>1 0 0 -150 0 1 0 500 0 0 1 300 0 0 0 1</matrix>
-        </node>
         <node id="navlight_red05" name="navlight_red05">
           <matrix>1 0 0 -49.0579 0 0 1 101.471 0 -1 0 267.124 0 0 0 1</matrix>
         </node>
@@ -790,332 +654,332 @@
         <node id="navlight_pad6_0003" name="navlight_pad6_0003">
           <matrix>1 0 0 -179.762 0 0 1 73 0 -1 0 340.071 0 0 0 1</matrix>
         </node>
-        <node id="PadWallOuter" name="PadWallOuter">
+        <node id="Low_PadWallOuter" name="Low_PadWallOuter">
           <matrix>1 0 0 73.3069 0 0 1 70.1801 0 -1 0 -327.499 0 0 0 1</matrix>
           <instance_geometry url="#meshId0">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m1c_b_metall1" />
+                <instance_material symbol="theresonlyone" target="#m0c_b_metall1" />
               </technique_common>
             </bind_material>
           </instance_geometry>
           <instance_geometry url="#meshId1">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m1c_b_metall1" />
+                <instance_material symbol="theresonlyone" target="#m0c_b_metall1" />
               </technique_common>
             </bind_material>
           </instance_geometry>
         </node>
-        <node id="LiftTower" name="LiftTower">
+        <node id="Low_LiftTower" name="Low_LiftTower">
           <matrix>1 0 0 250.991 0 0 1 -0.133106 0 -1 0 -267.594 0 0 0 1</matrix>
           <instance_geometry url="#meshId2">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m5plat_lift_column" />
+                <instance_material symbol="theresonlyone" target="#m4plat_lift_column" />
               </technique_common>
             </bind_material>
           </instance_geometry>
           <instance_geometry url="#meshId3">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m4plat_ground_meta" />
+                <instance_material symbol="theresonlyone" target="#m3plat_ground_meta" />
               </technique_common>
             </bind_material>
           </instance_geometry>
           <instance_geometry url="#meshId4">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m1c_b_metall1" />
+                <instance_material symbol="theresonlyone" target="#m0c_b_metall1" />
               </technique_common>
             </bind_material>
           </instance_geometry>
           <instance_geometry url="#meshId5">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m2c_b_metall1a" />
+                <instance_material symbol="theresonlyone" target="#m1c_b_metall1a" />
               </technique_common>
             </bind_material>
           </instance_geometry>
           <instance_geometry url="#meshId6">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m3palt_glow" />
+                <instance_material symbol="theresonlyone" target="#m2palt_glow" />
               </technique_common>
             </bind_material>
           </instance_geometry>
         </node>
-        <node id="PadWallOuter01" name="PadWallOuter01">
+        <node id="Low_PadWallOuter01" name="Low_PadWallOuter01">
           <matrix>1 0 0 -226.693 0 0 1 70.1801 0 -1 0 -327.499 0 0 0 1</matrix>
           <instance_geometry url="#meshId0">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m1c_b_metall1" />
+                <instance_material symbol="theresonlyone" target="#m0c_b_metall1" />
               </technique_common>
             </bind_material>
           </instance_geometry>
           <instance_geometry url="#meshId1">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m1c_b_metall1" />
+                <instance_material symbol="theresonlyone" target="#m0c_b_metall1" />
               </technique_common>
             </bind_material>
           </instance_geometry>
         </node>
-        <node id="LiftTower01" name="LiftTower01">
+        <node id="Low_LiftTower01" name="Low_LiftTower01">
           <matrix>1 0 0 -49.009 0 0 1 -0.133106 0 -1 0 -267.594 0 0 0 1</matrix>
           <instance_geometry url="#meshId2">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m5plat_lift_column" />
+                <instance_material symbol="theresonlyone" target="#m4plat_lift_column" />
               </technique_common>
             </bind_material>
           </instance_geometry>
           <instance_geometry url="#meshId3">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m4plat_ground_meta" />
+                <instance_material symbol="theresonlyone" target="#m3plat_ground_meta" />
               </technique_common>
             </bind_material>
           </instance_geometry>
           <instance_geometry url="#meshId4">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m1c_b_metall1" />
+                <instance_material symbol="theresonlyone" target="#m0c_b_metall1" />
               </technique_common>
             </bind_material>
           </instance_geometry>
           <instance_geometry url="#meshId5">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m2c_b_metall1a" />
+                <instance_material symbol="theresonlyone" target="#m1c_b_metall1a" />
               </technique_common>
             </bind_material>
           </instance_geometry>
           <instance_geometry url="#meshId6">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m3palt_glow" />
+                <instance_material symbol="theresonlyone" target="#m2palt_glow" />
               </technique_common>
             </bind_material>
           </instance_geometry>
         </node>
-        <node id="LiftTower02" name="LiftTower02">
+        <node id="Low_LiftTower02" name="Low_LiftTower02">
           <matrix>1 0 0 250.991 0 0 1 -0.133106 0 -1 0 32.4061 0 0 0 1</matrix>
           <instance_geometry url="#meshId2">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m5plat_lift_column" />
+                <instance_material symbol="theresonlyone" target="#m4plat_lift_column" />
               </technique_common>
             </bind_material>
           </instance_geometry>
           <instance_geometry url="#meshId3">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m4plat_ground_meta" />
+                <instance_material symbol="theresonlyone" target="#m3plat_ground_meta" />
               </technique_common>
             </bind_material>
           </instance_geometry>
           <instance_geometry url="#meshId4">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m1c_b_metall1" />
+                <instance_material symbol="theresonlyone" target="#m0c_b_metall1" />
               </technique_common>
             </bind_material>
           </instance_geometry>
           <instance_geometry url="#meshId5">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m2c_b_metall1a" />
+                <instance_material symbol="theresonlyone" target="#m1c_b_metall1a" />
               </technique_common>
             </bind_material>
           </instance_geometry>
           <instance_geometry url="#meshId6">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m3palt_glow" />
+                <instance_material symbol="theresonlyone" target="#m2palt_glow" />
               </technique_common>
             </bind_material>
           </instance_geometry>
         </node>
-        <node id="PadWallOuter03" name="PadWallOuter03">
+        <node id="Low_PadWallOuter03" name="Low_PadWallOuter03">
           <matrix>1 0 0 73.3069 0 0 1 70.1801 0 -1 0 -27.4987 0 0 0 1</matrix>
           <instance_geometry url="#meshId0">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m1c_b_metall1" />
+                <instance_material symbol="theresonlyone" target="#m0c_b_metall1" />
               </technique_common>
             </bind_material>
           </instance_geometry>
           <instance_geometry url="#meshId1">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m1c_b_metall1" />
+                <instance_material symbol="theresonlyone" target="#m0c_b_metall1" />
               </technique_common>
             </bind_material>
           </instance_geometry>
         </node>
-        <node id="PadWallOuter02" name="PadWallOuter02">
+        <node id="Low_PadWallOuter02" name="Low_PadWallOuter02">
           <matrix>1 0 0 -226.693 0 0 1 70.1801 0 -1 0 -27.4987 0 0 0 1</matrix>
           <instance_geometry url="#meshId0">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m1c_b_metall1" />
+                <instance_material symbol="theresonlyone" target="#m0c_b_metall1" />
               </technique_common>
             </bind_material>
           </instance_geometry>
           <instance_geometry url="#meshId1">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m1c_b_metall1" />
+                <instance_material symbol="theresonlyone" target="#m0c_b_metall1" />
               </technique_common>
             </bind_material>
           </instance_geometry>
         </node>
-        <node id="LiftTower03" name="LiftTower03">
+        <node id="Low_LiftTower03" name="Low_LiftTower03">
           <matrix>1 0 0 -49.009 0 0 1 -0.133106 0 -1 0 32.4061 0 0 0 1</matrix>
           <instance_geometry url="#meshId2">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m5plat_lift_column" />
+                <instance_material symbol="theresonlyone" target="#m4plat_lift_column" />
               </technique_common>
             </bind_material>
           </instance_geometry>
           <instance_geometry url="#meshId3">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m4plat_ground_meta" />
+                <instance_material symbol="theresonlyone" target="#m3plat_ground_meta" />
               </technique_common>
             </bind_material>
           </instance_geometry>
           <instance_geometry url="#meshId4">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m1c_b_metall1" />
+                <instance_material symbol="theresonlyone" target="#m0c_b_metall1" />
               </technique_common>
             </bind_material>
           </instance_geometry>
           <instance_geometry url="#meshId5">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m2c_b_metall1a" />
+                <instance_material symbol="theresonlyone" target="#m1c_b_metall1a" />
               </technique_common>
             </bind_material>
           </instance_geometry>
           <instance_geometry url="#meshId6">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m3palt_glow" />
+                <instance_material symbol="theresonlyone" target="#m2palt_glow" />
               </technique_common>
             </bind_material>
           </instance_geometry>
         </node>
-        <node id="LiftTower04" name="LiftTower04">
+        <node id="Low_LiftTower04" name="Low_LiftTower04">
           <matrix>1 0 0 -49.009 0 0 1 -0.133106 0 -1 0 332.406 0 0 0 1</matrix>
           <instance_geometry url="#meshId2">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m5plat_lift_column" />
+                <instance_material symbol="theresonlyone" target="#m4plat_lift_column" />
               </technique_common>
             </bind_material>
           </instance_geometry>
           <instance_geometry url="#meshId3">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m4plat_ground_meta" />
+                <instance_material symbol="theresonlyone" target="#m3plat_ground_meta" />
               </technique_common>
             </bind_material>
           </instance_geometry>
           <instance_geometry url="#meshId4">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m1c_b_metall1" />
+                <instance_material symbol="theresonlyone" target="#m0c_b_metall1" />
               </technique_common>
             </bind_material>
           </instance_geometry>
           <instance_geometry url="#meshId5">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m2c_b_metall1a" />
+                <instance_material symbol="theresonlyone" target="#m1c_b_metall1a" />
               </technique_common>
             </bind_material>
           </instance_geometry>
           <instance_geometry url="#meshId6">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m3palt_glow" />
+                <instance_material symbol="theresonlyone" target="#m2palt_glow" />
               </technique_common>
             </bind_material>
           </instance_geometry>
         </node>
-        <node id="PadWallOuter04" name="PadWallOuter04">
+        <node id="Low_PadWallOuter04" name="Low_PadWallOuter04">
           <matrix>1 0 0 -226.693 0 0 1 70.1801 0 -1 0 272.501 0 0 0 1</matrix>
           <instance_geometry url="#meshId0">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m1c_b_metall1" />
+                <instance_material symbol="theresonlyone" target="#m0c_b_metall1" />
               </technique_common>
             </bind_material>
           </instance_geometry>
           <instance_geometry url="#meshId1">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m1c_b_metall1" />
+                <instance_material symbol="theresonlyone" target="#m0c_b_metall1" />
               </technique_common>
             </bind_material>
           </instance_geometry>
         </node>
-        <node id="LiftTower05" name="LiftTower05">
+        <node id="Low_LiftTower05" name="Low_LiftTower05">
           <matrix>1 0 0 250.991 0 0 1 -0.133106 0 -1 0 332.406 0 0 0 1</matrix>
           <instance_geometry url="#meshId2">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m5plat_lift_column" />
+                <instance_material symbol="theresonlyone" target="#m4plat_lift_column" />
               </technique_common>
             </bind_material>
           </instance_geometry>
           <instance_geometry url="#meshId3">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m4plat_ground_meta" />
+                <instance_material symbol="theresonlyone" target="#m3plat_ground_meta" />
               </technique_common>
             </bind_material>
           </instance_geometry>
           <instance_geometry url="#meshId4">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m1c_b_metall1" />
+                <instance_material symbol="theresonlyone" target="#m0c_b_metall1" />
               </technique_common>
             </bind_material>
           </instance_geometry>
           <instance_geometry url="#meshId5">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m2c_b_metall1a" />
+                <instance_material symbol="theresonlyone" target="#m1c_b_metall1a" />
               </technique_common>
             </bind_material>
           </instance_geometry>
           <instance_geometry url="#meshId6">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m3palt_glow" />
+                <instance_material symbol="theresonlyone" target="#m2palt_glow" />
               </technique_common>
             </bind_material>
           </instance_geometry>
         </node>
-        <node id="PadWallOuter05" name="PadWallOuter05">
+        <node id="Low_PadWallOuter05" name="Low_PadWallOuter05">
           <matrix>1 0 0 73.3069 0 0 1 70.1801 0 -1 0 272.501 0 0 0 1</matrix>
           <instance_geometry url="#meshId0">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m1c_b_metall1" />
+                <instance_material symbol="theresonlyone" target="#m0c_b_metall1" />
               </technique_common>
             </bind_material>
           </instance_geometry>
           <instance_geometry url="#meshId1">
             <bind_material>
               <technique_common>
-                <instance_material symbol="theresonlyone" target="#m1c_b_metall1" />
+                <instance_material symbol="theresonlyone" target="#m0c_b_metall1" />
               </technique_common>
             </bind_material>
           </instance_geometry>
