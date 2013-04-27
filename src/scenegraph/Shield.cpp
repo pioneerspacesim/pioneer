@@ -46,10 +46,14 @@ void Shield::Render(const matrix4x4f &trans, RenderData *rd)
 	}
 
 	Graphics::Renderer *r = GetRenderer();
+	r->SetBlendMode(Graphics::BLEND_ADDITIVE);
+	r->SetDepthWrite(false);
 	r->SetTransform(trans);
 	for (MeshContainer::iterator it = m_meshes.begin(), endIt = m_meshes.end(); it != endIt; ++it) {
 		r->DrawStaticMesh(it->Get());
 	}
+	r->SetBlendMode(Graphics::BLEND_SOLID);
+	r->SetDepthWrite(true);
 }
 
 }
