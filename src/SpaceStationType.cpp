@@ -159,6 +159,18 @@ bool SpaceStationType::GetShipApproachWaypoints(const unsigned int port, const i
 	return gotOrient;
 }
 
+double SpaceStationType::GetDockAnimStageDuration(const int stage) const
+{
+	assert(stage>=0 && stage<numDockingStages);
+	return dockAnimStageDuration[stage];
+}
+
+double SpaceStationType::GetUndockAnimStageDuration(const int stage) const
+{
+	assert(stage>=0 && stage<numUndockStages);
+	return undockAnimStageDuration[stage];
+}
+
 //for station waypoint interpolation
 vector3d vlerp(const double t, const vector3d& v1, const vector3d& v2)
 {

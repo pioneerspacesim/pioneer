@@ -173,6 +173,7 @@ void SpaceStation::InitStation()
 		m_type = &SpaceStationType::orbitalStationTypes[ rand.Int32(SpaceStationType::orbitalStationTypes.size()) ];
 	}
 
+	assert(m_shipDocking.empty());
 	for (unsigned int i=0; i<m_type->numDockingPorts; i++) {
 		m_shipDocking.push_back(shipDocking_t());
 	}
@@ -422,8 +423,8 @@ void SpaceStation::DockingUpdate(const double timeStep)
 		if (dt.stage > m_type->numDockingStages) continue;
 
 		double stageDuration = (dt.stage > 0 ?
-				m_type->dockAnimStageDuration[dt.stage-1] :
-				m_type->undockAnimStageDuration[abs(dt.stage)-1]);
+				m_type->GetDockAnimStageDuration(dt.stage-1) :
+				m_type->GetUndockAnimStageDuration(abs(dt.stage)-1));
 		dt.stagePos += timeStep / stageDuration;
 
 		if (dt.stage == 1) {
