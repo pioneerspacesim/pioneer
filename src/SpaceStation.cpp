@@ -77,6 +77,9 @@ void SpaceStation::Save(Serializer::Writer &wr, Space *space)
 	wr.Int32(space->GetIndexForSystemBody(m_sbody));
 	wr.Int32(m_numPoliceDocked);
 
+	wr.Double(m_doorAnimationStep);
+	wr.Double(m_doorAnimationState);
+
 	m_navLights->Save(wr);
 }
 
@@ -134,6 +137,10 @@ void SpaceStation::Load(Serializer::Reader &rd, Space *space)
 	m_lastUpdatedShipyard = rd.Double();
 	m_sbody = space->GetSystemBodyByIndex(rd.Int32());
 	m_numPoliceDocked = rd.Int32();
+
+	m_doorAnimationStep = rd.Double();
+	m_doorAnimationState = rd.Double();
+
 	InitStation();
 
 	m_navLights->Load(rd);
@@ -177,7 +184,10 @@ void SpaceStation::InitStation()
 		for (unsigned int i=0; i<m_type->numDockingPorts; i++) {
 			m_shipDocking.push_back(shipDocking_t());
 		}
+		// only (re)set these if we've not come from the ::Load method
+		m_doorAnimationStep = m_doorAnimationState = 0.0;
 	}
+	assert(m_shipDocking.size() == m_type->numDockingPorts);
 
 	// This SpaceStation's bay groups is an instance of...
 	mBayGroups = m_type->bayGroups;
@@ -195,7 +205,6 @@ void SpaceStation::InitStation()
 	if (ground) SetClipRadius(CITY_ON_PLANET_RADIUS);		// overrides setmodel
 
 	m_doorAnimation = GetModel()->FindAnimation("doors");
-	m_doorAnimationStep = m_doorAnimationState = 0.0;
 }
 
 SpaceStation::~SpaceStation()
