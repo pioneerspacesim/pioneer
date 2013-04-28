@@ -407,7 +407,8 @@ local missions = function (tabGroup)
 			missionLocationName = string.format('%s [%d,%d,%d]', mission.location:GetStarSystem().name, mission.location.sectorX, mission.location.sectorY, mission.location.sectorZ)
 		end
 		-- Format the distance label
-		local dist = (Game.system and Game.system:DistanceTo(mission.location)) or 0
+		local playerSystem = Game.system or Game.player:GetHyperspaceTarget()
+		local dist = playerSystem:DistanceTo(mission.location)
 		local distLabel = ui:Label(string.format('%.2f %s', dist, t('ly')))
 		local hyperjumpStatus = Game.player:GetHyperspaceDetails(mission.location)
 		if hyperjumpStatus == 'CURRENT_SYSTEM' then 
