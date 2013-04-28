@@ -76,6 +76,7 @@
 #include "scenegraph/Lua.h"
 #include "ui/Context.h"
 #include "ui/Lua.h"
+#include "CoreCount.h"
 #include <algorithm>
 #include <sstream>
 
@@ -254,6 +255,13 @@ void Pi::Init()
 
 	Pi::config = new GameConfig();
 	KeyBindings::InitBindings();
+
+	// get threads up
+	uint32_t numThreads = config->Int("WorkerThreads");
+	uint32_t numCores = getNumCores();
+	if (numThreads == 0) numThreads = std::max(numCores-1,1U);
+	jobQueue.Reset(new JobQueue(numThreads));
+	printf("started %d worker threads\n", numThreads);
 
 	if (config->Int("RedirectStdio"))
 		OS::RedirectStdio();
@@ -825,14 +833,6 @@ void Pi::InitGame()
 		std::fill(stick->hats.begin(), stick->hats.end(), 0);
 		std::fill(stick->axes.begin(), stick->axes.end(), 0.f);
 	}
-
-	// get threads up
-	uint32_t numThreads = config->Int("WorkerThreads");
-//#warning "getNumCores"
-	uint32_t numCores = 7; //getNumCores();
-	if (numThreads == 0) numThreads = std::max(numCores-1,1U);
-	jobQueue.Reset(new JobQueue(numThreads));
-	printf("started %d worker threads\n", numThreads);
 
 	if (!config->Int("DisableSound")) AmbientSounds::Init();
 
