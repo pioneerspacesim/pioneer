@@ -17,8 +17,10 @@ JobRunner::~JobRunner()
 		m_job->OnCancel();
 	SDL_UnlockMutex(m_jobLock);
 
+	// XXX - AndyC(FluffyFreak) - I'd like to find a better answer for this but I can't see what purpose it serves.
+	//		- this is only called on shutting down the program, so there's no case now where we'd be restarting anything.
 	// kill the thread. this will block until the thread goes away
-	SDL_KillThread(m_threadId);
+	//SDL_KillThread(m_threadId);
 }
 
 // entry point for SDL thread. we simply get back onto a method. convenience mostly
