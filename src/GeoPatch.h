@@ -12,7 +12,7 @@
 #include "graphics/Material.h"
 #include "terrain/Terrain.h"
 #include "GeoPatchID.h"
-#include "jobswarm/JobManager.h"
+#include "JobQueue.h"
 
 #include <deque>
 
@@ -26,9 +26,6 @@ class SQuadSplitResult;
 class SSingleSplitResult;
 
 class GeoPatch {
-public:
-	ScopedPtr<BasePatchJob>		mCurrentJob;
-
 public:
 	static const int NUM_EDGES = 4;
 	static const int NUM_KIDS = NUM_EDGES;
