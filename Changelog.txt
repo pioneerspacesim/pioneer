@@ -3,7 +3,7 @@ Alpha 34
    * New features
      * New combat music track (#2209)
      * Mission list can now be sorted by clicking the column headers (#2183, #2128)
-     * Mission list now shows distance to system and days remaining (#2234)
+     * Mission list now shows distance to system and days remaining (#2234, #2244)
 
    * Minor changes and tweaks
      * Commodity Market buy/sell buttons now speed up when held down (#2188, #1734)
@@ -16,6 +16,8 @@ Alpha 34
 
    * Script and UI API changes
      * New method 'SetColor' on Label widgets (#2234)
+     * Player:GetHyperspaceTarget() now returns path of destination system when
+       in hyperspace (#2244)
 
    * Fixes
      * Fix lua system export (#2229)
