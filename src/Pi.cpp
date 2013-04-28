@@ -256,13 +256,6 @@ void Pi::Init()
 	Pi::config = new GameConfig();
 	KeyBindings::InitBindings();
 
-	// get threads up
-	uint32_t numThreads = config->Int("WorkerThreads");
-	uint32_t numCores = getNumCores();
-	if (numThreads == 0) numThreads = std::max(numCores-1,1U);
-	jobQueue.Reset(new JobQueue(numThreads));
-	printf("started %d worker threads\n", numThreads);
-
 	if (config->Int("RedirectStdio"))
 		OS::RedirectStdio();
 
@@ -344,6 +337,13 @@ void Pi::Init()
 	navTunnelDisplayed = (config->Int("DisplayNavTunnel")) ? true : false;
 
 	EnumStrings::Init();
+
+	// get threads up
+	uint32_t numThreads = config->Int("WorkerThreads");
+	uint32_t numCores = getNumCores();
+	if (numThreads == 0) numThreads = std::max(numCores-1,1U);
+	jobQueue.Reset(new JobQueue(numThreads));
+	printf("started %d worker threads\n", numThreads);
 
 	// XXX early, Lua init needs it
 	ShipType::Init();
