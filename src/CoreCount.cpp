@@ -1,5 +1,7 @@
 #include "CoreCount.h"
 
+// http://stackoverflow.com/questions/150355/programmatically-find-the-number-of-cores-on-a-machine
+
 #if defined(WIN32)
 #include <windows.h>
 #elif defined(__APPLE__)
