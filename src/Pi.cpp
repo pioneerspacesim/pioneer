@@ -574,6 +574,7 @@ void Pi::Quit()
 	StarSystem::ShrinkCache();
 	SDL_Quit();
 	FileSystem::Uninit();
+	jobQueue.Reset();
 	exit(0);
 }
 
@@ -934,8 +935,6 @@ void Pi::EndGame()
 
 	if (!config->Int("DisableSound")) AmbientSounds::Uninit();
 	Sound::DestroyAllEvents();
-
-	jobQueue.Reset();
 
 	assert(game);
 	delete game;
