@@ -194,6 +194,7 @@ Translate:Add({
 		-- Missions
 		['Mission Details'] = 'Szczegóły misji',
 		['No missions.'] = 'Brak misji.',
+		["%d days left"] = "Pozostało dni: %d",
 		['INACTIVE'] = 'Nieaktywna', -- Complement of ACTIVE, COMPLETED and FAILED
 		
 		-- Crew Tasks
