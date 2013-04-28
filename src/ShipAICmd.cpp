@@ -885,14 +885,10 @@ bool AICmdDock::TimeStepUpdate()
 	int port = m_target->GetMyDockingPort(m_ship);
 	if (port == -1) {
 		std::string msg;
-		if( m_target->GetDockingClearance(m_ship, msg) ) {
-			port = m_target->GetMyDockingPort(m_ship);
-			if (port == -1) { 
-				m_ship->AIMessage(Ship::AIERROR_REFUSED_PERM); 
-				return true; 
-			}
-		} else {
-			m_ship->AIMessage(Ship::AIERROR_REFUSED_PERM); 
+		const bool cleared = m_target->GetDockingClearance(m_ship, msg);
+		port = m_target->GetMyDockingPort(m_ship);
+		if (!cleared || (port == -1)) {
+			m_ship->AIMessage(Ship::AIERROR_REFUSED_PERM);
 			return true;
 		}
 	}
