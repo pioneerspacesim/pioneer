@@ -683,6 +683,7 @@ Translate:Add({
 		-- Missions
 		['Mission Details'] = 'Detaily mise',
 		['No missions.'] = 'Žádné mise.',
+		["%d days left"] = "Zbývá dnů: %d",
 		['INACTIVE'] = 'Neprobíhá', -- Complement of ACTIVE, COMPLETED and FAILED
 
 		-- Crew Tasks
