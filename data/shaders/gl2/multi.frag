@@ -60,7 +60,7 @@ void main(void)
 
 //directional lighting
 #if (NUM_LIGHTS > 0)
-	vec4 light = clamp(scene.ambient,0.05,1.0) +
+	vec4 light = scene.ambient +
 //ambient and emissive only make sense with lighting
 #ifdef MAP_EMISSIVE
 		texture2D(texture2, texCoord0); //glow map
