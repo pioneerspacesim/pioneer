@@ -13,7 +13,7 @@ Alpha 34
        from the bay definitions (#2219)
      * Station model docking nodes are checked against the station definition
        (#2219)
-     * New 6-bay ground station model (2227)
+     * New 6-bay ground station model (#2227)
 
    * Script and UI API changes
      * New method 'SetColor' on Label widgets (#2234)
