@@ -60,6 +60,7 @@
 #include "StringF.h"
 #include "SystemInfoView.h"
 #include "SystemView.h"
+#include "StartLocationView.h"
 #include "Tombstone.h"
 #include "UIView.h"
 #include "WorldView.h"
@@ -110,6 +111,7 @@ GalacticView *Pi::galacticView;
 GameMenuView *Pi::gameMenuView;
 SystemView *Pi::systemView;
 SystemInfoView *Pi::systemInfoView;
+StartLocationView *Pi::startLocationView;
 ShipCpanel *Pi::cpan;
 LuaConsole *Pi::luaConsole;
 Game *Pi::game;
@@ -516,6 +518,8 @@ void Pi::Init()
 	KeyBindings::toggleLuaConsole.onPress.connect(sigc::ptr_fun(&Pi::ToggleLuaConsole));
 
 	gameMenuView = new GameMenuView();
+	startLocationView = new StartLocationView();
+	startLocationView->SetRenderer(renderer);
 	config->Save();
 }
 
@@ -546,6 +550,7 @@ void Pi::Quit()
 	Projectile::FreeModel();
 	delete Pi::intro;
 	delete Pi::gameMenuView;
+	delete Pi::startLocationView;
 	delete Pi::luaConsole;
 	NavLights::Uninit();
 	Sfx::Uninit();
