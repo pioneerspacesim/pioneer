@@ -40,7 +40,7 @@ private:
 // a new job. no user-servicable parts inside!
 class JobRunner {
 public:
-	JobRunner(JobQueue *jq);
+	JobRunner(JobQueue *jq, const uint8_t idx);
 	~JobRunner();
 
 private:
@@ -53,6 +53,8 @@ private:
 	SDL_mutex *m_jobLock;
 
 	SDL_Thread *m_threadId;
+
+	uint8_t m_threadIdx;
 };
 
 
@@ -89,14 +91,15 @@ public:
 private:
 	friend class JobRunner;
 	Job *GetJob();
-	void Finish(Job *job);
+	void Finish(Job *job, const uint8_t threadIdx);
 
 	std::deque<Job*> m_queue;
 	SDL_mutex *m_queueLock;
 	SDL_cond *m_queueWaitCond;
 
-	std::deque<Job*> m_finished;
-	SDL_mutex *m_finishedLock;
+	static const uint32_t MAX_THREADS = 64;
+	std::deque<Job*> m_finished[MAX_THREADS];
+	SDL_mutex *m_finishedLock[MAX_THREADS];
 
 	std::vector<JobRunner*> m_runners;
 
