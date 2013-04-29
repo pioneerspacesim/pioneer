@@ -75,6 +75,7 @@ void SpaceStationType::OnSetupComplete()
 			m_ports[bay].m_leaving[stage] = (*leaveIter)->GetTransform();
 		}
 
+		assert(m_ports.size() > 0);
 		assert(numDockingStages > 0);
 		assert(numUndockStages > 0);
 

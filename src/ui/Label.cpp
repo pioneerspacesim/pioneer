@@ -26,15 +26,20 @@ void Label::Layout()
 
 void Label::Draw()
 {
-	static const Color normalColor(Color::WHITE);
 	static const Color disabledColor(0.8f, 0.8f, 0.8f, 1.0f);
-	GetContext()->GetFont(GetFont())->RenderString(m_text.c_str(), 0.0f, 0.0f, IsDisabled() ? disabledColor : normalColor);
+	GetContext()->GetFont(GetFont())->RenderString(m_text.c_str(), 0.0f, 0.0f, IsDisabled() ? disabledColor : m_color);
 }
 
 Label *Label::SetText(const std::string &text)
 {
 	m_text = text;
 	GetContext()->RequestLayout();
+	return this;
+}
+
+Label *Label::SetColor(float r, float g, float b)
+{
+	m_color = ::Color(r, g, b);
 	return this;
 }
 
