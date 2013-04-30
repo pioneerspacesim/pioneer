@@ -2,10 +2,10 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
-#include "Pi.h"
 #include "Factions.h"
 #include "GalacticView.h"
 #include "Lang.h"
+#include "Pi.h"
 #include "StartLocationView.h"
 #include "StringF.h"
 #include "SystemInfoView.h"
@@ -51,7 +51,7 @@ StartLocationView::StartLocationView()
 	m_pos = m_posMovingTo;
 
 	m_matchTargetToSelection   = true;
-	m_selectionFollowsMovement = true;
+	m_selectionFollowsMovement = false;
 	m_detailBoxVisible         = DETAILBOX_INFO;
 	m_toggledFaction           = false;
 
@@ -165,6 +165,7 @@ void StartLocationView::InitObject()
 	systemBox->PackEnd(m_selectedSystemLabels.starType);
 	systemBox->PackEnd(m_selectedSystemLabels.shortDesc);
 	locationsBox->PackEnd(systemBox);
+	m_infoBox->PackEnd(locationsBox);
 	
 	// 2. holds options for displaying systems
 	Gui::VBox *filterBox = new Gui::VBox();
@@ -177,7 +178,6 @@ void StartLocationView::InitObject()
 	Gui::Label *label = (new Gui::Label(Lang::DRAW_VERTICAL_LINES))->Color(1.0f, 1.0f, 1.0f);
 	hbox->PackEnd(label);
 	filterBox->PackEnd(hbox);
-
 	m_infoBox->PackEnd(filterBox);
 
 	m_onMouseButtonDown =
@@ -240,7 +240,7 @@ void StartLocationView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
 					// exact match, take it and go
 					SystemPath path = (*i).first;
 					path.systemIndex = systemIndex;
-					Pi::cpan->MsgLog()->Message("", stringf(Lang::EXACT_MATCH_X, formatarg("system", ss->name)));
+					//Pi::cpan->MsgLog()->Message("", stringf(Lang::EXACT_MATCH_X, formatarg("system", ss->name)));
 					GotoSystem(path);
 					return;
 				}
@@ -275,12 +275,11 @@ void StartLocationView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
 		}
 
 	if (gotMatch) {
-		Pi::cpan->MsgLog()->Message("", stringf(Lang::NOT_FOUND_BEST_MATCH_X, formatarg("system", *bestMatchName)));
+		//Pi::cpan->MsgLog()->Message("", stringf(Lang::NOT_FOUND_BEST_MATCH_X, formatarg("system", *bestMatchName)));
 		GotoSystem(bestMatch);
 	}
-
-	else
-		Pi::cpan->MsgLog()->Message("", Lang::NOT_FOUND);
+	//else
+		//Pi::cpan->MsgLog()->Message("", Lang::NOT_FOUND);
 }
 
 #define DRAW_RAD	  3
@@ -304,14 +303,8 @@ void StartLocationView::Draw3D()
 
 	m_zoomLevelLabel->SetText(stringf(Lang::NUMBER_LY, formatarg("distance", ((m_zoomClamped/FAR_THRESHOLD )*(OUTER_RADIUS)) + 0.5 * Sector::SIZE)));
 
-	//if (m_inSystem) {
-	if (true) {
-		vector3f dv = vector3f(floorf(m_pos.x)-m_current.sectorX, floorf(m_pos.y)-m_current.sectorY, floorf(m_pos.z)-m_current.sectorZ) * Sector::SIZE;
-		m_distanceLabel->SetText(stringf(Lang::DISTANCE_LY, formatarg("distance", dv.Length())));
-	}
-	else {
-		m_distanceLabel->SetText("");
-	}
+	vector3f dv = vector3f(floorf(m_pos.x)-m_current.sectorX, floorf(m_pos.y)-m_current.sectorY, floorf(m_pos.z)-m_current.sectorZ) * Sector::SIZE;
+	m_distanceLabel->SetText(stringf(Lang::DISTANCE_LY, formatarg("distance", dv.Length())));
 
 	// units are lightyears, my friend
 	modelview.Translate(0.f, 0.f, -10.f-10.f*m_zoom);    // not zoomClamped, let us zoom out a bit beyond what we're drawing
@@ -365,10 +358,11 @@ void StartLocationView::SetSelectedSystem(const SystemPath &path)
 
 void StartLocationView::OnClickSystem(const SystemPath &path)
 {
-	if (m_selectionFollowsMovement)
-		GotoSystem(path);
-	else
+	//if (m_selectionFollowsMovement)
 		SetSelectedSystem(path);
+		GotoSystem(path);
+	//else
+		//SetSelectedSystem(path);
 }
 
 void StartLocationView::PutSystemLabels(Sector *sec, const vector3f &origin, int drawRadius)
@@ -791,14 +785,14 @@ void StartLocationView::OnKeyPressed(SDL_keysym *keysym)
 	// toggle selection mode
 	if (keysym->sym == SDLK_KP_ENTER || keysym->sym == SDLK_RETURN) {
 		m_selectionFollowsMovement = !m_selectionFollowsMovement;
-		if (m_selectionFollowsMovement)
+		/*if (m_selectionFollowsMovement)
 			Pi::cpan->MsgLog()->Message("", Lang::ENABLED_AUTOMATIC_SYSTEM_SELECTION);
 		else
-			Pi::cpan->MsgLog()->Message("", Lang::DISABLED_AUTOMATIC_SYSTEM_SELECTION);
+			Pi::cpan->MsgLog()->Message("", Lang::DISABLED_AUTOMATIC_SYSTEM_SELECTION);*/
 		return;
 	}
 
-	// fast move selection to current player system or hyperspace target
+	// fast move selection to current or selected system
 	if (keysym->sym == SDLK_c || keysym->sym == SDLK_g) {
 		if (keysym->sym == SDLK_c)
 			GotoSystem(m_current);

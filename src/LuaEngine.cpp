@@ -143,12 +143,6 @@ static int l_engine_startloc_view(lua_State *l)
 	if (Pi::game || Pi::GetView() == Pi::startLocationView)
 		return 0;
 	Pi::SetView(Pi::startLocationView);
-	while (Pi::GetView() == Pi::startLocationView) {
-		//Gui::MainLoopIteration();
-		//Pi::startLocationView->Update();
-		Pi::startLocationView->Draw3D();
-	}
-	Pi::SetView(0);
 	return 0;
 }
 
