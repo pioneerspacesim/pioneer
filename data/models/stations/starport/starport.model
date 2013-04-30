@@ -9,11 +9,10 @@ shininess 80
 
 
 
-# docking
-mesh starport_docking_plane.obj
+
 
 mesh starport.lxo
-mesh placeholder_docking.dae
+mesh starport_docking.dae
 
 
 
