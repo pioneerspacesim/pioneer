@@ -198,7 +198,10 @@ local getNearestStarport = function (ship, current)
 
 	-- Find the nearest starport that we can land at (other than current)
 	local starport, distance
-	for i = 1, #starports do
+
+	starport = starports[Engine.rand:Integer(1,#starports)]
+
+--[[	for i = 1, #starports do
 		local next_starport = starports[i]
 		if next_starport ~= current then
 			local next_distance
@@ -215,7 +218,7 @@ local getNearestStarport = function (ship, current)
 				starport, distance = next_starport, next_distance
 			end
 		end
-	end
+	end --]]
 	return starport or current
 end
 
@@ -352,7 +355,9 @@ local spawnInitialShips = function (game_start)
 	-- determine how many trade ships to spawn
 	local lawlessness = Game.system.lawlessness
 	-- start with three ships per two billion population
-	num_trade_ships = population * 4
+	----num_trade_ships = population * 4
+	-- Adjust to # starports
+	num_trade_ships = #starports * 4
 	-- add the average of import_score and export_score
 	num_trade_ships = num_trade_ships + (import_score + export_score) / 2
 	-- reduce based on lawlessness
@@ -366,7 +371,7 @@ local spawnInitialShips = function (game_start)
 		range = range * 1.15
 	end
 	-- the base number of seconds between ships spawned in hyperspace
-	trade_ships['interval'] = 1
+	trade_ships['interval'] = 60
 	-- get nearby system paths for hyperspace spawns to come from
 	local from_systems, dist = {}, 10
 	while #from_systems < 10 do
