@@ -1,0 +1,16 @@
+material material1
+
+tex_diff DIFF.png
+tex_spec SPEC.png
+tex_glow GLOW.png
+diffuse 1.0 1.0 1.0
+
+specular 1.0 1.0 1.0
+
+shininess 80
+
+mesh cargo_ulcs.obj
+collision cargo_ulcs_collision.obj
+
+lod 10
+mesh cargo_ulcs_lod.obj

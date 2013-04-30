@@ -132,6 +132,7 @@ void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
 			break;
 
 		case TYPE_SMOKE: 
+			
 			float var = Pi::rng.Double()*0.05f; //slightly variation to trail color
 			if (m_age < 0.5)
 				//start trail
