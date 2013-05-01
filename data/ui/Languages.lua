@@ -4,13 +4,13 @@
 Translate:Add({
 	English = {
 		-- Main menu
-		['Start at Earth']    		= 'Start at Earth',
-		['Start at New Hope'] 		= 'Start at New Hope',
-		['Start at Lave']    		= 'Start at Lave',
-		['Start at custom place']	= 'Start at custom place',
-		['Load game']         		= 'Load game',
-		['Options']           		= 'Options',
-		['Quit']              		= 'Quit',
+		['Start at Earth']          = 'Start at Earth',
+		['Start at New Hope']       = 'Start at New Hope',
+		['Start at Lave']           = 'Start at Lave',
+		['Start at custom place']   = 'Start at custom place',
+		['Load game']               = 'Load game',
+		['Options']                 = 'Options',
+		['Quit']                    = 'Quit',
 
 		-- Generic file dialog
 		['Select file...'] = 'Select file...',
@@ -418,13 +418,13 @@ Translate:Add({
 Translate:Add({
 	Russian = {
 		-- Main menu
-		['Start at Earth']    		= 'Новый старт: Earth',
-		['Start at New Hope'] 		= 'Новый старт: New Hope',
-		['Start at Lave']     		= 'Новый старт: Lave',
-		['Start at custom place']	= 'Новый старт: выбрать систему',
-		['Load game']         		= 'Загрузить запись',
-		['Options']           		= 'Настройки',
-		['Quit']              		= 'Выход',
+		['Start at Earth']          = 'Новый старт: Earth',
+		['Start at New Hope']       = 'Новый старт: New Hope',
+		['Start at Lave']           = 'Новый старт: Lave',
+		['Start at custom place']   = 'Новый старт: выбрать систему',
+		['Load game']               = 'Загрузить запись',
+		['Options']                 = 'Настройки',
+		['Quit']                    = 'Выход',
 
 		-- Generic file dialog
 		['Select file...'] = 'Выберите файл...',
