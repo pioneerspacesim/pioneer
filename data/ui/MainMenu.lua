@@ -15,6 +15,10 @@ local setupPlayerWave = function ()
 	Game.player:SetMoney(100)
 end
 
+local onGameStart = function ()
+	setupPlayerWave()
+end
+
 local doLoadDialog = function ()
 	ui:SetInnerWidget(
 		ui.templates.FileDialog({
@@ -28,8 +32,8 @@ local doLoadDialog = function ()
 end
 
 local buttonDefs = {
-	{ t("Start at Earth"),    		function () Game.StartGame(SystemPath.New(0,0,0,0,9))   setupPlayerWave() end },
-	{ t("Start at New Hope"), 		function () Game.StartGame(SystemPath.New(1,-1,-1,0,4)) setupPlayerWave() end },
+	{ t("Start at Earth"),    		function () Game.StartGame(SystemPath.New(0,0,0,0,0)) end },
+	{ t("Start at New Hope"), 		function () Game.StartGame(SystemPath.New(1,-1,-1,0,4)) end },
 	{ t("Start at custom place"),   function () Engine.StartLocationView() end },
 	{ t("Load game"),         		doLoadDialog },
 	{ t("Options"),           		function () Engine.SettingsView() end },
@@ -75,3 +79,5 @@ local menu =
 		})
 
 ui.templates.MainMenu = function (args) return menu end
+
+Event.Register("onGameStart", onGameStart)

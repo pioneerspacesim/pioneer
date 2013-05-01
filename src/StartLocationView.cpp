@@ -6,6 +6,7 @@
 #include "GalacticView.h"
 #include "Lang.h"
 #include "Pi.h"
+#include "Game.h"
 #include "StartLocationView.h"
 #include "StringF.h"
 #include "SystemInfoView.h"
@@ -119,11 +120,16 @@ void StartLocationView::InitObject()
 	m_infoBox->SetBgColor(0.05f, 0.05f, 0.12f, 0.5f);
 	m_infoBox->SetSpacing(10.0f);
 	Add(m_infoBox, 5, 5);
+	
+	// 1. return button
+	m_menuButton = new Gui::LabelButton(new Gui::Label(Lang::RETURN_TO_MENU));
+	m_menuButton->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::SetView), static_cast<View*>(0)));
+	m_infoBox->PackEnd(m_menuButton);
 
-	// 1. holds info about current, selected systems
+	// 2. holds info about current, selected systems
 	Gui::VBox *locationsBox = new Gui::VBox();
 	locationsBox->SetSpacing(5.f);
-	// 1.1 current system
+	// 2.1 current system
 	Gui::VBox *systemBox = new Gui::VBox();
 	Gui::HBox *hbox = new Gui::HBox();
 	hbox->SetSpacing(5.0f);
@@ -144,7 +150,7 @@ void StartLocationView::InitObject()
 	systemBox->PackEnd(m_currentSystemLabels.starType);
 	systemBox->PackEnd(m_currentSystemLabels.shortDesc);
 	locationsBox->PackEnd(systemBox);
-	// 1.2 selected system
+	// 2.2 selected system
 	systemBox = new Gui::VBox();
 	hbox = new Gui::HBox();
 	hbox->SetSpacing(5.0f);
@@ -167,9 +173,9 @@ void StartLocationView::InitObject()
 	locationsBox->PackEnd(systemBox);
 	m_infoBox->PackEnd(locationsBox);
 	
-	// 2. holds options for displaying systems
+	// 3. holds options for displaying systems
 	Gui::VBox *filterBox = new Gui::VBox();
-	// 2.1 Draw vertical lines
+	// 3.1 Draw vertical lines
 	hbox = new Gui::HBox();
 	hbox->SetSpacing(5.0f);
 	m_drawSystemLegButton = (new Gui::ToggleButton());
@@ -179,6 +185,11 @@ void StartLocationView::InitObject()
 	hbox->PackEnd(label);
 	filterBox->PackEnd(hbox);
 	m_infoBox->PackEnd(filterBox);
+
+	// 4. start button
+	m_startButton = new Gui::LabelButton(new Gui::Label(Lang::RETURN_TO_MENU));
+	m_startButton->onClick.connect(sigc::mem_fun(this, &StartLocationView::OnStartButtonClick));
+	m_infoBox->PackEnd(m_startButton);
 
 	m_onMouseButtonDown =
 		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &StartLocationView::MouseButtonDown));
@@ -1002,3 +1013,20 @@ void StartLocationView::ShrinkCache()
 		m_cacheZMax = zmax;
 	}
 }
+
+void StartLocationView::OnStartButtonClick() {
+	if (!Pi::game) {
+		SystemPath *path = new SystemPath(m_selected); // selected star system
+		RefCountedPtr<StarSystem> system(StarSystem::GetCached(path));
+		path->bodyIndex = 0; // for single star systems this is a star
+		if (system->GetNumStars() > 1) {
+			// for multistar systems bodyIndex=0 is a gravpoint;
+			// we can't start game at gravpoint (it's not a body)
+			// so let's start at first star
+			path->bodyIndex = 1; // for multistar systems it is guaranteed to exist
+		}
+		SystemBody *sbody = system->GetBodyByPath(*path);
+		Pi::game = new Game(*path, vector3d(0, 4*sbody->GetRadius(), 0));
+	}
+}
+

@@ -65,6 +65,7 @@ private:
 	void MouseButtonDown(int button, int x, int y);
 	void OnKeyPressed(SDL_keysym *keysym);
 	void OnSearchBoxKeyPress(const SDL_keysym *keysym);
+	void OnStartButtonClick();
 
 	SystemPath m_selected;
 	SystemPath m_current;
@@ -92,7 +93,6 @@ private:
 	Gui::ImageButton *m_zoomOutButton;
 	Gui::ImageButton *m_galaxyButton;
 	Gui::TextEntry *m_searchBox;
-	Gui::ToggleButton *m_drawOutRangeLabelButton;
 	Gui::ToggleButton *m_drawSystemLegButton;
 
 	ScopedPtr<Graphics::Drawables::Disk> m_disk;
@@ -100,7 +100,8 @@ private:
 	Gui::LabelSet *m_clickableLabels;
 
 	Gui::VBox *m_infoBox;
-
+	Gui::Button *m_menuButton;
+	Gui::Button *m_startButton;
 	SystemLabels m_selectedSystemLabels;
 	SystemLabels m_currentSystemLabels;
 
