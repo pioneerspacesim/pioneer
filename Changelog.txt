@@ -1,4 +1,4 @@
-Alpha 34
+April 2013
 
    * New features
      * New combat music track (#2209)
