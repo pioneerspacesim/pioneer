@@ -44,8 +44,7 @@ StartLocationView::StartLocationView()
 	m_rotZ = m_rotZMovingTo = m_rotZDefault;
 	m_zoom = m_zoomMovingTo = m_zoomDefault;
 
-	m_current = new SystemPath(0,0,0,0,9); // Earth, Los Angeles
-	m_current = m_current.SystemOnly();
+	m_current = new SystemPath(0,0,0,0); // Sol system
 	m_selected = m_current;
 
 	GotoSystem(m_current);
@@ -136,14 +135,9 @@ void StartLocationView::InitObject()
 	Gui::Button *b = new Gui::SolidButton();
 	b->onClick.connect(sigc::mem_fun(this, &StartLocationView::GotoCurrentSystem));
 	hbox->PackEnd(b);
-	hbox->PackEnd((new Gui::Label(Lang::CURRENT_SYSTEM))->Color(1.0f, 1.0f, 1.0f));
-	systemBox->PackEnd(hbox);
-	hbox = new Gui::HBox();
-	hbox->SetSpacing(5.0f);
 	m_currentSystemLabels.systemName = (new Gui::Label(""))->Color(1.0f, 1.0f, 0.0f);
-	m_currentSystemLabels.distance = (new Gui::Label(""))->Color(1.0f, 0.0f, 0.0f);
+	m_currentSystemLabels.distance = new Gui::Label("");
 	hbox->PackEnd(m_currentSystemLabels.systemName);
-	hbox->PackEnd(m_currentSystemLabels.distance);
 	systemBox->PackEnd(hbox);
 	m_currentSystemLabels.starType = (new Gui::Label(""))->Color(1.0f, 0.0f, 1.0f);
 	m_currentSystemLabels.shortDesc = (new Gui::Label(""))->Color(1.0f, 0.0f, 1.0f);

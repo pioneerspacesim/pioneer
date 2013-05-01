@@ -32,7 +32,7 @@ local doLoadDialog = function ()
 end
 
 local buttonDefs = {
-	{ t("Start at Earth"),    		function () Game.StartGame(SystemPath.New(0,0,0,0,0)) end },
+	{ t("Start at Earth"),    		function () Game.StartGame(SystemPath.New(0,0,0,0,9)) end },
 	{ t("Start at New Hope"), 		function () Game.StartGame(SystemPath.New(1,-1,-1,0,4)) end },
 	{ t("Start at custom place"),   function () Engine.StartLocationView() end },
 	{ t("Load game"),         		doLoadDialog },
