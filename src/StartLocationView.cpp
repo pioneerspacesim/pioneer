@@ -187,7 +187,7 @@ void StartLocationView::InitObject()
 	m_infoBox->PackEnd(filterBox);
 
 	// 4. start button
-	m_startButton = new Gui::LabelButton(new Gui::Label(Lang::RETURN_TO_MENU));
+	m_startButton = new Gui::LabelButton(new Gui::Label(Lang::START_GAME));
 	m_startButton->onClick.connect(sigc::mem_fun(this, &StartLocationView::OnStartButtonClick));
 	m_infoBox->PackEnd(m_startButton);
 
