@@ -894,24 +894,26 @@ void Pi::Start()
 				while (SDL_PollEvent(&event)) {}
 		}
 
-		Pi::renderer->BeginFrame();
-		Pi::renderer->SetPerspectiveProjection(75, Pi::GetScrAspect(), 1.f, 10000.f);
-		Pi::renderer->SetTransform(matrix4x4f::Identity());
-		if (currentView) {
-			currentView->Update();
-			currentView->Draw3D();
-		} else
-			intro->Draw(_time);
-		Pi::renderer->EndFrame();
-
-		if (currentView)
-			Gui::Draw();
-		else {
-			ui->Update();
-			ui->Draw();
+		if (!Pi::game) { // do render job only if we need it
+			Pi::renderer->BeginFrame();
+			Pi::renderer->SetPerspectiveProjection(75, Pi::GetScrAspect(), 1.f, 10000.f);
+			Pi::renderer->SetTransform(matrix4x4f::Identity());
+			if (currentView) {
+				currentView->Update();
+				currentView->Draw3D();
+			} else
+				intro->Draw(_time);
+			Pi::renderer->EndFrame();
+		
+			if (currentView)
+				Gui::Draw();
+			else {
+				ui->Update();
+				ui->Draw();
+			}
+		
+			Pi::renderer->SwapBuffers();
 		}
-
-		Pi::renderer->SwapBuffers();
 
 		Pi::frameTime = 0.001f*(SDL_GetTicks() - last_time);
 		_time += Pi::frameTime;
