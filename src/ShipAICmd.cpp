@@ -681,14 +681,16 @@ AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target) : AICommand(ship, CMD_FLYTO)
 
 	if (target->IsType(Object::SPACESTATION) && static_cast<SpaceStation*>(target)->IsGroundStation()) {
 		m_posoff = target->GetPosition() + 15000.0 * target->GetOrient().VectorY();
-		m_posoff.x+=Pi::rng.Int32(-50,50);
-		m_posoff.y+=Pi::rng.Int32(-50,50);
+		m_posoff.x+=Pi::rng.Int32(-500,500);
 	//	m_posoff += 500.0 * target->GetOrient().VectorX();
 		m_targframe = target->GetFrame(); m_target = 0;
 	}
 	else { m_target = target; m_targframe = 0; }
 
-	if (ship->GetPositionRelTo(target).Length() <= 15000.0) m_targframe = 0;
+	if (ship->GetPositionRelTo(target).Length() <= 15000.0) {		
+		m_targframe = 0;
+		m_ship->SetJuice(1.0);
+	}
 }
 
 // Specified pos, endvel should be > 0
