@@ -18,7 +18,7 @@ specular 1.0 1.0 1.0
 
 lod 1000
 mesh megastation.dae
-mesh bcdocking.dae
+mesh megastation_docking.dae
 
 collision megastation_collision.obj
 

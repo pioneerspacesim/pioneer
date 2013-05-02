@@ -1,0 +1,16 @@
+material material1
+
+tex_diff DIFF.png
+tex_spec SPEC.png
+tex_glow GLOW.png
+diffuse 1.0 1.0 1.0
+
+specular 1.0 1.0 1.0
+
+shininess 80
+
+mesh military_combat_carrier.dae
+collision military_combat_carrier_collision.obj
+
+lod 10
+mesh military_combat_carrier_lod.obj

@@ -1,8 +1,36 @@
-# MTL written from C:\Users\rivalin\Creative\Personal Work\Paragon\Paragon\Paragon 31\data\models\stations\starport\starportcollision.obj
-newmtl material1
+# MTL written from C:\Users\rivalin\Creative\Personal Work\Paragon\Paragon\paragon 33\data\models\stations\starport\starport_collision.obj
+newmtl base_032gray
 Kd 0.8 0.8 0.8
 Ns 256
 d 1
-illum 2
+illum 1
 Ka 0 0 0
-Ks 0.2 0.2 0.2
+Ks 0.03 0.03 0.03
+newmtl darker_032gray
+Kd 0.410127 0.410127 0.410127
+Ns 256
+d 1
+illum 1
+Ka 0 0 0
+Ks 0.03 0.03 0.03
+newmtl ground
+Kd 0.192405 0.192405 0.192405
+Ns 256
+d 1
+illum 1
+Ka 0 0 0
+Ks 0.03 0.03 0.03
+newmtl landing_032pad
+Kd 0.106329 0.106329 0.106329
+Ns 256
+d 1
+illum 1
+Ka 0 0 0
+Ks 0.03 0.03 0.03
+newmtl screen
+Kd 0.0526031 0.30702 0.8
+Ns 256
+d 1
+illum 2
+Ka 0.290742 0.415289 1
+Ks 0.5 0.5 0.5

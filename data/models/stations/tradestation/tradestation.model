@@ -18,7 +18,7 @@ specular 1.0 1.0 1.0
 
 lod 1000
 mesh tradestation.dae
-mesh bcdocking.dae
+mesh tradestation_docking.dae
 
 collision tradestation_collision.obj
 

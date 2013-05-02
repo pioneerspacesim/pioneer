@@ -9,7 +9,7 @@ specular 1.0 1.0 1.0
 
 shininess 80
 
-mesh cargo_ulcs.obj
+mesh cargo_ulcs.dae
 collision cargo_ulcs_collision.obj
 
 lod 10
