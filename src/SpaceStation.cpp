@@ -116,6 +116,7 @@ void SpaceStation::Load(Serializer::Reader &rd, Space *space)
 		sd.fromPos = rd.Vector3d();
 		sd.fromRot = rd.RdQuaternionf();
 	}
+	assert(m_shipDocking.size() == m_type->numDockingPorts);
 	// retrieve each of the bay groupings
 	const int32_t numBays = rd.Int32();
 	mBayGroups.reserve(numBays);
@@ -164,7 +165,12 @@ SpaceStation::SpaceStation(const SystemBody *sbody): ModelBody()
 
 	m_oldAngDisplacement = 0.0;
 
+	m_doorAnimationStep = m_doorAnimationState = 0.0;
+
+	m_shipDocking.resize(m_type->numDockingPorts);
+
 	SetMoney(1000000000);
+	SetModel(m_type->modelName.c_str());
 	InitStation();
 }
 
@@ -180,24 +186,10 @@ void SpaceStation::InitStation()
 		m_type = &SpaceStationType::orbitalStationTypes[ rand.Int32(SpaceStationType::orbitalStationTypes.size()) ];
 	}
 
-	if(m_shipDocking.empty()) {
-		for (unsigned int i=0; i<m_type->numDockingPorts; i++) {
-			m_shipDocking.push_back(shipDocking_t());
-		}
-		// only (re)set these if we've not come from the ::Load method
-		m_doorAnimationStep = m_doorAnimationState = 0.0;
-	}
-	assert(m_shipDocking.size() == m_type->numDockingPorts);
-
 	// This SpaceStation's bay groups is an instance of...
 	mBayGroups = m_type->bayGroups;
 
 	SetStatic(ground);			// orbital stations are dynamic now
-
-	// XXX hack. if we loaded a game then ModelBody::Load already restored the
-	// model and we shouldn't overwrite it
-	if (!GetModel())
-		SetModel(m_type->modelName.c_str());
 
 	m_navLights.Reset(new NavLights(GetModel(), 2.2f));
 	m_navLights->SetEnabled(true);
@@ -336,15 +328,14 @@ bool SpaceStation::LaunchShip(Ship *ship, int port)
 
 bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
 {
+	assert(m_shipDocking.size() == m_type->numDockingPorts);
 	for (uint32_t i=0; i<m_shipDocking.size(); i++) {
-		if (i >= m_type->numDockingPorts) break;
-		if ((m_shipDocking[i].ship == s) && (m_shipDocking[i].stage > 0)) {
+		if (m_shipDocking[i].ship == s) {
 			outMsg = stringf(Lang::CLEARANCE_ALREADY_GRANTED_BAY_N, formatarg("bay", i+1));
-			return true;
+			return (m_shipDocking[i].stage > 0); // grant docking only if the ship is not already docked/undocking
 		}
 	}
 	for (uint32_t i=0; i<m_shipDocking.size(); i++) {
-		if (i >= m_type->numDockingPorts) break;
 		if (m_shipDocking[i].ship != 0) continue;
 		shipDocking_t &sd = m_shipDocking[i];
 		sd.ship = s;
