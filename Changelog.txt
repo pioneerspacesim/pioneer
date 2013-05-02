@@ -54,6 +54,7 @@ Alpha 33
        (#2142, #2151)
      * Tweak Polish translation (#2167)
      * Gas giants now have a thin layer of atmosphere (#1788, #1395)
+     * Clamp ambient lighting to avoid pitch black (#2241)
 
    * Fixes
      * Fix hoop station unreliable docking detection (#2153, #2125)
