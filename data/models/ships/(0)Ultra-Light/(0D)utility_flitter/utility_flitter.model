@@ -12,7 +12,7 @@ shininess 80
 
 mesh utility_flitter.dae
 
-collision passenger_shuttle_collision.obj
+collision utility_flitter_collision.obj
 
 lod 10
-mesh passenger_shuttle_lod.obj
+mesh utility_flitter_lod.obj

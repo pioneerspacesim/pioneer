@@ -10,7 +10,7 @@ specular 1.0 1.0 1.0
 shininess 80
 
 mesh utility_control_vessel.dae
-collision cargo_ulcs_collision.obj
+collision utility_control_vessel_collision.obj
 
 lod 10
-mesh cargo_ulcs_lod.obj
+mesh utility_control_vessel_lod.obj
