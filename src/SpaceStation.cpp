@@ -328,15 +328,14 @@ bool SpaceStation::LaunchShip(Ship *ship, int port)
 
 bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
 {
+	assert(m_shipDocking.size() == m_type->numDockingPorts);
 	for (uint32_t i=0; i<m_shipDocking.size(); i++) {
-		if (i >= m_type->numDockingPorts) break;
 		if ((m_shipDocking[i].ship == s) && (m_shipDocking[i].stage > 0)) {
 			outMsg = stringf(Lang::CLEARANCE_ALREADY_GRANTED_BAY_N, formatarg("bay", i+1));
 			return true;
 		}
 	}
 	for (uint32_t i=0; i<m_shipDocking.size(); i++) {
-		if (i >= m_type->numDockingPorts) break;
 		if (m_shipDocking[i].ship != 0) continue;
 		shipDocking_t &sd = m_shipDocking[i];
 		sd.ship = s;
