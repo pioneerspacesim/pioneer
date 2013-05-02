@@ -126,7 +126,7 @@ noinst_HEADERS = \
 	StationShipRepairForm.h \
 	StationShipViewForm.h \
 	StationShipyardForm.h \
-	StartLocationView.h
+	StartLocationView.h \
 	StringF.h \
 	StringRange.h \
 	Sfx.h \
@@ -269,7 +269,7 @@ pioneer_SOURCES	= \
 	StationShipRepairForm.cpp \
 	StationShipViewForm.cpp \
 	StationShipyardForm.cpp \
-	StartLocationView.cpp
+	StartLocationView.cpp \
 	StringF.cpp \
 	Sfx.cpp \
 	Ship-AI.cpp \
