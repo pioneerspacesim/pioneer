@@ -1242,3 +1242,5 @@ MONTH_DEC
     Dec
 MISCELLANEOUS
     Miscellaneous
+START_GAME
+	Start game

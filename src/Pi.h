@@ -33,6 +33,7 @@ class SpaceStationView;
 class StarSystem;
 class SystemInfoView;
 class SystemView;
+class StartLocationView;
 class UIView;
 class View;
 class WorldView;
@@ -142,6 +143,7 @@ public:
 	static DeathView *deathView;
 	static SpaceStationView *spaceStationView;
 	static UIView *infoView;
+	static StartLocationView *startLocationView;
 	static LuaConsole *luaConsole;
 	static ShipCpanel *cpan;
 	static Sound::MusicPlayer &GetMusicPlayer() { return musicPlayer; }

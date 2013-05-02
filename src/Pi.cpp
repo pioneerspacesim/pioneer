@@ -60,6 +60,7 @@
 #include "StringF.h"
 #include "SystemInfoView.h"
 #include "SystemView.h"
+#include "StartLocationView.h"
 #include "Tombstone.h"
 #include "UIView.h"
 #include "WorldView.h"
@@ -110,6 +111,7 @@ GalacticView *Pi::galacticView;
 GameMenuView *Pi::gameMenuView;
 SystemView *Pi::systemView;
 SystemInfoView *Pi::systemInfoView;
+StartLocationView *Pi::startLocationView;
 ShipCpanel *Pi::cpan;
 LuaConsole *Pi::luaConsole;
 Game *Pi::game;
@@ -516,6 +518,8 @@ void Pi::Init()
 	KeyBindings::toggleLuaConsole.onPress.connect(sigc::ptr_fun(&Pi::ToggleLuaConsole));
 
 	gameMenuView = new GameMenuView();
+	startLocationView = new StartLocationView();
+	startLocationView->SetRenderer(renderer);
 	config->Save();
 }
 
@@ -546,6 +550,7 @@ void Pi::Quit()
 	Projectile::FreeModel();
 	delete Pi::intro;
 	delete Pi::gameMenuView;
+	delete Pi::startLocationView;
 	delete Pi::luaConsole;
 	NavLights::Uninit();
 	Sfx::Uninit();
@@ -877,9 +882,11 @@ void Pi::Start()
 		while (SDL_PollEvent(&event)) {
 			if (event.type == SDL_QUIT)
 				Pi::Quit();
-			else
+			else if(currentView) // views are still built via old gui 
+				Gui::HandleSDLEvent(&event);
+			else // if we're not in any view, we're in main menu. Menu uses new ui
 				ui->DispatchSDLEvent(event);
-
+			
 			// XXX hack
 			// if we hit our exit conditions then ignore further queued events
 			// protects against eg double-click during game generation
@@ -887,16 +894,26 @@ void Pi::Start()
 				while (SDL_PollEvent(&event)) {}
 		}
 
-		Pi::renderer->BeginFrame();
-		Pi::renderer->SetPerspectiveProjection(75, Pi::GetScrAspect(), 1.f, 10000.f);
-		Pi::renderer->SetTransform(matrix4x4f::Identity());
-		intro->Draw(_time);
-		Pi::renderer->EndFrame();
-
-		ui->Update();
-		ui->Draw();
-
-		Pi::renderer->SwapBuffers();
+		if (!Pi::game) { // do render job only if we need it
+			Pi::renderer->BeginFrame();
+			Pi::renderer->SetPerspectiveProjection(75, Pi::GetScrAspect(), 1.f, 10000.f);
+			Pi::renderer->SetTransform(matrix4x4f::Identity());
+			if (currentView) {
+				currentView->Update();
+				currentView->Draw3D();
+			} else
+				intro->Draw(_time);
+			Pi::renderer->EndFrame();
+		
+			if (currentView)
+				Gui::Draw();
+			else {
+				ui->Update();
+				ui->Draw();
+			}
+		
+			Pi::renderer->SwapBuffers();
+		}
 
 		Pi::frameTime = 0.001f*(SDL_GetTicks() - last_time);
 		_time += Pi::frameTime;

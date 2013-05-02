@@ -10,6 +10,7 @@
 #include "FileSystem.h"
 #include "ui/Context.h"
 #include "GameMenuView.h"
+#include "StartLocationView.h"
 
 /*
  * Interface: Engine
@@ -137,11 +138,20 @@ static int l_engine_settings_view(lua_State *l)
 	return 0;
 }
 
+static int l_engine_startloc_view(lua_State *l)
+{
+	if (Pi::game || Pi::GetView() == Pi::startLocationView)
+		return 0;
+	Pi::SetView(Pi::startLocationView);
+	return 0;
+}
+
 void LuaEngine::Register()
 {
 	static const luaL_Reg l_methods[] = {
 		{ "Quit", l_engine_quit },
 		{ "SettingsView", l_engine_settings_view },
+		{ "StartLocationView", l_engine_startloc_view },
 		{ 0, 0 }
 	};
 
