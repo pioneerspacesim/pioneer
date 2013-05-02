@@ -330,9 +330,9 @@ bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
 {
 	assert(m_shipDocking.size() == m_type->numDockingPorts);
 	for (uint32_t i=0; i<m_shipDocking.size(); i++) {
-		if ((m_shipDocking[i].ship == s) && (m_shipDocking[i].stage > 0)) {
+		if (m_shipDocking[i].ship == s) {
 			outMsg = stringf(Lang::CLEARANCE_ALREADY_GRANTED_BAY_N, formatarg("bay", i+1));
-			return true;
+			return (m_shipDocking[i].stage > 0); // grant docking only if the ship is not already docked/undocking
 		}
 	}
 	for (uint32_t i=0; i<m_shipDocking.size(); i++) {
