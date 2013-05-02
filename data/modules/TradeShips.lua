@@ -199,7 +199,7 @@ local getNearestStarport = function (ship, current)
 	-- Find the nearest starport that we can land at (other than current)
 	local starport, distance
 
-	starport = starports[Engine.rand:Integer(1,#starports)]
+	starport = starports[6] --starports[Engine.rand:Integer(1,#starports)]
 	--[[
 	for i = 1, #starports do
 		local next_starport = starports[i]
@@ -357,7 +357,7 @@ local spawnInitialShips = function (game_start)
 	-- start with three ships per two billion population
 	----num_trade_ships = population * 4
 	-- Adjust to # starports
-	num_trade_ships = #starports * 2
+	num_trade_ships = #starports * 3
 	-- add the average of import_score and export_score
 	num_trade_ships = num_trade_ships + (import_score + export_score) / 2
 	-- reduce based on lawlessness
