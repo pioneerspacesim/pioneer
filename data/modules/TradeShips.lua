@@ -174,7 +174,7 @@ doUndock = function (ship)
 		local trader = trade_ships[ship]
 		if not ship:Undock() then
 			-- unable to undock, try again in ten minutes
-			trader['delay'] = Game.time + 600
+			trader['delay'] = Game.time + 5
 			Timer:CallAt(trader.delay, function () doUndock(ship) end)
 		else
 			trader['delay'] = nil
@@ -192,7 +192,7 @@ local doOrbit = function (ship)
 end
 
 local getNearestStarport = function (ship, current)
-	if #starports == 0 then return nil end
+	if #starports == 0  then return nil end
 
 	local trader = trade_ships[ship]
 
@@ -200,8 +200,8 @@ local getNearestStarport = function (ship, current)
 	local starport, distance
 
 	starport = starports[Engine.rand:Integer(1,#starports)]
-
---[[	for i = 1, #starports do
+	--[[
+	for i = 1, #starports do
 		local next_starport = starports[i]
 		if next_starport ~= current then
 			local next_distance
@@ -219,7 +219,7 @@ local getNearestStarport = function (ship, current)
 			end
 		end
 	end --]]
-	return starport or current
+	return starport -- or current
 end
 
 local getSystem = function (ship)
@@ -357,7 +357,7 @@ local spawnInitialShips = function (game_start)
 	-- start with three ships per two billion population
 	----num_trade_ships = population * 4
 	-- Adjust to # starports
-	num_trade_ships = #starports * 4
+	num_trade_ships = #starports * 2
 	-- add the average of import_score and export_score
 	num_trade_ships = num_trade_ships + (import_score + export_score) / 2
 	-- reduce based on lawlessness
@@ -434,7 +434,7 @@ local spawnInitialShips = function (game_start)
 			local dest_time = Game.time + Engine.rand:Integer(min_time, max_time)
 			local from = from_paths[Engine.rand:Integer(1, #from_paths)]
 
-			ship = Space.SpawnShip(ship_name, 9, 11, {from, dest_time})
+			ship = Space.SpawnShip(ship_name, 1, 2, {from, dest_time})
 			trade_ships[ship] = {
 				status		= 'hyperspace',
 				dest_time	= dest_time,
@@ -451,7 +451,7 @@ local spawnInitialShips = function (game_start)
 		if trader.status == 'docked' then
 			local delay = fuel_added + addShipCargo(ship, 'export')
 			-- have ship wait 30-45 seconds per unit of cargo
-			trader['delay'] = Game.time + (delay * Engine.rand:Number(4, 8))
+			trader['delay'] = Game.time + (delay * Engine.rand:Number(0.01, 0.02))
 			Timer:CallAt(trader.delay, function () doUndock(ship) end)
 		else
 			addShipCargo(ship, 'import')
@@ -643,9 +643,9 @@ local onShipDocked = function (ship, starport)
 	-- delay undocking by 30-45 seconds for every unit of cargo transfered
 	-- or 2-3 minutes for every unit of hull repaired
 	if delay > 0 then
-		trader['delay'] = Game.time + (delay * Engine.rand:Number(4, 8))
+		trader['delay'] = Game.time + (delay * Engine.rand:Number(0.01, 0.02))
 	else
-		trader['delay'] = Game.time + Engine.rand:Number(6, 10)
+		trader['delay'] = Game.time + Engine.rand:Number(0.01, 0.02)
 	end
 
 	if trader.status == 'docked' then
