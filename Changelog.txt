@@ -23,6 +23,7 @@ Alpha 34
    * Fixes
      * Fix lua system export (#2229)
      * Fix Lua console so that it lets you continue incomplete commands (#2198)
+     * Fix logical error in crew skill boosting code (#2253)
 
    * Internal changes
      * SpaceStationTypes now loads data using the LuaTable wrapper (#2170)

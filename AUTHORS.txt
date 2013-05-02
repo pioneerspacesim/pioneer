@@ -51,6 +51,7 @@ As of 12 April 2013 (alpha 33), the Pioneer Developers are:
 * Oleg Ovcharenko
 * Paul Mahol
 * Paul Roberts
+* Pedro Gimeno
 * Peter Kurucz
 * Phil Howlett
 * Piotr Gredka
