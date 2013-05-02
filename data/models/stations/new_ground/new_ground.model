@@ -1,7 +1,7 @@
 # This model is based in part on geometry and textures by "Willi Hames"
 # The original mesh and textures are available from here for free:
 # http://www.scifi3d.com/details.asp?intGenreID=10&intCatID=17&key=85
-# 
+#
 # The original mesh required a lot of cleanup and was very high-poly for game usage
 # so had to be simplified and in many cases outright deleted to get it down to budget.
 # The upper and lower desking were recreated, polygon winding issues resolved and re-UV'd.
@@ -12,18 +12,18 @@ material m0c_b_metall1
 diffuse 1.0 1.0 1.0
 specular 0.5 0.5 0.5
 tex_diff Steelplt.PNG
-  
+
 material m1c_b_metall1a
 diffuse 1.0 1.0 1.0
 specular 0.5 0.5 0.5
 tex_diff LiftColumn.PNG
-tex_glow LiftColumn_illum.png
-  
+tex_glow LiftColumn_illum.PNG
+
 material m2palt_glow
 diffuse 1.0 1.0 1.0
 specular 0.5 0.5 0.5
 tex_diff LiftColumn.PNG
-tex_glow LiftColumn_illum.png
+tex_glow LiftColumn_illum.PNG
 
 material m3plat_ground_meta
 diffuse 1.0 1.0 1.0
@@ -34,7 +34,7 @@ material m4plat_lift_column
 diffuse 1.0 1.0 1.0
 specular 0.5 0.5 0.5
 tex_diff LiftColumn.PNG
-tex_glow LiftColumn_illum.png
+tex_glow LiftColumn_illum.PNG
 
 lod 300
 mesh landPad6_mesh_lores.DAE
