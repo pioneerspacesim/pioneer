@@ -159,9 +159,12 @@ void ModelBody::SetFrame(Frame *f)
 //    * As suns set the split is biased towards ambient
 void ModelBody::CalcLighting(double &ambient, double &direct, const Camera *camera)
 {
-	ambient = 0.0;
+	const double minAmbient = 0.05;
+
+	ambient = minAmbient;
 	direct = 1.0;
 	Body *astro = GetFrame()->GetBody();
+
 	if ( ! (astro && astro->IsType(Object::PLANET)) )
 		return;
 
@@ -243,8 +246,6 @@ void ModelBody::CalcLighting(double &ambient, double &direct, const Camera *came
 
 	// scale ambient by amount of light
 	ambient = fraction*(Clamp((light),0.0,1.0))*0.25;
-
-	const double minAmbient = std::min(1.0,density)*0.05;
 	ambient = std::max(minAmbient, ambient);
 }
 
@@ -273,7 +274,6 @@ void ModelBody::SetLighting(Graphics::Renderer *r, const Camera *camera, std::ve
 		cs.b*=float(intensity);
 		light.SetDiffuse(c);
 		light.SetSpecular(cs);
-
 		newLights.push_back(light);
 	}
 
