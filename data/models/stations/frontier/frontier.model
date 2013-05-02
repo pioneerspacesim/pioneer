@@ -19,6 +19,6 @@ specular 1.0 1.0 1.0
 lod 1000
 mesh frontier.dae
 
-collision megastation_collision.obj
-mesh bcdocking.dae
+collision frontier_collision.obj
+mesh frontier_docking.dae
 
