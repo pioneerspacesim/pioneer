@@ -33,7 +33,7 @@ local boostCrewSkills = function (crewMember)
 	local attribute = {
 		{'engineering',crewMember.engineering},
 		{'piloting',crewMember.piloting},
-		{'navigation',crewMember.piloting},
+		{'navigation',crewMember.navigation},
 		{'sensors',crewMember.sensors},
 	}
 	table.sort(attribute,function (a,b) return a[2] > b[2] end)
