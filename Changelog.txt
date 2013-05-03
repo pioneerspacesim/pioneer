@@ -7,6 +7,7 @@ Alpha 34
 
    * Minor changes and tweaks
      * Commodity Market buy/sell buttons now speed up when held down (#2188, #1734)
+     * Clamp ambient lighting to avoid pitch black (#2241)
 
    * Model changes
      * Station definition 'num_docking_ports' is no longer used; it is computed
@@ -54,7 +55,6 @@ Alpha 33
        (#2142, #2151)
      * Tweak Polish translation (#2167)
      * Gas giants now have a thin layer of atmosphere (#1788, #1395)
-     * Clamp ambient lighting to avoid pitch black (#2241)
 
    * Fixes
      * Fix hoop station unreliable docking detection (#2153, #2125)
