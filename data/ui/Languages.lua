@@ -66,6 +66,7 @@ Translate:Add({
 		-- Missions
 		['Mission Details'] = 'Mission Details',
 		['No missions.'] = 'No missions.',
+		["%d days left"] = "Days left: %d",
 		['INACTIVE'] = 'Inactive', -- Complement of ACTIVE, COMPLETED and FAILED
 
 		-- Crew Tasks
@@ -193,6 +194,7 @@ Translate:Add({
 		-- Missions
 		['Mission Details'] = 'Szczegóły misji',
 		['No missions.'] = 'Brak misji.',
+		["%d days left"] = "Pozostało dni: %d",
 		['INACTIVE'] = 'Nieaktywna', -- Complement of ACTIVE, COMPLETED and FAILED
 		
 		-- Crew Tasks
@@ -477,6 +479,7 @@ Translate:Add({
 		-- Missions
 		['Mission Details'] = 'О задании',
 		['No missions.'] = 'Нет заданий.',
+		["%d days left"] = "Осталось дней: %d",
 		['INACTIVE'] = 'Неактивно', -- Complement of ACTIVE, COMPLETED and FAILED
 		
 				-- Crew Tasks
@@ -681,6 +684,7 @@ Translate:Add({
 		-- Missions
 		['Mission Details'] = 'Detaily mise',
 		['No missions.'] = 'Žádné mise.',
+		["%d days left"] = "Zbývá dnů: %d",
 		['INACTIVE'] = 'Neprobíhá', -- Complement of ACTIVE, COMPLETED and FAILED
 
 		-- Crew Tasks

@@ -406,7 +406,30 @@ local missions = function (tabGroup)
 		else
 			missionLocationName = string.format('%s [%d,%d,%d]', mission.location:GetStarSystem().name, mission.location.sectorX, mission.location.sectorY, mission.location.sectorZ)
 		end
-
+		-- Format the distance label
+		local playerSystem = Game.system or Game.player:GetHyperspaceTarget()
+		local dist = playerSystem:DistanceTo(mission.location)
+		local distLabel = ui:Label(string.format('%.2f %s', dist, t('ly')))
+		local hyperjumpStatus = Game.player:GetHyperspaceDetails(mission.location)
+		if hyperjumpStatus == 'CURRENT_SYSTEM' then 
+			distLabel:SetColor(0.0, 1.0, 0.2) -- green  
+		else 
+			if hyperjumpStatus == 'OK' then
+				distLabel:SetColor(1.0, 1.0, 0.0) -- yellow
+			else 
+				distLabel:SetColor(1.0, 0.0, 0.0) -- red
+			end
+		end
+		-- Pack location and distance
+		local locationBox = ui:VBox(2):PackEnd(ui:MultiLineText(missionLocationName))
+									  :PackEnd(distLabel)
+		
+		-- Format Due info
+		local dueLabel = ui:Label(Format.Date(mission.due))
+		local days = math.max(0, (mission.due - Game.time) / (24*60*60))
+		local daysLabel = ui:Label(string.format(t("%d days left"), days)):SetColor(1.0, 0.0, 1.0) -- purple
+		local dueBox = ui:VBox(2):PackEnd(dueLabel):PackEnd(daysLabel)
+		
 		local moreButton = UI.SmallLabeledButton.New(t("More info..."))
 		moreButton.button.onClick:Connect(function ()
 			MissionScreen:SetInnerWidget(ui:VBox(10)
@@ -415,12 +438,12 @@ local missions = function (tabGroup)
 		end)
 
 		local description = mission:GetTypeDescription()
-		local row = 
+		local row =
 		{ -- if we don't specify widget, default one will be used 
 			{data = description or t('NONE')},
 			{data = mission.client.name},
-			{data = missionLocationName, widget = ui:MultiLineText(missionLocationName)},
-			{data = mission.due, widget = ui:Label(Format.Date(mission.due))},
+			{data = dist, widget = locationBox},
+			{data = mission.due, widget = dueBox},
 			{data = mission.reward, widget = ui:Label(Format.Money(mission.reward))},
 			-- nil description means mission type isn't registered.
 			{data = (description and t(mission.status)) or t('INACTIVE')},
