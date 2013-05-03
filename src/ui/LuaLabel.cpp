@@ -16,6 +16,16 @@ public:
 		return 0;
 	}
 
+	static int l_set_color(lua_State *l) {
+		UI::Label *label = LuaObject<UI::Label>::CheckFromLua(1);
+		const float r(luaL_checknumber(l, 2));
+		const float g(luaL_checknumber(l, 3));
+		const float b(luaL_checknumber(l, 4));
+		label->SetColor(r,g,b);
+		lua_pushvalue(l, 1);
+		return 1;
+	}
+
 };
 
 }
@@ -30,6 +40,7 @@ template <> void LuaObject<UI::Label>::RegisterClass()
 
 	static const luaL_Reg l_methods[] = {
 		{ "SetText", &LuaLabel::l_set_text },
+		{ "SetColor", &LuaLabel::l_set_color },
 		{ 0, 0 }
 	};
 

@@ -911,7 +911,7 @@ O2_ATMOSPHERE
 CO2_ATMOSPHERE
      " oxido-uhličitou atmosférou"
 CO_ATMOSPHERE
-     " kysličníko-uhelnatou atmosférou"
+     " oxido-uhelnatou atmosférou"
 CH4_ATMOSPHERE
      " metanovou atmosférou"
 H_ATMOSPHERE
@@ -994,6 +994,8 @@ ECCENTRICITY
     Výstřednost
 AXIAL_TILT
     Sklon rotační osy
+EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO
+    Poměr poloměrů (rovníkový/polární)
 N_DEGREES
     %angle{f.1}°
 DAY_LENGTH
@@ -1059,7 +1061,7 @@ NAME
 ROTATIONAL_PERIOD
      " (perioda rotace)"
 RADIUS
-    Rovníkový průměr
+    Rovníkový poloměr
 SEMI_MAJOR_AXIS
     Velká poloosa dráhy
 TIME_POINT
@@ -1169,7 +1171,7 @@ NAVIGATION_TARGETS_IN_THIS_SYSTEM
 YOU_NO_MONEY
     Nemáte žádné peníze.
 FINE_PAID_N_BUT_N_REMAINING
-    Zaplatili jste %paid, ale za pokutu ještě zbývá zaplatit %fine.
+    Zaplatili jste pokutu %paid, ale ještě zbývá zaplatit %fine.
 FINE_PAID_N
     Zaplatili jste pokutu %fine.
 SET_HYPERSPACE_DESTINATION_TO
