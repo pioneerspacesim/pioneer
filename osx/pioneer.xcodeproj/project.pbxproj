@@ -204,6 +204,8 @@
 		4A85A86A13C4631D00C2B986 /* LuaMusic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A85A86313C4631D00C2B986 /* LuaMusic.cpp */; };
 		4A85A86B13C4631D00C2B986 /* LuaSystemPath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A85A86513C4631D00C2B986 /* LuaSystemPath.cpp */; };
 		4A85A86C13C4631D00C2B986 /* SoundMusic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A85A86713C4631D00C2B986 /* SoundMusic.cpp */; };
+		4A8AE19617208CE50005C2D9 /* LuaPropertiedObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A8AE19217208CE40005C2D9 /* LuaPropertiedObject.cpp */; };
+		4A8AE19717208CE50005C2D9 /* PropertyMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A8AE19417208CE40005C2D9 /* PropertyMap.cpp */; };
 		4A8DD53B142E19B6006DD821 /* LuaConsole.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A8DD539142E19B6006DD821 /* LuaConsole.cpp */; };
 		4A9174F415187B69006A15A9 /* GuiTexturedQuad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9174F215187B69006A15A9 /* GuiTexturedQuad.cpp */; };
 		4A9174FB15187B97006A15A9 /* TextureBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9174F715187B97006A15A9 /* TextureBuilder.cpp */; };
@@ -244,6 +246,7 @@
 		4AA5280816E9EBD60036D4CB /* LuaModelSkin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AA5280716E9EBD60036D4CB /* LuaModelSkin.cpp */; };
 		4AA84A2716D0E18700220311 /* LuaEquipDef.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AA84A2116D0E18700220311 /* LuaEquipDef.cpp */; };
 		4AA84A2816D0E18700220311 /* LuaShipDef.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AA84A2316D0E18700220311 /* LuaShipDef.cpp */; };
+		4AA9F6CC17288E0900124C2E /* TerrainHeightEllipsoid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AA9F6CB17288E0900124C2E /* TerrainHeightEllipsoid.cpp */; };
 		4AAB881315F4AD3500AAF8A8 /* GeoSphereMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAB880415F4AD3500AAF8A8 /* GeoSphereMaterial.cpp */; };
 		4AAB881415F4AD3500AAF8A8 /* GL2Material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAB880615F4AD3500AAF8A8 /* GL2Material.cpp */; };
 		4AAB881515F4AD3500AAF8A8 /* MultiMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAB880815F4AD3500AAF8A8 /* MultiMaterial.cpp */; };
@@ -872,6 +875,10 @@
 		4A85A86513C4631D00C2B986 /* LuaSystemPath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaSystemPath.cpp; sourceTree = "<group>"; };
 		4A85A86713C4631D00C2B986 /* SoundMusic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundMusic.cpp; sourceTree = "<group>"; };
 		4A85A86813C4631D00C2B986 /* SoundMusic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundMusic.h; sourceTree = "<group>"; };
+		4A8AE19217208CE40005C2D9 /* LuaPropertiedObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaPropertiedObject.cpp; sourceTree = "<group>"; };
+		4A8AE19317208CE40005C2D9 /* PropertiedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertiedObject.h; sourceTree = "<group>"; };
+		4A8AE19417208CE40005C2D9 /* PropertyMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PropertyMap.cpp; sourceTree = "<group>"; };
+		4A8AE19517208CE50005C2D9 /* PropertyMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyMap.h; sourceTree = "<group>"; };
 		4A8DD539142E19B6006DD821 /* LuaConsole.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaConsole.cpp; sourceTree = "<group>"; };
 		4A8DD53A142E19B6006DD821 /* LuaConsole.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaConsole.h; sourceTree = "<group>"; };
 		4A9174F215187B69006A15A9 /* GuiTexturedQuad.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GuiTexturedQuad.cpp; sourceTree = "<group>"; };
@@ -950,6 +957,7 @@
 		4AA84A2416D0E18700220311 /* LuaShipDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaShipDef.h; sourceTree = "<group>"; };
 		4AA84A2516D0E18700220311 /* LuaWrappable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaWrappable.h; sourceTree = "<group>"; };
 		4AA84A2616D0E18700220311 /* Random.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Random.h; sourceTree = "<group>"; };
+		4AA9F6CB17288E0900124C2E /* TerrainHeightEllipsoid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightEllipsoid.cpp; sourceTree = "<group>"; };
 		4AAB880415F4AD3500AAF8A8 /* GeoSphereMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GeoSphereMaterial.cpp; sourceTree = "<group>"; };
 		4AAB880515F4AD3500AAF8A8 /* GeoSphereMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeoSphereMaterial.h; sourceTree = "<group>"; };
 		4AAB880615F4AD3500AAF8A8 /* GL2Material.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GL2Material.cpp; sourceTree = "<group>"; };
@@ -1707,6 +1715,7 @@
 				4A82AA7F1386969B0028CCED /* LuaObject.h */,
 				4A9937301368355500EA0EE5 /* LuaPlanet.cpp */,
 				4A9937321368355500EA0EE5 /* LuaPlayer.cpp */,
+				4A8AE19217208CE40005C2D9 /* LuaPropertiedObject.cpp */,
 				4AAB884415FDEA6E00AAF8A8 /* LuaPushPull.h */,
 				4A9937341368355500EA0EE5 /* LuaRand.cpp */,
 				4AAB884515FDEA6E00AAF8A8 /* LuaRef.cpp */,
@@ -1772,6 +1781,9 @@
 				4ADB0D1215C50DF000AE2123 /* posix */,
 				4A6C4D4113532FC300FDD53F /* Projectile.cpp */,
 				4A6C4D4213532FC300FDD53F /* Projectile.h */,
+				4A8AE19317208CE40005C2D9 /* PropertiedObject.h */,
+				4A8AE19417208CE40005C2D9 /* PropertyMap.cpp */,
+				4A8AE19517208CE50005C2D9 /* PropertyMap.h */,
 				4A6C4D4313532FC300FDD53F /* Quaternion.h */,
 				4AA84A2616D0E18700220311 /* Random.h */,
 				4A99374E1368355500EA0EE5 /* RefCounted.h */,
@@ -1928,12 +1940,6 @@
 		4AB7D5CF1472A83E00158DE4 /* terrain */ = {
 			isa = PBXGroup;
 			children = (
-				4ADB0D0615C50DD900AE2123 /* TerrainHeightAsteroid2.cpp */,
-				4ADB0D0715C50DD900AE2123 /* TerrainHeightAsteroid3.cpp */,
-				4ADB0D0815C50DD900AE2123 /* TerrainHeightAsteroid4.cpp */,
-				4ADB0D0915C50DD900AE2123 /* TerrainHeightBarrenRock.cpp */,
-				4ADB0D0A15C50DD900AE2123 /* TerrainHeightBarrenRock2.cpp */,
-				4ADB0D0B15C50DD900AE2123 /* TerrainHeightBarrenRock3.cpp */,
 				4AB7D5D11472A83E00158DE4 /* Terrain.cpp */,
 				4AB7D5D21472A83E00158DE4 /* Terrain.h */,
 				4AB7D5D31472A83E00158DE4 /* TerrainColorAsteroid.cpp */,
@@ -1963,6 +1969,13 @@
 				4AB7D5EB1472A83E00158DE4 /* TerrainFeature.cpp */,
 				4AB7D5EC1472A83E00158DE4 /* TerrainFeature.h */,
 				4AB7D5ED1472A83E00158DE4 /* TerrainHeightAsteroid.cpp */,
+				4ADB0D0615C50DD900AE2123 /* TerrainHeightAsteroid2.cpp */,
+				4ADB0D0715C50DD900AE2123 /* TerrainHeightAsteroid3.cpp */,
+				4ADB0D0815C50DD900AE2123 /* TerrainHeightAsteroid4.cpp */,
+				4ADB0D0915C50DD900AE2123 /* TerrainHeightBarrenRock.cpp */,
+				4ADB0D0A15C50DD900AE2123 /* TerrainHeightBarrenRock2.cpp */,
+				4ADB0D0B15C50DD900AE2123 /* TerrainHeightBarrenRock3.cpp */,
+				4AA9F6CB17288E0900124C2E /* TerrainHeightEllipsoid.cpp */,
 				4AB7D5EE1472A83E00158DE4 /* TerrainHeightFlat.cpp */,
 				4AB7D5EF1472A83E00158DE4 /* TerrainHeightHillsCraters.cpp */,
 				4AB7D5F01472A83E00158DE4 /* TerrainHeightHillsCraters2.cpp */,
@@ -2657,6 +2670,9 @@
 				4AA5280616E9EB980036D4CB /* ModelSkin.cpp in Sources */,
 				4AA5280816E9EBD60036D4CB /* LuaModelSkin.cpp in Sources */,
 				4A712413170EC89000BB9BCC /* Orbit.cpp in Sources */,
+				4A8AE19617208CE50005C2D9 /* LuaPropertiedObject.cpp in Sources */,
+				4A8AE19717208CE50005C2D9 /* PropertyMap.cpp in Sources */,
+				4AA9F6CC17288E0900124C2E /* TerrainHeightEllipsoid.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

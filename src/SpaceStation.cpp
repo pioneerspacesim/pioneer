@@ -173,6 +173,7 @@ void SpaceStation::InitStation()
 		m_type = &SpaceStationType::orbitalStationTypes[ rand.Int32(SpaceStationType::orbitalStationTypes.size()) ];
 	}
 
+	assert(m_type->numDockingPorts > 0);
 	for (unsigned int i=0; i<m_type->numDockingPorts; i++) {
 		m_shipDocking.push_back(shipDocking_t());
 	}

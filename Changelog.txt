@@ -2,12 +2,29 @@ Alpha 34
 
    * New features
      * New combat music track (#2209)
+     * Mission list can now be sorted by clicking the column headers (#2183, #2128)
+     * Mission list now shows distance to system and days remaining (#2234, #2244)
+
+   * Minor changes and tweaks
+     * Commodity Market buy/sell buttons now speed up when held down (#2188, #1734)
+     * Clamp ambient lighting to avoid pitch black (#2241)
 
    * Model changes
      * Station definition 'num_docking_ports' is no longer used; it is computed
        from the bay definitions (#2219)
      * Station model docking nodes are checked against the station definition
        (#2219)
+     * New 6-bay ground station model (#2227)
+
+   * Script and UI API changes
+     * New method 'SetColor' on Label widgets (#2234)
+     * Player:GetHyperspaceTarget() now returns path of destination system when
+       in hyperspace (#2244)
+
+   * Fixes
+     * Fix lua system export (#2229)
+     * Fix Lua console so that it lets you continue incomplete commands (#2198)
+     * Fix logical error in crew skill boosting code (#2253)
 
    * Internal changes
      * SpaceStationTypes now loads data using the LuaTable wrapper (#2170)
@@ -16,6 +33,8 @@ Alpha 34
      * New dynamic object property system (#2161, #2226, #2225, #2223, #2221)
      * Support linking against the LDB Lua debugging library (#2147)
      * Stars with flattening due to fast rotation, i.e; ellipsoids (#2178)
+     * Update bundled Lua to version 5.2.2 (#2230)
+     * Model loader: improve instancing (#2228)
 
 Alpha 33
 
