@@ -25,6 +25,7 @@ April 2013
      * Fix lua system export (#2229)
      * Fix Lua console so that it lets you continue incomplete commands (#2198)
      * Fix logical error in crew skill boosting code (#2253)
+     * Fix assertion when attempting to dock whilst you're also trying to leave (#2239)
 
    * Internal changes
      * SpaceStationTypes now loads data using the LuaTable wrapper (#2170)
