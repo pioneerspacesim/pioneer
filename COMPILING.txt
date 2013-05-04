@@ -9,9 +9,9 @@ Windows: GNU Autotools with MXE (MinGW GCC) (cross-compile on Linux)
 OS X: GNU Autotools or XCode 4
 
 The Autotools build system is usually the most up-to-date, and is what is used
-to produce the Linux and Windows nightly and alpha builds. The others
-typically lag behind, depending on the motivation of those using them to keep
-them up too date with source file changes.
+to produce the Linux and Windows builds. The others typically lag behind,
+depending on the motivation of those using them to keep them up too date with
+source file changes.
 
 There is an additional repository called pioneer-thirdparty that contains
 various files that may assist with building. If the instructions for your

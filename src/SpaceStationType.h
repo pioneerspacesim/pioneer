@@ -62,6 +62,9 @@ struct SpaceStationType {
 	const SBayGroup* FindGroupByBay(const int zeroBaseBayID) const;
 	SBayGroup* GetGroupByBay(const int zeroBaseBayID);
 
+	double GetDockAnimStageDuration(const int stage) const;
+	double GetUndockAnimStageDuration(const int stage) const;
+
 	// Call functions in the station .lua
 	bool GetShipApproachWaypoints(const unsigned int port, const int stage, positionOrient_t &outPosOrient) const;
 	/** when ship is on rails it returns true and fills outPosOrient.

@@ -75,6 +75,7 @@ void SpaceStationType::OnSetupComplete()
 			m_ports[bay].m_leaving[stage] = (*leaveIter)->GetTransform();
 		}
 
+		assert(m_ports.size() > 0);
 		assert(numDockingStages > 0);
 		assert(numUndockStages > 0);
 
@@ -157,6 +158,18 @@ bool SpaceStationType::GetShipApproachWaypoints(const unsigned int port, const i
 		}
 	}
 	return gotOrient;
+}
+
+double SpaceStationType::GetDockAnimStageDuration(const int stage) const
+{
+	assert(stage>=0 && stage<numDockingStages);
+	return dockAnimStageDuration[stage];
+}
+
+double SpaceStationType::GetUndockAnimStageDuration(const int stage) const
+{
+	assert(stage>=0 && stage<numUndockStages);
+	return undockAnimStageDuration[stage];
 }
 
 //for station waypoint interpolation
