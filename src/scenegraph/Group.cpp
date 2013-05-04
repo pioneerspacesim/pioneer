@@ -70,6 +70,11 @@ bool Group::RemoveChildAt(unsigned int idx)
 	return true;
 }
 
+Node* Group::GetChildAt(unsigned int idx)
+{
+	return m_children.at(idx);
+}
+
 Node* Group::FindNode(const std::string &name)
 {
 	if (m_name == name)
