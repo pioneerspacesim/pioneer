@@ -34,7 +34,7 @@ TerrainHeightFractal<TerrainHeightMountainsRiversVolcano>::TerrainHeightFractal(
 }
 
 template <>
-double TerrainHeightFractal<TerrainHeightMountainsRiversVolcano>::GetHeight(const vector3d &p)
+double TerrainHeightFractal<TerrainHeightMountainsRiversVolcano>::GetHeight(const vector3d &p) const
 {
 	double continents = octavenoise(GetFracDef(0), 0.5, p) - m_sealevel;
 	if (continents < 0) return 0;

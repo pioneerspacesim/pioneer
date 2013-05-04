@@ -35,7 +35,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
@@ -136,6 +136,7 @@
     <ClCompile Include="..\..\src\CityOnPlanet.cpp" />
     <ClCompile Include="..\..\src\Color.cpp" />
     <ClCompile Include="..\..\src\CommodityTradeWidget.cpp" />
+    <ClCompile Include="..\..\src\CoreCount.cpp" />
     <ClCompile Include="..\..\src\CRC32.cpp" />
     <ClCompile Include="..\..\src\DeadVideoLink.cpp" />
     <ClCompile Include="..\..\src\DeathView.cpp" />
@@ -155,10 +156,15 @@
     <ClCompile Include="..\..\src\Game.cpp" />
     <ClCompile Include="..\..\src\GameConfig.cpp" />
     <ClCompile Include="..\..\src\GameMenuView.cpp" />
+    <ClCompile Include="..\..\src\GeoPatch.cpp" />
+    <ClCompile Include="..\..\src\GeoPatchContext.cpp" />
+    <ClCompile Include="..\..\src\GeoPatchID.cpp" />
+    <ClCompile Include="..\..\src\GeoPatchJobs.cpp" />
     <ClCompile Include="..\..\src\GeoSphere.cpp" />
     <ClCompile Include="..\..\src\HyperspaceCloud.cpp" />
     <ClCompile Include="..\..\src\IniConfig.cpp" />
     <ClCompile Include="..\..\src\Intro.cpp" />
+    <ClCompile Include="..\..\src\JobQueue.cpp" />
     <ClCompile Include="..\..\src\KeyBindings.cpp" />
     <ClCompile Include="..\..\src\Lang.cpp" />
     <ClCompile Include="..\..\src\Lua.cpp" />
@@ -294,6 +300,7 @@
     <ClInclude Include="..\..\src\CityOnPlanet.h" />
     <ClInclude Include="..\..\src\Color.h" />
     <ClInclude Include="..\..\src\CommodityTradeWidget.h" />
+    <ClInclude Include="..\..\src\CoreCount.h" />
     <ClInclude Include="..\..\src\CRC32.h" />
     <ClInclude Include="..\..\src\DeadVideoLink.h" />
     <ClInclude Include="..\..\src\DeathView.h" />
@@ -316,10 +323,15 @@
     <ClInclude Include="..\..\src\GameConfig.h" />
     <ClInclude Include="..\..\src\gameconsts.h" />
     <ClInclude Include="..\..\src\GameMenuView.h" />
+    <ClInclude Include="..\..\src\GeoPatch.h" />
+    <ClInclude Include="..\..\src\GeoPatchContext.h" />
+    <ClInclude Include="..\..\src\GeoPatchID.h" />
+    <ClInclude Include="..\..\src\GeoPatchJobs.h" />
     <ClInclude Include="..\..\src\GeoSphere.h" />
     <ClInclude Include="..\..\src\HyperspaceCloud.h" />
     <ClInclude Include="..\..\src\IniConfig.h" />
     <ClInclude Include="..\..\src\Intro.h" />
+    <ClInclude Include="..\..\src\JobQueue.h" />
     <ClInclude Include="..\..\src\KeyBindings.h" />
     <ClInclude Include="..\..\src\libs.h" />
     <ClInclude Include="..\..\src\Lua.h" />
