@@ -1045,14 +1045,19 @@ void WorldView::UpdateCommsOptions()
 		m_commsOptions->Add(new Gui::Label("#0f0"+navtarget->GetLabel()), 16, float(ypos));
 		ypos += 32;
 		if (navtarget->IsType(Object::SPACESTATION)) {
-			button = AddCommsOption(Lang::REQUEST_DOCKING_CLEARANCE, ypos, optnum++);
-			button->onClick.connect(sigc::bind(sigc::ptr_fun(&PlayerRequestDockingClearance), reinterpret_cast<SpaceStation*>(navtarget)));
-			ypos += 32;
+			SpaceStation *pStation = static_cast<SpaceStation *>(navtarget);
 
-			if (Pi::player->m_equipment.Get(Equip::SLOT_AUTOPILOT) == Equip::AUTOPILOT) {
-				button = AddCommsOption(Lang::AUTOPILOT_DOCK_WITH_STATION, ypos, optnum++);
-				button->onClick.connect(sigc::bind(sigc::ptr_fun(&autopilot_dock), navtarget));
+			if( pStation->GetMyDockingPort(Pi::player) == -1 )
+			{
+				button = AddCommsOption(Lang::REQUEST_DOCKING_CLEARANCE, ypos, optnum++);
+				button->onClick.connect(sigc::bind(sigc::ptr_fun(&PlayerRequestDockingClearance), reinterpret_cast<SpaceStation*>(navtarget)));
 				ypos += 32;
+
+				if (Pi::player->m_equipment.Get(Equip::SLOT_AUTOPILOT) == Equip::AUTOPILOT) {
+					button = AddCommsOption(Lang::AUTOPILOT_DOCK_WITH_STATION, ypos, optnum++);
+					button->onClick.connect(sigc::bind(sigc::ptr_fun(&autopilot_dock), navtarget));
+					ypos += 32;
+				}
 			}
 
 			Sint64 crime, fine;
