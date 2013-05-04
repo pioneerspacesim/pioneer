@@ -433,7 +433,6 @@ void ModelViewer::DrawDockingLocators()
 		}
 	}
 
-	
 	for(std::vector<Line3D>::iterator lineIter = sLines.begin(), lineEnd = sLines.end(); lineIter!=lineEnd; ++lineIter)
 	{
 		(*lineIter).Draw(m_renderer);
