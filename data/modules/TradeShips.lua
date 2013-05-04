@@ -199,7 +199,7 @@ local getNearestStarport = function (ship, current)
 	-- Find the nearest starport that we can land at (other than current)
 	local starport, distance
 
-	starport = starports[6] --starports[Engine.rand:Integer(1,#starports)]
+	starport = starports[Engine.rand:Integer(1,#starports)]
 	--[[
 	for i = 1, #starports do
 		local next_starport = starports[i]
@@ -389,7 +389,7 @@ local spawnInitialShips = function (game_start)
 		local ship_name = ship_names[Engine.rand:Integer(1, #ship_names)]
 		local ship = nil
 
-		if game_start and i < num_trade_ships / 4 then
+		if game_start and i < num_trade_ships / 2 then
 			-- spawn the first quarter in port if at game start
 			local starport = starports[Engine.rand:Integer(1, #starports)]
 
@@ -451,7 +451,7 @@ local spawnInitialShips = function (game_start)
 		if trader.status == 'docked' then
 			local delay = fuel_added + addShipCargo(ship, 'export')
 			-- have ship wait 30-45 seconds per unit of cargo
-			trader['delay'] = Game.time + (delay * Engine.rand:Number(0.01, 0.02))
+			trader['delay'] = Game.time + (delay * Engine.rand:Number(1, 2))
 			Timer:CallAt(trader.delay, function () doUndock(ship) end)
 		else
 			addShipCargo(ship, 'import')
@@ -477,7 +477,7 @@ local spawnReplacement = function ()
 		local dest_time = Game.time + Engine.rand:Number(trade_ships.interval, trade_ships.interval * 2)
 		local from = from_paths[Engine.rand:Integer(1, #from_paths)]
 
-		local ship = Space.SpawnShip(ship_name, 9, 11, {from, dest_time})
+		local ship = Space.SpawnShip(ship_name, 1, 2, {from, dest_time})
 		trade_ships[ship] = {
 			status		= 'hyperspace',
 			dest_time	= dest_time,
@@ -643,9 +643,9 @@ local onShipDocked = function (ship, starport)
 	-- delay undocking by 30-45 seconds for every unit of cargo transfered
 	-- or 2-3 minutes for every unit of hull repaired
 	if delay > 0 then
-		trader['delay'] = Game.time + (delay * Engine.rand:Number(0.01, 0.02))
+		trader['delay'] = Game.time + (delay * Engine.rand:Number(1, 2))
 	else
-		trader['delay'] = Game.time + Engine.rand:Number(0.01, 0.02)
+		trader['delay'] = Game.time + Engine.rand:Number(1, 2)
 	end
 
 	if trader.status == 'docked' then
