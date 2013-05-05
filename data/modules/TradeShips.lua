@@ -191,6 +191,30 @@ local doOrbit = function (ship)
 	print(ship.label..' ordering orbit of '..body.label)
 end
 
+local getMyStarport = function (ship, current)
+	if #starports == 0  then return nil end
+
+	local trader = trade_ships[ship]
+
+	-- Find the nearest starport that we can land at (other than current)
+	local starport, distance
+
+	for i = 1, #starports do
+		local next_starport = starports[i]
+		if next_starport ~= current then
+			local next_distance = Game.player:DistanceTo(next_starport)
+			local next_canland = (trader.ATMOSHIELD or
+				(next_starport.type == 'STARPORT_ORBITAL') or
+				(not next_starport.path:GetSystemBody().parent.hasAtmosphere))
+
+			if next_canland and ((starport == nil) or (next_distance < distance)) then
+				starport, distance = next_starport, next_distance
+			end
+		end
+	end 
+	return starport -- or current
+end
+
 local getNearestStarport = function (ship, current)
 	if #starports == 0  then return nil end
 
@@ -495,6 +519,27 @@ local spawnReplacement = function ()
 	end
 end
 
+local spawnReplacementFast = function ()
+	-- spawn new ship in hyperspace
+	if #starports > 0 and Game.system.population > 0 and #imports > 0 and #exports > 0 then
+		local ship_names = getAcceptableShips()
+		local ship_name = ship_names[Engine.rand:Integer(1, #ship_names)]
+
+		local ship = Space.SpawnShipNear(ship_name, Game.player, 5, 15) -- 10mkm - 1AU
+		trade_ships[ship] = {
+			status		= 'inbound',
+			starport	= starport,
+			ship_name	= ship_name,
+		}
+		addShipEquip(ship)
+		local starport = getMyStarport(ship)
+		ship:AIDockWith(starport)
+		trade_ships[ship]['starport'] = starport
+		trade_ships[ship]['status'] = 'inbound'
+		addShipCargo(ship, 'import')
+	end
+end
+
 local updateTradeShipsTable = function ()
 	local total, removed = 0, 0
 	for ship, trader in pairs(trade_ships) do
@@ -593,6 +638,13 @@ end
 Event.Register("onLeaveSystem", onLeaveSystem)
 
 local onFrameChanged = function (ship)
+
+	if ship == Game.player then
+		spawnReplacementFast()	
+		spawnReplacementFast()	
+		spawnReplacementFast()	
+	end
+
 	if not ship:isa("Ship") or trade_ships[ship] == nil then return end
 	local trader = trade_ships[ship]
 
@@ -604,6 +656,8 @@ local onFrameChanged = function (ship)
 			trader['status'] = 'inbound'
 		end
 	end
+
+
 end
 Event.Register("onFrameChanged", onFrameChanged)
 
