@@ -186,6 +186,8 @@ COULD_NOT_OPEN_FILENAME
     Nie mogę odczytać %path
 GAME_LOAD_CORRUPT
     Ten zapis nie może zostać wczytany ponieważ zawiera błędy.
+GAME_LOAD_WRONG_VERSION
+    Ten zapis gry nie może zostać załadowany, ponieważ pochodzi z innej wersji gry Pioneer.
 GAME_LOAD_CANNOT_OPEN
     Ten zapis nie może być wczytany z powodu braku uprawnień bądź z innej przyczyny...
 GAME_SAVE_CANNOT_WRITE
