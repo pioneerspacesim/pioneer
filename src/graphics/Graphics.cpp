@@ -16,6 +16,7 @@ bool shadersEnabled = false;
 Material *vtxColorMaterial;
 Settings settings;
 static float g_fov = 85.f;
+static float g_fovFactor = 1.f;
 
 int GetScreenWidth()
 {
@@ -27,14 +28,20 @@ int GetScreenHeight()
 	return settings.height;
 }
 
-float GetFOV()
+float GetFov()
 {
 	return g_fov;
 }
 
-void SetFOV(float fov)
+void SetFov(float fov)
 {
 	g_fov = fov;
+	g_fovFactor = 2 * tan(DEG2RAD(g_fov) / 2.f);
+}
+
+float GetFovFactor()
+{
+	return g_fovFactor;
 }
 
 Renderer* Init(Settings vs)
@@ -157,11 +164,6 @@ Renderer* Init(Settings vs)
 void Uninit()
 {
 	delete vtxColorMaterial;
-}
-
-void SwapBuffers()
-{
-	SDL_GL_SwapBuffers();
 }
 
 bool AreShadersEnabled()

@@ -137,7 +137,7 @@ bool RendererLegacy::SwapBuffers()
 	}
 #endif
 
-	Graphics::SwapBuffers();
+	SDL_GL_SwapBuffers();
 	return true;
 }
 
@@ -191,7 +191,7 @@ bool RendererLegacy::SetTransform(const matrix4x4f &m)
 
 bool RendererLegacy::SetPerspectiveProjection(float fov, float aspect, float near, float far)
 {
-	Graphics::SetFOV(fov);
+	Graphics::SetFov(fov);
 
 	double ymax = near * tan(fov * M_PI / 360.0);
 	double ymin = -ymax;
