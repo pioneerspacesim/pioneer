@@ -54,6 +54,7 @@ noinst_HEADERS = \
 	HyperspaceCloud.h \
 	IniConfig.h \
 	Intro.h \
+	JobQueue.h \
 	GameConfig.h \
 	KeyBindings.h \
 	Lang.h \
@@ -191,10 +192,15 @@ pioneer_SOURCES	= \
 	GalacticView.cpp \
 	Game.cpp \
 	GameMenuView.cpp \
+	GeoPatch.cpp \
+	GeoPatchContext.cpp \
+	GeoPatchID.cpp \
+	GeoPatchJobs.cpp \
 	GeoSphere.cpp \
 	HyperspaceCloud.cpp \
 	IniConfig.cpp \
 	Intro.cpp \
+	JobQueue.cpp \
 	GameConfig.cpp \
 	KeyBindings.cpp \
 	Lang.cpp \
