@@ -16,7 +16,7 @@ TerrainColorFractal<TerrainColorDeadWithWater>::TerrainColorFractal(const System
 }
 
 template <>
-vector3d TerrainColorFractal<TerrainColorDeadWithWater>::GetColor(const vector3d &p, double height, const vector3d &norm)
+vector3d TerrainColorFractal<TerrainColorDeadWithWater>::GetColor(const vector3d &p, double height, const vector3d &norm) const
 {
 	double n = m_invMaxHeight*height;
 	if (n <= 0) return vector3d(0.0,0.0,0.5);

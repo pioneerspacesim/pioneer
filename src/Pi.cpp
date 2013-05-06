@@ -76,6 +76,7 @@
 #include "scenegraph/Lua.h"
 #include "ui/Context.h"
 #include "ui/Lua.h"
+#include "CoreCount.h"
 #include <algorithm>
 #include <sstream>
 
@@ -136,6 +137,7 @@ ObjectViewerView *Pi::objectViewerView;
 #endif
 
 Sound::MusicPlayer Pi::musicPlayer;
+ScopedPtr<JobQueue> Pi::jobQueue;
 
 static void draw_progress(float progress)
 {
@@ -246,7 +248,6 @@ std::string Pi::GetSaveDir()
 
 void Pi::Init()
 {
-
 	OS::NotifyLoadBegin();
 
 	FileSystem::Init();
@@ -336,6 +337,13 @@ void Pi::Init()
 	navTunnelDisplayed = (config->Int("DisplayNavTunnel")) ? true : false;
 
 	EnumStrings::Init();
+
+	// get threads up
+	uint32_t numThreads = config->Int("WorkerThreads");
+	uint32_t numCores = getNumCores();
+	if (numThreads == 0) numThreads = std::max(numCores-1,1U);
+	jobQueue.Reset(new JobQueue(numThreads));
+	printf("started %d worker threads\n", numThreads);
 
 	// XXX early, Lua init needs it
 	ShipType::Init();
@@ -566,6 +574,7 @@ void Pi::Quit()
 	StarSystem::ShrinkCache();
 	SDL_Quit();
 	FileSystem::Uninit();
+	jobQueue.Reset();
 	exit(0);
 }
 
@@ -1059,6 +1068,8 @@ void Pi::MainLoop()
 		}
 		cpan->Update();
 		musicPlayer.Update();
+
+		jobQueue->FinishJobs();
 
 #if WITH_DEVKEYS
 		if (Pi::showDebugInfo && SDL_GetTicks() - last_stats > 1000) {

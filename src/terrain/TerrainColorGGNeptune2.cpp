@@ -21,7 +21,7 @@ TerrainColorFractal<TerrainColorGGNeptune2>::TerrainColorFractal(const SystemBod
 }
 
 template <>
-vector3d TerrainColorFractal<TerrainColorGGNeptune2>::GetColor(const vector3d &p, double height, const vector3d &norm)
+vector3d TerrainColorFractal<TerrainColorGGNeptune2>::GetColor(const vector3d &p, double height, const vector3d &norm) const
 {
 	double n;
 	const double h = billow_octavenoise(GetFracDef(0), 0.5*m_entropy[0] + 0.25f,

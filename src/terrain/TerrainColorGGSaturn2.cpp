@@ -24,7 +24,7 @@ TerrainColorFractal<TerrainColorGGSaturn2>::TerrainColorFractal(const SystemBody
 }
 
 template <>
-vector3d TerrainColorFractal<TerrainColorGGSaturn2>::GetColor(const vector3d &p, double height, const vector3d &norm)
+vector3d TerrainColorFractal<TerrainColorGGSaturn2>::GetColor(const vector3d &p, double height, const vector3d &norm) const
 {
 	double n = 0.2*billow_octavenoise(GetFracDef(0), 0.8, p*p.y*p.y);
 	n += 0.5*ridged_octavenoise(GetFracDef(1), 0.7, p*p.y*p.y);
