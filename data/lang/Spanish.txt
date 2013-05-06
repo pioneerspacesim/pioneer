@@ -186,6 +186,8 @@ COULD_NOT_OPEN_FILENAME
     No se pudo abrir %path
 GAME_LOAD_CORRUPT
     Este juego salvado no se puede abrir porque contiene errores.
+GAME_LOAD_WRONG_VERSION
+    Este juego salvado no se puede abrir porque se creó con una versión diferente de Pioneer. 
 GAME_LOAD_CANNOT_OPEN
     Este juego salvado no se puede abrir debido a permisos o algo...
 GAME_SAVE_CANNOT_WRITE
