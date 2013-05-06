@@ -46,7 +46,7 @@ void Shield::Render(const matrix4x4f &trans, RenderData *rd)
 	}
 
 	Graphics::Renderer *r = GetRenderer();
-	r->SetBlendMode(Graphics::BLEND_ADDITIVE);
+	r->SetBlendMode(Graphics::BLEND_ALPHA_ONE);
 	r->SetDepthWrite(false);
 	r->SetTransform(trans);
 	for (MeshContainer::iterator it = m_meshes.begin(), endIt = m_meshes.end(); it != endIt; ++it) {
