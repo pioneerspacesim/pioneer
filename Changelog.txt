@@ -36,6 +36,7 @@ April 2013
      * Stars with flattening due to fast rotation, i.e; ellipsoids (#2178)
      * Update bundled Lua to version 5.2.2 (#2230)
      * Model loader: improve instancing (#2228)
+     * Multithreaded Job based Terrain Patch generation (#2163)
 
 Alpha 33
 
