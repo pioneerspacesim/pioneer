@@ -35,8 +35,7 @@ public:
 	virtual void OnCancel() {}
 
 private:
-	friend JobQueue;
-	friend JobRunner;
+	friend class JobQueue;
 	bool cancelled;
 };
 
