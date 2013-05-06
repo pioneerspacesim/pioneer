@@ -14,6 +14,7 @@ class StarSystem;
 class SystemBody;
 
 struct SavedGameCorruptException {};
+struct SavedGameWrongVersionException {};
 struct CouldNotOpenFileException {};
 struct CouldNotWriteToFileException {};
 

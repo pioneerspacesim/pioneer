@@ -23,7 +23,7 @@ public:
 	Thruster(const Thruster&, NodeCopyCache *cache = 0);
 	Node *Clone(NodeCopyCache *cache = 0);
 	virtual void Accept(NodeVisitor &v);
-	virtual const char *GetTypeName() { return "Thruster"; }
+	virtual const char *GetTypeName() const { return "Thruster"; }
 	virtual void Render(const matrix4x4f &trans, RenderData *rd);
 
 private:
