@@ -29,6 +29,7 @@ noinst_HEADERS = \
 	CityOnPlanet.h \
 	Color.h \
 	CommodityTradeWidget.h \
+	CoreCount.h \
 	Cutscene.h \
 	CRC32.h \
 	DeadVideoLink.h \
@@ -175,6 +176,7 @@ pioneer_SOURCES	= \
 	ChatForm.cpp \
 	CityOnPlanet.cpp \
 	CommodityTradeWidget.cpp \
+	CoreCount.cpp \
 	CRC32.cpp \
 	DeadVideoLink.cpp \
 	DeathView.cpp \
