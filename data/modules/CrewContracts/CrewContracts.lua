@@ -135,7 +135,7 @@ end
 
 local checkOffer = function(offer)
 	-- Force wage offers to be in correct range
-	return math.max(1,offer);
+	return math.max(1,offer)
 end
 
 local crewInThisStation -- Table of available folk available for hire here
