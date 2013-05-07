@@ -6,6 +6,9 @@ May 2013
    * Minor changes and tweaks
      * Model level-of-detail now takes field of view into account (#2257, #2077)
 
+   * Fixes
+     * Crew can no longer be hired with a negative salary (#2254)
+
 April 2013
 
    * New features
