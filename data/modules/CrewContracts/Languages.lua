@@ -58,7 +58,7 @@ Translate:Add({
 	Polski = {
 		['Crew for hire'] = 'Załoga do wynajęcia',
 		['Potential crew members are registered as seeking employment at {station}:'] = 'Potencjalni członkowie załogi, zarejestrowani na stacji {station}, jako osoby poszukujące zatrudnienia:',
-		['{potentialCrewMember} ({wage}/wk)'] = '{potentialCrewMember} (${wage}/tydzień)',
+		['{potentialCrewMember} ({wage}/wk)'] = '{potentialCrewMember} ({wage}/tydzień)',
 		-- Experience levels
 		['No experience'] = 'Brak doświadczenia',
 		['Simulator training only'] = 'Tylko symulatory treningowe',
