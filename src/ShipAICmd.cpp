@@ -712,16 +712,13 @@ bool AICmdFlyTo::TimeStepUpdate()
 	if (m_targframe && m_ship){
 		double cspeed = m_ship->GetVelocity().Length();
 		double setspeed = std::min((double)m_ship->GetPositionRelTo(m_targframe).Length()/1.0,std::min(cspeed*1.05,99999999999.0-hyperclass*1000000));
-		double target_radii = m_targframe->GetParent()->GetBody()->GetPhysRadius()*2.0; //15000000.0;//std::max(m_frame->GetBody()->GetPhysRadius()*1.5,15000.0);
+		double target_radii = 5000000; //m_targframe->GetParent()->GetBody()->GetPhysRadius()*2.0; //15000000.0;//std::max(m_frame->GetBody()->GetPhysRadius()*1.5,15000.0);
 		//if (m_frame->GetBody()) target_radii=std::max(m_frame->GetBody()->GetPhysRadius()*1.5,15000.0);
 		if (m_targframe->GetBody()->IsType(Object::PLANET))			target_radii = std::max(m_targframe->GetParent()->GetBody()->GetPhysRadius()*2.0,5000000.0);
-		if (m_targframe->GetBody()->IsType(Object::SPACESTATION))	target_radii = 2500000;
-		if (m_targframe->GetBody()->IsType(Object::CITYONPLANET))	target_radii = 5000000;
-		if (m_targframe->GetBody()->IsType(Object::SHIP))			target_radii = 250000000;
 
 		if (
 			m_ship->GetPositionRelTo(m_targframe).Length()>target_radii &&
-			m_ship->GetVelocity().Length()>150000 && 
+			m_ship->GetVelocity().Length()>100000 && 
 			m_ship->GetFlightState() == Ship::FLYING
 			)
 		{
@@ -742,18 +739,12 @@ bool AICmdFlyTo::TimeStepUpdate()
 	else if (m_target && m_ship){   //vincinty only...
 		//double setspeed = std::min((double)m_ship->GetPositionRelTo(m_target->GetFrame()).Length()/1.0,99999999999.0);
 		double cspeed = m_ship->GetVelocity().Length();
-		
 		double setspeed = std::min((double)m_ship->GetPositionRelTo(m_target->GetFrame()).Length()/1.0,std::min(cspeed*1.05,99999999999.0-hyperclass*1000000));
-
-		double target_radii = 500000;
+		double target_radii = 5000000;
 		if (m_target->IsType(Object::PLANET))			target_radii = std::max(m_target->GetPhysRadius()*2.0,5000000.0);
-		if (m_target->IsType(Object::SPACESTATION))		target_radii = 2500000;
-		if (m_target->IsType(Object::CITYONPLANET))		target_radii = 5000000;
-		if (m_target->IsType(Object::SHIP))				target_radii = 20000000;   //ship vincinty    965km 8842km/s
-
 		if (
 			m_ship->GetPositionRelTo(m_target->GetFrame()).Length()>target_radii &&
-			m_ship->GetVelocity().Length()>150000 && 
+			m_ship->GetVelocity().Length()>100000 && 
 			m_ship->GetFlightState() == Ship::FLYING
 			)
 		{
