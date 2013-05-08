@@ -220,11 +220,44 @@ local onChat = function (form,ref,option)
 			response = response,
 		}))
 		candidate.estimatedWage = offer
+
+		-- mixed calculation for wages:
+		-- Exponential function for small offer value
+		-- Linear function for bigger offer value
+		limitHigh = 20 -- set limit for High offset (value for linear offset)
+		limitLow = 5 -- set limit for Low offset (value for linear offset)
+		if math.ceil(offer/2) > limitHigh then
+			raiseHigh = offer + limitHigh -- raise by limitHigh
+		else
+			raiseHigh = offer + math.ceil(offer/2) -- raise by less value than limitHigh
+		end
+		if math.ceil(offer/10) > limitLow then
+			raiseLow = offer + limitLow -- raise by limitLow
+		else
+			raiseLow = offer + math.ceil(offer/10) -- raise by less value than limitLow
+		end
+		if math.ceil(offer/11) > limitLow then
+			reduceLow = offer - limitLow -- reduce by limitLow
+		else
+			reduceLow = offer - math.ceil(offer/11) -- reduce by less value than limitLow
+		end
+		if math.ceil(offer/3) > limitHigh then
+			reduceHigh = offer - limitHigh -- reduce by limitHigh
+		else
+			reduceHigh = offer - math.ceil(offer/3) -- reduce by less value than limitHigh
+		end
+
 		form:AddOption(t('Make offer of position on ship for stated amount'),1)
-		form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(offer*2)}),2)
-		form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(offer+5)}),3)
-		form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(offer-5)}),4)
-		form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(math.floor(offer/2))}),5)
+		form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(raiseHigh)}),2)
+		if raiseHigh ~= raiseLow then -- hide button if value of raise wages is duplicated
+			form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(raiseLow)}),3)
+		end
+		if reduceHigh ~= reduceLow then -- hide button if value of reduce wages is duplicated
+			form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(reduceLow)}),4)
+		end
+		if reduceHigh > 0 then -- hide button if value of reduce wage is $0
+			form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(reduceHigh)}),5)
+		end
 		form:AddOption(t('Ask candidate to sit a test'),6)
 		form:AddOption(t('GO_BACK'), 0)
 		form:AddOption(t('HANG_UP'), -1)
@@ -276,24 +309,24 @@ local onChat = function (form,ref,option)
 		end
 
 		if option == 2 then
-			-- Player suggested doubling the offer
+			-- Player suggested raise the offer by High value
 			candidate.playerRelationship = candidate.playerRelationship + 5
-			offer = offer * 2
+			offer = raiseHigh
 			showCandidateDetails(t("That's extremely generous of you!"))
 		end
 
 		if option == 3 then
-			-- Player suggested an extra $5
+			-- Player suggested raise the offer by Low value
 			candidate.playerRelationship = candidate.playerRelationship + 1
-			offer = offer + 5
+			offer = raiseLow
 			showCandidateDetails(t("That certainly makes this offer look better!"))
 		end
 
 		if option == 4 then
-			-- Player suggested $5 less
+			-- Player suggested reduce the offer by Low value
 			candidate.playerRelationship = candidate.playerRelationship - 1
 			if candidate:TestRoll('playerRelationship') then
-				offer = offer - 5
+				offer = reduceLow
 				showCandidateDetails(t("OK, I suppose that's all right."))
 			else
 				showCandidateDetails(t("I'm sorry, I'm not prepared to go any lower."))
@@ -301,10 +334,10 @@ local onChat = function (form,ref,option)
 		end
 
 		if option == 5 then
-			-- Player suggested halving the offer
+			-- Player suggested reduce the offer by High value
 			candidate.playerRelationship = candidate.playerRelationship - 5
 			if candidate:TestRoll('playerRelationship') then
-				offer = math.floor(offer / 2)
+				offer = reduceHigh
 				showCandidateDetails(t("OK, I suppose that's all right."))
 			else
 				showCandidateDetails(t("I'm sorry, I'm not prepared to go any lower."))
