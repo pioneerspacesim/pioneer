@@ -224,6 +224,7 @@ local onChat = function (form,ref,option)
 			wage = Format.Money(offer),
 			response = response,
 		}))
+		candidate.estimatedWage = offer
 		form:AddOption(t('Make offer of position on ship for stated amount'),1)
 		form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(checkOffer(offer*2))}),2)
 		form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(checkOffer(offer+5))}),3)
@@ -281,7 +282,6 @@ local onChat = function (form,ref,option)
 			-- Player suggested doubling the offer
 			candidate.playerRelationship = candidate.playerRelationship + 5
 			offer = checkOffer(offer * 2)
-			candidate.estimatedWage = offer -- They'll now re-evaluate themself
 			showCandidateDetails(t("That's extremely generous of you!"))
 		end
 
@@ -289,7 +289,6 @@ local onChat = function (form,ref,option)
 			-- Player suggested an extra $5
 			candidate.playerRelationship = candidate.playerRelationship + 1
 			offer = checkOffer(offer + 5)
-			candidate.estimatedWage = offer -- They'll now re-evaluate themself
 			showCandidateDetails(t("That certainly makes this offer look better!"))
 		end
 
