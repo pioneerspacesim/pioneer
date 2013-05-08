@@ -1104,9 +1104,10 @@ bool Ship::SetWheelState(bool down)
 {
 	if (m_flightState != FLYING) return false;
 	if (is_equal_exact(m_wheelState, down ? 1.0f : 0.0f)) return false;
-	int oldWheelTransition = m_wheelTransition;
-	m_wheelTransition = (down ? 1 : -1);
-	return m_wheelTransition != oldWheelTransition;
+	int newWheelTransition = (down ? 1 : -1);
+	if (newWheelTransition == m_wheelTransition) return false;
+	m_wheelTransition = newWheelTransition;
+	return true;
 }
 
 void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
