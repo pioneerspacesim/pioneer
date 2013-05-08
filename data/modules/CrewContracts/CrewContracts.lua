@@ -270,6 +270,8 @@ local onChat = function (form,ref,option)
 					form:AddOption(t('HANG_UP'), -1)
 				end
 			else
+				-- Candidates hate unattractive offer.
+				candidate.playerRelationship = candidate.playerRelationship - 1 
 				form:SetMessage(t("I'm sorry, your offer isn't attractive to me."))
 				form:AddOption(t('GO_BACK'), 0)
 				form:AddOption(t('HANG_UP'), -1)
