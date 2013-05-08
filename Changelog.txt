@@ -8,6 +8,8 @@ May 2013
 
    * Fixes
      * Crew can no longer be hired with a negative salary (#2254)
+     * Fix landing gear sound repeating when autopilot lowers the undercarriage (#2269)
+     * Fix landing gear button toggling briefly when lowering gear (#2269)
 
 April 2013
 
