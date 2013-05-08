@@ -273,7 +273,7 @@ bool Game::UpdateTimeAccel()
 
 	// ludicrous speed
 	if (m_player->GetFlightState() == Ship::HYPERSPACE) {
-		newTimeAccel = Game::TIMEACCEL_HYPERSPACE;
+		newTimeAccel = Game::TIMEACCEL_1X; //Game::TIMEACCEL_HYPERSPACE;
 		RequestTimeAccel(newTimeAccel);
 	}
 

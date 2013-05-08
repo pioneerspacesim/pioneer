@@ -253,9 +253,12 @@ bool AICmdKill::TimeStepUpdate()
 
 	if (targpos.Length() >= VICINITY_MIN+1000.0) {	// if really far from target, intercept
 //		printf("%s started AUTOPILOT\n", m_ship->GetLabel().c_str());
+		m_ship->SetJuice(20.0);
 		m_child = new AICmdFlyTo(m_ship, m_target);
 		ProcessChild(); return false;
 	}
+	else
+		m_ship->SetJuice(1.0);
 
 	// turn towards target lead direction, add inaccuracy
 	// trigger recheck when angular velocity reaches zero or after certain time
@@ -678,12 +681,16 @@ AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target) : AICommand(ship, CMD_FLYTO)
 
 	if (target->IsType(Object::SPACESTATION) && static_cast<SpaceStation*>(target)->IsGroundStation()) {
 		m_posoff = target->GetPosition() + 15000.0 * target->GetOrient().VectorY();
-//		m_posoff += 500.0 * target->GetOrient().VectorX();
+		m_posoff.x+=Pi::rng.Int32(-500,500);
+	//	m_posoff += 500.0 * target->GetOrient().VectorX();
 		m_targframe = target->GetFrame(); m_target = 0;
 	}
 	else { m_target = target; m_targframe = 0; }
 
-	if (ship->GetPositionRelTo(target).Length() <= 15000.0) m_targframe = 0;
+	if (ship->GetPositionRelTo(target).Length() <= 15000.0) {		
+		m_targframe = 0;
+		m_ship->SetJuice(1.0);
+	}
 }
 
 // Specified pos, endvel should be > 0
@@ -699,6 +706,63 @@ AICmdFlyTo::AICmdFlyTo(Ship *ship, Frame *targframe, const vector3d &posoff, dou
 
 bool AICmdFlyTo::TimeStepUpdate()
 {
+	Equip::Type t = m_ship->m_equipment.Get(Equip::SLOT_ENGINE);
+	int hyperclass = Equip::types[t].pval;
+
+	if (m_targframe && m_ship){
+		double cspeed = m_ship->GetVelocity().Length();
+		double setspeed = std::min((double)m_ship->GetPositionRelTo(m_targframe).Length()/1.0,std::min(cspeed*1.05,99999999999.0-hyperclass*1000000));
+		double target_radii = 5000000; //m_targframe->GetParent()->GetBody()->GetPhysRadius()*2.0; //15000000.0;//std::max(m_frame->GetBody()->GetPhysRadius()*1.5,15000.0);
+		//if (m_frame->GetBody()) target_radii=std::max(m_frame->GetBody()->GetPhysRadius()*1.5,15000.0);
+		if (m_targframe->GetBody()->IsType(Object::PLANET))			target_radii = std::max(m_targframe->GetParent()->GetBody()->GetPhysRadius()*2.0,5000000.0);
+
+		if (
+			m_ship->GetPositionRelTo(m_targframe).Length()>target_radii &&
+			m_ship->GetVelocity().Length()>100000 && 
+			m_ship->GetFlightState() == Ship::FLYING
+			)
+		{
+			m_ship->SetVelocity(m_ship->GetOrient()*vector3d(0, 0, -setspeed));
+			m_ship->AIFaceDirection(m_targframe->GetPositionRelTo(m_ship->GetFrame())-m_ship->GetPositionRelTo(m_ship->GetFrame()));
+			return false;
+		}
+		else if (
+			m_ship->GetPositionRelTo(m_targframe).Length()<=target_radii &&
+			m_ship->GetFlightState() == Ship::FLYING && 
+			m_ship->GetVelocity().Length()>=550000 //m_ship->GetPositionRelTo(m_targframe).Length()/2.0
+			)
+		{
+			m_ship->SetVelocity(m_ship->GetOrient()*vector3d(0, 0, -49000));
+			return false;
+		}
+	}
+	else if (m_target && m_ship){   //vincinty only...
+		//double setspeed = std::min((double)m_ship->GetPositionRelTo(m_target->GetFrame()).Length()/1.0,99999999999.0);
+		double cspeed = m_ship->GetVelocity().Length();
+		double setspeed = std::min((double)m_ship->GetPositionRelTo(m_target->GetFrame()).Length()/1.0,std::min(cspeed*1.05,99999999999.0-hyperclass*1000000));
+		double target_radii = 5000000;
+		if (m_target->IsType(Object::PLANET))			target_radii = std::max(m_target->GetPhysRadius()*2.0,5000000.0);
+		if (
+			m_ship->GetPositionRelTo(m_target->GetFrame()).Length()>target_radii &&
+			m_ship->GetVelocity().Length()>100000 && 
+			m_ship->GetFlightState() == Ship::FLYING
+			)
+		{
+			m_ship->SetVelocity(m_ship->GetOrient()*vector3d(0, 0, -setspeed));
+			m_ship->AIFaceDirection(m_target->GetPositionRelTo(m_ship->GetFrame())-m_ship->GetPositionRelTo(m_ship->GetFrame()));
+			return false;
+		}
+		else if (
+			m_ship->GetPositionRelTo(m_target->GetFrame()).Length()<=target_radii &&
+			m_ship->GetFlightState() == Ship::FLYING && 
+			m_ship->GetVelocity().Length()>=550000
+			)
+		{
+			m_ship->SetVelocity(m_ship->GetOrient()*vector3d(0, 0, -47000));
+			return false;
+		}
+	}
+
 	if (!m_target && !m_targframe) return true;			// deleted object
 
 	// sort out gear, launching
@@ -750,7 +814,8 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 		}
 		else if (coll == 1) {			// below feature height, target not below
 			double ang = m_ship->AIFaceDirection(m_ship->GetPosition());
-			m_ship->AIMatchVel(ang < 0.05 ? 1000.0 * m_ship->GetPosition().Normalized() : vector3d(0.0));
+			//add engine juice on fast asteroid approach
+			m_ship->AIMatchVel(ang < 0.05 ? m_ship->GetJuice()*1000.0 * m_ship->GetPosition().Normalized() : vector3d(0.0));
 		}
 		else {							// same thing for 2/3/4
 			if (!m_child) m_child = new AICmdFlyAround(m_ship, m_frame->GetBody(), erad*1.05, 0.0);
@@ -819,6 +884,8 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 	double linaccel = sdiff < 0 ?
 		std::max(sdiff, -m_ship->GetAccelFwd()*timestep) :
 		std::min(sdiff, m_ship->GetAccelFwd()*timestep);
+	//linaccel*=180.0;
+	//sdiff/=180.0;
 
 	// linear thrust application, decel check
 	vector3d vdiff = linaccel*reldir + perpspeed*perpdir;
@@ -918,6 +985,8 @@ bool AICmdDock::TimeStepUpdate()
 	}
 
 	if (m_state == 1) {			// fly to first docking waypoint
+		m_dockpos.x+=Pi::rng.Int32(-50,50);
+		m_dockpos.y+=Pi::rng.Int32(-10,10);
 		m_child = new AICmdFlyTo(m_ship, m_target->GetFrame(), m_dockpos, 0.0, false);
 		ProcessChild(); return false;
 	}

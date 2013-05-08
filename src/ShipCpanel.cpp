@@ -66,48 +66,49 @@ void ShipCpanel::InitObject()
 	ChangeMultiFunctionDisplay(MFUNC_SCANNER);
 
 //	Gui::RadioGroup *g = new Gui::RadioGroup();
+
 	Gui::ImageRadioButton *b = new Gui::ImageRadioButton(0, "icons/timeaccel0.png", "icons/timeaccel0_on.png");
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), Game::TIMEACCEL_PAUSED));
-	b->SetShortcut(SDLK_ESCAPE, KMOD_LSHIFT);
+	//b->SetShortcut(SDLK_ESCAPE, KMOD_LSHIFT);
 	b->SetRenderDimensions(22, 18);
-	Add(b, 0, 36);
+	//Add(b, 0, 36);
 	m_timeAccelButtons[0] = b;
 
 	b = new Gui::ImageRadioButton(0, "icons/timeaccel1.png", "icons/timeaccel1_on.png");
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), Game::TIMEACCEL_1X));
-	b->SetShortcut(SDLK_F1, KMOD_LSHIFT);
+	//b->SetShortcut(SDLK_F1, KMOD_LSHIFT);
 	b->SetSelected(true);
 	b->SetRenderDimensions(22, 18);
-	Add(b, 22, 36);
+	//Add(b, 22, 36);
 	m_timeAccelButtons[1] = b;
 
 	b = new Gui::ImageRadioButton(0, "icons/timeaccel2.png", "icons/timeaccel2_on.png");
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), Game::TIMEACCEL_10X));
-	b->SetShortcut(SDLK_F2, KMOD_LSHIFT);
+	//b->SetShortcut(SDLK_F2, KMOD_LSHIFT);
 	b->SetRenderDimensions(22, 18);
-	Add(b, 44, 36);
+	//Add(b, 44, 36);
 	m_timeAccelButtons[2] = b;
 
 	b = new Gui::ImageRadioButton(0, "icons/timeaccel3.png", "icons/timeaccel3_on.png");
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), Game::TIMEACCEL_100X));
-	b->SetShortcut(SDLK_F3, KMOD_LSHIFT);
+	//b->SetShortcut(SDLK_F3, KMOD_LSHIFT);
 	b->SetRenderDimensions(22, 18);
-	Add(b, 66, 36);
+	//Add(b, 66, 36);
 	m_timeAccelButtons[3] = b;
 
 	b = new Gui::ImageRadioButton(0, "icons/timeaccel4.png", "icons/timeaccel4_on.png");
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), Game::TIMEACCEL_1000X));
-	b->SetShortcut(SDLK_F4, KMOD_LSHIFT);
+	//b->SetShortcut(SDLK_F4, KMOD_LSHIFT);
 	b->SetRenderDimensions(22, 18);
-	Add(b, 88, 36);
+	//Add(b, 88, 36);
 	m_timeAccelButtons[4] = b;
 
 	b = new Gui::ImageRadioButton(0, "icons/timeaccel5.png", "icons/timeaccel5_on.png");
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), Game::TIMEACCEL_10000X));
-	b->SetShortcut(SDLK_F5, KMOD_LSHIFT);
+	//b->SetShortcut(SDLK_F5, KMOD_LSHIFT);
 	b->SetRenderDimensions(22, 18);
-	Add(b, 110, 36);
-	m_timeAccelButtons[5] = b;
+	//Add(b, 110, 36);
+	m_timeAccelButtons[5] = b; 
 
 	m_leftButtonGroup = new Gui::RadioGroup();
 	m_camButton = new Gui::MultiStateImageButton();

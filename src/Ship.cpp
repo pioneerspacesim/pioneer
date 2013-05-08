@@ -210,6 +210,7 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	}
 	m_ecmRecharge = 0;
 	m_curAICmd = 0;
+	m_juice = 20.0;
 	m_aiMessage = AIERROR_NONE;
 	m_decelerating = false;
 	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
@@ -407,6 +408,8 @@ vector3d Ship::GetMaxThrust(const vector3d &dir) const
 		: -m_type->linThrust[ShipType::THRUSTER_DOWN];
 	maxThrust.z = (dir.z > 0) ? m_type->linThrust[ShipType::THRUSTER_REVERSE]
 		: -m_type->linThrust[ShipType::THRUSTER_FORWARD];
+	//double juice = std::min(GetVelocity().Length()/200.0,20.0)+0.5;
+	if (m_curAICmd!=0 && GetVelocity().Length() > 1000) return maxThrust*m_juice;
 	return maxThrust;
 }
 
@@ -415,7 +418,25 @@ double Ship::GetAccelMin() const
 	float val = m_type->linThrust[ShipType::THRUSTER_UP];
 	val = std::min(val, m_type->linThrust[ShipType::THRUSTER_RIGHT]);
 	val = std::min(val, -m_type->linThrust[ShipType::THRUSTER_LEFT]);
-	return val / GetMass();
+	//double juice = std::min(GetVelocity().Length()/200.0,20.0)+0.5;
+	if (m_curAICmd!=0 && GetVelocity().Length() > 1000) return (val / GetMass())*m_juice;
+	return (val / GetMass());
+}
+
+double Ship::GetAccelFwd() const { 
+	//double juice = std::min(GetVelocity().Length()/200.0,20.0)+0.5;
+	if (m_curAICmd!=0 && GetVelocity().Length() > 1000) return m_juice*-m_type->linThrust[ShipType::THRUSTER_FORWARD] / GetMass(); 
+	return -m_type->linThrust[ShipType::THRUSTER_FORWARD] / GetMass(); 
+}
+double Ship::GetAccelRev() const { 
+	//double juice = std::min(GetVelocity().Length()/200.0,20.0)+0.5;
+	if (m_curAICmd!=0 && GetVelocity().Length() > 1000) return m_juice*m_type->linThrust[ShipType::THRUSTER_REVERSE] / GetMass(); 
+	return m_type->linThrust[ShipType::THRUSTER_REVERSE] / GetMass(); 
+}
+double Ship::GetAccelUp() const { 
+	//double juice = std::min(GetVelocity().Length()/200.0,20.0)+0.5;
+	if (m_curAICmd!=0 && GetVelocity().Length() > 1000) return m_juice*m_type->linThrust[ShipType::THRUSTER_UP] / GetMass(); 
+	return m_type->linThrust[ShipType::THRUSTER_UP] / GetMass(); 
 }
 
 void Ship::ClearThrusterState()
@@ -470,7 +491,7 @@ void Ship::UpdateEquipStats()
 void Ship::UpdateFuelStats()
 {
 	m_stats.fuel_tank_mass = m_type->fuelTankMass;
-	m_stats.fuel_use = GetFuelUseRate();
+	m_stats.fuel_use = GetFuelUseRate()*m_juice;
 	m_stats.fuel_tank_mass_left = m_stats.fuel_tank_mass * GetFuel();
 
 	UpdateMass();
@@ -880,11 +901,13 @@ void Ship::UpdateAlertState()
 			if (ship_is_near) {
 				SetAlertState(ALERT_SHIP_NEARBY);
 				changed = true;
+				m_juice = 20.0;
             }
 			if (ship_is_firing) {
 				m_lastFiringAlert = Pi::game->GetTime();
 				SetAlertState(ALERT_SHIP_FIRING);
 				changed = true;
+				m_juice = 1.0;
 			}
 			break;
 
@@ -892,11 +915,13 @@ void Ship::UpdateAlertState()
 			if (!ship_is_near) {
 				SetAlertState(ALERT_NONE);
 				changed = true;
+				m_juice = 20.0;
 			}
 			else if (ship_is_firing) {
 				m_lastFiringAlert = Pi::game->GetTime();
 				SetAlertState(ALERT_SHIP_FIRING);
 				changed = true;
+				m_juice = 1.0;
 			}
 			break;
 
@@ -904,6 +929,7 @@ void Ship::UpdateAlertState()
 			if (!ship_is_near) {
 				SetAlertState(ALERT_NONE);
 				changed = true;
+				m_juice = 20.0;
 			}
 			else if (ship_is_firing) {
 				m_lastFiringAlert = Pi::game->GetTime();
@@ -911,6 +937,7 @@ void Ship::UpdateAlertState()
 			else if (m_lastFiringAlert + 60.0 <= Pi::game->GetTime()) {
 				SetAlertState(ALERT_SHIP_NEARBY);
 				changed = true;
+				m_juice = 20.0;
 			}
 			break;
 	}
