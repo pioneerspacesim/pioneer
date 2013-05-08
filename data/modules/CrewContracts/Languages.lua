@@ -297,7 +297,7 @@ Competencia general: {general}%
 Ingeniería y reparación: {engineering}%
 Pilotaje y vuelo: {piloting}%
 Navegación y preparación: {navigation}%
-Sensores y defensa: {sensors}%
+Detección y defensa: {sensors}%
 Puntuación total: {overall}%]],
 	}
 })
