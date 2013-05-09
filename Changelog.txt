@@ -5,9 +5,9 @@ May 2013
 
    * Minor changes and tweaks
      * Model level-of-detail now takes field of view into account (#2257, #2077)
-	 * Removal of the unused BezierCurve and RefList classes (#2274)
-	 * The game constants live now all in src/gameconsts.h (#2274)
-	 * Silence some debug printouts for the faction code. (#2274)
+     * Removal of the unused BezierCurve and RefList classes (#2274)
+     * The game constants live now all in src/gameconsts.h (#2274)
+     * Silence some debug printouts for the faction code. (#2274)
      * Improvements to translatability of joystick axis descriptions. (#2272)
 
    * Fixes
