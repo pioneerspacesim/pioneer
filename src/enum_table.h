@@ -41,5 +41,6 @@ extern const struct EnumItem ENUM_UISizeControl[];
 extern const struct EnumItem ENUM_UIFont[];
 
 extern const struct EnumTable ENUM_TABLES[];
+extern const struct EnumTable ENUM_TABLES_PUBLIC[];
 
 #endif

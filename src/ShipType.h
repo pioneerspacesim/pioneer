@@ -11,7 +11,7 @@
 #include <map>
 
 struct ShipType {
-	enum Thruster { // <enum scope='ShipType' name=ShipTypeThruster prefix=THRUSTER_>
+	enum Thruster { // <enum scope='ShipType' name=ShipTypeThruster prefix=THRUSTER_ public>
 		THRUSTER_REVERSE,
 		THRUSTER_FORWARD,
 		THRUSTER_UP,
@@ -25,11 +25,11 @@ struct ShipType {
 		GUN_REAR,
 		GUNMOUNT_MAX = 2
 	};
-	enum DualLaserOrientation { // <enum scope='ShipType' name='DualLaserOrientation' prefix='DUAL_LASERS_'>
+	enum DualLaserOrientation { // <enum scope='ShipType' name='DualLaserOrientation' prefix='DUAL_LASERS_' public>
 		DUAL_LASERS_HORIZONTAL,
 		DUAL_LASERS_VERTICAL
 	};
-	enum Tag { // <enum scope='ShipType' name=ShipTypeTag prefix=TAG_>
+	enum Tag { // <enum scope='ShipType' name=ShipTypeTag prefix=TAG_ public>
 		TAG_NONE,
 		TAG_SHIP,
 		TAG_STATIC_SHIP,
