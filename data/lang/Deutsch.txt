@@ -531,8 +531,6 @@ Y
     Y
 Z
     Z
-AXIS
-    " Achse"
 WEAPONS
     Waffen
 TARGET_OBJECT_IN_SIGHTS

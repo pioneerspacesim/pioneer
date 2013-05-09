@@ -536,8 +536,6 @@ Y
     Y
 Z
     Z
-AXIS
-     " Axis"
 WEAPONS
     Bronie
 TARGET_OBJECT_IN_SIGHTS

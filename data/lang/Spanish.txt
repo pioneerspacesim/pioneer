@@ -536,8 +536,8 @@ Y
     Y
 Z
     Z
-AXIS
-     " Ejes"
+JOY_AXIS
+     Eje %sign%axis Joy%joynum
 WEAPONS
     Armamento
 TARGET_OBJECT_IN_SIGHTS
