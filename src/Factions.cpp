@@ -232,7 +232,6 @@ static int l_fac_colour(lua_State *L)
 static int l_fac_add_to_factions(lua_State *L)
 {
 	FactionBuilder *facbld = l_fac_check_builder(L, 1);
-	Faction *fac = facbld->fac;
 
 	const std::string factionName(luaL_checkstring(L, 2));
 
