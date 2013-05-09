@@ -13,7 +13,7 @@ namespace UI {
 class Gradient : public Single {
 public:
 
-	enum Direction { // <enum scope='UI::Gradient' name=UIGradientDirection>
+	enum Direction { // <enum scope='UI::Gradient' name=UIGradientDirection public>
 		HORIZONTAL,
 		VERTICAL
 	};

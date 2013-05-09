@@ -13,7 +13,7 @@ public:
 	virtual Point PreferredSize();
 	virtual void Layout();
 
-	enum Direction { // <enum scope='UI::Align' name=UIAlignDirection>
+	enum Direction { // <enum scope='UI::Align' name=UIAlignDirection public>
 		TOP_LEFT,
 		TOP,
 		TOP_RIGHT,

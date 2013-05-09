@@ -115,7 +115,7 @@ public:
 	// size control flags let a widget tell its container how it wants to be
 	// sized when it can't get its preferred size
 	Uint32 GetSizeControlFlags() const { return m_sizeControlFlags; }
-	enum SizeControl { // <enum scope='UI::Widget' name=UISizeControl>
+	enum SizeControl { // <enum scope='UI::Widget' name=UISizeControl public>
 		NO_WIDTH        = 0x01, // do not contribute preferred width to the layout
 		NO_HEIGHT       = 0x02, // do not contribute preferred height to the layout
 		EXPAND_WIDTH    = 0x04, // ignore preferred width, give me as much as possible
@@ -167,7 +167,7 @@ public:
 	// font size. obviously used for text size but also sometimes used for
 	// general widget size (eg space size). might do nothing, depends on the
 	// widget
-	enum Font { // <enum scope='UI::Widget' name=UIFont prefix=FONT_>
+	enum Font { // <enum scope='UI::Widget' name=UIFont prefix=FONT_ public>
 		FONT_XSMALL,
 		FONT_SMALL,
 		FONT_NORMAL,
