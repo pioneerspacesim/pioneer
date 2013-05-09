@@ -8,7 +8,6 @@
 #include <list>
 #include "HyperspaceCloud.h"
 #include "MarketAgent.h"
-#include "RefList.h"
 #include "Ship.h"
 #include "ShipController.h"
 #include "galaxy/StarSystem.h"

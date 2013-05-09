@@ -19,7 +19,6 @@ noinst_HEADERS = \
 	AmbientSounds.h \
 	AnimationCurves.h \
 	Background.h \
-	BezierCurve.h \
 	Body.h \
 	ByteRange.h \
 	Camera.h \
@@ -114,7 +113,6 @@ noinst_HEADERS = \
 	Quaternion.h \
 	Random.h \
 	RefCounted.h \
-	RefList.h \
 	SDLWrappers.h \
 	SectorView.h \
 	Serializer.h \

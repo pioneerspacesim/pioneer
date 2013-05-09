@@ -574,7 +574,7 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 	} else {
 		assert(0);
 	}
-	return NULL;
+	return 0;
 }
 
 void Space::GenBody(SystemBody *sbody, Frame *f)

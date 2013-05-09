@@ -3,6 +3,7 @@
 
 #include "Orbit.h"
 #include "libs.h"
+#include "gameconsts.h"
 
 static double calc_orbital_period(double semiMajorAxis, double centralMass)
 {

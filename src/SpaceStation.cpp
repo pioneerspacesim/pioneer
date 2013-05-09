@@ -723,7 +723,7 @@ const BBAdvert *SpaceStation::GetBBAdvert(int ref)
 	for (std::vector<BBAdvert>::const_iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); ++i)
 		if (i->ref == ref)
 			return &(*i);
-	return NULL;
+	return 0;
 }
 
 bool SpaceStation::RemoveBBAdvert(int ref)
