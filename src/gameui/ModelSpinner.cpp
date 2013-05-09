@@ -13,7 +13,8 @@ namespace GameUI {
 
 ModelSpinner::ModelSpinner(Context *context, SceneGraph::Model *model, const SceneGraph::ModelSkin &skin) : Widget(context),
 	m_skin(skin),
-	m_rotX(0), m_rotY(0)
+	m_rotX(0), m_rotY(0),
+	m_rightMouseButton(false)
 {
 	m_model.Reset(model->MakeInstance());
 	m_skin.Apply(m_model.Get());

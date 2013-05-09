@@ -17,6 +17,6 @@ template <> void LuaObject<Planet>::RegisterClass()
 {
 	const char *l_parent = "Body";
 
-	LuaObjectBase::CreateClass(s_type, l_parent, NULL, NULL, NULL);
+	LuaObjectBase::CreateClass(s_type, l_parent, 0, 0, 0);
 	LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<Planet>::DynamicCastPromotionTest);
 }

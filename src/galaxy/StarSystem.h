@@ -13,6 +13,7 @@
 #include "RefCounted.h"
 #include "galaxy/SystemPath.h"
 #include "Orbit.h"
+#include "gameconsts.h"
 
 class CustomSystemBody;
 class CustomSystem;

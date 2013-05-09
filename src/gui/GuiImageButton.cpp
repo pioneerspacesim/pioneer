@@ -9,7 +9,7 @@ namespace Gui {
 
 ImageButton::ImageButton(const char *img_normal): Button()
 {
-	LoadImages(img_normal, NULL);
+	LoadImages(img_normal, 0);
 }
 
 ImageButton::ImageButton(const char *img_normal, const char *img_pressed): Button()
@@ -31,7 +31,7 @@ void ImageButton::LoadImages(const char *img_normal, const char *img_pressed)
 	SetSize(size[0], size[1]);
 
 	if (img_pressed) m_imgPressed = new Image(img_pressed);
-	else m_imgPressed = NULL;
+	else m_imgPressed = 0;
 }
 
 void ImageButton::GetSizeRequested(float size[2])

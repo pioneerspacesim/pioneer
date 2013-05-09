@@ -5,7 +5,6 @@
 #define _SHIP_H
 
 #include "libs.h"
-#include "BezierCurve.h"
 #include "Camera.h"
 #include "DynamicBody.h"
 #include "EquipSet.h"

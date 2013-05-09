@@ -237,6 +237,7 @@ static int l_fac_add_to_factions(lua_State *L)
 	const std::string factionName(luaL_checkstring(L, 2));
 
 	if (!facbld->registered && !facbld->skip) {
+		/* XXX maybe useful for debugging, leaving for now
 		if (facbld->fac->hasHomeworld) {
 			printf("l_fac_add_to_factions: added (%3d,%3d,%3d) f=%4.0f e=%2.2f '%s' [%s]\n"
 				, fac->homeworld.sectorX, fac->homeworld.sectorY, fac->homeworld.sectorZ, fac->foundingDate, fac->expansionRate, fac->name.c_str(), factionName.c_str());
@@ -244,6 +245,7 @@ static int l_fac_add_to_factions(lua_State *L)
 		else {
 			printf("l_fac_add_to_factions: added '%s' [%s]\n", fac->name.c_str(), factionName.c_str());
 		}
+		*/
 
 		// add the faction to the various faction data structures
 		s_factions.push_back(facbld->fac);
@@ -256,8 +258,10 @@ static int l_fac_add_to_factions(lua_State *L)
 
 		return 0;
 	} else if (facbld->skip) {
+		/* XXX maybe useful for debugging, leaving for now
 		printf("l_fac_add_to_factions: invalid homeworld, skipped (%3d,%3d,%3d) f=%4.0f e=%2.2f '%s' [%s]\n"
 				, fac->homeworld.sectorX, fac->homeworld.sectorY, fac->homeworld.sectorZ, fac->foundingDate, fac->expansionRate, fac->name.c_str(), factionName.c_str());
+		*/
 		return 0;
 	} else {
 		return luaL_error(L, "faction '%s' already added\n", facbld->fac->name.c_str());
