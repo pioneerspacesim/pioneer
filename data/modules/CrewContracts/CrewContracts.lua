@@ -219,7 +219,6 @@ local onChat = function (form,ref,option)
 			wage = Format.Money(offer),
 			response = response,
 		}))
-		candidate.estimatedWage = offer
 
 		-- mixed calculation for wages:
 		-- Exponential function for small offer value
@@ -293,6 +292,9 @@ local onChat = function (form,ref,option)
 						if v == candidate then table.remove(nonPersistentCharactersForCrew[station],k) end
 					end
 				else
+					-- No free cabin - candidates are disappointed, but offer value is accepted.
+					candidate.estimatedWage = offer
+					candidate.playerRelationship = candidate.playerRelationship - 1
 					form:SetMessage(t("There doesn't seem to be space for me on board!"))
 					form:AddOption(t('GO_BACK'), 0)
 					form:AddOption(t('HANG_UP'), -1)
@@ -312,6 +314,7 @@ local onChat = function (form,ref,option)
 			-- Player suggested raise the offer by High value
 			candidate.playerRelationship = candidate.playerRelationship + 5
 			offer = raiseHigh
+			candidate.estimatedWage = offer
 			showCandidateDetails(t("That's extremely generous of you!"))
 		end
 
@@ -319,6 +322,7 @@ local onChat = function (form,ref,option)
 			-- Player suggested raise the offer by Low value
 			candidate.playerRelationship = candidate.playerRelationship + 1
 			offer = raiseLow
+			candidate.estimatedWage = offer
 			showCandidateDetails(t("That certainly makes this offer look better!"))
 		end
 
@@ -326,6 +330,7 @@ local onChat = function (form,ref,option)
 			-- Player suggested reduce the offer by Low value
 			candidate.playerRelationship = candidate.playerRelationship - 1
 			if candidate:TestRoll('playerRelationship') then
+				candidate.estimatedWage = offer
 				offer = reduceLow
 				showCandidateDetails(t("OK, I suppose that's all right."))
 			else
@@ -337,6 +342,7 @@ local onChat = function (form,ref,option)
 			-- Player suggested reduce the offer by High value
 			candidate.playerRelationship = candidate.playerRelationship - 5
 			if candidate:TestRoll('playerRelationship') then
+				candidate.estimatedWage = offer
 				offer = reduceHigh
 				showCandidateDetails(t("OK, I suppose that's all right."))
 			else
