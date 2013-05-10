@@ -54,7 +54,7 @@ GeoPatch::GeoPatch(const RefCountedPtr<GeoPatchContext> &ctx_, GeoSphere *gs,
 }
 
 GeoPatch::~GeoPatch() {
-	assert(!mHasJobRequest);
+	mHasJobRequest = false;
 
 	for (int i=0; i<NUM_KIDS; i++) {
 		if (edgeFriend[i]) edgeFriend[i]->NotifyEdgeFriendDeleted(this);
@@ -212,12 +212,17 @@ void GeoPatch::RequestSinglePatch()
 	}
 }
 
-void GeoPatch::ReceiveHeightmaps(const SQuadSplitResult *psr)
+void GeoPatch::ReceiveHeightmaps(SQuadSplitResult *psr)
 {
+	assert(NULL!=psr);
 	if (m_depth<psr->depth()) {
 		// this should work because each depth should have a common history
 		const uint32_t kidIdx = psr->data(0).patchID.GetPatchIdx(m_depth+1);
-		kids[kidIdx]->ReceiveHeightmaps(psr);
+		if( kids[kidIdx] ) {
+			kids[kidIdx]->ReceiveHeightmaps(psr);
+		} else {
+			psr->OnCancel();
+		}
 	} else {
 		assert(mHasJobRequest);
 		const int nD = m_depth+1;
@@ -270,6 +275,7 @@ void GeoPatch::ReceiveHeightmaps(const SQuadSplitResult *psr)
 void GeoPatch::ReceiveHeightmap(const SSingleSplitResult *psr)
 {
 	assert(NULL==parent);
+	assert(NULL!=psr);
 	assert(mHasJobRequest);
 	{
 		const SSingleSplitResult::SSplitResultData& data = psr->data();
