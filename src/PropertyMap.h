@@ -15,7 +15,7 @@ class PropertyMap {
 public:
 	PropertyMap(LuaManager *lua);
 
-	template <class Value> void Set(const std::string &k, Value v) {
+	template <class Value> void Set(const std::string &k, const Value &v) {
 		LuaTable(m_table).Set(k, v);
 		SendSignal(k);
 	}
