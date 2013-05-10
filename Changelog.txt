@@ -5,7 +5,8 @@ May 2013
 
    * Minor changes and tweaks
      * Model level-of-detail now takes field of view into account (#2257, #2077)
-     * Improvements to translatability of joystick axis descriptions. (#2272)
+     * Improvements to translatability of joystick axis descriptions.
+       (#2272, #2280, #2281)
 
    * Fixes
      * Crew can no longer be hired with a negative salary (#2254)

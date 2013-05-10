@@ -168,7 +168,7 @@ float AxisBinding::GetValue() {
 std::string AxisBinding::Description() const {
 	const char *axis_names[] = {Lang::X, Lang::Y, Lang::Z};
 	std::ostringstream ossaxisnum;
-	ossaxisnum << axis;
+	ossaxisnum << int(axis);
 
 	return stringf(Lang::JOY_AXIS,
 		formatarg("sign", direction == KeyBindings::NEGATIVE ? "-" : ""), // no + sign if positive
