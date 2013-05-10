@@ -15,6 +15,9 @@ May 2013
      * Fix landing gear sound repeating when autopilot lowers the undercarriage (#2269)
      * Fix landing gear button toggling briefly when lowering gear (#2269)
 
+   * Internal changes
+     * Enum mapping tables now have a visibility specifier (#2276)
+
 April 2013
 
    * New features
