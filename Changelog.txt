@@ -1,7 +1,7 @@
 May 2013
 
   * New features
-     * Multithreaded Job based Terrain Patch generation (#2163)
+     * Multithreaded Job based Terrain Patch generation (#2163, #2268, #2262)
 
    * Minor changes and tweaks
      * Model level-of-detail now takes field of view into account (#2257, #2077)

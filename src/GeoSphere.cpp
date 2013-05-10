@@ -103,6 +103,11 @@ bool GeoSphere::OnAddQuadSplitResult(const SystemPath &path, SQuadSplitResult *r
 			return true;
 		}
 	}
+	// GeoSphere not found to return the data to, cancel and delete it instead
+	if( res ) {
+		res->OnCancel();
+		delete res;
+	}
 	return false;
 }
 
@@ -115,6 +120,11 @@ bool GeoSphere::OnAddSingleSplitResult(const SystemPath &path, SSingleSplitResul
 			(*i)->AddSingleSplitResult(res);
 			return true;
 		}
+	}
+	// GeoSphere not found to return the data to, cancel and delete it instead
+	if( res ) {
+		res->OnCancel();
+		delete res;
 	}
 	return false;
 }
@@ -226,14 +236,18 @@ void GeoSphere::ProcessSplitResults()
 {
 	// now handle the single split results that define the base level of the quad tree
 	{
-		std::deque<SSingleSplitResult*>::const_iterator iter = mSingleSplitResults.begin();
+		std::deque<SSingleSplitResult*>::iterator iter = mSingleSplitResults.begin();
 		while(iter!=mSingleSplitResults.end())
 		{
 			// finally pass SplitResults
-			const SSingleSplitResult *psr = (*iter);
+			SSingleSplitResult *psr = (*iter);
 
 			const int32_t faceIdx = psr->face();
-			m_patches[faceIdx]->ReceiveHeightmap(psr);
+			if( m_patches[faceIdx] ) {
+				m_patches[faceIdx]->ReceiveHeightmap(psr);
+			} else {
+				psr->OnCancel();
+			}
 
 			// tidyup
 			delete psr;
@@ -246,14 +260,18 @@ void GeoSphere::ProcessSplitResults()
 
 	// now handle the quad split results
 	{
-		std::deque<SQuadSplitResult*>::const_iterator iter = mQuadSplitResults.begin();
+		std::deque<SQuadSplitResult*>::iterator iter = mQuadSplitResults.begin();
 		while(iter!=mQuadSplitResults.end())
 		{
 			// finally pass SplitResults
-			const SQuadSplitResult *psr = (*iter);
+			SQuadSplitResult *psr = (*iter);
 
 			const int32_t faceIdx = psr->face();
-			m_patches[faceIdx]->ReceiveHeightmaps(psr);
+			if( m_patches[faceIdx] ) {
+				m_patches[faceIdx]->ReceiveHeightmaps(psr);
+			} else {
+				psr->OnCancel();
+			}
 
 			// tidyup
 			delete psr;

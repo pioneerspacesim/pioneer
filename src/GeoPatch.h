@@ -134,7 +134,7 @@ public:
 	void LODUpdate(const vector3d &campos);
 	
 	void RequestSinglePatch();
-	void ReceiveHeightmaps(const SQuadSplitResult *psr);
+	void ReceiveHeightmaps(SQuadSplitResult *psr);
 	void ReceiveHeightmap(const SSingleSplitResult *psr);
 };
 
