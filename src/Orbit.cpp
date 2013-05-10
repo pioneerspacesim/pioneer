@@ -5,6 +5,10 @@
 #include "libs.h"
 #include "gameconsts.h"
 
+#ifdef _MSC_VER
+	#include "win32/WinMath.h"
+#endif
+
 static double calc_orbital_period(double semiMajorAxis, double centralMass)
 {
 	return 2.0*M_PI*sqrt((semiMajorAxis*semiMajorAxis*semiMajorAxis)/(G*centralMass));
