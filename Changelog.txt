@@ -17,6 +17,7 @@ May 2013
      * Removal of the unused BezierCurve and RefList classes (#2274)
      * The game constants live now all in src/gameconsts.h (#2274)
      * Silence some debug printouts for the faction code. (#2274)
+     * Object property system now uses LuaTable. (#2275)
 
 April 2013
 
