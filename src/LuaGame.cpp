@@ -104,13 +104,27 @@ static int l_game_load_game(lua_State *l)
 	return 0;
 }
 
+/*
+ * Function: EndGame
+ *
+ * End the current game and return to the main menu.
+ *
+ * > Game.EndGame(filename)
+ *
+ * Availability:
+ *
+ *   June 2013
+ *
+ * Status:
+ *
+ *   experimental
+ */
 static int l_game_end_game(lua_State *l)
 {
-	if (!Pi::game)
-		return 0;
-
-	// XXX stuff
-	return luaL_error(l, "Game.EndGame() is not yet implemented");
+	if (Pi::game) {
+		Pi::EndGame();
+	}
+	return 0;
 }
 
 /*
