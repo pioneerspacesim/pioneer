@@ -289,6 +289,16 @@ int SpaceStation::GetMyDockingPort(const Ship *s) const
 	return -1;
 }
 
+bool SpaceStation::IsLaunching(const Ship *s) const
+{
+	for (uint32_t i=0; i<m_shipDocking.size(); i++) {
+		if (s == m_shipDocking[i].ship) {
+			return (m_shipDocking[i].stage<0);
+		}
+	}
+	return false;
+}
+
 int SpaceStation::GetFreeDockingPort() const
 {
 	for (unsigned int i=0; i<m_type->numDockingPorts; i++) {
