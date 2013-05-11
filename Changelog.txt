@@ -7,6 +7,7 @@ May 2013
      * Model level-of-detail now takes field of view into account (#2257, #2077)
      * Improvements to translatability of joystick axis descriptions.
        (#2272, #2280, #2281)
+     * New ships are always fully fueled (#2283, #2162)
 
    * Fixes
      * Crew can no longer be hired with a negative salary (#2254)
