@@ -24,7 +24,7 @@
 #include "FileSystem.h"
 #include "graphics/Renderer.h"
 
-static const int  s_saveVersion   = 65;
+static const int  s_saveVersion   = 66;
 static const char s_saveStart[]   = "PIONEER";
 static const char s_saveEnd[]     = "END";
 
@@ -117,7 +117,7 @@ Game::Game(Serializer::Reader &rd) :
 	fprintf(stderr, "savefile version: %d\n", rd.StreamVersion());
 	if (rd.StreamVersion() != s_saveVersion) {
 		fprintf(stderr, "can't load savefile, expected version: %d\n", s_saveVersion);
-		throw SavedGameCorruptException();
+		throw SavedGameWrongVersionException();
 	}
 
 	Serializer::Reader section;

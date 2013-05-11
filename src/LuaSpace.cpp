@@ -120,7 +120,7 @@ static int l_space_spawn_ship(lua_State *l)
 	float min_dist = luaL_checknumber(l, 2);
 	float max_dist = luaL_checknumber(l, 3);
 
-	SystemPath *path = NULL;
+	SystemPath *path = 0;
 	double due = -1;
 	_unpack_hyperspace_args(l, 4, path, due);
 
@@ -131,7 +131,7 @@ static int l_space_spawn_ship(lua_State *l)
 
 	// XXX protect against spawning inside the body
 	thing->SetFrame(Pi::game->GetSpace()->GetRootFrame());
-	if (path == NULL)
+	if (!path)
 		thing->SetPosition(MathUtil::RandomPointOnSphere(min_dist, max_dist)*AU);
 	else
 		// XXX broken. this is ignoring min_dist & max_dist. otoh, what's the
@@ -203,7 +203,7 @@ static int l_space_spawn_ship_near(lua_State *l)
 	float min_dist = luaL_checknumber(l, 3);
 	float max_dist = luaL_checknumber(l, 4);
 
-	SystemPath *path = NULL;
+	SystemPath *path = 0;
 	double due = -1;
 	_unpack_hyperspace_args(l, 5, path, due);
 

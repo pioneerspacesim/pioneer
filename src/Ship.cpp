@@ -1145,7 +1145,9 @@ bool Ship::SetWheelState(bool down)
 {
 	if (m_flightState != FLYING) return false;
 	if (is_equal_exact(m_wheelState, down ? 1.0f : 0.0f)) return false;
-	m_wheelTransition = (down ? 1 : -1);
+	int newWheelTransition = (down ? 1 : -1);
+	if (newWheelTransition == m_wheelTransition) return false;
+	m_wheelTransition = newWheelTransition;
 	return true;
 }
 

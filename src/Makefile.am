@@ -19,7 +19,6 @@ noinst_HEADERS = \
 	AmbientSounds.h \
 	AnimationCurves.h \
 	Background.h \
-	BezierCurve.h \
 	Body.h \
 	ByteRange.h \
 	Camera.h \
@@ -29,6 +28,7 @@ noinst_HEADERS = \
 	CityOnPlanet.h \
 	Color.h \
 	CommodityTradeWidget.h \
+	CoreCount.h \
 	Cutscene.h \
 	CRC32.h \
 	DeadVideoLink.h \
@@ -54,6 +54,7 @@ noinst_HEADERS = \
 	HyperspaceCloud.h \
 	IniConfig.h \
 	Intro.h \
+	JobQueue.h \
 	GameConfig.h \
 	KeyBindings.h \
 	Lang.h \
@@ -112,7 +113,6 @@ noinst_HEADERS = \
 	Quaternion.h \
 	Random.h \
 	RefCounted.h \
-	RefList.h \
 	SDLWrappers.h \
 	SectorView.h \
 	Serializer.h \
@@ -174,6 +174,7 @@ pioneer_SOURCES	= \
 	ChatForm.cpp \
 	CityOnPlanet.cpp \
 	CommodityTradeWidget.cpp \
+	CoreCount.cpp \
 	CRC32.cpp \
 	DeadVideoLink.cpp \
 	DeathView.cpp \
@@ -191,10 +192,15 @@ pioneer_SOURCES	= \
 	GalacticView.cpp \
 	Game.cpp \
 	GameMenuView.cpp \
+	GeoPatch.cpp \
+	GeoPatchContext.cpp \
+	GeoPatchID.cpp \
+	GeoPatchJobs.cpp \
 	GeoSphere.cpp \
 	HyperspaceCloud.cpp \
 	IniConfig.cpp \
 	Intro.cpp \
+	JobQueue.cpp \
 	GameConfig.cpp \
 	KeyBindings.cpp \
 	Lang.cpp \

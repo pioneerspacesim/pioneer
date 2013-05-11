@@ -12,7 +12,7 @@ ITEM
 SHIP
     Nave
 PRICE
-    Tarifa
+    Coste
 BUY
     +
 SELL
@@ -34,15 +34,15 @@ SOLD_1T_OF
 WELCOME_TO_MARKET
     Bienvenido al mercado de artículos de %station
 GO_BACK
-    Atras
+    Atrás
 FITTING
-    "Ensamblando "
+    "Instalando "
 REMOVING
     "Desmontando "
 FIT_TO_WHICH_MOUNT
-    Ensamblar laser a qué montura de arma?
+    ¿En qué punto de montaje quiere instalar el láser?
 REMOVE_FROM_WHICH_MOUNT
-    Desmontar laser de qué montura de arma?
+    ¿De qué punto de montaje quiere quitar el láser?
 YOU_NOT_ENOUGH_MONEY
     Crédito insuficiente
 TRADER_NOT_ENOUGH_MONEY
@@ -70,7 +70,7 @@ BUY_THIS_SHIP
 SHIP_TYPE
     Tipo de nave
 REGISTRATION_ID
-    Registro id
+    Nº. Registro
 WEIGHT_EMPTY
     Peso en vacío
 NUMBER_TONNES
@@ -92,7 +92,7 @@ REVERSE_ACCEL_EMPTY
 REVERSE_ACCEL_LADEN
     Desaceleración (Cargado)
 HYPERDRIVE_FITTED
-    Motor Hiperespacial ensamblado:
+    Motor Hiperespacial montado:
 HYPERSPACE_RANGE_LADEN
     Autonomía hiperespacial (Carga completa):
 THANKS_AND_REMEMBER_TO_BUY_FUEL
@@ -120,7 +120,7 @@ SOMEWHERE_SHIP_EQUIPMENT
 REPAIRS_AND_SERVICING
     Reparaciones y servicios
 NEW_AND_RECONDITIONED_SHIPS
-    Naves nuevas y recondicionadas
+    Naves nuevas y reacondicionadas
 BULLETIN_BOARD
     Tablón de anuncios
 WELCOME_TO_SOMEWHERE
@@ -129,7 +129,7 @@ WELCOME_TO_SOMEWHERE
 # write anything you like here. It will appear in every space station
 # in the whole galaxy.
 SPACESTATION_LONG_WELCOME_MESSAGE
-    Saludos viajero.Y Bienvenido. Si es su primera visita no dude en conocer a los residentes. Esperamos que disfrute de su estancia.\nRecuerde que hay reformas en marcha, probablemente percibirá cambios entre visitas.
+    Saludos viajero. Y Bienvenido. Si es su primera visita no dude en conocer a los residentes. Esperamos que disfrute de su estancia.\nRecuerde que hay reformas en marcha, probablemente percibirá cambios entre visitas.
 REQUEST_LAUNCH
     Solicitar permiso para despegar
 SHIPYARD
@@ -186,6 +186,8 @@ COULD_NOT_OPEN_FILENAME
     No se pudo abrir %path
 GAME_LOAD_CORRUPT
     Este juego salvado no se puede abrir porque contiene errores.
+GAME_LOAD_WRONG_VERSION
+    Este juego salvado no se puede abrir porque se creó con una versión diferente de Pioneer.
 GAME_LOAD_CANNOT_OPEN
     Este juego salvado no se puede abrir debido a permisos o algo...
 GAME_SAVE_CANNOT_WRITE
@@ -207,7 +209,7 @@ ON
 OFF
     Off
 SIGHTS_SOUNDS_SAVES
-    Preferencias & Archivos
+    Preferencias y Archivos
 PIONEER
     PIONEER
 SAVE_THE_GAME
@@ -217,7 +219,7 @@ LOAD_A_GAME
 EXIT_THIS_GAME
     Abandonar el Juego
 RETURN_TO_MENU
-    Volver a menu
+    Volver a menú
 WINDOW_OR_FULLSCREEN
     Ventana o Pantalla completa (Reiniciar para aplicar)
 FULL_SCREEN
@@ -259,7 +261,7 @@ INVERT_MOUSE_Y
 HUD
   HUD
 DISPLAY_NAV_TUNNEL
-  Mostrar tunel de navegación
+  Mostrar túnel de navegación
 LANGUAGE_SELECTION
     Idioma (Reiniciar para aplicar)
 
@@ -277,15 +279,15 @@ LIQUID_OXYGEN_DESCRIPTION
 METAL_ORE
     Metales (mena)
 CARBON_ORE
-    Carbon mineral (mena)
+    Carbón mineral (mena)
 CARBON_ORE_DESCRIPTION
-    Los minerales de carbono (carbón y petroleo) se requieren para la síntesis de muchos y muy útiles productos químicos, incluyendo plásticos, productos alimenticios sintéticos, medicamentos y textiles.
+    Los minerales de carbono (carbón y petróleo) se requieren para la síntesis de muchos y muy útiles productos químicos, incluyendo plásticos, productos alimenticios sintéticos, medicamentos y textiles.
 METAL_ALLOYS
     Aleación de metales
 PLASTICS
     Plásticos
 FRUIT_AND_VEG
-    Frutas y veg.
+    Frutas y verd.
 ANIMAL_MEAT
     Carne animal
 LIVE_ANIMALS
@@ -353,13 +355,13 @@ ECM_BASIC
 ECM_BASIC_DESCRIPTION
     Un sistema de defensa electrónico de contramedidas, capaz de neutralizar ciertos tipos de misiles guiados.
 SCANNER
-    Escaner
+    Escáner
 SCANNER_DESCRIPTION
     Proporciona una vista 3D de las naves próximas.
 ECM_ADVANCED
     Sistema ECM avanzado
 ECM_ADVANCED_DESCRIPTION
-    Un sistema de defensa electrónico de contramedidas, capaz de neutralizar un tipo mas avanzado de misiles guiados.
+    Un sistema de defensa electrónico de contramedidas, capaz de neutralizar un tipo más avanzado de misiles guiados.
 SHIELD_GENERATOR
     Generador de escudo
 X_SHIELD_GENERATORS
@@ -367,7 +369,7 @@ X_SHIELD_GENERATORS
 SHIELD_GENERATOR_DESCRIPTION
     Proporciona una defensa adicional del casco con cada unidad ensamblada.
 LASER_COOLING_BOOSTER
-    Refrigeración de refuerzo del laser
+    Refrigeración de refuerzo del láser
 LASER_COOLING_BOOSTER_DESCRIPTION
     Un sistema de refrigeración mejorado para sus armas.
 CARGO_LIFE_SUPPORT
@@ -399,7 +401,7 @@ HULL_AUTOREPAIR
 HULL_AUTOREPAIR_DESCRIPTION
     Repara automáticamente el casco de la nave en caso de daños.
 SHIELD_ENERGY_BOOSTER
-    Amplificador del escudo de energia
+    Amplificador del escudo de energía
 SHIELD_ENERGY_BOOSTER_DESCRIPTION
     Incrementa la velocidad de recarga de los escudos.
 DRIVE_CLASS1
@@ -475,7 +477,7 @@ JETTISON
 REFUEL
     Repostar
 JETTISONED_1T_OF_X
-    Arrojadas 1 ton. de %commodity
+    Arrojada 1 ton. de %commodity
 COMBAT_RATING
     CALIFICACIÓN DE COMBATE:
 CRIMINAL_RECORD
@@ -534,14 +536,14 @@ Y
     Y
 Z
     Z
-AXIS
-     " Ejes"
+JOY_AXIS
+     Eje %sign%axis Joy%joynum
 WEAPONS
     Armamento
 TARGET_OBJECT_IN_SIGHTS
     Adquirir blanco en la mira
 FIRE_LASER
-    Disparar laser
+    Disparar láser
 FIRE_MISSILE
     Lanzar misil
 SHIP_ORIENTATION
@@ -589,7 +591,7 @@ INCREASE_SCAN_RANGE
 DECREASE_SCAN_RANGE
     Reducir rango del Scanner
 TOGGLE_LUA_CONSOLE
-    ON/OFF Lua Console
+    Consola Lua ON/OFF
 TOGGLE_ROTATION_DAMPING
     Rotación amortiguada
 TOGGLE_HUD_MODE
@@ -617,7 +619,7 @@ SHIP_DETECTED_NEARBY
 DOWNGRADING_ALERT_STATUS
     Sin detección de disparos durante 60 segundos, Rebajando el nivel de alerta.
 LASER_FIRE_DETECTED
-    Descarga de laser detectada.
+    Descarga de láser detectada.
 SOMEWHERE_POLICE
     Policía de %station
 WE_HAVE_NO_BUSINESS_WITH_YOU
@@ -685,7 +687,7 @@ CURRENT_SYSTEM
 SELECTED_SYSTEM
     Sistema seleccionado
 DRAW_VERTICAL_LINES
-    Mostrar lineas verticales
+    Mostrar líneas verticales
 DRAW_OUT_RANGE_LABELS
     Mostrar sistemas fuera de rango
 HYPERSPACE_TARGET
@@ -719,11 +721,11 @@ FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED
 CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED
     Recogedor de carga activo. Recogida 1 ton de %item.
 CARGO_BAY_LIFE_SUPPORT_LOST
-    Los sensores informan de condiciones críticas en los sitemas de apoyo vital de la bahía de carga.
+    Los sensores informan de condiciones críticas en los sistemas de apoyo vital de la bahía de carga.
 NO_FREE_SPACE_FOR_ITEM
     Sin espacio para este objeto.
 SHIP_IS_FULLY_LADEN
-    Su nave está completamente cargada.
+    Su nave está cargada a tope.
 YOU_DO_NOT_HAVE_ANY_X
     No dispone de %item.
 CAMERA_FRONT_VIEW
@@ -785,7 +787,7 @@ FRONT
 REAR
     Popa
 POLICE_SHIP_REGISTRATION
-    POLICIA
+    POLICÍA
 CLEARANCE_ALREADY_GRANTED_BAY_N
     Permiso ya concedido. Proceda a la bahía de atraque %bay.
 CLEARANCE_GRANTED_BAY_N
@@ -979,7 +981,7 @@ SURFACE_GRAVITY
 SURFACE_TEMPERATURE
     Temperatura en superficie
 N_CELSIUS
-    %temperature C
+    %temperature °C
 N_YEARS
     %years{f.1} años
 N_DAYS
@@ -1131,7 +1133,7 @@ SET_SPEED_KM_S
 SET_SPEED_M_S
     Vel: %speed{f.0} m/s
 KM_S_RELATIVE_TO
-    %speed{f.2} km/s relativa a %frame
+    %speed{f.2} km/s relativos a %frame
 M_S_RELATIVE_TO
     %speed{f.0} m/s relativa a %frame
 N_DISTANCE_TO_TARGET
@@ -1171,7 +1173,7 @@ NAVIGATION_TARGETS_IN_THIS_SYSTEM
 YOU_NO_MONEY
     Se encuentra sin fondos.
 FINE_PAID_N_BUT_N_REMAINING
-    Ha pagado %paid pero aun tiene una multa pendiente de %fine.
+    Ha pagado %paid pero aún tiene una multa pendiente de %fine.
 FINE_PAID_N
     Ha pagado la multa de %fine.
 SET_HYPERSPACE_DESTINATION_TO
@@ -1241,4 +1243,4 @@ MONTH_NOV
 MONTH_DEC
     Dic
 MISCELLANEOUS
-    Miscelaneos
+    Misceláneos

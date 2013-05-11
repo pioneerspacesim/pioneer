@@ -186,6 +186,8 @@ COULD_NOT_OPEN_FILENAME
     Nemohu otevřít cestu %path
 GAME_LOAD_CORRUPT
     Tento soubor nelze načíst, protože obsahuje chyby.
+GAME_LOAD_WRONG_VERSION
+    Tento soubor nelze načíst, protože byl vytvořen jinou verzí hry Pioneer.
 GAME_LOAD_CANNOT_OPEN
     Tento soubor nelze otevřít z důvodu oprávnění apod...
 GAME_SAVE_CANNOT_WRITE
@@ -534,8 +536,6 @@ Y
     Y
 Z
     Z
-AXIS
-     " osa"
 WEAPONS
     Zbraně
 TARGET_OBJECT_IN_SIGHTS

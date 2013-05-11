@@ -10,7 +10,7 @@ namespace UI {
 
 class Expand : public Single {
 public:
-	enum Direction { // <enum scope='UI::Expand' name=UIExpandDirection>
+	enum Direction { // <enum scope='UI::Expand' name=UIExpandDirection public>
 		BOTH,
 		HORIZONTAL,
 		VERTICAL,

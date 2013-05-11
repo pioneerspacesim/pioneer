@@ -5,7 +5,6 @@
 #define _SHIP_H
 
 #include "libs.h"
-#include "BezierCurve.h"
 #include "Camera.h"
 #include "DynamicBody.h"
 #include "EquipSet.h"
@@ -105,7 +104,7 @@ public:
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel);
 	virtual bool OnDamage(Object *attacker, float kgDamage);
 
-	enum FlightState { // <enum scope='Ship' name=ShipFlightState>
+	enum FlightState { // <enum scope='Ship' name=ShipFlightState public>
 		FLYING,     // open flight (includes autopilot)
 		DOCKING,    // in docking animation
 		DOCKED,     // docked with station
@@ -117,6 +116,7 @@ public:
 	void SetFlightState(FlightState s);
 	float GetWheelState() const { return m_wheelState; }
 	float GetJuice() const { return m_juice; }
+	int GetWheelTransition() const { return m_wheelTransition; }
 	bool SpawnCargo(CargoBody * c_body) const;
 
 	virtual bool IsInSpace() const { return (m_flightState != HYPERSPACE); }
@@ -126,7 +126,7 @@ public:
 	const SystemPath &GetHyperspaceDest() const { return m_hyperspace.dest; }
 	double GetHyperspaceDuration() const { return m_hyperspace.duration; }
 
-	enum HyperjumpStatus { // <enum scope='Ship' name=ShipJumpStatus prefix=HYPERJUMP_>
+	enum HyperjumpStatus { // <enum scope='Ship' name=ShipJumpStatus prefix=HYPERJUMP_ public>
 		HYPERJUMP_OK,
 		HYPERJUMP_CURRENT_SYSTEM,
 		HYPERJUMP_NO_DRIVE,
@@ -160,7 +160,7 @@ public:
 	void UseECM();
 	virtual Missile * SpawnMissile(ShipType::Id missile_type, int power=-1);
 
-	enum AlertState { // <enum scope='Ship' name=ShipAlertStatus prefix=ALERT_>
+	enum AlertState { // <enum scope='Ship' name=ShipAlertStatus prefix=ALERT_ public>
 		ALERT_NONE,
 		ALERT_SHIP_NEARBY,
 		ALERT_SHIP_FIRING,
@@ -185,7 +185,7 @@ public:
 	bool AIIsActive() { return m_curAICmd ? true : false; }
 	void AIGetStatusText(char *str);
 
-	enum AIError { // <enum scope='Ship' name=ShipAIError prefix=AIERROR_>
+	enum AIError { // <enum scope='Ship' name=ShipAIError prefix=AIERROR_ public>
 		AIERROR_NONE=0,
 		AIERROR_GRAV_TOO_HIGH,
 		AIERROR_REFUSED_PERM,
@@ -221,7 +221,7 @@ public:
 	void SetPercentHull(float);
 	float GetGunTemperature(int idx) const { return m_gunTemperature[idx]; }
 
-	enum FuelState { // <enum scope='Ship' name=ShipFuelStatus prefix=FUEL_>
+	enum FuelState { // <enum scope='Ship' name=ShipFuelStatus prefix=FUEL_ public>
 		FUEL_OK,
 		FUEL_WARNING,
 		FUEL_EMPTY,

@@ -6,6 +6,7 @@
 
 #include "LuaManager.h"
 #include "LuaRef.h"
+#include "LuaTable.h"
 #include "libs.h"
 
 struct lua_State;
@@ -14,16 +15,14 @@ class PropertyMap {
 public:
 	PropertyMap(LuaManager *lua);
 
-	void Set(const std::string &k, bool v);
-	void Set(const std::string &k, int v);
-	void Set(const std::string &k, double v);
-	void Set(const std::string &k, const std::string &v);
-	void Set(const std::string &k, const char *v) { Set(k, std::string(v)); }
+	template <class Value> void Set(const std::string &k, const Value &v) {
+		LuaTable(m_table).Set(k, v);
+		SendSignal(k);
+	}
 
-	void Get(const std::string &k, bool &v);
-	void Get(const std::string &k, int &v);
-	void Get(const std::string &k, double &v);
-	void Get(const std::string &k, std::string &v);
+	template <class Value> void Get(const std::string &k, Value &v) {
+		v = LuaTable(m_table).Get<Value>(k, v);
+	}
 
 	void PushLuaTable();
 

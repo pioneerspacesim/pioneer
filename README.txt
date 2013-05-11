@@ -1,5 +1,5 @@
-Pioneer Space Simulator - alpha 33
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Pioneer Space Simulator
+~~~~~~~~~~~~~~~~~~~~~~~
 
 Pioneer is a space adventure game set in the Milky Way galaxy at the turn of
 the 31st century.

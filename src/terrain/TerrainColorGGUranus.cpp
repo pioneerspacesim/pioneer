@@ -19,7 +19,7 @@ TerrainColorFractal<TerrainColorGGUranus>::TerrainColorFractal(const SystemBody 
 }
 
 template <>
-vector3d TerrainColorFractal<TerrainColorGGUranus>::GetColor(const vector3d &p, double height, const vector3d &norm)
+vector3d TerrainColorFractal<TerrainColorGGUranus>::GetColor(const vector3d &p, double height, const vector3d &norm) const
 {
 	double n = 0.5*ridged_octavenoise(GetFracDef(0), 0.7, vector3d(3.142*p.y*p.y));
 	n += 0.5*octavenoise(GetFracDef(1), 0.6, vector3d(3.142*p.y*p.y));
