@@ -1005,6 +1005,9 @@ static void autopilot_flyto(Body *b)
 }
 static void autopilot_dock(Body *b)
 {
+	if(static_cast<SpaceStation*>(b)->IsLaunching(Pi::player))
+		return;
+
 	Pi::player->GetPlayerController()->SetFlightControlState(CONTROL_AUTOPILOT);
 	Pi::player->AIDock(static_cast<SpaceStation*>(b));
 }
@@ -1053,7 +1056,10 @@ void WorldView::UpdateCommsOptions()
 				button = AddCommsOption(Lang::REQUEST_DOCKING_CLEARANCE, ypos, optnum++);
 				button->onClick.connect(sigc::bind(sigc::ptr_fun(&PlayerRequestDockingClearance), reinterpret_cast<SpaceStation*>(navtarget)));
 				ypos += 32;
-
+			} 
+			
+			if( !pStation->IsLaunching(Pi::player) )
+			{
 				if (Pi::player->m_equipment.Get(Equip::SLOT_AUTOPILOT) == Equip::AUTOPILOT) {
 					button = AddCommsOption(Lang::AUTOPILOT_DOCK_WITH_STATION, ypos, optnum++);
 					button->onClick.connect(sigc::bind(sigc::ptr_fun(&autopilot_dock), navtarget));
