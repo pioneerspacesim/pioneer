@@ -76,6 +76,7 @@
 #include "scenegraph/Lua.h"
 #include "ui/Context.h"
 #include "ui/Lua.h"
+#include "CoreCount.h"
 #include <algorithm>
 #include <sstream>
 
@@ -136,6 +137,7 @@ ObjectViewerView *Pi::objectViewerView;
 #endif
 
 Sound::MusicPlayer Pi::musicPlayer;
+ScopedPtr<JobQueue> Pi::jobQueue;
 
 static void draw_progress(float progress)
 {
@@ -246,7 +248,6 @@ std::string Pi::GetSaveDir()
 
 void Pi::Init()
 {
-
 	OS::NotifyLoadBegin();
 
 	FileSystem::Init();
@@ -336,6 +337,13 @@ void Pi::Init()
 	navTunnelDisplayed = (config->Int("DisplayNavTunnel")) ? true : false;
 
 	EnumStrings::Init();
+
+	// get threads up
+	uint32_t numThreads = config->Int("WorkerThreads");
+	uint32_t numCores = getNumCores();
+	if (numThreads == 0) numThreads = std::max(numCores-1,1U);
+	jobQueue.Reset(new JobQueue(numThreads));
+	printf("started %d worker threads\n", numThreads);
 
 	// XXX early, Lua init needs it
 	ShipType::Init();
@@ -566,6 +574,7 @@ void Pi::Quit()
 	StarSystem::ShrinkCache();
 	SDL_Quit();
 	FileSystem::Uninit();
+	jobQueue.Reset();
 	exit(0);
 }
 
@@ -768,7 +777,7 @@ void Pi::HandleEvents()
 		//		SDL_GetRelativeMouseState(&Pi::mouseMotion[0], &Pi::mouseMotion[1]);
 				break;
 			case SDL_JOYAXISMOTION:
-				if (joysticks[event.jaxis.which].joystick == NULL)
+				if (!joysticks[event.jaxis.which].joystick)
 					break;
 				if (event.jaxis.value == -32768)
 					joysticks[event.jaxis.which].axes[event.jaxis.axis] = 1.f;
@@ -777,12 +786,12 @@ void Pi::HandleEvents()
 				break;
 			case SDL_JOYBUTTONUP:
 			case SDL_JOYBUTTONDOWN:
-				if (joysticks[event.jaxis.which].joystick == NULL)
+				if (!joysticks[event.jaxis.which].joystick)
 					break;
 				joysticks[event.jbutton.which].buttons[event.jbutton.button] = event.jbutton.state != 0;
 				break;
 			case SDL_JOYHATMOTION:
-				if (joysticks[event.jaxis.which].joystick == NULL)
+				if (!joysticks[event.jaxis.which].joystick)
 					break;
 				joysticks[event.jhat.which].hats[event.jhat.hat] = event.jhat.value;
 				break;
@@ -1060,6 +1069,8 @@ void Pi::MainLoop()
 		cpan->Update();
 		musicPlayer.Update();
 
+		jobQueue->FinishJobs();
+
 #if WITH_DEVKEYS
 		if (Pi::showDebugInfo && SDL_GetTicks() - last_stats > 1000) {
 			size_t lua_mem = Lua::manager->GetMemoryUsage();
@@ -1157,7 +1168,7 @@ void Pi::InitJoysticks() {
 		state = &joysticks.back();
 
 		state->joystick = SDL_JoystickOpen(n);
-		if (state->joystick == NULL) {
+		if (!state->joystick) {
 			fprintf(stderr, "SDL_JoystickOpen(%i): %s\n", n, SDL_GetError());
 			continue;
 		}

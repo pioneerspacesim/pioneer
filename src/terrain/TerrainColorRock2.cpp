@@ -15,7 +15,7 @@ TerrainColorFractal<TerrainColorRock2>::TerrainColorFractal(const SystemBody *bo
 }
 
 template <>
-vector3d TerrainColorFractal<TerrainColorRock2>::GetColor(const vector3d &p, double height, const vector3d &norm)
+vector3d TerrainColorFractal<TerrainColorRock2>::GetColor(const vector3d &p, double height, const vector3d &norm) const
 {
 	double n = m_invMaxHeight*height/2;
 	if (n <= 0) return m_darkrockColor[0];

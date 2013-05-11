@@ -40,10 +40,11 @@ void LOD::AddLevel(float pixelSize, Node *nod)
 
 void LOD::Render(const matrix4x4f &trans, RenderData *rd)
 {
-	//figure out approximate pixel size on screen and pick a child to render
+	//figure out approximate pixel size of object's bounding radius
+	//on screen and pick a child to render
 	const vector3f cameraPos(-trans[12], -trans[13], -trans[14]);
-	const float pixrad = 0.5f * Graphics::GetScreenWidth() * rd->boundingRadius / cameraPos.Length();
-	assert(m_children.size() == m_pixelSizes.size());
+	//fov is vertical, so using screen height
+	const float pixrad = Graphics::GetScreenHeight() * rd->boundingRadius / (cameraPos.Length() * Graphics::GetFovFactor());
 	if (m_pixelSizes.empty()) return;
 	unsigned int lod = m_children.size() - 1;
 	for (unsigned int i=m_pixelSizes.size(); i > 0; i--) {

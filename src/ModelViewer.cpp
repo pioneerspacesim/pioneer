@@ -93,7 +93,7 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm)
 	m_ui.Reset(new UI::Context(lm, r, Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), "English"));
 
 	m_log = m_ui->MultiLineText("");
-	m_log->SetFont(UI::Widget::FONT_XSMALL);
+	m_log->SetFont(UI::Widget::FONT_SMALLEST);
 	m_logScroller.Reset(m_ui->Scroller());
 	m_logScroller->SetInnerWidget(m_log);
 
@@ -433,7 +433,6 @@ void ModelViewer::DrawDockingLocators()
 		}
 	}
 
-	
 	for(std::vector<Line3D>::iterator lineIter = sLines.begin(), lineEnd = sLines.end(); lineIter!=lineEnd; ++lineIter)
 	{
 		(*lineIter).Draw(m_renderer);
@@ -833,15 +832,16 @@ void ModelViewer::SetModel(const std::string &filename, bool resetCamera /* true
 		//Identical texture at the moment
 		OnDecalChanged(0, "01_Badge");
 
-		SceneGraph::DumpVisitor d;
-		m_model->GetRoot()->Accept(d);
-
 		//dump warnings
 		for (std::vector<std::string>::const_iterator it = loader.GetLogMessages().begin();
 			it != loader.GetLogMessages().end(); ++it)
 		{
 			AddLog(*it);
 		}
+
+		SceneGraph::DumpVisitor d(m_model);
+		m_model->GetRoot()->Accept(d);
+		AddLog(d.GetModelStatistics());
 
 		//note: stations won't demonstrate full docking light logic in MV
 		m_navLights.Reset(new NavLights(m_model));
@@ -947,7 +947,7 @@ void ModelViewer::SetupUI()
 	bottomBox->PackEnd(sliderBox);
 
 	outerBox->PackEnd(UI::WidgetSet(
-		c->Expand()->SetInnerWidget(c->Grid(UI::CellSpec(0.20f,0.8f,0.25f),1)
+		c->Expand()->SetInnerWidget(c->Grid(UI::CellSpec(0.30f,0.8f,0.35f),1)
 			->SetColumn(0, mainBox)
 			->SetColumn(2, m_logScroller.Get())
 		),

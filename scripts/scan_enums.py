@@ -218,6 +218,7 @@ class EnumData:
         s.name = None
         s.prefix = None
         s.scope = None
+        s.public = None
         s.items = []
 
     def __str__(s):
@@ -225,6 +226,8 @@ class EnumData:
             , '  identifier: ' + repr(s.identifier)
             , '  name: ' + repr(s.name)
             , '  prefix: ' + repr(s.prefix)
+            , '  scope: ' + repr(s.scope)
+            , '  public: ' + repr(s.public)
             , '  items:']
         if s.items:
             for item in s.items:
@@ -240,6 +243,8 @@ class EnumData:
             s.prefix = attrs['prefix']
         if 'scope' in attrs:
             s.scope = attrs['scope']
+        if 'public' in attrs:
+            s.public = attrs['public']
 
     def ident(s):
         if s.name is not None:
@@ -263,8 +268,10 @@ class EnumData:
         fl.write('\t{ 0, 0 },\n')
         fl.write('};\n')
 
-    def write_c_table_table_row(s, fl):
+    def write_c_table_table_row(s, fl, allTables = True):
         id = s.ident()
+        if not allTables and not s.public:
+            return
         fl.write('\t{ "' + id + '", ENUM_' + id + ' },\n')
 
     def write_c_header(s, fl):
@@ -356,7 +363,8 @@ def write_header(enums, fl):
     for e in enums:
         e.write_c_header(fl)
     fl.write('\n')
-    fl.write('extern const struct EnumTable ENUM_TABLES[];\n\n')
+    fl.write('extern const struct EnumTable ENUM_TABLES[];\n')
+    fl.write('extern const struct EnumTable ENUM_TABLES_PUBLIC[];\n\n')
     fl.write('#endif\n')
 
 def write_tables(enums, headers, hpath, fl):
@@ -373,6 +381,11 @@ def write_tables(enums, headers, hpath, fl):
     fl.write('const struct EnumTable ENUM_TABLES[] = {\n')
     for e in enums:
         e.write_c_table_table_row(fl)
+    fl.write('\t{ 0, 0 },\n')
+    fl.write('};\n\n')
+    fl.write('const struct EnumTable ENUM_TABLES_PUBLIC[] = {\n')
+    for e in enums:
+        e.write_c_table_table_row(fl, False)
     fl.write('\t{ 0, 0 },\n')
     fl.write('};\n')
 

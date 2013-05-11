@@ -36,7 +36,7 @@
  */
 static int l_rand_new(lua_State *l)
 {
-	int seed = int(time(NULL));
+	int seed = int(time(0));
 	if (lua_isnumber(l, 1))
 		seed = lua_tointeger(l, 1);
 	LuaObject<Random>::PushToLua(new Random(seed));
@@ -162,5 +162,5 @@ template <> void LuaObject<Random>::RegisterClass()
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, NULL, l_methods, NULL, NULL);
+	LuaObjectBase::CreateClass(s_type, 0, l_methods, 0, 0);
 }

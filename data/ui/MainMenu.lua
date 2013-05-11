@@ -67,7 +67,7 @@ local menu =
 			ui:Grid({ 0.1, 0.8, 0.1 }, 1)
 				:SetCell(1, 0,
 					ui:Align("RIGHT",
-						ui:Label("("..Engine.version..")"):SetFont("HEADING_XSMALL")
+						ui:Label("(build: "..Engine.version..")"):SetFont("HEADING_XSMALL")
 					)
 				)
 		})

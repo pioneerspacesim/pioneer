@@ -8,7 +8,7 @@ dnl Setup
 dnl ###########################################################################
 AC_PREREQ(2.59)
 
-AC_INIT([pioneer], [alpha-34-dev], [pioneer-dev@pioneerspacesim.net])
+AC_INIT([pioneer], [0.00], [pioneer-dev@pioneerspacesim.net])
 dnl AC_CONFIG_HEADERS([config.h])
 
 AC_DEFUN([MXE_SETUP], [
@@ -118,8 +118,26 @@ AC_ARG_ENABLE([ldb], AS_HELP_STRING([--enable-ldb], [Enable ldb support.]), [EXT
 AC_ARG_WITH([fno-inline],  AS_HELP_STRING([--with-fno-inline], [Compile without inlining. Helps debugging segaults that occur in STL code]), [PIONEER_C_CXX_FLAG([-fno-inline])])
 AC_ARG_WITH([gprof],       AS_HELP_STRING([--with-gprof], [Compile with gprof profiler]), [PIONEER_C_CXX_FLAG([-pg])])
 
-dnl Dist versioning
-AC_ARG_WITH([extra-version], AS_HELP_STRING([--with-extra-version], [Add text to game version shown on splash screen]), [EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DPIONEER_EXTRAVERSION=\\\"$withval\\\""])
+
+dnl Versioning. If this is a git checkout, try to get details from it
+PIONEER_VERSION=
+PIONEER_EXTRAVERSION=
+if test -d .git ; then
+    AC_MSG_NOTICE([This is a git checkout])
+    PIONEER_VERSION=git
+    gitbin=`which git`
+    if test "x$gitbin" != x; then
+        PIONEER_EXTRAVERSION=`$gitbin log -n1 --format=%h`
+        AC_MSG_NOTICE([git ref: $PIONEER_EXTRAVERSION])
+    fi
+fi
+
+dnl And override with anything on the command line
+AC_ARG_WITH([version], AS_HELP_STRING([--with-version], [Game version]), [PIONEER_VERSION=$withval])
+AC_ARG_WITH([extra-version], AS_HELP_STRING([--with-extra-version], [Additional version info]), [PIONEER_EXTRAVERSION=$withval])
+
+EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DPIONEER_VERSION=\\\"$PIONEER_VERSION\\\" -DPIONEER_EXTRAVERSION=\\\"$PIONEER_EXTRAVERSION\\\""
+
 
 dnl Compiler warning options
 AC_ARG_WITH([extra-warnings], AS_HELP_STRING([--without-extra-warnings], [Disable lots of extra compiler warnings]), [], [with_extra_warnings=yes])

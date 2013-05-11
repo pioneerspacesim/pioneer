@@ -17,6 +17,6 @@ define_orbital_station {
 		{0, 500, {16}},
 		{0, 500, {17,18,19,20}},
 	},
-	dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 10.0, 5.0, 5.0 },
+	dock_anim_stage_duration = { 300, 10.0, 5.0, 5.0 },
 	undock_anim_stage_duration = { 5.0, 5.0, 10.0 },
 }

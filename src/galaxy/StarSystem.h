@@ -13,6 +13,7 @@
 #include "RefCounted.h"
 #include "galaxy/SystemPath.h"
 #include "Orbit.h"
+#include "gameconsts.h"
 
 class CustomSystemBody;
 class CustomSystem;
@@ -21,7 +22,7 @@ class SystemBody;
 // doubles - all masses in Kg, all lengths in meters
 // fixed - any mad scheme
 
-enum EconType { // <enum name=EconType prefix=ECON_>
+enum EconType { // <enum name=EconType prefix=ECON_ public>
 	ECON_MINING = 1<<0,
 	ECON_AGRICULTURE = 1<<1,
 	ECON_INDUSTRY = 1<<2,
@@ -46,7 +47,7 @@ public:
 	SystemBody *parent;                // these are only valid if the StarSystem
 	std::vector<SystemBody*> children; // that create them still exists
 
-	enum BodyType { // <enum scope='SystemBody' prefix=TYPE_>
+	enum BodyType { // <enum scope='SystemBody' prefix=TYPE_ public>
 		TYPE_GRAVPOINT = 0,
 		TYPE_BROWN_DWARF = 1, //  L+T Class Brown Dwarfs
 		TYPE_WHITE_DWARF = 2,
@@ -96,7 +97,7 @@ public:
 		// XXX need larger atmosphereless thing
 	};
 
-	enum BodySuperType { // <enum scope='SystemBody' prefix=SUPERTYPE_>
+	enum BodySuperType { // <enum scope='SystemBody' prefix=SUPERTYPE_ public>
 		SUPERTYPE_NONE = 0,
 		SUPERTYPE_STAR = 1,
 		SUPERTYPE_ROCKY_PLANET = 2,

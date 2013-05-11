@@ -34,7 +34,8 @@ static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.9f);
 static const float ZOOM_SPEED = 1.f;
 static const float WHEEL_SENSITIVITY = .2f;	// Should be a variable in user settings.
 
-#define HUD_CROSSHAIR_SIZE	24.0f
+static const float HUD_CROSSHAIR_SIZE = 24.0f;
+static const float HUD_ALPHA          = 0.34f;
 
 WorldView::WorldView(): View()
 {
@@ -426,7 +427,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 		Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_BOTTOM_RIGHT, Lang::SHIP_ALTITUDE_ABOVE_TERRAIN);
 	}
 
-	m_wheelsButton->SetActiveState(int(Pi::player->GetWheelState()));
+	m_wheelsButton->SetActiveState(int(Pi::player->GetWheelState()) || Pi::player->GetWheelTransition() == 1);
 
 	RefreshHyperspaceButton();
 
@@ -524,8 +525,8 @@ void WorldView::RefreshButtonStateAndVisibility()
 
 		//Calculate lat/lon for ship position
 		const vector3d dir = pos.NormalizedSafe();
-		const float lat = asin(dir.y) * RAD_2_DEG;
-		const float lon = atan2(dir.x, dir.z) * -RAD_2_DEG;
+		const float lat = RAD2DEG(asin(dir.y));
+		const float lon = RAD2DEG(atan2(dir.x, dir.z));
 
 		const char *rel_to = (Pi::player->GetFrame() ? Pi::player->GetFrame()->GetLabel().c_str() : "System");
 		const char *rot_frame = (Pi::player->GetFrame()->IsRotFrame() ? "yes" : "no");
@@ -1045,14 +1046,19 @@ void WorldView::UpdateCommsOptions()
 		m_commsOptions->Add(new Gui::Label("#0f0"+navtarget->GetLabel()), 16, float(ypos));
 		ypos += 32;
 		if (navtarget->IsType(Object::SPACESTATION)) {
-			button = AddCommsOption(Lang::REQUEST_DOCKING_CLEARANCE, ypos, optnum++);
-			button->onClick.connect(sigc::bind(sigc::ptr_fun(&PlayerRequestDockingClearance), reinterpret_cast<SpaceStation*>(navtarget)));
-			ypos += 32;
+			SpaceStation *pStation = static_cast<SpaceStation *>(navtarget);
 
-			if (Pi::player->m_equipment.Get(Equip::SLOT_AUTOPILOT) == Equip::AUTOPILOT) {
-				button = AddCommsOption(Lang::AUTOPILOT_DOCK_WITH_STATION, ypos, optnum++);
-				button->onClick.connect(sigc::bind(sigc::ptr_fun(&autopilot_dock), navtarget));
+			if( pStation->GetMyDockingPort(Pi::player) == -1 )
+			{
+				button = AddCommsOption(Lang::REQUEST_DOCKING_CLEARANCE, ypos, optnum++);
+				button->onClick.connect(sigc::bind(sigc::ptr_fun(&PlayerRequestDockingClearance), reinterpret_cast<SpaceStation*>(navtarget)));
 				ypos += 32;
+
+				if (Pi::player->m_equipment.Get(Equip::SLOT_AUTOPILOT) == Equip::AUTOPILOT) {
+					button = AddCommsOption(Lang::AUTOPILOT_DOCK_WITH_STATION, ypos, optnum++);
+					button->onClick.connect(sigc::bind(sigc::ptr_fun(&autopilot_dock), navtarget));
+					ypos += 32;
+				}
 			}
 
 			Sint64 crime, fine;

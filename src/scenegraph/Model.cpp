@@ -250,9 +250,9 @@ bool Model::SupportsPatterns()
 	return false;
 }
 
-Animation *Model::FindAnimation(const std::string &name)
+Animation *Model::FindAnimation(const std::string &name) const
 {
-	for (AnimationContainer::iterator anim = m_animations.begin(); anim != m_animations.end(); ++anim) {
+	for (AnimationContainer::const_iterator anim = m_animations.begin(); anim != m_animations.end(); ++anim) {
 		if ((*anim)->GetName() == name) return (*anim);
 	}
 	return 0;
@@ -298,7 +298,6 @@ void Model::Save(Serializer::Writer &wr) const
 	for (AnimationContainer::const_iterator i = m_animations.begin(); i != m_animations.end(); ++i)
 		wr.Double((*i)->GetProgress());
 }
-
 
 class LoadVisitor : public NodeVisitor {
 public:

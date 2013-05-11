@@ -12,14 +12,14 @@ class SysPolit;
 class Ship;
 
 namespace Polit {
-	enum Crime { // <enum scope='Polit' name=PolitCrime prefix=CRIME_>
+	enum Crime { // <enum scope='Polit' name=PolitCrime prefix=CRIME_ public>
 		CRIME_TRADING_ILLEGAL_GOODS = (1<<0),
 		CRIME_WEAPON_DISCHARGE = (1<<1),
 		CRIME_PIRACY = (1<<2),
 		CRIME_MURDER = (1<<3),
 	};
 
-	enum PolitEcon { // <enum scope='Polit' name=PolitEcon prefix=ECON_>
+	enum PolitEcon { // <enum scope='Polit' name=PolitEcon prefix=ECON_ public>
 		ECON_NONE,
 		ECON_VERY_CAPITALIST,
 		ECON_CAPITALIST,
@@ -28,7 +28,7 @@ namespace Polit {
 		ECON_MAX // <enum skip>
 	};
 
-	enum GovType { // <enum scope='Polit' name=PolitGovType prefix=GOV_>
+	enum GovType { // <enum scope='Polit' name=PolitGovType prefix=GOV_ public>
 		GOV_INVALID, // <enum skip>
 		GOV_NONE,
 		GOV_EARTHCOLONIAL,

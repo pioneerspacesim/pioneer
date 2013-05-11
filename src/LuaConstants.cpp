@@ -98,7 +98,7 @@ void LuaConstants::Register(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 
-	for (const EnumTable *table = ENUM_TABLES; table->name; table++)
+	for (const EnumTable *table = ENUM_TABLES_PUBLIC; table->name; table++)
 		_create_constant_table(l, table->name, table->first);
 
 	/*

@@ -1007,7 +1007,7 @@ void StarSystem::GenerateFromCustom(const CustomSystem *customSys, Random &rand)
 
 	rootBody.Reset(NewBody());
 	rootBody->type = csbody->type;
-	rootBody->parent = NULL;
+	rootBody->parent = 0;
 	rootBody->seed = csbody->want_rand_seed ? rand.Int32() : csbody->seed;
 	rootBody->seed = rand.Int32();
 	rootBody->radius = csbody->radius;
@@ -1421,7 +1421,7 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path)
 	}
 
 	SystemBody *star[4];
-	SystemBody *centGrav1(NULL), *centGrav2(NULL);
+	SystemBody *centGrav1(0), *centGrav2(0);
 
 	const int numStars = s.m_systems[m_path.systemIndex].numStars;
 	assert((numStars >= 1) && (numStars <= 4));
@@ -1429,7 +1429,7 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path)
 	if (numStars == 1) {
 		SystemBody::BodyType type = s.m_systems[m_path.systemIndex].starType[0];
 		star[0] = NewBody();
-		star[0]->parent = NULL;
+		star[0]->parent = 0;
 		star[0]->name = s.m_systems[m_path.systemIndex].name;
 		star[0]->orbMin = fixed(0);
 		star[0]->orbMax = fixed(0);
@@ -1440,7 +1440,7 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path)
 	} else {
 		centGrav1 = NewBody();
 		centGrav1->type = SystemBody::TYPE_GRAVPOINT;
-		centGrav1->parent = NULL;
+		centGrav1->parent = 0;
 		centGrav1->name = s.m_systems[m_path.systemIndex].name+" A,B";
 		rootBody.Reset(centGrav1);
 
@@ -1507,7 +1507,7 @@ try_that_again_guvnah:
 			}
 			SystemBody *superCentGrav = NewBody();
 			superCentGrav->type = SystemBody::TYPE_GRAVPOINT;
-			superCentGrav->parent = NULL;
+			superCentGrav->parent = 0;
 			superCentGrav->name = s.m_systems[m_path.systemIndex].name;
 			centGrav1->parent = superCentGrav;
 			centGrav2->parent = superCentGrav;

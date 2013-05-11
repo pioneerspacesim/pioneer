@@ -18,7 +18,7 @@ TerrainColorFractal<TerrainColorVolcanic>::TerrainColorFractal(const SystemBody 
 }
 
 template <>
-vector3d TerrainColorFractal<TerrainColorVolcanic>::GetColor(const vector3d &p, double height, const vector3d &norm)
+vector3d TerrainColorFractal<TerrainColorVolcanic>::GetColor(const vector3d &p, double height, const vector3d &norm) const
 {
 	double n = m_invMaxHeight*height;
 	const double flatness = pow(p.Dot(norm), 6.0);

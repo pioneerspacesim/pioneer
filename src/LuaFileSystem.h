@@ -7,7 +7,7 @@
 namespace LuaFileSystem {
 	void Register();
 
-	enum Root { // <enum scope='LuaFileSystem' name=FileSystemRoot prefix=ROOT_>
+	enum Root { // <enum scope='LuaFileSystem' name=FileSystemRoot prefix=ROOT_ public>
 		ROOT_USER,
 		ROOT_DATA
 	};

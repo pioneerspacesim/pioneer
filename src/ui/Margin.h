@@ -13,7 +13,7 @@ public:
 	virtual Point PreferredSize();
 	virtual void Layout();
 
-	enum Direction { // <enum scope='UI::Margin' name=UIMarginDirection>
+	enum Direction { // <enum scope='UI::Margin' name=UIMarginDirection public>
 		ALL,
 		HORIZONTAL,
 		VERTICAL,

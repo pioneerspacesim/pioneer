@@ -17,7 +17,7 @@ public:
 	Billboard(const Billboard&, NodeCopyCache *cache = 0);
 	virtual Node *Clone(NodeCopyCache *cache = 0);
 	virtual void Accept(NodeVisitor &v);
-	virtual const char *GetTypeName() { return "Billboard"; }
+	virtual const char *GetTypeName() const { return "Billboard"; }
 	virtual void Render(const matrix4x4f &trans, RenderData *rd);
 	void SetMaterial(RefCountedPtr<Graphics::Material> mat) { m_material = mat; }
 

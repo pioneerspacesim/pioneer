@@ -12,17 +12,30 @@
 #include "galaxy/StarSystem.h"
 #include "graphics/Material.h"
 #include "terrain/Terrain.h"
+#include "GeoPatchID.h"
+
+#include <deque>
 
 namespace Graphics { class Renderer; }
 class SystemBody;
 class GeoPatch;
 class GeoPatchContext;
+class GeoSphere;
+class SQuadSplitRequest;
+class SQuadSplitResult;
+class SSingleSplitResult;
+
+#define NUM_PATCHES 6
+
 class GeoSphere {
 public:
 	GeoSphere(const SystemBody *body);
 	~GeoSphere();
+
+	void Update();
 	void Render(Graphics::Renderer *renderer, vector3d campos, const float radius, const float scale, const std::vector<Camera::Shadow> &shadows);
-	inline double GetHeight(vector3d p) {
+
+	inline double GetHeight(vector3d p) const {
 		const double h = m_terrain->GetHeight(p);
 		s_vtxGenCount++;
 #ifdef DEBUG
@@ -41,6 +54,8 @@ public:
 	static void Init();
 	static void Uninit();
 	static void OnChangeDetailLevel();
+	static bool OnAddQuadSplitResult(const SystemPath &path, SQuadSplitResult *res);
+	static bool OnAddSingleSplitResult(const SystemPath &path, SSingleSplitResult *res);
 	// in sbody radii
 	double GetMaxFeatureHeight() const { return m_terrain->GetMaxHeight(); }
 	static int GetVtxGenCount() { return s_vtxGenCount; }
@@ -51,31 +66,31 @@ public:
 		std::vector<Camera::Shadow> shadows;
 	};
 
+	bool AddQuadSplitResult(SQuadSplitResult *res);
+	bool AddSingleSplitResult(SSingleSplitResult *res);
+	void ProcessSplitResults();
+
+	void Reset();
+
 private:
 	void BuildFirstPatches();
-	GeoPatch *m_patches[6];
+	ScopedPtr<GeoPatch> m_patches[6];
 	const SystemBody *m_sbody;
 
-	/* all variables for GetHeight(), GetColor() */
-	Terrain *m_terrain;
+	// all variables for GetHeight(), GetColor()
+	ScopedPtr<Terrain> m_terrain;
 
-	///////////////////////////
-	// threading rubbbbbish
-	// update thread can't do it since only 1 thread can molest opengl
-	static int UpdateLODThread(void *data);
-	std::list<GLuint> m_vbosToDestroy;
-	SDL_mutex *m_vbosToDestroyLock;
-	void AddVBOToDestroy(GLuint vbo);
-	void DestroyVBOs();
+	static const uint32_t MAX_SPLIT_OPERATIONS = 128;
+	std::deque<SQuadSplitResult*> mQuadSplitResults;
+	std::deque<SSingleSplitResult*> mSingleSplitResults;
 
+	bool m_hasTempCampos;
 	vector3d m_tempCampos;
 
-	SDL_mutex *m_updateLock;
-	SDL_mutex *m_abortLock;
-	bool m_abort;
-	//////////////////////////////
+	uint32_t mCurrentNumPatches;
+	uint64_t mCurrentMemAllocatedToPatches;
 
-	inline vector3d GetColor(const vector3d &p, double height, const vector3d &norm) {
+	inline vector3d GetColor(const vector3d &p, double height, const vector3d &norm) const {
 		return m_terrain->GetColor(p, height, norm);
 	}
 
@@ -88,6 +103,14 @@ private:
 	ScopedPtr<Graphics::Material> m_atmosphereMaterial;
 	//special parameters for shaders
 	MaterialParameters m_materialParameters;
+
+	enum EGSInitialisationStage {
+		eBuildFirstPatches=0,
+		eRequestedFirstPatches,
+		eReceivedFirstPatches,
+		eDefaultUpdateState
+	};
+	EGSInitialisationStage m_initStage;
 };
 
 #endif /* _GEOSPHERE_H */

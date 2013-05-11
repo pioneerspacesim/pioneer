@@ -94,6 +94,9 @@ static int l_game_load_game(lua_State *l)
 	catch (SavedGameCorruptException) {
 		luaL_error(l, Lang::GAME_LOAD_CORRUPT);
 	}
+	catch (SavedGameWrongVersionException) {
+		luaL_error(l, Lang::GAME_LOAD_WRONG_VERSION);
+	}
 	catch (CouldNotOpenFileException) {
 		luaL_error(l, Lang::GAME_LOAD_CANNOT_OPEN);
 	}

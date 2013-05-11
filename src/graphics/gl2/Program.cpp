@@ -39,7 +39,7 @@ static bool check_glsl_errors(const char *filename, GLuint obj)
 		OS::Error("Error compiling shader: %s:\n%sOpenGL vendor: %s\nOpenGL renderer string: %s",
 			filename, infoLog, glGetString(GL_VENDOR), glGetString(GL_RENDERER));
 #else
-		OS::Warning("Error compiling shader: %s:\n%sOpenGL vendor: %s\nOpenGL renderer string: %s\n\nS"
+		OS::Warning("Error compiling shader: %s:\n%sOpenGL vendor: %s\nOpenGL renderer string: %s\n\n"
 			"Pioneer will not work as intended. Try disabling shaders in the options or the config file.\n",
 			filename, infoLog, glGetString(GL_VENDOR), glGetString(GL_RENDERER));
 #endif

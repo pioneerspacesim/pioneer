@@ -19,7 +19,6 @@ namespace RawEvents {
 	sigc::signal<void, SDL_JoyHatEvent *> onJoyHatMotion;
 }
 
-
 void HandleSDLEvent(SDL_Event *event)
 {
 	switch (event->type) {
@@ -124,7 +123,7 @@ void MainLoopIteration()
 	SDL_ShowCursor(1);
 	SDL_WM_GrabInput(SDL_GRAB_OFF);
 	Gui::Draw();
-	Graphics::SwapBuffers();
+	SDL_GL_SwapBuffers();
 }
 
 namespace Theme {
