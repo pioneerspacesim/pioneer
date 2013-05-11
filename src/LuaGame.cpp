@@ -64,7 +64,7 @@ static int l_game_start_game(lua_State *l)
  *
  * Load a saved game.
  *
- * > loaded = Game.LoadGame(filename)
+ * > Game.LoadGame(filename)
  *
  * Parameters:
  *
