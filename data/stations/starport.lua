@@ -136,6 +136,6 @@ define_surface_station {
     parking_distance = 5000.0,
     parking_gap_size = 2000.0,
     ship_launch_stage = 0,
-    dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 4.0},
+    dock_anim_stage_duration = { 300, 4.0},
     undock_anim_stage_duration = { 0 },
 }
