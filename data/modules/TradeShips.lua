@@ -639,10 +639,11 @@ Event.Register("onLeaveSystem", onLeaveSystem)
 
 local onFrameChanged = function (ship)
 
+	--add local traffic fast.
 	if ship == Game.player then
-		spawnReplacementFast()	
-		spawnReplacementFast()	
-		spawnReplacementFast()	
+		for variable = 0, Engine.rand:Number(1, 5), 1 do
+			Timer:CallAt(Game.time+Engine.rand:Number(1, 10), function () spawnReplacementFast() end)
+		end
 	end
 
 	if not ship:isa("Ship") or trade_ships[ship] == nil then return end
