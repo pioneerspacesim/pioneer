@@ -6,11 +6,11 @@ define_ship {
 	model = 'military_combat_fighter',
 	forward_thrust = 63e5,
 	reverse_thrust = 32e5,
-	up_thrust = 15e5,
-	down_thrust = 15e5,
-	left_thrust = 15e5,
-	right_thrust = 15e5,
-	angular_thrust = 83e5,
+	up_thrust = 0.1e8,
+	down_thrust = 0.1e8,
+	left_thrust = 0.1e8,
+	right_thrust = 0.1e8,
+	angular_thrust = 0.1e8,
 	camera_offset = v(0,1,-12.8),
 	gun_mounts =
 	{
