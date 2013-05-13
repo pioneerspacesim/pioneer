@@ -1,6 +1,6 @@
 May 2013
 
-  * New features
+   * New features
      * Multithreaded Job based Terrain Patch generation (#2163, #2268, #2262)
 
    * Minor changes and tweaks
