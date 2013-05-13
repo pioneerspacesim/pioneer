@@ -574,7 +574,7 @@ local cleanTradeShipsTable = function ()
 			end
 		end
 	end
-	if ( total-hyperspace < num_trade_ships*0.5 and total > 100) then spawnReplacement() end
+	if ( total-hyperspace < num_trade_ships*0.5 and total < 100) then spawnReplacement() end
 
 	print('cleanTSTable:total:'..total..',active:'..total - hyperspace..',removed:'..removed)
 end
