@@ -409,7 +409,7 @@ vector3d Ship::GetMaxThrust(const vector3d &dir) const
 	maxThrust.z = (dir.z > 0) ? m_type->linThrust[ShipType::THRUSTER_REVERSE]
 		: -m_type->linThrust[ShipType::THRUSTER_FORWARD];
 	//double juice = std::min(GetVelocity().Length()/200.0,20.0)+0.5;
-	if (m_curAICmd!=0 && GetVelocity().Length() > 1000) return maxThrust*m_juice;
+	if (m_curAICmd!=0 && GetVelocity().Length() > 1000) return maxThrust*std::min(m_juice,1.0+GetVelocity().Length()*0.004);
 	return maxThrust;
 }
 
@@ -419,23 +419,23 @@ double Ship::GetAccelMin() const
 	val = std::min(val, m_type->linThrust[ShipType::THRUSTER_RIGHT]);
 	val = std::min(val, -m_type->linThrust[ShipType::THRUSTER_LEFT]);
 	//double juice = std::min(GetVelocity().Length()/200.0,20.0)+0.5;
-	if (m_curAICmd!=0 && GetVelocity().Length() > 1000) return (val / GetMass())*m_juice;
+	if (m_curAICmd!=0 && GetVelocity().Length() > 1000) return (val / GetMass())*std::min(m_juice,1.0+GetVelocity().Length()*0.004);
 	return (val / GetMass());
 }
 
 double Ship::GetAccelFwd() const { 
 	//double juice = std::min(GetVelocity().Length()/200.0,20.0)+0.5;
-	if (m_curAICmd!=0 && GetVelocity().Length() > 1000) return m_juice*-m_type->linThrust[ShipType::THRUSTER_FORWARD] / GetMass(); 
+	if (m_curAICmd!=0 && GetVelocity().Length() > 1000) return std::min(m_juice,1.0+GetVelocity().Length()*0.004)*-m_type->linThrust[ShipType::THRUSTER_FORWARD] / GetMass();
 	return -m_type->linThrust[ShipType::THRUSTER_FORWARD] / GetMass(); 
 }
 double Ship::GetAccelRev() const { 
 	//double juice = std::min(GetVelocity().Length()/200.0,20.0)+0.5;
-	if (m_curAICmd!=0 && GetVelocity().Length() > 1000) return m_juice*m_type->linThrust[ShipType::THRUSTER_REVERSE] / GetMass(); 
+	if (m_curAICmd!=0 && GetVelocity().Length() > 1000) return std::min(m_juice,1.0+GetVelocity().Length()*0.004)*m_type->linThrust[ShipType::THRUSTER_REVERSE] / GetMass();
 	return m_type->linThrust[ShipType::THRUSTER_REVERSE] / GetMass(); 
 }
 double Ship::GetAccelUp() const { 
 	//double juice = std::min(GetVelocity().Length()/200.0,20.0)+0.5;
-	if (m_curAICmd!=0 && GetVelocity().Length() > 1000) return m_juice*m_type->linThrust[ShipType::THRUSTER_UP] / GetMass(); 
+	if (m_curAICmd!=0 && GetVelocity().Length() > 1000) return std::min(m_juice,1.0+GetVelocity().Length()*0.004)*m_type->linThrust[ShipType::THRUSTER_UP] / GetMass();
 	return m_type->linThrust[ShipType::THRUSTER_UP] / GetMass(); 
 }
 
@@ -491,7 +491,7 @@ void Ship::UpdateEquipStats()
 void Ship::UpdateFuelStats()
 {
 	m_stats.fuel_tank_mass = m_type->fuelTankMass;
-	m_stats.fuel_use = GetFuelUseRate()*m_juice;
+	m_stats.fuel_use = GetFuelUseRate();
 	m_stats.fuel_tank_mass_left = m_stats.fuel_tank_mass * GetFuel();
 
 	UpdateMass();
@@ -950,7 +950,7 @@ void Ship::UpdateFuel(const float timeStep, const vector3d &thrust)
 {
 	const double fuelUseRate = GetFuelUseRate() * 0.01;
 	double totalThrust = (fabs(thrust.x) + fabs(thrust.y) + fabs(thrust.z))
-		/ -GetShipType()->linThrust[ShipType::THRUSTER_FORWARD];
+		/ -GetShipType()->linThrust[ShipType::THRUSTER_FORWARD]*m_juice;
 
 	FuelState lastState = GetFuelState();
 	SetFuel(GetFuel() - timeStep * (totalThrust * fuelUseRate));
@@ -1089,19 +1089,11 @@ void Ship::StaticUpdate(const float timeStep)
 	}
 
 	//Add smoke trails based on thruster state and in atmosphere.
-	if (m_thrusters.z < 0.0 && 0.1*Pi::rng.Double() < timeStep) {
-		Body *astro = GetFrame()->GetBody();
-		if (astro && astro->IsType(Object::PLANET)) {
-			Planet *p = static_cast<Planet*>(astro);
-			double pressure, density;
-			double dist = GetPosition().Length();
-			p->GetAtmosphericState(dist, &pressure, &density);
-				if ( density > 0.0 ) {
-				    vector3d pos = GetOrient() * vector3d(0, 0 , 40);//100.0*fabs(tstate.z));
-					Sfx::AddThrustSmoke(this, Sfx::TYPE_SMOKE, std::min(10.0*GetVelocity().Length()*density*abs(m_thrusters.z),100.0),pos);
-				}
-		}
+	if ( GetVelocity().Length() < 5000.0 && GetVelocity().Length() > 5.0 && std::max(0.0001*GetVelocity().Length(),0.1)*Pi::rng.Double() < timeStep ) {
+		vector3d pos = GetOrient() * vector3d(0, 0, GetAabb().min.z);
+		Sfx::AddThrustSmoke(this, Sfx::TYPE_SMOKE, std::min(10.0*GetVelocity().Length()*abs(m_thrusters.z)+abs(m_thrusters.y),std::max(GetVelocity().Length()*0.2,GetAabb().min.y*10.0)),pos);
 	}
+
 	//Add smoke trails for missiles on thruster state
 	if (m_type->tag == ShipType::TAG_MISSILE && m_thrusters.z < 0.0 && 0.1*Pi::rng.Double() < timeStep) {
 		vector3d pos = GetOrient() * vector3d(0, 0 , 5);

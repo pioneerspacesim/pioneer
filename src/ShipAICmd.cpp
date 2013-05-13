@@ -691,6 +691,7 @@ AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target) : AICommand(ship, CMD_FLYTO)
 		m_targframe = 0;
 		m_ship->SetJuice(1.0);
 	}
+	else m_ship->SetJuice(20.0);
 }
 
 // Specified pos, endvel should be > 0
@@ -709,7 +710,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 	Equip::Type t = m_ship->m_equipment.Get(Equip::SLOT_ENGINE);
 	int hyperclass = Equip::types[t].pval;
 
-	if (m_targframe && m_ship){
+	if (m_targframe && m_ship && !m_child){
 		double cspeed = m_ship->GetVelocity().Length();
 		double setspeed = std::min((double)m_ship->GetPositionRelTo(m_targframe).Length()/1.0,std::min(cspeed*1.05,99999999999.0-hyperclass*1000000));
 		double target_radii = 5000000; //m_targframe->GetParent()->GetBody()->GetPhysRadius()*2.0; //15000000.0;//std::max(m_frame->GetBody()->GetPhysRadius()*1.5,15000.0);
@@ -724,6 +725,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 		{
 			m_ship->SetVelocity(m_ship->GetOrient()*vector3d(0, 0, -setspeed));
 			m_ship->AIFaceDirection(m_targframe->GetPositionRelTo(m_ship->GetFrame())-m_ship->GetPositionRelTo(m_ship->GetFrame()));
+			m_ship->SetJuice(40.0);
 			return false;
 		}
 		else if (
@@ -733,10 +735,11 @@ bool AICmdFlyTo::TimeStepUpdate()
 			)
 		{
 			m_ship->SetVelocity(m_ship->GetOrient()*vector3d(0, 0, -49000));
+			m_ship->SetJuice(20.0);
 			return false;
 		}
 	}
-	else if (m_target && m_ship){   //vincinty only...
+	else if (m_target && m_ship && !m_child){   //vincinty only...
 		//double setspeed = std::min((double)m_ship->GetPositionRelTo(m_target->GetFrame()).Length()/1.0,99999999999.0);
 		double cspeed = m_ship->GetVelocity().Length();
 		double setspeed = std::min((double)m_ship->GetPositionRelTo(m_target->GetFrame()).Length()/1.0,std::min(cspeed*1.05,99999999999.0-hyperclass*1000000));
@@ -750,6 +753,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 		{
 			m_ship->SetVelocity(m_ship->GetOrient()*vector3d(0, 0, -setspeed));
 			m_ship->AIFaceDirection(m_target->GetPositionRelTo(m_ship->GetFrame())-m_ship->GetPositionRelTo(m_ship->GetFrame()));
+			m_ship->SetJuice(40.0);
 			return false;
 		}
 		else if (
@@ -759,6 +763,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 			)
 		{
 			m_ship->SetVelocity(m_ship->GetOrient()*vector3d(0, 0, -47000));
+			m_ship->SetJuice(20.0);
 			return false;
 		}
 	}
@@ -815,7 +820,7 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 		else if (coll == 1) {			// below feature height, target not below
 			double ang = m_ship->AIFaceDirection(m_ship->GetPosition());
 			//add engine juice on fast asteroid approach
-			m_ship->AIMatchVel(ang < 0.05 ? m_ship->GetJuice()*1000.0 * m_ship->GetPosition().Normalized() : vector3d(0.0));
+			m_ship->AIMatchVel(ang < 0.05 ? m_ship->GetJuice()*2000.0 * m_ship->GetPosition().Normalized() : vector3d(0.0));
 		}
 		else {							// same thing for 2/3/4
 			if (!m_child) m_child = new AICmdFlyAround(m_ship, m_frame->GetBody(), erad*1.05, 0.0);
@@ -948,6 +953,8 @@ bool AICmdDock::TimeStepUpdate()
 		m_child = new AICmdFlyTo(m_ship, m_target);
 		ProcessChild(); return false;
 	}
+	//Forced reduce power. for landing...
+	m_ship->SetJuice(1.0);
 
 	int port = m_target->GetMyDockingPort(m_ship);
 	if (port == -1) {

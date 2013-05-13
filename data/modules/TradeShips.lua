@@ -567,14 +567,14 @@ local cleanTradeShipsTable = function ()
 			if trader.status == 'hyperspace' then
 				hyperspace = hyperspace + 1
 				-- remove well past due ships as the player can not catch them
-				if trader.dest_time + 86400 < Game.time then
+				if trader.dest_time + 60 < Game.time then
 					trade_ships[ship] = nil
 					removed = removed + 1
 				end
 			end
 		end
 	end
-	if ( total-hyperspace < num_trade_ships*0.5 ) then spawnReplacement() end
+	if ( total-hyperspace < num_trade_ships*0.5 and total < 100) then spawnReplacement() end
 
 	print('cleanTSTable:total:'..total..',active:'..total - hyperspace..',removed:'..removed)
 end
@@ -639,10 +639,11 @@ Event.Register("onLeaveSystem", onLeaveSystem)
 
 local onFrameChanged = function (ship)
 
+	--add local traffic fast.
 	if ship == Game.player then
-		spawnReplacementFast()	
-		spawnReplacementFast()	
-		spawnReplacementFast()	
+		for variable = 0, Engine.rand:Number(1, 5), 1 do
+			Timer:CallAt(Game.time+Engine.rand:Number(1, 10), function () spawnReplacementFast() end)
+		end
 	end
 
 	if not ship:isa("Ship") or trade_ships[ship] == nil then return end
