@@ -1089,7 +1089,7 @@ void Ship::StaticUpdate(const float timeStep)
 	}
 
 	//Add smoke trails based on thruster state and in atmosphere.
-	if ( GetVelocity().Length() > 0.0 && std::max(0.0001*GetVelocity().Length(),0.1)*Pi::rng.Double() < timeStep ) {
+	if ( GetVelocity().Length() < 5000.0 && GetVelocity().Length() > 5.0 && std::max(0.0001*GetVelocity().Length(),0.1)*Pi::rng.Double() < timeStep ) {
 		vector3d pos = GetOrient() * vector3d(0, 0, GetAabb().min.z);
 		Sfx::AddThrustSmoke(this, Sfx::TYPE_SMOKE, std::min(10.0*GetVelocity().Length()*abs(m_thrusters.z)+abs(m_thrusters.y),std::max(GetVelocity().Length()*0.2,GetAabb().min.y*10.0)),pos);
 	}
