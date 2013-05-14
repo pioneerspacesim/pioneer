@@ -20,6 +20,7 @@ May 2013
      * The game constants live now all in src/gameconsts.h (#2274)
      * Silence some debug printouts for the faction code. (#2274)
      * Object property system now uses LuaTable. (#2275)
+     * Maximum texture mip-map level is set to 0 for non-mipmapped textures (#2288)
 
 April 2013
 
