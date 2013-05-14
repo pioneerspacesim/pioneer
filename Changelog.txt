@@ -1,12 +1,13 @@
 May 2013
 
-  * New features
+   * New features
      * Multithreaded Job based Terrain Patch generation (#2163, #2268, #2262)
 
    * Minor changes and tweaks
      * Model level-of-detail now takes field of view into account (#2257, #2077)
      * Improvements to translatability of joystick axis descriptions.
        (#2272, #2280, #2281)
+     * New ships are always fully fueled (#2283, #2162)
 
    * Fixes
      * Crew can no longer be hired with a negative salary (#2254)

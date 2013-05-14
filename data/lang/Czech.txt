@@ -536,6 +536,8 @@ Y
     Y
 Z
     Z
+JOY_AXIS
+    Joystick%joynum osa %{sign}%axis
 WEAPONS
     Zbraně
 TARGET_OBJECT_IN_SIGHTS
