@@ -10,7 +10,7 @@ local spawnShips = function ()
 		return
 	end
 
-	local stations = Space.GetBodies(function (body) return body:isa("SpaceStation") and not body.isGroundStation end)
+	local stations = Space.GetBodies(function (body) return body:isa("SpaceStation") end)
 	if #stations == 0 then
 		return
 	end
@@ -19,7 +19,7 @@ local spawnShips = function ()
 	if #shipdefs == 0 then return end
 
 	-- one ship per three billion, min 1, max 2*num of stations
-	local num_bulk_ships = math.min(#stations*2, math.floor((math.ceil(population)+2)/3))
+	local num_bulk_ships = #stations*2
 
 	for i=1, num_bulk_ships do
 	local station = stations[Engine.rand:Integer(1,#stations)]

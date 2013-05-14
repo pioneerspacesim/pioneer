@@ -203,9 +203,15 @@ local getMyStarport = function (ship, current)
 		local next_starport = starports[i]
 		if next_starport ~= current then
 			local next_distance = Game.player:DistanceTo(next_starport)
-			local next_canland = (trader.ATMOSHIELD or
+			
+			local next_canland
+			if ship==Game.player then
+				next_canland = true
+			else
+				next_canland = (trader.ATMOSHIELD or
 				(next_starport.type == 'STARPORT_ORBITAL') or
 				(not next_starport.path:GetSystemBody().parent.hasAtmosphere))
+			end
 
 			if next_canland and ((starport == nil) or (next_distance < distance)) then
 				starport, distance = next_starport, next_distance
@@ -215,34 +221,13 @@ local getMyStarport = function (ship, current)
 	return starport -- or current
 end
 
-local getNearestStarport = function (ship, current)
+local getRandomStarport = function (ship, current)
 	if #starports == 0  then return nil end
-
 	local trader = trade_ships[ship]
 
 	-- Find the nearest starport that we can land at (other than current)
 	local starport, distance
-
 	starport = starports[Engine.rand:Integer(1,#starports)]
-	--[[
-	for i = 1, #starports do
-		local next_starport = starports[i]
-		if next_starport ~= current then
-			local next_distance
-		--	if (Engine.rand:Integer(1,100) <= 20) then
-			        --next_distance = Game.player:DistanceTo(next_starport)  --20% follow your nearet ports.
-		--	else
-				next_distance = ship:DistanceTo(next_starport)
-		--	end
-			local next_canland = (trader.ATMOSHIELD or
-				(next_starport.type == 'STARPORT_ORBITAL') or
-				(not next_starport.path:GetSystemBody().parent.hasAtmosphere))
-
-			if next_canland and ((starport == nil) or (next_distance < distance)) then
-				starport, distance = next_starport, next_distance
-			end
-		end
-	end --]]
 	return starport -- or current
 end
 
@@ -381,7 +366,7 @@ local spawnInitialShips = function (game_start)
 	-- start with three ships per two billion population
 	----num_trade_ships = population * 4
 	-- Adjust to # starports
-	num_trade_ships = #starports * 3
+	num_trade_ships = #starports * 2.5
 	-- add the average of import_score and export_score
 	num_trade_ships = num_trade_ships + (import_score + export_score) / 2
 	-- reduce based on lawlessness
@@ -450,7 +435,7 @@ local spawnInitialShips = function (game_start)
 			-- Add ship equipment right now, because...
 			addShipEquip(ship)
 			-- ...this next call needs to see if there's an atmospheric shield.
-			trade_ships[ship].starport	= getNearestStarport(ship)
+			trade_ships[ship].starport	= getRandomStarport(ship)
 		else
 			-- spawn the last quarter in hyperspace
 			local min_time = trade_ships.interval * (i - num_trade_ships * 0.75)
@@ -577,6 +562,7 @@ local cleanTradeShipsTable = function ()
 	if ( total-hyperspace < num_trade_ships*0.5 and total < 100) then spawnReplacement() end
 
 	print('cleanTSTable:total:'..total..',active:'..total - hyperspace..',removed:'..removed)
+	return total-hyperspace
 end
 
 local onEnterSystem = function (ship)
@@ -597,7 +583,7 @@ local onEnterSystem = function (ship)
 			getSystemAndJump(ship)
 			-- if we couldn't reach any systems wait for player to attack
 		else
-			local starport = getNearestStarport(ship)
+			local starport = getRandomStarport(ship)
 			ship:AIDockWith(starport)
 			trade_ships[ship]['starport'] = starport
 			trade_ships[ship]['status'] = 'inbound'
@@ -631,19 +617,28 @@ local onLeaveSystem = function (ship)
 	elseif trade_ships[ship] ~= nil then
 		local system = trade_ships[ship]['dest_path']:GetStarSystem()
 		print(ship.label..' left '..Game.system.name..' for '..system.name)
-		cleanTradeShipsTable()
-		spawnReplacement()
+		if cleanTradeShipsTable() < 50 then --cap on 50 active 	ships.
+			spawnReplacement()
+		end
 	end
 end
 Event.Register("onLeaveSystem", onLeaveSystem)
 
 local onFrameChanged = function (ship)
 
-	--add local traffic fast.
+	--add local traffic fast to make it busy. Check if we're on approach or not
 	if ship == Game.player then
-		for variable = 0, Engine.rand:Number(1, 5), 1 do
-			Timer:CallAt(Game.time+Engine.rand:Number(1, 10), function () spawnReplacementFast() end)
-		end
+		local dist,delta = 0 
+		Timer:CallAt(Game.time+1, function () dist= ship:DistanceTo(getMyStarport(ship)) end)
+		Timer:CallAt(Game.time+2, function () 
+			delta=dist-ship:DistanceTo(getMyStarport(ship)) 
+			print('delta:'..delta..',dist'..dist)
+			if delta~=nil and delta > 0 then
+				for variable = 0, Engine.rand:Number(1, 3), 1 do
+					Timer:CallAt(Game.time+Engine.rand:Number(1, 20), function () spawnReplacementFast() end)
+				end
+			end
+		end)
 	end
 
 	if not ship:isa("Ship") or trade_ships[ship] == nil then return end
@@ -735,7 +730,7 @@ local onAICompleted = function (ship, ai_error)
 			trader['delay'] = Game.time + 120 -- 6 hours
 			Timer:CallAt(trader.delay, function ()
 				if ship:exists() and ship.flightState ~= 'HYPERSPACE' then
-					trader['starport'] = getNearestStarport(ship)
+					trader['starport'] = getRandomStarport(ship)
 					ship:AIDockWith(trader.starport)
 					trader['status'] = 'inbound'
 					trader['delay'] = nil
@@ -952,7 +947,7 @@ local onGameStart = function ()
 				elseif trader.status == 'orbit' then
 					Timer:CallAt(trader.delay, function ()
 						if ship:exists() and ship.flightState ~= 'HYPERSPACE' then
-							trader['starport'] = getNearestStarport(ship)
+							trader['starport'] = getRandomStarport(ship)
 							ship:AIDockWith(trader.starport)
 							trader['status'] = 'inbound'
 							trader['delay'] = nil

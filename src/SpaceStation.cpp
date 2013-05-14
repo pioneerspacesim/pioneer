@@ -667,7 +667,7 @@ bool SpaceStation::AllocateStaticSlot(int& slot)
 {
 	// no slots at ground stations
 	if (IsGroundStation())
-		return false;
+		//return false;
 
 	for (int i=0; i<NUM_STATIC_SLOTS; i++) {
 		if (!m_staticSlot[i]) {
