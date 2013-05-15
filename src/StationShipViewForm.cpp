@@ -129,6 +129,7 @@ void StationShipViewForm::BuyShip()
 	ShipOnSale old(Pi::player->GetShipType()->id, Pi::player->GetLabel(), Pi::player->GetSkin());
 
 	Pi::player->SetMoney(Pi::player->GetMoney() - cost);
+	Pi::player->SetFuel(1.0); // new ship should be always fueled 100%
 	Pi::player->SetShipType(m_sos.id);
 	Pi::player->SetLabel(m_sos.regId);
 	Pi::player->SetSkin(m_sos.skin);

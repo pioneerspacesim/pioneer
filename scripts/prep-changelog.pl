@@ -5,24 +5,24 @@ use warnings;
 use strict;
 use autodie;
 
-say "usage: prep-changelog <Changelog.txt> <alpha number> <output: html|bbcode|markdown>" and exit 1 if @ARGV != 3;
-my ($CHANGELOG, $ALPHA, $OUTPUT) = @ARGV;
+say "usage: prep-changelog <Changelog.txt> <version> <output: html|bbcode|markdown>" and exit 1 if @ARGV != 3;
+my ($CHANGELOG, $VERSION, $OUTPUT) = @ARGV;
 
-my ($alpha, @sections, %log);
+my ($version, @sections, %log);
 
 open my $in, "<", $CHANGELOG;
 while (my $line = <$in>) {
-    if (my ($n) = $line =~ m/^Alpha (\d+)/) {
-        if (not $alpha) {
-            if ($n == $ALPHA) {
-                $alpha = $n;
+    if (my ($n) = $line =~ m/^(\S[\w\s]+\w)/) {
+        if (not $version) {
+            if ($n eq $VERSION) {
+                $version = $n;
             }
             next;
         }
         last;
     }
 
-    next if not $alpha;
+    next if not $version;
 
     if (my ($section) = $line =~ m/^   \*\s+(.+?)\s*$/) {
         push @sections, $section;
@@ -43,7 +43,7 @@ close $in;
 
 given ($OUTPUT) {
     when ("html") {
-        say "<h4>Alpha $alpha</h4>";
+        say "<h4>$version</h4>";
         say "";
         say "<ul>";
         for my $section (@sections) {
