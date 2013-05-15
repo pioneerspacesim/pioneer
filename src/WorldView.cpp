@@ -1049,11 +1049,9 @@ void WorldView::UpdateCommsOptions()
 		m_commsOptions->Add(new Gui::Label("#0f0"+navtarget->GetLabel()), 16, float(ypos));
 		ypos += 32;
 		if (navtarget->IsType(Object::SPACESTATION)) {
+			hasAutopilot &= (Pi::player->GetFlightState() == Ship::FLYING);
+
 			SpaceStation *pStation = static_cast<SpaceStation *>(navtarget);
-
-			// This only applies to the specific case where we're undocking from a spacestation
-			hasAutopilot = !pStation->IsLaunching(Pi::player);
-
 			if( pStation->GetMyDockingPort(Pi::player) == -1 )
 			{
 				button = AddCommsOption(Lang::REQUEST_DOCKING_CLEARANCE, ypos, optnum++);
