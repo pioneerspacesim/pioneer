@@ -1051,6 +1051,9 @@ void WorldView::UpdateCommsOptions()
 		if (navtarget->IsType(Object::SPACESTATION)) {
 			SpaceStation *pStation = static_cast<SpaceStation *>(navtarget);
 
+			// This only applies to the specific case where we're undocking from a spacestation
+			hasAutopilot = !pStation->IsLaunching(Pi::player);
+
 			if( pStation->GetMyDockingPort(Pi::player) == -1 )
 			{
 				button = AddCommsOption(Lang::REQUEST_DOCKING_CLEARANCE, ypos, optnum++);
@@ -1058,13 +1061,11 @@ void WorldView::UpdateCommsOptions()
 				ypos += 32;
 			} 
 			
-			if( !pStation->IsLaunching(Pi::player) )
+			if( hasAutopilot )
 			{
-				if (Pi::player->m_equipment.Get(Equip::SLOT_AUTOPILOT) == Equip::AUTOPILOT) {
-					button = AddCommsOption(Lang::AUTOPILOT_DOCK_WITH_STATION, ypos, optnum++);
-					button->onClick.connect(sigc::bind(sigc::ptr_fun(&autopilot_dock), navtarget));
-					ypos += 32;
-				}
+				button = AddCommsOption(Lang::AUTOPILOT_DOCK_WITH_STATION, ypos, optnum++);
+				button->onClick.connect(sigc::bind(sigc::ptr_fun(&autopilot_dock), navtarget));
+				ypos += 32;
 			}
 
 			Sint64 crime, fine;
