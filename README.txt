@@ -1,8 +1,7 @@
-Pioneer Space Simulator
+Paragon
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Pioneer is a space adventure game set in the Milky Way galaxy at the turn of
-the 31st century.
+Paragon is a space adventure game set near the turn of the 25th century.
 
 The game is open-ended, and you are free to explore the millions of star
 systems in the game. You can land on planets, slingshot past gas giants, and
@@ -12,16 +11,4 @@ the various factions fighting for power, freedom or self-determination.
 
 
 For more information, see:
-  http://pioneerspacesim.net/
-
-Follow Pioneer on Google+:
-  http://pioneerspacesim.net/+
-
-Join the community:
-  http://pioneerspacesim.net/forum
-
-Bugs? Ideas? Log an issue:
-  http://pioneerspacesim.net/issues
-
-Chat with the team:
-  http://pioneerspacesim.net/irc
+  http://paragongame.com/
