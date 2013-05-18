@@ -101,8 +101,11 @@ void SinglePatchJob::OnFinish()  // runs in primary thread of the context
 
 void SinglePatchJob::OnCancel()   // runs in primary thread of the context
 {
-	mpResults->OnCancel();
-	delete mpResults;	mpResults = NULL;
+	if(mpResults) {
+		mpResults->OnCancel();
+		delete mpResults;
+		mpResults = NULL;
+	}
 	BasePatchJob::OnCancel();
 }
 
@@ -147,8 +150,11 @@ void QuadPatchJob::OnFinish()  // runs in primary thread of the context
 
 void QuadPatchJob::OnCancel()   // runs in primary thread of the context
 {
-	mpResults->OnCancel();
-	delete mpResults;	mpResults = NULL;
+	if(mpResults) {
+		mpResults->OnCancel();
+		delete mpResults;
+		mpResults = NULL;
+	}
 	BasePatchJob::OnCancel();
 }
 
