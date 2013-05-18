@@ -1005,7 +1005,7 @@ static void autopilot_flyto(Body *b)
 }
 static void autopilot_dock(Body *b)
 {
-	if(static_cast<SpaceStation*>(b)->IsLaunching(Pi::player))
+	if(Pi::player->GetFlightState() != Ship::FLYING)
 		return;
 
 	Pi::player->GetPlayerController()->SetFlightControlState(CONTROL_AUTOPILOT);
