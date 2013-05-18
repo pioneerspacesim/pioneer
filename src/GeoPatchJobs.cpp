@@ -44,7 +44,7 @@ void BasePatchJob::GenerateMesh(double *heights, vector3f *normals, Color3ub *co
 			const vector3d p = GetSpherePoint(v0, v1, v2, v3, xfrac, yfrac);
 			const double height = pTerrain->GetHeight(p);
 			*(bhts++) = height;
-			*(vrts++) = p * (height + 1.0);
+			*(vrts++) = p;
 		}
 	}
 	assert(bhts==&borderHeights[numBorderedVerts]);
@@ -62,16 +62,17 @@ void BasePatchJob::GenerateMesh(double *heights, vector3f *normals, Color3ub *co
 			*(hts++) = height;
 
 			// normal
-			const vector3d &x1 = vrts[x-1 + y*borderedEdgeLen];
-			const vector3d &x2 = vrts[x+1 + y*borderedEdgeLen];
-			const vector3d &y1 = vrts[x + (y-1)*borderedEdgeLen];
-			const vector3d &y2 = vrts[x + (y+1)*borderedEdgeLen];
+			const double heightScale = (height + 1.0);
+			const vector3d &x1 = vrts[x-1 + y*borderedEdgeLen] * heightScale;
+			const vector3d &x2 = vrts[x+1 + y*borderedEdgeLen] * heightScale;
+			const vector3d &y1 = vrts[x + (y-1)*borderedEdgeLen] * heightScale;
+			const vector3d &y2 = vrts[x + (y+1)*borderedEdgeLen] * heightScale;
 			const vector3d n = ((x2-x1).Cross(y2-y1)).Normalized();
 			assert(nrm!=&normals[edgeLen*edgeLen]);
 			*(nrm++) = vector3f(n);
 
 			// color
-			const vector3d p = GetSpherePoint(v0, v1, v2, v3, x*fracStep, y*fracStep);
+			const vector3d p = vrts[x + y*borderedEdgeLen];
 			setColour(*col, pTerrain->GetColor(p, height, n));
 			assert(col!=&colors[edgeLen*edgeLen]);
 			++col;
