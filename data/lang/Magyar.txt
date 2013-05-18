@@ -516,8 +516,6 @@ Y
     Y
 Z
     Z
-AXIS
-     " Tengely"
 WEAPONS
     Fegyverek
 TARGET_OBJECT_IN_SIGHTS

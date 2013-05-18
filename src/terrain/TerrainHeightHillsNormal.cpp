@@ -29,7 +29,7 @@ TerrainHeightFractal<TerrainHeightHillsNormal>::TerrainHeightFractal(const Syste
 }
 
 template <>
-double TerrainHeightFractal<TerrainHeightHillsNormal>::GetHeight(const vector3d &p)
+double TerrainHeightFractal<TerrainHeightHillsNormal>::GetHeight(const vector3d &p) const
 {
 	double continents = octavenoise(GetFracDef(3-m_fracnum), 0.65, p) * (1.0-m_sealevel) - (m_sealevel*0.1);
 	if (continents < 0) return 0;

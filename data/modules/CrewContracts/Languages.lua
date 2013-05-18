@@ -58,7 +58,7 @@ Translate:Add({
 	Polski = {
 		['Crew for hire'] = 'Załoga do wynajęcia',
 		['Potential crew members are registered as seeking employment at {station}:'] = 'Potencjalni członkowie załogi, zarejestrowani na stacji {station}, jako osoby poszukujące zatrudnienia:',
-		['{potentialCrewMember} ({wage}/wk)'] = '{potentialCrewMember} (${wage}/tydzień)',
+		['{potentialCrewMember} ({wage}/wk)'] = '{potentialCrewMember} ({wage}/tydzień)',
 		-- Experience levels
 		['No experience'] = 'Brak doświadczenia',
 		['Simulator training only'] = 'Tylko symulatory treningowe',
@@ -252,3 +252,55 @@ Sensoren und Abwehr: {sensors}%
 Insgesamtes Testergebnis: {overall}%]],
 	}
 })
+
+Translate:Add({
+	Spanish = {
+		['Crew for hire'] = 'Se ofrece tripulación',
+		['Potential crew members are registered as seeking employment at {station}:'] = 'Tripulación en potencia registrada buscando trabajo en {station}:',
+		['{potentialCrewMember} ({wage}/wk)'] = '{potentialCrewMember} ({wage}/sem.)',
+		-- Experience levels
+		['No experience'] = 'Sin experiencia',
+		['Simulator training only'] = 'Entrenamiento en simulador solamente',
+		['Some experience in controlled environments'] = 'Algo de experiencia en entornos controlados',
+		['Minimal time served aboard ship'] = 'Un tiempo mínimo en una nave',
+		['Time served crew member'] = 'Experiencia normal como tripulante',
+		['Veteran, time served crew member'] = 'Tripulante veterano',
+		-- Crew positions
+		["Ship's Engineer"] = "Ingeniero de naves",
+		["Pilot"] = "Piloto",
+		["Navigator"] = "Navegador",
+		["Sensors and defence"] = "Detección y defensa",
+		-- Details form for a single crew member
+		crewDetailSheetBB = [[Se ofrece tripulante
+
+Nombre: {name}
+Experiencia: {experience}
+Sueldo solicitado: {wage} por semana
+
+{response}
+]],
+		-- Buttons to click
+		['Make offer of position on ship for stated amount'] = 'Ofertar la posición en la nave por el sueldo ofrecido',
+		['Suggest new weekly wage of {newAmount}'] = 'Sugerir nuevo sueldo mensual de {newAmount}',
+		['Ask candidate to sit a test'] = 'Pedir al candidato pasar un examen',
+		-- Responses
+		["Thanks, I'll get settled on board immediately."] = "Gracias, iré a bordo inmediatamente.",
+		["There doesn't seem to be space for me on board!"] = "¡No parece haber espacio para mí!",
+		["I'm sorry, your offer isn't attractive to me."] = "Lo siento, su oferta no me interesa.",
+		["That's extremely generous of you!"] = "¡Es usted muy generoso!",
+		["That certainly makes this offer look better!"] = "¡Eso hace que esta oferta parezca mejor!",
+		["OK, I suppose that's all right."] = "De acuerdo, creo que es adecuado.",
+		["I'm sorry, I'm not prepared to go any lower."] = "Lo siento, no estoy preparado para bajar más.",
+		crewTestResultsBB = [[Resultado del examen:
+
+Competencia general: {general}%
+Ingeniería y reparación: {engineering}%
+Pilotaje y vuelo: {piloting}%
+Navegación y preparación: {navigation}%
+Detección y defensa: {sensors}%
+Puntuación total: {overall}%]],
+	}
+})
+
+
+

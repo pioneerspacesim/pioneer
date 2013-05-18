@@ -22,7 +22,7 @@ TerrainColorFractal<TerrainColorStarM>::TerrainColorFractal(const SystemBody *bo
 using namespace TerrainFeature;
 
 template <>
-vector3d TerrainColorFractal<TerrainColorStarM>::GetColor(const vector3d &p, double height, const vector3d &norm)
+vector3d TerrainColorFractal<TerrainColorStarM>::GetColor(const vector3d &p, double height, const vector3d &norm) const
 {
 	double n;
 	vector3d col;

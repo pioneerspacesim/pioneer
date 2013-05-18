@@ -349,7 +349,7 @@ static int l_starsystem_export_to_lua(lua_State *l)
 
 	// construct the filename with folder and extension
 	try {
-		const std::string filename(EXPORTED_SYSTEMS_DIR_NAME + "/" + s->GetName() + ".lua");
+		const std::string filename(EXPORTED_SYSTEMS_DIR_NAME + "/" + FileSystem::SanitiseFileName(s->GetName()) + ".lua");
 		const std::string finalPath = FileSystem::NormalisePath(
 				FileSystem::JoinPathBelow(FileSystem::GetUserDir(), filename));
 		s->ExportToLua(finalPath.c_str());
@@ -520,5 +520,5 @@ template <> void LuaObject<StarSystem>::RegisterClass()
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, NULL, l_methods, l_attrs, NULL);
+	LuaObjectBase::CreateClass(s_type, 0, l_methods, l_attrs, 0);
 }

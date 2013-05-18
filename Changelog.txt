@@ -1,21 +1,55 @@
-Alpha 34
+May 2013
+
+   * New features
+     * Multithreaded Job based Terrain Patch generation (#2163, #2268, #2262)
+
+   * Minor changes and tweaks
+     * Model level-of-detail now takes field of view into account (#2257, #2077)
+     * Improvements to translatability of joystick axis descriptions.
+       (#2272, #2280, #2281)
+     * New ships are always fully fueled (#2283, #2162)
+
+   * Fixes
+     * Crew can no longer be hired with a negative salary (#2254)
+     * Fix landing gear sound repeating when autopilot lowers the undercarriage (#2269)
+     * Fix landing gear button toggling briefly when lowering gear (#2269)
+
+   * Internal changes
+     * Enum mapping tables now have a visibility specifier (#2276)
+     * Removal of the unused BezierCurve and RefList classes (#2274)
+     * The game constants live now all in src/gameconsts.h (#2274)
+     * Silence some debug printouts for the faction code. (#2274)
+     * Object property system now uses LuaTable. (#2275)
+     * Maximum texture mip-map level is set to 0 for non-mipmapped textures (#2288)
+
+April 2013
 
    * New features
      * New combat music track (#2209)
+     * Mission list can now be sorted by clicking the column headers (#2183, #2128)
+     * Mission list now shows distance to system and days remaining (#2234, #2244)
 
    * Minor changes and tweaks
      * Commodity Market buy/sell buttons now speed up when held down (#2188, #1734)
-     * Mission list can now be sorted by clicking the column headers (#2183, #2128)
+     * Clamp ambient lighting to avoid pitch black (#2241)
 
    * Model changes
      * Station definition 'num_docking_ports' is no longer used; it is computed
        from the bay definitions (#2219)
      * Station model docking nodes are checked against the station definition
        (#2219)
+     * New 6-bay ground station model (#2227)
+
+   * Script and UI API changes
+     * New method 'SetColor' on Label widgets (#2234)
+     * Player:GetHyperspaceTarget() now returns path of destination system when
+       in hyperspace (#2244)
 
    * Fixes
      * Fix lua system export (#2229)
      * Fix Lua console so that it lets you continue incomplete commands (#2198)
+     * Fix logical error in crew skill boosting code (#2253)
+     * Fix assertion when attempting to dock whilst you're also trying to leave (#2239)
 
    * Internal changes
      * SpaceStationTypes now loads data using the LuaTable wrapper (#2170)

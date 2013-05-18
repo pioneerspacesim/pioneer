@@ -12,7 +12,7 @@ TerrainColorFractal<TerrainColorSolid>::TerrainColorFractal(const SystemBody *bo
 }
 
 template <>
-vector3d TerrainColorFractal<TerrainColorSolid>::GetColor(const vector3d &p, double height, const vector3d &norm)
+vector3d TerrainColorFractal<TerrainColorSolid>::GetColor(const vector3d &p, double height, const vector3d &norm) const
 {
 	return vector3d(1.0);
 }

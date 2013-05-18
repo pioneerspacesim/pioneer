@@ -30,7 +30,7 @@ TerrainHeightFractal<TerrainHeightWaterSolidCanyons>::TerrainHeightFractal(const
 }
 
 template <>
-double TerrainHeightFractal<TerrainHeightWaterSolidCanyons>::GetHeight(const vector3d &p)
+double TerrainHeightFractal<TerrainHeightWaterSolidCanyons>::GetHeight(const vector3d &p) const
 {
 	double continents = 0.7*river_octavenoise(GetFracDef(2), 0.5, p)-m_sealevel;
 	continents = GetFracDef(0).amplitude * ridged_octavenoise(GetFracDef(0),

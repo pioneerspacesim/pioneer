@@ -149,7 +149,7 @@ namespace TerrainNoise {
 	}
 
 	// not really a noise function but no better place for it
-	inline vector3d interpolate_color(double n, vector3d start, vector3d end) {
+	inline vector3d interpolate_color(double n, const vector3d &start, const vector3d &end) {
 		n = Clamp(n, 0.0, 1.0);
 		return start*(1.0-n) + end*n;
 	}

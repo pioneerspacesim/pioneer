@@ -522,8 +522,6 @@ Y
     Y
 Z
     Z
-AXIS
-     " Eix"
 WEAPONS
     Armes
 TARGET_OBJECT_IN_SIGHTS

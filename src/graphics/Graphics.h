@@ -43,17 +43,15 @@ namespace Graphics {
 	int GetScreenWidth();
 	int GetScreenHeight();
 
-	float GetFOV();
-	void SetFOV(float);
+	float GetFov();
+	void SetFov(float);
+	float GetFovFactor(); //cached 2*tan(fov/2) for LOD
 
 	// does SDL video init, constructs appropriate Renderer
 	Renderer* Init(Settings);
 	void Uninit();
 	bool AreShadersEnabled();
 	std::vector<VideoMode> GetAvailableVideoModes();
-
-	//XXX keeping this because gui uses it...
-	void SwapBuffers();
 }
 
 #endif /* _RENDER_H */

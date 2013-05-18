@@ -89,7 +89,7 @@ void AmbientSounds::Update()
 		if (!planetSurfaceNoise.IsPlaying()) {
 			SystemBody *sbody = Pi::player->GetFrame()->GetSystemBody();
 			assert(sbody);
-			const char *sample = NULL;
+			const char *sample = 0;
 
 			if (sbody->m_life > fixed(1,5)) {
 				const char *s[] = {

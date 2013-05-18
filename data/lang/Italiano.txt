@@ -512,8 +512,6 @@ Y
     Y
 Z
     Z
-AXIS
-     " Asse"
 WEAPONS
     Armamenti
 TARGET_OBJECT_IN_SIGHTS

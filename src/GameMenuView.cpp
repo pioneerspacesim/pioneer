@@ -671,6 +671,9 @@ void GameMenuView::OpenLoadDialog()
 		catch (SavedGameCorruptException) {
 			Gui::Screen::ShowBadError(Lang::GAME_LOAD_CORRUPT);
 		}
+		catch (SavedGameWrongVersionException) {
+			Gui::Screen::ShowBadError(Lang::GAME_LOAD_WRONG_VERSION);
+		}
 		catch (CouldNotOpenFileException) {
 			Gui::Screen::ShowBadError(Lang::GAME_LOAD_CANNOT_OPEN);
 		}

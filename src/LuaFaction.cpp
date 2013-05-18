@@ -265,5 +265,5 @@ template <> void LuaObject<Faction>::RegisterClass()
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, NULL, NULL, l_attrs, NULL);
+	LuaObjectBase::CreateClass(s_type, 0, 0, l_attrs, 0);
 }

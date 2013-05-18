@@ -270,13 +270,14 @@ static int l_set_combat_target(lua_State *l)
 
 static int l_get_hyperspace_target(lua_State *l)
 {
-	LuaObject<Player>::CheckFromLua(1);
-	if (Pi::game->IsNormalSpace()) {
-		SystemPath sys = Pi::sectorView->GetHyperspaceTarget();
-		assert(sys.IsSystemPath());
-		LuaObject<SystemPath>::PushToLua(sys);
-	} else
-		lua_pushnil(l);
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	SystemPath target;
+	if (Pi::game->IsNormalSpace())
+		target = Pi::sectorView->GetHyperspaceTarget();
+	else
+		target = player->GetHyperspaceDest();
+	assert(target.IsSystemPath());
+	LuaObject<SystemPath>::PushToLua(target);
 	return 1;
 }
 
@@ -337,6 +338,6 @@ template <> void LuaObject<Player>::RegisterClass()
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, NULL, NULL);
+	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, 0, 0);
 	LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<Player>::DynamicCastPromotionTest);
 }

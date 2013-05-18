@@ -16,8 +16,8 @@ public:
 	ModelNode(Model *m);
 	ModelNode(const ModelNode&, NodeCopyCache *cache = 0);
 	virtual Node *Clone(NodeCopyCache *cache = 0);
-	virtual const char *GetTypeName() { return "ModelNode"; }
-	virtual void Render(const matrix4x4f &trans, const RenderData *rd);
+	virtual const char *GetTypeName() const { return "ModelNode"; }
+	virtual void Render(const matrix4x4f &trans, RenderData *rd);
 
 protected:
 	virtual ~ModelNode() { }
