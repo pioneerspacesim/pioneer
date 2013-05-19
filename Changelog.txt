@@ -1,7 +1,8 @@
 May 2013
 
-  * New features
+   * New features
      * Multithreaded Job based Terrain Patch generation (#2163, #2268, #2262)
+     * Docking bays now have size constraints (#2291)
 
    * Minor changes and tweaks
      * Model level-of-detail now takes field of view into account (#2257, #2077)
@@ -13,6 +14,8 @@ May 2013
      * Crew can no longer be hired with a negative salary (#2254)
      * Fix landing gear sound repeating when autopilot lowers the undercarriage (#2269)
      * Fix landing gear button toggling briefly when lowering gear (#2269)
+     * Hide autopilot options during docking when they are unavailable (#2263, #2285)
+     * Partial fix for game crashes when terrain generation is cancelled (#2282, #2290)
 
    * Internal changes
      * Enum mapping tables now have a visibility specifier (#2276)
@@ -20,6 +23,7 @@ May 2013
      * The game constants live now all in src/gameconsts.h (#2274)
      * Silence some debug printouts for the faction code. (#2274)
      * Object property system now uses LuaTable. (#2275)
+     * Maximum texture mip-map level is set to 0 for non-mipmapped textures (#2288)
 
 April 2013
 
