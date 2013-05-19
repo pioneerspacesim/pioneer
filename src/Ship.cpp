@@ -955,7 +955,7 @@ void Ship::UpdateFuel(const float timeStep, const vector3d &thrust)
 {
 	const double fuelUseRate = GetFuelUseRate() * 0.01;
 	double totalThrust = (fabs(thrust.x) + fabs(thrust.y) + fabs(thrust.z))
-		/ -GetShipType()->linThrust[ShipType::THRUSTER_FORWARD]*m_juice;
+		/ -GetShipType()->linThrust[ShipType::THRUSTER_FORWARD]*std::min(m_juice,8.0);
 
 	FuelState lastState = GetFuelState();
 	SetFuel(GetFuel() - timeStep * (totalThrust * fuelUseRate));
