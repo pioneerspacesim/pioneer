@@ -3,7 +3,7 @@
 
 --Ships not available for purchase (ambient ships)
 define_static_ship {
-	name='Long Range Cruiser',
+	name='Cargo ULCS',
 	model='cargo_ulcs',
 	forward_thrust = 3200e5,
 	reverse_thrust = 800e5,
