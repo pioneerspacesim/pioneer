@@ -347,13 +347,24 @@ bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
 		}
 	}
 	for (uint32_t i=0; i<m_shipDocking.size(); i++) {
+		// initial unoccupied check
 		if (m_shipDocking[i].ship != 0) continue;
-		shipDocking_t &sd = m_shipDocking[i];
-		sd.ship = s;
-		sd.stage = 1;
-		sd.stagePos = 0;
-		outMsg = stringf(Lang::CLEARANCE_GRANTED_BAY_N, formatarg("bay", i+1));
-		return true;
+
+		// size-of-ship vs size-of-bay check
+		const SpaceStationType::SBayGroup *const pBayGroup = m_type->FindGroupByBay(i);
+		if( !pBayGroup ) continue;
+
+		const Aabb &bbox = s->GetAabb();
+		const double bboxRad = bbox.GetRadius();
+
+		if( pBayGroup->minShipSize < bboxRad && bboxRad < pBayGroup->maxShipSize ) {
+			shipDocking_t &sd = m_shipDocking[i];
+			sd.ship = s;
+			sd.stage = 1;
+			sd.stagePos = 0;
+			outMsg = stringf(Lang::CLEARANCE_GRANTED_BAY_N, formatarg("bay", i+1));
+			return true;
+		}
 	}
 	outMsg = Lang::CLEARANCE_DENIED_NO_BAYS;
 	return false;
@@ -667,7 +678,7 @@ bool SpaceStation::AllocateStaticSlot(int& slot)
 {
 	// no slots at ground stations
 	if (IsGroundStation())
-		//return false;
+		return false;
 
 	for (int i=0; i<NUM_STATIC_SLOTS; i++) {
 		if (!m_staticSlot[i]) {
