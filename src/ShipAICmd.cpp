@@ -731,11 +731,11 @@ bool AICmdFlyTo::TimeStepUpdate()
 		}
 		else if (
 			m_ship->GetPositionRelTo(m_targframe).Length()<=target_radii &&
-			m_ship->GetFlightState() == Ship::FLYING && 
-			m_ship->GetVelocity().Length()>=550000
+			m_ship->GetFlightState() == Ship::FLYING && m_ship->GetJuice()==80.0
+			//m_ship->GetVelocity().Length()>=550000
 			)
 		{
-			m_ship->SetVelocity(m_ship->GetOrient()*vector3d(-45000, 0, -99000));
+			m_ship->SetVelocity(m_ship->GetOrient()*vector3d(-10000, 0, -99000));
 			m_ship->SetJuice(20.0);
 			return false;
 		}
@@ -766,8 +766,8 @@ bool AICmdFlyTo::TimeStepUpdate()
 		}
 		else if (
 			m_ship->GetPositionRelTo(m_target->GetFrame()).Length()<=target_radii &&
-			m_ship->GetFlightState() == Ship::FLYING && 
-			m_ship->GetVelocity().Length()>=550000
+			m_ship->GetFlightState() == Ship::FLYING && m_ship->GetJuice()==80.0
+			//m_ship->GetVelocity().Length()>=550000
 			)
 		{
 			if (m_target->IsType(Object::SHIP)) {  //chasing ship.
@@ -776,7 +776,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 				m_ship->SetJuice(20.0);
 			}
 			else {
-				m_ship->SetVelocity(m_ship->GetOrient()*vector3d(-20000, 0, -99000));
+				m_ship->SetVelocity(m_ship->GetOrient()*vector3d(-10000, 0, -99000));
 				m_ship->SetJuice(20.0);
 			}
 			return false;

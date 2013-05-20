@@ -19,7 +19,7 @@ local spawnShips = function ()
 	if #shipdefs == 0 then return end
 
 	-- one ship per three billion, min 1, max 2*num of stations
-	local num_bulk_ships = #stations*2
+	local num_bulk_ships = #stations
 
 	for i=1, num_bulk_ships do
 	local station = stations[Engine.rand:Integer(1,#stations)]
