@@ -3,7 +3,7 @@
 
 --Ships not available for purchase (ambient ships)
 define_static_ship {
-	name='Long Range Cruiser',
+	name='Combat Destroyer',
 	model='military_combat_destroyer',
 	forward_thrust = 3200e5,
 	reverse_thrust = 800e5,

@@ -1,0 +1,17 @@
+material material1
+
+tex_diff diff.png
+tex_spec spec.png
+diffuse 1.0 1.0 1.0
+
+specular 1.0 1.0 1.0
+
+shininess 80
+
+
+mesh cargo_container.dae
+
+collision buoy_collision.obj
+
+lod 10
+mesh buoy_lod.obj

@@ -4,7 +4,7 @@
 define_ship {
 	name='Military Combat Fighter',
 	model = 'military_combat_fighter',
-	forward_thrust = 63e5,
+	forward_thrust = 52e5,
 	reverse_thrust = 32e5,
 	up_thrust = 0.1e8,
 	down_thrust = 0.1e8,
