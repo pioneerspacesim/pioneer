@@ -366,7 +366,7 @@ local spawnInitialShips = function (game_start)
 	-- start with three ships per two billion population
 	----num_trade_ships = population * 4
 	-- Adjust to # starports
-	num_trade_ships = #starports * 2.5
+	num_trade_ships = #starports * 1.5
 	-- add the average of import_score and export_score
 	num_trade_ships = num_trade_ships + (import_score + export_score) / 2
 	-- reduce based on lawlessness
@@ -627,18 +627,19 @@ Event.Register("onLeaveSystem", onLeaveSystem)
 local onFrameChanged = function (ship)
 
 	--add local traffic fast to make it busy. Check if we're on approach or not
-	if ship == Game.player then
+	if ship:isa("Ship") and ship == Game.player then
 		local dist,delta = 0 
 		Timer:CallAt(Game.time+1, function () dist= ship:DistanceTo(getMyStarport(ship)) end)
 		Timer:CallAt(Game.time+2, function () 
 			delta=dist-ship:DistanceTo(getMyStarport(ship)) 
-			print('delta:'..delta..',dist'..dist)
-			if delta~=nil and delta > 0 then
+			print('delta: '..delta..',dist: '..dist)
+			if delta~=nil and delta > 0 and delta < 50000000 then
 				for variable = 0, Engine.rand:Number(1, 3), 1 do
 					Timer:CallAt(Game.time+Engine.rand:Number(1, 20), function () spawnReplacementFast() end)
 				end
 			end
 		end)
+		return
 	end
 
 	if not ship:isa("Ship") or trade_ships[ship] == nil then return end
