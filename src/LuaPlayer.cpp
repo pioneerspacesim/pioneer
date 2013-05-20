@@ -338,6 +338,6 @@ template <> void LuaObject<Player>::RegisterClass()
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, NULL, NULL);
+	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, 0, 0);
 	LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<Player>::DynamicCastPromotionTest);
 }

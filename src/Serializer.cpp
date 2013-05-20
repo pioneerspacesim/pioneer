@@ -68,7 +68,7 @@ void Writer::Double(double f) {
 void Writer::String(const char* s)
 {
 	/* We shouldn't fail on null strings */
-	if (s == NULL) {
+	if (!s) {
 		Int32(0);
 		return;
 	}

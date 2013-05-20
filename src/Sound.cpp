@@ -233,7 +233,7 @@ eventid PlaySfx (const char *fx, const float volume_left, const float volume_rig
 	Uint32 age;
 	/* find free wavstream (first two reserved for music) */
 	for (idx=2; idx<MAX_WAVSTREAMS; idx++) {
-		if (wavstream[idx].sample == NULL) break;
+		if (!wavstream[idx].sample) break;
 	}
 	if (idx == MAX_WAVSTREAMS) {
 		/* otherwise overwrite oldest one */
@@ -268,7 +268,7 @@ eventid PlayMusic(const char *fx, const float volume_left, const float volume_ri
 	const int idx = nextMusicStream;
 	nextMusicStream ^= 1;
 	SDL_LockAudio();
-	if (wavstream[idx].sample != NULL)
+	if (wavstream[idx].sample)
 		DestroyEvent(&wavstream[idx]);
 	wavstream[idx].sample = GetSample(fx);
 	wavstream[idx].oggv = 0;
@@ -399,7 +399,7 @@ static void fill_audio(void *udata, Uint8 *dsp_buf, int len)
 	memset(static_cast<void*>(tmpbuf), 0, sizeof(float)*len_in_floats);
 
 	for (int i=0; i<MAX_WAVSTREAMS; i++) {
-		if (wavstream[i].sample == NULL) continue;
+		if (!wavstream[i].sample) continue;
 
 		wavstream[i].ascend[0] = (wavstream[i].targetVolume[0] > wavstream[i].volume[0]);
 		wavstream[i].ascend[1] = (wavstream[i].targetVolume[1] > wavstream[i].volume[1]);
@@ -528,9 +528,9 @@ bool Init ()
 		wanted.format = AUDIO_S16;
 		wanted.samples = BUF_SIZE;
 		wanted.callback = fill_audio;
-		wanted.userdata = NULL;
+		wanted.userdata = 0;
 
-		if (SDL_OpenAudio (&wanted, NULL) < 0) {
+		if (SDL_OpenAudio (&wanted, 0) < 0) {
 			fprintf (stderr, "Could not open audio: %s\n", SDL_GetError ());
 			return false;
 		}

@@ -777,7 +777,7 @@ void Pi::HandleEvents()
 		//		SDL_GetRelativeMouseState(&Pi::mouseMotion[0], &Pi::mouseMotion[1]);
 				break;
 			case SDL_JOYAXISMOTION:
-				if (joysticks[event.jaxis.which].joystick == NULL)
+				if (!joysticks[event.jaxis.which].joystick)
 					break;
 				if (event.jaxis.value == -32768)
 					joysticks[event.jaxis.which].axes[event.jaxis.axis] = 1.f;
@@ -786,12 +786,12 @@ void Pi::HandleEvents()
 				break;
 			case SDL_JOYBUTTONUP:
 			case SDL_JOYBUTTONDOWN:
-				if (joysticks[event.jaxis.which].joystick == NULL)
+				if (!joysticks[event.jaxis.which].joystick)
 					break;
 				joysticks[event.jbutton.which].buttons[event.jbutton.button] = event.jbutton.state != 0;
 				break;
 			case SDL_JOYHATMOTION:
-				if (joysticks[event.jaxis.which].joystick == NULL)
+				if (!joysticks[event.jaxis.which].joystick)
 					break;
 				joysticks[event.jhat.which].hats[event.jhat.hat] = event.jhat.value;
 				break;
@@ -1168,7 +1168,7 @@ void Pi::InitJoysticks() {
 		state = &joysticks.back();
 
 		state->joystick = SDL_JoystickOpen(n);
-		if (state->joystick == NULL) {
+		if (!state->joystick) {
 			fprintf(stderr, "SDL_JoystickOpen(%i): %s\n", n, SDL_GetError());
 			continue;
 		}

@@ -461,9 +461,6 @@
     <ClInclude Include="..\..\src\AmbientSounds.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\BezierCurve.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\Body.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -636,9 +633,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\RefCounted.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\RefList.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\SectorView.h">

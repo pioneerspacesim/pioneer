@@ -13,7 +13,7 @@
 
 Frame::Frame()
 {
-	Init(NULL, "", 0);
+	Init(0, "", 0);
 }
 
 Frame::Frame(Frame *parent, const char *label)

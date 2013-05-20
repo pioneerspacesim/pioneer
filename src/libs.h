@@ -22,11 +22,6 @@
 #include <vector>
 #include <map>
 
-/* on unix this would probably become $PREFIX/pioneer */
-#ifndef PIONEER_DATA_DIR
-#define PIONEER_DATA_DIR "data"
-#endif /* PIONEER_DATA_DIR */
-
 #ifdef _WIN32
 #	include <malloc.h>
 
@@ -50,6 +45,12 @@ inline int isfinite(double x) { return _finite(x); }
 #	endif /* __MINGW32__ */
 #endif
 
+#ifdef _MSC_VER // MSVC doesn't support the %z specifier, but has its own %I specifier
+#define SIZET_FMT "%Iu"
+#else
+#define SIZET_FMT "%zu"
+#endif
+
 #include "fixed.h"
 #include "vector2.h"
 #include "vector3.h"
@@ -69,26 +70,8 @@ inline int isfinite(double x) { return _finite(x); }
 #define PiVerify(x) assert(x)
 #endif
 
-#define UNIVERSE_SEED	0xabcd1234
-
-#define EARTH_RADIUS	6378135.0
-#define EARTH_MASS	5.9742e24
-#define JUPITER_MASS	(317.8*EARTH_MASS)
-// brown dwarfs above 13 jupiter masses fuse deuterium
-#define MIN_BROWN_DWARF	(13.0*JUPITER_MASS)
-#define SOL_RADIUS	6.955e8
-#define SOL_MASS	1.98892e30
-#define AU		149598000000.0
-#define G		6.67428e-11
-#define GAS_CONSTANT_R 8.3144621
-#define EARTH_ATMOSPHERE_SURFACE_DENSITY 1.225
-
-#define HUD_ALPHA 0.34f
-
 template<class T> inline const T& Clamp(const T& x, const T& min, const T& max) { return x > max ? max : (x < min ? min : x); }
 
-#define DEG_2_RAD	0.0174532925
-#define RAD_2_DEG	57.2957795130
 inline double DEG2RAD(double x) { return x*(M_PI/180.); }
 inline float  DEG2RAD(float  x) { return x*(float(M_PI)/180.f); }
 inline double RAD2DEG(double x) { return x*(180./M_PI); }

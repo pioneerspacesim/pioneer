@@ -10,7 +10,6 @@
 #include "ModelBody.h"
 #include "NavLights.h"
 #include "Quaternion.h"
-#include "RefList.h"
 #include "Serializer.h"
 #include "ShipType.h"
 #include "SpaceStationType.h"
@@ -130,7 +129,7 @@ private:
 	 */
 	struct shipDocking_t {
 		shipDocking_t():
-			ship(NULL), shipIndex(0),
+			ship(0), shipIndex(0),
 			stage(0), stagePos(0), fromPos(0.0), fromRot(1.0, 0.0, 0.0, 0.0)
 		{}
 

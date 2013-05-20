@@ -176,7 +176,7 @@ std::vector<VideoMode> GetAvailableVideoModes()
 	std::vector<VideoMode> modes;
 	//querying modes using the current pixel format
 	//note - this has always been sdl_fullscreen, hopefully it does not matter
-	SDL_Rect **sdlmodes = SDL_ListModes(NULL, SDL_HWSURFACE | SDL_FULLSCREEN);
+	SDL_Rect **sdlmodes = SDL_ListModes(0, SDL_HWSURFACE | SDL_FULLSCREEN);
 
 	if (sdlmodes == 0)
 		OS::Error("Failed to query video modes");

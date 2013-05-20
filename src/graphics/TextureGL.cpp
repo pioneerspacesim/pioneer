@@ -85,6 +85,8 @@ TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompress
 		case GL_TEXTURE_2D:
 			if (descriptor.generateMipmaps)
 				glTexParameteri(m_target, GL_GENERATE_MIPMAP, GL_TRUE);
+			else
+				glTexParameteri(m_target, GL_TEXTURE_MAX_LEVEL, 0);
 
 			glTexImage2D(
 				m_target, 0, compressTexture ? GLCompressedTextureFormat(descriptor.format) : GLTextureFormat(descriptor.format),

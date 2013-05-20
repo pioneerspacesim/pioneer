@@ -113,29 +113,27 @@ void SpaceStationType::OnSetupComplete()
 const SpaceStationType::SBayGroup* SpaceStationType::FindGroupByBay(const int zeroBaseBayID) const
 {
 	for (TBayGroups::const_iterator bayIter = bayGroups.begin(), grpEnd=bayGroups.end(); bayIter!=grpEnd ; ++bayIter ) {
-		std::vector<int>::const_iterator idIter = (*bayIter).bayIDs.begin();
-		for ( ; idIter!=(*bayIter).bayIDs.end() ; ++idIter ) {
+		for (std::vector<int>::const_iterator idIter = (*bayIter).bayIDs.begin(), idIEnd = (*bayIter).bayIDs.end(); idIter!=idIEnd ; ++idIter ) {
 			if ((*idIter)==zeroBaseBayID) {
 				return &(*bayIter);
 			}
 		}
 	}
 	// is it safer to return that the bay is locked?
-	return NULL;
+	return 0;
 }
 
 SpaceStationType::SBayGroup* SpaceStationType::GetGroupByBay(const int zeroBaseBayID)
 {
 	for (TBayGroups::iterator bayIter = bayGroups.begin(), grpEnd=bayGroups.end(); bayIter!=grpEnd ; ++bayIter ) {
-		std::vector<int>::iterator idIter = (*bayIter).bayIDs.begin();
-		for ( ; idIter!=(*bayIter).bayIDs.end() ; ++idIter ) {
+		for (std::vector<int>::const_iterator idIter = (*bayIter).bayIDs.begin(), idIEnd = (*bayIter).bayIDs.end(); idIter!=idIEnd ; ++idIter ) {
 			if ((*idIter)==zeroBaseBayID) {
 				return &(*bayIter);
 			}
 		}
 	}
 	// is it safer to return that the bay is locked?
-	return NULL;
+	return 0;
 }
 
 bool SpaceStationType::GetShipApproachWaypoints(const unsigned int port, const int stage, positionOrient_t &outPosOrient) const

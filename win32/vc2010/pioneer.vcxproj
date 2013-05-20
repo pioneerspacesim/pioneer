@@ -269,7 +269,6 @@
     <ClInclude Include="..\..\src\AmbientSounds.h" />
     <ClInclude Include="..\..\src\AnimationCurves.h" />
     <ClInclude Include="..\..\src\Background.h" />
-    <ClInclude Include="..\..\src\BezierCurve.h" />
     <ClInclude Include="..\..\src\Body.h" />
     <ClInclude Include="..\..\src\buildopts.h" />
     <ClInclude Include="..\..\src\ByteRange.h" />
@@ -383,7 +382,6 @@
     <ClInclude Include="..\..\src\PropertyMap.h" />
     <ClInclude Include="..\..\src\Quaternion.h" />
     <ClInclude Include="..\..\src\RefCounted.h" />
-    <ClInclude Include="..\..\src\RefList.h" />
     <ClInclude Include="..\..\src\SDLWrappers.h" />
     <ClInclude Include="..\..\src\SectorView.h" />
     <ClInclude Include="..\..\src\Serializer.h" />

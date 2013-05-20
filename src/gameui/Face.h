@@ -18,7 +18,7 @@ public:
 	virtual void Layout();
 	virtual void Draw();
 
-	enum Flags { // <enum scope='GameUI::Face' name=GameUIFaceFlags>
+	enum Flags { // <enum scope='GameUI::Face' name=GameUIFaceFlags public>
 		RAND        = 0,
 		MALE        = (1<<0),
 		FEMALE      = (1<<1),

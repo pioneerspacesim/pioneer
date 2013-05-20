@@ -536,8 +536,8 @@ Y
     Y
 Z
     Z
-AXIS
-     " Axis"
+JOY_AXIS
+    %{sign}Joy%joynum %axis Axis
 WEAPONS
     Weapons
 TARGET_OBJECT_IN_SIGHTS
