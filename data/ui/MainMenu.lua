@@ -51,7 +51,7 @@ local menu =
 			ui:Grid({ 0.1, 0.8, 0.1 }, 1)
 				:SetCell(1, 0,
 					ui:Align("LEFT",
-						ui:Label("Pioneer"):SetFont("HEADING_XLARGE")
+						ui:Label("Paragon"):SetFont("HEADING_XLARGE")
 					)
 				)
 		})
