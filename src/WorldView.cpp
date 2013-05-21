@@ -616,15 +616,17 @@ void WorldView::RefreshButtonStateAndVisibility()
 
 				Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, stringf(Lang::PRESSURE_N_ATMOSPHERES, formatarg("pressure", pressure)));
 
-				m_hudHullTemp->SetValue(float(Pi::player->GetHullTemperature()));
-				m_hudHullTemp->Show();
-			} else {
-				Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, "");
-				m_hudHullTemp->Hide();
+				if (Pi::player->GetHullTemperature() > 0.01) {
+					m_hudHullTemp->SetValue(float(Pi::player->GetHullTemperature()));
+					m_hudHullTemp->Show();
+				} else {
+					m_hudHullTemp->Hide();
+				}
 			}
 		} else {
 			Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, "");
 			Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
+			m_hudHullTemp->Hide();
 		}
 
 		m_hudFuelGauge->SetValue(Pi::player->GetFuel());
