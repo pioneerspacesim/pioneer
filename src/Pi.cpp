@@ -1050,6 +1050,33 @@ void Pi::MainLoop()
 		Pi::renderer->EndFrame();
 		if( DrawGUI ) {
 			Gui::Draw();
+		} else {
+			bool gotAnySystem = false;
+			SystemPath sp;
+			if( Pi::player && Pi::player->GetSystemBody() ) {
+				sp = Pi::player->GetSystemBody()->path;
+				gotAnySystem = true;
+			} else if( game && game->GetSpace() && game->GetSpace()->GetStarSystem() ) {
+				sp = game->GetSpace()->GetStarSystem()->GetPath();
+				gotAnySystem = true;
+			}
+			
+			if( gotAnySystem ) {
+				std::stringstream pathStr;
+				pathStr << "(" << sp.sectorX << "," << sp.sectorY << "," << sp.sectorZ;
+				if( sp.HasValidSystem() ) {
+					pathStr << "," << sp.systemIndex;
+					if( sp.HasValidBody() ) {
+						pathStr << "," << sp.bodyIndex;
+					}
+				}
+				pathStr << ")" << std::endl;
+				Gui::Screen::EnterOrtho();
+				Gui::Screen::PushFont("ConsoleFont");
+				Gui::Screen::RenderString(pathStr.str(), 0, 0);
+				Gui::Screen::PopFont();
+				Gui::Screen::LeaveOrtho();
+			}
 		}
 
 #if WITH_DEVKEYS
