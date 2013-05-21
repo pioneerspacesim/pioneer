@@ -127,6 +127,7 @@ bool Pi::mouseYInvert;
 std::vector<Pi::JoystickState> Pi::joysticks;
 bool Pi::navTunnelDisplayed;
 Gui::Fixed *Pi::menu;
+bool Pi::DrawGUI = true;
 Graphics::Renderer *Pi::renderer;
 RefCountedPtr<UI::Context> Pi::ui;
 ModelCache *Pi::modelCache;
@@ -643,6 +644,14 @@ void Pi::HandleEvents()
 								Pi::EndGame();
 							Pi::Quit();
 							break;
+						case SDLK_TAB:
+							if( Pi::cpan ) {
+								if( DrawGUI ) {
+									DrawGUI = false;
+								} else {
+									DrawGUI = true;
+								}
+							}
 						case SDLK_PRINT:	   // print
 						case SDLK_KP_MULTIPLY: // screen
 						{
@@ -857,6 +866,7 @@ void Pi::StartGame()
 	Pi::player->onUndock.connect(sigc::ptr_fun(&OnPlayerDockOrUndock));
 	Pi::player->m_equipment.onChange.connect(sigc::ptr_fun(&OnPlayerChangeEquipment));
 	cpan->ShowAll();
+	DrawGUI = true;
 	cpan->SetAlertState(Ship::ALERT_NONE);
 	OnPlayerChangeEquipment(Equip::NONE);
 	SetView(worldView);
@@ -1038,7 +1048,9 @@ void Pi::MainLoop()
 		SetMouseGrab(Pi::MouseButtonState(SDL_BUTTON_RIGHT));
 
 		Pi::renderer->EndFrame();
-		Gui::Draw();
+		if( DrawGUI ) {
+			Gui::Draw();
+		}
 
 #if WITH_DEVKEYS
 		if (Pi::showDebugInfo) {

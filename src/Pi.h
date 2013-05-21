@@ -204,6 +204,8 @@ private:
 	static bool navTunnelDisplayed;
 
 	static Gui::Fixed *menu;
+
+	static bool DrawGUI;
 };
 
 #endif /* _PI_H */
