@@ -127,15 +127,16 @@ TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompress
 					GLImageFormatForTextureFormat(descriptor.format),
 					GLImageTypeForTextureFormat(descriptor.format), 0);
 			} else {
+				const GLint oglFormatMinSize = getMinSize(descriptor.format);
 				size_t Width = descriptor.dataSize.x;
 				size_t Height = descriptor.dataSize.y;
+				size_t bufSize = ((Width + 3) / 4) * ((Height + 3) / 4) * oglFormatMinSize;
 				
 				for( int32_t i=0; i<descriptor.numberOfMipMaps; ++i ) {
-					const size_t bufSize = ((Width + 3) / 4) * ((Height + 3) / 4) * getMinSize(descriptor.format);
 					glCompressedTexImage2D(GL_TEXTURE_2D, 0, GLTextureFormat(descriptor.format), Width, Height, 0, bufSize, 0);
-
-					if((Width/=2)==0) Width=1;
-					if((Height/=2)==0) Height=1;
+					bufSize /= 4;
+					Width /= 2;
+					Height /= 2;
 				}
 			}
 			break;
@@ -201,15 +202,15 @@ void TextureGL::Update(const void *data, const vector2f &dataSize, ImageFormat f
 				size_t Offset = 0;
 				size_t Width = dataSize.x;
 				size_t Height = dataSize.y;
+				size_t bufSize = ((Width + 3) / 4) * ((Height + 3) / 4) * getMinSize(format);
 				
 				unsigned char *pData = (unsigned char *)data;
 				for( int32_t i=0; i<numMips; ++i ) {
-					const size_t bufSize = ((Width + 3) / 4) * ((Height + 3) / 4) * getMinSize(format);
 					glCompressedTexSubImage2D(m_target, i, 0, 0, Width, Height, oglInternalFormat, bufSize, &pData[Offset]);
-
 					Offset += bufSize;
-					if((Width/=2)==0) Width=1;
-					if((Height/=2)==0) Height=1;
+					bufSize /= 4;
+					Width /= 2;
+					Height /= 2;
 				}
 			}
 			break;

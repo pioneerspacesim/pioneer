@@ -168,6 +168,11 @@ size_t LoadDDSFromFile(std::string &filename, PicoDDS::DDSImage& dds)
 
 	// read the dds file
 	size_t sizeRead = dds.read( filedata->GetData(), filedata->GetSize() );
+	
+	unsigned long _texlen = (unsigned long) dds.surfacedata_.sizeorpitch;
+    if (dds.surfacedata_.flags & PicoDDS::DDS::DDSD_PITCH)
+        _texlen *= dds.surfacedata_.height;
+
 	return sizeRead;
 }
 
