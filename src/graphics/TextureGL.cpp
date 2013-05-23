@@ -14,6 +14,8 @@ inline GLint GLCompressedTextureFormat(TextureFormat format) {
 		case TEXTURE_LUMINANCE_ALPHA: return GL_LUMINANCE_ALPHA;
 		case TEXTURE_INTENSITY:  return GL_INTENSITY;
 		case TEXTURE_ALPHA:  return GL_ALPHA;
+		case TEXTURE_DXT5: return GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
+		case TEXTURE_DXT1:  return GL_COMPRESSED_RGB_S3TC_DXT1_EXT;
 		default: assert(0); return 0;
 	}
 }
@@ -25,6 +27,8 @@ inline GLint GLTextureFormat(TextureFormat format) {
 		case TEXTURE_LUMINANCE_ALPHA: return GL_LUMINANCE_ALPHA;
 		case TEXTURE_INTENSITY:  return GL_INTENSITY;
 		case TEXTURE_ALPHA: return GL_ALPHA;
+		case TEXTURE_DXT5: return GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
+		case TEXTURE_DXT1:  return GL_COMPRESSED_RGB_S3TC_DXT1_EXT;
 		default: assert(0); return 0;
 	}
 }
@@ -36,6 +40,8 @@ inline GLint GLImageFormat(ImageFormat format) {
 		case IMAGE_LUMINANCE_ALPHA: return GL_LUMINANCE_ALPHA;
 		case IMAGE_INTENSITY: return GL_LUMINANCE; // glTexImage can't be given a GL_INTENSITY image directly, but this does the same thing
 		case IMAGE_ALPHA: return GL_ALPHA;
+		case IMAGE_DXT5: return GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
+		case IMAGE_DXT1: return GL_COMPRESSED_RGB_S3TC_DXT1_EXT;
 		default: assert(0); return 0;
 	}
 }
@@ -54,6 +60,8 @@ inline GLint GLImageFormatForTextureFormat(TextureFormat format) {
 		case TEXTURE_LUMINANCE_ALPHA: return GL_LUMINANCE_ALPHA;
 		case TEXTURE_INTENSITY: return GL_LUMINANCE; // glTexImage can't be given a GL_INTENSITY image directly, but this does the same thing
 		case TEXTURE_ALPHA: return GL_ALPHA;
+		case TEXTURE_DXT5: return GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
+		case TEXTURE_DXT1: return GL_COMPRESSED_RGB_S3TC_DXT1_EXT;
 		default: assert(0); return 0;
 	}
 }
@@ -67,6 +75,32 @@ inline GLint GLImageTypeForTextureFormat(TextureFormat format) {
 		case TEXTURE_ALPHA: return GL_UNSIGNED_BYTE;
 		default: assert(0); return 0;
 	}
+}
+
+inline int getMinSize(TextureFormat flag)
+{
+	int minsize = 1;
+	switch(flag) 
+	{
+	case TEXTURE_DXT1:		minsize = 8;		break;
+	case TEXTURE_DXT5:		minsize = 16;		break;
+	default: break;
+	}
+	return minsize;
+
+}
+
+inline int getMinSize(ImageFormat flag)
+{
+	int minsize = 1;
+	switch(flag) 
+	{
+	case IMAGE_DXT1:		minsize = 8;		break;
+	case IMAGE_DXT5:		minsize = 16;		break;
+	default: break;
+	}
+	return minsize;
+
 }
 
 TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompressed) :
@@ -83,14 +117,27 @@ TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompress
 
 	switch (m_target) {
 		case GL_TEXTURE_2D:
-			if (descriptor.generateMipmaps)
-				glTexParameteri(m_target, GL_GENERATE_MIPMAP, GL_TRUE);
+			if( descriptor.format <= TEXTURE_ALPHA ) {
+				if (descriptor.generateMipmaps)
+					glTexParameteri(m_target, GL_GENERATE_MIPMAP, GL_TRUE);
 
-			glTexImage2D(
-				m_target, 0, compressTexture ? GLCompressedTextureFormat(descriptor.format) : GLTextureFormat(descriptor.format),
-				descriptor.dataSize.x, descriptor.dataSize.y, 0,
-				GLImageFormatForTextureFormat(descriptor.format),
-				GLImageTypeForTextureFormat(descriptor.format), 0);
+				glTexImage2D(
+					m_target, 0, compressTexture ? GLCompressedTextureFormat(descriptor.format) : GLTextureFormat(descriptor.format),
+					descriptor.dataSize.x, descriptor.dataSize.y, 0,
+					GLImageFormatForTextureFormat(descriptor.format),
+					GLImageTypeForTextureFormat(descriptor.format), 0);
+			} else {
+				size_t Width = descriptor.dataSize.x;
+				size_t Height = descriptor.dataSize.y;
+				
+				for( int32_t i=0; i<descriptor.numberOfMipMaps; ++i ) {
+					const size_t bufSize = ((Width + 3) / 4) * ((Height + 3) / 4) * getMinSize(descriptor.format);
+					glCompressedTexImage2D(GL_TEXTURE_2D, 0, GLTextureFormat(descriptor.format), Width, Height, 0, bufSize, 0);
+
+					if((Width/=2)==0) Width=1;
+					if((Height/=2)==0) Height=1;
+				}
+			}
 			break;
 
 		default:
@@ -140,14 +187,31 @@ TextureGL::~TextureGL()
 	glDeleteTextures(1, &m_texture);
 }
 
-void TextureGL::Update(const void *data, const vector2f &dataSize, ImageFormat format, ImageType type)
+void TextureGL::Update(const void *data, const vector2f &dataSize, ImageFormat format, ImageType type, const size_t numMips)
 {
 	glEnable(m_target);
 	glBindTexture(m_target, m_texture);
 
 	switch (m_target) {
 		case GL_TEXTURE_2D:
-			glTexSubImage2D(m_target, 0, 0, 0, dataSize.x, dataSize.y, GLImageFormat(format), GLImageType(type), data);
+			if( format <= IMAGE_ALPHA ) {
+				glTexSubImage2D(m_target, 0, 0, 0, dataSize.x, dataSize.y, GLImageFormat(format), GLImageType(type), data);
+			} else {
+				const GLint oglInternalFormat = GLImageFormat(format);
+				size_t Offset = 0;
+				size_t Width = dataSize.x;
+				size_t Height = dataSize.y;
+				
+				unsigned char *pData = (unsigned char *)data;
+				for( int32_t i=0; i<numMips; ++i ) {
+					const size_t bufSize = ((Width + 3) / 4) * ((Height + 3) / 4) * getMinSize(format);
+					glCompressedTexSubImage2D(m_target, i, 0, 0, Width, Height, oglInternalFormat, bufSize, &pData[Offset]);
+
+					Offset += bufSize;
+					if((Width/=2)==0) Width=1;
+					if((Height/=2)==0) Height=1;
+				}
+			}
 			break;
 
 		default:

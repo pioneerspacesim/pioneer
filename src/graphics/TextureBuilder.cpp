@@ -81,54 +81,94 @@ void TextureBuilder::PrepareSurface()
 {
 	if (m_prepared) return;
 
-	if (!m_surface && !m_filename.empty())
-		LoadSurface();
-
-	TextureFormat targetTextureFormat;
-	SDL_PixelFormat *targetPixelFormat;
-	bool needConvert = !GetTargetFormat(m_surface->format, &targetTextureFormat, &targetPixelFormat, m_forceRGBA);
-
-	if (needConvert) {
-		SDL_Surface *s = SDL_ConvertSurface(m_surface.Get(), targetPixelFormat, SDL_SWSURFACE);
-		m_surface = SDLSurfacePtr::WrapNew(s);
-	}
-
-	unsigned int virtualWidth, actualWidth, virtualHeight, actualHeight;
-	virtualWidth = actualWidth = m_surface->w;
-	virtualHeight = actualHeight = m_surface->h;
-
-	if (m_potExtend) {
-		// extend to power-of-two if necessary
-		actualWidth = ceil_pow2(m_surface->w);
-		actualHeight = ceil_pow2(m_surface->h);
-		if (actualWidth != virtualWidth || actualHeight != virtualHeight) {
-			SDL_Surface *s = SDL_CreateRGBSurface(SDL_SWSURFACE, actualWidth, actualHeight, targetPixelFormat->BitsPerPixel,
-				targetPixelFormat->Rmask, targetPixelFormat->Gmask, targetPixelFormat->Bmask, targetPixelFormat->Amask);
-
-			SDL_SetAlpha(m_surface.Get(), 0, 0);
-			SDL_SetAlpha(s, 0, 0);
-			SDL_BlitSurface(m_surface.Get(), 0, s, 0);
-
-			m_surface = SDLSurfacePtr::WrapNew(s);
+	if (!m_surface && !m_filename.empty()) {
+		const size_t size = m_filename.size();
+		char extension[4] = {'\0'};
+		m_filename.copy(extension, 3, size-3);
+		if(strnicmp("dds", extension, 3)==0) {
+			LoadDDS();
+		} else {
+			LoadSurface();
 		}
 	}
 
-	else if (! m_filename.empty()) {
-		// power-of-to check
-		unsigned long width = ceil_pow2(m_surface->w);
-		unsigned long height = ceil_pow2(m_surface->h);
+	TextureFormat targetTextureFormat;
+	unsigned int virtualWidth, actualWidth, virtualHeight, actualHeight, numberOfMipMaps = 0;
+	if( m_surface ) {
+		SDL_PixelFormat *targetPixelFormat;
+		bool needConvert = !GetTargetFormat(m_surface->format, &targetTextureFormat, &targetPixelFormat, m_forceRGBA);
 
-		if (width != virtualWidth || height != virtualHeight)
-			fprintf(stderr, "WARNING: texture '%s' is not power-of-two and may not display correctly\n", m_filename.c_str());
+		if (needConvert) {
+			SDL_Surface *s = SDL_ConvertSurface(m_surface.Get(), targetPixelFormat, SDL_SWSURFACE);
+			m_surface = SDLSurfacePtr::WrapNew(s);
+		}
+		
+		virtualWidth = actualWidth = m_surface->w;
+		virtualHeight = actualHeight = m_surface->h;
+
+		if (m_potExtend) {
+			// extend to power-of-two if necessary
+			actualWidth = ceil_pow2(m_surface->w);
+			actualHeight = ceil_pow2(m_surface->h);
+			if (actualWidth != virtualWidth || actualHeight != virtualHeight) {
+				SDL_Surface *s = SDL_CreateRGBSurface(SDL_SWSURFACE, actualWidth, actualHeight, targetPixelFormat->BitsPerPixel,
+					targetPixelFormat->Rmask, targetPixelFormat->Gmask, targetPixelFormat->Bmask, targetPixelFormat->Amask);
+
+				SDL_SetAlpha(m_surface.Get(), 0, 0);
+				SDL_SetAlpha(s, 0, 0);
+				SDL_BlitSurface(m_surface.Get(), 0, s, 0);
+
+				m_surface = SDLSurfacePtr::WrapNew(s);
+			}
+		}
+		else if (! m_filename.empty()) {
+			// power-of-to check
+			unsigned long width = ceil_pow2(m_surface->w);
+			unsigned long height = ceil_pow2(m_surface->h);
+
+			if (width != virtualWidth || height != virtualHeight)
+				fprintf(stderr, "WARNING: texture '%s' is not power-of-two and may not display correctly\n", m_filename.c_str());
+		}
+	} else {
+		//
+		//targetTextureFormat = 
+		switch(m_dds.getTextureFormat()) {
+		case PicoDDS::FORMAT_DXT1:	targetTextureFormat = TEXTURE_DXT1;	break;
+		case PicoDDS::FORMAT_DXT5:	targetTextureFormat = TEXTURE_DXT5;	break;
+		default: 
+			assert(false); 
+			return;
+		}
+
+		virtualWidth = actualWidth = m_dds.imgdata_.width;
+		virtualHeight = actualHeight = m_dds.imgdata_.height;
+		numberOfMipMaps = m_dds.imgdata_.numMipMaps;
 	}
 
 	m_descriptor = TextureDescriptor(
 		targetTextureFormat,
 		vector2f(actualWidth,actualHeight),
 		vector2f(float(virtualWidth)/float(actualWidth),float(virtualHeight)/float(actualHeight)),
-		m_sampleMode, m_generateMipmaps, m_compressTextures);
+		m_sampleMode, m_generateMipmaps, m_compressTextures, numberOfMipMaps);
 
 	m_prepared = true;
+}
+
+// this is the function to call when we want to load
+// an image
+size_t LoadDDSFromFile(std::string &filename, PicoDDS::DDSImage& dds) 
+{
+	RefCountedPtr<FileSystem::FileData> filedata = FileSystem::gameDataFiles.ReadFile(filename);
+	if (!filedata) {
+		fprintf(stderr, "LoadDDSFromFile: %s: could not read file\n", filename.c_str());
+		return 0;
+	}
+
+	//SDL_RWops *datastream = SDL_RWFromConstMem(filedata->GetData(), filedata->GetSize());
+
+	// read the dds file
+	size_t sizeRead = dds.read( filedata->GetData(), filedata->GetSize() );
+	return sizeRead;
 }
 
 void TextureBuilder::LoadSurface()
@@ -137,14 +177,30 @@ void TextureBuilder::LoadSurface()
 
 	SDLSurfacePtr s = LoadSurfaceFromFile(m_filename);
 	if (! s) { s = LoadSurfaceFromFile("textures/unknown.png"); }
-
+		
 	// XXX if we can't load the fallback texture, then what?
 	m_surface = s;
 }
 
+void TextureBuilder::LoadDDS()
+{
+	assert(!m_dds.headerdone_);
+	LoadDDSFromFile(m_filename, m_dds);
+
+	if (!m_dds.headerdone_) { 
+		m_surface = LoadSurfaceFromFile("textures/unknown.png"); 
+	}
+	// XXX if we can't load the fallback texture, then what?
+}
+
 void TextureBuilder::UpdateTexture(Texture *texture)
 {
-	texture->Update(m_surface->pixels, vector2f(m_surface->w,m_surface->h), m_descriptor.format == TEXTURE_RGBA ? IMAGE_RGBA : IMAGE_RGB, IMAGE_UNSIGNED_BYTE);
+	if( m_surface ) {
+		texture->Update(m_surface->pixels, vector2f(m_surface->w,m_surface->h), m_descriptor.format == TEXTURE_RGBA ? IMAGE_RGBA : IMAGE_RGB, IMAGE_UNSIGNED_BYTE, 0);
+	} else {
+		assert(m_dds.headerdone_);
+		texture->Update(m_dds.imgdata_.imgData, vector2f(m_dds.imgdata_.width,m_dds.imgdata_.height), m_descriptor.format == TEXTURE_DXT1 ? IMAGE_DXT1 : IMAGE_DXT5, IMAGE_UNSIGNED_BYTE, m_dds.imgdata_.numMipMaps);
+	}
 }
 
 Texture *TextureBuilder::GetWhiteTexture(Renderer *r)
