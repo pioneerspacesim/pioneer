@@ -383,7 +383,14 @@ void WorldView::Draw3D()
 void WorldView::OnToggleLabels()
 {
 	if (Pi::GetView() == this) {
-		m_labelsOn = !m_labelsOn;
+		if( Pi::DrawGUI ) {
+			m_labelsOn = !m_labelsOn;
+			if( m_labelsOn ) {
+				Pi::DrawGUI = false;
+			}
+		} else {
+			Pi::DrawGUI = true;
+		}
 	}
 }
 

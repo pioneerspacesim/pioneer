@@ -644,14 +644,6 @@ void Pi::HandleEvents()
 								Pi::EndGame();
 							Pi::Quit();
 							break;
-						case SDLK_TAB:
-							if( Pi::cpan ) {
-								if( DrawGUI ) {
-									DrawGUI = false;
-								} else {
-									DrawGUI = true;
-								}
-							}
 						case SDLK_PRINT:	   // print
 						case SDLK_KP_MULTIPLY: // screen
 						{

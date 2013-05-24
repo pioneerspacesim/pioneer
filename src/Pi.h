@@ -161,6 +161,8 @@ public:
 
 	static JobQueue *Jobs() { return jobQueue.Get();}
 
+	static bool DrawGUI;
+
 private:
 	static void HandleEvents();
 	static void InitJoysticks();
@@ -204,8 +206,6 @@ private:
 	static bool navTunnelDisplayed;
 
 	static Gui::Fixed *menu;
-
-	static bool DrawGUI;
 };
 
 #endif /* _PI_H */
