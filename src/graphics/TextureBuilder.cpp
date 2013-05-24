@@ -82,10 +82,11 @@ void TextureBuilder::PrepareSurface()
 	if (m_prepared) return;
 
 	if (!m_surface && !m_filename.empty()) {
-		const size_t size = m_filename.size();
-		char extension[4] = {'\0'};
-		m_filename.copy(extension, 3, size-3);
-		if(strnicmp("dds", extension, 3)==0) {
+		std::string filename = m_filename;
+		std::transform(filename.begin(), filename.end(), filename.begin(), ::tolower);
+		static const std::string strToMatch("dds");
+		const std::size_t found = filename.rfind(strToMatch);
+		if (found!=std::string::npos) {
 			LoadDDS();
 		} else {
 			LoadSurface();
@@ -164,15 +165,8 @@ size_t LoadDDSFromFile(std::string &filename, PicoDDS::DDSImage& dds)
 		return 0;
 	}
 
-	//SDL_RWops *datastream = SDL_RWFromConstMem(filedata->GetData(), filedata->GetSize());
-
 	// read the dds file
 	size_t sizeRead = dds.read( filedata->GetData(), filedata->GetSize() );
-	
-	unsigned long _texlen = (unsigned long) dds.surfacedata_.sizeorpitch;
-    if (dds.surfacedata_.flags & PicoDDS::DDS::DDSD_PITCH)
-        _texlen *= dds.surfacedata_.height;
-
 	return sizeRead;
 }
 

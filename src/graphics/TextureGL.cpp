@@ -4,6 +4,9 @@
 #include "TextureGL.h"
 #include <cassert>
 #include "utils.h"
+
+#define MIN_COMPRESSED_TEXTURE_DIMENSION 8
+
 //warning C4715: 'Graphics::GLImageTypeForTextureFormat' : not all control paths return a value
 namespace Graphics {
 
@@ -132,12 +135,18 @@ TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompress
 				size_t Height = descriptor.dataSize.y;
 				size_t bufSize = ((Width + 3) / 4) * ((Height + 3) / 4) * oglFormatMinSize;
 				
-				for( int32_t i=0; i<descriptor.numberOfMipMaps; ++i ) {
-					glCompressedTexImage2D(GL_TEXTURE_2D, 0, GLTextureFormat(descriptor.format), Width, Height, 0, bufSize, 0);
+				GLint maxMip = 0;
+				for( uint32_t i=0; i<descriptor.numberOfMipMaps; ++i ) {
+					glCompressedTexImage2D(GL_TEXTURE_2D, i, GLTextureFormat(descriptor.format), Width, Height, 0, bufSize, 0);
 					bufSize /= 4;
 					Width /= 2;
 					Height /= 2;
+					maxMip = i;
+					if( Width<=MIN_COMPRESSED_TEXTURE_DIMENSION || Height<=MIN_COMPRESSED_TEXTURE_DIMENSION ) {
+						break;
+					}
 				}
+				glTexParameteri(m_target, GL_TEXTURE_MAX_LEVEL, maxMip);
 			}
 			break;
 
@@ -205,12 +214,15 @@ void TextureGL::Update(const void *data, const vector2f &dataSize, ImageFormat f
 				size_t bufSize = ((Width + 3) / 4) * ((Height + 3) / 4) * getMinSize(format);
 				
 				unsigned char *pData = (unsigned char *)data;
-				for( int32_t i=0; i<numMips; ++i ) {
+				for( uint32_t i=0; i<numMips; ++i ) {
 					glCompressedTexSubImage2D(m_target, i, 0, 0, Width, Height, oglInternalFormat, bufSize, &pData[Offset]);
 					Offset += bufSize;
 					bufSize /= 4;
 					Width /= 2;
 					Height /= 2;
+					if( Width<=MIN_COMPRESSED_TEXTURE_DIMENSION || Height<=MIN_COMPRESSED_TEXTURE_DIMENSION ) {
+						break;
+					}
 				}
 			}
 			break;
