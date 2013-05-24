@@ -26,10 +26,10 @@
                 Save 3ds Max Profile: Yes;
                 Formatted Arrays: Yes;
             </comments>
-            <source_data>file:///C:/Users/rivalin/Desktop/pioneer/data/models/stations/megastation/megastation.dae</source_data>
+            <source_data>file:///C:/Users/rivalin/Creative/Personal%20Work/Paragon/Paragon/Paragon0/data/models/stations/megastation/megastation.dae</source_data>
         </contributor>
-        <created>2013-05-19T18:28:33Z</created>
-        <modified>2013-05-19T18:28:33Z</modified>
+        <created>2013-05-21T11:54:31Z</created>
+        <modified>2013-05-21T11:54:31Z</modified>
         <up_axis>Y_UP</up_axis>
     </asset>
     <library_cameras>
@@ -62973,7 +62973,7 @@
         <geometry id="Geometry-collision_pad1" name="collision_pad1">
             <mesh>
                 <source id="Geometry-collision_pad1-positions" name="positions">
-                    <float_array id="Geometry-collision_pad1-positions-array" count="162">
+                    <float_array id="Geometry-collision_pad1-positions-array" count="189">
                         1762.46 399.963 2008.32
                         2145.15 399.963 1746.2
                         1762.46 -141.248 2008.32
@@ -63001,15 +63001,15 @@
                         1954.79 129.358 2140.05
                         2337.48 129.358 1877.94
                         2146.13 129.358 2009
-                        -270.605 399.963 1199.64
-                        270.605 399.963 1199.64
-                        -270.605 -141.248 1199.64
-                        270.605 -141.248 1199.64
-                        2.92855e-015 399.963 1199.64
-                        2.92855e-015 -141.248 1199.64
-                        -270.605 129.358 1199.64
-                        270.605 129.358 1199.64
-                        2.92855e-015 129.358 1199.64
+                        -270.605 399.963 1046.22
+                        270.605 399.963 1046.22
+                        -270.605 -141.248 1046.22
+                        270.605 -141.248 1046.22
+                        2.92855e-015 399.963 1046.22
+                        2.92855e-015 -141.248 1046.22
+                        -270.605 129.358 1046.22
+                        270.605 129.358 1046.22
+                        2.92855e-015 129.358 1046.22
                         -270.605 399.963 1882.76
                         270.605 399.963 1882.76
                         -270.605 -141.248 1882.76
@@ -63028,9 +63028,18 @@
                         -270.605 129.358 1659.91
                         270.605 129.358 1659.91
                         2.61897e-016 129.358 1659.91
+                        -270.605 399.963 1199.64
+                        270.605 399.963 1199.64
+                        -270.605 -141.248 1199.64
+                        270.605 -141.248 1199.64
+                        2.92855e-015 399.963 1199.64
+                        2.92855e-015 -141.248 1199.64
+                        -270.605 129.358 1199.64
+                        270.605 129.358 1199.64
+                        2.92855e-015 129.358 1199.64
                     </float_array>
                     <technique_common>
-                        <accessor count="54" source="#Geometry-collision_pad1-positions-array" stride="3">
+                        <accessor count="63" source="#Geometry-collision_pad1-positions-array" stride="3">
                             <param name="X" type="float" />
                             <param name="Y" type="float" />
                             <param name="Z" type="float" />
@@ -63052,11 +63061,11 @@
                 <vertices id="Geometry-collision_pad1-vertices">
                     <input semantic="POSITION" source="#Geometry-collision_pad1-positions" />
                 </vertices>
-                <polylist count="24" material="Material-material1">
+                <polylist count="28" material="Material-material1">
                     <input semantic="VERTEX" source="#Geometry-collision_pad1-vertices" offset="0" />
                     <input semantic="NORMAL" source="#Geometry-collision_pad1-normals" offset="1" />
-                    <vcount>4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4</vcount>
-                    <p>8 0 6 0 2 0 5 0 7 0 8 0 5 0 3 0 1 0 4 0 8 0 7 0 4 0 0 0 6 0 8 0 17 0 15 0 11 0 14 0 16 0 17 0 14 0 12 0 10 0 13 0 17 0 16 0 13 0 9 0 15 0 17 0 26 0 24 0 20 0 23 0 25 0 26 0 23 0 21 0 19 0 22 0 26 0 25 0 22 0 18 0 24 0 26 0 35 0 33 0 29 0 32 0 34 0 35 0 32 0 30 0 28 0 31 0 35 0 34 0 31 0 27 0 33 0 35 0 44 0 42 0 38 0 41 0 43 0 44 0 41 0 39 0 37 0 40 0 44 0 43 0 40 0 36 0 42 0 44 0 53 0 51 0 47 0 50 0 52 0 53 0 50 0 48 0 46 0 49 0 53 0 52 0 49 0 45 0 51 0 53 0</p>
+                    <vcount>4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4</vcount>
+                    <p>8 0 6 0 2 0 5 0 7 0 8 0 5 0 3 0 1 0 4 0 8 0 7 0 4 0 0 0 6 0 8 0 17 0 15 0 11 0 14 0 16 0 17 0 14 0 12 0 10 0 13 0 17 0 16 0 13 0 9 0 15 0 17 0 26 0 24 0 20 0 23 0 25 0 26 0 23 0 21 0 19 0 22 0 26 0 25 0 22 0 18 0 24 0 26 0 35 0 33 0 29 0 32 0 34 0 35 0 32 0 30 0 28 0 31 0 35 0 34 0 31 0 27 0 33 0 35 0 44 0 42 0 38 0 41 0 43 0 44 0 41 0 39 0 37 0 40 0 44 0 43 0 40 0 36 0 42 0 44 0 53 0 51 0 47 0 50 0 52 0 53 0 50 0 48 0 46 0 49 0 53 0 52 0 49 0 45 0 51 0 53 0 62 0 60 0 56 0 59 0 61 0 62 0 59 0 57 0 55 0 58 0 62 0 61 0 58 0 54 0 60 0 62 0</p>
                 </polylist>
                 <extra>
                     <technique profile="modo401">
