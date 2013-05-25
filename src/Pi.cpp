@@ -984,6 +984,7 @@ void Pi::MainLoop()
 					break;
 				}
 				game->TimeStep(step);
+				GeoSphere::UpdateAllGeoSpheres();
 
 				accumulator -= step;
 			}
@@ -997,6 +998,7 @@ void Pi::MainLoop()
 #endif
 		} else {
 			// paused
+			GeoSphere::UpdateAllGeoSpheres();
 		}
 		frame_stat++;
 

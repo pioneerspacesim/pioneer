@@ -19,6 +19,7 @@ May 2013
      * Fix landing gear button toggling briefly when lowering gear (#2269)
      * Hide autopilot options during docking when they are unavailable (#2263, #2285)
      * Hide hull temperature gauge when value is under 1% of "maximum" (#2267, #2304)
+	 * Generate the terrain while in pause (#2301, #2312)
 
    * Internal changes
      * Enum mapping tables now have a visibility specifier (#2276)
