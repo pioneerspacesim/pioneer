@@ -65,60 +65,15 @@ namespace PicoDDS
 	
 DDSImage::DDSImage() : headerdone_(false)
 {
-	memset(&imgdata_,0,sizeof(imgdata_));
 	memset(&surfacedata_,0,sizeof(surfacedata_));
 }
 
 DDSImage::DDSImage(DDSImage const &lhs) : imgdata_(lhs.imgdata_), headerdone_(lhs.headerdone_), surfacedata_(lhs.surfacedata_)
 {
-
 }
 
 DDSImage::~DDSImage()
 {
-
-}
-
-size_t DDSImage::read(FILE* pFile)
-{
-	// Read in header and decode
-	if (!ReadHeader(pFile, surfacedata_))
-		return -1;
-
-	if (surfacedata_.mipmapcount==0)
-		surfacedata_.mipmapcount=1;
-
-	imgdata_.height = surfacedata_.height;
-	imgdata_.width = surfacedata_.width;
-
-	if(surfacedata_.flags & DDS::DDSD_DEPTH)
-		imgdata_.depth = surfacedata_.depth;
-	else
-		imgdata_.depth = 0;	// no depth to these images
-
-	imgdata_.colourdepth = surfacedata_.pixelformat.RGBBitCount;
-	imgdata_.numMipMaps = surfacedata_.mipmapcount;
-	imgdata_.format = getTextureFormat();
-	imgdata_.numImages = getNumImages();
-	imgdata_.size = calculateStoreageSize();
-	if(0 >= imgdata_.size)
-		return -1;
-			
-	if(-1 == imgdata_.format)
-		return -1;
-
-	fseek(pFile, 0, SEEK_END); // seek to end of file
-	size_t size = ftell(pFile); // get current file pointer
-	const long headerSize=128;
-	const size_t DDSStructSize = sizeof(DDS::DDSStruct)+4;
-	fseek(pFile, 0, SEEK_SET); // seek back to beginning of file
-	fseek(pFile, headerSize, SEEK_SET); // seek back to beginning of file
-	// proceed with allocating memory and reading the file
-	imgdata_.imgData = new byte[imgdata_.size];
-
-	// Read in remaining data
-	size_t amtRead = fread(imgdata_.imgData, sizeof(byte), size-headerSize, pFile);
-	return amtRead;
 }
 
 size_t DDSImage::read(const char* pData, const size_t dataSize)
@@ -161,12 +116,12 @@ size_t DDSImage::read(const char* pData, const size_t dataSize)
 	return dataSize - headerSize;
 }
 
-int DDSImage::getMinDXTSize()
+int DDSImage::getMinDXTSize() const
 {
 	return getMinSize(getDXTFormat());
 }
 
-int DDSImage::calculateStoreageSize()
+int DDSImage::calculateStoreageSize() const
 {
 	int size = 0;
 	for(int i = 0; i < imgdata_.numImages; ++i)
@@ -187,7 +142,7 @@ int DDSImage::calculateStoreageSize()
 	return size;
 }
 
-ImgFormat DDSImage::getTextureFormat()
+ImgFormat DDSImage::getTextureFormat() const
 {
 	ImgFormat format = FORMAT_NONE;
 
@@ -304,7 +259,7 @@ ImgFormat DDSImage::getTextureFormat()
 	return format;
 }
 
-int DDSImage::getNumImages()
+int DDSImage::getNumImages() const
 {
 	if(!(surfacedata_.ddscaps.caps2 & DDS::DDSCAPS2_CUBEMAP))
 		return 1;
@@ -321,7 +276,7 @@ int DDSImage::getNumImages()
 	return count;		
 }
 
-ImgFormat DDSImage::getDXTFormat()
+ImgFormat DDSImage::getDXTFormat() const
 {
 	ImgFormat format = FORMAT_NONE;
 	switch(surfacedata_.pixelformat.fourCC) 
@@ -402,9 +357,7 @@ int DDSImage::getOpenGLFormat()
 }
 #endif // PICODDS_OPENGL
 
-/**
-* function to read in a header
-*/
+// function to read in a header
 bool DDSImage::ReadHeader(FILE* pFile, DDS::DDSStruct& header)
 {
 	const int headerSize=128;
@@ -464,9 +417,7 @@ bool DDSImage::ReadHeader(FILE* pFile, DDS::DDSStruct& header)
 	return headerdone_;
 }
 
-/**
-* function to read in a header
-*/
+// function to read in a header
 bool DDSImage::ReadHeader(const char* pDataIn, DDS::DDSStruct& header)
 {
 	const int headerSize=128;
@@ -531,9 +482,19 @@ size_t ddsLoad(const char* filename, DDSImage& dds)
 		return 0;
 	}
 
+	// find the file size
+	fseek(file, 0, SEEK_END); // seek to end of file
+	const size_t size = ftell(file); // get current file pointer
+	fseek(file, 0, SEEK_SET); // seek back to beginning of file
+
+	// allocate space for the data and read the whole file in
+	char* pData = (char*)malloc(sizeof(char)*size);
+	const size_t sizeRead = fread(pData, sizeof(char), size, file);
+	assert(sizeRead == size);
+
 	// read the dds file
-	size_t sizeRead = dds.read(file);
-	return sizeRead;
+	const size_t sizeDDSRead = dds.read(pData, sizeRead);
+	return sizeDDSRead;
 }
 
 #ifdef PICODDS_OPENGL

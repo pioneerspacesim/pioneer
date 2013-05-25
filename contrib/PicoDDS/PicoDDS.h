@@ -210,22 +210,19 @@ namespace PicoDDS
 	{
 	public:
 		DDSImage();
-
 		DDSImage(DDSImage const &lhs);
-
 		~DDSImage();
 
-		size_t read(FILE* pFile);
 		size_t read(const char* pData, const size_t dataSize);
 
-		int getMinDXTSize();
+		int getMinDXTSize() const;
 
-		inline int GetMipLevelSize( unsigned int width, unsigned int height, unsigned int depth, ImgFormat format)
+		inline int GetMipLevelSize( const unsigned int width, const unsigned int height, unsigned int depth, const ImgFormat format) const
 		{
 			if (!depth)
 				depth=1;
 
-			int numPixels=width*height*depth;
+			const int numPixels=width*height*depth;
 			
 			switch( format)
 			{
@@ -275,20 +272,20 @@ namespace PicoDDS
 			return -1;
 		}
 
-		int calculateStoreageSize();
+		int calculateStoreageSize() const;
 
-		ImgFormat getTextureFormat();
+		ImgFormat getTextureFormat() const;
 
-		int getNumImages();
+		int getNumImages() const;
 
-		ImgFormat getDXTFormat();
+		ImgFormat getDXTFormat() const;
 
 #ifdef PICODDS_OPENGL
 		int getOpenGLFormat();
 #endif // PICODDS_OPENGL
 	protected:
 	private:
-		inline int getMinSize(ImgFormat flag)
+		inline int getMinSize(ImgFormat flag) const
 		{
 			int minsize = 1;
 
@@ -313,39 +310,39 @@ namespace PicoDDS
 
 		}
 
-		inline uint16_t read16_le(const byte* b) 
+		inline uint16_t read16_le(const byte* b) const
 		{
 			return b[0] + (b[1] << 8);
 		}
 
-		inline void write16_le(byte* b, uint16_t value) 
+		inline void write16_le(byte* b, uint16_t value) const
 		{
 			b[0] = value & 0xFF;
 			b[1] = value >> 8;
 		}
 
-		inline uint16_t read16_be(const byte* b) 
+		inline uint16_t read16_be(const byte* b) const
 		{
 			return (b[0] << 8) + b[1];
 		}
 
-		inline void write16_be(byte* b, uint16_t value) 
+		inline void write16_be(byte* b, uint16_t value) const
 		{
 			b[0] = value >> 8;
 			b[1] = value & 0xFF;
 		}
 
-		inline uint32_t read32_le(const byte* b) 
+		inline uint32_t read32_le(const byte* b) const
 		{
 			return read16_le(b) + (read16_le(b + 2) << 16);
 		}
 
-		inline uint32_t read32_be(const byte* b) 
+		inline uint32_t read32_be(const byte* b) const
 		{
 			return (read16_be(b) << 16) + read16_be(b + 2);
 		}
 
-		inline uint32_t ReadDword( byte * & pData )
+		inline uint32_t ReadDword( byte * & pData ) const
 		{
 			uint32_t value=read32_le(pData);
 			pData+=4;
