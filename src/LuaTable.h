@@ -14,20 +14,30 @@
 
 class LuaTable {
 public:
+	enum DelConst {
+	    cleanUpAtDel,
+	    keepAtDel
+	};
+
 	// For now, every lua_State * can only be NULL or Pi::LuaManager->GetLuaState();
-	LuaTable(const LuaTable & ref): m_lua(ref.m_lua), m_index(ref.m_index), m_clean(false) {} // Copy constructor.
-	LuaTable(const LuaRef & r): m_lua(r.GetLua()), m_clean(true) {
+	LuaTable(const LuaTable & ref): m_lua(ref.m_lua), m_index(ref.m_index), m_clean(keepAtDel) {} // Copy constructor.
+
+	LuaTable(const LuaRef & r, DelConst del_const = cleanUpAtDel):
+			m_lua(r.GetLua()), m_clean(del_const) {
 		r.PushCopyToStack();
 		m_index = lua_gettop(m_lua);
 	}
 
-	LuaTable(lua_State * l, int index): m_lua(l), m_index(lua_absindex(l, index)), m_clean(false) {assert(lua_istable(m_lua, m_index));}
-	explicit LuaTable(lua_State * l): m_lua(l), m_clean(true) {
+	LuaTable(lua_State * l, int index, DelConst del_const = keepAtDel):
+			m_lua(l), m_index(lua_absindex(l, index)), m_clean(del_const)
+		{assert(lua_istable(m_lua, m_index));}
+
+	explicit LuaTable(lua_State * l, DelConst del_const = cleanUpAtDel): m_lua(l), m_clean(del_const) {
 		lua_newtable(m_lua);
 		m_index = lua_gettop(l);
 	}
 
-	~LuaTable() {if (m_clean) lua_remove(m_lua, m_index);};
+	~LuaTable() {if (m_clean == cleanUpAtDel) lua_remove(m_lua, m_index);};
 
 	const LuaTable & operator=(const LuaTable & ref) { m_lua = ref.m_lua; m_index = ref.m_index; return *this;}
 	template <class Key> void PushValueToStack(const Key & key) const;
@@ -88,10 +98,10 @@ public:
 	template <class Value> VecIter<Value> End() {return VecIter<Value>(this, Size()+1);}
 
 private:
-	LuaTable(): m_lua(0), m_index(0), m_clean(false) {} //Protected : invalid tables shouldn't be out there.
+	LuaTable(): m_lua(0), m_index(0), m_clean(keepAtDel) {} //Protected : invalid tables shouldn't be out there.
 	lua_State * m_lua;
 	int m_index;
-	const bool m_clean;
+	const DelConst m_clean;
 
 };
 
