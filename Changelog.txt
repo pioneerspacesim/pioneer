@@ -10,6 +10,7 @@ May 2013
      * Improvements to translatability of joystick axis descriptions.
        (#2272, #2280, #2281)
      * New ships are always fully fueled (#2283, #2162)
+     * Mission list in the info screen (F3) now has a scroll bar (#1850, #2306)
 
    * Fixes
      * Crew can no longer be hired with a negative salary (#2254)
