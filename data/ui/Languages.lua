@@ -104,6 +104,7 @@ Translate:Add({
 		['Negotiate'] = 'Negotiate',
 		['Crew Roster'] = 'Crew Roster',
 		['Give orders to crew'] = 'Give orders to crew',
+		['Total:'] = 'Total:',
 
 		-- Taunts
 		["I'm tired of working for nothing. Don't you know what a contract is?"] = "I'm tired of working for nothing. Don't you know what a contract is?",
@@ -232,6 +233,7 @@ Translate:Add({
 		['Negotiate'] = 'Negocjacje',
 		['Crew Roster'] = 'Lista załogi',
 		['Give orders to crew'] = 'Wydaj rozkaz załodze',
+		['Total:'] = 'Razem:',
 
 		-- Taunts
 		["I'm tired of working for nothing. Don't you know what a contract is?"] = "Odczuwam zmęczenie pracując za darmo. Czy Ty wiesz co to kontrakt?",
