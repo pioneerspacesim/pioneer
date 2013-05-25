@@ -5,7 +5,7 @@
 #include <cassert>
 #include "utils.h"
 
-#define MIN_COMPRESSED_TEXTURE_DIMENSION 8
+#define MIN_COMPRESSED_TEXTURE_DIMENSION 16
 
 //warning C4715: 'Graphics::GLImageTypeForTextureFormat' : not all control paths return a value
 namespace Graphics {
@@ -80,30 +80,20 @@ inline GLint GLImageTypeForTextureFormat(TextureFormat format) {
 	}
 }
 
-inline int getMinSize(TextureFormat flag)
-{
-	int minsize = 1;
-	switch(flag) 
-	{
-	case TEXTURE_DXT1:		minsize = 8;		break;
-	case TEXTURE_DXT5:		minsize = 16;		break;
-	default: break;
+inline int getMinSize(TextureFormat flag) {
+	switch(flag) {
+	case TEXTURE_DXT1:		return 8;
+	case TEXTURE_DXT5:		return 16;
 	}
-	return minsize;
-
+	return 1;
 }
 
-inline int getMinSize(ImageFormat flag)
-{
-	int minsize = 1;
-	switch(flag) 
-	{
-	case IMAGE_DXT1:		minsize = 8;		break;
-	case IMAGE_DXT5:		minsize = 16;		break;
-	default: break;
+inline int getMinSize(ImageFormat flag){
+	switch(flag) {
+	case TEXTURE_DXT1:		return 8;
+	case TEXTURE_DXT5:		return 16;
 	}
-	return minsize;
-
+	return 1;
 }
 
 TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompressed) :
@@ -137,14 +127,14 @@ TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompress
 				
 				GLint maxMip = 0;
 				for( uint32_t i=0; i<descriptor.numberOfMipMaps; ++i ) {
-					glCompressedTexImage2D(GL_TEXTURE_2D, i, GLTextureFormat(descriptor.format), Width, Height, 0, bufSize, 0);
-					bufSize /= 4;
-					Width /= 2;
-					Height /= 2;
 					maxMip = i;
+					glCompressedTexImage2D(GL_TEXTURE_2D, i, GLTextureFormat(descriptor.format), Width, Height, 0, bufSize, 0);
 					if( Width<=MIN_COMPRESSED_TEXTURE_DIMENSION || Height<=MIN_COMPRESSED_TEXTURE_DIMENSION ) {
 						break;
 					}
+					bufSize /= 4;
+					Width /= 2;
+					Height /= 2;
 				}
 				glTexParameteri(m_target, GL_TEXTURE_MAX_LEVEL, maxMip);
 			}
@@ -216,13 +206,13 @@ void TextureGL::Update(const void *data, const vector2f &dataSize, ImageFormat f
 				unsigned char *pData = (unsigned char *)data;
 				for( uint32_t i=0; i<numMips; ++i ) {
 					glCompressedTexSubImage2D(m_target, i, 0, 0, Width, Height, oglInternalFormat, bufSize, &pData[Offset]);
+					if( Width<=MIN_COMPRESSED_TEXTURE_DIMENSION || Height<=MIN_COMPRESSED_TEXTURE_DIMENSION ) {
+						break;
+					}
 					Offset += bufSize;
 					bufSize /= 4;
 					Width /= 2;
 					Height /= 2;
-					if( Width<=MIN_COMPRESSED_TEXTURE_DIMENSION || Height<=MIN_COMPRESSED_TEXTURE_DIMENSION ) {
-						break;
-					}
 				}
 			}
 			break;

@@ -60,7 +60,6 @@ public:
 private:
 	SDLSurfacePtr m_surface;
 	PicoDDS::DDSImage m_dds;
-	bool m_hasDDS;
 	std::string m_filename;
 
 	TextureSampleMode m_sampleMode;

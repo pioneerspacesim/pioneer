@@ -198,6 +198,7 @@ void TextureBuilder::UpdateTexture(Texture *texture)
 		texture->Update(m_surface->pixels, vector2f(m_surface->w,m_surface->h), m_descriptor.format == TEXTURE_RGBA ? IMAGE_RGBA : IMAGE_RGB, IMAGE_UNSIGNED_BYTE, 0);
 	} else {
 		assert(m_dds.headerdone_);
+		assert(m_descriptor.format == TEXTURE_DXT1 || m_descriptor.format == TEXTURE_DXT5);
 		texture->Update(m_dds.imgdata_.imgData, vector2f(m_dds.imgdata_.width,m_dds.imgdata_.height), m_descriptor.format == TEXTURE_DXT1 ? IMAGE_DXT1 : IMAGE_DXT5, IMAGE_UNSIGNED_BYTE, m_dds.imgdata_.numMipMaps);
 	}
 }
