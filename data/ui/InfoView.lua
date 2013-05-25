@@ -365,7 +365,7 @@ local missions = function (tabGroup)
 		return MissionScreen:SetInnerWidget( ui:Label(t("No missions.")) )
 	end
 
-	local rowspec = {7,8,10,8,5,5,5} -- 7 columns
+	local rowspec = {7,8,9,9,5,5,5} -- 7 columns
 	if MissionList then 
 		MissionList:Clear()
 	else
@@ -444,7 +444,7 @@ local missions = function (tabGroup)
 			{data = mission.client.name},
 			{data = dist, widget = locationBox},
 			{data = mission.due, widget = dueBox},
-			{data = mission.reward, widget = ui:Label(Format.Money(mission.reward))},
+			{data = mission.reward, widget = ui:Label(Format.Money(mission.reward)):SetColor(0.0, 1.0, 0.2)}, -- green
 			-- nil description means mission type isn't registered.
 			{data = (description and t(mission.status)) or t('INACTIVE')},
 			{widget = moreButton.widget}
