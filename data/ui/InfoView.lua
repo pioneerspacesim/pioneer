@@ -13,7 +13,7 @@ local shipInfo = function (args)
 
 	local stats = Game.player:GetStats()
 
-	local equipColumn = {}
+	local equipItems = {}
 	for i = 1,#Constants.EquipType do
 		local type = Constants.EquipType[i]
 		local et = EquipDef[type]
@@ -23,19 +23,19 @@ local shipInfo = function (args)
 			if count > 0 then
 				if count > 1 then
 					if type == "SHIELD_GENERATOR" then
-						table.insert(equipColumn,
+						table.insert(equipItems,
 							ui:Label(string.interp(t("{quantity} Shield Generators"), { quantity = string.format("%d", count) })))
 					elseif type == "PASSENGER_CABIN" then
-						table.insert(equipColumn,
+						table.insert(equipItems,
 							ui:Label(string.interp(t("{quantity} Occupied Passenger Cabins"), { quantity = string.format("%d", count) })))
 					elseif type == "UNOCCUPIED_CABIN" then
-						table.insert(equipColumn,
+						table.insert(equipItems,
 							ui:Label(string.interp(t("{quantity} Unoccupied Passenger Cabins"), { quantity = string.format("%d", count) })))
 					else
-						table.insert(equipColumn, ui:Label(et.name))
+						table.insert(equipItems, ui:Label(et.name))
 					end
 				else
-					table.insert(equipColumn, ui:Label(et.name))
+					table.insert(equipItems, ui:Label(et.name))
 				end
 			end
 		end
@@ -90,7 +90,7 @@ local shipInfo = function (args)
 					ui:Margin(10),
 					ui:Label(t("Equipment")):SetFont("HEADING_LARGE"),
 					ui:Expand():SetInnerWidget(ui:Scroller():SetInnerWidget(
-					ui:VBox():PackEnd(equipColumn)
+						ui:VBox():PackEnd(equipItems)
 					))
 				})
 			})
