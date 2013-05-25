@@ -4,6 +4,7 @@ May 2013
      * Multithreaded Job based Terrain Patch generation
        (#2163, #2268, #2262, #2295, #2298, #2282, #2290)
      * Docking bays now have size constraints (#2291)
+	 * New Game.{End, Save}Game Lua interfaces (#2284)
 
    * Minor changes and tweaks
      * Model level-of-detail now takes field of view into account (#2257, #2077)
