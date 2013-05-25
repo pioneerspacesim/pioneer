@@ -50,11 +50,6 @@ Send any general questions, bug reports etc to me (Rob Jones):
 #ifndef _PICODDS_H_
 #define _PICODDS_H_
 
-#include <cstdio>
-#include <cstring>
-#include <cassert>
-#include <algorithm>
-
 typedef unsigned int    uint32_t;
 typedef int             int32_t;
 typedef unsigned short  uint16_t;
@@ -213,9 +208,9 @@ namespace PicoDDS
 		DDSImage(DDSImage const &lhs);
 		~DDSImage();
 
-		size_t read(const char* pData, const size_t dataSize);
+		size_t Read(const char* pData, const size_t dataSize);
 
-		int getMinDXTSize() const;
+		int GetMinDXTSize() const;
 
 		inline int GetMipLevelSize( const unsigned int width, const unsigned int height, unsigned int depth, const ImgFormat format) const
 		{
@@ -272,20 +267,20 @@ namespace PicoDDS
 			return -1;
 		}
 
-		int calculateStoreageSize() const;
+		int CalculateStoreageSize() const;
 
-		ImgFormat getTextureFormat() const;
+		ImgFormat GetTextureFormat() const;
 
-		int getNumImages() const;
+		int GetNumImages() const;
 
-		ImgFormat getDXTFormat() const;
+		ImgFormat GetDXTFormat() const;
 
 #ifdef PICODDS_OPENGL
-		int getOpenGLFormat();
+		int GetOpenGLFormat();
 #endif // PICODDS_OPENGL
 	protected:
 	private:
-		inline int getMinSize(ImgFormat flag) const
+		inline int GetMinSize(ImgFormat flag) const
 		{
 			int minsize = 1;
 
@@ -310,64 +305,55 @@ namespace PicoDDS
 
 		}
 
-		inline uint16_t read16_le(const byte* b) const
+		inline uint16_t Read16_le(const byte* b) const
 		{
 			return b[0] + (b[1] << 8);
 		}
 
-		inline void write16_le(byte* b, uint16_t value) const
+		inline void Write16_le(byte* b, uint16_t value) const
 		{
 			b[0] = value & 0xFF;
 			b[1] = value >> 8;
 		}
 
-		inline uint16_t read16_be(const byte* b) const
+		inline uint16_t Read16_be(const byte* b) const
 		{
 			return (b[0] << 8) + b[1];
 		}
 
-		inline void write16_be(byte* b, uint16_t value) const
+		inline void Write16_be(byte* b, uint16_t value) const
 		{
 			b[0] = value >> 8;
 			b[1] = value & 0xFF;
 		}
 
-		inline uint32_t read32_le(const byte* b) const
+		inline uint32_t Read32_le(const byte* b) const
 		{
-			return read16_le(b) + (read16_le(b + 2) << 16);
+			return Read16_le(b) + (Read16_le(b + 2) << 16);
 		}
 
-		inline uint32_t read32_be(const byte* b) const
+		inline uint32_t Read32_be(const byte* b) const
 		{
-			return (read16_be(b) << 16) + read16_be(b + 2);
+			return (Read16_be(b) << 16) + Read16_be(b + 2);
 		}
 
 		inline uint32_t ReadDword( byte * & pData ) const
 		{
-			uint32_t value=read32_le(pData);
+			uint32_t value=Read32_le(pData);
 			pData+=4;
 			return value;
 		}
 
-		/**
-		* function to read in a header
-		*/
-		bool ReadHeader(FILE* pFile, DDS::DDSStruct& header);
 		bool ReadHeader(const char* pDataIn, DDS::DDSStruct& header);
 
-		public:
+	public:
 		LoaderImgData	imgdata_;
 		bool			headerdone_;
 		DDS::DDSStruct	surfacedata_;
 	};
 
-	// this is the function to call when we want to load
-	// an image
-	size_t ddsLoad(const char* filename, DDSImage& dds);
-
-#ifdef PICODDS_OPENGL
-	GLuint createOglTexFromDDS(const char *pFilename);
-#endif // PICODDS_OPENGL
+	// this is the function to call when we want to load an image
+	size_t DDSLoad(const char* filename, DDSImage& dds);
 }
 
 #endif // _PICODDS_H_

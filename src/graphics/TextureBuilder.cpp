@@ -133,7 +133,7 @@ void TextureBuilder::PrepareSurface()
 	} else {
 		//
 		//targetTextureFormat = 
-		switch(m_dds.getTextureFormat()) {
+		switch(m_dds.GetTextureFormat()) {
 		case PicoDDS::FORMAT_DXT1:	targetTextureFormat = TEXTURE_DXT1;	break;
 		case PicoDDS::FORMAT_DXT5:	targetTextureFormat = TEXTURE_DXT5;	break;
 		default: 
@@ -166,7 +166,7 @@ size_t LoadDDSFromFile(std::string &filename, PicoDDS::DDSImage& dds)
 	}
 
 	// read the dds file
-	size_t sizeRead = dds.read( filedata->GetData(), filedata->GetSize() );
+	const size_t sizeRead = dds.Read( filedata->GetData(), filedata->GetSize() );
 	return sizeRead;
 }
 

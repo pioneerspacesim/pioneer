@@ -53,13 +53,6 @@ Send any general questions, bug reports etc to me (Rob Jones):
 #include <cassert>
 #include <algorithm>
 
-typedef unsigned int    uint32_t;
-typedef int             int32_t;
-typedef unsigned short  uint16_t;
-typedef short           int16_t;
-typedef unsigned char   uint8_t;
-typedef unsigned char   byte;
-
 namespace PicoDDS
 {
 	
@@ -74,9 +67,12 @@ DDSImage::DDSImage(DDSImage const &lhs) : imgdata_(lhs.imgdata_), headerdone_(lh
 
 DDSImage::~DDSImage()
 {
+	if( imgdata_.imgData ) {
+		delete [] imgdata_.imgData;
+	}
 }
 
-size_t DDSImage::read(const char* pData, const size_t dataSize)
+size_t DDSImage::Read(const char* pData, const size_t dataSize)
 {
 	// Read in header and decode
 	if (!ReadHeader(pData, surfacedata_))
@@ -95,9 +91,9 @@ size_t DDSImage::read(const char* pData, const size_t dataSize)
 
 	imgdata_.colourdepth = surfacedata_.pixelformat.RGBBitCount;
 	imgdata_.numMipMaps = surfacedata_.mipmapcount;
-	imgdata_.format = getTextureFormat();
-	imgdata_.numImages = getNumImages();
-	imgdata_.size = calculateStoreageSize();
+	imgdata_.format = GetTextureFormat();
+	imgdata_.numImages = GetNumImages();
+	imgdata_.size = CalculateStoreageSize();
 	if(0 >= imgdata_.size)
 		return -1;
 			
@@ -111,17 +107,16 @@ size_t DDSImage::read(const char* pData, const size_t dataSize)
 
 	// Read in remaining data
 	memcpy(imgdata_.imgData, pData + headerSize, dataSize-headerSize);
-	//size_t amtRead = fread(imgdata_.imgData, sizeof(byte), dataSize-headerSize, pFile);
 
 	return dataSize - headerSize;
 }
 
-int DDSImage::getMinDXTSize() const
+int DDSImage::GetMinDXTSize() const
 {
-	return getMinSize(getDXTFormat());
+	return GetMinSize(GetDXTFormat());
 }
 
-int DDSImage::calculateStoreageSize() const
+int DDSImage::CalculateStoreageSize() const
 {
 	int size = 0;
 	for(int i = 0; i < imgdata_.numImages; ++i)
@@ -142,13 +137,13 @@ int DDSImage::calculateStoreageSize() const
 	return size;
 }
 
-ImgFormat DDSImage::getTextureFormat() const
+ImgFormat DDSImage::GetTextureFormat() const
 {
 	ImgFormat format = FORMAT_NONE;
 
 	if(surfacedata_.pixelformat.flags & DDS::DDPF_FOURCC)
 	{
-		format = getDXTFormat();
+		format = GetDXTFormat();
 	} 
 	else if(surfacedata_.pixelformat.flags & DDS::DDPF_RGB)
 	{
@@ -259,7 +254,7 @@ ImgFormat DDSImage::getTextureFormat() const
 	return format;
 }
 
-int DDSImage::getNumImages() const
+int DDSImage::GetNumImages() const
 {
 	if(!(surfacedata_.ddscaps.caps2 & DDS::DDSCAPS2_CUBEMAP))
 		return 1;
@@ -276,7 +271,7 @@ int DDSImage::getNumImages() const
 	return count;		
 }
 
-ImgFormat DDSImage::getDXTFormat() const
+ImgFormat DDSImage::GetDXTFormat() const
 {
 	ImgFormat format = FORMAT_NONE;
 	switch(surfacedata_.pixelformat.fourCC) 
@@ -324,7 +319,7 @@ ImgFormat DDSImage::getDXTFormat() const
 }
 
 #ifdef PICODDS_OPENGL
-int DDSImage::getOpenGLFormat()
+int DDSImage::GetOpenGLFormat()
 {
 	int format = -1;
 	switch(surfacedata_.pixelformat.fourCC) 
@@ -356,66 +351,6 @@ int DDSImage::getOpenGLFormat()
 	return format;
 }
 #endif // PICODDS_OPENGL
-
-// function to read in a header
-bool DDSImage::ReadHeader(FILE* pFile, DDS::DDSStruct& header)
-{
-	const int headerSize=128;
-	byte data[headerSize];
-	byte * pData=data;
-	size_t sizeRead = fread(pData, sizeof(char), headerSize, pFile);
-	if( headerSize!=sizeRead )
-	{
-		// amount read different from amount required/expected
-		return false;
-	}
-
-	// verify DDS files
-	if (! (pData[0]=='D' && pData[1]=='D' && pData[2]=='S' && pData[3]==' ') )
-	{
-		return false;
-	}
-	pData+=4;
-
-	header.size=ReadDword(pData);
-	if (header.size!=124)
-	{
-		return false;
-	}
-
-	//convert the data
-	header.flags=ReadDword(pData);
-	header.height=ReadDword(pData);
-	header.width=ReadDword(pData);
-	header.sizeorpitch=ReadDword(pData);
-	header.depth=ReadDword(pData);
-	header.mipmapcount=ReadDword(pData);
-
-	for (int i=0; i<11; ++i)
-	{
-		header.reserved[i]=ReadDword(pData);
-	}
-			
-	//pixelfromat
-	header.pixelformat.size=ReadDword(pData);
-	header.pixelformat.flags=ReadDword(pData);
-	header.pixelformat.fourCC=ReadDword(pData);
-	header.pixelformat.RGBBitCount=ReadDword(pData);
-	header.pixelformat.rBitMask=ReadDword(pData);
-	header.pixelformat.gBitMask=ReadDword(pData);
-	header.pixelformat.bBitMask=ReadDword(pData);
-	header.pixelformat.alpahbitmask=ReadDword(pData);
-
-	//caps
-	header.ddscaps.caps1=ReadDword(pData);
-	header.ddscaps.caps2=ReadDword(pData);
-	header.ddscaps.reserved[0]=ReadDword(pData);
-	header.ddscaps.reserved[1]=ReadDword(pData);
-	header.reserved2=ReadDword(pData);
-
-	headerdone_ = true;
-	return headerdone_;
-}
 
 // function to read in a header
 bool DDSImage::ReadHeader(const char* pDataIn, DDS::DDSStruct& header)
@@ -472,9 +407,8 @@ bool DDSImage::ReadHeader(const char* pDataIn, DDS::DDSStruct& header)
 	return headerdone_;
 }
 
-// this is the function to call when we want to load
-// an image
-size_t ddsLoad(const char* filename, DDSImage& dds) 
+// this is the function to call when we want to load an image
+size_t DDSLoad(const char* filename, DDSImage& dds) 
 {
 	// open the file for reading (binary mode)
 	FILE* file = fopen(filename, "rb");
@@ -493,52 +427,9 @@ size_t ddsLoad(const char* filename, DDSImage& dds)
 	assert(sizeRead == size);
 
 	// read the dds file
-	const size_t sizeDDSRead = dds.read(pData, sizeRead);
+	const size_t sizeDDSRead = dds.Read(pData, sizeRead);
+	free(pData);
 	return sizeDDSRead;
 }
 
-#ifdef PICODDS_OPENGL
-GLuint createOglTexFromDDS(const char *pFilename)
-{
-	GLuint texID = 0;
-	PicoDDS::DDSImage img;
-	size_t amtRead = PicoDDS::ddsLoad(pFilename, img);
-	if(amtRead==0)
-		return 0;
-
-	const int oglInternalFormat = img.getOpenGLFormat();
-		
-	glGenTextures(1, &texID);
-	glBindTexture(GL_TEXTURE_2D, texID);
-
-	// Generate The Texture
-	if( 1 == img.imgdata_.numMipMaps ) {
-		glCompressedTexImage2D(GL_TEXTURE_2D, 0, oglInternalFormat, 
-			img.imgdata_.width, img.imgdata_.height, 0, 
-			img.imgdata_.size, img.imgdata_.imgData );
-	} else {
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, img.imgdata_.numMipMaps - 1);
-
-		size_t Offset = 0;
-		size_t Width = img.imgdata_.width;
-		size_t Height = img.imgdata_.height;
-
-		for( int32_t i=0; i<img.imgdata_.numMipMaps; ++i ) {
-			size_t bufSize = ((Width + 3) / 4) * ((Height + 3) / 4) * img.getMinDXTSize();
-
-			glCompressedTexImage2D(GL_TEXTURE_2D, i, oglInternalFormat, 
-				Width, Height, 0, bufSize, 
-				&img.imgdata_.imgData[Offset] );
-
-			Offset+=bufSize;
-			if((Width/=2)==0) Width=1;
-			if((Height/=2)==0) Height=1;
-		}
-	}
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-
-	return texID;
-}
-#endif // PICODDS_OPENGL
-}
+}	// namespace PicoDDS
