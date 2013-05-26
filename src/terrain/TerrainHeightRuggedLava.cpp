@@ -35,7 +35,7 @@ TerrainHeightFractal<TerrainHeightRuggedLava>::TerrainHeightFractal(const System
 }
 
 template <>
-double TerrainHeightFractal<TerrainHeightRuggedLava>::GetHeight(const vector3d &p)
+double TerrainHeightFractal<TerrainHeightRuggedLava>::GetHeight(const vector3d &p) const
 {
 	double continents = octavenoise(GetFracDef(0), Clamp(0.725-(m_sealevel/2), 0.1, 0.725), p) - m_sealevel;
 	if (continents < 0) return 0;

@@ -11,7 +11,7 @@ struct EquipType;
 struct LaserType;
 
 namespace Equip {
-	enum Slot { // <enum scope='Equip' name=EquipSlot prefix=SLOT_>
+	enum Slot { // <enum scope='Equip' name=EquipSlot prefix=SLOT_ public>
 		SLOT_CARGO,
 		SLOT_ENGINE,
 		SLOT_LASER,
@@ -32,7 +32,7 @@ namespace Equip {
 		SLOT_AUTOPILOT,
 		SLOT_MAX // <enum skip>
 	};
-	enum Type { // <enum scope='Equip' name=EquipType>
+	enum Type { // <enum scope='Equip' name=EquipType public>
 		NONE,
 		HYDROGEN,
 		LIQUID_OXYGEN,

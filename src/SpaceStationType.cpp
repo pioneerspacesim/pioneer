@@ -75,6 +75,7 @@ void SpaceStationType::OnSetupComplete()
 			m_ports[bay].m_leaving[stage] = (*leaveIter)->GetTransform();
 		}
 
+		assert(m_ports.size() > 0);
 		assert(numDockingStages > 0);
 		assert(numUndockStages > 0);
 
@@ -112,29 +113,27 @@ void SpaceStationType::OnSetupComplete()
 const SpaceStationType::SBayGroup* SpaceStationType::FindGroupByBay(const int zeroBaseBayID) const
 {
 	for (TBayGroups::const_iterator bayIter = bayGroups.begin(), grpEnd=bayGroups.end(); bayIter!=grpEnd ; ++bayIter ) {
-		std::vector<int>::const_iterator idIter = (*bayIter).bayIDs.begin();
-		for ( ; idIter!=(*bayIter).bayIDs.end() ; ++idIter ) {
+		for (std::vector<int>::const_iterator idIter = (*bayIter).bayIDs.begin(), idIEnd = (*bayIter).bayIDs.end(); idIter!=idIEnd ; ++idIter ) {
 			if ((*idIter)==zeroBaseBayID) {
 				return &(*bayIter);
 			}
 		}
 	}
 	// is it safer to return that the bay is locked?
-	return NULL;
+	return 0;
 }
 
 SpaceStationType::SBayGroup* SpaceStationType::GetGroupByBay(const int zeroBaseBayID)
 {
 	for (TBayGroups::iterator bayIter = bayGroups.begin(), grpEnd=bayGroups.end(); bayIter!=grpEnd ; ++bayIter ) {
-		std::vector<int>::iterator idIter = (*bayIter).bayIDs.begin();
-		for ( ; idIter!=(*bayIter).bayIDs.end() ; ++idIter ) {
+		for (std::vector<int>::const_iterator idIter = (*bayIter).bayIDs.begin(), idIEnd = (*bayIter).bayIDs.end(); idIter!=idIEnd ; ++idIter ) {
 			if ((*idIter)==zeroBaseBayID) {
 				return &(*bayIter);
 			}
 		}
 	}
 	// is it safer to return that the bay is locked?
-	return NULL;
+	return 0;
 }
 
 bool SpaceStationType::GetShipApproachWaypoints(const unsigned int port, const int stage, positionOrient_t &outPosOrient) const
@@ -157,6 +156,18 @@ bool SpaceStationType::GetShipApproachWaypoints(const unsigned int port, const i
 		}
 	}
 	return gotOrient;
+}
+
+double SpaceStationType::GetDockAnimStageDuration(const int stage) const
+{
+	assert(stage>=0 && stage<numDockingStages);
+	return dockAnimStageDuration[stage];
+}
+
+double SpaceStationType::GetUndockAnimStageDuration(const int stage) const
+{
+	assert(stage>=0 && stage<numUndockStages);
+	return undockAnimStageDuration[stage];
 }
 
 //for station waypoint interpolation

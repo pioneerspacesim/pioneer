@@ -19,7 +19,7 @@ TerrainHeightFractal<TerrainHeightAsteroid>::TerrainHeightFractal(const SystemBo
 }
 
 template <>
-double TerrainHeightFractal<TerrainHeightAsteroid>::GetHeight(const vector3d &p)
+double TerrainHeightFractal<TerrainHeightAsteroid>::GetHeight(const vector3d &p) const
 {
 	//p.x = 3*(p.y-p.x);
 	//p.y = (-p.x*p.z) + (26.5*p.x) - p.y;

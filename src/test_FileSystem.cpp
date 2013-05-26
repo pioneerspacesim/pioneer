@@ -44,6 +44,26 @@ void test_normpath()
 	printf("'/' + '/a/b/' -> '%s'\n", JoinPathBelow("/", "/a/b/").c_str());
 }
 
+void test_sanitisename()
+{
+	const char *TEST_NAMES[] = {
+		"",
+		".",
+		"..",
+		"hello",
+		"hello world",
+		"hello \"Bob\"",
+		"hello/world",
+		"hello\nworld",
+		0
+	};
+	printf("sanitise names:\n");
+	for (const char **name = TEST_NAMES; *name; ++name) {
+		const std::string x = FileSystem::SanitiseFileName(*name);
+		printf("'%s' -> '%s'\n", *name, x.c_str());
+	}
+}
+
 void test_enum_models(FileSystem::FileSource &fs)
 {
 	using namespace FileSystem;
@@ -65,6 +85,7 @@ void test_filesystem()
 	using namespace FileSystem;
 
 	test_normpath();
+	test_sanitisename();
 
 	printf("data dir is '%s'\n", FileSystem::GetDataDir().c_str());
 	printf("user dir is '%s'\n", FileSystem::GetUserDir().c_str());
@@ -84,7 +105,7 @@ void test_filesystem()
 
 	fs.AppendSource(&fsUserData);
 	fs.AppendSource(&fsAppData);
-	test_enum_models(fs);
+	//test_enum_models(fs);
 
 	//printf("With zip:\n");
 	//test_enum_models(fs);

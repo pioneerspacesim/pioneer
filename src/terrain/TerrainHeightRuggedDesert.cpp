@@ -12,7 +12,7 @@ template <>
 const char *TerrainHeightFractal<TerrainHeightRuggedDesert>::GetHeightFractalName() const { return "RuggedDesert"; }
 
 template <>
-double TerrainHeightFractal<TerrainHeightRuggedDesert>::GetHeight(const vector3d &p)
+double TerrainHeightFractal<TerrainHeightRuggedDesert>::GetHeight(const vector3d &p) const
 {
 	double continents = octavenoise(GetFracDef(0), 0.5, p) - m_sealevel;// + (cliff_function(GetFracDef(7), p)*0.5);
 	if (continents < 0) return 0;

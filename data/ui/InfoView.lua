@@ -13,8 +13,7 @@ local shipInfo = function (args)
 
 	local stats = Game.player:GetStats()
 
-	local equipColumn = { {}, {} }
-	local columnNum = 1
+	local equipItems = {}
 	for i = 1,#Constants.EquipType do
 		local type = Constants.EquipType[i]
 		local et = EquipDef[type]
@@ -24,21 +23,20 @@ local shipInfo = function (args)
 			if count > 0 then
 				if count > 1 then
 					if type == "SHIELD_GENERATOR" then
-						table.insert(equipColumn[columnNum],
+						table.insert(equipItems,
 							ui:Label(string.interp(t("{quantity} Shield Generators"), { quantity = string.format("%d", count) })))
 					elseif type == "PASSENGER_CABIN" then
-						table.insert(equipColumn[columnNum],
+						table.insert(equipItems,
 							ui:Label(string.interp(t("{quantity} Occupied Passenger Cabins"), { quantity = string.format("%d", count) })))
 					elseif type == "UNOCCUPIED_CABIN" then
-						table.insert(equipColumn[columnNum],
+						table.insert(equipItems,
 							ui:Label(string.interp(t("{quantity} Unoccupied Passenger Cabins"), { quantity = string.format("%d", count) })))
 					else
-						table.insert(equipColumn[columnNum], ui:Label(et.name))
+						table.insert(equipItems, ui:Label(et.name))
 					end
 				else
-					table.insert(equipColumn[columnNum], ui:Label(et.name))
+					table.insert(equipItems, ui:Label(et.name))
 				end
-				columnNum = columnNum == 1 and 2 or 1
 			end
 		end
 	end
@@ -46,7 +44,7 @@ local shipInfo = function (args)
 	return
 		ui:Grid(2,1)
 			:SetColumn(0, {
-				ui:VBox(20):PackEnd({
+				ui:VBox():PackEnd({
 					ui:Grid(2,1)
 						:SetColumn(0, {
 							ui:VBox():PackEnd({
@@ -89,10 +87,11 @@ local shipInfo = function (args)
 								ui:Label(ShipType.GetShipType(Game.player.shipId).maxCrew),
 							})
 						}),
+					ui:Margin(10),
 					ui:Label(t("Equipment")):SetFont("HEADING_LARGE"),
-					ui:Grid(2,1)
-						:SetColumn(0, { ui:VBox():PackEnd(equipColumn[1]) })
-						:SetColumn(1, { ui:VBox():PackEnd(equipColumn[2]) })
+					ui:Expand():SetInnerWidget(ui:Scroller():SetInnerWidget(
+						ui:VBox():PackEnd(equipItems)
+					))
 				})
 			})
 			:SetColumn(1, {
@@ -354,33 +353,49 @@ local econTrade = function ()
 	)
 end
 
-local missions = function ()
+-- we keep MissionList to remember players preferences
+-- (now it is column he wants to sort by)
+local MissionList 
+local missions = function (tabGroup)
 	-- This mission screen
 	local MissionScreen = ui:Expand()
-	local MissionList = ui:VBox(10)
 
 	if #PersistentCharacters.player.missions == 0 then
-		MissionList:PackEnd( ui:Label(t("No missions.")) )
-
-		return MissionScreen:SetInnerWidget(MissionList)
+		return MissionScreen:SetInnerWidget( ui:Label(t("No missions.")) )
 	end
 
-	-- One row for each mission, plus a header
-	local rowspec = {7,8,10,8,5,5,5}
-	local headergrid  = ui:Grid(rowspec,1)
-
-	headergrid:SetRow(0,
+	local rowspec = {7,8,9,9,5,5,5} -- 7 columns
+	if MissionList then 
+		MissionList:Clear()
+	else
+		MissionList = UI.SmartTable.New(rowspec) 
+	end
+	
+	-- setup headers
+	local headers = 
 	{
-		-- Headers
-		ui:Label(t('TYPE')),
-		ui:Label(t('CLIENT')),
-		ui:Label(t('LOCATION')),
-		ui:Label(t('DUE')),
-		ui:Label(t('REWARD')),
-		ui:Label(t('STATUS')),
-	})
-
-	local missionbox = ui:VBox(10)
+		t("TYPE"),
+		t("CLIENT"),
+		t("LOCATION"),
+		t("DUE"),
+		t("REWARD"),
+		t("STATUS"),
+	}
+	MissionList:SetHeaders(headers)
+	
+	-- we're not happy with default sort function so we specify one by ourselves
+	local sortMissions = function (misList)
+		local col = misList.sortCol
+		local cmpByReward = function (a,b) 
+			return a.data[col] >= b.data[col] 
+		end
+		local comparators = 
+		{ 	-- by column num
+			[5]	= cmpByReward,
+		}
+		misList:defaultSortFunction(comparators[col])
+	end
+	MissionList:SetSortFunction(sortMissions)
 
 	for ref,mission in pairs(PersistentCharacters.player.missions) do
 		-- Format the location
@@ -390,7 +405,30 @@ local missions = function ()
 		else
 			missionLocationName = string.format('%s [%d,%d,%d]', mission.location:GetStarSystem().name, mission.location.sectorX, mission.location.sectorY, mission.location.sectorZ)
 		end
-
+		-- Format the distance label
+		local playerSystem = Game.system or Game.player:GetHyperspaceTarget()
+		local dist = playerSystem:DistanceTo(mission.location)
+		local distLabel = ui:Label(string.format('%.2f %s', dist, t('ly')))
+		local hyperjumpStatus = Game.player:GetHyperspaceDetails(mission.location)
+		if hyperjumpStatus == 'CURRENT_SYSTEM' then 
+			distLabel:SetColor(0.0, 1.0, 0.2) -- green  
+		else 
+			if hyperjumpStatus == 'OK' then
+				distLabel:SetColor(1.0, 1.0, 0.0) -- yellow
+			else 
+				distLabel:SetColor(1.0, 0.0, 0.0) -- red
+			end
+		end
+		-- Pack location and distance
+		local locationBox = ui:VBox(2):PackEnd(ui:MultiLineText(missionLocationName))
+									  :PackEnd(distLabel)
+		
+		-- Format Due info
+		local dueLabel = ui:Label(Format.Date(mission.due))
+		local days = math.max(0, (mission.due - Game.time) / (24*60*60))
+		local daysLabel = ui:Label(string.format(t("%d days left"), days)):SetColor(1.0, 0.0, 1.0) -- purple
+		local dueBox = ui:VBox(2):PackEnd(dueLabel):PackEnd(daysLabel)
+		
 		local moreButton = UI.SmallLabeledButton.New(t("More info..."))
 		moreButton.button.onClick:Connect(function ()
 			MissionScreen:SetInnerWidget(ui:VBox(10)
@@ -399,21 +437,21 @@ local missions = function ()
 		end)
 
 		local description = mission:GetTypeDescription()
-		missionbox:PackEnd(ui:Grid(rowspec,1):SetRow(0, {
-			ui:Label(description or t('NONE')),
-			ui:Label(mission.client.name),
-			ui:MultiLineText(missionLocationName),
-			ui:Label(Format.Date(mission.due)),
-			ui:Label(Format.Money(mission.reward)),
+		local row =
+		{ -- if we don't specify widget, default one will be used 
+			{data = description or t('NONE')},
+			{data = mission.client.name},
+			{data = dist, widget = locationBox},
+			{data = mission.due, widget = dueBox},
+			{data = mission.reward, widget = ui:Label(Format.Money(mission.reward)):SetColor(0.0, 1.0, 0.2)}, -- green
 			-- nil description means mission type isn't registered.
-			ui:Label((description and t(mission.status)) or t('INACTIVE')),
-			moreButton.widget,
-		}))
+			{data = (description and t(mission.status)) or t('INACTIVE')},
+			{widget = moreButton.widget}
+		}
+		MissionList:AddRow(row)
 	end
 
-	MissionList:PackEnd({ headergrid, ui:Scroller():SetInnerWidget(missionbox) })
-
-	MissionScreen:SetInnerWidget(MissionList)
+	MissionScreen:SetInnerWidget(ui:Scroller(MissionList))
 
 	return MissionScreen
 end
@@ -572,19 +610,33 @@ local crewRoster = function ()
 		})
 
 		-- Create a row for each crew member
+		local wageTotal = 0
+		local owedTotal = 0
+
 		for crewMember in Game.player:EachCrewMember() do
 			local moreButton = UI.SmallLabeledButton.New(t("More info..."))
 			moreButton.button.onClick:Connect(function () return crewMemberInfoButtonFunc(crewMember) end)
 
+			local crewWage = (crewMember.contract and crewMember.contract.wage or 0)
+			local crewOwed = (crewMember.contract and crewMember.contract.outstanding or 0)
+			wageTotal = wageTotal + crewWage
+			owedTotal = owedTotal + crewOwed
+
 			crewlistbox:PackEnd(ui:Grid(rowspec,1):SetRow(0, {
 				ui:Label(crewMember.name),
 				ui:Label(t(crewMember.title) or t('General crew')),
-				ui:Label(Format.Money(crewMember.contract and crewMember.contract.wage or 0)),
-				ui:Label(Format.Money(crewMember.contract and crewMember.contract.outstanding or 0)),
+				ui:Label(Format.Money(crewWage)):SetColor(0.0, 1.0, 0.2), -- green
+				ui:Label(Format.Money(crewOwed)):SetColor(1.0, 0.0, 0.0), -- red
 				ui:Label(Format.Date(crewMember.contract and crewMember.contract.payday or 0)),
 				moreButton.widget,
 			}))
 		end
+		crewlistbox:PackEnd(ui:Grid(rowspec,1):SetRow(0, {
+			ui:Label(""), -- first column, empty
+			ui:Label(t("Total:")):SetFont("HEADING_NORMAL"):SetColor(1.0, 1.0, 0.0), -- yellow
+			ui:Label(Format.Money(wageTotal)):SetColor(0.0, 1.0, 0.2), -- green
+			ui:Label(Format.Money(owedTotal)):SetColor(1.0, 0.0, 0.0), -- red
+		}))
 
 		local taskCrewButton = ui:Button():SetInnerWidget(ui:Label(t('Give orders to crew')))
 		taskCrewButton.onClick:Connect(taskCrew)

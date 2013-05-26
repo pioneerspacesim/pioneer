@@ -41,7 +41,7 @@ static void _blit_image(SDL_Surface *s, const char *filename, int xoff, int yoff
 	SDL_Rect destrec = { 0, 0, 0, 0 };
 	destrec.x = ((FACE_WIDTH-is->w-1)/2)+xoff;
 	destrec.y = yoff;
-	SDL_BlitSurface(is.Get(), NULL, s, &destrec);
+	SDL_BlitSurface(is.Get(), 0, s, &destrec);
 }
 
 static void _blit_image(const SDLSurfacePtr &s, const char *filename, int xoff, int yoff)
@@ -55,7 +55,7 @@ FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed,
 	m_created = SDL_GetTicks();
 	m_message = new Gui::ToolTip(0, Lang::VID_LINK_ESTABLISHED);
 
-	if (!seed) seed = time(NULL);
+	if (!seed) seed = time(0);
 
 	RefCountedPtr<Random> rand(new Random(seed));
 

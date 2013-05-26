@@ -186,6 +186,8 @@ COULD_NOT_OPEN_FILENAME
     Could not open %path
 GAME_LOAD_CORRUPT
     This saved game cannot be loaded because it contains errors.
+GAME_LOAD_WRONG_VERSION
+	This saved game cannot be loaded because it was created by a different version of Pioneer.
 GAME_LOAD_CANNOT_OPEN
     This saved game file could not be opened due to permissions or something...
 GAME_SAVE_CANNOT_WRITE
@@ -534,8 +536,8 @@ Y
     Y
 Z
     Z
-AXIS
-     " Axis"
+JOY_AXIS
+    %{sign}Joy%joynum %axis Axis
 WEAPONS
     Weapons
 TARGET_OBJECT_IN_SIGHTS
