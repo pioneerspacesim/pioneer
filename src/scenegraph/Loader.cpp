@@ -122,6 +122,7 @@ Loader::Loader(Graphics::Renderer *r, bool logWarnings)
 : m_renderer(r)
 , m_model(0)
 , m_doLog(logWarnings)
+, m_mostDetailedLod(false)
 {
 	Graphics::Texture *sdfTex = Graphics::TextureBuilder("fonts/label3d.png", Graphics::LINEAR_CLAMP, true, true, true).GetOrCreateTexture(r, "model");
 	m_labelFont.Reset(new Text::DistanceFieldFont("fonts/sdf_definition.txt", sdfTex));
@@ -188,6 +189,9 @@ Model *Loader::CreateModel(ModelDefinition &def)
 	m_model = model;
 	bool patternsUsed = false;
 
+	m_thrustersRoot.Reset(new Group(m_renderer));
+	m_billboardsRoot.Reset(new Group(m_renderer));
+
 	//create materials from definitions
 	for(std::vector<MaterialDefinition>::const_iterator it = def.matDefs.begin();
 		it != def.matDefs.end(); ++it)
@@ -253,6 +257,8 @@ Model *Loader::CreateModel(ModelDefinition &def)
 	for(std::vector<LodDefinition>::const_iterator lod = def.lodDefs.begin();
 		lod != def.lodDefs.end(); ++lod)
 	{
+		m_mostDetailedLod = (lod == def.lodDefs.end() - 1);
+
 		//does a detail level have multiple meshes? If so, we need a Group.
 		Group *group = 0;
 		if (lodNode && (*lod).meshNames.size() > 1) {
@@ -291,6 +297,18 @@ Model *Loader::CreateModel(ModelDefinition &def)
 				throw;
 			}
 		}
+	}
+
+	if (m_thrustersRoot->GetNumChildren() > 0) {
+		m_thrustersRoot->SetName("thrusters");
+		m_thrustersRoot->SetNodeMask(NODE_TRANSPARENT);
+		model->GetRoot()->AddChild(m_thrustersRoot.Get());
+	}
+
+	if (m_billboardsRoot->GetNumChildren() > 0) {
+		m_billboardsRoot->SetName("navlights");
+		m_billboardsRoot->SetNodeMask(NODE_TRANSPARENT);
+		model->GetRoot()->AddChild(m_billboardsRoot.Get());
 	}
 
 	// Load collision meshes
@@ -715,17 +733,17 @@ void Loader::CreateLabel(Group *parent, const matrix4x4f &m)
 	parent->AddChild(trans);
 }
 
-void Loader::CreateThruster(Group* parent, const matrix4x4f &m, const std::string &name, const matrix4x4f& accum)
+void Loader::CreateThruster(const std::string &name, const matrix4x4f &m, const matrix4x4f& accum)
 {
-	const bool linear = starts_with(name, "thruster_linear");
-	//not supposed to create a new thruster node every time since they contain their geometry
-	//it is fine to create one thruster node and add that to various parents
-	//(it wouldn't really matter, it's a tiny amount of geometry)
-	MatrixTransform *trans = new MatrixTransform(m_renderer, m);
+	if (!m_mostDetailedLod) return AddLog("Thruster outside highest LOD, ignored");
 
-	//need the accumulated transform or the direction is off
+	const bool linear = starts_with(name, "thruster_linear");
+
 	matrix4x4f transform = accum * m;
-	vector3f pos = transform.GetTranslate();
+
+	MatrixTransform *trans = new MatrixTransform(m_renderer, transform);
+
+	const vector3f pos = transform.GetTranslate();
 	transform.ClearToRotOnly();
 
 	const vector3f direction = transform * vector3f(0.f, 0.f, 1.f);
@@ -735,7 +753,23 @@ void Loader::CreateThruster(Group* parent, const matrix4x4f &m, const std::strin
 
 	thruster->SetName(name);
 	trans->AddChild(thruster);
-	parent->AddChild(trans);
+
+	m_thrustersRoot->AddChild(trans);
+}
+
+void Loader::CreateNavlight(const std::string &name, const matrix4x4f &m, const matrix4x4f& accum)
+{
+	if (!m_mostDetailedLod) return AddLog("Navlight outside highest LOD, ignored");
+
+	//Create a MT, lights are attached by client
+	//we only really need the final position, so this is
+	//a waste of transform
+	const matrix4x4f lightPos = matrix4x4f::Translation(accum * m.GetTranslate());
+	MatrixTransform *lightPoint = new MatrixTransform(m_renderer, lightPos);
+	lightPoint->SetNodeMask(0x0); //don't render
+	lightPoint->SetName(name);
+
+	m_billboardsRoot->AddChild(lightPoint);
 }
 
 void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPtr<StaticGeometry> >& geoms, const matrix4x4f &accum)
@@ -748,14 +782,9 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPt
 	//lights, and possibly other special nodes should be leaf nodes (without meshes)
 	if (node->mNumChildren == 0 && node->mNumMeshes == 0) {
 		if (starts_with(nodename, "navlight_")) {
-			//Create a MT, lights are attached by client.
-			matrix4x4f lightPos = matrix4x4f::Translation(m.GetTranslate());
-			MatrixTransform *lightPoint = new MatrixTransform(m_renderer, lightPos);
-			lightPoint->SetNodeMask(0x0); //don't render
-			lightPoint->SetName(nodename);
-			_parent->AddChild(lightPoint);
+			CreateNavlight(nodename, m, accum);
 		} else if (starts_with(nodename, "thruster_")) {
-			CreateThruster(parent, m, nodename, accum);
+			CreateThruster(nodename, m, accum);
 		} else if (starts_with(nodename, "label_")) {
 			CreateLabel(parent, m);
 		} else if (starts_with(nodename, "tag_")) {
