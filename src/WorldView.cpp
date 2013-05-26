@@ -841,6 +841,11 @@ void WorldView::OnSwitchTo()
 	RefreshButtonStateAndVisibility();
 }
 
+void WorldView::OnSwitchFrom()
+{
+	Pi::DrawGUI = true;
+}
+
 void WorldView::ToggleTargetActions()
 {
 	if (Pi::game->IsHyperspace() || m_showTargetActionsTimeout)
