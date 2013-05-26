@@ -16,6 +16,7 @@ const char *TerrainHeightFractal<TerrainHeightAsteroid>::GetHeightFractalName() 
 template <>
 TerrainHeightFractal<TerrainHeightAsteroid>::TerrainHeightFractal(const SystemBody *body) : Terrain(body)
 {
+	SetFracDef(0, m_maxHeightInMeters*0.05, 1e6, 10000.0*m_fracmult);
 }
 
 template <>
@@ -30,7 +31,6 @@ double TerrainHeightFractal<TerrainHeightAsteroid>::GetHeight(const vector3d &p)
 	//float heightmap = octavenoise(8, 0.2*octavenoise(1, 0.3, 3.7, (p.x*2.0-p.y, p.y*2.0-p.x, p.z)), 15.0*octavenoise(1, 0.5, 4.0, (p.x*2.0-p.y, p.y*2.0-p.x, p.z)), (p.x*2.0-p.y, p.y*2.0-p.x, p.z)) -
 		//0.75*billow_octavenoise(8*octavenoise(1, 0.275, 3.2, (p.x*2.0-p.y, p.y*2.0-p.x, p.z)), 0.4*octavenoise(1, 0.4, 3.0, (p.x*2.0-p.y, p.y*2.0-p.x, p.z)), 4.0*octavenoise(1, 0.35, 3.7, (p.x*2.0-p.y, p.y*2.0-p.x, p.z)), (p.x*2.0-p.y, p.y*2.0-p.x, p.z));
 
-	double n = ((octavenoise(8, 0.4, 2.4, p) * billow_octavenoise(8, 0.5, 1.3, p)) * 0.1) + m_maxHeight*0.5;
-
-	return (n > 0.0? m_maxHeight*n : 0.0);
+	//return std::max(0.0, m_maxHeight*octavenoise(8, 0.4, 2.4, p));
+	return std::max(0.0, m_maxHeight*octavenoise(GetFracDef(0), 0.4, p));
 }

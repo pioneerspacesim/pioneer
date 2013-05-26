@@ -11,7 +11,7 @@ using namespace TerrainFeature;
 // Banded/Ridged pattern mountainous terrain, could pass for desert
 
 template <>
-const char *TerrainHeightFractal<TerrainHeightAsteroid2>::GetHeightFractalName() const { return "Asteroid"; }
+const char *TerrainHeightFractal<TerrainHeightAsteroid2>::GetHeightFractalName() const { return "Asteroid2"; }
 
 template <>
 TerrainHeightFractal<TerrainHeightAsteroid2>::TerrainHeightFractal(const SystemBody *body) : Terrain(body)
