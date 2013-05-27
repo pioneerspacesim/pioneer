@@ -10,7 +10,7 @@ template <>
 const char *TerrainColorFractal<TerrainColorStarBrownDwarf>::GetColorFractalName() const { return "StarBrownDwarf"; }
 
 template <>
-TerrainColorFractal<TerrainColorStarBrownDwarf>::TerrainColorFractal(const SystemBody *body) : Terrain(body)
+TerrainColorFractal<TerrainColorStarBrownDwarf>::TerrainColorFractal(const SystemBody *body, const uint32_t tET) : Terrain(body, tET)
 {
 	double height = m_maxHeightInMeters*0.1;
 	SetFracDef(0, height, 5e8, 100.0*m_fracmult);

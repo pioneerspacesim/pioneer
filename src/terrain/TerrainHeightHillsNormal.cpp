@@ -10,7 +10,7 @@ template <>
 const char *TerrainHeightFractal<TerrainHeightHillsNormal>::GetHeightFractalName() const { return "HillsNormal"; }
 
 template <>
-TerrainHeightFractal<TerrainHeightHillsNormal>::TerrainHeightFractal(const SystemBody *body) : Terrain(body)
+TerrainHeightFractal<TerrainHeightHillsNormal>::TerrainHeightFractal(const SystemBody *body, const uint32_t tET) : Terrain(body, tET)
 {
 	//textures
 	if (textures) {

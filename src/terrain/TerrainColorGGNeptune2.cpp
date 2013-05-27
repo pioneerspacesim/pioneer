@@ -10,7 +10,7 @@ template <>
 const char *TerrainColorFractal<TerrainColorGGNeptune2>::GetColorFractalName() const { return "GGNeptune2"; }
 
 template <>
-TerrainColorFractal<TerrainColorGGNeptune2>::TerrainColorFractal(const SystemBody *body) : Terrain(body)
+TerrainColorFractal<TerrainColorGGNeptune2>::TerrainColorFractal(const SystemBody *body, const uint32_t tET) : Terrain(body, tET)
 {
 	// spots
 	const double height = m_maxHeightInMeters*0.1;

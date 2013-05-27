@@ -34,6 +34,7 @@ public:
 	};
 
 	static Terrain *InstanceTerrain(const SystemBody *body);
+	static Terrain *InstanceTerrain(const Terrain& terrainIn);
 
 	virtual ~Terrain();
 
@@ -54,13 +55,16 @@ public:
 
 private:
 	template <typename HeightFractal, typename ColorFractal>
-	static Terrain *InstanceGenerator(const SystemBody *body) { return new TerrainGenerator<HeightFractal,ColorFractal>(body); }
+	static Terrain *InstanceGenerator(const SystemBody *body, const uint32_t tET) { return new TerrainGenerator<HeightFractal,ColorFractal>(body,tET); }
 
-	typedef Terrain* (*GeneratorInstancer)(const SystemBody *);
+	typedef Terrain* (*GeneratorInstancer)(const SystemBody *, const uint32_t);
 
+	static const GeneratorInstancer sc_GeneratedTerrain[];
 
 protected:
-	Terrain(const SystemBody *body);
+	Terrain(const SystemBody *body, const uint32_t tET);
+
+	uint32_t m_terrainEnumType;
 
 	bool textures;
 	int m_fracnum;
@@ -124,7 +128,7 @@ public:
 	virtual double GetHeight(const vector3d &p) const;
 	virtual const char *GetHeightFractalName() const;
 protected:
-	TerrainHeightFractal(const SystemBody *body);
+	TerrainHeightFractal(const SystemBody *body, const uint32_t tET);
 private:
 	TerrainHeightFractal() {}
 };
@@ -135,7 +139,7 @@ public:
 	virtual vector3d GetColor(const vector3d &p, double height, const vector3d &norm) const;
 	virtual const char *GetColorFractalName() const;
 protected:
-	TerrainColorFractal(const SystemBody *body);
+	TerrainColorFractal(const SystemBody *body, const uint32_t tET);
 private:
 	TerrainColorFractal() {}
 };
@@ -144,7 +148,7 @@ private:
 template <typename HeightFractal, typename ColorFractal>
 class TerrainGenerator : public TerrainHeightFractal<HeightFractal>, public TerrainColorFractal<ColorFractal> {
 public:
-	TerrainGenerator(const SystemBody *body) : Terrain(body), TerrainHeightFractal<HeightFractal>(body), TerrainColorFractal<ColorFractal>(body) {}
+	TerrainGenerator(const SystemBody *body, const uint32_t tET) : Terrain(body,tET), TerrainHeightFractal<HeightFractal>(body,tET), TerrainColorFractal<ColorFractal>(body,tET) {}
 
 private:
 	TerrainGenerator() {}
