@@ -530,14 +530,17 @@ void WorldView::RefreshButtonStateAndVisibility()
 
 		const char *rel_to = (Pi::player->GetFrame() ? Pi::player->GetFrame()->GetLabel().c_str() : "System");
 		const char *rot_frame = (Pi::player->GetFrame()->IsRotFrame() ? "yes" : "no");
+		const SystemPath &path(Pi::player->GetFrame()->GetSystemBody()->path);
 		Pi::player->AIGetStatusText(aibuf); aibuf[255] = 0;
 		snprintf(buf, sizeof(buf), "Pos: %.1f,%.1f,%.1f\n"
 			"AbsPos: %.1f,%.1f,%.1f (%.3f AU)\n"
-			"Rel-to: %s (%.0f km), rotating: %s\n" "%s"
-			"\nLat / Lon : %.8f / %.8f",
+			"Rel-to: %s [%d,%d,%d,%d,%d] (%.0f km), rotating: %s\n"
+			"%s\n"
+			"Lat / Lon : %.8f / %.8f",
 			pos.x, pos.y, pos.z,
 			abs_pos.x, abs_pos.y, abs_pos.z, abs_pos.Length()/AU,
-			rel_to, pos.Length()/1000, rot_frame, aibuf,lat,lon);
+			rel_to, path.sectorX, path.sectorY, path.sectorZ, path.systemIndex, path.bodyIndex,
+			pos.Length()/1000, rot_frame, aibuf, lat, lon);
 
 		m_debugInfo->SetText(buf);
 		m_debugInfo->Show();
