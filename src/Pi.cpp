@@ -1043,20 +1043,22 @@ void Pi::MainLoop()
 		if( DrawGUI ) {
 			Gui::Draw();
 		} else if (game && game->IsNormalSpace()) {
-			const RefCountedPtr<StarSystem> sys = game->GetSpace()->GetStarSystem();
-			const SystemPath sp = sys->GetPath();
-			std::ostringstream pathStr;
+			if (config->Int("DisableScreenshotInfo")==0) {
+				const RefCountedPtr<StarSystem> sys = game->GetSpace()->GetStarSystem();
+				const SystemPath sp = sys->GetPath();
+				std::ostringstream pathStr;
 
-			// fill in pathStr from sp values and sys->GetName()
-			const char *rel_to = (Pi::player->GetFrame() ? Pi::player->GetFrame()->GetLabel().c_str() : "System");
-			pathStr << rel_to << ", " << sys->GetName() << ", " << "(" << sp.sectorX << "," << sp.sectorY << "," << sp.sectorZ << ")";
+				// fill in pathStr from sp values and sys->GetName()
+				const char *rel_to = (Pi::player->GetFrame() ? Pi::player->GetFrame()->GetLabel().c_str() : "System");
+				pathStr << rel_to << ", " << sys->GetName() << ", " << "(" << sp.sectorX << "," << sp.sectorY << "," << sp.sectorZ << ")";
 
-			// display pathStr
-			Gui::Screen::EnterOrtho();
-			Gui::Screen::PushFont("ConsoleFont");
-			Gui::Screen::RenderString(pathStr.str(), 0, 0);
-			Gui::Screen::PopFont();
-			Gui::Screen::LeaveOrtho();
+				// display pathStr
+				Gui::Screen::EnterOrtho();
+				Gui::Screen::PushFont("ConsoleFont");
+				Gui::Screen::RenderString(pathStr.str(), 0, 0);
+				Gui::Screen::PopFont();
+				Gui::Screen::LeaveOrtho();
+			}
 		}
 
 #if WITH_DEVKEYS
