@@ -1049,8 +1049,8 @@ void Pi::MainLoop()
 				std::ostringstream pathStr;
 
 				// fill in pathStr from sp values and sys->GetName()
-				const char *rel_to = (Pi::player->GetFrame() ? Pi::player->GetFrame()->GetLabel().c_str() : "System");
-				pathStr << rel_to << ", " << sys->GetName() << ", " << "(" << sp.sectorX << "," << sp.sectorY << "," << sp.sectorZ << ")";
+				static const std::string comma(",");
+				pathStr << Pi::player->GetFrame()->GetLabel() << comma << sys->GetName() << comma << "(" << sp.sectorX << comma << sp.sectorY << comma << sp.sectorZ << ")";
 
 				// display pathStr
 				Gui::Screen::EnterOrtho();
