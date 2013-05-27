@@ -1,1 +1,22 @@
-text eol=lf
+* text=auto eol=lf
+*.c   text
+*.cpp text
+*.h   text
+*.lua text
+
+*.txt             text eol=crlf
+*.vcxproj         text eol=crlf
+*.vcxproj.filters text eol=crlf
+
+*.blend binary
+*.bmp   binary
+*.dll   binary
+*.hmap  binary
+*.icns  binary
+*.ico   binary
+*.lib   binary
+*.ogg   binary
+*.otf   binary
+*.png   binary
+*.PNG   binary
+*.ttf   binary
