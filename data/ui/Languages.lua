@@ -724,6 +724,7 @@ Translate:Add({
 		['Negotiate'] = 'Vyjenávat',
 		['Crew Roster'] = 'Seznam posádky',
 		['Give orders to crew'] = 'Dát posádce rozkazy',
+		['Total:'] = 'Celkem:',
 
 		-- Taunts
 		["I'm tired of working for nothing. Don't you know what a contract is?"] = "Už mě unavuje pracovat pro nic za nic. Víš vůbec co to je smlouva?",
