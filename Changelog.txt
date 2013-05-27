@@ -17,6 +17,10 @@ May 2013
      * Current system path is displayed when the HUD is hidden, unless option
        DisableScreenshotInfo=1 is set in the game config file (#1709, #2303)
 
+   * Model changes
+     * Thrusters and navigation lights from the highest LOD are now used at all LODs
+       (#2110, #2316)
+
    * Script and UI API changes
      * New Game.{End, Save}Game Lua interfaces (#2284)
 
