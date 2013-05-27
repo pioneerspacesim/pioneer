@@ -1043,18 +1043,13 @@ void Pi::MainLoop()
 		if( DrawGUI ) {
 			Gui::Draw();
 		} else if (game && game->IsNormalSpace()) {
-			const SystemPath sp = game->GetSpace()->GetStarSystem()->GetPath();
+			const RefCountedPtr<StarSystem> sys = game->GetSpace()->GetStarSystem();
+			const SystemPath sp = sys->GetPath();
 			std::ostringstream pathStr;
 
 			// fill in pathStr from sp values and sys->GetName()
-			pathStr << "(" << sp.sectorX << "," << sp.sectorY << "," << sp.sectorZ;
-			if( sp.HasValidSystem() ) {
-				pathStr << "," << sp.systemIndex;
-				if( sp.HasValidBody() ) {
-					pathStr << "," << sp.bodyIndex;
-				}
-			}
-			pathStr << ")";
+			const char *rel_to = (Pi::player->GetFrame() ? Pi::player->GetFrame()->GetLabel().c_str() : "System");
+			pathStr << rel_to << ", " << sys->GetName() << ", " << "(" << sp.sectorX << "," << sp.sectorY << "," << sp.sectorZ << ")";
 
 			// display pathStr
 			Gui::Screen::EnterOrtho();
