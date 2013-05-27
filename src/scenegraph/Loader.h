@@ -42,10 +42,14 @@ private:
 	Graphics::Renderer *m_renderer;
 	Model *m_model;
 	bool m_doLog;
+	bool m_mostDetailedLod;
 	RefCountedPtr<Text::DistanceFieldFont> m_labelFont;
 	std::string m_curPath;
 	std::vector<std::string> m_logMessages;
 	std::string m_curMeshDef; //for logging
+
+	RefCountedPtr<Group> m_thrustersRoot;
+	RefCountedPtr<Group> m_billboardsRoot;
 
 	bool CheckKeysInRange(const aiNodeAnim *, double start, double end);
 	matrix4x4f ConvertMatrix(const aiMatrix4x4&) const;
@@ -58,7 +62,8 @@ private:
 	void ConvertAnimations(const aiScene *, const AnimList &, Node *meshRoot);
 	void ConvertNodes(aiNode *node, Group *parent, std::vector<RefCountedPtr<StaticGeometry> >& meshes, const matrix4x4f&);
 	void CreateLabel(Group *parent, const matrix4x4f&);
-	void CreateThruster(Group *parent, const matrix4x4f& nodeTrans, const std::string &name, const matrix4x4f &accum);
+	void CreateThruster(const std::string &name, const matrix4x4f& nodeTrans, const matrix4x4f &accum);
+	void CreateNavlight(const std::string &name, const matrix4x4f& nodeTrans, const matrix4x4f &accum);
 	void FindPatterns(PatternContainer &output); //find pattern texture files from the model directory
 	void LoadCollision(const std::string &filename);
 
