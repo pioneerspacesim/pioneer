@@ -383,7 +383,14 @@ void WorldView::Draw3D()
 void WorldView::OnToggleLabels()
 {
 	if (Pi::GetView() == this) {
-		m_labelsOn = !m_labelsOn;
+		if (Pi::DrawGUI && m_labelsOn) {
+			m_labelsOn = false;
+		} else if (Pi::DrawGUI && !m_labelsOn) {
+			Pi::DrawGUI = false;
+		} else if (!Pi::DrawGUI) {
+			Pi::DrawGUI = true;
+			m_labelsOn = true;
+		}
 	}
 }
 
@@ -837,6 +844,11 @@ void WorldView::Update()
 void WorldView::OnSwitchTo()
 {
 	RefreshButtonStateAndVisibility();
+}
+
+void WorldView::OnSwitchFrom()
+{
+	Pi::DrawGUI = true;
 }
 
 void WorldView::ToggleTargetActions()

@@ -6,6 +6,7 @@ May 2013
      * Docking bays now have size constraints (#2291)
      * New Game.{End, Save}Game Lua interfaces (#2284)
      * The crew listing now shows the amount of wages and the total owed (#2310)
+     * The control panel can be hidden using the 'toggle labels' key (#82, #2303)
 
    * Minor changes and tweaks
      * Model level-of-detail now takes field of view into account (#2257, #2077)
@@ -14,6 +15,9 @@ May 2013
      * New ships are always fully fueled (#2283, #2162)
      * Mission list in the info screen (F3) now has a scroll bar (#1850, #2306)
      * Equipment list in the info screen (F3) now has a scroll bar (#2309)
+     * Current system path is displayed when the HUD is hidden, unless option
+       DisableScreenshotInfo=1 is set in the game config file
+       (#1709, #2303)
 
    * Fixes
      * Crew can no longer be hired with a negative salary (#2254)
