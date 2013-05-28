@@ -4,7 +4,7 @@ template <>
 const char *TerrainHeightFractal<TerrainHeightEllipsoid>::GetHeightFractalName() const { return "Ellipsoid"; }
 
 template <>
-TerrainHeightFractal<TerrainHeightEllipsoid>::TerrainHeightFractal(const SystemBody *body) : Terrain(body)
+TerrainHeightFractal<TerrainHeightEllipsoid>::TerrainHeightFractal(const SystemBody *body, const uint32_t tET) : Terrain(body, tET)
 {
 	const double rad = m_body->GetRadius();
 	m_maxHeight = m_body->aspectRatio.ToDouble() - 1.0;

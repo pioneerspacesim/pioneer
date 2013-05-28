@@ -12,7 +12,7 @@ template <>
 const char *TerrainHeightFractal<TerrainHeightWaterSolidCanyons>::GetHeightFractalName() const { return "WaterSolidCanyons"; }
 
 template <>
-TerrainHeightFractal<TerrainHeightWaterSolidCanyons>::TerrainHeightFractal(const SystemBody *body) : Terrain(body)
+TerrainHeightFractal<TerrainHeightWaterSolidCanyons>::TerrainHeightFractal(const SystemBody *body, const uint32_t tET) : Terrain(body, tET)
 {
 	SetFracDef(0, m_maxHeightInMeters, m_rand.Double(5e6,1e8));
 	double height = m_maxHeightInMeters*0.3;
