@@ -6,6 +6,7 @@ May 2013
      * Docking bays now have size constraints (#2291)
      * The crew listing now shows the amount of wages and the total owed (#2310)
      * The control panel can be hidden using the 'toggle labels' key (#82, #2303)
+     * New city on New Hope — Itzalean — on a eclipsy location (#2192)
 
    * Minor changes and tweaks
      * Model level-of-detail now takes field of view into account (#2257, #2077)
@@ -39,6 +40,7 @@ May 2013
      * Silence some debug printouts for the faction code. (#2274)
      * Object property system now uses LuaTable. (#2275)
      * Maximum texture mip-map level is set to 0 for non-mipmapped textures (#2288)
+     * Clean up the eclipse code to make it more standard compliant (#2192)
 
 April 2013
 
