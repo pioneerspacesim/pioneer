@@ -13,8 +13,7 @@ local shipInfo = function (args)
 
 	local stats = Game.player:GetStats()
 
-	local equipColumn = { {}, {} }
-	local columnNum = 1
+	local equipItems = {}
 	for i = 1,#Constants.EquipType do
 		local type = Constants.EquipType[i]
 		local et = EquipDef[type]
@@ -24,21 +23,20 @@ local shipInfo = function (args)
 			if count > 0 then
 				if count > 1 then
 					if type == "SHIELD_GENERATOR" then
-						table.insert(equipColumn[columnNum],
+						table.insert(equipItems,
 							ui:Label(string.interp(t("{quantity} Shield Generators"), { quantity = string.format("%d", count) })))
 					elseif type == "PASSENGER_CABIN" then
-						table.insert(equipColumn[columnNum],
+						table.insert(equipItems,
 							ui:Label(string.interp(t("{quantity} Occupied Passenger Cabins"), { quantity = string.format("%d", count) })))
 					elseif type == "UNOCCUPIED_CABIN" then
-						table.insert(equipColumn[columnNum],
+						table.insert(equipItems,
 							ui:Label(string.interp(t("{quantity} Unoccupied Passenger Cabins"), { quantity = string.format("%d", count) })))
 					else
-						table.insert(equipColumn[columnNum], ui:Label(et.name))
+						table.insert(equipItems, ui:Label(et.name))
 					end
 				else
-					table.insert(equipColumn[columnNum], ui:Label(et.name))
+					table.insert(equipItems, ui:Label(et.name))
 				end
-				columnNum = columnNum == 1 and 2 or 1
 			end
 		end
 	end
@@ -46,7 +44,7 @@ local shipInfo = function (args)
 	return
 		ui:Grid(2,1)
 			:SetColumn(0, {
-				ui:VBox(20):PackEnd({
+				ui:VBox():PackEnd({
 					ui:Grid(2,1)
 						:SetColumn(0, {
 							ui:VBox():PackEnd({
@@ -89,10 +87,11 @@ local shipInfo = function (args)
 								ui:Label(ShipType.GetShipType(Game.player.shipId).maxCrew),
 							})
 						}),
+					ui:Margin(10),
 					ui:Label(t("Equipment")):SetFont("HEADING_LARGE"),
-					ui:Grid(2,1)
-						:SetColumn(0, { ui:VBox():PackEnd(equipColumn[1]) })
-						:SetColumn(1, { ui:VBox():PackEnd(equipColumn[2]) })
+					ui:Expand():SetInnerWidget(ui:Scroller():SetInnerWidget(
+						ui:VBox():PackEnd(equipItems)
+					))
 				})
 			})
 			:SetColumn(1, {
@@ -365,7 +364,7 @@ local missions = function (tabGroup)
 		return MissionScreen:SetInnerWidget( ui:Label(t("No missions.")) )
 	end
 
-	local rowspec = {7,8,10,8,5,5,5} -- 7 columns
+	local rowspec = {7,8,9,9,5,5,5} -- 7 columns
 	if MissionList then 
 		MissionList:Clear()
 	else
@@ -444,7 +443,7 @@ local missions = function (tabGroup)
 			{data = mission.client.name},
 			{data = dist, widget = locationBox},
 			{data = mission.due, widget = dueBox},
-			{data = mission.reward, widget = ui:Label(Format.Money(mission.reward))},
+			{data = mission.reward, widget = ui:Label(Format.Money(mission.reward)):SetColor(0.0, 1.0, 0.2)}, -- green
 			-- nil description means mission type isn't registered.
 			{data = (description and t(mission.status)) or t('INACTIVE')},
 			{widget = moreButton.widget}
@@ -452,7 +451,7 @@ local missions = function (tabGroup)
 		MissionList:AddRow(row)
 	end
 
-	MissionScreen:SetInnerWidget(MissionList)
+	MissionScreen:SetInnerWidget(ui:Scroller(MissionList))
 
 	return MissionScreen
 end
@@ -611,19 +610,33 @@ local crewRoster = function ()
 		})
 
 		-- Create a row for each crew member
+		local wageTotal = 0
+		local owedTotal = 0
+
 		for crewMember in Game.player:EachCrewMember() do
 			local moreButton = UI.SmallLabeledButton.New(t("More info..."))
 			moreButton.button.onClick:Connect(function () return crewMemberInfoButtonFunc(crewMember) end)
 
+			local crewWage = (crewMember.contract and crewMember.contract.wage or 0)
+			local crewOwed = (crewMember.contract and crewMember.contract.outstanding or 0)
+			wageTotal = wageTotal + crewWage
+			owedTotal = owedTotal + crewOwed
+
 			crewlistbox:PackEnd(ui:Grid(rowspec,1):SetRow(0, {
 				ui:Label(crewMember.name),
 				ui:Label(t(crewMember.title) or t('General crew')),
-				ui:Label(Format.Money(crewMember.contract and crewMember.contract.wage or 0)),
-				ui:Label(Format.Money(crewMember.contract and crewMember.contract.outstanding or 0)),
+				ui:Label(Format.Money(crewWage)):SetColor(0.0, 1.0, 0.2), -- green
+				ui:Label(Format.Money(crewOwed)):SetColor(1.0, 0.0, 0.0), -- red
 				ui:Label(Format.Date(crewMember.contract and crewMember.contract.payday or 0)),
 				moreButton.widget,
 			}))
 		end
+		crewlistbox:PackEnd(ui:Grid(rowspec,1):SetRow(0, {
+			ui:Label(""), -- first column, empty
+			ui:Label(t("Total:")):SetFont("HEADING_NORMAL"):SetColor(1.0, 1.0, 0.0), -- yellow
+			ui:Label(Format.Money(wageTotal)):SetColor(0.0, 1.0, 0.2), -- green
+			ui:Label(Format.Money(owedTotal)):SetColor(1.0, 0.0, 0.0), -- red
+		}))
 
 		local taskCrewButton = ui:Button():SetInnerWidget(ui:Label(t('Give orders to crew')))
 		taskCrewButton.onClick:Connect(taskCrew)
