@@ -383,7 +383,14 @@ void WorldView::Draw3D()
 void WorldView::OnToggleLabels()
 {
 	if (Pi::GetView() == this) {
-		m_labelsOn = !m_labelsOn;
+		if (Pi::DrawGUI && m_labelsOn) {
+			m_labelsOn = false;
+		} else if (Pi::DrawGUI && !m_labelsOn) {
+			Pi::DrawGUI = false;
+		} else if (!Pi::DrawGUI) {
+			Pi::DrawGUI = true;
+			m_labelsOn = true;
+		}
 	}
 }
 
@@ -530,14 +537,17 @@ void WorldView::RefreshButtonStateAndVisibility()
 
 		const char *rel_to = (Pi::player->GetFrame() ? Pi::player->GetFrame()->GetLabel().c_str() : "System");
 		const char *rot_frame = (Pi::player->GetFrame()->IsRotFrame() ? "yes" : "no");
+		const SystemPath &path(Pi::player->GetFrame()->GetSystemBody()->path);
 		Pi::player->AIGetStatusText(aibuf); aibuf[255] = 0;
 		snprintf(buf, sizeof(buf), "Pos: %.1f,%.1f,%.1f\n"
 			"AbsPos: %.1f,%.1f,%.1f (%.3f AU)\n"
-			"Rel-to: %s (%.0f km), rotating: %s\n" "%s"
-			"\nLat / Lon : %.8f / %.8f",
+			"Rel-to: %s [%d,%d,%d,%d,%d] (%.0f km), rotating: %s\n"
+			"%s\n"
+			"Lat / Lon : %.8f / %.8f",
 			pos.x, pos.y, pos.z,
 			abs_pos.x, abs_pos.y, abs_pos.z, abs_pos.Length()/AU,
-			rel_to, pos.Length()/1000, rot_frame, aibuf,lat,lon);
+			rel_to, path.sectorX, path.sectorY, path.sectorZ, path.systemIndex, path.bodyIndex,
+			pos.Length()/1000, rot_frame, aibuf, lat, lon);
 
 		m_debugInfo->SetText(buf);
 		m_debugInfo->Show();
@@ -616,15 +626,17 @@ void WorldView::RefreshButtonStateAndVisibility()
 
 				Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, stringf(Lang::PRESSURE_N_ATMOSPHERES, formatarg("pressure", pressure)));
 
-				m_hudHullTemp->SetValue(float(Pi::player->GetHullTemperature()));
-				m_hudHullTemp->Show();
-			} else {
-				Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, "");
-				m_hudHullTemp->Hide();
+				if (Pi::player->GetHullTemperature() > 0.01) {
+					m_hudHullTemp->SetValue(float(Pi::player->GetHullTemperature()));
+					m_hudHullTemp->Show();
+				} else {
+					m_hudHullTemp->Hide();
+				}
 			}
 		} else {
 			Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, "");
 			Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
+			m_hudHullTemp->Hide();
 		}
 
 		m_hudFuelGauge->SetValue(Pi::player->GetFuel());
@@ -834,6 +846,11 @@ void WorldView::OnSwitchTo()
 	RefreshButtonStateAndVisibility();
 }
 
+void WorldView::OnSwitchFrom()
+{
+	Pi::DrawGUI = true;
+}
+
 void WorldView::ToggleTargetActions()
 {
 	if (Pi::game->IsHyperspace() || m_showTargetActionsTimeout)
@@ -1005,6 +1022,9 @@ static void autopilot_flyto(Body *b)
 }
 static void autopilot_dock(Body *b)
 {
+	if(Pi::player->GetFlightState() != Ship::FLYING)
+		return;
+
 	Pi::player->GetPlayerController()->SetFlightControlState(CONTROL_AUTOPILOT);
 	Pi::player->AIDock(static_cast<SpaceStation*>(b));
 }
@@ -1040,25 +1060,25 @@ void WorldView::UpdateCommsOptions()
 		m_commsOptions->Add(new Gui::Label("#0f0"+std::string(Lang::NO_TARGET_SELECTED)), 16, float(ypos));
 	}
 
-	bool hasAutopilot = Pi::player->m_equipment.Get(Equip::SLOT_AUTOPILOT) == Equip::AUTOPILOT;
+	const bool hasAutopilot = (Pi::player->m_equipment.Get(Equip::SLOT_AUTOPILOT) == Equip::AUTOPILOT) && (Pi::player->GetFlightState() == Ship::FLYING);
 
 	if (navtarget) {
 		m_commsOptions->Add(new Gui::Label("#0f0"+navtarget->GetLabel()), 16, float(ypos));
 		ypos += 32;
 		if (navtarget->IsType(Object::SPACESTATION)) {
 			SpaceStation *pStation = static_cast<SpaceStation *>(navtarget);
-
 			if( pStation->GetMyDockingPort(Pi::player) == -1 )
 			{
 				button = AddCommsOption(Lang::REQUEST_DOCKING_CLEARANCE, ypos, optnum++);
 				button->onClick.connect(sigc::bind(sigc::ptr_fun(&PlayerRequestDockingClearance), reinterpret_cast<SpaceStation*>(navtarget)));
 				ypos += 32;
-
-				if (Pi::player->m_equipment.Get(Equip::SLOT_AUTOPILOT) == Equip::AUTOPILOT) {
-					button = AddCommsOption(Lang::AUTOPILOT_DOCK_WITH_STATION, ypos, optnum++);
-					button->onClick.connect(sigc::bind(sigc::ptr_fun(&autopilot_dock), navtarget));
-					ypos += 32;
-				}
+			} 
+			
+			if( hasAutopilot )
+			{
+				button = AddCommsOption(Lang::AUTOPILOT_DOCK_WITH_STATION, ypos, optnum++);
+				button->onClick.connect(sigc::bind(sigc::ptr_fun(&autopilot_dock), navtarget));
+				ypos += 32;
 			}
 
 			Sint64 crime, fine;

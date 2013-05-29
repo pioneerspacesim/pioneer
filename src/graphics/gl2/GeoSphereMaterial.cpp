@@ -33,9 +33,12 @@ void GeoSphereProgram::InitUniforms()
 
 	shadows.Init("shadows", m_program);
 	occultedLight.Init("occultedLight", m_program);
-	shadowCentre.Init("shadowCentre", m_program);
+	shadowCentreX.Init("shadowCentreX", m_program);
+	shadowCentreY.Init("shadowCentreY", m_program);
+	shadowCentreZ.Init("shadowCentreZ", m_program);
 	srad.Init("srad", m_program);
 	lrad.Init("lrad", m_program);
+	sdivlrad.Init("sdivlrad", m_program);
 }
 
 Program *GeoSphereSurfaceMaterial::CreateProgram(const MaterialDescriptor &desc)
@@ -46,6 +49,10 @@ Program *GeoSphereSurfaceMaterial::CreateProgram(const MaterialDescriptor &desc)
 	assert(desc.dirLights < 5);
 	std::stringstream ss;
 	ss << stringf("#define NUM_LIGHTS %0{u}\n", desc.dirLights);
+	if(desc.dirLights>0) {
+		const float invNumLights = 1.0f / float(desc.dirLights);
+		ss << stringf("#define INV_NUM_LIGHTS %0{f}\n", invNumLights);
+	}
 	if (desc.atmosphere)
 		ss << "#define ATMOSPHERE\n";
 	if (desc.effect == EFFECT_GEOSPHERE_TERRAIN_WITH_LAVA)
@@ -80,25 +87,33 @@ void GeoSphereSurfaceMaterial::SetGSUniforms()
 
 	// we handle up to three shadows at a time
 	int occultedLight[3] = {-1,-1,-1};
-	float shadowCentre[9];
+	vector3f shadowCentreX;
+	vector3f shadowCentreY;
+	vector3f shadowCentreZ;
 	vector3f srad;
 	vector3f lrad;
+	vector3f sdivlrad;
 	std::vector<Camera::Shadow>::const_iterator it = params.shadows.begin(), itEnd = params.shadows.end();
 	int j = 0;
 	while (j<3 && it != itEnd) {
 		occultedLight[j] = it->occultedLight;
-		for (int k=0; k<3; k++)
-			shadowCentre[3*j+k] = it->centre[k];
+		shadowCentreX[j] = it->centre[0];
+		shadowCentreY[j] = it->centre[1];
+		shadowCentreZ[j] = it->centre[2];
 		srad[j] = it->srad;
 		lrad[j] = it->lrad;
+		sdivlrad[j] = it->srad / it->lrad;
 		it++;
 		j++;
 	}
 	p->shadows.Set(j);
 	p->occultedLight.Set(occultedLight);
-	p->shadowCentre.Set(shadowCentre);
+	p->shadowCentreX.Set(shadowCentreX);
+	p->shadowCentreY.Set(shadowCentreY);
+	p->shadowCentreZ.Set(shadowCentreZ);
 	p->srad.Set(srad);
 	p->lrad.Set(lrad);
+	p->sdivlrad.Set(sdivlrad);
 }
 
 Program *GeoSphereSkyMaterial::CreateProgram(const MaterialDescriptor &desc)
@@ -107,6 +122,10 @@ Program *GeoSphereSkyMaterial::CreateProgram(const MaterialDescriptor &desc)
 	assert(desc.dirLights > 0 && desc.dirLights < 5);
 	std::stringstream ss;
 	ss << stringf("#define NUM_LIGHTS %0{u}\n", desc.dirLights);
+	if(desc.dirLights>0) {
+		const float invNumLights = 1.0f / float(desc.dirLights);
+		ss << stringf("#define INV_NUM_LIGHTS %0{f}\n", invNumLights);
+	}
 	ss << "#define ATMOSPHERE\n";
 	return new Graphics::GL2::GeoSphereProgram("geosphere_sky", ss.str());
 }

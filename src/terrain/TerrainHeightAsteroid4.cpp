@@ -11,7 +11,7 @@ using namespace TerrainFeature;
 // Cool terrain for asteroids or small planets
 
 template <>
-const char *TerrainHeightFractal<TerrainHeightAsteroid4>::GetHeightFractalName() const { return "Asteroid"; }
+const char *TerrainHeightFractal<TerrainHeightAsteroid4>::GetHeightFractalName() const { return "Asteroid4"; }
 
 template <>
 TerrainHeightFractal<TerrainHeightAsteroid4>::TerrainHeightFractal(const SystemBody *body) : Terrain(body)

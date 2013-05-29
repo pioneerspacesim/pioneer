@@ -127,6 +127,7 @@ bool Pi::mouseYInvert;
 std::vector<Pi::JoystickState> Pi::joysticks;
 bool Pi::navTunnelDisplayed;
 Gui::Fixed *Pi::menu;
+bool Pi::DrawGUI = true;
 Graphics::Renderer *Pi::renderer;
 RefCountedPtr<UI::Context> Pi::ui;
 ModelCache *Pi::modelCache;
@@ -857,6 +858,7 @@ void Pi::StartGame()
 	Pi::player->onUndock.connect(sigc::ptr_fun(&OnPlayerDockOrUndock));
 	Pi::player->m_equipment.onChange.connect(sigc::ptr_fun(&OnPlayerChangeEquipment));
 	cpan->ShowAll();
+	DrawGUI = true;
 	cpan->SetAlertState(Ship::ALERT_NONE);
 	OnPlayerChangeEquipment(Equip::NONE);
 	SetView(worldView);
@@ -984,6 +986,7 @@ void Pi::MainLoop()
 					break;
 				}
 				game->TimeStep(step);
+				GeoSphere::UpdateAllGeoSpheres();
 
 				accumulator -= step;
 			}
@@ -997,6 +1000,7 @@ void Pi::MainLoop()
 #endif
 		} else {
 			// paused
+			GeoSphere::UpdateAllGeoSpheres();
 		}
 		frame_stat++;
 
@@ -1038,7 +1042,26 @@ void Pi::MainLoop()
 		SetMouseGrab(Pi::MouseButtonState(SDL_BUTTON_RIGHT));
 
 		Pi::renderer->EndFrame();
-		Gui::Draw();
+		if( DrawGUI ) {
+			Gui::Draw();
+		} else if (game && game->IsNormalSpace()) {
+			if (config->Int("DisableScreenshotInfo")==0) {
+				const RefCountedPtr<StarSystem> sys = game->GetSpace()->GetStarSystem();
+				const SystemPath sp = sys->GetPath();
+				std::ostringstream pathStr;
+
+				// fill in pathStr from sp values and sys->GetName()
+				static const std::string comma(", ");
+				pathStr << Pi::player->GetFrame()->GetLabel() << comma << sys->GetName() << " (" << sp.sectorX << comma << sp.sectorY << comma << sp.sectorZ << ")";
+
+				// display pathStr
+				Gui::Screen::EnterOrtho();
+				Gui::Screen::PushFont("ConsoleFont");
+				Gui::Screen::RenderString(pathStr.str(), 0, 0);
+				Gui::Screen::PopFont();
+				Gui::Screen::LeaveOrtho();
+			}
+		}
 
 #if WITH_DEVKEYS
 		if (Pi::showDebugInfo) {
