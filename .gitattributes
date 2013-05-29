@@ -1,1 +1,71 @@
-text eol=lf
+# Define our own attribute for text files
+
+[attr]pitext text diff merge
+
+# Global default
+
+* binary
+
+# Files without extension
+
+README         pitext
+bootstrap      pitext
+changelog      pitext
+compat         pitext
+control        pitext
+copyright      pitext
+docs           pitext
+format         pitext
+generic-exec   pitext
+pioneer        pitext
+rules          pitext
+.gitignore     pitext
+.gitattributes pitext
+
+# Normal text extensions
+
+*.ac         pitext
+*.am         pitext
+*.c          pitext
+*.common     pitext
+*.cpp        pitext
+*.css        pitext
+*.DAE        pitext
+*.dae        pitext
+*.exclude    pitext
+*.frag       pitext
+*.glsl       pitext
+*.h          pitext
+*.hpp        pitext
+*.ini        pitext
+*.install    pitext
+*.lua        pitext
+*.m          pitext
+*.model      pitext
+*.mtl        pitext
+*.pbxproj    pitext
+*.pch        pitext
+*.pl         pitext
+*.plist      pitext
+*.py         pitext
+*.rc         pitext
+*.rtf        pitext
+*.sh         pitext
+*.strings    pitext
+*.svg        pitext
+*.txt        pitext
+*.vert       pitext
+*.xcworkspacedata pitext
+*.xib        pitext
+
+# OBJ files can be Wavefront (text) or OMF (binary).
+
+*.obj        pitext text=auto
+
+# VC files
+
+*.props      pitext -merge
+*.sln        pitext -merge
+*.vcproj     pitext -merge
+*.vcxproj    pitext -merge
+*.vcxproj.filters pitext -merge
