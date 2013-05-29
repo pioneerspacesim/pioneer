@@ -16,12 +16,12 @@ public:
 	PropertyMap(LuaManager *lua);
 
 	template <class Value> void Set(const std::string &k, const Value &v) {
-		LuaTable(m_table).Set(k, v);
+		ScopedTable(m_table).Set(k, v);
 		SendSignal(k);
 	}
 
 	template <class Value> void Get(const std::string &k, Value &v) {
-		v = LuaTable(m_table).Get<Value>(k, v);
+		v = ScopedTable(m_table).Get<Value>(k, v);
 	}
 
 	void PushLuaTable();

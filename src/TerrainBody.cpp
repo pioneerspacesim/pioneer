@@ -56,13 +56,6 @@ void TerrainBody::Load(Serializer::Reader &rd, Space *space)
 	InitTerrainBody(sbody);
 }
 
-void TerrainBody::TimeStepUpdate(const float timeStep)
-{
-	if( m_geosphere ) {
-		m_geosphere->Update();
-	}
-}
-
 void TerrainBody::Render(Graphics::Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	matrix4x4d ftran = viewTransform;

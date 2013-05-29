@@ -383,7 +383,14 @@ void WorldView::Draw3D()
 void WorldView::OnToggleLabels()
 {
 	if (Pi::GetView() == this) {
-		m_labelsOn = !m_labelsOn;
+		if (Pi::DrawGUI && m_labelsOn) {
+			m_labelsOn = false;
+		} else if (Pi::DrawGUI && !m_labelsOn) {
+			Pi::DrawGUI = false;
+		} else if (!Pi::DrawGUI) {
+			Pi::DrawGUI = true;
+			m_labelsOn = true;
+		}
 	}
 }
 
@@ -530,14 +537,17 @@ void WorldView::RefreshButtonStateAndVisibility()
 
 		const char *rel_to = (Pi::player->GetFrame() ? Pi::player->GetFrame()->GetLabel().c_str() : "System");
 		const char *rot_frame = (Pi::player->GetFrame()->IsRotFrame() ? "yes" : "no");
+		const SystemPath &path(Pi::player->GetFrame()->GetSystemBody()->path);
 		Pi::player->AIGetStatusText(aibuf); aibuf[255] = 0;
 		snprintf(buf, sizeof(buf), "Pos: %.1f,%.1f,%.1f\n"
 			"AbsPos: %.1f,%.1f,%.1f (%.3f AU)\n"
-			"Rel-to: %s (%.0f km), rotating: %s\n" "%s"
-			"\nLat / Lon : %.8f / %.8f",
+			"Rel-to: %s [%d,%d,%d,%d,%d] (%.0f km), rotating: %s\n"
+			"%s\n"
+			"Lat / Lon : %.8f / %.8f",
 			pos.x, pos.y, pos.z,
 			abs_pos.x, abs_pos.y, abs_pos.z, abs_pos.Length()/AU,
-			rel_to, pos.Length()/1000, rot_frame, aibuf,lat,lon);
+			rel_to, path.sectorX, path.sectorY, path.sectorZ, path.systemIndex, path.bodyIndex,
+			pos.Length()/1000, rot_frame, aibuf, lat, lon);
 
 		m_debugInfo->SetText(buf);
 		m_debugInfo->Show();
@@ -616,15 +626,17 @@ void WorldView::RefreshButtonStateAndVisibility()
 
 				Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, stringf(Lang::PRESSURE_N_ATMOSPHERES, formatarg("pressure", pressure)));
 
-				m_hudHullTemp->SetValue(float(Pi::player->GetHullTemperature()));
-				m_hudHullTemp->Show();
-			} else {
-				Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, "");
-				m_hudHullTemp->Hide();
+				if (Pi::player->GetHullTemperature() > 0.01) {
+					m_hudHullTemp->SetValue(float(Pi::player->GetHullTemperature()));
+					m_hudHullTemp->Show();
+				} else {
+					m_hudHullTemp->Hide();
+				}
 			}
 		} else {
 			Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, "");
 			Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
+			m_hudHullTemp->Hide();
 		}
 
 		m_hudFuelGauge->SetValue(Pi::player->GetFuel());
@@ -832,6 +844,11 @@ void WorldView::Update()
 void WorldView::OnSwitchTo()
 {
 	RefreshButtonStateAndVisibility();
+}
+
+void WorldView::OnSwitchFrom()
+{
+	Pi::DrawGUI = true;
 }
 
 void WorldView::ToggleTargetActions()

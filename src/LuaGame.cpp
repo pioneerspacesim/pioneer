@@ -9,6 +9,7 @@
 #include "Pi.h"
 #include "Game.h"
 #include "Lang.h"
+#include "StringF.h"
 
 /*
  * Interface: Game
@@ -64,7 +65,7 @@ static int l_game_start_game(lua_State *l)
  *
  * Load a saved game.
  *
- * > loaded = Game.LoadGame(filename)
+ * > Game.LoadGame(filename)
  *
  * Parameters:
  *
@@ -104,13 +105,79 @@ static int l_game_load_game(lua_State *l)
 	return 0;
 }
 
+/*
+ * Function: SaveGame
+ *
+ * Save the current game.
+ *
+ * > path = Game.SaveGame(filename)
+ *
+ * Parameters:
+ *
+ *   filename - Filename to save to. The file will be placed the 'savefiles'
+ *              directory in the user's game directory.
+ *
+ * Return:
+ *
+ *   path - the full path to the saved file (so it can be displayed)
+ *
+ * Availability:
+ *
+ *   June 2013
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_game_save_game(lua_State *l)
+{
+	if (!Pi::game) {
+		return luaL_error(l, "can't save when no game is running");
+	}
+
+	if (Pi::game->IsHyperspace()) {
+		return luaL_error(l, "%s", Lang::CANT_SAVE_IN_HYPERSPACE);
+	}
+
+	const std::string filename(luaL_checkstring(l, 1));
+	const std::string path = FileSystem::JoinPathBelow(Pi::GetSaveDir(), filename);
+
+	try {
+		Game::SaveGame(filename, Pi::game);
+		lua_pushlstring(l, path.c_str(), path.size());
+		return 1;
+	}
+	catch (CouldNotOpenFileException) {
+		const std::string message = stringf(Lang::COULD_NOT_OPEN_FILENAME, formatarg("path", path));
+		lua_pushlstring(l, message.c_str(), message.size());
+		return lua_error(l);
+	}
+	catch (CouldNotWriteToFileException) {
+		return luaL_error(l, "%s", Lang::GAME_SAVE_CANNOT_WRITE);
+	}
+}
+
+/*
+ * Function: EndGame
+ *
+ * End the current game and return to the main menu.
+ *
+ * > Game.EndGame(filename)
+ *
+ * Availability:
+ *
+ *   June 2013
+ *
+ * Status:
+ *
+ *   experimental
+ */
 static int l_game_end_game(lua_State *l)
 {
-	if (!Pi::game)
-		return 0;
-
-	// XXX stuff
-	return luaL_error(l, "Game.EndGame() is not yet implemented");
+	if (Pi::game) {
+		Pi::EndGame();
+	}
+	return 0;
 }
 
 /*
@@ -184,6 +251,7 @@ void LuaGame::Register()
 	static const luaL_Reg l_methods[] = {
 		{ "StartGame", l_game_start_game },
 		{ "LoadGame",  l_game_load_game  },
+		{ "SaveGame",  l_game_save_game  },
 		{ "EndGame",   l_game_end_game   },
 		{ 0, 0 }
 	};
