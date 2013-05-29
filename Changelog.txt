@@ -41,6 +41,7 @@ May 2013
      * Object property system now uses LuaTable. (#2275)
      * Maximum texture mip-map level is set to 0 for non-mipmapped textures (#2288)
      * Clean up the eclipse code to make it more standard compliant (#2192)
+     * New ScopedTable, like LuaTable but cleans the stack on destruction (#2315)
 
 April 2013
 
