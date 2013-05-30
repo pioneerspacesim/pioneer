@@ -1,0 +1,15 @@
+# MTL written from C:\Users\rivalin\Creative\Personal Work\Paragon\Paragon\PARAGON1\data\models\ships\(0)Ultra-Light\(0F)passenger_shuttle\passenger_shuttle_collision.obj
+newmtl Default
+Kd 0.8 0.8 0.8
+Ns 256
+d 1
+illum 2
+Ka 0 0 0
+Ks 0.2 0.2 0.2
+newmtl material1
+Kd 0.8 0.8 0.8
+Ns 256
+d 1
+illum 2
+Ka 0 0 0
+Ks 0.2 0.2 0.2
