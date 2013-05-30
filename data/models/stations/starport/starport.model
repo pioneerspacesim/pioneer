@@ -11,7 +11,8 @@ shininess 80
 
 
 
-mesh starport.lxo
+mesh starport.dae
+
 mesh starport_docking.dae
 
 
