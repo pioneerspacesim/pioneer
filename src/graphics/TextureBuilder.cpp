@@ -119,7 +119,7 @@ void TextureBuilder::PrepareSurface()
 			}
 		}
 		else if (! m_filename.empty()) {
-			// power-of-to check
+			// power-of-two check
 			unsigned long width = ceil_pow2(m_surface->w);
 			unsigned long height = ceil_pow2(m_surface->h);
 
@@ -127,12 +127,10 @@ void TextureBuilder::PrepareSurface()
 				fprintf(stderr, "WARNING: texture '%s' is not power-of-two and may not display correctly\n", m_filename.c_str());
 		}
 	} else {
-		//
-		//targetTextureFormat = 
 		switch(m_dds.GetTextureFormat()) {
-		case PicoDDS::FORMAT_DXT1:	targetTextureFormat = TEXTURE_DXT1;	break;
-		case PicoDDS::FORMAT_DXT5:	targetTextureFormat = TEXTURE_DXT5;	break;
-		default: 
+		case PicoDDS::FORMAT_DXT1: targetTextureFormat = TEXTURE_DXT1; break;
+		case PicoDDS::FORMAT_DXT5: targetTextureFormat = TEXTURE_DXT5; break;
+		default:
 			fprintf(stderr, "ERROR: DDS texture with invalid format '%s' (only DXT1 and DXT5 are supported)\n", m_filename.c_str());
 			assert(false); 
 			return;
@@ -171,7 +169,7 @@ void TextureBuilder::LoadSurface()
 
 	SDLSurfacePtr s = LoadSurfaceFromFile(m_filename);
 	if (! s) { s = LoadSurfaceFromFile("textures/unknown.png"); }
-		
+
 	// XXX if we can't load the fallback texture, then what?
 	m_surface = s;
 }
