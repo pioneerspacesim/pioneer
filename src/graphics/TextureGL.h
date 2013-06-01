@@ -11,7 +11,7 @@ namespace Graphics {
 
 class TextureGL : public Texture {
 public:
-	virtual void Update(const void *data, const vector2f &dataSize, ImageFormat format, ImageType type, const size_t numMips);
+	virtual void Update(const void *data, const vector2f &dataSize, ImageFormat format, ImageType type, const unsigned int numMips);
 
 	virtual ~TextureGL();
 

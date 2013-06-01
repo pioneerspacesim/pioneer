@@ -187,7 +187,7 @@ TextureGL::~TextureGL()
 	glDeleteTextures(1, &m_texture);
 }
 
-void TextureGL::Update(const void *data, const vector2f &dataSize, ImageFormat format, ImageType type, const size_t numMips)
+void TextureGL::Update(const void *data, const vector2f &dataSize, ImageFormat format, ImageType type, const unsigned int numMips)
 {
 	glEnable(m_target);
 	glBindTexture(m_target, m_texture);

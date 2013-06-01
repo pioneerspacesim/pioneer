@@ -46,11 +46,11 @@ public:
 		format(TEXTURE_RGBA), dataSize(1.0f), texSize(1.0f), sampleMode(LINEAR_CLAMP), generateMipmaps(false), allowCompression(true), numberOfMipMaps(0)
 	{}
 
-	TextureDescriptor(TextureFormat _format, const vector2f &_dataSize, TextureSampleMode _sampleMode = LINEAR_CLAMP, bool _generateMipmaps = false, bool _allowCompression = true, size_t _numberOfMipMaps = 0) :
+	TextureDescriptor(TextureFormat _format, const vector2f &_dataSize, TextureSampleMode _sampleMode = LINEAR_CLAMP, bool _generateMipmaps = false, bool _allowCompression = true, unsigned int _numberOfMipMaps = 0) :
 		format(_format), dataSize(_dataSize), texSize(1.0f), sampleMode(_sampleMode), generateMipmaps(_generateMipmaps), allowCompression(_allowCompression), numberOfMipMaps(_numberOfMipMaps)
 	{}
 
-	TextureDescriptor(TextureFormat _format, const vector2f &_dataSize, const vector2f &_texSize, TextureSampleMode _sampleMode = LINEAR_CLAMP, bool _generateMipmaps = false, bool _allowCompression = true, size_t _numberOfMipMaps = 0) :
+	TextureDescriptor(TextureFormat _format, const vector2f &_dataSize, const vector2f &_texSize, TextureSampleMode _sampleMode = LINEAR_CLAMP, bool _generateMipmaps = false, bool _allowCompression = true, unsigned int _numberOfMipMaps = 0) :
 		format(_format), dataSize(_dataSize), texSize(_texSize), sampleMode(_sampleMode), generateMipmaps(_generateMipmaps), allowCompression(_allowCompression), numberOfMipMaps(_numberOfMipMaps)
 	{}
 
@@ -60,7 +60,7 @@ public:
 	const TextureSampleMode sampleMode;
 	const bool generateMipmaps;
 	const bool allowCompression;
-	const size_t numberOfMipMaps;
+	const unsigned int numberOfMipMaps;
 
 	void operator=(const TextureDescriptor &o) {
 		const_cast<TextureFormat&>(format) = o.format;
@@ -69,7 +69,7 @@ public:
 		const_cast<TextureSampleMode&>(sampleMode) = o.sampleMode;
 		const_cast<bool&>(generateMipmaps) = o.generateMipmaps;
 		const_cast<bool&>(allowCompression) = o.allowCompression;
-		const_cast<size_t&>(numberOfMipMaps) = o.numberOfMipMaps;
+		const_cast<unsigned int&>(numberOfMipMaps) = o.numberOfMipMaps;
 	}
 };
 
@@ -78,7 +78,7 @@ public:
 	const TextureDescriptor &GetDescriptor() const { return m_descriptor; }
 
 	// XXX include position
-	virtual void Update(const void *data, const vector2f &dataSize, ImageFormat format, ImageType type, const size_t numMips = 0) = 0;
+	virtual void Update(const void *data, const vector2f &dataSize, ImageFormat format, ImageType type, const unsigned int numMips = 0) = 0;
 	virtual void SetSampleMode(TextureSampleMode) = 0;
 
 	virtual ~Texture() {}
