@@ -412,7 +412,7 @@ size_t DDSLoad(const char* filename, DDSImage& dds)
 {
 	// open the file for reading (binary mode)
 	FILE* file = fopen(filename, "rb");
-	if (file == nullptr) {
+	if (!file) {
 		return 0;
 	}
 

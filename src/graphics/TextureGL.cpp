@@ -82,18 +82,18 @@ inline GLint GLImageTypeForTextureFormat(TextureFormat format) {
 
 inline int getMinSize(TextureFormat flag) {
 	switch(flag) {
-	case TEXTURE_DXT1:		return 8;
-	case TEXTURE_DXT5:		return 16;
+	case TEXTURE_DXT1: return 8;
+	case TEXTURE_DXT5: return 16;
+	default: return 1;
 	}
-	return 1;
 }
 
 inline int getMinSize(ImageFormat flag){
 	switch(flag) {
-	case TEXTURE_DXT1:		return 8;
-	case TEXTURE_DXT5:		return 16;
+	case TEXTURE_DXT1: return 8;
+	case TEXTURE_DXT5: return 16;
+	default: return 1;
 	}
-	return 1;
 }
 
 TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompressed) :
@@ -187,7 +187,7 @@ TextureGL::~TextureGL()
 	glDeleteTextures(1, &m_texture);
 }
 
-void TextureGL::Update(const void *data, const vector2f &dataSize, ImageFormat format, ImageType type, const size_t numMips)
+void TextureGL::Update(const void *data, const vector2f &dataSize, ImageFormat format, ImageType type, const unsigned int numMips)
 {
 	glEnable(m_target);
 	glBindTexture(m_target, m_texture);
@@ -203,7 +203,7 @@ void TextureGL::Update(const void *data, const vector2f &dataSize, ImageFormat f
 				size_t Height = dataSize.y;
 				size_t bufSize = ((Width + 3) / 4) * ((Height + 3) / 4) * getMinSize(format);
 				
-				unsigned char *pData = (unsigned char *)data;
+				const unsigned char *pData = static_cast<const unsigned char*>(data);
 				for( uint32_t i=0; i<numMips; ++i ) {
 					glCompressedTexSubImage2D(m_target, i, 0, 0, Width, Height, oglInternalFormat, bufSize, &pData[Offset]);
 					if( Width<=MIN_COMPRESSED_TEXTURE_DIMENSION || Height<=MIN_COMPRESSED_TEXTURE_DIMENSION ) {
