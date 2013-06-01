@@ -305,6 +305,7 @@ pioneer_SOURCES	= \
 
 pioneer_LDADD = \
 	../contrib/miniz/libminiz.a \
+	../contrib/PicoDDS/libpicodds.a \
 	../contrib/jenkins/libjenkins.a \
 	collider/libcollider.a \
 	gui/libgui.a \
@@ -347,6 +348,7 @@ tests_LDADD = \
 	terrain/libterrain.a \
     posix/libposix.a \
 	../contrib/miniz/libminiz.a \
+	../contrib/PicoDDS/libpicodds.a \
 	../contrib/jenkins/libjenkins.a \
 	$(SIGC_LIBS)
 
