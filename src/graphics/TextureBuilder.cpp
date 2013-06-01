@@ -133,6 +133,7 @@ void TextureBuilder::PrepareSurface()
 		case PicoDDS::FORMAT_DXT1:	targetTextureFormat = TEXTURE_DXT1;	break;
 		case PicoDDS::FORMAT_DXT5:	targetTextureFormat = TEXTURE_DXT5;	break;
 		default: 
+			fprintf(stderr, "ERROR: DDS texture with invalid format '%s' (only DXT1 and DXT5 are supported)\n", m_filename.c_str());
 			assert(false); 
 			return;
 		}
