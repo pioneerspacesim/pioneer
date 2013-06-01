@@ -151,9 +151,7 @@ void TextureBuilder::PrepareSurface()
 	m_prepared = true;
 }
 
-// this is the function to call when we want to load
-// an image
-size_t LoadDDSFromFile(std::string &filename, PicoDDS::DDSImage& dds) 
+static size_t LoadDDSFromFile(std::string &filename, PicoDDS::DDSImage& dds)
 {
 	RefCountedPtr<FileSystem::FileData> filedata = FileSystem::gameDataFiles.ReadFile(filename);
 	if (!filedata) {
