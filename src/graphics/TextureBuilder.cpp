@@ -82,11 +82,7 @@ void TextureBuilder::PrepareSurface()
 	if (m_prepared) return;
 
 	if (!m_surface && !m_filename.empty()) {
-		std::string filename = m_filename;
-		std::transform(filename.begin(), filename.end(), filename.begin(), ::tolower);
-		static const std::string strToMatch("dds");
-		const std::size_t found = filename.rfind(strToMatch);
-		if (found!=std::string::npos) {
+		if (ends_with(m_filename, ".dds")) {
 			LoadDDS();
 		} else {
 			LoadSurface();
