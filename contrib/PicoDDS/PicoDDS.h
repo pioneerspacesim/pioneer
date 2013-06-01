@@ -118,7 +118,7 @@ namespace PicoDDS
 			numImages(0),
 			numMipMaps(0),
 			format(FORMAT_NONE),
-			imgData(nullptr)
+			imgData(0)
 		{
 		};
 		int32_t height;
