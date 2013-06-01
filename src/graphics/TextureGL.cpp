@@ -82,18 +82,18 @@ inline GLint GLImageTypeForTextureFormat(TextureFormat format) {
 
 inline int getMinSize(TextureFormat flag) {
 	switch(flag) {
-	case TEXTURE_DXT1:		return 8;
-	case TEXTURE_DXT5:		return 16;
+	case TEXTURE_DXT1: return 8;
+	case TEXTURE_DXT5: return 16;
+	default: return 1;
 	}
-	return 1;
 }
 
 inline int getMinSize(ImageFormat flag){
 	switch(flag) {
-	case TEXTURE_DXT1:		return 8;
-	case TEXTURE_DXT5:		return 16;
+	case TEXTURE_DXT1: return 8;
+	case TEXTURE_DXT5: return 16;
+	default: return 1;
 	}
-	return 1;
 }
 
 TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompressed) :
