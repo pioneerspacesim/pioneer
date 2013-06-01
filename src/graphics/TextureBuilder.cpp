@@ -7,6 +7,8 @@
 #include <SDL_image.h>
 #include <SDL_rwops.h>
 
+#include <algorithm>
+
 namespace Graphics {
 
 TextureBuilder::TextureBuilder(const SDLSurfacePtr &surface, TextureSampleMode sampleMode, bool generateMipmaps, bool potExtend, bool forceRGBA, bool compressTextures) :
@@ -82,7 +84,9 @@ void TextureBuilder::PrepareSurface()
 	if (m_prepared) return;
 
 	if (!m_surface && !m_filename.empty()) {
-		if (ends_with(m_filename, ".dds")) {
+		std::string filename = m_filename;
+		std::transform(filename.begin(), filename.end(), filename.begin(), ::tolower);
+		if (ends_with(filename, ".dds")) {
 			LoadDDS();
 		} else {
 			LoadSurface();
