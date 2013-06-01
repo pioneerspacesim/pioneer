@@ -150,7 +150,7 @@ void TextureBuilder::PrepareSurface()
 	m_prepared = true;
 }
 
-static size_t LoadDDSFromFile(std::string &filename, PicoDDS::DDSImage& dds)
+static size_t LoadDDSFromFile(const std::string &filename, PicoDDS::DDSImage& dds)
 {
 	RefCountedPtr<FileSystem::FileData> filedata = FileSystem::gameDataFiles.ReadFile(filename);
 	if (!filedata) {
