@@ -304,8 +304,6 @@ pioneer_SOURCES	= \
 	enum_table.cpp
 
 pioneer_LDADD = \
-	../contrib/miniz/libminiz.a \
-	../contrib/jenkins/libjenkins.a \
 	collider/libcollider.a \
 	gui/libgui.a \
 	graphics/libgraphics.a \
@@ -314,7 +312,10 @@ pioneer_LDADD = \
 	text/libtext.a \
 	terrain/libterrain.a \
 	ui/libui.a \
-	gameui/libgameui.a
+	gameui/libgameui.a \
+	../contrib/miniz/libminiz.a \
+	../contrib/PicoDDS/libpicodds.a \
+	../contrib/jenkins/libjenkins.a
 
 pioneer_LDADD += \
 	$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
@@ -347,6 +348,7 @@ tests_LDADD = \
 	terrain/libterrain.a \
     posix/libposix.a \
 	../contrib/miniz/libminiz.a \
+	../contrib/PicoDDS/libpicodds.a \
 	../contrib/jenkins/libjenkins.a \
 	$(SIGC_LIBS)
 
@@ -370,12 +372,13 @@ uitest_SOURCES = \
 	enum_table.cpp \
 	utils.cpp
 uitest_LDADD = \
-	../contrib/jenkins/libjenkins.a \
 	ui/libui.a \
 	gui/libgui.a \
 	text/libtext.a \
 	graphics/libgraphics.a \
-	posix/libposix.a
+	posix/libposix.a \
+	../contrib/jenkins/libjenkins.a \
+	../contrib/PicoDDS/libpicodds.a
 
 uitest_LDADD += \
 	$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
@@ -400,7 +403,8 @@ textstress_LDADD = \
 	gui/libgui.a \
 	text/libtext.a \
 	graphics/libgraphics.a \
-	posix/libposix.a
+	posix/libposix.a \
+	../contrib/PicoDDS/libpicodds.a
 
 textstress_LDADD += \
 	$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
