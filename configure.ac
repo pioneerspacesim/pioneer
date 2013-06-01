@@ -371,6 +371,7 @@ AC_CONFIG_FILES([
 	contrib/lua/Makefile
 	contrib/miniz/Makefile
 	contrib/jenkins/Makefile
+	contrib/PicoDDS/Makefile
 	contrib/vcacheopt/Makefile
 	osx/Makefile
 	win32/Makefile])
