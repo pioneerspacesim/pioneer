@@ -10,6 +10,8 @@
 #include "Renderer.h"
 #include "SDLWrappers.h"
 
+#include "PicoDDS/PicoDDS.h"
+
 namespace Graphics {
 
 class TextureBuilder {
@@ -57,6 +59,7 @@ public:
 
 private:
 	SDLSurfacePtr m_surface;
+	PicoDDS::DDSImage m_dds;
 	std::string m_filename;
 
 	TextureSampleMode m_sampleMode;
@@ -72,6 +75,7 @@ private:
 	bool m_prepared;
 
 	void LoadSurface();
+	void LoadDDS();
 };
 
 }

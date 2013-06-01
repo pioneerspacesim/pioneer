@@ -107,6 +107,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\contrib\PicoDDS\PicoDDS.cpp" />
     <ClCompile Include="..\..\src\AmbientSounds.cpp" />
     <ClCompile Include="..\..\src\Background.cpp" />
     <ClCompile Include="..\..\src\Body.cpp" />
@@ -265,6 +266,7 @@
     <ClCompile Include="..\..\src\WorldView.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\contrib\PicoDDS\PicoDDS.h" />
     <ClInclude Include="..\..\src\Aabb.h" />
     <ClInclude Include="..\..\src\AmbientSounds.h" />
     <ClInclude Include="..\..\src\AnimationCurves.h" />
