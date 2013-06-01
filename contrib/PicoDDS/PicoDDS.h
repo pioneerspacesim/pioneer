@@ -50,6 +50,8 @@ Send any general questions, bug reports etc to me (Rob Jones):
 #ifndef _PICODDS_H_
 #define _PICODDS_H_
 
+#include <cstddef>
+
 typedef unsigned int    uint32_t;
 typedef int             int32_t;
 typedef unsigned short  uint16_t;
