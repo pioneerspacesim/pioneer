@@ -1,5 +1,5 @@
 material Scale-material
-tex_diff scale.png
+tex_diff scale.dds
 diffuse 1.0 1.0 1.0
 unlit
 
@@ -8,12 +8,12 @@ diffuse 1.0 0.0 0.0
 specular 0.0 0.0 0.0
 
 material Shuttle-material
-tex_diff shuttle.png
+tex_diff shuttle.dds
 alpha_test
 unlit
 
 material Shuttle_top-material
-tex_diff shuttle_top.png
+tex_diff shuttle_top.dds
 alpha_test
 unlit
 
