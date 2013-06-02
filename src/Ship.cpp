@@ -72,6 +72,7 @@ void Ship::Save(Serializer::Writer &wr, Space *space)
 	wr.Int32(int(m_flightState));
 	wr.Int32(int(m_alertState));
 	wr.Double(m_lastFiringAlert);
+	wr.Double(m_juice);
 
 	// XXX make sure all hyperspace attrs and the cloud get saved
 	m_hyperspace.dest.Serialize(wr);
@@ -118,6 +119,7 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 	Properties().Set("flightState", EnumStrings::GetString("ShipFlightState", m_flightState));
 	Properties().Set("alertStatus", EnumStrings::GetString("ShipAlertStatus", m_alertState));
 	m_lastFiringAlert = rd.Double();
+	m_juice = rd.Double();
 
 	m_hyperspace.dest = SystemPath::Unserialize(rd);
 	m_hyperspace.countdown = rd.Float();
