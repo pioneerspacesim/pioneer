@@ -12,6 +12,49 @@
 #include "lua/lua.hpp"
 #include "LuaRef.h"
 
+/*
+ * The LuaTable class is a wrapper around a table present on the stack. There
+ * are two ways to instanciate a LuaTable object:
+ *
+ * > lua_State *l;
+ * > int i;
+ * > LuaTable(l); // This will allow a new table on top of the stack
+ * > LuaTable(l, i); // This will wrap the object around an existing table
+ *
+ * Note that in no way does destroying a LuaTable object will remove the
+ * wrapped table from the stack.
+ * Also, there is no integrity check except at the object creation, which means
+ * that if you fiddle with the stack below the wrapped table you will get
+ * unexpected results (most likely a crash).
+ *
+ * Get/Set:
+ *
+ * The Get and Set operators are using the pi_lua_generic_{push pull} functions
+ * to fetch any value from the table using templates. It is then possible to
+ * add support for extra types only by writing the beforementioned functions
+ * for the wanted type. Note that that Get has two flavours, one with a
+ * default value and another faster which will crash if the key gives nil.
+ *
+ * These operations are designed to restore the state of the stack, thus making
+ * it impossible to Get a LuaTable, as the latter would need a place on the
+ * stack. For this reason, the Sub() method is used to get a subtable,
+ * allocating it on top of the stack.
+ *
+ * Example:
+ *
+ * > lua_State *l; // stack size: X
+ * > LuaTable t = LuaTable(l+1); // stack size: X+1, t = {}
+ * > t.Set("foo", 1); // stack size: X+1, t = {foo:1}
+ * > int foo = t.Get<int>("foo");
+ * > //int bar = t.Get<int>("bar"); // WOULD CRASH!
+ * > int bar = t.Get("bar", 0);
+ * > {
+ * >     LuaTable t2(l); // stack size: X+2
+ * >     t.Set("baz", t2); // t = {foo:1, baz:<t2>}
+ * > } // t2 isn't a valid name, we can now safely pop the table out.
+ * > lua_pop(l, 1); // stack size: X+1
+ * > LuaTable t2_bis = t.Sub("baz"); // stack size: X+2
+ */
 class LuaTable {
 public:
 	// For now, every lua_State * can only be NULL or Pi::LuaManager->GetLuaState();
