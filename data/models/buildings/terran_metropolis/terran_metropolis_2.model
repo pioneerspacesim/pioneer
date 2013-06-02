@@ -1,7 +1,7 @@
 material newbuilding
-tex_diff diff3.png
-tex_glow glow3.png
-tex_spec spec3.png
+tex_diff diff3.dds
+tex_glow glow3.dds
+tex_spec spec3.dds
 
 diffuse 1.0 1.0 1.0
 specular 1.0 1.0 1.0

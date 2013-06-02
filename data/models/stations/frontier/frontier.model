@@ -1,17 +1,17 @@
 material material1
 
-tex_diff DIFF.png
-tex_spec SPEC.png
-tex_glow GLOW.png
+tex_diff DIFF.dds
+tex_spec SPEC.dds
+tex_glow GLOW.dds
 specular 1.0 1.0 1.0
 diffuse 1.0 1.0 1.0
 
 
 material hangar
 
-tex_diff hangardiff.png
-tex_glow hangarglow.png
-tex_spec hangarspec.png
+tex_diff hangardiff.dds
+tex_glow hangarglow.dds
+tex_spec hangarspec.dds
 diffuse 1.0 1.0 1.0
 specular 1.0 1.0 1.0
 

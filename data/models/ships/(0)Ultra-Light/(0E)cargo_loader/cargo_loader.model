@@ -1,8 +1,8 @@
 material material1
 
-tex_diff diff.png
-tex_spec spec.png
-tex_glow glow.png
+tex_diff diff.dds
+tex_spec spec.dds
+tex_glow glow.dds
 diffuse 1.0 1.0 1.0
 specular 1.0 1.0 1.0
 shininess 80
@@ -10,8 +10,8 @@ shininess 80
 
 material material2
 
-tex_diff cargodiff.png
-tex_spec cargospec.png
+tex_diff cargodiff.dds
+tex_spec cargospec.dds
 diffuse 1.0 1.0 1.0
 specular 1.0 1.0 1.0
 

@@ -1,4 +1,4 @@
 material Missile-material
-tex_diff diffuse.png
+tex_diff diffuse.dds
 
 mesh missile.dae

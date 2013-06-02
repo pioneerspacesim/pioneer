@@ -1,8 +1,8 @@
 material material1
 
-tex_diff DIFF.png
-tex_spec SPEC.png
-tex_glow GLOW.png
+tex_diff DIFF.dds
+tex_spec SPEC.dds
+tex_glow GLOW.dds
 diffuse 1.0 1.0 1.0
 specular 1.0 1.0 1.0
 shininess 80

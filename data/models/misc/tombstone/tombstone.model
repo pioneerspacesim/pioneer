@@ -4,8 +4,8 @@ material 1
 diffuse 1 1 1
 specular 1 1 1
 # shininess 0
-tex_diff diff.png
-tex_spec spec.png
+tex_diff diff.dds
+tex_spec spec.dds
 
 lod 50
 mesh tombstone.obj

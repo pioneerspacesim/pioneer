@@ -1,7 +1,7 @@
 material newbuilding
-tex_diff diff4.png
-tex_glow glow4.png
-tex_spec spec4.png
+tex_diff diff4.dds
+tex_glow glow4.dds
+tex_spec spec4.dds
 diffuse 1.0 1.0 1.0
 specular 0.6 0.6 0.8
 shininess 40
