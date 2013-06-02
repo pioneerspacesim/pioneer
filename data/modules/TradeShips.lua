@@ -51,7 +51,6 @@
 		Constants.EquipType strings, updated by spawnInitialShips
 --]]
 local trade_ships, system_updated, from_paths, starports, vacuum_starports, imports, exports
-local num_trade_ships
 
 local addFuel = function (ship)
 	local drive = ship:GetEquip('ENGINE', 1)
@@ -366,7 +365,7 @@ local spawnInitialShips = function (game_start)
 	-- start with three ships per two billion population
 	----num_trade_ships = population * 4
 	-- Adjust to # starports
-	num_trade_ships = #starports * 1.5
+	local num_trade_ships = #starports * 1.5
 	-- add the average of import_score and export_score
 	num_trade_ships = num_trade_ships + (import_score + export_score) / 2
 	-- reduce based on lawlessness
@@ -559,7 +558,7 @@ local cleanTradeShipsTable = function ()
 			end
 		end
 	end
-	if ( total-hyperspace < num_trade_ships*0.5 and total < 100) then spawnReplacement() end
+	--if ( total-hyperspace < num_trade_ships*0.5 and total < 100) then spawnReplacement() end
 
 	print('cleanTSTable:total:'..total..',active:'..total - hyperspace..',removed:'..removed)
 	return total-hyperspace
