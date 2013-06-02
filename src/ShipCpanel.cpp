@@ -69,17 +69,17 @@ void ShipCpanel::InitObject()
 
 	Gui::ImageRadioButton *b = new Gui::ImageRadioButton(0, "icons/timeaccel0.png", "icons/timeaccel0_on.png");
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), Game::TIMEACCEL_PAUSED));
-	//b->SetShortcut(SDLK_ESCAPE, KMOD_LSHIFT);
+	b->SetShortcut(SDLK_ESCAPE, KMOD_LSHIFT);
 	b->SetRenderDimensions(22, 18);
-	//Add(b, 0, 36);
+	Add(b, 0, 36);
 	m_timeAccelButtons[0] = b;
 
 	b = new Gui::ImageRadioButton(0, "icons/timeaccel1.png", "icons/timeaccel1_on.png");
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), Game::TIMEACCEL_1X));
-	//b->SetShortcut(SDLK_F1, KMOD_LSHIFT);
+	b->SetShortcut(SDLK_F1, KMOD_LSHIFT);
 	b->SetSelected(true);
 	b->SetRenderDimensions(22, 18);
-	//Add(b, 22, 36);
+	Add(b, 22, 36);
 	m_timeAccelButtons[1] = b;
 
 	b = new Gui::ImageRadioButton(0, "icons/timeaccel2.png", "icons/timeaccel2_on.png");
