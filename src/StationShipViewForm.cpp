@@ -134,6 +134,7 @@ void StationShipViewForm::BuyShip()
 	Pi::player->SetLabel(m_sos.regId);
 	Pi::player->SetSkin(m_sos.skin);
 	Pi::player->m_equipment.Set(Equip::SLOT_ENGINE, 0, ShipType::types[m_sos.id].hyperdrive);
+	Pi::player->m_equipment.Set(Equip::SLOT_AUTOPILOT, 0, Equip::AUTOPILOT);
 	Pi::player->UpdateStats();
 
 	m_station->ReplaceShipOnSale(m_marketIndex, old);
