@@ -1,0 +1,31 @@
+ALPHA 1
+
+Art
+
+-New series of designed ships.
+-New series of designed stations.
+-New buildings.
+-120 bay support.
+-New music tracks.
+
+
+Environment / technical
+
+-High traffic / busy systems.
+-Removed time compression, using fast transit drives.
+-Fake flared stars, brightened.very large visibility range.
+-Smoke thusters.
+-Slowed down lasers.
+-Parked bulk ships.
+
+Alpha 2
+
+Art.
+
+-One new ship
+
+Environment / Technical
+
+-Vastly improved loading and startup times.
+-Fixed save game loading
+-New jump cloud graphics

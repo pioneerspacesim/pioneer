@@ -6,7 +6,7 @@
 
 // game version. usually defined by configure
 #ifndef PIONEER_VERSION
-#define PIONEER_VERSION "Alpha 2 dev"
+#define PIONEER_VERSION "Alpha 2"
 #endif
 #ifndef PIONEER_EXTRAVERSION
 #define PIONEER_EXTRAVERSION ""
