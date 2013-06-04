@@ -78,6 +78,15 @@
  * The two methods are LuaTable::Begin<Value>() and LuaTable::End<Value>()
  *
  * As usual, since C++ is static typed, the iterators will fail in a mixed-typed table
+ *
+ * ScopedTable:
+ *
+ * The ScopedTable class is a LuaTable derivative that comes with two constructors:
+ *   * New table constructor: ScopedTable(l);
+ *   * LuaRef contructor: ScopedTable(my_lua_ref_object);
+ * Both constructors will push a new table onto the stack, and when the C++
+ * ScopedTable objects are destroyed, this new table is removed and everything
+ * above it on the stack gets shifted down.
  */
 class LuaTable {
 public:
