@@ -52,6 +52,32 @@
  * > } // t2 isn't a valid name, we can now safely pop the table out.
  * > lua_pop(l, 1); // stack size: X+1
  * > LuaTable t2_bis = t.Sub("baz"); // stack size: X+2
+ *
+ * STL loaders:
+ *
+ * If you want to load a whole vector or map into a LuaTable, just do
+ *
+ * > std::vector v; // Or std::list, std::set, whatever as long as it has iterators
+ * > std::map m;
+ * > LuaTable t;
+ * > T.LoadMap(m.begin(), m.end());
+ * > T.LoadVector(v.begin(), v.end());
+ *
+ * Note that LoadVector doesn't overwrite the content of the table, it appends
+ * to its array-like part. Unless you have numerical index beyond its length,
+ * which you shouldn't do anyway.
+ *
+ * LoadMap happily overwrites any data if necessary.
+ *
+ * VecIter:
+ *
+ * It is possible to get STL-like iterators on the array part of the table.
+ * The use cases are typically in loops or to use in the STL algorithms or as
+ * inputs for containers.
+ *
+ * The two methods are LuaTable::Begin<Value>() and LuaTable::End<Value>()
+ *
+ * As usual, since C++ is static typed, the iterators will fail in a mixed-typed table
  */
 class LuaTable {
 public:
