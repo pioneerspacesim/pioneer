@@ -5,8 +5,6 @@
 #define _LUATABLE_H
 
 #include <cassert>
-#include <map>
-#include <vector>
 #include <iterator>
 
 #include "lua/lua.hpp"
@@ -74,8 +72,8 @@ public:
 	template <class Value, class Key> Value Get(const Key & key, Value default_value) const;
 	template <class Value, class Key> void Set(const Key & key, const Value & value) const;
 
-	template <class Key, class Value> void LoadMap(const std::map<Key, Value> & m) const;
-	template <class Value> void LoadVector(const std::vector<Value> & m) const;
+	template <class PairIterator> void LoadMap(PairIterator beg, PairIterator end) const;
+	template <class ValueIterator> void LoadVector(ValueIterator beg, ValueIterator end) const;
 
 	lua_State * GetLua() const { return m_lua; }
 	int GetIndex() const { return m_index; }
@@ -120,7 +118,7 @@ public:
 			Value m_cache;
 			bool m_dirtyCache;
 	};
-	
+
 	template <class Value> VecIter<Value> Begin() {return VecIter<Value>(this, 1);}
 	template <class Value> VecIter<Value> End() {return VecIter<Value>(this, Size()+1);}
 
@@ -185,18 +183,17 @@ template <class Value, class Key> void LuaTable::Set(const Key & key, const Valu
 	lua_settable(m_lua, m_index);
 }
 
-template <class Key, class Value> void LuaTable::LoadMap(const std::map<Key, Value> & m) const {
-	for (typename std::map<Key, Value>::const_iterator it = m.begin();
-			it != m.end() ; ++it)
+template <class PairIterator> void LuaTable::LoadMap(PairIterator beg, PairIterator end) const {
+	for (PairIterator it = beg; it != end ; ++it)
 		Set(it->first, it->second);
 }
 
-template <class Value> void LuaTable::LoadVector(const std::vector<Value> & v) const {
+template <class ValueIterator> void LuaTable::LoadVector(ValueIterator beg, ValueIterator end) const {
 	lua_len(m_lua, m_index);
-	int current_length = lua_tointeger(m_lua, -1);
+	int i = lua_tointeger(m_lua, -1) + 1;
 	lua_pop(m_lua, 1);
-	for (unsigned int i = 0;  i < v.size() ; ++i)
-		Set(current_length+i+1, v[i]);
+	for (ValueIterator it = beg;  it != end ; ++it, ++i)
+		Set(i, *it);
 }
 
 template <> inline void LuaTable::VecIter<LuaTable>::LoadCache() {
