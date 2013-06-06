@@ -626,7 +626,7 @@ Event.Register("onLeaveSystem", onLeaveSystem)
 local onFrameChanged = function (ship)
 
 	--add local traffic fast to make it busy. Check if we're on approach or not
-	if ship:isa("Ship") and ship == Game.player then
+	if #starports > 0 and ship:isa("Ship") and ship == Game.player then
 		local dist,delta = 0 
 		Timer:CallAt(Game.time+1, function () dist= ship:DistanceTo(getMyStarport(ship)) end)
 		Timer:CallAt(Game.time+2, function () 
