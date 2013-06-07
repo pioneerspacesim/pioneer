@@ -303,7 +303,7 @@ local econTrade = function ()
 	local refuelButton = UI.SmallLabeledButton.New(t('REFUEL'))
 
 	local refuelButtonRefresh = function ()
-		if Game.player.fuel == 100 or Game.player:GetEquipCount('CARGO', 'WATER') == 0 then refuelButton.widget:Disable() end
+		if Game.player.fuel == 100 or Game.player:GetEquipCount('CARGO', 'HYDROGEN') == 0 then refuelButton.widget:Disable() end
 	end
 	refuelButtonRefresh()
 
