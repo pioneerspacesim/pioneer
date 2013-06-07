@@ -50,9 +50,9 @@ namespace FileSystem {
 		}
 
 #ifdef __APPLE__
-		path += "Library/Application Support/Pioneer";
+		path += "Library/Application Support/Paragon";
 #else
-		path += ".pioneer";
+		path += ".paragon";
 #endif
 		return path;
 	}
