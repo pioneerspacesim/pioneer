@@ -874,7 +874,7 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 
 	double sidefactor = perpspeed / (tt*0.5);
 	if (curspeed > (tt+timestep)*maxdecel || maxdecel < sidefactor) {
-		m_ship->AIFaceDirection(relvel);
+		m_ship->AIFaceDirection(-relvel);
 		m_ship->AIMatchVel(targvel);
 		m_state = -5; return false;
 	}
@@ -917,8 +917,8 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 	// work out which way to head 
 	vector3d head = reldir;
 	if (!m_state && sdiff < -1.2*maxdecel*timestep) m_state = 1;
-	if (m_state && sdiff < maxdecel*timestep*60) head = -head;
-	if (!m_state && decel) sidefactor = -sidefactor;
+	if (m_state && sdiff < maxdecel*timestep*60) head = head;
+	if (!m_state && decel) sidefactor = sidefactor;
 	head = head*maxdecel + perpdir*sidefactor;
 
 	// face appropriate direction
@@ -1076,6 +1076,8 @@ void AICmdFlyAround::Setup(Body *obstructor, double alt, double vel, int mode)
 	double minacc = (mode == 2) ? 0 : m_ship->GetAccelMin();
 	double mass = obstructor->IsType(Object::TERRAINBODY) ? obstructor->GetMass() : 0;
 	if (vel < 1e-30) m_vel = sqrt(m_alt*0.8*minacc + mass*G/m_alt);
+
+	m_vel = m_vel*2.0;
 
 	// check if altitude is within obstructor frame
 	if (alt > 0.9 * obstructor->GetFrame()->GetNonRotFrame()->GetRadius()) {
