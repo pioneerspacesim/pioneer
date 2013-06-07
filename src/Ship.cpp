@@ -997,7 +997,7 @@ void Ship::StaticUpdate(const float timeStep)
 				vector3d vdir = GetVelocity().Normalized();
 				vector3d pdir = -GetOrient().VectorZ();
 				double dot = vdir.Dot(pdir);
-				if ((m_stats.free_capacity) && (dot > 0.95) && (speed > 2000.0) && (density > 1.0)) {
+				if ((m_stats.free_capacity) && (dot > 0.95) && (speed > 2000.0) && (density > 0.0)) {
 					double rate = speed*density*0.00001f;
 					if (Pi::rng.Double() < rate) {
 						m_equipment.Add(Equip::HYDROGEN);
