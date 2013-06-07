@@ -6,7 +6,7 @@ define_static_ship {
 	name='Cargo ULCS',
 	model='cargo_ulcs',
 	forward_thrust = 3200e5,
-	reverse_thrust = 800e5,
+	reverse_thrust = 3200e5,
 	up_thrust = 800e5,
 	down_thrust = 800e5,
 	left_thrust = 800e5,

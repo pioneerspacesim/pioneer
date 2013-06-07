@@ -5,7 +5,7 @@ define_ship {
 	name='Personal Craft',
 	model='personal_craft',
 	forward_thrust = 51e5,
-	reverse_thrust = 27e5,
+	reverse_thrust = 51e5,
 	up_thrust = 27e5,
 	down_thrust = 14e5,
 	left_thrust = 14e5,
