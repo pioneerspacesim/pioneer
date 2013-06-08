@@ -1,4 +1,4 @@
-# General
+﻿# General
 SUGGESTED_RESPONSES
     Sugerowane odpowiedzi:
 CASH
@@ -702,6 +702,10 @@ NOT_FOUND_BEST_MATCH_X
     Nie znaleziono, najlepszy wynik: %system
 NOT_FOUND
     Nie znaleziono
+NUMBER_SECONDS
+    %seconds{f.1} sec
+NUMBER_MINUTES
+    %minutes{f.1} min
 NUMBER_HOURS
     %hours{f.1} godz.
 NUMBER_DAYS
