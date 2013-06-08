@@ -852,6 +852,9 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 	maxdecel -= gravdir * GetGravityAtPos(m_ship->GetFrame(), m_ship->GetPosition());
 	if (maxdecel < 0) maxdecel = 0.0;
 
+	if (targdist < 50000.0 && m_ship->GetVelocity().Length()>1000.0) maxdecel*=0.25; //prevent overshooting.
+	if (targdist < 10000.0 && m_ship->GetVelocity().Length()>1000.0) maxdecel*=0.125; //prevent overshooting. 
+
 	// target ship acceleration adjustment
 	if (m_target && m_target->IsType(Object::SHIP)) {
 		Ship *targship = static_cast<Ship*>(m_target);
@@ -874,7 +877,7 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 
 	double sidefactor = perpspeed / (tt*0.5);
 	if (curspeed > (tt+timestep)*maxdecel || maxdecel < sidefactor) {
-		m_ship->AIFaceDirection(-relvel);
+		m_ship->AIFaceDirection(-relvel); //prevent retro
 		m_ship->AIMatchVel(targvel);
 		m_state = -5; return false;
 	}
@@ -917,8 +920,8 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 	// work out which way to head 
 	vector3d head = reldir;
 	if (!m_state && sdiff < -1.2*maxdecel*timestep) m_state = 1;
-	if (m_state && sdiff < maxdecel*timestep*60) head = head;
-	if (!m_state && decel) sidefactor = sidefactor;
+	if (m_state && sdiff < maxdecel*timestep*60) head = head; //- but prevents retro
+	if (!m_state && decel) sidefactor = sidefactor; //- but prevents retro
 	head = head*maxdecel + perpdir*sidefactor;
 
 	// face appropriate direction
