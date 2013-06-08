@@ -1,4 +1,4 @@
-# General
+﻿# General
 SUGGESTED_RESPONSES
     Aanbevolen reacties:
 CASH
@@ -649,6 +649,10 @@ NOT_FOUND_BEST_MATCH_X
     Niet gevonden, beste match: %system
 NOT_FOUND
     Niet gevonden
+NUMBER_SECONDS
+    %seconds{f.1} sec
+NUMBER_MINUTES
+    %minutes{f.1} min
 NUMBER_HOURS
     %hours{f.1} uur
 QUADRUPLE_SYSTEM

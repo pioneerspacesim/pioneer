@@ -598,14 +598,14 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 		double dur;
 		enum Ship::HyperjumpStatus jumpStatus
 			= Pi::player->GetHyperspaceDetails(&path, fuelRequired, dur);
-		const double DaysNeeded = dur*(1.0 / (24*60*60));
-		const double HoursNeeded = (DaysNeeded - floor(DaysNeeded))*24;
+		const double MinutesNeeded = dur*(1.0 / (60));
+		const double SecondsNeeded = (MinutesNeeded - floor(MinutesNeeded))*60;
 
 		switch (jumpStatus) {
 			case Ship::HYPERJUMP_OK:
-				snprintf(format, sizeof(format), "[ %s | %s | %s, %s ]", Lang::NUMBER_LY, Lang::NUMBER_TONNES, Lang::NUMBER_DAYS, Lang::NUMBER_HOURS);
+				snprintf(format, sizeof(format), "[ %s | %s | %s, %s ]", Lang::NUMBER_LY, Lang::NUMBER_TONNES, Lang::NUMBER_MINUTES, Lang::NUMBER_SECONDS);
 				labels.distance->SetText(stringf(format,
-					formatarg("distance", dist), formatarg("mass", fuelRequired), formatarg("days", floor(DaysNeeded)), formatarg("hours", HoursNeeded)));
+					formatarg("distance", dist), formatarg("mass", fuelRequired), formatarg("minutes", floor(MinutesNeeded)), formatarg("seconds", SecondsNeeded)));
 				labels.distance->Color(0.0f, 1.0f, 0.2f);
 				m_jumpLine.SetColor(Color(0.f, 1.f, 0.2f, 1.f));
 				break;
