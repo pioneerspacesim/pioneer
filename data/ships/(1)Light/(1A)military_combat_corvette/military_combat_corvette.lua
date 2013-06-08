@@ -5,7 +5,7 @@ define_ship {
 	name='Military Combat Corvette',
 	model='military_combat_corvette',
 	forward_thrust = 120e5,
-	reverse_thrust = 86e5,
+	reverse_thrust = 120e5,
 	up_thrust = 50e5,
 	down_thrust = 34e5,
 	left_thrust = 34e5,

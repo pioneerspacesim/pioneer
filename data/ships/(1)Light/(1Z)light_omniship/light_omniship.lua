@@ -5,7 +5,7 @@ define_ship {
 	name='Light Omni Ship',
 	model='light_omniship',
 	forward_thrust = 280e5,
-	reverse_thrust = 127e5,
+	reverse_thrust = 280e5,
 	up_thrust = 76e5,
 	down_thrust = 76e5,
 	left_thrust = 76e5,
