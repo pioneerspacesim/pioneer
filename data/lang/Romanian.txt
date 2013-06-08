@@ -1,4 +1,4 @@
-# General
+﻿# General
 SUGGESTED_RESPONSES
     Răspunsuri sugerate:
 CASH
@@ -647,6 +647,10 @@ NOT_FOUND_BEST_MATCH_X
     Nu a fost găsit, cel mai potrivit: %system
 NOT_FOUND
     Nu a fost găsit
+NUMBER_SECONDS
+    %seconds{f.1} sec
+NUMBER_MINUTES
+    %minutes{f.1} min
 NUMBER_HOURS
     %hours{f.1} ore
 QUADRUPLE_SYSTEM

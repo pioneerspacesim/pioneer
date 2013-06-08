@@ -5,7 +5,7 @@ define_ship {
 	name='Passenger Ship',
 	model='passenger_ship',
 	forward_thrust = 280e5,
-	reverse_thrust = 127e5,
+	reverse_thrust = 280e5,
 	up_thrust = 76e5,
 	down_thrust = 76e5,
 	left_thrust = 76e5,

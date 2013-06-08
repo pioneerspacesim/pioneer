@@ -5,7 +5,7 @@ define_ship {
 	name='System Combat Interceptor',
 	model='system_combat_interceptor',
 	forward_thrust = 233e5,
-	reverse_thrust = 93e5,
+	reverse_thrust = 233e5,
 	up_thrust = 70e5,
 	down_thrust = 70e5,
 	left_thrust = 47e5,

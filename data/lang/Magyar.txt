@@ -1,4 +1,4 @@
-# General
+﻿# General
 SUGGESTED_RESPONSES
     Javasolt válaszok:
 CASH
@@ -670,6 +670,10 @@ NOT_FOUND_BEST_MATCH_X
     Nincs, közeli egyezés: %system
 NOT_FOUND
     Nincs ilyen
+NUMBER_SECONDS
+    %seconds{f.1} sec
+NUMBER_MINUTES
+    %minutes{f.1} min
 NUMBER_HOURS
     %hours{f.2} óra
 NUMBER_DAYS
