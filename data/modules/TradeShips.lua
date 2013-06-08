@@ -195,6 +195,8 @@ local getMyStarport = function (ship, current)
 
 	local trader = trade_ships[ship]
 
+	if trader==nil then return nil end
+
 	-- Find the nearest starport that we can land at (other than current)
 	local starport, distance
 
@@ -628,7 +630,11 @@ local onFrameChanged = function (ship)
 	--add local traffic fast to make it busy. Check if we're on approach or not
 	if #starports > 0 and ship:isa("Ship") and ship == Game.player then
 		local dist,delta = 0 
-		Timer:CallAt(Game.time+1, function () dist= ship:DistanceTo(getMyStarport(ship)) end)
+
+		local mystarport = getMyStarport(ship)
+		if mystarport==nil then return end
+
+		Timer:CallAt(Game.time+1, function () dist= ship:DistanceTo(mystarport) end)
 		Timer:CallAt(Game.time+2, function () 
 			delta=dist-ship:DistanceTo(getMyStarport(ship)) 
 			print('delta: '..delta..',dist: '..dist)
