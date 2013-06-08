@@ -1192,6 +1192,8 @@ AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND
     Автопилот: Встать на среднюю орбиту %target
 AUTOPILOT_ENTER_HIGH_ORBIT_AROUND
     Автопилот: Встать на высокую орбиту %target
+AUTOPILOT_ENTER_SCOOP_ORBIT_AROUND
+    Autopilot: Enter scoop orbit around %target
 SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
     Анализатор гипероблаков: Установить систему прибытия целью для гиперпрыжка.
 FAILED

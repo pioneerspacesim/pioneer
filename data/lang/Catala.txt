@@ -1144,6 +1144,8 @@ AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND
     Pilot automàtic: Òrbita mitjana sobrevolant %target
 AUTOPILOT_ENTER_HIGH_ORBIT_AROUND
     Pilot automàtic: Òrbita alta sobrevolant %target
+AUTOPILOT_ENTER_SCOOP_ORBIT_AROUND
+    Autopilot: Enter scoop orbit around %target
 SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
     Analitzador de núvols hiperespacials: Fixar objectiu hiperespacial d'aquesta sortida
 FAILED

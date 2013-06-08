@@ -1120,6 +1120,8 @@ AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND
     Autópilóta: Állj közepes pályára %target körül
 AUTOPILOT_ENTER_HIGH_ORBIT_AROUND
     Autópilóta: Állj magas pályára %target körül
+AUTOPILOT_ENTER_SCOOP_ORBIT_AROUND
+    Autopilot: Enter scoop orbit around %target
 SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
     Hiperűrugrás-felhő analizáló: Állítsd az ugrás célpontját a felhő kimenetéhez
 FAILED

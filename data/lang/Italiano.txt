@@ -1112,6 +1112,8 @@ AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND
     Pilota autom.: stabilire orbita media attorno a %target
 AUTOPILOT_ENTER_HIGH_ORBIT_AROUND
     Pilota autom.: stabilire orbita alta attorno a %target
+AUTOPILOT_ENTER_SCOOP_ORBIT_AROUND
+    Autopilot: Enter scoop orbit around %target
 SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
     Analizzatore Nubi Iperspaziali: Tracciare rotta di intercettazione
 FAILED
