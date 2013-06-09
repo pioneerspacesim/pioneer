@@ -1124,12 +1124,12 @@ void Ship::StaticUpdate(const float timeStep)
 
 	//play start transit drive
 	if (m_transitstate==-5 && IsType(Object::PLAYER)) {
-		Sound::PlaySfx("Transit_Start", 0.15f, 0.15f, false);
+		Sound::PlaySfx("Transit_Start", 0.25f, 0.25f, false);
 		m_transitstate=-3;
 	}
 	//play stop transit drive
 	if (m_transitstate==-4 && IsType(Object::PLAYER) ) {
-		Sound::PlaySfx("Transit_Finish", 0.15f, 0.15f, false);
+		Sound::PlaySfx("Transit_Finish", 0.20f, 0.20f, false);
 		m_transitstate=-6;
 	}
 }
