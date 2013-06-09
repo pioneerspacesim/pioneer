@@ -748,7 +748,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 			//m_ship->GetVelocity().Length()>=550000
 			)
 		{
-			m_ship->SetVelocity(m_ship->GetOrient()*vector3d(-10000, 0, -79000));
+			m_ship->SetVelocity(m_ship->GetOrient()*vector3d(-10000, 0, -99000));
 			m_ship->SetJuice(20.0);
 			m_ship->SetTransitState(0);
 			return false;
@@ -803,7 +803,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 				m_ship->SetTransitState(0);
 			}
 			else {
-				m_ship->SetVelocity(m_ship->GetOrient()*vector3d(-10000, 0, -79000));
+				m_ship->SetVelocity(m_ship->GetOrient()*vector3d(-10000, 0, -99000));
 				m_ship->SetJuice(20.0);
 				m_ship->SetTransitState(0);
 			}
