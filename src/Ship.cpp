@@ -790,7 +790,7 @@ void Ship::DoThrusterSounds() const
 
 	//transit
 	float transitVol[2] = { 0.f, 0.f };
-	if (GetTransitState()>0) {
+	if (m_transitstate>0 && IsType(Object::PLAYER)) {
 		transitVol[0] = targetVol[0];
 		transitVol[1] = targetVol[1];
 	}
@@ -1124,12 +1124,12 @@ void Ship::StaticUpdate(const float timeStep)
 
 	//play start transit drive
 	if (m_transitstate==-5 && IsType(Object::PLAYER)) {
-		Sound::PlaySfx("Transit_Start", 0.3f, 0.3f, false);
+		Sound::PlaySfx("Transit_Start", 0.15f, 0.15f, false);
 		m_transitstate=-3;
 	}
 	//play stop transit drive
 	if (m_transitstate==-4 && IsType(Object::PLAYER) ) {
-		Sound::PlaySfx("Transit_Finish", 0.3f, 0.3f, false);
+		Sound::PlaySfx("Transit_Finish", 0.15f, 0.15f, false);
 		m_transitstate=-6;
 	}
 }
