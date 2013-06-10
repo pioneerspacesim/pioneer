@@ -1181,7 +1181,7 @@ void SystemBody::PickAtmosphere()
 	switch (type) {
 		case SystemBody::TYPE_PLANET_GAS_GIANT:
 
-			m_atmosColor = Color(1.0f, 1.0f, 1.0f, 0.01f);
+			m_atmosColor = Color(0.25f, 0.25f, 0.25f, 0.01f);
 			m_atmosDensity = 14.0;
 			break;
 		case SystemBody::TYPE_PLANET_ASTEROID:
@@ -1362,7 +1362,7 @@ SystemBody::AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 	// This uses a minimum scale height as a fraction of gas giant radius based on
 	// Earth's scale height relative to its radius.
 	if (type == TYPE_PLANET_GAS_GIANT)
-		atmosScaleHeight = std::max(atmosScaleHeight, static_cast<float>((0.02*8000.0/EARTH_RADIUS)*GetRadius()));
+		atmosScaleHeight = std::max(atmosScaleHeight*10.f, static_cast<float>((0.02*8000.0/EARTH_RADIUS)*GetRadius()));
 
 	// min of 2.0 corresponds to a scale height of 1/20 of the planet's radius,
 	params.atmosInvScaleHeight = std::max(20.0f, static_cast<float>(GetRadius() / atmosScaleHeight));
@@ -1905,6 +1905,8 @@ void SystemBody::PickPlanetType(Random &rand)
 				starTypeInfo[type].radius[1]), 100);
 	} else if (mass > 6) {
 		type = SystemBody::TYPE_PLANET_GAS_GIANT;
+		averageTemp = 394;
+		fixed amount_volatiles = fixed(2,1)*rand.Fixed();
 	} else if (mass > fixed(1, 15000)) {
 		type = SystemBody::TYPE_PLANET_TERRESTRIAL;
 

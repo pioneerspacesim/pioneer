@@ -1100,13 +1100,21 @@ void WorldView::UpdateCommsOptions()
 				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 1.2));
 				ypos += 32;
 
-				button = AddCommsOption(stringf(Lang::AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND, formatarg("target", navtarget->GetLabel())), ypos, optnum++);
-				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 1.6));
-				ypos += 32;
+				//button = AddCommsOption(stringf(Lang::AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND, formatarg("target", navtarget->GetLabel())), ypos, optnum++);
+				//button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 1.6));
+				//ypos += 32;
 
-				button = AddCommsOption(stringf(Lang::AUTOPILOT_ENTER_HIGH_ORBIT_AROUND, formatarg("target", navtarget->GetLabel())), ypos, optnum++);
-				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 3.2));
-				ypos += 32;
+				//button = AddCommsOption(stringf(Lang::AUTOPILOT_ENTER_HIGH_ORBIT_AROUND, formatarg("target", navtarget->GetLabel())), ypos, optnum++);
+				//button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 3.2));
+				//ypos += 32;
+
+				if (navtarget->IsType(Object::PLANET) && Pi::player->m_equipment.Get(Equip::SLOT_FUELSCOOP) != Equip::NONE) {
+					if (navtarget->GetSystemBody()->IsScoopable() && navtarget->GetSystemBody()->GetMass() < EARTH_MASS*150.0) {
+						button = AddCommsOption(stringf(Lang::AUTOPILOT_ENTER_SCOOP_ORBIT_AROUND, formatarg("target", navtarget->GetLabel())), ypos, optnum++);
+						button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 0.99998));
+						ypos += 32;
+					}
+				}
 			}
 		}
 

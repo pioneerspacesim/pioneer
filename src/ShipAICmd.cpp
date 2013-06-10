@@ -1109,6 +1109,7 @@ void AICmdFlyAround::Setup(Body *obstructor, double alt, double vel, int mode)
 	if (vel < 1e-30) m_vel = sqrt(m_alt*0.8*minacc + mass*G/m_alt);
 
 	m_vel = m_vel*2.0;
+	if (obstructor->GetFrame()->GetBody()->GetPhysRadius()*0.99998 == m_alt) m_vel = 3000.0; //Go slow on scooping.
 
 	// check if altitude is within obstructor frame
 	if (alt > 0.9 * obstructor->GetFrame()->GetNonRotFrame()->GetRadius()) {
@@ -1204,9 +1205,11 @@ bool AICmdFlyAround::TimeStepUpdate()
 //	m_ship->AIFaceDirection(newhead-m_ship->GetPosition());
 
 	// termination condition for orbits
-	vector3d thrust = m_ship->GetThrusterState();
-	if (m_targmode >= 2 && thrust.LengthSqr() < 0.01) m_targmode++;
-	if (m_targmode == 4) { m_ship->SetThrusterState(vector3d(0.0)); return true; }
+	if (m_obstructor->GetFrame()->GetBody()->GetPhysRadius()*0.99998 != m_alt) {  //dont terminate ever on scooping.
+		vector3d thrust = m_ship->GetThrusterState();
+		if (m_targmode >= 2 && thrust.LengthSqr() < 0.01) m_targmode++;
+		if (m_targmode == 4) { m_ship->SetThrusterState(vector3d(0.0)); return true; }
+	}
 	return false;
 }
 

@@ -1198,6 +1198,8 @@ AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND
     Autopilot: Enter medium orbit around %target
 AUTOPILOT_ENTER_HIGH_ORBIT_AROUND
     Autopilot: Enter high orbit around %target
+AUTOPILOT_ENTER_SCOOP_ORBIT_AROUND
+    Autopilot: Enter scoop orbit around %target
 SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
     Hyperspace cloud analyzer: Set hyperspace target to follow this departure
 FAILED
