@@ -191,11 +191,7 @@ local doOrbit = function (ship)
 end
 
 local getMyStarport = function (ship, current)
-	if #starports == 0  then return nil end
-
-	local trader = trade_ships[ship]
-
-	if trader==nil then return nil end
+	if #starports == 0 then return nil end
 
 	-- Find the nearest starport that we can land at (other than current)
 	local starport, distance
@@ -208,10 +204,6 @@ local getMyStarport = function (ship, current)
 			local next_canland
 			if ship==Game.player then
 				next_canland = true
-			else
-				next_canland = (trader.ATMOSHIELD or
-				(next_starport.type == 'STARPORT_ORBITAL') or
-				(not next_starport.path:GetSystemBody().parent.hasAtmosphere))
 			end
 
 			if next_canland and ((starport == nil) or (next_distance < distance)) then
@@ -507,22 +499,48 @@ end
 
 local spawnReplacementFast = function ()
 	-- spawn new ship in hyperspace
+	local starport
 	if #starports > 0 and Game.system.population > 0 and #imports > 0 and #exports > 0 then
+		starport = getMyStarport(Game.player)
+		if starport == nil then
+			return
+		end
 		local ship_names = getAcceptableShips()
 		local ship_name = ship_names[Engine.rand:Integer(1, #ship_names)]
 
-		local ship = Space.SpawnShipNear(ship_name, Game.player, 5, 15) -- 10mkm - 1AU
+		local ship = Space.SpawnShipNear(ship_name, Game.player, 15, 25) -- 10mkm - 1AU
 		trade_ships[ship] = {
 			status		= 'inbound',
 			starport	= starport,
 			ship_name	= ship_name,
 		}
 		addShipEquip(ship)
-		local starport = getMyStarport(ship)
 		ship:AIDockWith(starport)
 		trade_ships[ship]['starport'] = starport
 		trade_ships[ship]['status'] = 'inbound'
 		addShipCargo(ship, 'import')
+	end
+
+
+	--make local parked ones...
+	if #starports > 0 and Game.system.population > 0 and #imports > 0 and #exports > 0 then
+	local rnd = Engine.rand:Number(1, 3)
+	if starport.type == 'STARPORT_ORBITAL' then rnd = Engine.rand:Number(0, 1) end
+	for variable = 0, rnd, 1 do
+		local ship_names = getAcceptableShips()
+		local ship_name = ship_names[Engine.rand:Integer(1, #ship_names)]
+		local ship = Space.SpawnShipDocked(ship_name, starport)
+		if ship ~= nil then
+			trade_ships[ship] = {
+				status		= 'docked',
+				starport	= starport,
+				ship_name	= ship_name,
+			}
+			addShipEquip(ship)
+			addShipCargo(ship, 'import')
+			Timer:CallAt(Game.time+Engine.rand:Integer(25, 200), function () doUndock(ship) end)
+		end
+	end
 	end
 end
 
@@ -560,7 +578,6 @@ local cleanTradeShipsTable = function ()
 			end
 		end
 	end
-	--if ( total-hyperspace < num_trade_ships*0.5 and total < 100) then spawnReplacement() end
 
 	print('cleanTSTable:total:'..total..',active:'..total - hyperspace..',removed:'..removed)
 	return total-hyperspace
@@ -631,16 +648,13 @@ local onFrameChanged = function (ship)
 	if #starports > 0 and ship:isa("Ship") and ship == Game.player then
 		local dist,delta = 0 
 
-		local mystarport = getMyStarport(ship)
-		if mystarport==nil then return end
-
-		Timer:CallAt(Game.time+1, function () dist= ship:DistanceTo(mystarport) end)
+		Timer:CallAt(Game.time+1, function () dist= ship:DistanceTo(getMyStarport(ship)) end)
 		Timer:CallAt(Game.time+2, function () 
 			delta=dist-ship:DistanceTo(getMyStarport(ship)) 
 			print('delta: '..delta..',dist: '..dist)
 			if delta~=nil and delta > 0 and delta < 50000000 then
-				for variable = 0, Engine.rand:Number(1, 3), 1 do
-					Timer:CallAt(Game.time+Engine.rand:Number(1, 20), function () spawnReplacementFast() end)
+				for variable = 0, Engine.rand:Number(0, 3), 1 do
+					Timer:CallAt(Game.time+Engine.rand:Number(1, 30), function () spawnReplacementFast() end)
 				end
 			end
 		end)
@@ -714,9 +728,16 @@ local onShipUndocked = function (ship, starport)
 	if trade_ships[ship] == nil then return end
 
 	-- fly to the limit of the starport frame
-	ship:AIFlyTo(starport)
-
+	local trader = trade_ships[ship]
+	trade_ships[ship]['status'] = 'wait'
+	local sbody = trader.starport.path:GetSystemBody()
+	local body = Space.GetBody(sbody.parent.index)
+	ship:AIEnterLowOrbit(body)
 	trade_ships[ship]['status'] = 'outbound'
+
+	Timer:CallAt(Game.time+10, function ()
+		if trade_ships[ship] == nil then return end
+	end)
 end
 Event.Register("onShipUndocked", onShipUndocked)
 
