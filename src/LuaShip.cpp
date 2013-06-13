@@ -1050,6 +1050,26 @@ static int l_ship_ai_fly_to(lua_State *l)
 	return 0;
 }
 
+/*
+ * Method: AIFlyToClose
+ *
+ * Fly close to a physics body at given dist
+ *
+ * > ship:AIFlyToClose(target,dist)
+ *
+ * Parameters:
+ *
+ *   target - the <Body> to fly to
+ *   dist   - distance in meters
+ *
+ * Availability:
+ *
+ *  alpha
+ *
+ * Status:
+ *
+ *  experimental
+ */
 static int l_ship_ai_fly_to_close(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
