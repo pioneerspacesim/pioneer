@@ -1050,6 +1050,25 @@ static int l_ship_ai_fly_to(lua_State *l)
 	return 0;
 }
 
+static int l_ship_ai_fly_to_close(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	if (s->GetFlightState() == Ship::HYPERSPACE)
+		return luaL_error(l, "Ship:AIFlyTo() cannot be called on a ship in hyperspace");
+	Body *target = LuaObject<Body>::CheckFromLua(2);
+	double dist = 100;
+	if (lua_isnumber(l, 3)) {
+		dist = double(luaL_checknumber(l, 3));
+		if (dist < 0.0f ) {
+			pi_lua_warn(l,
+				"argument out of range: Ship{%s}:dist(%g)",
+				s->GetLabel().c_str(), dist);
+		}
+	}
+	s->AIFlyToClose(target,(double)dist);
+	return 0;
+}
+
 /*
  * Method: AIDockWith
  *
@@ -1242,6 +1261,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "AIKill",             l_ship_ai_kill               },
 		{ "AIKamikaze",         l_ship_ai_kamikaze           },
 		{ "AIFlyTo",            l_ship_ai_fly_to             },
+		{ "AIFlyToClose",       l_ship_ai_fly_to_close       },
 		{ "AIDockWith",         l_ship_ai_dock_with          },
 		{ "AIEnterLowOrbit",    l_ship_ai_enter_low_orbit    },
 		{ "AIEnterMediumOrbit", l_ship_ai_enter_medium_orbit },
