@@ -74,7 +74,7 @@ read -n 1 -p "<ENTER>"
 
 # Uploading
 echo "=== Uploading ${BASEOUTFILE} ==="
-#scp $BASEOUTFILE.tar.bz2 $UPLOAD_DIR
+scp $BASEOUTFILE.tar.bz2 $UPLOAD_DIR
 
 # Clean up
 rm -fr $DIST
