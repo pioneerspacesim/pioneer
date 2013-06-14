@@ -10,8 +10,14 @@
 
 PIONEER="/Users/Phil/dev/pioneer"
 DIST="${PIONEER}/pioneer-osx"
+DATE=`date +%Y-%m-01`
+COUNTER="`git rev-list --since=${DATE} HEAD | wc -l | sed -e 's/^[ \t]*//'`"
+BASEOUTFILE="pioneer-${DATE}.${COUNTER}-osx"
+UPLOAD_DIR=philbywhizz,pioneerspacesim@frs.sf.net:/home/frs/project/p/pi/pioneerspacesim
 
 cd $PIONEER
+
+echo "Packaging..."
 
 if [ -d $DIST ]; then
 	rm -fr $DIST
@@ -61,10 +67,18 @@ cp /opt/local/lib/liblzma.5.dylib $DIST/libs
 cp $PIONEER/osx/pioneer.sh $DIST/pioneer
 
 # Now archive this all up
-/usr/bin/tar cvf pioneer-osx.tar pioneer-osx
-/usr/bin/bzip2 pioneer-osx.tar
+echo "Archiving..."
+/usr/bin/tar cf $BASEOUTFILE.tar pioneer-osx
+/usr/bin/bzip2 $BASEOUTFILE.tar
 
+# Testing
+read -n 1 -p "Pausing for testing $BASEOUTFILE <ENTER>"
+
+# Uploading
+echo "Uploading $BASEOUTFILE.tar.bz2"
+scp $BASEOUTFILE.tar.bz2 $UPLOAD_DIR
 # Clean up
 rm -fr $DIST
+rm $BASEOUTFILE.tar.bz2
 
 # All done
