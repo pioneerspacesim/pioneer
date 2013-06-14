@@ -5,6 +5,12 @@ tex_diff deneb.png
 tex_glow deneb_glow.png
 tex_spec deneb_spec.png
 
+#tex_diff deneb.dds
+#tex_glow deneb_glow.dds
+#tex_spec deneb_spec.dds
+
+use_patterns
+
 collision deneb_collision.obj
 
 # LOD
@@ -14,7 +20,7 @@ mesh deneb.dae
 lod 500
 mesh deneb_medhigh.dae
 
-lod 100
+lod 75
 mesh deneb_med.dae
 
 lod 20
