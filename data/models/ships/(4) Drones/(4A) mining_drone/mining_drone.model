@@ -12,7 +12,7 @@ shininess 80
 
 mesh mining_drone.dae
 
-collision mining_pod_collision.obj
+collision mining_drone_collision.obj
 
 lod 10
-mesh mining_pod_lod.obj
+mesh mining_drone_lod.obj
