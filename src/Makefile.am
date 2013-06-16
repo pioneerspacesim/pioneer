@@ -330,6 +330,17 @@ if !HAVE_LUA
 pioneer_LDADD += ../contrib/lua/liblua.a
 endif
 
+if DO_STRIP
+PIONEER_V_STRIP = $(PIONEER_V_STRIP_@AM_V@)
+PIONEER_V_STRIP_ = $(PIONEER_V_STRIP_@AM_DEFAULT_V@)
+PIONEER_V_STRIP_0 = @echo "  STRIP   " $<;
+PIONEER_V_STRIP_1 =
+
+all-local: $(bin_PROGRAMS)
+	$(PIONEER_V_STRIP)$(STRIP) $(bin_PROGRAMS)
+endif
+
+
 check_PROGRAMS = tests uitest textstress
 tests_SOURCES = \
 	StringF.cpp \

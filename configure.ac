@@ -53,6 +53,10 @@ AC_PROG_CC
 AC_PROG_CXX
 AC_C_CONST
 AC_PROG_RANLIB
+
+AC_DEFUN([AC_PROG_STRIP], [AC_CHECK_TOOL(STRIP, strip, :)])
+AC_PROG_STRIP
+
 #AC_PROG_LIBTOOL
 
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES])
@@ -117,6 +121,11 @@ AC_ARG_ENABLE([debug], AS_HELP_STRING([--enable-debug], [Enable debugging code (
 AC_ARG_ENABLE([ldb], AS_HELP_STRING([--enable-ldb], [Enable ldb support.]), [EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DENABLE_LDB" ; EXTRA_LIBS="$EXTRA_LIBS -lldbcore"])
 AC_ARG_WITH([fno-inline],  AS_HELP_STRING([--with-fno-inline], [Compile without inlining. Helps debugging segaults that occur in STL code]), [PIONEER_C_CXX_FLAG([-fno-inline])])
 AC_ARG_WITH([gprof],       AS_HELP_STRING([--with-gprof], [Compile with gprof profiler]), [PIONEER_C_CXX_FLAG([-pg])])
+
+dnl Strip binary after build
+DO_STRIP=no
+AC_ARG_WITH([strip], AS_HELP_STRING([--with-strip], [Strip binary after build]), [test "$withval" != no && DO_STRIP=yes], [])
+AM_CONDITIONAL([DO_STRIP], [test "$DO_STRIP" = yes])
 
 
 dnl Versioning. If this is a git checkout, try to get details from it
