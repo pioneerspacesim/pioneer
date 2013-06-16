@@ -112,6 +112,11 @@ void Ship::AIKill(Ship *target)
 	m_curAICmd = new AICmdKill(this, target);
 }
 
+void Ship::AIFire()
+{
+	this->FireWeapon(0);
+}
+
 /*
 void Ship::AIJourney(SystemBodyPath &dest)
 {

@@ -992,6 +992,16 @@ static int l_ship_ai_kill(lua_State *l)
 	return 0;
 }
 
+static int l_ship_ai_fire(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	if (s->GetFlightState() == Ship::HYPERSPACE)
+		return luaL_error(l, "Ship:AIFire() cannot be called on a ship in hyperspace");
+	Ship *target = LuaObject<Ship>::CheckFromLua(2);
+	s->AIFire();
+	return 0;
+}
+
 /*
  * Method: AIKamikaze
  *
@@ -1243,6 +1253,14 @@ static int l_ship_cancel_ai(lua_State *l)
 	return 0;
 }
 
+//XXX do docs.
+static int l_ship_hold_ai(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	s->AIHoldPosition();
+	return 0;
+}
+
 template <> const char *LuaObject<Ship>::s_type = "Ship";
 
 template <> void LuaObject<Ship>::RegisterClass()
@@ -1280,6 +1298,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 
 		{ "AIKill",             l_ship_ai_kill               },
 		{ "AIKamikaze",         l_ship_ai_kamikaze           },
+		{ "AIFire",				l_ship_ai_fire	             },
 		{ "AIFlyTo",            l_ship_ai_fly_to             },
 		{ "AIFlyToClose",       l_ship_ai_fly_to_close       },
 		{ "AIDockWith",         l_ship_ai_dock_with          },
@@ -1287,6 +1306,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "AIEnterMediumOrbit", l_ship_ai_enter_medium_orbit },
 		{ "AIEnterHighOrbit",   l_ship_ai_enter_high_orbit   },
 		{ "CancelAI",           l_ship_cancel_ai             },
+		{ "AIHoldPos",          l_ship_hold_ai               },
 
 		{ "CheckHyperspaceTo", l_ship_check_hyperspace_to },
 		{ "GetHyperspaceDetails", l_ship_get_hyperspace_details },
