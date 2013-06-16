@@ -112,6 +112,11 @@ void Ship::AIKill(Ship *target)
 	m_curAICmd = new AICmdKill(this, target);
 }
 
+void Ship::AIFire()
+{
+	this->FireWeapon(0);
+}
+
 /*
 void Ship::AIJourney(SystemBodyPath &dest)
 {
@@ -130,6 +135,13 @@ void Ship::AIFlyTo(Body *target)
 		m_curAICmd = new AICmdFormation(this, static_cast<Ship*>(target), posoff);
 	}
 	else m_curAICmd = new AICmdFlyTo(this, target);
+}
+
+void Ship::AIFlyToClose(Body *target, double dist)
+{
+	AIClearInstructions();
+	SetFuelReserve((GetFuel() < 0.5) ? GetFuel() / 2 : 0.25);
+	m_curAICmd = new AICmdFlyTo(this, target, dist); //close
 }
 
 void Ship::AIDock(SpaceStation *target)

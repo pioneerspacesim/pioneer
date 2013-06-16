@@ -197,9 +197,11 @@ public:
 
 	void AIKamikaze(Body *target);
 	void AIKill(Ship *target);
+	void AIFire();
 	//void AIJourney(SystemBodyPath &dest);
 	void AIDock(SpaceStation *target);
 	void AIFlyTo(Body *target);
+	void AIFlyToClose(Body *target, double dist);
 	void AIOrbit(Body *target, double alt);
 	void AIHoldPosition();
 

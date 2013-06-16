@@ -694,6 +694,24 @@ AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target) : AICommand(ship, CMD_FLYTO)
 	else m_ship->SetJuice(20.0);
 }
 
+// Fly to close dist of body
+AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target, double dist) : AICommand(ship, CMD_FLYTO)
+{
+	m_frame = 0; m_state = -6; m_lockhead = true; m_endvel = 0; m_tangent = false;
+	if (!target->IsType(Object::TERRAINBODY)) m_dist = dist;
+	if (target->IsType(Object::PLANET)) {
+		Body *body = ship->GetFrame()->GetBody();
+		if (body && body->IsType(Object::TERRAINBODY))
+			// if not within physradius, flyto physradius -1000 first
+			if (m_ship->GetPositionRelTo(target).Length()>target->GetPhysRadius()+1000.0)
+					m_dist = target->GetPhysRadius()-1000.0;
+			else { //flyto distance.
+				m_dist = static_cast<Planet *>(target)->GetTerrainHeight(ship->GetPosition().Normalized())+dist;
+			}
+	}
+	m_target = target; m_targframe = 0;
+}
+
 // Specified pos, endvel should be > 0
 AICmdFlyTo::AICmdFlyTo(Ship *ship, Frame *targframe, const vector3d &posoff, double endvel, bool tangent)
 	: AICommand(ship, CMD_FLYTO)
