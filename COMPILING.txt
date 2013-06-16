@@ -72,13 +72,9 @@ Windows - Autotools (Linux cross-compile)
 -----------------------------------------
 
 1. First you need a cross-compiling environment. We use MXE (http://mxe.cc).
-   The version of GCC that ships with MXE (4.7.2) has a bug that prevents it
-   from building Pioneer correctly. For now, clone this fork which has GCC
-   4.6.3:
+   The release downloads are always out of date, so grab the latest from git:
 
-     git://github.com/robn/mxe.git
-
-   Then checkout the gcc-463 branch.
+     git://github.com/mxe/mxe.git
 
    Now compile GCC and the dependencies needed for Pioneer:
 
