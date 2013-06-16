@@ -700,7 +700,14 @@ AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target, double dist) : AICommand(ship, 
 	m_frame = 0; m_state = -6; m_lockhead = true; m_endvel = 0; m_tangent = false;
 	if (!target->IsType(Object::TERRAINBODY)) m_dist = dist;
 	if (target->IsType(Object::PLANET)) {
-		m_dist = static_cast<Planet *>(target)->GetTerrainHeight(ship->GetPosition().Normalized())+dist;
+		Body *body = ship->GetFrame()->GetBody();
+		if (body && body->IsType(Object::TERRAINBODY))
+			// if not within physradius, flyto physradius -1000 first
+			if (m_ship->GetPositionRelTo(target).Length()>target->GetPhysRadius()+1000.0)
+					m_dist = target->GetPhysRadius()-1000.0;
+			else { //flyto distance.
+				m_dist = static_cast<Planet *>(target)->GetTerrainHeight(ship->GetPosition().Normalized())+dist;
+			}
 	}
 	m_target = target; m_targframe = 0;
 }
