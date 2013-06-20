@@ -2,6 +2,7 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local loaded
+local s = { }
 
 local spawnShips = function ()
 	local population = Game.system.population
@@ -23,14 +24,22 @@ local spawnShips = function ()
 
 	for i=1, num_bulk_ships do
 	local station = stations[Engine.rand:Integer(1,#stations)]
-		Space.SpawnShipParked(shipdefs[Engine.rand:Integer(1,#shipdefs)].id, station)
+		s[i] = Space.SpawnShipParked(shipdefs[Engine.rand:Integer(1,#shipdefs)].id, station)
 	end
 end
 
 local onEnterSystem = function (player)
 	if not player:IsPlayer() then return end
-
 	spawnShips()
+	
+	if s[1] then
+	local body = s[1].frameBody
+	local x,y,z = s[1]:GetPos()
+	y=y+1000000;
+	Game.player:SetPos(s[1],x,y,z)
+	end
+
+
 end
 
 local onGameStart = function ()
