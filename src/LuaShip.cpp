@@ -673,7 +673,10 @@ static int l_ship_set_pos(lua_State *l)
 	if (lua_isnumber(l, 5))  z = double(luaL_checknumber(l, 5));
 	s->SetFrame(ss->GetFrame());
 	s->SetPosition(vector3d(x,y,z));
-	//s->SetFrame(Pi::game->GetSpace()->GetRootFrame());
+	s->SetOrient(ss->GetOrient());
+	s->SetFrame(ss->GetFrame());
+	s->SetVelocity(vector3d(0,0,0));
+	//s->SetVelocity(ss->GetOrientRelTo(ss->GetFrame()) * ss->GetVelocityRelTo(s->GetFrame()));
 	return 0;
 }
 

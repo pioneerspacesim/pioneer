@@ -11,7 +11,9 @@ local spawnShips = function ()
 		return
 	end
 
-	local stations = Space.GetBodies(function (body) return body:isa("SpaceStation") end)
+	local stations = Space.GetBodies(function (body) 
+		return body:isa("SpaceStation") and body.type == 'STARPORT_SURFACE'
+	end)
 	if #stations == 0 then
 		return
 	end
@@ -23,8 +25,8 @@ local spawnShips = function ()
 	local num_bulk_ships = #stations
 
 	for i=1, num_bulk_ships do
-	local station = stations[Engine.rand:Integer(1,#stations)]
-		s[i] = Space.SpawnShipParked(shipdefs[Engine.rand:Integer(1,#shipdefs)].id, station)
+	local station = stations[i]
+		s[i] = Space.SpawnShipParkedOffset(shipdefs[Engine.rand:Integer(1,#shipdefs)].id, station)
 	end
 end
 
@@ -35,8 +37,9 @@ local onEnterSystem = function (player)
 	if s[1] then
 	local body = s[1].frameBody
 	local x,y,z = s[1]:GetPos()
-	y=y+1000000;
+	x=x+100
 	Game.player:SetPos(s[1],x,y,z)
+	--Game.player:AIHoldPos()
 	end
 
 
