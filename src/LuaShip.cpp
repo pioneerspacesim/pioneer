@@ -648,6 +648,38 @@ static int l_ship_get_equip_free(lua_State *l)
 	return 1;
 }
 
+static int l_ship_get_pos(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	/*lua_pushnumber(l, s->GetPositionRelTo(Pi::game->GetSpace()->GetRootFrame()).x);
+	lua_pushnumber(l, s->GetPositionRelTo(Pi::game->GetSpace()->GetRootFrame()).y);
+	lua_pushnumber(l, s->GetPositionRelTo(Pi::game->GetSpace()->GetRootFrame()).z);
+	s->SetFrame(Pi::game->GetSpace()->GetRootFrame());*/
+	lua_pushnumber(l, s->GetPosition().x);
+	lua_pushnumber(l, s->GetPosition().y);
+	lua_pushnumber(l, s->GetPosition().z);
+	return 3;
+}
+
+static int l_ship_set_pos(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	Ship *ss = LuaObject<Ship>::CheckFromLua(2);
+	double x;
+	double y;
+	double z;
+	if (lua_isnumber(l, 3))  x = double(luaL_checknumber(l, 3));
+	if (lua_isnumber(l, 4))  y = double(luaL_checknumber(l, 4));
+	if (lua_isnumber(l, 5))  z = double(luaL_checknumber(l, 5));
+	s->SetFrame(ss->GetFrame());
+	s->SetPosition(vector3d(x,y,z));
+	s->SetOrient(ss->GetOrient());
+	s->SetFrame(ss->GetFrame());
+	s->SetVelocity(vector3d(0,0,0));
+	//s->SetVelocity(ss->GetOrientRelTo(ss->GetFrame()) * ss->GetVelocityRelTo(s->GetFrame()));
+	return 0;
+}
+
 /*
  * Method: SpawnCargo
  *
@@ -1288,6 +1320,9 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "GetEquipFree",     l_ship_get_equip_free      },
 
 		{ "SpawnCargo", l_ship_spawn_cargo },
+
+		{ "GetPos", l_ship_get_pos },
+		{ "SetPos", l_ship_set_pos },
 
 		{ "SpawnMissile", l_ship_spawn_missile },
 

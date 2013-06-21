@@ -373,6 +373,56 @@ static int l_space_spawn_ship_parked(lua_State *l)
 	return 1;
 }
 
+static int l_space_spawn_ship_parked_offset(lua_State *l)
+{
+	if (!Pi::game)
+		luaL_error(l, "Game is not started");
+
+	LUA_DEBUG_START(l);
+
+	const char *type = luaL_checkstring(l, 1);
+	if (! ShipType::Get(type))
+		luaL_error(l, "Unknown ship type '%s'", type);
+
+	SpaceStation *station = LuaObject<SpaceStation>::CheckFromLua(2);
+
+	int slot;
+	if (!station->AllocateStaticSlot(slot))
+		return 0;
+
+	Ship *ship = new Ship(type);
+	assert(ship);
+
+	double parkDist = station->GetStationType()->parkingDistance*0.5+300000.0;
+	parkDist -= ship->GetPhysRadius();		// park inside parking radius
+	double parkOffset = 0.5 * station->GetStationType()->parkingGapSize;
+	parkOffset += ship->GetPhysRadius();	// but outside the docking gap
+
+	double xpos = (slot == 0 || slot == 3) ? -parkOffset : parkOffset;
+	double zpos = (slot == 0 || slot == 1) ? -parkOffset : parkOffset;
+	vector3d parkPos = vector3d(xpos, parkDist, zpos);
+	parkPos = station->GetPosition() + station->GetOrient() * parkPos;
+
+	// orbital stations have Y as axis of rotation
+	matrix3x3d rot = matrix3x3d::RotateX(0.0) * station->GetOrient();
+
+	ship->SetFrame(station->GetFrame());
+	ship->SetVelocity(vector3d(0.0));
+	ship->SetPosition(parkPos);
+	ship->SetOrient(rot);
+
+	Pi::game->GetSpace()->AddBody(ship);
+
+	ship->SetJuice(40); 
+	ship->AIHoldPosition();
+
+	LuaObject<Ship>::PushToLua(ship);
+
+	LUA_DEBUG_END(l, 1);
+
+	return 1;
+}
+
 /*
  * Function: GetBody
  *
@@ -509,6 +559,7 @@ void LuaSpace::Register()
 		{ "SpawnShipNear",   l_space_spawn_ship_near   },
 		{ "SpawnShipDocked", l_space_spawn_ship_docked },
 		{ "SpawnShipParked", l_space_spawn_ship_parked },
+		{ "SpawnShipParkedOffset", l_space_spawn_ship_parked_offset },
 
 		{ "GetBody",   l_space_get_body   },
 		{ "GetBodies", l_space_get_bodies },
