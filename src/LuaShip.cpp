@@ -673,7 +673,7 @@ static int l_ship_set_pos(lua_State *l)
 	if (lua_isnumber(l, 5))  z = double(luaL_checknumber(l, 5));
 	s->SetFrame(ss->GetFrame());
 	s->SetPosition(vector3d(x,y,z));
-	s->SetOrient(ss->GetOrient());
+	//s->SetOrient(ss->GetOrient());
 	s->SetFrame(ss->GetFrame());
 	s->SetVelocity(vector3d(0,0,0));
 	//s->SetVelocity(ss->GetOrientRelTo(ss->GetFrame()) * ss->GetVelocityRelTo(s->GetFrame()));
@@ -1024,6 +1024,15 @@ static int l_ship_ai_kill(lua_State *l)
 	return 0;
 }
 
+static int l_ship_use_ecm(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	if (s->GetFlightState() == Ship::HYPERSPACE)
+		return luaL_error(l, "Ship:UseECM() cannot be called on a ship in hyperspace");
+	s->UseECM();
+	return 0;
+}
+
 static int l_ship_ai_fire(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
@@ -1323,6 +1332,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 
 		{ "GetPos", l_ship_get_pos },
 		{ "SetPos", l_ship_set_pos },
+		{ "UseECM", l_ship_use_ecm },
 
 		{ "SpawnMissile", l_ship_spawn_missile },
 
