@@ -415,6 +415,7 @@ static int l_space_spawn_ship_parked_offset(lua_State *l)
 
 	ship->SetJuice(40); 
 	ship->AIHoldPosition();
+	ship->SetWheelState(true);
 
 	LuaObject<Ship>::PushToLua(ship);
 
