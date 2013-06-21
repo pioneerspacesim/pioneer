@@ -58,7 +58,7 @@ end
 
 local onAICompleted = function (ship, ai_error)
 	if not ship:IsPlayer() and playerarrived==true then return end
-	Game.player:AIHoldPos()
+	--Game.player:AIHoldPos()
 	playerarrived=false
 end
 Event.Register("onAICompleted", onAICompleted)
