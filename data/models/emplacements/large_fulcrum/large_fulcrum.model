@@ -1,0 +1,24 @@
+material material1
+
+tex_diff DIFF.dds
+tex_spec SPEC.dds
+tex_glow GLOW.dds
+specular 1.0 1.0 1.0
+diffuse 1.0 1.0 1.0
+
+
+material hangar
+
+tex_diff hangardiff.dds
+tex_glow hangarglow.dds
+tex_spec hangarspec.dds
+diffuse 1.0 1.0 1.0
+specular 1.0 1.0 1.0
+
+
+lod 1000
+mesh large_fulcrum.dae
+
+collision large_fulcrum_collision.obj
+mesh large_fulcrum_docking.dae
+
