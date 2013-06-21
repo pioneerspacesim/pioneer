@@ -47,7 +47,7 @@ local onEnterSystem = function (player)
 			Game.player:AIFlyToClose(fulcrum,500)
 		end
 	else
-		if fulcrum~=nil then
+		if fulcrum~=nil and player:exists() and fulcrum:exists() then
 			local x,y,z = fulcrum:GetPos()
 			y=y+200
 			player:SetPos(fulcrum,x,y,z)
