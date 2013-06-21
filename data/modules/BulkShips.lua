@@ -8,7 +8,7 @@ local spawnShips = function ()
 	local population = Game.system.population
 
 	if population == 0 then
-		return
+		return	
 	end
 
 	local stations = Space.GetBodies(function (body) 
@@ -28,18 +28,20 @@ local spawnShips = function ()
 	local station = stations[i]
 		s[i] = Space.SpawnShipParkedOffset(shipdefs[Engine.rand:Integer(1,#shipdefs)].id, station)
 	end
+	return 0
 end
 
 local onEnterSystem = function (player)
 	if not player:IsPlayer() then return end
-	spawnShips()
-	
-	if s[1] then
-	local body = s[1].frameBody
+
+	if spawnShips()~=nil then
+	if s[1]~=nil then
+	--local body = s[1].frameBody
 	local x,y,z = s[1]:GetPos()
 	x=x+100
 	Game.player:SetPos(s[1],x,y,z)
 	--Game.player:AIHoldPos()
+	end
 	end
 
 
