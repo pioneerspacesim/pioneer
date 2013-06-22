@@ -46,8 +46,6 @@ private:
 	std::vector<BuildingDef> m_buildings;
 	std::vector<BuildingDef> m_enabledBuildings;
 	int m_detailLevel;
-	// position of city center
-	//vector3d m_position;
 	float m_clipRadius;
 };
 
