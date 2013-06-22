@@ -1194,7 +1194,7 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	// draw shield recharge bubble
 	if (m_stats.shield_mass_left < m_stats.shield_mass) {
 		const float shield = 0.01f*GetPercentShields();
-		renderer->SetBlendMode(Graphics::BLEND_ADDITIVE);
+		renderer->SetBlendMode(Graphics::BLEND_ALPHA);
 		glPushMatrix();
 		matrix4x4f trans = matrix4x4f::Identity();
 		trans.Translate(viewCoords.x, viewCoords.y, viewCoords.z);
@@ -1203,7 +1203,7 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 
 		//fade based on strength
 		Sfx::shieldEffect->GetMaterial()->diffuse =
-			Color((1.0f-shield),shield,0.0,0.33f*(1.0f-shield));
+			Color((1.0f-shield),shield,0.0,0.05f*(1.0f-shield));
 		Sfx::shieldEffect->Draw(renderer);
 		glPopMatrix();
 		renderer->SetBlendMode(Graphics::BLEND_SOLID);
