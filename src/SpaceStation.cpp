@@ -641,6 +641,8 @@ Sint64 SpaceStation::GetPrice(Equip::Type t) const {
 // For surface starports:
 //	Lighting: Calculates available light for model and splits light between directly and ambiently lit
 //            Lighting is done by manipulating global lights or setting uniforms in atmospheric models shader
+//#define SQRMAXCITYDIST (1000000.0 * 1000000.0)
+#define SQRMAXCITYDIST (100000.0 * 100000.0)
 void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	Body *b = GetFrame()->GetBody();
@@ -651,8 +653,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 		RenderModel(r, camera, viewCoords, viewTransform);
 	} else {
 		// don't render city if too far away
-		// 1000000.0 * 1000000.0 = 100000000000000.0 (metres...I think)
-		if (viewCoords.LengthSqr() >= 100000000000000.0) {
+		if (viewCoords.LengthSqr() >= SQRMAXCITYDIST) {
 			return;
 		}
 		std::vector<Graphics::Light> oldLights;
