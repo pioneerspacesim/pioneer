@@ -45,11 +45,6 @@ local spawnPolice = function()
 
 		if Game.player:DistanceTo(starport)>400000 then return end
 
-		local shipdefs = build_array(filter(function (k,def) return def.tag == 'SHIP' and def.hullMass <= 150 end, pairs(ShipDef)))
-		if #shipdefs == 0 then return end
-
-		local lawlessness = Game.system.lawlessness
-
 		-- XXX number should be some combination of population, lawlessness,
 		-- proximity to shipping lanes, etc
 		local max_police = 3
@@ -140,10 +135,6 @@ local onFrameChanged = function (ship)
 	if ship:IsPlayer() then
 		doLawAndOrder(ship)
 	end
-end
-
-local onAICompleted = function (ship, ai_error)
-	return
 end
 
 local onShipHit = function (ship, attacker)
