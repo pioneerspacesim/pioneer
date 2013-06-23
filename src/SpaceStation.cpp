@@ -557,7 +557,7 @@ void SpaceStation::StaticUpdate(const float timeStep)
 		m_lastUpdatedShipyard = Pi::game->GetTime() + 3600.0 + 3600.0*Pi::rng.Double();
 	}
 
-	DoLawAndOrder(timeStep);
+	//DoLawAndOrder(timeStep);
 	DockingUpdate(timeStep);
 	m_navLights->Update(timeStep);
 }

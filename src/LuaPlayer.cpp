@@ -139,6 +139,32 @@ static int l_player_add_crime(lua_State *l)
 }
 
 /*
+ * Method: GetFine
+ *
+ * Get current outstanding fine from player
+ *
+ * > player:GetFine()
+ *
+ * Parameters:
+ *
+ * Availability:
+ *
+ *   June 2013
+ *
+ * Status:
+ *
+ *   stable
+ */
+static int l_player_get_fine(lua_State *l)
+{
+	LuaObject<Player>::CheckFromLua(1); // check that the method is being called on a Player object
+	Sint64 fine, crimeBitset;
+	Polit::GetCrime(&crimeBitset, &fine);
+	lua_pushnumber(l, fine);
+	return 1;
+}
+
+/*
  * Method: GetNavTarget
  *
  * Get the player's navigation target
@@ -328,6 +354,7 @@ template <> void LuaObject<Player>::RegisterClass()
 		{ "AddMoney", l_player_add_money },
 
 		{ "AddCrime",      l_player_add_crime },
+		{ "GetFine",       l_player_get_fine },
 
 		{ "GetNavTarget",    l_get_nav_target    },
 		{ "SetNavTarget",    l_set_nav_target    },
