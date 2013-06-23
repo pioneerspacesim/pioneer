@@ -3,6 +3,9 @@ June 2013
    * New features
      * Textures can now be loaded from DDS files (#2311)
 
+   * Fixes
+     * Fix potential future bug in texture loading (#2340)
+
 May 2013
 
    * New features
