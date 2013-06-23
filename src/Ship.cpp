@@ -1229,6 +1229,13 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 
 		Sfx::ecmParticle->diffuse = c;
 		renderer->SetBlendMode(Graphics::BLEND_ALPHA_ONE);
+
+		//face camera
+		glPushMatrix();
+		matrix4x4f trans = trans.Identity();
+		renderer->SetTransform(trans);
+		glPopMatrix();
+
 		renderer->DrawPointSprites(100, v, Sfx::ecmParticle, 50.f);
 	}
 }

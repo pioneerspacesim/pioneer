@@ -649,6 +649,79 @@ static int l_ship_get_equip_free(lua_State *l)
 }
 
 /*
+ * Method: GetPos
+ *
+ * Get ship position relative to frame
+ *
+ * > x,y,z = ship:GetPos()
+ *
+ * Parameters:
+ *
+ *  None
+ *
+ * Result:
+ *
+ *   Returns ships x,y,z relative position in frame
+ *
+ * Availability:
+ *
+ *   June 2013
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_ship_get_pos(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	lua_pushnumber(l, s->GetPosition().x);
+	lua_pushnumber(l, s->GetPosition().y);
+	lua_pushnumber(l, s->GetPosition().z);
+	return 3;
+}
+
+/*
+ * Method: SetPos
+ *
+ * Set ship position in target frame.
+ *
+ * > ship:SetPos(target,x,y,z)
+ *
+ * Parameters:
+ *
+ *  target - Setposition will be in this targets frame.
+ *  x,y,z  - Vector coordiantes in frame.
+ *
+ * Result:
+ *
+ *   Set ship position x,y,z in target frame
+ *
+ * Availability:
+ *
+ *   June 2013
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_ship_set_pos(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	Ship *ss = LuaObject<Ship>::CheckFromLua(2);
+	double x;
+	double y;
+	double z;
+	if (lua_isnumber(l, 3))  x = double(luaL_checknumber(l, 3));
+	if (lua_isnumber(l, 4))  y = double(luaL_checknumber(l, 4));
+	if (lua_isnumber(l, 5))  z = double(luaL_checknumber(l, 5));
+	s->SetFrame(ss->GetFrame());
+	s->SetPosition(vector3d(x,y,z));
+	s->SetFrame(ss->GetFrame());
+	s->SetVelocity(vector3d(0,0,0));
+	return 0;
+}
+
+/*
  * Method: SpawnCargo
  *
  * Spawns a container right next to the ship.
@@ -992,6 +1065,49 @@ static int l_ship_ai_kill(lua_State *l)
 	return 0;
 }
 
+/*
+ * Method: UseECM
+ *
+ * Trigger ECM
+ *
+ * > ship:UseECM()
+ *
+ * Parameters:
+ *
+ * Availability:
+ *
+ *  June 2013
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_ship_use_ecm(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	if (s->GetFlightState() == Ship::HYPERSPACE)
+		return luaL_error(l, "Ship:UseECM() cannot be called on a ship in hyperspace");
+	s->UseECM();
+	return 0;
+}
+
+/*
+ * Method: AIFire
+ *
+ * Fire weapon
+ *
+ * > ship:AIFire()
+ *
+ * Parameters:
+ *
+ * Availability:
+ *
+ *  June 2013
+ *
+ * Status:
+ *
+ *  experimental
+ */
 static int l_ship_ai_fire(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
@@ -1253,7 +1369,24 @@ static int l_ship_cancel_ai(lua_State *l)
 	return 0;
 }
 
-//XXX do docs.
+/*
+ * Method: AIHoldPos
+ *
+ * Ship will hold this position
+ * Note : this AI command will go until CancelAI() is called.
+ *
+ * > ship:AIHoldPos()
+ *
+ * Parameters:
+ *
+ * Availability:
+ *
+ *  June 2013
+ *
+ * Status:
+ *
+ *  experimental
+ */
 static int l_ship_hold_ai(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
@@ -1288,6 +1421,10 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "GetEquipFree",     l_ship_get_equip_free      },
 
 		{ "SpawnCargo", l_ship_spawn_cargo },
+
+		{ "GetPos", l_ship_get_pos },
+		{ "SetPos", l_ship_set_pos },
+		{ "UseECM", l_ship_use_ecm },
 
 		{ "SpawnMissile", l_ship_spawn_missile },
 
