@@ -138,7 +138,23 @@ static int l_player_add_crime(lua_State *l)
 	return 0;
 }
 
-///XXXX docs
+/*
+ * Method: GetFine
+ *
+ * Get current outstanding fine from player
+ *
+ * > player:GetFine()
+ *
+ * Parameters:
+ *
+ * Availability:
+ *
+ *   June 2013
+ *
+ * Status:
+ *
+ *   stable
+ */
 static int l_player_get_fine(lua_State *l)
 {
 	LuaObject<Player>::CheckFromLua(1); // check that the method is being called on a Player object
