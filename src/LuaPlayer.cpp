@@ -138,6 +138,16 @@ static int l_player_add_crime(lua_State *l)
 	return 0;
 }
 
+///XXXX docs
+static int l_player_get_fine(lua_State *l)
+{
+	LuaObject<Player>::CheckFromLua(1); // check that the method is being called on a Player object
+	Sint64 fine, crimeBitset;
+	Polit::GetCrime(&crimeBitset, &fine);
+	lua_pushnumber(l, fine);
+	return 1;
+}
+
 /*
  * Method: GetNavTarget
  *
@@ -328,6 +338,7 @@ template <> void LuaObject<Player>::RegisterClass()
 		{ "AddMoney", l_player_add_money },
 
 		{ "AddCrime",      l_player_add_crime },
+		{ "GetFine",       l_player_get_fine },
 
 		{ "GetNavTarget",    l_get_nav_target    },
 		{ "SetNavTarget",    l_set_nav_target    },
