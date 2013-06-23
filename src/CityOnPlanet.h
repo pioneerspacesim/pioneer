@@ -46,6 +46,7 @@ private:
 	std::vector<BuildingDef> m_buildings;
 	std::vector<BuildingDef> m_enabledBuildings;
 	int m_detailLevel;
+	vector3d m_realCentre;
 	float m_clipRadius;
 };
 

@@ -302,11 +302,11 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed)
 
 		PutCityBit(rand, m, p1, p2, p3, p4);
 	}
-	vector3d sumPos(0.0,0.0,0.0);
 	Aabb buildAABB;
 	for (std::vector<BuildingDef>::const_iterator iter=m_buildings.begin(), itEND=m_buildings.end(); iter != itEND; ++iter) {
 		buildAABB.Update((*iter).pos - p);
 	}
+	m_realCentre = buildAABB.min + ((buildAABB.max - buildAABB.min)*0.5);
 	m_clipRadius = buildAABB.GetRadius();
 	AddStaticGeomsToCollisionSpace();
 }
@@ -314,7 +314,7 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed)
 void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const SpaceStation *station, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	// Early frustum test of whole city.
-	const vector3d stationPos = viewTransform * (station->GetPosition());
+	const vector3d stationPos = viewTransform * (station->GetPosition() + m_realCentre);
 	const Graphics::Frustum frustum = camera->GetFrustum();
 	//modelview seems to be always identity
 	if (!frustum.TestPoint(stationPos, m_clipRadius))
