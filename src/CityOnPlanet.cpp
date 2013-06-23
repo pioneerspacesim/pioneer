@@ -7,6 +7,7 @@
 #include "Frame.h"
 #include "Game.h"
 #include "ModelCache.h"
+#include "scenegraph\Model.h"
 #include "Pi.h"
 #include "Planet.h"
 #include "SpaceStation.h"
@@ -186,8 +187,12 @@ static void lookupBuildingListModels(citybuildinglist_t *list)
 	list->numBuildings = models.size();
 
 	int i = 0;
+	SceneGraph::ModelSkin skin;
 	for (std::vector<Model*>::iterator m = models.begin(); m != models.end(); ++m, i++) {
 		list->buildings[i].resolvedModel = *m;
+		skin.SetRandomColors(Pi::rng);
+		skin.SetPattern(Pi::rng.Int32(0, (*m)->GetNumPatterns()));
+		skin.Apply((*m));
 		list->buildings[i].collMesh = (*m)->CreateCollisionMesh();
 		const Aabb &aabb = list->buildings[i].collMesh->GetAabb();
 		const double maxx = std::max(fabs(aabb.max.x), fabs(aabb.min.x));
