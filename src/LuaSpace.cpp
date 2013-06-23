@@ -373,6 +373,36 @@ static int l_space_spawn_ship_parked(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: SpawnShipParkedOffset
+ *
+ * Create a ship and place it in one of the given <SpaceStation's> parking spots.
+ *
+ * > ship = Space.SpawnShipParkedOffset(type, station)
+ *
+ * For orbital stations the parking spots are some distance from the door, out
+ * of the path of ships entering and leaving the station. For group stations
+ * the parking spots are 0.26 x physical radius above the station, usually some distance
+ * away.
+ *
+ * Parameters:
+ *
+ *   type - the name of the ship
+ *
+ *   station - the <SpaceStation> to place the near
+ *
+ * Return:
+ *
+ *   ship - a <Ship> object for the new ship, or nil if there was no space
+ *          inside the station
+ * Availability:
+ *
+ *   June 2013
+ *
+ * Status:
+ *
+ *   experimental
+ */
 static int l_space_spawn_ship_parked_offset(lua_State *l)
 {
 	if (!Pi::game)

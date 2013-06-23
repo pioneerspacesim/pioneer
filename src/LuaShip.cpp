@@ -648,19 +648,62 @@ static int l_ship_get_equip_free(lua_State *l)
 	return 1;
 }
 
+/*
+ * Method: GetPos
+ *
+ * Get ship position relative to frame
+ *
+ * > x,y,z = ship:GetPos()
+ *
+ * Parameters:
+ *
+ *  None
+ *
+ * Result:
+ *
+ *   Returns ships x,y,z relative position in frame
+ *
+ * Availability:
+ *
+ *   June 2013
+ *
+ * Status:
+ *
+ *   experimental
+ */
 static int l_ship_get_pos(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	/*lua_pushnumber(l, s->GetPositionRelTo(Pi::game->GetSpace()->GetRootFrame()).x);
-	lua_pushnumber(l, s->GetPositionRelTo(Pi::game->GetSpace()->GetRootFrame()).y);
-	lua_pushnumber(l, s->GetPositionRelTo(Pi::game->GetSpace()->GetRootFrame()).z);
-	s->SetFrame(Pi::game->GetSpace()->GetRootFrame());*/
 	lua_pushnumber(l, s->GetPosition().x);
 	lua_pushnumber(l, s->GetPosition().y);
 	lua_pushnumber(l, s->GetPosition().z);
 	return 3;
 }
 
+/*
+ * Method: SetPos
+ *
+ * Set ship position in target frame.
+ *
+ * > ship:SetPos(target,x,y,z)
+ *
+ * Parameters:
+ *
+ *  target - Setposition will be in this targets frame.
+ *  x,y,z  - Vector coordiantes in frame.
+ *
+ * Result:
+ *
+ *   Set ship position x,y,z in target frame
+ *
+ * Availability:
+ *
+ *   June 2013
+ *
+ * Status:
+ *
+ *   experimental
+ */
 static int l_ship_set_pos(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
@@ -673,10 +716,8 @@ static int l_ship_set_pos(lua_State *l)
 	if (lua_isnumber(l, 5))  z = double(luaL_checknumber(l, 5));
 	s->SetFrame(ss->GetFrame());
 	s->SetPosition(vector3d(x,y,z));
-	//s->SetOrient(ss->GetOrient());
 	s->SetFrame(ss->GetFrame());
 	s->SetVelocity(vector3d(0,0,0));
-	//s->SetVelocity(ss->GetOrientRelTo(ss->GetFrame()) * ss->GetVelocityRelTo(s->GetFrame()));
 	return 0;
 }
 
@@ -1024,6 +1065,23 @@ static int l_ship_ai_kill(lua_State *l)
 	return 0;
 }
 
+/*
+ * Method: UseECM
+ *
+ * Trigger ECM
+ *
+ * > ship:UseECM()
+ *
+ * Parameters:
+ *
+ * Availability:
+ *
+ *  June 2013
+ *
+ * Status:
+ *
+ *  experimental
+ */
 static int l_ship_use_ecm(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
@@ -1033,6 +1091,23 @@ static int l_ship_use_ecm(lua_State *l)
 	return 0;
 }
 
+/*
+ * Method: AIFire
+ *
+ * Fire weapon
+ *
+ * > ship:AIFire()
+ *
+ * Parameters:
+ *
+ * Availability:
+ *
+ *  June 2013
+ *
+ * Status:
+ *
+ *  experimental
+ */
 static int l_ship_ai_fire(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
@@ -1294,7 +1369,24 @@ static int l_ship_cancel_ai(lua_State *l)
 	return 0;
 }
 
-//XXX do docs.
+/*
+ * Method: AIHoldPos
+ *
+ * Ship will hold this position
+ * Note : this AI command will go until CancelAI() is called.
+ *
+ * > ship:AIHoldPos()
+ *
+ * Parameters:
+ *
+ * Availability:
+ *
+ *  June 2013
+ *
+ * Status:
+ *
+ *  experimental
+ */
 static int l_ship_hold_ai(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
