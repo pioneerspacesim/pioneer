@@ -112,7 +112,7 @@ local doLawAndOrder = function (ship)
 					Comms.ImportantMessage(Game.player.label..', Please pay outstanding fines immediately, or we will be forced to open fire!', v.ship.label)
 					warn=true
 				end
-				Timer:CallAt(Game.time+10, function ()  
+				Timer:CallAt(Game.time+20, function ()
 					if v.ship~=nil and v.ship:exists() and Game.player:GetFine()>=10000 then v.ship:AIKill(Game.player) end
 				end)
 			end
