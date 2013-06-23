@@ -19,11 +19,6 @@ local spawnShips = function ()
 		return
 	end
 
-	--local shipdefs = build_array(filter(function (k,def) return def.tag == 'STATIC_SHIP' and def.model == 'large_fulcrum' end, pairs(ShipDef)))
-	--if #shipdefs == 0 then return end
-	-- Game.player:SetShipType("passenger_shuttle")
-	--
-	
 	local station = stations[1]
 	fulcrum = Space.SpawnShipParkedOffset('large_fulcrum', station)
 	fulcrum:SetLabel('[--Fulcrum--]')
@@ -38,12 +33,10 @@ local onEnterSystem = function (player)
 	
 	if player:IsPlayer() and spawnShips()~=nil then
 		if fulcrum~=nil then
-			--local body = s[1].frameBody
 			local x,y,z = fulcrum:GetPos()
 			y=y-200
 			Game.player:SetPos(fulcrum,x,y,z)
 			fulcrum:UseECM()
-			--Game.player:AIHoldPos()
 			Game.player:AIFlyToClose(fulcrum,500)
 		end
 	else
@@ -58,7 +51,6 @@ end
 
 local onAICompleted = function (ship, ai_error)
 	if not ship:IsPlayer() and playerarrived==true then return end
-	--Game.player:AIHoldPos()
 	playerarrived=false
 end
 Event.Register("onAICompleted", onAICompleted)
