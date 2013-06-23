@@ -84,16 +84,16 @@ inline int GetMinSize(TextureFormat flag) {
 	switch(flag) {
 	case TEXTURE_DXT1: return 8;
 	case TEXTURE_DXT5: return 16;
+	default: return 1;
 	}
-	return 1;
 }
 
 inline int GetMinSize(ImageFormat flag){
 	switch(flag) {
 	case IMAGE_DXT1: return 8;
 	case IMAGE_DXT5: return 16;
+	default: return 1;
 	}
-	return 1;
 }
 
 TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompressed) :
