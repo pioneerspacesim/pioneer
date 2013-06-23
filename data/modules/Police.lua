@@ -4,6 +4,7 @@
 local police = { }
 local starports
 local starport
+local warn=false
 
 local getMyStarport = function (ship, current)
 	-- check if the current system can be traded in
@@ -42,7 +43,7 @@ local spawnPolice = function()
 
 	if starport~=nil then
 
-		if Game.player:DistanceTo(starport)>200000 then return end
+		if Game.player:DistanceTo(starport)>400000 then return end
 
 		local shipdefs = build_array(filter(function (k,def) return def.tag == 'SHIP' and def.hullMass <= 150 end, pairs(ShipDef)))
 		if #shipdefs == 0 then return end
@@ -55,17 +56,10 @@ local spawnPolice = function()
 		while max_police > 0 do --and Engine.rand:Number(1) < lawlessness do
 			max_police = max_police-1
 
-			local shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
-			local default_drive = shipdef.defaultHyperdrive
-
-
-			local max_laser_size = shipdef.capacity - EquipDef[default_drive].mass
-			local laserdefs = build_array(filter(function (k, def) return def.slot == 'LASER' and def.mass <= max_laser_size and string.sub(def.id,0,11) == 'PULSECANNON' end, pairs(EquipDef)))
-			local laserdef = laserdefs[Engine.rand:Integer(1,#laserdefs)]
-
-			local ship = Space.SpawnShipDocked(shipdef.id, starport)
-			ship:AddEquip(default_drive)
-			ship:AddEquip(laserdef.id)
+			local ship = Space.SpawnShipDocked("kanara", starport)
+			ship:AddEquip('PULSECANNON_DUAL_1MW')
+			ship:AddEquip('LASER_COOLING_BOOSTER')
+			ship:AddEquip('ATMOSPHERIC_SHIELDING')
 			ship:SetLabel('POLICE')
 			police[ship] = {
 				ship	= ship,
@@ -76,11 +70,21 @@ local spawnPolice = function()
 
 end 
 
-local onEnterSystem = function (player)
+local deletePolice = function (player)
 	if not player:IsPlayer() then return end
 	for k, v in pairs(police) do
-		v.ship=nil
+		if v.ship~=nil and v.ship:exists() then
+			v.ship:CancelAI()
+			v.ship:Explode()
+			police[v.ship] = nil
+		end
+		warn=false
 	end
+end
+
+local onEnterSystem = function (player)
+	if not player:IsPlayer() then return end
+	deletePolice(player)
 end
 
 local onGameStart = function ()
@@ -88,15 +92,15 @@ local onGameStart = function ()
 	spawnPolice()
 end
 
-local onFrameChanged = function (ship)
+local doLawAndOrder = function (ship)
 	if not ship:isa('Ship') then return end
 	if ship:IsPlayer() then
 
 		starport = getMyStarport(Game.player)
-		if Game.player:DistanceTo(starport)<200000 then 
-			spawnPolice() 
+		if Game.player:DistanceTo(starport)<400000 then
+			spawnPolice()
 		else
-			onEnterSystem(Game.player)
+			deletePolice(Game.player)
 			return
 		end
 
@@ -106,9 +110,16 @@ local onFrameChanged = function (ship)
 					v.ship:CancelAI()
 					v.ship:Undock()
 				end
-				if v.ship~=nil and v.ship:exists() then 
-					v.ship:AIKill(Game.player) 
+				if v.ship~=nil and v.ship:exists() then
+					v.ship:AIFlyTo(Game.player)
 				end
+				if not warn then
+					Comms.ImportantMessage(Game.player.label..', Please pay outstanding fines immediately, or we will be forced to open fire!', v.ship.label)
+					warn=true
+				end
+				Timer:CallAt(Game.time+10, function ()  
+					if v.ship~=nil and v.ship:exists() and Game.player:GetFine()>=10000 then v.ship:AIKill(Game.player) end
+				end)
 			end
 		else
 			print "Police idle..."
@@ -116,10 +127,18 @@ local onFrameChanged = function (ship)
 				if v.ship~=nil and v.ship:exists() then
 					v.ship:CancelAI()
 					v.ship:AIDockWith(starport)
+					warn=false
 				end
 			end
 		end
 
+	end
+end
+
+local onFrameChanged = function (ship)
+	if not ship:isa('Ship') then return end
+	if ship:IsPlayer() then
+		doLawAndOrder(ship)
 	end
 end
 
@@ -128,14 +147,14 @@ local onAICompleted = function (ship, ai_error)
 end
 
 local onShipHit = function (ship, attacker)
-	onFrameChanged(Game.player)
+	if not ship:IsPlayer() then return end
+	doLawAndOrder(Game.player)
 end
 
 local onShipAlertChanged = function (ship, alert)
-	onFrameChanged(Game.player)
+	doLawAndOrder(Game.player)
 end
 
-Event.Register("onAICompleted", onAICompleted)
 Event.Register("onShipAlertChanged", onShipAlertChanged)
 Event.Register("onShipHit", onShipHit)
 Event.Register("onFrameChanged", onFrameChanged)
