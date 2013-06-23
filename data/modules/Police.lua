@@ -10,10 +10,7 @@ local getMyStarport = function (ship, current)
 	starports = Space.GetBodies(function (body) return body.superType == 'STARPORT' end)
 
 	if #starports == 0 then 
-		print "found no starports"
 		return nil 
-	else
-		print "found starports"
 	end
 
 	-- Find the nearest starport that we can land at (other than current)
@@ -21,9 +18,7 @@ local getMyStarport = function (ship, current)
 
 	for i = 1, #starports do
 		local next_starport = starports[i]
-		print "looping..."
 		if next_starport ~= current then
-			print "--still"
 			local next_distance = Game.player:DistanceTo(next_starport)
 			
 			local next_canland
@@ -41,11 +36,13 @@ end
 
 local spawnPolice = function()
 
-	starport = getMyStarport(Game.player)
+	for k,v in pairs(police) do 
+		if v.ship~=nil and v.ship:exists() then return end
+	end
 
 	if starport~=nil then
 
-			print "spawn ships..."
+		if Game.player:DistanceTo(starport)>200000 then return end
 
 		local shipdefs = build_array(filter(function (k,def) return def.tag == 'SHIP' and def.hullMass <= 150 end, pairs(ShipDef)))
 		if #shipdefs == 0 then return end
@@ -70,11 +67,10 @@ local spawnPolice = function()
 			ship:AddEquip(default_drive)
 			ship:AddEquip(laserdef.id)
 			ship:SetLabel('POLICE')
-			police[ship] = ship
-			print "Police added.."
+			police[ship] = {
+				ship	= ship,
+			}
 		end
-	else
-		print "starport was nil??"
 	end
 
 
@@ -82,31 +78,44 @@ end
 
 local onEnterSystem = function (player)
 	if not player:IsPlayer() then return end
+	for k, v in pairs(police) do
+		v.ship=nil
+	end
 end
 
 local onGameStart = function ()
-	onEnterSystem(Game.player)
+	starport = getMyStarport(Game.player)
 	spawnPolice()
 end
 
 local onFrameChanged = function (ship)
 	if not ship:isa('Ship') then return end
 	if ship:IsPlayer() then
+
+		starport = getMyStarport(Game.player)
+		if Game.player:DistanceTo(starport)<200000 then 
+			spawnPolice() 
+		else
+			onEnterSystem(Game.player)
+			return
+		end
+
 		if Game.player:GetFine()>=10000 then
-			print "Police inc..."
 			for k, v in pairs(police) do
-				if v:exists() and v:GetDockedWith() then
-					v:CancelAI()
-					v:Undock()
+				if v.ship~=nil and v.ship:exists() and v.ship:GetDockedWith() then
+					v.ship:CancelAI()
+					v.ship:Undock()
 				end
-				if v:exists() then v:AIKill(Game.player) end
+				if v.ship~=nil and v.ship:exists() then 
+					v.ship:AIKill(Game.player) 
+				end
 			end
 		else
-			print "Police gone..."
+			print "Police idle..."
 			for k, v in pairs(police) do
-				if v:exists() then
-					v:CancelAI()
-					v:AIDockWith(starport)
+				if v.ship~=nil and v.ship:exists() then
+					v.ship:CancelAI()
+					v.ship:AIDockWith(starport)
 				end
 			end
 		end
