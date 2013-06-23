@@ -21,7 +21,7 @@ namespace SceneGraph { class Model; }
 class CityOnPlanet: public Object {
 public:
 	OBJDEF(CityOnPlanet, Object, CITYONPLANET);
-	CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed);
+	CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 seed);
 	virtual ~CityOnPlanet();
 	void Render(Graphics::Renderer *r, const Camera *camera, const SpaceStation *station, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	inline Planet *GetPlanet() const { return m_planet; }
@@ -47,6 +47,7 @@ private:
 	std::vector<BuildingDef> m_enabledBuildings;
 	int m_detailLevel;
 	float m_clipRadius;
+	const Uint32 m_seed;
 };
 
 #endif /* _CITYONPLANET_H */

@@ -134,11 +134,22 @@ void CityOnPlanet::AddStaticGeomsToCollisionSpace()
 			++numVisibleBuildings;
 		}
 	}
+	
+	// randomly colour all of the buildings based on the see used to generate the city
+	Random rand;
+	rand.seed(m_seed);
+	SceneGraph::ModelSkin skin;
+	// we know how many building we'll be adding, reserve space up front
 	m_enabledBuildings.reserve(numVisibleBuildings);
 	for (unsigned int i=0; i<m_buildings.size(); i++) {
 		if (i & skipMask) {
 		} else {
 			m_frame->AddStaticGeom(m_buildings[i].geom);
+			// set a custom skin
+			SceneGraph::Model *m = m_buildings[i].model;
+			skin.SetRandomColors(rand);
+			skin.SetPattern(rand.Int32(0, m->GetNumPatterns()));
+			skin.Apply(m);
 			m_enabledBuildings.push_back(m_buildings[i]);
 		}
 	}
@@ -229,7 +240,7 @@ CityOnPlanet::~CityOnPlanet()
 	}
 }
 
-CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed)
+CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 seed) : m_seed(seed)
 {
 	m_buildings.clear();
 	m_buildings.reserve(DEFAULT_NUM_BUILDINGS);
