@@ -28,6 +28,7 @@
 #include "matrix4x4.h"
 #include "Quaternion.h"
 #include <algorithm>
+#include <sstream>
 
 const double WorldView::PICK_OBJECT_RECT_SIZE = 20.0;
 static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.9f);
@@ -526,30 +527,35 @@ void WorldView::RefreshButtonStateAndVisibility()
 	}
 #if WITH_DEVKEYS
 	if (Pi::showDebugInfo) {
-		char buf[1024], aibuf[256];
-		vector3d pos = Pi::player->GetPosition();
-		vector3d abs_pos = Pi::player->GetPositionRelTo(Pi::game->GetSpace()->GetRootFrame());
+		std::ostringstream ss;
 
-		//Calculate lat/lon for ship position
-		const vector3d dir = pos.NormalizedSafe();
-		const float lat = RAD2DEG(asin(dir.y));
-		const float lon = RAD2DEG(atan2(dir.x, dir.z));
+		if (Pi::player->GetFlightState() != Ship::HYPERSPACE) {
+			vector3d pos = Pi::player->GetPosition();
+			vector3d abs_pos = Pi::player->GetPositionRelTo(Pi::game->GetSpace()->GetRootFrame());
 
-		const char *rel_to = (Pi::player->GetFrame() ? Pi::player->GetFrame()->GetLabel().c_str() : "System");
-		const char *rot_frame = (Pi::player->GetFrame()->IsRotFrame() ? "yes" : "no");
-		const SystemPath &path(Pi::player->GetFrame()->GetSystemBody()->path);
+			ss << stringf("Pos: %0{f.2}, %1{f.2}, %2{f.2}\n", pos.x, pos.y, pos.z);
+			ss << stringf("AbsPos: %0{f.2}, %1{f.2}, %2{f.2}\n", abs_pos.x, abs_pos.y, abs_pos.z);
+
+			const SystemPath &path(Pi::player->GetFrame()->GetSystemBody()->path);
+			ss << stringf("Rel-to: %0 [%1{d},%2{d},%3{d},%4{u},%5{u}] ", 
+				Pi::player->GetFrame()->GetLabel(),
+				path.sectorX, path.sectorY, path.sectorZ, path.systemIndex, path.bodyIndex);
+			ss << stringf("(%0{f.2} km), rotating: %1\n",
+				pos.Length()/1000, (Pi::player->GetFrame()->IsRotFrame() ? "yes" : "no"));
+
+			//Calculate lat/lon for ship position
+			const vector3d dir = pos.NormalizedSafe();
+			const float lat = RAD2DEG(asin(dir.y));
+			const float lon = RAD2DEG(atan2(dir.x, dir.z));
+
+			ss << stringf("Lat / Lon: %0{f.8} / %1{f.8}\n", lat, lon);
+		}
+
+		char aibuf[256];
 		Pi::player->AIGetStatusText(aibuf); aibuf[255] = 0;
-		snprintf(buf, sizeof(buf), "Pos: %.1f,%.1f,%.1f\n"
-			"AbsPos: %.1f,%.1f,%.1f (%.3f AU)\n"
-			"Rel-to: %s [%d,%d,%d,%d,%d] (%.0f km), rotating: %s\n"
-			"%s\n"
-			"Lat / Lon : %.8f / %.8f",
-			pos.x, pos.y, pos.z,
-			abs_pos.x, abs_pos.y, abs_pos.z, abs_pos.Length()/AU,
-			rel_to, path.sectorX, path.sectorY, path.sectorZ, path.systemIndex, path.bodyIndex,
-			pos.Length()/1000, rot_frame, aibuf, lat, lon);
+		ss << aibuf << std::endl;
 
-		m_debugInfo->SetText(buf);
+		m_debugInfo->SetText(ss.str());
 		m_debugInfo->Show();
 	} else {
 		m_debugInfo->Hide();
