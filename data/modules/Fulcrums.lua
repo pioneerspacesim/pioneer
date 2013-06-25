@@ -63,15 +63,22 @@ local onGameStart = function ()
 end
 
 local serialize = function ()
-	return playerarrived,fulcrum
+	return {playerarrived,fulcrum}
 end
 
 local unserialize = function (data)
 	loaded = true
-	playerarrived,fulcrum = data
+	playerarrived=data[1]
+	fulcrum=data[2]
 end
 
+local onGameEnd = function ()
+	-- drop the references for our data so Lua can free them
+	-- and so we can start fresh if the player starts another game
+	loaded,fulcrum,playerarrived=nil,nil,nil
+end
+
+Event.Register("onGameEnd", onGameEnd)
 Event.Register("onEnterSystem", onEnterSystem)
 Event.Register("onGameStart", onGameStart)
-
 Serializer:Register("Fulcrum", serialize, unserialize)
