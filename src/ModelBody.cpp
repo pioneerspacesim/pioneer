@@ -87,7 +87,7 @@ void ModelBody::RebuildCollisionMesh()
 		delete m_geom;
 	}
 
-	m_collMesh = m_model->CreateCollisionMesh();
+	m_collMesh = m_model->GetCollisionMesh();
 	SetPhysRadius(m_collMesh->GetAabb().GetRadius());
 	m_geom = new Geom(m_collMesh->GetGeomTree());
 
