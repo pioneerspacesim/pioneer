@@ -641,6 +641,8 @@ Sint64 SpaceStation::GetPrice(Equip::Type t) const {
 // For surface starports:
 //	Lighting: Calculates available light for model and splits light between directly and ambiently lit
 //            Lighting is done by manipulating global lights or setting uniforms in atmospheric models shader
+//#define SQRMAXCITYDIST (1000000.0 * 1000000.0)
+#define SQRMAXCITYDIST (100000.0 * 100000.0)
 void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	Body *b = GetFrame()->GetBody();
@@ -649,21 +651,21 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 	if (!b->IsType(Object::PLANET)) {
 		// orbital spaceport -- don't make city turds or change lighting based on atmosphere
 		RenderModel(r, camera, viewCoords, viewTransform);
-	}
-
-	else {
+	} else {
+		// don't render city if too far away
+		if (viewCoords.LengthSqr() >= SQRMAXCITYDIST) {
+			return;
+		}
 		std::vector<Graphics::Light> oldLights;
 		Color oldAmbient;
 		SetLighting(r, camera, oldLights, oldAmbient);
 
 		Planet *planet = static_cast<Planet*>(b);
-		/* don't render city if too far away */
-		if (viewCoords.Length() < 1000000.0){
-			if (!m_adjacentCity) {
-				m_adjacentCity = new CityOnPlanet(planet, this, m_sbody->seed);
-			}
-			m_adjacentCity->Render(r, camera, this, viewCoords, viewTransform);
+		
+		if (!m_adjacentCity) {
+			m_adjacentCity = new CityOnPlanet(planet, this, m_sbody->seed);
 		}
+		m_adjacentCity->Render(r, camera, this, viewCoords, viewTransform);
 
 		RenderModel(r, camera, viewCoords, viewTransform, false);
 

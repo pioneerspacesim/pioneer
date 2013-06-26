@@ -39,16 +39,15 @@ private:
 		int rotation; // 0-3
 		vector3d pos;
 		Geom *geom;
-		// may not be at lower detail level
-		bool isEnabled;
 	};
 
 	Planet *m_planet;
 	Frame *m_frame;
 	std::vector<BuildingDef> m_buildings;
+	std::vector<BuildingDef> m_enabledBuildings;
 	int m_detailLevel;
-	// position of city center
-	vector3d m_position;
+	vector3d m_realCentre;
+	float m_clipRadius;
 };
 
 #endif /* _CITYONPLANET_H */
