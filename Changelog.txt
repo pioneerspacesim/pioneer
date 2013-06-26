@@ -6,6 +6,9 @@ June 2013
    * Fixes
      * Fix potential future bug in texture loading (#2340)
 
+   * Minor changes and tweaks
+     * Refund 50% of old ship value when buying a new ship (#2343, #2345)
+
 May 2013
 
    * New features
