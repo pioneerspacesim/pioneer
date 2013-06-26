@@ -16,6 +16,8 @@
 #include "graphics/Graphics.h"
 #include "scenegraph/SceneGraph.h"
 
+#include <set>
+
 #define DEFAULT_NUM_BUILDINGS 1000
 #define START_SEG_SIZE CITY_ON_PLANET_RADIUS
 #define MIN_SEG_SIZE 50.0
@@ -135,21 +137,12 @@ void CityOnPlanet::AddStaticGeomsToCollisionSpace()
 		}
 	}
 	
-	// randomly colour all of the buildings based on the see used to generate the city
-	Random rand;
-	rand.seed(m_seed);
-	SceneGraph::ModelSkin skin;
 	// we know how many building we'll be adding, reserve space up front
 	m_enabledBuildings.reserve(numVisibleBuildings);
 	for (unsigned int i=0; i<m_buildings.size(); i++) {
 		if (i & skipMask) {
 		} else {
 			m_frame->AddStaticGeom(m_buildings[i].geom);
-			// set a custom skin
-			SceneGraph::Model *m = m_buildings[i].model;
-			skin.SetRandomColors(rand);
-			skin.SetPattern(rand.Int32(0, m->GetNumPatterns()));
-			skin.Apply(m);
 			m_enabledBuildings.push_back(m_buildings[i]);
 		}
 	}
@@ -198,12 +191,8 @@ static void lookupBuildingListModels(citybuildinglist_t *list)
 	list->numBuildings = models.size();
 
 	int i = 0;
-	SceneGraph::ModelSkin skin;
 	for (std::vector<Model*>::iterator m = models.begin(); m != models.end(); ++m, i++) {
 		list->buildings[i].resolvedModel = *m;
-		skin.SetRandomColors(Pi::rng);
-		skin.SetPattern(Pi::rng.Int32(0, (*m)->GetNumPatterns()));
-		skin.Apply((*m));
 		list->buildings[i].collMesh = (*m)->CreateCollisionMesh();
 		const Aabb &aabb = list->buildings[i].collMesh->GetAabb();
 		const double maxx = std::max(fabs(aabb.max.x), fabs(aabb.min.x));
@@ -228,6 +217,30 @@ void CityOnPlanet::Uninit()
 {
 	for (unsigned int list=0; list<COUNTOF(s_buildingLists); list++) {
 		delete[] s_buildingLists[list].buildings;
+	}
+}
+
+//static 
+void CityOnPlanet::SetCityModelPatterns(const SystemPath &path)
+{
+	Uint32 _init[6] = { path.systemIndex, Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
+	Random rand(_init, 5);
+
+	std::set<SceneGraph::Model*> modelSet;
+	for (unsigned int i=0; i<COUNTOF(s_buildingLists); i++) {
+		for (unsigned int j=0; j<s_buildingLists[i].numBuildings; j++) {
+			SceneGraph::Model *m = s_buildingLists[i].buildings[j].resolvedModel;
+			modelSet.insert(m);
+		}
+	}
+	
+	SceneGraph::ModelSkin skin;
+	skin.SetRandomColors(rand);
+	typedef std::set<SceneGraph::Model*>::iterator TSetIter;
+	for (TSetIter it=modelSet.begin(), itEnd=modelSet.end(); it!=itEnd; ++it) {
+		SceneGraph::Model *m = (*it);
+		skin.SetPattern(rand.Int32(0, m->GetNumPatterns()));
+		skin.Apply(m);
 	}
 }
 
