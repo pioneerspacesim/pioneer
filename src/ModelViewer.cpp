@@ -442,8 +442,8 @@ void ModelViewer::DrawDockingLocators()
 // Draw collision mesh as a wireframe overlay
 void ModelViewer::DrawCollisionMesh()
 {
-	CollMesh *mesh = m_model->GetCollisionMesh();
-	if(!mesh) return;
+	RefCountedPtr<CollMesh> mesh = m_model->GetCollisionMesh();
+	if(!mesh.Valid()) return;
 
 	std::vector<vector3f> &vertices = mesh->m_vertices;
 	std::vector<int> &indices = mesh->m_indices;

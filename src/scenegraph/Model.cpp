@@ -123,6 +123,10 @@ void Model::Render(const matrix4x4f &trans, RenderData *rd)
 
 RefCountedPtr<CollMesh> Model::CreateCollisionMesh()
 {
+	if(m_collMesh.Valid()) {
+		return m_collMesh;
+	}
+
 	CollisionVisitor cv;
 	m_root->Accept(cv);
 	m_collMesh = cv.CreateCollisionMesh();
