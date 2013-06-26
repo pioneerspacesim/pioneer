@@ -1,29 +1,29 @@
 # Comments can be written like this
 # Define all used materials first
 material Body-material
-tex_diff deneb.png
-tex_glow deneb_glow.png
-tex_spec deneb_spec.png
+#tex_diff deneb.png
+#tex_glow deneb_glow.png
+#tex_spec deneb_spec.png
 
-#tex_diff deneb.dds
-#tex_glow deneb_glow.dds
-#tex_spec deneb_spec.dds
+tex_diff deneb.dds
+tex_glow deneb_glow.dds
+tex_spec deneb_spec.dds
 
-use_patterns
+#use_patterns
 
 collision deneb_collision.obj
 
 # LOD
-lod 1000
+lod 1001
 mesh deneb.dae
 
-lod 500
+lod 1000
 mesh deneb_medhigh.dae
 
-lod 75
+lod 50
 mesh deneb_med.dae
 
-lod 20
+lod 5
 mesh deneb_low.dae
 
 # Animations
