@@ -143,7 +143,6 @@ std::string KeyBinding::Description() const {
 	return oss.str();
 }
 
-
 AxisBinding::AxisBinding() {
 	this->joystick = 0;
 	this->axis = 0;
@@ -336,7 +335,7 @@ void DispatchSDLEvent(const SDL_Event *event) {
 void InitKeyBinding(KeyAction &kb, const std::string &bindName, SDLKey defaultKey) {
 	std::string keyName = Pi::config->String(bindName.c_str());
 	if (keyName.length() == 0) {
-		keyName = stringf("Key%0{u}", uint32_t(defaultKey));
+		keyName = stringf("Key%0{u}", Uint32(defaultKey));
 		Pi::config->SetString(bindName.c_str(), keyName.c_str());
 	}
 	KeyBindingFromString(keyName.c_str(), &(kb.binding));

@@ -65,7 +65,7 @@ void SpaceStationType::OnSetupComplete()
 			PiVerify(bay>0 && stage>0);
 			m_ports[bay].m_docking[stage+1] = (*dockIter)->GetTransform();
 		}
-		
+
 		SceneGraph::Model::TVecMT::const_iterator leaveIter = leaving_mts.begin();
 		for (; leaveIter!=leaving_mts.end() ; ++leaveIter)
 		{
@@ -81,31 +81,31 @@ void SpaceStationType::OnSetupComplete()
 
 		for (PortMap::const_iterator pIt = m_ports.begin(), pItEnd = m_ports.end(); pIt!=pItEnd; ++pIt)
 		{
-			if (uint32_t(numDockingStages-1) < pIt->second.m_docking.size()) {
+			if (Uint32(numDockingStages-1) < pIt->second.m_docking.size()) {
 				OS::Error(
 					"(%s): numDockingStages (%d) vs number of docking stages (" SIZET_FMT ")\n"
 					"Must have at least the same number of entries as the number of docking stages "
 					"PLUS the docking timeout at the start of the array.",
 					modelName.c_str(), (numDockingStages-1), pIt->second.m_docking.size());
 
-			} else if (uint32_t(numDockingStages-1) != pIt->second.m_docking.size()) {
+			} else if (Uint32(numDockingStages-1) != pIt->second.m_docking.size()) {
 				OS::Warning(
 					"(%s): numDockingStages (%d) vs number of docking stages (" SIZET_FMT ")\n",
 					modelName.c_str(), (numDockingStages-1), pIt->second.m_docking.size());
 			}
-			
-			if (0!=pIt->second.m_leaving.size() && uint32_t(numUndockStages) < pIt->second.m_leaving.size()) {
+
+			if (0!=pIt->second.m_leaving.size() && Uint32(numUndockStages) < pIt->second.m_leaving.size()) {
 				OS::Error(
 					"(%s): numUndockStages (%d) vs number of leaving stages (" SIZET_FMT ")\n"
 					"Must have at least the same number of entries as the number of leaving stages.",
 					modelName.c_str(), (numDockingStages-1), pIt->second.m_docking.size());
 
-			} else if(0!=pIt->second.m_leaving.size() && uint32_t(numUndockStages) != pIt->second.m_leaving.size()) {
+			} else if(0!=pIt->second.m_leaving.size() && Uint32(numUndockStages) != pIt->second.m_leaving.size()) {
 				OS::Warning(
 					"(%s): numUndockStages (%d) vs number of leaving stages (" SIZET_FMT ")\n",
 					modelName.c_str(), numUndockStages, pIt->second.m_leaving.size());
 			}
-			
+
 		}
 	}
 }
@@ -176,7 +176,7 @@ vector3d vlerp(const double t, const vector3d& v1, const vector3d& v2)
 	return t*v2 + (1.0-t)*v1;
 }
 
-static bool GetPosOrient(const SpaceStationType::TMapBayIDMat &bayMap, const int stage, const double t, const vector3d &from, 
+static bool GetPosOrient(const SpaceStationType::TMapBayIDMat &bayMap, const int stage, const double t, const vector3d &from,
 				  SpaceStationType::positionOrient_t &outPosOrient, const Ship *ship)
 {
 	bool gotOrient = false;

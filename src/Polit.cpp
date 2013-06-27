@@ -232,7 +232,7 @@ bool IsCommodityLegal(const StarSystem *s, const Equip::Type t)
 	if(s->GetFaction()->idx != Faction::BAD_FACTION_IDX ) {
 		Faction::EquipProbMap::const_iterator iter = s->GetFaction()->equip_legality.find(t);
 		if( iter != s->GetFaction()->equip_legality.end() ) {
-			const uint32_t per = (*iter).second;
+			const Uint32 per = (*iter).second;
 			return (rand.Int32(100) >= per);
 		}
 	}
