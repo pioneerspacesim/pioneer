@@ -5,6 +5,12 @@ June 2013
 
    * Fixes
      * Fix potential future bug in texture loading (#2340)
+     * Don't recreate collision meshes unnecessarily (#2346)
+
+   * Minor changes and tweaks
+     * Refund 50% of old ship value when buying a new ship (#2343, #2345)
+     * Do visibility test for an entire city before checking
+       individual buildings (#2341)
 
 May 2013
 

@@ -23,12 +23,12 @@ public:
 	Node* GetChildAt(unsigned int);
 	virtual void Accept(NodeVisitor &v);
 	virtual void Traverse(NodeVisitor &v);
-	virtual void Render(const matrix4x4f &trans, RenderData *rd);
+	virtual void Render(const matrix4x4f &trans, const RenderData *rd);
 	virtual Node* FindNode(const std::string &);
 
 protected:
 	virtual ~Group();
-	virtual void RenderChildren(const matrix4x4f &trans, RenderData *rd);
+	virtual void RenderChildren(const matrix4x4f &trans, const RenderData *rd);
 	std::vector<Node *> m_children;
 };
 

@@ -87,7 +87,7 @@ void ModelBody::RebuildCollisionMesh()
 		delete m_geom;
 	}
 
-	m_collMesh = m_model->CreateCollisionMesh();
+	m_collMesh = m_model->GetCollisionMesh();
 	SetPhysRadius(m_collMesh->GetAabb().GetRadius());
 	m_geom = new Geom(m_collMesh->GetGeomTree());
 
@@ -256,6 +256,8 @@ void ModelBody::SetLighting(Graphics::Renderer *r, const Camera *camera, std::ve
 	double ambient, direct;
 	CalcLighting(ambient, direct, camera);
 	const std::vector<Camera::LightSource> &lightSources = camera->GetLightSources();
+	newLights.reserve(lightSources.size());
+	oldLights.reserve(lightSources.size());
 	for(size_t i = 0; i < lightSources.size(); i++) {
 		Graphics::Light light(lightSources[i].GetLight());
 
