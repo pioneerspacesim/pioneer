@@ -93,7 +93,7 @@ public:
 	Model *MakeInstance() const;
 
 	float GetDrawClipRadius() const { return m_boundingRadius; }
-	void Render(const matrix4x4f &trans, RenderData *params = 0); //ModelNode can override RD
+	void Render(const matrix4x4f &trans, const RenderData *rd = 0); //ModelNode can override RD
 	RefCountedPtr<CollMesh> CreateCollisionMesh();
 	RefCountedPtr<CollMesh> GetCollisionMesh() const { return m_collMesh; }
 	RefCountedPtr<Group> GetRoot() { return m_root; }
