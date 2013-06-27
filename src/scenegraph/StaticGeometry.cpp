@@ -38,13 +38,13 @@ void StaticGeometry::Accept(NodeVisitor &nv)
 	nv.ApplyStaticGeometry(*this);
 }
 
-void StaticGeometry::Render(const matrix4x4f &trans, RenderData *rd)
+void StaticGeometry::Render(const matrix4x4f &trans, const RenderData *rd)
 {
 	Graphics::Renderer *r = GetRenderer();
 	r->SetTransform(trans);
 	if (m_blendMode != Graphics::BLEND_SOLID)
 		r->SetBlendMode(m_blendMode);
-	for (MeshContainer::iterator it = m_meshes.begin(); it != m_meshes.end(); ++it)
+	for (MeshContainer::iterator it = m_meshes.begin(), itEnd=m_meshes.end(); it != itEnd; ++it)
 		r->DrawStaticMesh(it->Get());
 
 	//DrawBoundingBox(r, m_boundingBox);

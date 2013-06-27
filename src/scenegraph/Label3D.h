@@ -23,7 +23,7 @@ public:
 	virtual Node *Clone(NodeCopyCache *cache = 0);
 	virtual const char *GetTypeName() const { return "Label3D"; }
 	void SetText(const std::string&);
-	virtual void Render(const matrix4x4f &trans, RenderData *rd);
+	virtual void Render(const matrix4x4f &trans, const RenderData *rd);
 	virtual void Accept(NodeVisitor &v);
 
 private:

@@ -54,10 +54,11 @@ StationShipViewForm::StationShipViewForm(FormController *controller, int marketI
 	float forward_accel_laden = type.linThrust[ShipType::THRUSTER_FORWARD] / (-9.81f*1000.0f*(type.hullMass+type.capacity+type.fuelTankMass));
 	float reverse_accel_empty = -type.linThrust[ShipType::THRUSTER_REVERSE] / (-9.81f*1000.0f*(type.hullMass+type.fuelTankMass));
 	float reverse_accel_laden = -type.linThrust[ShipType::THRUSTER_REVERSE] / (-9.81f*1000.0f*(type.hullMass+type.capacity+type.fuelTankMass));
-
+	
+	const int playerShipPrice = Pi::player->GetShipType()->baseprice >> 1;
 	Gui::VBox *dataBox = new Gui::VBox();
 	dataBox->PackEnd(new Gui::Label(type.name));
-	dataBox->PackEnd(new Gui::Label(format_money(type.baseprice)));
+	dataBox->PackEnd(new Gui::Label(format_money(type.baseprice - playerShipPrice)));
 	dataBox->PackEnd(new Gui::Label(m_sos.regId));
 	dataBox->PackEnd(new Gui::Label(" "));
 	dataBox->PackEnd(new Gui::Label(stringf(Lang::NUMBER_TONNES, formatarg("mass", type.hullMass))));
@@ -120,7 +121,8 @@ StationShipViewForm::StationShipViewForm(FormController *controller, int marketI
 
 void StationShipViewForm::BuyShip()
 {
-	Sint64 cost = ShipType::types[m_sos.id].baseprice;
+	const int playerShipPrice = Pi::player->GetShipType()->baseprice >> 1;
+	Sint64 cost = ShipType::types[m_sos.id].baseprice - playerShipPrice;
 	if (Pi::player->GetMoney() < cost) {
 		Pi::cpan->MsgLog()->Message("", Lang::YOU_NOT_ENOUGH_MONEY);
 		return;

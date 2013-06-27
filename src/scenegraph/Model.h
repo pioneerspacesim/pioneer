@@ -93,9 +93,9 @@ public:
 	Model *MakeInstance() const;
 
 	float GetDrawClipRadius() const { return m_boundingRadius; }
-	void Render(const matrix4x4f &trans, RenderData *params = 0); //ModelNode can override RD
+	void Render(const matrix4x4f &trans, const RenderData *rd = 0); //ModelNode can override RD
 	RefCountedPtr<CollMesh> CreateCollisionMesh();
-	CollMesh *GetCollisionMesh() const { return m_collMesh.Get(); }
+	RefCountedPtr<CollMesh> GetCollisionMesh() const { return m_collMesh; }
 	RefCountedPtr<Group> GetRoot() { return m_root; }
 	//materials used in the nodes should be accessible from here for convenience
 	RefCountedPtr<Graphics::Material> GetMaterialByName(const std::string &name) const;
