@@ -15,9 +15,10 @@
 #include "graphics/Graphics.h"
 #include "scenegraph/SceneGraph.h"
 
-#define DEFAULT_NUM_BUILDINGS 1000
-#define START_SEG_SIZE CITY_ON_PLANET_RADIUS
-#define MIN_SEG_SIZE 50.0
+static const unsigned int DEFAULT_NUM_BUILDINGS = 1000;
+static const double  START_SEG_SIZE = CITY_ON_PLANET_RADIUS;
+static const double MIN_SEG_SIZE = 50.0;
+static const unsigned int CITYFLAVOURS = 5;
 
 using SceneGraph::Model;
 
@@ -42,7 +43,6 @@ static citybuildinglist_t s_buildingLists[] = {
 	//{ "city_starport_building", 300, 400, 0, 0 },
 };
 
-#define CITYFLAVOURS 5
 struct cityflavourdef_t {
 	int buildingListIdx;
 	vector3d center;
@@ -340,7 +340,7 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const Spa
 		}
 	}
 
-	for (std::vector<BuildingDef>::const_iterator iter=m_enabledBuildings.begin(), itEND=m_enabledBuildings.end(); iter != itEND; ++iter) 
+	for (std::vector<BuildingDef>::const_iterator iter=m_enabledBuildings.begin(), itEND=m_enabledBuildings.end(); iter != itEND; ++iter)
 	{
 		const vector3d pos = viewTransform * (*iter).pos;
 		const vector3f posf(pos);

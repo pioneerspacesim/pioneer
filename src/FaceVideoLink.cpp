@@ -14,23 +14,23 @@
 
 using namespace Graphics;
 
-#define FACE_WIDTH  295
-#define FACE_HEIGHT 285
+static const unsigned int FACE_WIDTH  = 295;
+static const unsigned int FACE_HEIGHT = 285;
 
 // XXX these shouldn't really be hardcoded. it'd be much nicer to poke through
 // the facegen/ dir and figure out what we've got available. that or some
 // config file
-#define MAX_HEAD  20
-#define MAX_EYES  20
-#define MAX_NOSE  20
-#define MAX_MOUTH 20
-#define MAX_HAIR  20
+static const unsigned int MAX_HEAD  = 20;
+static const unsigned int MAX_EYES  = 20;
+static const unsigned int MAX_NOSE  = 20;
+static const unsigned int MAX_MOUTH = 20;
+static const unsigned int MAX_HAIR  = 20;
 
-#define MAX_CLOTHES     20
-#define MAX_ARMOUR      3
-#define MAX_ACCESSORIES 16
+static const unsigned int MAX_CLOTHES     = 20;
+static const unsigned int MAX_ARMOUR      = 3;
+static const unsigned int MAX_ACCESSORIES = 16;
 
-#define MAX_BACKGROUND 18
+static const unsigned int MAX_BACKGROUND = 18;
 
 static void _blit_image(SDL_Surface *s, const char *filename, int xoff, int yoff)
 {

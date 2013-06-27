@@ -23,12 +23,12 @@
 
 using namespace Graphics;
 
-#define SCANNER_RANGE_MAX	100000.0f
-#define SCANNER_RANGE_MIN	1000.0f
-#define SCANNER_SCALE		0.00001f
-#define SCANNER_YSHRINK		0.75f
-#define A_BIT				1.1f
-#define SCANNER_STEPS		100
+static const float SCANNER_RANGE_MAX = 100000.0f;
+static const float SCANNER_RANGE_MIN = 1000.0f;
+static const float SCANNER_SCALE     = 0.00001f;
+static const float SCANNER_YSHRINK   = 0.75f;
+static const float A_BIT             = 1.1f;
+static const unsigned int SCANNER_STEPS = 100;
 
 enum ScannerBlobWeight { WEIGHT_LIGHT, WEIGHT_HEAVY };
 

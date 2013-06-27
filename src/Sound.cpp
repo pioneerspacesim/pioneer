@@ -20,6 +20,11 @@
 
 namespace Sound {
 
+static const unsigned int FREQ = 44100;
+static const unsigned int BUF_SIZE = 4096;
+static const unsigned int MAX_WAVSTREAMS = 10; //first two are for music
+static const double STREAM_IF_LONGER_THAN = 10.0;
+
 class OggFileDataStream {
 public:
 	static const ov_callbacks CALLBACKS;
@@ -105,11 +110,6 @@ const ov_callbacks OggFileDataStream::CALLBACKS = {
 
 static float m_masterVol = 1.0f;
 static float m_sfxVol = 1.0f;
-
-#define FREQ            44100
-#define BUF_SIZE	4096
-#define MAX_WAVSTREAMS	10 //first two are for music
-#define STREAM_IF_LONGER_THAN 10.0
 
 void SetMasterVolume(const float vol)
 {
@@ -220,7 +220,6 @@ static void DestroyEvent(SoundEvent *ev)
 	}
 	ev->sample = 0;
 }
-
 
 /*
  * Volume should be 0-65535

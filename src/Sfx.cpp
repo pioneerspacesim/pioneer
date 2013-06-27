@@ -16,7 +16,8 @@
 
 using namespace Graphics;
 
-#define MAX_SFX_PER_FRAME 1024
+static const int MAX_SFX_PER_FRAME = 1024;
+
 Graphics::Drawables::Sphere3D *Sfx::shieldEffect = 0;
 Graphics::Drawables::Sphere3D *Sfx::explosionEffect = 0;
 Graphics::Material *Sfx::damageParticle = 0;
@@ -91,7 +92,7 @@ void Sfx::TimeStepUpdate(const float timeStep)
 			if (m_age > 2.0) m_type = TYPE_NONE;
 			break;
 		case TYPE_SMOKE:
-			if (m_age > 8.0) 
+			if (m_age > 8.0)
 				m_type = TYPE_NONE;
 			break;
 		case TYPE_NONE: break;
@@ -125,18 +126,18 @@ void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
 			break;
 		}
 		case TYPE_DAMAGE:
-			
+
 			damageParticle->diffuse = Color(1.f, 1.f, 0.f, 1.0f-(m_age/2.0f));
 			renderer->SetBlendMode(BLEND_ALPHA_ONE);
 			renderer->DrawPointSprites(1, &pos, damageParticle, 20.f);
 			break;
 
-		case TYPE_SMOKE: 
+		case TYPE_SMOKE:
 			float var = Pi::rng.Double()*0.05f; //slightly variation to trail color
 			if (m_age < 0.5)
 				//start trail
 				smokeParticle->diffuse = Color(0.75f-var, 0.75f-var, 0.75f-var, m_age*0.5-(m_age/2.0f));
-			else 
+			else
 				//end trail
 				smokeParticle->diffuse = Color(0.75-var, 0.75f-var, 0.75f-var, 0.5*0.5-(m_age/16.0));
 
@@ -151,7 +152,7 @@ void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
 			renderer->DrawPointSprites(1, &pos, smokeParticle, (m_speed*m_age));
 			glPopMatrix();
 			break;
-		
+
 	}
 }
 

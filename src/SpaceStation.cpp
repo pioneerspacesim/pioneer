@@ -23,9 +23,6 @@
 #include "graphics/Graphics.h"
 #include <algorithm>
 
-#define ARG_STATION_BAY1_STAGE 6
-#define ARG_STATION_BAY1_POS   10
-
 void SpaceStation::Init()
 {
 	SpaceStationType::Init();
@@ -176,9 +173,9 @@ void SpaceStation::InitStation()
 	for(int i=0; i<NUM_STATIC_SLOTS; i++) m_staticSlot[i] = false;
 	Random rand(m_sbody->seed);
 	bool ground = m_sbody->type == SystemBody::TYPE_STARPORT_ORBITAL ? false : true;
-	if (ground) { 
+	if (ground) {
 		m_type = &SpaceStationType::surfaceStationTypes[ rand.Int32(SpaceStationType::surfaceStationTypes.size()) ];
-	} else { 
+	} else {
 		m_type = &SpaceStationType::orbitalStationTypes[ rand.Int32(SpaceStationType::orbitalStationTypes.size()) ];
 	}
 
@@ -328,7 +325,7 @@ bool SpaceStation::LaunchShip(Ship *ship, int port)
 	const Aabb& aabb = ship->GetAabb();
 	const matrix3x3d mt = ship->GetOrient();
 	const vector3d up = mt.VectorY().Normalized() * aabb.min.y;
-	
+
 	sd.fromPos = (ship->GetPosition() - GetPosition() + up) * GetOrient();	// station space
 	sd.fromRot = Quaterniond::FromMatrix3x3(GetOrient().Transpose() * mt);
 
@@ -430,11 +427,11 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 //   Stage 1 (clearance granted): open
 //           (clearance expired): close
 //   Docked:                      close
-// 
+//
 // Undocking:
 //   Stage -1 (LaunchShip): open
 //   Post-launch:           close
-//   
+//
 
 void SpaceStation::DockingUpdate(const double timeStep)
 {
@@ -504,7 +501,7 @@ void SpaceStation::DockingUpdate(const double timeStep)
 			m_doorAnimationStep = -0.3; // close door
 		}
 	}
-	
+
 	m_doorAnimationState = Clamp(m_doorAnimationState + m_doorAnimationStep*timeStep, 0.0, 1.0);
 	if (m_doorAnimation)
 		m_doorAnimation->SetProgress(m_doorAnimationState);
@@ -533,7 +530,6 @@ void SpaceStation::PositionDockedShip(Ship *ship, int port) const
 		ship->SetOrient(GetOrient() * matrix3x3d::FromVectors(dport.xaxis, dport.yaxis, dport.zaxis));
 	}
 }
-
 
 void SpaceStation::StaticUpdate(const float timeStep)
 {
@@ -609,7 +605,6 @@ bool SpaceStation::IsGroundStation() const
 	return (m_type->dockMethod == SpaceStationType::SURFACE);
 }
 
-
 /* MarketAgent shite */
 void SpaceStation::Bought(Equip::Type t) {
 	m_equipmentStock[int(t)]++;
@@ -641,8 +636,8 @@ Sint64 SpaceStation::GetPrice(Equip::Type t) const {
 // For surface starports:
 //	Lighting: Calculates available light for model and splits light between directly and ambiently lit
 //            Lighting is done by manipulating global lights or setting uniforms in atmospheric models shader
-//#define SQRMAXCITYDIST (1000000.0 * 1000000.0)
-#define SQRMAXCITYDIST (100000.0 * 100000.0)
+static const double SQRMAXCITYDIST = 1e5 * 1e5;
+
 void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	Body *b = GetFrame()->GetBody();
@@ -661,7 +656,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 		SetLighting(r, camera, oldLights, oldAmbient);
 
 		Planet *planet = static_cast<Planet*>(b);
-		
+
 		if (!m_adjacentCity) {
 			m_adjacentCity = new CityOnPlanet(planet, this, m_sbody->seed);
 		}
@@ -711,7 +706,6 @@ void SpaceStation::CreateBB()
 	LuaEvent::Queue("onCreateBB", this);
 	m_bbCreated = true;
 }
-
 
 static int next_ref = 0;
 int SpaceStation::AddBBAdvert(std::string description, AdvertFormBuilder builder)

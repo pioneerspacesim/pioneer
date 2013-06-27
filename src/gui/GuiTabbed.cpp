@@ -7,8 +7,8 @@
 
 namespace Gui {
 
-#define TAB_BAR_HEIGHT	20.0f
-#define LABEL_PADDING	10.0f
+static const float TAB_BAR_HEIGHT = 20.0f;
+static const float LABEL_PADDING  =	10.0f;
 
 Tabbed::Tabbed()
 {
@@ -181,6 +181,5 @@ void Tabbed::Draw()
 	//AppendChild(label, m_pages.size()*50 + (2*m_pages.size()+1)*LABEL_PADDING, 0);
 	Container::Draw();
 }
-
 
 }
