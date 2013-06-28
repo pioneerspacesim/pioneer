@@ -23,6 +23,8 @@ static const float MAX_ZOOM = 1e30f;
 static const float ZOOM_IN_SPEED = 2;
 static const float ZOOM_OUT_SPEED = 1.f/ZOOM_IN_SPEED;
 static const float WHEEL_SENSITIVITY = .2f;		// Should be a variable in user settings.
+// i don't know how to name it
+static const double ROUGH_SIZE_OF_TURD = 10.0;
 
 SystemView::SystemView()
 {
@@ -207,9 +209,6 @@ void SystemView::PutLabel(const SystemBody *b, const vector3d &offset)
 	Gui::Screen::LeaveOrtho();
 	glDisable(GL_LIGHTING);
 }
-
-// i don't know how to name it
-#define ROUGH_SIZE_OF_TURD	10.0
 
 void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matrix4x4f &trans)
 {

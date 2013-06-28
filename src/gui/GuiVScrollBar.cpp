@@ -4,8 +4,8 @@
 #include "libs.h"
 #include "Gui.h"
 
-#define SCROLLBAR_SIZE	12
-#define BORDER	2
+static const float SCROLLBAR_SIZE = 12.f;
+static const float BORDER = 2.f;
 
 namespace Gui {
 
