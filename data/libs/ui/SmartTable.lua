@@ -29,7 +29,7 @@ New = function (rowspec)
 	self.widget =
 		ui:VBox(10):PackEnd({
 			self.headers,
-			ui:Scroller():SetInnerWidget(self.body)
+			ui:Expand():SetInnerWidget(ui:Scroller(self.body))
 		})
 
 	setmetatable(self, {
