@@ -61,7 +61,7 @@ void CityOnPlanet::PutCityBit(Random &rand, const matrix4x4d &rot, vector3d p1, 
 	citybuildinglist_t *buildings(0);
 
 	// pick a building flavour (city, windfarm, etc)
-	for (int flv=0; flv<CITYFLAVOURS; flv++) {
+	for (unsigned int flv = 0; flv < CITYFLAVOURS; flv++) {
 		flavour = &cityflavour[flv];
 		buildings = &s_buildingLists[flavour->buildingListIdx];
 
@@ -260,7 +260,7 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed)
 	cityflavour[0].center = p;
 	cityflavour[0].size = 500;
 
-	for (int i=1; i<CITYFLAVOURS; i++) {
+	for (unsigned int i = 1; i < CITYFLAVOURS; i++) {
 		cityflavour[i].buildingListIdx =
 			(COUNTOF(s_buildingLists) > 1 ? rand.Int32(COUNTOF(s_buildingLists)) : 0);
 		citybuildinglist_t *blist = &s_buildingLists[cityflavour[i].buildingListIdx];

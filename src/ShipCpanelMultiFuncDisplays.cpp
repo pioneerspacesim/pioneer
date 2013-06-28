@@ -419,7 +419,7 @@ void ScannerWidget::GenerateBaseGeometry()
 	m_circle.clear();
 	m_circle.push_back(vector2f(0.0f, SCANNER_YSHRINK));
 	float a = step;
-	for (int i=1; i < SCANNER_STEPS; i++, a += step) {
+	for (unsigned int i = 1; i < SCANNER_STEPS; i++, a += step) {
 		vector2f v = vector2f(sin(a), SCANNER_YSHRINK * cos(a));
 		m_circle.push_back(v); m_circle.push_back(v);
 	}
