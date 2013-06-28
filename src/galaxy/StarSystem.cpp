@@ -17,7 +17,7 @@
 #include "Lang.h"
 #include "StringF.h"
 
-#define CELSIUS	273.15
+static const double CELSIUS	= 273.15;
 //#define DEBUG_DUMP
 
 // minimum moon mass a little under Europa's
@@ -808,7 +808,6 @@ double SystemBody::GetMaxChildOrbitalDistance() const
 	return AU * max;
 }
 
-
 /*
  * These are the nice floating point surface temp calculating turds.
  *
@@ -863,7 +862,6 @@ static int CalcSurfaceTemp(const SystemBody *primary, fixed distToPrimary, fixed
 	const fixed surface_temp_pow4 = energy_per_meter2*(1-albedo)/(1-greenhouse);
 	return int(isqrt(isqrt((surface_temp_pow4.v>>fixed::FRAC)*4409673)));
 }
-
 
 double SystemBody::CalcSurfaceGravity() const
 {
@@ -1374,7 +1372,6 @@ SystemBody::AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 
 	return params;
 }
-
 
 /*
  * As my excellent comrades have pointed out, choices that depend on floating
@@ -2014,7 +2011,6 @@ void StarSystem::MakeShortDescription(Random &rand)
 	}
 }
 
-
 /* percent */
 #define MAX_COMMODITY_BASE_PRICE_ADJUSTMENT 25
 
@@ -2027,7 +2023,7 @@ void StarSystem::Populate(bool addSpaceStations)
 	/* Various system-wide characteristics */
 	// This is 1 in sector (0,0,0) and approaches 0 farther out
 	// (1,0,0) ~ .688, (1,1,0) ~ .557, (1,1,1) ~ .48
-	m_humanProx = Faction::IsHomeSystem(m_path) ? fixed(2,3): fixed(3,1) / isqrt(9 + 10*(m_path.sectorX*m_path.sectorX + m_path.sectorY*m_path.sectorY + m_path.sectorZ*m_path.sectorZ));	
+	m_humanProx = Faction::IsHomeSystem(m_path) ? fixed(2,3): fixed(3,1) / isqrt(9 + 10*(m_path.sectorX*m_path.sectorX + m_path.sectorY*m_path.sectorY + m_path.sectorZ*m_path.sectorZ));
 	m_econType = ECON_INDUSTRY;
 	m_industrial = rand.Fixed();
 	m_agricultural = 0;
@@ -2468,7 +2464,6 @@ std::string StarSystem::ExportBodyToLua(FILE *f, SystemBody *body) {
 
 	fprintf(f, "\n");
 
-
 	if(body->children.size() > 0) {
 		code_list = code_list + ", \n\t{\n";
 		for (Uint32 ii = 0; ii < body->children.size(); ii++) {
@@ -2484,7 +2479,6 @@ std::string StarSystem::ExportBodyToLua(FILE *f, SystemBody *body) {
 std::string StarSystem::GetStarTypes(SystemBody *body) {
 	int i = 0;
 	std::string types = "";
-
 
 	if(body->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
 		for(i = 0; ENUM_BodyType[i].name != 0; i++) {
@@ -2512,7 +2506,6 @@ void StarSystem::ExportToLua(const char *filename) {
 	fprintf(f,"-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details\n");
 	fprintf(f,"-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt\n\n");
 
-
 	std::string stars_in_system = GetStarTypes(rootBody.Get());
 
 	for(j = 0; ENUM_PolitGovType[j].name != 0; j++) {
@@ -2522,7 +2515,6 @@ void StarSystem::ExportToLua(const char *filename) {
 
 	fprintf(f,"local system = CustomSystem:new('%s', { %s })\n\t:govtype('%s')\n\t:short_desc('%s')\n\t:long_desc([[%s]])\n\n",
 			GetName().c_str(), stars_in_system.c_str(), ENUM_PolitGovType[j].name, GetShortDescription(), GetLongDescription());
-
 
 	fprintf(f, "system:bodies(%s)\n\n", ExportBodyToLua(f, rootBody.Get()).c_str());
 

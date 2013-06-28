@@ -94,7 +94,6 @@ std::string timedate::fmt_date()
 	return buf;
 }
 
-
 std::string format_date(double t)
 {
 	timedate stamp = int(t);
@@ -207,8 +206,7 @@ const char *pi_strcasestr (const char *haystack, const char *needle)
 	}
 }
 
-
-#define HEXDUMP_CHUNK 16
+static const int HEXDUMP_CHUNK = 16;
 void hexdump(const unsigned char *buf, int len)
 {
 	int count;

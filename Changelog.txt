@@ -12,6 +12,9 @@ June 2013
      * Do visibility test for an entire city before checking
        individual buildings (#2341)
 
+   * Internal changes
+     * Code style: use static const for all constants (#2348)
+
 May 2013
 
    * New features
