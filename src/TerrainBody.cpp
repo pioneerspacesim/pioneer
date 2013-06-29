@@ -100,8 +100,7 @@ void TerrainBody::Render(Graphics::Renderer *renderer, const Camera *camera, con
 	}
 
 	// translation not applied until patch render to fix jitter
-	renderer->SetTransform(ftran);
-	m_geosphere->Render(renderer, -campos, m_sbody->GetRadius(), scale, shadows);
+	m_geosphere->Render(renderer, ftran, -campos, m_sbody->GetRadius(), scale, shadows);
 
 	ftran.Translate(campos.x, campos.y, campos.z);
 	SubRender(renderer, ftran, campos);

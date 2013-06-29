@@ -112,18 +112,17 @@ void GeoPatch::_UpdateVBOs() {
 	}
 }
 
-void GeoPatch::Render(vector3d &campos, const Graphics::Frustum &frustum) {
+void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, const matrix4x4d &modelView, const Graphics::Frustum &frustum) {
 	if (kids[0]) {
-		for (int i=0; i<NUM_KIDS; i++) kids[i]->Render(campos, frustum);
+		for (int i=0; i<NUM_KIDS; i++) kids[i]->Render(renderer, campos, modelView, frustum);
 	} else if (heights.Valid()) {
 		_UpdateVBOs();
 
 		if (!frustum.TestPoint(clipCentroid, clipRadius))
 			return;
 
-		vector3d relpos = clipCentroid - campos;
-		glPushMatrix();
-		glTranslated(relpos.x, relpos.y, relpos.z);
+		const vector3d relpos = clipCentroid - campos;
+		renderer->SetTransform(modelView * matrix4x4d::Translation(relpos));
 
 		Pi::statSceneTris += 2*(ctx->edgeLen-1)*(ctx->edgeLen-1);
 		glEnableClientState(GL_VERTEX_ARRAY);
@@ -145,7 +144,6 @@ void GeoPatch::Render(vector3d &campos, const Graphics::Frustum &frustum) {
 		glDisableClientState(GL_VERTEX_ARRAY);
 		glDisableClientState(GL_NORMAL_ARRAY);
 		glDisableClientState(GL_COLOR_ARRAY);
-		glPopMatrix();
 	}
 }
 
