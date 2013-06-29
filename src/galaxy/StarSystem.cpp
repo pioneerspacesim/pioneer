@@ -1111,7 +1111,7 @@ void StarSystem::MakeBinaryPair(SystemBody *a, SystemBody *b, fixed minDist, Ran
 		}
 		a->semiMajorAxis *= mul;
 		mul *= 2;
-	} while (a->semiMajorAxis < minDist);
+	} while (a->semiMajorAxis - a->eccentricity*a->semiMajorAxis < minDist);
 
 	const double total_mass = a->GetMass() + b->GetMass();
 	const double e = a->eccentricity.ToDouble();
@@ -1456,7 +1456,8 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path)
 		centGrav1->mass = star[0]->mass + star[1]->mass;
 		centGrav1->children.push_back(star[0]);
 		centGrav1->children.push_back(star[1]);
-		const fixed minDist1 = (star[0]->radius + star[1]->radius) * AU_SOL_RADIUS;
+		// Separate stars by 0.2 radii for each, so that their planets don't bump into the other star
+		const fixed minDist1 = (fixed(12,10) * star[0]->radius + fixed(12,10) * star[1]->radius) * AU_SOL_RADIUS;
 try_that_again_guvnah:
 		MakeBinaryPair(star[0], star[1], minDist1, rand);
 
@@ -1495,7 +1496,8 @@ try_that_again_guvnah:
 				MakeStarOfTypeLighterThan(star[3], s.m_systems[m_path.systemIndex].starType[3],
 					star[2]->mass, rand);
 
-				const fixed minDist2 = (star[2]->radius + star[3]->radius) * AU_SOL_RADIUS;
+				// Separate stars by 0.2 radii for each, so that their planets don't bump into the other star
+				const fixed minDist2 = (fixed(12,10) * star[2]->radius + fixed(12,10) * star[3]->radius) * AU_SOL_RADIUS;
 				MakeBinaryPair(star[2], star[3], minDist2, rand);
 				centGrav2->mass = star[2]->mass + star[3]->mass;
 				centGrav2->children.push_back(star[2]);
