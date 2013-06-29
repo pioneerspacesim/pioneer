@@ -108,7 +108,6 @@ void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
 		case TYPE_NONE: break;
 		case TYPE_EXPLOSION: {
 			//Explosion effect: A quick flash of three concentric coloured spheres. A bit retro.
-			glPushMatrix();
 			matrix4x4f trans = trans.Identity();
 			trans.Translate(fpos.x, fpos.y, fpos.z);
 			RefCountedPtr<Material> exmat = Sfx::explosionEffect->GetMaterial();
@@ -122,7 +121,6 @@ void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
 			exmat->diffuse = Color(1.f, 0.f, 0.f, 0.33f);
 			renderer->SetTransform(trans * matrix4x4f::ScaleMatrix(1000*m_age));
 			Sfx::explosionEffect->Draw(renderer);
-			glPopMatrix();
 			break;
 		}
 		case TYPE_DAMAGE:
@@ -141,8 +139,6 @@ void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
 				//end trail
 				smokeParticle->diffuse = Color(0.75-var, 0.75f-var, 0.75f-var, 0.5*0.5-(m_age/16.0));
 
-			//face camera
-			glPushMatrix();
 			matrix4x4f trans = trans.Identity();
 			trans.Translate(fpos.x, fpos.y, fpos.z);
 			renderer->SetTransform(trans);
@@ -150,7 +146,6 @@ void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
 			damageParticle->diffuse*=0.05;
 			renderer->SetBlendMode(Graphics::BLEND_ALPHA);
 			renderer->DrawPointSprites(1, &pos, smokeParticle, (m_speed*m_age));
-			glPopMatrix();
 			break;
 
 	}

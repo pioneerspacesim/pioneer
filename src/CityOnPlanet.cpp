@@ -350,8 +350,6 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const Spa
 		matrix4x4f _rot(rotf[(*iter).rotation]);
 		_rot.SetTranslate(posf);
 
-		glPushMatrix();
 		(*iter).model->Render(_rot);
-		glPopMatrix();
 	}
 }
