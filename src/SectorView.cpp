@@ -854,6 +854,15 @@ void SectorView::DrawNearSector(int sx, int sy, int sz, const vector3f &playerAb
 			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(3.f));
 			m_disk->Draw(m_renderer);
 		}
+
+		// Show systems with large population
+		if (i->population>0.0) {
+			glDepthRange(0.15,1.0);
+			m_disk->SetColor(Color(0.f, 1.f, 0.f));
+			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(0.2f,1.0+i->population.ToFloat(),0.2f));
+			m_disk->Draw(m_renderer);
+		}
+
 		// selected indicator
 		if (i->IsSameSystem(m_current)) {
 			glDepthRange(0.1,1.0);
