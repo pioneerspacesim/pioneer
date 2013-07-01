@@ -1,9 +1,6 @@
 # Comments can be written like this
 # Define all used materials first
 material Body-material
-#tex_diff deneb.png
-#tex_glow deneb_glow.png
-#tex_spec deneb_spec.png
 
 tex_diff deneb.dds
 tex_glow deneb_glow.dds
