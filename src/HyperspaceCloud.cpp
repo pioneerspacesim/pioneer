@@ -137,7 +137,6 @@ void HyperspaceCloud::UpdateInterpTransform(double alpha)
 void HyperspaceCloud::Render(Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	renderer->SetBlendMode(BLEND_ALPHA_ONE);
-	glPushMatrix();
 
 	matrix4x4d trans = matrix4x4d::Identity();
 	trans.Translate(float(viewCoords.x), float(viewCoords.y), float(viewCoords.z));
@@ -161,5 +160,4 @@ void HyperspaceCloud::Render(Renderer *renderer, const Camera *camera, const vec
 	make_circle_thing(*m_graphic.vertices.Get(), radius, Color(1.0,1.0,1.0,1.0), outerColor);
 	renderer->DrawTriangles(m_graphic.vertices.Get(), m_graphic.material.Get(), TRIANGLE_FAN);
 	renderer->SetBlendMode(BLEND_SOLID);
-	glPopMatrix();
 }

@@ -49,8 +49,8 @@ public:
 	const GeoPatchID mPatchID;
 	bool mHasJobRequest;
 
-	GeoPatch(const RefCountedPtr<GeoPatchContext> &_ctx, GeoSphere *gs, 
-		const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, 
+	GeoPatch(const RefCountedPtr<GeoPatchContext> &_ctx, GeoSphere *gs,
+		const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_,
 		const int depth, const GeoPatchID &ID_);
 
 	~GeoPatch();
@@ -75,7 +75,7 @@ public:
 		return -1;
 	}
 
-	// in patch surface coords, [0,1] 
+	// in patch surface coords, [0,1]
 	inline vector3d GetSpherePoint(const double x, const double y) const {
 		return (v0 + x*(1.0-y)*(v1-v0) + x*y*(v2-v0) + (1.0-x)*y*(v3-v0)).Normalized();
 	}
@@ -118,7 +118,7 @@ public:
 			(edgeFriend[3] ? 8u : 0u);
 	}
 
-	void Render(vector3d &campos, const Graphics::Frustum &frustum);
+	void Render(Graphics::Renderer *r, const vector3d &campos, const matrix4x4d &modelView, const Graphics::Frustum &frustum);
 
 	inline bool canBeMerged() const {
 		bool merge = true;
@@ -132,7 +132,7 @@ public:
 	}
 
 	void LODUpdate(const vector3d &campos);
-	
+
 	void RequestSinglePatch();
 	void ReceiveHeightmaps(SQuadSplitResult *psr);
 	void ReceiveHeightmap(const SSingleSplitResult *psr);

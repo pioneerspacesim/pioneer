@@ -9,13 +9,13 @@
 #include "Factions.h"
 #include "utils.h"
 
-#define SYS_NAME_FRAGS	32
+static const unsigned int SYS_NAME_FRAGS = 32;
 static const char *sys_names[SYS_NAME_FRAGS] =
 { "en", "la", "can", "be", "and", "phi", "eth", "ol", "ve", "ho", "a",
   "lia", "an", "ar", "ur", "mi", "in", "ti", "qu", "so", "ed", "ess",
   "ex", "io", "ce", "ze", "fa", "ay", "wa", "da", "ack", "gre" };
 
-const float Sector::SIZE = 8;
+const float Sector::SIZE = 8.f;
 
 void Sector::GetCustomSystems()
 {
@@ -38,7 +38,7 @@ void Sector::GetCustomSystems()
 	}
 }
 
-#define CUSTOM_ONLY_RADIUS	4
+static const int CUSTOM_ONLY_RADIUS	= 4;
 
 //////////////////////// Sector
 Sector::Sector(int x, int y, int z)

@@ -2,15 +2,21 @@ June 2013
 
    * New features
      * Textures can now be loaded from DDS files (#2311)
+     * New ship "Pumpkinseed" (#2352)
 
    * Fixes
      * Fix potential future bug in texture loading (#2340)
      * Don't recreate collision meshes unnecessarily (#2346)
+     * Make sure frames in multi-star systems don't overlap (#2344, 2351)
 
    * Minor changes and tweaks
      * Refund 50% of old ship value when buying a new ship (#2343, #2345)
      * Do visibility test for an entire city before checking
        individual buildings (#2341)
+
+   * Internal changes
+     * Code style: use static const for all constants (#2348)
+     * Clean up remnants of OpenGL matrix stack use (#2350)
 
 May 2013
 

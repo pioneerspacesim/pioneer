@@ -5,8 +5,8 @@
 
 namespace Gui {
 
-#define TOOLTIP_PADDING	5
-#define FADE_TIME_MS	500
+static const float TOOLTIP_PADDING = 5.f;
+static const float FADE_TIME_MS	   = 500.f;
 
 ToolTip::ToolTip(Widget *owner, const char *text)
 {
@@ -57,7 +57,7 @@ void ToolTip::Draw()
 
 	float size[2];
 	int age = SDL_GetTicks() - m_createdTime;
-	float alpha = age/float(FADE_TIME_MS); alpha = std::min(alpha, 0.75f);
+	float alpha = std::min(age / FADE_TIME_MS, 0.75f);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	GetSize(size);
