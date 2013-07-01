@@ -1126,7 +1126,7 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	if (m_stats.shield_mass_left < m_stats.shield_mass) {
 		const float shield = 0.01f*GetPercentShields();
 		renderer->SetBlendMode(Graphics::BLEND_ADDITIVE);
-		glPushMatrix();
+
 		matrix4x4f trans = matrix4x4f::Identity();
 		trans.Translate(viewCoords.x, viewCoords.y, viewCoords.z);
 		trans.Scale(GetPhysRadius());
@@ -1136,7 +1136,7 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 		Sfx::shieldEffect->GetMaterial()->diffuse =
 			Color((1.0f-shield),shield,0.0,0.33f*(1.0f-shield));
 		Sfx::shieldEffect->Draw(renderer);
-		glPopMatrix();
+
 		renderer->SetBlendMode(Graphics::BLEND_SOLID);
 	}
 

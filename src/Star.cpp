@@ -39,7 +39,6 @@ void Star::InitStar()
 void Star::Render(Graphics::Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	renderer->SetDepthTest(false);
-	glPushMatrix();
 
 	double radius = GetClipRadius();
 
@@ -84,7 +83,6 @@ void Star::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	renderer->DrawTriangles(&va, Graphics::vtxColorMaterial, TRIANGLE_FAN);
 	renderer->SetBlendMode(BLEND_SOLID);
 
-	glPopMatrix();
 	renderer->SetDepthTest(true);
 
 	TerrainBody::Render(renderer, camera, viewCoords, viewTransform);

@@ -15,6 +15,7 @@ June 2013
 
    * Internal changes
      * Code style: use static const for all constants (#2348)
+     * Clean up remnants of OpenGL matrix stack use (#2350)
 
 May 2013
 

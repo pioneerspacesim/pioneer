@@ -255,7 +255,6 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 			// not using current time yet
 			vector3d pos = (*kid)->orbit.OrbitalPosAtTime(m_time);
 			pos *= double(m_zoom);
-			//glTranslatef(pos.x, pos.y, pos.z);
 
 			PutBody(*kid, offset + pos, trans);
 		}
