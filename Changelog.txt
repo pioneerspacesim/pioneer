@@ -2,6 +2,7 @@ June 2013
 
    * New features
      * Textures can now be loaded from DDS files (#2311)
+     * New ship "Pumpkinseed" (#2352)
 
    * Fixes
      * Fix potential future bug in texture loading (#2340)

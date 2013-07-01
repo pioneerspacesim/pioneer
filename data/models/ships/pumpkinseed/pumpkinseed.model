@@ -1,0 +1,20 @@
+material smallship_fuselage-material
+diffuse 1.0 1.0 1.0
+specular 0.1 0.1 0.1
+use_patterns
+tex_diff pumpkinseed_diff.png
+tex_glow pumpkinseed_glow.png
+tex_spec pumpkinseed_spec.png
+
+lod 50
+mesh pumpkinseed_3low.dae
+
+lod 100
+mesh pumpkinseed_2med.dae
+
+lod 300
+mesh pumpkinseed_1hi.dae
+
+collision pumpkinseed_collision.dae
+
+anim gear_down 0 100
