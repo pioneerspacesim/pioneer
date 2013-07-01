@@ -13,6 +13,7 @@ June 2013
      * Refund 50% of old ship value when buying a new ship (#2343, #2345)
      * Do visibility test for an entire city before checking
        individual buildings (#2341)
+     * Updated Deneb model (#2339)
 
    * Internal changes
      * Code style: use static const for all constants (#2348)
