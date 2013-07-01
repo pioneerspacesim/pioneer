@@ -15,9 +15,10 @@
 #include "graphics/Graphics.h"
 #include "scenegraph/SceneGraph.h"
 
-#define DEFAULT_NUM_BUILDINGS 1000
-#define START_SEG_SIZE CITY_ON_PLANET_RADIUS
-#define MIN_SEG_SIZE 50.0
+static const unsigned int DEFAULT_NUM_BUILDINGS = 1000;
+static const double  START_SEG_SIZE = CITY_ON_PLANET_RADIUS;
+static const double MIN_SEG_SIZE = 50.0;
+static const unsigned int CITYFLAVOURS = 5;
 
 using SceneGraph::Model;
 
@@ -42,7 +43,6 @@ static citybuildinglist_t s_buildingLists[] = {
 	//{ "city_starport_building", 300, 400, 0, 0 },
 };
 
-#define CITYFLAVOURS 5
 struct cityflavourdef_t {
 	int buildingListIdx;
 	vector3d center;
@@ -61,7 +61,7 @@ void CityOnPlanet::PutCityBit(Random &rand, const matrix4x4d &rot, vector3d p1, 
 	citybuildinglist_t *buildings(0);
 
 	// pick a building flavour (city, windfarm, etc)
-	for (int flv=0; flv<CITYFLAVOURS; flv++) {
+	for (unsigned int flv = 0; flv < CITYFLAVOURS; flv++) {
 		flavour = &cityflavour[flv];
 		buildings = &s_buildingLists[flavour->buildingListIdx];
 
@@ -127,7 +127,7 @@ void CityOnPlanet::AddStaticGeomsToCollisionSpace()
 		default:
 			skipMask = 0; break;
 	}
-	uint32_t numVisibleBuildings = 0;
+	Uint32 numVisibleBuildings = 0;
 	for (unsigned int i=0; i<m_buildings.size(); i++) {
 		if (!(i&skipMask)) {
 			++numVisibleBuildings;
@@ -260,7 +260,7 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed)
 	cityflavour[0].center = p;
 	cityflavour[0].size = 500;
 
-	for (int i=1; i<CITYFLAVOURS; i++) {
+	for (unsigned int i = 1; i < CITYFLAVOURS; i++) {
 		cityflavour[i].buildingListIdx =
 			(COUNTOF(s_buildingLists) > 1 ? rand.Int32(COUNTOF(s_buildingLists)) : 0);
 		citybuildinglist_t *blist = &s_buildingLists[cityflavour[i].buildingListIdx];
@@ -340,7 +340,7 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const Spa
 		}
 	}
 
-	for (std::vector<BuildingDef>::const_iterator iter=m_enabledBuildings.begin(), itEND=m_enabledBuildings.end(); iter != itEND; ++iter) 
+	for (std::vector<BuildingDef>::const_iterator iter=m_enabledBuildings.begin(), itEND=m_enabledBuildings.end(); iter != itEND; ++iter)
 	{
 		const vector3d pos = viewTransform * (*iter).pos;
 		const vector3f posf(pos);
@@ -350,8 +350,6 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const Spa
 		matrix4x4f _rot(rotf[(*iter).rotation]);
 		_rot.SetTranslate(posf);
 
-		glPushMatrix();
 		(*iter).model->Render(_rot);
-		glPopMatrix();
 	}
 }

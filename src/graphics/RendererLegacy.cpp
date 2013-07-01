@@ -269,6 +269,11 @@ bool RendererLegacy::SetLights(int numlights, const Light *lights)
 {
 	if (numlights < 1) return false;
 
+	//glLight depends on the current transform, but we have always
+	//relied on it being identity when setting lights.
+	glPushMatrix();
+	SetTransform(matrix4x4f::Identity());
+
 	m_numLights = numlights;
 	m_numDirLights = 0;
 
@@ -291,6 +296,9 @@ bool RendererLegacy::SetLights(int numlights, const Light *lights)
 
 		assert(m_numDirLights < 5);
 	}
+
+	glPopMatrix();
+
 	//XXX should probably disable unused lights (for legacy renderer only)
 	return true;
 }

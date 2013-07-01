@@ -65,6 +65,7 @@ The Pioneer Developers are:
 * Stefan Kapusniak
 * Steve Tyler
 * Sukender (Benoit Neil)
+* Szilárd Bálint
 * Taiki Kim
 * Thierry Dupré
 * Tim Jones

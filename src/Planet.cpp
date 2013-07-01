@@ -222,24 +222,25 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 	m_ringMaterial->texture0 = m_ringTexture.Get();
 }
 
-void Planet::DrawGasGiantRings(Renderer *renderer, const Camera *camera)
+void Planet::DrawGasGiantRings(Renderer *renderer, const matrix4x4d &modelView)
 {
 	renderer->SetBlendMode(BLEND_ALPHA_PREMULT);
 	renderer->SetDepthTest(true);
 
-	if (!m_ringTexture) {
+	if (!m_ringTexture)
 		GenerateRings(renderer);
-	}
 
 	const SystemBody *sbody = GetSystemBody();
 	assert(sbody->HasRings());
+
+	renderer->SetTransform(modelView);
 
 	renderer->DrawTriangles(&m_ringVertices, m_ringMaterial.Get(), TRIANGLE_STRIP);
 
 	renderer->SetBlendMode(BLEND_SOLID);
 }
 
-void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
+void Planet::DrawAtmosphere(Renderer *renderer, const matrix4x4d &modelView, const vector3d &camPos)
 {
 	//this is the non-shadered atmosphere rendering
 	Color col;
@@ -249,18 +250,12 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 	const double rad1 = 0.999;
 	const double rad2 = 1.05;
 
-	glPushMatrix();
-
-	//XXX pass the transform
-	matrix4x4d curTrans;
-	glGetDoublev(GL_MODELVIEW_MATRIX, &curTrans[0]);
-
 	// face the camera dammit
 	vector3d zaxis = (-camPos).Normalized();
 	vector3d xaxis = vector3d(0,1,0).Cross(zaxis).Normalized();
 	vector3d yaxis = zaxis.Cross(xaxis);
 	matrix4x4d rot = matrix4x4d::MakeInvRotMatrix(xaxis, yaxis, zaxis);
-	const matrix4x4d trans = curTrans * rot;
+	const matrix4x4d trans = modelView * rot;
 
 	matrix4x4d invViewRot = trans;
 	invViewRot.ClearToRotOnly();
@@ -326,12 +321,10 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 	renderer->SetBlendMode(BLEND_ALPHA_ONE);
 	renderer->DrawTriangles(m_atmosphereVertices.Get(), m_atmosphereMaterial.Get(), TRIANGLE_STRIP);
 	renderer->SetBlendMode(BLEND_SOLID);
-
-	glPopMatrix();
 }
 
-void Planet::SubRender(Renderer *r, const Camera *camera, const vector3d &camPos)
+void Planet::SubRender(Renderer *r, const matrix4x4d &viewTran, const vector3d &camPos)
 {
-	if (GetSystemBody()->HasRings()) { DrawGasGiantRings(r, camera); }
-	if (!AreShadersEnabled()) DrawAtmosphere(r, camPos);
+	if (GetSystemBody()->HasRings()) { DrawGasGiantRings(r, viewTran); }
+	if (!AreShadersEnabled()) DrawAtmosphere(r, viewTran, camPos);
 }

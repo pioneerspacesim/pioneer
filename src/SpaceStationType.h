@@ -12,13 +12,13 @@ class Ship;
 namespace SceneGraph { class Model; }
 
 struct SpaceStationType {
-	typedef std::map<uint32_t, matrix4x4f> TMapBayIDMat;
+	typedef std::map<Uint32, matrix4x4f> TMapBayIDMat;
 	struct Port
 	{
 		TMapBayIDMat m_docking;
 		TMapBayIDMat m_leaving;
 	};
-	typedef std::map<uint32_t, Port> PortMap;
+	typedef std::map<Uint32, Port> PortMap;
 	PortMap m_ports;
 
 	struct SBayGroup {

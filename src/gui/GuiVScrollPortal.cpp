@@ -5,7 +5,7 @@
 #include "Gui.h"
 #include "vector2.h"
 
-#define MINIMUM_HEIGHT (100.0f)
+static const float MINIMUM_HEIGHT = 100.0f;
 
 namespace Gui {
 
