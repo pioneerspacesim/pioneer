@@ -3,19 +3,18 @@
 
 #include "Background.h"
 #include "Frame.h"
-#include "galaxy/StarSystem.h"
 #include "Game.h"
 #include "perlin.h"
 #include "Pi.h"
 #include "Player.h"
 #include "Space.h"
+#include "galaxy/StarSystem.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/StaticMesh.h"
 #include "graphics/Surface.h"
 #include "graphics/VertexArray.h"
-#include <vector>
 
 using namespace Graphics;
 
@@ -213,7 +212,6 @@ void Container::Refresh(Uint32 seed)
 void Container::Draw(Graphics::Renderer *renderer, const matrix4x4d &transform) const
 {
 	//XXX not really const - renderer can modify the buffers
-	glPushMatrix();
 	renderer->SetBlendMode(BLEND_SOLID);
 	renderer->SetDepthTest(false);
 	renderer->SetTransform(transform);
@@ -223,7 +221,6 @@ void Container::Draw(Graphics::Renderer *renderer, const matrix4x4d &transform) 
 	renderer->SetTransform(starTrans);
 	const_cast<Starfield&>(m_starField).Draw(renderer);
 	renderer->SetDepthTest(true);
-	glPopMatrix();
 }
 
 void Container::SetIntensity(float intensity)
@@ -232,4 +229,4 @@ void Container::SetIntensity(float intensity)
 	m_milkyWay.SetIntensity(intensity);
 }
 
-}; //namespace Background
+} //namespace Background
