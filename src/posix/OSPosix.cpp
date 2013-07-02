@@ -77,18 +77,22 @@ void RedirectStdio()
 
 void EnableFPE()
 {
+#ifndef __APPLE__
 #ifdef _GNU_SOURCE
 	// clear any outstanding exceptions before enabling, otherwise they'll
 	// trip immediately
 	feclearexcept(FE_DIVBYZERO | FE_INVALID | FE_OVERFLOW);
 	feenableexcept(FE_DIVBYZERO | FE_INVALID | FE_OVERFLOW);
 #endif
+#endif
 }
 
 void DisableFPE()
 {
+#ifndef __APPLE__
 #ifdef _GNU_SOURCE
 	fedisableexcept(FE_DIVBYZERO | FE_INVALID | FE_OVERFLOW);
+#endif
 #endif
 }
 

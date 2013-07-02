@@ -119,7 +119,7 @@ OS X - Autotools
 4. By default the OpenGL frameworks don't seem to be visible to 'automake'
    way so I did a few tricks to get it working:
 
-   Create a symlink from the OpenGL framework to your /usr/local/include 
+   Create a symlink from the OpenGL framework to your /usr/local/include
    directory
 
      sudo ln -s /System/Library/Frameworks/OpenGL.framework/Versions/A/Headers/ /usr/local/include/GL
@@ -136,6 +136,9 @@ Note: Compiling from source this way isn't recommended as it doesn't allow you
 
 OSX - XCode 4
 -------------
+
+* The XCode project isn't as up to date as the 'autotools' method and may
+  be broken.
 
 The latest XCode project files are located in ./osx. Simply build the
 aplication bundle. The XCode project uses the mac port libraries that you
