@@ -1,6 +1,7 @@
 material smallship_fuselage-material
 diffuse 1.0 1.0 1.0
-specular 0.1 0.1 0.1
+specular 0.9 0.9 0.9
+shininess 70
 use_patterns
 tex_diff pumpkinseed_diff.png
 tex_glow pumpkinseed_glow.png
