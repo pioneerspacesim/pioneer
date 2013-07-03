@@ -2,6 +2,7 @@ July 2013
 
    * New features
      * New ship "Pumpkinseed" (#2352)
+     * New ship "Mola Mola" (#2355)
 
    * Fixes
      * Fix damage particle rendering (#2353)
