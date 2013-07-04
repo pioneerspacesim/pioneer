@@ -24,6 +24,36 @@ local barnard_starports = {
         :semi_major_axis(f(32,10))
         :orbital_offset(fixed.deg2rad(f(60,1)))
         :rotation_period(f(1,24*60*4)),
+		
+	CustomSystemBody:new('Asteroid1', 'PLANET_ASTEROID')
+		:semi_major_axis(f(50,10))
+		:radius(f(1,20))
+		:mass(f(1,8000))
+		:rotation_period(f(1,1)),
+
+	CustomSystemBody:new('Asteroid2', 'PLANET_ASTEROID')
+		:semi_major_axis(f(51,10))
+		:radius(f(1,20))
+		:mass(f(1,8000))
+		:rotation_period(f(1,1)),
+
+	CustomSystemBody:new('Asteroid3', 'PLANET_ASTEROID')
+		:semi_major_axis(f(52,10))
+		:radius(f(1,20))
+		:mass(f(1,8000))
+		:rotation_period(f(1,1)),
+
+	CustomSystemBody:new('Asteroid4', 'PLANET_ASTEROID')
+		:semi_major_axis(f(53,10))
+		:radius(f(1,20))
+		:mass(f(1,8000))
+		:rotation_period(f(1,1)),
+
+	CustomSystemBody:new('Terrestrial', 'PLANET_TERRESTRIAL')
+		:semi_major_axis(f(54,10))
+		:radius(f(1,2))
+		:mass(f(1,8))
+		:rotation_period(f(1,1)),
 }
 s:bodies(barnard, barnard_starports)
 s:add_to_sector(-1,0,0,v(0.260,0.007,0.060))

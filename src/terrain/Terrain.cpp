@@ -436,8 +436,11 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 	if ((m_body->heightMapFilename) && m_body->heightMapFractal > 1){ // if scaled heightmap
 		m_maxHeightInMeters = 1.1*pow(2.0, 16.0)*m_heightScaling; // no min height required as it's added to radius in lua
 	}else {
-		m_maxHeightInMeters = std::max(100.0, (9000.0*rad*rad*(m_volcanic+0.5)) / (m_body->GetMass() * 6.64e-12));
-		if (!isfinite(m_maxHeightInMeters)) m_maxHeightInMeters = rad * 0.5;
+		// NB: 0.00000000000664 == 6.64e-12
+		m_maxHeightInMeters = std::min((rad * 0.25), std::max(100.0, (9000.0*rad*rad*(m_volcanic+0.5)) / (m_body->GetMass() * 6.64e-12)));
+		if (!isfinite(m_maxHeightInMeters)) {
+			m_maxHeightInMeters = rad * 0.25;
+		}
 		//             ^^^^ max mountain height for earth-like planet (same mass, radius)
 		// and then in sphere normalized jizz
 	}
