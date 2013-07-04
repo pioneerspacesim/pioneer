@@ -21,6 +21,7 @@
 #include "gui/Gui.h"
 #include <algorithm>
 #include <sstream>
+#include "KeyBindings.h"
 
 using namespace Graphics;
 
@@ -966,14 +967,14 @@ void SectorView::OnKeyPressed(SDL_keysym *keysym)
 	}
 
 	// '/' focuses the search box
-	if (keysym->sym == SDLK_KP_DIVIDE || keysym->sym == SDLK_SLASH) {
+	if (KeyBindings::galSearch.binding.Matches(keysym)) {
 		m_searchBox->SetText("");
 		m_searchBox->GrabFocus();
 		return;
 	}
 
 	// space "locks" (or unlocks) the hyperspace target to the selected system
-	if (keysym->sym == SDLK_SPACE) {
+	if (KeyBindings::galLockTarget.binding.Matches(keysym)) {
 		if ((m_matchTargetToSelection || m_hyperspaceTarget != m_selected) && !m_selected.IsSameSystem(m_current))
 			SetHyperspaceTarget(m_selected);
 		else
@@ -982,7 +983,7 @@ void SectorView::OnKeyPressed(SDL_keysym *keysym)
 	}
 
 	// cycle through the info box, the faction box, and nothing
-	if (keysym->sym == SDLK_TAB) {
+	if (KeyBindings::galDetailToggle.binding.Matches(keysym)) {
 		if (m_detailBoxVisible == DETAILBOX_FACTION) m_detailBoxVisible = DETAILBOX_NONE;
 		else                                         m_detailBoxVisible++;
 		RefreshDetailBoxVisibility();
@@ -990,7 +991,7 @@ void SectorView::OnKeyPressed(SDL_keysym *keysym)
 	}
 
 	// toggle selection mode
-		if (keysym->sym == SDLK_KP_ENTER || keysym->sym == SDLK_RETURN) {
+		if (KeyBindings::galSelectToggle.binding.Matches(keysym)){
 		m_selectionFollowsMovement = !m_selectionFollowsMovement;
 		if (m_selectionFollowsMovement)
 			Pi::cpan->MsgLog()->Message("", Lang::ENABLED_AUTOMATIC_SYSTEM_SELECTION);
@@ -1000,10 +1001,12 @@ void SectorView::OnKeyPressed(SDL_keysym *keysym)
 	}
 
 	// fast move selection to current player system or hyperspace target
-	if (keysym->sym == SDLK_c || keysym->sym == SDLK_g || keysym->sym == SDLK_h) {
-		if (keysym->sym == SDLK_c)
+	if (KeyBindings::galCurrentTarget.binding.Matches(keysym) ||
+	    KeyBindings::galSelectedTarget.binding.Matches(keysym) ||
+	    KeyBindings::galHyperspaceTarget.binding.Matches(keysym)) {
+		if (KeyBindings::galCurrentTarget.binding.Matches(keysym))
 			GotoSystem(m_current);
-		else if (keysym->sym == SDLK_g)
+		else if (KeyBindings::galSelectedTarget.binding.Matches(keysym))
 			GotoSystem(m_selected);
 		else
 			GotoSystem(m_hyperspaceTarget);
@@ -1019,7 +1022,7 @@ void SectorView::OnKeyPressed(SDL_keysym *keysym)
 	}
 
 	// reset rotation and zoom
-	if (keysym->sym == SDLK_r) {
+	if (KeyBindings::galResetZoom.binding.Matches(keysym)) {
 		while (m_rotZ < -180.0f) m_rotZ += 360.0f;
 		while (m_rotZ > 180.0f)  m_rotZ -= 360.0f;
 		m_rotXMovingTo = m_rotXDefault;
@@ -1060,23 +1063,23 @@ void SectorView::Update()
 	if (!m_searchBox->IsFocused() && !Pi::IsConsoleActive()) {
 		const float moveSpeed = Pi::GetMoveSpeedShiftModifier();
 		float move = moveSpeed*frameTime;
-		if (Pi::KeyState(SDLK_LEFT) || Pi::KeyState(SDLK_RIGHT))
-			m_posMovingTo += vector3f(Pi::KeyState(SDLK_LEFT) ? -move : move, 0,0) * rot;
-		if (Pi::KeyState(SDLK_UP) || Pi::KeyState(SDLK_DOWN))
-			m_posMovingTo += vector3f(0, Pi::KeyState(SDLK_DOWN) ? -move : move, 0) * rot;
-		if (Pi::KeyState(SDLK_PAGEUP) || Pi::KeyState(SDLK_PAGEDOWN))
-			m_posMovingTo += vector3f(0,0, Pi::KeyState(SDLK_PAGEUP) ? -move : move) * rot;
+		if (KeyBindings::galMoveLeft.IsActive() || KeyBindings::galMoveRight.IsActive())
+			m_posMovingTo += vector3f(KeyBindings::galMoveLeft.IsActive() ? -move : move, 0,0) * rot;
+		if (KeyBindings::galMoveUp.IsActive() || KeyBindings::galMoveDown.IsActive())
+			m_posMovingTo += vector3f(0, KeyBindings::galMoveDown.IsActive() ? -move : move, 0) * rot;
+		if (KeyBindings::viewForward.IsActive() || KeyBindings::viewBackward.IsActive())
+			m_posMovingTo += vector3f(0,0, KeyBindings::viewForward.IsActive() ? -move : move) * rot;
 
-		if (Pi::KeyState(SDLK_EQUALS)) m_zoomMovingTo -= move;
-		if (Pi::KeyState(SDLK_MINUS)) m_zoomMovingTo += move;
+		if (KeyBindings::galZoomIn.IsActive()) m_zoomMovingTo -= move;
+		if (KeyBindings::galZoomOut.IsActive()) m_zoomMovingTo += move;
 		if (m_zoomInButton->IsPressed()) m_zoomMovingTo -= move;
 		if (m_zoomOutButton->IsPressed()) m_zoomMovingTo += move;
 		m_zoomMovingTo = Clamp(m_zoomMovingTo, 0.1f, FAR_MAX);
 
-		if (Pi::KeyState(SDLK_a) || Pi::KeyState(SDLK_d))
-			m_rotZMovingTo += (Pi::KeyState(SDLK_a) ? -0.5f : 0.5f) * moveSpeed;
-		if (Pi::KeyState(SDLK_w) || Pi::KeyState(SDLK_s))
-			m_rotXMovingTo += (Pi::KeyState(SDLK_w) ? -0.5f : 0.5f) * moveSpeed;
+		if (KeyBindings::rotateCounterClockwise.IsActive() || KeyBindings::rotateClockwise.IsActive())
+			m_rotZMovingTo += (KeyBindings::rotateCounterClockwise.IsActive() ? -0.5f : 0.5f) * moveSpeed;
+		if (KeyBindings::rotateForward.IsActive() || KeyBindings::rotateBackward.IsActive())
+			m_rotXMovingTo += (KeyBindings::rotateForward.IsActive() ? -0.5f : 0.5f) * moveSpeed;
 	}
 
 	if (Pi::MouseButtonState(SDL_BUTTON_RIGHT)) {
