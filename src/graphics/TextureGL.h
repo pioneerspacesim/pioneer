@@ -19,6 +19,7 @@ public:
 	void Unbind();
 
 	virtual void SetSampleMode(TextureSampleMode);
+	GLuint GetTexture() const { return m_texture; }
 
 private:
 	friend class RendererLegacy;

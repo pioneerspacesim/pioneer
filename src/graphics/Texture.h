@@ -10,6 +10,8 @@
 namespace Graphics {
 
 enum TextureFormat {
+	TEXTURE_NONE,
+
 	TEXTURE_RGBA_8888,
 	TEXTURE_RGB_888,
 
@@ -19,7 +21,9 @@ enum TextureFormat {
 	TEXTURE_INTENSITY_8, //intensity value put into RGBA components
 
 	TEXTURE_DXT1, // data is expected to be pre-compressed
-	TEXTURE_DXT5
+	TEXTURE_DXT5,
+
+	TEXTURE_DEPTH //precision chosen by renderer
 };
 
 enum TextureSampleMode {
