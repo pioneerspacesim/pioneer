@@ -196,7 +196,7 @@ int define_weapon_ship(lua_State *L)
 	return _define_ship(L, ShipType::TAG_WEAPON_SHIP, &ShipType::weapon_ships);
 }
 
-int define_static_ship(lua_State *L)
+int define_npc_ship(lua_State *L)
 {
 	return _define_ship(L, ShipType::TAG_NPC_SHIP, &ShipType::npc_ships);
 }
