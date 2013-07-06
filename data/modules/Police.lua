@@ -43,8 +43,6 @@ local spawnPolice = function()
 
 	if starport~=nil then
 
-		if starport~=nil and Game.player:DistanceTo(starport)<400000 then return end
-
 		-- XXX number should be some combination of population, lawlessness,
 		-- proximity to shipping lanes, etc
 		local max_police = 3
@@ -92,7 +90,7 @@ local doLawAndOrder = function (ship)
 	if ship:IsPlayer() then
 
 		starport = getMyStarport(Game.player)
-		if Game.player:DistanceTo(starport)<400000 then
+		if starport~=nil and Game.player:DistanceTo(starport)<400000 then
 			spawnPolice()
 		else
 			deletePolice(Game.player)
