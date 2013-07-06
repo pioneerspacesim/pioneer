@@ -405,6 +405,9 @@ void LuaConstants::Register(lua_State *l)
 	 * STATIC_SHIP - static ships. These are not available to the player and
 	 *               are used for mission specific functions (large supply
 	 *               ships, warships, etc)
+	 * WRECK_SHIP - Shipwrecks or dismantled ships or other debris
+	 * WEAPON_SHIP - mines, turrets or other weapon based shiptypes.
+	 * NPC_SHIP - NPC non purchable ship.
 	 * MISSILE - missiles. Correspond directly to the <EquipType> constants of
 	 *           the same name.
 	 *

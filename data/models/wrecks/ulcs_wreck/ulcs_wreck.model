@@ -1,0 +1,13 @@
+material material1
+
+tex_diff DIFF.dds
+tex_spec SPEC.dds
+diffuse 1.0 1.0 1.0
+
+specular 1.0 1.0 1.0
+
+shininess 80
+
+mesh ulcs_wreck.dae
+collision cargo_ulcs_collision.obj
+

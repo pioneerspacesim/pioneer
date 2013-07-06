@@ -1,0 +1,16 @@
+# OBJ written from C:\Users\rivalin\Creative\Personal Work\Paragon\Paragon\PARAGON3DEV2\data\models\wrecks\ulcs_wreck\cargo_ulcs_collision.obj
+
+o Mesh
+v -67.6777 90.9619 -459.5
+v -67.6777 90.9619 -549.5
+v -102.123 56.5165 -459.5
+v -102.123 56.5165 -549.5
+vn -0.707106 0.707107 0
+vt 0.272379 0.217978
+vt 0.325948 0.217978
+vt 0.325948 0.238135
+vt 0.272379 0.238135
+mtllib cargo_ulcs_collision.mtl
+usemtl material1
+g Default
+f 4/1/1 3/2/1 1/3/1 2/4/1
