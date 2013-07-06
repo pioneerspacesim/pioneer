@@ -237,6 +237,9 @@ void ShipType::Init()
 	// register ship definition functions
 	lua_register(l, "define_ship", define_ship);
 	lua_register(l, "define_static_ship", define_static_ship);
+	lua_register(l, "define_wreck_ship", define_wreck_ship);
+	lua_register(l, "define_weapon_ship", define_weapon_ship);
+	lua_register(l, "define_npc_ship", define_npc_ship);
 	lua_register(l, "define_missile", define_missile);
 
 	LUA_DEBUG_CHECK(l, 0);
