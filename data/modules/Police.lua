@@ -43,7 +43,7 @@ local spawnPolice = function()
 
 	if starport~=nil then
 
-		if starport~=nil and Game.player:DistanceTo(starport)<400000 then
+		if starport~=nil and Game.player:DistanceTo(starport)<400000 then return end
 
 		-- XXX number should be some combination of population, lawlessness,
 		-- proximity to shipping lanes, etc
