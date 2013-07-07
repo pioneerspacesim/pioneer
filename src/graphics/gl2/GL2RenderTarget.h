@@ -37,7 +37,7 @@ public:
 	virtual void SetDepthTexture(Texture*);
 
 protected:
-	friend class RendererGL2;
+	friend class Graphics::RendererGL2;
 	RenderTarget(const RenderTargetDesc &);
 	void Bind();
 	void Unbind();
