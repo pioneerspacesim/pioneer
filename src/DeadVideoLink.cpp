@@ -12,7 +12,7 @@ DeadVideoLink::DeadVideoLink(float w, float h) : VideoLink(w, h)
 	m_created = SDL_GetTicks();
 	m_message = new Gui::ToolTip(0, Lang::VID_LINK_DOWN);
 
-	Graphics::TextureDescriptor descriptor(Graphics::TEXTURE_RGB, vector2f(textureSize), Graphics::LINEAR_CLAMP);
+	Graphics::TextureDescriptor descriptor(Graphics::TEXTURE_RGB_888, vector2f(textureSize), Graphics::LINEAR_CLAMP);
 	m_texture.Reset(Gui::Screen::GetRenderer()->CreateTexture(descriptor));
 	m_quad.Reset(new Gui::TexturedQuad(m_texture.Get()));
 
@@ -73,5 +73,5 @@ void DeadVideoLink::UpdateWhiteNoise()
 		Uint8 b = Pi::rng.Int32() & 0xff;
 		noise[i] = b<<24|b<<16|b<<8|b;
 	}
-	m_texture->Update(noise, vector2f(textureSize), Graphics::IMAGE_RGB, Graphics::IMAGE_UNSIGNED_BYTE);
+	m_texture->Update(noise, vector2f(textureSize), Graphics::TEXTURE_RGB_888);
 }
