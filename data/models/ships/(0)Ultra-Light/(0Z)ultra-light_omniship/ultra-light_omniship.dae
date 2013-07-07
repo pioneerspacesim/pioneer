@@ -26,10 +26,10 @@
                 Save 3ds Max Profile: Yes;
                 Formatted Arrays: Yes;
             </comments>
-            <source_data>file:///C:/Users/rivalin/Desktop/pioneer/data/models/ships/(0)Ultra-Light/(0Z)ultra-light_omniship/ultra-light_omniship.dae</source_data>
+            <source_data>file:///C:/Users/rivalin/Creative/Personal%20Work/Paragon/Paragon/PARAGON3DEV3/data/models/ships/(0)Ultra-Light/(0Z)ultra-light_omniship/ultra-light_omniship.dae</source_data>
         </contributor>
-        <created>2013-05-19T17:23:48Z</created>
-        <modified>2013-05-19T17:23:48Z</modified>
+        <created>2013-07-07T14:45:01Z</created>
+        <modified>2013-07-07T14:45:01Z</modified>
         <up_axis>Y_UP</up_axis>
     </asset>
     <library_cameras>
@@ -5286,6 +5286,12 @@
                 <translate sid="translation012">3.1 -0.25 9.77</translate>
                 <scale sid="scale036">3 2.25 2.25</scale>
             </node>
+            <node id="locator046Node" name="navlight_red_1" type="NODE">
+                <translate sid="translation105">-7.5 -0.95 5</translate>
+            </node>
+            <node id="locator106Node" name="navlight_green_1" type="NODE">
+                <translate sid="translation190">7.5 -0.95 5</translate>
+            </node>
             <node id="Geometry-meshNode" name="mesh" type="NODE">
                 <instance_geometry url="#Geometry-mesh">
                     <bind_material>
@@ -5296,10 +5302,10 @@
                 </instance_geometry>
             </node>
             <node id="Camera-CameraNode" name="Camera" type="NODE">
-                <translate sid="translation013">18.3291 0.90247 -1.25525</translate>
-                <rotate sid="rotation023Y">0 1 0 93.9651</rotate>
-                <rotate sid="rotation023X">1 0 0 -1.56225</rotate>
-                <rotate sid="rotation023Z">0 0 1 1.23943e-017</rotate>
+                <translate sid="translation013">55.307 14.619 -21.7286</translate>
+                <rotate sid="rotation023Y">0 1 0 109.148</rotate>
+                <rotate sid="rotation023X">1 0 0 -14.4538</rotate>
+                <rotate sid="rotation023Z">0 0 1 0</rotate>
                 <instance_camera url="#Camera-Camera" />
             </node>
             <node id="Light-Directional_LightNode" name="Directional_Light" type="NODE">

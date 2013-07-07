@@ -26,10 +26,10 @@
                 Save 3ds Max Profile: Yes;
                 Formatted Arrays: Yes;
             </comments>
-            <source_data>file:///C:/Users/rivalin/Documents/GitHub/pioneer/data/models/ships/(1)Light/(1F)passenger_ship/passenger_ship.dae</source_data>
+            <source_data>file:///C:/Users/rivalin/Creative/Personal%20Work/Paragon/Paragon/PARAGON3DEV3/data/models/ships/(1)Light/(1F)passenger_ship/passenger_ship.dae</source_data>
         </contributor>
-        <created>2013-06-03T21:35:29Z</created>
-        <modified>2013-06-03T21:35:29Z</modified>
+        <created>2013-07-07T15:02:59Z</created>
+        <modified>2013-07-07T15:02:59Z</modified>
         <up_axis>Y_UP</up_axis>
     </asset>
     <library_cameras>
@@ -5228,6 +5228,18 @@
                 <rotate sid="rotation020X">1 0 0 -225</rotate>
                 <rotate sid="rotation020Z">0 0 1 0</rotate>
                 <scale sid="scale032">1 1 1</scale>
+            </node>
+            <node id="locator042Node" name="navlight_red_1" type="NODE">
+                <translate sid="translation139">-7.1 0 15.5</translate>
+            </node>
+            <node id="locator140Node" name="navlight_green_1" type="NODE">
+                <translate sid="translation179">7.1 0 15.5</translate>
+            </node>
+            <node id="locator180Node" name="navlight_red_1__2_" type="NODE">
+                <translate sid="translation182">-4.85 0 -12.75</translate>
+            </node>
+            <node id="locator181Node" name="navlight_green_1__2_" type="NODE">
+                <translate sid="translation183">4.85 0 -12.75</translate>
             </node>
             <node id="Geometry-MeshNode" name="Mesh" type="NODE">
                 <instance_geometry url="#Geometry-Mesh">

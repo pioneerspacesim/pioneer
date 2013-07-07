@@ -26,10 +26,10 @@
                 Save 3ds Max Profile: Yes;
                 Formatted Arrays: Yes;
             </comments>
-            <source_data>file:///C:/Users/rivalin/Creative/Personal%20Work/Paragon/Paragon/paragon%2033/data/models/ships/(1)Light/(1Z)light_omniship/light_omniship.dae</source_data>
+            <source_data>file:///C:/Users/rivalin/Creative/Personal%20Work/Paragon/Paragon/PARAGON3DEV3/data/models/ships/(1)Light/(1Z)light_omniship/light_omniship.dae</source_data>
         </contributor>
-        <created>2013-05-07T17:18:50Z</created>
-        <modified>2013-05-07T17:18:50Z</modified>
+        <created>2013-07-07T15:16:03Z</created>
+        <modified>2013-07-07T15:16:03Z</modified>
         <up_axis>Y_UP</up_axis>
     </asset>
     <library_cameras>
@@ -7476,61 +7476,73 @@
                 <translate sid="translation004">-6.85 -0.25 19</translate>
                 <scale sid="scale029">2 2 2</scale>
             </node>
-            <node id="thruste_lightNode" name="thruster_light" type="NODE">
+            <node id="thruster_lightNode" name="thruster_light" type="NODE">
                 <translate sid="translation005">2.1 2.428 -12.829</translate>
                 <rotate sid="rotation015Y">0 1 0 0</rotate>
                 <rotate sid="rotation015X">1 0 0 -90</rotate>
                 <rotate sid="rotation015Z">0 0 1 0</rotate>
                 <scale sid="scale030">1 1 1</scale>
             </node>
-            <node id="thruste_light__2_Node" name="thruster_light__2_" type="NODE">
+            <node id="thruster_light__2_Node" name="thruster_light__2_" type="NODE">
                 <translate sid="translation006">-6.9 0.88 9.06</translate>
                 <rotate sid="rotation016Y">0 1 0 0</rotate>
                 <rotate sid="rotation016X">1 0 0 -90</rotate>
                 <rotate sid="rotation016Z">0 0 1 0</rotate>
                 <scale sid="scale031">1 1 1</scale>
             </node>
-            <node id="thruste_light__3_Node" name="thruster_light__3_" type="NODE">
+            <node id="thruster_light__3_Node" name="thruster_light__3_" type="NODE">
                 <translate sid="translation007">6.9 0.88 9.06</translate>
                 <rotate sid="rotation017Y">0 1 0 0</rotate>
                 <rotate sid="rotation017X">1 0 0 -90</rotate>
                 <rotate sid="rotation017Z">0 0 1 0</rotate>
                 <scale sid="scale032">1 1 1</scale>
             </node>
-            <node id="thruste_light__4_Node" name="thruster_light__4_" type="NODE">
+            <node id="thruster_light__4_Node" name="thruster_light__4_" type="NODE">
                 <translate sid="translation008">6.9 -2.76 9.06</translate>
                 <rotate sid="rotation018Y">0 1 0 0</rotate>
                 <rotate sid="rotation018X">1 0 0 -270</rotate>
                 <rotate sid="rotation018Z">0 0 1 0</rotate>
                 <scale sid="scale033">1 1 1</scale>
             </node>
-            <node id="thruste_light__5_Node" name="thruster_light__5_" type="NODE">
+            <node id="thruster_light__5_Node" name="thruster_light__5_" type="NODE">
                 <translate sid="translation009">-6.9 -2.76 9.06</translate>
                 <rotate sid="rotation019Y">0 1 0 0</rotate>
                 <rotate sid="rotation019X">1 0 0 -270</rotate>
                 <rotate sid="rotation019Z">0 0 1 0</rotate>
                 <scale sid="scale034">1 1 1</scale>
             </node>
-            <node id="thruste_light__6_Node" name="thruster_light__6_" type="NODE">
+            <node id="thruster_light__6_Node" name="thruster_light__6_" type="NODE">
                 <translate sid="translation010">-2.1 2.428 -12.829</translate>
                 <rotate sid="rotation020Y">0 1 0 0</rotate>
                 <rotate sid="rotation020X">1 0 0 -90</rotate>
                 <rotate sid="rotation020Z">0 0 1 0</rotate>
                 <scale sid="scale035">1 1 1</scale>
             </node>
-            <node id="thruste_light__7_Node" name="thruster_light__7_" type="NODE">
+            <node id="thruster_light__7_Node" name="thruster_light__7_" type="NODE">
                 <translate sid="translation011">2.1 -4.987 -12.829</translate>
                 <rotate sid="rotation021Y">0 1 0 0</rotate>
                 <rotate sid="rotation021X">1 0 0 -270</rotate>
                 <rotate sid="rotation021Z">0 0 1 0</rotate>
                 <scale sid="scale036">1 1 1</scale>
             </node>
-            <node id="thruste_light__8_Node" name="thruster_light__8_" type="NODE">
+            <node id="thruster_light__8_Node" name="thruster_light__8_" type="NODE">
                 <translate sid="translation012">-2.1 -4.987 -12.829</translate>
                 <rotate sid="rotation022Y">0 1 0 0</rotate>
                 <rotate sid="rotation022X">1 0 0 -270</rotate>
                 <rotate sid="rotation022Z">0 0 1 0</rotate>
                 <scale sid="scale037">1 1 1</scale>
+            </node>
+            <node id="locator047Node" name="navlight_red_1" type="NODE">
+                <translate sid="translation155">-11.2 -0.95 14.4</translate>
+            </node>
+            <node id="locator156Node" name="navlight_green_1" type="NODE">
+                <translate sid="translation212">11.2 -0.95 14.4</translate>
+            </node>
+            <node id="locator213Node" name="navlight_red_1__2_" type="NODE">
+                <translate sid="translation215">-5.9 -0.95 -14.6</translate>
+            </node>
+            <node id="locator214Node" name="navlight_green_1__2_" type="NODE">
+                <translate sid="translation216">5.9 -0.95 -14.6</translate>
             </node>
             <node id="Geometry-MeshNode" name="Mesh" type="NODE">
                 <rotate sid="rotation023Y">0 1 0 180</rotate>
