@@ -38,6 +38,9 @@
     <ClCompile Include="..\..\..\src\graphics\gl2\GL2Material.cpp">
       <Filter>gl2</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\graphics\gl2\GL2RenderTarget.cpp">
+      <Filter>gl2</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\graphics\Drawables.h" />
@@ -78,6 +81,10 @@
       <Filter>gl2</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\graphics\gl2\StarfieldMaterial.h">
+      <Filter>gl2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\RenderTarget.h" />
+    <ClInclude Include="..\..\..\src\graphics\gl2\GL2RenderTarget.h">
       <Filter>gl2</Filter>
     </ClInclude>
   </ItemGroup>
