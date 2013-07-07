@@ -10,6 +10,7 @@ July 2013
    * Minor changes and tweaks
      * Updated Deneb model (#2339)
      * Ships with zero price will no longer appear in the market (#2361)
+     * Show text in worldview when game is paused (#2358, #1331)
 
 June 2013
 
