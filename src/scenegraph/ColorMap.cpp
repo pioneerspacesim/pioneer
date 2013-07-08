@@ -37,12 +37,14 @@ void ColorMap::Generate(Graphics::Renderer *r, const Color4ub &a, const Color4ub
 	AddColor(w, c, colors);
 	vector2f size(colors.size()/3, 1.f);
 
+	const Graphics::TextureFormat format = Graphics::TEXTURE_RGB_888;
+
 	if (!m_texture.Valid()) {
 		const Graphics::TextureSampleMode sampleMode = m_smooth ? Graphics::LINEAR_CLAMP : Graphics::NEAREST_CLAMP;
-		m_texture.Reset(r->CreateTexture(Graphics::TextureDescriptor(Graphics::TEXTURE_RGB, size, sampleMode)));
+		m_texture.Reset(r->CreateTexture(Graphics::TextureDescriptor(Graphics::TEXTURE_RGB_888, size, sampleMode)));
 	}
 
-	m_texture->Update(&colors[0], size, Graphics::IMAGE_RGB, Graphics::IMAGE_UNSIGNED_BYTE);
+	m_texture->Update(&colors[0], size, format);
 }
 
 void ColorMap::SetSmooth(bool smooth)

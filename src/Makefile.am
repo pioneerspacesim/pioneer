@@ -31,7 +31,6 @@ noinst_HEADERS = \
 	CoreCount.h \
 	Cutscene.h \
 	CRC32.h \
-	DeadVideoLink.h \
 	DeathView.h \
 	DeleteEmitter.h \
 	DynamicBody.h \
@@ -176,7 +175,6 @@ pioneer_SOURCES	= \
 	CommodityTradeWidget.cpp \
 	CoreCount.cpp \
 	CRC32.cpp \
-	DeadVideoLink.cpp \
 	DeathView.cpp \
 	DynamicBody.cpp \
 	EnumStrings.cpp \

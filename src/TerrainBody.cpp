@@ -87,8 +87,6 @@ void TerrainBody::Render(Graphics::Renderer *renderer, const Camera *camera, con
 	ftran.ClearToRotOnly();
 	campos = ftran.InverseOf() * campos;
 
-	ftran.Scale(rad, rad, rad);
-
 	campos = campos * (1.0/rad);		// position of camera relative to planet "model"
 
 	std::vector<Camera::Shadow> shadows;
@@ -98,6 +96,8 @@ void TerrainBody::Render(Graphics::Renderer *renderer, const Camera *camera, con
 			it->centre = ftran * it->centre;
 		}
 	}
+
+	ftran.Scale(rad, rad, rad);
 
 	// translation not applied until patch render to fix jitter
 	m_geosphere->Render(renderer, ftran, -campos, m_sbody->GetRadius(), scale, shadows);

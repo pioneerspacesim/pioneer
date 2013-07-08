@@ -1,3 +1,21 @@
+July 2013
+
+   * New features
+     * New ship "Pumpkinseed" (#2352)
+     * New ship "Mola Mola" (#2355)
+
+   * Fixes
+     * Fix damage particle rendering (#2353)
+
+   * Minor changes and tweaks
+     * Updated Deneb model (#2339)
+     * Ships with zero price will no longer appear in the market (#2361)
+     * Show text in worldview when game is paused (#2358, #1331)
+
+   * Internal changes
+     * Render target infrastructure (#2356)
+     * Combined texture and image format enums (#2356)
+
 June 2013
 
    * New features

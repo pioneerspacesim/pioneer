@@ -110,6 +110,9 @@ OS X - Autotools
      libsdl_sound
      glew
      libsigcxx2
+     libvorbis
+     autoconf
+     automake
 
 3. Run ./bootstrap to generate your 'configure' file
 
