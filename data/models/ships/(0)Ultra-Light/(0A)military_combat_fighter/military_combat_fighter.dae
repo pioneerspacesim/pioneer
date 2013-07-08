@@ -26,10 +26,10 @@
                 Save 3ds Max Profile: Yes;
                 Formatted Arrays: Yes;
             </comments>
-            <source_data>file:///C:/Users/rivalin/Creative/Personal%20Work/Paragon/Paragon/paragon%2033/data/models/ships/(0)Ultra-Light/(0A)military_combat_fighter/military_combat_fighter.dae</source_data>
+            <source_data>file:///C:/Users/rivalin/Creative/Personal%20Work/Paragon/Paragon/PARAGON3DEV3/data/models/ships/(0)Ultra-Light/(0A)military_combat_fighter/military_combat_fighter.dae</source_data>
         </contributor>
-        <created>2013-05-05T14:14:50Z</created>
-        <modified>2013-05-05T14:14:50Z</modified>
+        <created>2013-07-07T11:58:19Z</created>
+        <modified>2013-07-07T11:58:19Z</modified>
         <up_axis>Y_UP</up_axis>
     </asset>
     <library_cameras>
@@ -4855,6 +4855,12 @@
                 <rotate sid="rotation021X">1 0 0 64.9275</rotate>
                 <rotate sid="rotation021Z">0 0 1 11.877</rotate>
                 <scale sid="scale034">0.5 0.5 0.5</scale>
+            </node>
+            <node id="locator044Node" name="navlight_red_1" type="NODE">
+                <translate sid="translation135">-4.05 -0.16 1.2</translate>
+            </node>
+            <node id="locator136Node" name="navlight_green_1" type="NODE">
+                <translate sid="translation212">4.05 -0.16 1.2</translate>
             </node>
             <node id="Geometry-MeshNode" name="Mesh" type="NODE">
                 <instance_geometry url="#Geometry-Mesh">
