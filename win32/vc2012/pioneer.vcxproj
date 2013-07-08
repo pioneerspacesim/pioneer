@@ -139,7 +139,6 @@
     <ClCompile Include="..\..\src\CommodityTradeWidget.cpp" />
     <ClCompile Include="..\..\src\CoreCount.cpp" />
     <ClCompile Include="..\..\src\CRC32.cpp" />
-    <ClCompile Include="..\..\src\DeadVideoLink.cpp" />
     <ClCompile Include="..\..\src\DeathView.cpp" />
     <ClCompile Include="..\..\src\DynamicBody.cpp" />
     <ClCompile Include="..\..\src\EnumStrings.cpp" />
@@ -302,7 +301,6 @@
     <ClInclude Include="..\..\src\CommodityTradeWidget.h" />
     <ClInclude Include="..\..\src\CoreCount.h" />
     <ClInclude Include="..\..\src\CRC32.h" />
-    <ClInclude Include="..\..\src\DeadVideoLink.h" />
     <ClInclude Include="..\..\src\DeathView.h" />
     <ClInclude Include="..\..\src\DeleteEmitter.h" />
     <ClInclude Include="..\..\src\DynamicBody.h" />
