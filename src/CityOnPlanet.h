@@ -28,6 +28,7 @@ public:
 
 	static void Init();
 	static void Uninit();
+	static void SetCityModelPatterns(const SystemPath &path);
 private:
 	void PutCityBit(Random &rand, const matrix4x4d &rot, vector3d p1, vector3d p2, vector3d p3, vector3d p4);
 	void AddStaticGeomsToCollisionSpace();
