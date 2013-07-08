@@ -27,6 +27,14 @@ static const char* s_airflowTable[eMaxNumAtmosphereSounds] = {
 	"airflow04"
 };
 
+//	start, inverse range
+static const float s_rangeTable[eMaxNumAtmosphereSounds][2] = {
+	{0.0f, 1.0f / (1.0f - 0.0f)},	// 1
+	{1.0f, 1.0f / (3.0f - 1.0f)},	// 2
+	{2.0f, 1.0f / (7.0f - 3.0f)},	// 4
+	{4.0f, 1.0f / (15.0f - 7.0f)}	// 8
+};
+
 static int astroNoiseSeed;
 static Sound::Event s_stationNoise;
 static Sound::Event s_starNoise;
@@ -43,7 +51,7 @@ void AmbientSounds::Uninit()
 {
 	onChangeCamTypeConnection.disconnect();
 }
-#pragma optimize("",off)
+
 void AmbientSounds::Update()
 {
 	const float v_env = (Pi::worldView->GetCameraController()->IsExternal() ? 1.0f : 0.5f) * Sound::GetSfxVolume();
@@ -220,11 +228,13 @@ void AmbientSounds::Update()
 			double pressure, density;
 			static_cast<const Planet*>(astro)->GetAtmosphericState(dist, &pressure, &density);
 			// maximum volume at around 2km/sec at earth density, pressure
-			float pressureVolume = float(density * Pi::player->GetVelocity().Length() * 0.0005);
+			const float pressureVolume = float(density * Pi::player->GetVelocity().Length() * 0.0005);
 			//volume = Clamp(volume, 0.0f, 1.0f) * v_env;
 			float volumes[eMaxNumAtmosphereSounds];
 			for(int i=0; i<eMaxNumAtmosphereSounds; i++) {
-				volumes[i] = Clamp(pressureVolume - (i*1.0f), 0.0f, 1.0f) * v_env;
+				const float beg = s_rangeTable[i][0];
+				const float inv = s_rangeTable[i][1];
+				volumes[i] = Clamp((pressureVolume - beg) * inv, 0.0f, 1.0f) * v_env;
 			}
 			
 			for(int i=0; i<eMaxNumAtmosphereSounds; i++) {
