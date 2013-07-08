@@ -15,6 +15,7 @@ July 2013
    * Internal changes
      * Render target infrastructure (#2356)
      * Combined texture and image format enums (#2356)
+     * Only use Color objects in UI API
 
 June 2013
 
