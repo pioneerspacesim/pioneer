@@ -37,10 +37,4 @@ Label *Label::SetText(const std::string &text)
 	return this;
 }
 
-Label *Label::SetColor(float r, float g, float b)
-{
-	m_color = ::Color(r, g, b);
-	return this;
-}
-
 }
