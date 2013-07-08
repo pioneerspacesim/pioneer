@@ -5,11 +5,11 @@
 #define AMBIENTSOUNDS_H
 
 class AmbientSounds {
-	public:
+public:
 	static void Init();
 	static void Uninit();
 	static void Update();
-	private:
+private:
 	static void UpdateForCamType();
 };
 
