@@ -49,7 +49,6 @@ private:
 	int m_detailLevel;
 	vector3d m_realCentre;
 	float m_clipRadius;
-	const Uint32 m_seed;
 };
 
 #endif /* _CITYONPLANET_H */
