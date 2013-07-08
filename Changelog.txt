@@ -3,6 +3,7 @@ July 2013
    * New features
      * New ship "Pumpkinseed" (#2352)
      * New ship "Mola Mola" (#2355)
+     * Enable patterns/colors on buildings (#2342)
 
    * Fixes
      * Fix damage particle rendering (#2353)
