@@ -410,13 +410,13 @@ local missions = function (tabGroup)
 		local dist = playerSystem:DistanceTo(mission.location)
 		local distLabel = ui:Label(string.format('%.2f %s', dist, t('ly')))
 		local hyperjumpStatus = Game.player:GetHyperspaceDetails(mission.location)
-		if hyperjumpStatus == 'CURRENT_SYSTEM' then 
-			distLabel:SetColor(0.0, 1.0, 0.2) -- green  
-		else 
+		if hyperjumpStatus == 'CURRENT_SYSTEM' then
+			distLabel:SetColor({ r = 0.0, g = 1.0, b = 0.2 }) -- green
+		else
 			if hyperjumpStatus == 'OK' then
-				distLabel:SetColor(1.0, 1.0, 0.0) -- yellow
-			else 
-				distLabel:SetColor(1.0, 0.0, 0.0) -- red
+				distLabel:SetColor({ r = 1.0, g = 1.0, b = 0.0 }) -- yellow
+			else
+				distLabel:SetColor({ r = 1.0, g = 0.0, b = 0.0 }) -- red
 			end
 		end
 		-- Pack location and distance
@@ -426,7 +426,7 @@ local missions = function (tabGroup)
 		-- Format Due info
 		local dueLabel = ui:Label(Format.Date(mission.due))
 		local days = math.max(0, (mission.due - Game.time) / (24*60*60))
-		local daysLabel = ui:Label(string.format(t("%d days left"), days)):SetColor(1.0, 0.0, 1.0) -- purple
+		local daysLabel = ui:Label(string.format(t("%d days left"), days)):SetColor({ r = 1.0, g = 0.0, b = 1.0 }) -- purple
 		local dueBox = ui:VBox(2):PackEnd(dueLabel):PackEnd(daysLabel)
 		
 		local moreButton = UI.SmallLabeledButton.New(t("More info..."))
@@ -443,7 +443,7 @@ local missions = function (tabGroup)
 			{data = mission.client.name},
 			{data = dist, widget = locationBox},
 			{data = mission.due, widget = dueBox},
-			{data = mission.reward, widget = ui:Label(Format.Money(mission.reward)):SetColor(0.0, 1.0, 0.2)}, -- green
+			{data = mission.reward, widget = ui:Label(Format.Money(mission.reward)):SetColor({ r = 0.0, g = 1.0, b = 0.2 })}, -- green
 			-- nil description means mission type isn't registered.
 			{data = (description and t(mission.status)) or t('INACTIVE')},
 			{widget = moreButton.widget}
@@ -625,17 +625,17 @@ local crewRoster = function ()
 			crewlistbox:PackEnd(ui:Grid(rowspec,1):SetRow(0, {
 				ui:Label(crewMember.name),
 				ui:Label(t(crewMember.title) or t('General crew')),
-				ui:Label(Format.Money(crewWage)):SetColor(0.0, 1.0, 0.2), -- green
-				ui:Label(Format.Money(crewOwed)):SetColor(1.0, 0.0, 0.0), -- red
+				ui:Label(Format.Money(crewWage)):SetColor({ r = 0.0, g = 1.0, b = 0.2 }), -- green
+				ui:Label(Format.Money(crewOwed)):SetColor({ r = 1.0, g = 0.0, b = 0.0 }), -- red
 				ui:Label(Format.Date(crewMember.contract and crewMember.contract.payday or 0)),
 				moreButton.widget,
 			}))
 		end
 		crewlistbox:PackEnd(ui:Grid(rowspec,1):SetRow(0, {
 			ui:Label(""), -- first column, empty
-			ui:Label(t("Total:")):SetFont("HEADING_NORMAL"):SetColor(1.0, 1.0, 0.0), -- yellow
-			ui:Label(Format.Money(wageTotal)):SetColor(0.0, 1.0, 0.2), -- green
-			ui:Label(Format.Money(owedTotal)):SetColor(1.0, 0.0, 0.0), -- red
+			ui:Label(t("Total:")):SetFont("HEADING_NORMAL"):SetColor({ r = 1.0, g = 1.0, b = 0.0 }), -- yellow
+			ui:Label(Format.Money(wageTotal)):SetColor({ r = 0.0, g = 1.0, b = 0.2 }), -- green
+			ui:Label(Format.Money(owedTotal)):SetColor({ r = 1.0, g = 0.0, b = 0.0 }), -- red
 		}))
 
 		local taskCrewButton = ui:Button():SetInnerWidget(ui:Label(t('Give orders to crew')))
