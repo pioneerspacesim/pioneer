@@ -21,7 +21,7 @@ public:
 	Planet();
 	virtual ~Planet();
 
-	virtual void SubRender(Graphics::Renderer *r, const Camera *camera, const vector3d &camPos);
+	virtual void SubRender(Graphics::Renderer *r, const matrix4x4d &viewTran, const vector3d &camPos);
 
 	void GetAtmosphericState(double dist, double *outPressure, double *outDensity) const;
 	double GetAtmosphereRadius() const { return m_atmosphereRadius; }
@@ -36,8 +36,8 @@ protected:
 private:
 	void InitParams(const SystemBody*);
 	void GenerateRings(Graphics::Renderer *renderer);
-	void DrawGasGiantRings(Graphics::Renderer *r, const Camera *camera);
-	void DrawAtmosphere(Graphics::Renderer *r, const vector3d &camPos);
+	void DrawGasGiantRings(Graphics::Renderer *r, const matrix4x4d &modelView);
+	void DrawAtmosphere(Graphics::Renderer *r, const matrix4x4d &modelView, const vector3d &camPos);
 
 	double m_atmosphereRadius;
 	double m_surfaceGravity_g;

@@ -7,6 +7,8 @@
 #include "collider.h"
 #include "BVHTree.h"
 
+static const unsigned int MAX_CONTACTS = 8;
+
 Geom::Geom(const GeomTree *geomtree)
 {
 	m_geomtree = geomtree;
@@ -66,8 +68,6 @@ void Geom::CollideSphere(Sphere &sphere, void (*callback)(CollisionContact*))
 		return;
 	}
 }
-
-#define MAX_CONTACTS 8
 
 /*
  * This geom has moved, causing a possible collision with geom b.

@@ -4,7 +4,7 @@
 #include "libs.h"
 #include "Gui.h"
 
-#define BUTTON_SIZE	16
+static const float BUTTON_SIZE = 16.f;
 
 namespace Gui {
 Button::Button()

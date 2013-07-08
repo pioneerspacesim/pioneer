@@ -340,8 +340,9 @@ void Pi::Init()
 	EnumStrings::Init();
 
 	// get threads up
-	uint32_t numThreads = config->Int("WorkerThreads");
-	uint32_t numCores = getNumCores();
+	Uint32 numThreads = config->Int("WorkerThreads");
+	const Uint32 numCores = getNumCores();
+	assert(numCores > 0);
 	if (numThreads == 0) numThreads = std::max(numCores-1,1U);
 	jobQueue.Reset(new JobQueue(numThreads));
 	printf("started %d worker threads\n", numThreads);
@@ -451,7 +452,6 @@ void Pi::Init()
 	c2->SwitchToFrame(p1);
 	vector3d vel4 = c2->GetVelocityRelTo(c1);
 	double speed4 = c2->GetVelocityRelTo(c1).Length();
-
 
 	root->UpdateOrbitRails(0, 1.0);
 
@@ -899,8 +899,6 @@ void Pi::Start()
 		}
 
 		Pi::renderer->BeginFrame();
-		Pi::renderer->SetPerspectiveProjection(75, Pi::GetScrAspect(), 1.f, 10000.f);
-		Pi::renderer->SetTransform(matrix4x4f::Identity());
 		intro->Draw(_time);
 		Pi::renderer->EndFrame();
 

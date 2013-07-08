@@ -82,42 +82,33 @@ void TerrainBody::Render(Graphics::Renderer *renderer, const Camera *camera, con
 		scale *= 4.0f;
 		++shrink;
 	}
-	//if (GetLabel() == "Earth") printf("Horizon %fkm, shrink %d\n", dist_to_horizon*0.001, shrink);
 
-	glPushMatrix();		// initial matrix is actually identity after a long chain of wtf
-//	glTranslatef(float(fpos.x), float(fpos.y), float(fpos.z));
-	glColor3f(1,1,1);
+	vector3d campos = fpos;
+	ftran.ClearToRotOnly();
+	campos = ftran.InverseOf() * campos;
 
-	{
-		vector3d campos = fpos;
-		ftran.ClearToRotOnly();
-		campos = ftran.InverseOf() * campos;
-		glMultMatrixd(&ftran[0]);
+	campos = campos * (1.0/rad);		// position of camera relative to planet "model"
 
-		glScaled(rad, rad, rad);			// rad = real_rad / scale
-		campos = campos * (1.0/rad);		// position of camera relative to planet "model"
-
-		std::vector<Camera::Shadow> shadows;
-		if( camera ) {
-			camera->PrincipalShadows(this, 3, shadows);
-			for (std::vector<Camera::Shadow>::iterator it = shadows.begin(), itEnd=shadows.end(); it!=itEnd; ++it) {
-				it->centre = ftran * it->centre;
-			}
-		}
-
-		// translation not applied until patch render to fix jitter
-		m_geosphere->Render(renderer, -campos, m_sbody->GetRadius(), scale, shadows);
-		glTranslated(campos.x, campos.y, campos.z);
-
-		SubRender(renderer, camera, campos);
-
-		// if not using shader then z-buffer precision is hopeless and
-		// we can't place objects on the terrain without awful z artifacts
-		if (shrink || !Graphics::AreShadersEnabled()) {
-			renderer->ClearDepthBuffer();
+	std::vector<Camera::Shadow> shadows;
+	if( camera ) {
+		camera->PrincipalShadows(this, 3, shadows);
+		for (std::vector<Camera::Shadow>::iterator it = shadows.begin(), itEnd=shadows.end(); it!=itEnd; ++it) {
+			it->centre = ftran * it->centre;
 		}
 	}
-	glPopMatrix();
+
+	ftran.Scale(rad, rad, rad);
+
+	// translation not applied until patch render to fix jitter
+	m_geosphere->Render(renderer, ftran, -campos, m_sbody->GetRadius(), scale, shadows);
+
+	ftran.Translate(campos.x, campos.y, campos.z);
+	SubRender(renderer, ftran, campos);
+
+	// if not using shader then z-buffer precision is hopeless and
+	// we can't place objects on the terrain without awful z artifacts
+	if (shrink || !Graphics::AreShadersEnabled())
+		renderer->ClearDepthBuffer();
 }
 
 void TerrainBody::SetFrame(Frame *f)

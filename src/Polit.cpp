@@ -19,6 +19,9 @@
 
 namespace Polit {
 
+static const Uint32 POLIT_SEED = 0x1234abcd;
+static const Uint32 POLIT_SALT = 0x8732abdf;
+
 static PersistSystemData<Sint64> s_criminalRecord;
 static PersistSystemData<Sint64> s_outstandingFine;
 struct crime_t {
@@ -182,8 +185,6 @@ void GetCrime(Sint64 *crimeBitset, Sint64 *fine)
 	}
 }
 
-#define POLIT_SEED 0x1234abcd
-
 void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, SysPolit &outSysPolit)
 {
 	SystemPath path = s->GetPath();
@@ -219,8 +220,6 @@ void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, 
 	outSysPolit.lawlessness = s_govDesc[a].baseLawlessness * rand.Fixed();
 }
 
-#define POLIT_SALT 0x8732abdf
-
 bool IsCommodityLegal(const StarSystem *s, const Equip::Type t)
 {
 	SystemPath path = s->GetPath();
@@ -233,7 +232,7 @@ bool IsCommodityLegal(const StarSystem *s, const Equip::Type t)
 	if(s->GetFaction()->idx != Faction::BAD_FACTION_IDX ) {
 		Faction::EquipProbMap::const_iterator iter = s->GetFaction()->equip_legality.find(t);
 		if( iter != s->GetFaction()->equip_legality.end() ) {
-			const uint32_t per = (*iter).second;
+			const Uint32 per = (*iter).second;
 			return (rand.Int32(100) >= per);
 		}
 	}

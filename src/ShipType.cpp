@@ -9,6 +9,7 @@
 #include "FileSystem.h"
 #include "utils.h"
 #include "Lang.h"
+#include <algorithm>
 
 const char *ShipType::gunmountNames[GUNMOUNT_MAX] = {
 	Lang::FRONT, Lang::REAR };
@@ -31,6 +32,12 @@ std::string ShipType::MISSILE_UNGUIDED		= "missile_unguided";
 static double GetEffectiveExhaustVelocity(double fuelTankMass, double thrusterFuelUse, double forwardThrust) {
 	double denominator = fuelTankMass * thrusterFuelUse * 10;
 	return fabs(denominator > 0 ? forwardThrust/denominator : 1e9);
+}
+
+static bool ShipIsUnbuyable(const ShipType::Id &id)
+{
+	const ShipType &t = ShipType::types[id];
+	return (t.baseprice == 0);
 }
 
 static std::string s_currentShipFile;
@@ -239,6 +246,11 @@ void ShipType::Init()
 	LUA_DEBUG_END(l, 0);
 
 	lua_close(l);
+
+	//remove unbuyable ships from player ship list
+	ShipType::player_ships.erase(
+		std::remove_if(ShipType::player_ships.begin(), ShipType::player_ships.end(), ShipIsUnbuyable),
+		ShipType::player_ships.end());
 
 	if (ShipType::player_ships.empty())
 		Error("No playable ships have been defined! The game cannot run.");

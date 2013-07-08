@@ -12,8 +12,7 @@
 #include "StringF.h"
 #include "Game.h"
 
-#define REMOVAL_VALUE_PERCENT 90
-
+static const int REMOVAL_VALUE_PERCENT = 90;
 
 class PickLaserMountForm : public FaceForm {
 public:
@@ -26,7 +25,6 @@ private:
 	Equip::Type m_equipType;
 	bool m_doFit;
 };
-
 
 StationShipEquipmentForm::StationShipEquipmentForm(FormController *controller) : FaceForm(controller)
 {
@@ -199,8 +197,6 @@ void StationShipEquipmentForm::RemoveItemForce(Equip::Type t, int pos) {
 
 	RecalcButtonVisibility();
 }
-
-
 
 PickLaserMountForm::PickLaserMountForm(FormController *controller, StationShipEquipmentForm *equipForm, Equip::Type equipType, bool doFit) :
 	FaceForm(controller),
