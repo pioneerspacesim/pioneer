@@ -56,25 +56,25 @@ static inline bool GetTargetFormat(const SDL_PixelFormat *sourcePixelFormat, Tex
 {
 	if (!forceRGBA && sourcePixelFormat->BytesPerPixel == pixelFormatRGB.BytesPerPixel &&
 			sourcePixelFormat->Rmask == pixelFormatRGB.Rmask && sourcePixelFormat->Bmask == pixelFormatRGB.Bmask && sourcePixelFormat->Gmask == pixelFormatRGB.Gmask) {
-		*targetTextureFormat = TEXTURE_RGB;
+		*targetTextureFormat = TEXTURE_RGB_888;
 		*targetPixelFormat = &pixelFormatRGB;
 		return true;
 	}
 
 	if (sourcePixelFormat->BytesPerPixel == pixelFormatRGBA.BytesPerPixel &&
 			sourcePixelFormat->Rmask == pixelFormatRGBA.Rmask && sourcePixelFormat->Bmask == pixelFormatRGBA.Bmask && sourcePixelFormat->Gmask == pixelFormatRGBA.Gmask) {
-		*targetTextureFormat = TEXTURE_RGBA;
+		*targetTextureFormat = TEXTURE_RGBA_8888;
 		*targetPixelFormat = &pixelFormatRGBA;
 		return true;
 	}
 
 	if (!forceRGBA && sourcePixelFormat->BytesPerPixel == 3) {
-		*targetTextureFormat = TEXTURE_RGB;
+		*targetTextureFormat = TEXTURE_RGB_888;
 		*targetPixelFormat = &pixelFormatRGB;
 		return false;
 	}
 
-	*targetTextureFormat = TEXTURE_RGBA;
+	*targetTextureFormat = TEXTURE_RGBA_8888;
 	*targetPixelFormat = &pixelFormatRGBA;
 	return false;
 }
@@ -103,7 +103,7 @@ void TextureBuilder::PrepareSurface()
 			SDL_Surface *s = SDL_ConvertSurface(m_surface.Get(), targetPixelFormat, SDL_SWSURFACE);
 			m_surface = SDLSurfacePtr::WrapNew(s);
 		}
-		
+
 		virtualWidth = actualWidth = m_surface->w;
 		virtualHeight = actualHeight = m_surface->h;
 
@@ -136,7 +136,7 @@ void TextureBuilder::PrepareSurface()
 		case PicoDDS::FORMAT_DXT5: targetTextureFormat = TEXTURE_DXT5; break;
 		default:
 			fprintf(stderr, "ERROR: DDS texture with invalid format '%s' (only DXT1 and DXT5 are supported)\n", m_filename.c_str());
-			assert(false); 
+			assert(false);
 			return;
 		}
 
@@ -183,8 +183,8 @@ void TextureBuilder::LoadDDS()
 	assert(!m_dds.headerdone_);
 	LoadDDSFromFile(m_filename, m_dds);
 
-	if (!m_dds.headerdone_) { 
-		m_surface = LoadSurfaceFromFile("textures/unknown.png"); 
+	if (!m_dds.headerdone_) {
+		m_surface = LoadSurfaceFromFile("textures/unknown.png");
 	}
 	// XXX if we can't load the fallback texture, then what?
 }
@@ -192,11 +192,11 @@ void TextureBuilder::LoadDDS()
 void TextureBuilder::UpdateTexture(Texture *texture)
 {
 	if( m_surface ) {
-		texture->Update(m_surface->pixels, vector2f(m_surface->w,m_surface->h), m_descriptor.format == TEXTURE_RGBA ? IMAGE_RGBA : IMAGE_RGB, IMAGE_UNSIGNED_BYTE, 0);
+		texture->Update(m_surface->pixels, vector2f(m_surface->w,m_surface->h), m_descriptor.format, 0);
 	} else {
 		assert(m_dds.headerdone_);
 		assert(m_descriptor.format == TEXTURE_DXT1 || m_descriptor.format == TEXTURE_DXT5);
-		texture->Update(m_dds.imgdata_.imgData, vector2f(m_dds.imgdata_.width,m_dds.imgdata_.height), m_descriptor.format == TEXTURE_DXT1 ? IMAGE_DXT1 : IMAGE_DXT5, IMAGE_UNSIGNED_BYTE, m_dds.imgdata_.numMipMaps);
+		texture->Update(m_dds.imgdata_.imgData, vector2f(m_dds.imgdata_.width,m_dds.imgdata_.height), m_descriptor.format, m_dds.imgdata_.numMipMaps);
 	}
 }
 

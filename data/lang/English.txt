@@ -741,7 +741,7 @@ CAMERA_RIGHT_VIEW
 CAMERA_BOTTOM_VIEW
 	Bottom camera
 INTERNAL_VIEW
-    Internal view	
+    Internal view
 EXTERNAL_VIEW
     External view
 SIDEREAL_VIEW
@@ -751,7 +751,7 @@ ROTATE_UP
 ROTATE_DOWN
 	Rotate Down
 ROTATE_LEFT
-    Rotate Left	
+    Rotate Left
 ROTATE_RIGHT
     Rotate Right
 RESET
@@ -1244,3 +1244,6 @@ MONTH_DEC
     Dec
 MISCELLANEOUS
     Miscellaneous
+PAUSED
+    PAUSED
+

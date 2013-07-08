@@ -27,9 +27,6 @@
     <ClCompile Include="..\..\src\CommodityTradeWidget.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\DeadVideoLink.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\DynamicBody.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -480,9 +477,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\CommodityTradeWidget.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\DeadVideoLink.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\DeleteEmitter.h">

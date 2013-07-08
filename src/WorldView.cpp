@@ -186,6 +186,13 @@ void WorldView::InitObject()
 	m_bodyLabels = new Gui::LabelSet();
 	m_bodyLabels->SetLabelColor(Color(1.0f, 1.0f, 1.0f, 0.9f));
 	Add(m_bodyLabels, 0, 0);
+
+	{
+		m_pauseText = new Gui::Label(std::string("#f7f") + Lang::PAUSED);
+		float w, h;
+		Gui::Screen::MeasureString(Lang::PAUSED, w, h);
+		Add(m_pauseText, 0.5f * (Gui::Screen::GetWidth() - w), 100);
+	}
 	Gui::Screen::PopFont();
 
 	m_navTargetIndicator.label = (new Gui::Label(""))->Color(0.0f, 1.0f, 0.0f);
@@ -401,7 +408,6 @@ void WorldView::ShowAll()
 	RefreshButtonStateAndVisibility();
 }
 
-
 static Color get_color_for_warning_meter_bar(float v) {
 	Color c;
 	if (v < 50.0f)
@@ -427,6 +433,11 @@ void WorldView::RefreshButtonStateAndVisibility()
 	assert(!Pi::player->IsDead());
 
 	Pi::cpan->ClearOverlay();
+
+	if (Pi::game->IsPaused())
+		m_pauseText->Show();
+	else
+		m_pauseText->Hide();
 
 	if (Pi::player->GetFlightState() != Ship::HYPERSPACE) {
 		Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_TOP_LEFT,     Lang::SHIP_VELOCITY_BY_REFERENCE_OBJECT);
@@ -537,7 +548,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			ss << stringf("AbsPos: %0{f.2}, %1{f.2}, %2{f.2}\n", abs_pos.x, abs_pos.y, abs_pos.z);
 
 			const SystemPath &path(Pi::player->GetFrame()->GetSystemBody()->path);
-			ss << stringf("Rel-to: %0 [%1{d},%2{d},%3{d},%4{u},%5{u}] ", 
+			ss << stringf("Rel-to: %0 [%1{d},%2{d},%3{d},%4{u},%5{u}] ",
 				Pi::player->GetFrame()->GetLabel(),
 				path.sectorX, path.sectorY, path.sectorZ, path.systemIndex, path.bodyIndex);
 			ss << stringf("(%0{f.2} km), rotating: %1\n",
@@ -1078,8 +1089,8 @@ void WorldView::UpdateCommsOptions()
 				button = AddCommsOption(Lang::REQUEST_DOCKING_CLEARANCE, ypos, optnum++);
 				button->onClick.connect(sigc::bind(sigc::ptr_fun(&PlayerRequestDockingClearance), reinterpret_cast<SpaceStation*>(navtarget)));
 				ypos += 32;
-			} 
-			
+			}
+
 			if( hasAutopilot )
 			{
 				button = AddCommsOption(Lang::AUTOPILOT_DOCK_WITH_STATION, ypos, optnum++);
