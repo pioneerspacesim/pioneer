@@ -7,6 +7,7 @@
 #include "Frame.h"
 #include "Game.h"
 #include "ModelCache.h"
+#include "scenegraph\Model.h"
 #include "Pi.h"
 #include "Planet.h"
 #include "SpaceStation.h"
@@ -14,6 +15,7 @@
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
 #include "scenegraph/SceneGraph.h"
+#include <set>
 
 static const unsigned int DEFAULT_NUM_BUILDINGS = 1000;
 static const double  START_SEG_SIZE = CITY_ON_PLANET_RADIUS;
@@ -133,6 +135,8 @@ void CityOnPlanet::AddStaticGeomsToCollisionSpace()
 			++numVisibleBuildings;
 		}
 	}
+	
+	// we know how many building we'll be adding, reserve space up front
 	m_enabledBuildings.reserve(numVisibleBuildings);
 	for (unsigned int i=0; i<m_buildings.size(); i++) {
 		if (i & skipMask) {
@@ -215,6 +219,34 @@ void CityOnPlanet::Uninit()
 	}
 }
 
+// Need a reliable way to sort the models rather than using there address in memory we use their name which should be unique.
+bool setcomp (SceneGraph::Model *mlhs, SceneGraph::Model *mrhs) {return mlhs->GetName()<mrhs->GetName();}
+bool(*fn_pt)(SceneGraph::Model *mlhs, SceneGraph::Model *mrhs) = setcomp;
+
+//static 
+void CityOnPlanet::SetCityModelPatterns(const SystemPath &path)
+{
+	Uint32 _init[5] = { path.systemIndex, Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
+	Random rand(_init, 5);
+
+	std::set<SceneGraph::Model*, bool(*)(SceneGraph::Model *mlhs, SceneGraph::Model *mrhs)> modelSet(fn_pt);
+	for (unsigned int i=0; i<COUNTOF(s_buildingLists); i++) {
+		for (unsigned int j=0; j<s_buildingLists[i].numBuildings; j++) {
+			SceneGraph::Model *m = s_buildingLists[i].buildings[j].resolvedModel;
+			modelSet.insert(m);
+		}
+	}
+	
+	SceneGraph::ModelSkin skin;
+	typedef std::set<SceneGraph::Model*>::iterator TSetIter;
+	for (TSetIter it=modelSet.begin(), itEnd=modelSet.end(); it!=itEnd; ++it) {
+		SceneGraph::Model *m = (*it);
+		skin.SetRandomColors(rand);
+		skin.SetPattern(rand.Int32(0, m->GetNumPatterns()));
+		skin.Apply(m);
+	}
+}
+
 CityOnPlanet::~CityOnPlanet()
 {
 	// frame may be null (already removed from
@@ -224,7 +256,7 @@ CityOnPlanet::~CityOnPlanet()
 	}
 }
 
-CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed)
+CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 seed)
 {
 	m_buildings.clear();
 	m_buildings.reserve(DEFAULT_NUM_BUILDINGS);

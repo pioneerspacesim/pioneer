@@ -92,6 +92,8 @@ public:
 
 	Model *MakeInstance() const;
 
+	const std::string& GetName() const { return m_name; }
+
 	float GetDrawClipRadius() const { return m_boundingRadius; }
 	void Render(const matrix4x4f &trans, const RenderData *rd = 0); //ModelNode can override RD
 	RefCountedPtr<CollMesh> CreateCollisionMesh();
