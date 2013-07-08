@@ -31,6 +31,9 @@ Widget::~Widget()
 	// delete the widget by requiring it to clear the widgets references
 	// before deletion
 	assert(!m_container);
+
+	for (std::map<std::string,sigc::connection>::iterator i = m_binds.begin(); i != m_binds.end(); ++i)
+		(*i).second.disconnect();
 }
 
 Point Widget::GetAbsolutePosition() const
