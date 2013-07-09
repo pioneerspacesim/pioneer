@@ -7,6 +7,7 @@
 #include "Frame.h"
 #include "Star.h"
 #include "Planet.h"
+#include "CityOnPlanet.h"
 #include <algorithm>
 #include <functional>
 #include "Pi.h"
@@ -55,7 +56,6 @@ void Space::BodyNearFinder::GetBodiesMaybeNear(const vector3d &pos, double dist,
 	}
 }
 
-
 Space::Space(Game *game)
 	: m_game(game)
 	, m_frameIndexValid(false)
@@ -85,6 +85,8 @@ Space::Space(Game *game, const SystemPath &path)
 	m_starSystem = StarSystem::GetCached(path);
 	m_background.Refresh(m_starSystem->GetSeed());
 
+	CityOnPlanet::SetCityModelPatterns(m_starSystem->GetPath());
+
 	// XXX set radius in constructor
 	m_rootFrame.Reset(new Frame(0, Lang::SYSTEM));
 	m_rootFrame->SetRadius(FLT_MAX);
@@ -109,6 +111,8 @@ Space::Space(Game *game, Serializer::Reader &rd)
 	m_starSystem = StarSystem::Unserialize(rd);
 	m_background.Refresh(m_starSystem->GetSeed());
 	RebuildSystemBodyIndex();
+
+	CityOnPlanet::SetCityModelPatterns(m_starSystem->GetPath());
 
 	Serializer::Reader section = rd.RdSection("Frames");
 	m_rootFrame.Reset(Frame::Unserialize(section, this, 0));
