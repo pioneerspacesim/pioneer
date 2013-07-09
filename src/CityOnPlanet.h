@@ -7,6 +7,7 @@
 #include "libs.h"
 #include "Random.h"
 #include "Object.h"
+#include "galaxy/StarSystem.h"
 
 class Planet;
 class SpaceStation;

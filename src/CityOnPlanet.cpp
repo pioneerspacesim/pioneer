@@ -7,13 +7,13 @@
 #include "Frame.h"
 #include "Game.h"
 #include "ModelCache.h"
-#include "scenegraph\Model.h"
 #include "Pi.h"
 #include "Planet.h"
 #include "SpaceStation.h"
 #include "collider/Geom.h"
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
+#include "scenegraph/Model.h"
 #include "scenegraph/SceneGraph.h"
 #include <set>
 
@@ -35,7 +35,7 @@ struct citybuilding_t {
 struct citybuildinglist_t {
 	const char *modelTagName;
 	double minRadius, maxRadius;
-	int numBuildings;
+	unsigned int numBuildings;
 	citybuilding_t *buildings;
 };
 
