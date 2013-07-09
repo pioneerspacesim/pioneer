@@ -26,7 +26,7 @@ int getNumCores() {
 #elif defined(__APPLE__)
     int nm[2];
     size_t len = 4;
-    Uint32 count;
+    u_int count;
 
     nm[0] = CTL_HW; nm[1] = HW_AVAILCPU;
     sysctl(nm, 2, &count, &len, NULL, 0);
