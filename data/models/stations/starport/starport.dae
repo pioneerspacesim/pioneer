@@ -26,10 +26,10 @@
                 Save 3ds Max Profile: Yes;
                 Formatted Arrays: Yes;
             </comments>
-            <source_data>file:///C:/Users/rivalin/Creative/Personal%20Work/Paragon/Paragon/PARAGON/data/models/stations/starport/starport.dae</source_data>
+            <source_data>file:///C:/Users/rivalin/Creative/Personal%20Work/Paragon/Paragon/PARAGON3DEV3/data/models/stations/starport/starport.dae</source_data>
         </contributor>
-        <created>2013-05-26T11:28:32Z</created>
-        <modified>2013-05-26T11:28:32Z</modified>
+        <created>2013-07-09T15:57:42Z</created>
+        <modified>2013-07-09T15:57:42Z</modified>
         <up_axis>Y_UP</up_axis>
     </asset>
     <library_cameras>
@@ -21646,7 +21646,7 @@
         </geometry>
     </library_geometries>
     <library_lights>
-        <light id="Light-polyRender009" name="Render">
+        <light id="Light-polyRender026" name="Render">
             <technique_common>
                 <ambient>
                     <color sid="ambient_light_rgb">0.05 0.05 0.05</color>
@@ -21772,8 +21772,83 @@
     </library_nodes>
     <library_visual_scenes>
         <visual_scene id="DefaultScene">
-            <node id="polyRender009" name="Render" type="NODE">
-                <instance_light url="#Light-polyRender009" />
+            <node id="polyRender026" name="Render" type="NODE">
+                <instance_light url="#Light-polyRender026" />
+            </node>
+            <node id="navlight_red_1Node" name="navlight_red_1" type="NODE">
+                <translate sid="translation001">-75 61.1 75</translate>
+            </node>
+            <node id="navlight_red_1__2_Node" name="navlight_red_1__2_" type="NODE">
+                <translate sid="translation002">-75 61 225</translate>
+            </node>
+            <node id="navlight_red_1__3_Node" name="navlight_red_1__3_" type="NODE">
+                <translate sid="translation003">-225 61.1 225</translate>
+            </node>
+            <node id="navlight_red_1__4_Node" name="navlight_red_1__4_" type="NODE">
+                <translate sid="translation004">225 61.1 225</translate>
+            </node>
+            <node id="navlight_red_1__5_Node" name="navlight_red_1__5_" type="NODE">
+                <translate sid="translation005">225 61.1 75</translate>
+            </node>
+            <node id="navlight_red_1__6_Node" name="navlight_red_1__6_" type="NODE">
+                <translate sid="translation006">-225 61.1 75</translate>
+            </node>
+            <node id="navlight_red_1__7_Node" name="navlight_red_1__7_" type="NODE">
+                <translate sid="translation007">-225 61.1 -200</translate>
+            </node>
+            <node id="navlight_red_1__8_Node" name="navlight_red_1__8_" type="NODE">
+                <translate sid="translation008">-75 61.1 -200</translate>
+            </node>
+            <node id="navlight_red_1__9_Node" name="navlight_red_1__9_" type="NODE">
+                <translate sid="translation009">-225 61.1 -550</translate>
+            </node>
+            <node id="navlight_red_1__10_Node" name="navlight_red_1__10_" type="NODE">
+                <translate sid="translation010">-75 61.1 -550</translate>
+            </node>
+            <node id="navlight_red_1__11_Node" name="navlight_red_1__11_" type="NODE">
+                <translate sid="translation011">-225 61.1 -725</translate>
+            </node>
+            <node id="navlight_red_1__12_Node" name="navlight_red_1__12_" type="NODE">
+                <translate sid="translation012">-75 61.1 -725</translate>
+            </node>
+            <node id="navlight_red_1__13_Node" name="navlight_red_1__13_" type="NODE">
+                <translate sid="translation013">225 61.1 -725</translate>
+            </node>
+            <node id="navlight_red_1__16_Node" name="navlight_red_1__16_" type="NODE">
+                <translate sid="translation014">141.252 129.48 -659.72</translate>
+            </node>
+            <node id="navlight_red_1__17_Node" name="navlight_red_1__17_" type="NODE">
+                <translate sid="translation015">123.642 129.48 -642.111</translate>
+            </node>
+            <node id="navlight_red_1__18_Node" name="navlight_red_1__18_" type="NODE">
+                <translate sid="translation016">142.11 129.48 -623.643</translate>
+            </node>
+            <node id="navlight_red_1__19_Node" name="navlight_red_1__19_" type="NODE">
+                <translate sid="translation017">159.72 129.48 -641.252</translate>
+            </node>
+            <node id="locator033Node" name="navlight_green_1__5___2_" type="NODE">
+                <translate sid="translation034">200 60.1 50</translate>
+            </node>
+            <node id="locator035Node" name="navlight_green_1__5___2___2_" type="NODE">
+                <translate sid="translation036">-50 60.1 50</translate>
+            </node>
+            <node id="locator037Node" name="navlight_green_1__5___2___3_" type="NODE">
+                <translate sid="translation039">-50 60.1 -700</translate>
+            </node>
+            <node id="locator038Node" name="navlight_green_1__5___2___4_" type="NODE">
+                <translate sid="translation040">197 61.1 -697</translate>
+            </node>
+            <node id="locator041Node" name="navlight_green_1__5___2___5_" type="NODE">
+                <translate sid="translation042">200 60.1 -576</translate>
+            </node>
+            <node id="locator043Node" name="navlight_green_1__5___2___6_" type="NODE">
+                <translate sid="translation044">66 60.1 -576</translate>
+            </node>
+            <node id="locator045Node" name="navlight_green_1__5___2___7_" type="NODE">
+                <translate sid="translation046">66 60.1 -700</translate>
+            </node>
+            <node id="locator047Node" name="navlight_green_1__5___2___8_" type="NODE">
+                <translate sid="translation048">-50 61.1 -576</translate>
             </node>
             <node id="Geometry-MeshNode" name="Mesh" type="NODE">
                 <instance_geometry url="#Geometry-Mesh">
@@ -21794,17 +21869,17 @@
                 </instance_geometry>
             </node>
             <node id="Camera-CameraNode" name="Camera" type="NODE">
-                <translate sid="translation001">234.507 179.736 -1081.56</translate>
-                <rotate sid="rotation003Y">0 1 0 164.152</rotate>
-                <rotate sid="rotation003X">1 0 0 -13.8808</rotate>
-                <rotate sid="rotation003Z">0 0 1 3.37479e-015</rotate>
+                <translate sid="translation018">234.507 179.736 -1081.56</translate>
+                <rotate sid="rotation020Y">0 1 0 164.152</rotate>
+                <rotate sid="rotation020X">1 0 0 -13.8808</rotate>
+                <rotate sid="rotation020Z">0 0 1 3.37479e-015</rotate>
                 <instance_camera url="#Camera-Camera" />
             </node>
             <node id="Light-Directional_LightNode" name="Directional_Light" type="NODE">
-                <translate sid="translation002">-2 2 2</translate>
-                <rotate sid="rotation004Y">0 1 0 -45</rotate>
-                <rotate sid="rotation004X">1 0 0 -30</rotate>
-                <rotate sid="rotation004Z">0 0 1 0</rotate>
+                <translate sid="translation019">-2 2 2</translate>
+                <rotate sid="rotation021Y">0 1 0 -45</rotate>
+                <rotate sid="rotation021X">1 0 0 -30</rotate>
+                <rotate sid="rotation021Z">0 0 1 0</rotate>
                 <instance_light url="#Light-Directional_Light" />
             </node>
             <extra>
