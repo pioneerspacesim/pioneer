@@ -26,10 +26,10 @@
                 Save 3ds Max Profile: Yes;
                 Formatted Arrays: Yes;
             </comments>
-            <source_data>file:///C:/Users/rivalin/Creative/Personal%20Work/Paragon/Paragon/pioneer/data/models/stations/tradestation/tradestation.dae</source_data>
+            <source_data>file:///C:/Users/rivalin/Creative/Personal%20Work/Paragon/Paragon/PARAGON3DEV3/data/models/stations/tradestation/tradestation.dae</source_data>
         </contributor>
-        <created>2013-05-19T18:58:24Z</created>
-        <modified>2013-05-19T18:58:24Z</modified>
+        <created>2013-07-08T23:21:37Z</created>
+        <modified>2013-07-08T23:21:37Z</modified>
         <up_axis>Y_UP</up_axis>
     </asset>
     <library_cameras>
@@ -45450,7 +45450,7 @@
         </geometry>
     </library_geometries>
     <library_lights>
-        <light id="Light-polyRender010" name="Render">
+        <light id="Light-polyRender198" name="Render">
             <technique_common>
                 <ambient>
                     <color sid="ambient_light_rgb">0.05 0.05 0.05</color>
@@ -45576,15 +45576,537 @@
     </library_nodes>
     <library_visual_scenes>
         <visual_scene id="DefaultScene">
-            <node id="polyRender010" name="Render" type="NODE">
-                <instance_light url="#Light-polyRender010" />
+            <node id="polyRender198" name="Render" type="NODE">
+                <instance_light url="#Light-polyRender198" />
+            </node>
+            <node id="navlight_red_1Node" name="navlight_red_1" type="NODE">
+                <translate sid="translation001">128 -570 0</translate>
+            </node>
+            <node id="navlight_red_1__6_Node" name="navlight_red_1__6_" type="NODE">
+                <translate sid="translation002">142.627 -328.12 0</translate>
+            </node>
+            <node id="navlight_red_1__7_Node" name="navlight_red_1__7_" type="NODE">
+                <translate sid="translation003">149.365 -259.154 0</translate>
+            </node>
+            <node id="navlight_red_1__9_Node" name="navlight_red_1__9_" type="NODE">
+                <translate sid="translation004">197.964 -107.948 0</translate>
+            </node>
+            <node id="navlight_red_1__2_Node" name="navlight_red_1__2_" type="NODE">
+                <translate sid="translation005">223.464 524.502 14</translate>
+            </node>
+            <node id="navlight_red_1__3_Node" name="navlight_red_1__3_" type="NODE">
+                <translate sid="translation006">223.464 524.502 -14</translate>
+            </node>
+            <node id="navlight_red_1__8_Node" name="navlight_red_1__8_" type="NODE">
+                <translate sid="translation009">448.549 352.15 10.4692</translate>
+            </node>
+            <node id="navlight_red_1__10_Node" name="navlight_red_1__10_" type="NODE">
+                <translate sid="translation010">448.549 352.15 -10.4692</translate>
+            </node>
+            <node id="navlight_red_1__11_Node" name="navlight_red_1__11_" type="NODE">
+                <translate sid="translation011">788.549 352.15 -10.4692</translate>
+            </node>
+            <node id="navlight_red_1__12_Node" name="navlight_red_1__12_" type="NODE">
+                <translate sid="translation012">788.549 352.15 10.4692</translate>
+            </node>
+            <node id="navlight_red_1__13_Node" name="navlight_red_1__13_" type="NODE">
+                <translate sid="translation013">448.549 316.85 -10.4692</translate>
+            </node>
+            <node id="navlight_red_1__14_Node" name="navlight_red_1__14_" type="NODE">
+                <translate sid="translation014">448.549 316.85 10.4692</translate>
+            </node>
+            <node id="navlight_red_1__15_Node" name="navlight_red_1__15_" type="NODE">
+                <translate sid="translation015">788.549 316.85 10.4692</translate>
+            </node>
+            <node id="navlight_red_1__16_Node" name="navlight_red_1__16_" type="NODE">
+                <translate sid="translation016">788.549 316.85 -10.4692</translate>
+            </node>
+            <node id="navlight_red_1__17_Node" name="navlight_red_1__17_" type="NODE">
+                <translate sid="translation017">788.549 317 10.4692</translate>
+            </node>
+            <node id="navlight_red_1__18_Node" name="navlight_red_1__18_" type="NODE">
+                <translate sid="translation018">788.549 317 -10.4692</translate>
+            </node>
+            <node id="navlight_red_1__19_Node" name="navlight_red_1__19_" type="NODE">
+                <translate sid="translation019">788.549 352 10.4692</translate>
+            </node>
+            <node id="navlight_red_1__20_Node" name="navlight_red_1__20_" type="NODE">
+                <translate sid="translation020">788.549 352 -10.4692</translate>
+            </node>
+            <node id="navlight_red_1__29_Node" name="navlight_red_1__29_" type="NODE">
+                <translate sid="translation021">1006.26 302 -148.069</translate>
+            </node>
+            <node id="navlight_red_1__30_Node" name="navlight_red_1__30_" type="NODE">
+                <translate sid="translation022">1006.26 367 -148.069</translate>
+            </node>
+            <node id="navlight_red_1__31_Node" name="navlight_red_1__31_" type="NODE">
+                <translate sid="translation023">1006.26 302 148.069</translate>
+            </node>
+            <node id="navlight_red_1__32_Node" name="navlight_red_1__32_" type="NODE">
+                <translate sid="translation024">1006.26 367 148.069</translate>
+            </node>
+            <node id="navlight_red_1__33_Node" name="navlight_red_1__33_" type="NODE">
+                <translate sid="translation025">394.579 34.5 -391.248</translate>
+            </node>
+            <node id="navlight_red_1__35_Node" name="navlight_red_1__35_" type="NODE">
+                <translate sid="translation026">394.579 9.5 -391.248</translate>
+            </node>
+            <node id="navlight_red_1__38_Node" name="navlight_red_1__38_" type="NODE">
+                <translate sid="translation027">394.579 -10.5 391.248</translate>
+            </node>
+            <node id="navlight_red_1__39_Node" name="navlight_red_1__39_" type="NODE">
+                <translate sid="translation028">394.579 14.5 391.248</translate>
+            </node>
+            <node id="navlight_red_1__36_Node" name="navlight_red_1__36_" type="NODE">
+                <translate sid="translation029">101 -594 -28.5</translate>
+            </node>
+            <node id="navlight_red_1__37_Node" name="navlight_red_1__37_" type="NODE">
+                <translate sid="translation030">101 -594 28.5</translate>
+            </node>
+            <node id="navlight_red_1__40_Node" name="navlight_red_1__40_" type="NODE">
+                <translate sid="translation031">101 -629 -28.5</translate>
+            </node>
+            <node id="navlight_red_1__41_Node" name="navlight_red_1__41_" type="NODE">
+                <translate sid="translation032">101 -629 28.5</translate>
+            </node>
+            <node id="navlight_red_1__42_Node" name="navlight_red_1__42_" type="NODE">
+                <translate sid="translation033">-10.4692 352.15 -448.549</translate>
+                <rotate sid="rotation116Y">0 1 0 90</rotate>
+                <rotate sid="rotation116X">1 0 0 0</rotate>
+                <rotate sid="rotation116Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__45_Node" name="navlight_red_1__45_" type="NODE">
+                <translate sid="translation034">-14 524.502 -223.464</translate>
+                <rotate sid="rotation117Y">0 1 0 90</rotate>
+                <rotate sid="rotation117X">1 0 0 0</rotate>
+                <rotate sid="rotation117Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__47_Node" name="navlight_red_1__47_" type="NODE">
+                <translate sid="translation035">148.069 302 -1006.26</translate>
+                <rotate sid="rotation118Y">0 1 0 90</rotate>
+                <rotate sid="rotation118X">1 0 0 0</rotate>
+                <rotate sid="rotation118Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__49_Node" name="navlight_red_1__49_" type="NODE">
+                <translate sid="translation036">10.4692 352.15 -448.549</translate>
+                <rotate sid="rotation119Y">0 1 0 90</rotate>
+                <rotate sid="rotation119X">1 0 0 0</rotate>
+                <rotate sid="rotation119Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__50_Node" name="navlight_red_1__50_" type="NODE">
+                <translate sid="translation037">9.14594e-015 -259.154 -149.365</translate>
+                <rotate sid="rotation120Y">0 1 0 90</rotate>
+                <rotate sid="rotation120X">1 0 0 0</rotate>
+                <rotate sid="rotation120Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__51_Node" name="navlight_red_1__51_" type="NODE">
+                <translate sid="translation038">8.73335e-015 -328.12 -142.627</translate>
+                <rotate sid="rotation121Y">0 1 0 90</rotate>
+                <rotate sid="rotation121X">1 0 0 0</rotate>
+                <rotate sid="rotation121Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__53_Node" name="navlight_red_1__53_" type="NODE">
+                <translate sid="translation039">-10.4692 316.85 -448.549</translate>
+                <rotate sid="rotation122Y">0 1 0 90</rotate>
+                <rotate sid="rotation122X">1 0 0 0</rotate>
+                <rotate sid="rotation122Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__54_Node" name="navlight_red_1__54_" type="NODE">
+                <translate sid="translation040">10.4692 316.85 -788.549</translate>
+                <rotate sid="rotation123Y">0 1 0 90</rotate>
+                <rotate sid="rotation123X">1 0 0 0</rotate>
+                <rotate sid="rotation123Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__56_Node" name="navlight_red_1__56_" type="NODE">
+                <translate sid="translation041">10.4692 316.85 -448.549</translate>
+                <rotate sid="rotation124Y">0 1 0 90</rotate>
+                <rotate sid="rotation124X">1 0 0 0</rotate>
+                <rotate sid="rotation124Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__59_Node" name="navlight_red_1__59_" type="NODE">
+                <translate sid="translation042">-10.4692 317 -788.549</translate>
+                <rotate sid="rotation125Y">0 1 0 90</rotate>
+                <rotate sid="rotation125X">1 0 0 0</rotate>
+                <rotate sid="rotation125Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__61_Node" name="navlight_red_1__61_" type="NODE">
+                <translate sid="translation043">148.069 367 -1006.26</translate>
+                <rotate sid="rotation126Y">0 1 0 90</rotate>
+                <rotate sid="rotation126X">1 0 0 0</rotate>
+                <rotate sid="rotation126Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__64_Node" name="navlight_red_1__64_" type="NODE">
+                <translate sid="translation044">14 524.502 -223.464</translate>
+                <rotate sid="rotation127Y">0 1 0 90</rotate>
+                <rotate sid="rotation127X">1 0 0 0</rotate>
+                <rotate sid="rotation127Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__68_Node" name="navlight_red_1__68_" type="NODE">
+                <translate sid="translation045">-10.4692 316.85 -788.549</translate>
+                <rotate sid="rotation128Y">0 1 0 90</rotate>
+                <rotate sid="rotation128X">1 0 0 0</rotate>
+                <rotate sid="rotation128Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__69_Node" name="navlight_red_1__69_" type="NODE">
+                <translate sid="translation046">-148.069 367 -1006.26</translate>
+                <rotate sid="rotation129Y">0 1 0 90</rotate>
+                <rotate sid="rotation129X">1 0 0 0</rotate>
+                <rotate sid="rotation129Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__70_Node" name="navlight_red_1__70_" type="NODE">
+                <translate sid="translation047">-10.4692 352 -788.549</translate>
+                <rotate sid="rotation130Y">0 1 0 90</rotate>
+                <rotate sid="rotation130X">1 0 0 0</rotate>
+                <rotate sid="rotation130Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__71_Node" name="navlight_red_1__71_" type="NODE">
+                <translate sid="translation048">10.4692 352 -788.549</translate>
+                <rotate sid="rotation131Y">0 1 0 90</rotate>
+                <rotate sid="rotation131X">1 0 0 0</rotate>
+                <rotate sid="rotation131Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__75_Node" name="navlight_red_1__75_" type="NODE">
+                <translate sid="translation050">-148.069 302 -1006.26</translate>
+                <rotate sid="rotation133Y">0 1 0 90</rotate>
+                <rotate sid="rotation133X">1 0 0 0</rotate>
+                <rotate sid="rotation133Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__76_Node" name="navlight_red_1__76_" type="NODE">
+                <translate sid="translation051">1.21218e-014 -107.948 -197.964</translate>
+                <rotate sid="rotation134Y">0 1 0 90</rotate>
+                <rotate sid="rotation134X">1 0 0 0</rotate>
+                <rotate sid="rotation134Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__77_Node" name="navlight_red_1__77_" type="NODE">
+                <translate sid="translation052">7.83774e-015 -570 -128</translate>
+                <rotate sid="rotation135Y">0 1 0 90</rotate>
+                <rotate sid="rotation135X">1 0 0 0</rotate>
+                <rotate sid="rotation135Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__78_Node" name="navlight_red_1__78_" type="NODE">
+                <translate sid="translation053">-10.4692 352.15 -788.549</translate>
+                <rotate sid="rotation136Y">0 1 0 90</rotate>
+                <rotate sid="rotation136X">1 0 0 0</rotate>
+                <rotate sid="rotation136Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__80_Node" name="navlight_red_1__80_" type="NODE">
+                <translate sid="translation055">10.4692 317 -788.549</translate>
+                <rotate sid="rotation138Y">0 1 0 90</rotate>
+                <rotate sid="rotation138X">1 0 0 0</rotate>
+                <rotate sid="rotation138Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__81_Node" name="navlight_red_1__81_" type="NODE">
+                <translate sid="translation056">10.4692 352.15 -788.549</translate>
+                <rotate sid="rotation139Y">0 1 0 90</rotate>
+                <rotate sid="rotation139X">1 0 0 0</rotate>
+                <rotate sid="rotation139Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__83_Node" name="navlight_red_1__83_" type="NODE">
+                <translate sid="translation057">-223.464 524.502 -14</translate>
+                <rotate sid="rotation140Y">0 1 0 180</rotate>
+                <rotate sid="rotation140X">1 0 0 0</rotate>
+                <rotate sid="rotation140Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__85_Node" name="navlight_red_1__85_" type="NODE">
+                <translate sid="translation058">-788.549 317 10.4692</translate>
+                <rotate sid="rotation141Y">0 1 0 180</rotate>
+                <rotate sid="rotation141X">1 0 0 0</rotate>
+                <rotate sid="rotation141Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__86_Node" name="navlight_red_1__86_" type="NODE">
+                <translate sid="translation059">-149.365 -259.154 -1.82919e-014</translate>
+                <rotate sid="rotation142Y">0 1 0 180</rotate>
+                <rotate sid="rotation142X">1 0 0 0</rotate>
+                <rotate sid="rotation142Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__88_Node" name="navlight_red_1__88_" type="NODE">
+                <translate sid="translation061">-788.549 317 -10.4692</translate>
+                <rotate sid="rotation144Y">0 1 0 180</rotate>
+                <rotate sid="rotation144X">1 0 0 0</rotate>
+                <rotate sid="rotation144Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__89_Node" name="navlight_red_1__89_" type="NODE">
+                <translate sid="translation062">-142.627 -328.12 -1.74667e-014</translate>
+                <rotate sid="rotation145Y">0 1 0 180</rotate>
+                <rotate sid="rotation145X">1 0 0 0</rotate>
+                <rotate sid="rotation145Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__90_Node" name="navlight_red_1__90_" type="NODE">
+                <translate sid="translation063">-788.549 352.15 -10.4692</translate>
+                <rotate sid="rotation146Y">0 1 0 180</rotate>
+                <rotate sid="rotation146X">1 0 0 0</rotate>
+                <rotate sid="rotation146Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__91_Node" name="navlight_red_1__91_" type="NODE">
+                <translate sid="translation064">-448.549 352.15 10.4692</translate>
+                <rotate sid="rotation147Y">0 1 0 180</rotate>
+                <rotate sid="rotation147X">1 0 0 0</rotate>
+                <rotate sid="rotation147Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__93_Node" name="navlight_red_1__93_" type="NODE">
+                <translate sid="translation065">-448.549 316.85 -10.4692</translate>
+                <rotate sid="rotation148Y">0 1 0 180</rotate>
+                <rotate sid="rotation148X">1 0 0 0</rotate>
+                <rotate sid="rotation148Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__95_Node" name="navlight_red_1__95_" type="NODE">
+                <translate sid="translation066">-101 -594 -28.5</translate>
+                <rotate sid="rotation149Y">0 1 0 180</rotate>
+                <rotate sid="rotation149X">1 0 0 0</rotate>
+                <rotate sid="rotation149Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__96_Node" name="navlight_red_1__96_" type="NODE">
+                <translate sid="translation067">-101 -594 28.5</translate>
+                <rotate sid="rotation150Y">0 1 0 180</rotate>
+                <rotate sid="rotation150X">1 0 0 0</rotate>
+                <rotate sid="rotation150Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__97_Node" name="navlight_red_1__97_" type="NODE">
+                <translate sid="translation068">-128 -570 -1.56755e-014</translate>
+                <rotate sid="rotation151Y">0 1 0 180</rotate>
+                <rotate sid="rotation151X">1 0 0 0</rotate>
+                <rotate sid="rotation151Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__98_Node" name="navlight_red_1__98_" type="NODE">
+                <translate sid="translation069">-788.549 352 10.4692</translate>
+                <rotate sid="rotation152Y">0 1 0 180</rotate>
+                <rotate sid="rotation152X">1 0 0 0</rotate>
+                <rotate sid="rotation152Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__99_Node" name="navlight_red_1__99_" type="NODE">
+                <translate sid="translation070">-1006.26 302 -148.069</translate>
+                <rotate sid="rotation153Y">0 1 0 180</rotate>
+                <rotate sid="rotation153X">1 0 0 0</rotate>
+                <rotate sid="rotation153Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__100_Node" name="navlight_red_1__100_" type="NODE">
+                <translate sid="translation071">-101 -629 28.5</translate>
+                <rotate sid="rotation154Y">0 1 0 180</rotate>
+                <rotate sid="rotation154X">1 0 0 0</rotate>
+                <rotate sid="rotation154Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__102_Node" name="navlight_red_1__102_" type="NODE">
+                <translate sid="translation072">-448.549 316.85 10.4692</translate>
+                <rotate sid="rotation155Y">0 1 0 180</rotate>
+                <rotate sid="rotation155X">1 0 0 0</rotate>
+                <rotate sid="rotation155Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__104_Node" name="navlight_red_1__104_" type="NODE">
+                <translate sid="translation073">-448.549 352.15 -10.4692</translate>
+                <rotate sid="rotation156Y">0 1 0 180</rotate>
+                <rotate sid="rotation156X">1 0 0 0</rotate>
+                <rotate sid="rotation156Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__106_Node" name="navlight_red_1__106_" type="NODE">
+                <translate sid="translation075">-101 -629 -28.5</translate>
+                <rotate sid="rotation158Y">0 1 0 180</rotate>
+                <rotate sid="rotation158X">1 0 0 0</rotate>
+                <rotate sid="rotation158Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__107_Node" name="navlight_red_1__107_" type="NODE">
+                <translate sid="translation076">-1006.26 302 148.069</translate>
+                <rotate sid="rotation159Y">0 1 0 180</rotate>
+                <rotate sid="rotation159X">1 0 0 0</rotate>
+                <rotate sid="rotation159Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__108_Node" name="navlight_red_1__108_" type="NODE">
+                <translate sid="translation077">-223.464 524.502 14</translate>
+                <rotate sid="rotation160Y">0 1 0 180</rotate>
+                <rotate sid="rotation160X">1 0 0 0</rotate>
+                <rotate sid="rotation160Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__110_Node" name="navlight_red_1__110_" type="NODE">
+                <translate sid="translation078">-788.549 352.15 10.4692</translate>
+                <rotate sid="rotation161Y">0 1 0 180</rotate>
+                <rotate sid="rotation161X">1 0 0 0</rotate>
+                <rotate sid="rotation161Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__113_Node" name="navlight_red_1__113_" type="NODE">
+                <translate sid="translation079">-788.549 316.85 10.4692</translate>
+                <rotate sid="rotation162Y">0 1 0 180</rotate>
+                <rotate sid="rotation162X">1 0 0 0</rotate>
+                <rotate sid="rotation162Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__114_Node" name="navlight_red_1__114_" type="NODE">
+                <translate sid="translation080">-788.549 316.85 -10.4692</translate>
+                <rotate sid="rotation163Y">0 1 0 180</rotate>
+                <rotate sid="rotation163X">1 0 0 0</rotate>
+                <rotate sid="rotation163Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__118_Node" name="navlight_red_1__118_" type="NODE">
+                <translate sid="translation081">-197.964 -107.948 -2.42435e-014</translate>
+                <rotate sid="rotation164Y">0 1 0 180</rotate>
+                <rotate sid="rotation164X">1 0 0 0</rotate>
+                <rotate sid="rotation164Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__119_Node" name="navlight_red_1__119_" type="NODE">
+                <translate sid="translation082">-1006.26 367 148.069</translate>
+                <rotate sid="rotation165Y">0 1 0 180</rotate>
+                <rotate sid="rotation165X">1 0 0 0</rotate>
+                <rotate sid="rotation165Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__122_Node" name="navlight_red_1__122_" type="NODE">
+                <translate sid="translation083">-788.549 352 -10.4692</translate>
+                <rotate sid="rotation166Y">0 1 0 180</rotate>
+                <rotate sid="rotation166X">1 0 0 0</rotate>
+                <rotate sid="rotation166Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__123_Node" name="navlight_red_1__123_" type="NODE">
+                <translate sid="translation084">-1006.26 367 -148.069</translate>
+                <rotate sid="rotation167Y">0 1 0 180</rotate>
+                <rotate sid="rotation167X">1 0 0 0</rotate>
+                <rotate sid="rotation167Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__128_Node" name="navlight_red_1__128_" type="NODE">
+                <translate sid="translation086">-10.4692 352.15 448.549</translate>
+                <rotate sid="rotation169Y">0 1 0 270</rotate>
+                <rotate sid="rotation169X">1 0 0 0</rotate>
+                <rotate sid="rotation169Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__130_Node" name="navlight_red_1__130_" type="NODE">
+                <translate sid="translation087">10.4692 352 788.549</translate>
+                <rotate sid="rotation170Y">0 1 0 270</rotate>
+                <rotate sid="rotation170X">1 0 0 0</rotate>
+                <rotate sid="rotation170Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__132_Node" name="navlight_red_1__132_" type="NODE">
+                <translate sid="translation088">-2.62001e-014 -328.12 142.627</translate>
+                <rotate sid="rotation171Y">0 1 0 270</rotate>
+                <rotate sid="rotation171X">1 0 0 0</rotate>
+                <rotate sid="rotation171Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__133_Node" name="navlight_red_1__133_" type="NODE">
+                <translate sid="translation089">10.4692 316.85 788.549</translate>
+                <rotate sid="rotation172Y">0 1 0 270</rotate>
+                <rotate sid="rotation172X">1 0 0 0</rotate>
+                <rotate sid="rotation172Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__136_Node" name="navlight_red_1__136_" type="NODE">
+                <translate sid="translation090">10.4692 317 788.549</translate>
+                <rotate sid="rotation173Y">0 1 0 270</rotate>
+                <rotate sid="rotation173X">1 0 0 0</rotate>
+                <rotate sid="rotation173Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__137_Node" name="navlight_red_1__137_" type="NODE">
+                <translate sid="translation091">14 524.502 223.464</translate>
+                <rotate sid="rotation174Y">0 1 0 270</rotate>
+                <rotate sid="rotation174X">1 0 0 0</rotate>
+                <rotate sid="rotation174Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__140_Node" name="navlight_red_1__140_" type="NODE">
+                <translate sid="translation093">10.4692 352.15 788.549</translate>
+                <rotate sid="rotation176Y">0 1 0 270</rotate>
+                <rotate sid="rotation176X">1 0 0 0</rotate>
+                <rotate sid="rotation176Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__143_Node" name="navlight_red_1__143_" type="NODE">
+                <translate sid="translation094">148.069 367 1006.26</translate>
+                <rotate sid="rotation177Y">0 1 0 270</rotate>
+                <rotate sid="rotation177X">1 0 0 0</rotate>
+                <rotate sid="rotation177Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__144_Node" name="navlight_red_1__144_" type="NODE">
+                <translate sid="translation095">-10.4692 316.85 788.549</translate>
+                <rotate sid="rotation178Y">0 1 0 270</rotate>
+                <rotate sid="rotation178X">1 0 0 0</rotate>
+                <rotate sid="rotation178Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__146_Node" name="navlight_red_1__146_" type="NODE">
+                <translate sid="translation096">148.069 302 1006.26</translate>
+                <rotate sid="rotation179Y">0 1 0 270</rotate>
+                <rotate sid="rotation179X">1 0 0 0</rotate>
+                <rotate sid="rotation179Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__147_Node" name="navlight_red_1__147_" type="NODE">
+                <translate sid="translation097">-10.4692 317 788.549</translate>
+                <rotate sid="rotation180Y">0 1 0 270</rotate>
+                <rotate sid="rotation180X">1 0 0 0</rotate>
+                <rotate sid="rotation180Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__148_Node" name="navlight_red_1__148_" type="NODE">
+                <translate sid="translation098">-14 524.502 223.464</translate>
+                <rotate sid="rotation181Y">0 1 0 270</rotate>
+                <rotate sid="rotation181X">1 0 0 0</rotate>
+                <rotate sid="rotation181Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__149_Node" name="navlight_red_1__149_" type="NODE">
+                <translate sid="translation099">-2.35132e-014 -570 128</translate>
+                <rotate sid="rotation182Y">0 1 0 270</rotate>
+                <rotate sid="rotation182X">1 0 0 0</rotate>
+                <rotate sid="rotation182Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__150_Node" name="navlight_red_1__150_" type="NODE">
+                <translate sid="translation100">10.4692 316.85 448.549</translate>
+                <rotate sid="rotation183Y">0 1 0 270</rotate>
+                <rotate sid="rotation183X">1 0 0 0</rotate>
+                <rotate sid="rotation183Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__151_Node" name="navlight_red_1__151_" type="NODE">
+                <translate sid="translation101">-10.4692 352.15 788.549</translate>
+                <rotate sid="rotation184Y">0 1 0 270</rotate>
+                <rotate sid="rotation184X">1 0 0 0</rotate>
+                <rotate sid="rotation184Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__154_Node" name="navlight_red_1__154_" type="NODE">
+                <translate sid="translation102">-10.4692 352 788.549</translate>
+                <rotate sid="rotation185Y">0 1 0 270</rotate>
+                <rotate sid="rotation185X">1 0 0 0</rotate>
+                <rotate sid="rotation185Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__155_Node" name="navlight_red_1__155_" type="NODE">
+                <translate sid="translation103">-3.63653e-014 -107.948 197.964</translate>
+                <rotate sid="rotation186Y">0 1 0 270</rotate>
+                <rotate sid="rotation186X">1 0 0 0</rotate>
+                <rotate sid="rotation186Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__157_Node" name="navlight_red_1__157_" type="NODE">
+                <translate sid="translation104">-148.069 302 1006.26</translate>
+                <rotate sid="rotation187Y">0 1 0 270</rotate>
+                <rotate sid="rotation187X">1 0 0 0</rotate>
+                <rotate sid="rotation187Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__159_Node" name="navlight_red_1__159_" type="NODE">
+                <translate sid="translation105">10.4692 352.15 448.549</translate>
+                <rotate sid="rotation188Y">0 1 0 270</rotate>
+                <rotate sid="rotation188X">1 0 0 0</rotate>
+                <rotate sid="rotation188Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__160_Node" name="navlight_red_1__160_" type="NODE">
+                <translate sid="translation106">-10.4692 316.85 448.549</translate>
+                <rotate sid="rotation189Y">0 1 0 270</rotate>
+                <rotate sid="rotation189X">1 0 0 0</rotate>
+                <rotate sid="rotation189Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__163_Node" name="navlight_red_1__163_" type="NODE">
+                <translate sid="translation107">-148.069 367 1006.26</translate>
+                <rotate sid="rotation190Y">0 1 0 270</rotate>
+                <rotate sid="rotation190X">1 0 0 0</rotate>
+                <rotate sid="rotation190Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__164_Node" name="navlight_red_1__164_" type="NODE">
+                <translate sid="translation108">-2.74378e-014 -259.154 149.365</translate>
+                <rotate sid="rotation191Y">0 1 0 270</rotate>
+                <rotate sid="rotation191X">1 0 0 0</rotate>
+                <rotate sid="rotation191Z">0 0 1 0</rotate>
+            </node>
+            <node id="navlight_red_1__165_Node" name="navlight_red_1__165_" type="NODE">
+                <translate sid="translation109">-394.579 -10.5 391.248</translate>
+            </node>
+            <node id="navlight_red_1__166_Node" name="navlight_red_1__166_" type="NODE">
+                <translate sid="translation110">-394.579 9.5 -391.248</translate>
+            </node>
+            <node id="navlight_red_1__167_Node" name="navlight_red_1__167_" type="NODE">
+                <translate sid="translation111">-394.579 14.5 391.248</translate>
+            </node>
+            <node id="navlight_red_1__168_Node" name="navlight_red_1__168_" type="NODE">
+                <translate sid="translation112">-394.579 34.5 -391.248</translate>
             </node>
             <node id="Geometry-collision_pad1Node" name="collision_pad1" type="NODE">
-                <translate sid="translation001">0 405.53 0.19825</translate>
-                <rotate sid="rotation004Z">0 0 1 0</rotate>
-                <rotate sid="rotation004Y">0 1 0 0</rotate>
-                <rotate sid="rotation004X">1 0 0 0</rotate>
-                <scale sid="scale007">2 7.175 1</scale>
+                <translate sid="translation113">0 405.53 0.19825</translate>
+                <rotate sid="rotation192Z">0 0 1 0</rotate>
+                <rotate sid="rotation192Y">0 1 0 0</rotate>
+                <rotate sid="rotation192X">1 0 0 0</rotate>
+                <scale sid="scale195">2 7.175 1</scale>
                 <instance_geometry url="#Geometry-collision_pad1">
                     <bind_material>
                         <technique_common>
@@ -45603,17 +46125,17 @@
                 </instance_geometry>
             </node>
             <node id="Camera-CameraNode" name="Camera" type="NODE">
-                <translate sid="translation002">3954.8 2158.15 2616.55</translate>
-                <rotate sid="rotation005Y">0 1 0 53.6755</rotate>
-                <rotate sid="rotation005X">1 0 0 -25.0535</rotate>
-                <rotate sid="rotation005Z">0 0 1 2.05e-014</rotate>
+                <translate sid="translation114">3954.8 2158.15 2616.55</translate>
+                <rotate sid="rotation193Y">0 1 0 53.6755</rotate>
+                <rotate sid="rotation193X">1 0 0 -25.0535</rotate>
+                <rotate sid="rotation193Z">0 0 1 2.05e-014</rotate>
                 <instance_camera url="#Camera-Camera" />
             </node>
             <node id="Light-Directional_LightNode" name="Directional_Light" type="NODE">
-                <translate sid="translation003">-1 1 1</translate>
-                <rotate sid="rotation006Y">0 1 0 -45</rotate>
-                <rotate sid="rotation006X">1 0 0 -30</rotate>
-                <rotate sid="rotation006Z">0 0 1 0</rotate>
+                <translate sid="translation115">-1 1 1</translate>
+                <rotate sid="rotation194Y">0 1 0 -45</rotate>
+                <rotate sid="rotation194X">1 0 0 -30</rotate>
+                <rotate sid="rotation194Z">0 0 1 0</rotate>
                 <instance_light url="#Light-Directional_Light" />
             </node>
             <extra>
