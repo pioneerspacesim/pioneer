@@ -376,8 +376,10 @@ uitest_SOURCES = \
 	LuaObject.cpp \
 	LuaConstants.cpp \
 	LuaRef.cpp \
+	LuaPropertiedObject.cpp \
 	PngWriter.cpp \
 	EnumStrings.cpp \
+	PropertyMap.cpp \
 	enum_table.cpp \
 	utils.cpp
 uitest_LDADD = \

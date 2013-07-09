@@ -24,9 +24,11 @@ public:
 
 protected:
 	friend class Context;
-	Label(Context *context, const std::string &text) : Widget(context), m_text(text), m_color(Color::WHITE) {}
+	Label(Context *context, const std::string &text);
 
 private:
+	void BindText(PropertyMap &p, const std::string &k);
+
 	std::string m_text;
 	Color m_color;
 	Point m_preferredSize;
