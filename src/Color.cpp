@@ -39,12 +39,14 @@ void Color4f::ToLuaTable(lua_State *l)
 	pi_lua_settable(l, "a", a);
 }
 
-static inline void _get_number(lua_State *l, int table, const char *key, float &output)
+static inline bool _get_number(lua_State *l, int table, const char *key, float &output)
 {
 	lua_pushstring(l, key);
 	lua_gettable(l, table);
+	bool found = !lua_isnil(l, -1);
 	output = lua_tonumber(l, -1);
 	lua_pop(l, 1);
+	return found;
 }
 
 Color4f Color4f::FromLuaTable(lua_State *l, int idx)
@@ -58,7 +60,7 @@ Color4f Color4f::FromLuaTable(lua_State *l, int idx)
 	_get_number(l, table, "r", r);
 	_get_number(l, table, "g", g);
 	_get_number(l, table, "b", b);
-	_get_number(l, table, "a", a);
+	if (!_get_number(l, table, "a", a)) a = 1.0f;
 
 	LUA_DEBUG_END(l, 0);
 

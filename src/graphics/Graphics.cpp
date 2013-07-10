@@ -67,12 +67,14 @@ Renderer* Init(Settings vs)
 			SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
 			SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 6);
 			SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
+			SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
 			break;
 		case 24:
 		case 32:
 			SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
 			SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
 			SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
+			SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
 			break;
 		default:
 			fprintf(stderr, "Invalid pixel depth: %d bpp\n", info->vfmt->BitsPerPixel);

@@ -18,10 +18,8 @@ public:
 
 	static int l_set_color(lua_State *l) {
 		UI::Label *label = LuaObject<UI::Label>::CheckFromLua(1);
-		const float r(luaL_checknumber(l, 2));
-		const float g(luaL_checknumber(l, 3));
-		const float b(luaL_checknumber(l, 4));
-		label->SetColor(r,g,b);
+		Color c = Color::FromLuaTable(l, 2);
+		label->SetColor(c);
 		lua_pushvalue(l, 1);
 		return 1;
 	}

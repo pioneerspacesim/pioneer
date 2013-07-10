@@ -29,6 +29,9 @@ namespace OS {
 	// should not be considered reliable
 	Uint64 HFTimerFreq();
 	Uint64 HFTimer();
+
+	// http://stackoverflow.com/questions/150355/programmatically-find-the-number-of-cores-on-a-machine
+	int GetNumCores();
 }
 
 #endif

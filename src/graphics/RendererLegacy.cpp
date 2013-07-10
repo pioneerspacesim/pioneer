@@ -235,6 +235,13 @@ bool RendererLegacy::SetBlendMode(BlendMode m)
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 		break;
+	case BLEND_SET_ALPHA:
+		glEnable(GL_BLEND);
+		glBlendFuncSeparate(GL_ZERO, GL_ONE, GL_SRC_COLOR, GL_ZERO);
+		break;
+	case BLEND_DEST_ALPHA:
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_DST_ALPHA, GL_ONE_MINUS_DST_ALPHA);
 	default:
 		return false;
 	}
