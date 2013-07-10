@@ -1,0 +1,6 @@
+* text=auto
+
+*.dae -text
+*.DAE -text
+*.obj -text
+*.OBJ -text
