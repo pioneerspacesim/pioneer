@@ -34,6 +34,7 @@
 #include "TextEntry.h"
 #include "SmallButton.h"
 #include "Icon.h"
+#include "Gauge.h"
 
 #include "Lua.h"
 #include "LuaTable.h"
@@ -100,6 +101,8 @@ public:
 
 	UI::List *List() { return new UI::List(this); }
 	UI::DropDown *DropDown() { return new UI::DropDown(this); }
+
+    UI::Gauge *Gauge() { return new UI::Gauge(this); }
 
 	UI::TextEntry *TextEntry(const std::string &text = "") { return new UI::TextEntry(this, text); }
 

@@ -18,6 +18,7 @@ July 2013
      * Combined texture and image format enums (#2356)
      * Only use Color objects in UI API
      * Bind object properties to UI widgets (#2366)
+     * UI: gauge widget (#2367)
 
 June 2013
 
