@@ -5,13 +5,14 @@ UI.InfoGauge = {
 New = function (args)
 	args = args or {}
 
-    local formatter = args.formatter or function (v) return string.format("%.2f / 1.00", v) end
+	local formatter = args.formatter or function (v) return string.format("%.2f / 1.00", v) end
+	local label = args.label or ui:Label(formatter(0))
+
 	local warningLevel = args.warningLevel
 	local criticalLevel = args.criticalLevel
 	local levelAscending = args.levelAscending
 
 	local gauge = ui:Gauge()
-	local label = ui:Label(formatter(0))
 	local box = ui:HBox(5):PackEnd({ gauge, label })
 
 	if warningLevel   ~= nil then gauge:SetWarningLevel(warningLevel) end

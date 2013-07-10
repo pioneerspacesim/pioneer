@@ -302,11 +302,12 @@ local econTrade = function ()
 	cargoGauge:SetValue(stats.usedCargo/stats.freeCapacity)
 
 	local fuelGauge = UI.InfoGauge.New({
-		formatter      = function (v) return string.format("%.1f%%", v*100) end,
+		label          = ui:NumberLabel("PERCENT"),
 		warningLevel   = 0.1,
 		criticalLevel  = 0.05,
 		levelAscending = false,
 	})
+	fuelGauge.label:Bind("valuePercent", Game.player, "fuel")
 	fuelGauge.gauge:Bind("valuePercent", Game.player, "fuel")
 
 	-- Define the refuel button

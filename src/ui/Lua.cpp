@@ -29,6 +29,7 @@ void Init()
 	LuaObject<UI::List>::RegisterClass();
 	LuaObject<UI::Margin>::RegisterClass();
 	LuaObject<UI::MultiLineText>::RegisterClass();
+	LuaObject<UI::NumberLabel>::RegisterClass();
 	LuaObject<UI::Scroller>::RegisterClass();
 	LuaObject<UI::Single>::RegisterClass();
 	LuaObject<UI::Slider>::RegisterClass();
