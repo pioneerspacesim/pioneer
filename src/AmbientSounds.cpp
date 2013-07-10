@@ -12,11 +12,55 @@
 #include "SpaceStation.h"
 #include "Game.h"
 
+enum EAtmosphereNoiseChannels {
+	eAtmoNoise1=0,
+	eAtmoNoise2,
+	eAtmoNoise3,
+	eAtmoNoise4,
+	eMaxNumAtmosphereSounds
+};
+
+static const char* s_airflowTable[eMaxNumAtmosphereSounds] = {
+	"airflow01",
+	"airflow02",
+	"airflow03",
+	"airflow04"
+};
+
+//	start, inverse range
+static const float s_rangeTable[eMaxNumAtmosphereSounds][2] = {
+	{0.0f, 1.0f / (1.0f - 0.0f)},	// 1
+	{1.0f, 1.0f / (3.0f - 1.0f)},	// 2
+	{2.0f, 1.0f / (7.0f - 3.0f)},	// 4
+	{4.0f, 1.0f / (15.0f - 7.0f)}	// 8
+};
+
+static const Uint32 NUM_SURFACE_LIFE_SOUNDS = 12;
+static const char *s_surfaceLifeSounds[NUM_SURFACE_LIFE_SOUNDS] = {
+	"Wind", "Thunder_1", "Thunder_2", "Thunder_3",
+	"Thunder_4", "Storm", "Rain_Light", "River",
+	"RainForestIntroducedNight", "RainForestIntroduced",
+	"NormalForestIntroduced", "RainForestIndigeniusNight"
+};
+
+static const Uint32 NUM_SURFACE_DEAD_SOUNDS = 12;
+static const char *s_surfaceSounds[NUM_SURFACE_DEAD_SOUNDS] = {
+	"Wind", "Thunder_1", "Thunder_2", "Thunder_3",
+	"Thunder_4", "Storm"
+};
+
+static const Uint32 NUM_STATION_SOUNDS = 3;
+static const char *s_stationNoiseSounds[NUM_STATION_SOUNDS] = {
+	"Large_Station_ambient",
+	"Medium_Station_ambient",
+	"Small_Station_ambient"
+};
+
 static int astroNoiseSeed;
-static Sound::Event stationNoise;
-static Sound::Event starNoise;
-static Sound::Event atmosphereNoise;
-static Sound::Event planetSurfaceNoise;
+static Sound::Event s_stationNoise;
+static Sound::Event s_starNoise;
+static Sound::Event s_atmosphereNoises[eMaxNumAtmosphereSounds];
+static Sound::Event s_planetSurfaceNoise;
 static sigc::connection onChangeCamTypeConnection;
 
 void AmbientSounds::Init()
@@ -31,130 +75,117 @@ void AmbientSounds::Uninit()
 
 void AmbientSounds::Update()
 {
-	float v_env = (Pi::worldView->GetCameraController()->IsExternal() ? 1.0f : 0.5f) * Sound::GetSfxVolume();
+	const float v_env = (Pi::worldView->GetCameraController()->IsExternal() ? 1.0f : 0.5f) * Sound::GetSfxVolume();
 
 	if (Pi::player->GetFlightState() == Ship::DOCKED) {
-		if (starNoise.IsPlaying()) {
-			float target[2] = {0.0f,0.0f};
-			float dv_dt[2] = {1.0f,1.0f};
-			starNoise.VolumeAnimate(target, dv_dt);
-			starNoise.SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
+		if (s_starNoise.IsPlaying()) {
+			const float target[2] = {0.0f,0.0f};
+			const float dv_dt[2] = {1.0f,1.0f};
+			s_starNoise.VolumeAnimate(target, dv_dt);
+			s_starNoise.SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
 		}
-		if (atmosphereNoise.IsPlaying()) {
-			float target[2] = {0.0f,0.0f};
-			float dv_dt[2] = {1.0f,1.0f};
-			atmosphereNoise.VolumeAnimate(target, dv_dt);
-			atmosphereNoise.SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
+		for(int i=0; i<eMaxNumAtmosphereSounds; i++) {
+			if (s_atmosphereNoises[i].IsPlaying()) {
+				const float target[2] = {0.0f,0.0f};
+				const float dv_dt[2] = {1.0f,1.0f};
+				s_atmosphereNoises[i].VolumeAnimate(target, dv_dt);
+				s_atmosphereNoises[i].SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
+			}
 		}
-		if (planetSurfaceNoise.IsPlaying()) {
-			float target[2] = {0.0f,0.0f};
-			float dv_dt[2] = {1.0f,1.0f};
-			planetSurfaceNoise.VolumeAnimate(target, dv_dt);
-			planetSurfaceNoise.SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
+		if (s_planetSurfaceNoise.IsPlaying()) {
+			const float target[2] = {0.0f,0.0f};
+			const float dv_dt[2] = {1.0f,1.0f};
+			s_planetSurfaceNoise.VolumeAnimate(target, dv_dt);
+			s_planetSurfaceNoise.SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
 		}
 
-		if (!stationNoise.IsPlaying()) {
-			const char *sounds[] = {
-				"Large_Station_ambient",
-				"Medium_Station_ambient",
-				"Small_Station_ambient"
-			};
+		if (!s_stationNoise.IsPlaying()) {
 			// just use a random station noise until we have a
 			// concept of 'station size'
-			stationNoise.Play(sounds[Pi::player->GetDockedWith()->GetSystemBody()->seed % 3],
+			s_stationNoise.Play(s_stationNoiseSounds[Pi::player->GetDockedWith()->GetSystemBody()->seed % NUM_STATION_SOUNDS],
 					0.3f*v_env, 0.3f*v_env, Sound::OP_REPEAT);
 		}
 	} else if (Pi::player->GetFlightState() == Ship::LANDED) {
 		/* Planet surface noise on rough-landing */
-		if (starNoise.IsPlaying()) {
-			float target[2] = {0.0f,0.0f};
-			float dv_dt[2] = {1.0f,1.0f};
-			starNoise.VolumeAnimate(target, dv_dt);
-			starNoise.SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
+		if (s_starNoise.IsPlaying()) {
+			const float target[2] = {0.0f,0.0f};
+			const float dv_dt[2] = {1.0f,1.0f};
+			s_starNoise.VolumeAnimate(target, dv_dt);
+			s_starNoise.SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
 		}
-		if (atmosphereNoise.IsPlaying()) {
-			float target[2] = {0.0f,0.0f};
-			float dv_dt[2] = {1.0f,1.0f};
-			atmosphereNoise.VolumeAnimate(target, dv_dt);
-			atmosphereNoise.SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
+		for(int i=0; i<eMaxNumAtmosphereSounds; i++) {
+			if (s_atmosphereNoises[i].IsPlaying()) {
+				const float target[2] = {0.0f,0.0f};
+				const float dv_dt[2] = {1.0f,1.0f};
+				s_atmosphereNoises[i].VolumeAnimate(target, dv_dt);
+				s_atmosphereNoises[i].SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
+			}
 		}
-		if (stationNoise.IsPlaying()) {
-			float target[2] = {0.0f,0.0f};
-			float dv_dt[2] = {1.0f,1.0f};
-			stationNoise.VolumeAnimate(target, dv_dt);
-			stationNoise.SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
+		if (s_stationNoise.IsPlaying()) {
+			const float target[2] = {0.0f,0.0f};
+			const float dv_dt[2] = {1.0f,1.0f};
+			s_stationNoise.VolumeAnimate(target, dv_dt);
+			s_stationNoise.SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
 		}
 
 		// lets try something random for the time being
-		if (!planetSurfaceNoise.IsPlaying()) {
-			SystemBody *sbody = Pi::player->GetFrame()->GetSystemBody();
+		if (!s_planetSurfaceNoise.IsPlaying()) {
+			const SystemBody *sbody = Pi::player->GetFrame()->GetSystemBody();
 			assert(sbody);
 			const char *sample = 0;
 
 			if (sbody->m_life > fixed(1,5)) {
-				const char *s[] = {
-					"Wind", "Thunder_1", "Thunder_2", "Thunder_3",
-					"Thunder_4", "Storm", "Rain_Light", "River",
-					"RainForestIntroducedNight", "RainForestIntroduced",
-					"NormalForestIntroduced"
-				};
-				sample = s[sbody->seed % 11];
+				sample = s_surfaceLifeSounds[sbody->seed % NUM_SURFACE_LIFE_SOUNDS];
 			}
 			else if (sbody->m_volatileGas > fixed(1,2)) {
-				const char *s[] = {
-					"Wind", "Thunder_1", "Thunder_2", "Thunder_3",
-					"Thunder_4", "Storm"
-				};
-				sample = s[sbody->seed % 6];
+				sample = s_surfaceSounds[sbody->seed % NUM_SURFACE_DEAD_SOUNDS];
 			}
 			else if (sbody->m_volatileGas > fixed(1,10)) {
 				sample = "Wind";
 			}
 
 			if (sample) {
-				planetSurfaceNoise.Play(sample, 0.3f*v_env, 0.3f*v_env, Sound::OP_REPEAT);
+				s_planetSurfaceNoise.Play(sample, 0.3f*v_env, 0.3f*v_env, Sound::OP_REPEAT);
 			}
 		}
-    } else if (planetSurfaceNoise.IsPlaying()) {
-        // planetSurfaceNoise.IsPlaying() - if we are out of the atmosphere then stop playing
+    } else if (s_planetSurfaceNoise.IsPlaying()) {
+        // s_planetSurfaceNoise.IsPlaying() - if we are out of the atmosphere then stop playing
         if (Pi::player->GetFrame()->IsRotFrame()) {
-            Body *astro = Pi::player->GetFrame()->GetBody();
+            const Body *astro = Pi::player->GetFrame()->GetBody();
             if (astro->IsType(Object::PLANET)) {
-                double dist = Pi::player->GetPosition().Length();
+                const double dist = Pi::player->GetPosition().Length();
                 double pressure, density;
-                static_cast<Planet*>(astro)->GetAtmosphericState(dist, &pressure, &density);
+                static_cast<const Planet*>(astro)->GetAtmosphericState(dist, &pressure, &density);
                 if (pressure < 0.001) {
                     // Stop playing surface noise once out of the atmosphere
-                    planetSurfaceNoise.Stop();
+                    s_planetSurfaceNoise.Stop();
                 }
             }
         }
     } else {
-		if (stationNoise.IsPlaying()) {
-			float target[2] = {0.0f,0.0f};
-			float dv_dt[2] = {1.0f,1.0f};
-			stationNoise.VolumeAnimate(target, dv_dt);
-			stationNoise.SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
+		if (s_stationNoise.IsPlaying()) {
+			const float target[2] = {0.0f,0.0f};
+			const float dv_dt[2] = {1.0f,1.0f};
+			s_stationNoise.VolumeAnimate(target, dv_dt);
+			s_stationNoise.SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
 		}
-		{
-			if (Pi::game->IsNormalSpace()) {
-				StarSystem *s = Pi::game->GetSpace()->GetStarSystem().Get();
-				if (astroNoiseSeed != s->GetSeed()) {
-					// change sound!
-					astroNoiseSeed = s->GetSeed();
-					float target[2] = {0.0f,0.0f};
-					float dv_dt[2] = {0.1f,0.1f};
-					starNoise.VolumeAnimate(target, dv_dt);
-					starNoise.SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
-					// XXX the way Sound::Event works isn't totally obvious.
-					// to destroy the object doesn't stop the sound. it is
-					// really just a sound event reference
-					starNoise = Sound::Event();
-				}
+		if (Pi::game->IsNormalSpace()) {
+			StarSystem *s = Pi::game->GetSpace()->GetStarSystem().Get();
+			if (astroNoiseSeed != s->GetSeed()) {
+				// change sound!
+				astroNoiseSeed = s->GetSeed();
+				const float target[2] = {0.0f,0.0f};
+				const float dv_dt[2] = {0.1f,0.1f};
+				s_starNoise.VolumeAnimate(target, dv_dt);
+				s_starNoise.SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
+				// XXX the way Sound::Event works isn't totally obvious.
+				// to destroy the object doesn't stop the sound. it is
+				// really just a sound event reference
+				s_starNoise = Sound::Event();
 			}
 		}
 		// when all the sounds are in we can use the body we are in frame of reference to
-		if (!starNoise.IsPlaying()) {
+		if (!s_starNoise.IsPlaying()) {
 			Frame *f = Pi::player->GetFrame();
 			if (!f) return; // When player has no frame (game abort) then get outta here!!
 			const SystemBody *sbody = f->GetSystemBody();
@@ -185,8 +216,8 @@ void AmbientSounds::Update()
 					default: sample = 0; break;
 				}
 				if (sample) {
-					starNoise.Play(sample, 0.0f, 0.0f, Sound::OP_REPEAT);
-					starNoise.VolumeAnimate(.3f*v_env, .3f*v_env, .05f, .05f);
+					s_starNoise.Play(sample, 0.0f, 0.0f, Sound::OP_REPEAT);
+					s_starNoise.VolumeAnimate(.3f*v_env, .3f*v_env, .05f, .05f);
 				} else {
 					// go up orbital hierarchy tree to see if we can find a sound
 					f = f->GetParent();
@@ -195,27 +226,38 @@ void AmbientSounds::Update()
 			}
 		}
 
-		Body *astro;
-		if ((astro = Pi::player->GetFrame()->GetBody())
-			&& Pi::player->GetFrame()->IsRotFrame() && (astro->IsType(Object::PLANET))) {
+		const Body *astro = Pi::player->GetFrame()->GetBody();
+		if (astro && Pi::player->GetFrame()->IsRotFrame() && (astro->IsType(Object::PLANET))) {
 			double dist = Pi::player->GetPosition().Length();
 			double pressure, density;
-			static_cast<Planet*>(astro)->GetAtmosphericState(dist, &pressure, &density);
+			static_cast<const Planet*>(astro)->GetAtmosphericState(dist, &pressure, &density);
 			// maximum volume at around 2km/sec at earth density, pressure
-			float volume = float(density * Pi::player->GetVelocity().Length() * 0.0005);
-			volume = Clamp(volume, 0.0f, 1.0f) * v_env;
-			if (atmosphereNoise.IsPlaying()) {
-				float target[2] = {volume, volume};
-				float dv_dt[2] = {1.0f,1.0f};
-				atmosphereNoise.VolumeAnimate(target, dv_dt);
-			} else {
-				atmosphereNoise.Play("Atmosphere_Flying", volume, volume, Sound::OP_REPEAT);
+			const float pressureVolume = float(density * Pi::player->GetVelocity().Length() * 0.0005);
+			//volume = Clamp(volume, 0.0f, 1.0f) * v_env;
+			float volumes[eMaxNumAtmosphereSounds];
+			for(int i=0; i<eMaxNumAtmosphereSounds; i++) {
+				const float beg = s_rangeTable[i][0];
+				const float inv = s_rangeTable[i][1];
+				volumes[i] = Clamp((pressureVolume - beg) * inv, 0.0f, 1.0f) * v_env;
+			}
+			
+			for(int i=0; i<eMaxNumAtmosphereSounds; i++) {
+				const float volume = volumes[i];
+				if (s_atmosphereNoises[i].IsPlaying()) {
+					const float target[2] = {volume, volume};
+					const float dv_dt[2] = {1.0f,1.0f};
+					s_atmosphereNoises[i].VolumeAnimate(target, dv_dt);
+				} else {
+					s_atmosphereNoises[i].Play(s_airflowTable[i], volume, volume, Sound::OP_REPEAT);
+				}
 			}
 		} else {
-			float target[2] = {0.0f,0.0f};
-			float dv_dt[2] = {1.0f,1.0f};
-			atmosphereNoise.VolumeAnimate(target, dv_dt);
-			atmosphereNoise.SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
+			const float target[2] = {0.0f,0.0f};
+			const float dv_dt[2] = {1.0f,1.0f};
+			for(int i=0; i<eMaxNumAtmosphereSounds; i++) {
+				s_atmosphereNoises[i].VolumeAnimate(target, dv_dt);
+				s_atmosphereNoises[i].SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
+			}
 		}
 	}
 }
@@ -225,10 +267,10 @@ void AmbientSounds::UpdateForCamType()
 	const WorldView::CamType cam = Pi::worldView->GetCamType();
 	float v_env = (cam == WorldView::CAM_EXTERNAL ? 1.0f : 0.5f) * Sound::GetSfxVolume();
 
-	if (stationNoise.IsPlaying())
-		stationNoise.SetVolume(0.3f*v_env, 0.3f*v_env);
-	if (starNoise.IsPlaying())
-		starNoise.SetVolume(0.3f*v_env, 0.3f*v_env);
-	if (planetSurfaceNoise.IsPlaying())
-		planetSurfaceNoise.SetVolume(0.3f*v_env, 0.3f*v_env);
+	if (s_stationNoise.IsPlaying())
+		s_stationNoise.SetVolume(0.3f*v_env, 0.3f*v_env);
+	if (s_starNoise.IsPlaying())
+		s_starNoise.SetVolume(0.3f*v_env, 0.3f*v_env);
+	if (s_planetSurfaceNoise.IsPlaying())
+		s_planetSurfaceNoise.SetVolume(0.3f*v_env, 0.3f*v_env);
 }
