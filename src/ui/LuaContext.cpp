@@ -184,6 +184,15 @@ public:
 		return 1;
 	}
 
+	static int l_numberlabel(lua_State *l) {
+		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
+		UI::NumberLabel::Format format = UI::NumberLabel::FORMAT_NUMBER;
+		if (lua_gettop(l) > 1)
+			format = static_cast<UI::NumberLabel::Format>(LuaConstants::GetConstantFromArg(l, "UINumberLabelFormat", 2));
+		LuaObject<UI::NumberLabel>::PushToLua(c->NumberLabel(format));
+		return 1;
+	}
+
 	static int l_multilinetext(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 		LuaObject<UI::MultiLineText>::PushToLua(c->MultiLineText(luaL_checkstring(l, 2)));
@@ -234,6 +243,12 @@ public:
 		return 1;
 	}
 
+	static int l_gauge(lua_State *l) {
+		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
+		LuaObject<UI::Gauge>::PushToLua(c->Gauge());
+		return 1;
+	}
+
 	static int l_textentry(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 		std::string text;
@@ -275,6 +290,7 @@ template <> void LuaObject<UI::Context>::RegisterClass()
 		{ "Image",           LuaContext::l_image           },
 		{ "Label",           LuaContext::l_label           },
 		{ "MultiLineText",   LuaContext::l_multilinetext   },
+		{ "NumberLabel",     LuaContext::l_numberlabel     },
 		{ "Button",          LuaContext::l_button          },
 		{ "CheckBox",        LuaContext::l_checkbox        },
 		{ "SmallButton",     LuaContext::l_smallbutton     },
@@ -282,6 +298,7 @@ template <> void LuaObject<UI::Context>::RegisterClass()
 		{ "VSlider",         LuaContext::l_vslider         },
 		{ "List",            LuaContext::l_list            },
 		{ "DropDown",        LuaContext::l_dropdown        },
+		{ "Gauge",           LuaContext::l_gauge           },
 		{ "TextEntry",       LuaContext::l_textentry       },
 		{ 0, 0 }
 	};

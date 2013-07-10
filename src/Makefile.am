@@ -28,7 +28,6 @@ noinst_HEADERS = \
 	CityOnPlanet.h \
 	Color.h \
 	CommodityTradeWidget.h \
-	CoreCount.h \
 	Cutscene.h \
 	CRC32.h \
 	DeathView.h \
@@ -173,7 +172,6 @@ pioneer_SOURCES	= \
 	ChatForm.cpp \
 	CityOnPlanet.cpp \
 	CommodityTradeWidget.cpp \
-	CoreCount.cpp \
 	CRC32.cpp \
 	DeathView.cpp \
 	DynamicBody.cpp \
@@ -376,8 +374,10 @@ uitest_SOURCES = \
 	LuaObject.cpp \
 	LuaConstants.cpp \
 	LuaRef.cpp \
+	LuaPropertiedObject.cpp \
 	PngWriter.cpp \
 	EnumStrings.cpp \
+	PropertyMap.cpp \
 	enum_table.cpp \
 	utils.cpp
 uitest_LDADD = \

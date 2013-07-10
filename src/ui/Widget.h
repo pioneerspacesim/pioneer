@@ -9,6 +9,7 @@
 #include "Event.h"
 #include "RefCounted.h"
 #include "WidgetSet.h"
+#include "PropertiedObject.h"
 #include <climits>
 #include <set>
 
@@ -197,6 +198,9 @@ public:
 	const std::string &GetId() const { return m_id; }
 	Widget *SetId(const std::string &id) { m_id = id; return this; }
 
+	// bind an object property to a widget bind point
+	void Bind(const std::string &bindName, PropertiedObject *object, const std::string &propertyName);
+
 
 	// this sigc accumulator calls all the handlers for an event. if any of
 	// them return true, it returns true (indicating the event was handled),
@@ -301,6 +305,7 @@ protected:
 	virtual void HandleSelect() {}
 	virtual void HandleDeselect() {}
 
+	void RegisterBindPoint(const std::string &bindName, sigc::slot<void,PropertyMap &,const std::string &> method);
 
 private:
 
@@ -389,6 +394,9 @@ private:
 	std::set<KeySym> m_shortcuts;
 
 	std::string m_id;
+
+	std::map< std::string,sigc::slot<void,PropertyMap &,const std::string &> > m_bindPoints;
+	std::map< std::string,sigc::connection > m_binds;
 };
 
 }

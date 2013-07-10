@@ -3,6 +3,7 @@ July 2013
    * New features
      * New ship "Pumpkinseed" (#2352)
      * New ship "Mola Mola" (#2355)
+     * Enable patterns/colors on buildings (#2342)
 
    * Fixes
      * Fix damage particle rendering (#2353)
@@ -12,9 +13,16 @@ July 2013
      * Ships with zero price will no longer appear in the market (#2361)
      * Show text in worldview when game is paused (#2358, #1331)
 
+   * Script and UI API changes
+     * Only use Color objects in UI API (#2362)
+     * UI: gauge widget (#2367)
+     * UI: formatted number label widget
+
    * Internal changes
      * Render target infrastructure (#2356)
      * Combined texture and image format enums (#2356)
+     * Bind object properties to UI widgets (#2366)
+     * Moved GetNumCores into OS:: namespace (#2368)
 
 June 2013
 

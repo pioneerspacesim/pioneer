@@ -5,10 +5,23 @@
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 #include "Lua.h"
+#include "PropertiedObject.h"
 #include <typeinfo>
 
 static const int WIDTH  = 1024;
 static const int HEIGHT = 768;
+
+class Thing : public PropertiedObject {
+public:
+	Thing(LuaManager *lua) : PropertiedObject(lua) {
+		Update();
+	}
+
+	void Update() {
+		time_t t = time(0);
+		Properties().Set("time", asctime(localtime(&t)));
+	}
+};
 
 static bool toggle_disabled_handler(UI::Widget *w)
 {
@@ -103,12 +116,14 @@ int main(int argc, char **argv)
             SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
             SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 6);
             SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
+            SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
             break;
         case 24:
         case 32:
             SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
             SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
             SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
+            SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
             break;
         default:
             fprintf(stderr, "invalid pixel depth: %d bpp\n", info->vfmt->BitsPerPixel);
@@ -141,7 +156,21 @@ int main(int argc, char **argv)
 
 	RefCountedPtr<UI::Context> c(new UI::Context(Lua::manager, r, WIDTH, HEIGHT, "English"));
 
+	UI::Gauge *gauge;
+	c->SetInnerWidget(c->HBox()->PackEnd(gauge = c->Gauge()));
+	gauge->SetWarningLevel(0.4f);
+	gauge->SetCriticalLevel(0.2f);
+	gauge->SetLevelAscending(false);
+
 #if 0
+	Thing thing(Lua::manager);
+
+	UI::Label *l = c->Label("label");
+	c->SetInnerWidget(l);
+
+	l->Bind("text", &thing, "time");
+
+
 	c->SetInnerWidget(
 		c->VBox(10)->PackEnd(UI::WidgetSet(
 			c->Background()->SetInnerWidget(
@@ -359,6 +388,7 @@ int main(int argc, char **argv)
 	list->onOptionSelected.connect(sigc::ptr_fun(&option_selected));
 #endif
 
+#if 0
 	c->SetInnerWidget(
 		c->Scroller()->SetInnerWidget(
 			c->MultiLineText(
@@ -385,6 +415,7 @@ int main(int argc, char **argv)
 			)
 		)
 	);
+#endif
 
 #if 0
 	UI::Label *label;
@@ -538,7 +569,10 @@ int main(int argc, char **argv)
 		c->Draw();
 		r->SwapBuffers();
 
+//		thing.Update();
+
 //		slider->SetValue(slider->GetValue() + 0.01);
+		gauge->SetValue(gauge->GetValue() + 0.001);
 
 #if 0
 		if (++count == 400) {
