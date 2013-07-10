@@ -76,7 +76,6 @@
 #include "scenegraph/Lua.h"
 #include "ui/Context.h"
 #include "ui/Lua.h"
-#include "CoreCount.h"
 #include <algorithm>
 #include <sstream>
 
@@ -340,9 +339,9 @@ void Pi::Init()
 
 	// get threads up
 	Uint32 numThreads = config->Int("WorkerThreads");
-	const Uint32 numCores = getNumCores();
+	const int numCores = OS::GetNumCores();
 	assert(numCores > 0);
-	if (numThreads == 0) numThreads = std::max(numCores-1,1U);
+	if (numThreads == 0) numThreads = std::max(Uint32(numCores) - 1, 1U);
 	jobQueue.Reset(new JobQueue(numThreads));
 	printf("started %d worker threads\n", numThreads);
 
