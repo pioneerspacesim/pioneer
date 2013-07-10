@@ -21,6 +21,7 @@ July 2013
      * Render target infrastructure (#2356)
      * Combined texture and image format enums (#2356)
      * Bind object properties to UI widgets (#2366)
+     * Moved GetNumCores into OS:: namespace (#2368)
 
 June 2013
 

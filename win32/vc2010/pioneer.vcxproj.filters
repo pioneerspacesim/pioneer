@@ -441,9 +441,6 @@
     <ClCompile Include="..\..\src\GeoPatchJobs.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\CoreCount.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\JobQueue.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -938,13 +935,13 @@
     <ClInclude Include="..\..\src\GeoPatchJobs.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\CoreCount.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\JobQueue.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\contrib\PicoDDS\PicoDDS.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OS.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
