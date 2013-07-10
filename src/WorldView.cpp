@@ -150,7 +150,7 @@ void WorldView::InitObject()
 	m_flightControlButton->SetRenderDimensions(30.0f, 22.0f);
 	m_rightButtonBar->Add(m_flightControlButton, 2, 2);
 
-	m_flightStatus = (new Gui::Label(""))->Color(1.0f, 0.7f, 0.0f);
+	m_flightStatus = (new Gui::Label(""))->Color(0.0f, 1.f, 0.0f);
 	m_rightRegion2->Add(m_flightStatus, 2, 0);
 
 #if WITH_DEVKEYS
