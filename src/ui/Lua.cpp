@@ -21,6 +21,7 @@ void Init()
 	LuaObject<UI::DropDown>::RegisterClass();
 	LuaObject<UI::Gradient>::RegisterClass();
 	LuaObject<UI::Expand>::RegisterClass();
+	LuaObject<UI::Gauge>::RegisterClass();
 	LuaObject<UI::Grid>::RegisterClass();
 	LuaObject<UI::Icon>::RegisterClass();
 	LuaObject<UI::Image>::RegisterClass();

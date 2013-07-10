@@ -116,12 +116,14 @@ int main(int argc, char **argv)
             SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
             SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 6);
             SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
+            SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
             break;
         case 24:
         case 32:
             SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
             SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
             SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
+            SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
             break;
         default:
             fprintf(stderr, "invalid pixel depth: %d bpp\n", info->vfmt->BitsPerPixel);
@@ -154,6 +156,13 @@ int main(int argc, char **argv)
 
 	RefCountedPtr<UI::Context> c(new UI::Context(Lua::manager, r, WIDTH, HEIGHT, "English"));
 
+	UI::Gauge *gauge;
+	c->SetInnerWidget(c->HBox()->PackEnd(gauge = c->Gauge()));
+	gauge->SetWarningLevel(0.4f);
+	gauge->SetCriticalLevel(0.2f);
+	gauge->SetLevelAscending(false);
+
+#if 0
 	Thing thing(Lua::manager);
 
 	UI::Label *l = c->Label("label");
@@ -161,7 +170,7 @@ int main(int argc, char **argv)
 
 	l->Bind("text", &thing, "time");
 
-#if 0
+
 	c->SetInnerWidget(
 		c->VBox(10)->PackEnd(UI::WidgetSet(
 			c->Background()->SetInnerWidget(
@@ -560,9 +569,10 @@ int main(int argc, char **argv)
 		c->Draw();
 		r->SwapBuffers();
 
-		thing.Update();
+//		thing.Update();
 
 //		slider->SetValue(slider->GetValue() + 0.01);
+		gauge->SetValue(gauge->GetValue() + 0.001);
 
 #if 0
 		if (++count == 400) {

@@ -234,6 +234,12 @@ public:
 		return 1;
 	}
 
+	static int l_gauge(lua_State *l) {
+		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
+		LuaObject<UI::Gauge>::PushToLua(c->Gauge());
+		return 1;
+	}
+
 	static int l_textentry(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 		std::string text;
@@ -282,6 +288,7 @@ template <> void LuaObject<UI::Context>::RegisterClass()
 		{ "VSlider",         LuaContext::l_vslider         },
 		{ "List",            LuaContext::l_list            },
 		{ "DropDown",        LuaContext::l_dropdown        },
+		{ "Gauge",           LuaContext::l_gauge           },
 		{ "TextEntry",       LuaContext::l_textentry       },
 		{ 0, 0 }
 	};
