@@ -17,6 +17,7 @@ July 2013
      * Render target infrastructure (#2356)
      * Combined texture and image format enums (#2356)
      * Only use Color objects in UI API
+     * Bind object properties to UI widgets (#2366)
 
 June 2013
 
