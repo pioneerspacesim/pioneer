@@ -16,6 +16,7 @@ July 2013
    * Script and UI API changes
      * Only use Color objects in UI API (#2362)
      * UI: gauge widget (#2367)
+     * UI: formatted number label widget
 
    * Internal changes
      * Render target infrastructure (#2356)

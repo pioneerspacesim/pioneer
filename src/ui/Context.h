@@ -25,6 +25,7 @@
 #include "Icon.h"
 #include "Image.h"
 #include "Label.h"
+#include "NumberLabel.h"
 #include "MultiLineText.h"
 #include "Button.h"
 #include "CheckBox.h"
@@ -88,6 +89,7 @@ public:
 	// visual elements
 	UI::Image *Image(const std::string &filename, Uint32 sizeControlFlags = 0) { return new UI::Image(this, filename, sizeControlFlags); }
 	UI::Label *Label(const std::string &text) { return new UI::Label(this, text); }
+	UI::NumberLabel *NumberLabel(NumberLabel::Format format = NumberLabel::FORMAT_NUMBER) { return new UI::NumberLabel(this, format); }
 	UI::Icon *Icon(const std::string &iconName) { return new UI::Icon(this, iconName); }
 
 	UI::MultiLineText *MultiLineText(const std::string &text) { return new UI::MultiLineText(this, text); }

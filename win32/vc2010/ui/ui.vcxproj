@@ -122,6 +122,7 @@
     <ClCompile Include="..\..\..\src\ui\LuaList.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaMargin.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaMultiLineText.cpp" />
+    <ClCompile Include="..\..\..\src\ui\LuaNumberLabel.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaScroller.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaSingle.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaSlider.cpp" />
@@ -130,6 +131,7 @@
     <ClCompile Include="..\..\..\src\ui\LuaWidget.cpp" />
     <ClCompile Include="..\..\..\src\ui\Margin.cpp" />
     <ClCompile Include="..\..\..\src\ui\MultiLineText.cpp" />
+    <ClCompile Include="..\..\..\src\ui\NumberLabel.cpp" />
     <ClCompile Include="..\..\..\src\ui\Scroller.cpp" />
     <ClCompile Include="..\..\..\src\ui\Single.cpp" />
     <ClCompile Include="..\..\..\src\ui\Skin.cpp" />
@@ -170,6 +172,7 @@
     <ClInclude Include="..\..\..\src\ui\LuaSignal.h" />
     <ClInclude Include="..\..\..\src\ui\Margin.h" />
     <ClInclude Include="..\..\..\src\ui\MultiLineText.h" />
+    <ClInclude Include="..\..\..\src\ui\NumberLabel.h" />
     <ClInclude Include="..\..\..\src\ui\Point.h" />
     <ClInclude Include="..\..\..\src\ui\Scroller.h" />
     <ClInclude Include="..\..\..\src\ui\Single.h" />
