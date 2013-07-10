@@ -157,6 +157,8 @@ private:
 	int m_cacheZMax;
 
 	ScopedPtr<Graphics::VertexArray> m_lineVerts;
+	ScopedPtr<Graphics::Drawables::Sphere3D> m_jumpSphere;
+	ScopedPtr<Graphics::Drawables::Disk> m_jumpDisk;
 };
 
 #endif /* _SECTORVIEW_H */

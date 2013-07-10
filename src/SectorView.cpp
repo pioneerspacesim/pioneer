@@ -708,13 +708,13 @@ void SectorView::UpdateFactionToggles()
 	if  (m_detailBoxVisible == DETAILBOX_FACTION) m_factionBox->Show();
 	else                                          m_factionBox->HideAll();
 }
-
+#pragma optimize("",off)
 void SectorView::DrawNearSectors(matrix4x4f modelview)
 {
 	m_visibleFactions.clear();
 
-	Sector *playerSec = GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
-	vector3f playerPos = Sector::SIZE * vector3f(float(m_current.sectorX), float(m_current.sectorY), float(m_current.sectorZ)) + playerSec->m_systems[m_current.systemIndex].p;
+	const Sector *playerSec = GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
+	const vector3f playerPos = Sector::SIZE * vector3f(float(m_current.sectorX), float(m_current.sectorY), float(m_current.sectorZ)) + playerSec->m_systems[m_current.systemIndex].p;
 
 	for (int sx = -DRAW_RAD; sx <= DRAW_RAD; sx++) {
 		for (int sy = -DRAW_RAD; sy <= DRAW_RAD; sy++) {
@@ -769,10 +769,12 @@ void SectorView::DrawNearSector(int sx, int sy, int sz, const vector3f &playerAb
 		// ...and skip the system if it doesn't fall within the sphere we're viewing.
 		if (toCentreOfView.Length() > OUTER_RADIUS) continue;
 
+		const bool bIsCurrentSystem = i->IsSameSystem(m_current);
+
 		// if the system is the current system or target we can't skip it
 		bool can_skip = !i->IsSameSystem(m_selected)
 						&& !i->IsSameSystem(m_hyperspaceTarget)
-						&& !i->IsSameSystem(m_current);
+						&& !bIsCurrentSystem;
 
 		// if the system belongs to a faction we've chosen to temporarily hide
 		// then skip it if we can
@@ -848,14 +850,14 @@ void SectorView::DrawNearSector(int sx, int sy, int sz, const vector3f &playerAb
 		m_disk->Draw(m_renderer);
 
 		// player location indicator
-		if (m_inSystem && i->IsSameSystem(m_current)) {
+		if (m_inSystem && bIsCurrentSystem) {
 			glDepthRange(0.2,1.0);
 			m_disk->SetColor(Color(0.f, 0.f, 0.8f));
 			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(3.f));
 			m_disk->Draw(m_renderer);
 		}
 		// selected indicator
-		if (i->IsSameSystem(m_current)) {
+		if (bIsCurrentSystem) {
 			glDepthRange(0.1,1.0);
 			m_disk->SetColor(Color(0.f, 0.8f, 0.f));
 			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(2.f));
@@ -867,6 +869,10 @@ void SectorView::DrawNearSector(int sx, int sy, int sz, const vector3f &playerAb
 			m_disk->SetColor(Color(0.3f));
 			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(2.f));
 			m_disk->Draw(m_renderer);
+		}
+		if(bIsCurrentSystem && m_jumpSphere.Valid()) {
+			m_renderer->SetTransform(systrans);// * matrix4x4f::ScaleMatrix(4.f));
+			m_jumpSphere->Draw(m_renderer);
 		}
 	}
 }
@@ -1153,6 +1159,11 @@ void SectorView::Update()
 	ShrinkCache();
 
 	m_playerHyperspaceRange = Pi::player->GetStats().hyperspace_range;
+
+	Graphics::MaterialDescriptor matdesc;
+	matdesc.effect = EFFECT_FRESNEL_SPHERE;
+	RefCountedPtr<Graphics::Material> fresnelMat(Pi::renderer->CreateMaterial(matdesc));
+	m_jumpSphere.Reset( new Graphics::Drawables::Sphere3D(fresnelMat, 3, m_playerHyperspaceRange) );
 }
 
 void SectorView::ShowAll()
