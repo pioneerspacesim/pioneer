@@ -13,12 +13,14 @@ July 2013
      * Ships with zero price will no longer appear in the market (#2361)
      * Show text in worldview when game is paused (#2358, #1331)
 
+   * Script and UI API changes
+     * Only use Color objects in UI API (#2362)
+     * UI: gauge widget (#2367)
+
    * Internal changes
      * Render target infrastructure (#2356)
      * Combined texture and image format enums (#2356)
-     * Only use Color objects in UI API
      * Bind object properties to UI widgets (#2366)
-     * UI: gauge widget (#2367)
 
 June 2013
 
