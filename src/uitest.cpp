@@ -158,11 +158,13 @@ int main(int argc, char **argv)
 
 	RefCountedPtr<UI::Context> c(new UI::Context(Lua::manager, r, WIDTH, HEIGHT, "English"));
 
+#if 0
 	UI::Gauge *gauge;
 	c->SetInnerWidget(c->HBox()->PackEnd(gauge = c->Gauge()));
 	gauge->SetWarningLevel(0.4f);
 	gauge->SetCriticalLevel(0.2f);
 	gauge->SetLevelAscending(false);
+#endif
 
 #if 0
 	Thing thing(Lua::manager);
@@ -549,6 +551,10 @@ int main(int argc, char **argv)
 	b4->AddShortcut(UI::KeySym::FromString("ctrl+shift+4"));
 #endif
 
+	UI::Table *table;
+	table = c->Table();
+	c->SetInnerWidget(table);
+
 	//int count = 0;
 
 	while (1) {
@@ -574,7 +580,7 @@ int main(int argc, char **argv)
 //		thing.Update();
 
 //		slider->SetValue(slider->GetValue() + 0.01);
-		gauge->SetValue(gauge->GetValue() + 0.001);
+//		gauge->SetValue(gauge->GetValue() + 0.001);
 
 #if 0
 		if (++count == 400) {
