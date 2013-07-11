@@ -150,7 +150,7 @@ void WorldView::InitObject()
 	m_flightControlButton->SetRenderDimensions(30.0f, 22.0f);
 	m_rightButtonBar->Add(m_flightControlButton, 2, 2);
 
-	m_flightStatus = (new Gui::Label(""))->Color(1.0f, 0.7f, 0.0f);
+	m_flightStatus = (new Gui::Label(""))->Color(0.0f, 1.f, 0.0f);
 	m_rightRegion2->Add(m_flightStatus, 2, 0);
 
 #if WITH_DEVKEYS
@@ -184,7 +184,7 @@ void WorldView::InitObject()
 
 	Gui::Screen::PushFont("OverlayFont");
 	m_bodyLabels = new Gui::LabelSet();
-	m_bodyLabels->SetLabelColor(Color(1.0f, 1.0f, 1.0f, 0.9f));
+	m_bodyLabels->SetLabelColor(Color(0.0f, 0.86f, 1.0f, 0.9f));
 	Add(m_bodyLabels, 0, 0);
 
 	{

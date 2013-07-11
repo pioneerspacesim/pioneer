@@ -149,7 +149,7 @@ void ShipCpanel::InitObject()
 	comms_button->SetRenderDimensions(30, 22);
 	Add(comms_button, 98, 56);
 
-	m_clock = (new Gui::Label(""))->Color(1.0f,0.7f,0.0f);
+	m_clock = (new Gui::Label(""))->Color(0.0f,0.8f,0.0f);
 	Add(m_clock, 4, 18);
 
 	m_rightButtonGroup = new Gui::RadioGroup();

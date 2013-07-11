@@ -183,7 +183,7 @@ void ScannerWidget::Draw()
 
 	// disc
 	m_renderer->SetBlendMode(BLEND_ALPHA);
-	Color green(0.f, 1.f, 0.f, 0.1f);
+	Color green(0.f, 0.86f, 1.f, 0.1f);
 
 	// XXX 2d vertices
 	VertexArray va(ATTRIB_POSITION | ATTRIB_DIFFUSE, 128); //reserve some space for positions & colors
@@ -464,7 +464,7 @@ void ScannerWidget::GenerateRingsAndSpokes()
 	Color col = Color(0.7f, 0.7f, 0.f, 0.5f);
 	if (m_mode == SCANNER_MODE_AUTO) {
 		// green like the scanner to indicate that the scanner is controlling the range
-		col = Color(0.f, 0.7f, 0.f, 0.5f);
+		col = Color(0.f, 0.92f, 1.f, 0.5f);
 	}
 	for (int i=0; i<=dimstart; i++) {
 		if (i == csize) return;			// whole circle bright case
@@ -474,7 +474,7 @@ void ScannerWidget::GenerateRingsAndSpokes()
 	m_edgeVts.push_back(vn); m_edgeCols.push_back(col);
 
 	// dim part
-	col = Color(0.2f, 0.3f, 0.2f, 0.5f);
+	col = Color(0.0f, 0.3f, 0.4f, 0.5f);
 	m_edgeVts.push_back(vn); m_edgeCols.push_back(col);
 	for (int i=dimstart+1; i<csize; i++) {
 		m_edgeVts.push_back(vector3f(m_circle[i].x, m_circle[i].y, 0.0f));
@@ -484,7 +484,7 @@ void ScannerWidget::GenerateRingsAndSpokes()
 
 void ScannerWidget::DrawRingsAndSpokes(bool blend)
 {
-	Color col(0.f, 0.4f, 0.f, 0.5f);
+	Color col(0.f, 0.86f, 1.f, 0.5f);
 	m_renderer->DrawLines2D(m_vts.size(), &m_vts[0], col);
 	m_renderer->DrawLines(m_edgeVts.size(), &m_edgeVts[0], &m_edgeCols[0]);
 }
