@@ -15,6 +15,10 @@
 #include "galaxy/SystemPath.h"
 #include "graphics/Drawables.h"
 
+struct TFresnelParams {
+	vector3f m_centre;
+};
+
 class SectorView: public View {
 public:
 	SectorView();

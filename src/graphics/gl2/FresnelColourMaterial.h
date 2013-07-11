@@ -17,6 +17,10 @@ namespace Graphics {
 		class FresnelColourProgram : public Program {
 		public:
 			FresnelColourProgram(const MaterialDescriptor &, int lights=0);
+
+			Uniform fresnelCentre;
+		protected:
+			virtual void InitUniforms();
 		};
 
 		class FresnelColourMaterial : public Material { //unlit
