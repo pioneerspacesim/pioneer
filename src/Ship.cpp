@@ -706,7 +706,6 @@ void Ship::SetLandedOn(Planet *p, float latitude, float longitude)
 	Frame* f = p->GetFrame()->GetRotFrame();
 	SetFrame(f);
 	vector3d up = vector3d(cos(latitude)*sin(longitude), sin(latitude), cos(latitude)*cos(longitude));
-	//vector3d up = vector3d(cos(latitude)*cos(longitude), sin(latitude)*cos(longitude), sin(longitude));
 	const double planetRadius = p->GetTerrainHeight(up);
 	SetPosition(up * (planetRadius - GetAabb().min.y));
 	vector3d right = up.Cross(vector3d(0,0,1)).Normalized();
