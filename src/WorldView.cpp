@@ -184,7 +184,7 @@ void WorldView::InitObject()
 
 	Gui::Screen::PushFont("OverlayFont");
 	m_bodyLabels = new Gui::LabelSet();
-	m_bodyLabels->SetLabelColor(Color(1.0f, 1.0f, 1.0f, 0.9f));
+	m_bodyLabels->SetLabelColor(Color(0.0f, 0.86f, 1.0f, 0.9f));
 	Add(m_bodyLabels, 0, 0);
 
 	{
