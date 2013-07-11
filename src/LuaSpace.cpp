@@ -373,6 +373,71 @@ static int l_space_spawn_ship_parked(lua_State *l)
 }
 
 /*
+ * Function: SpawnShipLanded
+ *
+ * Create a ship and place it landed on the given <Body>.
+ *
+ * > ship = Space.SpawnShip(type, body, lat, long)
+ *
+ * Parameters:
+ *
+ *   type - the name of the ship
+ *
+ *   body - the <Body> near which the ship should be spawned
+ *
+ *   lat - latitude in radians (like in custom body defintions)
+ *
+ *   long - longitude in radians (like in custom body definitions)
+ *
+ * Return:
+ *
+ *   ship - a <Ship> object for the new ship
+ *
+ * Example:
+ *
+ * > -- spawn 16km from L.A. when in Sol system
+ * > local earth = Space.GetBody(3)
+ * > local ship = Space.SpawnShipLanded("viper_police", earth, math.deg2rad(34.06473923), math.deg2rad(-118.1591568))
+ *
+ * Availability:
+ *
+ *   TBD
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_space_spawn_ship_landed(lua_State *l)
+{
+	if (!Pi::game)
+		luaL_error(l, "Game is not started");
+
+	LUA_DEBUG_START(l);
+
+	const char *type = luaL_checkstring(l, 1);
+	if (! ShipType::Get(type))
+		luaL_error(l, "Unknown ship type '%s'", type);
+
+	Planet *planet = LuaObject<Planet>::CheckFromLua(2);
+	if (planet->GetSystemBody()->GetSuperType() != SystemBody::SUPERTYPE_ROCKY_PLANET)
+		luaL_error(l, "Body is not a rocky planet");
+	float latitude = luaL_checknumber(l, 3);
+	float longitude = luaL_checknumber(l, 4);
+
+	Ship *ship = new Ship(type);
+	assert(ship);
+
+	Pi::game->GetSpace()->AddBody(ship);
+	ship->SetLandedOn(planet, latitude, longitude);
+
+	LuaObject<Ship>::PushToLua(ship);
+
+	LUA_DEBUG_END(l, 1);
+
+	return 1;
+}
+
+/*
  * Function: GetBody
  *
  * Get the <Body> with the specificed body index.
@@ -508,6 +573,7 @@ void LuaSpace::Register()
 		{ "SpawnShipNear",   l_space_spawn_ship_near   },
 		{ "SpawnShipDocked", l_space_spawn_ship_docked },
 		{ "SpawnShipParked", l_space_spawn_ship_parked },
+		{ "SpawnShipLanded", l_space_spawn_ship_landed },
 
 		{ "GetBody",   l_space_get_body   },
 		{ "GetBodies", l_space_get_bodies },
