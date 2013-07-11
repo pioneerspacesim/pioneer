@@ -63,6 +63,12 @@ Skin::Skin(const std::string &filename, Graphics::Renderer *renderer, float scal
 	m_sliderHorizontalButtonHover  = LoadRectElement(cfg.String("SliderHorizontalButtonHover"));
 	m_sliderHorizontalButtonActive = LoadRectElement(cfg.String("SliderHorizontalButtonActive"));
 
+	m_gaugeBackground = LoadEdgedRectElement(cfg.String("GaugeBackground"));
+	m_gaugeMask = LoadEdgedRectElement(cfg.String("GaugeMask"));
+	m_gaugeFillNormal = LoadRectElement(cfg.String("GaugeFillNormal"));
+	m_gaugeFillWarning = LoadRectElement(cfg.String("GaugeFillWarning"));
+	m_gaugeFillCritical = LoadRectElement(cfg.String("GaugeFillCritical"));
+
 	m_buttonMinInnerSize      = cfg.Int("ButtonMinInnerSize");
 
 	m_listAlphaNormal = cfg.Float("ListAlphaNormal");
@@ -75,7 +81,7 @@ static inline vector2f scaled(const vector2f &v)
 	return v * (1.0f / SKIN_SIZE);
 }
 
-void Skin::DrawRectElement(const RectElement &element, const Point &pos, const Point &size) const
+void Skin::DrawRectElement(const RectElement &element, const Point &pos, const Point &size, Graphics::BlendMode blendMode) const
 {
 	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
 
@@ -84,11 +90,11 @@ void Skin::DrawRectElement(const RectElement &element, const Point &pos, const P
 	va.Add(vector3f(pos.x+size.x, pos.y,        0.0f), scaled(vector2f(element.pos.x+element.size.x, element.pos.y)));
 	va.Add(vector3f(pos.x+size.x, pos.y+size.y, 0.0f), scaled(vector2f(element.pos.x+element.size.x, element.pos.y+element.size.y)));
 
-	m_renderer->SetBlendMode(Graphics::BLEND_ALPHA);
+	m_renderer->SetBlendMode(blendMode);
 	m_renderer->DrawTriangles(&va, m_material.Get(), Graphics::TRIANGLE_STRIP);
 }
 
-void Skin::DrawBorderedRectElement(const BorderedRectElement &element, const Point &pos, const Point &size) const
+void Skin::DrawBorderedRectElement(const BorderedRectElement &element, const Point &pos, const Point &size, Graphics::BlendMode blendMode) const
 {
 	const float width = element.borderWidth;
 
@@ -129,11 +135,11 @@ void Skin::DrawBorderedRectElement(const BorderedRectElement &element, const Poi
 	va.Add(vector3f(pos.x+size.x,       pos.y+size.y-width, 0.0f), scaled(vector2f(element.pos.x+element.size.x,       element.pos.y+element.size.y-width)));
 	va.Add(vector3f(pos.x+size.x,       pos.y+size.y,       0.0f), scaled(vector2f(element.pos.x+element.size.x,       element.pos.y+element.size.y)));
 
-	m_renderer->SetBlendMode(Graphics::BLEND_ALPHA);
+	m_renderer->SetBlendMode(blendMode);
 	m_renderer->DrawTriangles(&va, m_material.Get(), Graphics::TRIANGLE_STRIP);
 }
 
-void Skin::DrawVerticalEdgedRectElement(const EdgedRectElement &element, const Point &pos, const Point &size) const
+void Skin::DrawVerticalEdgedRectElement(const EdgedRectElement &element, const Point &pos, const Point &size, Graphics::BlendMode blendMode) const
 {
 	const float height = element.edgeWidth;
 
@@ -148,10 +154,11 @@ void Skin::DrawVerticalEdgedRectElement(const EdgedRectElement &element, const P
 	va.Add(vector3f(pos.x+size.x, pos.y+size.y,        0.0f), scaled(vector2f(element.pos.x+element.size.x, element.pos.y+element.size.y)));
 	va.Add(vector3f(pos.x,        pos.y+size.y,        0.0f), scaled(vector2f(element.pos.x,                element.pos.y+element.size.y)));
 
+	m_renderer->SetBlendMode(blendMode);
 	m_renderer->DrawTriangles(&va, m_material.Get(), Graphics::TRIANGLE_STRIP);
 }
 
-void Skin::DrawHorizontalEdgedRectElement(const EdgedRectElement &element, const Point &pos, const Point &size) const
+void Skin::DrawHorizontalEdgedRectElement(const EdgedRectElement &element, const Point &pos, const Point &size, Graphics::BlendMode blendMode) const
 {
 	const float width = element.edgeWidth;
 
@@ -166,7 +173,7 @@ void Skin::DrawHorizontalEdgedRectElement(const EdgedRectElement &element, const
 	va.Add(vector3f(pos.x+size.x,       pos.y,        0.0f), scaled(vector2f(element.pos.x+element.size.x,       element.pos.y)));
 	va.Add(vector3f(pos.x+size.x,       pos.y+size.y, 0.0f), scaled(vector2f(element.pos.x+element.size.x,       element.pos.y+element.size.y)));
 
-	m_renderer->SetBlendMode(Graphics::BLEND_ALPHA);
+	m_renderer->SetBlendMode(blendMode);
 	m_renderer->DrawTriangles(&va, m_material.Get(), Graphics::TRIANGLE_STRIP);
 }
 

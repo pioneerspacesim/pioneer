@@ -59,6 +59,10 @@
     <ClCompile Include="..\..\..\src\ui\LuaSmallButton.cpp" />
     <ClCompile Include="..\..\..\src\ui\Icon.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaIcon.cpp" />
+    <ClCompile Include="..\..\..\src\ui\Gauge.cpp" />
+    <ClCompile Include="..\..\..\src\ui\LuaGauge.cpp" />
+    <ClCompile Include="..\..\..\src\ui\NumberLabel.cpp" />
+    <ClCompile Include="..\..\..\src\ui\LuaNumberLabel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\ui\Align.h" />
@@ -98,6 +102,8 @@
     <ClInclude Include="..\..\..\src\ui\Gradient.h" />
     <ClInclude Include="..\..\..\src\ui\SmallButton.h" />
     <ClInclude Include="..\..\..\src\ui\Icon.h" />
+    <ClInclude Include="..\..\..\src\ui\Gauge.h" />
+    <ClInclude Include="..\..\..\src\ui\NumberLabel.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="win32">

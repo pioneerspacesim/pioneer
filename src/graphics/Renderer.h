@@ -64,7 +64,9 @@ enum BlendMode {
 	BLEND_ADDITIVE,
 	BLEND_ALPHA,
 	BLEND_ALPHA_ONE, //"additive alpha"
-	BLEND_ALPHA_PREMULT
+	BLEND_ALPHA_PREMULT,
+	BLEND_SET_ALPHA, // copy alpha channel
+	BLEND_DEST_ALPHA // XXX maybe crappy name
 };
 
 // Renderer base, functions return false if

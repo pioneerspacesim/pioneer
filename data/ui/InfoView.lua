@@ -238,9 +238,6 @@ local econTrade = function ()
 
 	local stats = Game.player:GetStats()
 
-	local usedCargo = stats.usedCargo
-	local totalCargo = stats.freeCapacity
-
 	local usedCabins = Game.player:GetEquipCount("CABIN", "PASSENGER_CABIN")
 	local totalCabins = Game.player:GetEquipCount("CABIN", "UNOCCUPIED_CABIN") + usedCabins
 
@@ -296,14 +293,29 @@ local econTrade = function ()
 
 	cargoListWidget:SetInnerWidget(updateCargoListWidget())
 
-	local totalCargoWidget = ui:Label(t("Total: ")..totalCargo.."t")
-	local usedCargoWidget = ui:Label(t("USED")..": "..usedCargo.."t")
+	local cargoGauge = UI.InfoGauge.New({
+		formatter = function (v)
+			local stats = Game.player:GetStats()
+			return string.format("%d/%dt", stats.usedCargo, stats.freeCapacity)
+		end
+	})
+	cargoGauge:SetValue(stats.usedCargo/stats.freeCapacity)
+
+	local fuelGauge = UI.InfoGauge.New({
+		label          = ui:NumberLabel("PERCENT"),
+		warningLevel   = 0.1,
+		criticalLevel  = 0.05,
+		levelAscending = false,
+	})
+	fuelGauge.label:Bind("valuePercent", Game.player, "fuel")
+	fuelGauge.gauge:Bind("valuePercent", Game.player, "fuel")
 
 	-- Define the refuel button
 	local refuelButton = UI.SmallLabeledButton.New(t('REFUEL'))
 
 	local refuelButtonRefresh = function ()
 		if Game.player.fuel == 100 or Game.player:GetEquipCount('CARGO', 'HYDROGEN') == 0 then refuelButton.widget:Disable() end
+		fuelGauge:SetValue(Game.player.fuel/100)
 	end
 	refuelButtonRefresh()
 
@@ -312,10 +324,9 @@ local econTrade = function ()
 		Game.player:Refuel(1)
 		-- ...then we update the cargo list widget...
 		cargoListWidget:SetInnerWidget(updateCargoListWidget())
-		-- ...and the totals.
+		-- ...and the gauge.
 		stats = Game.player:GetStats()
-		totalCargoWidget:SetText(t("Total: ")..stats.freeCapacity.."t")
-		usedCargoWidget:SetText(t("USED")..": "..stats.usedCargo.."t")
+		cargoGauge:SetValue(stats.usedCargo/stats.freeCapacity)
 
 		refuelButtonRefresh()
 	end
@@ -325,27 +336,38 @@ local econTrade = function ()
 	return ui:Expand():SetInnerWidget(
 		ui:Grid(2,1)
 			:SetColumn(0, {
-				ui:VBox(20):PackEnd({
-					ui:Grid(2,1)
-						:SetColumn(0, {
-							ui:VBox():PackEnd({
-								ui:Label(t("CASH")..":"),
-								ui:Margin(10),
-								ui:Label(t("CARGO_SPACE")..":"),
-								ui:Label(t("CABINS")..":"),
-								ui:Margin(10),
+				ui:Margin(5, "HORIZONTAL",
+					ui:VBox(20):PackEnd({
+						ui:Grid(2,1)
+							:SetColumn(0, {
+								ui:VBox():PackEnd({
+									ui:Label(t("CASH")..":"),
+									ui:Margin(10),
+									ui:Label(t("CARGO_SPACE")..":"),
+									ui:Label(t("CABINS")..":"),
+									ui:Margin(10),
+								})
+							})
+							:SetColumn(1, {
+								ui:VBox():PackEnd({
+									ui:Label(string.format("$%.2f", cash)),
+									ui:Margin(10),
+									cargoGauge.widget,
+									ui:Grid(2,1):SetRow(0, { ui:Label(t("Total: ")..totalCabins), ui:Label(t("USED")..": "..usedCabins) }),
+									ui:Margin(10),
+								})
+							}),
+						ui:Grid({50,10,40},1)
+							:SetRow(0, {
+								ui:HBox(5):PackEnd({
+									ui:Label("Fuel:"),
+									fuelGauge,
+								}),
+								nil,
 								refuelButton.widget,
 							})
-						})
-						:SetColumn(1, {
-							ui:VBox():PackEnd({
-								ui:Label(string.format("$%.2f", cash)),
-								ui:Margin(10),
-								ui:Grid(2,1):SetRow(0, { totalCargoWidget, usedCargoWidget }),
-								ui:Grid(2,1):SetRow(0, { ui:Label(t("Total: ")..totalCabins), ui:Label(t("USED")..": "..usedCabins) }),
-							})
-						}),
-				})
+					})
+				)
 			})
 			:SetColumn(1, {
 				cargoListWidget
@@ -410,13 +432,13 @@ local missions = function (tabGroup)
 		local dist = playerSystem:DistanceTo(mission.location)
 		local distLabel = ui:Label(string.format('%.2f %s', dist, t('ly')))
 		local hyperjumpStatus = Game.player:GetHyperspaceDetails(mission.location)
-		if hyperjumpStatus == 'CURRENT_SYSTEM' then 
-			distLabel:SetColor(0.0, 1.0, 0.2) -- green  
-		else 
+		if hyperjumpStatus == 'CURRENT_SYSTEM' then
+			distLabel:SetColor({ r = 0.0, g = 1.0, b = 0.2 }) -- green
+		else
 			if hyperjumpStatus == 'OK' then
-				distLabel:SetColor(1.0, 1.0, 0.0) -- yellow
-			else 
-				distLabel:SetColor(1.0, 0.0, 0.0) -- red
+				distLabel:SetColor({ r = 1.0, g = 1.0, b = 0.0 }) -- yellow
+			else
+				distLabel:SetColor({ r = 1.0, g = 0.0, b = 0.0 }) -- red
 			end
 		end
 		-- Pack location and distance
@@ -426,7 +448,7 @@ local missions = function (tabGroup)
 		-- Format Due info
 		local dueLabel = ui:Label(Format.Date(mission.due))
 		local days = math.max(0, (mission.due - Game.time) / (24*60*60))
-		local daysLabel = ui:Label(string.format(t("%d days left"), days)):SetColor(1.0, 0.0, 1.0) -- purple
+		local daysLabel = ui:Label(string.format(t("%d days left"), days)):SetColor({ r = 1.0, g = 0.0, b = 1.0 }) -- purple
 		local dueBox = ui:VBox(2):PackEnd(dueLabel):PackEnd(daysLabel)
 		
 		local moreButton = UI.SmallLabeledButton.New(t("More info..."))
@@ -443,7 +465,7 @@ local missions = function (tabGroup)
 			{data = mission.client.name},
 			{data = dist, widget = locationBox},
 			{data = mission.due, widget = dueBox},
-			{data = mission.reward, widget = ui:Label(Format.Money(mission.reward)):SetColor(0.0, 1.0, 0.2)}, -- green
+			{data = mission.reward, widget = ui:Label(Format.Money(mission.reward)):SetColor({ r = 0.0, g = 1.0, b = 0.2 })}, -- green
 			-- nil description means mission type isn't registered.
 			{data = (description and t(mission.status)) or t('INACTIVE')},
 			{widget = moreButton.widget}
@@ -625,17 +647,17 @@ local crewRoster = function ()
 			crewlistbox:PackEnd(ui:Grid(rowspec,1):SetRow(0, {
 				ui:Label(crewMember.name),
 				ui:Label(t(crewMember.title) or t('General crew')),
-				ui:Label(Format.Money(crewWage)):SetColor(0.0, 1.0, 0.2), -- green
-				ui:Label(Format.Money(crewOwed)):SetColor(1.0, 0.0, 0.0), -- red
+				ui:Label(Format.Money(crewWage)):SetColor({ r = 0.0, g = 1.0, b = 0.2 }), -- green
+				ui:Label(Format.Money(crewOwed)):SetColor({ r = 1.0, g = 0.0, b = 0.0 }), -- red
 				ui:Label(Format.Date(crewMember.contract and crewMember.contract.payday or 0)),
 				moreButton.widget,
 			}))
 		end
 		crewlistbox:PackEnd(ui:Grid(rowspec,1):SetRow(0, {
 			ui:Label(""), -- first column, empty
-			ui:Label(t("Total:")):SetFont("HEADING_NORMAL"):SetColor(1.0, 1.0, 0.0), -- yellow
-			ui:Label(Format.Money(wageTotal)):SetColor(0.0, 1.0, 0.2), -- green
-			ui:Label(Format.Money(owedTotal)):SetColor(1.0, 0.0, 0.0), -- red
+			ui:Label(t("Total:")):SetFont("HEADING_NORMAL"):SetColor({ r = 1.0, g = 1.0, b = 0.0 }), -- yellow
+			ui:Label(Format.Money(wageTotal)):SetColor({ r = 0.0, g = 1.0, b = 0.2 }), -- green
+			ui:Label(Format.Money(owedTotal)):SetColor({ r = 1.0, g = 0.0, b = 0.0 }), -- red
 		}))
 
 		local taskCrewButton = ui:Button():SetInnerWidget(ui:Label(t('Give orders to crew')))

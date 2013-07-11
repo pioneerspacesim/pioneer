@@ -25,6 +25,7 @@ noinst_HEADERS = \
 	EventDispatcher.h \
 	Expand.h \
 	FloatContainer.h \
+	Gauge.h \
 	Gradient.h \
 	Grid.h \
 	Icon.h \
@@ -35,6 +36,7 @@ noinst_HEADERS = \
 	LuaSignal.h \
 	Margin.h \
 	MultiLineText.h \
+	NumberLabel.h \
 	Point.h \
 	Scroller.h \
 	Single.h \
@@ -61,6 +63,7 @@ libui_a_SOURCES = \
 	EventDispatcher.cpp \
 	Expand.cpp \
 	FloatContainer.cpp \
+	Gauge.cpp \
 	Gradient.cpp \
 	Grid.cpp \
 	Icon.cpp \
@@ -69,6 +72,7 @@ libui_a_SOURCES = \
 	List.cpp \
 	Margin.cpp \
 	MultiLineText.cpp \
+	NumberLabel.cpp \
 	Scroller.cpp \
 	Single.cpp \
 	Skin.cpp \
@@ -89,6 +93,7 @@ libui_a_SOURCES = \
 	LuaDropDown.cpp \
 	LuaGradient.cpp \
 	LuaExpand.cpp \
+	LuaGauge.cpp \
 	LuaGrid.cpp \
 	LuaIcon.cpp \
 	LuaImage.cpp \
@@ -96,6 +101,7 @@ libui_a_SOURCES = \
 	LuaList.cpp \
 	LuaMargin.cpp \
 	LuaMultiLineText.cpp \
+	LuaNumberLabel.cpp \
 	LuaScroller.cpp \
 	LuaSingle.cpp \
 	LuaSlider.cpp \
