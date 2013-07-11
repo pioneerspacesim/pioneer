@@ -9,14 +9,14 @@ void main(void)
 {
 	vec4 color = material.diffuse;
 	
-	vec3 eyenorm = normalize(-fresnelCentre);
+	vec3 eyenorm = normalize(-varyingEyepos);
 	vec3 normal = normalize(varyingNormal);
 
-	vec3 h = normalize(normal + eyenorm); // Half-vector.
-	float fresnel = 1.0 - dot(eyenorm, h); // Caculate fresnel.
+	float fresnel = 1.0 - dot(eyenorm, normal); // Caculate fresnel.
 	fresnel = pow(fresnel, 5.0);
-	fresnel += 0.1 * (1.0 - fresnel);
-	gl_FragColor = color * fresnel;
+	fresnel += 0.05 * (1.0 - fresnel);
+	color.a = color.a * fresnel;
+	gl_FragColor = color;
 
 	SetFragDepth();
 }

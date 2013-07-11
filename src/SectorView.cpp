@@ -871,14 +871,14 @@ void SectorView::DrawNearSector(int sx, int sy, int sz, const vector3f &playerAb
 			m_disk->Draw(m_renderer);
 		}
 		if(bIsCurrentSystem && m_jumpSphere.Valid()) {
-			m_renderer->SetTransform(systrans);// * matrix4x4f::ScaleMatrix(4.f));
+			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(m_playerHyperspaceRange));
 			m_renderer->SetDepthWrite(false);
-			RefCountedPtr<Material> pMat = m_jumpSphere->GetMaterial();
-			TFresnelParams params;
-			params.m_centre = systrans * (*i).p;
-			pMat->specialParameter0 = &params;
+			m_renderer->SetDepthTest(false);
+			m_renderer->SetBlendMode(BLEND_ALPHA);
 			m_jumpSphere->Draw(m_renderer);
 			m_renderer->SetDepthWrite(true);
+			m_renderer->SetBlendMode(BLEND_SOLID);
+			m_renderer->SetDepthTest(true);
 		}
 	}
 }
@@ -1171,7 +1171,7 @@ void SectorView::Update()
 		Graphics::MaterialDescriptor matdesc;
 		matdesc.effect = EFFECT_FRESNEL_SPHERE;
 		RefCountedPtr<Graphics::Material> fresnelMat(Pi::renderer->CreateMaterial(matdesc));
-		m_jumpSphere.Reset( new Graphics::Drawables::Sphere3D(fresnelMat, 3, m_playerHyperspaceRange) );
+		m_jumpSphere.Reset( new Graphics::Drawables::Sphere3D(fresnelMat, 3, 1.0f) );
 	}
 }
 
