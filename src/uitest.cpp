@@ -11,6 +11,7 @@
 static const int WIDTH  = 1024;
 static const int HEIGHT = 768;
 
+#if 0
 class Thing : public PropertiedObject {
 public:
 	Thing(LuaManager *lua) : PropertiedObject(lua) {
@@ -98,6 +99,7 @@ static bool remove_floating_widget(UI::Context *c, UI::Widget *widget)
 	c->RemoveFloatingWidget(widget);
 	return true;
 }
+#endif
 
 int main(int argc, char **argv)
 {

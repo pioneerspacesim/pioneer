@@ -16,7 +16,7 @@ public:
 		if (lua_istable(l, 2)) {
 			UI::Widget *w = UI::Lua::GetWidget(l, 2);
 			if (w)
-				b->PackEnd(w);
+				b->PackStart(w);
 			else
 				for (size_t i = lua_rawlen(l, 2); i > 0; i--) {
 					lua_rawgeti(l, 2, i);
@@ -25,7 +25,7 @@ public:
 				}
 		}
 		else
-			b->PackEnd(UI::Lua::CheckWidget(l, 2));
+			b->PackStart(UI::Lua::CheckWidget(l, 2));
 
 		lua_pushvalue(l, 1);
 		return 1;
