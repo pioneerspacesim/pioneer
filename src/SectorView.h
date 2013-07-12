@@ -52,11 +52,11 @@ private:
 		Gui::Label *shortDesc;
 	};
 
-	void DrawNearSectors(matrix4x4f modelview);
+	void DrawNearSectors(const matrix4x4f& modelview);
 	void DrawNearSector(int x, int y, int z, const vector3f &playerAbsPos, const matrix4x4f &trans);
 	void PutSystemLabels(Sector *sec, const vector3f &origin, int drawRadius);
 
-	void DrawFarSectors(matrix4x4f modelview);
+	void DrawFarSectors(const matrix4x4f& modelview);
 	void BuildFarSector(Sector *sec, const vector3f &origin, std::vector<vector3f> &points, std::vector<Color> &colors);
 	void PutFactionLabels(const vector3f &secPos);
 
@@ -145,6 +145,7 @@ private:
 	std::vector<vector3f> m_farstars;
 	std::vector<Color>    m_farstarsColor;
 
+	vector3f m_secPosCur;
 	vector3f m_secPosFar;
 	int      m_radiusFar;
 	bool     m_toggledFaction;

@@ -26,7 +26,7 @@ using namespace Graphics;
 
 #define INNER_RADIUS (Sector::SIZE*1.5f)
 #define OUTER_RADIUS (Sector::SIZE*3.0f)
-static const float FAR_THRESHOLD = 5.f;
+static const float FAR_THRESHOLD = 7.5f;
 static const float FAR_LIMIT     = 36.f;
 static const float FAR_MAX       = 46.f;
 
@@ -709,7 +709,7 @@ void SectorView::UpdateFactionToggles()
 	else                                          m_factionBox->HideAll();
 }
 #pragma optimize("",off)
-void SectorView::DrawNearSectors(matrix4x4f modelview)
+void SectorView::DrawNearSectors(const matrix4x4f& modelview)
 {
 	m_visibleFactions.clear();
 
@@ -725,9 +725,26 @@ void SectorView::DrawNearSectors(matrix4x4f modelview)
 		}
 	}
 
-	// ...then switch and do all the labels
 	const vector3f secOrigin = vector3f(int(floorf(m_pos.x)), int(floorf(m_pos.y)), int(floorf(m_pos.z)));
+	if( m_playerHyperspaceRange > 0.0f )
+	{
+		// secDskPos is the centre of the hyperspace sphere clamped to the plane of the grid
+		const vector3f secDskPos = vector3f(m_secPosCur.x, m_secPosCur.y, int(floorf(m_pos.z+0.5f)));
+		// d is the perpendicular distance from the chord to the circle center
+		const float d = Sector::SIZE*(m_secPosCur.z - secDskPos.z);
+		if( d < m_playerHyperspaceRange ) {
+			const float dSqr = pow(d,2.0);
+			const float rSqr = pow(m_playerHyperspaceRange,2.0);
+			const float chordRadius = sqrtf(rSqr - dSqr);
+			if( chordRadius > 0.0f ) {
+				const matrix4x4f trans = modelview * matrix4x4f::Translation(Sector::SIZE*(secDskPos-secOrigin)) * matrix4x4f::ScaleMatrix(chordRadius);
+				m_renderer->SetTransform(trans);
+				m_jumpDisk->Draw(m_renderer);
+			}
+		}
+	}
 
+	// ...then switch and do all the labels
 	m_renderer->SetTransform(modelview);
 	glDepthRange(0,1);
 	Gui::Screen::EnterOrtho();
@@ -740,7 +757,7 @@ void SectorView::DrawNearSectors(matrix4x4f modelview)
 	}
 	Gui::Screen::LeaveOrtho();
 }
-
+#pragma optimize("",off)
 void SectorView::DrawNearSector(int sx, int sy, int sz, const vector3f &playerAbsPos,const matrix4x4f &trans)
 {
 	m_renderer->SetTransform(trans);
@@ -871,11 +888,25 @@ void SectorView::DrawNearSector(int sx, int sy, int sz, const vector3f &playerAb
 			m_disk->Draw(m_renderer);
 		}
 		if(bIsCurrentSystem && m_jumpSphere.Valid()) {
-			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(m_playerHyperspaceRange));
+			
 			m_renderer->SetDepthWrite(false);
 			m_renderer->SetDepthTest(false);
 			m_renderer->SetBlendMode(BLEND_ALPHA);
+			
+			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(m_playerHyperspaceRange));
 			m_jumpSphere->Draw(m_renderer);
+
+			////d is the perpendicular distance from the chord to the circle center
+			//const vector3f rootPos = trans.GetTranslate();
+			//const vector3f ssysPos = systrans.GetTranslate();
+			//m_secPosCur = ssysPos;
+			//const float d = (ssysPos.z - rootPos.z);
+			//const float dSqr = pow(d,2.0);
+			//const float rSqr = pow(m_playerHyperspaceRange,2.0);
+			//const float chordRadius = sqrtf(rSqr - dSqr);
+			//m_renderer->SetTransform(trans * matrix4x4f::ScaleMatrix(chordRadius));
+			//m_jumpDisk->Draw(m_renderer);
+
 			m_renderer->SetDepthWrite(true);
 			m_renderer->SetBlendMode(BLEND_SOLID);
 			m_renderer->SetDepthTest(true);
@@ -883,7 +914,7 @@ void SectorView::DrawNearSector(int sx, int sy, int sz, const vector3f &playerAb
 	}
 }
 
-void SectorView::DrawFarSectors(matrix4x4f modelview)
+void SectorView::DrawFarSectors(const matrix4x4f& modelview)
 {
 	int buildRadius = ceilf((m_zoomClamped/FAR_THRESHOLD) * 3);
 	if (buildRadius <= DRAW_RAD) buildRadius = DRAW_RAD;
@@ -1172,6 +1203,8 @@ void SectorView::Update()
 		matdesc.effect = EFFECT_FRESNEL_SPHERE;
 		RefCountedPtr<Graphics::Material> fresnelMat(Pi::renderer->CreateMaterial(matdesc));
 		m_jumpSphere.Reset( new Graphics::Drawables::Sphere3D(fresnelMat, 3, 1.0f) );
+
+		m_jumpDisk.Reset( new Graphics::Drawables::Disk(Pi::renderer, Color::WHITE, 1.0f) );
 	}
 }
 
