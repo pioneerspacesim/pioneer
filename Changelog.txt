@@ -8,6 +8,7 @@ July 2013
 
    * Fixes
      * Fix damage particle rendering (#2353)
+     * Lua: onCargoUnload should return planet landed on (#2360)
 
    * Minor changes and tweaks
      * Updated Deneb model (#2339)
