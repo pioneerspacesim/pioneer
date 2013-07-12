@@ -4,6 +4,7 @@ July 2013
      * New ship "Pumpkinseed" (#2352)
      * New ship "Mola Mola" (#2355)
      * Enable patterns/colors on buildings (#2342)
+     * New wind sounds (#2365)
 
    * Fixes
      * Fix damage particle rendering (#2353)
@@ -16,7 +17,7 @@ July 2013
    * Script and UI API changes
      * Only use Color objects in UI API (#2362)
      * UI: gauge widget (#2367)
-     * UI: formatted number label widget
+     * UI: formatted number label widget (#2369)
 
    * Internal changes
      * Render target infrastructure (#2356)

@@ -1,4 +1,4 @@
-﻿# General
+# General
 SUGGESTED_RESPONSES
     Javasolt válaszok:
 CASH

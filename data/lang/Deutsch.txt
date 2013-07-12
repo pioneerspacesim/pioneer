@@ -1,4 +1,4 @@
-﻿# General
+# General
 SUGGESTED_RESPONSES
     Vorgeschlagene Antworten:
 CASH
