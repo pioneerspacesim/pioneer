@@ -145,7 +145,6 @@ private:
 	std::vector<vector3f> m_farstars;
 	std::vector<Color>    m_farstarsColor;
 
-	vector3f m_secPosCur;
 	vector3f m_secPosFar;
 	int      m_radiusFar;
 	bool     m_toggledFaction;
