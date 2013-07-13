@@ -17,4 +17,16 @@ vector3d RandomPointOnSphere(double minRadius, double maxRadius)
 	return vector3d(r*cos(theta), r*sin(theta), z*dist);
 }
 
+vector3d RandomPointInCircle(double minRadius, double maxRadius)
+{
+	// m: minRadius, M: maxRadius, r: random radius
+	// PDF(r) = 2/(M^2 - m^2) * r  for m <= r < M
+	// CDF(r) = 1/(M^2 - m^2) * (r^2 - m^2)
+	// per inversion method (http://en.wikipedia.org/wiki/Inversion_method): CDF(r) := Uniform{0..1}
+	// r = sqrt(Uniform{0..1} * (M^2 - m^2) + m^2) = sqrt(Uniform{m^2..M^2})
+	const double r = sqrt(Pi::rng.Double(minRadius*minRadius, maxRadius*maxRadius));
+	const double phi = Pi::rng.Double(2.0*M_PI);
+	return vector3d(r*cos(phi), r*sin(phi), 0.0);
+}
+
 }
