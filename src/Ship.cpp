@@ -3,7 +3,6 @@
 
 #include "Ship.h"
 #include "CityOnPlanet.h"
-#include "Planet.h"
 #include "Lang.h"
 #include "EnumStrings.h"
 #include "LuaEvent.h"
@@ -698,6 +697,24 @@ void Ship::TestLanded()
 			}
 		}
 	}
+}
+
+void Ship::SetLandedOn(Planet *p, float latitude, float longitude)
+{
+	m_wheelTransition = 0;
+	m_wheelState = 1.0f;
+	Frame* f = p->GetFrame()->GetRotFrame();
+	SetFrame(f);
+	vector3d up = vector3d(cos(latitude)*sin(longitude), sin(latitude), cos(latitude)*cos(longitude));
+	const double planetRadius = p->GetTerrainHeight(up);
+	SetPosition(up * (planetRadius - GetAabb().min.y));
+	vector3d right = up.Cross(vector3d(0,0,1)).Normalized();
+	SetOrient(matrix3x3d::FromVectors(right, up));
+	SetVelocity(vector3d(0, 0, 0));
+	SetAngVelocity(vector3d(0, 0, 0));
+	ClearThrusterState();
+	SetFlightState(LANDED);
+	LuaEvent::Queue("onShipLanded", this, p);
 }
 
 void Ship::TimeStepUpdate(const float timeStep)

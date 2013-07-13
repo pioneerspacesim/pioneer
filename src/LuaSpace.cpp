@@ -215,7 +215,7 @@ static int l_space_spawn_ship_near(lua_State *l)
 	// XXX protect against spawning inside the body
 	Frame * newframe = nearbody->GetFrame();
 	const vector3d newPosition = (MathUtil::RandomPointOnSphere(min_dist, max_dist)* 1000.0) + nearbody->GetPosition();
-	
+
 	// If the frame is rotating and the chosen position is too far, use non-rotating parent.
 	// Otherwise the ship will be given a massive initial velocity when it's bumped out of the
 	// rotating frame in the next update
@@ -373,6 +373,170 @@ static int l_space_spawn_ship_parked(lua_State *l)
 }
 
 /*
+ * Function: SpawnShipLanded
+ *
+ * Create a ship and place it landed on the given <Body>.
+ *
+ * > ship = Space.SpawnShipLanded(type, body, lat, long)
+ *
+ * Parameters:
+ *
+ *   type - the name of the ship
+ *
+ *   body - the <Body> near which the ship should be spawned
+ *
+ *   lat - latitude in radians (like in custom body defintions)
+ *
+ *   long - longitude in radians (like in custom body definitions)
+ *
+ * Return:
+ *
+ *   ship - a <Ship> object for the new ship
+ *
+ * Example:
+ *
+ * > -- spawn 16km from L.A. when in Sol system
+ * > local earth = Space.GetBody(3)
+ * > local ship = Space.SpawnShipLanded("viper_police", earth, math.deg2rad(34.06473923), math.deg2rad(-118.1591568))
+ *
+ * Availability:
+ *
+ *   July 2013
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_space_spawn_ship_landed(lua_State *l)
+{
+	if (!Pi::game)
+		luaL_error(l, "Game is not started");
+
+	LUA_DEBUG_START(l);
+
+	const char *type = luaL_checkstring(l, 1);
+	if (! ShipType::Get(type))
+		luaL_error(l, "Unknown ship type '%s'", type);
+
+	Planet *planet = LuaObject<Planet>::CheckFromLua(2);
+	if (planet->GetSystemBody()->GetSuperType() != SystemBody::SUPERTYPE_ROCKY_PLANET)
+		luaL_error(l, "Body is not a rocky planet");
+	float latitude = luaL_checknumber(l, 3);
+	float longitude = luaL_checknumber(l, 4);
+
+	Ship *ship = new Ship(type);
+	assert(ship);
+
+	Pi::game->GetSpace()->AddBody(ship);
+	ship->SetLandedOn(planet, latitude, longitude);
+
+	LuaObject<Ship>::PushToLua(ship);
+
+	LUA_DEBUG_END(l, 1);
+
+	return 1;
+}
+
+/*
+ * Function: SpawnShipLandedNear
+ *
+ * Create a ship and place it on the surface near the given <Body>.
+ *
+ * > ship = Space.SpawnShipLandedNear(type, body, min, max)
+ *
+ * Parameters:
+ *
+ *   type - the name of the ship
+ *
+ *   body - the <Body> near which the ship should be spawned. It must be on the ground or close to it,
+ *          i.e. it must be in the rotating frame of the planetary body.
+ *
+ *   min - minimum distance from the surface point below the body to place the ship, in Km
+ *
+ *   max - maximum distance to place the ship
+ *
+ * Return:
+ *
+ *   ship - a <Ship> object for the new ship
+ *
+ * Example:
+ *
+ * > -- spawn a ship 10km from the player
+ * > local ship = Ship.SpawnShipLandedNear("viper_police", Game.player, 10, 10)
+ *
+ * Availability:
+ *
+ *   July 2013
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_space_spawn_ship_landed_near(lua_State *l)
+{
+	if (!Pi::game)
+		luaL_error(l, "Game is not started");
+
+	LUA_DEBUG_START(l);
+
+	const char *type = luaL_checkstring(l, 1);
+	if (! ShipType::Get(type))
+		luaL_error(l, "Unknown ship type '%s'", type);
+
+	Body *nearbody = LuaObject<Body>::CheckFromLua(2);
+	const float min_dist = luaL_checknumber(l, 3);
+	const float max_dist = luaL_checknumber(l, 4);
+	if (min_dist > max_dist)
+		luaL_error(l, "min_dist must not be larger than max_dist");
+
+	Ship *ship = new Ship(type);
+	assert(ship);
+
+	// XXX protect against spawning inside the body
+	Frame * newframe = nearbody->GetFrame()->GetRotFrame();
+	if (!newframe->IsRotFrame())
+		luaL_error(l, "Body must be in rotating frame");
+	SystemBody *sbody = newframe->GetSystemBody();
+	if (sbody->GetSuperType() != SystemBody::SUPERTYPE_ROCKY_PLANET)
+		luaL_error(l, "Body is not on a rocky planet");
+	if (max_dist > sbody->GetRadius())
+		luaL_error(l, "max_dist too large for planet radius");
+	// We assume that max_dist is much smaller than the planet radius, i.e. that our area is reasonably flat
+	// So, we
+	const vector3d up = nearbody->GetPosition().Normalized();
+	vector3d x;
+	vector3d y;
+	// Calculate a orthonormal basis for a horizontal plane. For numerical reasons we do that determining the smallest
+	// coordinate and take the cross product with (1,0,0), (0,1,0) or (0,0,1) respectively to calculate the first vector.
+	// The second vector is just the cross product of the up-vector and out first vector.
+	if (up.x <= up.y && up.x <= up.z) {
+		x = vector3d(0.0, up.z, -up.y).Normalized();
+		y = vector3d(-up.y*up.y - up.z*up.z, up.x*up.y, up.x*up.z).Normalized();
+	} else if (up.y <= up.x && up.y <= up.z) {
+		x = vector3d(-up.z, 0.0, up.x).Normalized();
+		y = vector3d(up.x*up.y, -up.x*up.x - up.z*up.z, up.y*up.z).Normalized();
+	} else {
+		x = vector3d(up.y, -up.x, 0.0).Normalized();
+		y = vector3d(up.x*up.z, up.y*up.z, -up.x*up.x - up.y*up.y).Normalized();
+	}
+	Planet *planet = static_cast<Planet*>(newframe->GetBody());
+	const double radius = planet->GetSystemBody()->GetRadius();
+	const vector3d planar = MathUtil::RandomPointInCircle(min_dist * 1000.0, max_dist * 1000.0);
+	vector3d pos = (radius * up + x * planar.x + y * planar.y).Normalized();
+	float latitude = atan2(pos.y, sqrt(pos.x*pos.x + pos.z * pos.z));
+	float longitude = atan2(pos.x, pos.z);
+
+	Pi::game->GetSpace()->AddBody(ship);
+	ship->SetLandedOn(planet, latitude, longitude);
+
+	LuaObject<Ship>::PushToLua(ship);
+
+	LUA_DEBUG_END(l, 1);
+
+	return 1;
+}
+
+/*
  * Function: GetBody
  *
  * Get the <Body> with the specificed body index.
@@ -508,6 +672,8 @@ void LuaSpace::Register()
 		{ "SpawnShipNear",   l_space_spawn_ship_near   },
 		{ "SpawnShipDocked", l_space_spawn_ship_docked },
 		{ "SpawnShipParked", l_space_spawn_ship_parked },
+		{ "SpawnShipLanded", l_space_spawn_ship_landed },
+		{ "SpawnShipLandedNear", l_space_spawn_ship_landed_near },
 
 		{ "GetBody",   l_space_get_body   },
 		{ "GetBodies", l_space_get_bodies },
