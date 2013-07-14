@@ -53,7 +53,7 @@ private:
 	};
 
 	void DrawNearSectors(const matrix4x4f& modelview);
-	void DrawNearSector(int x, int y, int z, const vector3f &playerAbsPos, const matrix4x4f &trans);
+	void DrawNearSector(const int sx, const int sy, const int sz, const vector3f &playerAbsPos, const matrix4x4f &trans);
 	void PutSystemLabels(Sector *sec, const vector3f &origin, int drawRadius);
 
 	void DrawFarSectors(const matrix4x4f& modelview);
@@ -157,6 +157,7 @@ private:
 	int m_cacheZMax;
 
 	ScopedPtr<Graphics::VertexArray> m_lineVerts;
+	ScopedPtr<Graphics::VertexArray> m_secLineVerts;
 	ScopedPtr<Graphics::Drawables::Sphere3D> m_jumpSphere;
 	ScopedPtr<Graphics::Drawables::Disk> m_jumpDisk;
 };

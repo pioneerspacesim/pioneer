@@ -24,9 +24,10 @@
 
 using namespace Graphics;
 
+static const int DRAW_RAD = 5;
 #define INNER_RADIUS (Sector::SIZE*1.5f)
-#define OUTER_RADIUS (Sector::SIZE*3.0f)
-static const float FAR_THRESHOLD = 5.f;
+#define OUTER_RADIUS (Sector::SIZE*float(DRAW_RAD))
+static const float FAR_THRESHOLD = 7.5f;
 static const float FAR_LIMIT     = 36.f;
 static const float FAR_MAX       = 46.f;
 
@@ -110,7 +111,8 @@ void SectorView::InitObject()
 {
 	SetTransparency(true);
 
-	m_lineVerts.Reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_POSITION, 500));
+	m_lineVerts.Reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION, 500));
+	m_secLineVerts.Reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION, 500));
 
 	Gui::Screen::PushFont("OverlayFont");
 	m_clickableLabels = new Gui::LabelSet();
@@ -365,15 +367,15 @@ void SectorView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
 		Pi::cpan->MsgLog()->Message("", Lang::NOT_FOUND);
 }
 
-static const int DRAW_RAD = 3;
 #define FFRAC(_x)	((_x)-floor(_x))
 
 void SectorView::Draw3D()
 {
 	m_lineVerts->Clear();
+	m_secLineVerts->Clear();
 	m_clickableLabels->Clear();
 
-	if (m_zoomClamped <= FAR_THRESHOLD) m_renderer->SetPerspectiveProjection(40.f, Pi::GetScrAspect(), 1.f, 100.f);
+	if (m_zoomClamped <= FAR_THRESHOLD) m_renderer->SetPerspectiveProjection(40.f, Pi::GetScrAspect(), 1.f, 300.f);
 	else                                m_renderer->SetPerspectiveProjection(40.f, Pi::GetScrAspect(), 1.f, 600.f);
 
 	matrix4x4f modelview = matrix4x4f::Identity();
@@ -412,6 +414,9 @@ void SectorView::Draw3D()
 	m_renderer->SetTransform(matrix4x4f::Identity());
 	if (m_lineVerts->GetNumVerts() > 2)
 		m_renderer->DrawLines(m_lineVerts->GetNumVerts(), &m_lineVerts->position[0], &m_lineVerts->diffuse[0]);
+
+	if (m_secLineVerts->GetNumVerts() > 2)
+		m_renderer->DrawLines(m_secLineVerts->GetNumVerts(), &m_secLineVerts->position[0], &m_secLineVerts->diffuse[0]);
 
 	UpdateFactionToggles();
 
@@ -741,7 +746,7 @@ void SectorView::DrawNearSectors(const matrix4x4f& modelview)
 	Gui::Screen::LeaveOrtho();
 }
 #pragma optimize("",off)
-void SectorView::DrawNearSector(int sx, int sy, int sz, const vector3f &playerAbsPos,const matrix4x4f &trans)
+void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const vector3f &playerAbsPos,const matrix4x4f &trans)
 {
 	m_renderer->SetTransform(trans);
 	Sector* ps = GetCached(sx, sy, sz);
@@ -751,13 +756,20 @@ void SectorView::DrawNearSector(int sx, int sy, int sz, const vector3f &playerAb
 	if (cz == sz) {
 		const Color darkgreen(0.f, 0.2f, 0.f, 1.f);
 		const vector3f vts[] = {
-			vector3f(0.f, 0.f, 0.f),
-			vector3f(0.f, Sector::SIZE, 0.f),
-			vector3f(Sector::SIZE, Sector::SIZE, 0.f),
-			vector3f(Sector::SIZE, 0.f, 0.f)
+			trans * vector3f(0.f, 0.f, 0.f),
+			trans * vector3f(0.f, Sector::SIZE, 0.f),
+			trans * vector3f(Sector::SIZE, Sector::SIZE, 0.f),
+			trans * vector3f(Sector::SIZE, 0.f, 0.f)
 		};
 
-		m_renderer->DrawLines(4, vts, darkgreen, LINE_LOOP);
+		m_secLineVerts->Add(vts[0], darkgreen);	// line segment 1
+		m_secLineVerts->Add(vts[1], darkgreen);
+		m_secLineVerts->Add(vts[1], darkgreen);	// line segment 2
+		m_secLineVerts->Add(vts[2], darkgreen);
+		m_secLineVerts->Add(vts[2], darkgreen);	// line segment 3
+		m_secLineVerts->Add(vts[3], darkgreen);
+		m_secLineVerts->Add(vts[3], darkgreen);	// line segment 4
+		m_secLineVerts->Add(vts[0], darkgreen);
 	}
 
 	Uint32 sysIdx = 0;
@@ -1249,8 +1261,7 @@ Sector* SectorView::GetCached(const int sectorX, const int sectorY, const int se
 void SectorView::ShrinkCache()
 {
 	// we're going to use these to determine if our sectors are within the range that we'll ever render
-	int drawRadius = ceilf((m_zoomClamped/FAR_THRESHOLD) * 3);
-	if (m_zoomClamped <= FAR_THRESHOLD) drawRadius = DRAW_RAD;
+	const int drawRadius = (m_zoomClamped <= FAR_THRESHOLD) ? DRAW_RAD : ceilf((m_zoomClamped/FAR_THRESHOLD) * DRAW_RAD);
 
 	const int xmin = int(floorf(m_pos.x))-drawRadius;
 	const int xmax = int(floorf(m_pos.x))+drawRadius;
