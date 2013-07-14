@@ -175,6 +175,11 @@ void pi_lua_open_standard_base(lua_State *L)
 	assert(lua_isfunction(L, -1));
 	lua_setfield(L, -2, "deg2rad");
 
+	// alias math.rad2deg = math.deg
+	lua_getfield(L, -1, "deg");
+	assert(lua_isfunction(L, -1));
+	lua_setfield(L, -2, "rad2deg");
+
 	lua_pop(L, 1); // pop the math table
 }
 
