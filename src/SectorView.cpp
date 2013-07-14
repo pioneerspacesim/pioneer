@@ -26,7 +26,7 @@ using namespace Graphics;
 
 #define INNER_RADIUS (Sector::SIZE*1.5f)
 #define OUTER_RADIUS (Sector::SIZE*3.0f)
-static const float FAR_THRESHOLD = 7.5f;
+static const float FAR_THRESHOLD = 5.f;
 static const float FAR_LIMIT     = 36.f;
 static const float FAR_MAX       = 46.f;
 
@@ -1203,7 +1203,8 @@ void SectorView::Update()
 		RefCountedPtr<Graphics::Material> fresnelMat(Pi::renderer->CreateMaterial(matdesc));
 		m_jumpSphere.Reset( new Graphics::Drawables::Sphere3D(fresnelMat, 3, 1.0f) );
 
-		m_jumpDisk.Reset( new Graphics::Drawables::Disk(Pi::renderer, Color(1.0f, 1.0f, 1.0f, 0.1f), 1.0f) );
+		//m_jumpDisk.Reset( new Graphics::Drawables::Disk(Pi::renderer, Color(1.0f, 1.0f, 1.0f, 0.1f), 1.0f) );
+		m_jumpDisk.Reset( new Graphics::Drawables::Disk(fresnelMat, 72, 1.0f) );
 	}
 }
 

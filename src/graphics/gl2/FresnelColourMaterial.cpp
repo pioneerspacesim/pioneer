@@ -38,6 +38,7 @@ void FresnelColourMaterial::Apply()
 	p->diffuse.Set(this->diffuse);
 
 	glPushAttrib(GL_ENABLE_BIT);
+	glDisable(GL_CULL_FACE);
 }
 
 void FresnelColourMaterial::Unapply()
