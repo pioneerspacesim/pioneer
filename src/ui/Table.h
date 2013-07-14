@@ -11,7 +11,7 @@ namespace UI {
 class Table: public Container {
 protected:
 	friend class Context;
-	Table(Context *context) : Container(context) {}
+	Table(Context *context);
 
 public:
 	virtual Point PreferredSize();
@@ -21,6 +21,11 @@ public:
 	Table *AddRow(const WidgetSet &set);
 
 private:
+	std::vector<Widget*> m_heading;
+	std::vector< std::vector<Widget*> > m_rows;
+
+	std::size_t m_numColumns;
+	std::vector<std::size_t> m_colWidth;
 };
 
 }

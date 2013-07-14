@@ -553,6 +553,24 @@ int main(int argc, char **argv)
 
 	UI::Table *table;
 	table = c->Table();
+	table->SetFont(UI::Widget::FONT_LARGE);
+	table->SetHeadingRow(UI::WidgetSet(
+		c->Label("three"),
+		c->Label("ten"),
+		c->Label("twenty")
+	));
+	for (char ch = 'a'; ch <= 'z'; ch++) {
+		static char buf[32];
+		memset(buf, ch, sizeof(buf));
+		UI::Label *l1, *l2, *l3;
+		buf[20] = '\0';
+		l3 = c->Label(buf);
+		buf[10] = '\0';
+		l2 = c->Label(buf);
+		buf[3] = '\0';
+		l1 = c->Label(buf);
+		table->AddRow(UI::WidgetSet(l1, l2, l3));
+	}
 	c->SetInnerWidget(table);
 
 	//int count = 0;
