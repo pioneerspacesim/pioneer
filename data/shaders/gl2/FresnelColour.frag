@@ -12,10 +12,10 @@ void main(void)
 	vec3 eyenorm = normalize(-varyingEyepos);
 	vec3 normal = normalize(varyingNormal);
 
-	float fresnel = 1.0 - clamp(abs(dot(eyenorm, normal)), 0.0, 1.0); // Caculate fresnel.
-	fresnel = pow(fresnel, 5.0);
+	float fresnel = 1.0 - abs(dot(eyenorm, normal)); // Calculate fresnel.
+	fresnel = pow(fresnel, 10.0);
 	fresnel += 0.05 * (1.0 - fresnel);
-	color.a = color.a * fresnel;
+	color.a = color.a * clamp(fresnel * 0.5, 0.0, 1.0);
 	gl_FragColor = color;
 
 	SetFragDepth();
