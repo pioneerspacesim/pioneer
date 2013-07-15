@@ -35,7 +35,7 @@ void Button::Layout()
 	}
 
 	const Point innerSize = GetSize() - Point(GetContext()->GetSkin().ButtonNormal().borderWidth*2);
-	SetWidgetDimensions(innerWidget, Point(GetContext()->GetSkin().ButtonNormal().borderWidth), CalcSize(innerWidget, innerSize));
+	SetWidgetDimensions(innerWidget, Point(GetContext()->GetSkin().ButtonNormal().borderWidth), innerWidget->CalcSize(innerSize));
 	innerWidget->Layout();
 
 	Point innerActiveArea(innerWidget->GetActiveArea());

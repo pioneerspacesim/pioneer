@@ -22,7 +22,7 @@ void Table::Layout()
 	memset(&m_colWidth[0], 0, sizeof(std::size_t)*numColumns); // XXX icky
 
 	for (std::size_t i = 0; i < m_heading.size(); i++) {
-		Point size(m_heading[i] ? CalcLayoutContribution(m_heading[i]) : Point(0));
+		Point size(m_heading[i] ? m_heading[i]->CalcLayoutContribution() : Point(0));
 		// XXX handle flags
 		m_colWidth[i] = size.x;
 	}
@@ -30,7 +30,7 @@ void Table::Layout()
 	for (std::vector< std::vector<Widget*> >::const_iterator i = m_rows.begin(); i != m_rows.end(); ++i) {
 		for (std::size_t j = 0; j < (*i).size(); j++) {
 			if (!(*i)[j]) continue;
-			Point size((*i)[j] ? CalcLayoutContribution((*i)[j]) : Point(0));
+			Point size((*i)[j] ? (*i)[j]->CalcLayoutContribution() : Point(0));
 			m_colWidth[j] = std::max(m_colWidth[j], std::size_t(size.x));
 		}
 	}
@@ -40,7 +40,7 @@ void Table::Layout()
 	int height = 0;
 	for (std::size_t i = 0; i < m_heading.size(); i++) {
 		if (!m_heading[i]) continue;
-		Point size(CalcLayoutContribution(m_heading[i])); // XXX cache contribution
+		Point size(m_heading[i]->CalcLayoutContribution()); // XXX cache contribution
 		SetWidgetDimensions(m_heading[i], pos, size);
 		pos.x += m_colWidth[i];
 		height = std::max(height, size.y);
@@ -52,7 +52,7 @@ void Table::Layout()
 		height = 0;
 		for (std::size_t j = 0; j < (*i).size(); j++) {
 			if (!(*i)[j]) continue;
-			Point size(CalcLayoutContribution((*i)[j]));
+			Point size((*i)[j]->CalcLayoutContribution());
 			SetWidgetDimensions((*i)[j], pos, size);
 			pos.x += m_colWidth[j];
 			height = std::max(height, size.y);

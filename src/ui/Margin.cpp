@@ -8,7 +8,7 @@ namespace UI {
 Point Margin::PreferredSize()
 {
 	if (!GetInnerWidget()) return Point(m_margin*2.0f);
-	return SizeAdd(CalcLayoutContribution(GetInnerWidget()), Point(m_margin*2.0f));
+	return SizeAdd(GetInnerWidget()->CalcLayoutContribution(), Point(m_margin*2.0f));
 }
 
 void Margin::Layout()
@@ -56,7 +56,7 @@ void Margin::Layout()
 	}
 
 
-	SetWidgetDimensions(GetInnerWidget(), innerPos, CalcSize(GetInnerWidget(), innerSize));
+	SetWidgetDimensions(GetInnerWidget(), innerPos, GetInnerWidget()->CalcSize(innerSize));
 
 	GetInnerWidget()->Layout();
 }
