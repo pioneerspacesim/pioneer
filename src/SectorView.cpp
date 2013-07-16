@@ -522,6 +522,10 @@ void SectorView::PutSystemLabels(Sector *sec, const vector3f &origin, int drawRa
 		vector3d systemPos = vector3d((*sys).FullPosition() - origin);
 		vector3d screenPos;
 		if (Gui::Screen::Project(systemPos, screenPos)) {
+			// reject back-projected labels
+			if(screenPos.z > 1.0f)
+				continue;
+			
 			// work out the colour
 			Color labelColor = (*sys).faction->AdjustedColour((*sys).population, inRange);
 
@@ -713,7 +717,7 @@ void SectorView::UpdateFactionToggles()
 	if  (m_detailBoxVisible == DETAILBOX_FACTION) m_factionBox->Show();
 	else                                          m_factionBox->HideAll();
 }
-#pragma optimize("",off)
+
 void SectorView::DrawNearSectors(const matrix4x4f& modelview)
 {
 	m_visibleFactions.clear();
@@ -745,7 +749,7 @@ void SectorView::DrawNearSectors(const matrix4x4f& modelview)
 	}
 	Gui::Screen::LeaveOrtho();
 }
-#pragma optimize("",off)
+
 void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const vector3f &playerAbsPos,const matrix4x4f &trans)
 {
 	m_renderer->SetTransform(trans);
