@@ -887,7 +887,7 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 			m_disk->Draw(m_renderer);
 		}
 		if(bIsCurrentSystem && m_jumpSphere.Valid() && m_playerHyperspaceRange>0.0f) {
-			
+			// not sure I should do these here on when applying the material?
 			m_renderer->SetDepthWrite(false);
 			m_renderer->SetDepthTest(false);
 			m_renderer->SetBlendMode(BLEND_ALPHA);
@@ -895,32 +895,7 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 			const matrix4x4f sphTrans = trans * matrix4x4f::Translation((*i).p.x, (*i).p.y, (*i).p.z);
 			m_renderer->SetTransform(sphTrans * matrix4x4f::ScaleMatrix(m_playerHyperspaceRange));
 			m_jumpSphere->Draw(m_renderer);
-
-#if 1
-			const matrix4x4f dskTrans = trans * matrix4x4f::Translation((*i).p.x, (*i).p.y, (*i).p.z);
-			m_renderer->SetTransform(dskTrans * matrix4x4f::ScaleMatrix(m_playerHyperspaceRange));
-
 			m_jumpDisk->Draw(m_renderer);
-#else
-			////d is the perpendicular distance from the chord to the circle center
-			//const vector3f rootPos = trans.GetTranslate();
-			// secDskPos is the centre of the hyperspace sphere clamped to the plane of the grid
-			const vector3f secDskPos = vector3f((*i).p.x, (*i).p.y, Sector::SIZE*(int(floorf(m_pos.z+0.5f))));
-			// d is the perpendicular distance from the chord to the circle center
-			const float d = ((*i).p.z - secDskPos.z);
-			if( d < m_playerHyperspaceRange ) {
-				const float dSqr = pow(d,2.0);
-				const float rSqr = pow(m_playerHyperspaceRange,2.0);
-				const float chordRadius = sqrtf(rSqr - dSqr);
-				if( chordRadius > 0.0f ) {
-					//Sector::SIZE*(secDskPos-secOrigin)
-					const matrix4x4f dskTrans = trans * matrix4x4f::Translation(secDskPos);
-					m_renderer->SetTransform(dskTrans * matrix4x4f::ScaleMatrix(chordRadius));
-
-					m_jumpDisk->Draw(m_renderer);
-				}
-			}
-#endif
 
 			m_renderer->SetDepthWrite(true);
 			m_renderer->SetBlendMode(BLEND_SOLID);
