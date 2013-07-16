@@ -5,8 +5,36 @@
 
 namespace UI {
 
-Table::Table(Context *context) : Container(context),
-	m_numColumns(0)
+class TableLayout {
+public:
+
+	void AddRow(std::vector<Widget*> widgets) {
+		if (m_columnWidths.size() < widgets.size()) {
+			std::size_t i = m_columnWidths.size();
+			m_columnWidths.resize(widgets.size());
+			for (; i < widgets.size(); i++)
+				m_columnWidths[i] = 0;
+		}
+
+		for (std::size_t i = 0; i < widgets.size(); i++) {
+			Widget *w = widgets[i];
+			if (!w) continue;
+			const Point size(w->CalcLayoutContribution());
+			// XXX handle flags
+			m_columnWidths[i] = std::max(m_columnWidths[i], size.x);
+		}
+	}
+
+	const std::vector<int> &ColumnWidths() const {
+		return m_columnWidths;
+	}
+
+private:
+	std::vector<int> m_columnWidths;
+};
+
+
+Table::Table(Context *context) : Container(context)
 {
 }
 
@@ -17,32 +45,20 @@ Point Table::PreferredSize()
 
 void Table::Layout()
 {
-	std::size_t numColumns = std::max(m_heading.size(), m_numColumns);
-	m_colWidth.resize(numColumns);
-	memset(&m_colWidth[0], 0, sizeof(std::size_t)*numColumns); // XXX icky
-
-	for (std::size_t i = 0; i < m_heading.size(); i++) {
-		Point size(m_heading[i] ? m_heading[i]->CalcLayoutContribution() : Point(0));
-		// XXX handle flags
-		m_colWidth[i] = size.x;
-	}
-
-	for (std::vector< std::vector<Widget*> >::const_iterator i = m_rows.begin(); i != m_rows.end(); ++i) {
-		for (std::size_t j = 0; j < (*i).size(); j++) {
-			if (!(*i)[j]) continue;
-			Point size((*i)[j] ? (*i)[j]->CalcLayoutContribution() : Point(0));
-			m_colWidth[j] = std::max(m_colWidth[j], std::size_t(size.x));
-		}
-	}
+	TableLayout layout;
+	layout.AddRow(m_heading);
+	for (std::vector< std::vector<Widget*> >::const_iterator i = m_rows.begin(); i != m_rows.end(); ++i)
+		layout.AddRow(*i);
 
 	Point pos(0);
+	const std::vector<int> &colWidths = layout.ColumnWidths();
 
 	int height = 0;
 	for (std::size_t i = 0; i < m_heading.size(); i++) {
 		if (!m_heading[i]) continue;
 		Point size(m_heading[i]->CalcLayoutContribution()); // XXX cache contribution
 		SetWidgetDimensions(m_heading[i], pos, size);
-		pos.x += m_colWidth[i];
+		pos.x += colWidths[i];
 		height = std::max(height, size.y);
 	}
 	pos.y += height;
@@ -54,7 +70,7 @@ void Table::Layout()
 			if (!(*i)[j]) continue;
 			Point size((*i)[j]->CalcLayoutContribution());
 			SetWidgetDimensions((*i)[j], pos, size);
-			pos.x += m_colWidth[j];
+			pos.x += colWidths[j];
 			height = std::max(height, size.y);
 		}
 		pos.y += height;
@@ -80,7 +96,6 @@ Table *Table::SetHeadingRow(const WidgetSet &set)
 
 Table *Table::AddRow(const WidgetSet &set)
 {
-	m_numColumns = std::max(m_numColumns, set.numWidgets);
 	m_rows.push_back(set.widgets);
 
 	for (std::size_t i = 0; i < set.widgets.size(); i++) {
