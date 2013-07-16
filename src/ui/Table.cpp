@@ -16,21 +16,30 @@ public:
 				m_columnWidths[i] = 0;
 		}
 
+		int height = 0;
 		for (std::size_t i = 0; i < widgets.size(); i++) {
 			Widget *w = widgets[i];
 			if (!w) continue;
 			const Point size(w->CalcLayoutContribution());
 			// XXX handle flags
 			m_columnWidths[i] = std::max(m_columnWidths[i], size.x);
+			height = std::max(height, size.y);
 		}
+
+		m_rowHeights.push_back(height);
 	}
 
 	const std::vector<int> &ColumnWidths() const {
 		return m_columnWidths;
 	}
 
+	const std::vector<int> &RowHeights() const {
+		return m_rowHeights;
+	}
+
 private:
 	std::vector<int> m_columnWidths;
+	std::vector<int> m_rowHeights;
 };
 
 
@@ -52,28 +61,27 @@ void Table::Layout()
 
 	Point pos(0);
 	const std::vector<int> &colWidths = layout.ColumnWidths();
+	const std::vector<int> &rowHeights = layout.RowHeights();
 
-	int height = 0;
+	int row = 0;
+
 	for (std::size_t i = 0; i < m_heading.size(); i++) {
 		if (!m_heading[i]) continue;
-		Point size(m_heading[i]->CalcLayoutContribution()); // XXX cache contribution
+		Point size(m_heading[i]->CalcLayoutContribution()); // XXX cache contribution in layout?
 		SetWidgetDimensions(m_heading[i], pos, size);
 		pos.x += colWidths[i];
-		height = std::max(height, size.y);
 	}
-	pos.y += height;
+	pos.y += rowHeights[row++];
 
 	for (std::vector< std::vector<Widget*> >::const_iterator i = m_rows.begin(); i != m_rows.end(); ++i) {
 		pos.x = 0;
-		height = 0;
 		for (std::size_t j = 0; j < (*i).size(); j++) {
 			if (!(*i)[j]) continue;
 			Point size((*i)[j]->CalcLayoutContribution());
 			SetWidgetDimensions((*i)[j], pos, size);
 			pos.x += colWidths[j];
-			height = std::max(height, size.y);
 		}
-		pos.y += height;
+		pos.y += rowHeights[row++];
 	}
 }
 
