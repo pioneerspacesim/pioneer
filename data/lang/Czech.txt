@@ -1244,3 +1244,5 @@ MONTH_DEC
     Pro
 MISCELLANEOUS
     Různé
+PAUSED
+    Pauza
