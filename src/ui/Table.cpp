@@ -2,6 +2,8 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Table.h"
+#include "Context.h"
+#include "Slider.h"
 
 namespace UI {
 
@@ -45,6 +47,7 @@ Table::Inner::Inner(Context *context, LayoutAccumulator &layout) : Container(con
 Point Table::Inner::PreferredSize()
 {
 	m_preferredSizes.clear();
+	m_preferredSize = Point();
 
 	for (std::size_t i = 0; i < m_rows.size(); i++) {
 		const std::vector<Widget*> &row = m_rows[i];
@@ -138,6 +141,8 @@ Table::Table(Context *context) : Container(context),
 	m_body.Reset(new Table::Inner(GetContext(), m_layout));
 	AddWidget(m_body.Get());
 
+	m_slider.Reset(GetContext()->VSlider());
+	m_slider->onValueChanged.connect(sigc::mem_fun(this, &Table::OnScroll));
 }
 
 Point Table::PreferredSize()
@@ -149,7 +154,10 @@ Point Table::PreferredSize()
 
 	m_dirty = false;
 
-	return m_layout.GetSize();
+	const Point layoutSize = m_layout.GetSize();
+	const Point sliderSize = m_slider->PreferredSize();
+
+	return Point(layoutSize.x+sliderSize.x, layoutSize.y);
 }
 
 void Table::Layout()
@@ -157,20 +165,31 @@ void Table::Layout()
 	if (m_dirty)
 		PreferredSize();
 
-	const Point &layoutSize = m_layout.GetSize();
+	Point size = GetSize();
 
-	Point pos;
+	Point preferredSize(m_header->PreferredSize());
+	SetWidgetDimensions(m_header.Get(), Point(), Point(size.x, preferredSize.y));
+	int top = preferredSize.y;
+	size.y -= top;
 
-	{
-		Point preferredSize(m_header->PreferredSize());
-		SetWidgetDimensions(m_header.Get(), pos, Point(layoutSize.x, preferredSize.y));
-		pos.y = preferredSize.y;
+	Point sliderSize;
+
+	preferredSize = m_body->PreferredSize();
+	if (preferredSize.y <= size.y) {
+		if (m_slider->GetContainer()) {
+			m_onMouseWheelConn.disconnect();
+			RemoveWidget(m_slider.Get());
+		}
+	}
+	else {
+		AddWidget(m_slider.Get());
+		m_onMouseWheelConn = onMouseWheel.connect(sigc::mem_fun(this, &Table::OnMouseWheel));
+		sliderSize = m_slider->PreferredSize();
+		SetWidgetDimensions(m_slider.Get(), Point(size.x-sliderSize.x, top), Point(sliderSize.x, size.y));
+		size.x -= sliderSize.x;
 	}
 
-	{
-		Point preferredSize(m_body->PreferredSize());
-		SetWidgetDimensions(m_body.Get(), pos, Point(layoutSize.x, preferredSize.y));
-	}
+	SetWidgetDimensions(m_body.Get(), Point(0, top), size);
 
 	LayoutChildren();
 }
@@ -193,5 +212,17 @@ Table *Table::AddRow(const WidgetSet &set)
 	return this;
 
 }
+
+void Table::OnScroll(float value)
+{
+	m_body->SetDrawOffset(Point(0, -float(m_body->PreferredSize().y-(GetSize().y-m_header->PreferredSize().y))*value));
+}
+
+bool Table::OnMouseWheel(const MouseWheelEvent &event)
+{
+	m_slider->SetValue(m_slider->GetValue() + (event.direction == MouseWheelEvent::WHEEL_UP ? -0.01f : 0.01f));
+	return true;
+}
+
 
 }

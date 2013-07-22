@@ -571,7 +571,7 @@ int main(int argc, char **argv)
 		l1 = c->Label(buf);
 		table->AddRow(UI::WidgetSet(l1, l2, l3));
 	}
-	c->SetInnerWidget(table);
+	c->SetInnerWidget(c->Grid(2,1)->SetCell(0,0,table));
 
 	//int count = 0;
 

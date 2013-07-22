@@ -5,6 +5,7 @@
 #define UI_TABLE_H
 
 #include "Container.h"
+#include "Slider.h"
 
 namespace UI {
 
@@ -61,6 +62,13 @@ private:
 
 	RefCountedPtr<Inner> m_header;
 	RefCountedPtr<Inner> m_body;
+
+	RefCountedPtr<Slider> m_slider;
+
+	sigc::connection m_onMouseWheelConn;
+
+	void OnScroll(float value);
+	bool OnMouseWheel(const MouseWheelEvent &event);
 };
 
 }
