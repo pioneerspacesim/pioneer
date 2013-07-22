@@ -40,10 +40,13 @@ void Init()
 	LuaObject<UI::Widget>::RegisterClass();
 }
 
-UI::Widget *GetWidget(lua_State *l, int idx)
+UI::Widget *GetWidget(UI::Context *c, lua_State *l, int idx)
 {
 	UI::Widget *w = LuaObject<UI::Widget>::GetFromLua(idx);
 	if (w) return w;
+
+	if (lua_type(l, idx) == LUA_TSTRING)
+		return c->Label(lua_tostring(l, idx));
 
 	if (!lua_istable(l, idx)) return 0;
 
@@ -62,9 +65,9 @@ UI::Widget *GetWidget(lua_State *l, int idx)
 	return w;
 }
 
-UI::Widget *CheckWidget(lua_State *l, int idx)
+UI::Widget *CheckWidget(UI::Context *c, lua_State *l, int idx)
 {
-	UI::Widget *w = GetWidget(l, idx);
+	UI::Widget *w = GetWidget(c, l, idx);
 	if (w) return w;
 
 	// will fail and produce a standard error message
