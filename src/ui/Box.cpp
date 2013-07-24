@@ -30,7 +30,7 @@ Point Box::PreferredSize()
 	m_numVariable = 0;
 
 	for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
-		const Point contribSize = (*i).contribSize = CalcLayoutContribution((*i).widget);
+		const Point contribSize = (*i).contribSize = (*i).widget->CalcLayoutContribution();
 
 		// if they're not contributing anything on the fixed axis then we need
 		// to defer their inclusion until we know the size of the fixed axis
@@ -77,7 +77,7 @@ Point Box::PreferredSize()
 		Point availableSize;
 		availableSize[vc] = (*i).contribSize[vc];
 		availableSize[fc] = m_preferredSize[fc];
-		const Point contribSize = (*i).contribSize = CalcSize((*i).widget, availableSize);
+		const Point contribSize = (*i).contribSize = (*i).widget->CalcSize(availableSize);
 
 		// repeat of above, sigh
 		if (contribSize[vc] == SIZE_EXPAND) {
@@ -118,7 +118,7 @@ void Box::Layout()
 		for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
 			childSize[fc] = boxSize[fc];
 			childSize[vc] = (*i).contribSize[vc];
-			const Point actualSize(CalcSize((*i).widget, childSize));
+			const Point actualSize((*i).widget->CalcSize(childSize));
 			SetWidgetDimensions((*i).widget, childPos, actualSize);
 			childPos[vc] += actualSize[vc] + m_spacing;
 		}
@@ -139,7 +139,7 @@ void Box::Layout()
 		for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
 			childSize[fc] = boxSize[fc];
 			childSize[vc] = (*i).contribSize[vc] == SIZE_EXPAND ? amount : (*i).contribSize[vc];
-			const Point actualSize(CalcSize((*i).widget, childSize));
+			const Point actualSize((*i).widget->CalcSize(childSize));
 			SetWidgetDimensions((*i).widget, childPos, actualSize);
 			childPos[vc] += actualSize[vc] + m_spacing;
 		}

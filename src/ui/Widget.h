@@ -146,6 +146,11 @@ public:
 		return (point.x >= pos.x && point.y >= pos.y && point.x < pos.x+m_activeArea.x && point.y < pos.y+m_activeArea.y);
 	}
 
+	// calculate layout contribution based on preferred size and flags
+	Point CalcLayoutContribution();
+	// calculate size based on available space, preferred size and flags
+	Point CalcSize(const Point &avail);
+
 	// fast way to determine if the widget is a container
 	virtual bool IsContainer() const { return false; }
 

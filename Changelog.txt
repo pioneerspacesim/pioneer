@@ -21,6 +21,7 @@ July 2013
      * UI: gauge widget (#2367)
      * UI: formatted number label widget (#2369)
      * UI: raw Lua strings are automatically converted to label widgets (#2386)
+     * UI: New Table container (#2387)
      * New API: Space.SpawnShipLanded, Space.SpawnShipLandedNear,
        SpaceStation.GetGroundPosition (#2372)
 

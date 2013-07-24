@@ -27,7 +27,7 @@ Point Grid::PreferredSize()
 			Widget *w = m_widgets[n];
 			if (!w) continue;
 
-			const Point childPreferredSize = CalcLayoutContribution(w);
+			const Point childPreferredSize = w->CalcLayoutContribution();
 			rowSize.x = SizeAdd(childPreferredSize.x, rowSize.x);
 			rowSize.y = std::max(childPreferredSize.y, rowSize.y);
 		}
@@ -53,7 +53,7 @@ void Grid::Layout()
 
 			const unsigned int n = rowNum*m_numCols+colNum;
 			if (m_widgets[n])
-				SetWidgetDimensions(m_widgets[n], childPos, CalcSize(m_widgets[n], childSize));
+				SetWidgetDimensions(m_widgets[n], childPos, m_widgets[n]->CalcSize(childSize));
 
 			childPos.x += childSize.x;
 		}
