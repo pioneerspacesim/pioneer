@@ -34,6 +34,7 @@ void Init()
 	LuaObject<UI::Single>::RegisterClass();
 	LuaObject<UI::Slider>::RegisterClass();
 	LuaObject<UI::SmallButton>::RegisterClass();
+	LuaObject<UI::Table>::RegisterClass();
 	LuaObject<UI::TextEntry>::RegisterClass();
 	LuaObject<UI::HSlider>::RegisterClass();
 	LuaObject<UI::VSlider>::RegisterClass();

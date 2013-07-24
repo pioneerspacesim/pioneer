@@ -93,6 +93,12 @@ public:
 		return 1;
 	}
 
+	static int l_table(lua_State *l) {
+		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
+		LuaObject<UI::Table>::PushToLua(c->Table());
+		return 1;
+	}
+
 	static int l_background(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 		UI::Background *b = c->Background();
@@ -282,6 +288,7 @@ template <> void LuaObject<UI::Context>::RegisterClass()
 		{ "HBox",            LuaContext::l_hbox            },
 		{ "VBox",            LuaContext::l_vbox            },
 		{ "Grid",            LuaContext::l_grid            },
+		{ "Table",           LuaContext::l_table           },
 		{ "Background",      LuaContext::l_background      },
 		{ "ColorBackground", LuaContext::l_colorbackground },
 		{ "Gradient",        LuaContext::l_gradient        },
