@@ -40,6 +40,8 @@ void Table::LayoutAccumulator::Clear()
 
 Table::Inner::Inner(Context *context, LayoutAccumulator &layout) : Container(context),
 	m_layout(layout),
+	m_rowSpacing(0),
+	m_columnSpacing(0),
 	m_dirty(false)
 {
 }
@@ -63,9 +65,15 @@ Point Table::Inner::PreferredSize()
 		}
 		m_preferredSizes.push_back(preferredSizes);
 
+		if (!row.empty() && m_columnSpacing)
+			m_preferredSize.x += (row.size()-1)*m_columnSpacing;
+
 		m_preferredSize.x = std::max(m_preferredSize.x, rowSize.x);
 		m_preferredSize.y += rowSize.y;
 	}
+
+	if (!m_rows.empty() && m_rowSpacing)
+		m_preferredSize.y += (m_rows.size()-1)*m_rowSpacing;
 
 	m_dirty = false;
 
@@ -90,10 +98,10 @@ void Table::Inner::Layout()
 			const Point &preferredSize = preferredSizes[j];
 			if (!w) continue;
 			SetWidgetDimensions(w, pos, preferredSize);
-			pos.x += colWidths[j];
+			pos.x += colWidths[j] + m_columnSpacing;
 			height = std::max(height, preferredSize.y);
 		}
-		pos.y += height;
+		pos.y += height + m_rowSpacing;
 	}
 
 	LayoutChildren();
@@ -132,6 +140,24 @@ void Table::Inner::AccumulateLayout()
 		m_layout.AddRow(*i);
 }
 
+void Table::Inner::SetRowSpacing(int spacing)
+{
+	m_rowSpacing = spacing;
+	m_dirty = true;
+}
+
+void Table::Inner::SetColumnSpacing(int spacing)
+{
+	m_columnSpacing = spacing;
+	m_dirty = true;
+}
+
+void Table::Inner::SetSpacing(int spacing)
+{
+	m_rowSpacing = m_columnSpacing = spacing;
+	m_dirty = true;
+}
+
 Table::Table(Context *context) : Container(context),
 	m_dirty(false)
 {
@@ -157,7 +183,10 @@ Point Table::PreferredSize()
 	const Point layoutSize = m_layout.GetSize();
 	const Point sliderSize = m_slider->PreferredSize();
 
-	return Point(layoutSize.x+sliderSize.x, layoutSize.y);
+	const Point headerPreferredSize = m_header->PreferredSize();
+	const Point bodyPreferredSize = m_body->PreferredSize();
+
+	return Point(layoutSize.x+sliderSize.x, headerPreferredSize.y+bodyPreferredSize.y);
 }
 
 void Table::Layout()
@@ -212,6 +241,31 @@ Table *Table::AddRow(const WidgetSet &set)
 	return this;
 
 }
+
+Table *Table::SetRowSpacing(int spacing)
+{
+	m_header->SetRowSpacing(spacing);
+	m_body->SetRowSpacing(spacing);
+	m_dirty = true;
+	return this;
+}
+
+Table *Table::SetColumnSpacing(int spacing)
+{
+	m_header->SetColumnSpacing(spacing);
+	m_body->SetColumnSpacing(spacing);
+	m_dirty = true;
+	return this;
+}
+
+Table *Table::SetSpacing(int spacing)
+{
+	m_header->SetSpacing(spacing);
+	m_body->SetSpacing(spacing);
+	m_dirty = true;
+	return this;
+}
+
 
 void Table::OnScroll(float value)
 {

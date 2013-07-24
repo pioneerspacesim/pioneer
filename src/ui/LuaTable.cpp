@@ -81,6 +81,30 @@ public:
 		return 1;
 	}
 
+	static int l_set_row_spacing(lua_State *l) {
+		UI::Table *t = LuaObject<UI::Table>::CheckFromLua(1);
+		int spacing = luaL_checkinteger(l, 2);
+		t->SetRowSpacing(spacing);
+		lua_pushvalue(l, 1);
+		return 1;
+	}
+
+	static int l_set_column_spacing(lua_State *l) {
+		UI::Table *t = LuaObject<UI::Table>::CheckFromLua(1);
+		int spacing = luaL_checkinteger(l, 2);
+		t->SetColumnSpacing(spacing);
+		lua_pushvalue(l, 1);
+		return 1;
+	}
+
+	static int l_set_spacing(lua_State *l) {
+		UI::Table *t = LuaObject<UI::Table>::CheckFromLua(1);
+		int spacing = luaL_checkinteger(l, 2);
+		t->SetSpacing(spacing);
+		lua_pushvalue(l, 1);
+		return 1;
+	}
+
 };
 
 }
@@ -97,6 +121,9 @@ template <> void LuaObject<UI::Table>::RegisterClass()
 		{ "SetHeadingRow",    UI::LuaTable::l_set_heading_row    },
 		{ "AddRow",           UI::LuaTable::l_add_row            },
 		{ "AddRows",          UI::LuaTable::l_add_rows           },
+		{ "SetRowSpacing",    UI::LuaTable::l_set_row_spacing    },
+		{ "SetColumnSpacing", UI::LuaTable::l_set_column_spacing },
+		{ "SetSpacing",       UI::LuaTable::l_set_spacing        },
 		{ 0, 0 }
 	};
 

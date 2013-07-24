@@ -21,6 +21,10 @@ public:
 	Table *SetHeadingRow(const WidgetSet &set);
 	Table *AddRow(const WidgetSet &set);
 
+	Table *SetRowSpacing(int spacing);
+	Table *SetColumnSpacing(int spacing);
+	Table *SetSpacing(int spacing);
+
 private:
 
 	class LayoutAccumulator {
@@ -28,9 +32,10 @@ private:
 		void AddRow(const std::vector<Widget*> &widgets);
 		void Clear();
 
+		void SetSpacing(int h, int v);
+
 		const std::vector<int> &ColumnWidths() const { return m_columnWidths; }
 		const Point &GetSize() const { return m_size; }
-
 	private:
 		std::vector<int> m_columnWidths;
 		Point m_size;
@@ -49,11 +54,17 @@ private:
 
 		void AccumulateLayout();
 
+		void SetRowSpacing(int spacing);
+		void SetColumnSpacing(int spacing);
+		void SetSpacing(int spacing);
+
 	private:
 		LayoutAccumulator &m_layout;
 		std::vector< std::vector<Widget*> > m_rows;
 		std::vector< std::vector<Point> > m_preferredSizes;
 		Point m_preferredSize;
+		int m_rowSpacing;
+		int m_columnSpacing;
 		bool m_dirty;
 	};
 
