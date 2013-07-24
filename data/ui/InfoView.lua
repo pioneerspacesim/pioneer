@@ -48,43 +48,43 @@ local shipInfo = function (args)
 					ui:Grid(2,1)
 						:SetColumn(0, {
 							ui:VBox():PackEnd({
-								ui:Label(t("HYPERDRIVE")..":"),
-								ui:Label(t("HYPERSPACE_RANGE")..":"),
+								t("HYPERDRIVE")..":",
+								t("HYPERSPACE_RANGE")..":",
 								ui:Margin(10),
-								ui:Label(t("Weight empty:")),								
-								ui:Label(t("CAPACITY_USED")..":"),
-								ui:Label(t("FUEL_WEIGHT")..":"),
-								ui:Label(t("TOTAL_WEIGHT")..":"),
+								t("Weight empty:"),
+								t("CAPACITY_USED")..":",
+								t("FUEL_WEIGHT")..":",
+								t("TOTAL_WEIGHT")..":",
 								ui:Margin(10),
-								ui:Label(t("FRONT_WEAPON")..":"),
-								ui:Label(t("REAR_WEAPON")..":"),
-								ui:Label(t("FUEL")..":"),
+								t("FRONT_WEAPON")..":",
+								t("REAR_WEAPON")..":",
+								t("FUEL")..":",
 								ui:Margin(10),
-								ui:Label(t("Minimum crew")..":"),
-								ui:Label(t("Crew cabins")..":"),
+								t("Minimum crew")..":",
+								t("Crew cabins")..":",
 							})
 						})
 						:SetColumn(1, {
 							ui:VBox():PackEnd({
-								ui:Label(EquipDef[hyperdrive].name),
-								ui:Label(string.interp(
+								EquipDef[hyperdrive].name,
+								string.interp(
 									t("{range} light years ({maxRange} max)"), {
 										range    = string.format("%.1f",stats.hyperspaceRange),
 										maxRange = string.format("%.1f",stats.maxHyperspaceRange)
 									}
-								)),
+								),
 								ui:Margin(10),
-								ui:Label(string.format("%dt", stats.totalMass - stats.usedCapacity)),								
-								ui:Label(string.format("%dt (%dt "..t("free")..")", stats.usedCapacity,  stats.freeCapacity)),
-								ui:Label(string.format("%dt (%dt "..t("max")..")", math.floor(Game.player.fuel/100*stats.maxFuelTankMass + 0.5), stats.maxFuelTankMass )),
-								ui:Label(string.format("%dt", math.floor(stats.totalMass+Game.player.fuel/100*stats.maxFuelTankMass + 0.5) )),
+								string.format("%dt", stats.totalMass - stats.usedCapacity),
+								string.format("%dt (%dt "..t("free")..")", stats.usedCapacity,  stats.freeCapacity),
+								string.format("%dt (%dt "..t("max")..")", math.floor(Game.player.fuel/100*stats.maxFuelTankMass + 0.5), stats.maxFuelTankMass ),
+								string.format("%dt", math.floor(stats.totalMass+Game.player.fuel/100*stats.maxFuelTankMass + 0.5) ),
 								ui:Margin(10),
-								ui:Label(EquipDef[frontWeapon].name),
-								ui:Label(EquipDef[rearWeapon].name),
-								ui:Label(string.format("%d%%", Game.player.fuel)),
+								EquipDef[frontWeapon].name,
+								EquipDef[rearWeapon].name,
+								string.format("%d%%", Game.player.fuel),
 								ui:Margin(10),
-								ui:Label(ShipType.GetShipType(Game.player.shipId).minCrew),
-								ui:Label(ShipType.GetShipType(Game.player.shipId).maxCrew),
+								""..ShipType.GetShipType(Game.player.shipId).minCrew,
+								""..ShipType.GetShipType(Game.player.shipId).maxCrew,
 							})
 						}),
 					ui:Margin(10),
@@ -113,7 +113,7 @@ local orbitalAnalysis = function ()
 	else
 		orbitalBody = frameBody
 	end
-	
+
 	local distance = Game.player:DistanceTo(orbitalBody)
 	local mass = orbitalBody.path:GetSystemBody().mass
 	local radius = orbitalBody.path:GetSystemBody().radius
@@ -127,25 +127,25 @@ local orbitalAnalysis = function ()
 
 	return ui:Expand():SetInnerWidget(
 		ui:VBox(20):PackEnd({
-			ui:Label((t('Located {distance}km from the centre of {name}:')):interp({
+            (t('Located {distance}km from the centre of {name}:')):interp({
 														-- convert to kilometres
 														distance = string.format('%6.2f',distance/1000),
 														name = name
-													})),
+													}),
 			ui:Grid(2,1)
 				:SetColumn(0, {
 					ui:VBox():PackEnd({
-						ui:Label(t('Circular orbit speed:')),
-						ui:Label(t('Escape speed:')),
-						ui:Label(t('Descent-to-ground speed:')),
+						t('Circular orbit speed:'),
+						t('Escape speed:'),
+						t('Descent-to-ground speed:'),
 					})
 				})
 				:SetColumn(1, {
 					ui:VBox():PackEnd({
 						-- convert to kilometres per second
-						ui:Label(string.format('%6.2fkm/s',vCircular/1000)),
-						ui:Label(string.format('%6.2fkm/s',vEscape/1000)),
-						ui:Label(string.format('%6.2fkm/s',vDescent/1000)),
+						string.format('%6.2fkm/s',vCircular/1000),
+						string.format('%6.2fkm/s',vEscape/1000),
+						string.format('%6.2fkm/s',vDescent/1000),
 					})
 				}),
 			ui:MultiLineText((t('ORBITAL_ANALYSIS_NOTES')):interp({name = name}))
@@ -191,28 +191,28 @@ local personalInfo = function ()
 					ui:Grid(2,1)
 						:SetColumn(0, {
 							ui:VBox():PackEnd({
-								ui:Label(t("Rating:")),
-								ui:Label(t("Kills:")),
+								t("Rating:"),
+								t("Kills:"),
 							})
 						})
 						:SetColumn(1, {
 							ui:VBox():PackEnd({
-								ui:Label(t(player:GetCombatRating())),
-								ui:Label(string.format('%d',player.killcount)),
+								t(player:GetCombatRating()),
+								string.format('%d',player.killcount),
 							})
 						}),
 					ui:Label(t("Military")):SetFont("HEADING_LARGE"),
 					ui:Grid(2,1)
 						:SetColumn(0, {
 							ui:VBox():PackEnd({
-								ui:Label(t("ALLEGIANCE")),
-								ui:Label(t("Rank:")),
+								t("ALLEGIANCE"),
+								t("Rank:"),
 							})
 						})
 						:SetColumn(1, {
 							ui:VBox():PackEnd({
-								ui:Label(t('NONE')), -- XXX
-								ui:Label(t('NONE')), -- XXX
+								t('NONE'), -- XXX
+								t('NONE'), -- XXX
 							})
 						})
 				})

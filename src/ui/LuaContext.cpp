@@ -12,10 +12,13 @@ public:
 
 	static inline UI::Widget *_get_implicit_widget(lua_State *l)
 	{
-		// context is always the first arg, don't reuse it
+		UI::Context *c = LuaObject<UI::Context>::GetFromLua(1);
+		assert(c);
+
 		const int top = lua_gettop(l);
-		if (top == 1) return 0;
-		return UI::Lua::GetWidget(l, top);
+		if (top == 1) return 0; // no extra args
+
+		return UI::Lua::GetWidget(c, l, top);
 	}
 
 	static inline void _implicit_set_inner_widget(lua_State *l, UI::Single *s)

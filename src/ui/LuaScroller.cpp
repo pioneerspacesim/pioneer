@@ -11,7 +11,8 @@ public:
 
 	static int l_set_inner_widget(lua_State *l) {
 		Scroller *s = LuaObject<UI::Scroller>::CheckFromLua(1);
-		Widget *w = UI::Lua::CheckWidget(l, 2);
+		Context *c = s->GetContext();
+		Widget *w = UI::Lua::CheckWidget(c, l, 2);
 		s->SetInnerWidget(w);
 		lua_pushvalue(l, 1);
 		return 1;

@@ -20,6 +20,7 @@ July 2013
      * Only use Color objects in UI API (#2362)
      * UI: gauge widget (#2367)
      * UI: formatted number label widget (#2369)
+     * UI: raw Lua strings are automatically converted to label widgets (#2386)
      * New API: Space.SpawnShipLanded, Space.SpawnShipLandedNear,
        SpaceStation.GetGroundPosition (#2372)
 
