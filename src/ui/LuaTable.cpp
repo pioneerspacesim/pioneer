@@ -35,27 +35,47 @@ public:
 		return 1;
 	}
 
-	static int l_add_row(lua_State *l) {
-		UI::Table *t = LuaObject<UI::Table>::CheckFromLua(1);
+	static void _add_row(Table *t, lua_State *l, int idx) {
+		idx = lua_absindex(l, idx);
+
 		UI::Context *c = t->GetContext();
 
 		std::vector<UI::Widget*> widgets;
 
-		if (lua_istable(l, 2)) {
-			UI::Widget *w = UI::Lua::GetWidget(c, l, 2);
+		if (lua_istable(l, idx)) {
+			UI::Widget *w = UI::Lua::GetWidget(c, l, idx);
 			if (w)
 				widgets.push_back(w);
 			else
-				for (size_t i = 0; i < lua_rawlen(l, 2); i++) {
-					lua_rawgeti(l, 2, i+1);
+				for (size_t i = 0; i < lua_rawlen(l, idx); i++) {
+					lua_rawgeti(l, idx, i+1);
 					widgets.push_back(UI::Lua::CheckWidget(c, l, -1));
 					lua_pop(l, 1);
 				}
 		}
 		else
-			widgets.push_back(UI::Lua::CheckWidget(c, l, 2));
+			widgets.push_back(UI::Lua::CheckWidget(c, l, idx));
 
 		t->AddRow(WidgetSet(widgets));
+	}
+
+	static int l_add_row(lua_State *l) {
+		UI::Table *t = LuaObject<UI::Table>::CheckFromLua(1);
+		_add_row(t, l, 2);
+		lua_pushvalue(l, 1);
+		return 1;
+	}
+
+	static int l_add_rows(lua_State *l) {
+		UI::Table *t = LuaObject<UI::Table>::CheckFromLua(1);
+
+		luaL_checktype(l, 2, LUA_TTABLE);
+
+		lua_pushnil(l);
+		while (lua_next(l, 2)) {
+			_add_row(t, l, -1);
+			lua_pop(l, 1);
+		}
 
 		lua_pushvalue(l, 1);
 		return 1;
@@ -74,8 +94,9 @@ template <> void LuaObject<UI::Table>::RegisterClass()
 	static const char *l_parent = "UI.Container";
 
 	static const luaL_Reg l_methods[] = {
-		{ "SetHeadingRow", UI::LuaTable::l_set_heading_row },
-		{ "AddRow",        UI::LuaTable::l_add_row         },
+		{ "SetHeadingRow",    UI::LuaTable::l_set_heading_row    },
+		{ "AddRow",           UI::LuaTable::l_add_row            },
+		{ "AddRows",          UI::LuaTable::l_add_rows           },
 		{ 0, 0 }
 	};
 
