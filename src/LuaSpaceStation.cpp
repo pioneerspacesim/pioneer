@@ -261,6 +261,68 @@ static int l_spacestation_get_equipment_price(lua_State *l)
 }
 
 /*
+ * Method: GetEquipmentStock
+ *
+ * Get the quantity of an equipment or cargo item this station has available for trade
+ *
+ * > stock = station:GetEquipmentStock(equip)
+ *
+ * Parameters:
+ *
+ *   equip - the <Constants.EquipType> string for the equipment or cargo item
+ *
+ * Returns:
+ *
+ *   stock - the amount available for trade
+ *
+ * Availability:
+ *
+ *   201308
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_spacestation_get_equipment_stock(lua_State *l)
+{
+	SpaceStation *s = LuaObject<SpaceStation>::CheckFromLua(1);
+	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstantFromArg(l, "EquipType", 2));
+	int stock = s->GetStock(e);
+	lua_pushinteger(l, stock);
+	return 1;
+}
+
+/*
+ * Method: AddEquipmentStock
+ *
+ * Modify the quantity of an equipment or cargo item this station has available for trade
+ *
+ * > station:AddEquipmentStock(equip, amount)
+ *
+ * Parameters:
+ *
+ *   equip - the <Constants.EquipType> string for the equipment or cargo item
+ *
+ *   amount - the amount of the item to add (or substract) from the station stock
+ *
+ * Availability:
+ *
+ *   201308
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_spacestation_add_equipment_stock(lua_State *l)
+{
+	SpaceStation *s = LuaObject<SpaceStation>::CheckFromLua(1);
+	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstantFromArg(l, "EquipType", 2));
+	int stock = luaL_checkinteger(l, 3);
+	s->AddEquipmentStock(e, stock);
+	return 0;
+}
+
+/*
  * Method: GetGroundPosition
  *
  * Get latitude, longitude of a station on the ground or nil if this is an orbital station
@@ -353,6 +415,8 @@ template <> void LuaObject<SpaceStation>::RegisterClass()
 		{ "RemoveAdvert", l_spacestation_remove_advert },
 
 		{ "GetEquipmentPrice", l_spacestation_get_equipment_price },
+		{ "GetEquipmentStock", l_spacestation_get_equipment_stock },
+		{ "AddEquipmentStock", l_spacestation_add_equipment_stock },
 
 		{ "GetGroundPosition",  l_spacestation_get_ground_position },
 
