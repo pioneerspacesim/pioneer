@@ -15,7 +15,7 @@
 #include "gl2/Program.h"
 #include "gl2/RingMaterial.h"
 #include "gl2/StarfieldMaterial.h"
-#include "gl2/FresnelColourMaterial.h";
+#include "gl2/FresnelColourMaterial.h"
 
 namespace Graphics {
 
