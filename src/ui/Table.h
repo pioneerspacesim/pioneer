@@ -23,7 +23,6 @@ public:
 
 	Table *SetRowSpacing(int spacing);
 	Table *SetColumnSpacing(int spacing);
-	Table *SetSpacing(int spacing);
 
 	Table *SetHeadingFont(Font font);
 
@@ -31,16 +30,22 @@ private:
 
 	class LayoutAccumulator {
 	public:
+		LayoutAccumulator() : m_columnSpacing(0) {}
+
 		void AddRow(const std::vector<Widget*> &widgets);
 		void Clear();
 
-		void SetSpacing(int h, int v);
+		void SetColumnSpacing(int spacing);
 
-		const std::vector<int> &ColumnWidths() const { return m_columnWidths; }
-		const Point &GetSize() const { return m_size; }
+		const std::vector<int> &ColumnWidth() const { return m_columnWidth; }
+		const std::vector<int> &ColumnLeft() const { return m_columnLeft; }
+
 	private:
-		std::vector<int> m_columnWidths;
-		Point m_size;
+		std::vector<int> m_columnWidth;
+
+		void UpdateColumns();
+		std::vector<int> m_columnLeft;
+		int m_columnSpacing;
 	};
 
 
@@ -58,15 +63,13 @@ private:
 
 		void SetRowSpacing(int spacing);
 		void SetColumnSpacing(int spacing);
-		void SetSpacing(int spacing);
 
 	private:
 		LayoutAccumulator &m_layout;
 		std::vector< std::vector<Widget*> > m_rows;
-		std::vector< std::vector<Point> > m_preferredSizes;
+		std::vector<int> m_rowHeight;
 		Point m_preferredSize;
 		int m_rowSpacing;
-		int m_columnSpacing;
 		bool m_dirty;
 	};
 

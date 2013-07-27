@@ -98,14 +98,6 @@ public:
 		return 1;
 	}
 
-	static int l_set_spacing(lua_State *l) {
-		UI::Table *t = LuaObject<UI::Table>::CheckFromLua(1);
-		int spacing = luaL_checkinteger(l, 2);
-		t->SetSpacing(spacing);
-		lua_pushvalue(l, 1);
-		return 1;
-	}
-
 	static int l_set_heading_font(lua_State *l) {
 		UI::Table *t = LuaObject<UI::Table>::CheckFromLua(1);
 		UI::Widget::Font font = static_cast<UI::Widget::Font>(LuaConstants::GetConstantFromArg(l, "UIFont", 2));
@@ -132,7 +124,6 @@ template <> void LuaObject<UI::Table>::RegisterClass()
 		{ "AddRows",          UI::LuaTable::l_add_rows           },
 		{ "SetRowSpacing",    UI::LuaTable::l_set_row_spacing    },
 		{ "SetColumnSpacing", UI::LuaTable::l_set_column_spacing },
-		{ "SetSpacing",       UI::LuaTable::l_set_spacing        },
 		{ "SetHeadingFont",   UI::LuaTable::l_set_heading_font   },
 		{ 0, 0 }
 	};
