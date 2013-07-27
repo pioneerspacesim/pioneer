@@ -78,6 +78,8 @@ public:
 	bool IsPaused() const { return m_timeAccel == TIMEACCEL_PAUSED; }
 
 	float GetTimeAccelRate() const { return s_timeAccelRates[m_timeAccel]; }
+	float GetInvTimeAccelRate() const { return s_timeInvAccelRates[m_timeAccel]; }
+
 	float GetTimeStep() const { return s_timeAccelRates[m_timeAccel]*(1.0f/PHYSICS_HZ); }
 
 private:
@@ -112,6 +114,7 @@ private:
 	bool m_forceTimeAccel;
 
 	static const float s_timeAccelRates[];
+	static const float s_timeInvAccelRates[];
 };
 
 #endif
