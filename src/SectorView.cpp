@@ -1187,7 +1187,7 @@ void SectorView::Update()
 
 	m_playerHyperspaceRange = Pi::player->GetStats().hyperspace_range;
 
-	if(!m_jumpSphere.Valid())
+	if(Graphics::AreShadersEnabled() && !m_jumpSphere.Valid())
 	{
 		Graphics::MaterialDescriptor matdesc;
 		matdesc.effect = EFFECT_FRESNEL_SPHERE;
