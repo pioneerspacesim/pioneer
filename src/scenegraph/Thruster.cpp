@@ -51,7 +51,7 @@ void Thruster::Accept(NodeVisitor &nv)
 	nv.ApplyThruster(*this);
 }
 
-void Thruster::Render(const matrix4x4f &trans, RenderData *rd)
+void Thruster::Render(const matrix4x4f &trans, const RenderData *rd)
 {
 	float power = 0.f;
 	power = -dir.Dot(vector3f(rd->linthrust));

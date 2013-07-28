@@ -13,6 +13,7 @@
 #include "RefCounted.h"
 #include "galaxy/SystemPath.h"
 #include "Orbit.h"
+#include "gameconsts.h"
 
 class CustomSystemBody;
 class CustomSystem;
@@ -21,7 +22,7 @@ class SystemBody;
 // doubles - all masses in Kg, all lengths in meters
 // fixed - any mad scheme
 
-enum EconType { // <enum name=EconType prefix=ECON_>
+enum EconType { // <enum name=EconType prefix=ECON_ public>
 	ECON_MINING = 1<<0,
 	ECON_AGRICULTURE = 1<<1,
 	ECON_INDUSTRY = 1<<2,
@@ -46,7 +47,7 @@ public:
 	SystemBody *parent;                // these are only valid if the StarSystem
 	std::vector<SystemBody*> children; // that create them still exists
 
-	enum BodyType { // <enum scope='SystemBody' prefix=TYPE_>
+	enum BodyType { // <enum scope='SystemBody' prefix=TYPE_ public>
 		TYPE_GRAVPOINT = 0,
 		TYPE_BROWN_DWARF = 1, //  L+T Class Brown Dwarfs
 		TYPE_WHITE_DWARF = 2,
@@ -96,7 +97,7 @@ public:
 		// XXX need larger atmosphereless thing
 	};
 
-	enum BodySuperType { // <enum scope='SystemBody' prefix=SUPERTYPE_>
+	enum BodySuperType { // <enum scope='SystemBody' prefix=SUPERTYPE_ public>
 		SUPERTYPE_NONE = 0,
 		SUPERTYPE_STAR = 1,
 		SUPERTYPE_ROCKY_PLANET = 2,
@@ -107,9 +108,9 @@ public:
 	std::string GetAstroDescription() const;
 	const char *GetIcon() const;
 	BodySuperType GetSuperType() const;
-	double GetRadius() const {
+	double GetRadius() const { // polar radius
 		if (GetSuperType() <= SUPERTYPE_STAR)
-			return radius.ToDouble() * SOL_RADIUS;
+			return (radius.ToDouble() / aspectRatio.ToDouble()) * SOL_RADIUS;
 		else
 			return radius.ToDouble() * EARTH_RADIUS;
 	}
@@ -170,7 +171,8 @@ public:
 	Orbit orbit;
 	Uint32 seed; // Planet.cpp can use to generate terrain
 	std::string name;
-	fixed radius;
+	fixed radius; // in earth radii for planets, sol radii for stars. equatorial radius in case of bodies which are flattened at the poles
+	fixed aspectRatio; // ratio between equatorial and polar radius for bodies with eqatorial bulges
 	fixed mass; // earth masses if planet, solar masses if star
 	fixed orbMin, orbMax; // periapsism, apoapsis in AUs
 	fixed rotationPeriod; // in days

@@ -66,6 +66,7 @@ Translate:Add({
 		-- Missions
 		['Mission Details'] = 'Mission Details',
 		['No missions.'] = 'No missions.',
+		["%d days left"] = "Days left: %d",
 		['INACTIVE'] = 'Inactive', -- Complement of ACTIVE, COMPLETED and FAILED
 
 		-- Crew Tasks
@@ -103,6 +104,7 @@ Translate:Add({
 		['Negotiate'] = 'Negotiate',
 		['Crew Roster'] = 'Crew Roster',
 		['Give orders to crew'] = 'Give orders to crew',
+		['Total:'] = 'Total:',
 
 		-- Taunts
 		["I'm tired of working for nothing. Don't you know what a contract is?"] = "I'm tired of working for nothing. Don't you know what a contract is?",
@@ -193,6 +195,7 @@ Translate:Add({
 		-- Missions
 		['Mission Details'] = 'Szczegóły misji',
 		['No missions.'] = 'Brak misji.',
+		["%d days left"] = "Pozostało dni: %d",
 		['INACTIVE'] = 'Nieaktywna', -- Complement of ACTIVE, COMPLETED and FAILED
 		
 		-- Crew Tasks
@@ -230,6 +233,7 @@ Translate:Add({
 		['Negotiate'] = 'Negocjacje',
 		['Crew Roster'] = 'Lista załogi',
 		['Give orders to crew'] = 'Wydaj rozkaz załodze',
+		['Total:'] = 'Razem:',
 
 		-- Taunts
 		["I'm tired of working for nothing. Don't you know what a contract is?"] = "Odczuwam zmęczenie pracując za darmo. Czy Ty wiesz co to kontrakt?",
@@ -457,7 +461,8 @@ Translate:Add({
 		['Female'] = 'Женщина',
 		['Toggle male/female'] = 'Пол муж./жен.',
 		['Make new face'] = 'Новое лицо',
-		
+		['Commander'] = 'Капитан',
+
 		['HARMLESS'] = 'Безобидный',
 		['MOSTLY_HARMLESS'] = 'Почти безобидный',
 		['POOR'] = 'Слабый',
@@ -476,6 +481,7 @@ Translate:Add({
 		-- Missions
 		['Mission Details'] = 'О задании',
 		['No missions.'] = 'Нет заданий.',
+		["%d days left"] = "Осталось дней: %d",
 		['INACTIVE'] = 'Неактивно', -- Complement of ACTIVE, COMPLETED and FAILED
 		
 				-- Crew Tasks
@@ -680,6 +686,7 @@ Translate:Add({
 		-- Missions
 		['Mission Details'] = 'Detaily mise',
 		['No missions.'] = 'Žádné mise.',
+		["%d days left"] = "Zbývá dnů: %d",
 		['INACTIVE'] = 'Neprobíhá', -- Complement of ACTIVE, COMPLETED and FAILED
 
 		-- Crew Tasks
@@ -717,6 +724,7 @@ Translate:Add({
 		['Negotiate'] = 'Vyjenávat',
 		['Crew Roster'] = 'Seznam posádky',
 		['Give orders to crew'] = 'Dát posádce rozkazy',
+		['Total:'] = 'Celkem:',
 
 		-- Taunts
 		["I'm tired of working for nothing. Don't you know what a contract is?"] = "Už mě unavuje pracovat pro nic za nic. Víš vůbec co to je smlouva?",

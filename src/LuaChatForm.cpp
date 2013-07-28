@@ -763,5 +763,5 @@ template <> void LuaObject<LuaChatForm>::RegisterClass()
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, NULL, l_methods, NULL, NULL);
+	LuaObjectBase::CreateClass(s_type, 0, l_methods, 0, 0);
 }

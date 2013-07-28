@@ -3,7 +3,6 @@
 
 #include "Ship.h"
 #include "CityOnPlanet.h"
-#include "Planet.h"
 #include "Lang.h"
 #include "EnumStrings.h"
 #include "LuaEvent.h"
@@ -24,7 +23,8 @@
 #include "graphics/TextureBuilder.h"
 #include "StringF.h"
 
-#define TONS_HULL_PER_SHIELD 10.0f
+static const float TONS_HULL_PER_SHIELD = 10.f;
+static const double KINETIC_ENERGY_MULT	= 0.01;
 
 void SerializableEquipSet::Save(Serializer::Writer &wr)
 {
@@ -113,8 +113,10 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 	m_wheelState = rd.Float();
 	m_launchLockTimeout = rd.Float();
 	m_testLanded = rd.Bool();
-	m_flightState = FlightState(rd.Int32());
-	m_alertState = AlertState(rd.Int32());
+	m_flightState = static_cast<FlightState>(rd.Int32());
+	m_alertState = static_cast<AlertState>(rd.Int32());
+	Properties().Set("flightState", EnumStrings::GetString("ShipFlightState", m_flightState));
+	Properties().Set("alertStatus", EnumStrings::GetString("ShipAlertStatus", m_alertState));
 	m_lastFiringAlert = rd.Double();
 
 	m_hyperspace.dest = SystemPath::Unserialize(rd);
@@ -126,7 +128,7 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 		m_gunTemperature[i] = rd.Float();
 	}
 	m_ecmRecharge = rd.Float();
-	m_type = &ShipType::types[rd.String()]; // XXX handle missing thirdparty ship
+	SetShipId(rd.String()); // XXX handle missing thirdparty ship
 	m_dockedWithPort = rd.Int32();
 	m_dockedWithIndex = rd.Int32();
 	m_equipment.InitSlotSizes(m_type->id);
@@ -185,6 +187,9 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 {
 	m_flightState = FLYING;
 	m_alertState = ALERT_NONE;
+	Properties().Set("flightState", EnumStrings::GetString("ShipFlightState", m_flightState));
+	Properties().Set("alertStatus", EnumStrings::GetString("ShipAlertStatus", m_alertState));
+
 	m_lastFiringAlert = 0.0;
 	m_testLanded = false;
 	m_launchLockTimeout = 0;
@@ -192,7 +197,7 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	m_wheelState = 0;
 	m_dockedWith = 0;
 	m_dockedWithPort = 0;
-	m_type = &ShipType::types[shipId];
+	SetShipId(shipId);
 	m_thrusters.x = m_thrusters.y = m_thrusters.z = 0;
 	m_angThrusters.x = m_angThrusters.y = m_angThrusters.z = 0;
 	m_equipment.InitSlotSizes(shipId);
@@ -233,7 +238,6 @@ void Ship::SetController(ShipController *c)
 	m_controller->m_ship = this;
 }
 
-
 float Ship::GetPercentHull() const
 {
 	return 100.0f * (m_stats.hull_mass_left / float(m_type->hullMass));
@@ -253,6 +257,12 @@ void Ship::SetPercentHull(float p)
 void Ship::UpdateMass()
 {
 	SetMass((m_stats.total_mass + GetFuel()*GetShipType()->fuelTankMass)*1000);
+}
+
+void Ship::SetFuel(const double f)
+{
+	m_thrusterFuel = Clamp(f, 0.0, 1.0);
+	Properties().Set("fuel", m_thrusterFuel*100); // XXX to match SetFuelPercent
 }
 
 double Ship::GetFuelUseRate() const {
@@ -313,7 +323,6 @@ bool Ship::OnDamage(Object *attacker, float kgDamage)
 	return true;
 }
 
-#define KINETIC_ENERGY_MULT	0.01
 bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 {
 	// hitting space station docking surfaces shouldn't do damage
@@ -629,6 +638,8 @@ void Ship::SetFlightState(Ship::FlightState newState)
 	}
 
 	m_flightState = newState;
+	Properties().Set("flightState", EnumStrings::GetString("ShipFlightState", m_flightState));
+
 	switch (m_flightState)
 	{
 		case FLYING: SetMoving(true); SetColliding(true); SetStatic(false); break;
@@ -686,6 +697,24 @@ void Ship::TestLanded()
 			}
 		}
 	}
+}
+
+void Ship::SetLandedOn(Planet *p, float latitude, float longitude)
+{
+	m_wheelTransition = 0;
+	m_wheelState = 1.0f;
+	Frame* f = p->GetFrame()->GetRotFrame();
+	SetFrame(f);
+	vector3d up = vector3d(cos(latitude)*sin(longitude), sin(latitude), cos(latitude)*cos(longitude));
+	const double planetRadius = p->GetTerrainHeight(up);
+	SetPosition(up * (planetRadius - GetAabb().min.y));
+	vector3d right = up.Cross(vector3d(0,0,1)).Normalized();
+	SetOrient(matrix3x3d::FromVectors(right, up));
+	SetVelocity(vector3d(0, 0, 0));
+	SetAngVelocity(vector3d(0, 0, 0));
+	ClearThrusterState();
+	SetFlightState(LANDED);
+	LuaEvent::Queue("onShipLanded", this, p);
 }
 
 void Ship::TimeStepUpdate(const float timeStep)
@@ -811,6 +840,12 @@ double Ship::GetHullTemperature() const
 	} else {
 		return dragGs / 300.0;
 	}
+}
+
+void Ship::SetAlertState(AlertState as)
+{
+	m_alertState = as;
+	Properties().Set("alertStatus", EnumStrings::GetString("ShipAlertStatus", as));
 }
 
 void Ship::UpdateAlertState()
@@ -1085,7 +1120,9 @@ bool Ship::SetWheelState(bool down)
 {
 	if (m_flightState != FLYING) return false;
 	if (is_equal_exact(m_wheelState, down ? 1.0f : 0.0f)) return false;
-	m_wheelTransition = (down ? 1 : -1);
+	int newWheelTransition = (down ? 1 : -1);
+	if (newWheelTransition == m_wheelTransition) return false;
+	m_wheelTransition = newWheelTransition;
 	return true;
 }
 
@@ -1106,7 +1143,7 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	if (m_stats.shield_mass_left < m_stats.shield_mass) {
 		const float shield = 0.01f*GetPercentShields();
 		renderer->SetBlendMode(Graphics::BLEND_ADDITIVE);
-		glPushMatrix();
+
 		matrix4x4f trans = matrix4x4f::Identity();
 		trans.Translate(viewCoords.x, viewCoords.y, viewCoords.z);
 		trans.Scale(GetPhysRadius());
@@ -1116,7 +1153,7 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 		Sfx::shieldEffect->GetMaterial()->diffuse =
 			Color((1.0f-shield),shield,0.0,0.33f*(1.0f-shield));
 		Sfx::shieldEffect->Draw(renderer);
-		glPopMatrix();
+
 		renderer->SetBlendMode(Graphics::BLEND_SOLID);
 	}
 
@@ -1229,9 +1266,15 @@ std::string Ship::MakeRandomLabel()
 	return regid;
 }
 
-void Ship::SetShipType(const ShipType::Id &shipId)
+void Ship::SetShipId(const ShipType::Id &shipId)
 {
 	m_type = &ShipType::types[shipId];
+	Properties().Set("shipId", shipId);
+}
+
+void Ship::SetShipType(const ShipType::Id &shipId)
+{
+	SetShipId(shipId);
 	m_equipment.InitSlotSizes(shipId);
 	SetModel(m_type->modelName.c_str());
 	m_skin.Apply(GetModel());

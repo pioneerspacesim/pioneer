@@ -7,6 +7,7 @@
 #include "Body.h"
 #include "galaxy/StarSystem.h"
 #include "Frame.h"
+#include "TerrainBody.h"
 
 /*
  * Class: Body
@@ -33,12 +34,6 @@
  *
  *   stable
  */
-static int l_body_attr_label(lua_State *l)
-{
-	Body *b = LuaObject<Body>::CheckFromLua(1);
-	lua_pushstring(l, b->GetLabel().c_str());
-	return 1;
-}
 
 /*
  * Attribute: seed
@@ -289,18 +284,77 @@ static int l_body_distance_to(lua_State *l)
 	return 1;
 }
 
+/*
+ * Method: GetGroundPosition
+ *
+ * Get latitude, longitude and altitude of a dynamic body close to the ground or nil the body is not a dynamic body
+ * or is not close to the ground.
+ *
+ * > latitude, longitude, altitude = body:GetGroundPosition()
+ *
+ * Returns:
+ *
+ *   latitude - the latitude of the body in radians
+ *   longitude - the longitude of the body in radians
+ *   altitude - altitude above the ground in meters
+ *
+ * Examples:
+ *
+ * > -- Get ground position of the player
+ * > local lat, long, alt = Game.player:GetGroundPosition()
+ * > lat = math.rad2deg(lat)
+ * > long = math.rad2deg(long)
+ *
+ * Availability:
+ *
+ *   July 2013
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_body_get_ground_position(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	if (!b->IsType(Object::DYNAMICBODY)) {
+		lua_pushnil(l);
+		return 1;
+	}
+
+	Frame *f = b->GetFrame();
+	if (!f->IsRotFrame())
+		return 0;
+
+	vector3d pos = b->GetPosition();
+	double latitude = atan2(pos.y, sqrt(pos.x*pos.x + pos.z * pos.z));
+	double longitude = atan2(pos.x, pos.z);
+	lua_pushnumber(l, latitude);
+	lua_pushnumber(l, longitude);
+	Body *astro = f->GetBody();
+	if (astro->IsType(Object::TERRAINBODY)) {
+		double radius = static_cast<TerrainBody*>(astro)->GetTerrainHeight(pos.Normalized());
+		double altitude = pos.Length() - radius;
+		lua_pushnumber(l, altitude);
+	} else {
+		lua_pushnil(l);
+	}
+	return 3;
+}
+
 template <> const char *LuaObject<Body>::s_type = "Body";
 
 template <> void LuaObject<Body>::RegisterClass()
 {
+	const char *l_parent = "PropertiedObject";
+
 	static luaL_Reg l_methods[] = {
 		{ "IsDynamic",  l_body_is_dynamic  },
 		{ "DistanceTo", l_body_distance_to },
+		{ "GetGroundPosition", l_body_get_ground_position },
 		{ 0, 0 }
 	};
 
 	static luaL_Reg l_attrs[] = {
-		{ "label",         l_body_attr_label          },
 		{ "seed",          l_body_attr_seed           },
 		{ "path",          l_body_attr_path           },
 		{ "type",          l_body_attr_type           },
@@ -310,5 +364,6 @@ template <> void LuaObject<Body>::RegisterClass()
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, NULL, l_methods, l_attrs, NULL);
+	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, l_attrs, 0);
+	LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<Body>::DynamicCastPromotionTest);
 }

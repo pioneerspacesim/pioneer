@@ -13,10 +13,14 @@
 #include "collider/Geom.h"
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
+#include "scenegraph/Model.h"
 #include "scenegraph/SceneGraph.h"
+#include <set>
 
-#define START_SEG_SIZE CITY_ON_PLANET_RADIUS
-#define MIN_SEG_SIZE 50.0
+static const unsigned int DEFAULT_NUM_BUILDINGS = 1000;
+static const double  START_SEG_SIZE = CITY_ON_PLANET_RADIUS;
+static const double MIN_SEG_SIZE = 50.0;
+static const unsigned int CITYFLAVOURS = 5;
 
 using SceneGraph::Model;
 
@@ -31,7 +35,7 @@ struct citybuilding_t {
 struct citybuildinglist_t {
 	const char *modelTagName;
 	double minRadius, maxRadius;
-	int numBuildings;
+	unsigned int numBuildings;
 	citybuilding_t *buildings;
 };
 
@@ -41,7 +45,6 @@ static citybuildinglist_t s_buildingLists[] = {
 	//{ "city_starport_building", 300, 400, 0, 0 },
 };
 
-#define CITYFLAVOURS 5
 struct cityflavourdef_t {
 	int buildingListIdx;
 	vector3d center;
@@ -60,7 +63,7 @@ void CityOnPlanet::PutCityBit(Random &rand, const matrix4x4d &rot, vector3d p1, 
 	citybuildinglist_t *buildings(0);
 
 	// pick a building flavour (city, windfarm, etc)
-	for (int flv=0; flv<CITYFLAVOURS; flv++) {
+	for (unsigned int flv = 0; flv < CITYFLAVOURS; flv++) {
 		flavour = &cityflavour[flv];
 		buildings = &s_buildingLists[flavour->buildingListIdx];
 
@@ -109,13 +112,14 @@ always_divide:
 		geom->SetUserData(this);
 //		f->AddStaticGeom(geom);
 
-		BuildingDef def = { model, float(cmesh->GetRadius()), rotTimes90, cent, geom, false };
+		BuildingDef def = { model, float(cmesh->GetRadius()), rotTimes90, cent, geom };
 		m_buildings.push_back(def);
 	}
 }
 
 void CityOnPlanet::AddStaticGeomsToCollisionSpace()
 {
+	m_enabledBuildings.clear();
 	int skipMask;
 	switch (Pi::detail.cities) {
 		case 0: skipMask = 0xf; break;
@@ -125,12 +129,20 @@ void CityOnPlanet::AddStaticGeomsToCollisionSpace()
 		default:
 			skipMask = 0; break;
 	}
+	Uint32 numVisibleBuildings = 0;
+	for (unsigned int i=0; i<m_buildings.size(); i++) {
+		if (!(i&skipMask)) {
+			++numVisibleBuildings;
+		}
+	}
+
+	// we know how many building we'll be adding, reserve space up front
+	m_enabledBuildings.reserve(numVisibleBuildings);
 	for (unsigned int i=0; i<m_buildings.size(); i++) {
 		if (i & skipMask) {
-			m_buildings[i].isEnabled = false;
 		} else {
 			m_frame->AddStaticGeom(m_buildings[i].geom);
-			m_buildings[i].isEnabled = true;
+			m_enabledBuildings.push_back(m_buildings[i]);
 		}
 	}
 	m_detailLevel = Pi::detail.cities;
@@ -138,9 +150,9 @@ void CityOnPlanet::AddStaticGeomsToCollisionSpace()
 
 void CityOnPlanet::RemoveStaticGeomsFromCollisionSpace()
 {
+	m_enabledBuildings.clear();
 	for (unsigned int i=0; i<m_buildings.size(); i++) {
 		m_frame->RemoveStaticGeom(m_buildings[i].geom);
-		m_buildings[i].isEnabled = false;
 	}
 }
 
@@ -207,6 +219,42 @@ void CityOnPlanet::Uninit()
 	}
 }
 
+// Need a reliable way to sort the models rather than using there address in memory we use their name which should be unique.
+bool setcomp (SceneGraph::Model *mlhs, SceneGraph::Model *mrhs) {return mlhs->GetName()<mrhs->GetName();}
+bool(*fn_pt)(SceneGraph::Model *mlhs, SceneGraph::Model *mrhs) = setcomp;
+
+struct ModelNameComparator {
+	bool operator()(SceneGraph::Model* lhs, SceneGraph::Model* rhs) {
+		return lhs->GetName() < rhs->GetName();
+	}
+};
+
+//static
+void CityOnPlanet::SetCityModelPatterns(const SystemPath &path)
+{
+	Uint32 _init[5] = { path.systemIndex, Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
+	Random rand(_init, 5);
+
+	typedef std::set<SceneGraph::Model*, ModelNameComparator> ModelSet;
+	typedef ModelSet::iterator TSetIter;
+	ModelSet modelSet;
+	for (unsigned int i=0; i<COUNTOF(s_buildingLists); i++) {
+		for (unsigned int j=0; j < s_buildingLists[i].numBuildings; j++) {
+			SceneGraph::Model *m = s_buildingLists[i].buildings[j].resolvedModel;
+			modelSet.insert(m);
+		}
+	}
+
+	SceneGraph::ModelSkin skin;
+	for (TSetIter it=modelSet.begin(), itEnd=modelSet.end(); it!=itEnd; ++it) {
+		SceneGraph::Model *m = (*it);
+		if (!m->SupportsPatterns()) continue;
+		skin.SetRandomColors(rand);
+		skin.SetPattern(rand.Int32(0, m->GetNumPatterns()));
+		skin.Apply(m);
+	}
+}
+
 CityOnPlanet::~CityOnPlanet()
 {
 	// frame may be null (already removed from
@@ -216,9 +264,10 @@ CityOnPlanet::~CityOnPlanet()
 	}
 }
 
-CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed)
+CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 seed)
 {
 	m_buildings.clear();
+	m_buildings.reserve(DEFAULT_NUM_BUILDINGS);
 	m_planet = planet;
 	m_frame = planet->GetFrame();
 	m_detailLevel = Pi::detail.cities;
@@ -240,7 +289,7 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed)
 	Random rand;
 	rand.seed(seed);
 
-	vector3d p = station->GetPosition();
+	const vector3d p = station->GetPosition();
 
 	vector3d p1, p2, p3, p4;
 	double sizex = START_SEG_SIZE;// + rand.Int32((int)START_SEG_SIZE);
@@ -251,7 +300,7 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed)
 	cityflavour[0].center = p;
 	cityflavour[0].size = 500;
 
-	for (int i=1; i<CITYFLAVOURS; i++) {
+	for (unsigned int i = 1; i < CITYFLAVOURS; i++) {
 		cityflavour[i].buildingListIdx =
 			(COUNTOF(s_buildingLists) > 1 ? rand.Int32(COUNTOF(s_buildingLists)) : 0);
 		citybuildinglist_t *blist = &s_buildingLists[cityflavour[i].buildingListIdx];
@@ -293,12 +342,26 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed)
 
 		PutCityBit(rand, m, p1, p2, p3, p4);
 	}
+	Aabb buildAABB;
+	for (std::vector<BuildingDef>::const_iterator iter=m_buildings.begin(), itEND=m_buildings.end(); iter != itEND; ++iter) {
+		buildAABB.Update((*iter).pos - p);
+	}
+	m_realCentre = buildAABB.min + ((buildAABB.max - buildAABB.min)*0.5);
+	m_clipRadius = buildAABB.GetRadius();
 	AddStaticGeomsToCollisionSpace();
 }
 
 void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const SpaceStation *station, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
+	// Early frustum test of whole city.
+	const vector3d stationPos = viewTransform * (station->GetPosition() + m_realCentre);
+	const Graphics::Frustum frustum = camera->GetFrustum();
+	//modelview seems to be always identity
+	if (!frustum.TestPoint(stationPos, m_clipRadius))
+		return;
+
 	matrix4x4d rot[4];
+	matrix4x4f rotf[4];
 	rot[0] = station->GetOrient();
 
 	// change detail level if necessary
@@ -311,26 +374,22 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const Spa
 	for (int i=1; i<4; i++) {
 		rot[i] = rot[0] * matrix4x4d::RotateYMatrix(M_PI*0.5*double(i));
 	}
+	for (int i=0; i<4; i++) {
+		for (int e=0; e<16; e++) {
+			rotf[i][e] = float(rot[i][e]);
+		}
+	}
 
-	const Graphics::Frustum frustum = camera->GetFrustum();
-	//modelview seems to be always identity
-
-	for (std::vector<BuildingDef>::const_iterator i = m_buildings.begin();
-			i != m_buildings.end(); ++i) {
-
-		if (!(*i).isEnabled) continue;
-
-		vector3d pos = viewTransform * (*i).pos;
-		if (!frustum.TestPoint(pos, (*i).clipRadius))
+	for (std::vector<BuildingDef>::const_iterator iter=m_enabledBuildings.begin(), itEND=m_enabledBuildings.end(); iter != itEND; ++iter)
+	{
+		const vector3d pos = viewTransform * (*iter).pos;
+		const vector3f posf(pos);
+		if (!frustum.TestPoint(pos, (*iter).clipRadius))
 			continue;
 
-		matrix4x4f _rot;
-		for (int e=0; e<16; e++) _rot[e] = float(rot[(*i).rotation][e]);
-		_rot[12] = float(pos.x);
-		_rot[13] = float(pos.y);
-		_rot[14] = float(pos.z);
-		glPushMatrix();
-		(*i).model->Render(_rot);
-		glPopMatrix();
+		matrix4x4f _rot(rotf[(*iter).rotation]);
+		_rot.SetTranslate(posf);
+
+		(*iter).model->Render(_rot);
 	}
 }

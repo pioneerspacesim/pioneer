@@ -8,7 +8,7 @@ dnl Setup
 dnl ###########################################################################
 AC_PREREQ(2.59)
 
-AC_INIT([pioneer], [alpha-33-dev], [pioneer-dev@pioneerspacesim.net])
+AC_INIT([pioneer], [0.00], [pioneer-dev@pioneerspacesim.net])
 dnl AC_CONFIG_HEADERS([config.h])
 
 AC_DEFUN([MXE_SETUP], [
@@ -53,6 +53,10 @@ AC_PROG_CC
 AC_PROG_CXX
 AC_C_CONST
 AC_PROG_RANLIB
+
+AC_DEFUN([AC_PROG_STRIP], [AC_CHECK_TOOL(STRIP, strip, :)])
+AC_PROG_STRIP
+
 #AC_PROG_LIBTOOL
 
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES])
@@ -64,6 +68,7 @@ dnl ###########################################################################
 EXTRA_CFLAGS=
 EXTRA_CXXFLAGS=
 EXTRA_CPPFLAGS=
+EXTRA_LIBS=
 
 WARN_CFLAGS=
 WARN_CXXFLAGS=
@@ -113,11 +118,35 @@ AC_SUBST([OPTIMISE])
 
 dnl Debug stuff
 AC_ARG_ENABLE([debug], AS_HELP_STRING([--enable-debug], [Enable debugging code (stack checks, debug tools features, etc)]), [EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DDEBUG"])
+AC_ARG_ENABLE([ldb], AS_HELP_STRING([--enable-ldb], [Enable ldb support.]), [EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DENABLE_LDB" ; EXTRA_LIBS="$EXTRA_LIBS -lldbcore"])
 AC_ARG_WITH([fno-inline],  AS_HELP_STRING([--with-fno-inline], [Compile without inlining. Helps debugging segaults that occur in STL code]), [PIONEER_C_CXX_FLAG([-fno-inline])])
 AC_ARG_WITH([gprof],       AS_HELP_STRING([--with-gprof], [Compile with gprof profiler]), [PIONEER_C_CXX_FLAG([-pg])])
 
-dnl Dist versioning
-AC_ARG_WITH([extra-version], AS_HELP_STRING([--with-extra-version], [Add text to game version shown on splash screen]), [EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DPIONEER_EXTRAVERSION=\\\"$withval\\\""])
+dnl Strip binary after build
+DO_STRIP=no
+AC_ARG_WITH([strip], AS_HELP_STRING([--with-strip], [Strip binary after build]), [test "$withval" != no && DO_STRIP=yes], [])
+AM_CONDITIONAL([DO_STRIP], [test "$DO_STRIP" = yes])
+
+
+dnl Versioning. If this is a git checkout, try to get details from it
+PIONEER_VERSION=
+PIONEER_EXTRAVERSION=
+if test -d .git ; then
+    AC_MSG_NOTICE([This is a git checkout])
+    PIONEER_VERSION=git
+    gitbin=`which git`
+    if test "x$gitbin" != x; then
+        PIONEER_EXTRAVERSION=`$gitbin log -n1 --format=%h`
+        AC_MSG_NOTICE([git ref: $PIONEER_EXTRAVERSION])
+    fi
+fi
+
+dnl And override with anything on the command line
+AC_ARG_WITH([version], AS_HELP_STRING([--with-version], [Game version]), [PIONEER_VERSION=$withval])
+AC_ARG_WITH([extra-version], AS_HELP_STRING([--with-extra-version], [Additional version info]), [PIONEER_EXTRAVERSION=$withval])
+
+EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DPIONEER_VERSION=\\\"$PIONEER_VERSION\\\" -DPIONEER_EXTRAVERSION=\\\"$PIONEER_EXTRAVERSION\\\""
+
 
 dnl Compiler warning options
 AC_ARG_WITH([extra-warnings], AS_HELP_STRING([--without-extra-warnings], [Disable lots of extra compiler warnings]), [], [with_extra_warnings=yes])
@@ -326,6 +355,7 @@ fi
 AC_SUBST([EXTRA_CFLAGS])
 AC_SUBST([EXTRA_CXXFLAGS])
 AC_SUBST([EXTRA_CPPFLAGS])
+AC_SUBST([EXTRA_LIBS])
 
 AC_SUBST([WARN_CFLAGS])
 AC_SUBST([WARN_CXXFLAGS])
@@ -350,6 +380,7 @@ AC_CONFIG_FILES([
 	contrib/lua/Makefile
 	contrib/miniz/Makefile
 	contrib/jenkins/Makefile
+	contrib/PicoDDS/Makefile
 	contrib/vcacheopt/Makefile
 	osx/Makefile
 	win32/Makefile])

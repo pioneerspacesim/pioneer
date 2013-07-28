@@ -21,6 +21,8 @@
 #include "fixed.h"
 #include "Frame.h"
 #include "gameconsts.h"
+#include "GeoPatchContext.h"
+#include "GeoPatch.h"
 #include "GeoSphere.h"
 //#include "glfreetype.h"
 #include "gui/Gui.h"

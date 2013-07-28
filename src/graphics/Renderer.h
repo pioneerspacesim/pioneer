@@ -26,17 +26,23 @@ namespace Graphics {
  * Terrain: not necessarily tricky to convert, but let's see if it's going to be
  * rewritten first... Terrain would likely get a special DrawTerrain(GeoPatch *) function.
  * Reboot postprocessing, again (I'd like this to be a non-optional part of GL2 renderer)
+ *
+ * XXX 2013-Apr-21: Surface is a bit pointless, and StaticMesh could be more
+ * flexible with vertex attributes. Recommendation: replace with CreateVertexBuffer, CreateIndexBuffer
+ * type approach and encourage these for most drawing. This will solve the terrain issue as well.
  */
 
 class Light;
 class Material;
 class MaterialDescriptor;
 class RendererLegacy;
+class RenderTarget;
 class StaticMesh;
 class Surface;
 class Texture;
 class TextureDescriptor;
 class VertexArray;
+struct RenderTargetDesc;
 
 // first some enums
 enum LineType {
@@ -57,8 +63,10 @@ enum BlendMode {
 	BLEND_SOLID,
 	BLEND_ADDITIVE,
 	BLEND_ALPHA,
-	BLEND_ALPHA_ONE, //XXX what the hell to call this
-	BLEND_ALPHA_PREMULT
+	BLEND_ALPHA_ONE, //"additive alpha"
+	BLEND_ALPHA_PREMULT,
+	BLEND_SET_ALPHA, // copy alpha channel
+	BLEND_DEST_ALPHA // XXX maybe crappy name
 };
 
 // Renderer base, functions return false if
@@ -77,6 +85,9 @@ public:
 	virtual bool EndFrame() = 0;
 	//traditionally gui happens between endframe and swapbuffers
 	virtual bool SwapBuffers() = 0;
+
+	//set 0 to render to screen
+	virtual bool SetRenderTarget(RenderTarget*) { return false; }
 
 	//clear color and depth buffer
 	virtual bool ClearScreen() { return false; }
@@ -126,6 +137,8 @@ public:
 	//creates a unique material based on the descriptor. It will not be deleted automatically.
 	virtual Material *CreateMaterial(const MaterialDescriptor &descriptor) = 0;
 	virtual Texture *CreateTexture(const TextureDescriptor &descriptor) = 0;
+	//returns 0 if unsupported
+	virtual RenderTarget *CreateRenderTarget(const RenderTargetDesc &) { return 0; }
 
 	Texture *GetCachedTexture(const std::string &type, const std::string &name);
 	void AddCachedTexture(const std::string &type, const std::string &name, Texture *texture);

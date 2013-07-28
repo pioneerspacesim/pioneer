@@ -137,7 +137,7 @@ bool RendererLegacy::SwapBuffers()
 	}
 #endif
 
-	Graphics::SwapBuffers();
+	SDL_GL_SwapBuffers();
 	return true;
 }
 
@@ -191,7 +191,7 @@ bool RendererLegacy::SetTransform(const matrix4x4f &m)
 
 bool RendererLegacy::SetPerspectiveProjection(float fov, float aspect, float near, float far)
 {
-	Graphics::SetFOV(fov);
+	Graphics::SetFov(fov);
 
 	double ymax = near * tan(fov * M_PI / 360.0);
 	double ymin = -ymax;
@@ -235,6 +235,13 @@ bool RendererLegacy::SetBlendMode(BlendMode m)
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 		break;
+	case BLEND_SET_ALPHA:
+		glEnable(GL_BLEND);
+		glBlendFuncSeparate(GL_ZERO, GL_ONE, GL_SRC_COLOR, GL_ZERO);
+		break;
+	case BLEND_DEST_ALPHA:
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_DST_ALPHA, GL_ONE_MINUS_DST_ALPHA);
 	default:
 		return false;
 	}
@@ -269,6 +276,11 @@ bool RendererLegacy::SetLights(int numlights, const Light *lights)
 {
 	if (numlights < 1) return false;
 
+	//glLight depends on the current transform, but we have always
+	//relied on it being identity when setting lights.
+	glPushMatrix();
+	SetTransform(matrix4x4f::Identity());
+
 	m_numLights = numlights;
 	m_numDirLights = 0;
 
@@ -291,6 +303,9 @@ bool RendererLegacy::SetLights(int numlights, const Light *lights)
 
 		assert(m_numDirLights < 5);
 	}
+
+	glPopMatrix();
+
 	//XXX should probably disable unused lights (for legacy renderer only)
 	return true;
 }

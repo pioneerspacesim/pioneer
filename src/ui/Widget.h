@@ -9,6 +9,7 @@
 #include "Event.h"
 #include "RefCounted.h"
 #include "WidgetSet.h"
+#include "PropertiedObject.h"
 #include <climits>
 #include <set>
 
@@ -115,7 +116,7 @@ public:
 	// size control flags let a widget tell its container how it wants to be
 	// sized when it can't get its preferred size
 	Uint32 GetSizeControlFlags() const { return m_sizeControlFlags; }
-	enum SizeControl { // <enum scope='UI::Widget' name=UISizeControl>
+	enum SizeControl { // <enum scope='UI::Widget' name=UISizeControl public>
 		NO_WIDTH        = 0x01, // do not contribute preferred width to the layout
 		NO_HEIGHT       = 0x02, // do not contribute preferred height to the layout
 		EXPAND_WIDTH    = 0x04, // ignore preferred width, give me as much as possible
@@ -145,6 +146,11 @@ public:
 		return (point.x >= pos.x && point.y >= pos.y && point.x < pos.x+m_activeArea.x && point.y < pos.y+m_activeArea.y);
 	}
 
+	// calculate layout contribution based on preferred size and flags
+	Point CalcLayoutContribution();
+	// calculate size based on available space, preferred size and flags
+	Point CalcSize(const Point &avail);
+
 	// fast way to determine if the widget is a container
 	virtual bool IsContainer() const { return false; }
 
@@ -167,7 +173,7 @@ public:
 	// font size. obviously used for text size but also sometimes used for
 	// general widget size (eg space size). might do nothing, depends on the
 	// widget
-	enum Font { // <enum scope='UI::Widget' name=UIFont prefix=FONT_>
+	enum Font { // <enum scope='UI::Widget' name=UIFont prefix=FONT_ public>
 		FONT_XSMALL,
 		FONT_SMALL,
 		FONT_NORMAL,
@@ -196,6 +202,9 @@ public:
 	// widget id. used for queries/searches
 	const std::string &GetId() const { return m_id; }
 	Widget *SetId(const std::string &id) { m_id = id; return this; }
+
+	// bind an object property to a widget bind point
+	void Bind(const std::string &bindName, PropertiedObject *object, const std::string &propertyName);
 
 
 	// this sigc accumulator calls all the handlers for an event. if any of
@@ -301,6 +310,7 @@ protected:
 	virtual void HandleSelect() {}
 	virtual void HandleDeselect() {}
 
+	void RegisterBindPoint(const std::string &bindName, sigc::slot<void,PropertyMap &,const std::string &> method);
 
 private:
 
@@ -389,6 +399,9 @@ private:
 	std::set<KeySym> m_shortcuts;
 
 	std::string m_id;
+
+	std::map< std::string,sigc::slot<void,PropertyMap &,const std::string &> > m_bindPoints;
+	std::map< std::string,sigc::connection > m_binds;
 };
 
 }

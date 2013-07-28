@@ -19,7 +19,6 @@ noinst_HEADERS = \
 	AmbientSounds.h \
 	AnimationCurves.h \
 	Background.h \
-	BezierCurve.h \
 	Body.h \
 	ByteRange.h \
 	Camera.h \
@@ -31,7 +30,6 @@ noinst_HEADERS = \
 	CommodityTradeWidget.h \
 	Cutscene.h \
 	CRC32.h \
-	DeadVideoLink.h \
 	DeathView.h \
 	DeleteEmitter.h \
 	DynamicBody.h \
@@ -54,6 +52,7 @@ noinst_HEADERS = \
 	HyperspaceCloud.h \
 	IniConfig.h \
 	Intro.h \
+	JobQueue.h \
 	GameConfig.h \
 	KeyBindings.h \
 	Lang.h \
@@ -107,10 +106,11 @@ noinst_HEADERS = \
 	PngWriter.h \
 	Polit.h \
 	Projectile.h \
+	PropertiedObject.h \
+	PropertyMap.h \
 	Quaternion.h \
 	Random.h \
 	RefCounted.h \
-	RefList.h \
 	SDLWrappers.h \
 	SectorView.h \
 	Serializer.h \
@@ -173,7 +173,6 @@ pioneer_SOURCES	= \
 	CityOnPlanet.cpp \
 	CommodityTradeWidget.cpp \
 	CRC32.cpp \
-	DeadVideoLink.cpp \
 	DeathView.cpp \
 	DynamicBody.cpp \
 	EnumStrings.cpp \
@@ -189,10 +188,15 @@ pioneer_SOURCES	= \
 	GalacticView.cpp \
 	Game.cpp \
 	GameMenuView.cpp \
+	GeoPatch.cpp \
+	GeoPatchContext.cpp \
+	GeoPatchID.cpp \
+	GeoPatchJobs.cpp \
 	GeoSphere.cpp \
 	HyperspaceCloud.cpp \
 	IniConfig.cpp \
 	Intro.cpp \
+	JobQueue.cpp \
 	GameConfig.cpp \
 	KeyBindings.cpp \
 	Lang.cpp \
@@ -222,6 +226,7 @@ pioneer_SOURCES	= \
 	LuaObject.cpp \
 	LuaPlanet.cpp \
 	LuaPlayer.cpp \
+	LuaPropertiedObject.cpp \
 	LuaRand.cpp \
 	LuaRef.cpp \
 	LuaSystemBody.cpp \
@@ -251,6 +256,7 @@ pioneer_SOURCES	= \
 	PngWriter.cpp \
 	Polit.cpp \
 	Projectile.cpp \
+	PropertyMap.cpp \
 	SDLWrappers.cpp \
 	SectorView.cpp \
 	Serializer.cpp \
@@ -294,8 +300,6 @@ pioneer_SOURCES	= \
 	enum_table.cpp
 
 pioneer_LDADD = \
-	../contrib/miniz/libminiz.a \
-	../contrib/jenkins/libjenkins.a \
 	collider/libcollider.a \
 	gui/libgui.a \
 	graphics/libgraphics.a \
@@ -304,12 +308,15 @@ pioneer_LDADD = \
 	text/libtext.a \
 	terrain/libterrain.a \
 	ui/libui.a \
-	gameui/libgameui.a
+	gameui/libgameui.a \
+	../contrib/miniz/libminiz.a \
+	../contrib/PicoDDS/libpicodds.a \
+	../contrib/jenkins/libjenkins.a
 
 pioneer_LDADD += \
 	$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 	$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS) \
-	$(PNG_LIBS) $(ASSIMP_LIBS)
+	$(PNG_LIBS) $(ASSIMP_LIBS) $(EXTRA_LIBS)
 
 if BUILD_WIN32
 pioneer_LDFLAGS = -Wl,-Map=pioneer.map
@@ -318,6 +325,17 @@ endif
 if !HAVE_LUA
 pioneer_LDADD += ../contrib/lua/liblua.a
 endif
+
+if DO_STRIP
+PIONEER_V_STRIP = $(PIONEER_V_STRIP_@AM_V@)
+PIONEER_V_STRIP_ = $(PIONEER_V_STRIP_@AM_DEFAULT_V@)
+PIONEER_V_STRIP_0 = @echo "  STRIP   " $<;
+PIONEER_V_STRIP_1 =
+
+all-local: $(bin_PROGRAMS)
+	$(PIONEER_V_STRIP)$(STRIP) $(bin_PROGRAMS)
+endif
+
 
 check_PROGRAMS = tests uitest textstress
 tests_SOURCES = \
@@ -337,6 +355,7 @@ tests_LDADD = \
 	terrain/libterrain.a \
     posix/libposix.a \
 	../contrib/miniz/libminiz.a \
+	../contrib/PicoDDS/libpicodds.a \
 	../contrib/jenkins/libjenkins.a \
 	$(SIGC_LIBS)
 
@@ -355,17 +374,20 @@ uitest_SOURCES = \
 	LuaObject.cpp \
 	LuaConstants.cpp \
 	LuaRef.cpp \
+	LuaPropertiedObject.cpp \
 	PngWriter.cpp \
 	EnumStrings.cpp \
+	PropertyMap.cpp \
 	enum_table.cpp \
 	utils.cpp
 uitest_LDADD = \
-	../contrib/jenkins/libjenkins.a \
 	ui/libui.a \
 	gui/libgui.a \
 	text/libtext.a \
 	graphics/libgraphics.a \
-	posix/libposix.a
+	posix/libposix.a \
+	../contrib/jenkins/libjenkins.a \
+	../contrib/PicoDDS/libpicodds.a
 
 uitest_LDADD += \
 	$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
@@ -390,7 +412,8 @@ textstress_LDADD = \
 	gui/libgui.a \
 	text/libtext.a \
 	graphics/libgraphics.a \
-	posix/libposix.a
+	posix/libposix.a \
+	../contrib/PicoDDS/libpicodds.a
 
 textstress_LDADD += \
 	$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \

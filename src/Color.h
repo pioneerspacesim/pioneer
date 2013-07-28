@@ -40,6 +40,9 @@ struct Color4ub {
 
 	operator unsigned char*() { return &r; }
 	operator const unsigned char*() const { return &r; }
+	Color4ub operator+(const Color4ub &c) const { return Color4ub(c.r+r, c.g+g, c.b+b, c.a+a); }
+	Color4ub operator*(const float f) const { return Color4ub(f*r, f*g, f*b, f*a); }
+	Color4ub operator/(const float f) const { return Color4ub(r/f, g/f, b/f, a/f); }
 
 	Color4f ToColor4f() const { return Color4f(r/255.0f, g/255.0f, b/255.0f, a/255.0f); }
 
@@ -49,6 +52,29 @@ struct Color4ub {
 	static const Color4ub GREEN;
 	static const Color4ub BLUE;
 	static const Color4ub YELLOW;
+};
+
+struct Color3ub {
+	unsigned char r, g, b;
+	Color3ub(): r(0), g(0), b(0) {}
+	Color3ub(unsigned char v_): r(v_), g(v_), b(v_) {}
+	Color3ub(unsigned char r_, unsigned char g_, unsigned char b_): r(r_), g(g_), b(b_) {}
+	Color3ub(const Color4f &c): r(c.r*255.f), g(c.g*255.f), b(c.b*255.f) {}
+
+	operator unsigned char*() { return &r; }
+	operator const unsigned char*() const { return &r; }
+	Color3ub operator+(const Color3ub &c) const { return Color3ub(c.r+r, c.g+g, c.b+b); }
+	Color3ub operator*(const float f) const { return Color3ub(f*r, f*g, f*b); }
+	Color3ub operator/(const float f) const { return Color3ub(r/f, g/f, b/f); }
+
+	Color4f ToColor4f() const { return Color4f(r/255.0f, g/255.0f, b/255.0f); }
+
+	static const Color3ub BLACK;
+	static const Color3ub WHITE;
+	static const Color3ub RED;
+	static const Color3ub GREEN;
+	static const Color3ub BLUE;
+	static const Color3ub YELLOW;
 };
 
 typedef Color4f Color;

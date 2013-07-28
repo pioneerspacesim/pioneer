@@ -5,12 +5,12 @@
 #define _SHIP_H
 
 #include "libs.h"
-#include "BezierCurve.h"
 #include "Camera.h"
 #include "DynamicBody.h"
 #include "EquipSet.h"
 #include "galaxy/SystemPath.h"
 #include "NavLights.h"
+#include "Planet.h"
 #include "Serializer.h"
 #include "ShipType.h"
 #include "scenegraph/SceneGraph.h"
@@ -55,6 +55,7 @@ public:
 	Ship(ShipType::Id shipId);
 	Ship() {} //default constructor used before Load
 	virtual ~Ship();
+
 	void SetController(ShipController *c); //deletes existing
 	ShipController *GetController() const { return m_controller; }
 	virtual bool IsPlayerShip() const { return false; } //XXX to be replaced with an owner check
@@ -63,6 +64,9 @@ public:
 	/** Use GetDockedWith() to determine if docked */
 	SpaceStation *GetDockedWith() const { return m_dockedWith; }
 	int GetDockingPort() const { return m_dockedWithPort; }
+
+	virtual void SetLandedOn(Planet *p, float latitude, float longitude);
+
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 
 	void SetThrusterState(int axis, double level) {
@@ -104,7 +108,7 @@ public:
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel);
 	virtual bool OnDamage(Object *attacker, float kgDamage);
 
-	enum FlightState { // <enum scope='Ship' name=ShipFlightState>
+	enum FlightState { // <enum scope='Ship' name=ShipFlightState public>
 		FLYING,     // open flight (includes autopilot)
 		DOCKING,    // in docking animation
 		DOCKED,     // docked with station
@@ -115,6 +119,7 @@ public:
 	FlightState GetFlightState() const { return m_flightState; }
 	void SetFlightState(FlightState s);
 	float GetWheelState() const { return m_wheelState; }
+	int GetWheelTransition() const { return m_wheelTransition; }
 	bool SpawnCargo(CargoBody * c_body) const;
 
 	virtual bool IsInSpace() const { return (m_flightState != HYPERSPACE); }
@@ -123,7 +128,7 @@ public:
 	const SystemPath &GetHyperspaceDest() const { return m_hyperspace.dest; }
 	double GetHyperspaceDuration() const { return m_hyperspace.duration; }
 
-	enum HyperjumpStatus { // <enum scope='Ship' name=ShipJumpStatus prefix=HYPERJUMP_>
+	enum HyperjumpStatus { // <enum scope='Ship' name=ShipJumpStatus prefix=HYPERJUMP_ public>
 		HYPERJUMP_OK,
 		HYPERJUMP_CURRENT_SYSTEM,
 		HYPERJUMP_NO_DRIVE,
@@ -157,7 +162,7 @@ public:
 	void UseECM();
 	virtual Missile * SpawnMissile(ShipType::Id missile_type, int power=-1);
 
-	enum AlertState { // <enum scope='Ship' name=ShipAlertStatus prefix=ALERT_>
+	enum AlertState { // <enum scope='Ship' name=ShipAlertStatus prefix=ALERT_ public>
 		ALERT_NONE,
 		ALERT_SHIP_NEARBY,
 		ALERT_SHIP_FIRING,
@@ -182,7 +187,7 @@ public:
 	bool AIIsActive() { return m_curAICmd ? true : false; }
 	void AIGetStatusText(char *str);
 
-	enum AIError { // <enum scope='Ship' name=ShipAIError prefix=AIERROR_>
+	enum AIError { // <enum scope='Ship' name=ShipAIError prefix=AIERROR_ public>
 		AIERROR_NONE=0,
 		AIERROR_GRAV_TOO_HIGH,
 		AIERROR_REFUSED_PERM,
@@ -218,7 +223,7 @@ public:
 	void SetPercentHull(float);
 	float GetGunTemperature(int idx) const { return m_gunTemperature[idx]; }
 
-	enum FuelState { // <enum scope='Ship' name=ShipFuelStatus prefix=FUEL_>
+	enum FuelState { // <enum scope='Ship' name=ShipFuelStatus prefix=FUEL_ public>
 		FUEL_OK,
 		FUEL_WARNING,
 		FUEL_EMPTY,
@@ -227,7 +232,7 @@ public:
 
 	// fuel left, 0.0-1.0
 	double GetFuel() const { return m_thrusterFuel;	}
-	void SetFuel(const double f) { m_thrusterFuel = Clamp(f, 0.0, 1.0); }
+	void SetFuel(const double f);
 	double GetFuelReserve() const { return m_reserveFuel; }
 	void SetFuelReserve(const double f) { m_reserveFuel = Clamp(f, 0.0, 1.0); }
 
@@ -253,7 +258,7 @@ protected:
 
 	bool AITimeStep(float timeStep); // Called by controller. Returns true if complete
 
-	virtual void SetAlertState(AlertState as) { m_alertState = as; }
+	virtual void SetAlertState(AlertState as);
 
 	virtual void OnEnterHyperspace();
 	virtual void OnEnterSystem();
@@ -276,6 +281,7 @@ private:
 	void TestLanded();
 	void UpdateAlertState();
 	void UpdateFuel(float timeStep, const vector3d &thrust);
+    void SetShipId(const ShipType::Id &shipId);
 	void OnEquipmentChange(Equip::Type e);
 	void EnterHyperspace();
 

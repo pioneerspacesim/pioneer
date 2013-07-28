@@ -20,12 +20,17 @@ public:
 	Label *SetText(const std::string &text);
 	const std::string &GetText() const { return m_text; }
 
+	Label *SetColor(const Color &c) { m_color = c; return this; }
+
 protected:
 	friend class Context;
-	Label(Context *context, const std::string &text) : Widget(context), m_text(text) {}
+	Label(Context *context, const std::string &text);
 
 private:
+	void BindText(PropertyMap &p, const std::string &k);
+
 	std::string m_text;
+	Color m_color;
 	Point m_preferredSize;
 };
 

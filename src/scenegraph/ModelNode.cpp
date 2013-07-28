@@ -23,12 +23,12 @@ Node* ModelNode::Clone(NodeCopyCache *cache)
 	return this; //modelnodes are shared
 }
 
-void ModelNode::Render(const matrix4x4f &trans, RenderData *rd)
+void ModelNode::Render(const matrix4x4f &trans, const RenderData *rd)
 {
 	//slight hack here
-	rd->nodemask |= MASK_IGNORE;
-	m_model->Render(trans, rd);
-	rd->nodemask &= ~MASK_IGNORE;
+	RenderData newrd = *rd;
+	newrd.nodemask |= MASK_IGNORE;
+	m_model->Render(trans, &newrd);
 }
 
 }

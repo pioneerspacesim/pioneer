@@ -31,6 +31,9 @@ Widget::~Widget()
 	// delete the widget by requiring it to clear the widgets references
 	// before deletion
 	assert(!m_container);
+
+	for (std::map<std::string,sigc::connection>::iterator i = m_binds.begin(); i != m_binds.end(); ++i)
+		(*i).second.disconnect();
 }
 
 Point Widget::GetAbsolutePosition() const
@@ -73,6 +76,42 @@ Widget *Widget::SetFont(Font font)
 	m_font = font;
 	GetContext()->RequestLayout();
 	return this;
+}
+
+Point Widget::CalcLayoutContribution()
+{
+	Point preferredSize = PreferredSize();
+	const Uint32 flags = GetSizeControlFlags();
+
+	if (flags & NO_WIDTH)
+		preferredSize.x = 0;
+	if (flags & NO_HEIGHT)
+		preferredSize.y = 0;
+
+	if (flags & EXPAND_WIDTH)
+		preferredSize.x = SIZE_EXPAND;
+	if (flags & EXPAND_HEIGHT)
+		preferredSize.y = SIZE_EXPAND;
+
+	return preferredSize;
+}
+
+Point Widget::CalcSize(const Point &avail)
+{
+	if (!(GetSizeControlFlags() & PRESERVE_ASPECT))
+		return avail;
+
+	const Point preferredSize = PreferredSize();
+
+	float wantRatio = float(preferredSize.x) / float(preferredSize.y);
+
+	// more room on X than Y, use full X, scale Y
+	if (avail.x > avail.y)
+		return Point(float(avail.y) * wantRatio, avail.y);
+
+	// more room on Y than X, use full Y, scale X
+	else
+		return Point(avail.x, float(avail.x) / wantRatio);
 }
 
 Widget::Font Widget::GetFont() const
@@ -222,6 +261,30 @@ void Widget::TriggerDeselect()
 {
 	m_selected = false;
 	HandleDeselect();
+}
+
+void Widget::RegisterBindPoint(const std::string &bindName, sigc::slot<void,PropertyMap &,const std::string &> method)
+{
+	m_bindPoints[bindName] = method;
+}
+
+void Widget::Bind(const std::string &bindName, PropertiedObject *object, const std::string &propertyName)
+{
+	std::map< std::string,sigc::slot<void,PropertyMap &,const std::string &> >::const_iterator bindPointIter = m_bindPoints.find(bindName);
+	if (bindPointIter == m_bindPoints.end())
+		return;
+
+	sigc::connection conn = object->Properties().Connect(propertyName, (*bindPointIter).second);
+
+	std::map<std::string,sigc::connection>::iterator bindIter = m_binds.find(bindName);
+	if (bindIter != m_binds.end()) {
+		(*bindIter).second.disconnect();
+		(*bindIter).second = conn;
+	}
+	else
+		m_binds.insert(bindIter, std::make_pair(bindName, conn));
+
+	(*bindPointIter).second(object->Properties(), propertyName);
 }
 
 }

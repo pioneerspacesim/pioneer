@@ -7,6 +7,11 @@
 
 namespace UI {
 
+Label::Label(Context *context, const std::string &text) : Widget(context), m_text(text), m_color(Color::WHITE)
+{
+	RegisterBindPoint("text", sigc::mem_fun(this, &Label::BindText));
+}
+
 Point Label::PreferredSize()
 {
 	vector2f textSize;
@@ -26,9 +31,8 @@ void Label::Layout()
 
 void Label::Draw()
 {
-	static const Color normalColor(Color::WHITE);
 	static const Color disabledColor(0.8f, 0.8f, 0.8f, 1.0f);
-	GetContext()->GetFont(GetFont())->RenderString(m_text.c_str(), 0.0f, 0.0f, IsDisabled() ? disabledColor : normalColor);
+	GetContext()->GetFont(GetFont())->RenderString(m_text.c_str(), 0.0f, 0.0f, IsDisabled() ? disabledColor : m_color);
 }
 
 Label *Label::SetText(const std::string &text)
@@ -36,6 +40,13 @@ Label *Label::SetText(const std::string &text)
 	m_text = text;
 	GetContext()->RequestLayout();
 	return this;
+}
+
+void Label::BindText(PropertyMap &p, const std::string &k)
+{
+	std::string text;
+	p.Get(k, text);
+	SetText(text);
 }
 
 }

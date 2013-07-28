@@ -186,6 +186,8 @@ COULD_NOT_OPEN_FILENAME
     Could not open %path
 GAME_LOAD_CORRUPT
     This saved game cannot be loaded because it contains errors.
+GAME_LOAD_WRONG_VERSION
+	This saved game cannot be loaded because it was created by a different version of Pioneer.
 GAME_LOAD_CANNOT_OPEN
     This saved game file could not be opened due to permissions or something...
 GAME_SAVE_CANNOT_WRITE
@@ -534,8 +536,8 @@ Y
     Y
 Z
     Z
-AXIS
-     " Axis"
+JOY_AXIS
+    %{sign}Joy%joynum %axis Axis
 WEAPONS
     Weapons
 TARGET_OBJECT_IN_SIGHTS
@@ -739,7 +741,7 @@ CAMERA_RIGHT_VIEW
 CAMERA_BOTTOM_VIEW
 	Bottom camera
 INTERNAL_VIEW
-    Internal view	
+    Internal view
 EXTERNAL_VIEW
     External view
 SIDEREAL_VIEW
@@ -749,7 +751,7 @@ ROTATE_UP
 ROTATE_DOWN
 	Rotate Down
 ROTATE_LEFT
-    Rotate Left	
+    Rotate Left
 ROTATE_RIGHT
     Rotate Right
 RESET
@@ -994,6 +996,8 @@ ECCENTRICITY
     Eccentricity
 AXIAL_TILT
     Axial tilt
+EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO
+    Equatorial to polar radius ratio
 N_DEGREES
     %angle{f.1} degrees
 DAY_LENGTH
@@ -1240,3 +1244,6 @@ MONTH_DEC
     Dec
 MISCELLANEOUS
     Miscellaneous
+PAUSED
+    PAUSED
+

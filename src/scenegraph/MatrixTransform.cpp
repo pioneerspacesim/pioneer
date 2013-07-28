@@ -29,7 +29,7 @@ void MatrixTransform::Accept(NodeVisitor &nv)
 	nv.ApplyMatrixTransform(*this);
 }
 
-void MatrixTransform::Render(const matrix4x4f &trans, RenderData *rd)
+void MatrixTransform::Render(const matrix4x4f &trans, const RenderData *rd)
 {
 	const matrix4x4f t = trans * m_transform;
 	//renderer->SetTransform(t);

@@ -20,7 +20,7 @@ public:
 	void SetGeomTree(GeomTree *t) { m_geomTree = t; }
 
 	std::vector<vector3f> m_vertices;
-	std::vector<int> m_indices;
+	std::vector<int> m_indices; //XXX should be unsigned!!
 	std::vector<unsigned int> m_flags; //1 per triangle
 
 protected:

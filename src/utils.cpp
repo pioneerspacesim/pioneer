@@ -3,6 +3,7 @@
 
 #include "utils.h"
 #include "libs.h"
+#include "gameconsts.h"
 #include "StringF.h"
 #include "gui/Gui.h"
 #include "Lang.h"
@@ -92,7 +93,6 @@ std::string timedate::fmt_date()
 	         day + 1, months[month], year);
 	return buf;
 }
-
 
 std::string format_date(double t)
 {
@@ -197,7 +197,7 @@ const char *pi_strcasestr (const char *haystack, const char *needle)
 					return haystack;
 
 				if (!*rhaystack)
-					return NULL;
+					return 0;
 
 				if (TOLOWER(*rhaystack) != TOLOWER(*rneedle))
 					break;
@@ -206,8 +206,7 @@ const char *pi_strcasestr (const char *haystack, const char *needle)
 	}
 }
 
-
-#define HEXDUMP_CHUNK 16
+static const int HEXDUMP_CHUNK = 16;
 void hexdump(const unsigned char *buf, int len)
 {
 	int count;

@@ -87,7 +87,7 @@ void ModelBody::RebuildCollisionMesh()
 		delete m_geom;
 	}
 
-	m_collMesh = m_model->CreateCollisionMesh();
+	m_collMesh = m_model->GetCollisionMesh();
 	SetPhysRadius(m_collMesh->GetAabb().GetRadius());
 	m_geom = new Geom(m_collMesh->GetGeomTree());
 
@@ -159,7 +159,8 @@ void ModelBody::SetFrame(Frame *f)
 //    * As suns set the split is biased towards ambient
 void ModelBody::CalcLighting(double &ambient, double &direct, const Camera *camera)
 {
-	ambient = 0.0;
+	const double minAmbient = 0.05;
+	ambient = minAmbient;
 	direct = 1.0;
 	Body *astro = GetFrame()->GetBody();
 	if ( ! (astro && astro->IsType(Object::PLANET)) )
@@ -244,7 +245,6 @@ void ModelBody::CalcLighting(double &ambient, double &direct, const Camera *came
 	// scale ambient by amount of light
 	ambient = fraction*(Clamp((light),0.0,1.0))*0.25;
 
-	const double minAmbient = std::min(1.0,density)*0.05;
 	ambient = std::max(minAmbient, ambient);
 }
 
@@ -256,6 +256,8 @@ void ModelBody::SetLighting(Graphics::Renderer *r, const Camera *camera, std::ve
 	double ambient, direct;
 	CalcLighting(ambient, direct, camera);
 	const std::vector<Camera::LightSource> &lightSources = camera->GetLightSources();
+	newLights.reserve(lightSources.size());
+	oldLights.reserve(lightSources.size());
 	for(size_t i = 0; i < lightSources.size(); i++) {
 		Graphics::Light light(lightSources[i].GetLight());
 
@@ -299,7 +301,8 @@ void ModelBody::RenderModel(Graphics::Renderer *r, const Camera *camera, const v
 	matrix4x4d m2 = GetInterpOrient();
 	m2.SetTranslate(GetInterpPosition());
 	matrix4x4d t = viewTransform * m2;
-	glPushMatrix();				// Otherwise newmodels leave a dirty matrix
+
+	//double to float matrix
 	matrix4x4f trans;
 	for (int i=0; i<12; i++) trans[i] = float(t[i]);
 	trans[12] = viewCoords.x;
@@ -308,7 +311,6 @@ void ModelBody::RenderModel(Graphics::Renderer *r, const Camera *camera, const v
 	trans[15] = 1.0f;
 
 	m_model->Render(trans);
-	glPopMatrix();
 
 	if (setLighting)
 		ResetLighting(r, oldLights, oldAmbient);

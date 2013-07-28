@@ -50,6 +50,7 @@ public:
 
 protected:
 	virtual void OnSwitchTo();
+	virtual void OnSwitchFrom();
 private:
 	void InitObject();
 
@@ -116,6 +117,7 @@ private:
 
 	Gui::ImageButton *m_hyperspaceButton;
 
+	Gui::Label *m_pauseText;
 	Gui::Label *m_showCameraName;
 	Gui::Fixed *m_commsOptions;
 	Gui::VBox *m_commsNavOptions;

@@ -7,6 +7,7 @@
 #include "libs.h"
 #include "Random.h"
 #include "Object.h"
+#include "galaxy/StarSystem.h"
 
 class Planet;
 class SpaceStation;
@@ -21,13 +22,14 @@ namespace SceneGraph { class Model; }
 class CityOnPlanet: public Object {
 public:
 	OBJDEF(CityOnPlanet, Object, CITYONPLANET);
-	CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed);
+	CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 seed);
 	virtual ~CityOnPlanet();
 	void Render(Graphics::Renderer *r, const Camera *camera, const SpaceStation *station, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	inline Planet *GetPlanet() const { return m_planet; }
 
 	static void Init();
 	static void Uninit();
+	static void SetCityModelPatterns(const SystemPath &path);
 private:
 	void PutCityBit(Random &rand, const matrix4x4d &rot, vector3d p1, vector3d p2, vector3d p3, vector3d p4);
 	void AddStaticGeomsToCollisionSpace();
@@ -39,16 +41,15 @@ private:
 		int rotation; // 0-3
 		vector3d pos;
 		Geom *geom;
-		// may not be at lower detail level
-		bool isEnabled;
 	};
 
 	Planet *m_planet;
 	Frame *m_frame;
 	std::vector<BuildingDef> m_buildings;
+	std::vector<BuildingDef> m_enabledBuildings;
 	int m_detailLevel;
-	// position of city center
-	vector3d m_position;
+	vector3d m_realCentre;
+	float m_clipRadius;
 };
 
 #endif /* _CITYONPLANET_H */

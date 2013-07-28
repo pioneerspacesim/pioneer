@@ -143,7 +143,6 @@ std::string KeyBinding::Description() const {
 	return oss.str();
 }
 
-
 AxisBinding::AxisBinding() {
 	this->joystick = 0;
 	this->axis = 0;
@@ -167,21 +166,15 @@ float AxisBinding::GetValue() {
 
 std::string AxisBinding::Description() const {
 	const char *axis_names[] = {Lang::X, Lang::Y, Lang::Z};
-	std::ostringstream oss;
+	std::ostringstream ossaxisnum;
+	ossaxisnum << int(axis);
 
-	if (direction == KeyBindings::NEGATIVE)
-		oss << '-';
-
-	oss << Lang::JOY << int(joystick) << ' ';
-
-	if (0 <= axis && axis < 3)
-		oss << axis_names[axis];
-	else
-		oss << int(axis);
-
-	oss << Lang::AXIS;
-
-	return oss.str();
+	return stringf(Lang::JOY_AXIS,
+		formatarg("sign", direction == KeyBindings::NEGATIVE ? "-" : ""), // no + sign if positive
+		formatarg("signp", direction == KeyBindings::NEGATIVE ? "-" : "+"), // optional with + sign
+		formatarg("joynum", joystick),
+		formatarg("axis", axis >= 0 && axis < 3 ? axis_names[axis] : ossaxisnum.str())
+	);
 }
 
 /**
@@ -342,7 +335,7 @@ void DispatchSDLEvent(const SDL_Event *event) {
 void InitKeyBinding(KeyAction &kb, const std::string &bindName, SDLKey defaultKey) {
 	std::string keyName = Pi::config->String(bindName.c_str());
 	if (keyName.length() == 0) {
-		keyName = stringf("Key%0{u}", uint32_t(defaultKey));
+		keyName = stringf("Key%0{u}", Uint32(defaultKey));
 		Pi::config->SetString(bindName.c_str(), keyName.c_str());
 	}
 	KeyBindingFromString(keyName.c_str(), &(kb.binding));

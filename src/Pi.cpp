@@ -126,6 +126,7 @@ bool Pi::mouseYInvert;
 std::vector<Pi::JoystickState> Pi::joysticks;
 bool Pi::navTunnelDisplayed;
 Gui::Fixed *Pi::menu;
+bool Pi::DrawGUI = true;
 Graphics::Renderer *Pi::renderer;
 RefCountedPtr<UI::Context> Pi::ui;
 ModelCache *Pi::modelCache;
@@ -136,22 +137,24 @@ ObjectViewerView *Pi::objectViewerView;
 #endif
 
 Sound::MusicPlayer Pi::musicPlayer;
+ScopedPtr<JobQueue> Pi::jobQueue;
 
-static void draw_progress(float progress)
+static void draw_progress(UI::Gauge *gauge, UI::Label *label, float progress)
 {
-	float w, h;
+	gauge->SetValue(progress);
+	label->SetText(stringf(Lang::SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS, formatarg("age", progress * 13.7f)));
+
 	Pi::renderer->BeginFrame();
 	Pi::renderer->EndFrame();
-	Gui::Screen::EnterOrtho();
-	std::string msg = stringf(Lang::SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS, formatarg("age", progress * 13.7f));
-	Gui::Screen::MeasureString(msg, w, h);
-	Gui::Screen::RenderString(msg, 0.5f*(Gui::Screen::GetWidth()-w), 0.5f*(Gui::Screen::GetHeight()-h));
-	Gui::Screen::LeaveOrtho();
+	Pi::ui->Update();
+	Pi::ui->Draw();
 	Pi::renderer->SwapBuffers();
 }
 
 static void LuaInit()
 {
+	LuaObject<PropertiedObject>::RegisterClass();
+
 	LuaObject<Body>::RegisterClass();
 	LuaObject<Ship>::RegisterClass();
 	LuaObject<SpaceStation>::RegisterClass();
@@ -160,6 +163,7 @@ static void LuaInit()
 	LuaObject<Player>::RegisterClass();
 	LuaObject<Missile>::RegisterClass();
 	LuaObject<CargoBody>::RegisterClass();
+
 	LuaObject<StarSystem>::RegisterClass();
 	LuaObject<SystemPath>::RegisterClass();
 	LuaObject<SystemBody>::RegisterClass();
@@ -243,7 +247,6 @@ std::string Pi::GetSaveDir()
 
 void Pi::Init()
 {
-
 	OS::NotifyLoadBegin();
 
 	FileSystem::Init();
@@ -334,6 +337,14 @@ void Pi::Init()
 
 	EnumStrings::Init();
 
+	// get threads up
+	Uint32 numThreads = config->Int("WorkerThreads");
+	const int numCores = OS::GetNumCores();
+	assert(numCores > 0);
+	if (numThreads == 0) numThreads = std::max(Uint32(numCores) - 1, 1U);
+	jobQueue.Reset(new JobQueue(numThreads));
+	printf("started %d worker threads\n", numThreads);
+
 	// XXX early, Lua init needs it
 	ShipType::Init();
 
@@ -349,39 +360,56 @@ void Pi::Init()
 	// that the capability exists. (Gui does not use VBOs so far)
 	Gui::Init(renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), 800, 600);
 
-	draw_progress(0.1f);
+	UI::Box *box = Pi::ui->VBox(5);
+	UI::Label *label = Pi::ui->Label("");
+	label->SetFont(UI::Widget::FONT_HEADING_NORMAL);
+	UI::Gauge *gauge = Pi::ui->Gauge();
+	Pi::ui->SetInnerWidget(
+		Pi::ui->Margin(10, UI::Margin::HORIZONTAL)->SetInnerWidget(
+			Pi::ui->Expand()->SetInnerWidget(
+				Pi::ui->Align(UI::Align::MIDDLE)->SetInnerWidget(
+					box->PackEnd(UI::WidgetSet(
+						label,
+						gauge
+					))
+				)
+			)
+		)
+	);
+
+	draw_progress(gauge, label, 0.1f);
 
 	Galaxy::Init();
-	draw_progress(0.2f);
+	draw_progress(gauge, label, 0.2f);
 
 	Faction::Init();
-	draw_progress(0.3f);
+	draw_progress(gauge, label, 0.3f);
 
 	CustomSystem::Init();
-	draw_progress(0.4f);
+	draw_progress(gauge, label, 0.4f);
 
 	modelCache = new ModelCache(Pi::renderer);
-	draw_progress(0.5f);
+	draw_progress(gauge, label, 0.5f);
 
 //unsigned int control_word;
 //_clearfp();
 //_controlfp_s(&control_word, _EM_INEXACT | _EM_UNDERFLOW | _EM_ZERODIVIDE, _MCW_EM);
 //double fpexcept = Pi::timeAccelRates[1] / Pi::timeAccelRates[0];
 
-	draw_progress(0.6f);
+	draw_progress(gauge, label, 0.6f);
 
 	GeoSphere::Init();
-	draw_progress(0.7f);
+	draw_progress(gauge, label, 0.7f);
 
 	CityOnPlanet::Init();
-	draw_progress(0.8f);
+	draw_progress(gauge, label, 0.8f);
 
 	SpaceStation::Init();
-	draw_progress(0.9f);
+	draw_progress(gauge, label, 0.9f);
 
 	NavLights::Init(Pi::renderer);
 	Sfx::Init(Pi::renderer);
-	draw_progress(0.95f);
+	draw_progress(gauge, label, 0.95f);
 
 	if (!config->Int("DisableSound")) {
 		Sound::Init();
@@ -394,7 +422,7 @@ void Pi::Init()
 		if (config->Int("SfxMuted")) Sound::SetSfxVolume(0.f);
 		if (config->Int("MusicMuted")) GetMusicPlayer().SetEnabled(false);
 	}
-	draw_progress(1.0f);
+	draw_progress(gauge, label, 1.0f);
 
 	OS::NotifyLoadEnd();
 
@@ -439,7 +467,6 @@ void Pi::Init()
 	c2->SwitchToFrame(p1);
 	vector3d vel4 = c2->GetVelocityRelTo(c1);
 	double speed4 = c2->GetVelocityRelTo(c1).Length();
-
 
 	root->UpdateOrbitRails(0, 1.0);
 
@@ -563,6 +590,7 @@ void Pi::Quit()
 	StarSystem::ShrinkCache();
 	SDL_Quit();
 	FileSystem::Uninit();
+	jobQueue.Reset();
 	exit(0);
 }
 
@@ -765,7 +793,7 @@ void Pi::HandleEvents()
 		//		SDL_GetRelativeMouseState(&Pi::mouseMotion[0], &Pi::mouseMotion[1]);
 				break;
 			case SDL_JOYAXISMOTION:
-				if (joysticks[event.jaxis.which].joystick == NULL)
+				if (!joysticks[event.jaxis.which].joystick)
 					break;
 				if (event.jaxis.value == -32768)
 					joysticks[event.jaxis.which].axes[event.jaxis.axis] = 1.f;
@@ -774,12 +802,12 @@ void Pi::HandleEvents()
 				break;
 			case SDL_JOYBUTTONUP:
 			case SDL_JOYBUTTONDOWN:
-				if (joysticks[event.jaxis.which].joystick == NULL)
+				if (!joysticks[event.jaxis.which].joystick)
 					break;
 				joysticks[event.jbutton.which].buttons[event.jbutton.button] = event.jbutton.state != 0;
 				break;
 			case SDL_JOYHATMOTION:
-				if (joysticks[event.jaxis.which].joystick == NULL)
+				if (!joysticks[event.jaxis.which].joystick)
 					break;
 				joysticks[event.jhat.which].hats[event.jhat.hat] = event.jhat.value;
 				break;
@@ -845,6 +873,7 @@ void Pi::StartGame()
 	Pi::player->onUndock.connect(sigc::ptr_fun(&OnPlayerDockOrUndock));
 	Pi::player->m_equipment.onChange.connect(sigc::ptr_fun(&OnPlayerChangeEquipment));
 	cpan->ShowAll();
+	DrawGUI = true;
 	cpan->SetAlertState(Ship::ALERT_NONE);
 	OnPlayerChangeEquipment(Equip::NONE);
 	SetView(worldView);
@@ -885,8 +914,6 @@ void Pi::Start()
 		}
 
 		Pi::renderer->BeginFrame();
-		Pi::renderer->SetPerspectiveProjection(75, Pi::GetScrAspect(), 1.f, 10000.f);
-		Pi::renderer->SetTransform(matrix4x4f::Identity());
 		intro->Draw(_time);
 		Pi::renderer->EndFrame();
 
@@ -972,6 +999,7 @@ void Pi::MainLoop()
 					break;
 				}
 				game->TimeStep(step);
+				GeoSphere::UpdateAllGeoSpheres();
 
 				accumulator -= step;
 			}
@@ -985,6 +1013,7 @@ void Pi::MainLoop()
 #endif
 		} else {
 			// paused
+			GeoSphere::UpdateAllGeoSpheres();
 		}
 		frame_stat++;
 
@@ -1026,7 +1055,26 @@ void Pi::MainLoop()
 		SetMouseGrab(Pi::MouseButtonState(SDL_BUTTON_RIGHT));
 
 		Pi::renderer->EndFrame();
-		Gui::Draw();
+		if( DrawGUI ) {
+			Gui::Draw();
+		} else if (game && game->IsNormalSpace()) {
+			if (config->Int("DisableScreenshotInfo")==0) {
+				const RefCountedPtr<StarSystem> sys = game->GetSpace()->GetStarSystem();
+				const SystemPath sp = sys->GetPath();
+				std::ostringstream pathStr;
+
+				// fill in pathStr from sp values and sys->GetName()
+				static const std::string comma(", ");
+				pathStr << Pi::player->GetFrame()->GetLabel() << comma << sys->GetName() << " (" << sp.sectorX << comma << sp.sectorY << comma << sp.sectorZ << ")";
+
+				// display pathStr
+				Gui::Screen::EnterOrtho();
+				Gui::Screen::PushFont("ConsoleFont");
+				Gui::Screen::RenderString(pathStr.str(), 0, 0);
+				Gui::Screen::PopFont();
+				Gui::Screen::LeaveOrtho();
+			}
+		}
 
 #if WITH_DEVKEYS
 		if (Pi::showDebugInfo) {
@@ -1056,6 +1104,8 @@ void Pi::MainLoop()
 		}
 		cpan->Update();
 		musicPlayer.Update();
+
+		jobQueue->FinishJobs();
 
 #if WITH_DEVKEYS
 		if (Pi::showDebugInfo && SDL_GetTicks() - last_stats > 1000) {
@@ -1154,7 +1204,7 @@ void Pi::InitJoysticks() {
 		state = &joysticks.back();
 
 		state->joystick = SDL_JoystickOpen(n);
-		if (state->joystick == NULL) {
+		if (!state->joystick) {
 			fprintf(stderr, "SDL_JoystickOpen(%i): %s\n", n, SDL_GetError());
 			continue;
 		}

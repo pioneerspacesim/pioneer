@@ -14,9 +14,7 @@ Group::Group(Graphics::Renderer *r)
 
 Group::~Group()
 {
-	for(std::vector<Node*>::iterator itr = m_children.begin();
-		itr != m_children.end();
-		++itr)
+	for(std::vector<Node*>::iterator itr = m_children.begin(), itEnd = m_children.end(); itr != itEnd; ++itr)
 	{
 		(*itr)->DecRefCount();
 	}
@@ -70,15 +68,18 @@ bool Group::RemoveChildAt(unsigned int idx)
 	return true;
 }
 
+Node* Group::GetChildAt(unsigned int idx)
+{
+	return m_children.at(idx);
+}
+
 Node* Group::FindNode(const std::string &name)
 {
 	if (m_name == name)
 		return this;
 
 	Node* result = 0;
-	for(std::vector<Node*>::iterator itr = m_children.begin();
-		itr != m_children.end();
-		++itr)
+	for(std::vector<Node*>::iterator itr = m_children.begin(), itEnd = m_children.end(); itr != itEnd; ++itr)
 	{
 		result = (*itr)->FindNode(name);
 		if (result) break;
@@ -94,24 +95,20 @@ void Group::Accept(NodeVisitor &nv)
 
 void Group::Traverse(NodeVisitor &nv)
 {
-	for(std::vector<Node*>::iterator itr = m_children.begin();
-		itr != m_children.end();
-		++itr)
+	for(std::vector<Node*>::iterator itr = m_children.begin(), itEnd = m_children.end(); itr != itEnd; ++itr)
 	{
 		(*itr)->Accept(nv);
 	}
 }
 
-void Group::Render(const matrix4x4f &trans, RenderData *rd)
+void Group::Render(const matrix4x4f &trans, const RenderData *rd)
 {
 	RenderChildren(trans, rd);
 }
 
-void Group::RenderChildren(const matrix4x4f &trans, RenderData *rd)
+void Group::RenderChildren(const matrix4x4f &trans, const RenderData *rd)
 {
-	for(std::vector<Node*>::iterator itr = m_children.begin();
-		itr != m_children.end();
-		++itr)
+	for(std::vector<Node*>::iterator itr = m_children.begin(), itEnd = m_children.end(); itr != itEnd; ++itr)
 	{
 		if((*itr)->GetNodeMask() & rd->nodemask)
 			(*itr)->Render(trans, rd);

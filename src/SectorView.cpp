@@ -26,9 +26,9 @@ using namespace Graphics;
 
 #define INNER_RADIUS (Sector::SIZE*1.5f)
 #define OUTER_RADIUS (Sector::SIZE*3.0f)
-#define FAR_THRESHOLD 5.f
-#define FAR_LIMIT     36.f
-#define FAR_MAX       46.f
+static const float FAR_THRESHOLD = 5.f;
+static const float FAR_LIMIT     = 36.f;
+static const float FAR_MAX       = 46.f;
 
 enum DetailSelection {
 	DETAILBOX_NONE    = 0
@@ -365,7 +365,7 @@ void SectorView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
 		Pi::cpan->MsgLog()->Message("", Lang::NOT_FOUND);
 }
 
-#define DRAW_RAD	  3
+static const int DRAW_RAD = 3;
 #define FFRAC(_x)	((_x)-floor(_x))
 
 void SectorView::Draw3D()
@@ -808,8 +808,7 @@ void SectorView::DrawNearSector(int sx, int sy, int sz, const vector3f &playerAb
 		m_renderer->SetTransform(systrans);
 
 		// for out-of-range systems draw leg only if we draw label
-		if (m_drawSystemLegButton->GetPressed()
-			&& (inRange || m_drawOutRangeLabelButton->GetPressed()) || !can_skip){
+		if ((m_drawSystemLegButton->GetPressed() && (inRange || m_drawOutRangeLabelButton->GetPressed())) || !can_skip) {
 
 			const Color light(0.5f);
 			const Color dark(0.2f);

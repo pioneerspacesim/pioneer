@@ -24,7 +24,7 @@
 #include "FileSystem.h"
 #include "graphics/Renderer.h"
 
-static const int  s_saveVersion   = 65;
+static const int  s_saveVersion   = 67;
 static const char s_saveStart[]   = "PIONEER";
 static const char s_saveEnd[]     = "END";
 
@@ -117,7 +117,7 @@ Game::Game(Serializer::Reader &rd) :
 	fprintf(stderr, "savefile version: %d\n", rd.StreamVersion());
 	if (rd.StreamVersion() != s_saveVersion) {
 		fprintf(stderr, "can't load savefile, expected version: %d\n", s_saveVersion);
-		throw SavedGameCorruptException();
+		throw SavedGameWrongVersionException();
 	}
 
 	Serializer::Reader section;
@@ -547,6 +547,16 @@ const float Game::s_timeAccelRates[] = {
 	1000.0f,    // 1000x
 	10000.0f,   // 10000x
 	100000.0f   // hyperspace
+};
+
+const float Game::s_timeInvAccelRates[] = {
+	0.0f,       // paused
+	1.0f,       // 1x
+	0.1f,      // 10x
+	0.01f,     // 100x
+	0.001f,    // 1000x
+	0.0001f,   // 10000x
+	0.00001f   // hyperspace
 };
 
 void Game::SetTimeAccel(TimeAccel t)

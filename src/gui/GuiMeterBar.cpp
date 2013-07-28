@@ -3,8 +3,8 @@
 
 #include "Gui.h"
 
-#define METERBAR_PADDING 5.0f
-#define METERBAR_BAR_HEIGHT 8.0f
+static const float METERBAR_PADDING    = 5.0f;
+static const float METERBAR_BAR_HEIGHT = 8.0f;
 
 namespace Gui {
 

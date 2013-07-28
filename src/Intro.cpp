@@ -96,6 +96,12 @@ void Intro::Draw(float _time)
 	m_renderer->SetPerspectiveProjection(75, m_aspectRatio, 1.f, 10000.f);
 	m_renderer->SetTransform(matrix4x4f::Identity());
 
+	glPushAttrib(GL_ALL_ATTRIB_BITS & (~GL_POINT_BIT));
+
+	const Color oldSceneAmbientColor = m_renderer->GetAmbientColor();
+	m_renderer->SetAmbientColor(m_ambientColor);
+	m_renderer->SetLights(m_lights.size(), &m_lights[0]);
+
 	// XXX all this stuff will be gone when intro uses a Camera
 	// rotate background by time, and a bit extra Z so it's not so flat
 	matrix4x4d brot = matrix4x4d::RotateXMatrix(-0.25*_time) * matrix4x4d::RotateZMatrix(0.6);
@@ -107,12 +113,6 @@ void Intro::Draw(float _time)
 	m_renderer->SetViewport(0, 0, w, h);
 	m_renderer->SetPerspectiveProjection(75, ratio, 1.f, 10000.f);
 
-	glPushAttrib(GL_ALL_ATTRIB_BITS & (~GL_POINT_BIT));
-
-	const Color oldSceneAmbientColor = m_renderer->GetAmbientColor();
-	m_renderer->SetAmbientColor(m_ambientColor);
-	m_renderer->SetLights(m_lights.size(), &m_lights[0]);
-
 	matrix4x4f trans =
 		matrix4x4f::Translation(0, 0, m_dist) *
 		matrix4x4f::RotateYMatrix(_time) *
@@ -121,7 +121,8 @@ void Intro::Draw(float _time)
 	m_model->Render(trans);
 
 	m_renderer->SetAmbientColor(oldSceneAmbientColor);
-	glPopAttrib();
 
 	m_renderer->SetViewport(0, 0, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
+
+	glPopAttrib();
 }
