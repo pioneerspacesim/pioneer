@@ -9,6 +9,7 @@ July 2013
 
    * Fixes
      * Fix damage particle rendering (#2353)
+     * Fix joystick handling under timeaccel (#2390)
      * Lua: onCargoUnload should return planet landed on (#2360)
 
    * Minor changes and tweaks
