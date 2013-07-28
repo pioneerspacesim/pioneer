@@ -1,0 +1,23 @@
+material Body_Hi-material
+
+tex_diff venturestar.dds
+tex_glow venturestar_glow.dds
+tex_spec venturestar_spec.dds
+
+use_patterns
+
+collision venturestar_collision.obj
+
+#LOD
+lod 1000
+mesh venturestar.dae
+
+lod 50
+mesh venturestar_med.dae
+
+lod 5
+mesh venturestar_low.dae
+
+# Animations
+anim gear_down 0 73	
+
