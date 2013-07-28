@@ -3,6 +3,7 @@ July 2013
    * New features
      * New ship "Pumpkinseed" (#2352)
      * New ship "Mola Mola" (#2355)
+     * New ship "Venturestar" (#2388)
      * Enable patterns/colors on buildings (#2342)
      * New wind sounds (#2365)
 
