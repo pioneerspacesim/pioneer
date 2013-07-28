@@ -63,6 +63,8 @@
     <ClCompile Include="..\..\..\src\ui\LuaGauge.cpp" />
     <ClCompile Include="..\..\..\src\ui\NumberLabel.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaNumberLabel.cpp" />
+    <ClCompile Include="..\..\..\src\ui\LuaTable.cpp" />
+    <ClCompile Include="..\..\..\src\ui\Table.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\ui\Align.h" />
@@ -104,6 +106,7 @@
     <ClInclude Include="..\..\..\src\ui\Icon.h" />
     <ClInclude Include="..\..\..\src\ui\Gauge.h" />
     <ClInclude Include="..\..\..\src\ui\NumberLabel.h" />
+    <ClInclude Include="..\..\..\src\ui\Table.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="win32">
