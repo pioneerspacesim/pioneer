@@ -64,11 +64,18 @@ local commodityMarket = function (args)
 			:SetColumnSpacing(10)
 			:SetHeadingRow({ "", "Name", "Price", "In stock" })
 			:SetHeadingFont("LARGE")
+			:SetMouseEnabled(true)
 
+	local rowEquip = {}
+	stationCargo.onRowClicked:Connect(function (row) print(rowEquip[row+1]) end)
+
+	local row = 1
 	for i=1,#cargoTypes do
 		local e = cargoTypes[i]
 		local icon = cargoIcon[e] and ui:Image("icons/goods/"..cargoIcon[e]..".png") or ""
 		stationCargo:AddRow({ icon, l[e], string.format("%.02f", station:GetEquipmentPrice(e)), station:GetEquipmentStock(e) })
+		rowEquip[row] = e
+		row = row + 1
 	end
 
 	local shipCargo =
@@ -78,14 +85,18 @@ local commodityMarket = function (args)
 			:SetHeadingRow({ "", "Name", "Amount" })
 			:SetHeadingFont("LARGE")
 
-	for i=1,#cargoTypes do
-		local e = cargoTypes[i]
-		local n = Game.player:GetEquipCount("CARGO", e)
-		if n > 0 then
-			local icon = cargoIcon[e] and ui:Image("icons/goods/"..cargoIcon[e]..".png") or ""
-			shipCargo:AddRow({ icon, l[e], n })
+	local function fillShipCargo ()
+		shipCargo:ClearRows()
+		for i=1,#cargoTypes do
+			local e = cargoTypes[i]
+			local n = Game.player:GetEquipCount("CARGO", e)
+			if n > 0 then
+				local icon = cargoIcon[e] and ui:Image("icons/goods/"..cargoIcon[e]..".png") or ""
+				shipCargo:AddRow({ icon, l[e], n })
+			end
 		end
 	end
+	fillShipCargo()
 
 	local cargoGauge = InfoGauge.New({
 		formatter = function (v)
