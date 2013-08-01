@@ -549,6 +549,16 @@ const float Game::s_timeAccelRates[] = {
 	100000.0f   // hyperspace
 };
 
+const float Game::s_timeInvAccelRates[] = {
+	0.0f,       // paused
+	1.0f,       // 1x
+	0.1f,      // 10x
+	0.01f,     // 100x
+	0.001f,    // 1000x
+	0.0001f,   // 10000x
+	0.00001f   // hyperspace
+};
+
 void Game::SetTimeAccel(TimeAccel t)
 {
 	// don't want player to spin like mad when hitting time accel

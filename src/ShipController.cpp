@@ -253,20 +253,25 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 		changeVec.y = KeyBindings::yawAxis.GetValue();
 		changeVec.z = KeyBindings::rollAxis.GetValue();
 
-		// Deadzone
-		if(changeVec.LengthSqr() < m_joystickDeadzone)
-			changeVec = vector3d(0.0);
-
-		changeVec *= 2.0;
+		// Deadzone more accurate
+		for (int axis=0; axis<3; axis++) {
+				if (fabs(changeVec[axis]) < m_joystickDeadzone)
+					changeVec[axis]=0.0;
+				else
+					changeVec[axis] = changeVec[axis] * 2.0;
+		}
+		
 		wantAngVel += changeVec;
 
-		double invTimeAccelRate = 1.0 / Pi::game->GetTimeAccelRate();
-		if(wantAngVel.Length() >= 0.001 || force_rotation_damping || m_rotationDamping) {
-			for (int axis=0; axis<3; axis++)
-				wantAngVel[axis] = Clamp(wantAngVel[axis], -invTimeAccelRate, invTimeAccelRate);
+		if (wantAngVel.Length() >= 0.001 || force_rotation_damping || m_rotationDamping) {
+			if (Pi::game->GetTimeAccel()!=Game::TIMEACCEL_1X) {
+				for (int axis=0; axis<3; axis++)
+					wantAngVel[axis] = wantAngVel[axis] * Pi::game->GetInvTimeAccelRate();
+			}
 
 			m_ship->AIModelCoordsMatchAngVel(wantAngVel, angThrustSoftness);
 		}
+
 		if (m_mouseActive) m_ship->AIFaceDirection(m_mouseDir);
 
 	}

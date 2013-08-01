@@ -11,6 +11,8 @@ public:
 
 	static int l_set_row(lua_State *l) {
 		UI::Grid *g = LuaObject<UI::Grid>::CheckFromLua(1);
+		UI::Context *c = g->GetContext();
+
 		size_t rowNum = luaL_checkinteger(l, 2);
 		luaL_checktype(l, 3, LUA_TTABLE);
 
@@ -24,7 +26,7 @@ public:
 			if (lua_isnil(l, -1))
 				g->ClearCell(i, rowNum);
 			else
-				g->SetCell(i, rowNum, UI::Lua::CheckWidget(l, -1));
+				g->SetCell(i, rowNum, UI::Lua::CheckWidget(c, l, -1));
 			lua_pop(l, 1);
 		}
 
@@ -34,6 +36,8 @@ public:
 
 	static int l_set_column(lua_State *l) {
 		UI::Grid *g = LuaObject<UI::Grid>::CheckFromLua(1);
+		UI::Context *c = g->GetContext();
+
 		size_t colNum = luaL_checkinteger(l, 2);
 		luaL_checktype(l, 3, LUA_TTABLE);
 
@@ -47,7 +51,7 @@ public:
 			if (lua_isnil(l, -1))
 				g->ClearCell(colNum, i);
 			else
-				g->SetCell(colNum, i, UI::Lua::CheckWidget(l, -1));
+				g->SetCell(colNum, i, UI::Lua::CheckWidget(c, l, -1));
 			lua_pop(l, 1);
 		}
 
@@ -57,9 +61,11 @@ public:
 
 	static int l_set_cell(lua_State *l) {
 		UI::Grid *g = LuaObject<UI::Grid>::CheckFromLua(1);
+		UI::Context *c = g->GetContext();
+
 		size_t colNum = luaL_checkinteger(l, 2);
 		size_t rowNum = luaL_checkinteger(l, 3);
-		UI::Widget *w = UI::Lua::CheckWidget(l, 4);
+		UI::Widget *w = UI::Lua::CheckWidget(c, l, 4);
 
 		if (colNum >= g->GetNumCols()) {
 			luaL_error(l, "no such column %d (max is %d)", colNum, g->GetNumCols()-1);

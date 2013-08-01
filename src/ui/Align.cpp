@@ -16,7 +16,7 @@ void Align::Layout()
 	if (!GetInnerWidget()) return;
 
 	const Point &size = GetSize();
-	const Point preferred(CalcLayoutContribution(GetInnerWidget()));
+	const Point preferred(GetInnerWidget()->CalcLayoutContribution());
 
 	Point pos;
 

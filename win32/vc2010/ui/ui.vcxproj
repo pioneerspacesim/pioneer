@@ -127,6 +127,7 @@
     <ClCompile Include="..\..\..\src\ui\LuaSingle.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaSlider.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaSmallButton.cpp" />
+    <ClCompile Include="..\..\..\src\ui\LuaTable.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaTextEntry.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaWidget.cpp" />
     <ClCompile Include="..\..\..\src\ui\Margin.cpp" />
@@ -137,6 +138,7 @@
     <ClCompile Include="..\..\..\src\ui\Skin.cpp" />
     <ClCompile Include="..\..\..\src\ui\Slider.cpp" />
     <ClCompile Include="..\..\..\src\ui\SmallButton.cpp" />
+    <ClCompile Include="..\..\..\src\ui\Table.cpp" />
     <ClCompile Include="..\..\..\src\ui\TextEntry.cpp" />
     <ClCompile Include="..\..\..\src\ui\TextLayout.cpp" />
     <ClCompile Include="..\..\..\src\ui\Widget.cpp" />
@@ -179,6 +181,7 @@
     <ClInclude Include="..\..\..\src\ui\Skin.h" />
     <ClInclude Include="..\..\..\src\ui\Slider.h" />
     <ClInclude Include="..\..\..\src\ui\SmallButton.h" />
+    <ClInclude Include="..\..\..\src\ui\Table.h" />
     <ClInclude Include="..\..\..\src\ui\TextEntry.h" />
     <ClInclude Include="..\..\..\src\ui\TextLayout.h" />
     <ClInclude Include="..\..\..\src\ui\Widget.h" />

@@ -7,7 +7,7 @@ namespace UI {
 
 Point Expand::PreferredSize()
 {
-	const Point innerPreferredSize(GetInnerWidget() ? CalcLayoutContribution(GetInnerWidget()) : Point());
+	const Point innerPreferredSize(GetInnerWidget() ? GetInnerWidget()->CalcLayoutContribution() : Point());
 
 	switch (m_direction) {
 		case BOTH:

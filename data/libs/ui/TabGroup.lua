@@ -33,7 +33,9 @@ New = function ()
 			),
 			ui:Margin(5):SetInnerWidget(
 				ui:Background():SetInnerWidget(
-					self.body
+					ui:Expand():SetInnerWidget(
+						self.body
+					)
 				)
 			)
 		})

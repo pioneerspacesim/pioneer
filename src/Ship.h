@@ -10,6 +10,7 @@
 #include "EquipSet.h"
 #include "galaxy/SystemPath.h"
 #include "NavLights.h"
+#include "Planet.h"
 #include "Serializer.h"
 #include "ShipType.h"
 #include "scenegraph/SceneGraph.h"
@@ -63,6 +64,9 @@ public:
 	/** Use GetDockedWith() to determine if docked */
 	SpaceStation *GetDockedWith() const { return m_dockedWith; }
 	int GetDockingPort() const { return m_dockedWithPort; }
+
+	virtual void SetLandedOn(Planet *p, float latitude, float longitude);
+
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 
 	void SetThrusterState(int axis, double level) {

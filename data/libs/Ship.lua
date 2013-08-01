@@ -165,9 +165,9 @@ Ship.Jettison = function (self,equip)
 		self:SpawnCargo(equip)
 		Event.Queue("onJettison", self, equip)
 	elseif self.flightState == "DOCKED" then
-		Event.Queue("onCargoUnload", self, equip)
-	else -- LANDED
-		Event.Queue("onCargoUnload", self, equip)
+		Event.Queue("onCargoUnload", self:GetDockedWith(), equip)
+	elseif self.flightState == "LANDED" then
+		Event.Queue("onCargoUnload", self.frameBody, equip)
 	end
 end
 
