@@ -52,11 +52,6 @@ protected:
 	virtual void RemoveWidget(Widget *);
 	void RemoveAllWidgets();
 
-	// calculate layout contribution based on preferred size and flags
-	static Point CalcLayoutContribution(Widget *w);
-	// calculate size based on available space, preferred size and flags
-	static Point CalcSize(Widget *w, const Point &avail);
-
 	void SetWidgetDimensions(Widget *widget, const Point &position, const Point &size);
 
 private:

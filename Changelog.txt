@@ -3,21 +3,29 @@ July 2013
    * New features
      * New ship "Pumpkinseed" (#2352)
      * New ship "Mola Mola" (#2355)
+     * New ship "Venturestar" (#2388)
      * Enable patterns/colors on buildings (#2342)
      * New wind sounds (#2365)
 
    * Fixes
      * Fix damage particle rendering (#2353)
+     * Fix joystick handling under timeaccel (#2390)
+     * Lua: onCargoUnload should return planet landed on (#2360)
 
    * Minor changes and tweaks
      * Updated Deneb model (#2339)
      * Ships with zero price will no longer appear in the market (#2361)
      * Show text in worldview when game is paused (#2358, #1331)
+     * Revert projectile speed changes done in #1607 due to collision issues
 
    * Script and UI API changes
      * Only use Color objects in UI API (#2362)
      * UI: gauge widget (#2367)
      * UI: formatted number label widget (#2369)
+     * UI: raw Lua strings are automatically converted to label widgets (#2386)
+     * UI: New Table container (#2387)
+     * New API: Space.SpawnShipLanded, Space.SpawnShipLandedNear,
+       SpaceStation.GetGroundPosition (#2372)
 
    * Internal changes
      * Render target infrastructure (#2356)

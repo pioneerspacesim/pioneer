@@ -12,10 +12,13 @@ public:
 
 	static inline UI::Widget *_get_implicit_widget(lua_State *l)
 	{
-		// context is always the first arg, don't reuse it
+		UI::Context *c = LuaObject<UI::Context>::GetFromLua(1);
+		assert(c);
+
 		const int top = lua_gettop(l);
-		if (top == 1) return 0;
-		return UI::Lua::GetWidget(l, top);
+		if (top == 1) return 0; // no extra args
+
+		return UI::Lua::GetWidget(c, l, top);
 	}
 
 	static inline void _implicit_set_inner_widget(lua_State *l, UI::Single *s)
@@ -87,6 +90,12 @@ public:
 			colSpec = UI::CellSpec(luaL_checkinteger(l, 3));
 
 		LuaObject<UI::Grid>::PushToLua(c->Grid(rowSpec, colSpec));
+		return 1;
+	}
+
+	static int l_table(lua_State *l) {
+		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
+		LuaObject<UI::Table>::PushToLua(c->Table());
 		return 1;
 	}
 
@@ -279,6 +288,7 @@ template <> void LuaObject<UI::Context>::RegisterClass()
 		{ "HBox",            LuaContext::l_hbox            },
 		{ "VBox",            LuaContext::l_vbox            },
 		{ "Grid",            LuaContext::l_grid            },
+		{ "Table",           LuaContext::l_table           },
 		{ "Background",      LuaContext::l_background      },
 		{ "ColorBackground", LuaContext::l_colorbackground },
 		{ "Gradient",        LuaContext::l_gradient        },

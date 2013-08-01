@@ -78,6 +78,42 @@ Widget *Widget::SetFont(Font font)
 	return this;
 }
 
+Point Widget::CalcLayoutContribution()
+{
+	Point preferredSize = PreferredSize();
+	const Uint32 flags = GetSizeControlFlags();
+
+	if (flags & NO_WIDTH)
+		preferredSize.x = 0;
+	if (flags & NO_HEIGHT)
+		preferredSize.y = 0;
+
+	if (flags & EXPAND_WIDTH)
+		preferredSize.x = SIZE_EXPAND;
+	if (flags & EXPAND_HEIGHT)
+		preferredSize.y = SIZE_EXPAND;
+
+	return preferredSize;
+}
+
+Point Widget::CalcSize(const Point &avail)
+{
+	if (!(GetSizeControlFlags() & PRESERVE_ASPECT))
+		return avail;
+
+	const Point preferredSize = PreferredSize();
+
+	float wantRatio = float(preferredSize.x) / float(preferredSize.y);
+
+	// more room on X than Y, use full X, scale Y
+	if (avail.x > avail.y)
+		return Point(float(avail.y) * wantRatio, avail.y);
+
+	// more room on Y than X, use full Y, scale X
+	else
+		return Point(avail.x, float(avail.x) / wantRatio);
+}
+
 Widget::Font Widget::GetFont() const
 {
 	if (m_font == FONT_INHERIT) {

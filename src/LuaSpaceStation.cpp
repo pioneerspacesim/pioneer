@@ -261,6 +261,48 @@ static int l_spacestation_get_equipment_price(lua_State *l)
 }
 
 /*
+ * Method: GetGroundPosition
+ *
+ * Get latitude, longitude of a station on the ground or nil if this is an orbital station
+ *
+ * > latitude, longitude = station:GetGroundPosition()
+ *
+ * Returns:
+ *
+ *   latitude - the latitude of the station in radians
+ *   longitude - the longitude of the station in radians
+ *
+ * Examples:
+ *
+ * > -- Get ground position of L.A. when starting on Earth
+ * > local la = Game.player:GetDockedWith()
+ * > local lat, long = la:GetGroundPosition()
+ * > lat = math.rad2deg(lat)
+ * > long = math.rad2deg(long)
+ *
+ * Availability:
+ *
+ *   July 2013
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_spacestation_get_ground_position(lua_State *l)
+{
+	SpaceStation *s = LuaObject<SpaceStation>::CheckFromLua(1);
+	if (!s->IsGroundStation())
+		return 0;
+
+	vector3d pos = s->GetPosition();
+	double latitude = atan2(pos.y, sqrt(pos.x*pos.x + pos.z * pos.z));
+	double longitude = atan2(pos.x, pos.z);
+	lua_pushnumber(l, latitude);
+	lua_pushnumber(l, longitude);
+	return 2;
+}
+
+/*
  * Attribute: numDocks
  *
  * The number of docking ports a spacestation has.
@@ -311,6 +353,8 @@ template <> void LuaObject<SpaceStation>::RegisterClass()
 		{ "RemoveAdvert", l_spacestation_remove_advert },
 
 		{ "GetEquipmentPrice", l_spacestation_get_equipment_price },
+
+		{ "GetGroundPosition",  l_spacestation_get_ground_position },
 
 		{ 0, 0 }
 	};

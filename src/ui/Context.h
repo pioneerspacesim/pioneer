@@ -36,6 +36,7 @@
 #include "SmallButton.h"
 #include "Icon.h"
 #include "Gauge.h"
+#include "Table.h"
 
 #include "Lua.h"
 #include "LuaTable.h"
@@ -74,8 +75,8 @@ public:
 	// general purpose containers
 	UI::HBox *HBox(float spacing = 0.0f) { return new UI::HBox(this, spacing); }
 	UI::VBox *VBox(float spacing = 0.0f) { return new UI::VBox(this, spacing); }
-
 	UI::Grid *Grid(const UI::CellSpec &rowSpec, const UI::CellSpec &colSpec) { return new UI::Grid(this, rowSpec, colSpec); }
+	UI::Table *Table() { return new UI::Table(this); }
 
 	// single containers
 	UI::Background *Background() { return new UI::Background(this); }

@@ -12,6 +12,10 @@ namespace MathUtil {
 vector3d RandomPointOnSphere(double minRadius, double maxRadius);
 inline vector3d RandomPointOnSphere(double radius) { return RandomPointOnSphere(radius, radius); }
 
+vector3d RandomPointInCircle(double minRadius, double maxRadius);
+inline vector3d RandomPointInCircle(double radius) { return RandomPointInCircle(0.0, radius); }
+inline vector3d RandomPointOnCircle(double radius) { return RandomPointInCircle(radius, radius); }
+
 }
 
 #endif
