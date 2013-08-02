@@ -1,0 +1,16 @@
+material material1
+
+tex_diff DIFF.dds
+tex_spec SPEC.dds
+tex_glow GLOW.dds
+diffuse 1.0 1.0 1.0
+
+specular 1.0 1.0 1.0
+
+shininess 80
+
+mesh military_destroyer.dae
+collision military_destroyer_collision.obj
+
+lod 10
+mesh military_destroyer_lod.obj

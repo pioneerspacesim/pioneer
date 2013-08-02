@@ -1,0 +1,15 @@
+material material1
+
+tex_diff diff.dds
+tex_spec spec.dds
+tex_glow glow.dds
+diffuse 1.0 1.0 1.0
+opacity 100
+specular 1.0 1.0 1.0
+shininess 80
+
+mesh utility_tender.dae
+collision utility_tender_collision.obj
+
+lod 10
+mesh utility_tender_lod.obj
