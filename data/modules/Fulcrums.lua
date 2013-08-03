@@ -16,6 +16,7 @@ local spawnShips = function ()
 		return body:isa("SpaceStation") and body.type == 'STARPORT_SURFACE'
 	end)
 	if #stations < 2 then
+		fulcrum=nil
 		return
 	end
 
