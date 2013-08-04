@@ -17,6 +17,7 @@ local spawnShips = function ()
 	end)
 	if #stations < 2 then
 		fulcrum=nil
+		playerarrived=true
 		return
 	end
 
