@@ -1,0 +1,18 @@
+material material1
+
+tex_diff diff.dds
+tex_spec spec.dds
+tex_glow glow.dds
+diffuse 1.0 1.0 1.0
+
+specular 1.0 1.0 1.0
+
+shininess 80
+
+
+mesh military_fighter.dae
+
+collision military_fighter_collision.obj
+
+lod 10
+mesh military_fighter_lod.obj

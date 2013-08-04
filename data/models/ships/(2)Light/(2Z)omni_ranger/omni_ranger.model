@@ -1,0 +1,15 @@
+material material1
+
+tex_diff diff.dds
+tex_spec spec.dds
+tex_glow glow.dds
+diffuse 1.0 1.0 1.0
+opacity 100
+specular 1.0 1.0 1.0
+shininess 80
+
+mesh omni_ranger.dae
+collision omni_ranger_collision.obj
+
+lod 10
+mesh omni_ranger_lod.obj
