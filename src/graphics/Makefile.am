@@ -26,6 +26,7 @@ noinst_HEADERS = \
 	Drawables.h \
 	gl2/GL2Material.h \
 	gl2/GL2RenderTarget.h \
+	gl2/FresnelColourMaterial.h \
 	gl2/GeoSphereMaterial.h \
 	gl2/MultiMaterial.h \
 	gl2/Program.h \
@@ -49,6 +50,7 @@ libgraphics_a_SOURCES = \
 	Drawables.cpp \
 	gl2/GL2Material.cpp \
 	gl2/GL2RenderTarget.cpp \
+	gl2/FresnelColourMaterial.cpp \
 	gl2/GeoSphereMaterial.cpp \
 	gl2/MultiMaterial.cpp \
 	gl2/Program.cpp \
