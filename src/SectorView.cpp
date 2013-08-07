@@ -24,9 +24,10 @@
 
 using namespace Graphics;
 
+static const int DRAW_RAD = 5;
 #define INNER_RADIUS (Sector::SIZE*1.5f)
-#define OUTER_RADIUS (Sector::SIZE*3.0f)
-static const float FAR_THRESHOLD = 5.f;
+#define OUTER_RADIUS (Sector::SIZE*float(DRAW_RAD))
+static const float FAR_THRESHOLD = 7.5f;
 static const float FAR_LIMIT     = 36.f;
 static const float FAR_MAX       = 46.f;
 
@@ -110,7 +111,8 @@ void SectorView::InitObject()
 {
 	SetTransparency(true);
 
-	m_lineVerts.Reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_POSITION, 500));
+	m_lineVerts.Reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION, 500));
+	m_secLineVerts.Reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION, 500));
 
 	Gui::Screen::PushFont("OverlayFont");
 	m_clickableLabels = new Gui::LabelSet();
@@ -365,15 +367,15 @@ void SectorView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
 		Pi::cpan->MsgLog()->Message("", Lang::NOT_FOUND);
 }
 
-static const int DRAW_RAD = 3;
 #define FFRAC(_x)	((_x)-floor(_x))
 
 void SectorView::Draw3D()
 {
 	m_lineVerts->Clear();
+	m_secLineVerts->Clear();
 	m_clickableLabels->Clear();
 
-	if (m_zoomClamped <= FAR_THRESHOLD) m_renderer->SetPerspectiveProjection(40.f, Pi::GetScrAspect(), 1.f, 100.f);
+	if (m_zoomClamped <= FAR_THRESHOLD) m_renderer->SetPerspectiveProjection(40.f, Pi::GetScrAspect(), 1.f, 300.f);
 	else                                m_renderer->SetPerspectiveProjection(40.f, Pi::GetScrAspect(), 1.f, 600.f);
 
 	matrix4x4f modelview = matrix4x4f::Identity();
@@ -412,6 +414,9 @@ void SectorView::Draw3D()
 	m_renderer->SetTransform(matrix4x4f::Identity());
 	if (m_lineVerts->GetNumVerts() > 2)
 		m_renderer->DrawLines(m_lineVerts->GetNumVerts(), &m_lineVerts->position[0], &m_lineVerts->diffuse[0]);
+
+	if (m_secLineVerts->GetNumVerts() > 2)
+		m_renderer->DrawLines(m_secLineVerts->GetNumVerts(), &m_secLineVerts->position[0], &m_secLineVerts->diffuse[0]);
 
 	UpdateFactionToggles();
 
@@ -517,6 +522,10 @@ void SectorView::PutSystemLabels(Sector *sec, const vector3f &origin, int drawRa
 		vector3d systemPos = vector3d((*sys).FullPosition() - origin);
 		vector3d screenPos;
 		if (Gui::Screen::Project(systemPos, screenPos)) {
+			// reject back-projected labels
+			if(screenPos.z > 1.0f)
+				continue;
+			
 			// work out the colour
 			Color labelColor = (*sys).faction->AdjustedColour((*sys).population, inRange);
 
@@ -709,12 +718,12 @@ void SectorView::UpdateFactionToggles()
 	else                                          m_factionBox->HideAll();
 }
 
-void SectorView::DrawNearSectors(matrix4x4f modelview)
+void SectorView::DrawNearSectors(const matrix4x4f& modelview)
 {
 	m_visibleFactions.clear();
 
-	Sector *playerSec = GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
-	vector3f playerPos = Sector::SIZE * vector3f(float(m_current.sectorX), float(m_current.sectorY), float(m_current.sectorZ)) + playerSec->m_systems[m_current.systemIndex].p;
+	const Sector *playerSec = GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
+	const vector3f playerPos = Sector::SIZE * vector3f(float(m_current.sectorX), float(m_current.sectorY), float(m_current.sectorZ)) + playerSec->m_systems[m_current.systemIndex].p;
 
 	for (int sx = -DRAW_RAD; sx <= DRAW_RAD; sx++) {
 		for (int sy = -DRAW_RAD; sy <= DRAW_RAD; sy++) {
@@ -727,7 +736,7 @@ void SectorView::DrawNearSectors(matrix4x4f modelview)
 
 	// ...then switch and do all the labels
 	const vector3f secOrigin = vector3f(int(floorf(m_pos.x)), int(floorf(m_pos.y)), int(floorf(m_pos.z)));
-
+	
 	m_renderer->SetTransform(modelview);
 	glDepthRange(0,1);
 	Gui::Screen::EnterOrtho();
@@ -741,7 +750,7 @@ void SectorView::DrawNearSectors(matrix4x4f modelview)
 	Gui::Screen::LeaveOrtho();
 }
 
-void SectorView::DrawNearSector(int sx, int sy, int sz, const vector3f &playerAbsPos,const matrix4x4f &trans)
+void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const vector3f &playerAbsPos,const matrix4x4f &trans)
 {
 	m_renderer->SetTransform(trans);
 	Sector* ps = GetCached(sx, sy, sz);
@@ -751,13 +760,20 @@ void SectorView::DrawNearSector(int sx, int sy, int sz, const vector3f &playerAb
 	if (cz == sz) {
 		const Color darkgreen(0.f, 0.2f, 0.f, 1.f);
 		const vector3f vts[] = {
-			vector3f(0.f, 0.f, 0.f),
-			vector3f(0.f, Sector::SIZE, 0.f),
-			vector3f(Sector::SIZE, Sector::SIZE, 0.f),
-			vector3f(Sector::SIZE, 0.f, 0.f)
+			trans * vector3f(0.f, 0.f, 0.f),
+			trans * vector3f(0.f, Sector::SIZE, 0.f),
+			trans * vector3f(Sector::SIZE, Sector::SIZE, 0.f),
+			trans * vector3f(Sector::SIZE, 0.f, 0.f)
 		};
 
-		m_renderer->DrawLines(4, vts, darkgreen, LINE_LOOP);
+		m_secLineVerts->Add(vts[0], darkgreen);	// line segment 1
+		m_secLineVerts->Add(vts[1], darkgreen);
+		m_secLineVerts->Add(vts[1], darkgreen);	// line segment 2
+		m_secLineVerts->Add(vts[2], darkgreen);
+		m_secLineVerts->Add(vts[2], darkgreen);	// line segment 3
+		m_secLineVerts->Add(vts[3], darkgreen);
+		m_secLineVerts->Add(vts[3], darkgreen);	// line segment 4
+		m_secLineVerts->Add(vts[0], darkgreen);
 	}
 
 	Uint32 sysIdx = 0;
@@ -769,10 +785,12 @@ void SectorView::DrawNearSector(int sx, int sy, int sz, const vector3f &playerAb
 		// ...and skip the system if it doesn't fall within the sphere we're viewing.
 		if (toCentreOfView.Length() > OUTER_RADIUS) continue;
 
+		const bool bIsCurrentSystem = i->IsSameSystem(m_current);
+
 		// if the system is the current system or target we can't skip it
 		bool can_skip = !i->IsSameSystem(m_selected)
 						&& !i->IsSameSystem(m_hyperspaceTarget)
-						&& !i->IsSameSystem(m_current);
+						&& !bIsCurrentSystem;
 
 		// if the system belongs to a faction we've chosen to temporarily hide
 		// then skip it if we can
@@ -848,14 +866,14 @@ void SectorView::DrawNearSector(int sx, int sy, int sz, const vector3f &playerAb
 		m_disk->Draw(m_renderer);
 
 		// player location indicator
-		if (m_inSystem && i->IsSameSystem(m_current)) {
+		if (m_inSystem && bIsCurrentSystem) {
 			glDepthRange(0.2,1.0);
 			m_disk->SetColor(Color(0.f, 0.f, 0.8f));
 			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(3.f));
 			m_disk->Draw(m_renderer);
 		}
 		// selected indicator
-		if (i->IsSameSystem(m_current)) {
+		if (bIsCurrentSystem) {
 			glDepthRange(0.1,1.0);
 			m_disk->SetColor(Color(0.f, 0.8f, 0.f));
 			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(2.f));
@@ -868,10 +886,25 @@ void SectorView::DrawNearSector(int sx, int sy, int sz, const vector3f &playerAb
 			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(2.f));
 			m_disk->Draw(m_renderer);
 		}
+		if(bIsCurrentSystem && m_jumpSphere.Valid() && m_playerHyperspaceRange>0.0f) {
+			// not sure I should do these here on when applying the material?
+			m_renderer->SetDepthWrite(false);
+			m_renderer->SetDepthTest(false);
+			m_renderer->SetBlendMode(BLEND_ALPHA);
+			
+			const matrix4x4f sphTrans = trans * matrix4x4f::Translation((*i).p.x, (*i).p.y, (*i).p.z);
+			m_renderer->SetTransform(sphTrans * matrix4x4f::ScaleMatrix(m_playerHyperspaceRange));
+			m_jumpSphere->Draw(m_renderer);
+			m_jumpDisk->Draw(m_renderer);
+
+			m_renderer->SetDepthWrite(true);
+			m_renderer->SetBlendMode(BLEND_SOLID);
+			m_renderer->SetDepthTest(true);
+		}
 	}
 }
 
-void SectorView::DrawFarSectors(matrix4x4f modelview)
+void SectorView::DrawFarSectors(const matrix4x4f& modelview)
 {
 	int buildRadius = ceilf((m_zoomClamped/FAR_THRESHOLD) * 3);
 	if (buildRadius <= DRAW_RAD) buildRadius = DRAW_RAD;
@@ -1153,6 +1186,15 @@ void SectorView::Update()
 	ShrinkCache();
 
 	m_playerHyperspaceRange = Pi::player->GetStats().hyperspace_range;
+
+	if(Graphics::AreShadersEnabled() && !m_jumpSphere.Valid())
+	{
+		Graphics::MaterialDescriptor matdesc;
+		matdesc.effect = EFFECT_FRESNEL_SPHERE;
+		RefCountedPtr<Graphics::Material> fresnelMat(Pi::renderer->CreateMaterial(matdesc));
+		m_jumpSphere.Reset( new Graphics::Drawables::Sphere3D(fresnelMat, 3, 1.0f) );
+		m_jumpDisk.Reset( new Graphics::Drawables::Disk(fresnelMat, 72, 1.0f) );
+	}
 }
 
 void SectorView::ShowAll()
@@ -1196,8 +1238,7 @@ Sector* SectorView::GetCached(const int sectorX, const int sectorY, const int se
 void SectorView::ShrinkCache()
 {
 	// we're going to use these to determine if our sectors are within the range that we'll ever render
-	int drawRadius = ceilf((m_zoomClamped/FAR_THRESHOLD) * 3);
-	if (m_zoomClamped <= FAR_THRESHOLD) drawRadius = DRAW_RAD;
+	const int drawRadius = (m_zoomClamped <= FAR_THRESHOLD) ? DRAW_RAD : ceilf((m_zoomClamped/FAR_THRESHOLD) * DRAW_RAD);
 
 	const int xmin = int(floorf(m_pos.x))-drawRadius;
 	const int xmax = int(floorf(m_pos.x))+drawRadius;
