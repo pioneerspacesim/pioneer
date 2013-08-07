@@ -21,6 +21,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <algorithm>
 
 #ifdef _WIN32
 #	include <malloc.h>

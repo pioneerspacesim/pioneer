@@ -3,6 +3,9 @@ August 2013
    * New features
      * The Sector View now displays a sphere to show the hyperspace reach (#2378)
 
+   * Build system
+     * Early support for VS 2013 (#2391)
+
 July 2013
 
    * New features
