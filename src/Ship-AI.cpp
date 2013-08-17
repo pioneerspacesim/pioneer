@@ -154,6 +154,12 @@ void Ship::AIHoldPosition()
 	m_curAICmd = new AICmdHoldPosition(this);
 }
 
+void Ship::AIHyperspaceTo(const SystemPath &target)
+{
+	AIClearInstructions();
+	m_curAICmd = new AICmdHyperspaceTo(this, target);
+}
+
 // Because of issues when reducing timestep, must do parts of this as if 1x accel
 // final frame has too high velocity to correct if timestep is reduced
 // fix is too slow in the terminal stages:

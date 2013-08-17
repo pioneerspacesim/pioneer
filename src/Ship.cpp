@@ -1260,6 +1260,11 @@ void Ship::EnterHyperspace() {
 
 	// virtual call, do class-specific things
 	OnEnterHyperspace();
+	if (m_curAICmd && m_curAICmd->OnEnterHyperspace()) {
+		AIClearInstructions();
+//		ClearThrusterState();		// otherwise it does one timestep at 10k and gravity is fatal
+		LuaEvent::Queue("onAICompleted", this, EnumStrings::GetString("ShipAIError", AIMessage()));
+	}
 }
 
 void Ship::OnEnterHyperspace() {

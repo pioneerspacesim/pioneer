@@ -196,7 +196,8 @@ public:
 		AIERROR_NONE=0,
 		AIERROR_GRAV_TOO_HIGH,
 		AIERROR_REFUSED_PERM,
-		AIERROR_ORBIT_IMPOSSIBLE
+		AIERROR_ORBIT_IMPOSSIBLE,
+		AIERROR_HYPERSPACE_IMPOSSIBLE,
 	};
 	AIError AIMessage(AIError msg=AIERROR_NONE) { AIError tmp = m_aiMessage; m_aiMessage = msg; return tmp; }
 
@@ -207,7 +208,7 @@ public:
 	void AIFlyTo(Body *target);
 	void AIOrbit(Body *target, double alt);
 	void AIHoldPosition();
-
+	void AIHyperspaceTo(const SystemPath &target);
 	void AIBodyDeleted(const Body* const body) {};		// todo: signals
 
 	SerializableEquipSet m_equipment;			// shouldn't be public?...
