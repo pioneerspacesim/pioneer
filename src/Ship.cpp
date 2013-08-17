@@ -570,15 +570,13 @@ Ship::HyperjumpStatus Ship::CheckHyperspaceTo(const SystemPath &dest, int &outFu
 		return HYPERJUMP_SAFETY_LOCKOUT;
 
 	// Check safety distances
-	if (IsPlayerShip() || GetLabel() == std::string("TEST")) { // AI does not support that, yet.
-		if (m_wheelState > 0.0)
+	if (m_wheelState > 0.0)
+		return HYPERJUMP_SAFETY_LOCKOUT;
+	const Body *body = GetFrame()->GetBody();
+	if (body) {
+		double dist = GetPositionRelTo(body).Length();
+		if (dist < GetHyperspaceSafetyDistance(body))
 			return HYPERJUMP_SAFETY_LOCKOUT;
-		const Body *body = GetFrame()->GetBody();
-		if (body) {
-			double dist = GetPositionRelTo(body).Length();
-			if (dist < GetHyperspaceSafetyDistance(body))
-				return HYPERJUMP_SAFETY_LOCKOUT;
-		}
 	}
 
 	return GetHyperspaceDetails(dest, outFuelRequired, outDurationSecs);
