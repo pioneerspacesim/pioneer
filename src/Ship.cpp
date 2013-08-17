@@ -428,6 +428,25 @@ Equip::Type Ship::GetHyperdriveFuelType() const
 	return Equip::types[t].inputs[0];
 }
 
+double Ship::GetHyperspaceSafetyDistance(const Body* body) const {
+	if (!body)
+		return 0.0; // GRAVPOINT
+
+	if (body->IsType(Object::TERRAINBODY)) {
+		const Frame *f = GetFrame()->GetRotFrame();
+		vector3d surfacePos = GetPositionRelTo(f).Normalized();
+		double radius = MIN_JUMP_DIST_TERRAIN + static_cast<const TerrainBody*>(body)->GetTerrainHeight(surfacePos);
+		if (body->IsType(Object::PLANET))
+			radius = std::max(radius, static_cast<const Planet*>(body)->GetAtmosphereRadius());
+		return radius;
+	} else if (body->IsType(Object::SPACESTATION)) {
+		return MIN_JUMP_DIST_STATION + body->GetPhysRadius();
+	} else {
+		assert(false);
+		return 0.0;
+	}
+}
+
 void Ship::UpdateEquipStats()
 {
 	m_stats.max_capacity = m_type->capacity;
@@ -544,6 +563,18 @@ Ship::HyperjumpStatus Ship::CheckHyperspaceTo(const SystemPath &dest, int &outFu
 
 	if (GetFlightState() != FLYING)
 		return HYPERJUMP_SAFETY_LOCKOUT;
+
+	// Check safety distances
+	if (IsPlayerShip() || GetLabel() == std::string("TEST")) { // AI does not support that, yet.
+		if (m_wheelState > 0.0)
+			return HYPERJUMP_SAFETY_LOCKOUT;
+		const Body *body = GetFrame()->GetBody();
+		if (body) {
+			double dist = GetPositionRelTo(body).Length();
+			if (dist < GetHyperspaceSafetyDistance(body))
+				return HYPERJUMP_SAFETY_LOCKOUT;
+		}
+	}
 
 	return GetHyperspaceDetails(dest, outFuelRequired, outDurationSecs);
 }

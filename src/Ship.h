@@ -58,7 +58,7 @@ public:
 
 	void SetController(ShipController *c); //deletes existing
 	ShipController *GetController() const { return m_controller; }
-	virtual bool IsPlayerShip() const { return false; } //XXX to be replaced with an owner check
+	virtual bool IsPlayerShip() const { return false; } //XXX overridden in Player, to be replaced with an owner check
 
 	virtual void SetDockedWith(SpaceStation *, int port);
 	/** Use GetDockedWith() to determine if docked */
@@ -138,6 +138,11 @@ public:
 		HYPERJUMP_SAFETY_LOCKOUT
 	};
 
+private:
+	static const double MIN_JUMP_DIST_TERRAIN = 15000.0;
+	static const double MIN_JUMP_DIST_STATION = 15000.0;
+public:
+	double GetHyperspaceSafetyDistance(const Body* body) const;
 	HyperjumpStatus GetHyperspaceDetails(const SystemPath &dest, int &outFuelRequired, double &outDurationSecs);
 	HyperjumpStatus CheckHyperspaceTo(const SystemPath &dest, int &outFuelRequired, double &outDurationSecs);
 	HyperjumpStatus CheckHyperspaceTo(const SystemPath &dest) {
