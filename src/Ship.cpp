@@ -520,8 +520,13 @@ Ship::HyperjumpStatus Ship::GetHyperspaceDetails(const SystemPath &dest, int &ou
 
 	UpdateStats();
 
-	if (GetFlightState() == HYPERSPACE)
+	if (GetFlightState() == HYPERSPACE) {
+		if (m_hyperspaceCloud)
+			outDurationSecs = m_hyperspaceCloud->GetDueDate() - Pi::game->GetTime();
+		else
+			outDurationSecs = Pi::game->GetHyperspaceEndTime() - Pi::game->GetTime();
 		return HYPERJUMP_DRIVE_ACTIVE;
+	}
 
 	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
 	Equip::Type fuelType = GetHyperdriveFuelType();

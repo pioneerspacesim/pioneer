@@ -882,7 +882,7 @@ static int l_ship_get_hyperspace_details(lua_State *l)
 	Ship::HyperjumpStatus status = s->GetHyperspaceDetails(*dest, fuel, duration);
 
 	lua_pushstring(l, EnumStrings::GetString("ShipJumpStatus", status));
-	if (status == Ship::HYPERJUMP_OK) {
+	if (status == Ship::HYPERJUMP_OK || status == Ship::HYPERJUMP_DRIVE_ACTIVE) {
 		lua_pushinteger(l, fuel);
 		lua_pushnumber(l, duration);
 		return 3;
