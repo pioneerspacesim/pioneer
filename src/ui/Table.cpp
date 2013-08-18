@@ -114,7 +114,7 @@ void Table::Inner::Layout()
 void Table::Inner::Draw()
 {
 	if (m_mouseEnabled && IsMouseOver() && m_mouseRow >= 0) {
-		GetContext()->GetSkin().DrawBackgroundHover(Point(0, m_mouseRowTop), Point(GetSize().x, m_mouseRowHeight));
+		GetContext()->GetSkin().DrawRectHover(Point(0, m_mouseRowTop), Point(GetSize().x, m_mouseRowHeight));
 	}
 
 	Container::Draw();
