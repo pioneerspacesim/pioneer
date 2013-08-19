@@ -637,7 +637,7 @@ Translate:Add({
 		['Cancel']         = 'Zrušit',
 
 		-- Load dialog
-		['Select game to load...'] = 'Načíst hru...',
+		['Select game to load...'] = 'Vyber uloženou hru...',
 
 		-- Equipment
 		['Equipment'] = 'Vybavení',
