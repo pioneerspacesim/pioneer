@@ -4,6 +4,9 @@ August 2013
      * The Sector View now displays a sphere to show the hyperspace reach (#2378)
      * New start point: Barnard's Star (#2240, #2402)
 
+   * Minor changes and tweaks
+     * Rescaled Wave model (#2400)
+
    * Build system
      * Early support for VS 2013 (#2391)
 
