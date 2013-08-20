@@ -5,8 +5,8 @@ local Engine = import("Engine")
 
 local ui = Engine.ui
 
-local shipyard = function (args)
-    return ui:Label("shipyard")
+local shipRepairs = function (args)
+    return ui:Label("ship repairs")
 end
 
-return shipyard
+return shipRepairs
