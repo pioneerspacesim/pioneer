@@ -1,3 +1,6 @@
+-- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 Translate:Add({
     English = {
 	    ["Well done commander! Your combat rating has improved!"] = "Well done commander! Your combat rating has improved!",
