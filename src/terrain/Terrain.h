@@ -38,7 +38,7 @@ public:
 	virtual ~Terrain();
 
 	void SetFracDef(const unsigned int index, const double featureHeightMeters, const double featureWidthMeters, const double smallestOctaveMeters = 20.0);
-	inline const fracdef_t &GetFracDef(const unsigned int index) const { assert(index>=0 && index<kMaxNumFracDefs); return m_fracdef[index]; }
+	inline const fracdef_t &GetFracDef(const unsigned int index) const { assert(index>=0 && index<MAX_FRACDEFS); return m_fracdef[index]; }
 
 	virtual double GetHeight(const vector3d &p) const = 0;
 	virtual vector3d GetColor(const vector3d &p, double height, const vector3d &norm) const = 0;
@@ -111,8 +111,8 @@ protected:
 
 	/* XXX you probably shouldn't increase this. If you are
 	   using more than 10 then things will be slow as hell */
-	static const uint32_t kMaxNumFracDefs = 10;
-	fracdef_t m_fracdef[kMaxNumFracDefs];
+	static const Uint32 MAX_FRACDEFS = 10;
+	fracdef_t m_fracdef[MAX_FRACDEFS];
 };
 
 

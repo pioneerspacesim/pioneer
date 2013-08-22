@@ -25,7 +25,6 @@ vector3d TerrainColorFractal<TerrainColorEarthLikeHeightmapped>::GetColor(const 
 	double n = m_invMaxHeight*height;
 	double flatness = pow(p.Dot(norm), 8.0);
 
-	double continents = 0;
 	double equatorial_desert = (2.0-m_icyness)*(-1.0+2.0*octavenoise(12, 0.5, 2.0, (n*2.0)*p)) *
 			1.0*(2.0-m_icyness)*(1.0-p.y*p.y);
 	vector3d color_cliffs = m_darkrockColor[5];

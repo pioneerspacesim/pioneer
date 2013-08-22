@@ -359,6 +359,17 @@ static size_t bufread_or_die(void *ptr, size_t size, size_t nmemb, ByteRange &bu
 	return read_count;
 }
 
+// XXX this sucks, but there isn't a reliable cross-platform way to get them
+#ifndef INT16_MIN
+# define INT16_MIN   (-32767-1)
+#endif
+#ifndef INT16_MAX
+# define INT16_MAX   (32767)
+#endif
+#ifndef UINT16_MAX
+# define UINT16_MAX  (65535)
+#endif
+
 Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_rand(body->seed), m_heightScaling(0), m_minh(0) {
 
 	// load the heightmap
@@ -371,8 +382,8 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 
 		ByteRange databuf = fdata->AsByteRange();
 
-		int16_t minHMap = INT16_MAX, maxHMap = INT16_MIN;
-		uint16_t minHMapScld = UINT16_MAX, maxHMapScld = 0;
+		Sint16 minHMap = INT16_MAX, maxHMap = INT16_MIN;
+		Uint16 minHMapScld = UINT16_MAX, maxHMapScld = 0;
 
 		// XXX unify heightmap types
 		switch (m_body->heightMapFractal) {
@@ -380,13 +391,13 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 				Uint16 v;
 				bufread_or_die(&v, 2, 1, databuf); m_heightMapSizeX = v;
 				bufread_or_die(&v, 2, 1, databuf); m_heightMapSizeY = v;
-				const uint32_t heightmapPixelArea = (m_heightMapSizeX * m_heightMapSizeY);
+				const Uint32 heightmapPixelArea = (m_heightMapSizeX * m_heightMapSizeY);
 
 				ScopedPtr<Sint16> heightMap(new Sint16[heightmapPixelArea]);
 				bufread_or_die(heightMap.Get(), sizeof(Sint16), heightmapPixelArea, databuf);
 				m_heightMap.Reset(new double[heightmapPixelArea]);
 				double *pHeightMap = m_heightMap.Get();
-				for(uint32_t i=0; i<heightmapPixelArea; i++) {
+				for(Uint32 i=0; i<heightmapPixelArea; i++) {
 					const Sint16 val = heightMap.Get()[i];
 					minHMap = std::min(minHMap, val);
 					maxHMap = std::max(maxHMap, val);
@@ -394,8 +405,8 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 					(*pHeightMap) = val;
 					++pHeightMap;
 				}
-				assert(pHeightMap==m_heightMap.Get()[heightmapPixelArea]);
-				printf("minHMap = (%hd), maxHMap = (%hd)\n", minHMap, maxHMap);
+				assert(is_equal_general(*pHeightMap, m_heightMap.Get()[heightmapPixelArea]));
+				//printf("minHMap = (%hd), maxHMap = (%hd)\n", minHMap, maxHMap);
 				break;
 			}
 
@@ -404,7 +415,7 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 				// XXX x and y reversed from above *sigh*
 				bufread_or_die(&v, 2, 1, databuf); m_heightMapSizeY = v;
 				bufread_or_die(&v, 2, 1, databuf); m_heightMapSizeX = v;
-				const uint32_t heightmapPixelArea = (m_heightMapSizeX * m_heightMapSizeY);
+				const Uint32 heightmapPixelArea = (m_heightMapSizeX * m_heightMapSizeY);
 
 				// read height scaling and min height which are doubles
 				double te;
@@ -417,7 +428,7 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 				bufread_or_die(heightMapScaled.Get(), sizeof(Uint16), heightmapPixelArea, databuf);
 				m_heightMap.Reset(new double[heightmapPixelArea]);
 				double *pHeightMap = m_heightMap.Get();
-				for(uint32_t i=0; i<heightmapPixelArea; i++) {
+				for(Uint32 i=0; i<heightmapPixelArea; i++) {
 					const Uint16 val = heightMapScaled.Get()[i];
 					minHMapScld = std::min(minHMapScld, val);
 					maxHMapScld = std::max(maxHMapScld, val);
@@ -425,16 +436,14 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 					(*pHeightMap) = val;
 					++pHeightMap;
 				}
-				assert(pHeightMap==m_heightMap.Get()[heightmapPixelArea]);
-				printf("minHMapScld = (%hu), maxHMapScld = (%hu)\n", minHMapScld, maxHMapScld);
+				assert(is_equal_general(*pHeightMap, m_heightMap.Get()[heightmapPixelArea]));
+				//printf("minHMapScld = (%hu), maxHMapScld = (%hu)\n", minHMapScld, maxHMapScld);
 				break;
 			}
 
 			default:
 				assert(0);
 		}
-
-		
 
 	}
 
@@ -612,7 +621,7 @@ Terrain::~Terrain()
  */
 void Terrain::SetFracDef(const unsigned int index, const double featureHeightMeters, const double featureWidthMeters, const double smallestOctaveMeters)
 {
-	assert(index>=0 && kMaxNumFracDefs<kMaxNumFracDefs);
+	assert(index>=0 && index<MAX_FRACDEFS);
 	// feature
 	m_fracdef[index].amplitude = featureHeightMeters / (m_maxHeight * m_planetRadius);
 	m_fracdef[index].frequency = m_planetRadius / featureWidthMeters;
