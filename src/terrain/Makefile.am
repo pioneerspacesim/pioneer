@@ -48,6 +48,7 @@ libterrain_a_SOURCES = \
 	TerrainColorDeadWithWater.cpp \
 	TerrainColorDesert.cpp \
 	TerrainColorEarthLike.cpp \
+	TerrainColorEarthLikeHeightmapped.cpp \
 	TerrainColorGGJupiter.cpp \
 	TerrainColorGGNeptune2.cpp \
 	TerrainColorGGNeptune.cpp \

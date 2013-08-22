@@ -57,6 +57,7 @@
     <ClCompile Include="..\..\..\src\terrain\TerrainHeightBarrenRock.cpp" />
     <ClCompile Include="..\..\..\src\terrain\TerrainHeightBarrenRock2.cpp" />
     <ClCompile Include="..\..\..\src\terrain\TerrainHeightBarrenRock3.cpp" />
+    <ClCompile Include="..\..\..\src\terrain\TerrainColorEarthLikeHeightmapped.cpp" />
     <ClCompile Include="..\..\..\src\terrain\TerrainHeightEllipsoid.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -37,8 +37,8 @@ public:
 
 	virtual ~Terrain();
 
-	void SetFracDef(unsigned int index, double featureHeightMeters, double featureWidthMeters, double smallestOctaveMeters = 20.0);
-	inline const fracdef_t &GetFracDef(unsigned int index) const { return m_fracdef[index]; }
+	void SetFracDef(const unsigned int index, const double featureHeightMeters, const double featureWidthMeters, const double smallestOctaveMeters = 20.0);
+	inline const fracdef_t &GetFracDef(const unsigned int index) const { assert(index>=0 && index<MAX_FRACDEFS); return m_fracdef[index]; }
 
 	virtual double GetHeight(const vector3d &p) const = 0;
 	virtual vector3d GetColor(const vector3d &p, double height, const vector3d &norm) const = 0;
@@ -79,10 +79,7 @@ protected:
 
 	// heightmap stuff
 	// XXX unify heightmap types
-	// for the earth heightmap
-	Sint16 *m_heightMap;
-	// For the moon and other bodies (with height scaling)
-	Uint16 *m_heightMapScaled;
+	ScopedPtr<double> m_heightMap;
 	double m_heightScaling, m_minh;
 
 	int m_heightMapSizeX;
@@ -114,7 +111,8 @@ protected:
 
 	/* XXX you probably shouldn't increase this. If you are
 	   using more than 10 then things will be slow as hell */
-	fracdef_t m_fracdef[10];
+	static const Uint32 MAX_FRACDEFS = 10;
+	fracdef_t m_fracdef[MAX_FRACDEFS];
 };
 
 
@@ -226,6 +224,7 @@ class TerrainColorDesert;
  http://www.spacesimcentral.com/forum/download/file.php?id=1885&mode=view
 and better distribution of snow :  http://www.spacesimcentral.com/forum/download/file.php?id=1879&mode=view  */
 class TerrainColorEarthLike;
+class TerrainColorEarthLikeHeightmapped;
 class TerrainColorGGJupiter;
 class TerrainColorGGNeptune2;
 class TerrainColorGGNeptune;
