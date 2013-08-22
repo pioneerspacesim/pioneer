@@ -7,6 +7,7 @@ August 2013
 
    * Minor changes and tweaks
      * Rescaled Wave model (#2400)
+     * Fix greenhouse gas calculations during planet generation (#2398)
 
    * Build system
      * Early support for VS 2013 (#2391)
