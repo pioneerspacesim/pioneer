@@ -54,9 +54,10 @@ double TerrainHeightFractal<TerrainHeightMapped>::GetHeight(const vector3d &p) c
 	// p0,1 p1,1 p2,1 p3,1
 	// p0,0 p1,0 p2,0 p3,0
 	double map[4][4];
+	const double *pHMap = m_heightMap.Get();
 	for (int x=-1; x<3; x++) {
 		for (int y=-1; y<3; y++) {
-			map[x+1][y+1] = m_heightMap[Clamp(iy+y, 0, m_heightMapSizeY-1)*m_heightMapSizeX + Clamp(ix+x, 0, m_heightMapSizeX-1)];
+			map[x+1][y+1] = pHMap[Clamp(iy+y, 0, m_heightMapSizeY-1)*m_heightMapSizeX + Clamp(ix+x, 0, m_heightMapSizeX-1)];
 		}
 	}
 
