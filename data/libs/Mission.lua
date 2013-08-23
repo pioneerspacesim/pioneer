@@ -2,14 +2,14 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 --
--- Class: Missions
+-- Class: Mission
 --
 -- A mission object, which is displayed in the missions screen. These
 -- missions are stored in the PersistenCharacters.player.missions table.
 -- The class is responsible for inserting itself into the missions table,
 -- and has a method which removes itself from that table.
 --
--- Lua modules should use the Missions interface, which provides data
+-- Lua modules should use the Mission interface, which provides data
 -- sanitation and error checking.
 --
 
