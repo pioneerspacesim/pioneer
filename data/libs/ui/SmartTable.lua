@@ -1,6 +1,8 @@
 -- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+local utils = import("utils")
+
 local ui = Engine.ui
 
 local _DefaultSort = function (self, cmp)
@@ -8,7 +10,7 @@ local _DefaultSort = function (self, cmp)
 		cmp = function (a,b) return a.data[col] <= b.data[col] end
 	end
 	col = self.sortCol
-	self.table = stable_sort(self.table, cmp)
+	self.table = utils.stable_sort(self.table, cmp)
 end
 
 local _DefaultCellWidget = function (data)

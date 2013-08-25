@@ -9,6 +9,7 @@ local ShipType = import("ShipType")
 local Timer = import("Timer")
 local Event = import("Event")
 local Serializer = import("Serializer")
+local utils = import("utils")
 
 --[[
 	trade_ships
@@ -308,11 +309,11 @@ local getAcceptableShips = function ()
 			return def.tag == 'SHIP' and def.defaultHyperdrive ~= 'NONE'
 		end
 	end
-	return build_array(
-		map(function (k,def)
+	return utils.build_array(
+		utils.map(function (k,def)
 			return k,def.id
 		end,
-		filter(filter_function,
+		utils.filter(filter_function,
 		pairs(ShipDef)
 	)))
 end

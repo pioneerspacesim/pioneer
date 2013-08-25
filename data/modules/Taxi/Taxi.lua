@@ -12,6 +12,7 @@ local Mission = import("Mission")
 local NameGen = import("NameGen")
 local Format = import("Format")
 local Serializer = import("Serializer")
+local utils = import("utils")
 
 -- Get the translator function
 local t = Translate:GetTranslator()
@@ -228,7 +229,7 @@ local onEnterSystem = function (player)
 			if ships < 1 and risk > 0 and Engine.rand:Integer(math.ceil(1/risk)) == 1 then ships = 1 end
 
 			-- XXX hull mass is a bad way to determine suitability for role
-			local shipdefs = build_array(filter(function (k,def) return def.tag == 'SHIP' and def.hullMass > 10 and def.hullMass <= 200 end, pairs(ShipDef)))
+			local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'SHIP' and def.hullMass > 10 and def.hullMass <= 200 end, pairs(ShipDef)))
 			if #shipdefs == 0 then return end
 
 			local ship
@@ -241,7 +242,7 @@ local onEnterSystem = function (player)
 					local default_drive = shipdef.defaultHyperdrive
 
 					local max_laser_size = shipdef.capacity - EquipDef[default_drive].mass
-					local laserdefs = build_array(filter(
+					local laserdefs = utils.build_array(utils.filter(
                         function (k,def) return def.slot == 'LASER' and def.mass <= max_laser_size and string.sub(def.id,0,11) == 'PULSECANNON' end,
                         pairs(EquipDef)
                     ))

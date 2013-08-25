@@ -1,12 +1,15 @@
 -- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+local utils
+utils = {}
+
 --
 -- numbered_keys: transform an iterator to one that returns numbered keys
 --
 -- for k,v in numbered_keys(pairs(table)) do ... end
 --
-function numbered_keys(step, context, position)
+function utils.numbered_keys(step, context, position)
   local k = position
   local f = function(s, i)
     local v
@@ -24,7 +27,7 @@ end
 --
 -- for k,v in filter(function (k,v) ... return true end, pairs(table))
 --
-function filter(predicate, step, context, position)
+function utils.filter(predicate, step, context, position)
   local f = function (s, k)
     local v
     repeat k,v = step(s,k); until (k == nil) or predicate(k,v)
@@ -38,7 +41,7 @@ end
 --
 -- for k,v in map(function (k,v) ... return newk, newv end, pairs(table))
 --
-function map(transformer, step, context, position)
+function utils.map(transformer, step, context, position)
   local f = function (s, k)
     local v
     k, v = step(s, k)
@@ -55,7 +58,7 @@ end
 --
 -- array = build_array(pairs(table))
 --
-function build_array(f, s, k)
+function utils.build_array(f, s, k)
   local v
   local t = {}
   while true do
@@ -72,7 +75,7 @@ end
 --
 -- filtered = build_table(filter(function () ... end, pairs(table)))
 --
-function build_table(f, s, k)
+function utils.build_table(f, s, k)
   local v
   local t = {}
   while true do
@@ -92,7 +95,7 @@ end
 --							  function (a,b) return a < b end)
 --
 
-function stable_sort(values, cmp)
+function utils.stable_sort(values, cmp)
 	if not cmp then 
 		cmp = function (a,b) return a <= b end
 	end
@@ -143,3 +146,5 @@ function stable_sort(values, cmp)
 	
 	return merge_sort(values)
 end
+
+return utils

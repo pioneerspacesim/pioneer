@@ -7,6 +7,7 @@ local Space = import("Space")
 local ShipType = import("ShipType")
 local Event = import("Event")
 local Serializer = import("Serializer")
+local utils = import("utils")
 
 local loaded
 
@@ -22,7 +23,7 @@ local spawnShips = function ()
 		return
 	end
 
-	local shipdefs = build_array(filter(function (k,def) return def.tag == 'STATIC_SHIP' end, pairs(ShipDef)))
+	local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'STATIC_SHIP' end, pairs(ShipDef)))
 	if #shipdefs == 0 then return end
 
 	-- one ship per three billion, min 1, max 2*num of stations

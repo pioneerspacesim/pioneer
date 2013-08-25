@@ -15,6 +15,7 @@ local NameGen = import("NameGen")
 local Character = import("Character")
 local Format = import("Format")
 local Serializer = import("Serializer")
+local utils = import("utils")
 
 -- Get the translator function
 local t = Translate:GetTranslator()
@@ -147,8 +148,8 @@ local makeAdvert = function (station)
 	local reward = Engine.rand:Number(2100, 7000) * danger
 
 	-- XXX hull mass is a bad way to determine suitability for role
-	--local shipdefs = build_array(filter(function (k,def) return def.tag == 'SHIP' and def.hullMass >= (danger * 17) and def.equipSlotCapacity.ATMOSHIELD > 0 end, pairs(ShipDef)))
-	local shipdefs = build_array(filter(function (k,def) return def.tag == 'SHIP' and def.defaultHyperdrive ~= 'NONE' and def.equipSlotCapacity.ATMOSHIELD > 0 end, pairs(ShipDef)))
+	--local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'SHIP' and def.hullMass >= (danger * 17) and def.equipSlotCapacity.ATMOSHIELD > 0 end, pairs(ShipDef)))
+	local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'SHIP' and def.defaultHyperdrive ~= 'NONE' and def.equipSlotCapacity.ATMOSHIELD > 0 end, pairs(ShipDef)))
 	local shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
 	local shipid = shipdef.id
 	local shipname = shipdef.name
@@ -242,7 +243,7 @@ local onEnterSystem = function (ship)
 						local station = Space.GetBody(mission.location.bodyIndex)
 						local shiptype = ShipDef[mission.shipid]
 						local default_drive = shiptype.defaultHyperdrive
-						local laserdefs = build_array(filter(function (k,def) return def.slot == 'LASER' end, pairs(EquipDef)))
+						local laserdefs = utils.build_array(utils.filter(function (k,def) return def.slot == 'LASER' end, pairs(EquipDef)))
 						local laserdef = laserdefs[mission.danger]
 						local count = tonumber(string.sub(default_drive, -1)) ^ 2
 
