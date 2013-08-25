@@ -1,18 +1,6 @@
 -- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-math.clamp = function(v, min, max)
-	return math.min(max, math.max(v,min))
-end
-
-debug.deprecated = function()
-	local deprecated_function = debug.getinfo(2)
-	local caller = debug.getinfo(3)
-	print("The use of the function \""..deprecated_function.name.."\" as done at <"..caller.source..":"..caller.currentline.."> is deprecated")
-	print("Please check the changelogs and/or get in touch with the development team.")
-end
-
-
 --
 -- numbered_keys: transform an iterator to one that returns numbered keys
 --

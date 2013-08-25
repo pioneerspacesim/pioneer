@@ -8,7 +8,6 @@ local Event = import("Event")
 local NameGen = import("NameGen")
 local Rand = import("Rand")
 local Serializer = import("Serializer")
-import("StringInterp")
 
 -- Get the translator function
 local t = Translate:GetTranslator()

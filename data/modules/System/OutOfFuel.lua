@@ -4,7 +4,6 @@
 local Comms = import("Comms")
 local Translate = import("Translate")
 local Event = import("Event")
-import("StringInterp")
 
 local t = Translate:GetTranslator()
 
