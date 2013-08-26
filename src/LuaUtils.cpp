@@ -109,6 +109,24 @@ static int luaopen_utils(lua_State *L)
 
 static void pi_lua_dofile(lua_State *l, const FileSystem::FileData &code, int nret = 0);
 
+static bool _import_core(lua_State *L, const std::string &importname)
+{
+	LUA_DEBUG_START(L);
+
+	lua_getfield(L, LUA_REGISTRYINDEX, "CoreImports");
+	assert(lua_istable(L, -1));
+
+	lua_getfield(L, -1, importname.c_str());
+	if (lua_istable(L, -1)) {
+		lua_remove(L, -2);
+		return 1;
+	}
+	lua_pop(L, 1);
+
+	LUA_DEBUG_END(L, 0);
+	return false;
+}
+
 static bool _import(lua_State *L, const std::string &importname)
 {
 	LUA_DEBUG_START(L);
@@ -125,13 +143,19 @@ static bool _import(lua_State *L, const std::string &importname)
 
 	std::string path(FileSystem::JoinPath("libs", importname+".lua"));
 
+	bool want_dofile = true;
 	RefCountedPtr<FileSystem::FileData> code = FileSystem::gameDataFiles.ReadFile(path);
 	if (!code) {
-		lua_pushfstring(L, "import: %s: could not read file", path.c_str());
-		return false;
+		// no file and no previous import, try for a core import
+		if (!_import_core(L, importname)) {
+			lua_pushfstring(L, "import: %s: could not read file", path.c_str());
+			return false;
+		}
+		want_dofile = false;
 	}
 
-	pi_lua_dofile(L, *code, 1);
+	if (want_dofile)
+		pi_lua_dofile(L, *code, 1);
 
 	if (!lua_istable(L, -1)) {
 		lua_pushfstring(L, "import: %s: did not return a table", path.c_str());
@@ -163,6 +187,13 @@ bool pi_lua_import(lua_State *L, const std::string &importname)
 		return false;
 	}
 	return true;
+}
+
+static int l_base_import_core(lua_State *L)
+{
+	if (!_import_core(L, luaL_checkstring(L, 1)))
+		return lua_error(L);
+	return 1;
 }
 
 static const luaL_Reg STANDARD_LIBS[] = {
@@ -199,6 +230,7 @@ static const luaL_Reg STANDARD_LIBS[] = {
 
 // extra/custom functionality:
 //  - import(): library/dependency loader
+//  - import_core(): lowlevel library/dependency loader
 //  - math.rad is aliased as math.deg2rad: I prefer the explicit name
 //  - util.hash_random(): a repeatable, safe, hash function based source of
 //    variation
@@ -224,9 +256,14 @@ void pi_lua_open_standard_base(lua_State *L)
 	// import table and function
 	lua_newtable(L);
 	lua_setfield(L, LUA_REGISTRYINDEX, "Imports");
-
 	lua_pushcfunction(L, l_base_import);
 	lua_setglobal(L, "import");
+
+	// same for core imports
+	lua_newtable(L);
+	lua_setfield(L, LUA_REGISTRYINDEX, "CoreImports");
+	lua_pushcfunction(L, l_base_import_core);
+	lua_setglobal(L, "import_core");
 
 
 	// standard library adjustments (math library)

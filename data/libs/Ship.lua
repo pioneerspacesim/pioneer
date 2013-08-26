@@ -1,6 +1,11 @@
 -- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+local Ship = import_core("Ship")
+local Event = import("Event")
+local Serializer = import("Serializer")
+local ShipType = import("ShipType")
+
 -- Temporary mapping while waiting for new-equipment to embed this information.
 local missile_names = {
 	MISSILE_UNGUIDED="missile_unguided",
@@ -417,3 +422,5 @@ Event.Register("onEnterSystem", onEnterSystem)
 Event.Register("onShipDestroyed", onShipDestroyed)
 Event.Register("onGameStart", onGameStart)
 Serializer:Register("ShipClass", serialize, unserialize)
+
+return Ship
