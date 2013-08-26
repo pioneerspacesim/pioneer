@@ -4,6 +4,9 @@
 local Translate = import("Translate")
 local Event = import("Event")
 local Serializer = import("Serializer")
+local Engine = import("Engine")
+local Game = import("Game")
+local Character = import("Character")
 
 -- This module allows the player to hire crew members through BB adverts
 -- on stations, and handles periodic events such as their wages.

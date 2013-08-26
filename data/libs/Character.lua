@@ -52,6 +52,7 @@ local Game = import("Game")
 local Event = import("Event")
 local NameGen = import("NameGen")
 local Serializer = import("Serializer")
+local Ship = import("Ship")
 
 local Character;
 Character = {

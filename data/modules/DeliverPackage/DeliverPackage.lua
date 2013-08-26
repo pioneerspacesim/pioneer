@@ -12,6 +12,7 @@ local Mission = import("Mission")
 local NameGen = import("NameGen")
 local Format = import("Format")
 local Serializer = import("Serializer")
+local Character = import("Character")
 local utils = import("utils")
 
 -- Get the translator function
