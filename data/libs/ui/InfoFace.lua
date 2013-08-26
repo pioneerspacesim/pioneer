@@ -1,6 +1,9 @@
 -- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+local Engine = import("Engine")
+local Translate = import("Translate")
+
 local ui = Engine.ui
 local t = Translate:GetTranslator()
 
@@ -26,9 +29,9 @@ local setFaceInfo = function (face, character)
 	)
 end
 
-local InfoFace = {
+local InfoFace = {}
 
-New = function (character)
+function InfoFace.New (character)
 	testCharacter(character)
 
 	local faceFlags = {
@@ -43,18 +46,16 @@ New = function (character)
 	setFaceInfo(self.widget, character)
 
 	setmetatable(self, {
-		__index = UI.InfoFace,
+		__index = InfoFace,
 		class = "UI.InfoFace",
 	})
 
 	return self
-end,
+end
 
-UpdateInfo = function (self, character)
+function InfoFace.UpdateInfo (self, character)
 	testCharacter(character)
 	setFaceInfo(self.widget, character)
-end,
-
-}
+end
 
 return InfoFace

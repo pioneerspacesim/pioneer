@@ -3,6 +3,15 @@
 
 local Translate = import("Translate")
 local Engine = import("Engine")
+local Game = import("Game")
+local ShipType = import("ShipType")
+local Format = import("Format")
+
+local InfoFace = import("ui/InfoFace")
+local SmallLabeledButton = import("ui/SmallLabeledButton")
+local InfoGauge = import("ui/InfoGauge")
+local SmartTable = import("ui/SmartTable")
+local TabGroup = import("ui/TabGroup")
 
 local ui = Engine.ui
 local t = Translate:GetTranslator()
@@ -135,7 +144,7 @@ local personalInfo = function ()
 	local faceFlags = { player.female and "FEMALE" or "MALE" }
 
 	-- for updating the caption
-	local faceWidget = UI.InfoFace.New(player)
+	local faceWidget = InfoFace.New(player)
 	-- for updating the entire face
 	local faceWidgetContainer = ui:Margin(0, "ALL", faceWidget)
 
@@ -145,17 +154,17 @@ local personalInfo = function ()
         faceWidget:UpdateInfo(player)
 	end )
 
-	local genderToggle = UI.SmallLabeledButton.New(t("Toggle male/female"))
+	local genderToggle = SmallLabeledButton.New(t("Toggle male/female"))
 	genderToggle.button.onClick:Connect(function ()
 		player.female = not player.female
-		faceWidget = UI.InfoFace.New(player)
+		faceWidget = InfoFace.New(player)
 		faceWidgetContainer:SetInnerWidget(faceWidget.widget)
 	end)
 
-	local generateFaceButton = UI.SmallLabeledButton.New(t("Make new face"))
+	local generateFaceButton = SmallLabeledButton.New(t("Make new face"))
 	generateFaceButton.button.onClick:Connect(function ()
 		player.seed = Engine.rand:Integer()
-		faceWidget = UI.InfoFace.New(player)
+		faceWidget = InfoFace.New(player)
 		faceWidgetContainer:SetInnerWidget(faceWidget.widget)
 	end)
 
@@ -225,7 +234,7 @@ local econTrade = function ()
 						table.insert(cargoNameColumn, ui:Label(et.name))
 						table.insert(cargoQuantityColumn, ui:Label(count.."t"))
 
-						local jettisonButton = UI.SmallLabeledButton.New(t("JETTISON"))
+						local jettisonButton = SmallLabeledButton.New(t("JETTISON"))
 						jettisonButton.button.onClick:Connect(function ()
 							Game.player:Jettison(type)
 							updateCargoListWidget()
@@ -252,7 +261,7 @@ local econTrade = function ()
 
 	cargoListWidget:SetInnerWidget(updateCargoListWidget())
 
-	local cargoGauge = UI.InfoGauge.New({
+	local cargoGauge = InfoGauge.New({
 		formatter = function (v)
 			local stats = Game.player:GetStats()
 			return string.format("%d/%dt", stats.usedCargo, stats.freeCapacity)
@@ -260,7 +269,7 @@ local econTrade = function ()
 	})
 	cargoGauge:SetValue(stats.usedCargo/stats.freeCapacity)
 
-	local fuelGauge = UI.InfoGauge.New({
+	local fuelGauge = InfoGauge.New({
 		label          = ui:NumberLabel("PERCENT"),
 		warningLevel   = 0.1,
 		criticalLevel  = 0.05,
@@ -270,7 +279,7 @@ local econTrade = function ()
 	fuelGauge.gauge:Bind("valuePercent", Game.player, "fuel")
 
 	-- Define the refuel button
-	local refuelButton = UI.SmallLabeledButton.New(t('REFUEL'))
+	local refuelButton = SmallLabeledButton.New(t('REFUEL'))
 
 	local refuelButtonRefresh = function ()
 		if Game.player.fuel == 100 or Game.player:GetEquipCount('CARGO', 'WATER') == 0 then refuelButton.widget:Disable() end
@@ -349,7 +358,7 @@ local missions = function (tabGroup)
 	if MissionList then 
 		MissionList:Clear()
 	else
-		MissionList = UI.SmartTable.New(rowspec) 
+		MissionList = SmartTable.New(rowspec) 
 	end
 	
 	-- setup headers
@@ -410,7 +419,7 @@ local missions = function (tabGroup)
 		local daysLabel = ui:Label(string.format(t("%d days left"), days)):SetColor({ r = 1.0, g = 0.0, b = 1.0 }) -- purple
 		local dueBox = ui:VBox(2):PackEnd(dueLabel):PackEnd(daysLabel)
 		
-		local moreButton = UI.SmallLabeledButton.New(t("More info..."))
+		local moreButton = SmallLabeledButton.New(t("More info..."))
 		moreButton.button.onClick:Connect(function ()
 			MissionScreen:SetInnerWidget(ui:VBox(10)
 				:PackEnd({ui:Label(t('Mission Details')):SetFont('HEADING_LARGE')})
@@ -562,7 +571,7 @@ local crewRoster = function ()
 		local taskList = ui:VBox() -- This could do with being something prettier
 
 		for label,task in pairs(crewTasks) do
-			local taskButton = UI.SmallLabeledButton.New(t(label))
+			local taskButton = SmallLabeledButton.New(t(label))
 			taskButton.button.onClick:Connect(task)
 			taskList:PackEnd(taskButton)
 		end
@@ -595,7 +604,7 @@ local crewRoster = function ()
 		local owedTotal = 0
 
 		for crewMember in Game.player:EachCrewMember() do
-			local moreButton = UI.SmallLabeledButton.New(t("More info..."))
+			local moreButton = SmallLabeledButton.New(t("More info..."))
 			moreButton.button.onClick:Connect(function () return crewMemberInfoButtonFunc(crewMember) end)
 
 			local crewWage = (crewMember.contract and crewMember.contract.wage or 0)
@@ -634,7 +643,7 @@ local crewRoster = function ()
 	crewMemberInfoButtonFunc = function (crewMember)
 
 		-- Make the button that you'd use to sack somebody
-		local dismissButton = UI.SmallLabeledButton.New(t("Dismiss"))
+		local dismissButton = SmallLabeledButton.New(t("Dismiss"))
 		dismissButton.button.onClick:Connect(function ()
 			if Game.player.flightState == 'DOCKED' and not(crewMember.contract and crewMember.contract.outstanding > 0) and Game.player:Dismiss(crewMember) then
 				crewMember:Save()                         -- Save to persistent characters list
@@ -692,13 +701,13 @@ local crewRoster = function ()
 					})
 					:SetColumn(1, {
 						ui:VBox():PackEnd({
-							UI.SmallLabeledButton.New(t("Negotiate")),
+							SmallLabeledButton.New(t("Negotiate")),
 						})
 					}) or nil -- nothing returned for player
 			})
 		})
 		-- Set Right hand side of page: Character's face
-		:SetColumn(1, { UI.InfoFace.New(crewMember) }))
+		:SetColumn(1, { InfoFace.New(crewMember) }))
 	end
 
 	CrewScreen:SetInnerWidget(makeCrewList())
@@ -713,7 +722,7 @@ ui.templates.InfoView = function (args)
 		return tabGroup.widget
 	end
 
-	tabGroup = UI.TabGroup.New()
+	tabGroup = TabGroup.New()
 
 	tabGroup:AddTab({ id = "shipInfo",        title = t("Ship Information"),     icon = "Satellite", template = shipInfo         })
 	tabGroup:AddTab({ id = "personalInfo",    title = t("Personal Information"), icon = "User",      template = personalInfo     })
