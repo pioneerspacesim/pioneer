@@ -13,6 +13,8 @@ local InfoGauge = import("ui/InfoGauge")
 local SmartTable = import("ui/SmartTable")
 local TabGroup = import("ui/TabGroup")
 
+local ModelSpinner = import("UI.Game.ModelSpinner")
+
 local ui = Engine.ui
 local t = Translate:GetTranslator()
 
@@ -92,7 +94,7 @@ local shipInfo = function (args)
 			:SetColumn(1, {
 				ui:VBox(10)
 					:PackEnd(ui:Label(shipDef.name):SetFont("HEADING_LARGE"))
-					:PackEnd(UI.Game.ModelSpinner.New(ui, shipDef.modelName, Game.player:GetSkin()))
+					:PackEnd(ModelSpinner.New(ui, shipDef.modelName, Game.player:GetSkin()))
 			})
 end
 

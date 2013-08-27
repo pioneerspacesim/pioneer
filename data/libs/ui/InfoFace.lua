@@ -4,6 +4,8 @@
 local Engine = import("Engine")
 local Translate = import("Translate")
 
+local Face = import("UI.Game.Face")
+
 local ui = Engine.ui
 local t = Translate:GetTranslator()
 
@@ -40,7 +42,7 @@ function InfoFace.New (character)
 	}
 
 	local self = {
-		widget = UI.Game.Face.New(ui, faceFlags, character.seed)
+		widget = Face.New(ui, faceFlags, character.seed)
 	}
 
 	setFaceInfo(self.widget, character)

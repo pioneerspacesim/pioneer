@@ -66,6 +66,8 @@ void pi_lua_dofile_recursive(lua_State *l, const std::string &basepath);
 
 void pi_lua_warn(lua_State *l, const char *format, ...) __attribute((format(printf,2,3)));
 
+bool pi_lua_split_table_path(lua_State *l, const std::string &path);
+
 #ifdef DEBUG
 #include <stdlib.h> // for abort()
 # define LUA_DEBUG_START(luaptr) const int __luaStartStackDepth = lua_gettop(luaptr)

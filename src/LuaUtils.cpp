@@ -113,17 +113,22 @@ static bool _import_core(lua_State *L, const std::string &importname)
 {
 	LUA_DEBUG_START(L);
 
-	lua_getfield(L, LUA_REGISTRYINDEX, "CoreImports");
-	assert(lua_istable(L, -1));
+	if (!pi_lua_split_table_path(L, importname)) {
+		lua_pushfstring(L, "import_core: %s: not found", importname.c_str());
+		LUA_DEBUG_END(L, 1);
+		return false;
+	}
 
-	lua_getfield(L, -1, importname.c_str());
+	lua_rawget(L, -2);
 	if (lua_istable(L, -1)) {
 		lua_remove(L, -2);
-		return 1;
+		LUA_DEBUG_END(L, 1);
+		return true;
 	}
-	lua_pop(L, 1);
+	lua_pop(L, 2);
 
-	LUA_DEBUG_END(L, 0);
+	lua_pushfstring(L, "import_core: %s: not found", importname.c_str());
+	LUA_DEBUG_END(L, 1);
 	return false;
 }
 
@@ -148,6 +153,7 @@ static bool _import(lua_State *L, const std::string &importname)
 	if (!code) {
 		// no file and no previous import, try for a core import
 		if (!_import_core(L, importname)) {
+			lua_pop(L, 1); // remove import_core error
 			lua_pushfstring(L, "import: %s: could not read file", path.c_str());
 			return false;
 		}
@@ -504,4 +510,61 @@ void pi_lua_warn(lua_State *l, const char *format, ...)
 			(info.name ? info.name : "<unknown>"), info.what);
 		++level;
 	}
+}
+
+// drill down from global looking for the appropriate table for the given
+// path. returns with the table and the last fragment on the stack, ready for
+// get/set a value in the table with that key.
+// eg foo.bar.baz results in something like _G.foo = { bar = {} }, with the
+// "bar" table left at -2 and "baz" at -1.
+// returns true if "bar" table found, false otherwise
+bool pi_lua_split_table_path(lua_State *l, const std::string &path)
+{
+	LUA_DEBUG_START(l);
+
+	const char delim = '.';
+
+	std::string last;
+
+	lua_getfield(l, LUA_REGISTRYINDEX, "CoreImports");
+
+	size_t start = 0, end = 0;
+	while (end != std::string::npos) {
+		// get to the first non-delim char
+		start = path.find_first_not_of(delim, end);
+
+		// read the end, no more to do
+		if (start == std::string::npos)
+			break;
+
+		// have a fragment from last time, get the next table
+		if (!last.empty()) {
+			luaL_getsubtable(l, -1, last.c_str());
+			if (lua_isnil(l, -1)) {
+				LUA_DEBUG_END(l, 0);
+				return false;
+			}
+			assert(lua_istable(l, -1));
+			lua_remove(l, -2);
+		}
+
+		// find the end - next delim or end of string
+		end = path.find_first_of(delim, start);
+
+		// extract the fragment and remember it
+		last = path.substr(start, (end == std::string::npos) ? std::string::npos : end - start);
+	}
+
+	if (last.empty()) {
+		LUA_DEBUG_END(l, 0);
+		return false;
+	}
+
+	assert(!last.empty());
+
+	lua_pushlstring(l, last.c_str(), last.size());
+
+	LUA_DEBUG_END(l, 2);
+
+	return true;
 }
