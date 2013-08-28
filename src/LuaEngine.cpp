@@ -157,7 +157,7 @@ void LuaEngine::Register()
 		{ 0, 0 }
 	};
 
-	lua_getfield(l, LUA_REGISTRYINDEX, "Imports");
+	lua_getfield(l, LUA_REGISTRYINDEX, "CoreImports");
 	LuaObjectBase::CreateObject(l_methods, l_attrs, 0);
 	lua_setfield(l, -2, "Engine");
 	lua_pop(l, 1);

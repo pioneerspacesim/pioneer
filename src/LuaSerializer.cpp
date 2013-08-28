@@ -543,7 +543,7 @@ template <> void LuaObject<LuaSerializer>::RegisterClass()
 		{ 0, 0 }
 	};
 
-	lua_getfield(l, LUA_REGISTRYINDEX, "Imports");
+	lua_getfield(l, LUA_REGISTRYINDEX, "CoreImports");
 	LuaObjectBase::CreateObject(l_methods, 0, 0);
 	lua_setfield(l, -2, "Serializer");
 	lua_pop(l, 1);

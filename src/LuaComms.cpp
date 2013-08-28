@@ -108,7 +108,7 @@ void LuaComms::Register()
 		{ 0, 0 }
 	};
 
-	lua_getfield(l, LUA_REGISTRYINDEX, "Imports");
+	lua_getfield(l, LUA_REGISTRYINDEX, "CoreImports");
 	LuaObjectBase::CreateObject(l_methods, 0, 0);
 	lua_setfield(l, -2, "Comms");
 	lua_pop(l, 1);
