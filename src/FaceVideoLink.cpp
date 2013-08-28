@@ -11,6 +11,7 @@
 #include "graphics/TextureBuilder.h"
 #include "FileSystem.h"
 #include "SDLWrappers.h"
+#include "FaceGenManager.h"
 
 using namespace Graphics;
 

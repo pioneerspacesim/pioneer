@@ -1,0 +1,41 @@
+// Configuration options
+{
+	"races" : [
+		"race" : { 
+			"Heads" : 20,
+			"Heads" : 20,
+			"Eyes" : 20,
+			"Noses" : 20,
+			"Mouths" : 20,
+			"Hairs" : 20,
+			"Clothes" : 20,
+			"Armours" : 3,
+			"Accessories" : 16,
+			"Backgrounds" : 18,
+			},
+		"race" : { 
+			"Heads" : 20,
+			"Heads" : 20,
+			"Eyes" : 20,
+			"Noses" : 20,
+			"Mouths" : 20,
+			"Hairs" : 20,
+			"Clothes" : 20,
+			"Armours" : 3,
+			"Accessories" : 16,
+			"Backgrounds" : 18,
+			},
+		"race" : { 
+			"Heads" : 20,
+			"Heads" : 20,
+			"Eyes" : 20,
+			"Noses" : 20,
+			"Mouths" : 20,
+			"Hairs" : 20,
+			"Clothes" : 20,
+			"Armours" : 3,
+			"Accessories" : 16,
+			"Backgrounds" : 18,
+			},
+		]
+}
