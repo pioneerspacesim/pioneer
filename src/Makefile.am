@@ -311,7 +311,8 @@ pioneer_LDADD = \
 	gameui/libgameui.a \
 	../contrib/miniz/libminiz.a \
 	../contrib/PicoDDS/libpicodds.a \
-	../contrib/jenkins/libjenkins.a
+	../contrib/jenkins/libjenkins.a \
+	../contrib/json/libjson.a
 
 pioneer_LDADD += \
 	$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
