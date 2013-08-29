@@ -7,6 +7,8 @@ local Serializer = import("Serializer")
 local Engine = import("Engine")
 local Game = import("Game")
 local Character = import("Character")
+local Format = import("Format")
+local Timer = import("Timer")
 
 -- This module allows the player to hire crew members through BB adverts
 -- on stations, and handles periodic events such as their wages.

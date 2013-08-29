@@ -14,6 +14,7 @@ local Format = import("Format")
 local Serializer = import("Serializer")
 local Character = import("Character")
 local utils = import("utils")
+local InfoFace = import("ui/InfoFace")
 
 -- Get the translator function
 local t = Translate:GetTranslator()
@@ -391,7 +392,7 @@ local onClick = function (mission)
 											}),
 		})})
 		:SetColumn(1, {
-			ui:VBox(10):PackEnd(UI.InfoFace.New(mission.client))
+			ui:VBox(10):PackEnd(InfoFace.New(mission.client))
 		})
 end
 

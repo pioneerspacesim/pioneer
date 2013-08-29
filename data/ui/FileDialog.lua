@@ -3,6 +3,7 @@
 
 local Translate = import("Translate")
 local Engine = import("Engine")
+local FileSystem = import("FileSystem")
 
 local ui = Engine.ui
 local t = Translate:GetTranslator()
