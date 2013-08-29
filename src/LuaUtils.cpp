@@ -109,12 +109,12 @@ static int luaopen_utils(lua_State *L)
 
 static void pi_lua_dofile(lua_State *l, const FileSystem::FileData &code, int nret = 0);
 
-static bool _import_core(lua_State *L, const std::string &importname)
+static bool _import_core(lua_State *L, const std::string &importName)
 {
 	LUA_DEBUG_START(L);
 
-	if (!pi_lua_split_table_path(L, importname)) {
-		lua_pushfstring(L, "import_core: %s: not found", importname.c_str());
+	if (!pi_lua_split_table_path(L, importName)) {
+		lua_pushfstring(L, "import_core: %s: not found", importName.c_str());
 		LUA_DEBUG_END(L, 1);
 		return false;
 	}
@@ -127,49 +127,126 @@ static bool _import_core(lua_State *L, const std::string &importname)
 	}
 	lua_pop(L, 2);
 
-	lua_pushfstring(L, "import_core: %s: not found", importname.c_str());
+	lua_pushfstring(L, "import_core: %s: not found", importName.c_str());
 	LUA_DEBUG_END(L, 1);
 	return false;
 }
 
-static bool _import(lua_State *L, const std::string &importname)
+#undef DEBUG_IMPORT
+#ifdef DEBUG_IMPORT
+#define DEBUG_PRINTF printf
+#else
+#define DEBUG_PRINTF(...)
+#endif
+
+static bool _import(lua_State *L, const std::string &importName)
 {
 	LUA_DEBUG_START(L);
 
+	DEBUG_PRINTF("import: request for %s\n", importName.c_str());
+
+	// get the cache of previously imported things
 	lua_getfield(L, LUA_REGISTRYINDEX, "Imports");
 	assert(lua_istable(L, -1));
 
-	lua_getfield(L, -1, importname.c_str());
+	// first check the cache for the explicit name (its there if it was
+	// previously imported from core)
+	std::string cacheName = importName;
+	lua_getfield(L, -1, cacheName.c_str());
 	if (lua_istable(L, -1)) {
+		// found it, use it
+		DEBUG_PRINTF("import: found cached %s\n", cacheName.c_str());
 		lua_remove(L, -2);
 		return 1;
 	}
 	lua_pop(L, 1);
+	DEBUG_PRINTF("import: not cached %s\n", cacheName.c_str());
 
-	std::string path(FileSystem::JoinPath("libs", importname+".lua"));
+	// next we're going to look in libs/
+	cacheName = FileSystem::JoinPath("libs", importName+".lua");
+	lua_getfield(L, -1, cacheName.c_str());
+	if (lua_istable(L, -1)) {
+		// found it, use it
+		DEBUG_PRINTF("import: found cached %s\n", cacheName.c_str());
+		lua_remove(L, -2);
+		return 1;
+	}
+	lua_pop(L, 1);
+	DEBUG_PRINTF("import: not cached %s\n", cacheName.c_str());
 
-	bool want_dofile = true;
-	RefCountedPtr<FileSystem::FileData> code = FileSystem::gameDataFiles.ReadFile(path);
+	RefCountedPtr<FileSystem::FileData> code = FileSystem::gameDataFiles.ReadFile(cacheName);
+
+	// if its not found then we try to find the lib relative to the calling file
 	if (!code) {
-		// no file and no previous import, try for a core import
-		if (!_import_core(L, importname)) {
-			lua_pop(L, 1); // remove import_core error
-			lua_pushfstring(L, "import: %s: could not read file", path.c_str());
-			return false;
+		DEBUG_PRINTF("import: not found %s, trying relative\n", cacheName.c_str());
+
+		lua_Debug ar;
+		lua_getstack(L, 1, &ar);
+		lua_getinfo(L, "S", &ar);
+
+		if (ar.source) {
+			int start = 0;
+			int end = strlen(ar.source);
+
+			if (ar.source[start] != '@' && end > 5)
+				start = 4;
+
+			if (ar.source[start] == '@') {
+				start++;
+
+				static char source[1024];
+				strncpy(source, &ar.source[start], end-start+1);
+				DEBUG_PRINTF("import: called from %s\n", source);
+
+				for (end = end-start-1; end >= 0; end--)
+					if (source[end] == '/') {
+						source[end] = '\0';
+						break;
+					}
+
+				DEBUG_PRINTF("import: relative path %s\n", source);
+
+				cacheName = FileSystem::JoinPath(source, importName+".lua");
+				lua_getfield(L, -1, cacheName.c_str());
+				if (lua_istable(L, -1)) {
+					// found it, use it
+					DEBUG_PRINTF("import: found cached %s\n", cacheName.c_str());
+					lua_remove(L, -2);
+					return 1;
+				}
+				lua_pop(L, 1);
+				DEBUG_PRINTF("import: not cached %s\n", cacheName.c_str());
+
+				code = FileSystem::gameDataFiles.ReadFile(cacheName);
+			}
 		}
-		want_dofile = false;
 	}
 
-	if (want_dofile)
+	if (code) {
+		DEBUG_PRINTF("import: found %s, running\n", cacheName.c_str());
 		pi_lua_dofile(L, *code, 1);
+	}
+
+	else {
+		// file not foudn, try for a core import
+		DEBUG_PRINTF("import: not found %s, trying core\n", cacheName.c_str());
+		if (!_import_core(L, importName)) {
+			lua_pop(L, 1); // remove import_core error
+			lua_pushfstring(L, "import: %s: not found", importName.c_str());
+			return false;
+		}
+		cacheName = importName;
+	}
 
 	if (!lua_istable(L, -1)) {
-		lua_pushfstring(L, "import: %s: did not return a table", path.c_str());
+		lua_pushfstring(L, "import: %s: did not return a table", cacheName.c_str());
 		return false;
 	}
 
+	DEBUG_PRINTF("import: entering %s into cache\n", cacheName.c_str());
+
 	lua_pushvalue(L, -1);
-	lua_setfield(L, -3, importname.c_str());
+	lua_setfield(L, -3, cacheName.c_str());
 
 	lua_remove(L, -2);
 
@@ -185,9 +262,9 @@ static int l_base_import(lua_State *L)
 	return 1;
 }
 
-bool pi_lua_import(lua_State *L, const std::string &importname)
+bool pi_lua_import(lua_State *L, const std::string &importName)
 {
-	if (!_import(L, importname)) {
+	if (!_import(L, importName)) {
 		fprintf(stderr, "%s\n", lua_tostring(L, -1));
 		lua_pop(L, 1);
 		return false;
