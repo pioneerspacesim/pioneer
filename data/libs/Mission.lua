@@ -2,6 +2,7 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Translate = import("Translate")
+local Serializer = import("Serializer")
 
 --
 -- Class: Mission
@@ -347,5 +348,7 @@ Mission.meta = {
 	__index = Mission,
 	class = "Mission",
 }
+
+Serializer:RegisterClass("Mission", Mission)
 
 return Mission

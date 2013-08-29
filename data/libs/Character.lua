@@ -1175,5 +1175,6 @@ end
 
 Event.Register("onGameStart", onGameStart)
 Serializer:Register("Characters", serialize, unserialize)
+Serializer:RegisterClass("Character", Character)
 
 return Character
