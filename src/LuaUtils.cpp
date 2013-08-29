@@ -238,8 +238,8 @@ static bool _import(lua_State *L, const std::string &importName)
 		cacheName = importName;
 	}
 
-	if (!lua_istable(L, -1)) {
-		lua_pushfstring(L, "import: %s: did not return a table", cacheName.c_str());
+	if (lua_isnil(L, -1)) {
+		lua_pushfstring(L, "import: %s: did not return anything", cacheName.c_str());
 		return false;
 	}
 
