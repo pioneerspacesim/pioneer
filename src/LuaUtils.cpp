@@ -120,7 +120,7 @@ static bool _import_core(lua_State *L, const std::string &importName)
 	}
 
 	lua_rawget(L, -2);
-	if (lua_istable(L, -1)) {
+	if (!lua_isnil(L, -1)) {
 		lua_remove(L, -2);
 		LUA_DEBUG_END(L, 1);
 		return true;
@@ -153,7 +153,7 @@ static bool _import(lua_State *L, const std::string &importName)
 	// previously imported from core)
 	std::string cacheName = importName;
 	lua_getfield(L, -1, cacheName.c_str());
-	if (lua_istable(L, -1)) {
+	if (!lua_isnil(L, -1)) {
 		// found it, use it
 		DEBUG_PRINTF("import: found cached %s\n", cacheName.c_str());
 		lua_remove(L, -2);
@@ -165,7 +165,7 @@ static bool _import(lua_State *L, const std::string &importName)
 	// next we're going to look in libs/
 	cacheName = FileSystem::JoinPath("libs", importName+".lua");
 	lua_getfield(L, -1, cacheName.c_str());
-	if (lua_istable(L, -1)) {
+	if (!lua_isnil(L, -1)) {
 		// found it, use it
 		DEBUG_PRINTF("import: found cached %s\n", cacheName.c_str());
 		lua_remove(L, -2);
@@ -208,7 +208,7 @@ static bool _import(lua_State *L, const std::string &importName)
 
 				cacheName = FileSystem::JoinPath(source, importName+".lua");
 				lua_getfield(L, -1, cacheName.c_str());
-				if (lua_istable(L, -1)) {
+				if (!lua_isnil(L, -1)) {
 					// found it, use it
 					DEBUG_PRINTF("import: found cached %s\n", cacheName.c_str());
 					lua_remove(L, -2);
