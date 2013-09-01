@@ -107,6 +107,178 @@ static int luaopen_utils(lua_State *L)
 	return 1;
 }
 
+static void pi_lua_dofile(lua_State *l, const FileSystem::FileData &code, int nret = 0);
+
+static bool _import_core(lua_State *L, const std::string &importName)
+{
+	LUA_DEBUG_START(L);
+
+	if (!pi_lua_split_table_path(L, importName)) {
+		lua_pushfstring(L, "import_core: %s: not found", importName.c_str());
+		LUA_DEBUG_END(L, 1);
+		return false;
+	}
+
+	lua_rawget(L, -2);
+	if (!lua_isnil(L, -1)) {
+		lua_remove(L, -2);
+		LUA_DEBUG_END(L, 1);
+		return true;
+	}
+	lua_pop(L, 2);
+
+	lua_pushfstring(L, "import_core: %s: not found", importName.c_str());
+	LUA_DEBUG_END(L, 1);
+	return false;
+}
+
+#undef DEBUG_IMPORT
+#ifdef DEBUG_IMPORT
+#define DEBUG_PRINTF printf
+#else
+#define DEBUG_PRINTF(...)
+#endif
+
+static bool _import(lua_State *L, const std::string &importName)
+{
+	LUA_DEBUG_START(L);
+
+	DEBUG_PRINTF("import: request for %s\n", importName.c_str());
+
+	// get the cache of previously imported things
+	lua_getfield(L, LUA_REGISTRYINDEX, "Imports");
+	assert(lua_istable(L, -1));
+
+	// first check the cache for the explicit name (its there if it was
+	// previously imported from core)
+	std::string cacheName = importName;
+	lua_getfield(L, -1, cacheName.c_str());
+	if (!lua_isnil(L, -1)) {
+		// found it, use it
+		DEBUG_PRINTF("import: found cached %s\n", cacheName.c_str());
+		lua_remove(L, -2);
+		return 1;
+	}
+	lua_pop(L, 1);
+	DEBUG_PRINTF("import: not cached %s\n", cacheName.c_str());
+
+	// next we're going to look in libs/
+	cacheName = FileSystem::JoinPath("libs", importName+".lua");
+	lua_getfield(L, -1, cacheName.c_str());
+	if (!lua_isnil(L, -1)) {
+		// found it, use it
+		DEBUG_PRINTF("import: found cached %s\n", cacheName.c_str());
+		lua_remove(L, -2);
+		return 1;
+	}
+	lua_pop(L, 1);
+	DEBUG_PRINTF("import: not cached %s\n", cacheName.c_str());
+
+	RefCountedPtr<FileSystem::FileData> code = FileSystem::gameDataFiles.ReadFile(cacheName);
+
+	// if its not found then we try to find the lib relative to the calling file
+	if (!code) {
+		DEBUG_PRINTF("import: not found %s, trying relative\n", cacheName.c_str());
+
+		lua_Debug ar;
+		lua_getstack(L, 1, &ar);
+		lua_getinfo(L, "S", &ar);
+
+		if (ar.source) {
+			int start = 0;
+			int end = strlen(ar.source);
+
+			if (ar.source[start] != '@' && end > 5)
+				start = 4;
+
+			if (ar.source[start] == '@') {
+				start++;
+
+				static char source[1024];
+				strncpy(source, &ar.source[start], end-start+1);
+				DEBUG_PRINTF("import: called from %s\n", source);
+
+				for (end = end-start-1; end >= 0; end--)
+					if (source[end] == '/') {
+						source[end] = '\0';
+						break;
+					}
+
+				DEBUG_PRINTF("import: relative path %s\n", source);
+
+				cacheName = FileSystem::JoinPath(source, importName+".lua");
+				lua_getfield(L, -1, cacheName.c_str());
+				if (!lua_isnil(L, -1)) {
+					// found it, use it
+					DEBUG_PRINTF("import: found cached %s\n", cacheName.c_str());
+					lua_remove(L, -2);
+					return 1;
+				}
+				lua_pop(L, 1);
+				DEBUG_PRINTF("import: not cached %s\n", cacheName.c_str());
+
+				code = FileSystem::gameDataFiles.ReadFile(cacheName);
+			}
+		}
+	}
+
+	if (code) {
+		DEBUG_PRINTF("import: found %s, running\n", cacheName.c_str());
+		pi_lua_dofile(L, *code, 1);
+	}
+
+	else {
+		// file not foudn, try for a core import
+		DEBUG_PRINTF("import: not found %s, trying core\n", cacheName.c_str());
+		if (!_import_core(L, importName)) {
+			lua_pop(L, 1); // remove import_core error
+			lua_pushfstring(L, "import: %s: not found", importName.c_str());
+			return false;
+		}
+		cacheName = importName;
+	}
+
+	if (lua_isnil(L, -1)) {
+		lua_pushfstring(L, "import: %s: did not return anything", cacheName.c_str());
+		return false;
+	}
+
+	DEBUG_PRINTF("import: entering %s into cache\n", cacheName.c_str());
+
+	lua_pushvalue(L, -1);
+	lua_setfield(L, -3, cacheName.c_str());
+
+	lua_remove(L, -2);
+
+	LUA_DEBUG_END(L, 1);
+
+	return true;
+}
+
+static int l_base_import(lua_State *L)
+{
+	if (!_import(L, luaL_checkstring(L, 1)))
+		return lua_error(L);
+	return 1;
+}
+
+bool pi_lua_import(lua_State *L, const std::string &importName)
+{
+	if (!_import(L, importName)) {
+		fprintf(stderr, "%s\n", lua_tostring(L, -1));
+		lua_pop(L, 1);
+		return false;
+	}
+	return true;
+}
+
+static int l_base_import_core(lua_State *L)
+{
+	if (!_import_core(L, luaL_checkstring(L, 1)))
+		return lua_error(L);
+	return 1;
+}
+
 static const luaL_Reg STANDARD_LIBS[] = {
 	{ "_G", luaopen_base },
 	{ LUA_COLIBNAME, luaopen_coroutine },
@@ -140,6 +312,8 @@ static const luaL_Reg STANDARD_LIBS[] = {
 //  - dofile(), loadfile(), load(): same reason as the package library
 
 // extra/custom functionality:
+//  - import(): library/dependency loader
+//  - import_core(): lowlevel library/dependency loader
 //  - math.rad is aliased as math.deg2rad: I prefer the explicit name
 //  - util.hash_random(): a repeatable, safe, hash function based source of
 //    variation
@@ -160,6 +334,20 @@ void pi_lua_open_standard_base(lua_State *L)
 	lua_setglobal(L, "load");
 	lua_pushnil(L);
 	lua_setglobal(L, "loadstring");
+
+
+	// import table and function
+	lua_newtable(L);
+	lua_setfield(L, LUA_REGISTRYINDEX, "Imports");
+	lua_pushcfunction(L, l_base_import);
+	lua_setglobal(L, "import");
+
+	// same for core imports
+	lua_newtable(L);
+	lua_setfield(L, LUA_REGISTRYINDEX, "CoreImports");
+	lua_pushcfunction(L, l_base_import_core);
+	lua_setglobal(L, "import_core");
+
 
 	// standard library adjustments (math library)
 	lua_getglobal(L, LUA_MATHLIBNAME);
@@ -292,7 +480,7 @@ void pi_lua_protected_call(lua_State* L, int nargs, int nresults) {
 	}
 }
 
-static void pi_lua_dofile(lua_State *l, const FileSystem::FileData &code)
+static void pi_lua_dofile(lua_State *l, const FileSystem::FileData &code, int nret)
 {
 	assert(l);
 	LUA_DEBUG_START(l);
@@ -312,10 +500,11 @@ static void pi_lua_dofile(lua_State *l, const FileSystem::FileData &code)
 	bool trusted = code.GetInfo().GetSource().IsTrusted();
 	const std::string chunkName = (trusted ? "[T] @" : "@") + path;
 
+	int panicidx = lua_absindex(l, -1);
 	if (luaL_loadbuffer(l, source.begin, source.Size(), chunkName.c_str())) {
 		pi_lua_panic(l);
 	} else {
-		int ret = lua_pcall(l, 0, 0, -2);
+		int ret = lua_pcall(l, 0, nret, -2);
 		if (ret) {
 			const char *emsg = lua_tostring(l, -1);
 			if (emsg) { fprintf(stderr, "lua error: %s\n", emsg); }
@@ -337,8 +526,8 @@ static void pi_lua_dofile(lua_State *l, const FileSystem::FileData &code)
 			lua_pop(l, 1);
 		}
 	}
-	lua_pop(l, 1);
-	LUA_DEBUG_END(l, 0);
+	lua_remove(l, panicidx);
+	LUA_DEBUG_END(l, nret);
 }
 
 void pi_lua_dofile(lua_State *l, const std::string &path)
@@ -349,6 +538,7 @@ void pi_lua_dofile(lua_State *l, const std::string &path)
 	RefCountedPtr<FileSystem::FileData> code = FileSystem::gameDataFiles.ReadFile(path);
 	if (!code) {
 		fprintf(stderr, "could not read Lua file '%s'\n", path.c_str());
+		return;
 	}
 
 	pi_lua_dofile(l, *code);
@@ -397,4 +587,61 @@ void pi_lua_warn(lua_State *l, const char *format, ...)
 			(info.name ? info.name : "<unknown>"), info.what);
 		++level;
 	}
+}
+
+// drill down from global looking for the appropriate table for the given
+// path. returns with the table and the last fragment on the stack, ready for
+// get/set a value in the table with that key.
+// eg foo.bar.baz results in something like _G.foo = { bar = {} }, with the
+// "bar" table left at -2 and "baz" at -1.
+// returns true if "bar" table found, false otherwise
+bool pi_lua_split_table_path(lua_State *l, const std::string &path)
+{
+	LUA_DEBUG_START(l);
+
+	const char delim = '.';
+
+	std::string last;
+
+	lua_getfield(l, LUA_REGISTRYINDEX, "CoreImports");
+
+	size_t start = 0, end = 0;
+	while (end != std::string::npos) {
+		// get to the first non-delim char
+		start = path.find_first_not_of(delim, end);
+
+		// read the end, no more to do
+		if (start == std::string::npos)
+			break;
+
+		// have a fragment from last time, get the next table
+		if (!last.empty()) {
+			luaL_getsubtable(l, -1, last.c_str());
+			if (lua_isnil(l, -1)) {
+				LUA_DEBUG_END(l, 0);
+				return false;
+			}
+			assert(lua_istable(l, -1));
+			lua_remove(l, -2);
+		}
+
+		// find the end - next delim or end of string
+		end = path.find_first_of(delim, start);
+
+		// extract the fragment and remember it
+		last = path.substr(start, (end == std::string::npos) ? std::string::npos : end - start);
+	}
+
+	if (last.empty()) {
+		LUA_DEBUG_END(l, 0);
+		return false;
+	}
+
+	assert(!last.empty());
+
+	lua_pushlstring(l, last.c_str(), last.size());
+
+	LUA_DEBUG_END(l, 2);
+
+	return true;
 }

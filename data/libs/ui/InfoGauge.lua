@@ -1,11 +1,13 @@
 -- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+local Engine = import("Engine")
+
 local ui = Engine.ui
 
-UI.InfoGauge = {
+local InfoGauge = {}
 
-New = function (args)
+function InfoGauge.New (args)
 	args = args or {}
 
 	local formatter = args.formatter or function (v) return string.format("%.2f / 1.00", v) end
@@ -30,16 +32,16 @@ New = function (args)
     }
 
 	setmetatable(self, {
-		__index = UI.InfoGauge,
+		__index = InfoGauge,
 		class = "UI.InfoGauge",
 	})
 
 	return self
-end,
+end
 
-SetValue = function (self, v)
+function InfoGauge.SetValue (self, v)
 	self.gauge:SetValue(v)
 	self.label:SetText(self.formatter(v))
 end
 
-}
+return InfoGauge
