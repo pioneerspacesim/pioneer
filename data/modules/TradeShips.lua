@@ -9,6 +9,7 @@ local ShipType = import("ShipType")
 local Timer = import("Timer")
 local Event = import("Event")
 local Serializer = import("Serializer")
+local ShipDef = import("ShipDef")
 local utils = import("utils")
 
 --[[

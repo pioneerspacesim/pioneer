@@ -4,6 +4,7 @@
 local Translate = import("Translate")
 local Engine = import("Engine")
 local Game = import("Game")
+local EquipDef = import("EquipDef")
 
 local SmallLabeledButton = import("ui/SmallLabeledButton")
 local InfoGauge = import("ui/InfoGauge")

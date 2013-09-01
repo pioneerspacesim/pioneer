@@ -6,6 +6,8 @@ local Game = import("Game")
 local Space = import("Space")
 local Event = import("Event")
 local ShipType = import("ShipType")
+local EquipDef = import("EquipDef")
+local ShipDef = import("ShipDef")
 local utils = import("utils")
 
 local onEnterSystem = function (player)

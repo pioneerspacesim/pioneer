@@ -15,7 +15,10 @@ local NameGen = import("NameGen")
 local Character = import("Character")
 local Format = import("Format")
 local Serializer = import("Serializer")
+local EquipDef = import("EquipDef")
+local ShipDef = import("ShipDef")
 local utils = import("utils")
+
 local InfoFace = import("ui/InfoFace")
 
 -- Get the translator function

@@ -5,6 +5,8 @@ local Translate = import("Translate")
 local Engine = import("Engine")
 local Game = import("Game")
 local ShipType = import("ShipType")
+local EquipDef = import("EquipDef")
+local ShipDef = import("ShipDef")
 
 local ModelSpinner = import("UI.Game.ModelSpinner")
 
