@@ -1,0 +1,22 @@
+# MTL written from C:\Users\rivalin\Desktop\pioneer\data\models\buildings\terran_metropolis2\metropolis_building_1.obj
+newmtl foundation
+Kd 0.556962 0.530468 0.490287
+Ns 256
+d 1
+illum 2
+Ka 0 0 0
+Ks 0.02 0.02 0.02
+newmtl wall
+Kd 0.175616 0.175616 0.175616
+Ns 256
+d 1
+illum 2
+Ka 0 0 0
+Ks 0.18 0.18 0.18
+newmtl window
+Kd 0.0526031 0.30702 0.8
+Ns 256
+d 1
+illum 2
+Ka 0.290742 0.415289 1
+Ks 0.5 0.5 0.5

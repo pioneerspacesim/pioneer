@@ -1,0 +1,12 @@
+material material1
+tex_diff diff.dds
+tex_glow glow.dds
+tex_spec spec.dds
+
+diffuse 1.0 1.0 1.0
+specular 1.0 1.0 1.0
+shininess 80
+
+mesh high_development_building_3.obj
+
+collision high_development_building_3_collision.obj

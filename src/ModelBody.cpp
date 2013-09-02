@@ -159,7 +159,7 @@ void ModelBody::SetFrame(Frame *f)
 //    * As suns set the split is biased towards ambient
 void ModelBody::CalcLighting(double &ambient, double &direct, const Camera *camera)
 {
-	const double minAmbient = 0.05;
+	const double minAmbient = 0.20;
 	ambient = minAmbient;
 	direct = 1.0;
 	Body *astro = GetFrame()->GetBody();
