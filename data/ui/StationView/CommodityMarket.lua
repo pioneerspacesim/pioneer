@@ -36,6 +36,9 @@ local commodityMarket = function (args)
 	local stationTable, shipTable = EquipmentTableWidgets.Pair({
 		station = station,
 
+		stationColumns = { "icon", "name", "price", "stock" },
+		shipColumns = { "icon", "name", "amount" },
+
 		isValidSlot = function (slot) return slot == "CARGO" end,
 
 		onBuy = function (e)
