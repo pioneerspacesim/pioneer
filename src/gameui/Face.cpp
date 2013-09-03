@@ -5,6 +5,7 @@
 #include "FileSystem.h"
 #include "SDLWrappers.h"
 #include "graphics/TextureBuilder.h"
+#include "FaceGenManager.h"
 
 using namespace UI;
 
@@ -13,38 +14,17 @@ namespace GameUI {
 static const Uint32 FACE_WIDTH = 295;
 static const Uint32 FACE_HEIGHT = 285;
 
-// XXX these shouldn't really be hardcoded. it'd be much nicer to poke through
-// the facegen/ dir and figure out what we've got available. that or some
-// config file
-static const Uint32 MAX_HEAD = 20;
-static const Uint32 MAX_EYES = 20;
-static const Uint32 MAX_NOSE = 20;
-static const Uint32 MAX_MOUTH = 20;
-static const Uint32 MAX_HAIR = 20;
-
-static const Uint32 MAX_CLOTHES = 20;
-static const Uint32 MAX_ARMOUR = 3;
-static const Uint32 MAX_ACCESSORIES = 16;
-
-static const Uint32 MAX_BACKGROUND = 18;
-
 RefCountedPtr<Graphics::Material> Face::s_material;
 
-static void _blit_image(SDL_Surface *s, const char *filename, int xoff, int yoff)
+static void _blit_image(const SDLSurfacePtr &s, SDLSurfacePtr &is, int xoff, int yoff)
 {
-	SDLSurfacePtr is = LoadSurfaceFromFile(filename);
 	// XXX what should this do if the image couldn't be loaded?
 	if (! is) { return; }
 
 	SDL_Rect destrec = { 0, 0, 0, 0 };
 	destrec.x = ((FACE_WIDTH-is->w)/2)+xoff;
 	destrec.y = yoff;
-	SDL_BlitSurface(is.Get(), 0, s, &destrec);
-}
-
-static void _blit_image(const SDLSurfacePtr &s, const char *filename, int xoff, int yoff)
-{
-	_blit_image(s.Get(), filename, xoff, yoff);
+	SDL_BlitSurface(is.Get(), 0, s.Get(), &destrec);
 }
 
 Face::Face(Context *context, Uint32 flags, Uint32 seed) : Single(context)
@@ -71,54 +51,42 @@ Face::Face(Context *context, Uint32 flags, Uint32 seed) : Single(context)
 			break;
 	}
 
-	int head  = rand.Int32(0,MAX_HEAD);
-	int eyes  = rand.Int32(0,MAX_EYES);
-	int nose  = rand.Int32(0,MAX_NOSE);
-	int mouth = rand.Int32(0,MAX_MOUTH);
-	int hair  = rand.Int32(0,MAX_HAIR);
+	const int head  = rand.Int32(1,FaceGenManager::NumHeads(race))-1;
+	const int eyes  = rand.Int32(1,FaceGenManager::NumEyes(race))-1;
+	const int nose  = rand.Int32(1,FaceGenManager::NumNoses(race))-1;
+	const int mouth = rand.Int32(1,FaceGenManager::NumMouths(race))-1;
+	const int hair  = rand.Int32(1,FaceGenManager::NumHairstyles(race))-1;
 
-	int clothes = rand.Int32(0,MAX_CLOTHES);
-
-	int armour = rand.Int32(0,MAX_ARMOUR);
-
-	int accessories = rand.Int32(0,MAX_ACCESSORIES);
-
-	int background = rand.Int32(0,MAX_BACKGROUND);
-
-	char filename[1024];
+	const int clothes		= rand.Int32(1,FaceGenManager::NumClothes())-1;
+	const int armour		= rand.Int32(1,FaceGenManager::NumArmour())-1;
+	const int accessories	= rand.Int32(1,FaceGenManager::NumAccessories())-1;
+	const int background	= rand.Int32(1,FaceGenManager::NumBackground())-1;
+	
+	FaceGenManager::TQueryResult res;
+	FaceGenManager::GetImagesForCharacter(res, race, gender, head, eyes, 
+		nose, mouth, hair, clothes, armour, accessories, background);
 
 	SDLSurfacePtr faceim = SDLSurfacePtr::WrapNew(SDL_CreateRGBSurface(SDL_SWSURFACE, FACE_WIDTH, FACE_HEIGHT, 24, 0xff, 0xff00, 0xff0000, 0));
 
-	snprintf(filename, sizeof(filename), "facegen/backgrounds/background_%d.png", background);
-	_blit_image(faceim, filename, 0, 0);
-
-	snprintf(filename, sizeof(filename), "facegen/race_%d/head/head_%d_%d.png", race, gender, head);
-	_blit_image(faceim, filename, 0, 0);
+	_blit_image(faceim, res.mBackground, 0, 0);
+	_blit_image(faceim, res.mHead, 0, 0);
 
 	if (!(flags & ARMOUR)) {
-		snprintf(filename, sizeof(filename), "facegen/clothes/cloth_%d_%d.png", gender, clothes);
-		_blit_image(faceim, filename, 0, 135);
+		_blit_image(faceim, res.mClothes, 0, 135);
 	}
 
-	snprintf(filename, sizeof(filename), "facegen/race_%d/eyes/eyes_%d_%d.png", race, gender, eyes);
-	_blit_image(faceim, filename, 0, 41);
-
-	snprintf(filename, sizeof(filename), "facegen/race_%d/nose/nose_%d_%d.png", race, gender, nose);
-	_blit_image(faceim, filename, 1, 89);
-
-	snprintf(filename, sizeof(filename), "facegen/race_%d/mouth/mouth_%d_%d.png", race, gender, mouth);
-	_blit_image(faceim, filename, 0, 155);
+	_blit_image(faceim, res.mEyes, 0, 41);
+	_blit_image(faceim, res.mNose, 1, 89);
+	_blit_image(faceim, res.mMouth, 0, 155);
 
 	if (!(flags & ARMOUR)) {
-		snprintf(filename, sizeof(filename), "facegen/accessories/acc_%d.png", accessories);
-		if (rand.Int32(0,1)>0)	_blit_image(faceim, filename, 0, 0);
+		if (rand.Int32(0,1)>0)
+			_blit_image(faceim, res.mAccessories, 0, 0);
 
-		snprintf(filename, sizeof(filename), "facegen/race_%d/hair/hair_%d_%d.png", race, gender, hair);
-		_blit_image(faceim, filename, 0, 0);
+		_blit_image(faceim, res.mHairstyle, 0, 0);
 	}
 	else {
-		snprintf(filename, sizeof(filename), "facegen/clothes/armour_%d.png", armour);
-		_blit_image(faceim, filename, 0, 0);
+		_blit_image(faceim, res.mArmour, 0, 0);
 	}
 
 	m_texture.Reset(Graphics::TextureBuilder(faceim, Graphics::LINEAR_CLAMP, true, true).CreateTexture(GetContext()->GetRenderer()));
