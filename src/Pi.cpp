@@ -362,6 +362,8 @@ void Pi::Init()
 	draw_progress(gauge, label, 0.2f);
 
 	FaceGenManager::Init();
+	draw_progress(gauge, label, 0.25f);
+
 	Faction::Init();
 	draw_progress(gauge, label, 0.3f);
 
@@ -559,6 +561,7 @@ void Pi::Quit()
 	GeoSphere::Uninit();
 	Galaxy::Uninit();
 	Faction::Uninit();
+	FaceGenManager::Destroy();
 	CustomSystem::Uninit();
 	Graphics::Uninit();
 	Pi::ui.Reset(0);

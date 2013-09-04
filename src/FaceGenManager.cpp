@@ -156,6 +156,8 @@ void FaceGenManager::Init()
 		snprintf(filename, sizeof(filename), "facegen/backgrounds/background_%d.png", background);
 		LoadImage(std::string(filename), m_background);
 	}
+
+	printf("Face Generation source images loaded.\n");
 }
 
 //static

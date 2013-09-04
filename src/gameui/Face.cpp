@@ -35,7 +35,7 @@ Face::Face(Context *context, Uint32 flags, Uint32 seed) : Single(context)
 	m_flags = flags;
 	m_seed = seed;
 
-	int race = rand.Int32(0,2);
+	const int race = rand.Int32(0,2);
 
 	int gender;
 	switch (flags & GENDER_MASK) {
