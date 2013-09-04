@@ -1,31 +1,34 @@
 // Configuration options
 {
-	"num_races" : 3,
-	"race_0" : { 
-		"Heads" : 20,
-		"Eyes" : 20,
-		"Noses" : 20,
-		"Mouths" : 20,
-		"Hairs" : 20
-		},
-	"race_1" : { 
-		"Heads" : 20,
-		"Eyes" : 20,
-		"Noses" : 20,
-		"Mouths" : 20,
-		"Hairs" : 20
-		},
-	"race_2" : { 
-		"Heads" : 20,
-		"Eyes" : 20,
-		"Noses" : 20,
-		"Mouths" : 20,
-		"Hairs" : 20
-		},
-	
-	
-	"Clothes" : 20,
-	"Armours" : 3,
-	"Accessories" : 16,
-	"Backgrounds" : 18
+	"num_species" : 1,
+	"species_0" : {
+		"num_genders" : 2,
+		"num_races" : 3,
+		"race_0" : { 
+			"Heads" : 20,
+			"Eyes" : 20,
+			"Noses" : 20,
+			"Mouths" : 20,
+			"Hairs" : 20
+			},
+		"race_1" : { 
+			"Heads" : 20,
+			"Eyes" : 20,
+			"Noses" : 20,
+			"Mouths" : 20,
+			"Hairs" : 20
+			},
+		"race_2" : { 
+			"Heads" : 20,
+			"Eyes" : 20,
+			"Noses" : 20,
+			"Mouths" : 20,
+			"Hairs" : 20
+			},
+		
+		"Clothes" : 20,
+		"Armours" : 3,
+		"Accessories" : 16,
+		"Backgrounds" : 18
+		}
 }
