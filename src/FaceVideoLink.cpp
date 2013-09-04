@@ -28,7 +28,7 @@ static void _blit_image(const SDLSurfacePtr &s, SDLSurfacePtr &is, int xoff, int
 	destrec.y = yoff;
 	SDL_BlitSurface(is.Get(), 0, s.Get(), &destrec);
 }
-#pragma optimize("",off)
+
 FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed,
 	const std::string &name, const std::string &title) : VideoLink(w, h)
 {
