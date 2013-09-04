@@ -9,6 +9,7 @@
 #include "SDLWrappers.h"
 
 // fwd decl'
+class Species;
 class Race;
 
 class FaceGenManager
@@ -29,36 +30,28 @@ public:
 	static void Init();
 	static void Destroy();
 
-	// race dependent attributes
-	static Sint32 NumRaces() { return m_races.size(); }
-	static Sint32 NumHeads(const Sint32 raceIdx);
-	static Sint32 NumEyes(const Sint32 raceIdx);
-	static Sint32 NumNoses(const Sint32 raceIdx);
-	static Sint32 NumMouths(const Sint32 raceIdx);
-	static Sint32 NumHairstyles(const Sint32 raceIdx);
+	// species & race dependent attributes
+	static Sint32 NumGenders(const Sint32 speciesIdx);
+	static Sint32 NumRaces(const Sint32 speciesIdx);
+	static Sint32 NumHeads(const Sint32 speciesIdx, const Sint32 raceIdx);
+	static Sint32 NumEyes(const Sint32 speciesIdx, const Sint32 raceIdx);
+	static Sint32 NumNoses(const Sint32 speciesIdx, const Sint32 raceIdx);
+	static Sint32 NumMouths(const Sint32 speciesIdx, const Sint32 raceIdx);
+	static Sint32 NumHairstyles(const Sint32 speciesIdx, const Sint32 raceIdx);
 
-	// generic attributes
-	static Sint8 NumClothes() { return m_numClothes; }
-	static Sint8 NumArmour() { return m_numArmour; }
-	static Sint8 NumAccessories() { return m_numAccessories; }
-	static Sint8 NumBackground() { return m_numBackground; }
+	// species generic attributes
+	static Sint8 NumClothes(const Sint32 speciesIdx);
+	static Sint8 NumArmour(const Sint32 speciesIdx);
+	static Sint8 NumAccessories(const Sint32 speciesIdx);
+	static Sint8 NumBackground(const Sint32 speciesIdx);
 
-	static void GetImagesForCharacter( TQueryResult& out, const int race, const int gender, const int head, const int eyes,
+	static void GetImagesForCharacter( TQueryResult& out, const Sint32 speciesIdx, const int race, const int gender, const int head, const int eyes,
 		const int nose, const int mouth, const int hair, const int clothes, const int armour,
 		const int accessories, const int background );
+
+	static void BlitFaceIm( SDLSurfacePtr &faceim, Sint8 &genderOut, const Uint32 flags, const Uint32 seed );
 private:
-
-	static Sint8 m_numClothes;
-	static Sint8 m_numArmour;
-	static Sint8 m_numAccessories;
-	static Sint8 m_numBackground;
-
-	static std::vector<Race*> m_races;
-
-	static std::vector<SDLSurfacePtr> m_clothes;
-	static std::vector<SDLSurfacePtr> m_armour;
-	static std::vector<SDLSurfacePtr> m_accessories;
-	static std::vector<SDLSurfacePtr> m_background;
+	static std::vector<Species*> m_species;
 };
 
 #endif
