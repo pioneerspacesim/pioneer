@@ -110,6 +110,10 @@ Pioneer includes the following third-party software:
          Copyright (C) 2006, 2007 Michael P. Jung
   GTL and PicoDDS are licensed under the zlib License
     (see contrib/PicoDDS/PicoDDS.h)
+	
+  jsoncpp
+  Copyright (c) 2007-2010 Baptiste Lepilleur
+  Licensed under the MIT licence (see contrib/json/json.h)
 
   Titillium Text font
   Copyright (C) 2007-2009 Academia di Belle Arte di Urbino - Campivisivi

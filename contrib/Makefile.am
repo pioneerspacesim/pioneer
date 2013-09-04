@@ -1,1 +1,1 @@
-SUBDIRS = lua miniz jenkins PicoDDS vcacheopt
+SUBDIRS = lua miniz jenkins json PicoDDS vcacheopt

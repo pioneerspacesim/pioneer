@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Windows Desktop
+# Visual Studio Express 2013 for Windows Desktop
+VisualStudioVersion = 12.0.20623.1 VSUPREVIEW
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pioneer", "pioneer.vcxproj", "{65A1BBFB-7A42-497C-BF65-A0A06664A204}"
 	ProjectSection(ProjectDependencies) = postProject
 		{869EEE1B-C824-4EEF-8AB0-2C95507406DE} = {869EEE1B-C824-4EEF-8AB0-2C95507406DE}
@@ -52,6 +54,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "scenegraph", "newmodel\newm
 	ProjectSection(ProjectDependencies) = postProject
 		{DED0A0AD-E7B8-42EF-83DB-EDAE7E2443EE} = {DED0A0AD-E7B8-42EF-83DB-EDAE7E2443EE}
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "json", "json\json.vcxproj", "{026FC030-0192-4582-B1AF-F9AADF4D73AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -138,6 +142,12 @@ Global
 		{E34F7DBC-F23D-481A-B920-E53F56C53EE8}.PreRelease|Win32.Build.0 = PreRelease|Win32
 		{E34F7DBC-F23D-481A-B920-E53F56C53EE8}.Release|Win32.ActiveCfg = Release|Win32
 		{E34F7DBC-F23D-481A-B920-E53F56C53EE8}.Release|Win32.Build.0 = Release|Win32
+		{026FC030-0192-4582-B1AF-F9AADF4D73AD}.Debug|Win32.ActiveCfg = Debug|Win32
+		{026FC030-0192-4582-B1AF-F9AADF4D73AD}.Debug|Win32.Build.0 = Debug|Win32
+		{026FC030-0192-4582-B1AF-F9AADF4D73AD}.PreRelease|Win32.ActiveCfg = PreRelease|Win32
+		{026FC030-0192-4582-B1AF-F9AADF4D73AD}.PreRelease|Win32.Build.0 = PreRelease|Win32
+		{026FC030-0192-4582-B1AF-F9AADF4D73AD}.Release|Win32.ActiveCfg = Release|Win32
+		{026FC030-0192-4582-B1AF-F9AADF4D73AD}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

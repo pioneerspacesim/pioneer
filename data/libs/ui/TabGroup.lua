@@ -1,3 +1,6 @@
+-- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 local normalColor = { r=0.5, g=0.5, b=0.5, a=1.0 }
 local hoverColor  = { r=0.8, g=0.8, b=0.8, a=1.0 }
 local activeColor = { r=1.0, g=1.0, b=1.0, a=1.0 }
