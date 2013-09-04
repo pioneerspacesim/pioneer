@@ -19,7 +19,6 @@ RefCountedPtr<Graphics::Material> Face::s_material;
 Face::Face(Context *context, Uint32 flags, Uint32 seed) : Single(context)
 {
 	if (!seed) seed = time(0);
-	Random rand(seed);
 
 	m_flags = flags;
 	m_seed = seed;
