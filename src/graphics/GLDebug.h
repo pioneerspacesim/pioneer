@@ -86,7 +86,10 @@ namespace Graphics {
 	public:
 		//register the callback function, if the extension is available
 		static void Enable() {
-			if (!glewIsSupported("GL_KHR_debug")) return;
+			if (!glewIsSupported("GL_KHR_debug")) {
+				printf("GL_KHR_debug is not supported; GLDebug will not work");
+				return;
+			}
 
 			glEnable(GL_DEBUG_OUTPUT);
 			glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS_ARB);

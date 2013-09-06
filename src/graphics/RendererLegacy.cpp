@@ -14,15 +14,11 @@
 #include "Texture.h"
 #include "TextureGL.h"
 #include "VertexArray.h"
+#include "GLDebug.h"
 #include <stddef.h> //for offsetof
 #include <ostream>
 #include <sstream>
 #include <iterator>
-
-//#define EXTRA_GL_DEBUG 1
-#ifdef EXTRA_GL_DEBUG
-#include "GLDebug.h"
-#endif
 
 namespace Graphics {
 
@@ -76,9 +72,8 @@ RendererLegacy::RendererLegacy(const Graphics::Settings &vs)
 	SetClearColor(Color(0.f));
 	SetViewport(0, 0, m_width, m_height);
 
-#ifdef EXTRA_GL_DEBUG
-	GLDebug::Enable();
-#endif
+	if (vs.enableDebugMessages)
+		GLDebug::Enable();
 }
 
 RendererLegacy::~RendererLegacy()
@@ -130,7 +125,6 @@ static std::string glerr_to_string(GLenum err)
 bool RendererLegacy::SwapBuffers()
 {
 #ifndef NDEBUG
-#ifndef EXTRA_GL_DEBUG
 	// Check if an error occurred during the frame. This is not very useful for
 	// determining *where* the error happened. For that purpose, try GDebugger or
 	// the GL_KHR_DEBUG extension
@@ -145,7 +139,6 @@ bool RendererLegacy::SwapBuffers()
 		}
 		OS::Error("%s", ss.str().c_str());
 	}
-#endif
 #endif
 
 	SDL_GL_SwapBuffers();
