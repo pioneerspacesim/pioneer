@@ -8,6 +8,10 @@
 -- player. Can be used by scripts to find out where the player has been
 -- recently.
 
+local Game = import("Game")
+local Event = import("Event")
+local Format = import("Format")
+local Serializer = import("Serializer")
 
 -- default values (private)
 local FlightLogSystemQueueLength = 1000
@@ -17,6 +21,7 @@ local FlightLogStationQueueLength = 1000
 local FlightLogSystem = {}
 local FlightLogStation = {}
 
+local FlightLog
 FlightLog = {
 
 --
@@ -228,3 +233,5 @@ Event.Register("onLeaveSystem", AddSystemDepartureToLog)
 Event.Register("onShipUndocked", AddStationToLog)
 Event.Register("onGameStart", onGameStart)
 Serializer:Register("FlightLog", serialize, unserialize)
+
+return FlightLog

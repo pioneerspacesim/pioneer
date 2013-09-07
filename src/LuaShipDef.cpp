@@ -207,9 +207,10 @@ void LuaShipDef::Register()
 		lua_pop(l, 1);
 	}
 
-	pi_lua_readonly_table_proxy(l, -1);
-	lua_setglobal(l, "ShipDef");
-	lua_pop(l, 1);
+	lua_getfield(l, LUA_REGISTRYINDEX, "CoreImports");
+	pi_lua_readonly_table_proxy(l, -2);
+	lua_setfield(l, -2, "ShipDef");
+	lua_pop(l, 2);
 
 	LUA_DEBUG_END(l, 0);
 }

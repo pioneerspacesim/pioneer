@@ -1,6 +1,9 @@
 -- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+local Translate = import("Translate")
+local Serializer = import("Serializer")
+
 --
 -- Class: Mission
 --
@@ -16,6 +19,7 @@
 -- Registered mission type data go here
 local MissionRegister = {}
 
+local Mission
 Mission = {
 --
 -- Group: Attributes
@@ -344,3 +348,7 @@ Mission.meta = {
 	__index = Mission,
 	class = "Mission",
 }
+
+Serializer:RegisterClass("Mission", Mission)
+
+return Mission

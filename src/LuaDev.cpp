@@ -40,8 +40,10 @@ void LuaDev::Register()
 		{ 0, 0 }
 	};
 
+	lua_getfield(l, LUA_REGISTRYINDEX, "CoreImports");
 	luaL_newlib(l, methods);
-	lua_setglobal(l, "Dev");
+	lua_setfield(l, -2, "Dev");
+	lua_pop(l, 1);
 
 	LUA_DEBUG_END(l, 0);
 }
