@@ -307,6 +307,7 @@ void Pi::Init()
 	videoSettings.requestedSamples = config->Int("AntiAliasingMode");
 	videoSettings.vsync = (config->Int("VSync") != 0);
 	videoSettings.useTextureCompression = (config->Int("UseTextureCompression") != 0);
+	videoSettings.enableDebugMessages = (config->Int("EnableGLDebug") != 0);
 
 	Pi::renderer = Graphics::Init(videoSettings);
 	{
