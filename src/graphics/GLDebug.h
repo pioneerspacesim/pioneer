@@ -18,6 +18,9 @@
 #define STDCALL
 #endif
 
+// some people build with an old version of GLEW that doesn't include KHR_debug
+#if (GL_ARB_debug_output && GL_KHR_debug)
+
 namespace Graphics {
 
 	class GLDebug {
@@ -109,5 +112,23 @@ namespace Graphics {
 	};
 
 }
+
+#else
+
+namespace Graphics {
+
+	class GLDebug {
+	public:
+		static void Enable() {
+			printf("GL Debug support was excluded from this build because the GLEW headers were not recent enough");
+		}
+
+		static void Disable() {}
+
+	};
+
+}
+
+#endif
 
 #endif
