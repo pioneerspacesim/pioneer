@@ -119,10 +119,41 @@ void Screen::ShowBadError(const char *msg)
 
 bool Screen::Project(const vector3d &in, vector3d &out)
 {
-	GLint o = gluProject(in.x, in.y, in.z, modelMatrix, projMatrix, viewport, &out.x, &out.y, &out.z);
+	// implements gluProject (see the OpenGL documentation or the Mesa implementation of gluProject)
+	const double * const M = modelMatrix;
+	const double * const P = projMatrix;
+
+	const double vcam[4] = { // camera space
+		in.x*M[0] + in.y*M[4] + in.z*M[ 8] + M[12],
+		in.x*M[1] + in.y*M[5] + in.z*M[ 9] + M[13],
+		in.x*M[2] + in.y*M[6] + in.z*M[10] + M[14],
+		in.x*M[3] + in.y*M[7] + in.z*M[11] + M[15]
+	};
+	const double vclip[4] = { // clip space
+		vcam[0]*P[0] + vcam[1]*P[4] + vcam[2]*P[ 8] + vcam[3]*P[12],
+		vcam[0]*P[1] + vcam[1]*P[5] + vcam[2]*P[ 9] + vcam[3]*P[13],
+		vcam[0]*P[2] + vcam[1]*P[6] + vcam[2]*P[10] + vcam[3]*P[14],
+		vcam[0]*P[3] + vcam[1]*P[7] + vcam[2]*P[11] + vcam[3]*P[15]
+	};
+
+	if (is_zero_exact(vclip[3])) { return false; }
+
+	const double w = vclip[3];
+
+	const double v[3] = {
+		(vclip[0] / w) * 0.5 + 0.5,
+		(vclip[1] / w) * 0.5 + 0.5,
+		(vclip[2] / w) * 0.5 + 0.5
+	};
+
+	out.x = v[0] * viewport[2] + viewport[0];
+	out.y = v[1] * viewport[3] + viewport[1];
+	out.z = v[2];
+
+	// map to pixels
 	out.x = out.x * width * invRealWidth;
 	out.y = GetHeight() - out.y * height * invRealHeight;
-	return (o == GL_TRUE);
+	return true;
 }
 
 void Screen::EnterOrtho()
