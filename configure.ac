@@ -328,6 +328,7 @@ case "$host" in
   i686-pc-mingw32|x86_64-pc-mingw64)
 	MINGW_LIBS="-lshlwapi"
 	SDL_LIBS="$SDL_LIBS -ltiff -lpng -ljpeg -lz"
+	EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DGLEW_STATIC"
 	;;
   *)
 	MINGW_LIBS=
