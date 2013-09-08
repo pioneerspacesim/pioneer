@@ -3,6 +3,8 @@ September 2013
    * Minor changes and tweaks
      * Added OpenGL debug output. Set EnableGLDebug in config.ini to enable
        it (#2413)
+
+   * Fixes
      * Fix SmartTable scrolling (#2349)
 
    * Script and UI API changes
