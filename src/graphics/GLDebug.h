@@ -90,7 +90,7 @@ namespace Graphics {
 		//register the callback function, if the extension is available
 		static void Enable() {
 			if (!glewIsSupported("GL_KHR_debug")) {
-				printf("GL_KHR_debug is not supported; GLDebug will not work");
+				printf("GL_KHR_debug is not supported; GLDebug will not work\n");
 				return;
 			}
 
@@ -120,7 +120,7 @@ namespace Graphics {
 	class GLDebug {
 	public:
 		static void Enable() {
-			printf("GL Debug support was excluded from this build because the GLEW headers were not recent enough");
+			printf("GL Debug support was excluded from this build because the GLEW headers were not recent enough\n");
 		}
 
 		static void Disable() {}
