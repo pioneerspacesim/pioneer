@@ -147,6 +147,8 @@ AC_ARG_WITH([extra-version], AS_HELP_STRING([--with-extra-version], [Additional 
 
 EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DPIONEER_VERSION=\\\"$PIONEER_VERSION\\\" -DPIONEER_EXTRAVERSION=\\\"$PIONEER_EXTRAVERSION\\\""
 
+EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DGLEW_STATIC"
+
 
 dnl Compiler warning options
 AC_ARG_WITH([extra-warnings], AS_HELP_STRING([--without-extra-warnings], [Disable lots of extra compiler warnings]), [], [with_extra_warnings=yes])
@@ -328,7 +330,6 @@ case "$host" in
   i686-pc-mingw32|x86_64-pc-mingw64)
 	MINGW_LIBS="-lshlwapi"
 	SDL_LIBS="$SDL_LIBS -ltiff -lpng -ljpeg -lz"
-	EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DGLEW_STATIC"
 	;;
   *)
 	MINGW_LIBS=
