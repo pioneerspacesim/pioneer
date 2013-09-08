@@ -315,7 +315,7 @@ pioneer_LDADD = \
 	../contrib/json/libjson.a
 
 pioneer_LDADD += \
-	$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
+	$(FREETYPE_LIBS) $(GLEW_LIBS) $(GL_LIBS) \
 	$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS) \
 	$(PNG_LIBS) $(ASSIMP_LIBS) $(EXTRA_LIBS)
 
@@ -391,7 +391,7 @@ uitest_LDADD = \
 	../contrib/PicoDDS/libpicodds.a
 
 uitest_LDADD += \
-	$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
+	$(FREETYPE_LIBS) $(GLEW_LIBS) $(GL_LIBS) \
 	$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
 
 if !HAVE_LUA
@@ -417,7 +417,7 @@ textstress_LDADD = \
 	../contrib/PicoDDS/libpicodds.a
 
 textstress_LDADD += \
-	$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
+	$(FREETYPE_LIBS) $(GLEW_LIBS) $(GL_LIBS) \
 	$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
 
 if !HAVE_LUA

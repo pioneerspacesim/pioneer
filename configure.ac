@@ -297,13 +297,10 @@ dnl Check for OpenGL libs
 if test "x$MXE_CROSS" = "xyes" ; then
 	AC_SUBST([GL_CFLAGS], [])
 	AC_SUBST([GL_LIBS], [-lopengl32])
-	AC_SUBST([GLU_CFLAGS], [])
-	AC_SUBST([GLU_LIBS], [-lglu32])
 	AC_SUBST([GLEW_CFLAGS], [-DGLEW_BUILD])
 	AC_SUBST([GLEW_LIBS], [-lglew32s])
 else
 	PIONEER_CHECK_LIB([GL],   [gl],   [GL],   [glBegin])
-	PIONEER_CHECK_LIB([GLU],  [glu],  [GLU],  [gluSphere])
 	PIONEER_CHECK_LIB([GLEW], [glew], [GLEW], [glewInit])
 fi
 

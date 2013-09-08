@@ -41,7 +41,6 @@ Linux - Autotools
     libpng-dev
     libassimp-dev >= 3.0
     libglew-dev
-    libglu1-mesa-dev
     mesa-common-dev
 
    If your platform doesn't have assimp 3.0, you'll need to build it from
