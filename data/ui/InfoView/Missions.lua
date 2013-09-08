@@ -110,7 +110,7 @@ local missions = function (tabGroup)
 		MissionList:AddRow(row)
 	end
 
-	MissionScreen:SetInnerWidget(ui:Scroller(MissionList))
+	MissionScreen:SetInnerWidget(MissionList)
 
 	return MissionScreen
 end

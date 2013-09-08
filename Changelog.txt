@@ -1,5 +1,8 @@
 September 2013
 
+   * Minor changes and tweaks
+     * Fix SmartTable scrolling (#2349)
+
    * Script and UI API changes
      * A new module import system is now in place. Each dependency now needs
        to be declared explicitly. See the Pull Request discussion for more
