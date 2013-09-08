@@ -14,6 +14,7 @@
 #include "Texture.h"
 #include "TextureGL.h"
 #include "VertexArray.h"
+#include "GLDebug.h"
 #include <stddef.h> //for offsetof
 #include <ostream>
 #include <sstream>
@@ -70,6 +71,9 @@ RendererLegacy::RendererLegacy(const Graphics::Settings &vs)
 
 	SetClearColor(Color(0.f));
 	SetViewport(0, 0, m_width, m_height);
+
+	if (vs.enableDebugMessages)
+		GLDebug::Enable();
 }
 
 RendererLegacy::~RendererLegacy()
