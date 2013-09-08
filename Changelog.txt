@@ -10,6 +10,7 @@ September 2013
 
    * Internal changes
      * Remove GLU dependency (#2414)
+     * Bundle GLEW 1.10 (#2415)
 
 August 2013
 

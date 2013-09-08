@@ -722,6 +722,8 @@ bool RendererLegacy::PrintDebugInfo(std::ostream &out)
 	out << ", running on " << glGetString(GL_VENDOR);
 	out << " " << glGetString(GL_RENDERER) << "\n";
 
+	out << "GLEW version " << glewGetString(GLEW_VERSION) << "\n";
+
 	if (glewIsSupported("GL_VERSION_2_0"))
 		out << "Shading language version: " <<  glGetString(GL_SHADING_LANGUAGE_VERSION_ARB) << "\n";
 
