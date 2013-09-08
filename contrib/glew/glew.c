@@ -29,12 +29,14 @@
 ** THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include <GL/glew.h>
+// XXX PIONEER modified includes to ensure only local headers are used
+
+#include "glew.h"
 
 #if defined(_WIN32)
-#  include <GL/wglew.h>
+#  include "wglew.h"
 #elif !defined(__ANDROID__) && !defined(__native_client__) && (!defined(__APPLE__) || defined(GLEW_APPLE_GLX))
-#  include <GL/glxew.h>
+#  include "glxew.h"
 #endif
 
 /*
