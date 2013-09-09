@@ -5,6 +5,7 @@ local Translate = import("Translate")
 local Engine = import("Engine")
 local Game = import("Game")
 local Format = import("Format")
+local Character = import("Character")
 
 local SmallLabeledButton = import("ui/SmallLabeledButton")
 local SmartTable = import("ui/SmartTable")
@@ -19,7 +20,7 @@ local missions = function (tabGroup)
 	-- This mission screen
 	local MissionScreen = ui:Expand()
 
-	if #PersistentCharacters.player.missions == 0 then
+	if #Character.persistent.player.missions == 0 then
 		return MissionScreen:SetInnerWidget( ui:Label(t("No missions.")) )
 	end
 
@@ -56,7 +57,7 @@ local missions = function (tabGroup)
 	end
 	MissionList:SetSortFunction(sortMissions)
 
-	for ref,mission in pairs(PersistentCharacters.player.missions) do
+	for ref,mission in pairs(Character.persistent.player.missions) do
 		-- Format the location
 		local missionLocationName
 		if mission.location.bodyIndex then
