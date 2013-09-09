@@ -504,6 +504,16 @@ static void pi_lua_dofile(lua_State *l, const FileSystem::FileData &code, int nr
 	if (luaL_loadbuffer(l, source.begin, source.Size(), chunkName.c_str())) {
 		pi_lua_panic(l);
 	} else {
+
+		// give the file its own global table, backed by the "real" one
+		lua_newtable(l);
+		lua_newtable(l);
+		lua_pushliteral(l, "__index");
+		lua_getglobal(l, "_G");
+		lua_rawset(l, -3);
+		lua_setmetatable(l, -2);
+		lua_setupvalue(l, -2, 1);
+
 		int ret = lua_pcall(l, 0, nret, -2);
 		if (ret) {
 			const char *emsg = lua_tostring(l, -1);
