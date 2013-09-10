@@ -23,7 +23,7 @@ struct fracdef_t {
 template <typename,typename> class TerrainGenerator;
 
 
-class Terrain {
+class Terrain : public RefCounted {
 public:
 	// location and intensity of effects are controlled by the colour fractals;
 	// it's possible for a Terrain to have a flag set but not actually to exhibit any of that effect
