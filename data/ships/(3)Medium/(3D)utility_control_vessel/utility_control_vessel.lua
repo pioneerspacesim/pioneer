@@ -5,13 +5,13 @@
 define_ship {
 	name='Utility Control Vessel',
 	model='utility_control_vessel',
-	forward_thrust = 3200e5,
-	reverse_thrust = 3200e5,
-	up_thrust = 800e5,
-	down_thrust = 800e5,
-	left_thrust = 800e5,
-	right_thrust = 800e5,
-	angular_thrust = 25000e5,
+	forward_thrust = 210036e5,
+	reverse_thrust = 210036e5,
+	up_thrust = 122521e5,
+	down_thrust = 122521e5,
+	left_thrust = 122521e5,
+	right_thrust = 122521e5,
+	angular_thrust = 350060e5,
 	gun_mounts =
 	{
 		{ v(0,0,-150), v(0,0,-1), 5, 'HORIZONTAL' },
@@ -24,7 +24,7 @@ define_ship {
 	min_crew = 6,
 	max_crew = 20,
 	capacity = 16000,
-	hull_mass = 4000,
+	hull_mass = 70012,
 	fuel_tank_mass = 6000,
 	-- Exhaust velocity Vc [m/s] is equivalent of engine efficiency and depend on used technology. Higher Vc means lower fuel consumption.
 	-- Smaller ships built for speed often mount engines with higher Vc. Another way to make faster ship is to increase fuel_tank_mass.

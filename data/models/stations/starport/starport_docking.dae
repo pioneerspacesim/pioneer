@@ -26,10 +26,10 @@
                 Save 3ds Max Profile: Yes;
                 Formatted Arrays: Yes;
             </comments>
-            <source_data>file:///C:/Users/rivalin/Creative/Personal%20Work/Paragon/Paragon/paragon%2033%20-%20Copy/data/models/stations/starport/starport_docking.dae</source_data>
+            <source_data>file:///C:/Users/rivalin/Desktop/pioneer/data/models/stations/starport/starport_docking.dae</source_data>
         </contributor>
-        <created>2013-05-03T11:18:31Z</created>
-        <modified>2013-05-03T11:18:31Z</modified>
+        <created>2013-08-25T14:19:58Z</created>
+        <modified>2013-08-25T14:19:58Z</modified>
         <up_axis>Y_UP</up_axis>
     </asset>
     <library_cameras>
@@ -68,12 +68,12 @@
         </camera>
     </library_cameras>
     <library_materials>
-        <material id="Material-material1" name="material1">
-            <instance_effect url="#Effect-material1" />
+        <material id="Material-Default" name="Default">
+            <instance_effect url="#Effect-Default" />
         </material>
     </library_materials>
     <library_effects>
-        <effect id="Effect-material1" name="material1">
+        <effect id="Effect-Default" name="Default">
             <profile_COMMON>
                 <technique sid="common">
                     <phong>
@@ -92,56 +92,58 @@
         </effect>
     </library_effects>
     <library_geometries>
-        <geometry id="Geometry-Plane" name="Plane">
+        <geometry id="Geometry-Mesh" name="Mesh">
             <mesh>
-                <source id="Geometry-Plane-positions" name="positions">
-                    <float_array id="Geometry-Plane-positions-array" count="9">
-                        0.5 0 -0.5
-                        0.5 0 0.5
-                        -0.5 0 0.5
+                <source id="Geometry-Mesh-positions" name="positions">
+                    <float_array id="Geometry-Mesh-positions-array" count="12">
+                        200 -398 -706
+                        200 -398 -705.5
+                        200 -396.5 -705.5
+                        200 -396.5 -706
                     </float_array>
                     <technique_common>
-                        <accessor count="3" source="#Geometry-Plane-positions-array" stride="3">
+                        <accessor count="4" source="#Geometry-Mesh-positions-array" stride="3">
                             <param name="X" type="float" />
                             <param name="Y" type="float" />
                             <param name="Z" type="float" />
                         </accessor>
                     </technique_common>
                 </source>
-                <source id="Geometry-Plane-normals" name="normals">
-                    <float_array id="Geometry-Plane-normals-array" count="3">
-                        0 1 0
+                <source id="Geometry-Mesh-normals" name="normals">
+                    <float_array id="Geometry-Mesh-normals-array" count="3">
+                        -1 0 0
                     </float_array>
                     <technique_common>
-                        <accessor count="1" source="#Geometry-Plane-normals-array" stride="3">
+                        <accessor count="1" source="#Geometry-Mesh-normals-array" stride="3">
                             <param name="X" type="float" />
                             <param name="Y" type="float" />
                             <param name="Z" type="float" />
                         </accessor>
                     </technique_common>
                 </source>
-                <source id="Geometry-Plane-Texture" name="Texture">
-                    <float_array id="Geometry-Plane-Texture-array" count="6">
+                <source id="Geometry-Mesh-Texture" name="Texture">
+                    <float_array id="Geometry-Mesh-Texture-array" count="8">
                         1 0
-                        1 1
                         0 0
+                        0 1
+                        1 1
                     </float_array>
                     <technique_common>
-                        <accessor count="3" source="#Geometry-Plane-Texture-array" stride="2">
+                        <accessor count="4" source="#Geometry-Mesh-Texture-array" stride="2">
                             <param name="S" type="float" />
                             <param name="T" type="float" />
                         </accessor>
                     </technique_common>
                 </source>
-                <vertices id="Geometry-Plane-vertices">
-                    <input semantic="POSITION" source="#Geometry-Plane-positions" />
+                <vertices id="Geometry-Mesh-vertices">
+                    <input semantic="POSITION" source="#Geometry-Mesh-positions" />
                 </vertices>
-                <polylist count="1" material="Material-material1">
-                    <input semantic="VERTEX" source="#Geometry-Plane-vertices" offset="0" />
-                    <input semantic="NORMAL" source="#Geometry-Plane-normals" offset="1" />
-                    <input semantic="TEXCOORD" source="#Geometry-Plane-Texture" offset="2" set="0" />
-                    <vcount>3</vcount>
-                    <p>1 0 0 0 0 1 2 0 2</p>
+                <polylist count="1" material="Material-Default">
+                    <input semantic="VERTEX" source="#Geometry-Mesh-vertices" offset="0" />
+                    <input semantic="NORMAL" source="#Geometry-Mesh-normals" offset="1" />
+                    <input semantic="TEXCOORD" source="#Geometry-Mesh-Texture" offset="2" set="0" />
+                    <vcount>4</vcount>
+                    <p>0 0 0 1 0 1 2 0 2 3 0 3</p>
                 </polylist>
                 <extra>
                     <technique profile="modo401">
@@ -155,7 +157,7 @@
         </geometry>
     </library_geometries>
     <library_lights>
-        <light id="Light-polyRender394" name="Render">
+        <light id="Light-polyRender418" name="Render">
             <technique_common>
                 <ambient>
                     <color sid="ambient_light_rgb">0.05 0.05 0.05</color>
@@ -281,1187 +283,1261 @@
     </library_nodes>
     <library_visual_scenes>
         <visual_scene id="DefaultScene">
-            <node id="polyRender394" name="Render" type="NODE">
-                <instance_light url="#Light-polyRender394" />
+            <node id="polyRender418" name="Render" type="NODE">
+                <instance_light url="#Light-polyRender418" />
             </node>
             <node id="approach_stage1_bay1Node" name="approach_stage1_bay1" type="NODE">
-                <translate sid="translation001">-23 230 23</translate>
+                <translate sid="translation001">-23 190 23</translate>
             </node>
             <node id="approach_stage1_bay2Node" name="approach_stage1_bay2" type="NODE">
-                <translate sid="translation002">39 230 23</translate>
+                <translate sid="translation002">39 190 23</translate>
             </node>
             <node id="approach_stage1_bay3Node" name="approach_stage1_bay3" type="NODE">
-                <translate sid="translation003">111 230 23</translate>
+                <translate sid="translation003">111 190 23</translate>
             </node>
             <node id="approach_stage1_bay4Node" name="approach_stage1_bay4" type="NODE">
-                <translate sid="translation004">173 230 23</translate>
+                <translate sid="translation004">173 190 23</translate>
             </node>
             <node id="approach_stage1_bay6Node" name="approach_stage1_bay6" type="NODE">
-                <translate sid="translation005">39 230 -39</translate>
+                <translate sid="translation005">39 190 -39</translate>
             </node>
             <node id="approach_stage1_bay8Node" name="approach_stage1_bay8" type="NODE">
-                <translate sid="translation006">173 230 -39</translate>
+                <translate sid="translation006">173 190 -39</translate>
             </node>
             <node id="approach_stage1_bay7Node" name="approach_stage1_bay7" type="NODE">
-                <translate sid="translation007">111 230 -39</translate>
+                <translate sid="translation007">111 190 -39</translate>
             </node>
             <node id="approach_stage1_bay5Node" name="approach_stage1_bay5" type="NODE">
-                <translate sid="translation008">-23 230 -39</translate>
+                <translate sid="translation008">-23 190 -39</translate>
             </node>
             <node id="approach_stage1_bay10Node" name="approach_stage1_bay10" type="NODE">
-                <translate sid="translation009">39 230 -101</translate>
+                <translate sid="translation009">39 190 -101</translate>
             </node>
             <node id="approach_stage1_bay9Node" name="approach_stage1_bay9" type="NODE">
-                <translate sid="translation010">-23 230 -101</translate>
+                <translate sid="translation010">-23 190 -101</translate>
             </node>
             <node id="approach_stage1_bay11Node" name="approach_stage1_bay11" type="NODE">
-                <translate sid="translation011">111 230 -101</translate>
+                <translate sid="translation011">111 190 -101</translate>
             </node>
             <node id="approach_stage1_bay12Node" name="approach_stage1_bay12" type="NODE">
-                <translate sid="translation012">173 230 -101</translate>
+                <translate sid="translation012">173 190 -101</translate>
             </node>
             <node id="approach_stage1_bay13Node" name="approach_stage1_bay13" type="NODE">
-                <translate sid="translation013">-23 230 -163</translate>
+                <translate sid="translation013">-23 190 -163</translate>
             </node>
             <node id="approach_stage1_bay15Node" name="approach_stage1_bay15" type="NODE">
-                <translate sid="translation014">111 230 -163</translate>
+                <translate sid="translation014">111 190 -163</translate>
             </node>
             <node id="approach_stage1_bay14Node" name="approach_stage1_bay14" type="NODE">
-                <translate sid="translation015">39 230 -163</translate>
+                <translate sid="translation015">39 190 -163</translate>
             </node>
             <node id="approach_stage1_bay16Node" name="approach_stage1_bay16" type="NODE">
-                <translate sid="translation016">173 230 -163</translate>
+                <translate sid="translation016">173 190 -163</translate>
             </node>
             <node id="approach_stage1_bay18Node" name="approach_stage1_bay18" type="NODE">
-                <translate sid="translation017">-8 230 -224</translate>
+                <translate sid="translation017">-8 190 -224</translate>
             </node>
             <node id="approach_stage1_bay20Node" name="approach_stage1_bay20" type="NODE">
-                <translate sid="translation018">54 230 -224</translate>
+                <translate sid="translation018">54 190 -224</translate>
             </node>
             <node id="approach_stage1_bay22Node" name="approach_stage1_bay22" type="NODE">
-                <translate sid="translation019">126 230 -224</translate>
+                <translate sid="translation019">126 190 -224</translate>
             </node>
             <node id="approach_stage1_bay24Node" name="approach_stage1_bay24" type="NODE">
-                <translate sid="translation020">188 230 -224</translate>
+                <translate sid="translation020">188 190 -224</translate>
             </node>
             <node id="approach_stage1_bay17Node" name="approach_stage1_bay17" type="NODE">
-                <translate sid="translation021">-38 230 -224</translate>
+                <translate sid="translation021">-38 190 -224</translate>
             </node>
             <node id="approach_stage1_bay19Node" name="approach_stage1_bay19" type="NODE">
-                <translate sid="translation022">24 230 -224</translate>
+                <translate sid="translation022">24 190 -224</translate>
             </node>
             <node id="approach_stage1_bay21Node" name="approach_stage1_bay21" type="NODE">
-                <translate sid="translation023">96 230 -224</translate>
+                <translate sid="translation023">96 190 -224</translate>
             </node>
             <node id="approach_stage1_bay23Node" name="approach_stage1_bay23" type="NODE">
-                <translate sid="translation024">158 230 -224</translate>
+                <translate sid="translation024">158 190 -224</translate>
             </node>
             <node id="approach_stage1_bay25Node" name="approach_stage1_bay25" type="NODE">
-                <translate sid="translation025">-38 230 -254</translate>
+                <translate sid="translation025">-38 190 -254</translate>
             </node>
             <node id="approach_stage1_bay32Node" name="approach_stage1_bay32" type="NODE">
-                <translate sid="translation026">188 230 -254</translate>
+                <translate sid="translation026">188 190 -254</translate>
             </node>
             <node id="approach_stage1_bay30Node" name="approach_stage1_bay30" type="NODE">
-                <translate sid="translation027">126 230 -254</translate>
+                <translate sid="translation027">126 190 -254</translate>
             </node>
             <node id="approach_stage1_bay31Node" name="approach_stage1_bay31" type="NODE">
-                <translate sid="translation028">158 230 -254</translate>
+                <translate sid="translation028">158 190 -254</translate>
             </node>
             <node id="approach_stage1_bay29Node" name="approach_stage1_bay29" type="NODE">
-                <translate sid="translation029">96 230 -254</translate>
+                <translate sid="translation029">96 190 -254</translate>
             </node>
             <node id="approach_stage1_bay28Node" name="approach_stage1_bay28" type="NODE">
-                <translate sid="translation030">54 230 -254</translate>
+                <translate sid="translation030">54 190 -254</translate>
             </node>
             <node id="approach_stage1_bay27Node" name="approach_stage1_bay27" type="NODE">
-                <translate sid="translation031">24 230 -254</translate>
+                <translate sid="translation031">24 190 -254</translate>
             </node>
             <node id="approach_stage1_bay26Node" name="approach_stage1_bay26" type="NODE">
-                <translate sid="translation032">-8 230 -254</translate>
+                <translate sid="translation032">-8 190 -254</translate>
             </node>
             <node id="approach_stage1_bay121Node" name="approach_stage1_bay121" type="NODE">
-                <translate sid="translation033">-38 230 -658</translate>
+                <translate sid="translation033">-38 190 -658</translate>
             </node>
             <node id="approach_stage1_bay38Node" name="approach_stage1_bay38" type="NODE">
-                <translate sid="translation034">126 230 -286</translate>
+                <translate sid="translation034">126 190 -286</translate>
             </node>
             <node id="approach_stage1_bay128Node" name="approach_stage1_bay128" type="NODE">
-                <translate sid="translation035">54 230 -688</translate>
+                <translate sid="translation035">54 190 -688</translate>
             </node>
             <node id="approach_stage1_bay40Node" name="approach_stage1_bay40" type="NODE">
-                <translate sid="translation036">188 230 -286</translate>
+                <translate sid="translation036">188 190 -286</translate>
             </node>
             <node id="approach_stage1_bay37Node" name="approach_stage1_bay37" type="NODE">
-                <translate sid="translation037">96 230 -286</translate>
+                <translate sid="translation037">96 190 -286</translate>
             </node>
             <node id="approach_stage1_bay126Node" name="approach_stage1_bay126" type="NODE">
-                <translate sid="translation038">-8 230 -688</translate>
+                <translate sid="translation038">-8 190 -688</translate>
             </node>
             <node id="approach_stage1_bay36Node" name="approach_stage1_bay36" type="NODE">
-                <translate sid="translation039">54 230 -286</translate>
+                <translate sid="translation039">54 190 -286</translate>
             </node>
             <node id="approach_stage1_bay127Node" name="approach_stage1_bay127" type="NODE">
-                <translate sid="translation040">24 230 -688</translate>
+                <translate sid="translation040">24 190 -688</translate>
             </node>
             <node id="approach_stage1_bay39Node" name="approach_stage1_bay39" type="NODE">
-                <translate sid="translation041">158 230 -286</translate>
+                <translate sid="translation041">158 190 -286</translate>
             </node>
             <node id="approach_stage1_bay33Node" name="approach_stage1_bay33" type="NODE">
-                <translate sid="translation042">-38 230 -286</translate>
+                <translate sid="translation042">-38 190 -286</translate>
             </node>
             <node id="approach_stage1_bay125Node" name="approach_stage1_bay125" type="NODE">
-                <translate sid="translation043">-38 230 -688</translate>
+                <translate sid="translation043">-38 190 -688</translate>
             </node>
             <node id="approach_stage1_bay124Node" name="approach_stage1_bay124" type="NODE">
-                <translate sid="translation044">54 230 -658</translate>
+                <translate sid="translation044">54 190 -658</translate>
             </node>
             <node id="approach_stage1_bay35Node" name="approach_stage1_bay35" type="NODE">
-                <translate sid="translation045">24 230 -286</translate>
+                <translate sid="translation045">24 190 -286</translate>
             </node>
             <node id="approach_stage1_bay123Node" name="approach_stage1_bay123" type="NODE">
-                <translate sid="translation046">24 230 -658</translate>
+                <translate sid="translation046">24 190 -658</translate>
             </node>
             <node id="approach_stage1_bay122Node" name="approach_stage1_bay122" type="NODE">
-                <translate sid="translation047">-8 230 -658</translate>
+                <translate sid="translation047">-8 190 -658</translate>
             </node>
             <node id="approach_stage1_bay34Node" name="approach_stage1_bay34" type="NODE">
-                <translate sid="translation048">-8 230 -286</translate>
+                <translate sid="translation048">-8 190 -286</translate>
             </node>
             <node id="approach_stage1_bay52Node" name="approach_stage1_bay52" type="NODE">
-                <translate sid="translation049">54 230 -348</translate>
+                <translate sid="translation049">54 190 -348</translate>
             </node>
             <node id="approach_stage1_bay48Node" name="approach_stage1_bay48" type="NODE">
-                <translate sid="translation050">188 230 -316</translate>
+                <translate sid="translation050">188 190 -316</translate>
             </node>
             <node id="approach_stage1_bay49Node" name="approach_stage1_bay49" type="NODE">
-                <translate sid="translation051">-38 230 -348</translate>
+                <translate sid="translation051">-38 190 -348</translate>
             </node>
             <node id="approach_stage1_bay41Node" name="approach_stage1_bay41" type="NODE">
-                <translate sid="translation052">-38 230 -316</translate>
+                <translate sid="translation052">-38 190 -316</translate>
             </node>
             <node id="approach_stage1_bay51Node" name="approach_stage1_bay51" type="NODE">
-                <translate sid="translation053">24 230 -348</translate>
+                <translate sid="translation053">24 190 -348</translate>
             </node>
             <node id="approach_stage1_bay53Node" name="approach_stage1_bay53" type="NODE">
-                <translate sid="translation054">96 230 -348</translate>
+                <translate sid="translation054">96 190 -348</translate>
             </node>
             <node id="approach_stage1_bay42Node" name="approach_stage1_bay42" type="NODE">
-                <translate sid="translation055">-8 230 -316</translate>
+                <translate sid="translation055">-8 190 -316</translate>
             </node>
             <node id="approach_stage1_bay56Node" name="approach_stage1_bay56" type="NODE">
-                <translate sid="translation056">188 230 -348</translate>
+                <translate sid="translation056">188 190 -348</translate>
             </node>
             <node id="approach_stage1_bay46Node" name="approach_stage1_bay46" type="NODE">
-                <translate sid="translation057">126 230 -316</translate>
+                <translate sid="translation057">126 190 -316</translate>
             </node>
             <node id="approach_stage1_bay45Node" name="approach_stage1_bay45" type="NODE">
-                <translate sid="translation058">96 230 -316</translate>
+                <translate sid="translation058">96 190 -316</translate>
             </node>
             <node id="approach_stage1_bay54Node" name="approach_stage1_bay54" type="NODE">
-                <translate sid="translation059">126 230 -348</translate>
+                <translate sid="translation059">126 190 -348</translate>
             </node>
             <node id="approach_stage1_bay44Node" name="approach_stage1_bay44" type="NODE">
-                <translate sid="translation060">54 230 -316</translate>
+                <translate sid="translation060">54 190 -316</translate>
             </node>
             <node id="approach_stage1_bay43Node" name="approach_stage1_bay43" type="NODE">
-                <translate sid="translation061">24 230 -316</translate>
+                <translate sid="translation061">24 190 -316</translate>
             </node>
             <node id="approach_stage1_bay50Node" name="approach_stage1_bay50" type="NODE">
-                <translate sid="translation062">-8 230 -348</translate>
+                <translate sid="translation062">-8 190 -348</translate>
             </node>
             <node id="approach_stage1_bay47Node" name="approach_stage1_bay47" type="NODE">
-                <translate sid="translation063">158 230 -316</translate>
+                <translate sid="translation063">158 190 -316</translate>
             </node>
             <node id="approach_stage1_bay55Node" name="approach_stage1_bay55" type="NODE">
-                <translate sid="translation064">158 230 -348</translate>
+                <translate sid="translation064">158 190 -348</translate>
             </node>
             <node id="approach_stage1_bay62Node" name="approach_stage1_bay62" type="NODE">
-                <translate sid="translation065">126 230 -378</translate>
+                <translate sid="translation065">126 190 -378</translate>
             </node>
             <node id="approach_stage1_bay68Node" name="approach_stage1_bay68" type="NODE">
-                <translate sid="translation066">54 230 -410</translate>
+                <translate sid="translation066">54 190 -410</translate>
             </node>
             <node id="approach_stage1_bay59Node" name="approach_stage1_bay59" type="NODE">
-                <translate sid="translation067">24 230 -378</translate>
+                <translate sid="translation067">24 190 -378</translate>
             </node>
             <node id="approach_stage1_bay58Node" name="approach_stage1_bay58" type="NODE">
-                <translate sid="translation068">-8 230 -378</translate>
+                <translate sid="translation068">-8 190 -378</translate>
             </node>
             <node id="approach_stage1_bay65Node" name="approach_stage1_bay65" type="NODE">
-                <translate sid="translation069">-38 230 -410</translate>
+                <translate sid="translation069">-38 190 -410</translate>
             </node>
             <node id="approach_stage1_bay70Node" name="approach_stage1_bay70" type="NODE">
-                <translate sid="translation070">126 230 -410</translate>
+                <translate sid="translation070">126 190 -410</translate>
             </node>
             <node id="approach_stage1_bay71Node" name="approach_stage1_bay71" type="NODE">
-                <translate sid="translation071">158 230 -410</translate>
+                <translate sid="translation071">158 190 -410</translate>
             </node>
             <node id="approach_stage1_bay69Node" name="approach_stage1_bay69" type="NODE">
-                <translate sid="translation072">96 230 -410</translate>
+                <translate sid="translation072">96 190 -410</translate>
             </node>
             <node id="approach_stage1_bay57Node" name="approach_stage1_bay57" type="NODE">
-                <translate sid="translation073">-38 230 -378</translate>
+                <translate sid="translation073">-38 190 -378</translate>
             </node>
             <node id="approach_stage1_bay66Node" name="approach_stage1_bay66" type="NODE">
-                <translate sid="translation074">-8 230 -410</translate>
+                <translate sid="translation074">-8 190 -410</translate>
             </node>
             <node id="approach_stage1_bay60Node" name="approach_stage1_bay60" type="NODE">
-                <translate sid="translation075">54 230 -378</translate>
+                <translate sid="translation075">54 190 -378</translate>
             </node>
             <node id="approach_stage1_bay72Node" name="approach_stage1_bay72" type="NODE">
-                <translate sid="translation076">188 230 -410</translate>
+                <translate sid="translation076">188 190 -410</translate>
             </node>
             <node id="approach_stage1_bay67Node" name="approach_stage1_bay67" type="NODE">
-                <translate sid="translation077">24 230 -410</translate>
+                <translate sid="translation077">24 190 -410</translate>
             </node>
             <node id="approach_stage1_bay64Node" name="approach_stage1_bay64" type="NODE">
-                <translate sid="translation078">188 230 -378</translate>
+                <translate sid="translation078">188 190 -378</translate>
             </node>
             <node id="approach_stage1_bay63Node" name="approach_stage1_bay63" type="NODE">
-                <translate sid="translation079">158 230 -378</translate>
+                <translate sid="translation079">158 190 -378</translate>
             </node>
             <node id="approach_stage1_bay61Node" name="approach_stage1_bay61" type="NODE">
-                <translate sid="translation080">96 230 -378</translate>
+                <translate sid="translation080">96 190 -378</translate>
             </node>
             <node id="approach_stage1_bay80Node" name="approach_stage1_bay80" type="NODE">
-                <translate sid="translation081">188 230 -440</translate>
+                <translate sid="translation081">188 190 -440</translate>
             </node>
             <node id="approach_stage1_bay84Node" name="approach_stage1_bay84" type="NODE">
-                <translate sid="translation082">54 230 -472</translate>
+                <translate sid="translation082">54 190 -472</translate>
             </node>
             <node id="approach_stage1_bay83Node" name="approach_stage1_bay83" type="NODE">
-                <translate sid="translation083">24 230 -472</translate>
+                <translate sid="translation083">24 190 -472</translate>
             </node>
             <node id="approach_stage1_bay88Node" name="approach_stage1_bay88" type="NODE">
-                <translate sid="translation084">188 230 -472</translate>
+                <translate sid="translation084">188 190 -472</translate>
             </node>
             <node id="approach_stage1_bay74Node" name="approach_stage1_bay74" type="NODE">
-                <translate sid="translation085">-8 230 -440</translate>
+                <translate sid="translation085">-8 190 -440</translate>
             </node>
             <node id="approach_stage1_bay73Node" name="approach_stage1_bay73" type="NODE">
-                <translate sid="translation086">-38 230 -440</translate>
+                <translate sid="translation086">-38 190 -440</translate>
             </node>
             <node id="approach_stage1_bay77Node" name="approach_stage1_bay77" type="NODE">
-                <translate sid="translation087">96 230 -440</translate>
+                <translate sid="translation087">96 190 -440</translate>
             </node>
             <node id="approach_stage1_bay86Node" name="approach_stage1_bay86" type="NODE">
-                <translate sid="translation088">126 230 -472</translate>
+                <translate sid="translation088">126 190 -472</translate>
             </node>
             <node id="approach_stage1_bay78Node" name="approach_stage1_bay78" type="NODE">
-                <translate sid="translation089">126 230 -440</translate>
+                <translate sid="translation089">126 190 -440</translate>
             </node>
             <node id="approach_stage1_bay81Node" name="approach_stage1_bay81" type="NODE">
-                <translate sid="translation090">-38 230 -472</translate>
+                <translate sid="translation090">-38 190 -472</translate>
             </node>
             <node id="approach_stage1_bay82Node" name="approach_stage1_bay82" type="NODE">
-                <translate sid="translation091">-8 230 -472</translate>
+                <translate sid="translation091">-8 190 -472</translate>
             </node>
             <node id="approach_stage1_bay79Node" name="approach_stage1_bay79" type="NODE">
-                <translate sid="translation092">158 230 -440</translate>
+                <translate sid="translation092">158 190 -440</translate>
             </node>
             <node id="approach_stage1_bay76Node" name="approach_stage1_bay76" type="NODE">
-                <translate sid="translation093">54 230 -440</translate>
+                <translate sid="translation093">54 190 -440</translate>
             </node>
             <node id="approach_stage1_bay85Node" name="approach_stage1_bay85" type="NODE">
-                <translate sid="translation094">96 230 -472</translate>
+                <translate sid="translation094">96 190 -472</translate>
             </node>
             <node id="approach_stage1_bay87Node" name="approach_stage1_bay87" type="NODE">
-                <translate sid="translation095">158 230 -472</translate>
+                <translate sid="translation095">158 190 -472</translate>
             </node>
             <node id="approach_stage1_bay75Node" name="approach_stage1_bay75" type="NODE">
-                <translate sid="translation096">24 230 -440</translate>
+                <translate sid="translation096">24 190 -440</translate>
             </node>
             <node id="approach_stage1_bay94Node" name="approach_stage1_bay94" type="NODE">
-                <translate sid="translation097">126 230 -502</translate>
+                <translate sid="translation097">126 190 -502</translate>
             </node>
             <node id="approach_stage1_bay101Node" name="approach_stage1_bay101" type="NODE">
-                <translate sid="translation098">96 230 -534</translate>
+                <translate sid="translation098">96 190 -534</translate>
             </node>
             <node id="approach_stage1_bay99Node" name="approach_stage1_bay99" type="NODE">
-                <translate sid="translation099">24 230 -534</translate>
+                <translate sid="translation099">24 190 -534</translate>
             </node>
             <node id="approach_stage1_bay102Node" name="approach_stage1_bay102" type="NODE">
-                <translate sid="translation100">126 230 -534</translate>
+                <translate sid="translation100">126 190 -534</translate>
             </node>
             <node id="approach_stage1_bay100Node" name="approach_stage1_bay100" type="NODE">
-                <translate sid="translation101">54 230 -534</translate>
+                <translate sid="translation101">54 190 -534</translate>
             </node>
             <node id="approach_stage1_bay93Node" name="approach_stage1_bay93" type="NODE">
-                <translate sid="translation102">96 230 -502</translate>
+                <translate sid="translation102">96 190 -502</translate>
             </node>
             <node id="approach_stage1_bay97Node" name="approach_stage1_bay97" type="NODE">
-                <translate sid="translation103">-38 230 -534</translate>
+                <translate sid="translation103">-38 190 -534</translate>
             </node>
             <node id="approach_stage1_bay103Node" name="approach_stage1_bay103" type="NODE">
-                <translate sid="translation104">158 230 -534</translate>
+                <translate sid="translation104">158 190 -534</translate>
             </node>
             <node id="approach_stage1_bay91Node" name="approach_stage1_bay91" type="NODE">
-                <translate sid="translation105">24 230 -502</translate>
+                <translate sid="translation105">24 190 -502</translate>
             </node>
             <node id="approach_stage1_bay89Node" name="approach_stage1_bay89" type="NODE">
-                <translate sid="translation106">-38 230 -502</translate>
+                <translate sid="translation106">-38 190 -502</translate>
             </node>
             <node id="approach_stage1_bay104Node" name="approach_stage1_bay104" type="NODE">
-                <translate sid="translation107">188 230 -534</translate>
+                <translate sid="translation107">188 190 -534</translate>
             </node>
             <node id="approach_stage1_bay95Node" name="approach_stage1_bay95" type="NODE">
-                <translate sid="translation108">158 230 -502</translate>
+                <translate sid="translation108">158 190 -502</translate>
             </node>
             <node id="approach_stage1_bay98Node" name="approach_stage1_bay98" type="NODE">
-                <translate sid="translation109">-8 230 -534</translate>
+                <translate sid="translation109">-8 190 -534</translate>
             </node>
             <node id="approach_stage1_bay96Node" name="approach_stage1_bay96" type="NODE">
-                <translate sid="translation110">188 230 -502</translate>
+                <translate sid="translation110">188 190 -502</translate>
             </node>
             <node id="approach_stage1_bay92Node" name="approach_stage1_bay92" type="NODE">
-                <translate sid="translation111">54 230 -502</translate>
+                <translate sid="translation111">54 190 -502</translate>
             </node>
             <node id="approach_stage1_bay90Node" name="approach_stage1_bay90" type="NODE">
-                <translate sid="translation112">-8 230 -502</translate>
+                <translate sid="translation112">-8 190 -502</translate>
             </node>
             <node id="approach_stage1_bay111Node" name="approach_stage1_bay111" type="NODE">
-                <translate sid="translation113">158 230 -564</translate>
+                <translate sid="translation113">158 190 -564</translate>
             </node>
             <node id="approach_stage1_bay109Node" name="approach_stage1_bay109" type="NODE">
-                <translate sid="translation114">96 230 -564</translate>
+                <translate sid="translation114">96 190 -564</translate>
             </node>
             <node id="approach_stage1_bay107Node" name="approach_stage1_bay107" type="NODE">
-                <translate sid="translation115">24 230 -564</translate>
+                <translate sid="translation115">24 190 -564</translate>
             </node>
             <node id="approach_stage1_bay106Node" name="approach_stage1_bay106" type="NODE">
-                <translate sid="translation116">-8 230 -564</translate>
+                <translate sid="translation116">-8 190 -564</translate>
             </node>
             <node id="approach_stage1_bay112Node" name="approach_stage1_bay112" type="NODE">
-                <translate sid="translation117">188 230 -564</translate>
+                <translate sid="translation117">188 190 -564</translate>
             </node>
             <node id="approach_stage1_bay105Node" name="approach_stage1_bay105" type="NODE">
-                <translate sid="translation118">-38 230 -564</translate>
+                <translate sid="translation118">-38 190 -564</translate>
             </node>
             <node id="approach_stage1_bay110Node" name="approach_stage1_bay110" type="NODE">
-                <translate sid="translation119">126 230 -564</translate>
+                <translate sid="translation119">126 190 -564</translate>
             </node>
             <node id="approach_stage1_bay108Node" name="approach_stage1_bay108" type="NODE">
-                <translate sid="translation120">54 230 -564</translate>
+                <translate sid="translation120">54 190 -564</translate>
             </node>
             <node id="approach_stage1_bay120Node" name="approach_stage1_bay120" type="NODE">
-                <translate sid="translation121">54 230 -626</translate>
+                <translate sid="translation121">54 190 -626</translate>
             </node>
             <node id="approach_stage1_bay113Node" name="approach_stage1_bay113" type="NODE">
-                <translate sid="translation122">-38 230 -596</translate>
+                <translate sid="translation122">-38 190 -596</translate>
             </node>
             <node id="approach_stage1_bay117Node" name="approach_stage1_bay117" type="NODE">
-                <translate sid="translation123">-38 230 -626</translate>
+                <translate sid="translation123">-38 190 -626</translate>
             </node>
             <node id="approach_stage1_bay118Node" name="approach_stage1_bay118" type="NODE">
-                <translate sid="translation124">-8 230 -626</translate>
+                <translate sid="translation124">-8 190 -626</translate>
             </node>
             <node id="approach_stage1_bay114Node" name="approach_stage1_bay114" type="NODE">
-                <translate sid="translation125">-8 230 -596</translate>
+                <translate sid="translation125">-8 190 -596</translate>
             </node>
             <node id="approach_stage1_bay119Node" name="approach_stage1_bay119" type="NODE">
-                <translate sid="translation126">24 230 -626</translate>
+                <translate sid="translation126">24 190 -626</translate>
             </node>
             <node id="approach_stage1_bay115Node" name="approach_stage1_bay115" type="NODE">
-                <translate sid="translation127">24 230 -596</translate>
+                <translate sid="translation127">24 190 -596</translate>
             </node>
             <node id="approach_stage1_bay116Node" name="approach_stage1_bay116" type="NODE">
-                <translate sid="translation128">54 230 -596</translate>
+                <translate sid="translation128">54 190 -596</translate>
             </node>
             <node id="approach_stage2_bay17Node" name="approach_stage2_bay17" type="NODE">
-                <translate sid="translation129">-38 60 -224</translate>
+                <translate sid="translation129">-38 39 -224</translate>
             </node>
             <node id="approach_stage2_bay2Node" name="approach_stage2_bay2" type="NODE">
-                <translate sid="translation130">39 60 23</translate>
+                <translate sid="translation130">39 39 23</translate>
             </node>
             <node id="approach_stage2_bay85Node" name="approach_stage2_bay85" type="NODE">
-                <translate sid="translation131">96 60 -472</translate>
+                <translate sid="translation131">96 39 -472</translate>
             </node>
             <node id="approach_stage2_bay113Node" name="approach_stage2_bay113" type="NODE">
-                <translate sid="translation132">-38 60 -596</translate>
+                <translate sid="translation132">-38 39 -596</translate>
             </node>
             <node id="approach_stage2_bay10Node" name="approach_stage2_bay10" type="NODE">
-                <translate sid="translation133">39 60 -101</translate>
+                <translate sid="translation133">39 39 -101</translate>
             </node>
             <node id="approach_stage2_bay72Node" name="approach_stage2_bay72" type="NODE">
-                <translate sid="translation134">188 60 -410</translate>
+                <translate sid="translation134">188 39 -410</translate>
             </node>
             <node id="approach_stage2_bay44Node" name="approach_stage2_bay44" type="NODE">
-                <translate sid="translation135">54 60 -316</translate>
+                <translate sid="translation135">54 39 -316</translate>
             </node>
             <node id="approach_stage2_bay98Node" name="approach_stage2_bay98" type="NODE">
-                <translate sid="translation136">-8 60 -534</translate>
+                <translate sid="translation136">-8 39 -534</translate>
             </node>
             <node id="approach_stage2_bay108Node" name="approach_stage2_bay108" type="NODE">
-                <translate sid="translation137">54 60 -564</translate>
+                <translate sid="translation137">54 39 -564</translate>
             </node>
             <node id="approach_stage2_bay95Node" name="approach_stage2_bay95" type="NODE">
-                <translate sid="translation138">158 60 -502</translate>
+                <translate sid="translation138">158 39 -502</translate>
             </node>
             <node id="approach_stage2_bay23Node" name="approach_stage2_bay23" type="NODE">
-                <translate sid="translation139">158 60 -224</translate>
+                <translate sid="translation139">158 39 -224</translate>
             </node>
             <node id="approach_stage2_bay20Node" name="approach_stage2_bay20" type="NODE">
-                <translate sid="translation140">54 60 -224</translate>
+                <translate sid="translation140">54 39 -224</translate>
             </node>
             <node id="approach_stage2_bay28Node" name="approach_stage2_bay28" type="NODE">
-                <translate sid="translation141">54 60 -254</translate>
+                <translate sid="translation141">54 39 -254</translate>
             </node>
             <node id="approach_stage2_bay121Node" name="approach_stage2_bay121" type="NODE">
-                <translate sid="translation142">-38 60 -658</translate>
+                <translate sid="translation142">-38 39 -658</translate>
             </node>
             <node id="approach_stage2_bay92Node" name="approach_stage2_bay92" type="NODE">
-                <translate sid="translation143">54 60 -502</translate>
+                <translate sid="translation143">54 39 -502</translate>
             </node>
             <node id="approach_stage2_bay50Node" name="approach_stage2_bay50" type="NODE">
-                <translate sid="translation144">-8 60 -348</translate>
+                <translate sid="translation144">-8 39 -348</translate>
             </node>
             <node id="approach_stage2_bay59Node" name="approach_stage2_bay59" type="NODE">
-                <translate sid="translation145">24 60 -378</translate>
+                <translate sid="translation145">24 39 -378</translate>
             </node>
             <node id="approach_stage2_bay124Node" name="approach_stage2_bay124" type="NODE">
-                <translate sid="translation146">54 60 -658</translate>
+                <translate sid="translation146">54 39 -658</translate>
             </node>
             <node id="approach_stage2_bay58Node" name="approach_stage2_bay58" type="NODE">
-                <translate sid="translation147">-8 60 -378</translate>
+                <translate sid="translation147">-8 39 -378</translate>
             </node>
             <node id="approach_stage2_bay111Node" name="approach_stage2_bay111" type="NODE">
-                <translate sid="translation148">158 60 -564</translate>
+                <translate sid="translation148">158 39 -564</translate>
             </node>
             <node id="approach_stage2_bay54Node" name="approach_stage2_bay54" type="NODE">
-                <translate sid="translation149">126 60 -348</translate>
+                <translate sid="translation149">126 39 -348</translate>
             </node>
             <node id="approach_stage2_bay103Node" name="approach_stage2_bay103" type="NODE">
-                <translate sid="translation150">158 60 -534</translate>
+                <translate sid="translation150">158 39 -534</translate>
             </node>
             <node id="approach_stage2_bay9Node" name="approach_stage2_bay9" type="NODE">
-                <translate sid="translation151">-23 60 -101</translate>
+                <translate sid="translation151">-23 39 -101</translate>
             </node>
             <node id="approach_stage2_bay115Node" name="approach_stage2_bay115" type="NODE">
-                <translate sid="translation152">24 60 -596</translate>
+                <translate sid="translation152">24 39 -596</translate>
             </node>
             <node id="approach_stage2_bay93Node" name="approach_stage2_bay93" type="NODE">
-                <translate sid="translation153">96 60 -502</translate>
+                <translate sid="translation153">96 39 -502</translate>
             </node>
             <node id="approach_stage2_bay118Node" name="approach_stage2_bay118" type="NODE">
-                <translate sid="translation154">-8 60 -626</translate>
+                <translate sid="translation154">-8 39 -626</translate>
             </node>
             <node id="approach_stage2_bay31Node" name="approach_stage2_bay31" type="NODE">
-                <translate sid="translation155">158 60 -254</translate>
+                <translate sid="translation155">158 39 -254</translate>
             </node>
             <node id="approach_stage2_bay86Node" name="approach_stage2_bay86" type="NODE">
-                <translate sid="translation156">126 60 -472</translate>
+                <translate sid="translation156">126 39 -472</translate>
             </node>
             <node id="approach_stage2_bay16Node" name="approach_stage2_bay16" type="NODE">
-                <translate sid="translation157">173 60 -163</translate>
+                <translate sid="translation157">173 39 -163</translate>
             </node>
             <node id="approach_stage2_bay5Node" name="approach_stage2_bay5" type="NODE">
-                <translate sid="translation158">-23 60 -39</translate>
+                <translate sid="translation158">-23 39 -39</translate>
             </node>
             <node id="approach_stage2_bay3Node" name="approach_stage2_bay3" type="NODE">
-                <translate sid="translation159">111 60 23</translate>
+                <translate sid="translation159">111 39 23</translate>
             </node>
             <node id="approach_stage2_bay116Node" name="approach_stage2_bay116" type="NODE">
-                <translate sid="translation160">54 60 -596</translate>
+                <translate sid="translation160">54 39 -596</translate>
             </node>
             <node id="approach_stage2_bay14Node" name="approach_stage2_bay14" type="NODE">
-                <translate sid="translation161">39 60 -163</translate>
+                <translate sid="translation161">39 39 -163</translate>
             </node>
             <node id="approach_stage2_bay97Node" name="approach_stage2_bay97" type="NODE">
-                <translate sid="translation162">-38 60 -534</translate>
+                <translate sid="translation162">-38 39 -534</translate>
             </node>
             <node id="approach_stage2_bay12Node" name="approach_stage2_bay12" type="NODE">
-                <translate sid="translation163">173 60 -101</translate>
+                <translate sid="translation163">173 39 -101</translate>
             </node>
             <node id="approach_stage2_bay104Node" name="approach_stage2_bay104" type="NODE">
-                <translate sid="translation164">188 60 -534</translate>
+                <translate sid="translation164">188 39 -534</translate>
             </node>
             <node id="approach_stage2_bay15Node" name="approach_stage2_bay15" type="NODE">
-                <translate sid="translation165">111 60 -163</translate>
+                <translate sid="translation165">111 39 -163</translate>
             </node>
             <node id="approach_stage2_bay52Node" name="approach_stage2_bay52" type="NODE">
-                <translate sid="translation166">54 60 -348</translate>
+                <translate sid="translation166">54 39 -348</translate>
             </node>
             <node id="approach_stage2_bay49Node" name="approach_stage2_bay49" type="NODE">
-                <translate sid="translation167">-38 60 -348</translate>
+                <translate sid="translation167">-38 39 -348</translate>
             </node>
             <node id="approach_stage2_bay38Node" name="approach_stage2_bay38" type="NODE">
-                <translate sid="translation168">126 60 -286</translate>
+                <translate sid="translation168">126 39 -286</translate>
             </node>
             <node id="approach_stage2_bay56Node" name="approach_stage2_bay56" type="NODE">
-                <translate sid="translation169">188 60 -348</translate>
+                <translate sid="translation169">188 39 -348</translate>
             </node>
             <node id="approach_stage2_bay76Node" name="approach_stage2_bay76" type="NODE">
-                <translate sid="translation170">54 60 -440</translate>
+                <translate sid="translation170">54 39 -440</translate>
             </node>
             <node id="approach_stage2_bay26Node" name="approach_stage2_bay26" type="NODE">
-                <translate sid="translation171">-8 60 -254</translate>
+                <translate sid="translation171">-8 39 -254</translate>
             </node>
             <node id="approach_stage2_bay123Node" name="approach_stage2_bay123" type="NODE">
-                <translate sid="translation172">24 60 -658</translate>
+                <translate sid="translation172">24 39 -658</translate>
             </node>
             <node id="approach_stage2_bay48Node" name="approach_stage2_bay48" type="NODE">
-                <translate sid="translation173">188 60 -316</translate>
+                <translate sid="translation173">188 39 -316</translate>
             </node>
             <node id="approach_stage2_bay94Node" name="approach_stage2_bay94" type="NODE">
-                <translate sid="translation174">126 60 -502</translate>
+                <translate sid="translation174">126 39 -502</translate>
             </node>
             <node id="approach_stage2_bay41Node" name="approach_stage2_bay41" type="NODE">
-                <translate sid="translation175">-38 60 -316</translate>
+                <translate sid="translation175">-38 39 -316</translate>
             </node>
             <node id="approach_stage2_bay80Node" name="approach_stage2_bay80" type="NODE">
-                <translate sid="translation176">188 60 -440</translate>
+                <translate sid="translation176">188 39 -440</translate>
             </node>
             <node id="approach_stage2_bay125Node" name="approach_stage2_bay125" type="NODE">
-                <translate sid="translation177">-38 60 -688</translate>
+                <translate sid="translation177">-38 39 -688</translate>
             </node>
             <node id="approach_stage2_bay68Node" name="approach_stage2_bay68" type="NODE">
-                <translate sid="translation178">54 60 -410</translate>
+                <translate sid="translation178">54 39 -410</translate>
             </node>
             <node id="approach_stage2_bay1Node" name="approach_stage2_bay1" type="NODE">
-                <translate sid="translation179">-23 60 23</translate>
+                <translate sid="translation179">-23 39 23</translate>
             </node>
             <node id="approach_stage2_bay36Node" name="approach_stage2_bay36" type="NODE">
-                <translate sid="translation180">54 60 -286</translate>
+                <translate sid="translation180">54 39 -286</translate>
             </node>
             <node id="approach_stage2_bay70Node" name="approach_stage2_bay70" type="NODE">
-                <translate sid="translation181">126 60 -410</translate>
+                <translate sid="translation181">126 39 -410</translate>
             </node>
             <node id="approach_stage2_bay22Node" name="approach_stage2_bay22" type="NODE">
-                <translate sid="translation182">126 60 -224</translate>
+                <translate sid="translation182">126 39 -224</translate>
             </node>
             <node id="approach_stage2_bay30Node" name="approach_stage2_bay30" type="NODE">
-                <translate sid="translation183">126 60 -254</translate>
+                <translate sid="translation183">126 39 -254</translate>
             </node>
             <node id="approach_stage2_bay29Node" name="approach_stage2_bay29" type="NODE">
-                <translate sid="translation184">96 60 -254</translate>
+                <translate sid="translation184">96 39 -254</translate>
             </node>
             <node id="approach_stage2_bay19Node" name="approach_stage2_bay19" type="NODE">
-                <translate sid="translation185">24 60 -224</translate>
+                <translate sid="translation185">24 39 -224</translate>
             </node>
             <node id="approach_stage2_bay47Node" name="approach_stage2_bay47" type="NODE">
-                <translate sid="translation186">158 60 -316</translate>
+                <translate sid="translation186">158 39 -316</translate>
             </node>
             <node id="approach_stage2_bay84Node" name="approach_stage2_bay84" type="NODE">
-                <translate sid="translation187">54 60 -472</translate>
+                <translate sid="translation187">54 39 -472</translate>
             </node>
             <node id="approach_stage2_bay63Node" name="approach_stage2_bay63" type="NODE">
-                <translate sid="translation188">158 60 -378</translate>
+                <translate sid="translation188">158 39 -378</translate>
             </node>
             <node id="approach_stage2_bay99Node" name="approach_stage2_bay99" type="NODE">
-                <translate sid="translation189">24 60 -534</translate>
+                <translate sid="translation189">24 39 -534</translate>
             </node>
             <node id="approach_stage2_bay88Node" name="approach_stage2_bay88" type="NODE">
-                <translate sid="translation190">188 60 -472</translate>
+                <translate sid="translation190">188 39 -472</translate>
             </node>
             <node id="approach_stage2_bay53Node" name="approach_stage2_bay53" type="NODE">
-                <translate sid="translation191">96 60 -348</translate>
+                <translate sid="translation191">96 39 -348</translate>
             </node>
             <node id="approach_stage2_bay11Node" name="approach_stage2_bay11" type="NODE">
-                <translate sid="translation192">111 60 -101</translate>
+                <translate sid="translation192">111 39 -101</translate>
             </node>
             <node id="approach_stage2_bay79Node" name="approach_stage2_bay79" type="NODE">
-                <translate sid="translation193">158 60 -440</translate>
+                <translate sid="translation193">158 39 -440</translate>
             </node>
             <node id="approach_stage2_bay7Node" name="approach_stage2_bay7" type="NODE">
-                <translate sid="translation194">111 60 -39</translate>
+                <translate sid="translation194">111 39 -39</translate>
             </node>
             <node id="approach_stage2_bay62Node" name="approach_stage2_bay62" type="NODE">
-                <translate sid="translation195">126 60 -378</translate>
+                <translate sid="translation195">126 39 -378</translate>
             </node>
             <node id="approach_stage2_bay67Node" name="approach_stage2_bay67" type="NODE">
-                <translate sid="translation196">24 60 -410</translate>
+                <translate sid="translation196">24 39 -410</translate>
             </node>
             <node id="approach_stage2_bay42Node" name="approach_stage2_bay42" type="NODE">
-                <translate sid="translation197">-8 60 -316</translate>
+                <translate sid="translation197">-8 39 -316</translate>
             </node>
             <node id="approach_stage2_bay119Node" name="approach_stage2_bay119" type="NODE">
-                <translate sid="translation198">24 60 -626</translate>
+                <translate sid="translation198">24 39 -626</translate>
             </node>
             <node id="approach_stage2_bay33Node" name="approach_stage2_bay33" type="NODE">
-                <translate sid="translation199">-38 60 -286</translate>
+                <translate sid="translation199">-38 39 -286</translate>
             </node>
             <node id="approach_stage2_bay74Node" name="approach_stage2_bay74" type="NODE">
-                <translate sid="translation200">-8 60 -440</translate>
+                <translate sid="translation200">-8 39 -440</translate>
             </node>
             <node id="approach_stage2_bay69Node" name="approach_stage2_bay69" type="NODE">
-                <translate sid="translation201">96 60 -410</translate>
+                <translate sid="translation201">96 39 -410</translate>
             </node>
             <node id="approach_stage2_bay107Node" name="approach_stage2_bay107" type="NODE">
-                <translate sid="translation202">24 60 -564</translate>
+                <translate sid="translation202">24 39 -564</translate>
             </node>
             <node id="approach_stage2_bay87Node" name="approach_stage2_bay87" type="NODE">
-                <translate sid="translation203">158 60 -472</translate>
+                <translate sid="translation203">158 39 -472</translate>
             </node>
             <node id="approach_stage2_bay61Node" name="approach_stage2_bay61" type="NODE">
-                <translate sid="translation204">96 60 -378</translate>
+                <translate sid="translation204">96 39 -378</translate>
             </node>
             <node id="approach_stage2_bay105Node" name="approach_stage2_bay105" type="NODE">
-                <translate sid="translation205">-38 60 -564</translate>
+                <translate sid="translation205">-38 39 -564</translate>
             </node>
             <node id="approach_stage2_bay83Node" name="approach_stage2_bay83" type="NODE">
-                <translate sid="translation206">24 60 -472</translate>
+                <translate sid="translation206">24 39 -472</translate>
             </node>
             <node id="approach_stage2_bay6Node" name="approach_stage2_bay6" type="NODE">
-                <translate sid="translation207">39 60 -39</translate>
+                <translate sid="translation207">39 39 -39</translate>
             </node>
             <node id="approach_stage2_bay35Node" name="approach_stage2_bay35" type="NODE">
-                <translate sid="translation208">24 60 -286</translate>
+                <translate sid="translation208">24 39 -286</translate>
             </node>
             <node id="approach_stage2_bay21Node" name="approach_stage2_bay21" type="NODE">
-                <translate sid="translation209">96 60 -224</translate>
+                <translate sid="translation209">96 39 -224</translate>
             </node>
             <node id="approach_stage2_bay109Node" name="approach_stage2_bay109" type="NODE">
-                <translate sid="translation210">96 60 -564</translate>
+                <translate sid="translation210">96 39 -564</translate>
             </node>
             <node id="approach_stage2_bay65Node" name="approach_stage2_bay65" type="NODE">
-                <translate sid="translation211">-38 60 -410</translate>
+                <translate sid="translation211">-38 39 -410</translate>
             </node>
             <node id="approach_stage2_bay45Node" name="approach_stage2_bay45" type="NODE">
-                <translate sid="translation212">96 60 -316</translate>
+                <translate sid="translation212">96 39 -316</translate>
             </node>
             <node id="approach_stage2_bay37Node" name="approach_stage2_bay37" type="NODE">
-                <translate sid="translation213">96 60 -286</translate>
+                <translate sid="translation213">96 39 -286</translate>
             </node>
             <node id="approach_stage2_bay18Node" name="approach_stage2_bay18" type="NODE">
-                <translate sid="translation214">-8 60 -224</translate>
+                <translate sid="translation214">-8 39 -224</translate>
             </node>
             <node id="approach_stage2_bay106Node" name="approach_stage2_bay106" type="NODE">
-                <translate sid="translation215">-8 60 -564</translate>
+                <translate sid="translation215">-8 39 -564</translate>
             </node>
             <node id="approach_stage2_bay71Node" name="approach_stage2_bay71" type="NODE">
-                <translate sid="translation216">158 60 -410</translate>
+                <translate sid="translation216">158 39 -410</translate>
             </node>
             <node id="approach_stage2_bay27Node" name="approach_stage2_bay27" type="NODE">
-                <translate sid="translation217">24 60 -254</translate>
+                <translate sid="translation217">24 39 -254</translate>
             </node>
             <node id="approach_stage2_bay122Node" name="approach_stage2_bay122" type="NODE">
-                <translate sid="translation218">-8 60 -658</translate>
+                <translate sid="translation218">-8 39 -658</translate>
             </node>
             <node id="approach_stage2_bay8Node" name="approach_stage2_bay8" type="NODE">
-                <translate sid="translation219">173 60 -39</translate>
+                <translate sid="translation219">173 39 -39</translate>
             </node>
             <node id="approach_stage2_bay46Node" name="approach_stage2_bay46" type="NODE">
-                <translate sid="translation220">126 60 -316</translate>
-                <rotate sid="rotation388Y">0 1 0 0</rotate>
-                <rotate sid="rotation388X">1 0 0 0</rotate>
-                <rotate sid="rotation388Z">0 0 1 0</rotate>
-                <scale sid="scale391">1 1 1</scale>
+                <translate sid="translation220">126 39 -316</translate>
+                <rotate sid="rotation412Y">0 1 0 0</rotate>
+                <rotate sid="rotation412X">1 0 0 0</rotate>
+                <rotate sid="rotation412Z">0 0 1 0</rotate>
+                <scale sid="scale415">1 1 1</scale>
             </node>
             <node id="approach_stage2_bay117Node" name="approach_stage2_bay117" type="NODE">
-                <translate sid="translation221">-38 60 -626</translate>
+                <translate sid="translation221">-38 39 -626</translate>
             </node>
             <node id="approach_stage2_bay40Node" name="approach_stage2_bay40" type="NODE">
-                <translate sid="translation222">188 60 -286</translate>
+                <translate sid="translation222">188 39 -286</translate>
             </node>
             <node id="approach_stage2_bay127Node" name="approach_stage2_bay127" type="NODE">
-                <translate sid="translation223">24 60 -688</translate>
+                <translate sid="translation223">24 39 -688</translate>
             </node>
             <node id="approach_stage2_bay96Node" name="approach_stage2_bay96" type="NODE">
-                <translate sid="translation224">188 60 -502</translate>
+                <translate sid="translation224">188 39 -502</translate>
             </node>
             <node id="approach_stage2_bay81Node" name="approach_stage2_bay81" type="NODE">
-                <translate sid="translation225">-38 60 -472</translate>
+                <translate sid="translation225">-38 39 -472</translate>
             </node>
             <node id="approach_stage2_bay91Node" name="approach_stage2_bay91" type="NODE">
-                <translate sid="translation226">24 60 -502</translate>
+                <translate sid="translation226">24 39 -502</translate>
             </node>
             <node id="approach_stage2_bay114Node" name="approach_stage2_bay114" type="NODE">
-                <translate sid="translation227">-8 60 -596</translate>
+                <translate sid="translation227">-8 39 -596</translate>
             </node>
             <node id="approach_stage2_bay75Node" name="approach_stage2_bay75" type="NODE">
-                <translate sid="translation228">24 60 -440</translate>
+                <translate sid="translation228">24 39 -440</translate>
             </node>
             <node id="approach_stage2_bay64Node" name="approach_stage2_bay64" type="NODE">
-                <translate sid="translation229">188 60 -378</translate>
+                <translate sid="translation229">188 39 -378</translate>
             </node>
             <node id="approach_stage2_bay101Node" name="approach_stage2_bay101" type="NODE">
-                <translate sid="translation230">96 60 -534</translate>
+                <translate sid="translation230">96 39 -534</translate>
             </node>
             <node id="approach_stage2_bay55Node" name="approach_stage2_bay55" type="NODE">
-                <translate sid="translation231">158 60 -348</translate>
+                <translate sid="translation231">158 39 -348</translate>
             </node>
             <node id="approach_stage2_bay4Node" name="approach_stage2_bay4" type="NODE">
-                <translate sid="translation232">173 60 23</translate>
+                <translate sid="translation232">173 39 23</translate>
             </node>
             <node id="approach_stage2_bay25Node" name="approach_stage2_bay25" type="NODE">
-                <translate sid="translation233">-38 60 -254</translate>
+                <translate sid="translation233">-38 39 -254</translate>
             </node>
             <node id="approach_stage2_bay112Node" name="approach_stage2_bay112" type="NODE">
-                <translate sid="translation234">188 60 -564</translate>
+                <translate sid="translation234">188 39 -564</translate>
             </node>
             <node id="approach_stage2_bay34Node" name="approach_stage2_bay34" type="NODE">
-                <translate sid="translation235">-8 60 -286</translate>
+                <translate sid="translation235">-8 39 -286</translate>
             </node>
             <node id="approach_stage2_bay13Node" name="approach_stage2_bay13" type="NODE">
-                <translate sid="translation236">-23 60 -163</translate>
+                <translate sid="translation236">-23 39 -163</translate>
             </node>
             <node id="approach_stage2_bay24Node" name="approach_stage2_bay24" type="NODE">
-                <translate sid="translation237">188 60 -224</translate>
+                <translate sid="translation237">188 39 -224</translate>
             </node>
             <node id="approach_stage2_bay128Node" name="approach_stage2_bay128" type="NODE">
-                <translate sid="translation238">54 60 -688</translate>
+                <translate sid="translation238">54 39 -688</translate>
             </node>
             <node id="approach_stage2_bay120Node" name="approach_stage2_bay120" type="NODE">
-                <translate sid="translation239">54 60 -626</translate>
+                <translate sid="translation239">54 39 -626</translate>
             </node>
             <node id="approach_stage2_bay66Node" name="approach_stage2_bay66" type="NODE">
-                <translate sid="translation240">-8 60 -410</translate>
+                <translate sid="translation240">-8 39 -410</translate>
             </node>
             <node id="approach_stage2_bay77Node" name="approach_stage2_bay77" type="NODE">
-                <translate sid="translation241">96 60 -440</translate>
+                <translate sid="translation241">96 39 -440</translate>
             </node>
             <node id="approach_stage2_bay43Node" name="approach_stage2_bay43" type="NODE">
-                <translate sid="translation242">24 60 -316</translate>
+                <translate sid="translation242">24 39 -316</translate>
             </node>
             <node id="approach_stage2_bay32Node" name="approach_stage2_bay32" type="NODE">
-                <translate sid="translation243">188 60 -254</translate>
+                <translate sid="translation243">188 39 -254</translate>
             </node>
             <node id="approach_stage2_bay90Node" name="approach_stage2_bay90" type="NODE">
-                <translate sid="translation244">-8 60 -502</translate>
+                <translate sid="translation244">-8 39 -502</translate>
             </node>
             <node id="approach_stage2_bay110Node" name="approach_stage2_bay110" type="NODE">
-                <translate sid="translation245">126 60 -564</translate>
+                <translate sid="translation245">126 39 -564</translate>
             </node>
             <node id="approach_stage2_bay82Node" name="approach_stage2_bay82" type="NODE">
-                <translate sid="translation246">-8 60 -472</translate>
+                <translate sid="translation246">-8 39 -472</translate>
             </node>
             <node id="approach_stage2_bay60Node" name="approach_stage2_bay60" type="NODE">
-                <translate sid="translation247">54 60 -378</translate>
+                <translate sid="translation247">54 39 -378</translate>
             </node>
             <node id="approach_stage2_bay102Node" name="approach_stage2_bay102" type="NODE">
-                <translate sid="translation248">126 60 -534</translate>
+                <translate sid="translation248">126 39 -534</translate>
             </node>
             <node id="approach_stage2_bay100Node" name="approach_stage2_bay100" type="NODE">
-                <translate sid="translation249">54 60 -534</translate>
+                <translate sid="translation249">54 39 -534</translate>
             </node>
             <node id="approach_stage2_bay39Node" name="approach_stage2_bay39" type="NODE">
-                <translate sid="translation250">158 60 -286</translate>
+                <translate sid="translation250">158 39 -286</translate>
             </node>
             <node id="approach_stage2_bay57Node" name="approach_stage2_bay57" type="NODE">
-                <translate sid="translation251">-38 60 -378</translate>
+                <translate sid="translation251">-38 39 -378</translate>
             </node>
             <node id="approach_stage2_bay126Node" name="approach_stage2_bay126" type="NODE">
-                <translate sid="translation252">-8 60 -688</translate>
+                <translate sid="translation252">-8 39 -688</translate>
             </node>
             <node id="approach_stage2_bay89Node" name="approach_stage2_bay89" type="NODE">
-                <translate sid="translation253">-38 60 -502</translate>
+                <translate sid="translation253">-38 39 -502</translate>
             </node>
             <node id="approach_stage2_bay78Node" name="approach_stage2_bay78" type="NODE">
-                <translate sid="translation254">126 60 -440</translate>
+                <translate sid="translation254">126 39 -440</translate>
             </node>
             <node id="approach_stage2_bay73Node" name="approach_stage2_bay73" type="NODE">
-                <translate sid="translation255">-38 60 -440</translate>
+                <translate sid="translation255">-38 39 -440</translate>
             </node>
             <node id="approach_stage2_bay51Node" name="approach_stage2_bay51" type="NODE">
-                <translate sid="translation256">24 60 -348</translate>
+                <translate sid="translation256">24 39 -348</translate>
             </node>
             <node id="docking_stage1_bay127Node" name="docking_stage1_bay127" type="NODE">
-                <translate sid="translation257">24 60 -688</translate>
+                <translate sid="translation257">24 39 -688</translate>
             </node>
             <node id="docking_stage1_bay100Node" name="docking_stage1_bay100" type="NODE">
-                <translate sid="translation258">54 60 -534</translate>
+                <translate sid="translation258">54 39 -534</translate>
             </node>
             <node id="docking_stage1_bay34Node" name="docking_stage1_bay34" type="NODE">
-                <translate sid="translation259">-8 60 -286</translate>
+                <translate sid="translation259">-8 39 -286</translate>
             </node>
             <node id="docking_stage1_bay98Node" name="docking_stage1_bay98" type="NODE">
-                <translate sid="translation260">-8 60 -534</translate>
+                <translate sid="translation260">-8 39 -534</translate>
             </node>
             <node id="docking_stage1_bay56Node" name="docking_stage1_bay56" type="NODE">
-                <translate sid="translation261">188 60 -348</translate>
+                <translate sid="translation261">188 39 -348</translate>
             </node>
             <node id="docking_stage1_bay3Node" name="docking_stage1_bay3" type="NODE">
-                <translate sid="translation262">111 60 23</translate>
+                <translate sid="translation262">111 39 23</translate>
             </node>
             <node id="docking_stage1_bay112Node" name="docking_stage1_bay112" type="NODE">
-                <translate sid="translation263">188 60 -564</translate>
+                <translate sid="translation263">188 39 -564</translate>
             </node>
             <node id="docking_stage1_bay55Node" name="docking_stage1_bay55" type="NODE">
-                <translate sid="translation264">158 60 -348</translate>
+                <translate sid="translation264">158 39 -348</translate>
             </node>
             <node id="docking_stage1_bay11Node" name="docking_stage1_bay11" type="NODE">
-                <translate sid="translation265">111 60 -101</translate>
+                <translate sid="translation265">111 39 -101</translate>
             </node>
             <node id="docking_stage1_bay114Node" name="docking_stage1_bay114" type="NODE">
-                <translate sid="translation266">-8 60 -596</translate>
+                <translate sid="translation266">-8 39 -596</translate>
             </node>
             <node id="docking_stage1_bay69Node" name="docking_stage1_bay69" type="NODE">
-                <translate sid="translation267">96 60 -410</translate>
+                <translate sid="translation267">96 39 -410</translate>
             </node>
             <node id="docking_stage1_bay22Node" name="docking_stage1_bay22" type="NODE">
-                <translate sid="translation268">126 60 -224</translate>
+                <translate sid="translation268">126 39 -224</translate>
             </node>
             <node id="docking_stage1_bay61Node" name="docking_stage1_bay61" type="NODE">
-                <translate sid="translation269">96 60 -378</translate>
+                <translate sid="translation269">96 39 -378</translate>
             </node>
             <node id="docking_stage1_bay30Node" name="docking_stage1_bay30" type="NODE">
-                <translate sid="translation270">126 60 -254</translate>
+                <translate sid="translation270">126 39 -254</translate>
             </node>
             <node id="docking_stage1_bay86Node" name="docking_stage1_bay86" type="NODE">
-                <translate sid="translation271">126 60 -472</translate>
+                <translate sid="translation271">126 39 -472</translate>
             </node>
             <node id="docking_stage1_bay128Node" name="docking_stage1_bay128" type="NODE">
-                <translate sid="translation272">54 60 -688</translate>
+                <translate sid="translation272">54 39 -688</translate>
             </node>
             <node id="docking_stage1_bay75Node" name="docking_stage1_bay75" type="NODE">
-                <translate sid="translation273">24 60 -440</translate>
+                <translate sid="translation273">24 39 -440</translate>
             </node>
             <node id="docking_stage1_bay125Node" name="docking_stage1_bay125" type="NODE">
-                <translate sid="translation274">-38 60 -688</translate>
+                <translate sid="translation274">-38 39 -688</translate>
             </node>
             <node id="docking_stage1_bay103Node" name="docking_stage1_bay103" type="NODE">
-                <translate sid="translation275">158 60 -534</translate>
+                <translate sid="translation275">158 39 -534</translate>
             </node>
             <node id="docking_stage1_bay49Node" name="docking_stage1_bay49" type="NODE">
-                <translate sid="translation276">-38 60 -348</translate>
+                <translate sid="translation276">-38 39 -348</translate>
             </node>
             <node id="docking_stage1_bay90Node" name="docking_stage1_bay90" type="NODE">
-                <translate sid="translation277">-8 60 -502</translate>
+                <translate sid="translation277">-8 39 -502</translate>
             </node>
             <node id="docking_stage1_bay54Node" name="docking_stage1_bay54" type="NODE">
-                <translate sid="translation278">126 60 -348</translate>
+                <translate sid="translation278">126 39 -348</translate>
             </node>
             <node id="docking_stage1_bay8Node" name="docking_stage1_bay8" type="NODE">
-                <translate sid="translation279">173 60 -39</translate>
+                <translate sid="translation279">173 39 -39</translate>
             </node>
             <node id="docking_stage1_bay108Node" name="docking_stage1_bay108" type="NODE">
-                <translate sid="translation280">54 60 -564</translate>
+                <translate sid="translation280">54 39 -564</translate>
             </node>
             <node id="docking_stage1_bay59Node" name="docking_stage1_bay59" type="NODE">
-                <translate sid="translation281">24 60 -378</translate>
+                <translate sid="translation281">24 39 -378</translate>
             </node>
             <node id="docking_stage1_bay15Node" name="docking_stage1_bay15" type="NODE">
-                <translate sid="translation282">111 60 -163</translate>
+                <translate sid="translation282">111 39 -163</translate>
             </node>
             <node id="docking_stage1_bay116Node" name="docking_stage1_bay116" type="NODE">
-                <translate sid="translation283">54 60 -596</translate>
+                <translate sid="translation283">54 39 -596</translate>
             </node>
             <node id="docking_stage1_bay60Node" name="docking_stage1_bay60" type="NODE">
-                <translate sid="translation284">54 60 -378</translate>
+                <translate sid="translation284">54 39 -378</translate>
             </node>
             <node id="docking_stage1_bay19Node" name="docking_stage1_bay19" type="NODE">
-                <translate sid="translation285">24 60 -224</translate>
+                <translate sid="translation285">24 39 -224</translate>
             </node>
             <node id="docking_stage1_bay83Node" name="docking_stage1_bay83" type="NODE">
-                <translate sid="translation286">24 60 -472</translate>
+                <translate sid="translation286">24 39 -472</translate>
             </node>
             <node id="docking_stage1_bay28Node" name="docking_stage1_bay28" type="NODE">
-                <translate sid="translation287">54 60 -254</translate>
+                <translate sid="translation287">54 39 -254</translate>
             </node>
             <node id="docking_stage1_bay82Node" name="docking_stage1_bay82" type="NODE">
-                <translate sid="translation288">-8 60 -472</translate>
+                <translate sid="translation288">-8 39 -472</translate>
             </node>
             <node id="docking_stage1_bay126Node" name="docking_stage1_bay126" type="NODE">
-                <translate sid="translation289">-8 60 -688</translate>
+                <translate sid="translation289">-8 39 -688</translate>
             </node>
             <node id="docking_stage1_bay99Node" name="docking_stage1_bay99" type="NODE">
-                <translate sid="translation290">24 60 -534</translate>
+                <translate sid="translation290">24 39 -534</translate>
             </node>
             <node id="docking_stage1_bay123Node" name="docking_stage1_bay123" type="NODE">
-                <translate sid="translation291">24 60 -658</translate>
+                <translate sid="translation291">24 39 -658</translate>
             </node>
             <node id="docking_stage1_bay104Node" name="docking_stage1_bay104" type="NODE">
-                <translate sid="translation292">188 60 -534</translate>
+                <translate sid="translation292">188 39 -534</translate>
             </node>
             <node id="docking_stage1_bay53Node" name="docking_stage1_bay53" type="NODE">
-                <translate sid="translation293">96 60 -348</translate>
+                <translate sid="translation293">96 39 -348</translate>
             </node>
             <node id="docking_stage1_bay1Node" name="docking_stage1_bay1" type="NODE">
-                <translate sid="translation294">-23 60 23</translate>
+                <translate sid="translation294">-23 39 23</translate>
             </node>
             <node id="docking_stage1_bay107Node" name="docking_stage1_bay107" type="NODE">
-                <translate sid="translation295">24 60 -564</translate>
+                <translate sid="translation295">24 39 -564</translate>
             </node>
             <node id="docking_stage1_bay50Node" name="docking_stage1_bay50" type="NODE">
-                <translate sid="translation296">-8 60 -348</translate>
+                <translate sid="translation296">-8 39 -348</translate>
             </node>
             <node id="docking_stage1_bay10Node" name="docking_stage1_bay10" type="NODE">
-                <translate sid="translation297">39 60 -101</translate>
+                <translate sid="translation297">39 39 -101</translate>
             </node>
             <node id="docking_stage1_bay117Node" name="docking_stage1_bay117" type="NODE">
-                <translate sid="translation298">-38 60 -626</translate>
+                <translate sid="translation298">-38 39 -626</translate>
             </node>
             <node id="docking_stage1_bay70Node" name="docking_stage1_bay70" type="NODE">
-                <translate sid="translation299">126 60 -410</translate>
+                <translate sid="translation299">126 39 -410</translate>
             </node>
             <node id="docking_stage1_bay18Node" name="docking_stage1_bay18" type="NODE">
-                <translate sid="translation300">-8 60 -224</translate>
+                <translate sid="translation300">-8 39 -224</translate>
             </node>
             <node id="docking_stage1_bay64Node" name="docking_stage1_bay64" type="NODE">
-                <translate sid="translation301">188 60 -378</translate>
+                <translate sid="translation301">188 39 -378</translate>
             </node>
             <node id="docking_stage1_bay25Node" name="docking_stage1_bay25" type="NODE">
-                <translate sid="translation302">-38 60 -254</translate>
+                <translate sid="translation302">-38 39 -254</translate>
             </node>
             <node id="docking_stage1_bay73Node" name="docking_stage1_bay73" type="NODE">
-                <translate sid="translation303">-38 60 -440</translate>
+                <translate sid="translation303">-38 39 -440</translate>
             </node>
             <node id="docking_stage1_bay121Node" name="docking_stage1_bay121" type="NODE">
-                <translate sid="translation304">-38 60 -658</translate>
+                <translate sid="translation304">-38 39 -658</translate>
             </node>
             <node id="docking_stage1_bay85Node" name="docking_stage1_bay85" type="NODE">
-                <translate sid="translation305">96 60 -472</translate>
+                <translate sid="translation305">96 39 -472</translate>
             </node>
             <node id="docking_stage1_bay39Node" name="docking_stage1_bay39" type="NODE">
-                <translate sid="translation306">158 60 -286</translate>
+                <translate sid="translation306">158 39 -286</translate>
             </node>
             <node id="docking_stage1_bay93Node" name="docking_stage1_bay93" type="NODE">
-                <translate sid="translation307">96 60 -502</translate>
+                <translate sid="translation307">96 39 -502</translate>
             </node>
             <node id="docking_stage1_bay52Node" name="docking_stage1_bay52" type="NODE">
-                <translate sid="translation308">54 60 -348</translate>
+                <translate sid="translation308">54 39 -348</translate>
             </node>
             <node id="docking_stage1_bay96Node" name="docking_stage1_bay96" type="NODE">
-                <translate sid="translation309">188 60 -502</translate>
+                <translate sid="translation309">188 39 -502</translate>
             </node>
             <node id="docking_stage1_bay46Node" name="docking_stage1_bay46" type="NODE">
-                <translate sid="translation310">126 60 -316</translate>
+                <translate sid="translation310">126 39 -316</translate>
             </node>
             <node id="docking_stage1_bay4Node" name="docking_stage1_bay4" type="NODE">
-                <translate sid="translation311">173 60 23</translate>
+                <translate sid="translation311">173 39 23</translate>
             </node>
             <node id="docking_stage1_bay105Node" name="docking_stage1_bay105" type="NODE">
-                <translate sid="translation312">-38 60 -564</translate>
+                <translate sid="translation312">-38 39 -564</translate>
             </node>
             <node id="docking_stage1_bay62Node" name="docking_stage1_bay62" type="NODE">
-                <translate sid="translation313">126 60 -378</translate>
+                <translate sid="translation313">126 39 -378</translate>
             </node>
             <node id="docking_stage1_bay12Node" name="docking_stage1_bay12" type="NODE">
-                <translate sid="translation314">173 60 -101</translate>
+                <translate sid="translation314">173 39 -101</translate>
             </node>
             <node id="docking_stage1_bay119Node" name="docking_stage1_bay119" type="NODE">
-                <translate sid="translation315">24 60 -626</translate>
+                <translate sid="translation315">24 39 -626</translate>
             </node>
             <node id="docking_stage1_bay57Node" name="docking_stage1_bay57" type="NODE">
-                <translate sid="translation316">-38 60 -378</translate>
+                <translate sid="translation316">-38 39 -378</translate>
             </node>
             <node id="docking_stage1_bay24Node" name="docking_stage1_bay24" type="NODE">
-                <translate sid="translation317">188 60 -224</translate>
+                <translate sid="translation317">188 39 -224</translate>
             </node>
             <node id="docking_stage1_bay80Node" name="docking_stage1_bay80" type="NODE">
-                <translate sid="translation318">188 60 -440</translate>
+                <translate sid="translation318">188 39 -440</translate>
             </node>
             <node id="docking_stage1_bay31Node" name="docking_stage1_bay31" type="NODE">
-                <translate sid="translation319">158 60 -254</translate>
+                <translate sid="translation319">158 39 -254</translate>
             </node>
             <node id="docking_stage1_bay78Node" name="docking_stage1_bay78" type="NODE">
-                <translate sid="translation320">126 60 -440</translate>
+                <translate sid="translation320">126 39 -440</translate>
             </node>
             <node id="docking_stage1_bay40Node" name="docking_stage1_bay40" type="NODE">
-                <translate sid="translation321">188 60 -286</translate>
+                <translate sid="translation321">188 39 -286</translate>
             </node>
             <node id="docking_stage1_bay94Node" name="docking_stage1_bay94" type="NODE">
-                <translate sid="translation322">126 60 -502</translate>
+                <translate sid="translation322">126 39 -502</translate>
             </node>
             <node id="docking_stage1_bay124Node" name="docking_stage1_bay124" type="NODE">
-                <translate sid="translation323">54 60 -658</translate>
+                <translate sid="translation323">54 39 -658</translate>
             </node>
             <node id="docking_stage1_bay91Node" name="docking_stage1_bay91" type="NODE">
-                <translate sid="translation324">24 60 -502</translate>
+                <translate sid="translation324">24 39 -502</translate>
             </node>
             <node id="docking_stage1_bay41Node" name="docking_stage1_bay41" type="NODE">
-                <translate sid="translation325">-38 60 -316</translate>
+                <translate sid="translation325">-38 39 -316</translate>
             </node>
             <node id="docking_stage1_bay111Node" name="docking_stage1_bay111" type="NODE">
-                <translate sid="translation326">158 60 -564</translate>
+                <translate sid="translation326">158 39 -564</translate>
             </node>
             <node id="docking_stage1_bay44Node" name="docking_stage1_bay44" type="NODE">
-                <translate sid="translation327">54 60 -316</translate>
+                <translate sid="translation327">54 39 -316</translate>
             </node>
             <node id="docking_stage1_bay7Node" name="docking_stage1_bay7" type="NODE">
-                <translate sid="translation328">111 60 -39</translate>
+                <translate sid="translation328">111 39 -39</translate>
             </node>
             <node id="docking_stage1_bay120Node" name="docking_stage1_bay120" type="NODE">
-                <translate sid="translation329">54 60 -626</translate>
+                <translate sid="translation329">54 39 -626</translate>
             </node>
             <node id="docking_stage1_bay58Node" name="docking_stage1_bay58" type="NODE">
-                <translate sid="translation330">-8 60 -378</translate>
+                <translate sid="translation330">-8 39 -378</translate>
             </node>
             <node id="docking_stage1_bay14Node" name="docking_stage1_bay14" type="NODE">
-                <translate sid="translation331">39 60 -163</translate>
+                <translate sid="translation331">39 39 -163</translate>
             </node>
             <node id="docking_stage1_bay72Node" name="docking_stage1_bay72" type="NODE">
-                <translate sid="translation332">188 60 -410</translate>
+                <translate sid="translation332">188 39 -410</translate>
             </node>
             <node id="docking_stage1_bay21Node" name="docking_stage1_bay21" type="NODE">
-                <translate sid="translation333">96 60 -224</translate>
+                <translate sid="translation333">96 39 -224</translate>
             </node>
             <node id="docking_stage1_bay88Node" name="docking_stage1_bay88" type="NODE">
-                <translate sid="translation334">188 60 -472</translate>
+                <translate sid="translation334">188 39 -472</translate>
             </node>
             <node id="docking_stage1_bay27Node" name="docking_stage1_bay27" type="NODE">
-                <translate sid="translation335">24 60 -254</translate>
+                <translate sid="translation335">24 39 -254</translate>
             </node>
             <node id="docking_stage1_bay79Node" name="docking_stage1_bay79" type="NODE">
-                <translate sid="translation336">158 60 -440</translate>
+                <translate sid="translation336">158 39 -440</translate>
             </node>
             <node id="docking_stage1_bay36Node" name="docking_stage1_bay36" type="NODE">
-                <translate sid="translation337">54 60 -286</translate>
+                <translate sid="translation337">54 39 -286</translate>
             </node>
             <node id="docking_stage1_bay102Node" name="docking_stage1_bay102" type="NODE">
-                <translate sid="translation338">126 60 -534</translate>
+                <translate sid="translation338">126 39 -534</translate>
             </node>
             <node id="docking_stage1_bay122Node" name="docking_stage1_bay122" type="NODE">
-                <translate sid="translation339">-8 60 -658</translate>
+                <translate sid="translation339">-8 39 -658</translate>
             </node>
             <node id="docking_stage1_bay95Node" name="docking_stage1_bay95" type="NODE">
-                <translate sid="translation340">158 60 -502</translate>
+                <translate sid="translation340">158 39 -502</translate>
             </node>
             <node id="docking_stage1_bay42Node" name="docking_stage1_bay42" type="NODE">
-                <translate sid="translation341">-8 60 -316</translate>
+                <translate sid="translation341">-8 39 -316</translate>
             </node>
             <node id="docking_stage1_bay2Node" name="docking_stage1_bay2" type="NODE">
-                <translate sid="translation342">39 60 23</translate>
+                <translate sid="translation342">39 39 23</translate>
             </node>
             <node id="docking_stage1_bay106Node" name="docking_stage1_bay106" type="NODE">
-                <translate sid="translation343">-8 60 -564</translate>
+                <translate sid="translation343">-8 39 -564</translate>
             </node>
             <node id="docking_stage1_bay47Node" name="docking_stage1_bay47" type="NODE">
-                <translate sid="translation344">158 60 -316</translate>
+                <translate sid="translation344">158 39 -316</translate>
             </node>
             <node id="docking_stage1_bay9Node" name="docking_stage1_bay9" type="NODE">
-                <translate sid="translation345">-23 60 -101</translate>
+                <translate sid="translation345">-23 39 -101</translate>
             </node>
             <node id="docking_stage1_bay118Node" name="docking_stage1_bay118" type="NODE">
-                <translate sid="translation346">-8 60 -626</translate>
+                <translate sid="translation346">-8 39 -626</translate>
             </node>
             <node id="docking_stage1_bay71Node" name="docking_stage1_bay71" type="NODE">
-                <translate sid="translation347">158 60 -410</translate>
+                <translate sid="translation347">158 39 -410</translate>
             </node>
             <node id="docking_stage1_bay20Node" name="docking_stage1_bay20" type="NODE">
-                <translate sid="translation348">54 60 -224</translate>
+                <translate sid="translation348">54 39 -224</translate>
             </node>
             <node id="docking_stage1_bay63Node" name="docking_stage1_bay63" type="NODE">
-                <translate sid="translation349">158 60 -378</translate>
+                <translate sid="translation349">158 39 -378</translate>
             </node>
             <node id="docking_stage1_bay32Node" name="docking_stage1_bay32" type="NODE">
-                <translate sid="translation350">188 60 -254</translate>
+                <translate sid="translation350">188 39 -254</translate>
             </node>
             <node id="docking_stage1_bay77Node" name="docking_stage1_bay77" type="NODE">
-                <translate sid="translation351">96 60 -440</translate>
+                <translate sid="translation351">96 39 -440</translate>
             </node>
             <node id="docking_stage1_bay38Node" name="docking_stage1_bay38" type="NODE">
-                <translate sid="translation352">126 60 -286</translate>
+                <translate sid="translation352">126 39 -286</translate>
             </node>
             <node id="docking_stage1_bay87Node" name="docking_stage1_bay87" type="NODE">
-                <translate sid="translation353">158 60 -472</translate>
+                <translate sid="translation353">158 39 -472</translate>
             </node>
             <node id="docking_stage1_bay33Node" name="docking_stage1_bay33" type="NODE">
-                <translate sid="translation354">-38 60 -286</translate>
+                <translate sid="translation354">-38 39 -286</translate>
             </node>
             <node id="docking_stage1_bay97Node" name="docking_stage1_bay97" type="NODE">
-                <translate sid="translation355">-38 60 -534</translate>
+                <translate sid="translation355">-38 39 -534</translate>
             </node>
             <node id="docking_stage1_bay48Node" name="docking_stage1_bay48" type="NODE">
-                <translate sid="translation356">188 60 -316</translate>
+                <translate sid="translation356">188 39 -316</translate>
             </node>
             <node id="docking_stage1_bay92Node" name="docking_stage1_bay92" type="NODE">
-                <translate sid="translation357">54 60 -502</translate>
+                <translate sid="translation357">54 39 -502</translate>
             </node>
             <node id="docking_stage1_bay45Node" name="docking_stage1_bay45" type="NODE">
-                <translate sid="translation358">96 60 -316</translate>
+                <translate sid="translation358">96 39 -316</translate>
             </node>
             <node id="docking_stage1_bay6Node" name="docking_stage1_bay6" type="NODE">
-                <translate sid="translation359">39 60 -39</translate>
+                <translate sid="translation359">39 39 -39</translate>
             </node>
             <node id="docking_stage1_bay110Node" name="docking_stage1_bay110" type="NODE">
-                <translate sid="translation360">126 60 -564</translate>
+                <translate sid="translation360">126 39 -564</translate>
             </node>
             <node id="docking_stage1_bay68Node" name="docking_stage1_bay68" type="NODE">
-                <translate sid="translation361">54 60 -410</translate>
+                <translate sid="translation361">54 39 -410</translate>
             </node>
             <node id="docking_stage1_bay13Node" name="docking_stage1_bay13" type="NODE">
-                <translate sid="translation362">-23 60 -163</translate>
+                <translate sid="translation362">-23 39 -163</translate>
             </node>
             <node id="docking_stage1_bay115Node" name="docking_stage1_bay115" type="NODE">
-                <translate sid="translation363">24 60 -596</translate>
+                <translate sid="translation363">24 39 -596</translate>
             </node>
             <node id="docking_stage1_bay66Node" name="docking_stage1_bay66" type="NODE">
-                <translate sid="translation364">-8 60 -410</translate>
+                <translate sid="translation364">-8 39 -410</translate>
             </node>
             <node id="docking_stage1_bay17Node" name="docking_stage1_bay17" type="NODE">
-                <translate sid="translation365">-38 60 -224</translate>
+                <translate sid="translation365">-38 39 -224</translate>
             </node>
             <node id="docking_stage1_bay84Node" name="docking_stage1_bay84" type="NODE">
-                <translate sid="translation366">54 60 -472</translate>
+                <translate sid="translation366">54 39 -472</translate>
             </node>
             <node id="docking_stage1_bay29Node" name="docking_stage1_bay29" type="NODE">
-                <translate sid="translation367">96 60 -254</translate>
+                <translate sid="translation367">96 39 -254</translate>
             </node>
             <node id="docking_stage1_bay81Node" name="docking_stage1_bay81" type="NODE">
-                <translate sid="translation368">-38 60 -472</translate>
+                <translate sid="translation368">-38 39 -472</translate>
             </node>
             <node id="docking_stage1_bay37Node" name="docking_stage1_bay37" type="NODE">
-                <translate sid="translation369">96 60 -286</translate>
+                <translate sid="translation369">96 39 -286</translate>
             </node>
             <node id="docking_stage1_bay101Node" name="docking_stage1_bay101" type="NODE">
-                <translate sid="translation370">96 60 -534</translate>
+                <translate sid="translation370">96 39 -534</translate>
             </node>
             <node id="docking_stage1_bay35Node" name="docking_stage1_bay35" type="NODE">
-                <translate sid="translation371">24 60 -286</translate>
+                <translate sid="translation371">24 39 -286</translate>
             </node>
             <node id="docking_stage1_bay89Node" name="docking_stage1_bay89" type="NODE">
-                <translate sid="translation372">-38 60 -502</translate>
+                <translate sid="translation372">-38 39 -502</translate>
             </node>
             <node id="docking_stage1_bay51Node" name="docking_stage1_bay51" type="NODE">
-                <translate sid="translation373">24 60 -348</translate>
+                <translate sid="translation373">24 39 -348</translate>
             </node>
             <node id="docking_stage1_bay109Node" name="docking_stage1_bay109" type="NODE">
-                <translate sid="translation374">96 60 -564</translate>
+                <translate sid="translation374">96 39 -564</translate>
             </node>
             <node id="docking_stage1_bay43Node" name="docking_stage1_bay43" type="NODE">
-                <translate sid="translation375">24 60 -316</translate>
+                <translate sid="translation375">24 39 -316</translate>
             </node>
             <node id="docking_stage1_bay5Node" name="docking_stage1_bay5" type="NODE">
-                <translate sid="translation376">-23 60 -39</translate>
+                <translate sid="translation376">-23 39 -39</translate>
             </node>
             <node id="docking_stage1_bay113Node" name="docking_stage1_bay113" type="NODE">
-                <translate sid="translation377">-38 60 -596</translate>
+                <translate sid="translation377">-38 39 -596</translate>
             </node>
             <node id="docking_stage1_bay65Node" name="docking_stage1_bay65" type="NODE">
-                <translate sid="translation378">-38 60 -410</translate>
+                <translate sid="translation378">-38 39 -410</translate>
             </node>
             <node id="docking_stage1_bay16Node" name="docking_stage1_bay16" type="NODE">
-                <translate sid="translation379">173 60 -163</translate>
+                <translate sid="translation379">173 39 -163</translate>
             </node>
             <node id="docking_stage1_bay67Node" name="docking_stage1_bay67" type="NODE">
-                <translate sid="translation380">24 60 -410</translate>
+                <translate sid="translation380">24 39 -410</translate>
             </node>
             <node id="docking_stage1_bay23Node" name="docking_stage1_bay23" type="NODE">
-                <translate sid="translation381">158 60 -224</translate>
+                <translate sid="translation381">158 39 -224</translate>
             </node>
             <node id="docking_stage1_bay74Node" name="docking_stage1_bay74" type="NODE">
-                <translate sid="translation382">-8 60 -440</translate>
+                <translate sid="translation382">-8 39 -440</translate>
             </node>
             <node id="docking_stage1_bay26Node" name="docking_stage1_bay26" type="NODE">
-                <translate sid="translation383">-8 60 -254</translate>
+                <translate sid="translation383">-8 39 -254</translate>
             </node>
             <node id="docking_stage1_bay76Node" name="docking_stage1_bay76" type="NODE">
-                <translate sid="translation384">54 60 -440</translate>
+                <translate sid="translation384">54 39 -440</translate>
             </node>
-            <node id="Geometry-PlaneNode" name="Plane" type="NODE">
-                <translate sid="translation385">0 10 0</translate>
-                <instance_geometry url="#Geometry-Plane">
+            <node id="navlight_red_1Node" name="navlight_red_1" type="NODE">
+                <translate sid="translation385">-75 41.1 75</translate>
+            </node>
+            <node id="navlight_red_1__16_Node" name="navlight_red_1__16_" type="NODE">
+                <translate sid="translation386">141.252 109.48 -659.72</translate>
+            </node>
+            <node id="navlight_red_1__3_Node" name="navlight_red_1__3_" type="NODE">
+                <translate sid="translation387">-225 41.1 225</translate>
+            </node>
+            <node id="navlight_red_1__18_Node" name="navlight_red_1__18_" type="NODE">
+                <translate sid="translation388">142.11 109.48 -623.643</translate>
+            </node>
+            <node id="navlight_red_1__5_Node" name="navlight_red_1__5_" type="NODE">
+                <translate sid="translation389">225 41.1 75</translate>
+            </node>
+            <node id="navlight_green_1__5___2_Node" name="navlight_green_1__5___2_" type="NODE">
+                <translate sid="translation390">66 40.1 -576</translate>
+            </node>
+            <node id="navlight_green_1__5___2___2_Node" name="navlight_green_1__5___2___2_" type="NODE">
+                <translate sid="translation391">200 40.1 -576</translate>
+            </node>
+            <node id="navlight_green_1__5___2___3_Node" name="navlight_green_1__5___2___3_" type="NODE">
+                <translate sid="translation392">66 40.1 -700</translate>
+            </node>
+            <node id="navlight_green_1__5___2___4_Node" name="navlight_green_1__5___2___4_" type="NODE">
+                <translate sid="translation393">197 41.1 -697</translate>
+            </node>
+            <node id="navlight_red_1__7_Node" name="navlight_red_1__7_" type="NODE">
+                <translate sid="translation394">-225 41.1 -200</translate>
+            </node>
+            <node id="navlight_red_1__9_Node" name="navlight_red_1__9_" type="NODE">
+                <translate sid="translation395">-225 41.1 -550</translate>
+            </node>
+            <node id="navlight_red_1__11_Node" name="navlight_red_1__11_" type="NODE">
+                <translate sid="translation396">-225 41.1 -725</translate>
+            </node>
+            <node id="navlight_green_1__5___2___5_Node" name="navlight_green_1__5___2___5_" type="NODE">
+                <translate sid="translation397">-50 40.1 -700</translate>
+            </node>
+            <node id="navlight_red_1__13_Node" name="navlight_red_1__13_" type="NODE">
+                <translate sid="translation398">225 41.1 -725</translate>
+            </node>
+            <node id="navlight_red_1__2_Node" name="navlight_red_1__2_" type="NODE">
+                <translate sid="translation399">-75 41 225</translate>
+            </node>
+            <node id="navlight_red_1__17_Node" name="navlight_red_1__17_" type="NODE">
+                <translate sid="translation400">123.642 109.48 -642.111</translate>
+            </node>
+            <node id="navlight_red_1__4_Node" name="navlight_red_1__4_" type="NODE">
+                <translate sid="translation401">225 41.1 225</translate>
+            </node>
+            <node id="navlight_red_1__19_Node" name="navlight_red_1__19_" type="NODE">
+                <translate sid="translation402">159.72 109.48 -641.252</translate>
+            </node>
+            <node id="navlight_green_1__5___2___6_Node" name="navlight_green_1__5___2___6_" type="NODE">
+                <translate sid="translation403">-50 40.1 50</translate>
+            </node>
+            <node id="navlight_red_1__6_Node" name="navlight_red_1__6_" type="NODE">
+                <translate sid="translation404">-225 41.1 75</translate>
+            </node>
+            <node id="navlight_red_1__8_Node" name="navlight_red_1__8_" type="NODE">
+                <translate sid="translation405">-75 41.1 -200</translate>
+            </node>
+            <node id="navlight_red_1__10_Node" name="navlight_red_1__10_" type="NODE">
+                <translate sid="translation406">-75 41.1 -550</translate>
+            </node>
+            <node id="navlight_green_1__5___2___7_Node" name="navlight_green_1__5___2___7_" type="NODE">
+                <translate sid="translation407">200 40.1 50</translate>
+            </node>
+            <node id="navlight_green_1__5___2___8_Node" name="navlight_green_1__5___2___8_" type="NODE">
+                <translate sid="translation408">-50 41.1 -576</translate>
+            </node>
+            <node id="navlight_red_1__12_Node" name="navlight_red_1__12_" type="NODE">
+                <translate sid="translation409">-75 41.1 -725</translate>
+            </node>
+            <node id="Geometry-MeshNode" name="Mesh" type="NODE">
+                <instance_geometry url="#Geometry-Mesh">
                     <bind_material>
                         <technique_common>
-                            <instance_material symbol="Material-material1" target="#Material-material1" />
+                            <instance_material symbol="Material-Default" target="#Material-Default" />
                         </technique_common>
                     </bind_material>
                 </instance_geometry>
             </node>
             <node id="Camera-CameraNode" name="Camera" type="NODE">
-                <translate sid="translation386">866.684 626.671 -1558.21</translate>
-                <rotate sid="rotation389Y">0 1 0 143.812</rotate>
-                <rotate sid="rotation389X">1 0 0 -23.9076</rotate>
-                <rotate sid="rotation389Z">0 0 1 3.80557e-015</rotate>
+                <translate sid="translation410">234.507 179.736 -1081.56</translate>
+                <rotate sid="rotation413Y">0 1 0 164.152</rotate>
+                <rotate sid="rotation413X">1 0 0 -13.8808</rotate>
+                <rotate sid="rotation413Z">0 0 1 3.37479e-015</rotate>
                 <instance_camera url="#Camera-Camera" />
             </node>
             <node id="Light-Directional_LightNode" name="Directional_Light" type="NODE">
-                <translate sid="translation387">-2 2 2</translate>
-                <rotate sid="rotation390Y">0 1 0 -45</rotate>
-                <rotate sid="rotation390X">1 0 0 -30</rotate>
-                <rotate sid="rotation390Z">0 0 1 0</rotate>
+                <translate sid="translation411">-2 2 2</translate>
+                <rotate sid="rotation414Y">0 1 0 -45</rotate>
+                <rotate sid="rotation414X">1 0 0 -30</rotate>
+                <rotate sid="rotation414Z">0 0 1 0</rotate>
                 <instance_light url="#Light-Directional_Light" />
             </node>
             <extra>

@@ -7,11 +7,11 @@ define_ship {
 	model='military_carrier',
 	forward_thrust = 3200e5,
 	reverse_thrust = 3200e5,
-	up_thrust = 800e5,
-	down_thrust = 800e5,
-	left_thrust = 800e5,
-	right_thrust = 800e5,
-	angular_thrust = 25000e5,
+	up_thrust = 1600e5,
+	down_thrust = 1600e5,
+	left_thrust = 1600e5,
+	right_thrust = 1600e5,
+	angular_thrust = 40000e5,
 	gun_mounts =
 	{
 		{ v(0,0,-150), v(0,0,-1), 5, 'HORIZONTAL' },

@@ -4,13 +4,13 @@
 define_ship {
 	name='Security Interceptor',
 	model='security_interceptor',
-	forward_thrust = 233e5,
-	reverse_thrust = 233e5,
-	up_thrust = 70e5,
-	down_thrust = 70e5,
-	left_thrust = 47e5,
-	right_thrust = 47e5,
-	angular_thrust = 208e5,
+	forward_thrust = 0.1e5,
+	reverse_thrust = 0.1e5,
+	up_thrust = 15e5,
+	down_thrust = 15e5,
+	left_thrust = 15e5,
+	right_thrust = 15e5,
+	angular_thrust = 15e5,
 	camera_offset = v(0,2,-10),
 	gun_mounts =
 	{
@@ -24,11 +24,11 @@ define_ship {
 	min_crew = 1,
 	max_crew = 1,
 	capacity = 60,
-	hull_mass = 40,
-	fuel_tank_mass = 56,
+	hull_mass = 6,
+	fuel_tank_mass = 1,
 	-- Exhaust velocity Vc [m/s] is equivalent of engine efficiency and depend on used technology. Higher Vc means lower fuel consumption.
 	-- Smaller ships built for speed often mount engines with higher Vc. Another way to make faster ship is to increase fuel_tank_mass.
 	effective_exhaust_velocity = 59167e3,
-	price = 0,
+	price = 1,
 	hyperdrive_class = 0,
 }

@@ -4,13 +4,13 @@
 define_ship {
 	name='Passenger Shuttle',
 	model='passenger_shuttle',
-	forward_thrust = 52e5,
-	reverse_thrust = 52e5,
-	up_thrust = 28e5,
-	down_thrust = 6e5,
-	left_thrust = 6e5,
-	right_thrust = 6e5,
-	angular_thrust = 86e5,
+	forward_thrust = 100e5,
+	reverse_thrust = 100e5,
+	up_thrust = 150e5,
+	down_thrust = 150e5,
+	left_thrust = 150e5,
+	right_thrust = 150e5,
+	angular_thrust = 150e5,
 	camera_offset = v(0,4,-22),
 	gun_mounts =
 	{
