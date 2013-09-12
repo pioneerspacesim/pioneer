@@ -16,6 +16,7 @@ diffuse 1.0 1.0 1.0
 specular 1.0 1.0 1.0
 
 
+
 lod 1000
 mesh tradestation.dae
 mesh tradestation_docking.dae
