@@ -6,6 +6,7 @@ local Event = import("Event")
 local Serializer = import("Serializer")
 local ShipType = import("ShipType")
 local Timer = import("Timer")
+local Translate = import("Translate")
 
 -- Temporary mapping while waiting for new-equipment to embed this information.
 local missile_names = {
