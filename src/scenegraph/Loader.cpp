@@ -733,13 +733,13 @@ void Loader::CreateLabel(Group *parent, const matrix4x4f &m)
 	parent->AddChild(trans);
 }
 
-void Loader::CreateThruster(const std::string &name, const matrix4x4f &m, const matrix4x4f& accum)
+void Loader::CreateThruster(const std::string &name, const matrix4x4f &m)
 {
 	if (!m_mostDetailedLod) return AddLog("Thruster outside highest LOD, ignored");
 
 	const bool linear = starts_with(name, "thruster_linear");
 
-	matrix4x4f transform = accum * m;
+	matrix4x4f transform = m;
 
 	MatrixTransform *trans = new MatrixTransform(m_renderer, transform);
 
@@ -757,14 +757,14 @@ void Loader::CreateThruster(const std::string &name, const matrix4x4f &m, const 
 	m_thrustersRoot->AddChild(trans);
 }
 
-void Loader::CreateNavlight(const std::string &name, const matrix4x4f &m, const matrix4x4f& accum)
+void Loader::CreateNavlight(const std::string &name, const matrix4x4f &m)
 {
 	if (!m_mostDetailedLod) return AddLog("Navlight outside highest LOD, ignored");
 
 	//Create a MT, lights are attached by client
 	//we only really need the final position, so this is
 	//a waste of transform
-	const matrix4x4f lightPos = matrix4x4f::Translation(accum * m.GetTranslate());
+	const matrix4x4f lightPos = matrix4x4f::Translation(m.GetTranslate());
 	MatrixTransform *lightPoint = new MatrixTransform(m_renderer, lightPos);
 	lightPoint->SetNodeMask(0x0); //don't render
 	lightPoint->SetName(name);
@@ -782,9 +782,9 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPt
 	//lights, and possibly other special nodes should be leaf nodes (without meshes)
 	if (node->mNumChildren == 0 && node->mNumMeshes == 0) {
 		if (starts_with(nodename, "navlight_")) {
-			CreateNavlight(nodename, m, accum);
+			CreateNavlight(nodename, accum*m);
 		} else if (starts_with(nodename, "thruster_")) {
-			CreateThruster(nodename, m, accum);
+			CreateThruster(nodename, accum*m);
 		} else if (starts_with(nodename, "label_")) {
 			CreateLabel(parent, m);
 		} else if (starts_with(nodename, "tag_")) {
