@@ -7,8 +7,11 @@
 -- Functions for generating names.
 --
 
+local Engine = import("Engine")
+
 local r = function (t, rand) return t[rand:Integer(1,#t)] end
 
+local NameGen
 NameGen = {
 	firstNames = {
 		male   = {},
@@ -339,3 +342,5 @@ NameGen.surfaceStarportFormats = {
 	"{name}ton",
 	"{name}ville",
 }
+
+return NameGen

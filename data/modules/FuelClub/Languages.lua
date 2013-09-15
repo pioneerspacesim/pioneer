@@ -1,6 +1,8 @@
 -- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+local Translate = import("Translate")
+
 -- There's only one flavour as I write, but more could be added
 Translate:AddFlavour('English','FuelClub',{
 	-- Translators: Feel free to change this in your language!

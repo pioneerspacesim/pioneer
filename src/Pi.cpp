@@ -199,7 +199,7 @@ static void LuaInit()
 
 	// XXX load everything. for now, just modules
 	lua_State *l = Lua::manager->GetLuaState();
-	pi_lua_dofile_recursive(l, "libs");
+	pi_lua_dofile(l, "libs/autoload.lua");
 	pi_lua_dofile_recursive(l, "ui");
 	pi_lua_dofile_recursive(l, "modules");
 
@@ -307,6 +307,7 @@ void Pi::Init()
 	videoSettings.requestedSamples = config->Int("AntiAliasingMode");
 	videoSettings.vsync = (config->Int("VSync") != 0);
 	videoSettings.useTextureCompression = (config->Int("UseTextureCompression") != 0);
+	videoSettings.enableDebugMessages = (config->Int("EnableGLDebug") != 0);
 
 	Pi::renderer = Graphics::Init(videoSettings);
 	{

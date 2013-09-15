@@ -120,6 +120,7 @@
     <ClInclude Include="..\..\..\src\graphics\gl2\StarfieldMaterial.h" />
     <ClInclude Include="..\..\..\src\graphics\gl2\Uniform.h" />
     <ClInclude Include="..\..\..\src\graphics\Graphics.h" />
+    <ClInclude Include="..\..\..\src\graphics\GLDebug.h" />
     <ClInclude Include="..\..\..\src\graphics\Light.h" />
     <ClInclude Include="..\..\..\src\graphics\Material.h" />
     <ClInclude Include="..\..\..\src\graphics\MaterialLegacy.h" />

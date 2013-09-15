@@ -1,6 +1,15 @@
 -- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+local Engine = import("Engine")
+local Game = import("Game")
+local Space = import("Space")
+local ShipType = import("ShipType")
+local Event = import("Event")
+local Serializer = import("Serializer")
+local ShipDef = import("ShipDef")
+local utils = import("utils")
+
 local loaded
 
 local spawnShips = function ()
@@ -15,7 +24,7 @@ local spawnShips = function ()
 		return
 	end
 
-	local shipdefs = build_array(filter(function (k,def) return def.tag == 'STATIC_SHIP' end, pairs(ShipDef)))
+	local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'STATIC_SHIP' end, pairs(ShipDef)))
 	if #shipdefs == 0 then return end
 
 	-- one ship per three billion, min 1, max 2*num of stations

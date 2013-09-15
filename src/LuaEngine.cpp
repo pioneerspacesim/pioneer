@@ -139,6 +139,10 @@ static int l_engine_settings_view(lua_State *l)
 
 void LuaEngine::Register()
 {
+	lua_State *l = Lua::manager->GetLuaState();
+
+	LUA_DEBUG_START(l);
+
 	static const luaL_Reg l_methods[] = {
 		{ "Quit", l_engine_quit },
 		{ "SettingsView", l_engine_settings_view },
@@ -153,6 +157,10 @@ void LuaEngine::Register()
 		{ 0, 0 }
 	};
 
+	lua_getfield(l, LUA_REGISTRYINDEX, "CoreImports");
 	LuaObjectBase::CreateObject(l_methods, l_attrs, 0);
-	lua_setglobal(Lua::manager->GetLuaState(), "Engine");
+	lua_setfield(l, -2, "Engine");
+	lua_pop(l, 1);
+
+	LUA_DEBUG_END(l, 0);
 }

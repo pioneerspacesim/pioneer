@@ -1,6 +1,8 @@
 -- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+local Engine = import("Engine")
+
 local normalColor = { r=0.5, g=0.5, b=0.5, a=1.0 }
 local hoverColor  = { r=0.8, g=0.8, b=0.8, a=1.0 }
 local activeColor = { r=1.0, g=1.0, b=1.0, a=1.0 }
@@ -16,10 +18,9 @@ local _FindTabNum = function (self, id)
 	return nil
 end
 
-UI.TabGroup = {
+local TabGroup = {}
 
-New = function ()
-
+function TabGroup.New ()
 	local self = {
 		tabs   = {},
 	}
@@ -44,14 +45,14 @@ New = function ()
 		})
 
 	setmetatable(self, {
-		__index = UI.TabGroup,
+		__index = TabGroup,
 		class = "UI.TabGroup",
 	})
 
 	return self
-end,
+end
 
-AddTab = function (self, args)
+function TabGroup.AddTab (self, args)
 	local id       = args.id
 	local title    = args.title
 	local icon     = args.icon
@@ -86,9 +87,9 @@ AddTab = function (self, args)
 	if not self.current then
 		self:SwitchToNum(num)
 	end
-end,
+end
 
-RemoveTab = function (self, id)
+function TabGroup.RemoveTab (self, id)
 	local num = _FindTabNum(self, id)
 	if not num then return end
 
@@ -101,9 +102,9 @@ RemoveTab = function (self, id)
 	if self.current == num then
 		self:SwitchFirst()
 	end
-end,
+end
 
-SwitchToNum = function (self, num)
+function TabGroup.SwitchToNum (self, num)
 	local tab = self.tabs[num]
 
 	if self.current then
@@ -117,20 +118,20 @@ SwitchToNum = function (self, num)
 	self.title:SetText(tab.title)
 
 	self.body:SetInnerWidget(tab.template(tab))
-end,
+end
 
-SwitchTo = function (self, id)
+function TabGroup.SwitchTo (self, id)
 	local num = _FindTabNum(self, id)
 	if not num then return end
 
 	self:SwitchToNum(num)
-end,
+end
 
-SwitchFirst = function (self)
+function TabGroup.SwitchFirst (self)
 	self:SwitchToNum(1)
-end,
+end
 
-SwitchNext = function (self)
+function TabGroup.SwitchNext (self)
 	if not self.current then
 		self:SwitchFirst()
 	else
@@ -138,9 +139,9 @@ SwitchNext = function (self)
 		if nextNum > #self.tabs then nextNum = 1 end
 		self:SwitchToNum(nextNum)
 	end
-end,
+end
 
-SwitchPrev = function (self)
+function TabGroup.SwitchPrev (self)
 	if not self.current then
 		self:SwitchFirst()
 	else
@@ -148,9 +149,9 @@ SwitchPrev = function (self)
 		if nextNum < 1 then nextNum = #self.tabs end
 		self:SwitchToNum(nextNum)
 	end
-end,
+end
 
-Refresh = function (self)
+function TabGroup.Refresh (self)
 	if not self.current then
 		self:SwitchFirst()
 	else
@@ -158,4 +159,4 @@ Refresh = function (self)
 	end
 end
 
-}
+return TabGroup

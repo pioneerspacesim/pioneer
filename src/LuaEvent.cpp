@@ -9,24 +9,27 @@
 
 namespace LuaEvent {
 
-static void _get_method_onto_stack(lua_State *l, const char *method) {
+static bool _get_method_onto_stack(lua_State *l, const char *method) {
 	LUA_DEBUG_START(l);
 
 	int top = lua_gettop(l);
 
-	lua_rawgeti(l, LUA_REGISTRYINDEX, LUA_RIDX_GLOBALS);
-	lua_pushstring(l, "Event");
-	lua_rawget(l, -2);
-	assert(lua_istable(l, -1));
+	if (!pi_lua_import(l, "Event"))
+		return false;
 
-	lua_pushstring(l, method);
-	lua_rawget(l, -2);
-	assert(lua_isfunction(l, -1));
+	lua_getfield(l, -1, method);
+	if (!lua_isfunction(l, -1)) {
+		lua_pop(l, 2);
+		LUA_DEBUG_END(l, 0);
+		return false;
+	}
 
 	lua_insert(l, top+1);
 	lua_settop(l, top+1);
 
 	LUA_DEBUG_END(l, 1);
+
+	return true;
 }
 
 void Clear()
@@ -34,7 +37,7 @@ void Clear()
 	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
-	_get_method_onto_stack(l, "_Clear");
+	if (!_get_method_onto_stack(l, "_Clear")) return;
 	pi_lua_protected_call(l, 0, 0);
 	LUA_DEBUG_END(l, 0);
 }
@@ -44,7 +47,7 @@ void Emit()
 	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
-	_get_method_onto_stack(l, "_Emit");
+	if (!_get_method_onto_stack(l, "_Emit")) return;
 	pi_lua_protected_call(l, 0, 0);
 	LUA_DEBUG_END(l, 0);
 }
@@ -54,7 +57,7 @@ void Queue(const char *event, const ArgsBase &args)
 	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
-	_get_method_onto_stack(l, "Queue");
+	if (!_get_method_onto_stack(l, "Queue")) return;
 
 	int top = lua_gettop(l);
     lua_pushstring(l, event);

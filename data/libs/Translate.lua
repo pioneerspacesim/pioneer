@@ -4,6 +4,9 @@
 --
 -- Class: Translate
 --
+local Lang = import("Lang")
+
+local Translate
 Translate = {
 	language = Lang.GetCurrentLanguage(), -- Default
 	dictionary = {}, -- Initialise the dictionary table
@@ -262,3 +265,5 @@ Translate.dictionary[Translate.language] = {}
 for token, definition in pairs(Lang.GetDictionary()) do
 	Translate.dictionary[Translate.language][token] = definition
 end
+
+return Translate
