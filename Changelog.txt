@@ -1,3 +1,22 @@
+September 2013
+
+   * Minor changes and tweaks
+     * Added OpenGL debug output. Set EnableGLDebug in config.ini to enable
+       it (#2413)
+
+   * Fixes
+     * Fix SmartTable scrolling (#2349)
+     * Fix huge memory consumption on heightmapped terrains (#2418, 2405)
+
+   * Script and UI API changes
+     * A new module import system is now in place. Each dependency now needs
+       to be declared explicitly. See the Pull Request discussion for more
+       details (#1499)
+
+   * Internal changes
+     * Remove GLU dependency (#2414)
+     * Bundle GLEW 1.10 (#2415)
+
 August 2013
 
    * New features

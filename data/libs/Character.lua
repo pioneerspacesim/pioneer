@@ -47,6 +47,14 @@
 -- and counted with the # operator.  The player's sheet is stored as
 -- PersistentCharacters.player, and is the special case.
 
+local Engine = import("Engine")
+local Game = import("Game")
+local Event = import("Event")
+local NameGen = import("NameGen")
+local Serializer = import("Serializer")
+local Ship = import("Ship")
+
+local Character;
 Character = {
 
 --
@@ -1167,3 +1175,6 @@ end
 
 Event.Register("onGameStart", onGameStart)
 Serializer:Register("Characters", serialize, unserialize)
+Serializer:RegisterClass("Character", Character)
+
+return Character

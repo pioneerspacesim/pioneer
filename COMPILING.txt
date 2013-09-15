@@ -40,8 +40,6 @@ Linux - Autotools
     libvorbis-dev
     libpng-dev
     libassimp-dev >= 3.0
-    libglew-dev
-    libglu1-mesa-dev
     mesa-common-dev
 
    If your platform doesn't have assimp 3.0, you'll need to build it from
@@ -78,7 +76,7 @@ Windows - Autotools (Linux cross-compile)
 
    Now compile GCC and the dependencies needed for Pioneer:
 
-     make gcc freetype glew sdl sdl_image vorbis libsigc++
+     make gcc freetype sdl sdl_image vorbis libsigc++
 
 2. Prepare the pioneer-thirdparty repository. See below.
 
@@ -108,7 +106,6 @@ OS X - Autotools
      libsdl
      libsdl_image
      libsdl_sound
-     glew
      libsigcxx2
      libvorbis
      autoconf

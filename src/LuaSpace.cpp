@@ -667,7 +667,7 @@ void LuaSpace::Register()
 
 	LUA_DEBUG_START(l);
 
-	static const luaL_Reg methods[] = {
+	static const luaL_Reg l_methods[] = {
 		{ "SpawnShip",       l_space_spawn_ship        },
 		{ "SpawnShipNear",   l_space_spawn_ship_near   },
 		{ "SpawnShipDocked", l_space_spawn_ship_docked },
@@ -680,8 +680,10 @@ void LuaSpace::Register()
 		{ 0, 0 }
 	};
 
-	luaL_newlib(l, methods);
-	lua_setglobal(l, "Space");
+	lua_getfield(l, LUA_REGISTRYINDEX, "CoreImports");
+	LuaObjectBase::CreateObject(l_methods, 0, 0);
+	lua_setfield(l, -2, "Space");
+	lua_pop(l, 1);
 
 	LUA_DEBUG_END(l, 0);
 }

@@ -1,22 +1,25 @@
 -- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+local Engine = import("Engine")
+local utils = import("utils")
+
 local ui = Engine.ui
 
-_DefaultSort = function (self, cmp)
+local _DefaultSort = function (self, cmp)
 	if not cmp then
 		cmp = function (a,b) return a.data[col] <= b.data[col] end
 	end
 	col = self.sortCol
-	self.table = stable_sort(self.table, cmp)
+	self.table = utils.stable_sort(self.table, cmp)
 end
 
-_DefaultCellWidget = function (data)
+local _DefaultCellWidget = function (data)
 	return ui:Label(data) end
 
-UI.SmartTable = {
+local SmartTable = {}
 
-New = function (rowspec)
+function SmartTable.New (rowspec)
 	local self = {}
 	
 	self.rowspec = rowspec
@@ -32,26 +35,26 @@ New = function (rowspec)
 	self.widget =
 		ui:VBox(10):PackEnd({
 			self.headers,
-			ui:Scroller():SetInnerWidget(self.body)
+			ui:Expand():SetInnerWidget(ui:Scroller(self.body))
 		})
 
 	setmetatable(self, {
-		__index = UI.SmartTable,
+		__index = SmartTable,
 		class = "UI.SmartTable",
 	})
 
 	return self
-end,
+end
 
-SetHeaders = function (self, headers)
+function SmartTable.SetHeaders (self, headers)
 	for i,header in ipairs(headers) do
 		local label = ui:Label(header)
 		label.onClick:Connect(function () self:Sort(i) end)
 		self.headers:SetCell(i-1, 0, label)
 	end
-end,
+end
 
-AddRow = function (self, cells)
+function SmartTable.AddRow (self, cells)
 	local row = {data = {}, widgets = {}}
 	for _,cell in ipairs(cells) do
 		if not cell.widget then  -- if widget isn't specified use default one
@@ -62,31 +65,32 @@ AddRow = function (self, cells)
 	end
 	table.insert(self.table, row)
 	self:Sort(self.sortCol)
-end,
+end
 
-Sort = function (self, col)
+function SmartTable.Sort (self, col)
 	if col then
 		self.sortCol = col
 		self:sortFunction()
 	end
 	self:UpdateBody()
-end,
+end
 
-UpdateBody = function (self)
+function SmartTable.UpdateBody (self)
 	self.body:Clear()
 	for _,row in ipairs(self.table) do
 		local rowGrid = ui:Grid(self.rowspec, 1)
 		rowGrid:SetRow(0, row.widgets)
 		self.body:PackEnd(rowGrid)
 	end
-end,
+end
 
-Clear = function (self)
+function SmartTable.Clear (self)
 	self.table = {}
 	self.body:Clear()
-end,
+end
 
-SetSortFunction = function (self, f)
+function SmartTable.SetSortFunction (self, f)
 	self.sortFunction = f
-end,
-}
+end
+
+return SmartTable

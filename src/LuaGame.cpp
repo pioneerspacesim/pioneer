@@ -248,6 +248,10 @@ static int l_game_attr_time(lua_State *l)
 
 void LuaGame::Register()
 {
+	lua_State *l = Lua::manager->GetLuaState();
+
+	LUA_DEBUG_START(l);
+
 	static const luaL_Reg l_methods[] = {
 		{ "StartGame", l_game_start_game },
 		{ "LoadGame",  l_game_load_game  },
@@ -263,6 +267,10 @@ void LuaGame::Register()
 		{ 0, 0 }
 	};
 
+	lua_getfield(l, LUA_REGISTRYINDEX, "CoreImports");
 	LuaObjectBase::CreateObject(l_methods, l_attrs, 0);
-	lua_setglobal(Lua::manager->GetLuaState(), "Game");
+	lua_setfield(l, -2, "Game");
+	lua_pop(l, 1);
+
+	LUA_DEBUG_END(l, 0);
 }
