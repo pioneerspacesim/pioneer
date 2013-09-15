@@ -788,9 +788,7 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPt
 		} else if (starts_with(nodename, "label_")) {
 			CreateLabel(parent, m);
 		} else if (starts_with(nodename, "tag_")) {
-			vector3f tagpos = accum * m.GetTranslate();
-			MatrixTransform *tagMt = new MatrixTransform(m_renderer, matrix4x4f::Translation(tagpos));
-			m_model->AddTag(nodename, tagMt);
+			m_model->AddTag(nodename, new MatrixTransform(m_renderer, accum*m));
 		} else if (starts_with(nodename, "docking_")) {
 			m_model->AddTag(nodename, new MatrixTransform(m_renderer, m));
 		} else if (starts_with(nodename, "leaving_")) {
