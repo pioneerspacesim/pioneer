@@ -267,6 +267,8 @@ protected:
 	int m_dockedWithPort;
 
 	struct Gun {
+		vector3f pos;
+		vector3f dir;
 		Uint32 state;
 		float recharge;
 		float temperature;
@@ -289,6 +291,7 @@ private:
     void SetShipId(const ShipType::Id &shipId);
 	void OnEquipmentChange(Equip::Type e);
 	void EnterHyperspace();
+	void InitGun(const char *tag, int num);
 
 	shipstats_t m_stats;
 	const ShipType *m_type;

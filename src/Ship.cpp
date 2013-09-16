@@ -157,6 +157,21 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
 }
 
+void Ship::InitGun(const char *tag, int num)
+{
+	const SceneGraph::MatrixTransform *mt = GetModel()->FindTagByName(tag);
+	if (mt) {
+		const matrix4x4f &trans = mt->GetTransform();
+		m_gun[num].pos = trans.GetTranslate();
+		m_gun[num].dir = trans.GetOrient().VectorZ();
+	}
+	else {
+		// XXX deprecated
+		m_gun[num].pos = m_type->gunMount[num].pos;
+		m_gun[num].dir = m_type->gunMount[num].dir;
+	}
+}
+
 void Ship::Init()
 {
 	m_navLights.Reset(new NavLights(GetModel()));
@@ -170,6 +185,9 @@ void Ship::Init()
 	m_hyperspaceCloud = 0;
 
 	m_landingGearAnimation = GetModel()->FindAnimation("gear_down");
+
+	InitGun("tag_gunmount_0", 0);
+	InitGun("tag_gunmount_1", 1);
 }
 
 void Ship::PostLoadFixup(Space *space)
@@ -794,8 +812,8 @@ void Ship::FireWeapon(int num)
 	if (m_flightState != FLYING) return;
 
 	const matrix3x3d &m = GetOrient();
-	const vector3d dir = m * vector3d(m_type->gunMount[num].dir);
-	const vector3d pos = m * vector3d(m_type->gunMount[num].pos) + GetPosition();
+	const vector3d dir = m * vector3d(m_gun[num].dir);
+	const vector3d pos = m * vector3d(m_gun[num].pos) + GetPosition();
 
 	m_gun[num].temperature += 0.01f;
 
