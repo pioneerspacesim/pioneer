@@ -349,61 +349,61 @@ MISSILE_NAVAL
 ATMOSPHERIC_SHIELDING
     Atmosférický štít
 ATMOSPHERIC_SHIELDING_DESCRIPTION
-    Chrání vaši loď před žárem při průletu atmosférou.
+    Chrání vaši loď před žárem při průletu atmosférou
 ECM_BASIC
     ECM systém
 ECM_BASIC_DESCRIPTION
-    Elektronická rušička, schopná zničit některé naváděné střely.
+    Elektronická rušička, schopná zničit některé naváděné střely
 SCANNER
     Radar
 SCANNER_DESCRIPTION
-    Zobrazuje 3D mapu lodí/objektů ve vaší blízkosti.
+    Zobrazuje 3D mapu lodí/objektů ve vaší blízkosti
 ECM_ADVANCED
     Zdokonalený ECM systém
 ECM_ADVANCED_DESCRIPTION
-    Elektronická rušička střel, schopná zničit některé pokročilejší naváděné střely.
+    Elektronická rušička střel, schopná zničit některé pokročilejší naváděné střely
 SHIELD_GENERATOR
     Generátor štítů
 X_SHIELD_GENERATORS
     %quantity generátory štítů
 SHIELD_GENERATOR_DESCRIPTION
-    Každý (další) generátor štítů posiluje ochranu trupu.
+    Každý (další) generátor štítů posiluje ochranu trupu
 LASER_COOLING_BOOSTER
     Posilovač chlazení laseru
 LASER_COOLING_BOOSTER_DESCRIPTION
-    Vylepšený systém chlazení pro vaše zbraně.
+    Vylepšený systém chlazení pro vaše zbraně
 CARGO_LIFE_SUPPORT
     Podpora života v nákladovém prostoru
 CARGO_LIFE_SUPPORT_DESCRIPTION
-    Umožňuje přepravu živého nákladu.
+    Umožňuje přepravu živého nákladu
 AUTOPILOT
     Autopilot
 AUTOPILOT_DESCRIPTION
-    Palubní navigační počítač.
+    Palubní navigační počítač
 RADAR_MAPPER
     Skener lodí
 RADAR_MAPPER_DESCRIPTION
-    Umožňuje na dálku prozkoumat vybavení, nákladový prostor a stav jiných lodí.
+    Umožňuje na dálku prozkoumat vybavení, nákladový prostor a stav jiných lodí
 FUEL_SCOOP
     Sběrač paliva
 FUEL_SCOOP_DESCRIPTION
-    Umožňuje čerpat vodíkové palivo z plynných obrů (planet).
+    Umožňuje čerpat vodíkové palivo z plynných obrů (planet)
 CARGO_SCOOP
     Sběrač nákladu
 CARGO_SCOOP_DESCRIPTION
-    Umožňuje sbírat nákladové kontejnery ve vesmíru.
+    Umožňuje sbírat nákladové kontejnery ve vesmíru
 HYPERCLOUD_ANALYZER
     Analyzátor hyperprostorových oken
 HYPERCLOUD_ANALYZER_DESCRIPTION
-    Analyzuje hyperprostorová okna ke zjištění času příletu/odletu.
+    Analyzuje hyperprostorová okna ke zjištění času příletu/odletu
 HULL_AUTOREPAIR
     Systém auto-opravy trupu
 HULL_AUTOREPAIR_DESCRIPTION
-    Automaticky opravuje trup lodi pokud dojde k poškození.
+    Automaticky opravuje trup lodi pokud dojde k poškození
 SHIELD_ENERGY_BOOSTER
     Posilovač výkonu štítů
 SHIELD_ENERGY_BOOSTER_DESCRIPTION
-    Zrychluje regeneraci štítů.
+    Zrychluje regeneraci štítů
 DRIVE_CLASS1
     Hypermotor třídy 1
 DRIVE_CLASS2
@@ -447,7 +447,7 @@ PULSECANNON_20MW
 MININGCANNON_17MW
     17MW důlní kanón
 MININGCANNON_17MW_DESCRIPTION
-    Slouží k dolování minerálů z asteroidů.
+    Slouží k dolování minerálů z asteroidů
 SMALL_PLASMA_ACCEL
     Malý plasma-akcelerátor
 LARGE_PLASMA_ACCEL
@@ -685,7 +685,7 @@ SECTOR_X_Y_Z
 CURRENT_SYSTEM
     Aktuální systém
 SELECTED_SYSTEM
-    Vybraný systém
+    Zvolený systém
 HYPERSPACE_TARGET
     Hyperprostorový cíl
 DRAW_VERTICAL_LINES
@@ -733,19 +733,19 @@ CAMERA_FRONT_VIEW
 CAMERA_REAR_VIEW
     Pohled dozadu
 CAMERA_LEFT_VIEW
-    Pohled vlevo
+    Pohled doleva
 CAMERA_RIGHT_VIEW
-    Pohled vpravo
+    Pohled doprava
 CAMERA_TOP_VIEW
     Pohled nahoru
 CAMERA_BOTTOM_VIEW
     Pohled dolů
 INTERNAL_VIEW
-    Pohled uvnitř
+    Pohled zevnitř
 EXTERNAL_VIEW
     Pohled zvenku (kamera)
 SIDEREAL_VIEW
-    Pohled ze strany
+    Pohled (hvězdný)
 ROTATE_UP
     Otáčet nahoru
 ROTATE_DOWN
@@ -763,7 +763,7 @@ COMMS
 GALAXY_SECTOR_VIEW
     Sektorový náhled
 SYSTEM_ORBIT_VIEW
-    Orbitálni náhled
+    Orbitální náhled
 STAR_SYSTEM_INFORMATION
     Informace o systému
 GALACTIC_VIEW

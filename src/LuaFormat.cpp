@@ -112,15 +112,17 @@ void LuaFormat::Register()
 
 	LUA_DEBUG_START(l);
 
-	static const luaL_Reg methods[] = {
+	static const luaL_Reg l_methods[] = {
 		{ "Date",     l_format_date     },
 		{ "Distance", l_format_distance },
 		{ "Money",    l_format_money    },
 		{ 0, 0 }
 	};
 
-	luaL_newlib(l, methods);
-	lua_setglobal(l, "Format");
+	lua_getfield(l, LUA_REGISTRYINDEX, "CoreImports");
+	LuaObjectBase::CreateObject(l_methods, 0, 0);
+	lua_setfield(l, -2, "Format");
+	lua_pop(l, 1);
 
 	LUA_DEBUG_END(l, 0);
 }

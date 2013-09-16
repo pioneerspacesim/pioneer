@@ -1,6 +1,24 @@
 -- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+local Translate = import("Translate")
+local Engine = import("Engine")
+local Game = import("Game")
+local Space = import("Space")
+local Comms = import("Comms")
+local ShipType = import("ShipType")
+local Event = import("Event")
+local Mission = import("Mission")
+local NameGen = import("NameGen")
+local Format = import("Format")
+local Serializer = import("Serializer")
+local Character = import("Character")
+local EquipDef = import("EquipDef")
+local ShipDef = import("ShipDef")
+local utils = import("utils")
+
+local InfoFace = import("ui/InfoFace")
+
 -- Get the translator function
 local t = Translate:GetTranslator()
 -- Get the UI class
@@ -203,7 +221,7 @@ local onEnterSystem = function (player)
 			if ships < 1 and risk >= 0.2 and Engine.rand:Integer(2) == 1 then ships = 1 end
 
 			-- XXX hull mass is a bad way to determine suitability for role
-			local shipdefs = build_array(filter(function (k,def) return def.tag == 'SHIP' and def.hullMass <= 400 end, pairs(ShipDef)))
+			local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'SHIP' and def.hullMass <= 400 end, pairs(ShipDef)))
 			if #shipdefs == 0 then return end
 
 			local ship
@@ -216,7 +234,7 @@ local onEnterSystem = function (player)
 					local default_drive = shipdef.defaultHyperdrive
 
 					local max_laser_size = shipdef.capacity - EquipDef[default_drive].mass
-                    local laserdefs = build_array(filter(
+                    local laserdefs = utils.build_array(utils.filter(
                         function (k,def) return def.slot == 'LASER' and def.mass <= max_laser_size and string.sub(def.id,0,11) == 'PULSECANNON' end,
                         pairs(EquipDef)
                     ))
@@ -377,7 +395,7 @@ local onClick = function (mission)
 											}),
 		})})
 		:SetColumn(1, {
-			ui:VBox(10):PackEnd(UI.InfoFace.New(mission.client))
+			ui:VBox(10):PackEnd(InfoFace.New(mission.client))
 		})
 end
 

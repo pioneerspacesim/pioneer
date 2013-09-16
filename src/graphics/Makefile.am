@@ -13,6 +13,7 @@ noinst_HEADERS = \
 	RendererGL2.h \
 	RendererLegacy.h \
 	RenderTarget.h \
+	GLDebug.h \
 	Frustum.h \
 	Light.h \
 	Material.h \

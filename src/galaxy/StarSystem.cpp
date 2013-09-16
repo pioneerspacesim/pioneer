@@ -1925,7 +1925,7 @@ void SystemBody::PickPlanetType(Random &rand)
 		// H2O boils
 		if (averageTemp > 373) greenhouse += amount_volatiles * fixed(1,3);
 
-		if(greenhouse > 0.7f) { // never reach 1, but 1/(1-greenhouse) still grows
+		if(greenhouse > fixed(7,10)) { // never reach 1, but 1/(1-greenhouse) still grows
 			greenhouse *= greenhouse;
 			greenhouse *= greenhouse;
 			greenhouse = greenhouse / (greenhouse + fixed(32,311));

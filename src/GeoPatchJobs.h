@@ -36,7 +36,7 @@ public:
 	const GeoPatchID patchID;
 	const int edgeLen;
 	const double fracStep;
-	ScopedPtr<Terrain> pTerrain;
+	RefCountedPtr<Terrain> pTerrain;
 
 protected:
 	// deliberately prevent copy constructor access

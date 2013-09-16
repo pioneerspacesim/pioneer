@@ -140,15 +140,17 @@ void LuaLang::Register()
 
 	LUA_DEBUG_START(l);
 
-	static const luaL_Reg methods[] = {
+	static const luaL_Reg l_methods[] = {
 		{ "GetDictionary",   l_lang_get_dictionary   },
 		{ "GetCoreLanguages",    l_lang_get_core_languages     },
 		{ "GetCurrentLanguage", l_lang_get_current_language },
 		{ 0, 0 }
 	};
 
-	luaL_newlib(l, methods);
-	lua_setglobal(l, "Lang");
+	lua_getfield(l, LUA_REGISTRYINDEX, "CoreImports");
+	LuaObjectBase::CreateObject(l_methods, 0, 0);
+	lua_setfield(l, -2, "Lang");
+	lua_pop(l, 1);
 
 	LUA_DEBUG_END(l, 0);
 }
