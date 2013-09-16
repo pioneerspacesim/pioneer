@@ -435,12 +435,12 @@ double Ship::GetHyperspaceSafetyDistance(const Body* body) const {
 	if (body->IsType(Object::TERRAINBODY)) {
 		const Frame *f = GetFrame()->GetRotFrame();
 		vector3d surfacePos = GetPositionRelTo(f).Normalized();
-		double radius = MIN_JUMP_DIST_TERRAIN + static_cast<const TerrainBody*>(body)->GetTerrainHeight(surfacePos);
-		if (body->IsType(Object::PLANET))
+		double radius = Pi::game->GetHyperspaceMinTerrainDistance() + static_cast<const TerrainBody*>(body)->GetTerrainHeight(surfacePos);
+		if (body->IsType(Object::PLANET) && !Pi::game->IsHyperspaceAllowedInAtmosphere())
 			radius = std::max(radius, static_cast<const Planet*>(body)->GetAtmosphereRadius());
 		return radius;
 	} else if (body->IsType(Object::SPACESTATION)) {
-		return MIN_JUMP_DIST_STATION + body->GetPhysRadius();
+		return Pi::game->GetHyperspaceMinStationDistance() + body->GetPhysRadius();
 	} else {
 		assert(false);
 		return 0.0;

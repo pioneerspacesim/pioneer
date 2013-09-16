@@ -181,6 +181,174 @@ static int l_game_end_game(lua_State *l)
 }
 
 /*
+ * Function: SetHyperspaceAllowInAtmosphere(flag)
+ *
+ * Sets whether hyperjumps are allowed in atmosphere.
+ *
+ * > Game.SetHyperspaceAllowInAtmosphere(true)
+ *
+ * Parameters:
+ *
+ *   flag - true to allow jump in atmosphere, false/nil to disallow
+ *
+ * Availability:
+ *
+ *   TBD
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_game_set_hyperspace_allow_in_atmosphere(lua_State *l)
+{
+	if (Pi::game) {
+		bool allowInAtmosphere = false;
+		if (!lua_isnil(l, 1)) {
+			luaL_checktype(l, 1, LUA_TBOOLEAN);
+			allowInAtmosphere = lua_toboolean(l, 1);
+		}
+		Pi::game->SetHyperspaceAllowInAtmosphere(allowInAtmosphere);
+	}
+	return 0;
+}
+
+/*
+ * Function: SetHyperspaceMinAltitude(altitude)
+ *
+ * Sets the minimal distance to planet surfaces to initiate hyperjump.
+ *
+ * > Game.SetHyperspaceMinAltitude(altitude)
+ *
+ * Parameters:
+ *
+ *   altitude - Minimum altitude for hyperjumps in km.
+ *
+ * Availability:
+ *
+ *   TBD
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_game_set_hyperspace_min_altitude(lua_State *l)
+{
+	if (Pi::game) {
+		double minAltitude = luaL_checknumber(l, 1) * 1000.0;
+		Pi::game->SetHyperspaceMinTerrainDistance(minAltitude);
+	}
+	return 0;
+}
+
+/*
+ * Function: SetHyperspaceMinStationDistance(distance)
+ *
+ * Sets the minimal distance to stations to initiate hyperjump.
+ *
+ * > Game.SetHyperspaceMinStationDistance(distance)
+ *
+ * Parameters:
+ *
+ *   distance - Minimum distance from space stations for hyperjumps in km.
+ *
+ * Availability:
+ *
+ *   TBD
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_game_set_hyperspace_min_station_distance(lua_State *l)
+{
+	if (Pi::game) {
+		double minDistance = luaL_checknumber(l, 1) * 1000.0;
+		Pi::game->SetHyperspaceMinStationDistance(minDistance);
+	}
+	return 0;
+}
+
+/*
+ * Function: IsHyperspaceAllowedInAtmosphere()
+ *
+ * Checks whether hyperjumps are allowed in atmosphere.
+ *
+ * > if Game.IsHyperspaceAllowedInAtmosphere() then ... end
+ *
+ * Availability:
+ *
+ *   TBD
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_game_is_hyperspace_allowed_in_atmosphere(lua_State *l)
+{
+	if (Pi::game) {
+		lua_pushboolean(l, Pi::game->IsHyperspaceAllowedInAtmosphere());
+		return 1;
+	}
+	return 0;
+}
+
+/*
+ * Function: GetHyperspaceMinAltitude()
+ *
+ * Gets the minimal distance to planet surfaces to initiate hyperjump.
+ *
+ * > altitude = Game.GetHyperspaceMinAltitude()
+ *
+ * Return:
+ *
+ *   altitude - Minimum altitude for hyperjumps in km.
+ *
+ * Availability:
+ *
+ *   TBD
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_game_get_hyperspace_min_altitude(lua_State *l)
+{
+	if (Pi::game) {
+		lua_pushnumber(l, Pi::game->GetHyperspaceMinTerrainDistance() / 1000.0);
+		return 1;
+	}
+	return 0;
+}
+
+/*
+ * Function: GetHyperspaceMinStationDistance(distance)
+ *
+ * Gets the minimal distance to stations to initiate hyperjump.
+ *
+ * > distance = Game.GetHyperspaceMinStationDistance()
+ *
+ * Return:
+ *
+ *   distance - Minimum distance from space stations for hyperjumps in km.
+ *
+ * Availability:
+ *
+ *   TBD
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_game_get_hyperspace_min_station_distance(lua_State *l)
+{
+	if (Pi::game) {
+		lua_pushnumber(l, Pi::game->GetHyperspaceMinStationDistance() / 1000.0);
+		return 1;
+	}
+	return 0;
+}
+
+/*
  * Attribute: player
  *
  * The <Player> object for the current player.
@@ -253,17 +421,23 @@ void LuaGame::Register()
 	LUA_DEBUG_START(l);
 
 	static const luaL_Reg l_methods[] = {
-		{ "StartGame", l_game_start_game },
-		{ "LoadGame",  l_game_load_game  },
-		{ "SaveGame",  l_game_save_game  },
-		{ "EndGame",   l_game_end_game   },
+		{ "StartGame",                       l_game_start_game                          },
+		{ "LoadGame",                        l_game_load_game                           },
+		{ "SaveGame",                        l_game_save_game                           },
+		{ "EndGame",                         l_game_end_game                            },
+		{ "SetHyperspaceAllowInAtmosphere",  l_game_set_hyperspace_allow_in_atmosphere  },
+		{ "SetHyperspaceMinAltitude",        l_game_set_hyperspace_min_altitude         },
+		{ "SetHyperspaceMinStationDistance", l_game_set_hyperspace_min_station_distance },
+		{ "IsHyperspaceAllowedInAtmosphere", l_game_is_hyperspace_allowed_in_atmosphere },
+		{ "GetHyperspaceMinAltitude",        l_game_get_hyperspace_min_altitude         },
+		{ "GetHyperspaceMinStationDistance", l_game_get_hyperspace_min_station_distance },
 		{ 0, 0 }
 	};
 
 	static const luaL_Reg l_attrs[] = {
-		{ "player", l_game_attr_player },
-		{ "system", l_game_attr_system },
-		{ "time",   l_game_attr_time   },
+		{ "player",              l_game_attr_player      },
+		{ "system",              l_game_attr_system      },
+		{ "time",                l_game_attr_time        },
 		{ 0, 0 }
 	};
 

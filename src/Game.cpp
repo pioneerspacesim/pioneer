@@ -24,7 +24,7 @@
 #include "FileSystem.h"
 #include "graphics/Renderer.h"
 
-static const int  s_saveVersion   = 68;
+static const int  s_saveVersion   = 69;
 static const char s_saveStart[]   = "PIONEER";
 static const char s_saveEnd[]     = "END";
 
@@ -145,6 +145,10 @@ Game::Game(Serializer::Reader &rd) :
 	m_hyperspaceDuration = section.Double();
 	m_hyperspaceEndTime = section.Double();
 
+	m_hyperspaceJumpOptions.allowInAtmosphere = section.Bool();
+	m_hyperspaceJumpOptions.minTerrainDistance = section.Double();
+	m_hyperspaceJumpOptions.minStationDistance = section.Double();
+
 
 	// system political stuff
 	section = rd.RdSection("Polit");
@@ -198,6 +202,10 @@ void Game::Serialize(Serializer::Writer &wr)
 	section.Double(m_hyperspaceProgress);
 	section.Double(m_hyperspaceDuration);
 	section.Double(m_hyperspaceEndTime);
+
+	section.Bool(m_hyperspaceJumpOptions.allowInAtmosphere);
+	section.Double(m_hyperspaceJumpOptions.minTerrainDistance);
+	section.Double(m_hyperspaceJumpOptions.minStationDistance);
 
 	wr.WrSection("Game", section.GetData());
 

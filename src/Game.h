@@ -60,6 +60,19 @@ public:
 	double GetHyperspaceEndTime() const { return m_hyperspaceEndTime; }
 	double GetHyperspaceArrivalProbability() const;
 
+	void SetHyperspaceAllowInAtmosphere(bool allowInAtmosphere) {
+		m_hyperspaceJumpOptions.allowInAtmosphere = allowInAtmosphere;
+	}
+	void SetHyperspaceMinTerrainDistance(double minTerrainDistance) {
+		m_hyperspaceJumpOptions.minTerrainDistance = minTerrainDistance;
+	}
+	void SetHyperspaceMinStationDistance(double minStationDistance) {
+		m_hyperspaceJumpOptions.minStationDistance = minStationDistance;
+	}
+	bool IsHyperspaceAllowedInAtmosphere() const { return m_hyperspaceJumpOptions.allowInAtmosphere; }
+	double GetHyperspaceMinTerrainDistance() const { return m_hyperspaceJumpOptions.minTerrainDistance; }
+	double GetHyperspaceMinStationDistance() const { return m_hyperspaceJumpOptions.minStationDistance; }
+
 	enum TimeAccel {
 		TIMEACCEL_PAUSED,
 		TIMEACCEL_1X,
@@ -108,6 +121,16 @@ private:
 	double m_hyperspaceProgress;
 	double m_hyperspaceDuration;
 	double m_hyperspaceEndTime;
+
+	struct HyperspaceJumpOptions {
+		bool allowInAtmosphere;
+		double minTerrainDistance;		// in metres
+		double minStationDistance;		// in metres
+
+		HyperspaceJumpOptions()
+			: allowInAtmosphere(false), minTerrainDistance(15000.0), minStationDistance(15000.0) {}
+	};
+	HyperspaceJumpOptions m_hyperspaceJumpOptions;
 
 	TimeAccel m_timeAccel;
 	TimeAccel m_requestedTimeAccel;
