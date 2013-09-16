@@ -221,7 +221,7 @@ public:
 	float GetPercentShields() const;
 	float GetPercentHull() const;
 	void SetPercentHull(float);
-	float GetGunTemperature(int idx) const { return m_gunTemperature[idx]; }
+	float GetGunTemperature(int idx) const { return m_gun[idx].temperature; }
 
 	enum FuelState { // <enum scope='Ship' name=ShipFuelStatus prefix=FUEL_ public>
 		FUEL_OK,
@@ -265,9 +265,14 @@ protected:
 
 	SpaceStation *m_dockedWith;
 	int m_dockedWithPort;
-	Uint32 m_gunState[ShipType::GUNMOUNT_MAX];
-	float m_gunRecharge[ShipType::GUNMOUNT_MAX];
-	float m_gunTemperature[ShipType::GUNMOUNT_MAX];
+
+	struct Gun {
+		Uint32 state;
+		float recharge;
+		float temperature;
+	};
+	Gun m_gun[ShipType::GUNMOUNT_MAX];
+
 	float m_ecmRecharge;
 
 	ShipController *m_controller;
