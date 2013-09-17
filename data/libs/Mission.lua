@@ -3,6 +3,7 @@
 
 local Translate = import("Translate")
 local Serializer = import("Serializer")
+local Character = import("Character")
 
 --
 -- Class: Mission
@@ -246,7 +247,7 @@ Mission = {
 		if not (type(newMission.due) == "number") then newMission.due = nil end
 		if not (type(newMission.reward) == "number") then newMission.reward = nil end
 		if not (type(newMission.location) == "userdata") then newMission.location = Game.system.path end
-		table.insert(PersistentCharacters.player.missions,newMission)
+		table.insert(Character.persistent.player.missions,newMission)
 		return newMission;
 	end,
 --
@@ -270,9 +271,9 @@ Mission = {
 -- testing
 --
 	Remove = function (self)
-		for k,v in pairs(PersistentCharacters.player.missions) do
+		for k,v in pairs(Character.persistent.player.missions) do
 			if v == self then
-				table.remove(PersistentCharacters.player.missions,k)
+				table.remove(Character.persistent.player.missions,k)
 			end
 		end
 	end,

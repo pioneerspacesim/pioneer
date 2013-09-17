@@ -46,6 +46,21 @@ LuaConsole::LuaConsole(int displayedOutputLines):
 	m_entryField->onKeyPress.connect(sigc::mem_fun(this, &LuaConsole::OnKeyPressed));
 
 	PackEnd(m_entryField);
+
+	// prepare the global table
+	lua_State *l = Lua::manager->GetLuaState();
+
+	LUA_DEBUG_START(l);
+
+	lua_newtable(l);
+	lua_newtable(l);
+	lua_pushliteral(l, "__index");
+	lua_getglobal(l, "_G");
+	lua_rawset(l, -3);
+	lua_setmetatable(l, -2);
+	lua_setfield(l, LUA_REGISTRYINDEX, "ConsoleGlobal");
+
+	LUA_DEBUG_END(l, 0);
 }
 
 LuaConsole::~LuaConsole() {}
@@ -167,7 +182,7 @@ void LuaConsole::UpdateCompletion(const std::string & statement) {
 
 	lua_State * l = Lua::manager->GetLuaState();
 	int stackheight = lua_gettop(l);
-	lua_rawgeti(l, LUA_REGISTRYINDEX, LUA_RIDX_GLOBALS);
+	lua_getfield(l, LUA_REGISTRYINDEX, "ConsoleGlobal");
 	// Loading the tables in which to do the name lookup
 	while (chunks.size() > 1) {
 		if (!lua_istable(l, -1) && !lua_isuserdata(l, -1))
@@ -256,6 +271,10 @@ void LuaConsole::ExecOrContinue() {
 		AddOutput("memory allocation failure");
 		return;
 	}
+
+	// set the global table
+	lua_getfield(L, LUA_REGISTRYINDEX, "ConsoleGlobal");
+	lua_setupvalue(L, -2, 1);
 
 	std::istringstream stmt_stream(stmt);
 	std::string string_buffer;
