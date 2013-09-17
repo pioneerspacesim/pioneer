@@ -127,6 +127,13 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 		}
 	}
 
+	for (int i = 0; i < ShipType::GUNMOUNT_MAX; i++) {
+		s.gunMount[i].pos = vector3f(0,0,0);
+		s.gunMount[i].dir = vector3f(0,0,1);
+		s.gunMount[i].sep = 5;
+		s.gunMount[i].orient = ShipType::DUAL_LASERS_HORIZONTAL;
+	}
+
 	lua_pushstring(L, "gun_mounts");
 	lua_gettable(L, -2);
 	if (lua_istable(L, -1)) {
