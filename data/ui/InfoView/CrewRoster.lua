@@ -6,6 +6,7 @@ local Engine = import("Engine")
 local Game = import("Game")
 local Format = import("Format")
 local ShipType = import("ShipType")
+local Comms = import("Comms")
 
 local InfoFace = import("ui/InfoFace")
 local SmallLabeledButton = import("ui/SmallLabeledButton")
