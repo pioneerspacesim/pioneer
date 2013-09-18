@@ -4,7 +4,6 @@
 local Engine = import("Engine")
 local Game = import("Game")
 local Space = import("Space")
-local ShipType = import("ShipType")
 local Event = import("Event")
 local Serializer = import("Serializer")
 local ShipDef = import("ShipDef")

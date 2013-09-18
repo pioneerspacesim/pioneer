@@ -4,7 +4,7 @@
 local Ship = import_core("Ship")
 local Event = import("Event")
 local Serializer = import("Serializer")
-local ShipType = import("ShipType")
+local ShipDef = import("ShipDef")
 local Timer = import("Timer")
 local Translate = import("Translate")
 
@@ -228,7 +228,7 @@ Ship.Enroll = function (self,newCrewMember)
 		error("Ship:Enroll: newCrewMember must be a Character object")
 	end
 	if not CrewRoster[self] then CrewRoster[self] = {} end
-	if #CrewRoster[self] < ShipType.GetShipType(self.shipId).maxCrew
+	if #CrewRoster[self] < ShipDef[self.shipId].maxCrew
 	and isNotAlreadyEnrolled(newCrewMember)
 	then
 		newCrewMember:CheckOut() -- Don't want other scripts using our crew for missions etc
@@ -308,7 +308,7 @@ end
 --
 Ship.GenerateCrew = function (self)
 	if CrewRoster[self] then return end -- Bottle out if there's ever been a crew
-	for i = 1, ShipType.GetShipType(self.shipId).maxCrew do
+	for i = 1, ShipDef[self.shipId].maxCrew do
 		local newCrew = Character.New()
 		newCrew:RollNew(true)
 		self:Enroll(newCrew)
@@ -366,8 +366,8 @@ end
 --
 Ship.HasCorrectCrew = function (self)
 	return (CrewRoster[self] and (
-		#CrewRoster[self] >= ShipType.GetShipType(self.shipId).minCrew and
-		#CrewRoster[self] <= ShipType.GetShipType(self.shipId).maxCrew
+		#CrewRoster[self] >= ShipDef[self.shipId].minCrew and
+		#CrewRoster[self] <= ShipDef[self.shipId].maxCrew
 	))
 end
 
