@@ -1,6 +1,7 @@
 September 2013
 
    * Minor changes and tweaks
+     * Improve thruster rendering (#2426, #1960)
      * Added OpenGL debug output. Set EnableGLDebug in config.ini to enable
        it (#2413)
 
