@@ -17,6 +17,7 @@ September 2013
        table. Interaction between modules needs to be done via explicit APIs
        and imports. PersistentCharacters has been moved to
        Character.persistent (#2417)
+     * Removed deprecated ShipType interface
 
    * Internal changes
      * Remove GLU dependency (#2414)
