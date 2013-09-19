@@ -5,6 +5,9 @@ local Engine = import("Engine")
 local SpaceStation = import("SpaceStation")
 local Game = import("Game")
 local Event = import("Event")
+local Format = import("Format")
+
+local ModelSpinner = import("UI.Game.ModelSpinner")
 
 local ui = Engine.ui
 
@@ -12,8 +15,24 @@ local shipTable =
 	ui:Table()
 		:SetRowSpacing(5)
 		:SetColumnSpacing(10)
-		:SetHeadingRow("id")
+		:SetHeadingRow({"Ship","Price","Capacity"})
 		:SetMouseEnabled(true)
+
+local shipInfo =
+	ui:Expand("VERTICAL")
+
+shipTable.onRowClicked:Connect(function (row)
+	local station = Game.player:GetDockedWith()
+	local def = SpaceStation.shipsOnSale[station][row+1]
+
+	shipInfo:SetInnerWidget(
+		ui:VBox():PackEnd({
+			ui:Label(def.name):SetFont("HEADING_LARGE"),
+			ModelSpinner.New(ui, def.modelName, Game.player:GetSkin()),
+			ui:Align("MIDDLE", ui:Button("Buy Ship"):SetFont("HEADING_LARGE")),
+		})
+	)
+end)
 
 local function updateStation (station, shipsOnSale)
 	if station ~= Game.player:GetDockedWith() then return end
@@ -21,7 +40,8 @@ local function updateStation (station, shipsOnSale)
 	shipTable:ClearRows()
 
 	for i = 1,#shipsOnSale do
-		shipTable:AddRow({shipsOnSale[i].id})
+		local def = shipsOnSale[i]
+		shipTable:AddRow({def.name, Format.Money(def.basePrice), def.capacity.."t"})
 	end
 end
 
@@ -29,7 +49,11 @@ Event.Register("onShipMarketUpdate", updateStation)
 
 local shipMarket = function (args)
 	updateStation(station, SpaceStation.shipsOnSale[Game.player:GetDockedWith()])
-	return shipTable
+
+	return
+		ui:Grid(2,1)
+			:SetColumn(0, {shipTable})
+			:SetColumn(1, {shipInfo})
 end
 
 return shipMarket
