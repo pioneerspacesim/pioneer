@@ -8,6 +8,7 @@ September 2013
    * Fixes
      * Fix SmartTable scrolling (#2349)
      * Fix huge memory consumption on heightmapped terrains (#2418, 2405)
+     * Partially fix terrain collision failures (#2429, #2337)
 
    * Script and UI API changes
      * A new module import system is now in place. Each dependency now needs
