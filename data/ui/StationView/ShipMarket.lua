@@ -8,6 +8,7 @@ local Event = import("Event")
 local Format = import("Format")
 
 local ModelSpinner = import("UI.Game.ModelSpinner")
+local ModelSkin = import("SceneGraph.ModelSkin")
 
 local ui = Engine.ui
 
@@ -23,12 +24,13 @@ local shipInfo =
 
 shipTable.onRowClicked:Connect(function (row)
 	local station = Game.player:GetDockedWith()
-	local def = SpaceStation.shipsOnSale[station][row+1]
+	local sos = SpaceStation.shipsOnSale[station][row+1]
+	local def = sos.def
 
 	shipInfo:SetInnerWidget(
 		ui:VBox():PackEnd({
 			ui:Label(def.name):SetFont("HEADING_LARGE"),
-			ModelSpinner.New(ui, def.modelName, Game.player:GetSkin()),
+			ModelSpinner.New(ui, def.modelName, sos.skin),
 			ui:Align("MIDDLE", ui:Button("Buy Ship"):SetFont("HEADING_LARGE")),
 		})
 	)
@@ -40,7 +42,7 @@ local function updateStation (station, shipsOnSale)
 	shipTable:ClearRows()
 
 	for i = 1,#shipsOnSale do
-		local def = shipsOnSale[i]
+		local def = shipsOnSale[i].def
 		shipTable:AddRow({def.name, Format.Money(def.basePrice), def.capacity.."t"})
 	end
 end

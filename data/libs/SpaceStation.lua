@@ -9,6 +9,7 @@ local ShipDef = import("ShipDef")
 local Engine = import("Engine")
 local Timer = import("Timer")
 local Game = import("Game")
+local ModelSkin = import("SceneGraph.ModelSkin")
 
 SpaceStation.shipsOnSale = {}
 
@@ -33,7 +34,11 @@ local function updateShipsOnSale (station)
 	if toAdd > 0 then
 		local avail = station.type == "STARPORT_SURFACE" and groundShips or spaceShips
 		for i=1,toAdd do
-			table.insert(shipsOnSale, avail[Engine.rand:Integer(1,#avail)])
+			local entry = {
+				def  = avail[Engine.rand:Integer(1,#avail)],
+				skin = ModelSkin.New():SetRandomColors(Engine.rand),
+			}
+			table.insert(shipsOnSale, entry)
 		end
 	end
 
