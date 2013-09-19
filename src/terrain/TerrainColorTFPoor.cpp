@@ -41,25 +41,14 @@ vector3d TerrainColorFractal<TerrainColorTFPoor>::GetColor(const vector3d &p, do
 		return col;
 	}
 	// This is for fake ocean depth by the coast.
-		if (m_heightMap) {
-			continents = 0;
-		} else {
-			continents = ridged_octavenoise(GetFracDef(3-m_fracnum), 0.55, p) * (1.0-m_sealevel) - ((m_sealevel*0.1)-0.1);
-		}
+	continents = ridged_octavenoise(GetFracDef(3-m_fracnum), 0.55, p) * (1.0-m_sealevel) - ((m_sealevel*0.1)-0.1);
+	
 	// water
 	if (n <= 0) {
-		if (m_heightMap) {
-			// waves
-			if (textures) {
-				n += terrain_colournoise_water;
-				n *= 0.1;
-			}
-		} else {
 		// Oooh, pretty coastal regions with shading based on underwater depth.
-			n += continents;// - (GetFracDef(3).amplitude*m_sealevel*0.49);
-			n *= n*10.0;
-			//n = (n>0.3 ? 0.3-(n*n*n-0.027) : n);
-		}
+		n += continents;// - (GetFracDef(3).amplitude*m_sealevel*0.49);
+		n *= n*10.0;
+		//n = (n>0.3 ? 0.3-(n*n*n-0.027) : n);
 		col = interpolate_color(n, vector3d(0,0.0,0.1), vector3d(0,0.5,0.5));
 		return col;
 	}

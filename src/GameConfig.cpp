@@ -44,6 +44,7 @@ GameConfig::GameConfig()
 #else
 	map["RedirectStdio"] = "0";
 #endif
+	map["EnableGLDebug"] = "0";
 
 	Load();
 }

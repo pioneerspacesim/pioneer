@@ -24,6 +24,8 @@
 -- your module needs to know the difference.
 --
 
+local Engine = import("Engine")
+
 local pending = {}
 local callbacks = {}
 local do_callback = {}
@@ -41,6 +43,7 @@ local do_callback_timed = function (cb, p)
 	print(string.format("DEBUG: %s %dms %s:%d", p.name, tend-tstart, d.source, d.linedefined))
 end
 
+local Event
 Event = {
 	--
 	-- Function: Register
@@ -704,3 +707,5 @@ Event = {
 --
 
 -- XXX document SongFinished
+
+return Event

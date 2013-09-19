@@ -14,6 +14,7 @@
 #include "Texture.h"
 #include "TextureGL.h"
 #include "VertexArray.h"
+#include "GLDebug.h"
 #include <stddef.h> //for offsetof
 #include <ostream>
 #include <sstream>
@@ -70,6 +71,9 @@ RendererLegacy::RendererLegacy(const Graphics::Settings &vs)
 
 	SetClearColor(Color(0.f));
 	SetViewport(0, 0, m_width, m_height);
+
+	if (vs.enableDebugMessages)
+		GLDebug::Enable();
 }
 
 RendererLegacy::~RendererLegacy()
@@ -721,6 +725,8 @@ bool RendererLegacy::PrintDebugInfo(std::ostream &out)
 	out << "OpenGL version " << glGetString(GL_VERSION);
 	out << ", running on " << glGetString(GL_VENDOR);
 	out << " " << glGetString(GL_RENDERER) << "\n";
+
+	out << "GLEW version " << glewGetString(GLEW_VERSION) << "\n";
 
 	if (glewIsSupported("GL_VERSION_2_0"))
 		out << "Shading language version: " <<  glGetString(GL_SHADING_LANGUAGE_VERSION_ARB) << "\n";

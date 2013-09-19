@@ -20,6 +20,7 @@ namespace Graphics {
 		bool fullscreen;
 		bool shaders;
 		bool useTextureCompression;
+		bool enableDebugMessages;
 		int vsync;
 		int requestedSamples;
 		int height;

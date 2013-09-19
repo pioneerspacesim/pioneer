@@ -1,6 +1,8 @@
 -- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+local Translate = import("Translate")
+
 Translate:Add({
 	English = {
 		-- Main menu
@@ -637,7 +639,7 @@ Translate:Add({
 		['Cancel']         = 'Zrušit',
 
 		-- Load dialog
-		['Select game to load...'] = 'Načíst hru...',
+		['Select game to load...'] = 'Vyber uloženou hru...',
 
 		-- Equipment
 		['Equipment'] = 'Vybavení',

@@ -22,6 +22,20 @@ Disk::Disk(Graphics::Renderer *r, const Color &c, float rad)
 	}
 }
 
+Disk::Disk(RefCountedPtr<Material> material, const int numEdges/*=72*/, const float radius/*=1.0f*/) : m_material(material)
+{
+	m_vertices.Reset(new VertexArray(ATTRIB_POSITION));
+
+	m_vertices->Add(vector3f(0.f, 0.f, 0.f));
+	const float edgeStep = 360.0f / float(numEdges);
+	for (int i = numEdges; i >= 0; i--) {
+		m_vertices->Add(vector3f(
+			0.f+sinf(DEG2RAD(i*edgeStep))*radius,
+			0.f+cosf(DEG2RAD(i*edgeStep))*radius,
+			0.f));
+	}
+}
+
 void Disk::Draw(Renderer *r)
 {
 	r->DrawTriangles(m_vertices.Get(), m_material.Get(), TRIANGLE_FAN);

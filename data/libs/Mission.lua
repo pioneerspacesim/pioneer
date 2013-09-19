@@ -1,21 +1,26 @@
 -- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+local Translate = import("Translate")
+local Serializer = import("Serializer")
+local Character = import("Character")
+
 --
--- Class: Missions
+-- Class: Mission
 --
 -- A mission object, which is displayed in the missions screen. These
 -- missions are stored in the PersistenCharacters.player.missions table.
 -- The class is responsible for inserting itself into the missions table,
 -- and has a method which removes itself from that table.
 --
--- Lua modules should use the Missions interface, which provides data
+-- Lua modules should use the Mission interface, which provides data
 -- sanitation and error checking.
 --
 
 -- Registered mission type data go here
 local MissionRegister = {}
 
+local Mission
 Mission = {
 --
 -- Group: Attributes
@@ -242,7 +247,7 @@ Mission = {
 		if not (type(newMission.due) == "number") then newMission.due = nil end
 		if not (type(newMission.reward) == "number") then newMission.reward = nil end
 		if not (type(newMission.location) == "userdata") then newMission.location = Game.system.path end
-		table.insert(PersistentCharacters.player.missions,newMission)
+		table.insert(Character.persistent.player.missions,newMission)
 		return newMission;
 	end,
 --
@@ -266,9 +271,9 @@ Mission = {
 -- testing
 --
 	Remove = function (self)
-		for k,v in pairs(PersistentCharacters.player.missions) do
+		for k,v in pairs(Character.persistent.player.missions) do
 			if v == self then
-				table.remove(PersistentCharacters.player.missions,k)
+				table.remove(Character.persistent.player.missions,k)
 			end
 		end
 	end,
@@ -344,3 +349,7 @@ Mission.meta = {
 	__index = Mission,
 	class = "Mission",
 }
+
+Serializer:RegisterClass("Mission", Mission)
+
+return Mission
