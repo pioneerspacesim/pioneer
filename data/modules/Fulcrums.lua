@@ -1,6 +1,16 @@
 -- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+local Engine = import("Engine")
+local Game = import("Game")
+local Space = import("Space")
+local Comms = import("Comms")
+local Timer = import("Timer")
+local Event = import("Event")
+local Serializer = import("Serializer")
+local ShipDef = import("ShipDef")
+local utils = import("utils")
+
 local loaded
 local fulcrum
 local playerarrived=false

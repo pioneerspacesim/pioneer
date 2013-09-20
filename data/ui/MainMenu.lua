@@ -10,7 +10,7 @@ local ui = Engine.ui
 local t = Translate:GetTranslator()
 
 local setupPlayerWave = function ()
-	Game.player:SetShipType("wave")
+	Game.player:SetShipType("personal_skiff")
 	Game.player:AddEquip("PULSECANNON_1MW")
 	Game.player:AddEquip("ATMOSPHERIC_SHIELDING")
 	Game.player:AddEquip("AUTOPILOT")
@@ -34,7 +34,7 @@ end
 
 local buttonDefs = {
 	{ t("Start at Earth"),    function () Game.StartGame(SystemPath.New(0,0,0,0,9))   setupPlayerWave() end },
-	{ t("Start at New Hope"), function () Game.StartGame(SystemPath.New(1,-1,-1,0,4)) setupPlayerWave() end },
+	{ t("Start at FireDrake"), function () Game.StartGame(SystemPath.New(1,-1,-1,0,4)) setupPlayerWave() end },
 	{ t("Start at Barnard's Star"), function () Game.StartGame(SystemPath.New(-1,0,0,0,1)) setupPlayerWave() end },
 	{ t("Load game"),         doLoadDialog },
 	{ t("Options"),           function () Engine.SettingsView() end },
