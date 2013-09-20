@@ -1,11 +1,16 @@
 -- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+local Translate = import("Translate")
+local Engine = import("Engine")
+local Game = import("Game")
+local SystemPath = import("SystemPath")
+
 local ui = Engine.ui
 local t = Translate:GetTranslator()
 
 local setupPlayerWave = function ()
-	Game.player:SetShipType("passenger_shuttle")
+	Game.player:SetShipType("personal_skiff")
 	Game.player:AddEquip("PULSECANNON_1MW")
 	Game.player:AddEquip("ATMOSPHERIC_SHIELDING")
 	Game.player:AddEquip("AUTOPILOT")
@@ -28,7 +33,9 @@ local doLoadDialog = function ()
 end
 
 local buttonDefs = {
-	{ t("New Game"),    function () Game.StartGame(SystemPath.New(0,0,0,0,9))   setupPlayerWave() end },
+	{ t("Start at Earth"),    function () Game.StartGame(SystemPath.New(0,0,0,0,9))   setupPlayerWave() end },
+	{ t("Start at FireDrake"), function () Game.StartGame(SystemPath.New(1,-1,-1,0,4)) setupPlayerWave() end },
+	{ t("Start at Barnard's Star"), function () Game.StartGame(SystemPath.New(-1,0,0,0,1)) setupPlayerWave() end },
 	{ t("Load game"),         doLoadDialog },
 	{ t("Options"),           function () Engine.SettingsView() end },
 	{ t("Quit"),              function () Engine.Quit() end },
@@ -51,7 +58,7 @@ local menu =
 			ui:Grid({ 0.1, 0.8, 0.1 }, 1)
 				:SetCell(1, 0,
 					ui:Align("LEFT",
-						ui:Label("Paragon"):SetFont("HEADING_XLARGE")
+						ui:Label("Pioneer"):SetFont("HEADING_XLARGE")
 					)
 				)
 		})

@@ -37,16 +37,24 @@
 --
 -- *Saving characters*
 --
--- There is a global table called PersistentCharacters.  Character sheets can
--- be stored in this table using the Save() method.  This method checks whether
--- the character sheet already exists in that table, and also updates the
--- values of the persistence members (see below).  Saved characters become
--- available to other scripts.
+-- Within the Character class there is a table called "persistent".  Character
+-- sheets can be stored in this table using the Save() method.  This method
+-- checks whether the character sheet already exists in that table, and also
+-- updates the values of the persistence members (see below).  Saved characters
+-- become available to other scripts.
 --
 -- Saved characters are indexed numerically, and can be retrieved with ipairs()
 -- and counted with the # operator.  The player's sheet is stored as
--- PersistentCharacters.player, and is the special case.
+-- Character.persistent.player, and is the special case.
 
+local Engine = import("Engine")
+local Game = import("Game")
+local Event = import("Event")
+local NameGen = import("NameGen")
+local Serializer = import("Serializer")
+local Ship = import("Ship")
+
+local Character;
 Character = {
 
 --
@@ -744,7 +752,7 @@ Character = {
 --
 -- Return:
 --
---   Index of this character in PersistentCharacters table
+--   Index of this character in Character.persistent table
 --
 -- Parameters:
 --
@@ -773,11 +781,11 @@ Character = {
 				else
 					self.lastSavedSystemPath = Game.system.path
 				end
-				for i,NPC in ipairs(PersistentCharacters) do
+				for i,NPC in ipairs(Character.persistent) do
 					if NPC == self then return i end
 				end
-				table.insert(PersistentCharacters,self)
-        		return #PersistentCharacters
+				table.insert(Character.persistent,self)
+        		return #Character.persistent
 			end
 		end
 		error('Cannot save character')
@@ -786,7 +794,7 @@ Character = {
 --
 -- Method: Find
 --
---   Returns an iterator across all PersistentCharacters who match the
+--   Returns an iterator across all persistent characters who match the
 --   specified filter.
 --
 -- iterator = Character.Find(filter)
@@ -834,17 +842,17 @@ Character = {
 		local NPC = 0
 		return function ()
 			NPC = NPC + 1
-			while PersistentCharacters[NPC] and (not filter(PersistentCharacters[NPC])) do
+			while Character.persistent[NPC] and (not filter(Character.persistent[NPC])) do
 				NPC = NPC + 1
 			end
-			return PersistentCharacters[NPC]
+			return Character.persistent[NPC]
 		end
 	end,
 
 --
 -- Method: FindAvailable
 --
---   Returns an iterator across all PersistentCharacters where available is true
+--   Returns an iterator across all persistent characters where available is true
 --   and dead is false
 --
 -- iterator = Character.FindAvailable()
@@ -877,10 +885,10 @@ Character = {
 		local NPC = 0
 		return function ()
 			NPC = NPC + 1
-			while PersistentCharacters[NPC] and (not (PersistentCharacters[NPC]).available or (PersistentCharacters[NPC]).dead) do
+			while Character.persistent[NPC] and (not (Character.persistent[NPC]).available or (Character.persistent[NPC]).dead) do
 				NPC = NPC + 1
 			end
-			return PersistentCharacters[NPC]
+			return Character.persistent[NPC]
 		end
 	end,
 
@@ -923,7 +931,7 @@ Character = {
 --
 -- Method: UnSave
 --
---   Removes a character from the PersistentCharacters table
+--   Removes a character from the persistent characters table
 --
 -- ch:UnSave()
 --
@@ -936,8 +944,8 @@ Character = {
 --   experimental
 --
 	UnSave = function (self)
-		for num,NPC in ipairs(PersistentCharacters) do
-			if NPC == self then table.remove(PersistentCharacters,num) end
+		for num,NPC in ipairs(Character.persistent) do
+			if NPC == self then table.remove(Character.persistent,num) end
 		end
 	end,
 
@@ -958,7 +966,7 @@ Character = {
 --
 -- > t = Translate:GetTranslator()
 -- > UI.Message(('Your combat rating is {rating}'):interp({
--- >     rating = t(PersistentCharacters.player:GetCombatRating()),
+-- >     rating = t(Character.persistent.player:GetCombatRating()),
 -- > }))
 --
 -- Availability:
@@ -1015,7 +1023,7 @@ Character = {
 --
 -- Check to see if the player is rated "Deadly" or higher
 --
--- > if PersistentCharacter.player:IsCombatRated('DEADLY') then
+-- > if Character.persistent.player:IsCombatRated('DEADLY') then
 -- >   DoSomethingDeadly() -- Player is rated "Deadly" or higher
 -- > end
 --
@@ -1085,7 +1093,7 @@ Character.meta = {
 
 -- This will be a numerically indexed global table of characters.  There
 -- will also be one non-numerically keyed value - ['player'].
-PersistentCharacters = {}
+Character.persistent = {}
 
 -- We'll try to save our persistent characters...
 local loaded_data
@@ -1093,7 +1101,7 @@ local loaded_data
 local onGameStart = function ()
 	if loaded_data then
 		for k,newCharacter in pairs(loaded_data.PersistentCharacters) do
-			PersistentCharacters[k] = newCharacter
+			Character.persistent[k] = newCharacter
 		end
 	else
 		-- Make a new character sheet for the player, with just
@@ -1107,7 +1115,7 @@ local onGameStart = function ()
 		-- Insert the player character into the persistent character
 		-- table.  Player won't be ennumerated with NPCs, because player
 		-- is not numerically keyed.
-		PersistentCharacters = { player = PlayerCharacter }
+		Character.persistent = { player = PlayerCharacter }
 		-- Enroll the player in their own crew
 		Game.player:Enroll(PlayerCharacter)
 	end
@@ -1115,7 +1123,7 @@ local onGameStart = function ()
 end
 
 local serialize = function ()
-    return { PersistentCharacters = PersistentCharacters}
+    return { PersistentCharacters = Character.persistent}
 end
 
 local unserialize = function (data)
@@ -1167,3 +1175,6 @@ end
 
 Event.Register("onGameStart", onGameStart)
 Serializer:Register("Characters", serialize, unserialize)
+Serializer:RegisterClass("Character", Character)
+
+return Character

@@ -1,6 +1,14 @@
 -- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+local Translate = import("Translate")
+local Engine = import("Engine")
+local Game = import("Game")
+local Event = import("Event")
+local NameGen = import("NameGen")
+local Rand = import("Rand")
+local Serializer = import("Serializer")
+
 -- Get the translator function
 local t = Translate:GetTranslator()
 

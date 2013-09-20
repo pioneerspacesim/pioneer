@@ -79,7 +79,7 @@ private:
 	const SystemBody *m_sbody;
 
 	// all variables for GetHeight(), GetColor()
-	ScopedPtr<Terrain> m_terrain;
+	RefCountedPtr<Terrain> m_terrain;
 
 	static const uint32_t MAX_SPLIT_OPERATIONS = 128;
 	std::deque<SQuadSplitResult*> mQuadSplitResults;

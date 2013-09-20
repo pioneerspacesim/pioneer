@@ -10,7 +10,6 @@
 #include <cstdio>
 #include <sigc++/sigc++.h>
 #include <SDL.h>
-#include <GL/glew.h>
 #include <SDL_image.h>
 #include <cfloat>
 #include <limits>
@@ -21,6 +20,9 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <algorithm>
+
+#include "glew/glew.h"
 
 #ifdef _WIN32
 #	include <malloc.h>

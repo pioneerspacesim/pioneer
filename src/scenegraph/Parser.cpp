@@ -72,7 +72,7 @@ bool Parser::match(const std::string &s, const std::string &what)
 //check for a string, but don't accept comments
 bool Parser::checkString(std::stringstream &ss, std::string &out, const std::string &what)
 {
-	if (ss >> out == 0) throw ParseError(stringf("Expected %0, got nothing", what));
+	if (!(ss >> out)) throw ParseError(stringf("Expected %0, got nothing", what));
 	if (isComment(out)) throw ParseError(stringf("Expected %0, got comment", what));
 	return true;
 }
@@ -114,7 +114,7 @@ bool Parser::parseLine(const std::string &line)
 	ss.str(line);
 	if (ss.fail()) throw ParseError("Stringstream failure");
 	string token;
-	if ((ss >> token) != 0) {
+	if (ss >> token) {
 		//line contains something
 		if (isComment(token))
 			return true; //skip comments
@@ -130,7 +130,7 @@ bool Parser::parseLine(const std::string &line)
 		} else if(match(token, "lod")) {
 			endMaterial();
 			float featuresize;
-			if (ss >> featuresize == 0)
+			if (!(ss >> featuresize))
 				throw ParseError("Detail level must specify a pixel size");
 			if (is_zero_general(featuresize))
 				throw ParseError("Detail level pixel size must be greater than 0");
@@ -164,9 +164,9 @@ bool Parser::parseLine(const std::string &line)
 			bool loopMode = false;
 			std::string loop;
 			checkString(ss, animName, "animation name");
-			if (ss >> startFrame == 0)
+			if (!(ss >> startFrame))
 				throw ParseError("Animation start frame not defined");
-			if (ss >> endFrame == 0)
+			if (!(ss >> endFrame))
 				throw ParseError("Animation end frame not defined");
 			if (ss >> loop && match(loop, "loop"))
 				loopMode = true;

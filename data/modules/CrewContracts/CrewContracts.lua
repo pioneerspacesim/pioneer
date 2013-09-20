@@ -1,6 +1,15 @@
 -- Copyright © 2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+local Translate = import("Translate")
+local Event = import("Event")
+local Serializer = import("Serializer")
+local Engine = import("Engine")
+local Game = import("Game")
+local Character = import("Character")
+local Format = import("Format")
+local Timer = import("Timer")
+
 -- This module allows the player to hire crew members through BB adverts
 -- on stations, and handles periodic events such as their wages.
 

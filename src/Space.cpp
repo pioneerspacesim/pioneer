@@ -730,7 +730,7 @@ static void CollideWithTerrain(Body *body)
 
 	const Aabb &aabb = dynBody->GetAabb();
 	double altitude = body->GetPosition().Length() + aabb.min.y;
-	if (altitude >= terrain->GetMaxFeatureRadius()) return;
+	if (altitude >= (terrain->GetMaxFeatureRadius()*2.0)) return;
 
 	double terrHeight = terrain->GetTerrainHeight(body->GetPosition().Normalized());
 	if (altitude >= terrHeight) return;

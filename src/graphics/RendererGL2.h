@@ -25,6 +25,7 @@ namespace GL2 {
 	class Program;
 	class RenderTarget;
 	class RingMaterial;
+	class FresnelColourMaterial;
 }
 
 class RendererGL2 : public RendererLegacy
@@ -58,6 +59,7 @@ private:
 	friend class GL2::MultiMaterial;
 	friend class GL2::LitMultiMaterial;
 	friend class GL2::RingMaterial;
+	friend class GL2::FresnelColourMaterial;
 	std::vector<std::pair<MaterialDescriptor, GL2::Program*> > m_programs;
 	float m_invLogZfarPlus1;
 	GL2::RenderTarget *m_activeRenderTarget;
