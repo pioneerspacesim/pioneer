@@ -9,4 +9,4 @@ shininess 80
 
 mesh high_development_building_1.obj
 
-collision high_development_building_1.obj
+collision high_development_building_1_collision.obj

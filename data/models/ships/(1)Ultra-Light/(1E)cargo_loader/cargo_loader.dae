@@ -26,10 +26,10 @@
                 Save 3ds Max Profile: Yes;
                 Formatted Arrays: Yes;
             </comments>
-            <source_data>file:///C:/Users/rivalin/Creative/Personal%20Work/Paragon/Paragon/PARAGON3DEV3/data/models/ships/(0)Ultra-Light/(0E)cargo_loader/cargo_loader.dae</source_data>
+            <source_data>file:///C:/Users/rivalin/Desktop/pioneer/data/models/ships/(1)Ultra-Light/(1E)cargo_loader/cargo_loader.dae</source_data>
         </contributor>
-        <created>2013-07-07T14:32:39Z</created>
-        <modified>2013-07-07T14:32:39Z</modified>
+        <created>2013-09-20T08:45:15Z</created>
+        <modified>2013-09-20T08:45:15Z</modified>
         <up_axis>Y_UP</up_axis>
     </asset>
     <library_cameras>
@@ -3005,9 +3005,72 @@
                 </extra>
             </mesh>
         </geometry>
+        <geometry id="Geometry-mesh052" name="decal_01">
+            <mesh>
+                <source id="Geometry-mesh052-positions" name="positions">
+                    <float_array id="Geometry-mesh052-positions-array" count="12">
+                        1.08534 3.3 -5.644
+                        -1.08534 3.3 -5.644
+                        1.08534 3.3 -7.636
+                        -1.08534 3.3 -7.636
+                    </float_array>
+                    <technique_common>
+                        <accessor count="4" source="#Geometry-mesh052-positions-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-mesh052-normals" name="normals">
+                    <float_array id="Geometry-mesh052-normals-array" count="3">
+                        0 1 0
+                    </float_array>
+                    <technique_common>
+                        <accessor count="1" source="#Geometry-mesh052-normals-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-mesh052-Texture" name="Texture">
+                    <float_array id="Geometry-mesh052-Texture-array" count="8">
+                        0.982803 0.984923
+                        0.0123513 0.984923
+                        0.0123513 0.0103536
+                        0.982803 0.0103536
+                    </float_array>
+                    <technique_common>
+                        <accessor count="4" source="#Geometry-mesh052-Texture-array" stride="2">
+                            <param name="S" type="float" />
+                            <param name="T" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <vertices id="Geometry-mesh052-vertices">
+                    <input semantic="POSITION" source="#Geometry-mesh052-positions" />
+                </vertices>
+                <polylist count="1" material="Material-material1">
+                    <input semantic="VERTEX" source="#Geometry-mesh052-vertices" offset="0" />
+                    <input semantic="NORMAL" source="#Geometry-mesh052-normals" offset="1" />
+                    <input semantic="TEXCOORD" source="#Geometry-mesh052-Texture" offset="2" set="0" />
+                    <vcount>4</vcount>
+                    <p>1 0 0 0 0 1 2 0 2 3 0 3</p>
+                </polylist>
+                <extra>
+                    <technique profile="modo401">
+                        <param sid="render" name="Render" type="Name">default</param>
+                        <param sid="dissolve" name="Dissolve" type="float">0</param>
+                        <param sid="curves" name="Render_Curves" type="bool">false</param>
+                        <param sid="radius" name="Curve_Radius" type="float">0.05</param>
+                    </technique>
+                </extra>
+            </mesh>
+        </geometry>
     </library_geometries>
     <library_lights>
-        <light id="Light-polyRender043" name="Render">
+        <light id="Light-polyRender045" name="Render">
             <technique_common>
                 <ambient>
                     <color sid="ambient_light_rgb">0.05 0.05 0.05</color>
@@ -3133,96 +3196,96 @@
     </library_nodes>
     <library_visual_scenes>
         <visual_scene id="DefaultScene">
-            <node id="polyRender043" name="Render" type="NODE">
-                <instance_light url="#Light-polyRender043" />
+            <node id="polyRender045" name="Render" type="NODE">
+                <instance_light url="#Light-polyRender045" />
             </node>
             <node id="thruster_lightNode" name="thruster_light" type="NODE">
                 <translate sid="translation001">-3.47 2.59 -7.97</translate>
-                <rotate sid="rotation017Y">0 1 0 -90</rotate>
-                <rotate sid="rotation017X">1 0 0 -45</rotate>
-                <rotate sid="rotation017Z">0 0 1 -9.92313e-015</rotate>
-                <scale sid="scale029">1 1 1</scale>
+                <rotate sid="rotation019Y">0 1 0 -90</rotate>
+                <rotate sid="rotation019X">1 0 0 -45</rotate>
+                <rotate sid="rotation019Z">0 0 1 -9.92313e-015</rotate>
+                <scale sid="scale031">1 1 1</scale>
             </node>
             <node id="thruster_light__2_Node" name="thruster_light__2_" type="NODE">
                 <translate sid="translation003">6.25 -2.55 -2.75</translate>
                 <translate sid="translation002">0 0 1.25</translate>
-                <rotate sid="rotation018Y">0 1 0 -180</rotate>
-                <rotate sid="rotation018X">1 0 0 90</rotate>
-                <rotate sid="rotation018Z">0 0 1 9.29391e-008</rotate>
-                <scale sid="scale030">1 1 1</scale>
+                <rotate sid="rotation020Y">0 1 0 -180</rotate>
+                <rotate sid="rotation020X">1 0 0 90</rotate>
+                <rotate sid="rotation020Z">0 0 1 9.29391e-008</rotate>
+                <scale sid="scale032">1 1 1</scale>
             </node>
             <node id="thruster_light__3_Node" name="thruster_light__3_" type="NODE">
                 <translate sid="translation005">-6.25 -2.55 -2.75</translate>
                 <translate sid="translation004">0 0 1.25</translate>
-                <rotate sid="rotation019Y">0 1 0 -180</rotate>
-                <rotate sid="rotation019X">1 0 0 90</rotate>
-                <rotate sid="rotation019Z">0 0 1 9.29391e-008</rotate>
-                <scale sid="scale031">1 1 1</scale>
+                <rotate sid="rotation021Y">0 1 0 -180</rotate>
+                <rotate sid="rotation021X">1 0 0 90</rotate>
+                <rotate sid="rotation021Z">0 0 1 9.29391e-008</rotate>
+                <scale sid="scale033">1 1 1</scale>
             </node>
             <node id="thruster_light__4_Node" name="thruster_light__4_" type="NODE">
                 <translate sid="translation006">6.25 2.55 -1.5</translate>
-                <rotate sid="rotation020Y">0 1 0 1.60524e-007</rotate>
-                <rotate sid="rotation020X">1 0 0 -90</rotate>
-                <rotate sid="rotation020Z">0 0 1 180</rotate>
-                <scale sid="scale032">1 1 1</scale>
+                <rotate sid="rotation022Y">0 1 0 1.60524e-007</rotate>
+                <rotate sid="rotation022X">1 0 0 -90</rotate>
+                <rotate sid="rotation022Z">0 0 1 180</rotate>
+                <scale sid="scale034">1 1 1</scale>
             </node>
             <node id="thruster_light__5_Node" name="thruster_light__5_" type="NODE">
                 <translate sid="translation007">-6.25 2.55 -1.5</translate>
-                <rotate sid="rotation021Y">0 1 0 1.60524e-007</rotate>
-                <rotate sid="rotation021X">1 0 0 -90</rotate>
-                <rotate sid="rotation021Z">0 0 1 180</rotate>
-                <scale sid="scale033">1 1 1</scale>
+                <rotate sid="rotation023Y">0 1 0 1.60524e-007</rotate>
+                <rotate sid="rotation023X">1 0 0 -90</rotate>
+                <rotate sid="rotation023Z">0 0 1 180</rotate>
+                <scale sid="scale035">1 1 1</scale>
             </node>
             <node id="thruster_light__6_Node" name="thruster_light__6_" type="NODE">
                 <translate sid="translation008">-3.47 -2.59 -7.97</translate>
-                <rotate sid="rotation022Y">0 1 0 -90</rotate>
-                <rotate sid="rotation022X">1 0 0 45</rotate>
-                <rotate sid="rotation022Z">0 0 1 -9.92312e-015</rotate>
-                <scale sid="scale034">1 1 1</scale>
+                <rotate sid="rotation024Y">0 1 0 -90</rotate>
+                <rotate sid="rotation024X">1 0 0 45</rotate>
+                <rotate sid="rotation024Z">0 0 1 -9.92312e-015</rotate>
+                <scale sid="scale036">1 1 1</scale>
             </node>
             <node id="thruster_light__11_Node" name="thruster_light__11_" type="NODE">
                 <translate sid="translation009">3.47 -2.59 -7.97</translate>
-                <rotate sid="rotation023Y">0 1 0 90</rotate>
-                <rotate sid="rotation023X">1 0 0 45</rotate>
-                <rotate sid="rotation023Z">0 0 1 9.92312e-015</rotate>
-                <scale sid="scale035">1 1 1</scale>
+                <rotate sid="rotation025Y">0 1 0 90</rotate>
+                <rotate sid="rotation025X">1 0 0 45</rotate>
+                <rotate sid="rotation025Z">0 0 1 9.92312e-015</rotate>
+                <scale sid="scale037">1 1 1</scale>
             </node>
             <node id="thruster_light__12_Node" name="thruster_light__12_" type="NODE">
                 <translate sid="translation010">3.47 2.59 -7.97</translate>
-                <rotate sid="rotation024Y">0 1 0 90</rotate>
-                <rotate sid="rotation024X">1 0 0 -45</rotate>
-                <rotate sid="rotation024Z">0 0 1 9.92313e-015</rotate>
-                <scale sid="scale036">1 1 1</scale>
+                <rotate sid="rotation026Y">0 1 0 90</rotate>
+                <rotate sid="rotation026X">1 0 0 -45</rotate>
+                <rotate sid="rotation026Z">0 0 1 9.92313e-015</rotate>
+                <scale sid="scale038">1 1 1</scale>
             </node>
             <node id="thruster__3_Node" name="thruster__3_" type="NODE">
                 <translate sid="translation011">6.6 0 5.5</translate>
-                <scale sid="scale037">8.425 8.425 8.425</scale>
+                <scale sid="scale039">8.425 8.425 8.425</scale>
             </node>
             <node id="thruster__2_Node" name="thruster__2_" type="NODE">
                 <translate sid="translation012">-6.6 0 5.5</translate>
-                <scale sid="scale038">8.425 8.425 8.425</scale>
+                <scale sid="scale040">8.425 8.425 8.425</scale>
             </node>
             <node id="Texture_GroupNode" name="Texture_Group" type="NODE">
                 <node id="Snone___Image___Texture_Node" name="_none___Image___Texture_" type="NODE">
                     <translate sid="translation013">0 0 0</translate>
-                    <rotate sid="rotation025Y">0 1 0 0</rotate>
-                    <rotate sid="rotation025X">1 0 0 0</rotate>
-                    <rotate sid="rotation025Z">0 0 1 0</rotate>
-                    <scale sid="scale039">1 1 1</scale>
+                    <rotate sid="rotation027Y">0 1 0 0</rotate>
+                    <rotate sid="rotation027X">1 0 0 0</rotate>
+                    <rotate sid="rotation027Z">0 0 1 0</rotate>
+                    <scale sid="scale041">1 1 1</scale>
                 </node>
             </node>
-            <node id="locator050Node" name="navlight_red_1" type="NODE">
-                <translate sid="translation131">-10.2 0 -1.25</translate>
+            <node id="navlight_red_1Node" name="navlight_red_1" type="NODE">
+                <translate sid="translation014">-10.2 0 -1.25</translate>
             </node>
-            <node id="locator132Node" name="navlight_green_1" type="NODE">
-                <translate sid="translation197">10.2 0 -1.25</translate>
+            <node id="navlight_green_1Node" name="navlight_green_1" type="NODE">
+                <translate sid="translation015">10.2 0 -1.25</translate>
             </node>
             <node id="Geometry-cargo_loaderNode" name="cargo_loader" type="NODE">
-                <translate sid="translation014">0 0 0</translate>
-                <rotate sid="rotation026Y">0 1 0 -180</rotate>
-                <rotate sid="rotation026X">1 0 0 -7.01671e-015</rotate>
-                <rotate sid="rotation026Z">0 0 1 7.01671e-015</rotate>
-                <scale sid="scale040">1 1 1</scale>
+                <translate sid="translation016">0 0 0</translate>
+                <rotate sid="rotation028Y">0 1 0 -180</rotate>
+                <rotate sid="rotation028X">1 0 0 -7.01671e-015</rotate>
+                <rotate sid="rotation028Z">0 0 1 7.01671e-015</rotate>
+                <scale sid="scale042">1 1 1</scale>
                 <instance_geometry url="#Geometry-cargo_loader">
                     <bind_material>
                         <technique_common>
@@ -3231,18 +3294,27 @@
                     </bind_material>
                 </instance_geometry>
             </node>
+            <node id="Geometry-mesh052Node" name="decal_01" type="NODE">
+                <instance_geometry url="#Geometry-mesh052">
+                    <bind_material>
+                        <technique_common>
+                            <instance_material symbol="Material-material1" target="#Material-material1" />
+                        </technique_common>
+                    </bind_material>
+                </instance_geometry>
+            </node>
             <node id="Camera-CameraNode" name="Camera" type="NODE">
-                <translate sid="translation015">-88.6833 83.7999 71.7188</translate>
-                <rotate sid="rotation027Y">0 1 0 307.861</rotate>
-                <rotate sid="rotation027X">1 0 0 -36.5127</rotate>
-                <rotate sid="rotation027Z">0 0 1 5.02212e-015</rotate>
+                <translate sid="translation017">-88.6833 83.7999 71.7188</translate>
+                <rotate sid="rotation029Y">0 1 0 307.861</rotate>
+                <rotate sid="rotation029X">1 0 0 -36.5127</rotate>
+                <rotate sid="rotation029Z">0 0 1 5.02212e-015</rotate>
                 <instance_camera url="#Camera-Camera" />
             </node>
             <node id="Light-Directional_LightNode" name="Directional_Light" type="NODE">
-                <translate sid="translation016">-2 2 2</translate>
-                <rotate sid="rotation028Y">0 1 0 -45</rotate>
-                <rotate sid="rotation028X">1 0 0 -30</rotate>
-                <rotate sid="rotation028Z">0 0 1 0</rotate>
+                <translate sid="translation018">-2 2 2</translate>
+                <rotate sid="rotation030Y">0 1 0 -45</rotate>
+                <rotate sid="rotation030X">1 0 0 -30</rotate>
+                <rotate sid="rotation030Z">0 0 1 0</rotate>
                 <instance_light url="#Light-Directional_Light" />
             </node>
             <extra>

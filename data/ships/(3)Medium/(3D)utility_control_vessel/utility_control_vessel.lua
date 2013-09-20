@@ -2,7 +2,7 @@
 -- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
 
 --Ships not available for purchase (ambient ships)
-define_ship {
+define_static_ship {
 	name='Utility Control Vessel',
 	model='utility_control_vessel',
 	forward_thrust = 210036e5,
