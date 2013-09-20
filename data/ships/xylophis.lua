@@ -3,6 +3,7 @@
 
 define_ship {
 	name='Xylophis Short Range Shuttle',
+	manufacturer='opli',
 	model='xylophis',
 	forward_thrust = 27e5,
 	reverse_thrust = 9e5,

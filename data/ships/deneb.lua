@@ -3,6 +3,7 @@
 
 define_ship {
 	name='Deneb Transport',
+	manufacturer='albr',
 	model='deneb',
 	forward_thrust = 15e6,
 	reverse_thrust = 5e6,

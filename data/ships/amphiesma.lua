@@ -3,6 +3,7 @@
 
 define_ship {
 	name='Amphiesma Courier',
+	manufacturer='opli',
 	model='amphiesma',
 	forward_thrust = 8e6,
 	reverse_thrust = 2e6,

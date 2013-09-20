@@ -3,6 +3,7 @@
 
 define_ship {
 	name='Wave Heavy Hypersonic Fighter',
+	manufacturer='auronox',
 	model='wave',
 	forward_thrust = 88e5,
 	reverse_thrust = 29e5,

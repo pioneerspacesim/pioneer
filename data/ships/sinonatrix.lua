@@ -3,6 +3,7 @@
 
 define_ship {
 	name='Sinonatrix Courier',
+	manufacturer='opli',
 	model='sinonatrix',
 	forward_thrust = 55e5,
 	reverse_thrust = 12e5,

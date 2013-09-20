@@ -3,6 +3,7 @@
 
 define_ship {
 	name='Pumpkinseed',
+	manufacturer='kaluri',
 	model='pumpkinseed',
 	forward_thrust = 5e6,
 	reverse_thrust = 3e6,

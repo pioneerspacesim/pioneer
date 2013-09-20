@@ -3,6 +3,7 @@
 
 define_ship {
 	name='Mola Mola Light Transport',
+	manufacturer='kaluri',
 	model='molamola',
 	forward_thrust = 5e6,
 	reverse_thrust = 22e5,

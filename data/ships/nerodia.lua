@@ -3,6 +3,7 @@
 
 define_ship {
 	name='Nerodia Transport',
+	manufacturer='opli',
 	model='nerodia',
 	forward_thrust = 25e7,
 	reverse_thrust = 14e7,
