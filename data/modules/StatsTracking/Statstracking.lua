@@ -4,6 +4,7 @@
 local Translate = import("Translate")
 local Event = import("Event")
 local Character = import("Character")
+local Comms = import("Comms")
 
 -- Stats-gathering module. Initially, gathers kill statistics for the player.
 -- Can (and should) be expanded in the future to gather other information.
