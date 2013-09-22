@@ -11,6 +11,7 @@
 #include "NavLights.h"
 #include "graphics/Renderer.h"
 #include "graphics/Texture.h"
+#include "graphics/Drawables.h"
 #include "scenegraph/SceneGraph.h"
 #include "ui/Context.h"
 
@@ -34,6 +35,7 @@ private:
 	void ClearModel();
 	void CreateTestResources();
 	void DrawBackground();
+	void DrawTags();
 	void DrawDockingLocators();
 	void DrawCollisionMesh();
 	void DrawGrid(const matrix4x4f &trans, float radius);
@@ -58,10 +60,12 @@ private:
 	void UpdateCamera();
 	void UpdateLights();
 	void UpdatePatternList();
+	void AddAxisIndicator(const SceneGraph::Model::TVecMT &mts, std::vector<Graphics::Drawables::Line3D> &lines);
 
 	//toggleable options
 	struct Options {
 		bool attachGuns;
+		bool showTags;
 		bool showDockingLocators;
 		bool showCollMesh;
 		bool showGrid;
