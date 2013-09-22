@@ -21,6 +21,11 @@ September 2013
        Character.persistent (#2417)
      * Removed deprecated ShipType interface
 
+   * Model changes
+     * Camera and gunmounts are now specified using tag points in the model.
+       Ship definition fields "camera_offset" and "gum_mounts" are now
+       deprecated (#2422)
+
    * Internal changes
      * Remove GLU dependency (#2414)
      * Bundle GLEW 1.10 (#2415)
