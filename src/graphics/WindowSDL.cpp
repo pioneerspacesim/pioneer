@@ -1,7 +1,7 @@
 #include "WindowSDL.h"
 
 #include "SDL.h"
-
+#include "SDLWrappers.h"
 #include "OS.h"
 
 namespace Graphics {
@@ -87,6 +87,10 @@ WindowSDL::WindowSDL(const Graphics::Settings &vs, const std::string &name)
 		if (vs.requestedSamples != actualSamples)
 			fprintf(stderr, "Requested AA mode: %dx, actual: %dx\n", vs.requestedSamples, actualSamples);
 	}
+
+	SDLSurfacePtr surface = LoadSurfaceFromFile(OS::GetIconFilename());
+	if (surface)
+		SDL_SetWindowIcon(m_window, surface.Get());
 }
 
 WindowSDL::~WindowSDL()

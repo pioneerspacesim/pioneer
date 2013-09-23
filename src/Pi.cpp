@@ -302,7 +302,6 @@ void Pi::Init()
 		fclose(f);
 	}
 
-	OS::LoadWindowIcon();
 	//SDL_WM_SetCaption("Pioneer","Pioneer"); XXX SDL2 pass through settings
 
 	Pi::scrAspect = videoSettings.width / float(videoSettings.height);

@@ -140,9 +140,7 @@ void ModelViewer::Run(const std::string &modelName)
 	videoSettings.useTextureCompression = (config->Int("UseTextureCompression") != 0);
 	renderer = Graphics::Init(videoSettings);
 
-	OS::LoadWindowIcon();
-	// XXX SDL2 set window title through settings
-	//SDL_WM_SetCaption("Model viewer","Model viewer");
+	//SDL_WM_SetCaption("Model viewer","Model viewer"); XXX SDL2 pass through settings
 
 	NavLights::Init(renderer);
 
