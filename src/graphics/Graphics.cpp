@@ -49,9 +49,6 @@ Renderer* Init(Settings vs)
 	assert(!initted);
 	if (initted) return 0;
 
-    // XXX SDL2 not sure what do to with modes yet
-    assert(vs.width > 0 && vs.height > 0);
-#if 0
 	// no mode set, find an ok one
 	if ((vs.width <= 0) || (vs.height <= 0)) {
 		const std::vector<VideoMode> modes = GetAvailableVideoModes();
@@ -60,7 +57,6 @@ Renderer* Init(Settings vs)
 		vs.width = modes.front().width;
 		vs.height = modes.front().height;
 	}
-#endif
 
 	WindowSDL *window = new WindowSDL(vs, "Pioneer");
 
@@ -103,28 +99,35 @@ bool AreShadersEnabled()
 	return shadersEnabled;
 }
 
+bool operator==(const VideoMode &a, const VideoMode &b) {
+	return a.width==b.width && a.height==b.height;
+}
+
 std::vector<VideoMode> GetAvailableVideoModes()
 {
 	std::vector<VideoMode> modes;
 
-	// XXX SDL2 modes stuff
-#if 0
-	//querying modes using the current pixel format
-	//note - this has always been sdl_fullscreen, hopefully it does not matter
-	SDL_Rect **sdlmodes = SDL_ListModes(0, SDL_HWSURFACE | SDL_FULLSCREEN);
+	const int num_displays = SDL_GetNumVideoDisplays();
+	for(int display_index = 0; display_index < num_displays; display_index++)
+	{
+		const int num_modes = SDL_GetNumDisplayModes(display_index);
 
-	if (sdlmodes == 0)
-		OS::Error("Failed to query video modes");
+		SDL_Rect display_bounds;
+		SDL_GetDisplayBounds(display_index, &display_bounds);
 
-	if (sdlmodes == reinterpret_cast<SDL_Rect **>(-1)) {
-		// Modes restricted. Fall back to 800x600
-		modes.push_back(VideoMode(800, 600));
-	} else {
-		for (int i=0; sdlmodes[i]; ++i) {
-			modes.push_back(VideoMode(sdlmodes[i]->w, sdlmodes[i]->h));
+		for (int display_mode = 0; display_mode < num_modes; display_mode++)
+		{
+			SDL_DisplayMode mode;
+			SDL_GetDisplayMode(display_index, display_mode, &mode);
+			// insert only if unique resolution
+			if( modes.end()==std::find(modes.begin(), modes.end(), VideoMode(mode.w, mode.h)) ) {
+				modes.push_back(VideoMode(mode.w, mode.h));
+			}
 		}
 	}
-#endif
+	if( num_displays==0 ) {
+		modes.push_back(VideoMode(800, 600));
+	}
 	return modes;
 }
 
