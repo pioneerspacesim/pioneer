@@ -139,7 +139,6 @@ void TextEntry::HandleKeyPress(const KeyboardEvent &event)
 			break;
 
 		default:
-
 			if (event.keysym.mod & KMOD_CTRL) {
 				switch (event.keysym.sym) {
 					case SDLK_u:
@@ -163,23 +162,24 @@ void TextEntry::HandleKeyPress(const KeyboardEvent &event)
 				}
 			}
 
-			// ignore non-shift meta
-			else if (event.keysym.mod & ~KMOD_SHIFT)
-				return;
+	}
+}
 
-			// naively accept anything outside C0 and C1. probably safe enough for
-			// now, but needs revisiting if we one day support rtl, cjk, etc
-			if ((event.keysym.unicode > 0x1f && event.keysym.unicode < 0x7f) || event.keysym.unicode > 0x9f) {
-				char buf[4] = {};
-				const int len = Text::utf8_encode_char(event.keysym.unicode, buf);
-				text.insert(m_cursor, buf, len);
-				m_cursor += len;
+void TextEntry::HandleTextInput(const TextInputEvent &event)
+{
+	// naively accept anything outside C0 and C1. probably safe enough for
+	// now, but needs revisiting if we one day support rtl, cjk, etc
+	if ((event.unicode > 0x1f && event.unicode < 0x7f) || event.unicode > 0x9f) {
+		char buf[4] = {};
+		const int len = Text::utf8_encode_char(event.unicode, buf);
 
-				m_label->SetText(text);
-				onChange.emit(text);
-			}
+		std::string text(m_label->GetText());
+		text.insert(m_cursor, buf, len);
+		m_label->SetText(text);
 
-			break;
+		m_cursor += len;
+
+		onChange.emit(text);
 	}
 }
 

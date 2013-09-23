@@ -29,6 +29,7 @@ protected:
 	TextEntry(Context *context, const std::string &text);
 
 	virtual void HandleKeyPress(const KeyboardEvent &event);
+	virtual void HandleTextInput(const TextInputEvent &event);
 
 private:
 	Label *m_label;

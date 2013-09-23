@@ -81,6 +81,12 @@ public:
 		return 1;
 	}
 
+	static int l_attr_on_text_input(lua_State *l) {
+		UI::Widget *w = LuaObject<UI::Widget>::CheckFromLua(1);
+		LuaSignalAccumulated<const TextInputEvent &>().Wrap(l, w->onTextInput);
+		return 1;
+	}
+
 	static int l_attr_on_mouse_down(lua_State *l) {
 		UI::Widget *w = LuaObject<UI::Widget>::CheckFromLua(1);
 		LuaSignalAccumulated<const MouseButtonEvent &>().Wrap(l, w->onMouseDown);
@@ -153,6 +159,7 @@ template <> void LuaObject<UI::Widget>::RegisterClass()
 		{ "onKeyDown",    LuaWidget::l_attr_on_key_down    },
 		{ "onKeyUp",      LuaWidget::l_attr_on_key_up      },
 		{ "onKeyPress",   LuaWidget::l_attr_on_key_press   },
+		{ "onTextInput",  LuaWidget::l_attr_on_text_input  },
 		{ "onMouseDown",  LuaWidget::l_attr_on_mouse_down  },
 		{ "onMouseUp",    LuaWidget::l_attr_on_mouse_up    },
 		{ "onMouseMove",  LuaWidget::l_attr_on_mouse_move  },

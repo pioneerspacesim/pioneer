@@ -4,6 +4,7 @@
 #include "EventDispatcher.h"
 #include "Widget.h"
 #include "Container.h"
+#include "text/TextSupport.h"
 #include <climits>
 
 namespace UI {
@@ -22,10 +23,15 @@ bool EventDispatcher::DispatchSDLEvent(const SDL_Event &event)
 {
 	switch (event.type) {
 		case SDL_KEYDOWN:
-			return Dispatch(KeyboardEvent(KeyboardEvent::KEY_DOWN, KeySym(event.key.keysym.sym, SDL_Keymod(event.key.keysym.mod), 0))); // XXX SDL2 unicode
+			return Dispatch(KeyboardEvent(KeyboardEvent::KEY_DOWN, KeySym(event.key.keysym.sym, SDL_Keymod(event.key.keysym.mod))));
 
 		case SDL_KEYUP:
-			return Dispatch(KeyboardEvent(KeyboardEvent::KEY_UP, KeySym(event.key.keysym.sym, SDL_Keymod(event.key.keysym.mod), 0))); // XXX SDL2 unicode
+			return Dispatch(KeyboardEvent(KeyboardEvent::KEY_UP, KeySym(event.key.keysym.sym, SDL_Keymod(event.key.keysym.mod))));
+
+		case SDL_TEXTINPUT:
+			Uint32 unicode;
+			Text::utf8_decode_char(&unicode, event.text.text);
+			return Dispatch(TextInputEvent(unicode));
 
 		case SDL_MOUSEBUTTONDOWN:
 			// XXX SDL2 use SDL_MouseWheelEvent
@@ -111,6 +117,15 @@ bool EventDispatcher::Dispatch(const Event &event)
 				}
 			}
 			return false;
+		}
+
+		case Event::TEXT_INPUT: {
+			// same logic as KEY_PRESS - selected widget first
+			const TextInputEvent textInputEvent = static_cast<const TextInputEvent&>(event);
+			if (m_selected)
+				return m_selected->TriggerTextInput(textInputEvent);
+
+			return m_baseContainer->TriggerTextInput(textInputEvent);
 		}
 
 		case Event::MOUSE_BUTTON: {

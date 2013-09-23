@@ -18,12 +18,14 @@ class KeyboardEvent;
 class MouseButtonEvent;
 class MouseMotionEvent;
 class MouseWheelEvent;
+class TextInputEvent;
 
 // base event. can't be instantiated directly
 class Event {
 public:
 	enum Type { // <enum scope='UI::Event' name=UIEventType public>
 		KEYBOARD,
+		TEXT_INPUT,
 		MOUSE_BUTTON,
 		MOUSE_MOTION,
 		MOUSE_WHEEL
@@ -36,12 +38,11 @@ protected:
 };
 
 struct KeySym {
-	KeySym(const SDL_Keycode &_sym, const SDL_Keymod _mod, const Uint32 _unicode) : sym(_sym), mod(safe_mods(_mod)), unicode(_unicode) {}
-	KeySym(const SDL_Keycode &_sym, const SDL_Keymod &_mod) : sym(_sym), mod(safe_mods(_mod)), unicode(0) {}
-	KeySym(const SDL_Keycode &_sym) : sym(_sym), mod(KMOD_NONE), unicode(0) {}
+	KeySym(const SDL_Keycode &_sym, const SDL_Keymod _mod, const Uint32 _unicode) : sym(_sym), mod(safe_mods(_mod)) {}
+	KeySym(const SDL_Keycode &_sym, const SDL_Keymod &_mod) : sym(_sym), mod(safe_mods(_mod)) {}
+	KeySym(const SDL_Keycode &_sym) : sym(_sym), mod(KMOD_NONE) {}
 	SDL_Keycode sym;
 	SDL_Keymod mod;
-	Uint32 unicode;
 
 	static KeySym FromString(const std::string &spec);
 
@@ -71,6 +72,14 @@ public:
 	KeyboardEvent(Action _action, const KeySym &_keysym) : Event(Event::KEYBOARD), action(_action), keysym(_keysym) {}
 	const Action action;
 	const KeySym keysym;
+
+	void ToLuaTable(lua_State *l) const;
+};
+
+class TextInputEvent : public Event {
+public:
+	TextInputEvent(Uint32 _unicode) : Event(Event::TEXT_INPUT), unicode(_unicode) {}
+	const Uint32 unicode;
 
 	void ToLuaTable(lua_State *l) const;
 };

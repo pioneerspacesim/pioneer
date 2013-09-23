@@ -229,6 +229,9 @@ public:
 	// synthesised for non-control keys. repeats when key is held down
 	sigc::signal<bool,const KeyboardEvent &>::accumulated<EventHandlerResultAccumulator> onKeyPress;
 
+	// text input, full unicode codepoint
+	sigc::signal<bool,const TextInputEvent &>::accumulated<EventHandlerResultAccumulator> onTextInput;
+
 	// mouse button presses
 	sigc::signal<bool,const MouseButtonEvent &>::accumulated<EventHandlerResultAccumulator> onMouseDown;
 	sigc::signal<bool,const MouseButtonEvent &>::accumulated<EventHandlerResultAccumulator> onMouseUp;
@@ -303,6 +306,9 @@ protected:
 	// key is held down
 	virtual void HandleKeyPress(const KeyboardEvent &event) {}
 
+	// text input event, a full unicode codepoint
+	virtual void HandleTextInput(const TextInputEvent &event) {}
+
 	// internal synthesized events fired when a widget is selected or
 	// deselected. on mousedown, a widget becomes the selected widget unless
 	// its IsSelectable method returns false. the previously-selected widget
@@ -343,6 +349,7 @@ private:
 	void TriggerMouseDeactivate();
 
 	bool TriggerKeyPress(const KeyboardEvent &event, bool emit = true);
+	bool TriggerTextInput(const TextInputEvent &event, bool emit = true);
 
 	void TriggerSelect();
 	void TriggerDeselect();

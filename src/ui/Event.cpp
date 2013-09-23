@@ -179,6 +179,15 @@ void KeyboardEvent::ToLuaTable(lua_State *l) const
 	// XXX expose sym and mod constants
 }
 
+void TextInputEvent::ToLuaTable(lua_State *l) const
+{
+	lua_newtable(l);
+	pi_lua_settable(l, "type", EnumStrings::GetString("UIEventType", type));
+
+	lua_pushvalue(l, unicode);
+	lua_setfield(l, -2, "unicode");
+}
+
 void MouseButtonEvent::ToLuaTable(lua_State *l) const
 {
 	lua_newtable(l);
