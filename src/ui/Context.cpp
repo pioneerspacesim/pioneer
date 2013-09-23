@@ -101,8 +101,6 @@ void Context::Layout()
 
 void Context::Update()
 {
-	m_eventDispatcher.Update();
-
 	if (m_needsLayout)
 		Layout();
 

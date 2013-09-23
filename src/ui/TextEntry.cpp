@@ -85,7 +85,7 @@ TextEntry *TextEntry::SetText(const std::string &text)
 	return this;
 }
 
-void TextEntry::HandleKeyPress(const KeyboardEvent &event)
+void TextEntry::HandleKeyDown(const KeyboardEvent &event)
 {
 	std::string text(m_label->GetText());
 

@@ -67,7 +67,6 @@ public:
 	enum Action { // <enum scope='UI::KeyboardEvent' name=UIKeyboardAction prefix=KEY_ public>
 		KEY_DOWN,
 		KEY_UP,
-		KEY_PRESS
 	};
 	KeyboardEvent(Action _action, const KeySym &_keysym) : Event(Event::KEYBOARD), action(_action), keysym(_keysym) {}
 	const Action action;

@@ -9,9 +9,6 @@
 
 namespace UI {
 
-static const Uint32 KEY_REPEAT_PAUSE    = 500;
-static const Uint32 KEY_REPEAT_INTERVAL = 50;
-
 static inline MouseButtonEvent::ButtonType MouseButtonFromSDLButton(Uint8 sdlButton) {
 	return
 		sdlButton == SDL_BUTTON_LEFT   ? MouseButtonEvent::BUTTON_LEFT   :
@@ -59,30 +56,19 @@ bool EventDispatcher::Dispatch(const Event &event)
 		case Event::KEYBOARD: {
 			const KeyboardEvent keyEvent = static_cast<const KeyboardEvent&>(event);
 			switch (keyEvent.action) {
-				case KeyboardEvent::KEY_DOWN: {
-					bool handled = m_baseContainer->TriggerKeyDown(keyEvent);
+				case KeyboardEvent::KEY_DOWN:
 
-					// if there's no keysym then this is some kind of
-					// synthesized event from the window system (eg a compose
-					// sequence). still dispatch it, but don't repeat because
-					// we may never see a corresponding keyup for it
-					if (keyEvent.keysym.sym == SDLK_UNKNOWN) {
-						Dispatch(KeyboardEvent(KeyboardEvent::KEY_PRESS, keyEvent.keysym));
-						return handled;
-					}
+					// all key events to the selected widget first
+					if (m_selected)
+						return m_selected->TriggerKeyDown(keyEvent);
 
-					m_keyRepeatSym = keyEvent.keysym;
-					m_keyRepeatActive = true;
-					m_nextKeyRepeat = SDL_GetTicks() + KEY_REPEAT_PAUSE;
-
-					Dispatch(KeyboardEvent(KeyboardEvent::KEY_PRESS, m_keyRepeatSym));
-
-					return handled;
-				}
+					return m_baseContainer->TriggerKeyDown(keyEvent);
 
 				case KeyboardEvent::KEY_UP: {
-					if (m_keyRepeatActive && keyEvent.keysym == m_keyRepeatSym)
-						m_keyRepeatActive = false;
+
+					// all key events to the selected widget first
+					if (m_selected)
+						return m_selected->TriggerKeyUp(keyEvent);
 
 					// any modifier coming in will be a specific key, eg left
 					// shift or right shift. shortcuts can't distinguish
@@ -107,21 +93,15 @@ bool EventDispatcher::Dispatch(const Event &event)
 					return m_baseContainer->TriggerKeyUp(keyEvent);
 				}
 
-				case KeyboardEvent::KEY_PRESS: {
-
-					// selected widgets get all the keypress events
-					if (m_selected)
-						return m_selected->TriggerKeyPress(keyEvent);
-
-					return m_baseContainer->TriggerKeyPress(keyEvent);
-				}
 			}
 			return false;
 		}
 
 		case Event::TEXT_INPUT: {
-			// same logic as KEY_PRESS - selected widget first
+
 			const TextInputEvent textInputEvent = static_cast<const TextInputEvent&>(event);
+
+			// selected widgets get all the text input events
 			if (m_selected)
 				return m_selected->TriggerTextInput(textInputEvent);
 
@@ -316,17 +296,6 @@ void EventDispatcher::EnableWidget(Widget *target)
 {
 	RefCountedPtr<Widget> top(m_baseContainer->GetWidgetAtAbsolute(m_lastMousePosition));
 	DispatchMouseOverOut(top.Get(), m_lastMousePosition);
-}
-
-void EventDispatcher::Update()
-{
-	if (!m_keyRepeatActive) return;
-
-	Uint32 now = SDL_GetTicks();
-	if (m_nextKeyRepeat <= now) {
-		Dispatch(KeyboardEvent(KeyboardEvent::KEY_PRESS, m_keyRepeatSym));
-		m_nextKeyRepeat = now + KEY_REPEAT_INTERVAL;
-	}
 }
 
 void EventDispatcher::LayoutUpdated()
