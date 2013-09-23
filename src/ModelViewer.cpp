@@ -138,9 +138,9 @@ void ModelViewer::Run(const std::string &modelName)
 	videoSettings.requestedSamples = config->Int("AntiAliasingMode");
 	videoSettings.vsync = (config->Int("VSync") != 0);
 	videoSettings.useTextureCompression = (config->Int("UseTextureCompression") != 0);
+	videoSettings.iconFile = OS::GetIconFilename();
+	videoSettings.title = "Model viewer";
 	renderer = Graphics::Init(videoSettings);
-
-	//SDL_WM_SetCaption("Model viewer","Model viewer"); XXX SDL2 pass through settings
 
 	NavLights::Init(renderer);
 

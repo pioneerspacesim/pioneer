@@ -86,9 +86,11 @@ WindowSDL::WindowSDL(const Graphics::Settings &vs, const std::string &name)
 			fprintf(stderr, "Requested AA mode: %dx, actual: %dx\n", vs.requestedSamples, actualSamples);
 	}
 
-	SDLSurfacePtr surface = LoadSurfaceFromFile(OS::GetIconFilename());
+	SDLSurfacePtr surface = LoadSurfaceFromFile(vs.iconFile);
 	if (surface)
 		SDL_SetWindowIcon(m_window, surface.Get());
+
+	SDL_SetWindowTitle(m_window, vs.title);
 }
 
 WindowSDL::~WindowSDL()

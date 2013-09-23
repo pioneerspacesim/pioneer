@@ -288,6 +288,8 @@ void Pi::Init()
 	videoSettings.vsync = (config->Int("VSync") != 0);
 	videoSettings.useTextureCompression = (config->Int("UseTextureCompression") != 0);
 	videoSettings.enableDebugMessages = (config->Int("EnableGLDebug") != 0);
+	videoSettings.iconFile = OS::GetIconFilename();
+	videoSettings.title = "Pioneer";
 
 	Pi::renderer = Graphics::Init(videoSettings);
 	{
@@ -301,8 +303,6 @@ void Pi::Init()
 		fwrite(s.c_str(), 1, s.size(), f);
 		fclose(f);
 	}
-
-	//SDL_WM_SetCaption("Pioneer","Pioneer"); XXX SDL2 pass through settings
 
 	Pi::scrAspect = videoSettings.width / float(videoSettings.height);
 
