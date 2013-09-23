@@ -595,6 +595,7 @@ void Pi::HandleEvents()
 {
 	SDL_Event event;
 
+	static bool switchedConsole = false;
 	Pi::mouseMotion[0] = Pi::mouseMotion[1] = 0;
 	while (SDL_PollEvent(&event)) {
 		if (event.type == SDL_QUIT) {
@@ -605,9 +606,25 @@ void Pi::HandleEvents()
 		else if (ui->DispatchSDLEvent(event))
 			continue;
 
+		// SDL will synthesize a TEXTINPUT immediately after a KEYDOWN. after
+		// we toggle the console on KEYDOWN, it has the focus, so the TEXTINPUT
+		// will end up with it, causing the toggle char to be entered into the
+		// console. we prevent this by swallowing the TEXTINPUT event
+		// immediately after console switch
+		// XXX another console-related hack. necessary for now :(
+		if (switchedConsole && event.type == SDL_TEXTINPUT) {
+			switchedConsole = false;
+			continue;
+		}
+
 		Gui::HandleSDLEvent(&event);
-		if (!Pi::IsConsoleActive())
+		if (!Pi::IsConsoleActive()) {
 			KeyBindings::DispatchSDLEvent(&event);
+			if (Pi::IsConsoleActive()) {
+				switchedConsole = true;
+				continue;
+			}
+		}
 		else
 			KeyBindings::toggleLuaConsole.CheckSDLEventAndDispatch(&event);
 

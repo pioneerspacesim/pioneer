@@ -47,7 +47,8 @@ namespace Gui {
 		virtual void OnActivate() {}
 		virtual void OnMouseEnter();
 		virtual void OnMouseLeave();
-		virtual bool OnKeyPress(const SDL_Keysym *sym) { return false; }
+		virtual bool OnKeyDown(const SDL_Keysym *sym) { return false; }
+		virtual void OnTextInput(Uint32 unicode) {}
 		bool IsMouseOver() { return m_mouseOver; }
 		// only to be called by Screen::OnKeyDown
 		void OnPreShortcut(const SDL_Keysym *sym);

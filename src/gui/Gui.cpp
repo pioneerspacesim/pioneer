@@ -36,6 +36,9 @@ void HandleSDLEvent(SDL_Event *event)
 			Screen::OnKeyUp(&event->key.keysym);
 			RawEvents::onKeyUp.emit(&event->key);
 			break;
+		case SDL_TEXTINPUT:
+			Screen::OnTextInput(&event->text);
+			break;
 		case SDL_MOUSEMOTION:
 			Screen::OnMouseMotion(&event->motion);
 			break;

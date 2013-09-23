@@ -27,7 +27,8 @@ namespace Gui {
 		std::string GetText() const { return m_text; }
 		void SetCursorPos(int pos) { m_cursPos = Clamp(pos, 0, signed(m_text.size())); }
 		int GetCursorPos() const { return m_cursPos; };
-		virtual bool OnKeyPress(const SDL_Keysym *);
+		virtual bool OnKeyDown(const SDL_Keysym *);
+		virtual void OnTextInput(Uint32 unicode);
 		virtual void Show() { GrabFocus(); Widget::Show(); }
 		virtual void GrabFocus();
 		void Unfocus();

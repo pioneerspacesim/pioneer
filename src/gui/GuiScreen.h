@@ -25,6 +25,7 @@ namespace Gui {
 		static void OnClick(SDL_MouseButtonEvent *e);
 		static void OnKeyDown(const SDL_Keysym *sym);
 		static void OnKeyUp(const SDL_Keysym *sym);
+		static void OnTextInput(const SDL_TextInputEvent *e);
 		static void EnterOrtho();
 		static void LeaveOrtho();
 		static int GetWidth() { return width; }
