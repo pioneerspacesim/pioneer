@@ -55,9 +55,7 @@ WindowSDL::WindowSDL(const Graphics::Settings &vs, const std::string &name)
 		OS::Error("Failed to set video mode: %s", SDL_GetError());
 	}
 
-	Uint32 rendererFlags = SDL_RENDERER_ACCELERATED;
-	if (vs.vsync) rendererFlags = SDL_RENDERER_PRESENTVSYNC;
-	m_renderer = SDL_CreateRenderer(m_window, -1, rendererFlags);
+	m_glContext = SDL_GL_CreateContext(m_window);
 
 	int bpp;
 	Uint32 rmask, gmask, bmask, amask;
@@ -95,7 +93,7 @@ WindowSDL::WindowSDL(const Graphics::Settings &vs, const std::string &name)
 
 WindowSDL::~WindowSDL()
 {
-	SDL_DestroyRenderer(m_renderer);
+	SDL_GL_DeleteContext(m_glContext);
 	SDL_DestroyWindow(m_window);
 }
 
@@ -106,7 +104,7 @@ void WindowSDL::SetGrab(bool grabbed)
 
 void WindowSDL::SwapBuffers()
 {
-	SDL_RenderPresent(m_renderer);
+	SDL_GL_SwapWindow(m_window);
 }
 
 }
