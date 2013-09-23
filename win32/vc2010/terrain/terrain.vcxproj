@@ -71,6 +71,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <ClCompile />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">
     <ClCompile />
@@ -87,6 +88,7 @@
     <ClCompile Include="..\..\..\src\terrain\TerrainColorDeadWithWater.cpp" />
     <ClCompile Include="..\..\..\src\terrain\TerrainColorDesert.cpp" />
     <ClCompile Include="..\..\..\src\terrain\TerrainColorEarthLike.cpp" />
+    <ClCompile Include="..\..\..\src\terrain\TerrainColorEarthLikeHeightmapped.cpp" />
     <ClCompile Include="..\..\..\src\terrain\TerrainColorGGJupiter.cpp" />
     <ClCompile Include="..\..\..\src\terrain\TerrainColorGGNeptune.cpp" />
     <ClCompile Include="..\..\..\src\terrain\TerrainColorGGNeptune2.cpp" />
