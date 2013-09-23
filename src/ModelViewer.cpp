@@ -98,7 +98,6 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm)
 	m_logScroller.Reset(m_ui->Scroller());
 	m_logScroller->SetInnerWidget(m_log);
 
-	std::fill(m_keyStates, m_keyStates + COUNTOF(m_keyStates), false);
 	std::fill(m_mouseButton, m_mouseButton + COUNTOF(m_mouseButton), false);
 	std::fill(m_mouseMotion, m_mouseMotion + 2, 0);
 
