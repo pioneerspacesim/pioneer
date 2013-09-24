@@ -19,15 +19,31 @@ namespace RawEvents {
 	sigc::signal<void, SDL_JoyHatEvent *> onJoyHatMotion;
 }
 
+static Sint32 lastMouseX, lastMouseY;
 void HandleSDLEvent(SDL_Event *event)
 {
 	switch (event->type) {
 		case SDL_MOUSEBUTTONDOWN:
+			lastMouseX = event->button.x;
+			lastMouseY = event->button.y;
 			Screen::OnClick(&event->button);
 			break;
 		case SDL_MOUSEBUTTONUP:
+			lastMouseX = event->button.x;
+			lastMouseY = event->button.y;
 			Screen::OnClick(&event->button);
 			break;
+		case SDL_MOUSEWHEEL: {
+			// synthesizing an SDL1.2-style button event for mouse wheels
+			SDL_MouseButtonEvent ev;
+            ev.type = SDL_MOUSEBUTTONDOWN;
+			ev.button = event->wheel.y > 0 ? MouseButtonEvent::BUTTON_WHEELUP : MouseButtonEvent::BUTTON_WHEELDOWN;
+			ev.state = SDL_PRESSED;
+			ev.x = lastMouseX;
+			ev.y = lastMouseY;
+			Screen::OnClick(&ev);
+			break;
+		 }
 		case SDL_KEYDOWN:
 			Screen::OnKeyDown(&event->key.keysym);
 			RawEvents::onKeyDown.emit(&event->key);
@@ -40,6 +56,8 @@ void HandleSDLEvent(SDL_Event *event)
 			Screen::OnTextInput(&event->text);
 			break;
 		case SDL_MOUSEMOTION:
+			lastMouseX = event->motion.x;
+			lastMouseY = event->motion.y;
 			Screen::OnMouseMotion(&event->motion);
 			break;
 		case SDL_JOYAXISMOTION:
