@@ -97,7 +97,7 @@ private:
 	//undecided on this input stuff
 	//updating the states of all inputs during PollEvents
 	std::map<SDL_Keycode,bool> m_keyStates;
-	bool m_mouseButton[SDL_BUTTON_RIGHT + 1]; //buttons + scroll start at 1    XXX SDL2 wheels aren't buttons
+	bool m_mouseButton[SDL_BUTTON_RIGHT + 1]; //buttons start at 1
 	int m_mouseMotion[2];
 	bool m_mouseWheelUp, m_mouseWheelDown;
 
