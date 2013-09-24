@@ -4,6 +4,8 @@ September 2013
      * Improve thruster rendering (#2426, #1960)
      * Added OpenGL debug output. Set EnableGLDebug in config.ini to enable
        it (#2413)
+     * System Info View now shows orbital info for binary pairs (#2423)
+     * System Info View now shows body radius in kilometres (#2423)
 
    * Fixes
      * Fix SmartTable scrolling (#2349)
