@@ -30,16 +30,13 @@ bool EventDispatcher::DispatchSDLEvent(const SDL_Event &event)
 			Text::utf8_decode_char(&unicode, event.text.text);
 			return Dispatch(TextInputEvent(unicode));
 
+		case SDL_MOUSEWHEEL:
+			return Dispatch(MouseWheelEvent(event.wheel.y > 0 ? MouseWheelEvent::WHEEL_UP : MouseWheelEvent::WHEEL_DOWN, m_lastMousePosition));
+
 		case SDL_MOUSEBUTTONDOWN:
-			// XXX SDL2 use SDL_MouseWheelEvent
-			//if (event.button.button == SDL_BUTTON_WHEELUP || event.button.button == SDL_BUTTON_WHEELDOWN)
-			//	return Dispatch(MouseWheelEvent(event.button.button == SDL_BUTTON_WHEELUP ? MouseWheelEvent::WHEEL_UP : MouseWheelEvent::WHEEL_DOWN, Point(event.button.x,event.button.y)));
 			return Dispatch(MouseButtonEvent(MouseButtonEvent::BUTTON_DOWN, MouseButtonFromSDLButton(event.button.button), Point(event.button.x,event.button.y)));
 
 		case SDL_MOUSEBUTTONUP:
-			// XXX SDL2 use SDL_MouseWheelEvent
-			//if (event.button.button == SDL_BUTTON_WHEELUP || event.button.button == SDL_BUTTON_WHEELDOWN)
-			//	return false;
 			return Dispatch(MouseButtonEvent(MouseButtonEvent::BUTTON_UP, MouseButtonFromSDLButton(event.button.button), Point(event.button.x,event.button.y)));
 
 		case SDL_MOUSEMOTION:
