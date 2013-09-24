@@ -73,7 +73,7 @@ private:
 	Sector* GetCached(const int sectorX, const int sectorY, const int sectorZ);
 	void ShrinkCache();
 
-	void MouseButtonDown(int button, int x, int y);
+	void MouseWheel(bool up);
 	void OnKeyPressed(SDL_Keysym *keysym);
 	void OnSearchBoxKeyPress(const SDL_Keysym *keysym);
 
@@ -131,7 +131,7 @@ private:
 
 	void OnToggleFaction(Gui::ToggleButton* button, bool pressed, Faction* faction);
 
-	sigc::connection m_onMouseButtonDown;
+	sigc::connection m_onMouseWheelCon;
 	sigc::connection m_onKeyPressConnection;
 
 	std::map<SystemPath,Sector*> m_sectorCache;

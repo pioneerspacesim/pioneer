@@ -85,6 +85,7 @@ sigc::signal<void, SDL_Keysym*> Pi::onKeyPress;
 sigc::signal<void, SDL_Keysym*> Pi::onKeyRelease;
 sigc::signal<void, int, int, int> Pi::onMouseButtonUp;
 sigc::signal<void, int, int, int> Pi::onMouseButtonDown;
+sigc::signal<void, bool> Pi::onMouseWheel;
 sigc::signal<void> Pi::onPlayerChangeTarget;
 sigc::signal<void> Pi::onPlayerChangeFlightControlState;
 sigc::signal<void> Pi::onPlayerChangeEquipment;
@@ -783,6 +784,9 @@ void Pi::HandleEvents()
 					Pi::onMouseButtonUp.emit(event.button.button,
 							event.button.x, event.button.y);
 				}
+				break;
+			case SDL_MOUSEWHEEL:
+				Pi::onMouseWheel.emit(event.wheel.y > 0); // true = up
 				break;
 			case SDL_MOUSEMOTION:
 				Pi::mouseMotion[0] += event.motion.xrel;
