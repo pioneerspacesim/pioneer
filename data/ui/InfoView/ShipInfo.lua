@@ -4,7 +4,6 @@
 local Translate = import("Translate")
 local Engine = import("Engine")
 local Game = import("Game")
-local ShipType = import("ShipType")
 local EquipDef = import("EquipDef")
 local ShipDef = import("ShipDef")
 
@@ -78,8 +77,8 @@ local shipInfo = function (args)
 						{ t("REAR_WEAPON")..":",  EquipDef[rearWeapon].name },
 						{ t("FUEL")..":",         string.format("%d%%", Game.player.fuel) },
 						"",
-						{ t("Minimum crew")..":", ShipType.GetShipType(Game.player.shipId).minCrew },
-						{ t("Crew cabins")..":",  ShipType.GetShipType(Game.player.shipId).maxCrew },
+						{ t("Minimum crew")..":", ShipDef[Game.player.shipId].minCrew },
+						{ t("Crew cabins")..":",  ShipDef[Game.player.shipId].maxCrew },
 					}),
 					"",
 					ui:Label(t("Equipment")):SetFont("HEADING_LARGE"),

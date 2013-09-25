@@ -47,6 +47,7 @@ void BasePatchJob::GenerateMesh(double *heights, vector3f *normals, Color3ub *co
 			const double xfrac = double(x) * fracStep;
 			const vector3d p = GetSpherePoint(v0, v1, v2, v3, xfrac, yfrac);
 			const double height = pTerrain->GetHeight(p);
+			assert(height >= 0.0f && height <= 1.0f);
 			*(bhts++) = height;
 			*(vrts++) = p * (height + 1.0);
 		}

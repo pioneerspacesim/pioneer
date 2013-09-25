@@ -3,6 +3,7 @@
 
 local Translate = import("Translate")
 local Engine = import("Engine")
+local Character = import("Character")
 
 local InfoFace = import("ui/InfoFace")
 local SmallLabeledButton = import("ui/SmallLabeledButton")
@@ -11,7 +12,7 @@ local ui = Engine.ui
 local t = Translate:GetTranslator()
 
 local personalInfo = function ()
-	local player = PersistentCharacters.player
+	local player = Character.persistent.player
 	local faceFlags = { player.female and "FEMALE" or "MALE" }
 
 	-- for updating the caption

@@ -41,6 +41,7 @@
     <ClCompile Include="..\..\..\src\graphics\gl2\GL2RenderTarget.cpp">
       <Filter>gl2</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\graphics\gl2\FresnelColourMaterial.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\graphics\Drawables.h" />
@@ -88,6 +89,7 @@
     <ClInclude Include="..\..\..\src\graphics\gl2\GL2RenderTarget.h">
       <Filter>gl2</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\gl2\FresnelColourMaterial.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="win32">

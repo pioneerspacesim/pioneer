@@ -24,6 +24,8 @@ public:
 	CameraController(Camera *camera, const Ship *ship);
 	virtual ~CameraController() {}
 
+	virtual void Reset();
+
 	virtual Type GetType() const = 0;
 	virtual const char *GetName() const { return ""; }
 	virtual void Save(Serializer::Writer &wr) { }
@@ -61,6 +63,7 @@ public:
 	};
 
 	InternalCameraController(Camera *camera, const Ship *ship);
+	virtual void Reset();
 
 	Type GetType() const { return INTERNAL; }
 	const char *GetName() const { return m_name; }
@@ -69,17 +72,23 @@ public:
 	void Save(Serializer::Writer &wr);
 	void Load(Serializer::Reader &rd);
 
-	virtual void Update();
-
 private:
 	Mode m_mode;
 	const char *m_name;
+
+	vector3d m_frontPos;  matrix3x3d m_frontOrient;
+	vector3d m_rearPos;   matrix3x3d m_rearOrient;
+	vector3d m_leftPos;   matrix3x3d m_leftOrient;
+	vector3d m_rightPos;  matrix3x3d m_rightOrient;
+	vector3d m_topPos;    matrix3x3d m_topOrient;
+	vector3d m_bottomPos; matrix3x3d m_bottomOrient;
 };
 
 class MoveableCameraController : public CameraController {
 public:
 	MoveableCameraController(Camera *camera, const Ship *ship) :
 		CameraController(camera, ship) {}
+	virtual void Reset() { }
 
 	virtual void RollLeft(float frameTime) { }
 	virtual void RollRight(float frameTime) { }
@@ -96,7 +105,6 @@ public:
 	virtual void ZoomEvent(float amount) { }
 	/// Animated zoom update (on each frame), primarily designed for mouse wheel.
 	virtual void ZoomEventUpdate(float frameTime) { }
-	virtual void Reset() { }
 };
 
 // Zoomable, rotatable orbit camera, always looks at the ship

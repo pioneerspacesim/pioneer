@@ -41,6 +41,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gameui", "gameui\gameui.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "scenegraph", "newmodel\newmodel.vcxproj", "{E34F7DBC-F23D-481A-B920-E53F56C53EE8}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "glew", "glew\glew.vcxproj", "{4B36627A-8E58-416F-AD17-64AB40FC339F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -126,6 +128,12 @@ Global
 		{E34F7DBC-F23D-481A-B920-E53F56C53EE8}.PreRelease|Win32.Build.0 = PreRelease|Win32
 		{E34F7DBC-F23D-481A-B920-E53F56C53EE8}.Release|Win32.ActiveCfg = Release|Win32
 		{E34F7DBC-F23D-481A-B920-E53F56C53EE8}.Release|Win32.Build.0 = Release|Win32
+		{4B36627A-8E58-416F-AD17-64AB40FC339F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4B36627A-8E58-416F-AD17-64AB40FC339F}.Debug|Win32.Build.0 = Debug|Win32
+		{4B36627A-8E58-416F-AD17-64AB40FC339F}.PreRelease|Win32.ActiveCfg = Release|Win32
+		{4B36627A-8E58-416F-AD17-64AB40FC339F}.PreRelease|Win32.Build.0 = Release|Win32
+		{4B36627A-8E58-416F-AD17-64AB40FC339F}.Release|Win32.ActiveCfg = Release|Win32
+		{4B36627A-8E58-416F-AD17-64AB40FC339F}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

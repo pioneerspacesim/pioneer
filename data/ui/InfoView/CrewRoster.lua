@@ -5,7 +5,8 @@ local Translate = import("Translate")
 local Engine = import("Engine")
 local Game = import("Game")
 local Format = import("Format")
-local ShipType = import("ShipType")
+local ShipDef = import("ShipDef")
+local Comms = import("Comms")
 
 local InfoFace = import("ui/InfoFace")
 local SmallLabeledButton = import("ui/SmallLabeledButton")
@@ -58,7 +59,7 @@ local crewRoster = function ()
 		local crewTasks = {
 			['Attempt to repair hull'] = function ()
 				-- Convoluted...
-				local hullMass = ShipType.GetShipType(Game.player.shipId).hullMass
+				local hullMass = ShipDef[Game.player.shipId].hullMass
 				local hullMassLeft = Game.player:GetStats().hullMassLeft 
 				local hullDamage = hullMass - hullMassLeft
 				if hullDamage > 0 then

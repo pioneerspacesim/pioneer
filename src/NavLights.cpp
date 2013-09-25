@@ -107,7 +107,7 @@ NavLights::NavLights(SceneGraph::Model *model, float period)
 			color = NAVLIGHT_GREEN;
 		} else if (mt->GetName().substr(9, 3) == "pad") {
 			//group by pad number
-			group = atoi(mt->GetName().substr(12, 1).c_str());
+			PiVerify(1 == sscanf(mt->GetName().c_str(), "navlight_pad%hhd", &group));
 			mask  = 0xf0;
 		}
 		bblight->SetMaterial(get_material(color));
