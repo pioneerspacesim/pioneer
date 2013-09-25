@@ -59,6 +59,8 @@ Program *GeoSphereSurfaceMaterial::CreateProgram(const MaterialDescriptor &desc)
 		ss << "#define TERRAIN_WITH_LAVA\n";
 	if (desc.effect == EFFECT_GEOSPHERE_TERRAIN_WITH_WATER)
 		ss << "#define TERRAIN_WITH_WATER\n";
+	if (!desc.disableEclipse)
+		ss << "#define ECLIPSE\n";
 	return new Graphics::GL2::GeoSphereProgram("geosphere_terrain", ss.str());
 }
 
@@ -127,6 +129,8 @@ Program *GeoSphereSkyMaterial::CreateProgram(const MaterialDescriptor &desc)
 		ss << stringf("#define INV_NUM_LIGHTS %0{f}\n", invNumLights);
 	}
 	ss << "#define ATMOSPHERE\n";
+	if (!desc.disableEclipse)
+		ss << "#define ECLIPSE\n";
 	return new Graphics::GL2::GeoSphereProgram("geosphere_sky", ss.str());
 }
 

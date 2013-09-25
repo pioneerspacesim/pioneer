@@ -13,6 +13,7 @@ namespace Graphics {
 static bool initted = false;
 bool shadersAvailable = false;
 bool shadersEnabled = false;
+bool eclipseDisabled = false;
 Material *vtxColorMaterial;
 Settings settings;
 static float g_fov = 85.f;
@@ -144,6 +145,8 @@ Renderer* Init(Settings vs)
 	shadersAvailable = glewIsSupported("GL_VERSION_2_0");
 	shadersEnabled = vs.shaders && shadersAvailable;
 
+	eclipseDisabled = vs.disableEclipse;
+
 	if (shadersEnabled)
 		renderer = new RendererGL2(vs);
 	else
@@ -171,6 +174,11 @@ void Uninit()
 bool AreShadersEnabled()
 {
 	return shadersEnabled;
+}
+
+bool IsEclipseEnabled()
+{
+	return !eclipseDisabled;
 }
 
 std::vector<VideoMode> GetAvailableVideoModes()

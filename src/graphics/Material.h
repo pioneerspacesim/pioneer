@@ -43,6 +43,7 @@ public:
 	EffectType effect;
 	bool alphaTest;
 	bool atmosphere;
+	bool disableEclipse;
 	bool glowMap;
 	bool lighting;
 	bool specularMap;

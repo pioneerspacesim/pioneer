@@ -24,6 +24,7 @@ MaterialDescriptor::MaterialDescriptor()
 : effect(EFFECT_DEFAULT)
 , alphaTest(false)
 , atmosphere(false)
+, disableEclipse(false)
 , glowMap(false)
 , lighting(false)
 , specularMap(false)
@@ -41,6 +42,7 @@ bool operator==(const MaterialDescriptor &a, const MaterialDescriptor &b)
 		a.effect == b.effect &&
 		a.alphaTest == b.alphaTest &&
 		a.atmosphere == b.atmosphere &&
+		a.disableEclipse == b.disableEclipse &&
 		a.glowMap == b.glowMap &&
 		a.lighting == b.lighting &&
 		a.specularMap == b.specularMap &&
