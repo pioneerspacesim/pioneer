@@ -124,7 +124,7 @@ GameConfig *Pi::config;
 struct DetailLevel Pi::detail = { 0, 0 };
 bool Pi::joystickEnabled;
 bool Pi::mouseYInvert;
-std::vector<Pi::JoystickState> Pi::joysticks;
+std::map<SDL_JoystickID,Pi::JoystickState> Pi::joysticks;
 bool Pi::navTunnelDisplayed;
 Gui::Fixed *Pi::menu;
 bool Pi::DrawGUI = true;
@@ -845,10 +845,11 @@ void Pi::InitGame()
 	keyModState = 0;
 	std::fill(mouseButton, mouseButton + COUNTOF(mouseButton), 0);
 	std::fill(mouseMotion, mouseMotion + COUNTOF(mouseMotion), 0);
-	for (std::vector<JoystickState>::iterator stick = joysticks.begin(); stick != joysticks.end(); ++stick) {
-		std::fill(stick->buttons.begin(), stick->buttons.end(), false);
-		std::fill(stick->hats.begin(), stick->hats.end(), 0);
-		std::fill(stick->axes.begin(), stick->axes.end(), 0.f);
+	for (std::map<SDL_JoystickID,JoystickState>::iterator stick = joysticks.begin(); stick != joysticks.end(); ++stick) {
+		JoystickState &state = stick->second;
+		std::fill(state.buttons.begin(), state.buttons.end(), false);
+		std::fill(state.hats.begin(), state.hats.end(), 0);
+		std::fill(state.axes.begin(), state.axes.end(), 0.f);
 	}
 
 	if (!config->Int("DisableSound")) AmbientSounds::Init();
@@ -1199,19 +1200,19 @@ void Pi::Message(const std::string &message, const std::string &from, enum MsgLe
 void Pi::InitJoysticks() {
 	int joy_count = SDL_NumJoysticks();
 	for (int n = 0; n < joy_count; n++) {
-		JoystickState *state;
-		joysticks.push_back(JoystickState());
-		state = &joysticks.back();
+		JoystickState state;
 
-		state->joystick = SDL_JoystickOpen(n);
-		if (!state->joystick) {
+		state.joystick = SDL_JoystickOpen(n);
+		if (!state.joystick) {
 			fprintf(stderr, "SDL_JoystickOpen(%i): %s\n", n, SDL_GetError());
 			continue;
 		}
+		state.axes.resize(SDL_JoystickNumAxes(state.joystick));
+		state.buttons.resize(SDL_JoystickNumButtons(state.joystick));
+		state.hats.resize(SDL_JoystickNumHats(state.joystick));
 
-		state->axes.resize(SDL_JoystickNumAxes(state->joystick));
-		state->buttons.resize(SDL_JoystickNumButtons(state->joystick));
-		state->hats.resize(SDL_JoystickNumHats(state->joystick));
+		SDL_JoystickID joyID = SDL_JoystickInstanceID(state.joystick);
+		joysticks[joyID] = state;
 	}
 }
 

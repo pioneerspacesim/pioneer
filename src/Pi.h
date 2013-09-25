@@ -203,7 +203,7 @@ private:
 		std::vector<int> hats;
 		std::vector<float> axes;
 	};
-	static std::vector<JoystickState> joysticks;
+	static std::map<SDL_JoystickID,JoystickState> joysticks;
 	static Sound::MusicPlayer musicPlayer;
 
 	static bool navTunnelDisplayed;
