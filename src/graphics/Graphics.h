@@ -19,6 +19,7 @@ namespace Graphics {
 	struct Settings {
 		bool fullscreen;
 		bool shaders;
+		bool disableEclipse;
 		bool useTextureCompression;
 		bool enableDebugMessages;
 		int vsync;
@@ -40,6 +41,7 @@ namespace Graphics {
 
 	extern bool shadersAvailable;
 	extern bool shadersEnabled;
+	extern bool eclipseDisabled;
 	extern Material *vtxColorMaterial;
 
 	int GetScreenWidth();
@@ -53,6 +55,7 @@ namespace Graphics {
 	Renderer* Init(Settings);
 	void Uninit();
 	bool AreShadersEnabled();
+	bool IsEclipseEnabled();
 	std::vector<VideoMode> GetAvailableVideoModes();
 }
 
