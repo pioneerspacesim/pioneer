@@ -119,9 +119,7 @@ void TextureBuilder::PrepareSurface()
 			if (actualWidth != virtualWidth || actualHeight != virtualHeight) {
 				SDL_Surface *s = SDL_CreateRGBSurface(SDL_SWSURFACE, actualWidth, actualHeight, targetPixelFormat->BitsPerPixel,
 					targetPixelFormat->Rmask, targetPixelFormat->Gmask, targetPixelFormat->Bmask, targetPixelFormat->Amask);
-
-				SDL_SetSurfaceAlphaMod(m_surface.Get(), 0);
-				SDL_SetSurfaceAlphaMod(s, 0);
+				SDL_SetSurfaceBlendMode(m_surface.Get(), SDL_BLENDMODE_NONE);
 				SDL_BlitSurface(m_surface.Get(), 0, s, 0);
 
 				m_surface = SDLSurfacePtr::WrapNew(s);
