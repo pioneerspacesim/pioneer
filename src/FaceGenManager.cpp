@@ -7,7 +7,6 @@
 #include "FileSystem.h"
 #include "SDLWrappers.h"
 #include "StringF.h"
-#include "json/json.h"
 
 namespace
 {
@@ -20,6 +19,7 @@ namespace
 
 	static const Uint32 FACE_WIDTH = 295;
 	static const Uint32 FACE_HEIGHT = 285;
+	static const Uint32 NUM_GENDERS = 2;
 
 	enum Flags {
 		GENDER_RAND   = 0,
@@ -40,18 +40,38 @@ namespace
 		destrec.y = yoff;
 		SDL_BlitSurface(is.Get(), 0, s.Get(), &destrec);
 	}
+
+	Sint32 GetNumMatching(const std::string match, const std::vector<FileSystem::FileInfo>& fileList) {
+		Sint32 num_matching = 0;
+		for (std::vector<FileSystem::FileInfo>::const_iterator it = fileList.begin(), itEnd = fileList.end(); it!=itEnd; ++it) {
+			if((*it).GetName().substr(0, match.size()) == match) {
+				++num_matching;
+			}
+		}
+		return num_matching;
+	}
+
+	Sint32 GetNumRaceItem(const Sint32 speciesIdx, const Sint32 race, const char* item) {
+		char filename[1024];
+		snprintf(filename, sizeof(filename), "facegen/species_%d/race_%d/%s", speciesIdx, race, item);
+		std::vector<FileSystem::FileInfo> fileList;
+		FileSystem::gameDataFiles.ReadDirectory(filename, fileList);
+		char itemMask[256];
+		snprintf(itemMask, sizeof(itemMask), "%s_0_", item);
+		return GetNumMatching(itemMask, fileList);
+	}
 }
 
 class Race
 {
 public:
-	Race(const Json::Value &data, const Sint32 speciesIdx, const Sint32 race, const Sint8 maxGenders) : m_numGenders(maxGenders) 
+	Race(const Sint32 speciesIdx, const Sint32 race)
 	{
-		m_numHeads = data.get("Heads", 0).asInt();
-		m_numEyes = data.get("Eyes", 0).asInt();
-		m_numNoses = data.get("Noses", 0).asInt();
-		m_numMouths = data.get("Mouths", 0).asInt();
-		m_numHairstyles = data.get("Hairs", 0).asInt();
+		m_numHeads = GetNumRaceItem(speciesIdx, race, "head");
+		m_numEyes = GetNumRaceItem(speciesIdx, race, "eyes");
+		m_numNoses = GetNumRaceItem(speciesIdx, race, "nose");
+		m_numMouths = GetNumRaceItem(speciesIdx, race, "mouth");
+		m_numHairstyles = GetNumRaceItem(speciesIdx, race, "hair");
 
 		// reserve space for them all
 		m_heads.reserve(m_numHeads);
@@ -62,7 +82,7 @@ public:
 
 		char filename[256];
 		// load the images
-		for(Sint32 gender = 0; gender < m_numGenders; ++gender) {
+		for(Sint32 gender = 0; gender < NUM_GENDERS; ++gender) {
 			for(Sint32 head = 0; head < m_numHeads; ++head) {
 				snprintf(filename, sizeof(filename), "facegen/species_%d/race_%d/head/head_%d_%d.png", speciesIdx, race, gender, head);
 				LoadImage(std::string(filename), m_heads);
@@ -122,7 +142,6 @@ private:
 	
 private:
 	// private members
-	const Sint8 m_numGenders;
 	Sint8 m_numHeads;
 	Sint8 m_numEyes;
 	Sint8 m_numNoses;
@@ -139,30 +158,49 @@ private:
 class Species
 {
 public:
-	Species(const Json::Value &data, const Sint32 speciesIdx) 
+	Species(const Sint32 speciesIdx) 
 	{
-		m_numGenders = data.get("num_genders", 0).asInt();
-		const Json::Value::UInt num_races = data.get("num_races", 0).asInt();
+		char filename[1024];
+		snprintf(filename, sizeof(filename), "facegen/species_%d", speciesIdx);
+		std::vector<FileSystem::FileInfo> output;
+		FileSystem::gameDataFiles.ReadDirectory(filename, output);
+
+		Uint32 num_races = GetNumMatching("race_", output);
+
 		m_races.reserve(num_races);
 		char tempRace[32];
-		for (Json::Value::ArrayIndex index = 0; index < num_races; ++index) {
+		for (Uint32 index = 0; index < num_races; ++index) {
 			snprintf(tempRace, 32, "race_%d", index);
-			m_races.push_back(new Race(data.get(tempRace, 0), speciesIdx, index, m_numGenders));
+			m_races.push_back(new Race(speciesIdx, index));
 		}
 
-		m_numClothes = data.get("Clothes", 0).asInt();
-		m_numArmour = data.get("Armours", 0).asInt();
-		m_numAccessories = data.get("Accessories", 0).asInt();
-		m_numBackground = data.get("Backgrounds", 0).asInt();
+		{
+			snprintf(filename, sizeof(filename), "facegen/species_%d/clothes", speciesIdx);
+			std::vector<FileSystem::FileInfo> clothes;
+			FileSystem::gameDataFiles.ReadDirectory(filename, clothes);
+			m_numClothes = GetNumMatching("cloth_", clothes);
+			m_numArmour = GetNumMatching("armour_", clothes);
+		}
+		{
+			snprintf(filename, sizeof(filename), "facegen/species_%d/accessories", speciesIdx);
+			std::vector<FileSystem::FileInfo> accessories;
+			FileSystem::gameDataFiles.ReadDirectory(filename, accessories);
+			m_numAccessories = GetNumMatching("acc_", accessories);
+		}
+		{
+			snprintf(filename, sizeof(filename), "facegen/species_%d/backgrounds", speciesIdx);
+			std::vector<FileSystem::FileInfo> backgrounds;
+			FileSystem::gameDataFiles.ReadDirectory(filename, backgrounds);
+			m_numBackground =  GetNumMatching("background_", backgrounds);
+		}
 
 		m_clothes.reserve(m_numClothes);
 		m_armour.reserve(m_numArmour);
 		m_accessories.reserve(m_numAccessories);
 		m_background.reserve(m_numBackground);
-
-		char filename[256];
+		
 		// load the images
-		for(Sint32 gender = 0; gender < m_numGenders; ++gender) {
+		for(Sint32 gender = 0; gender < NUM_GENDERS; ++gender) {
 			for(Sint32 cloth = 0; cloth < m_numClothes; ++cloth) {
 				snprintf(filename, sizeof(filename), "facegen/species_%d/clothes/cloth_%d_%d.png", speciesIdx, gender, cloth);
 				LoadImage(std::string(filename), m_clothes);
@@ -189,7 +227,7 @@ public:
 	}
 
 	Sint32 NumGenders() const {
-		return m_numGenders;
+		return NUM_GENDERS;
 	}
 	Sint32 NumRaces() const {
 		return m_races.size();
@@ -242,7 +280,6 @@ public:
 	}
 
 private:
-	Sint8 m_numGenders;
 	Sint8 m_numClothes;
 	Sint8 m_numArmour;
 	Sint8 m_numAccessories;
@@ -264,17 +301,20 @@ std::vector<Species*> FaceGenManager::m_species;
 //static
 void FaceGenManager::Init()
 {
-	RefCountedPtr<FileSystem::FileData> fd = FileSystem::gameDataFiles.ReadFile("facegen/facegen.json");
+	std::vector<FileSystem::FileInfo> output;
+	FileSystem::gameDataFiles.ReadDirectory("facegen", output);
 
-	Json::Value data;
-	if (!Json::Reader().parse(fd->GetData(), fd->GetData() + fd->GetSize(), data))
-		throw SavedGameCorruptException();
+	Uint32 num_species = 0;
+	for (std::vector<FileSystem::FileInfo>::const_iterator it = output.begin(), itEnd = output.end(); it!=itEnd; ++it) {
+		if((*it).GetName().substr(0, 8) == "species_") {
+			++num_species;
+		}
+	}
 
-	const Json::Value::UInt num_species = data.get("num_species", 0).asInt();
 	char tempSpecies[32];
-	for (Json::Value::ArrayIndex index = 0; index < num_species; ++index) {
-		snprintf(tempSpecies, 32, "species_%d", index);
-		m_species.push_back(new Species(data.get(tempSpecies, 0), index));
+	for (Uint32 index = 0; index < num_species; ++index) {
+		snprintf(tempSpecies, 32, "species_%u", index);
+		m_species.push_back(new Species(index));
 	}
 
 	printf("Face Generation source images loaded.\n");
