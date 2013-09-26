@@ -548,35 +548,33 @@ void GeoSphere::SetUpMaterials()
 		(m_sbody->type == SystemBody::TYPE_STAR_M)) {
 		//dim star (emits and receives light)
 		surfDesc.lighting = true;
-		surfDesc.atmosphere = false;
+		surfDesc.quality &= ~Graphics::eHasAtmosphere;
 	}
 	else if (m_sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
 		//normal star
 		surfDesc.lighting = false;
-		surfDesc.atmosphere = false;
+		surfDesc.quality &= ~Graphics::eHasAtmosphere;
 	} else {
 		//planetoid with or without atmosphere
 		const SystemBody::AtmosphereParameters ap(m_sbody->CalcAtmosphereParams());
 		surfDesc.lighting = true;
-		surfDesc.atmosphere = (ap.atmosDensity > 0.0);
+		if(ap.atmosDensity > 0.0) {
+			surfDesc.quality |= Graphics::eHasAtmosphere;
+		} else {
+			surfDesc.quality &= ~Graphics::eHasAtmosphere;
+		}
 	}
+	m_surfaceMaterial[eEclipseDisabled].Reset(Pi::renderer->CreateMaterial(surfDesc));
+	surfDesc.quality |= Graphics::eHasEclipses;
 	m_surfaceMaterial[eEclipseEnabled].Reset(Pi::renderer->CreateMaterial(surfDesc));
-	{
-		Graphics::MaterialDescriptor surfDescNoEclipse(surfDesc);
-		surfDescNoEclipse.disableEclipse = true;
-		m_surfaceMaterial[eEclipseDisabled].Reset(Pi::renderer->CreateMaterial(surfDescNoEclipse));
-	}
 
 	//Shader-less atmosphere is drawn in Planet
 	if (Graphics::AreShadersEnabled()) {
 		Graphics::MaterialDescriptor skyDesc;
 		skyDesc.effect = Graphics::EFFECT_GEOSPHERE_SKY;
 		skyDesc.lighting = true;
+		m_atmosphereMaterial[eEclipseDisabled].Reset(Pi::renderer->CreateMaterial(skyDesc));
+		skyDesc.quality |= Graphics::eHasEclipses;
 		m_atmosphereMaterial[eEclipseEnabled].Reset(Pi::renderer->CreateMaterial(skyDesc));
-		{
-			Graphics::MaterialDescriptor skyDescNoEclipse(skyDesc);
-			skyDescNoEclipse.disableEclipse = true;
-			m_atmosphereMaterial[eEclipseDisabled].Reset(Pi::renderer->CreateMaterial(skyDescNoEclipse));
-		}
 	}
 }
