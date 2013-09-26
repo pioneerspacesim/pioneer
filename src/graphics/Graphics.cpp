@@ -13,7 +13,6 @@ namespace Graphics {
 static bool initted = false;
 bool shadersAvailable = false;
 bool shadersEnabled = false;
-bool eclipseDisabled = false;
 Material *vtxColorMaterial;
 static int width, height;
 static float g_fov = 85.f;
@@ -73,8 +72,6 @@ Renderer* Init(Settings vs)
 	shadersAvailable = glewIsSupported("GL_VERSION_2_0");
 	shadersEnabled = vs.shaders && shadersAvailable;
 
-	eclipseDisabled = vs.disableEclipse;
-
 	if (shadersEnabled)
 		renderer = new RendererGL2(window, vs);
 	else
@@ -100,11 +97,6 @@ void Uninit()
 bool AreShadersEnabled()
 {
 	return shadersEnabled;
-}
-
-bool IsEclipseEnabled()
-{
-	return !eclipseDisabled;
 }
 
 static bool operator==(const VideoMode &a, const VideoMode &b) {

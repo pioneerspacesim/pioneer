@@ -438,7 +438,7 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 	// no frustum test of entire geosphere, since Space::Render does this
 	// for each body using its GetBoundingRadius() value
 
-	const EEclipseState es = Graphics::IsEclipseEnabled() ? eEclipseEnabled : eEclipseDisabled;
+	const EEclipseState es = (Pi::config->Int("DisableEclipse") == 0) ? eEclipseEnabled : eEclipseDisabled;
 
 	//First draw - create materials (they do not change afterwards)
 	if (!m_surfaceMaterial[es].Valid())
