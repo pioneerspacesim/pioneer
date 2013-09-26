@@ -369,4 +369,15 @@ class matrix4x4 {
 typedef matrix4x4<float> matrix4x4f;
 typedef matrix4x4<double> matrix4x4d;
 
+static inline void matrix4x4ftod(const matrix4x4f &in, matrix4x4d &out)
+{
+	for (int i = 0; i < 16; i++) 
+		out[i] = double(in[i]);
+}
+static inline void matrix4x4dtof(const matrix4x4d &in, matrix4x4f &out)
+{
+	for (int i = 0; i < 16; i++) 
+		out[i] = float(in[i]);
+}
+
 #endif /* _MATRIX4X4_H */
