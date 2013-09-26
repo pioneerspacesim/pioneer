@@ -59,7 +59,7 @@ static bool FillCameraPosOrient(const SceneGraph::Model *m, const char *tag, vec
 	// XXX sigh, this madness has to stop
 	const matrix3x3f tagOrient = trans.GetOrient();
 	matrix3x3d tagOrientd;
-	for (int i = 0; i < 12; i++) tagOrientd[i] = double(tagOrient[i]);
+	matrix3x3ftod(tagOrient,tagOrientd);
 	orient = fixOrient * tagOrientd;
 
 	return true;
