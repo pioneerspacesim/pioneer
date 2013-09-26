@@ -35,12 +35,6 @@ enum EffectType {
 	EFFECT_FRESNEL_SPHERE
 };
 
-// Atmosphere rendering customisation flags
-enum EAtmosphereQuality {
-	eHasAtmosphere	= 1<<0,
-	eHasEclipses	= 1<<1
-};
-
 // Renderer creates a material that best matches these requirements.
 // EffectType may override some of the other flags.
 class MaterialDescriptor {
