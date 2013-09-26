@@ -35,6 +35,12 @@ enum EffectType {
 	EFFECT_FRESNEL_SPHERE
 };
 
+// Atmosphere rendering customisation flags
+enum EAtmosphereQuality {
+	eHasAtmosphere	= 1<<0,
+	eHasEclipses	= 1<<1
+};
+
 // Renderer creates a material that best matches these requirements.
 // EffectType may override some of the other flags.
 class MaterialDescriptor {
@@ -42,16 +48,15 @@ public:
 	MaterialDescriptor();
 	EffectType effect;
 	bool alphaTest;
-	bool atmosphere;
-	bool disableEclipse;
 	bool glowMap;
 	bool lighting;
 	bool specularMap;
 	bool twoSided;
 	bool usePatterns; //pattern/color system
 	bool vertexColors;
-	int textures; //texture count
-	unsigned int dirLights; //set by rendererGL2 if lighting == true
+	Sint32 textures; //texture count
+	Uint32 dirLights; //set by rendererGL2 if lighting == true
+	Uint32 quality; // see: EAtmosphereQuality for flags that can be set
 
 	friend bool operator==(const MaterialDescriptor &a, const MaterialDescriptor &b);
 };
