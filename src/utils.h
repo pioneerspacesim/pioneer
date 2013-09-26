@@ -113,26 +113,4 @@ static inline Uint32 ceil_pow2(Uint32 v)
 
 void hexdump(const unsigned char *buf, int bufsz);
 
-static inline void matrix3x3ftod(const matrix3x3f &in, matrix3x3d &out)
-{
-	for (int i = 0; i < 9; i++) 
-		out[i] = double(in[i]);
-}
-static inline void matrix3x3dtof(const matrix3x3d &in, matrix3x3f &out)
-{
-	for (int i = 0; i < 9; i++) 
-		out[i] = float(in[i]);
-}
-
-static inline void matrix4x4ftod(const matrix4x4f &in, matrix4x4d &out)
-{
-	for (int i = 0; i < 16; i++) 
-		out[i] = double(in[i]);
-}
-static inline void matrix4x4dtof(const matrix4x4d &in, matrix4x4f &out)
-{
-	for (int i = 0; i < 16; i++) 
-		out[i] = float(in[i]);
-}
-
 #endif /* _UTILS_H */
