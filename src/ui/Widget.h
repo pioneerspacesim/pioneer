@@ -163,6 +163,8 @@ public:
 	virtual void Enable();
 	bool IsDisabled() const { return m_disabled; }
 
+	bool IsMouseOver() const { return m_mouseOver; }
+
 	// register a key that, when pressed and not handled by any other widget,
 	// will cause a click event to be sent to this widget
 	void AddShortcut(const KeySym &keysym) { m_shortcuts.insert(keysym); }
@@ -203,7 +205,6 @@ public:
 
 	// bind an object property to a widget bind point
 	void Bind(const std::string &bindName, PropertiedObject *object, const std::string &propertyName);
-
 
 	// this sigc accumulator calls all the handlers for an event. if any of
 	// them return true, it returns true (indicating the event was handled),
@@ -264,8 +265,6 @@ protected:
 	// mouse active. if a widget is mouse-active, it receives all mouse events
 	// regardless of mouse position
 	bool IsMouseActive() const;
-
-	bool IsMouseOver() const { return m_mouseOver; }
 
 	bool IsSelected() const;
 
