@@ -4,7 +4,7 @@
 local Translate = import("Translate")
 local Engine = import("Engine")
 local Game = import("Game")
-local Commes = import("Comms")
+local Comms = import("Comms")
 
 local ui = Engine.ui
 local t = Translate:GetTranslator()

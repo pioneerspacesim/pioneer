@@ -4,12 +4,14 @@ September 2013
      * Improve thruster rendering (#2426, #1960)
      * Added OpenGL debug output. Set EnableGLDebug in config.ini to enable
        it (#2413)
+     * System Info View now shows orbital info for binary pairs (#2423)
+     * System Info View now shows body radius in kilometres (#2423)
 
    * Fixes
      * Fix SmartTable scrolling (#2349)
      * Fix huge memory consumption on heightmapped terrains (#2418, 2405)
      * Partially fix terrain collision failures (#2429, #2337)
-     * Allow an arbitrary number of navlight tags (#2427)
+     * Allow an arbitrary number of navlight tags (#2427, #2438))
 
    * Script and UI API changes
      * A new module import system is now in place. Each dependency now needs
@@ -20,6 +22,11 @@ September 2013
        and imports. PersistentCharacters has been moved to
        Character.persistent (#2417)
      * Removed deprecated ShipType interface
+
+   * Model changes
+     * Camera and gunmounts are now specified using tag points in the model.
+       Ship definition fields "camera_offset" and "gum_mounts" are now
+       deprecated (#2422)
 
    * Internal changes
      * Remove GLU dependency (#2414)

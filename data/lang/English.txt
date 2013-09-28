@@ -975,7 +975,7 @@ MASS
 N_WHATEVER_MASSES
     %mass{f.3} %units masses
 N_WHATEVER_RADII
-    %radius{f.3} %units radii
+    %radius{f.3} %units radii (%radkm{f.0} km)
 SOLAR
     Solar
 EARTH

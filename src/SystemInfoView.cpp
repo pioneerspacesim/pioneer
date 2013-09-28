@@ -61,8 +61,11 @@ void SystemInfoView::OnBodyViewed(SystemBody *b)
 	col2->PackEnd(l); \
 }
 
+	bool multiple = (b->GetSuperType() == SystemBody::SUPERTYPE_STAR &&
+					 b->parent && b->parent->type == SystemBody::TYPE_GRAVPOINT && b->parent->parent);
 	{
-		Gui::Label *l = new Gui::Label(b->name + ": " + b->GetAstroDescription());
+		Gui::Label *l = new Gui::Label(b->name + ": " + b->GetAstroDescription() +
+			(multiple ? (std::string(" (")+b->parent->name + ")") : ""));
 		l->Color(1,1,0);
 		m_infoBox->PackStart(l);
 	}
@@ -71,7 +74,8 @@ void SystemInfoView::OnBodyViewed(SystemBody *b)
 		formatarg("units", std::string(b->GetSuperType() == SystemBody::SUPERTYPE_STAR ? Lang::SOLAR : Lang::EARTH))));
 
 	_add_label_and_value(Lang::RADIUS, stringf(Lang::N_WHATEVER_RADII, formatarg("radius", b->radius.ToDouble()),
-		formatarg("units", std::string(b->GetSuperType() == SystemBody::SUPERTYPE_STAR ? Lang::SOLAR : Lang::EARTH))));
+		formatarg("units", std::string(b->GetSuperType() == SystemBody::SUPERTYPE_STAR ? Lang::SOLAR : Lang::EARTH)),
+		formatarg("radkm", b->GetRadius() / 1000.0)));
 
 	if (b->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
 		_add_label_and_value(Lang::EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO, stringf("%0{f.3}", b->aspectRatio.ToDouble()));
@@ -89,10 +93,18 @@ void SystemInfoView::OnBodyViewed(SystemBody *b)
 		} else {
 			data = stringf(Lang::N_DAYS, formatarg("days", b->orbit.Period() / (60*60*24)));
 		}
+		if (multiple) {
+			float pdays = float(b->parent->orbit.Period()) /float(60*60*24);
+			data += " (" + (pdays > 1000 ? stringf(Lang::N_YEARS, formatarg("years", pdays/365))
+										 : stringf(Lang::N_DAYS, formatarg("days", b->parent->orbit.Period() / (60*60*24)))) + ")";
+		}
 		_add_label_and_value(Lang::ORBITAL_PERIOD, data);
-		_add_label_and_value(Lang::PERIAPSIS_DISTANCE, format_distance(b->orbMin.ToDouble()*AU, 3));
-		_add_label_and_value(Lang::APOAPSIS_DISTANCE, format_distance(b->orbMax.ToDouble()*AU, 3));
-		_add_label_and_value(Lang::ECCENTRICITY, stringf("%0{f.2}", b->orbit.GetEccentricity()));
+		_add_label_and_value(Lang::PERIAPSIS_DISTANCE, format_distance(b->orbMin.ToDouble()*AU, 3) +
+			(multiple ? (std::string(" (") + format_distance(b->parent->orbMin.ToDouble()*AU, 3)+ ")") : ""));
+		_add_label_and_value(Lang::APOAPSIS_DISTANCE, format_distance(b->orbMax.ToDouble()*AU, 3) +
+			(multiple ? (std::string(" (") + format_distance(b->parent->orbMax.ToDouble()*AU, 3)+ ")") : ""));
+		_add_label_and_value(Lang::ECCENTRICITY, stringf("%0{f.2}", b->orbit.GetEccentricity()) +
+			(multiple ? (std::string(" (") + stringf("%0{f.2}", b->parent->orbit.GetEccentricity()) + ")") : ""));
 		if (b->type != SystemBody::TYPE_STARPORT_ORBITAL) {
 			_add_label_and_value(Lang::AXIAL_TILT, stringf(Lang::N_DEGREES, formatarg("angle", b->axialTilt.ToDouble() * (180.0/M_PI))));
 			if (b->rotationPeriod != 0) {
