@@ -309,7 +309,6 @@ pioneer_LDADD = \
 	terrain/libterrain.a \
 	ui/libui.a \
 	gameui/libgameui.a \
-	../contrib/miniz/libminiz.a \
 	../contrib/PicoDDS/libpicodds.a \
 	../contrib/jenkins/libjenkins.a \
 	../contrib/json/libjson.a \
@@ -356,7 +355,6 @@ tests_LDADD = \
 	graphics/libgraphics.a \
 	terrain/libterrain.a \
     posix/libposix.a \
-	../contrib/miniz/libminiz.a \
 	../contrib/PicoDDS/libpicodds.a \
 	../contrib/jenkins/libjenkins.a \
 	$(SIGC_LIBS)
