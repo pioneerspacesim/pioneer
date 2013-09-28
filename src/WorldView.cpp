@@ -282,6 +282,8 @@ void WorldView::SetCamType(enum CamType c)
 
 	Pi::player->GetPlayerController()->SetMouseForRearView(m_camType == CAM_INTERNAL && m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR);
 
+	m_activeCameraController->Reset();
+
 	onChangeCamType.emit();
 
 	UpdateCameraName();
