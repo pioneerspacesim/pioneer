@@ -36,9 +36,27 @@ void CheckBox::Draw()
 	}
 }
 
-void CheckBox::HandleClick()
+void CheckBox::Toggle()
 {
 	m_checked = !m_checked;
+	onValueChanged.emit(m_checked);
+}
+
+bool CheckBox::IsChecked() const
+{
+	return m_checked;
+}
+
+void CheckBox::SetState(bool state)
+{
+	if (m_checked != state) {
+		Toggle();
+	}
+}
+
+void CheckBox::HandleClick()
+{
+	Toggle();
 }
 
 }
