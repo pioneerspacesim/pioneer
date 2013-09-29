@@ -636,11 +636,14 @@ void WorldView::RefreshButtonStateAndVisibility()
 			if (altitude > 9999999.0 || altitude > 0.5 * radius)
 				Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
 			else {
+				double vspeed = vel.Dot(Pi::player->GetPosition().Normalized());
 				if (altitude < 0) altitude = 0;
 				if (altitude >= 100000.0)
-					Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, stringf(Lang::ALT_IN_KM, formatarg("altitude", altitude / 1000.0)));
+					Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, stringf(Lang::ALT_IN_KM, formatarg("altitude", altitude / 1000.0),
+						formatarg("vspeed", vspeed / 1000.0)));
 				else
-					Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, stringf(Lang::ALT_IN_METRES, formatarg("altitude", altitude)));
+					Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, stringf(Lang::ALT_IN_METRES, formatarg("altitude", altitude),
+						formatarg("vspeed", vspeed)));
 			}
 
 			if (astro->IsType(Object::PLANET)) {
