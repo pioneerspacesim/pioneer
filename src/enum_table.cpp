@@ -6,6 +6,7 @@
 
 #include "enum_table.h"
 #include "EquipType.h"
+#include "LuaEngine.h"
 #include "LuaFileSystem.h"
 #include "Polit.h"
 #include "Ship.h"
@@ -118,6 +119,15 @@ const struct EnumItem ENUM_EquipType[] = {
 	{ "MININGCANNON_17MW", Equip::MININGCANNON_17MW },
 	{ "SMALL_PLASMA_ACCEL", Equip::SMALL_PLASMA_ACCEL },
 	{ "LARGE_PLASMA_ACCEL", Equip::LARGE_PLASMA_ACCEL },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_DetailLevel[] = {
+	{ "VERY_LOW", LuaEngine::DETAIL_VERY_LOW },
+	{ "LOW", LuaEngine::DETAIL_LOW },
+	{ "MEDIUM", LuaEngine::DETAIL_MEDIUM },
+	{ "HIGH", LuaEngine::DETAIL_HIGH },
+	{ "VERY_HIGH", LuaEngine::DETAIL_VERY_HIGH },
 	{ 0, 0 },
 };
 
@@ -407,6 +417,7 @@ const struct EnumItem ENUM_UIFont[] = {
 const struct EnumTable ENUM_TABLES[] = {
 	{ "EquipSlot", ENUM_EquipSlot },
 	{ "EquipType", ENUM_EquipType },
+	{ "DetailLevel", ENUM_DetailLevel },
 	{ "FileSystemRoot", ENUM_FileSystemRoot },
 	{ "PolitCrime", ENUM_PolitCrime },
 	{ "PolitEcon", ENUM_PolitEcon },
@@ -441,6 +452,7 @@ const struct EnumTable ENUM_TABLES[] = {
 const struct EnumTable ENUM_TABLES_PUBLIC[] = {
 	{ "EquipSlot", ENUM_EquipSlot },
 	{ "EquipType", ENUM_EquipType },
+	{ "DetailLevel", ENUM_DetailLevel },
 	{ "FileSystemRoot", ENUM_FileSystemRoot },
 	{ "PolitCrime", ENUM_PolitCrime },
 	{ "PolitEcon", ENUM_PolitEcon },

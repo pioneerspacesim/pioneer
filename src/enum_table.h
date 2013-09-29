@@ -12,6 +12,7 @@ struct EnumTable { const char *name; const EnumItem *first; };
 
 extern const struct EnumItem ENUM_EquipSlot[];
 extern const struct EnumItem ENUM_EquipType[];
+extern const struct EnumItem ENUM_DetailLevel[];
 extern const struct EnumItem ENUM_FileSystemRoot[];
 extern const struct EnumItem ENUM_PolitCrime[];
 extern const struct EnumItem ENUM_PolitEcon[];
