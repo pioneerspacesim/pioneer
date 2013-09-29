@@ -1146,6 +1146,8 @@ PROBABILITY_OF_ARRIVAL_X_PERCENT
     Probability of arrival: %probability%%
 ALT_IN_METRES
     Alt: %altitude{f.0}m
+ALT_IN_KM
+    Alt: %altitude{f.0}km
 PRESSURE_N_ATMOSPHERES
     P: %pressure{f.2} atm
 NO_HYPERDRIVE

@@ -618,24 +618,29 @@ void WorldView::RefreshButtonStateAndVisibility()
 			Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_TOP_RIGHT, "");
 
 		// altitude
-		if (Pi::player->GetFrame()->GetBody() && Pi::player->GetFrame()->IsRotFrame()) {
+		if (Pi::player->GetFrame()->GetBody() && Pi::player->GetFrame()->GetBody()->IsType(Object::TERRAINBODY) &&
+				(Pi::player->GetFrame()->HasRotFrame() || Pi::player->GetFrame()->IsRotFrame())) {
 			Body *astro = Pi::player->GetFrame()->GetBody();
 			//(GetFrame()->m_sbody->GetSuperType() == SUPERTYPE_ROCKY_PLANET)) {
 			double radius;
-			vector3d surface_pos = Pi::player->GetPosition().Normalized();
-			if (astro->IsType(Object::TERRAINBODY)) {
-				radius = static_cast<TerrainBody*>(astro)->GetTerrainHeight(surface_pos);
-			} else {
-				// XXX this is an improper use of GetBoundingRadius
-				// since it is not a surface radius
-				radius = astro->GetPhysRadius();
+			assert(astro->IsType(Object::TERRAINBODY));
+			vector3d surface_pos;
+			if (Pi::player->GetFrame()->IsRotFrame())
+				surface_pos = Pi::player->GetPosition().Normalized();
+			else {
+				Frame* rot = Pi::player->GetFrame()->GetRotFrame();
+				surface_pos = Pi::player->GetPositionRelTo(rot).Normalized();
 			}
+			radius = static_cast<TerrainBody*>(astro)->GetTerrainHeight(surface_pos);
 			double altitude = Pi::player->GetPosition().Length() - radius;
-			if (altitude > 9999999.0 || astro->IsType(Object::SPACESTATION))
+			if (altitude > 9999999.0 || altitude > 0.5 * radius)
 				Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
 			else {
 				if (altitude < 0) altitude = 0;
-				Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, stringf(Lang::ALT_IN_METRES, formatarg("altitude", altitude)));
+				if (altitude >= 100000.0)
+					Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, stringf(Lang::ALT_IN_KM, formatarg("altitude", altitude / 1000.0)));
+				else
+					Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, stringf(Lang::ALT_IN_METRES, formatarg("altitude", altitude)));
 			}
 
 			if (astro->IsType(Object::PLANET)) {
@@ -643,7 +648,8 @@ void WorldView::RefreshButtonStateAndVisibility()
 				double pressure, density;
 				reinterpret_cast<Planet*>(astro)->GetAtmosphericState(dist, &pressure, &density);
 
-				Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, stringf(Lang::PRESSURE_N_ATMOSPHERES, formatarg("pressure", pressure)));
+				if (pressure > 0.001)
+					Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, stringf(Lang::PRESSURE_N_ATMOSPHERES, formatarg("pressure", pressure)));
 
 				if (Pi::player->GetHullTemperature() > 0.01) {
 					m_hudHullTemp->SetValue(float(Pi::player->GetHullTemperature()));
