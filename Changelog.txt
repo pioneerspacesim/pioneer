@@ -22,6 +22,7 @@ September 2013
        and imports. PersistentCharacters has been moved to
        Character.persistent (#2417)
      * Removed deprecated ShipType interface
+     * Rand.New now checks the type of its optional seed argument (#2445)
 
    * Model changes
      * Camera and gunmounts are now specified using tag points in the model.
