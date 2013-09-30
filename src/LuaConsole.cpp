@@ -42,8 +42,8 @@ LuaConsole::LuaConsole(int displayedOutputLines):
 
 	// XXX HACK: bypassing TextEntry::Show, because it grabs focus
 	m_entryField->Gui::Widget::Show();
-	m_entryField->onFilterKeys.connect(sigc::mem_fun(this, &LuaConsole::OnFilterKeys));
 	m_entryField->onKeyPress.connect(sigc::mem_fun(this, &LuaConsole::OnKeyPressed));
+	m_entryField->onValueChanged.connect(sigc::mem_fun(this, &LuaConsole::OnTextChanged));
 
 	PackEnd(m_entryField);
 
@@ -67,10 +67,6 @@ LuaConsole::~LuaConsole() {}
 
 bool LuaConsole::IsActive() const {
 	return IsVisible() && m_entryField->IsFocused();
-}
-
-bool LuaConsole::OnFilterKeys(const SDL_Keysym *sym) {
-	return !KeyBindings::toggleLuaConsole.binding.Matches(sym);
 }
 
 void LuaConsole::OnKeyPressed(const SDL_Keysym *sym) {
@@ -134,13 +130,15 @@ void LuaConsole::OnKeyPressed(const SDL_Keysym *sym) {
 			m_entryField->SetText(m_precompletionStatement + m_completionList[m_currentCompletion]);
 			ResizeRequest();
 		}
-	} else if (!m_completionList.empty()) { // XXX SDL2 can't really range check keysyms anymore ...    && (sym->sym < SDLK_NUMLOCK || sym->sym > SDLK_COMPOSE)) {
-		m_completionList.clear();
 	}
 
 	if (sym->sym == SDLK_RETURN && !(sym->mod & KMOD_CTRL)) {
 		ExecOrContinue();
 	}
+}
+
+void LuaConsole::OnTextChanged() {
+	m_completionList.clear();
 }
 
 void LuaConsole::UpdateCompletion(const std::string & statement) {

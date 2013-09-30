@@ -39,11 +39,7 @@ void TextEntry::SetText(const std::string &text)
 
 bool TextEntry::OnKeyDown(const SDL_Keysym *sym)
 {
-	bool accepted = onFilterKeys.empty() ? true : onFilterKeys.emit(sym);
-	if (! accepted)
-		return false;
-	accepted = false;
-
+	bool accepted = false;
 	bool changed = false;
 
 	int oldNewlineCount = m_newlineCount;
@@ -185,6 +181,15 @@ void TextEntry::OnRawMouseDown(MouseButtonEvent *e)
 void TextEntry::GrabFocus()
 {
 	Screen::SetFocused(this, true);
+	// XXX should this be here? or somewhere else?
+	// In some places (at least the Lua console and the sector view search box),
+	// a keyboard shortcut is used to switch to the text entry widget.
+	// Pressing '`' opens the console, pressing '/' in the sector view selects the search box.
+	// Those are normal text keys, so SDL generates an SDL_TEXTINPUT event for them.
+	// But we don't want to capture that text, because it's not really text input
+	// (it happens "before" the text entry widget gets focus)
+	// So we flush those events from the queue here.
+	SDL_FlushEvents(SDL_TEXTEDITING, SDL_TEXTINPUT);
 }
 
 void TextEntry::Unfocus()
