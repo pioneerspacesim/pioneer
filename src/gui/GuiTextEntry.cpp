@@ -39,11 +39,7 @@ void TextEntry::SetText(const std::string &text)
 
 bool TextEntry::OnKeyDown(const SDL_Keysym *sym)
 {
-	bool accepted = onFilterKeys.empty() ? true : onFilterKeys.emit(sym);
-	if (! accepted)
-		return false;
-	accepted = false;
-
+	bool accepted = false;
 	bool changed = false;
 
 	int oldNewlineCount = m_newlineCount;
