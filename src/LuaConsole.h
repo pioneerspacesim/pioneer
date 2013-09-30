@@ -28,6 +28,7 @@ public:
 private:
 	bool OnFilterKeys(const SDL_Keysym*);
 	void OnKeyPressed(const SDL_Keysym*);
+	void OnTextChanged();
 	void UpdateCompletion(const std::string & statement);
 	void ExecOrContinue();
 
