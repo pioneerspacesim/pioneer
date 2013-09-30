@@ -1,5 +1,8 @@
 September 2013
 
+   * New features
+     * New ship "Kanara Police Interceptor" (#2441)
+
    * Minor changes and tweaks
      * Improve thruster rendering (#2426, #1960)
      * Added OpenGL debug output. Set EnableGLDebug in config.ini to enable
