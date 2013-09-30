@@ -618,22 +618,32 @@ void WorldView::RefreshButtonStateAndVisibility()
 			Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_TOP_RIGHT, "");
 
 		// altitude
-		if (Pi::player->GetFrame()->GetBody() && Pi::player->GetFrame()->GetBody()->IsType(Object::TERRAINBODY) &&
-				(Pi::player->GetFrame()->HasRotFrame() || Pi::player->GetFrame()->IsRotFrame())) {
-			Body *astro = Pi::player->GetFrame()->GetBody();
+		const Frame* frame = Pi::player->GetFrame();
+		if (frame->GetBody() && frame->GetBody()->IsType(Object::SPACESTATION))
+			frame = frame->GetParent();
+		if (frame && frame->GetBody() && frame->GetBody()->IsType(Object::TERRAINBODY) &&
+				(frame->HasRotFrame() || frame->IsRotFrame())) {
+			Body *astro = frame->GetBody();
 			//(GetFrame()->m_sbody->GetSuperType() == SUPERTYPE_ROCKY_PLANET)) {
-			double radius;
 			assert(astro->IsType(Object::TERRAINBODY));
-			vector3d surface_pos;
-			if (Pi::player->GetFrame()->IsRotFrame())
-				surface_pos = Pi::player->GetPosition().Normalized();
-			else {
-				Frame* rot = Pi::player->GetFrame()->GetRotFrame();
-				surface_pos = Pi::player->GetPositionRelTo(rot).Normalized();
+			TerrainBody* terrain = static_cast<TerrainBody*>(astro);
+			double altitude;
+			bool show_altitude = false;
+			// Avoid calculating terrain if we are too far anyway.
+			// This should rather be 1.5 * max_radius, but due to quirkses in terrain generation we must be generous.
+			if (Pi::player->GetPosition().Length() <= 3.0 * terrain->GetMaxFeatureRadius()) {
+				vector3d surface_pos;
+				if (frame->IsRotFrame())
+					surface_pos = Pi::player->GetPosition().Normalized();
+				else {
+					const Frame* rot = frame->GetRotFrame();
+					surface_pos = Pi::player->GetPositionRelTo(rot).Normalized();
+				}
+				double radius = terrain->GetTerrainHeight(surface_pos);
+				altitude = Pi::player->GetPosition().Length() - radius;
+				show_altitude = (altitude < 10000000.0 && altitude < 0.5 * radius);
 			}
-			radius = static_cast<TerrainBody*>(astro)->GetTerrainHeight(surface_pos);
-			double altitude = Pi::player->GetPosition().Length() - radius;
-			if (altitude > 9999999.0 || altitude > 0.5 * radius)
+			if (!show_altitude)
 				Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
 			else {
 				double vspeed = vel.Dot(Pi::player->GetPosition().Normalized());
