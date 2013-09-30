@@ -607,18 +607,8 @@ void Pi::HandleEvents()
 			continue;
 
 		Gui::HandleSDLEvent(&event);
-		if (!Pi::IsConsoleActive()) {
+		if (!Pi::IsConsoleActive())
 			KeyBindings::DispatchSDLEvent(&event);
-			if (Pi::IsConsoleActive()) {
-				// SDL will synthesize a TEXTINPUT immediately after a KEYDOWN. after
-				// we toggle the console on KEYDOWN, it has the focus, so the TEXTINPUT
-				// will end up with it, causing the toggle char to be entered into the
-				// console. we prevent this by flushing TEXTINPUT events immediately after
-				// the console switch
-				SDL_FlushEvents(SDL_TEXTEDITING, SDL_TEXTINPUT);
-				continue;
-			}
-		}
 		else
 			KeyBindings::toggleLuaConsole.CheckSDLEventAndDispatch(&event);
 
