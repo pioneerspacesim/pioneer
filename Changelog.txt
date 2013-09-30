@@ -33,7 +33,7 @@ September 2013
        deprecated (#2422)
 
    * Internal changes
-     * Converted to SDL 2.0 (#2433)
+     * Converted to SDL 2.0 (#2433, #2448)
      * Remove GLU dependency (#2414)
      * Bundle GLEW 1.10 (#2415)
      * Upgrade miniz and force inline/static use (#2444)

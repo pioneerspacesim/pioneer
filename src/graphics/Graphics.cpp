@@ -99,7 +99,7 @@ bool AreShadersEnabled()
 	return shadersEnabled;
 }
 
-bool operator==(const VideoMode &a, const VideoMode &b) {
+static bool operator==(const VideoMode &a, const VideoMode &b) {
 	return a.width==b.width && a.height==b.height;
 }
 
