@@ -32,14 +32,14 @@ static KeyAction* const s_KeyBindings[] = {
 	0
 };
 
-bool KeyBinding::Matches(const SDL_keysym *sym) const {
+bool KeyBinding::Matches(const SDL_Keysym *sym) const {
 	if (type == KEYBOARD_KEY) {
 		return (sym->sym == u.keyboard.key) && ((sym->mod & 0xfff) == u.keyboard.mod);
 	} else
 		return false;
 }
 
-KeyBinding KeyBinding::keyboardBinding(SDLKey key, SDLMod mod) {
+KeyBinding KeyBinding::keyboardBinding(SDL_Keycode key, SDL_Keymod mod) {
 	KeyBinding kb;
 
 	kb.type = KEYBOARD_KEY;
@@ -75,7 +75,7 @@ void KeyAction::CheckSDLEventAndDispatch(const SDL_Event *event) {
 		{
 			if (binding.type != KEYBOARD_KEY)
 				return;
-			SDL_keysym sym = event->key.keysym;
+			SDL_Keysym sym = event->key.keysym;
 			// 0xfff filters out numlock, capslock and other shit
 			if (binding.u.keyboard.mod && ((sym.mod & 0xfff) != binding.u.keyboard.mod))
 				return;
@@ -128,7 +128,7 @@ std::string KeyBinding::Description() const {
 		if (u.keyboard.mod & KMOD_SHIFT) oss << Lang::SHIFT;
 		if (u.keyboard.mod & KMOD_CTRL) oss << Lang::CTRL;
 		if (u.keyboard.mod & KMOD_ALT) oss << Lang::ALT;
-		if (u.keyboard.mod & KMOD_META) oss << Lang::META;
+		if (u.keyboard.mod & KMOD_GUI) oss << Lang::META;
 		oss << SDL_GetKeyName(u.keyboard.key);
 	} else if (type == JOYSTICK_BUTTON) {
 		oss << Lang::JOY << int(u.joystickButton.joystick);
@@ -192,12 +192,12 @@ bool KeyBindingFromString(const std::string &str, KeyBinding *kb)
 		kb->type = KEYBOARD_KEY;
 		p += 3;
 
-		kb->u.keyboard.key = SDLKey(atoi(p));
+		kb->u.keyboard.key = SDL_Keycode(atoi(p));
 		p += strspn(p, digits);
 
 		if (strncmp(p, "Mod", 3) == 0) {
 			p += 3;
-			kb->u.keyboard.mod = SDLMod(atoi(p));
+			kb->u.keyboard.mod = SDL_Keymod(atoi(p));
 		} else
 			kb->u.keyboard.mod = KMOD_NONE;
 
@@ -332,7 +332,7 @@ void DispatchSDLEvent(const SDL_Event *event) {
 	}
 }
 
-void InitKeyBinding(KeyAction &kb, const std::string &bindName, SDLKey defaultKey) {
+void InitKeyBinding(KeyAction &kb, const std::string &bindName, SDL_Keycode defaultKey) {
 	std::string keyName = Pi::config->String(bindName.c_str());
 	if (keyName.length() == 0) {
 		keyName = stringf("Key%0{u}", Uint32(defaultKey));

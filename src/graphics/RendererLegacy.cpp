@@ -47,8 +47,8 @@ struct SurfaceRenderInfo : public RenderInfo {
 	int glAmount; //index count OR vertex amount
 };
 
-RendererLegacy::RendererLegacy(const Graphics::Settings &vs)
-: Renderer(vs.width, vs.height)
+RendererLegacy::RendererLegacy(WindowSDL *window, const Graphics::Settings &vs)
+: Renderer(window, vs.width, vs.height)
 , m_numDirLights(0)
 , m_minZNear(10.f)
 , m_maxZFar(1000000.0f)
@@ -141,7 +141,7 @@ bool RendererLegacy::SwapBuffers()
 	}
 #endif
 
-	SDL_GL_SwapBuffers();
+	GetWindow()->SwapBuffers();
 	return true;
 }
 

@@ -5,7 +5,6 @@
 
 #include "OS.h"
 #include "FileSystem.h"
-#include "SDLWrappers.h"
 #include "TextUtils.h"
 #include <SDL.h>
 #include <stdio.h>
@@ -58,13 +57,10 @@ void Warning(const char *format, ...)
 	MessageBoxW(0, transcode_utf8_to_utf16(buf, strlen(buf)).c_str(), L"Warning", MB_ICONWARNING|MB_OK);
 }
 
-void LoadWindowIcon()
+const char *GetIconFilename()
 {
 	// SDL doc says "Win32 icons must be 32x32".
-	SDLSurfacePtr surface = LoadSurfaceFromFile("icons/badge32-8b.png");
-	if (surface) {
-		SDL_WM_SetIcon(surface.Get(), 0);
-	}
+	return "icons/badge32-8b.png";
 }
 
 void RedirectStdio()

@@ -244,8 +244,8 @@ void SectorView::InitObject()
 
 	m_infoBox->PackEnd(filterBox);
 
-	m_onMouseButtonDown =
-		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &SectorView::MouseButtonDown));
+	m_onMouseWheelCon =
+		Pi::onMouseWheel.connect(sigc::mem_fun(this, &SectorView::MouseWheel));
 
 	UpdateSystemLabels(m_currentSystemLabels, m_current);
 	UpdateSystemLabels(m_selectedSystemLabels, m_selected);
@@ -263,7 +263,7 @@ void SectorView::InitObject()
 
 SectorView::~SectorView()
 {
-	m_onMouseButtonDown.disconnect();
+	m_onMouseWheelCon.disconnect();
 	if (m_onKeyPressConnection.connected()) m_onKeyPressConnection.disconnect();
 }
 
@@ -284,7 +284,7 @@ void SectorView::Save(Serializer::Writer &wr)
 	wr.Byte(m_detailBoxVisible);
 }
 
-void SectorView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
+void SectorView::OnSearchBoxKeyPress(const SDL_Keysym *keysym)
 {
 	//remember the last search text, hotkey: up
 	if (m_searchBox->GetText().empty() && keysym->sym == SDLK_UP && !m_previousSearch.empty())
@@ -979,7 +979,7 @@ void SectorView::RefreshDetailBoxVisibility()
 	if (m_detailBoxVisible != DETAILBOX_FACTION) m_factionBox->HideAll(); else UpdateFactionToggles();
 }
 
-void SectorView::OnKeyPressed(SDL_keysym *keysym)
+void SectorView::OnKeyPressed(SDL_Keysym *keysym)
 {
 	if (Pi::GetView() != this) {
 		m_onKeyPressConnection.disconnect();
@@ -1204,12 +1204,12 @@ void SectorView::ShowAll()
 	if (m_detailBoxVisible != DETAILBOX_FACTION) m_factionBox->HideAll();
 }
 
-void SectorView::MouseButtonDown(int button, int x, int y)
+void SectorView::MouseWheel(bool up)
 {
 	if (this == Pi::GetView()) {
-		if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN))
+		if (!up)
 			m_zoomMovingTo += ZOOM_SPEED * WHEEL_SENSITIVITY * Pi::GetMoveSpeedShiftModifier();
-		else if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP))
+		else
 			m_zoomMovingTo -= ZOOM_SPEED * WHEEL_SENSITIVITY * Pi::GetMoveSpeedShiftModifier();
 	}
 }

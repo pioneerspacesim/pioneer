@@ -315,6 +315,7 @@ const struct EnumItem ENUM_UIAlignDirection[] = {
 
 const struct EnumItem ENUM_UIEventType[] = {
 	{ "KEYBOARD", UI::Event::KEYBOARD },
+	{ "TEXT_INPUT", UI::Event::TEXT_INPUT },
 	{ "MOUSE_BUTTON", UI::Event::MOUSE_BUTTON },
 	{ "MOUSE_MOTION", UI::Event::MOUSE_MOTION },
 	{ "MOUSE_WHEEL", UI::Event::MOUSE_WHEEL },
@@ -324,7 +325,6 @@ const struct EnumItem ENUM_UIEventType[] = {
 const struct EnumItem ENUM_UIKeyboardAction[] = {
 	{ "DOWN", UI::KeyboardEvent::KEY_DOWN },
 	{ "UP", UI::KeyboardEvent::KEY_UP },
-	{ "PRESS", UI::KeyboardEvent::KEY_PRESS },
 	{ 0, 0 },
 };
 

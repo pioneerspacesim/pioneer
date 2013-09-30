@@ -37,8 +37,8 @@ bool ScrollBar::OnMouseDown(MouseButtonEvent *e)
 		_m_release = RawEvents::onMouseUp.connect(sigc::mem_fun(this, &ScrollBar::OnRawMouseUp));
 		_m_motion = RawEvents::onMouseMotion.connect(sigc::mem_fun(this, &ScrollBar::OnRawMouseMotion));
 	}
-	else if (e->button == SDL_BUTTON_WHEELUP || e->button == SDL_BUTTON_WHEELDOWN) {
-		float change = e->button == SDL_BUTTON_WHEELUP ? -0.1 : 0.1;
+	else if (e->button == MouseButtonEvent::BUTTON_WHEELUP || e->button == MouseButtonEvent::BUTTON_WHEELDOWN) {
+		float change = e->button == MouseButtonEvent::BUTTON_WHEELUP ? -0.1 : 0.1;
 		float pos = m_adjustment->GetValue();
 		m_adjustment->SetValue(Clamp(pos+change, 0.0f, 1.0f));
 	}

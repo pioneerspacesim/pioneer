@@ -30,7 +30,7 @@ private:
 	bool OnToggleGrid(UI::Widget*);
 	bool OnToggleGuns(UI::CheckBox*);
 	void AddLog(const std::string &line);
-	void ChangeCameraPreset(SDLKey, SDLMod);
+	void ChangeCameraPreset(SDL_Keycode, SDL_Keymod);
 	void ClearLog();
 	void ClearModel();
 	void CreateTestResources();
@@ -96,8 +96,8 @@ private:
 
 	//undecided on this input stuff
 	//updating the states of all inputs during PollEvents
-	bool m_keyStates[SDLK_LAST];
-	bool m_mouseButton[SDL_BUTTON_WHEELDOWN + 1]; //buttons + scroll start at 1
+	std::map<SDL_Keycode,bool> m_keyStates;
+	bool m_mouseButton[SDL_BUTTON_RIGHT + 1]; //buttons start at 1
 	int m_mouseMotion[2];
 	bool m_mouseWheelUp, m_mouseWheelDown;
 

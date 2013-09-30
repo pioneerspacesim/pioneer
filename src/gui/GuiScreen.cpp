@@ -3,6 +3,7 @@
 
 #include "Gui.h"
 #include "vector3.h"		// for projection
+#include "text/TextSupport.h"
 
 namespace Gui {
 
@@ -62,14 +63,11 @@ void Screen::OnDeleteFocusedWidget()
 {
 	_focusedWidgetOnDelete.disconnect();
 	focusedWidget = 0;
-	SDL_EnableKeyRepeat(0, 0); // disable key repeat
 }
 
 void Screen::SetFocused(Widget *w, bool enableKeyRepeat)
 {
 	ClearFocus();
-	if (enableKeyRepeat)
-		SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 	_focusedWidgetOnDelete = w->onDelete.connect(sigc::ptr_fun(&Screen::OnDeleteFocusedWidget));
 	focusedWidget = w;
 }
@@ -79,7 +77,6 @@ void Screen::ClearFocus()
 	if (!focusedWidget) return;
 	_focusedWidgetOnDelete.disconnect();
 	focusedWidget = 0;
-	SDL_EnableKeyRepeat(0, 0); // disable key repeat
 }
 
 void Screen::ShowBadError(const char *msg)
@@ -244,10 +241,10 @@ void Screen::OnClick(SDL_MouseButtonEvent *e)
 	}
 }
 
-void Screen::OnKeyDown(const SDL_keysym *sym)
+void Screen::OnKeyDown(const SDL_Keysym *sym)
 {
 	if (focusedWidget) {
-		bool accepted = focusedWidget->OnKeyPress(sym);
+		bool accepted = focusedWidget->OnKeyDown(sym);
 		// don't check shortcuts if the focused widget accepted the key-press
 		if (accepted)
 			return;
@@ -259,8 +256,16 @@ void Screen::OnKeyDown(const SDL_keysym *sym)
 	}
 }
 
-void Screen::OnKeyUp(const SDL_keysym *sym)
+void Screen::OnKeyUp(const SDL_Keysym *sym)
 {
+}
+
+void Screen::OnTextInput(const SDL_TextInputEvent *e)
+{
+	if (!focusedWidget) return;
+	Uint32 unicode;
+	Text::utf8_decode_char(&unicode, e->text);
+	focusedWidget->OnTextInput(unicode);
 }
 
 float Screen::GetFontHeight(Text::TextureFont *font)

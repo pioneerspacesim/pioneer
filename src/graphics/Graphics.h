@@ -25,6 +25,8 @@ namespace Graphics {
 		int requestedSamples;
 		int height;
 		int width;
+		const char *iconFile;
+		const char *title;
 	};
 
 	//for querying available modes
