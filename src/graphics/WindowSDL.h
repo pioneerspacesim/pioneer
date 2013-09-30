@@ -3,9 +3,6 @@
 
 #include "Graphics.h"
 
-struct SDL_Window;
-struct SDL_Renderer;
-
 namespace Graphics {
 
 class WindowSDL {
