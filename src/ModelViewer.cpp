@@ -691,8 +691,8 @@ void ModelViewer::PollEvents()
 			m_mouseButton[event.button.button] = false;
 			break;
 		case SDL_MOUSEWHEEL:
-			if (event.wheel.y < 0) m_mouseWheelUp = true;
-			if (event.wheel.y > 0) m_mouseWheelDown = true;
+			if (event.wheel.y > 0) m_mouseWheelUp = true;
+			if (event.wheel.y < 0) m_mouseWheelDown = true;
 			break;
 		case SDL_KEYDOWN:
 			switch (event.key.keysym.sym)
