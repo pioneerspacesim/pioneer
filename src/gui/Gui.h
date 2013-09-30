@@ -7,7 +7,10 @@
 #include "libs.h"
 #include "Color.h"
 
-namespace Graphics { class Renderer; }
+namespace Graphics {
+	class Renderer;
+	class WindowSDL;
+}
 
 namespace Gui {
 

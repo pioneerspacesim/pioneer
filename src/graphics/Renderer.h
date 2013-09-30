@@ -4,6 +4,7 @@
 #ifndef _RENDERER_H
 #define _RENDERER_H
 
+#include "WindowSDL.h"
 #include "libs.h"
 #include <map>
 
@@ -74,10 +75,13 @@ enum BlendMode {
 class Renderer
 {
 public:
-	Renderer(int width, int height);
+	Renderer(WindowSDL *win, int width, int height);
 	virtual ~Renderer();
 
 	virtual const char* GetName() const = 0;
+
+	WindowSDL *GetWindow() const { return m_window.Get(); }
+
 	//get supported minimum for z near and maximum for z far values
 	virtual bool GetNearFarRange(float &near, float &far) const = 0;
 
@@ -175,6 +179,7 @@ private:
 	typedef std::map<TextureCacheKey,RefCountedPtr<Texture>*> TextureCacheMap;
 	TextureCacheMap m_textures;
 
+	ScopedPtr<WindowSDL> m_window;
 };
 
 // subclass this to store renderer specific information

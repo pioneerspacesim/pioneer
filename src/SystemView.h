@@ -33,7 +33,7 @@ private:
 	void OnClickAccel(float step);
 	void OnClickRealt();
 	void ResetViewpoint();
-	void MouseButtonDown(int button, int x, int y);
+	void MouseWheel(bool up);
 
 	RefCountedPtr<StarSystem> m_system;
 	const SystemBody *m_selectedObject;
@@ -48,7 +48,7 @@ private:
 	Gui::Label *m_infoLabel;
 	Gui::Label *m_infoText;
 	Gui::LabelSet *m_objectLabels;
-	sigc::connection m_onMouseButtonDown;
+	sigc::connection m_onMouseWheelCon;
 
 	ScopedPtr<Graphics::Drawables::Disk> m_bodyIcon;
 };

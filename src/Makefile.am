@@ -316,7 +316,7 @@ pioneer_LDADD = \
 
 pioneer_LDADD += \
 	$(FREETYPE_LIBS) $(GL_LIBS) \
-	$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS) \
+	$(SDL2_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS) \
 	$(PNG_LIBS) $(ASSIMP_LIBS) $(EXTRA_LIBS)
 
 if BUILD_WIN32
@@ -392,7 +392,7 @@ uitest_LDADD = \
 
 uitest_LDADD += \
 	$(FREETYPE_LIBS) $(GL_LIBS) \
-	$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
+	$(SDL2_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
 
 if !HAVE_LUA
 uitest_LDADD += ../contrib/lua/liblua.a
@@ -419,7 +419,7 @@ textstress_LDADD = \
 
 textstress_LDADD += \
 	$(FREETYPE_LIBS) $(GL_LIBS) \
-	$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
+	$(SDL2_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
 
 if !HAVE_LUA
 textstress_LDADD += ../contrib/lua/liblua.a

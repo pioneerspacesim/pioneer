@@ -16,7 +16,7 @@ struct Settings;
 class RendererLegacy : public Renderer
 {
 public:
-	RendererLegacy(const Graphics::Settings &vs);
+	RendererLegacy(WindowSDL *window, const Graphics::Settings &vs);
 	virtual ~RendererLegacy();
 
 	virtual const char* GetName() const { return "Legacy renderer"; }

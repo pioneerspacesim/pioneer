@@ -33,7 +33,7 @@
 const double WorldView::PICK_OBJECT_RECT_SIZE = 20.0;
 static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.9f);
 static const float ZOOM_SPEED = 1.f;
-static const float WHEEL_SENSITIVITY = .2f;	// Should be a variable in user settings.
+static const float WHEEL_SENSITIVITY = .05f;	// Should be a variable in user settings.
 
 static const float HUD_CROSSHAIR_SIZE = 24.0f;
 static const float HUD_ALPHA          = 0.34f;
@@ -103,7 +103,7 @@ void WorldView::InitObject()
 		char buf[8];
 		snprintf(buf, sizeof(buf), "%d", (i + 1));
 		Gui::Button *btn = new Gui::LabelButton(new Gui::Label(buf));
-		btn->SetShortcut(SDLKey(SDLK_1 + i), KMOD_NONE);
+		btn->SetShortcut(SDL_Keycode(SDLK_1 + i), KMOD_NONE);
 		m_lowThrustPowerOptions->Add(btn, 16, float(ypos));
 
 		btn->onClick.connect(sigc::bind(sigc::mem_fun(this, &WorldView::OnSelectLowThrustPower), LOW_THRUST_LEVELS[i]));
@@ -234,8 +234,8 @@ void WorldView::InitObject()
 		Pi::onPlayerChangeTarget.connect(sigc::mem_fun(this, &WorldView::OnPlayerChangeTarget));
 	m_onChangeFlightControlStateCon =
 		Pi::onPlayerChangeFlightControlState.connect(sigc::mem_fun(this, &WorldView::OnPlayerChangeFlightControlState));
-	m_onMouseButtonDown =
-		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &WorldView::MouseButtonDown));
+	m_onMouseWheelCon =
+		Pi::onMouseWheel.connect(sigc::mem_fun(this, &WorldView::MouseWheel));
 
 	Pi::player->GetPlayerController()->SetMouseForRearView(GetCamType() == CAM_INTERNAL && m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR);
 	KeyBindings::toggleHudMode.onPress.connect(sigc::mem_fun(this, &WorldView::OnToggleLabels));
@@ -246,7 +246,7 @@ WorldView::~WorldView()
 	m_onHyperspaceTargetChangedCon.disconnect();
 	m_onPlayerChangeTargetCon.disconnect();
 	m_onChangeFlightControlStateCon.disconnect();
-	m_onMouseButtonDown.disconnect();
+	m_onMouseWheelCon.disconnect();
 }
 
 void WorldView::Save(Serializer::Writer &wr)
@@ -899,7 +899,7 @@ Gui::Button *WorldView::AddCommsOption(std::string msg, int ypos, int optnum)
 	char buf[8];
 	snprintf(buf, sizeof(buf), "%d", optnum);
 	Gui::LabelButton *b = new Gui::LabelButton(new Gui::Label(buf));
-	b->SetShortcut(SDLKey(SDLK_0 + optnum), KMOD_NONE);
+	b->SetShortcut(SDL_Keycode(SDLK_0 + optnum), KMOD_NONE);
 	// hide target actions when things get clicked on
 	b->onClick.connect(sigc::mem_fun(this, &WorldView::ToggleTargetActions));
 	m_commsOptions->Add(b, 16, float(ypos));
@@ -1734,16 +1734,16 @@ void WorldView::DrawEdgeMarker(const Indicator &marker, const Color &c)
 	m_renderer->DrawLines2D(2, vts, c);
 }
 
-void WorldView::MouseButtonDown(int button, int x, int y)
+void WorldView::MouseWheel(bool up)
 {
 	if (this == Pi::GetView())
 	{
 		if (m_activeCameraController->IsExternal()) {
 			MoveableCameraController *cam = static_cast<MoveableCameraController*>(m_activeCameraController);
 
-			if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN))	// Zoom out
+			if (!up)	// Zoom out
 				cam->ZoomEvent( ZOOM_SPEED * WHEEL_SENSITIVITY);
-			else if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP))
+			else
 				cam->ZoomEvent(-ZOOM_SPEED * WHEEL_SENSITIVITY);
 		}
 	}

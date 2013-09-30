@@ -37,7 +37,7 @@ void TextEntry::SetText(const std::string &text)
 	ResizeRequest();
 }
 
-bool TextEntry::OnKeyPress(const SDL_keysym *sym)
+bool TextEntry::OnKeyDown(const SDL_Keysym *sym)
 {
 	bool accepted = onFilterKeys.empty() ? true : onFilterKeys.emit(sym);
 	if (! accepted)
@@ -45,7 +45,6 @@ bool TextEntry::OnKeyPress(const SDL_keysym *sym)
 	accepted = false;
 
 	bool changed = false;
-	Uint16 unicode = sym->unicode;
 
 	int oldNewlineCount = m_newlineCount;
 
@@ -115,30 +114,22 @@ bool TextEntry::OnKeyPress(const SDL_keysym *sym)
 		m_cursPos = int(pos);
 		accepted = true;
 	}
-
-	if ((unicode == '\n') || (unicode == '\r')) {
+	if (sym->sym == SDLK_RETURN) {
 		switch (m_newlineMode) {
-		case IgnoreNewline:
-			unicode = '\0';
-			break;
-		case AcceptNewline:
-			unicode = '\n';
-			break;
-		case AcceptCtrlNewline:
-			unicode = (sym->mod & KMOD_CTRL) ? '\n' : '\0';
-			break;
+			case IgnoreNewline:
+				accepted = false;
+				break;
+			case AcceptNewline:
+				accepted = true;
+				break;
+			case AcceptCtrlNewline:
+				accepted = sym->mod & KMOD_CTRL;
+				break;
 		}
-	}
-
-	if (isgraph(unicode) || (unicode == ' ') || (unicode == '\n')) {
-		if (unicode == '\n')
+		if (accepted) {
 			++m_newlineCount;
-		char buf[4];
-		int len = Text::utf8_encode_char(unicode, buf);
-		m_text.insert(m_cursPos, buf, len);
-		SetCursorPos(m_cursPos+len);
-		changed = true;
-		accepted = true;
+			OnTextInput('\n');
+		}
 	}
 
 	if (oldNewlineCount != m_newlineCount)
@@ -148,6 +139,21 @@ bool TextEntry::OnKeyPress(const SDL_keysym *sym)
 	if (changed) onValueChanged.emit();
 
 	return accepted;
+}
+
+void TextEntry::OnTextInput(Uint32 unicode)
+{
+	bool changed = false;
+
+	if (isgraph(unicode) || (unicode == ' ') || (unicode == '\n')) {
+		char buf[4];
+		int len = Text::utf8_encode_char(unicode, buf);
+		m_text.insert(m_cursPos, buf, len);
+		SetCursorPos(m_cursPos+len);
+		changed = true;
+	}
+
+	if (changed) onValueChanged.emit();
 }
 
 void TextEntry::GetSizeRequested(float size[2])
