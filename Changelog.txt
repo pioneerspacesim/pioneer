@@ -1,5 +1,8 @@
 October 2013
 
+   * Minor changes and tweaks
+     * Improved Amphiesma, Mola Mola and Pumpkinseed pattern textures (#2450)
+
    * Model changes
      * Pattern textures can now have alpha channels (#2449)
 
