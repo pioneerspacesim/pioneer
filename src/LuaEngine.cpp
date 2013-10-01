@@ -15,6 +15,7 @@
 #include "graphics/Graphics.h"
 #include "Sound.h"
 #include "SoundMusic.h"
+#include "KeyBindings.h"
 #include "GameMenuView.h"
 
 /*
@@ -443,6 +444,92 @@ static int l_engine_set_music_volume(lua_State *l)
 	return 0;
 }
 
+static void push_bindings(lua_State *l, const KeyBindings::BindingPrototype *protos) {
+	LUA_DEBUG_START(l);
+
+	lua_newtable(l); // [-1] bindings
+	lua_pushnil(l); // [-2] bindings, [-1] group (no current group)
+
+	assert(!protos[0].function); // first entry should be a group header
+
+	int binding_idx = 1;
+	for (const KeyBindings::BindingPrototype *proto = protos; proto->label; ++proto) {
+		if (! proto->function) {
+			// start a new named binding group
+
+			// [-2] bindings, [-1] group
+			lua_pop(l, 1);
+			// [-1] bindings
+			lua_newtable(l);
+			// [-2] bindings, [-1] group
+			lua_pushvalue(l, -1);
+			// [-3] bindings, [-2] group, [-1] group
+			lua_setfield(l, -3, proto->label);
+			// [-2] bindings, [-1] group
+
+			binding_idx = 1;
+		} else {
+			// key or axis binding prototype
+
+			// [-2] bindings, [-1] group
+			lua_createtable(l, 0, 5);
+			// [-3] bindings, [-2] group, [-1] binding
+
+			// fields: type ('KEY' or 'AXIS'), id ('BindIncreaseSpeed'), label ('Increase Speed'), binding ('Key13'), bindingDescription ('')
+			lua_pushstring(l, (proto->kb ? "KEY" : "AXIS"));
+			lua_setfield(l, -2, "type");
+			lua_pushstring(l, proto->function);
+			lua_setfield(l, -2, "id");
+			lua_pushstring(l, proto->label);
+			lua_setfield(l, -2, "label");
+			if (proto->kb) {
+				const KeyBindings::KeyBinding kb = proto->kb->binding;
+				lua_pushstring(l, KeyBindings::KeyBindingToString(kb).c_str());
+				lua_setfield(l, -2, "binding");
+				lua_pushstring(l, kb.Description().c_str());
+				lua_setfield(l, -2, "bindingDescription");
+			} else if (proto->ab) {
+				const KeyBindings::AxisBinding &ab = *proto->ab;
+				lua_pushstring(l, KeyBindings::AxisBindingToString(ab).c_str());
+				lua_setfield(l, -2, "binding");
+				lua_pushstring(l, ab.Description().c_str());
+				lua_setfield(l, -2, "bindingDescription");
+			} else {
+				assert(0); // invalid prototype binding
+			}
+
+			// [-3] bindings, [-2] group, [-1] binding
+			lua_rawseti(l, -2, binding_idx);
+			++binding_idx;
+		}
+
+		LUA_DEBUG_CHECK(l, 2); // [-2] bindings, [-1] group
+	}
+
+	// pop the group table (which should already have been put in the bindings table)
+	lua_pop(l, 1);
+
+	LUA_DEBUG_END(l, 1);
+}
+
+static int l_engine_get_key_bindings(lua_State *l)
+{
+	// XXX maybe this key-bindings table should be cached in the Lua registry?
+
+	lua_newtable(l);
+#define BINDING_PAGE(name) \
+	push_bindings(l, KeyBindings :: BINDING_PROTOS_ ## name); \
+	lua_setfield(l, -2, #name);
+#include "KeyBindings.inc.h"
+
+	return 1;
+}
+
+static int l_engine_set_key_binding(lua_State *l)
+{
+	return luaL_error(l, "not yet implemented");
+}
+
 void LuaEngine::Register()
 {
 	lua_State *l = Lua::manager->GetLuaState();
@@ -488,6 +575,9 @@ void LuaEngine::Register()
 		{ "SetMusicMuted", l_engine_set_music_muted },
 		{ "GetMusicVolume", l_engine_get_music_volume },
 		{ "SetMusicVolume", l_engine_set_music_volume },
+
+		{ "GetKeyBindings", l_engine_get_key_bindings },
+		{ "SetKeyBinding", l_engine_set_key_binding },
 
 		{ 0, 0 }
 	};
