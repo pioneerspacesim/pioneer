@@ -16,7 +16,6 @@
 #include "Sound.h"
 #include "SoundMusic.h"
 #include "KeyBindings.h"
-#include "GameMenuView.h"
 
 /*
  * Interface: Engine
@@ -129,18 +128,6 @@ static int l_engine_quit(lua_State *l)
 	if (Pi::game)
 		Pi::EndGame();
 	Pi::Quit();
-	return 0;
-}
-
-// XXX hack to allow the new UI to activate the old settings view
-//     remove once its been converted
-static int l_engine_settings_view(lua_State *l)
-{
-	if (Pi::game || Pi::GetView() == Pi::gameMenuView)
-		return 0;
-	Pi::SetView(Pi::gameMenuView);
-	while (Pi::GetView() == Pi::gameMenuView) Gui::MainLoopIteration();
-	Pi::SetView(0);
 	return 0;
 }
 
@@ -538,7 +525,6 @@ void LuaEngine::Register()
 
 	static const luaL_Reg l_methods[] = {
 		{ "Quit", l_engine_quit },
-		{ "SettingsView", l_engine_settings_view },
 
 		{ "GetVideoModeList", l_engine_get_video_mode_list },
 		{ "GetVideoResolution", l_engine_get_video_resolution },
