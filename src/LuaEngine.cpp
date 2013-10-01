@@ -439,6 +439,7 @@ static void push_bindings(lua_State *l, const KeyBindings::BindingPrototype *pro
 
 	assert(!protos[0].function); // first entry should be a group header
 
+	int group_idx = 1;
 	int binding_idx = 1;
 	for (const KeyBindings::BindingPrototype *proto = protos; proto->label; ++proto) {
 		if (! proto->function) {
@@ -448,11 +449,13 @@ static void push_bindings(lua_State *l, const KeyBindings::BindingPrototype *pro
 			lua_pop(l, 1);
 			// [-1] bindings
 			lua_newtable(l);
+			lua_pushstring(l, proto->label);
+			lua_setfield(l, -2, "label");
 			// [-2] bindings, [-1] group
 			lua_pushvalue(l, -1);
-			// [-3] bindings, [-2] group, [-1] group
-			lua_setfield(l, -3, proto->label);
-			// [-2] bindings, [-1] group
+			// [-3] bindings, [-2] group, [-1] group copy
+			lua_rawseti(l, -3, group_idx);
+			++group_idx;
 
 			binding_idx = 1;
 		} else {
@@ -503,10 +506,14 @@ static int l_engine_get_key_bindings(lua_State *l)
 {
 	// XXX maybe this key-bindings table should be cached in the Lua registry?
 
+	int idx = 1;
 	lua_newtable(l);
+
 #define BINDING_PAGE(name) \
 	push_bindings(l, KeyBindings :: BINDING_PROTOS_ ## name); \
-	lua_setfield(l, -2, #name);
+	lua_pushstring(l, #name); \
+	lua_setfield(l, -2, "label"); \
+	lua_rawseti(l, -2, idx++);
 #include "KeyBindings.inc.h"
 
 	return 1;

@@ -161,11 +161,13 @@ ui.templates.Settings = function (args)
 	local keysTemplate = function()
 		local box = ui:VBox()
 		local pages = Engine.GetKeyBindings()
-		for page_title, groups in pairs(pages) do
-			box:PackEnd(ui:Label(page_title):SetFont('HEADING_LARGE'))
-			for group_title, group in pairs(groups) do
-				box:PackEnd(ui:Label(group_title):SetFont('HEADING_NORMAL'))
-				local grid = ui:Grid({0.5, 0.5}, #group)
+		for page_idx = 1, #pages do
+			local page = pages[page_idx]
+			box:PackEnd(ui:Label(page.label):SetFont('HEADING_LARGE'))
+			for group_idx = 1, #page do
+				local group = page[group_idx]
+				box:PackEnd(ui:Label(group.label):SetFont('HEADING_NORMAL'))
+				local grid = ui:Grid({4, 4, 1}, #group)
 				for i = 1, #group do
 					local binding = group[i]
 					grid:SetCell(0, i - 1, ui:Label(binding.label))
