@@ -81,8 +81,6 @@ ui.templates.Settings = function (args)
 		local aaModes = { 0, 2, 4, 8, 16 }
 		local aaDropDown = optionDropDown(Engine.GetMultisampling, Engine.SetMultisampling, t("AA"), aaLabels, aaModes)
 
-		local vsyncCheckBox = optionCheckBox(Engine.GetVSyncEnabled, Engine.SetVSyncEnabled, t("VSync"), false)
-
 		local detailLevels = { 'VERY_LOW', 'LOW', 'MEDIUM', 'HIGH', 'VERY_HIGH' }
 		local detailLabels = { t("Very low"), t("Low"), t("Medium"), t("High"), t("Very high") }
 
@@ -118,7 +116,6 @@ ui.templates.Settings = function (args)
 				modeDropDown,
 				aaDropDown,
 				fullScreenCheckBox,
-				vsyncCheckBox,
 				shadersCheckBox,
 				compressionCheckBox,
 			}))))
