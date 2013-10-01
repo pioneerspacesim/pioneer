@@ -519,9 +519,36 @@ static int l_engine_get_key_bindings(lua_State *l)
 	return 1;
 }
 
+static int set_key_binding(lua_State *l, const char *config_id, KeyBindings::KeyAction *action) {
+	const char *binding_config = luaL_checkstring(l, 2);
+	if (!KeyBindings::KeyBindingFromString(binding_config, &(action->binding)))
+		return luaL_error(l, "invalid key binding given to Engine.SetKeyBinding");
+	Pi::config->SetString(config_id, KeyBindings::KeyBindingToString(action->binding));
+	Pi::config->Save();
+	return 0;
+}
+
+static int set_axis_binding(lua_State *l, const char *config_id, KeyBindings::AxisBinding *binding) {
+	const char *binding_config = luaL_checkstring(l, 2);
+	if (!KeyBindings::AxisBindingFromString(binding_config, binding))
+		return luaL_error(l, "invalid axis binding given to Engine.SetKeyBinding");
+	Pi::config->SetString(config_id, KeyBindings::AxisBindingToString(*binding));
+	Pi::config->Save();
+	return 0;
+}
+
 static int l_engine_set_key_binding(lua_State *l)
 {
-	return luaL_error(l, "not yet implemented");
+	const char *binding_id = luaL_checkstring(l, 1);
+
+#define KEY_BINDING(action, config_id, label, default_key) \
+	if (strcmp(binding_id, config_id) == 0) { return set_key_binding(l, config_id, &KeyBindings :: action); }
+#define AXIS_BINDING(action, config_id, label, default_axis) \
+	if (strcmp(binding_id, config_id) == 0) { return set_axis_binding(l, config_id, &KeyBindings :: action); }
+
+#include "KeyBindings.inc.h"
+
+	return luaL_error(l, "Invalid binding ID given to Engine.SetKeyBinding");
 }
 
 void LuaEngine::Register()
