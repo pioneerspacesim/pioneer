@@ -1,3 +1,8 @@
+October 2013
+
+   * Model changes
+     * Pattern textures can now have alpha channels (#2449)
+
 September 2013
 
    * New features
