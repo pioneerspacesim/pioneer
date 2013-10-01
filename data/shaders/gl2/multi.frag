@@ -48,9 +48,10 @@ void main(void)
 #endif
 //patterns - simple lookup
 #ifdef MAP_COLOR
-	float pat = texture2D(texture3, texCoord0).r;
-	vec4 mapColor = texture2D(texture4, vec2(pat, 0.0));
-	color *= mapColor;
+	vec4 pat = texture2D(texture3, texCoord0);
+	vec4 mapColor = texture2D(texture4, vec2(pat.r, 0.0));
+	vec4 tint = mix(vec4(1.0),mapColor,pat.a);
+	color *= tint;
 #endif
 
 #ifdef ALPHA_TEST
