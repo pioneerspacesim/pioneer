@@ -6,6 +6,7 @@ October 2013
 
    * Minor changes and tweaks
      * Improved ship textures (#2450)
+     * Resized DSMiner
 
    * Model changes
      * Pattern textures can now have alpha channels (#2449)
