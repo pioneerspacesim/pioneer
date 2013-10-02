@@ -81,6 +81,7 @@ public:
 	virtual const char* GetName() const = 0;
 
 	WindowSDL *GetWindow() const { return m_window.Get(); }
+	float GetDisplayAspect() const { return static_cast<float>(m_width) / static_cast<float>(m_height); }
 
 	//get supported minimum for z near and maximum for z far values
 	virtual bool GetNearFarRange(float &near, float &far) const = 0;

@@ -375,8 +375,8 @@ void SectorView::Draw3D()
 	m_secLineVerts->Clear();
 	m_clickableLabels->Clear();
 
-	if (m_zoomClamped <= FAR_THRESHOLD) m_renderer->SetPerspectiveProjection(40.f, Pi::GetScrAspect(), 1.f, 300.f);
-	else                                m_renderer->SetPerspectiveProjection(40.f, Pi::GetScrAspect(), 1.f, 600.f);
+	if (m_zoomClamped <= FAR_THRESHOLD) m_renderer->SetPerspectiveProjection(40.f, m_renderer->GetDisplayAspect(), 1.f, 300.f);
+	else                                m_renderer->SetPerspectiveProjection(40.f, m_renderer->GetDisplayAspect(), 1.f, 600.f);
 
 	matrix4x4f modelview = matrix4x4f::Identity();
 	m_renderer->ClearScreen();

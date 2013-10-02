@@ -80,7 +80,6 @@
 #include <sstream>
 
 float Pi::gameTickAlpha;
-float Pi::scrAspect;
 sigc::signal<void, SDL_Keysym*> Pi::onKeyPress;
 sigc::signal<void, SDL_Keysym*> Pi::onKeyRelease;
 sigc::signal<void, int, int, int> Pi::onMouseButtonUp;
@@ -304,8 +303,6 @@ void Pi::Init()
 		fwrite(s.c_str(), 1, s.size(), f);
 		fclose(f);
 	}
-
-	Pi::scrAspect = videoSettings.width / float(videoSettings.height);
 
 	Pi::rng.IncRefCount(); // so nothing tries to free it
 	Pi::rng.seed(time(0));
