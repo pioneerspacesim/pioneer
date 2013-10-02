@@ -11,11 +11,6 @@ define_ship {
 	left_thrust = 4e6,
 	right_thrust = 4e6,
 	angular_thrust = 50e6,
-	camera_offset = v(0,0,-16),
-	gun_mounts =
-	{
-		{ v(0,-0.5,-10.7), v(0,0,-1), 5, 'HORIZONTAL' },
-	},
 	atmoshield = 1,
 	min_atmoshield = 1,
 	max_cargo = 235,
