@@ -80,7 +80,6 @@
 #include <sstream>
 
 float Pi::gameTickAlpha;
-float Pi::scrAspect;
 sigc::signal<void, SDL_Keysym*> Pi::onKeyPress;
 sigc::signal<void, SDL_Keysym*> Pi::onKeyRelease;
 sigc::signal<void, int, int, int> Pi::onMouseButtonUp;
@@ -304,8 +303,6 @@ void Pi::Init()
 		fwrite(s.c_str(), 1, s.size(), f);
 		fclose(f);
 	}
-
-	Pi::scrAspect = videoSettings.width / float(videoSettings.height);
 
 	Pi::rng.IncRefCount(); // so nothing tries to free it
 	Pi::rng.seed(time(0));
@@ -1120,7 +1117,7 @@ void Pi::MainLoop()
 		if (SDL_GetTicks() - last_screendump > 50) {
 			last_screendump = SDL_GetTicks();
 			std::string fname = stringf(Lang::SCREENSHOT_FILENAME_TEMPLATE, formatarg("index", dumpnum++));
-			Screendump(fname.c_str(), GetScrWidth(), GetScrHeight());
+			Screendump(fname.c_str(), Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
 		}
 #endif /* MAKING_VIDEO */
 	}

@@ -99,6 +99,20 @@ WindowSDL::~WindowSDL()
 	SDL_DestroyWindow(m_window);
 }
 
+int WindowSDL::GetWidth() const
+{
+	int w, h;
+	SDL_GetWindowSize(m_window, &w, &h);
+	return w;
+}
+
+int WindowSDL::GetHeight() const
+{
+	int w, h;
+	SDL_GetWindowSize(m_window, &w, &h);
+	return h;
+}
+
 void WindowSDL::SetGrab(bool grabbed)
 {
 	SDL_SetWindowGrab(m_window, SDL_bool(grabbed));
