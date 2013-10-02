@@ -77,7 +77,6 @@ public:
 	static void Quit() __attribute((noreturn));
 	static float GetFrameTime() { return frameTime; }
 	static float GetGameTickAlpha() { return gameTickAlpha; }
-	static float GetScrAspect() { return scrAspect; }
 	static bool KeyState(SDL_Keycode k) { return keyState[k]; }
 	static int KeyModState() { return keyModState; }
 	static bool IsConsoleActive();
@@ -185,7 +184,6 @@ private:
 	static int requestedTimeAccelIdx;
 	static bool forceTimeAccel;
 	static float frameTime;
-	static float scrAspect;
 	static std::map<SDL_Keycode,bool> keyState;
 	static int keyModState;
 	static char mouseButton[6];

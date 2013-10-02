@@ -14,18 +14,18 @@ static bool initted = false;
 bool shadersAvailable = false;
 bool shadersEnabled = false;
 Material *vtxColorMaterial;
-Settings settings;
+static int width, height;
 static float g_fov = 85.f;
 static float g_fovFactor = 1.f;
 
 int GetScreenWidth()
 {
-	return settings.width;
+	return width;
 }
 
 int GetScreenHeight()
 {
-	return settings.height;
+	return height;
 }
 
 float GetFov()
@@ -59,6 +59,8 @@ Renderer* Init(Settings vs)
 	}
 
 	WindowSDL *window = new WindowSDL(vs, "Pioneer");
+	width = window->GetWidth();
+	height = window->GetHeight();
 
 	glewInit();
 
@@ -83,8 +85,6 @@ Renderer* Init(Settings vs)
 	desc.vertexColors = true;
 	vtxColorMaterial = renderer->CreateMaterial(desc);
 	vtxColorMaterial->IncRefCount();
-
-	Graphics::settings = vs;
 
 	return renderer;
 }

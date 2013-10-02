@@ -42,7 +42,6 @@ namespace Graphics {
 	extern bool shadersEnabled;
 	extern Material *vtxColorMaterial;
 
-	extern Settings settings;
 	int GetScreenWidth();
 	int GetScreenHeight();
 

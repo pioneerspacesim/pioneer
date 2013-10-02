@@ -48,7 +48,7 @@ struct SurfaceRenderInfo : public RenderInfo {
 };
 
 RendererLegacy::RendererLegacy(WindowSDL *window, const Graphics::Settings &vs)
-: Renderer(window, vs.width, vs.height)
+: Renderer(window, window->GetWidth(), window->GetHeight())
 , m_numDirLights(0)
 , m_minZNear(10.f)
 , m_maxZFar(1000000.0f)
