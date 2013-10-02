@@ -115,6 +115,9 @@ private:
 	UI::Slider *thrustSliders[2*3]; //thruster sliders 2*xyz (linear & angular)
 
 	sigc::signal<void> onModelChanged;
+
+	std::vector<Graphics::Drawables::Line3D> m_dockingPoints;
+	std::vector<Graphics::Drawables::Line3D> m_tagPoints;
 };
 
 #endif
