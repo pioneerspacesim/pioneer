@@ -1117,7 +1117,7 @@ void Pi::MainLoop()
 		if (SDL_GetTicks() - last_screendump > 50) {
 			last_screendump = SDL_GetTicks();
 			std::string fname = stringf(Lang::SCREENSHOT_FILENAME_TEMPLATE, formatarg("index", dumpnum++));
-			Screendump(fname.c_str(), GetScrWidth(), GetScrHeight());
+			Screendump(fname.c_str(), Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
 		}
 #endif /* MAKING_VIDEO */
 	}
