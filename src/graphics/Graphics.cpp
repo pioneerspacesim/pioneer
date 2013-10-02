@@ -14,7 +14,6 @@ static bool initted = false;
 bool shadersAvailable = false;
 bool shadersEnabled = false;
 Material *vtxColorMaterial;
-Settings settings;
 static int width, height;
 static float g_fov = 85.f;
 static float g_fovFactor = 1.f;
@@ -86,8 +85,6 @@ Renderer* Init(Settings vs)
 	desc.vertexColors = true;
 	vtxColorMaterial = renderer->CreateMaterial(desc);
 	vtxColorMaterial->IncRefCount();
-
-	Graphics::settings = vs;
 
 	return renderer;
 }
