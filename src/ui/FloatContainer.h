@@ -12,14 +12,17 @@ class FloatContainer : public Container {
 public:
 	virtual void Layout();
 
-	void AddWidget(Widget *w, const Point &pos, const Point &size);
-	virtual void RemoveWidget(Widget *w);
+	void SetWidget(Widget *w, const Point &pos, const Point &size);
+	virtual void RemoveWidget();
+	Widget *GetWidget() const { return m_widget.Get(); }
 
 private:
 	virtual Point PreferredSize() { return Point(); }
 
 	friend class Context;
 	FloatContainer(Context *context) : Container(context) {}
+
+	RefCountedPtr<Widget> m_widget;
 };
 
 }

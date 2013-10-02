@@ -10,10 +10,13 @@ void FloatContainer::Layout()
 	LayoutChildren();
 }
 
-void FloatContainer::AddWidget(Widget *w, const Point &pos, const Point &size)
+void FloatContainer::SetWidget(Widget *w, const Point &pos, const Point &size)
 {
 	assert(!w->IsFloating());
 	assert(!w->GetContainer());
+
+    Container::RemoveAllWidgets();
+	m_widget.Reset(w);
 
 	Container::AddWidget(w);
 	w->SetFloating(true);
@@ -23,12 +26,10 @@ void FloatContainer::AddWidget(Widget *w, const Point &pos, const Point &size)
 	w->Layout();
 }
 
-void FloatContainer::RemoveWidget(Widget *w)
+void FloatContainer::RemoveWidget()
 {
-	assert(w->IsFloating());
-	assert(w->GetContainer());
-
-	Container::RemoveWidget(w);
+	Container::RemoveAllWidgets();
+	m_widget.Reset(0);
 }
 
 }

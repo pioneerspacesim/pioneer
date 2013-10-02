@@ -73,7 +73,7 @@ void DropDown::TogglePopup()
 
 	if (m_popupActive) {
 		m_label->SetText(m_popup->GetSelectedOption());
-		c->RemoveFloatingWidget(m_popup.Get());
+		c->RemoveFloatingWidget();
 		m_popupActive = false;
 		m_icon->SetColor(IsMouseOver() ? hoverColor : normalColor);
 	}
@@ -81,7 +81,7 @@ void DropDown::TogglePopup()
 	else {
 		const Point pos(GetAbsolutePosition() + Point(0, GetSize().y));
 		m_popup->SetFont(GetFont());
-		c->AddFloatingWidget(m_popup.Get(), pos, m_popup->PreferredSize());
+		c->SetFloatingWidget(m_popup.Get(), pos, m_popup->PreferredSize());
 		m_popupActive = true;
 		m_icon->SetColor(activeColor);
 	}

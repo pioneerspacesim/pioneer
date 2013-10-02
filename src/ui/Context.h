@@ -109,9 +109,10 @@ public:
 
 	UI::TextEntry *TextEntry(const std::string &text = "") { return new UI::TextEntry(this, text); }
 
-	// add a floating widget
-	Context *AddFloatingWidget(Widget *w, const Point &pos, const Point &size) { m_float->AddWidget(w, pos, size); return this; }
-	Context *RemoveFloatingWidget(Widget *w) { m_float->RemoveWidget(w); return this; }
+	// manage floating widget
+	Context *SetFloatingWidget(Widget *w, const Point &pos, const Point &size) { m_float->SetWidget(w, pos, size); return this; }
+	void RemoveFloatingWidget() { m_float->RemoveWidget(); }
+    Widget *GetFloatingWidget() const { return m_float->GetWidget(); }
 
 	// considers floating widgets also
 	virtual Widget *GetWidgetAt(const Point &pos);
