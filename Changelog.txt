@@ -13,6 +13,8 @@ October 2013
      * Modelviewer now correctly reloads tag-points when switching models
        (#2451, #2456)
      * Correctly setup UI sizing from window size (#2455, #2453)
+     * Fix TradeShips hang when trying to add cargo to almost-full ship
+       (#2459, #2432)
 
    * Model changes
      * Pattern textures can now have alpha channels (#2449)
