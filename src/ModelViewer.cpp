@@ -370,35 +370,13 @@ void AddAxisIndicators(const SceneGraph::Model::TVecMT &mts, std::vector<Graphic
 
 void ModelViewer::DrawDockingLocators()
 {
-	static std::vector<Graphics::Drawables::Line3D> lines;
-	if (lines.empty()) {
-		SceneGraph::Model::TVecMT mts;
-
-		m_model->FindTagsByStartOfName("approach_", mts);
-		AddAxisIndicators(mts, lines);
-
-		m_model->FindTagsByStartOfName("docking_", mts);
-		AddAxisIndicators(mts, lines);
-
-		m_model->FindTagsByStartOfName("leaving_", mts);
-		AddAxisIndicators(mts, lines);
-	}
-
-	for(std::vector<Graphics::Drawables::Line3D>::iterator i = lines.begin(); i != lines.end(); ++i)
+	for(std::vector<Graphics::Drawables::Line3D>::iterator i = m_dockingPoints.begin(); i != m_dockingPoints.end(); ++i)
 		(*i).Draw(m_renderer);
 }
 
 void ModelViewer::DrawTags()
 {
-	static std::vector<Graphics::Drawables::Line3D> lines;
-	if (lines.empty()) {
-		SceneGraph::Model::TVecMT mts;
-
-		m_model->FindTagsByStartOfName("tag_", mts);
-		AddAxisIndicators(mts, lines);
-	}
-
-	for(std::vector<Graphics::Drawables::Line3D>::iterator i = lines.begin(); i != lines.end(); ++i)
+	for(std::vector<Graphics::Drawables::Line3D>::iterator i = m_tagPoints.begin(); i != m_tagPoints.end(); ++i)
 		(*i).Draw(m_renderer);
 }
 
@@ -817,6 +795,22 @@ void ModelViewer::SetModel(const std::string &filename, bool resetCamera /* true
 		//note: stations won't demonstrate full docking light logic in MV
 		m_navLights.Reset(new NavLights(m_model));
 		m_navLights->SetEnabled(true);
+
+		{
+			SceneGraph::Model::TVecMT mts;
+
+			m_dockingPoints.clear();
+			m_model->FindTagsByStartOfName("approach_", mts);
+			AddAxisIndicators(mts, m_dockingPoints);
+			m_model->FindTagsByStartOfName("docking_", mts);
+			AddAxisIndicators(mts, m_dockingPoints);
+			m_model->FindTagsByStartOfName("leaving_", mts);
+			AddAxisIndicators(mts, m_dockingPoints);
+
+			m_tagPoints.clear();
+			m_model->FindTagsByStartOfName("tag_", mts);
+			AddAxisIndicators(mts, m_tagPoints);
+		}
 
 	} catch (SceneGraph::LoadingError &err) {
 		// report the error and show model picker.
