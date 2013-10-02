@@ -1,5 +1,8 @@
 October 2013
 
+   * New features
+     * New ship "Xylophis Short Range Shuttle" (#2442)
+
    * Minor changes and tweaks
      * Improved Amphiesma, Mola Mola and Pumpkinseed pattern textures (#2450)
 

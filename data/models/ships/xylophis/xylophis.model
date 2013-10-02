@@ -1,0 +1,18 @@
+material Material-material
+diffuse 1.0 1.0 1.0
+specular 0.9 0.9 0.9
+shininess 69
+use_patterns
+tex_diff xylophis_diff.png
+tex_spec xylophis_spec.png
+tex_glow xylophis_glow.png
+
+lod 300
+mesh xylophis.dae
+
+lod 50
+mesh xylophis_lo.dae
+
+collision xylophis_col.dae
+
+anim gear_down 0 50
