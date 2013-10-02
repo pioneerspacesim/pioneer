@@ -31,6 +31,7 @@ static bool toggle_disabled_handler(UI::Widget *w)
 	printf("toggle disabled: %p %s now %s\n", w, typeid(*w).name(), w->IsDisabled() ? "DISABLED" : "ENABLED");
 	return true;
 }
+#endif
 
 static bool click_handler(UI::Widget *w)
 {
@@ -38,6 +39,7 @@ static bool click_handler(UI::Widget *w)
 	return true;
 }
 
+#if 0
 static bool move_handler(const UI::MouseMotionEvent &event, UI::Widget *w)
 {
 	printf("move: %p %s %d,%d\n", w, typeid(*w).name(), event.pos.x, event.pos.y);
@@ -561,6 +563,7 @@ int main(int argc, char **argv)
 			)
 		))
 	);
+	c->onClick.connect(sigc::bind(sigc::ptr_fun(&click_handler), c.Get()));
 
 	//int count = 0;
 

@@ -76,10 +76,9 @@ Context::~Context() {
 
 Widget *Context::GetWidgetAt(const Point &pos)
 {
-	Widget *w = m_float->GetWidgetAt(pos);
-	if (!w || w == m_float.Get())
-		w = Single::GetWidgetAt(pos);
-	return w;
+	if (m_float->GetWidget())
+		return m_float->GetWidgetAt(pos);
+	return Single::GetWidgetAt(pos);
 }
 
 void Context::Layout()
