@@ -522,6 +522,7 @@ int main(int argc, char **argv)
 	b4->AddShortcut(UI::KeySym::FromString("ctrl+shift+4"));
 #endif
 
+#if 0
 	UI::Table *table;
 	table = c->Table();
 	table->SetFont(UI::Widget::FONT_LARGE);
@@ -543,6 +544,23 @@ int main(int argc, char **argv)
 		table->AddRow(UI::WidgetSet(l1, l2, l3));
 	}
 	c->SetInnerWidget(c->Grid(2,1)->SetCell(0,0,table));
+#endif
+
+	UI::DropDown *d1, *d2;
+	c->SetInnerWidget(
+		c->VBox()->PackEnd(UI::WidgetSet(
+			(d1 = c->DropDown()
+				->AddOption("watermelon")
+				->AddOption("banana")
+				->AddOption("ox tongue")
+			),
+			(d2 = c->DropDown()
+				->AddOption("coffee")
+				->AddOption("beer")
+				->AddOption("a single plum floating in perfume served in a man's hat")
+			)
+		))
+	);
 
 	//int count = 0;
 
