@@ -170,8 +170,13 @@ ui.templates.Settings = function (args)
 				local grid = ui:Grid({4, 4, 1}, #group)
 				for i = 1, #group do
 					local binding = group[i]
+					local btn = ui:Button(ui:Label(t("Set")))
 					grid:SetCell(0, i - 1, ui:Label(binding.label))
 					grid:SetCell(1, i - 1, ui:Label(binding.bindingDescription))
+					grid:SetCell(2, i - 1, btn)
+					btn.onClick:Connect(function ()
+						print("Setting binding '" .. binding.id .. "'")
+					end)
 				end
 				box:PackEnd(grid)
 			end
