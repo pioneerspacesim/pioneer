@@ -16,7 +16,7 @@ define_ship {
 	max_laser = 1,
 	max_missile = 8,
 	max_cargoscoop = 0,
-	max_engine = 0,
+	max_engine = 1,
 	min_crew = 1,
 	max_crew = 2,
 	capacity = 19,

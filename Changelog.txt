@@ -2,7 +2,7 @@ October 2013
 
    * New features
      * New ship "Xylophis Short Range Shuttle" (#2442)
-     * New ship "Kanara Interceptor" (civilian version) (#2454)
+     * New ship "Kanara Interceptor" (civilian version) (#2454, #2461)
 
    * Minor changes and tweaks
      * Improved ship textures (#2450)
