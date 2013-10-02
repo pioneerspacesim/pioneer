@@ -9,6 +9,10 @@ October 2013
      * Resized DSMiner
      * Updated the Deneb to use new camera and gun tag-points (#2460)
 
+   * Fixes
+     * Modelviewer now correctly reloads tag-points when switching models
+       (#2451, #2456)
+
    * Model changes
      * Pattern textures can now have alpha channels (#2449)
 
