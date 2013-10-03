@@ -15,6 +15,8 @@ October 2013
      * Correctly setup UI sizing from window size (#2455, #2453)
      * Fix TradeShips hang when trying to add cargo to almost-full ship
        (#2459, #2432)
+     * Fix window/GL setup when multisampled antialiasing is requested but not
+       available (#2425)
 
    * Model changes
      * Pattern textures can now have alpha channels (#2449)
