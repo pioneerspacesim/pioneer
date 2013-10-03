@@ -1244,3 +1244,5 @@ MONTH_DEC
     Dic
 MISCELLANEOUS
     Misceláneos
+PAUSED
+    EN PAUSA
