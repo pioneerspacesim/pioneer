@@ -822,6 +822,7 @@ void Pi::InitGame()
 	// games
 
 	//reset input states
+	keyState.clear();
 	keyModState = 0;
 	std::fill(mouseButton, mouseButton + COUNTOF(mouseButton), 0);
 	std::fill(mouseMotion, mouseMotion + COUNTOF(mouseMotion), 0);
