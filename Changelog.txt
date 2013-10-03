@@ -19,6 +19,9 @@ October 2013
    * Model changes
      * Pattern textures can now have alpha channels (#2449)
 
+   * Internal changes
+     * Lua blobs will now be correctly serialized (#2463)
+
 September 2013
 
    * New features
