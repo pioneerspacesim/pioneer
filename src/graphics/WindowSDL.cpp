@@ -6,69 +6,59 @@
 
 namespace Graphics {
 
+bool WindowSDL::CreateWindowAndContext(const char *name, int w, int h, bool fullscreen, int samples, int depth_bits) {
+	Uint32 winFlags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
+	if (fullscreen) winFlags |= SDL_WINDOW_FULLSCREEN;
+
+	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, depth_bits);
+	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, samples ? 1 : 0);
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, samples);
+
+	m_window = SDL_CreateWindow(name, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, w, h, winFlags);
+	if (!m_window)
+		return false;
+
+	m_glContext = SDL_GL_CreateContext(m_window);
+	if (!m_glContext) {
+		SDL_DestroyWindow(m_window);
+		m_window = 0;
+		return false;
+	}
+
+	return true;
+}
+
 WindowSDL::WindowSDL(const Graphics::Settings &vs, const std::string &name)
 {
-	Uint32 winFlags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
-	if (vs.fullscreen) winFlags |= SDL_WINDOW_FULLSCREEN;
-
-	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, vs.requestedSamples ? 1 : 0);
-	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, vs.requestedSamples);
-
-	m_window = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, vs.width, vs.height, winFlags);
-	if (m_window) { m_glContext = SDL_GL_CreateContext(m_window); }
+	bool ok;
 
 	// attempt sequence is:
 	// 1- requested mode
+	ok = CreateWindowAndContext(name.c_str(), vs.width, vs.height, vs.fullscreen, vs.requestedSamples, 24);
 
 	// 2- requested mode with no anti-aliasing (skipped if no AA was requested anyway)
-	if ((!m_window || !m_glContext) && vs.requestedSamples) {
+	//    (skipped if no AA was requested anyway)
+	if (!ok && vs.requestedSamples) {
 		fprintf(stderr, "Failed to set video mode. (%s). Re-trying without multisampling.\n", SDL_GetError());
-		if (m_window) {
-			SDL_DestroyWindow(m_window);
-			m_window = 0;
-		}
-		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 0);
-		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 0);
-
-		m_window = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, vs.width, vs.height, winFlags);
-		if (m_window) { m_glContext = SDL_GL_CreateContext(m_window); }
+		ok = CreateWindowAndContext(name.c_str(), vs.width, vs.height, vs.fullscreen, 0, 24);
 	}
 
 	// 3- requested mode with 16 bit depth buffer
-	if (!m_window || !m_glContext) {
+	if (!ok) {
 		fprintf(stderr, "Failed to set video mode. (%s). Re-trying with 16-bit depth buffer\n", SDL_GetError());
-		if (m_window) {
-			SDL_DestroyWindow(m_window);
-			m_window = 0;
-		}
-		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, vs.requestedSamples ? 1 : 0);
-		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, vs.requestedSamples);
-		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
-
-		m_window = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, vs.width, vs.height, winFlags);
-		if (m_window) { m_glContext = SDL_GL_CreateContext(m_window); }
+		ok = CreateWindowAndContext(name.c_str(), vs.width, vs.height, vs.fullscreen, vs.requestedSamples, 16);
 	}
 
 	// 4- requested mode with 16-bit depth buffer and no anti-aliasing
 	//    (skipped if no AA was requested anyway)
-	if ((!m_window || !m_glContext) && vs.requestedSamples) {
+	if (!ok && vs.requestedSamples) {
 		fprintf(stderr, "Failed to set video mode. (%s). Re-trying with 16-bit depth buffer and no multisampling\n", SDL_GetError());
-		if (m_window) {
-			SDL_DestroyWindow(m_window);
-			m_window = 0;
-		}
-		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 0);
-		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 0);
-		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
-
-		m_window = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, vs.width, vs.height, winFlags);
-		if (m_window) { m_glContext = SDL_GL_CreateContext(m_window); }
+		ok = CreateWindowAndContext(name.c_str(), vs.width, vs.height, vs.fullscreen, 0, 16);
 	}
 
 	// 5- abort!
-	if (!m_window || !m_glContext) {
+	if (!ok) {
 		OS::Error("Failed to set video mode: %s", SDL_GetError());
 	}
 
