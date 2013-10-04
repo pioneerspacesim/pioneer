@@ -641,7 +641,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			if (astro->IsType(Object::PLANET)) {
 				double dist = Pi::player->GetPosition().Length();
 				double pressure, density;
-				reinterpret_cast<Planet*>(astro)->GetAtmosphericState(dist, &pressure, &density);
+				static_cast<Planet*>(astro)->GetAtmosphericState(dist, &pressure, &density);
 
 				Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, stringf(Lang::PRESSURE_N_ATMOSPHERES, formatarg("pressure", pressure)));
 
@@ -1089,7 +1089,7 @@ void WorldView::UpdateCommsOptions()
 			if( pStation->GetMyDockingPort(Pi::player) == -1 )
 			{
 				button = AddCommsOption(Lang::REQUEST_DOCKING_CLEARANCE, ypos, optnum++);
-				button->onClick.connect(sigc::bind(sigc::ptr_fun(&PlayerRequestDockingClearance), reinterpret_cast<SpaceStation*>(navtarget)));
+				button->onClick.connect(sigc::bind(sigc::ptr_fun(&PlayerRequestDockingClearance), static_cast<SpaceStation*>(navtarget)));
 				ypos += 32;
 			}
 

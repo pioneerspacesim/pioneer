@@ -193,7 +193,7 @@ void Ship::Init()
 void Ship::PostLoadFixup(Space *space)
 {
 	DynamicBody::PostLoadFixup(space);
-	m_dockedWith = reinterpret_cast<SpaceStation*>(space->GetBodyByIndex(m_dockedWithIndex));
+	m_dockedWith = static_cast<SpaceStation*>(space->GetBodyByIndex(m_dockedWithIndex));
 	if (m_curAICmd) m_curAICmd->PostLoadFixup(space);
 	m_controller->PostLoadFixup(space);
 }
