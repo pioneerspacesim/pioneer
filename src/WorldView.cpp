@@ -627,49 +627,50 @@ void WorldView::RefreshButtonStateAndVisibility()
 			//(GetFrame()->m_sbody->GetSuperType() == SUPERTYPE_ROCKY_PLANET)) {
 			assert(astro->IsType(Object::TERRAINBODY));
 			TerrainBody* terrain = static_cast<TerrainBody*>(astro);
-			double altitude;
-			bool show_altitude = false;
+			if (!frame->IsRotFrame())
+				frame = frame->GetRotFrame();
+			vector3d pos = (frame == Pi::player->GetFrame() ? Pi::player->GetPosition() : Pi::player->GetPositionRelTo(frame));
+			double center_dist = pos.Length();
 			// Avoid calculating terrain if we are too far anyway.
 			// This should rather be 1.5 * max_radius, but due to quirkses in terrain generation we must be generous.
-			if (Pi::player->GetPosition().Length() <= 3.0 * terrain->GetMaxFeatureRadius()) {
-				vector3d surface_pos;
-				if (frame->IsRotFrame())
-					surface_pos = Pi::player->GetPosition().Normalized();
-				else {
-					const Frame* rot = frame->GetRotFrame();
-					surface_pos = Pi::player->GetPositionRelTo(rot).Normalized();
-				}
+			if (center_dist <= 3.0 * terrain->GetMaxFeatureRadius()) {
+				vector3d surface_pos = pos.Normalized();
 				double radius = terrain->GetTerrainHeight(surface_pos);
-				altitude = Pi::player->GetPosition().Length() - radius;
-				show_altitude = (altitude < 10000000.0 && altitude < 0.5 * radius);
-			}
-			if (!show_altitude)
+				double altitude = center_dist - radius;
+				if (altitude < 10000000.0 && altitude < 0.5 * radius) {
+					vector3d velocity = (frame == Pi::player->GetFrame() ? vel : Pi::player->GetVelocityRelTo(frame));
+					double vspeed = velocity.Dot(surface_pos);
+					if (fabs(vspeed) < 0.05) vspeed = 0.0; // Avoid alternating between positive/negative zero
+					if (altitude < 0) altitude = 0;
+					if (altitude >= 100000.0)
+						Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, stringf(Lang::ALT_IN_KM, formatarg("altitude", altitude / 1000.0),
+							formatarg("vspeed", vspeed / 1000.0)));
+					else
+						Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, stringf(Lang::ALT_IN_METRES, formatarg("altitude", altitude),
+							formatarg("vspeed", vspeed)));
+				} else {
+					Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
+				}
+			} else {
 				Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
-			else {
-				double vspeed = vel.Dot(Pi::player->GetPosition().Normalized());
-				if (altitude < 0) altitude = 0;
-				if (altitude >= 100000.0)
-					Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, stringf(Lang::ALT_IN_KM, formatarg("altitude", altitude / 1000.0),
-						formatarg("vspeed", vspeed / 1000.0)));
-				else
-					Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, stringf(Lang::ALT_IN_METRES, formatarg("altitude", altitude),
-						formatarg("vspeed", vspeed)));
 			}
 
 			if (astro->IsType(Object::PLANET)) {
-				double dist = Pi::player->GetPosition().Length();
 				double pressure, density;
-				reinterpret_cast<Planet*>(astro)->GetAtmosphericState(dist, &pressure, &density);
+				reinterpret_cast<Planet*>(astro)->GetAtmosphericState(center_dist, &pressure, &density);
 
 				if (pressure > 0.001)
 					Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, stringf(Lang::PRESSURE_N_ATMOSPHERES, formatarg("pressure", pressure)));
-
+				else
+					Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, "");
 				if (Pi::player->GetHullTemperature() > 0.01) {
 					m_hudHullTemp->SetValue(float(Pi::player->GetHullTemperature()));
 					m_hudHullTemp->Show();
 				} else {
 					m_hudHullTemp->Hide();
 				}
+			} else {
+				Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, ""); // No atmosphere, no pressure
 			}
 		} else {
 			Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, "");
