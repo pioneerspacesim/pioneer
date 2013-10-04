@@ -47,6 +47,8 @@ class JobRunner {
 public:
 	JobRunner(JobQueue *jq, const uint8_t idx);
 	~JobRunner();
+	SDL_mutex *GetQueueDestroyingLock();
+	void SetQueueDestroyed();
 
 private:
 	static int Trampoline(void *);
@@ -56,11 +58,13 @@ private:
 
 	Job *m_job;
 	SDL_mutex *m_jobLock;
+	SDL_mutex *m_queueDestroyingLock;
 
 	SDL_Thread *m_threadId;
 
 	uint8_t m_threadIdx;
 	std::string m_threadName;
+	bool m_queueDestroyed;
 };
 
 
