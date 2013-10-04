@@ -198,7 +198,7 @@ void GeomTree::TraceCoherentRays(const BVHNode *currnode, int numRays, const vec
 {
 	bvhstack stack[32];
 	int stackpos = -1;
-	vector3f *invDirs = reinterpret_cast<vector3f*>(alloca(sizeof(vector3f)*numRays));
+	vector3f *invDirs = static_cast<vector3f*>(alloca(sizeof(vector3f)*numRays));
 	for (int i=0; i<numRays; i++) {
 		invDirs[i] = vector3f(1.0f/a_dirs[i].x, 1.0f/a_dirs[i].y, 1.0f/a_dirs[i].z);
 	}
