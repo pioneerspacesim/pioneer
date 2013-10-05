@@ -36,7 +36,7 @@ namespace
 		if (! is) { return; }
 
 		SDL_Rect destrec = { 0, 0, 0, 0 };
-		destrec.x = ((FACE_WIDTH-is->w-1)/2)+xoff;
+		destrec.x = ((FACE_WIDTH - is->w) / 2) + xoff;
 		destrec.y = yoff;
 		SDL_BlitSurface(is.Get(), 0, s.Get(), &destrec);
 	}
