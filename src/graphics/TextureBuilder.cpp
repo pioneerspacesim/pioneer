@@ -6,8 +6,9 @@
 #include "utils.h"
 #include <SDL_image.h>
 #include <SDL_rwops.h>
-
 #include <algorithm>
+
+// XXX SDL2 can all this be replaced with SDL_GL_BindTexture?
 
 namespace Graphics {
 
@@ -31,23 +32,27 @@ TextureBuilder::~TextureBuilder()
 #error "SDL surface pixel formats are endian-specific"
 #endif
 static SDL_PixelFormat pixelFormatRGBA = {
+	0,                                  // format#
 	0,                                  // palette
 	32,                                 // bits per pixel
 	4,                                  // bytes per pixel
+	{ 0, 0 },                           // padding
+	0xff, 0xff00, 0xff0000, 0xff000000, // RGBA mask
 	0, 0, 0, 0,                         // RGBA loss
 	24, 16, 8, 0,                       // RGBA shift
-	0xff, 0xff00, 0xff0000, 0xff000000, // RGBA mask
 	0,                                  // colour key
 	0                                   // alpha
 };
 
 static SDL_PixelFormat pixelFormatRGB = {
+	0,                                  // format#
 	0,                                  // palette
 	24,                                 // bits per pixel
 	3,                                  // bytes per pixel
+	{ 0, 0 },                           // padding
+	0xff, 0xff00, 0xff0000, 0,          // RGBA mask
 	0, 0, 0, 0,                         // RGBA loss
 	16, 8, 0, 0,                        // RGBA shift
-	0xff, 0xff00, 0xff0000, 0,          // RGBA mask
 	0,                                  // colour key
 	0                                   // alpha
 };
@@ -114,9 +119,7 @@ void TextureBuilder::PrepareSurface()
 			if (actualWidth != virtualWidth || actualHeight != virtualHeight) {
 				SDL_Surface *s = SDL_CreateRGBSurface(SDL_SWSURFACE, actualWidth, actualHeight, targetPixelFormat->BitsPerPixel,
 					targetPixelFormat->Rmask, targetPixelFormat->Gmask, targetPixelFormat->Bmask, targetPixelFormat->Amask);
-
-				SDL_SetAlpha(m_surface.Get(), 0, 0);
-				SDL_SetAlpha(s, 0, 0);
+				SDL_SetSurfaceBlendMode(m_surface.Get(), SDL_BLENDMODE_NONE);
 				SDL_BlitSurface(m_surface.Get(), 0, s, 0);
 
 				m_surface = SDLSurfacePtr::WrapNew(s);

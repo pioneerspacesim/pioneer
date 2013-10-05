@@ -1,4 +1,36 @@
+October 2013
+
+   * New features
+     * New ship "Xylophis Short Range Shuttle" (#2442)
+     * New ship "Kanara Interceptor" (civilian version) (#2454, #2461)
+     * Vertical speed is shown with altitude, up to 10000 km or half the
+       planet's radius (#2446)
+
+   * Minor changes and tweaks
+     * Improved ship textures (#2450)
+     * Resized DSMiner
+     * Updated the Deneb to use new camera and gun tag-points (#2460)
+
+   * Fixes
+     * Modelviewer now correctly reloads tag-points when switching models
+       (#2451, #2456)
+     * Correctly setup UI sizing from window size (#2455, #2453)
+     * Fix TradeShips hang when trying to add cargo to almost-full ship
+       (#2459, #2432)
+     * Fix window/GL setup when multisampled antialiasing is requested but not
+       available (#2425)
+
+   * Model changes
+     * Pattern textures can now have alpha channels (#2449)
+
+   * Internal changes
+     * Lua blobs will now be correctly serialized (#2463)
+     * Removed many unnecessary uses of reinterpret_cast (#2465)
+
 September 2013
+
+   * New features
+     * New ship "Kanara Police Interceptor" (#2441)
 
    * Minor changes and tweaks
      * Improve thruster rendering (#2426, #1960)
@@ -11,7 +43,7 @@ September 2013
      * Fix SmartTable scrolling (#2349)
      * Fix huge memory consumption on heightmapped terrains (#2418, 2405)
      * Partially fix terrain collision failures (#2429, #2337)
-     * Allow an arbitrary number of navlight tags (#2427)
+     * Allow an arbitrary number of navlight tags (#2427, #2438))
 
    * Script and UI API changes
      * A new module import system is now in place. Each dependency now needs
@@ -22,6 +54,7 @@ September 2013
        and imports. PersistentCharacters has been moved to
        Character.persistent (#2417)
      * Removed deprecated ShipType interface
+     * Rand.New now checks the type of its optional seed argument (#2445)
 
    * Model changes
      * Camera and gunmounts are now specified using tag points in the model.
@@ -29,8 +62,10 @@ September 2013
        deprecated (#2422)
 
    * Internal changes
+     * Converted to SDL 2.0 (#2433, #2448)
      * Remove GLU dependency (#2414)
      * Bundle GLEW 1.10 (#2415)
+     * Upgrade miniz and force inline/static use (#2444)
 
 August 2013
 

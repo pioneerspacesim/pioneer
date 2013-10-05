@@ -43,6 +43,7 @@ The Pioneer Developers are:
 * Lars Westerhoff
 * Lee Reilly
 * Leonardo Manna
+* Luca Ganzerla
 * Maksim Kulikov aka sapog662
 * Marcel Tulloh
 * Marcus de Roos

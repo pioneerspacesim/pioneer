@@ -3,6 +3,7 @@ material Body-material
 tex_diff deneb.dds
 tex_glow deneb_glow.dds
 tex_spec deneb_spec.dds
+
 use_patterns
 
 collision deneb_collision.obj

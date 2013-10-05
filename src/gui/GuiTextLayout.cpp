@@ -51,7 +51,7 @@ TextLayout::TextLayout(const char *_str, RefCountedPtr<Text::TextureFont> font, 
 	m_colourMarkup = markup;
 	m_font = font ? font : Gui::Screen::GetFont();
 
-	str = reinterpret_cast<char *>(malloc(strlen(_str)+1));
+	str = static_cast<char *>(malloc(strlen(_str)+1));
 	strcpy(str, _str);
 
 	m_justify = false;

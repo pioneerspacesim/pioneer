@@ -351,7 +351,7 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 
 static size_t bufread_or_die(void *ptr, size_t size, size_t nmemb, ByteRange &buf)
 {
-	size_t read_count = buf.read(reinterpret_cast<char*>(ptr), size, nmemb);
+	size_t read_count = buf.read(static_cast<char*>(ptr), size, nmemb);
 	if (read_count < nmemb) {
 		fprintf(stderr, "Error: failed to read file (truncated)\n");
 		abort();

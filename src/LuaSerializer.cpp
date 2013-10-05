@@ -122,10 +122,11 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 
 		case LUA_TSTRING: {
 			lua_pushvalue(l, idx);
-			const char *str = lua_tostring(l, -1);
-			snprintf(buf, sizeof(buf), "s" SIZET_FMT "\n", strlen(str));
+			size_t len;
+			const char *str = lua_tolstring(l, -1, &len);
+			snprintf(buf, sizeof(buf), "s" SIZET_FMT "\n", len);
 			out += buf;
-			out += str;
+			out.append(str, len);
 			lua_pop(l, 1);
 			break;
 		}

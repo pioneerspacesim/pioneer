@@ -18,8 +18,8 @@ namespace KeyBindings {
 
 		union {
 			struct {
-				SDLKey key;
-				SDLMod mod;
+				SDL_Keycode key;
+				SDL_Keymod mod;
 			} keyboard;
 
 			struct {
@@ -35,9 +35,9 @@ namespace KeyBindings {
 		} u;
 
 		std::string Description() const;
-		bool Matches(const SDL_keysym *sym) const;
+		bool Matches(const SDL_Keysym *sym) const;
 
-		static KeyBinding keyboardBinding(SDLKey key, SDLMod mod);
+		static KeyBinding keyboardBinding(SDL_Keycode key, SDL_Keymod mod);
 	};
 
 	struct KeyAction {
