@@ -381,6 +381,7 @@
     <ClInclude Include="..\..\src\LuaTimer.h" />
     <ClInclude Include="..\..\src\LuaUtils.h" />
     <ClInclude Include="..\..\src\LuaVector.h" />
+    <ClInclude Include="..\..\src\LuaWrappable.h" />
     <ClInclude Include="..\..\src\MarketAgent.h" />
     <ClInclude Include="..\..\src\MathUtil.h" />
     <ClInclude Include="..\..\src\matrix3x3.h" />
@@ -406,6 +407,7 @@
     <ClInclude Include="..\..\src\PropertiedObject.h" />
     <ClInclude Include="..\..\src\PropertyMap.h" />
     <ClInclude Include="..\..\src\Quaternion.h" />
+    <ClInclude Include="..\..\src\Random.h" />
     <ClInclude Include="..\..\src\RefCounted.h" />
     <ClInclude Include="..\..\src\SDLWrappers.h" />
     <ClInclude Include="..\..\src\SectorView.h" />
