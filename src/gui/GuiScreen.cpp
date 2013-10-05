@@ -109,7 +109,8 @@ void Screen::ShowBadError(const char *msg)
 		SDL_Delay(10);
 	} while (!okButton->IsPressed());
 
-	delete f; // Gui::Fixed does a horrible thing and calls Gui::Screen::RemoveBaseWidget(this) in its destructor
+	Gui::Screen::RemoveBaseWidget(f);
+	delete f;
 	delete Screen::baseContainer;
 	Screen::baseContainer = oldBaseContainer;
 }
