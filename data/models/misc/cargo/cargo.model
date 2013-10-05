@@ -1,9 +1,11 @@
-material cargo-material
-tex_diff cargopod.dds
-tex_glow glow.dds
-tex_spec specular.dds
-specular 0.7 0.7 0.7
-shininess 40
+material material1
+
+tex_diff DIFF.dds
+tex_glow GLOW.dds
+tex_spec SPEC.dds
+
+specular 1.0 1.0 1.0
+shininess 80
 use_patterns
 
-mesh cargopod.dae
+mesh cargo.dae
