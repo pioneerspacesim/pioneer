@@ -971,7 +971,7 @@ MASS
 N_WHATEVER_MASSES
     %mass{f.3} masy %units
 N_WHATEVER_RADII
-    %radius{f.3} promienia %units
+    %radius{f.3} promienia %units (%radkm{f.0} km)
 SOLAR
     Słońca
 EARTH
@@ -1145,7 +1145,9 @@ IN_TRANSIT_TO_N_X_X_X
 PROBABILITY_OF_ARRIVAL_X_PERCENT
     Prawdopodobieństwo przylotu: %probability%%
 ALT_IN_METRES
-    Wys: %altitude{f.0}m
+    Wys: %altitude{f.0}m (%vspeed{f.1}m/s)
+ALT_IN_KM
+    Wys: %altitude{f.0}km (%vspeed{f.1}km/s)
 PRESSURE_N_ATMOSPHERES
     C: %pressure{f.2} atm
 NO_HYPERDRIVE
