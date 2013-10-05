@@ -90,8 +90,8 @@ float VScrollPortal::GetScrollPixels()
 
 bool VScrollPortal::OnMouseDown(MouseButtonEvent *e)
 {
-	if (e->button == SDL_BUTTON_WHEELUP || e->button == SDL_BUTTON_WHEELDOWN) {
-		float change = e->button == SDL_BUTTON_WHEELUP ? -0.1 : 0.1;
+	if (e->button == MouseButtonEvent::BUTTON_WHEELUP || e->button == MouseButtonEvent::BUTTON_WHEELDOWN) {
+		float change = e->button == MouseButtonEvent::BUTTON_WHEELUP ? -0.1 : 0.1;
 		float pos = vscrollAdjust.GetValue();
 		vscrollAdjust.SetValue(Clamp(pos+change, 0.0f, 1.0f));
 		return false;

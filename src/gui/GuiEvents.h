@@ -10,6 +10,10 @@ namespace Gui {
 		Uint8 button;
 		float x, y; // widget coords
 		float screenX, screenY; // screen coords
+		enum {
+			BUTTON_WHEELUP   = 0xfe,
+			BUTTON_WHEELDOWN = 0xff
+		};
 	};
 	struct MouseMotionEvent {
 		float x, y; // widget coords

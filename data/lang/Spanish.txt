@@ -971,7 +971,7 @@ MASS
 N_WHATEVER_MASSES
     %mass{f.3} masa %units
 N_WHATEVER_RADII
-    %radius{f.3} radios %units 
+    %radius{f.3} radios %units (%radkm{f.0} km) 
 SOLAR
     Solar
 EARTH
@@ -1244,3 +1244,5 @@ MONTH_DEC
     Dic
 MISCELLANEOUS
     Misceláneos
+PAUSED
+    EN PAUSA

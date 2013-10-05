@@ -6,6 +6,7 @@
 
 #include <deque>
 #include <vector>
+#include <string>
 #include "SDL_thread.h"
 
 static const Uint32 MAX_THREADS = 64;
@@ -59,6 +60,7 @@ private:
 	SDL_Thread *m_threadId;
 
 	uint8_t m_threadIdx;
+	std::string m_threadName;
 };
 
 

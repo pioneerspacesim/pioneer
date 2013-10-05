@@ -226,8 +226,8 @@ public:
 	sigc::signal<bool,const KeyboardEvent &>::accumulated<EventHandlerResultAccumulator> onKeyDown;
 	sigc::signal<bool,const KeyboardEvent &>::accumulated<EventHandlerResultAccumulator> onKeyUp;
 
-	// synthesised for non-control keys. repeats when key is held down
-	sigc::signal<bool,const KeyboardEvent &>::accumulated<EventHandlerResultAccumulator> onKeyPress;
+	// text input, full unicode codepoint
+	sigc::signal<bool,const TextInputEvent &>::accumulated<EventHandlerResultAccumulator> onTextInput;
 
 	// mouse button presses
 	sigc::signal<bool,const MouseButtonEvent &>::accumulated<EventHandlerResultAccumulator> onMouseDown;
@@ -299,9 +299,8 @@ protected:
 	virtual void HandleMouseActivate() {}
 	virtual void HandleMouseDeactivate() {}
 
-	// synthesized event. like KeyDown except you get multiple events if the
-	// key is held down
-	virtual void HandleKeyPress(const KeyboardEvent &event) {}
+	// text input event, a full unicode codepoint
+	virtual void HandleTextInput(const TextInputEvent &event) {}
 
 	// internal synthesized events fired when a widget is selected or
 	// deselected. on mousedown, a widget becomes the selected widget unless
@@ -328,6 +327,7 @@ private:
 	// long as the signals continue to return false (unhandled).
 	bool TriggerKeyDown(const KeyboardEvent &event, bool emit = true);
 	bool TriggerKeyUp(const KeyboardEvent &event, bool emit = true);
+	bool TriggerTextInput(const TextInputEvent &event, bool emit = true);
 	bool TriggerMouseDown(const MouseButtonEvent &event, bool emit = true);
 	bool TriggerMouseUp(const MouseButtonEvent &event, bool emit = true);
 	bool TriggerMouseMove(const MouseMotionEvent &event, bool emit = true);
@@ -341,8 +341,6 @@ private:
 
 	void TriggerMouseActivate();
 	void TriggerMouseDeactivate();
-
-	bool TriggerKeyPress(const KeyboardEvent &event, bool emit = true);
 
 	void TriggerSelect();
 	void TriggerDeselect();

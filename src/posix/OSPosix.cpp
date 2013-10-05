@@ -3,7 +3,6 @@
 
 #include "OS.h"
 #include "FileSystem.h"
-#include "SDLWrappers.h"
 #include <SDL.h>
 #include <sys/time.h>
 #include <fenv.h>
@@ -45,12 +44,9 @@ void Warning(const char *format, ...)
 	fprintf(stderr, "Warning: %s\n", buf);
 }
 
-void LoadWindowIcon()
+const char *GetIconFilename()
 {
-	SDLSurfacePtr surface = LoadSurfaceFromFile("icons/badge.png");
-	if (surface) {
-		SDL_WM_SetIcon(surface.Get(), 0);
-	}
+	return "icons/badge.png";
 }
 
 void RedirectStdio()

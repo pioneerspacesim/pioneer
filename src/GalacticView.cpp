@@ -49,13 +49,13 @@ GalacticView::GalacticView() :
 	Add(m_labels, 0, 0);
 	Gui::Screen::PopFont();
 
-	m_onMouseButtonDown =
-		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &GalacticView::MouseButtonDown));
+	m_onMouseWheelCon =
+		Pi::onMouseWheel.connect(sigc::mem_fun(this, &GalacticView::MouseWheel));
 }
 
 GalacticView::~GalacticView()
 {
-	m_onMouseButtonDown.disconnect();
+	m_onMouseWheelCon.disconnect();
 }
 
 void GalacticView::Save(Serializer::Writer &wr)
@@ -104,7 +104,8 @@ void GalacticView::Draw3D()
 	float offset_x = (pos.x*Sector::SIZE + Galaxy::SOL_OFFSET_X)/Galaxy::GALAXY_RADIUS;
 	float offset_y = (-pos.y*Sector::SIZE + Galaxy::SOL_OFFSET_Y)/Galaxy::GALAXY_RADIUS;
 
-	m_renderer->SetOrthographicProjection(-Pi::GetScrAspect(), Pi::GetScrAspect(), 1.f, -1.f, -1.f, 1.f);
+	const float aspect = m_renderer->GetDisplayAspect();
+	m_renderer->SetOrthographicProjection(-aspect, aspect, 1.f, -1.f, -1.f, 1.f);
 	m_renderer->ClearScreen();
 	m_renderer->SetDepthTest(false);
 	m_renderer->SetBlendMode(BLEND_SOLID);
@@ -158,12 +159,12 @@ void GalacticView::Update()
 	m_scaleReadout->SetText(stringf(Lang::INT_LY, formatarg("scale", int(0.5*Galaxy::GALAXY_RADIUS/m_zoom))));
 }
 
-void GalacticView::MouseButtonDown(int button, int x, int y)
+void GalacticView::MouseWheel(bool up)
 {
 	if (this == Pi::GetView()) {
-		if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN))
+        if (!up)
 			m_zoomTo *= ((ZOOM_OUT_SPEED-1) * WHEEL_SENSITIVITY+1) / Pi::GetMoveSpeedShiftModifier();
-		else if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP))
+		else
 			m_zoomTo *= ((ZOOM_IN_SPEED-1) * WHEEL_SENSITIVITY+1) * Pi::GetMoveSpeedShiftModifier();
 	}
 }

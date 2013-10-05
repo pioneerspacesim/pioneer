@@ -229,7 +229,7 @@ dnl Check for sigc++
 PKG_CHECK_MODULES([SIGC], [sigc++-2.0])
 
 dnl Check for SDL
-PKG_CHECK_MODULES([SDL], [sdl SDL_image])
+PKG_CHECK_MODULES([SDL2], [sdl2 SDL2_image])
 
 dnl Check for Freetype
 PKG_CHECK_MODULES([FREETYPE], [freetype2])

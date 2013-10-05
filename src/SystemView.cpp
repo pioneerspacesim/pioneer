@@ -22,7 +22,7 @@ static const float MIN_ZOOM = 1e-30f;		// Just to avoid having 0
 static const float MAX_ZOOM = 1e30f;
 static const float ZOOM_IN_SPEED = 2;
 static const float ZOOM_OUT_SPEED = 1.f/ZOOM_IN_SPEED;
-static const float WHEEL_SENSITIVITY = .2f;		// Should be a variable in user settings.
+static const float WHEEL_SENSITIVITY = .1f;		// Should be a variable in user settings.
 // i don't know how to name it
 static const double ROUGH_SIZE_OF_TURD = 10.0;
 
@@ -100,15 +100,15 @@ SystemView::SystemView()
 	b->SetRenderDimensions(26, 17);
 	Add(b, time_controls_left + 121, time_controls_top);
 
-	m_onMouseButtonDown =
-		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &SystemView::MouseButtonDown));
+	m_onMouseWheelCon =
+		Pi::onMouseWheel.connect(sigc::mem_fun(this, &SystemView::MouseWheel));
 
 	ResetViewpoint();
 }
 
 SystemView::~SystemView()
 {
-	m_onMouseButtonDown.disconnect();
+	m_onMouseWheelCon.disconnect();
 }
 
 void SystemView::OnClickAccel(float step)
@@ -316,7 +316,7 @@ void SystemView::GetTransformTo(const SystemBody *b, vector3d &pos)
 
 void SystemView::Draw3D()
 {
-	m_renderer->SetPerspectiveProjection(50.f, Pi::GetScrAspect(), 1.f, 1000.f);
+	m_renderer->SetPerspectiveProjection(50.f, m_renderer->GetDisplayAspect(), 1.f, 1000.f);
 	m_renderer->ClearScreen();
 
 	SystemPath path = Pi::sectorView->GetSelectedSystem();
@@ -396,12 +396,12 @@ void SystemView::Update()
 	}
 }
 
-void SystemView::MouseButtonDown(int button, int x, int y)
+void SystemView::MouseWheel(bool up)
 {
 	if (this == Pi::GetView()) {
-		if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN))
+		if (!up)
 			m_zoomTo *= ((ZOOM_OUT_SPEED-1) * WHEEL_SENSITIVITY+1) / Pi::GetMoveSpeedShiftModifier();
-		else if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP))
+		else
 			m_zoomTo *= ((ZOOM_IN_SPEED-1) * WHEEL_SENSITIVITY+1) * Pi::GetMoveSpeedShiftModifier();
 	}
 }

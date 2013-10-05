@@ -78,7 +78,7 @@ void HyperspaceCloud::Load(Serializer::Reader &rd, Space *space)
 	m_due = rd.Double();
 	m_isArrival = rd.Bool();
 	if (rd.Bool()) {
-		m_ship = reinterpret_cast<Ship*>(Body::Unserialize(rd, space));
+		m_ship = static_cast<Ship*>(Body::Unserialize(rd, space));
 	}
 }
 
