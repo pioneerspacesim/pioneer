@@ -158,9 +158,6 @@ public:
 	// fast way to determine if the widget is a container
 	virtual bool IsContainer() const { return false; }
 
-	// are we floating
-	bool IsFloating() const { return m_floating; }
-
 	// selectable widgets may receive keyboard focus
 	virtual bool IsSelectable() const { return false; }
 
@@ -388,8 +385,6 @@ private:
 	Point m_activeArea;
 
 	Font m_font;
-
-	bool m_floating;
 
 	bool m_disabled;
 

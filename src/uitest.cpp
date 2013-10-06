@@ -45,6 +45,7 @@ static bool move_handler(const UI::MouseMotionEvent &event, UI::Widget *w)
 	printf("move: %p %s %d,%d\n", w, typeid(*w).name(), event.pos.x, event.pos.y);
 	return true;
 }
+#endif
 
 static bool over_handler(UI::Widget *w)
 {
@@ -58,6 +59,7 @@ static bool out_handler(UI::Widget *w)
 	return true;
 }
 
+#if 0
 static void colour_change(float v, UI::ColorBackground *back, UI::Slider *r, UI::Slider *g, UI::Slider *b)
 {
 	back->SetColor(Color(r->GetValue(), g->GetValue(), b->GetValue()));
@@ -564,6 +566,10 @@ int main(int argc, char **argv)
 		))
 	);
 	c->onClick.connect(sigc::bind(sigc::ptr_fun(&click_handler), c.Get()));
+	d1->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), d1));
+	d1->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), d1));
+	d2->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), d2));
+	d2->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), d2));
 
 	//int count = 0;
 
