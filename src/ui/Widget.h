@@ -369,6 +369,9 @@ private:
 	friend class Context;
 	void SetSize(const Point &size) { m_size = size; SetActiveArea(size); }
 
+	// Context needs to the layer for new layers
+	void SetLayer(Layer *layer) { m_layer = layer; }
+
 
 	Context *m_context;
 	Layer *m_layer;
