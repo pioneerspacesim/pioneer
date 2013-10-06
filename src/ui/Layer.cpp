@@ -1,35 +1,39 @@
 // Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "FloatContainer.h"
+#include "Layer.h"
+#include "Context.h"
 
 namespace UI {
 
-void FloatContainer::Layout()
+void Layer::Layout()
 {
 	LayoutChildren();
 }
 
-void FloatContainer::SetWidget(Widget *w, const Point &pos, const Point &size)
+Layer *Layer::SetInnerWidget(Widget *w, const Point &pos, const Point &size)
 {
-	assert(!w->IsFloating());
+	// XXX LAYER not sure if needed
+	assert(!w->GetLayer());
 	assert(!w->GetContainer());
 
     Container::RemoveAllWidgets();
 	m_widget.Reset(w);
 
 	Container::AddWidget(w);
-	w->SetFloating(true);
+	Container::SetWidgetDimensions(w, pos, size);
 
-	w->SetDimensions(pos, size);
+	GetContext()->RequestLayout();
 
-	w->Layout();
+	return this;
 }
 
-void FloatContainer::RemoveWidget()
+void Layer::RemoveInnerWidget()
 {
 	Container::RemoveAllWidgets();
 	m_widget.Reset(0);
+
+	GetContext()->RequestLayout();
 }
 
 }

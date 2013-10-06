@@ -133,7 +133,7 @@ int main(int argc, char **argv)
 
 #if 0
 	UI::Gauge *gauge;
-	c->SetInnerWidget(c->HBox()->PackEnd(gauge = c->Gauge()));
+	c->GetTopLayer()->SetInnerWidget(c->HBox()->PackEnd(gauge = c->Gauge()));
 	gauge->SetWarningLevel(0.4f);
 	gauge->SetCriticalLevel(0.2f);
 	gauge->SetLevelAscending(false);
@@ -143,12 +143,12 @@ int main(int argc, char **argv)
 	Thing thing(Lua::manager);
 
 	UI::Label *l = c->Label("label");
-	c->SetInnerWidget(l);
+	c->GetTopLayer()->SetInnerWidget(l);
 
 	l->Bind("text", &thing, "time");
 
 
-	c->SetInnerWidget(
+	c->GetTopLayer()->SetInnerWidget(
 		c->VBox(10)->PackEnd(UI::WidgetSet(
 			c->Background()->SetInnerWidget(
 				c->HBox(5)->PackEnd(UI::WidgetSet(
@@ -169,7 +169,7 @@ int main(int argc, char **argv)
 #if 0
 	UI::Button *toggle;
 	UI::CheckBox *target;
-	c->SetInnerWidget(
+	c->GetTopLayer()->SetInnerWidget(
 		c->HBox(10)->PackEnd(UI::WidgetSet(
 			(toggle = c->Button()),
 			(target = static_cast<UI::CheckBox*>(c->CheckBox()))
@@ -183,7 +183,7 @@ int main(int argc, char **argv)
 #endif
 
 #if 0
-	c->SetInnerWidget(
+	c->GetTopLayer()->SetInnerWidget(
 		c->ColorBackground(Color(0.4f, 0.2f, 0.4f, 1.0f))->SetInnerWidget(
 			c->HBox()->PackEnd(UI::WidgetSet(
 				c->Icon("Agenda"),
@@ -198,14 +198,14 @@ int main(int argc, char **argv)
 #endif
 
 #if 0
-	c->SetInnerWidget(
+	c->GetTopLayer()->SetInnerWidget(
 		c->Margin(0)->SetInnerWidget(c->Gradient(Color(1.0f,0,0,1.0f), Color(0,0,1.0f,1.0f), UI::Gradient::HORIZONTAL))
 	);
 #endif
 
 #if 0
 	UI::Button *b1, *b2, *b3;
-	c->SetInnerWidget(
+	c->GetTopLayer()->SetInnerWidget(
 		c->VBox()->PackEnd(UI::WidgetSet(
 			c->Margin(10.0f)->SetInnerWidget(
 				(b1 = c->Button())
@@ -236,7 +236,7 @@ int main(int argc, char **argv)
 #if 0
 	UI::Image *image;
 	UI::Slider *slider;
-	c->SetInnerWidget(
+	c->GetTopLayer()->SetInnerWidget(
 		c->ColorBackground(Color(0.4f, 0.2f, 0.4f, 1.0f))->SetInnerWidget(
 			c->Margin(10.0f)->SetInnerWidget(
 				c->ColorBackground(Color(0.1f, 0.4f, 0.4f, 1.0f))->SetInnerWidget(
@@ -268,7 +268,7 @@ int main(int argc, char **argv)
 #if 0
 	UI::Slider *red, *green, *blue;
 	UI::ColorBackground *back;
-	c->SetInnerWidget(
+	c->GetTopLayer()->SetInnerWidget(
 		c->VBox(5.0f)->PackEnd(UI::WidgetSet(
 			c->HBox(5.0f)->PackEnd(c->Label("Red"))->PackEnd(red = c->HSlider()),
 			c->HBox(5.0f)->PackEnd(c->Label("Green"))->PackEnd(green = c->HSlider()),
@@ -282,7 +282,7 @@ int main(int argc, char **argv)
 #endif
 
 #if 0
-	c->SetInnerWidget(
+	c->GetTopLayer()->SetInnerWidget(
 		//c->Grid(UI::CellSpec(0.2f,0.8f), UI::CellSpec(0.7f,0.3f))
 		c->Grid(3,3)
 			->SetRow(0, UI::WidgetSet(
@@ -299,7 +299,7 @@ int main(int argc, char **argv)
 #if 0
 	UI::ColorBackground *back[4];
 	UI::Button *button[5];
-	c->SetInnerWidget(
+	c->GetTopLayer()->SetInnerWidget(
 		c->Grid(2,2)
 			->SetRow(0, UI::WidgetSet(
 				(back[0] = c->ColorBackground(Color(0.8f,0.2f,0.2f))),
@@ -338,7 +338,7 @@ int main(int argc, char **argv)
 #if 0
 	UI::DropDown *dropdown;
 	UI::List *list;
-	c->SetInnerWidget(
+	c->GetTopLayer()->SetInnerWidget(
 		c->VBox()->PackEnd(UI::WidgetSet(
 			c->HBox()->PackEnd(
 				(dropdown = c->DropDown()
@@ -366,7 +366,7 @@ int main(int argc, char **argv)
 #endif
 
 #if 0
-	c->SetInnerWidget(
+	c->GetTopLayer()->SetInnerWidget(
 		c->Scroller()->SetInnerWidget(
 			c->MultiLineText(
 	"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus consectetur risus augue. Aenean porttitor enim dolor, vitae iaculis mi. Etiam a nibh at massa dictum blandit. Etiam sed varius quam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent facilisis tortor nisi. Maecenas ut enim nulla, pharetra elementum dolor. Vivamus condimentum semper magna laoreet gravida. Proin vulputate odio eget metus tristique tristique. Donec viverra augue quis velit lacinia vel dapibus diam volutpat. Fusce laoreet dui sit amet magna sagittis porttitor. Fusce sodales nulla id eros vehicula at pulvinar nisl facilisis. In ut neque lorem, ut vehicula tellus. Donec a posuere quam.\n\n"
@@ -397,7 +397,7 @@ int main(int argc, char **argv)
 #if 0
 	UI::Label *label;
 	UI::Slider *slider;
-	c->SetInnerWidget(
+	c->GetTopLayer()->SetInnerWidget(
 		c->HBox(5.0f)->PackEnd(label = c->Label(""))->PackEnd(slider = c->HSlider()),
 	);
 	slider->onValueChanged.connect(sigc::bind(sigc::ptr_fun(&fill_label), label));
@@ -406,7 +406,7 @@ int main(int argc, char **argv)
 #if 0
 	UI::DropDown *dropdown;
 	UI::Button *add, *clear;
-	c->SetInnerWidget(
+	c->GetTopLayer()->SetInnerWidget(
 		c->Margin(10.0f)->SetInnerWidget(
 			c->VBox()->PackEnd(UI::WidgetSet(
 				c->HBox()->PackEnd(UI::WidgetSet(
@@ -426,7 +426,7 @@ int main(int argc, char **argv)
 #endif
 
 #if 0
-	c->SetInnerWidget(
+	c->GetTopLayer()->SetInnerWidget(
 		c->VBox()->PackEnd(UI::WidgetSet(
 			c->Label("through three cheese trees three freezy fleas flew")->SetFont(UI::Widget::FONT_XSMALL),
 			c->Label("through three cheese trees three freezy fleas flew")->SetFont(UI::Widget::FONT_SMALL),
@@ -440,7 +440,7 @@ int main(int argc, char **argv)
 #if 0
 	UI::VBox *box;
 	UI::Button *b1, *b2, *b3, *b4;
-	c->SetInnerWidget(
+	c->GetTopLayer()->SetInnerWidget(
 		(box = c->VBox())->PackEnd(UI::WidgetSet(
 			(b1 = c->Button())->SetInnerWidget(c->Label("remove other")),
 			(b2 = c->Button())->SetInnerWidget(c->Label("other")),
@@ -465,7 +465,7 @@ int main(int argc, char **argv)
 #endif
 
 #if 0
-	c->SetInnerWidget(
+	c->GetTopLayer()->SetInnerWidget(
 		c->Grid(3,3)
 			->SetRow(0, UI::WidgetSet(
 				c->ColorBackground(Color(0.8f,0.2f,0.2f))->SetInnerWidget(c->Align(UI::Align::TOP_LEFT)->SetInnerWidget(c->Image("icons/object_star_m.png"))),
@@ -484,7 +484,7 @@ int main(int argc, char **argv)
 #endif
 
 #if 0
-    c->SetInnerWidget(
+    c->GetTopLayer()->SetInnerWidget(
         c->VBox()->PackEnd(
             c->Grid(2,2)
                 ->SetRow(0, UI::WidgetSet(c->Label("one"), c->Label("two")))
@@ -495,7 +495,7 @@ int main(int argc, char **argv)
 
 #if 0
 	UI::MultiLineText *text;
-	c->SetInnerWidget(
+	c->GetTopLayer()->SetInnerWidget(
 		c->Scroller()->SetInnerWidget(
 			(text = c->MultiLineText(""))
 		)
@@ -505,7 +505,7 @@ int main(int argc, char **argv)
 #if 0
 	UI::VBox *box;
 	UI::Button *b1, *b2, *b3, *b4;
-	c->SetInnerWidget(
+	c->GetTopLayer()->SetInnerWidget(
 		(box = c->VBox())->PackEnd(UI::WidgetSet(
 			(b1 = c->Button())->SetInnerWidget(c->Label("1")),
 			(b2 = c->Button())->SetInnerWidget(c->Label("2")),
@@ -545,11 +545,11 @@ int main(int argc, char **argv)
 		l1 = c->Label(buf);
 		table->AddRow(UI::WidgetSet(l1, l2, l3));
 	}
-	c->SetInnerWidget(c->Grid(2,1)->SetCell(0,0,table));
+	c->GetTopLayer()->SetInnerWidget(c->Grid(2,1)->SetCell(0,0,table));
 #endif
 
 	UI::DropDown *d1, *d2;
-	c->SetInnerWidget(
+	c->GetTopLayer()->SetInnerWidget(
 		c->VBox()->PackEnd(UI::WidgetSet(
 			(d1 = c->DropDown()
 				->AddOption("watermelon")

@@ -29,13 +29,13 @@ local loadGame = function (path)
 end
 
 local doLoadDialog = function ()
-	ui:SetInnerWidget(
+	ui:NewLayer(
 		ui.templates.FileDialog({
 			title       = t("Select game to load..."),
 			path        = "savefiles",
 			selectLabel = t("Load game"),
 			onSelect    = loadGame,
-			onCancel    = function () ui:SetInnerWidget(ui.templates.MainMenu()) end
+			onCancel    = function () ui:DropLayer() end
 		})
 	)
 end

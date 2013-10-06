@@ -869,7 +869,7 @@ void ModelViewer::SetupFilePicker()
 		);
 
 	m_logScroller->Layout(); //issues without this
-	c->SetInnerWidget(c->Grid(2,1)
+	c->GetTopLayer()->SetInnerWidget(c->Grid(2,1)
 		->SetRow(0, UI::WidgetSet(fp, m_logScroller.Get()))
 	);
 
@@ -919,7 +919,7 @@ void ModelViewer::SetupUI()
 		bottomBox
 	));
 
-	c->SetInnerWidget(c->Margin(spacing)->SetInnerWidget(outerBox));
+	c->GetTopLayer()->SetInnerWidget(c->Margin(spacing)->SetInnerWidget(outerBox));
 
 	//model name + reload button: visible even if loading failed
 	mainBox->PackEnd(nameLabel = c->Label(m_modelName));

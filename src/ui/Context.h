@@ -11,7 +11,7 @@
 #include "Skin.h"
 
 #include "Widget.h"
-#include "FloatContainer.h"
+#include "Layer.h"
 
 #include "Margin.h"
 #include "Align.h"
@@ -53,6 +53,7 @@ namespace UI {
 // different to other containers internally to allow it to be a "live" widget
 // without a parent container of its own.
 //
+// XXX LAYER
 // It has the simplest layout manager possible - it will only accept a single
 // container widget
 //
@@ -63,14 +64,14 @@ namespace UI {
 //
 // It also holds an event dispatcher for distributing events to its widgets.
 //
+// XXX LAYER
 // The context also manages floating widgets. Floating widgets are drawn last
 // over the top of everything else. Events given to a floating widget or its
 // children will not propogate to a non-floating widget.
 
-class Context : public Single {
+class Context : public Container {
 public:
 	Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int height, const std::string &lang);
-	virtual ~Context();
 
 	// general purpose containers
 	UI::HBox *HBox(float spacing = 0.0f) { return new UI::HBox(this, spacing); }
@@ -110,11 +111,17 @@ public:
 	UI::TextEntry *TextEntry(const std::string &text = "") { return new UI::TextEntry(this, text); }
 
 	// manage floating widget
-	Context *SetFloatingWidget(Widget *w, const Point &pos, const Point &size) { m_float->SetWidget(w, pos, size); return this; }
-	void RemoveFloatingWidget() { m_float->RemoveWidget(); }
-    Widget *GetFloatingWidget() const { return m_float->GetWidget(); }
+	// XXX LAYER
+	Context *SetFloatingWidget(Widget *w, const Point &pos, const Point &size) { return this; }
+	void RemoveFloatingWidget() { }
+    Widget *GetFloatingWidget() const { return 0; }
 
-	// considers floating widgets also
+	// layers feel like a stack
+	Layer *NewLayer();
+	void DropLayer();
+	Layer *GetTopLayer() const { return m_layers.back(); }
+
+	// only considers the current layer
 	virtual Widget *GetWidgetAt(const Point &pos);
 
 	// event dispatch delegates
@@ -158,7 +165,7 @@ private:
 
 	bool m_needsLayout;
 
-	RefCountedPtr<FloatContainer> m_float;
+	std::vector<Layer*> m_layers;
 
 	EventDispatcher m_eventDispatcher;
 	Skin m_skin;

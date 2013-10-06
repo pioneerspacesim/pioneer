@@ -342,7 +342,7 @@ void Pi::Init()
 	UI::Label *label = Pi::ui->Label("");
 	label->SetFont(UI::Widget::FONT_HEADING_NORMAL);
 	UI::Gauge *gauge = Pi::ui->Gauge();
-	Pi::ui->SetInnerWidget(
+	Pi::ui->GetTopLayer()->SetInnerWidget(
 		Pi::ui->Margin(10, UI::Margin::HORIZONTAL)->SetInnerWidget(
 			Pi::ui->Expand()->SetInnerWidget(
 				Pi::ui->Align(UI::Align::MIDDLE)->SetInnerWidget(
@@ -353,7 +353,7 @@ void Pi::Init()
 				)
 			)
 		)
-	);
+    );
 
 	draw_progress(gauge, label, 0.1f);
 
@@ -869,7 +869,7 @@ void Pi::Start()
 {
 	Pi::intro = new Intro(Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
 
-	ui->SetInnerWidget(ui->CallTemplate("MainMenu"));
+	ui->GetTopLayer()->SetInnerWidget(ui->CallTemplate("MainMenu"));
 
 	//XXX global ambient colour hack to make explicit the old default ambient colour dependency
 	// for some models
@@ -909,7 +909,7 @@ void Pi::Start()
 		last_time = SDL_GetTicks();
 	}
 
-	ui->RemoveInnerWidget();
+	ui->GetTopLayer()->RemoveInnerWidget();
 	ui->Layout(); // UI does important things on layout, like updating keyboard shortcuts
 
 	delete Pi::intro; Pi::intro = 0;

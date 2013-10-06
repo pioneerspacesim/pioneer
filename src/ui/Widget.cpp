@@ -9,6 +9,7 @@ namespace UI {
 
 Widget::Widget(Context *context) :
 	m_context(context),
+	m_layer(0),
 	m_container(0),
 	m_position(0),
 	m_size(0),
@@ -48,11 +49,13 @@ void Widget::Attach(Container *container)
 	assert(m_context == container->GetContext());
 	assert(container);
 	m_container = container;
+	m_layer = container->GetLayer();
 }
 
 void Widget::Detach()
 {
 	m_container = 0;
+	m_layer = 0;
 	m_position = Point();
 	m_size = Point();
 	m_floating = false;
