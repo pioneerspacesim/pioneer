@@ -21,6 +21,7 @@ October 2013
        available (#2425)
      * Fix a thread shutdown race condition that caused crashes at game exit
        (#2464)
+     * Fix crash when game load fails (#2467, #2466)
 
    * Model changes
      * Pattern textures can now have alpha channels (#2449)
