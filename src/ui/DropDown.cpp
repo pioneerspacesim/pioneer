@@ -53,7 +53,7 @@ void DropDown::Update()
 		if (m_popupActive) {
 			m_contextClickCon.disconnect();
 			m_label->SetText(m_popup->GetSelectedOption());
-			c->RemoveFloatingWidget();
+			c->DropLayer();
 			m_popupActive = false;
 			m_icon->SetColor(IsMouseOver() ? hoverColor : normalColor);
 		}
@@ -61,7 +61,7 @@ void DropDown::Update()
 		else {
 			const Point pos(GetAbsolutePosition() + Point(0, GetSize().y));
 			m_popup->SetFont(GetFont());
-			c->SetFloatingWidget(m_popup.Get(), pos, m_popup->PreferredSize());
+			c->NewLayer()->SetInnerWidget(m_popup.Get(), pos, m_popup->PreferredSize());
 			m_popupActive = true;
 			m_icon->SetColor(activeColor);
 			m_contextClickCon = c->onClick.connect(sigc::mem_fun(this, &DropDown::HandlePopupClick));

@@ -110,12 +110,6 @@ public:
 
 	UI::TextEntry *TextEntry(const std::string &text = "") { return new UI::TextEntry(this, text); }
 
-	// manage floating widget
-	// XXX LAYER
-	Context *SetFloatingWidget(Widget *w, const Point &pos, const Point &size) { return this; }
-	void RemoveFloatingWidget() { }
-    Widget *GetFloatingWidget() const { return 0; }
-
 	// layers feel like a stack
 	Layer *NewLayer();
 	void DropLayer();
