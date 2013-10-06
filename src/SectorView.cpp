@@ -48,6 +48,10 @@ SectorView::SectorView()
 	m_rotZ = m_rotZMovingTo = m_rotZDefault;
 	m_zoom = m_zoomMovingTo = m_zoomDefault;
 
+	// XXX I have no idea if this is correct,
+	// I just copied it from the one other place m_zoomClamped is set
+	m_zoomClamped = Clamp(m_zoom, 1.f, FAR_LIMIT);
+
 	m_inSystem = true;
 
 	m_current = Pi::game->GetSpace()->GetStarSystem()->GetPath();
@@ -77,6 +81,9 @@ SectorView::SectorView(Serializer::Reader &rd)
 	m_rotX = m_rotXMovingTo = rd.Float();
 	m_rotZ = m_rotZMovingTo = rd.Float();
 	m_zoom = m_zoomMovingTo = rd.Float();
+	// XXX I have no idea if this is correct,
+	// I just copied it from the one other place m_zoomClamped is set
+	m_zoomClamped = Clamp(m_zoom, 1.f, FAR_LIMIT);
 	m_inSystem = rd.Bool();
 	m_current = SystemPath::Unserialize(rd);
 	m_selected = SystemPath::Unserialize(rd);
