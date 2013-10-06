@@ -944,6 +944,12 @@
     <ClInclude Include="..\..\src\OS.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\LuaWrappable.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Random.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\Makefile.am">
