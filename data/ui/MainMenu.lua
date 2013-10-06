@@ -24,7 +24,7 @@ end
 local loadGame = function (path)
 	local ok, err = pcall(Game.LoadGame, path)
 	if not ok then
-		ErrorScreen.ShowError('Could not load game: ' .. err)
+		ErrorScreen.ShowError(t('Could not load game: ') .. err)
 	end
 end
 

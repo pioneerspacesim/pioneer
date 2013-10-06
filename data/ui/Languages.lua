@@ -20,6 +20,9 @@ Translate:Add({
 
 		-- Load dialog
 		['Select game to load...'] = 'Select game to load...',
+		['Error'] = 'Error',
+		['An error has occurred'] = 'An error has occurred',
+		['Could not load game: '] = 'Could not load game: ',
 
 		-- Equipment
 		['Equipment'] = 'Equipment',
@@ -149,6 +152,9 @@ Translate:Add({
 
 		-- Load dialog
 		['Select game to load...'] = 'Wybierz zapis do wczytania...',
+		['Error'] = 'Błąd!',
+		['An error has occurred'] = 'Wystąpił błąd',
+		['Could not load game: '] = 'Nie można wczytać gry: ',
 
 		-- Equipment
 		['Equipment'] = 'Wyposażenie',
