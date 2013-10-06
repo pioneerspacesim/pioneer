@@ -19,6 +19,8 @@ October 2013
        (#2459, #2432)
      * Fix window/GL setup when multisampled antialiasing is requested but not
        available (#2425)
+     * Fix a thread shutdown race condition that caused crashes at game exit
+       (#2464)
 
    * Model changes
      * Pattern textures can now have alpha channels (#2449)
