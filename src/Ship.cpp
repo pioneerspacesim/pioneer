@@ -146,6 +146,7 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 
 	PropertyMap &p = Properties();
 	p.Set("hullMassLeft", m_stats.hull_mass_left);
+	p.Set("hullPercent", 100.0f * (m_stats.hull_mass_left / float(m_type->hullMass)));
 	p.Set("shieldMassLeft", m_stats.shield_mass_left);
 	p.Set("fuelMassLeft", m_stats.fuel_tank_mass_left);
 
@@ -191,6 +192,7 @@ void Ship::Init()
 
 	PropertyMap &p = Properties();
 	p.Set("hullMassLeft", m_stats.hull_mass_left);
+	p.Set("hullPercent", 100.0f * (m_stats.hull_mass_left / float(m_type->hullMass)));
 	p.Set("shieldMassLeft", m_stats.shield_mass_left);
 	p.Set("fuelMassLeft", m_stats.fuel_tank_mass_left);
 
@@ -284,6 +286,7 @@ void Ship::SetPercentHull(float p)
 {
 	m_stats.hull_mass_left = 0.01f * Clamp(p, 0.0f, 100.0f) * float(m_type->hullMass);
 	Properties().Set("hullMassLeft", m_stats.hull_mass_left);
+	Properties().Set("hullPercent", 100.0f * (m_stats.hull_mass_left / float(m_type->hullMass)));
 }
 
 void Ship::UpdateMass()
