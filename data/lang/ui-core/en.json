@@ -531,6 +531,10 @@
       "description" : "",
       "message" : "Refuel"
    },
+   "REPAIR_X_HULL_DAMAGE_FOR_X" : {
+      "description" : "",
+      "message" : "Repair {damage}% hull damage for {price}"
+   },
    "RETURN_TO_MENU" : {
       "description" : "",
       "message" : "Return to menu"
@@ -570,6 +574,10 @@
    "SHIP_IS_FULLY_LADEN" : {
       "description" : "",
       "message" : "Your ship is fully laden."
+   },
+   "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
+      "description" : "",
+      "message" : "Your ship is in perfect working condition."
    },
    "SOUND" : {
       "description" : "",
@@ -654,6 +662,10 @@
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",
       "message" : "You're going to regret sacking me!"
+   },
+   "YOUR_HULL_IS_AT_X_INTEGRITY" : {
+      "description" : "",
+      "message" : "Your hull is at {value}% integrity."
    },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",
