@@ -34,6 +34,8 @@ public:
 	void DisableWidget(Widget *target);
 	void EnableWidget(Widget *target);
 
+	Point GetMousePos() const { return m_lastMousePosition; }
+
 private:
 	void DispatchMouseOverOut(Widget *target, const Point &mousePos);
 	void DispatchSelect(Widget *target);

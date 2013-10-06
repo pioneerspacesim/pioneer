@@ -40,6 +40,11 @@ Point Widget::GetAbsolutePosition() const
 	return m_container->GetAbsolutePosition() + m_position + m_drawOffset;
 }
 
+Point Widget::GetMousePos() const
+{
+	return m_context->GetMousePos() - GetAbsolutePosition();
+}
+
 void Widget::Attach(Container *container)
 {
 	assert(container);
