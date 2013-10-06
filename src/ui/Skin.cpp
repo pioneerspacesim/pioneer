@@ -182,7 +182,7 @@ void Skin::DrawHorizontalEdgedRectElement(const EdgedRectElement &element, const
 
 void Skin::DrawRectColor(const Color4f &col, const Point &pos, const Point &size) const
 {
-	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
+	Graphics::VertexArray va(Graphics::ATTRIB_POSITION);
 
 	va.Add(vector3f(pos.x,        pos.y,        0.0f));
 	va.Add(vector3f(pos.x,        pos.y+size.y, 0.0f));
