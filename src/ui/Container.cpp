@@ -16,7 +16,11 @@ Container::~Container()
 
 void Container::Update()
 {
-	for (std::vector< RefCountedPtr<Widget> >::iterator i = m_widgets.begin(); i != m_widgets.end(); ++i)
+	// widgets can add/remove other widgets during Update. that screws up the
+	// iterators when traversing the widget list.  rather than try and detect
+	// it, we just take a copy of the list
+	std::vector< RefCountedPtr<Widget> > widgets = m_widgets;
+	for (std::vector< RefCountedPtr<Widget> >::iterator i = widgets.begin(); i != widgets.end(); ++i)
 		(*i)->Update();
 }
 
