@@ -20,7 +20,7 @@ ui.templates.ErrorScreen = function (args)
 			:SetCell(1,1,
 				ui:Background(ui:VBox(10)
 					:PackEnd(ui:Label(title):SetFont("HEADING_NORMAL"))
-					:PackEnd(ui:Label(message))
+					:PackEnd(ui:MultiLineText(message))
 					:PackEnd(okButton)
 				)
 			)
