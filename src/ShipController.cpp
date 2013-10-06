@@ -308,7 +308,22 @@ void PlayerShipController::SetFlightControlState(FlightControlState s)
 		m_ship->AIClearInstructions();
 		//set desired velocity to current actual
 		if (m_flightControlState == CONTROL_FIXSPEED) {
-			m_setSpeed = m_setSpeedTarget ? m_ship->GetVelocityRelTo(m_setSpeedTarget).Length() : m_ship->GetVelocity().Length();
+			// Speed is set to the projection of the velocity onto the target.
+
+			vector3d shipVel = m_setSpeedTarget ?
+				// Ship's velocity with respect to the target, in current frame's coordinates
+				-m_setSpeedTarget->GetVelocityRelTo(m_ship) :
+				// Ship's velocity with respect to current frame
+				m_ship->GetVelocity();
+
+			vector3d targetNormalized = m_navTarget ?
+				// Position of target relative to ship
+				m_navTarget->GetPositionRelTo(m_ship).NormalizedSafe() :
+				// Forward is -Z, the matrix vectors are already normalized
+				-m_ship->GetOrient().VectorZ();
+
+			// A change from Manual to Set Speed never sets a negative speed.
+			m_setSpeed = std::max(shipVel.Dot(targetNormalized), 0.0);
 		}
 		//XXX global stuff
 		Pi::onPlayerChangeFlightControlState.emit();
