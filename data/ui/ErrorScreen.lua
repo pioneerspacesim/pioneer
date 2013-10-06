@@ -36,12 +36,11 @@ ErrorScreen.ShowError = function (title, message)
 		title = t('Error')
 	end
 
-	local innerWas = ui.innerWidget
-	ui:SetInnerWidget(
+	ui:NewLayer(
 		ui.templates.ErrorScreen({
 			title    = title,
 			message  = message,
-			onOk     = function () ui:SetInnerWidget(innerWas) end,
+			onOk     = function () ui:DropLayer() end,
 		})
 	)
 end
