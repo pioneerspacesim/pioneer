@@ -7,10 +7,12 @@
 JobRunner::JobRunner(JobQueue *jq, const uint8_t idx) :
 	m_jobQueue(jq),
 	m_job(0),
-	m_threadIdx(idx)
+	m_threadIdx(idx),
+	m_queueDestroyed(false)
 {
 	m_threadName = stringf("Thread %0{d}", m_threadIdx);
 	m_jobLock = SDL_CreateMutex();
+	m_queueDestroyingLock = SDL_CreateMutex();
 	m_threadId = SDL_CreateThread(&JobRunner::Trampoline, m_threadName.c_str(), this);
 }
 
@@ -39,7 +41,17 @@ int JobRunner::Trampoline(void *data)
 
 void JobRunner::Main()
 {
-	Job *job = m_jobQueue->GetJob();
+	Job *job;
+
+	// Lock to prevent destruction of the queue while calling GetJob.
+	SDL_LockMutex(m_queueDestroyingLock);
+	if (m_queueDestroyed) {
+		SDL_UnlockMutex(m_queueDestroyingLock);
+		return;
+	}
+	job = m_jobQueue->GetJob();
+	SDL_UnlockMutex(m_queueDestroyingLock);
+
 	while (job) {
 		// record the job so we can cancel it in case of premature shutdown
 		SDL_LockMutex(m_jobLock);
@@ -48,16 +60,41 @@ void JobRunner::Main()
 
 		// run the thing
 		job->OnRun();
+
+		// Lock to prevent destruction of the queue while calling Finish
+		SDL_LockMutex(m_queueDestroyingLock);
+		if (m_queueDestroyed) {
+			SDL_UnlockMutex(m_queueDestroyingLock);
+			return;
+		}
 		m_jobQueue->Finish(job, m_threadIdx);
+		SDL_UnlockMutex(m_queueDestroyingLock);
 
 		SDL_LockMutex(m_jobLock);
 		m_job = 0;
 		SDL_UnlockMutex(m_jobLock);
 
 		// get a new job. this will block normally, or return null during
-		// shutdown
+		// shutdown (Lock to protect against the queue being destroyed
+		// during GetJob)
+		SDL_LockMutex(m_queueDestroyingLock);
+		if (m_queueDestroyed) {
+			SDL_UnlockMutex(m_queueDestroyingLock);
+			return;
+		}
 		job = m_jobQueue->GetJob();
+		SDL_UnlockMutex(m_queueDestroyingLock);
 	}
+}
+
+SDL_mutex *JobRunner::GetQueueDestroyingLock()
+{
+	return m_queueDestroyingLock;
+}
+
+void JobRunner::SetQueueDestroyed()
+{
+	m_queueDestroyed = true;
 }
 
 
@@ -86,6 +123,16 @@ JobQueue::~JobQueue()
 	// broadcast to any waiting runners that they should try (and fail) to get
 	// a new job right now
 	SDL_CondBroadcast(m_queueWaitCond);
+
+	// Flag each job runner that we're being destroyed (with lock so no one
+	// else is running one of our functions). Both the flag and the mutex
+	// must be owned by the runner, because we may not exist when it's
+	// checked.
+	for (std::vector<JobRunner*>::iterator i = m_runners.begin(); i != m_runners.end(); ++i) {
+		SDL_LockMutex((*i)->GetQueueDestroyingLock());
+		(*i)->SetQueueDestroyed();
+		SDL_UnlockMutex((*i)->GetQueueDestroyingLock());
+	}
 
 	const uint32_t numThreads = m_runners.size();
 	// delete the runners. this will tear down their underlying threads
