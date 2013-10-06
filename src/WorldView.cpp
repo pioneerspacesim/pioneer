@@ -63,6 +63,7 @@ void WorldView::InitObject()
 	m_showTargetActionsTimeout = 0;
 	m_showLowThrustPowerTimeout = 0;
 	m_showCameraNameTimeout = 0;
+	m_showCameraName = 0;
 	m_labelsOn = true;
 	SetTransparency(true);
 
