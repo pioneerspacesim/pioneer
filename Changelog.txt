@@ -26,6 +26,7 @@ October 2013
    * Internal changes
      * Lua blobs will now be correctly serialized (#2463)
      * Removed many unnecessary uses of reinterpret_cast (#2465)
+     * Fix some problems reported by valgrind (#2472)
 
 September 2013
 

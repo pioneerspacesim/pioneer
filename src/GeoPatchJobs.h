@@ -70,8 +70,8 @@ public:
 	double *heights[4];
 
 	// these are created with the request but are destroyed when the request is finished
-	ScopedPtr<double> borderHeights[4];
-	ScopedPtr<vector3d> borderVertexs[4];
+	ScopedArray<double> borderHeights[4];
+	ScopedArray<vector3d> borderVertexs[4];
 
 protected:
 	// deliberately prevent copy constructor access
