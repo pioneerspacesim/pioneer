@@ -113,8 +113,9 @@ void Table::Inner::Layout()
 
 void Table::Inner::Draw()
 {
-	if (m_mouseEnabled && IsMouseOver() && m_mouseRow >= 0) {
-		GetContext()->GetSkin().DrawRectHover(Point(0, m_mouseRowTop), Point(GetSize().x, m_mouseRowHeight));
+	int row_top, row_bottom;
+	if (m_mouseEnabled && IsMouseOver() && RowUnderPoint(GetMousePos(), &row_top, &row_bottom) >= 0) {
+		GetContext()->GetSkin().DrawRectHover(Point(0, row_top), Point(GetSize().x, row_bottom - row_top));
 	}
 
 	Container::Draw();
@@ -162,48 +163,41 @@ void Table::Inner::SetRowSpacing(int spacing)
 	m_dirty = true;
 }
 
-void Table::Inner::HandleMouseMove(const MouseMotionEvent &e)
+void Table::Inner::HandleClick()
 {
-	if (!m_mouseEnabled) {
-		Container::HandleMouseMove(e);
-		return;
+	if (m_mouseEnabled) {
+		int row = RowUnderPoint(GetMousePos());
+		if (row >= 0)
+			onRowClicked.emit(row);
 	}
 
-	int start = 0, end = m_rows.size()-1, mid = 0;
-	while (1) {
-		if (end < start) {
-			// over row spacing
-			m_mouseRow = -1;
-			break;
-		}
+	Container::HandleClick();
+}
 
+int Table::Inner::RowUnderPoint(const Point &pt, int *out_row_top, int *out_row_bottom) const
+{
+	int start = 0, end = m_rows.size()-1, mid = 0;
+	while (start <= end) {
 		mid = start+((end-start)/2);
 
 		const Widget *w = m_rows[mid][0];
 		const int rowTop = w->GetPosition().y;
 		const int rowBottom = rowTop + w->GetSize().y;
 
-		if (e.pos.y < rowTop)
+		if (pt.y < rowTop)
 			end = mid-1;
-		else if (e.pos.y >= rowBottom)
+		else if (pt.y >= rowBottom)
 			start = mid+1;
 		else {
-			m_mouseRow = mid;
-			m_mouseRowTop = rowTop;
-			m_mouseRowHeight = rowBottom-rowTop;
-			break;
+			if (out_row_top) { *out_row_top = rowTop; }
+			if (out_row_bottom) { *out_row_bottom = rowBottom; }
+			return mid;
 		}
 	}
 
-	Container::HandleMouseMove(e);
-}
-
-void Table::Inner::HandleClick()
-{
-	if (m_mouseEnabled && m_mouseRow >= 0)
-		onRowClicked.emit(m_mouseRow);
-
-	Container::HandleClick();
+	if (out_row_top) { *out_row_top = 0; }
+	if (out_row_bottom) { *out_row_bottom = 0; }
+	return -1;
 }
 
 

@@ -76,10 +76,10 @@ private:
 		sigc::signal<void,unsigned int> onRowClicked;
 
 	protected:
-		virtual void HandleMouseMove(const MouseMotionEvent &event);
 		virtual void HandleClick();
 
 	private:
+		int RowUnderPoint(const Point &pt, int *out_row_top = 0, int *out_row_bottom = 0) const;
 
 		LayoutAccumulator &m_layout;
 		std::vector< std::vector<Widget*> > m_rows;
@@ -89,8 +89,6 @@ private:
 		bool m_dirty;
 
 		bool m_mouseEnabled;
-		int m_mouseRow;
-		int m_mouseRowTop, m_mouseRowHeight;
 	};
 
 	LayoutAccumulator m_layout;
