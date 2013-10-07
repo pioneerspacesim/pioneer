@@ -75,6 +75,7 @@ Layer *Context::NewLayer()
 	SetWidgetDimensions(layer, Point(0), Point(m_width, m_height));
 	layer->SetLayer(layer);
 	m_layers.push_back(layer);
+	m_needsLayout = true;
 	return layer;
 }
 
@@ -84,6 +85,7 @@ void Context::DropLayer()
 	assert(m_layers.size() > 1);
 	RemoveWidget(m_layers.back());
 	m_layers.resize(m_layers.size()-1);
+	m_needsLayout = true;
 }
 
 Widget *Context::GetWidgetAt(const Point &pos)
