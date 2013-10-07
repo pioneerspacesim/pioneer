@@ -35,7 +35,7 @@ public:
 	void Update();
 	void Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const float scale, const std::vector<Camera::Shadow> &shadows);
 
-	inline double GetHeight(vector3d p) const {
+	inline double GetHeight(const vector3d &p) const {
 		const double h = m_terrain->GetHeight(p);
 		s_vtxGenCount++;
 #ifdef DEBUG
