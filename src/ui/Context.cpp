@@ -95,6 +95,9 @@ Widget *Context::GetWidgetAt(const Point &pos)
 
 void Context::Layout()
 {
+	// some widgets (eg MultiLineText) can require two layout passes because we
+	// don't know their preferred size until after their first layout run. so
+	// then we have to do layout again to make sure everyone else gets it right
 	m_needsLayout = false;
 
 	LayoutChildren();
