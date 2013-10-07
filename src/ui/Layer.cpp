@@ -13,11 +13,10 @@ void Layer::Layout()
 
 Layer *Layer::SetInnerWidget(Widget *w, const Point &pos, const Point &size)
 {
-	// XXX LAYER not sure if needed
 	assert(!w->GetLayer());
 	assert(!w->GetContainer());
 
-    Container::RemoveAllWidgets();
+	Container::RemoveAllWidgets();
 	m_widget.Reset(w);
 
 	Container::AddWidget(w);
