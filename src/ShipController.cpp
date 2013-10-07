@@ -316,14 +316,8 @@ void PlayerShipController::SetFlightControlState(FlightControlState s)
 				// Ship's velocity with respect to current frame
 				m_ship->GetVelocity();
 
-			vector3d targetNormalized = m_navTarget ?
-				// Position of target relative to ship
-				m_navTarget->GetPositionRelTo(m_ship).NormalizedSafe() :
-				// Forward is -Z, the matrix vectors are already normalized
-				-m_ship->GetOrient().VectorZ();
-
 			// A change from Manual to Set Speed never sets a negative speed.
-			m_setSpeed = std::max(shipVel.Dot(targetNormalized), 0.0);
+			m_setSpeed = std::max(shipVel.Dot(-m_ship->GetOrient().VectorZ()), 0.0);
 		}
 		//XXX global stuff
 		Pi::onPlayerChangeFlightControlState.emit();
