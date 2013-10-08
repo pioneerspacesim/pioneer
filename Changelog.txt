@@ -12,6 +12,9 @@ October 2013
      * Updated the Deneb to use new camera and gun tag-points (#2460)
      * Set Speed mode is now initialised with the ship's forward speed (#2469)
 
+   * Script and UI API changes
+     * UI now uses a stack of layers instead of floating widgets (#2475)
+
    * Fixes
      * Modelviewer now correctly reloads tag-points when switching models
        (#2451, #2456)

@@ -16,14 +16,16 @@ ui.templates.ErrorScreen = function (args)
 	okButton.onClick:Connect(onOk)
 
 	local dialog =
-		ui:Grid({1,3,1}, {1,3,1})
-			:SetCell(1,1,
-				ui:Background(ui:VBox(10)
-					:PackEnd(ui:Label(title):SetFont("HEADING_NORMAL"))
-					:PackEnd(ui:MultiLineText(message))
-					:PackEnd(okButton)
+		ui:ColorBackground(0,0,0,0.5,
+			ui:Align("MIDDLE",
+				ui:Background(
+					ui:Table():SetRowSpacing(10)
+						:AddRow(ui:Label(title):SetFont("HEADING_NORMAL"))
+						:AddRow(message)
+						:AddRow(okButton)
 				)
 			)
+		)
 
 	return dialog
 end
@@ -36,12 +38,11 @@ ErrorScreen.ShowError = function (title, message)
 		title = t('Error')
 	end
 
-	local innerWas = ui.innerWidget
-	ui:SetInnerWidget(
+	ui:NewLayer(
 		ui.templates.ErrorScreen({
 			title    = title,
 			message  = message,
-			onOk     = function () ui:SetInnerWidget(innerWas) end,
+			onOk     = function () ui:DropLayer() end,
 		})
 	)
 end

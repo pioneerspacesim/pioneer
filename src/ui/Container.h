@@ -54,6 +54,8 @@ protected:
 
 	void SetWidgetDimensions(Widget *widget, const Point &position, const Point &size);
 
+	virtual void SetLayer(Layer *layer);
+
 private:
 
 	// EventDispatcher will call here on layout change to get the shortcuts
