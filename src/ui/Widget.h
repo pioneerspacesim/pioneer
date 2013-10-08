@@ -367,7 +367,7 @@ private:
 	void SetSize(const Point &size) { m_size = size; SetActiveArea(size); }
 
 	// Context needs to the layer for new layers
-	void SetLayer(Layer *layer) { m_layer = layer; }
+	virtual void SetLayer(Layer *layer);
 
 
 	Context *m_context;

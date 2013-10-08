@@ -47,7 +47,6 @@ void Widget::Attach(Container *container)
 	assert(container);
 	assert(m_context == container->GetContext());
 	m_container = container;
-	m_layer = container->GetLayer();
 }
 
 void Widget::Detach()
@@ -56,6 +55,11 @@ void Widget::Detach()
 	m_layer = 0;
 	m_position = Point();
 	m_size = Point();
+}
+
+void Widget::SetLayer(Layer *layer)
+{
+	m_layer = layer;
 }
 
 void Widget::SetDimensions(const Point &position, const Point &size)
