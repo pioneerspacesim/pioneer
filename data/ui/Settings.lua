@@ -1,6 +1,7 @@
 -- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+local Game = import("Game")
 local Engine = import("Engine")
 local Translate = import("Translate")
 local Lang = import("Lang")
@@ -210,4 +211,31 @@ ui.templates.Settings = function (args)
 	end
 
 	return ui:Background():SetInnerWidget(ui:VBox(10):PackEnd({setTabs, close_buttons}))
+end
+
+ui.templates.SettingsInGame = function ()
+	return ui.templates.Settings({
+		closeButtons = {
+			{ text = t("Save"), onClick = function ()
+				local settings_view = ui.layer.innerWidget
+				ui:NewLayer(
+					ui.templates.FileDialog({
+						title        = t("Save"),
+						helpText     = t("Select a file to save to or enter a new filename"),
+						path         = "savefiles",
+						allowNewFile = true,
+						selectLabel  = t("Save"),
+						onSelect     = function (filename)
+							Game.SaveGame(filename)
+							ui:DropLayer()
+						end,
+						onCancel    = function ()
+							ui:DropLayer()
+						end
+					})
+				)
+			end },
+			{ text = t("Exit this game"), onClick = Game.EndGame }
+		}
+	})
 end
