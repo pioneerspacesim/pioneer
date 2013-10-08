@@ -869,6 +869,7 @@ void Pi::Start()
 {
 	Pi::intro = new Intro(Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
 
+	ui->DropAllLayers();
 	ui->GetTopLayer()->SetInnerWidget(ui->CallTemplate("MainMenu"));
 
 	//XXX global ambient colour hack to make explicit the old default ambient colour dependency
@@ -960,6 +961,8 @@ void Pi::MainLoop()
 	int MAX_PHYSICS_TICKS = Pi::config->Int("MaxPhysicsCyclesPerRender");
 	if (MAX_PHYSICS_TICKS <= 0)
 		MAX_PHYSICS_TICKS = 4;
+
+	ui->DropAllLayers();
 
 	double currentTime = 0.001 * double(SDL_GetTicks());
 	double accumulator = Pi::game->GetTimeStep();

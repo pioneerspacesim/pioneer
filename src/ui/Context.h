@@ -109,6 +109,7 @@ public:
 	// layers feel like a stack
 	Layer *NewLayer();
 	void DropLayer();
+	void DropAllLayers();
 	Layer *GetTopLayer() const { return m_layers.back(); }
 
 	// only considers the current layer

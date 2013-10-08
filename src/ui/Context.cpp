@@ -88,6 +88,15 @@ void Context::DropLayer()
 	m_needsLayout = true;
 }
 
+void Context::DropAllLayers()
+{
+	for (std::vector<Layer*>::iterator i = m_layers.begin(); i != m_layers.end(); ++i)
+		RemoveWidget(*i);
+	m_layers.clear();
+	NewLayer();
+	m_needsLayout = true;
+}
+
 Widget *Context::GetWidgetAt(const Point &pos)
 {
 	return GetTopLayer()->GetWidgetAt(pos);
