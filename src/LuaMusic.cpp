@@ -239,7 +239,7 @@ void LuaMusic::Register()
 
 	LUA_DEBUG_START(l);
 
-	static const luaL_Reg methods[]= {
+	static const luaL_Reg l_methods[]= {
 		{ "GetSongName", l_music_get_song },
 		{ "GetSongList", l_music_get_song_list },
 		{ "Play", l_music_play },
@@ -250,8 +250,10 @@ void LuaMusic::Register()
 		{0, 0}
 	};
 
-	luaL_newlib(l, methods);
-	lua_setglobal(l, "Music");
+	lua_getfield(l, LUA_REGISTRYINDEX, "CoreImports");
+	LuaObjectBase::CreateObject(l_methods, 0, 0);
+	lua_setfield(l, -2, "Music");
+	lua_pop(l, 1);
 
 	LUA_DEBUG_END(l, 0);
 }

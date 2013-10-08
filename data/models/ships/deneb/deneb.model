@@ -1,9 +1,10 @@
-# Comments can be written like this
-# Define all used materials first
 material Body-material
-tex_diff deneb.png
-tex_glow deneb_glow.png
-tex_spec deneb_spec.png
+
+tex_diff deneb.dds
+tex_glow deneb_glow.dds
+tex_spec deneb_spec.dds
+
+use_patterns
 
 material shield
 tex_diff shielddiff.png
@@ -25,14 +26,13 @@ lod 500
 mesh deneb_medhigh.dae
 mesh shieldfield.DAE
 
-lod 100
+lod 50
 mesh deneb_med.dae
 mesh shieldfield.DAE
 
-lod 20
+lod 5
 mesh deneb_low.dae
 mesh shieldfield.DAE
 
 # Animations
 anim gear_down 0 73
-

@@ -24,12 +24,15 @@ public:
 	Node *Clone(NodeCopyCache *cache = 0);
 	virtual void Accept(NodeVisitor &v);
 	virtual const char *GetTypeName() const { return "Thruster"; }
-	virtual void Render(const matrix4x4f &trans, RenderData *rd);
+	virtual void Render(const matrix4x4f &trans, const RenderData *rd);
 
 private:
-	static Graphics::VertexArray* CreateGeometry();
+	static Graphics::VertexArray* CreateThrusterGeometry();
+	static Graphics::VertexArray* CreateGlowGeometry();
 	RefCountedPtr<Graphics::Material> m_tMat;
+	RefCountedPtr<Graphics::Material> m_glowMat;
 	ScopedPtr<Graphics::VertexArray> m_tVerts;
+	ScopedPtr<Graphics::VertexArray> m_glowVerts;
 	bool linearOnly;
 	vector3f dir;
 	vector3f pos;

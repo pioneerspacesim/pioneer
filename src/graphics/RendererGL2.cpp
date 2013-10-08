@@ -1,19 +1,21 @@
 // Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "Material.h"
-#include "Graphics.h"
 #include "RendererGL2.h"
+#include "Graphics.h"
+#include "Material.h"
 #include "RendererGLBuffers.h"
 #include "Texture.h"
 #include "TextureGL.h"
 #include "VertexArray.h"
-#include "gl2/GL2Material.h"
 #include "gl2/GeoSphereMaterial.h"
+#include "gl2/GL2Material.h"
+#include "gl2/GL2RenderTarget.h"
 #include "gl2/MultiMaterial.h"
 #include "gl2/Program.h"
 #include "gl2/RingMaterial.h"
 #include "gl2/StarfieldMaterial.h"
+#include "gl2/FresnelColourMaterial.h"
 #include "gl2/ShieldMaterial.h"
 
 namespace Graphics {
@@ -24,9 +26,10 @@ typedef std::vector<std::pair<MaterialDescriptor, GL2::Program*> >::const_iterat
 GL2::MultiProgram *vtxColorProg;
 GL2::MultiProgram *flatColorProg;
 
-RendererGL2::RendererGL2(const Graphics::Settings &vs)
-: RendererLegacy(vs)
+RendererGL2::RendererGL2(WindowSDL *window, const Graphics::Settings &vs)
+: RendererLegacy(window, vs)
 , m_invLogZfarPlus1(0.f)
+, m_activeRenderTarget(0)
 {
 	//the range is very large due to a "logarithmic z-buffer" trick used
 	//http://outerra.blogspot.com/2009/08/logarithmic-z-buffer.html
@@ -51,6 +54,18 @@ bool RendererGL2::BeginFrame()
 {
 	glClearColor(0,0,0,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	return true;
+}
+
+bool RendererGL2::SetRenderTarget(RenderTarget *rt)
+{
+	if (rt)
+		static_cast<GL2::RenderTarget*>(rt)->Bind();
+	else if (m_activeRenderTarget)
+		m_activeRenderTarget->Unbind();
+
+	m_activeRenderTarget = static_cast<GL2::RenderTarget*>(rt);
+
 	return true;
 }
 
@@ -130,6 +145,9 @@ Material *RendererGL2::CreateMaterial(const MaterialDescriptor &d)
 	case EFFECT_GEOSPHERE_SKY:
 		mat = new GL2::GeoSphereSkyMaterial();
 		break;
+	case EFFECT_FRESNEL_SPHERE:
+		mat = new GL2::FresnelColourMaterial();
+		break;
 	case EFFECT_SHIELD:
 		mat = new GL2::ShieldMaterial();
 		break;
@@ -154,6 +172,41 @@ Material *RendererGL2::CreateMaterial(const MaterialDescriptor &d)
 
 	mat->SetProgram(p);
 	return mat;
+}
+
+RenderTarget *RendererGL2::CreateRenderTarget(const RenderTargetDesc &desc)
+{
+	GL2::RenderTarget* rt = new GL2::RenderTarget(desc);
+	rt->Bind();
+	if (desc.colorFormat != TEXTURE_NONE) {
+		Graphics::TextureDescriptor cdesc(
+			desc.colorFormat,
+			vector2f(desc.width, desc.height),
+			vector2f(desc.width, desc.height),
+			LINEAR_CLAMP,
+			false,
+			false);
+		TextureGL *colorTex = new TextureGL(cdesc, false);
+		rt->SetColorTexture(colorTex);
+	}
+	if (desc.depthFormat != TEXTURE_NONE) {
+		if (desc.allowDepthTexture) {
+			Graphics::TextureDescriptor ddesc(
+				TEXTURE_DEPTH,
+				vector2f(desc.width, desc.height),
+				vector2f(desc.width, desc.height),
+				LINEAR_CLAMP,
+				false,
+				false);
+			TextureGL *depthTex = new TextureGL(ddesc, false);
+			rt->SetDepthTexture(depthTex);
+		} else {
+			rt->CreateDepthRenderbuffer();
+		}
+	}
+	rt->CheckStatus();
+	rt->Unbind();
+	return rt;
 }
 
 bool RendererGL2::ReloadShaders()

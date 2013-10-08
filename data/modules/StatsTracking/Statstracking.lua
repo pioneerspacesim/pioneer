@@ -1,3 +1,11 @@
+-- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
+local Translate = import("Translate")
+local Event = import("Event")
+local Character = import("Character")
+local Comms = import("Comms")
+
 -- Stats-gathering module. Initially, gathers kill statistics for the player.
 -- Can (and should) be expanded in the future to gather other information.
 
@@ -18,15 +26,15 @@ local t = Translate:GetTranslator()
 local onShipDestroyed = function (ship, attacker)
 	if attacker:isa('Ship') and attacker:IsPlayer() then
 		-- Increment player's kill count
-		PersistentCharacters.player.killcount = PersistentCharacters.player.killcount + 1
+		Character.persistent.player.killcount = Character.persistent.player.killcount + 1
 		PlayerDamagedShips[ship]=nil
-		if PersistentCharacters.player.killcount == 1 or (PersistentCharacters.player.killcount < 256 and PersistentCharacters.player.killcount % 16 == 0) or (PersistentCharacters.player.killcount % 256 == 0) then
+		if Character.persistent.player.killcount == 1 or (Character.persistent.player.killcount < 256 and Character.persistent.player.killcount % 16 == 0) or (Character.persistent.player.killcount % 256 == 0) then
 			-- On the first kill, every 16th kill until 256, and every 256th
 			-- kill thereafter
 			Comms.Message(t("Well done commander! Your combat rating has improved!"),t("Pioneering Pilots' Guild"))
 		end
 	elseif PlayerDamagedShips[ship] then
-		PersistentCharacters.player.assistcount = PersistentCharacters.player.assistcount + 1
+		Character.persistent.player.assistcount = Character.persistent.player.assistcount + 1
 	end
 end
 

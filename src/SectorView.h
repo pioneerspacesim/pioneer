@@ -52,11 +52,11 @@ private:
 		Gui::Label *shortDesc;
 	};
 
-	void DrawNearSectors(matrix4x4f modelview);
-	void DrawNearSector(int x, int y, int z, const vector3f &playerAbsPos, const matrix4x4f &trans);
+	void DrawNearSectors(const matrix4x4f& modelview);
+	void DrawNearSector(const int sx, const int sy, const int sz, const vector3f &playerAbsPos, const matrix4x4f &trans);
 	void PutSystemLabels(Sector *sec, const vector3f &origin, int drawRadius);
 
-	void DrawFarSectors(matrix4x4f modelview);
+	void DrawFarSectors(const matrix4x4f& modelview);
 	void BuildFarSector(Sector *sec, const vector3f &origin, std::vector<vector3f> &points, std::vector<Color> &colors);
 	void PutFactionLabels(const vector3f &secPos);
 
@@ -73,9 +73,9 @@ private:
 	Sector* GetCached(const int sectorX, const int sectorY, const int sectorZ);
 	void ShrinkCache();
 
-	void MouseButtonDown(int button, int x, int y);
-	void OnKeyPressed(SDL_keysym *keysym);
-	void OnSearchBoxKeyPress(const SDL_keysym *keysym);
+	void MouseWheel(bool up);
+	void OnKeyPressed(SDL_Keysym *keysym);
+	void OnSearchBoxKeyPress(const SDL_Keysym *keysym);
 
 	bool m_inSystem;
 
@@ -131,7 +131,7 @@ private:
 
 	void OnToggleFaction(Gui::ToggleButton* button, bool pressed, Faction* faction);
 
-	sigc::connection m_onMouseButtonDown;
+	sigc::connection m_onMouseWheelCon;
 	sigc::connection m_onKeyPressConnection;
 
 	std::map<SystemPath,Sector*> m_sectorCache;
@@ -157,6 +157,9 @@ private:
 	int m_cacheZMax;
 
 	ScopedPtr<Graphics::VertexArray> m_lineVerts;
+	ScopedPtr<Graphics::VertexArray> m_secLineVerts;
+	ScopedPtr<Graphics::Drawables::Sphere3D> m_jumpSphere;
+	ScopedPtr<Graphics::Drawables::Disk> m_jumpDisk;
 };
 
 #endif /* _SECTORVIEW_H */

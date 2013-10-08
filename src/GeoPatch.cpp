@@ -20,22 +20,22 @@
 #include <algorithm>
 
 // tri edge lengths
-#define GEOPATCH_SUBDIVIDE_AT_CAMDIST	5.0
+static const double GEOPATCH_SUBDIVIDE_AT_CAMDIST = 5.0;
 #define GEOPATCH_MAX_DEPTH  15 + (2*Pi::detail.fracmult) //15
 
-GeoPatch::GeoPatch(const RefCountedPtr<GeoPatchContext> &ctx_, GeoSphere *gs, 
-	const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, 
-	const int depth, const GeoPatchID &ID_) 
-	: ctx(ctx_), v0(v0_), v1(v1_), v2(v2_), v3(v3_), 
-	heights(NULL), normals(NULL), colors(NULL), 
-	m_vbo(0), parent(NULL), geosphere(gs), 
-	m_depth(depth), mPatchID(ID_), 
+GeoPatch::GeoPatch(const RefCountedPtr<GeoPatchContext> &ctx_, GeoSphere *gs,
+	const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_,
+	const int depth, const GeoPatchID &ID_)
+	: ctx(ctx_), v0(v0_), v1(v1_), v2(v2_), v3(v3_),
+	heights(NULL), normals(NULL), colors(NULL),
+	m_vbo(0), parent(NULL), geosphere(gs),
+	m_depth(depth), mPatchID(ID_),
 	mHasJobRequest(false)
 {
 	for (int i=0; i<NUM_KIDS; ++i) {
 		edgeFriend[i]	= NULL;
 	}
-		
+
 	clipCentroid = (v0+v1+v2+v3) * 0.25;
 	centroid = clipCentroid.Normalized();
 	clipRadius = 0.0;
@@ -54,7 +54,7 @@ GeoPatch::GeoPatch(const RefCountedPtr<GeoPatchContext> &ctx_, GeoSphere *gs,
 }
 
 GeoPatch::~GeoPatch() {
-	assert(!mHasJobRequest);
+	mHasJobRequest = false;
 
 	for (int i=0; i<NUM_KIDS; i++) {
 		if (edgeFriend[i]) edgeFriend[i]->NotifyEdgeFriendDeleted(this);
@@ -112,23 +112,19 @@ void GeoPatch::_UpdateVBOs() {
 	}
 }
 
-void GeoPatch::Render(vector3d &campos, const Graphics::Frustum &frustum) {
+void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, const matrix4x4d &modelView, const Graphics::Frustum &frustum) {
 	if (kids[0]) {
-		for (int i=0; i<NUM_KIDS; i++) kids[i]->Render(campos, frustum);
+		for (int i=0; i<NUM_KIDS; i++) kids[i]->Render(renderer, campos, modelView, frustum);
 	} else if (heights.Valid()) {
 		_UpdateVBOs();
 
 		if (!frustum.TestPoint(clipCentroid, clipRadius))
 			return;
 
-		vector3d relpos = clipCentroid - campos;
-		glPushMatrix();
-		glTranslated(relpos.x, relpos.y, relpos.z);
+		const vector3d relpos = clipCentroid - campos;
+		renderer->SetTransform(modelView * matrix4x4d::Translation(relpos));
 
 		Pi::statSceneTris += 2*(ctx->edgeLen-1)*(ctx->edgeLen-1);
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glEnableClientState(GL_NORMAL_ARRAY);
-		glEnableClientState(GL_COLOR_ARRAY);
 
 		// update the indices used for rendering
 		ctx->updateIndexBufferId(determineIndexbuffer());
@@ -139,13 +135,6 @@ void GeoPatch::Render(vector3d &campos, const Graphics::Frustum &frustum) {
 		glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(GeoPatchContext::VBOVertex), reinterpret_cast<void *>(6*sizeof(float)));
 		glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, ctx->indices_vbo);
 		glDrawElements(GL_TRIANGLES, ctx->indices_tri_count*3, GL_UNSIGNED_SHORT, 0);
-		glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
-		glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-		glDisableClientState(GL_VERTEX_ARRAY);
-		glDisableClientState(GL_NORMAL_ARRAY);
-		glDisableClientState(GL_COLOR_ARRAY);
-		glPopMatrix();
 	}
 }
 
@@ -160,9 +149,9 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 	// always split at first level
 	if (parent) {
 		for (int i=0; i<NUM_EDGES; i++) {
-			if (!edgeFriend[i]) { 
-				canSplit = false; 
-				break; 
+			if (!edgeFriend[i]) {
+				canSplit = false;
+				break;
 			} else if (edgeFriend[i]->m_depth < m_depth) {
 				canSplit = false;
 				break;
@@ -182,7 +171,7 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 
 			SQuadSplitRequest *ssrd = new SQuadSplitRequest(v0, v1, v2, v3, centroid.Normalized(), m_depth,
 						geosphere->m_sbody->path, mPatchID, ctx->edgeLen,
-						ctx->frac, Terrain::InstanceTerrain(geosphere->m_sbody));
+						ctx->frac, geosphere->m_terrain.Get());
 			Pi::Jobs()->Queue(new QuadPatchJob(ssrd));
 		} else {
 			for (int i=0; i<NUM_KIDS; i++) {
@@ -190,11 +179,11 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 			}
 		}
 	} else if (canMerge) {
-		for (int i=0; i<NUM_KIDS; i++) { 
-			canMerge &= kids[i]->canBeMerged();		
+		for (int i=0; i<NUM_KIDS; i++) {
+			canMerge &= kids[i]->canBeMerged();
 		}
 		if( canMerge ) {
-			for (int i=0; i<NUM_KIDS; i++) { 
+			for (int i=0; i<NUM_KIDS; i++) {
 				kids[i].Reset();
 			}
 		}
@@ -207,17 +196,22 @@ void GeoPatch::RequestSinglePatch()
         assert(!mHasJobRequest);
 		mHasJobRequest = true;
 		SSingleSplitRequest *ssrd = new SSingleSplitRequest(v0, v1, v2, v3, centroid.Normalized(), m_depth,
-					geosphere->m_sbody->path, mPatchID, ctx->edgeLen, ctx->frac, Terrain::InstanceTerrain(geosphere->m_sbody));
+					geosphere->m_sbody->path, mPatchID, ctx->edgeLen, ctx->frac, geosphere->m_terrain.Get());
 		Pi::Jobs()->Queue(new SinglePatchJob(ssrd));
 	}
 }
 
-void GeoPatch::ReceiveHeightmaps(const SQuadSplitResult *psr)
+void GeoPatch::ReceiveHeightmaps(SQuadSplitResult *psr)
 {
+	assert(NULL!=psr);
 	if (m_depth<psr->depth()) {
 		// this should work because each depth should have a common history
 		const uint32_t kidIdx = psr->data(0).patchID.GetPatchIdx(m_depth+1);
-		kids[kidIdx]->ReceiveHeightmaps(psr);
+		if( kids[kidIdx] ) {
+			kids[kidIdx]->ReceiveHeightmaps(psr);
+		} else {
+			psr->OnCancel();
+		}
 	} else {
 		assert(mHasJobRequest);
 		const int nD = m_depth+1;
@@ -227,8 +221,8 @@ void GeoPatch::ReceiveHeightmaps(const SQuadSplitResult *psr)
 			const SQuadSplitResult::SSplitResultData& data = psr->data(i);
 			assert(i==data.patchID.GetPatchIdx(nD));
 			assert(0==data.patchID.GetPatchIdx(nD+1));
-			kids[i].Reset(new GeoPatch(ctx, geosphere, 
-				data.v0, data.v1, data.v2, data.v3, 
+			kids[i].Reset(new GeoPatch(ctx, geosphere,
+				data.v0, data.v1, data.v2, data.v3,
 				nD, data.patchID));
 		}
 
@@ -270,6 +264,7 @@ void GeoPatch::ReceiveHeightmaps(const SQuadSplitResult *psr)
 void GeoPatch::ReceiveHeightmap(const SSingleSplitResult *psr)
 {
 	assert(NULL==parent);
+	assert(NULL!=psr);
 	assert(mHasJobRequest);
 	{
 		const SSingleSplitResult::SSplitResultData& data = psr->data();

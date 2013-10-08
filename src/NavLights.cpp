@@ -94,7 +94,7 @@ NavLights::NavLights(SceneGraph::Model *model, float period)
 		MatrixTransform *mt = dynamic_cast<MatrixTransform*>(results.at(i));
 		assert(mt);
 		Billboard *bblight = new Billboard(renderer, matBlue, vector3f(0.f), BILLBOARD_SIZE);
-		Uint8 group = 0;
+		Uint32 group = 0;
 		Uint8 mask  = 0xff; //always on
 		Uint8 color = NAVLIGHT_BLUE;
 
@@ -107,7 +107,9 @@ NavLights::NavLights(SceneGraph::Model *model, float period)
 			color = NAVLIGHT_GREEN;
 		} else if (mt->GetName().substr(9, 3) == "pad") {
 			//group by pad number
-			group = atoi(mt->GetName().substr(12, 1).c_str());
+			// due to this problem: http://stackoverflow.com/questions/15825254/why-is-scanfhhu-char-overwriting-other-variables-when-they-are-local
+			// where MSVC is still using a C89 compiler the format identifer %hhu is not recognised. Therefore I've switched to Uint32 for group.
+			PiVerify(1 == sscanf(mt->GetName().c_str(), "navlight_pad%u", &group));
 			mask  = 0xf0;
 		}
 		bblight->SetMaterial(get_material(color));

@@ -24,14 +24,14 @@ protected:
 private:
 	void OnClickGalacticView();
 	void PutLabels(vector3d offset);
-	void MouseButtonDown(int button, int x, int y);
+	void MouseWheel(bool up);
 	Gui::ImageButton *m_zoomInButton;
 	Gui::ImageButton *m_zoomOutButton;
 	Gui::Label *m_scaleReadout;
 	Gui::LabelSet *m_labels;
 	float m_zoom, m_zoomTo;
 	Gui::TexturedQuad m_quad;
-	sigc::connection m_onMouseButtonDown;
+	sigc::connection m_onMouseWheelCon;
 };
 
 #endif /* _GALACTICVIEW_H */

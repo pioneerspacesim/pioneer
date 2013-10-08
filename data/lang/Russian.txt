@@ -534,8 +534,6 @@ Y
     Y
 Z
     Z
-AXIS
-     " Axis"
 WEAPONS
     Управление оружием:
 TARGET_OBJECT_IN_SIGHTS

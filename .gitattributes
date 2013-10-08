@@ -1,1 +1,6 @@
-text eol=lf
+* text=auto
+
+*.dae -text
+*.DAE -text
+*.obj -text
+*.OBJ -text

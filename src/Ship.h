@@ -5,12 +5,12 @@
 #define _SHIP_H
 
 #include "libs.h"
-#include "BezierCurve.h"
 #include "Camera.h"
 #include "DynamicBody.h"
 #include "EquipSet.h"
 #include "galaxy/SystemPath.h"
 #include "NavLights.h"
+#include "Planet.h"
 #include "Serializer.h"
 #include "ShipType.h"
 #include "scenegraph/SceneGraph.h"
@@ -68,6 +68,9 @@ public:
 	/** Use GetDockedWith() to determine if docked */
 	SpaceStation *GetDockedWith() const { return m_dockedWith; }
 	int GetDockingPort() const { return m_dockedWithPort; }
+
+	virtual void SetLandedOn(Planet *p, float latitude, float longitude);
+
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 
 	void SetThrusterState(int axis, double level) {
@@ -109,7 +112,7 @@ public:
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel);
 	virtual bool OnDamage(Object *attacker, float kgDamage);
 
-	enum FlightState { // <enum scope='Ship' name=ShipFlightState>
+	enum FlightState { // <enum scope='Ship' name=ShipFlightState public>
 		FLYING,     // open flight (includes autopilot)
 		DOCKING,    // in docking animation
 		DOCKED,     // docked with station
@@ -120,6 +123,7 @@ public:
 	FlightState GetFlightState() const { return m_flightState; }
 	void SetFlightState(FlightState s);
 	float GetWheelState() const { return m_wheelState; }
+	int GetWheelTransition() const { return m_wheelTransition; }
 	bool SpawnCargo(CargoBody * c_body) const;
 
 	virtual bool IsInSpace() const { return (m_flightState != HYPERSPACE); }
@@ -128,7 +132,7 @@ public:
 	const SystemPath &GetHyperspaceDest() const { return m_hyperspace.dest; }
 	double GetHyperspaceDuration() const { return m_hyperspace.duration; }
 
-	enum HyperjumpStatus { // <enum scope='Ship' name=ShipJumpStatus prefix=HYPERJUMP_>
+	enum HyperjumpStatus { // <enum scope='Ship' name=ShipJumpStatus prefix=HYPERJUMP_ public>
 		HYPERJUMP_OK,
 		HYPERJUMP_CURRENT_SYSTEM,
 		HYPERJUMP_NO_DRIVE,
@@ -162,7 +166,7 @@ public:
 	void UseECM();
 	virtual Missile * SpawnMissile(ShipType::Id missile_type, int power=-1);
 
-	enum AlertState { // <enum scope='Ship' name=ShipAlertStatus prefix=ALERT_>
+	enum AlertState { // <enum scope='Ship' name=ShipAlertStatus prefix=ALERT_ public>
 		ALERT_NONE,
 		ALERT_SHIP_NEARBY,
 		ALERT_SHIP_FIRING,
@@ -187,7 +191,7 @@ public:
 	bool AIIsActive() { return m_curAICmd ? true : false; }
 	void AIGetStatusText(char *str);
 
-	enum AIError { // <enum scope='Ship' name=ShipAIError prefix=AIERROR_>
+	enum AIError { // <enum scope='Ship' name=ShipAIError prefix=AIERROR_ public>
 		AIERROR_NONE=0,
 		AIERROR_GRAV_TOO_HIGH,
 		AIERROR_REFUSED_PERM,
@@ -221,9 +225,9 @@ public:
 	float GetPercentShields() const;
 	float GetPercentHull() const;
 	void SetPercentHull(float);
-	float GetGunTemperature(int idx) const { return m_gunTemperature[idx]; }
+	float GetGunTemperature(int idx) const { return m_gun[idx].temperature; }
 
-	enum FuelState { // <enum scope='Ship' name=ShipFuelStatus prefix=FUEL_>
+	enum FuelState { // <enum scope='Ship' name=ShipFuelStatus prefix=FUEL_ public>
 		FUEL_OK,
 		FUEL_WARNING,
 		FUEL_EMPTY,
@@ -265,9 +269,16 @@ protected:
 
 	SpaceStation *m_dockedWith;
 	int m_dockedWithPort;
-	Uint32 m_gunState[ShipType::GUNMOUNT_MAX];
-	float m_gunRecharge[ShipType::GUNMOUNT_MAX];
-	float m_gunTemperature[ShipType::GUNMOUNT_MAX];
+
+	struct Gun {
+		vector3f pos;
+		vector3f dir;
+		Uint32 state;
+		float recharge;
+		float temperature;
+	};
+	Gun m_gun[ShipType::GUNMOUNT_MAX];
+
 	float m_ecmRecharge;
 
 	ShipController *m_controller;
@@ -284,6 +295,7 @@ private:
     void SetShipId(const ShipType::Id &shipId);
 	void OnEquipmentChange(Equip::Type e);
 	void EnterHyperspace();
+	void InitGun(const char *tag, int num);
 
 	shipstats_t m_stats;
 	const ShipType *m_type;

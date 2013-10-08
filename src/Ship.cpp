@@ -3,7 +3,6 @@
 
 #include "Ship.h"
 #include "CityOnPlanet.h"
-#include "Planet.h"
 #include "Lang.h"
 #include "EnumStrings.h"
 #include "LuaEvent.h"
@@ -24,7 +23,8 @@
 #include "graphics/TextureBuilder.h"
 #include "StringF.h"
 
-#define TONS_HULL_PER_SHIELD 10.0f
+static const float TONS_HULL_PER_SHIELD = 10.f;
+static const double KINETIC_ENERGY_MULT	= 0.01;
 
 void SerializableEquipSet::Save(Serializer::Writer &wr)
 {
@@ -78,9 +78,9 @@ void Ship::Save(Serializer::Writer &wr, Space *space)
 	wr.Float(m_hyperspace.countdown);
 
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
-		wr.Int32(m_gunState[i]);
-		wr.Float(m_gunRecharge[i]);
-		wr.Float(m_gunTemperature[i]);
+		wr.Int32(m_gun[i].state);
+		wr.Float(m_gun[i].recharge);
+		wr.Float(m_gun[i].temperature);
 	}
 	wr.Float(m_ecmRecharge);
 	wr.String(m_type->id);
@@ -123,9 +123,9 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 	m_hyperspace.countdown = rd.Float();
 
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
-		m_gunState[i] = rd.Int32();
-		m_gunRecharge[i] = rd.Float();
-		m_gunTemperature[i] = rd.Float();
+		m_gun[i].state = rd.Int32();
+		m_gun[i].recharge = rd.Float();
+		m_gun[i].temperature = rd.Float();
 	}
 	m_ecmRecharge = rd.Float();
 	SetShipId(rd.String()); // XXX handle missing thirdparty ship
@@ -157,6 +157,21 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
 }
 
+void Ship::InitGun(const char *tag, int num)
+{
+	const SceneGraph::MatrixTransform *mt = GetModel()->FindTagByName(tag);
+	if (mt) {
+		const matrix4x4f &trans = mt->GetTransform();
+		m_gun[num].pos = trans.GetTranslate();
+		m_gun[num].dir = trans.GetOrient().VectorZ();
+	}
+	else {
+		// XXX deprecated
+		m_gun[num].pos = m_type->gunMount[num].pos;
+		m_gun[num].dir = m_type->gunMount[num].dir;
+	}
+}
+
 void Ship::Init()
 {
 	m_navLights.Reset(new NavLights(GetModel()));
@@ -170,12 +185,15 @@ void Ship::Init()
 	m_hyperspaceCloud = 0;
 
 	m_landingGearAnimation = GetModel()->FindAnimation("gear_down");
+
+	InitGun("tag_gunmount_0", 0);
+	InitGun("tag_gunmount_1", 1);
 }
 
 void Ship::PostLoadFixup(Space *space)
 {
 	DynamicBody::PostLoadFixup(space);
-	m_dockedWith = reinterpret_cast<SpaceStation*>(space->GetBodyByIndex(m_dockedWithIndex));
+	m_dockedWith = static_cast<SpaceStation*>(space->GetBodyByIndex(m_dockedWithIndex));
 	if (m_curAICmd) m_curAICmd->PostLoadFixup(space);
 	m_controller->PostLoadFixup(space);
 }
@@ -204,9 +222,9 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	m_hyperspace.countdown = 0;
 	m_hyperspace.now = false;
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
-		m_gunState[i] = 0;
-		m_gunRecharge[i] = 0;
-		m_gunTemperature[i] = 0;
+		m_gun[i].state = 0;
+		m_gun[i].recharge = 0;
+		m_gun[i].temperature = 0;
 	}
 	m_ecmRecharge = 0;
 	m_curAICmd = 0;
@@ -237,7 +255,6 @@ void Ship::SetController(ShipController *c)
 	m_controller = c;
 	m_controller->m_ship = this;
 }
-
 
 float Ship::GetPercentHull() const
 {
@@ -324,7 +341,6 @@ bool Ship::OnDamage(Object *attacker, float kgDamage)
 	return true;
 }
 
-#define KINETIC_ENERGY_MULT	0.01
 bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 {
 	// hitting space station docking surfaces shouldn't do damage
@@ -701,6 +717,24 @@ void Ship::TestLanded()
 	}
 }
 
+void Ship::SetLandedOn(Planet *p, float latitude, float longitude)
+{
+	m_wheelTransition = 0;
+	m_wheelState = 1.0f;
+	Frame* f = p->GetFrame()->GetRotFrame();
+	SetFrame(f);
+	vector3d up = vector3d(cos(latitude)*sin(longitude), sin(latitude), cos(latitude)*cos(longitude));
+	const double planetRadius = p->GetTerrainHeight(up);
+	SetPosition(up * (planetRadius - GetAabb().min.y));
+	vector3d right = up.Cross(vector3d(0,0,1)).Normalized();
+	SetOrient(matrix3x3d::FromVectors(right, up));
+	SetVelocity(vector3d(0, 0, 0));
+	SetAngVelocity(vector3d(0, 0, 0));
+	ClearThrusterState();
+	SetFlightState(LANDED);
+	LuaEvent::Queue("onShipLanded", this, p);
+}
+
 void Ship::TimeStepUpdate(const float timeStep)
 {
 	// If docked, station is responsible for updating position/orient of ship
@@ -778,14 +812,14 @@ void Ship::FireWeapon(int num)
 	if (m_flightState != FLYING) return;
 
 	const matrix3x3d &m = GetOrient();
-	const vector3d dir = m * vector3d(m_type->gunMount[num].dir);
-	const vector3d pos = m * vector3d(m_type->gunMount[num].pos) + GetPosition();
+	const vector3d dir = m * vector3d(m_gun[num].dir);
+	const vector3d pos = m * vector3d(m_gun[num].pos) + GetPosition();
 
-	m_gunTemperature[num] += 0.01f;
+	m_gun[num].temperature += 0.01f;
 
 	Equip::Type t = m_equipment.Get(Equip::SLOT_LASER, num);
 	const LaserType &lt = Equip::lasers[Equip::types[t].tableIndex];
-	m_gunRecharge[num] = lt.rechargeTime;
+	m_gun[num].recharge = lt.rechargeTime;
 	vector3d baseVel = GetVelocity();
 	vector3d dirVel = lt.speed * dir.Normalized();
 
@@ -865,7 +899,7 @@ void Ship::UpdateAlertState()
 
 			Uint32 gunstate = 0;
 			for (int j = 0; j < ShipType::GUNMOUNT_MAX; j++)
-				gunstate |= ship->m_gunState[j];
+				gunstate |= ship->m_gun[j].state;
 
 			if (gunstate) {
 				ship_is_firing = true;
@@ -1002,18 +1036,18 @@ void Ship::StaticUpdate(const float timeStep)
 
 	// lasers
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
-		m_gunRecharge[i] -= timeStep;
+		m_gun[i].recharge -= timeStep;
 		float rateCooling = 0.01f;
 		if (m_equipment.Get(Equip::SLOT_LASERCOOLER) != Equip::NONE)  {
 			rateCooling *= float(Equip::types[ m_equipment.Get(Equip::SLOT_LASERCOOLER) ].pval);
 		}
-		m_gunTemperature[i] -= rateCooling*timeStep;
-		if (m_gunTemperature[i] < 0.0f) m_gunTemperature[i] = 0;
-		if (m_gunRecharge[i] < 0.0f) m_gunRecharge[i] = 0;
+		m_gun[i].temperature -= rateCooling*timeStep;
+		if (m_gun[i].temperature < 0.0f) m_gun[i].temperature = 0;
+		if (m_gun[i].recharge < 0.0f) m_gun[i].recharge = 0;
 
-		if (!m_gunState[i]) continue;
-		if (m_gunRecharge[i] > 0.0f) continue;
-		if (m_gunTemperature[i] > 1.0) continue;
+		if (!m_gun[i].state) continue;
+		if (m_gun[i].recharge > 0.0f) continue;
+		if (m_gun[i].temperature > 1.0) continue;
 
 		FireWeapon(i);
 	}
@@ -1096,7 +1130,7 @@ void Ship::SetDockedWith(SpaceStation *s, int port)
 void Ship::SetGunState(int idx, int state)
 {
 	if (m_equipment.Get(Equip::SLOT_LASER, idx) != Equip::NONE) {
-		m_gunState[idx] = state;
+		m_gun[idx].state = state;
 	}
 }
 
@@ -1104,7 +1138,9 @@ bool Ship::SetWheelState(bool down)
 {
 	if (m_flightState != FLYING) return false;
 	if (is_equal_exact(m_wheelState, down ? 1.0f : 0.0f)) return false;
-	m_wheelTransition = (down ? 1 : -1);
+	int newWheelTransition = (down ? 1 : -1);
+	if (newWheelTransition == m_wheelTransition) return false;
+	m_wheelTransition = newWheelTransition;
 	return true;
 }
 

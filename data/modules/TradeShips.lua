@@ -1,6 +1,16 @@
 -- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+local Engine = import("Engine")
+local Game = import("Game")
+local Space = import("Space")
+local Comms = import("Comms")
+local Timer = import("Timer")
+local Event = import("Event")
+local Serializer = import("Serializer")
+local ShipDef = import("ShipDef")
+local utils = import("utils")
+
 --[[
 	trade_ships
 		interval - is minimum amount of time between hyperspace arrivals,
@@ -137,6 +147,15 @@ local addShipCargo = function (ship, direction)
 		cargo[exports[1]] = total
 	elseif (direction == 'import' and #imports > 1) or
 			(direction == 'export' and #exports > 1) then
+
+		-- happens if there was very little space left to begin with (eg small
+		-- ship with lots of equipment). if we let it through then we end up
+		-- trying to add 0 cargo forever
+		if size_factor < 1 then
+			trade_ships[ship]['cargo'] = cargo
+			return 0
+		end
+
 		while total < empty_space do
 			local cargo_type
 
@@ -299,11 +318,11 @@ local getAcceptableShips = function ()
 			return def.tag == 'SHIP' and def.defaultHyperdrive ~= 'NONE'
 		end
 	end
-	return build_array(
-		map(function (k,def)
+	return utils.build_array(
+		utils.map(function (k,def)
 			return k,def.id
 		end,
-		filter(filter_function,
+		utils.filter(filter_function,
 		pairs(ShipDef)
 	)))
 end

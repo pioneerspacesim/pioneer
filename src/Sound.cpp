@@ -20,6 +20,11 @@
 
 namespace Sound {
 
+static const unsigned int FREQ = 44100;
+static const unsigned int BUF_SIZE = 4096;
+static const unsigned int MAX_WAVSTREAMS = 10; //first two are for music
+static const double STREAM_IF_LONGER_THAN = 10.0;
+
 class OggFileDataStream {
 public:
 	static const ov_callbacks CALLBACKS;
@@ -106,11 +111,6 @@ const ov_callbacks OggFileDataStream::CALLBACKS = {
 static float m_masterVol = 1.0f;
 static float m_sfxVol = 1.0f;
 
-#define FREQ            44100
-#define BUF_SIZE	4096
-#define MAX_WAVSTREAMS	10 //first two are for music
-#define STREAM_IF_LONGER_THAN 10.0
-
 void SetMasterVolume(const float vol)
 {
 	m_masterVol = vol;
@@ -188,7 +188,7 @@ static Sample *GetSample(const char *filename)
 
 static SoundEvent *GetEvent(eventid id)
 {
-	for (int i=0; i<MAX_WAVSTREAMS; i++) {
+	for (unsigned int i = 0; i < MAX_WAVSTREAMS; i++) {
 		if (wavstream[i].sample && (wavstream[i].identifier == id))
 			return &wavstream[i];
 	}
@@ -221,7 +221,6 @@ static void DestroyEvent(SoundEvent *ev)
 	ev->sample = 0;
 }
 
-
 /*
  * Volume should be 0-65535
  */
@@ -229,16 +228,16 @@ static Uint32 identifier = 1;
 eventid PlaySfx (const char *fx, const float volume_left, const float volume_right, const Op op)
 {
 	SDL_LockAudio();
-	int idx;
+	unsigned int idx;
 	Uint32 age;
 	/* find free wavstream (first two reserved for music) */
-	for (idx=2; idx<MAX_WAVSTREAMS; idx++) {
-		if (wavstream[idx].sample == NULL) break;
+	for (idx = 2; idx < MAX_WAVSTREAMS; idx++) {
+		if (!wavstream[idx].sample) break;
 	}
 	if (idx == MAX_WAVSTREAMS) {
 		/* otherwise overwrite oldest one */
 		age = 0; idx = 0;
-		for (int i=2; i<MAX_WAVSTREAMS; i++) {
+		for (unsigned int i = 2; i < MAX_WAVSTREAMS; i++) {
 			if ((i==0) || (wavstream[i].buf_pos > age)) {
 				idx = i;
 				age = wavstream[i].buf_pos;
@@ -268,7 +267,7 @@ eventid PlayMusic(const char *fx, const float volume_left, const float volume_ri
 	const int idx = nextMusicStream;
 	nextMusicStream ^= 1;
 	SDL_LockAudio();
-	if (wavstream[idx].sample != NULL)
+	if (wavstream[idx].sample)
 		DestroyEvent(&wavstream[idx]);
 	wavstream[idx].sample = GetSample(fx);
 	wavstream[idx].oggv = 0;
@@ -398,8 +397,8 @@ static void fill_audio(void *udata, Uint8 *dsp_buf, int len)
 	float *tmpbuf = static_cast<float*>(alloca(sizeof(float)*len_in_floats)); // len is in chars not samples
 	memset(static_cast<void*>(tmpbuf), 0, sizeof(float)*len_in_floats);
 
-	for (int i=0; i<MAX_WAVSTREAMS; i++) {
-		if (wavstream[i].sample == NULL) continue;
+	for (unsigned int i = 0; i < MAX_WAVSTREAMS; i++) {
+		if (!wavstream[i].sample) continue;
 
 		wavstream[i].ascend[0] = (wavstream[i].targetVolume[0] > wavstream[i].volume[0]);
 		wavstream[i].ascend[1] = (wavstream[i].targetVolume[1] > wavstream[i].volume[1]);
@@ -438,7 +437,7 @@ void DestroyAllEvents()
 {
 	/* silence any sound events */
 	SDL_LockAudio();
-	for (int idx=0; idx<MAX_WAVSTREAMS; idx++) {
+	for (unsigned int idx = 0; idx < MAX_WAVSTREAMS; idx++) {
 		DestroyEvent(&wavstream[idx]);
 	}
 	SDL_UnlockAudio();
@@ -528,9 +527,9 @@ bool Init ()
 		wanted.format = AUDIO_S16;
 		wanted.samples = BUF_SIZE;
 		wanted.callback = fill_audio;
-		wanted.userdata = NULL;
+		wanted.userdata = 0;
 
-		if (SDL_OpenAudio (&wanted, NULL) < 0) {
+		if (SDL_OpenAudio (&wanted, 0) < 0) {
 			fprintf (stderr, "Could not open audio: %s\n", SDL_GetError ());
 			return false;
 		}
@@ -627,7 +626,7 @@ bool Event::SetVolume(const float vol_left, const float vol_right)
 {
 	SDL_LockAudio();
 	bool status = false;
-	for (int i=0; i<MAX_WAVSTREAMS; i++) {
+	for (unsigned int i = 0; i < MAX_WAVSTREAMS; i++) {
 		if (wavstream[i].sample && (wavstream[i].identifier == eid)) {
 			wavstream[i].volume[0] = vol_left;
 			wavstream[i].volume[1] = vol_right;

@@ -14,6 +14,7 @@
 #include "Texture.h"
 #include "TextureGL.h"
 #include "VertexArray.h"
+#include "GLDebug.h"
 #include <stddef.h> //for offsetof
 #include <ostream>
 #include <sstream>
@@ -46,8 +47,8 @@ struct SurfaceRenderInfo : public RenderInfo {
 	int glAmount; //index count OR vertex amount
 };
 
-RendererLegacy::RendererLegacy(const Graphics::Settings &vs)
-: Renderer(vs.width, vs.height)
+RendererLegacy::RendererLegacy(WindowSDL *window, const Graphics::Settings &vs)
+: Renderer(window, window->GetWidth(), window->GetHeight())
 , m_numDirLights(0)
 , m_minZNear(10.f)
 , m_maxZFar(1000000.0f)
@@ -70,6 +71,9 @@ RendererLegacy::RendererLegacy(const Graphics::Settings &vs)
 
 	SetClearColor(Color(0.f));
 	SetViewport(0, 0, m_width, m_height);
+
+	if (vs.enableDebugMessages)
+		GLDebug::Enable();
 }
 
 RendererLegacy::~RendererLegacy()
@@ -137,7 +141,7 @@ bool RendererLegacy::SwapBuffers()
 	}
 #endif
 
-	Graphics::SwapBuffers();
+	GetWindow()->SwapBuffers();
 	return true;
 }
 
@@ -191,7 +195,7 @@ bool RendererLegacy::SetTransform(const matrix4x4f &m)
 
 bool RendererLegacy::SetPerspectiveProjection(float fov, float aspect, float near, float far)
 {
-	Graphics::SetFOV(fov);
+	Graphics::SetFov(fov);
 
 	double ymax = near * tan(fov * M_PI / 360.0);
 	double ymin = -ymax;
@@ -235,6 +239,13 @@ bool RendererLegacy::SetBlendMode(BlendMode m)
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 		break;
+	case BLEND_SET_ALPHA:
+		glEnable(GL_BLEND);
+		glBlendFuncSeparate(GL_ZERO, GL_ONE, GL_SRC_COLOR, GL_ZERO);
+		break;
+	case BLEND_DEST_ALPHA:
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_DST_ALPHA, GL_ONE_MINUS_DST_ALPHA);
 	default:
 		return false;
 	}
@@ -269,6 +280,11 @@ bool RendererLegacy::SetLights(int numlights, const Light *lights)
 {
 	if (numlights < 1) return false;
 
+	//glLight depends on the current transform, but we have always
+	//relied on it being identity when setting lights.
+	glPushMatrix();
+	SetTransform(matrix4x4f::Identity());
+
 	m_numLights = numlights;
 	m_numDirLights = 0;
 
@@ -291,6 +307,9 @@ bool RendererLegacy::SetLights(int numlights, const Light *lights)
 
 		assert(m_numDirLights < 5);
 	}
+
+	glPopMatrix();
+
 	//XXX should probably disable unused lights (for legacy renderer only)
 	return true;
 }
@@ -706,6 +725,8 @@ bool RendererLegacy::PrintDebugInfo(std::ostream &out)
 	out << "OpenGL version " << glGetString(GL_VERSION);
 	out << ", running on " << glGetString(GL_VENDOR);
 	out << " " << glGetString(GL_RENDERER) << "\n";
+
+	out << "GLEW version " << glewGetString(GLEW_VERSION) << "\n";
 
 	if (glewIsSupported("GL_VERSION_2_0"))
 		out << "Shading language version: " <<  glGetString(GL_SHADING_LANGUAGE_VERSION_ARB) << "\n";

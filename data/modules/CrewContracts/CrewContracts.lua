@@ -1,6 +1,15 @@
 -- Copyright © 2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+local Translate = import("Translate")
+local Event = import("Event")
+local Serializer = import("Serializer")
+local Engine = import("Engine")
+local Game = import("Game")
+local Character = import("Character")
+local Format = import("Format")
+local Timer = import("Timer")
+
 -- This module allows the player to hire crew members through BB adverts
 -- on stations, and handles periodic events such as their wages.
 
@@ -133,6 +142,11 @@ local wageFromScore = function(score)
 	return math.floor(score * score / 100) + 10
 end
 
+local checkOffer = function(offer)
+	-- Force wage offers to be in correct range
+	return math.max(1,offer)
+end
+
 local crewInThisStation -- Table of available folk available for hire here
 local candidate -- Run-time "static" variable for onChat
 local offer
@@ -220,10 +234,10 @@ local onChat = function (form,ref,option)
 			response = response,
 		}))
 		form:AddOption(t('Make offer of position on ship for stated amount'),1)
-		form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(offer*2)}),2)
-		form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(offer+5)}),3)
-		form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(offer-5)}),4)
-		form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(math.floor(offer/2))}),5)
+		form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(checkOffer(offer*2))}),2)
+		form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(checkOffer(offer+5))}),3)
+		form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(checkOffer(offer-5))}),4)
+		form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(checkOffer(math.floor(offer/2)))}),5)
 		form:AddOption(t('Ask candidate to sit a test'),6)
 		form:AddOption(t('GO_BACK'), 0)
 		form:AddOption(t('HANG_UP'), -1)
@@ -275,7 +289,7 @@ local onChat = function (form,ref,option)
 		if option == 2 then
 			-- Player suggested doubling the offer
 			candidate.playerRelationship = candidate.playerRelationship + 5
-			offer = offer * 2
+			offer = checkOffer(offer * 2)
 			candidate.estimatedWage = offer -- They'll now re-evaluate themself
 			showCandidateDetails(t("That's extremely generous of you!"))
 		end
@@ -283,7 +297,7 @@ local onChat = function (form,ref,option)
 		if option == 3 then
 			-- Player suggested an extra $5
 			candidate.playerRelationship = candidate.playerRelationship + 1
-			offer = offer + 5
+			offer = checkOffer(offer + 5)
 			candidate.estimatedWage = offer -- They'll now re-evaluate themself
 			showCandidateDetails(t("That certainly makes this offer look better!"))
 		end
@@ -292,7 +306,7 @@ local onChat = function (form,ref,option)
 			-- Player suggested $5 less
 			candidate.playerRelationship = candidate.playerRelationship - 1
 			if candidate:TestRoll('playerRelationship') then
-				offer = offer - 5
+				offer = checkOffer(offer - 5)
 				showCandidateDetails(t("OK, I suppose that's all right."))
 			else
 				showCandidateDetails(t("I'm sorry, I'm not prepared to go any lower."))
@@ -303,7 +317,7 @@ local onChat = function (form,ref,option)
 			-- Player suggested halving the offer
 			candidate.playerRelationship = candidate.playerRelationship - 5
 			if candidate:TestRoll('playerRelationship') then
-				offer = math.floor(offer / 2)
+				offer = checkOffer(math.floor(offer / 2))
 				showCandidateDetails(t("OK, I suppose that's all right."))
 			else
 				showCandidateDetails(t("I'm sorry, I'm not prepared to go any lower."))

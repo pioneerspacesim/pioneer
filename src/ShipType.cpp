@@ -9,6 +9,7 @@
 #include "FileSystem.h"
 #include "utils.h"
 #include "Lang.h"
+#include <algorithm>
 
 const char *ShipType::gunmountNames[GUNMOUNT_MAX] = {
 	Lang::FRONT, Lang::REAR };
@@ -33,6 +34,12 @@ static double GetEffectiveExhaustVelocity(double fuelTankMass, double thrusterFu
 	return fabs(denominator > 0 ? forwardThrust/denominator : 1e9);
 }
 
+static bool ShipIsUnbuyable(const ShipType::Id &id)
+{
+	const ShipType &t = ShipType::types[id];
+	return (t.baseprice == 0);
+}
+
 static std::string s_currentShipFile;
 
 int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *list)
@@ -46,6 +53,7 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 
 	LUA_DEBUG_START(L);
 	LuaTable t(L, -1);
+
 	s.name = t.Get("name", "");
 	s.modelName = t.Get("model", "");
 	s.linThrust[ShipType::THRUSTER_REVERSE] = t.Get("reverse_thrust", 0.0f);
@@ -62,7 +70,13 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 	// angthrust fudge (XXX: why?)
 	s.angThrust = s.angThrust / 2;
 
+	lua_pushstring(L, "camera_offset");
+	lua_gettable(L, -2);
+	if (!lua_isnil(L, -1))
+		fprintf(stderr, "ship definition for '%s' has deprecated 'camera_offset' field\n", s.id.c_str());
+	lua_pop(L, 1);
 	s.cameraOffset = t.Get("camera_offset", vector3d(0.0));
+
 	for (int i=0; i<Equip::SLOT_MAX; i++) s.equipSlotCapacity[i] = 0;
 	s.equipSlotCapacity[Equip::SLOT_CARGO] = t.Get("max_cargo", 0);
 	s.equipSlotCapacity[Equip::SLOT_ENGINE] = t.Get("max_engine", 1);
@@ -120,9 +134,17 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 		}
 	}
 
+	for (int i = 0; i < ShipType::GUNMOUNT_MAX; i++) {
+		s.gunMount[i].pos = vector3f(0,0,0);
+		s.gunMount[i].dir = vector3f(0,0,1);
+		s.gunMount[i].sep = 5;
+		s.gunMount[i].orient = ShipType::DUAL_LASERS_HORIZONTAL;
+	}
+
 	lua_pushstring(L, "gun_mounts");
 	lua_gettable(L, -2);
 	if (lua_istable(L, -1)) {
+		fprintf(stderr, "ship definition for '%s' has deprecated 'gun_mounts' field\n", s.id.c_str());
 		for (unsigned int i=0; i<lua_rawlen(L,-1); i++) {
 			lua_pushinteger(L, i+1);
 			lua_gettable(L, -2);
@@ -239,6 +261,11 @@ void ShipType::Init()
 	LUA_DEBUG_END(l, 0);
 
 	lua_close(l);
+
+	//remove unbuyable ships from player ship list
+	ShipType::player_ships.erase(
+		std::remove_if(ShipType::player_ships.begin(), ShipType::player_ships.end(), ShipIsUnbuyable),
+		ShipType::player_ships.end());
 
 	if (ShipType::player_ships.empty())
 		Error("No playable ships have been defined! The game cannot run.");

@@ -53,6 +53,10 @@ AC_PROG_CC
 AC_PROG_CXX
 AC_C_CONST
 AC_PROG_RANLIB
+
+AC_DEFUN([AC_PROG_STRIP], [AC_CHECK_TOOL(STRIP, strip, :)])
+AC_PROG_STRIP
+
 #AC_PROG_LIBTOOL
 
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES])
@@ -118,6 +122,11 @@ AC_ARG_ENABLE([ldb], AS_HELP_STRING([--enable-ldb], [Enable ldb support.]), [EXT
 AC_ARG_WITH([fno-inline],  AS_HELP_STRING([--with-fno-inline], [Compile without inlining. Helps debugging segaults that occur in STL code]), [PIONEER_C_CXX_FLAG([-fno-inline])])
 AC_ARG_WITH([gprof],       AS_HELP_STRING([--with-gprof], [Compile with gprof profiler]), [PIONEER_C_CXX_FLAG([-pg])])
 
+dnl Strip binary after build
+DO_STRIP=no
+AC_ARG_WITH([strip], AS_HELP_STRING([--with-strip], [Strip binary after build]), [test "$withval" != no && DO_STRIP=yes], [])
+AM_CONDITIONAL([DO_STRIP], [test "$DO_STRIP" = yes])
+
 
 dnl Versioning. If this is a git checkout, try to get details from it
 PIONEER_VERSION=
@@ -137,6 +146,8 @@ AC_ARG_WITH([version], AS_HELP_STRING([--with-version], [Game version]), [PIONEE
 AC_ARG_WITH([extra-version], AS_HELP_STRING([--with-extra-version], [Additional version info]), [PIONEER_EXTRAVERSION=$withval])
 
 EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DPIONEER_VERSION=\\\"$PIONEER_VERSION\\\" -DPIONEER_EXTRAVERSION=\\\"$PIONEER_EXTRAVERSION\\\""
+
+EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DGLEW_STATIC"
 
 
 dnl Compiler warning options
@@ -218,7 +229,7 @@ dnl Check for sigc++
 PKG_CHECK_MODULES([SIGC], [sigc++-2.0])
 
 dnl Check for SDL
-PKG_CHECK_MODULES([SDL], [sdl SDL_image])
+PKG_CHECK_MODULES([SDL2], [sdl2 SDL2_image])
 
 dnl Check for Freetype
 PKG_CHECK_MODULES([FREETYPE], [freetype2])
@@ -288,14 +299,8 @@ dnl Check for OpenGL libs
 if test "x$MXE_CROSS" = "xyes" ; then
 	AC_SUBST([GL_CFLAGS], [])
 	AC_SUBST([GL_LIBS], [-lopengl32])
-	AC_SUBST([GLU_CFLAGS], [])
-	AC_SUBST([GLU_LIBS], [-lglu32])
-	AC_SUBST([GLEW_CFLAGS], [-DGLEW_BUILD])
-	AC_SUBST([GLEW_LIBS], [-lglew32s])
 else
 	PIONEER_CHECK_LIB([GL],   [gl],   [GL],   [glBegin])
-	PIONEER_CHECK_LIB([GLU],  [glu],  [GLU],  [gluSphere])
-	PIONEER_CHECK_LIB([GLEW], [glew], [GLEW], [glewInit])
 fi
 
 dnl ###########################################################################
@@ -371,7 +376,10 @@ AC_CONFIG_FILES([
 	contrib/lua/Makefile
 	contrib/miniz/Makefile
 	contrib/jenkins/Makefile
+	contrib/json/Makefile
+	contrib/PicoDDS/Makefile
 	contrib/vcacheopt/Makefile
+	contrib/glew/Makefile
 	osx/Makefile
 	win32/Makefile])
 AC_OUTPUT

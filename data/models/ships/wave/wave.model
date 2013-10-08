@@ -5,7 +5,7 @@ diffuse 0.9 0.9 0.9
 specular 0.05 0.05 0.05
 shininess 100
 tex_diff wave.png
-
+use_patterns
 material glow-material
 diffuse 0.9 0.9 0.9
 specular 0 0 0
@@ -26,6 +26,8 @@ material landing-gear-material
 diffuse 0.3 0.3 0.3
 specular 0 0 0
 
+
+
 lod 50
 mesh wave-mq.dae
 mesh shieldfield.DAE
@@ -35,4 +37,4 @@ mesh wave.dae
 mesh shieldfield.DAE
 anim gear_down 0 85
 
-collision wave-collision.obj
+collision wave_coll.dae

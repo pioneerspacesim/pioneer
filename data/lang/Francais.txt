@@ -518,8 +518,6 @@ Y
     Y
 Z
     Z
-AXIS
-     " Axe"
 WEAPONS
     Armes
 TARGET_OBJECT_IN_SIGHTS

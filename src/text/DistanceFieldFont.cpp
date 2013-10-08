@@ -134,7 +134,7 @@ void DistanceFieldFont::ParseChar(const StringRange &r)
 	double yoffset = 0.0;
 	double advance = 0.0;
 
-	while (ss >> token != 0) {
+	while (ss >> token) {
 			std::pair<std::string, std::string> pair;
 			split_token(token, pair);
 
@@ -172,7 +172,7 @@ void DistanceFieldFont::ParseCommon(const StringRange &line)
 	std::stringstream ss(line.ToString());
 	std::string token;
 
-	while (ss >> token != 0) {
+	while (ss >> token) {
 		std::pair<std::string, std::string> pair;
 		split_token(token, pair);
 		if (pair.first == "scaleW")
@@ -189,7 +189,7 @@ void DistanceFieldFont::ParseInfo(const StringRange &line)
 	std::stringstream ss(line.ToString());
 	std::string token;
 
-	while (ss >> token != 0) {
+	while (ss >> token) {
 		std::pair<std::string, std::string> pair;
 		split_token(token, pair);
 		if (pair.first == "size") {

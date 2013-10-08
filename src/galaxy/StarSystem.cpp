@@ -17,7 +17,7 @@
 #include "Lang.h"
 #include "StringF.h"
 
-#define CELSIUS	273.15
+static const double CELSIUS	= 273.15;
 //#define DEBUG_DUMP
 
 // minimum moon mass a little under Europa's
@@ -808,7 +808,6 @@ double SystemBody::GetMaxChildOrbitalDistance() const
 	return AU * max;
 }
 
-
 /*
  * These are the nice floating point surface temp calculating turds.
  *
@@ -863,7 +862,6 @@ static int CalcSurfaceTemp(const SystemBody *primary, fixed distToPrimary, fixed
 	const fixed surface_temp_pow4 = energy_per_meter2*(1-albedo)/(1-greenhouse);
 	return int(isqrt(isqrt((surface_temp_pow4.v>>fixed::FRAC)*4409673)));
 }
-
 
 double SystemBody::CalcSurfaceGravity() const
 {
@@ -1007,7 +1005,7 @@ void StarSystem::GenerateFromCustom(const CustomSystem *customSys, Random &rand)
 
 	rootBody.Reset(NewBody());
 	rootBody->type = csbody->type;
-	rootBody->parent = NULL;
+	rootBody->parent = 0;
 	rootBody->seed = csbody->want_rand_seed ? rand.Int32() : csbody->seed;
 	rootBody->seed = rand.Int32();
 	rootBody->radius = csbody->radius;
@@ -1113,7 +1111,7 @@ void StarSystem::MakeBinaryPair(SystemBody *a, SystemBody *b, fixed minDist, Ran
 		}
 		a->semiMajorAxis *= mul;
 		mul *= 2;
-	} while (a->semiMajorAxis < minDist);
+	} while (a->semiMajorAxis - a->eccentricity*a->semiMajorAxis < minDist);
 
 	const double total_mass = a->GetMass() + b->GetMass();
 	const double e = a->eccentricity.ToDouble();
@@ -1375,7 +1373,6 @@ SystemBody::AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 	return params;
 }
 
-
 /*
  * As my excellent comrades have pointed out, choices that depend on floating
  * point crap will result in different universes on different platforms.
@@ -1421,7 +1418,7 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path)
 	}
 
 	SystemBody *star[4];
-	SystemBody *centGrav1(NULL), *centGrav2(NULL);
+	SystemBody *centGrav1(0), *centGrav2(0);
 
 	const int numStars = s.m_systems[m_path.systemIndex].numStars;
 	assert((numStars >= 1) && (numStars <= 4));
@@ -1429,7 +1426,7 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path)
 	if (numStars == 1) {
 		SystemBody::BodyType type = s.m_systems[m_path.systemIndex].starType[0];
 		star[0] = NewBody();
-		star[0]->parent = NULL;
+		star[0]->parent = 0;
 		star[0]->name = s.m_systems[m_path.systemIndex].name;
 		star[0]->orbMin = fixed(0);
 		star[0]->orbMax = fixed(0);
@@ -1440,7 +1437,7 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path)
 	} else {
 		centGrav1 = NewBody();
 		centGrav1->type = SystemBody::TYPE_GRAVPOINT;
-		centGrav1->parent = NULL;
+		centGrav1->parent = 0;
 		centGrav1->name = s.m_systems[m_path.systemIndex].name+" A,B";
 		rootBody.Reset(centGrav1);
 
@@ -1459,7 +1456,8 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path)
 		centGrav1->mass = star[0]->mass + star[1]->mass;
 		centGrav1->children.push_back(star[0]);
 		centGrav1->children.push_back(star[1]);
-		const fixed minDist1 = (star[0]->radius + star[1]->radius) * AU_SOL_RADIUS;
+		// Separate stars by 0.2 radii for each, so that their planets don't bump into the other star
+		const fixed minDist1 = (fixed(12,10) * star[0]->radius + fixed(12,10) * star[1]->radius) * AU_SOL_RADIUS;
 try_that_again_guvnah:
 		MakeBinaryPair(star[0], star[1], minDist1, rand);
 
@@ -1498,7 +1496,8 @@ try_that_again_guvnah:
 				MakeStarOfTypeLighterThan(star[3], s.m_systems[m_path.systemIndex].starType[3],
 					star[2]->mass, rand);
 
-				const fixed minDist2 = (star[2]->radius + star[3]->radius) * AU_SOL_RADIUS;
+				// Separate stars by 0.2 radii for each, so that their planets don't bump into the other star
+				const fixed minDist2 = (fixed(12,10) * star[2]->radius + fixed(12,10) * star[3]->radius) * AU_SOL_RADIUS;
 				MakeBinaryPair(star[2], star[3], minDist2, rand);
 				centGrav2->mass = star[2]->mass + star[3]->mass;
 				centGrav2->children.push_back(star[2]);
@@ -1507,7 +1506,7 @@ try_that_again_guvnah:
 			}
 			SystemBody *superCentGrav = NewBody();
 			superCentGrav->type = SystemBody::TYPE_GRAVPOINT;
-			superCentGrav->parent = NULL;
+			superCentGrav->parent = 0;
 			superCentGrav->name = s.m_systems[m_path.systemIndex].name;
 			centGrav1->parent = superCentGrav;
 			centGrav2->parent = superCentGrav;
@@ -1926,7 +1925,7 @@ void SystemBody::PickPlanetType(Random &rand)
 		// H2O boils
 		if (averageTemp > 373) greenhouse += amount_volatiles * fixed(1,3);
 
-		if(greenhouse > 0.7f) { // never reach 1, but 1/(1-greenhouse) still grows
+		if(greenhouse > fixed(7,10)) { // never reach 1, but 1/(1-greenhouse) still grows
 			greenhouse *= greenhouse;
 			greenhouse *= greenhouse;
 			greenhouse = greenhouse / (greenhouse + fixed(32,311));
@@ -2014,7 +2013,6 @@ void StarSystem::MakeShortDescription(Random &rand)
 	}
 }
 
-
 /* percent */
 #define MAX_COMMODITY_BASE_PRICE_ADJUSTMENT 25
 
@@ -2027,7 +2025,7 @@ void StarSystem::Populate(bool addSpaceStations)
 	/* Various system-wide characteristics */
 	// This is 1 in sector (0,0,0) and approaches 0 farther out
 	// (1,0,0) ~ .688, (1,1,0) ~ .557, (1,1,1) ~ .48
-	m_humanProx = Faction::IsHomeSystem(m_path) ? fixed(2,3): fixed(3,1) / isqrt(9 + 10*(m_path.sectorX*m_path.sectorX + m_path.sectorY*m_path.sectorY + m_path.sectorZ*m_path.sectorZ));	
+	m_humanProx = Faction::IsHomeSystem(m_path) ? fixed(2,3): fixed(3,1) / isqrt(9 + 10*(m_path.sectorX*m_path.sectorX + m_path.sectorY*m_path.sectorY + m_path.sectorZ*m_path.sectorZ));
 	m_econType = ECON_INDUSTRY;
 	m_industrial = rand.Fixed();
 	m_agricultural = 0;
@@ -2468,7 +2466,6 @@ std::string StarSystem::ExportBodyToLua(FILE *f, SystemBody *body) {
 
 	fprintf(f, "\n");
 
-
 	if(body->children.size() > 0) {
 		code_list = code_list + ", \n\t{\n";
 		for (Uint32 ii = 0; ii < body->children.size(); ii++) {
@@ -2484,7 +2481,6 @@ std::string StarSystem::ExportBodyToLua(FILE *f, SystemBody *body) {
 std::string StarSystem::GetStarTypes(SystemBody *body) {
 	int i = 0;
 	std::string types = "";
-
 
 	if(body->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
 		for(i = 0; ENUM_BodyType[i].name != 0; i++) {
@@ -2512,7 +2508,6 @@ void StarSystem::ExportToLua(const char *filename) {
 	fprintf(f,"-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details\n");
 	fprintf(f,"-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt\n\n");
 
-
 	std::string stars_in_system = GetStarTypes(rootBody.Get());
 
 	for(j = 0; ENUM_PolitGovType[j].name != 0; j++) {
@@ -2522,7 +2517,6 @@ void StarSystem::ExportToLua(const char *filename) {
 
 	fprintf(f,"local system = CustomSystem:new('%s', { %s })\n\t:govtype('%s')\n\t:short_desc('%s')\n\t:long_desc([[%s]])\n\n",
 			GetName().c_str(), stars_in_system.c_str(), ENUM_PolitGovType[j].name, GetShortDescription(), GetLongDescription());
-
 
 	fprintf(f, "system:bodies(%s)\n\n", ExportBodyToLua(f, rootBody.Get()).c_str());
 

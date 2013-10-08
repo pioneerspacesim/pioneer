@@ -11,6 +11,11 @@
 #include <dirent.h>
 #include <unistd.h>
 
+// on unix this is set from configure
+#ifndef PIONEER_DATA_DIR
+#define PIONEER_DATA_DIR "data"
+#endif
+
 #ifdef _XCODE
 #include "CoreFoundation/CoreFoundation.h"
 #import <sys/param.h> /* for MAXPATHLEN */
@@ -123,7 +128,7 @@ namespace FileSystem {
 			fseek(fl, 0, SEEK_END);
 			long sz = ftell(fl);
 			fseek(fl, 0, SEEK_SET);
-			char *data = reinterpret_cast<char*>(std::malloc(sz));
+			char *data = static_cast<char*>(std::malloc(sz));
 			if (!data) {
 				// XXX handling memory allocation failure gracefully is too hard right now
 				fprintf(stderr, "failed when allocating buffer for '%s'\n", fullpath.c_str());

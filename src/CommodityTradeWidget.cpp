@@ -7,8 +7,8 @@
 #include "CommodityTradeWidget.h"
 #include "Lang.h"
 
-#define RBUTTON_DELAY 500
-#define RBUTTON_REPEAT 50
+static const unsigned int RBUTTON_DELAY  = 500;
+static const unsigned int RBUTTON_REPEAT = 50;
 
 struct icon_map_t {
 	Equip::Type type;

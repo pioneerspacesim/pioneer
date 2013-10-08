@@ -1,9 +1,15 @@
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef JOBQUEUE_H
 #define JOBQUEUE_H
 
 #include <deque>
 #include <vector>
+#include <string>
 #include "SDL_thread.h"
+
+static const Uint32 MAX_THREADS = 64;
 
 class JobQueue;
 class JobRunner;
@@ -30,8 +36,7 @@ public:
 	virtual void OnCancel() {}
 
 private:
-	friend JobQueue;
-	friend JobRunner;
+	friend class JobQueue;
 	bool cancelled;
 };
 
@@ -42,6 +47,8 @@ class JobRunner {
 public:
 	JobRunner(JobQueue *jq, const uint8_t idx);
 	~JobRunner();
+	SDL_mutex *GetQueueDestroyingLock();
+	void SetQueueDestroyed();
 
 private:
 	static int Trampoline(void *);
@@ -51,10 +58,13 @@ private:
 
 	Job *m_job;
 	SDL_mutex *m_jobLock;
+	SDL_mutex *m_queueDestroyingLock;
 
 	SDL_Thread *m_threadId;
 
 	uint8_t m_threadIdx;
+	std::string m_threadName;
+	bool m_queueDestroyed;
 };
 
 
@@ -97,7 +107,6 @@ private:
 	SDL_mutex *m_queueLock;
 	SDL_cond *m_queueWaitCond;
 
-	static const uint32_t MAX_THREADS = 64;
 	std::deque<Job*> m_finished[MAX_THREADS];
 	SDL_mutex *m_finishedLock[MAX_THREADS];
 

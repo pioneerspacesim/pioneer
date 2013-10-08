@@ -7,6 +7,7 @@
 #include "Frame.h"
 #include "Star.h"
 #include "Planet.h"
+#include "CityOnPlanet.h"
 #include <algorithm>
 #include <functional>
 #include "Pi.h"
@@ -55,7 +56,6 @@ void Space::BodyNearFinder::GetBodiesMaybeNear(const vector3d &pos, double dist,
 	}
 }
 
-
 Space::Space(Game *game)
 	: m_game(game)
 	, m_frameIndexValid(false)
@@ -85,6 +85,8 @@ Space::Space(Game *game, const SystemPath &path)
 	m_starSystem = StarSystem::GetCached(path);
 	m_background.Refresh(m_starSystem->GetSeed());
 
+	CityOnPlanet::SetCityModelPatterns(m_starSystem->GetPath());
+
 	// XXX set radius in constructor
 	m_rootFrame.Reset(new Frame(0, Lang::SYSTEM));
 	m_rootFrame->SetRadius(FLT_MAX);
@@ -109,6 +111,8 @@ Space::Space(Game *game, Serializer::Reader &rd)
 	m_starSystem = StarSystem::Unserialize(rd);
 	m_background.Refresh(m_starSystem->GetSeed());
 	RebuildSystemBodyIndex();
+
+	CityOnPlanet::SetCityModelPatterns(m_starSystem->GetPath());
 
 	Serializer::Reader section = rd.RdSection("Frames");
 	m_rootFrame.Reset(Frame::Unserialize(section, this, 0));
@@ -534,7 +538,12 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 		// if there are no orbiting bodies use a frame of several radii.
 		Frame *orbFrame = new Frame(f, sbody->name.c_str());
 		orbFrame->SetBodies(sbody, b);
-		orbFrame->SetRadius(std::max(10.0*sbody->GetRadius(), sbody->GetMaxChildOrbitalDistance()*1.1));
+		double frameRadius = std::max(10.0*sbody->GetRadius(), sbody->GetMaxChildOrbitalDistance()*1.1);
+		// Respect the frame of other stars in the multi-star system. We still make sure that the frame ends outside
+		// the body. For a minimum separation of 1.236 radii, nothing will overlap (see StarSystem::StarSystem()).
+		if (sbody->parent && frameRadius > AU * 0.11 * sbody->orbMin.ToDouble())
+			frameRadius = std::max(1.1*sbody->GetRadius(), AU * 0.11 * sbody->orbMin.ToDouble());
+		orbFrame->SetRadius(frameRadius);
 		b->SetFrame(orbFrame);
 		return orbFrame;
 	}
@@ -574,7 +583,7 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 	} else {
 		assert(0);
 	}
-	return NULL;
+	return 0;
 }
 
 void Space::GenBody(SystemBody *sbody, Frame *f)
@@ -721,7 +730,7 @@ static void CollideWithTerrain(Body *body)
 
 	const Aabb &aabb = dynBody->GetAabb();
 	double altitude = body->GetPosition().Length() + aabb.min.y;
-	if (altitude >= terrain->GetMaxFeatureRadius()) return;
+	if (altitude >= (terrain->GetMaxFeatureRadius()*2.0)) return;
 
 	double terrHeight = terrain->GetTerrainHeight(body->GetPosition().Normalized());
 	if (altitude >= terrHeight) return;

@@ -1,6 +1,12 @@
 -- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+local Translate = import("Translate")
+local Engine = import("Engine")
+local Game = import("Game")
+local SystemPath = import("SystemPath")
+local ErrorScreen = import("ErrorScreen")
+
 local ui = Engine.ui
 local t = Translate:GetTranslator()
 
@@ -15,13 +21,20 @@ local setupPlayerWave = function ()
 	Game.player:SetMoney(100)
 end
 
+local loadGame = function (path)
+	local ok, err = pcall(Game.LoadGame, path)
+	if not ok then
+		ErrorScreen.ShowError(t('Could not load game: ') .. err)
+	end
+end
+
 local doLoadDialog = function ()
 	ui:SetInnerWidget(
 		ui.templates.FileDialog({
 			title       = t("Select game to load..."),
 			path        = "savefiles",
 			selectLabel = t("Load game"),
-			onSelect    = function (filename) Game.LoadGame(filename) end,
+			onSelect    = loadGame,
 			onCancel    = function () ui:SetInnerWidget(ui.templates.MainMenu()) end
 		})
 	)
@@ -30,6 +43,7 @@ end
 local buttonDefs = {
 	{ t("Start at Earth"),    function () Game.StartGame(SystemPath.New(0,0,0,0,9))   setupPlayerWave() end },
 	{ t("Start at New Hope"), function () Game.StartGame(SystemPath.New(1,-1,-1,0,4)) setupPlayerWave() end },
+	{ t("Start at Barnard's Star"), function () Game.StartGame(SystemPath.New(-1,0,0,0,1)) setupPlayerWave() end },
 	{ t("Load game"),         doLoadDialog },
 	{ t("Options"),           function () Engine.SettingsView() end },
 	{ t("Quit"),              function () Engine.Quit() end },

@@ -1,3 +1,196 @@
+October 2013
+
+   * New features
+     * New ship "Xylophis Short Range Shuttle" (#2442)
+     * New ship "Kanara Interceptor" (civilian version) (#2454, #2461)
+     * Vertical speed is shown with altitude, up to 10000 km or half the
+       planet's radius (#2446)
+
+   * Minor changes and tweaks
+     * Improved ship textures (#2450)
+     * Resized DSMiner
+     * Updated the Deneb to use new camera and gun tag-points (#2460)
+     * Set Speed mode is now initialised with the ship's forward speed (#2469)
+
+   * Fixes
+     * Modelviewer now correctly reloads tag-points when switching models
+       (#2451, #2456)
+     * Correctly setup UI sizing from window size (#2455, #2453)
+     * Fix TradeShips hang when trying to add cargo to almost-full ship
+       (#2459, #2432)
+     * Fix window/GL setup when multisampled antialiasing is requested but not
+       available (#2425)
+     * Fix a thread shutdown race condition that caused crashes at game exit
+       (#2464)
+     * Fix crash when game load fails (#2467, #2466)
+
+   * Model changes
+     * Pattern textures can now have alpha channels (#2449)
+
+   * Internal changes
+     * Lua blobs will now be correctly serialized (#2463)
+     * Removed many unnecessary uses of reinterpret_cast (#2465)
+     * Fix some problems reported by valgrind (#2472)
+     * Miscellaneous code improvements (#2474)
+
+September 2013
+
+   * New features
+     * New ship "Kanara Police Interceptor" (#2441)
+
+   * Minor changes and tweaks
+     * Improve thruster rendering (#2426, #1960)
+     * Added OpenGL debug output. Set EnableGLDebug in config.ini to enable
+       it (#2413)
+     * System Info View now shows orbital info for binary pairs (#2423)
+     * System Info View now shows body radius in kilometres (#2423)
+
+   * Fixes
+     * Fix SmartTable scrolling (#2349)
+     * Fix huge memory consumption on heightmapped terrains (#2418, 2405)
+     * Partially fix terrain collision failures (#2429, #2337)
+     * Allow an arbitrary number of navlight tags (#2427, #2438))
+
+   * Script and UI API changes
+     * A new module import system is now in place. Each dependency now needs
+       to be declared explicitly. See the Pull Request discussion for more
+       details (#1499)
+     * Lua scripts now run in individual sandboxes, with their own global
+       table. Interaction between modules needs to be done via explicit APIs
+       and imports. PersistentCharacters has been moved to
+       Character.persistent (#2417)
+     * Removed deprecated ShipType interface
+     * Rand.New now checks the type of its optional seed argument (#2445)
+
+   * Model changes
+     * Camera and gunmounts are now specified using tag points in the model.
+       Ship definition fields "camera_offset" and "gum_mounts" are now
+       deprecated (#2422)
+
+   * Internal changes
+     * Converted to SDL 2.0 (#2433, #2448)
+     * Remove GLU dependency (#2414)
+     * Bundle GLEW 1.10 (#2415)
+     * Upgrade miniz and force inline/static use (#2444)
+
+August 2013
+
+   * New features
+     * New ship "Amphiesma" (#2396)
+     * The Sector View now displays a sphere to show the hyperspace reach (#2378)
+     * New start point: Barnard's Star (#2240, #2402)
+
+   * Minor changes and tweaks
+     * Rescaled Wave model (#2400)
+     * Fix greenhouse gas calculations during planet generation (#2398)
+
+   * Internal changes
+     * Cleanup heightmap loader (#2392)
+
+   * Build system
+     * Early support for VS 2013 (#2391)
+     * Bundled jsoncpp library (#2406)
+
+July 2013
+
+   * New features
+     * New ship "Pumpkinseed" (#2352)
+     * New ship "Mola Mola" (#2355)
+     * New ship "Venturestar" (#2388)
+     * Enable patterns/colors on buildings (#2342)
+     * New wind sounds (#2365)
+
+   * Fixes
+     * Fix damage particle rendering (#2353)
+     * Fix joystick handling under timeaccel (#2390)
+     * Lua: onCargoUnload should return planet landed on (#2360)
+
+   * Minor changes and tweaks
+     * Updated Deneb model (#2339)
+     * Ships with zero price will no longer appear in the market (#2361)
+     * Show text in worldview when game is paused (#2358, #1331)
+     * Revert projectile speed changes done in #1607 due to collision issues
+
+   * Script and UI API changes
+     * Only use Color objects in UI API (#2362)
+     * UI: gauge widget (#2367)
+     * UI: formatted number label widget (#2369)
+     * UI: raw Lua strings are automatically converted to label widgets (#2386)
+     * UI: New Table container (#2387)
+     * New API: Space.SpawnShipLanded, Space.SpawnShipLandedNear,
+       SpaceStation.GetGroundPosition (#2372)
+
+   * Internal changes
+     * Render target infrastructure (#2356)
+     * Combined texture and image format enums (#2356)
+     * Bind object properties to UI widgets (#2366)
+     * Moved GetNumCores into OS:: namespace (#2368)
+
+June 2013
+
+   * New features
+     * Textures can now be loaded from DDS files (#2311)
+     * New ship "Pumpkinseed" (#2352)
+
+   * Fixes
+     * Fix potential future bug in texture loading (#2340)
+     * Don't recreate collision meshes unnecessarily (#2346)
+     * Make sure frames in multi-star systems don't overlap (#2344, 2351)
+
+   * Minor changes and tweaks
+     * Refund 50% of old ship value when buying a new ship (#2343, #2345)
+     * Do visibility test for an entire city before checking
+       individual buildings (#2341)
+
+   * Internal changes
+     * Code style: use static const for all constants (#2348)
+     * Clean up remnants of OpenGL matrix stack use (#2350)
+
+May 2013
+
+   * New features
+     * Multithreaded Job based Terrain Patch generation
+       (#2163, #2268, #2262, #2295, #2298, #2282, #2290)
+     * Docking bays now have size constraints (#2291)
+     * The crew listing now shows the amount of wages and the total owed (#2310)
+     * The control panel can be hidden using the 'toggle labels' key (#82, #2303)
+     * New city on New Hope — Itzalean — on a eclipsy location (#2192)
+
+   * Minor changes and tweaks
+     * Model level-of-detail now takes field of view into account (#2257, #2077)
+     * Improvements to translatability of joystick axis descriptions.
+       (#2272, #2280, #2281)
+     * New ships are always fully fueled (#2283, #2162)
+     * Mission list in the info screen (F3) now has a scroll bar (#1850, #2306)
+     * Equipment list in the info screen (F3) now has a scroll bar (#2309)
+     * Current system path is displayed when the HUD is hidden, unless option
+       DisableScreenshotInfo=1 is set in the game config file (#1709, #2303)
+
+   * Model changes
+     * Thrusters and navigation lights from the highest LOD are now used at all LODs
+       (#2110, #2316)
+
+   * Script and UI API changes
+     * New Game.{End, Save}Game Lua interfaces (#2284)
+
+   * Fixes
+     * Crew can no longer be hired with a negative salary (#2254)
+     * Fix landing gear sound repeating when autopilot lowers the undercarriage (#2269)
+     * Fix landing gear button toggling briefly when lowering gear (#2269)
+     * Hide autopilot options during docking when they are unavailable (#2263, #2285)
+     * Hide hull temperature gauge when value is under 1% of "maximum" (#2267, #2304)
+     * Generate the terrain while in pause (#2301, #2312)
+
+   * Internal changes
+     * Enum mapping tables now have a visibility specifier (#2276)
+     * Removal of the unused BezierCurve and RefList classes (#2274)
+     * The game constants live now all in src/gameconsts.h (#2274)
+     * Silence some debug printouts for the faction code. (#2274)
+     * Object property system now uses LuaTable. (#2275)
+     * Maximum texture mip-map level is set to 0 for non-mipmapped textures (#2288)
+     * Clean up the eclipse code to make it more standard compliant (#2192)
+     * New ScopedTable, like LuaTable but cleans the stack on destruction (#2315)
+
 April 2013
 
    * New features
@@ -36,7 +229,6 @@ April 2013
      * Stars with flattening due to fast rotation, i.e; ellipsoids (#2178)
      * Update bundled Lua to version 5.2.2 (#2230)
      * Model loader: improve instancing (#2228)
-     * Multithreaded Job based Terrain Patch generation (#2163)
 
 Alpha 33
 

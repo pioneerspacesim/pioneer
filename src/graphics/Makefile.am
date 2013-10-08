@@ -9,9 +9,12 @@ INCLUDES = -I$(srcdir)/.. -isystem $(top_srcdir)/contrib
 noinst_LIBRARIES = libgraphics.a
 noinst_HEADERS = \
 	Graphics.h \
+	WindowSDL.h \
 	Renderer.h \
 	RendererGL2.h \
 	RendererLegacy.h \
+	RenderTarget.h \
+	GLDebug.h \
 	Frustum.h \
 	Light.h \
 	Material.h \
@@ -24,6 +27,8 @@ noinst_HEADERS = \
 	TextureBuilder.h \
 	Drawables.h \
 	gl2/GL2Material.h \
+	gl2/GL2RenderTarget.h \
+	gl2/FresnelColourMaterial.h \
 	gl2/GeoSphereMaterial.h \
 	gl2/MultiMaterial.h \
 	gl2/Program.h \
@@ -33,6 +38,7 @@ noinst_HEADERS = \
 
 libgraphics_a_SOURCES = \
 	Graphics.cpp \
+	WindowSDL.cpp \
 	Renderer.cpp \
 	RendererGL2.cpp \
 	RendererLegacy.cpp \
@@ -46,6 +52,8 @@ libgraphics_a_SOURCES = \
 	TextureBuilder.cpp \
 	Drawables.cpp \
 	gl2/GL2Material.cpp \
+	gl2/GL2RenderTarget.cpp \
+	gl2/FresnelColourMaterial.cpp \
 	gl2/GeoSphereMaterial.cpp \
 	gl2/MultiMaterial.cpp \
 	gl2/Program.cpp \

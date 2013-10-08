@@ -1,6 +1,8 @@
 -- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+local Translate = import("Translate")
+
 ---- ENGLISH / ENGLISH ----
 
 Translate:Add({ English = {
@@ -46,5 +48,13 @@ Translate:Add({ Deutsch = {
 Translate:Add({ Czech = {
 	["Welcome aboard {station}. Your docking and fuelling fee of {fee} has been deducted."] = "Vítejte na palubě stanice {station}. Poplatek {fee} za přistání a tankování, byl odečten z tvého účtu.",
 	["This is {station}. You do not have enough for your docking fee of {fee}. Your fuel has been witheld."] = "Tady stanice {station}. Nemáš dostatek peněz na poplatek ve výši {fee}. Tvé palivo bylo zadrženo.",
+}
+})
+
+---- ESPAÑOL / SPANISH ----
+
+Translate:Add({ Spanish = {
+	["Welcome aboard {station}. Your docking and fuelling fee of {fee} has been deducted."] = "Bienvenido a bordo de la {station}. Su tarifa de acoplamiento y de abasteciomiento de fuel de {fee} se ha deducido.",
+	["This is {station}. You do not have enough for your docking fee of {fee}. Your fuel has been witheld."] = "Esta es la {station}. No dispone de suficiente para su tarifa de acoplamiento de {fee}. Su abastecimiento ha sido denegado.",
 }
 })

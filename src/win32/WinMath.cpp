@@ -359,7 +359,7 @@ double LogOnePlusX(double x)
     return (-0.5*x + 1.0)*x;
 }
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER) && (_MSC_VER<=1700)
 // http://social.msdn.microsoft.com/Forums/en-US/Vsexpressvc/thread/25c923af-a824-40f8-8fd4-e5574bc147af/
 double asinh(double value) {
 	double returned;

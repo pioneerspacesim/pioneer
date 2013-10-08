@@ -33,9 +33,9 @@ public:
 	~GeoSphere();
 
 	void Update();
-	void Render(Graphics::Renderer *renderer, vector3d campos, const float radius, const float scale, const std::vector<Camera::Shadow> &shadows);
+	void Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const float scale, const std::vector<Camera::Shadow> &shadows);
 
-	inline double GetHeight(vector3d p) const {
+	inline double GetHeight(const vector3d &p) const {
 		const double h = m_terrain->GetHeight(p);
 		s_vtxGenCount++;
 #ifdef DEBUG
@@ -53,6 +53,7 @@ public:
 	friend class GeoPatch;
 	static void Init();
 	static void Uninit();
+	static void UpdateAllGeoSpheres();
 	static void OnChangeDetailLevel();
 	static bool OnAddQuadSplitResult(const SystemPath &path, SQuadSplitResult *res);
 	static bool OnAddSingleSplitResult(const SystemPath &path, SSingleSplitResult *res);
@@ -78,7 +79,7 @@ private:
 	const SystemBody *m_sbody;
 
 	// all variables for GetHeight(), GetColor()
-	ScopedPtr<Terrain> m_terrain;
+	RefCountedPtr<Terrain> m_terrain;
 
 	static const uint32_t MAX_SPLIT_OPERATIONS = 128;
 	std::deque<SQuadSplitResult*> mQuadSplitResults;

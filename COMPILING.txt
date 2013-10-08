@@ -34,14 +34,12 @@ Linux - Autotools
     pkg-config
     libsigc++-dev
     libsigc++-2.0-dev
-    libsdl1.2-dev
-    libsdl-image1.2-dev
+    libsdl2-dev
+    libsdl2-image-dev
     libfreetype6-dev
     libvorbis-dev
     libpng-dev
     libassimp-dev >= 3.0
-    libglew-dev
-    libglu1-mesa-dev
     mesa-common-dev
 
    If your platform doesn't have assimp 3.0, you'll need to build it from
@@ -71,18 +69,15 @@ Windows - MSVC
 Windows - Autotools (Linux cross-compile)
 -----------------------------------------
 
-1. First you need a cross-compiling environment. We use MXE (http://mxe.cc).
-   The version of GCC that ships with MXE (4.7.2) has a bug that prevents it
-   from building Pioneer correctly. For now, clone this fork which has GCC
-   4.6.3:
+1. First you need a cross-compiling environment. We use MXE (http://mxe.cc)
+   with a patch required to make SDL2 compile. Until that patch is merged
+   upstream, grab it from:
 
      git://github.com/robn/mxe.git
 
-   Then checkout the gcc-463 branch.
-
    Now compile GCC and the dependencies needed for Pioneer:
 
-     make gcc freetype glew sdl sdl_image vorbis libsigc++
+     make gcc freetype sdl2 sdl2_image vorbis libsigc++
 
 2. Prepare the pioneer-thirdparty repository. See below.
 
@@ -109,18 +104,20 @@ OS X - Autotools
      assimp
      pkgconfig
      freetype
-     libsdl
-     libsdl_image
-     libsdl_sound
-     glew
+     libsdl2
+     libsdl2_image
+     libsdl2_sound
      libsigcxx2
+     libvorbis
+     autoconf
+     automake
 
 3. Run ./bootstrap to generate your 'configure' file
 
 4. By default the OpenGL frameworks don't seem to be visible to 'automake'
    way so I did a few tricks to get it working:
 
-   Create a symlink from the OpenGL framework to your /usr/local/include 
+   Create a symlink from the OpenGL framework to your /usr/local/include
    directory
 
      sudo ln -s /System/Library/Frameworks/OpenGL.framework/Versions/A/Headers/ /usr/local/include/GL
@@ -137,6 +134,9 @@ Note: Compiling from source this way isn't recommended as it doesn't allow you
 
 OSX - XCode 4
 -------------
+
+* The XCode project isn't as up to date as the 'autotools' method and may
+  be broken.
 
 The latest XCode project files are located in ./osx. Simply build the
 aplication bundle. The XCode project uses the mac port libraries that you

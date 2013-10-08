@@ -266,15 +266,13 @@ void Projectile::Render(Graphics::Renderer *renderer, const Camera *camera, cons
 	renderer->SetBlendMode(Graphics::BLEND_ALPHA_ONE);
 	renderer->SetDepthWrite(false);
 
-	glPushMatrix();
-	glMultMatrixf(&m[0]);
-
 	// increase visible size based on distance from camera, z is always negative
 	// allows them to be smaller while maintaining visibility for game play
 	const float dist_scale = float(viewCoords.z / -500);
 	const float length = Equip::lasers[m_type].length + dist_scale;
 	const float width = Equip::lasers[m_type].width + dist_scale;
-	glScalef(width, width, length);
+
+	renderer->SetTransform(m * matrix4x4f::ScaleMatrix(width, width, length));
 
 	Color color = Equip::lasers[m_type].color;
 	// fade them out as they age so they don't suddenly disappear
@@ -299,7 +297,6 @@ void Projectile::Render(Graphics::Renderer *renderer, const Camera *camera, cons
 		renderer->DrawTriangles(s_glowVerts.Get(), s_glowMat.Get());
 	}
 
-	glPopMatrix();
 	renderer->SetBlendMode(Graphics::BLEND_SOLID);
 	renderer->SetDepthWrite(true);
 }

@@ -71,13 +71,15 @@ void StationShipMarketForm::UpdateShipList()
 
 	const std::vector<ShipOnSale> &ships = m_station->GetShipsOnSale();
 
+	const int playerShipPrice = Pi::player->GetShipType()->baseprice >> 1;
+
 	int num = 0;
 	for (std::vector<ShipOnSale>::const_iterator i = ships.begin(); i!=ships.end(); ++i) {
 		Gui::Fixed *f = new Gui::Fixed(450, line_height);
 
 		Gui::Label *l = new Gui::Label(ShipType::types[(*i).id].name);
 		f->Add(l,0,0);
-		f->Add(new Gui::Label(format_money(ShipType::types[(*i).id].baseprice)), 200, 0);
+		f->Add(new Gui::Label(format_money(ShipType::types[(*i).id].baseprice - playerShipPrice)), 200, 0);
 		f->Add(new Gui::Label(stringf(Lang::NUMBER_TONNES, formatarg("mass", ShipType::types[(*i).id].capacity))), 350, 0);
 
 		Gui::SolidButton *sb = new Gui::SolidButton();

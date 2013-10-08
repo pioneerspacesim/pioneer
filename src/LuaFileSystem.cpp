@@ -130,12 +130,20 @@ static int l_filesystem_join_path(lua_State *l)
 
 void LuaFileSystem::Register()
 {
+	lua_State *l = Lua::manager->GetLuaState();
+
+	LUA_DEBUG_START(l);
+
 	static const luaL_Reg l_methods[] = {
 		{ "ReadDirectory", l_filesystem_read_dir },
 		{ "JoinPath",      l_filesystem_join_path },
 		{ 0, 0 }
 	};
 
+	lua_getfield(l, LUA_REGISTRYINDEX, "CoreImports");
 	LuaObjectBase::CreateObject(l_methods, 0, 0, true); // protected interface
-	lua_setglobal(Lua::manager->GetLuaState(), "FileSystem");
+	lua_setfield(l, -2, "FileSystem");
+	lua_pop(l, 1);
+
+	LUA_DEBUG_END(l, 0);
 }

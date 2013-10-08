@@ -5,7 +5,8 @@
 
 #include "GeoPatchID.h"
 
-static const uint32_t MAX_PATCH_DEPTH = 30;
+static const int MAX_PATCH_DEPTH = 30;
+
 uint64_t GeoPatchID::NextPatchID(const int depth, const int idx) const
 {
 	assert(idx>=0 && idx<4);

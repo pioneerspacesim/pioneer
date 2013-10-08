@@ -5,13 +5,13 @@
 #define _TEXTUREGL_H
 
 #include "Texture.h"
-#include <GL/glew.h>
+#include "glew/glew.h"
 
 namespace Graphics {
 
 class TextureGL : public Texture {
 public:
-	virtual void Update(const void *data, const vector2f &dataSize, ImageFormat format, ImageType type);
+	virtual void Update(const void *data, const vector2f &dataSize, TextureFormat format, const unsigned int numMips);
 
 	virtual ~TextureGL();
 
@@ -19,6 +19,7 @@ public:
 	void Unbind();
 
 	virtual void SetSampleMode(TextureSampleMode);
+	GLuint GetTexture() const { return m_texture; }
 
 private:
 	friend class RendererLegacy;

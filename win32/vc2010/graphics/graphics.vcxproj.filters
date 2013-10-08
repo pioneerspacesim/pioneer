@@ -38,11 +38,17 @@
     <ClCompile Include="..\..\..\src\graphics\gl2\GL2Material.cpp">
       <Filter>gl2</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\graphics\gl2\GL2RenderTarget.cpp">
+      <Filter>gl2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\graphics\gl2\FresnelColourMaterial.cpp" />
+    <ClCompile Include="..\..\..\src\graphics\WindowSDL.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\graphics\Drawables.h" />
     <ClInclude Include="..\..\..\src\graphics\Frustum.h" />
     <ClInclude Include="..\..\..\src\graphics\Graphics.h" />
+    <ClInclude Include="..\..\..\src\graphics\GLDebug.h" />
     <ClInclude Include="..\..\..\src\graphics\Material.h" />
     <ClInclude Include="..\..\..\src\graphics\Renderer.h" />
     <ClInclude Include="..\..\..\src\graphics\RendererGL2.h" />
@@ -80,6 +86,12 @@
     <ClInclude Include="..\..\..\src\graphics\gl2\StarfieldMaterial.h">
       <Filter>gl2</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\RenderTarget.h" />
+    <ClInclude Include="..\..\..\src\graphics\gl2\GL2RenderTarget.h">
+      <Filter>gl2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\gl2\FresnelColourMaterial.h" />
+    <ClInclude Include="..\..\..\src\graphics\WindowSDL.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="win32">

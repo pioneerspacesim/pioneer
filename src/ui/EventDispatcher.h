@@ -17,15 +17,11 @@ public:
 	EventDispatcher(Container *baseContainer) :
 		m_baseContainer(baseContainer),
 		m_mouseActiveReceiver(0),
-		m_lastMouseOverTarget(0),
-		m_keyRepeatSym(SDLK_UNKNOWN),
-		m_keyRepeatActive(false)
+		m_lastMouseOverTarget(0)
 		{}
 
 	bool Dispatch(const Event &event);
 	bool DispatchSDLEvent(const SDL_Event &event);
-
-	void Update();
 
 	void LayoutUpdated();
 
@@ -48,10 +44,6 @@ private:
 	Point m_lastMousePosition;
 
 	RefCountedPtr<Widget> m_selected;
-
-	KeySym m_keyRepeatSym;
-	bool m_keyRepeatActive;
-	Uint32 m_nextKeyRepeat;
 
 	std::map<KeySym,Widget*> m_shortcuts;
 };

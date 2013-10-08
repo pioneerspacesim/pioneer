@@ -17,6 +17,7 @@
 #include "ui/Expand.h"
 #include "ui/Gradient.h"
 #include "ui/Margin.h"
+#include "ui/NumberLabel.h"
 #include "ui/Widget.h"
 
 const struct EnumItem ENUM_EquipSlot[] = {
@@ -314,6 +315,7 @@ const struct EnumItem ENUM_UIAlignDirection[] = {
 
 const struct EnumItem ENUM_UIEventType[] = {
 	{ "KEYBOARD", UI::Event::KEYBOARD },
+	{ "TEXT_INPUT", UI::Event::TEXT_INPUT },
 	{ "MOUSE_BUTTON", UI::Event::MOUSE_BUTTON },
 	{ "MOUSE_MOTION", UI::Event::MOUSE_MOTION },
 	{ "MOUSE_WHEEL", UI::Event::MOUSE_WHEEL },
@@ -323,7 +325,6 @@ const struct EnumItem ENUM_UIEventType[] = {
 const struct EnumItem ENUM_UIKeyboardAction[] = {
 	{ "DOWN", UI::KeyboardEvent::KEY_DOWN },
 	{ "UP", UI::KeyboardEvent::KEY_UP },
-	{ "PRESS", UI::KeyboardEvent::KEY_PRESS },
 	{ 0, 0 },
 };
 
@@ -370,6 +371,15 @@ const struct EnumItem ENUM_UIMarginDirection[] = {
 	{ 0, 0 },
 };
 
+const struct EnumItem ENUM_UINumberLabelFormat[] = {
+	{ "NUMBER", UI::NumberLabel::FORMAT_NUMBER },
+	{ "NUMBER_2DP", UI::NumberLabel::FORMAT_NUMBER_2DP },
+	{ "INTEGER", UI::NumberLabel::FORMAT_INTEGER },
+	{ "PERCENT", UI::NumberLabel::FORMAT_PERCENT },
+	{ "PERCENT_INTEGER", UI::NumberLabel::FORMAT_PERCENT_INTEGER },
+	{ 0, 0 },
+};
+
 const struct EnumItem ENUM_UISizeControl[] = {
 	{ "NO_WIDTH", UI::Widget::NO_WIDTH },
 	{ "NO_HEIGHT", UI::Widget::NO_HEIGHT },
@@ -395,6 +405,40 @@ const struct EnumItem ENUM_UIFont[] = {
 };
 
 const struct EnumTable ENUM_TABLES[] = {
+	{ "EquipSlot", ENUM_EquipSlot },
+	{ "EquipType", ENUM_EquipType },
+	{ "FileSystemRoot", ENUM_FileSystemRoot },
+	{ "PolitCrime", ENUM_PolitCrime },
+	{ "PolitEcon", ENUM_PolitEcon },
+	{ "PolitGovType", ENUM_PolitGovType },
+	{ "ShipFlightState", ENUM_ShipFlightState },
+	{ "ShipJumpStatus", ENUM_ShipJumpStatus },
+	{ "ShipAlertStatus", ENUM_ShipAlertStatus },
+	{ "ShipAIError", ENUM_ShipAIError },
+	{ "ShipFuelStatus", ENUM_ShipFuelStatus },
+	{ "ShipTypeThruster", ENUM_ShipTypeThruster },
+	{ "DualLaserOrientation", ENUM_DualLaserOrientation },
+	{ "ShipTypeTag", ENUM_ShipTypeTag },
+	{ "EconType", ENUM_EconType },
+	{ "BodyType", ENUM_BodyType },
+	{ "BodySuperType", ENUM_BodySuperType },
+	{ "GameUIFaceFlags", ENUM_GameUIFaceFlags },
+	{ "UIAlignDirection", ENUM_UIAlignDirection },
+	{ "UIEventType", ENUM_UIEventType },
+	{ "UIKeyboardAction", ENUM_UIKeyboardAction },
+	{ "UIMouseButtonAction", ENUM_UIMouseButtonAction },
+	{ "UIMouseButtonType", ENUM_UIMouseButtonType },
+	{ "UIMouseWheelDirection", ENUM_UIMouseWheelDirection },
+	{ "UIExpandDirection", ENUM_UIExpandDirection },
+	{ "UIGradientDirection", ENUM_UIGradientDirection },
+	{ "UIMarginDirection", ENUM_UIMarginDirection },
+	{ "UINumberLabelFormat", ENUM_UINumberLabelFormat },
+	{ "UISizeControl", ENUM_UISizeControl },
+	{ "UIFont", ENUM_UIFont },
+	{ 0, 0 },
+};
+
+const struct EnumTable ENUM_TABLES_PUBLIC[] = {
 	{ "EquipSlot", ENUM_EquipSlot },
 	{ "EquipType", ENUM_EquipType },
 	{ "FileSystemRoot", ENUM_FileSystemRoot },

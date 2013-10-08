@@ -102,6 +102,22 @@ public:
 		DrawRectElement(m_sliderHorizontalButtonActive, pos, size);
 	}
 
+	void DrawGaugeBackground(const Point &pos, const Point &size) const {
+		DrawHorizontalEdgedRectElement(m_gaugeBackground, pos, size);
+	}
+	void DrawGaugeMask(const Point &pos, const Point &size) const {
+		DrawHorizontalEdgedRectElement(m_gaugeMask, pos, size, Graphics::BLEND_SET_ALPHA);
+	}
+	void DrawGaugeFillNormal(const Point &pos, const Point &size) const {
+		DrawRectElement(m_gaugeFillNormal, pos, size, Graphics::BLEND_DEST_ALPHA);
+	}
+	void DrawGaugeFillWarning(const Point &pos, const Point &size) const {
+		DrawRectElement(m_gaugeFillWarning, pos, size, Graphics::BLEND_DEST_ALPHA);
+	}
+	void DrawGaugeFillCritical(const Point &pos, const Point &size) const {
+		DrawRectElement(m_gaugeFillCritical, pos, size, Graphics::BLEND_DEST_ALPHA);
+	}
+
 
 	struct RectElement {
 		RectElement() {}
@@ -153,6 +169,12 @@ public:
 	const RectElement &SliderHorizontalButtonHover()   const { return m_sliderHorizontalButtonHover; }
 	const RectElement &SliderHorizontalButtonActive()  const { return m_sliderHorizontalButtonActive; }
 
+	const EdgedRectElement &GaugeBackground() const { return m_gaugeBackground; }
+	const EdgedRectElement &GaugeMask()       const { return m_gaugeMask; }
+	const RectElement &GaugeFillNormal()      const { return m_gaugeFillNormal; }
+	const RectElement &GaugeFillWarning()     const { return m_gaugeFillWarning; }
+	const RectElement &GaugeFillCritical()    const { return m_gaugeFillCritical; }
+
 	unsigned int ButtonMinInnerSize() const { return m_buttonMinInnerSize; }
 
 	float ListAlphaNormal() const { return m_listAlphaNormal; }
@@ -167,10 +189,10 @@ private:
 	RefCountedPtr<Graphics::Texture> m_texture;
 	RefCountedPtr<Graphics::Material> m_material;
 
-	void DrawRectElement(const RectElement &element, const Point &pos, const Point &size) const;
-	void DrawBorderedRectElement(const BorderedRectElement &element, const Point &pos, const Point &size) const;
-	void DrawVerticalEdgedRectElement(const EdgedRectElement &element, const Point &pos, const Point &size) const;
-	void DrawHorizontalEdgedRectElement(const EdgedRectElement &element, const Point &pos, const Point &size) const;
+	void DrawRectElement(const RectElement &element, const Point &pos, const Point &size, Graphics::BlendMode blendMode = Graphics::BLEND_ALPHA) const;
+	void DrawBorderedRectElement(const BorderedRectElement &element, const Point &pos, const Point &size, Graphics::BlendMode blendMode = Graphics::BLEND_ALPHA) const;
+	void DrawVerticalEdgedRectElement(const EdgedRectElement &element, const Point &pos, const Point &size, Graphics::BlendMode blendMode = Graphics::BLEND_ALPHA) const;
+	void DrawHorizontalEdgedRectElement(const EdgedRectElement &element, const Point &pos, const Point &size, Graphics::BlendMode blendMode = Graphics::BLEND_ALPHA) const;
 
 	RectElement LoadRectElement(const std::string &spec);
 	BorderedRectElement LoadBorderedRectElement(const std::string &spec);
@@ -207,6 +229,12 @@ private:
 	RectElement m_sliderHorizontalButtonNormal;
 	RectElement m_sliderHorizontalButtonHover;
 	RectElement m_sliderHorizontalButtonActive;
+
+	EdgedRectElement m_gaugeBackground;
+	EdgedRectElement m_gaugeMask;
+	RectElement m_gaugeFillNormal;
+	RectElement m_gaugeFillWarning;
+	RectElement m_gaugeFillCritical;
 
 	unsigned int m_buttonMinInnerSize;
 

@@ -15,12 +15,13 @@
  *
  * Creates a new random number generator.
  *
- * > rand = Rand:New(seed)
+ * > rand = Rand.New(seed)
  *
  * Parameters:
  *
  *   seed - optional, the value to seed the generator with. If omitted it will
- *          be set to the current system (not game) time
+ *          be set to the current system (not game) time. seed must be numeric
+ *          if given.
  *
  * Return:
  *
@@ -36,9 +37,13 @@
  */
 static int l_rand_new(lua_State *l)
 {
-	int seed = int(time(NULL));
-	if (lua_isnumber(l, 1))
-		seed = lua_tointeger(l, 1);
+	int seed = int(time(0));
+	if (!lua_isnoneornil(l, 1)) {
+		if (lua_isnumber(l, 1))
+			seed = lua_tointeger(l, 1);
+		else
+			luaL_error(l, "seed must be numeric if given");
+	}
 	LuaObject<Random>::PushToLua(new Random(seed));
 	return 1;
 }
@@ -162,5 +167,5 @@ template <> void LuaObject<Random>::RegisterClass()
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, NULL, l_methods, NULL, NULL);
+	LuaObjectBase::CreateClass(s_type, 0, l_methods, 0, 0);
 }

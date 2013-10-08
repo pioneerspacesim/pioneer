@@ -45,7 +45,7 @@ void Label3D::SetText(const std::string &text)
 		m_font->GetGeometry(*m_geometry.Get(), text, vector2f(0.f));
 }
 
-void Label3D::Render(const matrix4x4f &trans, RenderData *rd)
+void Label3D::Render(const matrix4x4f &trans, const RenderData *rd)
 {
 	//needs alpha test
 	Graphics::Renderer *r = GetRenderer();

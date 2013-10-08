@@ -114,8 +114,12 @@ private:
 	uint16_t params[MAX_PARAMS+1];
 };
 
+std::string to_string(int8_t value, const FormatSpec& fmt);
+std::string to_string(int16_t value, const FormatSpec& fmt);
 std::string to_string(int32_t value, const FormatSpec& fmt);
 std::string to_string(int64_t value, const FormatSpec& fmt);
+std::string to_string(uint8_t value, const FormatSpec& fmt);
+std::string to_string(uint16_t value, const FormatSpec& fmt);
 std::string to_string(uint32_t value, const FormatSpec& fmt);
 std::string to_string(uint64_t value, const FormatSpec& fmt);
 std::string to_string(float value, const FormatSpec& fmt);
@@ -124,17 +128,14 @@ std::string to_string(fixed value, const FormatSpec& fmt);
 std::string to_string(const char* value, const FormatSpec& fmt);
 std::string to_string(const std::string& value, const FormatSpec& fmt);
 
-inline std::string to_string(int32_t value, const FormatSpec& fmt) {
-	return to_string(int64_t(value), fmt);
-}
+inline std::string to_string(int8_t value, const FormatSpec& fmt) { return to_string(int64_t(value), fmt); }
+inline std::string to_string(int16_t value, const FormatSpec& fmt) { return to_string(int64_t(value), fmt); }
+inline std::string to_string(int32_t value, const FormatSpec& fmt) { return to_string(int64_t(value), fmt); }
+inline std::string to_string(uint8_t value, const FormatSpec& fmt) { return to_string(uint64_t(value), fmt); }
+inline std::string to_string(uint16_t value, const FormatSpec& fmt) { return to_string(uint64_t(value), fmt); }
+inline std::string to_string(uint32_t value, const FormatSpec& fmt) { return to_string(uint64_t(value), fmt); }
 
-inline std::string to_string(uint32_t value, const FormatSpec& fmt) {
-	return to_string(uint64_t(value), fmt);
-}
-
-inline std::string to_string(float value, const FormatSpec& fmt) {
-	return to_string(double(value), fmt);
-}
+inline std::string to_string(float value, const FormatSpec& fmt) { return to_string(double(value), fmt); }
 
 inline std::string to_string(fixed value, const FormatSpec& fmt) {
 	return to_string(value.ToDouble(), fmt);
