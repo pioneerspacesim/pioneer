@@ -6,6 +6,7 @@ local Engine = import("Engine")
 local Translate = import("Translate")
 local Lang = import("Lang")
 local TabGroup = import("ui/TabGroup")
+local SmallLabeledButton = import("ui/SmallLabeledButton")
 
 local ui = Engine.ui
 local t = Translate:GetTranslator()
@@ -170,11 +171,11 @@ ui.templates.Settings = function (args)
 				local grid = ui:Grid({4, 4, 1}, #group)
 				for i = 1, #group do
 					local binding = group[i]
-					local btn = ui:Button(ui:Label(t("Set")))
+					local btn = SmallLabeledButton.New(t("Set"))
 					grid:SetCell(0, i - 1, ui:Label(binding.label))
 					grid:SetCell(1, i - 1, ui:Label(binding.bindingDescription))
 					grid:SetCell(2, i - 1, btn)
-					btn.onClick:Connect(function ()
+					btn.button.onClick:Connect(function ()
 						print("Setting binding '" .. binding.id .. "'")
 					end)
 				end
