@@ -17,6 +17,7 @@ class DropDown : public Container {
 public:
 	virtual Point PreferredSize();
 	virtual void Layout();
+	virtual void Update();
 
 	DropDown *AddOption(const std::string &text);
 	const std::string &GetSelectedOption() const;
@@ -38,10 +39,12 @@ private:
 	Icon *m_icon;
 
 	bool HandlePopupClick();
-	void TogglePopup();
 
 	RefCountedPtr<List> m_popup;
+	bool m_popupWantToggle;
 	bool m_popupActive;
+
+	sigc::connection m_contextClickCon;
 };
 
 }
