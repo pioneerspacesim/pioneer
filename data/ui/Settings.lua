@@ -159,6 +159,33 @@ ui.templates.Settings = function (args)
 		return optionList(Lang.GetCurrentLanguage, Lang.SetCurrentLanguage, t("Language (restart game to apply)"), langs, langs)
 	end
 
+	local captureBinding = function (captureWidget, id, label, binding, bindingDescription)
+		local okButton = ui:Button(ui:Label("Ok"):SetFont("HEADING_NORMAL"))
+		okButton.onClick:Connect(function() ui:DropLayer(); end)
+
+		local dialog =
+			ui:ColorBackground(0,0,0,0.5,
+				ui:Align("MIDDLE",
+					ui:Background(
+						ui:VBox(10)
+							:PackEnd(ui:Label(t("Change Binding")):SetFont("HEADING_NORMAL"))
+							:PackEnd(ui:Label(label))
+							:PackEnd(ui:Align("MIDDLE", ui:Label(bindingDescription)))
+							:PackEnd(okButton)
+					)
+				)
+			)
+		ui:NewLayer(dialog)
+	end
+
+	local captureKeyBinding = function (id, label, binding, bindingDescription)
+		captureBinding(nil, id, label, binding, bindingDescription)
+	end
+
+	local captureAxisBinding = function (id, label, binding, bindingDescription)
+		captureBinding(nil, id, label, binding, bindingDescription)
+	end
+
 	local keysTemplate = function()
 		local box = ui:VBox()
 		local pages = Engine.GetKeyBindings()
@@ -175,8 +202,9 @@ ui.templates.Settings = function (args)
 					grid:SetCell(0, i - 1, ui:Label(binding.label))
 					grid:SetCell(1, i - 1, ui:Label(binding.bindingDescription))
 					grid:SetCell(2, i - 1, btn)
+					local captureFn = (binding.type == 'KEY' and captureKeyBinding) or captureAxisBinding
 					btn.button.onClick:Connect(function ()
-						print("Setting binding '" .. binding.id .. "'")
+						captureFn(binding.id, binding.label, binding.binding, binding.bindingDescription)
 					end)
 				end
 				box:PackEnd(grid)
