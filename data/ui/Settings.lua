@@ -7,6 +7,7 @@ local Translate = import("Translate")
 local Lang = import("Lang")
 local TabGroup = import("ui/TabGroup")
 local SmallLabeledButton = import("ui/SmallLabeledButton")
+local KeyBindingCapture = import("UI.Game.KeyBindingCapture")
 
 local ui = Engine.ui
 local t = Translate:GetTranslator()
@@ -159,9 +160,28 @@ ui.templates.Settings = function (args)
 		return optionList(Lang.GetCurrentLanguage, Lang.SetCurrentLanguage, t("Language (restart game to apply)"), langs, langs)
 	end
 
-	local captureBinding = function (captureWidget, id, label, binding, bindingDescription)
-		local okButton = ui:Button(ui:Label("Ok"):SetFont("HEADING_NORMAL"))
-		okButton.onClick:Connect(function() ui:DropLayer(); end)
+	local captureDialog = function (captureWidget, label, onOk)
+		local captureLabel = ui:Label(t("Press a key or controller button"))
+		local capture = KeyBindingCapture.New(ui)
+		capture:SetInnerWidget(captureLabel)
+		capture.onCapture:Connect(function (binding)
+			print('Binding captured!')
+			captureLabel:SetText(capture.bindingDescription)
+		end)
+
+		capture:Capture()
+
+		local okButton = ui:Button(ui:Label(t("Ok")):SetFont("HEADING_NORMAL"))
+		okButton.onClick:Connect(function()
+			onOk(capture.binding, capture.bindingDescription)
+			ui:DropLayer()
+		end)
+
+		local cancelButton = ui:Button(ui:Label(t("Cancel")):SetFont("HEADING_NORMAL"))
+		cancelButton.onClick:Connect(function()
+			ui:DropLayer()
+		end)
+
 
 		local dialog =
 			ui:ColorBackground(0,0,0,0.5,
@@ -170,20 +190,20 @@ ui.templates.Settings = function (args)
 						ui:VBox(10)
 							:PackEnd(ui:Label(t("Change Binding")):SetFont("HEADING_NORMAL"))
 							:PackEnd(ui:Label(label))
-							:PackEnd(ui:Align("MIDDLE", ui:Label(bindingDescription)))
-							:PackEnd(okButton)
+							:PackEnd(ui:Align("MIDDLE", capture))
+							:PackEnd(ui:HBox(5):PackEnd({okButton,cancelButton}))
 					)
 				)
 			)
-		ui:NewLayer(dialog)
+		return dialog
 	end
 
-	local captureKeyBinding = function (id, label, binding, bindingDescription)
-		captureBinding(nil, id, label, binding, bindingDescription)
+	local captureKeyDialog = function (label, onOk)
+		return captureDialog(nil, label, onOk)
 	end
 
-	local captureAxisBinding = function (id, label, binding, bindingDescription)
-		captureBinding(nil, id, label, binding, bindingDescription)
+	local captureAxisDialog = function (label, onOk)
+		return captureDialog(nil, label, onOk)
 	end
 
 	local keysTemplate = function()
@@ -199,12 +219,17 @@ ui.templates.Settings = function (args)
 				for i = 1, #group do
 					local binding = group[i]
 					local btn = SmallLabeledButton.New(t("Set"))
+					local descrLabel = ui:Label(binding.bindingDescription)
 					grid:SetCell(0, i - 1, ui:Label(binding.label))
-					grid:SetCell(1, i - 1, ui:Label(binding.bindingDescription))
+					grid:SetCell(1, i - 1, descrLabel)
 					grid:SetCell(2, i - 1, btn)
-					local captureFn = (binding.type == 'KEY' and captureKeyBinding) or captureAxisBinding
+					local captureFn = (binding.type == 'KEY' and captureKeyDialog) or captureAxisDialog
 					btn.button.onClick:Connect(function ()
-						captureFn(binding.id, binding.label, binding.binding, binding.bindingDescription)
+						local dialog = captureFn(binding.label, function (new_binding, new_binding_description)
+							Engine.SetKeyBinding(binding.id, new_binding)
+							descrLabel:SetText(new_binding_description)
+						end)
+						ui:NewLayer(dialog)
 					end)
 				end
 				box:PackEnd(grid)
