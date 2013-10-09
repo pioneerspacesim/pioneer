@@ -45,7 +45,7 @@ namespace
 	Sint32 GetNumMatching(const std::string match, const std::vector<FileSystem::FileInfo>& fileList) {
 		Sint32 num_matching = 0;
 		for (std::vector<FileSystem::FileInfo>::const_iterator it = fileList.begin(), itEnd = fileList.end(); it!=itEnd; ++it) {
-			if((*it).GetName().substr(0, match.size()) == match) {
+			if (starts_with((*it).GetName(), match)) {
 				++num_matching;
 			}
 		}
@@ -307,7 +307,7 @@ void FaceGenManager::Init()
 
 	Uint32 num_species = 0;
 	for (std::vector<FileSystem::FileInfo>::const_iterator it = output.begin(), itEnd = output.end(); it!=itEnd; ++it) {
-		if((*it).GetName().substr(0, 8) == "species_") {
+		if (starts_with((*it).GetName(), "species_")) {
 			++num_species;
 		}
 	}
