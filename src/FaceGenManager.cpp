@@ -436,7 +436,7 @@ void FaceGenManager::BlitFaceIm(SDLSurfacePtr &faceim, Sint8 &genderOut, const U
 	const int background  = rand.Int32(0,NumBackground(species)-1);
 
 	FaceGenManager::TQueryResult res;
-	FaceGenManager::GetImagesForCharacter(res, 0, race, gender, head, eyes,
+	FaceGenManager::GetImagesForCharacter(res, species, race, gender, head, eyes,
 		nose, mouth, hair, clothes, armour, accessories, background);
 
 	_blit_image(faceim, res.mBackground, 0, 0);
