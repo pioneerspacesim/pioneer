@@ -11,7 +11,7 @@
 
 namespace
 {
-	void LoadImage(std::string &filename, std::vector<SDLSurfacePtr> &vec) {
+	void LoadImage(const std::string &filename, std::vector<SDLSurfacePtr> &vec) {
 		SDLSurfacePtr pSurf = LoadSurfaceFromFile(filename);
 		if(!pSurf)
 			printf("Failed to load image %s\n", filename.c_str());
