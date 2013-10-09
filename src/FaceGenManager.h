@@ -31,6 +31,7 @@ public:
 	static void Destroy();
 
 	// species & race dependent attributes
+	static Sint32 NumSpecies();
 	static Sint32 NumGenders(const Sint32 speciesIdx);
 	static Sint32 NumRaces(const Sint32 speciesIdx);
 	static Sint32 NumHeads(const Sint32 speciesIdx, const Sint32 raceIdx);

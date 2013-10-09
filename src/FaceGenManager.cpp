@@ -330,6 +330,11 @@ void FaceGenManager::Destroy()
 	m_species.clear();
 }
 
+//static
+Sint32 FaceGenManager::NumSpecies() {
+	return m_species.size();
+}
+
 //static 
 Sint32 FaceGenManager::NumGenders(const Sint32 speciesIdx) { 
 	return m_species[speciesIdx]->NumGenders(); 
