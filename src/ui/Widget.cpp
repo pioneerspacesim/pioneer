@@ -9,7 +9,6 @@ namespace UI {
 
 Widget::Widget(Context *context) :
 	m_context(context),
-	m_layer(0),
 	m_container(0),
 	m_position(0),
 	m_size(0),
@@ -52,14 +51,8 @@ void Widget::Attach(Container *container)
 void Widget::Detach()
 {
 	m_container = 0;
-	m_layer = 0;
 	m_position = Point();
 	m_size = Point();
-}
-
-void Widget::SetLayer(Layer *layer)
-{
-	m_layer = layer;
 }
 
 void Widget::SetDimensions(const Point &position, const Point &size)
