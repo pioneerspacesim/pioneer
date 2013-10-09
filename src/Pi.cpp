@@ -40,6 +40,7 @@
 #include "ModelCache.h"
 #include "ModManager.h"
 #include "NavLights.h"
+#include "Shields.h"
 #include "ObjectViewerView.h"
 #include "OS.h"
 #include "Planet.h"
@@ -386,6 +387,7 @@ void Pi::Init()
 	draw_progress(gauge, label, 0.9f);
 
 	NavLights::Init(Pi::renderer);
+	Shields::Init(Pi::renderer);
 	Sfx::Init(Pi::renderer);
 	draw_progress(gauge, label, 0.95f);
 
@@ -550,6 +552,7 @@ void Pi::Quit()
 	delete Pi::gameMenuView;
 	delete Pi::luaConsole;
 	NavLights::Uninit();
+	Shields::Uninit();
 	Sfx::Uninit();
 	Sound::Uninit();
 	SpaceStation::Uninit();
