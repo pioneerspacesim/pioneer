@@ -102,9 +102,6 @@ public:
 	// gui context
 	Context *GetContext() const { return m_context; }
 
-	// layer this widget is on
-	Layer *GetLayer() const { return m_layer; }
-
 	// enclosing container
 	Container *GetContainer() const { return m_container; }
 
@@ -366,12 +363,7 @@ private:
 	friend class Context;
 	void SetSize(const Point &size) { m_size = size; SetActiveArea(size); }
 
-	// Context needs to the layer for new layers
-	virtual void SetLayer(Layer *layer);
-
-
 	Context *m_context;
-	Layer *m_layer;
 	Container *m_container;
 
 	Point m_position;

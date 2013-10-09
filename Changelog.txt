@@ -13,7 +13,7 @@ October 2013
      * Set Speed mode is now initialised with the ship's forward speed (#2469)
 
    * Script and UI API changes
-     * UI now uses a stack of layers instead of floating widgets (#2475)
+     * UI now uses a stack of layers instead of floating widgets (#2475, #2478)
 
    * Fixes
      * Modelviewer now correctly reloads tag-points when switching models

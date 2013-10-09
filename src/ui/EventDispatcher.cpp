@@ -209,19 +209,8 @@ void EventDispatcher::DispatchMouseOverOut(Widget *target, const Point &mousePos
 
 		if (m_lastMouseOverTarget) {
 
-			// layer switch
-			if (target->GetLayer() != m_lastMouseOverTarget->GetLayer()) {
-
-				// force the old one out by reporting a position that must be
-				// outside itself
-				m_lastMouseOverTarget->TriggerMouseOut(Point(-INT_MAX));
-			}
-
-			else {
-
-				// tell the old one that the mouse isn't over it anymore
-				m_lastMouseOverTarget->TriggerMouseOut(mousePos-m_lastMouseOverTarget->GetAbsolutePosition());
-			}
+			// tell the old one that the mouse isn't over it anymore
+			m_lastMouseOverTarget->TriggerMouseOut(mousePos-m_lastMouseOverTarget->GetAbsolutePosition());
 		}
 
 		if (target->IsDisabled())

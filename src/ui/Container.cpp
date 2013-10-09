@@ -51,8 +51,6 @@ void Container::AddWidget(Widget *widget)
 	widget->Attach(this);
 	m_widgets.push_back(RefCountedPtr<Widget>(widget));
 
-	widget->SetLayer(GetLayer());
-
 	GetContext()->RequestLayout();
 }
 
@@ -81,13 +79,6 @@ void Container::RemoveAllWidgets()
 	}
 
 	GetContext()->RequestLayout();
-}
-
-void Container::SetLayer(Layer *layer)
-{
-	Widget::SetLayer(layer);
-	for (std::vector< RefCountedPtr<Widget> >::iterator i = m_widgets.begin(); i != m_widgets.end(); ++i)
-		(*i)->SetLayer(layer);
 }
 
 void Container::Disable()
