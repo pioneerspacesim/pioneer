@@ -15,12 +15,15 @@ noinst_HEADERS = \
 	Lua.h \
 	Panel.h \
 	Face.h \
-	ModelSpinner.h
+	ModelSpinner.h \
+	BindingCapture.h
 
 libgameui_a_SOURCES = \
 	Panel.cpp \
 	Face.cpp \
 	ModelSpinner.cpp \
+	BindingCapture.cpp \
 	Lua.cpp \
 	LuaFace.cpp \
-	LuaModelSpinner.cpp
+	LuaModelSpinner.cpp \
+	LuaBindingCapture.cpp

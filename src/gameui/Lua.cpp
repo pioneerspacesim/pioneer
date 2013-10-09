@@ -10,6 +10,7 @@ void Init()
 {
 	LuaObject<GameUI::Face>::RegisterClass();
 	LuaObject<GameUI::ModelSpinner>::RegisterClass();
+	LuaObject<GameUI::KeyBindingCapture>::RegisterClass();
 }
 
 }
