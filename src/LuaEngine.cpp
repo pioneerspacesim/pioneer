@@ -16,6 +16,7 @@
 #include "Sound.h"
 #include "SoundMusic.h"
 #include "KeyBindings.h"
+#include "Lang.h"
 
 /*
  * Interface: Engine
@@ -502,6 +503,46 @@ static void push_bindings(lua_State *l, const KeyBindings::BindingPrototype *pro
 	LUA_DEBUG_END(l, 1);
 }
 
+/*
+ * Function: GetKeyBindings
+ *
+ * Get a table listing all the current key and axis bindings.
+ *
+ * > bindings = Engine.GetKeyBindings()
+ *
+ * Returns:
+ *
+ *   bindings - A table containing all the key and axis bindings.
+ *
+ * The bindings table has the following structure (in Lua syntax):
+ *
+ * bindings = {
+ *   { -- a page
+ *   	label = 'CONTROLS', -- the (translated) name of the page
+ *   	{ -- a group
+ *   		label = 'Miscellaneous', -- the (translated) name of the group
+ *   		{ -- a binding
+ *   			type = 'KEY', -- the type of binding; can be 'KEY' or 'AXIS'
+ *   			id = 'BindToggleLuaConsole', -- the internal ID of the binding; pass this to Engine.SetKeyBinding
+ *   			label = 'Toggle Lua console', -- the (translated) label for the binding
+ *   			binding = 'Key96', -- the current bound key or axis (value stored in config file)
+ *   			bindingDescription = '`', -- display text for the current bound key or axis
+ *   		},
+ *   		-- ... more bindings
+ *   	},
+ *   	-- ... more groups
+ *   },
+ *   -- ... more pages
+ * }
+ *
+ * Availability:
+ *
+ *   October 2013
+ *
+ * Status:
+ *
+ *   temporary
+ */
 static int l_engine_get_key_bindings(lua_State *l)
 {
 	// XXX maybe this key-bindings table should be cached in the Lua registry?
