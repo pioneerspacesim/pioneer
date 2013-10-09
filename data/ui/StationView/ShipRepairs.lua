@@ -43,6 +43,7 @@ local function createRepairOptions (root)
 		local smallDamage = math.min(hullDamage, 1)
 		local costRepair1 = getRepairCost(smallDamage)
 		local costRepairAll = getRepairCost(hullDamage)
+		local feedback = ui:Label('')
 
 		local repairDamage = function (damage, price)
 			-- repair the hull for the money!
@@ -51,8 +52,7 @@ local function createRepairOptions (root)
 				Game.player:SetHullPercent(hullPercent + damage)
 				createRepairOptions(root)
 			else
-				-- XXX this should display some kind of failure message somewhere
-				print("I'm sorry Dave, I can't let you do that.")
+				feedback:SetText(t("You don't have enough money for that option."))
 			end
 		end
 
@@ -63,6 +63,7 @@ local function createRepairOptions (root)
 		if hullDamage > 1 then
 			rows[3] = repairItemTemplate(hullDamage, costRepairAll, repairDamage)
 		end
+		rows[4] = feedback
 
 		root:PackEnd(rows)
 	end
