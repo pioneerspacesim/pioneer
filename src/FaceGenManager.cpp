@@ -83,7 +83,7 @@ public:
 
 		char filename[256];
 		// load the images
-		for(Sint32 gender = 0; gender < NUM_GENDERS; ++gender) {
+		for(Uint32 gender = 0; gender < NUM_GENDERS; ++gender) {
 			for(Sint32 head = 0; head < m_numHeads; ++head) {
 				snprintf(filename, sizeof(filename), "facegen/species_%d/race_%d/head/head_%d_%d.png", speciesIdx, race, gender, head);
 				LoadImage(std::string(filename), m_heads);
@@ -201,7 +201,7 @@ public:
 		m_background.reserve(m_numBackground);
 		
 		// load the images
-		for(Sint32 gender = 0; gender < NUM_GENDERS; ++gender) {
+		for(Uint32 gender = 0; gender < NUM_GENDERS; ++gender) {
 			for(Sint32 cloth = 0; cloth < m_numClothes; ++cloth) {
 				snprintf(filename, sizeof(filename), "facegen/species_%d/clothes/cloth_%d_%d.png", speciesIdx, gender, cloth);
 				LoadImage(std::string(filename), m_clothes);
