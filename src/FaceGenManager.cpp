@@ -75,11 +75,11 @@ public:
 		m_numHairstyles = GetNumRaceItem(speciesIdx, race, "hair");
 
 		// reserve space for them all
-		m_heads.reserve(m_numHeads);
-		m_eyes.reserve(m_numEyes);
-		m_noses.reserve(m_numNoses);
-		m_mouths.reserve(m_numMouths);
-		m_hairstyles.reserve(m_numHairstyles);
+		m_heads.reserve(m_numHeads * NUM_GENDERS);
+		m_eyes.reserve(m_numEyes * NUM_GENDERS);
+		m_noses.reserve(m_numNoses * NUM_GENDERS);
+		m_mouths.reserve(m_numMouths * NUM_GENDERS);
+		m_hairstyles.reserve(m_numHairstyles * NUM_GENDERS);
 
 		char filename[256];
 		// load the images
@@ -195,10 +195,10 @@ public:
 			m_numBackground =  GetNumMatching("background_", backgrounds);
 		}
 
-		m_clothes.reserve(m_numClothes);
-		m_armour.reserve(m_numArmour);
-		m_accessories.reserve(m_numAccessories);
-		m_background.reserve(m_numBackground);
+		m_clothes.reserve(m_numClothes * NUM_GENDERS);
+		m_armour.reserve(m_numArmour); // unisex
+		m_accessories.reserve(m_numAccessories); // unisex
+		m_background.reserve(m_numBackground); // unisex
 		
 		// load the images
 		for(Uint32 gender = 0; gender < NUM_GENDERS; ++gender) {
