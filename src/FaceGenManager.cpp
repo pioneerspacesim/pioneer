@@ -117,30 +117,30 @@ public:
 	Sint8 NumMouths() const { return m_numMouths; }
 	Sint8 NumHairstyles() const { return m_numHairstyles; }
 
-	SDLSurfacePtr Head(const Sint32 index, const Sint32 gender) const		{ 
-		assert(index<m_numHeads); 
-		return m_heads[(index+(gender*m_numHeads))]; 
+	SDLSurfacePtr Head(const Sint32 index, const Sint32 gender) const {
+		assert(index<m_numHeads);
+		return m_heads[(index+(gender*m_numHeads))];
 	}
-	SDLSurfacePtr Eyes(const Sint32 index, const Sint32 gender) const		{ 
-		assert(index<m_numEyes); 
-		return m_eyes[(index+(gender*m_numEyes))]; 
+	SDLSurfacePtr Eyes(const Sint32 index, const Sint32 gender) const {
+		assert(index<m_numEyes);
+		return m_eyes[(index+(gender*m_numEyes))];
 	}
-	SDLSurfacePtr Nose(const Sint32 index, const Sint32 gender) const		{ 
-		assert(index<m_numNoses); 
-		return m_noses[(index+(gender*m_numNoses))]; 
+	SDLSurfacePtr Nose(const Sint32 index, const Sint32 gender) const {
+		assert(index<m_numNoses);
+		return m_noses[(index+(gender*m_numNoses))];
 	}
-	SDLSurfacePtr Mouth(const Sint32 index, const Sint32 gender) const		{ 
-		assert(index<m_numMouths); 
-		return m_mouths[(index+(gender*m_numMouths))]; 
+	SDLSurfacePtr Mouth(const Sint32 index, const Sint32 gender) const {
+		assert(index<m_numMouths);
+		return m_mouths[(index+(gender*m_numMouths))];
 	}
-	SDLSurfacePtr Hairstyle(const Sint32 index, const Sint32 gender) const	{ 
-		assert(index<m_numHairstyles); 
-		return m_hairstyles[(index+(gender*m_numHairstyles))]; 
+	SDLSurfacePtr Hairstyle(const Sint32 index, const Sint32 gender) const {
+		assert(index<m_numHairstyles);
+		return m_hairstyles[(index+(gender*m_numHairstyles))];
 	}
 
 private:
 	// private methods
-	
+
 private:
 	// private members
 	Sint8 m_numHeads;
@@ -159,7 +159,7 @@ private:
 class Species
 {
 public:
-	Species(const Sint32 speciesIdx) 
+	Species(const Sint32 speciesIdx)
 	{
 		char filename[1024];
 		snprintf(filename, sizeof(filename), "facegen/species_%d", speciesIdx);
@@ -199,7 +199,7 @@ public:
 		m_armour.reserve(m_numArmour); // unisex
 		m_accessories.reserve(m_numAccessories); // unisex
 		m_background.reserve(m_numBackground); // unisex
-		
+
 		// load the images
 		for(Uint32 gender = 0; gender < NUM_GENDERS; ++gender) {
 			for(Sint32 cloth = 0; cloth < m_numClothes; ++cloth) {
@@ -260,10 +260,10 @@ public:
 	}
 
 	// generic attributes
-	Sint8 NumClothes()		const { return m_numClothes; }
-	Sint8 NumArmour()		const { return m_numArmour; }
-	Sint8 NumAccessories()	const { return m_numAccessories; }
-	Sint8 NumBackground()	const { return m_numBackground; }
+	Sint8 NumClothes()     const { return m_numClothes; }
+	Sint8 NumArmour()      const { return m_numArmour; }
+	Sint8 NumAccessories() const { return m_numAccessories; }
+	Sint8 NumBackground()  const { return m_numBackground; }
 
 	void GetImagesForCharacter(FaceGenManager::TQueryResult& res, const int race, const int gender, const int head, const int eyes,
 		const int nose, const int mouth, const int hair, const int clothes, const int armour,
@@ -335,39 +335,39 @@ Sint32 FaceGenManager::NumSpecies() {
 	return m_species.size();
 }
 
-//static 
-Sint32 FaceGenManager::NumGenders(const Sint32 speciesIdx) { 
-	return m_species[speciesIdx]->NumGenders(); 
+//static
+Sint32 FaceGenManager::NumGenders(const Sint32 speciesIdx) {
+	return m_species[speciesIdx]->NumGenders();
 }
 //static
-Sint32 FaceGenManager::NumRaces(const Sint32 speciesIdx) { 
-	return m_species[speciesIdx]->NumRaces(); 
+Sint32 FaceGenManager::NumRaces(const Sint32 speciesIdx) {
+	return m_species[speciesIdx]->NumRaces();
 }
-//static 
+//static
 Sint32 FaceGenManager::NumHeads(const Sint32 speciesIdx, const Sint32 raceIdx)
 {
 	assert(Uint32(speciesIdx) < m_species.size());
 	return m_species[speciesIdx]->NumHeads(raceIdx);
 }
-//static 
+//static
 Sint32 FaceGenManager::NumEyes(const Sint32 speciesIdx, const Sint32 raceIdx)
 {
 	assert(Uint32(speciesIdx) < m_species.size());
 	return m_species[speciesIdx]->NumEyes(raceIdx);
 }
-//static 
+//static
 Sint32 FaceGenManager::NumNoses(const Sint32 speciesIdx, const Sint32 raceIdx)
 {
 	assert(Uint32(speciesIdx) < m_species.size());
 	return m_species[speciesIdx]->NumNoses(raceIdx);
 }
-//static 
+//static
 Sint32 FaceGenManager::NumMouths(const Sint32 speciesIdx, const Sint32 raceIdx)
 {
 	assert(Uint32(speciesIdx) < m_species.size());
 	return m_species[speciesIdx]->NumMouths(raceIdx);
 }
-//static 
+//static
 Sint32 FaceGenManager::NumHairstyles(const Sint32 speciesIdx, const Sint32 raceIdx)
 {
 	assert(Uint32(speciesIdx) < m_species.size());
@@ -376,32 +376,32 @@ Sint32 FaceGenManager::NumHairstyles(const Sint32 speciesIdx, const Sint32 raceI
 
 // generic attributes
 //static
-Sint8 FaceGenManager::NumClothes(const Sint32 speciesIdx) { 
-	return m_species[speciesIdx]->NumClothes(); 
+Sint8 FaceGenManager::NumClothes(const Sint32 speciesIdx) {
+	return m_species[speciesIdx]->NumClothes();
 }
-//static 
-Sint8 FaceGenManager::NumArmour(const Sint32 speciesIdx) { 
-	return m_species[speciesIdx]->NumArmour(); 
+//static
+Sint8 FaceGenManager::NumArmour(const Sint32 speciesIdx) {
+	return m_species[speciesIdx]->NumArmour();
 }
-//static 
-Sint8 FaceGenManager::NumAccessories(const Sint32 speciesIdx) { 
-	return m_species[speciesIdx]->NumAccessories(); 
+//static
+Sint8 FaceGenManager::NumAccessories(const Sint32 speciesIdx) {
+	return m_species[speciesIdx]->NumAccessories();
 }
-//static 
-Sint8 FaceGenManager::NumBackground(const Sint32 speciesIdx) { 
-	return m_species[speciesIdx]->NumBackground(); 
+//static
+Sint8 FaceGenManager::NumBackground(const Sint32 speciesIdx) {
+	return m_species[speciesIdx]->NumBackground();
 }
 
-//static 
-void FaceGenManager::GetImagesForCharacter(TQueryResult& res, const Sint32 speciesIdx, const int race, const int gender, 
+//static
+void FaceGenManager::GetImagesForCharacter(TQueryResult& res, const Sint32 speciesIdx, const int race, const int gender,
 	const int head, const int eyes, const int nose, const int mouth, const int hair, const int clothes, const int armour,
 	const int accessories, const int background)
 {
-	m_species[speciesIdx]->GetImagesForCharacter(res, race, gender, head, eyes, 
+	m_species[speciesIdx]->GetImagesForCharacter(res, race, gender, head, eyes,
 		nose, mouth, hair, clothes, armour, accessories, background);
 }
 
-//static 
+//static
 void FaceGenManager::BlitFaceIm(SDLSurfacePtr &faceim, Sint8 &genderOut, const Uint32 flags, const Uint32 seed)
 {
 	Random rand(seed);
@@ -430,13 +430,13 @@ void FaceGenManager::BlitFaceIm(SDLSurfacePtr &faceim, Sint8 &genderOut, const U
 	const int mouth = rand.Int32(0,NumMouths(species,race)-1);
 	const int hair  = rand.Int32(0,NumHairstyles(species,race)-1);
 
-	const int clothes		= rand.Int32(0,NumClothes(species)-1);
-	const int armour		= rand.Int32(0,NumArmour(species)-1);
-	const int accessories	= rand.Int32(0,NumAccessories(species)-1);
-	const int background	= rand.Int32(0,NumBackground(species)-1);
-	
+	const int clothes     = rand.Int32(0,NumClothes(species)-1);
+	const int armour      = rand.Int32(0,NumArmour(species)-1);
+	const int accessories = rand.Int32(0,NumAccessories(species)-1);
+	const int background  = rand.Int32(0,NumBackground(species)-1);
+
 	FaceGenManager::TQueryResult res;
-	FaceGenManager::GetImagesForCharacter(res, 0, race, gender, head, eyes, 
+	FaceGenManager::GetImagesForCharacter(res, 0, race, gender, head, eyes,
 		nose, mouth, hair, clothes, armour, accessories, background);
 
 	_blit_image(faceim, res.mBackground, 0, 0);
