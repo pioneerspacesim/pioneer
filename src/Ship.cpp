@@ -99,6 +99,7 @@ void Ship::Save(Serializer::Writer &wr, Space *space)
 	m_controller->Save(wr, space);
 
 	m_navLights->Save(wr);
+	m_shields->Save(wr);
 }
 
 void Ship::Load(Serializer::Reader &rd, Space *space)
@@ -153,6 +154,7 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 	m_controller->Load(rd);
 
 	m_navLights->Load(rd);
+	m_shields->Load(rd);
 
 	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
 }
@@ -176,6 +178,8 @@ void Ship::Init()
 {
 	m_navLights.Reset(new NavLights(GetModel()));
 	m_navLights->SetEnabled(true);
+
+	m_shields.Reset(new Shields(GetModel()));
 
 	SetMassDistributionFromModel();
 	UpdateStats();
@@ -754,6 +758,10 @@ void Ship::TimeStepUpdate(const float timeStep)
 	m_navLights->SetEnabled(m_wheelState > 0.01f);
 	m_navLights->Update(timeStep);
 
+	const bool shieldsVisible = (m_stats.shield_mass_left < m_stats.shield_mass) && m_stats.shield_mass_left>0.1f;
+	m_shields->SetEnabled(shieldsVisible);
+	m_shields->Update(0.01f*GetPercentShields());
+
 	if (m_landingGearAnimation)
 		static_cast<SceneGraph::Model*>(GetModel())->UpdateAnimations();
 }
@@ -1150,9 +1158,6 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 
 	//angthrust negated, for some reason
 	GetModel()->SetThrust(vector3f(m_thrusters), -vector3f(m_angThrusters));
-
-	const bool shieldsVisible = (m_stats.shield_mass_left < m_stats.shield_mass) && m_stats.shield_mass_left>0.1f;
-	GetModel()->SetShieldData(shieldsVisible, 0.01f*GetPercentShields());
 
 	if (m_landingGearAnimation)
 		m_landingGearAnimation->SetProgress(m_wheelState);

@@ -143,6 +143,7 @@ void ModelViewer::Run(const std::string &modelName)
 	renderer = Graphics::Init(videoSettings);
 
 	NavLights::Init(renderer);
+	Shields::Init(renderer);
 
 	//run main loop until quit
 	viewer = new ModelViewer(renderer, Lua::manager);
@@ -153,6 +154,7 @@ void ModelViewer::Run(const std::string &modelName)
 	delete viewer;
 	Lua::Uninit();
 	delete renderer;
+	Shields::Uninit();
 	NavLights::Uninit();
 	Graphics::Uninit();
 	FileSystem::Uninit();
@@ -501,7 +503,6 @@ void ModelViewer::DrawModel()
 	m_model->UpdateAnimations();
 	if (m_options.wireframe)
 		m_renderer->SetWireFrameMode(true);
-	m_model->SetShieldData(m_options.showShields, 1.0f);
 	m_model->Render(mv);
 	if (m_options.showLandingPad) {
 		if (!m_scaleModel.Valid()) CreateTestResources();
@@ -546,6 +547,8 @@ void ModelViewer::MainLoop()
 		//update animations, draw model etc.
 		if (m_model) {
 			m_navLights->Update(m_frameTime);
+			m_shields->SetEnabled(m_options.showShields);
+			m_shields->Update(1.0f);
 			DrawModel();
 		}
 
@@ -803,6 +806,8 @@ void ModelViewer::SetModel(const std::string &filename, bool resetCamera /* true
 		//note: stations won't demonstrate full docking light logic in MV
 		m_navLights.Reset(new NavLights(m_model));
 		m_navLights->SetEnabled(true);
+
+		m_shields.Reset(new Shields(m_model));
 
 		{
 			SceneGraph::Model::TVecMT mts;

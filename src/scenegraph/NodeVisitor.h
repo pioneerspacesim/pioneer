@@ -37,7 +37,6 @@ public:
 	virtual void ApplyThruster(Thruster&);
 	virtual void ApplyLOD(LOD&);
 	virtual void ApplyCollisionGeometry(CollisionGeometry&);
-	virtual void ApplyShield(Shield&);
 };
 
 }

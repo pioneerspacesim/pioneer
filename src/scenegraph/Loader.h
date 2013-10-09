@@ -55,7 +55,6 @@ private:
 	matrix4x4f ConvertMatrix(const aiMatrix4x4&) const;
 	Model *CreateModel(ModelDefinition &def);
 	RefCountedPtr<Graphics::Material> GetDecalMaterial(unsigned int index);
-	RefCountedPtr<Graphics::Material> GetShieldMaterial(RefCountedPtr<Graphics::Material> matIn);
 	RefCountedPtr<Node> LoadMesh(const std::string &filename, const AnimList &animDefs); //load one mesh file so it can be added to the model scenegraph. Materials should be created before this!
 	void AddLog(const std::string&);
 	void CheckAnimationConflicts(const Animation*, const std::vector<Animation*>&); //detect animation overlap
@@ -63,7 +62,6 @@ private:
 	void ConvertAnimations(const aiScene *, const AnimList &, Node *meshRoot);
 	void ConvertNodes(aiNode *node, Group *parent, std::vector<RefCountedPtr<StaticGeometry> >& meshes, const matrix4x4f&);
 	void CreateLabel(Group *parent, const matrix4x4f&);
-	void CreateShield(aiNode *node, std::vector<RefCountedPtr<StaticGeometry> >& geoms, Group *parent, const matrix4x4f&);
 	void CreateThruster(const std::string &name, const matrix4x4f& nodeTrans);
 	void CreateNavlight(const std::string &name, const matrix4x4f& nodeTrans);
 	void FindPatterns(PatternContainer &output); //find pattern texture files from the model directory

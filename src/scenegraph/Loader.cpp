@@ -7,7 +7,6 @@
 #include "LOD.h"
 #include "Parser.h"
 #include "SceneGraph.h"
-#include "Shield.h"
 #include "StaticGeometry.h"
 #include "StringF.h"
 #include "utils.h"
@@ -454,29 +453,6 @@ RefCountedPtr<Graphics::Material> Loader::GetDecalMaterial(unsigned int index)
 	return decMat;
 }
 
-RefCountedPtr<Graphics::Material> Loader::GetShieldMaterial(RefCountedPtr<Graphics::Material> matIn)
-{
-	RefCountedPtr<Graphics::Material> &decMat = m_model->m_shieldMaterial;
-	if (!decMat.Valid()) {
-		Graphics::MaterialDescriptor matDesc;
-		matDesc.textures = 1;
-		matDesc.lighting = true;
-		matDesc.twoSided = false;
-		matDesc.alphaTest = false;
-		matDesc.specularMap = (NULL!=matIn->texture1);
-		matDesc.glowMap		= (NULL!=matIn->texture2);
-		matDesc.effect = Graphics::EffectType::EFFECT_SHIELD;
-		decMat.Reset(m_renderer->CreateMaterial(matDesc));
-		decMat->texture0 = matIn->texture0;
-		decMat->texture1 = matIn->texture1;
-		decMat->texture2 = matIn->texture2;
-		decMat->specular = matIn->specular;
-		decMat->diffuse = matIn->diffuse;
-		decMat->emissive = matIn->emissive;
-	}
-	return decMat;
-}
-
 void Loader::AddLog(const std::string &msg)
 {
 	if (m_doLog) m_logMessages.push_back(msg);
@@ -796,27 +772,6 @@ void Loader::CreateNavlight(const std::string &name, const matrix4x4f &m)
 	m_billboardsRoot->AddChild(lightPoint);
 }
 
-void Loader::CreateShield(aiNode *node, std::vector<RefCountedPtr<StaticGeometry> >& geoms, Group *parent, const matrix4x4f &m)
-{
-	MatrixTransform *trans = new MatrixTransform(m_renderer, matrix4x4f::Identity()/*m*/);
-	Shield *shield = new Shield(m_renderer);
-	shield->SetName("Shield");
-	
-	for(unsigned int i=0; i<node->mNumMeshes; i++) {
-		RefCountedPtr<StaticGeometry> geom = geoms.at(node->mMeshes[i]);
-		for(unsigned int nMesh=0; nMesh<geom->GetNumMeshes(); nMesh++) {
-			shield->AddMesh(geom->GetMesh(nMesh));
-			shield->SetNodeMask(NODE_TRANSPARENT);
-			shield->m_blendMode = Graphics::BLEND_ADDITIVE;
-			RefCountedPtr<Graphics::Material> mat = shield->GetMesh(0)->GetSurface(0)->GetMaterial();
-			shield->GetMesh(0)->GetSurface(0)->SetMaterial(GetShieldMaterial(mat));
-		}
-	}
-
-	trans->AddChild(shield);
-	parent->AddChild(trans);
-}
-
 void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPtr<StaticGeometry> >& geoms, const matrix4x4f &accum)
 {
 	Group *parent = _parent;
@@ -862,11 +817,6 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPt
 
 	//nodes with visible geometry (StaticGeometry, shields and decals)
 	if (node->mNumMeshes > 0) {
-		if (starts_with(nodename, "shield")) {
-			CreateShield(node, geoms, parent, m);
-			return;
-		} 
-
 		//expecting decal_0X
 		unsigned int numDecal = 0;
 		const bool isDecal = starts_with(nodename, "decal_");

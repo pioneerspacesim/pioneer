@@ -132,7 +132,6 @@ public:
 
 	//special for ship model use
 	void SetThrust(const vector3f &linear, const vector3f &angular);
-	void SetShieldData(const bool isOn, const float strength);
 
 	void Save(Serializer::Writer &wr) const;
 	void Load(Serializer::Reader &rd);
@@ -147,7 +146,6 @@ private:
 	PatternContainer m_patterns;
 	RefCountedPtr<CollMesh> m_collMesh;
 	RefCountedPtr<Graphics::Material> m_decalMaterials[MAX_DECAL_MATERIALS]; //spaceship insignia, advertising billboards
-	RefCountedPtr<Graphics::Material> m_shieldMaterial; // glowing mesh shield around the ship
 	RefCountedPtr<Group> m_root;
 	Graphics::Renderer *m_renderer;
 	std::string m_name;
