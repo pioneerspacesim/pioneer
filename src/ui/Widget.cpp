@@ -203,7 +203,7 @@ bool Widget::TriggerMouseWheel(const MouseWheelEvent &event, bool emit)
 bool Widget::TriggerMouseOver(const Point &pos, bool emit, Widget *stop)
 {
 	// only send external events on state change
-	if (!m_mouseOver && Contains(pos)) {
+	if (!m_mouseOver) {
 		m_mouseOver = true;
 		HandleMouseOver();
 		if (emit) emit = !onMouseOver.emit();
@@ -216,7 +216,7 @@ bool Widget::TriggerMouseOver(const Point &pos, bool emit, Widget *stop)
 bool Widget::TriggerMouseOut(const Point &pos, bool emit, Widget *stop)
 {
 	// only send external events on state change
-	if (m_mouseOver && !Contains(pos)) {
+	if (m_mouseOver) {
 		HandleMouseOut();
 		if (emit) emit = !onMouseOut.emit();
 		m_mouseOver = false;
