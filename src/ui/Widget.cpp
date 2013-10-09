@@ -9,7 +9,6 @@ namespace UI {
 
 Widget::Widget(Context *context) :
 	m_context(context),
-	m_layer(0),
 	m_container(0),
 	m_position(0),
 	m_size(0),
@@ -52,14 +51,8 @@ void Widget::Attach(Container *container)
 void Widget::Detach()
 {
 	m_container = 0;
-	m_layer = 0;
 	m_position = Point();
 	m_size = Point();
-}
-
-void Widget::SetLayer(Layer *layer)
-{
-	m_layer = layer;
 }
 
 void Widget::SetDimensions(const Point &position, const Point &size)
@@ -210,7 +203,7 @@ bool Widget::TriggerMouseWheel(const MouseWheelEvent &event, bool emit)
 bool Widget::TriggerMouseOver(const Point &pos, bool emit, Widget *stop)
 {
 	// only send external events on state change
-	if (!m_mouseOver && Contains(pos)) {
+	if (!m_mouseOver) {
 		m_mouseOver = true;
 		HandleMouseOver();
 		if (emit) emit = !onMouseOver.emit();
@@ -223,7 +216,7 @@ bool Widget::TriggerMouseOver(const Point &pos, bool emit, Widget *stop)
 bool Widget::TriggerMouseOut(const Point &pos, bool emit, Widget *stop)
 {
 	// only send external events on state change
-	if (m_mouseOver && !Contains(pos)) {
+	if (m_mouseOver) {
 		HandleMouseOut();
 		if (emit) emit = !onMouseOut.emit();
 		m_mouseOver = false;

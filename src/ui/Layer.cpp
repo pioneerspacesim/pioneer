@@ -13,7 +13,6 @@ void Layer::Layout()
 
 Layer *Layer::SetInnerWidget(Widget *w, const Point &pos, const Point &size)
 {
-	assert(!w->GetLayer());
 	assert(!w->GetContainer());
 
 	Container::RemoveAllWidgets();

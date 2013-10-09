@@ -73,7 +73,6 @@ Layer *Context::NewLayer()
 	Layer *layer = new Layer(this);
 	AddWidget(layer);
 	SetWidgetDimensions(layer, Point(0), Point(m_width, m_height));
-	layer->SetLayer(layer);
 	m_layers.push_back(layer);
 	m_needsLayout = true;
 	return layer;
