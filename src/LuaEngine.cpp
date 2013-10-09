@@ -511,7 +511,7 @@ static int l_engine_get_key_bindings(lua_State *l)
 
 #define BINDING_PAGE(name) \
 	push_bindings(l, KeyBindings :: BINDING_PROTOS_ ## name); \
-	lua_pushstring(l, #name); \
+	lua_pushstring(l, Lang :: name); \
 	lua_setfield(l, -2, "label"); \
 	lua_rawseti(l, -2, idx++);
 #include "KeyBindings.inc.h"
