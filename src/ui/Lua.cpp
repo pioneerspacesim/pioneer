@@ -26,6 +26,7 @@ void Init()
 	LuaObject<UI::Icon>::RegisterClass();
 	LuaObject<UI::Image>::RegisterClass();
 	LuaObject<UI::Label>::RegisterClass();
+	LuaObject<UI::Layer>::RegisterClass();
 	LuaObject<UI::List>::RegisterClass();
 	LuaObject<UI::Margin>::RegisterClass();
 	LuaObject<UI::MultiLineText>::RegisterClass();

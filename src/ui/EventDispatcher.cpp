@@ -209,23 +209,8 @@ void EventDispatcher::DispatchMouseOverOut(Widget *target, const Point &mousePos
 
 		if (m_lastMouseOverTarget) {
 
-			// if we're switching from float to non-float then we need to force the out event, even if the mouse is still over the last target.
-
-			// only the base widget of a floating stack is marked floating, so walk up to find it
-			// XXX this is doing too much work. should we flag this on the widget somewhere?
-			Widget *targetBase = target;
-			while (!targetBase->IsFloating() && targetBase->GetContainer()) targetBase = targetBase->GetContainer();
-			Widget *lastTargetBase = m_lastMouseOverTarget.Get();
-			while (!lastTargetBase->IsFloating() && lastTargetBase->GetContainer()) lastTargetBase = lastTargetBase->GetContainer();
-
-			// if we're moving from float->non-float or non-float->float,
-			// or the two targets don't have the same base (eg one just got
-			// removed from the context in whole ui switch)
-			// force the out event on the last target by reporting a position
-			// that is by definition outside itself
-			const Point outPos =
-				(targetBase->IsFloating() != lastTargetBase->IsFloating() || targetBase != lastTargetBase) ? Point(-INT_MAX) : mousePos-m_lastMouseOverTarget->GetAbsolutePosition();
-			m_lastMouseOverTarget->TriggerMouseOut(outPos);
+			// tell the old one that the mouse isn't over it anymore
+			m_lastMouseOverTarget->TriggerMouseOut(mousePos-m_lastMouseOverTarget->GetAbsolutePosition());
 		}
 
 		if (target->IsDisabled())
