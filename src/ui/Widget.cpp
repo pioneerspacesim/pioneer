@@ -18,7 +18,8 @@ Widget::Widget(Context *context) :
 	m_activeArea(0),
 	m_font(FONT_INHERIT),
 	m_disabled(false),
-	m_mouseOver(false)
+	m_mouseOver(false),
+	m_visible(false)
 {
 	assert(m_context);
 }
@@ -50,10 +51,16 @@ void Widget::Attach(Container *container)
 	assert(container);
 	assert(m_context == container->GetContext());
 	m_container = container;
+
+	// we should never be visible while we're detached, and we should
+	// always be detached before being attached to something else
+	assert(!m_visible);
+	NotifyVisible(container->IsVisible());
 }
 
 void Widget::Detach()
 {
+	NotifyVisible(false);
 	m_container = 0;
 	m_position = Point();
 	m_size = Point();
@@ -64,6 +71,14 @@ void Widget::SetDimensions(const Point &position, const Point &size)
 	m_position = position;
 	SetSize(size);
 	SetActiveArea(size);
+}
+
+void Widget::NotifyVisible(bool visible)
+{
+	if (m_visible != visible) {
+		m_visible = visible;
+		if (m_visible) { HandleVisible(); } else { HandleInvisible(); }
+	}
 }
 
 void Widget::SetActiveArea(const Point &activeArea, const Point &activeOffset)

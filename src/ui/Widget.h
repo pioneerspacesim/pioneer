@@ -271,6 +271,10 @@ protected:
 
 	Point GetMousePos() const;
 
+	// indicates whether the widget is part of the visible tree of widgets
+	// (ie, its chain of parents links to a Context)
+	bool IsVisible() const { return m_visible; }
+
 	void SetDisabled(bool disabled) { m_disabled = disabled; }
 
 	// internal event handlers. override to handle events. unlike the external
@@ -308,6 +312,9 @@ protected:
 	// (if there was one) gets deselected
 	virtual void HandleSelect() {}
 	virtual void HandleDeselect() {}
+
+	virtual void HandleVisible() {}
+	virtual void HandleInvisible() {}
 
 	void RegisterBindPoint(const std::string &bindName, sigc::slot<void,PropertyMap &,const std::string &> method);
 
@@ -355,6 +362,7 @@ private:
 	void Attach(Container *container);
 	void Detach();
 	void SetDimensions(const Point &position, const Point &size);
+	virtual void NotifyVisible(bool visible);
 
 	// called by Container::CollectShortcuts
 	const std::set<KeySym> &GetShortcuts() const { return m_shortcuts; }
@@ -383,6 +391,7 @@ private:
 	bool m_disabled;
 
 	bool m_mouseOver;
+	bool m_visible;
 
 	std::set<KeySym> m_shortcuts;
 

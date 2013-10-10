@@ -43,6 +43,7 @@ Context::Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int h
 	m_templateStore = LuaRef(l, -1);
 
 	SetSize(Point(m_width,m_height));
+	m_visible = true;
 
 	NewLayer();
 

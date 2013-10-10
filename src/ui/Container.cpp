@@ -93,6 +93,19 @@ void Container::Enable()
 	Widget::Enable();
 }
 
+void Container::NotifyVisible(bool visible)
+{
+	if (m_visible != visible) {
+		m_visible = visible;
+		if (m_visible) { HandleVisible(); } else { HandleInvisible(); }
+
+		for (std::vector< RefCountedPtr<Widget> >::iterator i = m_widgets.begin(); i != m_widgets.end(); ++i) {
+			Widget *w = (*i).Get();
+			w->NotifyVisible(visible);
+		}
+	}
+}
+
 void Container::DisableChildren()
 {
 	for (std::vector< RefCountedPtr<Widget> >::iterator i = m_widgets.begin(); i != m_widgets.end(); ++i) {
