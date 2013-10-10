@@ -98,8 +98,9 @@ void Container::DisableChildren()
 	for (std::vector< RefCountedPtr<Widget> >::iterator i = m_widgets.begin(); i != m_widgets.end(); ++i) {
 		Widget *w = (*i).Get();
 		w->SetDisabled(true);
-		Container *c = dynamic_cast<Container*>(w);
-		if (c) c->DisableChildren();
+		if (w->IsContainer()) {
+			static_cast<Container*>(w)->DisableChildren();
+		}
 	}
 }
 
@@ -108,8 +109,9 @@ void Container::EnableChildren()
 	for (std::vector< RefCountedPtr<Widget> >::iterator i = m_widgets.begin(); i != m_widgets.end(); ++i) {
 		Widget *w = (*i).Get();
 		w->SetDisabled(false);
-		Container *c = dynamic_cast<Container*>(w);
-		if (c) c->EnableChildren();
+		if (w->IsContainer()) {
+			static_cast<Container*>(w)->EnableChildren();
+		}
 	}
 }
 
