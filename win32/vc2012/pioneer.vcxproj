@@ -145,6 +145,7 @@
     <ClCompile Include="..\..\src\EnumStrings.cpp" />
     <ClCompile Include="..\..\src\enum_table.cpp" />
     <ClCompile Include="..\..\src\EquipType.cpp" />
+    <ClCompile Include="..\..\src\FaceGenManager.cpp" />
     <ClCompile Include="..\..\src\FaceVideoLink.cpp" />
     <ClCompile Include="..\..\src\Factions.cpp" />
     <ClCompile Include="..\..\src\FileSelectorWidget.cpp" />
@@ -307,6 +308,7 @@
     <ClInclude Include="..\..\src\EnumStrings.h" />
     <ClInclude Include="..\..\src\enum_table.h" />
     <ClInclude Include="..\..\src\EquipType.h" />
+    <ClInclude Include="..\..\src\FaceGenManager.h" />
     <ClInclude Include="..\..\src\FaceVideoLink.h" />
     <ClInclude Include="..\..\src\Factions.h" />
     <ClInclude Include="..\..\src\FileSelectorWidget.h" />
