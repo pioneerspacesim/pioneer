@@ -179,7 +179,7 @@ public:
 			snprintf(filename, sizeof(filename), "facegen/species_%d/clothes", speciesIdx);
 			std::vector<FileSystem::FileInfo> clothes;
 			FileSystem::gameDataFiles.ReadDirectory(filename, clothes);
-			m_numClothes = GetNumMatching("cloth_", clothes);
+			m_numClothes = GetNumMatching("cloth_0_", clothes);
 			m_numArmour = GetNumMatching("armour_", clothes);
 		}
 		{
