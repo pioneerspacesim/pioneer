@@ -55,6 +55,10 @@
       "description" : "",
       "message" : "Cash"
    },
+   "CASH_N" : {
+      "description" : "",
+      "message" : "Cash: {money}"
+   },
    "CHANGE_BINDING" : {
       "description" : "",
       "message" : "Change Binding"
@@ -262,6 +266,10 @@
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
       "description" : "",
       "message" : "Hull does not require repair."
+   },
+   "HULL_INTEGRITY" : {
+      "description" : "",
+      "message" : "Hull integrity"
    },
    "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT" : {
       "description" : "",
@@ -666,6 +674,10 @@
    "YOUR_HULL_IS_AT_X_INTEGRITY" : {
       "description" : "",
       "message" : "Your hull is at {value}% integrity."
+   },
+   "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION" : {
+      "description" : "",
+      "message" : "You don't have enough money for that option."
    },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",
