@@ -35,6 +35,8 @@ extern const struct EnumItem ENUM_UIKeyboardAction[];
 extern const struct EnumItem ENUM_UIMouseButtonAction[];
 extern const struct EnumItem ENUM_UIMouseButtonType[];
 extern const struct EnumItem ENUM_UIMouseWheelDirection[];
+extern const struct EnumItem ENUM_UIJoystickHatDirection[];
+extern const struct EnumItem ENUM_UIJoystickButtonAction[];
 extern const struct EnumItem ENUM_UIExpandDirection[];
 extern const struct EnumItem ENUM_UIGradientDirection[];
 extern const struct EnumItem ENUM_UIMarginDirection[];
