@@ -90,6 +90,8 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\pioneer\src\ui\Layer.cpp" />
+    <ClCompile Include="..\..\..\..\pioneer\src\ui\LuaLayer.cpp" />
     <ClCompile Include="..\..\..\src\ui\Align.cpp" />
     <ClCompile Include="..\..\..\src\ui\Background.cpp" />
     <ClCompile Include="..\..\..\src\ui\Box.cpp" />
@@ -103,7 +105,6 @@
     <ClCompile Include="..\..\..\src\ui\Event.cpp" />
     <ClCompile Include="..\..\..\src\ui\EventDispatcher.cpp" />
     <ClCompile Include="..\..\..\src\ui\Expand.cpp" />
-    <ClCompile Include="..\..\..\src\ui\FloatContainer.cpp" />
     <ClCompile Include="..\..\..\src\ui\Gauge.cpp" />
     <ClCompile Include="..\..\..\src\ui\Gradient.cpp" />
     <ClCompile Include="..\..\..\src\ui\Grid.cpp" />
@@ -158,6 +159,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\pioneer\src\ui\Layer.h" />
     <ClInclude Include="..\..\..\src\ui\Align.h" />
     <ClInclude Include="..\..\..\src\ui\Background.h" />
     <ClInclude Include="..\..\..\src\ui\Box.h" />
@@ -171,7 +173,6 @@
     <ClInclude Include="..\..\..\src\ui\Event.h" />
     <ClInclude Include="..\..\..\src\ui\EventDispatcher.h" />
     <ClInclude Include="..\..\..\src\ui\Expand.h" />
-    <ClInclude Include="..\..\..\src\ui\FloatContainer.h" />
     <ClInclude Include="..\..\..\src\ui\Gauge.h" />
     <ClInclude Include="..\..\..\src\ui\Gradient.h" />
     <ClInclude Include="..\..\..\src\ui\Grid.h" />
