@@ -1243,13 +1243,11 @@ void Pi::SetMouseGrab(bool on)
 	if (!doingMouseGrab && on) {
 		SDL_ShowCursor(0);
 		Pi::renderer->GetWindow()->SetGrab(true);
-//		SDL_SetRelativeMouseMode(true);
 		doingMouseGrab = true;
 	}
 	else if(doingMouseGrab && !on) {
 		SDL_ShowCursor(1);
 		Pi::renderer->GetWindow()->SetGrab(false);
-//		SDL_SetRelativeMouseMode(false);
 		doingMouseGrab = false;
 	}
 }
