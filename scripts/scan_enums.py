@@ -485,6 +485,13 @@ def main():
                 prettypath = "'" + path + "'"
             sys.stderr.write("Warning: C++ parse error in " + prettypath + ":\n")
             sys.stderr.write('    ' + e.value + '\n')
+        except UnicodeDecodeError as e:
+            if path == '-':
+                prettypath = 'input'
+            else:
+                prettypath = "'" + path + "'"
+            sys.stderr.write("Warning: UTF-8 decode error in " + prettypath + ":\n")
+            sys.stderr.write('    ' + str(e) + '\n')
 
     if options.outfile == '-':
         # write to stdout (no header)

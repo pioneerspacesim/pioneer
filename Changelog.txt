@@ -35,6 +35,7 @@ October 2013
      * Removed many unnecessary uses of reinterpret_cast (#2465)
      * Fix some problems reported by valgrind (#2472)
      * Miscellaneous code improvements (#2474)
+     * Better Unicode handling in scan_enums (#2479)
 
 September 2013
 
