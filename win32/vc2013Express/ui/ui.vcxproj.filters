@@ -198,10 +198,10 @@
     <ClCompile Include="..\..\..\src\ui\Table.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ui\Layer.cpp">
+    <ClCompile Include="..\..\..\src\ui\LuaLayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ui\LuaLayer.cpp">
+    <ClCompile Include="..\..\..\src\ui\Layer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
