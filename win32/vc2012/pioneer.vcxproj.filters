@@ -450,6 +450,9 @@
     <ClCompile Include="..\..\src\FaceGenManager.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Shields.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h">
@@ -525,9 +528,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaEquipDef.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\LuaCargoBody.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaChatForm.h">
@@ -914,11 +914,12 @@
     <ClInclude Include="..\..\src\FaceGenManager.h">
       <Filter>src</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\src\Makefile.am">
+    <ClInclude Include="..\..\src\EquipSet.h">
       <Filter>src</Filter>
-    </None>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Shields.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\src\win32\pioneer.rc">

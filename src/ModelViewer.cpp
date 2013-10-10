@@ -21,6 +21,7 @@ ModelViewer::Options::Options()
 , showTags(false)
 , showDockingLocators(false)
 , showCollMesh(false)
+, showShields(false)
 , showGrid(false)
 , showLandingPad(false)
 , showUI(true)
@@ -142,6 +143,7 @@ void ModelViewer::Run(const std::string &modelName)
 	renderer = Graphics::Init(videoSettings);
 
 	NavLights::Init(renderer);
+	Shields::Init(renderer);
 
 	//run main loop until quit
 	viewer = new ModelViewer(renderer, Lua::manager);
@@ -152,6 +154,7 @@ void ModelViewer::Run(const std::string &modelName)
 	delete viewer;
 	Lua::Uninit();
 	delete renderer;
+	Shields::Uninit();
 	NavLights::Uninit();
 	Graphics::Uninit();
 	FileSystem::Uninit();
@@ -183,6 +186,12 @@ bool ModelViewer::OnToggleCollMesh(UI::CheckBox *w)
 	m_options.showDockingLocators = !m_options.showDockingLocators;
 	m_options.showCollMesh = !m_options.showCollMesh;
 	return m_options.showCollMesh;
+}
+
+bool ModelViewer::OnToggleShowShields(UI::CheckBox *w)
+{
+	m_options.showShields = !m_options.showShields;
+	return m_options.showShields;
 }
 
 bool ModelViewer::OnToggleGrid(UI::Widget *)
@@ -538,6 +547,8 @@ void ModelViewer::MainLoop()
 		//update animations, draw model etc.
 		if (m_model) {
 			m_navLights->Update(m_frameTime);
+			m_shields->SetEnabled(m_options.showShields);
+			m_shields->Update(1.0f);
 			DrawModel();
 		}
 
@@ -796,6 +807,8 @@ void ModelViewer::SetModel(const std::string &filename, bool resetCamera /* true
 		m_navLights.Reset(new NavLights(m_model));
 		m_navLights->SetEnabled(true);
 
+		m_shields.Reset(new Shields(m_model));
+
 		{
 			SceneGraph::Model::TVecMT mts;
 
@@ -901,6 +914,7 @@ void ModelViewer::SetupUI()
 	UI::SmallButton *reloadButton;
 	UI::SmallButton *toggleGridButton;
 	UI::CheckBox *collMeshCheck;
+	UI::CheckBox *showShieldsCheck;
 	UI::CheckBox *gunsCheck;
 
 	UI::VBox* outerBox = c->VBox();
@@ -934,6 +948,7 @@ void ModelViewer::SetupUI()
 
 	add_pair(c, mainBox, toggleGridButton = c->SmallButton(), "Grid mode");
 	add_pair(c, mainBox, collMeshCheck = c->CheckBox(), "Collision mesh");
+	add_pair(c, mainBox, showShieldsCheck = c->CheckBox(), "Show Shields");
 
 	//pattern selector
 	if (m_model->SupportsPatterns()) {
@@ -1071,6 +1086,7 @@ void ModelViewer::SetupUI()
 
 	//event handlers
 	collMeshCheck->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnToggleCollMesh), collMeshCheck));
+	showShieldsCheck->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnToggleShowShields), showShieldsCheck));
 	gunsCheck->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnToggleGuns), gunsCheck));
 	lightSelector->onOptionSelected.connect(sigc::mem_fun(*this, &ModelViewer::OnLightPresetChanged));
 	toggleGridButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnToggleGrid), toggleGridButton));

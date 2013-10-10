@@ -242,6 +242,7 @@
     <ClCompile Include="..\..\src\SectorView.cpp" />
     <ClCompile Include="..\..\src\Serializer.cpp" />
     <ClCompile Include="..\..\src\Sfx.cpp" />
+    <ClCompile Include="..\..\src\Shields.cpp" />
     <ClCompile Include="..\..\src\Ship-AI.cpp" />
     <ClCompile Include="..\..\src\Ship.cpp" />
     <ClCompile Include="..\..\src\ShipAICmd.cpp" />
@@ -307,6 +308,7 @@
     <ClInclude Include="..\..\src\DynamicBody.h" />
     <ClInclude Include="..\..\src\EnumStrings.h" />
     <ClInclude Include="..\..\src\enum_table.h" />
+    <ClInclude Include="..\..\src\EquipSet.h" />
     <ClInclude Include="..\..\src\EquipType.h" />
     <ClInclude Include="..\..\src\FaceGenManager.h" />
     <ClInclude Include="..\..\src\FaceVideoLink.h" />
@@ -336,7 +338,6 @@
     <ClInclude Include="..\..\src\libs.h" />
     <ClInclude Include="..\..\src\Lua.h" />
     <ClInclude Include="..\..\src\LuaEquipDef.h" />
-    <ClInclude Include="..\..\src\LuaCargoBody.h" />
     <ClInclude Include="..\..\src\LuaChatForm.h" />
     <ClInclude Include="..\..\src\LuaComms.h" />
     <ClInclude Include="..\..\src\LuaConsole.h" />
@@ -396,6 +397,7 @@
     <ClInclude Include="..\..\src\SectorView.h" />
     <ClInclude Include="..\..\src\Serializer.h" />
     <ClInclude Include="..\..\src\Sfx.h" />
+    <ClInclude Include="..\..\src\Shields.h" />
     <ClInclude Include="..\..\src\Ship.h" />
     <ClInclude Include="..\..\src\ShipAICmd.h" />
     <ClInclude Include="..\..\src\ShipController.h" />
@@ -437,9 +439,6 @@
     <ClInclude Include="..\..\src\win32\TextUtils.h" />
     <ClInclude Include="..\..\src\win32\WinMath.h" />
     <ClInclude Include="..\..\src\WorldView.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\src\Makefile.am" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\src\win32\pioneer.rc" />

@@ -13,6 +13,7 @@
 #include "Planet.h"
 #include "Serializer.h"
 #include "ShipType.h"
+#include "Shields.h"
 #include "scenegraph/SceneGraph.h"
 #include "scenegraph/ModelSkin.h"
 #include <list>
@@ -23,7 +24,12 @@ class AICommand;
 class ShipController;
 class CargoBody;
 class Missile;
+class Shields;
 namespace Graphics { class Renderer; }
+
+struct ShieldRenderParameters {
+	float strength;
+};
 
 struct shipstats_t {
 	int max_capacity;
@@ -329,6 +335,7 @@ private:
 
 	SceneGraph::Animation *m_landingGearAnimation;
 	ScopedPtr<NavLights> m_navLights;
+	ScopedPtr<Shields> m_shields;
 };
 
 

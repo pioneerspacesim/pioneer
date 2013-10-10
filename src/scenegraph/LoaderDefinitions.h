@@ -63,12 +63,16 @@ struct AnimDefinition {
 };
 typedef std::vector<AnimDefinition> AnimList;
 
+typedef std::vector<std::string> CollisionList;
+typedef std::vector<std::string> ShieldList;
+
 struct ModelDefinition {
 	std::string name;
 	std::vector<LodDefinition> lodDefs;
 	std::vector<MaterialDefinition> matDefs;
-	std::vector<std::string> collisionDefs;
+	CollisionList collisionDefs;
 	AnimList animDefs;
+	ShieldList shieldDefs;
 };
 
 }

@@ -523,8 +523,8 @@ void Loader::ConvertAiMeshes(std::vector<RefCountedPtr<StaticGeometry> > &geoms,
 		}
 
 		const Graphics::AttributeSet vtxAttribs =
-			Graphics::ATTRIB_POSITION |
-			Graphics::ATTRIB_NORMAL |
+				Graphics::ATTRIB_POSITION |
+				Graphics::ATTRIB_NORMAL |
 			Graphics::ATTRIB_UV0;
 		Graphics::VertexArray *vts = new Graphics::VertexArray(vtxAttribs, mesh->mNumVertices);
 
@@ -815,11 +815,12 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPt
 		return;
 	}
 
-	//nodes with visible geometry (StaticGeometry and decals)
+	//nodes with visible geometry (StaticGeometry, shields and decals)
 	if (node->mNumMeshes > 0) {
 		//expecting decal_0X
 		unsigned int numDecal = 0;
-		if (starts_with(nodename, "decal_")) {
+		const bool isDecal = starts_with(nodename, "decal_");
+		if (isDecal) {
 			numDecal = atoi(nodename.substr(7,1).c_str());
 			if (numDecal > 4)
 				throw LoadingError("More than 4 different decals");
@@ -912,7 +913,7 @@ unsigned int Loader::GetGeomFlagForNodeName(const std::string &nodename)
 		const int padID = atoi(pad.c_str())-1;
 		if(padID<240) {
 			return 0x10 + padID;
-		}
+	}
 	}
 	return 0x0;
 }

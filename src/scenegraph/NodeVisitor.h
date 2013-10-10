@@ -22,6 +22,7 @@ class MatrixTransform;
 class Node;
 class StaticGeometry;
 class Thruster;
+class Shield;
 
 class NodeVisitor
 {
