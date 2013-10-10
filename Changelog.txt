@@ -5,6 +5,7 @@ October 2013
      * New ship "Kanara Interceptor" (civilian version) (#2454, #2461)
      * Vertical speed is shown with altitude, up to 10000 km or half the
        planet's radius (#2446)
+     * The random face system now supports multiple species (#2440)
 
    * Minor changes and tweaks
      * Improved ship textures (#2450)
