@@ -121,6 +121,7 @@ int WindowSDL::GetHeight() const
 void WindowSDL::SetGrab(bool grabbed)
 {
 	SDL_SetWindowGrab(m_window, SDL_bool(grabbed));
+	SDL_SetRelativeMouseMode(SDL_bool(grabbed));
 }
 
 void WindowSDL::SwapBuffers()

@@ -28,6 +28,7 @@ October 2013
        (#2464)
      * Fix crash when game load fails (#2467, #2466)
      * Fixed model spinner view distance (#2481)
+     * Stopped mouse movement when grabbed (#2485)
 
    * Model changes
      * Pattern textures can now have alpha channels (#2449)
