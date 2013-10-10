@@ -447,6 +447,9 @@
     <ClCompile Include="..\..\contrib\PicoDDS\PicoDDS.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\FaceGenManager.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\Shields.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -908,17 +911,15 @@
     <ClInclude Include="..\..\contrib\PicoDDS\PicoDDS.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\FaceGenManager.h">
+      <Filter>src</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\EquipSet.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Shields.h">
       <Filter>src</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\src\Makefile.am">
-      <Filter>src</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\src\win32\pioneer.rc">

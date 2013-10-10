@@ -37,6 +37,7 @@ noinst_HEADERS = \
 	EnumStrings.h \
 	EquipSet.h \
 	EquipType.h \
+	FaceGenManager.h \
 	FaceVideoLink.h \
 	Factions.h \
 	FileSelectorWidget.h \
@@ -177,6 +178,7 @@ pioneer_SOURCES	= \
 	DynamicBody.cpp \
 	EnumStrings.cpp \
 	EquipType.cpp \
+	FaceGenManager.cpp \
 	FaceVideoLink.cpp \
 	Factions.cpp \
 	FileSelectorWidget.cpp \

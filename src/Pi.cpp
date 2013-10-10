@@ -7,6 +7,7 @@
 #include "CargoBody.h"
 #include "CityOnPlanet.h"
 #include "DeathView.h"
+#include "FaceGenManager.h"
 #include "Factions.h"
 #include "FileSystem.h"
 #include "Frame.h"
@@ -361,6 +362,9 @@ void Pi::Init()
 	Galaxy::Init();
 	draw_progress(gauge, label, 0.2f);
 
+	FaceGenManager::Init();
+	draw_progress(gauge, label, 0.25f);
+
 	Faction::Init();
 	draw_progress(gauge, label, 0.3f);
 
@@ -560,6 +564,7 @@ void Pi::Quit()
 	GeoSphere::Uninit();
 	Galaxy::Uninit();
 	Faction::Uninit();
+	FaceGenManager::Destroy();
 	CustomSystem::Uninit();
 	Graphics::Uninit();
 	Pi::ui.Reset(0);
