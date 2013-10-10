@@ -374,6 +374,7 @@ void WorldView::OnClickHyperspace()
 {
 	if (Pi::player->IsHyperspaceActive()) {
 		// Hyperspace countdown in effect.. abort!
+		Pi::player->AIClearInstructions(); // in case it was triggered by AIHyperspaceTo, no other AI command possible here
 		Pi::player->ResetHyperspaceCountdown();
 		Pi::cpan->MsgLog()->Message("", Lang::HYPERSPACE_JUMP_ABORTED);
 	} else {
@@ -1074,6 +1075,12 @@ static void autopilot_orbit(Body *b, double alt)
 	Pi::player->AIOrbit(b, alt);
 }
 
+static void autopilot_hyperspaceto(SystemPath path)
+{
+	Pi::player->GetPlayerController()->SetFlightControlState(CONTROL_AUTOPILOT);
+	Pi::player->AIHyperspaceTo(path);
+}
+
 static void player_target_hypercloud(HyperspaceCloud *cloud)
 {
 	Pi::sectorView->SetHyperspaceTarget(cloud->GetShip()->GetHyperspaceDest());
@@ -1093,12 +1100,11 @@ void WorldView::UpdateCommsOptions()
 
 	Body * const navtarget = Pi::player->GetNavTarget();
 	Body * const comtarget = Pi::player->GetCombatTarget();
+	SystemPath hypertarget = Pi::sectorView->GetHyperspaceTarget();
+
 	Gui::Button *button;
 	int ypos = 0;
 	int optnum = 1;
-	if (!(navtarget || comtarget)) {
-		m_commsOptions->Add(new Gui::Label("#0f0"+std::string(Lang::NO_TARGET_SELECTED)), 16, float(ypos));
-	}
 
 	const bool hasAutopilot = (Pi::player->m_equipment.Get(Equip::SLOT_AUTOPILOT) == Equip::AUTOPILOT) && (Pi::player->GetFlightState() == Ship::FLYING);
 
@@ -1165,6 +1171,25 @@ void WorldView::UpdateCommsOptions()
 		button = AddCommsOption(stringf(Lang::AUTOPILOT_FLY_TO_VICINITY_OF, formatarg("target", comtarget->GetLabel())), ypos, optnum++);
 		button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_flyto), comtarget));
 		ypos += 32;
+	}
+	if (hasAutopilot && hypertarget.HasValidSystem()) {
+		int ignoreFuel;
+		double ignoreDuration;
+		Ship::HyperjumpStatus status = Pi::player->GetHyperspaceDetails(hypertarget, ignoreFuel, ignoreDuration);
+		if (status == Ship::HYPERJUMP_OK || status == Ship::HYPERJUMP_SAFETY_LOCKOUT) {
+			RefCountedPtr<StarSystem> s = StarSystem::GetCached(hypertarget);
+			std::string hypername = s->GetName() + stringf(" (%x,%y,%z)", formatarg("x", int(hypertarget.sectorX)),
+					formatarg("y", int(hypertarget.sectorY)), formatarg("z", int(hypertarget.sectorZ)));
+			m_commsOptions->Add(new Gui::Label("#0ff"+hypername), 16, float(ypos));
+			ypos += 32;
+			button = AddCommsOption(stringf(Lang::AUTOPILOT_HYPERSPACE_TO, formatarg("target", hypername)), ypos, optnum++);
+			button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_hyperspaceto), hypertarget));
+			ypos += 32;
+		}
+	}
+
+	if (optnum == 1) {
+		m_commsOptions->Add(new Gui::Label("#0f0"+std::string(Lang::NO_TARGET_SELECTED)), 16, float(ypos));
 	}
 }
 

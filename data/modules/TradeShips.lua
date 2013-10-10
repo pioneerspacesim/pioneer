@@ -279,7 +279,7 @@ local getSystem = function (ship)
 	return target_system.path
 end
 
-local jumpToSystem = function (ship, target_path)
+local jumpToSystemNow = function (ship, target_path)
 	if target_path == nil then return nil end
 
 	local status, fuel, duration = ship:HyperspaceTo(target_path)
@@ -296,6 +296,16 @@ local jumpToSystem = function (ship, target_path)
 	trade_ships[ship]['dest_path'] = target_path
 	trade_ships[ship]['from_path'] = Game.system.path
 	return status
+end
+
+local getSystemAndJumpNow = function (ship)
+	return jumpToSystemNow(ship, getSystem(ship))
+end
+
+local jumpToSystem = function (ship, target_path)
+	if target_path == nil then return nil end
+	ship:AIHyperspaceTo(target_path)
+	return target_path
 end
 
 local getSystemAndJump = function (ship)
@@ -598,21 +608,6 @@ local onLeaveSystem = function (ship)
 end
 Event.Register("onLeaveSystem", onLeaveSystem)
 
-local onFrameChanged = function (ship)
-	if not ship:isa("Ship") or trade_ships[ship] == nil then return end
-	local trader = trade_ships[ship]
-
-	if trader.status == 'outbound' then
-		-- the cloud inherits the ship velocity and vector
-		ship:CancelAI()
-		if getSystemAndJump(ship) ~= 'OK' then
-			ship:AIDockWith(trader.starport)
-			trader['status'] = 'inbound'
-		end
-	end
-end
-Event.Register("onFrameChanged", onFrameChanged)
-
 local onShipDocked = function (ship, starport)
 	if trade_ships[ship] == nil then return end
 	local trader = trade_ships[ship]
@@ -662,11 +657,17 @@ Event.Register("onShipDocked", onShipDocked)
 
 local onShipUndocked = function (ship, starport)
 	if trade_ships[ship] == nil then return end
-
-	-- fly to the limit of the starport frame
-	ship:AIFlyTo(starport)
-
-	trade_ships[ship]['status'] = 'outbound'
+	local trader = trade_ships[ship]
+	local target_path = getSystemAndJump(ship)
+	if target_path then
+		trader['status'] = 'outbound'
+		trader['dest_time'] = nil -- not known, yet
+		trader['dest_path'] = target_path
+		trader['from_path'] = Game.system.path
+	else
+		ship:AIDockWith(trader.starport)
+		trader['status'] = 'inbound'
+	end
 end
 Event.Register("onShipUndocked", onShipUndocked)
 
@@ -677,7 +678,15 @@ local onAICompleted = function (ship, ai_error)
 		print(ship.label..' AICompleted: Error: '..ai_error..' Status: '..trader.status) end
 
 	if trader.status == 'outbound' then
-		if getSystemAndJump(ship) ~= 'OK' then
+		if ai_error == 'NONE' then
+			local status, fuel, duration = ship:GetHyperspaceDetails(trader.dest_path)
+
+			-- update table for ship
+			trader['status'] = 'hyperspace'
+			trader['starport'] = nil
+			trader['dest_time'] = Game.time + duration
+		else
+			print(trader['ship_name']..' jump status is '..ai_error)
 			ship:AIDockWith(trader.starport)
 			trader['status'] = 'inbound'
 		end
@@ -751,7 +760,7 @@ local onShipHit = function (ship, attacker)
 
 	-- if outbound jump now
 	if trader.status == 'outbound' then
-		if getSystemAndJump(ship) == 'OK' then
+		if getSystemAndJumpNow(ship) == 'OK' then
 			return
 		end
 	end
@@ -769,7 +778,7 @@ local onShipHit = function (ship, attacker)
 		elseif Engine.rand:Number(1) < trader.chance then
 			local distance = ship:DistanceTo(trader.starport)
 			if distance > 149598000 * (2 - trader.chance) then -- 149,598,000km = 1AU
-				if getSystemAndJump(ship) then
+				if getSystemAndJumpNow(ship) then
 					return
 				else
 					trader['no_jump'] = true

@@ -1131,3 +1131,58 @@ bool AICmdFormation::TimeStepUpdate()
 	return false;					// never self-terminates
 }
 
+bool AICmdHyperspaceTo::OnEnterHyperspace()
+{
+	AICommand::OnEnterHyperspace();
+	if (!m_ship->GetHyperspaceDest().IsSameSystem(m_target))
+		m_ship->AIMessage(Ship::AIERROR_HYPERSPACE_IMPOSSIBLE);
+	return true;
+}
+
+bool AICmdHyperspaceTo::TimeStepUpdate()
+{
+	if (m_done) {
+		if (m_failed)
+			m_ship->AIMessage(Ship::AIERROR_HYPERSPACE_IMPOSSIBLE);
+		return true; // Done/failed as determined by constructor
+	}
+
+	if (m_ship->IsHyperspaceActive()) {
+		if (m_ship->GetHyperspaceDest().IsSameSystem(m_target))
+			return false; // Just waiting for countdown to finish
+		// Abort hyperjump to wrong target
+		m_ship->ResetHyperspaceCountdown();
+	}
+
+	// sort out gear, launching
+	if (m_ship->GetFlightState() == Ship::FLYING) m_ship->SetWheelState(false);
+	else if (m_ship->GetFlightState() == Ship::HYPERSPACE) {
+		if (!m_ship->GetHyperspaceDest().IsSameSystem(m_target))
+			m_ship->AIMessage(Ship::AIERROR_HYPERSPACE_IMPOSSIBLE);
+		return true; // Done or we can't jump because we are already jumping elsewhere, though this might never trigger since ship is not in Space
+	}
+	else { LaunchShip(m_ship); return false; }
+
+	Ship::HyperjumpStatus status = m_ship->CheckHyperspaceTo(m_target);
+	if (status == Ship::HYPERJUMP_OK) {
+		m_ship->StartHyperspaceCountdown(m_target);
+		return false; // We finish once we entered hyperspace or arrive at the target system
+	} else if (status == Ship::HYPERJUMP_SAFETY_LOCKOUT) {
+		const Body *body = m_ship->GetFrame()->GetBody();
+		vector3d pos = m_ship->GetPosition();
+		double dist = pos.Length();
+		double targetDist = m_ship->GetHyperspaceSafetyDistance(body);
+		if (dist < targetDist) {
+			double ang = m_ship->AIFaceDirection(pos);
+			m_ship->AIMatchVel(ang < 0.05 ? 1000.0 * pos.Normalized() : vector3d(0.0));
+			return false;
+		} else {
+			assert(m_ship->GetWheelState() > 0.0);
+			m_ship->AIMatchVel(vector3d(0.0));
+		}
+	} else {
+		m_ship->AIMessage(Ship::AIERROR_HYPERSPACE_IMPOSSIBLE);
+		return true; // Can not jump
+	}
+	return false;
+}

@@ -446,6 +446,25 @@ Equip::Type Ship::GetHyperdriveFuelType() const
 	return Equip::types[t].inputs[0];
 }
 
+double Ship::GetHyperspaceSafetyDistance(const Body* body) const {
+	if (!body)
+		return 0.0; // GRAVPOINT
+
+	if (body->IsType(Object::TERRAINBODY)) {
+		const Frame *f = GetFrame()->GetRotFrame();
+		vector3d surfacePos = GetPositionRelTo(f).Normalized();
+		double radius = Pi::game->GetHyperspaceMinTerrainDistance() + static_cast<const TerrainBody*>(body)->GetTerrainHeight(surfacePos);
+		if (body->IsType(Object::PLANET) && !Pi::game->IsHyperspaceAllowedInAtmosphere())
+			radius = std::max(radius, static_cast<const Planet*>(body)->GetAtmosphereRadius());
+		return radius;
+	} else if (body->IsType(Object::SPACESTATION)) {
+		return Pi::game->GetHyperspaceMinStationDistance() + body->GetPhysRadius();
+	} else {
+		assert(false);
+		return 0.0;
+	}
+}
+
 void Ship::UpdateEquipStats()
 {
 	m_stats.max_capacity = m_type->capacity;
@@ -519,8 +538,13 @@ Ship::HyperjumpStatus Ship::GetHyperspaceDetails(const SystemPath &dest, int &ou
 
 	UpdateStats();
 
-	if (GetFlightState() == HYPERSPACE)
+	if (GetFlightState() == HYPERSPACE) {
+		if (m_hyperspaceCloud)
+			outDurationSecs = m_hyperspaceCloud->GetDueDate() - Pi::game->GetTime();
+		else
+			outDurationSecs = Pi::game->GetHyperspaceEndTime() - Pi::game->GetTime();
 		return HYPERJUMP_DRIVE_ACTIVE;
+	}
 
 	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
 	Equip::Type fuelType = GetHyperdriveFuelType();
@@ -562,6 +586,14 @@ Ship::HyperjumpStatus Ship::CheckHyperspaceTo(const SystemPath &dest, int &outFu
 
 	if (GetFlightState() != FLYING)
 		return HYPERJUMP_SAFETY_LOCKOUT;
+
+	// Check safety distances
+	const Body *body = GetFrame()->GetBody();
+	if (body) {
+		double dist = GetPositionRelTo(body).Length();
+		if (dist < GetHyperspaceSafetyDistance(body))
+			return HYPERJUMP_SAFETY_LOCKOUT;
+	}
 
 	return GetHyperspaceDetails(dest, outFuelRequired, outDurationSecs);
 }
@@ -1242,6 +1274,11 @@ void Ship::EnterHyperspace() {
 
 	// virtual call, do class-specific things
 	OnEnterHyperspace();
+	if (m_curAICmd && m_curAICmd->OnEnterHyperspace()) {
+		AIClearInstructions();
+//		ClearThrusterState();		// otherwise it does one timestep at 10k and gravity is fatal
+		LuaEvent::Queue("onAICompleted", this, EnumStrings::GetString("ShipAIError", AIMessage()));
+	}
 }
 
 void Ship::OnEnterHyperspace() {

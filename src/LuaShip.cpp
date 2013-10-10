@@ -882,7 +882,7 @@ static int l_ship_get_hyperspace_details(lua_State *l)
 	Ship::HyperjumpStatus status = s->GetHyperspaceDetails(*dest, fuel, duration);
 
 	lua_pushstring(l, EnumStrings::GetString("ShipJumpStatus", status));
-	if (status == Ship::HYPERJUMP_OK) {
+	if (status == Ship::HYPERJUMP_OK || status == Ship::HYPERJUMP_DRIVE_ACTIVE) {
 		lua_pushinteger(l, fuel);
 		lua_pushnumber(l, duration);
 		return 3;
@@ -1173,6 +1173,41 @@ static int l_ship_ai_enter_high_orbit(lua_State *l)
 }
 
 /*
+ * Method: AIHyperspaceTo
+ *
+ * Hyperjump to the given system (flying to a place suitable for jumping first).
+ *
+ * > ship:AIHyperspaceTo(target)
+ *
+ * The AI command finishes directly after entering hyperspace towards the target
+ * or fails immediately if hyperjumping is impossible due to other reasons than
+ * location restrictions (e.g. insufficient fuel, out of range, no jump drive).
+ *
+ * Parameters:
+ *
+ *   target - the <SystemPath> to jump to
+ *
+ * Availability:
+ *
+ *  TBD
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_ship_ai_hyperspace_to(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	SystemPath *dest = LuaObject<SystemPath>::CheckFromLua(2);
+
+	if (s->GetFlightState() == Ship::HYPERSPACE)
+		return luaL_error(l, "Ship:AIHyperspaceTo() cannot be called on a ship in hyperspace");
+
+	s->AIHyperspaceTo(*dest);
+	return 0;
+}
+
+/*
  * Method: CancelAI
  *
  * Cancel the current AI command
@@ -1246,6 +1281,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "AIEnterLowOrbit",    l_ship_ai_enter_low_orbit    },
 		{ "AIEnterMediumOrbit", l_ship_ai_enter_medium_orbit },
 		{ "AIEnterHighOrbit",   l_ship_ai_enter_high_orbit   },
+		{ "AIHyperspaceTo",     l_ship_ai_hyperspace_to      },
 		{ "CancelAI",           l_ship_cancel_ai             },
 
 		{ "CheckHyperspaceTo", l_ship_check_hyperspace_to },

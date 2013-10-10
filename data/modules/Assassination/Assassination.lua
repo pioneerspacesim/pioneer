@@ -330,6 +330,15 @@ local onShipDocked = function (ship, station)
 	end
 end
 
+local jump = function (ship, mission)
+	local stats = ship:GetStats()
+	local systems = Game.system:GetNearbySystems(stats.hyperspaceRange, function (s) return #s:GetStationPaths() > 0 end)
+	if #systems == 0 then return end
+	local system = systems[Engine.rand:Integer(1,#systems)]
+	ship:AIHyperspaceTo(system.path)
+	mission.shipstate = 'outbound'
+end
+
 local onShipUndocked = function (ship, station)
 	if ship:IsPlayer() then return end -- not interested in player, yet
 
@@ -338,8 +347,7 @@ local onShipUndocked = function (ship, station)
 		   mission.ship == ship then
 			planets = Space.GetBodies(function (body) return body:isa("Planet") end)
 			if #planets == 0 then
-				ship:AIFlyTo(station)
-				mission.shipstate = 'outbound'
+				ship:jump(mission)
 			else
 				local planet = Engine.rand:Integer(1,#planets)
 
@@ -358,13 +366,9 @@ local onAICompleted = function (ship, ai_error)
 		if mission.status == 'ACTIVE' and
 		   mission.ship == ship then
 			if mission.shipstate == 'outbound' then
-				local stats = ship:GetStats()
-				local systems = Game.system:GetNearbySystems(stats.hyperspaceRange, function (s) return #s:GetStationPaths() > 0 end)
-				if #systems == 0 then return end
-				local system = systems[Engine.rand:Integer(1,#systems)]
-
-				mission.shipstate = 'inbound'
-				ship:HyperspaceTo(system.path)
+				if ai_error == 'NONE' then  -- just jumped
+					mission.shipstate = 'inbound'
+				end
 			-- the only other states are flying and inbound, and there is no AI to complete for inbound
 			elseif ai_error == 'NONE' then
 				Timer:CallAt(Game.time + 60 * 60 * 8, function ()
@@ -384,8 +388,7 @@ local onAICompleted = function (ship, ai_error)
 
 					table.remove(planets, planet)
 				else
-					mission.ship:AIFlyTo(Space.GetBody(mission.location.bodyIndex))
-					mission.shipstate = 'outbound'
+					mission.ship:jump(mission)
 				end
 			end
 		end

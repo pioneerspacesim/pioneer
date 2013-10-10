@@ -13,7 +13,8 @@
 class AICommand {
 public:
 	// This enum is solely to make the serialization work
-	enum CmdName { CMD_NONE, CMD_DOCK, CMD_FLYTO, CMD_FLYAROUND, CMD_KILL, CMD_KAMIKAZE, CMD_HOLDPOSITION, CMD_FORMATION };
+	enum CmdName { CMD_NONE, CMD_DOCK, CMD_FLYTO, CMD_FLYAROUND, CMD_KILL, CMD_KAMIKAZE, CMD_HOLDPOSITION, CMD_FORMATION,
+		CMD_HYPERJUMPTO };
 
 	AICommand(Ship *ship, CmdName name) {
 	   	m_ship = ship; m_cmdName = name;
@@ -37,7 +38,8 @@ public:
 
 	// Signal functions
 	virtual void OnDeleted(const Body *body) { if (m_child) m_child->OnDeleted(body); }
-
+	// Return value has same semantics as TimeStepUpdate (which is not called in hyperspace)
+	virtual bool OnEnterHyperspace() { return m_child && m_child->OnEnterHyperspace(); }
 protected:
 	CmdName m_cmdName;
 	Ship *m_ship;
@@ -315,6 +317,41 @@ private:
 	vector3d m_posoff;	// offset in target frame
 
 	int m_targetIndex;	// used during deserialisation
+};
+
+class AICmdHyperspaceTo : public AICommand {
+public:
+	virtual bool TimeStepUpdate();
+	virtual bool OnEnterHyperspace();
+
+	AICmdHyperspaceTo(Ship *ship, const SystemPath &target) : AICommand(ship, CMD_HYPERJUMPTO), m_target(target), m_failed(false), m_done(false) {
+		int ignoreFuel;
+		double ignoreDuration;
+		Ship::HyperjumpStatus status = ship->GetHyperspaceDetails(target, ignoreFuel, ignoreDuration);
+		if (status == Ship::HYPERJUMP_CURRENT_SYSTEM)
+			m_done = true;
+		else if (status != Ship::HYPERJUMP_OK && status != Ship::HYPERJUMP_SAFETY_LOCKOUT)
+			m_done = m_failed = true;
+	}
+
+	virtual void GetStatusText(char *str) {
+		if (m_child) m_child->GetStatusText(str);
+		else snprintf(str, 255, "Hyperspace: (%d,%d,%d,%u)",
+			m_target.sectorX, m_target.sectorY, m_target.sectorZ, m_target.systemIndex);
+	}
+	virtual void Save(Serializer::Writer &wr) {
+		if(m_child) { delete m_child; m_child = 0; }
+		AICommand::Save(wr);
+		m_target.Serialize(wr);
+	}
+	AICmdHyperspaceTo(Serializer::Reader &rd) : AICommand(rd, CMD_HYPERJUMPTO) {
+		m_target = SystemPath::Unserialize(rd);
+	}
+
+private:
+	SystemPath m_target;
+	bool m_failed;
+	bool m_done;
 };
 
 #endif /* _SHIPAICMD_H */
