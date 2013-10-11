@@ -581,7 +581,7 @@ void SpaceStation::StaticUpdate(const float timeStep)
 
 	// if there is and it hasn't had an update for a while, update it
 	else if (Pi::game->GetTime() > m_lastUpdatedShipyard) {
-		LuaEvent::Queue("onUpdateBB", this);
+		//LuaEvent::Queue("onUpdateBB", this); XXX
 		update = true;
 	}
 
@@ -740,7 +740,7 @@ void SpaceStation::CreateBB()
 		}
 	}
 
-	LuaEvent::Queue("onCreateBB", this);
+	//LuaEvent::Queue("onCreateBB", this); XXX
 	m_bbCreated = true;
 }
 

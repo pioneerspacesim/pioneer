@@ -147,13 +147,28 @@ function SpaceStation:RemoveAdvert (ref)
 end
 
 
+local function updateAdverts (station)
+	-- XXX this should really just be a single event
+	-- XXX don't create for stations we haven't visited
+	if not SpaceStation.adverts[station] then
+		SpaceStation.adverts[station] = {}
+		Event.Queue("onCreateBB", station)
+	else
+		Event.Queue("onUpdateBB", station)
+	end
+end
+
 
 local function updateSystem ()
 	local stations = Space.GetBodies(function (b) return b.superType == "STARPORT" end)
-	for i=1,#stations do updateShipsOnSale(stations[i]) end
+	for i=1,#stations do
+		updateShipsOnSale(stations[i])
+		updateAdverts(stations[i])
+	end
 end
 local function destroySystem ()
 	SpaceStation.shipsOnSale = {}
+	SpaceStation.adverts = {}
 end
 
 Event.Register("onGameStart", function ()
