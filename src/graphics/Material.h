@@ -50,7 +50,7 @@ public:
 	bool vertexColors;
 	Sint32 textures; //texture count
 	Uint32 dirLights; //set by rendererGL2 if lighting == true
-	Uint32 quality; // see: EAtmosphereQuality for flags that can be set
+	Uint32 quality; // see: Graphics::GL2::AtmosphereQuality in GeoSphereMaterial.h
 
 	friend bool operator==(const MaterialDescriptor &a, const MaterialDescriptor &b);
 };

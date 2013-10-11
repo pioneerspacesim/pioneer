@@ -438,7 +438,7 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 	// no frustum test of entire geosphere, since Space::Render does this
 	// for each body using its GetBoundingRadius() value
 
-	const EEclipseState es = (Pi::config->Int("DisableEclipse") == 0) ? eEclipseEnabled : eEclipseDisabled;
+	const EclipseState es = (Pi::config->Int("DisableEclipse") == 0) ? ECLIPSE_ENABLED : ECLIPSE_DISABLED;
 
 	//First draw - create materials (they do not change afterwards)
 	if (!m_surfaceMaterial[es].Valid())
@@ -548,33 +548,33 @@ void GeoSphere::SetUpMaterials()
 		(m_sbody->type == SystemBody::TYPE_STAR_M)) {
 		//dim star (emits and receives light)
 		surfDesc.lighting = true;
-		surfDesc.quality &= ~Graphics::GL2::eHasAtmosphere;
+		surfDesc.quality &= ~Graphics::GL2::HAS_ATMOSPHERE;
 	}
 	else if (m_sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
 		//normal star
 		surfDesc.lighting = false;
-		surfDesc.quality &= ~Graphics::GL2::eHasAtmosphere;
+		surfDesc.quality &= ~Graphics::GL2::HAS_ATMOSPHERE;
 	} else {
 		//planetoid with or without atmosphere
 		const SystemBody::AtmosphereParameters ap(m_sbody->CalcAtmosphereParams());
 		surfDesc.lighting = true;
 		if(ap.atmosDensity > 0.0) {
-			surfDesc.quality |= Graphics::GL2::eHasAtmosphere;
+			surfDesc.quality |= Graphics::GL2::HAS_ATMOSPHERE;
 		} else {
-			surfDesc.quality &= ~Graphics::GL2::eHasAtmosphere;
+			surfDesc.quality &= ~Graphics::GL2::HAS_ATMOSPHERE;
 		}
 	}
-	m_surfaceMaterial[eEclipseDisabled].Reset(Pi::renderer->CreateMaterial(surfDesc));
-	surfDesc.quality |= Graphics::GL2::eHasEclipses;
-	m_surfaceMaterial[eEclipseEnabled].Reset(Pi::renderer->CreateMaterial(surfDesc));
+	m_surfaceMaterial[ECLIPSE_DISABLED].Reset(Pi::renderer->CreateMaterial(surfDesc));
+	surfDesc.quality |= Graphics::GL2::HAS_ECLIPSES;
+	m_surfaceMaterial[ECLIPSE_ENABLED].Reset(Pi::renderer->CreateMaterial(surfDesc));
 
 	//Shader-less atmosphere is drawn in Planet
 	if (Graphics::AreShadersEnabled()) {
 		Graphics::MaterialDescriptor skyDesc;
 		skyDesc.effect = Graphics::EFFECT_GEOSPHERE_SKY;
 		skyDesc.lighting = true;
-		m_atmosphereMaterial[eEclipseDisabled].Reset(Pi::renderer->CreateMaterial(skyDesc));
-		skyDesc.quality |= Graphics::GL2::eHasEclipses;
-		m_atmosphereMaterial[eEclipseEnabled].Reset(Pi::renderer->CreateMaterial(skyDesc));
+		m_atmosphereMaterial[ECLIPSE_DISABLED].Reset(Pi::renderer->CreateMaterial(skyDesc));
+		skyDesc.quality |= Graphics::GL2::HAS_ECLIPSES;
+		m_atmosphereMaterial[ECLIPSE_ENABLED].Reset(Pi::renderer->CreateMaterial(skyDesc));
 	}
 }

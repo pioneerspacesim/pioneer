@@ -15,9 +15,9 @@ namespace Graphics {
 	namespace GL2 {
 
 		// Atmosphere rendering customisation flags
-		enum EAtmosphereQuality {
-			eHasAtmosphere	= 1<<0,
-			eHasEclipses	= 1<<1
+		enum AtmosphereQuality {
+			HAS_ATMOSPHERE = 1 << 0,
+			HAS_ECLIPSES   = 1 << 1
 		};
 
 		class GeoSphereProgram : public Program {
