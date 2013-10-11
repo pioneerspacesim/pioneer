@@ -41,6 +41,18 @@ bool EventDispatcher::DispatchSDLEvent(const SDL_Event &event)
 
 		case SDL_MOUSEMOTION:
 			return Dispatch(MouseMotionEvent(Point(event.motion.x,event.motion.y), Point(event.motion.xrel, event.motion.yrel)));
+
+		case SDL_JOYAXISMOTION:
+			return Dispatch(JoystickAxisMotionEvent(event.jaxis.which, event.jaxis.value, event.jaxis.axis));
+
+		case SDL_JOYHATMOTION:
+			return Dispatch(JoystickHatMotionEvent(event.jhat.which, JoystickHatMotionEvent::JoystickHatDirection(event.jhat.value), event.jhat.hat));
+
+		case SDL_JOYBUTTONDOWN:
+			return Dispatch(JoystickButtonEvent(event.jbutton.which, JoystickButtonEvent::BUTTON_DOWN, event.jbutton.button));
+
+		case SDL_JOYBUTTONUP:
+			return Dispatch(JoystickButtonEvent(event.jbutton.which, JoystickButtonEvent::BUTTON_UP, event.jbutton.button));
 	}
 
 	return false;
@@ -197,6 +209,23 @@ bool EventDispatcher::Dispatch(const Event &event)
 
 			RefCountedPtr<Widget> target(m_baseContainer->GetWidgetAtAbsolute(m_lastMousePosition));
 			return target->TriggerMouseWheel(mouseWheelEvent);
+		}
+
+		case Event::JOYSTICK_AXIS_MOTION:
+			return m_baseContainer->TriggerJoystickAxisMove(static_cast<const JoystickAxisMotionEvent&>(event));
+
+		case Event::JOYSTICK_HAT_MOTION:
+			return m_baseContainer->TriggerJoystickHatMove(static_cast<const JoystickHatMotionEvent&>(event));
+
+		case Event::JOYSTICK_BUTTON: {
+			const JoystickButtonEvent &joyButtonEvent = static_cast<const JoystickButtonEvent&>(event);
+			switch (joyButtonEvent.action) {
+				case JoystickButtonEvent::BUTTON_DOWN:
+					return m_baseContainer->TriggerJoystickButtonDown(joyButtonEvent);
+				case JoystickButtonEvent::BUTTON_UP:
+					return m_baseContainer->TriggerJoystickButtonUp(joyButtonEvent);
+				default: assert(0); return false;
+			}
 		}
 
 		default:

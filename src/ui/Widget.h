@@ -238,6 +238,12 @@ public:
 	// mouse wheel moving
 	sigc::signal<bool,const MouseWheelEvent &>::accumulated<EventHandlerResultAccumulator> onMouseWheel;
 
+	// joystick events
+	sigc::signal<bool,const JoystickAxisMotionEvent &>::accumulated<EventHandlerResultAccumulator> onJoystickAxisMove;
+	sigc::signal<bool,const JoystickHatMotionEvent &>::accumulated<EventHandlerResultAccumulator> onJoystickHatMove;
+	sigc::signal<bool,const JoystickButtonEvent &>::accumulated<EventHandlerResultAccumulator> onJoystickButtonDown;
+	sigc::signal<bool,const JoystickButtonEvent &>::accumulated<EventHandlerResultAccumulator> onJoystickButtonUp;
+
 	// mouse entering or exiting widget area
 	sigc::signal<bool>::accumulated<EventHandlerResultAccumulator> onMouseOver;
 	sigc::signal<bool>::accumulated<EventHandlerResultAccumulator> onMouseOut;
@@ -289,6 +295,10 @@ protected:
 	virtual void HandleMouseUp(const MouseButtonEvent &event) {}
 	virtual void HandleMouseMove(const MouseMotionEvent &event) {}
 	virtual void HandleMouseWheel(const MouseWheelEvent &event) {}
+	virtual void HandleJoystickAxisMove(const JoystickAxisMotionEvent &event) {}
+	virtual void HandleJoystickHatMove(const JoystickHatMotionEvent &event) {}
+	virtual void HandleJoystickButtonDown(const JoystickButtonEvent &event) {}
+	virtual void HandleJoystickButtonUp(const JoystickButtonEvent &event) {}
 
 	virtual void HandleClick() {}
 
@@ -338,6 +348,11 @@ private:
 	bool TriggerMouseUp(const MouseButtonEvent &event, bool emit = true);
 	bool TriggerMouseMove(const MouseMotionEvent &event, bool emit = true);
 	bool TriggerMouseWheel(const MouseWheelEvent &event, bool emit = true);
+
+	bool TriggerJoystickButtonDown(const JoystickButtonEvent &event, bool emit = true);
+	bool TriggerJoystickButtonUp(const JoystickButtonEvent &event, bool emit = true);
+	bool TriggerJoystickAxisMove(const JoystickAxisMotionEvent &event, bool emit = true);
+	bool TriggerJoystickHatMove(const JoystickHatMotionEvent &event, bool emit = true);
 
 	bool TriggerClick(bool emit = true);
 

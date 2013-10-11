@@ -229,6 +229,38 @@ bool Widget::TriggerMouseWheel(const MouseWheelEvent &event, bool emit)
 	return !emit;
 }
 
+bool Widget::TriggerJoystickButtonDown(const JoystickButtonEvent &event, bool emit)
+{
+	HandleJoystickButtonDown(event);
+	if (emit) emit = !onJoystickButtonDown.emit(event);
+	if (GetContainer()) GetContainer()->TriggerJoystickButtonDown(event, emit);
+	return !emit;
+}
+
+bool Widget::TriggerJoystickButtonUp(const JoystickButtonEvent &event, bool emit)
+{
+	HandleJoystickButtonUp(event);
+	if (emit) emit = !onJoystickButtonUp.emit(event);
+	if (GetContainer()) GetContainer()->TriggerJoystickButtonUp(event, emit);
+	return !emit;
+}
+
+bool Widget::TriggerJoystickAxisMove(const JoystickAxisMotionEvent &event, bool emit)
+{
+	HandleJoystickAxisMove(event);
+	if (emit) emit = !onJoystickAxisMove.emit(event);
+	if (GetContainer()) GetContainer()->TriggerJoystickAxisMove(event, emit);
+	return !emit;
+}
+
+bool Widget::TriggerJoystickHatMove(const JoystickHatMotionEvent &event, bool emit)
+{
+	HandleJoystickHatMove(event);
+	if (emit) emit = !onJoystickHatMove.emit(event);
+	if (GetContainer()) GetContainer()->TriggerJoystickHatMove(event, emit);
+	return !emit;
+}
+
 bool Widget::TriggerMouseOver(const Point &pos, bool emit, Widget *stop)
 {
 	// only send external events on state change
