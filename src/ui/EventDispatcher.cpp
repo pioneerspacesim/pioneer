@@ -82,8 +82,10 @@ bool EventDispatcher::Dispatch(const Event &event)
 
 					std::map<KeySym,Widget*>::iterator i = m_shortcuts.find(shortcutSym);
 					if (i != m_shortcuts.end()) {
-						(*i).second->TriggerClick();
+						// DispatchSelect must happen before TriggerClick, so
+						// that Click handlers can override the selection
 						DispatchSelect((*i).second);
+						(*i).second->TriggerClick();
 						return true;
 					}
 
@@ -136,8 +138,10 @@ bool EventDispatcher::Dispatch(const Event &event)
 
 						// if we released over the active widget, then we clicked it
 						if (m_mouseActiveReceiver.Get() == target) {
-							m_mouseActiveReceiver->TriggerClick();
+							// DispatchSelect must happen before TriggerClick, so
+							// that Click handlers can override the selection
 							DispatchSelect(m_mouseActiveReceiver.Get());
+							m_mouseActiveReceiver->TriggerClick();
 						}
 
 						m_mouseActiveReceiver.Reset();
