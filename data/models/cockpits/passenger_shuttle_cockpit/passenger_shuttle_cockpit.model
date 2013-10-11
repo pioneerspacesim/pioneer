@@ -1,0 +1,31 @@
+material material1
+
+tex_diff diff.dds
+tex_spec spec.dds
+tex_glow glow.dds
+diffuse 1.0 1.0 1.0
+opacity 100
+specular 1.0 1.0 1.0
+shininess 80
+
+
+material material1
+
+tex_diff diff_screen.dds
+tex_spec spec_screen.dds
+tex_glow glow.dds
+diffuse 1.0 1.0 1.0
+opacity 15
+specular 1.0 1.0 1.0
+shininess 80
+
+
+
+
+
+
+mesh passenger_shuttle_cockpit.dae
+collision small_escape_pod_collision.obj
+
+lod 10
+mesh small_escape_pod_lod.obj
