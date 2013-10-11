@@ -22,6 +22,15 @@ local bulletinBoard = function (args)
 		print(SpaceStation.adverts[station][row+1][1])
 		local form = ChatForm.New()
 		SpaceStation.adverts[station][row+1][2](form, row+1, 0)
+		ui:NewLayer(
+			ui:ColorBackground(0,0,0,0.5,
+				ui:Align("MIDDLE",
+					ui:Background(
+						form:BuildWidget()
+					)
+				)
+			)
+		)
 	end)
 
 	return bbTable
