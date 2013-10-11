@@ -120,6 +120,11 @@ Widget::Font Widget::GetFont() const
 	return m_font;
 }
 
+bool Widget::IsSelected() const
+{
+	return (GetContext()->GetSelected() == this);
+}
+
 void Widget::Disable()
 {
 	SetDisabled(true);
@@ -250,13 +255,11 @@ void Widget::TriggerMouseDeactivate()
 
 void Widget::TriggerSelect()
 {
-	m_selected = true;
 	HandleSelect();
 }
 
 void Widget::TriggerDeselect()
 {
-	m_selected = false;
 	HandleDeselect();
 }
 

@@ -25,6 +25,8 @@ public:
 
 	void LayoutUpdated();
 
+	Widget *GetSelected() const { return m_selected.Get(); }
+
 	void SelectWidget(Widget *target);
 	void DeselectWidget(Widget *target);
 

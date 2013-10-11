@@ -267,7 +267,7 @@ protected:
 
 	bool IsMouseOver() const { return m_mouseOver; }
 
-	bool IsSelected() const { return m_selected; }
+	bool IsSelected() const;
 
 	void SetDisabled(bool disabled) { m_disabled = disabled; }
 
@@ -382,7 +382,6 @@ private:
 
 	bool m_mouseOver;
 	bool m_mouseActive;
-	bool m_selected;
 
 	std::set<KeySym> m_shortcuts;
 
