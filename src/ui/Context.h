@@ -116,6 +116,7 @@ public:
 	virtual Widget *GetWidgetAt(const Point &pos);
 
 	Widget *GetSelected() const { return m_eventDispatcher.GetSelected(); }
+	Widget *GetMouseActive() const { return m_eventDispatcher.GetMouseActive(); }
 
 	// event dispatch delegates
 	bool Dispatch(const Event &event) { return m_eventDispatcher.Dispatch(event); }

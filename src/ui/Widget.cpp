@@ -18,8 +18,7 @@ Widget::Widget(Context *context) :
 	m_activeArea(0),
 	m_font(FONT_INHERIT),
 	m_disabled(false),
-	m_mouseOver(false),
-	m_mouseActive(false)
+	m_mouseOver(false)
 {
 	assert(m_context);
 }
@@ -118,6 +117,11 @@ Widget::Font Widget::GetFont() const
 		return FONT_NORMAL;
 	}
 	return m_font;
+}
+
+bool Widget::IsMouseActive() const
+{
+	return (GetContext()->GetMouseActive() == this);
 }
 
 bool Widget::IsSelected() const
@@ -241,14 +245,12 @@ bool Widget::TriggerClick(bool emit)
 
 void Widget::TriggerMouseActivate()
 {
-	m_mouseActive = true;
 	HandleMouseActivate();
 	if (GetContainer()) GetContainer()->TriggerMouseActivate();
 }
 
 void Widget::TriggerMouseDeactivate()
 {
-	m_mouseActive = false;
 	HandleMouseDeactivate();
 	if (GetContainer()) GetContainer()->TriggerMouseDeactivate();
 }

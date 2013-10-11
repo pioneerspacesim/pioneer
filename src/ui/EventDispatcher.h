@@ -26,6 +26,7 @@ public:
 	void LayoutUpdated();
 
 	Widget *GetSelected() const { return m_selected.Get(); }
+	Widget *GetMouseActive() const { return m_mouseActiveReceiver.Get(); }
 
 	void SelectWidget(Widget *target);
 	void DeselectWidget(Widget *target);

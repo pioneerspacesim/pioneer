@@ -263,7 +263,7 @@ protected:
 
 	// mouse active. if a widget is mouse-active, it receives all mouse events
 	// regardless of mouse position
-	bool IsMouseActive() const { return m_mouseActive; }
+	bool IsMouseActive() const;
 
 	bool IsMouseOver() const { return m_mouseOver; }
 
@@ -381,7 +381,6 @@ private:
 	bool m_disabled;
 
 	bool m_mouseOver;
-	bool m_mouseActive;
 
 	std::set<KeySym> m_shortcuts;
 
