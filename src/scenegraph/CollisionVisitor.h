@@ -14,7 +14,6 @@
 #include "CollMesh.h"
 
 namespace SceneGraph {
-
 class Group;
 class MatrixTransform;
 class StaticGeometry;
@@ -37,7 +36,7 @@ private:
 	RefCountedPtr<CollMesh> m_collMesh;
 	std::vector<matrix4x4f> m_matrixStack;
 	float m_boundingRadius;
+	bool m_properData;
 };
-
 }
 #endif

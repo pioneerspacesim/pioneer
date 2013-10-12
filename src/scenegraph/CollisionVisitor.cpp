@@ -11,12 +11,9 @@
 #include "graphics/Surface.h"
 
 namespace SceneGraph {
-
-static bool properData = false;
-
 CollisionVisitor::CollisionVisitor()
+: m_properData(false)
 {
-	properData = false;
 	m_collMesh.Reset(new CollMesh());
 }
 
@@ -62,7 +59,8 @@ void CollisionVisitor::ApplyCollisionGeometry(CollisionGeometry &cg)
 	for (vector<int>::const_iterator it = cg.GetIndices().begin(); it != cg.GetIndices().end(); ++it)
 		m_collMesh->m_indices.push_back(*it + idxOffset);
 
-	if (cg.GetTriFlag() == 0) properData = true;
+	if (cg.GetTriFlag() == 0)
+		m_properData = true;
 	for (unsigned int i = 0; i < cg.GetIndices().size() / 3; i++)
 		m_collMesh->m_flags.push_back(cg.GetTriFlag());
 }
@@ -131,7 +129,8 @@ void CollisionVisitor::AabbToMesh(const Aabb &bb)
 
 RefCountedPtr<CollMesh> CollisionVisitor::CreateCollisionMesh()
 {
-	if (!properData)
+	//convert from model AABB if no collisiongeoms found
+	if (!m_properData)
 		AabbToMesh(m_collMesh->GetAabb());
 
 	std::vector<vector3f> &vts = m_collMesh->m_vertices;
@@ -147,5 +146,4 @@ RefCountedPtr<CollMesh> CollisionVisitor::CreateCollisionMesh()
 
 	return m_collMesh;
 }
-
 }
