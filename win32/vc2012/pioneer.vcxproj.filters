@@ -450,6 +450,9 @@
     <ClCompile Include="..\..\src\FaceGenManager.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Shields.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h">
@@ -908,7 +911,10 @@
     <ClInclude Include="..\..\src\FaceGenManager.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\pioneer\src\EquipSet.h">
+    <ClInclude Include="..\..\src\EquipSet.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Shields.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

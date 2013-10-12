@@ -7,6 +7,8 @@ tex_diff pumpkinseed_diff.png
 tex_glow pumpkinseed_glow.png
 tex_spec pumpkinseed_spec.png
 
+mesh pumpkinseed_shield.dae
+
 lod 50
 mesh pumpkinseed_3low.dae
 

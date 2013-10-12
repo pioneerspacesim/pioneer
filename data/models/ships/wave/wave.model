@@ -17,7 +17,7 @@ material landing-gear-material
 diffuse 0.3 0.3 0.3
 specular 0 0 0
 
-
+mesh wave_shield.dae
 
 lod 50
 mesh wave-mq.dae

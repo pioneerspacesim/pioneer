@@ -9,6 +9,7 @@
 #include "libs.h"
 #include "LuaManager.h"
 #include "NavLights.h"
+#include "Shields.h"
 #include "graphics/Renderer.h"
 #include "graphics/Texture.h"
 #include "graphics/Drawables.h"
@@ -27,6 +28,7 @@ private:
 	bool OnQuit();
 	bool OnReloadModel(UI::Widget*);
 	bool OnToggleCollMesh(UI::CheckBox*);
+	bool OnToggleShowShields(UI::CheckBox*);
 	bool OnToggleGrid(UI::Widget*);
 	bool OnToggleGuns(UI::CheckBox*);
 	void AddLog(const std::string &line);
@@ -68,6 +70,7 @@ private:
 		bool showTags;
 		bool showDockingLocators;
 		bool showCollMesh;
+		bool showShields;
 		bool showGrid;
 		bool showLandingPad;
 		bool showUI;
@@ -89,6 +92,7 @@ private:
 	SceneGraph::Model *m_model;
 	Options m_options;
 	ScopedPtr<NavLights> m_navLights;
+	ScopedPtr<Shields> m_shields;
 	ScopedPtr<SceneGraph::Model> m_gunModel;
 	ScopedPtr<SceneGraph::Model> m_scaleModel;
 	std::string m_modelName;

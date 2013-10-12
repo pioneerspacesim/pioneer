@@ -99,6 +99,7 @@ void Ship::Save(Serializer::Writer &wr, Space *space)
 	m_controller->Save(wr, space);
 
 	m_navLights->Save(wr);
+	m_shields->Save(wr);
 }
 
 void Ship::Load(Serializer::Reader &rd, Space *space)
@@ -153,6 +154,7 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 	m_controller->Load(rd);
 
 	m_navLights->Load(rd);
+	m_shields->Load(rd);
 
 	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
 }
@@ -176,6 +178,8 @@ void Ship::Init()
 {
 	m_navLights.Reset(new NavLights(GetModel()));
 	m_navLights->SetEnabled(true);
+
+	m_shields.Reset(new Shields(GetModel()));
 
 	SetMassDistributionFromModel();
 	UpdateStats();
@@ -754,6 +758,10 @@ void Ship::TimeStepUpdate(const float timeStep)
 	m_navLights->SetEnabled(m_wheelState > 0.01f);
 	m_navLights->Update(timeStep);
 
+	const bool shieldsVisible = (m_stats.shield_mass_left < m_stats.shield_mass) && m_stats.shield_mass_left>0.1f;
+	m_shields->SetEnabled(shieldsVisible);
+	m_shields->Update(0.01f*GetPercentShields());
+
 	if (m_landingGearAnimation)
 		static_cast<SceneGraph::Model*>(GetModel())->UpdateAnimations();
 }
@@ -1158,22 +1166,22 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	RenderModel(renderer, camera, viewCoords, viewTransform);
 
 	// draw shield recharge bubble
-	if (m_stats.shield_mass_left < m_stats.shield_mass) {
-		const float shield = 0.01f*GetPercentShields();
-		renderer->SetBlendMode(Graphics::BLEND_ADDITIVE);
+	//if (m_stats.shield_mass_left < m_stats.shield_mass) {
+	//	const float shield = 0.01f*GetPercentShields();
+	//	renderer->SetBlendMode(Graphics::BLEND_ADDITIVE);
+	//	glPushMatrix();
+	//	matrix4x4f trans = matrix4x4f::Identity();
+	//	trans.Translate(viewCoords.x, viewCoords.y, viewCoords.z);
+	//	trans.Scale(GetPhysRadius());
+	//	renderer->SetTransform(trans);
 
-		matrix4x4f trans = matrix4x4f::Identity();
-		trans.Translate(viewCoords.x, viewCoords.y, viewCoords.z);
-		trans.Scale(GetPhysRadius());
-		renderer->SetTransform(trans);
-
-		//fade based on strength
-		Sfx::shieldEffect->GetMaterial()->diffuse =
-			Color((1.0f-shield),shield,0.0,0.33f*(1.0f-shield));
-		Sfx::shieldEffect->Draw(renderer);
-
-		renderer->SetBlendMode(Graphics::BLEND_SOLID);
-	}
+	//	//fade based on strength
+	//	Sfx::shieldEffect->GetMaterial()->diffuse =
+	//		Color((1.0f-shield),shield,0.0,0.33f*(1.0f-shield));
+	//	Sfx::shieldEffect->Draw(renderer);
+	//	glPopMatrix();
+	//	renderer->SetBlendMode(Graphics::BLEND_SOLID);
+	//}
 
 	if (m_ecmRecharge > 0.0f) {
 		// ECM effect: a cloud of particles for a sparkly effect

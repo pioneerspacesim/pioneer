@@ -8,6 +8,8 @@ use_patterns
 
 collision venturestar_collision.obj
 
+mesh venturestar_shield.dae
+
 #LOD
 lod 1000
 mesh venturestar.dae

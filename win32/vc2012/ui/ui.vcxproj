@@ -111,6 +111,7 @@
     <ClCompile Include="..\..\..\src\ui\Icon.cpp" />
     <ClCompile Include="..\..\..\src\ui\Image.cpp" />
     <ClCompile Include="..\..\..\src\ui\Label.cpp" />
+    <ClCompile Include="..\..\..\src\ui\Layer.cpp" />
     <ClCompile Include="..\..\..\src\ui\List.cpp" />
     <ClCompile Include="..\..\..\src\ui\Lua.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaAlign.cpp" />
@@ -129,6 +130,7 @@
     <ClCompile Include="..\..\..\src\ui\LuaIcon.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaImage.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaLabel.cpp" />
+    <ClCompile Include="..\..\..\src\ui\LuaLayer.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaList.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaMargin.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaMultiLineText.cpp" />
@@ -179,6 +181,7 @@
     <ClInclude Include="..\..\..\src\ui\Icon.h" />
     <ClInclude Include="..\..\..\src\ui\Image.h" />
     <ClInclude Include="..\..\..\src\ui\Label.h" />
+    <ClInclude Include="..\..\..\src\ui\Layer.h" />
     <ClInclude Include="..\..\..\src\ui\List.h" />
     <ClInclude Include="..\..\..\src\ui\Lua.h" />
     <ClInclude Include="..\..\..\src\ui\LuaSignal.h" />

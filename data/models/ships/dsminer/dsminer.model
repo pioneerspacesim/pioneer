@@ -6,7 +6,7 @@ diffuse 1.0 1.0 1.0
 specular 1.0 1.0 1.0
 shininess 80
 
-
+mesh dsminer_shield.dae
 
 lod 1000
 mesh dsminer_hi.dae

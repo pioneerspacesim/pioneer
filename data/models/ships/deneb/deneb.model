@@ -11,15 +11,19 @@ collision deneb_collision.obj
 # LOD
 lod 1000
 mesh deneb.dae
+mesh deneb_shield.dae
 
 lod 500
 mesh deneb_medhigh.dae
+mesh deneb_shield.dae
 
 lod 50
 mesh deneb_med.dae
+mesh deneb_shield.dae
 
 lod 5
 mesh deneb_low.dae
+mesh deneb_shield.dae
 
 # Animations
 anim gear_down 0 73

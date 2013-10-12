@@ -16,6 +16,7 @@
 #include "gl2/RingMaterial.h"
 #include "gl2/StarfieldMaterial.h"
 #include "gl2/FresnelColourMaterial.h"
+#include "gl2/ShieldMaterial.h"
 
 namespace Graphics {
 
@@ -146,6 +147,9 @@ Material *RendererGL2::CreateMaterial(const MaterialDescriptor &d)
 		break;
 	case EFFECT_FRESNEL_SPHERE:
 		mat = new GL2::FresnelColourMaterial();
+		break;
+	case EFFECT_SHIELD:
+		mat = new GL2::ShieldMaterial();
 		break;
 	default:
 		if (desc.lighting)

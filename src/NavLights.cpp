@@ -67,6 +67,7 @@ void NavLights::Uninit()
 	delete matRed->texture0;
 	delete matGreen->texture0;
 	delete matBlue->texture0;
+	delete matYellow->texture0;
 
 	g_initted = false;
 }

@@ -7,6 +7,8 @@ tex_diff xylophis_diff.png
 tex_spec xylophis_spec.png
 tex_glow xylophis_glow.png
 
+mesh xylophis_shield.dae
+
 lod 300
 mesh xylophis.dae
 
