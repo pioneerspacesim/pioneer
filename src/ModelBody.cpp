@@ -5,7 +5,6 @@
 #include "ModelBody.h"
 #include "Frame.h"
 #include "Game.h"
-#include "matrix4x4.h"
 #include "ModelCache.h"
 #include "Pi.h"
 #include "Serializer.h"
@@ -17,19 +16,18 @@
 #include "graphics/Renderer.h"
 #include "scenegraph/SceneGraph.h"
 
-ModelBody::ModelBody() :
-	Body(),
-	m_isStatic(false),
-	m_colliding(true),
-	m_geom(0),
-	m_model(0)
+ModelBody::ModelBody()
+: m_isStatic(false)
+, m_colliding(true)
+, m_geom(0)
+, m_model(0)
 {
 }
 
 ModelBody::~ModelBody()
 {
-	SetFrame(0);	// Will remove geom from frame if necessary.
-	if (m_geom) delete m_geom;
+	SetFrame(0); // Will remove geom from frame if necessary.
+	DeleteGeoms();
 
 	//delete instanced model
 	delete m_model;
@@ -72,8 +70,6 @@ void ModelBody::SetStatic(bool isStatic)
 void ModelBody::SetColliding(bool colliding)
 {
 	m_colliding = colliding;
-	if (!m_geom) return;
-
 	if(colliding) m_geom->Enable();
 	else m_geom->Disable();
 }
@@ -81,10 +77,9 @@ void ModelBody::SetColliding(bool colliding)
 void ModelBody::RebuildCollisionMesh()
 {
 	if (m_geom) {
-		// only happens when player changes their ship
 		if (m_isStatic) GetFrame()->RemoveStaticGeom(m_geom);
 		else GetFrame()->RemoveGeom(m_geom);
-		delete m_geom;
+		DeleteGeoms();
 	}
 
 	m_collMesh = m_model->GetCollisionMesh();
@@ -103,7 +98,8 @@ void ModelBody::RebuildCollisionMesh()
 void ModelBody::SetModel(const char *modelName)
 {
 	//remove old instance
-	delete m_model; m_model = 0;
+	delete m_model;
+	m_model = 0;
 
 	m_modelName = modelName;
 
@@ -118,9 +114,8 @@ void ModelBody::SetModel(const char *modelName)
 void ModelBody::SetPosition(const vector3d &p)
 {
 	Body::SetPosition(p);
-	if (!m_geom) return;
-	matrix4x4d m2 = GetOrient();
-	m_geom->MoveTo(m2, p);
+	MoveGeoms(GetOrient(), p);
+
 	// for rebuild of static objects in collision space
 	if (m_isStatic) SetFrame(GetFrame());
 }
@@ -128,23 +123,47 @@ void ModelBody::SetPosition(const vector3d &p)
 void ModelBody::SetOrient(const matrix3x3d &m)
 {
 	Body::SetOrient(m);
-	if (!m_geom) return;
-	matrix4x4d m2 = m;
-	m_geom->MoveTo(m2, GetPosition());
+	const matrix4x4d m2 = m;
+	MoveGeoms(m2, GetPosition());
 }
 
 void ModelBody::SetFrame(Frame *f)
 {
 	if (f == GetFrame()) return;
+
+	//remove collision geoms from old frame
 	if (GetFrame()) {
 		if (m_isStatic) GetFrame()->RemoveStaticGeom(m_geom);
 		else GetFrame()->RemoveGeom(m_geom);
+		for (auto it = m_dynGeoms.begin(); it != m_dynGeoms.end(); ++it)
+			GetFrame()->RemoveGeom(*it);
 	}
+
 	Body::SetFrame(f);
+
+	//add collision geoms to new frame
 	if (f) {
 		if (m_isStatic) f->AddStaticGeom(m_geom);
 		else f->AddGeom(m_geom);
+		for (auto it = m_dynGeoms.begin(); it != m_dynGeoms.end(); ++it)
+			f->AddGeom(*it);
 	}
+}
+
+void ModelBody::DeleteGeoms()
+{
+	delete m_geom;
+	m_geom = 0;
+	for (auto it = m_dynGeoms.begin(); it != m_dynGeoms.end(); ++it)
+		delete *it;
+	m_dynGeoms.clear();
+}
+
+void ModelBody::MoveGeoms(const matrix4x4d &m, const vector3d &p)
+{
+	m_geom->MoveTo(m, p);
+	for (auto it = m_dynGeoms.begin(); it != m_dynGeoms.end(); ++it)
+		(*it)->MoveTo(m, p);
 }
 
 // Calculates the ambiently and directly lit portions of the lighting model taking into account the atmosphere and sun positions at a given location
@@ -198,7 +217,6 @@ void ModelBody::CalcLighting(double &ambient, double &direct, const Camera *came
 	const std::vector<Camera::LightSource> &lightSources = camera->GetLightSources();
 	for(std::vector<Camera::LightSource>::const_iterator l = lightSources.begin();
 			l != lightSources.end(); ++l) {
-
 		double sunAngle;
 		// calculate the extent the sun is towards zenith
 		if (l->GetBody()){

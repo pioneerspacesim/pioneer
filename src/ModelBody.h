@@ -6,7 +6,6 @@
 
 #include "libs.h"
 #include "Body.h"
-#include "vector3.h"
 #include "CollMesh.h"
 
 class Geom;
@@ -32,7 +31,6 @@ public:
 	const Aabb &GetAabb() const { return m_collMesh->GetAabb(); }
 	SceneGraph::Model *GetModel() const { return m_model; }
 	CollMesh *GetCollMesh() { return m_collMesh.Get(); }
-	void RebuildCollisionMesh();
 
 	void SetModel(const char *modelName);
 
@@ -46,14 +44,18 @@ protected:
 	void ResetLighting(Graphics::Renderer *r, const std::vector<Graphics::Light> &oldLights, const Color &oldAmbient);
 
 private:
+	void RebuildCollisionMesh();
+	void DeleteGeoms();
+	void MoveGeoms(const matrix4x4d&, const vector3d&);
 	void CalcLighting(double &ambient, double &direct, const Camera *camera);
 
 	bool m_isStatic;
 	bool m_colliding;
 	RefCountedPtr<CollMesh> m_collMesh;
-	Geom *m_geom;
+	Geom *m_geom; //static geom
 	std::string m_modelName;
 	SceneGraph::Model *m_model;
+	std::vector<Geom*> m_dynGeoms;
 };
 
 #endif /* _MODELBODY_H */

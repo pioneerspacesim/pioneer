@@ -51,7 +51,6 @@
 #include "libs.h"
 #include "MarketAgent.h"
 #include "matrix4x4.h"
-#include "ModelBody.h"
 #include "Random.h"
 #include "Object.h"
 #include "ObjectViewerView.h"
@@ -76,4 +75,3 @@
 #include "vector3.h"
 #include "View.h"
 #include "WorldView.h"
-

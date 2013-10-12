@@ -7,6 +7,8 @@
 #include "Aabb.h"
 #include "collider/GeomTree.h"
 
+//This simply stores the collision geometry data
+//and AABB.
 class CollMesh : public RefCounted {
 public:
 	CollMesh() : m_geomTree(0) { }
