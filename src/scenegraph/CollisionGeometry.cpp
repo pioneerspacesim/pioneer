@@ -6,10 +6,10 @@
 #include "graphics/Surface.h"
 
 namespace SceneGraph {
-
 CollisionGeometry::CollisionGeometry(Graphics::Renderer *r, Graphics::Surface *s, unsigned int geomflag)
 : Node(r)
 , m_triFlag(geomflag)
+, m_dynamic(false)
 {
 	CopyData(s->GetVertices()->position, s->GetIndices());
 }
@@ -18,6 +18,7 @@ CollisionGeometry::CollisionGeometry(Graphics::Renderer *r, const std::vector<ve
 	unsigned int geomflag)
 : Node(r)
 , m_triFlag(geomflag)
+, m_dynamic(false)
 {
 	CopyData(vts, idx);
 }
@@ -27,6 +28,7 @@ CollisionGeometry::CollisionGeometry(const CollisionGeometry &cg, NodeCopyCache 
 , m_vertices(cg.m_vertices)
 , m_indices(cg.m_indices)
 , m_triFlag(cg.m_triFlag)
+, m_dynamic(cg.m_dynamic)
 {
 }
 
@@ -55,5 +57,4 @@ void CollisionGeometry::CopyData(const std::vector<vector3f> &vts, const std::ve
 	for (vector<unsigned short>::const_iterator it = idx.begin(); it != idx.end(); ++it)
 		m_indices.push_back(*it);
 }
-
 }

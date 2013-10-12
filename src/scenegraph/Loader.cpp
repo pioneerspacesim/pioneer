@@ -807,6 +807,7 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPt
 		RefCountedPtr<Graphics::Surface> surf = geoms.at(node->mMeshes[0])->GetMesh(0)->GetSurface(0);
 		RefCountedPtr<CollisionGeometry> cgeom(new CollisionGeometry(m_renderer, surf.Get(), collflag));
 		cgeom->SetName(nodename + "_cgeom");
+		cgeom->SetDynamic(starts_with(nodename, "collision_d"));
 		parent->AddChild(cgeom.Get());
 		return;
 	}

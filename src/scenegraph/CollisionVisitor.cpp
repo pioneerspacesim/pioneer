@@ -46,6 +46,8 @@ void CollisionVisitor::ApplyCollisionGeometry(CollisionGeometry &cg)
 {
 	using std::vector;
 
+	if (cg.IsDynamic()) return ApplyDynamicCollisionGeometry(cg);
+
 	const matrix4x4f matrix = m_matrixStack.empty() ? matrix4x4f::Identity() : m_matrixStack.back();
 
 	//copy data (with index offset)
@@ -63,6 +65,31 @@ void CollisionVisitor::ApplyCollisionGeometry(CollisionGeometry &cg)
 		m_properData = true;
 	for (unsigned int i = 0; i < cg.GetIndices().size() / 3; i++)
 		m_collMesh->m_flags.push_back(cg.GetTriFlag());
+}
+
+void CollisionVisitor::ApplyDynamicCollisionGeometry(CollisionGeometry &cg)
+{
+	//don't transform geometry, one data set per cg, create geomtree right away
+	m_collMesh->dynGeomData.resize(m_collMesh->dynGeomData.size() + 1);
+	CollMesh::GeomData &gd = m_collMesh->dynGeomData.back();
+
+	//XXX do accumulate static aabb w/ transform
+	for (auto it = cg.GetVertices().begin(); it != cg.GetVertices().end(); ++it)
+		gd.vertices.push_back(*it);
+
+	for (auto it = cg.GetIndices().begin(); it != cg.GetIndices().end(); ++it)
+		gd.indices.push_back(*it);
+
+	for (unsigned int i = 0; i < cg.GetIndices().size() / 3; i++)
+		gd.flags.push_back(cg.GetTriFlag());
+
+	//create geomtree
+	//as usual, the tree doesn't take ownership of this data
+	//(going to fix that...)
+	gd.geomTree = new GeomTree(
+		gd.vertices.size(), gd.indices.size()/3,
+		reinterpret_cast<float*>(&gd.vertices[0]),
+		&gd.indices[0], &gd.flags[0]);
 }
 
 void CollisionVisitor::AabbToMesh(const Aabb &bb)

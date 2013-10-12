@@ -21,9 +21,21 @@ public:
 	virtual GeomTree *GetGeomTree() const { return m_geomTree; }
 	void SetGeomTree(GeomTree *t) { m_geomTree = t; }
 
+	//data for geomtree (which doesn't store any)
 	std::vector<vector3f> m_vertices;
 	std::vector<int> m_indices; //XXX should be unsigned!!
 	std::vector<unsigned int> m_flags; //1 per triangle
+
+	struct GeomData {
+		std::vector<vector3f> vertices;
+		std::vector<int> indices;
+		std::vector<unsigned int> flags;
+		GeomTree *geomTree;
+
+		GeomData() : geomTree(0) { }
+		~GeomData() { delete geomTree; }
+	};
+	std::vector<GeomData> dynGeomData;
 
 protected:
 	Aabb m_aabb;

@@ -30,6 +30,7 @@ public:
 	float GetBoundingRadius() const { return m_boundingRadius; }
 
 private:
+	void ApplyDynamicCollisionGeometry(CollisionGeometry &);
 	void AabbToMesh(const Aabb&);
 	//geomtree is not built until all nodes are visited and
 	//BuildCollMesh called

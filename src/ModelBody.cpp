@@ -77,22 +77,27 @@ void ModelBody::SetColliding(bool colliding)
 void ModelBody::RebuildCollisionMesh()
 {
 	if (m_geom) {
-		if (m_isStatic) GetFrame()->RemoveStaticGeom(m_geom);
-		else GetFrame()->RemoveGeom(m_geom);
+		if (GetFrame()) RemoveGeomsFromFrame(GetFrame());
 		DeleteGeoms();
 	}
 
 	m_collMesh = m_model->GetCollisionMesh();
 	SetPhysRadius(m_collMesh->GetAabb().GetRadius());
-	m_geom = new Geom(m_collMesh->GetGeomTree());
 
+	//static geom
+	m_geom = new Geom(m_collMesh->GetGeomTree());
 	m_geom->SetUserData(static_cast<void*>(this));
 	m_geom->MoveTo(GetOrient(), GetPosition());
 
-	if (GetFrame()) {
-		if (m_isStatic) GetFrame()->AddStaticGeom(m_geom);
-		else GetFrame()->AddGeom(m_geom);
+	//dynamic geoms
+	for (auto it = m_collMesh->dynGeomData.begin(); it != m_collMesh->dynGeomData.end(); ++it) {
+		Geom *dg = new Geom(it->geomTree);
+		dg->SetUserData(static_cast<void*>(this));
+		dg->MoveTo(GetOrient(), GetPosition());
+		m_dynGeoms.push_back(dg);
 	}
+
+	if (GetFrame()) AddGeomsToFrame(GetFrame());
 }
 
 void ModelBody::SetModel(const char *modelName)
@@ -132,22 +137,12 @@ void ModelBody::SetFrame(Frame *f)
 	if (f == GetFrame()) return;
 
 	//remove collision geoms from old frame
-	if (GetFrame()) {
-		if (m_isStatic) GetFrame()->RemoveStaticGeom(m_geom);
-		else GetFrame()->RemoveGeom(m_geom);
-		for (auto it = m_dynGeoms.begin(); it != m_dynGeoms.end(); ++it)
-			GetFrame()->RemoveGeom(*it);
-	}
+	if (GetFrame()) RemoveGeomsFromFrame(GetFrame());
 
 	Body::SetFrame(f);
 
 	//add collision geoms to new frame
-	if (f) {
-		if (m_isStatic) f->AddStaticGeom(m_geom);
-		else f->AddGeom(m_geom);
-		for (auto it = m_dynGeoms.begin(); it != m_dynGeoms.end(); ++it)
-			f->AddGeom(*it);
-	}
+	if (f) AddGeomsToFrame(f);
 }
 
 void ModelBody::DeleteGeoms()
@@ -157,6 +152,28 @@ void ModelBody::DeleteGeoms()
 	for (auto it = m_dynGeoms.begin(); it != m_dynGeoms.end(); ++it)
 		delete *it;
 	m_dynGeoms.clear();
+}
+
+void ModelBody::AddGeomsToFrame(Frame *f)
+{
+	if (m_isStatic)
+		f->AddStaticGeom(m_geom);
+	else
+		f->AddGeom(m_geom);
+
+	for (auto it = m_dynGeoms.begin(); it != m_dynGeoms.end(); ++it)
+		f->AddGeom(*it);
+}
+
+void ModelBody::RemoveGeomsFromFrame(Frame *f)
+{
+	if (m_isStatic)
+		GetFrame()->RemoveStaticGeom(m_geom);
+	else
+		GetFrame()->RemoveGeom(m_geom);
+
+	for (auto it = m_dynGeoms.begin(); it != m_dynGeoms.end(); ++it)
+		GetFrame()->RemoveGeom(*it);
 }
 
 void ModelBody::MoveGeoms(const matrix4x4d &m, const vector3d &p)
