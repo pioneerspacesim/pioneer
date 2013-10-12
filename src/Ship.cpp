@@ -836,16 +836,6 @@ void Ship::FireWeapon(int num)
 	else
 		Projectile::Add(this, t, pos, baseVel, dirVel);
 
-	/*
-			// trace laser beam through frame to see who it hits
-			CollisionContact c;
-			GetFrame()->GetCollisionSpace()->TraceRay(pos, dir, 10000.0, &c, this->GetGeom());
-			if (c.userData1) {
-				Body *hit = static_cast<Body*>(c.userData1);
-				hit->OnDamage(this, damage);
-			}
-	*/
-
 	Polit::NotifyOfCrime(this, Polit::CRIME_WEAPON_DISCHARGE);
 	Sound::BodyMakeNoise(this, "Pulse_Laser", 1.0f);
 }

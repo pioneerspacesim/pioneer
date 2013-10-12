@@ -30,7 +30,6 @@ public:
 	void SetStatic(bool isStatic);
 	bool IsStatic() const { return m_isStatic; }
 	const Aabb &GetAabb() const { return m_collMesh->GetAabb(); }
-	Geom *GetGeom() { return m_geom; }
 	SceneGraph::Model *GetModel() const { return m_model; }
 	CollMesh *GetCollMesh() { return m_collMesh.Get(); }
 	void RebuildCollisionMesh();
