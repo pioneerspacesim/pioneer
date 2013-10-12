@@ -86,10 +86,12 @@ Shields::Shields(SceneGraph::Model *model, float period)
 				}
 
 				// find the accumulated transform from the root to our node
-				// ??? model->GetRoot()->FindNode(node->GetName()); ???
+				matrix4x4f accum(matrix4x4f::Identity());
+				matrix4x4f outMat(matrix4x4f::Identity());
+				const Node* foundNode = model->GetRoot()->AccumulateNodeTransform(sg->GetName(), accum, outMat);
 
 				// set our nodes transformation to be the accumulated transform
-				/*MatrixTransform *sg_transform_parent = new MatrixTransform(renderer, matrix4x4f::Identity());
+				MatrixTransform *sg_transform_parent = new MatrixTransform(renderer, outMat);
 				sg_transform_parent->AddChild(sg.Get());
 			
 				// dettach node from current location in the scenegraph...
@@ -98,7 +100,7 @@ Shields::Shields(SceneGraph::Model *model, float period)
 				}
 
 				// attach new transform node which parents the our shields mesh at the root.
-				model->GetRoot()->AddChild(sg_transform_parent);*/
+				model->GetRoot()->AddChild(sg_transform_parent);
 				m_shields.push_back(Shield(Color3ub(255), sg.Get()));
 			}
 		}

@@ -41,16 +41,16 @@ Program *ShieldMaterial::CreateProgram(const MaterialDescriptor &desc)
 
 void ShieldMaterial::Apply()
 {
-	if(!this->specialParameter0)
-		return;
-
 	ShieldProgram *p = static_cast<ShieldProgram*>(m_program);
-	const ShieldRenderParameters srp = *static_cast<ShieldRenderParameters*>(this->specialParameter0);
 	p->Use();
 	p->invLogZfarPlus1.Set(m_renderer->m_invLogZfarPlus1);
 
 	p->diffuse.Set(this->diffuse);
-	p->shieldStrength.Set(srp.strength);
+
+	if (this->specialParameter0) {
+		const ShieldRenderParameters srp = *static_cast<ShieldRenderParameters*>(this->specialParameter0);
+		p->shieldStrength.Set(srp.strength);
+	}
 
 	glPushAttrib(GL_ENABLE_BIT);
 	if (this->twoSided)
@@ -59,9 +59,6 @@ void ShieldMaterial::Apply()
 
 void ShieldMaterial::Unapply()
 {
-	if(!this->specialParameter0)
-		return;
-
 	glPopAttrib();
 	m_program->Unuse();
 }
