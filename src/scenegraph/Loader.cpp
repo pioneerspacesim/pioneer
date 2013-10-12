@@ -22,7 +22,6 @@
 #include <assimp/material.h>
 
 namespace {
-
 	class AssimpFileReadStream : public Assimp::IOStream
 	{
 	public:
@@ -113,11 +112,9 @@ namespace {
 	private:
 		FileSystem::FileSource &m_fs;
 	};
-
 } // anonymous namespace
 
 namespace SceneGraph {
-
 Loader::Loader(Graphics::Renderer *r, bool logWarnings)
 : m_renderer(r)
 , m_model(0)
@@ -174,7 +171,6 @@ Model *Loader::LoadModel(const std::string &shortname, const std::string &basepa
 				return CreateModel(modelDefinition);
 			}
 		}
-
 	}
 	throw (LoadingError("File not found"));
 }
@@ -907,14 +903,18 @@ void Loader::LoadCollision(const std::string &filename)
 
 unsigned int Loader::GetGeomFlagForNodeName(const std::string &nodename)
 {
-	if (nodename.length() >= 14) {
-		const std::string pad = nodename.substr(13);
-		const int padID = atoi(pad.c_str())-1;
-		if(padID<240) {
-			return 0x10 + padID;
+	//special names after collision_
+	if (nodename.length() > 10) {
+		//landing pads
+		if (nodename.length() >= 14 && nodename.substr(10,3) == "pad") {
+			const std::string pad = nodename.substr(13);
+			const int padID = atoi(pad.c_str())-1;
+			if(padID<240) {
+				return 0x10 + padID;
+			}
 		}
 	}
+	//anything else is static collision
 	return 0x0;
 }
-
 }
