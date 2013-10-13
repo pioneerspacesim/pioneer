@@ -206,7 +206,7 @@ ui.templates.Settings = function (args)
 			box:PackEnd(ui:Label(page.label):SetFont('HEADING_LARGE'))
 			for group_idx = 1, #page do
 				local group = page[group_idx]
-				box:PackEnd(ui:Label(group.label):SetFont('HEADING_NORMAL'))
+				box:PackEnd(ui:Margin(10, 'LEFT', ui:Label(group.label):SetFont('HEADING_NORMAL')))
 				local grid = ui:Grid({4, 4, 1}, #group)
 				for i = 1, #group do
 					local binding = group[i]
@@ -224,7 +224,7 @@ ui.templates.Settings = function (args)
 						ui:NewLayer(dialog)
 					end)
 				end
-				box:PackEnd(grid)
+				box:PackEnd(ui:Margin(30, 'LEFT', grid))
 			end
 		end
 		return box
