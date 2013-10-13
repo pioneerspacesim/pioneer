@@ -199,7 +199,15 @@ ui.templates.Settings = function (args)
 	end
 
 	local controlsTemplate = function()
+		local options = ui:Margin(10, 'LEFT', ui:VBox():PackEnd({
+			optionCheckBox(Engine.GetMouseYInverted, Engine.SetMouseYInverted, t("Invert Mouse Y")),
+			optionCheckBox(Engine.GetJoystickEnabled, Engine.SetJoystickEnabled, t("Enable joystick control")),
+		}))
+
 		local box = ui:VBox()
+		box:PackEnd(ui:Label(t("Control Options")):SetFont('HEADING_LARGE'))
+		box:PackEnd(options)
+
 		local pages = Engine.GetKeyBindings()
 		for page_idx = 1, #pages do
 			local page = pages[page_idx]
