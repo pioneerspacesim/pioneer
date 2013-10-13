@@ -13,31 +13,33 @@
 
 /*
  * The LuaTable class is a wrapper around a table present on the stack. There
- * are two ways to instanciate a LuaTable object:
+ * are two ways to instantiate a LuaTable object:
  *
  * > lua_State *l;
- * > int i;
- * > LuaTable(l); // This will allow a new table on top of the stack
+ * > int i; // the stack index of a table
+ * > LuaTable(l); // This will allocate a new table on top of the stack
  * > LuaTable(l, i); // This will wrap the object around an existing table
  *
- * Note that in no way does destroying a LuaTable object will remove the
- * wrapped table from the stack.
+ * Note that the LuaTable object never removes the wrapped table from the stack.
  * Also, there is no integrity check except at the object creation, which means
  * that if you fiddle with the stack below the wrapped table you will get
  * unexpected results (most likely a crash).
  *
  * Get/Set:
  *
- * The Get and Set operators are using the pi_lua_generic_{push pull} functions
- * to fetch any value from the table using templates. It is then possible to
- * add support for extra types only by writing the beforementioned functions
- * for the wanted type. Note that that Get has two flavours, one with a
- * default value and another faster which will crash if the key gives nil.
+ * The Get and Set operators use the pi_lua_generic_{push pull} functions
+ * to fetch a value of any type from the table. It is possible to add support
+ * for extra types by overloading the aforementioned functions for the new
+ * type. The Get function takes an optional default value, which will be returned
+ * if the table does not contain the requested key. If no default is given, and
+ * the key is not in the table then a Lua error is generated. If the key is present
+ * but the value has an incompatible type, then a Lua error is generated (even if
+ * a default value is passed to the Get method).
  *
  * These operations are designed to restore the state of the stack, thus making
  * it impossible to Get a LuaTable, as the latter would need a place on the
  * stack. For this reason, the Sub() method is used to get a subtable,
- * allocating it on top of the stack.
+ * placing the "returned" table on the top of the stack.
  *
  * Example:
  *
@@ -79,6 +81,7 @@
  * The two methods are LuaTable::Begin<Value>() and LuaTable::End<Value>()
  *
  * As usual, since C++ is static typed, the iterators will fail in a mixed-typed table
+ * (generating a Lua error when you attempt to access an element with the wrong type).
  *
  * ScopedTable:
  *
