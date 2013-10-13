@@ -8,6 +8,7 @@ local Lang = import("Lang")
 local TabGroup = import("ui/TabGroup")
 local SmallLabeledButton = import("ui/SmallLabeledButton")
 local KeyBindingCapture = import("UI.Game.KeyBindingCapture")
+local AxisBindingCapture = import("UI.Game.AxisBindingCapture")
 
 local ui = Engine.ui
 local t = Translate:GetTranslator()
@@ -162,7 +163,7 @@ ui.templates.Settings = function (args)
 
 	local captureDialog = function (captureWidget, label, onOk)
 		local captureLabel = ui:Label(t("Press a key or controller button"))
-		local capture = KeyBindingCapture.New(ui)
+		local capture = captureWidget.New(ui)
 		capture:SetInnerWidget(captureLabel)
 		capture.onCapture:Connect(function (binding)
 			captureLabel:SetText(capture.bindingDescription)
@@ -198,11 +199,11 @@ ui.templates.Settings = function (args)
 	end
 
 	local captureKeyDialog = function (label, onOk)
-		return captureDialog(nil, label, onOk)
+		return captureDialog(KeyBindingCapture, label, onOk)
 	end
 
 	local captureAxisDialog = function (label, onOk)
-		return captureDialog(nil, label, onOk)
+		return captureDialog(AxisBindingCapture, label, onOk)
 	end
 
 	local keysTemplate = function()
