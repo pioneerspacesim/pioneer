@@ -202,7 +202,7 @@ ui.templates.Settings = function (args)
 	local controlsTemplate = function()
 		local options = ui:Margin(10, 'LEFT', ui:VBox():PackEnd({
 			optionCheckBox(Engine.GetMouseYInverted, Engine.SetMouseYInverted, t("Invert Mouse Y")),
-			optionCheckBox(Engine.GetJoystickEnabled, Engine.SetJoystickEnabled, t("Enable joystick control")),
+			optionCheckBox(Engine.GetJoystickEnabled, Engine.SetJoystickEnabled, t("Enable joystick")),
 		}))
 
 		local box = ui:VBox()
