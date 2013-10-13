@@ -90,6 +90,7 @@ void CollisionVisitor::ApplyDynamicCollisionGeometry(CollisionGeometry &cg)
 		gd.vertices.size(), gd.indices.size()/3,
 		reinterpret_cast<float*>(&gd.vertices[0]),
 		&gd.indices[0], &gd.flags[0]);
+	cg.SetGeomTree(gd.geomTree);
 }
 
 void CollisionVisitor::AabbToMesh(const Aabb &bb)

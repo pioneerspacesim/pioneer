@@ -34,6 +34,9 @@ public:
 	int GetMailboxIndex() const { return m_mailboxIndex; }
 	void SetGroup(int g) { m_group = g; }
 	int GetGroup() const { return m_group; }
+
+	matrix4x4d m_animTransform;
+
 private:
 	void CollideEdgesWithTrisOf(int &maxContacts, Geom *b, const matrix4x4d &transTo, void (*callback)(CollisionContact*));
 	void CollideEdgesTris(int &maxContacts, const BVHNode *edgeNode, const matrix4x4d &transToB,

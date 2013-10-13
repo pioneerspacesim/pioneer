@@ -15,6 +15,51 @@
 #include "collider/collider.h"
 #include "graphics/Renderer.h"
 #include "scenegraph/SceneGraph.h"
+#include "scenegraph/NodeVisitor.h"
+#include "scenegraph/CollisionGeometry.h"
+
+class DynGeomFinder : public SceneGraph::NodeVisitor {
+public:
+	std::vector<SceneGraph::CollisionGeometry*> results;
+
+	virtual void ApplyCollisionGeometry(SceneGraph::CollisionGeometry &cg)
+	{
+		if (cg.IsDynamic())
+			results.push_back(&cg);
+	}
+
+	SceneGraph::CollisionGeometry *GetCgForTree(GeomTree *t)
+	{
+		for (auto it = results.begin(); it != results.end(); ++it)
+			if ((*it)->GetGeomTree() == t) return (*it);
+		return 0;
+	}
+};
+
+class DynCollUpdateVisitor : public SceneGraph::NodeVisitor {
+private:
+	std::vector<matrix4x4f> m_matrixStack;
+
+public:
+	void Reset() { m_matrixStack.clear(); }
+
+	virtual void ApplyMatrixTransform(SceneGraph::MatrixTransform &m)
+	{
+		matrix4x4f matrix = matrix4x4f::Identity();
+		if (!m_matrixStack.empty()) matrix = m_matrixStack.back();
+
+		m_matrixStack.push_back(matrix * m.GetTransform());
+		m.Traverse(*this);
+		m_matrixStack.pop_back();
+	}
+
+	virtual void ApplyCollisionGeometry(SceneGraph::CollisionGeometry &cg)
+	{
+		if (!cg.GetGeom()) return;
+
+		matrix4x4ftod(m_matrixStack.back(), cg.GetGeom()->m_animTransform);
+	}
+};
 
 ModelBody::ModelBody()
 : m_isStatic(false)
@@ -89,12 +134,20 @@ void ModelBody::RebuildCollisionMesh()
 	m_geom->SetUserData(static_cast<void*>(this));
 	m_geom->MoveTo(GetOrient(), GetPosition());
 
+	//have to figure out which collision geometries are responsible for which geomtree
+	DynGeomFinder dgf;
+	m_model->GetRoot()->Accept(dgf);
+
 	//dynamic geoms
 	for (auto it = m_collMesh->dynGeomData.begin(); it != m_collMesh->dynGeomData.end(); ++it) {
-		Geom *dg = new Geom(it->geomTree);
-		dg->SetUserData(static_cast<void*>(this));
-		dg->MoveTo(GetOrient(), GetPosition());
-		m_dynGeoms.push_back(dg);
+		Geom *dynG = new Geom(it->geomTree);
+		dynG->SetUserData(static_cast<void*>(this));
+		dynG->MoveTo(GetOrient(), GetPosition());
+		dynG->m_animTransform = matrix4x4d::Identity();
+		SceneGraph::CollisionGeometry *cg = dgf.GetCgForTree(it->geomTree);
+		if (cg)
+			cg->SetGeom(dynG);
+		m_dynGeoms.push_back(dynG);
 	}
 
 	if (GetFrame()) AddGeomsToFrame(GetFrame());
@@ -179,8 +232,25 @@ void ModelBody::RemoveGeomsFromFrame(Frame *f)
 void ModelBody::MoveGeoms(const matrix4x4d &m, const vector3d &p)
 {
 	m_geom->MoveTo(m, p);
-	for (auto it = m_dynGeoms.begin(); it != m_dynGeoms.end(); ++it)
-		(*it)->MoveTo(m, p);
+
+	//accumulate transforms to animated positions
+	if (!m_dynGeoms.empty()) {
+		DynCollUpdateVisitor dcv;
+		m_model->GetRoot()->Accept(dcv);
+	}
+
+	for (auto it = m_dynGeoms.begin(); it != m_dynGeoms.end(); ++it) {
+		//combine orient & pos
+		static matrix4x4d s_tempMat;
+		for (unsigned int i = 0; i < 12; i++)
+			s_tempMat[i] = m[i];
+		s_tempMat[12] = p.x;
+		s_tempMat[13] = p.y;
+		s_tempMat[14] = p.z;
+		s_tempMat[15] = m[15];
+
+		(*it)->MoveTo(s_tempMat * (*it)->m_animTransform);
+	}
 }
 
 // Calculates the ambiently and directly lit portions of the lighting model taking into account the atmosphere and sun positions at a given location

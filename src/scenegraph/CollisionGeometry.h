@@ -13,6 +13,9 @@
 
 namespace Graphics { class Surface; }
 
+class GeomTree;
+class Geom;
+
 namespace SceneGraph {
 class CollisionGeometry : public Node {
 public:
@@ -30,6 +33,12 @@ public:
 	bool IsDynamic() const { return m_dynamic; }
 	void SetDynamic(bool b) { m_dynamic = b; }
 
+	GeomTree *GetGeomTree() const { return m_geomTree; }
+	void SetGeomTree(GeomTree *c) { m_geomTree = c; }
+
+	Geom *GetGeom() const { return m_geom; }
+	void SetGeom(Geom *g) { m_geom = g; }
+
 protected:
 	~CollisionGeometry();
 
@@ -39,6 +48,10 @@ private:
 	std::vector<int> m_indices; //geomtree uses int
 	unsigned int m_triFlag; //only one per node
 	bool m_dynamic;
+
+	//for dynamic collisions
+	GeomTree *m_geomTree;
+	Geom *m_geom;
 };
 }
 
