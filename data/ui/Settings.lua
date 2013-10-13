@@ -47,10 +47,6 @@ local optionList = function (getter, setter, settingCaption, captions, values)
 	return optionListOrDropDown('List', getter, setter, settingCaption, captions, values)
 end
 
--- FIXME: put these somewhere
--- local navTunnelCheckBox = optionCheckBox('DisplayNavTunnel', t("Display navigation tunnel"))
--- local invertMouseCheckBox = optionCheckBox('InvertMouseY', t("Invert MouseY"))
-
 ui.templates.Settings = function (args)
 	local videoTemplate = function()
 		local videoModes = Engine.GetVideoModeList()
