@@ -13,19 +13,11 @@ local AxisBindingCapture = import("UI.Game.AxisBindingCapture")
 local ui = Engine.ui
 local t = Translate:GetTranslator()
 
-local optionCheckBox = function (getter, setter, caption, negate)
+local optionCheckBox = function (getter, setter, caption)
 	local cb = ui:CheckBox()
 	local initial = getter()
-	if negate then initial = not initial; end
 	cb:SetState(initial)
-	cb.onClick:Connect(function ()
-		local value = cb.isChecked
-		if negate then
-			setter(not value)
-		else
-			setter(value)
-		end
-	end)
+	cb.onClick:Connect(function () setter(cb.isChecked); end)
 	return ui:HBox(5):PackEnd({cb, ui:Label(caption)})
 end
 
@@ -56,8 +48,8 @@ local optionList = function (getter, setter, settingCaption, captions, values)
 end
 
 -- FIXME: put these somewhere
--- local navTunnelCheckBox = optionCheckBox('DisplayNavTunnel', t("Display navigation tunnel"), false)
--- local invertMouseCheckBox = optionCheckBox('InvertMouseY', t("Invert MouseY"), false)
+-- local navTunnelCheckBox = optionCheckBox('DisplayNavTunnel', t("Display navigation tunnel"))
+-- local invertMouseCheckBox = optionCheckBox('InvertMouseY', t("Invert MouseY"))
 
 ui.templates.Settings = function (args)
 	local videoTemplate = function()
@@ -93,7 +85,7 @@ ui.templates.Settings = function (args)
 
 		local planetTextureCheckBox = optionCheckBox(
 			Engine.GetPlanetFractalColourEnabled, Engine.SetPlanetFractalColourEnabled,
-			t("Planet textures"), false)
+			t("Planet textures"))
 
 		local fractalDetailDropDown = optionDropDown(
 			Engine.GetFractalDetailLevel, Engine.SetFractalDetailLevel,
@@ -105,13 +97,13 @@ ui.templates.Settings = function (args)
 
 		local fullScreenCheckBox = optionCheckBox(
 			Engine.GetFullscreen, Engine.SetFullscreen,
-			t("Full screen"), false)
+			t("Full screen"))
 		local shadersCheckBox = optionCheckBox(
 			Engine.GetShadersEnabled, Engine.SetShadersEnabled,
-			t("Use shaders"), false)
+			t("Use shaders"))
 		local compressionCheckBox = optionCheckBox(
 			Engine.GetTextureCompressionEnabled, Engine.SetTextureCompressionEnabled,
-			t("Compress Textures"), false)
+			t("Compress Textures"))
 
 		return ui:Grid({1,1}, 1)
 			:SetCell(0,0, ui:Margin(5, 'ALL', ui:Background(ui:VBox(5):PackEnd({
@@ -144,7 +136,7 @@ ui.templates.Settings = function (args)
 		end
 
 		local muteBox = function(getter, setter)
-			return optionCheckBox(getter, setter, t("Mute"), false)
+			return optionCheckBox(getter, setter, t("Mute"))
 		end
 
 		return ui:VBox():PackEnd(ui:Grid({1,2,1}, 3)
