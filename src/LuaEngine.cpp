@@ -592,6 +592,40 @@ static int l_engine_set_key_binding(lua_State *l)
 	return luaL_error(l, "Invalid binding ID given to Engine.SetKeyBinding");
 }
 
+static int l_engine_get_mouse_y_inverted(lua_State *l)
+{
+	lua_pushboolean(l, Pi::config->Int("InvertMouseY") != 0);
+	return 1;
+}
+
+static int l_engine_set_mouse_y_inverted(lua_State *l)
+{
+	if (lua_isnone(l, 1))
+		return luaL_error(l, "SetMouseYInverted takes one boolean argument");
+	const bool inverted = lua_toboolean(l, 1);
+	Pi::config->SetInt("InvertMouseY", (inverted ? 1 : 0));
+	Pi::config->Save();
+	Pi::SetMouseYInvert(inverted);
+	return 0;
+}
+
+static int l_engine_get_joystick_enabled(lua_State *l)
+{
+	lua_pushboolean(l, Pi::config->Int("EnableJoystick") != 0);
+	return 1;
+}
+
+static int l_engine_set_joystick_enabled(lua_State *l)
+{
+	if (lua_isnone(l, 1))
+		return luaL_error(l, "SetJoystickEnabled takes one boolean argument");
+	const bool enabled = lua_toboolean(l, 1);
+	Pi::config->SetInt("EnableJoystick", (enabled ? 1 : 0));
+	Pi::config->Save();
+	Pi::SetJoystickEnabled(enabled);
+	return 0;
+}
+
 void LuaEngine::Register()
 {
 	lua_State *l = Lua::manager->GetLuaState();
@@ -639,6 +673,10 @@ void LuaEngine::Register()
 
 		{ "GetKeyBindings", l_engine_get_key_bindings },
 		{ "SetKeyBinding", l_engine_set_key_binding },
+		{ "GetMouseYInverted", l_engine_get_mouse_y_inverted },
+		{ "SetMouseYInverted", l_engine_set_mouse_y_inverted },
+		{ "GetJoystickEnabled", l_engine_get_joystick_enabled },
+		{ "SetJoystickEnabled", l_engine_set_joystick_enabled },
 
 		{ 0, 0 }
 	};
