@@ -5,13 +5,89 @@
 #define _LUATABLE_H
 
 #include <cassert>
-#include <map>
-#include <vector>
 #include <iterator>
 
 #include "lua/lua.hpp"
 #include "LuaRef.h"
 
+/*
+ * The LuaTable class is a wrapper around a table present on the stack. There
+ * are two ways to instanciate a LuaTable object:
+ *
+ * > lua_State *l;
+ * > int i;
+ * > LuaTable(l); // This will allow a new table on top of the stack
+ * > LuaTable(l, i); // This will wrap the object around an existing table
+ *
+ * Note that in no way does destroying a LuaTable object will remove the
+ * wrapped table from the stack.
+ * Also, there is no integrity check except at the object creation, which means
+ * that if you fiddle with the stack below the wrapped table you will get
+ * unexpected results (most likely a crash).
+ *
+ * Get/Set:
+ *
+ * The Get and Set operators are using the pi_lua_generic_{push pull} functions
+ * to fetch any value from the table using templates. It is then possible to
+ * add support for extra types only by writing the beforementioned functions
+ * for the wanted type. Note that that Get has two flavours, one with a
+ * default value and another faster which will crash if the key gives nil.
+ *
+ * These operations are designed to restore the state of the stack, thus making
+ * it impossible to Get a LuaTable, as the latter would need a place on the
+ * stack. For this reason, the Sub() method is used to get a subtable,
+ * allocating it on top of the stack.
+ *
+ * Example:
+ *
+ * > lua_State *l; // stack size: X
+ * > LuaTable t = LuaTable(l+1); // stack size: X+1, t = {}
+ * > t.Set("foo", 1); // stack size: X+1, t = {foo:1}
+ * > int foo = t.Get<int>("foo");
+ * > //int bar = t.Get<int>("bar"); // WOULD CRASH!
+ * > int bar = t.Get("bar", 0);
+ * > {
+ * >     LuaTable t2(l); // stack size: X+2
+ * >     t.Set("baz", t2); // t = {foo:1, baz:<t2>}
+ * > } // t2 isn't a valid name, we can now safely pop the table out.
+ * > lua_pop(l, 1); // stack size: X+1
+ * > LuaTable t2_bis = t.Sub("baz"); // stack size: X+2
+ *
+ * STL loaders:
+ *
+ * If you want to load a whole vector or map into a LuaTable, just do
+ *
+ * > std::vector v; // Or std::list, std::set, whatever as long as it has iterators
+ * > std::map m;
+ * > LuaTable t;
+ * > T.LoadMap(m.begin(), m.end());
+ * > T.LoadVector(v.begin(), v.end());
+ *
+ * Note that LoadVector doesn't overwrite the content of the table, it appends
+ * to its array-like part. Unless you have numerical index beyond its length,
+ * which you shouldn't do anyway.
+ *
+ * LoadMap happily overwrites any data if necessary.
+ *
+ * VecIter:
+ *
+ * It is possible to get STL-like iterators on the array part of the table.
+ * The use cases are typically in loops or to use in the STL algorithms or as
+ * inputs for containers.
+ *
+ * The two methods are LuaTable::Begin<Value>() and LuaTable::End<Value>()
+ *
+ * As usual, since C++ is static typed, the iterators will fail in a mixed-typed table
+ *
+ * ScopedTable:
+ *
+ * The ScopedTable class is a LuaTable derivative that comes with two constructors:
+ *   * New table constructor: ScopedTable(l);
+ *   * LuaRef contructor: ScopedTable(my_lua_ref_object);
+ * Both constructors will push a new table onto the stack, and when the C++
+ * ScopedTable objects are destroyed, this new table is removed and everything
+ * above it on the stack gets shifted down.
+ */
 class LuaTable {
 public:
 	// For now, every lua_State * can only be NULL or Pi::LuaManager->GetLuaState();
@@ -31,9 +107,8 @@ public:
 	template <class Value, class Key> Value Get(const Key & key, Value default_value) const;
 	template <class Value, class Key> void Set(const Key & key, const Value & value) const;
 
-	template <class Key, class Value> std::map<Key, Value> GetMap() const;
-	template <class Key, class Value> void LoadMap(const std::map<Key, Value> & m) const;
-	template <class Value> void LoadVector(const std::vector<Value> & m) const;
+	template <class PairIterator> void LoadMap(PairIterator beg, PairIterator end) const;
+	template <class ValueIterator> void LoadVector(ValueIterator beg, ValueIterator end) const;
 
 	lua_State * GetLua() const { return m_lua; }
 	int GetIndex() const { return m_index; }
@@ -78,7 +153,7 @@ public:
 			Value m_cache;
 			bool m_dirtyCache;
 	};
-	
+
 	template <class Value> VecIter<Value> Begin() {return VecIter<Value>(this, 1);}
 	template <class Value> VecIter<Value> End() {return VecIter<Value>(this, Size()+1);}
 
@@ -143,33 +218,17 @@ template <class Value, class Key> void LuaTable::Set(const Key & key, const Valu
 	lua_settable(m_lua, m_index);
 }
 
-template <class Key, class Value> std::map<Key, Value> LuaTable::GetMap() const {
-	std::map<Key, Value> ret;
-	lua_pushnil(m_lua);
-	while(lua_next(m_lua, m_index)) {
-		Key k;
-		Value v;
-		if (pi_lua_strict_pull(m_lua, -2, k)) {
-			pi_lua_strict_pull(m_lua, -1, v);
-			ret[k] = v;
-		}
-		lua_pop(m_lua, 1);
-	}
-	return ret;
-}
-
-template <class Key, class Value> void LuaTable::LoadMap(const std::map<Key, Value> & m) const {
-	for (typename std::map<Key, Value>::const_iterator it = m.begin();
-			it != m.end() ; ++it)
+template <class PairIterator> void LuaTable::LoadMap(PairIterator beg, PairIterator end) const {
+	for (PairIterator it = beg; it != end ; ++it)
 		Set(it->first, it->second);
 }
 
-template <class Value> void LuaTable::LoadVector(const std::vector<Value> & v) const {
+template <class ValueIterator> void LuaTable::LoadVector(ValueIterator beg, ValueIterator end) const {
 	lua_len(m_lua, m_index);
-	int current_length = lua_tointeger(m_lua, -1);
+	int i = lua_tointeger(m_lua, -1) + 1;
 	lua_pop(m_lua, 1);
-	for (unsigned int i = 0;  i < v.size() ; ++i)
-		Set(current_length+i+1, v[i]);
+	for (ValueIterator it = beg;  it != end ; ++it, ++i)
+		Set(i, *it);
 }
 
 template <> inline void LuaTable::VecIter<LuaTable>::LoadCache() {
