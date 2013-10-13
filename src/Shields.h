@@ -10,7 +10,7 @@
 #include "Serializer.h"
 
 namespace Graphics { class Renderer; }
-namespace SceneGraph { class Model; class StaticGeometry; class Group; }
+namespace SceneGraph { class Model; class StaticGeometry; }
 
 class Shields
 {
@@ -22,7 +22,7 @@ public:
 		RefCountedPtr<SceneGraph::StaticGeometry> m_mesh;
 	};
 
-	Shields(SceneGraph::Model*, float period = 2.f);
+	Shields(SceneGraph::Model*);
 	virtual ~Shields();
 	virtual void Save(Serializer::Writer &wr);
 	virtual void Load(Serializer::Reader &rd);
@@ -32,6 +32,7 @@ public:
 	void SetColor(const Color3ub);
 
 	static void Init(Graphics::Renderer*);
+	static void ReparentShieldNodes(SceneGraph::Model*);
 	static void Uninit();
 
 protected:

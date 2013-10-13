@@ -237,6 +237,7 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
 
 	SetModel(m_type->modelName.c_str());
+	m_shields.Reset(new Shields(GetModel()));
 	SetLabel(MakeRandomLabel());
 	m_skin.SetRandomColors(Pi::rng);
 	m_skin.SetPattern(Pi::rng.Int32(0, GetModel()->GetNumPatterns()));
@@ -758,10 +759,6 @@ void Ship::TimeStepUpdate(const float timeStep)
 	m_navLights->SetEnabled(m_wheelState > 0.01f);
 	m_navLights->Update(timeStep);
 
-	const bool shieldsVisible = (m_stats.shield_mass_left < m_stats.shield_mass) && m_stats.shield_mass_left>0.1f;
-	m_shields->SetEnabled(shieldsVisible);
-	m_shields->Update(0.01f*GetPercentShields());
-
 	if (m_landingGearAnimation)
 		static_cast<SceneGraph::Model*>(GetModel())->UpdateAnimations();
 }
@@ -1162,6 +1159,11 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	if (m_landingGearAnimation)
 		m_landingGearAnimation->SetProgress(m_wheelState);
 
+	// This has to be done per-model with a shield and just before it's rendered
+	const bool shieldsVisible = (m_stats.shield_mass_left < m_stats.shield_mass) && m_stats.shield_mass_left>0.1f;
+	m_shields->SetEnabled(shieldsVisible);
+	m_shields->Update(0.01f*GetPercentShields());
+
 	//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
 	RenderModel(renderer, camera, viewCoords, viewTransform);
 
@@ -1285,6 +1287,7 @@ void Ship::SetShipType(const ShipType::Id &shipId)
 	SetShipId(shipId);
 	m_equipment.InitSlotSizes(shipId);
 	SetModel(m_type->modelName.c_str());
+	m_shields.Reset(new Shields(GetModel()));
 	m_skin.Apply(GetModel());
 	Init();
 	onFlavourChanged.emit();

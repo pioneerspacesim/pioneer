@@ -88,7 +88,7 @@ Node* Group::FindNode(const std::string &name)
 	return result;
 }
 
-Node* Group::AccumulateNodeTransform(const std::string &name, const matrix4x4f &accum, matrix4x4f &outMat)
+Node* Group::GatherTransforms(const std::string &name, const matrix4x4f &accum, matrix4x4f &outMat)
 {
 	if (m_name == name) {
 		outMat = accum;
@@ -98,7 +98,7 @@ Node* Group::AccumulateNodeTransform(const std::string &name, const matrix4x4f &
 	Node* result = 0;
 	for (std::vector<Node*>::iterator itr = m_children.begin(), itEnd = m_children.end(); itr != itEnd; ++itr)
 	{
-		result = (*itr)->AccumulateNodeTransform(name, accum, outMat);
+		result = (*itr)->GatherTransforms(name, accum, outMat);
 		if (result) break;
 	}
 

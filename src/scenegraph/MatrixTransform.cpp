@@ -29,7 +29,7 @@ void MatrixTransform::Accept(NodeVisitor &nv)
 	nv.ApplyMatrixTransform(*this);
 }
 
-Node* MatrixTransform::AccumulateNodeTransform(const std::string &name, const matrix4x4f &accum, matrix4x4f &outMat)
+Node* MatrixTransform::GatherTransforms(const std::string &name, const matrix4x4f &accum, matrix4x4f &outMat)
 {
 	const matrix4x4f t = accum * m_transform;
 	if (m_name == name) {
@@ -40,7 +40,7 @@ Node* MatrixTransform::AccumulateNodeTransform(const std::string &name, const ma
 	Node* result = 0;
 	for (std::vector<Node*>::iterator itr = m_children.begin(), itEnd = m_children.end(); itr != itEnd; ++itr)
 	{
-		result = (*itr)->AccumulateNodeTransform(name, t, outMat);
+		result = (*itr)->GatherTransforms(name, t, outMat);
 		if (result) break;
 	}
 

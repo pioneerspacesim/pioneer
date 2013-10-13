@@ -372,6 +372,7 @@ void Pi::Init()
 	draw_progress(gauge, label, 0.4f);
 
 	modelCache = new ModelCache(Pi::renderer);
+	Shields::Init(Pi::renderer);
 	draw_progress(gauge, label, 0.5f);
 
 //unsigned int control_word;
@@ -391,7 +392,6 @@ void Pi::Init()
 	draw_progress(gauge, label, 0.9f);
 
 	NavLights::Init(Pi::renderer);
-	Shields::Init(Pi::renderer);
 	Sfx::Init(Pi::renderer);
 	draw_progress(gauge, label, 0.95f);
 

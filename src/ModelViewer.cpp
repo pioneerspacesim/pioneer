@@ -787,6 +787,7 @@ void ModelViewer::SetModel(const std::string &filename, bool resetCamera /* true
 		m_modelName = filename;
 		SceneGraph::Loader loader(m_renderer, true);
 		m_model = loader.LoadModel(filename);
+		Shields::ReparentShieldNodes(m_model);
 
 		//set decal textures, max 4 supported.
 		//Identical texture at the moment

@@ -6,10 +6,13 @@
 #include "scenegraph/FindNodeVisitor.h"
 #include "scenegraph/SceneGraph.h"
 #include "Ship.h"
+#include <sstream>
 
 namespace {
 	static RefCountedPtr<Graphics::Material> s_matShield;
 	static ShieldRenderParameters s_renderParams;
+	static const std::string s_shieldGroupName("Shields");
+	static const std::string s_matrixTransformName("_accMtx4");
 
 	static RefCountedPtr<Graphics::Material> GetGlobalShieldMaterial()
 	{
@@ -44,21 +47,14 @@ void Shields::Init(Graphics::Renderer *renderer)
 	s_initialised = true;
 }
 
-void Shields::Uninit()
-{
-	assert(s_initialised);
-
-	s_initialised = false;
-}
-
-Shields::Shields(SceneGraph::Model *model, float period)
-	: m_enabled(false)
+void Shields::ReparentShieldNodes(SceneGraph::Model* model)
 {
 	assert(s_initialised);
 
 	Graphics::Renderer *renderer = model->GetRenderer();
 
 	using SceneGraph::Node;
+	using SceneGraph::Group;
 	using SceneGraph::MatrixTransform;
 	using SceneGraph::StaticGeometry;
 
@@ -67,7 +63,95 @@ Shields::Shields(SceneGraph::Model *model, float period)
 	model->GetRoot()->Accept(shieldFinder);
 	const std::vector<Node*> &results = shieldFinder.GetResults();
 
-	//attach light billboards
+	//Move shield geometry to same level as the LODs
+	for (unsigned int i = 0; i < results.size(); i++) {
+		MatrixTransform *mt = dynamic_cast<MatrixTransform*>(results.at(i));
+		assert(mt);
+
+		const Uint32 NumChildren = mt->GetNumChildren();
+		if (NumChildren>0)
+		{
+			// Group to contain all of the shields we might find
+			Group *shieldGroup = new Group(renderer);
+			shieldGroup->SetName(s_shieldGroupName);
+
+			// go through all of this MatrixTransforms children to extract all of the shield meshes
+			for (Uint32 iChild = 0; iChild < NumChildren; ++iChild) {
+				Node* node = mt->GetChildAt(iChild);
+				assert(node);
+				if (node)
+				{
+					RefCountedPtr<StaticGeometry> sg(dynamic_cast<StaticGeometry*>(node));
+					assert(sg.Valid());
+					sg->SetNodeMask(SceneGraph::NODE_TRANSPARENT);
+					sg->DisableDepthWrite();
+
+					// We can early-out if we've already processed this models scenegraph.
+					if (Graphics::BLEND_ALPHA == sg->m_blendMode) {
+						assert(false);
+					}
+
+					// force the blend mode
+					sg->m_blendMode = Graphics::BLEND_ALPHA;
+
+					for (Uint32 iMesh = 0; iMesh < sg->GetNumMeshes(); ++iMesh) {
+						RefCountedPtr<Graphics::StaticMesh> rMesh = sg->GetMesh(iMesh);
+
+						for (Sint32 surfIdx = 0, endSurf = rMesh->GetNumSurfaces(); surfIdx < endSurf; surfIdx++) {
+							RefCountedPtr<Graphics::Surface> surf = rMesh->GetSurface(surfIdx);
+							if (surf.Valid()) {
+								surf->SetMaterial(GetGlobalShieldMaterial());
+							}
+						}
+					}
+
+					// find the accumulated transform from the root to our node
+					matrix4x4f accum(matrix4x4f::Identity());
+					matrix4x4f outMat(matrix4x4f::Identity());
+					const Node* foundNode = model->GetRoot()->GatherTransforms(mt->GetName(), accum, outMat);
+
+					// set our nodes transformation to be the accumulated transform
+					MatrixTransform *sg_transform_parent = new MatrixTransform(renderer, outMat);
+					std::stringstream nodeStream;
+					nodeStream << iChild << s_matrixTransformName;
+					sg_transform_parent->SetName(nodeStream.str());
+					sg_transform_parent->AddChild(sg.Get());
+
+					// dettach node from current location in the scenegraph...
+					mt->RemoveChild(node);
+
+					// attach new transform node which parents the our shields mesh to the shield group.
+					shieldGroup->AddChild(sg_transform_parent);
+				}
+			}
+			
+			model->GetRoot()->AddChild(shieldGroup);
+		}
+	}
+}
+
+void Shields::Uninit()
+{
+	assert(s_initialised);
+
+	s_initialised = false;
+}
+
+Shields::Shields(SceneGraph::Model *model)
+	: m_enabled(false)
+{
+	assert(s_initialised);
+
+	using SceneGraph::Node;
+	using SceneGraph::MatrixTransform;
+	using SceneGraph::StaticGeometry;
+
+	//This will find all matrix transforms meant for navlights.
+	SceneGraph::FindNodeVisitor shieldFinder(SceneGraph::FindNodeVisitor::MATCH_NAME_ENDSWITH, s_matrixTransformName);
+	model->GetRoot()->Accept(shieldFinder);
+	const std::vector<Node*> &results = shieldFinder.GetResults();
+
+	//Move shield geometry to same level as the LODs
 	for (unsigned int i=0; i < results.size(); i++) {
 		MatrixTransform *mt = dynamic_cast<MatrixTransform*>(results.at(i));
 		assert(mt);
@@ -76,41 +160,9 @@ Shields::Shields(SceneGraph::Model *model, float period)
 			Node* node = mt->GetChildAt(iChild);
 			if (node)
 			{
-				const std::string &nodeName = node->GetName();
-				const char* nodeTypeName = node->GetTypeName();
-				printf("Node %s is of type %s\n", nodeName.c_str(), nodeTypeName);
-
 				RefCountedPtr<StaticGeometry> sg(dynamic_cast<StaticGeometry*>(node));
 				assert(sg.Valid());
-				sg->m_blendMode = Graphics::BLEND_ALPHA;
-
-				for (Uint32 iMesh=0; iMesh<sg->GetNumMeshes(); ++iMesh) {
-					RefCountedPtr<Graphics::StaticMesh> rMesh = sg->GetMesh(iMesh);
-
-					for (Sint32 surfIdx = 0, endSurf = rMesh->GetNumSurfaces(); surfIdx < endSurf; surfIdx++) {
-						RefCountedPtr<Graphics::Surface> surf = rMesh->GetSurface(surfIdx);
-						if(surf.Valid()) {
-							surf->SetMaterial(GetGlobalShieldMaterial());
-						}
-					}
-				}
-
-				// find the accumulated transform from the root to our node
-				matrix4x4f accum(matrix4x4f::Identity());
-				matrix4x4f outMat(matrix4x4f::Identity());
-				const Node* foundNode = model->GetRoot()->AccumulateNodeTransform(mt->GetName(), accum, outMat);
-
-				// set our nodes transformation to be the accumulated transform
-				MatrixTransform *sg_transform_parent = new MatrixTransform(renderer, outMat);
-				sg_transform_parent->AddChild(sg.Get());
-			
-				// dettach node from current location in the scenegraph...
-				if( !mt->RemoveChild(node) ) {
-					printf("%s is bloody stubborn\n", nodeName);
-				}
-
-				// attach new transform node which parents the our shields mesh at the root.
-				model->GetRoot()->AddChild(sg_transform_parent);
+				sg->SetNodeMask(SceneGraph::NODE_TRANSPARENT);
 				m_shields.push_back(Shield(Color3ub(255), sg.Get()));
 			}
 		}
@@ -125,10 +177,12 @@ void Shields::Save(Serializer::Writer &wr)
 {
 	wr.Bool(m_enabled);
 
+	wr.Int32(m_shields.size());
 	for (ShieldIterator it = m_shields.begin(); it != m_shields.end(); ++it) {
 		wr.Byte(it->m_colour.r);
 		wr.Byte(it->m_colour.g);
 		wr.Byte(it->m_colour.b);
+		wr.String(it->m_mesh->GetName());
 	}
 }
 
@@ -136,11 +190,19 @@ void Shields::Load(Serializer::Reader &rd)
 {
 	m_enabled = rd.Bool();
 
-	RefCountedPtr<Graphics::Material> mat;
-	for (ShieldIterator it = m_shields.begin(); it != m_shields.end(); ++it) {
-		it->m_colour.r = rd.Byte();
-		it->m_colour.g = rd.Byte();
-		it->m_colour.b = rd.Byte();
+	const Uint32 NumShields = rd.Int32();
+	assert(NumShields == m_shields.size());
+	for (Uint32 iRead = 0; iRead < NumShields; iRead++ ) {
+		const Uint8 r = rd.Byte();
+		const Uint8 g = rd.Byte();
+		const Uint8 b = rd.Byte();
+		const std::string name = rd.String();
+		for (ShieldIterator it = m_shields.begin(); it != m_shields.end(); ++it) {
+			if(name==it->m_mesh->GetName()) {
+				it->m_colour = Color3ub(r, g, b);
+				break;
+			}
+		}
 	}
 }
 
@@ -156,6 +218,7 @@ void Shields::Update(const float shieldStrength /* 0.0f to 1.0f */)
 	for (ShieldIterator it = m_shields.begin(); it != m_shields.end(); ++it) {
 		if (shieldStrength>0.0f) {
 			it->m_mesh->SetNodeMask(SceneGraph::NODE_TRANSPARENT);
+			it->m_mesh->DisableDepthWrite();
 			s_renderParams.strength = shieldStrength;
 			GetGlobalShieldMaterial()->specialParameter0 = &s_renderParams;
 		} else {

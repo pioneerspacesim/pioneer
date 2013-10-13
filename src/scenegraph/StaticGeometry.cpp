@@ -13,6 +13,7 @@ namespace SceneGraph {
 StaticGeometry::StaticGeometry(Graphics::Renderer *r)
 : Node(r, NODE_SOLID)
 , m_blendMode(Graphics::BLEND_SOLID)
+, m_bDisableDepthWrite(false)
 {
 }
 
@@ -25,6 +26,7 @@ StaticGeometry::StaticGeometry(const StaticGeometry &sg, NodeCopyCache *cache)
 , m_boundingBox(sg.m_boundingBox)
 , m_blendMode(sg.m_blendMode)
 , m_meshes(sg.m_meshes)
+, m_bDisableDepthWrite(sg.m_bDisableDepthWrite)
 {
 }
 
@@ -40,12 +42,23 @@ void StaticGeometry::Accept(NodeVisitor &nv)
 
 void StaticGeometry::Render(const matrix4x4f &trans, const RenderData *rd)
 {
+	assert(rd);
 	Graphics::Renderer *r = GetRenderer();
 	r->SetTransform(trans);
 	if (m_blendMode != Graphics::BLEND_SOLID)
 		r->SetBlendMode(m_blendMode);
-	for (MeshContainer::iterator it = m_meshes.begin(), itEnd=m_meshes.end(); it != itEnd; ++it)
-		r->DrawStaticMesh(it->Get());
+
+	if (m_bDisableDepthWrite) {
+		m_renderer->SetDepthWrite(false);
+		for (MeshContainer::iterator it = m_meshes.begin(), itEnd=m_meshes.end(); it != itEnd; ++it) {
+			r->DrawStaticMesh(it->Get());
+		}
+		m_renderer->SetDepthWrite(true);
+	} else {
+		for (MeshContainer::iterator it = m_meshes.begin(), itEnd = m_meshes.end(); it != itEnd; ++it) {
+			r->DrawStaticMesh(it->Get());
+		}
+	}
 
 	//DrawBoundingBox(r, m_boundingBox);
 }

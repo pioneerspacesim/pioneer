@@ -45,7 +45,7 @@ Node* Node::FindNode(const std::string &name)
 		return 0;
 }
 
-Node* Node::AccumulateNodeTransform(const std::string &name, const matrix4x4f &accum, matrix4x4f &outMat)
+Node* Node::GatherTransforms(const std::string &name, const matrix4x4f &accum, matrix4x4f &outMat)
 {
 	if (m_name == name) {
 		outMat = accum;
