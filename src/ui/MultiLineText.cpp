@@ -10,15 +10,20 @@ namespace UI {
 MultiLineText::MultiLineText(Context *context, const std::string &text) : Widget(context), m_text(text)
 {
 	m_layout.Reset(new TextLayout(GetContext()->GetFont(GetFont()), m_text));
-
-	SetSizeControlFlags(EXPAND_WIDTH);
 }
 
 Point MultiLineText::PreferredSize()
 {
 	if (m_preferredSize != Point())
 		return m_preferredSize;
-	return Point();
+
+	// 50-75 chars per line is ideal for general readability
+	// http://baymard.com/blog/line-length-readability
+	//
+	// we'll compute a size for about 75 chars wide. container may choose to
+	// override us, but if it gives us what we ask for this will make sure we
+	// get something readable
+	return m_layout->ComputeSize(Point(GetContext()->GetFont(GetFont())->GetGlyph(' ').advx * 75, 0));
 }
 
 void MultiLineText::Layout()
