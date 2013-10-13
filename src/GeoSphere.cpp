@@ -438,8 +438,10 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 	// no frustum test of entire geosphere, since Space::Render does this
 	// for each body using its GetBoundingRadius() value
 
+	const EclipseState es = (Pi::config->Int("DisableEclipse") == 0) ? ECLIPSE_ENABLED : ECLIPSE_DISABLED;
+
 	//First draw - create materials (they do not change afterwards)
-	if (!m_surfaceMaterial.Valid())
+	if (!m_surfaceMaterial[es].Valid())
 		SetUpMaterials();
 
 	if (Graphics::AreShadersEnabled()) {
@@ -452,24 +454,24 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 
 		m_materialParameters.shadows = shadows;
 
-		m_surfaceMaterial->specialParameter0 = &m_materialParameters;
+		m_surfaceMaterial[es]->specialParameter0 = &m_materialParameters;
 
 		if (m_materialParameters.atmosphere.atmosDensity > 0.0) {
-			m_atmosphereMaterial->specialParameter0 = &m_materialParameters;
+			m_atmosphereMaterial[es]->specialParameter0 = &m_materialParameters;
 
 			renderer->SetBlendMode(Graphics::BLEND_ALPHA_ONE);
 			renderer->SetDepthWrite(false);
 			// make atmosphere sphere slightly bigger than required so
 			// that the edges of the pixel shader atmosphere jizz doesn't
 			// show ugly polygonal angles
-			DrawAtmosphereSurface(renderer, trans, campos, m_materialParameters.atmosphere.atmosRadius*1.01, m_atmosphereMaterial.Get());
+			DrawAtmosphereSurface(renderer, trans, campos, m_materialParameters.atmosphere.atmosRadius*1.01, m_atmosphereMaterial[es].Get());
 			renderer->SetDepthWrite(true);
 			renderer->SetBlendMode(Graphics::BLEND_SOLID);
 		}
 	}
 
 	Color ambient;
-	Color &emission = m_surfaceMaterial->emissive;
+	Color &emission = m_surfaceMaterial[es]->emissive;
 
 	// save old global ambient
 	const Color oldAmbient = renderer->GetAmbientColor();
@@ -502,7 +504,7 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 #endif
 	// this is pretty much the only place where a non-renderer is allowed to call Apply()
 	// to be removed when someone rewrites terrain
-	m_surfaceMaterial->Apply();
+	m_surfaceMaterial[es]->Apply();
 
 	renderer->SetTransform(modelView);
 
@@ -521,7 +523,7 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 	glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
 	glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-	m_surfaceMaterial->Unapply();
+	m_surfaceMaterial[es]->Unapply();
 
 	renderer->SetAmbientColor(oldAmbient);
 #ifdef USE_WIREFRAME
@@ -546,25 +548,33 @@ void GeoSphere::SetUpMaterials()
 		(m_sbody->type == SystemBody::TYPE_STAR_M)) {
 		//dim star (emits and receives light)
 		surfDesc.lighting = true;
-		surfDesc.atmosphere = false;
+		surfDesc.quality &= ~Graphics::GL2::HAS_ATMOSPHERE;
 	}
 	else if (m_sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
 		//normal star
 		surfDesc.lighting = false;
-		surfDesc.atmosphere = false;
+		surfDesc.quality &= ~Graphics::GL2::HAS_ATMOSPHERE;
 	} else {
 		//planetoid with or without atmosphere
 		const SystemBody::AtmosphereParameters ap(m_sbody->CalcAtmosphereParams());
 		surfDesc.lighting = true;
-		surfDesc.atmosphere = (ap.atmosDensity > 0.0);
+		if(ap.atmosDensity > 0.0) {
+			surfDesc.quality |= Graphics::GL2::HAS_ATMOSPHERE;
+		} else {
+			surfDesc.quality &= ~Graphics::GL2::HAS_ATMOSPHERE;
+		}
 	}
-	m_surfaceMaterial.Reset(Pi::renderer->CreateMaterial(surfDesc));
+	m_surfaceMaterial[ECLIPSE_DISABLED].Reset(Pi::renderer->CreateMaterial(surfDesc));
+	surfDesc.quality |= Graphics::GL2::HAS_ECLIPSES;
+	m_surfaceMaterial[ECLIPSE_ENABLED].Reset(Pi::renderer->CreateMaterial(surfDesc));
 
 	//Shader-less atmosphere is drawn in Planet
 	if (Graphics::AreShadersEnabled()) {
 		Graphics::MaterialDescriptor skyDesc;
 		skyDesc.effect = Graphics::EFFECT_GEOSPHERE_SKY;
 		skyDesc.lighting = true;
-		m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial(skyDesc));
+		m_atmosphereMaterial[ECLIPSE_DISABLED].Reset(Pi::renderer->CreateMaterial(skyDesc));
+		skyDesc.quality |= Graphics::GL2::HAS_ECLIPSES;
+		m_atmosphereMaterial[ECLIPSE_ENABLED].Reset(Pi::renderer->CreateMaterial(skyDesc));
 	}
 }

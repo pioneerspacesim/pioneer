@@ -353,7 +353,7 @@ static int l_starsystem_export_to_lua(lua_State *l)
 		const std::string finalPath = FileSystem::NormalisePath(
 				FileSystem::JoinPathBelow(FileSystem::GetUserDir(), filename));
 		s->ExportToLua(finalPath.c_str());
-	} catch (std::invalid_argument &e) {
+	} catch (std::invalid_argument &) {
 		return luaL_error(l, "could not export system -- name forms an invalid path");
 	}
 

@@ -18,7 +18,7 @@ void UIView::Draw3D()
 
 void UIView::OnSwitchTo()
 {
-	Pi::ui->SetInnerWidget(
+	Pi::ui->GetTopLayer()->SetInnerWidget(
 		Pi::ui->VBox()
 			->PackEnd(Pi::ui->CallTemplate(m_templateName))
 			->PackEnd(new GameUI::Panel(Pi::ui.Get()))
@@ -27,6 +27,6 @@ void UIView::OnSwitchTo()
 
 void UIView::OnSwitchFrom()
 {
-	Pi::ui->RemoveInnerWidget();
+	Pi::ui->GetTopLayer()->RemoveInnerWidget();
 	Pi::ui->Layout(); // UI does important things on layout, like updating keyboard shortcuts
 }

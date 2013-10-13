@@ -31,7 +31,7 @@ namespace GL2 {
 class RendererGL2 : public RendererLegacy
 {
 public:
-	RendererGL2(const Graphics::Settings &vs);
+	RendererGL2(WindowSDL *window, const Graphics::Settings &vs);
 	virtual ~RendererGL2();
 
 	virtual const char* GetName() const { return "GL2 renderer"; }

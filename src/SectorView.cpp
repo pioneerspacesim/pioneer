@@ -48,6 +48,10 @@ SectorView::SectorView()
 	m_rotZ = m_rotZMovingTo = m_rotZDefault;
 	m_zoom = m_zoomMovingTo = m_zoomDefault;
 
+	// XXX I have no idea if this is correct,
+	// I just copied it from the one other place m_zoomClamped is set
+	m_zoomClamped = Clamp(m_zoom, 1.f, FAR_LIMIT);
+
 	m_inSystem = true;
 
 	m_current = Pi::game->GetSpace()->GetStarSystem()->GetPath();
@@ -77,6 +81,9 @@ SectorView::SectorView(Serializer::Reader &rd)
 	m_rotX = m_rotXMovingTo = rd.Float();
 	m_rotZ = m_rotZMovingTo = rd.Float();
 	m_zoom = m_zoomMovingTo = rd.Float();
+	// XXX I have no idea if this is correct,
+	// I just copied it from the one other place m_zoomClamped is set
+	m_zoomClamped = Clamp(m_zoom, 1.f, FAR_LIMIT);
 	m_inSystem = rd.Bool();
 	m_current = SystemPath::Unserialize(rd);
 	m_selected = SystemPath::Unserialize(rd);
@@ -244,8 +251,8 @@ void SectorView::InitObject()
 
 	m_infoBox->PackEnd(filterBox);
 
-	m_onMouseButtonDown =
-		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &SectorView::MouseButtonDown));
+	m_onMouseWheelCon =
+		Pi::onMouseWheel.connect(sigc::mem_fun(this, &SectorView::MouseWheel));
 
 	UpdateSystemLabels(m_currentSystemLabels, m_current);
 	UpdateSystemLabels(m_selectedSystemLabels, m_selected);
@@ -263,7 +270,7 @@ void SectorView::InitObject()
 
 SectorView::~SectorView()
 {
-	m_onMouseButtonDown.disconnect();
+	m_onMouseWheelCon.disconnect();
 	if (m_onKeyPressConnection.connected()) m_onKeyPressConnection.disconnect();
 }
 
@@ -284,7 +291,7 @@ void SectorView::Save(Serializer::Writer &wr)
 	wr.Byte(m_detailBoxVisible);
 }
 
-void SectorView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
+void SectorView::OnSearchBoxKeyPress(const SDL_Keysym *keysym)
 {
 	//remember the last search text, hotkey: up
 	if (m_searchBox->GetText().empty() && keysym->sym == SDLK_UP && !m_previousSearch.empty())
@@ -375,8 +382,8 @@ void SectorView::Draw3D()
 	m_secLineVerts->Clear();
 	m_clickableLabels->Clear();
 
-	if (m_zoomClamped <= FAR_THRESHOLD) m_renderer->SetPerspectiveProjection(40.f, Pi::GetScrAspect(), 1.f, 300.f);
-	else                                m_renderer->SetPerspectiveProjection(40.f, Pi::GetScrAspect(), 1.f, 600.f);
+	if (m_zoomClamped <= FAR_THRESHOLD) m_renderer->SetPerspectiveProjection(40.f, m_renderer->GetDisplayAspect(), 1.f, 300.f);
+	else                                m_renderer->SetPerspectiveProjection(40.f, m_renderer->GetDisplayAspect(), 1.f, 600.f);
 
 	matrix4x4f modelview = matrix4x4f::Identity();
 	m_renderer->ClearScreen();
@@ -988,7 +995,7 @@ void SectorView::RefreshDetailBoxVisibility()
 	if (m_detailBoxVisible != DETAILBOX_FACTION) m_factionBox->HideAll(); else UpdateFactionToggles();
 }
 
-void SectorView::OnKeyPressed(SDL_keysym *keysym)
+void SectorView::OnKeyPressed(SDL_Keysym *keysym)
 {
 	if (Pi::GetView() != this) {
 		m_onKeyPressConnection.disconnect();
@@ -1213,12 +1220,12 @@ void SectorView::ShowAll()
 	if (m_detailBoxVisible != DETAILBOX_FACTION) m_factionBox->HideAll();
 }
 
-void SectorView::MouseButtonDown(int button, int x, int y)
+void SectorView::MouseWheel(bool up)
 {
 	if (this == Pi::GetView()) {
-		if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN))
+		if (!up)
 			m_zoomMovingTo += ZOOM_SPEED * WHEEL_SENSITIVITY * Pi::GetMoveSpeedShiftModifier();
-		else if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP))
+		else
 			m_zoomMovingTo -= ZOOM_SPEED * WHEEL_SENSITIVITY * Pi::GetMoveSpeedShiftModifier();
 	}
 }

@@ -11,6 +11,7 @@ GameConfig::GameConfig()
 	std::map<std::string, std::string> &map = m_map[""];
 	map["Lang"] = "English";
 	map["DisableShaders"] = "0";
+	map["DisableEclipse"] = "0";
 	map["DisableSound"] = "0";
 	map["StartFullscreen"] = "0";
 	map["ScrWidth"] = "800";

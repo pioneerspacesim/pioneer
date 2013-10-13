@@ -47,14 +47,14 @@ NumberLabel *NumberLabel::SetValue(double v)
 
 void NumberLabel::BindValue(PropertyMap &p, const std::string &k)
 {
-	double v;
+	double v = 0.0;
 	p.Get(k, v);
 	SetValue(Clamp(v, 0.0, 1.0));
 }
 
 void NumberLabel::BindValuePercent(PropertyMap &p, const std::string &k)
 {
-	double v;
+	double v = 0.0;
 	p.Get(k, v);
 	SetValue(Clamp(v, 0.0, 100.0)*0.01);
 }

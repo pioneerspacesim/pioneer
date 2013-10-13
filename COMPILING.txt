@@ -34,8 +34,8 @@ Linux - Autotools
     pkg-config
     libsigc++-dev
     libsigc++-2.0-dev
-    libsdl1.2-dev
-    libsdl-image1.2-dev
+    libsdl2-dev
+    libsdl2-image-dev
     libfreetype6-dev
     libvorbis-dev
     libpng-dev
@@ -69,14 +69,15 @@ Windows - MSVC
 Windows - Autotools (Linux cross-compile)
 -----------------------------------------
 
-1. First you need a cross-compiling environment. We use MXE (http://mxe.cc).
-   The release downloads are always out of date, so grab the latest from git:
+1. First you need a cross-compiling environment. We use MXE (http://mxe.cc)
+   with a patch required to make SDL2 compile. Until that patch is merged
+   upstream, grab it from:
 
-     git://github.com/mxe/mxe.git
+     git://github.com/robn/mxe.git
 
    Now compile GCC and the dependencies needed for Pioneer:
 
-     make gcc freetype sdl sdl_image vorbis libsigc++
+     make gcc freetype sdl2 sdl2_image vorbis libsigc++
 
 2. Prepare the pioneer-thirdparty repository. See below.
 
@@ -103,9 +104,9 @@ OS X - Autotools
      assimp
      pkgconfig
      freetype
-     libsdl
-     libsdl_image
-     libsdl_sound
+     libsdl2
+     libsdl2_image
+     libsdl2_sound
      libsigcxx2
      libvorbis
      autoconf

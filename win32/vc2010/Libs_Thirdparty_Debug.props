@@ -5,7 +5,7 @@
   <PropertyGroup />
   <ItemDefinitionGroup>
     <Link>
-      <AdditionalDependencies>assimp.lib;freetype2312MT.lib;glew32.lib;glu32.lib;libogg_static_vc2010_debug.lib;libpng15_staticd.lib;libvorbis_static_vc2010_debug.lib;libvorbisfile_static_vc2010_debug.lib;opengl32.lib;sdl.lib;SDL_image.lib;sdlmain.lib;shlwapi.lib;sigc-vc2010-d-2_2_8.lib;zlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>assimp.lib;freetype2312MT.lib;glew32.lib;glu32.lib;libogg_static_vc2010_debug.lib;libpng15_staticd.lib;libvorbis_static_vc2010_debug.lib;libvorbisfile_static_vc2010_debug.lib;opengl32.lib;sdl2.lib;SDL2_image.lib;sdl2main.lib;shlwapi.lib;sigc-vc2010-d-2_2_8.lib;zlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup />

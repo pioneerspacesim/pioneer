@@ -13,7 +13,6 @@
     <ClCompile Include="..\..\..\src\ui\DropDown.cpp" />
     <ClCompile Include="..\..\..\src\ui\Event.cpp" />
     <ClCompile Include="..\..\..\src\ui\EventDispatcher.cpp" />
-    <ClCompile Include="..\..\..\src\ui\FloatContainer.cpp" />
     <ClCompile Include="..\..\..\src\ui\Grid.cpp" />
     <ClCompile Include="..\..\..\src\ui\Image.cpp" />
     <ClCompile Include="..\..\..\src\ui\Label.cpp" />
@@ -65,6 +64,8 @@
     <ClCompile Include="..\..\..\src\ui\LuaNumberLabel.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaTable.cpp" />
     <ClCompile Include="..\..\..\src\ui\Table.cpp" />
+    <ClCompile Include="..\..\..\src\ui\LuaLayer.cpp" />
+    <ClCompile Include="..\..\..\src\ui\Layer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\ui\Align.h" />
@@ -79,7 +80,6 @@
     <ClInclude Include="..\..\..\src\ui\DropDown.h" />
     <ClInclude Include="..\..\..\src\ui\Event.h" />
     <ClInclude Include="..\..\..\src\ui\EventDispatcher.h" />
-    <ClInclude Include="..\..\..\src\ui\FloatContainer.h" />
     <ClInclude Include="..\..\..\src\ui\Grid.h" />
     <ClInclude Include="..\..\..\src\ui\Image.h" />
     <ClInclude Include="..\..\..\src\ui\Label.h" />
@@ -107,6 +107,7 @@
     <ClInclude Include="..\..\..\src\ui\Gauge.h" />
     <ClInclude Include="..\..\..\src\ui\NumberLabel.h" />
     <ClInclude Include="..\..\..\src\ui\Table.h" />
+    <ClInclude Include="..\..\..\src\ui\Layer.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="win32">

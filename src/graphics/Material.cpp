@@ -23,7 +23,6 @@ Material::Material() :
 MaterialDescriptor::MaterialDescriptor()
 : effect(EFFECT_DEFAULT)
 , alphaTest(false)
-, atmosphere(false)
 , glowMap(false)
 , lighting(false)
 , specularMap(false)
@@ -32,6 +31,7 @@ MaterialDescriptor::MaterialDescriptor()
 , vertexColors(false)
 , textures(0)
 , dirLights(0)
+, quality(0)
 {
 }
 
@@ -40,7 +40,6 @@ bool operator==(const MaterialDescriptor &a, const MaterialDescriptor &b)
 	return (
 		a.effect == b.effect &&
 		a.alphaTest == b.alphaTest &&
-		a.atmosphere == b.atmosphere &&
 		a.glowMap == b.glowMap &&
 		a.lighting == b.lighting &&
 		a.specularMap == b.specularMap &&
@@ -48,7 +47,8 @@ bool operator==(const MaterialDescriptor &a, const MaterialDescriptor &b)
 		a.usePatterns == b.usePatterns &&
 		a.vertexColors == b.vertexColors &&
 		a.textures == b.textures &&
-		a.dirLights == b.dirLights
+		a.dirLights == b.dirLights &&
+		a.quality == b.quality
 	);
 }
 
