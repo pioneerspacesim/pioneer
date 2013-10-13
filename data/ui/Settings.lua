@@ -198,7 +198,7 @@ ui.templates.Settings = function (args)
 		return captureDialog(AxisBindingCapture, label, onOk)
 	end
 
-	local keysTemplate = function()
+	local controlsTemplate = function()
 		local box = ui:VBox()
 		local pages = Engine.GetKeyBindings()
 		for page_idx = 1, #pages do
@@ -242,7 +242,7 @@ ui.templates.Settings = function (args)
 	setTabs:AddTab({ id = "Video",    title = t("Video"),    icon = "VideoCamera", template = wrapWithScroller(videoTemplate)    })
 	setTabs:AddTab({ id = "Sound",    title = t("Sound"),    icon = "Speaker",     template = wrapWithScroller(soundTemplate)    })
 	setTabs:AddTab({ id = "Language", title = t("Language"), icon = "Globe1",      template = wrapWithScroller(languageTemplate) })
-	setTabs:AddTab({ id = "Controls", title = t("Controls"), icon = "Gamepad",     template = wrapWithScroller(keysTemplate)     })
+	setTabs:AddTab({ id = "Controls", title = t("Controls"), icon = "Gamepad",     template = wrapWithScroller(controlsTemplate) })
 
 	local close_buttons = {}
 	do
