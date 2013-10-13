@@ -21,6 +21,13 @@ public:
 		return UI::Lua::GetWidget(c, l, top);
 	}
 
+	static inline void _implicit_set_inner_widget(lua_State *l, UI::Layer *layer)
+	{
+		UI::Widget *w = _get_implicit_widget(l);
+		if (!w) return;
+		layer->SetInnerWidget(w);
+	}
+
 	static inline void _implicit_set_inner_widget(lua_State *l, UI::Single *s)
 	{
 		UI::Widget *w = _get_implicit_widget(l);
@@ -272,6 +279,26 @@ public:
 		c->GetTemplateStore().PushCopyToStack();
 		return 1;
 	}
+
+	static int l_new_layer(lua_State *l) {
+		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
+		Layer *layer = c->NewLayer();
+		_implicit_set_inner_widget(l, layer);
+		LuaObject<UI::Layer>::PushToLua(layer);
+		return 1;
+	}
+
+	static int l_drop_layer(lua_State *l) {
+		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
+		c->DropLayer();
+		return 1;
+	}
+
+	static int l_attr_layer(lua_State *l) {
+		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
+		LuaObject<UI::Layer>::PushToLua(c->GetTopLayer());
+		return 1;
+	}
 };
 
 }
@@ -282,7 +309,7 @@ template <> const char *LuaObject<UI::Context>::s_type = "UI.Context";
 
 template <> void LuaObject<UI::Context>::RegisterClass()
 {
-	static const char *l_parent = "UI.Single";
+	static const char *l_parent = "UI.Container";
 
 	static const luaL_Reg l_methods[] = {
 		{ "HBox",            LuaContext::l_hbox            },
@@ -310,11 +337,15 @@ template <> void LuaObject<UI::Context>::RegisterClass()
 		{ "DropDown",        LuaContext::l_dropdown        },
 		{ "Gauge",           LuaContext::l_gauge           },
 		{ "TextEntry",       LuaContext::l_textentry       },
+
+		{ "NewLayer",        LuaContext::l_new_layer       },
+		{ "DropLayer",       LuaContext::l_drop_layer      },
 		{ 0, 0 }
 	};
 
 	static const luaL_Reg l_attrs[] = {
 		{ "templates", LuaContext::l_attr_templates },
+		{ "layer",     LuaContext::l_attr_layer     },
 		{ 0, 0 }
 	};
 

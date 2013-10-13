@@ -9,6 +9,7 @@ INCLUDES = -I$(srcdir)/.. -isystem $(top_srcdir)/contrib
 noinst_LIBRARIES = libgraphics.a
 noinst_HEADERS = \
 	Graphics.h \
+	WindowSDL.h \
 	Renderer.h \
 	RendererGL2.h \
 	RendererLegacy.h \
@@ -37,6 +38,7 @@ noinst_HEADERS = \
 
 libgraphics_a_SOURCES = \
 	Graphics.cpp \
+	WindowSDL.cpp \
 	Renderer.cpp \
 	RendererGL2.cpp \
 	RendererLegacy.cpp \

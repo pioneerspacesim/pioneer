@@ -33,10 +33,10 @@ void CameraController::Update()
 }
 
 InternalCameraController::InternalCameraController(Camera *camera, const Ship *ship) :
-	CameraController(camera, ship)
+	CameraController(camera, ship),
+	m_mode(MODE_FRONT)
 {
 	Reset();
-	SetMode(MODE_FRONT);
 }
 
 static bool FillCameraPosOrient(const SceneGraph::Model *m, const char *tag, vector3d &pos, matrix3x3d &orient, matrix4x4f &trans, const matrix3x3d &fallbackOrient)

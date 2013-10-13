@@ -18,12 +18,14 @@ class KeyboardEvent;
 class MouseButtonEvent;
 class MouseMotionEvent;
 class MouseWheelEvent;
+class TextInputEvent;
 
 // base event. can't be instantiated directly
 class Event {
 public:
 	enum Type { // <enum scope='UI::Event' name=UIEventType public>
 		KEYBOARD,
+		TEXT_INPUT,
 		MOUSE_BUTTON,
 		MOUSE_MOTION,
 		MOUSE_WHEEL
@@ -36,12 +38,11 @@ protected:
 };
 
 struct KeySym {
-	KeySym(const SDLKey &_sym, const SDLMod &_mod, const Uint16 _unicode) : sym(_sym), mod(safe_mods(_mod)), unicode(_unicode) {}
-	KeySym(const SDLKey &_sym, const SDLMod &_mod) : sym(_sym), mod(safe_mods(_mod)), unicode(0) {}
-	KeySym(const SDLKey &_sym) : sym(_sym), mod(KMOD_NONE), unicode(0) {}
-	SDLKey sym;
-	SDLMod mod;
-	Uint16 unicode;
+	KeySym(const SDL_Keycode &_sym, const SDL_Keymod _mod, const Uint32 _unicode) : sym(_sym), mod(safe_mods(_mod)) {}
+	KeySym(const SDL_Keycode &_sym, const SDL_Keymod &_mod) : sym(_sym), mod(safe_mods(_mod)) {}
+	KeySym(const SDL_Keycode &_sym) : sym(_sym), mod(KMOD_NONE) {}
+	SDL_Keycode sym;
+	SDL_Keymod mod;
 
 	static KeySym FromString(const std::string &spec);
 
@@ -55,8 +56,8 @@ struct KeySym {
 
 private:
 	// mask off stuff like caps/numlock
-	static SDLMod safe_mods(const SDLMod m) {
-		return SDLMod(Uint32(m) & (KMOD_CTRL | KMOD_SHIFT | KMOD_ALT | KMOD_META));
+	static SDL_Keymod safe_mods(const SDL_Keymod m) {
+		return SDL_Keymod(Uint32(m) & (KMOD_CTRL | KMOD_SHIFT | KMOD_ALT | KMOD_GUI));
 	}
 };
 
@@ -66,11 +67,18 @@ public:
 	enum Action { // <enum scope='UI::KeyboardEvent' name=UIKeyboardAction prefix=KEY_ public>
 		KEY_DOWN,
 		KEY_UP,
-		KEY_PRESS
 	};
 	KeyboardEvent(Action _action, const KeySym &_keysym) : Event(Event::KEYBOARD), action(_action), keysym(_keysym) {}
 	const Action action;
 	const KeySym keysym;
+
+	void ToLuaTable(lua_State *l) const;
+};
+
+class TextInputEvent : public Event {
+public:
+	TextInputEvent(Uint32 _unicode) : Event(Event::TEXT_INPUT), unicode(_unicode) {}
+	const Uint32 unicode;
 
 	void ToLuaTable(lua_State *l) const;
 };

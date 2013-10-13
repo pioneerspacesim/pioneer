@@ -123,7 +123,7 @@ namespace FileSystem {
 			}
 			size_t size = size_t(large_size.QuadPart);
 
-			char *data = reinterpret_cast<char*>(std::malloc(size));
+			char *data = static_cast<char*>(std::malloc(size));
 			if (!data) {
 				// XXX handling memory allocation failure gracefully is too hard right now
 				fprintf(stderr, "failed when allocating buffer for '%s'\n", fullpath.c_str());
@@ -138,7 +138,7 @@ namespace FileSystem {
 			}
 
 			DWORD read_size;
-			BOOL ret = ::ReadFile(filehandle, reinterpret_cast<LPVOID>(data), (DWORD)size, &read_size, 0);
+			BOOL ret = ::ReadFile(filehandle, static_cast<LPVOID>(data), (DWORD)size, &read_size, 0);
 			if (!ret) {
 				fprintf(stderr, "error while reading file '%s'\n", fullpath.c_str());
 				CloseHandle(filehandle);

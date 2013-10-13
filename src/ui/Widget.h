@@ -84,6 +84,7 @@ namespace UI {
 
 class Context;
 class Container;
+class Layer;
 
 class Widget : public RefCounted {
 protected:
@@ -154,9 +155,6 @@ public:
 	// fast way to determine if the widget is a container
 	virtual bool IsContainer() const { return false; }
 
-	// are we floating
-	bool IsFloating() const { return m_floating; }
-
 	// selectable widgets may receive keyboard focus
 	virtual bool IsSelectable() const { return false; }
 
@@ -226,8 +224,8 @@ public:
 	sigc::signal<bool,const KeyboardEvent &>::accumulated<EventHandlerResultAccumulator> onKeyDown;
 	sigc::signal<bool,const KeyboardEvent &>::accumulated<EventHandlerResultAccumulator> onKeyUp;
 
-	// synthesised for non-control keys. repeats when key is held down
-	sigc::signal<bool,const KeyboardEvent &>::accumulated<EventHandlerResultAccumulator> onKeyPress;
+	// text input, full unicode codepoint
+	sigc::signal<bool,const TextInputEvent &>::accumulated<EventHandlerResultAccumulator> onTextInput;
 
 	// mouse button presses
 	sigc::signal<bool,const MouseButtonEvent &>::accumulated<EventHandlerResultAccumulator> onMouseDown;
@@ -299,9 +297,8 @@ protected:
 	virtual void HandleMouseActivate() {}
 	virtual void HandleMouseDeactivate() {}
 
-	// synthesized event. like KeyDown except you get multiple events if the
-	// key is held down
-	virtual void HandleKeyPress(const KeyboardEvent &event) {}
+	// text input event, a full unicode codepoint
+	virtual void HandleTextInput(const TextInputEvent &event) {}
 
 	// internal synthesized events fired when a widget is selected or
 	// deselected. on mousedown, a widget becomes the selected widget unless
@@ -328,6 +325,7 @@ private:
 	// long as the signals continue to return false (unhandled).
 	bool TriggerKeyDown(const KeyboardEvent &event, bool emit = true);
 	bool TriggerKeyUp(const KeyboardEvent &event, bool emit = true);
+	bool TriggerTextInput(const TextInputEvent &event, bool emit = true);
 	bool TriggerMouseDown(const MouseButtonEvent &event, bool emit = true);
 	bool TriggerMouseUp(const MouseButtonEvent &event, bool emit = true);
 	bool TriggerMouseMove(const MouseMotionEvent &event, bool emit = true);
@@ -341,8 +339,6 @@ private:
 
 	void TriggerMouseActivate();
 	void TriggerMouseDeactivate();
-
-	bool TriggerKeyPress(const KeyboardEvent &event, bool emit = true);
 
 	void TriggerSelect();
 	void TriggerDeselect();
@@ -367,12 +363,6 @@ private:
 	friend class Context;
 	void SetSize(const Point &size) { m_size = size; SetActiveArea(size); }
 
-
-	// FloatContainer needs to change floating state
-	friend class FloatContainer;
-	void SetFloating(bool floating) { m_floating = floating; }
-
-
 	Context *m_context;
 	Container *m_container;
 
@@ -387,8 +377,6 @@ private:
 	Point m_activeArea;
 
 	Font m_font;
-
-	bool m_floating;
 
 	bool m_disabled;
 

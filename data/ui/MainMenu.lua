@@ -5,6 +5,7 @@ local Translate = import("Translate")
 local Engine = import("Engine")
 local Game = import("Game")
 local SystemPath = import("SystemPath")
+local ErrorScreen = import("ErrorScreen")
 
 local ui = Engine.ui
 local t = Translate:GetTranslator()
@@ -20,14 +21,21 @@ local setupPlayerWave = function ()
 	Game.player:SetMoney(100)
 end
 
+local loadGame = function (path)
+	local ok, err = pcall(Game.LoadGame, path)
+	if not ok then
+		ErrorScreen.ShowError(t('Could not load game: ') .. err)
+	end
+end
+
 local doLoadDialog = function ()
-	ui:SetInnerWidget(
+	ui:NewLayer(
 		ui.templates.FileDialog({
 			title       = t("Select game to load..."),
 			path        = "savefiles",
 			selectLabel = t("Load game"),
-			onSelect    = function (filename) Game.LoadGame(filename) end,
-			onCancel    = function () ui:SetInnerWidget(ui.templates.MainMenu()) end
+			onSelect    = loadGame,
+			onCancel    = function () ui:DropLayer() end
 		})
 	)
 end

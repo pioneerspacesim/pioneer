@@ -8,7 +8,7 @@ Translate:Add({
 		-- Main menu
 		['Start at Earth']    = 'Start at Earth',
 		['Start at New Hope'] = 'Start at New Hope',
-		['Start at Lave']     = 'Start at Lave',
+		["Start at Barnard's Star"] = "Start at Barnard's Star",
 		['Load game']         = 'Load game',
 		['Options']           = 'Options',
 		['Quit']              = 'Quit',
@@ -20,6 +20,9 @@ Translate:Add({
 
 		-- Load dialog
 		['Select game to load...'] = 'Select game to load...',
+		['Error'] = 'Error',
+		['An error has occurred'] = 'An error has occurred',
+		['Could not load game: '] = 'Could not load game: ',
 
 		-- Equipment
 		['Equipment'] = 'Equipment',
@@ -137,7 +140,7 @@ Translate:Add({
 		-- Main menu
 		['Start at Earth']    = 'Rozpocznij na Ziemi',
 		['Start at New Hope'] = 'Rozpocznij na New Hope',
-		['Start at Lave']     = 'Rozpocznij na Lave',
+		["Start at Barnard's Star"] = "Rozpocznij na Barnard's Star",
 		['Load game']         = 'Wczytaj grę',
 		['Options']           = 'Opcje',
 		['Quit']              = 'Wyjdź',
@@ -149,6 +152,9 @@ Translate:Add({
 
 		-- Load dialog
 		['Select game to load...'] = 'Wybierz zapis do wczytania...',
+		['Error'] = 'Błąd!',
+		['An error has occurred'] = 'Wystąpił błąd',
+		['Could not load game: '] = 'Nie można wczytać gry: ',
 
 		-- Equipment
 		['Equipment'] = 'Wyposażenie',
@@ -266,7 +272,7 @@ Translate:Add({
 		 -- Main menu
 		['Start at Earth'] = 'Comenzar en Tierra',
 		['Start at New Hope'] = 'Comenzar en New Hope',
-		['Start at Lave'] = 'Comenzar en Lave',
+		["Start at Barnard's Star"] = "Comenzar en Barnard's Star",
 		['Load game'] = 'Cargar',
 		['Options'] = 'Opciones',
 		['Quit'] = 'Salir',
@@ -393,7 +399,7 @@ Translate:Add({
 		-- Main menu
 		['Start at Earth']    = 'Indítás: Föld',
 		['Start at New Hope'] = 'Indítás: New Hope',
-		['Start at Lave']     = 'Indítás: Lave',
+		["Start at Barnard's Star"] = "Indítás: Barnard's Star",
 		['Load game']         = 'Játék betöltése',
 		['Options']           = 'Beállítások',
 		['Quit']              = 'Kilépés',
@@ -424,7 +430,7 @@ Translate:Add({
 		-- Main menu
 		['Start at Earth']    = 'Новый старт: Earth',
 		['Start at New Hope'] = 'Новый старт: New Hope',
-		['Start at Lave']     = 'Новый старт: Lave',
+		["Start at Barnard's Star"] = "Новый старт: Barnard's Star",
 		['Load game']         = 'Загрузить запись',
 		['Options']           = 'Настройки',
 		['Quit']              = 'Выход',
@@ -551,7 +557,7 @@ Translate:Add({
 		-- Main menu
 		['Start at Earth']    = 'Starte auf der Erde',
 		['Start at New Hope'] = 'Starte auf New Hope',
-		['Start at Lave']     = 'Starte auf Lave',
+		["Start at Barnard's Star"] = "Starte auf Barnard's Star",
 		['Load game']         = 'Lade Spiel',
 		['Options']           = 'Optionen',
 		['Quit']              = 'Beenden',
@@ -628,7 +634,7 @@ Translate:Add({
 		-- Main menu
 		['Start at Earth']    = 'Start: Earth',
 		['Start at New Hope'] = 'Start: New Hope',
-		['Start at Lave']     = 'Start: Lave',
+		["Start at Barnard's Star"] = "Start: Barnard's Star",
 		['Load game']         = 'Načíst hru',
 		['Options']           = 'Možnosti',
 		['Quit']              = 'Ukončit',

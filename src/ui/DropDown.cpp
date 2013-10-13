@@ -13,7 +13,7 @@ static const Color normalColor(0.5f, 0.5f, 0.5f, 1.0f);
 static const Color hoverColor(0.8f, 0.8f, 0.8f, 1.0f);
 static const Color activeColor(1.0f, 1.0f, 1.0f, 1.0f);
 
-DropDown::DropDown(Context *context) : Container(context), m_popupActive(false)
+DropDown::DropDown(Context *context) : Container(context), m_popupWantToggle(false), m_popupActive(false)
 {
 	Context *c = GetContext();
 
@@ -45,15 +45,43 @@ void DropDown::Layout()
 	m_container->Layout();
 }
 
+void DropDown::Update()
+{
+	if (m_popupWantToggle) {
+		Context *c = GetContext();
+
+		if (m_popupActive) {
+			m_contextClickCon.disconnect();
+			m_label->SetText(m_popup->GetSelectedOption());
+			c->DropLayer();
+			m_popupActive = false;
+			m_icon->SetColor(IsMouseOver() ? hoverColor : normalColor);
+		}
+
+		else {
+			const Point pos(GetAbsolutePosition() + Point(0, GetSize().y));
+			m_popup->SetFont(GetFont());
+			c->NewLayer()->SetInnerWidget(m_popup.Get(), pos, m_popup->PreferredSize());
+			m_popupActive = true;
+			m_icon->SetColor(activeColor);
+			m_contextClickCon = c->onClick.connect(sigc::mem_fun(this, &DropDown::HandlePopupClick));
+		}
+
+		m_popupWantToggle = false;
+	}
+
+	Container::Update();
+}
+
 void DropDown::HandleClick()
 {
-	TogglePopup();
+	m_popupWantToggle = true;
 	Widget::HandleClick();
 }
 
 bool DropDown::HandlePopupClick()
 {
-	TogglePopup();
+	m_popupWantToggle = true;
 	return true;
 }
 
@@ -65,27 +93,6 @@ void DropDown::HandleMouseOver()
 void DropDown::HandleMouseOut()
 {
 	m_icon->SetColor(m_popupActive ? activeColor : normalColor);
-}
-
-void DropDown::TogglePopup()
-{
-	Context *c = GetContext();
-
-	if (m_popupActive) {
-		m_label->SetText(m_popup->GetSelectedOption());
-		c->RemoveFloatingWidget(m_popup.Get());
-		m_popupActive = false;
-		m_icon->SetColor(IsMouseOver() ? hoverColor : normalColor);
-	}
-
-	else {
-		const Point pos(GetAbsolutePosition() + Point(0, GetSize().y));
-		m_popup->SetFont(GetFont());
-		c->AddFloatingWidget(m_popup.Get(), pos, m_popup->PreferredSize());
-		m_popupActive = true;
-		m_icon->SetColor(activeColor);
-	}
-
 }
 
 DropDown *DropDown::AddOption(const std::string &text)
@@ -108,7 +115,8 @@ const std::string &DropDown::GetSelectedOption() const
 void DropDown::Clear()
 {
 	m_popup->Clear();
-	if (m_popupActive) TogglePopup();
+	if (m_popupActive)
+		m_popupWantToggle = true;
 }
 
 }

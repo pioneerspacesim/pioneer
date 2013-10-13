@@ -48,7 +48,8 @@ void ModelSpinner::Draw()
 
 	Graphics::Renderer::StateTicket ticket(r);
 
-	r->SetPerspectiveProjection(45.f, 1.f, 1.f, 10000.f);
+	const float fov = 45.f;
+	r->SetPerspectiveProjection(fov, 1.f, 1.f, 10000.f);
 	r->SetTransform(matrix4x4f::Identity());
 
 	r->SetDepthTest(true);
@@ -63,7 +64,8 @@ void ModelSpinner::Draw()
 
 	matrix4x4f rot = matrix4x4f::RotateXMatrix(m_rotX);
 	rot.RotateY(m_rotY);
-	rot[14] = -1.5f * m_model->GetDrawClipRadius();
+	const float dist = m_model->GetDrawClipRadius() / sinf(DEG2RAD(fov*0.5f));
+	rot[14] = -dist;
 	m_model->Render(rot);
 }
 
