@@ -5,9 +5,11 @@
 #include "graphics/TextureBuilder.h"
 #include "scenegraph/FindNodeVisitor.h"
 #include "scenegraph/SceneGraph.h"
+#include "Ship.h"
 
 namespace {
 	static RefCountedPtr<Graphics::Material> s_matShield;
+	static ShieldRenderParameters s_renderParams;
 
 	static RefCountedPtr<Graphics::Material> GetGlobalShieldMaterial()
 	{
@@ -74,21 +76,29 @@ Shields::Shields(SceneGraph::Model *model, float period)
 			Node* node = mt->GetChildAt(iChild);
 			if (node)
 			{
+				const std::string &nodeName = node->GetName();
 				const char* nodeTypeName = node->GetTypeName();
-				printf("%s\n", nodeTypeName);
+				printf("Node %s is of type %s\n", nodeName.c_str(), nodeTypeName);
 
 				RefCountedPtr<StaticGeometry> sg(dynamic_cast<StaticGeometry*>(node));
 				assert(sg.Valid());
+				sg->m_blendMode = Graphics::BLEND_ALPHA;
 
 				for (Uint32 iMesh=0; iMesh<sg->GetNumMeshes(); ++iMesh) {
 					RefCountedPtr<Graphics::StaticMesh> rMesh = sg->GetMesh(iMesh);
-					rMesh->GetSurface(0)->SetMaterial(GetGlobalShieldMaterial());
+
+					for (Sint32 surfIdx = 0, endSurf = rMesh->GetNumSurfaces(); surfIdx < endSurf; surfIdx++) {
+						RefCountedPtr<Graphics::Surface> surf = rMesh->GetSurface(surfIdx);
+						if(surf.Valid()) {
+							surf->SetMaterial(GetGlobalShieldMaterial());
+						}
+					}
 				}
 
 				// find the accumulated transform from the root to our node
 				matrix4x4f accum(matrix4x4f::Identity());
 				matrix4x4f outMat(matrix4x4f::Identity());
-				const Node* foundNode = model->GetRoot()->AccumulateNodeTransform(sg->GetName(), accum, outMat);
+				const Node* foundNode = model->GetRoot()->AccumulateNodeTransform(mt->GetName(), accum, outMat);
 
 				// set our nodes transformation to be the accumulated transform
 				MatrixTransform *sg_transform_parent = new MatrixTransform(renderer, outMat);
@@ -96,7 +106,7 @@ Shields::Shields(SceneGraph::Model *model, float period)
 			
 				// dettach node from current location in the scenegraph...
 				if( !mt->RemoveChild(node) ) {
-					printf("%s is bloody stubborn\n", nodeTypeName);
+					printf("%s is bloody stubborn\n", nodeName);
 				}
 
 				// attach new transform node which parents the our shields mesh at the root.
@@ -146,6 +156,8 @@ void Shields::Update(const float shieldStrength /* 0.0f to 1.0f */)
 	for (ShieldIterator it = m_shields.begin(); it != m_shields.end(); ++it) {
 		if (shieldStrength>0.0f) {
 			it->m_mesh->SetNodeMask(SceneGraph::NODE_TRANSPARENT);
+			s_renderParams.strength = shieldStrength;
+			GetGlobalShieldMaterial()->specialParameter0 = &s_renderParams;
 		} else {
 			it->m_mesh->SetNodeMask(0x0);
 		}

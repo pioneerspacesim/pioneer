@@ -14,7 +14,7 @@ void main(void)
 	float fresnel = 1.0 - abs(dot(eyenorm, varyingNormal)); // Calculate fresnel.
 	fresnel = pow(fresnel, 10.0);
 	fresnel += 0.05 * (1.0 - fresnel);
-	color.a = color.a * clamp(fresnel * 0.5, 0.0, 1.0);// * shieldStrength;
+	color.a = color.a * clamp(fresnel * 0.5, 0.0, 1.0) * shieldStrength;
 	gl_FragColor = color;
 
 	SetFragDepth();
