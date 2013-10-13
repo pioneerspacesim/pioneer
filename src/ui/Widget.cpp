@@ -246,13 +246,11 @@ bool Widget::TriggerClick(bool emit)
 void Widget::TriggerMouseActivate()
 {
 	HandleMouseActivate();
-	if (GetContainer()) GetContainer()->TriggerMouseActivate();
 }
 
 void Widget::TriggerMouseDeactivate()
 {
 	HandleMouseDeactivate();
-	if (GetContainer()) GetContainer()->TriggerMouseDeactivate();
 }
 
 void Widget::TriggerSelect()
