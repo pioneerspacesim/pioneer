@@ -165,7 +165,6 @@ ui.templates.Settings = function (args)
 		local capture = KeyBindingCapture.New(ui)
 		capture:SetInnerWidget(captureLabel)
 		capture.onCapture:Connect(function (binding)
-			print('Binding captured!')
 			captureLabel:SetText(capture.bindingDescription)
 		end)
 
