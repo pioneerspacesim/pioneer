@@ -322,6 +322,23 @@ static int l_engine_set_planet_fractal_colour_enabled(lua_State *l)
 	return 0;
 }
 
+static int l_engine_get_display_nav_tunnels(lua_State *l)
+{
+	lua_pushboolean(l, Pi::config->Int("DisplayNavTunnel") != 0);
+	return 1;
+}
+
+static int l_engine_set_display_nav_tunnels(lua_State *l)
+{
+	if (lua_isnone(l, 1))
+		return luaL_error(l, "SetDisplayNavTunnels takes one boolean argument");
+	const bool enabled = lua_toboolean(l, 1);
+	Pi::config->SetInt("DisplayNavTunnel", (enabled ? 1 : 0));
+	Pi::config->Save();
+	Pi::SetNavTunnelDisplayed(enabled);
+	return 0;
+}
+
 static void set_master_volume(const bool muted, const float volume)
 {
 	Sound::Pause(muted || is_zero_exact(volume));
@@ -657,6 +674,9 @@ void LuaEngine::Register()
 		{ "SetFractalDetailLevel", l_engine_set_fractal_detail_level },
 		{ "GetPlanetFractalColourEnabled", l_engine_get_planet_fractal_colour_enabled },
 		{ "SetPlanetFractalColourEnabled", l_engine_set_planet_fractal_colour_enabled },
+
+		{ "GetDisplayNavTunnels", l_engine_get_display_nav_tunnels },
+		{ "SetDisplayNavTunnels", l_engine_set_display_nav_tunnels },
 
 		{ "GetMasterMuted", l_engine_get_master_muted },
 		{ "SetMasterMuted", l_engine_set_master_muted },

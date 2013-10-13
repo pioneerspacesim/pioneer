@@ -95,6 +95,10 @@ ui.templates.Settings = function (args)
 			Engine.GetCityDetailLevel, Engine.SetCityDetailLevel,
 			t("City detail level"), detailLabels, detailLevels)
 
+		local navTunnelsCheckBox = optionCheckBox(
+			Engine.GetDisplayNavTunnels, Engine.SetDisplayNavTunnels,
+			t("Display nav tunnels"))
+
 		local fullScreenCheckBox = optionCheckBox(
 			Engine.GetFullscreen, Engine.SetFullscreen,
 			t("Full screen"))
@@ -119,6 +123,7 @@ ui.templates.Settings = function (args)
 				planetTextureCheckBox,
 				fractalDetailDropDown,
 				cityDetailDropDown,
+				navTunnelsCheckBox,
 			}))))
 	end
 
