@@ -9,6 +9,7 @@
 
 #include "lua/lua.hpp"
 #include "LuaRef.h"
+#include "LuaPushPull.h"
 
 /*
  * The LuaTable class is a wrapper around a table present on the stack. There
@@ -183,8 +184,6 @@ public:
 			lua_remove(m_lua, m_index);
 	}
 };
-
-#include "LuaPushPull.h"
 
 template <class Key> void LuaTable::PushValueToStack(const Key & key) const {
 	pi_lua_generic_push(m_lua, key);
