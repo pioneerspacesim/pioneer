@@ -19,18 +19,13 @@ local bulletinBoard = function (args)
 	bbTable:AddRows(utils.build_array(utils.map(function (k,v) return k,{v[1]} end, ipairs(SpaceStation.adverts[station]))))
 
 	bbTable.onRowClicked:Connect(function (row)
-		print(SpaceStation.adverts[station][row+1][1])
-		local form = ChatForm.New()
-		SpaceStation.adverts[station][row+1][2](form, row+1, 0)
-		ui:NewLayer(
-			ui:ColorBackground(0,0,0,0.5,
-				ui:Align("MIDDLE",
-					ui:Background(
-						form:BuildWidget()
-					)
-				)
-			)
-		)
+		local ref = row+1
+		local onChat = SpaceStation.adverts[station][ref][2]
+        local chatFunc = function (form, option)
+			return onChat(form, ref, option)
+		end
+		local form = ChatForm.New(chatFunc)
+		ui:NewLayer(form:BuildWidget())
 	end)
 
 	return bbTable

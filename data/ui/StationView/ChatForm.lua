@@ -14,9 +14,12 @@ ChatForm.meta = {
 	class = "ChatForm",
 }
 
-function ChatForm.New ()
-	local form = {}
+function ChatForm.New (chatFunc)
+	local form = {
+		chatFunc = chatFunc
+	}
 	setmetatable(form, ChatForm.meta)
+	form.chatFunc(form, 0)
 	return form
 end
 
@@ -38,16 +41,23 @@ function ChatForm:BuildWidget ()
 			local b = SmallLabeledButton.New(option[1])
 			optionBox:PackEnd(b)
 			b.button.onClick:Connect(function ()
-				print(string.format("clicked %d", option[2]))
 				if (option[2] == -1) then
 					ui:DropLayer()
+				else
+					self.chatFunc(self, option[2])
+					ui.layer:SetInnerWidget(self:BuildWidget())
 				end
 			end)
 		end
 		box:PackEnd(optionBox)
 	end
 
-	return box
+	return
+		ui:ColorBackground(0,0,0,0.5,
+			ui:Align("MIDDLE",
+				ui:Background(box)
+			)
+		)
 end
 
 function ChatForm:SetTitle (title)
