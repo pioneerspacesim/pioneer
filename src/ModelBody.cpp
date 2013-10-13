@@ -209,13 +209,19 @@ void ModelBody::DeleteGeoms()
 
 void ModelBody::AddGeomsToFrame(Frame *f)
 {
+	const int group = f->GetCollisionSpace()->GetGroupHandle();
+
+	m_geom->SetGroup(group);
+
 	if (m_isStatic)
 		f->AddStaticGeom(m_geom);
 	else
 		f->AddGeom(m_geom);
 
-	for (auto it = m_dynGeoms.begin(); it != m_dynGeoms.end(); ++it)
+	for (auto it = m_dynGeoms.begin(); it != m_dynGeoms.end(); ++it) {
+		(*it)->SetGroup(group);
 		f->AddGeom(*it);
+	}
 }
 
 void ModelBody::RemoveGeomsFromFrame(Frame *f)
