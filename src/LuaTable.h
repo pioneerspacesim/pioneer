@@ -98,7 +98,7 @@ public:
 		m_index = lua_gettop(l);
 	}
 
-	~LuaTable() {};
+	~LuaTable() {}
 
 	const LuaTable & operator=(const LuaTable & ref) { m_lua = ref.m_lua; m_index = ref.m_index; return *this;}
 	template <class Key> void PushValueToStack(const Key & key) const;
@@ -172,7 +172,7 @@ public:
 			m_index = lua_gettop(m_lua);
 		}
 	}
-	ScopedTable(lua_State* l): LuaTable(l) {};
+	ScopedTable(lua_State* l): LuaTable(l) {}
 	ScopedTable(const LuaRef & r): LuaTable() {
 		r.PushCopyToStack();
 		m_lua = r.GetLua();
