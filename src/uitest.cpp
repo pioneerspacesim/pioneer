@@ -31,7 +31,6 @@ static bool toggle_disabled_handler(UI::Widget *w)
 	printf("toggle disabled: %p %s now %s\n", w, typeid(*w).name(), w->IsDisabled() ? "DISABLED" : "ENABLED");
 	return true;
 }
-#endif
 
 static bool click_handler(UI::Widget *w)
 {
@@ -39,13 +38,11 @@ static bool click_handler(UI::Widget *w)
 	return true;
 }
 
-#if 0
 static bool move_handler(const UI::MouseMotionEvent &event, UI::Widget *w)
 {
 	printf("move: %p %s %d,%d\n", w, typeid(*w).name(), event.pos.x, event.pos.y);
 	return true;
 }
-#endif
 
 static bool over_handler(UI::Widget *w)
 {
@@ -59,7 +56,6 @@ static bool out_handler(UI::Widget *w)
 	return true;
 }
 
-#if 0
 static void colour_change(float v, UI::ColorBackground *back, UI::Slider *r, UI::Slider *g, UI::Slider *b)
 {
 	back->SetColor(Color(r->GetValue(), g->GetValue(), b->GetValue()));
@@ -550,6 +546,7 @@ int main(int argc, char **argv)
 	c->GetTopLayer()->SetInnerWidget(c->Grid(2,1)->SetCell(0,0,table));
 #endif
 
+#if 0
 	UI::DropDown *d1, *d2;
 	c->GetTopLayer()->SetInnerWidget(
 		c->VBox()->PackEnd(UI::WidgetSet(
@@ -570,6 +567,23 @@ int main(int argc, char **argv)
 	d1->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), d1));
 	d2->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), d2));
 	d2->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), d2));
+#endif
+
+#if 0
+	c->GetTopLayer()->SetInnerWidget(
+		c->Align(UI::Align::MIDDLE)->SetInnerWidget(
+			c->Background()->SetInnerWidget(
+				c->MultiLineText("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
+			)
+		)
+	);
+#endif
+
+	UI::Table *t = c->Table();
+	t->AddRow(c->MultiLineText("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."));
+	t->AddRow(c->MultiLineText("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."));
+	t->AddRow(c->MultiLineText("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."));
+	c->GetTopLayer()->SetInnerWidget(t);
 
 	//int count = 0;
 

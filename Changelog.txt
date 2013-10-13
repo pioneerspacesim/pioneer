@@ -16,6 +16,7 @@ October 2013
 
    * Script and UI API changes
      * UI now uses a stack of layers instead of floating widgets (#2475, #2478)
+     * Multiline text widgets now default to 75 chars width (#2488)
 
    * Fixes
      * Modelviewer now correctly reloads tag-points when switching models
