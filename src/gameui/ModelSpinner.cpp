@@ -18,6 +18,7 @@ ModelSpinner::ModelSpinner(Context *context, SceneGraph::Model *model, const Sce
 {
 	m_model.Reset(model->MakeInstance());
 	m_skin.Apply(m_model.Get());
+	m_shields.Reset(new Shields(model));
 
 	Color lc(1.f);
 	m_light.SetDiffuse(lc);
@@ -40,6 +41,11 @@ void ModelSpinner::Update()
 		m_rotX += .5*Pi::GetFrameTime();
 		m_rotY += Pi::GetFrameTime();
 	}
+
+	if (m_model) {
+		m_shields->SetEnabled(false);
+		m_shields->Update(0.0f);
+	}
 }
 
 void ModelSpinner::Draw()
@@ -56,7 +62,7 @@ void ModelSpinner::Draw()
 	r->ClearDepthBuffer();
 
 	r->SetLights(1, &m_light);
-
+	
 	Point pos(GetAbsolutePosition() + GetActiveOffset());
 	Point size(GetActiveArea());
 

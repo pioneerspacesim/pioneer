@@ -16,6 +16,7 @@ ShipSpinnerWidget::ShipSpinnerWidget(SceneGraph::Model *model, const SceneGraph:
 {
 	m_model.Reset(model->MakeInstance());
 	m_skin.Apply(m_model.Get());
+	m_shields.Reset(new Shields(model));
 
 	Color lc(1.f);
 	m_light.SetDiffuse(lc);
@@ -70,6 +71,11 @@ void ShipSpinnerWidget::Draw()
 	matrix4x4f rot = matrix4x4f::RotateXMatrix(rot1);
 	rot.RotateY(rot2);
 	rot[14] = -1.5f * m_model->GetDrawClipRadius();
+
+	if (m_model) {
+		m_shields->SetEnabled(false);
+		m_shields->Update(0.0f);
+	}
 
 	m_model->Render(rot);
 }

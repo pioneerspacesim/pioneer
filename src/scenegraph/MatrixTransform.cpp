@@ -33,7 +33,7 @@ Node* MatrixTransform::AccumulateNodeTransform(const std::string &name, const ma
 {
 	const matrix4x4f t = accum * m_transform;
 	if (m_name == name) {
-		outMat = accum;
+		outMat = t;
 		return this;
 	}
 

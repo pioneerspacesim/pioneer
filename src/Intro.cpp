@@ -41,6 +41,10 @@ Intro::Intro(Graphics::Renderer *r, int width, int height)
 		skin.Apply(model);
 		model->SetThrust(vector3f(0.f, 0.f, -0.6f), vector3f(0.f));
 		m_models.push_back(model);
+
+		Shields *pShield = new Shields(model);
+		pShield->SetEnabled(false);
+		m_shields.push_back(pShield);
 	}
 
 	PiRngWrapper rng;
@@ -54,13 +58,19 @@ Intro::~Intro()
 {
 	for (std::vector<SceneGraph::Model*>::iterator i = m_models.begin(); i != m_models.end(); ++i)
 		delete (*i);
+
+	for (std::vector<Shields*>::iterator i = m_shields.begin(); i != m_shields.end(); ++i)
+		delete (*i);
+	
 }
 
 void Intro::Draw(float _time)
 {
 	switch (m_state) {
 		case STATE_SELECT:
-			m_model = m_models[m_modelIndex++];
+			m_model = m_models[m_modelIndex];
+			m_shield = m_shields[m_modelIndex];
+			m_modelIndex++;
 			if (m_modelIndex == m_models.size()) m_modelIndex = 0;
 			m_zoomBegin = -10000.0f;
 			m_zoomEnd = -m_model->GetDrawClipRadius()*1.7f;
@@ -112,6 +122,11 @@ void Intro::Draw(float _time)
 	const float ratio = w/h;
 	m_renderer->SetViewport(0, 0, w, h);
 	m_renderer->SetPerspectiveProjection(75, ratio, 1.f, 10000.f);
+
+	if (m_shield) {
+		m_shield->SetEnabled(false);
+		m_shield->Update(0.0f);
+	}
 
 	matrix4x4f trans =
 		matrix4x4f::Translation(0, 0, m_dist) *
