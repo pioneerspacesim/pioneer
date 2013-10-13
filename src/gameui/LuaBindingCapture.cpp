@@ -11,6 +11,11 @@ inline void pi_lua_generic_push(lua_State * l, const KeyBindings::KeyBinding &va
 	pi_lua_generic_push(l, token);
 }
 
+inline void pi_lua_generic_push(lua_State * l, const KeyBindings::AxisBinding &value) {
+	const std::string token = KeyBindings::AxisBindingToString(value);
+	pi_lua_generic_push(l, token);
+}
+
 namespace GameUI {
 
 class LuaKeyBindingCapture {
@@ -52,12 +57,50 @@ public:
 	}
 };
 
+class LuaAxisBindingCapture {
+public:
+
+	static int l_new(lua_State *l) {
+		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
+		LuaObject<GameUI::AxisBindingCapture>::PushToLua(new AxisBindingCapture(c));
+		return 1;
+	}
+
+	static int l_capture(lua_State *l)
+	{
+		AxisBindingCapture *abc = LuaObject<GameUI::AxisBindingCapture>::CheckFromLua(1);
+		abc->Capture();
+		return 0;
+	}
+
+	static int l_attr_binding(lua_State *l)
+	{
+		AxisBindingCapture *abc = LuaObject<GameUI::AxisBindingCapture>::CheckFromLua(1);
+		const std::string &binding = KeyBindings::AxisBindingToString(abc->GetBinding());
+		lua_pushlstring(l, binding.c_str(), binding.size());
+		return 1;
+	}
+
+	static int l_attr_binding_description(lua_State *l)
+	{
+		AxisBindingCapture *abc = LuaObject<GameUI::AxisBindingCapture>::CheckFromLua(1);
+		const std::string &desc = abc->GetBinding().Description();
+		lua_pushlstring(l, desc.c_str(), desc.size());
+		return 1;
+	}
+
+	static int l_attr_on_capture(lua_State *l) {
+		AxisBindingCapture *abc = LuaObject<GameUI::AxisBindingCapture>::CheckFromLua(1);
+		UI::LuaSignal<const KeyBindings::AxisBinding &>().Wrap(l, abc->onCapture);
+		return 1;
+	}
+};
+
 }
 
 using namespace GameUI;
 
 template <> const char *LuaObject<GameUI::KeyBindingCapture>::s_type = "UI.Game.KeyBindingCapture";
-
 template <> void LuaObject<GameUI::KeyBindingCapture>::RegisterClass()
 {
 	static const char *l_parent = "UI.Single";
@@ -77,4 +120,26 @@ template <> void LuaObject<GameUI::KeyBindingCapture>::RegisterClass()
 
 	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, l_attrs, 0);
 	LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<GameUI::KeyBindingCapture>::DynamicCastPromotionTest);
+}
+
+template <> const char *LuaObject<GameUI::AxisBindingCapture>::s_type = "UI.Game.AxisBindingCapture";
+template <> void LuaObject<GameUI::AxisBindingCapture>::RegisterClass()
+{
+	static const char *l_parent = "UI.Single";
+
+	static const luaL_Reg l_methods[] = {
+		{ "New",                LuaAxisBindingCapture::l_new },
+		{ "Capture",            LuaAxisBindingCapture::l_capture },
+		{ 0, 0 }
+	};
+
+	static const luaL_Reg l_attrs[] = {
+		{ "binding",            LuaAxisBindingCapture::l_attr_binding },
+		{ "bindingDescription", LuaAxisBindingCapture::l_attr_binding_description },
+		{ "onCapture",          LuaAxisBindingCapture::l_attr_on_capture },
+		{ 0, 0 }
+	};
+
+	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, l_attrs, 0);
+	LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<GameUI::AxisBindingCapture>::DynamicCastPromotionTest);
 }
