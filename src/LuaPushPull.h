@@ -85,7 +85,9 @@ inline bool pi_lua_strict_pull(lua_State * l, int index, const char * & out) {
 }
 inline bool pi_lua_strict_pull(lua_State * l, int index, std::string & out) {
 	if (lua_type(l, index) == LUA_TSTRING) {
-		out = lua_tostring(l, index);
+		size_t len;
+		const char *buf = lua_tolstring(l, index, &len);
+		std::string(buf, len).swap(out);
 		return true;
 	}
 	return false;
