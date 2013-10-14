@@ -149,6 +149,21 @@
  */
 
 /*
+ * Attribute: effectiveExhaustVelocity
+ *
+ * Ship thruster efficiency as the effective exhaust velocity in m/s.
+ * See http://en.wikipedia.org/wiki/Specific_impulse for an explanation of this value.
+ *
+ * Availability:
+ *
+ *   November 2013
+ *
+ * Status:
+ *
+ *   experimental
+ */
+
+/*
  * Attribute: equipSlotCapacity
  *
  * Table keyed on <Constants.EquipSlot>, containing maximum number of items
@@ -187,6 +202,7 @@ void LuaShipDef::Register()
 		pi_lua_settable(l, "minCrew",           st.minCrew);
 		pi_lua_settable(l, "maxCrew",           st.maxCrew);
 		pi_lua_settable(l, "defaultHyperdrive", EnumStrings::GetString("EquipType", st.hyperdrive));
+		pi_lua_settable(l, "effectiveExhaustVelocity", st.effectiveExhaustVelocity);
 
 		lua_newtable(l);
 		for (int t = ShipType::THRUSTER_REVERSE; t < ShipType::THRUSTER_MAX; t++)
