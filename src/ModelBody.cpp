@@ -134,17 +134,17 @@ void ModelBody::RebuildCollisionMesh()
 	m_geom->SetUserData(static_cast<void*>(this));
 	m_geom->MoveTo(GetOrient(), GetPosition());
 
-	//have to figure out which collision geometries are responsible for which geomtree
+	//have to figure out which collision geometries are responsible for which geomtrees
 	DynGeomFinder dgf;
 	m_model->GetRoot()->Accept(dgf);
 
 	//dynamic geoms
-	for (auto it = m_collMesh->dynGeomData.begin(); it != m_collMesh->dynGeomData.end(); ++it) {
-		Geom *dynG = new Geom(it->geomTree);
+	for (auto it = m_collMesh->GetDynGeomTrees().begin(); it != m_collMesh->GetDynGeomTrees().end(); ++it) {
+		Geom *dynG = new Geom(*it);
 		dynG->SetUserData(static_cast<void*>(this));
 		dynG->MoveTo(GetOrient(), GetPosition());
 		dynG->m_animTransform = matrix4x4d::Identity();
-		SceneGraph::CollisionGeometry *cg = dgf.GetCgForTree(it->geomTree);
+		SceneGraph::CollisionGeometry *cg = dgf.GetCgForTree(*it);
 		if (cg)
 			cg->SetGeom(dynG);
 		m_dynGeoms.push_back(dynG);

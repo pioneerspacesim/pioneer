@@ -7,6 +7,8 @@
 
 int GeomTree::stats_rayTriIntersections;
 
+const unsigned int IGNORE_FLAG = 0x8000;
+
 GeomTree::~GeomTree()
 {
 	delete[] m_vertices;
@@ -18,7 +20,7 @@ GeomTree::~GeomTree()
 	delete m_edgeTree;
 }
 
-GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, unsigned int *triflags)
+GeomTree::GeomTree(int numVerts, int numTris, float *vertices, Uint16 *indices, unsigned int *triflags)
 : m_numVertices(numVerts)
 , m_numTris(numTris)
 {
@@ -33,7 +35,7 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, uns
 	std::vector<int> activeTris;
 	/* So, we ignore tris with flag >= 0x8000 */
 	for (int i=0; i<numTris; i++) {
-		if (triflags[i] >= 0x8000) continue;
+		if (triflags[i] >= IGNORE_FLAG) continue;
 		activeTris.push_back(i*3);
 	}
 
@@ -59,7 +61,7 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, uns
 	m_radius = 0;
 	for (int i=0; i<numTris; i++) {
 		const int triflag = m_triFlags[i];
-		if (triflag < 0x8000) {
+		if (triflag < IGNORE_FLAG) {
 			int vi1 = 3*m_indices[3*i];
 			int vi2 = 3*m_indices[3*i+1];
 			int vi3 = 3*m_indices[3*i+2];

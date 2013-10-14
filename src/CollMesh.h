@@ -16,21 +16,29 @@ public:
 	, m_totalTris(0)
 	{ }
 	virtual ~CollMesh() {
+		for (auto it = m_dynGeomTrees.begin(); it != m_dynGeomTrees.end(); ++it)
+			delete *it;
 		delete m_geomTree;
 	}
 	virtual Aabb &GetAabb() { return m_aabb; }
+
 	virtual double GetRadius() const { return m_aabb.GetRadius(); }
-	virtual void SetRadius(double v) { m_aabb.radius = std::max(v, 0.1); } //0 radius = trouble
+	virtual void SetRadius(double v) {
+		//0 radius = trouble
+		m_aabb.radius = std::max(v, 0.1);
+	}
+
 	virtual GeomTree *GetGeomTree() const { return m_geomTree; }
-	void SetGeomTree(GeomTree *t) { m_geomTree = t; }
+	void SetGeomTree(GeomTree *t) {
+		assert(t);
+		m_geomTree = t;
+	}
 
-	struct GeomData {
-		GeomTree *geomTree;
-
-		GeomData() : geomTree(0) { }
-		~GeomData() { delete geomTree; }
-	};
-	std::vector<GeomData> dynGeomData;
+	const std::vector<GeomTree*> &GetDynGeomTrees() const { return m_dynGeomTrees; }
+	void AddDynGeomTree(GeomTree *t) {
+		assert(t);
+		m_dynGeomTrees.push_back(t);
+	}
 
 	//for statistics
 	unsigned int GetNumTriangles() const { return m_totalTris; }
@@ -38,7 +46,8 @@ public:
 
 protected:
 	Aabb m_aabb;
-	GeomTree *m_geomTree; //static geom tree
+	GeomTree *m_geomTree;
+	std::vector<GeomTree*> m_dynGeomTrees;
 	unsigned int m_totalTris;
 };
 

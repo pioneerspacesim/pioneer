@@ -39,7 +39,7 @@ private:
 
 	//temporary arrays for static geometry
 	std::vector<vector3f> m_vertices;
-	std::vector<int> m_indices;
+	std::vector<Uint16> m_indices;
 	std::vector<unsigned int> m_flags;
 
 	unsigned int m_totalTris;

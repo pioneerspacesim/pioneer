@@ -61,7 +61,7 @@ void CollisionVisitor::ApplyCollisionGeometry(CollisionGeometry &cg)
 		m_collMesh->GetAabb().Update(pos.x, pos.y, pos.z);
 	}
 
-	for (vector<int>::const_iterator it = cg.GetIndices().begin(); it != cg.GetIndices().end(); ++it)
+	for (vector<Uint16>::const_iterator it = cg.GetIndices().begin(); it != cg.GetIndices().end(); ++it)
 		m_indices.push_back(*it + idxOffset);
 
 	//at least some of the geoms should be default collision
@@ -76,15 +76,13 @@ void CollisionVisitor::ApplyDynamicCollisionGeometry(CollisionGeometry &cg)
 {
 	//don't transform geometry, one geomtree per cg, create tree right away
 
-	//silly data types, will fix after geomtree
 	const int numVertices = cg.GetVertices().size();
 	const int numIndices = cg.GetIndices().size();
 	const int numTris = numIndices / 3;
 	vector3f *vertices = new vector3f[numVertices];
-	int *indices = new int[numIndices];
+	Uint16 *indices = new Uint16[numIndices];
 	unsigned int *triFlags = new unsigned int[numTris];
 
-	//XXX do accumulate static aabb w/ transform
 	for (int i = 0; i < numVertices; i++)
 		vertices[i] = cg.GetVertices()[i];
 
@@ -102,8 +100,7 @@ void CollisionVisitor::ApplyDynamicCollisionGeometry(CollisionGeometry &cg)
 		indices, triFlags);
 	cg.SetGeomTree(gt);
 
-	m_collMesh->dynGeomData.resize(m_collMesh->dynGeomData.size() + 1);
-	m_collMesh->dynGeomData.back().geomTree = gt;
+	m_collMesh->AddDynGeomTree(gt);
 
 	m_totalTris += numTris;
 }
@@ -111,7 +108,7 @@ void CollisionVisitor::ApplyDynamicCollisionGeometry(CollisionGeometry &cg)
 void CollisionVisitor::AabbToMesh(const Aabb &bb)
 {
 	std::vector<vector3f> &vts = m_vertices;
-	std::vector<int> &ind = m_indices;
+	std::vector<Uint16> &ind = m_indices;
 	const int offs = vts.size();
 
 	const vector3f min(bb.min.x, bb.min.y, bb.min.z);
@@ -183,18 +180,18 @@ RefCountedPtr<CollMesh> CollisionVisitor::CreateCollisionMesh()
 	const int numIndices = m_indices.size();
 	const int numTris = numIndices / 3;
 	vector3f *vertices = new vector3f[numVertices];
-	int *indices = new int[numIndices];
+	Uint16 *indices = new Uint16[numIndices];
 	unsigned int *triFlags = new unsigned int[numTris];
 
 	m_totalTris += numTris;
 
-	for (unsigned int i = 0; i < numVertices; i++)
+	for (int i = 0; i < numVertices; i++)
 		vertices[i] = m_vertices[i];
 
-	for (unsigned int i = 0; i < numIndices; i++)
+	for (int i = 0; i < numIndices; i++)
 		indices[i] = m_indices[i];
 
-	for (unsigned int i = 0; i < numTris; i++)
+	for (int i = 0; i < numTris; i++)
 		triFlags[i] = m_flags[i];
 
 	//create geomtree

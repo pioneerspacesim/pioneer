@@ -4,12 +4,8 @@
 #ifndef _GEOMTREE_H
 #define _GEOMTREE_H
 
-#include <vector>
-#include "../Aabb.h"
-#include "../matrix4x4.h"
+#include "libs.h"
 #include "CollisionContact.h"
-
-struct tri_t;
 
 struct isect_t {
 	// triIdx = -1 if no intersection
@@ -22,7 +18,7 @@ struct BVHNode;
 
 class GeomTree {
 public:
-	GeomTree(int numVerts, int numTris, float *vertices, int *indices, unsigned int *triflags);
+	GeomTree(int numVerts, int numTris, float *vertices, Uint16 *indices, unsigned int *triflags);
 	~GeomTree();
 	const Aabb &GetAabb() const { return m_aabb; }
 	// dir should be unit length,
@@ -55,7 +51,7 @@ public:
 	BVHTree *m_edgeTree;
 
 	const float *GetVertices() const { return m_vertices; }
-	const int *GetIndices() const { return m_indices; }
+	const Uint16 *GetIndices() const { return m_indices; }
 	const unsigned int *GetTriFlags() const { return m_triFlags; }
 	int GetNumVertices() const { return m_numVertices; }
 	int GetNumTris() const { return m_numTris; }
@@ -69,7 +65,7 @@ private:
 	int m_numEdges;
 	Edge *m_edges;
 
-	const int *m_indices;
+	const Uint16 *m_indices;
 	const unsigned int *m_triFlags;
 	int m_numTris;
 };

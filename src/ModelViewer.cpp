@@ -387,7 +387,7 @@ void ModelViewer::DrawCollisionMesh()
 	if (!mesh.Valid()) return;
 
 	const vector3f *vertices = reinterpret_cast<const vector3f*>(mesh->GetGeomTree()->GetVertices());
-	const int *indices = mesh->GetGeomTree()->GetIndices();
+	const Uint16 *indices = mesh->GetGeomTree()->GetIndices();
 	const unsigned int *triFlags = mesh->GetGeomTree()->GetTriFlags();
 	const unsigned int numIndices = mesh->GetGeomTree()->GetNumTris() * 3;
 
