@@ -162,8 +162,6 @@ ui.templates.Settings = function (args)
 			captureLabel:SetText(capture.bindingDescription)
 		end)
 
-		capture:Capture()
-
 		local okButton = ui:Button(ui:Label(t("Ok")):SetFont("HEADING_NORMAL"))
 		okButton.onClick:Connect(function()
 			onOk(capture.binding, capture.bindingDescription)

@@ -27,13 +27,6 @@ public:
 		return 1;
 	}
 
-	static int l_capture(lua_State *l)
-	{
-		KeyBindingCapture *kbc = LuaObject<GameUI::KeyBindingCapture>::CheckFromLua(1);
-		kbc->Capture();
-		return 0;
-	}
-
 	static int l_attr_binding(lua_State *l)
 	{
 		KeyBindingCapture *kbc = LuaObject<GameUI::KeyBindingCapture>::CheckFromLua(1);
@@ -64,13 +57,6 @@ public:
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 		LuaObject<GameUI::AxisBindingCapture>::PushToLua(new AxisBindingCapture(c));
 		return 1;
-	}
-
-	static int l_capture(lua_State *l)
-	{
-		AxisBindingCapture *abc = LuaObject<GameUI::AxisBindingCapture>::CheckFromLua(1);
-		abc->Capture();
-		return 0;
 	}
 
 	static int l_attr_binding(lua_State *l)
@@ -107,7 +93,6 @@ template <> void LuaObject<GameUI::KeyBindingCapture>::RegisterClass()
 
 	static const luaL_Reg l_methods[] = {
 		{ "New",                LuaKeyBindingCapture::l_new },
-		{ "Capture",            LuaKeyBindingCapture::l_capture },
 		{ 0, 0 }
 	};
 
@@ -129,7 +114,6 @@ template <> void LuaObject<GameUI::AxisBindingCapture>::RegisterClass()
 
 	static const luaL_Reg l_methods[] = {
 		{ "New",                LuaAxisBindingCapture::l_new },
-		{ "Capture",            LuaAxisBindingCapture::l_capture },
 		{ 0, 0 }
 	};
 

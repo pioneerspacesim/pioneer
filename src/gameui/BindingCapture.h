@@ -18,7 +18,6 @@ public:
 	virtual bool IsSelectable() const { return true; }
 
 	const KeyBindings::KeyBinding &GetBinding() const { return m_binding; }
-	void Capture();
 
 	sigc::signal<void,const KeyBindings::KeyBinding &> onCapture;
 
@@ -36,7 +35,6 @@ private:
 	sigc::connection m_connJoystickHatMove;
 	sigc::connection m_connJoystickButtonDown;
 	KeyBindings::KeyBinding m_binding;
-	bool m_capturing;
 };
 
 class AxisBindingCapture : public UI::Single {
@@ -47,7 +45,6 @@ public:
 	virtual bool IsSelectable() const { return true; }
 
 	const KeyBindings::AxisBinding &GetBinding() const { return m_binding; }
-	void Capture();
 
 	sigc::signal<void,const KeyBindings::AxisBinding &> onCapture;
 
@@ -62,7 +59,6 @@ private:
 
 	sigc::connection m_connJoystickAxisMove;
 	KeyBindings::AxisBinding m_binding;
-	bool m_capturing;
 };
 
 }
