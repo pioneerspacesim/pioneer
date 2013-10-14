@@ -116,6 +116,7 @@ function SpaceStation:AddAdvert (description, chatFunc, deleteFunc)
 	local adverts = SpaceStation.adverts[self]
 	nextRef = nextRef+1
 	adverts[nextRef] = { description, chatFunc, deleteFunc };
+	Event.Queue("onAdvertAdded", self, nextRef)
 	return nextRef
 end
 
@@ -149,6 +150,7 @@ function SpaceStation:RemoveAdvert (ref)
 		deleteFunc(ref)
 	end
 	SpaceStation.adverts[self][ref] = nil
+	Event.Queue("onAdvertRemoved", self, ref)
 end
 
 
