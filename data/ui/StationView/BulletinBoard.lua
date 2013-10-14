@@ -10,11 +10,13 @@ local utils = import("utils")
 
 local ui = Engine.ui
 
+local rowRef = {}
+
 local bbTable = ui:Table():SetMouseEnabled(true)
 bbTable.onRowClicked:Connect(function (row)
 	local station = Game.player:GetDockedWith()
 
-	local ref = row+1
+	local ref = rowRef[row+1]
 	local onChat = SpaceStation.adverts[station][ref][2]
 	local onDelete = SpaceStation.adverts[station][ref][3]
 
@@ -31,9 +33,22 @@ end)
 
 local updateTable = function (station, ref)
 	if Game.player:GetDockedWith() ~= station then return end
+
 	bbTable:ClearRows()
-	if not SpaceStation.adverts[station] then return end
-	bbTable:AddRows(utils.build_array(utils.map(function (k,v) return k,{v[1]} end, pairs(SpaceStation.adverts[station]))))
+
+	local adverts = SpaceStation.adverts[station]
+	if not adverts or #adverts == 0 then return end
+
+	rowRef = {}
+	local rows = {}
+	local rowNum = 1
+	for ref,ad in pairs(adverts) do
+		rowRef[rowNum] = ref
+		rowNum = rowNum+1
+		table.insert(rows, ad[1])
+	end
+
+	bbTable:AddRows(rows)
 end
 
 Event.Register("onAdvertAdded", updateTable)
