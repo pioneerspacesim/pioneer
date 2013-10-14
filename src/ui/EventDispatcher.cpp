@@ -43,7 +43,11 @@ bool EventDispatcher::DispatchSDLEvent(const SDL_Event &event)
 			return Dispatch(MouseMotionEvent(Point(event.motion.x,event.motion.y), Point(event.motion.xrel, event.motion.yrel)));
 
 		case SDL_JOYAXISMOTION:
-			return Dispatch(JoystickAxisMotionEvent(event.jaxis.which, event.jaxis.value, event.jaxis.axis));
+			// SDL joystick axis value is documented to have the range -32768 to 32767
+			// unfortunately this places the centre at -0.5, not at zero, which is clearly nuts...
+			// so since that doesn't make any sense, we assume the range is *actually* -32767 to +32767,
+			// and scale it accordingly, clamping the output so that if we *do* get -32768, it turns into -1
+			return Dispatch(JoystickAxisMotionEvent(event.jaxis.which, Clamp(event.jaxis.value * (1.0f / 32767.0f), -1.0f, 1.0f), event.jaxis.axis));
 
 		case SDL_JOYHATMOTION:
 			return Dispatch(JoystickHatMotionEvent(event.jhat.which, JoystickHatMotionEvent::JoystickHatDirection(event.jhat.value), event.jhat.hat));

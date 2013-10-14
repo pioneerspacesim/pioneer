@@ -108,7 +108,7 @@ void AxisBindingCapture::Disconnect()
 
 bool AxisBindingCapture::OnJoystickAxisMove(const UI::JoystickAxisMotionEvent &event)
 {
-	const int threshold = 32767 / 3;
+	const float threshold = 0.4f; // joystick axis value is in range -1 to 1
 	if (event.value < -threshold || event.value > threshold) {
 		m_binding.joystick = event.joystick;
 		m_binding.axis = event.axis;

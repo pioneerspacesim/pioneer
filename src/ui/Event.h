@@ -145,10 +145,10 @@ protected:
 
 class JoystickAxisMotionEvent : public JoystickEvent {
 public:
-	const int value; // -32768 to 32767
+	const float value; // -1 to 1
 	const int axis;
 
-	JoystickAxisMotionEvent(SDL_JoystickID _joystick, int _value, int _axis):
+	JoystickAxisMotionEvent(SDL_JoystickID _joystick, float _value, int _axis):
 		JoystickEvent(Event::JOYSTICK_AXIS_MOTION, _joystick), value(_value), axis(_axis) {}
 
 	void ToLuaTable(lua_State *l) const;
