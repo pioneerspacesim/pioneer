@@ -4,25 +4,28 @@
 #include "../libs.h"
 #include "GeomTree.h"
 #include "BVHTree.h"
-#include <map>
 
 int GeomTree::stats_rayTriIntersections;
 
-
 GeomTree::~GeomTree()
 {
-	delete [] m_edges;
+	delete[] m_vertices;
+	delete[] m_indices;
+	delete[] m_triFlags;
+
+	delete[] m_edges;
 	delete m_triTree;
 	delete m_edgeTree;
 }
 
-#include <SDL.h>
-
-GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, unsigned int *triflags): m_numVertices(numVerts)
+GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, unsigned int *triflags)
+: m_numVertices(numVerts)
+, m_numTris(numTris)
 {
 	m_vertices = vertices;
-	m_indices = indices;
+	m_indices  = indices;
 	m_triFlags = triflags;
+
 	m_aabb.min = vector3d(FLT_MAX,FLT_MAX,FLT_MAX);
 	m_aabb.max = vector3d(-FLT_MAX,-FLT_MAX,-FLT_MAX);
 

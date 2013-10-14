@@ -7,11 +7,14 @@
 #include "Aabb.h"
 #include "collider/GeomTree.h"
 
-//This simply stores the collision geometry data
+//This simply stores the collision GeomTrees
 //and AABB.
 class CollMesh : public RefCounted {
 public:
-	CollMesh() : m_geomTree(0) { }
+	CollMesh()
+	: m_geomTree(0)
+	, m_totalTris(0)
+	{ }
 	virtual ~CollMesh() {
 		delete m_geomTree;
 	}
@@ -21,15 +24,7 @@ public:
 	virtual GeomTree *GetGeomTree() const { return m_geomTree; }
 	void SetGeomTree(GeomTree *t) { m_geomTree = t; }
 
-	//data for geomtree (which doesn't store any)
-	std::vector<vector3f> m_vertices;
-	std::vector<int> m_indices; //XXX should be unsigned!!
-	std::vector<unsigned int> m_flags; //1 per triangle
-
 	struct GeomData {
-		std::vector<vector3f> vertices;
-		std::vector<int> indices;
-		std::vector<unsigned int> flags;
 		GeomTree *geomTree;
 
 		GeomData() : geomTree(0) { }
@@ -37,9 +32,14 @@ public:
 	};
 	std::vector<GeomData> dynGeomData;
 
+	//for statistics
+	unsigned int GetNumTriangles() const { return m_totalTris; }
+	void SetNumTriangles(unsigned int i) { m_totalTris = i; }
+
 protected:
 	Aabb m_aabb;
-	GeomTree *m_geomTree;
+	GeomTree *m_geomTree; //static geom tree
+	unsigned int m_totalTris;
 };
 
 #endif

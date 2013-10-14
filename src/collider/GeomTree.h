@@ -53,6 +53,13 @@ public:
 
 	BVHTree *m_triTree;
 	BVHTree *m_edgeTree;
+
+	const float *GetVertices() const { return m_vertices; }
+	const int *GetIndices() const { return m_indices; }
+	const unsigned int *GetTriFlags() const { return m_triFlags; }
+	int GetNumVertices() const { return m_numVertices; }
+	int GetNumTris() const { return m_numTris; }
+
 private:
 	void RayTriIntersect(int numRays, const vector3f &origin, const vector3f *dirs, int triIdx, isect_t *isects) const;
 
@@ -64,6 +71,7 @@ private:
 
 	const int *m_indices;
 	const unsigned int *m_triFlags;
+	int m_numTris;
 };
 
 #endif /* _GEOMTREE_H */

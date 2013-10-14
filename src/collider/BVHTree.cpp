@@ -6,6 +6,8 @@
 #include <stdio.h>
 #include <float.h>
 
+const int MAX_SPLITPOS_RETRIES = 15;
+
 BVHTree::BVHTree(int numObjs, const objPtr_t *objPtrs, const Aabb *objAabbs)
 {
 	std::vector<int> activeObjIdxs(numObjs);
