@@ -10,7 +10,7 @@ local utils = import("utils")
 local ui = Engine.ui
 
 local bulletinBoard = function (args)
-    local station = Game.player:GetDockedWith()
+	local station = Game.player:GetDockedWith()
 
 	local bbTable =
 		ui:Table()

@@ -61,12 +61,11 @@ function ChatForm:BuildWidget ()
 end
 
 function ChatForm:SetTitle (title)
-	print(title)
 	self.title = title
 end
 
 function ChatForm:SetFace (props)
-    print("ChatForm:SetFace")
+	print("ChatForm:SetFace")
 end
 
 function ChatForm:SetMessage (message)
@@ -85,19 +84,19 @@ function ChatForm:Clear ()
 end
 
 function ChatForm:AddGoodsTrader (funcs)
-    print("ChatForm:AddGoodsTrader")
+	print("ChatForm:AddGoodsTrader")
 end
 
 function ChatForm:Close ()
-    print("ChatForm:Close")
+	print("ChatForm:Close")
 end
 
 function ChatForm:GotoPolice ()
-    print("ChatForm:GotoPolice")
+	print("ChatForm:GotoPolice")
 end
 
 function ChatForm:RemoveAdvertOnClose()
-    print("ChatForm:RemoveAdvertOnClose")
+	print("ChatForm:RemoveAdvertOnClose")
 end
 
 return ChatForm
