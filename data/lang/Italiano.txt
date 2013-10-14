@@ -21,8 +21,6 @@ STOCK
     Stock
 CARGO
     Carico
-VID_LINK_DOWN
-    Connessione video persa
 VID_LINK_ESTABLISHED
     Connessione video stabilita
 VID_CONNECTING
@@ -31,8 +29,6 @@ BOUGHT_1T_OF
     Ha acquistato 1t di %commodity.
 SOLD_1T_OF
     Ha venduto 1t di %commodity.
-WELCOME_TO_MARKET
-    Benvenuti al mercato dei beni di scambio di %station
 GO_BACK
     Indietro
 FITTING
@@ -91,8 +87,6 @@ REVERSE_ACCEL_LADEN
     Decelerazione (carico)
 HYPERDRIVE_FITTED
     Ipermotore montato:
-HYPERSPACE_RANGE_LADEN
-    Massima distanza di balzo (carico):
 THANKS_AND_REMEMBER_TO_BUY_FUEL
     Nel ringraziarLa per il Suo acquisto Le consigliamo di passare al Reparto Equipaggiamento ... e non dimentichi di rifornirsi di carburante PRIMA del lancio.
 CLASS_NUMBER
@@ -105,10 +99,6 @@ REPAIR_1_PERCENT_HULL
     Riparazione dell'1.0% dei danni allo scafo
 REPAIR_ENTIRE_HULL
     Riparazione totale dei danni allo scafo (%repairpercent{f.1}%%)
-REPAIR
-    Riparazione
-PART_EX
-    Permuta
 VIEW
     Vedi
 SHIP_EQUIPMENT
@@ -121,8 +111,6 @@ NEW_AND_RECONDITIONED_SHIPS
     Astronavi nuove ed usato garantito
 BULLETIN_BOARD
     Bacheca Elettronica: Offerte di lavoro, Annunci, Occasioni
-WELCOME_TO_SOMEWHERE
-    Benvenuti a %station
 # blank
 # blank
 # blank
@@ -162,92 +150,18 @@ SEARCH
     Cerca
 
 # Config / game control
-PRESS_BUTTON_WANTED_FOR
-    "Premi il tasto che vuoi assegnare a "
-MOVE_AXIS_WANTED_FOR
-    "Muovi l'asse del joystick che vuoi assegnare a "
-SAVE
-    Salva
-LOAD
-    Apri
-CANCEL
-    Annulla
-SELECT_FILENAME_TO_SAVE
-    Scegli l'archivio su cui salvare o inserisci il nome per un nuovo
 GAME_SAVED_TO
     "Partita salvata su "
-SELECT_FILENAME_TO_LOAD
-    Scegli l'archivio da aprire
 COULD_NOT_OPEN_FILENAME
     Impossibile aprire %path
 GAME_LOAD_CORRUPT
     Questa partita salvata non può essere caricata perché contiene errori.
 GAME_LOAD_CANNOT_OPEN
     Questa partita salvata non può essere caricata per problemi di autorizzazioni o altro ...
-VERY_LOW
-    Molto basso
-LOW
-    Basso
-MEDIUM
-    Medio
-HIGH
-    Alto
-VERY_HIGH
-    Molto alto
-VERY_VERY_HIGH
-    Altissimo
-ON
-    Acceso
-OFF
-    Spento
-SIGHTS_SOUNDS_SAVES
-    Preferenze & Archivi
 PIONEER
     PIONEER
-SAVE_THE_GAME
-    [S] Salva la partita
-LOAD_A_GAME
-    [L] Carica la partita
-EXIT_THIS_GAME
-    Esci dal gioco
-WINDOW_OR_FULLSCREEN
-    Su finestra o a tutto schermo (necessita riavvio)
-FULL_SCREEN
-    A tutto schermo
-OTHER_GRAPHICS_SETTINGS
-    Altre opzioni grafiche
-USE_SHADERS
-    Usa shaders
-SOUND_SETTINGS
-    Preferenze sul suono
-VOL_MASTER
-    Principale:
-VOL_EFFECTS
-    Effetti sonori:
-VOL_MUSIC
-    Colonna sonora:
-VIDEO_RESOLUTION
-    Risoluzione Video (necessita riavvio)
-X_BY_X
-    %{x}x%{y}
-PLANET_DETAIL_DISTANCE
-    Dettaglio Pianeti:
-CITY_DETAIL_LEVEL
-    Dettaglio Città:
-PLANET_TEXTURES
-    Textures:
-FRACTAL_DETAIL
-    Livello Frattali:
 CONTROLS
     Controlli
-ENABLE_JOYSTICK
-    Abilita controllo tramite joystick
-MOUSE_INPUT
-    Mouse Input
-INVERT_MOUSE_Y
-    Inversione MouseY
-LANGUAGE_SELECTION
-    Lingua (necessita riavvio)
 
 # Wares
 NONE
@@ -348,8 +262,6 @@ ECM_ADVANCED_DESCRIPTION
     Contromisure elettroniche a difesa da attacchi missilistici. E' in grado di distruggere la maggior parte dei missili diretti a bersaglio.
 SHIELD_GENERATOR
     Generatore di scudi
-X_SHIELD_GENERATORS
- %quantity x Generatore di scudi
 SHIELD_GENERATOR_DESCRIPTION
     Ogni unità genera un campo di forza attorno all'astronave aumentando la capacità di resistenza agli attacchi.
 LASER_COOLING_BOOSTER
@@ -373,9 +285,9 @@ FUEL_SCOOP
 FUEL_SCOOP_DESCRIPTION
     Permette la raccolta e lo stoccaggio di idrogeno dall'atmosfera dei giganti gassosi.
 CARGO_SCOOP
-	Raccoglitore di Cargo
+    Raccoglitore di Cargo
 CARGO_SCOOP_DESCRIPTION
-	Permette la raccolta di Container vaganti nello spazio
+    Permette la raccolta di Container vaganti nello spazio
 HYPERCLOUD_ANALYZER
     Analizzatore di Nubi Iperspaziali
 HYPERCLOUD_ANALYZER_DESCRIPTION
@@ -442,54 +354,12 @@ HYPERSPACE_ARRIVAL_CLOUD
     Nube iperspaziale di arrivo
 HYPERSPACE_DEPARTURE_CLOUD
     Nube iperspaziale di partenza
-TYPE
-    Tipo
-CLIENT
-    Cliente
-LOCATION
-    Luogo
-DUE
-    Termine
-REWARD
-    Ricompensa
-STATUS
-    Stato
-CARGO_INVENTORY
-    Inventario di carico:
-JETTISON
-    Eiettare
-JETTISONED_1T_OF_X
-    Eiettata 1 tonnellata di %commodity
-COMBAT_RATING
-    Classe di combattente:
-CRIMINAL_RECORD
-    Fedina penale:
-SHIP_INFORMATION_HEADER
-    "Scheda Astronave:"
-HYPERDRIVE
-    Ipermotore
 FREE
     Libero
 USED
     Utilizzato
-TOTAL_WEIGHT
-    Massa totale
-FRONT_WEAPON
-    Armamento frontale
-REAR_WEAPON
-    Armamento caudale
-HYPERSPACE_RANGE
-    Autonomia Iperspaziale
-NO_MOUNTING
-    nessun supporto
-N_LIGHT_YEARS_N_MAX
-    %distance{f.1} AL (%maxdistance{f.1} max)
 SHIP_INFORMATION
     Scheda Astronave
-REPUTATION
-    Reputazione
-MISSIONS
-    Missioni
 SHIFT
     "shift "
 CTRL
@@ -501,11 +371,11 @@ META
 JOY
     Joy
 BUTTON
-     " Button "
+    " Button "
 HAT
-     " Hat"
+    " Hat"
 DIRECTION
-     " Dir "
+    " Dir "
 X
     X
 Y
@@ -520,8 +390,6 @@ FIRE_LASER
     Fuoco laser
 SHIP_ORIENTATION
     Orientamento
-FAST_ROTATION_CONTROL
-    Controlli rotazionali veolci
 PITCH_UP
     Beccheggio su
 PITCH_DOWN
@@ -555,13 +423,13 @@ INCREASE_SET_SPEED
 DECREASE_SET_SPEED
     Riduzione velocità
 SCANNER_CONTROL
-	Controllo Scanner
+    Controllo Scanner
 TOGGLE_SCAN_MODE
-	Alterna Scanner
+    Alterna Scanner
 INCREASE_SCAN_RANGE
-	Aumenta raggio Scanner
+    Aumenta raggio Scanner
 DECREASE_SCAN_RANGE
-	Riduce raggio Scanner
+    Riduce raggio Scanner
 TOGGLE_LUA_CONSOLE
     (Dis)Attiva Console LUA
 JOYSTICK_INPUT
@@ -606,14 +474,6 @@ PIRACY
     Pirateria
 MURDER
     Omicidio
-INDEPENDENT
-    Indipendente
-EARTH_FEDERATION
-    Federazione Terrestre
-INDEPENDENT_CONFEDERATION
-    Confederazione dei Sistemi Indipendenti
-EMPIRE
-    Impero
 NO_ESTABLISHED_ORDER
     Nessun ordine costituito
 HARD_CAPITALIST
@@ -669,7 +529,7 @@ NOT_FOUND
 NUMBER_HOURS
     %hours{f.1} h
 NUMBER_DAYS
-	%days{f.0} gg
+    %days{f.0} gg
 QUADRUPLE_SYSTEM
     Sistema quaternario
 TRIPLE_SYSTEM
@@ -823,19 +683,19 @@ COMMA_HIGHLY_VOLCANIC
 HIGHLY_VOLCANIC
     Altamente vulcanico
 ICE_WORLD
-     " pianeta ghiacciato"
+    " pianeta ghiacciato"
 ROCKY_PLANET
-     " pianeta roccioso"
+    " pianeta roccioso"
 OCEANICWORLD
-     " pianeta oceanico"
+    " pianeta oceanico"
 PLANET_CONTAINING_LIQUID_WATER
-     " pianeta con liquidi in superficie"
+    " pianeta con liquidi in superficie"
 PLANET_WITH_SOME_ICE
-     " pianeta con scarsi ghiacci"
+    " pianeta con scarsi ghiacci"
 ROCKY_PLANET_CONTAINING_COME_LIQUIDS
-     " pianeta roccioso con liquidi in superficie,"
+    " pianeta roccioso con liquidi in superficie,"
 WITH_NO_SIGNIFICANT_ATMOSPHERE
-     " con atmosfera insignificante"
+    " con atmosfera insignificante"
 TENUOUS
     tenue
 THIN
@@ -845,31 +705,31 @@ THICK
 VERY_DENSE
     molto densa
 WITH_A
-     " con una "
+    " con una "
 O2_ATMOSPHERE
-     " atmosfera a prevalenza di ossigeno"
+    " atmosfera a prevalenza di ossigeno"
 CO2_ATMOSPHERE
-     " atmosfera a prevalenza di anidride carbonica"
+    " atmosfera a prevalenza di anidride carbonica"
 CO_ATMOSPHERE
-     " atmosfera a prevalenza di monossido di carbonio"
+    " atmosfera a prevalenza di monossido di carbonio"
 CH4_ATMOSPHERE
-     " atmosfera a prevalenza di metano"
+    " atmosfera a prevalenza di metano"
 H_ATMOSPHERE
-     " atmosfera a prevalenza di idrogeno"
+    " atmosfera a prevalenza di idrogeno"
 HE_ATMOSPHERE
-     " atmosfera a prevalenza di elio"
+    " atmosfera a prevalenza di elio"
 AR_ATMOSPHERE
-     " atmosfera a prevalenza di argon"
+    " atmosfera a prevalenza di argon"
 S_ATMOSPHERE
-     " atmosfera di composti sulfurei"
+    " atmosfera di composti sulfurei"
 N_ATMOSPHERE
-     " atmosfera a prevalenza di azoto"
+    " atmosfera a prevalenza di azoto"
 AND_HIGHLY_COMPLEX_ECOSYSTEM
-     " ed un ecosistema complesso."
+    " ed un ecosistema complesso."
 AND_INDIGENOUS_PLANT_LIFE
-     " e vita vegetale autoctona."
+    " e vita vegetale autoctona."
 AND_INDIGENOUS_MICROBIAL_LIFE
-     " e vita microbica autoctona."
+    " e vita microbica autoctona."
 ORBITAL_STARPORT
     Stazione orbitale
 STARPORT
@@ -991,7 +851,7 @@ SYSTEM_NUMBER
 NAME
     Nome
 ROTATIONAL_PERIOD
-     " (periodo di rotazione)"
+    " (periodo di rotazione)"
 RADIUS
     Raggio
 SEMI_MAJOR_AXIS
@@ -1004,10 +864,6 @@ WHEELS_ARE_UP
     Carrello su
 WHEELS_ARE_DOWN
     Carrello giù
-OBJECT_LABELS_ARE_ON
-    Etichette attive
-OBJECT_LABELS_ARE_OFF
-    Etichette disattivate
 HYPERSPACE_JUMP
     Balzo Iperspaziale
 TAKEOFF
@@ -1110,12 +966,6 @@ AUTOPILOT_ENTER_HIGH_ORBIT_AROUND
     Pilota autom.: stabilire orbita alta attorno a %target
 SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
     Analizzatore Nubi Iperspaziali: Tracciare rotta di intercettazione
-FAILED
-    Fallita
-COMPLETED
-    Completata
-ACTIVE
-    Attiva
 DISTANCE_LY
     Distanza: %distance{f.2} AL
 SYSTEM

@@ -21,8 +21,6 @@ STOCK
     Sklad
 CARGO
     Náklad
-VID_LINK_DOWN
-    Video linka ukončena
 VID_LINK_ESTABLISHED
     Video linka navázána
 VID_CONNECTING
@@ -31,8 +29,6 @@ BOUGHT_1T_OF
     Koupil(a) jste 1t %commodity.
 SOLD_1T_OF
     Prodal(a) jste 1t %commodity.
-WELCOME_TO_MARKET
-    Vítá vás %station obchod
 GO_BACK
     Zpět
 FITTING
@@ -79,8 +75,6 @@ WEIGHT_FULLY_LADEN
     Plná váha
 CAPACITY
     Kapacita
-CAPACITY_USED
-    Využitá kapacita
 FORWARD_ACCEL_EMPTY
     Zrychlení vpřed (prázdná)
 NUMBER_G
@@ -93,8 +87,6 @@ REVERSE_ACCEL_LADEN
     Zrychlení vzad (naložená)
 HYPERDRIVE_FITTED
     Hypermotor:
-HYPERSPACE_RANGE_LADEN
-    Hyperprostor. dosah (plně naložená):
 THANKS_AND_REMEMBER_TO_BUY_FUEL
     Děkujeme za nákup. Nezapomeňte před odletem nakoupit palivo a vybavení.
 CLASS_NUMBER
@@ -107,10 +99,6 @@ REPAIR_1_PERCENT_HULL
     Opravit 1.0% poškození trupu
 REPAIR_ENTIRE_HULL
     Opravit veškeré poškození trupu (%repairpercent{f.1}%%)
-REPAIR
-    Oprava
-PART_EX
-    Výměna
 VIEW
     Pohled
 SHIP_EQUIPMENT
@@ -123,8 +111,6 @@ NEW_AND_RECONDITIONED_SHIPS
     Nové a repasované lodě
 BULLETIN_BOARD
     Bulletin: Zprávy / Mise
-WELCOME_TO_SOMEWHERE
-    Vítejte v %station
 # This next translation does not have to be a real translation.  You can
 # write anything you like here.  It will appear in every space station
 # in the whole galaxy.
@@ -164,24 +150,10 @@ SEARCH
     Najít
 
 # Config / game control
-PRESS_BUTTON_WANTED_FOR
-    "Zmáčkni klávesu kterou chceš použít pro "
-MOVE_AXIS_WANTED_FOR
-    "Pohni osou joysticku kterou chceš použít pro "
-SAVE
-    Uložit
-LOAD
-    Načíst
-CANCEL
-    Zrušit
-SELECT_FILENAME_TO_SAVE
-    Vyber soubor do kterého uložit, nebo zadej nový název
 CANT_SAVE_IN_HYPERSPACE
     V hyperprostoru nelze hru ukládat
 GAME_SAVED_TO
     "Hra uložena do "
-SELECT_FILENAME_TO_LOAD
-    Načíst soubor
 COULD_NOT_OPEN_FILENAME
     Nemohu otevřít cestu %path
 GAME_LOAD_CORRUPT
@@ -192,78 +164,10 @@ GAME_LOAD_CANNOT_OPEN
     Tento soubor nelze otevřít z důvodu oprávnění apod...
 GAME_SAVE_CANNOT_WRITE
     Tento soubor nelze zapsat z důvodu systémové chyby.
-VERY_LOW
-    Velmi nízké
-LOW
-    Nízké
-MEDIUM
-    Střední
-HIGH
-    Vysoké
-VERY_HIGH
-    Velmi vysoké
-VERY_VERY_HIGH
-    Nejvyšší
-ON
-    Zapnuto
-OFF
-    Vypnuto
-SIGHTS_SOUNDS_SAVES
-    Grafika, zvuk & ukládání hry
 PIONEER
     PIONEER
-SAVE_THE_GAME
-    [S] Uložit hru
-LOAD_A_GAME
-    [L] Načíst hru
-EXIT_THIS_GAME
-    Ukončit hru
-RETURN_TO_MENU
-    Návrat do menu
-WINDOW_OR_FULLSCREEN
-    Okno nebo celá obrazovka (nutný restart hry)
-FULL_SCREEN
-    Celá obrazovka
-COMPRESS_TEXTURES
-    Komprimovat textury
-OTHER_GRAPHICS_SETTINGS
-    Ostatní graf. nastavení (nutný restart hry)
-USE_SHADERS
-    Použít shadery
-SOUND_SETTINGS
-    Nastavení hlasitosti
-VOL_MASTER
-    Hlavní:
-VOL_EFFECTS
-    Efekty:
-VOL_MUSIC
-    Hudba:
-VIDEO_RESOLUTION
-    Rozlišení obrazovky (nutný restart hry)
-X_BY_X
-    %{x}x%{y}
-PLANET_DETAIL_DISTANCE
-    Detaily planet:
-CITY_DETAIL_LEVEL
-    Detaily měst:
-PLANET_TEXTURES
-    Textury planet:
-FRACTAL_DETAIL
-    Detaily fraktálů:
 CONTROLS
     Ovládání
-ENABLE_JOYSTICK
-    Zapnout ovládání joystickem
-MOUSE_INPUT
-    Ovládání myší
-INVERT_MOUSE_Y
-    Invertovat osu Y
-HUD
-    HUD
-DISPLAY_NAV_TUNNEL
-    Zobrazovat navigační tunel
-LANGUAGE_SELECTION
-    Jazyk (nutný restart hry)
 
 # Wares
 NONE
@@ -364,8 +268,6 @@ ECM_ADVANCED_DESCRIPTION
     Elektronická rušička střel, schopná zničit některé pokročilejší naváděné střely
 SHIELD_GENERATOR
     Generátor štítů
-X_SHIELD_GENERATORS
-    %quantity generátory štítů
 SHIELD_GENERATOR_DESCRIPTION
     Každý (další) generátor štítů posiluje ochranu trupu
 LASER_COOLING_BOOSTER
@@ -458,62 +360,14 @@ HYPERSPACE_ARRIVAL_CLOUD
     Příletové hyperprostorové okno
 HYPERSPACE_DEPARTURE_CLOUD
     Odletové hyperprostorové okno
-TYPE
-    Typ
-CLIENT
-    Klient
-LOCATION
-    Pozice
-DUE
-    Splatnost
-REWARD
-    Odměna
-STATUS
-    Status
-CARGO_INVENTORY
-    Inventář nákladu:
-JETTISON
-    Odhodit
-REFUEL
-    Natankovat
-JETTISONED_1T_OF_X
-    Odhodit 1t: %commodity
-COMBAT_RATING
-    BOJOVÉ HODNOCENÍ:
-CRIMINAL_RECORD
-    TRESTNÍ REJSTŘÍK:
-SHIP_INFORMATION_HEADER
-    "INFORMACE O LODI: "
-HYPERDRIVE
-    Hypermotor
 FREE
     Dostupný
-FREE_LOWERCASE
-    dostupný
 USED
     Použitý
 FUEL_WEIGHT
     Hmotnost paliva
-TOTAL_WEIGHT
-    Celková hmotnost
-FRONT_WEAPON
-    Přední zbraň
-REAR_WEAPON
-    Zadní zbraň
-HYPERSPACE_RANGE
-    Hyperprostorový dosah
-NO_MOUNTING
-    Žádná pozice
-N_LIGHT_YEARS_N_MAX
-    %distance{f.1} ly (%maxdistance{f.1} max)
-MAX
-    max
 SHIP_INFORMATION
     Informace o lodi
-PERSONAL
-    Osobní
-MISSIONS
-    Mise
 SHIFT
     "shift "
 CTRL
@@ -525,11 +379,11 @@ META
 JOY
     Joy
 BUTTON
-     " klávesa "
+    " klávesa "
 HAT
-     " klobouk"
+    " klobouk"
 DIRECTION
-     " směr "
+    " směr "
 X
     X
 Y
@@ -638,14 +492,6 @@ PIRACY
     Pirátství
 MURDER
     Vražda
-INDEPENDENT
-    Nezávislý
-EARTH_FEDERATION
-    Federace Země
-INDEPENDENT_CONFEDERATION
-    Konfederace nezávislých hvězdných systémů
-EMPIRE
-    Impérium
 NO_ESTABLISHED_ORDER
     Bez stanoveného zřízení
 HARD_CAPITALIST
@@ -885,11 +731,11 @@ COMMA_HIGHLY_VOLCANIC
 HIGHLY_VOLCANIC
     Vysoce vulkanická
 ICE_WORLD
-     " ledová planeta"
+    " ledová planeta"
 ROCKY_PLANET
-     " skalnatá planeta"
+    " skalnatá planeta"
 OCEANICWORLD
-     " vodní planeta"
+    " vodní planeta"
 PLANET_CONTAINING_LIQUID_WATER
     " planeta s kapalnou vodou"
 PLANET_WITH_SOME_ICE
@@ -907,25 +753,25 @@ THICK
 VERY_DENSE
     velmi hustou
 WITH_A
-     " s "
+    " s "
 O2_ATMOSPHERE
-     " kyslíkovou atmosférou"
+    " kyslíkovou atmosférou"
 CO2_ATMOSPHERE
-     " oxido-uhličitou atmosférou"
+    " oxido-uhličitou atmosférou"
 CO_ATMOSPHERE
-     " oxido-uhelnatou atmosférou"
+    " oxido-uhelnatou atmosférou"
 CH4_ATMOSPHERE
-     " metanovou atmosférou"
+    " metanovou atmosférou"
 H_ATMOSPHERE
-     " vodíkovou atmosférou"
+    " vodíkovou atmosférou"
 HE_ATMOSPHERE
-     " héliovou atmosférou"
+    " héliovou atmosférou"
 AR_ATMOSPHERE
-     " argonovou atmosférou"
+    " argonovou atmosférou"
 S_ATMOSPHERE
-     " sirnou atmosférou"
+    " sirnou atmosférou"
 N_ATMOSPHERE
-     " dusíkovou atmosférou"
+    " dusíkovou atmosférou"
 AND_HIGHLY_COMPLEX_ECOSYSTEM
     " a velmi složitým ekosystémem."
 AND_INDIGENOUS_PLANT_LIFE
@@ -1042,8 +888,6 @@ ECONOMY_TYPE
     Druh ekonomiky:
 ALLEGIANCE
     Příslušnost:
-FACTION
-    Frakce:
 POPULATION
     Populace:
 OVER_N_BILLION
@@ -1061,7 +905,7 @@ SYSTEM_NUMBER
 NAME
     Název
 ROTATIONAL_PERIOD
-     " (perioda rotace)"
+    " (perioda rotace)"
 RADIUS
     Rovníkový poloměr
 SEMI_MAJOR_AXIS
@@ -1074,10 +918,6 @@ WHEELS_ARE_UP
     Podvozek zasunut
 WHEELS_ARE_DOWN
     Podvozek vysunut
-OBJECT_LABELS_ARE_ON
-    Popis objektů zapnut
-OBJECT_LABELS_ARE_OFF
-    Popis objektů vypnut
 SELECT_LOW_THRUST_POWER_LEVEL
     Zapnout režim nízkého tahu
 SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT
@@ -1177,7 +1017,7 @@ FINE_PAID_N_BUT_N_REMAINING
 FINE_PAID_N
     Zaplatili jste pokutu %fine.
 SET_HYPERSPACE_DESTINATION_TO
-    "Nastavit cíl hyperskoku na %system"
+    Nastavit cíl hyperskoku na %system
 NO_TARGET_SELECTED
     Počítač: Cíl není zvolen
 REQUEST_DOCKING_CLEARANCE
@@ -1196,26 +1036,16 @@ AUTOPILOT_ENTER_HIGH_ORBIT_AROUND
     Autopilot: Vstoupit na vysokou orbitu kolem %target
 SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
     Analyzátor hyperprostorových oken: Zvolit cíl k pronásledovaní tohoto odletu
-FAILED
-    Neúspěšný
-COMPLETED
-    Dokončený
-ACTIVE
-    Probíhá
 DISTANCE_LY
     Vzdálenost: %distance{f.2} ly
 SYSTEM
     Systém
 UNOCCUPIED_CABIN
     Extra pasažérská kabina
-X_UNOCCUPIED_CABINS
-    %quantity Extra pasažérské kabiny
 UNOCCUPIED_CABIN_DESCRIPTION
     Vyžadována pro přepravu jednoho pasažéra
 PASSENGER_CABIN
     Obsazená pasažérská kabina
-X_PASSENGER_CABINS
-    %quantity Obsazené pasažérské kabiny
 CABINS
     Kabiny
 MONTH_JAN
