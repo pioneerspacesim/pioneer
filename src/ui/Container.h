@@ -61,6 +61,7 @@ private:
 	friend class EventDispatcher;
 	void CollectShortcuts(std::map<KeySym,Widget*> &shortcuts);
 
+	virtual void NotifyVisible(bool visible);
 
 	void EnableChildren();
 	void DisableChildren();

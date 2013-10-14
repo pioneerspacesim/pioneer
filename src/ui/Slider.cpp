@@ -45,12 +45,14 @@ void Slider::UpdateButton()
 
 	const Point activeArea(GetActiveArea());
 
+	const float normalisedValue = (m_value - m_rangeMin) / (m_rangeMax - m_rangeMin);
+
 	if (m_orient == SLIDER_HORIZONTAL) {
 		const Skin::EdgedRectElement &gutterRect = skin.SliderHorizontalGutter();
 		const Skin::RectElement &buttonRect = skin.SliderHorizontalButtonNormal();
 
 		m_buttonSize = Point(buttonRect.size.x, buttonRect.size.y);
-		m_buttonPos  = Point(((activeArea.x-gutterRect.edgeWidth*2-buttonRect.size.x)*m_value)+gutterRect.edgeWidth, (activeArea.y-buttonRect.size.y)/2);
+		m_buttonPos  = Point(((activeArea.x-gutterRect.edgeWidth*2-buttonRect.size.x)*normalisedValue)+gutterRect.edgeWidth, (activeArea.y-buttonRect.size.y)/2);
 	}
 
 	else {
@@ -58,7 +60,7 @@ void Slider::UpdateButton()
 		const Skin::RectElement &buttonRect = skin.SliderVerticalButtonNormal();
 
 		m_buttonSize = Point(buttonRect.size.x, buttonRect.size.y);
-		m_buttonPos  = Point((activeArea.x-buttonRect.size.x)/2, ((activeArea.y-gutterRect.edgeWidth*2-buttonRect.size.y)*m_value)+gutterRect.edgeWidth);
+		m_buttonPos  = Point((activeArea.x-buttonRect.size.x)/2, ((activeArea.y-gutterRect.edgeWidth*2-buttonRect.size.y)*normalisedValue)+gutterRect.edgeWidth);
 	}
 
 	m_mouseOverButton = IsMouseOver() && PointInsideButton(m_lastMousePosition);
@@ -96,9 +98,22 @@ bool Slider::PointInsideButton(const Point &p)
 
 void Slider::SetValue(float v)
 {
-	m_value = Clamp(v, 0.0f, 1.0f);
+	m_value = Clamp(v, m_rangeMin, m_rangeMax);
 	onValueChanged.emit(m_value);
 	UpdateButton();
+}
+
+Slider *Slider::SetRange(float min, float max)
+{
+	assert(min < max);
+	if (!is_equal_exact(m_rangeMin, min) || !is_equal_exact(m_rangeMax, max)) {
+		m_rangeMin = min;
+		m_rangeMax = max;
+		m_value = Clamp(m_value, m_rangeMin, m_rangeMax);
+		onValueChanged.emit(m_value);
+		UpdateButton();
+	}
+	return this;
 }
 
 void Slider::HandleMouseDown(const MouseButtonEvent &event)

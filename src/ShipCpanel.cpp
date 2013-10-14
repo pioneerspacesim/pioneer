@@ -13,7 +13,6 @@
 #include "SystemView.h"
 #include "SystemInfoView.h"
 #include "GalacticView.h"
-#include "GameMenuView.h"
 #include "UIView.h"
 #include "Lang.h"
 #include "Game.h"
@@ -357,13 +356,13 @@ void ShipCpanel::OnClickTimeaccel(Game::TimeAccel val)
 {
 	Pi::BoinkNoise();
 	if ((Pi::game->GetTimeAccel() == val) && (val == Game::TIMEACCEL_PAUSED)) {
-		if (Pi::GetView() != Pi::gameMenuView)
-			Pi::SetView(Pi::gameMenuView);
+		if (Pi::GetView() != Pi::settingsView)
+			Pi::SetView(Pi::settingsView);
 		else
 			Pi::SetView(Pi::worldView);
 	}
 	else {
-		if (Pi::GetView() == Pi::gameMenuView)
+		if (Pi::GetView() == Pi::settingsView)
 			Pi::SetView(Pi::worldView);
 		Pi::game->RequestTimeAccel(val, Pi::KeyState(SDLK_LCTRL) || Pi::KeyState(SDLK_RCTRL));
 	}

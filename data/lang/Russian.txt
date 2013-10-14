@@ -1,4 +1,4 @@
-﻿# General
+# General
 SUGGESTED_RESPONSES
     [Используйте интерфейс терминала для ответа или завершения связи]:
 CASH
@@ -21,8 +21,6 @@ STOCK
     Склад
 CARGO
     Трюм
-VID_LINK_DOWN
-    Видеосвязь прервана.
 VID_LINK_ESTABLISHED
     Видеосвязь установлена.
 VID_CONNECTING
@@ -31,8 +29,6 @@ BOUGHT_1T_OF
     Куплено: 1t %commodity.
 SOLD_1T_OF
     Продано: 1t %commodity.
-WELCOME_TO_MARKET
-    Станция %station. Добро пожаловать в торговый центр!
 GO_BACK
     [Назад]
 FITTING
@@ -50,7 +46,7 @@ TRADER_NOT_ENOUGH_MONEY
 NO_SPACE_ON_SHIP
     Свободное место в грузовом отсеке отсутствует.
 SOMEWHERE_SERVICES
-    Станция %station. Терминал. 
+    Станция %station. Терминал.
 SOMEWHERE_SHIPYARD
     Станция %station. Корабельная верфь.
 SOMEWHERE_SHIP_REPAIRS
@@ -79,8 +75,6 @@ WEIGHT_FULLY_LADEN
     Вес с полн.загрузкой
 CAPACITY
     Трюм
-CAPACITY_USED
-	Занято в грузовом отсеке
 FORWARD_ACCEL_EMPTY
     Основное ускорение
 NUMBER_G
@@ -93,8 +87,6 @@ REVERSE_ACCEL_LADEN
     Обр. с полн.загрузкой
 HYPERDRIVE_FITTED
     Гипердвигатель:
-HYPERSPACE_RANGE_LADEN
-    Гиперпрыжок (пуст. загр.):
 THANKS_AND_REMEMBER_TO_BUY_FUEL
     Спасибо за покупку. Не забудьте заправить баки.
 CLASS_NUMBER
@@ -107,10 +99,6 @@ REPAIR_1_PERCENT_HULL
     Отремонтировать 1.0% повреждений
 REPAIR_ENTIRE_HULL
     Отремонтировать все повреждения (%repairpercent{f.1}%%)
-REPAIR
-    Отремонтировать
-PART_EX
-    За обмен
 VIEW
     Вид
 SHIP_EQUIPMENT
@@ -123,13 +111,11 @@ NEW_AND_RECONDITIONED_SHIPS
     Каталог кораблей
 BULLETIN_BOARD
     Служба объявлений
-WELCOME_TO_SOMEWHERE
-    Добро пожаловать на станцию %station, капитан!
 # This next translation does not have to be a real translation.  You can
 # write anything you like here.  It will appear in every space station
 # in the whole galaxy.
 SPACESTATION_LONG_WELCOME_MESSAGE
-    От имени администрации приветствуем вас на нашей станции, капитан!\n Наш торгово-сервисный центр готов предоставить вам лучшие товары по выгодной цене, качественный ремонт, хороший выбор кораблей и оборудования. Деловой центр всегда открыт для заключения сделок и поиска работы. \n Внимание! Соблюдайте технику безопасности, местные и галактические законы. О любых противоправных действиях сообщайте, пожалуйста, дежурному офицеру службы безопасности станции. 
+    От имени администрации приветствуем вас на нашей станции, капитан!\n Наш торгово-сервисный центр готов предоставить вам лучшие товары по выгодной цене, качественный ремонт, хороший выбор кораблей и оборудования. Деловой центр всегда открыт для заключения сделок и поиска работы. \n Внимание! Соблюдайте технику безопасности, местные и галактические законы. О любых противоправных действиях сообщайте, пожалуйста, дежурному офицеру службы безопасности станции.
 REQUEST_LAUNCH
     Запрос на взлет
 SHIPYARD
@@ -137,7 +123,7 @@ SHIPYARD
 COMMODITIES_MARKET
     Торговый центр
 SOMEWHERE_COMMODITIES_MARKET
-    Станция %station. Торговый центр. 
+    Станция %station. Торговый центр.
 SOMEWHERE_SHIP_MARKET
     Станция %station. Верфь. Каталог кораблей.
 CONTACT_LOCAL_POLICE
@@ -164,24 +150,10 @@ SEARCH
     Найти
 
 # Config / game control
-PRESS_BUTTON_WANTED_FOR
-    "Нажмите выбранную клавишу"
-MOVE_AXIS_WANTED_FOR
-    "Наклоните джойстик в нужном направлении "
-SAVE
-    Записать
-LOAD
-    Загрузить
-CANCEL
-    Отмена
-SELECT_FILENAME_TO_SAVE
-    Выберите файл для записи или введите новое имя
 CANT_SAVE_IN_HYPERSPACE
-	Заблокировать возможность записи в гиперкосмосе
+    Заблокировать возможность записи в гиперкосмосе
 GAME_SAVED_TO
     "Игра записана в "
-SELECT_FILENAME_TO_LOAD
-    Выберите файл для загрузки
 COULD_NOT_OPEN_FILENAME
     Невозможно прочесть %path
 GAME_LOAD_CORRUPT
@@ -189,79 +161,11 @@ GAME_LOAD_CORRUPT
 GAME_LOAD_CANNOT_OPEN
     Эта запись не может быть загружена из-за неправильно разрешения или по другой причине...
 GAME_SAVE_CANNOT_WRITE
-	Эта запись не может быть загружена из-за системной ошибки.
-VERY_LOW
-    Оч.низкая
-LOW
-    Низкая
-MEDIUM
-    Средняя
-HIGH
-    Высокая
-VERY_HIGH
-    Оч.высокая
-VERY_VERY_HIGH
-    Наивысшая
-ON
-    Вкл.
-OFF
-    Выкл.
-SIGHTS_SOUNDS_SAVES
-    Настройки, запись и загрузка
+    Эта запись не может быть загружена из-за системной ошибки.
 PIONEER
     PIONEER
-SAVE_THE_GAME
-    [S] Запись игры
-LOAD_A_GAME
-    [L] Загрузка игры
-EXIT_THIS_GAME
-    Покинуть игру
-RETURN_TO_MENU
-    Возврат в меню
-WINDOW_OR_FULLSCREEN
-    Режим экрана (треб. перезапуск игры):
-FULL_SCREEN
-    Включить полноэкранный режим
-COMPRESS_TEXTURES
-	Сжатие текстур
-OTHER_GRAPHICS_SETTINGS
-    Проч.граф.настройки (треб.перезапуск игры):
-USE_SHADERS
-    Использовать шейдеры
-SOUND_SETTINGS
-    Настройка громкости звука:
-VOL_MASTER
-    Общая:
-VOL_EFFECTS
-    Эффекты:
-VOL_MUSIC
-    Музыка:
-VIDEO_RESOLUTION
-    Разрешение экрана (треб.перезапуск игры):
-X_BY_X
-    %{x}x%{y}
-PLANET_DETAIL_DISTANCE
-    Детал.планет:
-CITY_DETAIL_LEVEL
-    Детал.городов:
-PLANET_TEXTURES
-    Текстуры планет:
-FRACTAL_DETAIL
-    Детал.частиц:
 CONTROLS
     Управление
-ENABLE_JOYSTICK
-    Включить джойстик
-MOUSE_INPUT
-    Настройки мыши
-INVERT_MOUSE_Y
-    Инвертировать мышь по оси Y
-HUD
-	Графический интерфейс
-DISPLAY_NAV_TUNNEL
-	Вкл. навигационный тоннель
-LANGUAGE_SELECTION
-    Язык игры (треб.перезапуск игры):
 
 # Wares
 NONE
@@ -355,15 +259,13 @@ ECM_BASIC_DESCRIPTION
 SCANNER
     Сканер
 SCANNER_DESCRIPTION
-    Формирует на дисплее объемную схему расположения значимых объектов в околокорабельном пространстве. 
+    Формирует на дисплее объемную схему расположения значимых объектов в околокорабельном пространстве.
 ECM_ADVANCED
     Продвинутая система ПРО
 ECM_ADVANCED_DESCRIPTION
     Усовершенствованная система ПРО способна противодействовать продвинутым типам самонаводящихся ракет.
 SHIELD_GENERATOR
     Генератор защитного поля
-X_SHIELD_GENERATORS
-    %quantity Генераторы защитного поля
 SHIELD_GENERATOR_DESCRIPTION
     Генераторы создают силовое поле, обеспечивающее дополнительную защиту кораблю. Можно установить один или более.
 LASER_COOLING_BOOSTER
@@ -456,62 +358,14 @@ HYPERSPACE_ARRIVAL_CLOUD
     Гипероблако входа.
 HYPERSPACE_DEPARTURE_CLOUD
     Гипероблако выхода.
-TYPE
-    Тип
-CLIENT
-    Заказчик
-LOCATION
-    Система
-DUE
-    Сроки
-REWARD
-    Награда
-STATUS
-    Статус
-CARGO_INVENTORY
-    Содержимое грузового отсека корабля.
-JETTISON
-    Сброс груза
-REFUEL
-    Дозаправиться
-JETTISONED_1T_OF_X
-    Дозаправлено: 1t %commodity
-COMBAT_RATING
-    Боевой рейтинг:
-CRIMINAL_RECORD
-    Список правонарушений:
-SHIP_INFORMATION_HEADER
-    "Ваш корабль: "
-HYPERDRIVE
-    Установленный двигатель
 FREE
     Свободно
-FREE_LOWERCASE
-    свободно
 USED
     Занято
 FUEL_WEIGHT
     Топливный бак
-TOTAL_WEIGHT
-    Общий вес корабля и груза 
-FRONT_WEAPON
-    Носовая турель
-REAR_WEAPON
-    Кормовая турель
-HYPERSPACE_RANGE
-    Возможный радиус прыжка
-NO_MOUNTING
-    < отсутствует >
-N_LIGHT_YEARS_N_MAX
-    %distance{f.1} св.лет (из %maxdistance{f.1} макс.)
-MAX
-	максимум
 SHIP_INFORMATION
     Информация о корабле
-PERSONAL
-    Команда и статус
-MISSIONS
-    Список заданий
 SHIFT
     "shift "
 CTRL
@@ -523,11 +377,11 @@ META
 JOY
     Joy
 BUTTON
-     " Button "
+    " Button "
 HAT
-     " Hat"
+    " Hat"
 DIRECTION
-     " Dir "
+    " Dir "
 X
     X
 Y
@@ -579,13 +433,13 @@ INCREASE_SET_SPEED
 DECREASE_SET_SPEED
     Уменьш.заданную скорость
 SCANNER_CONTROL
-	Управление сканером:
+    Управление сканером:
 TOGGLE_SCAN_MODE
-	Изменить режим сканера
+    Изменить режим сканера
 INCREASE_SCAN_RANGE
-	Увелич.дальность сканера
+    Увелич.дальность сканера
 DECREASE_SCAN_RANGE
-	Уменьш.дальность сканера
+    Уменьш.дальность сканера
 TOGGLE_LUA_CONSOLE
     Включить Lua-консоль
 TOGGLE_ROTATION_DAMPING
@@ -634,14 +488,6 @@ PIRACY
     Пиратство
 MURDER
     Убийство
-INDEPENDENT
-    Независимая система
-EARTH_FEDERATION
-    Земная Федерация
-INDEPENDENT_CONFEDERATION
-    Содружество Независимых Систем
-EMPIRE
-    Империя
 NO_ESTABLISHED_ORDER
     Неизвестно
 HARD_CAPITALIST
@@ -725,27 +571,27 @@ SHIP_IS_FULLY_LADEN
 YOU_DO_NOT_HAVE_ANY_X
     У Вас нет %item.
 CAMERA_FRONT_VIEW
-	Передний экран
+    Передний экран
 CAMERA_REAR_VIEW
-	Задний экран
+    Задний экран
 CAMERA_LEFT_VIEW
-	Левый экран
+    Левый экран
 CAMERA_TOP_VIEW
-	Верхний экран
+    Верхний экран
 CAMERA_RIGHT_VIEW
-	Правый экран
+    Правый экран
 CAMERA_BOTTOM_VIEW
-	Нижний экран
+    Нижний экран
 INTERNAL_VIEW
-    Обзор	
+    Обзор
 EXTERNAL_VIEW
     Внешний вид
 SIDEREAL_VIEW
     Вид со стороны
 ROTATE_UP
-	  Поворот камеры вверх
+    Поворот камеры вверх
 ROTATE_DOWN
-	Поворот камеры вниз
+    Поворот камеры вниз
 ROTATE_LEFT
     Поворот камеры вправо
 ROTATE_RIGHT
@@ -765,9 +611,9 @@ STAR_SYSTEM_INFORMATION
 GALACTIC_VIEW
     Карта галактики
 ROTATION_DAMPING_ON
-	Плавное вращение вкл.
+    Плавное вращение вкл.
 ROTATION_DAMPING_OFF
-	Плавное вращение выкл.
+    Плавное вращение выкл.
 NO_ALERT
     Угроза отсутствует
 SHIP_NEARBY
@@ -793,7 +639,7 @@ CLEARANCE_DENIED_NO_BAYS
 ITEM_IS_OUT_OF_STOCK
     Позиция недоступна.
 BROWN_DWARF
-    Коричневый карлик,  субзвёздный объект 
+    Коричневый карлик,  субзвёздный объект
 WHITE_DWARF
     Белый карлик
 STAR_M
@@ -881,19 +727,19 @@ COMMA_HIGHLY_VOLCANIC
 HIGHLY_VOLCANIC
     Вулканическая активность.
 ICE_WORLD
-     " Ледяной мир."
+    " Ледяной мир."
 ROCKY_PLANET
-     " Скалистый мир."
+    " Скалистый мир."
 OCEANICWORLD
-     " Океанический мир."
+    " Океанический мир."
 PLANET_CONTAINING_LIQUID_WATER
-     " На поверхности присутствует жидкая вода."
+    " На поверхности присутствует жидкая вода."
 PLANET_WITH_SOME_ICE
-     " На поверхности имеются ледяные поля."
+    " На поверхности имеются ледяные поля."
 ROCKY_PLANET_CONTAINING_COME_LIQUIDS
-     " Скалистый мир, присутствуют жидкие вещества."
+    " Скалистый мир, присутствуют жидкие вещества."
 WITH_NO_SIGNIFICANT_ATMOSPHERE
-     " Имеется разреженная атмосфера."
+    " Имеется разреженная атмосфера."
 TENUOUS
     Разреженная атмосфера.
 THIN
@@ -903,31 +749,31 @@ THICK
 VERY_DENSE
     Очень плотная атмосфера.
 WITH_A
-     ""
+    
 O2_ATMOSPHERE
-     " Основной элемент в атмосфере: кислород."
+    " Основной элемент в атмосфере: кислород."
 CO2_ATMOSPHERE
-     " Основной элемент в атмосфере: углекислый газ."
+    " Основной элемент в атмосфере: углекислый газ."
 CO_ATMOSPHERE
-     " Основной элемент в атмосфере: угарный газ."
+    " Основной элемент в атмосфере: угарный газ."
 CH4_ATMOSPHERE
-     " Основной элемент в атмосфере: метан."
+    " Основной элемент в атмосфере: метан."
 H_ATMOSPHERE
-     " Основной элемент в атмосфере: водород."
+    " Основной элемент в атмосфере: водород."
 HE_ATMOSPHERE
-     " Основной элемент в атмосфере: гелий."
+    " Основной элемент в атмосфере: гелий."
 AR_ATMOSPHERE
-     " Основной элемент в атмосфере: аргон."
+    " Основной элемент в атмосфере: аргон."
 S_ATMOSPHERE
-     " Основной элемент в атмосфере: сера."
+    " Основной элемент в атмосфере: сера."
 N_ATMOSPHERE
-     " Основной элемент в атмосфере: азот."
+    " Основной элемент в атмосфере: азот."
 AND_HIGHLY_COMPLEX_ECOSYSTEM
-     " Присутствует сложная экосистема."
+    " Присутствует сложная экосистема."
 AND_INDIGENOUS_PLANT_LIFE
-     " Присутствует растительная жизнь."
+    " Присутствует растительная жизнь."
 AND_INDIGENOUS_MICROBIAL_LIFE
-     " Присутствуют колонии микроорганизмов."
+    " Присутствуют колонии микроорганизмов."
 ORBITAL_STARPORT
     Орбитальный порт
 STARPORT
@@ -1036,8 +882,6 @@ ECONOMY_TYPE
     Экономика:
 ALLEGIANCE
     Принадлежность:
-FACTION
-	Фракция:
 POPULATION
     Население:
 OVER_N_BILLION
@@ -1055,7 +899,7 @@ SYSTEM_NUMBER
 NAME
     Имя
 ROTATIONAL_PERIOD
-     " (время оборота)"
+    " (время оборота)"
 RADIUS
     Радиус объекта
 SEMI_MAJOR_AXIS
@@ -1068,10 +912,6 @@ WHEELS_ARE_UP
     Шасси подняты
 WHEELS_ARE_DOWN
     Шасси выпущены
-OBJECT_LABELS_ARE_ON
-    Метки объектов вкл.
-OBJECT_LABELS_ARE_OFF
-    Метки объектов выкл.
 SELECT_LOW_THRUST_POWER_LEVEL
     Зафиксировать уровень тяги
 SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT
@@ -1171,7 +1011,7 @@ FINE_PAID_N_BUT_N_REMAINING
 FINE_PAID_N
     Вы оплатили штраф на сумму %fine.
 SET_HYPERSPACE_DESTINATION_TO
-    "Для гиперпрыжка выбрана система %system"
+    Для гиперпрыжка выбрана система %system
 NO_TARGET_SELECTED
     Компьютер корабля: цель не выбрана
 REQUEST_DOCKING_CLEARANCE
@@ -1190,26 +1030,16 @@ AUTOPILOT_ENTER_HIGH_ORBIT_AROUND
     Автопилот: Встать на высокую орбиту %target
 SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
     Анализатор гипероблаков: Установить систему прибытия целью для гиперпрыжка.
-FAILED
-    Провалено
-COMPLETED
-    Завершено
-ACTIVE
-    Активно
 DISTANCE_LY
     Расстояние: %distance{f.2} сл
 SYSTEM
     системы
 UNOCCUPIED_CABIN
     Пассажирская каюта
-X_UNOCCUPIED_CABINS
-    Пассажирских кают: %quantity
 UNOCCUPIED_CABIN_DESCRIPTION
     Для перевозки каждого дополнительного пассажира требуется отдельная каюта.
 PASSENGER_CABIN
     Занятая пассажирская каюта
-X_PASSENGER_CABINS
-    Занятых пассажирских кают: %quantity 
 CABINS
     Кают в наличии
 MONTH_JAN

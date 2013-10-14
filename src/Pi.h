@@ -20,7 +20,6 @@
 
 class DeathView;
 class GalacticView;
-class GameMenuView;
 class Intro;
 class LuaConsole;
 class LuaNameGen;
@@ -137,7 +136,7 @@ public:
 	static Player *player;
 	static SectorView *sectorView;
 	static GalacticView *galacticView;
-	static GameMenuView *gameMenuView;
+	static UIView *settingsView;
 	static SystemInfoView *systemInfoView;
 	static SystemView *systemView;
 	static WorldView *worldView;

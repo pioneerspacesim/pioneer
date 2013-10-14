@@ -17,10 +17,47 @@ public:
 		return 1;
 	}
 
+	static int l_set_selected_option(lua_State *l) {
+		UI::List *list = LuaObject<UI::List>::CheckFromLua(1);
+		size_t len;
+		const char *str = luaL_checklstring(l, 2, &len);
+		const bool success = list->SetSelectedOption(std::string(str, len));
+		if (!success) {
+			luaL_error(l, "UI.List.SetSelectedOption: invalid option '%s' specified", str);
+		}
+		lua_pushvalue(l, 1);
+		return 1;
+	}
+
+	static int l_set_selected_index(lua_State *l) {
+		UI::List *list = LuaObject<UI::List>::CheckFromLua(1);
+		const int index = luaL_checkinteger(l, 2);
+		if (index < 1 || size_t(index) > list->NumItems()) {
+			luaL_error(l, "UI.List.SetSelectedIndex: invalid index %d specified", index);
+		}
+		list->SetSelectedIndex(index - 1);
+		lua_pushvalue(l, 1);
+		return 1;
+	}
+
 	static int l_attr_selected_option(lua_State *l) {
 		UI::List *list = LuaObject<UI::List>::CheckFromLua(1);
-		const std::string &selectedOption(list->GetSelectedOption());
-		lua_pushlstring(l, selectedOption.c_str(), selectedOption.size());
+		if (list->IsEmpty()) {
+			lua_pushnil(l);
+		} else {
+			const std::string &selectedOption = list->GetSelectedOption();
+			lua_pushlstring(l, selectedOption.c_str(), selectedOption.size());
+		}
+		return 1;
+	}
+
+	static int l_attr_selected_index(lua_State *l) {
+		UI::List *list = LuaObject<UI::List>::CheckFromLua(1);
+		if (list->IsEmpty()) {
+			lua_pushnil(l);
+		} else {
+			lua_pushinteger(l, list->GetSelectedIndex() + 1);
+		}
 		return 1;
 	}
 
@@ -43,11 +80,14 @@ template <> void LuaObject<UI::List>::RegisterClass()
 	static const char *l_parent = "UI.Container";
 
 	static const luaL_Reg l_methods[] = {
-		{ "AddOption", LuaList::l_add_option },
+		{ "AddOption",         LuaList::l_add_option          },
+		{ "SetSelectedOption", LuaList::l_set_selected_option },
+		{ "SetSelectedIndex",  LuaList::l_set_selected_index  },
 		{ 0, 0 }
 	};
 
 	static const luaL_Reg l_attrs[] = {
+		{ "selectedIndex",    LuaList::l_attr_selected_index     },
 		{ "selectedOption",   LuaList::l_attr_selected_option    },
 		{ "onOptionSelected", LuaList::l_attr_on_option_selected },
 		{ 0, 0 }

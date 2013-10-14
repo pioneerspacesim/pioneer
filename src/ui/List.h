@@ -17,8 +17,15 @@ public:
 	virtual void Layout();
 
 	List *AddOption(const std::string &text);
-	const std::string &GetSelectedOption();
 	void Clear();
+
+	size_t NumItems() const { return m_options.size(); }
+	bool IsEmpty() const { return m_options.empty(); }
+
+	const std::string &GetSelectedOption() const;
+	bool SetSelectedOption(const std::string &option);
+	int GetSelectedIndex() const;
+	void SetSelectedIndex(const int index);
 
 	sigc::signal<void,unsigned int,const std::string &> onOptionSelected;
 
