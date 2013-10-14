@@ -106,21 +106,21 @@ ui.templates.Settings = function (args)
 			t("Compress Textures"))
 
 		return ui:Grid({1,1}, 1)
-			:SetCell(0,0, ui:Margin(5, 'ALL', ui:Background(ui:VBox(5):PackEnd({
+			:SetCell(0,0, ui:Margin(5, 'ALL', ui:VBox(5):PackEnd({
 				ui:Label(t("Video configuration (restart game to apply)")),
 				modeDropDown,
 				aaDropDown,
 				fullScreenCheckBox,
 				shadersCheckBox,
 				compressionCheckBox,
-			}))))
-			:SetCell(1,0, ui:Margin(5, 'ALL', ui:Background(ui:VBox(5):PackEnd({
+			})))
+			:SetCell(1,0, ui:Margin(5, 'ALL', ui:VBox(5):PackEnd({
 				planetDetailDropDown,
 				planetTextureCheckBox,
 				fractalDetailDropDown,
 				cityDetailDropDown,
 				navTunnelsCheckBox,
-			}))))
+			})))
 	end
 
 	local soundTemplate = function()
@@ -269,7 +269,7 @@ ui.templates.Settings = function (args)
 		close_buttons = close_buttons[1]
 	end
 
-	return ui:Background():SetInnerWidget(ui:VBox(10):PackEnd({setTabs, close_buttons}))
+	return ui:VBox():PackEnd({setTabs, ui:Margin(10, "ALL", close_buttons)})
 end
 
 ui.templates.SettingsInGame = function ()
