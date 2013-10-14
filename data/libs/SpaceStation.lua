@@ -110,12 +110,13 @@ SpaceStation.adverts = {}
 --
 --   stable
 --
+local nextRef = 0
 function SpaceStation:AddAdvert (description, chatFunc, deleteFunc)
 	if not SpaceStation.adverts[self] then SpaceStation.adverts[self] = {} end
 	local adverts = SpaceStation.adverts[self]
-	local ref = #adverts+1
-	adverts[ref] = { description, chatFunc, deleteFunc };
-	return ref
+	nextRef = nextRef+1
+	adverts[nextRef] = { description, chatFunc, deleteFunc };
+	return nextRef
 end
 
 --
@@ -172,6 +173,7 @@ local function destroySystem ()
 end
 
 Event.Register("onGameStart", function ()
+	nextRef = 0
 	updateSystem()
 	Timer:CallEvery(3600, updateSystem)
 end)
