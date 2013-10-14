@@ -66,7 +66,7 @@ ui.templates.Settings = function (args)
 			local mode = videoModeValues[token]
 			Engine.SetVideoResolution(mode.width, mode.height)
 		end
-		local modeDropDown = optionDropDown(GetVideoMode, SetVideoMode, t("Video mode"), videoModeLabels, videoModeLabels)
+		local modeDropDown = optionDropDown(GetVideoMode, SetVideoMode, t("Video resolution"), videoModeLabels, videoModeLabels)
 
 		local aaLabels = { t("Off"), "x2", "x4", "x8", "x16" }
 		local aaModes = { 0, 2, 4, 8, 16 }

@@ -30,7 +30,7 @@ Translate:Add({
 		['Save'] = 'Save',
 
 		-- Settings screen
-		['Video mode'] = 'Video mode',
+		['Video resolution'] = 'Video resolution',
 		['Off'] = 'Off',
 		['Multisampling'] = 'Multisampling',
 		['Very low'] = 'Very low',
@@ -201,7 +201,7 @@ Translate:Add({
 		['Save'] = 'Zapisz',
 
 		-- Settings screen
-		--['Video mode'] = '',
+		['Video resolution'] = 'Rozdzielczość ekranu',
 		['Off'] = 'Wyłączone',
 		--['Multisampling'] = '',
 		['Very low'] = 'Bardzo mała',
@@ -369,7 +369,7 @@ Translate:Add({
 		['Save'] = 'Guardar',
 
 		-- Settings screen
-		--['Video mode'] = '',
+		['Video resolution'] = 'Resolución de pantalla',
 		['Off'] = 'Off',
 		--['Multisampling'] = '',
 		['Very low'] = 'Muy bajo',
@@ -535,7 +535,7 @@ Translate:Add({
 		['Save'] = 'Ment',
 
 		-- Settings screen
-		--['Video mode'] = '',
+		['Video resolution'] = 'Képernyő felbontása',
 		['Off'] = 'Ki',
 		--['Multisampling'] = '',
 		['Very low'] = 'Min.',
@@ -605,7 +605,7 @@ Translate:Add({
 		['Save'] = 'Записать',
 
 		-- Settings screen
-		--['Video mode'] = '',
+		['Video resolution'] = 'Разрешение экрана',
 		['Off'] = 'Выкл.',
 		--['Multisampling'] = '',
 		['Very low'] = 'Оч.низкая',
@@ -771,7 +771,7 @@ Translate:Add({
 		['Save'] = 'Speichern',
 
 		-- Settings screen
-		--['Video mode'] = '',
+		['Video resolution'] = 'Grafikauflösung',
 		['Off'] = 'Aus',
 		--['Multisampling'] = '',
 		['Very low'] = 'Sehr niedrig',
@@ -887,7 +887,7 @@ Translate:Add({
 		['Save'] = 'Uložit',
 
 		-- Settings screen
-		--['Video mode'] = '',
+		['Video resolution'] = 'Rozlišení obrazovky',
 		['Off'] = 'Vypnuto',
 		--['Multisampling'] = '',
 		['Very low'] = 'Velmi nízké',
