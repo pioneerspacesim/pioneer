@@ -70,7 +70,7 @@ ui.templates.Settings = function (args)
 
 		local aaLabels = { t("Off"), "x2", "x4", "x8", "x16" }
 		local aaModes = { 0, 2, 4, 8, 16 }
-		local aaDropDown = optionDropDown(Engine.GetMultisampling, Engine.SetMultisampling, t("AA"), aaLabels, aaModes)
+		local aaDropDown = optionDropDown(Engine.GetMultisampling, Engine.SetMultisampling, t("Multisampling"), aaLabels, aaModes)
 
 		local detailLevels = { 'VERY_LOW', 'LOW', 'MEDIUM', 'HIGH', 'VERY_HIGH' }
 		local detailLabels = { t("Very low"), t("Low"), t("Medium"), t("High"), t("Very high") }

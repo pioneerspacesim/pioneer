@@ -32,7 +32,7 @@ Translate:Add({
 		-- Settings screen
 		['Video mode'] = 'Video mode',
 		['Off'] = 'Off',
-		['AA'] = 'AA', -- anti-aliasing
+		['Multisampling'] = 'Multisampling',
 		['Very low'] = 'Very low',
 		['Low'] = 'Low',
 		['Medium'] = 'Medium',
@@ -203,7 +203,7 @@ Translate:Add({
 		-- Settings screen
 		--['Video mode'] = '',
 		['Off'] = 'Wyłączone',
-		--['AA'] = '', -- anti-aliasing
+		--['Multisampling'] = '',
 		['Very low'] = 'Bardzo mała',
 		['Low'] = 'Mała',
 		['Medium'] = 'Średnia',
@@ -371,7 +371,7 @@ Translate:Add({
 		-- Settings screen
 		--['Video mode'] = '',
 		['Off'] = 'Off',
-		--['AA'] = '', -- anti-aliasing
+		--['Multisampling'] = '',
 		['Very low'] = 'Muy bajo',
 		['Low'] = 'Bajo',
 		['Medium'] = 'Medio',
@@ -537,7 +537,7 @@ Translate:Add({
 		-- Settings screen
 		--['Video mode'] = '',
 		['Off'] = 'Ki',
-		--['AA'] = '', -- anti-aliasing
+		--['Multisampling'] = '',
 		['Very low'] = 'Min.',
 		['Low'] = 'Kicsi',
 		['Medium'] = 'Közepes',
@@ -607,7 +607,7 @@ Translate:Add({
 		-- Settings screen
 		--['Video mode'] = '',
 		['Off'] = 'Выкл.',
-		--['AA'] = '', -- anti-aliasing
+		--['Multisampling'] = '',
 		['Very low'] = 'Оч.низкая',
 		['Low'] = 'Низкая',
 		['Medium'] = 'Средняя',
@@ -773,7 +773,7 @@ Translate:Add({
 		-- Settings screen
 		--['Video mode'] = '',
 		['Off'] = 'Aus',
-		--['AA'] = '', -- anti-aliasing
+		--['Multisampling'] = '',
 		['Very low'] = 'Sehr niedrig',
 		['Low'] = 'Niedrig',
 		['Medium'] = 'Mittel',
@@ -889,7 +889,7 @@ Translate:Add({
 		-- Settings screen
 		--['Video mode'] = '',
 		['Off'] = 'Vypnuto',
-		--['AA'] = '', -- anti-aliasing
+		--['Multisampling'] = '',
 		['Very low'] = 'Velmi nízké',
 		['Low'] = 'Nízké',
 		['Medium'] = 'Střední',
