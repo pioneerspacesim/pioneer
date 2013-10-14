@@ -33,7 +33,7 @@ ui.templates.FileDialog = function (args)
 	local fileEntry
 	if args.allowNewFile then
 		fileEntry = ui:TextEntry()
-		list.onOptionSelected:Connect(function (fileName) fileEntry:SetText(fileName); end)
+		list.onOptionSelected:Connect(function (index, fileName) fileEntry:SetText(fileName); end)
 		selectButton.onClick:Connect(function () onSelect(fileEntry.text); end)
 	else
 		selectButton.onClick:Connect(function () onSelect(list.selectedOption); end)
