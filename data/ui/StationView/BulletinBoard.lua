@@ -21,10 +21,14 @@ local bulletinBoard = function (args)
 	bbTable.onRowClicked:Connect(function (row)
 		local ref = row+1
 		local onChat = SpaceStation.adverts[station][ref][2]
+		local onDelete = SpaceStation.adverts[station][ref][3]
         local chatFunc = function (form, option)
 			return onChat(form, ref, option)
 		end
-		local form = ChatForm.New(chatFunc)
+		local removeFunc = onDelete and function ()
+			station:RemoveAdvert(ref)
+		end or nil
+		local form = ChatForm.New(chatFunc, removeFunc)
 		ui:NewLayer(form:BuildWidget())
 	end)
 

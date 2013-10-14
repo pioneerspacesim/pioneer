@@ -144,6 +144,10 @@ end
 
 function SpaceStation:RemoveAdvert (ref)
 	if not SpaceStation.adverts[self] then return end
+	local deleteFunc = SpaceStation.adverts[self][ref][3]
+	if deleteFunc then
+		deleteFunc(ref)
+	end
 	SpaceStation.adverts[self][ref] = nil
 end
 
@@ -169,6 +173,12 @@ local function updateSystem ()
 end
 local function destroySystem ()
 	SpaceStation.shipsOnSale = {}
+
+	for station,ads in pairs(SpaceStation.adverts) do
+		for ref,ad in pairs(ads) do
+			station:RemoveAdvert(ref)
+		end
+	end
 	SpaceStation.adverts = {}
 end
 

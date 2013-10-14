@@ -14,9 +14,10 @@ ChatForm.meta = {
 	class = "ChatForm",
 }
 
-function ChatForm.New (chatFunc)
+function ChatForm.New (chatFunc, removeFunc)
 	local form = {
-		chatFunc = chatFunc
+		chatFunc = chatFunc,
+		removeFunc = removeFunc,
 	}
 	setmetatable(form, ChatForm.meta)
 	form.chatFunc(form, 0)
@@ -43,6 +44,9 @@ function ChatForm:BuildWidget ()
 			b.button.onClick:Connect(function ()
 				if (option[2] == -1) then
 					ui:DropLayer()
+					if self.removeOnClose and self.removeFunc then
+						self.removeFunc()
+					end
 				else
 					self.chatFunc(self, option[2])
 					ui.layer:SetInnerWidget(self:BuildWidget())
@@ -96,7 +100,7 @@ function ChatForm:GotoPolice ()
 end
 
 function ChatForm:RemoveAdvertOnClose()
-	print("ChatForm:RemoveAdvertOnClose")
+	self.removeOnClose = true
 end
 
 return ChatForm
