@@ -100,13 +100,8 @@ private:
 	static RefCountedPtr<GeoPatchContext> s_patchContext;
 
 	void SetUpMaterials();
-	enum EclipseState {
-		ECLIPSE_ENABLED,
-		ECLIPSE_DISABLED,
-		ECLIPSE_MAX
-	};
-	ScopedPtr<Graphics::Material> m_surfaceMaterial[ECLIPSE_MAX];
-	ScopedPtr<Graphics::Material> m_atmosphereMaterial[ECLIPSE_MAX];
+	ScopedPtr<Graphics::Material> m_surfaceMaterial;
+	ScopedPtr<Graphics::Material> m_atmosphereMaterial;
 	//special parameters for shaders
 	MaterialParameters m_materialParameters;
 
