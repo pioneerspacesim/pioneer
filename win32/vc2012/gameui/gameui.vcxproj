@@ -90,8 +90,10 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\src\gameui\BindingCapture.cpp" />
     <ClCompile Include="..\..\..\src\gameui\Face.cpp" />
     <ClCompile Include="..\..\..\src\gameui\Lua.cpp" />
+    <ClCompile Include="..\..\..\src\gameui\LuaBindingCapture.cpp" />
     <ClCompile Include="..\..\..\src\gameui\LuaFace.cpp" />
     <ClCompile Include="..\..\..\src\gameui\LuaModelSpinner.cpp" />
     <ClCompile Include="..\..\..\src\gameui\ModelSpinner.cpp" />
@@ -103,6 +105,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\src\gameui\BindingCapture.h" />
     <ClInclude Include="..\..\..\src\gameui\Face.h" />
     <ClInclude Include="..\..\..\src\gameui\GameUI.h" />
     <ClInclude Include="..\..\..\src\gameui\Lua.h" />
