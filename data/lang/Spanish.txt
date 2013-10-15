@@ -21,8 +21,6 @@ STOCK
     Stock
 CARGO
     Carga
-VID_LINK_DOWN
-    Sin Videoconexión
 VID_LINK_ESTABLISHED
     Videoconexión establecida
 VID_CONNECTING
@@ -31,8 +29,6 @@ BOUGHT_1T_OF
     Ha adquirido 1t de %commodity.
 SOLD_1T_OF
     Ha vendido 1t de %commodity.
-WELCOME_TO_MARKET
-    Bienvenido al mercado de artículos de %station
 GO_BACK
     Atrás
 FITTING
@@ -79,8 +75,6 @@ WEIGHT_FULLY_LADEN
     Peso a carga completa
 CAPACITY
     Capacidad
-CAPACITY_USED
-    Capacidad usada
 FORWARD_ACCEL_EMPTY
     Aceleración (vacío)
 NUMBER_G
@@ -93,8 +87,6 @@ REVERSE_ACCEL_LADEN
     Desaceleración (Cargado)
 HYPERDRIVE_FITTED
     Motor Hiperespacial montado:
-HYPERSPACE_RANGE_LADEN
-    Autonomía hiperespacial (Carga completa):
 THANKS_AND_REMEMBER_TO_BUY_FUEL
     Gracias por su adquisición. Recuerde montar equipo y adquirir combustible antes de su partida.
 CLASS_NUMBER
@@ -107,10 +99,6 @@ REPAIR_1_PERCENT_HULL
     Reparar 1.0% de daños del casco
 REPAIR_ENTIRE_HULL
     Reparar daño completo del casco (%repairpercent{f.1}%%)
-REPAIR
-    Reparar
-PART_EX
-    Cambio
 VIEW
     Vista
 SHIP_EQUIPMENT
@@ -123,8 +111,6 @@ NEW_AND_RECONDITIONED_SHIPS
     Naves nuevas y reacondicionadas
 BULLETIN_BOARD
     Tablón de anuncios
-WELCOME_TO_SOMEWHERE
-    Bienvenido a %station
 # This next translation does not have to be a real translation. You can
 # write anything you like here. It will appear in every space station
 # in the whole galaxy.
@@ -164,24 +150,10 @@ SEARCH
     Buscar
 
 # Config / game control
-PRESS_BUTTON_WANTED_FOR
-    "Pulse el botón para "
-MOVE_AXIS_WANTED_FOR
-    "Mueva el eje del Joystick para "
-SAVE
-    Guardar
-LOAD
-    Cargar
-CANCEL
-    Cancelar
-SELECT_FILENAME_TO_SAVE
-    Seleccione un archivo para Guardar o cree un nuevo nombre de fichero
 CANT_SAVE_IN_HYPERSPACE
     No es posible salvar estando en hiperespacio
 GAME_SAVED_TO
     "Juego guardado en "
-SELECT_FILENAME_TO_LOAD
-    Seleccione un archivo para cargar
 COULD_NOT_OPEN_FILENAME
     No se pudo abrir %path
 GAME_LOAD_CORRUPT
@@ -192,78 +164,10 @@ GAME_LOAD_CANNOT_OPEN
     Este juego salvado no se puede abrir debido a permisos o algo...
 GAME_SAVE_CANNOT_WRITE
     No se puede escribir en este juego salvado por un error del sistema.
-VERY_LOW
-    Muy bajo
-LOW
-    Bajo
-MEDIUM
-    Medio
-HIGH
-    Alto
-VERY_HIGH
-    Muy alto
-VERY_VERY_HIGH
-    Máximo
-ON
-    On
-OFF
-    Off
-SIGHTS_SOUNDS_SAVES
-    Preferencias y Archivos
 PIONEER
     PIONEER
-SAVE_THE_GAME
-    [S] Salvar un Juego
-LOAD_A_GAME
-    [L] Cargar un Juego
-EXIT_THIS_GAME
-    Abandonar el Juego
-RETURN_TO_MENU
-    Volver a menú
-WINDOW_OR_FULLSCREEN
-    Ventana o Pantalla completa (Reiniciar para aplicar)
-FULL_SCREEN
-    Pantalla completa
-COMPRESS_TEXTURES
-    Comprimir Texturas
-OTHER_GRAPHICS_SETTINGS
-    Otras opciones gráficas
-USE_SHADERS
-    Usar Shaders (Reiniciar para aplicar)
-SOUND_SETTINGS
-    Opciones de audio
-VOL_MASTER
-    Master:
-VOL_EFFECTS
-    Efectos:
-VOL_MUSIC
-    Música:
-VIDEO_RESOLUTION
-    Resolución de pantalla (Reiniciar para aplicar)
-X_BY_X
-    %{x}x%{y}
-PLANET_DETAIL_DISTANCE
-    Dist. detalle planetario:
-CITY_DETAIL_LEVEL
-    Detalle urbano:
-PLANET_TEXTURES
-    Tex. planetarias:
-FRACTAL_DETAIL
-    Detalle Fractal:
 CONTROLS
     Controles
-ENABLE_JOYSTICK
-    Habilitar joystick
-MOUSE_INPUT
-    Mouse/Ratón
-INVERT_MOUSE_Y
-    Invertir MouseY
-HUD
-  HUD
-DISPLAY_NAV_TUNNEL
-  Mostrar túnel de navegación
-LANGUAGE_SELECTION
-    Idioma (Reiniciar para aplicar)
 
 # Wares
 NONE
@@ -364,8 +268,6 @@ ECM_ADVANCED_DESCRIPTION
     Un sistema de defensa electrónico de contramedidas, capaz de neutralizar un tipo más avanzado de misiles guiados.
 SHIELD_GENERATOR
     Generador de escudo
-X_SHIELD_GENERATORS
-    %quantity generadores de escudo
 SHIELD_GENERATOR_DESCRIPTION
     Proporciona una defensa adicional del casco con cada unidad ensamblada.
 LASER_COOLING_BOOSTER
@@ -458,62 +360,14 @@ HYPERSPACE_ARRIVAL_CLOUD
     Nube hiperespacial de llegada
 HYPERSPACE_DEPARTURE_CLOUD
     Nube hiperespacial de partida
-TYPE
-    Tipo
-CLIENT
-    Cliente
-LOCATION
-    Localización
-DUE
-    Deuda
-REWARD
-    Recompensa
-STATUS
-    Status
-CARGO_INVENTORY
-    Inventario de carga:
-JETTISON
-    Tirar por la borda
-REFUEL
-    Repostar
-JETTISONED_1T_OF_X
-    Arrojada 1 ton. de %commodity
-COMBAT_RATING
-    CALIFICACIÓN DE COMBATE:
-CRIMINAL_RECORD
-    REGISTRO DELICTIVO:
-SHIP_INFORMATION_HEADER
-    "INFO DE LA NAVE: "
-HYPERDRIVE
-    Motor hiperespacial
 FREE
     Libre
-FREE_LOWERCASE
-    libre
 USED
     Utilizado
 FUEL_WEIGHT
     Masa de fuel
-TOTAL_WEIGHT
-    Masa total
-FRONT_WEAPON
-    Arma frontal
-REAR_WEAPON
-    Arma de popa
-HYPERSPACE_RANGE
-    Autonomía hiperespacial
-NO_MOUNTING
-    Sin montura
-N_LIGHT_YEARS_N_MAX
-    %distance{f.1} años luz (%maxdistance{f.1} max)
-MAX
-        max
 SHIP_INFORMATION
     Info de la nave
-PERSONAL
-    Personal
-MISSIONS
-    Misiones
 SHIFT
     "shift "
 CTRL
@@ -525,11 +379,11 @@ META
 JOY
     Joy
 BUTTON
-     " Button "
+    " Button "
 HAT
-     " Hat"
+    " Hat"
 DIRECTION
-     " Dir "
+    " Dir "
 X
     X
 Y
@@ -537,7 +391,7 @@ Y
 Z
     Z
 JOY_AXIS
-     Eje %sign%axis Joy%joynum
+    Eje %sign%axis Joy%joynum
 WEAPONS
     Armamento
 TARGET_OBJECT_IN_SIGHTS
@@ -638,14 +492,6 @@ PIRACY
     Piratería
 MURDER
     Asesinato
-INDEPENDENT
-    Independendientes
-EARTH_FEDERATION
-    Federación terrestre
-INDEPENDENT_CONFEDERATION
-    Confederación de Sistemas independientes
-EMPIRE
-    El Imperio
 NO_ESTABLISHED_ORDER
     Sin orden establecido
 HARD_CAPITALIST
@@ -741,7 +587,7 @@ CAMERA_RIGHT_VIEW
 CAMERA_BOTTOM_VIEW
     Vista inferior
 INTERNAL_VIEW
-    Vista interior 
+    Vista interior
 EXTERNAL_VIEW
     Vista externa
 SIDEREAL_VIEW
@@ -885,19 +731,19 @@ COMMA_HIGHLY_VOLCANIC
 HIGHLY_VOLCANIC
     Altamente volcánico
 ICE_WORLD
-     " Mundo helado"
+    " Mundo helado"
 ROCKY_PLANET
-     " Planeta rocoso"
+    " Planeta rocoso"
 OCEANICWORLD
-     " Mundo oceánico"
+    " Mundo oceánico"
 PLANET_CONTAINING_LIQUID_WATER
-     " Planeta con agua líquida"
+    " Planeta con agua líquida"
 PLANET_WITH_SOME_ICE
-     " Planeta con hielo en superficie"
+    " Planeta con hielo en superficie"
 ROCKY_PLANET_CONTAINING_COME_LIQUIDS
-     " Planeta rocoso con líquido en superficie,"
+    " Planeta rocoso con líquido en superficie,"
 WITH_NO_SIGNIFICANT_ATMOSPHERE
-     " sin atmósfera significativa"
+    " sin atmósfera significativa"
 TENUOUS
     tenue
 THIN
@@ -907,31 +753,31 @@ THICK
 VERY_DENSE
     muy densa
 WITH_A
-     " con una "
+    " con una "
 O2_ATMOSPHERE
-     " Atmósfera de oxígeno"
+    " Atmósfera de oxígeno"
 CO2_ATMOSPHERE
-     " Atmósfera de dióxido de carbono"
+    " Atmósfera de dióxido de carbono"
 CO_ATMOSPHERE
-     " Atmósfera de monóxido de carbono"
+    " Atmósfera de monóxido de carbono"
 CH4_ATMOSPHERE
-     " Atmósfera de metano"
+    " Atmósfera de metano"
 H_ATMOSPHERE
-     " Atmósfera de hidrógeno"
+    " Atmósfera de hidrógeno"
 HE_ATMOSPHERE
-     " Atmósfera de Helio"
+    " Atmósfera de Helio"
 AR_ATMOSPHERE
-     " Atmósfera de argón"
+    " Atmósfera de argón"
 S_ATMOSPHERE
-     " Atmósfera de azufre"
+    " Atmósfera de azufre"
 N_ATMOSPHERE
-     " Atmósfera de nitrógeno"
+    " Atmósfera de nitrógeno"
 AND_HIGHLY_COMPLEX_ECOSYSTEM
-     " y un complejo ecosistema."
+    " y un complejo ecosistema."
 AND_INDIGENOUS_PLANT_LIFE
-     " y vida vegetal indígena."
+    " y vida vegetal indígena."
 AND_INDIGENOUS_MICROBIAL_LIFE
-     " y vida microbiana indígena."
+    " y vida microbiana indígena."
 ORBITAL_STARPORT
     Puerto estelar orbital
 STARPORT
@@ -971,7 +817,7 @@ MASS
 N_WHATEVER_MASSES
     %mass{f.3} masa %units
 N_WHATEVER_RADII
-    %radius{f.3} radios %units (%radkm{f.0} km) 
+    %radius{f.3} radios %units (%radkm{f.0} km)
 SOLAR
     Solar
 EARTH
@@ -997,7 +843,7 @@ ECCENTRICITY
 AXIAL_TILT
     Inclinación
 EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO
-    Relación ecuador-radio polar 
+    Relación ecuador-radio polar
 N_DEGREES
     %angle{f.1} grados
 DAY_LENGTH
@@ -1042,8 +888,6 @@ ECONOMY_TYPE
     Sistema económico:
 ALLEGIANCE
     Alianza:
-FACTION
-    Facción:
 POPULATION
     Habitantes:
 OVER_N_BILLION
@@ -1061,7 +905,7 @@ SYSTEM_NUMBER
 NAME
     Nombre
 ROTATIONAL_PERIOD
-     " (periodo rotacional)"
+    " (periodo rotacional)"
 RADIUS
     Radio
 SEMI_MAJOR_AXIS
@@ -1074,10 +918,6 @@ WHEELS_ARE_UP
     Tren de aterrizaje arriba
 WHEELS_ARE_DOWN
     Tren de aterrizaje abajo
-OBJECT_LABELS_ARE_ON
-    Etiquetas activas
-OBJECT_LABELS_ARE_OFF
-    Etiquetas desactivadas
 SELECT_LOW_THRUST_POWER_LEVEL
     Selecionar impulso de baja potencia
 SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT
@@ -1179,7 +1019,7 @@ FINE_PAID_N_BUT_N_REMAINING
 FINE_PAID_N
     Ha pagado la multa de %fine.
 SET_HYPERSPACE_DESTINATION_TO
-    "Fijar destino hiperespacial a %system"
+    Fijar destino hiperespacial a %system
 NO_TARGET_SELECTED
     Ordenador de a bordo: Sin objetivo
 REQUEST_DOCKING_CLEARANCE
@@ -1198,26 +1038,16 @@ AUTOPILOT_ENTER_HIGH_ORBIT_AROUND
     Piloto automático: Establecer órbita alta alrededor de %target
 SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
     Analizador de nube hiperespacial: Fijar objetivo hiperespacial del viaje
-FAILED
-    Fallida
-COMPLETED
-    Completada
-ACTIVE
-    Activa
 DISTANCE_LY
     Distancia: %distance{f.2} ly
 SYSTEM
     Sistema
 UNOCCUPIED_CABIN
     Cabina extra de pasajeros
-X_UNOCCUPIED_CABINS
-    %quantity cabinas extra de pasajeros
 UNOCCUPIED_CABIN_DESCRIPTION
     Para el transporte de un pasajero
 PASSENGER_CABIN
     Cabina de pasajeros ocupada
-X_PASSENGER_CABINS
-    %quantity cabinas de pasajeros ocupadas
 CABINS
     Cabinas
 MONTH_JAN

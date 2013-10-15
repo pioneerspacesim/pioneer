@@ -6,6 +6,7 @@
 #include "LuaUtils.h"
 #include "Pi.h"
 #include "Lang.h"
+#include <algorithm>
 
 /*
  * Interface: Lang
@@ -134,6 +135,18 @@ static int l_lang_get_current_language(lua_State *l)
 	return 1;
 }
 
+static int l_lang_set_current_language(lua_State *l)
+{
+	const std::vector<std::string> &langs = Lang::GetAvailableLanguages();
+	std::string lang;
+	pi_lua_generic_pull(l, 1, lang);
+	if (std::find(langs.begin(), langs.end(), lang) == langs.end())
+		return luaL_error(l, "The language '%s' is not known.", lang.c_str());
+	Pi::config->SetString("Lang", lang);
+	Pi::config->Save();
+	return 0;
+}
+
 void LuaLang::Register()
 {
 	lua_State *l = Lua::manager->GetLuaState();
@@ -144,6 +157,7 @@ void LuaLang::Register()
 		{ "GetDictionary",   l_lang_get_dictionary   },
 		{ "GetCoreLanguages",    l_lang_get_core_languages     },
 		{ "GetCurrentLanguage", l_lang_get_current_language },
+		{ "SetCurrentLanguage", l_lang_set_current_language },
 		{ 0, 0 }
 	};
 

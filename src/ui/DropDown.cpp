@@ -107,9 +107,40 @@ DropDown *DropDown::AddOption(const std::string &text)
 	return this;
 }
 
+bool DropDown::IsEmpty() const
+{
+	return m_popup->IsEmpty();
+}
+
+size_t DropDown::NumItems() const
+{
+	return m_popup->NumItems();
+}
+
 const std::string &DropDown::GetSelectedOption() const
 {
 	return m_popup->GetSelectedOption();
+}
+
+bool DropDown::SetSelectedOption(const std::string &option)
+{
+	if (m_popup->SetSelectedOption(option))
+	{
+		m_label->SetText(option);
+		return true;
+	}
+	return false;
+}
+
+int DropDown::GetSelectedIndex() const
+{
+	return m_popup->GetSelectedIndex();
+}
+
+void DropDown::SetSelectedIndex(const int index)
+{
+	m_popup->SetSelectedIndex(index);
+	m_label->SetText(m_popup->GetSelectedOption());
 }
 
 void DropDown::Clear()

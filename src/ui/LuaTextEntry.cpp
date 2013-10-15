@@ -4,11 +4,22 @@
 #include "TextEntry.h"
 #include "LuaObject.h"
 #include "LuaSignal.h"
+#include "LuaPushPull.h"
 
 namespace UI {
 
 class LuaTextEntry {
 public:
+
+	static int l_set_text(lua_State *l)
+	{
+		TextEntry *te = LuaObject<UI::TextEntry>::CheckFromLua(1);
+		std::string new_text;
+		pi_lua_generic_pull(l, 2, new_text);
+		te->SetText(new_text);
+		lua_pushvalue(l, 1);
+		return 1;
+	}
 
 	static int l_attr_text(lua_State *l)
 	{
@@ -42,7 +53,7 @@ template <> void LuaObject<UI::TextEntry>::RegisterClass()
 	static const char *l_parent = "UI.Widget";
 
 	static const luaL_Reg l_methods[] = {
-
+		{ "SetText",  LuaTextEntry::l_set_text },
 		{ 0, 0 }
 	};
 

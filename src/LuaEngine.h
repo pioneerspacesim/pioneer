@@ -6,6 +6,14 @@
 
 namespace LuaEngine {
 	void Register();
+
+	enum DetailLevel { // <enum scope='LuaEngine' name=DetailLevel prefix=DETAIL_ public>
+		DETAIL_VERY_LOW,
+		DETAIL_LOW,
+		DETAIL_MEDIUM,
+		DETAIL_HIGH,
+		DETAIL_VERY_HIGH,
+	};
 }
 
 #endif

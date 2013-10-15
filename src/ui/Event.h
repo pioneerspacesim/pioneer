@@ -19,6 +19,9 @@ class MouseButtonEvent;
 class MouseMotionEvent;
 class MouseWheelEvent;
 class TextInputEvent;
+class JoystickAxisMotionEvent;
+class JoystickHatMotionEvent;
+class JoystickButtonEvent;
 
 // base event. can't be instantiated directly
 class Event {
@@ -28,7 +31,10 @@ public:
 		TEXT_INPUT,
 		MOUSE_BUTTON,
 		MOUSE_MOTION,
-		MOUSE_WHEEL
+		MOUSE_WHEEL,
+		JOYSTICK_AXIS_MOTION,
+		JOYSTICK_HAT_MOTION,
+		JOYSTICK_BUTTON
 	};
 	const Type type;
 
@@ -125,6 +131,64 @@ public:
 	};
 	MouseWheelEvent(WheelDirection _direction, const Point &_pos) : MouseEvent(Event::MOUSE_WHEEL, _pos), direction(_direction) {}
 	WheelDirection direction;
+
+	void ToLuaTable(lua_State *l) const;
+};
+
+class JoystickEvent : public Event {
+public:
+	const SDL_JoystickID joystick;
+
+protected:
+	JoystickEvent(Event::Type _type, SDL_JoystickID _joystick): Event(_type), joystick(_joystick) {}
+};
+
+class JoystickAxisMotionEvent : public JoystickEvent {
+public:
+	const float value; // -1 to 1
+	const int axis;
+
+	JoystickAxisMotionEvent(SDL_JoystickID _joystick, float _value, int _axis):
+		JoystickEvent(Event::JOYSTICK_AXIS_MOTION, _joystick), value(_value), axis(_axis) {}
+
+	void ToLuaTable(lua_State *l) const;
+};
+
+class JoystickHatMotionEvent : public JoystickEvent {
+public:
+	enum JoystickHatDirection { // <enum scope='UI::JoystickHatMotionEvent' name=UIJoystickHatDirection prefix=HAT_ public>
+		HAT_CENTRE    = SDL_HAT_CENTERED,
+		HAT_UP        = SDL_HAT_UP,
+		HAT_RIGHT     = SDL_HAT_RIGHT,
+		HAT_DOWN      = SDL_HAT_DOWN,
+		HAT_LEFT      = SDL_HAT_LEFT,
+		HAT_RIGHTUP   = SDL_HAT_RIGHTUP,
+		HAT_RIGHTDOWN = SDL_HAT_RIGHTDOWN,
+		HAT_LEFTUP    = SDL_HAT_LEFTUP,
+		HAT_LEFTDOWN  = SDL_HAT_LEFTDOWN
+	};
+
+	const JoystickHatDirection direction;
+	const int hat;
+
+	JoystickHatMotionEvent(SDL_JoystickID _joystick, JoystickHatDirection _direction, int _hat):
+		JoystickEvent(Event::JOYSTICK_HAT_MOTION, _joystick), direction(_direction), hat(_hat) {}
+
+	void ToLuaTable(lua_State *l) const;
+};
+
+class JoystickButtonEvent : public JoystickEvent {
+public:
+	enum Action { // <enum scope='UI::JoystickButtonEvent' name=UIJoystickButtonAction prefix=BUTTON_ public>
+		BUTTON_DOWN,
+		BUTTON_UP
+	};
+
+	const Action action;
+	const int button;
+
+	JoystickButtonEvent(SDL_JoystickID _joystick, Action _action, int _button):
+		JoystickEvent(Event::JOYSTICK_BUTTON, _joystick), action(_action), button(_button) {}
 
 	void ToLuaTable(lua_State *l) const;
 };

@@ -21,8 +21,6 @@ STOCK
     Raktár
 CARGO
     Raktér
-VID_LINK_DOWN
-    Kapcsolat megszakadt
 VID_LINK_ESTABLISHED
     Videokapcsolat létrejött
 VID_CONNECTING
@@ -31,8 +29,6 @@ BOUGHT_1T_OF
     Vettél 1t %commodity árut.
 SOLD_1T_OF
     Eladtál 1t %commodity árut.
-WELCOME_TO_MARKET
-    Üdvözöllek a(z) %station árupiacán
 GO_BACK
     Visszalép
 FITTING
@@ -91,8 +87,6 @@ REVERSE_ACCEL_LADEN
     Gyorsulás hátra (tele)
 HYPERDRIVE_FITTED
     Felszerelt hipermotor:
-HYPERSPACE_RANGE_LADEN
-    Hipermotor hatótáv (terhelve):
 THANKS_AND_REMEMBER_TO_BUY_FUEL
     Köszönjük a vásárlást. Ne felejtsd el felszerelni, és megtankolni távozás előtt.
 CLASS_NUMBER
@@ -105,10 +99,6 @@ REPAIR_1_PERCENT_HULL
     1.0% hajótest sérülés javítása
 REPAIR_ENTIRE_HULL
     Hajótest teljes javítása (%repairpercent{f.1}%%)
-REPAIR
-    Javítás
-PART_EX
-    Beszámítás
 VIEW
     Megnéz
 SHIP_EQUIPMENT
@@ -121,8 +111,6 @@ NEW_AND_RECONDITIONED_SHIPS
     Új és felújított hajók
 BULLETIN_BOARD
     Hirdetőtábla
-WELCOME_TO_SOMEWHERE
-    Welcome to %station
 # This next translation does not have to be a real translation.  You can
 # write anything you like here.  It will appear in every space station
 # in the whole galaxy.
@@ -162,24 +150,10 @@ SEARCH
     Keresés
 
 # Config / game control
-PRESS_BUTTON_WANTED_FOR
-    "Nyomd le a hozzárendelni kívánt billentyűt "
-MOVE_AXIS_WANTED_FOR
-    "Mozgasd a joystickot a kívánt irányba "
-SAVE
-    Ment
-LOAD
-    Tölt
-CANCEL
-    Mégsem
-SELECT_FILENAME_TO_SAVE
-    Add meg a játékmentést a kívánt nevet
 CANT_SAVE_IN_HYPERSPACE
-	Nem lehet hiperűrugrás alatt menteni
+    Nem lehet hiperűrugrás alatt menteni
 GAME_SAVED_TO
     "Játék mentve ide: "
-SELECT_FILENAME_TO_LOAD
-    Válaszd ki a betöltendő mentést
 COULD_NOT_OPEN_FILENAME
     Nem nyitható meg: %path
 GAME_LOAD_CORRUPT
@@ -187,71 +161,11 @@ GAME_LOAD_CORRUPT
 GAME_LOAD_CANNOT_OPEN
     Ez a fájl nem nyitható meg, talán jogosultági okokból, vagy ilyesmi...
 GAME_SAVE_CANNOT_WRITE
-	Ez a mentés nem hajtható végre valamilyen rendszerhiba miatt.
-VERY_LOW
-    Min.
-LOW
-    Kicsi
-MEDIUM
-    Közepes
-HIGH
-    Magas
-VERY_HIGH
-    Magasabb
-VERY_VERY_HIGH
-    Max.
-ON
-    Be
-OFF
-    Ki
-SIGHTS_SOUNDS_SAVES
-    Látvány, hangok & játékmentés
+    Ez a mentés nem hajtható végre valamilyen rendszerhiba miatt.
 PIONEER
     PIONEER
-SAVE_THE_GAME
-    [S] Játék mentése
-LOAD_A_GAME
-    [L] Játék betöltése
-EXIT_THIS_GAME
-    Kilépés
-WINDOW_OR_FULLSCREEN
-    Ablakos vagy teljes képernyős (újraindítás szükséges)
-FULL_SCREEN
-    Teljes képernyő
-OTHER_GRAPHICS_SETTINGS
-    Egyéb grafikai beállítások
-USE_SHADERS
-    Árnyékok használata
-SOUND_SETTINGS
-    Hangbeállítások
-VOL_MASTER
-    Fő hangerő:
-VOL_EFFECTS
-    Effektek:
-VOL_MUSIC
-    Zene:
-VIDEO_RESOLUTION
-    Képernyő felbontása (újraindítás szükséges)
-X_BY_X
-    %{x}x%{y}
-PLANET_DETAIL_DISTANCE
-    Bolygórészlettávolság:
-CITY_DETAIL_LEVEL
-    Városrészletesség:
-PLANET_TEXTURES
-    Bolygótextúrák:
-FRACTAL_DETAIL
-    Fraktálok:
 CONTROLS
     Irányítás
-ENABLE_JOYSTICK
-    Joystick irányítás engedélyezése
-MOUSE_INPUT
-    Egérbevitel
-INVERT_MOUSE_Y
-    Egérirányítás megfordítása
-LANGUAGE_SELECTION
-    Nyelv (újraindítás szükséges)
 
 # Wares
 NONE
@@ -352,8 +266,6 @@ ECM_ADVANCED_DESCRIPTION
     Egy fejlett elektronikus rakétazavaró védelmi rendszer, amely a fejlettebb követőrakéták ellen is hatásos.
 SHIELD_GENERATOR
     Pajzsgenerátor
-X_SHIELD_GENERATORS
-    %quantity pajzsgenerátor
 SHIELD_GENERATOR_DESCRIPTION
     Minden felszerelt egységgel növekszik a hajótest védelme.
 LASER_COOLING_BOOSTER
@@ -446,54 +358,12 @@ HYPERSPACE_ARRIVAL_CLOUD
     Hiperugrás érkezési oldal
 HYPERSPACE_DEPARTURE_CLOUD
     Hiperugrás indulási oldal
-TYPE
-    Típus
-CLIENT
-    Kliens
-LOCATION
-    Hely
-DUE
-    Lejár
-REWARD
-    Jutalom
-STATUS
-    Státusz
-CARGO_INVENTORY
-    Hajórakomány:
-JETTISON
-    Kidobás
-JETTISONED_1T_OF_X
-    Kidobva 1 tonna %commodity
-COMBAT_RATING
-    HARCI BESOROLÁS:
-CRIMINAL_RECORD
-    TÖRVÉNYESSÉG:
-SHIP_INFORMATION_HEADER
-    "HAJÓINFORMÁCIÓ: "
-HYPERDRIVE
-    Hipermotor
 FREE
     Üres
 USED
     Használt
-TOTAL_WEIGHT
-    Teljes súly
-FRONT_WEAPON
-    Elülső fegyver
-REAR_WEAPON
-    Hátsó fegyver
-HYPERSPACE_RANGE
-    Hiperűrtáv
-NO_MOUNTING
-    nincs felszerelve
-N_LIGHT_YEARS_N_MAX
-    %distance{f.1} fényév (%maxdistance{f.1} max)
 SHIP_INFORMATION
     Hajóinformáció
-REPUTATION
-    Reputáció
-MISSIONS
-    Küldetések
 SHIFT
     "shift "
 CTRL
@@ -505,11 +375,11 @@ META
 JOY
     Joy
 BUTTON
-     " Gomb "
+    " Gomb "
 HAT
-     " Hat"
+    " Hat"
 DIRECTION
-     " Irány "
+    " Irány "
 X
     X
 Y
@@ -524,8 +394,6 @@ FIRE_LASER
     Tüzelés a lézerrel
 SHIP_ORIENTATION
     Hajó irányultság
-FAST_ROTATION_CONTROL
-    Gyors forgás irányítás
 PITCH_UP
     Dőlés felfelé
 PITCH_DOWN
@@ -559,13 +427,13 @@ INCREASE_SET_SPEED
 DECREASE_SET_SPEED
     Beállított sebesség csökkentése
 SCANNER_CONTROL
-	Szkenner irányítás
+    Szkenner irányítás
 TOGGLE_SCAN_MODE
-	Szkennermód kapcsoló
+    Szkennermód kapcsoló
 INCREASE_SCAN_RANGE
-	Szkennertáv növelése
+    Szkennertáv növelése
 DECREASE_SCAN_RANGE
-	Szkennertáv csökkentése
+    Szkennertáv csökkentése
 TOGGLE_LUA_CONSOLE
     Lua konzol kapcsolása
 JOYSTICK_INPUT
@@ -610,14 +478,6 @@ PIRACY
     Kalózkodás
 MURDER
     Gyilkosság
-INDEPENDENT
-    Független
-EARTH_FEDERATION
-    Földi Szövetség
-INDEPENDENT_CONFEDERATION
-    Független Rendszerek Szövetsége
-EMPIRE
-    A Birodalom
 NO_ESTABLISHED_ORDER
     Fennálló rend nélküli
 HARD_CAPITALIST
@@ -827,19 +687,19 @@ COMMA_HIGHLY_VOLCANIC
 HIGHLY_VOLCANIC
     Erősen vulkanikus
 ICE_WORLD
-     " jégvilág"
+    " jégvilág"
 ROCKY_PLANET
-     " sziklás bolygó"
+    " sziklás bolygó"
 OCEANICWORLD
-     " óceánvilág"
+    " óceánvilág"
 PLANET_CONTAINING_LIQUID_WATER
-     " bolygó folyékony vízzel"
+    " bolygó folyékony vízzel"
 PLANET_WITH_SOME_ICE
-     " , némi jéggel rendelkező bolygó"
+    " , némi jéggel rendelkező bolygó"
 ROCKY_PLANET_CONTAINING_COME_LIQUIDS
-     " sziklás bolygó némi folyadékkal,"
+    " sziklás bolygó némi folyadékkal,"
 WITH_NO_SIGNIFICANT_ATMOSPHERE
-     " számottevő atmoszféra nélkül"
+    " számottevő atmoszféra nélkül"
 TENUOUS
     ritkás
 THIN
@@ -849,31 +709,31 @@ THICK
 VERY_DENSE
     nagyon sürü
 WITH_A
-     ", amelynek légköre: "
+    ", amelynek légköre: "
 O2_ATMOSPHERE
-     " oxigén"
+    " oxigén"
 CO2_ATMOSPHERE
-     " szén-dioxid"
+    " szén-dioxid"
 CO_ATMOSPHERE
-     " szén-monoxid"
+    " szén-monoxid"
 CH4_ATMOSPHERE
-     " metán"
+    " metán"
 H_ATMOSPHERE
-     " hidrogén"
+    " hidrogén"
 HE_ATMOSPHERE
-     " hélium"
+    " hélium"
 AR_ATMOSPHERE
-     " argon"
+    " argon"
 S_ATMOSPHERE
-     " kén"
+    " kén"
 N_ATMOSPHERE
-     " nitrogén"
+    " nitrogén"
 AND_HIGHLY_COMPLEX_ECOSYSTEM
-     ", valamint fejlett ökoszisztémával rendelkezik."
+    , valamint fejlett ökoszisztémával rendelkezik.
 AND_INDIGENOUS_PLANT_LIFE
-     ", valamint őshonos növényi élettel rendelkezik."
+    , valamint őshonos növényi élettel rendelkezik.
 AND_INDIGENOUS_MICROBIAL_LIFE
-     ", valamint őshonos mikroszkópikus élettel rendelkezik."
+    , valamint őshonos mikroszkópikus élettel rendelkezik.
 ORBITAL_STARPORT
     Keringő űrállomás
 STARPORT
@@ -995,7 +855,7 @@ SYSTEM_NUMBER
 NAME
     Név
 ROTATIONAL_PERIOD
-     " (forgási ciklus)"
+    " (forgási ciklus)"
 RADIUS
     Sugár
 SEMI_MAJOR_AXIS
@@ -1008,10 +868,6 @@ WHEELS_ARE_UP
     Kerekek felhúzva
 WHEELS_ARE_DOWN
     Kerekek leengedve
-OBJECT_LABELS_ARE_ON
-    Objektumcimkék bekapcsolva
-OBJECT_LABELS_ARE_OFF
-    Objektumcimkék kikapcsolva
 HYPERSPACE_JUMP
     Hiperűr ugrás
 TAKEOFF
@@ -1099,7 +955,7 @@ FINE_PAID_N_BUT_N_REMAINING
 FINE_PAID_N
     Kifizetted a(z) %fine összegnyi büntetést.
 SET_HYPERSPACE_DESTINATION_TO
-    "Hiperűr célállomás beállítva: %system"
+    Hiperűr célállomás beállítva: %system
 NO_TARGET_SELECTED
     Hajószámítógép: Nincs célpont kiválasztva
 REQUEST_DOCKING_CLEARANCE
@@ -1118,25 +974,15 @@ AUTOPILOT_ENTER_HIGH_ORBIT_AROUND
     Autópilóta: Állj magas pályára %target körül
 SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
     Hiperűrugrás-felhő analizáló: Állítsd az ugrás célpontját a felhő kimenetéhez
-FAILED
-    Nem sikerült
-COMPLETED
-    Befejezve
-ACTIVE
-    Aktív
 DISTANCE_LY
     Távolság: %distance{f.2} fényév
 SYSTEM
     Rendszer
 UNOCCUPIED_CABIN
     Személyszállító utaskabin
-X_UNOCCUPIED_CABINS
-    %quantity további utaskabin
 UNOCCUPIED_CABIN_DESCRIPTION
     Szükséges egy személy szállításához
 PASSENGER_CABIN
     Foglalt utaskabin
-X_PASSENGER_CABINS
-    %quantity foglalt utaskabin
 CABINS
     Utaskabin

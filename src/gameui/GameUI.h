@@ -8,6 +8,7 @@
 
 #include "Face.h"
 #include "ModelSpinner.h"
+#include "BindingCapture.h"
 
 #include "Lua.h"
 
