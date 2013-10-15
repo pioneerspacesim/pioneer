@@ -13,7 +13,6 @@
 #include "Frame.h"
 #include "GalacticView.h"
 #include "Game.h"
-#include "GameMenuView.h"
 #include "GeoSphere.h"
 #include "Intro.h"
 #include "Lang.h"
@@ -65,6 +64,7 @@
 #include "Tombstone.h"
 #include "UIView.h"
 #include "WorldView.h"
+#include "KeyBindings.h"
 #include "EnumStrings.h"
 #include "galaxy/CustomSystem.h"
 #include "galaxy/Galaxy.h"
@@ -109,7 +109,7 @@ SpaceStationView *Pi::spaceStationView;
 UIView *Pi::infoView;
 SectorView *Pi::sectorView;
 GalacticView *Pi::galacticView;
-GameMenuView *Pi::gameMenuView;
+UIView *Pi::settingsView;
 SystemView *Pi::systemView;
 SystemInfoView *Pi::systemInfoView;
 ShipCpanel *Pi::cpan;
@@ -522,9 +522,6 @@ void Pi::Init()
 
 	luaConsole = new LuaConsole(10);
 	KeyBindings::toggleLuaConsole.onPress.connect(sigc::ptr_fun(&Pi::ToggleLuaConsole));
-
-	gameMenuView = new GameMenuView();
-	config->Save();
 }
 
 bool Pi::IsConsoleActive()
@@ -553,7 +550,6 @@ void Pi::Quit()
 {
 	Projectile::FreeModel();
 	delete Pi::intro;
-	delete Pi::gameMenuView;
 	delete Pi::luaConsole;
 	NavLights::Uninit();
 	Shields::Uninit();
@@ -623,9 +619,9 @@ void Pi::HandleEvents()
 					if (Pi::game) {
 						// only accessible once game started
 						if (currentView != 0) {
-							if (currentView != gameMenuView) {
+							if (currentView != settingsView) {
 								Pi::game->SetTimeAccel(Game::TIMEACCEL_PAUSED);
-								SetView(gameMenuView);
+								SetView(settingsView);
 							}
 							else {
 								Pi::game->RequestTimeAccel(Game::TIMEACCEL_1X);
@@ -1081,8 +1077,7 @@ void Pi::MainLoop()
 
 		Pi::renderer->SwapBuffers();
 
-		// game exit or failed load from GameMenuView will have cleared
-		// Pi::game. we can't continue.
+		// game exit will have cleared Pi::game. we can't continue.
 		if (!Pi::game)
 			return;
 

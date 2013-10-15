@@ -3,6 +3,7 @@ October 2013
    * New features
      * New ship "Xylophis Short Range Shuttle" (#2442)
      * New ship "Kanara Interceptor" (civilian version) (#2454, #2461)
+     * New settings screens (#2490)
      * Vertical speed is shown with altitude, up to 10000 km or half the
        planet's radius (#2446)
      * The random face system now supports multiple species (#2440)
@@ -13,10 +14,20 @@ October 2013
      * Resized DSMiner
      * Updated the Deneb to use new camera and gun tag-points (#2460)
      * Set Speed mode is now initialised with the ship's forward speed (#2469)
+     * Cleaned up translation files (#2490)
 
    * Script and UI API changes
      * UI now uses a stack of layers instead of floating widgets (#2475, #2478)
      * Multiline text widgets now default to 75 chars width (#2488)
+     * New UI methods and extended Lua interfaces (#2490)
+       * Checkbox: Toggle, SetState, IsChecked, onValueChanged
+       * List: GetSelectedIndex, SetSelectedIndex, NumItems, IsEmpty
+       * DropDown: GetSelectedIndex, SetSelectedIndex, NumItems, IsEmpty
+       * TextEntry: SetText
+       * Slider: GetRange, SetRange
+       * Basic joystick event support
+     * FileDialog now has a way to enter a new filename (#2490)
+     * Expose game settings, languages settings and keybindings to Lua (#2490)
 
    * Fixes
      * Modelviewer now correctly reloads tag-points when switching models
@@ -31,6 +42,7 @@ October 2013
      * Fix crash when game load fails (#2467, #2466)
      * Fixed model spinner view distance (#2481)
      * Stopped mouse movement when grabbed (#2485)
+     * Fixed UI::Margin sizing with non-ALL direction (#2490)
 
    * Model changes
      * Pattern textures can now have alpha channels (#2449)
@@ -41,6 +53,7 @@ October 2013
      * Fix some problems reported by valgrind (#2472)
      * Miscellaneous code improvements (#2474)
      * Better Unicode handling in scan_enums (#2479)
+     * Cleaned up, fixed and documented LuaTable and LuaPushPull (#2332)
 
 September 2013
 

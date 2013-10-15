@@ -21,8 +21,6 @@ STOCK
     Stock
 CARGO
     Cargo
-VID_LINK_DOWN
-    Video link down
 VID_LINK_ESTABLISHED
     Video link established
 VID_CONNECTING
@@ -31,8 +29,6 @@ BOUGHT_1T_OF
     You have bought 1t of %commodity.
 SOLD_1T_OF
     You have sold 1t of %commodity.
-WELCOME_TO_MARKET
-    Welcome to %station commodities market
 GO_BACK
     Go back
 FITTING
@@ -79,8 +75,6 @@ WEIGHT_FULLY_LADEN
     Weight fully loaded
 CAPACITY
     Capacity
-CAPACITY_USED
-	Capacity used
 FORWARD_ACCEL_EMPTY
     Forward accel (empty)
 NUMBER_G
@@ -93,8 +87,6 @@ REVERSE_ACCEL_LADEN
     Reverse accel (laden)
 HYPERDRIVE_FITTED
     Hyperdrive fitted:
-HYPERSPACE_RANGE_LADEN
-    Hyperspace range (fully laden):
 THANKS_AND_REMEMBER_TO_BUY_FUEL
     Thank you for your purchase. Remember to fit equipment and buy fuel before you depart.
 CLASS_NUMBER
@@ -107,10 +99,6 @@ REPAIR_1_PERCENT_HULL
     Repair 1.0% of hull damage
 REPAIR_ENTIRE_HULL
     Repair all hull damage (%repairpercent{f.1}%%)
-REPAIR
-    Repair
-PART_EX
-    Part exchange
 VIEW
     View
 SHIP_EQUIPMENT
@@ -123,8 +111,6 @@ NEW_AND_RECONDITIONED_SHIPS
     New and reconditioned ships
 BULLETIN_BOARD
     Bulletin Board
-WELCOME_TO_SOMEWHERE
-    Welcome to %station
 # This next translation does not have to be a real translation.  You can
 # write anything you like here.  It will appear in every space station
 # in the whole galaxy.
@@ -164,106 +150,24 @@ SEARCH
     Search
 
 # Config / game control
-PRESS_BUTTON_WANTED_FOR
-    "Press the button you want for "
-MOVE_AXIS_WANTED_FOR
-    "Move the joystick axis you want for "
-SAVE
-    Save
-LOAD
-    Load
-CANCEL
-    Cancel
-SELECT_FILENAME_TO_SAVE
-    Select a file to save to or enter a new filename
 CANT_SAVE_IN_HYPERSPACE
-	Can't save game while in hyperspace
+    Can't save game while in hyperspace
 GAME_SAVED_TO
     "Game saved to "
-SELECT_FILENAME_TO_LOAD
-    Select a file to load
 COULD_NOT_OPEN_FILENAME
     Could not open %path
 GAME_LOAD_CORRUPT
     This saved game cannot be loaded because it contains errors.
 GAME_LOAD_WRONG_VERSION
-	This saved game cannot be loaded because it was created by a different version of Pioneer.
+    This saved game cannot be loaded because it was created by a different version of Pioneer.
 GAME_LOAD_CANNOT_OPEN
     This saved game file could not be opened due to permissions or something...
 GAME_SAVE_CANNOT_WRITE
-	This saved game file could not be written because of a system error.
-VERY_LOW
-    Very low
-LOW
-    Low
-MEDIUM
-    Medium
-HIGH
-    High
-VERY_HIGH
-    Very high
-VERY_VERY_HIGH
-    Very very high
-ON
-    On
-OFF
-    Off
-SIGHTS_SOUNDS_SAVES
-    Sights, sounds & saving games
+    This saved game file could not be written because of a system error.
 PIONEER
     PIONEER
-SAVE_THE_GAME
-    [S] Save the game
-LOAD_A_GAME
-    [L] Load a game
-EXIT_THIS_GAME
-    Exit this game
-RETURN_TO_MENU
-    Return to menu
-WINDOW_OR_FULLSCREEN
-    Windowed or fullscreen (restart to apply)
-FULL_SCREEN
-    Full screen
-COMPRESS_TEXTURES
-	Compress Textures
-OTHER_GRAPHICS_SETTINGS
-    Other graphics settings (restart to apply)
-USE_SHADERS
-    Use shaders
-SOUND_SETTINGS
-    Sound settings
-VOL_MASTER
-    Master:
-VOL_EFFECTS
-    Effects:
-VOL_MUSIC
-    Music:
-VIDEO_RESOLUTION
-    Video resolution (restart game to apply)
-X_BY_X
-    %{x}x%{y}
-PLANET_DETAIL_DISTANCE
-    Planet detail distance:
-CITY_DETAIL_LEVEL
-    City detail level:
-PLANET_TEXTURES
-    Planet textures:
-FRACTAL_DETAIL
-    Fractal detail:
 CONTROLS
     Controls
-ENABLE_JOYSTICK
-    Enable joystick control
-MOUSE_INPUT
-    Mouse Input
-INVERT_MOUSE_Y
-    Invert MouseY
-HUD
-	HUD
-DISPLAY_NAV_TUNNEL
-	Display navigation tunnel
-LANGUAGE_SELECTION
-    Language (restart game to apply)
 
 # Wares
 NONE
@@ -364,8 +268,6 @@ ECM_ADVANCED_DESCRIPTION
     An electronic countermeasure missile defence system, capable of destroying more advanced types of homing missiles.
 SHIELD_GENERATOR
     Shield Generator
-X_SHIELD_GENERATORS
-    %quantity Shield Generators
 SHIELD_GENERATOR_DESCRIPTION
     Provides additional hull defences with each unit fitted.
 LASER_COOLING_BOOSTER
@@ -458,62 +360,14 @@ HYPERSPACE_ARRIVAL_CLOUD
     Hyperspace arrival cloud
 HYPERSPACE_DEPARTURE_CLOUD
     Hyperspace departure cloud
-TYPE
-    Type
-CLIENT
-    Client
-LOCATION
-    Location
-DUE
-    Due
-REWARD
-    Reward
-STATUS
-    Status
-CARGO_INVENTORY
-    Cargo Inventory:
-JETTISON
-    Jettison
-REFUEL
-    Refuel
-JETTISONED_1T_OF_X
-    Jettisoned 1 tonne of %commodity
-COMBAT_RATING
-    COMBAT RATING:
-CRIMINAL_RECORD
-    CRIMINAL RECORD:
-SHIP_INFORMATION_HEADER
-    "SHIP INFORMATION: "
-HYPERDRIVE
-    Hyperdrive
 FREE
     Free
-FREE_LOWERCASE
-    free
 USED
     Used
 FUEL_WEIGHT
     Fuel weight
-TOTAL_WEIGHT
-    All-up weight
-FRONT_WEAPON
-    Front weapon
-REAR_WEAPON
-    Rear weapon
-HYPERSPACE_RANGE
-    Hyperspace range
-NO_MOUNTING
-    no mounting
-N_LIGHT_YEARS_N_MAX
-    %distance{f.1} light years (%maxdistance{f.1} max)
-MAX
-	max
 SHIP_INFORMATION
     Ship information
-PERSONAL
-    Personal
-MISSIONS
-    Missions
 SHIFT
     "shift "
 CTRL
@@ -525,11 +379,11 @@ META
 JOY
     Joy
 BUTTON
-     " Button "
+    " Button "
 HAT
-     " Hat"
+    " Hat"
 DIRECTION
-     " Dir "
+    " Dir "
 X
     X
 Y
@@ -583,17 +437,17 @@ INCREASE_SET_SPEED
 DECREASE_SET_SPEED
     Decrease set speed
 SCANNER_CONTROL
-	Scanner control
+    Scanner control
 TOGGLE_SCAN_MODE
-	Toggle scanner mode
+    Toggle scanner mode
 INCREASE_SCAN_RANGE
-	Increase scanner range
+    Increase scanner range
 DECREASE_SCAN_RANGE
-	Decrease scanner range
+    Decrease scanner range
 TOGGLE_LUA_CONSOLE
     Toggle Lua console
 TOGGLE_ROTATION_DAMPING
-	Toggle rotation damping
+    Toggle rotation damping
 TOGGLE_HUD_MODE
     Toggle HUD mode
 JOYSTICK_INPUT
@@ -638,14 +492,6 @@ PIRACY
     Piracy
 MURDER
     Murder
-INDEPENDENT
-    Independent
-EARTH_FEDERATION
-    Earth Federation
-INDEPENDENT_CONFEDERATION
-    Confederation of Independent Systems
-EMPIRE
-    The Empire
 NO_ESTABLISHED_ORDER
     No established order
 HARD_CAPITALIST
@@ -729,17 +575,17 @@ SHIP_IS_FULLY_LADEN
 YOU_DO_NOT_HAVE_ANY_X
     You do not have any %item.
 CAMERA_FRONT_VIEW
-	Front camera
+    Front camera
 CAMERA_REAR_VIEW
-	Rear camera
+    Rear camera
 CAMERA_LEFT_VIEW
-	Left camera
+    Left camera
 CAMERA_TOP_VIEW
-	Top camera
+    Top camera
 CAMERA_RIGHT_VIEW
-	Right camera
+    Right camera
 CAMERA_BOTTOM_VIEW
-	Bottom camera
+    Bottom camera
 INTERNAL_VIEW
     Internal view
 EXTERNAL_VIEW
@@ -747,9 +593,9 @@ EXTERNAL_VIEW
 SIDEREAL_VIEW
     Sidereal view
 ROTATE_UP
-	Rotate Up
+    Rotate Up
 ROTATE_DOWN
-	Rotate Down
+    Rotate Down
 ROTATE_LEFT
     Rotate Left
 ROTATE_RIGHT
@@ -769,9 +615,9 @@ STAR_SYSTEM_INFORMATION
 GALACTIC_VIEW
     Galactic view
 ROTATION_DAMPING_ON
-	Rotation damping on
+    Rotation damping on
 ROTATION_DAMPING_OFF
-	Rotation damping off
+    Rotation damping off
 NO_ALERT
     No alert
 SHIP_NEARBY
@@ -885,19 +731,19 @@ COMMA_HIGHLY_VOLCANIC
 HIGHLY_VOLCANIC
     Highly volcanic
 ICE_WORLD
-     " ice world"
+    " ice world"
 ROCKY_PLANET
-     " rocky planet"
+    " rocky planet"
 OCEANICWORLD
-     " oceanic world"
+    " oceanic world"
 PLANET_CONTAINING_LIQUID_WATER
-     " planet containing liquid water"
+    " planet containing liquid water"
 PLANET_WITH_SOME_ICE
-     " planet with some ice"
+    " planet with some ice"
 ROCKY_PLANET_CONTAINING_COME_LIQUIDS
-     " rocky planet containing some liquids,"
+    " rocky planet containing some liquids,"
 WITH_NO_SIGNIFICANT_ATMOSPHERE
-     " with no significant atmosphere"
+    " with no significant atmosphere"
 TENUOUS
     tenuous
 THIN
@@ -907,31 +753,31 @@ THICK
 VERY_DENSE
     very dense
 WITH_A
-     " with a "
+    " with a "
 O2_ATMOSPHERE
-     " Oxygen atmosphere"
+    " Oxygen atmosphere"
 CO2_ATMOSPHERE
-     " Carbon Dioxide atmosphere"
+    " Carbon Dioxide atmosphere"
 CO_ATMOSPHERE
-     " Carbon Monoxide atmosphere"
+    " Carbon Monoxide atmosphere"
 CH4_ATMOSPHERE
-     " Methane atmosphere"
+    " Methane atmosphere"
 H_ATMOSPHERE
-     " Hydrogen atmosphere"
+    " Hydrogen atmosphere"
 HE_ATMOSPHERE
-     " Helium atmosphere"
+    " Helium atmosphere"
 AR_ATMOSPHERE
-     " Argon atmosphere"
+    " Argon atmosphere"
 S_ATMOSPHERE
-     " Sulfuric atmosphere"
+    " Sulfuric atmosphere"
 N_ATMOSPHERE
-     " Nitrogen atmosphere"
+    " Nitrogen atmosphere"
 AND_HIGHLY_COMPLEX_ECOSYSTEM
-     " and a highly complex ecosystem."
+    " and a highly complex ecosystem."
 AND_INDIGENOUS_PLANT_LIFE
-     " and indigenous plant life."
+    " and indigenous plant life."
 AND_INDIGENOUS_MICROBIAL_LIFE
-     " and indigenous microbial life."
+    " and indigenous microbial life."
 ORBITAL_STARPORT
     Orbital starport
 STARPORT
@@ -1042,8 +888,6 @@ ECONOMY_TYPE
     Economy type:
 ALLEGIANCE
     Allegiance:
-FACTION
-	Faction:
 POPULATION
     Population:
 OVER_N_BILLION
@@ -1061,7 +905,7 @@ SYSTEM_NUMBER
 NAME
     Name
 ROTATIONAL_PERIOD
-     " (rotational period)"
+    " (rotational period)"
 RADIUS
     Radius
 SEMI_MAJOR_AXIS
@@ -1074,10 +918,6 @@ WHEELS_ARE_UP
     Wheels are up
 WHEELS_ARE_DOWN
     Wheels are down
-OBJECT_LABELS_ARE_ON
-    Object labels are on
-OBJECT_LABELS_ARE_OFF
-    Object labels are off
 SELECT_LOW_THRUST_POWER_LEVEL
     Select low thrust power level
 SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT
@@ -1179,7 +1019,7 @@ FINE_PAID_N_BUT_N_REMAINING
 FINE_PAID_N
     You have paid the fine of %fine.
 SET_HYPERSPACE_DESTINATION_TO
-    "Set hyperspace destination to %system"
+    Set hyperspace destination to %system
 NO_TARGET_SELECTED
     Ship Computer: No target selected
 REQUEST_DOCKING_CLEARANCE
@@ -1198,26 +1038,16 @@ AUTOPILOT_ENTER_HIGH_ORBIT_AROUND
     Autopilot: Enter high orbit around %target
 SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
     Hyperspace cloud analyzer: Set hyperspace target to follow this departure
-FAILED
-    Failed
-COMPLETED
-    Completed
-ACTIVE
-    Active
 DISTANCE_LY
     Distance: %distance{f.2} ly
 SYSTEM
     System
 UNOCCUPIED_CABIN
     Extra Passenger Cabin
-X_UNOCCUPIED_CABINS
-    %quantity Extra Passenger Cabins
 UNOCCUPIED_CABIN_DESCRIPTION
     Required for transport of a single passenger
 PASSENGER_CABIN
     Occupied Passenger Cabin
-X_PASSENGER_CABINS
-    %quantity Occupied Passenger Cabins
 CABINS
     Cabins
 MONTH_JAN

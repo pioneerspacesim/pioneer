@@ -20,8 +20,15 @@ public:
 	virtual void Update();
 
 	DropDown *AddOption(const std::string &text);
-	const std::string &GetSelectedOption() const;
 	void Clear();
+
+	size_t NumItems() const;
+	bool IsEmpty() const;
+
+	const std::string &GetSelectedOption() const;
+	bool SetSelectedOption(const std::string &option);
+	int GetSelectedIndex() const;
+	void SetSelectedIndex(const int index);
 
 	sigc::signal<void,unsigned int,const std::string &> onOptionSelected;
 

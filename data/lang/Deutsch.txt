@@ -21,8 +21,6 @@ STOCK
     Auf Lager
 CARGO
     Ladung
-VID_LINK_DOWN
-    Video-Link getrennt
 VID_LINK_ESTABLISHED
     Video-Link verbunden
 VID_CONNECTING
@@ -31,8 +29,6 @@ BOUGHT_1T_OF
     Sie haben 1t %commodity gekauft.
 SOLD_1T_OF
     Sie haben 1t %commodity verkauft.
-WELCOME_TO_MARKET
-    Willkommen bei der Warenbörse von %station
 GO_BACK
     Zurück
 FITTING
@@ -79,8 +75,6 @@ WEIGHT_FULLY_LADEN
     Gesamtgewicht
 CAPACITY
     Kapazität
-CAPACITY_USED
-	Ausgelastete Kapazität
 FORWARD_ACCEL_EMPTY
     Vorwärts Beschleunigung (unbeladen)
 NUMBER_G
@@ -93,8 +87,6 @@ REVERSE_ACCEL_LADEN
     Rückwärts Beschleunigung (beladen)
 HYPERDRIVE_FITTED
     Hyperraumantrieb installiert:
-HYPERSPACE_RANGE_LADEN
-    Hyperraum Reichweite (voll beladen):
 THANKS_AND_REMEMBER_TO_BUY_FUEL
     Vielen Dank für Ihren Einkauf. Bitte denken Sie an die notwendige Ausrüstung für Ihr Schiff und ausreichend Treibstoff, bevor Sie abdocken.
 CLASS_NUMBER
@@ -107,10 +99,6 @@ REPAIR_1_PERCENT_HULL
     1.0% des Rumpfschadens reparieren
 REPAIR_ENTIRE_HULL
     Den Rumpf komplett instand setzen (%repairpercent{f.1}%%)
-REPAIR
-    Reparieren
-PART_EX
-    Bauteilbörse
 VIEW
     Ansicht
 SHIP_EQUIPMENT
@@ -123,8 +111,6 @@ NEW_AND_RECONDITIONED_SHIPS
     Schiffe - Neu und Gebraucht
 BULLETIN_BOARD
     Nachrichten und Missionen
-WELCOME_TO_SOMEWHERE
-    Willkommen auf %station
 SPACESTATION_LONG_WELCOME_MESSAGE
     Willkommen Reisende. Es gibt Vorfälle von Vandalismus und Schmierereien an Bord unserer Station. Falls die Beschilderung irreführend oder fehlerhaft beschriftet ist oder schlicht fehlt, wenden Sie sich bitte an das Stationspersonal. Wir halten zahlreiche Dienstleistungsangebote für Sie bereit.\nDie Atemluft ist zurzeit kostenlos.
 REQUEST_LAUNCH
@@ -161,24 +147,10 @@ SEARCH
     Suche
 
 # Config / game control
-PRESS_BUTTON_WANTED_FOR
-    "Drücken Sie die Taste, der Sie folgende Aktion zuweisen wollen: "
-MOVE_AXIS_WANTED_FOR
-    "Drücken Sie den Joystick in die Richtung, der Sie folgende Aktion zuweisen wollen: "
-SAVE
-    Speichern
-LOAD
-    Laden
-CANCEL
-    Abbrechen
-SELECT_FILENAME_TO_SAVE
-    Wählen Sie den Dateinamen
 CANT_SAVE_IN_HYPERSPACE
-	Spiel kann nicht im Hyperraum gespeichert werden
+    Spiel kann nicht im Hyperraum gespeichert werden
 GAME_SAVED_TO
     "Spiel gespeichert in "
-SELECT_FILENAME_TO_LOAD
-    Wählen Sie den Dateinamen
 COULD_NOT_OPEN_FILENAME
     %path konnte nicht geöffnet werden.
 GAME_LOAD_CORRUPT
@@ -186,79 +158,11 @@ GAME_LOAD_CORRUPT
 GAME_LOAD_CANNOT_OPEN
     Die Spieldatei konnte nicht geöffnet werden.
 GAME_SAVE_CANNOT_WRITE
-	Die Spieldatei konnte aufgrund eines Systemfehlers nicht geöffnet werden.
-VERY_LOW
-    Sehr niedrig
-LOW
-    Niedrig
-MEDIUM
-    Mittel
-HIGH
-    Hoch
-VERY_HIGH
-    Sehr hoch
-VERY_VERY_HIGH
-    Extrem hoch
-ON
-    An
-OFF
-    Aus
-SIGHTS_SOUNDS_SAVES
-    Darstellung, Ton & Speichern
+    Die Spieldatei konnte aufgrund eines Systemfehlers nicht geöffnet werden.
 PIONEER
     PIONEER
-SAVE_THE_GAME
-    [S] Spiel speichern
-LOAD_A_GAME
-    [L] Spiel laden
-EXIT_THIS_GAME
-    Spiel beenden
-RETURN_TO_MENU
-    Zurück zum Menü
-WINDOW_OR_FULLSCREEN
-    Fenstermodus oder Vollbildmodus (Programm muss neu gestartet werden)
-FULL_SCREEN
-    Vollbildmodus
-COMPRESS_TEXTURES
-	Texturen komprimieren
-OTHER_GRAPHICS_SETTINGS
-    Weitere Grafikeinstellungen
-USE_SHADERS
-    Pixel-Shader aktivieren
-SOUND_SETTINGS
-    Sound-Einstellungen
-VOL_MASTER
-    Master:
-VOL_EFFECTS
-    Effekte:
-VOL_MUSIC
-    Musik:
-VIDEO_RESOLUTION
-    Grafikauflösung (Programm muss neu gestartet werden)
-X_BY_X
-    %{x}x%{y}
-PLANET_DETAIL_DISTANCE
-    Detailentfernung für Planeten:
-CITY_DETAIL_LEVEL
-    Detailstufe für Städte:
-PLANET_TEXTURES
-    Planeten Texturen:
-FRACTAL_DETAIL
-    Detailstufe für Fraktale
 CONTROLS
     Steuerung
-ENABLE_JOYSTICK
-    Joystick-Steuerung aktivieren
-MOUSE_INPUT
-    Mauseingabe
-INVERT_MOUSE_Y
-    Maus Y-Achse invertieren
-HUD
-	HUD
-DISPLAY_NAV_TUNNEL
-	Navigationstunnel anzeigen
-LANGUAGE_SELECTION
-    Sprachauswahl (Programm muss neu gestartet werden)
 
 # Wares
 NONE
@@ -359,8 +263,6 @@ ECM_ADVANCED_DESCRIPTION
     Ein elektronisches Gegenmaßnahmesystem zur Raketenabwehr; kann auch modernere Raketen zerstören.
 SHIELD_GENERATOR
     Schild-Generator
-X_SHIELD_GENERATORS
-    %quantity Schild-Generator(en)
 SHIELD_GENERATOR_DESCRIPTION
     Jeder installierte Generator bietet zusätzlichen Schutz für den Rumpf.
 LASER_COOLING_BOOSTER
@@ -453,62 +355,14 @@ HYPERSPACE_ARRIVAL_CLOUD
     Hyperraum Ankuft Wolke
 HYPERSPACE_DEPARTURE_CLOUD
     Hyperraum Abflug Wolke
-TYPE
-    Typ
-CLIENT
-    Auftraggeber
-LOCATION
-    Ort
-DUE
-    Fällig
-REWARD
-    Belohnung
-STATUS
-    Status
-CARGO_INVENTORY
-    Laderaum Inventar:
-JETTISON
-    Abwerfen
-REFUEL
-	Auftanken
-JETTISONED_1T_OF_X
-    Abwerfen 1t: %commodity
-COMBAT_RATING
-    GEFECHTSEINSTUFUNG:
-CRIMINAL_RECORD
-    VORSTRAFENREGISTER:
-SHIP_INFORMATION_HEADER
-    "RAUMSCHIFF INFORMATION: "
-HYPERDRIVE
-    Hyperraumantrieb
 FREE
     Verfügbar
-FREE_LOWERCASE
-    verfügbar
 USED
     Benutzt
 FUEL_WEIGHT
     Treibstoffgewicht
-TOTAL_WEIGHT
-    Gesamtgewicht
-FRONT_WEAPON
-    Vorne
-REAR_WEAPON
-    Achtern
-HYPERSPACE_RANGE
-    Hyperraum Reichweite
-NO_MOUNTING
-    Keine Haltekopplung
-N_LIGHT_YEARS_N_MAX
-    %distance{f.1} Lichtjahr(e) (%maxdistance{f.1} Max)
-MAX
-	max
 SHIP_INFORMATION
     Raumschiff Information
-PERSONAL
-    Personal
-MISSIONS
-    Missionen
 SHIFT
     "Shift "
 CTRL
@@ -522,7 +376,7 @@ JOY
 BUTTON
     "-Taste "
 HAT
-    "-Hut"
+    -Hut
 DIRECTION
     "-Richtung "
 X
@@ -538,7 +392,7 @@ TARGET_OBJECT_IN_SIGHTS
 FIRE_LASER
     Feuer
 FIRE_MISSILE
-	Rakete starten
+    Rakete starten
 SHIP_ORIENTATION
     Schiffsausrichtung
 PITCH_UP
@@ -576,17 +430,17 @@ INCREASE_SET_SPEED
 DECREASE_SET_SPEED
     Gesetzten Geschwindigkeit verringern
 SCANNER_CONTROL
-	Scanner-Einstellungen
+    Scanner-Einstellungen
 TOGGLE_SCAN_MODE
-	Scanner-Modus umschalten
+    Scanner-Modus umschalten
 INCREASE_SCAN_RANGE
-	Scanner-Reichweite erhöhen
+    Scanner-Reichweite erhöhen
 DECREASE_SCAN_RANGE
-	Scanner-Reichweite vermindern
+    Scanner-Reichweite vermindern
 TOGGLE_LUA_CONSOLE
     Lua-console schalten
 TOGGLE_ROTATION_DAMPING
-	Rotationsverminderung umschalten
+    Rotationsverminderung umschalten
 TOGGLE_HUD_MODE
     HUD-Modus umschalten
 JOYSTICK_INPUT
@@ -631,14 +485,6 @@ PIRACY
     Piraterie
 MURDER
     Mord
-INDEPENDENT
-    Unabhängig
-EARTH_FEDERATION
-    Erd-Föderation
-INDEPENDENT_CONFEDERATION
-    Gemeinschaft Unabhängiger Sternensysteme
-EMPIRE
-    Das Imperium
 NO_ESTABLISHED_ORDER
     Keine etablierte Ordnung
 HARD_CAPITALIST
@@ -718,27 +564,27 @@ SHIP_IS_FULLY_LADEN
 YOU_DO_NOT_HAVE_ANY_X
     Sie haben keine Waren des Artikels %item.
 CAMERA_FRONT_VIEW
-	Sicht nach vorne
+    Sicht nach vorne
 CAMERA_REAR_VIEW
-	Sicht nach hinten
+    Sicht nach hinten
 CAMERA_LEFT_VIEW
-	Linke Seitenansicht
+    Linke Seitenansicht
 CAMERA_TOP_VIEW
-	Vogelperspektive
+    Vogelperspektive
 CAMERA_RIGHT_VIEW
-	Rechte Seitenansicht
+    Rechte Seitenansicht
 CAMERA_BOTTOM_VIEW
-	Untere Ansicht
+    Untere Ansicht
 INTERNAL_VIEW
-    Innenansicht	
+    Innenansicht
 EXTERNAL_VIEW
     Aussenansicht
 SIDEREAL_VIEW
     Seitliche Ansicht
 ROTATE_UP
-	Nach oben rotieren
+    Nach oben rotieren
 ROTATE_DOWN
-	Nach unten rotieren
+    Nach unten rotieren
 ROTATE_LEFT
     Nach links rotieren
 ROTATE_RIGHT
@@ -758,9 +604,9 @@ STAR_SYSTEM_INFORMATION
 GALACTIC_VIEW
     Galaxie Ansicht
 ROTATION_DAMPING_ON
-	Rotationsverminderung an
+    Rotationsverminderung an
 ROTATION_DAMPING_OFF
-	Rotationsverminderung aus
+    Rotationsverminderung aus
 NO_ALERT
     kein Alarm
 SHIP_NEARBY
@@ -1029,8 +875,6 @@ ECONOMY_TYPE
     Wirtschaftstyp:
 ALLEGIANCE
     Zugehörigkeit:
-FACTION
-	Fraktion:
 POPULATION
     Einwohnerzahl:
 OVER_N_BILLION
@@ -1061,10 +905,6 @@ WHEELS_ARE_UP
     Fahrwerk eingefahren
 WHEELS_ARE_DOWN
     Fahrwerk ausgefahren
-OBJECT_LABELS_ARE_ON
-    Objektkennzeichnung EIN
-OBJECT_LABELS_ARE_OFF
-    Objektkennzeichnung AUS
 SELECT_LOW_THRUST_POWER_LEVEL
     Wähle Niedrigschub-Energielevel
 SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT
@@ -1164,7 +1004,7 @@ FINE_PAID_N_BUT_N_REMAINING
 FINE_PAID_N
     Sie haben die Geldstrafe von %fine bezahlt.
 SET_HYPERSPACE_DESTINATION_TO
-    "Hyperraumsprungziel auf %system gesetzt"
+    Hyperraumsprungziel auf %system gesetzt
 NO_TARGET_SELECTED
     Computer: Kein Ziel ausgewählt.
 REQUEST_DOCKING_CLEARANCE
@@ -1183,28 +1023,18 @@ AUTOPILOT_ENTER_HIGH_ORBIT_AROUND
     Autopilot: Fliege in eine hohe Umlaufbahn um %target.
 SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
     Hyperraumwolken Analysator: Setzen Sie das Hyperraumsprungziel, um diesem Abflug zu folgen.
-FAILED
-    Gescheitert
-COMPLETED
-    Abgeschlossen
-ACTIVE
-    Offen
 DISTANCE_LY
     Entfernung: %distance{f.2} Lj
 SYSTEM
     System
 UNOCCUPIED_CABIN
     Extra Passagier-Kabinen
-X_UNOCCUPIED_CABINS
-    %quantity Extra Passagier-Kabine(n)
 UNOCCUPIED_CABIN_DESCRIPTION
     Benötigt für den Transport von einem Passagier
 PASSENGER_CABIN
     Belegte Passagier-Kabinen
-X_PASSENGER_CABINS
-    %quantity Besetzte Passagier-Kabine(n)
 CABINS
-	Kabinen
+    Kabinen
 MONTH_JAN
     Jan
 MONTH_FEB

@@ -28,21 +28,34 @@ ui.templates.FileDialog = function (args)
 
 	local selectButton = ui:Button(ui:Label(selectLabel):SetFont("HEADING_NORMAL"))
 	local cancelButton = ui:Button(ui:Label(cancelLabel):SetFont("HEADING_NORMAL"))
-	selectButton.onClick:Connect(function () onSelect(list.selectedOption) end)
 	cancelButton.onClick:Connect(onCancel)
+
+	local fileEntry
+	if args.allowNewFile then
+		fileEntry = ui:TextEntry()
+		list.onOptionSelected:Connect(function (index, fileName) fileEntry:SetText(fileName); end)
+		selectButton.onClick:Connect(function () onSelect(fileEntry.text); end)
+	else
+		selectButton.onClick:Connect(function () onSelect(list.selectedOption); end)
+	end
+
+	local content = ui:VBox()
+	content:PackEnd(ui:Align("MIDDLE", ui:Label(title):SetFont("HEADING_NORMAL")))
+	if args.helpText then
+		content:PackEnd(ui:Label(args.helpText):SetFont("NORMAL"))
+	end
+	if fileEntry then content:PackEnd(fileEntry); end
+	content
+		:PackEnd(ui:Expand("BOTH", ui:Margin(10, "VERTICAL", ui:Scroller(list))))
+		:PackEnd(ui:Grid(2,1):SetRow(0, {
+			ui:Align("LEFT", selectButton),
+			ui:Align("RIGHT", cancelButton),
+		}))
 
 	local dialog =
 		ui:ColorBackground(0,0,0,0.5,
 			ui:Grid({1,3,1}, {1,3,1})
-				:SetCell(1,1,
-					ui:VBox(10)
-						:PackEnd(ui:Background(ui:Label(title):SetFont("HEADING_NORMAL")))
-						:PackEnd(ui:Expand("BOTH", ui:Scroller():SetInnerWidget(list)))
-						:PackEnd(ui:Grid(2,1):SetRow(0, {
-							ui:Align("LEFT", selectButton),
-							ui:Align("RIGHT", cancelButton),
-						}))
-				)
+				:SetCell(1,1, ui:Background(content))
 		)
 
 	return dialog

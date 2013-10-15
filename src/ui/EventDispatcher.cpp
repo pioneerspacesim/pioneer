@@ -41,6 +41,22 @@ bool EventDispatcher::DispatchSDLEvent(const SDL_Event &event)
 
 		case SDL_MOUSEMOTION:
 			return Dispatch(MouseMotionEvent(Point(event.motion.x,event.motion.y), Point(event.motion.xrel, event.motion.yrel)));
+
+		case SDL_JOYAXISMOTION:
+			// SDL joystick axis value is documented to have the range -32768 to 32767
+			// unfortunately this places the centre at -0.5, not at zero, which is clearly nuts...
+			// so since that doesn't make any sense, we assume the range is *actually* -32767 to +32767,
+			// and scale it accordingly, clamping the output so that if we *do* get -32768, it turns into -1
+			return Dispatch(JoystickAxisMotionEvent(event.jaxis.which, Clamp(event.jaxis.value * (1.0f / 32767.0f), -1.0f, 1.0f), event.jaxis.axis));
+
+		case SDL_JOYHATMOTION:
+			return Dispatch(JoystickHatMotionEvent(event.jhat.which, JoystickHatMotionEvent::JoystickHatDirection(event.jhat.value), event.jhat.hat));
+
+		case SDL_JOYBUTTONDOWN:
+			return Dispatch(JoystickButtonEvent(event.jbutton.which, JoystickButtonEvent::BUTTON_DOWN, event.jbutton.button));
+
+		case SDL_JOYBUTTONUP:
+			return Dispatch(JoystickButtonEvent(event.jbutton.which, JoystickButtonEvent::BUTTON_UP, event.jbutton.button));
 	}
 
 	return false;
@@ -82,8 +98,10 @@ bool EventDispatcher::Dispatch(const Event &event)
 
 					std::map<KeySym,Widget*>::iterator i = m_shortcuts.find(shortcutSym);
 					if (i != m_shortcuts.end()) {
-						(*i).second->TriggerClick();
+						// DispatchSelect must happen before TriggerClick, so
+						// that Click handlers can override the selection
 						DispatchSelect((*i).second);
+						(*i).second->TriggerClick();
 						return true;
 					}
 
@@ -136,8 +154,10 @@ bool EventDispatcher::Dispatch(const Event &event)
 
 						// if we released over the active widget, then we clicked it
 						if (m_mouseActiveReceiver.Get() == target) {
-							m_mouseActiveReceiver->TriggerClick();
+							// DispatchSelect must happen before TriggerClick, so
+							// that Click handlers can override the selection
 							DispatchSelect(m_mouseActiveReceiver.Get());
+							m_mouseActiveReceiver->TriggerClick();
 						}
 
 						m_mouseActiveReceiver.Reset();
@@ -193,6 +213,23 @@ bool EventDispatcher::Dispatch(const Event &event)
 
 			RefCountedPtr<Widget> target(m_baseContainer->GetWidgetAtAbsolute(m_lastMousePosition));
 			return target->TriggerMouseWheel(mouseWheelEvent);
+		}
+
+		case Event::JOYSTICK_AXIS_MOTION:
+			return m_baseContainer->TriggerJoystickAxisMove(static_cast<const JoystickAxisMotionEvent&>(event));
+
+		case Event::JOYSTICK_HAT_MOTION:
+			return m_baseContainer->TriggerJoystickHatMove(static_cast<const JoystickHatMotionEvent&>(event));
+
+		case Event::JOYSTICK_BUTTON: {
+			const JoystickButtonEvent &joyButtonEvent = static_cast<const JoystickButtonEvent&>(event);
+			switch (joyButtonEvent.action) {
+				case JoystickButtonEvent::BUTTON_DOWN:
+					return m_baseContainer->TriggerJoystickButtonDown(joyButtonEvent);
+				case JoystickButtonEvent::BUTTON_UP:
+					return m_baseContainer->TriggerJoystickButtonUp(joyButtonEvent);
+				default: assert(0); return false;
+			}
 		}
 
 		default:

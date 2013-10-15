@@ -29,14 +29,14 @@ template <class T> void pi_lua_generic_push(lua_State * l, T* value) {
 inline void pi_lua_generic_push(lua_State * l, const vector3d & value) { LuaVector::PushToLua(l, value); }
 
 inline void pi_lua_generic_pull(lua_State * l, int index, bool & out) { out = lua_toboolean(l, index); }
-inline void pi_lua_generic_pull(lua_State * l, int index, int & out) { out = lua_tointeger(l, index); }
-inline void pi_lua_generic_pull(lua_State * l, int index, unsigned int & out) { out = lua_tounsigned(l, index); }
-inline void pi_lua_generic_pull(lua_State * l, int index, float & out) { out = lua_tonumber(l, index); }
-inline void pi_lua_generic_pull(lua_State * l, int index, double & out) { out = lua_tonumber(l, index); }
-inline void pi_lua_generic_pull(lua_State * l, int index, const char * & out) { out = lua_tostring(l, index); }
+inline void pi_lua_generic_pull(lua_State * l, int index, int & out) { out = luaL_checkinteger(l, index); }
+inline void pi_lua_generic_pull(lua_State * l, int index, unsigned int & out) { out = luaL_checkunsigned(l, index); }
+inline void pi_lua_generic_pull(lua_State * l, int index, float & out) { out = luaL_checknumber(l, index); }
+inline void pi_lua_generic_pull(lua_State * l, int index, double & out) { out = luaL_checknumber(l, index); }
+inline void pi_lua_generic_pull(lua_State * l, int index, const char * & out) { out = luaL_checkstring(l, index); }
 inline void pi_lua_generic_pull(lua_State * l, int index, std::string & out) {
 	size_t len;
-	const char *buf = lua_tolstring(l, index, &len);
+	const char *buf = luaL_checklstring(l, index, &len);
 	std::string(buf, len).swap(out);
 }
 template <class T> void pi_lua_generic_pull(lua_State * l, int index, T* & out) {
@@ -85,7 +85,9 @@ inline bool pi_lua_strict_pull(lua_State * l, int index, const char * & out) {
 }
 inline bool pi_lua_strict_pull(lua_State * l, int index, std::string & out) {
 	if (lua_type(l, index) == LUA_TSTRING) {
-		out = lua_tostring(l, index);
+		size_t len;
+		const char *buf = lua_tolstring(l, index, &len);
+		std::string(buf, len).swap(out);
 		return true;
 	}
 	return false;

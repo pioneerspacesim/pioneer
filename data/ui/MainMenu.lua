@@ -31,11 +31,22 @@ end
 local doLoadDialog = function ()
 	ui:NewLayer(
 		ui.templates.FileDialog({
-			title       = t("Select game to load..."),
+			title       = t("Load"),
+			helpText    = t("Select game to load..."),
 			path        = "savefiles",
 			selectLabel = t("Load game"),
 			onSelect    = loadGame,
 			onCancel    = function () ui:DropLayer() end
+		})
+	)
+end
+
+local doSettingsScreen = function()
+	ui.layer:SetInnerWidget(
+		ui.templates.Settings({
+			closeButtons = {
+				{ text = t("Return to menu"), onClick = function () ui.layer:SetInnerWidget(ui.templates.MainMenu()) end }
+			}
 		})
 	)
 end
@@ -45,7 +56,7 @@ local buttonDefs = {
 	{ t("Start at New Hope"), function () Game.StartGame(SystemPath.New(1,-1,-1,0,4)) setupPlayerWave() end },
 	{ t("Start at Barnard's Star"), function () Game.StartGame(SystemPath.New(-1,0,0,0,1)) setupPlayerWave() end },
 	{ t("Load game"),         doLoadDialog },
-	{ t("Options"),           function () Engine.SettingsView() end },
+	{ t("Options"),           doSettingsScreen },
 	{ t("Quit"),              function () Engine.Quit() end },
 }
 

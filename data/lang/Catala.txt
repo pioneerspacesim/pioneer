@@ -21,8 +21,6 @@ STOCK
     Estoc
 CARGO
     Càrrega
-VID_LINK_DOWN
-    Enllaç de vídeo tancat
 VID_LINK_ESTABLISHED
     Enllaç de vídeo establert
 VID_CONNECTING
@@ -31,8 +29,6 @@ BOUGHT_1T_OF
     Has comprat 1t de %commodity.
 SOLD_1T_OF
     Has venut 1t de %commodity.
-WELCOME_TO_MARKET
-    Benvingut al mercat de bens de %station
 GO_BACK
     Anar enrere
 FITTING
@@ -91,8 +87,6 @@ REVERSE_ACCEL_LADEN
     Acceleració revers (amb càrrega)
 HYPERDRIVE_FITTED
     Hipermotor acoblat:
-HYPERSPACE_RANGE_LADEN
-   Rang d'hiperespai (amb càrrega):
 THANKS_AND_REMEMBER_TO_BUY_FUEL
     Gràcies per la vostra compra. Recordeu-vos D'acoblar els elements i carregar el combustible.
 CLASS_NUMBER
@@ -105,10 +99,6 @@ REPAIR_1_PERCENT_HULL
     Reparar l'1.0% dels danys del casc.
 REPAIR_ENTIRE_HULL
     Reparar tot els danys del casc (%repairpercent{f.1}%%)
-REPAIR
-    Reparar
-PART_EX
-    Intercanvi de components
 VIEW
     Veure
 SHIP_EQUIPMENT
@@ -121,8 +111,6 @@ NEW_AND_RECONDITIONED_SHIPS
     Naus noves i restaurades
 BULLETIN_BOARD
     Tauler de notícies
-WELCOME_TO_SOMEWHERE
-    Benvingut a %station
 # This next translation does not have to be a real translation.  You can
 # write anything you like here.  It will appear in every space station
 # in the whole galaxy.
@@ -162,24 +150,10 @@ SEARCH
     Cerca
 
 # Config / game control
-PRESS_BUTTON_WANTED_FOR
-    "Premeu el botó que voleu utilitzar per "
-MOVE_AXIS_WANTED_FOR
-    "Moveu l'eix del comandament que voleu utilitzar per "
-SAVE
-    Desa
-LOAD
-    Carrega
-CANCEL
-    Cancel·la
-SELECT_FILENAME_TO_SAVE
-    Seleccioneu el nom de l'arxiu per guardar o introduïu ne un de nou
 CANT_SAVE_IN_HYPERSPACE
     No es pot guardar la partida en l'hiperespai
 GAME_SAVED_TO
     "Partida guardada a "
-SELECT_FILENAME_TO_LOAD
-    Seleccioneu la partida que voleu carregar
 COULD_NOT_OPEN_FILENAME
     No s'ha pogut carregar %path
 GAME_LOAD_CORRUPT
@@ -188,74 +162,10 @@ GAME_LOAD_CANNOT_OPEN
     Aquesta partida no es pot carregar ja que s'hi ha denegat l'accés.
 GAME_SAVE_CANNOT_WRITE
     Aquesta partida no es pot desar degut a un problema del sistema
-VERY_LOW
-    Molt baix
-LOW
-    Baix
-MEDIUM
-    Mitjà
-HIGH
-    Alt
-VERY_HIGH
-    Molt alt
-VERY_VERY_HIGH
-    Molt i molt alt
-ON
-    Activat
-OFF
-    Desactivat
-SIGHTS_SOUNDS_SAVES
-    Vistes, so, i partides
 PIONEER
     PIONEER
-SAVE_THE_GAME
-    [S] Desa la partida
-LOAD_A_GAME
-    [L] Carrega una partida
-EXIT_THIS_GAME
-    Sortir de la partida
-WINDOW_OR_FULLSCREEN
-    En una finestra o pantalla completa (reiniciar per aplicar)
-FULL_SCREEN
-    Pantalla completa
-OTHER_GRAPHICS_SETTINGS
-    Altres opcions de gràfics
-USE_SHADERS
-    Utilitza shaders (reiniciar per aplicar)
-SOUND_SETTINGS
-    Configuració del so
-VOL_MASTER
-    Principal
-VOL_EFFECTS
-    Efectes
-VOL_MUSIC
-    Música
-VIDEO_RESOLUTION
-    Resolució del vídeo (reiniciar per aplicar)
-X_BY_X
-    %{x}x%{y}
-PLANET_DETAIL_DISTANCE
-    Distància del detall dels planetes
-CITY_DETAIL_LEVEL
-    Nivell de detall de les ciutats
-PLANET_TEXTURES
-    Textures dels planetes
-FRACTAL_DETAIL
-    Detalls dels fractals
 CONTROLS
     Controls
-ENABLE_JOYSTICK
-    Activar control per joystick
-MOUSE_INPUT
-    Entada del ratolí
-INVERT_MOUSE_Y
-    Invertir MouseY
-HUD
-    HUD
-DISPLAY_NAV_TUNNEL
-    Mostrar el túnel de navegació
-LANGUAGE_SELECTION
-    Idioma (reinicia per aplicar)
 
 # Wares
 NONE
@@ -356,8 +266,6 @@ ECM_ADVANCED_DESCRIPTION
     Sistema de contraatac de míssils, capaç de destruir els tipus de míssils més avançats.
 SHIELD_GENERATOR
     Generador d'escut
-X_SHIELD_GENERATORS
-    %quantity generadors d'escut
 SHIELD_GENERATOR_DESCRIPTION
     Cada unitat acoblada proporciona una protecció extra.
 LASER_COOLING_BOOSTER
@@ -450,56 +358,12 @@ HYPERSPACE_ARRIVAL_CLOUD
     Núvol d'arribada d'hiperespai
 HYPERSPACE_DEPARTURE_CLOUD
     Núvol de sortida d'hiperespai
-TYPE
-    Tipus
-CLIENT
-    Client
-LOCATION
-    Localització
-DUE
-    Fins a
-REWARD
-    Recompensa
-STATUS
-    Estat
-CARGO_INVENTORY
-    Inventari de la bodega:
-JETTISON
-    Jettison
-REFUEL
-    Repostar
-JETTISONED_1T_OF_X
-    Jettisoned 1 tonne of %commodity
-COMBAT_RATING
-    Valoració en combat:
-CRIMINAL_RECORD
-    Historial criminal:
-SHIP_INFORMATION_HEADER
-    "Informació de la nau: "
-HYPERDRIVE
-    Hipermotor
 FREE
     Lliure
 USED
     En ús
-TOTAL_WEIGHT
-    Pes total
-FRONT_WEAPON
-    Arma posterior
-REAR_WEAPON
-    Arma 
-HYPERSPACE_RANGE
-    Abast en hiperespai
-NO_MOUNTING
-    No s'ha acoblat
-N_LIGHT_YEARS_N_MAX
-    %distance{f.1} anys llum (%maxdistance{f.1} màx)
 SHIP_INFORMATION
     Informació de la nau
-REPUTATION
-    Reputació
-MISSIONS
-    Missions
 SHIFT
     "maj "
 CTRL
@@ -511,11 +375,11 @@ META
 JOY
     Joy
 BUTTON
-     " botó "
+    " botó "
 HAT
-     " Hat"
+    " Hat"
 DIRECTION
-     " Dir "
+    " Dir "
 X
     X
 Y
@@ -618,14 +482,6 @@ PIRACY
     Pirateria
 MURDER
     Assassinat
-INDEPENDENT
-    Independent
-EARTH_FEDERATION
-    Federació Terrícola
-INDEPENDENT_CONFEDERATION
-    Confederació de Sistemes Independents
-EMPIRE
-    L'Imperi
 NO_ESTABLISHED_ORDER
     Sense ordre establert
 HARD_CAPITALIST
@@ -659,7 +515,7 @@ PLUTOCRATIC_DICTATORSHIP
 VIOLENT_ANARCHY
     Desordre - Control basat en la violència.
 X_CANNOT_BE_TOLERATED_HERE
-        %crime no és tolerat aqui
+    %crime no és tolerat aqui
 SECTOR_X_Y_Z
     Sector: %x,%y,%z
 CURRENT_SYSTEM
@@ -837,19 +693,19 @@ COMMA_HIGHLY_VOLCANIC
 HIGHLY_VOLCANIC
     Altament volcànic
 ICE_WORLD
-     " món de gel"
+    " món de gel"
 ROCKY_PLANET
-     " planeta rocós"
+    " planeta rocós"
 OCEANICWORLD
-     " món oceànic"
+    " món oceànic"
 PLANET_CONTAINING_LIQUID_WATER
-     " planeta que conté aigua líquida"
+    " planeta que conté aigua líquida"
 PLANET_WITH_SOME_ICE
-     " planeta amb quelcom gel"
+    " planeta amb quelcom gel"
 ROCKY_PLANET_CONTAINING_COME_LIQUIDS
-     " planeta rocós que conté alguns líquids,"
+    " planeta rocós que conté alguns líquids,"
 WITH_NO_SIGNIFICANT_ATMOSPHERE
-     " sense atmosfera important"
+    " sense atmosfera important"
 TENUOUS
     tènue
 THIN
@@ -859,31 +715,31 @@ THICK
 VERY_DENSE
     molt dens
 WITH_A
-     " amb "
+    " amb "
 O2_ATMOSPHERE
-     " atmosfera d'oxigen"
+    " atmosfera d'oxigen"
 CO2_ATMOSPHERE
-     " atmosfera de diòxid de carboni"
+    " atmosfera de diòxid de carboni"
 CO_ATMOSPHERE
-     " atmosfera de monòxid de carboni"
+    " atmosfera de monòxid de carboni"
 CH4_ATMOSPHERE
-     " atmosfera de metà"
+    " atmosfera de metà"
 H_ATMOSPHERE
-     " atmosfera d'hidrogen"
+    " atmosfera d'hidrogen"
 HE_ATMOSPHERE
-     " atmosfera d'heli"
+    " atmosfera d'heli"
 AR_ATMOSPHERE
-     " atmosfera d'argó"
+    " atmosfera d'argó"
 S_ATMOSPHERE
-     " atmosfera de sulfur"
+    " atmosfera de sulfur"
 N_ATMOSPHERE
-     " atmosfera de nitrogen"
+    " atmosfera de nitrogen"
 AND_HIGHLY_COMPLEX_ECOSYSTEM
-     " i un ecosistema molt complex"
+    " i un ecosistema molt complex"
 AND_INDIGENOUS_PLANT_LIFE
-     " i amb plantes indígenes."
+    " i amb plantes indígenes."
 AND_INDIGENOUS_MICROBIAL_LIFE
-     " i amb vida microbiòtica indígenes."
+    " i amb vida microbiòtica indígenes."
 ORBITAL_STARPORT
     Port estel·lar orbital
 STARPORT
@@ -1007,7 +863,7 @@ SYSTEM_NUMBER
 NAME
     Nom
 ROTATIONAL_PERIOD
-     " (període rotacional)"
+    " (període rotacional)"
 RADIUS
     Radi
 SEMI_MAJOR_AXIS
@@ -1020,10 +876,6 @@ WHEELS_ARE_UP
     Tren d'aterratge amagat
 WHEELS_ARE_DOWN
     Tren d'aterratge preparat
-OBJECT_LABELS_ARE_ON
-    Etiquetes dels objectes activades
-OBJECT_LABELS_ARE_OFF
-    Etiquetes dels objectes desactivades
 SELECT_LOW_THRUST_POWER_LEVEL
     Seleccioneu el nivell de baixa acceleració
 SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT
@@ -1123,7 +975,7 @@ FINE_PAID_N_BUT_N_REMAINING
 FINE_PAID_N
     Heu pagat una multa de %fine.
 SET_HYPERSPACE_DESTINATION_TO
-    "Fixar el destí d'hiperespai a %system"
+    Fixar el destí d'hiperespai a %system
 NO_TARGET_SELECTED
     Ordinador de bord: No heu seleccionat l'objectiu
 REQUEST_DOCKING_CLEARANCE
@@ -1142,25 +994,15 @@ AUTOPILOT_ENTER_HIGH_ORBIT_AROUND
     Pilot automàtic: Òrbita alta sobrevolant %target
 SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
     Analitzador de núvols hiperespacials: Fixar objectiu hiperespacial d'aquesta sortida
-FAILED
-    Fallida
-COMPLETED
-    Completada
-ACTIVE
-    Activa
 DISTANCE_LY
     Distància: %distance{f.2} ly
 SYSTEM
     Sistema
 UNOCCUPIED_CABIN
     Cabina de passatgers extra
-X_UNOCCUPIED_CABINS
-    %quantity cabines de passatgers extra
 UNOCCUPIED_CABIN_DESCRIPTION
     Necessària per transportar viatgers individuals
 PASSENGER_CABIN
     Cabina de passatgers ocupada
-X_PASSENGER_CABINS
-    %quantity cabines de passatgers ocupades
 CABINS
     Cabines

@@ -14,6 +14,12 @@ public:
 	virtual void Layout();
 	virtual void Draw();
 
+	void Toggle();
+	bool IsChecked() const;
+	void SetState(bool state);
+
+	sigc::signal<void, bool> onValueChanged;
+
 protected:
 	friend class Context;
 	CheckBox(Context *context): Widget(context), m_checked(false) {}

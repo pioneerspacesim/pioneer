@@ -6,6 +6,7 @@
 
 #include "enum_table.h"
 #include "EquipType.h"
+#include "LuaEngine.h"
 #include "LuaFileSystem.h"
 #include "Polit.h"
 #include "Ship.h"
@@ -118,6 +119,15 @@ const struct EnumItem ENUM_EquipType[] = {
 	{ "MININGCANNON_17MW", Equip::MININGCANNON_17MW },
 	{ "SMALL_PLASMA_ACCEL", Equip::SMALL_PLASMA_ACCEL },
 	{ "LARGE_PLASMA_ACCEL", Equip::LARGE_PLASMA_ACCEL },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_DetailLevel[] = {
+	{ "VERY_LOW", LuaEngine::DETAIL_VERY_LOW },
+	{ "LOW", LuaEngine::DETAIL_LOW },
+	{ "MEDIUM", LuaEngine::DETAIL_MEDIUM },
+	{ "HIGH", LuaEngine::DETAIL_HIGH },
+	{ "VERY_HIGH", LuaEngine::DETAIL_VERY_HIGH },
 	{ 0, 0 },
 };
 
@@ -319,6 +329,9 @@ const struct EnumItem ENUM_UIEventType[] = {
 	{ "MOUSE_BUTTON", UI::Event::MOUSE_BUTTON },
 	{ "MOUSE_MOTION", UI::Event::MOUSE_MOTION },
 	{ "MOUSE_WHEEL", UI::Event::MOUSE_WHEEL },
+	{ "JOYSTICK_AXIS_MOTION", UI::Event::JOYSTICK_AXIS_MOTION },
+	{ "JOYSTICK_HAT_MOTION", UI::Event::JOYSTICK_HAT_MOTION },
+	{ "JOYSTICK_BUTTON", UI::Event::JOYSTICK_BUTTON },
 	{ 0, 0 },
 };
 
@@ -344,6 +357,25 @@ const struct EnumItem ENUM_UIMouseButtonType[] = {
 const struct EnumItem ENUM_UIMouseWheelDirection[] = {
 	{ "UP", UI::MouseWheelEvent::WHEEL_UP },
 	{ "DOWN", UI::MouseWheelEvent::WHEEL_DOWN },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_UIJoystickHatDirection[] = {
+	{ "CENTRE", UI::JoystickHatMotionEvent::HAT_CENTRE },
+	{ "UP", UI::JoystickHatMotionEvent::HAT_UP },
+	{ "RIGHT", UI::JoystickHatMotionEvent::HAT_RIGHT },
+	{ "DOWN", UI::JoystickHatMotionEvent::HAT_DOWN },
+	{ "LEFT", UI::JoystickHatMotionEvent::HAT_LEFT },
+	{ "RIGHTUP", UI::JoystickHatMotionEvent::HAT_RIGHTUP },
+	{ "RIGHTDOWN", UI::JoystickHatMotionEvent::HAT_RIGHTDOWN },
+	{ "LEFTUP", UI::JoystickHatMotionEvent::HAT_LEFTUP },
+	{ "LEFTDOWN", UI::JoystickHatMotionEvent::HAT_LEFTDOWN },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_UIJoystickButtonAction[] = {
+	{ "DOWN", UI::JoystickButtonEvent::BUTTON_DOWN },
+	{ "UP", UI::JoystickButtonEvent::BUTTON_UP },
 	{ 0, 0 },
 };
 
@@ -407,6 +439,7 @@ const struct EnumItem ENUM_UIFont[] = {
 const struct EnumTable ENUM_TABLES[] = {
 	{ "EquipSlot", ENUM_EquipSlot },
 	{ "EquipType", ENUM_EquipType },
+	{ "DetailLevel", ENUM_DetailLevel },
 	{ "FileSystemRoot", ENUM_FileSystemRoot },
 	{ "PolitCrime", ENUM_PolitCrime },
 	{ "PolitEcon", ENUM_PolitEcon },
@@ -429,6 +462,8 @@ const struct EnumTable ENUM_TABLES[] = {
 	{ "UIMouseButtonAction", ENUM_UIMouseButtonAction },
 	{ "UIMouseButtonType", ENUM_UIMouseButtonType },
 	{ "UIMouseWheelDirection", ENUM_UIMouseWheelDirection },
+	{ "UIJoystickHatDirection", ENUM_UIJoystickHatDirection },
+	{ "UIJoystickButtonAction", ENUM_UIJoystickButtonAction },
 	{ "UIExpandDirection", ENUM_UIExpandDirection },
 	{ "UIGradientDirection", ENUM_UIGradientDirection },
 	{ "UIMarginDirection", ENUM_UIMarginDirection },
@@ -441,6 +476,7 @@ const struct EnumTable ENUM_TABLES[] = {
 const struct EnumTable ENUM_TABLES_PUBLIC[] = {
 	{ "EquipSlot", ENUM_EquipSlot },
 	{ "EquipType", ENUM_EquipType },
+	{ "DetailLevel", ENUM_DetailLevel },
 	{ "FileSystemRoot", ENUM_FileSystemRoot },
 	{ "PolitCrime", ENUM_PolitCrime },
 	{ "PolitEcon", ENUM_PolitEcon },
@@ -463,6 +499,8 @@ const struct EnumTable ENUM_TABLES_PUBLIC[] = {
 	{ "UIMouseButtonAction", ENUM_UIMouseButtonAction },
 	{ "UIMouseButtonType", ENUM_UIMouseButtonType },
 	{ "UIMouseWheelDirection", ENUM_UIMouseWheelDirection },
+	{ "UIJoystickHatDirection", ENUM_UIJoystickHatDirection },
+	{ "UIJoystickButtonAction", ENUM_UIJoystickButtonAction },
 	{ "UIExpandDirection", ENUM_UIExpandDirection },
 	{ "UIGradientDirection", ENUM_UIGradientDirection },
 	{ "UIMarginDirection", ENUM_UIMarginDirection },

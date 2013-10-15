@@ -19,7 +19,7 @@ Widget::Widget(Context *context) :
 	m_font(FONT_INHERIT),
 	m_disabled(false),
 	m_mouseOver(false),
-	m_mouseActive(false)
+	m_visible(false)
 {
 	assert(m_context);
 }
@@ -41,15 +41,26 @@ Point Widget::GetAbsolutePosition() const
 	return m_container->GetAbsolutePosition() + m_position + m_drawOffset;
 }
 
+Point Widget::GetMousePos() const
+{
+	return m_context->GetMousePos() - GetAbsolutePosition();
+}
+
 void Widget::Attach(Container *container)
 {
 	assert(container);
 	assert(m_context == container->GetContext());
 	m_container = container;
+
+	// we should never be visible while we're detached, and we should
+	// always be detached before being attached to something else
+	assert(!m_visible);
+	NotifyVisible(container->IsVisible());
 }
 
 void Widget::Detach()
 {
+	NotifyVisible(false);
 	m_container = 0;
 	m_position = Point();
 	m_size = Point();
@@ -60,6 +71,14 @@ void Widget::SetDimensions(const Point &position, const Point &size)
 	m_position = position;
 	SetSize(size);
 	SetActiveArea(size);
+}
+
+void Widget::NotifyVisible(bool visible)
+{
+	if (m_visible != visible) {
+		m_visible = visible;
+		if (m_visible) { HandleVisible(); } else { HandleInvisible(); }
+	}
 }
 
 void Widget::SetActiveArea(const Point &activeArea, const Point &activeOffset)
@@ -118,6 +137,16 @@ Widget::Font Widget::GetFont() const
 		return FONT_NORMAL;
 	}
 	return m_font;
+}
+
+bool Widget::IsMouseActive() const
+{
+	return (GetContext()->GetMouseActive() == this);
+}
+
+bool Widget::IsSelected() const
+{
+	return (GetContext()->GetSelected() == this);
 }
 
 void Widget::Disable()
@@ -200,6 +229,38 @@ bool Widget::TriggerMouseWheel(const MouseWheelEvent &event, bool emit)
 	return !emit;
 }
 
+bool Widget::TriggerJoystickButtonDown(const JoystickButtonEvent &event, bool emit)
+{
+	HandleJoystickButtonDown(event);
+	if (emit) emit = !onJoystickButtonDown.emit(event);
+	if (GetContainer()) GetContainer()->TriggerJoystickButtonDown(event, emit);
+	return !emit;
+}
+
+bool Widget::TriggerJoystickButtonUp(const JoystickButtonEvent &event, bool emit)
+{
+	HandleJoystickButtonUp(event);
+	if (emit) emit = !onJoystickButtonUp.emit(event);
+	if (GetContainer()) GetContainer()->TriggerJoystickButtonUp(event, emit);
+	return !emit;
+}
+
+bool Widget::TriggerJoystickAxisMove(const JoystickAxisMotionEvent &event, bool emit)
+{
+	HandleJoystickAxisMove(event);
+	if (emit) emit = !onJoystickAxisMove.emit(event);
+	if (GetContainer()) GetContainer()->TriggerJoystickAxisMove(event, emit);
+	return !emit;
+}
+
+bool Widget::TriggerJoystickHatMove(const JoystickHatMotionEvent &event, bool emit)
+{
+	HandleJoystickHatMove(event);
+	if (emit) emit = !onJoystickHatMove.emit(event);
+	if (GetContainer()) GetContainer()->TriggerJoystickHatMove(event, emit);
+	return !emit;
+}
+
 bool Widget::TriggerMouseOver(const Point &pos, bool emit, Widget *stop)
 {
 	// only send external events on state change
@@ -236,27 +297,21 @@ bool Widget::TriggerClick(bool emit)
 
 void Widget::TriggerMouseActivate()
 {
-	m_mouseActive = true;
 	HandleMouseActivate();
-	if (GetContainer()) GetContainer()->TriggerMouseActivate();
 }
 
 void Widget::TriggerMouseDeactivate()
 {
-	m_mouseActive = false;
 	HandleMouseDeactivate();
-	if (GetContainer()) GetContainer()->TriggerMouseDeactivate();
 }
 
 void Widget::TriggerSelect()
 {
-	m_selected = true;
 	HandleSelect();
 }
 
 void Widget::TriggerDeselect()
 {
-	m_selected = false;
 	HandleDeselect();
 }
 

@@ -218,4 +218,31 @@ void MouseWheelEvent::ToLuaTable(lua_State *l) const
 	pi_lua_settable(l, "direction", EnumStrings::GetString("UIMouseWheelDirection", direction));
 }
 
+void JoystickAxisMotionEvent::ToLuaTable(lua_State *l) const
+{
+	lua_newtable(l);
+	pi_lua_settable(l, "type", EnumStrings::GetString("UIEventType", type));
+	pi_lua_settable(l, "joystick", joystick);
+	pi_lua_settable(l, "value", value);
+	pi_lua_settable(l, "axis", axis);
+}
+
+void JoystickHatMotionEvent::ToLuaTable(lua_State *l) const
+{
+	lua_newtable(l);
+	pi_lua_settable(l, "type", EnumStrings::GetString("UIEventType", type));
+	pi_lua_settable(l, "joystick", joystick);
+	pi_lua_settable(l, "direction", EnumStrings::GetString("UIJoystickHatDirection", direction));
+	pi_lua_settable(l, "hat", hat);
+}
+
+void JoystickButtonEvent::ToLuaTable(lua_State *l) const
+{
+	lua_newtable(l);
+	pi_lua_settable(l, "type", EnumStrings::GetString("UIEventType", type));
+	pi_lua_settable(l, "joystick", joystick);
+	pi_lua_settable(l, "action", EnumStrings::GetString("UIJoystickButtonAction", action));
+	pi_lua_settable(l, "button", button);
+}
+
 }

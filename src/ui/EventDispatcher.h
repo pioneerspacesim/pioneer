@@ -25,11 +25,16 @@ public:
 
 	void LayoutUpdated();
 
+	Widget *GetSelected() const { return m_selected.Get(); }
+	Widget *GetMouseActive() const { return m_mouseActiveReceiver.Get(); }
+
 	void SelectWidget(Widget *target);
 	void DeselectWidget(Widget *target);
 
 	void DisableWidget(Widget *target);
 	void EnableWidget(Widget *target);
+
+	Point GetMousePos() const { return m_lastMousePosition; }
 
 private:
 	void DispatchMouseOverOut(Widget *target, const Point &mousePos);
