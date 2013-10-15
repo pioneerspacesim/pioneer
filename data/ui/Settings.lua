@@ -218,7 +218,7 @@ ui.templates.Settings = function (args)
 				for i = 1, #group do
 					local binding = group[i]
 					local btn = SmallLabeledButton.New(t("Set"))
-					local descrLabel = ui:Label(binding.bindingDescription)
+					local descrLabel = ui:Label(binding.bindingDescription1)
 					grid:SetCell(0, i - 1, ui:Label(binding.label))
 					grid:SetCell(1, i - 1, descrLabel)
 					grid:SetCell(2, i - 1, btn)
