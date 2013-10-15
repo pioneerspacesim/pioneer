@@ -18,6 +18,7 @@ void UIView::Draw3D()
 
 void UIView::OnSwitchTo()
 {
+	Pi::ui->DropAllLayers();
 	Pi::ui->GetTopLayer()->SetInnerWidget(
 		Pi::ui->VBox()
 			->PackEnd(Pi::ui->CallTemplate(m_templateName))
@@ -27,6 +28,6 @@ void UIView::OnSwitchTo()
 
 void UIView::OnSwitchFrom()
 {
-	Pi::ui->GetTopLayer()->RemoveInnerWidget();
+	Pi::ui->DropAllLayers();
 	Pi::ui->Layout(); // UI does important things on layout, like updating keyboard shortcuts
 }
