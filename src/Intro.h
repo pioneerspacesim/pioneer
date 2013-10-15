@@ -16,8 +16,9 @@ public:
 	virtual void Draw(float time);
 
 private:
-	std::vector<SceneGraph::Model*> m_models;
-	std::vector<Shields*> m_shields;
+	typedef std::pair<SceneGraph::Model *, Shields *> TModelShields;
+	std::vector<TModelShields> m_models;
+	typedef std::vector<TModelShields>::iterator TModelShieldsIter;
 
 	enum State {
 		STATE_SELECT,

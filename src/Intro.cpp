@@ -40,11 +40,11 @@ Intro::Intro(Graphics::Renderer *r, int width, int height)
 		skin.SetRandomColors(Pi::rng);
 		skin.Apply(model);
 		model->SetThrust(vector3f(0.f, 0.f, -0.6f), vector3f(0.f));
-		m_models.push_back(model);
-
+		
 		Shields *pShield = new Shields(model);
 		pShield->SetEnabled(false);
-		m_shields.push_back(pShield);
+
+		m_models.push_back( std::make_pair(model,pShield) );
 	}
 
 	PiRngWrapper rng;
@@ -56,11 +56,10 @@ Intro::Intro(Graphics::Renderer *r, int width, int height)
 
 Intro::~Intro()
 {
-	for (std::vector<SceneGraph::Model*>::iterator i = m_models.begin(); i != m_models.end(); ++i)
-		delete (*i);
-
-	for (std::vector<Shields*>::iterator i = m_shields.begin(); i != m_shields.end(); ++i)
-		delete (*i);
+	for (TModelShieldsIter i = m_models.begin(); i != m_models.end(); ++i) {
+		delete (*i).first;
+		delete (*i).second;
+	}
 	
 }
 
@@ -68,8 +67,8 @@ void Intro::Draw(float _time)
 {
 	switch (m_state) {
 		case STATE_SELECT:
-			m_model = m_models[m_modelIndex];
-			m_shield = m_shields[m_modelIndex];
+			m_model = m_models[m_modelIndex].first;
+			m_shield = m_models[m_modelIndex].second;
 			m_modelIndex++;
 			if (m_modelIndex == m_models.size()) m_modelIndex = 0;
 			m_zoomBegin = -10000.0f;
