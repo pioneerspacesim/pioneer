@@ -167,7 +167,6 @@ local onChat = function (form, ref, option)
 		local capacity = ShipDef[Game.player.shipId].equipSlotCapacity.CABIN
 		if capacity < ad.group or Game.player:GetEquipCount('CABIN', 'UNOCCUPIED_CABIN') < ad.group then
 			form:SetMessage(l.YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP)
-			form:AddOption(l.HANG_UP, -1)
 			return
 		end
 
@@ -192,7 +191,6 @@ local onChat = function (form, ref, option)
 		table.insert(missions,Mission.New(mission))
 
 		form:SetMessage(l.EXCELLENT)
-		form:AddOption(l.HANG_UP, -1)
 
 		return
 	elseif option == 4 then
@@ -212,7 +210,6 @@ local onChat = function (form, ref, option)
 	form:AddOption(l.WILL_I_BE_IN_ANY_DANGER, 5)
 	form:AddOption(l.COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST, 0)
 	form:AddOption(l.OK_AGREED, 3)
-	form:AddOption(l.HANG_UP, -1)
 end
 
 local onDelete = function (ref)

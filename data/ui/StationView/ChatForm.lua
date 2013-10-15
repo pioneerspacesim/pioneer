@@ -35,6 +35,13 @@ function ChatForm:BuildWidget ()
 		box:PackEnd(ui:MultiLineText(self.message))
 	end
 
+	local function closeForm ()
+		ui:DropLayer();
+		if self.removeOnClose and self.removeFunc then
+			self.removeFunc()
+		end
+	end
+
 	if self.options then
 		local optionBox = ui:VBox()
 		for i = 1,#self.options do
@@ -43,10 +50,7 @@ function ChatForm:BuildWidget ()
 			optionBox:PackEnd(b)
 			b.button.onClick:Connect(function ()
 				if (option[2] == -1) then
-					ui:DropLayer()
-					if self.removeOnClose and self.removeFunc then
-						self.removeFunc()
-					end
+					closeForm()
 				else
 					self.chatFunc(self, option[2])
 					ui.layer:SetInnerWidget(self:BuildWidget())
@@ -56,10 +60,16 @@ function ChatForm:BuildWidget ()
 		box:PackEnd(optionBox)
 	end
 
+	local hangupButton = SmallLabeledButton.New("Hang up")
+	hangupButton.button.onClick:Connect(closeForm)
+
 	return
 		ui:ColorBackground(0,0,0,0.5,
 			ui:Align("MIDDLE",
-				ui:Background(box)
+				ui:Background(
+					ui:VBox(10)
+						:PackEnd({ box, hangupButton })
+				)
 			)
 		)
 end

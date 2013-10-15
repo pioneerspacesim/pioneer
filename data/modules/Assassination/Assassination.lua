@@ -120,7 +120,6 @@ local onChat = function (form, ref, option)
 		table.insert(missions,Mission.New(mission))
 
 		form:SetMessage(l.EXCELLENT)
-		form:AddOption(l.HANG_UP, -1)
 
 		return
 	elseif option == 4 then
@@ -131,7 +130,6 @@ local onChat = function (form, ref, option)
 	form:AddOption(l.HOW_SOON_MUST_IT_BE_DONE, 2);
 	form:AddOption(l.HOW_WILL_I_BE_PAID, 4);
 	form:AddOption(l.OK_AGREED, 3);
-	form:AddOption(l.HANG_UP, -1);
 end
 
 local RandomShipRegId = function ()
