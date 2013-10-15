@@ -62,6 +62,9 @@ struct ShipType {
 	int minCrew, maxCrew; // XXX really only for Lua, but needs to be declared in the ship def
 	///////
 
+	// percentage (ie, 0--100) of tank used per second at full thrust
+	float GetFuelUseRate() const;
+
 	static std::string POLICE;
 	static std::string MISSILE_GUIDED;
 	static std::string MISSILE_NAVAL;
