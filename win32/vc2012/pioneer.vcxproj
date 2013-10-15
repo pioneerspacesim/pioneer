@@ -148,7 +148,6 @@
     <ClCompile Include="..\..\src\FaceGenManager.cpp" />
     <ClCompile Include="..\..\src\FaceVideoLink.cpp" />
     <ClCompile Include="..\..\src\Factions.cpp" />
-    <ClCompile Include="..\..\src\FileSelectorWidget.cpp" />
     <ClCompile Include="..\..\src\FileSourceZip.cpp" />
     <ClCompile Include="..\..\src\FileSystem.cpp" />
     <ClCompile Include="..\..\src\FontCache.cpp" />
@@ -157,7 +156,6 @@
     <ClCompile Include="..\..\src\GalacticView.cpp" />
     <ClCompile Include="..\..\src\Game.cpp" />
     <ClCompile Include="..\..\src\GameConfig.cpp" />
-    <ClCompile Include="..\..\src\GameMenuView.cpp" />
     <ClCompile Include="..\..\src\GeoPatch.cpp" />
     <ClCompile Include="..\..\src\GeoPatchContext.cpp" />
     <ClCompile Include="..\..\src\GeoPatchID.cpp" />
@@ -312,7 +310,6 @@
     <ClInclude Include="..\..\src\FaceGenManager.h" />
     <ClInclude Include="..\..\src\FaceVideoLink.h" />
     <ClInclude Include="..\..\src\Factions.h" />
-    <ClInclude Include="..\..\src\FileSelectorWidget.h" />
     <ClInclude Include="..\..\src\FileSourceZip.h" />
     <ClInclude Include="..\..\src\FileSystem.h" />
     <ClInclude Include="..\..\src\fixed.h" />
@@ -323,7 +320,6 @@
     <ClInclude Include="..\..\src\Game.h" />
     <ClInclude Include="..\..\src\GameConfig.h" />
     <ClInclude Include="..\..\src\gameconsts.h" />
-    <ClInclude Include="..\..\src\GameMenuView.h" />
     <ClInclude Include="..\..\src\GeoPatch.h" />
     <ClInclude Include="..\..\src\GeoPatchContext.h" />
     <ClInclude Include="..\..\src\GeoPatchID.h" />
