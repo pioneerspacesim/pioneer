@@ -364,8 +364,8 @@ Translate:Add({
 		['Select file...'] = 'Seleccionar archivo...',
 		['Select'] = 'Seleccionar',
 		['Cancel'] = 'Cancelar',
-                ['Ok']     = 'Ok',
-                
+		['Ok']     = 'Ok',
+
 		-- Load dialog
 		['Select game to load...'] = 'Selecciona juego salvado...',
 		['Error'] = 'Error',
