@@ -24,12 +24,14 @@ Translate:Add({
 		['Error'] = 'Error',
 		['An error has occurred'] = 'An error has occurred',
 		['Could not load game: '] = 'Could not load game: ',
+		['Load'] = 'Load',
 
 		-- Save dialog
 		['Select a file to save to or enter a new filename'] = 'Select a file to save to or enter a new filename',
 		['Save'] = 'Save',
 
 		-- Settings screen
+		['Return to menu'] = 'Return to menu',
 		['Video resolution'] = 'Video resolution',
 		['Off'] = 'Off',
 		['Multisampling'] = 'Multisampling',
@@ -195,15 +197,17 @@ Translate:Add({
 		['Error'] = 'Błąd!',
 		['An error has occurred'] = 'Wystąpił błąd',
 		['Could not load game: '] = 'Nie można wczytać gry: ',
+		['Load'] = 'Wczytaj',
 
 		-- Save dialog
 		['Select a file to save to or enter a new filename'] = 'Wybierz plik do zapisu lub podaj nową nazwę pliku',
 		['Save'] = 'Zapisz',
 
 		-- Settings screen
+		['Return to menu'] = 'Powrót do menu',
 		['Video resolution'] = 'Rozdzielczość ekranu',
 		['Off'] = 'Wyłączone',
-		--['Multisampling'] = '',
+		['Multisampling'] = 'Multisampling',
 		['Very low'] = 'Bardzo mała',
 		['Low'] = 'Mała',
 		['Medium'] = 'Średnia',
@@ -217,21 +221,21 @@ Translate:Add({
 		['Full screen'] = 'Pełny ekran',
 		['Use shaders'] = 'Użyj cieniowania',
 		['Compress Textures'] = 'Kompresja Tekstur',
-		--['Video configuration (restart game to apply)'] = '',
-		--['Mute'] = '',
+		['Video configuration (restart game to apply)'] = 'Ustawienia obrazu (wymagany restart)',
+		['Mute'] = 'Wycisz',
 		['Master:'] = 'Głośność:',
 		['Music:'] = 'Muzyka:',
 		['Effects:'] = 'Efekty:',
 		['Language (restart game to apply)'] = 'Język (wymagany restart)',
-		--['Press a key or controller button'] = '',
-		--['Change Binding'] = '',
+		['Press a key or controller button'] = 'Naciśnij klawisz lub przycisk kontrolera',
+		['Change Binding'] = 'Zmień przypisany klawisz',
 		['Invert Mouse Y'] = 'Odwróć Oś Y',
 		['Enable joystick'] = 'Włącz sterowanie joystickiem',
-		--['Control Options'] = '',
-		--['Set'] = '',
-		--['Video'] = '',
-		--['Sound'] = '',
-		--['Language'] = '',
+		['Control Options'] = 'Opcje sterowania',
+		['Set'] = 'Ustaw',
+		['Video'] = 'Obraz',
+		['Sound'] = 'Dźwięk',
+		['Language'] = 'Język',
 		['Controls'] = 'Sterowanie',
 		['Exit this game'] = 'Wyjdź z gry',
 
@@ -363,12 +367,14 @@ Translate:Add({
 
 		-- Load dialog
 		['Select game to load...'] = 'Seleccionar juego...',
+		--['Load'] = '',
 
 		-- Save dialog
 		['Select a file to save to or enter a new filename'] = 'Seleccione un archivo para Guardar o cree un nuevo nombre de fichero',
 		['Save'] = 'Guardar',
 
 		-- Settings screen
+		--['Return to menu'] = '',
 		['Video resolution'] = 'Resolución de pantalla',
 		['Off'] = 'Off',
 		--['Multisampling'] = '',
@@ -529,12 +535,14 @@ Translate:Add({
 
 		-- Load dialog
 		['Select game to load...'] = 'Válassz betöltendö fájlt...',
+		--['Load'] = '',
 
 		-- Save dialog
 		['Select a file to save to or enter a new filename'] = 'Add meg a játékmentést a kívánt nevet',
 		['Save'] = 'Ment',
 
 		-- Settings screen
+		--['Return to menu'] = '',
 		['Video resolution'] = 'Képernyő felbontása',
 		['Off'] = 'Ki',
 		--['Multisampling'] = '',
@@ -599,12 +607,14 @@ Translate:Add({
 		
 		-- Load dialog
 		['Select game to load...'] = 'Выберите файл для загрузки...',
+		--['Load'] = '',
 
 		-- Save dialog
 		['Select a file to save to or enter a new filename'] = 'Выберите файл для записи или введите новое имя',
 		['Save'] = 'Записать',
 
 		-- Settings screen
+		--['Return to menu'] = '',
 		['Video resolution'] = 'Разрешение экрана',
 		['Off'] = 'Выкл.',
 		--['Multisampling'] = '',
@@ -765,12 +775,14 @@ Translate:Add({
 
 		-- Load dialog
 		['Select game to load...'] = 'Spiel zum Laden auswählen...',
+		--['Load'] = '',
 
 		-- Save dialog
 		['Select a file to save to or enter a new filename'] = 'Wählen Sie den Dateinamen',
 		['Save'] = 'Speichern',
 
 		-- Settings screen
+		--['Return to menu'] = '',
 		['Video resolution'] = 'Grafikauflösung',
 		['Off'] = 'Aus',
 		--['Multisampling'] = '',
@@ -881,12 +893,14 @@ Translate:Add({
 
 		-- Load dialog
 		['Select game to load...'] = 'Vyber uloženou hru...',
+		--['Load'] = '',
 
 		-- Save dialog
 		['Select a file to save to or enter a new filename'] = 'Vyber soubor do kterého uložit, nebo zadej nový název',
 		['Save'] = 'Uložit',
 
 		-- Settings screen
+		--['Return to menu'] = '',
 		['Video resolution'] = 'Rozlišení obrazovky',
 		['Off'] = 'Vypnuto',
 		--['Multisampling'] = '',
