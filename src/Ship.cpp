@@ -89,6 +89,7 @@ void Ship::Save(Serializer::Writer &wr, Space *space)
 	m_equipment.Save(wr);
 	wr.Float(m_stats.hull_mass_left);
 	wr.Float(m_stats.shield_mass_left);
+	wr.Float(m_shieldCooldown);
 	if(m_curAICmd) { wr.Int32(1); m_curAICmd->Save(wr); }
 	else wr.Int32(0);
 	wr.Int32(int(m_aiMessage));
@@ -137,6 +138,7 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 	Init();
 	m_stats.hull_mass_left = rd.Float(); // must be after Init()...
 	m_stats.shield_mass_left = rd.Float();
+	m_shieldCooldown = rd.Float();
 	if(rd.Int32()) m_curAICmd = AICommand::Load(rd);
 	else m_curAICmd = 0;
 	m_aiMessage = AIError(rd.Int32());
@@ -231,6 +233,7 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 		m_gun[i].temperature = 0;
 	}
 	m_ecmRecharge = 0;
+	m_shieldCooldown = 0.0f;
 	m_curAICmd = 0;
 	m_aiMessage = AIERROR_NONE;
 	m_decelerating = false;
@@ -315,6 +318,8 @@ bool Ship::OnDamage(Object *attacker, float kgDamage)
 			}
 		}
 
+		m_shieldCooldown = 1.0f;
+
 		m_stats.hull_mass_left -= dam;
 		if (m_stats.hull_mass_left < 0) {
 			if (attacker) {
@@ -326,9 +331,7 @@ bool Ship::OnDamage(Object *attacker, float kgDamage)
 			}
 
 			Explode();
-		}
-
-		else {
+		} else {
 			if (attacker && attacker->IsType(Object::SHIP))
 				Polit::NotifyOfCrime(static_cast<Ship*>(attacker), Polit::CRIME_PIRACY);
 
@@ -1061,6 +1064,10 @@ void Ship::StaticUpdate(const float timeStep)
 		m_ecmRecharge = std::max(0.0f, m_ecmRecharge - timeStep);
 	}
 
+	if (m_shieldCooldown > 0.0f) {
+		m_shieldCooldown = std::max(0.0f, m_shieldCooldown - timeStep);
+	}
+
 	if (m_stats.shield_mass_left < m_stats.shield_mass) {
 		// 250 second recharge
 		float recharge_rate = 0.004f;
@@ -1160,7 +1167,7 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 		m_landingGearAnimation->SetProgress(m_wheelState);
 
 	// This has to be done per-model with a shield and just before it's rendered
-	const bool shieldsVisible = (m_stats.shield_mass_left < m_stats.shield_mass) && m_stats.shield_mass_left>0.1f;
+	const bool shieldsVisible = m_shieldCooldown > 0.01f;
 	m_shields->SetEnabled(shieldsVisible);
 	m_shields->Update(0.01f*GetPercentShields());
 

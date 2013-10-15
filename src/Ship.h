@@ -298,6 +298,7 @@ private:
 	void EnterHyperspace();
 	void InitGun(const char *tag, int num);
 
+	float m_shieldCooldown;
 	shipstats_t m_stats;
 	const ShipType *m_type;
 	SceneGraph::ModelSkin m_skin;
