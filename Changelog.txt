@@ -7,7 +7,8 @@ October 2013
      * Vertical speed is shown with altitude, up to 10000 km or half the
        planet's radius (#2446)
      * The random face system now supports multiple species (#2440)
-     * The eclipse effect can now be disabled in the config file (#2439, #2176)
+     * The eclipse effect can now be disabled in the config file
+       (#2439, #2497, #2176, #2190)
 
    * Minor changes and tweaks
      * Improved ship textures (#2450)
