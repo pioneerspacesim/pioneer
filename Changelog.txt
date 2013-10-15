@@ -53,6 +53,7 @@ October 2013
      * Fix some problems reported by valgrind (#2472)
      * Miscellaneous code improvements (#2474)
      * Better Unicode handling in scan_enums (#2479)
+     * Cleaned up, fixed and documented LuaTable and LuaPushPull (#2332)
 
 September 2013
 
