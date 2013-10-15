@@ -45,9 +45,6 @@
     <ClCompile Include="..\..\src\GameConfig.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\GameMenuView.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\GeoSphere.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -291,9 +288,6 @@
     <ClCompile Include="..\..\src\Color.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\FileSelectorWidget.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Game.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -504,9 +498,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\gameconsts.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GameMenuView.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\GeoSphere.h">
@@ -756,9 +747,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\MathUtil.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\FileSelectorWidget.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Game.h">
