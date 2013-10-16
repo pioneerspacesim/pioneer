@@ -589,11 +589,14 @@ static int l_engine_get_key_bindings(lua_State *l)
 }
 
 static int set_key_binding(lua_State *l, const char *config_id, KeyBindings::KeyAction *action) {
-	const char *binding_config_1 = luaL_checkstring(l, 2);
+	const char *binding_config_1 = lua_tostring(l, 2);
 	const char *binding_config_2 = lua_tostring(l, 3);
 	KeyBindings::KeyBinding kb1, kb2;
-	if (!KeyBindings::KeyBinding::FromString(binding_config_1, kb1))
-		return luaL_error(l, "invalid first key binding given to Engine.SetKeyBinding");
+	if (binding_config_1) {
+		if (!KeyBindings::KeyBinding::FromString(binding_config_1, kb1))
+			return luaL_error(l, "invalid first key binding given to Engine.SetKeyBinding");
+	} else
+		kb1.Clear();
 	if (binding_config_2) {
 		if (!KeyBindings::KeyBinding::FromString(binding_config_2, kb2))
 			return luaL_error(l, "invalid second key binding given to Engine.SetKeyBinding");
