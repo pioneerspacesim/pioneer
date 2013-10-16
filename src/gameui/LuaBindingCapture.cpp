@@ -7,7 +7,11 @@
 #include "LuaPushPull.h"
 
 inline void pi_lua_generic_push(lua_State * l, const KeyBindings::KeyBinding &value) {
-	pi_lua_generic_push(l, value.ToString());
+	if (value.type == KeyBindings::BINDING_DISABLED) {
+		lua_pushnil(l);
+	} else {
+		pi_lua_generic_push(l, value.ToString());
+	}
 }
 
 inline void pi_lua_generic_push(lua_State * l, const KeyBindings::AxisBinding &value) {
@@ -35,7 +39,12 @@ public:
 	static int l_attr_binding_description(lua_State *l)
 	{
 		KeyBindingCapture *kbc = LuaObject<GameUI::KeyBindingCapture>::CheckFromLua(1);
-		pi_lua_generic_push(l, kbc->GetBinding().Description());
+		const KeyBindings::KeyBinding &kb = kbc->GetBinding();
+		if (kb.type == KeyBindings::BINDING_DISABLED) {
+			lua_pushnil(l);
+		} else {
+			pi_lua_generic_push(l, kb.Description());
+		}
 		return 1;
 	}
 
