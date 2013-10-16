@@ -157,22 +157,33 @@ ui.templates.Settings = function (args)
 	local captureDialog = function (captureWidget, label, onOk)
 		local captureLabel = ui:Label(t("Press a key or controller button"))
 		local capture = captureWidget.New(ui)
+		local curBinding, curDescription
+
 		capture:SetInnerWidget(captureLabel)
 		capture.onCapture:Connect(function (binding)
-			captureLabel:SetText(capture.bindingDescription)
+			captureLabel:SetText(capture.bindingDescription or '')
+			curBinding = capture.binding
+			curDescription = capture.bindingDescription
 		end)
 
 		local okButton = ui:Button(ui:Label(t("Ok")):SetFont("HEADING_NORMAL"))
 		okButton.onClick:Connect(function()
-			onOk(capture.binding, capture.bindingDescription)
+			print('Capture: ' .. (curBinding or 'nil') .. ' (' .. (curDescription or 'nil') .. ')')
+			onOk(curBinding, curDescription)
 			ui:DropLayer()
+		end)
+
+		local clearButton = ui:Button(ui:Label(t("Clear")):SetFont("HEADING_NORMAL"))
+		clearButton.onClick:Connect(function()
+			curBinding = nil
+			curDescription = nil
+			captureLabel:SetText('')
 		end)
 
 		local cancelButton = ui:Button(ui:Label(t("Cancel")):SetFont("HEADING_NORMAL"))
 		cancelButton.onClick:Connect(function()
 			ui:DropLayer()
 		end)
-
 
 		local dialog =
 			ui:ColorBackground(0,0,0,0.5,
@@ -182,7 +193,7 @@ ui.templates.Settings = function (args)
 							:PackEnd(ui:Label(t("Change Binding")):SetFont("HEADING_NORMAL"))
 							:PackEnd(ui:Label(label))
 							:PackEnd(ui:Align("MIDDLE", capture))
-							:PackEnd(ui:HBox(5):PackEnd({okButton,cancelButton}))
+							:PackEnd(ui:HBox(5):PackEnd({okButton,clearButton,cancelButton}))
 					)
 				)
 			)
@@ -195,6 +206,72 @@ ui.templates.Settings = function (args)
 
 	local captureAxisDialog = function (label, onOk)
 		return captureDialog(AxisBindingCapture, label, onOk)
+	end
+
+	local initKeyBindingControls = function (grid, row, info)
+		local bindings = { info.binding1, info.binding2 }
+		local descriptions = { info.bindingDescription1, info.bindingDescription2 }
+		local buttons = { SmallLabeledButton.New(''), SmallLabeledButton.New('') }
+
+		grid:SetCell(0, row, ui:Label(info.label))
+		grid:SetCell(1, row, buttons[1])
+
+		local updateUI = function ()
+			buttons[1].label:SetText(descriptions[1] or '')
+			buttons[2].label:SetText(descriptions[2] or '')
+			-- the first button is always shown
+			-- the second button is shown if there's already one binding
+			if bindings[1] then
+				grid:SetCell(2, row, buttons[2])
+			else
+				grid:ClearCell(2, row)
+			end
+		end
+
+		local captureBinding = function (which)
+			local dialog = captureKeyDialog(info.label, function (new_binding, new_binding_description)
+				if new_binding then
+					bindings[which] = new_binding
+					descriptions[which] = new_binding_description
+					buttons[which].label:SetText(new_binding_description)
+				else
+					bindings[which] = nil
+					descriptions[which] = nil
+					buttons[which].label:SetText('')
+				end
+				if bindings[2] and not bindings[1] then
+					bindings[1] = bindings[2]
+					descriptions[1] = descriptions[2]
+					bindings[2], descriptions[2] = nil, nil
+				end
+				if bindings[1] == bindings[2] then
+					bindings[2], descriptions[2] = nil, nil
+				end
+				Engine.SetKeyBinding(info.id, table.unpack(bindings))
+				updateUI()
+			end)
+			ui:NewLayer(dialog)
+		end
+
+		buttons[1].button.onClick:Connect(function () captureBinding(1); end)
+		buttons[2].button.onClick:Connect(function () captureBinding(2); end)
+		updateUI()
+	end
+
+	local initAxisBindingControls = function (grid, row, info)
+		local button = SmallLabeledButton.New(info.bindingDescription1 or '')
+
+		grid:SetCell(0, row, ui:Label(info.label))
+		grid:SetCell(1, row, button)
+		grid:ClearCell(2, row)
+
+		button.button.onClick:Connect(function ()
+			local dialog = captureAxisDialog(info.label, function (new_binding, new_binding_description)
+				Engine.SetKeyBinding(info.id, new_binding)
+				button.label:SetText(new_binding_description)
+			end)
+			ui:NewLayer(dialog)
+		end)
 	end
 
 	local controlsTemplate = function()
@@ -214,22 +291,15 @@ ui.templates.Settings = function (args)
 			for group_idx = 1, #page do
 				local group = page[group_idx]
 				box:PackEnd(ui:Margin(10, 'LEFT', ui:Label(group.label):SetFont('HEADING_NORMAL')))
-				local grid = ui:Grid({4, 4, 1}, #group)
+				local grid = ui:Grid({4, 4, 4, 2}, #group)
+				-- grid columns: Action, Binding 1, Binding 2, [padding]
 				for i = 1, #group do
-					local binding = group[i]
-					local btn = SmallLabeledButton.New(t("Set"))
-					local descrLabel = ui:Label(binding.bindingDescription1)
-					grid:SetCell(0, i - 1, ui:Label(binding.label))
-					grid:SetCell(1, i - 1, descrLabel)
-					grid:SetCell(2, i - 1, btn)
-					local captureFn = (binding.type == 'KEY' and captureKeyDialog) or captureAxisDialog
-					btn.button.onClick:Connect(function ()
-						local dialog = captureFn(binding.label, function (new_binding, new_binding_description)
-							Engine.SetKeyBinding(binding.id, new_binding)
-							descrLabel:SetText(new_binding_description)
-						end)
-						ui:NewLayer(dialog)
-					end)
+					local info = group[i]
+					if info.type == 'KEY' then
+						initKeyBindingControls(grid, i - 1, info)
+					elseif info.type == 'AXIS' then
+						initAxisBindingControls(grid, i - 1, info)
+					end
 				end
 				box:PackEnd(ui:Margin(30, 'LEFT', grid))
 			end
