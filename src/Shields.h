@@ -28,7 +28,7 @@ public:
 	virtual void Load(Serializer::Reader &rd);
 
 	void SetEnabled(const bool on) { m_enabled = on; }
-	void Update(const float shieldStrength /* 0.0f to 1.0f */);
+	void Update(const float coolDown /* 0.0f to 1.0f */, const float shieldStrength /* 0.0f to 1.0f */);
 	void SetColor(const Color3ub);
 
 	static void Init(Graphics::Renderer*);

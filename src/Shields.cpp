@@ -206,7 +206,7 @@ void Shields::Load(Serializer::Reader &rd)
 	}
 }
 
-void Shields::Update(const float shieldStrength /* 0.0f to 1.0f */)
+void Shields::Update(const float coolDown /* 0.0f to 1.0f */, const float shieldStrength /* 0.0f to 1.0f */)
 {
 	if (!m_enabled) {
 		for (ShieldIterator it = m_shields.begin(); it != m_shields.end(); ++it) {
@@ -220,6 +220,7 @@ void Shields::Update(const float shieldStrength /* 0.0f to 1.0f */)
 			it->m_mesh->SetNodeMask(SceneGraph::NODE_TRANSPARENT);
 			it->m_mesh->DisableDepthWrite();
 			s_renderParams.strength = shieldStrength;
+			s_renderParams.coolDown = coolDown;
 			GetGlobalShieldMaterial()->specialParameter0 = &s_renderParams;
 		} else {
 			it->m_mesh->SetNodeMask(0x0);

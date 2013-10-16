@@ -44,7 +44,7 @@ void ModelSpinner::Update()
 
 	if (m_model) {
 		m_shields->SetEnabled(false);
-		m_shields->Update(0.0f);
+		m_shields->Update(0.0f, 0.0f);
 	}
 }
 

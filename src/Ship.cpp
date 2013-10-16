@@ -25,6 +25,7 @@
 
 static const float TONS_HULL_PER_SHIELD = 10.f;
 static const double KINETIC_ENERGY_MULT	= 0.01;
+const float Ship::DEFAULT_SHIELD_COOLDOWN_TIME = 1.0f;
 
 void SerializableEquipSet::Save(Serializer::Writer &wr)
 {
@@ -318,7 +319,7 @@ bool Ship::OnDamage(Object *attacker, float kgDamage)
 			}
 		}
 
-		m_shieldCooldown = 1.0f;
+		m_shieldCooldown = DEFAULT_SHIELD_COOLDOWN_TIME;
 
 		m_stats.hull_mass_left -= dam;
 		if (m_stats.hull_mass_left < 0) {
@@ -1167,9 +1168,9 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 		m_landingGearAnimation->SetProgress(m_wheelState);
 
 	// This has to be done per-model with a shield and just before it's rendered
-	const bool shieldsVisible = m_shieldCooldown > 0.01f;
+	const bool shieldsVisible = m_shieldCooldown > 0.01f && m_stats.shield_mass_left > (m_stats.shield_mass / 100.0f);
 	m_shields->SetEnabled(shieldsVisible);
-	m_shields->Update(0.01f*GetPercentShields());
+	m_shields->Update(m_shieldCooldown, 0.01f*GetPercentShields());
 
 	//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
 	RenderModel(renderer, camera, viewCoords, viewTransform);

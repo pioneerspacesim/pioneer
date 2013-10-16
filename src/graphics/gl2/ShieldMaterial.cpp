@@ -32,6 +32,7 @@ void ShieldProgram::InitUniforms()
 	Program::InitUniforms();
 
 	shieldStrength.Init("shieldStrength", m_program);
+	shieldCooldown.Init("shieldCooldown", m_program);
 }
 
 Program *ShieldMaterial::CreateProgram(const MaterialDescriptor &desc)
@@ -50,8 +51,10 @@ void ShieldMaterial::Apply()
 	if (this->specialParameter0) {
 		const ShieldRenderParameters srp = *static_cast<ShieldRenderParameters*>(this->specialParameter0);
 		p->shieldStrength.Set(srp.strength);
+		p->shieldCooldown.Set(srp.coolDown);
 	} else {
 		p->shieldStrength.Set(0.0f);
+		p->shieldCooldown.Set(0.0f);
 	}
 
 	glPushAttrib(GL_ENABLE_BIT);

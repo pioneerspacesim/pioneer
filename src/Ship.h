@@ -28,6 +28,7 @@ namespace Graphics { class Renderer; }
 
 struct ShieldRenderParameters {
 	float strength;
+	float coolDown;
 };
 
 struct shipstats_t {
@@ -298,6 +299,7 @@ private:
 	void EnterHyperspace();
 	void InitGun(const char *tag, int num);
 
+	static const float DEFAULT_SHIELD_COOLDOWN_TIME;
 	float m_shieldCooldown;
 	shipstats_t m_stats;
 	const ShipType *m_type;

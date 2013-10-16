@@ -548,7 +548,7 @@ void ModelViewer::MainLoop()
 		if (m_model) {
 			m_navLights->Update(m_frameTime);
 			m_shields->SetEnabled(m_options.showShields);
-			m_shields->Update(1.0f);
+			m_shields->Update(0.0f, 1.0f);
 			DrawModel();
 		}
 

@@ -124,7 +124,7 @@ void Intro::Draw(float _time)
 
 	if (m_shield) {
 		m_shield->SetEnabled(false);
-		m_shield->Update(0.0f);
+		m_shield->Update(0.0f, 0.0f);
 	}
 
 	matrix4x4f trans =

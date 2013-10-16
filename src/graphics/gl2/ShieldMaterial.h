@@ -18,6 +18,7 @@ namespace Graphics {
 		public:
 			ShieldProgram(const MaterialDescriptor &, int lights=0);
 			Uniform shieldStrength;
+			Uniform shieldCooldown;
 		protected:
 			virtual void InitUniforms();
 		};
