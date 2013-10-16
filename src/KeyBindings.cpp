@@ -78,7 +78,9 @@ bool KeyBinding::Matches(const SDL_JoyHatEvent *joy) const {
 std::string KeyBinding::Description() const {
 	std::ostringstream oss;
 
-	if (type == KEYBOARD_KEY) {
+	if (type == BINDING_DISABLED) {
+		// blank
+	} else if (type == KEYBOARD_KEY) {
 		if (u.keyboard.mod & KMOD_SHIFT) oss << Lang::SHIFT;
 		if (u.keyboard.mod & KMOD_CTRL) oss << Lang::CTRL;
 		if (u.keyboard.mod & KMOD_ALT) oss << Lang::ALT;
@@ -92,7 +94,7 @@ std::string KeyBinding::Description() const {
 		oss << Lang::HAT << int(u.joystickHat.hat);
 		oss << Lang::DIRECTION << int(u.joystickHat.direction);
 	} else
-		abort();
+		assert(0 && "invalid key binding type");
 
 	return oss.str();
 }
