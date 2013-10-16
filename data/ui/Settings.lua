@@ -291,8 +291,8 @@ ui.templates.Settings = function (args)
 			for group_idx = 1, #page do
 				local group = page[group_idx]
 				box:PackEnd(ui:Margin(10, 'LEFT', ui:Label(group.label):SetFont('HEADING_NORMAL')))
-				local grid = ui:Grid({4, 4, 4, 2}, #group)
-				-- grid columns: Action, Binding 1, Binding 2, [padding]
+				local grid = ui:Grid(3, #group)
+				-- grid columns: Action, Binding 1, Binding 2
 				for i = 1, #group do
 					local info = group[i]
 					if info.type == 'KEY' then
