@@ -191,6 +191,7 @@ Translate:Add({
 		['Select file...'] = 'Wybierz plik...',
 		['Select']         = 'Wybierz',
 		['Cancel']         = 'Cofnij',
+		['Ok']             = 'Ok',
 
 		-- Load dialog
 		['Select game to load...'] = 'Wybierz zapis do wczytania...',
@@ -206,7 +207,7 @@ Translate:Add({
 		-- Settings screen
 		['Return to menu'] = 'Powrót do menu',
 		['Video resolution'] = 'Rozdzielczość ekranu',
-		['Off'] = 'Wyłączone',
+		['Off'] = 'Wyłączony',
 		['Multisampling'] = 'Multisampling',
 		['Very low'] = 'Bardzo mała',
 		['Low'] = 'Mała',
@@ -536,6 +537,7 @@ Translate:Add({
 		['Select file...'] = 'Fájlkiválasztás...',
 		['Select']         = 'Kiválaszt',
 		['Cancel']         = 'Mégsem',
+		--['Ok']             = '',
 
 		-- Load dialog
 		['Select game to load...'] = 'Válassz betöltendö fájlt...',
@@ -608,6 +610,7 @@ Translate:Add({
 		['Select file...'] = 'Выберите файл...',
 		['Select']         = 'Выбрать',
 		['Cancel']         = 'Отмена',
+		--['Ok']             = '',
 		
 		-- Load dialog
 		['Select game to load...'] = 'Выберите файл для загрузки...',
@@ -776,6 +779,7 @@ Translate:Add({
 		['Select file...'] = 'Datei auswählen...',
 		['Select']         = 'Auswählen',
 		['Cancel']         = 'Abbrechen',
+		--['Ok']             = '',
 
 		-- Load dialog
 		['Select game to load...'] = 'Spiel zum Laden auswählen...',
@@ -894,6 +898,7 @@ Translate:Add({
 		['Select file...'] = 'Otevřít soubor...',
 		['Select']         = 'Otevřít',
 		['Cancel']         = 'Zrušit',
+		--['Ok']             = '',
 
 		-- Load dialog
 		['Select game to load...'] = 'Vyber uloženou hru...',
