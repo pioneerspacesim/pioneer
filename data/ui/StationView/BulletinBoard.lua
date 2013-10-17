@@ -37,7 +37,7 @@ local updateTable = function (station, ref)
 	bbTable:ClearRows()
 
 	local adverts = SpaceStation.adverts[station]
-	if not adverts or #adverts == 0 then return end
+	if not adverts then return end
 
 	rowRef = {}
 	local rows = {}
