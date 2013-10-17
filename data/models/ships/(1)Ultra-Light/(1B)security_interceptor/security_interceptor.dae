@@ -28,8 +28,8 @@
             </comments>
             <source_data>file:///C:/Users/rivalin/Desktop/pioneer/data/models/ships/(1)Ultra-Light/(1B)security_interceptor/security_interceptor.dae</source_data>
         </contributor>
-        <created>2013-09-18T20:08:29Z</created>
-        <modified>2013-09-18T20:08:29Z</modified>
+        <created>2013-10-17T10:06:00Z</created>
+        <modified>2013-10-17T10:06:00Z</modified>
         <up_axis>Y_UP</up_axis>
     </asset>
     <library_cameras>
@@ -87,7 +87,7 @@
                             <color sid="specular_effect_rgb">0.2 0.2 0.2 1</color>
                         </specular>
                         <shininess>
-                            <float sid="specular_effect_rgb">0.4</float>
+                            <float sid="specular_effect_rgb">256</float>
                         </shininess>
                     </phong>
                 </technique>
@@ -2460,56 +2460,56 @@
                 </extra>
             </mesh>
         </geometry>
-        <geometry id="Geometry-mesh038" name="decal_01">
+        <geometry id="Geometry-decal_01" name="decal_01">
             <mesh>
-                <source id="Geometry-mesh038-positions" name="positions">
-                    <float_array id="Geometry-mesh038-positions-array" count="12">
+                <source id="Geometry-decal_01-positions" name="positions">
+                    <float_array id="Geometry-decal_01-positions-array" count="12">
                         -0.32 1.30474 -0.178415
                         0.32 1.30474 -0.178415
                         0.32 1.44326 0.446415
                         -0.32 1.44326 0.446415
                     </float_array>
                     <technique_common>
-                        <accessor count="4" source="#Geometry-mesh038-positions-array" stride="3">
+                        <accessor count="4" source="#Geometry-decal_01-positions-array" stride="3">
                             <param name="X" type="float" />
                             <param name="Y" type="float" />
                             <param name="Z" type="float" />
                         </accessor>
                     </technique_common>
                 </source>
-                <source id="Geometry-mesh038-normals" name="normals">
-                    <float_array id="Geometry-mesh038-normals-array" count="3">
+                <source id="Geometry-decal_01-normals" name="normals">
+                    <float_array id="Geometry-decal_01-normals-array" count="3">
                         0 1 0
                     </float_array>
                     <technique_common>
-                        <accessor count="1" source="#Geometry-mesh038-normals-array" stride="3">
+                        <accessor count="1" source="#Geometry-decal_01-normals-array" stride="3">
                             <param name="X" type="float" />
                             <param name="Y" type="float" />
                             <param name="Z" type="float" />
                         </accessor>
                     </technique_common>
                 </source>
-                <source id="Geometry-mesh038-Texture" name="Texture">
-                    <float_array id="Geometry-mesh038-Texture-array" count="8">
+                <source id="Geometry-decal_01-Texture" name="Texture">
+                    <float_array id="Geometry-decal_01-Texture-array" count="8">
                         0.00212388 0.998501
                         0.00212388 0.0021665
                         0.996876 0.0021665
                         0.996876 0.998501
                     </float_array>
                     <technique_common>
-                        <accessor count="4" source="#Geometry-mesh038-Texture-array" stride="2">
+                        <accessor count="4" source="#Geometry-decal_01-Texture-array" stride="2">
                             <param name="S" type="float" />
                             <param name="T" type="float" />
                         </accessor>
                     </technique_common>
                 </source>
-                <vertices id="Geometry-mesh038-vertices">
-                    <input semantic="POSITION" source="#Geometry-mesh038-positions" />
+                <vertices id="Geometry-decal_01-vertices">
+                    <input semantic="POSITION" source="#Geometry-decal_01-positions" />
                 </vertices>
                 <polylist count="1" material="Material-Default">
-                    <input semantic="VERTEX" source="#Geometry-mesh038-vertices" offset="0" />
-                    <input semantic="NORMAL" source="#Geometry-mesh038-normals" offset="1" />
-                    <input semantic="TEXCOORD" source="#Geometry-mesh038-Texture" offset="2" set="0" />
+                    <input semantic="VERTEX" source="#Geometry-decal_01-vertices" offset="0" />
+                    <input semantic="NORMAL" source="#Geometry-decal_01-normals" offset="1" />
+                    <input semantic="TEXCOORD" source="#Geometry-decal_01-Texture" offset="2" set="0" />
                     <vcount>4</vcount>
                     <p>0 0 0 3 0 1 2 0 2 1 0 3</p>
                 </polylist>
@@ -2525,7 +2525,7 @@
         </geometry>
     </library_geometries>
     <library_lights>
-        <light id="Light-polyRender031" name="Render">
+        <light id="Light-polyRender033" name="Render">
             <technique_common>
                 <ambient>
                     <color sid="ambient_light_rgb">0.05 0.05 0.05</color>
@@ -2651,8 +2651,8 @@
     </library_nodes>
     <library_visual_scenes>
         <visual_scene id="DefaultScene">
-            <node id="polyRender031" name="Render" type="NODE">
-                <instance_light url="#Light-polyRender031" />
+            <node id="polyRender033" name="Render" type="NODE">
+                <instance_light url="#Light-polyRender033" />
             </node>
             <node id="thruster_1___2_Node" name="thruster_1___2_" type="NODE">
                 <translate sid="translation001">-1 0.875 2.36</translate>
@@ -2710,6 +2710,15 @@
             <node id="navlight_red_1Node" name="navlight_red_1" type="NODE">
                 <translate sid="translation010">-2.335 0.05 2.65</translate>
             </node>
+            <node id="locator041Node" name="tag_gunmount_0" type="NODE">
+                <translate sid="translation043">0 0 -17.8</translate>
+                <rotate sid="rotation042Y">0 1 0 180</rotate>
+                <rotate sid="rotation042X">1 0 0 0</rotate>
+                <rotate sid="rotation042Z">0 0 1 0</rotate>
+            </node>
+            <node id="locator040Node" name="tag_gunmount_1" type="NODE">
+                <translate sid="translation044">0 0 6.6</translate>
+            </node>
             <node id="Geometry-MeshNode" name="Mesh" type="NODE">
                 <instance_geometry url="#Geometry-Mesh">
                     <bind_material>
@@ -2719,8 +2728,8 @@
                     </bind_material>
                 </instance_geometry>
             </node>
-            <node id="Geometry-mesh038Node" name="decal_01" type="NODE">
-                <instance_geometry url="#Geometry-mesh038">
+            <node id="Geometry-decal_01Node" name="decal_01" type="NODE">
+                <instance_geometry url="#Geometry-decal_01">
                     <bind_material>
                         <technique_common>
                             <instance_material symbol="Material-Default" target="#Material-Default" />
