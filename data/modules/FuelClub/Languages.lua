@@ -77,8 +77,8 @@ Translate:AddFlavour('Spanish','FuelClub',{
 	* Descuento de precios en {military_fuel}
 	* Descuento de precios en {water}
 	* {radioactives}, disponibilidad libre (bajo condiciones)
-        * Rellenado de su depósito cuando sea necesario
-        
+	* Rellenado de su depósito cuando sea necesario
+
 Apúntese! Afiliación anual por solo {membership_fee}]],
 	member_intro = [[Puede adquirir combustible y disponer de {radioactives} aquí.]],
 	annual_fee = 400,
