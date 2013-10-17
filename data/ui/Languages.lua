@@ -396,7 +396,7 @@ Translate:Add({
 		['Full screen'] = 'Pantalla completa',
 		['Use shaders'] = 'Usar Shaders',
 		['Compress Textures'] = 'Comprimir Texturas',
-		['Video configuration (restart game to apply)'] = 'Idioma (Reiniciar para aplicar)',
+		['Video configuration (restart game to apply)'] = 'Configuración de pantalla (Reiniciar para aplicar)',
 		['Mute'] = 'Silenciar',
 		['Master:'] = 'Master:',
 		['Music:'] = 'Música:',
