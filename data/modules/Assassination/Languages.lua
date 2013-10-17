@@ -272,6 +272,17 @@ Translate:Add({ Spanish = {
   ["How soon must it be done?"] = "De cuanto tiempo dispongo?",
   ["How will I be paid?"] = "Cómo será efectuado el pago?",
   ["Ok, agreed."] = "De acuerdo.",
+  ["ly"] = "ly",
+
+  -- Texts for the missions screen   
+  ["Target name:"] = "Nombre del objetivo:",
+  ["Spaceport:"] = "Puerto Espacial:",
+  ["System:"] = "Sistema:",
+  ["Ship:"] = "Nave:",
+  ["Ship ID:"] = "ID de la Nave:",
+  ["Target will be leaving spaceport at:"] = "El objetivo partirá del puerto espacial a:",
+  ["Distance:"] = "Distancia:",
+  
   TITLE = {
 		"Almirante",
 		"Embajador",
