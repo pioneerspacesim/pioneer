@@ -28,8 +28,8 @@
             </comments>
             <source_data>file:///C:/Users/rivalin/Desktop/pioneer/data/models/ships/(2)Light/(2Z)omni_ranger/omni_ranger.dae</source_data>
         </contributor>
-        <created>2013-09-18T20:29:10Z</created>
-        <modified>2013-09-18T20:29:10Z</modified>
+        <created>2013-10-17T10:14:17Z</created>
+        <modified>2013-10-17T10:14:17Z</modified>
         <up_axis>Y_UP</up_axis>
     </asset>
     <library_cameras>
@@ -1774,12 +1774,12 @@
                         1.38958 4.42387 -3.73606
                         -1.38958 3.89888 -4.26106
                         -1.38958 4.42387 -3.73606
-                        0 4.12388 -1.83522
-                        0 4.42387 -2.13522
-                        0 3.46387 -1.83522
-                        0 4.42387 -3.73606
-                        0 3.89888 -4.26106
-                        0 3.46387 -4.26106
+                        6.38608e-024 4.12388 -1.83522
+                        1.2285e-023 4.42387 -2.13522
+                        4.01769e-024 3.46387 -1.83522
+                        -3.05262e-024 4.42387 -3.73606
+                        -1.59307e-024 3.89888 -4.26106
+                        -2.99341e-025 3.46387 -4.26106
                         -1.23958 3.61387 -1.83522
                         -1.23958 4.12388 -1.83522
                         -1.23958 4.42387 -2.13522
@@ -7394,7 +7394,7 @@
         </geometry>
     </library_geometries>
     <library_lights>
-        <light id="Light-polyRender044" name="Render">
+        <light id="Light-polyRender055" name="Render">
             <technique_common>
                 <ambient>
                     <color sid="ambient_light_rgb">0.05 0.05 0.05</color>
@@ -7520,80 +7520,80 @@
     </library_nodes>
     <library_visual_scenes>
         <visual_scene id="DefaultScene">
-            <node id="polyRender044" name="Render" type="NODE">
-                <instance_light url="#Light-polyRender044" />
+            <node id="polyRender055" name="Render" type="NODE">
+                <instance_light url="#Light-polyRender055" />
             </node>
             <node id="thruster_1___2_Node" name="thruster_1___2_" type="NODE">
                 <translate sid="translation001">6.85 -1.6 19</translate>
-                <scale sid="scale030">2 2 2</scale>
+                <scale sid="scale041">2 2 2</scale>
             </node>
             <node id="thruster_2___2_Node" name="thruster_2___2_" type="NODE">
                 <translate sid="translation002">-6.85 -1.6 19</translate>
-                <scale sid="scale031">2 2 2</scale>
+                <scale sid="scale042">2 2 2</scale>
             </node>
             <node id="thruster_1_Node" name="thruster_1_" type="NODE">
                 <translate sid="translation003">6.85 -0.25 19</translate>
-                <scale sid="scale032">2 2 2</scale>
+                <scale sid="scale043">2 2 2</scale>
             </node>
             <node id="thruster_2_Node" name="thruster_2_" type="NODE">
                 <translate sid="translation004">-6.85 -0.25 19</translate>
-                <scale sid="scale033">2 2 2</scale>
+                <scale sid="scale044">2 2 2</scale>
             </node>
             <node id="thruster_lightNode" name="thruster_light" type="NODE">
                 <translate sid="translation005">2.1 2.428 -12.829</translate>
-                <rotate sid="rotation019Y">0 1 0 0</rotate>
-                <rotate sid="rotation019X">1 0 0 -90</rotate>
-                <rotate sid="rotation019Z">0 0 1 0</rotate>
-                <scale sid="scale034">1 1 1</scale>
+                <rotate sid="rotation025Y">0 1 0 0</rotate>
+                <rotate sid="rotation025X">1 0 0 -90</rotate>
+                <rotate sid="rotation025Z">0 0 1 0</rotate>
+                <scale sid="scale045">1 1 1</scale>
             </node>
             <node id="thruster_light__2_Node" name="thruster_light__2_" type="NODE">
                 <translate sid="translation006">-6.9 0.88 9.06</translate>
-                <rotate sid="rotation020Y">0 1 0 0</rotate>
-                <rotate sid="rotation020X">1 0 0 -90</rotate>
-                <rotate sid="rotation020Z">0 0 1 0</rotate>
-                <scale sid="scale035">1 1 1</scale>
+                <rotate sid="rotation026Y">0 1 0 0</rotate>
+                <rotate sid="rotation026X">1 0 0 -90</rotate>
+                <rotate sid="rotation026Z">0 0 1 0</rotate>
+                <scale sid="scale046">1 1 1</scale>
             </node>
             <node id="thruster_light__3_Node" name="thruster_light__3_" type="NODE">
                 <translate sid="translation007">6.9 0.88 9.06</translate>
-                <rotate sid="rotation021Y">0 1 0 0</rotate>
-                <rotate sid="rotation021X">1 0 0 -90</rotate>
-                <rotate sid="rotation021Z">0 0 1 0</rotate>
-                <scale sid="scale036">1 1 1</scale>
+                <rotate sid="rotation027Y">0 1 0 0</rotate>
+                <rotate sid="rotation027X">1 0 0 -90</rotate>
+                <rotate sid="rotation027Z">0 0 1 0</rotate>
+                <scale sid="scale047">1 1 1</scale>
             </node>
             <node id="thruster_light__4_Node" name="thruster_light__4_" type="NODE">
                 <translate sid="translation008">6.9 -2.76 9.06</translate>
-                <rotate sid="rotation022Y">0 1 0 0</rotate>
-                <rotate sid="rotation022X">1 0 0 -270</rotate>
-                <rotate sid="rotation022Z">0 0 1 0</rotate>
-                <scale sid="scale037">1 1 1</scale>
+                <rotate sid="rotation028Y">0 1 0 0</rotate>
+                <rotate sid="rotation028X">1 0 0 -270</rotate>
+                <rotate sid="rotation028Z">0 0 1 0</rotate>
+                <scale sid="scale048">1 1 1</scale>
             </node>
             <node id="thruster_light__5_Node" name="thruster_light__5_" type="NODE">
                 <translate sid="translation009">-6.9 -2.76 9.06</translate>
-                <rotate sid="rotation023Y">0 1 0 0</rotate>
-                <rotate sid="rotation023X">1 0 0 -270</rotate>
-                <rotate sid="rotation023Z">0 0 1 0</rotate>
-                <scale sid="scale038">1 1 1</scale>
+                <rotate sid="rotation029Y">0 1 0 0</rotate>
+                <rotate sid="rotation029X">1 0 0 -270</rotate>
+                <rotate sid="rotation029Z">0 0 1 0</rotate>
+                <scale sid="scale049">1 1 1</scale>
             </node>
             <node id="thruster_light__6_Node" name="thruster_light__6_" type="NODE">
                 <translate sid="translation010">-2.1 2.428 -12.829</translate>
-                <rotate sid="rotation024Y">0 1 0 0</rotate>
-                <rotate sid="rotation024X">1 0 0 -90</rotate>
-                <rotate sid="rotation024Z">0 0 1 0</rotate>
-                <scale sid="scale039">1 1 1</scale>
+                <rotate sid="rotation030Y">0 1 0 0</rotate>
+                <rotate sid="rotation030X">1 0 0 -90</rotate>
+                <rotate sid="rotation030Z">0 0 1 0</rotate>
+                <scale sid="scale050">1 1 1</scale>
             </node>
             <node id="thruster_light__7_Node" name="thruster_light__7_" type="NODE">
                 <translate sid="translation011">2.1 -4.987 -12.829</translate>
-                <rotate sid="rotation025Y">0 1 0 0</rotate>
-                <rotate sid="rotation025X">1 0 0 -270</rotate>
-                <rotate sid="rotation025Z">0 0 1 0</rotate>
-                <scale sid="scale040">1 1 1</scale>
+                <rotate sid="rotation031Y">0 1 0 0</rotate>
+                <rotate sid="rotation031X">1 0 0 -270</rotate>
+                <rotate sid="rotation031Z">0 0 1 0</rotate>
+                <scale sid="scale051">1 1 1</scale>
             </node>
             <node id="thruster_light__8_Node" name="thruster_light__8_" type="NODE">
                 <translate sid="translation012">-2.1 -4.987 -12.829</translate>
-                <rotate sid="rotation026Y">0 1 0 0</rotate>
-                <rotate sid="rotation026X">1 0 0 -270</rotate>
-                <rotate sid="rotation026Z">0 0 1 0</rotate>
-                <scale sid="scale041">1 1 1</scale>
+                <rotate sid="rotation032Y">0 1 0 0</rotate>
+                <rotate sid="rotation032X">1 0 0 -270</rotate>
+                <rotate sid="rotation032Z">0 0 1 0</rotate>
+                <scale sid="scale052">1 1 1</scale>
             </node>
             <node id="navlight_red_1Node" name="navlight_red_1" type="NODE">
                 <translate sid="translation013">-11.2 -0.95 14.4</translate>
@@ -7607,10 +7607,52 @@
             <node id="navlight_green_1__2_Node" name="navlight_green_1__2_" type="NODE">
                 <translate sid="translation016">5.9 -0.95 -14.6</translate>
             </node>
+            <node id="tag_camera_topNode" name="tag_camera_top" type="NODE">
+                <translate sid="translation017">0 6 0</translate>
+                <rotate sid="rotation033Y">0 1 0 0</rotate>
+                <rotate sid="rotation033X">1 0 0 270</rotate>
+                <rotate sid="rotation033Z">0 0 1 0</rotate>
+            </node>
+            <node id="tag_camera_rightNode" name="tag_camera_right" type="NODE">
+                <translate sid="translation018">7 0 0</translate>
+                <rotate sid="rotation034Y">0 1 0 90</rotate>
+                <rotate sid="rotation034X">1 0 0 0</rotate>
+                <rotate sid="rotation034Z">0 0 1 0</rotate>
+            </node>
+            <node id="tag_camera_frontNode" name="tag_camera_front" type="NODE">
+                <translate sid="translation019">0 0 -18.5</translate>
+                <rotate sid="rotation035Y">0 1 0 -180</rotate>
+                <rotate sid="rotation035X">1 0 0 0</rotate>
+                <rotate sid="rotation035Z">0 0 1 0</rotate>
+            </node>
+            <node id="tag_camera_backNode" name="tag_camera_back" type="NODE">
+                <translate sid="translation020">0 0 23</translate>
+            </node>
+            <node id="tag_camera_leftNode" name="tag_camera_left" type="NODE">
+                <translate sid="translation021">-7 0 0</translate>
+                <rotate sid="rotation036Y">0 1 0 -90</rotate>
+                <rotate sid="rotation036X">1 0 0 0</rotate>
+                <rotate sid="rotation036Z">0 0 1 0</rotate>
+            </node>
+            <node id="tag_camera_bottomNode" name="tag_camera_bottom" type="NODE">
+                <translate sid="translation022">0 -6 0</translate>
+                <rotate sid="rotation037Y">0 1 0 0</rotate>
+                <rotate sid="rotation037X">1 0 0 90</rotate>
+                <rotate sid="rotation037Z">0 0 1 0</rotate>
+            </node>
+            <node id="locator063Node" name="tag_gunmount_1" type="NODE">
+                <translate sid="translation064">0 0 -23.4</translate>
+            </node>
+            <node id="locator062Node" name="tag_gunmount_0" type="NODE">
+                <translate sid="translation066">0 0 24.9</translate>
+                <rotate sid="rotation065Y">0 1 0 180</rotate>
+                <rotate sid="rotation065X">1 0 0 0</rotate>
+                <rotate sid="rotation065Z">0 0 1 0</rotate>
+            </node>
             <node id="Geometry-MeshNode" name="Mesh" type="NODE">
-                <rotate sid="rotation027Y">0 1 0 180</rotate>
-                <rotate sid="rotation027X">1 0 0 0</rotate>
-                <rotate sid="rotation027Z">0 0 1 0</rotate>
+                <rotate sid="rotation038Y">0 1 0 180</rotate>
+                <rotate sid="rotation038X">1 0 0 0</rotate>
+                <rotate sid="rotation038Z">0 0 1 0</rotate>
                 <instance_geometry url="#Geometry-Mesh">
                     <bind_material>
                         <technique_common>
@@ -7629,17 +7671,17 @@
                 </instance_geometry>
             </node>
             <node id="Camera-CameraNode" name="Camera" type="NODE">
-                <translate sid="translation017">18.3291 0.90247 -1.25525</translate>
-                <rotate sid="rotation028Y">0 1 0 93.9651</rotate>
-                <rotate sid="rotation028X">1 0 0 -1.56225</rotate>
-                <rotate sid="rotation028Z">0 0 1 1.23943e-017</rotate>
+                <translate sid="translation023">18.3291 0.90247 -1.25525</translate>
+                <rotate sid="rotation039Y">0 1 0 93.9651</rotate>
+                <rotate sid="rotation039X">1 0 0 -1.56225</rotate>
+                <rotate sid="rotation039Z">0 0 1 1.23943e-017</rotate>
                 <instance_camera url="#Camera-Camera" />
             </node>
             <node id="Light-Directional_LightNode" name="Directional_Light" type="NODE">
-                <translate sid="translation018">-2 2 2</translate>
-                <rotate sid="rotation029Y">0 1 0 -45</rotate>
-                <rotate sid="rotation029X">1 0 0 -30</rotate>
-                <rotate sid="rotation029Z">0 0 1 0</rotate>
+                <translate sid="translation024">-2 2 2</translate>
+                <rotate sid="rotation040Y">0 1 0 -45</rotate>
+                <rotate sid="rotation040X">1 0 0 -30</rotate>
+                <rotate sid="rotation040Z">0 0 1 0</rotate>
                 <instance_light url="#Light-Directional_Light" />
             </node>
             <extra>

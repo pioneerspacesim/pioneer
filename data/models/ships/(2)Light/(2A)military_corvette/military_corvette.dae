@@ -28,8 +28,8 @@
             </comments>
             <source_data>file:///C:/Users/rivalin/Desktop/pioneer/data/models/ships/(2)Light/(2A)military_corvette/military_corvette.dae</source_data>
         </contributor>
-        <created>2013-09-18T13:51:31Z</created>
-        <modified>2013-09-18T13:51:31Z</modified>
+        <created>2013-10-17T10:13:28Z</created>
+        <modified>2013-10-17T10:13:28Z</modified>
         <up_axis>Y_UP</up_axis>
     </asset>
     <library_cameras>
@@ -5597,6 +5597,15 @@
             </node>
             <node id="navlight_green_1__3_Node" name="navlight_green_1__3_" type="NODE">
                 <translate sid="translation014">2.4 0.025 -16.5</translate>
+            </node>
+            <node id="locator049Node" name="tag_gunmount_1" type="NODE">
+                <translate sid="translation050">0 0 -23.4</translate>
+            </node>
+            <node id="locator048Node" name="tag_gunmount_0" type="NODE">
+                <translate sid="translation052">0 0 17.2</translate>
+                <rotate sid="rotation051Y">0 1 0 180</rotate>
+                <rotate sid="rotation051X">1 0 0 0</rotate>
+                <rotate sid="rotation051Z">0 0 1 0</rotate>
             </node>
             <node id="Geometry-meshNode" name="mesh" type="NODE">
                 <instance_geometry url="#Geometry-mesh">

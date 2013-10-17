@@ -12,11 +12,6 @@ define_wreck_ship {
 	left_thrust = 800e5,
 	right_thrust = 800e5,
 	angular_thrust = 25000e5,
-	gun_mounts =
-	{
-		{ v(0,0,-150), v(0,0,-1), 5, 'HORIZONTAL' },
-		{ v(0,0,-150), v(0,0,-1), 5, 'HORIZONTAL' }
-	},
 	max_cargo = 16000,
 	max_laser = 0,
 	max_missile = 0,

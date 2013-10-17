@@ -28,8 +28,8 @@
             </comments>
             <source_data>file:///C:/Users/rivalin/Desktop/pioneer/data/models/ships/(1)Ultra-Light/(1G)personal_skiff/personal_skiff.dae</source_data>
         </contributor>
-        <created>2013-09-15T18:04:01Z</created>
-        <modified>2013-09-15T18:04:01Z</modified>
+        <created>2013-10-16T14:55:51Z</created>
+        <modified>2013-10-16T14:55:51Z</modified>
         <up_axis>Y_UP</up_axis>
     </asset>
     <library_cameras>
@@ -2294,6 +2294,39 @@
             </node>
             <node id="navlight_red_1Node" name="navlight_red_1" type="NODE">
                 <translate sid="translation010">-2.335 0.05 2.65</translate>
+            </node>
+            <node id="locator040Node" name="tag_camera_front" type="NODE">
+                <translate sid="translation125">0 0 -6</translate>
+                <rotate sid="rotation214Y">0 1 0 -180</rotate>
+                <rotate sid="rotation214X">1 0 0 0</rotate>
+                <rotate sid="rotation214Z">0 0 1 0</rotate>
+            </node>
+            <node id="locator126Node" name="tag_camera_back" type="NODE">
+                <translate sid="translation127">0 0 6</translate>
+            </node>
+            <node id="locator128Node" name="tag_camera_left" type="NODE">
+                <translate sid="translation129">-2 0 0</translate>
+                <rotate sid="rotation302Y">0 1 0 -90</rotate>
+                <rotate sid="rotation302X">1 0 0 0</rotate>
+                <rotate sid="rotation302Z">0 0 1 0</rotate>
+            </node>
+            <node id="locator130Node" name="tag_camera_right" type="NODE">
+                <translate sid="translation131">2 0 0</translate>
+                <rotate sid="rotation245Y">0 1 0 90</rotate>
+                <rotate sid="rotation245X">1 0 0 0</rotate>
+                <rotate sid="rotation245Z">0 0 1 0</rotate>
+            </node>
+            <node id="locator132Node" name="tag_camera_bottom" type="NODE">
+                <translate sid="translation133">0 -2 0</translate>
+                <rotate sid="rotation353Y">0 1 0 0</rotate>
+                <rotate sid="rotation353X">1 0 0 90</rotate>
+                <rotate sid="rotation353Z">0 0 1 0</rotate>
+            </node>
+            <node id="locator354Node" name="tag_camera_top" type="NODE">
+                <translate sid="translation356">0 2 0</translate>
+                <rotate sid="rotation355Y">0 1 0 0</rotate>
+                <rotate sid="rotation355X">1 0 0 270</rotate>
+                <rotate sid="rotation355Z">0 0 1 0</rotate>
             </node>
             <node id="Geometry-MeshNode" name="Mesh" type="NODE">
                 <instance_geometry url="#Geometry-Mesh">
