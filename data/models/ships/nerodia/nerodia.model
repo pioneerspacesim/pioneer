@@ -1,0 +1,16 @@
+material Material-material
+diffuse 1.0 1.0 1.0
+specular 0.8 0.8 0.8
+use_patterns
+tex_diff nerodia_tex.png
+tex_spec nerodia_spec.png
+tex_glow nerodia_glow.png
+mesh nerodia.dae
+
+anim gear_down 1 80
+
+collision nerodia_col.obj 
+
+
+lod 75
+mesh nerodia_LOD.dae
