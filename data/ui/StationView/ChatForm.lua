@@ -3,6 +3,8 @@
 
 local Engine = import("Engine")
 
+local Face = import("UI.Game.Face")
+
 local SmallLabeledButton = import("ui/SmallLabeledButton")
 
 local ui = Engine.ui
@@ -31,8 +33,18 @@ function ChatForm:BuildWidget ()
 		box:PackEnd(ui:Label(self.title):SetFont("LARGE"))
 	end
 
-	if self.message then
-		box:PackEnd(ui:MultiLineText(self.message))
+	if self.message or self.face then
+		local hbox = ui:HBox(5)
+
+		if self.message then
+			hbox:PackEnd(ui:MultiLineText(self.message))
+		end
+
+		if self.face then
+			hbox:PackEnd(self.face)
+		end
+
+		box:PackEnd(hbox)
 	end
 
 	local function closeForm ()
@@ -78,8 +90,14 @@ function ChatForm:SetTitle (title)
 	self.title = title
 end
 
-function ChatForm:SetFace (props)
-	print("ChatForm:SetFace")
+function ChatForm:SetFace (character)
+
+	local faceFlags = {
+		character.female and "FEMALE" or "MALE",
+		character.armor and "ARMOUR",
+	}
+
+	self.face = Face.New(ui, faceFlags, character.seed):SetHeightLines(5)
 end
 
 function ChatForm:SetMessage (message)
