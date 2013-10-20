@@ -109,6 +109,7 @@ void ModelBody::SetModel(const char *modelName)
 
 	//create model instance (some modelbodies, like missiles could avoid this)
 	m_model = Pi::FindModel(m_modelName)->MakeInstance();
+	m_idleAnimation = m_model->FindAnimation("idle");
 
 	SetClipRadius(m_model->GetDrawClipRadius());
 
@@ -318,5 +319,9 @@ void ModelBody::RenderModel(Graphics::Renderer *r, const Camera *camera, const v
 
 void ModelBody::TimeStepUpdate(const float timestep)
 {
+	if (m_idleAnimation)
+		// step animation by timestep/total length, loop to 0.0 if it goes >= 1.0
+		m_idleAnimation->SetProgress(fmod(m_idleAnimation->GetProgress() + timestep / m_idleAnimation->GetDuration(), 1.0));
+
 	m_model->UpdateAnimations();
 }

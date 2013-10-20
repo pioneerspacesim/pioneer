@@ -12,7 +12,7 @@
 class Geom;
 class Camera;
 namespace Graphics { class Renderer; class Light; }
-namespace SceneGraph { class Model; }
+namespace SceneGraph { class Model; class Animation; }
 
 class ModelBody: public Body {
 public:
@@ -57,6 +57,7 @@ private:
 	Geom *m_geom;
 	std::string m_modelName;
 	SceneGraph::Model *m_model;
+	SceneGraph::Animation *m_idleAnimation;
 };
 
 #endif /* _MODELBODY_H */
