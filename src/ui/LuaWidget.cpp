@@ -38,7 +38,7 @@ public:
 
 	static int l_enable(lua_State *l) {
 		UI::Widget *w = LuaObject<UI::Widget>::CheckFromLua(1);
-		w->Disable();
+		w->Enable();
 		return 0;
 	}
 
