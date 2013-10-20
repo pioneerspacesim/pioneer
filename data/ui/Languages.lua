@@ -74,10 +74,16 @@ Translate:Add({
 		
 		-- Ship Information
 		['Ship Information'] = 'Ship Information',
+		['Capacity used'] = 'Capacity used',
+		['All-up weight'] = 'All-up weight', -- total weight
 		['Weight empty:'] = 'Weight empty:',
+		['Hyperdrive'] = 'Hyperdrive',
+		['Hyperspace range'] = 'Hyperspace range',
 		['{range} light years ({maxRange} max)'] = '{range} light years ({maxRange} max)',
 		['Minimum crew'] = 'Minimum crew',
 		['Crew cabins'] = 'Crew cabins',
+		['Front weapon'] = 'Front weapon',
+		['Rear weapon'] = 'Rear weapon',
 		['free'] = 'free',
 		['max'] = 'max',
 		
@@ -109,11 +115,23 @@ Translate:Add({
 		['Economy & Trade'] = 'Economy & Trade',
 		['Total: '] = 'Total: ',
 		['Fuel tank full.'] = 'Fuel tank full.',
+		['Jettison'] = 'Jettison',
+		['Refuel'] = 'Refuel',
 
 		-- Missions
+		['Missions'] = 'Missions',
 		['Mission Details'] = 'Mission Details',
 		['No missions.'] = 'No missions.',
 		["%d days left"] = "Days left: %d",
+		['Type'] = 'Type',
+		['Client'] = 'Client',
+		['Location'] = 'Location',
+		['Due'] = 'Due',
+		['Reward'] = 'Reward',
+		['Status'] = 'Status',
+		['ACTIVE'] = 'Active',
+		['COMPLETED'] = 'Completed',
+		['FAILED'] = 'Failed',
 		['INACTIVE'] = 'Inactive', -- Complement of ACTIVE, COMPLETED and FAILED
 
 		-- Crew Tasks
@@ -248,12 +266,18 @@ Translate:Add({
 		
 		-- Ship Information
 		['Ship Information'] = 'Informacje o statku',
+		['Capacity used'] = 'Użyta przestrzeń',
+		['All-up weight'] = 'Masa całkowita', -- total weight
 		['Weight empty:'] = 'Masa minimalna:',
+		['Hyperdrive'] = 'Hipernapęd',
+		['Hyperspace range'] = 'Zasięg w nadprzestrzeni',
 		['{range} light years ({maxRange} max)'] = '{range} lat świetlnych ({maxRange} maks.)',
 		['Minimum crew'] = 'Minimalna ilość załogi',
 		['Crew cabins'] = 'Kabiny załogi',
 		['free'] = 'wolne',
 		['max'] = 'maks.',
+		['Front weapon'] = 'Przednia broń',
+		['Rear weapon'] = 'Tylna broń',
 		
 		-- Personal information
 		['Personal Information'] = 'Informacje o pilocie',
@@ -283,11 +307,23 @@ Translate:Add({
 		['Economy & Trade'] = 'Ekonomia i Handel',
 		['Total: '] = 'Łącznie: ',
 		['Fuel tank full.'] = 'Zbiornik paliwa pełny.',
+		['Jettison'] = 'Wystrzel',
+		['Refuel'] = 'Zatankuj',
 		
 		-- Missions
+		['Missions'] = 'Misje',
 		['Mission Details'] = 'Szczegóły misji',
 		['No missions.'] = 'Brak misji.',
 		["%d days left"] = "Pozostało dni: %d",
+		['Type'] = 'Typ',
+		['Client'] = 'Klient',
+		['Location'] = 'Lokalizacja',
+		['Due'] = 'Termin',
+		['Reward'] = 'Zapłata',
+		['Status'] = 'Status',
+		['ACTIVE'] = 'Aktywna',
+		['COMPLETED'] = 'Ukończona',
+		['FAILED'] = 'Nieukończona',
 		['INACTIVE'] = 'Nieaktywna', -- Complement of ACTIVE, COMPLETED and FAILED
 		
 		-- Crew Tasks
@@ -422,12 +458,18 @@ Translate:Add({
 
 		-- Ship Information
 		['Ship Information'] = 'Info de la Nave',
+		['Capacity used'] = 'Capacidad usada',
+		['All-up weight'] = 'Masa total', -- total weight
 		['Weight empty:'] = 'Peso en vacío:',
+		['Hyperdrive'] = 'Motor hiperespacial',
+		['Hyperspace range'] = 'Autonomía hiperespacial',
 		['{range} light years ({maxRange} max)'] = '{range} años luz ({maxRange} max)',
 		['Minimum crew'] = 'Tripulación mínima',
 		['Crew cabins'] = 'Cabinas de Tripulación',
 		['free'] = 'vacío',
 		['max'] = 'máx',
+		['Front weapon'] = 'Arma frontal',
+		['Rear weapon'] = 'Arma de popa',
 
 		-- Personal information
 		['Personal Information'] = 'Info Personal',
@@ -457,10 +499,22 @@ Translate:Add({
 		['Economy & Trade'] = 'Economía & Comercio',
 		['Total: '] = 'Total: ',
 		['Fuel tank full.'] = 'Tanque de fuel lleno.',
+		['Jettison'] = 'Tirar por la borda',
+		['Refuel'] = 'Repostar',
 
 		-- Missions
+		['Missions'] = 'Misiones',
 		['Mission Details'] = 'Detalles de Misión',
 		['No missions.'] = 'Sin Misiones.',
+		['Type'] = 'Tipo',
+		['Client'] = 'Cliente',
+		['Location'] = 'Localización',
+		['Due'] = 'Deuda',
+		['Reward'] = 'Recompensa',
+		['Status'] = 'Status',
+		['ACTIVE'] = 'Activa',
+		['COMPLETED'] = 'Completada',
+		['FAILED'] = 'Fallida',
 		['INACTIVE'] = 'Inactivo', -- Complement of ACTIVE, COMPLETED and FAILED
 
 		-- Crew Tasks
@@ -583,6 +637,14 @@ Translate:Add({
 		['Controls'] = 'Irányítás',
 		['Exit this game'] = 'Kilépés',
 
+		-- Ship information
+		-- ['Capacity used'] = '',
+		['All-up weight'] = 'Teljes súly', -- total weight
+		['Hyperdrive'] = 'Hipermotor',
+		['Hyperspace range'] = 'Hiperűrtáv',
+		['Front weapon'] = 'Elülső fegyver',
+		['Rear weapon'] = 'Hátsó fegyver',
+
 		-- Personal Information
 		['HARMLESS'] = 'Ártalmatlan',
 		['MOSTLY_HARMLESS'] = 'Jobbára ártalmatlan',
@@ -593,6 +655,22 @@ Translate:Add({
 		['DANGEROUS'] = 'Veszélyes',
 		['DEADLY'] = 'Halálos',
 		['ELITE'] = 'ELITE',
+
+		-- Economy and Trade
+		-- ['Jettison'] = '',
+		-- ['Refuel'] = '',
+
+		-- Missions
+		['Missions'] = 'Küldetések',
+		['Type'] = 'Típus',
+		['Client'] = 'Kliens',
+		['Location'] = 'Hely',
+		['Due'] = 'Lejár',
+		['Reward'] = 'Jutalom',
+		['Status'] = 'Státusz',
+		['ACTIVE'] = 'Aktív',
+		['COMPLETED'] = 'Befejezve',
+		['FAILED'] = 'Nem sikerült',
 	}
 })
 
@@ -664,12 +742,18 @@ Translate:Add({
 		
 		-- Ship Information
 		['Ship Information'] = 'Информация о корабле',
+		['Capacity used'] = 'Занято в грузовом отсеке',
+		['All-up weight'] = 'Общий вес корабля и груза', -- total weight
 		['Weight empty:'] = 'Собств.вес корабля:',
+		['Hyperdrive'] = 'Установленный двигатель',
+		['Hyperspace range'] = 'Возможный радиус прыжка',
 		['{range} light years ({maxRange} max)'] = '{range} св.лет (из {maxRange} макс.)',
 		['Minimum crew'] = 'Минимальный экипаж',
 		['Crew cabins'] = 'Каюты экипажа',
 		['free'] = 'свободно',
 		['max'] = 'макс.',
+		['Front weapon'] = 'Носовая турель',
+		['Rear weapon'] = 'Кормовая турель',
 		
 		-- Personal information
 		['Personal Information'] = 'Персональная информация',
@@ -698,11 +782,23 @@ Translate:Add({
 		['Economy & Trade'] = 'Экономика и торговля',
 		['Total: '] = 'Всего: ',
 		['Fuel tank full.'] = 'Топливный бак полон.',
+		['Jettison'] = 'Сброс груза',
+		['Refuel'] = 'Дозаправиться',
 
 		-- Missions
+		['Missions'] = 'Список заданий',
 		['Mission Details'] = 'О задании',
 		['No missions.'] = 'Нет заданий.',
 		["%d days left"] = "Осталось дней: %d",
+		['Type'] = 'Тип',
+		['Client'] = 'Заказчик',
+		['Location'] = 'Система',
+		['Due'] = 'Сроки',
+		['Reward'] = 'Награда',
+		['Status'] = 'Статус',
+		['ACTIVE'] = 'Активно',
+		['COMPLETED'] = 'Завершено',
+		['FAILED'] = 'Провалено',
 		['INACTIVE'] = 'Неактивно', -- Complement of ACTIVE, COMPLETED and FAILED
 		
 				-- Crew Tasks
@@ -833,8 +929,14 @@ Translate:Add({
 		
 		-- Ship Information
 		['Ship Information'] = 'Schiffs-Informationen',
+		['Capacity used'] = 'Ausgelastete Kapazität',
+		['All-up weight'] = 'Gesamtgewicht', -- total weight
 		['Weight empty:'] = 'Leergewicht:',
+		['Hyperdrive'] = 'Hyperraumantrieb',
+		['Hyperspace range'] = 'Hyperraum Reichweite',
 		['{range} light years ({maxRange} max)'] = '{range} Lichtjahre ({maxRange} max)',
+		['Front weapon'] = 'Vorne',
+		['Rear weapon'] = 'Achtern',
 		
 		-- Personal information
 		['Personal Information'] = 'Persönliche Informationen',
@@ -860,10 +962,22 @@ Translate:Add({
 		['Economy & Trade'] = 'Wirtschaft & Handel',
 		['Total: '] = 'Komplett: ',
 		['Fuel tank full.'] = 'Treibstofftank ist voll.',
+		['Jettison'] = 'Abwerfen',
+		['Refuel'] = 'Auftanken',
 
 		-- Missions
+		['Missions'] = 'Missionen',
 		['Mission Details'] = 'Missionsdetails',
 		['No missions.'] = 'Keine Missionen.',
+		['Type'] = 'Typ',
+		['Client'] = 'Auftraggeber',
+		['Location'] = 'Ort',
+		['Due'] = 'Fällig',
+		['Reward'] = 'Belohnung',
+		['Status'] = 'Status',
+		['ACTIVE'] = 'Offen',
+		['COMPLETED'] = 'Abgeschlossen',
+		['FAILED'] = 'Gescheitert',
 		['INACTIVE'] = 'Inaktiv', -- Complement of ACTIVE, COMPLETED and FAILED
 		
 		-- Orbital analysis
@@ -952,12 +1066,18 @@ Translate:Add({
 
 		-- Ship Information
 		['Ship Information'] = 'Informace o lodi',
+		['Capacity used'] = 'Využitá kapacita',
+		['All-up weight'] = 'Celková hmotnost', -- total weight
 		['Weight empty:'] = 'Prázdná váha:',
+		['Hyperdrive'] = 'Hypermotor',
+		['Hyperspace range'] = 'Hyperprostorový dosah',
 		['{range} light years ({maxRange} max)'] = '{range} ly ({maxRange} max)',
 		['Minimum crew'] = 'Minimální posádka',
 		['Crew cabins'] = 'Kabin pro posádku',
 		['free'] = 'volných',
 		['max'] = 'max',
+		['Front weapon'] = 'Přední zbraň',
+		['Rear weapon'] = 'Zadní zbraň',
 
 		-- Personal information
 		['Personal Information'] = 'Osobní informace',
@@ -987,11 +1107,23 @@ Translate:Add({
 		['Economy & Trade'] = 'Ekonomika & obchod',
 		['Total: '] = 'Celkem: ',
 		['Fuel tank full.'] = 'Palivová nádrž plná.',
+		['Jettison'] = 'Odhodit',
+		['Refuel'] = 'Natankovat',
 
 		-- Missions
+		['Missions'] = 'Mise',
 		['Mission Details'] = 'Detaily mise',
 		['No missions.'] = 'Žádné mise.',
 		["%d days left"] = "Zbývá dnů: %d",
+		['Type'] = 'Typ',
+		['Client'] = 'Klient',
+		['Location'] = 'Pozice',
+		['Due'] = 'Splatnost',
+		['Reward'] = 'Odměna',
+		['Status'] = 'Status',
+		['ACTIVE'] = 'Probíhá',
+		['COMPLETED'] = 'Dokončený',
+		['FAILED'] = 'Neúspěšný',
 		['INACTIVE'] = 'Neprobíhá', -- Complement of ACTIVE, COMPLETED and FAILED
 
 		-- Crew Tasks

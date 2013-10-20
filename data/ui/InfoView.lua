@@ -28,7 +28,7 @@ ui.templates.InfoView = function (args)
 	tabGroup:AddTab({ id = "shipInfo",        title = t("Ship Information"),     icon = "Satellite", template = shipInfo         })
 	tabGroup:AddTab({ id = "personalInfo",    title = t("Personal Information"), icon = "User",      template = personalInfo     })
 	tabGroup:AddTab({ id = "econTrade",       title = t("Economy & Trade"),      icon = "Cart",      template = econTrade,       })
-	tabGroup:AddTab({ id = "missions",        title = t("MISSIONS"),             icon = "Star",      template = missions,        })
+	tabGroup:AddTab({ id = "missions",        title = t("Missions"),             icon = "Star",      template = missions,        })
 	tabGroup:AddTab({ id = "crew",            title = t("Crew Roster"),          icon = "Agenda",    template = crewRoster,      })
 	--tabGroup:AddTab({ id = "orbitalAnalysis", title = t("Orbital Analysis"),     icon = "Planet",    template = orbitalAnalysis, })
 
