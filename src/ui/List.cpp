@@ -27,7 +27,6 @@ void List::Layout() {
 List *List::AddOption(const std::string &text)
 {
 	m_options.push_back(text);
-	if (m_selected < 0) m_selected = 0;
 
 	Context *c = GetContext();
 
