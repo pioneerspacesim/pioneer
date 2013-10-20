@@ -33,6 +33,17 @@ void ShieldProgram::InitUniforms()
 
 	shieldStrength.Init("shieldStrength", m_program);
 	shieldCooldown.Init("shieldCooldown", m_program);
+
+	char whatsInAName[256];
+	for (int i = 0; i < MAX_SHIELD_HITS; i++) {
+		sprintf(whatsInAName, "hitPos[%d]", i);
+		hitPos[i].Init(whatsInAName, m_program);
+	}
+	for (int i = 0; i < MAX_SHIELD_HITS; i++) {
+		sprintf(whatsInAName, "radii[%d]", i);
+		radii[i].Init(whatsInAName, m_program);
+	}
+	numHits.Init("numHits", m_program);
 }
 
 Program *ShieldMaterial::CreateProgram(const MaterialDescriptor &desc)
@@ -52,9 +63,17 @@ void ShieldMaterial::Apply()
 		const ShieldRenderParameters srp = *static_cast<ShieldRenderParameters*>(this->specialParameter0);
 		p->shieldStrength.Set(srp.strength);
 		p->shieldCooldown.Set(srp.coolDown);
+		for (int i = 0; i < srp.numHits && i < MAX_SHIELD_HITS; i++) {
+			p->hitPos[i].Set( srp.hitPos[i] );
+		}
+		for (int i = 0; i < srp.numHits && i < MAX_SHIELD_HITS; i++) {
+			p->radii[i].Set( srp.radii[i] );
+		}
+		p->numHits.Set( std::min(srp.numHits, Sint32(MAX_SHIELD_HITS)) );
 	} else {
 		p->shieldStrength.Set(0.0f);
 		p->shieldCooldown.Set(0.0f);
+		p->numHits.Set( 0 );
 	}
 
 	glPushAttrib(GL_ENABLE_BIT);

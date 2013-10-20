@@ -1,13 +1,33 @@
 varying vec3 varyingEyepos;
 varying vec3 varyingNormal;
+varying vec3 varyingVertex;
 
 uniform Scene scene;
 uniform Material material;
 uniform float shieldStrength;
 uniform float shieldCooldown;
 
+#define MAX_SHIELD_HITS 5
+// hitPos entries should be in object local space
+uniform vec3 hitPos[MAX_SHIELD_HITS];
+uniform float radii[MAX_SHIELD_HITS];
+uniform int numHits;
+
 const vec4 red = vec4(1.0, 0.5, 0.5, 0.5);
 const vec4 blue = vec4(0.5, 0.5, 1.0, 1.0);
+const vec4 hitColour = vec4(1.0, 1.0, 1.0, 1.0);
+
+float calcIntensity(int shieldIndex)
+{
+	vec3 current_position = hitPos[shieldIndex];
+	float radius = radii[shieldIndex];
+	//vec3 dif = varyingVertex - current_position;
+	vec3 dif =  varyingEyepos - current_position;
+	
+	float sqrDist = dot(dif,dif);//dif.x*dif.x + dif.y*dif.y + dif.z*dif.z;
+
+	return clamp(1.0/sqrDist*radius*0.01, 0.0, 0.9);
+}
 
 void main(void)
 {
@@ -21,8 +41,16 @@ void main(void)
 	fresnel = pow(fresnel, 10.0);
 	fresnel += 0.05 * (1.0 - fresnel);
 	
+	float sumIntensity = 0.0;
+	for ( int hit=0; hit<numHits; hit++ )
+	{
+		sumIntensity += calcIntensity(hit);
+	}
+	float clampedInt = clamp(sumIntensity, 0.0, 1.0);
+	
 	// combine a base colour with the (clamped) fresnel value and fade it out according to the cooldown period.
-	color.a = (fillColour + clamp(fresnel * 0.5, 0.0, 1.0)) * shieldCooldown;
+	color = color + vec4(clampedInt,clampedInt,clampedInt,1.0);
+	color.a = (fillColour.a + clamp(fresnel * 0.5, 0.0, 1.0)) * shieldCooldown;
 	
 	gl_FragColor = color;
 

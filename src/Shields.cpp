@@ -6,6 +6,7 @@
 #include "scenegraph/FindNodeVisitor.h"
 #include "scenegraph/SceneGraph.h"
 #include "Ship.h"
+#include "Pi.h"
 #include <sstream>
 
 namespace {
@@ -27,8 +28,11 @@ bool Shields::s_initialised = false;
 
 Shields::Shield::Shield(Color3ub _colour, SceneGraph::StaticGeometry *_sg)
 	: m_colour(_colour), m_mesh(_sg)
-{
-}
+{ }
+
+Shields::Hits::Hits(const vector3d& _pos, const Uint32 _start, const Uint32 _end)
+	: pos(_pos), start(_start), end(_end)
+{ }
 
 void Shields::Init(Graphics::Renderer *renderer)
 {
@@ -206,8 +210,19 @@ void Shields::Load(Serializer::Reader &rd)
 	}
 }
 
-void Shields::Update(const float coolDown /* 0.0f to 1.0f */, const float shieldStrength /* 0.0f to 1.0f */)
+void Shields::Update(const float coolDown, const float shieldStrength)
 {
+	// update hits on the shields
+	const Uint32 tickTime = SDL_GetTicks();
+	HitIterator it = m_hits.begin();
+	while(it != m_hits.end()) {
+		if (tickTime > it->end ) {
+			it = m_hits.erase( it );
+		} else {
+			++it;
+		}
+	}
+
 	if (!m_enabled) {
 		for (ShieldIterator it = m_shields.begin(); it != m_shields.end(); ++it) {
 			it->m_mesh->SetNodeMask(0x0);
@@ -215,12 +230,32 @@ void Shields::Update(const float coolDown /* 0.0f to 1.0f */, const float shield
 		return;
 	}
 
+	// setup the render params
+	static float s_hitRadius = 500.0f;
+	if (shieldStrength>0.0f) {
+		s_renderParams.strength = shieldStrength;
+		s_renderParams.coolDown = coolDown;
+		int i = 0;
+		for (HitIterator it = m_hits.begin(), itEnd = m_hits.end(); it != itEnd; ++it, ++i) {
+			s_renderParams.hitPos[i] = vector3f(it->pos.x, it->pos.y, it->pos.z);
+
+			//Calculate the impact's radius dependant on time
+			Uint32 dif1 = it->end - it->start;
+			Uint32 dif2 = tickTime - it->start;
+			//Range from start (0.0) to end (1.0)
+			float dif = float(dif2/(dif1*1.0f));
+
+			s_renderParams.radii[i] = s_hitRadius * dif;
+		}
+		s_renderParams.numHits = Sint32(m_hits.size());
+	}
+
+	// update the shield visibility
 	for (ShieldIterator it = m_shields.begin(); it != m_shields.end(); ++it) {
 		if (shieldStrength>0.0f) {
 			it->m_mesh->SetNodeMask(SceneGraph::NODE_TRANSPARENT);
 			it->m_mesh->DisableDepthWrite();
-			s_renderParams.strength = shieldStrength;
-			s_renderParams.coolDown = coolDown;
+			
 			GetGlobalShieldMaterial()->specialParameter0 = &s_renderParams;
 		} else {
 			it->m_mesh->SetNodeMask(0x0);
@@ -233,4 +268,10 @@ void Shields::SetColor(const Color3ub inCol)
 	for (ShieldIterator it = m_shields.begin(); it != m_shields.end(); ++it) {
 		it->m_colour = inCol;
 	}
+}
+
+void Shields::AddHit(const vector3d& hitPos)
+{
+	Uint32 tickTime = SDL_GetTicks();
+	m_hits.push_back( Hits(hitPos, tickTime, tickTime+1000) );
 }

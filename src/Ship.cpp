@@ -305,7 +305,7 @@ double Ship::GetSpeedReachedWithFuel() const
 	return GetShipType()->effectiveExhaustVelocity * log(GetMass()/(GetMass()-fuelmass));
 }
 
-bool Ship::OnDamage(Object *attacker, float kgDamage)
+bool Ship::OnDamage(Object *attacker, float kgDamage, const CollisionContact& contactData)
 {
 	if (!IsDead()) {
 		float dam = kgDamage*0.001f;
@@ -320,6 +320,7 @@ bool Ship::OnDamage(Object *attacker, float kgDamage)
 		}
 
 		m_shieldCooldown = DEFAULT_SHIELD_COOLDOWN_TIME;
+		m_shields->AddHit(contactData.pos);
 
 		m_stats.hull_mass_left -= dam;
 		if (m_stats.hull_mass_left < 0) {

@@ -16,7 +16,7 @@ public:
 	virtual ~Missile() {}
 	void TimeStepUpdate(const float timeStep);
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel);
-	virtual bool OnDamage(Object *attacker, float kgDamage);
+	virtual bool OnDamage(Object *attacker, float kgDamage, const CollisionContact& contactData);
 	virtual void NotifyRemoved(const Body* const removedBody);
 	virtual void PostLoadFixup(Space *space);
 	void ECMAttack(int power_val);

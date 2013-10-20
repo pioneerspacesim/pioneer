@@ -29,7 +29,8 @@ Missile::Missile(ShipType::Id shipId, Body *owner, int power): Ship(shipId)
 void Missile::ECMAttack(int power_val)
 {
 	if (power_val > m_power) {
-		OnDamage(0, 1.0f);
+		CollisionContact dummy;
+		OnDamage(0, 1.0f, dummy);
 	}
 }
 
@@ -84,7 +85,7 @@ bool Missile::OnCollision(Object *o, Uint32 flags, double relVel)
 	return true;
 }
 
-bool Missile::OnDamage(Object *attacker, float kgDamage)
+bool Missile::OnDamage(Object *attacker, float kgDamage, const CollisionContact& contactData)
 {
 	if (!IsDead()) {
 		Explode();
@@ -99,6 +100,7 @@ void Missile::Explode()
 	const double damageRadius = 200.0;
 	const double kgDamage = 10000.0;
 
+	CollisionContact dummy;
 	Space::BodyNearList nearby;
 	Pi::game->GetSpace()->GetBodiesMaybeNear(this, damageRadius, nearby);
 	for (Space::BodyNearIterator i = nearby.begin(); i != nearby.end(); ++i) {
@@ -106,7 +108,7 @@ void Missile::Explode()
 		double dist = ((*i)->GetPosition() - GetPosition()).Length();
 		if (dist < damageRadius) {
 			// linear damage decay with distance
-			(*i)->OnDamage(m_owner, kgDamage * (damageRadius - dist) / damageRadius);
+			(*i)->OnDamage(m_owner, kgDamage * (damageRadius - dist) / damageRadius, dummy);
 			if ((*i)->IsType(Object::SHIP))
 				LuaEvent::Queue("onShipHit", dynamic_cast<Ship*>(*i), m_owner);
 		}

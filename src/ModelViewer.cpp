@@ -242,6 +242,11 @@ bool ModelViewer::OnToggleGuns(UI::CheckBox *w)
 	return true;
 }
 
+bool ModelViewer::OnHitIt(UI::Widget*)
+{
+	return true;
+}
+
 void ModelViewer::AddLog(const std::string &line)
 {
 	m_log->AppendText(line+"\n");
@@ -548,7 +553,7 @@ void ModelViewer::MainLoop()
 		if (m_model) {
 			m_navLights->Update(m_frameTime);
 			m_shields->SetEnabled(m_options.showShields);
-			m_shields->Update(0.0f, 1.0f);
+			m_shields->Update(1.0f, 1.0f);
 			DrawModel();
 		}
 
@@ -914,6 +919,7 @@ void ModelViewer::SetupUI()
 
 	UI::SmallButton *reloadButton;
 	UI::SmallButton *toggleGridButton;
+	UI::SmallButton *hitItButton;
 	UI::CheckBox *collMeshCheck;
 	UI::CheckBox *showShieldsCheck;
 	UI::CheckBox *gunsCheck;
@@ -950,6 +956,8 @@ void ModelViewer::SetupUI()
 	add_pair(c, mainBox, toggleGridButton = c->SmallButton(), "Grid mode");
 	add_pair(c, mainBox, collMeshCheck = c->CheckBox(), "Collision mesh");
 	add_pair(c, mainBox, showShieldsCheck = c->CheckBox(), "Show Shields");
+	add_pair(c, mainBox, hitItButton = c->SmallButton(), "Hit it!");
+	hitItButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnHitIt), hitItButton));
 
 	//pattern selector
 	if (m_model->SupportsPatterns()) {

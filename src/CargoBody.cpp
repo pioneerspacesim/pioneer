@@ -50,7 +50,7 @@ CargoBody::CargoBody(Equip::Type t)
 	SetMass(1.0);
 }
 
-bool CargoBody::OnDamage(Object *attacker, float kgDamage)
+bool CargoBody::OnDamage(Object *attacker, float kgDamage, const CollisionContact& contactData)
 {
 	m_hitpoints -= kgDamage*0.001f;
 	if (m_hitpoints < 0) {

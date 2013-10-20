@@ -27,8 +27,12 @@ class Missile;
 namespace Graphics { class Renderer; }
 
 struct ShieldRenderParameters {
+	static const Uint32 MAX_SHIELD_HITS = 5; // Also defined in ShieldMaterial.h
 	float strength;
 	float coolDown;
+	vector3f hitPos[MAX_SHIELD_HITS];
+	float radii[MAX_SHIELD_HITS];
+	Sint32 numHits;
 };
 
 struct shipstats_t {
@@ -112,7 +116,7 @@ public:
 
 	virtual void NotifyRemoved(const Body* const removedBody);
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel);
-	virtual bool OnDamage(Object *attacker, float kgDamage);
+	virtual bool OnDamage(Object *attacker, float kgDamage, const CollisionContact& contactData);
 
 	enum FlightState { // <enum scope='Ship' name=ShipFlightState public>
 		FLYING,     // open flight (includes autopilot)

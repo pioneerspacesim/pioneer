@@ -30,12 +30,22 @@ public:
 	void SetEnabled(const bool on) { m_enabled = on; }
 	void Update(const float coolDown /* 0.0f to 1.0f */, const float shieldStrength /* 0.0f to 1.0f */);
 	void SetColor(const Color3ub);
+	void AddHit(const vector3d& hitPos);
 
 	static void Init(Graphics::Renderer*);
 	static void ReparentShieldNodes(SceneGraph::Model*);
 	static void Uninit();
 
 protected:
+	struct Hits
+	{
+		Hits(const vector3d& _pos, const Uint32 _start, const Uint32 _end);
+		vector3d pos;
+		Uint32 start;
+		Uint32 end;
+	};
+	typedef std::deque<Shields::Hits>::iterator HitIterator;
+	std::deque<Hits> m_hits;
 	std::vector<Shield> m_shields;
 	bool m_enabled;
 

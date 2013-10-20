@@ -14,11 +14,16 @@
 namespace Graphics {
 
 	namespace GL2 {
+		static const Uint32 MAX_SHIELD_HITS = 5; // Also defined in Ship.h
+
 		class ShieldProgram : public Program {
 		public:
 			ShieldProgram(const MaterialDescriptor &, int lights=0);
 			Uniform shieldStrength;
 			Uniform shieldCooldown;
+			Uniform hitPos[MAX_SHIELD_HITS];
+			Uniform radii[MAX_SHIELD_HITS];
+			Uniform numHits;
 		protected:
 			virtual void InitUniforms();
 		};
