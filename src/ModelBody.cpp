@@ -315,3 +315,8 @@ void ModelBody::RenderModel(Graphics::Renderer *r, const Camera *camera, const v
 	if (setLighting)
 		ResetLighting(r, oldLights, oldAmbient);
 }
+
+void ModelBody::TimeStepUpdate(const float timestep)
+{
+	m_model->UpdateAnimations();
+}
