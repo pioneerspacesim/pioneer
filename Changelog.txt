@@ -45,6 +45,7 @@ October 2013
      * Fixed model spinner view distance (#2481)
      * Stopped mouse movement when grabbed (#2485)
      * Fixed UI::Margin sizing with non-ALL direction (#2490)
+     * Fix UI::Margin being created with an incorrect inner widget (#2513, #2511)
 
    * Model changes
      * Pattern textures can now have alpha channels (#2449)
