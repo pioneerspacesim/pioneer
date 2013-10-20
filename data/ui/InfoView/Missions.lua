@@ -34,12 +34,12 @@ local missions = function (tabGroup)
 	-- setup headers
 	local headers = 
 	{
-		t("TYPE"),
-		t("CLIENT"),
-		t("LOCATION"),
-		t("DUE"),
-		t("REWARD"),
-		t("STATUS"),
+		t("Type"),
+		t("Client"),
+		t("Location"),
+		t("Due"),
+		t("Reward"),
+		t("Status"),
 	}
 	MissionList:SetHeaders(headers)
 	

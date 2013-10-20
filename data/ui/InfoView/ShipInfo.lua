@@ -57,9 +57,9 @@ local shipInfo = function (args)
 			:SetColumn(0, {
 				ui:Table():AddRows({
 					ui:Table():SetColumnSpacing(10):AddRows({
-						{ t("HYPERDRIVE")..":", EquipDef[hyperdrive].name },
+						{ t("Hyperdrive")..":", EquipDef[hyperdrive].name },
 						{
-							t("HYPERSPACE_RANGE")..":",
+							t("Hyperspace range")..":",
 							string.interp(
 								t("{range} light years ({maxRange} max)"), {
 									range    = string.format("%.1f",stats.hyperspaceRange),
@@ -69,12 +69,12 @@ local shipInfo = function (args)
 						},
 						"",
 						{ t("Weight empty:"),      string.format("%dt", stats.totalMass - stats.usedCapacity) },
-						{ t("CAPACITY_USED")..":", string.format("%dt (%dt "..t("free")..")", stats.usedCapacity,  stats.freeCapacity) },
+						{ t("Capacity used")..":", string.format("%dt (%dt "..t("free")..")", stats.usedCapacity,  stats.freeCapacity) },
 						{ t("FUEL_WEIGHT")..":",   string.format("%dt (%dt "..t("max")..")", math.floor(Game.player.fuel/100*stats.maxFuelTankMass + 0.5), stats.maxFuelTankMass ) },
-						{ t("TOTAL_WEIGHT")..":",  string.format("%dt", math.floor(stats.totalMass+Game.player.fuel/100*stats.maxFuelTankMass + 0.5) ) },
+						{ t("All-up weight")..":",  string.format("%dt", math.floor(stats.totalMass+Game.player.fuel/100*stats.maxFuelTankMass + 0.5) ) },
 						"",
-						{ t("FRONT_WEAPON")..":", EquipDef[frontWeapon].name },
-						{ t("REAR_WEAPON")..":",  EquipDef[rearWeapon].name },
+						{ t("Front weapon")..":", EquipDef[frontWeapon].name },
+						{ t("Rear weapon")..":",  EquipDef[rearWeapon].name },
 						{ t("FUEL")..":",         string.format("%d%%", Game.player.fuel) },
 						"",
 						{ t("Minimum crew")..":", ShipDef[Game.player.shipId].minCrew },
