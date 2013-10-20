@@ -119,13 +119,10 @@ bool List::HandleOptionMouseOut(int index)
 
 bool List::HandleOptionClick(int index)
 {
-	if (m_selected != index) {
-		if (m_selected >= 0)
-			m_optionBackgrounds[m_selected]->SetColor(Color(0,0,0, GetContext()->GetSkin().ListAlphaNormal()));
-		m_selected = index;
-		onOptionSelected.emit(index, m_options[index]);
-	}
-
+	if ((index != m_selected) && (m_selected >= 0))
+		m_optionBackgrounds[m_selected]->SetColor(Color(0,0,0, GetContext()->GetSkin().ListAlphaNormal()));
+	m_selected = index;
+	onOptionSelected.emit(index, m_options[index]);
 	return false;
 }
 
