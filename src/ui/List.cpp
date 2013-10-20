@@ -74,23 +74,26 @@ int List::GetSelectedIndex() const
 
 void List::SetSelectedIndex(const int index)
 {
-	assert(!m_options.empty());
-	assert(index >= 0);
-	assert(size_t(index) < m_options.size());
+	assert(!m_options.empty() || index < 0);
+	assert(index < int(m_options.size()));
 
 	if (m_selected != index) {
-		ColorBackground * const from = m_optionBackgrounds[m_selected];
-		from->SetColor(Color(0,0,0, from->IsMouseOver()
-					? GetContext()->GetSkin().ListAlphaHover()
-					: GetContext()->GetSkin().ListAlphaNormal()));
+		if (m_selected >= 0) {
+			ColorBackground * const from = m_optionBackgrounds[m_selected];
+			from->SetColor(Color(0,0,0, from->IsMouseOver()
+						? GetContext()->GetSkin().ListAlphaHover()
+						: GetContext()->GetSkin().ListAlphaNormal()));
+		}
 
-		ColorBackground * const to = m_optionBackgrounds[index];
-		if (!to->IsMouseOver()) {
-			to->SetColor(Color(0,0,0, GetContext()->GetSkin().ListAlphaSelect()));
+		if (index >= 0) {
+			ColorBackground * const to = m_optionBackgrounds[index];
+			if (!to->IsMouseOver()) {
+				to->SetColor(Color(0,0,0, GetContext()->GetSkin().ListAlphaSelect()));
+			}
 		}
 
 		m_selected = index;
-		onOptionSelected.emit(index, m_options[index]);
+		onOptionSelected.emit(index, index >= 0 ? m_options[index] : "");
 	}
 }
 
