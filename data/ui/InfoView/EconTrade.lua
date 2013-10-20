@@ -46,7 +46,7 @@ local econTrade = function ()
 						table.insert(cargoNameColumn, ui:Label(et.name))
 						table.insert(cargoQuantityColumn, ui:Label(count.."t"))
 
-						local jettisonButton = SmallLabeledButton.New(t("JETTISON"))
+						local jettisonButton = SmallLabeledButton.New(t("Jettison"))
 						jettisonButton.button.onClick:Connect(function ()
 							Game.player:Jettison(type)
 							updateCargoListWidget()
@@ -91,7 +91,7 @@ local econTrade = function ()
 	fuelGauge.gauge:Bind("valuePercent", Game.player, "fuel")
 
 	-- Define the refuel button
-	local refuelButton = SmallLabeledButton.New(t('REFUEL'))
+	local refuelButton = SmallLabeledButton.New(t('Refuel'))
 
 	local refuelButtonRefresh = function ()
 		if Game.player.fuel == 100 or Game.player:GetEquipCount('CARGO', 'WATER') == 0 then refuelButton.widget:Disable() end
