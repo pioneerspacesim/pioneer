@@ -3,5 +3,6 @@ host = https://www.transifex.com
 
 [pioneer.core]
 file_filter = data/lang/core/<lang>.json
+source_file = data/lang/core/en.json
 source_lang = en
 

@@ -16,6 +16,7 @@ enums:
 
 .PHONY: lang
 lang:
+	tx push -l en -s
 	tx pull -af
 
 EXTRA_DIST = \
