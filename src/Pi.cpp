@@ -262,8 +262,23 @@ void Pi::Init()
 
 	ModManager::Init();
 
-	if (!Lang::LoadStrings(config->String("Lang")))
-		abort();
+	{
+		std::string wantLang = config->String("Lang");
+		Lang::Resource res = Lang::Resource("core", wantLang);
+		bool loaded = res.Load();
+		if (!loaded) {
+			if (wantLang != "en") {
+				fprintf(stderr, "couldn't load language resource core/%s, trying core/en\n", wantLang.c_str());
+				res = Lang::Resource("core", "en");
+				loaded = res.Load();
+			}
+			if (!loaded) {
+				fprintf(stderr, "couldn't load language resource core/en\n");
+				abort();
+			}
+		}
+		Lang::MakeCore(res);
+	}
 
 	Pi::detail.planets = config->Int("DetailPlanets");
 	Pi::detail.textures = config->Int("Textures");
@@ -331,7 +346,7 @@ void Pi::Init()
 	// templates. so now we have crap everywhere :/
 	Lua::Init();
 
-	Pi::ui.Reset(new UI::Context(Lua::manager, Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), Lang::GetCurrentLanguage()));
+	Pi::ui.Reset(new UI::Context(Lua::manager, Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), Lang::GetCore().GetLangCode()));
 
 	LuaInit();
 

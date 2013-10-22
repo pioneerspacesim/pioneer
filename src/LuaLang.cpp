@@ -14,6 +14,7 @@
  * Allows access to the dictionary.
  */
 
+#if 0
 static void _build_dictionary_table(lua_State *l)
 {
 	typedef std::map<std::string, const char*> token_map;
@@ -26,6 +27,7 @@ static void _build_dictionary_table(lua_State *l)
 		lua_rawset(l, -3);
 	}
 }
+#endif
 
 /*
  * Function: GetDictionary
@@ -49,6 +51,9 @@ static void _build_dictionary_table(lua_State *l)
  */
 static int l_lang_get_dictionary(lua_State *l)
 {
+	lua_newtable(l);
+	return 1;
+#if 0
 	LUA_DEBUG_START(l);
 	lua_getfield(l, LUA_REGISTRYINDEX, "LangCoreDictionary");
 	if (lua_isnil(l, -1)) {
@@ -61,6 +66,7 @@ static int l_lang_get_dictionary(lua_State *l)
 	}
 	LUA_DEBUG_END(l, 1);
 	return 1;
+#endif
 }
 
 /*
@@ -85,6 +91,7 @@ static int l_lang_get_dictionary(lua_State *l)
  */
 static int l_lang_get_core_languages(lua_State *l)
 {
+#if 0
 	LUA_DEBUG_START(l);
 	const std::vector<std::string> &langs = Lang::GetAvailableLanguages();
 	lua_createtable(l, langs.size(), 0);
@@ -99,6 +106,7 @@ static int l_lang_get_core_languages(lua_State *l)
 	}
 
 	LUA_DEBUG_END(l, 1);
+#endif
 	return 1;
 }
 
@@ -124,6 +132,10 @@ static int l_lang_get_core_languages(lua_State *l)
  */
 static int l_lang_get_current_language(lua_State *l)
 {
+	lua_pushlstring(l, "en", 2);
+	return 1;
+
+#if 0
 	LUA_DEBUG_START(l);
 
 	std::string lang = Pi::config->String("Lang");
@@ -133,10 +145,12 @@ static int l_lang_get_current_language(lua_State *l)
 
 	LUA_DEBUG_END(l, 1);
 	return 1;
+#endif
 }
 
 static int l_lang_set_current_language(lua_State *l)
 {
+#if 0
 	const std::vector<std::string> &langs = Lang::GetAvailableLanguages();
 	std::string lang;
 	pi_lua_generic_pull(l, 1, lang);
@@ -144,6 +158,7 @@ static int l_lang_set_current_language(lua_State *l)
 		return luaL_error(l, "The language '%s' is not known.", lang.c_str());
 	Pi::config->SetString("Lang", lang);
 	Pi::config->Save();
+#endif
 	return 0;
 }
 
