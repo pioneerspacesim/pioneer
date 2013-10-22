@@ -201,4 +201,21 @@ const Resource &GetCore()
 	return s_coreResource;
 }
 
+Resource GetResource(const std::string &name, const std::string &langCode)
+{
+	// XXX caching
+	Lang::Resource res = Lang::Resource(name, langCode);
+	bool loaded = res.Load();
+	if (!loaded) {
+		if (langCode != "en") {
+			fprintf(stderr, "couldn't load language resource %s/%s, trying %s/en\n", name.c_str(), langCode.c_str(), name.c_str());
+			res = Lang::Resource(name, "en");
+			loaded = res.Load();
+		}
+		if (!loaded)
+			fprintf(stderr, "couldn't load language resource %s/en\n", name.c_str());
+	}
+	return res;
+}
+
 } // namespace Lang

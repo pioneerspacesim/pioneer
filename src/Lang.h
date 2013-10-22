@@ -43,6 +43,8 @@ private:
 void MakeCore(Resource &res);
 const Resource &GetCore();
 
+Resource GetResource(const std::string &name, const std::string &langCode);
+
 }
 
 #endif

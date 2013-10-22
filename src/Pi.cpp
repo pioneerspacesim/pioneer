@@ -262,23 +262,8 @@ void Pi::Init()
 
 	ModManager::Init();
 
-	{
-		std::string wantLang = config->String("Lang");
-		Lang::Resource res = Lang::Resource("core", wantLang);
-		bool loaded = res.Load();
-		if (!loaded) {
-			if (wantLang != "en") {
-				fprintf(stderr, "couldn't load language resource core/%s, trying core/en\n", wantLang.c_str());
-				res = Lang::Resource("core", "en");
-				loaded = res.Load();
-			}
-			if (!loaded) {
-				fprintf(stderr, "couldn't load language resource core/en\n");
-				abort();
-			}
-		}
-		Lang::MakeCore(res);
-	}
+	Lang::Resource res(Lang::GetResource("core", config->String("Lang")));
+	Lang::MakeCore(res);
 
 	Pi::detail.planets = config->Int("DetailPlanets");
 	Pi::detail.textures = config->Int("Textures");
