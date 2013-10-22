@@ -156,6 +156,46 @@ public:
 		return (a + t*(b-a)).Normalized();
 	}
 
+	// spherical linear interpolation between two quaternions
+	// taken from assimp via #2514
+	static Quaternion Slerp(const Quaternion &a, const Quaternion &b, T t) {
+		// calc cosine theta
+		T cosom = a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
+
+		// adjust signs (if necessary)
+		Quaternion end = b;
+		if(cosom < T(0.0)) {
+			cosom = -cosom;
+			end.x = -end.x;   // Reverse all signs
+			end.y = -end.y;
+			end.z = -end.z;
+			end.w = -end.w;
+		}
+
+		// Calculate coefficients
+		T sclp, sclq;
+		if( (T(1.0) - cosom) > T(0.0001)) { // 0.0001 -> some epsillon
+			// Standard case (slerp)
+			T omega, sinom;
+			omega = acos(cosom); // extract theta from dot product's cos theta
+			sinom = sin(omega);
+			sclp  = sin((T(1.0) - t) * omega) / sinom;
+			sclq  = sin(t * omega) / sinom;
+		}
+		else {
+			// Very close, do linear interp (because it's faster)
+			sclp = T(1.0) - t;
+			sclq = t;
+		}
+
+		return Quaternion(
+			sclp * a.w + sclq * end.w,
+			sclp * a.x + sclq * end.x,
+			sclp * a.y + sclq * end.y,
+			sclp * a.z + sclq * end.z
+		);
+	}
+
 	//void Print() const {
 	//	printf("%f,%f,%f,%f\n", w, x, y, z);
 	//}
