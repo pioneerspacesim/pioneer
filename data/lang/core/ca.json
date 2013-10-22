@@ -84,6 +84,7 @@
     "SMALL_PLASMA_ACCEL": "Accelerador de plasma petit",
     "THRUSTER_PORT": "Accelerar cap a l'esquerra",
     "TOGGLE_ROTATION_DAMPING": "Toggle rotation damping",
+    "LANG_NAME": "Català",
     "CAMERA_BOTTOM_VIEW": "Bottom camera",
     "DAY_LENGTH": "Duració del dia",
     "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND": "Pilot automàtic: Òrbita mitjana sobrevolant %target",

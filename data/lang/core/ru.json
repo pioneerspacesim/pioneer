@@ -84,6 +84,7 @@
     "SMALL_PLASMA_ACCEL": "Малый плазмомёт",
     "THRUSTER_PORT": "Ускорение влево",
     "TOGGLE_ROTATION_DAMPING": "Включить плавное вращение",
+    "LANG_NAME": "Russian",
     "CAMERA_BOTTOM_VIEW": "Нижний экран",
     "DAY_LENGTH": "Сутки",
     "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND": "Автопилот: Встать на среднюю орбиту %target",

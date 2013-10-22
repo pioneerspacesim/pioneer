@@ -84,6 +84,7 @@
     "SMALL_PLASMA_ACCEL": "Kleiner Plasmawerfer",
     "THRUSTER_PORT": "Manövrierdüsen Backbord",
     "TOGGLE_ROTATION_DAMPING": "Rotationsverminderung umschalten",
+    "LANG_NAME": "Deutsch",
     "CAMERA_BOTTOM_VIEW": "Untere Ansicht",
     "DAY_LENGTH": "Tageslänge",
     "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND": "Autopilot: Fliege in eine mittlere Umlaufbahn um %target.",

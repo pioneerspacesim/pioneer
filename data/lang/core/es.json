@@ -84,6 +84,7 @@
     "SMALL_PLASMA_ACCEL": "Acelerador de plasma pequeño",
     "THRUSTER_PORT": "Impulso izquierda",
     "TOGGLE_ROTATION_DAMPING": "Rotación amortiguada",
+    "LANG_NAME": "Español",
     "CAMERA_BOTTOM_VIEW": "Vista inferior",
     "DAY_LENGTH": "Duración del día",
     "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND": "Piloto automático: Establecer órbita media alrededor de %target",

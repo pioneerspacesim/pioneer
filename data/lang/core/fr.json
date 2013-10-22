@@ -84,6 +84,7 @@
     "SMALL_PLASMA_ACCEL": "Petit accélérateur à plasma",
     "THRUSTER_PORT": "Moteur babord",
     "TOGGLE_ROTATION_DAMPING": "Toggle rotation damping",
+    "LANG_NAME": "Français",
     "CAMERA_BOTTOM_VIEW": "Bottom camera",
     "DAY_LENGTH": "Durée du jour",
     "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND": "Pilote auto : Rentrer en orbite moyenne autour de %target",

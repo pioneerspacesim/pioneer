@@ -84,6 +84,7 @@
     "SMALL_PLASMA_ACCEL": "Kicsi plazmagyorsító",
     "THRUSTER_PORT": "Fűvókák balra",
     "TOGGLE_ROTATION_DAMPING": "Forgásfékezés ki-be",
+    "LANG_NAME": "Magyar",
     "CAMERA_BOTTOM_VIEW": "Alsó kamera",
     "DAY_LENGTH": "Napok hossza",
     "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND": "Autópilóta: Állj közepes pályára %target körül",
