@@ -169,10 +169,7 @@ void MakeCore(Resource &res)
 {
 	assert(res.GetName() == "core");
 
-	bool loaded = res.Load();
-	assert(loaded);
-
-	static const std::string missing("<missing>");
+	res.Load();
 
 	for (token_map::iterator i = s_token_map.begin(); i != s_token_map.end(); ++i) {
 		const std::string &token = i->first;
@@ -180,7 +177,7 @@ void MakeCore(Resource &res)
 
 		if (text.empty()) {
 			fprintf(stderr, "%s/%s: token '%s' not found\n", res.GetName().c_str(), res.GetLangCode().c_str(), token.c_str());
-			text = missing;
+			text = token;
 		}
 
 		if (text.size() > size_t(STRING_RECORD_SIZE)) {
