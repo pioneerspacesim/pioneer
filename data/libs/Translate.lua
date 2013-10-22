@@ -8,7 +8,7 @@ local Lang = import("Lang")
 
 local Translate
 Translate = {
-	language = Lang.GetCurrentLanguage(), -- Default
+	language = Lang.currentLanguage, -- Default
 	dictionary = {}, -- Initialise the dictionary table
 	flavours = {English = {}}, -- Explicitly initialise the English flavours table
 
@@ -262,7 +262,7 @@ Translate = {
 
 -- Copy, don't use, the system dictionary, which is read-only
 Translate.dictionary[Translate.language] = {}
-for token, definition in pairs(Lang.GetDictionary()) do
+for token, definition in pairs(Lang.GetResource("core")) do
 	Translate.dictionary[Translate.language][token] = definition
 end
 

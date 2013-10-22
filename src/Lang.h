@@ -26,6 +26,11 @@ public:
 
 	static std::vector<std::string> GetAvailableLanguages(const std::string &resourceName);
 
+	typedef std::map<std::string,std::string>::const_iterator StringIterator;
+	StringIterator Begin() const { return m_strings.begin(); }
+	StringIterator End() const { return m_strings.end(); }
+
+
 private:
 	std::string m_name;
 	std::string m_langCode;
