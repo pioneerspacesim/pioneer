@@ -5,6 +5,7 @@ local Game = import("Game")
 local Engine = import("Engine")
 local Translate = import("Translate")
 local Lang = import("Lang")
+local utils = import("utils")
 local TabGroup = import("ui/TabGroup")
 local SmallLabeledButton = import("ui/SmallLabeledButton")
 local KeyBindingCapture = import("UI.Game.KeyBindingCapture")
@@ -150,8 +151,9 @@ ui.templates.Settings = function (args)
 	end
 
 	local languageTemplate = function()
-		local langs = Lang.GetCoreLanguages()
-		return optionList(Lang.GetCurrentLanguage, Lang.SetCurrentLanguage, t("Language (restart game to apply)"), langs, langs)
+		local langs = Lang.GetAvailableLanguages("core")
+		local captions = utils.build_array(utils.map(function (k,v) return k,Lang.GetResource("core", v).LANG_NAME end, ipairs(langs)))
+		return optionList(function () return Lang.currentLanguage end, Lang.SetCurrentLanguage, t("Language (restart game to apply)"), captions, langs)
 	end
 
 	local captureDialog = function (captureWidget, label, onOk)
