@@ -6,3 +6,7 @@ file_filter = data/lang/core/<lang>.json
 source_file = data/lang/core/en.json
 source_lang = en
 
+[pioneer.ui-core]
+file_filter = data/lang/ui-core/<lang>.json
+source_file = data/lang/ui-core/en.json
+source_lang = en

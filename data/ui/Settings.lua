@@ -3,7 +3,6 @@
 
 local Game = import("Game")
 local Engine = import("Engine")
-local Translate = import("Translate")
 local Lang = import("Lang")
 local utils = import("utils")
 local TabGroup = import("ui/TabGroup")
@@ -12,7 +11,7 @@ local KeyBindingCapture = import("UI.Game.KeyBindingCapture")
 local AxisBindingCapture = import("UI.Game.AxisBindingCapture")
 
 local ui = Engine.ui
-local t = Translate:GetTranslator()
+local l = Lang.GetResource("ui-core");
 
 local optionCheckBox = function (getter, setter, caption)
 	local cb = ui:CheckBox()
@@ -67,48 +66,48 @@ ui.templates.Settings = function (args)
 			local mode = videoModeValues[token]
 			Engine.SetVideoResolution(mode.width, mode.height)
 		end
-		local modeDropDown = optionDropDown(GetVideoMode, SetVideoMode, t("Video resolution"), videoModeLabels, videoModeLabels)
+		local modeDropDown = optionDropDown(GetVideoMode, SetVideoMode, l.VIDEO_RESOLUTION, videoModeLabels, videoModeLabels)
 
-		local aaLabels = { t("Off"), "x2", "x4", "x8", "x16" }
+		local aaLabels = { l.OFF, "x2", "x4", "x8", "x16" }
 		local aaModes = { 0, 2, 4, 8, 16 }
-		local aaDropDown = optionDropDown(Engine.GetMultisampling, Engine.SetMultisampling, t("Multisampling"), aaLabels, aaModes)
+		local aaDropDown = optionDropDown(Engine.GetMultisampling, Engine.SetMultisampling, l.MULTISAMPLING, aaLabels, aaModes)
 
 		local detailLevels = { 'VERY_LOW', 'LOW', 'MEDIUM', 'HIGH', 'VERY_HIGH' }
-		local detailLabels = { t("Very low"), t("Low"), t("Medium"), t("High"), t("Very high") }
+		local detailLabels = { l.VERY_LOW, l.LOW, l.MEDIUM, l.HIGH, l.VERY_HIGH }
 
 		local planetDetailDropDown = optionDropDown(
 			Engine.GetPlanetDetailLevel, Engine.SetPlanetDetailLevel,
-			t("Planet detail distance"), detailLabels, detailLevels)
+			l.PLANET_DETAIL_DISTANCE, detailLabels, detailLevels)
 
 		local planetTextureCheckBox = optionCheckBox(
 			Engine.GetPlanetFractalColourEnabled, Engine.SetPlanetFractalColourEnabled,
-			t("Planet textures"))
+			l.PLANET_TEXTURES)
 
 		local fractalDetailDropDown = optionDropDown(
 			Engine.GetFractalDetailLevel, Engine.SetFractalDetailLevel,
-			t("Fractal detail"), detailLabels, detailLevels)
+			l.FRACTAL_DETAIL, detailLabels, detailLevels)
 
 		local cityDetailDropDown = optionDropDown(
 			Engine.GetCityDetailLevel, Engine.SetCityDetailLevel,
-			t("City detail level"), detailLabels, detailLevels)
+			l.CITY_DETAIL_LEVEL, detailLabels, detailLevels)
 
 		local navTunnelsCheckBox = optionCheckBox(
 			Engine.GetDisplayNavTunnels, Engine.SetDisplayNavTunnels,
-			t("Display nav tunnels"))
+			l.DISPLAY_NAV_TUNNELS)
 
 		local fullScreenCheckBox = optionCheckBox(
 			Engine.GetFullscreen, Engine.SetFullscreen,
-			t("Full screen"))
+			l.FULL_SCREEN)
 		local shadersCheckBox = optionCheckBox(
 			Engine.GetShadersEnabled, Engine.SetShadersEnabled,
-			t("Use shaders"))
+			l.USE_SHADERS)
 		local compressionCheckBox = optionCheckBox(
 			Engine.GetTextureCompressionEnabled, Engine.SetTextureCompressionEnabled,
-			t("Compress Textures"))
+			l.COMPRESS_TEXTURES)
 
 		return ui:Grid({1,1}, 1)
 			:SetCell(0,0, ui:Margin(5, 'ALL', ui:VBox(5):PackEnd({
-				ui:Label(t("Video configuration (restart game to apply)")),
+				ui:Label(l.VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY),
 				modeDropDown,
 				aaDropDown,
 				fullScreenCheckBox,
@@ -138,26 +137,26 @@ ui.templates.Settings = function (args)
 		end
 
 		local muteBox = function(getter, setter)
-			return optionCheckBox(getter, setter, t("Mute"))
+			return optionCheckBox(getter, setter, l.MUTE)
 		end
 
 		return ui:VBox():PackEnd(ui:Grid({1,2,1}, 3)
 			:SetCell(0,0,muteBox(Engine.GetMasterMuted, Engine.SetMasterMuted))
-			:SetCell(1,0,volumeSlider(t("Master:"), Engine.GetMasterVolume, Engine.SetMasterVolume))
+			:SetCell(1,0,volumeSlider(l.MASTER, Engine.GetMasterVolume, Engine.SetMasterVolume))
 			:SetCell(0,1,muteBox(Engine.GetMusicMuted, Engine.SetMusicMuted))
-			:SetCell(1,1,volumeSlider(t("Music:"), Engine.GetMusicVolume, Engine.SetMusicVolume))
+			:SetCell(1,1,volumeSlider(l.MUSIC, Engine.GetMusicVolume, Engine.SetMusicVolume))
 			:SetCell(0,2,muteBox(Engine.GetEffectsMuted, Engine.SetEffectsMuted))
-			:SetCell(1,2,volumeSlider(t("Effects:"), Engine.GetEffectsVolume, Engine.SetEffectsVolume)))
+			:SetCell(1,2,volumeSlider(l.EFFECTS, Engine.GetEffectsVolume, Engine.SetEffectsVolume)))
 	end
 
 	local languageTemplate = function()
 		local langs = Lang.GetAvailableLanguages("core")
 		local captions = utils.build_array(utils.map(function (k,v) return k,Lang.GetResource("core", v).LANG_NAME end, ipairs(langs)))
-		return optionList(function () return Lang.currentLanguage end, Lang.SetCurrentLanguage, t("Language (restart game to apply)"), captions, langs)
+		return optionList(function () return Lang.currentLanguage end, Lang.SetCurrentLanguage, l.LANGUAGE_RESTART_GAME_TO_APPLY, captions, langs)
 	end
 
 	local captureDialog = function (captureWidget, label, onOk)
-		local captureLabel = ui:Label(t("Press a key or controller button"))
+		local captureLabel = ui:Label(l.PRESS_A_KEY_OR_CONTROLLER_BUTTON)
 		local capture = captureWidget.New(ui)
 		local curBinding, curDescription
 
@@ -168,21 +167,21 @@ ui.templates.Settings = function (args)
 			curDescription = capture.bindingDescription
 		end)
 
-		local okButton = ui:Button(ui:Label(t("Ok")):SetFont("HEADING_NORMAL"))
+		local okButton = ui:Button(ui:Label(l.OK):SetFont("HEADING_NORMAL"))
 		okButton.onClick:Connect(function()
 			print('Capture: ' .. (curBinding or 'nil') .. ' (' .. (curDescription or 'nil') .. ')')
 			onOk(curBinding, curDescription)
 			ui:DropLayer()
 		end)
 
-		local clearButton = ui:Button(ui:Label(t("Clear")):SetFont("HEADING_NORMAL"))
+		local clearButton = ui:Button(ui:Label(l.CLEAR):SetFont("HEADING_NORMAL"))
 		clearButton.onClick:Connect(function()
 			curBinding = nil
 			curDescription = nil
 			captureLabel:SetText('')
 		end)
 
-		local cancelButton = ui:Button(ui:Label(t("Cancel")):SetFont("HEADING_NORMAL"))
+		local cancelButton = ui:Button(ui:Label(l.CANCEL):SetFont("HEADING_NORMAL"))
 		cancelButton.onClick:Connect(function()
 			ui:DropLayer()
 		end)
@@ -192,7 +191,7 @@ ui.templates.Settings = function (args)
 				ui:Align("MIDDLE",
 					ui:Background(
 						ui:VBox(10)
-							:PackEnd(ui:Label(t("Change Binding")):SetFont("HEADING_NORMAL"))
+							:PackEnd(ui:Label(l.CHANGE_BINDING):SetFont("HEADING_NORMAL"))
 							:PackEnd(ui:Label(label))
 							:PackEnd(ui:Align("MIDDLE", capture))
 							:PackEnd(ui:HBox(5):PackEnd({okButton,clearButton,cancelButton}))
@@ -278,12 +277,12 @@ ui.templates.Settings = function (args)
 
 	local controlsTemplate = function()
 		local options = ui:Margin(10, 'LEFT', ui:VBox():PackEnd({
-			optionCheckBox(Engine.GetMouseYInverted, Engine.SetMouseYInverted, t("Invert Mouse Y")),
-			optionCheckBox(Engine.GetJoystickEnabled, Engine.SetJoystickEnabled, t("Enable joystick")),
+			optionCheckBox(Engine.GetMouseYInverted, Engine.SetMouseYInverted, l.INVERT_MOUSE_Y),
+			optionCheckBox(Engine.GetJoystickEnabled, Engine.SetJoystickEnabled, l.ENABLE_JOYSTICK),
 		}))
 
 		local box = ui:VBox()
-		box:PackEnd(ui:Label(t("Control Options")):SetFont('HEADING_LARGE'))
+		box:PackEnd(ui:Label(l.CONTROL_OPTIONS):SetFont('HEADING_LARGE'))
 		box:PackEnd(options)
 
 		local pages = Engine.GetKeyBindings()
@@ -318,10 +317,10 @@ ui.templates.Settings = function (args)
 
 	local setTabs = nil
 	setTabs = TabGroup.New()
-	setTabs:AddTab({ id = "Video",    title = t("Video"),    icon = "VideoCamera", template = wrapWithScroller(videoTemplate)    })
-	setTabs:AddTab({ id = "Sound",    title = t("Sound"),    icon = "Speaker",     template = wrapWithScroller(soundTemplate)    })
-	setTabs:AddTab({ id = "Language", title = t("Language"), icon = "Globe1",      template = wrapWithScroller(languageTemplate) })
-	setTabs:AddTab({ id = "Controls", title = t("Controls"), icon = "Gamepad",     template = wrapWithScroller(controlsTemplate) })
+	setTabs:AddTab({ id = "Video",    title = l.VIDEO,    icon = "VideoCamera", template = wrapWithScroller(videoTemplate)    })
+	setTabs:AddTab({ id = "Sound",    title = l.SOUND,    icon = "Speaker",     template = wrapWithScroller(soundTemplate)    })
+	setTabs:AddTab({ id = "Language", title = l.LANGUAGE, icon = "Globe1",      template = wrapWithScroller(languageTemplate) })
+	setTabs:AddTab({ id = "Controls", title = l.CONTROLS, icon = "Gamepad",     template = wrapWithScroller(controlsTemplate) })
 
 	local close_buttons = {}
 	do
@@ -345,15 +344,15 @@ end
 ui.templates.SettingsInGame = function ()
 	return ui.templates.Settings({
 		closeButtons = {
-			{ text = t("Save"), onClick = function ()
+			{ text = l.SAVE, onClick = function ()
 				local settings_view = ui.layer.innerWidget
 				ui:NewLayer(
 					ui.templates.FileDialog({
-						title        = t("Save"),
-						helpText     = t("Select a file to save to or enter a new filename"),
+						title        = l.SAVE,
+						helpText     = l.SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME,
 						path         = "savefiles",
 						allowNewFile = true,
-						selectLabel  = t("Save"),
+						selectLabel  = l.SAVE,
 						onSelect     = function (filename)
 							Game.SaveGame(filename)
 							ui:DropLayer()
@@ -364,7 +363,7 @@ ui.templates.SettingsInGame = function ()
 					})
 				)
 			end },
-			{ text = t("Exit this game"), onClick = Game.EndGame }
+			{ text = l.EXIT_THIS_GAME, onClick = Game.EndGame }
 		}
 	})
 end
