@@ -1,538 +1,2146 @@
 {
-    "VID_CONNECTING": "Conectando...",
-    "LANDED": "Posado",
-    "DOCKING_CLEARANCE_EXPIRED": "Su Permiso de atraque ha expirado. Si desea atracar deberá repetir la solicitud.",
-    "HYPERSPACE_TARGET": "Objetivo hiperespacial",
-    "MONTH_AUG": "Ago",
-    "COMPUTER_SPEED_CONTROL": "Navegación asistida",
-    "ALT": "\"alt \"",
-    "HYPERSPACE_ARRIVAL_CLOUD": "Nube hiperespacial de llegada",
-    "DIRECTION": "\" Dir \"",
-    "CARBON_ORE_DESCRIPTION": "Los minerales de carbono (carbón y petróleo) se requieren para la síntesis de muchos y muy útiles productos químicos, incluyendo plásticos, productos alimenticios sintéticos, medicamentos y textiles.",
-    "CAMERA_TOP_VIEW": "Vista superior",
-    "TINY": "Enano",
-    "CONSUMER_GOODS": "Bienes de consumo",
-    "BODY": "cuerpo",
-    "WITH_A": "\" con una \"",
-    "FIT": "+",
-    "EXTENSIVE_MINING": "Actividad minera extensiva.",
-    "REVERSE_ACCEL_LADEN": "Desaceleración (Cargado)",
-    "LEGAL_STATUS": "Estatus legal",
-    "WHEELS_ARE_DOWN": "Tren de aterrizaje abajo",
-    "INDUSTRIAL_MACHINERY": "Maquinaria industrial",
-    "HULL_AUTOREPAIR": "Sistema de autoreparación del casco",
-    "TOGGLE_LUA_CONSOLE": "Consola Lua ON/OFF",
-    "SOCIAL_DEMOCRACY": "Socialdemocracia",
-    "WATER": "Agua",
-    "HULL_INTEGRITY": "Integr. casco",
-    "EARTH_FEDERATION_DEMOCRACY": "Democracia de la federación terrestre",
-    "VIEW": "Vista",
-    "HIGHLY_VOLCANIC": "Altamente volcánico",
-    "USED": "Utilizado",
-    "GAME_LOAD_WRONG_VERSION": "Este juego salvado no se puede abrir porque se creó con una versión diferente de Pioneer.",
-    "ECM_ADVANCED_DESCRIPTION": "Un sistema de defensa electrónico de contramedidas, capaz de neutralizar un tipo más avanzado de misiles guiados.",
-    "DRIVE_MIL4": "Motor hiperespacial militar Clase 4",
-    "DRIVE_MIL3": "Motor hiperespacial militar Clase 3",
-    "LIQUID_OXYGEN_DESCRIPTION": "El Oxígeno se requiere para los sistemas de apoyo vital y algunos procesos industriales.",
-    "DRIVE_MIL1": "Motor hiperespacial militar Clase 1",
-    "CORPORATE_SYSTEM": "Sistema corporativo",
-    "HYDROGEN": "Hidrógeno",
-    "REVERSE_ACCEL_EMPTY": "Desaceleración (vacío)",
-    "MONTH_JAN": "Ene",
-    "PRICE_TO_REMOVE": "$ de venta",
-    "IMPERIAL_RULE": "Gobierno Imperial",
-    "BINARY_SYSTEM": "Sistema binario",
-    "ALT_IN_METRES": "Alt: %altitude{f.0}m (%vspeed{f.1}m/s)",
-    "SHIELD_GENERATOR": "Generador de escudo",
-    "SOMEWHERE_COMMODITIES_MARKET": "Mercado de productos %station",
-    "NARCOTICS": "Narcóticos",
-    "THRUSTER_VENTRAL": "Impulso arriba",
-    "STAR_K_HYPER_GIANT": "Hipergigante naranja - Inestable",
-    "NEW_AND_RECONDITIONED_SHIPS": "Naves nuevas y reacondicionadas",
-    "STAR_AF_GIANT": "Gigante blanca",
-    "CLASS_NUMBER": "Clase %class",
-    "SOME_ESTABLISHED_MINING": "Alguna minería establecida.",
-    "CONTROLS": "Controles",
-    "CARGO_N": "Carga: %{mass}t",
-    "HAND_WEAPONS": "Armas de mano",
-    "TIME_POINT": "Eje de tiempo:",
-    "MINING_MACHINERY": "Maquinaria minera",
-    "MININGCANNON_17MW": "Láser minero de explosión 17MW",
-    "CARGO_BAY_LIFE_SUPPORT_LOST": "Los sensores informan de condiciones críticas en los sistemas de apoyo vital de la bahía de carga.",
-    "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE": "Analizador de nube hiperespacial: Fijar objetivo hiperespacial del viaje",
-    "ALLEGIANCE": "Alianza:",
-    "WEIGHT_EMPTY": "Peso en vacío",
-    "N_DEGREES": "%angle{f.1} grados",
-    "IN_TRANSIT_TO_N_X_X_X": "En tránsito a %system [%x,%y,%z]",
-    "REAR": "Popa",
-    "STAR_B_SUPER_GIANT": "Supergigante azul",
-    "DISTANCE_FROM_SHIP_TO_NAV_TARGET": "Distancia desde la nave al objetivo de navegación",
-    "CAPACITY": "Capacidad",
-    "COMPUTER_HEADING_CONTROL": "Asistencia direccional",
-    "SURFACE_GRAVITY": "Gravedad en superficie",
-    "DOCKED": "Atracado",
-    "COMMA_HIGHLY_VOLCANIC": ", altamente volcánico",
-    "UNEXPLORED_SYSTEM_STAR_INFO_ONLY": "Sistema inexplorado. La información estelar ha sido recogida por medio de telescopio remoto, pero no existe información planetaria.",
-    "DECREASE_SET_SPEED": "Reducción de velocidad",
-    "ROCKY_PLANET_CONTAINING_COME_LIQUIDS": "\" Planeta rocoso con líquido en superficie,\"",
-    "REMOVE_FROM_WHICH_MOUNT": "¿De qué punto de montaje quiere quitar el láser?",
-    "BODIES": "Cuerpos",
-    "SCREENSHOT_FILENAME_TEMPLATE": "screenshot%index{d08}.png",
-    "STAR_K_GIANT": "Gigante naranja - Inestable",
-    "SHIELD_STRENGTH_N": "Resistencia del escudo: %shields{f.2}",
-    "N_YEARS": "%years{f.1} años",
-    "SMALL_PLASMA_ACCEL": "Acelerador de plasma pequeño",
-    "THRUSTER_PORT": "Impulso izquierda",
-    "TOGGLE_ROTATION_DAMPING": "Rotación amortiguada",
-    "LANG_NAME": "Español",
-    "CAMERA_BOTTOM_VIEW": "Vista inferior",
-    "DAY_LENGTH": "Duración del día",
-    "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND": "Piloto automático: Establecer órbita media alrededor de %target",
-    "INCREASE_SET_SPEED": "Aumentar velocidad",
-    "CARGO_SCOOP_DESCRIPTION": "Permite la recogida de carga en el espacio.",
-    "MONTH_MAY": "May",
-    "ASTEROID": "Asteroide",
-    "NUMBER_G": "%acceleration{f.1} G",
-    "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": "Simulando la evolución del universo: %age{f.1}00 millones de años ;-)",
-    "MININGCANNON_17MW_DESCRIPTION": "Se utiliza para la explotación de asteroides ricos en mineral.",
-    "MONTH_MAR": "Mar",
-    "PAY_THE_FINE_NOW": "Pagar la multa.",
-    "CO2_ATMOSPHERE": "\" Atmósfera de dióxido de carbono\"",
-    "MILITARY_DICTATORSHIP": "Dictadura militar",
-    "SCUTUM_CENTAURUS_ARM": "Brazo Scutum-Centaurus",
-    "REMOVE": "-",
-    "LAUNCH_PERMISSION_DENIED_BUSY": "Permiso para despegar denegado: Bahía de atraque ocupada.",
-    "CH4_ATMOSPHERE": "\" Atmósfera de metano\"",
-    "HEADING_LOCK_BACKWARD": "Bloqueo direcc. (retro)",
-    "HULL_AUTOREPAIR_DESCRIPTION": "Repara automáticamente el casco de la nave en caso de daños.",
-    "SHIELD_ENERGY_BOOSTER_DESCRIPTION": "Incrementa la velocidad de recarga de los escudos.",
-    "ENABLED_AUTOMATIC_SYSTEM_SELECTION": "Selección automática de sistema encendido.",
-    "CAMERA_FRONT_VIEW": "Vista frontal",
-    "ROBOTS": "Robots",
-    "PASSENGER_CABIN": "Cabina de pasajeros ocupada",
-    "INDUSTRIAL_COLONY": "Colonia industrial.",
-    "UNEXPLORED_SYSTEM_NO_DATA": "Sistema inexplorado. No hay mas información.",
-    "SCANNER": "Escáner",
-    "THRUSTER_MAIN": "Impulso adelante",
-    "HARD_CAPITALIST": "Enteramente capitalista - sin intervencion del estado",
-    "SELECT_A_TARGET": "Seleccione un objetivo",
-    "SHIP_IS_FULLY_LADEN": "Su nave está cargada a tope.",
-    "MONTH_FEB": "Feb",
-    "PLANETARY_INFO": "Info Planetaria",
-    "METAL_ALLOYS": "Aleación de metales",
-    "RESET": "Reset",
-    "CARGO": "Carga",
-    "JOY_AXIS": "Eje %sign%axis Joy%joynum",
-    "STAR_G_SUPER_GIANT": "Supergigante amarilla",
-    "COMPUTERS": "Ordenadores",
-    "LARGE_GAS_GIANT": "Gigante gaseoso grande",
-    "SOMEWHERE_SHIP_REPAIRS": "Reparaciones %station",
-    "JOY": "Joy",
-    "MAJOR_EXPORTS": "Exportaciones principales:",
-    "CAMERA_RIGHT_VIEW": "Vista derecha",
-    "NUMBER_LY": "%distance{f.2} ly",
-    "ECM_ADVANCED": "Sistema ECM avanzado",
-    "NO_HYPERDRIVE": "Sin motor hiperespacial",
-    "SOURCE": "Origen",
-    "EARTH_FEDERATION_COLONIAL_RULE": "Gobierno colonial de la federación terrestre",
-    "GALACTIC_VIEW": "Vista galáctica",
-    "THRUSTER_DORSAL": "Impulso abajo",
-    "THANKS_AND_REMEMBER_TO_BUY_FUEL": "Gracias por su adquisición. Recuerde montar equipo y adquirir combustible antes de su partida.",
-    "STAR_B_WF": "Estrella Wolf-Rayet - Riesgo de colapso",
-    "BROWN_DWARF": "Enana marrón (objeto subestelar)",
-    "HIGH_POPULATION_OUTDOOR_WORLD": "Mundo exterior muy poblado.",
-    "ROTATE_LEFT": "Rotar izquierda",
-    "TRADING_ILLEGAL_GOODS": "Comerciar con productos ilegales",
-    "STAR_G_GIANT": "Gigante amarilla - inestable",
-    "SCANNER_DESCRIPTION": "Proporciona una vista 3D de las naves próximas.",
-    "MONTH_NOV": "Nov",
-    "EXACT_MATCH_X": "Correspondencia exacta: %system",
-    "SOLD_1T_OF": "Ha vendido 1t de %commodity.",
-    "SURFACE_TEMPERATURE": "Temperatura en superficie",
-    "GAME_SAVED_TO": "\"Juego guardado en \"",
-    "STOCK": "Stock",
-    "YOUNG_FARMING_COLONY": "Colonia agrícola joven.",
-    "NUMBER_TONNES": "%{mass}t",
-    "LARGE_PLASMA_ACCEL": "Acelerador de plasma grande",
-    "PAY_FINE_REMOTELY": "Pagar multa por transferencia remota (%amount)",
-    "MISSILE": "misil",
-    "DRAW_OUT_RANGE_LABELS": "Mostrar sistemas fuera de rango",
-    "VIOLENT_ANARCHY": "Desorden - Revoluciones armadas contra el gobierno",
-    "SHIP_DETECTED_NEARBY": "Se detecta nave cercana.",
-    "N_DISTANCE_TO_TARGET": "%distance al objetivo",
-    "APOAPSIS_DISTANCE": "Apoapsis",
-    "PLANET_WITH_SOME_ICE": "\" Planeta con hielo en superficie\"",
-    "FUEL_WEIGHT": "Masa de fuel",
-    "SMALL_INDUSTRIAL_OUTPOST": "Pequeño puesto industrial.",
-    "SELECT_LOW_THRUST_POWER_LEVEL": "Selecionar impulso de baja potencia",
-    "N_WHATEVER_RADII": "%radius{f.3} radios %units (%radkm{f.0} km)",
-    "AXIAL_TILT": "Inclinación",
-    "ECCENTRICITY": "Excentricidad",
-    "SHIP_NEARBY": "Nave cercana",
-    "POPULATION": "Habitantes:",
-    "STAR_B_GIANT": "Gigante azul",
-    "SPACESTATION_LONG_WELCOME_MESSAGE": "Saludos viajero. Y Bienvenido. Si es su primera visita no dude en conocer a los residentes. Esperamos que disfrute de su estancia.\\nRecuerde que hay reformas en marcha, probablemente percibirá cambios entre visitas.",
-    "NO_CENTRAL_GOVERNANCE": "Sin gobierno central",
-    "RUBBISH": "Desechos",
-    "TOGGLE_SCAN_MODE": "Encender modo Scanner",
-    "HYDROGEN_DESCRIPTION": "El Hidrógeno se usa principalmente como combustible de fusión.",
-    "CO_ATMOSPHERE": "\" Atmósfera de monóxido de carbono\"",
-    "CABINS": "Cabinas",
-    "INCREASE_SCAN_RANGE": "Ampliar distancia de Scanner",
-    "MONTH_OCT": "Oct",
-    "SMALL_GAS_GIANT": "Gigante gaseoso pequeño",
-    "MISSILE_GUIDED": "Misil guiado",
-    "ZOOM_OUT": "Alejar",
-    "SECTOR_COORDINATES": "Coordenadas de sector:",
-    "PULSECANNON_10MW": "Cañón de impulsos 10MW",
-    "WHITE_DWARF": "Enana blanca (Remanente estelar)",
-    "HULL_TEMP": "Temp. del casco",
-    "N_ATMOSPHERE": "\" Atmósfera de nitrógeno\"",
-    "AND_HIGHLY_COMPLEX_ECOSYSTEM": "\" y un complejo ecosistema.\"",
-    "UNKNOWN": "<desconocido>",
-    "SHIELD_ENERGY_BOOSTER": "Amplificador del escudo de energía",
-    "NO_ESTABLISHED_ORDER": "Sin orden establecido",
-    "SMALL": "Pequeño",
-    "AIR_PROCESSORS": "Procesadores de aire",
-    "DECREASE_SCAN_RANGE": "Reducir rango del Scanner",
-    "SET_HYPERSPACE_DESTINATION_TO": "Fijar destino hiperespacial a %system",
-    "WEIGHT_FULLY_LADEN": "Peso a carga completa",
-    "UNOCCUPIED_CABIN_DESCRIPTION": "Para el transporte de un pasajero",
-    "MASS": "Masa",
-    "THRIVING_OUTDOOR_WORLD": "Mundo exterior floreciente.",
-    "COMMODITIES_MARKET": "Mercado de productos",
-    "FARM_MACHINERY": "Maquinaria agrícola",
-    "MURDER": "Asesinato",
-    "YAW": "Guiñada",
-    "HYPERCLOUD_ANALYZER": "Analizador de la nube hiperespacial",
-    "X_CANNOT_BE_TOLERATED_HERE": "%crime no tolerado",
-    "PAUSED": "EN PAUSA",
-    "MISSILE_SMART": "Misil inteligente",
-    "NOT_FOUND_BEST_MATCH_X": "Sin resultados, mejor correspondencia: %system",
-    "SECTOR_X_Y_Z": "Sector: %x,%y,%z",
-    "RADIOACTIVES": "Residuos radioactivos",
-    "PLANNED_ECONOMY": "Economía centralizada",
-    "SOLAR": "Solar",
-    "DRIVE_MIL2": "Motor hiperespacial militar Clase 2",
-    "BATTLE_WEAPONS": "Armas de guerra",
-    "HYPERSPACE_DEPARTURE_CLOUD": "Nube hiperespacial de partida",
-    "SHIFT": "\"shift \"",
-    "DESTINATION": "Destino",
-    "REQUEST_DOCKING_CLEARANCE": "Solicitar permiso para atracar",
-    "SHIP_TYPE": "Tipo de nave",
-    "FINE_PAID_N_BUT_N_REMAINING": "Ha pagado %paid pero aún tiene una multa pendiente de %fine.",
-    "HYPERSPACING_IN_N_SECONDS": "Hiperespacio en %countdown{f.0} segundos",
-    "STAR_G_HYPER_GIANT": "Hipergigante amarilla - Inestable",
-    "COMMS": "Comms",
-    "PIRACY": "Piratería",
-    "ATMOSPHERIC_SHIELDING": "Escudo atmosférico",
-    "COUNT_ON_SURFACE": "\" (%surfacecount en superficie)\"",
-    "YOU_NO_MONEY": "Se encuentra sin fondos.",
-    "PLASTICS": "Plásticos",
-    "HYPERSPACE_JUMP": "Salto hiperespacial",
-    "A_FEW_THOUSAND": "Solo unos pocos miles",
-    "NONE": "Nada",
-    "RADAR_MAPPER": "Mapeo de radar",
-    "PERSEUS_ARM": "Brazo Perseus",
-    "NOT_FOUND": "Sin resultados",
-    "SHIELD_GENERATOR_DESCRIPTION": "Proporciona una defensa adicional del casco con cada unidad ensamblada.",
-    "HYPERCLOUD_ANALYZER_DESCRIPTION": "Analiza la nube hiperespacial para así determinar el destino y el tiempo de llegada y/o salida.",
-    "YOU_DO_NOT_HAVE_ANY_X": "No dispone de %item.",
-    "VERY_DENSE": "muy densa",
-    "FUEL": "Fuel",
-    "ROLL": "Girar",
-    "FORWARD_ACCEL_EMPTY": "Aceleración (vacío)",
-    "HYPERDRIVE_FITTED": "Motor Hiperespacial montado:",
-    "GAME_LOAD_CANNOT_OPEN": "Este juego salvado no se puede abrir debido a permisos o algo...",
-    "WT": "P",
-    "ROCKY_PLANET": "\" Planeta rocoso\"",
-    "SOMEWHERE_SERVICES": "Servicios disponibles en %station",
-    "AUTOPILOT": "Piloto automático",
-    "AUTOPILOT_ENTER_LOW_ORBIT_AROUND": "Piloto automático: Establecer órbita baja alrededor de %target",
-    "SHIP": "Nave",
-    "BULLETIN_BOARD": "Tablón de anuncios",
-    "WE_HAVE_NO_BUSINESS_WITH_YOU": "Por ahora está limpio.",
-    "DRIVE_CLASS8": "Motor hiperespacial Clase 8",
-    "LIBERAL_DEMOCRACY": "Democracia liberal",
-    "CTRL": "\"ctrl \"",
-    "REPAIRS_AND_SERVICING": "Reparaciones y servicios",
-    "SET_SPEED_KM_S": "Vel: %speed{f.2} km/s",
-    "HYPERSPACE_ARRIVAL_CLOUD_REMNANT": "Remanente de nube hiperespacial de llegada",
-    "SHIP_EQUIPMENT": "Equipamiento",
-    "THICK": "densa",
-    "HEAVY_INDUSTRY": "Industria pesada.",
-    "STAR_K_SUPER_GIANT": "Supergigante naranja",
-    "ITEM_IS_OUT_OF_STOCK": "Agotado.",
-    "YAW_RIGHT": "Guiñada derecha",
-    "OVER_N_MILLION": "Alrededor de %population millones",
-    "ICE_WORLD": "\" Mundo helado\"",
-    "N_CELSIUS": "%temperature °C",
-    "COMMS_LINK": "Comm. Link",
-    "X": "X",
-    "HAT": "\" Hat\"",
-    "TRIPLE_SYSTEM": "Sistema triario",
-    "ROTATIONAL_PERIOD": "\" (periodo rotacional)\"",
-    "VERY_LARGE_GAS_GIANT": "Gigante gaseoso muy grande",
-    "OUTDOOR_AGRICULTURAL_WORLD": "Mundo exterior agrícola.",
-    "ITEM": "Elemento",
-    "THIN": "delgada",
-    "SLAVES": "Esclavos",
-    "PITCH": "Cabecear",
-    "PRICE_TO_FIT": "$ de Compra",
-    "SHIP_IS_ALREADY_FULLY_REPAIRED": "La nave se encuentra en perfectas condiciones.",
-    "STAR_S_BH": "Un agujero negro estelar",
-    "SEMI_MAJOR_AXIS": "Semieje mayor",
-    "LARGE": "Grande",
-    "GRAIN": "Cereales",
-    "AUTOPILOT_DOCK_WITH_STATION": "Piloto automático: Atracar en la estación espacial",
-    "ROLL_LEFT": "Rodar izquierda",
-    "CONTACT_LOCAL_POLICE": "Contactar con la Policía Local",
-    "MONTH_DEC": "Dic",
-    "PRESSURE_N_ATMOSPHERES": "P: %pressure{f.2} atm",
-    "NUMBER_DAYS": "%days{f.0} días",
-    "SYSTEM_NUMBER": "Número de Sistema:",
-    "SEARCH": "Buscar",
-    "BUY": "+",
-    "GAME_SAVE_CANNOT_WRITE": "No se puede escribir en este juego salvado por un error del sistema.",
-    "THRUSTER_STARBOARD": "Impulso derecha",
-    "MINOR_IMPORTS": "Importaciones secundarias:",
-    "SHIP_MASS_N_TONNES": "Masa de la nave: %{mass}t",
-    "AUTOPILOT_DESCRIPTION": "Un ordenador de vuelo de a bordo.",
-    "O2_ATMOSPHERE": "\" Atmósfera de oxígeno\"",
-    "AUTOPILOT_FLY_TO_VICINITY_OF": "Piloto automático: Aproximación a %target",
-    "CARGO_LIFE_SUPPORT": "Bahía de carga de soporte vital",
-    "HE_ATMOSPHERE": "\" Atmósfera de Helio\"",
-    "CLEARANCE_ALREADY_GRANTED_BAY_N": "Permiso ya concedido. Proceda a la bahía de atraque %bay.",
-    "PLUTOCRATIC_DICTATORSHIP": "Plutocracia dictatorial",
-    "BUY_THIS_SHIP": "Adquirir",
-    "ROTATE_UP": "Rotar arriba",
-    "NO_REGISTERED_INHABITANTS": "Sin habitantes registrados",
-    "GOVERNMENT_TYPE": "Sistema de gobierno:",
-    "METAL_ORE": "Metales (mena)",
-    "PROBABILITY_OF_ARRIVAL_X_PERCENT": "Probabilidad de llegada: %probability%%",
-    "MESSAGE_FROM_X": "Mensaje de %sender:",
-    "LOCKED": "Cerrado",
-    "STAR_B_HYPER_GIANT": "Hipergigante azul",
-    "BUTTON": "\" Button \"",
-    "FORWARD_ACCEL_LADEN": "Aceleración (Cargado)",
-    "USE_LOW_THRUST": "Usar impulso de baja potencia",
-    "REPAIR_1_PERCENT_HULL": "Reparar 1.0% de daños del casco",
-    "LASER_COOLING_BOOSTER": "Refrigeración de refuerzo del láser",
-    "REQUEST_LAUNCH": "Solicitar permiso para despegar",
-    "IN_TRANSIT": "En tránsito",
-    "SPEED_CONTROL_MODE": "Control de velocidad",
-    "PULSECANNON_1MW": "Cañón de impulsos 1MW",
-    "MINING_COLONY": "Colonia minera.",
-    "STAR_K": "Estrella Naranja tipo 'K'",
-    "STAR_O": "Caliente masiva tipo 'O'",
-    "ANIMAL_MEAT": "Carne animal",
-    "STAR_M": "Estrella Roja tipo 'M'",
-    "TRADER_NOT_ENOUGH_MONEY": "El comerciante no dispone de crédito",
-    "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS": "Prospección de baja escala. Sin asentamientos registrados.",
-    "STAR_B": "Brillante azul tipo 'B'",
-    "STAR_A": "Caliente blanca tipo 'A'",
-    "KM_S_RELATIVE_TO": "%speed{f.2} km/s relativos a %frame",
-    "STAR_G": "Estrella Amarilla tipo 'G'",
-    "STAR_F": "Estrella Blanca tipo 'F'",
-    "FIT_TO_WHICH_MOUNT": "¿En qué punto de montaje quiere instalar el láser?",
-    "CASH": "Efectivo",
-    "FIRE_MISSILE": "Lanzar misil",
-    "PULSECANNON_20MW": "Cañón de impulsos 20MW",
-    "PULSECANNON_DUAL_1MW": "Cañón de impulsos doble 1MW",
-    "UNLAWFUL_WEAPONS_DISCHARGE": "Disparo de armas ilegal",
-    "COUNT_STARPORTS": "puertos estelares",
-    "FOLLOWING_SELECTION": "siguiente selección",
-    "FREE": "Libre",
-    "FRONT": "Proa",
-    "FITTING": "\"Instalando \"",
-    "NO_FREE_SPACE_FOR_ITEM": "Sin espacio para este objeto.",
-    "RADIUS": "Radio",
-    "SELECTED_SYSTEM": "Sistema seleccionado",
-    "HANG_UP": "Colgar.",
-    "COULD_NOT_OPEN_FILENAME": "No se pudo abrir %path",
-    "TEXTILES": "Textiles",
-    "NAME": "Nombre",
-    "MONTH_SEP": "Sep",
-    "PITCH_DOWN": "Cabecear abajo",
-    "SIDEREAL_VIEW": "Vista sideral",
-    "PITCH_UP": "Cabecear arriba",
-    "VID_LINK_ESTABLISHED": "Videoconexión establecida",
-    "PERIAPSIS_DISTANCE": "Periapsis",
-    "CAPITALIST": "Capitalismo",
-    "SET_SPEED_M_S": "Vel: %speed{f.0} m/s",
-    "STAR_SYSTEM_INFORMATION": "Info del Sistema Estelar",
-    "STAR_O_HYPER_GIANT": "Hipergigante azul Caliente",
-    "INDUSTRIAL_HUB_SYSTEM": "Polo industrial.",
-    "HEADING_LOCK_FORWARD": "Bloqueo direcc. (pro)",
-    "CANT_SAVE_IN_HYPERSPACE": "No es posible salvar estando en hiperespacio",
-    "MANUAL_CONTROL_MODE": "Control manual",
-    "MONTH_JUN": "Jun",
-    "GAME_LOAD_CORRUPT": "Este juego salvado no se puede abrir porque contiene errores.",
-    "MONTH_JUL": "Jul",
-    "M_S_RELATIVE_TO": "%speed{f.0} m/s relativa a %frame",
-    "N_DAYS": "%days{f.1} días",
-    "POLICE_SHIP_REGISTRATION": "POLICÍA",
-    "SCANNER_CONTROL": "Control de Scanner",
-    "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS": "Sistema estable con %bodycount %{body(s)} principales y %portcount %{starport(s)}",
-    "LASER_FIRE_DETECTED": "Descarga de láser detectada.",
-    "ZOOM_IN": "Acercar",
-    "CARGO_SPACE": "Capacidad de carga",
-    "AND_INDIGENOUS_MICROBIAL_LIFE": "\" y vida microbiana indígena.\"",
-    "NO_ALERT": "Sin alerta",
-    "PULSECANNON_2MW": "Cañón de impulsos 2MW",
-    "AR_ATMOSPHERE": "\" Atmósfera de argón\"",
-    "AND_INDIGENOUS_PLANT_LIFE": "\" y vida vegetal indígena.\"",
-    "LIVE_ANIMALS": "Animales vivos",
-    "STARPORTS": "Puertos estelares",
-    "Y": "Y",
-    "SOMEWHERE_SHIPYARD": "Astillero espacial %station",
-    "RADAR_MAPPER_DESCRIPTION": "Se utiliza para la inspección remota del equipo, carga y estado de otras naves.",
-    "TOMBSTONE_EPITAPH": "RIP VIEJO AMIGO",
-    "MINOR_EXPORTS": "Exportaciones secundarias:",
-    "MASS_N_TONNES": "Masa: %{mass}t",
-    "MISSILE_UNGUIDED": "Cohete no guiado R40",
-    "MANUAL_CONTROL": "Control manual",
-    "ECONOMY_TYPE": "Sistema económico:",
-    "SHIP_ALTITUDE_ABOVE_TERRAIN": "Altitud de la nave sobre el terreno",
-    "QUADRUPLE_SYSTEM": "Sistema cuaternario",
-    "NUMBER_HOURS": "%hours{f.1} hrs",
-    "YOU_MUST_PAY_FINE_OF_N_CREDITS": "No toleramos el delito. Debe pagar una multa de %fine.",
-    "SHIP_INFORMATION": "Info de la nave",
-    "ROTATION_DAMPING_OFF": "Rotación amortiguada off",
-    "LASER_COOLING_BOOSTER_DESCRIPTION": "Un sistema de refrigeración mejorado para sus armas.",
-    "ECM_BASIC": "Sistema ECM",
-    "COMMUNIST": "Comunismo",
-    "NAVIGATION_STAR_MAPS": "Navegación y mapas estelares",
-    "FUEL_SCOOP": "Recogedor de combustible",
-    "HYPERSPACE_JUMP_ABORTED": "Salto hiperespacial abortado.",
-    "REPAIR_ENTIRE_HULL": "Reparar daño completo del casco (%repairpercent{f.1}%%)",
-    "MISCELLANEOUS": "Misceláneos",
-    "SOMEWHERE_SHIP_EQUIPMENT": "Equipamientos %station",
-    "SAGITTARIUS_ARM": "Brazo Sagittarius",
-    "FUEL_SCOOP_DESCRIPTION": "Permite la recogida de combustible de hidrógeno de gigantes gaseosos.",
-    "STAR_O_SUPER_GIANT": "Supergigante azul caliente",
-    "STAR_O_WF": "Estrella Wolf-Rayet - Colapso inminente",
-    "ALERT_CANCELLED": "Alerta cancelada.",
-    "SHIPYARD": "Astillero",
-    "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED": "Recogedor de combustible activo. Dispone de %quantity toneladas de hidrógeno.",
-    "MASSIVE": "Masivo",
-    "CLEAN": "Limpio",
-    "STAR_M_GIANT": "Gigante roja",
-    "NORMA_ARM": "Brazo Norma",
-    "WEAPON_TEMP": "Temp. armas",
-    "AUTOPILOT_ON": "Piloto automático ON",
-    "CARGO_LIFE_SUPPORT_DESCRIPTION": "Permite el transporte de cargamento vivo.",
-    "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT": "Nivel de impulso de baja potencia al %power%%",
-    "REMOVING": "\"Desmontando \"",
-    "SHIELD_INTEGRITY": "Integr. escudo",
-    "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED": "Recogedor de carga activo. Recogida 1 ton de %item.",
-    "MIXED_ECONOMY": "Economía mixta",
-    "CLEARANCE_DENIED_NO_BAYS": "Permiso denegado. Todas las bahías de atraque ocupadas.",
-    "STAR_AF_HYPER_GIANT": "Hipergigante blanca",
-    "OUTER_ARM": "Brazo Exterior",
-    "WHEELS_ARE_UP": "Tren de aterrizaje arriba",
-    "LIQUOR": "Licor",
-    "NO_SPACE_ON_SHIP": "Espacio a bordo insuficiente",
-    "ROLL_RIGHT": "Rodar derecha",
-    "GO_BACK": "Atrás",
-    "DOCKING": "Atracando",
-    "TOGGLE_HUD_MODE": "HUD ON/OFF",
-    "EXTERNAL_VIEW": "Vista externa",
-    "ECM_BASIC_DESCRIPTION": "Un sistema de defensa electrónico de contramedidas, capaz de neutralizar ciertos tipos de misiles guiados.",
-    "VAST_STRIP_MINE": "Colonia minera masiva.",
-    "HYPERSPACE": "Hiperespacio",
-    "FINE_PAID_N": "Ha pagado la multa de %fine.",
-    "EXTERNAL_ATMOSPHERIC_PRESSURE": "Presión atmosférica externa",
-    "THRUSTER_RETRO": "Retroimpulso",
-    "MEDICINES": "Medicamentos",
-    "YOU_NOT_ENOUGH_MONEY": "Crédito insuficiente",
-    "ILLEGAL_GOODS": "Mercancías ilegales:",
-    "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND": "Piloto automático: Establecer órbita alta alrededor de %target",
-    "ORBITAL_STARPORT": "Puerto estelar orbital",
-    "UNOCCUPIED_CABIN": "Cabina extra de pasajeros",
-    "SHIP_ORIENTATION": "Orientación",
-    "MILITARY_FUEL": "Combustible militar",
-    "FIRE_LASER": "Disparar láser",
-    "MEDIUM_GAS_GIANT": "Gigate gaseoso medio",
-    "DRAW_VERTICAL_LINES": "Mostrar líneas verticales",
-    "SOMEWHERE_POLICE": "Policía de %station",
-    "SYSTEM_ORBIT_VIEW": "Vista orbital del sistema",
-    "CURRENT_SYSTEM": "Sistema actual",
-    "CARGO_SCOOP": "Recogedor de carga",
-    "ROTATE_DOWN": "Rotar abajo",
-    "SOMEWHERE_SHIP_MARKET": "Concesionario espacial %station",
-    "DISABLED_AUTOMATIC_SYSTEM_SELECTION": "Selección automática de sistema desconectado.",
-    "STARPORT": "Puerto estelar",
-    "SYSTEM_TYPE": "Tipo de sistema:",
-    "N_WHATEVER_MASSES": "%mass{f.3} masa %units",
-    "PRECIOUS_METALS": "Metales preciosos",
-    "WITH_NO_SIGNIFICANT_ATMOSPHERE": "\" sin atmósfera significativa\"",
-    "INTERNAL_VIEW": "Vista interior",
-    "INT_LY": "%scale ly",
-    "ROTATION_DAMPING_ON": "Rotación amortiguada on",
-    "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW": "Sistema inexplorado. Datos no disponibles.",
-    "TENUOUS": "tenue",
-    "TAKEOFF": "Despegue",
-    "EARTH": "Tierra",
-    "STAR_M_HYPER_GIANT": "Hipergigante roja",
-    "STAR_AF_SUPER_GIANT": "Supergigante blanca",
-    "ALT_IN_KM": "Alt: %altitude{f.0}km (%vspeed{f.1}km/s)",
-    "REGISTRATION_ID": "Nº. Registro",
-    "DRIVE_CLASS3": "Motor hiperespacial Clase 3",
-    "DRIVE_CLASS2": "Motor hiperespacial Clase 2",
-    "DRIVE_CLASS1": "Motor hiperespacial Clase 1",
-    "DRIVE_CLASS7": "Motor hiperespacial Clase 7",
-    "DRIVE_CLASS6": "Motor hiperespacial Clase 6",
-    "DRIVE_CLASS5": "Motor hiperespacial Clase 5",
-    "DRIVE_CLASS4": "Motor hiperespacial Clase 4",
-    "DOWNGRADING_ALERT_STATUS": "Sin detección de disparos durante 60 segundos, Rebajando el nivel de alerta.",
-    "DRIVE_CLASS9": "Motor hiperespacial Clase 9",
-    "Z": "Z",
-    "FRUIT_AND_VEG": "Frutas y verd.",
-    "PIONEER": "PIONEER",
-    "GALAXY_SECTOR_VIEW": "Vista del Sector galáctico",
-    "PLANET_CONTAINING_LIQUID_WATER": "\" Planeta con agua líquida\"",
-    "N_EARTH_DAYS": "%days{f.1} días terrestres",
-    "META": "\"meta \"",
-    "STAR_SM_BH": "Nuestro Centro de la galaxia",
-    "MONTH_APR": "Abr",
-    "BOUGHT_1T_OF": "Ha adquirido 1t de %commodity.",
-    "SHIP_VELOCITY_BY_REFERENCE_OBJECT": "Vector de velocidad relativo al objeto",
-    "NERVE_GAS": "Gas nervioso",
-    "MAJOR_IMPORTS": "Importaciones principales:",
-    "JOYSTICK_INPUT": "Joystick",
-    "ECONOMIC_INFO": "Info Económica",
-    "ORBITAL_PERIOD": "Periodo orbital",
-    "CARBON_ORE": "Carbón mineral (mena)",
-    "OVER_N_BILLION": "Alrededor de %population billones",
-    "DATE_DUE_N": "Fecha de vencimiento: %date",
-    "PULSECANNON_4MW": "Cañón de impulsos 4MW",
-    "TARGET_OBJECT_IN_SIGHTS": "Adquirir blanco en la mira",
-    "STAR_IM_BH": "Un agujero negro de masa intermedia",
-    "DISTANCE_LY": "Distancia: %distance{f.2} ly",
-    "S_ATMOSPHERE": "\" Atmósfera de azufre\"",
-    "MISSILE_NAVAL": "Misil Naval",
-    "SUGGESTED_RESPONSES": "Posibles respuestas:",
-    "STAR_M_WF": "Estrella Wolf-Rayet - Inestable",
-    "H_ATMOSPHERE": "\" Atmósfera de hidrógeno\"",
-    "PULSECANNON_RAPID_2MW": "Cañón de impulsos rápido 2MW",
-    "YAW_LEFT": "Guiñada izquierda",
-    "ATMOSPHERIC_SHIELDING_DESCRIPTION": "Protege su nave de las altas temperaturas durante la reentrada atmosférica.",
-    "DEMOGRAPHICS": "Demografía",
-    "CLEARANCE_GRANTED_BAY_N": "Luz Libre. Proceda a la bahía de atraque %bay.",
-    "WEAPONS": "Armamento",
-    "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO": "Relación ecuador-radio polar",
-    "STAR_M_SUPER_GIANT": "Supergigante roja",
-    "FERTILIZER": "Fertilizante",
-    "NO_TARGET_SELECTED": "Ordenador de a bordo: Sin objetivo",
-    "STAR_O_GIANT": "Gigante azul caliente",
-    "NAVIGATION_TARGETS_IN_THIS_SYSTEM": "Objetivos de navegación en este sistema",
-    "LIQUID_OXYGEN": "Oxígeno líquido",
-    "SELL": "-",
-    "CAMERA_REAR_VIEW": "Vista trasera",
-    "OCEANICWORLD": "\" Mundo oceánico\"",
-    "PRICE": "Coste",
-    "SYSTEM": "Sistema",
-    "CAMERA_LEFT_VIEW": "Vista izquierda",
-    "ROTATE_RIGHT": "Rotar derecha"
+    "VID_CONNECTING": {
+        "message": "Conectando...",
+        "description": ""
+    },
+    "LANDED": {
+        "message": "Posado",
+        "description": ""
+    },
+    "DOCKING_CLEARANCE_EXPIRED": {
+        "message": "Su Permiso de atraque ha expirado. Si desea atracar deberá repetir la solicitud.",
+        "description": ""
+    },
+    "HYPERSPACE_TARGET": {
+        "message": "Objetivo hiperespacial",
+        "description": ""
+    },
+    "MONTH_AUG": {
+        "message": "Ago",
+        "description": ""
+    },
+    "COMPUTER_SPEED_CONTROL": {
+        "message": "Navegación asistida",
+        "description": ""
+    },
+    "ALT": {
+        "message": "\"alt \"",
+        "description": ""
+    },
+    "HYPERSPACE_ARRIVAL_CLOUD": {
+        "message": "Nube hiperespacial de llegada",
+        "description": ""
+    },
+    "DIRECTION": {
+        "message": "\" Dir \"",
+        "description": ""
+    },
+    "CARBON_ORE_DESCRIPTION": {
+        "message": "Los minerales de carbono (carbón y petróleo) se requieren para la síntesis de muchos y muy útiles productos químicos, incluyendo plásticos, productos alimenticios sintéticos, medicamentos y textiles.",
+        "description": ""
+    },
+    "CAMERA_TOP_VIEW": {
+        "message": "Vista superior",
+        "description": ""
+    },
+    "TINY": {
+        "message": "Enano",
+        "description": ""
+    },
+    "CONSUMER_GOODS": {
+        "message": "Bienes de consumo",
+        "description": ""
+    },
+    "BODY": {
+        "message": "cuerpo",
+        "description": ""
+    },
+    "WITH_A": {
+        "message": "\" con una \"",
+        "description": ""
+    },
+    "FIT": {
+        "message": "+",
+        "description": ""
+    },
+    "EXTENSIVE_MINING": {
+        "message": "Actividad minera extensiva.",
+        "description": ""
+    },
+    "REVERSE_ACCEL_LADEN": {
+        "message": "Desaceleración (Cargado)",
+        "description": ""
+    },
+    "LEGAL_STATUS": {
+        "message": "Estatus legal",
+        "description": ""
+    },
+    "WHEELS_ARE_DOWN": {
+        "message": "Tren de aterrizaje abajo",
+        "description": ""
+    },
+    "INDUSTRIAL_MACHINERY": {
+        "message": "Maquinaria industrial",
+        "description": ""
+    },
+    "HULL_AUTOREPAIR": {
+        "message": "Sistema de autoreparación del casco",
+        "description": ""
+    },
+    "TOGGLE_LUA_CONSOLE": {
+        "message": "Consola Lua ON/OFF",
+        "description": ""
+    },
+    "SOCIAL_DEMOCRACY": {
+        "message": "Socialdemocracia",
+        "description": ""
+    },
+    "WATER": {
+        "message": "Agua",
+        "description": ""
+    },
+    "HULL_INTEGRITY": {
+        "message": "Integr. casco",
+        "description": ""
+    },
+    "EARTH_FEDERATION_DEMOCRACY": {
+        "message": "Democracia de la federación terrestre",
+        "description": ""
+    },
+    "VIEW": {
+        "message": "Vista",
+        "description": ""
+    },
+    "HIGHLY_VOLCANIC": {
+        "message": "Altamente volcánico",
+        "description": ""
+    },
+    "USED": {
+        "message": "Utilizado",
+        "description": ""
+    },
+    "GAME_LOAD_WRONG_VERSION": {
+        "message": "Este juego salvado no se puede abrir porque se creó con una versión diferente de Pioneer.",
+        "description": ""
+    },
+    "ECM_ADVANCED_DESCRIPTION": {
+        "message": "Un sistema de defensa electrónico de contramedidas, capaz de neutralizar un tipo más avanzado de misiles guiados.",
+        "description": ""
+    },
+    "DRIVE_MIL4": {
+        "message": "Motor hiperespacial militar Clase 4",
+        "description": ""
+    },
+    "DRIVE_MIL3": {
+        "message": "Motor hiperespacial militar Clase 3",
+        "description": ""
+    },
+    "LIQUID_OXYGEN_DESCRIPTION": {
+        "message": "El Oxígeno se requiere para los sistemas de apoyo vital y algunos procesos industriales.",
+        "description": ""
+    },
+    "DRIVE_MIL1": {
+        "message": "Motor hiperespacial militar Clase 1",
+        "description": ""
+    },
+    "CORPORATE_SYSTEM": {
+        "message": "Sistema corporativo",
+        "description": ""
+    },
+    "HYDROGEN": {
+        "message": "Hidrógeno",
+        "description": ""
+    },
+    "REVERSE_ACCEL_EMPTY": {
+        "message": "Desaceleración (vacío)",
+        "description": ""
+    },
+    "MONTH_JAN": {
+        "message": "Ene",
+        "description": ""
+    },
+    "PRICE_TO_REMOVE": {
+        "message": "$ de venta",
+        "description": ""
+    },
+    "IMPERIAL_RULE": {
+        "message": "Gobierno Imperial",
+        "description": ""
+    },
+    "BINARY_SYSTEM": {
+        "message": "Sistema binario",
+        "description": ""
+    },
+    "ALT_IN_METRES": {
+        "message": "Alt: %altitude{f.0}m (%vspeed{f.1}m/s)",
+        "description": ""
+    },
+    "SHIELD_GENERATOR": {
+        "message": "Generador de escudo",
+        "description": ""
+    },
+    "SOMEWHERE_COMMODITIES_MARKET": {
+        "message": "Mercado de productos %station",
+        "description": ""
+    },
+    "NARCOTICS": {
+        "message": "Narcóticos",
+        "description": ""
+    },
+    "THRUSTER_VENTRAL": {
+        "message": "Impulso arriba",
+        "description": ""
+    },
+    "STAR_K_HYPER_GIANT": {
+        "message": "Hipergigante naranja - Inestable",
+        "description": ""
+    },
+    "NEW_AND_RECONDITIONED_SHIPS": {
+        "message": "Naves nuevas y reacondicionadas",
+        "description": ""
+    },
+    "STAR_AF_GIANT": {
+        "message": "Gigante blanca",
+        "description": ""
+    },
+    "CLASS_NUMBER": {
+        "message": "Clase %class",
+        "description": ""
+    },
+    "SOME_ESTABLISHED_MINING": {
+        "message": "Alguna minería establecida.",
+        "description": ""
+    },
+    "CONTROLS": {
+        "message": "Controles",
+        "description": ""
+    },
+    "CARGO_N": {
+        "message": "Carga: %{mass}t",
+        "description": ""
+    },
+    "HAND_WEAPONS": {
+        "message": "Armas de mano",
+        "description": ""
+    },
+    "TIME_POINT": {
+        "message": "Eje de tiempo:",
+        "description": ""
+    },
+    "MINING_MACHINERY": {
+        "message": "Maquinaria minera",
+        "description": ""
+    },
+    "MININGCANNON_17MW": {
+        "message": "Láser minero de explosión 17MW",
+        "description": ""
+    },
+    "CARGO_BAY_LIFE_SUPPORT_LOST": {
+        "message": "Los sensores informan de condiciones críticas en los sistemas de apoyo vital de la bahía de carga.",
+        "description": ""
+    },
+    "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE": {
+        "message": "Analizador de nube hiperespacial: Fijar objetivo hiperespacial del viaje",
+        "description": ""
+    },
+    "ALLEGIANCE": {
+        "message": "Alianza:",
+        "description": ""
+    },
+    "WEIGHT_EMPTY": {
+        "message": "Peso en vacío",
+        "description": ""
+    },
+    "N_DEGREES": {
+        "message": "%angle{f.1} grados",
+        "description": ""
+    },
+    "IN_TRANSIT_TO_N_X_X_X": {
+        "message": "En tránsito a %system [%x,%y,%z]",
+        "description": ""
+    },
+    "REAR": {
+        "message": "Popa",
+        "description": ""
+    },
+    "STAR_B_SUPER_GIANT": {
+        "message": "Supergigante azul",
+        "description": ""
+    },
+    "DISTANCE_FROM_SHIP_TO_NAV_TARGET": {
+        "message": "Distancia desde la nave al objetivo de navegación",
+        "description": ""
+    },
+    "CAPACITY": {
+        "message": "Capacidad",
+        "description": ""
+    },
+    "COMPUTER_HEADING_CONTROL": {
+        "message": "Asistencia direccional",
+        "description": ""
+    },
+    "SURFACE_GRAVITY": {
+        "message": "Gravedad en superficie",
+        "description": ""
+    },
+    "DOCKED": {
+        "message": "Atracado",
+        "description": ""
+    },
+    "COMMA_HIGHLY_VOLCANIC": {
+        "message": ", altamente volcánico",
+        "description": ""
+    },
+    "UNEXPLORED_SYSTEM_STAR_INFO_ONLY": {
+        "message": "Sistema inexplorado. La información estelar ha sido recogida por medio de telescopio remoto, pero no existe información planetaria.",
+        "description": ""
+    },
+    "DECREASE_SET_SPEED": {
+        "message": "Reducción de velocidad",
+        "description": ""
+    },
+    "ROCKY_PLANET_CONTAINING_COME_LIQUIDS": {
+        "message": "\" Planeta rocoso con líquido en superficie,\"",
+        "description": ""
+    },
+    "REMOVE_FROM_WHICH_MOUNT": {
+        "message": "¿De qué punto de montaje quiere quitar el láser?",
+        "description": ""
+    },
+    "BODIES": {
+        "message": "Cuerpos",
+        "description": ""
+    },
+    "SCREENSHOT_FILENAME_TEMPLATE": {
+        "message": "screenshot%index{d08}.png",
+        "description": ""
+    },
+    "STAR_K_GIANT": {
+        "message": "Gigante naranja - Inestable",
+        "description": ""
+    },
+    "SHIELD_STRENGTH_N": {
+        "message": "Resistencia del escudo: %shields{f.2}",
+        "description": ""
+    },
+    "N_YEARS": {
+        "message": "%years{f.1} años",
+        "description": ""
+    },
+    "SMALL_PLASMA_ACCEL": {
+        "message": "Acelerador de plasma pequeño",
+        "description": ""
+    },
+    "THRUSTER_PORT": {
+        "message": "Impulso izquierda",
+        "description": ""
+    },
+    "TOGGLE_ROTATION_DAMPING": {
+        "message": "Rotación amortiguada",
+        "description": ""
+    },
+    "LANG_NAME": {
+        "message": "Español",
+        "description": "The name that native speakers use for this language. This will be used in the language selection screen. For obscure reasons this currently must only use Latin-1 characters."
+    },
+    "CAMERA_BOTTOM_VIEW": {
+        "message": "Vista inferior",
+        "description": ""
+    },
+    "DAY_LENGTH": {
+        "message": "Duración del día",
+        "description": ""
+    },
+    "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND": {
+        "message": "Piloto automático: Establecer órbita media alrededor de %target",
+        "description": ""
+    },
+    "INCREASE_SET_SPEED": {
+        "message": "Aumentar velocidad",
+        "description": ""
+    },
+    "CARGO_SCOOP_DESCRIPTION": {
+        "message": "Permite la recogida de carga en el espacio.",
+        "description": ""
+    },
+    "MONTH_MAY": {
+        "message": "May",
+        "description": ""
+    },
+    "ASTEROID": {
+        "message": "Asteroide",
+        "description": ""
+    },
+    "NUMBER_G": {
+        "message": "%acceleration{f.1} G",
+        "description": ""
+    },
+    "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
+        "message": "Simulando la evolución del universo: %age{f.1}00 millones de años ;-)",
+        "description": ""
+    },
+    "MININGCANNON_17MW_DESCRIPTION": {
+        "message": "Se utiliza para la explotación de asteroides ricos en mineral.",
+        "description": ""
+    },
+    "MONTH_MAR": {
+        "message": "Mar",
+        "description": ""
+    },
+    "PAY_THE_FINE_NOW": {
+        "message": "Pagar la multa.",
+        "description": ""
+    },
+    "CO2_ATMOSPHERE": {
+        "message": "\" Atmósfera de dióxido de carbono\"",
+        "description": ""
+    },
+    "MILITARY_DICTATORSHIP": {
+        "message": "Dictadura militar",
+        "description": ""
+    },
+    "SCUTUM_CENTAURUS_ARM": {
+        "message": "Brazo Scutum-Centaurus",
+        "description": ""
+    },
+    "REMOVE": {
+        "message": "-",
+        "description": ""
+    },
+    "LAUNCH_PERMISSION_DENIED_BUSY": {
+        "message": "Permiso para despegar denegado: Bahía de atraque ocupada.",
+        "description": ""
+    },
+    "CH4_ATMOSPHERE": {
+        "message": "\" Atmósfera de metano\"",
+        "description": ""
+    },
+    "HEADING_LOCK_BACKWARD": {
+        "message": "Bloqueo direcc. (retro)",
+        "description": ""
+    },
+    "HULL_AUTOREPAIR_DESCRIPTION": {
+        "message": "Repara automáticamente el casco de la nave en caso de daños.",
+        "description": ""
+    },
+    "SHIELD_ENERGY_BOOSTER_DESCRIPTION": {
+        "message": "Incrementa la velocidad de recarga de los escudos.",
+        "description": ""
+    },
+    "ENABLED_AUTOMATIC_SYSTEM_SELECTION": {
+        "message": "Selección automática de sistema encendido.",
+        "description": ""
+    },
+    "CAMERA_FRONT_VIEW": {
+        "message": "Vista frontal",
+        "description": ""
+    },
+    "ROBOTS": {
+        "message": "Robots",
+        "description": ""
+    },
+    "PASSENGER_CABIN": {
+        "message": "Cabina de pasajeros ocupada",
+        "description": ""
+    },
+    "INDUSTRIAL_COLONY": {
+        "message": "Colonia industrial.",
+        "description": ""
+    },
+    "UNEXPLORED_SYSTEM_NO_DATA": {
+        "message": "Sistema inexplorado. No hay mas información.",
+        "description": ""
+    },
+    "SCANNER": {
+        "message": "Escáner",
+        "description": ""
+    },
+    "THRUSTER_MAIN": {
+        "message": "Impulso adelante",
+        "description": ""
+    },
+    "HARD_CAPITALIST": {
+        "message": "Enteramente capitalista - sin intervencion del estado",
+        "description": ""
+    },
+    "SELECT_A_TARGET": {
+        "message": "Seleccione un objetivo",
+        "description": ""
+    },
+    "SHIP_IS_FULLY_LADEN": {
+        "message": "Su nave está cargada a tope.",
+        "description": ""
+    },
+    "MONTH_FEB": {
+        "message": "Feb",
+        "description": ""
+    },
+    "PLANETARY_INFO": {
+        "message": "Info Planetaria",
+        "description": ""
+    },
+    "METAL_ALLOYS": {
+        "message": "Aleación de metales",
+        "description": ""
+    },
+    "RESET": {
+        "message": "Reset",
+        "description": ""
+    },
+    "CARGO": {
+        "message": "Carga",
+        "description": ""
+    },
+    "JOY_AXIS": {
+        "message": "Eje %sign%axis Joy%joynum",
+        "description": ""
+    },
+    "STAR_G_SUPER_GIANT": {
+        "message": "Supergigante amarilla",
+        "description": ""
+    },
+    "COMPUTERS": {
+        "message": "Ordenadores",
+        "description": ""
+    },
+    "LARGE_GAS_GIANT": {
+        "message": "Gigante gaseoso grande",
+        "description": ""
+    },
+    "SOMEWHERE_SHIP_REPAIRS": {
+        "message": "Reparaciones %station",
+        "description": ""
+    },
+    "JOY": {
+        "message": "Joy",
+        "description": ""
+    },
+    "MAJOR_EXPORTS": {
+        "message": "Exportaciones principales:",
+        "description": ""
+    },
+    "CAMERA_RIGHT_VIEW": {
+        "message": "Vista derecha",
+        "description": ""
+    },
+    "NUMBER_LY": {
+        "message": "%distance{f.2} ly",
+        "description": ""
+    },
+    "ECM_ADVANCED": {
+        "message": "Sistema ECM avanzado",
+        "description": ""
+    },
+    "NO_HYPERDRIVE": {
+        "message": "Sin motor hiperespacial",
+        "description": ""
+    },
+    "SOURCE": {
+        "message": "Origen",
+        "description": ""
+    },
+    "EARTH_FEDERATION_COLONIAL_RULE": {
+        "message": "Gobierno colonial de la federación terrestre",
+        "description": ""
+    },
+    "GALACTIC_VIEW": {
+        "message": "Vista galáctica",
+        "description": ""
+    },
+    "THRUSTER_DORSAL": {
+        "message": "Impulso abajo",
+        "description": ""
+    },
+    "THANKS_AND_REMEMBER_TO_BUY_FUEL": {
+        "message": "Gracias por su adquisición. Recuerde montar equipo y adquirir combustible antes de su partida.",
+        "description": ""
+    },
+    "STAR_B_WF": {
+        "message": "Estrella Wolf-Rayet - Riesgo de colapso",
+        "description": ""
+    },
+    "BROWN_DWARF": {
+        "message": "Enana marrón (objeto subestelar)",
+        "description": ""
+    },
+    "HIGH_POPULATION_OUTDOOR_WORLD": {
+        "message": "Mundo exterior muy poblado.",
+        "description": ""
+    },
+    "ROTATE_LEFT": {
+        "message": "Rotar izquierda",
+        "description": ""
+    },
+    "TRADING_ILLEGAL_GOODS": {
+        "message": "Comerciar con productos ilegales",
+        "description": ""
+    },
+    "STAR_G_GIANT": {
+        "message": "Gigante amarilla - inestable",
+        "description": ""
+    },
+    "SCANNER_DESCRIPTION": {
+        "message": "Proporciona una vista 3D de las naves próximas.",
+        "description": ""
+    },
+    "MONTH_NOV": {
+        "message": "Nov",
+        "description": ""
+    },
+    "EXACT_MATCH_X": {
+        "message": "Correspondencia exacta: %system",
+        "description": ""
+    },
+    "SOLD_1T_OF": {
+        "message": "Ha vendido 1t de %commodity.",
+        "description": ""
+    },
+    "SURFACE_TEMPERATURE": {
+        "message": "Temperatura en superficie",
+        "description": ""
+    },
+    "GAME_SAVED_TO": {
+        "message": "\"Juego guardado en \"",
+        "description": ""
+    },
+    "STOCK": {
+        "message": "Stock",
+        "description": ""
+    },
+    "YOUNG_FARMING_COLONY": {
+        "message": "Colonia agrícola joven.",
+        "description": ""
+    },
+    "NUMBER_TONNES": {
+        "message": "%{mass}t",
+        "description": ""
+    },
+    "LARGE_PLASMA_ACCEL": {
+        "message": "Acelerador de plasma grande",
+        "description": ""
+    },
+    "PAY_FINE_REMOTELY": {
+        "message": "Pagar multa por transferencia remota (%amount)",
+        "description": ""
+    },
+    "MISSILE": {
+        "message": "misil",
+        "description": ""
+    },
+    "DRAW_OUT_RANGE_LABELS": {
+        "message": "Mostrar sistemas fuera de rango",
+        "description": ""
+    },
+    "VIOLENT_ANARCHY": {
+        "message": "Desorden - Revoluciones armadas contra el gobierno",
+        "description": ""
+    },
+    "SHIP_DETECTED_NEARBY": {
+        "message": "Se detecta nave cercana.",
+        "description": ""
+    },
+    "N_DISTANCE_TO_TARGET": {
+        "message": "%distance al objetivo",
+        "description": ""
+    },
+    "APOAPSIS_DISTANCE": {
+        "message": "Apoapsis",
+        "description": ""
+    },
+    "PLANET_WITH_SOME_ICE": {
+        "message": "\" Planeta con hielo en superficie\"",
+        "description": ""
+    },
+    "FUEL_WEIGHT": {
+        "message": "Masa de fuel",
+        "description": ""
+    },
+    "SMALL_INDUSTRIAL_OUTPOST": {
+        "message": "Pequeño puesto industrial.",
+        "description": ""
+    },
+    "SELECT_LOW_THRUST_POWER_LEVEL": {
+        "message": "Selecionar impulso de baja potencia",
+        "description": ""
+    },
+    "N_WHATEVER_RADII": {
+        "message": "%radius{f.3} radios %units (%radkm{f.0} km)",
+        "description": ""
+    },
+    "AXIAL_TILT": {
+        "message": "Inclinación",
+        "description": ""
+    },
+    "ECCENTRICITY": {
+        "message": "Excentricidad",
+        "description": ""
+    },
+    "SHIP_NEARBY": {
+        "message": "Nave cercana",
+        "description": ""
+    },
+    "POPULATION": {
+        "message": "Habitantes:",
+        "description": ""
+    },
+    "STAR_B_GIANT": {
+        "message": "Gigante azul",
+        "description": ""
+    },
+    "SPACESTATION_LONG_WELCOME_MESSAGE": {
+        "message": "Saludos viajero. Y Bienvenido. Si es su primera visita no dude en conocer a los residentes. Esperamos que disfrute de su estancia.\\nRecuerde que hay reformas en marcha, probablemente percibirá cambios entre visitas.",
+        "description": ""
+    },
+    "NO_CENTRAL_GOVERNANCE": {
+        "message": "Sin gobierno central",
+        "description": ""
+    },
+    "RUBBISH": {
+        "message": "Desechos",
+        "description": ""
+    },
+    "TOGGLE_SCAN_MODE": {
+        "message": "Encender modo Scanner",
+        "description": ""
+    },
+    "HYDROGEN_DESCRIPTION": {
+        "message": "El Hidrógeno se usa principalmente como combustible de fusión.",
+        "description": ""
+    },
+    "CO_ATMOSPHERE": {
+        "message": "\" Atmósfera de monóxido de carbono\"",
+        "description": ""
+    },
+    "CABINS": {
+        "message": "Cabinas",
+        "description": ""
+    },
+    "INCREASE_SCAN_RANGE": {
+        "message": "Ampliar distancia de Scanner",
+        "description": ""
+    },
+    "MONTH_OCT": {
+        "message": "Oct",
+        "description": ""
+    },
+    "SMALL_GAS_GIANT": {
+        "message": "Gigante gaseoso pequeño",
+        "description": ""
+    },
+    "MISSILE_GUIDED": {
+        "message": "Misil guiado",
+        "description": ""
+    },
+    "ZOOM_OUT": {
+        "message": "Alejar",
+        "description": ""
+    },
+    "SECTOR_COORDINATES": {
+        "message": "Coordenadas de sector:",
+        "description": ""
+    },
+    "PULSECANNON_10MW": {
+        "message": "Cañón de impulsos 10MW",
+        "description": ""
+    },
+    "WHITE_DWARF": {
+        "message": "Enana blanca (Remanente estelar)",
+        "description": ""
+    },
+    "HULL_TEMP": {
+        "message": "Temp. del casco",
+        "description": ""
+    },
+    "N_ATMOSPHERE": {
+        "message": "\" Atmósfera de nitrógeno\"",
+        "description": ""
+    },
+    "AND_HIGHLY_COMPLEX_ECOSYSTEM": {
+        "message": "\" y un complejo ecosistema.\"",
+        "description": ""
+    },
+    "UNKNOWN": {
+        "message": "<desconocido>",
+        "description": ""
+    },
+    "SHIELD_ENERGY_BOOSTER": {
+        "message": "Amplificador del escudo de energía",
+        "description": ""
+    },
+    "NO_ESTABLISHED_ORDER": {
+        "message": "Sin orden establecido",
+        "description": ""
+    },
+    "SMALL": {
+        "message": "Pequeño",
+        "description": ""
+    },
+    "AIR_PROCESSORS": {
+        "message": "Procesadores de aire",
+        "description": ""
+    },
+    "DECREASE_SCAN_RANGE": {
+        "message": "Reducir rango del Scanner",
+        "description": ""
+    },
+    "SET_HYPERSPACE_DESTINATION_TO": {
+        "message": "Fijar destino hiperespacial a %system",
+        "description": ""
+    },
+    "WEIGHT_FULLY_LADEN": {
+        "message": "Peso a carga completa",
+        "description": ""
+    },
+    "UNOCCUPIED_CABIN_DESCRIPTION": {
+        "message": "Para el transporte de un pasajero",
+        "description": ""
+    },
+    "MASS": {
+        "message": "Masa",
+        "description": ""
+    },
+    "THRIVING_OUTDOOR_WORLD": {
+        "message": "Mundo exterior floreciente.",
+        "description": ""
+    },
+    "COMMODITIES_MARKET": {
+        "message": "Mercado de productos",
+        "description": ""
+    },
+    "FARM_MACHINERY": {
+        "message": "Maquinaria agrícola",
+        "description": ""
+    },
+    "MURDER": {
+        "message": "Asesinato",
+        "description": ""
+    },
+    "YAW": {
+        "message": "Guiñada",
+        "description": ""
+    },
+    "HYPERCLOUD_ANALYZER": {
+        "message": "Analizador de la nube hiperespacial",
+        "description": ""
+    },
+    "X_CANNOT_BE_TOLERATED_HERE": {
+        "message": "%crime no tolerado",
+        "description": ""
+    },
+    "PAUSED": {
+        "message": "EN PAUSA",
+        "description": ""
+    },
+    "MISSILE_SMART": {
+        "message": "Misil inteligente",
+        "description": ""
+    },
+    "NOT_FOUND_BEST_MATCH_X": {
+        "message": "Sin resultados, mejor correspondencia: %system",
+        "description": ""
+    },
+    "SECTOR_X_Y_Z": {
+        "message": "Sector: %x,%y,%z",
+        "description": ""
+    },
+    "RADIOACTIVES": {
+        "message": "Residuos radioactivos",
+        "description": ""
+    },
+    "PLANNED_ECONOMY": {
+        "message": "Economía centralizada",
+        "description": ""
+    },
+    "SOLAR": {
+        "message": "Solar",
+        "description": ""
+    },
+    "DRIVE_MIL2": {
+        "message": "Motor hiperespacial militar Clase 2",
+        "description": ""
+    },
+    "BATTLE_WEAPONS": {
+        "message": "Armas de guerra",
+        "description": ""
+    },
+    "HYPERSPACE_DEPARTURE_CLOUD": {
+        "message": "Nube hiperespacial de partida",
+        "description": ""
+    },
+    "SHIFT": {
+        "message": "\"shift \"",
+        "description": ""
+    },
+    "DESTINATION": {
+        "message": "Destino",
+        "description": ""
+    },
+    "REQUEST_DOCKING_CLEARANCE": {
+        "message": "Solicitar permiso para atracar",
+        "description": ""
+    },
+    "SHIP_TYPE": {
+        "message": "Tipo de nave",
+        "description": ""
+    },
+    "FINE_PAID_N_BUT_N_REMAINING": {
+        "message": "Ha pagado %paid pero aún tiene una multa pendiente de %fine.",
+        "description": ""
+    },
+    "HYPERSPACING_IN_N_SECONDS": {
+        "message": "Hiperespacio en %countdown{f.0} segundos",
+        "description": ""
+    },
+    "STAR_G_HYPER_GIANT": {
+        "message": "Hipergigante amarilla - Inestable",
+        "description": ""
+    },
+    "COMMS": {
+        "message": "Comms",
+        "description": ""
+    },
+    "PIRACY": {
+        "message": "Piratería",
+        "description": ""
+    },
+    "ATMOSPHERIC_SHIELDING": {
+        "message": "Escudo atmosférico",
+        "description": ""
+    },
+    "COUNT_ON_SURFACE": {
+        "message": "\" (%surfacecount en superficie)\"",
+        "description": ""
+    },
+    "YOU_NO_MONEY": {
+        "message": "Se encuentra sin fondos.",
+        "description": ""
+    },
+    "PLASTICS": {
+        "message": "Plásticos",
+        "description": ""
+    },
+    "HYPERSPACE_JUMP": {
+        "message": "Salto hiperespacial",
+        "description": ""
+    },
+    "A_FEW_THOUSAND": {
+        "message": "Solo unos pocos miles",
+        "description": ""
+    },
+    "NONE": {
+        "message": "Nada",
+        "description": ""
+    },
+    "RADAR_MAPPER": {
+        "message": "Mapeo de radar",
+        "description": ""
+    },
+    "PERSEUS_ARM": {
+        "message": "Brazo Perseus",
+        "description": ""
+    },
+    "NOT_FOUND": {
+        "message": "Sin resultados",
+        "description": ""
+    },
+    "SHIELD_GENERATOR_DESCRIPTION": {
+        "message": "Proporciona una defensa adicional del casco con cada unidad ensamblada.",
+        "description": ""
+    },
+    "HYPERCLOUD_ANALYZER_DESCRIPTION": {
+        "message": "Analiza la nube hiperespacial para así determinar el destino y el tiempo de llegada y/o salida.",
+        "description": ""
+    },
+    "YOU_DO_NOT_HAVE_ANY_X": {
+        "message": "No dispone de %item.",
+        "description": ""
+    },
+    "VERY_DENSE": {
+        "message": "muy densa",
+        "description": ""
+    },
+    "FUEL": {
+        "message": "Fuel",
+        "description": ""
+    },
+    "ROLL": {
+        "message": "Girar",
+        "description": ""
+    },
+    "FORWARD_ACCEL_EMPTY": {
+        "message": "Aceleración (vacío)",
+        "description": ""
+    },
+    "HYPERDRIVE_FITTED": {
+        "message": "Motor Hiperespacial montado:",
+        "description": ""
+    },
+    "GAME_LOAD_CANNOT_OPEN": {
+        "message": "Este juego salvado no se puede abrir debido a permisos o algo...",
+        "description": ""
+    },
+    "WT": {
+        "message": "P",
+        "description": ""
+    },
+    "ROCKY_PLANET": {
+        "message": "\" Planeta rocoso\"",
+        "description": ""
+    },
+    "SOMEWHERE_SERVICES": {
+        "message": "Servicios disponibles en %station",
+        "description": ""
+    },
+    "AUTOPILOT": {
+        "message": "Piloto automático",
+        "description": ""
+    },
+    "AUTOPILOT_ENTER_LOW_ORBIT_AROUND": {
+        "message": "Piloto automático: Establecer órbita baja alrededor de %target",
+        "description": ""
+    },
+    "SHIP": {
+        "message": "Nave",
+        "description": ""
+    },
+    "BULLETIN_BOARD": {
+        "message": "Tablón de anuncios",
+        "description": ""
+    },
+    "WE_HAVE_NO_BUSINESS_WITH_YOU": {
+        "message": "Por ahora está limpio.",
+        "description": ""
+    },
+    "DRIVE_CLASS8": {
+        "message": "Motor hiperespacial Clase 8",
+        "description": ""
+    },
+    "LIBERAL_DEMOCRACY": {
+        "message": "Democracia liberal",
+        "description": ""
+    },
+    "CTRL": {
+        "message": "\"ctrl \"",
+        "description": ""
+    },
+    "REPAIRS_AND_SERVICING": {
+        "message": "Reparaciones y servicios",
+        "description": ""
+    },
+    "SET_SPEED_KM_S": {
+        "message": "Vel: %speed{f.2} km/s",
+        "description": ""
+    },
+    "HYPERSPACE_ARRIVAL_CLOUD_REMNANT": {
+        "message": "Remanente de nube hiperespacial de llegada",
+        "description": ""
+    },
+    "SHIP_EQUIPMENT": {
+        "message": "Equipamiento",
+        "description": ""
+    },
+    "THICK": {
+        "message": "densa",
+        "description": ""
+    },
+    "HEAVY_INDUSTRY": {
+        "message": "Industria pesada.",
+        "description": ""
+    },
+    "STAR_K_SUPER_GIANT": {
+        "message": "Supergigante naranja",
+        "description": ""
+    },
+    "ITEM_IS_OUT_OF_STOCK": {
+        "message": "Agotado.",
+        "description": ""
+    },
+    "YAW_RIGHT": {
+        "message": "Guiñada derecha",
+        "description": ""
+    },
+    "OVER_N_MILLION": {
+        "message": "Alrededor de %population millones",
+        "description": ""
+    },
+    "ICE_WORLD": {
+        "message": "\" Mundo helado\"",
+        "description": ""
+    },
+    "N_CELSIUS": {
+        "message": "%temperature °C",
+        "description": ""
+    },
+    "COMMS_LINK": {
+        "message": "Comm. Link",
+        "description": ""
+    },
+    "X": {
+        "message": "X",
+        "description": ""
+    },
+    "HAT": {
+        "message": "\" Hat\"",
+        "description": ""
+    },
+    "TRIPLE_SYSTEM": {
+        "message": "Sistema triario",
+        "description": ""
+    },
+    "ROTATIONAL_PERIOD": {
+        "message": "\" (periodo rotacional)\"",
+        "description": ""
+    },
+    "VERY_LARGE_GAS_GIANT": {
+        "message": "Gigante gaseoso muy grande",
+        "description": ""
+    },
+    "OUTDOOR_AGRICULTURAL_WORLD": {
+        "message": "Mundo exterior agrícola.",
+        "description": ""
+    },
+    "ITEM": {
+        "message": "Elemento",
+        "description": ""
+    },
+    "THIN": {
+        "message": "delgada",
+        "description": ""
+    },
+    "SLAVES": {
+        "message": "Esclavos",
+        "description": ""
+    },
+    "PITCH": {
+        "message": "Cabecear",
+        "description": ""
+    },
+    "PRICE_TO_FIT": {
+        "message": "$ de Compra",
+        "description": ""
+    },
+    "SHIP_IS_ALREADY_FULLY_REPAIRED": {
+        "message": "La nave se encuentra en perfectas condiciones.",
+        "description": ""
+    },
+    "STAR_S_BH": {
+        "message": "Un agujero negro estelar",
+        "description": ""
+    },
+    "SEMI_MAJOR_AXIS": {
+        "message": "Semieje mayor",
+        "description": ""
+    },
+    "LARGE": {
+        "message": "Grande",
+        "description": ""
+    },
+    "GRAIN": {
+        "message": "Cereales",
+        "description": ""
+    },
+    "AUTOPILOT_DOCK_WITH_STATION": {
+        "message": "Piloto automático: Atracar en la estación espacial",
+        "description": ""
+    },
+    "ROLL_LEFT": {
+        "message": "Rodar izquierda",
+        "description": ""
+    },
+    "CONTACT_LOCAL_POLICE": {
+        "message": "Contactar con la Policía Local",
+        "description": ""
+    },
+    "MONTH_DEC": {
+        "message": "Dic",
+        "description": ""
+    },
+    "PRESSURE_N_ATMOSPHERES": {
+        "message": "P: %pressure{f.2} atm",
+        "description": ""
+    },
+    "NUMBER_DAYS": {
+        "message": "%days{f.0} días",
+        "description": ""
+    },
+    "SYSTEM_NUMBER": {
+        "message": "Número de Sistema:",
+        "description": ""
+    },
+    "SEARCH": {
+        "message": "Buscar",
+        "description": ""
+    },
+    "BUY": {
+        "message": "+",
+        "description": ""
+    },
+    "GAME_SAVE_CANNOT_WRITE": {
+        "message": "No se puede escribir en este juego salvado por un error del sistema.",
+        "description": ""
+    },
+    "THRUSTER_STARBOARD": {
+        "message": "Impulso derecha",
+        "description": ""
+    },
+    "MINOR_IMPORTS": {
+        "message": "Importaciones secundarias:",
+        "description": ""
+    },
+    "SHIP_MASS_N_TONNES": {
+        "message": "Masa de la nave: %{mass}t",
+        "description": ""
+    },
+    "AUTOPILOT_DESCRIPTION": {
+        "message": "Un ordenador de vuelo de a bordo.",
+        "description": ""
+    },
+    "O2_ATMOSPHERE": {
+        "message": "\" Atmósfera de oxígeno\"",
+        "description": ""
+    },
+    "AUTOPILOT_FLY_TO_VICINITY_OF": {
+        "message": "Piloto automático: Aproximación a %target",
+        "description": ""
+    },
+    "CARGO_LIFE_SUPPORT": {
+        "message": "Bahía de carga de soporte vital",
+        "description": ""
+    },
+    "HE_ATMOSPHERE": {
+        "message": "\" Atmósfera de Helio\"",
+        "description": ""
+    },
+    "CLEARANCE_ALREADY_GRANTED_BAY_N": {
+        "message": "Permiso ya concedido. Proceda a la bahía de atraque %bay.",
+        "description": ""
+    },
+    "PLUTOCRATIC_DICTATORSHIP": {
+        "message": "Plutocracia dictatorial",
+        "description": ""
+    },
+    "BUY_THIS_SHIP": {
+        "message": "Adquirir",
+        "description": ""
+    },
+    "ROTATE_UP": {
+        "message": "Rotar arriba",
+        "description": ""
+    },
+    "NO_REGISTERED_INHABITANTS": {
+        "message": "Sin habitantes registrados",
+        "description": ""
+    },
+    "GOVERNMENT_TYPE": {
+        "message": "Sistema de gobierno:",
+        "description": ""
+    },
+    "METAL_ORE": {
+        "message": "Metales (mena)",
+        "description": ""
+    },
+    "PROBABILITY_OF_ARRIVAL_X_PERCENT": {
+        "message": "Probabilidad de llegada: %probability%%",
+        "description": ""
+    },
+    "MESSAGE_FROM_X": {
+        "message": "Mensaje de %sender:",
+        "description": ""
+    },
+    "LOCKED": {
+        "message": "Cerrado",
+        "description": ""
+    },
+    "STAR_B_HYPER_GIANT": {
+        "message": "Hipergigante azul",
+        "description": ""
+    },
+    "BUTTON": {
+        "message": "\" Button \"",
+        "description": ""
+    },
+    "FORWARD_ACCEL_LADEN": {
+        "message": "Aceleración (Cargado)",
+        "description": ""
+    },
+    "USE_LOW_THRUST": {
+        "message": "Usar impulso de baja potencia",
+        "description": ""
+    },
+    "REPAIR_1_PERCENT_HULL": {
+        "message": "Reparar 1.0% de daños del casco",
+        "description": ""
+    },
+    "LASER_COOLING_BOOSTER": {
+        "message": "Refrigeración de refuerzo del láser",
+        "description": ""
+    },
+    "REQUEST_LAUNCH": {
+        "message": "Solicitar permiso para despegar",
+        "description": ""
+    },
+    "IN_TRANSIT": {
+        "message": "En tránsito",
+        "description": ""
+    },
+    "SPEED_CONTROL_MODE": {
+        "message": "Control de velocidad",
+        "description": ""
+    },
+    "PULSECANNON_1MW": {
+        "message": "Cañón de impulsos 1MW",
+        "description": ""
+    },
+    "MINING_COLONY": {
+        "message": "Colonia minera.",
+        "description": ""
+    },
+    "STAR_K": {
+        "message": "Estrella Naranja tipo 'K'",
+        "description": ""
+    },
+    "STAR_O": {
+        "message": "Caliente masiva tipo 'O'",
+        "description": ""
+    },
+    "ANIMAL_MEAT": {
+        "message": "Carne animal",
+        "description": ""
+    },
+    "STAR_M": {
+        "message": "Estrella Roja tipo 'M'",
+        "description": ""
+    },
+    "TRADER_NOT_ENOUGH_MONEY": {
+        "message": "El comerciante no dispone de crédito",
+        "description": ""
+    },
+    "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS": {
+        "message": "Prospección de baja escala. Sin asentamientos registrados.",
+        "description": ""
+    },
+    "STAR_B": {
+        "message": "Brillante azul tipo 'B'",
+        "description": ""
+    },
+    "STAR_A": {
+        "message": "Caliente blanca tipo 'A'",
+        "description": ""
+    },
+    "KM_S_RELATIVE_TO": {
+        "message": "%speed{f.2} km/s relativos a %frame",
+        "description": ""
+    },
+    "STAR_G": {
+        "message": "Estrella Amarilla tipo 'G'",
+        "description": ""
+    },
+    "STAR_F": {
+        "message": "Estrella Blanca tipo 'F'",
+        "description": ""
+    },
+    "FIT_TO_WHICH_MOUNT": {
+        "message": "¿En qué punto de montaje quiere instalar el láser?",
+        "description": ""
+    },
+    "CASH": {
+        "message": "Efectivo",
+        "description": ""
+    },
+    "FIRE_MISSILE": {
+        "message": "Lanzar misil",
+        "description": ""
+    },
+    "PULSECANNON_20MW": {
+        "message": "Cañón de impulsos 20MW",
+        "description": ""
+    },
+    "PULSECANNON_DUAL_1MW": {
+        "message": "Cañón de impulsos doble 1MW",
+        "description": ""
+    },
+    "UNLAWFUL_WEAPONS_DISCHARGE": {
+        "message": "Disparo de armas ilegal",
+        "description": ""
+    },
+    "COUNT_STARPORTS": {
+        "message": "puertos estelares",
+        "description": ""
+    },
+    "FOLLOWING_SELECTION": {
+        "message": "siguiente selección",
+        "description": ""
+    },
+    "FREE": {
+        "message": "Libre",
+        "description": ""
+    },
+    "FRONT": {
+        "message": "Proa",
+        "description": ""
+    },
+    "FITTING": {
+        "message": "\"Instalando \"",
+        "description": ""
+    },
+    "NO_FREE_SPACE_FOR_ITEM": {
+        "message": "Sin espacio para este objeto.",
+        "description": ""
+    },
+    "RADIUS": {
+        "message": "Radio",
+        "description": ""
+    },
+    "SELECTED_SYSTEM": {
+        "message": "Sistema seleccionado",
+        "description": ""
+    },
+    "HANG_UP": {
+        "message": "Colgar.",
+        "description": ""
+    },
+    "COULD_NOT_OPEN_FILENAME": {
+        "message": "No se pudo abrir %path",
+        "description": ""
+    },
+    "TEXTILES": {
+        "message": "Textiles",
+        "description": ""
+    },
+    "NAME": {
+        "message": "Nombre",
+        "description": ""
+    },
+    "MONTH_SEP": {
+        "message": "Sep",
+        "description": ""
+    },
+    "PITCH_DOWN": {
+        "message": "Cabecear abajo",
+        "description": ""
+    },
+    "SIDEREAL_VIEW": {
+        "message": "Vista sideral",
+        "description": ""
+    },
+    "PITCH_UP": {
+        "message": "Cabecear arriba",
+        "description": ""
+    },
+    "VID_LINK_ESTABLISHED": {
+        "message": "Videoconexión establecida",
+        "description": ""
+    },
+    "PERIAPSIS_DISTANCE": {
+        "message": "Periapsis",
+        "description": ""
+    },
+    "CAPITALIST": {
+        "message": "Capitalismo",
+        "description": ""
+    },
+    "SET_SPEED_M_S": {
+        "message": "Vel: %speed{f.0} m/s",
+        "description": ""
+    },
+    "STAR_SYSTEM_INFORMATION": {
+        "message": "Info del Sistema Estelar",
+        "description": ""
+    },
+    "STAR_O_HYPER_GIANT": {
+        "message": "Hipergigante azul Caliente",
+        "description": ""
+    },
+    "INDUSTRIAL_HUB_SYSTEM": {
+        "message": "Polo industrial.",
+        "description": ""
+    },
+    "HEADING_LOCK_FORWARD": {
+        "message": "Bloqueo direcc. (pro)",
+        "description": ""
+    },
+    "CANT_SAVE_IN_HYPERSPACE": {
+        "message": "No es posible salvar estando en hiperespacio",
+        "description": ""
+    },
+    "MANUAL_CONTROL_MODE": {
+        "message": "Control manual",
+        "description": ""
+    },
+    "MONTH_JUN": {
+        "message": "Jun",
+        "description": ""
+    },
+    "GAME_LOAD_CORRUPT": {
+        "message": "Este juego salvado no se puede abrir porque contiene errores.",
+        "description": ""
+    },
+    "MONTH_JUL": {
+        "message": "Jul",
+        "description": ""
+    },
+    "M_S_RELATIVE_TO": {
+        "message": "%speed{f.0} m/s relativa a %frame",
+        "description": ""
+    },
+    "N_DAYS": {
+        "message": "%days{f.1} días",
+        "description": ""
+    },
+    "POLICE_SHIP_REGISTRATION": {
+        "message": "POLICÍA",
+        "description": ""
+    },
+    "SCANNER_CONTROL": {
+        "message": "Control de Scanner",
+        "description": ""
+    },
+    "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS": {
+        "message": "Sistema estable con %bodycount %{body(s)} principales y %portcount %{starport(s)}",
+        "description": ""
+    },
+    "LASER_FIRE_DETECTED": {
+        "message": "Descarga de láser detectada.",
+        "description": ""
+    },
+    "ZOOM_IN": {
+        "message": "Acercar",
+        "description": ""
+    },
+    "CARGO_SPACE": {
+        "message": "Capacidad de carga",
+        "description": ""
+    },
+    "AND_INDIGENOUS_MICROBIAL_LIFE": {
+        "message": "\" y vida microbiana indígena.\"",
+        "description": ""
+    },
+    "NO_ALERT": {
+        "message": "Sin alerta",
+        "description": ""
+    },
+    "PULSECANNON_2MW": {
+        "message": "Cañón de impulsos 2MW",
+        "description": ""
+    },
+    "AR_ATMOSPHERE": {
+        "message": "\" Atmósfera de argón\"",
+        "description": ""
+    },
+    "AND_INDIGENOUS_PLANT_LIFE": {
+        "message": "\" y vida vegetal indígena.\"",
+        "description": ""
+    },
+    "LIVE_ANIMALS": {
+        "message": "Animales vivos",
+        "description": ""
+    },
+    "STARPORTS": {
+        "message": "Puertos estelares",
+        "description": ""
+    },
+    "Y": {
+        "message": "Y",
+        "description": ""
+    },
+    "SOMEWHERE_SHIPYARD": {
+        "message": "Astillero espacial %station",
+        "description": ""
+    },
+    "RADAR_MAPPER_DESCRIPTION": {
+        "message": "Se utiliza para la inspección remota del equipo, carga y estado de otras naves.",
+        "description": ""
+    },
+    "TOMBSTONE_EPITAPH": {
+        "message": "RIP VIEJO AMIGO",
+        "description": ""
+    },
+    "MINOR_EXPORTS": {
+        "message": "Exportaciones secundarias:",
+        "description": ""
+    },
+    "MASS_N_TONNES": {
+        "message": "Masa: %{mass}t",
+        "description": ""
+    },
+    "MISSILE_UNGUIDED": {
+        "message": "Cohete no guiado R40",
+        "description": ""
+    },
+    "MANUAL_CONTROL": {
+        "message": "Control manual",
+        "description": ""
+    },
+    "ECONOMY_TYPE": {
+        "message": "Sistema económico:",
+        "description": ""
+    },
+    "SHIP_ALTITUDE_ABOVE_TERRAIN": {
+        "message": "Altitud de la nave sobre el terreno",
+        "description": ""
+    },
+    "QUADRUPLE_SYSTEM": {
+        "message": "Sistema cuaternario",
+        "description": ""
+    },
+    "NUMBER_HOURS": {
+        "message": "%hours{f.1} hrs",
+        "description": ""
+    },
+    "YOU_MUST_PAY_FINE_OF_N_CREDITS": {
+        "message": "No toleramos el delito. Debe pagar una multa de %fine.",
+        "description": ""
+    },
+    "SHIP_INFORMATION": {
+        "message": "Info de la nave",
+        "description": ""
+    },
+    "ROTATION_DAMPING_OFF": {
+        "message": "Rotación amortiguada off",
+        "description": ""
+    },
+    "LASER_COOLING_BOOSTER_DESCRIPTION": {
+        "message": "Un sistema de refrigeración mejorado para sus armas.",
+        "description": ""
+    },
+    "ECM_BASIC": {
+        "message": "Sistema ECM",
+        "description": ""
+    },
+    "COMMUNIST": {
+        "message": "Comunismo",
+        "description": ""
+    },
+    "NAVIGATION_STAR_MAPS": {
+        "message": "Navegación y mapas estelares",
+        "description": ""
+    },
+    "FUEL_SCOOP": {
+        "message": "Recogedor de combustible",
+        "description": ""
+    },
+    "HYPERSPACE_JUMP_ABORTED": {
+        "message": "Salto hiperespacial abortado.",
+        "description": ""
+    },
+    "REPAIR_ENTIRE_HULL": {
+        "message": "Reparar daño completo del casco (%repairpercent{f.1}%%)",
+        "description": ""
+    },
+    "MISCELLANEOUS": {
+        "message": "Misceláneos",
+        "description": ""
+    },
+    "SOMEWHERE_SHIP_EQUIPMENT": {
+        "message": "Equipamientos %station",
+        "description": ""
+    },
+    "SAGITTARIUS_ARM": {
+        "message": "Brazo Sagittarius",
+        "description": ""
+    },
+    "FUEL_SCOOP_DESCRIPTION": {
+        "message": "Permite la recogida de combustible de hidrógeno de gigantes gaseosos.",
+        "description": ""
+    },
+    "STAR_O_SUPER_GIANT": {
+        "message": "Supergigante azul caliente",
+        "description": ""
+    },
+    "STAR_O_WF": {
+        "message": "Estrella Wolf-Rayet - Colapso inminente",
+        "description": ""
+    },
+    "ALERT_CANCELLED": {
+        "message": "Alerta cancelada.",
+        "description": ""
+    },
+    "SHIPYARD": {
+        "message": "Astillero",
+        "description": ""
+    },
+    "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED": {
+        "message": "Recogedor de combustible activo. Dispone de %quantity toneladas de hidrógeno.",
+        "description": ""
+    },
+    "MASSIVE": {
+        "message": "Masivo",
+        "description": ""
+    },
+    "CLEAN": {
+        "message": "Limpio",
+        "description": ""
+    },
+    "STAR_M_GIANT": {
+        "message": "Gigante roja",
+        "description": ""
+    },
+    "NORMA_ARM": {
+        "message": "Brazo Norma",
+        "description": ""
+    },
+    "WEAPON_TEMP": {
+        "message": "Temp. armas",
+        "description": ""
+    },
+    "AUTOPILOT_ON": {
+        "message": "Piloto automático ON",
+        "description": ""
+    },
+    "CARGO_LIFE_SUPPORT_DESCRIPTION": {
+        "message": "Permite el transporte de cargamento vivo.",
+        "description": ""
+    },
+    "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT": {
+        "message": "Nivel de impulso de baja potencia al %power%%",
+        "description": ""
+    },
+    "REMOVING": {
+        "message": "\"Desmontando \"",
+        "description": ""
+    },
+    "SHIELD_INTEGRITY": {
+        "message": "Integr. escudo",
+        "description": ""
+    },
+    "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED": {
+        "message": "Recogedor de carga activo. Recogida 1 ton de %item.",
+        "description": ""
+    },
+    "MIXED_ECONOMY": {
+        "message": "Economía mixta",
+        "description": ""
+    },
+    "CLEARANCE_DENIED_NO_BAYS": {
+        "message": "Permiso denegado. Todas las bahías de atraque ocupadas.",
+        "description": ""
+    },
+    "STAR_AF_HYPER_GIANT": {
+        "message": "Hipergigante blanca",
+        "description": ""
+    },
+    "OUTER_ARM": {
+        "message": "Brazo Exterior",
+        "description": ""
+    },
+    "WHEELS_ARE_UP": {
+        "message": "Tren de aterrizaje arriba",
+        "description": ""
+    },
+    "LIQUOR": {
+        "message": "Licor",
+        "description": ""
+    },
+    "NO_SPACE_ON_SHIP": {
+        "message": "Espacio a bordo insuficiente",
+        "description": ""
+    },
+    "ROLL_RIGHT": {
+        "message": "Rodar derecha",
+        "description": ""
+    },
+    "GO_BACK": {
+        "message": "Atrás",
+        "description": ""
+    },
+    "DOCKING": {
+        "message": "Atracando",
+        "description": ""
+    },
+    "TOGGLE_HUD_MODE": {
+        "message": "HUD ON/OFF",
+        "description": ""
+    },
+    "EXTERNAL_VIEW": {
+        "message": "Vista externa",
+        "description": ""
+    },
+    "ECM_BASIC_DESCRIPTION": {
+        "message": "Un sistema de defensa electrónico de contramedidas, capaz de neutralizar ciertos tipos de misiles guiados.",
+        "description": ""
+    },
+    "VAST_STRIP_MINE": {
+        "message": "Colonia minera masiva.",
+        "description": ""
+    },
+    "HYPERSPACE": {
+        "message": "Hiperespacio",
+        "description": ""
+    },
+    "FINE_PAID_N": {
+        "message": "Ha pagado la multa de %fine.",
+        "description": ""
+    },
+    "EXTERNAL_ATMOSPHERIC_PRESSURE": {
+        "message": "Presión atmosférica externa",
+        "description": ""
+    },
+    "THRUSTER_RETRO": {
+        "message": "Retroimpulso",
+        "description": ""
+    },
+    "MEDICINES": {
+        "message": "Medicamentos",
+        "description": ""
+    },
+    "YOU_NOT_ENOUGH_MONEY": {
+        "message": "Crédito insuficiente",
+        "description": ""
+    },
+    "ILLEGAL_GOODS": {
+        "message": "Mercancías ilegales:",
+        "description": ""
+    },
+    "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND": {
+        "message": "Piloto automático: Establecer órbita alta alrededor de %target",
+        "description": ""
+    },
+    "ORBITAL_STARPORT": {
+        "message": "Puerto estelar orbital",
+        "description": ""
+    },
+    "UNOCCUPIED_CABIN": {
+        "message": "Cabina extra de pasajeros",
+        "description": ""
+    },
+    "SHIP_ORIENTATION": {
+        "message": "Orientación",
+        "description": ""
+    },
+    "MILITARY_FUEL": {
+        "message": "Combustible militar",
+        "description": ""
+    },
+    "FIRE_LASER": {
+        "message": "Disparar láser",
+        "description": ""
+    },
+    "MEDIUM_GAS_GIANT": {
+        "message": "Gigate gaseoso medio",
+        "description": ""
+    },
+    "DRAW_VERTICAL_LINES": {
+        "message": "Mostrar líneas verticales",
+        "description": ""
+    },
+    "SOMEWHERE_POLICE": {
+        "message": "Policía de %station",
+        "description": ""
+    },
+    "SYSTEM_ORBIT_VIEW": {
+        "message": "Vista orbital del sistema",
+        "description": ""
+    },
+    "CURRENT_SYSTEM": {
+        "message": "Sistema actual",
+        "description": ""
+    },
+    "CARGO_SCOOP": {
+        "message": "Recogedor de carga",
+        "description": ""
+    },
+    "ROTATE_DOWN": {
+        "message": "Rotar abajo",
+        "description": ""
+    },
+    "SOMEWHERE_SHIP_MARKET": {
+        "message": "Concesionario espacial %station",
+        "description": ""
+    },
+    "DISABLED_AUTOMATIC_SYSTEM_SELECTION": {
+        "message": "Selección automática de sistema desconectado.",
+        "description": ""
+    },
+    "STARPORT": {
+        "message": "Puerto estelar",
+        "description": ""
+    },
+    "SYSTEM_TYPE": {
+        "message": "Tipo de sistema:",
+        "description": ""
+    },
+    "N_WHATEVER_MASSES": {
+        "message": "%mass{f.3} masa %units",
+        "description": ""
+    },
+    "PRECIOUS_METALS": {
+        "message": "Metales preciosos",
+        "description": ""
+    },
+    "WITH_NO_SIGNIFICANT_ATMOSPHERE": {
+        "message": "\" sin atmósfera significativa\"",
+        "description": ""
+    },
+    "INTERNAL_VIEW": {
+        "message": "Vista interior",
+        "description": ""
+    },
+    "INT_LY": {
+        "message": "%scale ly",
+        "description": ""
+    },
+    "ROTATION_DAMPING_ON": {
+        "message": "Rotación amortiguada on",
+        "description": ""
+    },
+    "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW": {
+        "message": "Sistema inexplorado. Datos no disponibles.",
+        "description": ""
+    },
+    "TENUOUS": {
+        "message": "tenue",
+        "description": ""
+    },
+    "TAKEOFF": {
+        "message": "Despegue",
+        "description": ""
+    },
+    "EARTH": {
+        "message": "Tierra",
+        "description": ""
+    },
+    "STAR_M_HYPER_GIANT": {
+        "message": "Hipergigante roja",
+        "description": ""
+    },
+    "STAR_AF_SUPER_GIANT": {
+        "message": "Supergigante blanca",
+        "description": ""
+    },
+    "ALT_IN_KM": {
+        "message": "Alt: %altitude{f.0}km (%vspeed{f.1}km/s)",
+        "description": ""
+    },
+    "REGISTRATION_ID": {
+        "message": "Nº. Registro",
+        "description": ""
+    },
+    "DRIVE_CLASS3": {
+        "message": "Motor hiperespacial Clase 3",
+        "description": ""
+    },
+    "DRIVE_CLASS2": {
+        "message": "Motor hiperespacial Clase 2",
+        "description": ""
+    },
+    "DRIVE_CLASS1": {
+        "message": "Motor hiperespacial Clase 1",
+        "description": ""
+    },
+    "DRIVE_CLASS7": {
+        "message": "Motor hiperespacial Clase 7",
+        "description": ""
+    },
+    "DRIVE_CLASS6": {
+        "message": "Motor hiperespacial Clase 6",
+        "description": ""
+    },
+    "DRIVE_CLASS5": {
+        "message": "Motor hiperespacial Clase 5",
+        "description": ""
+    },
+    "DRIVE_CLASS4": {
+        "message": "Motor hiperespacial Clase 4",
+        "description": ""
+    },
+    "DOWNGRADING_ALERT_STATUS": {
+        "message": "Sin detección de disparos durante 60 segundos, Rebajando el nivel de alerta.",
+        "description": ""
+    },
+    "DRIVE_CLASS9": {
+        "message": "Motor hiperespacial Clase 9",
+        "description": ""
+    },
+    "Z": {
+        "message": "Z",
+        "description": ""
+    },
+    "FRUIT_AND_VEG": {
+        "message": "Frutas y verd.",
+        "description": ""
+    },
+    "PIONEER": {
+        "message": "PIONEER",
+        "description": ""
+    },
+    "GALAXY_SECTOR_VIEW": {
+        "message": "Vista del Sector galáctico",
+        "description": ""
+    },
+    "PLANET_CONTAINING_LIQUID_WATER": {
+        "message": "\" Planeta con agua líquida\"",
+        "description": ""
+    },
+    "N_EARTH_DAYS": {
+        "message": "%days{f.1} días terrestres",
+        "description": ""
+    },
+    "META": {
+        "message": "\"meta \"",
+        "description": ""
+    },
+    "STAR_SM_BH": {
+        "message": "Nuestro Centro de la galaxia",
+        "description": ""
+    },
+    "MONTH_APR": {
+        "message": "Abr",
+        "description": ""
+    },
+    "BOUGHT_1T_OF": {
+        "message": "Ha adquirido 1t de %commodity.",
+        "description": ""
+    },
+    "SHIP_VELOCITY_BY_REFERENCE_OBJECT": {
+        "message": "Vector de velocidad relativo al objeto",
+        "description": ""
+    },
+    "NERVE_GAS": {
+        "message": "Gas nervioso",
+        "description": ""
+    },
+    "MAJOR_IMPORTS": {
+        "message": "Importaciones principales:",
+        "description": ""
+    },
+    "JOYSTICK_INPUT": {
+        "message": "Joystick",
+        "description": ""
+    },
+    "ECONOMIC_INFO": {
+        "message": "Info Económica",
+        "description": ""
+    },
+    "ORBITAL_PERIOD": {
+        "message": "Periodo orbital",
+        "description": ""
+    },
+    "CARBON_ORE": {
+        "message": "Carbón mineral (mena)",
+        "description": ""
+    },
+    "OVER_N_BILLION": {
+        "message": "Alrededor de %population billones",
+        "description": ""
+    },
+    "DATE_DUE_N": {
+        "message": "Fecha de vencimiento: %date",
+        "description": ""
+    },
+    "PULSECANNON_4MW": {
+        "message": "Cañón de impulsos 4MW",
+        "description": ""
+    },
+    "TARGET_OBJECT_IN_SIGHTS": {
+        "message": "Adquirir blanco en la mira",
+        "description": ""
+    },
+    "STAR_IM_BH": {
+        "message": "Un agujero negro de masa intermedia",
+        "description": ""
+    },
+    "DISTANCE_LY": {
+        "message": "Distancia: %distance{f.2} ly",
+        "description": ""
+    },
+    "S_ATMOSPHERE": {
+        "message": "\" Atmósfera de azufre\"",
+        "description": ""
+    },
+    "MISSILE_NAVAL": {
+        "message": "Misil Naval",
+        "description": ""
+    },
+    "SUGGESTED_RESPONSES": {
+        "message": "Posibles respuestas:",
+        "description": ""
+    },
+    "STAR_M_WF": {
+        "message": "Estrella Wolf-Rayet - Inestable",
+        "description": ""
+    },
+    "H_ATMOSPHERE": {
+        "message": "\" Atmósfera de hidrógeno\"",
+        "description": ""
+    },
+    "PULSECANNON_RAPID_2MW": {
+        "message": "Cañón de impulsos rápido 2MW",
+        "description": ""
+    },
+    "YAW_LEFT": {
+        "message": "Guiñada izquierda",
+        "description": ""
+    },
+    "ATMOSPHERIC_SHIELDING_DESCRIPTION": {
+        "message": "Protege su nave de las altas temperaturas durante la reentrada atmosférica.",
+        "description": ""
+    },
+    "DEMOGRAPHICS": {
+        "message": "Demografía",
+        "description": ""
+    },
+    "CLEARANCE_GRANTED_BAY_N": {
+        "message": "Luz Libre. Proceda a la bahía de atraque %bay.",
+        "description": ""
+    },
+    "WEAPONS": {
+        "message": "Armamento",
+        "description": ""
+    },
+    "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO": {
+        "message": "Relación ecuador-radio polar",
+        "description": ""
+    },
+    "STAR_M_SUPER_GIANT": {
+        "message": "Supergigante roja",
+        "description": ""
+    },
+    "FERTILIZER": {
+        "message": "Fertilizante",
+        "description": ""
+    },
+    "NO_TARGET_SELECTED": {
+        "message": "Ordenador de a bordo: Sin objetivo",
+        "description": ""
+    },
+    "STAR_O_GIANT": {
+        "message": "Gigante azul caliente",
+        "description": ""
+    },
+    "NAVIGATION_TARGETS_IN_THIS_SYSTEM": {
+        "message": "Objetivos de navegación en este sistema",
+        "description": ""
+    },
+    "LIQUID_OXYGEN": {
+        "message": "Oxígeno líquido",
+        "description": ""
+    },
+    "SELL": {
+        "message": "-",
+        "description": ""
+    },
+    "CAMERA_REAR_VIEW": {
+        "message": "Vista trasera",
+        "description": ""
+    },
+    "OCEANICWORLD": {
+        "message": "\" Mundo oceánico\"",
+        "description": ""
+    },
+    "PRICE": {
+        "message": "Coste",
+        "description": ""
+    },
+    "SYSTEM": {
+        "message": "Sistema",
+        "description": ""
+    },
+    "CAMERA_LEFT_VIEW": {
+        "message": "Vista izquierda",
+        "description": ""
+    },
+    "ROTATE_RIGHT": {
+        "message": "Rotar derecha",
+        "description": ""
+    }
 }

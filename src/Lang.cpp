@@ -65,7 +65,18 @@ bool Resource::Load()
 			continue;
 		}
 
-		std::string text((*i).asString()); // XXX handle quotes, escapes
+		Json::Value message((*i).get("message", Json::nullValue));
+		if (message.isNull()) {
+			fprintf(stderr, "%s: no 'message' key for token '%s', skipping it\n", filename.c_str(), token.c_str());
+			continue;
+		}
+
+		if (!message.isString()) {
+			fprintf(stderr, "%s: value for token '%s' is not a string, skipping it\n", filename.c_str(), token.c_str());
+			continue;
+		}
+
+		std::string text(message.asString());
 		if (text.empty()) {
 			fprintf(stderr, "%s: empty value for token '%s', skipping it\n", filename.c_str(), token.c_str());
 			continue;
