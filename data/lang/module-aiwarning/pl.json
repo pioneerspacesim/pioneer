@@ -1,0 +1,18 @@
+{
+    "AUTOPILOT": {
+        "message": "Autopilot",
+        "description": ""
+    },
+    "CANNOT_COMPENSATE_FOR_LOCAL_GRAVITY": {
+        "message": "Nie można skompensować lokalnej grawitacji",
+        "description": ""
+    },
+    "CANNOT_COMPUTE_ORBIT_PARAMETERS": {
+        "message": "Nie mogę obliczyć parametrów orbity",
+        "description": ""
+    },
+    "STARPORT_REFUSED_DOCKING_PERMISSION": {
+        "message": "Port kosmiczny odmawia zgody na lądowanie",
+        "description": ""
+    }
+}
