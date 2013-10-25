@@ -15,3 +15,8 @@ source_lang = en
 file_filter = data/lang/module-aiwarning/<lang>.json
 source_file = data/lang/module-aiwarning/en.json
 source_lang = en
+
+[pioneer.module-system]
+file_filter = data/lang/module-system/<lang>.json
+source_file = data/lang/module-system/en.json
+source_lang = en
