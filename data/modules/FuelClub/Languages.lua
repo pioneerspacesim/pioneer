@@ -75,7 +75,9 @@ Translate:AddFlavour('Spanish','FuelClub',{
 	* Existencias de combustible propias, independientes del mercado general
 	* Descuento de precios en {hydrogen}
 	* Descuento de precios en {military_fuel}
+	* Descuento de precios en {water}
 	* {radioactives}, disponibilidad libre (bajo condiciones)
+	* Rellenado de su depósito cuando sea necesario
 
 Apúntese! Afiliación anual por solo {membership_fee}]],
 	member_intro = [[Puede adquirir combustible y disponer de {radioactives} aquí.]],

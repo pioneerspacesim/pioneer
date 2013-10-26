@@ -1,0 +1,16 @@
+material Material-material
+diffuse 1.0 1.0 1.0
+specular 0.8 0.8 0.8
+use_patterns
+tex_diff sinonatrix_tex.png
+tex_spec sinonatrix_spec.png
+tex_glow sinonatrix_glow.png
+mesh sinonatrix.dae
+
+anim gear_down 1 100
+
+
+collision sinonatrix_col.obj
+
+lod 75
+mesh sinonatrix_LOD.dae
