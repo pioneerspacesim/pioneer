@@ -7,25 +7,48 @@
 #include "Aabb.h"
 #include "collider/GeomTree.h"
 
+//This simply stores the collision GeomTrees
+//and AABB.
 class CollMesh : public RefCounted {
 public:
-	CollMesh() : m_geomTree(0) { }
+	CollMesh()
+	: m_geomTree(0)
+	, m_totalTris(0)
+	{ }
 	virtual ~CollMesh() {
+		for (auto it = m_dynGeomTrees.begin(); it != m_dynGeomTrees.end(); ++it)
+			delete *it;
 		delete m_geomTree;
 	}
 	virtual Aabb &GetAabb() { return m_aabb; }
-	virtual double GetRadius() const { return m_aabb.GetRadius(); }
-	virtual void SetRadius(double v) { m_aabb.radius = std::max(v, 0.1); } //0 radius = trouble
-	virtual GeomTree *GetGeomTree() const { return m_geomTree; }
-	void SetGeomTree(GeomTree *t) { m_geomTree = t; }
 
-	std::vector<vector3f> m_vertices;
-	std::vector<int> m_indices; //XXX should be unsigned!!
-	std::vector<unsigned int> m_flags; //1 per triangle
+	virtual double GetRadius() const { return m_aabb.GetRadius(); }
+	virtual void SetRadius(double v) {
+		//0 radius = trouble
+		m_aabb.radius = std::max(v, 0.1);
+	}
+
+	virtual GeomTree *GetGeomTree() const { return m_geomTree; }
+	void SetGeomTree(GeomTree *t) {
+		assert(t);
+		m_geomTree = t;
+	}
+
+	const std::vector<GeomTree*> &GetDynGeomTrees() const { return m_dynGeomTrees; }
+	void AddDynGeomTree(GeomTree *t) {
+		assert(t);
+		m_dynGeomTrees.push_back(t);
+	}
+
+	//for statistics
+	unsigned int GetNumTriangles() const { return m_totalTris; }
+	void SetNumTriangles(unsigned int i) { m_totalTris = i; }
 
 protected:
 	Aabb m_aabb;
 	GeomTree *m_geomTree;
+	std::vector<GeomTree*> m_dynGeomTrees;
+	unsigned int m_totalTris;
 };
 
 #endif

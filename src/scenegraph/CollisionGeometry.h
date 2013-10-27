@@ -13,8 +13,10 @@
 
 namespace Graphics { class Surface; }
 
-namespace SceneGraph {
+class GeomTree;
+class Geom;
 
+namespace SceneGraph {
 class CollisionGeometry : public Node {
 public:
 	CollisionGeometry(Graphics::Renderer *r, Graphics::Surface*, unsigned int flag);
@@ -25,8 +27,18 @@ public:
 	virtual void Accept(NodeVisitor &nv);
 
 	const std::vector<vector3f> &GetVertices() const { return m_vertices; }
-	const std::vector<int> &GetIndices() const { return m_indices; }
+	const std::vector<Uint16> &GetIndices() const { return m_indices; }
 	unsigned int GetTriFlag() const { return m_triFlag; }
+
+	bool IsDynamic() const { return m_dynamic; }
+	void SetDynamic(bool b) { m_dynamic = b; }
+
+	//for linking game collision objects with these nodes
+	GeomTree *GetGeomTree() const { return m_geomTree; }
+	void SetGeomTree(GeomTree *c) { m_geomTree = c; }
+
+	Geom *GetGeom() const { return m_geom; }
+	void SetGeom(Geom *g) { m_geom = g; }
 
 protected:
 	~CollisionGeometry();
@@ -34,10 +46,14 @@ protected:
 private:
 	void CopyData(const std::vector<vector3f>&, const std::vector<unsigned short>&);
 	std::vector<vector3f> m_vertices;
-	std::vector<int> m_indices; //geomtree uses int
+	std::vector<Uint16> m_indices;
 	unsigned int m_triFlag; //only one per node
-};
+	bool m_dynamic;
 
+	//for dynamic collisions
+	GeomTree *m_geomTree;
+	Geom *m_geom;
+};
 }
 
 #endif
