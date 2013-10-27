@@ -7,6 +7,8 @@
 #include "graphics/Light.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/Drawables.h"
+#include "graphics/Surface.h"
+#include "graphics/VertexArray.h"
 #include "scenegraph/DumpVisitor.h"
 #include "scenegraph/FindNodeVisitor.h"
 #include "OS.h"
@@ -82,7 +84,9 @@ namespace {
 ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm)
 : m_done(false)
 , m_screenshotQueued(false)
-, m_frameTime(0.f)
+, m_shieldIsHit(false)
+, m_shieldHitPan(-1.48f)
+, m_frameTime(0.0)
 , m_renderer(r)
 , m_decalTexture(0)
 , m_rotX(0), m_rotY(0), m_zoom(0)
@@ -242,9 +246,34 @@ bool ModelViewer::OnToggleGuns(UI::CheckBox *w)
 	return true;
 }
 
+void ModelViewer::UpdateShield() 
+{
+	if (m_shieldIsHit) {
+		m_shieldHitPan += 0.05f;
+	}
+	if (m_shieldHitPan > 0.34f) {
+		m_shieldHitPan = -1.48f;
+		m_shieldIsHit = false;
+	}
+}
+
 bool ModelViewer::OnHitIt(UI::Widget*)
 {
+	HitImpl();
 	return true;
+}
+
+void ModelViewer::HitImpl()
+{
+	if(m_model) {
+		// pick a point on the shield to serve as the point of impact.
+		SceneGraph::StaticGeometry* sg = m_shields->GetFirstShieldMesh();
+		Graphics::VertexArray *verts = sg->GetMesh(0)->GetSurface(0)->GetVertices();
+		vector3f pos = verts->position[ m_rng.Int32() % (sg->GetMesh(0)->GetNumVerts()-1) ];
+		m_shields->AddHit(vector3d(pos.x, pos.y, pos.z));
+	}
+	m_shieldHitPan = -1.48f;
+	m_shieldIsHit = true;
 }
 
 void ModelViewer::AddLog(const std::string &line)
@@ -546,14 +575,22 @@ void ModelViewer::MainLoop()
 
 		PollEvents();
 		UpdateCamera();
+		UpdateShield();
 
 		DrawBackground();
 
 		//update animations, draw model etc.
 		if (m_model) {
 			m_navLights->Update(m_frameTime);
-			m_shields->SetEnabled(m_options.showShields);
-			m_shields->Update(1.0f, 1.0f);
+			m_shields->SetEnabled(m_options.showShields || m_shieldIsHit);
+
+			//Calculate the impact's radius dependant on time
+			float dif1 = 0.34 - (-1.48f);
+			float dif2 = m_shieldHitPan - (-1.48f);
+			//Range from start (0.0) to end (1.0)
+			float dif = dif2 / (dif1 * 1.0f);
+
+			m_shields->Update(m_options.showShields ? 1.0f : (1.0f - dif), 1.0f);
 			DrawModel();
 		}
 

@@ -62,7 +62,6 @@ static bool check_glsl_errors(const char *filename, GLuint obj)
 }
 
 struct Shader {
-	#pragma optimize("",off)
 	Shader(GLenum type, const std::string &filename, const std::string &defines) {
 		RefCountedPtr<FileSystem::FileData> code = FileSystem::gameDataFiles.ReadFile(filename);
 

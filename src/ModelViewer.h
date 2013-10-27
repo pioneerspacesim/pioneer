@@ -31,7 +31,9 @@ private:
 	bool OnToggleShowShields(UI::CheckBox*);
 	bool OnToggleGrid(UI::Widget*);
 	bool OnToggleGuns(UI::CheckBox*);
+	void UpdateShield();
 	bool OnHitIt(UI::Widget*);
+	void HitImpl();
 	void AddLog(const std::string &line);
 	void ChangeCameraPreset(SDL_Keycode, SDL_Keymod);
 	void ClearLog();
@@ -83,6 +85,8 @@ private:
 	};
 	bool m_done;
 	bool m_screenshotQueued;
+	bool m_shieldIsHit;
+	float m_shieldHitPan;
 	double m_frameTime;
 	Graphics::Renderer *m_renderer;
 	Graphics::Texture *m_decalTexture;

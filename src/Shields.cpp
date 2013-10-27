@@ -231,7 +231,6 @@ void Shields::Update(const float coolDown, const float shieldStrength)
 	}
 
 	// setup the render params
-	static float s_hitRadius = 500.0f;
 	if (shieldStrength>0.0f) {
 		s_renderParams.strength = shieldStrength;
 		s_renderParams.coolDown = coolDown;
@@ -245,7 +244,7 @@ void Shields::Update(const float coolDown, const float shieldStrength)
 			//Range from start (0.0) to end (1.0)
 			float dif = float(dif2/(dif1*1.0f));
 
-			s_renderParams.radii[i] = s_hitRadius * dif;
+			s_renderParams.radii[i] = dif;
 		}
 		s_renderParams.numHits = Sint32(m_hits.size());
 	}
@@ -274,4 +273,15 @@ void Shields::AddHit(const vector3d& hitPos)
 {
 	Uint32 tickTime = SDL_GetTicks();
 	m_hits.push_back( Hits(hitPos, tickTime, tickTime+1000) );
+}
+
+SceneGraph::StaticGeometry* Shields::GetFirstShieldMesh()
+{
+	for (ShieldIterator it = m_shields.begin(); it != m_shields.end(); ++it) {
+		if( it->m_mesh ) {
+			return it->m_mesh.Get();
+		}
+	}
+
+	return nullptr;
 }

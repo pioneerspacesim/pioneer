@@ -320,7 +320,12 @@ bool Ship::OnDamage(Object *attacker, float kgDamage, const CollisionContact& co
 		}
 
 		m_shieldCooldown = DEFAULT_SHIELD_COOLDOWN_TIME;
-		m_shields->AddHit(contactData.pos);
+		// transform the collision location into the models local space (from world space) and add it as a hit.
+		matrix4x4d mtx = GetOrient();
+		mtx.SetTranslate( GetPosition() );
+		const matrix4x4d invmtx = mtx.InverseOf();
+		const vector3d localPos = invmtx * contactData.pos;
+		m_shields->AddHit(localPos);
 
 		m_stats.hull_mass_left -= dam;
 		if (m_stats.hull_mass_left < 0) {

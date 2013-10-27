@@ -15,18 +15,18 @@ uniform int numHits;
 
 const vec4 red = vec4(1.0, 0.5, 0.5, 0.5);
 const vec4 blue = vec4(0.5, 0.5, 1.0, 1.0);
-const vec4 hitColour = vec4(1.0, 1.0, 1.0, 1.0);
+const vec4 hitColour = vec4(1.0, 0.5, 0.5, 1.0);
 
 float calcIntensity(int shieldIndex)
 {
 	vec3 current_position = hitPos[shieldIndex];
-	float radius = radii[shieldIndex];
-	//vec3 dif = varyingVertex - current_position;
-	vec3 dif =  varyingEyepos - current_position;
+	float life = radii[shieldIndex];
+	float radius = 50.0 * life;
+	vec3 dif = varyingVertex - current_position;
 	
-	float sqrDist = dot(dif,dif);//dif.x*dif.x + dif.y*dif.y + dif.z*dif.z;
+	float sqrDist = dot(dif,dif);
 
-	return clamp(1.0/sqrDist*radius*0.01, 0.0, 0.9);
+	return clamp(1.0/sqrDist*radius, 0.0, 0.9) * (1.0 - life);
 }
 
 void main(void)
@@ -49,8 +49,9 @@ void main(void)
 	float clampedInt = clamp(sumIntensity, 0.0, 1.0);
 	
 	// combine a base colour with the (clamped) fresnel value and fade it out according to the cooldown period.
-	color = color + vec4(clampedInt,clampedInt,clampedInt,1.0);
 	color.a = (fillColour.a + clamp(fresnel * 0.5, 0.0, 1.0)) * shieldCooldown;
+	// add on our hit effect colour
+	color = color + (hitColour * clampedInt);
 	
 	gl_FragColor = color;
 

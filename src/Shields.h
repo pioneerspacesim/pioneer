@@ -36,6 +36,8 @@ public:
 	static void ReparentShieldNodes(SceneGraph::Model*);
 	static void Uninit();
 
+	SceneGraph::StaticGeometry* GetFirstShieldMesh();
+
 protected:
 	struct Hits
 	{
