@@ -746,6 +746,9 @@ void Ship::TimeStepUpdate(const float timeStep)
 	AddRelForce(thrust);
 	AddRelTorque(GetShipType()->angThrust * m_angThrusters);
 
+	if (m_landingGearAnimation)
+		m_landingGearAnimation->SetProgress(m_wheelState);
+
 	DynamicBody::TimeStepUpdate(timeStep);
 
 	// fuel use decreases mass, so do this as the last thing in the frame
@@ -753,9 +756,6 @@ void Ship::TimeStepUpdate(const float timeStep)
 
 	m_navLights->SetEnabled(m_wheelState > 0.01f);
 	m_navLights->Update(timeStep);
-
-	if (m_landingGearAnimation)
-		static_cast<SceneGraph::Model*>(GetModel())->UpdateAnimations();
 }
 
 void Ship::DoThrusterSounds() const
@@ -1150,9 +1150,6 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 
 	//angthrust negated, for some reason
 	GetModel()->SetThrust(vector3f(m_thrusters), -vector3f(m_angThrusters));
-
-	if (m_landingGearAnimation)
-		m_landingGearAnimation->SetProgress(m_wheelState);
 
 	//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
 	RenderModel(renderer, camera, viewCoords, viewTransform);

@@ -12,7 +12,7 @@
 class Geom;
 class Camera;
 namespace Graphics { class Renderer; class Light; }
-namespace SceneGraph { class Model; }
+namespace SceneGraph { class Model; class Animation; }
 
 class ModelBody: public Body {
 public:
@@ -39,6 +39,8 @@ public:
 
 	void RenderModel(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform, const bool setLighting=true);
 
+	virtual void TimeStepUpdate(const float timeStep);
+
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
@@ -55,6 +57,7 @@ private:
 	Geom *m_geom;
 	std::string m_modelName;
 	SceneGraph::Model *m_model;
+	SceneGraph::Animation *m_idleAnimation;
 };
 
 #endif /* _MODELBODY_H */

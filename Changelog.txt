@@ -31,6 +31,7 @@ October 2013
        * Basic joystick event support
      * FileDialog now has a way to enter a new filename (#2490)
      * Expose game settings, languages settings and keybindings to Lua (#2490)
+     * Models can now supply an "idle" animation that plays continuously (#2514)
 
    * Fixes
      * Modelviewer now correctly reloads tag-points when switching models
