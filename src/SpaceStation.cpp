@@ -585,8 +585,7 @@ void SpaceStation::TimeStepUpdate(const float timeStep)
 		m_navLights->SetColor(i+1, NavLights::NAVLIGHT_RED); //docked
 	}
 
-	if (m_doorAnimation)
-		GetModel()->UpdateAnimations();
+	ModelBody::TimeStepUpdate(timeStep);
 }
 
 void SpaceStation::UpdateInterpTransform(double alpha)
