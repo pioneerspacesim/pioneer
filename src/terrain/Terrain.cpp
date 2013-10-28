@@ -476,7 +476,7 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 		m_maxHeightInMeters = 1.1*pow(2.0, 16.0)*m_heightScaling; // no min height required as it's added to radius in lua
 	}else {
 		m_maxHeightInMeters = std::max(100.0, (9000.0*rad*rad*(m_volcanic+0.5)) / (m_body->GetMass() * 6.64e-12));
-		if (!isfinite(m_maxHeightInMeters)) m_maxHeightInMeters = rad * 0.5;
+		if (!std::isfinite(m_maxHeightInMeters)) m_maxHeightInMeters = rad * 0.5;
 		//             ^^^^ max mountain height for earth-like planet (same mass, radius)
 		// and then in sphere normalized jizz
 	}
