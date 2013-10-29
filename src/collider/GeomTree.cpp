@@ -60,7 +60,7 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, Uint16 *indices, 
 	/* Get radius, m_aabb, and merge duplicate edges */
 	m_radius = 0;
 	for (int i=0; i<numTris; i++) {
-		const int triflag = m_triFlags[i];
+		const unsigned int triflag = m_triFlags[i];
 		if (triflag < IGNORE_FLAG) {
 			int vi1 = 3*m_indices[3*i];
 			int vi2 = 3*m_indices[3*i+1];

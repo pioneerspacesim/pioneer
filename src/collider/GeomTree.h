@@ -30,7 +30,7 @@ public:
 	void TraceCoherentRays(int numRays, const vector3f &a_origin, const vector3f *a_dirs, isect_t *isects) const;
 	void TraceCoherentRays(const BVHNode *startNode, int numRays, const vector3f &a_origin, const vector3f *a_dirs, isect_t *isects) const;
 	vector3f GetTriNormal(int triIdx) const;
-	int GetTriFlag(int triIdx) const { return m_triFlags[triIdx]; }
+	unsigned int GetTriFlag(int triIdx) const { return m_triFlags[triIdx]; }
 	double GetRadius() const { return m_radius; }
 	struct Edge {
 		int v1i, v2i;
