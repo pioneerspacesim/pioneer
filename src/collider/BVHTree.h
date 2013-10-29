@@ -10,8 +10,6 @@
 #include "../Aabb.h"
 #include "../utils.h"
 
-#define MAX_SPLITPOS_RETRIES 15
-
 struct BVHNode {
 	Aabb aabb;
 
@@ -59,6 +57,5 @@ private:
 	size_t m_nodeAllocPos;
 	size_t m_nodeAllocMax;
 };
-
 
 #endif /* _BVHTREE_H */
