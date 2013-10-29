@@ -283,11 +283,6 @@ void Ship::SetFuel(const double f)
 	Properties().Set("fuel", m_thrusterFuel*100); // XXX to match SetFuelPercent
 }
 
-double Ship::GetFuelUseRate() const {
-	const double denominator = GetShipType()->fuelTankMass * GetShipType()->effectiveExhaustVelocity * 10;
-	return denominator > 0 ? -GetShipType()->linThrust[ShipType::THRUSTER_FORWARD]/denominator : 1e9;
-}
-
 // returns speed that can be reached using fuel minus reserve according to the Tsiolkovsky equation
 double Ship::GetSpeedReachedWithFuel() const
 {
@@ -486,7 +481,7 @@ void Ship::UpdateEquipStats()
 void Ship::UpdateFuelStats()
 {
 	m_stats.fuel_tank_mass = m_type->fuelTankMass;
-	m_stats.fuel_use = GetFuelUseRate();
+	m_stats.fuel_use = GetShipType()->GetFuelUseRate();
 	m_stats.fuel_tank_mass_left = m_stats.fuel_tank_mass * GetFuel();
 
 	UpdateMass();
@@ -945,7 +940,7 @@ void Ship::UpdateAlertState()
 
 void Ship::UpdateFuel(const float timeStep, const vector3d &thrust)
 {
-	const double fuelUseRate = GetFuelUseRate() * 0.01;
+	const double fuelUseRate = GetShipType()->GetFuelUseRate() * 0.01;
 	double totalThrust = (fabs(thrust.x) + fabs(thrust.y) + fabs(thrust.z))
 		/ -GetShipType()->linThrust[ShipType::THRUSTER_FORWARD];
 

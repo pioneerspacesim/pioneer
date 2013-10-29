@@ -28,6 +28,12 @@ std::string ShipType::MISSILE_NAVAL			= "missile_naval";
 std::string ShipType::MISSILE_SMART			= "missile_smart";
 std::string ShipType::MISSILE_UNGUIDED		= "missile_unguided";
 
+float ShipType::GetFuelUseRate() const
+{
+	const float denominator = fuelTankMass * effectiveExhaustVelocity * 10;
+	return denominator > 0 ? -linThrust[THRUSTER_FORWARD]/denominator : 1e9;
+}
+
 // returns velocity of engine exhausts in m/s
 static double GetEffectiveExhaustVelocity(double fuelTankMass, double thrusterFuelUse, double forwardThrust) {
 	double denominator = fuelTankMass * thrusterFuelUse * 10;

@@ -34,6 +34,8 @@ October 2013
      * Models can now supply an "idle" animation that plays continuously (#2514)
      * Models can now have multiple collidable parts that move with their
        animations (#2493)
+     * ShipDef now has fields effectiveExhaustVelocity and thrusterFuelUse
+       (#2492, #2492)
 
    * Fixes
      * Modelviewer now correctly reloads tag-points when switching models
