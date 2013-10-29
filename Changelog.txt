@@ -1,7 +1,7 @@
 October 2013
 
    * New features
-     * New ship "Xylophis Short Range Shuttle" (#2442)
+     * New ship "Xylophis Short Range Shuttle" (#2442, #2515)
      * New ship "Kanara Interceptor" (civilian version) (#2454, #2461)
      * New ship "Nerodia" (#2505)
      * New ship "Sinonatrix" (#2503)
