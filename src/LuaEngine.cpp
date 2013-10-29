@@ -491,17 +491,26 @@ static void push_bindings(lua_State *l, const KeyBindings::BindingPrototype *pro
 			lua_pushstring(l, proto->label);
 			lua_setfield(l, -2, "label");
 			if (proto->kb) {
-				const KeyBindings::KeyBinding kb = proto->kb->binding;
-				lua_pushstring(l, KeyBindings::KeyBindingToString(kb).c_str());
-				lua_setfield(l, -2, "binding");
-				lua_pushstring(l, kb.Description().c_str());
-				lua_setfield(l, -2, "bindingDescription");
+				const KeyBindings::KeyBinding kb1 = proto->kb->binding1;
+				if (kb1.type != KeyBindings::BINDING_DISABLED) {
+					lua_pushstring(l, kb1.ToString().c_str());
+					lua_setfield(l, -2, "binding1");
+					lua_pushstring(l, kb1.Description().c_str());
+					lua_setfield(l, -2, "bindingDescription1");
+				}
+				const KeyBindings::KeyBinding kb2 = proto->kb->binding2;
+				if (kb2.type != KeyBindings::BINDING_DISABLED) {
+					lua_pushstring(l, kb2.ToString().c_str());
+					lua_setfield(l, -2, "binding2");
+					lua_pushstring(l, kb2.Description().c_str());
+					lua_setfield(l, -2, "bindingDescription2");
+				}
 			} else if (proto->ab) {
 				const KeyBindings::AxisBinding &ab = *proto->ab;
-				lua_pushstring(l, KeyBindings::AxisBindingToString(ab).c_str());
-				lua_setfield(l, -2, "binding");
+				lua_pushstring(l, ab.ToString().c_str());
+				lua_setfield(l, -2, "binding1");
 				lua_pushstring(l, ab.Description().c_str());
-				lua_setfield(l, -2, "bindingDescription");
+				lua_setfield(l, -2, "bindingDescription1");
 			} else {
 				assert(0); // invalid prototype binding
 			}
@@ -535,19 +544,21 @@ static void push_bindings(lua_State *l, const KeyBindings::BindingPrototype *pro
  *
  * bindings = {
  *   { -- a page
- *   	label = 'CONTROLS', -- the (translated) name of the page
- *   	{ -- a group
- *   		label = 'Miscellaneous', -- the (translated) name of the group
- *   		{ -- a binding
- *   			type = 'KEY', -- the type of binding; can be 'KEY' or 'AXIS'
- *   			id = 'BindToggleLuaConsole', -- the internal ID of the binding; pass this to Engine.SetKeyBinding
- *   			label = 'Toggle Lua console', -- the (translated) label for the binding
- *   			binding = 'Key96', -- the current bound key or axis (value stored in config file)
- *   			bindingDescription = '`', -- display text for the current bound key or axis
- *   		},
- *   		-- ... more bindings
- *   	},
- *   	-- ... more groups
+ *      label = 'CONTROLS', -- the (translated) name of the page
+ *      { -- a group
+ *          label = 'Miscellaneous', -- the (translated) name of the group
+ *          { -- a binding
+ *              type = 'KEY', -- the type of binding; can be 'KEY' or 'AXIS'
+ *              id = 'BindToggleLuaConsole', -- the internal ID of the binding; pass this to Engine.SetKeyBinding
+ *              label = 'Toggle Lua console', -- the (translated) label for the binding
+ *              binding1 = 'Key96', -- the first bound key or axis (value stored in config file)
+ *              bindingDescription1 = '`', -- display text for the first bound key or axis
+ *              binding2 = 'Key96', -- the second bound key or axis (value stored in config file)
+ *              bindingDescription2 = '`', -- display text for the second bound key or axis
+ *          },
+ *          -- ... more bindings
+ *      },
+ *      -- ... more groups
  *   },
  *   -- ... more pages
  * }
@@ -578,20 +589,34 @@ static int l_engine_get_key_bindings(lua_State *l)
 }
 
 static int set_key_binding(lua_State *l, const char *config_id, KeyBindings::KeyAction *action) {
-	const char *binding_config = luaL_checkstring(l, 2);
-	if (!KeyBindings::KeyBindingFromString(binding_config, &(action->binding)))
-		return luaL_error(l, "invalid key binding given to Engine.SetKeyBinding");
-	Pi::config->SetString(config_id, KeyBindings::KeyBindingToString(action->binding));
+	const char *binding_config_1 = lua_tostring(l, 2);
+	const char *binding_config_2 = lua_tostring(l, 3);
+	KeyBindings::KeyBinding kb1, kb2;
+	if (binding_config_1) {
+		if (!KeyBindings::KeyBinding::FromString(binding_config_1, kb1))
+			return luaL_error(l, "invalid first key binding given to Engine.SetKeyBinding");
+	} else
+		kb1.Clear();
+	if (binding_config_2) {
+		if (!KeyBindings::KeyBinding::FromString(binding_config_2, kb2))
+			return luaL_error(l, "invalid second key binding given to Engine.SetKeyBinding");
+	} else
+		kb2.Clear();
+	action->binding1 = kb1;
+	action->binding2 = kb2;
+	Pi::config->SetString(config_id, action->ToString());
 	Pi::config->Save();
 	return 0;
 }
 
 static int set_axis_binding(lua_State *l, const char *config_id, KeyBindings::AxisBinding *binding) {
 	const char *binding_config = luaL_checkstring(l, 2);
-	if (!KeyBindings::AxisBindingFromString(binding_config, binding))
+	KeyBindings::AxisBinding ab;
+	if (!KeyBindings::AxisBinding::FromString(binding_config, ab))
 		return luaL_error(l, "invalid axis binding given to Engine.SetKeyBinding");
-	Pi::config->SetString(config_id, KeyBindings::AxisBindingToString(*binding));
+	Pi::config->SetString(config_id, ab.ToString());
 	Pi::config->Save();
+	*binding = ab;
 	return 0;
 }
 
@@ -599,7 +624,7 @@ static int l_engine_set_key_binding(lua_State *l)
 {
 	const char *binding_id = luaL_checkstring(l, 1);
 
-#define KEY_BINDING(action, config_id, label, default_key) \
+#define KEY_BINDING(action, config_id, label, def1, def2) \
 	if (strcmp(binding_id, config_id) == 0) { return set_key_binding(l, config_id, &KeyBindings :: action); }
 #define AXIS_BINDING(action, config_id, label, default_axis) \
 	if (strcmp(binding_id, config_id) == 0) { return set_axis_binding(l, config_id, &KeyBindings :: action); }
