@@ -4,12 +4,8 @@
 #ifndef _GEOMTREE_H
 #define _GEOMTREE_H
 
-#include <vector>
-#include "../Aabb.h"
-#include "../matrix4x4.h"
+#include "libs.h"
 #include "CollisionContact.h"
-
-struct tri_t;
 
 struct isect_t {
 	// triIdx = -1 if no intersection
@@ -22,7 +18,7 @@ struct BVHNode;
 
 class GeomTree {
 public:
-	GeomTree(int numVerts, int numTris, float *vertices, int *indices, unsigned int *triflags);
+	GeomTree(int numVerts, int numTris, float *vertices, Uint16 *indices, unsigned int *triflags);
 	~GeomTree();
 	const Aabb &GetAabb() const { return m_aabb; }
 	// dir should be unit length,
@@ -34,7 +30,7 @@ public:
 	void TraceCoherentRays(int numRays, const vector3f &a_origin, const vector3f *a_dirs, isect_t *isects) const;
 	void TraceCoherentRays(const BVHNode *startNode, int numRays, const vector3f &a_origin, const vector3f *a_dirs, isect_t *isects) const;
 	vector3f GetTriNormal(int triIdx) const;
-	int GetTriFlag(int triIdx) const { return m_triFlags[triIdx]; }
+	unsigned int GetTriFlag(int triIdx) const { return m_triFlags[triIdx]; }
 	double GetRadius() const { return m_radius; }
 	struct Edge {
 		int v1i, v2i;
@@ -53,6 +49,13 @@ public:
 
 	BVHTree *m_triTree;
 	BVHTree *m_edgeTree;
+
+	const float *GetVertices() const { return m_vertices; }
+	const Uint16 *GetIndices() const { return m_indices; }
+	const unsigned int *GetTriFlags() const { return m_triFlags; }
+	int GetNumVertices() const { return m_numVertices; }
+	int GetNumTris() const { return m_numTris; }
+
 private:
 	void RayTriIntersect(int numRays, const vector3f &origin, const vector3f *dirs, int triIdx, isect_t *isects) const;
 
@@ -62,8 +65,9 @@ private:
 	int m_numEdges;
 	Edge *m_edges;
 
-	const int *m_indices;
+	const Uint16 *m_indices;
 	const unsigned int *m_triFlags;
+	int m_numTris;
 };
 
 #endif /* _GEOMTREE_H */

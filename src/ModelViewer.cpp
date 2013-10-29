@@ -386,16 +386,19 @@ void ModelViewer::DrawCollisionMesh()
 	RefCountedPtr<CollMesh> mesh = m_model->GetCollisionMesh();
 	if (!mesh.Valid()) return;
 
-	const std::vector<vector3f> &vertices = mesh->m_vertices;
-	const std::vector<int> &indices = mesh->m_indices;
-	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE, indices.size() * 3);
+	const vector3f *vertices = reinterpret_cast<const vector3f*>(mesh->GetGeomTree()->GetVertices());
+	const Uint16 *indices = mesh->GetGeomTree()->GetIndices();
+	const unsigned int *triFlags = mesh->GetGeomTree()->GetTriFlags();
+	const unsigned int numIndices = mesh->GetGeomTree()->GetNumTris() * 3;
+
+	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE, numIndices * 3);
 	int trindex = -1;
-	for(unsigned int i=0; i<indices.size(); i++) {
+	for(unsigned int i = 0; i < numIndices; i++) {
 		if (i % 3 == 0)
 			trindex++;
-		unsigned int flag = mesh->m_flags[trindex];
+		const unsigned int flag = triFlags[trindex];
 		//show special geomflags in red
-		va.Add(vertices.at(indices.at(i)), flag > 0 ? Color::RED : Color::WHITE);
+		va.Add(vertices[indices[i]], flag > 0 ? Color::RED : Color::WHITE);
 	}
 
 	//might want to add some offset
@@ -811,7 +814,6 @@ void ModelViewer::SetModel(const std::string &filename, bool resetCamera /* true
 			m_model->FindTagsByStartOfName("tag_", mts);
 			AddAxisIndicators(mts, m_tagPoints);
 		}
-
 	} catch (SceneGraph::LoadingError &err) {
 		// report the error and show model picker.
 		m_model = 0;
