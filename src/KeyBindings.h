@@ -8,6 +8,7 @@
 
 namespace KeyBindings {
 	enum Type {
+		BINDING_DISABLED,
 		KEYBOARD_KEY,
 		JOYSTICK_BUTTON,
 		JOYSTICK_HAT
@@ -35,19 +36,36 @@ namespace KeyBindings {
 		} u;
 
 		std::string Description() const;
+		bool IsActive() const;
 		bool Matches(const SDL_Keysym *sym) const;
+		bool Matches(const SDL_JoyButtonEvent *joy) const;
+		bool Matches(const SDL_JoyHatEvent *joy) const;
+
+		void Clear() {
+			memset(this, 0, sizeof(*this));
+		}
+
+		static bool FromString(const char *str, KeyBinding &binding);
+		static KeyBinding FromString(const char *str);
+		std::string ToString() const;
 
 		static KeyBinding keyboardBinding(SDL_Keycode key, SDL_Keymod mod);
 	};
 
 	struct KeyAction {
-		KeyBinding binding;
+		KeyBinding binding1;
+		KeyBinding binding2;
 
 		sigc::signal<void> onPress;
 		sigc::signal<void> onRelease;
 
+		void SetFromString(const char *str);
+		std::string ToString() const;
+
 		bool IsActive() const;
 		void CheckSDLEventAndDispatch(const SDL_Event *event);
+
+		bool Matches(const SDL_Keysym *sym) const;
 	};
 
 	enum AxisDirection {
@@ -64,6 +82,14 @@ namespace KeyBindings {
 		AxisBinding(Uint8 joystick, Uint8 axis, AxisDirection direction);
 		float GetValue();
 		std::string Description() const;
+
+		void Clear() {
+			memset(this, 0, sizeof(*this));
+		}
+
+		static bool FromString(const char *str, AxisBinding &binding);
+		static AxisBinding FromString(const char *str);
+		std::string ToString() const;
 	};
 
 	struct BindingPrototype {
@@ -75,16 +101,9 @@ namespace KeyBindings {
 	void InitBindings();
 	void UpdateBindings();
 
-	bool KeyBindingFromString(const std::string &str, KeyBinding *kb);
-	KeyBinding KeyBindingFromString(const std::string &str);
-	std::string KeyBindingToString(const KeyBinding &kb);
-	bool AxisBindingFromString(const std::string &str, AxisBinding *ab);
-	AxisBinding AxisBindingFromString(const std::string &str);
-	std::string AxisBindingToString(const AxisBinding &ab);
-
 	void DispatchSDLEvent(const SDL_Event *event);
 
-#define KEY_BINDING(name,a,b,c) extern KeyAction name;
+#define KEY_BINDING(name,a,b,c,d) extern KeyAction name;
 #define AXIS_BINDING(name,a,b,c) extern AxisBinding name;
 #include "KeyBindings.inc.h"
 

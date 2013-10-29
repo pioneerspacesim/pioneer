@@ -11,6 +11,7 @@ October 2013
      * The random face system now supports multiple species (#2440)
      * The eclipse effect can now be disabled in the config file
        (#2439, #2497, #2176, #2190)
+     * Allow up to two keys to be bound to a single input (#2222)
 
    * Minor changes and tweaks
      * Improved ship textures (#2450)
