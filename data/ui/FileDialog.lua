@@ -30,13 +30,42 @@ ui.templates.FileDialog = function (args)
 	local cancelButton = ui:Button(ui:Label(cancelLabel):SetFont("HEADING_NORMAL"))
 	cancelButton.onClick:Connect(onCancel)
 
+	if #files > 0 then
+		selectButton:SetEnabled(true)
+		list:SetSelectedIndex(1)
+	else
+		selectButton:SetEnabled(false)
+	end
+
 	local fileEntry
 	if args.allowNewFile then
 		fileEntry = ui:TextEntry()
-		list.onOptionSelected:Connect(function (index, fileName) fileEntry:SetText(fileName); end)
-		selectButton.onClick:Connect(function () onSelect(fileEntry.text); end)
+		if #files > 0 then
+			fileEntry:SetText(files[1])
+		end
+		fileEntry.onChange:Connect(function (fileName)
+			fileName = util.trim(fileName)
+			selectButton:SetEnabled(fileName ~= '')
+		end)
+		list.onOptionSelected:Connect(function (index, fileName)
+			if fileName ~= '' then
+				fileEntry:SetText(fileName)
+				selectButton:Enable()
+			end
+		end)
+		selectButton.onClick:Connect(function ()
+			fileName = util.trim(fileEntry.text)
+			if fileName ~= '' then
+				onSelect(fileName)
+			end
+		end)
 	else
-		selectButton.onClick:Connect(function () onSelect(list.selectedOption); end)
+		selectButton.onClick:Connect(function ()
+			fileName = list.selectedOption
+			if fileName ~= '' then
+				onSelect(fileName)
+			end
+		end)
 	end
 
 	local content = ui:VBox()
