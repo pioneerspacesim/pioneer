@@ -96,7 +96,47 @@ static int l_hash_random(lua_State *L)
 	}
 }
 
+/*
+ * Function: trim
+ *
+ * > s = util.trim(str)
+ *
+ * Trim leading and/or trailing whitespace from a string.
+ *
+ * Parameters:
+ *
+ *   str - A string.
+ *
+ * Availability:
+ *
+ *   November 2013
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_trim(lua_State *l)
+{
+	size_t len;
+	const char *str = luaL_checklstring(l, 1, &len);
+
+	if (len == 0 || (!isspace(str[0]) && !isspace(str[len-1]))) {
+		// empty string, or the string beings & ends with non-whitespace
+		// just return the same value
+		lua_pushvalue(l, 1);
+		return 1;
+	} else {
+		const char *first = str;
+		const char *last = str + (len - 1);
+		while (len && isspace(*first)) { ++first; --len; }
+		while (len && isspace(*last)) { --last; --len; }
+		lua_pushlstring(l, first, len);
+		return 1;
+	}
+}
+
 static const luaL_Reg UTIL_FUNCTIONS[] = {
+	{ "trim", l_trim },
 	{ "hash_random", l_hash_random },
 	{ 0, 0 }
 };
