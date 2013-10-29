@@ -14,7 +14,7 @@ Gradient::Gradient(Context *context, const Color &beginColor, const Color &endCo
 {
 	Graphics::MaterialDescriptor desc;
 	desc.vertexColors = true;
-	m_material.Reset(GetContext()->GetRenderer()->CreateMaterial(desc));
+	m_material.reset(GetContext()->GetRenderer()->CreateMaterial(desc));
 }
 
 void Gradient::Draw()
@@ -35,7 +35,7 @@ void Gradient::Draw()
 
 	Graphics::Renderer *r = GetContext()->GetRenderer();
 	r->SetBlendMode(Graphics::BLEND_ALPHA);
-	r->DrawTriangles(&va, m_material.Get(), Graphics::TRIANGLE_STRIP);
+	r->DrawTriangles(&va, m_material.get(), Graphics::TRIANGLE_STRIP);
 
 	Container::Draw();
 }

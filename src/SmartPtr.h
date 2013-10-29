@@ -89,40 +89,6 @@ DEF_SMARTPTR_COMPARISON(>=)
 #undef DEF_SMARTPTR_COMPARISON
 
 template <typename T>
-class ScopedPtr : public SmartPtrBase<ScopedPtr<T>, T> {
-	typedef ScopedPtr<T> this_type;
-	typedef SmartPtrBase<this_type, T> base_type;
-public:
-	ScopedPtr() {}
-	explicit ScopedPtr(T *p): base_type(p) {}
-	~ScopedPtr() { delete this->Release(); }
-
-	using base_type::Release;
-
-private:
-	ScopedPtr(const ScopedPtr&);
-	ScopedPtr &operator=(const ScopedPtr&);
-};
-
-template <typename T>
-class ScopedArray : public SmartPtrBase<ScopedArray<T>, T> {
-	typedef ScopedArray<T> this_type;
-	typedef SmartPtrBase<this_type, T> base_type;
-public:
-	ScopedArray() {}
-	explicit ScopedArray(T *p): base_type(p) {}
-	~ScopedArray() { delete[] this->Release(); }
-
-	T &operator[](std::ptrdiff_t i) const { return this->m_ptr[i]; }
-
-	using base_type::Release;
-
-private:
-	ScopedArray(const ScopedArray&);
-	ScopedArray &operator=(const ScopedArray&);
-};
-
-template <typename T>
 class ScopedMalloc : public SmartPtrBase<ScopedMalloc<T>, T> {
 	typedef ScopedMalloc<T> this_type;
 	typedef SmartPtrBase<this_type, T> base_type;

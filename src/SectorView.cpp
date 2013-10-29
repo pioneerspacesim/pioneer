@@ -118,8 +118,8 @@ void SectorView::InitObject()
 {
 	SetTransparency(true);
 
-	m_lineVerts.Reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION, 500));
-	m_secLineVerts.Reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION, 500));
+	m_lineVerts.reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION, 500));
+	m_secLineVerts.reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION, 500));
 
 	Gui::Screen::PushFont("OverlayFont");
 	m_clickableLabels = new Gui::LabelSet();
@@ -150,7 +150,7 @@ void SectorView::InitObject()
 	m_searchBox->onKeyPress.connect(sigc::mem_fun(this, &SectorView::OnSearchBoxKeyPress));
 	Add(m_searchBox, 700, 500);
 
-	m_disk.Reset(new Graphics::Drawables::Disk(Pi::renderer, Color::WHITE, 0.2f));
+	m_disk.reset(new Graphics::Drawables::Disk(Pi::renderer, Color::WHITE, 0.2f));
 
 	m_infoBox = new Gui::VBox();
 	m_infoBox->SetTransparency(false);
@@ -893,7 +893,7 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(2.f));
 			m_disk->Draw(m_renderer);
 		}
-		if(bIsCurrentSystem && m_jumpSphere.Valid() && m_playerHyperspaceRange>0.0f) {
+		if(bIsCurrentSystem && m_jumpSphere && m_playerHyperspaceRange>0.0f) {
 			// not sure I should do these here on when applying the material?
 			m_renderer->SetDepthWrite(false);
 			m_renderer->SetDepthTest(false);
@@ -1194,13 +1194,13 @@ void SectorView::Update()
 
 	m_playerHyperspaceRange = Pi::player->GetStats().hyperspace_range;
 
-	if(Graphics::AreShadersEnabled() && !m_jumpSphere.Valid())
+	if(Graphics::AreShadersEnabled() && !m_jumpSphere)
 	{
 		Graphics::MaterialDescriptor matdesc;
 		matdesc.effect = EFFECT_FRESNEL_SPHERE;
 		RefCountedPtr<Graphics::Material> fresnelMat(Pi::renderer->CreateMaterial(matdesc));
-		m_jumpSphere.Reset( new Graphics::Drawables::Sphere3D(fresnelMat, 3, 1.0f) );
-		m_jumpDisk.Reset( new Graphics::Drawables::Disk(fresnelMat, 72, 1.0f) );
+		m_jumpSphere.reset( new Graphics::Drawables::Sphere3D(fresnelMat, 3, 1.0f) );
+		m_jumpDisk.reset( new Graphics::Drawables::Disk(fresnelMat, 72, 1.0f) );
 	}
 }
 

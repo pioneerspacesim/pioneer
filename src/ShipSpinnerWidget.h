@@ -23,7 +23,7 @@ private:
 	float m_width;
 	float m_height;
 
-	ScopedPtr<SceneGraph::Model> m_model;
+	std::unique_ptr<SceneGraph::Model> m_model;
 	SceneGraph::ModelSkin m_skin;
 
 	Graphics::Light m_light;

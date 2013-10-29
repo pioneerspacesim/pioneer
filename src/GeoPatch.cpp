@@ -27,8 +27,8 @@ GeoPatch::GeoPatch(const RefCountedPtr<GeoPatchContext> &ctx_, GeoSphere *gs,
 	const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_,
 	const int depth, const GeoPatchID &ID_)
 	: ctx(ctx_), v0(v0_), v1(v1_), v2(v2_), v3(v3_),
-	heights(NULL), normals(NULL), colors(NULL),
-	m_vbo(0), parent(NULL), geosphere(gs),
+	heights(nullptr), normals(nullptr), colors(nullptr),
+	m_vbo(0), parent(nullptr), geosphere(gs),
 	m_depth(depth), mPatchID(ID_),
 	mHasJobRequest(false)
 {
@@ -60,11 +60,11 @@ GeoPatch::~GeoPatch() {
 		if (edgeFriend[i]) edgeFriend[i]->NotifyEdgeFriendDeleted(this);
 	}
 	for (int i=0; i<NUM_KIDS; i++) {
-		kids[i].Reset();
+		kids[i].reset();
 	}
-	heights.Reset();
-	normals.Reset();
-	colors.Reset();
+	heights.reset();
+	normals.reset();
+	colors.reset();
 	glDeleteBuffersARB(1, &m_vbo);
 }
 
@@ -75,9 +75,9 @@ void GeoPatch::_UpdateVBOs() {
 		glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
 		glBufferDataARB(GL_ARRAY_BUFFER, sizeof(GeoPatchContext::VBOVertex)*ctx->NUMVERTICES(), 0, GL_DYNAMIC_DRAW);
 		double xfrac=0.0, yfrac=0.0;
-		double *pHts = heights.Get();
-		const vector3f *pNorm = &normals[0];
-		const Color3ub *pColr = &colors[0];
+		double *pHts = heights.get();
+		const vector3f *pNorm = normals.get();
+		const Color3ub *pColr = colors.get();
 		GeoPatchContext::VBOVertex *pData = ctx->vbotemp;
 		for (int y=0; y<ctx->edgeLen; y++) {
 			xfrac = 0.0;
@@ -115,7 +115,7 @@ void GeoPatch::_UpdateVBOs() {
 void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, const matrix4x4d &modelView, const Graphics::Frustum &frustum) {
 	if (kids[0]) {
 		for (int i=0; i<NUM_KIDS; i++) kids[i]->Render(renderer, campos, modelView, frustum);
-	} else if (heights.Valid()) {
+	} else if (heights) {
 		_UpdateVBOs();
 
 		if (!frustum.TestPoint(clipCentroid, clipRadius))
@@ -144,7 +144,7 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 		return;
 
 	bool canSplit = true;
-	bool canMerge = kids[0].Valid();
+	bool canMerge = bool(kids[0]);
 
 	// always split at first level
 	if (parent) {
@@ -184,7 +184,7 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 		}
 		if( canMerge ) {
 			for (int i=0; i<NUM_KIDS; i++) {
-				kids[i].Reset();
+				kids[i].reset();
 			}
 		}
 	}
@@ -192,7 +192,7 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 
 void GeoPatch::RequestSinglePatch()
 {
-	if( !heights.Valid() ) {
+	if( !heights ) {
         assert(!mHasJobRequest);
 		mHasJobRequest = true;
 		SSingleSplitRequest *ssrd = new SSingleSplitRequest(v0, v1, v2, v3, centroid.Normalized(), m_depth,
@@ -217,11 +217,11 @@ void GeoPatch::ReceiveHeightmaps(SQuadSplitResult *psr)
 		const int nD = m_depth+1;
 		for (int i=0; i<NUM_KIDS; i++)
 		{
-			assert(!kids[i].Valid());
+			assert(!kids[i]);
 			const SQuadSplitResult::SSplitResultData& data = psr->data(i);
 			assert(i==data.patchID.GetPatchIdx(nD));
 			assert(0==data.patchID.GetPatchIdx(nD+1));
-			kids[i].Reset(new GeoPatch(ctx, geosphere,
+			kids[i].reset(new GeoPatch(ctx, geosphere,
 				data.v0, data.v1, data.v2, data.v3,
 				nD, data.patchID));
 		}
@@ -229,19 +229,19 @@ void GeoPatch::ReceiveHeightmaps(SQuadSplitResult *psr)
 		// hm.. edges. Not right to pass this
 		// edgeFriend...
 		kids[0]->edgeFriend[0] = GetEdgeFriendForKid(0, 0);
-		kids[0]->edgeFriend[1] = kids[1].Get();
-		kids[0]->edgeFriend[2] = kids[3].Get();
+		kids[0]->edgeFriend[1] = kids[1].get();
+		kids[0]->edgeFriend[2] = kids[3].get();
 		kids[0]->edgeFriend[3] = GetEdgeFriendForKid(0, 3);
 		kids[1]->edgeFriend[0] = GetEdgeFriendForKid(1, 0);
 		kids[1]->edgeFriend[1] = GetEdgeFriendForKid(1, 1);
-		kids[1]->edgeFriend[2] = kids[2].Get();
-		kids[1]->edgeFriend[3] = kids[0].Get();
-		kids[2]->edgeFriend[0] = kids[1].Get();
+		kids[1]->edgeFriend[2] = kids[2].get();
+		kids[1]->edgeFriend[3] = kids[0].get();
+		kids[2]->edgeFriend[0] = kids[1].get();
 		kids[2]->edgeFriend[1] = GetEdgeFriendForKid(2, 1);
 		kids[2]->edgeFriend[2] = GetEdgeFriendForKid(2, 2);
-		kids[2]->edgeFriend[3] = kids[3].Get();
-		kids[3]->edgeFriend[0] = kids[0].Get();
-		kids[3]->edgeFriend[1] = kids[2].Get();
+		kids[2]->edgeFriend[3] = kids[3].get();
+		kids[3]->edgeFriend[0] = kids[0].get();
+		kids[3]->edgeFriend[1] = kids[2].get();
 		kids[3]->edgeFriend[2] = GetEdgeFriendForKid(3, 2);
 		kids[3]->edgeFriend[3] = GetEdgeFriendForKid(3, 3);
 		kids[0]->parent = kids[1]->parent = kids[2]->parent = kids[3]->parent = this;
@@ -249,9 +249,9 @@ void GeoPatch::ReceiveHeightmaps(SQuadSplitResult *psr)
 		for (int i=0; i<NUM_KIDS; i++)
 		{
 			const SQuadSplitResult::SSplitResultData& data = psr->data(i);
-			kids[i]->heights.Reset(data.heights);
-			kids[i]->normals.Reset(data.normals);
-			kids[i]->colors.Reset(data.colors);
+			kids[i]->heights.reset(data.heights);
+			kids[i]->normals.reset(data.normals);
+			kids[i]->colors.reset(data.colors);
 		}
 		for (int i=0; i<NUM_EDGES; i++) { if(edgeFriend[i]) edgeFriend[i]->NotifyEdgeFriendSplit(this); }
 		for (int i=0; i<NUM_KIDS; i++) {
@@ -263,14 +263,14 @@ void GeoPatch::ReceiveHeightmaps(SQuadSplitResult *psr)
 
 void GeoPatch::ReceiveHeightmap(const SSingleSplitResult *psr)
 {
-	assert(NULL==parent);
-	assert(NULL!=psr);
+	assert(nullptr == parent);
+	assert(nullptr != psr);
 	assert(mHasJobRequest);
 	{
 		const SSingleSplitResult::SSplitResultData& data = psr->data();
-		heights.Reset(data.heights);
-		normals.Reset(data.normals);
-		colors.Reset(data.colors);
+		heights.reset(data.heights);
+		normals.reset(data.normals);
+		colors.reset(data.colors);
 	}
 	mHasJobRequest = false;
 }

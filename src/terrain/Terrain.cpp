@@ -393,19 +393,19 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 				bufread_or_die(&v, 2, 1, databuf); m_heightMapSizeY = v;
 				const Uint32 heightmapPixelArea = (m_heightMapSizeX * m_heightMapSizeY);
 
-				ScopedPtr<Sint16> heightMap(new Sint16[heightmapPixelArea]);
-				bufread_or_die(heightMap.Get(), sizeof(Sint16), heightmapPixelArea, databuf);
-				m_heightMap.Reset(new double[heightmapPixelArea]);
-				double *pHeightMap = m_heightMap.Get();
+				std::unique_ptr<Sint16[]> heightMap(new Sint16[heightmapPixelArea]);
+				bufread_or_die(heightMap.get(), sizeof(Sint16), heightmapPixelArea, databuf);
+				m_heightMap.reset(new double[heightmapPixelArea]);
+				double *pHeightMap = m_heightMap.get();
 				for(Uint32 i=0; i<heightmapPixelArea; i++) {
-					const Sint16 val = heightMap.Get()[i];
+					const Sint16 val = heightMap.get()[i];
 					minHMap = std::min(minHMap, val);
 					maxHMap = std::max(maxHMap, val);
 					// store then increment pointer
 					(*pHeightMap) = val;
 					++pHeightMap;
 				}
-				assert(is_equal_general(*pHeightMap, m_heightMap.Get()[heightmapPixelArea]));
+				assert(is_equal_general(*pHeightMap, m_heightMap[heightmapPixelArea]));
 				//printf("minHMap = (%hd), maxHMap = (%hd)\n", minHMap, maxHMap);
 				break;
 			}
@@ -424,19 +424,19 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 				bufread_or_die(&te, 8, 1, databuf);
 				m_minh = te;
 
-				ScopedPtr<Uint16> heightMapScaled(new Uint16[heightmapPixelArea]);
-				bufread_or_die(heightMapScaled.Get(), sizeof(Uint16), heightmapPixelArea, databuf);
-				m_heightMap.Reset(new double[heightmapPixelArea]);
-				double *pHeightMap = m_heightMap.Get();
+				std::unique_ptr<Uint16[]> heightMapScaled(new Uint16[heightmapPixelArea]);
+				bufread_or_die(heightMapScaled.get(), sizeof(Uint16), heightmapPixelArea, databuf);
+				m_heightMap.reset(new double[heightmapPixelArea]);
+				double *pHeightMap = m_heightMap.get();
 				for(Uint32 i=0; i<heightmapPixelArea; i++) {
-					const Uint16 val = heightMapScaled.Get()[i];
+					const Uint16 val = heightMapScaled[i];
 					minHMapScld = std::min(minHMapScld, val);
 					maxHMapScld = std::max(maxHMapScld, val);
 					// store then increment pointer
 					(*pHeightMap) = val;
 					++pHeightMap;
 				}
-				assert(is_equal_general(*pHeightMap, m_heightMap.Get()[heightmapPixelArea]));
+				assert(is_equal_general(*pHeightMap, m_heightMap[heightmapPixelArea]));
 				//printf("minHMapScld = (%hu), maxHMapScld = (%hu)\n", minHMapScld, maxHMapScld);
 				break;
 			}

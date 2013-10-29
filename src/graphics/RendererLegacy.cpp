@@ -592,7 +592,7 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 
 		int offset = 0;
 		if (model) {
-			ScopedArray<ModelVertex> vts(new ModelVertex[numsverts]);
+			std::unique_ptr<ModelVertex[]> vts(new ModelVertex[numsverts]);
 			for(int j=0; j<numsverts; j++) {
 				vts[j].position = va->position[j];
 				vts[j].normal = va->normal[j];
@@ -602,9 +602,9 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 			if (!buf)
 				buf = new VertexBuffer(totalVertices);
 			buf->Bind();
-			buf->BufferData<ModelVertex>(numsverts, vts.Get());
+			buf->BufferData<ModelVertex>(numsverts, vts.get());
 		} else if (background) {
-			ScopedArray<UnlitVertex> vts(new UnlitVertex[numsverts]);
+			std::unique_ptr<UnlitVertex[]> vts(new UnlitVertex[numsverts]);
 			for(int j=0; j<numsverts; j++) {
 				vts[j].position = va->position[j];
 				vts[j].color = va->diffuse[j];
@@ -613,7 +613,7 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 			if (!buf)
 				buf= new UnlitVertexBuffer(totalVertices);
 			buf->Bind();
-			offset = buf->BufferData<UnlitVertex>(numsverts, vts.Get());
+			offset = buf->BufferData<UnlitVertex>(numsverts, vts.get());
 		}
 
 		SurfaceRenderInfo *surfaceInfo = new SurfaceRenderInfo();

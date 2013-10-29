@@ -28,7 +28,7 @@ public:
 
 private:
 	RefCountedPtr<Graphics::Material> m_material;
-	ScopedPtr<Graphics::VertexArray> m_geometry;
+	std::unique_ptr<Graphics::VertexArray> m_geometry;
 	RefCountedPtr<Text::DistanceFieldFont> m_font;
 };
 

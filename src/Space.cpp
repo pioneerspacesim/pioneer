@@ -67,7 +67,7 @@ Space::Space(Game *game)
 	, m_processingFinalizationQueue(false)
 #endif
 {
-	m_rootFrame.Reset(new Frame(0, Lang::SYSTEM));
+	m_rootFrame.reset(new Frame(0, Lang::SYSTEM));
 	m_rootFrame->SetRadius(FLT_MAX);
 }
 
@@ -88,10 +88,10 @@ Space::Space(Game *game, const SystemPath &path)
 	CityOnPlanet::SetCityModelPatterns(m_starSystem->GetPath());
 
 	// XXX set radius in constructor
-	m_rootFrame.Reset(new Frame(0, Lang::SYSTEM));
+	m_rootFrame.reset(new Frame(0, Lang::SYSTEM));
 	m_rootFrame->SetRadius(FLT_MAX);
 
-	GenBody(m_starSystem->rootBody.Get(), m_rootFrame.Get());
+	GenBody(m_starSystem->rootBody.Get(), m_rootFrame.get());
 	m_rootFrame->UpdateOrbitRails(m_game->GetTime(), m_game->GetTimeStep());
 
 	//DebugDumpFrames();
@@ -115,7 +115,7 @@ Space::Space(Game *game, Serializer::Reader &rd)
 	CityOnPlanet::SetCityModelPatterns(m_starSystem->GetPath());
 
 	Serializer::Reader section = rd.RdSection("Frames");
-	m_rootFrame.Reset(Frame::Unserialize(section, this, 0));
+	m_rootFrame.reset(Frame::Unserialize(section, this, 0));
 	RebuildFrameIndex();
 
 	Uint32 nbodies = rd.Int32();
@@ -123,7 +123,7 @@ Space::Space(Game *game, Serializer::Reader &rd)
 		m_bodies.push_back(Body::Unserialize(rd, this));
 	RebuildBodyIndex();
 
-	Frame::PostUnserializeFixup(m_rootFrame.Get(), this);
+	Frame::PostUnserializeFixup(m_rootFrame.get(), this);
 	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
 		(*i)->PostLoadFixup(this);
 }
@@ -145,7 +145,7 @@ void Space::Serialize(Serializer::Writer &wr)
 	StarSystem::Serialize(wr, m_starSystem.Get());
 
 	Serializer::Writer section;
-	Frame::Serialize(section, m_rootFrame.Get(), this);
+	Frame::Serialize(section, m_rootFrame.get(), this);
 	wr.WrSection("Frames", section.GetData());
 
 	wr.Int32(m_bodies.size());
@@ -223,7 +223,7 @@ void Space::RebuildFrameIndex()
 	m_frameIndex.push_back(0);
 
 	if (m_rootFrame)
-		AddFrameToIndex(m_rootFrame.Get());
+		AddFrameToIndex(m_rootFrame.get());
 
 	m_frameIndexValid = true;
 }
@@ -367,7 +367,7 @@ static Frame *find_frame_with_sbody(Frame *f, const SystemBody *b)
 
 Frame *Space::GetFrameWithSystemBody(const SystemBody *b) const
 {
-	return find_frame_with_sbody(m_rootFrame.Get(), b);
+	return find_frame_with_sbody(m_rootFrame.get(), b);
 }
 
 static void RelocateStarportIfUnderwaterOrBuried(SystemBody *sbody, Frame *frame, Planet *planet, vector3d &pos, matrix3x3d &rot)
@@ -756,7 +756,7 @@ void Space::TimeStep(float step)
 	m_frameIndexValid = m_bodyIndexValid = m_sbodyIndexValid = false;
 
 	// XXX does not need to be done this often
-	CollideFrame(m_rootFrame.Get());
+	CollideFrame(m_rootFrame.get());
 	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
 		CollideWithTerrain(*i);
 
@@ -838,5 +838,5 @@ void Space::DebugDumpFrames()
 	memset(space, ' ', sizeof(space));
 
 	printf("Frame structure for '%s':\n", m_starSystem->GetName().c_str());
-	DebugDumpFrame(m_rootFrame.Get(), 2);
+	DebugDumpFrame(m_rootFrame.get(), 2);
 }

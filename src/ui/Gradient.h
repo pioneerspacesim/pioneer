@@ -29,7 +29,7 @@ private:
 	Color m_endColor;
 	Direction m_direction;
 
-	ScopedPtr<Graphics::Material> m_material;
+	std::unique_ptr<Graphics::Material> m_material;
 };
 
 }

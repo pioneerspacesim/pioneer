@@ -218,7 +218,7 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 	desc.lighting = true;
 	desc.twoSided = true;
 	desc.textures = 1;
-	m_ringMaterial.Reset(renderer->CreateMaterial(desc));
+	m_ringMaterial.reset(renderer->CreateMaterial(desc));
 	m_ringMaterial->texture0 = m_ringTexture.Get();
 }
 
@@ -235,7 +235,7 @@ void Planet::DrawGasGiantRings(Renderer *renderer, const matrix4x4d &modelView)
 
 	renderer->SetTransform(modelView);
 
-	renderer->DrawTriangles(&m_ringVertices, m_ringMaterial.Get(), TRIANGLE_STRIP);
+	renderer->DrawTriangles(&m_ringVertices, m_ringMaterial.get(), TRIANGLE_STRIP);
 
 	renderer->SetBlendMode(BLEND_SOLID);
 }
@@ -288,15 +288,15 @@ void Planet::DrawAtmosphere(Renderer *renderer, const matrix4x4d &modelView, con
 
 	rot = matrix4x4d::RotateZMatrix(angStep);
 
-	if (!m_atmosphereVertices.Valid()) {
-		m_atmosphereVertices.Reset(new Graphics::VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE | ATTRIB_NORMAL));
+	if (!m_atmosphereVertices) {
+		m_atmosphereVertices.reset(new Graphics::VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE | ATTRIB_NORMAL));
 		Graphics::MaterialDescriptor desc;
 		desc.vertexColors = true;
 		desc.twoSided = true;
-		m_atmosphereMaterial.Reset(renderer->CreateMaterial(desc));
+		m_atmosphereMaterial.reset(renderer->CreateMaterial(desc));
 	}
 
-	VertexArray &vts = *m_atmosphereVertices.Get();
+	VertexArray &vts = *m_atmosphereVertices;
 	vts.Clear();
 
 	for (float ang=0; ang<2*M_PI; ang+=float(angStep)) {
@@ -319,7 +319,7 @@ void Planet::DrawAtmosphere(Renderer *renderer, const matrix4x4d &modelView, con
 
 	renderer->SetTransform(trans);
 	renderer->SetBlendMode(BLEND_ALPHA_ONE);
-	renderer->DrawTriangles(m_atmosphereVertices.Get(), m_atmosphereMaterial.Get(), TRIANGLE_STRIP);
+	renderer->DrawTriangles(m_atmosphereVertices.get(), m_atmosphereMaterial.get(), TRIANGLE_STRIP);
 	renderer->SetBlendMode(BLEND_SOLID);
 }
 

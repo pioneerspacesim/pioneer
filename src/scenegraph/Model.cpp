@@ -98,7 +98,7 @@ void Model::Render(const matrix4x4f &trans, const RenderData *rd)
 
 	//update decals (materials and geometries are shared)
 	for (unsigned int i=0; i < MAX_DECAL_MATERIALS; i++)
-		if (m_decalMaterials[i].Valid())
+		if (m_decalMaterials[i])
 			m_decalMaterials[i]->texture0 = m_curDecals[i];
 
 	//Override renderdata if this model is called from ModelNode
@@ -203,7 +203,7 @@ void Model::SetColors(const std::vector<Color4ub> &colors)
 void Model::SetDecalTexture(Graphics::Texture *t, unsigned int index)
 {
 	index = std::min(index, MAX_DECAL_MATERIALS-1);
-	if (m_decalMaterials[index].Valid())
+	if (m_decalMaterials[index])
 		m_curDecals[index] = t;
 }
 
@@ -224,14 +224,14 @@ void Model::ClearDecals()
 void Model::ClearDecal(unsigned int index)
 {
 	index = std::min(index, MAX_DECAL_MATERIALS-1);
-	if (m_decalMaterials[index].Valid())
+	if (m_decalMaterials[index])
 		m_curDecals[index] = Graphics::TextureBuilder::GetTransparentTexture(m_renderer);
 }
 
 bool Model::SupportsDecals()
 {
 	for (unsigned int i=0; i<MAX_DECAL_MATERIALS; i++)
-		if (m_decalMaterials[i].Valid()) return true;
+		if (m_decalMaterials[i]) return true;
 
 	return false;
 }

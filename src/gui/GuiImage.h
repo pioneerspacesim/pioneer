@@ -19,7 +19,7 @@ namespace Gui {
 		void SetRenderDimensions(const float wide, const float high);
 	private:
 		void InitTexture(const char* filename);
-		ScopedPtr<TexturedQuad> m_quad;
+		std::unique_ptr<TexturedQuad> m_quad;
 		Color m_color;
 		float m_width, m_height;
 	};

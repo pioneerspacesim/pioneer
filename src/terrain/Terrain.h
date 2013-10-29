@@ -79,7 +79,7 @@ protected:
 
 	// heightmap stuff
 	// XXX unify heightmap types
-	ScopedPtr<double> m_heightMap;
+	std::unique_ptr<double[]> m_heightMap;
 	double m_heightScaling, m_minh;
 
 	int m_heightMapSizeX;
