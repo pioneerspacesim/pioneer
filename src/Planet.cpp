@@ -167,7 +167,8 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 	//       (if the texture is generated without mipmaps then a 1xN texture works)
 	const int RING_TEXTURE_WIDTH = 4;
 	const int RING_TEXTURE_LENGTH = 256;
-	ScopedMalloc<Color4ub> buf(malloc(RING_TEXTURE_WIDTH * RING_TEXTURE_LENGTH * 4));
+	std::unique_ptr<Color4ub, FreeDeleter> buf(
+			static_cast<Color4ub*>(malloc(RING_TEXTURE_WIDTH * RING_TEXTURE_LENGTH * 4)));
 
 	const float ringScale = (outer-inner)*sbody->GetRadius() / 1.5e7f;
 
@@ -189,7 +190,7 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 		color.b = (v*baseCol.b)*255.0f;
 		color.a = (((v*0.25f)+0.75f)*baseCol.a)*255.0f;
 
-		Color4ub *row = buf.Get() + i * RING_TEXTURE_WIDTH;
+		Color4ub *row = buf.get() + i * RING_TEXTURE_WIDTH;
 		for (int j = 0; j < RING_TEXTURE_WIDTH; ++j) {
 			row[j] = color;
 		}
@@ -198,9 +199,9 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 	// first and last pixel are forced to zero, to give a slightly smoother ring edge
 	{
 		Color4ub* row;
-		row = buf.Get();
+		row = buf.get();
 		memset(row, 0, RING_TEXTURE_WIDTH * 4);
-		row = buf.Get() + (RING_TEXTURE_LENGTH - 1) * RING_TEXTURE_WIDTH;
+		row = buf.get() + (RING_TEXTURE_LENGTH - 1) * RING_TEXTURE_WIDTH;
 		memset(row, 0, RING_TEXTURE_WIDTH * 4);
 	}
 
@@ -210,7 +211,7 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 
 	m_ringTexture.Reset(renderer->CreateTexture(texDesc));
 	m_ringTexture->Update(
-			static_cast<void*>(buf.Get()), texSize,
+			static_cast<void*>(buf.get()), texSize,
 			Graphics::TEXTURE_RGBA_8888);
 
 	Graphics::MaterialDescriptor desc;
