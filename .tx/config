@@ -40,3 +40,8 @@ source_lang = en
 file_filter = data/lang/module-system/<lang>.json
 source_file = data/lang/module-system/en.json
 source_lang = en
+
+[pioneer.module-taxi]
+file_filter = data/lang/module-taxi/<lang>.json
+source_file = data/lang/module-taxi/en.json
+source_lang = en
