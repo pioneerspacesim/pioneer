@@ -24,7 +24,7 @@
         "description": ""
     },
     "ALT": {
-        "message": "\"alt \"",
+        "message": "\"Magasság\"",
         "description": ""
     },
     "HYPERSPACE_ARRIVAL_CLOUD": {
@@ -384,7 +384,7 @@
         "description": ""
     },
     "MONTH_MAR": {
-        "message": "Mar",
+        "message": "Már",
         "description": ""
     },
     "PAY_THE_FINE_NOW": {
@@ -1160,7 +1160,7 @@
         "description": ""
     },
     "NUMBER_DAYS": {
-        "message": "%days{f.0} days",
+        "message": "%days{f.0} nap",
         "description": ""
     },
     "SYSTEM_NUMBER": {
@@ -1552,7 +1552,7 @@
         "description": ""
     },
     "TOMBSTONE_EPITAPH": {
-        "message": "RIP OLD BEAN",
+        "message": "Ég veled barátom!",
         "description": ""
     },
     "MINOR_EXPORTS": {

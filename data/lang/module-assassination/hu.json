@@ -8,15 +8,15 @@
         "description": ""
     },
     "SPACEPORT": {
-        "message": "Spaceport:",
+        "message": "Ürkikötő:",
         "description": ""
     },
     "FLAVOUR_SUCCESSMSG_0": {
-        "message": "Úgy hallom,{target} hosszú szabadságra ment. Nagyszerű, máris elküldöm a fizetséget.",
+        "message": "Úgy hallom, {target} hosszú szabadságra ment. Nagyszerű, máris elküldöm a fizetséget.",
         "description": ""
     },
     "TARGET_WILL_BE_LEAVING_SPACEPORT_AT": {
-        "message": "Target will be leaving spaceport at:",
+        "message": "A célszemély indulásának időpontja:",
         "description": ""
     },
     "FLAVOUR_SUCCESSMSG_5": {
@@ -32,11 +32,11 @@
         "description": ""
     },
     "FLAVOUR_SUCCESSMSG_1": {
-        "message": "Sajnálattal hallottam hírét {target} halálának. Máris megkapod a fizetséged.",
+        "message": "Sajnálattal hallottam {target} halálhírét. Máris megkapod a fizetséged.",
         "description": ""
     },
     "FLAVOUR_INTROTEXT_3": {
-        "message": "A célpontnak: {target} űrhamuvá kell válnia. Ha megteszed, {cash} összeg üti a markod.",
+        "message": "Csak űrpor maradhat {target} után. Ha megteszed, {cash} Kredit üti a markod.",
         "description": ""
     },
     "TITLE_22": {
@@ -48,11 +48,11 @@
         "description": ""
     },
     "FLAVOUR_INTROTEXT_4": {
-        "message": "{cash} összegért cserébe szeretnénk, ha {target} végleg abbahagyná működését.",
+        "message": "{cash} összegért cserébe szeretnénk, ha {target} végleg felhagyna tevékenységével.",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_2": {
-        "message": "Nagyon sajnálatos, hogy {target} még mindig él, és jól van. Nem kapsz fizetséget, ha egyszer nem végezted el a feladatot.",
+        "message": "Nagyon sajnálatos, hogy {target} még mindig él, és virul. Nem kapsz fizetséget, ha egyszer nem végezted el a feladatot.",
         "description": ""
     },
     "TITLE_24": {
@@ -84,7 +84,7 @@
         "description": ""
     },
     "TARGET_NAME": {
-        "message": "Target name:",
+        "message": "Célszemély:",
         "description": ""
     },
     "WHERE_CAN_I_FIND_X": {
@@ -96,11 +96,11 @@
         "description": ""
     },
     "X_WILL_BE_LEAVING": {
-        "message": "{target} {date} időpontban hagyja el a(z) {spaceport} dokkját a(z) {system} rendszerben ({sectorX}, {sectorY}, {sectorZ}). \n\nA hajó típusa: {shipname}, regisztrációs száma pedig {shipregid}.",
+        "message": "{target} {date} időpontban hagyja el {system} {spaceport} kikötőjét ({sectorX}, {sectorY}, {sectorZ}). \n\nA hajó típusa: {shipname}, regisztrációs száma pedig {shipregid}.",
         "description": ""
     },
     "LY": {
-        "message": "ly",
+        "message": "fé",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_0": {
@@ -116,11 +116,11 @@
         "description": ""
     },
     "OK_AGREED": {
-        "message": "Rendben, elfogadom.",
+        "message": "Rendben, vállalom.",
         "description": ""
     },
     "DISTANCE": {
-        "message": "Distance:",
+        "message": "Távolság:",
         "description": ""
     },
     "FLAVOUR_ADTEXT_5": {
@@ -132,11 +132,11 @@
         "description": ""
     },
     "FLAVOUR_INTROTEXT_5": {
-        "message": "Szeretnénk, ha {target} karrierjének vége lenne {system} rendszerben. Fizetünk {cash} kreditet, ha megteszed.",
+        "message": "Szeretnénk, ha {target} karrierjének vége lenne {system} rendszerben. Fizetünk {cash} Kreditet, ha megteszed.",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG2_0": {
-        "message": "{target} hajóját más valaki lőtte szét. Így neked nem jár fizetség sem.",
+        "message": "{target} más áldozata lett. Így neked nem jár fizetség sem.",
         "description": ""
     },
     "FLAVOUR_ADTEXT_1": {
@@ -144,7 +144,7 @@
         "description": ""
     },
     "FLAVOUR_INTROTEXT_2": {
-        "message": "A nevem {name}, és örömmel fizetek {cash} kreditet {target} megsemmisítéséért.",
+        "message": "A nevem {name}, és örömmel fizetek {cash} Kreditet {target} megsemmisítéséért.",
         "description": ""
     },
     "FLAVOUR_ADTEXT_3": {
@@ -188,7 +188,7 @@
         "description": ""
     },
     "SHIP": {
-        "message": "Ship:",
+        "message": "Hajó:",
         "description": ""
     },
     "FLAVOUR_ADTEXT_2": {
@@ -220,7 +220,7 @@
         "description": ""
     },
     "SHIP_ID": {
-        "message": "Ship ID:",
+        "message": "Hajó regisztrációs száma:",
         "description": ""
     },
     "TITLE_0": {
@@ -228,7 +228,7 @@
         "description": ""
     },
     "SYSTEM": {
-        "message": "System:",
+        "message": "Rendszer:",
         "description": ""
     },
     "ASSASSINATION": {
@@ -276,15 +276,15 @@
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_5": {
-        "message": "Megtudtuk, hogy {target} még mindig munkálkodik. Ez szomorúan halljuk.",
+        "message": "Szomorúan halljuk, hogy {target} még mindig munkálkodik.",
         "description": ""
     },
     "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
-        "message": "Megismételnéd az eredeti feladatot?",
+        "message": "Megismételnéd a hirdetést?",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_3": {
-        "message": "Még megfizetsz azért, hogy nem lőtted szét {target} hajóját!",
+        "message": "Még megfizetsz azért, hogy {target} elmenekült!",
         "description": ""
     },
     "TITLE_2": {

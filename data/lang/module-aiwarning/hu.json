@@ -8,7 +8,7 @@
         "description": ""
     },
     "CANNOT_COMPUTE_ORBIT_PARAMETERS": {
-        "message": "Nem lehet kiszámítani a keringési paramétereket",
+        "message": "Nem lehet kiszámítani a pályaadatokat",
         "description": ""
     },
     "STARPORT_REFUSED_DOCKING_PERMISSION": {
