@@ -21,6 +21,11 @@ file_filter = data/lang/module-assassination/<lang>.json
 source_file = data/lang/module-assassination/en.json
 source_lang = en
 
+[pioneer.module-breakdownservicing]
+file_filter = data/lang/module-breakdownservicing/<lang>.json
+source_file = data/lang/module-breakdownservicing/en.json
+source_lang = en
+
 [pioneer.module-fuelclub]
 file_filter = data/lang/module-fuelclub/<lang>.json
 source_file = data/lang/module-fuelclub/en.json
