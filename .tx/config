@@ -16,6 +16,11 @@ file_filter = data/lang/module-aiwarning/<lang>.json
 source_file = data/lang/module-aiwarning/en.json
 source_lang = en
 
+[pioneer.module-assassination]
+file_filter = data/lang/module-assassination/<lang>.json
+source_file = data/lang/module-assassination/en.json
+source_lang = en
+
 [pioneer.module-goodstrader]
 file_filter = data/lang/module-goodstrader/<lang>.json
 source_file = data/lang/module-goodstrader/en.json
