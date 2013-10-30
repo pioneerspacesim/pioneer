@@ -23,7 +23,12 @@ local shipInfo = function (args)
 	rearWeapon =  rearWeapon  or "NONE"
 
 	local stats = Game.player:GetStats()
-
+	local fwd_acc = (((shipDef.linearThrust["FORWARD"])*-1)/1000)/math.floor(stats.totalMass+Game.player.fuel/100*stats.maxFuelTankMass + 0.5)
+	local bwd_acc = ((((shipDef.linearThrust["REVERSE"])*-1)/1000)/math.floor(stats.totalMass+Game.player.fuel/100*stats.maxFuelTankMass + 0.5)*-1)
+	local up_acc = ((((shipDef.linearThrust["UP"])*-1)/1000)/math.floor(stats.totalMass+Game.player.fuel/100*stats.maxFuelTankMass + 0.5)*-1)
+	local deltav = (shipDef.effectiveExhaustVelocity/1000)*math.log((stats.totalMass+stats.fuelMassLeft)/stats.totalMass )
+	
+	
 	local equipItems = {}
 	for i = 1,#Constants.EquipType do
 		local type = Constants.EquipType[i]
@@ -75,7 +80,12 @@ local shipInfo = function (args)
 						"",
 						{ t("Front weapon")..":", EquipDef[frontWeapon].name },
 						{ t("Rear weapon")..":",  EquipDef[rearWeapon].name },
-						{ t("FUEL")..":",         string.format("%d%%", Game.player.fuel) },
+						{ t("FUEL")..":",         string.format("%d%%", Game.player.fuel)},
+						{ t("deltaV")..":",		  string.format("%d km/s", deltav)},
+						"",
+						{ t("Forward Acceleration")..":",    string.format("%.3f", fwd_acc) .. " m/s^2" .. " (" .. string.format("%.1f", fwd_acc/9.81).. " G)"},
+						{ t("Backward Acceleration")..":",    string.format("%.3f", bwd_acc) .. " m/s^2"  .. " (" .. string.format("%.1f", bwd_acc/9.81).. " G)" },
+						{ t("Up Acceleration")..":",    string.format("%.3f", up_acc) .. " m/s^2"  .. " (" .. string.format("%.1f", up_acc/9.81).. " G)"  },
 						"",
 						{ t("Minimum crew")..":", ShipDef[Game.player.shipId].minCrew },
 						{ t("Crew cabins")..":",  ShipDef[Game.player.shipId].maxCrew },
