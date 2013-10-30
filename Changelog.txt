@@ -8,6 +8,7 @@ October 2013
      * New settings screens (#2490, #2512)
      * Vertical speed is shown with altitude, up to 10000 km or half the
        planet's radius (#2446)
+     * Ship acceleration and delta-V is shown in the Ship Info View (#2518, #2211)
      * The random face system now supports multiple species (#2440)
      * The eclipse effect can now be disabled in the config file
        (#2439, #2497, #2176, #2190)
