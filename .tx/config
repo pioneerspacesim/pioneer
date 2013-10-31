@@ -46,6 +46,11 @@ file_filter = data/lang/module-goodstrader/<lang>.json
 source_file = data/lang/module-goodstrader/en.json
 source_lang = en
 
+[pioneer.module-stationrefuelling]
+file_filter = data/lang/module-stationrefuelling/<lang>.json
+source_file = data/lang/module-stationrefuelling/en.json
+source_lang = en
+
 [pioneer.module-statstracking]
 file_filter = data/lang/module-statstracking/<lang>.json
 source_file = data/lang/module-statstracking/en.json
