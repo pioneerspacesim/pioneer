@@ -31,6 +31,11 @@ file_filter = data/lang/module-deliverpackage/<lang>.json
 source_file = data/lang/module-deliverpackage/en.json
 source_lang = en
 
+[pioneer.module-donatetocranks]
+file_filter = data/lang/module-donatetocranks/<lang>.json
+source_file = data/lang/module-donatetocranks/en.json
+source_lang = en
+
 [pioneer.module-crewcontracts]
 file_filter = data/lang/module-crewcontracts/<lang>.json
 source_file = data/lang/module-crewcontracts/en.json
