@@ -26,6 +26,11 @@ file_filter = data/lang/module-breakdownservicing/<lang>.json
 source_file = data/lang/module-breakdownservicing/en.json
 source_lang = en
 
+[pioneer.module-crewcontracts]
+file_filter = data/lang/module-crewcontracts/<lang>.json
+source_file = data/lang/module-crewcontracts/en.json
+source_lang = en
+
 [pioneer.module-fuelclub]
 file_filter = data/lang/module-fuelclub/<lang>.json
 source_file = data/lang/module-fuelclub/en.json

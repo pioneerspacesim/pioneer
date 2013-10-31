@@ -182,7 +182,7 @@ local crewRoster = function ()
 
 			crewlistbox:PackEnd(ui:Grid(rowspec,1):SetRow(0, {
 				ui:Label(crewMember.name),
-				ui:Label(l[crewMember.title] or l.GENERAL_CREW),
+				ui:Label(crewMember.title or l.GENERAL_CREW),
 				ui:Label(Format.Money(crewWage)):SetColor({ r = 0.0, g = 1.0, b = 0.2 }), -- green
 				ui:Label(Format.Money(crewOwed)):SetColor({ r = 1.0, g = 0.0, b = 0.0 }), -- red
 				ui:Label(Format.Date(crewMember.contract and crewMember.contract.payday or 0)),
