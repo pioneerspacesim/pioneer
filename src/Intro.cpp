@@ -23,7 +23,7 @@ Intro::Intro(Graphics::Renderer *r, int width, int height)
 {
 	using Graphics::Light;
 
-	m_background.Reset(new Background::Container(r, UNIVERSE_SEED));
+	m_background.reset(new Background::Container(r, UNIVERSE_SEED));
 	m_ambientColor = Color(0.f);
 
 	const Color one = Color::WHITE;

@@ -60,7 +60,7 @@ private:
 	Uint32 m_seed;
 
 	Uint32 m_created;
-	ScopedPtr<Gui::TexturedQuad> m_quad;
+	std::unique_ptr<Gui::TexturedQuad> m_quad;
 	Gui::ToolTip *m_message;
 	CharacterInfoText *m_characterInfo;
 };

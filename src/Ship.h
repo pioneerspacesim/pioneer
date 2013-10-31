@@ -327,7 +327,7 @@ private:
 	int m_dockedWithIndex; // deserialisation
 
 	SceneGraph::Animation *m_landingGearAnimation;
-	ScopedPtr<NavLights> m_navLights;
+	std::unique_ptr<NavLights> m_navLights;
 };
 
 

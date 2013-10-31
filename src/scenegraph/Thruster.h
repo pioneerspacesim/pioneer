@@ -31,8 +31,8 @@ private:
 	static Graphics::VertexArray* CreateGlowGeometry();
 	RefCountedPtr<Graphics::Material> m_tMat;
 	RefCountedPtr<Graphics::Material> m_glowMat;
-	ScopedPtr<Graphics::VertexArray> m_tVerts;
-	ScopedPtr<Graphics::VertexArray> m_glowVerts;
+	std::unique_ptr<Graphics::VertexArray> m_tVerts;
+	std::unique_ptr<Graphics::VertexArray> m_glowVerts;
 	bool linearOnly;
 	vector3f dir;
 	vector3f pos;

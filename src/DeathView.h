@@ -22,7 +22,7 @@ protected:
 	virtual void OnSwitchTo();
 
 private:
-	ScopedPtr<Camera> m_cam;
+	std::unique_ptr<Camera> m_cam;
 	float m_cameraDist;
 };
 

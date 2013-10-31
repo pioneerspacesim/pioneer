@@ -22,7 +22,7 @@ Gradient::Gradient(float width, float height, const Color &beginColor, const Col
 	vector2f size = direction == HORIZONTAL ? vector2f(2.0f,1.0f) : vector2f(1.0f,2.0f);
 	Graphics::Texture *texture = Gui::Screen::GetRenderer()->CreateTexture(Graphics::TextureDescriptor(format, size));
 	texture->Update(data, size, format);
-	m_quad.Reset(new TexturedQuad(texture));
+	m_quad.reset(new TexturedQuad(texture));
 }
 
 void Gradient::GetSizeRequested(float size[2])

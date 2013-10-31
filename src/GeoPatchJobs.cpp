@@ -125,10 +125,10 @@ void SinglePatchJob::OnRun()    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
 	if(s_abort)
 		return;
 
-	const SSingleSplitRequest &srd = (*mData.Get());
+	const SSingleSplitRequest &srd = *mData;
 
 	// fill out the data
-	GenerateMesh(srd.heights, srd.normals, srd.colors, srd.borderHeights.Get(), srd.borderVertexs.Get(),
+	GenerateMesh(srd.heights, srd.normals, srd.colors, srd.borderHeights.get(), srd.borderVertexs.get(),
 		srd.v0, srd.v1, srd.v2, srd.v3, 
 		srd.edgeLen, srd.fracStep, srd.pTerrain.Get());
 	// add this patches data
@@ -174,7 +174,7 @@ void QuadPatchJob::OnRun()    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
 	if(s_abort)
 		return;
 
-	const SQuadSplitRequest &srd = (*mData.Get());
+	const SQuadSplitRequest &srd = *mData;
 	const vector3d v01	= (srd.v0+srd.v1).Normalized();
 	const vector3d v12	= (srd.v1+srd.v2).Normalized();
 	const vector3d v23	= (srd.v2+srd.v3).Normalized();
@@ -198,7 +198,7 @@ void QuadPatchJob::OnRun()    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
 		}
 
 		// fill out the data
-		GenerateMesh(srd.heights[i], srd.normals[i], srd.colors[i], srd.borderHeights[i].Get(), srd.borderVertexs[i].Get(),
+		GenerateMesh(srd.heights[i], srd.normals[i], srd.colors[i], srd.borderHeights[i].get(), srd.borderVertexs[i].get(),
 			vecs[i][0], vecs[i][1], vecs[i][2], vecs[i][3], 
 			srd.edgeLen, srd.fracStep, srd.pTerrain.Get());
 		// add this patches data

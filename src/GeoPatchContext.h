@@ -54,9 +54,9 @@ public:
 
 	double frac;
 
-	ScopedArray<unsigned short> midIndices;
-	ScopedArray<unsigned short> loEdgeIndices[4];
-	ScopedArray<unsigned short> hiEdgeIndices[4];
+	std::unique_ptr<unsigned short[]> midIndices;
+	std::unique_ptr<unsigned short[]> loEdgeIndices[4];
+	std::unique_ptr<unsigned short[]> hiEdgeIndices[4];
 	GLuint indices_vbo;
 	GLuint indices_list[NUM_INDEX_LISTS];
 	GLuint indices_tri_count;

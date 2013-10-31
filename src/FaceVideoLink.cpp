@@ -41,7 +41,7 @@ FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed,
 
 	m_characterInfo = new CharacterInfoText(w * 0.8f, h * 0.15f, charname, title);
 
-	m_quad.Reset(new Gui::TexturedQuad(Graphics::TextureBuilder(faceim, Graphics::LINEAR_CLAMP, true, true).CreateTexture(Gui::Screen::GetRenderer())));
+	m_quad.reset(new Gui::TexturedQuad(Graphics::TextureBuilder(faceim, Graphics::LINEAR_CLAMP, true, true).CreateTexture(Gui::Screen::GetRenderer())));
 }
 
 FaceVideoLink::~FaceVideoLink() {

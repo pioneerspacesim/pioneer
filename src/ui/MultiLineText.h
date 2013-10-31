@@ -28,7 +28,7 @@ protected:
 
 private:
 	std::string m_text;
-	ScopedPtr<TextLayout> m_layout;
+	std::unique_ptr<TextLayout> m_layout;
 	Point m_preferredSize;
 };
 

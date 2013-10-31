@@ -249,7 +249,7 @@ void TextureFont::RenderString(const char *str, float x, float y, const Color &c
 		}
 	}
 
-	m_renderer->DrawTriangles(&m_vertices, m_mat.Get());
+	m_renderer->DrawTriangles(&m_vertices, m_mat.get());
 }
 
 Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &color)
@@ -310,7 +310,7 @@ Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &
 		}
 	}
 
-	m_renderer->DrawTriangles(&m_vertices, m_mat.Get());
+	m_renderer->DrawTriangles(&m_vertices, m_mat.get());
 	return c;
 }
 
@@ -564,7 +564,7 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 	Graphics::MaterialDescriptor desc;
 	desc.vertexColors = true; //to allow per-character colors
 	desc.textures = 1;
-	m_mat.Reset(m_renderer->CreateMaterial(desc));
+	m_mat.reset(m_renderer->CreateMaterial(desc));
 	Graphics::TextureDescriptor textureDescriptor(tex_format, tex_size, Graphics::NEAREST_CLAMP, false, false);
 	m_texture.Reset(m_renderer->CreateTexture(textureDescriptor));
 	m_mat->texture0 = m_texture.Get();

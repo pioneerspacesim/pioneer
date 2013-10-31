@@ -9,7 +9,7 @@ namespace UI {
 
 MultiLineText::MultiLineText(Context *context, const std::string &text) : Widget(context), m_text(text)
 {
-	m_layout.Reset(new TextLayout(GetContext()->GetFont(GetFont()), m_text));
+	m_layout.reset(new TextLayout(GetContext()->GetFont(GetFont()), m_text));
 }
 
 Point MultiLineText::PreferredSize()
@@ -41,14 +41,14 @@ void MultiLineText::Draw()
 
 Widget *MultiLineText::SetFont(Font font) {
 	Widget::SetFont(font);
-	m_layout.Reset(new TextLayout(GetContext()->GetFont(GetFont()), m_text));
+	m_layout.reset(new TextLayout(GetContext()->GetFont(GetFont()), m_text));
 	return this;
 }
 
 MultiLineText *MultiLineText::SetText(const std::string &text)
 {
 	m_text = text;
-	m_layout.Reset(new TextLayout(GetContext()->GetFont(GetFont()), m_text));
+	m_layout.reset(new TextLayout(GetContext()->GetFont(GetFont()), m_text));
 	GetContext()->RequestLayout();
 	return this;
 }

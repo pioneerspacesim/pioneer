@@ -30,7 +30,7 @@ private:
 	float m_zoomBegin, m_zoomEnd;
 	float m_dist;
 
-	ScopedPtr<Background::Container> m_background;
+	std::unique_ptr<Background::Container> m_background;
 };
 
 #endif

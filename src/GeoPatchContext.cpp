@@ -19,10 +19,10 @@
 
 
 void GeoPatchContext::Cleanup() {
-	midIndices.Reset();
+	midIndices.reset();
 	for (int i=0; i<4; i++) {
-		loEdgeIndices[i].Reset();
-		hiEdgeIndices[i].Reset();
+		loEdgeIndices[i].reset();
+		hiEdgeIndices[i].reset();
 	}
 	if (indices_vbo) {
 		indices_vbo = 0;
@@ -82,13 +82,13 @@ void GeoPatchContext::Init() {
 	vbotemp = new VBOVertex[NUMVERTICES()];
 
 	unsigned short *idx;
-	midIndices.Reset(new unsigned short[VBO_COUNT_MID_IDX()]);
+	midIndices.reset(new unsigned short[VBO_COUNT_MID_IDX()]);
 	for (int i=0; i<4; i++) {
-		loEdgeIndices[i].Reset(new unsigned short[VBO_COUNT_LO_EDGE()]);
-		hiEdgeIndices[i].Reset(new unsigned short[VBO_COUNT_HI_EDGE()]);
+		loEdgeIndices[i].reset(new unsigned short[VBO_COUNT_LO_EDGE()]);
+		hiEdgeIndices[i].reset(new unsigned short[VBO_COUNT_HI_EDGE()]);
 	}
 	/* also want vtx indices for tris not touching edge of patch */
-	idx = midIndices.Get();
+	idx = midIndices.get();
 	for (int x=1; x<edgeLen-2; x++) {
 		for (int y=1; y<edgeLen-2; y++) {
 			idx[0] = x + edgeLen*y;
@@ -150,14 +150,14 @@ void GeoPatchContext::Init() {
 	}
 	// full detail edge triangles
 	{
-		idx = hiEdgeIndices[0].Get();
+		idx = hiEdgeIndices[0].get();
 		for (int x=0; x<edgeLen-1; x+=2) {
 			idx[0] = x; idx[1] = x+1; idx[2] = x+1 + edgeLen;
 			idx+=3;
 			idx[0] = x+1; idx[1] = x+2; idx[2] = x+1 + edgeLen;
 			idx+=3;
 		}
-		idx = hiEdgeIndices[1].Get();
+		idx = hiEdgeIndices[1].get();
 		for (int y=0; y<edgeLen-1; y+=2) {
 			idx[0] = edgeLen-1 + y*edgeLen;
 			idx[1] = edgeLen-1 + (y+1)*edgeLen;
@@ -168,7 +168,7 @@ void GeoPatchContext::Init() {
 			idx[2] = edgeLen-2 + (y+1)*edgeLen;
 			idx+=3;
 		}
-		idx = hiEdgeIndices[2].Get();
+		idx = hiEdgeIndices[2].get();
 		for (int x=0; x<edgeLen-1; x+=2) {
 			idx[0] = x + (edgeLen-1)*edgeLen;
 			idx[1] = x+1 + (edgeLen-2)*edgeLen;
@@ -179,7 +179,7 @@ void GeoPatchContext::Init() {
 			idx[2] = x+1 + (edgeLen-1)*edgeLen;
 			idx+=3;
 		}
-		idx = hiEdgeIndices[3].Get();
+		idx = hiEdgeIndices[3].get();
 		for (int y=0; y<edgeLen-1; y+=2) {
 			idx[0] = y*edgeLen;
 			idx[1] = 1 + (y+1)*edgeLen;
@@ -195,28 +195,28 @@ void GeoPatchContext::Init() {
 	// neighbour of equal or greater detail -- they reduce
 	// their edge complexity by 1 division
 	{
-		idx = loEdgeIndices[0].Get();
+		idx = loEdgeIndices[0].get();
 		for (int x=0; x<edgeLen-2; x+=2) {
 			idx[0] = x;
 			idx[1] = x+2;
 			idx[2] = x+1+edgeLen;
 			idx += 3;
 		}
-		idx = loEdgeIndices[1].Get();
+		idx = loEdgeIndices[1].get();
 		for (int y=0; y<edgeLen-2; y+=2) {
 			idx[0] = (edgeLen-1) + y*edgeLen;
 			idx[1] = (edgeLen-1) + (y+2)*edgeLen;
 			idx[2] = (edgeLen-2) + (y+1)*edgeLen;
 			idx += 3;
 		}
-		idx = loEdgeIndices[2].Get();
+		idx = loEdgeIndices[2].get();
 		for (int x=0; x<edgeLen-2; x+=2) {
 			idx[0] = x+edgeLen*(edgeLen-1);
 			idx[2] = x+2+edgeLen*(edgeLen-1);
 			idx[1] = x+1+edgeLen*(edgeLen-2);
 			idx += 3;
 		}
-		idx = loEdgeIndices[3].Get();
+		idx = loEdgeIndices[3].get();
 		for (int y=0; y<edgeLen-2; y+=2) {
 			idx[0] = y*edgeLen;
 			idx[2] = (y+2)*edgeLen;
@@ -254,10 +254,10 @@ void GeoPatchContext::Init() {
 	indices_tri_count	= indices_tri_counts[NUM_INDEX_LISTS-1];
 
 	if (midIndices) {
-		midIndices.Reset();
+		midIndices.reset();
 		for (int i=0; i<4; i++) {
-			loEdgeIndices[i].Reset();
-			hiEdgeIndices[i].Reset();
+			loEdgeIndices[i].reset();
+			hiEdgeIndices[i].reset();
 		}
 	}
 }

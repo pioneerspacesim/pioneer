@@ -60,7 +60,7 @@ private:
 	float m_height;
 	float m_descender;
 	RefCountedPtr<Graphics::Texture> m_texture;
-	ScopedPtr<Graphics::Material> m_mat;
+	std::unique_ptr<Graphics::Material> m_mat;
 	Graphics::VertexArray m_vertices;
 
 	static int s_glyphCount;

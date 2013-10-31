@@ -215,8 +215,8 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 	if (b->type == SystemBody::TYPE_STARPORT_SURFACE) return;
 	if (b->type != SystemBody::TYPE_GRAVPOINT) {
 
-		if (!m_bodyIcon.Valid()) {
-			m_bodyIcon.Reset(new Graphics::Drawables::Disk(m_renderer, Color::WHITE, 1.0f));
+		if (!m_bodyIcon) {
+			m_bodyIcon.reset(new Graphics::Drawables::Disk(m_renderer, Color::WHITE, 1.0f));
 		}
 
 		const double radius = b->GetRadius() * m_zoom;

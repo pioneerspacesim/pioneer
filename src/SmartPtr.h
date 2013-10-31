@@ -88,60 +88,9 @@ DEF_SMARTPTR_COMPARISON(> )
 DEF_SMARTPTR_COMPARISON(>=)
 #undef DEF_SMARTPTR_COMPARISON
 
-template <typename T>
-class ScopedPtr : public SmartPtrBase<ScopedPtr<T>, T> {
-	typedef ScopedPtr<T> this_type;
-	typedef SmartPtrBase<this_type, T> base_type;
-public:
-	ScopedPtr() {}
-	explicit ScopedPtr(T *p): base_type(p) {}
-	~ScopedPtr() { delete this->Release(); }
-
-	using base_type::Release;
-
-private:
-	ScopedPtr(const ScopedPtr&);
-	ScopedPtr &operator=(const ScopedPtr&);
-};
-
-template <typename T>
-class ScopedArray : public SmartPtrBase<ScopedArray<T>, T> {
-	typedef ScopedArray<T> this_type;
-	typedef SmartPtrBase<this_type, T> base_type;
-public:
-	ScopedArray() {}
-	explicit ScopedArray(T *p): base_type(p) {}
-	~ScopedArray() { delete[] this->Release(); }
-
-	T &operator[](std::ptrdiff_t i) const { return this->m_ptr[i]; }
-
-	using base_type::Release;
-
-private:
-	ScopedArray(const ScopedArray&);
-	ScopedArray &operator=(const ScopedArray&);
-};
-
-template <typename T>
-class ScopedMalloc : public SmartPtrBase<ScopedMalloc<T>, T> {
-	typedef ScopedMalloc<T> this_type;
-	typedef SmartPtrBase<this_type, T> base_type;
-public:
-	ScopedMalloc() {}
-	explicit ScopedMalloc(T *p): base_type(p) {}
-	// malloc() and co return void pointers, which we kindly convert without question
-	explicit ScopedMalloc(void *p): base_type(static_cast<T*>(p)) {}
-	~ScopedMalloc() { free(this->Release()); }
-
-	void Reset(void *p) { base_type::Reset(static_cast<T*>(p)); }
-
-	T &operator[](std::ptrdiff_t i) const { return this->m_ptr[i]; }
-
-	using base_type::Release;
-
-private:
-	ScopedMalloc(const ScopedMalloc&);
-	ScopedMalloc &operator=(const ScopedMalloc&);
+// a deleter type for use with std::unique_ptr
+struct FreeDeleter {
+	void operator()(void* p) { std::free(p); }
 };
 
 #endif

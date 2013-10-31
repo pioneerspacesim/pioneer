@@ -59,8 +59,8 @@ public:
 			normals[i] = new vector3f[numVerts];
 			colors[i] = new Color3ub[numVerts];
 
-			borderHeights[i].Reset(new double[numBorderedVerts]);
-			borderVertexs[i].Reset(new vector3d[numBorderedVerts]);
+			borderHeights[i].reset(new double[numBorderedVerts]);
+			borderVertexs[i].reset(new vector3d[numBorderedVerts]);
 		}
 	}
 
@@ -70,8 +70,8 @@ public:
 	double *heights[4];
 
 	// these are created with the request but are destroyed when the request is finished
-	ScopedArray<double> borderHeights[4];
-	ScopedArray<vector3d> borderVertexs[4];
+	std::unique_ptr<double[]> borderHeights[4];
+	std::unique_ptr<vector3d[]> borderVertexs[4];
 
 protected:
 	// deliberately prevent copy constructor access
@@ -91,8 +91,8 @@ public:
 		colors = new Color3ub[numVerts];
 		
 		const int numBorderedVerts = NUMVERTICES(edgeLen_+2);
-		borderHeights.Reset(new double[numBorderedVerts]);
-		borderVertexs.Reset(new vector3d[numBorderedVerts]);
+		borderHeights.reset(new double[numBorderedVerts]);
+		borderVertexs.reset(new vector3d[numBorderedVerts]);
 	}
 
 	// these are created with the request and are given to the resulting patches
@@ -101,8 +101,8 @@ public:
 	double *heights;
 
 	// these are created with the request but are destroyed when the request is finished
-	ScopedPtr<double> borderHeights;
-	ScopedPtr<vector3d> borderVertexs;
+	std::unique_ptr<double> borderHeights;
+	std::unique_ptr<vector3d> borderVertexs;
 
 protected:
 	// deliberately prevent copy constructor access
@@ -262,7 +262,7 @@ public:
 	virtual void OnCancel();   // runs in primary thread of the context
 
 private:
-	ScopedPtr<SSingleSplitRequest> mData;
+	std::unique_ptr<SSingleSplitRequest> mData;
 	SSingleSplitResult *mpResults;
 };
 
@@ -279,7 +279,7 @@ public:
 	virtual void OnCancel();   // runs in primary thread of the context
 
 private:
-	ScopedPtr<SQuadSplitRequest> mData;
+	std::unique_ptr<SQuadSplitRequest> mData;
 	SQuadSplitResult *mpResults;
 };
 

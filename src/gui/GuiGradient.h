@@ -29,7 +29,7 @@ namespace Gui {
 		virtual void GetSizeRequested(float size[2]);
 
 	private:
-		ScopedPtr<TexturedQuad> m_quad;
+		std::unique_ptr<TexturedQuad> m_quad;
 	};
 
 }

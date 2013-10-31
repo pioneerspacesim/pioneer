@@ -42,13 +42,13 @@ RenderTarget::~RenderTarget()
 
 Texture *RenderTarget::GetColorTexture() const
 {
-	return m_colorTexture.Valid() ? m_colorTexture.Get() : 0;
+	return m_colorTexture.Get();
 }
 
 Texture *RenderTarget::GetDepthTexture() const
 {
 	assert(GetDesc().allowDepthTexture);
-	return m_depthTexture.Valid() ? m_depthTexture.Get() : 0;
+	return m_depthTexture.Get();
 }
 
 void RenderTarget::SetColorTexture(Texture* t)
