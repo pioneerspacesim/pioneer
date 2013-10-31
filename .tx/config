@@ -26,6 +26,11 @@ file_filter = data/lang/module-breakdownservicing/<lang>.json
 source_file = data/lang/module-breakdownservicing/en.json
 source_lang = en
 
+[pioneer.module-deliverpackage]
+file_filter = data/lang/module-deliverpackage/<lang>.json
+source_file = data/lang/module-deliverpackage/en.json
+source_lang = en
+
 [pioneer.module-crewcontracts]
 file_filter = data/lang/module-crewcontracts/<lang>.json
 source_file = data/lang/module-crewcontracts/en.json
