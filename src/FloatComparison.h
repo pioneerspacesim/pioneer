@@ -6,6 +6,11 @@
 
 #include <SDL_stdinc.h>
 #include <limits>
+#ifdef _MSC_VER
+#include <float.h> // for _finite
+#else
+#include <cmath> // for std::isfinite
+#endif
 
 // Fuzzy floating point comparisons based on:
 //   http://realtimecollisiondetection.net/blog/?p=89
@@ -29,12 +34,10 @@
 // bool is_equal_general(float a, float b, float relative_tolerance, float absolute_tolerance);
 
 // bool is_zero_exact(float x);
-// bool is_zero_or_denorm(float x);
 // bool is_zero_general(float x, float tolerance = IEEEFloatTraits<float>::DefaultRelTolerance());
 
 // bool is_nan(float x);
 // bool is_finite(float x);
-// bool is_denorm(float x);
 
 
 // ====================================================================
@@ -84,38 +87,15 @@ inline typename IEEEFloatTraits<T>::bool_type is_finite_bits
 	return ((bits & ebits) != ebits);
 }
 
-template <typename T>
-inline typename IEEEFloatTraits<T>::bool_type is_denorm_bits
-	(const typename IEEEFloatTraits<T>::uint_type& bits)
-{
-	typedef typename IEEEFloatTraits<T>::uint_type uint_type;
-	const uint_type top = IEEEFloatTraits<T>::TopBit;
-	const uint_type ebits = IEEEFloatTraits<T>::ExponentBits;
-	// denormal numbers have a zero exponent and a non-zero mantissa
-	return (bits & ~top) && !(bits & ebits);
-}
-
-// ---- float properties (nan, finite, denormal)
+// --- infinity
 
 template <typename T>
 inline typename IEEEFloatTraits<T>::bool_type is_finite(T x) {
-	typedef typename IEEEFloatTraits<T>::FloatOrInt union_type;
-	union_type fi;
-	fi.f = x;
-	return is_finite_bits(fi.ui);
-}
-
-template <typename T>
-inline typename IEEEFloatTraits<T>::bool_type is_denorm(T x) {
-	typedef typename IEEEFloatTraits<T>::FloatOrInt union_type;
-	union_type fi;
-	fi.f = x;
-	return is_denorm_bits(fi.ui);
-}
-
-template <typename T>
-inline typename IEEEFloatTraits<T>::bool_type is_zero_or_denorm(T x) {
-	return (float_abs(x) < IEEEFloatTraits<T>::SmallestNormalisedValue());
+#ifdef _MSC_VER
+	return _finite(x);
+#else
+	return std::isfinite(x);
+#endif
 }
 
 // --- exact comparisons, and checking for NaN
