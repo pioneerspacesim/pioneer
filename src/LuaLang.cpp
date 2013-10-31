@@ -8,6 +8,11 @@
 #include "Lang.h"
 #include <algorithm>
 
+static int _resource_index(lua_State *l)
+{
+	return luaL_error(l, "unknown translation token: %s", lua_tostring(l, 2));
+}
+
 static int l_lang_get_resource(lua_State *l)
 {
 	LUA_DEBUG_START(l);
@@ -26,6 +31,12 @@ static int l_lang_get_resource(lua_State *l)
 		lua_pushlstring(l, text.c_str(), text.size());
 		lua_rawset(l, -3);
 	}
+
+	lua_newtable(l);
+	lua_pushstring(l, "__index");
+	lua_pushcfunction(l, _resource_index);
+	lua_rawset(l, -3);
+	lua_setmetatable(l, -2);
 
 	LUA_DEBUG_END(l, 1);
 	return 1;
