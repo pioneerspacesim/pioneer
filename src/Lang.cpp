@@ -209,9 +209,14 @@ const Resource &GetCore()
 	return s_coreResource;
 }
 
+static std::map<std::string,Resource> m_cachedResources;
+
 Resource GetResource(const std::string &name, const std::string &langCode)
 {
-	// XXX caching
+	auto i = m_cachedResources.find(name);
+	if (i != m_cachedResources.end())
+		return i->second;
+
 	Lang::Resource res = Lang::Resource(name, langCode);
 	bool loaded = res.Load();
 	if (!loaded) {
@@ -223,6 +228,10 @@ Resource GetResource(const std::string &name, const std::string &langCode)
 		if (!loaded)
 			fprintf(stderr, "couldn't load language resource %s/en\n", name.c_str());
 	}
+
+	if (loaded)
+		m_cachedResources.insert(std::make_pair(name, res));
+
 	return res;
 }
 
