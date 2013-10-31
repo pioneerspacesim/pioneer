@@ -16,8 +16,8 @@ ModelSpinner::ModelSpinner(Context *context, SceneGraph::Model *model, const Sce
 	m_rotX(0), m_rotY(0),
 	m_rightMouseButton(false)
 {
-	m_model.Reset(model->MakeInstance());
-	m_skin.Apply(m_model.Get());
+	m_model.reset(model->MakeInstance());
+	m_skin.Apply(m_model.get());
 
 	Color lc(1.f);
 	m_light.SetDiffuse(lc);

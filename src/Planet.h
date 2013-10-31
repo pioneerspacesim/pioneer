@@ -43,11 +43,11 @@ private:
 	double m_surfaceGravity_g;
 	RefCountedPtr<Graphics::Texture> m_ringTexture;
 	Graphics::VertexArray m_ringVertices;
-	ScopedPtr<Graphics::Material> m_ringMaterial;
+	std::unique_ptr<Graphics::Material> m_ringMaterial;
 
 	// Legacy renderer visuals
-	ScopedPtr<Graphics::VertexArray> m_atmosphereVertices;
-	ScopedPtr<Graphics::Material> m_atmosphereMaterial;
+	std::unique_ptr<Graphics::VertexArray> m_atmosphereVertices;
+	std::unique_ptr<Graphics::Material> m_atmosphereMaterial;
 };
 
 #endif /* _PLANET_H */

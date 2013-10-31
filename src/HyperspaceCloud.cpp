@@ -42,10 +42,10 @@ HyperspaceCloud::HyperspaceCloud()
 
 void HyperspaceCloud::InitGraphics()
 {
-	m_graphic.vertices.Reset(new Graphics::VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE));
+	m_graphic.vertices.reset(new Graphics::VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE));
 	Graphics::MaterialDescriptor desc;
 	desc.vertexColors = true;
-	m_graphic.material.Reset(Pi::renderer->CreateMaterial(desc));
+	m_graphic.material.reset(Pi::renderer->CreateMaterial(desc));
 }
 
 HyperspaceCloud::~HyperspaceCloud()
@@ -157,7 +157,7 @@ void HyperspaceCloud::Render(Renderer *renderer, const Camera *camera, const vec
 	m_graphic.vertices->Clear();
 	Color4f outerColor = m_isArrival ? Color::BLUE : Color::RED;
 	outerColor.a = 0.f;
-	make_circle_thing(*m_graphic.vertices.Get(), radius, Color(1.0,1.0,1.0,1.0), outerColor);
-	renderer->DrawTriangles(m_graphic.vertices.Get(), m_graphic.material.Get(), TRIANGLE_FAN);
+	make_circle_thing(*m_graphic.vertices.get(), radius, Color(1.0,1.0,1.0,1.0), outerColor);
+	renderer->DrawTriangles(m_graphic.vertices.get(), m_graphic.material.get(), TRIANGLE_FAN);
 	renderer->SetBlendMode(BLEND_SOLID);
 }

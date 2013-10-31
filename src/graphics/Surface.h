@@ -23,7 +23,7 @@ public:
 	virtual ~Surface() {}
 
 	PrimitiveType GetPrimtiveType() const { return m_primitiveType; }
-	VertexArray *GetVertices() const { return m_vertices.Get(); }
+	VertexArray *GetVertices() const { return m_vertices.get(); }
 	RefCountedPtr<Material> GetMaterial() const { return m_material; }
 	void SetMaterial(RefCountedPtr<Material> m) { m_material = m; }
 
@@ -36,7 +36,7 @@ public:
 
 private:
 	PrimitiveType m_primitiveType;
-	ScopedPtr<VertexArray> m_vertices;
+	std::unique_ptr<VertexArray> m_vertices;
 	RefCountedPtr<Material> m_material;
 
 	std::vector<unsigned short> m_indices;

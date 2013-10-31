@@ -9,7 +9,7 @@ namespace Drawables {
 
 Disk::Disk(Graphics::Renderer *r, const Color &c, float rad)
 {
-	m_vertices.Reset(new VertexArray(ATTRIB_POSITION));
+	m_vertices.reset(new VertexArray(ATTRIB_POSITION));
 	m_material.Reset(r->CreateMaterial(MaterialDescriptor()));
 	m_material->diffuse = c;
 
@@ -24,7 +24,7 @@ Disk::Disk(Graphics::Renderer *r, const Color &c, float rad)
 
 Disk::Disk(RefCountedPtr<Material> material, const int numEdges/*=72*/, const float radius/*=1.0f*/) : m_material(material)
 {
-	m_vertices.Reset(new VertexArray(ATTRIB_POSITION));
+	m_vertices.reset(new VertexArray(ATTRIB_POSITION));
 
 	m_vertices->Add(vector3f(0.f, 0.f, 0.f));
 	const float edgeStep = 360.0f / float(numEdges);
@@ -38,7 +38,7 @@ Disk::Disk(RefCountedPtr<Material> material, const int numEdges/*=72*/, const fl
 
 void Disk::Draw(Renderer *r)
 {
-	r->DrawTriangles(m_vertices.Get(), m_material.Get(), TRIANGLE_FAN);
+	r->DrawTriangles(m_vertices.get(), m_material.Get(), TRIANGLE_FAN);
 }
 
 void Disk::SetColor(const Color4f &c)
@@ -103,7 +103,7 @@ Sphere3D::Sphere3D(RefCountedPtr<Material> mat, int subdivs, float scale)
 	scale = fabs(scale);
 	matrix4x4f trans = matrix4x4f::Identity();
 	trans.Scale(scale, scale, scale);
-	m_surface.Reset(new Surface(TRIANGLES, new VertexArray(ATTRIB_POSITION | ATTRIB_NORMAL | ATTRIB_UV0), mat));
+	m_surface.reset(new Surface(TRIANGLES, new VertexArray(ATTRIB_POSITION | ATTRIB_NORMAL | ATTRIB_UV0), mat));
 
 	//initial vertices
 	int i;
@@ -127,7 +127,7 @@ Sphere3D::Sphere3D(RefCountedPtr<Material> mat, int subdivs, float scale)
 
 void Sphere3D::Draw(Renderer *r)
 {
-	r->DrawSurface(m_surface.Get());
+	r->DrawSurface(m_surface.get());
 }
 
 int Sphere3D::AddVertex(const vector3f &v, const vector3f &n)

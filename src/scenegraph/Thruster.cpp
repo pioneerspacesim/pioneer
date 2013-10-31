@@ -21,8 +21,8 @@ Thruster::Thruster(Graphics::Renderer *r, bool _linear, const vector3f &_pos, co
 , dir(_dir)
 , pos(_pos)
 {
-	m_tVerts.Reset(CreateThrusterGeometry());
-	m_glowVerts.Reset(CreateGlowGeometry());
+	m_tVerts.reset(CreateThrusterGeometry());
+	m_glowVerts.reset(CreateGlowGeometry());
 
 	//set up materials
 	Graphics::MaterialDescriptor desc;
@@ -45,8 +45,8 @@ Thruster::Thruster(const Thruster &thruster, NodeCopyCache *cache)
 , dir(thruster.dir)
 , pos(thruster.pos)
 {
-	m_tVerts.Reset(CreateThrusterGeometry());
-	m_glowVerts.Reset(CreateGlowGeometry());
+	m_tVerts.reset(CreateThrusterGeometry());
+	m_glowVerts.reset(CreateGlowGeometry());
 }
 
 Node* Thruster::Clone(NodeCopyCache *cache)
@@ -98,8 +98,8 @@ void Thruster::Render(const matrix4x4f &trans, const RenderData *rd)
 	m_glowMat->diffuse.a = Easing::Circ::EaseIn(Clamp(vdir.Dot(cdir), 0.f, 1.f), 0.f, 1.f, 1.f);
 	m_tMat->diffuse.a = 1.f - m_glowMat->diffuse.a;
 
-	r->DrawTriangles(m_tVerts.Get(), m_tMat.Get());
-	r->DrawTriangles(m_glowVerts.Get(), m_glowMat.Get());
+	r->DrawTriangles(m_tVerts.get(), m_tMat.Get());
+	r->DrawTriangles(m_glowVerts.get(), m_glowMat.Get());
 
 	r->SetBlendMode(Graphics::BLEND_SOLID);
 	r->SetDepthWrite(true);

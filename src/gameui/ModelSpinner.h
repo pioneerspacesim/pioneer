@@ -26,7 +26,7 @@ protected:
 	virtual void HandleMouseMove(const UI::MouseMotionEvent &event);
 
 private:
-	ScopedPtr<SceneGraph::Model> m_model;
+	std::unique_ptr<SceneGraph::Model> m_model;
 	SceneGraph::ModelSkin m_skin;
 
 	float m_rotX, m_rotY;

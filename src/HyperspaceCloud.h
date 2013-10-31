@@ -48,8 +48,8 @@ private:
 	bool m_isArrival;
 
 	struct Graphic {
-		ScopedPtr<Graphics::VertexArray> vertices;
-		ScopedPtr<Graphics::Material> material;
+		std::unique_ptr<Graphics::VertexArray> vertices;
+		std::unique_ptr<Graphics::Material> material;
 	};
 	Graphic m_graphic;
 };

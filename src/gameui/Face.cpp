@@ -28,7 +28,7 @@ Face::Face(Context *context, Uint32 flags, Uint32 seed) : Single(context)
 	Sint8 gender=0;
 	FaceGenManager::BlitFaceIm(faceim, gender, flags, seed);
 
-	m_texture.Reset(Graphics::TextureBuilder(faceim, Graphics::LINEAR_CLAMP, true, true).CreateTexture(GetContext()->GetRenderer()));
+	m_texture.reset(Graphics::TextureBuilder(faceim, Graphics::LINEAR_CLAMP, true, true).CreateTexture(GetContext()->GetRenderer()));
 
 	if (!s_material) {
 		Graphics::MaterialDescriptor matDesc;
@@ -69,7 +69,7 @@ void Face::Draw()
 	va.Add(vector3f(x+sx, y+sy, 0.0f), vector2f(texSize.x, texSize.y));
 
 	Graphics::Renderer *r = GetContext()->GetRenderer();
-	s_material->texture0 = m_texture.Get();
+	s_material->texture0 = m_texture.get();
 	r->DrawTriangles(&va, s_material.Get(), Graphics::TRIANGLE_STRIP);
 
 	Single::Draw();

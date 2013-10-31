@@ -168,7 +168,7 @@ private:
 	double m_doorAnimationStep;
 	double m_doorAnimationState;
 
-	ScopedPtr<NavLights> m_navLights;
+	std::unique_ptr<NavLights> m_navLights;
 };
 
 #endif /* _SPACESTATION_H */

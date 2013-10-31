@@ -67,6 +67,7 @@ October 2013
      * Miscellaneous code improvements (#2474)
      * Better Unicode handling in scan_enums (#2479)
      * Cleaned up, fixed and documented LuaTable and LuaPushPull (#2332)
+     * Replace use of ScopedPtr with std::unique_ptr (#2519)
 
 September 2013
 

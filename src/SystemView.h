@@ -50,7 +50,7 @@ private:
 	Gui::LabelSet *m_objectLabels;
 	sigc::connection m_onMouseWheelCon;
 
-	ScopedPtr<Graphics::Drawables::Disk> m_bodyIcon;
+	std::unique_ptr<Graphics::Drawables::Disk> m_bodyIcon;
 };
 
 #endif /* _SYSTEMVIEW_H */

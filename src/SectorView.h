@@ -109,7 +109,7 @@ private:
 	Gui::ToggleButton *m_drawOutRangeLabelButton;
 	Gui::ToggleButton *m_drawSystemLegButton;
 
-	ScopedPtr<Graphics::Drawables::Disk> m_disk;
+	std::unique_ptr<Graphics::Drawables::Disk> m_disk;
 
 	Gui::LabelSet *m_clickableLabels;
 
@@ -156,10 +156,10 @@ private:
 	int m_cacheZMin;
 	int m_cacheZMax;
 
-	ScopedPtr<Graphics::VertexArray> m_lineVerts;
-	ScopedPtr<Graphics::VertexArray> m_secLineVerts;
-	ScopedPtr<Graphics::Drawables::Sphere3D> m_jumpSphere;
-	ScopedPtr<Graphics::Drawables::Disk> m_jumpDisk;
+	std::unique_ptr<Graphics::VertexArray> m_lineVerts;
+	std::unique_ptr<Graphics::VertexArray> m_secLineVerts;
+	std::unique_ptr<Graphics::Drawables::Sphere3D> m_jumpSphere;
+	std::unique_ptr<Graphics::Drawables::Disk> m_jumpDisk;
 };
 
 #endif /* _SECTORVIEW_H */

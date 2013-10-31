@@ -40,9 +40,9 @@ public:
 	bool IsNormalSpace() const { return m_state == STATE_NORMAL; }
 	bool IsHyperspace() const { return m_state == STATE_HYPERSPACE; }
 
-	Space *GetSpace() const { return m_space.Get(); }
+	Space *GetSpace() const { return m_space.get(); }
 	double GetTime() const { return m_time; }
-	Player *GetPlayer() const { return m_player.Get(); }
+	Player *GetPlayer() const { return m_player.get(); }
 
 	// physics step
 	void TimeStep(float step);
@@ -90,10 +90,10 @@ private:
 	void SwitchToHyperspace();
 	void SwitchToNormalSpace();
 
-	ScopedPtr<Space> m_space;
+	std::unique_ptr<Space> m_space;
 	double m_time;
 
-	ScopedPtr<Player> m_player;
+	std::unique_ptr<Player> m_player;
 
 	enum State {
 		STATE_NORMAL,
