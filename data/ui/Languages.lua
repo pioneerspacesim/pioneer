@@ -278,6 +278,10 @@ Translate:Add({
 		['max'] = 'maks.',
 		['Front weapon'] = 'Przednia broń',
 		['Rear weapon'] = 'Tylna broń',
+		['deltaV'] = 'delta-v',
+		['Forward Acceleration'] = 'Przyspieszenie w przód',
+		['Backward Acceleration'] = 'Przyspieszenie w tył',
+		['Up Acceleration'] = 'Przyspieszenie w górę',
 		
 		-- Personal information
 		['Personal Information'] = 'Informacje o pilocie',
