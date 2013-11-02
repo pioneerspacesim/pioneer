@@ -1,7 +1,7 @@
 -- Copyright © 2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Translate = import("Translate")
+local Lang = import("Lang")
 local Event = import("Event")
 local Serializer = import("Serializer")
 local Engine = import("Engine")
@@ -13,8 +13,8 @@ local Timer = import("Timer")
 -- This module allows the player to hire crew members through BB adverts
 -- on stations, and handles periodic events such as their wages.
 
--- Get the translator function
-local t = Translate:GetTranslator()
+local l = Lang.GetResource("module-crewcontracts")
+
 local wage_period = 604800 -- a week of seconds
 
 -- The contract for a crew member is a table containing their weekly wage,
@@ -204,43 +204,43 @@ local onChat = function (form,ref,option)
 			c.estimatedWage = c.estimatedWage or wageFromScore(c.experience)
 		end
 
-		form:SetTitle(t("Crew for hire"))
+		form:SetTitle(l.CREW_FOR_HIRE)
 		form:Clear()
-		form:SetMessage(t("Potential crew members are registered as seeking employment at {station}:"):interp({station=station.label}))
+		form:SetMessage(l.POTENTIAL_CREW_MEMBERS:interp({station=station.label}))
 		for k,c in ipairs(crewInThisStation) do
-			form:AddOption(t('{potentialCrewMember} ({wage}/wk)'):interp({potentialCrewMember = c.name,wage = c.estimatedWage}),k)
+			form:AddOption(l.CREWMEMBER_WAGE_PER_WEEK:interp({potentialCrewMember = c.name,wage = c.estimatedWage}),k)
 			if k > 12 then break end -- XXX They just won't all fit on screen. New UI can scroll.
 		end
-		form:AddOption(t('HANG_UP'), -1)
+		form:AddOption(l.HANG_UP, -1)
 	end
 
 	local showCandidateDetails = function (response)
 		local experience =
-			candidate.experience > 160 and t('Veteran, time served crew member') or
-			candidate.experience > 140 and t('Time served crew member') or
-			candidate.experience > 100 and t('Minimal time served aboard ship') or
-			candidate.experience >  60 and t('Some experience in controlled environments') or
-			candidate.experience >  10 and t('Simulator training only') or
-			t('No experience')
+			candidate.experience > 160 and l.VETERAN_TIME_SERVED_CREW_MEMBER or
+			candidate.experience > 140 and l.TIME_SERVED_CREW_MEMBER or
+			candidate.experience > 100 and l.MINIMAL_TIME_SERVED_ABOARD_SHIP or
+			candidate.experience >  60 and l.SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS or
+			candidate.experience >  10 and l.SIMULATOR_TRAINING_ONLY or
+			l.NO_EXPERIENCE
 		form:SetFace(candidate)
 		form:Clear()
 		candidate:PrintStats()
 		print("Attitude: ",candidate.playerRelationship)
 		print("Aspiration: ",candidate.estimatedWage)
-		form:SetMessage(t('crewDetailSheetBB'):interp({
+		form:SetMessage(l.CREWDETAILSHEETBB:interp({
 			name = candidate.name,
 			experience = experience,
 			wage = Format.Money(offer),
 			response = response,
 		}))
-		form:AddOption(t('Make offer of position on ship for stated amount'),1)
-		form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(checkOffer(offer*2))}),2)
-		form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(checkOffer(offer+5))}),3)
-		form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(checkOffer(offer-5))}),4)
-		form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(checkOffer(math.floor(offer/2)))}),5)
-		form:AddOption(t('Ask candidate to sit a test'),6)
-		form:AddOption(t('GO_BACK'), 0)
-		form:AddOption(t('HANG_UP'), -1)
+		form:AddOption(l.MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT,1)
+		form:AddOption(l.SUGGEST_NEW_WEEKLY_WAGE_OF_N:interp({newAmount=Format.Money(checkOffer(offer*2))}),2)
+		form:AddOption(l.SUGGEST_NEW_WEEKLY_WAGE_OF_N:interp({newAmount=Format.Money(checkOffer(offer+5))}),3)
+		form:AddOption(l.SUGGEST_NEW_WEEKLY_WAGE_OF_N:interp({newAmount=Format.Money(checkOffer(offer-5))}),4)
+		form:AddOption(l.SUGGEST_NEW_WEEKLY_WAGE_OF_N:interp({newAmount=Format.Money(checkOffer(math.floor(offer/2)))}),5)
+		form:AddOption(l.ASK_CANDIDATE_TO_SIT_A_TEST,6)
+		form:AddOption(l.GO_BACK, 0)
+		form:AddOption(l.HANG_UP, -1)
 	end
 	
 	if option > 0 then
@@ -265,22 +265,22 @@ local onChat = function (form,ref,option)
 						payday = Game.time + wage_period,
 						outstanding = 0
 					}
-					form:SetMessage(t("Thanks, I'll get settled on board immediately."))
-					form:AddOption(t('GO_BACK'), 0)
-					form:AddOption(t('HANG_UP'), -1)
+					form:SetMessage(l.THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY)
+					form:AddOption(l.GO_BACK, 0)
+					form:AddOption(l.HANG_UP, -1)
 					for k,v in ipairs(crewInThisStation) do
 						-- Take them off the available list in the ad
 						if v == candidate then table.remove(nonPersistentCharactersForCrew[station],k) end
 					end
 				else
-					form:SetMessage(t("There doesn't seem to be space for me on board!"))
-					form:AddOption(t('GO_BACK'), 0)
-					form:AddOption(t('HANG_UP'), -1)
+					form:SetMessage(l.THERE_DOESNT_SEEM_TO_BE_SPACE_FOR_ME_ON_BOARD)
+					form:AddOption(l.GO_BACK, 0)
+					form:AddOption(l.HANG_UP, -1)
 				end
 			else
-				form:SetMessage(t("I'm sorry, your offer isn't attractive to me."))
-				form:AddOption(t('GO_BACK'), 0)
-				form:AddOption(t('HANG_UP'), -1)
+				form:SetMessage(l.IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME)
+				form:AddOption(l.GO_BACK, 0)
+				form:AddOption(l.HANG_UP, -1)
 			end
 			offer = nil
 			candidate = nil
@@ -291,7 +291,7 @@ local onChat = function (form,ref,option)
 			candidate.playerRelationship = candidate.playerRelationship + 5
 			offer = checkOffer(offer * 2)
 			candidate.estimatedWage = offer -- They'll now re-evaluate themself
-			showCandidateDetails(t("That's extremely generous of you!"))
+			showCandidateDetails(l.THATS_EXTREMELY_GENEROUS_OF_YOU)
 		end
 
 		if option == 3 then
@@ -299,7 +299,7 @@ local onChat = function (form,ref,option)
 			candidate.playerRelationship = candidate.playerRelationship + 1
 			offer = checkOffer(offer + 5)
 			candidate.estimatedWage = offer -- They'll now re-evaluate themself
-			showCandidateDetails(t("That certainly makes this offer look better!"))
+			showCandidateDetails(l.THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER)
 		end
 
 		if option == 4 then
@@ -307,9 +307,9 @@ local onChat = function (form,ref,option)
 			candidate.playerRelationship = candidate.playerRelationship - 1
 			if candidate:TestRoll('playerRelationship') then
 				offer = checkOffer(offer - 5)
-				showCandidateDetails(t("OK, I suppose that's all right."))
+				showCandidateDetails(l.OK_I_SUPPOSE_THATS_ALL_RIGHT)
 			else
-				showCandidateDetails(t("I'm sorry, I'm not prepared to go any lower."))
+				showCandidateDetails(l.IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER)
 			end
 		end
 
@@ -318,9 +318,9 @@ local onChat = function (form,ref,option)
 			candidate.playerRelationship = candidate.playerRelationship - 5
 			if candidate:TestRoll('playerRelationship') then
 				offer = checkOffer(math.floor(offer / 2))
-				showCandidateDetails(t("OK, I suppose that's all right."))
+				showCandidateDetails(l.OK_I_SUPPOSE_THATS_ALL_RIGHT)
 			else
-				showCandidateDetails(t("I'm sorry, I'm not prepared to go any lower."))
+				showCandidateDetails(l.IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER)
 			end
 		end
 
@@ -338,7 +338,7 @@ local onChat = function (form,ref,option)
 			-- Candidates hate being tested.
 			candidate.playerRelationship = candidate.playerRelationship - 1
 			-- Show results
-			form:SetMessage(t('crewTestResultsBB'):interp{
+			form:SetMessage(l.CREWTESTRESULTSBB:interp{
 				general = general,
 				engineering = engineering,
 				piloting = piloting,
@@ -346,8 +346,8 @@ local onChat = function (form,ref,option)
 				sensors = sensors,
 				overall = math.ceil((general+general+engineering+piloting+navigation+sensors)/6),
 			})
-			form:AddOption(t('GO_BACK'), 7)
-			form:AddOption(t('HANG_UP'), -1)
+			form:AddOption(l.GO_BACK, 7)
+			form:AddOption(l.HANG_UP, -1)
 		end
 
 		if option == 7 then
@@ -363,7 +363,7 @@ local onCreateBB = function (station)
 	nonPersistentCharactersForCrew[station] = {}
 
 	-- Only one crew hiring thingy per station
-	stationsWithAdverts[station:AddAdvert(t('Crew for hire'), onChat)] = station
+	stationsWithAdverts[station:AddAdvert(l.CREW_FOR_HIRE, onChat)] = station
 
 	-- Number is based on population, nicked from Assassinations.lua and tweaked
 	for i = 1, Engine.rand:Integer(0, math.ceil(Game.system.population) * 2 + 1) do
@@ -376,10 +376,10 @@ local onCreateBB = function (station)
 									hopefulCrew.navigation,
 									hopefulCrew.sensors)
 		if maxScore > 45 then
-			if hopefulCrew.engineering == maxScore then hopefulCrew.title = ("Ship's Engineer") end
-			if hopefulCrew.piloting == maxScore then hopefulCrew.title = ("Pilot") end
-			if hopefulCrew.navigation == maxScore then hopefulCrew.title = ("Navigator") end
-			if hopefulCrew.sensors == maxScore then hopefulCrew.title = ("Sensors and defence") end
+			if hopefulCrew.engineering == maxScore then hopefulCrew.title = l.SHIPS_ENGINEER end
+			if hopefulCrew.piloting == maxScore then hopefulCrew.title = l.PILOT end
+			if hopefulCrew.navigation == maxScore then hopefulCrew.title = l.NAVIGATOR end
+			if hopefulCrew.sensors == maxScore then hopefulCrew.title = l.SENSORS_AND_DEFENCE end
 		end
 		table.insert(nonPersistentCharactersForCrew[station],hopefulCrew)
 	end
@@ -404,7 +404,7 @@ Event.Register("onGameStart", function()
 	if loaded_data then
 		nonPersistentCharactersForCrew = loaded_data.nonPersistentCharactersForCrew
 		for k,station in ipairs(loaded_data.stationsWithAdverts) do
-			stationsWithAdverts[station:AddAdvert(t('Crew for hire'), onChat)] = station
+			stationsWithAdverts[station:AddAdvert(l.CREW_FOR_HIRE, onChat)] = station
 		end
 	end
 end)

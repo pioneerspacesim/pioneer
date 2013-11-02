@@ -1,19 +1,19 @@
 -- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Translate = import("Translate")
 local Engine = import("Engine")
+local Lang = import("Lang")
 local FileSystem = import("FileSystem")
 
 local ui = Engine.ui
-local t = Translate:GetTranslator()
+local l = Lang.GetResource("ui-core");
 
 ui.templates.FileDialog = function (args)
-	local title       = args.title       or t("Select file...")
+	local title       = args.title       or l.SELECT_FILE
 	local root        = args.root        or "USER"
 	local path        = args.path        or ""
-	local selectLabel = args.selectLabel or t("Select")
-	local cancelLabel = args.cancelLabel or t("Cancel")
+	local selectLabel = args.selectLabel or l.SELECT
+	local cancelLabel = args.cancelLabel or l.CANCEL
 	local onSelect    = args.onSelect    or function (name) end
 	local onCancel    = args.onCancel    or function () end
 

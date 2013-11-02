@@ -1,0 +1,562 @@
+{
+    "TAXI": {
+        "message": "Taxi",
+        "description": ""
+    },
+    "FLAVOUR_HOWMANY_11": {
+        "message": "Jen jeden.",
+        "description": ""
+    },
+    "FLAVOUR_HOWMANY_10": {
+        "message": "Jen jeden.",
+        "description": ""
+    },
+    "FLAVOUR_HOWMANY_12": {
+        "message": "Jen jeden.",
+        "description": ""
+    },
+    "FLAVOUR_ADTEXT_11": {
+        "message": "RYCHLOU LOĎ: Odvoz na rychlé lodi do systému {system}.",
+        "description": ""
+    },
+    "FLAVOUR_ADTEXT_10": {
+        "message": "HLEDÁM LOĎ: Odvoz na rychlé lodi do systému {system}.",
+        "description": ""
+    },
+    "FLAVOUR_ADTEXT_12": {
+        "message": "HLEDÁM LOĎ: Odvoz do systému {system}.",
+        "description": ""
+    },
+    "FLAVOUR_ADTEXT_9": {
+        "message": "HLEDÁM LOĎ: Odvoz na rychlé lodi do systému {system}.",
+        "description": ""
+    },
+    "FLAVOUR_ADTEXT_8": {
+        "message": "HLEDÁM LOĎ: Odvoz na rychlé lodi do systému {system}. Zaplatím {cash}.",
+        "description": ""
+    },
+    "FLAVOUR_INTROTEXT_9": {
+        "message": "Jmenuji se {name}. Potřebuji rychlý odvoz do systému {system} ({sectorx}, {sectory}, {sectorz}), vzdáleném {dist} ly. Zaplatím {cash}.",
+        "description": ""
+    },
+    "FLAVOUR_INTROTEXT_8": {
+        "message": "Jmenuji se {name}. Potřebuji rychlý odvoz do systému {system} ({sectorx}, {sectory}, {sectorz}), vzdáleném {dist} ly. Zaplatím {cash}.",
+        "description": ""
+    },
+    "FLAVOUR_INTROTEXT_7": {
+        "message": "Ahoj, jmenuji se {name} a potřebuju bezpečný odvoz do systému {system} ({sectorx}, {sectory}, {sectorz}), vzdáleném {dist} ly. Zaplatím {cash}.",
+        "description": ""
+    },
+    "FLAVOUR_ADTEXT_4": {
+        "message": "SHÁNÍM LOĎ: Odvoz do systému {system}. Zaplatím {cash}.",
+        "description": ""
+    },
+    "FLAVOUR_INTROTEXT_5": {
+        "message": "Ahoj, jsem {name} a potřebuju odvoz do systému {system} ({sectorx}, {sectory}, {sectorz}), vzdáleném {dist} ly. Zaplatím {cash}.",
+        "description": ""
+    },
+    "FLAVOUR_INTROTEXT_4": {
+        "message": "Ahoj, jsem {name} a potřebuju odvoz do systému {system} ({sectorx}, {sectory}, {sectorz}), vzdáleném {dist} ly. Zaplatím {cash}.",
+        "description": ""
+    },
+    "FLAVOUR_ADTEXT_1": {
+        "message": "HLEDÁM: Místo na lodi pro malou skupinu do systému {system}. Zaplatím {cash}.",
+        "description": ""
+    },
+    "FLAVOUR_INTROTEXT_2": {
+        "message": "Ahoj, jsem {name} a potřebuju místo na lodi pro malou skupinu do systému {system} ({sectorx}, {sectory}, {sectorz}), vzdáleném {dist} ly. Zaplatím {cash}.",
+        "description": ""
+    },
+    "FLAVOUR_ADTEXT_3": {
+        "message": "SHÁNÍM LOĎ: Odvoz do systému {system}. Zaplatím {cash}.",
+        "description": ""
+    },
+    "FLAVOUR_INTROTEXT_0": {
+        "message": "Ahoj, jsem {name} a potřebuju místo na lodi pro malou skupinu do systému {system} ({sectorx}, {sectory}, {sectorz}), vzdáleném {dist} ly. Zaplatím {cash}.",
+        "description": ""
+    },
+    "FLAVOUR_DANGER_10": {
+        "message": "Myslím, že mě někdo sleduje.",
+        "description": ""
+    },
+    "FLAVOUR_DANGER_11": {
+        "message": "Někdy se stává, že se lidem inspekce nelíbí.",
+        "description": ""
+    },
+    "FLAVOUR_DANGER_12": {
+        "message": "Někdo mě pronásleduje.",
+        "description": ""
+    },
+    "FLAVOUR_INTROTEXT_12": {
+        "message": "Jmenuji se {name}. Potřebuju odvoz do systému {system} ({sectorx}, {sectory}, {sectorz}), vzdáleném {dist} ly. Zaplatím ti {cash}.",
+        "description": ""
+    },
+    "FLAVOUR_INTROTEXT_11": {
+        "message": "Jmenuji se {name}. Potřebuji rychlý odvoz do systému {system} ({sectorx}, {sectory}, {sectorz}), vzdáleném {dist} ly. Zaplatím {cash}.",
+        "description": ""
+    },
+    "FLAVOUR_INTROTEXT_10": {
+        "message": "Jmenuji se {name}. Potřebuji rychlý odvoz do systému {system} ({sectorx}, {sectory}, {sectorz}), vzdáleném {dist} ly. Zaplatím {cash}.",
+        "description": ""
+    },
+    "EXCELLENT": {
+        "message": "Výborně.",
+        "description": ""
+    },
+    "FLAVOUR_SUCCESSMSG_3": {
+        "message": "Dík za hezký výlet. Dostaneš zaplaceno v plné výši.",
+        "description": ""
+    },
+    "WHY_SO_MUCH_MONEY": {
+        "message": "Proč tolik peněz?",
+        "description": ""
+    },
+    "FLAVOUR_SUCCESSMSG_1": {
+        "message": "Děkujeme za hezký výlet. Dostaneš zaplaceno v plné výši.",
+        "description": ""
+    },
+    "FLAVOUR_SUCCESSMSG_0": {
+        "message": "Děkujeme za hezký výlet. Dostaneš zaplaceno v plné výši.",
+        "description": ""
+    },
+    "FLAVOUR_SUCCESSMSG_7": {
+        "message": "Děkuju že jsi mě sem bezpečně dostal. Dostaneš zaplaceno v plné výši. Hodně štěstí!",
+        "description": ""
+    },
+    "FLAVOUR_SUCCESSMSG_6": {
+        "message": "Díky za hezký výlet. Dostaneš zaplaceno v plné výši.",
+        "description": ""
+    },
+    "FLAVOUR_SUCCESSMSG_5": {
+        "message": "Děkuji za hezký výlet. Dostaneš zaplaceno v plné výši.",
+        "description": ""
+    },
+    "FLAVOUR_SUCCESSMSG_4": {
+        "message": "Díky že jsi mě sem vzal. Dostaneš zaplaceno v plné výši. Hodně štěstí!",
+        "description": ""
+    },
+    "FLAVOUR_SUCCESSMSG_9": {
+        "message": "Díky za rychlý let. Dostaneš zaplaceno v plné výši.",
+        "description": ""
+    },
+    "FLAVOUR_SUCCESSMSG_8": {
+        "message": "Díky za rychlý let. Dostaneš zaplaceno v plné výši.",
+        "description": ""
+    },
+    "WE_WANT_TO_BE_THERE_BEFORE": {
+        "message": "Musíme tam dorazit do ",
+        "description": ""
+    },
+    "FLAVOUR_FAILUREMSG_10": {
+        "message": "Jsi opravdu nezkušený pilot. Za tohle nezaplatím!",
+        "description": ""
+    },
+    "FLAVOUR_FAILUREMSG_11": {
+        "message": "Jsi opravdu nekompetentní a já jsem teď bez práce! Takže ty peníze potřebuju víc než ty.",
+        "description": ""
+    },
+    "FLAVOUR_FAILUREMSG_12": {
+        "message": "Nemám dost pěněz. Promiň.",
+        "description": ""
+    },
+    "PIRATE_TAUNTS_3": {
+        "message": "Ty už dnes do cíle nedorazíš!",
+        "description": ""
+    },
+    "PIRATE_TAUNTS_2": {
+        "message": "Dnes není tvůj šťastný den! Připrav se na smrt.",
+        "description": ""
+    },
+    "PIRATE_TAUNTS_1": {
+        "message": "Ty máš na palubě {client}? To nebyl dobrý nápad.",
+        "description": ""
+    },
+    "PIRATE_TAUNTS_0": {
+        "message": "Budeš litovat, že jsis něco začal s {client}",
+        "description": ""
+    },
+    "FLAVOUR_WHYSOMUCH_12": {
+        "message": "Dlužím nějaké peníze a jdou po mě.",
+        "description": ""
+    },
+    "GROUP_DETAILS": {
+        "message": "Detail skupiny:",
+        "description": ""
+    },
+    "FLAVOUR_WHEREAREWE_10": {
+        "message": "Kde to jsme? Už jsem se čekal(a) dost dlouho - Vysaď mě na nejbližší stanici OKAMŽITĚ!",
+        "description": ""
+    },
+    "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP": {
+        "message": "Na palubě lodi nemáš dostatek místa pro pasažéry.",
+        "description": ""
+    },
+    "DISTANCE": {
+        "message": "Vzdálenost:",
+        "description": ""
+    },
+    "HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS": {
+        "message": "Hej!?! Za tohle zaplatíš!!!",
+        "description": ""
+    },
+    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
+        "message": "Můžete mi znovu zopakovat váš požadavek?",
+        "description": ""
+    },
+    "FLAVOUR_WHEREAREWE_12": {
+        "message": "Kde to jsme? Už jsem se načekal(a) dost - Vysaď mě na nejbližší stanici OKAMŽITĚ!",
+        "description": ""
+    },
+    "FLAVOUR_SUCCESSMSG_2": {
+        "message": "Díky že jsi nás sem vzal. Dostaneš zaplaceno v plné výši. Hodně štěstí!",
+        "description": ""
+    },
+    "FLAVOUR_HOWMANY_2": {
+        "message": "Počet pasažérů je: {group}",
+        "description": ""
+    },
+    "I_MUST_BE_THERE_BEFORE": {
+        "message": "Musím tam dorazit do ",
+        "description": ""
+    },
+    "CORPORATIONS_8": {
+        "message": "Vega Line",
+        "description": ""
+    },
+    "CORPORATIONS_9": {
+        "message": "Digital",
+        "description": ""
+    },
+    "CORPORATIONS_6": {
+        "message": "Amaliel",
+        "description": ""
+    },
+    "CORPORATIONS_7": {
+        "message": "Marett Space",
+        "description": ""
+    },
+    "CORPORATIONS_4": {
+        "message": "Aquarian Shipbuilding",
+        "description": ""
+    },
+    "CORPORATIONS_5": {
+        "message": "Rockforth",
+        "description": ""
+    },
+    "CORPORATIONS_2": {
+        "message": "Cool Cola",
+        "description": ""
+    },
+    "CORPORATIONS_3": {
+        "message": "Taranis",
+        "description": ""
+    },
+    "CORPORATIONS_0": {
+        "message": "Sirius",
+        "description": ""
+    },
+    "CORPORATIONS_1": {
+        "message": "ACME",
+        "description": ""
+    },
+    "FLAVOUR_DANGER_8": {
+        "message": "Ne.",
+        "description": ""
+    },
+    "FLAVOUR_DANGER_9": {
+        "message": "Policie se tě může pokusit zastavit.",
+        "description": ""
+    },
+    "FLAVOUR_DANGER_2": {
+        "message": "Ne.",
+        "description": ""
+    },
+    "FLAVOUR_DANGER_3": {
+        "message": "Myslím že je mi na stopě najatý vrah a tak může jít i po tobě.",
+        "description": ""
+    },
+    "FLAVOUR_DANGER_0": {
+        "message": "Ne.",
+        "description": ""
+    },
+    "FLAVOUR_DANGER_1": {
+        "message": "Ne.",
+        "description": ""
+    },
+    "FLAVOUR_DANGER_6": {
+        "message": "Ne.",
+        "description": ""
+    },
+    "FLAVOUR_DANGER_7": {
+        "message": "Mafie nemá ráda lidi, kteří pomáhají jejím nepřátelům.",
+        "description": ""
+    },
+    "FLAVOUR_DANGER_4": {
+        "message": "Ne.",
+        "description": ""
+    },
+    "FLAVOUR_DANGER_5": {
+        "message": "Možná tě budou otravovat novináři a média. Prostě je ignoruj.",
+        "description": ""
+    },
+    "WILL_I_BE_IN_ANY_DANGER": {
+        "message": "Ocitnu se v nějakém nebezpečí?",
+        "description": ""
+    },
+    "FLAVOUR_INTROTEXT_1": {
+        "message": "Ahoj, jsem {name} a potřebuju místo na lodi pro malou skupinu do systému {system} ({sectorx}, {sectory}, {sectorz}), vzdáleném {dist} ly. Zaplatím {cash}.",
+        "description": ""
+    },
+    "CORPORATIONS_10": {
+        "message": "Bulk Ships",
+        "description": ""
+    },
+    "CORPORATIONS_11": {
+        "message": "Arment Aerodynamics",
+        "description": ""
+    },
+    "FLAVOUR_WHYSOMUCH_11": {
+        "message": "Jsem podnikový auditor na inspekční cestě.",
+        "description": ""
+    },
+    "FLAVOUR_WHYSOMUCH_10": {
+        "message": "Byl bych raděj, aby mě někdo nenašel.",
+        "description": ""
+    },
+    "HANG_UP": {
+        "message": "Konec",
+        "description": ""
+    },
+    "FLAVOUR_SUCCESSMSG_12": {
+        "message": "Díky za odvoz, dostaneš zaplaceno v plné výši.",
+        "description": ""
+    },
+    "FLAVOUR_SUCCESSMSG_11": {
+        "message": "Díky za rychlý let. Dostaneš zaplaceno v plné výši.",
+        "description": ""
+    },
+    "FLAVOUR_SUCCESSMSG_10": {
+        "message": "Díky za rychlý let. Dostaneš zaplaceno v plné výši.",
+        "description": ""
+    },
+    "FLAVOUR_FAILUREMSG_4": {
+        "message": "Ani se neopovažuj požadovat platbu! Nahlásím tě úřadům.",
+        "description": ""
+    },
+    "HOW_MANY_OF_YOU_ARE_THERE": {
+        "message": "Kolik vás je?",
+        "description": ""
+    },
+    "DANGER": {
+        "message": "Nebezpečí:",
+        "description": ""
+    },
+    "FLAVOUR_ADTEXT_5": {
+        "message": "HLEDÁM: Odvoz do systému {system}. Zaplatím {cash}.",
+        "description": ""
+    },
+    "FLAVOUR_FAILUREMSG_5": {
+        "message": "Co jsi to udělal(a)?!? Moje turné je v čudu i s polovinou fanoušků!",
+        "description": ""
+    },
+    "DEADLINE": {
+        "message": "Termín:",
+        "description": ""
+    },
+    "FLAVOUR_FAILUREMSG_6": {
+        "message": "Nepřijatelné! Trvalo to věčnost a den. Nedostaneš zaplaceno!",
+        "description": ""
+    },
+    "FLAVOUR_WHYSOMUCH_9": {
+        "message": "Shání mě policie, chtějí odpovědi na pár otázek.",
+        "description": ""
+    },
+    "FLAVOUR_WHYSOMUCH_8": {
+        "message": "Jedu navštívit nemocného příbuzného.",
+        "description": ""
+    },
+    "FLAVOUR_WHYSOMUCH_3": {
+        "message": "Jeden starý rival se mě snaží zabít.",
+        "description": ""
+    },
+    "FLAVOUR_WHYSOMUCH_2": {
+        "message": "Jde o normální služební cestu.",
+        "description": ""
+    },
+    "FLAVOUR_WHYSOMUCH_1": {
+        "message": "Pracujeme pro firmu {corp}, platí to oni.",
+        "description": ""
+    },
+    "FLAVOUR_WHYSOMUCH_0": {
+        "message": "Letíme navštívit přítele.",
+        "description": ""
+    },
+    "FLAVOUR_WHYSOMUCH_7": {
+        "message": "Jde po mě mafie, chtějí mou smrt.",
+        "description": ""
+    },
+    "FLAVOUR_WHYSOMUCH_6": {
+        "message": "Jsem nezávislý novinář.",
+        "description": ""
+    },
+    "FLAVOUR_WHYSOMUCH_5": {
+        "message": "Ty nevíš - Jsem velmi známá celebrita.",
+        "description": ""
+    },
+    "FLAVOUR_WHYSOMUCH_4": {
+        "message": "Jsem obchodní cestující.",
+        "description": ""
+    },
+    "TO": {
+        "message": "Kam:",
+        "description": ""
+    },
+    "FLAVOUR_INTROTEXT_6": {
+        "message": "Ahoj, jsem {name} a potřebuju odvoz do systému {system} ({sectorx}, {sectory}, {sectorz}), vzdáleném {dist} ly. Zaplatím {cash}.",
+        "description": ""
+    },
+    "FLAVOUR_ADTEXT_7": {
+        "message": "HLEDÁM LOĎ: Bezpečný odvoz do systému {system}. Zaplatím {cash}.",
+        "description": ""
+    },
+    "LY": {
+        "message": "ly",
+        "description": ""
+    },
+    "FLAVOUR_ADTEXT_6": {
+        "message": "HLEDÁM LOĎ: Odvoz do systému {system}. Zaplatím {cash}.",
+        "description": ""
+    },
+    "OK_AGREED": {
+        "message": "OK, souhlasím.",
+        "description": ""
+    },
+    "FLAVOUR_INTROTEXT_3": {
+        "message": "Ahoj, jsem {name} a potřebuju odvoz do systému {system} ({sectorx}, {sectory}, {sectorz}), vzdáleném {dist} ly. Zaplatím {cash}.",
+        "description": ""
+    },
+    "FLAVOUR_FAILUREMSG_9": {
+        "message": "Jsi k ničemu! Trvalo to věčnost a den. Nedostaneš zaplaceno!",
+        "description": ""
+    },
+    "FLAVOUR_ADTEXT_0": {
+        "message": "HLEDÁM: Místo na lodi pro malou skupinu do systému {system}. Zaplatím {cash}.",
+        "description": ""
+    },
+    "FLAVOUR_HOWMANY_5": {
+        "message": "Jenom já.",
+        "description": ""
+    },
+    "FLAVOUR_HOWMANY_4": {
+        "message": "Jen já.",
+        "description": ""
+    },
+    "FLAVOUR_HOWMANY_7": {
+        "message": "Já a nikdo jiný.",
+        "description": ""
+    },
+    "FLAVOUR_HOWMANY_6": {
+        "message": "Jen já.",
+        "description": ""
+    },
+    "FLAVOUR_HOWMANY_1": {
+        "message": "Počet pasažérů je: {group}",
+        "description": ""
+    },
+    "FLAVOUR_HOWMANY_0": {
+        "message": "Počet pasažérů je: {group}",
+        "description": ""
+    },
+    "FLAVOUR_HOWMANY_3": {
+        "message": "Jenom já.",
+        "description": ""
+    },
+    "FLAVOUR_WHEREAREWE_3": {
+        "message": "Kde to jsme? Už jsem se načekal dost - Vysaď mě na nejbližší stanici OKAMŽITĚ!",
+        "description": ""
+    },
+    "FLAVOUR_ADTEXT_2": {
+        "message": "HLEDÁM: Místo na lodi pro malou skupinu do systému {system}. Zaplatím {cash}.",
+        "description": ""
+    },
+    "FLAVOUR_HOWMANY_9": {
+        "message": "Jen já.",
+        "description": ""
+    },
+    "FLAVOUR_HOWMANY_8": {
+        "message": "Jen já.",
+        "description": ""
+    },
+    "FLAVOUR_WHEREAREWE_1": {
+        "message": "Kde to jsme? Už jsme se načekali dost - Vem nás do nejbližší stanice OKAMŽITĚ!",
+        "description": ""
+    },
+    "FROM": {
+        "message": "Odkud:",
+        "description": ""
+    },
+    "FLAVOUR_FAILUREMSG_2": {
+        "message": "Nepřijatelné! Trvalo to věčnost a den. Nedostaneš zaplaceno!",
+        "description": ""
+    },
+    "FLAVOUR_FAILUREMSG_3": {
+        "message": "Nepřijatelné! Trvalo to věčnost a den. Nedostaneš zaplaceno!",
+        "description": ""
+    },
+    "HOW_SOON_YOU_MUST_BE_THERE": {
+        "message": "Dokdy tam musíte dorazit?",
+        "description": ""
+    },
+    "FLAVOUR_WHEREAREWE_8": {
+        "message": "Kde to jsme? Už jsem se načekal(a) dost - Vysaď mě na nejbližší stanici OKAMŽITĚ!",
+        "description": ""
+    },
+    "FLAVOUR_WHEREAREWE_9": {
+        "message": "Kde to jsme? Už jsem se načekal(a) dost - Vysaď mě na nejbližší stanici OKAMŽITĚ!",
+        "description": ""
+    },
+    "FLAVOUR_FAILUREMSG_0": {
+        "message": "Nepřijatelné! Trvalo to věčnost a den. Nedostaneš zaplaceno!",
+        "description": ""
+    },
+    "FLAVOUR_FAILUREMSG_8": {
+        "message": "Nepřijatelné! Trvalo to věčnost a den. Nedostaneš zaplaceno!",
+        "description": ""
+    },
+    "FLAVOUR_WHEREAREWE_11": {
+        "message": "Kde to jsme? Už jsem se čekal(a) dost dlouho - Vysaď mě na nejbližší stanici OKAMŽITĚ!",
+        "description": ""
+    },
+    "FLAVOUR_WHEREAREWE_2": {
+        "message": "Kde to jsme? Už jsme se načekali dost - Vem nás do nejbližší stanice OKAMŽITĚ!",
+        "description": ""
+    },
+    "FLAVOUR_FAILUREMSG_7": {
+        "message": "Nepřijatelné! Trvalo to věčnost a den. Nedostaneš zaplaceno!",
+        "description": ""
+    },
+    "FLAVOUR_WHEREAREWE_0": {
+        "message": "Kde to jsme? Už jsme se načekali dost - Vem nás do nejbližší stanice OKAMŽITĚ!",
+        "description": ""
+    },
+    "FLAVOUR_FAILUREMSG_1": {
+        "message": "Nepřijatelné! Trvalo to věčnost a den. Nedostaneš zaplaceno!",
+        "description": ""
+    },
+    "FLAVOUR_WHEREAREWE_6": {
+        "message": "Kde to jsme? Už jsem se načekal(a) dost - Vysaď mě na nejbližší stanici OKAMŽITĚ!",
+        "description": ""
+    },
+    "FLAVOUR_WHEREAREWE_7": {
+        "message": "Kde to jsme? Už jsem se načekal(a) dost - Vysaď mě na nejbližší stanici OKAMŽITĚ!",
+        "description": ""
+    },
+    "FLAVOUR_WHEREAREWE_4": {
+        "message": "Kde to jsme? Už jsem se načekal(a) dost - Vysaď mě na nejbližší stanici OKAMŽITĚ!",
+        "description": ""
+    },
+    "FLAVOUR_WHEREAREWE_5": {
+        "message": "Kde to jsme? Už jsem se načekal(a) dost - Vem mě do nejbližší stanice OKAMŽITĚ!",
+        "description": ""
+    }
+}

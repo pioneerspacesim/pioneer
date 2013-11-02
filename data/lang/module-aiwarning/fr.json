@@ -1,0 +1,18 @@
+{
+    "AUTOPILOT": {
+        "message": "Pilote automatique",
+        "description": ""
+    },
+    "CANNOT_COMPENSATE_FOR_LOCAL_GRAVITY": {
+        "message": "Cannot compensate for local gravity",
+        "description": ""
+    },
+    "CANNOT_COMPUTE_ORBIT_PARAMETERS": {
+        "message": "Cannot compute orbit parameters",
+        "description": ""
+    },
+    "STARPORT_REFUSED_DOCKING_PERMISSION": {
+        "message": "Starport refused docking permission",
+        "description": ""
+    }
+}

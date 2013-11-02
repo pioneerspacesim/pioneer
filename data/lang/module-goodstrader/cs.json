@@ -1,0 +1,30 @@
+{
+    "WELCOME_TO": {
+        "message": "Vítá vás ",
+        "description": ""
+    },
+    "GOODS_TRADER_2": {
+        "message": "{name}'s skladiště",
+        "description": ""
+    },
+    "GOODS_TRADER_3": {
+        "message": "{name}'s burza",
+        "description": ""
+    },
+    "GOODS_TRADER_0": {
+        "message": "{name}'s vyhlášené obchodní středisko",
+        "description": ""
+    },
+    "GOODS_TRADER_1": {
+        "message": "{name}'s tržnice",
+        "description": ""
+    },
+    "GOODS_TRADER_4": {
+        "message": "{name} a.s.",
+        "description": ""
+    },
+    "GOODS_TRADER_5": {
+        "message": "{name} & synové",
+        "description": ""
+    }
+}

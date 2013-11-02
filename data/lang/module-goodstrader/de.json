@@ -1,0 +1,30 @@
+{
+    "WELCOME_TO": {
+        "message": "Wilkommen in ",
+        "description": ""
+    },
+    "GOODS_TRADER_2": {
+        "message": "{name}'s Makazin",
+        "description": ""
+    },
+    "GOODS_TRADER_3": {
+        "message": "{name}'s Warenbörse",
+        "description": ""
+    },
+    "GOODS_TRADER_0": {
+        "message": "Honest {name}'s Handelsplatz",
+        "description": ""
+    },
+    "GOODS_TRADER_1": {
+        "message": "{name}'s Kaufladen",
+        "description": ""
+    },
+    "GOODS_TRADER_4": {
+        "message": "{name} Aktiengesellschaft",
+        "description": ""
+    },
+    "GOODS_TRADER_5": {
+        "message": "{name} & Söhne",
+        "description": ""
+    }
+}

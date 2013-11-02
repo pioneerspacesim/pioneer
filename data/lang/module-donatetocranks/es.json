@@ -1,0 +1,58 @@
+{
+    "FLAVOUR_MESSAGE_3": {
+        "message": "Por favor elija una cantidad para donar a GreenWatch, y acabe con la contaminación de nuestra galaxia.",
+        "description": ""
+    },
+    "FLAVOUR_MESSAGE_2": {
+        "message": "Por favor seleccione una cantidad para donar a Apoyo a los Huérfanos de Guerra, y acabe con el sufrimiento de los niños de toda la galaxia.",
+        "description": ""
+    },
+    "FLAVOUR_MESSAGE_1": {
+        "message": "La paz sea contigo, hermano. Por favor, elija una cantidad para donar a los Guardianes del Espíritu Libre.",
+        "description": ""
+    },
+    "FLAVOUR_MESSAGE_0": {
+        "message": "Por favor, elija una cantidad para donar a La Iglesia de El Monstruo Celeste de Spaghetti Volante.",
+        "description": ""
+    },
+    "FLAVOUR_MESSAGE_4": {
+        "message": "Por favor, elija una cantidad para donar.",
+        "description": ""
+    },
+    "THANK_YOU_ALL_DONATIONS_ARE_WELCOME": {
+        "message": "Gracias. Cualquier donación es bienvenida.",
+        "description": ""
+    },
+    "HANG_UP": {
+        "message": "Colgar.",
+        "description": ""
+    },
+    "YOU_DO_NOT_HAVE_ENOUGH_MONEY": {
+        "message": "No dispone de suficientes fondos.",
+        "description": ""
+    },
+    "FLAVOUR_TITLE_4": {
+        "message": "CONTRIBUYA! Protejamos nuestras especies. Acabemos con la matanza en los nuevos mundos colonizados.",
+        "description": ""
+    },
+    "WOW_THAT_WAS_VERY_GENEROUS": {
+        "message": "Vaya! Eso ha sido muy generoso.",
+        "description": ""
+    },
+    "FLAVOUR_TITLE_2": {
+        "message": "SE SIENTE GENEROSO? Apoyo a los Huérfanos de Guerra necesita su ayuda para mantener su trabajo esencial.",
+        "description": ""
+    },
+    "FLAVOUR_TITLE_3": {
+        "message": "CONTRIBUYA. Los Amigos de La Galaxia y la campaña 'Prohibamos los motores militares de impulso' necesitan su dinero.",
+        "description": ""
+    },
+    "FLAVOUR_TITLE_0": {
+        "message": "HAGA UNA DONACION! La Iglesia de El Monstruo Celeste de Spaghetti Volante necesita TU dinero para propagar la palabra de dios.",
+        "description": ""
+    },
+    "FLAVOUR_TITLE_1": {
+        "message": "HAGA UNA DONACION. Los Guardianes del Espíritu Libre humildemente apelamos a su caridad para el mantenimiento de nuestros monasterios.",
+        "description": ""
+    }
+}

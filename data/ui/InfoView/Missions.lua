@@ -1,8 +1,8 @@
 -- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Translate = import("Translate")
 local Engine = import("Engine")
+local Lang = import("Lang")
 local Game = import("Game")
 local Format = import("Format")
 local Character = import("Character")
@@ -11,7 +11,7 @@ local SmallLabeledButton = import("ui/SmallLabeledButton")
 local SmartTable = import("ui/SmartTable")
 
 local ui = Engine.ui
-local t = Translate:GetTranslator()
+local l = Lang.GetResource("ui-core");
 
 -- we keep MissionList to remember players preferences
 -- (now it is column he wants to sort by)
@@ -21,7 +21,7 @@ local missions = function (tabGroup)
 	local MissionScreen = ui:Expand()
 
 	if #Character.persistent.player.missions == 0 then
-		return MissionScreen:SetInnerWidget( ui:Label(t("No missions.")) )
+		return MissionScreen:SetInnerWidget( ui:Label(l.NO_MISSIONS) )
 	end
 
 	local rowspec = {7,8,9,9,5,5,5} -- 7 columns
@@ -34,12 +34,12 @@ local missions = function (tabGroup)
 	-- setup headers
 	local headers = 
 	{
-		t("Type"),
-		t("Client"),
-		t("Location"),
-		t("Due"),
-		t("Reward"),
-		t("Status"),
+		l.TYPE,
+		l.CLIENT,
+		l.LOCATION,
+		l.DUE,
+		l.REWARD,
+		l.STATUS,
 	}
 	MissionList:SetHeaders(headers)
 	
@@ -68,7 +68,7 @@ local missions = function (tabGroup)
 		-- Format the distance label
 		local playerSystem = Game.system or Game.player:GetHyperspaceTarget()
 		local dist = playerSystem:DistanceTo(mission.location)
-		local distLabel = ui:Label(string.format('%.2f %s', dist, t('ly')))
+		local distLabel = ui:Label(string.format('%.2f %s', dist, l.LY))
 		local hyperjumpStatus = Game.player:GetHyperspaceDetails(mission.location)
 		if hyperjumpStatus == 'CURRENT_SYSTEM' then
 			distLabel:SetColor({ r = 0.0, g = 1.0, b = 0.2 }) -- green
@@ -86,26 +86,26 @@ local missions = function (tabGroup)
 		-- Format Due info
 		local dueLabel = ui:Label(Format.Date(mission.due))
 		local days = math.max(0, (mission.due - Game.time) / (24*60*60))
-		local daysLabel = ui:Label(string.format(t("%d days left"), days)):SetColor({ r = 1.0, g = 0.0, b = 1.0 }) -- purple
+		local daysLabel = ui:Label(string.format(l.D_DAYS_LEFT, days)):SetColor({ r = 1.0, g = 0.0, b = 1.0 }) -- purple
 		local dueBox = ui:VBox(2):PackEnd(dueLabel):PackEnd(daysLabel)
 		
-		local moreButton = SmallLabeledButton.New(t("More info..."))
+		local moreButton = SmallLabeledButton.New(l.MORE_INFO)
 		moreButton.button.onClick:Connect(function ()
 			MissionScreen:SetInnerWidget(ui:VBox(10)
-				:PackEnd({ui:Label(t('Mission Details')):SetFont('HEADING_LARGE')})
+				:PackEnd({ui:Label(l.MISSION_DETAILS):SetFont('HEADING_LARGE')})
 				:PackEnd((mission:GetClick())(mission)))
 		end)
 
 		local description = mission:GetTypeDescription()
 		local row =
 		{ -- if we don't specify widget, default one will be used 
-			{data = description or t('NONE')},
+			{data = description or l.NONE},
 			{data = mission.client.name},
 			{data = dist, widget = locationBox},
 			{data = mission.due, widget = dueBox},
 			{data = mission.reward, widget = ui:Label(Format.Money(mission.reward)):SetColor({ r = 0.0, g = 1.0, b = 0.2 })}, -- green
 			-- nil description means mission type isn't registered.
-			{data = (description and t(mission.status)) or t('INACTIVE')},
+			{data = (description and l[mission.status]) or l.INACTIVE},
 			{widget = moreButton.widget}
 		}
 		MissionList:AddRow(row)

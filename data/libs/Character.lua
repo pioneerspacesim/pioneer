@@ -964,9 +964,9 @@ Character = {
 --
 -- Show player their own combat rating as a UI message
 --
--- > t = Translate:GetTranslator()
+-- > l = Lang.GetResource("ui-core")
 -- > UI.Message(('Your combat rating is {rating}'):interp({
--- >     rating = t(Character.persistent.player:GetCombatRating()),
+-- >     rating = l[Character.persistent.player:GetCombatRating(]),
 -- > }))
 --
 -- Availability:

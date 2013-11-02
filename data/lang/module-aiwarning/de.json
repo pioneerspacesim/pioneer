@@ -1,0 +1,18 @@
+{
+    "AUTOPILOT": {
+        "message": "Autopilot",
+        "description": ""
+    },
+    "CANNOT_COMPENSATE_FOR_LOCAL_GRAVITY": {
+        "message": "Lokale Anziehungskraft kann nicht kompensiert werden",
+        "description": ""
+    },
+    "CANNOT_COMPUTE_ORBIT_PARAMETERS": {
+        "message": "Bahnparameter konnten nicht berechnet werden",
+        "description": ""
+    },
+    "STARPORT_REFUSED_DOCKING_PERMISSION": {
+        "message": "Andocken an den Starport verweigert",
+        "description": ""
+    }
+}
