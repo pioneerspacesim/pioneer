@@ -1,9 +1,11 @@
 -- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Translate = import("Translate")
 local Serializer = import("Serializer")
 local Character = import("Character")
+local Lang = import("Lang")
+
+local l = Lang.GetResource("ui-core")
 
 --
 -- Class: Mission
@@ -302,9 +304,8 @@ Mission = {
 -- experimental
 --
 	GetClick = function (self)
-		local t = Translate:GetTranslator()
 		return (MissionRegister[self.type] and MissionRegister[self.type].onClick)
-				or function (ref) return Engine.ui:Label(t('NOT_FOUND')) end
+				or function (ref) return Engine.ui:Label(l.NOT_FOUND) end -- XXX don't translate things in libs
 	end,
 
 --
@@ -330,8 +331,7 @@ Mission = {
 -- experimental
 --
 	GetTypeDescription = function (self)
-		local t = Translate:GetTranslator()
-		return MissionRegister[self.type] and t(MissionRegister[self.type].display)
+		return MissionRegister[self.type] and MissionRegister[self.type].display
 		-- Might return nil; this indicates an unregistered mission type.
 	end,
 

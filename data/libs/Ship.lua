@@ -6,7 +6,9 @@ local Event = import("Event")
 local Serializer = import("Serializer")
 local ShipDef = import("ShipDef")
 local Timer = import("Timer")
-local Translate = import("Translate")
+local Lang = import("Lang")
+
+local l = Lang.GetResource("ui-core")
 
 -- Temporary mapping while waiting for new-equipment to embed this information.
 local missile_names = {
@@ -124,10 +126,9 @@ end
 --   experimental
 --
 Ship.Refuel = function (self,amount)
-	local t = Translate:GetTranslator()
     local currentFuel = self.fuel
     if currentFuel == 100 then
-		Comms.Message(t('Fuel tank full.'))
+        Comms.Message(l.FUEL_TANK_FULL) -- XXX don't translate in libs
         return 0
     end
     local ship_stats = self:GetStats()
