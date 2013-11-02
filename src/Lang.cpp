@@ -213,7 +213,9 @@ static std::map<std::string,Resource> m_cachedResources;
 
 Resource GetResource(const std::string &name, const std::string &langCode)
 {
-	auto i = m_cachedResources.find(name);
+	auto key = name + ":" + langCode;
+
+	auto i = m_cachedResources.find(key);
 	if (i != m_cachedResources.end())
 		return i->second;
 
@@ -224,13 +226,14 @@ Resource GetResource(const std::string &name, const std::string &langCode)
 			fprintf(stderr, "couldn't load language resource %s/%s, trying %s/en\n", name.c_str(), langCode.c_str(), name.c_str());
 			res = Lang::Resource(name, "en");
 			loaded = res.Load();
+			key = name + ":" + "en";
 		}
 		if (!loaded)
 			fprintf(stderr, "couldn't load language resource %s/en\n", name.c_str());
 	}
 
 	if (loaded)
-		m_cachedResources.insert(std::make_pair(name, res));
+		m_cachedResources.insert(std::make_pair(key, res));
 
 	return res;
 }
