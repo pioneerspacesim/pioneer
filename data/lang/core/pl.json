@@ -24,7 +24,7 @@
         "description": ""
     },
     "ALT": {
-        "message": "\"alt \"",
+        "message": "\"Alt \"",
         "description": ""
     },
     "HYPERSPACE_ARRIVAL_CLOUD": {
@@ -868,7 +868,7 @@
         "description": ""
     },
     "SHIFT": {
-        "message": "\"shift \"",
+        "message": "\"Shift \"",
         "description": ""
     },
     "DESTINATION": {
@@ -1020,7 +1020,7 @@
         "description": ""
     },
     "CTRL": {
-        "message": "\"ctrl \"",
+        "message": "\"Ctrl \"",
         "description": ""
     },
     "REPAIRS_AND_SERVICING": {
@@ -1256,7 +1256,7 @@
         "description": ""
     },
     "BUTTON": {
-        "message": "\" Button \"",
+        "message": "\" przycisk \" ",
         "description": ""
     },
     "FORWARD_ACCEL_LADEN": {
@@ -2004,7 +2004,7 @@
         "description": ""
     },
     "JOYSTICK_INPUT": {
-        "message": "Ustawienia Joysticka",
+        "message": "Ustawienia joysticka",
         "description": ""
     },
     "ECONOMIC_INFO": {

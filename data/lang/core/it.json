@@ -16,7 +16,7 @@
         "description": ""
     },
     "MONTH_AUG": {
-        "message": "Aug",
+        "message": "Ago",
         "description": ""
     },
     "COMPUTER_SPEED_CONTROL": {
@@ -120,7 +120,7 @@
         "description": ""
     },
     "GAME_LOAD_WRONG_VERSION": {
-        "message": "This saved game cannot be loaded because it was created by a different version of Pioneer.",
+        "message": "Questo salvataggio non può essere caricato perché è stato creato con una versione diversa di Pioneer.",
         "description": ""
     },
     "ECM_ADVANCED_DESCRIPTION": {
@@ -156,7 +156,7 @@
         "description": ""
     },
     "MONTH_JAN": {
-        "message": "Jan",
+        "message": "Giu",
         "description": ""
     },
     "PRICE_TO_REMOVE": {
@@ -212,7 +212,7 @@
         "description": ""
     },
     "CONTROLS": {
-        "message": "Controlli",
+        "message": "Controls",
         "description": ""
     },
     "CARGO_N": {
@@ -276,7 +276,7 @@
         "description": ""
     },
     "COMPUTER_HEADING_CONTROL": {
-        "message": "Computer heading control",
+        "message": "Computer di controllo orientamento",
         "description": ""
     },
     "SURFACE_GRAVITY": {
@@ -364,7 +364,7 @@
         "description": ""
     },
     "MONTH_MAY": {
-        "message": "May",
+        "message": "Mag",
         "description": ""
     },
     "ASTEROID": {
@@ -440,7 +440,7 @@
         "description": ""
     },
     "PASSENGER_CABIN": {
-        "message": "Occupied Passenger Cabin",
+        "message": "Cabine Passeggero Occupate",
         "description": ""
     },
     "INDUSTRIAL_COLONY": {
@@ -652,7 +652,7 @@
         "description": ""
     },
     "FUEL_WEIGHT": {
-        "message": "Fuel weight",
+        "message": "Peso carburante",
         "description": ""
     },
     "SMALL_INDUSTRIAL_OUTPOST": {
@@ -712,7 +712,7 @@
         "description": ""
     },
     "CABINS": {
-        "message": "Cabins",
+        "message": "Cabine",
         "description": ""
     },
     "INCREASE_SCAN_RANGE": {
@@ -720,7 +720,7 @@
         "description": ""
     },
     "MONTH_OCT": {
-        "message": "Oct",
+        "message": "Ott",
         "description": ""
     },
     "SMALL_GAS_GIANT": {
@@ -828,7 +828,7 @@
         "description": ""
     },
     "PAUSED": {
-        "message": "PAUSED",
+        "message": "IN PAUSA",
         "description": ""
     },
     "MISSILE_SMART": {
@@ -960,7 +960,7 @@
         "description": ""
     },
     "FUEL": {
-        "message": "Fuel",
+        "message": "Carburante",
         "description": ""
     },
     "ROLL": {
@@ -1152,7 +1152,7 @@
         "description": ""
     },
     "MONTH_DEC": {
-        "message": "Dec",
+        "message": "Dic",
         "description": ""
     },
     "PRESSURE_N_ATMOSPHERES": {
@@ -1176,7 +1176,7 @@
         "description": ""
     },
     "GAME_SAVE_CANNOT_WRITE": {
-        "message": "This saved game file could not be written because of a system error.",
+        "message": "Questo salvataggio non può essere scritto per via di un errore di sistema.",
         "description": ""
     },
     "THRUSTER_STARBOARD": {
@@ -1348,7 +1348,7 @@
         "description": ""
     },
     "FIRE_MISSILE": {
-        "message": "Fire missile",
+        "message": "Spara missile",
         "description": ""
     },
     "PULSECANNON_20MW": {
@@ -1412,7 +1412,7 @@
         "description": ""
     },
     "MONTH_SEP": {
-        "message": "Sep",
+        "message": "Set",
         "description": ""
     },
     "PITCH_DOWN": {
@@ -1468,7 +1468,7 @@
         "description": ""
     },
     "MONTH_JUN": {
-        "message": "Jun",
+        "message": "Giu",
         "description": ""
     },
     "GAME_LOAD_CORRUPT": {
@@ -1476,7 +1476,7 @@
         "description": ""
     },
     "MONTH_JUL": {
-        "message": "Jul",
+        "message": "Lug",
         "description": ""
     },
     "M_S_RELATIVE_TO": {
@@ -1628,7 +1628,7 @@
         "description": ""
     },
     "MISCELLANEOUS": {
-        "message": "Miscellaneous",
+        "message": "Varie",
         "description": ""
     },
     "SOMEWHERE_SHIP_EQUIPMENT": {
@@ -1872,7 +1872,7 @@
         "description": ""
     },
     "INTERNAL_VIEW": {
-        "message": "Internal view",
+        "message": "vista interna",
         "description": ""
     },
     "INT_LY": {
@@ -1952,7 +1952,7 @@
         "description": ""
     },
     "Z": {
-        "message": "Z",
+        "message": "z",
         "description": ""
     },
     "FRUIT_AND_VEG": {
