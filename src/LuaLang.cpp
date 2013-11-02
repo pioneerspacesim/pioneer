@@ -36,6 +36,9 @@ static int l_lang_get_resource(lua_State *l)
 	lua_pushstring(l, "__index");
 	lua_pushcfunction(l, _resource_index);
 	lua_rawset(l, -3);
+	lua_pushstring(l, "__newindex");
+	lua_pushcfunction(l, _resource_index);
+	lua_rawset(l, -3);
 	lua_setmetatable(l, -2);
 
 	LUA_DEBUG_END(l, 1);
