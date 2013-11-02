@@ -20,6 +20,24 @@ static int l_lang_get_resource(lua_State *l)
 	const std::string resourceName(luaL_checkstring(l, 1));
 	const std::string langCode(lua_isnoneornil(l, 2) ? Lang::GetCore().GetLangCode() : lua_tostring(l, 2));
 
+	const std::string key = resourceName + "_" + langCode;
+
+	lua_getfield(l, LUA_REGISTRYINDEX, "LangCache");
+	if (lua_isnil(l, -1)) {
+		lua_pop(l, 1);
+		lua_newtable(l);
+		lua_pushvalue(l, -1);
+		lua_setfield(l, LUA_REGISTRYINDEX, "LangCache");
+	}
+
+	// find it in the cache
+	lua_getfield(l, -1, key.c_str());
+	if (!lua_isnil(l, -1)) {
+		lua_remove(l, -2);
+		return 1;
+	}
+	lua_pop(l, 1);
+
 	Lang::Resource res = Lang::GetResource(resourceName, langCode);
 
 	lua_newtable(l);
@@ -40,6 +58,11 @@ static int l_lang_get_resource(lua_State *l)
 	lua_pushcfunction(l, _resource_index);
 	lua_rawset(l, -3);
 	lua_setmetatable(l, -2);
+
+	// insert into cache
+	lua_pushvalue(l, -1);
+	lua_setfield(l, -3, key.c_str());
+	lua_remove(l, -2);
 
 	LUA_DEBUG_END(l, 1);
 	return 1;
