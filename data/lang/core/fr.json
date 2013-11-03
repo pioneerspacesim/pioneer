@@ -20,7 +20,7 @@
         "description": ""
     },
     "COMPUTER_SPEED_CONTROL": {
-        "message": "Vitesse contrôlée",
+        "message": "Vitesse auto",
         "description": ""
     },
     "ALT": {
@@ -32,7 +32,7 @@
         "description": ""
     },
     "DIRECTION": {
-        "message": "\" Dir \"",
+        "message": "Doc",
         "description": ""
     },
     "CARBON_ORE_DESCRIPTION": {
@@ -40,7 +40,7 @@
         "description": ""
     },
     "CAMERA_TOP_VIEW": {
-        "message": "Top camera",
+        "message": "Caméra supérieure",
         "description": ""
     },
     "TINY": {
@@ -120,7 +120,7 @@
         "description": ""
     },
     "GAME_LOAD_WRONG_VERSION": {
-        "message": "This saved game cannot be loaded because it was created by a different version of Pioneer.",
+        "message": "Cette sauvegarde ne peut etre chargée : elle vient d'une autre  version de Pioneer",
         "description": ""
     },
     "ECM_ADVANCED_DESCRIPTION": {
@@ -212,7 +212,7 @@
         "description": ""
     },
     "CONTROLS": {
-        "message": "Controls",
+        "message": "Controles",
         "description": ""
     },
     "CARGO_N": {
@@ -296,7 +296,7 @@
         "description": ""
     },
     "DECREASE_SET_SPEED": {
-        "message": "Diminue vitesse choisie",
+        "message": "Diminue vitesse auto",
         "description": ""
     },
     "ROCKY_PLANET_CONTAINING_COME_LIQUIDS": {
@@ -336,7 +336,7 @@
         "description": ""
     },
     "TOGGLE_ROTATION_DAMPING": {
-        "message": "Toggle rotation damping",
+        "message": "Réglage de l'amortisseur de rotation",
         "description": ""
     },
     "LANG_NAME": {
@@ -344,7 +344,7 @@
         "description": "The name that native speakers use for this language. This will be used in the language selection screen. For obscure reasons this currently must only use Latin-1 characters."
     },
     "CAMERA_BOTTOM_VIEW": {
-        "message": "Bottom camera",
+        "message": "Caméra Inférieure",
         "description": ""
     },
     "DAY_LENGTH": {
@@ -356,7 +356,7 @@
         "description": ""
     },
     "INCREASE_SET_SPEED": {
-        "message": "Augmente vitesse choisie",
+        "message": "Augmenter vitesse auto",
         "description": ""
     },
     "CARGO_SCOOP_DESCRIPTION": {
@@ -452,7 +452,7 @@
         "description": ""
     },
     "SCANNER": {
-        "message": "Scanner",
+        "message": "Senseurs",
         "description": ""
     },
     "THRUSTER_MAIN": {
@@ -472,7 +472,7 @@
         "description": ""
     },
     "MONTH_FEB": {
-        "message": "Feb",
+        "message": "Fev",
         "description": ""
     },
     "PLANETARY_INFO": {
@@ -488,11 +488,11 @@
         "description": ""
     },
     "CARGO": {
-        "message": "Cargo",
+        "message": "Soute",
         "description": ""
     },
     "JOY_AXIS": {
-        "message": "%{sign}Joy%joynum %axis Axis",
+        "message": "%{sign}Joy%joynum %axis Axe",
         "description": ""
     },
     "STAR_G_SUPER_GIANT": {
@@ -520,7 +520,7 @@
         "description": ""
     },
     "CAMERA_RIGHT_VIEW": {
-        "message": "Right camera",
+        "message": "Caméra tribord",
         "description": ""
     },
     "NUMBER_LY": {
@@ -568,7 +568,7 @@
         "description": ""
     },
     "ROTATE_LEFT": {
-        "message": "Rotate Left",
+        "message": "Rotation gauche",
         "description": ""
     },
     "TRADING_ILLEGAL_GOODS": {
@@ -596,7 +596,7 @@
         "description": ""
     },
     "SURFACE_TEMPERATURE": {
-        "message": "Température en surface",
+        "message": "Température de surface",
         "description": ""
     },
     "GAME_SAVED_TO": {
@@ -624,11 +624,11 @@
         "description": ""
     },
     "MISSILE": {
-        "message": "missile",
+        "message": "Missile",
         "description": ""
     },
     "DRAW_OUT_RANGE_LABELS": {
-        "message": "Label out-of-range systems",
+        "message": "Def. Systemes distants",
         "description": ""
     },
     "VIOLENT_ANARCHY": {
@@ -652,7 +652,7 @@
         "description": ""
     },
     "FUEL_WEIGHT": {
-        "message": "Fuel weight",
+        "message": "Capacitée en carburant",
         "description": ""
     },
     "SMALL_INDUSTRIAL_OUTPOST": {
@@ -660,11 +660,11 @@
         "description": ""
     },
     "SELECT_LOW_THRUST_POWER_LEVEL": {
-        "message": "Select low thrust power level",
+        "message": "Regl. petite vitesse",
         "description": ""
     },
     "N_WHATEVER_RADII": {
-        "message": "%radius{f.3} %units radii (%radkm{f.0} km)",
+        "message": "%radius{f.3} %unités radiale (%radkm{f.0} km)",
         "description": ""
     },
     "AXIAL_TILT": {
@@ -700,7 +700,7 @@
         "description": ""
     },
     "TOGGLE_SCAN_MODE": {
-        "message": "Mode du scanner",
+        "message": "Réglage des senseurs",
         "description": ""
     },
     "HYDROGEN_DESCRIPTION": {
@@ -716,7 +716,7 @@
         "description": ""
     },
     "INCREASE_SCAN_RANGE": {
-        "message": "Augmenter rayon scanner",
+        "message": "Augmenter rayon senseurs",
         "description": ""
     },
     "MONTH_OCT": {
@@ -764,7 +764,7 @@
         "description": ""
     },
     "SHIELD_ENERGY_BOOSTER": {
-        "message": "Booster énergétique de bouclier",
+        "message": "Booster énergétique du bouclier",
         "description": ""
     },
     "NO_ESTABLISHED_ORDER": {
@@ -780,11 +780,11 @@
         "description": ""
     },
     "DECREASE_SCAN_RANGE": {
-        "message": "Diminuer rayon scanner",
+        "message": "Diminuer rayon senseurs",
         "description": ""
     },
     "SET_HYPERSPACE_DESTINATION_TO": {
-        "message": "Destination hyperspatiale : %system",
+        "message": "Regl. Destination hyperspatiale : %system",
         "description": ""
     },
     "WEIGHT_FULLY_LADEN": {
@@ -816,7 +816,7 @@
         "description": ""
     },
     "YAW": {
-        "message": "Yaw",
+        "message": "Lacets",
         "description": ""
     },
     "HYPERCLOUD_ANALYZER": {
@@ -828,7 +828,7 @@
         "description": ""
     },
     "PAUSED": {
-        "message": "PAUSED",
+        "message": "EN PAUSE",
         "description": ""
     },
     "MISSILE_SMART": {
@@ -908,7 +908,7 @@
         "description": ""
     },
     "COUNT_ON_SURFACE": {
-        "message": "\" (%surfacecount on surface)\"",
+        "message": "\" (%surfacecount en surface)\"",
         "description": ""
     },
     "YOU_NO_MONEY": {
@@ -964,7 +964,7 @@
         "description": ""
     },
     "ROLL": {
-        "message": "Roll",
+        "message": "Bariquer",
         "description": ""
     },
     "FORWARD_ACCEL_EMPTY": {
@@ -984,7 +984,7 @@
         "description": ""
     },
     "ROCKY_PLANET": {
-        "message": "\" planète rocheuse\"",
+        "message": "\" planète tellurique\"",
         "description": ""
     },
     "SOMEWHERE_SERVICES": {
@@ -1016,7 +1016,7 @@
         "description": ""
     },
     "LIBERAL_DEMOCRACY": {
-        "message": "Démocratie impériale",
+        "message": "Démocratie libérale",
         "description": ""
     },
     "CTRL": {
@@ -1056,7 +1056,7 @@
         "description": ""
     },
     "YAW_RIGHT": {
-        "message": "Yaw right",
+        "message": "lacet a droite",
         "description": ""
     },
     "OVER_N_MILLION": {
@@ -1068,11 +1068,11 @@
         "description": ""
     },
     "N_CELSIUS": {
-        "message": "%temperature °C",
+        "message": "%température °C",
         "description": ""
     },
     "COMMS_LINK": {
-        "message": "Communications",
+        "message": "Communication",
         "description": ""
     },
     "X": {
@@ -1080,7 +1080,7 @@
         "description": ""
     },
     "HAT": {
-        "message": "\" Hat\"",
+        "message": "\"Couv\"",
         "description": ""
     },
     "TRIPLE_SYSTEM": {
@@ -1112,7 +1112,7 @@
         "description": ""
     },
     "PITCH": {
-        "message": "Pitch",
+        "message": "Lancement",
         "description": ""
     },
     "PRICE_TO_FIT": {
@@ -1144,7 +1144,7 @@
         "description": ""
     },
     "ROLL_LEFT": {
-        "message": "Roll left",
+        "message": "Bariquer a gauche",
         "description": ""
     },
     "CONTACT_LOCAL_POLICE": {
@@ -1192,7 +1192,7 @@
         "description": ""
     },
     "AUTOPILOT_DESCRIPTION": {
-        "message": "Ordinateur de vol.",
+        "message": "Ordinateur de bord.",
         "description": ""
     },
     "O2_ATMOSPHERE": {
@@ -1224,7 +1224,7 @@
         "description": ""
     },
     "ROTATE_UP": {
-        "message": "Rotate Up",
+        "message": "Redresser",
         "description": ""
     },
     "NO_REGISTERED_INHABITANTS": {
@@ -1240,7 +1240,7 @@
         "description": ""
     },
     "PROBABILITY_OF_ARRIVAL_X_PERCENT": {
-        "message": "Probability of arrival: %probability%%",
+        "message": "Probabilité d'arrivée: %probability%%",
         "description": ""
     },
     "MESSAGE_FROM_X": {
@@ -1256,7 +1256,7 @@
         "description": ""
     },
     "BUTTON": {
-        "message": "\" Button \"",
+        "message": "\"bouton\"",
         "description": ""
     },
     "FORWARD_ACCEL_LADEN": {
@@ -1264,7 +1264,7 @@
         "description": ""
     },
     "USE_LOW_THRUST": {
-        "message": "Use low thrust",
+        "message": "Utiliser vitesse lente",
         "description": ""
     },
     "REPAIR_1_PERCENT_HULL": {
@@ -1284,7 +1284,7 @@
         "description": ""
     },
     "SPEED_CONTROL_MODE": {
-        "message": "Mode de contrôle vitesse",
+        "message": "Mode Vitesse controlée",
         "description": ""
     },
     "PULSECANNON_1MW": {
@@ -1404,7 +1404,7 @@
         "description": ""
     },
     "TEXTILES": {
-        "message": "Textiles",
+        "message": "Etoffes",
         "description": ""
     },
     "NAME": {
@@ -1416,7 +1416,7 @@
         "description": ""
     },
     "PITCH_DOWN": {
-        "message": "Pitch down",
+        "message": "Piquer",
         "description": ""
     },
     "SIDEREAL_VIEW": {
@@ -1424,11 +1424,11 @@
         "description": ""
     },
     "PITCH_UP": {
-        "message": "Pitch up",
+        "message": "Redresser",
         "description": ""
     },
     "VID_LINK_ESTABLISHED": {
-        "message": "Lien vidéo établi",
+        "message": "Com. vidéo établie",
         "description": ""
     },
     "PERIAPSIS_DISTANCE": {
@@ -1444,7 +1444,7 @@
         "description": ""
     },
     "STAR_SYSTEM_INFORMATION": {
-        "message": "Information système",
+        "message": "Information système solaire",
         "description": ""
     },
     "STAR_O_HYPER_GIANT": {
@@ -1468,7 +1468,7 @@
         "description": ""
     },
     "MONTH_JUN": {
-        "message": "Jun",
+        "message": "Juin",
         "description": ""
     },
     "GAME_LOAD_CORRUPT": {
@@ -1492,7 +1492,7 @@
         "description": ""
     },
     "SCANNER_CONTROL": {
-        "message": "Contrôle scanner",
+        "message": "Senseurs",
         "description": ""
     },
     "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS": {
@@ -1508,7 +1508,7 @@
         "description": ""
     },
     "CARGO_SPACE": {
-        "message": "Espace cargo",
+        "message": "Espace soute",
         "description": ""
     },
     "AND_INDIGENOUS_MICROBIAL_LIFE": {
@@ -1596,7 +1596,7 @@
         "description": ""
     },
     "ROTATION_DAMPING_OFF": {
-        "message": "Rotation damping off",
+        "message": "Amortisseur de rotation OFF",
         "description": ""
     },
     "LASER_COOLING_BOOSTER_DESCRIPTION": {
@@ -1628,7 +1628,7 @@
         "description": ""
     },
     "MISCELLANEOUS": {
-        "message": "Miscellaneous",
+        "message": "Divers",
         "description": ""
     },
     "SOMEWHERE_SHIP_EQUIPMENT": {
@@ -1692,15 +1692,15 @@
         "description": ""
     },
     "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT": {
-        "message": "Set low thrust power level to %power%%",
+        "message": "Regl. vitesse mini sur  %power%%",
         "description": ""
     },
     "REMOVING": {
-        "message": "Dés",
+        "message": "\"Enlever\"",
         "description": ""
     },
     "SHIELD_INTEGRITY": {
-        "message": "Boucliers",
+        "message": "Niv. Boucliers",
         "description": ""
     },
     "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED": {
@@ -1736,7 +1736,7 @@
         "description": ""
     },
     "ROLL_RIGHT": {
-        "message": "Roll right",
+        "message": "Bariquer a droite",
         "description": ""
     },
     "GO_BACK": {
@@ -1748,7 +1748,7 @@
         "description": ""
     },
     "TOGGLE_HUD_MODE": {
-        "message": "Toggle HUD mode",
+        "message": "regl mode HUD",
         "description": ""
     },
     "EXTERNAL_VIEW": {
@@ -1820,7 +1820,7 @@
         "description": ""
     },
     "DRAW_VERTICAL_LINES": {
-        "message": "Draw vertical lines",
+        "message": "Montrer les tiges verticales",
         "description": ""
     },
     "SOMEWHERE_POLICE": {
@@ -1840,7 +1840,7 @@
         "description": ""
     },
     "ROTATE_DOWN": {
-        "message": "Rotate Down",
+        "message": "Piquer",
         "description": ""
     },
     "SOMEWHERE_SHIP_MARKET": {
@@ -1872,7 +1872,7 @@
         "description": ""
     },
     "INTERNAL_VIEW": {
-        "message": "Internal view",
+        "message": "Vue cockpit",
         "description": ""
     },
     "INT_LY": {
@@ -1880,7 +1880,7 @@
         "description": ""
     },
     "ROTATION_DAMPING_ON": {
-        "message": "Rotation damping on",
+        "message": "Amortisseur de rotation ON",
         "description": ""
     },
     "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW": {
@@ -1976,7 +1976,7 @@
         "description": ""
     },
     "META": {
-        "message": "\"meta \"",
+        "message": "\"mega\"",
         "description": ""
     },
     "STAR_SM_BH": {
@@ -1984,7 +1984,7 @@
         "description": ""
     },
     "MONTH_APR": {
-        "message": "Apr",
+        "message": "Avr",
         "description": ""
     },
     "BOUGHT_1T_OF": {
@@ -2068,7 +2068,7 @@
         "description": ""
     },
     "YAW_LEFT": {
-        "message": "Yaw left",
+        "message": "Lacet a gauche",
         "description": ""
     },
     "ATMOSPHERIC_SHIELDING_DESCRIPTION": {
@@ -2088,7 +2088,7 @@
         "description": ""
     },
     "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO": {
-        "message": "Equatorial to polar radius ratio",
+        "message": "Équatorial vers ratio de rayon polaire",
         "description": ""
     },
     "STAR_M_SUPER_GIANT": {
@@ -2120,7 +2120,7 @@
         "description": ""
     },
     "CAMERA_REAR_VIEW": {
-        "message": "Vie arrière",
+        "message": "Vue arrière",
         "description": ""
     },
     "OCEANICWORLD": {
@@ -2136,11 +2136,11 @@
         "description": ""
     },
     "CAMERA_LEFT_VIEW": {
-        "message": "Left camera",
+        "message": "Camera gauche",
         "description": ""
     },
     "ROTATE_RIGHT": {
-        "message": "Rotate Right",
+        "message": "Rotation a droite",
         "description": ""
     }
 }

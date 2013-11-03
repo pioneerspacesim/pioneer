@@ -1,10 +1,10 @@
 {
     "FLAVOUR_SUCCESSMSG_3": {
-        "message": "{target} is dead. Here is your award.",
+        "message": "{target} est mort. Voici votre prime.",
         "description": ""
     },
     "FLAVOUR_SUCCESSMSG_2": {
-        "message": "You have been paid in full for the completion of that important contract.",
+        "message": "Vous avez été payé en totalité pour avoir honoré cet important contrat.",
         "description": ""
     },
     "SPACEPORT": {
@@ -12,11 +12,11 @@
         "description": ""
     },
     "FLAVOUR_SUCCESSMSG_0": {
-        "message": "News of {target}'s long vacation gratefully received. Well done, I have initiated your full payment.",
+        "message": "J'ai appris avec joie la nouvelle des grandes vacances de  {target}. Bien joué. J'ai donné des ordres pour le payement integral.",
         "description": ""
     },
     "TARGET_WILL_BE_LEAVING_SPACEPORT_AT": {
-        "message": "Target will be leaving spaceport at:",
+        "message": "La cible quittera le spacioport a:",
         "description": ""
     },
     "FLAVOUR_SUCCESSMSG_5": {
@@ -32,7 +32,7 @@
         "description": ""
     },
     "FLAVOUR_SUCCESSMSG_1": {
-        "message": "I am most sad to hear of {target}'s demise. You have been paid in full.",
+        "message": "Je suis vraiment triste d'apprendre le deces de {target}. Vous avez été payé en totalité.",
         "description": ""
     },
     "FLAVOUR_INTROTEXT_3": {

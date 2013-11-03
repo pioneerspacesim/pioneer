@@ -4,15 +4,15 @@
         "description": ""
     },
     "CANNOT_COMPENSATE_FOR_LOCAL_GRAVITY": {
-        "message": "Cannot compensate for local gravity",
+        "message": "Impossibilité de compenser la gravité locale.",
         "description": ""
     },
     "CANNOT_COMPUTE_ORBIT_PARAMETERS": {
-        "message": "Cannot compute orbit parameters",
+        "message": "Impossibilité de calculer les paramètres orbitaux.",
         "description": ""
     },
     "STARPORT_REFUSED_DOCKING_PERMISSION": {
-        "message": "Starport refused docking permission",
+        "message": "La station spatiale vous a refusé l'autorisation d'arrimage.",
         "description": ""
     }
 }
