@@ -1,8 +1,8 @@
 -- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Translate = import("Translate")
 local Engine = import("Engine")
+local Lang = import("Lang")
 local Game = import("Game")
 local Space = import("Space")
 local Comms = import("Comms")
@@ -18,8 +18,8 @@ local utils = import("utils")
 
 local InfoFace = import("ui/InfoFace")
 
--- Get the translator function
-local t = Translate:GetTranslator()
+-- Get the language resource
+local l = Lang.GetResource("module-taxi")
 -- Get the UI class
 local ui = Engine.ui
 
@@ -32,6 +32,78 @@ local typical_travel_time = (2.0 * max_taxi_dist + 4) * 24 * 60 * 60
 local typical_reward = 75 * max_taxi_dist
 -- max number of passengers per trip
 local max_group = 10
+
+local num_corporations = 12
+local num_pirate_taunts = 4
+
+local flavours = {
+	{
+		single = 0,
+		urgency = 0,
+		risk = 0.001,
+	}, {
+		single = false,
+		urgency = 0,
+		risk = 0,
+	}, {
+		single = false,
+		urgency = 0,
+		risk = 0,
+	}, {
+		single = true,
+		urgency = 0.13,
+		risk = 0.73,
+	}, {
+		single = true,
+		urgency = 0.3,
+		risk = 0.02,
+	}, {
+		single = true,
+		urgency = 0.1,
+		risk = 0.05,
+	}, {
+		single = true,
+		urgency = 0.02,
+		risk = 0.07,
+	}, {
+		single = true,
+		urgency = 0.15,
+		risk = 1,
+	}, {
+		single = true,
+		urgency = 0.5,
+		risk = 0.001,
+	}, {
+		single = true,
+		urgency = 0.85,
+		risk = 0.20,
+	}, {
+		single = true,
+		urgency = 0.9,
+		risk = 0.40,
+	}, {
+		single = true,
+		urgency = 1,
+		risk = 0.31,
+	}, {
+		single = true,
+		urgency = 0,
+		risk = 0.17,
+	}
+}
+
+-- add strings to flavours
+for i = 1,#flavours do
+	local f = flavours[i]
+	f.adtext     = l["FLAVOUR_ADTEXT_"..i-1]
+	f.introtext  = l["FLAVOUR_INTROTEXT_"..i-1]
+	f.whysomuch  = l["FLAVOUR_WHYSOMUCH_"..i-1]
+	f.howmany    = l["FLAVOUR_HOWMANY_"..i-1]
+	f.danger     = l["FLAVOUR_DANGER_"..i-1]
+	f.successmsg = l["FLAVOUR_SUCCESSMSG_"..i-1]
+	f.failuremsg = l["FLAVOUR_FAILUREMSG_"..i-1]
+	f.wherearewe = l["FLAVOUR_WHEREAREWE_"..i-1]
+end
 
 local ads = {}
 local missions = {}
@@ -50,7 +122,6 @@ local remove_passengers = function (group)
 end
 
 local onChat = function (form, ref, option)
-	local taxi_flavours = Translate:GetFlavours('Taxi')
 	local ad = ads[ref]
 
 	form:Clear()
@@ -65,7 +136,7 @@ local onChat = function (form, ref, option)
 
 		local sys   = ad.location:GetStarSystem()
 
-		local introtext = string.interp(taxi_flavours[ad.flavour].introtext, {
+		local introtext = string.interp(flavours[ad.flavour].introtext, {
 			name     = ad.client.name,
 			cash     = Format.Money(ad.reward),
 			system   = sys.name,
@@ -78,15 +149,15 @@ local onChat = function (form, ref, option)
 		form:SetMessage(introtext)
 
 	elseif option == 1 then
-		local corporation = t('CORPORATIONS')[Engine.rand:Integer(1,#(t('CORPORATIONS')))]
-		local whysomuch = string.interp(taxi_flavours[ad.flavour].whysomuch, {
+		local corporation = l["CORPORATIONS_"..Engine.rand:Integer(1,num_corporations)-1]
+		local whysomuch = string.interp(flavours[ad.flavour].whysomuch, {
 			corp     = corporation,
 		})
 
 		form:SetMessage(whysomuch)
 
 	elseif option == 2 then
-		local howmany = string.interp(taxi_flavours[ad.flavour].howmany, {
+		local howmany = string.interp(flavours[ad.flavour].howmany, {
 			group  = ad.group,
 		})
 
@@ -95,8 +166,8 @@ local onChat = function (form, ref, option)
 	elseif option == 3 then
 		local capacity = ShipDef[Game.player.shipId].equipSlotCapacity.CABIN
 		if capacity < ad.group or Game.player:GetEquipCount('CABIN', 'UNOCCUPIED_CABIN') < ad.group then
-			form:SetMessage(t("You do not have enough cabin space on your ship."))
-			form:AddOption(t('HANG_UP'), -1)
+			form:SetMessage(l.YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP)
+			form:AddOption(l.HANG_UP, -1)
 			return
 		end
 
@@ -120,28 +191,28 @@ local onChat = function (form, ref, option)
 
 		table.insert(missions,Mission.New(mission))
 
-		form:SetMessage(t("Excellent."))
-		form:AddOption(t('HANG_UP'), -1)
+		form:SetMessage(l.EXCELLENT)
+		form:AddOption(l.HANG_UP, -1)
 
 		return
 	elseif option == 4 then
-		if taxi_flavours[ad.flavour].single == 1 then
-			form:SetMessage(t("I must be there before ")..Format.Date(ad.due))
+		if flavours[ad.flavour].single == 1 then
+			form:SetMessage(l.I_MUST_BE_THERE_BEFORE..Format.Date(ad.due))
 		else
-			form:SetMessage(t("We want to be there before ")..Format.Date(ad.due))
+			form:SetMessage(l.WE_WANT_TO_BE_THERE_BEFORE..Format.Date(ad.due))
 		end
 
 	elseif option == 5 then
-		form:SetMessage(taxi_flavours[ad.flavour].danger)
+		form:SetMessage(flavours[ad.flavour].danger)
 	end
 
-	form:AddOption(t("Why so much money?"), 1)
-	form:AddOption(t("How many of you are there?"), 2)
-	form:AddOption(t("How soon you must be there?"), 4)
-	form:AddOption(t("Will I be in any danger?"), 5)
-	form:AddOption(t("Could you repeat the original request?"), 0)
-	form:AddOption(t("Ok, agreed."), 3)
-	form:AddOption(t('HANG_UP'), -1)
+	form:AddOption(l.WHY_SO_MUCH_MONEY, 1)
+	form:AddOption(l.HOW_MANY_OF_YOU_ARE_THERE, 2)
+	form:AddOption(l.HOW_SOON_YOU_MUST_BE_THERE, 4)
+	form:AddOption(l.WILL_I_BE_IN_ANY_DANGER, 5)
+	form:AddOption(l.COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST, 0)
+	form:AddOption(l.OK_AGREED, 3)
+	form:AddOption(l.HANG_UP, -1)
 end
 
 local onDelete = function (ref)
@@ -151,13 +222,12 @@ end
 local nearbysystems
 local makeAdvert = function (station)
 	local reward, due, location
-	local taxi_flavours = Translate:GetFlavours('Taxi')
 	local client = Character.New()
-	local flavour = Engine.rand:Integer(1,#taxi_flavours)
-	local urgency = taxi_flavours[flavour].urgency
-	local risk = taxi_flavours[flavour].risk
+	local flavour = Engine.rand:Integer(1,#flavours)
+	local urgency = flavours[flavour].urgency
+	local risk = flavours[flavour].risk
 	local group = 1
-	if taxi_flavours[flavour].single == 0 then
+	if flavours[flavour].single == 0 then
 		group = Engine.rand:Integer(2,max_group)
 	end
 
@@ -185,7 +255,7 @@ local makeAdvert = function (station)
 		faceseed	= Engine.rand:Integer(),
 	}
 
-	ad.desc = string.interp(taxi_flavours[flavour].adtext, {
+	ad.desc = string.interp(flavours[flavour].adtext, {
 		system	= location.name,
 		cash	= Format.Money(ad.reward),
 	})
@@ -202,7 +272,6 @@ local onCreateBB = function (station)
 end
 
 local onUpdateBB = function (station)
-	local taxi_flavours = Translate:GetFlavours('Taxi')
 	for ref,ad in pairs(ads) do
 		if ad.due < Game.time + 5*60*60*24 then
 			ad.station:RemoveAdvert(ref)
@@ -215,13 +284,12 @@ end
 
 local onEnterSystem = function (player)
 	if (not player:IsPlayer()) then return end
-	local taxi_flavours = Translate:GetFlavours('Taxi')
 
 	local syspath = Game.system.path
 
 	for ref,mission in pairs(missions) do
 		if not mission.status and mission.location:IsSameSystem(syspath) then
-			local risk = taxi_flavours[mission.flavour].risk
+			local risk = flavours[mission.flavour].risk
 			local ships = 0
 
 			local riskmargin = Engine.rand:Number(-0.3,0.3) -- Add some random luck
@@ -267,14 +335,14 @@ local onEnterSystem = function (player)
 			end
 
 			if ship then
-				local pirate_greeting = string.interp(t('PIRATE_TAUNTS')[Engine.rand:Integer(1,#(t('PIRATE_TAUNTS')))], { client = mission.client.name,})
+				local pirate_greeting = string.interp(l["PIRATE_TAUNTS_"..Engine.rand:Integer(1,num_pirate_taunts)-1], { client = mission.client.name,})
 				Comms.ImportantMessage(pirate_greeting, ship.label)
 			end
 		end
 
 		if not mission.status and Game.time > mission.due then
 			mission.status = 'FAILED'
-			Comms.ImportantMessage(taxi_flavours[mission.flavour].wherearewe, mission.client.name)
+			Comms.ImportantMessage(flavours[mission.flavour].wherearewe, mission.client.name)
 		end
 	end
 end
@@ -290,12 +358,10 @@ local onShipDocked = function (player, station)
 
 	for ref,mission in pairs(missions) do
 		if mission.location == Game.system.path or Game.time > mission.due then
-			local taxi_flavours = Translate:GetFlavours('Taxi')
-
 			if Game.time > mission.due then
-				Comms.ImportantMessage(taxi_flavours[mission.flavour].failuremsg, mission.client.name)
+				Comms.ImportantMessage(flavours[mission.flavour].failuremsg, mission.client.name)
 			else
-				Comms.ImportantMessage(taxi_flavours[mission.flavour].successmsg, mission.client.name)
+				Comms.ImportantMessage(flavours[mission.flavour].successmsg, mission.client.name)
 				player:AddMoney(mission.reward)
 			end
 
@@ -315,7 +381,7 @@ local onShipUndocked = function (player, station)
 	for ref,mission in pairs(missions) do
 		remove_passengers(mission.group)
 
-		Comms.ImportantMessage(t("Hey!?! You are going to pay for this!!!"), mission.client.name)
+		Comms.ImportantMessage(l.HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS, mission.client.name)
 		mission:Remove()
 		missions[ref] = nil
 	end
@@ -346,10 +412,9 @@ local onGameEnd = function ()
 end
 
 local onClick = function (mission)
-	local taxi_flavours = Translate:GetFlavours('Taxi')
 	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
 	return ui:Grid(2,1)
-		:SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((taxi_flavours[mission.flavour].introtext):interp({
+		:SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((flavours[mission.flavour].introtext):interp({
 														name   = mission.client.name,
 														system = mission.location:GetStarSystem().name,
 														sectorx = mission.location.sectorX,
@@ -362,7 +427,7 @@ local onClick = function (mission)
 										ui:Grid(2,1)
 											:SetColumn(0, {
 												ui:VBox():PackEnd({
-													ui:Label(t("From:"))
+													ui:Label(l.FROM)
 												})
 											})
 											:SetColumn(1, {
@@ -373,7 +438,7 @@ local onClick = function (mission)
 										ui:Grid(2,1)
 											:SetColumn(0, {
 												ui:VBox():PackEnd({
-													ui:Label(t("To:"))
+													ui:Label(l.TO)
 												})
 											})
 											:SetColumn(1, {
@@ -384,18 +449,18 @@ local onClick = function (mission)
 										ui:Grid(2,1)
 											:SetColumn(0, {
 												ui:VBox():PackEnd({
-													ui:Label(t("Group details:"))
+													ui:Label(l.GROUP_DETAILS)
 												})
 											})
 											:SetColumn(1, {
 												ui:VBox():PackEnd({
-													ui:MultiLineText(string.interp(taxi_flavours[mission.flavour].howmany, {group = mission.group}))
+													ui:MultiLineText(string.interp(flavours[mission.flavour].howmany, {group = mission.group}))
 												})
 											}),
 										ui:Grid(2,1)
 											:SetColumn(0, {
 												ui:VBox():PackEnd({
-													ui:Label(t("Deadline:"))
+													ui:Label(l.DEADLINE)
 												})
 											})
 											:SetColumn(1, {
@@ -406,24 +471,24 @@ local onClick = function (mission)
 										ui:Grid(2,1)
 											:SetColumn(0, {
 												ui:VBox():PackEnd({
-													ui:Label(t("Danger:"))
+													ui:Label(l.DANGER)
 												})
 											})
 											:SetColumn(1, {
 												ui:VBox():PackEnd({
-													ui:MultiLineText(taxi_flavours[mission.flavour].danger)
+													ui:MultiLineText(flavours[mission.flavour].danger)
 												})
 											}),
 										ui:Margin(5),
 										ui:Grid(2,1)
 											:SetColumn(0, {
 												ui:VBox():PackEnd({
-													ui:Label(t("Distance:"))
+													ui:Label(l.DISTANCE)
 												})
 											})
 											:SetColumn(1, {
 												ui:VBox():PackEnd({
-													ui:Label(dist.." "..t("ly"))
+													ui:Label(dist.." "..l.LY)
 												})
 											}),
 		})})
@@ -449,6 +514,6 @@ Event.Register("onShipDocked", onShipDocked)
 Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
 
-Mission.RegisterType('Taxi','Taxi',onClick)
+Mission.RegisterType('Taxi',l.TAXI,onClick)
 
 Serializer:Register("Taxi", serialize, unserialize)

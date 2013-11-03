@@ -262,8 +262,8 @@ void Pi::Init()
 
 	ModManager::Init();
 
-	if (!Lang::LoadStrings(config->String("Lang")))
-		abort();
+	Lang::Resource res(Lang::GetResource("core", config->String("Lang")));
+	Lang::MakeCore(res);
 
 	Pi::detail.planets = config->Int("DetailPlanets");
 	Pi::detail.textures = config->Int("Textures");
@@ -331,7 +331,7 @@ void Pi::Init()
 	// templates. so now we have crap everywhere :/
 	Lua::Init();
 
-	Pi::ui.Reset(new UI::Context(Lua::manager, Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), Lang::GetCurrentLanguage()));
+	Pi::ui.Reset(new UI::Context(Lua::manager, Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), Lang::GetCore().GetLangCode()));
 
 	LuaInit();
 

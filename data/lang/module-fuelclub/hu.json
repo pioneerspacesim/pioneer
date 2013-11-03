@@ -1,0 +1,70 @@
+{
+    "FLAVOUR_CLUBNAME_0": {
+        "message": "Csillagközi pilóták üzemanyagegyüttműködése",
+        "description": ""
+    },
+    "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED": {
+        "message": "A tagságigénylésedet visszautasítottuk.",
+        "description": ""
+    },
+    "YOU_MUST_BUY": {
+        "message": "Venned kell: {military_fuel} mielőtt átvennénk tőled: {radioactives}",
+        "description": ""
+    },
+    "WE_WILL_ONLY_DISPOSE_OF": {
+        "message": "Annyi tonna {radioactives} semlegesítését vállaljuk, amennyi {military_fuel} vásárolsz tőlünk.",
+        "description": ""
+    },
+    "FLAVOUR_WELCOME_0": {
+        "message": "Üdvözlünk a(z) {clubname} klubban.",
+        "description": ""
+    },
+    "WHAT_CONDITIONS_APPLY": {
+        "message": "Mik a feltételei a {radioactives} kezelésének?",
+        "description": ""
+    },
+    "YOU_ARE_NOW_A_MEMBER": {
+        "message": "Immáron tag vagy. A tagságod {expiry_date} napján jár le.",
+        "description": ""
+    },
+    "BEGIN_TRADE": {
+        "message": "Üzlet megkezdése",
+        "description": ""
+    },
+    "WATER": {
+        "message": "Víz",
+        "description": ""
+    },
+    "APPLY_FOR_MEMBERSHIP": {
+        "message": "Tagságigénylés",
+        "description": ""
+    },
+    "RADIOACTIVES": {
+        "message": "Radioaktív hulladék",
+        "description": ""
+    },
+    "GO_BACK": {
+        "message": "Vissza",
+        "description": ""
+    },
+    "MILITARY_FUEL": {
+        "message": "Katonai üzemanyag",
+        "description": ""
+    },
+    "HANG_UP": {
+        "message": "Kapcsolat megszakítása.",
+        "description": ""
+    },
+    "FLAVOUR_MEMBER_INTRO_0": {
+        "message": "Továbbá vehetsz üzemanyagot és {radioactives} megsemmisítést is vállalunk.",
+        "description": ""
+    },
+    "HYDROGEN": {
+        "message": "Hidrogén",
+        "description": ""
+    },
+    "FLAVOUR_NONMEMBER_INTRO_0": {
+        "message": "{clubname} egy független szervezet, amely olcsón kínál űrhajóüzemanyagot tagjainak. A fiókok szerte megtalálhatóak a galaxisban. A tagság előnyei a következők:\n\n\t* Saját üzemanyagraktárunk árai függetlenek a piactól\n\t* {hydrogen} diszkontáron kapható\n\t* {military_fuel} diszkontáron kapható\n\t* {radioactives} megsemmisítése ingyen (feltételekkel)\n\nCsatlakozz most! Az éves tagsági díj csak {membership_fee}",
+        "description": ""
+    }
+}

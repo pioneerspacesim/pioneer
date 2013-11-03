@@ -1,0 +1,2146 @@
+{
+    "VID_CONNECTING": {
+        "message": "Connectant-se...",
+        "description": ""
+    },
+    "LANDED": {
+        "message": "Aterrat",
+        "description": ""
+    },
+    "DOCKING_CLEARANCE_EXPIRED": {
+        "message": "Ha caducat la petició d'amarratge. Si voleu amarrar repetiu la petició.",
+        "description": ""
+    },
+    "HYPERSPACE_TARGET": {
+        "message": "Objectiu hiperespacial",
+        "description": ""
+    },
+    "MONTH_AUG": {
+        "message": "Aug",
+        "description": ""
+    },
+    "COMPUTER_SPEED_CONTROL": {
+        "message": "Control de velocitat automàtic",
+        "description": ""
+    },
+    "ALT": {
+        "message": "\"alt \"",
+        "description": ""
+    },
+    "HYPERSPACE_ARRIVAL_CLOUD": {
+        "message": "Núvol d'arribada d'hiperespai",
+        "description": ""
+    },
+    "DIRECTION": {
+        "message": "\" Dir \"",
+        "description": ""
+    },
+    "CARBON_ORE_DESCRIPTION": {
+        "message": "Els hidrocarburs (carbó i petroli) s'utilitzen per a la síntesi de molts productes químics útils, com plàstics, fustes sintètiques, medicaments i productes tèxtils.",
+        "description": ""
+    },
+    "CAMERA_TOP_VIEW": {
+        "message": "Top camera",
+        "description": ""
+    },
+    "TINY": {
+        "message": "Minúscul",
+        "description": ""
+    },
+    "CONSUMER_GOODS": {
+        "message": "Bens de consum",
+        "description": ""
+    },
+    "BODY": {
+        "message": "cos",
+        "description": ""
+    },
+    "WITH_A": {
+        "message": "\" amb \"",
+        "description": ""
+    },
+    "FIT": {
+        "message": "Acoblar",
+        "description": ""
+    },
+    "EXTENSIVE_MINING": {
+        "message": "Operacions mineres extenses.",
+        "description": ""
+    },
+    "REVERSE_ACCEL_LADEN": {
+        "message": "Acceleració revers (amb càrrega)",
+        "description": ""
+    },
+    "LEGAL_STATUS": {
+        "message": "Estatus legal",
+        "description": ""
+    },
+    "WHEELS_ARE_DOWN": {
+        "message": "Tren d'aterratge preparat",
+        "description": ""
+    },
+    "INDUSTRIAL_MACHINERY": {
+        "message": "Maquinària industrial",
+        "description": ""
+    },
+    "HULL_AUTOREPAIR": {
+        "message": "Sistema d'autorreparació del casc",
+        "description": ""
+    },
+    "TOGGLE_LUA_CONSOLE": {
+        "message": "Visualitza o amaga la consola Lua",
+        "description": ""
+    },
+    "SOCIAL_DEMOCRACY": {
+        "message": "Social-democràcia",
+        "description": ""
+    },
+    "WATER": {
+        "message": "Aigua",
+        "description": ""
+    },
+    "HULL_INTEGRITY": {
+        "message": "Integritat del casc",
+        "description": ""
+    },
+    "EARTH_FEDERATION_DEMOCRACY": {
+        "message": "Democràcia de la Federació Terrestre",
+        "description": ""
+    },
+    "VIEW": {
+        "message": "Veure",
+        "description": ""
+    },
+    "HIGHLY_VOLCANIC": {
+        "message": "Altament volcànic",
+        "description": ""
+    },
+    "USED": {
+        "message": "En ús",
+        "description": ""
+    },
+    "GAME_LOAD_WRONG_VERSION": {
+        "message": "This saved game cannot be loaded because it was created by a different version of Pioneer.",
+        "description": ""
+    },
+    "ECM_ADVANCED_DESCRIPTION": {
+        "message": "Sistema de contraatac de míssils, capaç de destruir els tipus de míssils més avançats.",
+        "description": ""
+    },
+    "DRIVE_MIL4": {
+        "message": "Motor militar de Classe 4",
+        "description": ""
+    },
+    "DRIVE_MIL3": {
+        "message": "Motor militar de Classe 3",
+        "description": ""
+    },
+    "LIQUID_OXYGEN_DESCRIPTION": {
+        "message": "L'oxigen s'utilitza per sistemes de vida i per algunes indústries",
+        "description": ""
+    },
+    "DRIVE_MIL1": {
+        "message": "Motor militar de Classe 1",
+        "description": ""
+    },
+    "CORPORATE_SYSTEM": {
+        "message": "Sistema corporatiu",
+        "description": ""
+    },
+    "HYDROGEN": {
+        "message": "Hidrogen",
+        "description": ""
+    },
+    "REVERSE_ACCEL_EMPTY": {
+        "message": "Acceleració revers (buit)",
+        "description": ""
+    },
+    "MONTH_JAN": {
+        "message": "Jan",
+        "description": ""
+    },
+    "PRICE_TO_REMOVE": {
+        "message": "$ per retirar",
+        "description": ""
+    },
+    "IMPERIAL_RULE": {
+        "message": "Govern Imperial",
+        "description": ""
+    },
+    "BINARY_SYSTEM": {
+        "message": "Sistema binari",
+        "description": ""
+    },
+    "ALT_IN_METRES": {
+        "message": "Alç: %altitude{f.0}m",
+        "description": ""
+    },
+    "SHIELD_GENERATOR": {
+        "message": "Generador d'escut",
+        "description": ""
+    },
+    "SOMEWHERE_COMMODITIES_MARKET": {
+        "message": "Mercat de bens de %station",
+        "description": ""
+    },
+    "NARCOTICS": {
+        "message": "Narcòtics",
+        "description": ""
+    },
+    "THRUSTER_VENTRAL": {
+        "message": "Accelerar cap amunt",
+        "description": ""
+    },
+    "STAR_K_HYPER_GIANT": {
+        "message": "Hiper Gegant Blava - Inestable",
+        "description": ""
+    },
+    "NEW_AND_RECONDITIONED_SHIPS": {
+        "message": "Naus noves i restaurades",
+        "description": ""
+    },
+    "STAR_AF_GIANT": {
+        "message": "Estrella Gegant Vermella",
+        "description": ""
+    },
+    "CLASS_NUMBER": {
+        "message": "Classe %class",
+        "description": ""
+    },
+    "SOME_ESTABLISHED_MINING": {
+        "message": "Poca mineria establerta.",
+        "description": ""
+    },
+    "CONTROLS": {
+        "message": "Controls",
+        "description": ""
+    },
+    "CARGO_N": {
+        "message": "Càrrega: %{mass}t",
+        "description": ""
+    },
+    "HAND_WEAPONS": {
+        "message": "Armes de foc",
+        "description": ""
+    },
+    "TIME_POINT": {
+        "message": "Punt de temps:",
+        "description": ""
+    },
+    "MINING_MACHINERY": {
+        "message": "Maquinària minera",
+        "description": ""
+    },
+    "MININGCANNON_17MW": {
+        "message": "Canó d'impacte de 17MW",
+        "description": ""
+    },
+    "CARGO_BAY_LIFE_SUPPORT_LOST": {
+        "message": "Els sensors comuniquen estat crític del suport vital de la bodega.",
+        "description": ""
+    },
+    "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE": {
+        "message": "Analitzador de núvols hiperespacials: Fixar objectiu hiperespacial d'aquesta sortida",
+        "description": ""
+    },
+    "ALLEGIANCE": {
+        "message": "Aliances:",
+        "description": ""
+    },
+    "WEIGHT_EMPTY": {
+        "message": "Pes en buit",
+        "description": ""
+    },
+    "N_DEGREES": {
+        "message": "%angle{f.1} graus",
+        "description": ""
+    },
+    "IN_TRANSIT_TO_N_X_X_X": {
+        "message": "En trànsit a %system [%x,%y,%z]",
+        "description": ""
+    },
+    "REAR": {
+        "message": "Darrera",
+        "description": ""
+    },
+    "STAR_B_SUPER_GIANT": {
+        "message": "Super Gegant Blava",
+        "description": ""
+    },
+    "DISTANCE_FROM_SHIP_TO_NAV_TARGET": {
+        "message": "Distància de la nau a l'objectiu de navegació",
+        "description": ""
+    },
+    "CAPACITY": {
+        "message": "Capacitat",
+        "description": ""
+    },
+    "COMPUTER_HEADING_CONTROL": {
+        "message": "Control d'orientació automàtic",
+        "description": ""
+    },
+    "SURFACE_GRAVITY": {
+        "message": "Gravetat a la superfície",
+        "description": ""
+    },
+    "DOCKED": {
+        "message": "Amarrat",
+        "description": ""
+    },
+    "COMMA_HIGHLY_VOLCANIC": {
+        "message": ", altament volcànic",
+        "description": ""
+    },
+    "UNEXPLORED_SYSTEM_STAR_INFO_ONLY": {
+        "message": "Sistema inexplorat. La informació de les estrelles s'ha recollit per telescopi, però no tenim informació dels planetes.",
+        "description": ""
+    },
+    "DECREASE_SET_SPEED": {
+        "message": "Disminuir velocitat",
+        "description": ""
+    },
+    "ROCKY_PLANET_CONTAINING_COME_LIQUIDS": {
+        "message": "\" planeta rocós que conté alguns líquids,\"",
+        "description": ""
+    },
+    "REMOVE_FROM_WHICH_MOUNT": {
+        "message": "De quina arma voleu eliminar el làser?",
+        "description": ""
+    },
+    "BODIES": {
+        "message": "cossos",
+        "description": ""
+    },
+    "SCREENSHOT_FILENAME_TEMPLATE": {
+        "message": "captura%index{d08}.png",
+        "description": ""
+    },
+    "STAR_K_GIANT": {
+        "message": "Estrella Gegant Taronja de tipus 'K' - Inestable",
+        "description": ""
+    },
+    "SHIELD_STRENGTH_N": {
+        "message": "Força de l'escut: %shields{f.2}",
+        "description": ""
+    },
+    "N_YEARS": {
+        "message": "%years{f.1} anys",
+        "description": ""
+    },
+    "SMALL_PLASMA_ACCEL": {
+        "message": "Accelerador de plasma petit",
+        "description": ""
+    },
+    "THRUSTER_PORT": {
+        "message": "Accelerar cap a l'esquerra",
+        "description": ""
+    },
+    "TOGGLE_ROTATION_DAMPING": {
+        "message": "Toggle rotation damping",
+        "description": ""
+    },
+    "LANG_NAME": {
+        "message": "Català",
+        "description": "The name that native speakers use for this language. This will be used in the language selection screen. For obscure reasons this currently must only use Latin-1 characters."
+    },
+    "CAMERA_BOTTOM_VIEW": {
+        "message": "Bottom camera",
+        "description": ""
+    },
+    "DAY_LENGTH": {
+        "message": "Duració del dia",
+        "description": ""
+    },
+    "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND": {
+        "message": "Pilot automàtic: Òrbita mitjana sobrevolant %target",
+        "description": ""
+    },
+    "INCREASE_SET_SPEED": {
+        "message": "Incrementar velocitat",
+        "description": ""
+    },
+    "CARGO_SCOOP_DESCRIPTION": {
+        "message": "Permet succionar càpsules de càrrega de l'espai.",
+        "description": ""
+    },
+    "MONTH_MAY": {
+        "message": "May",
+        "description": ""
+    },
+    "ASTEROID": {
+        "message": "Asteroide",
+        "description": ""
+    },
+    "NUMBER_G": {
+        "message": "%acceleration{f.1} G",
+        "description": ""
+    },
+    "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
+        "message": "Simulant l'evolució de l'univers: %age{f.1}00 milions d'anys ;-)",
+        "description": ""
+    },
+    "MININGCANNON_17MW_DESCRIPTION": {
+        "message": "S'utilitza per destruir asteroides minerals.",
+        "description": ""
+    },
+    "MONTH_MAR": {
+        "message": "Mar",
+        "description": ""
+    },
+    "PAY_THE_FINE_NOW": {
+        "message": "Pagar la multa ara.",
+        "description": ""
+    },
+    "CO2_ATMOSPHERE": {
+        "message": "\" atmosfera de diòxid de carboni\"",
+        "description": ""
+    },
+    "MILITARY_DICTATORSHIP": {
+        "message": "Dictadura militar",
+        "description": ""
+    },
+    "SCUTUM_CENTAURUS_ARM": {
+        "message": "Anell de Scutum-Centaure",
+        "description": ""
+    },
+    "REMOVE": {
+        "message": "Retirar",
+        "description": ""
+    },
+    "LAUNCH_PERMISSION_DENIED_BUSY": {
+        "message": "Permís per enlairament degegat: moll de càrrega ocupat.",
+        "description": ""
+    },
+    "CH4_ATMOSPHERE": {
+        "message": "\" atmosfera de metà\"",
+        "description": ""
+    },
+    "HEADING_LOCK_BACKWARD": {
+        "message": "Bloqueig direcc. (darr.)",
+        "description": ""
+    },
+    "HULL_AUTOREPAIR_DESCRIPTION": {
+        "message": "Repara automàticament els danys del casc",
+        "description": ""
+    },
+    "SHIELD_ENERGY_BOOSTER_DESCRIPTION": {
+        "message": "Fa que l'escut es carregui més ràpidament.",
+        "description": ""
+    },
+    "ENABLED_AUTOMATIC_SYSTEM_SELECTION": {
+        "message": "S'ha activat la sellecció automàtica del sistema.",
+        "description": ""
+    },
+    "CAMERA_FRONT_VIEW": {
+        "message": "Vista anterior",
+        "description": ""
+    },
+    "ROBOTS": {
+        "message": "Robots",
+        "description": ""
+    },
+    "PASSENGER_CABIN": {
+        "message": "Cabina de passatgers ocupada",
+        "description": ""
+    },
+    "INDUSTRIAL_COLONY": {
+        "message": "Colònia industrial.",
+        "description": ""
+    },
+    "UNEXPLORED_SYSTEM_NO_DATA": {
+        "message": "Sistema inexplorat. No se'n coneix informació.",
+        "description": ""
+    },
+    "SCANNER": {
+        "message": "Escànner",
+        "description": ""
+    },
+    "THRUSTER_MAIN": {
+        "message": "Accelerar cap endavant",
+        "description": ""
+    },
+    "HARD_CAPITALIST": {
+        "message": "Completament capitalista. No hi ha provisió econòmica del govern.",
+        "description": ""
+    },
+    "SELECT_A_TARGET": {
+        "message": "Seleccioneu un objectiu",
+        "description": ""
+    },
+    "SHIP_IS_FULLY_LADEN": {
+        "message": "La vostra nau està completament carregada.",
+        "description": ""
+    },
+    "MONTH_FEB": {
+        "message": "Feb",
+        "description": ""
+    },
+    "PLANETARY_INFO": {
+        "message": "Informació planetària",
+        "description": ""
+    },
+    "METAL_ALLOYS": {
+        "message": "Aliatges de metalls",
+        "description": ""
+    },
+    "RESET": {
+        "message": "Reset",
+        "description": ""
+    },
+    "CARGO": {
+        "message": "Càrrega",
+        "description": ""
+    },
+    "JOY_AXIS": {
+        "message": "%{sign}Joy%joynum %axis Axis",
+        "description": ""
+    },
+    "STAR_G_SUPER_GIANT": {
+        "message": "Super Gegant Groga",
+        "description": ""
+    },
+    "COMPUTERS": {
+        "message": "Ordinadors",
+        "description": ""
+    },
+    "LARGE_GAS_GIANT": {
+        "message": "Gegant de gas gran",
+        "description": ""
+    },
+    "SOMEWHERE_SHIP_REPAIRS": {
+        "message": "Reparacions de naus de %station",
+        "description": ""
+    },
+    "JOY": {
+        "message": "Joy",
+        "description": ""
+    },
+    "MAJOR_EXPORTS": {
+        "message": "Exportacions minoritàries:",
+        "description": ""
+    },
+    "CAMERA_RIGHT_VIEW": {
+        "message": "Right camera",
+        "description": ""
+    },
+    "NUMBER_LY": {
+        "message": "%distance{f.2} anys llum",
+        "description": ""
+    },
+    "ECM_ADVANCED": {
+        "message": "Sistema ECM avançat",
+        "description": ""
+    },
+    "NO_HYPERDRIVE": {
+        "message": "Sense hipermotor",
+        "description": ""
+    },
+    "SOURCE": {
+        "message": "Origen",
+        "description": ""
+    },
+    "EARTH_FEDERATION_COLONIAL_RULE": {
+        "message": "Govern Colonial de la Federació Terrestre",
+        "description": ""
+    },
+    "GALACTIC_VIEW": {
+        "message": "Vista galàctica",
+        "description": ""
+    },
+    "THRUSTER_DORSAL": {
+        "message": "Accelerar cap avall",
+        "description": ""
+    },
+    "THANKS_AND_REMEMBER_TO_BUY_FUEL": {
+        "message": "Gràcies per la vostra compra. Recordeu-vos D'acoblar els elements i carregar el combustible.",
+        "description": ""
+    },
+    "STAR_B_WF": {
+        "message": "Estrella Wolf-Rayet - Col·lapse probable",
+        "description": ""
+    },
+    "BROWN_DWARF": {
+        "message": "Objecte sub-estel·lar marró nan",
+        "description": ""
+    },
+    "HIGH_POPULATION_OUTDOOR_WORLD": {
+        "message": "Món exterior molt poblat.",
+        "description": ""
+    },
+    "ROTATE_LEFT": {
+        "message": "Rotate Left",
+        "description": ""
+    },
+    "TRADING_ILLEGAL_GOODS": {
+        "message": "Traficant bens il·legals.",
+        "description": ""
+    },
+    "STAR_G_GIANT": {
+        "message": "Estrella Gegant Groga",
+        "description": ""
+    },
+    "SCANNER_DESCRIPTION": {
+        "message": "Mostra un mapa 3D de les naus properes.",
+        "description": ""
+    },
+    "MONTH_NOV": {
+        "message": "Nov",
+        "description": ""
+    },
+    "EXACT_MATCH_X": {
+        "message": "Resultat exacte: %system",
+        "description": ""
+    },
+    "SOLD_1T_OF": {
+        "message": "Has venut 1t de %commodity.",
+        "description": ""
+    },
+    "SURFACE_TEMPERATURE": {
+        "message": "Temperatura a la superfície",
+        "description": ""
+    },
+    "GAME_SAVED_TO": {
+        "message": "\"Partida guardada a \"",
+        "description": ""
+    },
+    "STOCK": {
+        "message": "Estoc",
+        "description": ""
+    },
+    "YOUNG_FARMING_COLONY": {
+        "message": "Colònia minera de poca edat.",
+        "description": ""
+    },
+    "NUMBER_TONNES": {
+        "message": "%{mass}t",
+        "description": ""
+    },
+    "LARGE_PLASMA_ACCEL": {
+        "message": "Accelerador de plasma gran",
+        "description": ""
+    },
+    "PAY_FINE_REMOTELY": {
+        "message": "Pagar la multa amb transferència remota (%amount)",
+        "description": ""
+    },
+    "MISSILE": {
+        "message": "míssil",
+        "description": ""
+    },
+    "DRAW_OUT_RANGE_LABELS": {
+        "message": "Label out-of-range systems",
+        "description": ""
+    },
+    "VIOLENT_ANARCHY": {
+        "message": "Desordre - Control basat en la violència.",
+        "description": ""
+    },
+    "SHIP_DETECTED_NEARBY": {
+        "message": "S'ha detectat una nau propera.",
+        "description": ""
+    },
+    "N_DISTANCE_TO_TARGET": {
+        "message": "%distance per objectiu",
+        "description": ""
+    },
+    "APOAPSIS_DISTANCE": {
+        "message": "Apoapsis",
+        "description": ""
+    },
+    "PLANET_WITH_SOME_ICE": {
+        "message": "\" planeta amb quelcom gel\"",
+        "description": ""
+    },
+    "FUEL_WEIGHT": {
+        "message": "Fuel weight",
+        "description": ""
+    },
+    "SMALL_INDUSTRIAL_OUTPOST": {
+        "message": "Estació industrial petita.",
+        "description": ""
+    },
+    "SELECT_LOW_THRUST_POWER_LEVEL": {
+        "message": "Seleccioneu el nivell de baixa acceleració",
+        "description": ""
+    },
+    "N_WHATEVER_RADII": {
+        "message": "%radius{f.3} %units radii (%radkm{f.0} km)",
+        "description": ""
+    },
+    "AXIAL_TILT": {
+        "message": "Inclinació",
+        "description": ""
+    },
+    "ECCENTRICITY": {
+        "message": "Excentricitat",
+        "description": ""
+    },
+    "SHIP_NEARBY": {
+        "message": "Nau propera",
+        "description": ""
+    },
+    "POPULATION": {
+        "message": "Població:",
+        "description": ""
+    },
+    "STAR_B_GIANT": {
+        "message": "Estrella Gegant Blava",
+        "description": ""
+    },
+    "SPACESTATION_LONG_WELCOME_MESSAGE": {
+        "message": "Hola viatger/a! Benvinguts a la nostra petita base. Si aquesta és la primera vegada que sou aquí, doneu-vos el plaer de conèixer els residents. Esperem que gaudiu de la vostra estada.\\nNo oblideu que estem fent reformes i hi hauran canvis entre les vostres visites.",
+        "description": ""
+    },
+    "NO_CENTRAL_GOVERNANCE": {
+        "message": "Sense govern central",
+        "description": ""
+    },
+    "RUBBISH": {
+        "message": "Deixalles",
+        "description": ""
+    },
+    "TOGGLE_SCAN_MODE": {
+        "message": "Canviar el mode d'escanneig",
+        "description": ""
+    },
+    "HYDROGEN_DESCRIPTION": {
+        "message": "L'hidrogen s'utilitza com a principal combustible de fusió",
+        "description": ""
+    },
+    "CO_ATMOSPHERE": {
+        "message": "\" atmosfera de monòxid de carboni\"",
+        "description": ""
+    },
+    "CABINS": {
+        "message": "Cabines",
+        "description": ""
+    },
+    "INCREASE_SCAN_RANGE": {
+        "message": "Incrementar l'abast de l'escànner",
+        "description": ""
+    },
+    "MONTH_OCT": {
+        "message": "Oct",
+        "description": ""
+    },
+    "SMALL_GAS_GIANT": {
+        "message": "Gegant de gas petita",
+        "description": ""
+    },
+    "MISSILE_GUIDED": {
+        "message": "Míssil guiat",
+        "description": ""
+    },
+    "ZOOM_OUT": {
+        "message": "Allunyar",
+        "description": ""
+    },
+    "SECTOR_COORDINATES": {
+        "message": "Coordenades del sector",
+        "description": ""
+    },
+    "PULSECANNON_10MW": {
+        "message": "Canó de pulses de 10MW",
+        "description": ""
+    },
+    "WHITE_DWARF": {
+        "message": "White dwarf stellar remnant",
+        "description": ""
+    },
+    "HULL_TEMP": {
+        "message": "Temp. del casc",
+        "description": ""
+    },
+    "N_ATMOSPHERE": {
+        "message": "\" atmosfera de nitrogen\"",
+        "description": ""
+    },
+    "AND_HIGHLY_COMPLEX_ECOSYSTEM": {
+        "message": "\" i un ecosistema molt complex\"",
+        "description": ""
+    },
+    "UNKNOWN": {
+        "message": "<desconegut>",
+        "description": ""
+    },
+    "SHIELD_ENERGY_BOOSTER": {
+        "message": "Millorador de l'energia de l'escut",
+        "description": ""
+    },
+    "NO_ESTABLISHED_ORDER": {
+        "message": "Sense ordre establert",
+        "description": ""
+    },
+    "SMALL": {
+        "message": "Petit",
+        "description": ""
+    },
+    "AIR_PROCESSORS": {
+        "message": "Processadors d'aire",
+        "description": ""
+    },
+    "DECREASE_SCAN_RANGE": {
+        "message": "Decrementar l'abast de l'escànner",
+        "description": ""
+    },
+    "SET_HYPERSPACE_DESTINATION_TO": {
+        "message": "Fixar el destí d'hiperespai a %system",
+        "description": ""
+    },
+    "WEIGHT_FULLY_LADEN": {
+        "message": "Pes carregat al màxim",
+        "description": ""
+    },
+    "UNOCCUPIED_CABIN_DESCRIPTION": {
+        "message": "Necessària per transportar viatgers individuals",
+        "description": ""
+    },
+    "MASS": {
+        "message": "Massa",
+        "description": ""
+    },
+    "THRIVING_OUTDOOR_WORLD": {
+        "message": "Món exterior actiu.",
+        "description": ""
+    },
+    "COMMODITIES_MARKET": {
+        "message": "Mercat de bens",
+        "description": ""
+    },
+    "FARM_MACHINERY": {
+        "message": "Maquinària agrícola",
+        "description": ""
+    },
+    "MURDER": {
+        "message": "Assassinat",
+        "description": ""
+    },
+    "YAW": {
+        "message": "Yaw",
+        "description": ""
+    },
+    "HYPERCLOUD_ANALYZER": {
+        "message": "Analitzador d'hipernúvols",
+        "description": ""
+    },
+    "X_CANNOT_BE_TOLERATED_HERE": {
+        "message": "%crime no és tolerat aqui",
+        "description": ""
+    },
+    "PAUSED": {
+        "message": "PAUSED",
+        "description": ""
+    },
+    "MISSILE_SMART": {
+        "message": "Míssil intel·ligent",
+        "description": ""
+    },
+    "NOT_FOUND_BEST_MATCH_X": {
+        "message": "No s'ha trobat. Suggeriment: %system",
+        "description": ""
+    },
+    "SECTOR_X_Y_Z": {
+        "message": "Sector: %x,%y,%z",
+        "description": ""
+    },
+    "RADIOACTIVES": {
+        "message": "Deixalla radioactiva",
+        "description": ""
+    },
+    "PLANNED_ECONOMY": {
+        "message": "Economia centralista",
+        "description": ""
+    },
+    "SOLAR": {
+        "message": "Solar",
+        "description": ""
+    },
+    "DRIVE_MIL2": {
+        "message": "Motor militar de Classe 2",
+        "description": ""
+    },
+    "BATTLE_WEAPONS": {
+        "message": "Armes de batalla",
+        "description": ""
+    },
+    "HYPERSPACE_DEPARTURE_CLOUD": {
+        "message": "Núvol de sortida d'hiperespai",
+        "description": ""
+    },
+    "SHIFT": {
+        "message": "\"maj \"",
+        "description": ""
+    },
+    "DESTINATION": {
+        "message": "Destinació",
+        "description": ""
+    },
+    "REQUEST_DOCKING_CLEARANCE": {
+        "message": "Sol·licitar permís per amarrar",
+        "description": ""
+    },
+    "SHIP_TYPE": {
+        "message": "Tipus de nau",
+        "description": ""
+    },
+    "FINE_PAID_N_BUT_N_REMAINING": {
+        "message": "Ja heu pagat %paid però encara teniu pendents %fine.",
+        "description": ""
+    },
+    "HYPERSPACING_IN_N_SECONDS": {
+        "message": "Hiperspai en %countdown{f.0} seconds",
+        "description": ""
+    },
+    "STAR_G_HYPER_GIANT": {
+        "message": "Hiper Gegant Groga - Inestable",
+        "description": ""
+    },
+    "COMMS": {
+        "message": "Comms",
+        "description": ""
+    },
+    "PIRACY": {
+        "message": "Pirateria",
+        "description": ""
+    },
+    "ATMOSPHERIC_SHIELDING": {
+        "message": "Escuts atmosfèrics",
+        "description": ""
+    },
+    "COUNT_ON_SURFACE": {
+        "message": "\" (%surfacecount a la superfície)\"",
+        "description": ""
+    },
+    "YOU_NO_MONEY": {
+        "message": "No teniu diners.",
+        "description": ""
+    },
+    "PLASTICS": {
+        "message": "Plàstics",
+        "description": ""
+    },
+    "HYPERSPACE_JUMP": {
+        "message": "Salt Hiperespacial",
+        "description": ""
+    },
+    "A_FEW_THOUSAND": {
+        "message": "Alguns milers",
+        "description": ""
+    },
+    "NONE": {
+        "message": "Cap",
+        "description": ""
+    },
+    "RADAR_MAPPER": {
+        "message": "Mapejador del radar",
+        "description": ""
+    },
+    "PERSEUS_ARM": {
+        "message": "Anell de Perseus",
+        "description": ""
+    },
+    "NOT_FOUND": {
+        "message": "No s'ha trobat",
+        "description": ""
+    },
+    "SHIELD_GENERATOR_DESCRIPTION": {
+        "message": "Cada unitat acoblada proporciona una protecció extra.",
+        "description": ""
+    },
+    "HYPERCLOUD_ANALYZER_DESCRIPTION": {
+        "message": "Analitza els núvols de l'hiperespai per determinar el destí i hora d'arribada o sortida.",
+        "description": ""
+    },
+    "YOU_DO_NOT_HAVE_ANY_X": {
+        "message": "No teniu cap %item.",
+        "description": ""
+    },
+    "VERY_DENSE": {
+        "message": "molt dens",
+        "description": ""
+    },
+    "FUEL": {
+        "message": "Combustible",
+        "description": ""
+    },
+    "ROLL": {
+        "message": "Roll",
+        "description": ""
+    },
+    "FORWARD_ACCEL_EMPTY": {
+        "message": "Acceleració davantera (buit)",
+        "description": ""
+    },
+    "HYPERDRIVE_FITTED": {
+        "message": "Hipermotor acoblat:",
+        "description": ""
+    },
+    "GAME_LOAD_CANNOT_OPEN": {
+        "message": "Aquesta partida no es pot carregar ja que s'hi ha denegat l'accés.",
+        "description": ""
+    },
+    "WT": {
+        "message": "Wt",
+        "description": ""
+    },
+    "ROCKY_PLANET": {
+        "message": "\" planeta rocós\"",
+        "description": ""
+    },
+    "SOMEWHERE_SERVICES": {
+        "message": "Serveis de %station",
+        "description": ""
+    },
+    "AUTOPILOT": {
+        "message": "Pilot automàtic",
+        "description": ""
+    },
+    "AUTOPILOT_ENTER_LOW_ORBIT_AROUND": {
+        "message": "Pilot automàtic: Òrbita baixa sobrevolant %target",
+        "description": ""
+    },
+    "SHIP": {
+        "message": "Nau",
+        "description": ""
+    },
+    "BULLETIN_BOARD": {
+        "message": "Tauler de notícies",
+        "description": ""
+    },
+    "WE_HAVE_NO_BUSINESS_WITH_YOU": {
+        "message": "De moment no tenim negocis per fer amb tu.",
+        "description": ""
+    },
+    "DRIVE_CLASS8": {
+        "message": "Hipermotor de Classe 8",
+        "description": ""
+    },
+    "LIBERAL_DEMOCRACY": {
+        "message": "Democràcia liberal",
+        "description": ""
+    },
+    "CTRL": {
+        "message": "\"ctrl \"",
+        "description": ""
+    },
+    "REPAIRS_AND_SERVICING": {
+        "message": "Reparacions i manteniment",
+        "description": ""
+    },
+    "SET_SPEED_KM_S": {
+        "message": "Velocitat: %speed{f.2} km/s",
+        "description": ""
+    },
+    "HYPERSPACE_ARRIVAL_CLOUD_REMNANT": {
+        "message": "Residu de nau hiperespacial d'arribada",
+        "description": ""
+    },
+    "SHIP_EQUIPMENT": {
+        "message": "Equipament de la nau",
+        "description": ""
+    },
+    "THICK": {
+        "message": "ample",
+        "description": ""
+    },
+    "HEAVY_INDUSTRY": {
+        "message": "Indústria pesada.",
+        "description": ""
+    },
+    "STAR_K_SUPER_GIANT": {
+        "message": "Super Gegant Taronja",
+        "description": ""
+    },
+    "ITEM_IS_OUT_OF_STOCK": {
+        "message": "Objecte fora d'estoc",
+        "description": ""
+    },
+    "YAW_RIGHT": {
+        "message": "Yaw right",
+        "description": ""
+    },
+    "OVER_N_MILLION": {
+        "message": "Més de %population milions",
+        "description": ""
+    },
+    "ICE_WORLD": {
+        "message": "\" món de gel\"",
+        "description": ""
+    },
+    "N_CELSIUS": {
+        "message": "%temperature C",
+        "description": ""
+    },
+    "COMMS_LINK": {
+        "message": "Enllaç de comunicacions",
+        "description": ""
+    },
+    "X": {
+        "message": "X",
+        "description": ""
+    },
+    "HAT": {
+        "message": "\" Hat\"",
+        "description": ""
+    },
+    "TRIPLE_SYSTEM": {
+        "message": "Sistema triple",
+        "description": ""
+    },
+    "ROTATIONAL_PERIOD": {
+        "message": "\" (període rotacional)\"",
+        "description": ""
+    },
+    "VERY_LARGE_GAS_GIANT": {
+        "message": "Gegant de gas molt gran",
+        "description": ""
+    },
+    "OUTDOOR_AGRICULTURAL_WORLD": {
+        "message": "Món rural a l'aire lliure.",
+        "description": ""
+    },
+    "ITEM": {
+        "message": "Element",
+        "description": ""
+    },
+    "THIN": {
+        "message": "prim",
+        "description": ""
+    },
+    "SLAVES": {
+        "message": "Esclaus",
+        "description": ""
+    },
+    "PITCH": {
+        "message": "Pitch",
+        "description": ""
+    },
+    "PRICE_TO_FIT": {
+        "message": "$ per acoblar",
+        "description": ""
+    },
+    "SHIP_IS_ALREADY_FULLY_REPAIRED": {
+        "message": "La vostra nau està en perfecte estat.",
+        "description": ""
+    },
+    "STAR_S_BH": {
+        "message": "Forat negre estel·lar",
+        "description": ""
+    },
+    "SEMI_MAJOR_AXIS": {
+        "message": "Eix semi-major",
+        "description": ""
+    },
+    "LARGE": {
+        "message": "Gran",
+        "description": ""
+    },
+    "GRAIN": {
+        "message": "Cereals",
+        "description": ""
+    },
+    "AUTOPILOT_DOCK_WITH_STATION": {
+        "message": "Pilot automàtic: Amarrar amb aquesta estació espacial",
+        "description": ""
+    },
+    "ROLL_LEFT": {
+        "message": "Roll left",
+        "description": ""
+    },
+    "CONTACT_LOCAL_POLICE": {
+        "message": "Contactar la Policia Local",
+        "description": ""
+    },
+    "MONTH_DEC": {
+        "message": "Dec",
+        "description": ""
+    },
+    "PRESSURE_N_ATMOSPHERES": {
+        "message": "P: %pressure{f.2} atm",
+        "description": ""
+    },
+    "NUMBER_DAYS": {
+        "message": "%days{f.0} dies",
+        "description": ""
+    },
+    "SYSTEM_NUMBER": {
+        "message": "Número de sistema:",
+        "description": ""
+    },
+    "SEARCH": {
+        "message": "Cerca",
+        "description": ""
+    },
+    "BUY": {
+        "message": "Comprar",
+        "description": ""
+    },
+    "GAME_SAVE_CANNOT_WRITE": {
+        "message": "Aquesta partida no es pot desar degut a un problema del sistema",
+        "description": ""
+    },
+    "THRUSTER_STARBOARD": {
+        "message": "Accelerar cap a la dreta",
+        "description": ""
+    },
+    "MINOR_IMPORTS": {
+        "message": "Importacions minoritàries:",
+        "description": ""
+    },
+    "SHIP_MASS_N_TONNES": {
+        "message": "Massa de la nau: %{mass}t",
+        "description": ""
+    },
+    "AUTOPILOT_DESCRIPTION": {
+        "message": "Un ordinador de bord.",
+        "description": ""
+    },
+    "O2_ATMOSPHERE": {
+        "message": "\" atmosfera d'oxigen\"",
+        "description": ""
+    },
+    "AUTOPILOT_FLY_TO_VICINITY_OF": {
+        "message": "Pilot automàtic: Anar a prop de %target",
+        "description": ""
+    },
+    "CARGO_LIFE_SUPPORT": {
+        "message": "Suport vital de la bodega",
+        "description": ""
+    },
+    "HE_ATMOSPHERE": {
+        "message": "\" atmosfera d'heli\"",
+        "description": ""
+    },
+    "CLEARANCE_ALREADY_GRANTED_BAY_N": {
+        "message": "Ja teniu permís per amarrar al moll %bay.",
+        "description": ""
+    },
+    "PLUTOCRATIC_DICTATORSHIP": {
+        "message": "Plutocràcia dictatorial",
+        "description": ""
+    },
+    "BUY_THIS_SHIP": {
+        "message": "Comprar aquesta nau",
+        "description": ""
+    },
+    "ROTATE_UP": {
+        "message": "Rotate Up",
+        "description": ""
+    },
+    "NO_REGISTERED_INHABITANTS": {
+        "message": "Sense població registrada",
+        "description": ""
+    },
+    "GOVERNMENT_TYPE": {
+        "message": "Tipus de govern:",
+        "description": ""
+    },
+    "METAL_ORE": {
+        "message": "Metall brut",
+        "description": ""
+    },
+    "PROBABILITY_OF_ARRIVAL_X_PERCENT": {
+        "message": "Probabilitat d'arribada: %probability%%",
+        "description": ""
+    },
+    "MESSAGE_FROM_X": {
+        "message": "Missatge de %sender:",
+        "description": ""
+    },
+    "LOCKED": {
+        "message": "bloquejat",
+        "description": ""
+    },
+    "STAR_B_HYPER_GIANT": {
+        "message": "Hiper Gegant Blava",
+        "description": ""
+    },
+    "BUTTON": {
+        "message": "\" botó \"",
+        "description": ""
+    },
+    "FORWARD_ACCEL_LADEN": {
+        "message": "Acceleració davantera (amb càrrega)",
+        "description": ""
+    },
+    "USE_LOW_THRUST": {
+        "message": "Accelerar menys",
+        "description": ""
+    },
+    "REPAIR_1_PERCENT_HULL": {
+        "message": "Reparar l'1.0% dels danys del casc.",
+        "description": ""
+    },
+    "LASER_COOLING_BOOSTER": {
+        "message": "Refrigerador de làser",
+        "description": ""
+    },
+    "REQUEST_LAUNCH": {
+        "message": "Sol·licitar llançament",
+        "description": ""
+    },
+    "IN_TRANSIT": {
+        "message": "En trànsit",
+        "description": ""
+    },
+    "SPEED_CONTROL_MODE": {
+        "message": "Mètode de control de velocitat",
+        "description": ""
+    },
+    "PULSECANNON_1MW": {
+        "message": "Canó de pulses d'1MW",
+        "description": ""
+    },
+    "MINING_COLONY": {
+        "message": "Colònia minera.",
+        "description": ""
+    },
+    "STAR_K": {
+        "message": "Estrella Taronja de tipus 'K'",
+        "description": ""
+    },
+    "STAR_O": {
+        "message": "Estrella Gegant del tipus 'O'",
+        "description": ""
+    },
+    "ANIMAL_MEAT": {
+        "message": "Carn animal",
+        "description": ""
+    },
+    "STAR_M": {
+        "message": "Estrella Vermella de tipus 'M'",
+        "description": ""
+    },
+    "TRADER_NOT_ENOUGH_MONEY": {
+        "message": "El mercader no té prou diners.",
+        "description": ""
+    },
+    "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS": {
+        "message": "Prospeccions a petita escala. No hi ha colònies registrades.",
+        "description": ""
+    },
+    "STAR_B": {
+        "message": "Estrella Blava Brillant de tipus 'B'",
+        "description": ""
+    },
+    "STAR_A": {
+        "message": "Estrella calenta Blanca de tipus 'A'",
+        "description": ""
+    },
+    "KM_S_RELATIVE_TO": {
+        "message": "%speed{f.2} km/s en rel. a %frame",
+        "description": ""
+    },
+    "STAR_G": {
+        "message": "Estrella Groga de tipus 'G'",
+        "description": ""
+    },
+    "STAR_F": {
+        "message": "Estrella Blanca de tipus 'F'",
+        "description": ""
+    },
+    "FIT_TO_WHICH_MOUNT": {
+        "message": "A quina arma voleu acoblar el làser?",
+        "description": ""
+    },
+    "CASH": {
+        "message": "Diners",
+        "description": ""
+    },
+    "FIRE_MISSILE": {
+        "message": "Fire missile",
+        "description": ""
+    },
+    "PULSECANNON_20MW": {
+        "message": "Canó de pulses de 20MW",
+        "description": ""
+    },
+    "PULSECANNON_DUAL_1MW": {
+        "message": "Canó de pulses d'1MW, doble",
+        "description": ""
+    },
+    "UNLAWFUL_WEAPONS_DISCHARGE": {
+        "message": "Disparar armes il·legals",
+        "description": ""
+    },
+    "COUNT_STARPORTS": {
+        "message": "port estel·lars",
+        "description": ""
+    },
+    "FOLLOWING_SELECTION": {
+        "message": "seguint la sel·lecció",
+        "description": ""
+    },
+    "FREE": {
+        "message": "Lliure",
+        "description": ""
+    },
+    "FRONT": {
+        "message": "Davant",
+        "description": ""
+    },
+    "FITTING": {
+        "message": "\"Acoblant \"",
+        "description": ""
+    },
+    "NO_FREE_SPACE_FOR_ITEM": {
+        "message": "No teniu espai per aquest objecte.",
+        "description": ""
+    },
+    "RADIUS": {
+        "message": "Radi",
+        "description": ""
+    },
+    "SELECTED_SYSTEM": {
+        "message": "Sistema sel·leccionat",
+        "description": ""
+    },
+    "HANG_UP": {
+        "message": "Acabar la conversa.",
+        "description": ""
+    },
+    "COULD_NOT_OPEN_FILENAME": {
+        "message": "No s'ha pogut carregar %path",
+        "description": ""
+    },
+    "TEXTILES": {
+        "message": "Productes tèxtils",
+        "description": ""
+    },
+    "NAME": {
+        "message": "Nom",
+        "description": ""
+    },
+    "MONTH_SEP": {
+        "message": "Sep",
+        "description": ""
+    },
+    "PITCH_DOWN": {
+        "message": "Pitch down",
+        "description": ""
+    },
+    "SIDEREAL_VIEW": {
+        "message": "Vista sideral",
+        "description": ""
+    },
+    "PITCH_UP": {
+        "message": "Pitch up",
+        "description": ""
+    },
+    "VID_LINK_ESTABLISHED": {
+        "message": "Enllaç de vídeo establert",
+        "description": ""
+    },
+    "PERIAPSIS_DISTANCE": {
+        "message": "Periàpsis",
+        "description": ""
+    },
+    "CAPITALIST": {
+        "message": "Capitalista",
+        "description": ""
+    },
+    "SET_SPEED_M_S": {
+        "message": "Velocitat: %speed{f.0} m/s",
+        "description": ""
+    },
+    "STAR_SYSTEM_INFORMATION": {
+        "message": "Informació del Sistema Estel·lar",
+        "description": ""
+    },
+    "STAR_O_HYPER_GIANT": {
+        "message": "Hiper Gegant Blava Càlida",
+        "description": ""
+    },
+    "INDUSTRIAL_HUB_SYSTEM": {
+        "message": "Sistema d'enllaç industrial.",
+        "description": ""
+    },
+    "HEADING_LOCK_FORWARD": {
+        "message": "Bloqueig direcc. (dav.)",
+        "description": ""
+    },
+    "CANT_SAVE_IN_HYPERSPACE": {
+        "message": "No es pot guardar la partida en l'hiperespai",
+        "description": ""
+    },
+    "MANUAL_CONTROL_MODE": {
+        "message": "Control manual",
+        "description": ""
+    },
+    "MONTH_JUN": {
+        "message": "Jun",
+        "description": ""
+    },
+    "GAME_LOAD_CORRUPT": {
+        "message": "Aquesta partida no es pot carregar ja que conté errors.",
+        "description": ""
+    },
+    "MONTH_JUL": {
+        "message": "Jul",
+        "description": ""
+    },
+    "M_S_RELATIVE_TO": {
+        "message": "%speed{f.0} m/s en rel. a %frame",
+        "description": ""
+    },
+    "N_DAYS": {
+        "message": "%days{f.1} dies",
+        "description": ""
+    },
+    "POLICE_SHIP_REGISTRATION": {
+        "message": "POLICIA",
+        "description": ""
+    },
+    "SCANNER_CONTROL": {
+        "message": "Mode d'escaneig",
+        "description": ""
+    },
+    "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS": {
+        "message": "Sistema estable amb %bodycount grans %{body(s)} and %portcount %{starport(s)}",
+        "description": ""
+    },
+    "LASER_FIRE_DETECTED": {
+        "message": "S'ha detectat foc de làser.",
+        "description": ""
+    },
+    "ZOOM_IN": {
+        "message": "Apropar",
+        "description": ""
+    },
+    "CARGO_SPACE": {
+        "message": "Espai a la càrrega",
+        "description": ""
+    },
+    "AND_INDIGENOUS_MICROBIAL_LIFE": {
+        "message": "\" i amb vida microbiòtica indígenes.\"",
+        "description": ""
+    },
+    "NO_ALERT": {
+        "message": "Cap alerta",
+        "description": ""
+    },
+    "PULSECANNON_2MW": {
+        "message": "Canó de pulses de 2MW",
+        "description": ""
+    },
+    "AR_ATMOSPHERE": {
+        "message": "\" atmosfera d'argó\"",
+        "description": ""
+    },
+    "AND_INDIGENOUS_PLANT_LIFE": {
+        "message": "\" i amb plantes indígenes.\"",
+        "description": ""
+    },
+    "LIVE_ANIMALS": {
+        "message": "Animals vius",
+        "description": ""
+    },
+    "STARPORTS": {
+        "message": "Ports estel·lars",
+        "description": ""
+    },
+    "Y": {
+        "message": "Y",
+        "description": ""
+    },
+    "SOMEWHERE_SHIPYARD": {
+        "message": "Drassanes de %station",
+        "description": ""
+    },
+    "RADAR_MAPPER_DESCRIPTION": {
+        "message": "Inspecciona l'equipament, estat i càrrega de les altres naus.",
+        "description": ""
+    },
+    "TOMBSTONE_EPITAPH": {
+        "message": "RIP OLD BEAN",
+        "description": ""
+    },
+    "MINOR_EXPORTS": {
+        "message": "Exportacions minoritàries:",
+        "description": ""
+    },
+    "MASS_N_TONNES": {
+        "message": "Massa: %{mass}t",
+        "description": ""
+    },
+    "MISSILE_UNGUIDED": {
+        "message": "Torpede R40",
+        "description": ""
+    },
+    "MANUAL_CONTROL": {
+        "message": "Control Manual",
+        "description": ""
+    },
+    "ECONOMY_TYPE": {
+        "message": "Tipus d'economia:",
+        "description": ""
+    },
+    "SHIP_ALTITUDE_ABOVE_TERRAIN": {
+        "message": "Alçada de la nau sobre el terreny",
+        "description": ""
+    },
+    "QUADRUPLE_SYSTEM": {
+        "message": "Sistema quadruple",
+        "description": ""
+    },
+    "NUMBER_HOURS": {
+        "message": "%hours{f.1} hores",
+        "description": ""
+    },
+    "YOU_MUST_PAY_FINE_OF_N_CREDITS": {
+        "message": "No tolerem actitud criminal. Heu de pagar una multa de %fine.",
+        "description": ""
+    },
+    "SHIP_INFORMATION": {
+        "message": "Informació de la nau",
+        "description": ""
+    },
+    "ROTATION_DAMPING_OFF": {
+        "message": "Rotation damping off",
+        "description": ""
+    },
+    "LASER_COOLING_BOOSTER_DESCRIPTION": {
+        "message": "Un sistema de refrigeració pel vostre làser millorat",
+        "description": ""
+    },
+    "ECM_BASIC": {
+        "message": "Sistema ECM",
+        "description": ""
+    },
+    "COMMUNIST": {
+        "message": "Comunista",
+        "description": ""
+    },
+    "NAVIGATION_STAR_MAPS": {
+        "message": "Navegació i mapes estel·lars",
+        "description": ""
+    },
+    "FUEL_SCOOP": {
+        "message": "Succionadora de combustible",
+        "description": ""
+    },
+    "HYPERSPACE_JUMP_ABORTED": {
+        "message": "S'ha avortat el salt hiperespacial.",
+        "description": ""
+    },
+    "REPAIR_ENTIRE_HULL": {
+        "message": "Reparar tot els danys del casc (%repairpercent{f.1}%%)",
+        "description": ""
+    },
+    "MISCELLANEOUS": {
+        "message": "Miscellaneous",
+        "description": ""
+    },
+    "SOMEWHERE_SHIP_EQUIPMENT": {
+        "message": "Equipament de %station",
+        "description": ""
+    },
+    "SAGITTARIUS_ARM": {
+        "message": "Anell de Sagitari",
+        "description": ""
+    },
+    "FUEL_SCOOP_DESCRIPTION": {
+        "message": "Permet succionar combustible dels pous d'aquest.",
+        "description": ""
+    },
+    "STAR_O_SUPER_GIANT": {
+        "message": "Super Gegant Blava Calenta",
+        "description": ""
+    },
+    "STAR_O_WF": {
+        "message": "Estrella Wolf-Rayet - Col·lapse imminent",
+        "description": ""
+    },
+    "ALERT_CANCELLED": {
+        "message": "Alerta cancel·lada.",
+        "description": ""
+    },
+    "SHIPYARD": {
+        "message": "Drassana",
+        "description": ""
+    },
+    "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED": {
+        "message": "S'ha activat la succionadora de combustible. Ara teniu %quantity tones d'hidrogen.",
+        "description": ""
+    },
+    "MASSIVE": {
+        "message": "Immens",
+        "description": ""
+    },
+    "CLEAN": {
+        "message": "Net",
+        "description": ""
+    },
+    "STAR_M_GIANT": {
+        "message": "Estrella Gegant Vermella",
+        "description": ""
+    },
+    "NORMA_ARM": {
+        "message": "Anell de Norma",
+        "description": ""
+    },
+    "WEAPON_TEMP": {
+        "message": "Temp. de l'arma",
+        "description": ""
+    },
+    "AUTOPILOT_ON": {
+        "message": "Pilot automàtic activat",
+        "description": ""
+    },
+    "CARGO_LIFE_SUPPORT_DESCRIPTION": {
+        "message": "Permet el transport d'éssers vius",
+        "description": ""
+    },
+    "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT": {
+        "message": "Nivell de baixa acceleració és %power%%",
+        "description": ""
+    },
+    "REMOVING": {
+        "message": "\"Retirant \"",
+        "description": ""
+    },
+    "SHIELD_INTEGRITY": {
+        "message": "Integritat de l'escut",
+        "description": ""
+    },
+    "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED": {
+        "message": "S'ha activat la succionadora de càrrega. S'ha succionat una tona de %item.",
+        "description": ""
+    },
+    "MIXED_ECONOMY": {
+        "message": "Economia mixta",
+        "description": ""
+    },
+    "CLEARANCE_DENIED_NO_BAYS": {
+        "message": "Permís denegat: no hi ha cap moll lliure.",
+        "description": ""
+    },
+    "STAR_AF_HYPER_GIANT": {
+        "message": "Hiper Gegant Blanca",
+        "description": ""
+    },
+    "OUTER_ARM": {
+        "message": "Anell Exterior",
+        "description": ""
+    },
+    "WHEELS_ARE_UP": {
+        "message": "Tren d'aterratge amagat",
+        "description": ""
+    },
+    "LIQUOR": {
+        "message": "Licors",
+        "description": ""
+    },
+    "NO_SPACE_ON_SHIP": {
+        "message": "No teniu prou espai a la nau.",
+        "description": ""
+    },
+    "ROLL_RIGHT": {
+        "message": "Roll right",
+        "description": ""
+    },
+    "GO_BACK": {
+        "message": "Anar enrere",
+        "description": ""
+    },
+    "DOCKING": {
+        "message": "Amarrant",
+        "description": ""
+    },
+    "TOGGLE_HUD_MODE": {
+        "message": "Canvia el mode del HUD",
+        "description": ""
+    },
+    "EXTERNAL_VIEW": {
+        "message": "Vista externa",
+        "description": ""
+    },
+    "ECM_BASIC_DESCRIPTION": {
+        "message": "Sistema de contraatac de míssils. Els detecta i destrueix.",
+        "description": ""
+    },
+    "VAST_STRIP_MINE": {
+        "message": "Colònia minera massiva.",
+        "description": ""
+    },
+    "HYPERSPACE": {
+        "message": "Hiperespai",
+        "description": ""
+    },
+    "FINE_PAID_N": {
+        "message": "Heu pagat una multa de %fine.",
+        "description": ""
+    },
+    "EXTERNAL_ATMOSPHERIC_PRESSURE": {
+        "message": "Pressió atmosfèrica externa",
+        "description": ""
+    },
+    "THRUSTER_RETRO": {
+        "message": "Accelerar cap enrere",
+        "description": ""
+    },
+    "MEDICINES": {
+        "message": "Medicines",
+        "description": ""
+    },
+    "YOU_NOT_ENOUGH_MONEY": {
+        "message": "No teniu suficients diners.",
+        "description": ""
+    },
+    "ILLEGAL_GOODS": {
+        "message": "Bens il·legals:",
+        "description": ""
+    },
+    "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND": {
+        "message": "Pilot automàtic: Òrbita alta sobrevolant %target",
+        "description": ""
+    },
+    "ORBITAL_STARPORT": {
+        "message": "Port estel·lar orbital",
+        "description": ""
+    },
+    "UNOCCUPIED_CABIN": {
+        "message": "Cabina de passatgers extra",
+        "description": ""
+    },
+    "SHIP_ORIENTATION": {
+        "message": "Orientació de la nau",
+        "description": ""
+    },
+    "MILITARY_FUEL": {
+        "message": "Combustible militar",
+        "description": ""
+    },
+    "FIRE_LASER": {
+        "message": "Disparar el làser",
+        "description": ""
+    },
+    "MEDIUM_GAS_GIANT": {
+        "message": "Gegant de gas mitjana",
+        "description": ""
+    },
+    "DRAW_VERTICAL_LINES": {
+        "message": "Draw vertical lines",
+        "description": ""
+    },
+    "SOMEWHERE_POLICE": {
+        "message": "Policia de %station",
+        "description": ""
+    },
+    "SYSTEM_ORBIT_VIEW": {
+        "message": "Vista orbital del Sistema",
+        "description": ""
+    },
+    "CURRENT_SYSTEM": {
+        "message": "Sistema actual",
+        "description": ""
+    },
+    "CARGO_SCOOP": {
+        "message": "Succionadora de càrrega",
+        "description": ""
+    },
+    "ROTATE_DOWN": {
+        "message": "Rotate Down",
+        "description": ""
+    },
+    "SOMEWHERE_SHIP_MARKET": {
+        "message": "Mercat de naus de %station",
+        "description": ""
+    },
+    "DISABLED_AUTOMATIC_SYSTEM_SELECTION": {
+        "message": "S'ha desactivat la sellecció automàtica del sistema.",
+        "description": ""
+    },
+    "STARPORT": {
+        "message": "Port estel·lar",
+        "description": ""
+    },
+    "SYSTEM_TYPE": {
+        "message": "Tipus de sistema:",
+        "description": ""
+    },
+    "N_WHATEVER_MASSES": {
+        "message": "%mass{f.3} massa %units",
+        "description": ""
+    },
+    "PRECIOUS_METALS": {
+        "message": "Metalls preciosos",
+        "description": ""
+    },
+    "WITH_NO_SIGNIFICANT_ATMOSPHERE": {
+        "message": "\" sense atmosfera important\"",
+        "description": ""
+    },
+    "INTERNAL_VIEW": {
+        "message": "Internal view",
+        "description": ""
+    },
+    "INT_LY": {
+        "message": "%scale anys llum",
+        "description": ""
+    },
+    "ROTATION_DAMPING_ON": {
+        "message": "Rotation damping on",
+        "description": ""
+    },
+    "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW": {
+        "message": "Sistema inexplorat. No es pot activar la vista de sistema.",
+        "description": ""
+    },
+    "TENUOUS": {
+        "message": "tènue",
+        "description": ""
+    },
+    "TAKEOFF": {
+        "message": "Enlairar-se",
+        "description": ""
+    },
+    "EARTH": {
+        "message": "Terra",
+        "description": ""
+    },
+    "STAR_M_HYPER_GIANT": {
+        "message": "Hiper Gegant Blava",
+        "description": ""
+    },
+    "STAR_AF_SUPER_GIANT": {
+        "message": "Super Gegant Blanca",
+        "description": ""
+    },
+    "ALT_IN_KM": {
+        "message": "Alt: %altitude{f.0}km (%vspeed{f.1}km/s)",
+        "description": ""
+    },
+    "REGISTRATION_ID": {
+        "message": "Identificador",
+        "description": ""
+    },
+    "DRIVE_CLASS3": {
+        "message": "Hipermotor de Classe 3",
+        "description": ""
+    },
+    "DRIVE_CLASS2": {
+        "message": "Hipermotor de Classe 2",
+        "description": ""
+    },
+    "DRIVE_CLASS1": {
+        "message": "Hipermotor de Classe 1",
+        "description": ""
+    },
+    "DRIVE_CLASS7": {
+        "message": "Hipermotor de Classe 7",
+        "description": ""
+    },
+    "DRIVE_CLASS6": {
+        "message": "Hipermotor de Classe 6",
+        "description": ""
+    },
+    "DRIVE_CLASS5": {
+        "message": "Hipermotor de Classe 5",
+        "description": ""
+    },
+    "DRIVE_CLASS4": {
+        "message": "Hipermotor de Classe 4",
+        "description": ""
+    },
+    "DOWNGRADING_ALERT_STATUS": {
+        "message": "No s'ha detectat foc durant els últims seixanta segons, per tant s'ha abaixat el nivell d'alerta.",
+        "description": ""
+    },
+    "DRIVE_CLASS9": {
+        "message": "Hipermotor de Classe 9",
+        "description": ""
+    },
+    "Z": {
+        "message": "Z",
+        "description": ""
+    },
+    "FRUIT_AND_VEG": {
+        "message": "Fruites i verdures",
+        "description": ""
+    },
+    "PIONEER": {
+        "message": "PIONEER",
+        "description": ""
+    },
+    "GALAXY_SECTOR_VIEW": {
+        "message": "Vista del Sector galàctic",
+        "description": ""
+    },
+    "PLANET_CONTAINING_LIQUID_WATER": {
+        "message": "\" planeta que conté aigua líquida\"",
+        "description": ""
+    },
+    "N_EARTH_DAYS": {
+        "message": "%days{f.1} anys terrícoles",
+        "description": ""
+    },
+    "META": {
+        "message": "\"meta \"",
+        "description": ""
+    },
+    "STAR_SM_BH": {
+        "message": "La nostra àncora",
+        "description": ""
+    },
+    "MONTH_APR": {
+        "message": "Apr",
+        "description": ""
+    },
+    "BOUGHT_1T_OF": {
+        "message": "Has comprat 1t de %commodity.",
+        "description": ""
+    },
+    "SHIP_VELOCITY_BY_REFERENCE_OBJECT": {
+        "message": "Velocitat de la nau en referència a un objecte",
+        "description": ""
+    },
+    "NERVE_GAS": {
+        "message": "Gas lacrimogen",
+        "description": ""
+    },
+    "MAJOR_IMPORTS": {
+        "message": "Importacions majoritàries:",
+        "description": ""
+    },
+    "JOYSTICK_INPUT": {
+        "message": "Entrada del comandament de jocs",
+        "description": ""
+    },
+    "ECONOMIC_INFO": {
+        "message": "Informació econòmica",
+        "description": ""
+    },
+    "ORBITAL_PERIOD": {
+        "message": "Període orbital",
+        "description": ""
+    },
+    "CARBON_ORE": {
+        "message": "Carbó brut",
+        "description": ""
+    },
+    "OVER_N_BILLION": {
+        "message": "Més de %population.000 milions",
+        "description": ""
+    },
+    "DATE_DUE_N": {
+        "message": "Data de venciment: %date",
+        "description": ""
+    },
+    "PULSECANNON_4MW": {
+        "message": "Canó de pulses de 4MW",
+        "description": ""
+    },
+    "TARGET_OBJECT_IN_SIGHTS": {
+        "message": "Apuntar els objectes amb una creu",
+        "description": ""
+    },
+    "STAR_IM_BH": {
+        "message": "Forat negre de massa mitjana",
+        "description": ""
+    },
+    "DISTANCE_LY": {
+        "message": "Distància: %distance{f.2} ly",
+        "description": ""
+    },
+    "S_ATMOSPHERE": {
+        "message": "\" atmosfera de sulfur\"",
+        "description": ""
+    },
+    "MISSILE_NAVAL": {
+        "message": "Míssil naval",
+        "description": ""
+    },
+    "SUGGESTED_RESPONSES": {
+        "message": "Triar resposta:",
+        "description": ""
+    },
+    "STAR_M_WF": {
+        "message": "Estrella Wolf-Rayet - Inestable",
+        "description": ""
+    },
+    "H_ATMOSPHERE": {
+        "message": "\" atmosfera d'hidrogen\"",
+        "description": ""
+    },
+    "PULSECANNON_RAPID_2MW": {
+        "message": "Canó de pulses de 2MW ràpid",
+        "description": ""
+    },
+    "YAW_LEFT": {
+        "message": "Yaw left",
+        "description": ""
+    },
+    "ATMOSPHERIC_SHIELDING_DESCRIPTION": {
+        "message": "Protegeix la vostra nau de les atmosferes al re-entrar als planetes.",
+        "description": ""
+    },
+    "DEMOGRAPHICS": {
+        "message": "Població",
+        "description": ""
+    },
+    "CLEARANCE_GRANTED_BAY_N": {
+        "message": "Se us ha donat permís per amarrar al moll %bay.",
+        "description": ""
+    },
+    "WEAPONS": {
+        "message": "Armes",
+        "description": ""
+    },
+    "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO": {
+        "message": "Equatorial to polar radius ratio",
+        "description": ""
+    },
+    "STAR_M_SUPER_GIANT": {
+        "message": "Estrella Gegant Vermella Calenta",
+        "description": ""
+    },
+    "FERTILIZER": {
+        "message": "Fems",
+        "description": ""
+    },
+    "NO_TARGET_SELECTED": {
+        "message": "Ordinador de bord: No heu seleccionat l'objectiu",
+        "description": ""
+    },
+    "STAR_O_GIANT": {
+        "message": "Estrella Gegant Blava Calenta",
+        "description": ""
+    },
+    "NAVIGATION_TARGETS_IN_THIS_SYSTEM": {
+        "message": "Objectius de navegació en aquest sistema",
+        "description": ""
+    },
+    "LIQUID_OXYGEN": {
+        "message": "Oxigen líquid",
+        "description": ""
+    },
+    "SELL": {
+        "message": "Vendre",
+        "description": ""
+    },
+    "CAMERA_REAR_VIEW": {
+        "message": "Vista posterior",
+        "description": ""
+    },
+    "OCEANICWORLD": {
+        "message": "\" món oceànic\"",
+        "description": ""
+    },
+    "PRICE": {
+        "message": "Preu",
+        "description": ""
+    },
+    "SYSTEM": {
+        "message": "Sistema",
+        "description": ""
+    },
+    "CAMERA_LEFT_VIEW": {
+        "message": "Left camera",
+        "description": ""
+    },
+    "ROTATE_RIGHT": {
+        "message": "Rotate Right",
+        "description": ""
+    }
+}

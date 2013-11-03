@@ -1,0 +1,30 @@
+{
+    "WELCOME_TO": {
+        "message": "Bienvenido a ",
+        "description": ""
+    },
+    "GOODS_TRADER_2": {
+        "message": "Almacén {name}",
+        "description": ""
+    },
+    "GOODS_TRADER_3": {
+        "message": "Centro de Productos {name}",
+        "description": ""
+    },
+    "GOODS_TRADER_0": {
+        "message": "Emporio del Honesto {name}",
+        "description": ""
+    },
+    "GOODS_TRADER_1": {
+        "message": "Casa de Comercio {name}",
+        "description": ""
+    },
+    "GOODS_TRADER_4": {
+        "message": "{name} Holdings",
+        "description": ""
+    },
+    "GOODS_TRADER_5": {
+        "message": "{name} & Hijos",
+        "description": ""
+    }
+}

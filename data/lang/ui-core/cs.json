@@ -1,0 +1,666 @@
+{
+    "CARGO": {
+        "message": "Náklad",
+        "description": ""
+    },
+    "DELTA_V": {
+        "message": "Delta-v",
+        "description": ""
+    },
+    "DISPLAY_NAV_TUNNELS": {
+        "message": "Zobrazovat navigační tunel",
+        "description": ""
+    },
+    "ORBIT": {
+        "message": "Orbita",
+        "description": ""
+    },
+    "ENABLE_JOYSTICK": {
+        "message": "Zapnout ovládání joystickem",
+        "description": ""
+    },
+    "SHIP_INFORMATION": {
+        "message": "Informace o lodi",
+        "description": ""
+    },
+    "VIDEO_RESOLUTION": {
+        "message": "Rozlišení obrazovky",
+        "description": ""
+    },
+    "REAR_WEAPON": {
+        "message": "Zadní zbraň",
+        "description": ""
+    },
+    "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE": {
+        "message": "Neúspěšný pokus o opravu trupu. Trup utrpěl menší poškození.",
+        "description": ""
+    },
+    "MAKE_NEW_FACE": {
+        "message": "Vytvořit jiný obličej",
+        "description": ""
+    },
+    "START_AT_NEW_HOPE": {
+        "message": "Start: New Hope",
+        "description": ""
+    },
+    "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
+        "message": "Loď je pod kontrolou stanice, veliteli.",
+        "description": ""
+    },
+    "ECONOMY_TRADE": {
+        "message": "Ekonomika & obchod",
+        "description": ""
+    },
+    "REFUEL": {
+        "message": "Natankovat",
+        "description": ""
+    },
+    "ENGINEERING": {
+        "message": "Údržba:",
+        "description": ""
+    },
+    "DESCENT_TO_GROUND_SPEED": {
+        "message": "Přistávací rychlost:",
+        "description": ""
+    },
+    "DESTROY_ENEMY_SHIP": {
+        "message": "Znič nepřátelskou loď",
+        "description": ""
+    },
+    "TOTAL": {
+        "message": "Celkem: ",
+        "description": ""
+    },
+    "PILOTING": {
+        "message": "Pilotáž:",
+        "description": ""
+    },
+    "MORE_INFO": {
+        "message": "Další info...",
+        "description": ""
+    },
+    "RATING": {
+        "message": "Hodnocení:",
+        "description": ""
+    },
+    "OFF": {
+        "message": "Vypnuto",
+        "description": ""
+    },
+    "LOCATION": {
+        "message": "Pozice",
+        "description": ""
+    },
+    "ORBITAL_ANALYSIS_NOTES": {
+        "message": "Úhlová orbitální rychlost je vztažena k tangenciální rychlosti. Loď by se měla pohybovat kolmo k ose lodi/{name}.\n\nDescent speed is an absolute minimum, and is also tangential. A slower speed or a lower angle will result in a course which intersects with the surface of {name}.\n\nÚniková rychlost může být (teoreticky) libovolná ve všech směrech, pokud se trajektorie lodi nenáchází na kolizním kurzu s {name}.\n\t\t",
+        "description": ""
+    },
+    "CLEAR": {
+        "message": "Clear",
+        "description": ""
+    },
+    "CREW_ROSTER": {
+        "message": "Seznam posádky",
+        "description": ""
+    },
+    "HIGH": {
+        "message": "Vysoké",
+        "description": ""
+    },
+    "MINIMUM_CREW": {
+        "message": "Minimální posádka",
+        "description": ""
+    },
+    "CREW_CABINS": {
+        "message": "Kabin pro posádku",
+        "description": ""
+    },
+    "WEIGHT_EMPTY": {
+        "message": "Prázdná váha:",
+        "description": ""
+    },
+    "POSITION": {
+        "message": "Pozice",
+        "description": ""
+    },
+    "FRONT_WEAPON": {
+        "message": "Přední zbraň",
+        "description": ""
+    },
+    "OK": {
+        "message": "Ok",
+        "description": ""
+    },
+    "PLANET_TEXTURES": {
+        "message": "Textury planet",
+        "description": ""
+    },
+    "CONTROL_OPTIONS": {
+        "message": "Control Options",
+        "description": ""
+    },
+    "D_DAYS_LEFT": {
+        "message": "Zbývá dnů: %d",
+        "description": ""
+    },
+    "GENERAL_CREW": {
+        "message": "Základní posádka",
+        "description": ""
+    },
+    "KILLS": {
+        "message": "Zabitých:",
+        "description": ""
+    },
+    "QUALIFICATION_SCORES": {
+        "message": "Kvalifikační hodnocení",
+        "description": ""
+    },
+    "CHANGE_BINDING": {
+        "message": "Change Binding",
+        "description": ""
+    },
+    "MAX": {
+        "message": "max",
+        "description": ""
+    },
+    "RETURN_TO_MENU": {
+        "message": "Return to menu",
+        "description": ""
+    },
+    "N_LIGHT_YEARS_N_MAX": {
+        "message": "{range} ly ({maxRange} max)",
+        "description": ""
+    },
+    "FAILED": {
+        "message": "Neúspěšný",
+        "description": ""
+    },
+    "HYPERSPACE_RANGE": {
+        "message": "Hyperprostorový dosah",
+        "description": ""
+    },
+    "EFFECTS": {
+        "message": "Efekty:",
+        "description": ""
+    },
+    "VERY_LOW": {
+        "message": "Velmi nízké",
+        "description": ""
+    },
+    "REWARD": {
+        "message": "Odměna",
+        "description": ""
+    },
+    "SOUND": {
+        "message": "Sound",
+        "description": ""
+    },
+    "STATUS": {
+        "message": "Status",
+        "description": ""
+    },
+    "FUEL_TANK_FULL": {
+        "message": "Palivová nádrž plná.",
+        "description": ""
+    },
+    "ESCAPE_SPEED": {
+        "message": "Úniková rychlost:",
+        "description": ""
+    },
+    "NOTES": {
+        "message": "Notes:",
+        "description": ""
+    },
+    "FUEL_WEIGHT": {
+        "message": "Hmotnost paliva",
+        "description": ""
+    },
+    "MISSION_DETAILS": {
+        "message": "Detaily mise",
+        "description": ""
+    },
+    "HULL_DOES_NOT_REQUIRE_REPAIR": {
+        "message": "Trup nepotřebuje opravu.",
+        "description": ""
+    },
+    "FORWARD_ACCEL": {
+        "message": "Forward acceleration",
+        "description": ""
+    },
+    "HYPERDRIVE": {
+        "message": "Hypermotor",
+        "description": ""
+    },
+    "USE_SHADERS": {
+        "message": "Použít shadery",
+        "description": ""
+    },
+    "SELECT": {
+        "message": "Otevřít",
+        "description": ""
+    },
+    "NONE": {
+        "message": "None",
+        "description": ""
+    },
+    "LANGUAGE": {
+        "message": "Language",
+        "description": ""
+    },
+    "MOSTLY_HARMLESS": {
+        "message": "Převážně neškodný",
+        "description": ""
+    },
+    "MULTISAMPLING": {
+        "message": "Multisampling",
+        "description": ""
+    },
+    "VIDEO": {
+        "message": "Video",
+        "description": ""
+    },
+    "PERSONAL_INFORMATION": {
+        "message": "Osobní informace",
+        "description": ""
+    },
+    "LOAD_GAME": {
+        "message": "Načíst hru",
+        "description": ""
+    },
+    "MILITARY": {
+        "message": "Vojenské",
+        "description": ""
+    },
+    "MALE": {
+        "message": "Muž",
+        "description": ""
+    },
+    "COULD_NOT_LOAD_GAME": {
+        "message": "Could not load game: ",
+        "description": ""
+    },
+    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME": {
+        "message": "{distance}km od centra {name}:",
+        "description": ""
+    },
+    "LOAD": {
+        "message": "Load",
+        "description": ""
+    },
+    "MEDIUM": {
+        "message": "Střední",
+        "description": ""
+    },
+    "CABINS": {
+        "message": "Kabiny",
+        "description": ""
+    },
+    "N_UNOCCUPIED_PASSENGER_CABINS": {
+        "message": "{quantity} volných pasažérských kabin",
+        "description": ""
+    },
+    "YOURE_GOING_TO_REGRET_SACKING_ME": {
+        "message": "Toho budeš litovat, naštvat mě!",
+        "description": ""
+    },
+    "SELECT_GAME_TO_LOAD": {
+        "message": "Vyber uloženou hru...",
+        "description": ""
+    },
+    "ERROR": {
+        "message": "Error",
+        "description": ""
+    },
+    "ACTIVE": {
+        "message": "Probíhá",
+        "description": ""
+    },
+    "WAGE": {
+        "message": "Mzda",
+        "description": ""
+    },
+    "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY": {
+        "message": "Video configuration (restart game to apply)",
+        "description": ""
+    },
+    "SAVE": {
+        "message": "Uložit",
+        "description": ""
+    },
+    "CITY_DETAIL_LEVEL": {
+        "message": "Detaily měst",
+        "description": ""
+    },
+    "N_OCCUPIED_PASSENGER_CABINS": {
+        "message": "{quantity} obsazených pasažérských kabin",
+        "description": ""
+    },
+    "INVERT_MOUSE_Y": {
+        "message": "Invertovat osu Y",
+        "description": ""
+    },
+    "CONTROLS": {
+        "message": "Controls",
+        "description": ""
+    },
+    "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR": {
+        "message": "Nedostatek {alloy} k pokusu o opravu",
+        "description": ""
+    },
+    "NEXT_PAID": {
+        "message": "Další platba",
+        "description": ""
+    },
+    "CLIENT": {
+        "message": "Klient",
+        "description": ""
+    },
+    "SENSORS": {
+        "message": "Senzory:",
+        "description": ""
+    },
+    "ORBITAL_ANALYSIS": {
+        "message": "Orbitální analýza",
+        "description": ""
+    },
+    "UP_ACCEL": {
+        "message": "Up acceleration",
+        "description": ""
+    },
+    "FRACTAL_DETAIL": {
+        "message": "Detaily fraktálů",
+        "description": ""
+    },
+    "ALLEGIANCE": {
+        "message": "Příslušnost:",
+        "description": ""
+    },
+    "RANK": {
+        "message": "Hodnost:",
+        "description": ""
+    },
+    "DOCK_AT_CURRENT_TARGET": {
+        "message": "Přistaň na zvoleném cíli",
+        "description": ""
+    },
+    "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP": {
+        "message": "Na palube není nikdo jiný schopen pilotovat loď.",
+        "description": ""
+    },
+    "AN_ERROR_HAS_OCCURRED": {
+        "message": "An error has occurred",
+        "description": ""
+    },
+    "INACTIVE": {
+        "message": "Neprobíhá",
+        "description": ""
+    },
+    "N_SHIELD_GENERATORS": {
+        "message": "{quantity} generátory štítů",
+        "description": ""
+    },
+    "TOGGLE_MALE_FEMALE": {
+        "message": "Změnit muž/žena",
+        "description": ""
+    },
+    "DISMISS": {
+        "message": "Propustit",
+        "description": ""
+    },
+    "CASH": {
+        "message": "Hotovost",
+        "description": ""
+    },
+    "COMMANDER": {
+        "message": "Velitel",
+        "description": ""
+    },
+    "OWED": {
+        "message": "Dluh",
+        "description": ""
+    },
+    "MASTER": {
+        "message": "Hlavní:",
+        "description": ""
+    },
+    "NO_MISSIONS": {
+        "message": "Žádné mise.",
+        "description": ""
+    },
+    "DANGEROUS": {
+        "message": "Nebezpečný",
+        "description": ""
+    },
+    "AVERAGE": {
+        "message": "Průměrný",
+        "description": ""
+    },
+    "DUE": {
+        "message": "Splatnost",
+        "description": ""
+    },
+    "FREE": {
+        "message": "volných",
+        "description": ""
+    },
+    "YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER": {
+        "message": "You must first select a suitable navigation target, Commander.",
+        "description": ""
+    },
+    "JETTISON": {
+        "message": "Odhodit",
+        "description": ""
+    },
+    "CIRCULAR_ORBIT_SPEED": {
+        "message": "Kruhová orbitální rychlost",
+        "description": ""
+    },
+    "WE_ARE_IN_HYPERSPACE_COMMANDER": {
+        "message": "Jsme v hyperprostoru, veliteli.",
+        "description": ""
+    },
+    "QUIT": {
+        "message": "Ukončit",
+        "description": ""
+    },
+    "NAME": {
+        "message": "Jméno",
+        "description": ""
+    },
+    "GIVE_ORDERS_TO_CREW": {
+        "message": "Dát posádce rozkazy",
+        "description": ""
+    },
+    "EXIT_THIS_GAME": {
+        "message": "Ukončit hru",
+        "description": ""
+    },
+    "HARMLESS": {
+        "message": "Neškodný",
+        "description": ""
+    },
+    "GOOD_RIDDANCE_TO_YOU_TOO": {
+        "message": "Spánembohem i tobě.",
+        "description": ""
+    },
+    "TYPE": {
+        "message": "Typ",
+        "description": ""
+    },
+    "PLANET_DETAIL_DISTANCE": {
+        "message": "Detaily planet",
+        "description": ""
+    },
+    "CAPACITY_USED": {
+        "message": "Využitá kapacita",
+        "description": ""
+    },
+    "COMBAT": {
+        "message": "Bojové",
+        "description": ""
+    },
+    "EQUIPMENT": {
+        "message": "Vybavení",
+        "description": ""
+    },
+    "LOW": {
+        "message": "Nízké",
+        "description": ""
+    },
+    "YOU_MUST_LAUNCH_FIRST_COMMANDER": {
+        "message": "Nejdříve je nutné odstartovat, veliteli.",
+        "description": ""
+    },
+    "BACKWARD_ACCEL": {
+        "message": "Backward acceleration",
+        "description": ""
+    },
+    "COMPRESS_TEXTURES": {
+        "message": "Komprimovat textury",
+        "description": ""
+    },
+    "EMPLOYMENT": {
+        "message": "Zaměstnanost",
+        "description": ""
+    },
+    "OPTIONS": {
+        "message": "Možnosti",
+        "description": ""
+    },
+    "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME": {
+        "message": "Vyber soubor do kterého uložit, nebo zadej nový název",
+        "description": ""
+    },
+    "MISSIONS": {
+        "message": "Mise",
+        "description": ""
+    },
+    "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT": {
+        "message": "{name} opravil trup, stav {repairPercent}%",
+        "description": ""
+    },
+    "CARGO_SPACE": {
+        "message": "Nákladový prostor",
+        "description": ""
+    },
+    "COMPLETED": {
+        "message": "Dokončený",
+        "description": ""
+    },
+    "FULL_SCREEN": {
+        "message": "Celá obrazovka",
+        "description": ""
+    },
+    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER": {
+        "message": "You must first select a combat target, Commander.",
+        "description": ""
+    },
+    "ATTEMPT_TO_REPAIR_HULL": {
+        "message": "Zkus opravit trup",
+        "description": ""
+    },
+    "LANGUAGE_RESTART_GAME_TO_APPLY": {
+        "message": "Jazyk (nutný restart hry)",
+        "description": ""
+    },
+    "NAVIGATION": {
+        "message": "Navigace:",
+        "description": ""
+    },
+    "LY": {
+        "message": "ly",
+        "description": ""
+    },
+    "POOR": {
+        "message": "Ubohý",
+        "description": ""
+    },
+    "MUTE": {
+        "message": "Mute",
+        "description": ""
+    },
+    "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE": {
+        "message": "Dobře se mi s tebou pracovalo. Pokud mě budeš zase potřebovat, jsem tu v cukuletu.",
+        "description": ""
+    },
+    "START_AT_EARTH": {
+        "message": "Start: Earth",
+        "description": ""
+    },
+    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS": {
+        "message": "Už mě unavuje pracovat pro nic za nic. Víš vůbec co to je smlouva?",
+        "description": ""
+    },
+    "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME": {
+        "message": "Nyní pilotuje {name}",
+        "description": ""
+    },
+    "MUSIC": {
+        "message": "Hudba:",
+        "description": ""
+    },
+    "FEMALE": {
+        "message": "Žena",
+        "description": ""
+    },
+    "CANCEL": {
+        "message": "Zrušit",
+        "description": ""
+    },
+    "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER": {
+        "message": "Nejdříve je nutné vyžádat povolení k odletu, veliteli.",
+        "description": ""
+    },
+    "PRESS_A_KEY_OR_CONTROLLER_BUTTON": {
+        "message": "Press a key or controller button",
+        "description": ""
+    },
+    "START_AT_BARNARDS_STAR": {
+        "message": "Start: Barnard's Star",
+        "description": ""
+    },
+    "VERY_HIGH": {
+        "message": "Velmi vysoké",
+        "description": ""
+    },
+    "USED": {
+        "message": "Použitý",
+        "description": ""
+    },
+    "ABOVE_AVERAGE": {
+        "message": "Nadprůměrný",
+        "description": ""
+    },
+    "METAL_ALLOYS": {
+        "message": "Metal alloys",
+        "description": ""
+    },
+    "SELECT_FILE": {
+        "message": "Otevřít soubor...",
+        "description": ""
+    },
+    "COMPETENT": {
+        "message": "Schopný",
+        "description": ""
+    },
+    "NEGOTIATE": {
+        "message": "Vyjenávat",
+        "description": ""
+    },
+    "ALL_UP_WEIGHT": {
+        "message": "Celková hmotnost",
+        "description": ""
+    },
+    "DEADLY": {
+        "message": "Smrtící",
+        "description": ""
+    },
+    "FUEL": {
+        "message": "Palivo",
+        "description": ""
+    },
+    "ELITE": {
+        "message": "ELITA",
+        "description": ""
+    }
+}

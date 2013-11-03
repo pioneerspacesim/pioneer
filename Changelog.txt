@@ -1,5 +1,8 @@
 November 2013
 
+   * New features
+     * Translations now managed via Transifex (#2521)
+
    * Internal changes
      * Build fixes for MSVC
 

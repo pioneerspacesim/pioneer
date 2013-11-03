@@ -1,15 +1,15 @@
 -- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Translate = import("Translate")
 local Engine = import("Engine")
+local Lang = import("Lang")
 local Character = import("Character")
 
 local InfoFace = import("ui/InfoFace")
 local SmallLabeledButton = import("ui/SmallLabeledButton")
 
 local ui = Engine.ui
-local t = Translate:GetTranslator()
+local l = Lang.GetResource("ui-core");
 
 local personalInfo = function ()
 	local player = Character.persistent.player
@@ -26,14 +26,14 @@ local personalInfo = function ()
         faceWidget:UpdateInfo(player)
 	end )
 
-	local genderToggle = SmallLabeledButton.New(t("Toggle male/female"))
+	local genderToggle = SmallLabeledButton.New(l.TOGGLE_MALE_FEMALE)
 	genderToggle.button.onClick:Connect(function ()
 		player.female = not player.female
 		faceWidget = InfoFace.New(player)
 		faceWidgetContainer:SetInnerWidget(faceWidget.widget)
 	end)
 
-	local generateFaceButton = SmallLabeledButton.New(t("Make new face"))
+	local generateFaceButton = SmallLabeledButton.New(l.MAKE_NEW_FACE)
 	generateFaceButton.button.onClick:Connect(function ()
 		player.seed = Engine.rand:Integer()
 		faceWidget = InfoFace.New(player)
@@ -44,16 +44,16 @@ local personalInfo = function ()
 		ui:Grid(2,1)
 			:SetColumn(0, {
 				ui:Table():AddRows({
-					ui:Label(t("Combat")):SetFont("HEADING_LARGE"),
+					ui:Label(l.COMBAT):SetFont("HEADING_LARGE"),
 					ui:Table():SetColumnSpacing(10):AddRows({
-						{ t("Rating:"), t(player:GetCombatRating()) },
-						{ t("Kills:"),  string.format('%d',player.killcount) },
+						{ l.RATING, l[player:GetCombatRating()] },
+						{ l.KILLS,  string.format('%d',player.killcount) },
 					}),
 					"",
-					ui:Label(t("Military")):SetFont("HEADING_LARGE"),
+					ui:Label(l.MILITARY):SetFont("HEADING_LARGE"),
 					ui:Table():SetColumnSpacing(10):AddRows({
-						{ t("ALLEGIANCE"), t('NONE') }, -- XXX
-						{ t("Rank:"),      t('NONE') }, -- XXX
+						{ l.ALLEGIANCE, l.NONE }, -- XXX
+						{ l.RANK,      l.NONE }, -- XXX
 					})
 				})
 			})

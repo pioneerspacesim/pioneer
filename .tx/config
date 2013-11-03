@@ -1,0 +1,72 @@
+[main]
+host = https://www.transifex.com
+
+[pioneer.core]
+file_filter = data/lang/core/<lang>.json
+source_file = data/lang/core/en.json
+source_lang = en
+
+[pioneer.ui-core]
+file_filter = data/lang/ui-core/<lang>.json
+source_file = data/lang/ui-core/en.json
+source_lang = en
+
+[pioneer.module-aiwarning]
+file_filter = data/lang/module-aiwarning/<lang>.json
+source_file = data/lang/module-aiwarning/en.json
+source_lang = en
+
+[pioneer.module-assassination]
+file_filter = data/lang/module-assassination/<lang>.json
+source_file = data/lang/module-assassination/en.json
+source_lang = en
+
+[pioneer.module-breakdownservicing]
+file_filter = data/lang/module-breakdownservicing/<lang>.json
+source_file = data/lang/module-breakdownservicing/en.json
+source_lang = en
+
+[pioneer.module-deliverpackage]
+file_filter = data/lang/module-deliverpackage/<lang>.json
+source_file = data/lang/module-deliverpackage/en.json
+source_lang = en
+
+[pioneer.module-donatetocranks]
+file_filter = data/lang/module-donatetocranks/<lang>.json
+source_file = data/lang/module-donatetocranks/en.json
+source_lang = en
+
+[pioneer.module-crewcontracts]
+file_filter = data/lang/module-crewcontracts/<lang>.json
+source_file = data/lang/module-crewcontracts/en.json
+source_lang = en
+
+[pioneer.module-fuelclub]
+file_filter = data/lang/module-fuelclub/<lang>.json
+source_file = data/lang/module-fuelclub/en.json
+source_lang = en
+
+[pioneer.module-goodstrader]
+file_filter = data/lang/module-goodstrader/<lang>.json
+source_file = data/lang/module-goodstrader/en.json
+source_lang = en
+
+[pioneer.module-stationrefuelling]
+file_filter = data/lang/module-stationrefuelling/<lang>.json
+source_file = data/lang/module-stationrefuelling/en.json
+source_lang = en
+
+[pioneer.module-statstracking]
+file_filter = data/lang/module-statstracking/<lang>.json
+source_file = data/lang/module-statstracking/en.json
+source_lang = en
+
+[pioneer.module-system]
+file_filter = data/lang/module-system/<lang>.json
+source_file = data/lang/module-system/en.json
+source_lang = en
+
+[pioneer.module-taxi]
+file_filter = data/lang/module-taxi/<lang>.json
+source_file = data/lang/module-taxi/en.json
+source_lang = en
