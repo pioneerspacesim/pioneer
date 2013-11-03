@@ -92,10 +92,10 @@ std::string KeyBinding::Description() const {
 	if (type == BINDING_DISABLED) {
 		// blank
 	} else if (type == KEYBOARD_KEY) {
-		if (u.keyboard.mod & KMOD_SHIFT) oss << Lang::SHIFT;
-		if (u.keyboard.mod & KMOD_CTRL) oss << Lang::CTRL;
-		if (u.keyboard.mod & KMOD_ALT) oss << Lang::ALT;
-		if (u.keyboard.mod & KMOD_GUI) oss << Lang::META;
+		if (u.keyboard.mod & KMOD_SHIFT) oss << Lang::SHIFT << " + ";
+		if (u.keyboard.mod & KMOD_CTRL) oss << Lang::CTRL << " + ";
+		if (u.keyboard.mod & KMOD_ALT) oss << Lang::ALT << " + ";
+		if (u.keyboard.mod & KMOD_GUI) oss << Lang::META << " + ";
 		oss << SDL_GetKeyName(u.keyboard.key);
 	} else if (type == JOYSTICK_BUTTON) {
 		oss << Lang::JOY << int(u.joystickButton.joystick);
