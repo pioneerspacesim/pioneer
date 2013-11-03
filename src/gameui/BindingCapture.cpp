@@ -31,11 +31,13 @@ void KeyBindingCapture::HandleInvisible()
 
 void KeyBindingCapture::HandleKeyDown(const UI::KeyboardEvent &event)
 {
-	m_binding.type = KeyBindings::KEYBOARD_KEY;
-	m_binding.u.keyboard.key = event.keysym.sym;
-	m_binding.u.keyboard.mod = event.keysym.mod;
-	Disconnect();
-	onCapture.emit(m_binding);
+	if (!event.repeat) { // ignore repeated key events
+		m_binding.type = KeyBindings::KEYBOARD_KEY;
+		m_binding.u.keyboard.key = event.keysym.sym;
+		m_binding.u.keyboard.mod = event.keysym.mod;
+		Disconnect();
+		onCapture.emit(m_binding);
+	}
 }
 
 void KeyBindingCapture::Connect()
