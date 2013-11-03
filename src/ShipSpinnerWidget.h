@@ -30,7 +30,7 @@ private:
 	SceneGraph::ModelSkin m_skin;
 
 	Graphics::Light m_light;
-	ScopedPtr<Shields> m_shields;
+	std::unique_ptr<Shields> m_shields;
 };
 
 #endif

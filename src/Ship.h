@@ -343,17 +343,13 @@ private:
 	int m_dockedWithIndex; // deserialisation
 
 	SceneGraph::Animation *m_landingGearAnimation;
-<<<<<<< HEAD
-	ScopedPtr<NavLights> m_navLights;
-	ScopedPtr<Shields> m_shields;
+	std::unique_ptr<NavLights> m_navLights;
+	std::unique_ptr<Shields> m_shields;
 
 	bool m_isShieldStatic;
 	bool m_isShieldActive;
 	RefCountedPtr<CollMesh> m_shieldCollMesh;
 	Geom *m_shieldGeom;
-=======
-	std::unique_ptr<NavLights> m_navLights;
->>>>>>> b7052727d39eda85707353fdd0fac1cc8b8823b7
 };
 
 

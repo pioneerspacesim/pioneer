@@ -29,7 +29,7 @@ protected:
 private:
 	std::unique_ptr<SceneGraph::Model> m_model;
 	SceneGraph::ModelSkin m_skin;
-	ScopedPtr<Shields> m_shields;
+	std::unique_ptr<Shields> m_shields;
 
 	float m_rotX, m_rotY;
 

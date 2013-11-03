@@ -183,7 +183,7 @@ void Ship::Init()
 	m_navLights.reset(new NavLights(GetModel()));
 	m_navLights->SetEnabled(true);
 
-	m_shields.Reset(new Shields(GetModel()));
+	m_shields.reset(new Shields(GetModel()));
 
 	SetMassDistributionFromModel();
 	UpdateStats();
@@ -242,7 +242,7 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
 
 	SetModel(m_type->modelName.c_str());
-	m_shields.Reset(new Shields(GetModel()));
+	m_shields.reset(new Shields(GetModel()));
 	RebuildShieldCollisionMesh();
 	SetLabel(MakeRandomLabel());
 	m_skin.SetRandomColors(Pi::rng);
@@ -1160,17 +1160,11 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	//angthrust negated, for some reason
 	GetModel()->SetThrust(vector3f(m_thrusters), -vector3f(m_angThrusters));
 
-<<<<<<< HEAD
-	if (m_landingGearAnimation)
-		m_landingGearAnimation->SetProgress(m_wheelState);
-
 	// This has to be done per-model with a shield and just before it's rendered
 	const bool shieldsVisible = m_shieldCooldown > 0.01f && m_stats.shield_mass_left > (m_stats.shield_mass / 100.0f);
 	m_shields->SetEnabled(shieldsVisible);
 	m_shields->Update(m_shieldCooldown, 0.01f*GetPercentShields());
 
-=======
->>>>>>> b7052727d39eda85707353fdd0fac1cc8b8823b7
 	//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
 	RenderModel(renderer, camera, viewCoords, viewTransform);
 
@@ -1294,7 +1288,7 @@ void Ship::SetShipType(const ShipType::Id &shipId)
 	SetShipId(shipId);
 	m_equipment.InitSlotSizes(shipId);
 	SetModel(m_type->modelName.c_str());
-	m_shields.Reset(new Shields(GetModel()));
+	m_shields.reset(new Shields(GetModel()));
 	RebuildShieldCollisionMesh();
 	m_skin.Apply(GetModel());
 	Init();

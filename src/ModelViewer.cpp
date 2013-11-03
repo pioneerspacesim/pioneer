@@ -853,7 +853,7 @@ void ModelViewer::SetModel(const std::string &filename, bool resetCamera /* true
 		m_navLights.reset(new NavLights(m_model));
 		m_navLights->SetEnabled(true);
 
-		m_shields.Reset(new Shields(m_model));
+		m_shields.reset(new Shields(m_model));
 
 		{
 			SceneGraph::Model::TVecMT mts;

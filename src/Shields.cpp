@@ -182,8 +182,8 @@ Shields::Shields(SceneGraph::Model *model)
 	{
 		if( it->m_mesh ) 
 		{
-			std::vector<unsigned short> indices;
-			std::vector<vector3f> vertices;
+			std::vector<unsigned short> surf_indices;
+			std::vector<vector3f> surf_vertices;
 
 			RefCountedPtr<StaticGeometry> scene = it->m_mesh;
 			const matrix4x4f &matrix = it->m_matrix;
@@ -195,37 +195,43 @@ Shields::Shields(SceneGraph::Model *model)
 					RefCountedPtr<Graphics::Surface> surf = mesh->GetSurface(iSurf);
 
 					// get indices
-					indices = surf->GetIndices();
+					surf_indices = surf->GetIndices();
 					
 					// get vertices
-					vertices = surf->GetVertices()->position;
+					surf_vertices = surf->GetVertices()->position;
 
-					assert(!vertices.empty() && !vertices.empty());
+					assert(!surf_vertices.empty() && !surf_vertices.empty());
 
 					//add pre-transformed geometry at the top level
 					//model->GetRoot()->AddChild(new CollisionGeometry(Pi::renderer, vertices, indices, 0));
 
+					const int numVertices = surf->GetNumVerts();
+					const int numIndices = surf->GetNumIndices();
+					const int numTris = numIndices / 3;
+					vector3f *vertices = new vector3f[numVertices];
+					Uint16 *indices = new Uint16[numIndices];
+					unsigned int *triFlags = new unsigned int[numTris];
+
 					//copy data
-					for (std::vector<vector3f>::const_iterator it = vertices.begin(); it != vertices.end(); ++it) {
-						const vector3f pos = matrix * (*it);
-						m_collMesh->m_vertices.push_back(pos);
+					for (int i = 0; i < numVertices; i++) {
+						const vector3f pos = matrix * (surf_vertices[i]);
+						vertices[i] = pos;
 						m_collMesh->GetAabb().Update(pos.x, pos.y, pos.z);
 					}
 
-					for (std::vector<unsigned short>::const_iterator it = indices.begin(); it != indices.end(); ++it)
-						m_collMesh->m_indices.push_back(*it);
+					for (int i = 0; i < numIndices; i++)
+						indices[i] = surf_indices[i];
 
-					for (unsigned int i = 0; i < indices.size() / 3; i++)
-						m_collMesh->m_flags.push_back(0);
-
-					std::vector<vector3f> &vts = m_collMesh->m_vertices;
-					std::vector<int> &ind = m_collMesh->m_indices;
+					for (int i = 0; i < numTris; i++)
+						triFlags[i] = 0;
 
 					assert(m_collMesh->GetGeomTree() == 0);
-					assert(!vts.empty() && !ind.empty());
 
-					GeomTree *t = new GeomTree(	vts.size(), ind.size()/3, reinterpret_cast<float*>(&vts[0]), &ind[0], &m_collMesh->m_flags[0] );
-					m_collMesh->SetGeomTree(t);
+					GeomTree *gt = new GeomTree(
+						numVertices, numTris,
+						reinterpret_cast<float*>(vertices),
+						indices, triFlags);
+					m_collMesh->SetGeomTree(gt);
 				}
 			}
 		}
