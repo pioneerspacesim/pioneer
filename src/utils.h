@@ -85,7 +85,7 @@ inline bool ends_with(const std::string &s, const std::string &t) {
 }
 
 // add a few things that MSVC is missing
-#ifdef _MSC_VER
+#if (_MSC_VER < 1800)
 
 // round & roundf. taken from http://cgit.freedesktop.org/mesa/mesa/tree/src/gallium/auxiliary/util/u_math.h
 static inline double round(double x)
