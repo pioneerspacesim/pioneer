@@ -24,7 +24,7 @@
         "description": ""
     },
     "ALT": {
-        "message": "\"alt \"",
+        "message": "alt",
         "description": ""
     },
     "HYPERSPACE_ARRIVAL_CLOUD": {
@@ -364,7 +364,7 @@
         "description": ""
     },
     "MONTH_MAY": {
-        "message": "May",
+        "message": "Mai",
         "description": ""
     },
     "ASTEROID": {

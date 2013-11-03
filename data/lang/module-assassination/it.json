@@ -1,30 +1,30 @@
 {
     "FLAVOUR_SUCCESSMSG_3": {
-        "message": "{target} is dead. Here is your award.",
+        "message": "{target} è morto. Ecco la tua ricompensa.",
         "description": ""
     },
     "FLAVOUR_SUCCESSMSG_2": {
-        "message": "You have been paid in full for the completion of that important contract.",
+        "message": "Sei stato pagato pienamente per il completamento di quell'importante contratto.",
         "description": ""
     },
     "SPACEPORT": {
-        "message": "Spaceport:",
+        "message": "Spazioporto:",
         "description": ""
     },
     "FLAVOUR_SUCCESSMSG_0": {
-        "message": "News of {target}'s long vacation gratefully received. Well done, I have initiated your full payment.",
+        "message": "Le novità sulla lunga vacanza di {target} sono fortunatamente arrivate. Ben fatto, ho già ordinato il tuo pagamento completo.",
         "description": ""
     },
     "TARGET_WILL_BE_LEAVING_SPACEPORT_AT": {
-        "message": "Target will be leaving spaceport at:",
+        "message": "Il Bersago lascerà lo spazioporto questa data:",
         "description": ""
     },
     "FLAVOUR_SUCCESSMSG_5": {
-        "message": "Message of {target}'s ending career happily acquired. Here is your {cash}.",
+        "message": "Il messaggio sulla fune della carriera di {target} è allegramente arrivato. Ecco i tuoi {cash}.",
         "description": ""
     },
     "FLAVOUR_SUCCESSMSG_4": {
-        "message": "News of {target}'s retirement delightfully obtained. Here is your money.",
+        "message": "Le novità sul ritiro di {target} sono deliziose. Ecco i tuoi soldi.",
         "description": ""
     },
     "HANG_UP": {
@@ -32,11 +32,11 @@
         "description": ""
     },
     "FLAVOUR_SUCCESSMSG_1": {
-        "message": "I am most sad to hear of {target}'s demise. You have been paid in full.",
+        "message": "Sono per lo più triste della scomparsa di {target}. Sei stato pagato del tutto.",
         "description": ""
     },
     "FLAVOUR_INTROTEXT_3": {
-        "message": "The {target} must be reduced to space dust. I'll award you {cash} to do this.",
+        "message": "{target} deve essere ridotto in polvere. Ti ricompenserò con {cash} per  farlo.",
         "description": ""
     },
     "TITLE_22": {
@@ -56,11 +56,11 @@
         "description": ""
     },
     "TITLE_24": {
-        "message": "Sergeant",
+        "message": "Sergente",
         "description": ""
     },
     "TITLE_9": {
-        "message": "Corporal",
+        "message": "Caporale",
         "description": ""
     },
     "FLAVOUR_ADTEXT_0": {
@@ -72,7 +72,7 @@
         "description": ""
     },
     "HOW_SOON_MUST_IT_BE_DONE": {
-        "message": "How soon must it be done?",
+        "message": "Per quando deve essere fatto?",
         "description": ""
     },
     "IT_MUST_BE_DONE_AFTER": {
@@ -80,7 +80,7 @@
         "description": ""
     },
     "HOW_WILL_I_BE_PAID": {
-        "message": "How will I be paid?",
+        "message": "Come sarò pagato?",
         "description": ""
     },
     "TARGET_NAME": {
@@ -88,7 +88,7 @@
         "description": ""
     },
     "WHERE_CAN_I_FIND_X": {
-        "message": "Where can I find {target}?",
+        "message": "Dove posso trovare {target}?",
         "description": ""
     },
     "TITLE_8": {
@@ -112,7 +112,7 @@
         "description": ""
     },
     "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID": {
-        "message": "Return here on the completion of the contract and you will be paid.",
+        "message": "Torna qui a contratto compiuto e sarai pagato.",
         "description": ""
     },
     "OK_AGREED": {
@@ -184,7 +184,7 @@
         "description": ""
     },
     "TITLE_11": {
-        "message": "General",
+        "message": "Generale",
         "description": ""
     },
     "SHIP": {
@@ -224,7 +224,7 @@
         "description": ""
     },
     "TITLE_0": {
-        "message": "Admiral",
+        "message": "Ammiraglio",
         "description": ""
     },
     "SYSTEM": {
@@ -288,7 +288,7 @@
         "description": ""
     },
     "TITLE_2": {
-        "message": "Brigadier",
+        "message": "Brigadiere",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_1": {

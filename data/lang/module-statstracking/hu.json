@@ -1,10 +1,10 @@
 {
     "PIONEERING_PILOTS_GUILD": {
-        "message": "Pioneer pilótakézikönyv",
+        "message": "Úttörő Pilóták Egyesülete",
         "description": ""
     },
     "WELL_DONE_COMMANDER_YOUR_COMBAT_RATING_HAS_IMPROVED": {
-        "message": "Nagyszerű, parancsnok! Fejlődött a harci képessége!",
+        "message": "Szép munka, parancsnok! Javított a harci besorolásán!",
         "description": ""
     }
 }

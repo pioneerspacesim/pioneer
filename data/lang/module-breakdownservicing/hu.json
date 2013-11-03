@@ -1,30 +1,30 @@
 {
     "FLAVOUR_INTRO_4": {
-        "message": "Üdv az Idő és Tér Rt.-nél.\n\nA mi specialitásunk a csillagközi hajtómű. Minden szervízelésünkre 2 év garanciát vállalunk.\n{lasttime}\nA hajó {drive} meghajtójának szervize {price} összegbe kerül. Belekezdjünk?",
+        "message": "Üdv az Idő és Tér Rt.-nél.\n\nA mi specialitásunk a csillagközi hajtómű. Minden javításra 2 év garanciát vállalunk.\n{lasttime}\nA hajó {drive} meghajtójának szervize {price} összegbe kerül. kezdhetjük?",
         "description": ""
     },
     "FLAVOUR_INTRO_5": {
-        "message": "Kerüld el a lerobbant hipermotor okozta kellemetlenségeket. Szervizeld még ma.\n\nHajtómű: {drive}\nSzervíz ára: {price}\n{lasttime}",
+        "message": "Kerüld el a lerobbant hipermotor okozta kellemetlenségeket. Szervizeld még ma.\n\nHajtómű: {drive}\nSzervíz ára: {price}\nUtolsó javítás: {lasttime}",
         "description": ""
     },
     "FLAVOUR_INTRO_2": {
-        "message": "Üdv, és helló. Mi a(z) {proprietor} & társánál a munkánk minősége a hírnevünk.\n\n{lasttime}\nFel tudjuk javítani a hajód {drive} hajtóművét, biztosítva, hogy 12 hónapon át problémamentesen működjön, mindössze {price} összegért. Én magam felügyelem a munkát, szóval biztos lehetsz benne, hogy jó munkát végzünk.",
+        "message": "Üdv, és helló.  {proprietor} & társánál a munkánk minősége a hírnevünk.\n\n{lasttime}\nMeg tudjuk javítani a hajód {drive} hajtóművét, 12 hónapos jótállással, mindössze {price}-ért. Én magam felügyelem a munkát, szóval biztos lehetsz benne, hogy kifogástalan lesz.",
         "description": ""
     },
     "FLAVOUR_INTRO_3": {
-        "message": "Üdvözöllek a Superfix karbantartásnál.\n\n{lasttime}\nItt az idő a féléves ellenőrzésre? Engedd meg, hogy szuperfixáljuk a hipermotorod!\nMeg tudjuk bütykölni a(z) {drive} hajtóművedet csupán {price} összegért. Senki sem olcsóbb nálunk!",
+        "message": "Üdvözöllek a Superfix karbantartásnál.\n\n{lasttime}\nItt az idő a féléves ellenőrzésre? Engedd meg, hogy szuperfixáljuk a hipermotorod!\nMeg tudjuk bütykölni {drive} hajtóművedet, csupán {price} kreditért. Ennél olcsóbbat nem találsz!",
         "description": ""
     },
     "FLAVOUR_INTRO_0": {
-        "message": "Kerüld el a lerobbant hipermotor okozta kellemetlenségeket. Intézd el a szervízt még ma, a hivatalosan jóváhagyott {name} hajtóműszervízelő társaságnál.\n\nHajtómű: {drive}\nSzervíz ára: {price}\nGarancia: 18 hónap\n{lasttime}",
+        "message": "Kerüld el a lerobbant hipermotor okozta kellemetlenségeket. Intézd el a szervízt még ma, a hivatalosan jóváhagyott {name} hajtóműszervízelő társaságnál.\n\nHajtómű: {drive}\nSzervíz ára: {price}\nGarancia: 18 hónap\nLegutóbbi generál: {lasttime}",
         "description": ""
     },
     "FLAVOUR_INTRO_1": {
-        "message": "{proprietor} vagyok. Meg tudom javítani a(z) {drive} hipermotort, garantálva, hogy legalább 1 évig problémamentesen fog működni. Ennek ára pedig {price}\n{lasttime}",
+        "message": "{proprietor} vagyok. Meg tudom javítani {drive} hipermotorodat, és garantálom, hogy legalább 1 évig problémamentesen fog működni. Mindössze {price} kreditet kérek.\nLegutóbbi generál: {lasttime}",
         "description": ""
     },
     "I_DONT_HAVE_ENOUGH_MONEY": {
-        "message": "Nincs annyi pénzem",
+        "message": "Nincs elég pénzem",
         "description": ""
     },
     "THE_SHIPS_HYPERDRIVE_HAS_BEEN_DESTROYED_BY_A_MALFUNCTION": {
@@ -32,7 +32,7 @@
         "description": ""
     },
     "YOUR_DRIVE_WAS_LAST_SERVICED_ON": {
-        "message": "A hajtóművet {date} időpontban szervizelte a(z) {company}",
+        "message": "A hajtóművet {date} időpontban szervizelte {company}",
         "description": ""
     },
     "FLAVOUR_RESPONSE_4": {
@@ -52,15 +52,15 @@
         "description": ""
     },
     "FLAVOUR_RESPONSE_2": {
-        "message": "Szervíz befejezve. Köszönjük a vásárlást.",
+        "message": "Karbantartás kész. Köszönjük a bizalmat.",
         "description": ""
     },
     "FLAVOUR_RESPONSE_3": {
-        "message": "A SuperFix javítás kész van, SuperFix garanciával!",
+        "message": "A SuperFix javítás szuperkész, SuperFix garanciával!",
         "description": ""
     },
     "YOU_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN": {
-        "message": "You fixed the hyperdrive before it broke down.",
+        "message": "Megjavítottad a hiperhajtóművet még mielőtt meghibásodott volna.",
         "description": ""
     },
     "FLAVOUR_TITLE_4": {
@@ -72,7 +72,7 @@
         "description": ""
     },
     "FLAVOUR_TITLE_2": {
-        "message": "{proprietor} & társa hiperszervízes",
+        "message": "{proprietor} & társa HiperGépészet",
         "description": ""
     },
     "FLAVOUR_TITLE_3": {
@@ -80,7 +80,7 @@
         "description": ""
     },
     "FLAVOUR_TITLE_0": {
-        "message": "{name} hajtóműszervízelő társaság",
+        "message": "{name} hajtóműjavító társaság",
         "description": ""
     },
     "FLAVOUR_TITLE_1": {
@@ -100,11 +100,11 @@
         "description": ""
     },
     "FLAVOUR_YESPLEASE_4": {
-        "message": "Igen, mehet a szervíz",
+        "message": "Mehet",
         "description": ""
     },
     "FLAVOUR_YESPLEASE_3": {
-        "message": "SuperFix módú javítást kérek!",
+        "message": "SuperFix javítást kérek!",
         "description": ""
     },
     "FLAVOUR_YESPLEASE_2": {
@@ -120,7 +120,7 @@
         "description": ""
     },
     "I_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN": {
-        "message": "I fixed the hyperdrive before it broke down.",
+        "message": "Megjavítottam a hiperhajtóművet még mielőtt meghibásodott volna.",
         "description": ""
     },
     "HANG_UP": {

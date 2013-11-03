@@ -1,30 +1,30 @@
 {
     "WELCOME_TO": {
-        "message": "Üdvözöllek nálunk: ",
+        "message": "Üdvözöllek",
         "description": ""
     },
     "GOODS_TRADER_2": {
-        "message": "{name} raktáráruház",
+        "message": "{name} raktáráruházában",
         "description": ""
     },
     "GOODS_TRADER_3": {
-        "message": "{name} árupiac",
+        "message": "{name} piacán",
         "description": ""
     },
     "GOODS_TRADER_0": {
-        "message": "Becsületes {name} áruház",
+        "message": "Becsületes {name} áruházában",
         "description": ""
     },
     "GOODS_TRADER_1": {
-        "message": "{name} kereskedőház",
+        "message": "{name} kereskedőházban",
         "description": ""
     },
     "GOODS_TRADER_4": {
-        "message": "{name} holding",
+        "message": "{name} holdingnál",
         "description": ""
     },
     "GOODS_TRADER_5": {
-        "message": "{name} & fiai",
+        "message": "{name} & fiai-nál",
         "description": ""
     }
 }

@@ -4,7 +4,7 @@
         "description": ""
     },
     "YOUR_FUEL_TANK_IS_EMPTY": {
-        "message": "A hajtóanyagtartály üres.",
+        "message": "A hajtóanyag-tartály üres.",
         "description": ""
     }
 }

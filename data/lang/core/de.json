@@ -120,7 +120,7 @@
         "description": ""
     },
     "GAME_LOAD_WRONG_VERSION": {
-        "message": "This saved game cannot be loaded because it was created by a different version of Pioneer.",
+        "message": "Das Spiel konnte nicht geladen werden, da die Datei mit einer anderen Pioneerversion erzeugt wurde.",
         "description": ""
     },
     "ECM_ADVANCED_DESCRIPTION": {
@@ -212,7 +212,7 @@
         "description": ""
     },
     "CONTROLS": {
-        "message": "Controls",
+        "message": "Steuerung",
         "description": ""
     },
     "CARGO_N": {
@@ -492,7 +492,7 @@
         "description": ""
     },
     "JOY_AXIS": {
-        "message": "%{sign}Joy%joynum %axis Axis",
+        "message": "%{sign}Joy%joynum %axis Achse",
         "description": ""
     },
     "STAR_G_SUPER_GIANT": {
@@ -628,7 +628,7 @@
         "description": ""
     },
     "DRAW_OUT_RANGE_LABELS": {
-        "message": "Label out-of-range systems",
+        "message": "Out-of-range System",
         "description": ""
     },
     "VIOLENT_ANARCHY": {
@@ -828,7 +828,7 @@
         "description": ""
     },
     "PAUSED": {
-        "message": "PAUSED",
+        "message": "PAUSIERT",
         "description": ""
     },
     "MISSILE_SMART": {
@@ -1376,7 +1376,7 @@
         "description": ""
     },
     "FRONT": {
-        "message": "Front",
+        "message": "Vorderseite",
         "description": ""
     },
     "FITTING": {
@@ -1820,7 +1820,7 @@
         "description": ""
     },
     "DRAW_VERTICAL_LINES": {
-        "message": "Draw vertical lines",
+        "message": "Vertikale Linien ziehen",
         "description": ""
     },
     "SOMEWHERE_POLICE": {
@@ -2088,7 +2088,7 @@
         "description": ""
     },
     "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO": {
-        "message": "Equatorial to polar radius ratio",
+        "message": "Verhältnis Äquator zu Pol",
         "description": ""
     },
     "STAR_M_SUPER_GIANT": {

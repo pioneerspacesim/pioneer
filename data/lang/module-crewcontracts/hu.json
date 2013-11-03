@@ -1,18 +1,18 @@
 {
     "CREWDETAILSHEETBB": {
-        "message": "Crew for hire\n\nName: {name}\nExperience: {experience}\nAsking wage: {wage} per week\n\n{response}\n",
+        "message": "Legénységi posztot keres\n\nNév: {name}\nTapasztalat: {experience}\nFizetési igény: {wage} hetente\n\n{response}\n",
         "description": ""
     },
     "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY": {
-        "message": "Thanks, I'll get settled on board immediately.",
+        "message": "Köszönöm. Meg is keresem a kabinomat.",
         "description": ""
     },
     "CREWTESTRESULTSBB": {
-        "message": "Examination results:\n\nGeneral crew competence: {general}%\nEngineering and repair: {engineering}%\nPiloting and spaceflight: {piloting}%\nNavigation and plotting: {navigation}%\nSensors and defence: {sensors}%\nOverall exam score: {overall}%",
+        "message": "Teszteredmények:\n\nÁltalános kompetecia: {general}%\nGépészet és javítás: {engineering}%\nKormányzás és űrrepülés: {piloting}%\nNavigáció és pályatervezés: {navigation}%\nÉrzékelés és védelem: {sensors}%\nÖsszesített eredmény: {overall}%",
         "description": ""
     },
     "OK_I_SUPPOSE_THATS_ALL_RIGHT": {
-        "message": "OK, I suppose that's all right.",
+        "message": "Rendben, azt hiszem jó lesz így.",
         "description": ""
     },
     "GO_BACK": {
@@ -20,67 +20,67 @@
         "description": ""
     },
     "VETERAN_TIME_SERVED_CREW_MEMBER": {
-        "message": "Veteran, time served crew member",
+        "message": "Veterán legénységi tag magas repült óraszámmal",
         "description": ""
     },
     "ASK_CANDIDATE_TO_SIT_A_TEST": {
-        "message": "Ask candidate to sit a test",
+        "message": "Teszt kitöltetése a jelölttel",
         "description": ""
     },
     "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER": {
-        "message": "I'm sorry, I'm not prepared to go any lower.",
+        "message": "Sajnálom, de ennél alacsonyabbat nem tudok elfogadni.",
         "description": ""
     },
     "SENSORS_AND_DEFENCE": {
-        "message": "Sensors and defence",
+        "message": "Érzékelők és védelem",
         "description": ""
     },
     "THATS_EXTREMELY_GENEROUS_OF_YOU": {
-        "message": "That's extremely generous of you!",
+        "message": "Igazán nagylelkű!",
         "description": ""
     },
     "MINIMAL_TIME_SERVED_ABOARD_SHIP": {
-        "message": "Minimal time served aboard ship",
+        "message": "Minimális időt szolgált űrhajón.",
         "description": ""
     },
     "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT": {
-        "message": "Make offer of position on ship for stated amount",
+        "message": "Pozíció felajánlása a megbeszélt bérért.",
         "description": ""
     },
     "THERE_DOESNT_SEEM_TO_BE_SPACE_FOR_ME_ON_BOARD": {
-        "message": "There doesn't seem to be space for me on board!",
+        "message": "Úgy fest nincs több szabad legénységi kabin a fedélzeten!",
         "description": ""
     },
     "NAVIGATOR": {
-        "message": "Navigator",
+        "message": "Navigátor",
         "description": ""
     },
     "TIME_SERVED_CREW_MEMBER": {
-        "message": "Time served crew member",
+        "message": "Sokat látott legénységi tag",
         "description": ""
     },
     "PILOT": {
-        "message": "Pilot",
+        "message": "Pilóta",
         "description": ""
     },
     "CREWMEMBER_WAGE_PER_WEEK": {
-        "message": "{potentialCrewMember} ({wage}/wk)",
+        "message": "{potentialCrewMember} ({wage}/hét)",
         "description": ""
     },
     "THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER": {
-        "message": "That certainly makes this offer look better!",
+        "message": "Rögtön jobban hangzik!",
         "description": ""
     },
     "CREW_FOR_HIRE": {
-        "message": "Crew for hire",
+        "message": "Legénységi pozíciót keres",
         "description": ""
     },
     "SUGGEST_NEW_WEEKLY_WAGE_OF_N": {
-        "message": "Suggest new weekly wage of {newAmount}",
+        "message": "Új heti bér javaslat:  {newAmount}",
         "description": ""
     },
     "SHIPS_ENGINEER": {
-        "message": "Ship's Engineer",
+        "message": "Hajógépész",
         "description": ""
     },
     "HANG_UP": {
@@ -88,23 +88,23 @@
         "description": ""
     },
     "POTENTIAL_CREW_MEMBERS": {
-        "message": "Potential crew members are registered as seeking employment at {station}:",
+        "message": "{station} regisztrált állást kereső űrhajósai:",
         "description": ""
     },
     "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME": {
-        "message": "I'm sorry, your offer isn't attractive to me.",
+        "message": "Sajnálom de ez nem túl vonzó ajánlat.",
         "description": ""
     },
     "SIMULATOR_TRAINING_ONLY": {
-        "message": "Simulator training only",
+        "message": "Kizárólag szimulátoros kiképzést kapott",
         "description": ""
     },
     "SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS": {
-        "message": "Some experience in controlled environments",
+        "message": "Némi tapasztalat kontrollált környezetben",
         "description": ""
     },
     "NO_EXPERIENCE": {
-        "message": "No experience",
+        "message": "Nincs tapasztalata",
         "description": ""
     }
 }
