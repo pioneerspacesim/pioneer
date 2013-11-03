@@ -199,7 +199,7 @@ void SpaceStation::InitStation()
 	if (!GetModel())
 		SetModel(m_type->modelName.c_str());
 
-	m_navLights.Reset(new NavLights(GetModel(), 2.2f));
+	m_navLights.reset(new NavLights(GetModel(), 2.2f));
 	m_navLights->SetEnabled(true);
 
 	if (ground) SetClipRadius(CITY_ON_PLANET_RADIUS);		// overrides setmodel
@@ -585,8 +585,7 @@ void SpaceStation::TimeStepUpdate(const float timeStep)
 		m_navLights->SetColor(i+1, NavLights::NAVLIGHT_RED); //docked
 	}
 
-	if (m_doorAnimation)
-		GetModel()->UpdateAnimations();
+	ModelBody::TimeStepUpdate(timeStep);
 }
 
 void SpaceStation::UpdateInterpTransform(double alpha)

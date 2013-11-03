@@ -27,8 +27,8 @@ namespace FileSystem {
 		if (!path.empty() && path[0] == '/') { return path; }
 		else {
 			const size_t bufsize = 512;
-			ScopedMalloc<char> buf(std::malloc(bufsize));
-			char *cwd = getcwd(buf.Get(), bufsize);
+			std::unique_ptr<char, FreeDeleter> buf(static_cast<char*>(std::malloc(bufsize)));
+			char *cwd = getcwd(buf.get(), bufsize);
 			if (!cwd) {
 				fprintf(stderr, "failed to get current working directory\n");
 				abort();

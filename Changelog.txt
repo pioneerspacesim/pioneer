@@ -1,16 +1,26 @@
+November 2013
+
+   * New features
+     * Translations now managed via Transifex (#2521)
+
+   * Internal changes
+     * Build fixes for MSVC
+
 October 2013
 
    * New features
-     * New ship "Xylophis Short Range Shuttle" (#2442)
+     * New ship "Xylophis Short Range Shuttle" (#2442, #2515)
      * New ship "Kanara Interceptor" (civilian version) (#2454, #2461)
      * New ship "Nerodia" (#2505)
      * New ship "Sinonatrix" (#2503)
      * New settings screens (#2490, #2512)
      * Vertical speed is shown with altitude, up to 10000 km or half the
        planet's radius (#2446)
+     * Ship acceleration and delta-V is shown in the Ship Info View (#2518, #2211)
      * The random face system now supports multiple species (#2440)
      * The eclipse effect can now be disabled in the config file
        (#2439, #2497, #2176, #2190)
+     * Allow up to two keys to be bound to a single input (#2222)
 
    * Minor changes and tweaks
      * Improved ship textures (#2450)
@@ -31,6 +41,11 @@ October 2013
        * Basic joystick event support
      * FileDialog now has a way to enter a new filename (#2490)
      * Expose game settings, languages settings and keybindings to Lua (#2490)
+     * Models can now supply an "idle" animation that plays continuously (#2514)
+     * Models can now have multiple collidable parts that move with their
+       animations (#2493)
+     * ShipDef now has fields effectiveExhaustVelocity and thrusterFuelUse
+       (#2492, #2492)
 
    * Fixes
      * Modelviewer now correctly reloads tag-points when switching models
@@ -47,17 +62,20 @@ October 2013
      * Stopped mouse movement when grabbed (#2485)
      * Fixed UI::Margin sizing with non-ALL direction (#2490)
      * Fix UI::Margin being created with an incorrect inner widget (#2513, #2511)
+     * Fix FileDialog not handling empty list and text entry (#2510, #2494)
 
    * Model changes
      * Pattern textures can now have alpha channels (#2449)
 
    * Internal changes
+     * Enable C++11 (#2330)
      * Lua blobs will now be correctly serialized (#2463)
      * Removed many unnecessary uses of reinterpret_cast (#2465)
      * Fix some problems reported by valgrind (#2472)
      * Miscellaneous code improvements (#2474)
      * Better Unicode handling in scan_enums (#2479)
      * Cleaned up, fixed and documented LuaTable and LuaPushPull (#2332)
+     * Replace use of ScopedPtr with std::unique_ptr (#2519)
 
 September 2013
 

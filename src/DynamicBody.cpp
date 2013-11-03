@@ -188,6 +188,8 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 	} else {
 		m_oldAngDisplacement = vector3d(0.0);
 	}
+
+	ModelBody::TimeStepUpdate(timeStep);
 }
 
 void DynamicBody::UpdateInterpTransform(double alpha)

@@ -1,0 +1,30 @@
+{
+    "WELCOME_TO": {
+        "message": "Bienvenue",
+        "description": ""
+    },
+    "GOODS_TRADER_2": {
+        "message": "à l'entrepôt {name}",
+        "description": ""
+    },
+    "GOODS_TRADER_3": {
+        "message": "au marché {name}",
+        "description": ""
+    },
+    "GOODS_TRADER_0": {
+        "message": "au centre commercial {name}",
+        "description": ""
+    },
+    "GOODS_TRADER_1": {
+        "message": "à la chambre de commerce {name}",
+        "description": ""
+    },
+    "GOODS_TRADER_4": {
+        "message": "à la Holding {name}",
+        "description": ""
+    },
+    "GOODS_TRADER_5": {
+        "message": "chez {name} & Fils",
+        "description": ""
+    }
+}

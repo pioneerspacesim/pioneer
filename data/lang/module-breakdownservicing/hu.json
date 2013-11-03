@@ -1,0 +1,130 @@
+{
+    "FLAVOUR_INTRO_4": {
+        "message": "Üdv az Idő és Tér Rt.-nél.\n\nA mi specialitásunk a csillagközi hajtómű. Minden javításra 2 év garanciát vállalunk.\n{lasttime}\nA hajó {drive} meghajtójának szervize {price} összegbe kerül. kezdhetjük?",
+        "description": ""
+    },
+    "FLAVOUR_INTRO_5": {
+        "message": "Kerüld el a lerobbant hipermotor okozta kellemetlenségeket. Szervizeld még ma.\n\nHajtómű: {drive}\nSzervíz ára: {price}\nUtolsó javítás: {lasttime}",
+        "description": ""
+    },
+    "FLAVOUR_INTRO_2": {
+        "message": "Üdv, és helló.  {proprietor} & társánál a munkánk minősége a hírnevünk.\n\n{lasttime}\nMeg tudjuk javítani a hajód {drive} hajtóművét, 12 hónapos jótállással, mindössze {price}-ért. Én magam felügyelem a munkát, szóval biztos lehetsz benne, hogy kifogástalan lesz.",
+        "description": ""
+    },
+    "FLAVOUR_INTRO_3": {
+        "message": "Üdvözöllek a Superfix karbantartásnál.\n\n{lasttime}\nItt az idő a féléves ellenőrzésre? Engedd meg, hogy szuperfixáljuk a hipermotorod!\nMeg tudjuk bütykölni {drive} hajtóművedet, csupán {price} kreditért. Ennél olcsóbbat nem találsz!",
+        "description": ""
+    },
+    "FLAVOUR_INTRO_0": {
+        "message": "Kerüld el a lerobbant hipermotor okozta kellemetlenségeket. Intézd el a szervízt még ma, a hivatalosan jóváhagyott {name} hajtóműszervízelő társaságnál.\n\nHajtómű: {drive}\nSzervíz ára: {price}\nGarancia: 18 hónap\nLegutóbbi generál: {lasttime}",
+        "description": ""
+    },
+    "FLAVOUR_INTRO_1": {
+        "message": "{proprietor} vagyok. Meg tudom javítani {drive} hipermotorodat, és garantálom, hogy legalább 1 évig problémamentesen fog működni. Mindössze {price} kreditet kérek.\nLegutóbbi generál: {lasttime}",
+        "description": ""
+    },
+    "I_DONT_HAVE_ENOUGH_MONEY": {
+        "message": "Nincs elég pénzem",
+        "description": ""
+    },
+    "THE_SHIPS_HYPERDRIVE_HAS_BEEN_DESTROYED_BY_A_MALFUNCTION": {
+        "message": "A hajó hipermotorja megsemmisült egy meghibásodás miatt",
+        "description": ""
+    },
+    "YOUR_DRIVE_WAS_LAST_SERVICED_ON": {
+        "message": "A hajtóművet {date} időpontban szervizelte {company}",
+        "description": ""
+    },
+    "FLAVOUR_RESPONSE_4": {
+        "message": "Befejeztük a munkát a hipermotoron.",
+        "description": ""
+    },
+    "FLAVOUR_RESPONSE_5": {
+        "message": "A hajtómű szervize kész.",
+        "description": ""
+    },
+    "FLAVOUR_RESPONSE_0": {
+        "message": "A hipermotor szervizelése megtörtént.",
+        "description": ""
+    },
+    "FLAVOUR_RESPONSE_1": {
+        "message": "Megjavítottam a hipermotort.",
+        "description": ""
+    },
+    "FLAVOUR_RESPONSE_2": {
+        "message": "Karbantartás kész. Köszönjük a bizalmat.",
+        "description": ""
+    },
+    "FLAVOUR_RESPONSE_3": {
+        "message": "A SuperFix javítás szuperkész, SuperFix garanciával!",
+        "description": ""
+    },
+    "YOU_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN": {
+        "message": "Megjavítottad a hiperhajtóművet még mielőtt meghibásodott volna.",
+        "description": ""
+    },
+    "FLAVOUR_TITLE_4": {
+        "message": "Idő és Tér hajtóművek Rt.",
+        "description": ""
+    },
+    "FLAVOUR_TITLE_5": {
+        "message": "{proprietor} hajtóműszervízelő társaság",
+        "description": ""
+    },
+    "FLAVOUR_TITLE_2": {
+        "message": "{proprietor} & társa HiperGépészet",
+        "description": ""
+    },
+    "FLAVOUR_TITLE_3": {
+        "message": "SuperFix karbantartás ({name} fiók)",
+        "description": ""
+    },
+    "FLAVOUR_TITLE_0": {
+        "message": "{name} hajtóműjavító társaság",
+        "description": ""
+    },
+    "FLAVOUR_TITLE_1": {
+        "message": "{proprietor}: Hipermotor karbantartó specialista",
+        "description": ""
+    },
+    "YOU_DO_NOT_HAVE_A_DRIVE_TO_SERVICE": {
+        "message": "Nincs is szervizelni való hajtóműved!",
+        "description": ""
+    },
+    "YOUR_DRIVE_HAS_NOT_BEEN_SERVICED": {
+        "message": "A hajtómű még egyszer sem volt szervizelve a beszerelése, {date} óta.",
+        "description": ""
+    },
+    "FLAVOUR_YESPLEASE_5": {
+        "message": "Hipermotor szervizelése",
+        "description": ""
+    },
+    "FLAVOUR_YESPLEASE_4": {
+        "message": "Mehet",
+        "description": ""
+    },
+    "FLAVOUR_YESPLEASE_3": {
+        "message": "SuperFix javítást kérek!",
+        "description": ""
+    },
+    "FLAVOUR_YESPLEASE_2": {
+        "message": "Kérlek javítsd fel a hipermotoromat a megadott árért",
+        "description": ""
+    },
+    "FLAVOUR_YESPLEASE_1": {
+        "message": "Hipermotorszervízt kérnék",
+        "description": ""
+    },
+    "FLAVOUR_YESPLEASE_0": {
+        "message": "Hipermotor szervízelés",
+        "description": ""
+    },
+    "I_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN": {
+        "message": "Megjavítottam a hiperhajtóművet még mielőtt meghibásodott volna.",
+        "description": ""
+    },
+    "HANG_UP": {
+        "message": "Kapcsolat megszakítása.",
+        "description": ""
+    }
+}

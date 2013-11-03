@@ -6,13 +6,12 @@
 
 #include "libs.h"
 #include "Body.h"
-#include "vector3.h"
 #include "CollMesh.h"
 
 class Geom;
 class Camera;
 namespace Graphics { class Renderer; class Light; }
-namespace SceneGraph { class Model; }
+namespace SceneGraph { class Model; class Animation; }
 
 class ModelBody: public Body {
 public:
@@ -30,14 +29,14 @@ public:
 	void SetStatic(bool isStatic);
 	bool IsStatic() const { return m_isStatic; }
 	const Aabb &GetAabb() const { return m_collMesh->GetAabb(); }
-	Geom *GetGeom() { return m_geom; }
 	SceneGraph::Model *GetModel() const { return m_model; }
 	CollMesh *GetCollMesh() { return m_collMesh.Get(); }
-	void RebuildCollisionMesh();
 
 	void SetModel(const char *modelName);
 
 	void RenderModel(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform, const bool setLighting=true);
+
+	virtual void TimeStepUpdate(const float timeStep);
 
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
@@ -47,14 +46,21 @@ protected:
 	void ResetLighting(Graphics::Renderer *r, const std::vector<Graphics::Light> &oldLights, const Color &oldAmbient);
 
 private:
+	void RebuildCollisionMesh();
+	void DeleteGeoms();
+	void AddGeomsToFrame(Frame*);
+	void RemoveGeomsFromFrame(Frame*);
+	void MoveGeoms(const matrix4x4d&, const vector3d&);
 	void CalcLighting(double &ambient, double &direct, const Camera *camera);
 
 	bool m_isStatic;
 	bool m_colliding;
 	RefCountedPtr<CollMesh> m_collMesh;
-	Geom *m_geom;
+	Geom *m_geom; //static geom
 	std::string m_modelName;
 	SceneGraph::Model *m_model;
+	std::vector<Geom*> m_dynGeoms;
+	SceneGraph::Animation *m_idleAnimation;
 };
 
 #endif /* _MODELBODY_H */

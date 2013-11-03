@@ -33,7 +33,7 @@ private:
 
 	static RefCountedPtr<Graphics::Material> s_material;
 
-	ScopedPtr<Graphics::Texture> m_texture;
+	std::unique_ptr<Graphics::Texture> m_texture;
 };
 
 }

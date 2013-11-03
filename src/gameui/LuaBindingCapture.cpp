@@ -7,13 +7,15 @@
 #include "LuaPushPull.h"
 
 inline void pi_lua_generic_push(lua_State * l, const KeyBindings::KeyBinding &value) {
-	const std::string token = KeyBindings::KeyBindingToString(value);
-	pi_lua_generic_push(l, token);
+	if (value.type == KeyBindings::BINDING_DISABLED) {
+		lua_pushnil(l);
+	} else {
+		pi_lua_generic_push(l, value.ToString());
+	}
 }
 
 inline void pi_lua_generic_push(lua_State * l, const KeyBindings::AxisBinding &value) {
-	const std::string token = KeyBindings::AxisBindingToString(value);
-	pi_lua_generic_push(l, token);
+	pi_lua_generic_push(l, value.ToString());
 }
 
 namespace GameUI {
@@ -30,16 +32,19 @@ public:
 	static int l_attr_binding(lua_State *l)
 	{
 		KeyBindingCapture *kbc = LuaObject<GameUI::KeyBindingCapture>::CheckFromLua(1);
-		const std::string &binding = KeyBindings::KeyBindingToString(kbc->GetBinding());
-		lua_pushlstring(l, binding.c_str(), binding.size());
+		pi_lua_generic_push(l, kbc->GetBinding());
 		return 1;
 	}
 
 	static int l_attr_binding_description(lua_State *l)
 	{
 		KeyBindingCapture *kbc = LuaObject<GameUI::KeyBindingCapture>::CheckFromLua(1);
-		const std::string &desc = kbc->GetBinding().Description();
-		lua_pushlstring(l, desc.c_str(), desc.size());
+		const KeyBindings::KeyBinding &kb = kbc->GetBinding();
+		if (kb.type == KeyBindings::BINDING_DISABLED) {
+			lua_pushnil(l);
+		} else {
+			pi_lua_generic_push(l, kb.Description());
+		}
 		return 1;
 	}
 
@@ -62,16 +67,14 @@ public:
 	static int l_attr_binding(lua_State *l)
 	{
 		AxisBindingCapture *abc = LuaObject<GameUI::AxisBindingCapture>::CheckFromLua(1);
-		const std::string &binding = KeyBindings::AxisBindingToString(abc->GetBinding());
-		lua_pushlstring(l, binding.c_str(), binding.size());
+		pi_lua_generic_push(l, abc->GetBinding());
 		return 1;
 	}
 
 	static int l_attr_binding_description(lua_State *l)
 	{
 		AxisBindingCapture *abc = LuaObject<GameUI::AxisBindingCapture>::CheckFromLua(1);
-		const std::string &desc = abc->GetBinding().Description();
-		lua_pushlstring(l, desc.c_str(), desc.size());
+		pi_lua_generic_push(l, abc->GetBinding().Description());
 		return 1;
 	}
 

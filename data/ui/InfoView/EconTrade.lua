@@ -1,8 +1,8 @@
 -- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Translate = import("Translate")
 local Engine = import("Engine")
+local Lang = import("Lang")
 local Game = import("Game")
 local EquipDef = import("EquipDef")
 
@@ -10,7 +10,7 @@ local SmallLabeledButton = import("ui/SmallLabeledButton")
 local InfoGauge = import("ui/InfoGauge")
 
 local ui = Engine.ui
-local t = Translate:GetTranslator()
+local l = Lang.GetResource("ui-core");
 
 local econTrade = function ()
 
@@ -46,7 +46,7 @@ local econTrade = function ()
 						table.insert(cargoNameColumn, ui:Label(et.name))
 						table.insert(cargoQuantityColumn, ui:Label(count.."t"))
 
-						local jettisonButton = SmallLabeledButton.New(t("Jettison"))
+						local jettisonButton = SmallLabeledButton.New(l.JETTISON)
 						jettisonButton.button.onClick:Connect(function ()
 							Game.player:Jettison(type)
 							updateCargoListWidget()
@@ -61,7 +61,7 @@ local econTrade = function ()
 		-- Function returns a UI with which to populate the cargo list widget
 		return
 			ui:VBox(10):PackEnd({
-				ui:Label(t("CARGO")):SetFont("HEADING_LARGE"),
+				ui:Label(l.CARGO):SetFont("HEADING_LARGE"),
 				ui:Scroller():SetInnerWidget(
 					ui:Grid(3,1)
 						:SetColumn(0, { ui:VBox():PackEnd(cargoNameColumn) })
@@ -91,7 +91,7 @@ local econTrade = function ()
 	fuelGauge.gauge:Bind("valuePercent", Game.player, "fuel")
 
 	-- Define the refuel button
-	local refuelButton = SmallLabeledButton.New(t('Refuel'))
+	local refuelButton = SmallLabeledButton.New(l.REFUEL)
 
 	local refuelButtonRefresh = function ()
 		if Game.player.fuel == 100 or Game.player:GetEquipCount('CARGO', 'WATER') == 0 then refuelButton.widget:Disable() end
@@ -121,10 +121,10 @@ local econTrade = function ()
 						ui:Grid(2,1)
 							:SetColumn(0, {
 								ui:VBox():PackEnd({
-									ui:Label(t("CASH")..":"),
+									ui:Label(l.CASH..":"),
 									ui:Margin(10),
-									ui:Label(t("CARGO_SPACE")..":"),
-									ui:Label(t("CABINS")..":"),
+									ui:Label(l.CARGO_SPACE..":"),
+									ui:Label(l.CABINS..":"),
 									ui:Margin(10),
 								})
 							})
@@ -133,7 +133,7 @@ local econTrade = function ()
 									ui:Label(string.format("$%.2f", cash)),
 									ui:Margin(10),
 									cargoGauge.widget,
-									ui:Grid(2,1):SetRow(0, { ui:Label(t("Total: ")..totalCabins), ui:Label(t("USED")..": "..usedCabins) }),
+									ui:Grid(2,1):SetRow(0, { ui:Label(l.TOTAL..totalCabins), ui:Label(l.USED..": "..usedCabins) }),
 									ui:Margin(10),
 								})
 							}),

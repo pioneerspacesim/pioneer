@@ -2,19 +2,25 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
+local Lang = import("Lang")
 local Game = import("Game")
 local Comms = import("Comms")
-local Translate = import("Translate")
 local Event = import("Event")
 local Serializer = import("Serializer")
 
--- Get the translator function
-local t = Translate:GetTranslator()
+local l = Lang.GetResource("module-donatetocranks")
+
+local flavours = {}
+for i = 0,4 do
+	table.insert(flavours, {
+		title     = l["FLAVOUR_TITLE_"..i],
+		message   = l["FLAVOUR_MESSAGE_"..i],
+	})
+end
 
 local ads = {}
 
 local onChat = function (form, ref, option)
-	local crank_flavours = Translate:GetFlavours('DonateToCranks')
 	local ad = ads[ref]
 
 	if option == 0 then
@@ -30,7 +36,7 @@ local onChat = function (form, ref, option)
 		form:AddOption("$1000", 1000)
 		form:AddOption("$10000", 10000)
 		form:AddOption("$100000", 100000)
-		form:AddOption(t('HANG_UP'), -1)
+		form:AddOption(l.HANG_UP, -1)
 
 		return
 	end
@@ -41,12 +47,12 @@ local onChat = function (form, ref, option)
 	end
 
 	if Game.player:GetMoney() < option then
-		Comms.Message(t("You do not have enough money."))
+		Comms.Message(l.YOU_DO_NOT_HAVE_ENOUGH_MONEY)
 	else
 		if option >= 10000 then
-			Comms.Message(t("Wow! That was very generous."))
+			Comms.Message(l.WOW_THAT_WAS_VERY_GENEROUS)
 		else
-			Comms.Message(t("Thank you. All donations are welcome."))
+			Comms.Message(l.THANK_YOU_ALL_DONATIONS_ARE_WELCOME)
 		end
 		Game.player:AddMoney(-option)
 	end
@@ -57,12 +63,11 @@ local onDelete = function (ref)
 end
 
 local onCreateBB = function (station)
-  local crank_flavours = Translate:GetFlavours('DonateToCranks')
-	local n = Engine.rand:Integer(1, #crank_flavours)
+	local n = Engine.rand:Integer(1, #flavours)
 
 	local ad = {
-		title    = crank_flavours[n].title,
-		message  = crank_flavours[n].message,
+		title    = flavours[n].title,
+		message  = flavours[n].message,
 		station  = station,
 		faceseed = Engine.rand:Integer()
 	}

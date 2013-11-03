@@ -1,0 +1,58 @@
+{
+   "FLAVOUR_MESSAGE_0" : {
+      "description" : "",
+      "message" : "Please select an amount to donate to the Church of the Celestial Flying Spaghetti Monster."
+   },
+   "FLAVOUR_MESSAGE_1" : {
+      "description" : "",
+      "message" : "Peace be with you, brother. Please select an amount to donate to the Guardians of the Free Spirit."
+   },
+   "FLAVOUR_MESSAGE_2" : {
+      "description" : "",
+      "message" : "Please select an amount to donate to War Orphan's Support, and end the suffering of children all over the galaxy."
+   },
+   "FLAVOUR_MESSAGE_3" : {
+      "description" : "",
+      "message" : "Please select an amount to donate to the GreenWatch, and end the pollution of our galaxy."
+   },
+   "FLAVOUR_MESSAGE_4" : {
+      "description" : "",
+      "message" : "Please select an amount to donate."
+   },
+   "FLAVOUR_TITLE_0" : {
+      "description" : "",
+      "message" : "DONATE! The Church of The Celestial Flying Spaghetti Monster needs YOUR money to spread the word of god."
+   },
+   "FLAVOUR_TITLE_1" : {
+      "description" : "",
+      "message" : "DONATE. The Guardians of the Free Spirit humbly request your charity to support our monasteries."
+   },
+   "FLAVOUR_TITLE_2" : {
+      "description" : "",
+      "message" : "FEELING GENEROUS? War Orphan's Support needs your help to keep up its essential work."
+   },
+   "FLAVOUR_TITLE_3" : {
+      "description" : "",
+      "message" : "CONTRIBUTE. The Friends of the Galaxy 'Ban Military Drives' campaign needs your money."
+   },
+   "FLAVOUR_TITLE_4" : {
+      "description" : "",
+      "message" : "DONATE! Save our species. Stop the carnage of newly settled worlds."
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Hang up."
+   },
+   "THANK_YOU_ALL_DONATIONS_ARE_WELCOME" : {
+      "description" : "",
+      "message" : "Thank you. All donations are welcome."
+   },
+   "WOW_THAT_WAS_VERY_GENEROUS" : {
+      "description" : "",
+      "message" : "Wow! That was very generous."
+   },
+   "YOU_DO_NOT_HAVE_ENOUGH_MONEY" : {
+      "description" : "",
+      "message" : "You do not have enough money."
+   }
+}

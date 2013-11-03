@@ -180,7 +180,7 @@ void Ship::InitGun(const char *tag, int num)
 
 void Ship::Init()
 {
-	m_navLights.Reset(new NavLights(GetModel()));
+	m_navLights.reset(new NavLights(GetModel()));
 	m_navLights->SetEnabled(true);
 
 	m_shields.Reset(new Shields(GetModel()));
@@ -292,11 +292,6 @@ void Ship::SetFuel(const double f)
 {
 	m_thrusterFuel = Clamp(f, 0.0, 1.0);
 	Properties().Set("fuel", m_thrusterFuel*100); // XXX to match SetFuelPercent
-}
-
-double Ship::GetFuelUseRate() const {
-	const double denominator = GetShipType()->fuelTankMass * GetShipType()->effectiveExhaustVelocity * 10;
-	return denominator > 0 ? -GetShipType()->linThrust[ShipType::THRUSTER_FORWARD]/denominator : 1e9;
 }
 
 // returns speed that can be reached using fuel minus reserve according to the Tsiolkovsky equation
@@ -503,7 +498,7 @@ void Ship::UpdateEquipStats()
 void Ship::UpdateFuelStats()
 {
 	m_stats.fuel_tank_mass = m_type->fuelTankMass;
-	m_stats.fuel_use = GetFuelUseRate();
+	m_stats.fuel_use = GetShipType()->GetFuelUseRate();
 	m_stats.fuel_tank_mass_left = m_stats.fuel_tank_mass * GetFuel();
 
 	UpdateMass();
@@ -763,6 +758,9 @@ void Ship::TimeStepUpdate(const float timeStep)
 	AddRelForce(thrust);
 	AddRelTorque(GetShipType()->angThrust * m_angThrusters);
 
+	if (m_landingGearAnimation)
+		m_landingGearAnimation->SetProgress(m_wheelState);
+
 	DynamicBody::TimeStepUpdate(timeStep);
 
 	// fuel use decreases mass, so do this as the last thing in the frame
@@ -770,9 +768,6 @@ void Ship::TimeStepUpdate(const float timeStep)
 
 	m_navLights->SetEnabled(m_wheelState > 0.01f);
 	m_navLights->Update(timeStep);
-
-	if (m_landingGearAnimation)
-		static_cast<SceneGraph::Model*>(GetModel())->UpdateAnimations();
 }
 
 void Ship::DoThrusterSounds() const
@@ -852,16 +847,6 @@ void Ship::FireWeapon(int num)
 	}
 	else
 		Projectile::Add(this, t, pos, baseVel, dirVel);
-
-	/*
-			// trace laser beam through frame to see who it hits
-			CollisionContact c;
-			GetFrame()->GetCollisionSpace()->TraceRay(pos, dir, 10000.0, &c, this->GetGeom());
-			if (c.userData1) {
-				Body *hit = static_cast<Body*>(c.userData1);
-				hit->OnDamage(this, damage);
-			}
-	*/
 
 	Polit::NotifyOfCrime(this, Polit::CRIME_WEAPON_DISCHARGE);
 	Sound::BodyMakeNoise(this, "Pulse_Laser", 1.0f);
@@ -972,7 +957,7 @@ void Ship::UpdateAlertState()
 
 void Ship::UpdateFuel(const float timeStep, const vector3d &thrust)
 {
-	const double fuelUseRate = GetFuelUseRate() * 0.01;
+	const double fuelUseRate = GetShipType()->GetFuelUseRate() * 0.01;
 	double totalThrust = (fabs(thrust.x) + fabs(thrust.y) + fabs(thrust.z))
 		/ -GetShipType()->linThrust[ShipType::THRUSTER_FORWARD];
 
@@ -1175,6 +1160,7 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	//angthrust negated, for some reason
 	GetModel()->SetThrust(vector3f(m_thrusters), -vector3f(m_angThrusters));
 
+<<<<<<< HEAD
 	if (m_landingGearAnimation)
 		m_landingGearAnimation->SetProgress(m_wheelState);
 
@@ -1183,6 +1169,8 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	m_shields->SetEnabled(shieldsVisible);
 	m_shields->Update(m_shieldCooldown, 0.01f*GetPercentShields());
 
+=======
+>>>>>>> b7052727d39eda85707353fdd0fac1cc8b8823b7
 	//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
 	RenderModel(renderer, camera, viewCoords, viewTransform);
 

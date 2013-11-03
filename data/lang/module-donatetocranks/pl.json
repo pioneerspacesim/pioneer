@@ -1,0 +1,58 @@
+{
+    "FLAVOUR_MESSAGE_3": {
+        "message": "Proszę wybierz kwotę jaką chcesz wesprzeć GreenWatch, i zakończ zanieczyszczanie naszej galaktyki.",
+        "description": ""
+    },
+    "FLAVOUR_MESSAGE_2": {
+        "message": "Proszę wybrać wysokość datku, jaką chcesz wesprzeć Pomoc Sierotom Wojennym, i zakończ cierpienie dzieci w całej galaktyce.",
+        "description": ""
+    },
+    "FLAVOUR_MESSAGE_1": {
+        "message": "Pokój z Tobą, bracie. Proszę wybrać wysokość datku dla Strażników Wolnego Ducha.",
+        "description": ""
+    },
+    "FLAVOUR_MESSAGE_0": {
+        "message": "Proszę wybrać wysokość datku, jaką chcesz wesprzeć Kościół Latającego Potwora Spaghetti.",
+        "description": ""
+    },
+    "FLAVOUR_MESSAGE_4": {
+        "message": "Proszę wybrać wysokość wsparcia.",
+        "description": ""
+    },
+    "THANK_YOU_ALL_DONATIONS_ARE_WELCOME": {
+        "message": "Dziękuję. Cenimy każde wsparcie.",
+        "description": ""
+    },
+    "HANG_UP": {
+        "message": "Rozłącz się.",
+        "description": ""
+    },
+    "YOU_DO_NOT_HAVE_ENOUGH_MONEY": {
+        "message": "Nie masz dość pieniędzy.",
+        "description": ""
+    },
+    "FLAVOUR_TITLE_4": {
+        "message": "DOFINANSUJ! Ocal nasz gatunek. Stop rzezi na nowo skolonizowanych światach.",
+        "description": ""
+    },
+    "WOW_THAT_WAS_VERY_GENEROUS": {
+        "message": "O! Jesteś bardzo hojny.",
+        "description": ""
+    },
+    "FLAVOUR_TITLE_2": {
+        "message": "JESTEŚ HOJNY? Pomoc Sierotom Wojennym, potrzebuje twojego wsparcia by kontynuować swoją działalność.",
+        "description": ""
+    },
+    "FLAVOUR_TITLE_3": {
+        "message": "PRZYŁĄCZ SIĘ. Kampania Galaktyczni Przyjaciele na rzecz 'Zakazu Napędów Wojskowych' potrzebuje twoich pieniędzy.",
+        "description": ""
+    },
+    "FLAVOUR_TITLE_0": {
+        "message": "WSPOMÓŻ! Kościół Latającego Potwora Spaghetti potrzebuje TWOICH pieniędzy by móc szerzyć słowo boże.",
+        "description": ""
+    },
+    "FLAVOUR_TITLE_1": {
+        "message": "WSPOMÓŻ. Strażnicy Wolnego Ducha pokornie proszą o wsparcie naszych klasztorów.",
+        "description": ""
+    }
+}

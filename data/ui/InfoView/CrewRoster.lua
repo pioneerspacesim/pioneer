@@ -1,8 +1,8 @@
 -- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Translate = import("Translate")
 local Engine = import("Engine")
+local Lang = import("Lang")
 local Game = import("Game")
 local Format = import("Format")
 local ShipDef = import("ShipDef")
@@ -12,7 +12,7 @@ local InfoFace = import("ui/InfoFace")
 local SmallLabeledButton = import("ui/SmallLabeledButton")
 
 local ui = Engine.ui
-local t = Translate:GetTranslator()
+local l = Lang.GetResource("ui-core");
 
 -- Anti-abuse feature - this locks out the piloting commands based on a timer.
 -- It knows when the crew were last checked for a piloting skill, and prevents
@@ -64,7 +64,7 @@ local crewRoster = function ()
 				local hullDamage = hullMass - hullMassLeft
 				if hullDamage > 0 then
 					if Game.player:GetEquipCount('CARGO','METAL_ALLOYS') <= 0 then
-						feedback:SetText(t('Not enough {alloy} to attempt a repair'):interp({alloy = t('METAL_ALLOYS')}))
+						feedback:SetText(l.NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR:interp({alloy = l.METAL_ALLOYS}))
 						return
 					end
 					local crewMember, result = testCrewMember('engineering',true)
@@ -77,14 +77,14 @@ local crewRoster = function ()
 						Game.player:RemoveEquip('METAL_ALLOYS',repair) -- These will now be part of the hull.
 						repairPercent = math.min(math.ceil(100 * (repair + hullMassLeft) / hullMass), 100) -- Get new hull percentage...
 						Game.player:SetHullPercent(repairPercent)   -- ...and set it.
-						feedback:SetText(t('Hull repaired by {name}, now at {repairPercent}%'):interp({name = crewMember.name,repairPercent = repairPercent}))
+						feedback:SetText(l.HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT:interp({name = crewMember.name,repairPercent = repairPercent}))
 					else
 						repairPercent = math.max(math.floor(100 * (hullMassLeft - 1) / hullMass), 1) -- Get new hull percentage...
 						Game.player:SetHullPercent(repairPercent)   -- ...and set it.
-						feedback:SetText(t('Hull repair attempt failed. Hull suffered minor damage.'))
+						feedback:SetText(l.HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE)
 					end
 				else
-					feedback:SetText(t('Hull does not require repair.'))
+					feedback:SetText(l.HULL_DOES_NOT_REQUIRE_REPAIR)
 				end
 			end,
 
@@ -92,20 +92,20 @@ local crewRoster = function ()
 				if Game.player.flightState ~= 'FLYING'
 				then
 					feedback:SetText(({
-						DOCKED = t('You must request launch clearance first, Commander.'),
-						LANDED = t('You must launch first, Commander.'),
-						HYPERSPACE = t('We are in hyperspace, Commander.'),
-						DOCKING = t('The ship is under station control, Commander.'),
+						DOCKED = l.YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER,
+						LANDED = l.YOU_MUST_LAUNCH_FIRST_COMMANDER,
+						HYPERSPACE = l.WE_ARE_IN_HYPERSPACE_COMMANDER,
+						DOCKING = l.THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER,
 					})[Game.player.flightState])
 				elseif not Game.player:GetCombatTarget() then
-					feedback:SetText(t('You must first select a combat target, Commander.'))
+					feedback:SetText(l.YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER)
 				else
 					local crewMember = checkPilotLockout() and testCrewMember('piloting')
 					if not crewMember then
-						feedback:SetText(t('There is nobody else on board able to fly this ship.'))
+						feedback:SetText(l.THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP)
 						pilotLockout()
 					else
-						feedback:SetText(t('Pilot seat is now occupied by {name}'):interp({name = crewMember.name,repairPercent = repairPercent}))
+						feedback:SetText(l.PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME:interp({name = crewMember.name,repairPercent = repairPercent}))
 						Game.player:AIKill(Game.player:GetCombatTarget())
 					end
 				end
@@ -116,20 +116,20 @@ local crewRoster = function ()
 				if Game.player.flightState ~= 'FLYING'
 				then
 					feedback:SetText(({
-						DOCKED = t('You must request launch clearance first, Commander.'),
-						LANDED = t('You must launch first, Commander.'),
-						HYPERSPACE = t('We are in hyperspace, Commander.'),
-						DOCKING = t('The ship is under station control, Commander.'),
+						DOCKED = l.YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER,
+						LANDED = l.YOU_MUST_LAUNCH_FIRST_COMMANDER,
+						HYPERSPACE = l.WE_ARE_IN_HYPERSPACE_COMMANDER,
+						DOCKING = l.THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER,
 					})[Game.player.flightState])
 				elseif not (target and target:isa('SpaceStation')) then
-					feedback:SetText(t('You must first select a suitable navigation target, Commander.'))
+					feedback:SetText(l.YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER)
 				else
 					local crewMember = checkPilotLockout() and testCrewMember('piloting')
 					if not crewMember then
-						feedback:SetText(t('There is nobody else on board able to fly this ship.'))
+						feedback:SetText(l.THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP)
 						pilotLockout()
 					else
-						feedback:SetText(t('Pilot seat is now occupied by {name}'):interp({name = crewMember.name,repairPercent = repairPercent}))
+						feedback:SetText(l.PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME:interp({name = crewMember.name,repairPercent = repairPercent}))
 						Game.player:AIDockWith(target)
 					end
 				end
@@ -139,7 +139,7 @@ local crewRoster = function ()
 		local taskList = ui:VBox() -- This could do with being something prettier
 
 		for label,task in pairs(crewTasks) do
-			local taskButton = SmallLabeledButton.New(t(label))
+			local taskButton = SmallLabeledButton.New(l[label])
 			taskButton.button.onClick:Connect(task)
 			taskList:PackEnd(taskButton)
 		end
@@ -160,11 +160,11 @@ local crewRoster = function ()
 		headergrid:SetRow(0,
 		{
 			-- Headers
-			ui:Label(t('Name')):SetFont("HEADING_NORMAL"),
-			ui:Label(t('Position')):SetFont("HEADING_NORMAL"),
-			ui:Label(t('Wage')):SetFont("HEADING_NORMAL"),
-			ui:Label(t('Owed')):SetFont("HEADING_NORMAL"),
-			ui:Label(t('Next paid')):SetFont("HEADING_NORMAL"),
+			ui:Label(l.NAME):SetFont("HEADING_NORMAL"),
+			ui:Label(l.POSITION):SetFont("HEADING_NORMAL"),
+			ui:Label(l.WAGE):SetFont("HEADING_NORMAL"),
+			ui:Label(l.OWED):SetFont("HEADING_NORMAL"),
+			ui:Label(l.NEXT_PAID):SetFont("HEADING_NORMAL"),
 		})
 
 		-- Create a row for each crew member
@@ -172,7 +172,7 @@ local crewRoster = function ()
 		local owedTotal = 0
 
 		for crewMember in Game.player:EachCrewMember() do
-			local moreButton = SmallLabeledButton.New(t("More info..."))
+			local moreButton = SmallLabeledButton.New(l.MORE_INFO)
 			moreButton.button.onClick:Connect(function () return crewMemberInfoButtonFunc(crewMember) end)
 
 			local crewWage = (crewMember.contract and crewMember.contract.wage or 0)
@@ -182,7 +182,7 @@ local crewRoster = function ()
 
 			crewlistbox:PackEnd(ui:Grid(rowspec,1):SetRow(0, {
 				ui:Label(crewMember.name),
-				ui:Label(t(crewMember.title) or t('General crew')),
+				ui:Label(crewMember.title or l.GENERAL_CREW),
 				ui:Label(Format.Money(crewWage)):SetColor({ r = 0.0, g = 1.0, b = 0.2 }), -- green
 				ui:Label(Format.Money(crewOwed)):SetColor({ r = 1.0, g = 0.0, b = 0.0 }), -- red
 				ui:Label(Format.Date(crewMember.contract and crewMember.contract.payday or 0)),
@@ -191,12 +191,12 @@ local crewRoster = function ()
 		end
 		crewlistbox:PackEnd(ui:Grid(rowspec,1):SetRow(0, {
 			ui:Label(""), -- first column, empty
-			ui:Label(t("Total:")):SetFont("HEADING_NORMAL"):SetColor({ r = 1.0, g = 1.0, b = 0.0 }), -- yellow
+			ui:Label(l.TOTAL):SetFont("HEADING_NORMAL"):SetColor({ r = 1.0, g = 1.0, b = 0.0 }), -- yellow
 			ui:Label(Format.Money(wageTotal)):SetColor({ r = 0.0, g = 1.0, b = 0.2 }), -- green
 			ui:Label(Format.Money(owedTotal)):SetColor({ r = 1.0, g = 0.0, b = 0.0 }), -- red
 		}))
 
-		local taskCrewButton = ui:Button():SetInnerWidget(ui:Label(t('Give orders to crew')))
+		local taskCrewButton = ui:Button():SetInnerWidget(ui:Label(l.GIVE_ORDERS_TO_CREW))
 		taskCrewButton.onClick:Connect(taskCrew)
 
 		return ui:VBox(10):PackEnd({
@@ -211,22 +211,22 @@ local crewRoster = function ()
 	crewMemberInfoButtonFunc = function (crewMember)
 
 		-- Make the button that you'd use to sack somebody
-		local dismissButton = SmallLabeledButton.New(t("Dismiss"))
+		local dismissButton = SmallLabeledButton.New(l.DISMISS)
 		dismissButton.button.onClick:Connect(function ()
 			if Game.player.flightState == 'DOCKED' and not(crewMember.contract and crewMember.contract.outstanding > 0) and Game.player:Dismiss(crewMember) then
 				crewMember:Save()                         -- Save to persistent characters list
 				CrewScreen:SetInnerWidget(makeCrewList()) -- Return to crew roster list
 				if crewMember.contract then
 					if crewMember.contract.outstanding > 0 then
-						Comms.Message(t("I'm tired of working for nothing. Don't you know what a contract is?"),crewMember.name)
+						Comms.Message(l.IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS,crewMember.name)
 						crewMember.playerRelationship = crewMember.playerRelationship - 5 -- Hate!
 					elseif crewMember:TestRoll('playerRelationship') then
-						Comms.Message(t("It's been great working for you. If you need me again, I'll be here a while."),crewMember.name)
+						Comms.Message(l.ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE,crewMember.name)
 					elseif not crewMember:TestRoll('lawfulness') then
-						Comms.Message(t("You're going to regret sacking me!"),crewMember.name)
+						Comms.Message(l.YOURE_GOING_TO_REGRET_SACKING_ME,crewMember.name)
 						crewMember.playerRelationship = crewMember.playerRelationship - 1
 					else
-						Comms.Message(t("Good riddance to you, too."),crewMember.name)
+						Comms.Message(l.GOOD_RIDDANCE_TO_YOU_TOO,crewMember.name)
 						crewMember.playerRelationship = crewMember.playerRelationship - 1
 					end
 				end
@@ -238,15 +238,15 @@ local crewRoster = function ()
 		:SetColumn(0, {
 			ui:VBox(20):PackEnd({
 				ui:Label(crewMember.name):SetFont("HEADING_LARGE"),
-				ui:Label(t("Qualification scores")):SetFont("HEADING_NORMAL"),
+				ui:Label(l.QUALIFICATION_SCORES):SetFont("HEADING_NORMAL"),
 				-- Table of crew scores:
 				ui:Grid(2,1)
 					:SetColumn(0, {
 						ui:VBox():PackEnd({
-							ui:Label(t("Engineering:")),
-							ui:Label(t("Piloting:")),
-							ui:Label(t("Navigation:")),
-							ui:Label(t("Sensors:")),
+							ui:Label(l.ENGINEERING),
+							ui:Label(l.PILOTING),
+							ui:Label(l.NAVIGATION),
+							ui:Label(l.SENSORS),
 						})
 					})
 					:SetColumn(1, {
@@ -260,7 +260,7 @@ local crewRoster = function ()
 				-- Things we can do with this crew member
 				--  (as long as they're not the player!)
 				-- returning nil if crewMember is player
-				not crewMember.player and ui:Label(t("Employment")):SetFont("HEADING_NORMAL") or nil,
+				not crewMember.player and ui:Label(l.EMPLOYMENT):SetFont("HEADING_NORMAL") or nil,
 				not crewMember.player and ui:Grid(2,1)
 					:SetColumn(0, {
 						ui:VBox():PackEnd({
@@ -269,7 +269,7 @@ local crewRoster = function ()
 					})
 					:SetColumn(1, {
 						ui:VBox():PackEnd({
-							SmallLabeledButton.New(t("Negotiate")),
+							SmallLabeledButton.New(l.NEGOTIATE),
 						})
 					}) or nil -- nothing returned for player
 			})

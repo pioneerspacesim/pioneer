@@ -5,6 +5,7 @@
 #include "perlin.h"
 #include "Pi.h"
 #include "FileSystem.h"
+#include "FloatComparison.h"
 
 // static instancer. selects the best height and color classes for the body
 Terrain *Terrain::InstanceTerrain(const SystemBody *body)
@@ -393,19 +394,19 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 				bufread_or_die(&v, 2, 1, databuf); m_heightMapSizeY = v;
 				const Uint32 heightmapPixelArea = (m_heightMapSizeX * m_heightMapSizeY);
 
-				ScopedPtr<Sint16> heightMap(new Sint16[heightmapPixelArea]);
-				bufread_or_die(heightMap.Get(), sizeof(Sint16), heightmapPixelArea, databuf);
-				m_heightMap.Reset(new double[heightmapPixelArea]);
-				double *pHeightMap = m_heightMap.Get();
+				std::unique_ptr<Sint16[]> heightMap(new Sint16[heightmapPixelArea]);
+				bufread_or_die(heightMap.get(), sizeof(Sint16), heightmapPixelArea, databuf);
+				m_heightMap.reset(new double[heightmapPixelArea]);
+				double *pHeightMap = m_heightMap.get();
 				for(Uint32 i=0; i<heightmapPixelArea; i++) {
-					const Sint16 val = heightMap.Get()[i];
+					const Sint16 val = heightMap.get()[i];
 					minHMap = std::min(minHMap, val);
 					maxHMap = std::max(maxHMap, val);
 					// store then increment pointer
 					(*pHeightMap) = val;
 					++pHeightMap;
 				}
-				assert(is_equal_general(*pHeightMap, m_heightMap.Get()[heightmapPixelArea]));
+				assert(is_equal_general(*pHeightMap, m_heightMap[heightmapPixelArea]));
 				//printf("minHMap = (%hd), maxHMap = (%hd)\n", minHMap, maxHMap);
 				break;
 			}
@@ -424,19 +425,19 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 				bufread_or_die(&te, 8, 1, databuf);
 				m_minh = te;
 
-				ScopedPtr<Uint16> heightMapScaled(new Uint16[heightmapPixelArea]);
-				bufread_or_die(heightMapScaled.Get(), sizeof(Uint16), heightmapPixelArea, databuf);
-				m_heightMap.Reset(new double[heightmapPixelArea]);
-				double *pHeightMap = m_heightMap.Get();
+				std::unique_ptr<Uint16[]> heightMapScaled(new Uint16[heightmapPixelArea]);
+				bufread_or_die(heightMapScaled.get(), sizeof(Uint16), heightmapPixelArea, databuf);
+				m_heightMap.reset(new double[heightmapPixelArea]);
+				double *pHeightMap = m_heightMap.get();
 				for(Uint32 i=0; i<heightmapPixelArea; i++) {
-					const Uint16 val = heightMapScaled.Get()[i];
+					const Uint16 val = heightMapScaled[i];
 					minHMapScld = std::min(minHMapScld, val);
 					maxHMapScld = std::max(maxHMapScld, val);
 					// store then increment pointer
 					(*pHeightMap) = val;
 					++pHeightMap;
 				}
-				assert(is_equal_general(*pHeightMap, m_heightMap.Get()[heightmapPixelArea]));
+				assert(is_equal_general(*pHeightMap, m_heightMap[heightmapPixelArea]));
 				//printf("minHMapScld = (%hu), maxHMapScld = (%hu)\n", minHMapScld, maxHMapScld);
 				break;
 			}
@@ -476,7 +477,7 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 		m_maxHeightInMeters = 1.1*pow(2.0, 16.0)*m_heightScaling; // no min height required as it's added to radius in lua
 	}else {
 		m_maxHeightInMeters = std::max(100.0, (9000.0*rad*rad*(m_volcanic+0.5)) / (m_body->GetMass() * 6.64e-12));
-		if (!isfinite(m_maxHeightInMeters)) m_maxHeightInMeters = rad * 0.5;
+		if (!is_finite(m_maxHeightInMeters)) m_maxHeightInMeters = rad * 0.5;
 		//             ^^^^ max mountain height for earth-like planet (same mass, radius)
 		// and then in sphere normalized jizz
 	}

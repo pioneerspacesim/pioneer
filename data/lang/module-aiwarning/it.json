@@ -1,0 +1,18 @@
+{
+    "AUTOPILOT": {
+        "message": "Pilota Automatico",
+        "description": ""
+    },
+    "CANNOT_COMPENSATE_FOR_LOCAL_GRAVITY": {
+        "message": "Impossibile Compensare la gravità locale",
+        "description": ""
+    },
+    "CANNOT_COMPUTE_ORBIT_PARAMETERS": {
+        "message": "Impossibile calcolare i parametri orbitali",
+        "description": ""
+    },
+    "STARPORT_REFUSED_DOCKING_PERMISSION": {
+        "message": "Permesso di attraccare rifiutato",
+        "description": ""
+    }
+}

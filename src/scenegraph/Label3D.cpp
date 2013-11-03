@@ -16,7 +16,7 @@ Label3D::Label3D(Graphics::Renderer *r, RefCountedPtr<Text::DistanceFieldFont> f
 	matdesc.textures = 1;
 	matdesc.alphaTest = true;
 	matdesc.lighting = true;
-	m_geometry.Reset(font->CreateVertexArray());
+	m_geometry.reset(font->CreateVertexArray());
 	m_material.Reset(r->CreateMaterial(matdesc));
 	m_material->texture0 = font->GetTexture();
 	m_material->diffuse = Color::WHITE;
@@ -29,7 +29,7 @@ Label3D::Label3D(const Label3D &label, NodeCopyCache *cache)
 , m_material(label.m_material)
 , m_font(label.m_font)
 {
-	m_geometry.Reset(m_font->CreateVertexArray());
+	m_geometry.reset(m_font->CreateVertexArray());
 }
 
 Node* Label3D::Clone(NodeCopyCache *cache)
@@ -42,7 +42,7 @@ void Label3D::SetText(const std::string &text)
 	//regenerate geometry
 	m_geometry->Clear();
 	if (!text.empty())
-		m_font->GetGeometry(*m_geometry.Get(), text, vector2f(0.f));
+		m_font->GetGeometry(*m_geometry, text, vector2f(0.f));
 }
 
 void Label3D::Render(const matrix4x4f &trans, const RenderData *rd)
@@ -50,7 +50,7 @@ void Label3D::Render(const matrix4x4f &trans, const RenderData *rd)
 	//needs alpha test
 	Graphics::Renderer *r = GetRenderer();
 	r->SetTransform(trans);
-	r->DrawTriangles(m_geometry.Get(), m_material.Get());
+	r->DrawTriangles(m_geometry.get(), m_material.Get());
 }
 
 void Label3D::Accept(NodeVisitor &nv)

@@ -20,14 +20,14 @@ void TexturedQuad::Draw(Graphics::Renderer *renderer, const vector2f &pos, const
 	va.Add(vector3f(pos.x+size.x, pos.y+size.y, 0.0f), vector2f(texPos.x+texSize.x, texPos.y+texSize.y));
 
 	// Create material on first use. Bit of a hack.
-	if (!m_material.Valid()) {
+	if (!m_material) {
 		Graphics::MaterialDescriptor desc;
 		desc.textures = 1;
-		m_material.Reset(renderer->CreateMaterial(desc));
+		m_material.reset(renderer->CreateMaterial(desc));
 		m_material->texture0 = m_texture.Get();
 	}
 	m_material->diffuse = tint;
-	renderer->DrawTriangles(&va, m_material.Get(), TRIANGLE_STRIP);
+	renderer->DrawTriangles(&va, m_material.get(), TRIANGLE_STRIP);
 }
 
 }

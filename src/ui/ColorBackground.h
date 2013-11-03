@@ -21,7 +21,7 @@ protected:
 	ColorBackground(Context *context, const Color &color);
 
 private:
-	ScopedPtr<Graphics::Material> m_material;
+	std::unique_ptr<Graphics::Material> m_material;
 };
 
 }

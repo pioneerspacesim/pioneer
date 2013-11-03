@@ -1,0 +1,130 @@
+{
+   "FLAVOUR_INTRO_0" : {
+      "description" : "",
+      "message" : "Avoid the inconvenience of a broken-down hyperspace engine.  Get yours serviced today, by the officially endorsed {name} Engine Servicing Company.\n\nEngine: {drive}\nService: {price}\nGuarantee: 18 months\n{lasttime}"
+   },
+   "FLAVOUR_INTRO_1" : {
+      "description" : "",
+      "message" : "I'm {proprietor}.  I can service your {drive}, guaranteeing at least a year of trouble-free performance.  The cost for this service will be {price}\n{lasttime}"
+   },
+   "FLAVOUR_INTRO_2" : {
+      "description" : "",
+      "message" : "Hi there.  We at {proprietor} & Co stake our reputation on our work.\n\n{lasttime}\nWe can tune your ship's {drive}, ensuring 12 months of trouble-free operation, for the sum of {price}.  I'll be supervising the work myself, so you can be sure that a good job will be done."
+   },
+   "FLAVOUR_INTRO_3" : {
+      "description" : "",
+      "message" : "Welcome SuperFix Maintenance.\n\n{lasttime}\nTime for your biannual maintenance? Let us SuperFix your hyperdrive!\nWe can tune your {drive} for just {price}.  There's nobody cheaper!"
+   },
+   "FLAVOUR_INTRO_4" : {
+      "description" : "",
+      "message" : "Welcome to Time and Space.\n\nWe specialise in interstellar engines. All maintenance work guaranteed for two years.\n{lasttime}\nServicing your {drive} will cost {price}.  Would you like to proceed?"
+   },
+   "FLAVOUR_INTRO_5" : {
+      "description" : "",
+      "message" : "Avoid the inconvenience of a broken-down hyperspace engine.  Get yours serviced today.\n\nEngine: {drive}\nService: {price}\n{lasttime}"
+   },
+   "FLAVOUR_RESPONSE_0" : {
+      "description" : "",
+      "message" : "Your engine has been serviced."
+   },
+   "FLAVOUR_RESPONSE_1" : {
+      "description" : "",
+      "message" : "I have serviced your hyperdrive."
+   },
+   "FLAVOUR_RESPONSE_2" : {
+      "description" : "",
+      "message" : "Service complete.  Thanks for your custom."
+   },
+   "FLAVOUR_RESPONSE_3" : {
+      "description" : "",
+      "message" : "Your SuperFix service is complete, with SuperFix guarantee!"
+   },
+   "FLAVOUR_RESPONSE_4" : {
+      "description" : "",
+      "message" : "We have completed the work on your hyperdrive."
+   },
+   "FLAVOUR_RESPONSE_5" : {
+      "description" : "",
+      "message" : "Your engine has been serviced."
+   },
+   "FLAVOUR_TITLE_0" : {
+      "description" : "",
+      "message" : "{name} Engine Servicing Company"
+   },
+   "FLAVOUR_TITLE_1" : {
+      "description" : "",
+      "message" : "{proprietor}: Hyperdrive maintenance specialist"
+   },
+   "FLAVOUR_TITLE_2" : {
+      "description" : "",
+      "message" : "{proprietor} & Co HyperMechanics"
+   },
+   "FLAVOUR_TITLE_3" : {
+      "description" : "",
+      "message" : "SuperFix Maintenance ({name} branch)"
+   },
+   "FLAVOUR_TITLE_4" : {
+      "description" : "",
+      "message" : "Time and Space Engines, Inc."
+   },
+   "FLAVOUR_TITLE_5" : {
+      "description" : "",
+      "message" : "{proprietor} Engine Servicing Company"
+   },
+   "FLAVOUR_YESPLEASE_0" : {
+      "description" : "",
+      "message" : "Service hyperspace engine"
+   },
+   "FLAVOUR_YESPLEASE_1" : {
+      "description" : "",
+      "message" : "Service my drive"
+   },
+   "FLAVOUR_YESPLEASE_2" : {
+      "description" : "",
+      "message" : "Please tune my drive at the quoted price"
+   },
+   "FLAVOUR_YESPLEASE_3" : {
+      "description" : "",
+      "message" : "SuperFix me!"
+   },
+   "FLAVOUR_YESPLEASE_4" : {
+      "description" : "",
+      "message" : "Yes, please proceed"
+   },
+   "FLAVOUR_YESPLEASE_5" : {
+      "description" : "",
+      "message" : "Service hyperspace engine"
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Hang up."
+   },
+   "I_DONT_HAVE_ENOUGH_MONEY" : {
+      "description" : "",
+      "message" : "I don't have enough money"
+   },
+   "I_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN" : {
+      "description" : "",
+      "message" : "I fixed the hyperdrive before it broke down."
+   },
+   "THE_SHIPS_HYPERDRIVE_HAS_BEEN_DESTROYED_BY_A_MALFUNCTION" : {
+      "description" : "",
+      "message" : "The ship's hyperdrive has been destroyed by a malfunction"
+   },
+   "YOUR_DRIVE_HAS_NOT_BEEN_SERVICED" : {
+      "description" : "",
+      "message" : "Your drive has not been serviced since it was installed on {date}"
+   },
+   "YOUR_DRIVE_WAS_LAST_SERVICED_ON" : {
+      "description" : "",
+      "message" : "Your drive was last serviced on {date} by {company}"
+   },
+   "YOU_DO_NOT_HAVE_A_DRIVE_TO_SERVICE" : {
+      "description" : "",
+      "message" : "You do not have a drive to service!"
+   },
+   "YOU_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN" : {
+      "description" : "",
+      "message" : "You fixed the hyperdrive before it broke down."
+   }
+}

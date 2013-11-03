@@ -2,10 +2,10 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
+local Lang = import("Lang")
 local Game = import("Game")
 local Comms = import("Comms")
 local Rand = import("Rand")
-local Translate = import("Translate")
 local Event = import("Event")
 local Character = import("Character")
 local Format = import("Format")
@@ -20,8 +20,7 @@ local Serializer = import("Serializer")
 -- normally annual. A Goods Trader interface is provided. Facilities do not
 -- exist on every station in the galaxy.
 
--- Get the translator function
-local t = Translate:GetTranslator()
+local l = Lang.GetResource("module-fuelclub")
 
 -- Default numeric values --
 ----------------------------
@@ -45,6 +44,16 @@ local memberships = {
 -- 1 / probability that you'll see one in a BBS
 local chance_of_availability = 3
 
+local flavours = {
+	{
+		clubname = l.FLAVOUR_CLUBNAME_0,
+		welcome = l.FLAVOUR_WELCOME_0,
+		nonmember_intro = l.FLAVOUR_NONMEMBER_INTRO_0,
+		member_intro = l.FLAVOUR_MEMBER_INTRO_0,
+		annual_fee = 400,
+	}
+}
+
 local loaded_data -- empty unless the game is loaded
 
 
@@ -60,10 +69,10 @@ onChat = function (form, ref, option)
 
 	local setMessage = function (message)
 		form:SetMessage(message:interp({
-			hydrogen = t('HYDROGEN'),
-			military_fuel = t('MILITARY_FUEL'),
-			radioactives = t('RADIOACTIVES'),
-			water = t('WATER'),
+			hydrogen = l.HYDROGEN,
+			military_fuel = l.MILITARY_FUEL,
+			radioactives = l.RADIOACTIVES,
+			water = l.WATER,
 			clubname = ad.flavour.clubname,
 		}))
 	end
@@ -115,10 +124,10 @@ onChat = function (form, ref, option)
 			end,
 			onClickSell = function (ref, commodity)
 				if (commodity == 'RADIOACTIVES' and membership.milrads < 1) then
-					Comms.Message(t("You must buy our {military_fuel} before we will take your {radioactives}"):interp({
-						military_fuel = t('MILITARY_FUEL'),
-						radioactives = t('RADIOACTIVES'),
-						water = t('WATER'),
+					Comms.Message(l.YOU_MUST_BUY:interp({
+						military_fuel = l.MILITARY_FUEL,
+						radioactives = l.RADIOACTIVES,
+						water = l.WATER,
 					}))
 					return false
 				end
@@ -144,10 +153,10 @@ onChat = function (form, ref, option)
 
 	elseif option == 1 then
 		-- Player asked the question about radioactives
-		setMessage(t('We will only dispose of as many tonnes of {radioactives} as you have bought tonnes of {military_fuel} from us.'))
-		form:AddOption(t('Apply for membership'),2)
-		form:AddOption(t('GO_BACK'),0)
-		form:AddOption(t('HANG_UP'),-1)
+		setMessage(l.WE_WILL_ONLY_DISPOSE_OF)
+		form:AddOption(l.APPLY_FOR_MEMBERSHIP,2)
+		form:AddOption(l.GO_BACK,0)
+		form:AddOption(l.HANG_UP,-1)
 
 	elseif option == 2 then
 		-- Player applied for membership
@@ -159,15 +168,15 @@ onChat = function (form, ref, option)
 				milrads = 0,
 			}
 			Game.player:AddMoney(0 - ad.flavour.annual_fee)
-			setMessage(t("You are now a member. Your membership will expire on {expiry_date}."):interp({
+			setMessage(l.YOU_ARE_NOW_A_MEMBER:interp({
 				expiry_date = Format.Date(memberships[ad.flavour.clubname].joined + memberships[ad.flavour.clubname].expiry)
 			}))
-			form:AddOption(t('Begin trade'),0)
-			form:AddOption(t('HANG_UP'),-1)
+			form:AddOption(l.BEGIN_TRADE,0)
+			form:AddOption(l.HANG_UP,-1)
 		else
 			-- Membership application unsuccessful
-			setMessage(t('Your membership application has been declined.'))
-			form:AddOption(t('HANG_UP'),-1)
+			setMessage(l.YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED)
+			form:AddOption(l.HANG_UP,-1)
 		end
 
 	else
@@ -175,9 +184,9 @@ onChat = function (form, ref, option)
 		setMessage(ad.flavour.nonmember_intro:interp({
 			membership_fee = Format.Money(ad.flavour.annual_fee)
 		}))
-		form:AddOption(t('What conditions apply to {radioactives} disposal?'):interp({radioactives = t('RADIOACTIVES')}),1)
-		form:AddOption(t('Apply for membership'),2)
-		form:AddOption(t('HANG_UP'),-1)
+		form:AddOption(l.WHAT_CONDITIONS_APPLY:interp({radioactives = l.RADIOACTIVES}),1)
+		form:AddOption(l.APPLY_FOR_MEMBERSHIP,2)
+		form:AddOption(l.HANG_UP,-1)
 	end
 end
 
@@ -187,7 +196,6 @@ local onCreateBB = function (station)
 	if rand:Integer(1,chance_of_availability) == 1 then
 		-- Create our bulletin board ad
 		local ad = {station = station, stock = {}, price = {}}
-		local flavours = Translate:GetFlavours('FuelClub')
 		ad.flavour = flavours[rand:Integer(1,#flavours)]
 		ad.character = Character.New({
 			title = ad.flavour.clubname,

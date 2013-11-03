@@ -246,8 +246,7 @@ public:
 	double GetFuelReserve() const { return m_reserveFuel; }
 	void SetFuelReserve(const double f) { m_reserveFuel = Clamp(f, 0.0, 1.0); }
 
-	// percentage (ie, 0--100) of tank used per second at full thrust
-	double GetFuelUseRate() const;
+	// available delta-V given the ship's current fuel state
 	double GetSpeedReachedWithFuel() const;
 
 	void EnterSystem();
@@ -344,6 +343,7 @@ private:
 	int m_dockedWithIndex; // deserialisation
 
 	SceneGraph::Animation *m_landingGearAnimation;
+<<<<<<< HEAD
 	ScopedPtr<NavLights> m_navLights;
 	ScopedPtr<Shields> m_shields;
 
@@ -351,6 +351,9 @@ private:
 	bool m_isShieldActive;
 	RefCountedPtr<CollMesh> m_shieldCollMesh;
 	Geom *m_shieldGeom;
+=======
+	std::unique_ptr<NavLights> m_navLights;
+>>>>>>> b7052727d39eda85707353fdd0fac1cc8b8823b7
 };
 
 

@@ -21,6 +21,7 @@
 #include <vector>
 #include <map>
 #include <algorithm>
+#include <memory>
 
 #include "glew/glew.h"
 
@@ -35,16 +36,11 @@
 #	endif
 
 #	ifndef __MINGW32__
-#
 #		define alloca _alloca
 #		define strncasecmp _strnicmp
 #		define strcasecmp _stricmp
 #		define snprintf _snprintf
-
-#		ifndef isfinite
-inline int isfinite(double x) { return _finite(x); }
-#		endif
-#	endif /* __MINGW32__ */
+#	endif
 #endif
 
 #ifdef _MSC_VER // MSVC doesn't support the %z specifier, but has its own %I specifier

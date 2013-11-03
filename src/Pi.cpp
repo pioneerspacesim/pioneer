@@ -140,7 +140,7 @@ ObjectViewerView *Pi::objectViewerView;
 #endif
 
 Sound::MusicPlayer Pi::musicPlayer;
-ScopedPtr<JobQueue> Pi::jobQueue;
+std::unique_ptr<JobQueue> Pi::jobQueue;
 
 static void draw_progress(UI::Gauge *gauge, UI::Label *label, float progress)
 {
@@ -263,8 +263,8 @@ void Pi::Init()
 
 	ModManager::Init();
 
-	if (!Lang::LoadStrings(config->String("Lang")))
-		abort();
+	Lang::Resource res(Lang::GetResource("core", config->String("Lang")));
+	Lang::MakeCore(res);
 
 	Pi::detail.planets = config->Int("DetailPlanets");
 	Pi::detail.textures = config->Int("Textures");
@@ -322,7 +322,7 @@ void Pi::Init()
 	const int numCores = OS::GetNumCores();
 	assert(numCores > 0);
 	if (numThreads == 0) numThreads = std::max(Uint32(numCores) - 1, 1U);
-	jobQueue.Reset(new JobQueue(numThreads));
+	jobQueue.reset(new JobQueue(numThreads));
 	printf("started %d worker threads\n", numThreads);
 
 	// XXX early, Lua init needs it
@@ -332,7 +332,7 @@ void Pi::Init()
 	// templates. so now we have crap everywhere :/
 	Lua::Init();
 
-	Pi::ui.Reset(new UI::Context(Lua::manager, Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), Lang::GetCurrentLanguage()));
+	Pi::ui.Reset(new UI::Context(Lua::manager, Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), Lang::GetCore().GetLangCode()));
 
 	LuaInit();
 
@@ -492,7 +492,7 @@ void Pi::Init()
 
 			double xsize = 0.0, ysize = 0.0, zsize = 0.0, fakevol = 0.0, rescale = 0.0, brad = 0.0;
 			if (model) {
-				ScopedPtr<SceneGraph::Model> inst(model->MakeInstance());
+				std::unique_ptr<SceneGraph::Model> inst(model->MakeInstance());
 				model->CreateCollisionMesh();
 				Aabb aabb = model->GetCollisionMesh()->GetAabb();
 				xsize = aabb.max.x-aabb.min.x;
@@ -572,7 +572,7 @@ void Pi::Quit()
 	StarSystem::ShrinkCache();
 	SDL_Quit();
 	FileSystem::Uninit();
-	jobQueue.Reset();
+	jobQueue.reset();
 	exit(0);
 }
 
@@ -802,7 +802,7 @@ void Pi::HandleEvents()
 
 void Pi::TombStoneLoop()
 {
-	ScopedPtr<Tombstone> tombstone(new Tombstone(Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight()));
+	std::unique_ptr<Tombstone> tombstone(new Tombstone(Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight()));
 	Uint32 last_time = SDL_GetTicks();
 	float _time = 0;
 	do {

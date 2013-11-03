@@ -65,6 +65,8 @@ dnl ###########################################################################
 dnl Flags and options
 dnl ###########################################################################
 
+STD_CXXFLAGS=
+
 EXTRA_CFLAGS=
 EXTRA_CXXFLAGS=
 EXTRA_CPPFLAGS=
@@ -107,6 +109,11 @@ AC_DEFUN([PIONEER_WARN_CPPFLAG], [_PIONEER_COMPILER_FLAG([CPP], [WARN], [CPP], [
 
 AC_DEFUN([PIONEER_WARN_C_CXX_FLAG],
 	[_PIONEER_COMPILER_FLAG([C], [WARN], [C], [$1], [$CC/$CXX], [WARN_CXXFLAGS="$WARN_CXXFLAGS $1"])])
+
+dnl Early check for C++11
+dnl XXX -std=c++11 defines __STRICT_ANSI__, which causes MinGW some problems
+dnl     -std=gnu++11 does not, and appears to work fine with clang as well
+_PIONEER_COMPILER_FLAG([C++], [STD], [CXX], [-std=gnu++11], [$CXX], [], [AC_MSG_ERROR([No compiler support for C++11. Unable to build])])
 
 dnl Always add -Wall, where supported
 PIONEER_WARN_C_CXX_FLAG([-Wall])
@@ -347,6 +354,8 @@ if test "x$CCACHE" != x; then
     CC="$CCACHE $CC"
     CXX="$CCACHE $CXX"
 fi
+
+AC_SUBST([STD_CXXFLAGS])
 
 AC_SUBST([EXTRA_CFLAGS])
 AC_SUBST([EXTRA_CXXFLAGS])

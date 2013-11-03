@@ -96,10 +96,10 @@ private:
 	SceneGraph::Animation *m_currentAnimation;
 	SceneGraph::Model *m_model;
 	Options m_options;
-	ScopedPtr<NavLights> m_navLights;
-	ScopedPtr<Shields> m_shields;
-	ScopedPtr<SceneGraph::Model> m_gunModel;
-	ScopedPtr<SceneGraph::Model> m_scaleModel;
+	std::unique_ptr<NavLights> m_navLights;
+	std::unique_ptr<Shields> m_shields;
+	std::unique_ptr<SceneGraph::Model> m_gunModel;
+	std::unique_ptr<SceneGraph::Model> m_scaleModel;
 	std::string m_modelName;
 	RefCountedPtr<UI::Context> m_ui;
 

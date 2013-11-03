@@ -11,13 +11,12 @@
 #include <sstream>
 
 namespace SceneGraph {
-
 DumpVisitor::DumpVisitor(const Model *m)
 : m_level(0)
 , m_stats()
 {
 	//model statistics that cannot be visited
-	m_modelStats.collTriCount = m->GetCollisionMesh()->m_indices.size()/3;
+	m_modelStats.collTriCount = m->GetCollisionMesh()->GetNumTriangles();
 	m_modelStats.materialCount = m->GetNumMaterials();
 }
 
@@ -106,5 +105,4 @@ void DumpVisitor::PutNodeName(const Node &g) const
 	else
 		std::cout << g.GetTypeName() << " - " << g.GetName() << std::endl;
 }
-
 }
