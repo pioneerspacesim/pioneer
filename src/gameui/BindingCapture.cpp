@@ -9,9 +9,6 @@ namespace GameUI {
 
 KeyBindingCapture::KeyBindingCapture(UI::Context *context): Single(context)
 {
-	m_binding.type = KeyBindings::KEYBOARD_KEY;
-	m_binding.u.keyboard.key = SDLK_UNKNOWN;
-	m_binding.u.keyboard.mod = KMOD_NONE;
 }
 
 KeyBindingCapture::~KeyBindingCapture()
@@ -32,9 +29,7 @@ void KeyBindingCapture::HandleInvisible()
 void KeyBindingCapture::HandleKeyDown(const UI::KeyboardEvent &event)
 {
 	if (!event.repeat) { // ignore repeated key events
-		m_binding.type = KeyBindings::KEYBOARD_KEY;
-		m_binding.u.keyboard.key = event.keysym.sym;
-		m_binding.u.keyboard.mod = event.keysym.mod;
+		m_binding = KeyBindings::KeyBinding::FromKeyMod(event.keysym.sym, event.keysym.mod);
 		Disconnect();
 		onCapture.emit(m_binding);
 	}
@@ -56,10 +51,7 @@ void KeyBindingCapture::Disconnect()
 
 bool KeyBindingCapture::OnJoystickHatMove(const UI::JoystickHatMotionEvent &event)
 {
-	m_binding.type = KeyBindings::JOYSTICK_HAT;
-	m_binding.u.joystickHat.joystick = event.joystick;
-	m_binding.u.joystickHat.hat = event.hat;
-	m_binding.u.joystickHat.direction = static_cast<int>(event.direction);
+	m_binding = KeyBindings::KeyBinding::FromJoystickHat(event.joystick, event.hat, static_cast<Uint8>(event.direction));
 	Disconnect();
 	onCapture.emit(m_binding);
 	return true;
@@ -67,9 +59,7 @@ bool KeyBindingCapture::OnJoystickHatMove(const UI::JoystickHatMotionEvent &even
 
 bool KeyBindingCapture::OnJoystickButtonDown(const UI::JoystickButtonEvent &event)
 {
-	m_binding.type = KeyBindings::JOYSTICK_BUTTON;
-	m_binding.u.joystickButton.joystick = event.joystick;
-	m_binding.u.joystickButton.button = event.button;
+	m_binding = KeyBindings::KeyBinding::FromJoystickButton(event.joystick, event.button);
 	Disconnect();
 	onCapture.emit(m_binding);
 	return true;

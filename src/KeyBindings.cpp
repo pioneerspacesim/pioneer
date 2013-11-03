@@ -160,7 +160,7 @@ KeyBinding KeyBinding::FromString(const char *str) {
 	return kb;
 }
 
-static std::ostream &operator<<(std::ostream &oss, const KeyBinding &kb)
+std::ostream &operator<<(std::ostream &oss, const KeyBinding &kb)
 {
 	if (kb.type == BINDING_DISABLED) {
 		// blank
@@ -188,13 +188,31 @@ std::string KeyBinding::ToString() const {
 	return oss.str();
 }
 
-KeyBinding KeyBinding::keyboardBinding(SDL_Keycode key, SDL_Keymod mod) {
+KeyBinding KeyBinding::FromKeyMod(SDL_Keycode key, SDL_Keymod mod)
+{
 	KeyBinding kb;
-
 	kb.type = KEYBOARD_KEY;
 	kb.u.keyboard.key  = key;
 	kb.u.keyboard.mod  = mod;
+	return kb;
+}
 
+KeyBinding KeyBinding::FromJoystickButton(Uint8 joystick, Uint8 button)
+{
+	KeyBinding kb;
+	kb.type = JOYSTICK_BUTTON;
+	kb.u.joystickButton.joystick = joystick;
+	kb.u.joystickButton.button = button;
+	return kb;
+}
+
+KeyBinding KeyBinding::FromJoystickHat(Uint8 joystick, Uint8 hat, Uint8 direction)
+{
+	KeyBinding kb;
+	kb.type = JOYSTICK_HAT;
+	kb.u.joystickHat.joystick = joystick;
+	kb.u.joystickHat.hat = hat;
+	kb.u.joystickHat.direction = direction;
 	return kb;
 }
 
@@ -228,11 +246,11 @@ void KeyAction::SetFromString(const char *str)
 std::string KeyAction::ToString() const
 {
 	std::ostringstream oss;
-	if ((binding1.type != BINDING_DISABLED) && (binding2.type != BINDING_DISABLED)) {
+	if (binding1.Enabled() && binding2.Enabled()) {
 		oss << binding1 << "," << binding2;
-	} else if (binding1.type != BINDING_DISABLED) {
+	} else if (binding1.Enabled()) {
 		oss << binding1;
-	} else if (binding2.type != BINDING_DISABLED) {
+	} else if (binding2.Enabled()) {
 		oss << binding2;
 	} else {
 		// blank
