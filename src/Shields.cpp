@@ -232,6 +232,7 @@ Shields::Shields(SceneGraph::Model *model)
 						reinterpret_cast<float*>(vertices),
 						indices, triFlags);
 					m_collMesh->SetGeomTree(gt);
+					m_collMesh->SetNumTriangles(numTris);
 				}
 			}
 		}

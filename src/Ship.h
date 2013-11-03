@@ -349,7 +349,7 @@ private:
 	bool m_isShieldStatic;
 	bool m_isShieldActive;
 	RefCountedPtr<CollMesh> m_shieldCollMesh;
-	Geom *m_shieldGeom;
+	std::unique_ptr<Geom> m_shieldGeom;
 };
 
 

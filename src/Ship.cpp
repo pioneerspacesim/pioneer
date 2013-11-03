@@ -159,6 +159,7 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 
 	m_navLights->Load(rd);
 	m_shields->Load(rd);
+	RebuildShieldCollisionMesh();
 
 	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
 }
@@ -184,6 +185,7 @@ void Ship::Init()
 	m_navLights->SetEnabled(true);
 
 	m_shields.reset(new Shields(GetModel()));
+	RebuildShieldCollisionMesh();
 
 	SetMassDistributionFromModel();
 	UpdateStats();
@@ -209,7 +211,11 @@ void Ship::PostLoadFixup(Space *space)
 Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	m_controller(0),
 	m_thrusterFuel(1.0),
-	m_reserveFuel(0.0)
+	m_reserveFuel(0.0),
+	m_landingGearAnimation(nullptr),
+	m_isShieldStatic(false),
+	m_isShieldActive(true),
+	m_shieldGeom(nullptr)
 {
 	m_flightState = FLYING;
 	m_alertState = ALERT_NONE;
@@ -1072,8 +1078,8 @@ void Ship::StaticUpdate(const float timeStep)
 	}
 	m_stats.shield_mass_left = Clamp(m_stats.shield_mass_left, 0.0f, m_stats.shield_mass);
 
-	const bool shieldsVisible = m_shieldCooldown > 0.01f && m_stats.shield_mass_left > (m_stats.shield_mass / 100.0f);
-	SetShieldActive(shieldsVisible);
+	const bool shieldsActive = m_stats.shield_mass_left > (m_stats.shield_mass * 0.01f);
+	SetShieldActive(shieldsActive);
 
 	if (m_wheelTransition) {
 		m_wheelState += m_wheelTransition*0.3f*timeStep;
@@ -1314,7 +1320,7 @@ void Ship::SetSkin(const SceneGraph::ModelSkin &skin)
 void Ship::SetShieldActive(const bool isActive)
 {
 	m_isShieldActive = isActive;
-	if (!m_shieldGeom) return;
+	if (!m_shieldGeom.get()) return;
 
 	if(isActive) {
 		m_shieldGeom->Enable();
@@ -1327,35 +1333,47 @@ void Ship::SetShieldStatic(const bool isStatic)
 {
 	if (isStatic == m_isShieldStatic) return;
 	m_isShieldStatic = isStatic;
-	if (!m_shieldGeom) return;
+	if (!m_shieldGeom.get()) return;
 
 	if (m_isShieldStatic) {
-		GetFrame()->RemoveGeom(m_shieldGeom);
-		GetFrame()->AddStaticGeom(m_shieldGeom);
+		GetFrame()->RemoveGeom(m_shieldGeom.get());
+		GetFrame()->AddStaticGeom(m_shieldGeom.get());
 	} else {
-		GetFrame()->RemoveStaticGeom(m_shieldGeom);
-		GetFrame()->AddGeom(m_shieldGeom);
+		GetFrame()->RemoveStaticGeom(m_shieldGeom.get());
+		GetFrame()->AddGeom(m_shieldGeom.get());
 	}
 }
 #pragma optimize("",off)
 void Ship::RebuildShieldCollisionMesh()
 {
-	if (m_shieldGeom) {
+	if (m_shieldGeom.get()) {
 		// only happens when player changes their ship
-		if (m_isShieldStatic) GetFrame()->RemoveStaticGeom(m_shieldGeom);
-		else GetFrame()->RemoveGeom(m_shieldGeom);
-		delete m_shieldGeom;
+		Frame *pFrame = GetFrame();
+		if (pFrame) {
+			if (m_isShieldStatic) {
+				pFrame->RemoveStaticGeom(m_shieldGeom.get());
+			} else {
+				pFrame->RemoveGeom(m_shieldGeom.get());
+			}
+		}
+		m_shieldGeom.reset();
 	}
 
-	m_shieldCollMesh.Reset( m_shields->GetCollMesh() );
-	SetPhysRadius(m_shieldCollMesh->GetAabb().GetRadius());
-	m_shieldGeom = new Geom(m_shieldCollMesh->GetGeomTree());
+	if (m_shields->GetCollMesh()->GetGeomTree()) {
+		m_shieldCollMesh.Reset( m_shields->GetCollMesh() );
+		SetPhysRadius(m_shieldCollMesh->GetAabb().GetRadius());
+		m_shieldGeom.reset( new Geom(m_shieldCollMesh->GetGeomTree()) );
 
-	m_shieldGeom->SetUserData(static_cast<void*>(this));
-	m_shieldGeom->MoveTo(GetOrient(), GetPosition());
+		m_shieldGeom->SetUserData(static_cast<void*>(this));
+		m_shieldGeom->MoveTo(GetOrient(), GetPosition());
 
-	if (GetFrame()) {
-		if (m_isShieldStatic) GetFrame()->AddStaticGeom(m_shieldGeom);
-		else GetFrame()->AddGeom(m_shieldGeom);
+		Frame *pFrame = GetFrame();
+		if (pFrame) {
+			if (m_isShieldStatic) {
+				pFrame->AddStaticGeom(m_shieldGeom.get());
+			} else {
+				pFrame->AddGeom(m_shieldGeom.get());
+			}
+		}
 	}
 }
