@@ -17,8 +17,9 @@ class Shields
 public:
 	struct Shield
 	{
-		Shield(const Color3ub color, SceneGraph::StaticGeometry *sg);
+		Shield(const Color3ub color, const matrix4x4f &matrix, SceneGraph::StaticGeometry *sg);
 		Color3ub m_colour; // I'm English, so it's "colour" ;)
+		matrix4x4f m_matrix;
 		RefCountedPtr<SceneGraph::StaticGeometry> m_mesh;
 	};
 
@@ -38,6 +39,8 @@ public:
 
 	SceneGraph::StaticGeometry* GetFirstShieldMesh();
 
+	CollMesh* GetCollMesh() const { return m_collMesh.Get(); }
+
 protected:
 	struct Hits
 	{
@@ -49,6 +52,7 @@ protected:
 	typedef std::deque<Shields::Hits>::iterator HitIterator;
 	std::deque<Hits> m_hits;
 	std::vector<Shield> m_shields;
+	RefCountedPtr<CollMesh> m_collMesh;
 	bool m_enabled;
 
 	static bool s_initialised;

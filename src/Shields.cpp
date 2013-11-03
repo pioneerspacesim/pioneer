@@ -5,6 +5,7 @@
 #include "graphics/TextureBuilder.h"
 #include "scenegraph/FindNodeVisitor.h"
 #include "scenegraph/SceneGraph.h"
+#include "scenegraph/CollisionGeometry.h"
 #include "Ship.h"
 #include "Pi.h"
 #include <sstream>
@@ -26,8 +27,8 @@ typedef std::vector<Shields::Shield>::iterator ShieldIterator;
 //static 
 bool Shields::s_initialised = false;
 
-Shields::Shield::Shield(Color3ub _colour, SceneGraph::StaticGeometry *_sg)
-	: m_colour(_colour), m_mesh(_sg)
+Shields::Shield::Shield(Color3ub _colour, const matrix4x4f &matrix, SceneGraph::StaticGeometry *_sg)
+	: m_colour(_colour), m_matrix(matrix), m_mesh(_sg)
 { }
 
 Shields::Hits::Hits(const vector3d& _pos, const Uint32 _start, const Uint32 _end)
@@ -50,7 +51,7 @@ void Shields::Init(Graphics::Renderer *renderer)
 
 	s_initialised = true;
 }
-
+#pragma optimize("",off)
 void Shields::ReparentShieldNodes(SceneGraph::Model* model)
 {
 	assert(s_initialised);
@@ -140,7 +141,7 @@ void Shields::Uninit()
 
 	s_initialised = false;
 }
-
+#pragma optimize("",off)
 Shields::Shields(SceneGraph::Model *model)
 	: m_enabled(false)
 {
@@ -149,16 +150,18 @@ Shields::Shields(SceneGraph::Model *model)
 	using SceneGraph::Node;
 	using SceneGraph::MatrixTransform;
 	using SceneGraph::StaticGeometry;
+	using SceneGraph::CollisionGeometry;
 
-	//This will find all matrix transforms meant for navlights.
+	//This will find all matrix transforms meant for shields.
 	SceneGraph::FindNodeVisitor shieldFinder(SceneGraph::FindNodeVisitor::MATCH_NAME_ENDSWITH, s_matrixTransformName);
 	model->GetRoot()->Accept(shieldFinder);
 	const std::vector<Node*> &results = shieldFinder.GetResults();
 
-	//Move shield geometry to same level as the LODs
+	//Store pointer to the shields for later.
 	for (unsigned int i=0; i < results.size(); i++) {
 		MatrixTransform *mt = dynamic_cast<MatrixTransform*>(results.at(i));
 		assert(mt);
+		
 
 		for(Uint32 iChild=0 ; iChild<mt->GetNumChildren() ; ++iChild) {
 			Node* node = mt->GetChildAt(iChild);
@@ -167,7 +170,63 @@ Shields::Shields(SceneGraph::Model *model)
 				RefCountedPtr<StaticGeometry> sg(dynamic_cast<StaticGeometry*>(node));
 				assert(sg.Valid());
 				sg->SetNodeMask(SceneGraph::NODE_TRANSPARENT);
-				m_shields.push_back(Shield(Color3ub(255), sg.Get()));
+				m_shields.push_back(Shield(Color3ub(255), mt->GetTransform(), sg.Get()));
+			}
+		}
+	}
+
+	m_collMesh.Reset( new CollMesh() ); 
+
+	//Generate collision geometry from the shield meshes themselves for hit effects etc.
+	for (ShieldIterator it = m_shields.begin(); it != m_shields.end(); ++it) 
+	{
+		if( it->m_mesh ) 
+		{
+			std::vector<unsigned short> indices;
+			std::vector<vector3f> vertices;
+
+			RefCountedPtr<StaticGeometry> scene = it->m_mesh;
+			const matrix4x4f &matrix = it->m_matrix;
+
+			for(unsigned int i=0; i<scene->GetNumMeshes(); i++) {
+				RefCountedPtr<Graphics::StaticMesh> mesh = scene->GetMesh(i);
+
+				for (int iSurf = 0; iSurf < mesh->GetNumSurfaces(); iSurf++) {
+					RefCountedPtr<Graphics::Surface> surf = mesh->GetSurface(iSurf);
+
+					// get indices
+					indices = surf->GetIndices();
+					
+					// get vertices
+					vertices = surf->GetVertices()->position;
+
+					assert(!vertices.empty() && !vertices.empty());
+
+					//add pre-transformed geometry at the top level
+					//model->GetRoot()->AddChild(new CollisionGeometry(Pi::renderer, vertices, indices, 0));
+
+					//copy data
+					for (std::vector<vector3f>::const_iterator it = vertices.begin(); it != vertices.end(); ++it) {
+						const vector3f pos = matrix * (*it);
+						m_collMesh->m_vertices.push_back(pos);
+						m_collMesh->GetAabb().Update(pos.x, pos.y, pos.z);
+					}
+
+					for (std::vector<unsigned short>::const_iterator it = indices.begin(); it != indices.end(); ++it)
+						m_collMesh->m_indices.push_back(*it);
+
+					for (unsigned int i = 0; i < indices.size() / 3; i++)
+						m_collMesh->m_flags.push_back(0);
+
+					std::vector<vector3f> &vts = m_collMesh->m_vertices;
+					std::vector<int> &ind = m_collMesh->m_indices;
+
+					assert(m_collMesh->GetGeomTree() == 0);
+					assert(!vts.empty() && !ind.empty());
+
+					GeomTree *t = new GeomTree(	vts.size(), ind.size()/3, reinterpret_cast<float*>(&vts[0]), &ind[0], &m_collMesh->m_flags[0] );
+					m_collMesh->SetGeomTree(t);
+				}
 			}
 		}
 	}
