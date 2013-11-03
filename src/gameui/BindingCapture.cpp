@@ -29,7 +29,11 @@ void KeyBindingCapture::HandleInvisible()
 void KeyBindingCapture::HandleKeyDown(const UI::KeyboardEvent &event)
 {
 	if (!event.repeat) { // ignore repeated key events
-		m_binding = KeyBindings::KeyBinding::FromKeyMod(event.keysym.sym, event.keysym.mod);
+		const SDL_Keycode key = event.keysym.sym;
+		// ignore modifiers on modifiers
+		// (keycodes for modifier keys are contiguous between SDLK_LCTRL and SDLK_RGUI)
+		const SDL_Keymod mod = ((key >= SDLK_LCTRL && key <= SDLK_RGUI) ? KMOD_NONE : event.keysym.mod);
+		m_binding = KeyBindings::KeyBinding::FromKeyMod(key, mod);
 		Disconnect();
 		onCapture.emit(m_binding);
 	}
