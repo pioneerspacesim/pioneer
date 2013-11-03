@@ -37,12 +37,18 @@ bool KeyBinding::IsActive() const
 	if (type == BINDING_DISABLED) {
 		return false;
 	} else if (type == KEYBOARD_KEY) {
-		// 0xfff filters out numlock, capslock and other shit
-		if (u.keyboard.mod != 0)
-			return Pi::KeyState(u.keyboard.key) && ((Pi::KeyModState()&0xfff) == u.keyboard.mod);
-
-		return Pi::KeyState(u.keyboard.key) != 0;
-
+		if (!Pi::KeyState(u.keyboard.key))
+			return false;
+		if (u.keyboard.mod == KMOD_NONE)
+			return true;
+		else {
+			int mod = Pi::KeyModState();
+			if (mod & KMOD_CTRL) { mod |= KMOD_CTRL; }
+			if (mod & KMOD_SHIFT) { mod |= KMOD_SHIFT; }
+			if (mod & KMOD_ALT) { mod |= KMOD_ALT; }
+			if (mod & KMOD_GUI) { mod |= KMOD_GUI; }
+			return ((mod & u.keyboard.mod) == u.keyboard.mod);
+		}
 	} else if (type == JOYSTICK_BUTTON) {
 		return Pi::JoystickButtonState(u.joystickButton.joystick, u.joystickButton.button) != 0;
 	} else if (type == JOYSTICK_HAT) {
@@ -54,10 +60,15 @@ bool KeyBinding::IsActive() const
 }
 
 bool KeyBinding::Matches(const SDL_Keysym *sym) const {
+	int mod = sym->mod;
+	if (mod & KMOD_CTRL) { mod |= KMOD_CTRL; }
+	if (mod & KMOD_SHIFT) { mod |= KMOD_SHIFT; }
+	if (mod & KMOD_ALT) { mod |= KMOD_ALT; }
+	if (mod & KMOD_GUI) { mod |= KMOD_GUI; }
 	return
 		(type == KEYBOARD_KEY) &&
 		(sym->sym == u.keyboard.key) &&
-		((sym->mod & 0xfff) == u.keyboard.mod);
+		((mod & u.keyboard.mod) == u.keyboard.mod);
 }
 
 bool KeyBinding::Matches(const SDL_JoyButtonEvent *joy) const {
@@ -192,8 +203,14 @@ KeyBinding KeyBinding::FromKeyMod(SDL_Keycode key, SDL_Keymod mod)
 {
 	KeyBinding kb;
 	kb.type = KEYBOARD_KEY;
-	kb.u.keyboard.key  = key;
-	kb.u.keyboard.mod  = mod;
+	kb.u.keyboard.key = key;
+	// expand the modifier to cover both left & right variants
+	int imod = mod;
+	if (imod & KMOD_CTRL) { imod |= KMOD_CTRL; }
+	if (imod & KMOD_SHIFT) { imod |= KMOD_SHIFT; }
+	if (imod & KMOD_ALT) { imod |= KMOD_ALT; }
+	if (imod & KMOD_GUI) { imod |= KMOD_GUI; }
+	kb.u.keyboard.mod = static_cast<SDL_Keymod>(imod);
 	return kb;
 }
 
