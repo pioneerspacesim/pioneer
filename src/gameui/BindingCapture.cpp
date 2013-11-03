@@ -34,7 +34,6 @@ void KeyBindingCapture::HandleKeyDown(const UI::KeyboardEvent &event)
 		// (keycodes for modifier keys are contiguous between SDLK_LCTRL and SDLK_RGUI)
 		const SDL_Keymod mod = ((key >= SDLK_LCTRL && key <= SDLK_RGUI) ? KMOD_NONE : event.keysym.mod);
 		m_binding = KeyBindings::KeyBinding::FromKeyMod(key, mod);
-		Disconnect();
 		onCapture.emit(m_binding);
 	}
 }
@@ -56,7 +55,6 @@ void KeyBindingCapture::Disconnect()
 bool KeyBindingCapture::OnJoystickHatMove(const UI::JoystickHatMotionEvent &event)
 {
 	m_binding = KeyBindings::KeyBinding::FromJoystickHat(event.joystick, event.hat, static_cast<Uint8>(event.direction));
-	Disconnect();
 	onCapture.emit(m_binding);
 	return true;
 }
@@ -64,7 +62,6 @@ bool KeyBindingCapture::OnJoystickHatMove(const UI::JoystickHatMotionEvent &even
 bool KeyBindingCapture::OnJoystickButtonDown(const UI::JoystickButtonEvent &event)
 {
 	m_binding = KeyBindings::KeyBinding::FromJoystickButton(event.joystick, event.button);
-	Disconnect();
 	onCapture.emit(m_binding);
 	return true;
 }
@@ -109,7 +106,6 @@ bool AxisBindingCapture::OnJoystickAxisMove(const UI::JoystickAxisMotionEvent &e
 		m_binding.joystick = event.joystick;
 		m_binding.axis = event.axis;
 		m_binding.direction = (event.value > 0 ? KeyBindings::POSITIVE : KeyBindings::NEGATIVE);
-		Disconnect();
 		onCapture.emit(m_binding);
 		return true;
 	}
