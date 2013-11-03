@@ -105,6 +105,11 @@ public:
 	static std::string GetSaveDir();
 	static SceneGraph::Model *FindModel(const std::string&, bool allowPlaceholder = true);
 
+	static void CreateRenderTarget(const Uint16 width, const Uint16 height);
+	static void DrawRenderTarget();
+	static void BeginRenderTarget();
+	static void EndRenderTarget();
+
 	static const char SAVE_DIR_NAME[];
 
 	static sigc::signal<void, SDL_Keysym*> onKeyPress;
@@ -206,6 +211,10 @@ private:
 	static bool navTunnelDisplayed;
 
 	static Gui::Fixed *menu;
+
+	static Graphics::RenderTarget *pRTarget;
+	static RefCountedPtr<Graphics::Texture> m_texture;
+	static std::unique_ptr<Graphics::Drawables::TexturedQuad> m_quad;
 };
 
 #endif /* _PI_H */

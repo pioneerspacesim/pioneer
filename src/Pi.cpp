@@ -133,6 +133,9 @@ RefCountedPtr<UI::Context> Pi::ui;
 ModelCache *Pi::modelCache;
 Intro *Pi::intro;
 SDLGraphics *Pi::sdl;
+Graphics::RenderTarget *Pi::pRTarget;
+RefCountedPtr<Graphics::Texture> Pi::m_texture;
+std::unique_ptr<Graphics::Drawables::TexturedQuad> Pi::m_quad;
 
 #if WITH_OBJECTVIEWER
 ObjectViewerView *Pi::objectViewerView;
@@ -141,13 +144,88 @@ ObjectViewerView *Pi::objectViewerView;
 Sound::MusicPlayer Pi::musicPlayer;
 std::unique_ptr<JobQueue> Pi::jobQueue;
 
+//static
+void Pi::CreateRenderTarget(const Uint16 width, const Uint16 height) {
+	/*	@fluffyfreak here's a rendertarget implementation you can use for oculusing and other things. It's pretty simple:
+		 - fill out a RenderTargetDesc struct and call Renderer::CreateRenderTarget
+		 - pass target to Renderer::SetRenderTarget to start rendering to texture
+		 - set up viewport, clear etc, then draw as usual
+		 - SetRenderTarget(0) to resume render to screen
+		 - you can access the attached texture with GetColorTexture to use it with a material
+		You can reuse the same target with multiple textures.
+		In that case, leave the color format to NONE so the initial texture is not created, then use SetColorTexture to attach your own.
+	*/
+	Graphics::TextureDescriptor texDesc(
+		Graphics::TEXTURE_RGB_888,
+		vector2f(width, height),
+		Graphics::LINEAR_CLAMP, false, false, 0);
+	Pi::m_texture.Reset(Pi::renderer->CreateTexture(texDesc));
+	Pi::m_quad.reset(new Graphics::Drawables::TexturedQuad(Pi::renderer, m_texture.Get(), vector2f(0.0f,0.0f), vector2f(800.0f, 600.0f)));
+
+	// Complete the RT description so we can request a buffer.
+	// NB: we don't want it to create use a texture because we share it with the textured quad created above.
+	Graphics::RenderTargetDesc rtDesc(
+		width,
+		height,
+		Graphics::TEXTURE_NONE,		// don't create a texture
+		Graphics::TEXTURE_DEPTH,
+		false);
+	Pi::pRTarget = Pi::renderer->CreateRenderTarget(rtDesc);
+
+	pRTarget->SetColorTexture(Pi::m_texture.Get());
+}
+
+//static
+void Pi::DrawRenderTarget() {
+	Pi::renderer->BeginFrame();
+	Pi::renderer->SetTransform(matrix4x4f::Identity());
+
+	// This section is very similar to Gui::Screen::EnterOrtho() but it syncs the opengl matrices which I want to avoid
+	{
+		glDisable(GL_DEPTH_TEST);
+		glDisable(GL_LIGHTING);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glMatrixMode(GL_PROJECTION);
+		glPushMatrix();
+		glLoadIdentity();
+		glOrtho(0, 800, 600, 0, -1, 1);
+		glMatrixMode(GL_MODELVIEW);
+		glPushMatrix();
+		glLoadIdentity();
+	}
+
+	// draw the FB to the screen
+	Pi::m_quad->Draw( Pi::renderer );
+
+	// This section is very similar to Gui::Screen::LeaveOrtho()
+	{
+		glMatrixMode(GL_PROJECTION);
+		glPopMatrix();
+		glMatrixMode(GL_MODELVIEW);
+		glPopMatrix();
+		glEnable(GL_LIGHTING);
+		glEnable(GL_DEPTH_TEST);
+	}
+
+	Pi::renderer->EndFrame();
+}
+
+//static
+void Pi::BeginRenderTarget() {
+	const bool bTargetSet = Pi::renderer->SetRenderTarget(Pi::pRTarget);
+}
+
+//static
+void Pi::EndRenderTarget() {
+	Pi::renderer->SetRenderTarget(NULL);
+}
+
 static void draw_progress(UI::Gauge *gauge, UI::Label *label, float progress)
 {
 	gauge->SetValue(progress);
 	label->SetText(stringf(Lang::SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS, formatarg("age", progress * 13.7f)));
 
-	Pi::renderer->BeginFrame();
-	Pi::renderer->EndFrame();
+	Pi::renderer->ClearScreen();
 	Pi::ui->Update();
 	Pi::ui->Draw();
 	Pi::renderer->SwapBuffers();
@@ -305,6 +383,7 @@ void Pi::Init()
 		fclose(f);
 	}
 
+	Pi::CreateRenderTarget(videoSettings.width, videoSettings.height);
 	Pi::rng.IncRefCount(); // so nothing tries to free it
 	Pi::rng.seed(time(0));
 
@@ -805,10 +884,16 @@ void Pi::TombStoneLoop()
 	do {
 		Pi::HandleEvents();
 		Pi::renderer->GetWindow()->SetGrab(false);
+
+		// render the scene
+		Pi::BeginRenderTarget();
 		Pi::renderer->BeginFrame();
 		tombstone->Draw(_time);
 		Pi::renderer->EndFrame();
 		Gui::Draw();
+		Pi::EndRenderTarget();
+
+		Pi::DrawRenderTarget();
 		Pi::renderer->SwapBuffers();
 
 		Pi::frameTime = 0.001f*(SDL_GetTicks() - last_time);
@@ -897,13 +982,17 @@ void Pi::Start()
 				while (SDL_PollEvent(&event)) {}
 		}
 
+		Pi::BeginRenderTarget();
 		Pi::renderer->BeginFrame();
 		intro->Draw(_time);
 		Pi::renderer->EndFrame();
 
 		ui->Update();
 		ui->Draw();
+		Pi::EndRenderTarget();
 
+		// render the rendertarget texture
+		Pi::DrawRenderTarget();
 		Pi::renderer->SwapBuffers();
 
 		Pi::frameTime = 0.001f*(SDL_GetTicks() - last_time);
@@ -1020,6 +1109,8 @@ void Pi::MainLoop()
 			}
 		}
 
+		Pi::BeginRenderTarget();
+
 		Pi::renderer->BeginFrame();
 		Pi::renderer->SetTransform(matrix4x4f::Identity());
 
@@ -1072,6 +1163,8 @@ void Pi::MainLoop()
 		}
 #endif
 
+		Pi::EndRenderTarget();
+		Pi::DrawRenderTarget();
 		Pi::renderer->SwapBuffers();
 
 		// game exit will have cleared Pi::game. we can't continue.
