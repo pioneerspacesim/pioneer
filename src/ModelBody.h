@@ -7,6 +7,7 @@
 #include "libs.h"
 #include "Body.h"
 #include "CollMesh.h"
+#include "Shields.h"
 
 class Geom;
 class Camera;
@@ -28,6 +29,7 @@ public:
 	// Static: geoms are static relative to frame
 	void SetStatic(bool isStatic);
 	bool IsStatic() const { return m_isStatic; }
+	void SetShieldActive(const bool isActive);
 	const Aabb &GetAabb() const { return m_collMesh->GetAabb(); }
 	SceneGraph::Model *GetModel() const { return m_model; }
 	CollMesh *GetCollMesh() { return m_collMesh.Get(); }
@@ -45,22 +47,28 @@ protected:
 	void SetLighting(Graphics::Renderer *r, const Camera *camera, std::vector<Graphics::Light> &oldLights, Color &oldAmbient);
 	void ResetLighting(Graphics::Renderer *r, const std::vector<Graphics::Light> &oldLights, const Color &oldAmbient);
 
+	Shields* GetShields() const { return m_shields.get(); }
+
 private:
 	void RebuildCollisionMesh();
 	void DeleteGeoms();
 	void AddGeomsToFrame(Frame*);
 	void RemoveGeomsFromFrame(Frame*);
 	void MoveGeoms(const matrix4x4d&, const vector3d&);
+
 	void CalcLighting(double &ambient, double &direct, const Camera *camera);
 
 	bool m_isStatic;
 	bool m_colliding;
 	RefCountedPtr<CollMesh> m_collMesh;
 	Geom *m_geom; //static geom
+	RefCountedPtr<CollMesh> m_shieldCollMesh;
+	Geom *m_shieldGeom; //static shield geom
 	std::string m_modelName;
 	SceneGraph::Model *m_model;
 	std::vector<Geom*> m_dynGeoms;
 	SceneGraph::Animation *m_idleAnimation;
+	std::unique_ptr<Shields> m_shields;
 };
 
 #endif /* _MODELBODY_H */

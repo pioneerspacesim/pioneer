@@ -65,6 +65,7 @@ ModelBody::ModelBody()
 : m_isStatic(false)
 , m_colliding(true)
 , m_geom(0)
+, m_shieldGeom(0)
 , m_model(0)
 {
 }
@@ -85,6 +86,7 @@ void ModelBody::Save(Serializer::Writer &wr, Space *space)
 	wr.Bool(m_colliding);
 	wr.String(m_modelName);
 	m_model->Save(wr);
+	m_shields->Save(wr);
 }
 
 void ModelBody::Load(Serializer::Reader &rd, Space *space)
@@ -94,6 +96,7 @@ void ModelBody::Load(Serializer::Reader &rd, Space *space)
 	m_colliding = rd.Bool();
 	SetModel(rd.String().c_str());
 	m_model->Load(rd);
+	m_shields->Load(rd);
 }
 
 void ModelBody::SetStatic(bool isStatic)
@@ -110,6 +113,17 @@ void ModelBody::SetStatic(bool isStatic)
 		GetFrame()->RemoveStaticGeom(m_geom);
 		GetFrame()->AddGeom(m_geom);
 	}
+
+	// we might have mesh geom but no shield geom
+	if (!m_shieldGeom) return;
+
+	if (m_isStatic) {
+		GetFrame()->RemoveGeom(m_shieldGeom);
+		GetFrame()->AddStaticGeom(m_shieldGeom);
+	} else {
+		GetFrame()->RemoveStaticGeom(m_shieldGeom);
+		GetFrame()->AddGeom(m_shieldGeom);
+	}
 }
 
 void ModelBody::SetColliding(bool colliding)
@@ -117,6 +131,21 @@ void ModelBody::SetColliding(bool colliding)
 	m_colliding = colliding;
 	if(colliding) m_geom->Enable();
 	else m_geom->Disable();
+
+	// we might have mesh geom but no shield geom
+	if (!m_shieldGeom) return;
+
+	if(colliding) m_shieldGeom->Enable();
+	else m_shieldGeom->Disable();
+}
+
+void ModelBody::SetShieldActive(const bool isActive)
+{
+	// we might have mesh geom but no shield geom
+	if (!m_shieldGeom) return;
+
+	if(isActive) m_shieldGeom->Enable();
+	else m_shieldGeom->Disable();
 }
 
 void ModelBody::RebuildCollisionMesh()
@@ -127,12 +156,24 @@ void ModelBody::RebuildCollisionMesh()
 	}
 
 	m_collMesh = m_model->GetCollisionMesh();
-	SetPhysRadius(m_collMesh->GetAabb().GetRadius());
+	double maxRadius= m_collMesh->GetAabb().GetRadius();
 
 	//static geom
 	m_geom = new Geom(m_collMesh->GetGeomTree());
 	m_geom->SetUserData(static_cast<void*>(this));
 	m_geom->MoveTo(GetOrient(), GetPosition());
+
+	if (m_shields->GetCollMesh()->GetGeomTree()) {
+		m_shieldCollMesh = m_shields->GetCollMesh();
+		m_shieldGeom = new Geom(m_shieldCollMesh->GetGeomTree());
+		m_shieldGeom->SetUserData(static_cast<void*>(this));
+		m_shieldGeom->MoveTo(GetOrient(), GetPosition());
+
+		// shield mesh should be bigger than standard mesh
+		maxRadius = std::max(maxRadius, m_shieldCollMesh->GetAabb().GetRadius());
+	}
+
+	SetPhysRadius(maxRadius);
 
 	//have to figure out which collision geometries are responsible for which geomtrees
 	DynGeomFinder dgf;
@@ -153,6 +194,41 @@ void ModelBody::RebuildCollisionMesh()
 	if (GetFrame()) AddGeomsToFrame(GetFrame());
 }
 
+/*void ModelBody::RebuildShieldCollisionMesh()
+{
+	if (m_shieldGeom) {
+		// only happens when player changes their ship
+		Frame *pFrame = GetFrame();
+		if (pFrame) {
+			if (m_isStatic) {
+				pFrame->RemoveStaticGeom(m_shieldGeom);
+			} else {
+				pFrame->RemoveGeom(m_shieldGeom);
+			}
+		}
+		delete m_shieldGeom;
+		m_shieldGeom = nullptr;
+	}
+
+	if (m_shields->GetCollMesh()->GetGeomTree()) {
+		m_shieldCollMesh = m_shields->GetCollMesh();
+		SetPhysRadius(m_shieldCollMesh->GetAabb().GetRadius());
+		m_shieldGeom = new Geom(m_shieldCollMesh->GetGeomTree());
+
+		m_shieldGeom->SetUserData(static_cast<void*>(this));
+		m_shieldGeom->MoveTo(GetOrient(), GetPosition());
+
+		Frame *pFrame = GetFrame();
+		if (pFrame) {
+			if (m_isStatic) {
+				pFrame->AddStaticGeom(m_shieldGeom);
+			} else {
+				pFrame->AddGeom(m_shieldGeom);
+			}
+		}
+	}
+}*/
+
 void ModelBody::SetModel(const char *modelName)
 {
 	//remove old instance
@@ -166,6 +242,8 @@ void ModelBody::SetModel(const char *modelName)
 	m_idleAnimation = m_model->FindAnimation("idle");
 
 	SetClipRadius(m_model->GetDrawClipRadius());
+
+	m_shields.reset(new Shields(m_model));
 
 	RebuildCollisionMesh();
 }
@@ -203,6 +281,10 @@ void ModelBody::DeleteGeoms()
 {
 	delete m_geom;
 	m_geom = 0;
+	if(m_shieldGeom) {
+		delete m_shieldGeom;
+		m_shieldGeom = 0;
+	}
 	for (auto it = m_dynGeoms.begin(); it != m_dynGeoms.end(); ++it)
 		delete *it;
 	m_dynGeoms.clear();
@@ -214,10 +296,21 @@ void ModelBody::AddGeomsToFrame(Frame *f)
 
 	m_geom->SetGroup(group);
 
-	if (m_isStatic)
+	if(m_isStatic) {
 		f->AddStaticGeom(m_geom);
-	else
+	} else {
 		f->AddGeom(m_geom);
+	}
+
+	if(m_shieldGeom) { 
+		m_shieldGeom->SetGroup(group); 
+
+		if(m_isStatic) {
+			f->AddStaticGeom(m_shieldGeom);
+		} else {
+			f->AddGeom(m_shieldGeom);
+		}
+	}
 
 	for (auto it = m_dynGeoms.begin(); it != m_dynGeoms.end(); ++it) {
 		(*it)->SetGroup(group);
@@ -227,10 +320,17 @@ void ModelBody::AddGeomsToFrame(Frame *f)
 
 void ModelBody::RemoveGeomsFromFrame(Frame *f)
 {
-	if (m_isStatic)
+	if(m_isStatic) {
 		GetFrame()->RemoveStaticGeom(m_geom);
-	else
+	} else {
 		GetFrame()->RemoveGeom(m_geom);
+	}
+
+	if(m_shieldGeom && m_isStatic) {
+		GetFrame()->RemoveStaticGeom(m_shieldGeom);
+	} else {
+		GetFrame()->RemoveGeom(m_shieldGeom);
+	}
 
 	for (auto it = m_dynGeoms.begin(); it != m_dynGeoms.end(); ++it)
 		GetFrame()->RemoveGeom(*it);
@@ -239,6 +339,8 @@ void ModelBody::RemoveGeomsFromFrame(Frame *f)
 void ModelBody::MoveGeoms(const matrix4x4d &m, const vector3d &p)
 {
 	m_geom->MoveTo(m, p);
+	if(m_shieldGeom)
+		m_shieldGeom->MoveTo(m, p);
 
 	//accumulate transforms to animated positions
 	if (!m_dynGeoms.empty()) {

@@ -8,6 +8,7 @@
  */
 #include "libs.h"
 #include "Serializer.h"
+#include <deque>
 
 namespace Graphics { class Renderer; }
 namespace SceneGraph { class Model; class StaticGeometry; }
@@ -39,7 +40,7 @@ public:
 
 	SceneGraph::StaticGeometry* GetFirstShieldMesh();
 
-	CollMesh* GetCollMesh() const { return m_collMesh.Get(); }
+	RefCountedPtr<CollMesh> GetCollMesh() const { return m_collMesh; }
 
 protected:
 	struct Hits

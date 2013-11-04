@@ -102,7 +102,6 @@ void Ship::Save(Serializer::Writer &wr, Space *space)
 	m_controller->Save(wr, space);
 
 	m_navLights->Save(wr);
-	m_shields->Save(wr);
 }
 
 void Ship::Load(Serializer::Reader &rd, Space *space)
@@ -158,8 +157,6 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 	m_controller->Load(rd);
 
 	m_navLights->Load(rd);
-	m_shields->Load(rd);
-	RebuildShieldCollisionMesh();
 
 	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
 }
@@ -183,9 +180,6 @@ void Ship::Init()
 {
 	m_navLights.reset(new NavLights(GetModel()));
 	m_navLights->SetEnabled(true);
-
-	m_shields.reset(new Shields(GetModel()));
-	RebuildShieldCollisionMesh();
 
 	SetMassDistributionFromModel();
 	UpdateStats();
@@ -212,10 +206,7 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	m_controller(0),
 	m_thrusterFuel(1.0),
 	m_reserveFuel(0.0),
-	m_landingGearAnimation(nullptr),
-	m_isShieldStatic(false),
-	m_isShieldActive(true),
-	m_shieldGeom(nullptr)
+	m_landingGearAnimation(nullptr)
 {
 	m_flightState = FLYING;
 	m_alertState = ALERT_NONE;
@@ -248,8 +239,6 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
 
 	SetModel(m_type->modelName.c_str());
-	m_shields.reset(new Shields(GetModel()));
-	RebuildShieldCollisionMesh();
 	SetLabel(MakeRandomLabel());
 	m_skin.SetRandomColors(Pi::rng);
 	m_skin.SetPattern(Pi::rng.Int32(0, GetModel()->GetNumPatterns()));
@@ -328,7 +317,7 @@ bool Ship::OnDamage(Object *attacker, float kgDamage, const CollisionContact& co
 		mtx.SetTranslate( GetPosition() );
 		const matrix4x4d invmtx = mtx.InverseOf();
 		const vector3d localPos = invmtx * contactData.pos;
-		m_shields->AddHit(localPos);
+		GetShields()->AddHit(localPos);
 
 		m_stats.hull_mass_left -= dam;
 		if (m_stats.hull_mass_left < 0) {
@@ -678,12 +667,12 @@ void Ship::SetFlightState(Ship::FlightState newState)
 
 	switch (m_flightState)
 	{
-		case FLYING:		SetMoving(true);	SetColliding(true);		SetStatic(false);	SetShieldActive(true);	SetShieldStatic(false);	break;
-		case DOCKING:		SetMoving(false);	SetColliding(false);	SetStatic(false);	SetShieldActive(false);	SetShieldStatic(false);	break;
+		case FLYING:		SetMoving(true);	SetColliding(true);		SetStatic(false);	break;
+		case DOCKING:		SetMoving(false);	SetColliding(false);	SetStatic(false);	break;
 // TODO: set collision index? dynamic stations... use landed for open-air?
-		case DOCKED:		SetMoving(false);	SetColliding(false);	SetStatic(false);	SetShieldActive(false);	SetShieldStatic(false);	break;
-		case LANDED:		SetMoving(false);	SetColliding(true);		SetStatic(true);	SetShieldActive(true);	SetShieldStatic(true);	break;
-		case HYPERSPACE:	SetMoving(false);	SetColliding(false);	SetStatic(false);	SetShieldActive(false);	SetShieldStatic(false);	break;
+		case DOCKED:		SetMoving(false);	SetColliding(false);	SetStatic(false);	break;
+		case LANDED:		SetMoving(false);	SetColliding(true);		SetStatic(true);	break;
+		case HYPERSPACE:	SetMoving(false);	SetColliding(false);	SetStatic(false);	break;
 	}
 }
 
@@ -1168,8 +1157,8 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 
 	// This has to be done per-model with a shield and just before it's rendered
 	const bool shieldsVisible = m_shieldCooldown > 0.01f && m_stats.shield_mass_left > (m_stats.shield_mass / 100.0f);
-	m_shields->SetEnabled(shieldsVisible);
-	m_shields->Update(m_shieldCooldown, 0.01f*GetPercentShields());
+	GetShields()->SetEnabled(shieldsVisible);
+	GetShields()->Update(m_shieldCooldown, 0.01f*GetPercentShields());
 
 	//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
 	RenderModel(renderer, camera, viewCoords, viewTransform);
@@ -1294,8 +1283,6 @@ void Ship::SetShipType(const ShipType::Id &shipId)
 	SetShipId(shipId);
 	m_equipment.InitSlotSizes(shipId);
 	SetModel(m_type->modelName.c_str());
-	m_shields.reset(new Shields(GetModel()));
-	RebuildShieldCollisionMesh();
 	m_skin.Apply(GetModel());
 	Init();
 	onFlavourChanged.emit();
@@ -1315,65 +1302,4 @@ void Ship::SetSkin(const SceneGraph::ModelSkin &skin)
 {
 	m_skin = skin;
 	m_skin.Apply(GetModel());
-}
-#pragma optimize("",off)
-void Ship::SetShieldActive(const bool isActive)
-{
-	m_isShieldActive = isActive;
-	if (!m_shieldGeom.get()) return;
-
-	if(isActive) {
-		m_shieldGeom->Enable();
-	} else {
-		m_shieldGeom->Disable();
-	}
-}
-#pragma optimize("",off)
-void Ship::SetShieldStatic(const bool isStatic)
-{
-	if (isStatic == m_isShieldStatic) return;
-	m_isShieldStatic = isStatic;
-	if (!m_shieldGeom.get()) return;
-
-	if (m_isShieldStatic) {
-		GetFrame()->RemoveGeom(m_shieldGeom.get());
-		GetFrame()->AddStaticGeom(m_shieldGeom.get());
-	} else {
-		GetFrame()->RemoveStaticGeom(m_shieldGeom.get());
-		GetFrame()->AddGeom(m_shieldGeom.get());
-	}
-}
-#pragma optimize("",off)
-void Ship::RebuildShieldCollisionMesh()
-{
-	if (m_shieldGeom.get()) {
-		// only happens when player changes their ship
-		Frame *pFrame = GetFrame();
-		if (pFrame) {
-			if (m_isShieldStatic) {
-				pFrame->RemoveStaticGeom(m_shieldGeom.get());
-			} else {
-				pFrame->RemoveGeom(m_shieldGeom.get());
-			}
-		}
-		m_shieldGeom.reset();
-	}
-
-	if (m_shields->GetCollMesh()->GetGeomTree()) {
-		m_shieldCollMesh.Reset( m_shields->GetCollMesh() );
-		SetPhysRadius(m_shieldCollMesh->GetAabb().GetRadius());
-		m_shieldGeom.reset( new Geom(m_shieldCollMesh->GetGeomTree()) );
-
-		m_shieldGeom->SetUserData(static_cast<void*>(this));
-		m_shieldGeom->MoveTo(GetOrient(), GetPosition());
-
-		Frame *pFrame = GetFrame();
-		if (pFrame) {
-			if (m_isShieldStatic) {
-				pFrame->AddStaticGeom(m_shieldGeom.get());
-			} else {
-				pFrame->AddGeom(m_shieldGeom.get());
-			}
-		}
-	}
 }

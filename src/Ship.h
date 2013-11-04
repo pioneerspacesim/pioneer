@@ -13,7 +13,6 @@
 #include "Planet.h"
 #include "Serializer.h"
 #include "ShipType.h"
-#include "Shields.h"
 #include "scenegraph/SceneGraph.h"
 #include "scenegraph/ModelSkin.h"
 #include <list>
@@ -302,10 +301,6 @@ private:
 	void EnterHyperspace();
 	void InitGun(const char *tag, int num);
 
-	void SetShieldActive(const bool isActive);
-	void SetShieldStatic(const bool isStatic);
-	void RebuildShieldCollisionMesh();
-
 	static const float DEFAULT_SHIELD_COOLDOWN_TIME;
 	float m_shieldCooldown;
 	shipstats_t m_stats;
@@ -344,12 +339,6 @@ private:
 
 	SceneGraph::Animation *m_landingGearAnimation;
 	std::unique_ptr<NavLights> m_navLights;
-	std::unique_ptr<Shields> m_shields;
-
-	bool m_isShieldStatic;
-	bool m_isShieldActive;
-	RefCountedPtr<CollMesh> m_shieldCollMesh;
-	std::unique_ptr<Geom> m_shieldGeom;
 };
 
 
