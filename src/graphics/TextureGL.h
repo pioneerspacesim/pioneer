@@ -9,9 +9,19 @@
 
 namespace Graphics {
 
+struct TextureCubeData {
+	void* posX;
+	void* negX;
+	void* posY;
+	void* negY;
+	void* posZ;
+	void* negZ;
+};
+
 class TextureGL : public Texture {
 public:
 	virtual void Update(const void *data, const vector2f &dataSize, TextureFormat format, const unsigned int numMips);
+	virtual void Update(const TextureCubeData &data, const vector2f &dataSize, TextureFormat format, const unsigned int numMips);
 
 	virtual ~TextureGL();
 
@@ -24,7 +34,7 @@ public:
 private:
 	friend class RendererLegacy;
 	friend class RendererGL2;
-	TextureGL(const TextureDescriptor &descriptor, const bool useCompressed);
+	TextureGL(const TextureDescriptor &descriptor, const bool useCompressed, const GLenum target = GL_TEXTURE_2D);
 
 	GLenum m_target;
 	GLuint m_texture;
