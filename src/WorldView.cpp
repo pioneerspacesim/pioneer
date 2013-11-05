@@ -408,6 +408,10 @@ void WorldView::Draw3D()
 	// Speed lines
 	if (Pi::AreSpeedLinesDisplayed())
 		m_speedLines->Render(m_renderer);
+
+	// Contact trails
+	for (auto it = Pi::player->GetSensors()->GetContacts().begin(); it != Pi::player->GetSensors()->GetContacts().end(); ++it)
+		it->trail->Render(m_renderer);
 }
 
 void WorldView::OnToggleLabels()
@@ -893,13 +897,16 @@ void WorldView::Update()
 
 	UpdateProjectedObjects();
 
-	//speedlines need cam_frame for transform, so they
+	//speedlines and contact trails need cam_frame for transform, so they
 	//must be updated here (or don't delete cam_frame so early...)
 	if (Pi::AreSpeedLinesDisplayed()) {
 		m_speedLines->Update(Pi::game->GetTimeStep());
 		const Frame *cam_frame = m_camera->GetCamFrame();
 		matrix4x4d trans;
 		Frame::GetFrameRenderTransform(Pi::player->GetFrame(), cam_frame, trans);
+
+		for (auto it = Pi::player->GetSensors()->GetContacts().begin(); it != Pi::player->GetSensors()->GetContacts().end(); ++it)
+			it->trail->SetTransform(trans);
 
 		trans[12] = trans[13] = trans[14] = 0.0;
 		trans[15] = 1.0;

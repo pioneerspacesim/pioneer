@@ -9,13 +9,16 @@
 #include "DynamicBody.h"
 #include "EquipSet.h"
 #include "galaxy/SystemPath.h"
+#include "HudTrail.h"
 #include "NavLights.h"
 #include "Planet.h"
+#include "Sensors.h"
 #include "Serializer.h"
 #include "ShipType.h"
 #include "scenegraph/SceneGraph.h"
 #include "scenegraph/ModelSkin.h"
 #include <list>
+#include <unordered_map>
 
 class SpaceStation;
 class HyperspaceCloud;
@@ -256,6 +259,11 @@ public:
 	bool IsInvulnerable() const { return m_invulnerable; }
 	void SetInvulnerable(bool b) { m_invulnerable = b; }
 
+	Sensors *GetSensors() const { return m_sensors.get(); }
+
+	Uint8 GetRelations(Body *other) const; //0=hostile, 50=neutral, 100=ally
+	void SetRelations(Body *other, Uint8 percent);
+
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
@@ -341,6 +349,9 @@ private:
 	std::unique_ptr<NavLights> m_navLights;
 
 	static HeatGradientParameters_t s_heatGradientParams;
+
+	std::unique_ptr<Sensors> m_sensors;
+	std::unordered_map<Body*, Uint8> m_relationsMap;
 };
 
 

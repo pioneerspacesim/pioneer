@@ -202,6 +202,8 @@ void Ship::Init()
 {
 	m_invulnerable = false;
 
+	m_sensors.reset(new Sensors(this));
+
 	m_navLights.reset(new NavLights(GetModel()));
 	m_navLights->SetEnabled(true);
 
@@ -827,6 +829,7 @@ void Ship::TimeStepUpdate(const float timeStep)
 
 	m_navLights->SetEnabled(m_wheelState > 0.01f);
 	m_navLights->Update(timeStep);
+	if (m_sensors.get()) m_sensors->Update(timeStep);
 }
 
 void Ship::DoThrusterSounds() const
@@ -1360,4 +1363,19 @@ void Ship::SetSkin(const SceneGraph::ModelSkin &skin)
 {
 	m_skin = skin;
 	m_skin.Apply(GetModel());
+}
+
+Uint8 Ship::GetRelations(Body *other) const
+{
+	auto it = m_relationsMap.find(other);
+	if (it != m_relationsMap.end())
+		return it->second;
+
+	return 50;
+}
+
+void Ship::SetRelations(Body *other, Uint8 percent)
+{
+	m_relationsMap[other] = percent;
+	if (m_sensors.get()) m_sensors->UpdateIFF(other);
 }
