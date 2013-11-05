@@ -17,7 +17,7 @@ namespace Graphics {
 class TextureBuilder {
 public:
 	TextureBuilder(const SDLSurfacePtr &surface, TextureSampleMode sampleMode = LINEAR_CLAMP, bool generateMipmaps = false, bool potExtend = false, bool forceRGBA = true, bool compressTextures = true);
-	TextureBuilder(const std::string &filename, TextureSampleMode sampleMode = LINEAR_CLAMP, bool generateMipmaps = false, bool potExtend = false, bool forceRGBA = true, bool compressTextures = true);
+	TextureBuilder(const std::string &filename, TextureSampleMode sampleMode = LINEAR_CLAMP, bool generateMipmaps = false, bool potExtend = false, bool forceRGBA = true, bool compressTextures = true, TextureType textureType = TEXTURE_2D);
 	~TextureBuilder();
 
 	// convenience constructors for common texture types
@@ -32,6 +32,9 @@ public:
 	}
 	static TextureBuilder Decal(const std::string &filename) {
 		return TextureBuilder(filename, LINEAR_CLAMP, true, true, false, true);
+	}
+	static TextureBuilder Cube(const std::string &filename) {
+		return TextureBuilder(filename, LINEAR_REPEAT, true, true, false, true, TEXTURE_CUBE_MAP);
 	}
 
 	const TextureDescriptor &GetDescriptor() { PrepareSurface(); return m_descriptor; }
@@ -68,6 +71,7 @@ private:
 	bool m_potExtend;
 	bool m_forceRGBA;
 	bool m_compressTextures;
+	TextureType m_textureType;
 
 	TextureDescriptor m_descriptor;
 

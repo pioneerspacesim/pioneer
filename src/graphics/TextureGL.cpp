@@ -49,6 +49,14 @@ inline GLint GLImageFormat(TextureFormat format) {
 	}
 }
 
+inline GLint GLTextureType(TextureType type) {
+	switch (type) {
+		case TEXTURE_2D: return GL_TEXTURE_2D;
+		case TEXTURE_CUBE_MAP: return GL_TEXTURE_CUBE_MAP;
+		default: assert(0); return 0;
+	}
+}
+
 inline GLint GLImageType(TextureFormat format) {
 	return GL_UNSIGNED_BYTE;
 }
@@ -65,9 +73,11 @@ inline bool IsCompressed(TextureFormat format) {
 	return (format == TEXTURE_DXT1 || format == TEXTURE_DXT5);
 }
 
-TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompressed, const GLenum target) :
-	Texture(descriptor), m_target(target) // XXX don't force target
+TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompressed) :
+	Texture(descriptor)
 {
+	m_target = GLTextureType(descriptor.type);
+
 	glGenTextures(1, &m_texture);
 	glBindTexture(m_target, m_texture);
 
@@ -222,7 +232,6 @@ TextureGL::~TextureGL()
 
 void TextureGL::Update(const void *data, const vector2f &dataSize, TextureFormat format, const unsigned int numMips)
 {
-	// SAL This method can only update 2D textures for now
 	assert(m_target == GL_TEXTURE_2D);
 
 	glEnable(m_target);  //XXX legacy only
@@ -263,7 +272,6 @@ void TextureGL::Update(const void *data, const vector2f &dataSize, TextureFormat
 
 void TextureGL::Update(const TextureCubeData &data, const vector2f &dataSize, TextureFormat format, const unsigned int numMips)
 {
-	// SAL This method can only update cube textures for now
 	assert(m_target == GL_TEXTURE_CUBE_MAP);
 
 	glEnable(m_target);  //XXX legacy only
