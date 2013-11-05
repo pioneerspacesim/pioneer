@@ -167,6 +167,7 @@ static size_t LoadDDSFromFile(const std::string &filename, PicoDDS::DDSImage& dd
 	RefCountedPtr<FileSystem::FileData> filedata = FileSystem::gameDataFiles.ReadFile(filename);
 	if (!filedata) {
 		fprintf(stderr, "LoadDDSFromFile: %s: could not read file\n", filename.c_str());
+		assert(0);
 		return 0;
 	}
 

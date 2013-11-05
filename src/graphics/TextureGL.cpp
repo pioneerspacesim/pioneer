@@ -182,6 +182,7 @@ TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompress
 				}
 				glTexParameteri(m_target, GL_TEXTURE_MAX_LEVEL, maxMip);
 			}
+			break;
 
 		default:
 			assert(0);
