@@ -57,3 +57,8 @@ void HudTrail::Render(Graphics::Renderer *r)
 		r->DrawLines(tvts.size(), &tvts[0], &colors[0], Graphics::LINE_STRIP);
 	}
 }
+
+void HudTrail::Reset()
+{
+	m_trailPoints.clear();
+}

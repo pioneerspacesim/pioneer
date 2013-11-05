@@ -13,6 +13,7 @@ public:
 	HudTrail(Body *b, const Color&);
 	void Update(float time);
 	void Render(Graphics::Renderer *r);
+	void Reset();
 
 	void SetColor(const Color &c) { m_color = c; }
 	void SetTransform(const matrix4x4d &t) { m_transform = t; }

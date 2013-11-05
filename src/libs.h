@@ -18,6 +18,7 @@
 #include <cstdlib>
 #include <cerrno>
 #include <string>
+#include <deque>
 #include <vector>
 #include <map>
 #include <algorithm>
