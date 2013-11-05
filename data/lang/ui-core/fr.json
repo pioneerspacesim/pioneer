@@ -1,6 +1,6 @@
 {
     "CARGO": {
-        "message": "Cargo",
+        "message": "Cargaison",
         "description": ""
     },
     "DELTA_V": {
@@ -20,7 +20,7 @@
         "description": ""
     },
     "SHIP_INFORMATION": {
-        "message": "Information sur le vaisseau",
+        "message": "Informations sur le vaisseau",
         "description": ""
     },
     "VIDEO_RESOLUTION": {
@@ -64,7 +64,7 @@
         "description": ""
     },
     "DESTROY_ENEMY_SHIP": {
-        "message": "Detruire le vaisseaux ennemi",
+        "message": "Detruire le vaisseau ennemi",
         "description": ""
     },
     "TOTAL": {
@@ -72,7 +72,7 @@
         "description": ""
     },
     "PILOTING": {
-        "message": "Pilote:",
+        "message": "Pilotage:",
         "description": ""
     },
     "MORE_INFO": {
@@ -144,7 +144,7 @@
         "description": ""
     },
     "GENERAL_CREW": {
-        "message": "Equipage générique",
+        "message": "Equipage général",
         "description": ""
     },
     "KILLS": {
@@ -184,7 +184,7 @@
         "description": ""
     },
     "VERY_LOW": {
-        "message": "Tres lent",
+        "message": "Très lent",
         "description": ""
     },
     "REWARD": {
@@ -248,7 +248,7 @@
         "description": ""
     },
     "MOSTLY_HARMLESS": {
-        "message": "Très inoffensif",
+        "message": "Quasi inoffensif",
         "description": ""
     },
     "MULTISAMPLING": {
@@ -488,7 +488,7 @@
         "description": ""
     },
     "PLANET_DETAIL_DISTANCE": {
-        "message": "Details des planetes",
+        "message": "Distance d'affichage  planetes",
         "description": ""
     },
     "CAPACITY_USED": {
@@ -612,7 +612,7 @@
         "description": ""
     },
     "PRESS_A_KEY_OR_CONTROLLER_BUTTON": {
-        "message": "Appuyez sur une touche ou un bouton du joystick",
+        "message": "Appuyez sur une touche ou un bouton du controleur",
         "description": ""
     },
     "START_AT_BARNARDS_STAR": {

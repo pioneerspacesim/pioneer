@@ -44,7 +44,7 @@
         "description": ""
     },
     "FLAVOUR_WHYSOMUCHTEXT_7": {
-        "message": "Standard rates, we work with the market.",
+        "message": "Ce sont les tarifs standards, nous nous basons sur le marché.",
         "description": ""
     },
     "FLAVOUR_INTROTEXT_3": {
@@ -132,7 +132,7 @@
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_2": {
-        "message": "I was quite clear about the deadline and am very disappointed by the late delivery. You will not be paid.",
+        "message": "J'avais été très clair au sujet des délais et je suis très décu par cette livraison tardive. Vous ne serez pas payé.",
         "description": ""
     },
     "WILL_I_BE_IN_ANY_DANGER": {
@@ -200,7 +200,7 @@
         "description": ""
     },
     "FLAVOUR_INTROTEXT_0": {
-        "message": "Hi, I'm {name}. I'll pay you {cash} if you will deliver a small package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly.",
+        "message": "Salut , Je suis {name}. Je vous payerai {cash} si vous livrez ce petit paquet a  {starport} dans le systeme  {system} ({sectorx}, {sectory}, {sectorz}), a une distance de {dist} al.",
         "description": ""
     },
     "DELIVERY": {
@@ -228,39 +228,39 @@
         "description": ""
     },
     "FLAVOUR_WHYSOMUCHTEXT_8": {
-        "message": "It's really urgent.",
+        "message": "C'est vraiment urgent.",
         "description": ""
     },
     "FLAVOUR_WHYSOMUCHTEXT_9": {
-        "message": "Our livelyhood depends on it.",
+        "message": "Notre gagne-pain en dépend.",
         "description": ""
     },
     "THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE": {
-        "message": "This is very risky, you will almost certainly run into resistance.",
+        "message": "C'est très risqué. Vous vous heurterez certainement a une forte résistance.",
         "description": ""
     },
     "I_HIGHLY_DOUBT_IT": {
-        "message": "I highly doubt it.",
+        "message": "J'en doute fortement.",
         "description": ""
     },
     "FLAVOUR_WHYSOMUCHTEXT_2": {
-        "message": "It is a research proposal and must be delivered by the deadline or we may not get funding.",
+        "message": "C'est un projet de recherche qui doit etre soumis dans les délais ou nous n'obtiendrons pas le financement.",
         "description": ""
     },
     "FLAVOUR_WHYSOMUCHTEXT_3": {
-        "message": "Some extremely sensitive documents have fallen into my hands, and I have reason to believe that the leak has been traced to me.",
+        "message": "Quelques documents extrêmements sensibles sont tombés entre mes mains et j'ai toutes les  raisons de croire que la fuite a été repérée.",
         "description": ""
     },
     "FLAVOUR_WHYSOMUCHTEXT_0": {
-        "message": "When a friend visited me she left behind some clothes and antique paper books. I'd like to have them returned to her.",
+        "message": "Quand une amie m'a rendue visite elle a oublié en partant quelques vêtements at aussi des livres anciens en authentique papier. J'aimerais les lui renvoyer.",
         "description": ""
     },
     "FLAVOUR_WHYSOMUCHTEXT_1": {
-        "message": "It is nothing special.",
+        "message": "Ca n'est rien de spécial.",
         "description": ""
     },
     "FLAVOUR_WHYSOMUCHTEXT_6": {
-        "message": "I don't think it's a lot.",
+        "message": "Je ne pense pas que ca fasse trop",
         "description": ""
     },
     "SYSTEM": {
@@ -268,55 +268,55 @@
         "description": ""
     },
     "FLAVOUR_WHYSOMUCHTEXT_4": {
-        "message": "We would be happy to pay you less money.",
+        "message": "Nous serions heureux de vous payer moins cher.",
         "description": ""
     },
     "FLAVOUR_WHYSOMUCHTEXT_5": {
-        "message": "Is it a lot? I should rethink my offer!",
+        "message": "C'est beaucoup ? je devrais peut-être reconsiderer mon offre ...",
         "description": ""
     },
     "NOT_ANY_MORE_THAN_USUAL": {
-        "message": "Not any more than usual.",
+        "message": "Ca n'est pas plus que d'habitude.",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_8": {
-        "message": "You were offered a premium for quick delivery! I refuse to pay for this.",
+        "message": "Nous avions offert une prime pour une livraison rapide ! je refuse de payer pour ceci.",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_9": {
-        "message": "It's all spoilt, this is of no use to anyone! We cannot and will not pay you.",
+        "message": "C'est périmé ! ca n'est plus d'aucune utilité ! nous ne pouvons et ne voulons pas vous payer.",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_6": {
-        "message": "I could have delivered it faster myself. I'm not paying you.",
+        "message": "J'aurais pu le livrer plus rapidement moi-même. je ne vous payerais pas.",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_7": {
-        "message": "Our customers are not going to be happy with this. Do not expect to be paid.",
+        "message": "Nos clients ne vont pas apprécier ceci. N'esperez pas être payé.",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_4": {
-        "message": "Your ship registration has been noted, we will reject all further applications for work from you.",
+        "message": "Nous avons relevé l'enregistrement de votre vaisseau. A l'avenir nous eviterons de vous donner du travail.",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_5": {
-        "message": "What are these? Oh, you took so long that I forgot I'd even sent this!",
+        "message": "Qu'est ce que c'est que ca ? Oh, vous avez mis si longtemps que j'en ai mëme oublié l'avoir envoyé !",
         "description": ""
     },
     "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
-        "message": "Could you repeat the original request?",
+        "message": "Pouvez vous reformuler la requete originale ?",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_3": {
-        "message": "Useless! I will never depend on you again! Needless to say, you will not be paid for this.",
+        "message": "Rien a faire ! Plus jamais je ne ferais affaire avec vous ! Inutile de vous dire que je ne payerais pas pour ca.",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_0": {
-        "message": "Unacceptable! You took forever over that delivery. I'm not willing to pay you.",
+        "message": "C'est inadmissible ! Vous avez mis une éternité pour cette livraison. je ne suis pas prêt de vous payer.",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_1": {
-        "message": "I'm frustrated by the late delivery of my package, and I refuse to pay you.",
+        "message": "Je suis très contrarié par ce retard dans la livraison de mon colis, et je refuse de vous payer. ",
         "description": ""
     }
 }

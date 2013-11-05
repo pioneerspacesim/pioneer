@@ -16,7 +16,7 @@
         "description": ""
     },
     "MONTH_AUG": {
-        "message": "Aug",
+        "message": "Aou",
         "description": ""
     },
     "COMPUTER_SPEED_CONTROL": {
@@ -56,7 +56,7 @@
         "description": ""
     },
     "WITH_A": {
-        "message": "\" avec une\"",
+        "message": "\" avec un(e)\"",
         "description": ""
     },
     "FIT": {
@@ -156,7 +156,7 @@
         "description": ""
     },
     "MONTH_JAN": {
-        "message": "Jan",
+        "message": "Janv",
         "description": ""
     },
     "PRICE_TO_REMOVE": {
@@ -236,7 +236,7 @@
         "description": ""
     },
     "CARGO_BAY_LIFE_SUPPORT_LOST": {
-        "message": "Les capteurs indiquent une dépréssurisation de la soute de transport d'animaux.",
+        "message": "Les capteurs indiquent une déprésurisation de la soute de transport d'animaux.",
         "description": ""
     },
     "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE": {
@@ -416,7 +416,7 @@
         "description": ""
     },
     "HEADING_LOCK_BACKWARD": {
-        "message": "Heading Lock (aft)",
+        "message": "Trajectoire vérouillée (AV)",
         "description": ""
     },
     "HULL_AUTOREPAIR_DESCRIPTION": {
@@ -520,7 +520,7 @@
         "description": ""
     },
     "CAMERA_RIGHT_VIEW": {
-        "message": "Caméra tribord",
+        "message": "Caméra droite",
         "description": ""
     },
     "NUMBER_LY": {
@@ -636,7 +636,7 @@
         "description": ""
     },
     "SHIP_DETECTED_NEARBY": {
-        "message": "Vaisseau détecté!",
+        "message": "Vaisseau proche détecté!",
         "description": ""
     },
     "N_DISTANCE_TO_TARGET": {
@@ -764,7 +764,7 @@
         "description": ""
     },
     "SHIELD_ENERGY_BOOSTER": {
-        "message": "Booster énergétique du bouclier",
+        "message": "Booster énergétique de bouclier",
         "description": ""
     },
     "NO_ESTABLISHED_ORDER": {
@@ -1456,7 +1456,7 @@
         "description": ""
     },
     "HEADING_LOCK_FORWARD": {
-        "message": "Heading Lock (fore)",
+        "message": "Trajectoire vérouillée (AR)",
         "description": ""
     },
     "CANT_SAVE_IN_HYPERSPACE": {
@@ -1476,7 +1476,7 @@
         "description": ""
     },
     "MONTH_JUL": {
-        "message": "Jul",
+        "message": "Juil",
         "description": ""
     },
     "M_S_RELATIVE_TO": {
@@ -1564,7 +1564,7 @@
         "description": ""
     },
     "MISSILE_UNGUIDED": {
-        "message": "Roquette R40",
+        "message": "Roquette R40 non guidée",
         "description": ""
     },
     "MANUAL_CONTROL": {
@@ -1576,7 +1576,7 @@
         "description": ""
     },
     "SHIP_ALTITUDE_ABOVE_TERRAIN": {
-        "message": "Altitude du vaisseau rapport au terrain",
+        "message": "Altitude du vaisseau par rapport au terrain",
         "description": ""
     },
     "QUADRUPLE_SYSTEM": {
@@ -1736,7 +1736,7 @@
         "description": ""
     },
     "ROLL_RIGHT": {
-        "message": "Bariquer a droite",
+        "message": "Basculer a droite",
         "description": ""
     },
     "GO_BACK": {
@@ -1976,7 +1976,7 @@
         "description": ""
     },
     "META": {
-        "message": "\"mega\"",
+        "message": "\"meta\"",
         "description": ""
     },
     "STAR_SM_BH": {
@@ -2068,7 +2068,7 @@
         "description": ""
     },
     "YAW_LEFT": {
-        "message": "Lacet a gauche",
+        "message": "Virer a gauche",
         "description": ""
     },
     "ATMOSPHERIC_SHIELDING_DESCRIPTION": {
