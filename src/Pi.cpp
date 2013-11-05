@@ -126,6 +126,7 @@ bool Pi::joystickEnabled;
 bool Pi::mouseYInvert;
 std::map<SDL_JoystickID,Pi::JoystickState> Pi::joysticks;
 bool Pi::navTunnelDisplayed;
+bool Pi::speedLinesDisplayed = false;
 Gui::Fixed *Pi::menu;
 bool Pi::DrawGUI = true;
 Graphics::Renderer *Pi::renderer;
@@ -313,6 +314,7 @@ void Pi::Init()
 	mouseYInvert = (config->Int("InvertMouseY")) ? true : false;
 
 	navTunnelDisplayed = (config->Int("DisplayNavTunnel")) ? true : false;
+	speedLinesDisplayed = (config->Int("SpeedLines")) ? true : false;
 
 	EnumStrings::Init();
 
