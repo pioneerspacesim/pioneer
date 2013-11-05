@@ -27,6 +27,7 @@ noinst_HEADERS = \
 	ChatForm.h \
 	CityOnPlanet.h \
 	Color.h \
+	Colors.h \
 	CommodityTradeWidget.h \
 	Cutscene.h \
 	CRC32.h \
@@ -47,6 +48,7 @@ noinst_HEADERS = \
 	Frame.h \
 	GalacticView.h \
 	Game.h \
+	GameLog.h \
 	GeoSphere.h \
 	HyperspaceCloud.h \
 	IniConfig.h \
@@ -168,6 +170,7 @@ pioneer_SOURCES	= \
 	CameraController.cpp \
 	CargoBody.cpp \
 	Color.cpp \
+	Colors.cpp \
 	ChatForm.cpp \
 	CityOnPlanet.cpp \
 	CommodityTradeWidget.cpp \
@@ -186,6 +189,7 @@ pioneer_SOURCES	= \
 	Frame.cpp \
 	GalacticView.cpp \
 	Game.cpp \
+	GameLog.cpp \
 	GeoPatch.cpp \
 	GeoPatchContext.cpp \
 	GeoPatchID.cpp \

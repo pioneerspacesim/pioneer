@@ -104,6 +104,9 @@ void Camera::Draw(Renderer *renderer, const Body *excludeBody)
 
 	m_renderer = renderer;
 
+	m_renderer->SetDepthWrite(true);
+	m_renderer->SetDepthTest(true);
+
 	glPushAttrib(GL_ALL_ATTRIB_BITS & (~GL_POINT_BIT));
 
 	m_renderer->SetPerspectiveProjection(m_fovAng, m_width/m_height, m_zNear, m_zFar);

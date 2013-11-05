@@ -350,7 +350,7 @@ bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 		m_equipment.Add(item);
 		UpdateEquipStats();
 		if (this->IsType(Object::PLAYER))
-			Pi::Message(stringf(Lang::CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED, formatarg("item", Equip::types[item].name)));
+			Pi::game->log->Add(stringf(Lang::CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED, formatarg("item", Equip::types[item].name)));
 		// XXX Sfx::Add(this, Sfx::TYPE_SCOOP);
 		return true;
 	}
@@ -988,7 +988,7 @@ void Ship::StaticUpdate(const float timeStep)
 						m_equipment.Add(Equip::HYDROGEN);
 						UpdateEquipStats();
 						if (this->IsType(Object::PLAYER)) {
-							Pi::Message(stringf(Lang::FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED,
+							Pi::game->log->Add(stringf(Lang::FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED,
 									formatarg("quantity", m_equipment.Count(Equip::SLOT_CARGO, Equip::HYDROGEN))));
 						}
 					}
@@ -1009,7 +1009,7 @@ void Ship::StaticUpdate(const float timeStep)
 			if (m_equipment.Remove(t, 1)) {
 				m_equipment.Add(Equip::FERTILIZER);
 				if (this->IsType(Object::PLAYER)) {
-					Pi::Message(Lang::CARGO_BAY_LIFE_SUPPORT_LOST);
+					Pi::game->log->Add(Lang::CARGO_BAY_LIFE_SUPPORT_LOST);
 				}
 			}
 		}

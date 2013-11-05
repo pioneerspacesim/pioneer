@@ -57,6 +57,7 @@ void ShipSpinnerWidget::Draw()
 	Pi::renderer->SetPerspectiveProjection(45.f, 1.f, 1.f, 10000.f);
 	Pi::renderer->SetTransform(matrix4x4f::Identity());
 
+	Pi::renderer->SetDepthWrite(true);
 	Pi::renderer->SetDepthTest(true);
 	Pi::renderer->ClearDepthBuffer();
 
