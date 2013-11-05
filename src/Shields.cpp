@@ -217,12 +217,14 @@ void Shields::Update(const float coolDown, const float shieldStrength)
 {
 	// update hits on the shields
 	const Uint32 tickTime = SDL_GetTicks();
-	HitIterator it = m_hits.begin();
-	while(it != m_hits.end()) {
-		if (tickTime > it->end ) {
-			it = m_hits.erase( it );
-		} else {
-			++it;
+	{
+		HitIterator it = m_hits.begin();
+		while(it != m_hits.end()) {
+			if (tickTime > it->end ) {
+				it = m_hits.erase( it );
+			} else {
+				++it;
+			}
 		}
 	}
 
@@ -237,13 +239,15 @@ void Shields::Update(const float coolDown, const float shieldStrength)
 	if (shieldStrength>0.0f) {
 		s_renderParams.strength = shieldStrength;
 		s_renderParams.coolDown = coolDown;
-		int i = 0;
-		for (HitIterator it = m_hits.begin(), itEnd = m_hits.end(); it != itEnd && i<ShieldRenderParameters::MAX_SHIELD_HITS; ++it, ++i) {
-			s_renderParams.hitPos[i] = vector3f(it->pos.x, it->pos.y, it->pos.z);
+		
+		Uint32 numHits = m_hits.size();
+		for (Uint32 i = 0; i<numHits && i<ShieldRenderParameters::MAX_SHIELD_HITS;  ++i) {
+			const  Hits &hit = m_hits[i];
+			s_renderParams.hitPos[i] = vector3f(hit.pos.x, hit.pos.y, hit.pos.z);
 
 			//Calculate the impact's radius dependant on time
-			Uint32 dif1 = it->end - it->start;
-			Uint32 dif2 = tickTime - it->start;
+			Uint32 dif1 = hit.end - hit.start;
+			Uint32 dif2 = tickTime - hit.start;
 			//Range from start (0.0) to end (1.0)
 			float dif = float(dif2/(dif1*1.0f));
 
