@@ -238,7 +238,7 @@ void Shields::Update(const float coolDown, const float shieldStrength)
 		s_renderParams.strength = shieldStrength;
 		s_renderParams.coolDown = coolDown;
 		int i = 0;
-		for (HitIterator it = m_hits.begin(), itEnd = m_hits.end(); it != itEnd; ++it, ++i) {
+		for (HitIterator it = m_hits.begin(), itEnd = m_hits.end(); it != itEnd && i<ShieldRenderParameters::MAX_SHIELD_HITS; ++it, ++i) {
 			s_renderParams.hitPos[i] = vector3f(it->pos.x, it->pos.y, it->pos.z);
 
 			//Calculate the impact's radius dependant on time
