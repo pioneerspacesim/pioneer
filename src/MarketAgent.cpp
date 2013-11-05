@@ -39,9 +39,9 @@ bool MarketAgent::Pay(MarketAgent *b, Sint64 amount, bool verbose) {
 	if (m_money < amount) {
 		if (verbose) {
 			if (this == Pi::player) {
-				Pi::Message(Lang::YOU_NOT_ENOUGH_MONEY);
+				Pi::game->log->Add(Lang::YOU_NOT_ENOUGH_MONEY);
 			} else {
-				Pi::Message(Lang::TRADER_NOT_ENOUGH_MONEY);
+				Pi::game->log->Add(Lang::TRADER_NOT_ENOUGH_MONEY);
 			}
 		}
 		return false;

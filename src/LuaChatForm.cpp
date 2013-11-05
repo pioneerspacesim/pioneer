@@ -200,7 +200,7 @@ void LuaChatForm::OnClickBuy(int t) {
 
 	if (allow_buy) {
 		if (SellTo(Pi::player, static_cast<Equip::Type>(t), true)) {
-			Pi::Message(stringf(Lang::BOUGHT_1T_OF, formatarg("commodity", Equip::types[t].name)));
+			Pi::game->log->Add(stringf(Lang::BOUGHT_1T_OF, formatarg("commodity", Equip::types[t].name)));
 		}
 		m_commodityTradeWidget->UpdateStock(t);
 	}
@@ -224,7 +224,7 @@ void LuaChatForm::OnClickSell(int t) {
 
 	if (allow_sell) {
 		if (BuyFrom(Pi::player, static_cast<Equip::Type>(t), true)) {
-			Pi::Message(stringf(Lang::SOLD_1T_OF, formatarg("commodity", Equip::types[t].name)));
+			Pi::game->log->Add(stringf(Lang::SOLD_1T_OF, formatarg("commodity", Equip::types[t].name)));
 		}
 		m_commodityTradeWidget->UpdateStock(t);
 	}

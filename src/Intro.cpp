@@ -96,6 +96,9 @@ void Intro::Draw(float _time)
 	m_renderer->SetPerspectiveProjection(75, m_aspectRatio, 1.f, 10000.f);
 	m_renderer->SetTransform(matrix4x4f::Identity());
 
+	m_renderer->SetDepthTest(true);
+	m_renderer->SetDepthWrite(true);
+
 	glPushAttrib(GL_ALL_ATTRIB_BITS & (~GL_POINT_BIT));
 
 	const Color oldSceneAmbientColor = m_renderer->GetAmbientColor();

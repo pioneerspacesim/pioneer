@@ -124,7 +124,7 @@ void StationShipViewForm::BuyShip()
 	const int playerShipPrice = Pi::player->GetShipType()->baseprice >> 1;
 	Sint64 cost = ShipType::types[m_sos.id].baseprice - playerShipPrice;
 	if (Pi::player->GetMoney() < cost) {
-		Pi::cpan->MsgLog()->Message("", Lang::YOU_NOT_ENOUGH_MONEY);
+		Pi::game->log->Add(Lang::YOU_NOT_ENOUGH_MONEY);
 		return;
 	}
 
@@ -140,7 +140,7 @@ void StationShipViewForm::BuyShip()
 
 	m_station->ReplaceShipOnSale(m_marketIndex, old);
 
-    Pi::cpan->MsgLog()->Message("", Lang::THANKS_AND_REMEMBER_TO_BUY_FUEL);
+    Pi::game->log->Add(Lang::THANKS_AND_REMEMBER_TO_BUY_FUEL);
 
     m_formController->CloseForm();
 }

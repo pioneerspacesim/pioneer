@@ -617,7 +617,7 @@ bool SpaceStation::CanBuy(Equip::Type t, bool verbose) const {
 bool SpaceStation::CanSell(Equip::Type t, bool verbose) const {
 	bool result = (m_equipmentStock[int(t)] > 0);
 	if (verbose && !result) {
-		Pi::Message(Lang::ITEM_IS_OUT_OF_STOCK);
+		Pi::game->log->Add(Lang::ITEM_IS_OUT_OF_STOCK);
 	}
 	return result;
 }

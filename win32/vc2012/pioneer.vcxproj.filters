@@ -444,6 +444,12 @@
     <ClCompile Include="..\..\src\FaceGenManager.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\GameLog.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Colors.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h">
@@ -897,6 +903,12 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\pioneer\src\EquipSet.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GameLog.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Colors.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

@@ -721,19 +721,19 @@ void Pi::HandleEvents()
 						{
 							if(Pi::game) {
 								if (Pi::game->IsHyperspace())
-									Pi::cpan->MsgLog()->Message("", Lang::CANT_SAVE_IN_HYPERSPACE);
+									Pi::game->log->Add(Lang::CANT_SAVE_IN_HYPERSPACE);
 
 								else {
 									const std::string name = "_quicksave";
 									const std::string path = FileSystem::JoinPath(GetSaveDir(), name);
 									try {
 										Game::SaveGame(name, Pi::game);
-										Pi::cpan->MsgLog()->Message("", Lang::GAME_SAVED_TO + path);
+										Pi::game->log->Add(Lang::GAME_SAVED_TO + path);
 									} catch (CouldNotOpenFileException) {
-										Pi::cpan->MsgLog()->Message("", stringf(Lang::COULD_NOT_OPEN_FILENAME, formatarg("path", path)));
+										Pi::game->log->Add(stringf(Lang::COULD_NOT_OPEN_FILENAME, formatarg("path", path)));
 									}
 									catch (CouldNotWriteToFileException) {
-										Pi::cpan->MsgLog()->Message("", Lang::GAME_SAVE_CANNOT_WRITE);
+										Pi::game->log->Add(Lang::GAME_SAVE_CANNOT_WRITE);
 									}
 								}
 							}
@@ -1043,6 +1043,8 @@ void Pi::MainLoop()
 		Pi::renderer->EndFrame();
 		if( DrawGUI ) {
 			Gui::Draw();
+			if (game)
+				game->log->DrawHudMessages(renderer);
 		} else if (game && game->IsNormalSpace()) {
 			if (config->Int("DisableScreenshotInfo")==0) {
 				const RefCountedPtr<StarSystem> sys = game->GetSpace()->GetStarSystem();
@@ -1170,15 +1172,6 @@ float Pi::CalcHyperspaceFuelOut(int hyperclass, float dist, float hyperspace_ran
 	if (outFuelRequired < 1) outFuelRequired = 1;
 
 	return outFuelRequired;
-}
-
-void Pi::Message(const std::string &message, const std::string &from, enum MsgLevel level)
-{
-	if (level == MSG_IMPORTANT) {
-		Pi::cpan->MsgLog()->ImportantMessage(from, message);
-	} else {
-		Pi::cpan->MsgLog()->Message(from, message);
-	}
 }
 
 void Pi::InitJoysticks() {
