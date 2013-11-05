@@ -40,6 +40,7 @@ GameConfig::GameConfig()
 	map["CockpitCamera"] = "1";
 	map["WorkerThreads"] = "0";
 	map["SpeedLines"] = "1";
+	map["HudTrails"] = "1";
 
 #ifdef _WIN32
 	map["RedirectStdio"] = "1";
