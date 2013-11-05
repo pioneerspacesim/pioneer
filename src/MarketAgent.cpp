@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "Pi.h"
 #include "Lang.h"
+#include "Game.h"
 
 void MarketAgent::Load(Serializer::Reader &rd)
 {

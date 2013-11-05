@@ -16,6 +16,7 @@
 #include "StationPoliceForm.h"
 #include "Lang.h"
 #include "StringF.h"
+#include "Game.h"
 
 void LuaChatForm::OnOptionClicked(int option)
 {
