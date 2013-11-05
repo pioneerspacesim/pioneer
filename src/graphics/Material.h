@@ -32,7 +32,8 @@ enum EffectType {
 	EFFECT_GEOSPHERE_TERRAIN_WITH_LAVA,
 	EFFECT_GEOSPHERE_TERRAIN_WITH_WATER,
 	EFFECT_GEOSPHERE_SKY,
-	EFFECT_FRESNEL_SPHERE
+	EFFECT_FRESNEL_SPHERE,
+	EFFECT_SKYBOX
 };
 
 // Renderer creates a material that best matches these requirements.

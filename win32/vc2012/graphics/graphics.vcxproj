@@ -133,6 +133,7 @@
     <ClInclude Include="..\..\..\src\graphics\gl2\MultiMaterial.h" />
     <ClInclude Include="..\..\..\src\graphics\gl2\Program.h" />
     <ClInclude Include="..\..\..\src\graphics\gl2\RingMaterial.h" />
+    <ClInclude Include="..\..\..\src\graphics\gl2\SkyboxMaterial.h" />
     <ClInclude Include="..\..\..\src\graphics\gl2\StarfieldMaterial.h" />
     <ClInclude Include="..\..\..\src\graphics\gl2\Uniform.h" />
     <ClInclude Include="..\..\..\src\graphics\Graphics.h" />

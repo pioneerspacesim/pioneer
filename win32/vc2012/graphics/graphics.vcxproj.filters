@@ -95,6 +95,9 @@
       <Filter>gl2</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\graphics\WindowSDL.h" />
+    <ClInclude Include="..\..\..\src\graphics\gl2\SkyboxMaterial.h">
+      <Filter>gl2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="win32">
