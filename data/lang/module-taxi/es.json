@@ -180,7 +180,7 @@
         "description": ""
     },
     "GROUP_DETAILS": {
-        "message": "Group details:",
+        "message": "Detalles del grupo:",
         "description": ""
     },
     "FLAVOUR_WHEREAREWE_10": {
@@ -192,7 +192,7 @@
         "description": ""
     },
     "DISTANCE": {
-        "message": "Distance:",
+        "message": "Distancia:",
         "description": ""
     },
     "HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS": {
@@ -348,7 +348,7 @@
         "description": ""
     },
     "DANGER": {
-        "message": "Danger:",
+        "message": "Peligro:",
         "description": ""
     },
     "FLAVOUR_ADTEXT_5": {
@@ -360,7 +360,7 @@
         "description": ""
     },
     "DEADLINE": {
-        "message": "Deadline:",
+        "message": "Vencimiento:",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_6": {
@@ -408,7 +408,7 @@
         "description": ""
     },
     "TO": {
-        "message": "To:",
+        "message": "A:",
         "description": ""
     },
     "FLAVOUR_INTROTEXT_6": {
@@ -420,7 +420,7 @@
         "description": ""
     },
     "LY": {
-        "message": "ly",
+        "message": "al",
         "description": ""
     },
     "FLAVOUR_ADTEXT_6": {
@@ -492,7 +492,7 @@
         "description": ""
     },
     "FROM": {
-        "message": "From:",
+        "message": "Desde:",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_2": {
