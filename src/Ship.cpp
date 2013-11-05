@@ -1067,9 +1067,6 @@ void Ship::StaticUpdate(const float timeStep)
 	}
 	m_stats.shield_mass_left = Clamp(m_stats.shield_mass_left, 0.0f, m_stats.shield_mass);
 
-	const bool shieldsActive = m_stats.shield_mass_left > (m_stats.shield_mass * 0.01f);
-	SetShieldActive(shieldsActive);
-
 	if (m_wheelTransition) {
 		m_wheelState += m_wheelTransition*0.3f*timeStep;
 		m_wheelState = Clamp(m_wheelState, 0.0f, 1.0f);

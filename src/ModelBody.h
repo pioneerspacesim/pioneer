@@ -29,7 +29,6 @@ public:
 	// Static: geoms are static relative to frame
 	void SetStatic(bool isStatic);
 	bool IsStatic() const { return m_isStatic; }
-	void SetShieldActive(const bool isActive);
 	const Aabb &GetAabb() const { return m_collMesh->GetAabb(); }
 	SceneGraph::Model *GetModel() const { return m_model; }
 	CollMesh *GetCollMesh() { return m_collMesh.Get(); }
@@ -62,8 +61,6 @@ private:
 	bool m_colliding;
 	RefCountedPtr<CollMesh> m_collMesh;
 	Geom *m_geom; //static geom
-	RefCountedPtr<CollMesh> m_shieldCollMesh;
-	Geom *m_shieldGeom; //static shield geom
 	std::string m_modelName;
 	SceneGraph::Model *m_model;
 	std::vector<Geom*> m_dynGeoms;

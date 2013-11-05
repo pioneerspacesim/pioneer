@@ -174,69 +174,6 @@ Shields::Shields(SceneGraph::Model *model)
 			}
 		}
 	}
-
-	m_collMesh.Reset( new CollMesh() ); 
-
-	//Generate collision geometry from the shield meshes themselves for hit effects etc.
-	for (ShieldIterator it = m_shields.begin(); it != m_shields.end(); ++it) 
-	{
-		if( it->m_mesh ) 
-		{
-			std::vector<unsigned short> surf_indices;
-			std::vector<vector3f> surf_vertices;
-
-			RefCountedPtr<StaticGeometry> scene = it->m_mesh;
-			const matrix4x4f &matrix = it->m_matrix;
-
-			for(unsigned int i=0; i<scene->GetNumMeshes(); i++) {
-				RefCountedPtr<Graphics::StaticMesh> mesh = scene->GetMesh(i);
-
-				for (int iSurf = 0; iSurf < mesh->GetNumSurfaces(); iSurf++) {
-					RefCountedPtr<Graphics::Surface> surf = mesh->GetSurface(iSurf);
-
-					// get indices
-					surf_indices = surf->GetIndices();
-					
-					// get vertices
-					surf_vertices = surf->GetVertices()->position;
-
-					assert(!surf_vertices.empty() && !surf_vertices.empty());
-
-					//add pre-transformed geometry at the top level
-					//model->GetRoot()->AddChild(new CollisionGeometry(Pi::renderer, vertices, indices, 0));
-
-					const int numVertices = surf->GetNumVerts();
-					const int numIndices = surf->GetNumIndices();
-					const int numTris = numIndices / 3;
-					vector3f *vertices = new vector3f[numVertices];
-					Uint16 *indices = new Uint16[numIndices];
-					unsigned int *triFlags = new unsigned int[numTris];
-
-					//copy data
-					for (int i = 0; i < numVertices; i++) {
-						const vector3f pos = matrix * (surf_vertices[i]);
-						vertices[i] = pos;
-						m_collMesh->GetAabb().Update(pos.x, pos.y, pos.z);
-					}
-
-					for (int i = 0; i < numIndices; i++)
-						indices[i] = surf_indices[i];
-
-					for (int i = 0; i < numTris; i++)
-						triFlags[i] = 0;
-
-					assert(m_collMesh->GetGeomTree() == 0);
-
-					GeomTree *gt = new GeomTree(
-						numVertices, numTris,
-						reinterpret_cast<float*>(vertices),
-						indices, triFlags);
-					m_collMesh->SetGeomTree(gt);
-					m_collMesh->SetNumTriangles(numTris);
-				}
-			}
-		}
-	}
 }
 
 Shields::~Shields()

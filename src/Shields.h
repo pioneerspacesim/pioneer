@@ -40,8 +40,6 @@ public:
 
 	SceneGraph::StaticGeometry* GetFirstShieldMesh();
 
-	RefCountedPtr<CollMesh> GetCollMesh() const { return m_collMesh; }
-
 protected:
 	struct Hits
 	{
@@ -53,7 +51,6 @@ protected:
 	typedef std::deque<Shields::Hits>::iterator HitIterator;
 	std::deque<Hits> m_hits;
 	std::vector<Shield> m_shields;
-	RefCountedPtr<CollMesh> m_collMesh;
 	bool m_enabled;
 
 	static bool s_initialised;
