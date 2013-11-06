@@ -1,18 +1,18 @@
 {
     "CREWDETAILSHEETBB": {
-        "message": "Crew for hire\n\nName: {name}\nExperience: {experience}\nAsking wage: {wage} per week\n\n{response}\n",
+        "message": "Candidati per l'equipaggio\\n\n\\n\nNome: {name}\\n\nEsperienza: {experience}\\n\nStipendio richiesto: {wage} la settimana\\n\n\\n\n{response}\\n\n",
         "description": ""
     },
     "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY": {
-        "message": "Thanks, I'll get settled on board immediately.",
+        "message": "Grazie. Mi sistemerò a bordo immediatamente.",
         "description": ""
     },
     "CREWTESTRESULTSBB": {
-        "message": "Examination results:\n\nGeneral crew competence: {general}%\nEngineering and repair: {engineering}%\nPiloting and spaceflight: {piloting}%\nNavigation and plotting: {navigation}%\nSensors and defence: {sensors}%\nOverall exam score: {overall}%",
+        "message": "Risultato dell'esame:\\n\n\\n\nCompetenze di equipaggio generali: {general}%\\n\nIngegneria e riparazioni: {engineering}%\\n\nPilotaggio e volo spaziale: {piloting}%\\n\nNavigazione e tracciamento rotte: {navigation}%\\n\nSensori e difesa: {sensors}%\\n\nPunteggio complessivo esame: {overall}%",
         "description": ""
     },
     "OK_I_SUPPOSE_THATS_ALL_RIGHT": {
-        "message": "OK, I suppose that's all right.",
+        "message": "OK, suppongo che sia tutto a posto.",
         "description": ""
     },
     "GO_BACK": {
@@ -20,67 +20,67 @@
         "description": ""
     },
     "VETERAN_TIME_SERVED_CREW_MEMBER": {
-        "message": "Veteran, time served crew member",
+        "message": "Veterano, periodo di servizio come equipaggio",
         "description": ""
     },
     "ASK_CANDIDATE_TO_SIT_A_TEST": {
-        "message": "Ask candidate to sit a test",
+        "message": "Chiedi al candidato di sostenere un esame",
         "description": ""
     },
     "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER": {
-        "message": "I'm sorry, I'm not prepared to go any lower.",
+        "message": "Mi dispiace, non sono preparato a scendere più in basso.",
         "description": ""
     },
     "SENSORS_AND_DEFENCE": {
-        "message": "Sensors and defence",
+        "message": "Sensori e difesa",
         "description": ""
     },
     "THATS_EXTREMELY_GENEROUS_OF_YOU": {
-        "message": "That's extremely generous of you!",
+        "message": "Questo è molto generoso da parte sua!",
         "description": ""
     },
     "MINIMAL_TIME_SERVED_ABOARD_SHIP": {
-        "message": "Minimal time served aboard ship",
+        "message": "Tempo minimo di servizio a bordo",
         "description": ""
     },
     "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT": {
-        "message": "Make offer of position on ship for stated amount",
+        "message": "Offri un posto sulla nave per l'ammontare stabilito",
         "description": ""
     },
     "THERE_DOESNT_SEEM_TO_BE_SPACE_FOR_ME_ON_BOARD": {
-        "message": "There doesn't seem to be space for me on board!",
+        "message": "Sembra che non ci sia spazio per me a bordo!",
         "description": ""
     },
     "NAVIGATOR": {
-        "message": "Navigator",
+        "message": "Navigatore",
         "description": ""
     },
     "TIME_SERVED_CREW_MEMBER": {
-        "message": "Time served crew member",
+        "message": "Periodo di servizio come equipaggio",
         "description": ""
     },
     "PILOT": {
-        "message": "Pilot",
+        "message": "Pilota",
         "description": ""
     },
     "CREWMEMBER_WAGE_PER_WEEK": {
-        "message": "{potentialCrewMember} ({wage}/wk)",
+        "message": "{potentialCrewMember} ({wage}/settimana)",
         "description": ""
     },
     "THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER": {
-        "message": "That certainly makes this offer look better!",
+        "message": "Questo rende l'offerta molto milgiore!",
         "description": ""
     },
     "CREW_FOR_HIRE": {
-        "message": "Crew for hire",
+        "message": "Candidati per l'equipaggio",
         "description": ""
     },
     "SUGGEST_NEW_WEEKLY_WAGE_OF_N": {
-        "message": "Suggest new weekly wage of {newAmount}",
+        "message": "Proponi un nuovo stipendio settimanale di {newAmount}",
         "description": ""
     },
     "SHIPS_ENGINEER": {
-        "message": "Ship's Engineer",
+        "message": "Ingegnere di bordo",
         "description": ""
     },
     "HANG_UP": {
@@ -88,23 +88,23 @@
         "description": ""
     },
     "POTENTIAL_CREW_MEMBERS": {
-        "message": "Potential crew members are registered as seeking employment at {station}:",
+        "message": "Possibili membri dell'equipaggio registrati come in cerca di lavoro a {station}:",
         "description": ""
     },
     "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME": {
-        "message": "I'm sorry, your offer isn't attractive to me.",
+        "message": "Mi dispiace, la sua offerta non mi pare interessante.",
         "description": ""
     },
     "SIMULATOR_TRAINING_ONLY": {
-        "message": "Simulator training only",
+        "message": "Solo addestramento al simulatore",
         "description": ""
     },
     "SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS": {
-        "message": "Some experience in controlled environments",
+        "message": "Qualche esperienza in ambienti controllati",
         "description": ""
     },
     "NO_EXPERIENCE": {
-        "message": "No experience",
+        "message": "Nessuna esperienza",
         "description": ""
     }
 }

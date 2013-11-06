@@ -8,7 +8,7 @@
         "description": ""
     },
     "DOCKING_CLEARANCE_EXPIRED": {
-        "message": "Autorisation d'atterrissage écoulée. Pour atterrir, répétez votre requête.",
+        "message": "Autorisation d'atterrissage écoulée. Pour atterrir, veuillez refaire une demande.",
         "description": ""
     },
     "HYPERSPACE_TARGET": {
@@ -24,7 +24,7 @@
         "description": ""
     },
     "ALT": {
-        "message": "alt",
+        "message": "\" alt \"",
         "description": ""
     },
     "HYPERSPACE_ARRIVAL_CLOUD": {
@@ -32,7 +32,7 @@
         "description": ""
     },
     "DIRECTION": {
-        "message": "Doc",
+        "message": "\" Doc \"",
         "description": ""
     },
     "CARBON_ORE_DESCRIPTION": {
@@ -40,7 +40,7 @@
         "description": ""
     },
     "CAMERA_TOP_VIEW": {
-        "message": "Caméra supérieure",
+        "message": "Vue supérieure",
         "description": ""
     },
     "TINY": {
@@ -76,7 +76,7 @@
         "description": ""
     },
     "WHEELS_ARE_DOWN": {
-        "message": "Train d'atterrissage rentré",
+        "message": "Train d'atterrissage sorti",
         "description": ""
     },
     "INDUSTRIAL_MACHINERY": {
@@ -172,7 +172,7 @@
         "description": ""
     },
     "ALT_IN_METRES": {
-        "message": "Alt: %altitude{f.0}m",
+        "message": "Alt: %altitude{f.0}m (%vspeed{f.1}m/s)",
         "description": ""
     },
     "SHIELD_GENERATOR": {
@@ -180,7 +180,7 @@
         "description": ""
     },
     "SOMEWHERE_COMMODITIES_MARKET": {
-        "message": "%station Bourse",
+        "message": "%station Bourse d'échange",
         "description": ""
     },
     "NARCOTICS": {
@@ -236,7 +236,7 @@
         "description": ""
     },
     "CARGO_BAY_LIFE_SUPPORT_LOST": {
-        "message": "Les capteurs indiquent une déprésurisation de la soute de transport d'animaux.",
+        "message": "Les capteurs indiquent une déprésurisation de la soute d'organismes vivants.",
         "description": ""
     },
     "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE": {
@@ -276,7 +276,7 @@
         "description": ""
     },
     "COMPUTER_HEADING_CONTROL": {
-        "message": "Direction contrôlée",
+        "message": "Direction contrôlée par ordi.",
         "description": ""
     },
     "SURFACE_GRAVITY": {
@@ -332,7 +332,7 @@
         "description": ""
     },
     "THRUSTER_PORT": {
-        "message": "Moteur babord",
+        "message": "Moteur gauche",
         "description": ""
     },
     "TOGGLE_ROTATION_DAMPING": {
@@ -344,7 +344,7 @@
         "description": "The name that native speakers use for this language. This will be used in the language selection screen. For obscure reasons this currently must only use Latin-1 characters."
     },
     "CAMERA_BOTTOM_VIEW": {
-        "message": "Caméra Inférieure",
+        "message": "Vue Inférieure",
         "description": ""
     },
     "DAY_LENGTH": {
@@ -404,7 +404,7 @@
         "description": ""
     },
     "REMOVE": {
-        "message": "Enl",
+        "message": "Enlever",
         "description": ""
     },
     "LAUNCH_PERMISSION_DENIED_BUSY": {
@@ -488,7 +488,7 @@
         "description": ""
     },
     "CARGO": {
-        "message": "Soute",
+        "message": "Cargaison",
         "description": ""
     },
     "JOY_AXIS": {
@@ -520,7 +520,7 @@
         "description": ""
     },
     "CAMERA_RIGHT_VIEW": {
-        "message": "Caméra droite",
+        "message": "Vue droite",
         "description": ""
     },
     "NUMBER_LY": {
@@ -964,7 +964,7 @@
         "description": ""
     },
     "ROLL": {
-        "message": "Bariquer",
+        "message": "Roulade",
         "description": ""
     },
     "FORWARD_ACCEL_EMPTY": {
@@ -1144,7 +1144,7 @@
         "description": ""
     },
     "ROLL_LEFT": {
-        "message": "Bariquer a gauche",
+        "message": "Roulade a gauche",
         "description": ""
     },
     "CONTACT_LOCAL_POLICE": {
@@ -1180,7 +1180,7 @@
         "description": ""
     },
     "THRUSTER_STARBOARD": {
-        "message": "Moteur tribord",
+        "message": "Moteur droite",
         "description": ""
     },
     "MINOR_IMPORTS": {
@@ -1724,7 +1724,7 @@
         "description": ""
     },
     "WHEELS_ARE_UP": {
-        "message": "Train d'atterrissage sorti",
+        "message": "Train d'atterrissage rentré",
         "description": ""
     },
     "LIQUOR": {
@@ -1736,7 +1736,7 @@
         "description": ""
     },
     "ROLL_RIGHT": {
-        "message": "Basculer a droite",
+        "message": "Roulade a droite",
         "description": ""
     },
     "GO_BACK": {
@@ -1980,7 +1980,7 @@
         "description": ""
     },
     "STAR_SM_BH": {
-        "message": "L'Ancre Galactique",
+        "message": "Notre origine galactique",
         "description": ""
     },
     "MONTH_APR": {
@@ -2068,7 +2068,7 @@
         "description": ""
     },
     "YAW_LEFT": {
-        "message": "Virer a gauche",
+        "message": "lacet a gauche",
         "description": ""
     },
     "ATMOSPHERIC_SHIELDING_DESCRIPTION": {
@@ -2136,7 +2136,7 @@
         "description": ""
     },
     "CAMERA_LEFT_VIEW": {
-        "message": "Camera gauche",
+        "message": "Vue gauche",
         "description": ""
     },
     "ROTATE_RIGHT": {

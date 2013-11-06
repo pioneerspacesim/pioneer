@@ -4,27 +4,27 @@
         "description": ""
     },
     "FLAVOUR_SUCCESSMSG_2": {
-        "message": "È stato pagato pienamente per il completamento di quell'importante contratto.",
+        "message": "È stato pagato interamente per il completamento di quell'importante contratto.",
         "description": ""
     },
     "SPACEPORT": {
-        "message": "Spazioporto:",
+        "message": "Astroporto:",
         "description": ""
     },
     "FLAVOUR_SUCCESSMSG_0": {
-        "message": "Le notizie sulla lunga vacanza di {target} sono graditamente arrivate. Ben fatto, ho già ordinato il suo pagamento completo.",
+        "message": "Con gratitudine ricevo le notizie della lunga vacanza di {target}. Ben fatto, ho già ordinato il suo pagamento completo.",
         "description": ""
     },
     "TARGET_WILL_BE_LEAVING_SPACEPORT_AT": {
-        "message": "L'obiettivo lascerà lo spazioporto il:",
+        "message": "L'obiettivo lascerà l'astroporto il:",
         "description": ""
     },
     "FLAVOUR_SUCCESSMSG_5": {
-        "message": "Il messaggio sulla fine della carriera di {target} è felicemente arrivato. Ecco i suoi {cash}.",
+        "message": "Messaggio sulla fine della carriera di {target} felicemente arrivato. Ecco i suoi {cash}.",
         "description": ""
     },
     "FLAVOUR_SUCCESSMSG_4": {
-        "message": "Le notizie sul ritiro di {target} sono deliziose. Ecco i suoi crediti.",
+        "message": "Notizie sul ritiro di {target} deliziosamente giunte. Ecco i suoi crediti.",
         "description": ""
     },
     "HANG_UP": {
@@ -76,7 +76,7 @@
         "description": ""
     },
     "IT_MUST_BE_DONE_AFTER": {
-        "message": "Dev'essere fatto dopo che {target} ha lasciato {spaceport}. Non deve mancare questa opportunità.",
+        "message": "Dev'essere fatto dopo che {target} ha lasciato {spaceport}. Non deve lasciarsi sfuggire l'opportunità.",
         "description": ""
     },
     "HOW_WILL_I_BE_PAID": {
@@ -96,7 +96,7 @@
         "description": ""
     },
     "X_WILL_BE_LEAVING": {
-        "message": "{target} lascerà {spaceport} nel sistema {system} ({sectorX}, {sectorY}, {sectorZ}), distanza {dist} AL, il {date}. L'astronave è una {shipname} ed ha ID di registrazione {shipregid}.",
+        "message": "{target} lascerà {spaceport} nel sistema {system} ({sectorX}, {sectorY}, {sectorZ}), distanza {dist} AL, il {date}. L'astronave è una {shipname} ed ha codice di registrazione {shipregid}.",
         "description": ""
     },
     "LY": {
@@ -112,7 +112,7 @@
         "description": ""
     },
     "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID": {
-        "message": "Torni qui a contratto compiuto e verrà pagato.",
+        "message": "Torni qui al completamento del contratto e verrà pagato.",
         "description": ""
     },
     "OK_AGREED": {
@@ -136,11 +136,11 @@
         "description": ""
     },
     "FLAVOUR_FAILUREMSG2_0": {
-        "message": "L'eliminazione di {target} non è stata fatta da lei. Nessun pagamento, questa volta.",
+        "message": "La rimozione di {target} non è stata fatta da lei. Nessun pagamento, questa volta.",
         "description": ""
     },
     "FLAVOUR_ADTEXT_1": {
-        "message": "CERCASI: Qualcuno per uccidere {target} dal sistema {system}.",
+        "message": "CERCASI: Qualcuno per uccidere {target} nel sistema {system}.",
         "description": ""
     },
     "FLAVOUR_INTROTEXT_2": {
@@ -176,7 +176,7 @@
         "description": ""
     },
     "FLAVOUR_INTROTEXT_1": {
-        "message": "Ho bisogno di avere {target} fuori dai giochi. Verrà pagato {cash} per il lavoro.",
+        "message": "Ho bisogno che {target} sia fuori dai giochi. Verrà pagato {cash} per il lavoro.",
         "description": ""
     },
     "TITLE_10": {
@@ -220,7 +220,7 @@
         "description": ""
     },
     "SHIP_ID": {
-        "message": "ID astronave:",
+        "message": "Codice reg. nave:",
         "description": ""
     },
     "TITLE_0": {
@@ -252,11 +252,11 @@
         "description": ""
     },
     "FLAVOUR_FAILUREMSG2_2": {
-        "message": "Il contratto è stato completato da qualcun'altro. Sia più svelto la prossima volta!",
+        "message": "Il contratto è stato completato da qualcun'altro. Sia più veloce la prossima volta!",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG2_1": {
-        "message": "La dipartita di {target} non è stata causata da lei, quindi non ci chieda il pagamento.",
+        "message": "La dipartita di {target} non è stata causata da lei, quindi non ci chieda la ricomensa.",
         "description": ""
     },
     "EXCELLENT": {
@@ -276,7 +276,7 @@
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_5": {
-        "message": "Abbiamo scoperto che {target} è, ciò nonostante, operativo. Questo ci rattrista.",
+        "message": "Abbiamo scoperto che {target} è, nondimeno, operativo. Questo ci rattrista.",
         "description": ""
     },
     "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {

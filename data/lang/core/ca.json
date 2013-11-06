@@ -16,7 +16,7 @@
         "description": ""
     },
     "MONTH_AUG": {
-        "message": "Aug",
+        "message": "Ag.",
         "description": ""
     },
     "COMPUTER_SPEED_CONTROL": {
@@ -40,7 +40,7 @@
         "description": ""
     },
     "CAMERA_TOP_VIEW": {
-        "message": "Top camera",
+        "message": "Càmera superior",
         "description": ""
     },
     "TINY": {
@@ -156,7 +156,7 @@
         "description": ""
     },
     "MONTH_JAN": {
-        "message": "Jan",
+        "message": "Gen.",
         "description": ""
     },
     "PRICE_TO_REMOVE": {
@@ -344,7 +344,7 @@
         "description": "The name that native speakers use for this language. This will be used in the language selection screen. For obscure reasons this currently must only use Latin-1 characters."
     },
     "CAMERA_BOTTOM_VIEW": {
-        "message": "Bottom camera",
+        "message": "Càmera inferior",
         "description": ""
     },
     "DAY_LENGTH": {
@@ -364,7 +364,7 @@
         "description": ""
     },
     "MONTH_MAY": {
-        "message": "May",
+        "message": "Maig",
         "description": ""
     },
     "ASTEROID": {
@@ -384,7 +384,7 @@
         "description": ""
     },
     "MONTH_MAR": {
-        "message": "Mar",
+        "message": "Març",
         "description": ""
     },
     "PAY_THE_FINE_NOW": {
@@ -472,7 +472,7 @@
         "description": ""
     },
     "MONTH_FEB": {
-        "message": "Feb",
+        "message": "Febr.",
         "description": ""
     },
     "PLANETARY_INFO": {
@@ -520,7 +520,7 @@
         "description": ""
     },
     "CAMERA_RIGHT_VIEW": {
-        "message": "Right camera",
+        "message": "Càmera dreta",
         "description": ""
     },
     "NUMBER_LY": {
@@ -568,7 +568,7 @@
         "description": ""
     },
     "ROTATE_LEFT": {
-        "message": "Rotate Left",
+        "message": "Girar Esquerra",
         "description": ""
     },
     "TRADING_ILLEGAL_GOODS": {
@@ -584,7 +584,7 @@
         "description": ""
     },
     "MONTH_NOV": {
-        "message": "Nov",
+        "message": "Nov.",
         "description": ""
     },
     "EXACT_MATCH_X": {
@@ -652,7 +652,7 @@
         "description": ""
     },
     "FUEL_WEIGHT": {
-        "message": "Fuel weight",
+        "message": "Pes del combustible",
         "description": ""
     },
     "SMALL_INDUSTRIAL_OUTPOST": {
@@ -720,7 +720,7 @@
         "description": ""
     },
     "MONTH_OCT": {
-        "message": "Oct",
+        "message": "Oct.",
         "description": ""
     },
     "SMALL_GAS_GIANT": {
@@ -744,7 +744,7 @@
         "description": ""
     },
     "WHITE_DWARF": {
-        "message": "White dwarf stellar remnant",
+        "message": "Restes estel·lars d'una nana blanca",
         "description": ""
     },
     "HULL_TEMP": {
@@ -828,7 +828,7 @@
         "description": ""
     },
     "PAUSED": {
-        "message": "PAUSED",
+        "message": "PAUSAT",
         "description": ""
     },
     "MISSILE_SMART": {
@@ -1152,7 +1152,7 @@
         "description": ""
     },
     "MONTH_DEC": {
-        "message": "Dec",
+        "message": "Des.",
         "description": ""
     },
     "PRESSURE_N_ATMOSPHERES": {
@@ -1224,7 +1224,7 @@
         "description": ""
     },
     "ROTATE_UP": {
-        "message": "Rotate Up",
+        "message": "Girar Amunt",
         "description": ""
     },
     "NO_REGISTERED_INHABITANTS": {
@@ -1348,7 +1348,7 @@
         "description": ""
     },
     "FIRE_MISSILE": {
-        "message": "Fire missile",
+        "message": "Disparar mísil",
         "description": ""
     },
     "PULSECANNON_20MW": {
@@ -1412,7 +1412,7 @@
         "description": ""
     },
     "MONTH_SEP": {
-        "message": "Sep",
+        "message": "Set.",
         "description": ""
     },
     "PITCH_DOWN": {
@@ -1468,7 +1468,7 @@
         "description": ""
     },
     "MONTH_JUN": {
-        "message": "Jun",
+        "message": "Juny",
         "description": ""
     },
     "GAME_LOAD_CORRUPT": {
@@ -1476,7 +1476,7 @@
         "description": ""
     },
     "MONTH_JUL": {
-        "message": "Jul",
+        "message": "Jul.",
         "description": ""
     },
     "M_S_RELATIVE_TO": {
@@ -1628,7 +1628,7 @@
         "description": ""
     },
     "MISCELLANEOUS": {
-        "message": "Miscellaneous",
+        "message": "Miscel·lània",
         "description": ""
     },
     "SOMEWHERE_SHIP_EQUIPMENT": {
@@ -1840,7 +1840,7 @@
         "description": ""
     },
     "ROTATE_DOWN": {
-        "message": "Rotate Down",
+        "message": "Girar Avall",
         "description": ""
     },
     "SOMEWHERE_SHIP_MARKET": {
@@ -1984,7 +1984,7 @@
         "description": ""
     },
     "MONTH_APR": {
-        "message": "Apr",
+        "message": "Abr.",
         "description": ""
     },
     "BOUGHT_1T_OF": {
@@ -2136,11 +2136,11 @@
         "description": ""
     },
     "CAMERA_LEFT_VIEW": {
-        "message": "Left camera",
+        "message": "Càmera esquerra",
         "description": ""
     },
     "ROTATE_RIGHT": {
-        "message": "Rotate Right",
+        "message": "Girar Dreta",
         "description": ""
     }
 }

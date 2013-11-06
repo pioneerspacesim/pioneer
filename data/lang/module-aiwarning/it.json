@@ -4,7 +4,7 @@
         "description": ""
     },
     "CANNOT_COMPENSATE_FOR_LOCAL_GRAVITY": {
-        "message": "Impossibile Compensare la gravità locale",
+        "message": "Impossibile compensare la gravità locale",
         "description": ""
     },
     "CANNOT_COMPUTE_ORBIT_PARAMETERS": {
@@ -12,7 +12,7 @@
         "description": ""
     },
     "STARPORT_REFUSED_DOCKING_PERMISSION": {
-        "message": "Permesso di attraccare rifiutato",
+        "message": "Lo spazioporto ha rifiutato la richiesta di attracco",
         "description": ""
     }
 }

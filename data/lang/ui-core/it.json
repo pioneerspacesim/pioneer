@@ -8,7 +8,7 @@
         "description": ""
     },
     "DISPLAY_NAV_TUNNELS": {
-        "message": "Mostra nav tunnels",
+        "message": "Mostra tunnel navigazione",
         "description": ""
     },
     "ORBIT": {
@@ -40,7 +40,7 @@
         "description": ""
     },
     "START_AT_NEW_HOPE": {
-        "message": "Inizia da New Hope",
+        "message": "Parti da New Hope",
         "description": ""
     },
     "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
@@ -92,11 +92,11 @@
         "description": ""
     },
     "ORBITAL_ANALYSIS_NOTES": {
-        "message": "La velocità orbita circolare è data come velocità tangenziale. L'astronave deve muoversi in una direzione di 90° rispetto all'asse astronave/{nome}.⏎\n⏎\nLa velocità di discesa è un minimo assoluto, ed è anch'essa tangenziale. Una velocità od un angolo inferiori porteranno ad una traiettoria che interseca con la superficie di {name}.⏎\n⏎\nLa velocità di fuga si applica teoricamente ad ogni direzione, fintanto che l'astronave non entra in rotta di collisione con {name}.⏎\n⇥⇥",
+        "message": "La velocità di orbita circolare è data come velocità tangenziale. L'astronave deve muoversi in una direzione di 90° rispetto all'asse astronave/{nome}.\\n\n\\n\nLa velocità di discesa è un minimo assoluto, ed è anch'essa tangenziale. Una velocità od un angolo inferiori porteranno ad una traiettoria che interseca con la superficie di {name}.\\n\n\\n\nLa velocità di fuga si applica teoricamente ad ogni direzione, fintanto che l'astronave non entra in rotta di collisione con {name}.\\n\n\\t\\t",
         "description": ""
     },
     "CLEAR": {
-        "message": "Clear",
+        "message": "Pulisci",
         "description": ""
     },
     "CREW_ROSTER": {
@@ -268,7 +268,7 @@
         "description": ""
     },
     "MILITARY": {
-        "message": "Militare",
+        "message": "Milizia",
         "description": ""
     },
     "MALE": {
@@ -300,7 +300,7 @@
         "description": ""
     },
     "YOURE_GOING_TO_REGRET_SACKING_ME": {
-        "message": "You're going to regret sacking me!",
+        "message": "Ti pentirai di avermi scaricato!",
         "description": ""
     },
     "SELECT_GAME_TO_LOAD": {
@@ -380,11 +380,11 @@
         "description": ""
     },
     "DOCK_AT_CURRENT_TARGET": {
-        "message": "Attracca all'obiettivo selezionato",
+        "message": "Attracca alla destinazione selezionata",
         "description": ""
     },
     "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP": {
-        "message": "Non c'è nessuno a bordo in grado di pilotare questa astronave.",
+        "message": "Non c'è nessun'altro a bordo in grado di pilotare questa astronave.",
         "description": ""
     },
     "AN_ERROR_HAS_OCCURRED": {
@@ -404,7 +404,7 @@
         "description": ""
     },
     "DISMISS": {
-        "message": "Ignora",
+        "message": "Licenzia",
         "description": ""
     },
     "CASH": {
@@ -420,7 +420,7 @@
         "description": ""
     },
     "MASTER": {
-        "message": "Master:",
+        "message": "Principale:",
         "description": ""
     },
     "NO_MISSIONS": {
@@ -448,7 +448,7 @@
         "description": ""
     },
     "JETTISON": {
-        "message": "Scarica",
+        "message": "Espelli",
         "description": ""
     },
     "CIRCULAR_ORBIT_SPEED": {
@@ -496,7 +496,7 @@
         "description": ""
     },
     "COMBAT": {
-        "message": "Combatti",
+        "message": "Combattimento",
         "description": ""
     },
     "EQUIPMENT": {
@@ -528,7 +528,7 @@
         "description": ""
     },
     "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME": {
-        "message": "Seleziona un file in cui salvare, oppure inserisci un nuovo nome",
+        "message": "Seleziona un file su cui salvare, oppure inserisci un nuovo nome",
         "description": ""
     },
     "MISSIONS": {
@@ -536,7 +536,7 @@
         "description": ""
     },
     "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT": {
-        "message": "Scafo riparato da {name}, ora è al {repairPercent}%",
+        "message": "Scafo riparato da {name}, ora al {repairPercent}%",
         "description": ""
     },
     "CARGO_SPACE": {
@@ -580,15 +580,15 @@
         "description": ""
     },
     "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE": {
-        "message": "È stato bello lavorare con lei. Sarò qua ancora un po', se avesse ancora bisogno di me.",
+        "message": "È stato bello lavorare con lei. Sarò qua ancora un po', se avesse bisogno di me.",
         "description": ""
     },
     "START_AT_EARTH": {
-        "message": "Inizia dalla Terra",
+        "message": "Parti dalla Terra",
         "description": ""
     },
     "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS": {
-        "message": "Sono stanco di lavorare per nulla. Ha idea di cosa sia un contratto?",
+        "message": "Sono stanco di lavorare gratis. Ha idea di cosa sia un contratto?",
         "description": ""
     },
     "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME": {
@@ -616,7 +616,7 @@
         "description": ""
     },
     "START_AT_BARNARDS_STAR": {
-        "message": "Inizia dalla Stella di Barnard",
+        "message": "Parti dalla Stella di Barnard",
         "description": ""
     },
     "VERY_HIGH": {
@@ -648,7 +648,7 @@
         "description": ""
     },
     "ALL_UP_WEIGHT": {
-        "message": "Peso in volo",
+        "message": "Peso in ordine di marcia",
         "description": ""
     },
     "DEADLY": {
