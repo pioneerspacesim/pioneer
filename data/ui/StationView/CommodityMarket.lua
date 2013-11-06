@@ -2,16 +2,19 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
+local Lang = import("Lang")
 local Game = import("Game")
 local EquipDef = import("EquipDef")
-local Lang = import("Lang")
+local ShipDef = import("ShipDef")
+local Comms = import("Comms")
 
 local InfoGauge = import("ui/InfoGauge")
 
 local ui = Engine.ui
 
+local l = Lang.GetResource("ui-core")
 -- XXX equipment strings are in core. this sucks
-local l = Lang.GetResource("core")
+local lcore = Lang.GetResource("core")
 
 local cargoIcon = {
 	HYDROGEN =              "Hydrogen",
@@ -48,7 +51,8 @@ local cargoIcon = {
 }
 
 local commodityMarket = function (args)
-	local station = Game.player:GetDockedWith()
+	local player = Game.player
+	local station = player:GetDockedWith()
 
 	local cargoTypes = {}
 	for k,v in pairs(EquipDef) do
@@ -67,13 +71,11 @@ local commodityMarket = function (args)
 			:SetMouseEnabled(true)
 
 	local rowEquip = {}
-	stationCargo.onRowClicked:Connect(function (row) print(rowEquip[row+1]) end)
-
 	local row = 1
 	for i=1,#cargoTypes do
 		local e = cargoTypes[i]
 		local icon = cargoIcon[e] and ui:Image("icons/goods/"..cargoIcon[e]..".png") or ""
-		stationCargo:AddRow({ icon, l[e], string.format("%.02f", station:GetEquipmentPrice(e)), station:GetEquipmentStock(e) })
+		stationCargo:AddRow({ icon, lcore[e], string.format("%.02f", station:GetEquipmentPrice(e)), station:GetEquipmentStock(e) })
 		rowEquip[row] = e
 		row = row + 1
 	end
@@ -89,10 +91,10 @@ local commodityMarket = function (args)
 		shipCargo:ClearRows()
 		for i=1,#cargoTypes do
 			local e = cargoTypes[i]
-			local n = Game.player:GetEquipCount("CARGO", e)
+			local n = player:GetEquipCount("CARGO", e)
 			if n > 0 then
 				local icon = cargoIcon[e] and ui:Image("icons/goods/"..cargoIcon[e]..".png") or ""
-				shipCargo:AddRow({ icon, l[e], n })
+				shipCargo:AddRow({ icon, lcore[e], n })
 			end
 		end
 	end
@@ -100,10 +102,41 @@ local commodityMarket = function (args)
 
 	local cargoGauge = InfoGauge.New({
 		formatter = function (v)
-			return string.format("%d/%dt", Game.player.usedCargo, Game.player.freeCapacity)
+			return string.format("%d/%dt", player.usedCargo, ShipDef[player.shipId].capacity-player.usedCapacity+player.usedCargo)
 		end
 	})
-	cargoGauge:SetValue(Game.player.usedCargo/Game.player.freeCapacity)
+	cargoGauge:SetValue(player.usedCargo/(ShipDef[player.shipId].capacity-player.usedCapacity+player.usedCargo))
+
+	local cashLabel = ui:Label(string.format("$%.2f", player:GetMoney()))
+
+	stationCargo.onRowClicked:Connect( function (row)
+		local e = rowEquip[row+1]
+
+		if station:GetEquipmentStock(e) <= 0 then
+			Comms.Message(l.ITEM_IS_OUT_OF_STOCK)
+			return
+		end
+
+		-- XXX check slot capacity
+
+		if player.freeCapacity <= 0 then
+			Comms.Message(l.SHIP_IS_FULLY_LADEN)
+			return
+		end
+
+		if player:GetMoney() < station:GetEquipmentPrice(e) then
+			Comms.Message(l.YOU_NOT_ENOUGH_MONEY)
+			return
+		end
+
+		assert(player:AddEquip(e) == 1)
+		player:AddMoney(-station:GetEquipmentPrice(e))
+
+		fillShipCargo()
+
+		cargoGauge:SetValue(player.usedCargo/(ShipDef[player.shipId].capacity-player.usedCapacity+player.usedCargo))
+		cashLabel:SetText(string.format("$%.2f", player:GetMoney()))
+	end)
 
 	return
 		ui:Grid(2,1)
@@ -117,6 +150,10 @@ local commodityMarket = function (args)
 				ui:VBox():PackEnd({
 					ui:Label("In cargo hold"):SetFont("HEADING_LARGE"),
 					ui:Expand():SetInnerWidget(shipCargo),
+					ui:HBox():PackEnd({
+						"Cash: ",
+						cashLabel
+					}),
 					ui:HBox():PackEnd({
 						"Cargo space: ",
 						cargoGauge

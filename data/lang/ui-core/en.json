@@ -291,6 +291,10 @@
       "description" : "",
       "message" : "Invert Mouse Y"
    },
+   "ITEM_IS_OUT_OF_STOCK" : {
+      "description" : "",
+      "message" : "This item is out of stock."
+   },
    "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE" : {
       "description" : "",
       "message" : "It's been great working for you. If you need me again, I'll be here a while."
@@ -563,6 +567,10 @@
       "description" : "",
       "message" : "Ship Information"
    },
+   "SHIP_IS_FULLY_LADEN" : {
+      "description" : "",
+      "message" : "Your ship is fully laden."
+   },
    "SOUND" : {
       "description" : "",
       "message" : "Sound"
@@ -662,5 +670,9 @@
    "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER" : {
       "description" : "",
       "message" : "You must request launch clearance first, Commander."
+   },
+   "YOU_NOT_ENOUGH_MONEY" : {
+      "description" : "",
+      "message" : "You do not have enough money"
    }
 }
