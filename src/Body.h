@@ -16,6 +16,7 @@ class ObjMesh;
 class Space;
 class Camera;
 namespace Graphics { class Renderer; }
+struct CollisionContact;
 
 class Body: public Object, public PropertiedObject {
 public:

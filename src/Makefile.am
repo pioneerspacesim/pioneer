@@ -126,6 +126,7 @@ noinst_HEADERS = \
 	StringF.h \
 	StringRange.h \
 	Sfx.h \
+	Shields.h \
 	Ship.h \
 	ShipAICmd.h \
 	ShipController.h \
@@ -270,6 +271,7 @@ pioneer_SOURCES	= \
 	StationShipyardForm.cpp \
 	StringF.cpp \
 	Sfx.cpp \
+	Shields.cpp \
 	Ship-AI.cpp \
 	Ship.cpp \
 	ShipAICmd.cpp \

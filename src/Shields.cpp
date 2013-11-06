@@ -51,7 +51,7 @@ void Shields::Init(Graphics::Renderer *renderer)
 
 	s_initialised = true;
 }
-#pragma optimize("",off)
+
 void Shields::ReparentShieldNodes(SceneGraph::Model* model)
 {
 	assert(s_initialised);
@@ -141,7 +141,7 @@ void Shields::Uninit()
 
 	s_initialised = false;
 }
-#pragma optimize("",off)
+
 Shields::Shields(SceneGraph::Model *model)
 	: m_enabled(false)
 {

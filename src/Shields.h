@@ -30,7 +30,7 @@ public:
 	virtual void Load(Serializer::Reader &rd);
 
 	void SetEnabled(const bool on) { m_enabled = on; }
-	void Update(const float coolDown /* 0.0f to 1.0f */, const float shieldStrength /* 0.0f to 1.0f */);
+	void Update(const float coolDown, const float shieldStrength);
 	void SetColor(const Color3ub);
 	void AddHit(const vector3d& hitPos);
 

@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ModelSpinner.h"
+#include "Shields.h"
 #include "Ship.h"
 #include "Pi.h"
 #include "Game.h"

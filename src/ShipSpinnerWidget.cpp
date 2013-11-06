@@ -4,6 +4,7 @@
 #include "ShipSpinnerWidget.h"
 #include "Pi.h"
 #include "Game.h"
+#include "Shields.h"
 #include "Ship.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
