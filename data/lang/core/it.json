@@ -664,7 +664,7 @@
         "description": ""
     },
     "N_WHATEVER_RADII": {
-        "message": "%radius{f.3} raggio %units (%radkm{f.0} km)",
+        "message": "%radius{f.3} volte il raggio %units (%radkm{f.0} km)",
         "description": ""
     },
     "AXIAL_TILT": {
@@ -1860,7 +1860,7 @@
         "description": ""
     },
     "N_WHATEVER_MASSES": {
-        "message": "%mass{f.3} massa %units",
+        "message": "%mass{f.3} volte la massa %units",
         "description": ""
     },
     "PRECIOUS_METALS": {
