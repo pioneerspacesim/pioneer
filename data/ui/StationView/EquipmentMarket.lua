@@ -86,7 +86,7 @@ local equipmentMarket = function (args)
 			})
 			:SetColumn(1, {
 				ui:VBox():PackEnd({
-					ui:Label("In cargo hold"):SetFont("HEADING_LARGE"),
+					ui:Label("Equipped"):SetFont("HEADING_LARGE"),
 					ui:Expand():SetInnerWidget(shipTable),
 					ui:HBox():PackEnd({
 						"Cash: ",
