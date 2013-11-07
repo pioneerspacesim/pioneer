@@ -730,6 +730,12 @@ void Ship::SetLandedOn(Planet *p, float latitude, float longitude)
 	SetFlightState(LANDED);
 	LuaEvent::Queue("onShipLanded", this, p);
 }
+#pragma optimize("",off)
+void Ship::SetFrame(Frame *f)
+{
+	DynamicBody::SetFrame(f);
+	m_sensors->ResetTrails();
+}
 
 void Ship::TimeStepUpdate(const float timeStep)
 {
