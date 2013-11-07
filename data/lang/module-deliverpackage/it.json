@@ -40,7 +40,7 @@
         "description": ""
     },
     "FLAVOUR_SUCCESSMSG_1": {
-        "message": "Il pacco è stato ricevuto e lei ha ottenuto il comenso pattuito.",
+        "message": "Il pacco è stato ricevuto. Ecco il compenso che avevamo concordato.",
         "description": ""
     },
     "FLAVOUR_WHYSOMUCHTEXT_7": {
@@ -48,7 +48,7 @@
         "description": ""
     },
     "FLAVOUR_INTROTEXT_3": {
-        "message": "Salve. Sono {name}. Sono disposto a pagare {cash} perchè un'astronave trasporti un pacchetto a {starport} nel sistema ({sectorx}, {sectory}, {sectorz}), distante {dist} AL.",
+        "message": "Salve. Sono {name}. Sono disposto a pagare {cash} perchè un'astronave trasporti un incartamento a {starport} nel sistema ({sectorx}, {sectory}, {sectorz}), distante {dist} AL.",
         "description": ""
     },
     "FLAVOUR_SUCCESSMSG_0": {
@@ -100,7 +100,7 @@
         "description": ""
     },
     "FLAVOUR_SUCCESSMSG_4": {
-        "message": "È molto apprezzato il suo servizio discreto e puntuale. Il suo compenso è stato depositato interamente.",
+        "message": "È stato molto apprezzato il suo servizio discreto e puntuale. Il suo compenso è stato depositato interamente.",
         "description": ""
     },
     "PIRATE_TAUNTS_3": {
@@ -120,7 +120,7 @@
         "description": ""
     },
     "FLAVOUR_INTROTEXT_7": {
-        "message": "Salve. Abbiamo bisogno che queste casse vengano consegnate a {starport} il più presto possibile. La comune parcella per queste consegne è di {cash}.",
+        "message": "Salve. Abbiamo bisogno che queste casse vengano consegnate a {starport} il più presto possibile. La normale parcella per queste consegne è di {cash}.",
         "description": ""
     },
     "FLAVOUR_ADTEXT_4": {
@@ -180,7 +180,7 @@
         "description": ""
     },
     "FLAVOUR_INTROTEXT_5": {
-        "message": "Piacere di conoscerci. Sono {name} e posso pagare {cash} a chi mi può aiutare con la sua astronave a traslocare i miei averi su {starport}. Non c'è fretta, sono solo alcuni avanzi di un trasloco.",
+        "message": "Piacere di conoscerci. Sono {name} e posso pagare {cash} a chi mi può aiutare a traslocare i miei averi a {starport}. Non c'è fretta, sono solo alcuni avanzi di un trasloco.",
         "description": ""
     },
     "FLAVOUR_INTROTEXT_4": {
@@ -208,7 +208,7 @@
         "description": ""
     },
     "FLAVOUR_INTROTEXT_1": {
-        "message": "Ciao. Sono {name}. Pago {cash} al pilota di astronave che consegni un incarto a {starport} nel sistema {system} ({sectorx}, {sectory}, {sectorz}), distante {dist} anni luce.",
+        "message": "Ciao. Sono {name}. Pago {cash} al pilota di astronave che consegnerà un pacchetto a {starport} nel sistema {system} ({sectorx}, {sectory}, {sectorz}), distante {dist} anni luce.",
         "description": ""
     },
     "HANG_UP": {
@@ -216,7 +216,7 @@
         "description": ""
     },
     "IT_MUST_BE_DELIVERED_BY": {
-        "message": "Dev'essere consegnata entro il",
+        "message": "Dev'essere consegnata entro le ",
         "description": ""
     },
     "FLAVOUR_ADTEXT_2": {
@@ -232,7 +232,7 @@
         "description": ""
     },
     "FLAVOUR_WHYSOMUCHTEXT_9": {
-        "message": "La nostra sopravvivenza dipende da esso.",
+        "message": "Le nostre vite dipendono da esso.",
         "description": ""
     },
     "THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE": {
@@ -292,7 +292,7 @@
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_7": {
-        "message": "I nostri clienti non saranno contenti di questo. Non si aspetti di essere pagato.",
+        "message": "I nostri clienti non saranno contenti di questo. Non si aspetti di venire pagato.",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_4": {
@@ -316,7 +316,7 @@
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_1": {
-        "message": "Sono frustrato dal ritardo nella consegna del mio pacco, e mi rifiuto di pagarla.",
+        "message": "Questo ritardo nella consegna del mio pacco è stato molto frustrante, ed io mi rifiuto di pagare.",
         "description": ""
     }
 }

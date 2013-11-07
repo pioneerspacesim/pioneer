@@ -1,6 +1,6 @@
 {
     "CREWDETAILSHEETBB": {
-        "message": "Candidati per l'equipaggio\\n\n\\n\nNome: {name}\\n\nEsperienza: {experience}\\n\nStipendio richiesto: {wage} la settimana\\n\n\\n\n{response}\\n\n",
+        "message": "Candidati per l'equipaggio\n\nNome: {name}\nEsperienza: {experience}\nStipendio richiesto: {wage} la settimana\n\n{response}\n",
         "description": ""
     },
     "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY": {
@@ -8,7 +8,7 @@
         "description": ""
     },
     "CREWTESTRESULTSBB": {
-        "message": "Risultato dell'esame:\\n\n\\n\nCompetenze di equipaggio generali: {general}%\\n\nIngegneria e riparazioni: {engineering}%\\n\nPilotaggio e volo spaziale: {piloting}%\\n\nNavigazione e tracciamento rotte: {navigation}%\\n\nSensori e difesa: {sensors}%\\n\nPunteggio complessivo esame: {overall}%",
+        "message": "Risultato dell'esame:\n\nCompetenze di equipaggio generali: {general}%\nIngegneria e riparazioni: {engineering}%\nPilotaggio e volo spaziale: {piloting}%\nNavigazione e tracciamento rotte: {navigation}%\nSensori e difesa: {sensors}%\nPunteggio complessivo esame: {overall}%",
         "description": ""
     },
     "OK_I_SUPPOSE_THATS_ALL_RIGHT": {
@@ -20,7 +20,7 @@
         "description": ""
     },
     "VETERAN_TIME_SERVED_CREW_MEMBER": {
-        "message": "Veterano, periodo di servizio come equipaggio",
+        "message": "Periodo di servizio come membro Veterano di un equipaggio",
         "description": ""
     },
     "ASK_CANDIDATE_TO_SIT_A_TEST": {
@@ -40,7 +40,7 @@
         "description": ""
     },
     "MINIMAL_TIME_SERVED_ABOARD_SHIP": {
-        "message": "Tempo minimo di servizio a bordo",
+        "message": "Breve periodo di servizio a bordo di un'astronave",
         "description": ""
     },
     "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT": {
@@ -56,7 +56,7 @@
         "description": ""
     },
     "TIME_SERVED_CREW_MEMBER": {
-        "message": "Periodo di servizio come equipaggio",
+        "message": "Periodo di servizio come membro di equipaggio",
         "description": ""
     },
     "PILOT": {
@@ -92,7 +92,7 @@
         "description": ""
     },
     "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME": {
-        "message": "Mi dispiace, la sua offerta non mi pare interessante.",
+        "message": "Mi dispiace, la sua offerta non mi sembra interessante.",
         "description": ""
     },
     "SIMULATOR_TRAINING_ONLY": {

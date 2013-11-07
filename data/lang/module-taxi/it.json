@@ -144,7 +144,7 @@
         "description": ""
     },
     "WE_WANT_TO_BE_THERE_BEFORE": {
-        "message": "Vogliamo essere là prima di",
+        "message": "Vogliamo essere là prima delle ",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_10": {
@@ -216,7 +216,7 @@
         "description": ""
     },
     "I_MUST_BE_THERE_BEFORE": {
-        "message": "Devo arrivare prima del",
+        "message": "Devo arrivare prima delle ",
         "description": ""
     },
     "CORPORATIONS_8": {
@@ -304,7 +304,7 @@
         "description": ""
     },
     "FLAVOUR_INTROTEXT_1": {
-        "message": "Ossequi, il mio nome è {name} ed necessito di un passaggio per un piccolo gruppo di persone verso il sistema {system} ({sectorx}, {sectory}, {sectorz}), che dista {dist} AL. La pagheremo {cash}.",
+        "message": "Ossequi, il mio nome è {name} e necessito di un passaggio per un piccolo gruppo di persone verso il sistema {system} ({sectorx}, {sectory}, {sectorz}), che dista {dist} AL. La pagheremo {cash}.",
         "description": ""
     },
     "CORPORATIONS_10": {
@@ -504,7 +504,7 @@
         "description": ""
     },
     "HOW_SOON_YOU_MUST_BE_THERE": {
-        "message": "Quanto presto dovete arrivate?",
+        "message": "Quando dovete arrivate?",
         "description": ""
     },
     "FLAVOUR_WHEREAREWE_8": {

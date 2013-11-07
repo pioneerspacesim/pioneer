@@ -1,26 +1,26 @@
 {
     "FLAVOUR_INTRO_4": {
-        "message": "Benvenuti alla SpazioTempo.\\n\n\\n\nSiamo specializzati in motori interstellari. Tutti i lavori di manutenzione sono garantiti per due anni.\\n\n{lasttime}\\n\nLa reisione del suo {drive} costerà {price}. Vuole procedere?",
+        "message": "Benvenuti alla SpazioTempo.\n\nSiamo specializzati in motori interstellari. Tutti i lavori di manutenzione sono garantiti per due anni.\n\n{lasttime}\n\nLa reisione del suo {drive} costerà {price}. Vuole procedere?",
         "description": ""
     },
     "FLAVOUR_INTRO_5": {
-        "message": "Evita l'inconveniente di un ipermotore guasto. Rivisiona il tuo oggi.\\n\n\\n\nMotore: {drive}\nRevisione: {price}\n{lasttime}",
+        "message": "Evita l'inconveniente di un ipermotore guasto. Rivisiona il tuo oggi.\n\nMotore: {drive}\nRevisione: {price}\n\n{lasttime}",
         "description": ""
     },
     "FLAVOUR_INTRO_2": {
-        "message": "Salve. Noi di {proprietor} & Co giochiamo la reputazione sul nostro lavoro.\\n\n\\n\n{lasttime}\\n\nPossiamo mettere a punto il {drive} della sua astronave, garantendo 12 mesi di operatività senza inconvenienti, per un totale di {price}. Supervisionerò personalmente i lavori, in modo che possa essere sicuro di un lavoro ben fatto.",
+        "message": "Salve. Noi di {proprietor} & Co giochiamo la reputazione sul nostro lavoro.\n\n{lasttime}\n\nPossiamo mettere a punto l'{drive} della sua astronave, garantendo 12 mesi di operatività senza inconvenienti, per un totale di {price}. Supervisionerò personalmente i lavori, in modo che possa essere sicuro di un lavoro ben fatto.",
         "description": ""
     },
     "FLAVOUR_INTRO_3": {
-        "message": "Benvenuti a SuperFix Manutenzioni.\\n\n\\n\n{lasttime}\\n\nTempo della sua revisione biennale? Lasci che noi SuperFix-iamo il suo ipermotore!\\n\nPossiamo mettere a punto il suo {drive} per appena {price}. Nessuno ha prezzi migliori!",
+        "message": "Benvenuti a SuperFix Manutenzioni.\n\n{lasttime}\n\nTempo della sua revisione biennale? Lasci che noi SuperFix-iamo il suo ipermotore!\nPossiamo mettere a punto il suo {drive} per appena {price}. Nessuno ha prezzi migliori!",
         "description": ""
     },
     "FLAVOUR_INTRO_0": {
-        "message": "Evita l'inconveniente di un ipermotore guasto. Fai rivisionare il tuo oggi, dalla {name} autorizzata ufficiale Azienda Manutenzione Motori.\\n\n\\n\nMotore: {drive}\\n\nRevisione: {price}\\n\nGaranzia: 18 mesi\\n\n{lasttime}",
+        "message": "Evita l'inconveniente di un ipermotore guasto. Fai rivisionare il tuo oggi, dalla {name} autorizzata ufficiale Azienda Manutenzione Motori.\n\nMotore: {drive}\nRevisione: {price}\nGaranzia: 18 mesi\n\n{lasttime}",
         "description": ""
     },
     "FLAVOUR_INTRO_1": {
-        "message": "Sono {proprietor}. Posso revisionare il suo {drive}, garantendo almeno un anno di prestazioni senza incovenienti. Il costo per questo servizio sarà di {price}\\n\n{lasttime}",
+        "message": "Sono {proprietor}. Posso revisionare il suo {drive}, garantendo almeno un anno di prestazioni senza incovenienti. Il costo per questo servizio sarà di {price}.\n\n{lasttime}",
         "description": ""
     },
     "I_DONT_HAVE_ENOUGH_MONEY": {

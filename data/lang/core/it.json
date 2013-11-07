@@ -108,11 +108,11 @@
         "description": ""
     },
     "VIEW": {
-        "message": "Vedi",
+        "message": "Visuali",
         "description": ""
     },
     "HIGHLY_VOLCANIC": {
-        "message": "Altamente vulcanico",
+        "message": "Altamente vulcanico, ",
         "description": ""
     },
     "USED": {
@@ -604,7 +604,7 @@
         "description": ""
     },
     "STOCK": {
-        "message": "Stock",
+        "message": "Giacenza",
         "description": ""
     },
     "YOUNG_FARMING_COLONY": {
@@ -852,7 +852,7 @@
         "description": ""
     },
     "SOLAR": {
-        "message": "Solari",
+        "message": "solare",
         "description": ""
     },
     "DRIVE_MIL2": {
@@ -956,7 +956,7 @@
         "description": ""
     },
     "VERY_DENSE": {
-        "message": "molto densa",
+        "message": "spessa",
         "description": ""
     },
     "FUEL": {
@@ -1752,7 +1752,7 @@
         "description": ""
     },
     "EXTERNAL_VIEW": {
-        "message": "Visuale esterna",
+        "message": "Vista esterna",
         "description": ""
     },
     "ECM_BASIC_DESCRIPTION": {
@@ -2032,7 +2032,7 @@
         "description": ""
     },
     "TARGET_OBJECT_IN_SIGHTS": {
-        "message": "Acquisisci bersaglio al centro del mirino",
+        "message": "Acquisisci bersaglio mirato",
         "description": ""
     },
     "STAR_IM_BH": {

@@ -256,7 +256,7 @@
         "description": ""
     },
     "FLAVOUR_FAILUREMSG2_1": {
-        "message": "La dipartita di {target} non è stata causata da lei, quindi non ci chieda la ricomensa.",
+        "message": "La dipartita di {target} non è stata causata da lei, quindi non ci chieda la ricompensa.",
         "description": ""
     },
     "EXCELLENT": {

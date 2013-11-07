@@ -140,7 +140,7 @@
         "description": ""
     },
     "D_DAYS_LEFT": {
-        "message": "Faltan días: %d",
+        "message": "Días restantes: %d",
         "description": ""
     },
     "GENERAL_CREW": {

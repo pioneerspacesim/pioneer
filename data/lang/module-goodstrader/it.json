@@ -1,6 +1,6 @@
 {
     "WELCOME_TO": {
-        "message": "Benvenuto a",
+        "message": "Benvenuto a: ",
         "description": ""
     },
     "GOODS_TRADER_2": {
@@ -12,7 +12,7 @@
         "description": ""
     },
     "GOODS_TRADER_0": {
-        "message": "Emporio di {nome} l'Onesto.",
+        "message": "Emporio di {name} l'Onesto.",
         "description": ""
     },
     "GOODS_TRADER_1": {

@@ -8,7 +8,7 @@
         "description": ""
     },
     "DISPLAY_NAV_TUNNELS": {
-        "message": "Mostra tunnel navigazione",
+        "message": "Mostra tunnel di navigazione",
         "description": ""
     },
     "ORBIT": {
@@ -268,7 +268,7 @@
         "description": ""
     },
     "MILITARY": {
-        "message": "Milizia",
+        "message": "Forze armate",
         "description": ""
     },
     "MALE": {
