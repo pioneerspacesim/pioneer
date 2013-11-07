@@ -3,6 +3,9 @@ November 2013
    * New features
      * Translations now managed via Transifex (#2521)
 
+   * Minor changes and tweaks
+     * Improvements to the ship spinner (used in Ship Info view) (#2532)
+
    * Internal changes
      * Build fixes for MSVC
 
