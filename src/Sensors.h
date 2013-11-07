@@ -51,6 +51,7 @@ public:
 	const ContactList &GetStaticContacts() { return m_staticContacts; }
 	void Update(float time);
 	void UpdateIFF(Body*);
+	void ResetTrails();
 
 private:
 	Ship *m_owner;
