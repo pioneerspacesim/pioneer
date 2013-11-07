@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+# Visual C++ Express 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pioneer", "pioneer.vcxproj", "{65A1BBFB-7A42-497C-BF65-A0A06664A204}"
 	ProjectSection(ProjectDependencies) = postProject
 		{82973C2C-FC40-4320-84AE-A47E36868C02} = {82973C2C-FC40-4320-84AE-A47E36868C02}
@@ -15,6 +15,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pioneer", "pioneer.vcxproj"
 		{DED0A0AD-E7B8-42EF-83DB-EDAE7E2443EE} = {DED0A0AD-E7B8-42EF-83DB-EDAE7E2443EE}
 		{B19B00BA-F9DE-451F-9E16-C5E582DEEE77} = {B19B00BA-F9DE-451F-9E16-C5E582DEEE77}
 		{E34F7DBC-F23D-481A-B920-E53F56C53EE8} = {E34F7DBC-F23D-481A-B920-E53F56C53EE8}
+		{794ACEC3-F37F-4174-874F-8AE8EAD00545} = {794ACEC3-F37F-4174-874F-8AE8EAD00545}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "text", "text\text.vcxproj", "{06E6CE3D-9163-453B-BF8D-3B9DECB5AB78}"
@@ -40,6 +41,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "scenegraph", "newmodel\newmodel.vcxproj", "{E34F7DBC-F23D-481A-B920-E53F56C53EE8}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "glew", "glew\glew.vcxproj", "{4B36627A-8E58-416F-AD17-64AB40FC339F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "json", "json\json.vcxproj", "{794ACEC3-F37F-4174-874F-8AE8EAD00545}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -126,6 +129,12 @@ Global
 		{4B36627A-8E58-416F-AD17-64AB40FC339F}.PreRelease|Win32.Build.0 = PreRelease|Win32
 		{4B36627A-8E58-416F-AD17-64AB40FC339F}.Release|Win32.ActiveCfg = Release|Win32
 		{4B36627A-8E58-416F-AD17-64AB40FC339F}.Release|Win32.Build.0 = Release|Win32
+		{794ACEC3-F37F-4174-874F-8AE8EAD00545}.Debug|Win32.ActiveCfg = Debug|Win32
+		{794ACEC3-F37F-4174-874F-8AE8EAD00545}.Debug|Win32.Build.0 = Debug|Win32
+		{794ACEC3-F37F-4174-874F-8AE8EAD00545}.PreRelease|Win32.ActiveCfg = PreRelease|Win32
+		{794ACEC3-F37F-4174-874F-8AE8EAD00545}.PreRelease|Win32.Build.0 = PreRelease|Win32
+		{794ACEC3-F37F-4174-874F-8AE8EAD00545}.Release|Win32.ActiveCfg = Release|Win32
+		{794ACEC3-F37F-4174-874F-8AE8EAD00545}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
