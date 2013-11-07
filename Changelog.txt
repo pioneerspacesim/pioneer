@@ -6,6 +6,9 @@ November 2013
    * Minor changes and tweaks
      * Improvements to the ship spinner (used in Ship Info view) (#2532)
 
+   * Fixes
+     * Fix potential divide-by-zero in autopilot (#2535)
+
    * Internal changes
      * Build fixes for MSVC
 
