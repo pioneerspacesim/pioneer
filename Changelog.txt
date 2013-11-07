@@ -11,6 +11,7 @@ November 2013
 
    * Internal changes
      * Build fixes for MSVC
+     * Explicitly enable depth testing where we need it (#2530)
 
 October 2013
 
