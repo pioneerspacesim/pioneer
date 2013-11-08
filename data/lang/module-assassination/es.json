@@ -72,7 +72,7 @@
         "description": ""
     },
     "HOW_SOON_MUST_IT_BE_DONE": {
-        "message": "De cuanto tiempo dispongo?",
+        "message": "¿De cuanto tiempo dispongo?",
         "description": ""
     },
     "IT_MUST_BE_DONE_AFTER": {
@@ -80,7 +80,7 @@
         "description": ""
     },
     "HOW_WILL_I_BE_PAID": {
-        "message": "Cómo será efectuado el pago?",
+        "message": "¿Cómo será efectuado el pago?",
         "description": ""
     },
     "TARGET_NAME": {
@@ -88,7 +88,7 @@
         "description": ""
     },
     "WHERE_CAN_I_FIND_X": {
-        "message": "Dónde puedo encontrar a {target}?",
+        "message": "¿Dónde puedo encontrar a {target}?",
         "description": ""
     },
     "TITLE_8": {
@@ -248,11 +248,11 @@
         "description": ""
     },
     "FLAVOUR_FAILUREMSG2_3": {
-        "message": "Estas pidiendo dinero por un trabajo que ha hecho otro? Piérdete.",
+        "message": "¿Estas pidiendo dinero por un trabajo que ha hecho otro? Piérdete.",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG2_2": {
-        "message": "El contrato ha sido cumplido por otra persona. La próxima vez sea mas rápido!",
+        "message": "El contrato ha sido cumplido por otra persona. ¡La próxima vez sea mas rápido!",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG2_1": {
@@ -280,11 +280,11 @@
         "description": ""
     },
     "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
-        "message": "Podría repetir la petición?",
+        "message": "¿Podría repetir la petición?",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_3": {
-        "message": "Las pagará por no eliminar a {target}!",
+        "message": "¡Las pagará por no eliminar a {target}!",
         "description": ""
     },
     "TITLE_2": {

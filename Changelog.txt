@@ -3,8 +3,15 @@ November 2013
    * New features
      * Translations now managed via Transifex (#2521)
 
+   * Minor changes and tweaks
+     * Improvements to the ship spinner (used in Ship Info view) (#2532)
+
+   * Fixes
+     * Fix potential divide-by-zero in autopilot (#2535)
+
    * Internal changes
      * Build fixes for MSVC
+     * Explicitly enable depth testing where we need it (#2530)
 
 October 2013
 

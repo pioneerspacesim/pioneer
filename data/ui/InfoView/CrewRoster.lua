@@ -57,7 +57,7 @@ local crewRoster = function ()
 		-- A table of task functions, keyed by their description, which will set feedback.
 		-- They take no arguments, and are connected to buttons.
 		local crewTasks = {
-			['Attempt to repair hull'] = function ()
+			ATTEMPT_TO_REPAIR_HULL = function ()
 				-- Convoluted...
 				local hullMass = ShipDef[Game.player.shipId].hullMass
 				local hullMassLeft = Game.player:GetStats().hullMassLeft 
@@ -88,7 +88,7 @@ local crewRoster = function ()
 				end
 			end,
 
-			['Destroy enemy ship'] = function ()
+			DESTROY_ENEMY_SHIP = function ()
 				if Game.player.flightState ~= 'FLYING'
 				then
 					feedback:SetText(({
@@ -111,7 +111,7 @@ local crewRoster = function ()
 				end
 			end,
 
-			['Dock at current target'] = function ()
+			DOCK_AT_CURRENT_TARGET = function ()
 				local target = Game.player:GetNavTarget()
 				if Game.player.flightState ~= 'FLYING'
 				then

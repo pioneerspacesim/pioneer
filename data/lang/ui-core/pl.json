@@ -384,7 +384,7 @@
         "description": ""
     },
     "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP": {
-        "message": "Nikt więcej na pokładzie nie jest zdolny pilotować ten statek.",
+        "message": "Na pokładzie nie ma już nikogo zdolnego do pilotowania tego statku.",
         "description": ""
     },
     "AN_ERROR_HAS_OCCURRED": {
