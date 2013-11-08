@@ -14,7 +14,7 @@ namespace GameUI {
 
 ModelSpinner::ModelSpinner(Context *context, SceneGraph::Model *model, const SceneGraph::ModelSkin &skin) : Widget(context),
 	m_skin(skin),
-	m_rotX(0), m_rotY(0),
+	m_rotX(DEG2RAD(-15.0)), m_rotY(DEG2RAD(180.0)),
 	m_rightMouseButton(false)
 {
 	m_model.reset(model->MakeInstance());
@@ -24,7 +24,7 @@ ModelSpinner::ModelSpinner(Context *context, SceneGraph::Model *model, const Sce
 	Color lc(1.f);
 	m_light.SetDiffuse(lc);
 	m_light.SetSpecular(lc);
-	m_light.SetPosition(vector3f(1.f, 1.f, 0.f));
+	m_light.SetPosition(vector3f(0.f, 1.f, 1.f));
 	m_light.SetType(Graphics::Light::LIGHT_DIRECTIONAL);
 }
 
@@ -38,10 +38,8 @@ void ModelSpinner::Layout()
 
 void ModelSpinner::Update()
 {
-	if (!(m_rightMouseButton && IsMouseActive())) {
-		m_rotX += .5*Pi::GetFrameTime();
+	if (!(m_rightMouseButton && IsMouseActive()))
 		m_rotY += Pi::GetFrameTime();
-	}
 
 	if (m_model) {
 		m_shields->SetEnabled(false);
@@ -59,6 +57,7 @@ void ModelSpinner::Draw()
 	r->SetPerspectiveProjection(fov, 1.f, 1.f, 10000.f);
 	r->SetTransform(matrix4x4f::Identity());
 
+	r->SetDepthWrite(true);
 	r->SetDepthTest(true);
 	r->ClearDepthBuffer();
 

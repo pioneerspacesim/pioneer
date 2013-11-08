@@ -4,11 +4,11 @@
         "description": ""
     },
     "CANNOT_COMPENSATE_FOR_LOCAL_GRAVITY": {
-        "message": "Impossibilité de compenser la gravité locale.",
+        "message": "Impossible de compenser la gravité locale.",
         "description": ""
     },
     "CANNOT_COMPUTE_ORBIT_PARAMETERS": {
-        "message": "Impossibilité de calculer les paramètres orbitaux.",
+        "message": "Impossible de calculer les paramètres orbitaux.",
         "description": ""
     },
     "STARPORT_REFUSED_DOCKING_PERMISSION": {

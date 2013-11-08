@@ -20,7 +20,7 @@
         "description": ""
     },
     "COMPUTER_SPEED_CONTROL": {
-        "message": "Navigazione assistita",
+        "message": "Computer controllo velocità",
         "description": ""
     },
     "ALT": {
@@ -40,11 +40,11 @@
         "description": ""
     },
     "CAMERA_TOP_VIEW": {
-        "message": "Top camera",
+        "message": "Camera superiore",
         "description": ""
     },
     "TINY": {
-        "message": "Minuto",
+        "message": "Minuscolo",
         "description": ""
     },
     "CONSUMER_GOODS": {
@@ -64,7 +64,7 @@
         "description": ""
     },
     "EXTENSIVE_MINING": {
-        "message": "Attività estrattive estese.",
+        "message": "Ampie operazioni minerarie.",
         "description": ""
     },
     "REVERSE_ACCEL_LADEN": {
@@ -72,11 +72,11 @@
         "description": ""
     },
     "LEGAL_STATUS": {
-        "message": "Stato Giuridico",
+        "message": "Stato giuridico",
         "description": ""
     },
     "WHEELS_ARE_DOWN": {
-        "message": "Carrello giù",
+        "message": "Carrello abbassato",
         "description": ""
     },
     "INDUSTRIAL_MACHINERY": {
@@ -108,11 +108,11 @@
         "description": ""
     },
     "VIEW": {
-        "message": "Vedi",
+        "message": "Visuali",
         "description": ""
     },
     "HIGHLY_VOLCANIC": {
-        "message": "Altamente vulcanico",
+        "message": "Altamente vulcanico, ",
         "description": ""
     },
     "USED": {
@@ -124,23 +124,23 @@
         "description": ""
     },
     "ECM_ADVANCED_DESCRIPTION": {
-        "message": "Contromisure elettroniche a difesa da attacchi missilistici. E' in grado di distruggere la maggior parte dei missili diretti a bersaglio.",
+        "message": "Contromisure elettroniche a difesa da attacchi missilistici. È in grado di distruggere i più avanzati missili a ricerca.",
         "description": ""
     },
     "DRIVE_MIL4": {
-        "message": "Ipermotore militare di 4^ classe",
+        "message": "Ipermotore militare classe 4",
         "description": ""
     },
     "DRIVE_MIL3": {
-        "message": "Ipermotore militare di 3^ classe",
+        "message": "Ipermotore militare classe 3",
         "description": ""
     },
     "LIQUID_OXYGEN_DESCRIPTION": {
-        "message": "Necessario per i sistemi vitali nello spazio, è utilizzato anche in alcuni processi industriali.",
+        "message": "L'ossigeno è necessario per i sistemi di supporto vitale, è utilizzato anche in alcuni processi industriali.",
         "description": ""
     },
     "DRIVE_MIL1": {
-        "message": "Ipermotore militare di 1^ classe",
+        "message": "Ipermotore militare classe 1",
         "description": ""
     },
     "CORPORATE_SYSTEM": {
@@ -156,11 +156,11 @@
         "description": ""
     },
     "MONTH_JAN": {
-        "message": "Giu",
+        "message": "Gen",
         "description": ""
     },
     "PRICE_TO_REMOVE": {
-        "message": "$ Vendi",
+        "message": "$ per rimuovere",
         "description": ""
     },
     "IMPERIAL_RULE": {
@@ -172,7 +172,7 @@
         "description": ""
     },
     "ALT_IN_METRES": {
-        "message": "Alt: %altitude{f.0}m",
+        "message": "Alt: %altitude{f.0}m (%vspeed{f.1}m/s)",
         "description": ""
     },
     "SHIELD_GENERATOR": {
@@ -180,7 +180,7 @@
         "description": ""
     },
     "SOMEWHERE_COMMODITIES_MARKET": {
-        "message": "Mercato dei beni di scambio di %station",
+        "message": "Mercato dei prodotti di %station",
         "description": ""
     },
     "NARCOTICS": {
@@ -192,11 +192,11 @@
         "description": ""
     },
     "STAR_K_HYPER_GIANT": {
-        "message": "Ipergigante arancione - Instabile",
+        "message": "Stella ipergigante arancione - Instabile",
         "description": ""
     },
     "NEW_AND_RECONDITIONED_SHIPS": {
-        "message": "Astronavi nuove ed usato garantito",
+        "message": "Astronavi nuove e ricondizionate",
         "description": ""
     },
     "STAR_AF_GIANT": {
@@ -208,11 +208,11 @@
         "description": ""
     },
     "SOME_ESTABLISHED_MINING": {
-        "message": "Piccole attività estrattive.",
+        "message": "Modeste attività estrattive.",
         "description": ""
     },
     "CONTROLS": {
-        "message": "Controls",
+        "message": "Controlli",
         "description": ""
     },
     "CARGO_N": {
@@ -220,7 +220,7 @@
         "description": ""
     },
     "HAND_WEAPONS": {
-        "message": "Armamenti leggeri",
+        "message": "Armi a mano",
         "description": ""
     },
     "TIME_POINT": {
@@ -232,7 +232,7 @@
         "description": ""
     },
     "MININGCANNON_17MW": {
-        "message": "Laser ablatore da 17MW",
+        "message": "Cannone minerario da 17MW",
         "description": ""
     },
     "CARGO_BAY_LIFE_SUPPORT_LOST": {
@@ -264,7 +264,7 @@
         "description": ""
     },
     "STAR_B_SUPER_GIANT": {
-        "message": "Supergigante azzurra",
+        "message": "Stella supergigante blu",
         "description": ""
     },
     "DISTANCE_FROM_SHIP_TO_NAV_TARGET": {
@@ -296,11 +296,11 @@
         "description": ""
     },
     "DECREASE_SET_SPEED": {
-        "message": "Riduzione velocità",
+        "message": "Riduci velocità impostata",
         "description": ""
     },
     "ROCKY_PLANET_CONTAINING_COME_LIQUIDS": {
-        "message": "\" pianeta roccioso con liquidi in superficie,\"",
+        "message": "\" pianeta roccioso contenente liquidi,\"",
         "description": ""
     },
     "REMOVE_FROM_WHICH_MOUNT": {
@@ -320,7 +320,7 @@
         "description": ""
     },
     "SHIELD_STRENGTH_N": {
-        "message": "Forza scudi: %shields{f.2}",
+        "message": "Resistenza scudi: %shields{f.2}",
         "description": ""
     },
     "N_YEARS": {
@@ -336,7 +336,7 @@
         "description": ""
     },
     "TOGGLE_ROTATION_DAMPING": {
-        "message": "Toggle rotation damping",
+        "message": "Smorzatore di rotazione",
         "description": ""
     },
     "LANG_NAME": {
@@ -344,23 +344,23 @@
         "description": "The name that native speakers use for this language. This will be used in the language selection screen. For obscure reasons this currently must only use Latin-1 characters."
     },
     "CAMERA_BOTTOM_VIEW": {
-        "message": "Bottom camera",
+        "message": "Camera inferiore",
         "description": ""
     },
     "DAY_LENGTH": {
-        "message": "Lunghezza del giorno",
+        "message": "Durata giorno",
         "description": ""
     },
     "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND": {
-        "message": "Pilota autom.: stabilire orbita media attorno a %target",
+        "message": "Autopilota: Stabilire orbita media attorno a %target",
         "description": ""
     },
     "INCREASE_SET_SPEED": {
-        "message": "Aumento velocità",
+        "message": "Aumenta velocità impostata",
         "description": ""
     },
     "CARGO_SCOOP_DESCRIPTION": {
-        "message": "Permette la raccolta di Container vaganti nello spazio",
+        "message": "Permette la raccolta di container di cargo vaganti nello spazio.",
         "description": ""
     },
     "MONTH_MAY": {
@@ -380,7 +380,7 @@
         "description": ""
     },
     "MININGCANNON_17MW_DESCRIPTION": {
-        "message": "Utilizzato per ablare materiale dagli asteroidi.",
+        "message": "Utilizzato per estrarre materiale minerario dagli asteroidi.",
         "description": ""
     },
     "MONTH_MAR": {
@@ -388,7 +388,7 @@
         "description": ""
     },
     "PAY_THE_FINE_NOW": {
-        "message": "Concilia.",
+        "message": "Paga la multa ora.",
         "description": ""
     },
     "CO2_ATMOSPHERE": {
@@ -400,7 +400,7 @@
         "description": ""
     },
     "SCUTUM_CENTAURUS_ARM": {
-        "message": "Braccio dello Scudo-Centauro",
+        "message": "Braccio Scudo-Croce",
         "description": ""
     },
     "REMOVE": {
@@ -408,7 +408,7 @@
         "description": ""
     },
     "LAUNCH_PERMISSION_DENIED_BUSY": {
-        "message": "Autorizzazione al lancio negata: attracco impegnato.",
+        "message": "Autorizzazione al lancio negata: attracco occupato.",
         "description": ""
     },
     "CH4_ATMOSPHERE": {
@@ -416,7 +416,7 @@
         "description": ""
     },
     "HEADING_LOCK_BACKWARD": {
-        "message": "Heading Lock (aft)",
+        "message": "Blocco Orientamento (post)",
         "description": ""
     },
     "HULL_AUTOREPAIR_DESCRIPTION": {
@@ -432,7 +432,7 @@
         "description": ""
     },
     "CAMERA_FRONT_VIEW": {
-        "message": "Vista di fronte",
+        "message": "Camera anteriore",
         "description": ""
     },
     "ROBOTS": {
@@ -440,7 +440,7 @@
         "description": ""
     },
     "PASSENGER_CABIN": {
-        "message": "Cabine Passeggero Occupate",
+        "message": "Alloggi Passeggeri Occupati",
         "description": ""
     },
     "INDUSTRIAL_COLONY": {
@@ -484,7 +484,7 @@
         "description": ""
     },
     "RESET": {
-        "message": "Reset",
+        "message": "Azzera Zoom",
         "description": ""
     },
     "CARGO": {
@@ -492,11 +492,11 @@
         "description": ""
     },
     "JOY_AXIS": {
-        "message": "%{sign}Joy%joynum %axis Axis",
+        "message": "Asse %{sign}Joy%joynum %axis",
         "description": ""
     },
     "STAR_G_SUPER_GIANT": {
-        "message": "Supergigante gialla",
+        "message": "Stella supergigante gialla",
         "description": ""
     },
     "COMPUTERS": {
@@ -520,7 +520,7 @@
         "description": ""
     },
     "CAMERA_RIGHT_VIEW": {
-        "message": "Right camera",
+        "message": "Camera destra",
         "description": ""
     },
     "NUMBER_LY": {
@@ -528,7 +528,7 @@
         "description": ""
     },
     "ECM_ADVANCED": {
-        "message": "ECM Avanzato",
+        "message": "Sistema ECM avanzato",
         "description": ""
     },
     "NO_HYPERDRIVE": {
@@ -544,7 +544,7 @@
         "description": ""
     },
     "GALACTIC_VIEW": {
-        "message": "Visualizzazione della Galassia",
+        "message": "Vista della Galassia",
         "description": ""
     },
     "THRUSTER_DORSAL": {
@@ -568,11 +568,11 @@
         "description": ""
     },
     "ROTATE_LEFT": {
-        "message": "Rotate Left",
+        "message": "Ruota a Sinistra",
         "description": ""
     },
     "TRADING_ILLEGAL_GOODS": {
-        "message": "Commergio Illegale di merci Illegali",
+        "message": "Commercio di merci Illegali",
         "description": ""
     },
     "STAR_G_GIANT": {
@@ -604,7 +604,7 @@
         "description": ""
     },
     "STOCK": {
-        "message": "Stock",
+        "message": "Giacenza",
         "description": ""
     },
     "YOUNG_FARMING_COLONY": {
@@ -628,15 +628,15 @@
         "description": ""
     },
     "DRAW_OUT_RANGE_LABELS": {
-        "message": "Label out-of-range systems",
+        "message": "Contrassegna i sistemi fuori portata",
         "description": ""
     },
     "VIOLENT_ANARCHY": {
-        "message": "Stato di anarchia",
+        "message": "Disordine - Governo globale contestato da fazioni armate",
         "description": ""
     },
     "SHIP_DETECTED_NEARBY": {
-        "message": "Rilevata Astronave nelle vicinanze.",
+        "message": "Rilevata astronave nelle vicinanze.",
         "description": ""
     },
     "N_DISTANCE_TO_TARGET": {
@@ -644,7 +644,7 @@
         "description": ""
     },
     "APOAPSIS_DISTANCE": {
-        "message": "Apoasse",
+        "message": "Distanza dall'apoapside",
         "description": ""
     },
     "PLANET_WITH_SOME_ICE": {
@@ -660,11 +660,11 @@
         "description": ""
     },
     "SELECT_LOW_THRUST_POWER_LEVEL": {
-        "message": "Select low thrust power level",
+        "message": "Seleziona il livello di spinta ridotto",
         "description": ""
     },
     "N_WHATEVER_RADII": {
-        "message": "%radius{f.3} %units radii (%radkm{f.0} km)",
+        "message": "%radius{f.3} volte il raggio %units (%radkm{f.0} km)",
         "description": ""
     },
     "AXIAL_TILT": {
@@ -700,11 +700,11 @@
         "description": ""
     },
     "TOGGLE_SCAN_MODE": {
-        "message": "Alterna Scanner",
+        "message": "Cambia modalità scanner",
         "description": ""
     },
     "HYDROGEN_DESCRIPTION": {
-        "message": "L'Idrogeno è usato principalmente nei Reattori a Fusione",
+        "message": "L'Idrogeno è usato principalmente nei reattori a fusione",
         "description": ""
     },
     "CO_ATMOSPHERE": {
@@ -712,11 +712,11 @@
         "description": ""
     },
     "CABINS": {
-        "message": "Cabine",
+        "message": "Alloggi",
         "description": ""
     },
     "INCREASE_SCAN_RANGE": {
-        "message": "Aumenta raggio Scanner",
+        "message": "Aumenta raggio scanner",
         "description": ""
     },
     "MONTH_OCT": {
@@ -724,19 +724,19 @@
         "description": ""
     },
     "SMALL_GAS_GIANT": {
-        "message": "Gigante ghiacciato",
+        "message": "Piccolo gigante gassoso",
         "description": ""
     },
     "MISSILE_GUIDED": {
-        "message": "Testata a guida laser",
+        "message": "Missile autoguidato",
         "description": ""
     },
     "ZOOM_OUT": {
-        "message": "Allontana",
+        "message": "Zoom indietro",
         "description": ""
     },
     "SECTOR_COORDINATES": {
-        "message": "Settore:",
+        "message": "Coordinate settore:",
         "description": ""
     },
     "PULSECANNON_10MW": {
@@ -744,7 +744,7 @@
         "description": ""
     },
     "WHITE_DWARF": {
-        "message": "Nana Bianca",
+        "message": "Residui stellari di nana bianca",
         "description": ""
     },
     "HULL_TEMP": {
@@ -764,7 +764,7 @@
         "description": ""
     },
     "SHIELD_ENERGY_BOOSTER": {
-        "message": "Sovralimentatore degli scudi",
+        "message": "Sovralimentatore di scudi",
         "description": ""
     },
     "NO_ESTABLISHED_ORDER": {
@@ -780,11 +780,11 @@
         "description": ""
     },
     "DECREASE_SCAN_RANGE": {
-        "message": "Riduce raggio Scanner",
+        "message": "Riduce raggio scanner",
         "description": ""
     },
     "SET_HYPERSPACE_DESTINATION_TO": {
-        "message": "Stabilita destinazione iperspaziale per %system",
+        "message": "Imposta destinazione iperspaziale per %system",
         "description": ""
     },
     "WEIGHT_FULLY_LADEN": {
@@ -792,7 +792,7 @@
         "description": ""
     },
     "UNOCCUPIED_CABIN_DESCRIPTION": {
-        "message": "Required for transport of a single passenger",
+        "message": "Richiesta per il trasporto di un singolo passeggero",
         "description": ""
     },
     "MASS": {
@@ -832,7 +832,7 @@
         "description": ""
     },
     "MISSILE_SMART": {
-        "message": "Testata intelligente",
+        "message": "Missile intelligente",
         "description": ""
     },
     "NOT_FOUND_BEST_MATCH_X": {
@@ -844,19 +844,19 @@
         "description": ""
     },
     "RADIOACTIVES": {
-        "message": "Scorie Radioattive",
+        "message": "Scorie radioattive",
         "description": ""
     },
     "PLANNED_ECONOMY": {
-        "message": "Economia a pianificazione Statale",
+        "message": "Economia a pianificazione statale",
         "description": ""
     },
     "SOLAR": {
-        "message": "Solari",
+        "message": "solare",
         "description": ""
     },
     "DRIVE_MIL2": {
-        "message": "Ipermotore militare di 2^ classe",
+        "message": "Ipermotore militare classe 2",
         "description": ""
     },
     "BATTLE_WEAPONS": {
@@ -880,7 +880,7 @@
         "description": ""
     },
     "SHIP_TYPE": {
-        "message": "Tipo di Astronave",
+        "message": "Tipo di astronave",
         "description": ""
     },
     "FINE_PAID_N_BUT_N_REMAINING": {
@@ -892,7 +892,7 @@
         "description": ""
     },
     "STAR_G_HYPER_GIANT": {
-        "message": "Ipergigante gialla - Instabile",
+        "message": "Stella ipergigante gialla - Instabile",
         "description": ""
     },
     "COMMS": {
@@ -948,7 +948,7 @@
         "description": ""
     },
     "HYPERCLOUD_ANALYZER_DESCRIPTION": {
-        "message": "Analizza i residui di un balzo iperspaziale (c.d. nubi iperspaziali) per determinare massa e destinazione dell'astronave che lo ha generato.",
+        "message": "Analizza i residui di un balzo iperspaziale (c.d. nubi iperspaziali) per determinare la destinazione ed il tempo di arrivo o partenza dell'astronave che lo ha generato.",
         "description": ""
     },
     "YOU_DO_NOT_HAVE_ANY_X": {
@@ -956,7 +956,7 @@
         "description": ""
     },
     "VERY_DENSE": {
-        "message": "molto densa",
+        "message": "spessa",
         "description": ""
     },
     "FUEL": {
@@ -992,11 +992,11 @@
         "description": ""
     },
     "AUTOPILOT": {
-        "message": "Pilota Automatico",
+        "message": "Autopilota",
         "description": ""
     },
     "AUTOPILOT_ENTER_LOW_ORBIT_AROUND": {
-        "message": "Pilota autom.: stabilire orbita bassa attorno a %target",
+        "message": "Autopilota: Stabilire orbita bassa attorno a %target",
         "description": ""
     },
     "SHIP": {
@@ -1012,7 +1012,7 @@
         "description": ""
     },
     "DRIVE_CLASS8": {
-        "message": "Ipermotore civile di 8^ classe",
+        "message": "Ipermotore civile classe 8",
         "description": ""
     },
     "LIBERAL_DEMOCRACY": {
@@ -1028,7 +1028,7 @@
         "description": ""
     },
     "SET_SPEED_KM_S": {
-        "message": "V= %speed{f.2} km/s",
+        "message": "V: %speed{f.2} km/s",
         "description": ""
     },
     "HYPERSPACE_ARRIVAL_CLOUD_REMNANT": {
@@ -1052,7 +1052,7 @@
         "description": ""
     },
     "ITEM_IS_OUT_OF_STOCK": {
-        "message": "Esaurito.",
+        "message": "Quest'articolo è esaurito.",
         "description": ""
     },
     "YAW_RIGHT": {
@@ -1088,7 +1088,7 @@
         "description": ""
     },
     "ROTATIONAL_PERIOD": {
-        "message": "\" (periodo di rotazione)\"",
+        "message": "\" (periodo rotazione)\"",
         "description": ""
     },
     "VERY_LARGE_GAS_GIANT": {
@@ -1116,7 +1116,7 @@
         "description": ""
     },
     "PRICE_TO_FIT": {
-        "message": "$ Compra",
+        "message": "$ per montare",
         "description": ""
     },
     "SHIP_IS_ALREADY_FULLY_REPAIRED": {
@@ -1140,7 +1140,7 @@
         "description": ""
     },
     "AUTOPILOT_DOCK_WITH_STATION": {
-        "message": "Pilota autom.: attracca alla stazione spaziale",
+        "message": "Autopilota: Attracca alla stazione spaziale",
         "description": ""
     },
     "ROLL_LEFT": {
@@ -1148,7 +1148,7 @@
         "description": ""
     },
     "CONTACT_LOCAL_POLICE": {
-        "message": "Comando di polizia locale",
+        "message": "Contatta la polizia locale",
         "description": ""
     },
     "MONTH_DEC": {
@@ -1200,7 +1200,7 @@
         "description": ""
     },
     "AUTOPILOT_FLY_TO_VICINITY_OF": {
-        "message": "Pilota autom.: approssimarsi a %target",
+        "message": "Autopilota: Avvicinarsi a %target",
         "description": ""
     },
     "CARGO_LIFE_SUPPORT": {
@@ -1224,7 +1224,7 @@
         "description": ""
     },
     "ROTATE_UP": {
-        "message": "Rotate Up",
+        "message": "Ruota in Alto",
         "description": ""
     },
     "NO_REGISTERED_INHABITANTS": {
@@ -1240,7 +1240,7 @@
         "description": ""
     },
     "PROBABILITY_OF_ARRIVAL_X_PERCENT": {
-        "message": "Probability of arrival: %probability%%",
+        "message": "Probabilità di arrivo: %probability%%",
         "description": ""
     },
     "MESSAGE_FROM_X": {
@@ -1252,11 +1252,11 @@
         "description": ""
     },
     "STAR_B_HYPER_GIANT": {
-        "message": "Ipergigante azzurra",
+        "message": "Stella ipergigante azzurra",
         "description": ""
     },
     "BUTTON": {
-        "message": "\" Button \"",
+        "message": "\" Pulsante \"",
         "description": ""
     },
     "FORWARD_ACCEL_LADEN": {
@@ -1264,7 +1264,7 @@
         "description": ""
     },
     "USE_LOW_THRUST": {
-        "message": "Use low thrust",
+        "message": "Usa spinta ridotta",
         "description": ""
     },
     "REPAIR_1_PERCENT_HULL": {
@@ -1280,7 +1280,7 @@
         "description": ""
     },
     "IN_TRANSIT": {
-        "message": "In transit",
+        "message": "In transito",
         "description": ""
     },
     "SPEED_CONTROL_MODE": {
@@ -1304,7 +1304,7 @@
         "description": ""
     },
     "ANIMAL_MEAT": {
-        "message": "Carne e Pesce",
+        "message": "Carne animale",
         "description": ""
     },
     "STAR_M": {
@@ -1328,7 +1328,7 @@
         "description": ""
     },
     "KM_S_RELATIVE_TO": {
-        "message": "%speed{f.2} km/s relativa a %frame",
+        "message": "%speed{f.2} km/s rel.va a %frame",
         "description": ""
     },
     "STAR_G": {
@@ -1360,7 +1360,7 @@
         "description": ""
     },
     "UNLAWFUL_WEAPONS_DISCHARGE": {
-        "message": "Apertura di fuoco non consentita",
+        "message": "Scaricare illecitamente le proprie armi",
         "description": ""
     },
     "COUNT_STARPORTS": {
@@ -1384,7 +1384,7 @@
         "description": ""
     },
     "NO_FREE_SPACE_FOR_ITEM": {
-        "message": "Non c'è più spazio.",
+        "message": "Non c'è abbastanza spazio per questo articolo.",
         "description": ""
     },
     "RADIUS": {
@@ -1420,7 +1420,7 @@
         "description": ""
     },
     "SIDEREAL_VIEW": {
-        "message": "Sidereal view",
+        "message": "Visuale siderale",
         "description": ""
     },
     "PITCH_UP": {
@@ -1432,7 +1432,7 @@
         "description": ""
     },
     "PERIAPSIS_DISTANCE": {
-        "message": "Periasse",
+        "message": "Distanza dal periapside",
         "description": ""
     },
     "CAPITALIST": {
@@ -1440,7 +1440,7 @@
         "description": ""
     },
     "SET_SPEED_M_S": {
-        "message": "V= %speed{f.0} m/s",
+        "message": "V: %speed{f.0} m/s",
         "description": ""
     },
     "STAR_SYSTEM_INFORMATION": {
@@ -1448,7 +1448,7 @@
         "description": ""
     },
     "STAR_O_HYPER_GIANT": {
-        "message": "Ipergigante blu",
+        "message": "Stella ipergigante blu calda",
         "description": ""
     },
     "INDUSTRIAL_HUB_SYSTEM": {
@@ -1456,11 +1456,11 @@
         "description": ""
     },
     "HEADING_LOCK_FORWARD": {
-        "message": "Heading Lock (fore)",
+        "message": "Blocco Orientamento (ant)",
         "description": ""
     },
     "CANT_SAVE_IN_HYPERSPACE": {
-        "message": "Can't save game while in hyperspace",
+        "message": "Non è possibile salvare mentre si è in iperspazio",
         "description": ""
     },
     "MANUAL_CONTROL_MODE": {
@@ -1480,7 +1480,7 @@
         "description": ""
     },
     "M_S_RELATIVE_TO": {
-        "message": "%speed{f.0} m/s relativa a %frame",
+        "message": "%speed{f.0} m/s rel.va a %frame",
         "description": ""
     },
     "N_DAYS": {
@@ -1504,7 +1504,7 @@
         "description": ""
     },
     "ZOOM_IN": {
-        "message": "Avvicina",
+        "message": "Zoom avanti",
         "description": ""
     },
     "CARGO_SPACE": {
@@ -1564,7 +1564,7 @@
         "description": ""
     },
     "MISSILE_UNGUIDED": {
-        "message": "Missile R40",
+        "message": "Missile R40 non guidato",
         "description": ""
     },
     "MANUAL_CONTROL": {
@@ -1576,7 +1576,7 @@
         "description": ""
     },
     "SHIP_ALTITUDE_ABOVE_TERRAIN": {
-        "message": "Altitudine",
+        "message": "Altezza dal terreno",
         "description": ""
     },
     "QUADRUPLE_SYSTEM": {
@@ -1596,7 +1596,7 @@
         "description": ""
     },
     "ROTATION_DAMPING_OFF": {
-        "message": "Rotation damping off",
+        "message": "Smorzatore di rotazione spento",
         "description": ""
     },
     "LASER_COOLING_BOOSTER_DESCRIPTION": {
@@ -1604,7 +1604,7 @@
         "description": ""
     },
     "ECM_BASIC": {
-        "message": "ECM",
+        "message": "Sistema ECM",
         "description": ""
     },
     "COMMUNIST": {
@@ -1644,7 +1644,7 @@
         "description": ""
     },
     "STAR_O_SUPER_GIANT": {
-        "message": "Supergigante blu",
+        "message": "Stella supergigante blu calda",
         "description": ""
     },
     "STAR_O_WF": {
@@ -1668,11 +1668,11 @@
         "description": ""
     },
     "CLEAN": {
-        "message": "Pulito",
+        "message": "Pulisci",
         "description": ""
     },
     "STAR_M_GIANT": {
-        "message": "Gigante rossa",
+        "message": "Stella gigante rossa",
         "description": ""
     },
     "NORMA_ARM": {
@@ -1684,7 +1684,7 @@
         "description": ""
     },
     "AUTOPILOT_ON": {
-        "message": "Pilota automatico",
+        "message": "Autopilota on",
         "description": ""
     },
     "CARGO_LIFE_SUPPORT_DESCRIPTION": {
@@ -1692,7 +1692,7 @@
         "description": ""
     },
     "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT": {
-        "message": "Set low thrust power level to %power%%",
+        "message": "Imposta livello di spinta ridotta a %power%%",
         "description": ""
     },
     "REMOVING": {
@@ -1700,7 +1700,7 @@
         "description": ""
     },
     "SHIELD_INTEGRITY": {
-        "message": "Livello scudi",
+        "message": "Integrità scudi",
         "description": ""
     },
     "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED": {
@@ -1716,7 +1716,7 @@
         "description": ""
     },
     "STAR_AF_HYPER_GIANT": {
-        "message": "Ipergigante bianca",
+        "message": "Stella ipergigante bianca",
         "description": ""
     },
     "OUTER_ARM": {
@@ -1724,7 +1724,7 @@
         "description": ""
     },
     "WHEELS_ARE_UP": {
-        "message": "Carrello su",
+        "message": "Carrello sollevato",
         "description": ""
     },
     "LIQUOR": {
@@ -1748,15 +1748,15 @@
         "description": ""
     },
     "TOGGLE_HUD_MODE": {
-        "message": "Toggle HUD mode",
+        "message": "Modalità HUD",
         "description": ""
     },
     "EXTERNAL_VIEW": {
-        "message": "Visuale esterna",
+        "message": "Vista esterna",
         "description": ""
     },
     "ECM_BASIC_DESCRIPTION": {
-        "message": "Contromisure elettroniche a difesa da attacchi missilistici. E' in grado di distruggere alcuni missili diretti a bersaglio.",
+        "message": "Contromisure elettroniche a difesa da attacchi missilistici. È in grado di distruggere alcuni missili a ricerca.",
         "description": ""
     },
     "VAST_STRIP_MINE": {
@@ -1772,7 +1772,7 @@
         "description": ""
     },
     "EXTERNAL_ATMOSPHERIC_PRESSURE": {
-        "message": "Press. Atm.",
+        "message": "Pressione atmosferica esterna",
         "description": ""
     },
     "THRUSTER_RETRO": {
@@ -1792,7 +1792,7 @@
         "description": ""
     },
     "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND": {
-        "message": "Pilota autom.: stabilire orbita alta attorno a %target",
+        "message": "Autopilota: Stabilire orbita alta attorno a %target",
         "description": ""
     },
     "ORBITAL_STARPORT": {
@@ -1800,11 +1800,11 @@
         "description": ""
     },
     "UNOCCUPIED_CABIN": {
-        "message": "Extra Passenger Cabin",
+        "message": "Alloggio Passeggeri Extra",
         "description": ""
     },
     "SHIP_ORIENTATION": {
-        "message": "Orientamento",
+        "message": "Orientamento astronave",
         "description": ""
     },
     "MILITARY_FUEL": {
@@ -1816,11 +1816,11 @@
         "description": ""
     },
     "MEDIUM_GAS_GIANT": {
-        "message": "Gigante gassoso intermedio",
+        "message": "Gigante gassoso medio",
         "description": ""
     },
     "DRAW_VERTICAL_LINES": {
-        "message": "Draw vertical lines",
+        "message": "Disegna linee verticali",
         "description": ""
     },
     "SOMEWHERE_POLICE": {
@@ -1828,7 +1828,7 @@
         "description": ""
     },
     "SYSTEM_ORBIT_VIEW": {
-        "message": "Simulazione del sistema stellare dalla base di dati",
+        "message": "Visualizzazione orbite sistema",
         "description": ""
     },
     "CURRENT_SYSTEM": {
@@ -1836,15 +1836,15 @@
         "description": ""
     },
     "CARGO_SCOOP": {
-        "message": "Raccoglitore di Cargo",
+        "message": "Raccoglitore di cargo",
         "description": ""
     },
     "ROTATE_DOWN": {
-        "message": "Rotate Down",
+        "message": "Ruota in Basso",
         "description": ""
     },
     "SOMEWHERE_SHIP_MARKET": {
-        "message": "Immobiliare Astronautica di %station. Le migliori offerte ed occasioni.",
+        "message": "Mercato Astronautico di %station. Le migliori offerte ed occasioni.",
         "description": ""
     },
     "DISABLED_AUTOMATIC_SYSTEM_SELECTION": {
@@ -1860,7 +1860,7 @@
         "description": ""
     },
     "N_WHATEVER_MASSES": {
-        "message": "%mass{f.3} masse %units",
+        "message": "%mass{f.3} volte la massa %units",
         "description": ""
     },
     "PRECIOUS_METALS": {
@@ -1872,7 +1872,7 @@
         "description": ""
     },
     "INTERNAL_VIEW": {
-        "message": "vista interna",
+        "message": "Vista interna",
         "description": ""
     },
     "INT_LY": {
@@ -1880,7 +1880,7 @@
         "description": ""
     },
     "ROTATION_DAMPING_ON": {
-        "message": "Rotation damping on",
+        "message": "Smorzatore di rotazione attivo",
         "description": ""
     },
     "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW": {
@@ -1896,15 +1896,15 @@
         "description": ""
     },
     "EARTH": {
-        "message": "Terrestri",
+        "message": "terrestre",
         "description": ""
     },
     "STAR_M_HYPER_GIANT": {
-        "message": "Red hyper giant star",
+        "message": "Stella ipergigante rossa",
         "description": ""
     },
     "STAR_AF_SUPER_GIANT": {
-        "message": "Supergigante bianca",
+        "message": "Stella supergigante bianca",
         "description": ""
     },
     "ALT_IN_KM": {
@@ -1916,31 +1916,31 @@
         "description": ""
     },
     "DRIVE_CLASS3": {
-        "message": "Ipermotore civile di 3^ classe",
+        "message": "Ipermotore civile classe 3",
         "description": ""
     },
     "DRIVE_CLASS2": {
-        "message": "Ipermotore civile di 2^ classe",
+        "message": "Ipermotore civile classe 2",
         "description": ""
     },
     "DRIVE_CLASS1": {
-        "message": "Ipermotore civile di 1^ classe",
+        "message": "Ipermotore civile classe 1",
         "description": ""
     },
     "DRIVE_CLASS7": {
-        "message": "Ipermotore civile di 7^ classe",
+        "message": "Ipermotore civile classe 7",
         "description": ""
     },
     "DRIVE_CLASS6": {
-        "message": "Ipermotore civile di 6^ classe",
+        "message": "Ipermotore civile classe 6",
         "description": ""
     },
     "DRIVE_CLASS5": {
-        "message": "Ipermotore civile di 5^ classe",
+        "message": "Ipermotore civile classe 5",
         "description": ""
     },
     "DRIVE_CLASS4": {
-        "message": "Ipermotore civile di 4^ classe",
+        "message": "Ipermotore civile classe 4",
         "description": ""
     },
     "DOWNGRADING_ALERT_STATUS": {
@@ -1948,11 +1948,11 @@
         "description": ""
     },
     "DRIVE_CLASS9": {
-        "message": "Ipermotore civile di 9^ classe",
+        "message": "Ipermotore civile classe 9",
         "description": ""
     },
     "Z": {
-        "message": "z",
+        "message": "Z",
         "description": ""
     },
     "FRUIT_AND_VEG": {
@@ -1968,11 +1968,11 @@
         "description": ""
     },
     "PLANET_CONTAINING_LIQUID_WATER": {
-        "message": "\" pianeta con liquidi in superficie\"",
+        "message": "\" pianeta contenente acqua liquida\"",
         "description": ""
     },
     "N_EARTH_DAYS": {
-        "message": "%days{f.1} Giorni Terrestri",
+        "message": "%days{f.1} giorni terrestri",
         "description": ""
     },
     "META": {
@@ -2004,7 +2004,7 @@
         "description": ""
     },
     "JOYSTICK_INPUT": {
-        "message": "Joystick input",
+        "message": "Joystick",
         "description": ""
     },
     "ECONOMIC_INFO": {
@@ -2016,7 +2016,7 @@
         "description": ""
     },
     "CARBON_ORE": {
-        "message": "Carbonio minerale",
+        "message": "Carbone minerale",
         "description": ""
     },
     "OVER_N_BILLION": {
@@ -2032,7 +2032,7 @@
         "description": ""
     },
     "TARGET_OBJECT_IN_SIGHTS": {
-        "message": "Bersaglio a vista",
+        "message": "Acquisisci bersaglio mirato",
         "description": ""
     },
     "STAR_IM_BH": {
@@ -2052,7 +2052,7 @@
         "description": ""
     },
     "SUGGESTED_RESPONSES": {
-        "message": "Risposte possibili:",
+        "message": "Risposte suggerite:",
         "description": ""
     },
     "STAR_M_WF": {
@@ -2088,11 +2088,11 @@
         "description": ""
     },
     "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO": {
-        "message": "Equatorial to polar radius ratio",
+        "message": "Rapporto equatoriale - polare",
         "description": ""
     },
     "STAR_M_SUPER_GIANT": {
-        "message": "Supergigante rossa",
+        "message": "Stella supergigante rossa",
         "description": ""
     },
     "FERTILIZER": {
@@ -2104,7 +2104,7 @@
         "description": ""
     },
     "STAR_O_GIANT": {
-        "message": "Gigante blu",
+        "message": "Gigante blu calda",
         "description": ""
     },
     "NAVIGATION_TARGETS_IN_THIS_SYSTEM": {
@@ -2120,7 +2120,7 @@
         "description": ""
     },
     "CAMERA_REAR_VIEW": {
-        "message": "Vista di dietro",
+        "message": "Camera posteriore",
         "description": ""
     },
     "OCEANICWORLD": {
@@ -2136,11 +2136,11 @@
         "description": ""
     },
     "CAMERA_LEFT_VIEW": {
-        "message": "Left camera",
+        "message": "Camera sinistra",
         "description": ""
     },
     "ROTATE_RIGHT": {
-        "message": "Rotate Right",
+        "message": "Ruota a Destra",
         "description": ""
     }
 }

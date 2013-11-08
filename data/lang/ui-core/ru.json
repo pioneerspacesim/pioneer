@@ -240,7 +240,7 @@
         "description": ""
     },
     "NONE": {
-        "message": "None",
+        "message": "< отсутствует >",
         "description": ""
     },
     "LANGUAGE": {
@@ -568,7 +568,7 @@
         "description": ""
     },
     "LY": {
-        "message": "ly",
+        "message": "св.лет›",
         "description": ""
     },
     "POOR": {
@@ -632,7 +632,7 @@
         "description": ""
     },
     "METAL_ALLOYS": {
-        "message": "Metal alloys",
+        "message": "Металлические сплавы",
         "description": ""
     },
     "SELECT_FILE": {
