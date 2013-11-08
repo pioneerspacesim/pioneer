@@ -14,11 +14,6 @@ codedoc:
 enums:
 	python scripts/scan_enums.py -r --pattern=*.h -o src/enum_table.cpp src
 
-.PHONY: lang
-lang:
-	tx push -l en -s
-	tx pull -af
-
 EXTRA_DIST = \
 	AUTHORS.txt \
 	COMPILING.OSX.txt \

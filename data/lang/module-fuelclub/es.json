@@ -20,7 +20,7 @@
         "description": ""
     },
     "WHAT_CONDITIONS_APPLY": {
-        "message": "Cuáles son las condiciones aplicables en la disponibilidad de {radioactives}?",
+        "message": "¿Cuáles son las condiciones aplicables en la disponibilidad de {radioactives}?",
         "description": ""
     },
     "YOU_ARE_NOW_A_MEMBER": {
@@ -64,7 +64,7 @@
         "description": ""
     },
     "FLAVOUR_NONMEMBER_INTRO_0": {
-        "message": "{clubname} es una organización independiente dedicada a proveer descuentos en combustible a sus miembros. Sus sedes se encuentran por toda la galaxia. Los beneficios de afiliación incluyen:\n\n\t* Existencias de combustible propias, independientes del mercado general\n\t* Descuento de precios en {hydrogen}\n\t* Descuento de precios en {military_fuel}\n\t* Descuento de precios en {water}\n\t* {radioactives}, disponibilidad libre (bajo condiciones)\n\t* Rellenado de su depósito cuando sea necesario\n\nApúntese! Afiliación anual por solo {membership_fee}",
+        "message": "{clubname} es una organización independiente dedicada a proveer descuentos en combustible a sus miembros. Sus sedes se encuentran por toda la galaxia. Los beneficios de afiliación incluyen:\n\n\t* Existencias de combustible propias, independientes del mercado general\n\t* Descuento de precios en {hydrogen}\n\t* Descuento de precios en {military_fuel}\n\t* Descuento de precios en {water}\n\t* {radioactives}, disponibilidad libre (bajo condiciones)\n\t* Rellenado de su depósito cuando sea necesario\n\n¡Apúntese! Afiliación anual por solo {membership_fee}",
         "description": ""
     }
 }

@@ -1,126 +1,126 @@
 {
     "FLAVOUR_INTRO_4": {
-        "message": "Welcome to Time and Space.\n\nWe specialise in interstellar engines. All maintenance work guaranteed for two years.\n{lasttime}\nServicing your {drive} will cost {price}.  Would you like to proceed?",
+        "message": "Benvenuti alla SpazioTempo.\n\nSiamo specializzati in motori interstellari. Tutti i lavori di manutenzione sono garantiti per due anni.\n\n{lasttime}\n\nLa reisione del suo {drive} costerà {price}. Vuole procedere?",
         "description": ""
     },
     "FLAVOUR_INTRO_5": {
-        "message": "Avoid the inconvenience of a broken-down hyperspace engine.  Get yours serviced today.\n\nEngine: {drive}\nService: {price}\n{lasttime}",
+        "message": "Evita l'inconveniente di un ipermotore guasto. Rivisiona il tuo oggi.\n\nMotore: {drive}\nRevisione: {price}\n\n{lasttime}",
         "description": ""
     },
     "FLAVOUR_INTRO_2": {
-        "message": "Hi there.  We at {proprietor} & Co stake our reputation on our work.\n\n{lasttime}\nWe can tune your ship's {drive}, ensuring 12 months of trouble-free operation, for the sum of {price}.  I'll be supervising the work myself, so you can be sure that a good job will be done.",
+        "message": "Salve. Noi di {proprietor} & Co giochiamo la reputazione sul nostro lavoro.\n\n{lasttime}\n\nPossiamo mettere a punto l'{drive} della sua astronave, garantendo 12 mesi di operatività senza inconvenienti, per un totale di {price}. Supervisionerò personalmente i lavori, in modo che possa essere sicuro di un lavoro ben fatto.",
         "description": ""
     },
     "FLAVOUR_INTRO_3": {
-        "message": "Welcome SuperFix Maintenance.\n\n{lasttime}\nTime for your biannual maintenance? Let us SuperFix your hyperdrive!\nWe can tune your {drive} for just {price}.  There's nobody cheaper!",
+        "message": "Benvenuti a SuperFix Manutenzioni.\n\n{lasttime}\n\nTempo della sua revisione biennale? Lasci che noi SuperFix-iamo il suo ipermotore!\nPossiamo mettere a punto il suo {drive} per appena {price}. Nessuno ha prezzi migliori!",
         "description": ""
     },
     "FLAVOUR_INTRO_0": {
-        "message": "Avoid the inconvenience of a broken-down hyperspace engine.  Get yours serviced today, by the officially endorsed {name} Engine Servicing Company.\n\nEngine: {drive}\nService: {price}\nGuarantee: 18 months\n{lasttime}",
+        "message": "Evita l'inconveniente di un ipermotore guasto. Fai rivisionare il tuo oggi, dalla {name} autorizzata ufficiale Azienda Manutenzione Motori.\n\nMotore: {drive}\nRevisione: {price}\nGaranzia: 18 mesi\n\n{lasttime}",
         "description": ""
     },
     "FLAVOUR_INTRO_1": {
-        "message": "I'm {proprietor}.  I can service your {drive}, guaranteeing at least a year of trouble-free performance.  The cost for this service will be {price}\n{lasttime}",
+        "message": "Sono {proprietor}. Posso revisionare il suo {drive}, garantendo almeno un anno di prestazioni senza incovenienti. Il costo per questo servizio sarà di {price}.\n\n{lasttime}",
         "description": ""
     },
     "I_DONT_HAVE_ENOUGH_MONEY": {
-        "message": "I don't have enough money",
+        "message": "Non ho abbastanza crediti",
         "description": ""
     },
     "THE_SHIPS_HYPERDRIVE_HAS_BEEN_DESTROYED_BY_A_MALFUNCTION": {
-        "message": "The ship's hyperdrive has been destroyed by a malfunction",
+        "message": "L'ipermotore della nave è andato distrutto a causa di un malfunzionamento",
         "description": ""
     },
     "YOUR_DRIVE_WAS_LAST_SERVICED_ON": {
-        "message": "Your drive was last serviced on {date} by {company}",
+        "message": "Il suo ipermotore è stato revisionato il {date} da {company}",
         "description": ""
     },
     "FLAVOUR_RESPONSE_4": {
-        "message": "We have completed the work on your hyperdrive.",
+        "message": "Abbiamo completato il lavoro sul suo ipermotore.",
         "description": ""
     },
     "FLAVOUR_RESPONSE_5": {
-        "message": "Your engine has been serviced.",
+        "message": "Il suo motore ha completato la revisione.",
         "description": ""
     },
     "FLAVOUR_RESPONSE_0": {
-        "message": "Your engine has been serviced.",
+        "message": "Il suo motore è stato revisionato.",
         "description": ""
     },
     "FLAVOUR_RESPONSE_1": {
-        "message": "I have serviced your hyperdrive.",
+        "message": "Ho revisionato il suo ipermotore.",
         "description": ""
     },
     "FLAVOUR_RESPONSE_2": {
-        "message": "Service complete.  Thanks for your custom.",
+        "message": "Manutenzione completata. Grazie per la sua fiducia.",
         "description": ""
     },
     "FLAVOUR_RESPONSE_3": {
-        "message": "Your SuperFix service is complete, with SuperFix guarantee!",
+        "message": "Il suo servizio SuperFix è stato completato, con garanzia SuperFix!",
         "description": ""
     },
     "YOU_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN": {
-        "message": "You fixed the hyperdrive before it broke down.",
+        "message": "Hai riparato l'ipermotore prima che si guastasse.",
         "description": ""
     },
     "FLAVOUR_TITLE_4": {
-        "message": "Time and Space Engines, Inc.",
+        "message": "Motori SpazioTempo, Co.",
         "description": ""
     },
     "FLAVOUR_TITLE_5": {
-        "message": "{proprietor} Engine Servicing Company",
+        "message": "Azienda Manutenzione Motori {proprietor}",
         "description": ""
     },
     "FLAVOUR_TITLE_2": {
-        "message": "{proprietor} & Co HyperMechanics",
+        "message": "IperMeccaniche {proprietor} & Co",
         "description": ""
     },
     "FLAVOUR_TITLE_3": {
-        "message": "SuperFix Maintenance ({name} branch)",
+        "message": "SuperFix Manutenzioni (succursale {name})",
         "description": ""
     },
     "FLAVOUR_TITLE_0": {
-        "message": "{name} Engine Servicing Company",
+        "message": "Azienda Manutenzione Motori {name}",
         "description": ""
     },
     "FLAVOUR_TITLE_1": {
-        "message": "{proprietor}: Hyperdrive maintenance specialist",
+        "message": "{proprietor}: Specialista manutenzione ipermotori",
         "description": ""
     },
     "YOU_DO_NOT_HAVE_A_DRIVE_TO_SERVICE": {
-        "message": "You do not have a drive to service!",
+        "message": "Non ha un motore da revisionare!",
         "description": ""
     },
     "YOUR_DRIVE_HAS_NOT_BEEN_SERVICED": {
-        "message": "Your drive has not been serviced since it was installed on {date}",
+        "message": "Il suo motore non è stato revisionato dal giorno della sua installazione in data {date}",
         "description": ""
     },
     "FLAVOUR_YESPLEASE_5": {
-        "message": "Service hyperspace engine",
+        "message": "Revisiona ipermotore",
         "description": ""
     },
     "FLAVOUR_YESPLEASE_4": {
-        "message": "Yes, please proceed",
+        "message": "Sì, proceda pure",
         "description": ""
     },
     "FLAVOUR_YESPLEASE_3": {
-        "message": "SuperFix me!",
+        "message": "SuperFixami!",
         "description": ""
     },
     "FLAVOUR_YESPLEASE_2": {
-        "message": "Please tune my drive at the quoted price",
+        "message": "Metta a punto in mio motore per il prezzo preventivato",
         "description": ""
     },
     "FLAVOUR_YESPLEASE_1": {
-        "message": "Service my drive",
+        "message": "Revisiona il mio motore",
         "description": ""
     },
     "FLAVOUR_YESPLEASE_0": {
-        "message": "Service hyperspace engine",
+        "message": "Revisiona ipermotore",
         "description": ""
     },
     "I_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN": {
-        "message": "I fixed the hyperdrive before it broke down.",
+        "message": "Ho riparato l'ipermotore prima che si guastasse.",
         "description": ""
     },
     "HANG_UP": {

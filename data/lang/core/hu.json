@@ -1156,7 +1156,7 @@
         "description": ""
     },
     "PRESSURE_N_ATMOSPHERES": {
-        "message": "P: %pressure{f.2} atm",
+        "message": "LNy: %pressure{f.2} atm",
         "description": ""
     },
     "NUMBER_DAYS": {

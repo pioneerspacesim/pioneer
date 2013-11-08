@@ -1328,7 +1328,7 @@
         "description": ""
     },
     "KM_S_RELATIVE_TO": {
-        "message": "%speed{f.2} km/s względem %frame",
+        "message": "%speed{f.2} km/s względem: %frame",
         "description": ""
     },
     "STAR_G": {
@@ -1480,7 +1480,7 @@
         "description": ""
     },
     "M_S_RELATIVE_TO": {
-        "message": "%speed{f.0} m/s względem %frame",
+        "message": "%speed{f.0} m/s względem: %frame",
         "description": ""
     },
     "N_DAYS": {
@@ -2132,7 +2132,7 @@
         "description": ""
     },
     "SYSTEM": {
-        "message": "całego systemu",
+        "message": "System",
         "description": ""
     },
     "CAMERA_LEFT_VIEW": {

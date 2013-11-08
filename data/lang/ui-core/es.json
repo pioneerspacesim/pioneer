@@ -4,7 +4,7 @@
         "description": ""
     },
     "DELTA_V": {
-        "message": "Delta-v",
+        "message": "Delta-V",
         "description": ""
     },
     "DISPLAY_NAV_TUNNELS": {
@@ -12,7 +12,7 @@
         "description": ""
     },
     "ORBIT": {
-        "message": "Orbita",
+        "message": "Órbita",
         "description": ""
     },
     "ENABLE_JOYSTICK": {
@@ -76,15 +76,15 @@
         "description": ""
     },
     "MORE_INFO": {
-        "message": "Mas info...",
+        "message": "+ info...",
         "description": ""
     },
     "RATING": {
-        "message": "Rating:",
+        "message": "Clasificación:",
         "description": ""
     },
     "OFF": {
-        "message": "Off",
+        "message": "No",
         "description": ""
     },
     "LOCATION": {
@@ -96,11 +96,11 @@
         "description": ""
     },
     "CLEAR": {
-        "message": "Clear",
+        "message": "Claro",
         "description": ""
     },
     "CREW_ROSTER": {
-        "message": "Lista",
+        "message": "Registro de Tripulación",
         "description": ""
     },
     "HIGH": {
@@ -132,7 +132,7 @@
         "description": ""
     },
     "PLANET_TEXTURES": {
-        "message": "Tex. planetarias",
+        "message": "Textura planet.",
         "description": ""
     },
     "CONTROL_OPTIONS": {
@@ -140,7 +140,7 @@
         "description": ""
     },
     "D_DAYS_LEFT": {
-        "message": "Days left: %d",
+        "message": "Días restantes: %d",
         "description": ""
     },
     "GENERAL_CREW": {
@@ -176,7 +176,7 @@
         "description": ""
     },
     "HYPERSPACE_RANGE": {
-        "message": "Autonomía hiperespacial",
+        "message": "Alcance hiperespacial",
         "description": ""
     },
     "EFFECTS": {
@@ -196,11 +196,11 @@
         "description": ""
     },
     "STATUS": {
-        "message": "Status",
+        "message": "Estado",
         "description": ""
     },
     "FUEL_TANK_FULL": {
-        "message": "Tanque de fuel lleno.",
+        "message": "Tanque lleno.",
         "description": ""
     },
     "ESCAPE_SPEED": {
@@ -224,11 +224,11 @@
         "description": ""
     },
     "FORWARD_ACCEL": {
-        "message": "Forward acceleration",
+        "message": "Avance",
         "description": ""
     },
     "HYPERDRIVE": {
-        "message": "Motor hiperespacial",
+        "message": "Hipermotor",
         "description": ""
     },
     "USE_SHADERS": {
@@ -240,7 +240,7 @@
         "description": ""
     },
     "NONE": {
-        "message": "None",
+        "message": "No",
         "description": ""
     },
     "LANGUAGE": {
@@ -264,7 +264,7 @@
         "description": ""
     },
     "LOAD_GAME": {
-        "message": "Cargar",
+        "message": "Cargar Juego",
         "description": ""
     },
     "MILITARY": {
@@ -316,7 +316,7 @@
         "description": ""
     },
     "WAGE": {
-        "message": "Sueldo",
+        "message": "Salario",
         "description": ""
     },
     "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY": {
@@ -328,7 +328,7 @@
         "description": ""
     },
     "CITY_DETAIL_LEVEL": {
-        "message": "Detalle urbano",
+        "message": "Detalles urbanos",
         "description": ""
     },
     "N_OCCUPIED_PASSENGER_CABINS": {
@@ -348,7 +348,7 @@
         "description": ""
     },
     "NEXT_PAID": {
-        "message": "Próxima paga",
+        "message": "Próximo pago",
         "description": ""
     },
     "CLIENT": {
@@ -364,7 +364,7 @@
         "description": ""
     },
     "UP_ACCEL": {
-        "message": "Up acceleration",
+        "message": "Hacia Arriba",
         "description": ""
     },
     "FRACTAL_DETAIL": {
@@ -412,7 +412,7 @@
         "description": ""
     },
     "COMMANDER": {
-        "message": "Capitán",
+        "message": "Comandante",
         "description": ""
     },
     "OWED": {
@@ -420,7 +420,7 @@
         "description": ""
     },
     "MASTER": {
-        "message": "Master:",
+        "message": "Maestro:",
         "description": ""
     },
     "NO_MISSIONS": {
@@ -512,7 +512,7 @@
         "description": ""
     },
     "BACKWARD_ACCEL": {
-        "message": "Backward acceleration",
+        "message": "Retroceso",
         "description": ""
     },
     "COMPRESS_TEXTURES": {
@@ -568,7 +568,7 @@
         "description": ""
     },
     "LY": {
-        "message": "ly",
+        "message": "al",
         "description": ""
     },
     "POOR": {
@@ -632,7 +632,7 @@
         "description": ""
     },
     "METAL_ALLOYS": {
-        "message": "Metal alloys",
+        "message": "Aleación de metales",
         "description": ""
     },
     "SELECT_FILE": {
