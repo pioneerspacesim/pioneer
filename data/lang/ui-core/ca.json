@@ -8,23 +8,23 @@
         "description": ""
     },
     "DISPLAY_NAV_TUNNELS": {
-        "message": "Display nav tunnels",
+        "message": "Mostrar túnel de navegació",
         "description": ""
     },
     "ORBIT": {
-        "message": "Orbit",
+        "message": "Òrbita",
         "description": ""
     },
     "ENABLE_JOYSTICK": {
-        "message": "Enable joystick",
+        "message": "Habilitar Joystick",
         "description": ""
     },
     "SHIP_INFORMATION": {
-        "message": "Ship Information",
+        "message": "Informació de la nau",
         "description": ""
     },
     "VIDEO_RESOLUTION": {
-        "message": "Video resolution",
+        "message": "Resolució de pantalla",
         "description": ""
     },
     "REAR_WEAPON": {
@@ -32,7 +32,7 @@
         "description": ""
     },
     "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE": {
-        "message": "Hull repair attempt failed. Hull suffered minor damage.",
+        "message": "Intent fracassat de reparació del casc. El casc ha sofert danys menors.",
         "description": ""
     },
     "MAKE_NEW_FACE": {
@@ -40,47 +40,47 @@
         "description": ""
     },
     "START_AT_NEW_HOPE": {
-        "message": "Start at New Hope",
+        "message": "Iniciar a New Hope",
         "description": ""
     },
     "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
-        "message": "The ship is under station control, Commander.",
+        "message": "La nau esta sota control de l'estació, Comandant.",
         "description": ""
     },
     "ECONOMY_TRADE": {
-        "message": "Economy & Trade",
+        "message": "Economia i Comerç",
         "description": ""
     },
     "REFUEL": {
-        "message": "Refuel",
+        "message": "Reomplir Combustible",
         "description": ""
     },
     "ENGINEERING": {
-        "message": "Engineering",
+        "message": "Enginyeria",
         "description": ""
     },
     "DESCENT_TO_GROUND_SPEED": {
-        "message": "Descent-to-ground speed:",
+        "message": "Velocitat de descens a terra.",
         "description": ""
     },
     "DESTROY_ENEMY_SHIP": {
-        "message": "Destroy enemy ship",
+        "message": "Destruir nau enemiga.",
         "description": ""
     },
     "TOTAL": {
-        "message": "Total: ",
+        "message": "Total:",
         "description": ""
     },
     "PILOTING": {
-        "message": "Piloting:",
+        "message": "Pilotatge:",
         "description": ""
     },
     "MORE_INFO": {
-        "message": "More info...",
+        "message": "Més info...",
         "description": ""
     },
     "RATING": {
-        "message": "Rating:",
+        "message": "Classificació:",
         "description": ""
     },
     "OFF": {
@@ -88,7 +88,7 @@
         "description": ""
     },
     "LOCATION": {
-        "message": "Location",
+        "message": "Localització",
         "description": ""
     },
     "ORBITAL_ANALYSIS_NOTES": {
@@ -100,11 +100,11 @@
         "description": ""
     },
     "CREW_ROSTER": {
-        "message": "Crew Roster",
+        "message": "Llista de Tripulants",
         "description": ""
     },
     "HIGH": {
-        "message": "High",
+        "message": "Alt",
         "description": ""
     },
     "MINIMUM_CREW": {
@@ -112,19 +112,19 @@
         "description": ""
     },
     "CREW_CABINS": {
-        "message": "Crew cabins",
+        "message": "Cabines de la Tripulació",
         "description": ""
     },
     "WEIGHT_EMPTY": {
-        "message": "Weight empty:",
+        "message": "Pes en buit:",
         "description": ""
     },
     "POSITION": {
-        "message": "Position",
+        "message": "Posició",
         "description": ""
     },
     "FRONT_WEAPON": {
-        "message": "Front weapon",
+        "message": "Arma frontal",
         "description": ""
     },
     "OK": {
@@ -132,79 +132,79 @@
         "description": ""
     },
     "PLANET_TEXTURES": {
-        "message": "Planet textures",
+        "message": "Textures de Planeta",
         "description": ""
     },
     "CONTROL_OPTIONS": {
-        "message": "Control Options",
+        "message": "Opcions de Control",
         "description": ""
     },
     "D_DAYS_LEFT": {
-        "message": "Days left: %d",
+        "message": "Dies restants: %d",
         "description": ""
     },
     "GENERAL_CREW": {
-        "message": "General crew",
+        "message": "Tripulació general",
         "description": ""
     },
     "KILLS": {
-        "message": "Kills:",
+        "message": "Morts:",
         "description": ""
     },
     "QUALIFICATION_SCORES": {
-        "message": "Qualification scores",
+        "message": "Calificació",
         "description": ""
     },
     "CHANGE_BINDING": {
-        "message": "Change Binding",
+        "message": "Modificar",
         "description": ""
     },
     "MAX": {
-        "message": "max",
+        "message": "máx.",
         "description": ""
     },
     "RETURN_TO_MENU": {
-        "message": "Return to menu",
+        "message": "Tornar al menú",
         "description": ""
     },
     "N_LIGHT_YEARS_N_MAX": {
-        "message": "{range} light years ({maxRange} max)",
+        "message": "{range} anys llum ({maxRange} max)",
         "description": ""
     },
     "FAILED": {
-        "message": "Failed",
+        "message": "Fallat",
         "description": ""
     },
     "HYPERSPACE_RANGE": {
-        "message": "Hyperspace range",
+        "message": "Abast hiperespacial",
         "description": ""
     },
     "EFFECTS": {
-        "message": "Effects:",
+        "message": "Efectes:",
         "description": ""
     },
     "VERY_LOW": {
-        "message": "Very low",
+        "message": "Molt baix",
         "description": ""
     },
     "REWARD": {
-        "message": "Reward",
+        "message": "Recompensa",
         "description": ""
     },
     "SOUND": {
-        "message": "Sound",
+        "message": "So",
         "description": ""
     },
     "STATUS": {
-        "message": "Status",
+        "message": "Estat",
         "description": ""
     },
     "FUEL_TANK_FULL": {
-        "message": "Fuel tank full.",
+        "message": "Dipòsit de combustible ple",
         "description": ""
     },
     "ESCAPE_SPEED": {
-        "message": "Escape speed:",
+        "message": "Velocitat d'escapament",
         "description": ""
     },
     "NOTES": {
@@ -216,11 +216,11 @@
         "description": ""
     },
     "MISSION_DETAILS": {
-        "message": "Mission Details",
+        "message": "Detalls de la Missió:",
         "description": ""
     },
     "HULL_DOES_NOT_REQUIRE_REPAIR": {
-        "message": "Hull does not require repair.",
+        "message": "El casc no requereix reparacions.",
         "description": ""
     },
     "FORWARD_ACCEL": {
@@ -232,19 +232,19 @@
         "description": ""
     },
     "USE_SHADERS": {
-        "message": "Use shaders",
+        "message": "Emprar shaders",
         "description": ""
     },
     "SELECT": {
-        "message": "Select",
+        "message": "Seleccionar",
         "description": ""
     },
     "NONE": {
-        "message": "None",
+        "message": "Cap",
         "description": ""
     },
     "LANGUAGE": {
-        "message": "Language",
+        "message": "Idioma",
         "description": ""
     },
     "MOSTLY_HARMLESS": {
@@ -260,35 +260,35 @@
         "description": ""
     },
     "PERSONAL_INFORMATION": {
-        "message": "Personal Information",
+        "message": "Informació Personal",
         "description": ""
     },
     "LOAD_GAME": {
-        "message": "Load game",
+        "message": "Carregar Partida",
         "description": ""
     },
     "MILITARY": {
-        "message": "Military",
+        "message": "Militar",
         "description": ""
     },
     "MALE": {
-        "message": "Male",
+        "message": "Home",
         "description": ""
     },
     "COULD_NOT_LOAD_GAME": {
-        "message": "Could not load game: ",
+        "message": "No ha estat possible carregar la partida:",
         "description": ""
     },
     "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME": {
-        "message": "Located {distance}km from the centre of {name}:",
+        "message": "Localitzat a {distance}km del centre de {name}:",
         "description": ""
     },
     "LOAD": {
-        "message": "Load",
+        "message": "Carregar",
         "description": ""
     },
     "MEDIUM": {
-        "message": "Medium",
+        "message": "Mitjà",
         "description": ""
     },
     "CABINS": {
@@ -300,11 +300,11 @@
         "description": ""
     },
     "YOURE_GOING_TO_REGRET_SACKING_ME": {
-        "message": "You're going to regret sacking me!",
+        "message": "Lamentaràs haver-me despatxat!",
         "description": ""
     },
     "SELECT_GAME_TO_LOAD": {
-        "message": "Select game to load...",
+        "message": "Seleccionar partida per a carregar...",
         "description": ""
     },
     "ERROR": {
@@ -312,7 +312,7 @@
         "description": ""
     },
     "ACTIVE": {
-        "message": "Active",
+        "message": "Actiu",
         "description": ""
     },
     "WAGE": {
@@ -324,7 +324,7 @@
         "description": ""
     },
     "SAVE": {
-        "message": "Save",
+        "message": "Guardar",
         "description": ""
     },
     "CITY_DETAIL_LEVEL": {
@@ -344,7 +344,7 @@
         "description": ""
     },
     "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR": {
-        "message": "Not enough {alloy} to attempt a repair",
+        "message": "No hi ha suficient {alloy} per intentar una reparació",
         "description": ""
     },
     "NEXT_PAID": {
@@ -384,7 +384,7 @@
         "description": ""
     },
     "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP": {
-        "message": "There is nobody else on board able to fly this ship.",
+        "message": "No hi ha ningú més capaç de pilotar aquesta nau.",
         "description": ""
     },
     "AN_ERROR_HAS_OCCURRED": {
@@ -392,7 +392,7 @@
         "description": ""
     },
     "INACTIVE": {
-        "message": "Inactive",
+        "message": "Inactiu",
         "description": ""
     },
     "N_SHIELD_GENERATORS": {
@@ -428,7 +428,7 @@
         "description": ""
     },
     "DANGEROUS": {
-        "message": "Dangerous",
+        "message": "Perillós",
         "description": ""
     },
     "AVERAGE": {
@@ -460,11 +460,11 @@
         "description": ""
     },
     "QUIT": {
-        "message": "Quit",
+        "message": "Sortir",
         "description": ""
     },
     "NAME": {
-        "message": "Name",
+        "message": "Nom",
         "description": ""
     },
     "GIVE_ORDERS_TO_CREW": {
@@ -480,7 +480,7 @@
         "description": ""
     },
     "GOOD_RIDDANCE_TO_YOU_TOO": {
-        "message": "Good riddance to you, too.",
+        "message": "Bon viatge a tu també.",
         "description": ""
     },
     "TYPE": {
@@ -504,7 +504,7 @@
         "description": ""
     },
     "LOW": {
-        "message": "Low",
+        "message": "Baix",
         "description": ""
     },
     "YOU_MUST_LAUNCH_FIRST_COMMANDER": {
@@ -524,7 +524,7 @@
         "description": ""
     },
     "OPTIONS": {
-        "message": "Options",
+        "message": "Opcions",
         "description": ""
     },
     "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME": {
@@ -548,7 +548,7 @@
         "description": ""
     },
     "FULL_SCREEN": {
-        "message": "Full screen",
+        "message": "Pantalla completa",
         "description": ""
     },
     "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER": {
@@ -632,7 +632,7 @@
         "description": ""
     },
     "METAL_ALLOYS": {
-        "message": "Metal alloys",
+        "message": "Aliatges de metalls",
         "description": ""
     },
     "SELECT_FILE": {
@@ -652,7 +652,7 @@
         "description": ""
     },
     "DEADLY": {
-        "message": "Deadly",
+        "message": "Mortal",
         "description": ""
     },
     "FUEL": {
