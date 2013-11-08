@@ -12,7 +12,7 @@
         "description": ""
     },
     "WE_WILL_ONLY_DISPOSE_OF": {
-        "message": "Possiamo smaltire solo la stessa quantità in {radioactives} del {military_fuel} che ha comprato da noi.",
+        "message": "Possiamo smaltire solo la stessa quantità di {radioactives} del {military_fuel} che ha comprato da noi.",
         "description": ""
     },
     "FLAVOUR_WELCOME_0": {
@@ -64,7 +64,7 @@
         "description": ""
     },
     "FLAVOUR_NONMEMBER_INTRO_0": {
-        "message": "{clubname} è un'organizzazione indipendente con lo scopo di fornire ai propri membi carburante per astronavi scontato. Si possono trovare succursali in tutta la galassia. L'iscrizione porta i seguenti vantaggi:⏎\n⏎\n⇥* Le nostre scorte di combustibile, indipendenti dal mercato generale⏎\n⇥* {hydrogen} a prezzi scontati⏎\n⇥* {military_fuel} a prezzi scontati⏎\n⇥* {water} a prezzi scontati⏎\n⇥* {radioactives}, smaltimento gratuito (si applicano delle condizioni)⏎\n⇥* Rabbocco di carburante, se necessario⏎\n⏎\nIscriviti ora! La quota d'iscrizione annuale è di solo {membership_fee}",
+        "message": "{clubname} è un'organizzazione indipendente che ha lo scopo di fornire ai propri membi carburante per astronavi scontato. Si possono trovare succursali in tutta la galassia. L'iscrizione porta i seguenti vantaggi:\n\n* Le nostre scorte di combustibile, indipendenti dal mercato generale\n* {hydrogen} a prezzi scontati\n* {military_fuel} a prezzi scontati\n* {water} a prezzi scontati\n* {radioactives}, smaltimento gratuito (si applicano delle condizioni)\n* Rabbocco di carburante, se necessario\n\nIscriviti ora! La quota d'iscrizione annuale è di soli {membership_fee}",
         "description": ""
     }
 }

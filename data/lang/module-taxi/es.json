@@ -108,7 +108,7 @@
         "description": ""
     },
     "WHY_SO_MUCH_MONEY": {
-        "message": "Por qué tanto dinero?",
+        "message": "¿Por qué tanto dinero?",
         "description": ""
     },
     "FLAVOUR_SUCCESSMSG_1": {
@@ -120,7 +120,7 @@
         "description": ""
     },
     "FLAVOUR_SUCCESSMSG_7": {
-        "message": "Gracias por traerme con seguridad. Le he pagado el total. Buena suerte!",
+        "message": "Gracias por traerme con seguridad. Le he pagado el total. ¡Buena suerte!",
         "description": ""
     },
     "FLAVOUR_SUCCESSMSG_6": {
@@ -132,7 +132,7 @@
         "description": ""
     },
     "FLAVOUR_SUCCESSMSG_4": {
-        "message": "Gracias por traerme. Le he pagado lo acordado. Buena suerte!",
+        "message": "Gracias por traerme. Le he pagado lo acordado. ¡Buena suerte!",
         "description": ""
     },
     "FLAVOUR_SUCCESSMSG_9": {
@@ -152,7 +152,7 @@
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_11": {
-        "message": "Voy a perder el trabajo por su incompetencia!. Ahora necesito el dinero más que usted!.",
+        "message": "¡Voy a perder el trabajo por su incompetencia! ¡Ahora necesito el dinero más que usted!.",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_12": {
@@ -160,15 +160,15 @@
         "description": ""
     },
     "PIRATE_TAUNTS_3": {
-        "message": "Hoy no vas a atracar!",
+        "message": "¡Hoy no vas a atracar!",
         "description": ""
     },
     "PIRATE_TAUNTS_2": {
-        "message": "Hoy no es tu día de suerte! Prepárate para morir.",
+        "message": "¡Hoy no es tu día de suerte! Prepárate para morir.",
         "description": ""
     },
     "PIRATE_TAUNTS_1": {
-        "message": "Tienes a {client} a bordo? Eso fue una mala idea.",
+        "message": "¿Tienes a {client} a bordo? Eso fue una mala idea.",
         "description": ""
     },
     "PIRATE_TAUNTS_0": {
@@ -184,7 +184,7 @@
         "description": ""
     },
     "FLAVOUR_WHEREAREWE_10": {
-        "message": "Dónde estamos? Ya he esperado bastante - lléveme a la estación mas cercana AHORA!",
+        "message": "¿Dónde estamos? Ya he esperado bastante - lléveme a la estación mas cercana ¡AHORA!",
         "description": ""
     },
     "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP": {
@@ -196,19 +196,19 @@
         "description": ""
     },
     "HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS": {
-        "message": "Ey!?! Vas a pagar por esto!!!",
+        "message": "¡¿¡Ey!?! ¡¡¡Vas a pagar por esto!!!",
         "description": ""
     },
     "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
-        "message": "Podría repetir la petición original?",
+        "message": "¿Podría repetir la petición original?",
         "description": ""
     },
     "FLAVOUR_WHEREAREWE_12": {
-        "message": "Dónde estamos? Ya he esperado demasiado - lléveme a laestación mas cercana AHORA!",
+        "message": "¿Dónde estamos? Ya he esperado demasiado - lléveme a laestación mas cercana ¡AHORA!",
         "description": ""
     },
     "FLAVOUR_SUCCESSMSG_2": {
-        "message": "Gracias por traernos. Le hemos pagado al completo. Buena suerte!",
+        "message": "Gracias por traernos. Le hemos pagado al completo. ¡Buena suerte!",
         "description": ""
     },
     "FLAVOUR_HOWMANY_2": {
@@ -300,7 +300,7 @@
         "description": ""
     },
     "WILL_I_BE_IN_ANY_DANGER": {
-        "message": "Estaré en peligro?",
+        "message": "¿Estaré en peligro?",
         "description": ""
     },
     "FLAVOUR_INTROTEXT_1": {
@@ -340,11 +340,11 @@
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_4": {
-        "message": "Ni pregunte por el pago! Voy a dar parte de usted a las autoridades!.",
+        "message": "¡Ni pregunte por el pago! ¡Voy a dar parte de usted a las autoridades!.",
         "description": ""
     },
     "HOW_MANY_OF_YOU_ARE_THERE": {
-        "message": "Cuántos son?",
+        "message": "¿Cuántos son?",
         "description": ""
     },
     "DANGER": {
@@ -356,7 +356,7 @@
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_5": {
-        "message": "Pero qué has hecho! Mi Tour se ha arruinado y he perdido a la mitad de mis fans!.",
+        "message": "¡Pero qué has hecho! ¡Mi Tour se ha arruinado y he perdido a la mitad de mis fans!.",
         "description": ""
     },
     "DEADLINE": {
@@ -364,11 +364,11 @@
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_6": {
-        "message": "Inaceptable! Le ha llevado una eternidad!. No tengo intención alguna de pagarle!.",
+        "message": "¡Inaceptable! ¡Le ha llevado una eternidad! ¡No tengo intención alguna de pagarle!.",
         "description": ""
     },
     "FLAVOUR_WHYSOMUCH_9": {
-        "message": "La Policiá quiere que colabore en una investigación.",
+        "message": "La Policía quiere que colabore en una investigación.",
         "description": ""
     },
     "FLAVOUR_WHYSOMUCH_8": {
@@ -420,7 +420,7 @@
         "description": ""
     },
     "LY": {
-        "message": "al",
+        "message": "ly",
         "description": ""
     },
     "FLAVOUR_ADTEXT_6": {
@@ -436,7 +436,7 @@
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_9": {
-        "message": "Inútil! Has tardado una eternidad. No tengo intención de pagar.",
+        "message": "¡Inútil! Has tardado una eternidad. No tengo intención de pagar.",
         "description": ""
     },
     "FLAVOUR_ADTEXT_0": {
@@ -472,7 +472,7 @@
         "description": ""
     },
     "FLAVOUR_WHEREAREWE_3": {
-        "message": "Dónde estamos? Ya he esperado suficiente - lléveme a la estación mas cercana AHORA!",
+        "message": "¿Dónde estamos? Ya he esperado suficiente - lléveme a la estación mas cercana ¡AHORA!",
         "description": ""
     },
     "FLAVOUR_ADTEXT_2": {
@@ -488,7 +488,7 @@
         "description": ""
     },
     "FLAVOUR_WHEREAREWE_1": {
-        "message": "Dónde nos encontramos? Ya hemos esperado suficiente - llévenos a la estación mas cercana DE INMEDIATO!",
+        "message": "¿Dónde nos encontramos? Ya hemos esperado suficiente - llévenos a la estación mas cercana ¡DE INMEDIATO!",
         "description": ""
     },
     "FROM": {
@@ -496,67 +496,67 @@
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_2": {
-        "message": "Inaceptable! Le ha llevado una eternidad. No vamos a pagarle.",
+        "message": "¡Inaceptable! Le ha llevado una eternidad. No vamos a pagarle.",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_3": {
-        "message": "Inaceptable! Ha tardado una eternidad. No tengo intención alguna de pagarle.",
+        "message": "¡Inaceptable! Ha tardado una eternidad. No tengo intención alguna de pagarle.",
         "description": ""
     },
     "HOW_SOON_YOU_MUST_BE_THERE": {
-        "message": "Cuándo debe estar allí?",
+        "message": "¿Cuándo debe estar allí?",
         "description": ""
     },
     "FLAVOUR_WHEREAREWE_8": {
-        "message": "Pero dónde nos encontramos? Ya he esperado bastante - déjeme en la estación mas cercana DE INMEDIATO!",
+        "message": "¿Pero dónde nos encontramos? Ya he esperado bastante - déjeme en la estación mas cercana ¡DE INMEDIATO!",
         "description": ""
     },
     "FLAVOUR_WHEREAREWE_9": {
-        "message": "Dónde estamos? Ya he esperado bastante - llévame a la estación mas cercana AHORA!",
+        "message": "¿Dónde estamos? Ya he esperado bastante - llévame a la estación mas cercana ¡AHORA!",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_0": {
-        "message": "Inaceptable! ha tardado una eternidad. No tenemos intención de pagarle.",
+        "message": "¡Inaceptable! ha tardado una eternidad. No tenemos intención de pagarle.",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_8": {
-        "message": "Inaceptable! Ha tardado una eternidad. No tengo intención de pagar.",
+        "message": "¡Inaceptable! Ha tardado una eternidad. No tengo intención de pagar.",
         "description": ""
     },
     "FLAVOUR_WHEREAREWE_11": {
-        "message": "Dónde estamos? Ya he esperado demasiado - déjeme en la estación mas cercana YA!",
+        "message": "¿Dónde estamos? Ya he esperado demasiado - déjeme en la estación mas cercana ¡YA!",
         "description": ""
     },
     "FLAVOUR_WHEREAREWE_2": {
-        "message": "Dónde nos encontramos? Ya hemos esperado bastante - déjenos en la estación mas cercana YA!",
+        "message": "¿Dónde nos encontramos? Ya hemos esperado bastante - déjenos en la estación mas cercana ¡YA!",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_7": {
-        "message": "Inaceptable! Ha tardado una eternidad. No pienso pagarle!.",
+        "message": "¡Inaceptable! Ha tardado una eternidad. No pienso pagarle.",
         "description": ""
     },
     "FLAVOUR_WHEREAREWE_0": {
-        "message": "Dónde estamos? Ya hemos esperado demasiado - llévenos a la estación mas cercana AHORA!",
+        "message": "¿Dónde estamos? Ya hemos esperado demasiado - llévenos a la estación mas cercana ¡AHORA!",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_1": {
-        "message": "Inaceptable! Ha tardado una eternidad. No tenemos intención de pagarle.",
+        "message": "¡Inaceptable! Ha tardado una eternidad. No tenemos intención de pagarle.",
         "description": ""
     },
     "FLAVOUR_WHEREAREWE_6": {
-        "message": "Dónde os encontramos? Ya he esperado bastante - lléveme a la estación mas cercana AHORA!",
+        "message": "¿Dónde os encontramos? Ya he esperado bastante - lléveme a la estación mas cercana ¡AHORA!",
         "description": ""
     },
     "FLAVOUR_WHEREAREWE_7": {
-        "message": "Pero dónde estamos? Ya he aguardado bastante - lléveme a la estación mas cercana YA!",
+        "message": "¿Pero dónde estamos? Ya he aguardado bastante - lléveme a la estación mas cercana ¡YA!",
         "description": ""
     },
     "FLAVOUR_WHEREAREWE_4": {
-        "message": "Dónde nos encontramos? Ya he esperado suficiente - déjeme en la estación mas cercana YA!",
+        "message": "¿Dónde nos encontramos? Ya he esperado suficiente - déjeme en la estación mas cercana ¡YA!",
         "description": ""
     },
     "FLAVOUR_WHEREAREWE_5": {
-        "message": "Dónde estamos? He esperado ya demasiado - llévame a la estación mas cercana AHORA!",
+        "message": "¿Dónde estamos? He esperado ya demasiado - llévame a la estación mas cercana ¡AHORA!",
         "description": ""
     }
 }

@@ -1,6 +1,6 @@
 {
     "FLAVOUR_INTRO_4": {
-        "message": "Bienvenido a Motores Espacio Tiempo.\n\nNos especializamos en motores interestelares. Garantía por dos años.\n{lasttime}\nLa revisión de su {drive} le costará {price}.  Quiere continuar?",
+        "message": "Bienvenido a Motores Espacio Tiempo.\n\nNos especializamos en motores interestelares. Garantía por dos años.\n{lasttime}\nLa revisión de su {drive} le costará {price}.  ¿Quiere continuar?",
         "description": ""
     },
     "FLAVOUR_INTRO_5": {
@@ -12,7 +12,7 @@
         "description": ""
     },
     "FLAVOUR_INTRO_3": {
-        "message": "Bienvenido Mantenimiento SuperFix.\n\n{lasttime}\nHa llegado el momento de su mantenimiento bianual? Permítanos SuperReparar su motor de hiperimpulso!\nPodemos tunear su {drive} por solo {price}.  No hay nada mas barato!",
+        "message": "Bienvenido Mantenimiento SuperFix.\n\n{lasttime}\n¿Ha llegado el momento de su mantenimiento bianual? ¡Permítanos SuperReparar su motor de hiperimpulso!\nPodemos tunear su {drive} por solo {price}.  ¡No hay nada mas barato!",
         "description": ""
     },
     "FLAVOUR_INTRO_0": {
@@ -56,11 +56,11 @@
         "description": ""
     },
     "FLAVOUR_RESPONSE_3": {
-        "message": "La SuperReparación está completa, con garantía SuperFix!",
+        "message": "La SuperReparación está completa, ¡con garantía SuperFix!",
         "description": ""
     },
     "YOU_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN": {
-        "message": "You fixed the hyperdrive before it broke down.",
+        "message": "Reparaste el hipermotor antes de que se averiara.",
         "description": ""
     },
     "FLAVOUR_TITLE_4": {
@@ -88,7 +88,7 @@
         "description": ""
     },
     "YOU_DO_NOT_HAVE_A_DRIVE_TO_SERVICE": {
-        "message": "No dispone de motor para revisar!",
+        "message": "¡No dispone de motor para revisar!",
         "description": ""
     },
     "YOUR_DRIVE_HAS_NOT_BEEN_SERVICED": {
@@ -104,7 +104,7 @@
         "description": ""
     },
     "FLAVOUR_YESPLEASE_3": {
-        "message": "SuperRepárame!",
+        "message": "¡SuperRepárame!",
         "description": ""
     },
     "FLAVOUR_YESPLEASE_2": {
@@ -120,7 +120,7 @@
         "description": ""
     },
     "I_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN": {
-        "message": "I fixed the hyperdrive before it broke down.",
+        "message": "Reparé el hipermotor antes de que se averiara.",
         "description": ""
     },
     "HANG_UP": {

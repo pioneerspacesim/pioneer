@@ -240,7 +240,7 @@
         "description": ""
     },
     "NONE": {
-        "message": "None",
+        "message": "Nic",
         "description": ""
     },
     "LANGUAGE": {
@@ -340,7 +340,7 @@
         "description": ""
     },
     "CONTROLS": {
-        "message": "Controls",
+        "message": "Ovládání",
         "description": ""
     },
     "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR": {
@@ -632,7 +632,7 @@
         "description": ""
     },
     "METAL_ALLOYS": {
-        "message": "Metal alloys",
+        "message": "Kovové slitiny",
         "description": ""
     },
     "SELECT_FILE": {

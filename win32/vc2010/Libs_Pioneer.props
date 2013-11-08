@@ -5,7 +5,7 @@
   <PropertyGroup />
   <ItemDefinitionGroup>
     <Link>
-      <AdditionalDependencies>glew.lib;collider.lib;galaxy.lib;gameui.lib;graphics.lib;gui.lib;jenkins.lib;lua.lib;scenegraph.lib;terrain.lib;text.lib;ui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew.lib;collider.lib;galaxy.lib;gameui.lib;graphics.lib;gui.lib;jenkins.lib;json.lib;lua.lib;scenegraph.lib;terrain.lib;text.lib;ui.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup />

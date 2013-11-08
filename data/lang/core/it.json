@@ -36,7 +36,7 @@
         "description": ""
     },
     "CARBON_ORE_DESCRIPTION": {
-        "message": "Carbone fossile, Petrolio ed altri idrocarburi naturali sono richiesti dall'Industria Chimica per la sintesi di vari prodotti come plastiche, alimenti sintetici, medicinali, tessuti e molto altro. ",
+        "message": "Carbone fossile, Petrolio ed altri idrocarburi naturali sono richiesti dall'Industria Chimica per la sintesi di vari prodotti come plastiche, alimenti sintetici, medicinali, tessuti e molto altro.",
         "description": ""
     },
     "CAMERA_TOP_VIEW": {
@@ -44,7 +44,7 @@
         "description": ""
     },
     "TINY": {
-        "message": "Minuto",
+        "message": "Minuscolo",
         "description": ""
     },
     "CONSUMER_GOODS": {
@@ -60,11 +60,11 @@
         "description": ""
     },
     "FIT": {
-        "message": "Monta",
+        "message": "+",
         "description": ""
     },
     "EXTENSIVE_MINING": {
-        "message": "Vaste operazioni minerarie.",
+        "message": "Ampie operazioni minerarie.",
         "description": ""
     },
     "REVERSE_ACCEL_LADEN": {
@@ -84,7 +84,7 @@
         "description": ""
     },
     "HULL_AUTOREPAIR": {
-        "message": "Auto-riparatore dello scafo",
+        "message": "Autoriparatore dello scafo",
         "description": ""
     },
     "TOGGLE_LUA_CONSOLE": {
@@ -104,15 +104,15 @@
         "description": ""
     },
     "EARTH_FEDERATION_DEMOCRACY": {
-        "message": "Democrazia della Federazione Terrestre",
+        "message": "Democrazia sotto la Federazione Terrestre",
         "description": ""
     },
     "VIEW": {
-        "message": "Vedi",
+        "message": "Visuali",
         "description": ""
     },
     "HIGHLY_VOLCANIC": {
-        "message": "Altamente vulcanico",
+        "message": "Altamente vulcanico, ",
         "description": ""
     },
     "USED": {
@@ -136,7 +136,7 @@
         "description": ""
     },
     "LIQUID_OXYGEN_DESCRIPTION": {
-        "message": "L'ossigeno è necessario per i sistemi di supporto vitale e per alcuni processi industriali.",
+        "message": "L'ossigeno è necessario per i sistemi di supporto vitale, è utilizzato anche in alcuni processi industriali.",
         "description": ""
     },
     "DRIVE_MIL1": {
@@ -180,7 +180,7 @@
         "description": ""
     },
     "SOMEWHERE_COMMODITIES_MARKET": {
-        "message": "Mercato di %station",
+        "message": "Mercato dei prodotti di %station",
         "description": ""
     },
     "NARCOTICS": {
@@ -220,7 +220,7 @@
         "description": ""
     },
     "HAND_WEAPONS": {
-        "message": "Armi da fanteria",
+        "message": "Armi a mano",
         "description": ""
     },
     "TIME_POINT": {
@@ -304,7 +304,7 @@
         "description": ""
     },
     "REMOVE_FROM_WHICH_MOUNT": {
-        "message": "Rimuovere il laser da quale supporto?",
+        "message": "Rimozione da quale supporto?",
         "description": ""
     },
     "BODIES": {
@@ -348,7 +348,7 @@
         "description": ""
     },
     "DAY_LENGTH": {
-        "message": "Durata del giorno",
+        "message": "Durata giorno",
         "description": ""
     },
     "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND": {
@@ -376,7 +376,7 @@
         "description": ""
     },
     "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
-        "message": "Simulando l'evoluzione dell'universo: %age{f.1} miliardi di anni ;-)",
+        "message": "Sto simulando l'evoluzione dell'Universo: %age{f.1} miliardi di anni ;-)",
         "description": ""
     },
     "MININGCANNON_17MW_DESCRIPTION": {
@@ -400,15 +400,15 @@
         "description": ""
     },
     "SCUTUM_CENTAURUS_ARM": {
-        "message": "Braccio dello Scudo-Centauro",
+        "message": "Braccio Scudo-Croce",
         "description": ""
     },
     "REMOVE": {
-        "message": "Rimuovi",
+        "message": "-",
         "description": ""
     },
     "LAUNCH_PERMISSION_DENIED_BUSY": {
-        "message": "Autorizzazione al lancio negata: attracco impegnato.",
+        "message": "Autorizzazione al lancio negata: attracco occupato.",
         "description": ""
     },
     "CH4_ATMOSPHERE": {
@@ -420,11 +420,11 @@
         "description": ""
     },
     "HULL_AUTOREPAIR_DESCRIPTION": {
-        "message": "Ripara automaticamente lo scavo della nave quando danneggiato.",
+        "message": "Sistema avanzato che ripara lentamente lo scafo in caso di danneggiamento.",
         "description": ""
     },
     "SHIELD_ENERGY_BOOSTER_DESCRIPTION": {
-        "message": "Incrementa il tasso di ricarica degli scudi.",
+        "message": "Incrementa il tasso di rigenerazione dell'energia degli scudi.",
         "description": ""
     },
     "ENABLED_AUTOMATIC_SYSTEM_SELECTION": {
@@ -460,7 +460,7 @@
         "description": ""
     },
     "HARD_CAPITALIST": {
-        "message": "Capitalismo totale - nessuna previdenza governativa",
+        "message": "Capitalismo perfetto - nessun intervento dello Stato in economia",
         "description": ""
     },
     "SELECT_A_TARGET": {
@@ -484,7 +484,7 @@
         "description": ""
     },
     "RESET": {
-        "message": "Reset",
+        "message": "Azzera Zoom",
         "description": ""
     },
     "CARGO": {
@@ -492,7 +492,7 @@
         "description": ""
     },
     "JOY_AXIS": {
-        "message": "%{sign}Joy%joynum %axis Asse",
+        "message": "Asse %{sign}Joy%joynum %axis",
         "description": ""
     },
     "STAR_G_SUPER_GIANT": {
@@ -500,7 +500,7 @@
         "description": ""
     },
     "COMPUTERS": {
-        "message": "Computer",
+        "message": "Elettronica e ICT",
         "description": ""
     },
     "LARGE_GAS_GIANT": {
@@ -580,7 +580,7 @@
         "description": ""
     },
     "SCANNER_DESCRIPTION": {
-        "message": "Fornisce una mappa 3D delle navi vicine.",
+        "message": "Sensore a corto raggio che identifica la posizione in tre dimensioni di astronavi e stazioni spaziali vicine.",
         "description": ""
     },
     "MONTH_NOV": {
@@ -604,7 +604,7 @@
         "description": ""
     },
     "STOCK": {
-        "message": "Magazzino",
+        "message": "Giacenza",
         "description": ""
     },
     "YOUNG_FARMING_COLONY": {
@@ -620,7 +620,7 @@
         "description": ""
     },
     "PAY_FINE_REMOTELY": {
-        "message": "Paga sanzione con trasf. bancario di (%amount)",
+        "message": "Paga sanzione via remoto (%amount)",
         "description": ""
     },
     "MISSILE": {
@@ -628,7 +628,7 @@
         "description": ""
     },
     "DRAW_OUT_RANGE_LABELS": {
-        "message": "Etichetta i sistemi fuori portata",
+        "message": "Contrassegna i sistemi fuori portata",
         "description": ""
     },
     "VIOLENT_ANARCHY": {
@@ -664,7 +664,7 @@
         "description": ""
     },
     "N_WHATEVER_RADII": {
-        "message": "%radius{f.3} %units raggio (%radkm{f.0} km)",
+        "message": "%radius{f.3} volte il raggio %units (%radkm{f.0} km)",
         "description": ""
     },
     "AXIAL_TILT": {
@@ -724,7 +724,7 @@
         "description": ""
     },
     "SMALL_GAS_GIANT": {
-        "message": "Piccola gigante gassosa",
+        "message": "Piccolo gigante gassoso",
         "description": ""
     },
     "MISSILE_GUIDED": {
@@ -792,7 +792,7 @@
         "description": ""
     },
     "UNOCCUPIED_CABIN_DESCRIPTION": {
-        "message": "Richiesta per il trasposro di un singolo passeggero",
+        "message": "Richiesta per il trasporto di un singolo passeggero",
         "description": ""
     },
     "MASS": {
@@ -852,7 +852,7 @@
         "description": ""
     },
     "SOLAR": {
-        "message": "Solari",
+        "message": "solare",
         "description": ""
     },
     "DRIVE_MIL2": {
@@ -948,7 +948,7 @@
         "description": ""
     },
     "HYPERCLOUD_ANALYZER_DESCRIPTION": {
-        "message": "Analizza le nubi iperspaziali per stabilirne la destinazione ed il tempo di arrivo o partenza.",
+        "message": "Analizza i residui di un balzo iperspaziale (c.d. nubi iperspaziali) per determinare la destinazione ed il tempo di arrivo o partenza dell'astronave che lo ha generato.",
         "description": ""
     },
     "YOU_DO_NOT_HAVE_ANY_X": {
@@ -956,7 +956,7 @@
         "description": ""
     },
     "VERY_DENSE": {
-        "message": "molto densa",
+        "message": "spessa",
         "description": ""
     },
     "FUEL": {
@@ -1028,7 +1028,7 @@
         "description": ""
     },
     "SET_SPEED_KM_S": {
-        "message": "V= %speed{f.2} km/s",
+        "message": "V: %speed{f.2} km/s",
         "description": ""
     },
     "HYPERSPACE_ARRIVAL_CLOUD_REMNANT": {
@@ -1052,7 +1052,7 @@
         "description": ""
     },
     "ITEM_IS_OUT_OF_STOCK": {
-        "message": "Esaurito.",
+        "message": "Quest'articolo è esaurito.",
         "description": ""
     },
     "YAW_RIGHT": {
@@ -1088,7 +1088,7 @@
         "description": ""
     },
     "ROTATIONAL_PERIOD": {
-        "message": "\" (periodo di rotazione)\"",
+        "message": "\" (periodo rotazione)\"",
         "description": ""
     },
     "VERY_LARGE_GAS_GIANT": {
@@ -1116,7 +1116,7 @@
         "description": ""
     },
     "PRICE_TO_FIT": {
-        "message": "$ Compra",
+        "message": "$ per montare",
         "description": ""
     },
     "SHIP_IS_ALREADY_FULLY_REPAIRED": {
@@ -1340,7 +1340,7 @@
         "description": ""
     },
     "FIT_TO_WHICH_MOUNT": {
-        "message": "Montare il laser su quale supporto?",
+        "message": "Montaggio su quale supporto?",
         "description": ""
     },
     "CASH": {
@@ -1360,7 +1360,7 @@
         "description": ""
     },
     "UNLAWFUL_WEAPONS_DISCHARGE": {
-        "message": "Uso illecito di armi",
+        "message": "Scaricare illecitamente le proprie armi",
         "description": ""
     },
     "COUNT_STARPORTS": {
@@ -1384,7 +1384,7 @@
         "description": ""
     },
     "NO_FREE_SPACE_FOR_ITEM": {
-        "message": "Non c'è abbastanza spazio.",
+        "message": "Non c'è abbastanza spazio per questo articolo.",
         "description": ""
     },
     "RADIUS": {
@@ -1440,7 +1440,7 @@
         "description": ""
     },
     "SET_SPEED_M_S": {
-        "message": "V= %speed{f.0} m/s",
+        "message": "V: %speed{f.0} m/s",
         "description": ""
     },
     "STAR_SYSTEM_INFORMATION": {
@@ -1460,7 +1460,7 @@
         "description": ""
     },
     "CANT_SAVE_IN_HYPERSPACE": {
-        "message": "Non è possibile salvare mentre si è nell'iperspazio",
+        "message": "Non è possibile salvare mentre si è in iperspazio",
         "description": ""
     },
     "MANUAL_CONTROL_MODE": {
@@ -1500,7 +1500,7 @@
         "description": ""
     },
     "LASER_FIRE_DETECTED": {
-        "message": "Rilevate scariche di laser.",
+        "message": "Rilevata attività ostile.",
         "description": ""
     },
     "ZOOM_IN": {
@@ -1564,7 +1564,7 @@
         "description": ""
     },
     "MISSILE_UNGUIDED": {
-        "message": "Missile R40",
+        "message": "Missile R40 non guidato",
         "description": ""
     },
     "MANUAL_CONTROL": {
@@ -1596,7 +1596,7 @@
         "description": ""
     },
     "ROTATION_DAMPING_OFF": {
-        "message": "Smorzatore di rotazione OFF",
+        "message": "Smorzatore di rotazione spento",
         "description": ""
     },
     "LASER_COOLING_BOOSTER_DESCRIPTION": {
@@ -1620,7 +1620,7 @@
         "description": ""
     },
     "HYPERSPACE_JUMP_ABORTED": {
-        "message": "Balzo imperspaziale annullato.",
+        "message": "Balzo annullato.",
         "description": ""
     },
     "REPAIR_ENTIRE_HULL": {
@@ -1668,11 +1668,11 @@
         "description": ""
     },
     "CLEAN": {
-        "message": "Pulito",
+        "message": "Pulisci",
         "description": ""
     },
     "STAR_M_GIANT": {
-        "message": "Gigante rossa",
+        "message": "Stella gigante rossa",
         "description": ""
     },
     "NORMA_ARM": {
@@ -1752,7 +1752,7 @@
         "description": ""
     },
     "EXTERNAL_VIEW": {
-        "message": "Visuale esterna",
+        "message": "Vista esterna",
         "description": ""
     },
     "ECM_BASIC_DESCRIPTION": {
@@ -1816,7 +1816,7 @@
         "description": ""
     },
     "MEDIUM_GAS_GIANT": {
-        "message": "Gigante gassosa media",
+        "message": "Gigante gassoso medio",
         "description": ""
     },
     "DRAW_VERTICAL_LINES": {
@@ -1844,7 +1844,7 @@
         "description": ""
     },
     "SOMEWHERE_SHIP_MARKET": {
-        "message": "Immobiliare Astronautica di %station. Le migliori offerte ed occasioni.",
+        "message": "Mercato Astronautico di %station. Le migliori offerte ed occasioni.",
         "description": ""
     },
     "DISABLED_AUTOMATIC_SYSTEM_SELECTION": {
@@ -1860,7 +1860,7 @@
         "description": ""
     },
     "N_WHATEVER_MASSES": {
-        "message": "%mass{f.3} masse %units",
+        "message": "%mass{f.3} volte la massa %units",
         "description": ""
     },
     "PRECIOUS_METALS": {
@@ -1880,7 +1880,7 @@
         "description": ""
     },
     "ROTATION_DAMPING_ON": {
-        "message": "Smorzatore di rotazione ON",
+        "message": "Smorzatore di rotazione attivo",
         "description": ""
     },
     "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW": {
@@ -1896,7 +1896,7 @@
         "description": ""
     },
     "EARTH": {
-        "message": "Terrestri",
+        "message": "terrestre",
         "description": ""
     },
     "STAR_M_HYPER_GIANT": {
@@ -1952,7 +1952,7 @@
         "description": ""
     },
     "Z": {
-        "message": "z",
+        "message": "Z",
         "description": ""
     },
     "FRUIT_AND_VEG": {
@@ -1964,7 +1964,7 @@
         "description": ""
     },
     "GALAXY_SECTOR_VIEW": {
-        "message": "Visuale settore della Galassia",
+        "message": "Visuale del settore della Galassia",
         "description": ""
     },
     "PLANET_CONTAINING_LIQUID_WATER": {
@@ -2004,7 +2004,7 @@
         "description": ""
     },
     "JOYSTICK_INPUT": {
-        "message": "Ingresso Joystick",
+        "message": "Joystick",
         "description": ""
     },
     "ECONOMIC_INFO": {
@@ -2016,7 +2016,7 @@
         "description": ""
     },
     "CARBON_ORE": {
-        "message": "Carbonio minerale",
+        "message": "Carbone minerale",
         "description": ""
     },
     "OVER_N_BILLION": {
@@ -2024,7 +2024,7 @@
         "description": ""
     },
     "DATE_DUE_N": {
-        "message": "Scadenza: %date",
+        "message": "Attesa per: %date",
         "description": ""
     },
     "PULSECANNON_4MW": {
@@ -2032,7 +2032,7 @@
         "description": ""
     },
     "TARGET_OBJECT_IN_SIGHTS": {
-        "message": "Bersaglio in vista",
+        "message": "Acquisisci bersaglio mirato",
         "description": ""
     },
     "STAR_IM_BH": {
@@ -2052,7 +2052,7 @@
         "description": ""
     },
     "SUGGESTED_RESPONSES": {
-        "message": "Risposte possibili:",
+        "message": "Risposte suggerite:",
         "description": ""
     },
     "STAR_M_WF": {

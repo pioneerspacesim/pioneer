@@ -1,10 +1,10 @@
 {
     "WELCOME_ABOARD_STATION_FEE_DEDUCTED": {
-        "message": "Welcome aboard {station}. Your docking and fuelling fee of {fee} has been deducted.",
+        "message": "Benvenuto a {station}. Le è stata dedotta una tassa di {fee} per l'attracco ed il rifornimento di carburante.",
         "description": ""
     },
     "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH": {
-        "message": "This is {station}. You do not have enough for your docking fee of {fee}. Your fuel has been witheld.",
+        "message": "Qui è {station}. Non ha abbastanza crediti per la tassa di attracco di {fee}. Il suo carburante le è stato trattenuto.",
         "description": ""
     }
 }
