@@ -240,7 +240,7 @@
         "description": ""
     },
     "NONE": {
-        "message": "None",
+        "message": "Cap",
         "description": ""
     },
     "LANGUAGE": {
@@ -464,7 +464,7 @@
         "description": ""
     },
     "NAME": {
-        "message": "Name",
+        "message": "Nom",
         "description": ""
     },
     "GIVE_ORDERS_TO_CREW": {
@@ -632,7 +632,7 @@
         "description": ""
     },
     "METAL_ALLOYS": {
-        "message": "Metal alloys",
+        "message": "Aliatges de metalls",
         "description": ""
     },
     "SELECT_FILE": {

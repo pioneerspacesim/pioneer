@@ -108,7 +108,7 @@
         "description": ""
     },
     "WHY_SO_MUCH_MONEY": {
-        "message": "Perché tutti quei crediti?",
+        "message": "Perché così tanti crediti?",
         "description": ""
     },
     "FLAVOUR_SUCCESSMSG_1": {
@@ -176,7 +176,7 @@
         "description": ""
     },
     "FLAVOUR_WHYSOMUCH_12": {
-        "message": "Devo dei soldi a qualcuno, e mi stanno cercando.",
+        "message": "Devo dei soldi a qualcuno. Mi stanno cercando.",
         "description": ""
     },
     "GROUP_DETAILS": {
@@ -368,7 +368,7 @@
         "description": ""
     },
     "FLAVOUR_WHYSOMUCH_9": {
-        "message": "La polizia ha bisogno di me per le loro indagini.",
+        "message": "La polizia mi sta cercando per interrogarmi.",
         "description": ""
     },
     "FLAVOUR_WHYSOMUCH_8": {
@@ -384,7 +384,7 @@
         "description": ""
     },
     "FLAVOUR_WHYSOMUCH_1": {
-        "message": "Lavoriamo per la corporazione {corp} e loro pagano bene.",
+        "message": "Lavoriamo per la corporazione {corp}, e loro pagano bene.",
         "description": ""
     },
     "FLAVOUR_WHYSOMUCH_0": {
