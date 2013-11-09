@@ -240,7 +240,7 @@
         "description": ""
     },
     "NONE": {
-        "message": "None",
+        "message": "Nimic",
         "description": ""
     },
     "LANGUAGE": {
@@ -340,7 +340,7 @@
         "description": ""
     },
     "CONTROLS": {
-        "message": "Controls",
+        "message": "Controale",
         "description": ""
     },
     "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR": {
@@ -464,7 +464,7 @@
         "description": ""
     },
     "NAME": {
-        "message": "Name",
+        "message": "Nume",
         "description": ""
     },
     "GIVE_ORDERS_TO_CREW": {
@@ -632,7 +632,7 @@
         "description": ""
     },
     "METAL_ALLOYS": {
-        "message": "Metal alloys",
+        "message": "Aliaje din metal",
         "description": ""
     },
     "SELECT_FILE": {

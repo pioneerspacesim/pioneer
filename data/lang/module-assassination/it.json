@@ -132,7 +132,7 @@
         "description": ""
     },
     "FLAVOUR_INTROTEXT_5": {
-        "message": "Vorremmo che {traget} ricevesse un adeguata liquidazione nel sistema {system}, per {cash}.",
+        "message": "Vorremmo che {target} ricevesse un adeguata liquidazione nel sistema {system}, per {cash}.",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG2_0": {
