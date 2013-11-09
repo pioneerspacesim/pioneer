@@ -48,7 +48,7 @@
         "description": ""
     },
     "FLAVOUR_INTROTEXT_3": {
-        "message": "Salve. Sono {name}. Sono disposto a pagare {cash} perchè un'astronave trasporti un incartamento a {starport} nel sistema ({sectorx}, {sectory}, {sectorz}), distante {dist} AL.",
+        "message": "Salve. Sono {name}. Sono disposto a pagare {cash} perchè un'astronave trasporti un incartamento a {starport} nel sistema {system} ({sectorx}, {sectory}, {sectorz}), distante {dist} AL.",
         "description": ""
     },
     "FLAVOUR_SUCCESSMSG_0": {
