@@ -32,6 +32,7 @@ void Gradient::GetSizeRequested(float size[2])
 
 void Gradient::Draw()
 {
+	PROFILE_SCOPED()
 	float size[2];
 	GetSize(size);
 

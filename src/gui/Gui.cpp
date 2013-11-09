@@ -126,10 +126,13 @@ void Uninit()
 
 void MainLoopIteration()
 {
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+	Graphics::Renderer *pRenderer = Gui::Screen::GetRenderer();
+	if(!pRenderer) return;
+
+	pRenderer->MatrixMode(GL_PROJECTION);
+	pRenderer->LoadIdentity();
+	pRenderer->MatrixMode(GL_MODELVIEW);
+	pRenderer->LoadIdentity();
 	glClearColor(0,0,0,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	// handle events
@@ -143,9 +146,9 @@ void MainLoopIteration()
 	}
 
 	SDL_ShowCursor(1);
-	Gui::Screen::GetRenderer()->GetWindow()->SetGrab(false);
+	pRenderer->GetWindow()->SetGrab(false);
 	Gui::Draw();
-	Gui::Screen::GetRenderer()->GetWindow()->SwapBuffers();
+	pRenderer->GetWindow()->SwapBuffers();
 }
 
 namespace Theme {

@@ -15,18 +15,18 @@ static bool _do_clip;
 
 static void init_clip_test()
 {
-	matrix4x4d m;
+	/*
 	if (glIsEnabled(GL_CLIP_PLANE1)) {
 		glGetClipPlane(GL_CLIP_PLANE1, _clip[0]);
 		glGetClipPlane(GL_CLIP_PLANE3, _clip[1]);
-
+		matrix4x4d m;
 		glGetDoublev (GL_MODELVIEW_MATRIX, &m[0]);
 		_clipoffset.x = m[12];
 		_clipoffset.y = m[13];
 		_clipoffset.z = 0;
 
 		_do_clip = true;
-	} else {
+	} else*/ {
 		_do_clip = false;
 	}
 }
@@ -107,17 +107,21 @@ void TextLayout::Render(const float width, const Color &color) const
 	PROFILE_SCOPED()
 	float fontScale[2];
 	Gui::Screen::GetCoords2Pixels(fontScale);
-	GLdouble modelMatrix[16];
-	glPushMatrix();
-	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix);
-	float x = modelMatrix[12];
-	float y = modelMatrix[13];
-	glLoadIdentity();
-	glTranslatef(floor(x/fontScale[0])*fontScale[0],
-			floor(y/fontScale[1])*fontScale[1], 0);
-	glScalef(fontScale[0], fontScale[1], 1);
-	_RenderRaw(width / fontScale[0], color);
-	glPopMatrix();
+
+	Graphics::Renderer *pRenderer = Gui::Screen::GetRenderer();
+	if(!pRenderer) return;
+	
+	const matrix4x4f &modelMatrix = pRenderer->GetCurrentModelView();
+	pRenderer->PushMatrix();
+	{
+		const float x = modelMatrix[12];
+		const float y = modelMatrix[13];
+		pRenderer->LoadIdentity();
+		pRenderer->Translate(floor(x/fontScale[0])*fontScale[0], floor(y/fontScale[1])*fontScale[1], 0);
+		pRenderer->Scale(fontScale[0], fontScale[1], 1);
+		_RenderRaw(width / fontScale[0], color);
+	}
+	pRenderer->PopMatrix();
 }
 
 void TextLayout::_RenderRaw(float maxWidth, const Color &color) const
@@ -125,7 +129,10 @@ void TextLayout::_RenderRaw(float maxWidth, const Color &color) const
 	float py = 0;
 	init_clip_test();
 
-	glPushMatrix();
+	Graphics::Renderer *pRenderer = Gui::Screen::GetRenderer();
+	if(!pRenderer) return;
+
+	pRenderer->PushMatrix();
 
 	const float spaceWidth = m_font->GetGlyph(' ').advx;
 
@@ -182,7 +189,7 @@ void TextLayout::_RenderRaw(float maxWidth, const Color &color) const
 		}
 		py += m_font->GetHeight() * (explicit_newline ? PARAGRAPH_SPACING : 1.0f);
 	}
-	glPopMatrix();
+	pRenderer->PopMatrix();
 }
 
 void TextLayout::_MeasureSizeRaw(const float layoutWidth, float outSize[2]) const

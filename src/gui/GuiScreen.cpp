@@ -199,6 +199,7 @@ void Screen::Draw()
 
 bool Screen::IsBaseWidget(const Widget *w)
 {
+	PROFILE_SCOPED()
 	return w == static_cast<const Widget*>(baseContainer);
 }
 
@@ -328,17 +329,20 @@ void Screen::RenderString(const std::string &s, float xoff, float yoff, const Co
 	PROFILE_SCOPED()
     if (!font) font = GetFont().Get();
 
-	GLdouble modelMatrix_[16];
-	glPushMatrix();
-	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix_);
-	float x = modelMatrix_[12] + xoff;
-	float y = modelMatrix_[13] + yoff;
-	glLoadIdentity();
-	glTranslatef(floor(x/Screen::fontScale[0])*Screen::fontScale[0],
-			floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
-	glScalef(Screen::fontScale[0], Screen::fontScale[1], 1);
-	font->RenderString(s.c_str(), 0, 0, color);
-	glPopMatrix();
+	Graphics::Renderer *pRenderer = Gui::Screen::GetRenderer();
+	if(!pRenderer) return;
+	
+	const matrix4x4f &modelMatrix_ = pRenderer->GetCurrentModelView();
+	pRenderer->PushMatrix();
+	{
+		const float x = modelMatrix_[12] + xoff;
+		const float y = modelMatrix_[13] + yoff;
+		pRenderer->LoadIdentity();
+		pRenderer->Translate(floor(x/Screen::fontScale[0])*Screen::fontScale[0], floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
+		pRenderer->Scale(Screen::fontScale[0], Screen::fontScale[1], 1);
+		font->RenderString(s.c_str(), 0, 0, color);
+	}
+	pRenderer->PopMatrix();
 }
 
 void Screen::RenderMarkup(const std::string &s, const Color &color, Text::TextureFont *font)
@@ -346,17 +350,20 @@ void Screen::RenderMarkup(const std::string &s, const Color &color, Text::Textur
 	PROFILE_SCOPED()
     if (!font) font = GetFont().Get();
 
-	GLdouble modelMatrix_[16];
-	glPushMatrix();
-	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix_);
-	float x = modelMatrix_[12];
-	float y = modelMatrix_[13];
-	glLoadIdentity();
-	glTranslatef(floor(x/Screen::fontScale[0])*Screen::fontScale[0],
-			floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
-	glScalef(Screen::fontScale[0], Screen::fontScale[1], 1);
-	font->RenderMarkup(s.c_str(), 0, 0, color);
-	glPopMatrix();
+	Graphics::Renderer *pRenderer = Gui::Screen::GetRenderer();
+	if(!pRenderer) return;
+	
+	const matrix4x4f &modelMatrix_ = pRenderer->GetCurrentModelView();
+	pRenderer->PushMatrix();
+	{
+		const float x = modelMatrix_[12];
+		const float y = modelMatrix_[13];
+		pRenderer->LoadIdentity();
+		pRenderer->Translate(floor(x/Screen::fontScale[0])*Screen::fontScale[0], floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
+		pRenderer->Scale(Screen::fontScale[0], Screen::fontScale[1], 1);
+		font->RenderMarkup(s.c_str(), 0, 0, color);
+	}
+	pRenderer->PopMatrix();
 }
 
 void Screen::AddShortcutWidget(Widget *w)
