@@ -117,7 +117,9 @@ Game *Pi::game;
 Random Pi::rng;
 float Pi::frameTime;
 #if WITH_DEVKEYS
-bool Pi::showDebugInfo;
+bool Pi::showDebugInfo = false;
+bool Pi::wantsProfiling = false;
+bool Pi::isProfiling = false;
 #endif
 int Pi::statSceneTris;
 GameConfig *Pi::config;
@@ -250,6 +252,8 @@ std::string Pi::GetSaveDir()
 
 void Pi::Init()
 {
+	Profiler::reset();
+	PROFILE_SCOPED();
 	OS::NotifyLoadBegin();
 
 	FileSystem::Init();
@@ -521,6 +525,8 @@ void Pi::Init()
 
 	luaConsole = new LuaConsole(10);
 	KeyBindings::toggleLuaConsole.onPress.connect(sigc::ptr_fun(&Pi::ToggleLuaConsole));
+
+	Profiler::dumphtml();
 }
 
 bool Pi::IsConsoleActive()
@@ -653,6 +659,11 @@ void Pi::HandleEvents()
 						case SDLK_i: // Toggle Debug info
 							Pi::showDebugInfo = !Pi::showDebugInfo;
 							break;
+						
+						case SDLK_p: // alert it that we want to profile
+							Pi::wantsProfiling = true;
+							break;
+
 						case SDLK_m:  // Gimme money!
 							if(Pi::game) {
 								Pi::player->SetMoney(Pi::player->GetMoney() + 10000000);
@@ -972,6 +983,16 @@ void Pi::MainLoop()
 	Pi::gameTickAlpha = 0;
 
 	while (Pi::game) {
+		
+		PROFILE_SCOPED()
+#if WITH_DEVKEYS
+		if (Pi::wantsProfiling) {
+			Pi::wantsProfiling = false;
+			Pi::isProfiling = true;
+			Profiler::reset();
+		}
+#endif
+
 		double newTime = 0.001 * double(SDL_GetTicks());
 		Pi::frameTime = newTime - currentTime;
 		if (Pi::frameTime > 0.25) Pi::frameTime = 0.25;
@@ -1117,6 +1138,10 @@ void Pi::MainLoop()
 			else last_stats += 1000;
 		}
 		Pi::statSceneTris = 0;
+		if (Pi::isProfiling) {
+			Profiler::dumphtml();
+			Pi::isProfiling = false;
+		}
 #endif
 
 #ifdef MAKING_VIDEO

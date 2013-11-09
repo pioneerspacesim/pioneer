@@ -134,6 +134,8 @@ public:
 
 #if WITH_DEVKEYS
 	static bool showDebugInfo;
+	static bool wantsProfiling;
+	static bool isProfiling;
 #endif
 	static Player *player;
 	static SectorView *sectorView;
