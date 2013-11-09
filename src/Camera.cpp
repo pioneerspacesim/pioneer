@@ -161,6 +161,7 @@ void Camera::Draw(Renderer *renderer, const Body *excludeBody)
 
 	{
 		std::vector<Graphics::Light> rendererLights;
+		rendererLights.reserve(m_lightSources.size());
 		for (size_t i = 0; i < m_lightSources.size(); i++)
 			rendererLights.push_back(m_lightSources[i].GetLight());
 		renderer->SetLights(rendererLights.size(), &rendererLights[0]);

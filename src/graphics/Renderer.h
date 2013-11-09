@@ -108,6 +108,7 @@ public:
 	//set projection matrix
 	virtual bool SetPerspectiveProjection(float fov, float aspect, float near, float far) { return false; }
 	virtual bool SetOrthographicProjection(float xmin, float xmax, float ymin, float ymax, float zmin, float zmax) { return false; }
+	virtual bool SetProjection(const matrix4x4f &m) { return false; }
 
 	//render state functions
 	virtual bool SetBlendMode(BlendMode type) { return false; }
@@ -155,6 +156,13 @@ public:
 
 	virtual bool ReloadShaders() { return false; }
 
+	const matrix4x4f& GetCurrentModelView() const { return m_currentModelView; }
+	const matrix4x4f& GetCurrentProjection() const { return m_currentProjection; }
+	void GetCurrentViewport(GLint *vp) const {
+		for(int i=0; i<4; i++)
+			vp[i] = m_currentViewport[i];
+	}
+
 	// take a ticket representing the current renderer state. when the ticket
 	// is deleted, the renderer state is restored
 	class StateTicket {
@@ -174,6 +182,10 @@ protected:
 
 	virtual void PushState() = 0;
 	virtual void PopState() = 0;
+
+	matrix4x4f m_currentModelView;
+	matrix4x4f m_currentProjection;
+	GLint m_currentViewport[4];
 
 private:
 	typedef std::pair<std::string,std::string> TextureCacheKey;
