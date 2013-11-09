@@ -127,11 +127,14 @@ void VScrollPortal::Draw()
 	float scale[2];
 	Screen::GetCoords2Pixels(scale);
 
-	glPushMatrix();
-	// scroll to whole pixel locations whatever the resolution
-	glTranslatef(0, floor((-m_scrollY*toScroll)/scale[1])*scale[1], 0);
-	Container::Draw();
-	glPopMatrix();
+	Graphics::Renderer *pRenderer = Gui::Screen::GetRenderer();
+	if(pRenderer) {
+		pRenderer->PushMatrix();
+		// scroll to whole pixel locations whatever the resolution
+		pRenderer->Translate(0, floor((-m_scrollY*toScroll)/scale[1])*scale[1], 0);
+		Container::Draw();
+		pRenderer->PopMatrix();
+	}
 
 	SetScissor(false);
 }

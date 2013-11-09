@@ -216,10 +216,15 @@ void Container::Draw()
 		glVertex2f(0, 0);
 	glEnd();
 #endif /* GUI_DEBUG_CONTAINER */
-	for (std::list<widget_pos>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
+	Graphics::Renderer *pRenderer = Gui::Screen::GetRenderer();
+	if(!pRenderer) return;
+	for (std::list<widget_pos>::iterator i = m_children.begin(), itEnd = m_children.end(); i != itEnd; ++i) {
 		if (!(*i).w->IsVisible()) continue;
-		glPushMatrix();
-		glTranslatef((*i).pos[0], (*i).pos[1], 0);
+
+		PROFILE_SCOPED_RAW("Container::Draw - Child Loop")
+		
+		pRenderer->PushMatrix();
+		pRenderer->Translate((*i).pos[0], (*i).pos[1], 0);
 #ifdef GUI_DEBUG_CONTAINER
 		float csize[2];
 		(*i).w->GetSize(csize);
@@ -233,7 +238,7 @@ void Container::Draw()
 		glEnd();
 #endif /* GUI_DEBUG_CONTAINER */
 		(*i).w->Draw();
-		glPopMatrix();
+		pRenderer->PopMatrix();
 	}
 }
 
