@@ -16,6 +16,8 @@ enum RunMode {
 
 int main(int argc, char** argv)
 {
+	Profiler::detect( argc, argv );
+
 	RunMode mode = MODE_GAME;
 
 	if (argc > 1) {
