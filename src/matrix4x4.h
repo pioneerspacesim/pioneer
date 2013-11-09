@@ -119,7 +119,6 @@ class matrix4x4 {
 	///////////////////////////////////////////////////////////////////////////////
 	// set a orthographic frustum with 6 params similar to glOrtho()
 	// (left, right, bottom, top, near, far)
-	// Note: this is for row-major notation. OpenGL needs transpose it
 	///////////////////////////////////////////////////////////////////////////////
 	static matrix4x4 OrthoFrustum (T left, T right, T bottom, T top, T znear, T zfar) {
 		assert((znear > T(0)) && (zfar > T(0)));
