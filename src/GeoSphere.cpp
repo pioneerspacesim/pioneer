@@ -442,7 +442,7 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 	if (!m_surfaceMaterial)
 		SetUpMaterials();
 
-	if (Graphics::AreShadersEnabled()) {
+	{
 		//Update material parameters
 		//XXX no need to calculate AP every frame
 		m_materialParameters.atmosphere = m_sbody->CalcAtmosphereParams();
@@ -570,7 +570,7 @@ void GeoSphere::SetUpMaterials()
 	m_surfaceMaterial.reset(Pi::renderer->CreateMaterial(surfDesc));
 
 	//Shader-less atmosphere is drawn in Planet
-	if (Graphics::AreShadersEnabled()) {
+	{
 		Graphics::MaterialDescriptor skyDesc;
 		skyDesc.effect = Graphics::EFFECT_GEOSPHERE_SKY;
 		skyDesc.lighting = true;
