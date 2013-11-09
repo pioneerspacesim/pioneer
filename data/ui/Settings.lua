@@ -94,6 +94,10 @@ ui.templates.Settings = function (args)
 		local navTunnelsCheckBox = optionCheckBox(
 			Engine.GetDisplayNavTunnels, Engine.SetDisplayNavTunnels,
 			l.DISPLAY_NAV_TUNNELS)
+		
+		local speedLinesCheckBox = optionCheckBox(
+			Engine.GetDisplaySpeedLines, Engine.SetDisplaySpeedLines,
+			l.DISPLAY_SPEED_LINES)
 
 		local fullScreenCheckBox = optionCheckBox(
 			Engine.GetFullscreen, Engine.SetFullscreen,
@@ -120,6 +124,7 @@ ui.templates.Settings = function (args)
 				fractalDetailDropDown,
 				cityDetailDropDown,
 				navTunnelsCheckBox,
+				speedLinesCheckBox,
 			})))
 	end
 
