@@ -1,7 +1,7 @@
 November 2013
 
    * New features
-     * Translations now managed via Transifex (#2521)
+     * Translations now managed via Transifex (#2521, #2537, #2536)
 
    * Minor changes and tweaks
      * Improvements to the ship spinner (used in Ship Info view) (#2532)
