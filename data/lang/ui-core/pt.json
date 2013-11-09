@@ -1,6 +1,6 @@
 {
     "CARGO": {
-        "message": "Lading",
+        "message": "Cargo",
         "description": ""
     },
     "DELTA_V": {
@@ -240,7 +240,7 @@
         "description": ""
     },
     "NONE": {
-        "message": "Geen",
+        "message": "None",
         "description": ""
     },
     "LANGUAGE": {
@@ -340,7 +340,7 @@
         "description": ""
     },
     "CONTROLS": {
-        "message": "Besturing",
+        "message": "Controls",
         "description": ""
     },
     "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR": {
@@ -372,7 +372,7 @@
         "description": ""
     },
     "ALLEGIANCE": {
-        "message": "Trouw aan:",
+        "message": "Allegiance:",
         "description": ""
     },
     "RANK": {
@@ -408,7 +408,7 @@
         "description": ""
     },
     "CASH": {
-        "message": "Geld",
+        "message": "Cash",
         "description": ""
     },
     "COMMANDER": {
@@ -464,7 +464,7 @@
         "description": ""
     },
     "NAME": {
-        "message": "Naam",
+        "message": "Name",
         "description": ""
     },
     "GIVE_ORDERS_TO_CREW": {
@@ -540,7 +540,7 @@
         "description": ""
     },
     "CARGO_SPACE": {
-        "message": "Vrachtruimte",
+        "message": "Cargo space",
         "description": ""
     },
     "COMPLETED": {
@@ -624,7 +624,7 @@
         "description": ""
     },
     "USED": {
-        "message": "Gebruikt",
+        "message": "Used",
         "description": ""
     },
     "ABOVE_AVERAGE": {
@@ -632,7 +632,7 @@
         "description": ""
     },
     "METAL_ALLOYS": {
-        "message": "Metaal legeringen",
+        "message": "Metal alloys",
         "description": ""
     },
     "SELECT_FILE": {

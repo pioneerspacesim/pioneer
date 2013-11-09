@@ -1,6 +1,6 @@
 {
     "CARGO": {
-        "message": "Lading",
+        "message": "Kargo",
         "description": ""
     },
     "DELTA_V": {
@@ -8,23 +8,23 @@
         "description": ""
     },
     "DISPLAY_NAV_TUNNELS": {
-        "message": "Display nav tunnels",
+        "message": "Tünel navigasyon ekranı",
         "description": ""
     },
     "ORBIT": {
-        "message": "Orbit",
+        "message": "Yörünge",
         "description": ""
     },
     "ENABLE_JOYSTICK": {
-        "message": "Enable joystick",
+        "message": "Oyun kumandası aktif",
         "description": ""
     },
     "SHIP_INFORMATION": {
-        "message": "Ship Information",
+        "message": "Gemi Bilgisi",
         "description": ""
     },
     "VIDEO_RESOLUTION": {
-        "message": "Video resolution",
+        "message": "Ekran çözünürlüğü",
         "description": ""
     },
     "REAR_WEAPON": {
@@ -36,11 +36,11 @@
         "description": ""
     },
     "MAKE_NEW_FACE": {
-        "message": "Make new face",
+        "message": "Yeni yüz yap",
         "description": ""
     },
     "START_AT_NEW_HOPE": {
-        "message": "Start at New Hope",
+        "message": "Yeni Ümide Başla",
         "description": ""
     },
     "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
@@ -68,7 +68,7 @@
         "description": ""
     },
     "TOTAL": {
-        "message": "Total: ",
+        "message": "Toplam:",
         "description": ""
     },
     "PILOTING": {
@@ -76,19 +76,19 @@
         "description": ""
     },
     "MORE_INFO": {
-        "message": "More info...",
+        "message": "Daha fazla bilgi...",
         "description": ""
     },
     "RATING": {
-        "message": "Rating:",
+        "message": "Oran:",
         "description": ""
     },
     "OFF": {
-        "message": "Off",
+        "message": "Kapalı",
         "description": ""
     },
     "LOCATION": {
-        "message": "Location",
+        "message": "Konum",
         "description": ""
     },
     "ORBITAL_ANALYSIS_NOTES": {
@@ -96,7 +96,7 @@
         "description": ""
     },
     "CLEAR": {
-        "message": "Clear",
+        "message": "Temizle",
         "description": ""
     },
     "CREW_ROSTER": {
@@ -104,7 +104,7 @@
         "description": ""
     },
     "HIGH": {
-        "message": "High",
+        "message": "Yüksek",
         "description": ""
     },
     "MINIMUM_CREW": {
@@ -120,7 +120,7 @@
         "description": ""
     },
     "POSITION": {
-        "message": "Position",
+        "message": "Pozisyon",
         "description": ""
     },
     "FRONT_WEAPON": {
@@ -128,7 +128,7 @@
         "description": ""
     },
     "OK": {
-        "message": "Ok",
+        "message": "Tamam",
         "description": ""
     },
     "PLANET_TEXTURES": {
@@ -136,11 +136,11 @@
         "description": ""
     },
     "CONTROL_OPTIONS": {
-        "message": "Control Options",
+        "message": "Kontrol Seçenekleri",
         "description": ""
     },
     "D_DAYS_LEFT": {
-        "message": "Days left: %d",
+        "message": "Kalan gün: %d",
         "description": ""
     },
     "GENERAL_CREW": {
@@ -148,7 +148,7 @@
         "description": ""
     },
     "KILLS": {
-        "message": "Kills:",
+        "message": "Ölenler:",
         "description": ""
     },
     "QUALIFICATION_SCORES": {
@@ -164,7 +164,7 @@
         "description": ""
     },
     "RETURN_TO_MENU": {
-        "message": "Return to menu",
+        "message": "Menüye dön",
         "description": ""
     },
     "N_LIGHT_YEARS_N_MAX": {
@@ -184,7 +184,7 @@
         "description": ""
     },
     "VERY_LOW": {
-        "message": "Very low",
+        "message": "Çok düşük",
         "description": ""
     },
     "REWARD": {
@@ -192,23 +192,23 @@
         "description": ""
     },
     "SOUND": {
-        "message": "Sound",
+        "message": "Ses",
         "description": ""
     },
     "STATUS": {
-        "message": "Status",
+        "message": "Durum",
         "description": ""
     },
     "FUEL_TANK_FULL": {
-        "message": "Fuel tank full.",
+        "message": "Yakıt tankı dolu.",
         "description": ""
     },
     "ESCAPE_SPEED": {
-        "message": "Escape speed:",
+        "message": "Kaçış hızı:",
         "description": ""
     },
     "NOTES": {
-        "message": "Notes:",
+        "message": "Notlar:",
         "description": ""
     },
     "FUEL_WEIGHT": {
@@ -216,7 +216,7 @@
         "description": ""
     },
     "MISSION_DETAILS": {
-        "message": "Mission Details",
+        "message": "Görev Detayları",
         "description": ""
     },
     "HULL_DOES_NOT_REQUIRE_REPAIR": {
@@ -236,15 +236,15 @@
         "description": ""
     },
     "SELECT": {
-        "message": "Select",
+        "message": "Seç",
         "description": ""
     },
     "NONE": {
-        "message": "Geen",
+        "message": "None",
         "description": ""
     },
     "LANGUAGE": {
-        "message": "Language",
+        "message": "Dil",
         "description": ""
     },
     "MOSTLY_HARMLESS": {
@@ -252,7 +252,7 @@
         "description": ""
     },
     "MULTISAMPLING": {
-        "message": "Multisampling",
+        "message": "Çoklu örnekleme",
         "description": ""
     },
     "VIDEO": {
@@ -260,11 +260,11 @@
         "description": ""
     },
     "PERSONAL_INFORMATION": {
-        "message": "Personal Information",
+        "message": "Kişisel bilgi",
         "description": ""
     },
     "LOAD_GAME": {
-        "message": "Load game",
+        "message": "Oyun yükle",
         "description": ""
     },
     "MILITARY": {
@@ -272,7 +272,7 @@
         "description": ""
     },
     "MALE": {
-        "message": "Male",
+        "message": "Erkek",
         "description": ""
     },
     "COULD_NOT_LOAD_GAME": {
@@ -284,7 +284,7 @@
         "description": ""
     },
     "LOAD": {
-        "message": "Load",
+        "message": "Yükle",
         "description": ""
     },
     "MEDIUM": {
@@ -308,15 +308,15 @@
         "description": ""
     },
     "ERROR": {
-        "message": "Error",
+        "message": "Hata",
         "description": ""
     },
     "ACTIVE": {
-        "message": "Active",
+        "message": "Aktif",
         "description": ""
     },
     "WAGE": {
-        "message": "Wage",
+        "message": "Ücret",
         "description": ""
     },
     "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY": {
@@ -324,11 +324,11 @@
         "description": ""
     },
     "SAVE": {
-        "message": "Save",
+        "message": "Kaydet",
         "description": ""
     },
     "CITY_DETAIL_LEVEL": {
-        "message": "City detail level",
+        "message": "Şehir detay seviyesi",
         "description": ""
     },
     "N_OCCUPIED_PASSENGER_CABINS": {
@@ -340,7 +340,7 @@
         "description": ""
     },
     "CONTROLS": {
-        "message": "Besturing",
+        "message": "Kontroller",
         "description": ""
     },
     "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR": {
@@ -356,7 +356,7 @@
         "description": ""
     },
     "SENSORS": {
-        "message": "Sensors:",
+        "message": "Algılayıcılar:",
         "description": ""
     },
     "ORBITAL_ANALYSIS": {
@@ -372,7 +372,7 @@
         "description": ""
     },
     "ALLEGIANCE": {
-        "message": "Trouw aan:",
+        "message": "Allegiance:",
         "description": ""
     },
     "RANK": {
@@ -392,7 +392,7 @@
         "description": ""
     },
     "INACTIVE": {
-        "message": "Inactive",
+        "message": "Devre dışı",
         "description": ""
     },
     "N_SHIELD_GENERATORS": {
@@ -400,7 +400,7 @@
         "description": ""
     },
     "TOGGLE_MALE_FEMALE": {
-        "message": "Toggle male/female",
+        "message": "Erkek/kadın geçiş yap",
         "description": ""
     },
     "DISMISS": {
@@ -408,7 +408,7 @@
         "description": ""
     },
     "CASH": {
-        "message": "Geld",
+        "message": "Nakit",
         "description": ""
     },
     "COMMANDER": {
@@ -428,7 +428,7 @@
         "description": ""
     },
     "DANGEROUS": {
-        "message": "Dangerous",
+        "message": "Tehlikeli",
         "description": ""
     },
     "AVERAGE": {
@@ -460,11 +460,11 @@
         "description": ""
     },
     "QUIT": {
-        "message": "Quit",
+        "message": "Çıkış",
         "description": ""
     },
     "NAME": {
-        "message": "Naam",
+        "message": "İsim",
         "description": ""
     },
     "GIVE_ORDERS_TO_CREW": {
@@ -472,7 +472,7 @@
         "description": ""
     },
     "EXIT_THIS_GAME": {
-        "message": "Exit this game",
+        "message": "Oyundan çık",
         "description": ""
     },
     "HARMLESS": {
@@ -484,7 +484,7 @@
         "description": ""
     },
     "TYPE": {
-        "message": "Type",
+        "message": "Tip",
         "description": ""
     },
     "PLANET_DETAIL_DISTANCE": {
@@ -492,7 +492,7 @@
         "description": ""
     },
     "CAPACITY_USED": {
-        "message": "Capacity used",
+        "message": "Kapasite kullanımı",
         "description": ""
     },
     "COMBAT": {
@@ -504,7 +504,7 @@
         "description": ""
     },
     "LOW": {
-        "message": "Low",
+        "message": "Düşük",
         "description": ""
     },
     "YOU_MUST_LAUNCH_FIRST_COMMANDER": {
@@ -524,7 +524,7 @@
         "description": ""
     },
     "OPTIONS": {
-        "message": "Options",
+        "message": "Seçenekler",
         "description": ""
     },
     "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME": {
@@ -532,7 +532,7 @@
         "description": ""
     },
     "MISSIONS": {
-        "message": "Missions",
+        "message": "Görevler",
         "description": ""
     },
     "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT": {
@@ -540,7 +540,7 @@
         "description": ""
     },
     "CARGO_SPACE": {
-        "message": "Vrachtruimte",
+        "message": "Cargo space",
         "description": ""
     },
     "COMPLETED": {
@@ -548,7 +548,7 @@
         "description": ""
     },
     "FULL_SCREEN": {
-        "message": "Full screen",
+        "message": "Tam ekran",
         "description": ""
     },
     "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER": {
@@ -576,7 +576,7 @@
         "description": ""
     },
     "MUTE": {
-        "message": "Mute",
+        "message": "Sessiz",
         "description": ""
     },
     "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE": {
@@ -596,15 +596,15 @@
         "description": ""
     },
     "MUSIC": {
-        "message": "Music:",
+        "message": "Müzik:",
         "description": ""
     },
     "FEMALE": {
-        "message": "Female",
+        "message": "Kadın",
         "description": ""
     },
     "CANCEL": {
-        "message": "Cancel",
+        "message": "Vazgeç",
         "description": ""
     },
     "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER": {
@@ -616,15 +616,15 @@
         "description": ""
     },
     "START_AT_BARNARDS_STAR": {
-        "message": "Start at Barnard's Star",
+        "message": "Barnard'ın Yıldızından başla",
         "description": ""
     },
     "VERY_HIGH": {
-        "message": "Very high",
+        "message": "Çok yüksek",
         "description": ""
     },
     "USED": {
-        "message": "Gebruikt",
+        "message": "Used",
         "description": ""
     },
     "ABOVE_AVERAGE": {
@@ -632,11 +632,11 @@
         "description": ""
     },
     "METAL_ALLOYS": {
-        "message": "Metaal legeringen",
+        "message": "Metal alloys",
         "description": ""
     },
     "SELECT_FILE": {
-        "message": "Select file...",
+        "message": "Dosya seç...",
         "description": ""
     },
     "COMPETENT": {
@@ -652,7 +652,7 @@
         "description": ""
     },
     "DEADLY": {
-        "message": "Deadly",
+        "message": "Ölümcül",
         "description": ""
     },
     "FUEL": {
