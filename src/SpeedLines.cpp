@@ -1,9 +1,7 @@
 #include "SpeedLines.h"
 #include "Ship.h"
 
-const Color DEFAULT_COLOR  = Color::YELLOW;
-const Color FAST_COLOR     = Color::GREEN;
-const Color VERYFAST_COLOR = Color::GRAY;
+const Color LINE_COLOR  = Color::GRAY;
 
 const float BOUNDS     = 2000.f;
 const int   DEPTH      = 8;
@@ -14,7 +12,6 @@ SpeedLines::SpeedLines(Ship *s)
 : m_ship(s)
 , m_visible(false)
 , m_dir(0.f)
-, m_color(DEFAULT_COLOR)
 {
 	m_points.reserve(DEPTH * DEPTH * DEPTH);
 	for (int x = -DEPTH/2; x < DEPTH/2; x++) {
@@ -34,32 +31,28 @@ void SpeedLines::Update(float time)
 	vector3f vel = vector3f(m_ship->GetVelocity());
 	const float absVel = vel.Length();
 
-	//alter line color to give overall idea of speed
-	//slow lines down at higher speeds
-	float mult;
-	if (absVel > 100000.f) {
-		m_color = VERYFAST_COLOR;
-		mult = 0.001f;
-	} else if (absVel > 10000.f) {
-		m_color = VERYFAST_COLOR;
-		mult = 0.01f;
-	} else if (absVel > 5000.f) {
-		m_color = FAST_COLOR;
-		mult = 0.1f;
-	} else {
-		m_color = DEFAULT_COLOR;
-		mult = 1.f;
-	}
-
-	//rate of change (incl. time acceleration)
-	float d = absVel * time * mult;
-
-	//don't draw when almost stopped
-	if (d < 0.0001f) {
+	// don't show if
+	//   vel < 100m/s
+	//   in rotating frame (near station or planet surface)
+	if (absVel < 100.f || m_ship->GetFrame()->IsRotFrame()) {
 		m_visible = false;
 		return;
 	}
 	m_visible = true;
+
+	//slow lines down at higher speeds
+	float mult;
+	if (absVel > 100000.f)
+		mult = 0.001f;
+	else if (absVel > 10000.f)
+		mult = 0.01f;
+	else if (absVel > 5000.f)
+		mult = 0.1f;
+	else
+		mult = 1.f;
+
+	//rate of change (incl. time acceleration)
+	float d = absVel * time * mult;
 
 	m_lineLength = Clamp(absVel * 0.1f, 2.f, 100.f);
 	m_dir = vel.Normalized();
@@ -104,7 +97,7 @@ void SpeedLines::Render(Graphics::Renderer *r)
 		m_vertices[vtx+1] = *it + dir;
 
 		//distance fade
-		const Color col = Color(m_color.r, m_color.g, m_color.b, 1.f - it->Length() / BOUNDS);
+		const Color col = Color(LINE_COLOR.r, LINE_COLOR.g, LINE_COLOR.b, 1.f - it->Length() / BOUNDS);
 		m_vtxColors[vtx]   = col;
 		m_vtxColors[vtx+1] = col;
 

@@ -33,7 +33,6 @@ private:
 	bool m_visible;
 	float m_lineLength;
 	vector3f m_dir;
-	Color m_color;
 };
 
 #endif
