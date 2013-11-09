@@ -12,6 +12,7 @@ static const float FOV_MIN = 20.0f;
 
 Frustum Frustum::FromGLState()
 {
+	PROFILE_SCOPED()
 	Frustum f;
 	f.InitFromGLState();
 	return f;
@@ -80,6 +81,7 @@ void Frustum::InitFromMatrix(const matrix4x4d &m)
 
 void Frustum::InitFromGLState()
 {
+	PROFILE_SCOPED()
 	glGetDoublev(GL_PROJECTION_MATRIX, m_projMatrix.Data());
 	glGetDoublev(GL_MODELVIEW_MATRIX, m_modelMatrix.Data());
 	matrix4x4d m = matrix4x4d(m_projMatrix) * matrix4x4d(m_modelMatrix);
@@ -96,6 +98,7 @@ bool Frustum::TestPoint(const vector3d &p, double radius) const
 
 bool Frustum::TestPointInfinite(const vector3d &p, double radius) const
 {
+	PROFILE_SCOPED()
 	// check all planes except far plane
 	for (int i=0; i<5; i++)
 		if (m_planes[i].DistanceToPoint(p)+radius < 0)

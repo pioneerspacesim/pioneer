@@ -167,15 +167,20 @@ bool RendererLegacy::SetClearColor(const Color &c)
 
 bool RendererLegacy::SetViewport(int x, int y, int width, int height)
 {
+	m_currentViewport[0] = x;
+	m_currentViewport[1] = y;
+	m_currentViewport[2] = width;
+	m_currentViewport[3] = height;
 	glViewport(x, y, width, height);
 	return true;
 }
 
 bool RendererLegacy::SetTransform(const matrix4x4d &m)
 {
+	PROFILE_SCOPED()
 	//XXX this is not pretty but there's no standard way of converting between them.
 	for (int i=0; i<16; ++i) {
-		m_currentTransform[i] = m[i];
+		m_currentModelView[i] = m[i];
 	}
 	//XXX you might still need the occasional push/pop
 	//GL2+ or ES2 renderers can forego the classic matrix stuff entirely and use uniforms
@@ -186,8 +191,9 @@ bool RendererLegacy::SetTransform(const matrix4x4d &m)
 
 bool RendererLegacy::SetTransform(const matrix4x4f &m)
 {
+	PROFILE_SCOPED()
 	//same as above
-	m_currentTransform = m;
+	m_currentModelView = m;
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixf(&m[0]);
 	return true;
@@ -195,25 +201,35 @@ bool RendererLegacy::SetTransform(const matrix4x4f &m)
 
 bool RendererLegacy::SetPerspectiveProjection(float fov, float aspect, float near, float far)
 {
+	PROFILE_SCOPED()
 	Graphics::SetFov(fov);
 
-	double ymax = near * tan(fov * M_PI / 360.0);
-	double ymin = -ymax;
-	double xmin = ymin * aspect;
-	double xmax = ymax * aspect;
+	float ymax = near * tan(fov * M_PI / 360.0);
+	float ymin = -ymax;
+	float xmin = ymin * aspect;
+	float xmax = ymax * aspect;
 
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glFrustum(xmin, xmax, ymin, ymax, near, far);
+	const matrix4x4f frustrumMat = matrix4x4f::FrustumMatrix(xmin, xmax, ymin, ymax, near, far);
+	SetProjection(frustrumMat);
 	return true;
 }
 
 bool RendererLegacy::SetOrthographicProjection(float xmin, float xmax, float ymin, float ymax, float zmin, float zmax)
 {
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(xmin, xmax, ymin, ymax, zmin, zmax);
+	PROFILE_SCOPED()
+	const matrix4x4f orthoMat = matrix4x4f::OrthoFrustum(xmin, xmax, ymin, ymax, zmin, zmax);
+	SetProjection(orthoMat);
 	return true;
+}
+
+bool RendererLegacy::SetProjection(const matrix4x4f &m) 
+{ 
+	PROFILE_SCOPED()
+	//same as above
+	m_currentProjection = m;
+	glMatrixMode(GL_PROJECTION);
+	glLoadMatrixf(&m[0]);
+	return true; 
 }
 
 bool RendererLegacy::SetBlendMode(BlendMode m)
@@ -457,7 +473,7 @@ bool RendererLegacy::DrawPointSprites(int count, const vector3f *positions, Mate
 	SetDepthWrite(false);
 	VertexArray va(ATTRIB_POSITION | ATTRIB_UV0, count * 6);
 
-	matrix4x4f rot(GetCurrentTransform());
+	matrix4x4f rot(GetCurrentModelView());
 	rot.ClearToRotOnly();
 	rot = rot.InverseOf();
 

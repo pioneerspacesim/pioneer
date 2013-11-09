@@ -18,8 +18,8 @@ float Screen::fontScale[2];
 std::list<Widget*> Screen::kbshortcut_widgets;
 Gui::Fixed *Screen::baseContainer;
 Gui::Widget *Screen::focusedWidget;
-GLdouble Screen::modelMatrix[16];
-GLdouble Screen::projMatrix[16];
+matrix4x4f Screen::modelMatrix;
+matrix4x4f Screen::projMatrix;
 GLint Screen::viewport[4];
 
 FontCache Screen::s_fontCache;
@@ -118,16 +118,16 @@ void Screen::ShowBadError(const char *msg)
 bool Screen::Project(const vector3d &in, vector3d &out)
 {
 	// implements gluProject (see the OpenGL documentation or the Mesa implementation of gluProject)
-	const double * const M = modelMatrix;
-	const double * const P = projMatrix;
+	const float * const M = modelMatrix.Data();
+	const float * const P = projMatrix.Data();
 
-	const double vcam[4] = { // camera space
+	const float vcam[4] = { // camera space
 		in.x*M[0] + in.y*M[4] + in.z*M[ 8] + M[12],
 		in.x*M[1] + in.y*M[5] + in.z*M[ 9] + M[13],
 		in.x*M[2] + in.y*M[6] + in.z*M[10] + M[14],
 		in.x*M[3] + in.y*M[7] + in.z*M[11] + M[15]
 	};
-	const double vclip[4] = { // clip space
+	const float vclip[4] = { // clip space
 		vcam[0]*P[0] + vcam[1]*P[4] + vcam[2]*P[ 8] + vcam[3]*P[12],
 		vcam[0]*P[1] + vcam[1]*P[5] + vcam[2]*P[ 9] + vcam[3]*P[13],
 		vcam[0]*P[2] + vcam[1]*P[6] + vcam[2]*P[10] + vcam[3]*P[14],
@@ -136,9 +136,9 @@ bool Screen::Project(const vector3d &in, vector3d &out)
 
 	if (is_zero_exact(vclip[3])) { return false; }
 
-	const double w = vclip[3];
+	const float w = vclip[3];
 
-	const double v[3] = {
+	const float v[3] = {
 		(vclip[0] / w) * 0.5 + 0.5,
 		(vclip[1] / w) * 0.5 + 0.5,
 		(vclip[2] / w) * 0.5 + 0.5
@@ -156,28 +156,34 @@ bool Screen::Project(const vector3d &in, vector3d &out)
 
 void Screen::EnterOrtho()
 {
-	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix);
-	glGetDoublev (GL_PROJECTION_MATRIX, projMatrix);
-	glGetIntegerv (GL_VIEWPORT, viewport);
+	PROFILE_SCOPED()
+
+	Graphics::Renderer *pRenderer = GetRenderer();
+	if(!pRenderer) return;
+
+	{
+		PROFILE_SCOPED_DESC("EnterOrtho :: replaced glGet*")
+		modelMatrix = pRenderer->GetCurrentModelView();
+		projMatrix = pRenderer->GetCurrentProjection();
+		pRenderer->GetCurrentViewport(&viewport[0]);
+	}
 
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glLoadIdentity();
-	glOrtho(0, width, height, 0, -1, 1);
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glLoadIdentity();
+	pRenderer->SetOrthographicProjection(0, width, height, 0, -1, 1);
+	pRenderer->SetTransform(matrix4x4f::Identity());
 }
 
 void Screen::LeaveOrtho()
 {
-	glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
+	PROFILE_SCOPED()
+
+	Graphics::Renderer *pRenderer = GetRenderer();
+	if(!pRenderer) return;
+
+	pRenderer->SetProjection(projMatrix);
+	pRenderer->SetTransform(modelMatrix);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_DEPTH_TEST);
 }
@@ -319,6 +325,7 @@ int Screen::PickCharacterInString(const std::string &s, float x, float y, Text::
 
 void Screen::RenderString(const std::string &s, float xoff, float yoff, const Color &color, Text::TextureFont *font)
 {
+	PROFILE_SCOPED()
     if (!font) font = GetFont().Get();
 
 	GLdouble modelMatrix_[16];
@@ -336,6 +343,7 @@ void Screen::RenderString(const std::string &s, float xoff, float yoff, const Co
 
 void Screen::RenderMarkup(const std::string &s, const Color &color, Text::TextureFont *font)
 {
+	PROFILE_SCOPED()
     if (!font) font = GetFont().Get();
 
 	GLdouble modelMatrix_[16];

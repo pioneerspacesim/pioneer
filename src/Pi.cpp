@@ -252,7 +252,7 @@ std::string Pi::GetSaveDir()
 void Pi::Init()
 {
 	Profiler::reset();
-	PROFILE_SCOPED();
+
 	OS::NotifyLoadBegin();
 
 	FileSystem::Init();
@@ -524,8 +524,6 @@ void Pi::Init()
 
 	luaConsole = new LuaConsole(10);
 	KeyBindings::toggleLuaConsole.onPress.connect(sigc::ptr_fun(&Pi::ToggleLuaConsole));
-
-	Profiler::dumphtml();
 }
 
 bool Pi::IsConsoleActive()

@@ -104,6 +104,7 @@ void TextLayout::MeasureSize(const float width, float outSize[2]) const
 
 void TextLayout::Render(const float width, const Color &color) const
 {
+	PROFILE_SCOPED()
 	float fontScale[2];
 	Gui::Screen::GetCoords2Pixels(fontScale);
 	GLdouble modelMatrix[16];
