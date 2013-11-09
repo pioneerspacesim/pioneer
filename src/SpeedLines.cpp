@@ -12,9 +12,9 @@ const float MAX_VEL    = 100.f;
 
 SpeedLines::SpeedLines(Ship *s)
 : m_ship(s)
+, m_visible(false)
 , m_dir(0.f)
 , m_color(DEFAULT_COLOR)
-, m_visible(false)
 {
 	m_points.reserve(DEPTH * DEPTH * DEPTH);
 	for (int x = -DEPTH/2; x < DEPTH/2; x++) {
