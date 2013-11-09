@@ -235,6 +235,7 @@ void Game::Serialize(Serializer::Writer &wr)
 
 void Game::TimeStep(float step)
 {
+	PROFILE_SCOPED()
 	m_time += step;			// otherwise planets lag time accel changes by a frame
 
 	m_space->TimeStep(step);

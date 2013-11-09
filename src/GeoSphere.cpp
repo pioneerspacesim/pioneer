@@ -65,6 +65,7 @@ static void print_info(const SystemBody *sbody, const Terrain *terrain)
 // static
 void GeoSphere::UpdateAllGeoSpheres()
 {
+	PROFILE_SCOPED()
 	for(std::vector<GeoSphere*>::iterator i = s_allGeospheres.begin(); i != s_allGeospheres.end(); ++i)
 	{
 		(*i)->Update();
