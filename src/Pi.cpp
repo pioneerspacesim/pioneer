@@ -599,6 +599,7 @@ void Pi::OnChangeDetailLevel()
 
 void Pi::HandleEvents()
 {
+	PROFILE_SCOPED()
 	SDL_Event event;
 
 	Pi::mouseMotion[0] = Pi::mouseMotion[1] = 0;
@@ -983,7 +984,6 @@ void Pi::MainLoop()
 	Pi::gameTickAlpha = 0;
 
 	while (Pi::game) {
-		
 		PROFILE_SCOPED()
 #if WITH_DEVKEYS
 		if (Pi::wantsProfiling) {

@@ -184,6 +184,7 @@ void Screen::LeaveOrtho()
 
 void Screen::Draw()
 {
+	PROFILE_SCOPED()
 	assert(Screen::initted);
 	EnterOrtho();
 	baseContainer->Draw();

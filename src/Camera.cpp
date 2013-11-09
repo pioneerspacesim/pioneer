@@ -99,6 +99,7 @@ void Camera::Update()
 
 void Camera::Draw(Renderer *renderer, const Body *excludeBody)
 {
+	PROFILE_SCOPED()
 	if (!m_camFrame) return;
 	if (!renderer) return;
 

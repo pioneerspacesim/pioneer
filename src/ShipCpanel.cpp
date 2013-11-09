@@ -277,6 +277,7 @@ void ShipCpanel::OnDockingClearanceExpired(const SpaceStation *s)
 
 void ShipCpanel::Update()
 {
+	PROFILE_SCOPED()
 	int timeAccel = Pi::game->GetTimeAccel();
 	int requested = Pi::game->GetRequestedTimeAccel();
 

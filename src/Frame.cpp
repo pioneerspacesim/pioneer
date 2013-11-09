@@ -171,6 +171,7 @@ matrix3x3d Frame::GetInterpOrientRelTo(const Frame *relTo) const
 
 void Frame::UpdateInterpTransform(double alpha)
 {
+	PROFILE_SCOPED()
 	m_interpPos = alpha*m_pos + (1.0-alpha)*m_oldPos;
 
 	double len = m_oldAngDisplacement * (1.0-alpha);
