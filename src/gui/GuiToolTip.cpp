@@ -52,6 +52,7 @@ void ToolTip::SetText(std::string &text)
 
 void ToolTip::Draw()
 {
+	PROFILE_SCOPED()
 	if (m_owner && !m_owner->IsVisible())
 		return;
 

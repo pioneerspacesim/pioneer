@@ -193,6 +193,7 @@ void Screen::Draw()
 
 bool Screen::IsBaseWidget(const Widget *w)
 {
+	PROFILE_SCOPED()
 	return w == static_cast<const Widget*>(baseContainer);
 }
 

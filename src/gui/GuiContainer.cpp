@@ -182,6 +182,7 @@ void Container::Draw()
 	float size[2];
 	GetSize(size);
 	if (!m_transparent) {
+		PROFILE_SCOPED_RAW("Container::Draw - !m_transparent")
 		if (m_bgcol[3] < 1.0) {
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
