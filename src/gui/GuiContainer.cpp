@@ -178,6 +178,7 @@ Container::WidgetList::iterator Container::FindChild(const Widget *w)
 
 void Container::Draw()
 {
+	PROFILE_SCOPED()
 	float size[2];
 	GetSize(size);
 	if (!m_transparent) {

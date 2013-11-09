@@ -211,6 +211,7 @@ bool RendererGL2::SetViewport(int x, int y, int width, int height)
 
 bool RendererGL2::SetTransform(const matrix4x4d &m)
 {
+	PROFILE_SCOPED()
 	//XXX this is not pretty but there's no standard way of converting between them.
 	for (int i=0; i<16; ++i) {
 		m_currentTransform[i] = m[i];
@@ -224,6 +225,7 @@ bool RendererGL2::SetTransform(const matrix4x4d &m)
 
 bool RendererGL2::SetTransform(const matrix4x4f &m)
 {
+	PROFILE_SCOPED()
 	//same as above
 	m_currentTransform = m;
 	glMatrixMode(GL_MODELVIEW);
@@ -233,6 +235,8 @@ bool RendererGL2::SetTransform(const matrix4x4f &m)
 
 bool RendererGL2::SetPerspectiveProjection(float fov, float aspect, float near, float far)
 {
+	PROFILE_SCOPED()
+
 	// update values for log-z hack
 	m_invLogZfarPlus1 = 1.0f / (log(far+1.0f)/log(2.0f));
 
@@ -251,6 +255,7 @@ bool RendererGL2::SetPerspectiveProjection(float fov, float aspect, float near, 
 
 bool RendererGL2::SetOrthographicProjection(float xmin, float xmax, float ymin, float ymax, float zmin, float zmax)
 {
+	PROFILE_SCOPED()
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(xmin, xmax, ymin, ymax, zmin, zmax);

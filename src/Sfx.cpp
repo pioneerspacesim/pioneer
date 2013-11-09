@@ -204,6 +204,7 @@ void Sfx::TimeStepAll(const float timeStep, Frame *f)
 
 void Sfx::RenderAll(Renderer *renderer, Frame *f, const Frame *camFrame)
 {
+	PROFILE_SCOPED()
 	if (f->m_sfx) {
 		matrix4x4d ftran;
 		Frame::GetFrameTransform(f, camFrame, ftran);

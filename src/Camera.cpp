@@ -42,6 +42,7 @@ Camera::~Camera()
 
 static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Camera::LightSource> &lights)
 {
+	PROFILE_SCOPED()
 	if (lights.size() > 3) return;
 
 	SystemBody *body = frame->GetSystemBody();
@@ -199,6 +200,7 @@ void Camera::Draw(Renderer *renderer, const Body *excludeBody)
 
 void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
+	PROFILE_SCOPED()
 	// draw twinkly star-thing on faraway objects
 	// XXX this seems like a good case for drawing in 2D - use projected position, then the
 	// "face the camera dammit" bits can be skipped

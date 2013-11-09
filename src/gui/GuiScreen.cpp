@@ -319,6 +319,7 @@ int Screen::PickCharacterInString(const std::string &s, float x, float y, Text::
 
 void Screen::RenderString(const std::string &s, float xoff, float yoff, const Color &color, Text::TextureFont *font)
 {
+	PROFILE_SCOPED()
     if (!font) font = GetFont().Get();
 
 	GLdouble modelMatrix_[16];
@@ -336,6 +337,7 @@ void Screen::RenderString(const std::string &s, float xoff, float yoff, const Co
 
 void Screen::RenderMarkup(const std::string &s, const Color &color, Text::TextureFont *font)
 {
+	PROFILE_SCOPED()
     if (!font) font = GetFont().Get();
 
 	GLdouble modelMatrix_[16];
