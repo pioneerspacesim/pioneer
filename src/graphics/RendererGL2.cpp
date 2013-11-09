@@ -219,13 +219,14 @@ bool RendererGL2::SetTransform(const matrix4x4d &m)
 {
 	PROFILE_SCOPED()
 	//XXX this is not pretty but there's no standard way of converting between them.
+	matrix4x4f temp;
 	for (int i=0; i<16; ++i) {
-		m_currentModelView[i] = m[i];
+		temp[i] = float(m[i]);
 	}
 	//XXX you might still need the occasional push/pop
 	//GL2+ or ES2 renderers can forego the classic matrix stuff entirely and use uniforms
-	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixd(&m[0]);
+	MatrixMode(GL_MODELVIEW);
+	LoadMatrix(&temp[0]);
 	return true;
 }
 
@@ -233,9 +234,9 @@ bool RendererGL2::SetTransform(const matrix4x4f &m)
 {
 	PROFILE_SCOPED()
 	//same as above
-	m_currentModelView = m;
-	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf(&m[0]);
+	m_ModelViewStack[m_currentModelView] = m;
+	MatrixMode(GL_MODELVIEW);
+	LoadMatrix(&m[0]);
 	return true;
 }
 
@@ -270,9 +271,9 @@ bool RendererLegacy::SetProjection(const matrix4x4f &m)
 { 
 	PROFILE_SCOPED()
 	//same as above
-	m_currentProjection = m;
-	glMatrixMode(GL_PROJECTION);
-	glLoadMatrixf(&m[0]);
+	m_ProjectionStack[m_currentProjection] = m;
+	MatrixMode(GL_PROJECTION);
+	LoadMatrix(&m[0]);
 	return true; 
 }
 
@@ -344,7 +345,7 @@ bool RendererGL2::SetLights(int numlights, const Light *lights)
 
 	//glLight depends on the current transform, but we have always
 	//relied on it being identity when setting lights.
-	glPushMatrix();
+	PushMatrix();
 	SetTransform(matrix4x4f::Identity());
 
 	m_numLights = numlights;
@@ -370,7 +371,7 @@ bool RendererGL2::SetLights(int numlights, const Light *lights)
 		assert(m_numDirLights < 5);
 	}
 
-	glPopMatrix();
+	PopMatrix();
 
 	return true;
 }
@@ -837,20 +838,20 @@ RenderTarget *RendererGL2::CreateRenderTarget(const RenderTargetDesc &desc)
 // only restoring the things that have changed
 void RendererGL2::PushState()
 {
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
+	MatrixMode(GL_PROJECTION);
+	PushMatrix();
+	MatrixMode(GL_MODELVIEW);
+	PushMatrix();
 	glPushAttrib(GL_ALL_ATTRIB_BITS & (~GL_POINT_BIT));
 }
 
 void RendererGL2::PopState()
 {
 	glPopAttrib();
-	glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
+	MatrixMode(GL_PROJECTION);
+	PopMatrix();
+	MatrixMode(GL_MODELVIEW);
+	PopMatrix();
 }
 
 static void dump_opengl_value(std::ostream &out, const char *name, GLenum id, int num_elems)

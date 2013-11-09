@@ -156,12 +156,21 @@ public:
 
 	virtual bool ReloadShaders() { return false; }
 
-	const matrix4x4f& GetCurrentModelView() const { return m_currentModelView; }
-	const matrix4x4f& GetCurrentProjection() const { return m_currentProjection; }
+	// our own matrix stack
+	const matrix4x4f& GetCurrentModelView() const { return m_ModelViewStack[m_currentModelView]; }
+	const matrix4x4f& GetCurrentProjection() const { return m_ProjectionStack[m_currentProjection]; }
 	void GetCurrentViewport(GLint *vp) const {
 		for(int i=0; i<4; i++)
 			vp[i] = m_currentViewport[i];
 	}
+
+	void MatrixMode(GLuint mm);
+	void PushMatrix();
+	void PopMatrix();
+	void LoadIdentity();
+	void LoadMatrix(const matrix4x4f &m);
+	void Translate( const float x, const float y, const float z );
+	void Scale( const float x, const float y, const float z );
 
 	// take a ticket representing the current renderer state. when the ticket
 	// is deleted, the renderer state is restored
@@ -183,9 +192,13 @@ protected:
 	virtual void PushState() = 0;
 	virtual void PopState() = 0;
 
-	matrix4x4f m_currentModelView;
-	matrix4x4f m_currentProjection;
+	static const Uint32 kMaxStackDepth = 128;
+	Uint32 m_currentModelView;
+	Uint32 m_currentProjection;
+	matrix4x4f m_ModelViewStack[kMaxStackDepth];
+	matrix4x4f m_ProjectionStack[kMaxStackDepth];
 	GLint m_currentViewport[4];
+	GLuint m_matrixMode;
 
 private:
 	typedef std::pair<std::string,std::string> TextureCacheKey;
