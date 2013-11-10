@@ -339,6 +339,23 @@ static int l_engine_set_display_nav_tunnels(lua_State *l)
 	return 0;
 }
 
+static int l_engine_get_display_speed_lines(lua_State *l)
+{
+	lua_pushboolean(l, Pi::config->Int("SpeedLines") != 0);
+	return 1;
+}
+
+static int l_engine_set_display_speed_lines(lua_State *l)
+{
+	if (lua_isnone(l, 1))
+		return luaL_error(l, "SetDisplaySpeedLines takes one boolean argument");
+	const bool enabled = lua_toboolean(l, 1);
+	Pi::config->SetInt("SpeedLines", (enabled ? 1 : 0));
+	Pi::config->Save();
+	Pi::SetSpeedLinesDisplayed(enabled);
+	return 0;
+}
+
 static void set_master_volume(const bool muted, const float volume)
 {
 	Sound::Pause(muted || is_zero_exact(volume));
@@ -702,6 +719,9 @@ void LuaEngine::Register()
 
 		{ "GetDisplayNavTunnels", l_engine_get_display_nav_tunnels },
 		{ "SetDisplayNavTunnels", l_engine_set_display_nav_tunnels },
+
+		{ "GetDisplaySpeedLines", l_engine_get_display_speed_lines },
+		{ "SetDisplaySpeedLines", l_engine_set_display_speed_lines },
 
 		{ "GetMasterMuted", l_engine_get_master_muted },
 		{ "SetMasterMuted", l_engine_set_master_muted },
