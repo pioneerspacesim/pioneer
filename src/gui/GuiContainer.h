@@ -8,7 +8,7 @@
  */
 
 #include "GuiWidget.h"
-#include <list>
+#include <deque>
 
 namespace Gui {
 	class Container: public Widget {
@@ -48,7 +48,7 @@ namespace Gui {
 			float pos[2];
 			Uint32 flags;
 		};
-		typedef std::list<widget_pos> WidgetList;
+		typedef std::deque<widget_pos> WidgetList;
 
 		void PrependChild(Widget *w, float x, float y);
 		void AppendChild(Widget *w, float x, float y);
