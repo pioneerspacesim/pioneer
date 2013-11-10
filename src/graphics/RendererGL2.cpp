@@ -71,7 +71,18 @@ RendererGL2::RendererGL2(WindowSDL *window, const Graphics::Settings &vs)
 , m_useCompressedTextures(false)
 , m_invLogZfarPlus1(0.f)
 , m_activeRenderTarget(0)
+, m_currentModelView(0)
+, m_currentProjection(0)
+, m_matrixMode(GL_MODELVIEW)
 {
+	for(Uint32 i = 0; i < kMaxStackDepth; i++) {
+		m_ModelViewStack[i]		= matrix4x4f::Identity();
+		m_ProjectionStack[i]	= matrix4x4f::Identity();
+	}
+	for(Uint32 i = 0; i < 4; i++) {
+		m_currentViewport[i] = 0;
+	}
+
 	const bool useDXTnTextures = vs.useTextureCompression && glewIsSupported("GL_EXT_texture_compression_s3tc");
 	m_useCompressedTextures = useDXTnTextures;
 
@@ -267,7 +278,7 @@ bool RendererGL2::SetOrthographicProjection(float xmin, float xmax, float ymin, 
 	return true;
 }
 
-bool RendererLegacy::SetProjection(const matrix4x4f &m) 
+bool RendererGL2::SetProjection(const matrix4x4f &m) 
 { 
 	PROFILE_SCOPED()
 	//same as above
@@ -958,6 +969,126 @@ bool RendererGL2::PrintDebugInfo(std::ostream &out)
 #undef DUMP_GL_VALUE2
 
 	return true;
+}
+
+void RendererGL2::MatrixMode(GLuint mm) 
+{ 
+	PROFILE_SCOPED()
+	glMatrixMode(mm);
+	m_matrixMode = mm; 
+}
+
+void RendererGL2::PushMatrix() 
+{
+	PROFILE_SCOPED()
+	
+	glPushMatrix();
+	switch(m_matrixMode) {
+	case GL_MODELVIEW:		
+	case GL_MODELVIEW_MATRIX:
+		m_ModelViewStack[m_currentModelView+1] = m_ModelViewStack[m_currentModelView];
+		++m_currentModelView;	
+		break;
+	case GL_PROJECTION:
+	case GL_PROJECTION_MATRIX:
+		m_ModelViewStack[m_currentProjection+1] = m_ModelViewStack[m_currentProjection];
+		++m_currentProjection;	
+		break;
+	default:
+		assert(false && "invalid matrixMode set");
+	}
+	assert(m_currentProjection<kMaxStackDepth);
+}
+
+void RendererGL2::PopMatrix() 
+{
+	PROFILE_SCOPED()
+	glPopMatrix();
+	switch(m_matrixMode) {
+	case GL_MODELVIEW:		
+	case GL_MODELVIEW_MATRIX:
+		--m_currentModelView;	
+		break;
+	case GL_PROJECTION:
+	case GL_PROJECTION_MATRIX:	
+		--m_currentProjection;	
+		break;
+	default:
+		assert(false && "invalid matrixMode set");
+	}
+	assert(m_currentProjection>=0);
+}
+
+void RendererGL2::LoadIdentity()
+{
+	PROFILE_SCOPED()
+	glLoadIdentity();
+	switch(m_matrixMode) {
+	case GL_MODELVIEW:		
+	case GL_MODELVIEW_MATRIX:
+		m_ModelViewStack[m_currentModelView] = matrix4x4f::Identity();		
+		break;
+	case GL_PROJECTION:
+	case GL_PROJECTION_MATRIX:
+		m_ProjectionStack[m_currentProjection] = matrix4x4f::Identity();	
+		break;
+	default:
+		assert(false && "invalid matrixMode set");
+	}
+}
+
+void RendererGL2::LoadMatrix(const matrix4x4f &m)
+{
+	PROFILE_SCOPED()
+	glLoadMatrixf(&m[0]);
+	switch(m_matrixMode) {
+	case GL_MODELVIEW:		
+	case GL_MODELVIEW_MATRIX:
+		m_ModelViewStack[m_currentModelView] = m;		
+		break;
+	case GL_PROJECTION:
+	case GL_PROJECTION_MATRIX:
+		m_ProjectionStack[m_currentProjection] = m;	
+		break;
+	default:
+		assert(false && "invalid matrixMode set");
+	}
+}
+
+void RendererGL2::Translate( const float x, const float y, const float z ) 
+{
+	PROFILE_SCOPED()
+	glTranslatef(x,y,z);
+	switch(m_matrixMode) {
+	case GL_MODELVIEW:		
+	case GL_MODELVIEW_MATRIX:
+		m_ModelViewStack[m_currentModelView].Translate(x,y,z);		
+		break;
+	case GL_PROJECTION:
+	case GL_PROJECTION_MATRIX:
+		m_ProjectionStack[m_currentProjection].Translate(x,y,z);	
+		break;
+	default:
+		assert(false && "invalid matrixMode set");
+	}
+}
+
+void RendererGL2::Scale( const float x, const float y, const float z ) 
+{
+	PROFILE_SCOPED()
+	glScalef(x,y,z);
+	switch(m_matrixMode) {
+	case GL_MODELVIEW:		
+	case GL_MODELVIEW_MATRIX:
+		m_ModelViewStack[m_currentModelView].Scale(x,y,z);		
+		break;
+	case GL_PROJECTION:
+	case GL_PROJECTION_MATRIX:
+		m_ProjectionStack[m_currentProjection].Scale(x,y,z);	
+		break;
+	default:
+		assert(false && "invalid matrixMode set");
+	}
 }
 
 }

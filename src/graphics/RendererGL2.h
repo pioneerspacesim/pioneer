@@ -84,6 +84,21 @@ public:
 
 	virtual bool PrintDebugInfo(std::ostream &out);
 
+	virtual const matrix4x4f& GetCurrentModelView() const { return m_ModelViewStack[m_currentModelView]; }
+	virtual const matrix4x4f& GetCurrentProjection() const { return m_ProjectionStack[m_currentProjection]; }
+	virtual void GetCurrentViewport(Sint32 *vp) const {
+		for(int i=0; i<4; i++)
+			vp[i] = m_currentViewport[i];
+	}
+
+	virtual void MatrixMode(Uint32 mm);
+	virtual void PushMatrix();
+	virtual void PopMatrix();
+	virtual void LoadIdentity();
+	virtual void LoadMatrix(const matrix4x4f &m);
+	virtual void Translate( const float x, const float y, const float z );
+	virtual void Scale( const float x, const float y, const float z );
+
 protected:
 	virtual void PushState();
 	virtual void PopState();
@@ -114,6 +129,14 @@ protected:
 	std::vector<std::pair<MaterialDescriptor, GL2::Program*> > m_programs;
 	float m_invLogZfarPlus1;
 	GL2::RenderTarget *m_activeRenderTarget;
+
+	static const Uint32 kMaxStackDepth = 128;
+	Uint32 m_currentModelView;
+	Uint32 m_currentProjection;
+	matrix4x4f m_ModelViewStack[kMaxStackDepth];
+	matrix4x4f m_ProjectionStack[kMaxStackDepth];
+	Sint32 m_currentViewport[4];
+	GLuint m_matrixMode;
 };
 
 }
