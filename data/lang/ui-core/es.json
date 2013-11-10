@@ -95,6 +95,10 @@
         "message": "La velocidad de órbita circular es dada por una velocidad tangencial. La nave se debería mover en una dirección a 90° del eje de la nave/{name}.\n\nLa velocidad de descenso es un mínimo absoluto, y es también tangencial. Una velocidad o ángulo mas bajos resultará en un curso que intersecta con la superficie de {name}.\n\nLa velocidad de escape funcionará, en teoría, en cualquier dirección, mientras que la nave no colisione con {name} en la ruta.\n\t\t",
         "description": ""
     },
+    "DISPLAY_SPEED_LINES": {
+        "message": "Display speed lines",
+        "description": ""
+    },
     "CLEAR": {
         "message": "Claro",
         "description": ""

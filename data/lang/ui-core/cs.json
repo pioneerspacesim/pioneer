@@ -95,6 +95,10 @@
         "message": "Úhlová orbitální rychlost je vztažena k tangenciální rychlosti. Loď by se měla pohybovat kolmo k ose lodi/{name}.\n\nDescent speed is an absolute minimum, and is also tangential. A slower speed or a lower angle will result in a course which intersects with the surface of {name}.\n\nÚniková rychlost může být (teoreticky) libovolná ve všech směrech, pokud se trajektorie lodi nenáchází na kolizním kurzu s {name}.\n\t\t",
         "description": ""
     },
+    "DISPLAY_SPEED_LINES": {
+        "message": "Display speed lines",
+        "description": ""
+    },
     "CLEAR": {
         "message": "Clear",
         "description": ""
