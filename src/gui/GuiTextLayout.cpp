@@ -9,40 +9,6 @@ static const float PARAGRAPH_SPACING = 1.5f;
 
 namespace Gui {
 
-static double _clip[2][4];
-static vector3d _clipoffset;
-static bool _do_clip;
-
-static void init_clip_test()
-{
-	/*
-	if (glIsEnabled(GL_CLIP_PLANE1)) {
-		glGetClipPlane(GL_CLIP_PLANE1, _clip[0]);
-		glGetClipPlane(GL_CLIP_PLANE3, _clip[1]);
-		matrix4x4d m;
-		glGetDoublev (GL_MODELVIEW_MATRIX, &m[0]);
-		_clipoffset.x = m[12];
-		_clipoffset.y = m[13];
-		_clipoffset.z = 0;
-
-		_do_clip = true;
-	} else*/ {
-		_do_clip = false;
-	}
-}
-
-/* does a line of text pass top and bottom clip planes? */
-static bool line_clip_test(float topy, float bottomy)
-{
-	if (!_do_clip) return true;
-	topy = _clipoffset.y + topy*Gui::Screen::GetCoords2Pixels()[1];
-	bottomy = _clipoffset.y + bottomy*Gui::Screen::GetCoords2Pixels()[1];
-
-	if ((bottomy*_clip[0][1] + _clip[0][3] > 0) &&
-	    (topy*_clip[1][1] + _clip[1][3] > 0)) return true;
-	return false;
-}
-
 TextLayout::TextLayout(const char *_str, RefCountedPtr<Text::TextureFont> font, ColourMarkupMode markup)
 {
 	// XXX ColourMarkupSkip not correctly implemented yet
@@ -127,7 +93,6 @@ void TextLayout::Render(const float width, const Color &color) const
 void TextLayout::_RenderRaw(float maxWidth, const Color &color) const
 {
 	float py = 0;
-	init_clip_test();
 
 	Graphics::Renderer *pRenderer = Gui::Screen::GetRenderer();
 	if(!pRenderer) return;
@@ -172,20 +137,16 @@ void TextLayout::_RenderRaw(float maxWidth, const Color &color) const
 			_spaceWidth = spaceWidth;
 		}
 
-		if (line_clip_test(py, py+m_font->GetHeight()*2.0)) {
-			float px = 0;
-			for (int j=0; j<num; j++) {
-				if ((*wpos).word) {
-					if (m_colourMarkup == ColourMarkupUse)
-						c = m_font->RenderMarkup((*wpos).word, round(px), round(py), c);
-					else
-						m_font->RenderString((*wpos).word, round(px), round(py), c);
-				}
-				px += (*wpos).advx + _spaceWidth;
-				wpos++;
+		float px = 0;
+		for (int j=0; j<num; j++) {
+			if ((*wpos).word) {
+				if (m_colourMarkup == ColourMarkupUse)
+					c = m_font->RenderMarkup((*wpos).word, round(px), round(py), c);
+				else
+					m_font->RenderString((*wpos).word, round(px), round(py), c);
 			}
-		} else {
-			for (int j=0; j<num; j++) wpos++;
+			px += (*wpos).advx + _spaceWidth;
+			wpos++;
 		}
 		py += m_font->GetHeight() * (explicit_newline ? PARAGRAPH_SPACING : 1.0f);
 	}
