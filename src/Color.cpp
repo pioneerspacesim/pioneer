@@ -10,6 +10,7 @@ const Color4f Color::RED    = Color(1.0f,0.0f,0.0f,1.0f);
 const Color4f Color::GREEN  = Color(0.0f,1.0f,0.0f,1.0f);
 const Color4f Color::BLUE   = Color(0.0f,0.0f,1.0f,1.0f);
 const Color4f Color::YELLOW = Color(1.0f,1.0f,0.0f,1.0f);
+const Color4f Color::GRAY   = Color(0.5f,0.5f,0.5f,1.f);
 
 const Color4ub Color4ub::BLACK   = Color4ub(0, 0, 0, 255);
 const Color4ub Color4ub::WHITE   = Color4ub(255, 255, 255, 255);
