@@ -416,7 +416,7 @@
         "description": ""
     },
     "HEADING_LOCK_BACKWARD": {
-        "message": "Blocco Orientamento (post)",
+        "message": "Bloc. Orient. (post)",
         "description": ""
     },
     "HULL_AUTOREPAIR_DESCRIPTION": {
@@ -1456,7 +1456,7 @@
         "description": ""
     },
     "HEADING_LOCK_FORWARD": {
-        "message": "Blocco Orientamento (ant)",
+        "message": "Bloc. Orient. (ant)",
         "description": ""
     },
     "CANT_SAVE_IN_HYPERSPACE": {
@@ -1552,7 +1552,7 @@
         "description": ""
     },
     "TOMBSTONE_EPITAPH": {
-        "message": "Riposa in Pace,\nVecchio Mio",
+        "message": "R.I.P. Amico mio",
         "description": ""
     },
     "MINOR_EXPORTS": {
