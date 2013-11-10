@@ -378,6 +378,7 @@ void SectorView::OnSearchBoxKeyPress(const SDL_Keysym *keysym)
 
 void SectorView::Draw3D()
 {
+	PROFILE_SCOPED()
 	m_lineVerts->Clear();
 	m_secLineVerts->Clear();
 	m_clickableLabels->Clear();
@@ -402,6 +403,9 @@ void SectorView::Draw3D()
 	else {
 		m_distanceLabel->SetText("");
 	}
+
+	m_renderer->MatrixMode(GL_MODELVIEW);
+	m_renderer->PushMatrix();
 
 	// units are lightyears, my friend
 	modelview.Translate(0.f, 0.f, -10.f-10.f*m_zoom);    // not zoomClamped, let us zoom out a bit beyond what we're drawing
@@ -428,6 +432,7 @@ void SectorView::Draw3D()
 	UpdateFactionToggles();
 
 	m_renderer->SetBlendMode(BLEND_SOLID);
+	m_renderer->PopMatrix();
 }
 
 void SectorView::SetHyperspaceTarget(const SystemPath &path)
