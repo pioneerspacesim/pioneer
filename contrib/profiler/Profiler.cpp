@@ -1202,7 +1202,7 @@ namespace Profiler {
 	void reset() { resetThreads(); }
 #else
 	void detect( int argc, char **argv ) {}
-	void detect( const char *commandLine ) {}
+	//void detect( const char *commandLine ) {}
 	void dump() {}
 	void dumphtml() {}
 	void fastcall enter( const char *name ) {}
