@@ -8,7 +8,7 @@
         "description": ""
     },
     "DISPLAY_NAV_TUNNELS": {
-        "message": "Navigációs alagút mutatása",
+        "message": "Navigációs alagút",
         "description": ""
     },
     "ORBIT": {
@@ -48,7 +48,7 @@
         "description": ""
     },
     "ECONOMY_TRADE": {
-        "message": "gazdaság és kereskedelem",
+        "message": "Leltár",
         "description": ""
     },
     "REFUEL": {
@@ -96,7 +96,7 @@
         "description": ""
     },
     "DISPLAY_SPEED_LINES": {
-        "message": "Display speed lines",
+        "message": "Sebességjelző vonalak",
         "description": ""
     },
     "CLEAR": {

@@ -8,7 +8,7 @@
         "description": ""
     },
     "DISPLAY_NAV_TUNNELS": {
-        "message": "Wyświetl tunel nawigacyjny",
+        "message": "Wyświetlaj tunel nawigacyjny",
         "description": ""
     },
     "ORBIT": {
@@ -96,7 +96,7 @@
         "description": ""
     },
     "DISPLAY_SPEED_LINES": {
-        "message": "Display speed lines",
+        "message": "Wyświetlaj linie dużych prędkości",
         "description": ""
     },
     "CLEAR": {
@@ -332,7 +332,7 @@
         "description": ""
     },
     "CITY_DETAIL_LEVEL": {
-        "message": "Szczeg. miast",
+        "message": "Szczegółowość miast",
         "description": ""
     },
     "N_OCCUPIED_PASSENGER_CABINS": {
@@ -372,7 +372,7 @@
         "description": ""
     },
     "FRACTAL_DETAIL": {
-        "message": "Dokł. fraktali",
+        "message": "Dokładność fraktali",
         "description": ""
     },
     "ALLEGIANCE": {
@@ -492,7 +492,7 @@
         "description": ""
     },
     "PLANET_DETAIL_DISTANCE": {
-        "message": "Szczeg. planet",
+        "message": "Szczegółowość planet",
         "description": ""
     },
     "CAPACITY_USED": {
