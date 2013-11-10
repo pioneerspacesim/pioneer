@@ -17,5 +17,5 @@ Event.Register("onAICompleted", function (s, e)
 	if e == 'NONE' then return end
 	if not s:IsPlayer() then return end
 
-	Comms.ImportantMessage(l[messages[e]], l.AUTOPILOT)
+	Comms.ImportantMessage(messages[e], l.AUTOPILOT)
 end)
