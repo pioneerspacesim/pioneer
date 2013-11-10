@@ -999,6 +999,7 @@ void Pi::MainLoop()
 
 		const float step = Pi::game->GetTimeStep();
 		if (step > 0.0f) {
+			PROFILE_SCOPED_RAW("unpaused")
 			int phys_ticks = 0;
 			while (accumulator >= step) {
 				if (++phys_ticks >= MAX_PHYSICS_TICKS) {
@@ -1020,6 +1021,7 @@ void Pi::MainLoop()
 #endif
 		} else {
 			// paused
+			PROFILE_SCOPED_RAW("paused")
 			GeoSphere::UpdateAllGeoSpheres();
 		}
 		frame_stat++;

@@ -1244,6 +1244,7 @@ Sector* SectorView::GetCached(const int sectorX, const int sectorY, const int se
 
 void SectorView::ShrinkCache()
 {
+	PROFILE_SCOPED()
 	// we're going to use these to determine if our sectors are within the range that we'll ever render
 	const int drawRadius = (m_zoomClamped <= FAR_THRESHOLD) ? DRAW_RAD : ceilf((m_zoomClamped/FAR_THRESHOLD) * DRAW_RAD);
 
