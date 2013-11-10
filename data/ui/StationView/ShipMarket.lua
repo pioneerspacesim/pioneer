@@ -6,11 +6,15 @@ local SpaceStation = import("SpaceStation")
 local Game = import("Game")
 local Event = import("Event")
 local Format = import("Format")
+local Lang = import("Lang")
 
 local ModelSpinner = import("UI.Game.ModelSpinner")
 local ModelSkin = import("SceneGraph.ModelSkin")
 
 local ui = Engine.ui
+
+-- XXX equipment strings are in core. this sucks
+local lcore = Lang.GetResource("core")
 
 local shipTable =
 	ui:Table()
@@ -47,6 +51,7 @@ shipTable.onRowClicked:Connect(function (row)
 			}),
 			ui:Label("Price: "..Format.Money(def.basePrice)),
 			ModelSpinner.New(ui, def.modelName, sos.skin),
+			ui:Label("Hyperdrive fitted: "..lcore[def.defaultHyperdrive]):SetFont("SMALL"),
 			ui:Margin(10, "VERTICAL",
 				ui:Grid(2,1)
 					:SetFont("SMALL")
