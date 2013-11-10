@@ -9,6 +9,7 @@
 #include "gui/GuiWidget.h"
 #include "View.h"
 #include "Serializer.h"
+#include "SpeedLines.h"
 #include "Background.h"
 #include "EquipType.h"
 #include "CameraController.h"
@@ -114,6 +115,7 @@ private:
 	void MouseWheel(bool up);
 
 	NavTunnelWidget *m_navTunnel;
+	std::unique_ptr<SpeedLines> m_speedLines;
 
 	Gui::ImageButton *m_hyperspaceButton;
 

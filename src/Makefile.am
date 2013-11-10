@@ -139,6 +139,7 @@ noinst_HEADERS = \
 	SpaceStation.h \
 	SpaceStationType.h \
 	SpaceStationView.h \
+	SpeedLines.h \
 	Star.h \
 	SystemInfoView.h \
 	SystemView.h \
@@ -284,6 +285,7 @@ pioneer_SOURCES	= \
 	SpaceStation.cpp \
 	SpaceStationType.cpp \
 	SpaceStationView.cpp \
+	SpeedLines.cpp \
 	Star.cpp \
 	SystemInfoView.cpp \
 	SystemView.cpp \
