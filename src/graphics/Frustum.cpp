@@ -10,14 +10,6 @@ namespace Graphics {
 static const float FOV_MAX = 170.0f;
 static const float FOV_MIN = 20.0f;
 
-Frustum Frustum::FromGLState()
-{
-	PROFILE_SCOPED()
-	Frustum f;
-	f.InitFromGLState();
-	return f;
-}
-
 Frustum::Frustum() {}
 
 Frustum::Frustum(float width, float height, float fovAng, float znear, float zfar)
@@ -34,6 +26,12 @@ Frustum::Frustum(float width, float height, float fovAng, float znear, float zfa
 	m_projMatrix = matrix4x4d::FrustumMatrix(left, right, bottom, top, znear, zfar);
 	m_modelMatrix = matrix4x4d::Identity();
 	InitFromMatrix(m_projMatrix);
+}
+
+Frustum::Frustum(const matrix4x4d &modelview, const matrix4x4d &projection) : m_projMatrix(projection), m_modelMatrix(modelview)
+{
+	const matrix4x4d m = m_projMatrix * m_modelMatrix;
+	InitFromMatrix(m);
 }
 
 void Frustum::InitFromMatrix(const matrix4x4d &m)
@@ -77,15 +75,6 @@ void Frustum::InitFromMatrix(const matrix4x4d &m)
 		m_planes[i].c *= invlen;
 		m_planes[i].d *= invlen;
 	}
-}
-
-void Frustum::InitFromGLState()
-{
-	PROFILE_SCOPED()
-	glGetDoublev(GL_PROJECTION_MATRIX, m_projMatrix.Data());
-	glGetDoublev(GL_MODELVIEW_MATRIX, m_modelMatrix.Data());
-	matrix4x4d m = matrix4x4d(m_projMatrix) * matrix4x4d(m_modelMatrix);
-	InitFromMatrix(m);
 }
 
 bool Frustum::TestPoint(const vector3d &p, double radius) const
