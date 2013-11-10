@@ -95,6 +95,10 @@
         "message": "Circular orbit speed is given for a tangential velocity. The ship should be moving in a direction at 90° to the ship/{name} axis.\n\nDescent speed is an absolute minimum, and is also tangential. A slower speed or a lower angle will result in a course which intersects with the surface of {name}.\n\nEscape speed will in theory work in any direction, as long as the ship does not collide with {name} on the way.\n\t\t",
         "description": ""
     },
+    "DISPLAY_SPEED_LINES": {
+        "message": "Display speed lines",
+        "description": ""
+    },
     "CLEAR": {
         "message": "Clear",
         "description": ""
@@ -240,7 +244,7 @@
         "description": ""
     },
     "NONE": {
-        "message": "None",
+        "message": "Geen",
         "description": ""
     },
     "LANGUAGE": {
@@ -340,7 +344,7 @@
         "description": ""
     },
     "CONTROLS": {
-        "message": "Controls",
+        "message": "Besturing",
         "description": ""
     },
     "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR": {
@@ -464,7 +468,7 @@
         "description": ""
     },
     "NAME": {
-        "message": "Name",
+        "message": "Naam",
         "description": ""
     },
     "GIVE_ORDERS_TO_CREW": {
@@ -632,7 +636,7 @@
         "description": ""
     },
     "METAL_ALLOYS": {
-        "message": "Metal alloys",
+        "message": "Metaal legeringen",
         "description": ""
     },
     "SELECT_FILE": {

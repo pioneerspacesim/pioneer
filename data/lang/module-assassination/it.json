@@ -4,7 +4,7 @@
         "description": ""
     },
     "FLAVOUR_SUCCESSMSG_2": {
-        "message": "È stato pagato interamente per il completamento di quell'importante contratto.",
+        "message": "È stato pagato interamente per il soddisfacimento di quell'importante contratto.",
         "description": ""
     },
     "SPACEPORT": {
@@ -20,11 +20,11 @@
         "description": ""
     },
     "FLAVOUR_SUCCESSMSG_5": {
-        "message": "Messaggio sulla fine della carriera di {target} felicemente arrivato. Ecco i suoi {cash}.",
+        "message": "Messaggio sulla liquidazione di {target} felicemente arrivato. Ecco i suoi {cash}.",
         "description": ""
     },
     "FLAVOUR_SUCCESSMSG_4": {
-        "message": "Notizie sul ritiro di {target} deliziosamente giunte. Ecco i suoi crediti.",
+        "message": "Notizie sul pensionamento di {target} deliziosamente giunte. Ecco i suoi crediti.",
         "description": ""
     },
     "HANG_UP": {
@@ -48,11 +48,11 @@
         "description": ""
     },
     "FLAVOUR_INTROTEXT_4": {
-        "message": "Per {cash} vorremmo favorire il pensionamento completo di {target}.",
+        "message": "Per {cash} vorremmo incoraggiare il pensionamento di {target}.",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_2": {
-        "message": "È molto deplorevole che {target} sia ancora vivo e vegeto. Non riceverà alcun pagamento, dato che non ha completato il suo contratto.",
+        "message": "È molto deplorevole che {target} sia ancora vivo e vegeto. Non riceverà alcun pagamento, dato che non ha portato a termine il suo contratto.",
         "description": ""
     },
     "TITLE_24": {
@@ -76,7 +76,7 @@
         "description": ""
     },
     "IT_MUST_BE_DONE_AFTER": {
-        "message": "Dev'essere fatto dopo che {target} lascerà {spaceport}. Non deve lasciarsi sfuggire l'opportunità.",
+        "message": "Dev'essere fatto dopo che {target} avrà lasciato {spaceport}. Non si faccia sfuggire l'occasione.",
         "description": ""
     },
     "HOW_WILL_I_BE_PAID": {
@@ -104,7 +104,7 @@
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_0": {
-        "message": "Sono molto dispiaciuto nello scoprire che {target} è ancora vivo. Inutile dire che non riceverà alcun pagamento.",
+        "message": "Provo molto dispiacere nello scoprire che {target} è ancora vivo. Inutile dire che non riceverà alcun pagamento.",
         "description": ""
     },
     "TITLE_3": {
@@ -112,7 +112,7 @@
         "description": ""
     },
     "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID": {
-        "message": "Torni qui al completamento del contratto e verrà pagato.",
+        "message": "Torni qui a contratto completato e verrà pagato.",
         "description": ""
     },
     "OK_AGREED": {
@@ -128,11 +128,11 @@
         "description": ""
     },
     "FLAVOUR_ADTEXT_4": {
-        "message": "RITIRO: Qualcuno per ritirare {target}.",
+        "message": "RITIRO: Qualcuno per pensionare {target}.",
         "description": ""
     },
     "FLAVOUR_INTROTEXT_5": {
-        "message": "Vorremmo che {traget} avesse un adeguata fine di carriera nel sistema {system}, per {cash}.",
+        "message": "Vorremmo che {target} ricevesse un adeguata liquidazione nel sistema {system}, per {cash}.",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG2_0": {
@@ -252,7 +252,7 @@
         "description": ""
     },
     "FLAVOUR_FAILUREMSG2_2": {
-        "message": "Il contratto è stato completato da qualcun'altro. Sia più veloce la prossima volta!",
+        "message": "Il contratto è stato concluso da qualcun'altro. Sia più veloce la prossima volta!",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG2_1": {
@@ -276,7 +276,7 @@
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_5": {
-        "message": "Abbiamo scoperto che {target} è, nondimeno, operativo. Questo ci rattrista.",
+        "message": "Abbiamo scoperto che {target} è, dopotutto, operativo. Questo ci rattrista.",
         "description": ""
     },
     "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {

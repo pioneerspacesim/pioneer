@@ -95,6 +95,10 @@
         "message": "La vitesse orbitale est donnée pour un vecteur tangenciel : La trajectoire doit etre de 90° par rapport a l'axe  vaisseau/{name}.\n\nLa vitesse de descente est un minimum absolu, et c'est aussi la vitesse tangencielle : Une vitesse plus base ou un angle plus bas donneront a coup sur une collision avec {name}.\n\nLa vitesse de libération fonctionne en théorie dans toute les directions, tant que le vaisseau n'entre pas en collision avec {name}.",
         "description": ""
     },
+    "DISPLAY_SPEED_LINES": {
+        "message": "Display speed lines",
+        "description": ""
+    },
     "CLEAR": {
         "message": "Vide",
         "description": ""

@@ -39,7 +39,7 @@ GameConfig::GameConfig()
 	map["UseTextureCompression"] = "0";
 	map["CockpitCamera"] = "1";
 	map["WorkerThreads"] = "0";
-	map["SpeedLines"] = "1";
+	map["SpeedLines"] = "0";
 	map["HudTrails"] = "1";
 
 #ifdef _WIN32

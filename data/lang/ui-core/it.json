@@ -95,6 +95,10 @@
         "message": "La velocità di orbita circolare è data come velocità tangenziale. L'astronave deve muoversi in una direzione di 90° rispetto all'asse astronave/{nome}.\\n\n\\n\nLa velocità di discesa è un minimo assoluto, ed è anch'essa tangenziale. Una velocità od un angolo inferiori porteranno ad una traiettoria che interseca con la superficie di {name}.\\n\n\\n\nLa velocità di fuga si applica teoricamente ad ogni direzione, fintanto che l'astronave non entra in rotta di collisione con {name}.\\n\n\\t\\t",
         "description": ""
     },
+    "DISPLAY_SPEED_LINES": {
+        "message": "Display speed lines",
+        "description": ""
+    },
     "CLEAR": {
         "message": "Pulisci",
         "description": ""

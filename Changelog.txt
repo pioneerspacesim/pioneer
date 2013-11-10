@@ -1,7 +1,8 @@
 November 2013
 
    * New features
-     * Translations now managed via Transifex (#2521)
+     * Translations now managed via Transifex (#2521, #2537, #2536)
+     * "Speed lines" option to convey movement to the player (#2528)
 
    * Minor changes and tweaks
      * Improvements to the ship spinner (used in Ship Info view) (#2532)
