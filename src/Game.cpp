@@ -264,6 +264,7 @@ void Game::TimeStep(float step)
 
 bool Game::UpdateTimeAccel()
 {
+	PROFILE_SCOPED()
 	// don't modify the timeaccel if the game is paused
 	if (m_requestedTimeAccel == Game::TIMEACCEL_PAUSED) {
 		SetTimeAccel(Game::TIMEACCEL_PAUSED);

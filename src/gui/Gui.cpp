@@ -126,6 +126,8 @@ void Uninit()
 
 void MainLoopIteration()
 {
+	PROFILE_SCOPED()
+
 	Graphics::Renderer *pRenderer = Gui::Screen::GetRenderer();
 	if(!pRenderer) return;
 
