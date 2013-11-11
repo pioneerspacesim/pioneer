@@ -55,8 +55,8 @@ local function buyShip (num)
 	-- add old ship to on-sale list
 
 	player:SetShipType(def.id)
-	-- set label
 	player:SetSkin(sos.skin)
+	player:SetLabel(sos.label)
 	player:AddEquip(def.defaultHyperdrive)
 	player:SetFuelPercent(100)
 
