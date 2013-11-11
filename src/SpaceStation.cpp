@@ -252,7 +252,7 @@ void SpaceStation::UpdateShipyard()
 
 	for (; toAdd > 0; toAdd--) {
 		ShipType::Id id = ships[Pi::rng.Int32(ships.size())];
-		std::string regId = Ship::MakeRandomLabel();
+		std::string regId = "UNLABELED_SHIP";
 		SceneGraph::ModelSkin skin;
 		skin.SetRandomColors(Pi::rng);
 		skin.SetPattern(Pi::rng.Int32(0, Pi::FindModel(id)->GetNumPatterns()));

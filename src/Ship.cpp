@@ -248,7 +248,7 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
 
 	SetModel(m_type->modelName.c_str());
-	SetLabel(MakeRandomLabel());
+	SetLabel("UNLABELED_SHIP");
 	m_skin.SetRandomColors(Pi::rng);
 	m_skin.SetPattern(Pi::rng.Int32(0, GetModel()->GetNumPatterns()));
 	m_skin.Apply(GetModel());
@@ -1286,19 +1286,6 @@ void Ship::EnterSystem() {
 
 void Ship::OnEnterSystem() {
 	m_hyperspaceCloud = 0;
-}
-
-std::string Ship::MakeRandomLabel()
-{
-	std::string regid = "XX-1111";
-	regid[0] = 'A' + Pi::rng.Int32(26);
-	regid[1] = 'A' + Pi::rng.Int32(26);
-	int code = Pi::rng.Int32(10000);
-	regid[3] = '0' + ((code / 1000) % 10);
-	regid[4] = '0' + ((code /  100) % 10);
-	regid[5] = '0' + ((code /   10) % 10);
-	regid[6] = '0' + ((code /    1) % 10);
-	return regid;
 }
 
 void Ship::SetShipId(const ShipType::Id &shipId)

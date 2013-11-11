@@ -14,6 +14,7 @@ local Serializer = import("Serializer")
 local Character = import("Character")
 local EquipDef = import("EquipDef")
 local ShipDef = import("ShipDef")
+local Ship = import("Ship")
 local utils = import("utils")
 
 local InfoFace = import("ui/InfoFace")
@@ -318,6 +319,7 @@ local onEnterSystem = function (player)
 					local laserdef = laserdefs[Engine.rand:Integer(1,#laserdefs)]
 
 					ship = Space.SpawnShipNear(shipdef.id, Game.player, 50, 100)
+					ship:SetLabel(Ship.MakeRandomLabel())
 					ship:AddEquip(default_drive)
 					ship:AddEquip(laserdef.id)
 					ship:AddEquip('SHIELD_GENERATOR', math.ceil(risk * 3))
