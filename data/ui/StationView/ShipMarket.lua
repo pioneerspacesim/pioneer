@@ -52,7 +52,7 @@ local function buyShip (num)
 		Comms.Message(l.YOU_NOT_ENOUGH_MONEY)
 		return
 	end
-	player:AddMoney(cost)
+	player:AddMoney(-cost)
 
 	-- remove new ship from on-sale list
 	-- add old ship to on-sale list
