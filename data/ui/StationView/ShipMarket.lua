@@ -71,10 +71,12 @@ local function buyShip (sos)
 
 end
 
+local currentShipOnSale
+
 shipTable.onRowClicked:Connect(function (row)
 	local station = Game.player:GetDockedWith()
-	local sos = station:GetShipsOnSale()[row+1]
-	local def = sos.def
+	currentShipOnSale = station:GetShipsOnSale()[row+1]
+	local def = currentShipOnSale.def
 
 	local forwardAccelEmpty =  def.linearThrust.FORWARD / (-9.81*1000*(def.hullMass+def.fuelTankMass))
 	local forwardAccelFull  =  def.linearThrust.FORWARD / (-9.81*1000*(def.hullMass+def.capacity+def.fuelTankMass))
@@ -82,7 +84,7 @@ shipTable.onRowClicked:Connect(function (row)
 	local reverseAccelFull  = -def.linearThrust.REVERSE / (-9.81*1000*(def.hullMass+def.capacity+def.fuelTankMass))
 
 	local buyButton = ui:Button("Buy Ship"):SetFont("HEADING_LARGE")
-	buyButton.onClick:Connect(function () buyShip(sos) end)
+	buyButton.onClick:Connect(function () buyShip(currentShipOnSale) end)
 
 	shipInfo:SetInnerWidget(
 		ui:VBox():PackEnd({
@@ -94,7 +96,7 @@ shipTable.onRowClicked:Connect(function (row)
 				"Price: "..Format.Money(def.basePrice),
 				"After trade-in: "..Format.Money(def.basePrice - tradeInValue(ShipDef[Game.player.shipId])),
 			}),
-			ModelSpinner.New(ui, def.modelName, sos.skin),
+			ModelSpinner.New(ui, def.modelName, currentShipOnSale.skin),
 			ui:Label("Hyperdrive fitted: "..lcore[def.defaultHyperdrive]):SetFont("SMALL"),
 			ui:Margin(10, "VERTICAL",
 				ui:Grid(2,1)
@@ -124,9 +126,22 @@ local function updateStation (station, shipsOnSale)
 
 	shipTable:ClearRows()
 
+	local seen = false
+
 	for i = 1,#shipsOnSale do
-		local def = shipsOnSale[i].def
+		local sos = shipsOnSale[i]
+		if sos == currentShipOnSale then
+			seen = true
+		end
+		local def = sos.def
 		shipTable:AddRow({def.name, Format.Money(def.basePrice), def.capacity.."t"})
+	end
+
+	if currentShipOnSale and not seen then
+		currentShipOnSale = nil
+		shipInfo:SetInnerWidget(
+			ui:MultiLineText("The ship you were viewing has been sold.")
+		)
 	end
 end
 
@@ -134,6 +149,7 @@ Event.Register("onShipMarketUpdate", updateStation)
 
 local shipMarket = function (args)
 	local station = Game.player:GetDockedWith()
+	currentShipOnSale = nil
 	updateStation(station, station:GetShipsOnSale())
 
 	return
