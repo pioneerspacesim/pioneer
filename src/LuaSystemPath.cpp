@@ -467,12 +467,8 @@ template <> void LuaObject<SystemPath>::PushToLua(const SystemPath &o) {
 	// stack: [SystemPaths]
 
 	// push the system path as a blob to use as a key to look up the actual SystemPath object
-	char key_blob[5 * sizeof(Uint32)];
-	memcpy(key_blob + 0*sizeof(Uint32), &o.sectorX, sizeof(Uint32));
-	memcpy(key_blob + 1*sizeof(Uint32), &o.sectorY, sizeof(Uint32));
-	memcpy(key_blob + 2*sizeof(Uint32), &o.sectorZ, sizeof(Uint32));
-	memcpy(key_blob + 3*sizeof(Uint32), &o.systemIndex, sizeof(Uint32));
-	memcpy(key_blob + 4*sizeof(Uint32), &o.bodyIndex, sizeof(Uint32));
+	char key_blob[SystemPath::SizeAsBlob];
+	o.SerializeToBlob(key_blob);
 
 	lua_pushlstring(l, key_blob, sizeof(key_blob)); // [SystemPaths key]
 	lua_pushvalue(l, -1); // [SystemPaths key key]
