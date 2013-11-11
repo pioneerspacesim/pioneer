@@ -148,7 +148,7 @@ void Sensors::UpdateIFF(Body *b)
 void Sensors::ResetTrails()
 {
 	for (auto it = m_radarContacts.begin(); it != m_radarContacts.end(); ++it)
-		it->trail->Reset();
+		it->trail->Reset(Pi::player->GetFrame());
 }
 
 void Sensors::PopulateStaticContacts()
