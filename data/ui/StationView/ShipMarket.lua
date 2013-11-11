@@ -41,10 +41,9 @@ local function tradeInValue (def)
 	return def.basePrice * 0.5
 end
 
-local function buyShip (num)
+local function buyShip (sos)
 	local player = Game.player
 	local station = player:GetDockedWith()
-	local sos = station:GetShipsOnSale()[num]
 	local def = sos.def
 
 	local cost = def.basePrice - tradeInValue(ShipDef[Game.player.shipId])
@@ -54,7 +53,7 @@ local function buyShip (num)
 	end
 	player:AddMoney(-cost)
 
-	station:ReplaceShipOnSale(num, {
+	station:ReplaceShipOnSale(sos, {
 		def   = ShipDef[player.shipId],
 		skin  = player:GetSkin(),
 		label = player.label,
@@ -83,7 +82,7 @@ shipTable.onRowClicked:Connect(function (row)
 	local reverseAccelFull  = -def.linearThrust.REVERSE / (-9.81*1000*(def.hullMass+def.capacity+def.fuelTankMass))
 
 	local buyButton = ui:Button("Buy Ship"):SetFont("HEADING_LARGE")
-	buyButton.onClick:Connect(function () buyShip(row+1) end)
+	buyButton.onClick:Connect(function () buyShip(sos) end)
 
 	shipInfo:SetInnerWidget(
 		ui:VBox():PackEnd({

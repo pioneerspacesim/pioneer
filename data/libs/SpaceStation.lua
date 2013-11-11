@@ -45,20 +45,40 @@ local function removeShipOnSale (station, num)
 	table.remove(shipsOnSale[station], num)
 end
 
-function SpaceStation:RemoveShipOnSale (num)
-	removeShipOnSale(self, num)
-	Event.Queue("onShipMarketUpdate", self, shipsOnSale[self])
+local function findShipOnSale (station, entry)
+	if not shipsOnSale[station] then shipsOnSale[station] = {} end
+	local num = 0
+	for k,v in pairs(shipsOnSale[station]) do
+		if v == entry then
+			num = k
+			break
+		end
+	end
+	return num
 end
 
-function SpaceStation:ReplaceShipOnSale (num, entry)
-	assert(entry.def)
-	assert(entry.skin)
-	assert(entry.label)
-	shipsOnSale[self][num] = {
-		def   = entry.def,
-		skin  = entry.skin,
-		label = entry.label,
-	}
+function SpaceStation:RemoveShipOnSale (entry)
+	local num = findShipOnSale(self, entry)
+	if num > 0 then
+		removeShipOnSale(self, num)
+		Event.Queue("onShipMarketUpdate", self, shipsOnSale[self])
+	end
+end
+
+function SpaceStation:ReplaceShipOnSale (old, new)
+	assert(new.def)
+	assert(new.skin)
+	assert(new.label)
+	local num = findShipOnSale(self, old)
+	if num <= 0 then
+		self:AddShipOnSale(new)
+	else
+		shipsOnSale[self][num] = {
+			def   = new.def,
+			skin  = new.skin,
+			label = new.label,
+		}
+	end
 	Event.Queue("onShipMarketUpdate", self, shipsOnSale[self])
 end
 
