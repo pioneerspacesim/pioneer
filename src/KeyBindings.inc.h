@@ -69,6 +69,10 @@ BINDING_PAGE_END()
 
 BINDING_PAGE(VIEW)
 
+BINDING_GROUP(Lang::GENERAL_VIEW_CONTROLS)
+KEY_BINDING(viewZoomIn, "BindViewZoomIn", Lang::ZOOM_IN, SDLK_KP_PLUS, SDLK_EQUALS)
+KEY_BINDING(viewZoomOut, "BindViewZoomOut", Lang::ZOOM_OUT, SDLK_KP_MINUS, SDLK_MINUS)
+
 BINDING_GROUP(Lang::INTERNAL_VIEW)
 KEY_BINDING(frontCamera, "BindFrontCamera", Lang::CAMERA_FRONT_VIEW, SDLK_KP_8, SDLK_UP)
 KEY_BINDING(rearCamera, "BindRearCamera", Lang::CAMERA_REAR_VIEW, SDLK_KP_2, SDLK_DOWN)
@@ -84,8 +88,6 @@ KEY_BINDING(cameraRotateDown, "BindCameraRotateDown", Lang::ROTATE_DOWN, SDLK_KP
 KEY_BINDING(cameraRotateUp, "BindCameraRotateUp", Lang::ROTATE_UP, SDLK_KP_8, SDLK_UP)
 KEY_BINDING(cameraRotateLeft, "BindCameraRotateLeft", Lang::ROTATE_LEFT, SDLK_KP_4, SDLK_LEFT)
 KEY_BINDING(cameraRotateRight, "BindCameraRotateRight", Lang::ROTATE_RIGHT, SDLK_KP_6, SDLK_RIGHT)
-KEY_BINDING(cameraZoomIn, "BindCameraZoomIn", Lang::ZOOM_IN, SDLK_KP_PLUS, SDLK_EQUALS)
-KEY_BINDING(cameraZoomOut, "BindCameraZoomOut", Lang::ZOOM_OUT, SDLK_KP_MINUS, SDLK_MINUS)
 KEY_BINDING(resetCamera, "BindResetCamera", Lang::RESET, SDLK_HOME, 0)
 
 BINDING_PAGE_END()

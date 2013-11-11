@@ -873,8 +873,8 @@ void WorldView::Update()
 			if (KeyBindings::cameraRotateDown.IsActive()) cam->RotateDown(frameTime);
 			if (KeyBindings::cameraRotateLeft.IsActive()) cam->RotateLeft(frameTime);
 			if (KeyBindings::cameraRotateRight.IsActive()) cam->RotateRight(frameTime);
-			if (KeyBindings::cameraZoomOut.IsActive()) cam->ZoomEvent(ZOOM_SPEED*frameTime);		// Zoom out
-			if (KeyBindings::cameraZoomIn.IsActive()) cam->ZoomEvent(-ZOOM_SPEED*frameTime);
+			if (KeyBindings::viewZoomOut.IsActive()) cam->ZoomEvent(ZOOM_SPEED*frameTime);		// Zoom out
+			if (KeyBindings::viewZoomIn.IsActive()) cam->ZoomEvent(-ZOOM_SPEED*frameTime);
 			if (KeyBindings::cameraRollLeft.IsActive()) cam->RollLeft(frameTime);
 			if (KeyBindings::cameraRollRight.IsActive()) cam->RollRight(frameTime);
 			if (KeyBindings::resetCamera.IsActive()) cam->Reset();
