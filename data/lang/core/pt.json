@@ -96,7 +96,7 @@
         "description": ""
     },
     "WATER": {
-        "message": "Water",
+        "message": "Água",
         "description": ""
     },
     "HULL_INTEGRITY": {
@@ -148,7 +148,7 @@
         "description": ""
     },
     "HYDROGEN": {
-        "message": "Hydrogen",
+        "message": "Hidrogénio",
         "description": ""
     },
     "REVERSE_ACCEL_EMPTY": {
@@ -844,7 +844,7 @@
         "description": ""
     },
     "RADIOACTIVES": {
-        "message": "Radioactive waste",
+        "message": "Lixo radioactivo",
         "description": ""
     },
     "PLANNED_ECONOMY": {
@@ -1740,7 +1740,7 @@
         "description": ""
     },
     "GO_BACK": {
-        "message": "Go back",
+        "message": "Voltar",
         "description": ""
     },
     "DOCKING": {
@@ -1808,7 +1808,7 @@
         "description": ""
     },
     "MILITARY_FUEL": {
-        "message": "Military fuel",
+        "message": "Combustível militar",
         "description": ""
     },
     "FIRE_LASER": {
