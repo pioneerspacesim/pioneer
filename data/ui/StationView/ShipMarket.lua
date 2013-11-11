@@ -37,14 +37,17 @@ local function icon (manufacturer)
 		or ui:Margin(32)
 end
 
+local function tradeInValue (def)
+	return def.basePrice * 0.5
+end
+
 local function buyShip (num)
 	local player = Game.player
 	local station = player:GetDockedWith()
 	local sos = SpaceStation.shipsOnSale[station][num]
 	local def = sos.def
 
-	local tradeInValue = ShipDef[Game.player.shipId].basePrice * 0.5;
-	local cost = def.basePrice - tradeInValue
+	local cost = def.basePrice - tradeInValue(ShipDef[Game.player.shipId])
 	if player:GetMoney() < cost then
 		Comms.Message(l.YOU_NOT_ENOUGH_MONEY)
 		return
@@ -83,7 +86,10 @@ shipTable.onRowClicked:Connect(function (row)
 				ui:Align("LEFT", ui:Label(def.name):SetFont("HEADING_LARGE")),
 				ui:Expand("HORIZONTAL", ui:Align("RIGHT", icon(def.manufacturer))),
 			}),
-			ui:Label("Price: "..Format.Money(def.basePrice)),
+			ui:HBox():PackEnd({
+				ui:Align("LEFT", ui:Label("Price: "..Format.Money(def.basePrice))),
+				ui:Expand("HORIZONTAL", ui:Align("RIGHT", "After trade-in: "..Format.Money(def.basePrice - tradeInValue(ShipDef[Game.player.shipId])))),
+			}),
 			ModelSpinner.New(ui, def.modelName, sos.skin),
 			ui:Label("Hyperdrive fitted: "..lcore[def.defaultHyperdrive]):SetFont("SMALL"),
 			ui:Margin(10, "VERTICAL",
