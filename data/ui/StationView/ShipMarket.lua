@@ -89,9 +89,9 @@ shipTable.onRowClicked:Connect(function (row)
 				ui:Align("LEFT", ui:Label(def.name):SetFont("HEADING_LARGE")),
 				ui:Expand("HORIZONTAL", ui:Align("RIGHT", icon(def.manufacturer))),
 			}),
-			ui:HBox():PackEnd({
-				ui:Align("LEFT", ui:Label("Price: "..Format.Money(def.basePrice))),
-				ui:Expand("HORIZONTAL", ui:Align("RIGHT", "After trade-in: "..Format.Money(def.basePrice - tradeInValue(ShipDef[Game.player.shipId])))),
+			ui:Grid(2,1):SetRow(0, {
+				"Price: "..Format.Money(def.basePrice),
+				"After trade-in: "..Format.Money(def.basePrice - tradeInValue(ShipDef[Game.player.shipId])),
 			}),
 			ModelSpinner.New(ui, def.modelName, sos.skin),
 			ui:Label("Hyperdrive fitted: "..lcore[def.defaultHyperdrive]):SetFont("SMALL"),
