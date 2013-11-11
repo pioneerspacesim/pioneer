@@ -435,15 +435,6 @@ static int l_sbodypath_attr_body_index(lua_State *l)
 	return 1;
 }
 
-static int l_sbodypath_meta_eq(lua_State *l)
-{
-	SystemPath *a = LuaObject<SystemPath>::CheckFromLua(1);
-	SystemPath *b = LuaObject<SystemPath>::CheckFromLua(2);
-
-	lua_pushboolean(l, *a == *b);
-	return 1;
-}
-
 static int l_sbodypath_meta_tostring(lua_State *l)
 {
 	SystemPath *path = LuaObject<SystemPath>::CheckFromLua(1);
@@ -536,7 +527,6 @@ template <> void LuaObject<SystemPath>::RegisterClass()
 	};
 
 	static const luaL_Reg l_meta[] = {
-		{ "__eq",  l_sbodypath_meta_eq },
 		{ "__tostring", l_sbodypath_meta_tostring },
 		{ 0, 0 }
 	};
