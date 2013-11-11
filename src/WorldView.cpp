@@ -900,7 +900,7 @@ void WorldView::Update()
 				it->trail->SetTransform(trans);
 		} else {
 			for (auto it = Pi::player->GetSensors()->GetContacts().begin(); it != Pi::player->GetSensors()->GetContacts().end(); ++it)
-				it->trail->Reset();
+				it->trail->Reset(Pi::player->GetFrame());
 		}
 
 		if ( m_speedLines.get() && Pi::AreSpeedLinesDisplayed() ) {
