@@ -607,6 +607,10 @@
       "description" : "",
       "message" : "Status"
    },
+   "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
+      "description" : "",
+      "message" : "Thank you for your purchase. Remember to fit equipment and buy fuel before you depart."
+   },
    "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP" : {
       "description" : "",
       "message" : "There is nobody else on board able to fly this ship."

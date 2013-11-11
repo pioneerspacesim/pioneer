@@ -7,11 +7,15 @@ local Game = import("Game")
 local Event = import("Event")
 local Format = import("Format")
 local Lang = import("Lang")
+local Comms = import("Comms")
+local ShipDef = import("ShipDef")
 
 local ModelSpinner = import("UI.Game.ModelSpinner")
 local ModelSkin = import("SceneGraph.ModelSkin")
 
 local ui = Engine.ui
+
+local l = Lang.GetResource("ui-core")
 
 -- XXX equipment strings are in core. this sucks
 local lcore = Lang.GetResource("core")
@@ -33,6 +37,33 @@ local function icon (manufacturer)
 		or ui:Margin(32)
 end
 
+local function buyShip (num)
+	local player = Game.player
+	local station = player:GetDockedWith()
+	local sos = SpaceStation.shipsOnSale[station][num]
+	local def = sos.def
+
+	local tradeInValue = ShipDef[Game.player.shipId].basePrice * 0.5;
+	local cost = def.basePrice - tradeInValue
+	if player:GetMoney() < cost then
+		Comms.Message(l.YOU_NOT_ENOUGH_MONEY)
+		return
+	end
+	player:AddMoney(cost)
+
+	-- remove new ship from on-sale list
+	-- add old ship to on-sale list
+
+	player:SetShipType(def.id)
+	-- set label
+	player:SetSkin(sos.skin)
+	player:AddEquip(def.defaultHyperdrive)
+	player:SetFuelPercent(100)
+
+	Comms.Message(l.THANKS_AND_REMEMBER_TO_BUY_FUEL)
+
+end
+
 shipTable.onRowClicked:Connect(function (row)
 	local station = Game.player:GetDockedWith()
 	local sos = SpaceStation.shipsOnSale[station][row+1]
@@ -42,6 +73,9 @@ shipTable.onRowClicked:Connect(function (row)
 	local forwardAccelFull  =  def.linearThrust.FORWARD / (-9.81*1000*(def.hullMass+def.capacity+def.fuelTankMass))
 	local reverseAccelEmpty = -def.linearThrust.REVERSE / (-9.81*1000*(def.hullMass+def.fuelTankMass))
 	local reverseAccelFull  = -def.linearThrust.REVERSE / (-9.81*1000*(def.hullMass+def.capacity+def.fuelTankMass))
+
+	local buyButton = ui:Button("Buy Ship"):SetFont("HEADING_LARGE")
+	buyButton.onClick:Connect(function () buyShip(row+1) end)
 
 	shipInfo:SetInnerWidget(
 		ui:VBox():PackEnd({
@@ -70,7 +104,7 @@ shipTable.onRowClicked:Connect(function (row)
 							:AddRow({"Weight fully loaded", Format.MassTonnes(def.hullMass+def.capacity+def.fuelTankMass)})
 					})
 			),
-			ui:Align("MIDDLE", ui:Button("Buy Ship"):SetFont("HEADING_LARGE")),
+			ui:Align("MIDDLE", buyButton),
 		})
 	)
 end)
