@@ -16,14 +16,58 @@ local ModelSkin = import("SceneGraph.ModelSkin")
 -- Class: SpaceStation
 --
 
-SpaceStation.shipsOnSale = {}
+local shipsOnSale = {}
+
+function SpaceStation:GetShipsOnSale ()
+	if not shipsOnSale[self] then shipsOnSale[self] = {} end
+	return shipsOnSale[self]
+end
+
+local function addShipOnSale (station, entry)
+	if not shipsOnSale[station] then shipsOnSale[station] = {} end
+	table.insert(shipsOnSale[station], entry)
+end
+
+function SpaceStation:AddShipOnSale (entry)
+	assert(entry.def)
+	assert(entry.skin)
+	assert(entry.label)
+	addShipOnSale(self, {
+		def   = entry.def,
+		skin  = entry.skin,
+		label = entry.label
+	})
+	Event.Queue("onShipMarketUpdate", self, shipsOnSale[self])
+end
+
+local function removeShipOnSale (station, num)
+	if not shipsOnSale[station] then shipsOnSale[station] = {} end
+	table.remove(shipsOnSale[station], num)
+end
+
+function SpaceStation:RemoveShipOnSale (num)
+	removeShipOnSale(self, num)
+	Event.Queue("onShipMarketUpdate", self, shipsOnSale[self])
+end
+
+function SpaceStation:ReplaceShipOnSale (num, entry)
+	assert(entry.def)
+	assert(entry.skin)
+	assert(entry.label)
+	shipsOnSale[self][num] = {
+		def   = entry.def,
+		skin  = entry.skin,
+		label = entry.label,
+	}
+	Event.Queue("onShipMarketUpdate", self, shipsOnSale[self])
+end
 
 local groundShips = utils.build_array(utils.filter(function (k,def) return def.tag == "SHIP" and def.equipSlotCapacity.ATMOSHIELD > 0 end, pairs(ShipDef)))
 local spaceShips  = utils.build_array(utils.filter(function (k,def) return def.tag == "SHIP" end, pairs(ShipDef)))
 
 local function updateShipsOnSale (station)
-	if not SpaceStation.shipsOnSale[station] then SpaceStation.shipsOnSale[station] = {} end
-	local shipsOnSale = SpaceStation.shipsOnSale[station]
+	if not shipsOnSale[station] then shipsOnSale[station] = {} end
+	local shipsOnSale = shipsOnSale[station]
 
 	local toAdd, toRemove = 0, 0
 	if #shipsOnSale == 0 then
@@ -39,17 +83,16 @@ local function updateShipsOnSale (station)
 	if toAdd > 0 then
 		local avail = station.type == "STARPORT_SURFACE" and groundShips or spaceShips
 		for i=1,toAdd do
-			local entry = {
+			addShipOnSale(station, {
 				def   = avail[Engine.rand:Integer(1,#avail)],
 				skin  = ModelSkin.New():SetRandomColors(Engine.rand),
 				label = Ship.MakeRandomLabel(),
-			}
-			table.insert(shipsOnSale, entry)
+			})
 		end
 	end
 
 	if toRemove > 0 then
-		table.remove(shipsOnSale, Engine.rand:Integer(1,#shipsOnSale))
+		removeShipOnSale(station, Engine.rand:Integer(1,#shipsOnSale))
 	end
 
 	Event.Queue("onShipMarketUpdate", station, shipsOnSale)

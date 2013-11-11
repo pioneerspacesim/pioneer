@@ -44,7 +44,7 @@ end
 local function buyShip (num)
 	local player = Game.player
 	local station = player:GetDockedWith()
-	local sos = SpaceStation.shipsOnSale[station][num]
+	local sos = station:GetShipsOnSale()[num]
 	local def = sos.def
 
 	local cost = def.basePrice - tradeInValue(ShipDef[Game.player.shipId])
@@ -54,8 +54,11 @@ local function buyShip (num)
 	end
 	player:AddMoney(-cost)
 
-	-- remove new ship from on-sale list
-	-- add old ship to on-sale list
+	station:ReplaceShipOnSale(num, {
+		def   = ShipDef[player.shipId],
+		skin  = player:GetSkin(),
+		label = player.label,
+	})
 
 	player:SetShipType(def.id)
 	player:SetSkin(sos.skin)
@@ -69,7 +72,7 @@ end
 
 shipTable.onRowClicked:Connect(function (row)
 	local station = Game.player:GetDockedWith()
-	local sos = SpaceStation.shipsOnSale[station][row+1]
+	local sos = station:GetShipsOnSale()[row+1]
 	local def = sos.def
 
 	local forwardAccelEmpty =  def.linearThrust.FORWARD / (-9.81*1000*(def.hullMass+def.fuelTankMass))
@@ -129,7 +132,8 @@ end
 Event.Register("onShipMarketUpdate", updateStation)
 
 local shipMarket = function (args)
-	updateStation(station, SpaceStation.shipsOnSale[Game.player:GetDockedWith()])
+	local station = Game.player:GetDockedWith()
+	updateStation(station, station:GetShipsOnSale())
 
 	return
 		ui:Grid(2,1)
