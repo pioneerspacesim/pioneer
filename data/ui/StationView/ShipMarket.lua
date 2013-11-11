@@ -66,7 +66,9 @@ local function buyShip (num)
 	player:AddEquip(def.defaultHyperdrive)
 	player:SetFuelPercent(100)
 
-	Comms.Message(l.THANKS_AND_REMEMBER_TO_BUY_FUEL)
+	shipInfo:SetInnerWidget(
+		ui:MultiLineText(l.THANKS_AND_REMEMBER_TO_BUY_FUEL)
+	)
 
 end
 
