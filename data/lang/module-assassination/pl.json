@@ -96,7 +96,7 @@
         "description": ""
     },
     "X_WILL_BE_LEAVING": {
-        "message": "{target} będzie opuszczał {spaceport} w systemie {system} ({sectorX}, {sectorY}, {sectorZ}), oddalonym o {dist} lś, punktualnie o {date}. Na statku {shipname} o identyfikatorze {shipregid}.",
+        "message": "{target} będzie opuszczał {spaceport} w systemie {system} ({sectorX},{sectorY},{sectorZ}), oddalonym o {dist}lś, punktualnie o {date}. Na statku {shipname} o identyfikatorze {shipregid}.",
         "description": ""
     },
     "LY": {
