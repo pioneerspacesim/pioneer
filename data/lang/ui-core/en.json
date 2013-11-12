@@ -399,6 +399,10 @@
       "description" : "",
       "message" : "Multisampling"
    },
+   "MURDER" : {
+      "description" : "",
+      "message" : "Murder"
+   },
    "MUSIC" : {
       "description" : "",
       "message" : "Music:"
@@ -494,6 +498,10 @@
    "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME" : {
       "description" : "",
       "message" : "Pilot seat is now occupied by {name}"
+   },
+   "PIRACY" : {
+      "description" : "",
+      "message" : "Piracy"
    },
    "PLANET_DETAIL_DISTANCE" : {
       "description" : "",
@@ -627,9 +635,17 @@
       "description" : "",
       "message" : "Total: "
    },
+   "TRADING_ILLEGAL_GOODS" : {
+      "description" : "",
+      "message" : "Trading illegal goods"
+   },
    "TYPE" : {
       "description" : "",
       "message" : "Type"
+   },
+   "UNLAWFUL_WEAPONS_DISCHARGE" : {
+      "description" : "",
+      "message" : "Unlawful weapons discharge"
    },
    "UP_ACCEL" : {
       "description" : "",
