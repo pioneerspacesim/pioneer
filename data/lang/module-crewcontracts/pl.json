@@ -88,7 +88,7 @@
         "description": ""
     },
     "POTENTIAL_CREW_MEMBERS": {
-        "message": "Potencjalni członkowie załogi, zarejestrowani na stacji {station}, jako osoby poszukujące zatrudnienia:",
+        "message": "Potencjalni członkowie załogi, zarejestrowani jako poszukujący zatrudnienia na stacji {station}:",
         "description": ""
     },
     "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME": {
