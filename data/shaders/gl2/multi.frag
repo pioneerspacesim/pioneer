@@ -83,7 +83,7 @@ void main(void)
 		float heatingAmount = 0.5; // 0.0 to 1.0 used for `u` component of heatGradient texture
 		vec3 heatingNormal = vec3(1.0, 0.0, 0.0); // normalised
 		float heatDot = heatingAmount * dot(heatingNormal, normal);
-		vec4 heatColour = texture2D(heatGradient, vec2(0.5,heatDot)); //heat gradient blend
+		vec4 heatColour = texture2D(heatGradient, vec2(heatDot, 0.5)); //heat gradient blend
 		gl_FragColor = color * light + specular + heatColour;
 	#else
 		gl_FragColor = color * light + specular;
