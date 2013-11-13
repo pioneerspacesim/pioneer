@@ -68,6 +68,7 @@ public:
 	Texture *texture2;
 	Texture *texture3;
 	Texture *texture4;
+	Texture *heatGradient;
 
 	Color diffuse;
 	Color specular;

@@ -36,6 +36,8 @@ MultiProgram::MultiProgram(const MaterialDescriptor &desc, int lights)
 		ss << "#define MAP_EMISSIVE\n";
 	if (desc.usePatterns)
 		ss << "#define MAP_COLOR\n";
+	//if (desc.quality & USE_HEAT_GRADIENT)
+		ss << "#define HEAT_COLOURING\n";
 
 	m_name = "multi";
 	m_defines = ss.str();
@@ -81,6 +83,8 @@ void MultiMaterial::Apply()
 	p->texture3.Set(this->texture3, 3);
 	p->texture4.Set(this->texture4, 4);
 
+	p->heatGradient.Set(this->heatGradient, 5);
+
 	glPushAttrib(GL_ENABLE_BIT);
 	if (this->twoSided)
 		glDisable(GL_CULL_FACE);
@@ -111,6 +115,10 @@ void MultiMaterial::Unapply()
 {
 	glPopAttrib();
 	// Might not be necessary to unbind textures, but let's not old graphics code (eg, old-UI)
+	if (heatGradient) {
+		static_cast<TextureGL*>(heatGradient)->Unbind();
+		glActiveTexture(GL_TEXTURE4);
+	}
 	if (texture4) {
 		static_cast<TextureGL*>(texture4)->Unbind();
 		glActiveTexture(GL_TEXTURE3);

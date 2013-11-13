@@ -6,20 +6,24 @@ uniform sampler2D texture3; //pattern
 uniform sampler2D texture4; //color
 varying vec2 texCoord0;
 #endif
+
 #ifdef VERTEXCOLOR
 varying vec4 vertexColor;
 #endif
 #if (NUM_LIGHTS > 0)
 varying vec3 eyePos;
 varying vec3 normal;
-#endif
+#ifdef HEAT_COLOURING
+uniform sampler2D heatGradient;
+#endif // HEAT_COLOURING
+#endif // (NUM_LIGHTS > 0)
 
 uniform Scene scene;
 uniform Material material;
 
 #if (NUM_LIGHTS > 0)
 //ambient, diffuse, specular
-//would be a good idead to make specular optional
+//would be a good idea to make specular optional
 void ads(in int lightNum, in vec3 pos, in vec3 n, inout vec4 light, inout vec4 specular)
 {
 	vec3 s = normalize(vec3(gl_LightSource[lightNum].position)); //directional light
@@ -75,7 +79,15 @@ void main(void)
 #endif //NUM_LIGHTS
 
 #if (NUM_LIGHTS > 0)
-	gl_FragColor = color * light + specular;
+	#ifdef HEAT_COLOURING
+		float heatingAmount = 0.5; // 0.0 to 1.0 used for `u` component of heatGradient texture
+		vec3 heatingNormal = vec3(1.0, 0.0, 0.0); // normalised
+		float heatDot = heatingAmount * dot(heatingNormal, normal);
+		vec4 heatColour = texture2D(heatGradient, vec2(0.5,heatDot)); //heat gradient blend
+		gl_FragColor = color * light + specular + heatColour;
+	#else
+		gl_FragColor = color * light + specular;
+	#endif // HEAT_COLOURING
 #else
 	gl_FragColor = color;
 #endif
