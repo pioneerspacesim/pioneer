@@ -17,7 +17,6 @@
 #include "GalacticView.h"
 #include "SystemView.h"
 #include "SystemInfoView.h"
-#include "SpaceStationView.h"
 #include "UIView.h"
 #include "LuaEvent.h"
 #include "ObjectViewerView.h"

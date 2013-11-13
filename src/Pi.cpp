@@ -16,7 +16,6 @@
 #include "GeoSphere.h"
 #include "Intro.h"
 #include "Lang.h"
-#include "LuaChatForm.h"
 #include "LuaComms.h"
 #include "LuaConsole.h"
 #include "LuaConstants.h"
@@ -55,7 +54,6 @@
 #include "SoundMusic.h"
 #include "Space.h"
 #include "SpaceStation.h"
-#include "SpaceStationView.h"
 #include "Star.h"
 #include "StringF.h"
 #include "SystemInfoView.h"
@@ -177,8 +175,6 @@ static void LuaInit()
 	LuaObject<SystemBody>::RegisterClass();
 	LuaObject<Random>::RegisterClass();
 	LuaObject<Faction>::RegisterClass();
-
-	LuaObject<LuaChatForm>::RegisterClass();
 
 	Pi::luaSerializer = new LuaSerializer();
 	Pi::luaTimer = new LuaTimer();

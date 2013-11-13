@@ -64,7 +64,6 @@
 #include "SmartPtr.h"
 #include "Space.h"
 #include "SpaceStation.h"
-#include "SpaceStationView.h"
 #include "Star.h"
 #include "SystemInfoView.h"
 #include "SystemView.h"

@@ -41,14 +41,6 @@ void SpaceStation::Save(Serializer::Writer &wr, Space *space)
 	for (int i=0; i<Equip::TYPE_MAX; i++) {
 		wr.Int32(int(m_equipmentStock[i]));
 	}
-	// save shipyard
-	wr.Int32(m_shipsOnSale.size());
-	for (std::vector<ShipOnSale>::iterator i = m_shipsOnSale.begin();
-			i != m_shipsOnSale.end(); ++i) {
-		wr.String((*i).id);
-		wr.String((*i).regId);
-		(*i).skin.Save(wr);
-	}
 	wr.Int32(m_shipDocking.size());
 	for (Uint32 i=0; i<m_shipDocking.size(); i++) {
 		wr.Int32(space->GetIndexForBody(m_shipDocking[i].ship));
@@ -69,8 +61,6 @@ void SpaceStation::Save(Serializer::Writer &wr, Space *space)
 		}
 	}
 
-	wr.Bool(m_bbCreated);
-	wr.Double(m_lastUpdatedShipyard);
 	wr.Int32(space->GetIndexForSystemBody(m_sbody));
 	wr.Int32(m_numPoliceDocked);
 
@@ -91,16 +81,6 @@ void SpaceStation::Load(Serializer::Reader &rd, Space *space)
 	}
 	for (int i=0; i<num; i++) {
 		m_equipmentStock[i] = static_cast<Equip::Type>(rd.Int32());
-	}
-	// load shipyard
-	const Uint32 numShipsForSale = rd.Int32();
-	for (Uint32 i=0; i<numShipsForSale; i++) {
-		ShipType::Id id(rd.String());
-		std::string regId(rd.String());
-		SceneGraph::ModelSkin skin;
-		skin.Load(rd);
-		ShipOnSale sos(id, regId, skin);
-		m_shipsOnSale.push_back(sos);
 	}
 	const Uint32 numShipDocking = rd.Int32();
 	m_shipDocking.reserve(numShipDocking);
@@ -130,8 +110,6 @@ void SpaceStation::Load(Serializer::Reader &rd, Space *space)
 		}
 	}
 
-	m_bbCreated = rd.Bool();
-	m_lastUpdatedShipyard = rd.Double();
 	m_sbody = space->GetSystemBodyByIndex(rd.Int32());
 	m_numPoliceDocked = rd.Int32();
 
@@ -154,10 +132,7 @@ void SpaceStation::PostLoadFixup(Space *space)
 SpaceStation::SpaceStation(const SystemBody *sbody): ModelBody()
 {
 	m_sbody = sbody;
-	m_lastUpdatedShipyard = 0;
 	m_numPoliceDocked = Pi::rng.Int32(3,10);
-	m_bbCreated = false;
-	m_bbShuffled = false;
 
 	m_oldAngDisplacement = 0.0;
 
@@ -209,64 +184,7 @@ void SpaceStation::InitStation()
 
 SpaceStation::~SpaceStation()
 {
-	onBulletinBoardDeleted.emit();
 	if (m_adjacentCity) delete m_adjacentCity;
-}
-
-void SpaceStation::ReplaceShipOnSale(int idx, const ShipOnSale &with)
-{
-	m_shipsOnSale[idx] = with;
-	onShipsForSaleChanged.emit();
-}
-
-// Fill the list of starships on sale. Ships that
-// can't fit atmo shields are only available in
-// atmosphereless environments
-void SpaceStation::UpdateShipyard()
-{
-	bool atmospheric = false;
-	if (IsGroundStation()) {
-		Body *planet = GetFrame()->GetBody();
-		atmospheric = planet->GetSystemBody()->HasAtmosphere();
-	}
-
-	const std::vector<ShipType::Id> &ships = atmospheric ? ShipType::playable_atmospheric_ships : ShipType::player_ships;
-
-	unsigned int toAdd = 0, toRemove = 0;
-
-	if (m_shipsOnSale.size() == 0)
-		// fill shipyard
-		toAdd = Pi::rng.Int32(20);
-
-	else if (Pi::rng.Int32(2))
-		// add one
-		toAdd = 1;
-
-	else if(m_shipsOnSale.size() > 0)
-		// remove one
-		toRemove = 1;
-
-	else
-		// nothing happens
-		return;
-
-	for (; toAdd > 0; toAdd--) {
-		ShipType::Id id = ships[Pi::rng.Int32(ships.size())];
-		std::string regId = "UNLABELED_SHIP";
-		SceneGraph::ModelSkin skin;
-		skin.SetRandomColors(Pi::rng);
-		skin.SetPattern(Pi::rng.Int32(0, Pi::FindModel(id)->GetNumPatterns()));
-		skin.SetLabel(regId);
-		ShipOnSale sos(id, regId, skin);
-		m_shipsOnSale.push_back(sos);
-	}
-
-	for (; toRemove > 0; toRemove--) {
-		int pos = Pi::rng.Int32(m_shipsOnSale.size());
-		m_shipsOnSale.erase(m_shipsOnSale.begin() + pos);
-	}
-
-	onShipsForSaleChanged.emit();
 }
 
 void SpaceStation::NotifyRemoved(const Body* const removedBody)
@@ -571,26 +489,6 @@ void SpaceStation::PositionDockedShip(Ship *ship, int port) const
 
 void SpaceStation::StaticUpdate(const float timeStep)
 {
-	bool update = false;
-
-	// if there's no BB and there are ships here, make one
-	if (!m_bbCreated && NumShipsDocked() > 0) {
-		CreateBB();
-		update = true;
-	}
-
-	// if there is and it hasn't had an update for a while, update it
-	else if (Pi::game->GetTime() > m_lastUpdatedShipyard) {
-		//LuaEvent::Queue("onUpdateBB", this); XXX
-		update = true;
-	}
-
-	if (update) {
-		UpdateShipyard();
-		// update again in an hour or two
-		m_lastUpdatedShipyard = Pi::game->GetTime() + 3600.0 + 3600.0*Pi::rng.Double();
-	}
-
 	DoLawAndOrder(timeStep);
 	DockingUpdate(timeStep);
 	m_navLights->Update(timeStep);
@@ -723,76 +621,6 @@ bool SpaceStation::AllocateStaticSlot(int& slot)
 	}
 
 	return false;
-}
-
-void SpaceStation::CreateBB()
-{
-	if (m_bbCreated) return;
-
-	// fill the shipyard equipment shop with all kinds of things
-	// XXX should probably be moved out to a MarketAgent/CommodityWidget type
-	//     thing, or just lua
-	for (int i=1; i<Equip::TYPE_MAX; i++) {
-		if (Equip::types[i].slot == Equip::SLOT_CARGO) {
-			m_equipmentStock[i] = Pi::rng.Int32(0,100) * Pi::rng.Int32(1,100);
-		} else {
-			m_equipmentStock[i] = Pi::rng.Int32(0,100);
-		}
-	}
-
-	//LuaEvent::Queue("onCreateBB", this); XXX
-	m_bbCreated = true;
-}
-
-static int next_ref = 0;
-int SpaceStation::AddBBAdvert(std::string description, AdvertFormBuilder builder)
-{
-	int ref = ++next_ref;
-	assert(ref);
-
-	BBAdvert ad;
-	ad.ref = ref;
-	ad.description = description;
-	ad.builder = builder;
-
-	m_bbAdverts.push_back(ad);
-
-	onBulletinBoardChanged.emit();
-
-	return ref;
-}
-
-const BBAdvert *SpaceStation::GetBBAdvert(int ref)
-{
-	for (std::vector<BBAdvert>::const_iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); ++i)
-		if (i->ref == ref)
-			return &(*i);
-	return 0;
-}
-
-bool SpaceStation::RemoveBBAdvert(int ref)
-{
-	for (std::vector<BBAdvert>::iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); ++i)
-		if (i->ref == ref) {
-			BBAdvert ad = (*i);
-			m_bbAdverts.erase(i);
-			onBulletinBoardAdvertDeleted.emit(ad);
-			return true;
-		}
-	return false;
-}
-
-const std::list<const BBAdvert*> SpaceStation::GetBBAdverts()
-{
-	if (!m_bbShuffled) {
-		std::random_shuffle(m_bbAdverts.begin(), m_bbAdverts.end());
-		m_bbShuffled = true;
-	}
-
-	std::list<const BBAdvert*> ads;
-	for (std::vector<BBAdvert>::const_iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); ++i)
-		ads.push_back(&(*i));
-	return ads;
 }
 
 vector3d SpaceStation::GetTargetIndicatorPosition(const Frame *relTo) const

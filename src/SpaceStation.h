@@ -19,32 +19,12 @@
 
 class CityOnPlanet;
 class CollMeshSet;
-class FormController;
 class Planet;
 class Ship;
 class SpaceStation;
-class StationAdvertForm;
 class SystemBody;
-struct BBAdvert;
-struct Mission;
 namespace Graphics { class Renderer; }
 namespace SceneGraph { class Animation; }
-
-typedef StationAdvertForm* (*AdvertFormBuilder)(FormController *controller, SpaceStation *station, const BBAdvert &ad);
-
-struct BBAdvert {
-	int               ref;
-	std::string       description;
-	AdvertFormBuilder builder;
-};
-
-struct ShipOnSale {
-	ShipOnSale(const ShipType::Id &_id, const std::string &_regId, const SceneGraph::ModelSkin &_skin) :
-		id(_id), regId(_regId), skin(_skin) {}
-	ShipType::Id          id;
-	std::string           regId;
-	SceneGraph::ModelSkin skin;
-};
 
 class SpaceStation: public ModelBody, public MarketAgent {
 public:
@@ -70,8 +50,6 @@ public:
 	bool CanSell(Equip::Type t, bool verbose) const;
 	bool DoesSell(Equip::Type t) const;
 	virtual const SystemBody *GetSystemBody() const { return m_sbody; }
-	void ReplaceShipOnSale(int idx, const ShipOnSale &with);
-	const std::vector<ShipOnSale> &GetShipsOnSale() const { return m_shipsOnSale; }
 	virtual void PostLoadFixup(Space *space);
 	virtual void NotifyRemoved(const Body* const removedBody);
 
@@ -90,18 +68,7 @@ public:
 	const SpaceStationType *GetStationType() const { return m_type; }
 	bool IsGroundStation() const;
 
-	sigc::signal<void> onShipsForSaleChanged;
-	sigc::signal<void, BBAdvert&> onBulletinBoardAdvertDeleted;
-	sigc::signal<void> onBulletinBoardChanged;
-	sigc::signal<void> onBulletinBoardDeleted;
-
 	bool AllocateStaticSlot(int& slot);
-
-	void CreateBB();
-	int AddBBAdvert(std::string description, AdvertFormBuilder builder);
-	const BBAdvert *GetBBAdvert(int ref);
-	bool RemoveBBAdvert(int ref);
-	const std::list<const BBAdvert*> GetBBAdverts();
 
 	// use docking bay position, if player has been granted permission
 	virtual vector3d GetTargetIndicatorPosition(const Frame *relTo) const;
@@ -151,20 +118,14 @@ private:
 	double m_oldAngDisplacement;
 
 	void InitStation();
-	void UpdateShipyard();
 	const SpaceStationType *m_type;
 	const SystemBody *m_sbody;
 	int m_equipmentStock[Equip::TYPE_MAX];
-	std::vector<ShipOnSale> m_shipsOnSale;
-	double m_lastUpdatedShipyard;
 	CityOnPlanet *m_adjacentCity;
 	double m_distFromPlanet;
 	int m_numPoliceDocked;
 	enum { NUM_STATIC_SLOTS = 4 };
 	bool m_staticSlot[NUM_STATIC_SLOTS];
-
-	std::vector<BBAdvert> m_bbAdverts;
-	bool m_bbCreated, m_bbShuffled;
 
 	SceneGraph::Animation *m_doorAnimation;
 	double m_doorAnimationStep;

@@ -29,7 +29,6 @@ class SectorView;
 class Ship;
 class ShipCpanel;
 class SpaceStation;
-class SpaceStationView;
 class StarSystem;
 class SystemInfoView;
 class SystemView;

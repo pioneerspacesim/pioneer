@@ -12,7 +12,6 @@
 #include "ShipCpanel.h"
 #include "Sound.h"
 #include "SpaceStation.h"
-#include "SpaceStationView.h"
 #include "WorldView.h"
 #include "StringF.h"
 

@@ -4,7 +4,6 @@
 #include "LuaObject.h"
 #include "LuaUtils.h"
 #include "SpaceStation.h"
-#include "LuaChatForm.h"
 #include "LuaConstants.h"
 
 /*
