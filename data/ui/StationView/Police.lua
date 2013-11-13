@@ -48,7 +48,7 @@ local police = function (tab)
 
 	local function noBusiness ()
 		actionBox:Clear()
-		actionBox:PackEnd("We have no business with you at the moment.")
+		actionBox:PackEnd(l.WE_HAVE_NO_BUSINESS_WITH_YOU)
 	end
 
 	if fine == 0 then

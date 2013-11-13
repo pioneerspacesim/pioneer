@@ -31,6 +31,10 @@
       "description" : "",
       "message" : "Backward acceleration"
    },
+   "BULLETIN_BOARD" : {
+      "description" : "",
+      "message" : "Bulletin Board"
+   },
    "CABINS" : {
       "description" : "",
       "message" : "Cabins"
@@ -38,6 +42,10 @@
    "CANCEL" : {
       "description" : "",
       "message" : "Cancel"
+   },
+   "CAPACITY" : {
+      "description" : "",
+      "message" : "Capacity"
    },
    "CAPACITY_USED" : {
       "description" : "",
@@ -70,6 +78,10 @@
    "CITY_DETAIL_LEVEL" : {
       "description" : "",
       "message" : "City detail level"
+   },
+   "CLEAN" : {
+      "description" : "",
+      "message" : "Clean"
    },
    "CLEAR" : {
       "description" : "",
@@ -215,6 +227,10 @@
       "description" : "",
       "message" : "Forward acceleration"
    },
+   "FORWARD_ACCEL_EMPTY" : {
+      "description" : "",
+      "message" : "Forward accel (empty)"
+   },
    "FRACTAL_DETAIL" : {
       "description" : "",
       "message" : "Fractal detail"
@@ -255,6 +271,10 @@
       "description" : "",
       "message" : "Good riddance to you, too."
    },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Hang up."
+   },
    "HARMLESS" : {
       "description" : "",
       "message" : "Harmless"
@@ -282,6 +302,10 @@
    "HYPERDRIVE" : {
       "description" : "",
       "message" : "Hyperdrive"
+   },
+   "HYPERDRIVE_FITTED" : {
+      "description" : "",
+      "message" : "Hyperdrive fitted:"
    },
    "HYPERSPACE_RANGE" : {
       "description" : "",
@@ -323,6 +347,10 @@
       "description" : "",
       "message" : "Language (restart game to apply)"
    },
+   "LEGAL_STATUS" : {
+      "description" : "",
+      "message" : "Legal status"
+   },
    "LOAD" : {
       "description" : "",
       "message" : "Load"
@@ -354,6 +382,10 @@
    "MALE" : {
       "description" : "",
       "message" : "Male"
+   },
+   "MASS" : {
+      "description" : "",
+      "message" : "Mass"
    },
    "MASTER" : {
       "description" : "",
@@ -523,6 +555,10 @@
       "description" : "",
       "message" : "Press a key or controller button"
    },
+   "PRICE" : {
+      "description" : "",
+      "message" : "Price"
+   },
    "QUALIFICATION_SCORES" : {
       "description" : "",
       "message" : "Qualification scores"
@@ -555,6 +591,10 @@
       "description" : "",
       "message" : "Return to menu"
    },
+   "REVERSE_ACCEL_EMPTY" : {
+      "description" : "",
+      "message" : "Reverse accel (empty)"
+   },
    "REWARD" : {
       "description" : "",
       "message" : "Reward"
@@ -582,6 +622,10 @@
    "SENSORS" : {
       "description" : "",
       "message" : "Sensors:"
+   },
+   "SHIP" : {
+      "description" : "",
+      "message" : "Ship"
    },
    "SHIP_INFORMATION" : {
       "description" : "",
@@ -686,6 +730,10 @@
    "WE_ARE_IN_HYPERSPACE_COMMANDER" : {
       "description" : "",
       "message" : "We are in hyperspace, Commander."
+   },
+   "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
+      "description" : "",
+      "message" : "We have no business with you at the moment."
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",

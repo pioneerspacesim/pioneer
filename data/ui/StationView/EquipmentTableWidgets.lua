@@ -7,6 +7,8 @@ local Game = import("Game")
 local EquipDef = import("EquipDef")
 local utils = import("utils")
 
+local l = Lang.GetResource("ui-core")
+
 -- XXX equipment strings are in core. this sucks
 local lcore = Lang.GetResource("core")
 
@@ -48,16 +50,16 @@ local equipIcon = {
 
 local stationColumnHeading = {
 	icon  = "",
-	name  = "Name",
-	price = "Price",
+	name  = l.NAME,
+	price = l.PRICE,
 	stock = "In stock",
-	mass  = "Mass",
+	mass  = l.MASS,
 }
 local shipColumnHeading = {
 	icon      = "",
-	name      = "Name",
+	name      = l.NAME,
 	amount    = "Amount",
-	mass      = "Mass",
+	mass      = l.MASS,
 	massTotal = "Total mass",
 }
 

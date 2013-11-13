@@ -5,9 +5,12 @@ local Game = import("Game")
 local Format = import("Format")
 local Engine = import("Engine")
 local ShipDef = import("ShipDef")
+local Lang = import("Lang")
 
 local TabGroup = import("ui/TabGroup")
 local InfoGauge = import("ui/InfoGauge")
+
+local l = Lang.GetResource("ui-core")
 
 local lobby           = import("StationView/Lobby")
 local bulletinBoard   = import("StationView/BulletinBoard")
@@ -29,7 +32,7 @@ ui.templates.StationView = function (args)
 	tabGroup = TabGroup.New()
 
 	tabGroup:AddTab({ id = "lobby",           title = "Lobby",            icon = "Info",      template = lobby           })
-	tabGroup:AddTab({ id = "bulletinBoard",   title = "Bulletin Board",   icon = "Clipboard", template = bulletinBoard   })
+	tabGroup:AddTab({ id = "bulletinBoard",   title = l.BULLETIN_BOARD,   icon = "Clipboard", template = bulletinBoard   })
 	tabGroup:AddTab({ id = "commodityMarket", title = "Commodity Market", icon = "Cart",      template = commodityMarket })
 	tabGroup:AddTab({ id = "shipMarket",      title = "Ship Market",      icon = "Car",       template = shipMarket      })
 	tabGroup:AddTab({ id = "equipmentMarket", title = "Equipment Market", icon = "Radio",     template = equipmentMarket })
@@ -42,11 +45,11 @@ ui.templates.StationView = function (args)
 		ui:Margin(5, "VERTICAL",
 			ui:Grid({15,30,30,15},1):SetRow(0, {
 				ui:Margin(10, "HORIZONTAL",
-					"Cash: "..Format.Money(player:GetMoney())
+					l.CASH..": "..Format.Money(player:GetMoney())
 				),
 				ui:Margin(10, "HORIZONTAL",
 					ui:HBox():PackEnd({
-						"Cargo: ",
+						l.CARGO..": ",
 						InfoGauge.New({
 							formatter = function (v)
 								return string.format("%d/%dt", player.usedCargo, ShipDef[player.shipId].capacity-player.usedCapacity+player.usedCargo)
@@ -56,7 +59,7 @@ ui.templates.StationView = function (args)
 				),
 				ui:Margin(10, "HORIZONTAL",
 					ui:HBox():PackEnd({
-						"Cabins: ",
+						l.CABINS..": ",
 						InfoGauge.New({
 							formatter = function (v)
 								local occupied   = player:GetEquipCount("CABIN", "PASSENGER_CABIN")
@@ -68,7 +71,7 @@ ui.templates.StationView = function (args)
 				),
 				ui:Margin(10, "HORIZONTAL",
 					ui:Align("RIGHT",
-						"Legal status: Clean"
+						l.LEGAL_STATUS..": "..l.CLEAN
 					)
 				),
 			})

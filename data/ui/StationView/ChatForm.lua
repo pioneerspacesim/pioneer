@@ -2,12 +2,15 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
+local Lang = import("Lang")
 
 local Face = import("UI.Game.Face")
 
 local SmallLabeledButton = import("ui/SmallLabeledButton")
 
 local ui = Engine.ui
+
+local l = Lang.GetResource("ui-core")
 
 local ChatForm = {}
 
@@ -72,7 +75,7 @@ function ChatForm:BuildWidget ()
 		box:PackEnd(optionBox)
 	end
 
-	local hangupButton = SmallLabeledButton.New("Hang up")
+	local hangupButton = SmallLabeledButton.New(l.HANG_UP)
 	hangupButton.button.onClick:Connect(closeForm)
 
 	return

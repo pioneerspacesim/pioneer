@@ -24,7 +24,7 @@ local shipTable =
 	ui:Table()
 		:SetRowSpacing(5)
 		:SetColumnSpacing(10)
-		:SetHeadingRow({"Ship","Price","Capacity"})
+		:SetHeadingRow({l.SHIP, l.PRICE, l.CAPACITY})
 		:SetHeadingFont("LARGE")
 		:SetMouseEnabled(true)
 
@@ -93,26 +93,26 @@ shipTable.onRowClicked:Connect(function (row)
 				ui:Expand("HORIZONTAL", ui:Align("RIGHT", icon(def.manufacturer))),
 			}),
 			ui:Grid(2,1):SetRow(0, {
-				"Price: "..Format.Money(def.basePrice),
+				l.PRICE..": "..Format.Money(def.basePrice),
 				"After trade-in: "..Format.Money(def.basePrice - tradeInValue(ShipDef[Game.player.shipId])),
 			}),
 			ModelSpinner.New(ui, def.modelName, currentShipOnSale.skin),
-			ui:Label("Hyperdrive fitted: "..lcore[def.defaultHyperdrive]):SetFont("SMALL"),
+			ui:Label(l.HYPERDRIVE_FITTED.." "..lcore[def.defaultHyperdrive]):SetFont("SMALL"),
 			ui:Margin(10, "VERTICAL",
 				ui:Grid(2,1)
 					:SetFont("SMALL")
 					:SetRow(0, {
 						ui:Table()
 							:SetColumnSpacing(5)
-							:AddRow({"Forward accel (empty)", Format.AccelG(forwardAccelEmpty)})
+							:AddRow({l.FORWARD_ACCEL_EMPTY, Format.AccelG(forwardAccelEmpty)})
 							:AddRow({"Forward accel (full)",  Format.AccelG(forwardAccelFull)})
-							:AddRow({"Reverse accel (empty)", Format.AccelG(reverseAccelEmpty)})
+							:AddRow({l.REVERSE_ACCEL_EMPTY, Format.AccelG(reverseAccelEmpty)})
 							:AddRow({"Reverse accel (full)",  Format.AccelG(reverseAccelFull)}),
 						ui:Table()
 							:SetColumnSpacing(5)
-							:AddRow({"Weight empty",        Format.MassTonnes(def.hullMass)})
-							:AddRow({"Capacity",            Format.MassTonnes(def.capacity)})
-							:AddRow({"Fuel weight",         Format.MassTonnes(def.fuelTankMass)})
+							:AddRow({l.WEIGHT_EMPTY,        Format.MassTonnes(def.hullMass)})
+							:AddRow({l.CAPACITY,            Format.MassTonnes(def.capacity)})
+							:AddRow({l.FUEL_WEIGHT,         Format.MassTonnes(def.fuelTankMass)})
 							:AddRow({"Weight fully loaded", Format.MassTonnes(def.hullMass+def.capacity+def.fuelTankMass)})
 					})
 			),
