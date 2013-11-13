@@ -29,6 +29,7 @@ function TabGroup.New ()
 	self.title     = ui:Label(""):SetFont("HEADING_XLARGE")
 	self.titleArea = ui:Expand("HORIZONTAL"):SetInnerWidget(ui:Align("RIGHT"):SetInnerWidget(self.title))
 	self.body      = ui:Expand()
+	self.footer    = ui:Margin(0)
 
 	self.widget =
 		ui:VBox():PackEnd({
@@ -37,9 +38,10 @@ function TabGroup.New ()
 			),
 			ui:Margin(5):SetInnerWidget(
 				ui:Background():SetInnerWidget(
-					ui:Expand():SetInnerWidget(
-						self.body
-					)
+					ui:VBox():PackEnd({
+						self.body,
+						self.footer
+					})
 				)
 			)
 		})
@@ -163,6 +165,10 @@ function TabGroup.Refresh (self)
 	else
 		self:SwitchToNum(self.current)
 	end
+end
+
+function TabGroup.SetFooter (self, footer)
+	self.footer:SetInnerWidget(footer)
 end
 
 return TabGroup
