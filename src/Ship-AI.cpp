@@ -326,7 +326,8 @@ vector3d Ship::AIGetLeadDir(const Body *target, const vector3d& targaccel, int g
 	const double projspeed = Equip::lasers[laser].speed;
 
 	vector3d leadpos;
-	if(0.0 == projspeed) {
+	// avoid a divide by zero
+	if( is_zero_exact(projspeed) ) {
 		// first attempt
 		double projtime = targpos.Length() / projspeed;
 		leadpos = targpos + targvel*projtime + 0.5*targaccel*projtime*projtime;
