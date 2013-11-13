@@ -120,7 +120,7 @@ public:
 	// (for example, to be used for hashing)
 	// see, LuaObject<SystemPath>::PushToLua in LuaSystemPath.cpp
 	static_assert(sizeof(Sint32) == sizeof(Uint32), "something crazy is going on!");
-	static constexpr const size_t SizeAsBlob = 5*sizeof(Uint32);
+	static const size_t SizeAsBlob = 5*sizeof(Uint32);
 	void SerializeToBlob(char *blob) const {
 		// could just memcpy(blob, this, sizeof(SystemPath))
 		// but that might include packing and/or vtable pointer
