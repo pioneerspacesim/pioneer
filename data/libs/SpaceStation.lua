@@ -10,11 +10,110 @@ local Engine = import("Engine")
 local Timer = import("Timer")
 local Game = import("Game")
 local Ship = import("Ship")
+local EquipDef = import("EquipDef")
 local ModelSkin = import("SceneGraph.ModelSkin")
 
 --
 -- Class: SpaceStation
 --
+
+local equipmentStock = {}
+
+local function updateEquipmentStock (station)
+	if equipmentStock[station] then return end
+	equipmentStock[station] = {}
+
+	for e,def in pairs(EquipDef) do
+		if def.slot == "CARGO" then
+			equipmentStock[station][e] = Engine.rand:Integer(0,100) * Engine.rand:Integer(1,100)
+        else
+			equipmentStock[station][e] = Engine.rand:Integer(0,100)
+		end
+	end
+end
+
+--
+-- Method: GetEquipmentPrice
+--
+-- Get the price of an equipment or cargo item traded at this station
+--
+-- > price = station:GetEquipmentPrice(equip)
+--
+-- Parameters:
+--
+--   equip - the <Constants.EquipType> string for the equipment or cargo item
+--
+-- Returns:
+--
+--   price - the price of the equipment or cargo item
+--
+-- Availability:
+--
+--   alpha 10
+--
+-- Status:
+--
+--   experimental
+--
+function SpaceStation:GetEquipmentPrice (e)
+	local def = EquipDef[e]
+	local mul = def.slot == "CARGO" and ((100 + Game.system:GetCommodityBasePriceAlterations()[e]) / 100) or 1
+	return mul * EquipDef[e].basePrice
+end
+
+--
+-- Method: GetEquipmentStock
+--
+-- Get the quantity of an equipment or cargo item this station has available for trade
+--
+-- > stock = station:GetEquipmentStock(equip)
+--
+-- Parameters:
+--
+--   equip - the <Constants.EquipType> string for the equipment or cargo item
+--
+-- Returns:
+--
+--   stock - the amount available for trade
+--
+-- Availability:
+--
+--   201308
+--
+-- Status:
+--
+--   experimental
+--
+function SpaceStation:GetEquipmentStock (e)
+	return equipmentStock[self][e]
+end
+
+--
+-- Method: AddEquipmentStock
+--
+-- Modify the quantity of an equipment or cargo item this station has available for trade
+--
+-- > station:AddEquipmentStock(equip, amount)
+--
+-- Parameters:
+--
+--   equip - the <Constants.EquipType> string for the equipment or cargo item
+--
+--   amount - the amount of the item to add (or substract) from the station stock
+--
+-- Availability:
+--
+--   201308
+--
+-- Status:
+--
+--   experimental
+--
+function SpaceStation:AddEquipmentStock (e, stock)
+	equipmentStock[self][e] = equipmentStock[self][e] + stock
+end
+
+
 
 local shipsOnSale = {}
 
@@ -236,11 +335,14 @@ end
 local function updateSystem ()
 	local stations = Space.GetBodies(function (b) return b.superType == "STARPORT" end)
 	for i=1,#stations do
+		updateEquipmentStock(stations[i])
 		updateShipsOnSale(stations[i])
 		updateAdverts(stations[i])
 	end
 end
 local function destroySystem ()
+	SpaceStation.equipmentStock = {}
+
 	SpaceStation.shipsOnSale = {}
 
 	for station,ads in pairs(SpaceStation.adverts) do
