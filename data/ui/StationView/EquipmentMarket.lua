@@ -6,6 +6,7 @@ local Lang = import("Lang")
 local Game = import("Game")
 local ShipDef = import("ShipDef")
 local Comms = import("Comms")
+local EquipDef = import("EquipDef")
 
 local InfoGauge = import("ui/InfoGauge")
 
@@ -48,9 +49,12 @@ local equipmentMarket = function (args)
 				return
 			end
 
-			-- XXX check slot capacity
+			if player:GetEquipFree(EquipDef[e].slot) < 1 then
+				Comms.Message(l.SHIP_IS_FULLY_LADEN)
+				return
+			end
 
-			if player.freeCapacity <= 0 then
+			if player.freeCapacity < EquipDef[e].mass then
 				Comms.Message(l.SHIP_IS_FULLY_LADEN)
 				return
 			end
