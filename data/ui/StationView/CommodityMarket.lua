@@ -61,7 +61,7 @@ local commodityMarket = function (args)
 
 			assert(player:AddEquip(e) == 1)
 			player:AddMoney(-station:GetEquipmentPrice(e))
-			-- XXX remove from station stock
+			station:AddEquipmentStock(e, -1)
 
 			updateStats()
 		end,
@@ -69,7 +69,7 @@ local commodityMarket = function (args)
 		onSell = function (e)
 			player:RemoveEquip(e)
 			player:AddMoney(station:GetEquipmentPrice(e))
-			-- XXX add to station stock
+			station:AddEquipmentStock(e, 1)
 
 			updateStats()
 		end,
