@@ -335,7 +335,7 @@ private:
 	SceneGraph::Animation *m_landingGearAnimation;
 	std::unique_ptr<NavLights> m_navLights;
 
-	HeatGradientParameters_t m_heatGradientParams;
+	static HeatGradientParameters_t s_heatGradientParams;
 };
 
 

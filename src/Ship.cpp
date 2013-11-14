@@ -25,6 +25,7 @@
 
 static const float TONS_HULL_PER_SHIELD = 10.f;
 static const double KINETIC_ENERGY_MULT	= 0.01;
+HeatGradientParameters_t Ship::s_heatGradientParams;
 
 void SerializableEquipSet::Save(Serializer::Writer &wr)
 {
@@ -179,10 +180,10 @@ void Ship::InitMaterials()
 	const Uint32 numMats = pModel->GetNumMaterials();
 	for( Uint32 m=0; m<numMats; m++ ) {
 		RefCountedPtr<Graphics::Material> mat = pModel->GetMaterialByIndex(m);
-		mat->specialParameter0 = &m_heatGradientParams;
+		mat->specialParameter0 = &s_heatGradientParams;
 	}
-	m_heatGradientParams.heatingAmount = 0.0f;
-	m_heatGradientParams.heatingNormal = vector3f(0.0f, -1.0f, 0.0f);
+	s_heatGradientParams.heatingAmount = 0.0f;
+	s_heatGradientParams.heatingNormal = vector3f(0.0f, -1.0f, 0.0f);
 }
 
 void Ship::Init()
@@ -1151,8 +1152,8 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	//angthrust negated, for some reason
 	GetModel()->SetThrust(vector3f(m_thrusters), -vector3f(m_angThrusters));
 
-	m_heatGradientParams.heatingNormal = vector3f(GetVelocity().Normalized());
-	m_heatGradientParams.heatingAmount = Clamp(GetHullTemperature(),0.0,1.0);
+	s_heatGradientParams.heatingNormal = vector3f(GetVelocity().Normalized());
+	s_heatGradientParams.heatingAmount = Clamp(GetHullTemperature(),0.0,1.0);
 
 	//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
 	RenderModel(renderer, camera, viewCoords, viewTransform);
