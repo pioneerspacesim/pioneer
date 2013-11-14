@@ -1032,6 +1032,10 @@ static void PlayerRequestDockingClearance(SpaceStation *s)
 	Pi::cpan->MsgLog()->ImportantMessage(s->GetLabel(), msg);
 }
 
+// XXX paying fine remotely can't really be done until crime and
+// worldview are in Lua. I'm leaving this code here so its not
+// forgotten
+/*
 static void PlayerPayFine()
 {
 	Sint64 crime, fine;
@@ -1053,6 +1057,7 @@ static void PlayerPayFine()
 		Polit::AddCrime(0, -fine);
 	}
 }
+*/
 
 void WorldView::OnHyperspaceTargetChanged()
 {
@@ -1146,6 +1151,10 @@ void WorldView::UpdateCommsOptions()
 				ypos += 32;
 			}
 
+			// XXX paying fine remotely can't really be done until crime and
+			// worldview are in Lua. I'm leaving this code here so its not
+			// forgotten
+			/*
 			Sint64 crime, fine;
 			Polit::GetCrime(&crime, &fine);
 			if (fine) {
@@ -1154,6 +1163,7 @@ void WorldView::UpdateCommsOptions()
 				button->onClick.connect(sigc::ptr_fun(&PlayerPayFine));
 				ypos += 32;
 			}
+			*/
 		}
 		if (hasAutopilot) {
 			button = AddCommsOption(stringf(Lang::AUTOPILOT_FLY_TO_VICINITY_OF, formatarg("target", navtarget->GetLabel())), ypos, optnum++);

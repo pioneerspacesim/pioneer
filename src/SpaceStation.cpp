@@ -36,11 +36,7 @@ void SpaceStation::Uninit()
 void SpaceStation::Save(Serializer::Writer &wr, Space *space)
 {
 	ModelBody::Save(wr, space);
-	MarketAgent::Save(wr);
 	wr.Int32(Equip::TYPE_MAX);
-	for (int i=0; i<Equip::TYPE_MAX; i++) {
-		wr.Int32(int(m_equipmentStock[i]));
-	}
 	wr.Int32(m_shipDocking.size());
 	for (Uint32 i=0; i<m_shipDocking.size(); i++) {
 		wr.Int32(space->GetIndexForBody(m_shipDocking[i].ship));
@@ -73,15 +69,8 @@ void SpaceStation::Save(Serializer::Writer &wr, Space *space)
 void SpaceStation::Load(Serializer::Reader &rd, Space *space)
 {
 	ModelBody::Load(rd, space);
-	MarketAgent::Load(rd);
 	int num = rd.Int32();
 	if (num > Equip::TYPE_MAX) throw SavedGameCorruptException();
-	for (int i=0; i<Equip::TYPE_MAX; i++) {
-		m_equipmentStock[i] = 0;
-	}
-	for (int i=0; i<num; i++) {
-		m_equipmentStock[i] = static_cast<Equip::Type>(rd.Int32());
-	}
 	const Uint32 numShipDocking = rd.Int32();
 	m_shipDocking.reserve(numShipDocking);
 	for (Uint32 i=0; i<numShipDocking; i++) {
@@ -138,7 +127,6 @@ SpaceStation::SpaceStation(const SystemBody *sbody): ModelBody()
 
 	m_doorAnimationStep = m_doorAnimationState = 0.0;
 
-	SetMoney(1000000000);
 	InitStation();
 }
 
@@ -538,32 +526,6 @@ void SpaceStation::UpdateInterpTransform(double alpha)
 bool SpaceStation::IsGroundStation() const
 {
 	return (m_type->dockMethod == SpaceStationType::SURFACE);
-}
-
-/* MarketAgent shite */
-void SpaceStation::Bought(Equip::Type t) {
-	m_equipmentStock[int(t)]++;
-}
-void SpaceStation::Sold(Equip::Type t) {
-	m_equipmentStock[int(t)]--;
-}
-bool SpaceStation::CanBuy(Equip::Type t, bool verbose) const {
-	return true;
-}
-bool SpaceStation::CanSell(Equip::Type t, bool verbose) const {
-	bool result = (m_equipmentStock[int(t)] > 0);
-	if (verbose && !result) {
-		Pi::Message(Lang::ITEM_IS_OUT_OF_STOCK);
-	}
-	return result;
-}
-bool SpaceStation::DoesSell(Equip::Type t) const {
-	return Polit::IsCommodityLegal(Pi::game->GetSpace()->GetStarSystem().Get(), t);
-}
-
-Sint64 SpaceStation::GetPrice(Equip::Type t) const {
-	Sint64 mul = 100 + Pi::game->GetSpace()->GetStarSystem()->GetCommodityBasePriceModPercent(t);
-	return (mul * Sint64(Equip::types[t].basePrice)) / 100;
 }
 
 // Renders space station and adjacent city if applicable

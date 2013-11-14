@@ -675,11 +675,6 @@ void Pi::HandleEvents()
 							break;
 #endif
 
-						case SDLK_m:  // Gimme money!
-							if(Pi::game) {
-								Pi::player->SetMoney(Pi::player->GetMoney() + 10000000);
-							}
-							break;
 						case SDLK_F12:
 						{
 							if(Pi::game) {

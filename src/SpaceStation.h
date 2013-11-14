@@ -6,7 +6,6 @@
 
 #include "libs.h"
 #include "Camera.h"
-#include "MarketAgent.h"
 #include "ModelBody.h"
 #include "NavLights.h"
 #include "Quaternion.h"
@@ -26,7 +25,7 @@ class SystemBody;
 namespace Graphics { class Renderer; }
 namespace SceneGraph { class Animation; }
 
-class SpaceStation: public ModelBody, public MarketAgent {
+class SpaceStation: public ModelBody {
 public:
 	OBJDEF(SpaceStation, ModelBody, SPACESTATION);
 	static void Init();
@@ -42,13 +41,6 @@ public:
 	virtual void StaticUpdate(const float timeStep);
 	virtual void TimeStepUpdate(const float timeStep);
 
-	void AddEquipmentStock(Equip::Type t, int num) { m_equipmentStock[t] += num; }
-	/* MarketAgent stuff */
-	int GetStock(Equip::Type t) const { return m_equipmentStock[t]; }
-	Sint64 GetPrice(Equip::Type t) const;
-	bool CanBuy(Equip::Type t, bool verbose) const;
-	bool CanSell(Equip::Type t, bool verbose) const;
-	bool DoesSell(Equip::Type t) const;
 	virtual const SystemBody *GetSystemBody() const { return m_sbody; }
 	virtual void PostLoadFixup(Space *space);
 	virtual void NotifyRemoved(const Body* const removedBody);
@@ -120,7 +112,6 @@ private:
 	void InitStation();
 	const SpaceStationType *m_type;
 	const SystemBody *m_sbody;
-	int m_equipmentStock[Equip::TYPE_MAX];
 	CityOnPlanet *m_adjacentCity;
 	double m_distFromPlanet;
 	int m_numPoliceDocked;
