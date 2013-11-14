@@ -38,6 +38,8 @@ namespace Graphics {
 			Uniform texture3;
 			Uniform texture4;
 			Uniform heatGradient;
+			Uniform heatingNormal;
+			Uniform heatingAmount;
 
 			Uniform sceneAmbient;
 

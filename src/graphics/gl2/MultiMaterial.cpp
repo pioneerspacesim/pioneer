@@ -8,6 +8,7 @@
 #include "graphics/RendererGL2.h"
 #include <sstream>
 #include "StringF.h"
+#include "Ship.h"
 
 namespace Graphics {
 namespace GL2 {
@@ -84,6 +85,11 @@ void MultiMaterial::Apply()
 	p->texture4.Set(this->texture4, 4);
 
 	p->heatGradient.Set(this->heatGradient, 5);
+	if(specialParameter0) {
+		HeatGradientParameters_t *pMGP = static_cast<HeatGradientParameters_t*>(specialParameter0);
+		p->heatingNormal.Set(pMGP->heatingNormal);
+		p->heatingAmount.Set(pMGP->heatingAmount);
+	}
 
 	glPushAttrib(GL_ENABLE_BIT);
 	if (this->twoSided)
