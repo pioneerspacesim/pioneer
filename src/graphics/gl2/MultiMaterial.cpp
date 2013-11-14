@@ -37,7 +37,7 @@ MultiProgram::MultiProgram(const MaterialDescriptor &desc, int lights)
 		ss << "#define MAP_EMISSIVE\n";
 	if (desc.usePatterns)
 		ss << "#define MAP_COLOR\n";
-	//if (desc.quality & USE_HEAT_GRADIENT)
+	if (desc.quality & HAS_HEAT_GRADIENT)
 		ss << "#define HEAT_COLOURING\n";
 
 	m_name = "multi";

@@ -17,6 +17,11 @@ Tombstone::Tombstone(Graphics::Renderer *r, int width, int height)
 
 	m_model = Pi::FindModel("tombstone");
 	m_model->SetLabel(Lang::TOMBSTONE_EPITAPH);
+	const Uint32 numMats = m_model->GetNumMaterials();
+	for( Uint32 m=0; m<numMats; m++ ) {
+		RefCountedPtr<Graphics::Material> mat = m_model->GetMaterialByIndex(m);
+		mat->specialParameter0 = nullptr;
+	}
 }
 
 void Tombstone::Draw(float _time)

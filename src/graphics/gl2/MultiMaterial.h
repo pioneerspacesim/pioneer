@@ -14,11 +14,6 @@
 namespace Graphics {
 
 	namespace GL2 {
-		// Atmosphere rendering customisation flags
-		enum MaterialQuality {
-			USE_HEAT_GRADIENT   = 1 << 8
-		};
-
 		class MultiProgram : public Program {
 		public:
 			MultiProgram(const MaterialDescriptor &, int lights=0);

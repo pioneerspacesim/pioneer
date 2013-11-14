@@ -13,13 +13,6 @@
 
 namespace Graphics {
 	namespace GL2 {
-
-		// Atmosphere rendering customisation flags
-		enum AtmosphereQuality {
-			HAS_ATMOSPHERE = 1 << 0,
-			HAS_ECLIPSES   = 1 << 1
-		};
-
 		class GeoSphereProgram : public Program {
 		public:
 			GeoSphereProgram(const std::string &filename, const std::string &defines);
