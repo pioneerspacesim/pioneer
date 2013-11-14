@@ -16,35 +16,35 @@
         "description": ""
     },
     "FLAVOUR_ADTEXT_11": {
-        "message": "SZUKAM STATKU: Przelot szybkim statkiem do systemu {system}. Płacę {cash}.",
+        "message": "SZYBKI STATEK: Przelot szybkim statkiem do systemu {system}.",
         "description": ""
     },
     "FLAVOUR_ADTEXT_10": {
-        "message": "SZUKAM STATKU: Przelot szybkim statkiem do systemu {system}. Płacę {cash}.",
+        "message": "SZUKAM STATKU: Przelot szybkim statkiem do systemu {system}.",
         "description": ""
     },
     "FLAVOUR_ADTEXT_12": {
-        "message": "SZUKAM STATKU: Przelot do systemu {system}. Płacę {cash}.",
+        "message": "POTRZEBNY STATEK: Przelot do systemu {system}.",
         "description": ""
     },
     "FLAVOUR_ADTEXT_9": {
-        "message": "SZUKAM STATKU: Przelot szybkim statkiem do systemu {system}. Płacę {cash}.",
+        "message": "SZUKAM STATKU: Przelot szybkim statkiem do systemu {system}.",
         "description": ""
     },
     "FLAVOUR_ADTEXT_8": {
-        "message": "SZUKAM STATKU: Przelot szybkim statkiem do systemu {system}. Płacę {cash}.",
+        "message": "SZUKAM STATKU: Przelot szybkim statkiem do systemu {system}.",
         "description": ""
     },
     "FLAVOUR_INTROTEXT_9": {
-        "message": "Cześć, nazywam się {name}, muszę szybko dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}), {dist} lś. Płacę {cash}.",
+        "message": "Cześć, nazywam się {name}, muszę szybko dostać się do systemu {system} ({sectorx},{sectory},{sectorz}), {dist}lś. Płacę {cash}.",
         "description": ""
     },
     "FLAVOUR_INTROTEXT_8": {
-        "message": "Cześć, nazywam się {name}, muszę szybko dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}), {dist} lś. Płacę {cash}.",
+        "message": "Cześć, nazywam się {name}, muszę szybko dostać się do systemu {system} ({sectorx},{sectory},{sectorz}), {dist}lś. Płacę {cash}.",
         "description": ""
     },
     "FLAVOUR_INTROTEXT_7": {
-        "message": "Cześć, nazywam się {name}, chcę dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}), {dist} lś. Płacę {cash}.",
+        "message": "Cześć, nazywam się {name}, chcę dostać się do systemu {system} ({sectorx},{sectory},{sectorz}), {dist}lś. Zapłacę {cash}.",
         "description": ""
     },
     "FLAVOUR_ADTEXT_4": {
@@ -52,27 +52,27 @@
         "description": ""
     },
     "FLAVOUR_INTROTEXT_5": {
-        "message": "Cześć, nazywam się {name}, chcę dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}), {dist} lś. Płacę {cash}.",
+        "message": "Cześć, nazywam się {name}, chcę dostać się do systemu {system} ({sectorx},{sectory},{sectorz}), {dist}lś. Zapłacę {cash}.",
         "description": ""
     },
     "FLAVOUR_INTROTEXT_4": {
-        "message": "Cześć, nazywam się {name}, chcę dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}), {dist} lś. Płacę {cash}.",
+        "message": "Cześć, nazywam się {name}, chcę dostać się do systemu {system} ({sectorx},{sectory},{sectorz}), {dist}lś. Zapłacę {cash}.",
         "description": ""
     },
     "FLAVOUR_ADTEXT_1": {
-        "message": "POTRZEBNY TRANSPORT: Przelot małej grupy do systemu {system} za {cash}.",
+        "message": "POSZUKUJĘ: Przelot dla małej grupy do systemu {system}. Płacę {cash}.",
         "description": ""
     },
     "FLAVOUR_INTROTEXT_2": {
-        "message": "Cześć, nazywam się {name} i szukam transportu dla małej grupy osób do systemu {system} ({sectorx}, {sectory}, {sectorz}), {dist} lś. Płacimy {cash}.",
+        "message": "Cześć, nazywam się {name} i szukam transportu dla małej grupy osób do systemu {system} ({sectorx},{sectory},{sectorz}), {dist}lś. Zapłacę {cash}.",
         "description": ""
     },
     "FLAVOUR_ADTEXT_3": {
-        "message": "SZUKAM STATKU: Przelot do systemu {system}. Płacę {cash}.",
+        "message": "POTRZEBNY STATEK: Przelot do systemu {system}. Płacę {cash}.",
         "description": ""
     },
     "FLAVOUR_INTROTEXT_0": {
-        "message": "Cześć, nazywam się {name} i szukam transportu dla małej grupy osób do systemu {system} ({sectorx}, {sectory}, {sectorz}), {dist} lś. Płacimy {cash}.",
+        "message": "Cześć, nazywam się {name} i szukam transportu dla małej grupy osób do systemu {system} ({sectorx},{sectory},{sectorz}), {dist}lś. Zapłacę {cash}.",
         "description": ""
     },
     "FLAVOUR_DANGER_10": {
@@ -84,19 +84,19 @@
         "description": ""
     },
     "FLAVOUR_DANGER_12": {
-        "message": "Ktoś próbuje mnie znaleźć.",
+        "message": "Ktoś mnie ściga.",
         "description": ""
     },
     "FLAVOUR_INTROTEXT_12": {
-        "message": "Nazywam się {name}, chcę dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}), {dist} lś. Płacę {cash}.",
+        "message": "Nazywam się {name}, chcę dostać się do systemu {system} ({sectorx},{sectory},{sectorz}), {dist}lś. Płacę {cash}.",
         "description": ""
     },
     "FLAVOUR_INTROTEXT_11": {
-        "message": "Cześć, nazywam się {name}, muszę szybko dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}), {dist} lś. Płacę {cash}.",
+        "message": "Cześć, nazywam się {name}, muszę szybko dostać się do systemu {system} ({sectorx},{sectory},{sectorz}), {dist}lś. Płacę {cash}.",
         "description": ""
     },
     "FLAVOUR_INTROTEXT_10": {
-        "message": "Cześć, nazywam się {name}, muszę szybko dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}), {dist} lś. Płacę {cash}.",
+        "message": "Cześć, nazywam się {name}, muszę szybko dostać się do systemu {system} ({sectorx},{sectory},{sectorz}), {dist}lś. Zapłata {cash}.",
         "description": ""
     },
     "EXCELLENT": {
@@ -144,11 +144,11 @@
         "description": ""
     },
     "WE_WANT_TO_BE_THERE_BEFORE": {
-        "message": "chcemy tam dotrzeć przed ",
+        "message": "Chcę tam dotrzeć przed ",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_10": {
-        "message": "Widać że jesteś jeszcze niedoświadczonym pilotem. Nic nie zapłacę.",
+        "message": "Widać że jesteś jeszcze niedoświadczonym pilotem. Nie będę za to płacić.",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_11": {
@@ -176,7 +176,7 @@
         "description": ""
     },
     "FLAVOUR_WHYSOMUCH_12": {
-        "message": "Szuka mnie ktoś od kogo pożyczyłem trochę pieniędzy.",
+        "message": "Mam u kogoś spory dług, teraz podążają za mną.",
         "description": ""
     },
     "GROUP_DETAILS": {
@@ -184,7 +184,7 @@
         "description": ""
     },
     "FLAVOUR_WHEREAREWE_10": {
-        "message": "Gdzie my jesteśmy? Moja cierpliwość się wyczerpała - natychmiast zabierz mnie do najbliższej stacji!",
+        "message": "Gdzie my jesteśmy? Moja cierpliwość się wyczerpała - NATYCHMIAST zabierz mnie do najbliższej stacji!",
         "description": ""
     },
     "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP": {
@@ -204,7 +204,7 @@
         "description": ""
     },
     "FLAVOUR_WHEREAREWE_12": {
-        "message": "Gdzie my jesteśmy? Moja cierpliwość się wyczerpała - natychmiast zabierz mnie do najbliższej stacji!",
+        "message": "Gdzie my jesteśmy? Moja cierpliwość się wyczerpała - NATYCHMIAST zabierz mnie do najbliższej stacji!",
         "description": ""
     },
     "FLAVOUR_SUCCESSMSG_2": {
@@ -304,7 +304,7 @@
         "description": ""
     },
     "FLAVOUR_INTROTEXT_1": {
-        "message": "Cześć, nazywam się {name} i szukam transportu dla małej grupy osób do systemu {system} ({sectorx}, {sectory}, {sectorz}), {dist} lś. Płacimy {cash}.",
+        "message": "Cześć, nazywam się {name} i szukam transportu dla małej grupy osób do systemu {system} ({sectorx},{sectory},{sectorz}), {dist}lś. Zapłacę {cash}.",
         "description": ""
     },
     "CORPORATIONS_10": {
@@ -352,7 +352,7 @@
         "description": ""
     },
     "FLAVOUR_ADTEXT_5": {
-        "message": "SZUKAM STATKU: Przelot do systemu {system}. Płacę {cash}.",
+        "message": "POSZUKUJĘ: Przelot do systemu {system}. Płacę {cash}.",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_5": {
@@ -412,7 +412,7 @@
         "description": ""
     },
     "FLAVOUR_INTROTEXT_6": {
-        "message": "Cześć, nazywam się {name}, chcę dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}), {dist} lś. Płacę {cash}.",
+        "message": "Cześć, nazywam się {name}, chcę dostać się do systemu {system} ({sectorx},{sectory},{sectorz}), {dist}lś. Zapłacę {cash}.",
         "description": ""
     },
     "FLAVOUR_ADTEXT_7": {
@@ -432,7 +432,7 @@
         "description": ""
     },
     "FLAVOUR_INTROTEXT_3": {
-        "message": "Cześć, nazywam się {name}, chcę dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}), {dist} lś. Płacę {cash}.",
+        "message": "Cześć, nazywam się {name}, chcę dostać się do systemu {system} ({sectorx},{sectory},{sectorz}), {dist}lś. Zapłacę {cash}.",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_9": {
@@ -440,7 +440,7 @@
         "description": ""
     },
     "FLAVOUR_ADTEXT_0": {
-        "message": "POTRZEBNY TRANSPORT: Przelot małej grupy do systemu {system} za {cash}.",
+        "message": "POSZUKUJĘ: Przelot małej grupy do systemu {system}. Płacę {cash}.",
         "description": ""
     },
     "FLAVOUR_HOWMANY_5": {
@@ -472,11 +472,11 @@
         "description": ""
     },
     "FLAVOUR_WHEREAREWE_3": {
-        "message": "Gdzie my jesteśmy? Moja cierpliwość się wyczerpała - natychmiast zabierz mnie do najbliższej stacji!",
+        "message": "Gdzie my jesteśmy? Moja cierpliwość się wyczerpała - NATYCHMIAST zabierz mnie do najbliższej stacji!",
         "description": ""
     },
     "FLAVOUR_ADTEXT_2": {
-        "message": "POTRZEBNY TRANSPORT: Przelot małej grupy do systemu {system}. Płacimy {cash}.",
+        "message": "POSZUKUJĘ: Przelot małej grupy do systemu {system}. Płacę {cash}.",
         "description": ""
     },
     "FLAVOUR_HOWMANY_9": {
@@ -488,7 +488,7 @@
         "description": ""
     },
     "FLAVOUR_WHEREAREWE_1": {
-        "message": "Gdzie my jesteśmy? Nasza cierpliwość się wyczerpała - natychmiast zabierz nas do najbliższej stacji!",
+        "message": "Gdzie my jesteśmy? Nasza cierpliwość się wyczerpała - NATYCHMIAST zabierz nas do najbliższej stacji!",
         "description": ""
     },
     "FROM": {
@@ -508,11 +508,11 @@
         "description": ""
     },
     "FLAVOUR_WHEREAREWE_8": {
-        "message": "Gdzie my jesteśmy? Moja cierpliwość się wyczerpała - natychmiast zabierz mnie do najbliższej stacji!",
+        "message": "Gdzie my jesteśmy? Moja cierpliwość się wyczerpała - NATYCHMIAST zabierz mnie do najbliższej stacji!",
         "description": ""
     },
     "FLAVOUR_WHEREAREWE_9": {
-        "message": "Gdzie my jesteśmy? Moja cierpliwość się wyczerpała - natychmiast zabierz mnie do najbliższej stacji!",
+        "message": "Gdzie my jesteśmy? Moja cierpliwość się wyczerpała - NATYCHMIAST zabierz mnie do najbliższej stacji!",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_0": {
@@ -524,11 +524,11 @@
         "description": ""
     },
     "FLAVOUR_WHEREAREWE_11": {
-        "message": "Gdzie my jesteśmy? Moja cierpliwość się wyczerpała - natychmiast zabierz mnie do najbliższej stacji!",
+        "message": "Gdzie my jesteśmy? Moja cierpliwość się wyczerpała - NATYCHMIAST zabierz mnie do najbliższej stacji!",
         "description": ""
     },
     "FLAVOUR_WHEREAREWE_2": {
-        "message": "Gdzie my jesteśmy? Nasza cierpliwość się wyczerpała - natychmiast zabierz nas do najbliższej stacji!",
+        "message": "Gdzie my jesteśmy? Nasza cierpliwość się wyczerpała - NATYCHMIAST zabierz nas do najbliższej stacji!",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_7": {
@@ -536,7 +536,7 @@
         "description": ""
     },
     "FLAVOUR_WHEREAREWE_0": {
-        "message": "Gdzie my jesteśmy? Nasza cierpliwość się wyczerpała - natychmiast zabierz nas do najbliższej stacji!",
+        "message": "Gdzie my jesteśmy? Nasza cierpliwość się wyczerpała - NATYCHMIAST zabierz nas do najbliższej stacji!",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_1": {
@@ -544,19 +544,19 @@
         "description": ""
     },
     "FLAVOUR_WHEREAREWE_6": {
-        "message": "Gdzie my jesteśmy? Moja cierpliwość się wyczerpała - natychmiast zabierz mnie do najbliższej stacji!",
+        "message": "Gdzie my jesteśmy? Moja cierpliwość się wyczerpała - NATYCHMIAST zabierz mnie do najbliższej stacji!",
         "description": ""
     },
     "FLAVOUR_WHEREAREWE_7": {
-        "message": "Gdzie my jesteśmy? Moja cierpliwość się wyczerpała - natychmiast zabierz mnie do najbliższej stacji!",
+        "message": "Gdzie my jesteśmy? Moja cierpliwość się wyczerpała - NATYCHMIAST zabierz mnie do najbliższej stacji!",
         "description": ""
     },
     "FLAVOUR_WHEREAREWE_4": {
-        "message": "Gdzie my jesteśmy? Moja cierpliwość się wyczerpała - natychmiast zabierz mnie do najbliższej stacji!",
+        "message": "Gdzie my jesteśmy? Moja cierpliwość się wyczerpała - NATYCHMIAST zabierz mnie do najbliższej stacji!",
         "description": ""
     },
     "FLAVOUR_WHEREAREWE_5": {
-        "message": "Gdzie my jesteśmy? Moja cierpliwość się wyczerpała - natychmiast zabierz mnie do najbliższej stacji!",
+        "message": "Gdzie my jesteśmy? Moja cierpliwość się wyczerpała - NATYCHMIAST zabierz mnie do najbliższej stacji!",
         "description": ""
     }
 }

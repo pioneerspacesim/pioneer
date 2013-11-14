@@ -1,22 +1,22 @@
 {
     "VID_CONNECTING": {
-        "message": "Connecting...",
+        "message": "A estabelecer ligação...",
         "description": ""
     },
     "LANDED": {
-        "message": "Landed",
+        "message": "Aterragem",
         "description": ""
     },
     "DOCKING_CLEARANCE_EXPIRED": {
-        "message": "Docking clearance expired. If you wish to dock you must repeat your request.",
+        "message": "A autorização para docagem expirou. Se deseja docar tem de repetir o pedido.",
         "description": ""
     },
     "HYPERSPACE_TARGET": {
-        "message": "Hyperspace target",
+        "message": "Destino do hisperespaço",
         "description": ""
     },
     "MONTH_AUG": {
-        "message": "Aug",
+        "message": "Ago",
         "description": ""
     },
     "COMPUTER_SPEED_CONTROL": {
@@ -28,7 +28,7 @@
         "description": ""
     },
     "HYPERSPACE_ARRIVAL_CLOUD": {
-        "message": "Hyperspace arrival cloud",
+        "message": "Nuvem de chegada do hiperespaço",
         "description": ""
     },
     "DIRECTION": {
@@ -40,19 +40,19 @@
         "description": ""
     },
     "CAMERA_TOP_VIEW": {
-        "message": "Top camera",
+        "message": "Câmara de topo",
         "description": ""
     },
     "TINY": {
-        "message": "Tiny",
+        "message": "Muito pequeno",
         "description": ""
     },
     "CONSUMER_GOODS": {
-        "message": "Consumer goods",
+        "message": "Bens de consumo",
         "description": ""
     },
     "BODY": {
-        "message": "body",
+        "message": "corpo",
         "description": ""
     },
     "WITH_A": {
@@ -64,7 +64,7 @@
         "description": ""
     },
     "EXTENSIVE_MINING": {
-        "message": "Extensive mining operations.",
+        "message": "Operações extensivas de minagem.",
         "description": ""
     },
     "REVERSE_ACCEL_LADEN": {
@@ -72,19 +72,19 @@
         "description": ""
     },
     "LEGAL_STATUS": {
-        "message": "Legal status",
+        "message": "Estado legal",
         "description": ""
     },
     "WHEELS_ARE_DOWN": {
-        "message": "Wheels are down",
+        "message": "O trem de aterragem está em baixo",
         "description": ""
     },
     "INDUSTRIAL_MACHINERY": {
-        "message": "Industrial machinery",
+        "message": "Maquinaria industrial",
         "description": ""
     },
     "HULL_AUTOREPAIR": {
-        "message": "Hull Auto-Repair System",
+        "message": "Sistema de reparação automática do casco",
         "description": ""
     },
     "TOGGLE_LUA_CONSOLE": {
@@ -92,15 +92,15 @@
         "description": ""
     },
     "SOCIAL_DEMOCRACY": {
-        "message": "Social democracy",
+        "message": "Democracia social",
         "description": ""
     },
     "WATER": {
-        "message": "Water",
+        "message": "Água",
         "description": ""
     },
     "HULL_INTEGRITY": {
-        "message": "Hull integrity",
+        "message": "Integridade do casco",
         "description": ""
     },
     "EARTH_FEDERATION_DEMOCRACY": {
@@ -108,7 +108,7 @@
         "description": ""
     },
     "VIEW": {
-        "message": "View",
+        "message": "Vista",
         "description": ""
     },
     "HIGHLY_VOLCANIC": {
@@ -116,7 +116,7 @@
         "description": ""
     },
     "USED": {
-        "message": "Used",
+        "message": "Usado",
         "description": ""
     },
     "GAME_LOAD_WRONG_VERSION": {
@@ -148,7 +148,7 @@
         "description": ""
     },
     "HYDROGEN": {
-        "message": "Hydrogen",
+        "message": "Hidrogénio",
         "description": ""
     },
     "REVERSE_ACCEL_EMPTY": {
@@ -184,7 +184,7 @@
         "description": ""
     },
     "NARCOTICS": {
-        "message": "Narcotics",
+        "message": "Narcóticos",
         "description": ""
     },
     "THRUSTER_VENTRAL": {
@@ -200,11 +200,11 @@
         "description": ""
     },
     "STAR_AF_GIANT": {
-        "message": "White giant star",
+        "message": "Estrela gigante branca",
         "description": ""
     },
     "CLASS_NUMBER": {
-        "message": "Class %class",
+        "message": "Classe %class",
         "description": ""
     },
     "SOME_ESTABLISHED_MINING": {
@@ -212,7 +212,7 @@
         "description": ""
     },
     "CONTROLS": {
-        "message": "Controls",
+        "message": "Controlos",
         "description": ""
     },
     "CARGO_N": {
@@ -220,7 +220,7 @@
         "description": ""
     },
     "HAND_WEAPONS": {
-        "message": "Hand weapons",
+        "message": "Armas de mão",
         "description": ""
     },
     "TIME_POINT": {
@@ -228,7 +228,7 @@
         "description": ""
     },
     "MINING_MACHINERY": {
-        "message": "Mining machinery",
+        "message": "Maquinaria industrial",
         "description": ""
     },
     "MININGCANNON_17MW": {
@@ -248,7 +248,7 @@
         "description": ""
     },
     "WEIGHT_EMPTY": {
-        "message": "Weight empty",
+        "message": "Peso em vazio",
         "description": ""
     },
     "N_DEGREES": {
@@ -260,11 +260,11 @@
         "description": ""
     },
     "REAR": {
-        "message": "Rear",
+        "message": "Traseira",
         "description": ""
     },
     "STAR_B_SUPER_GIANT": {
-        "message": "Blue super giant star",
+        "message": "Estrela super gigante azul",
         "description": ""
     },
     "DISTANCE_FROM_SHIP_TO_NAV_TARGET": {
@@ -272,7 +272,7 @@
         "description": ""
     },
     "CAPACITY": {
-        "message": "Capacity",
+        "message": "Capacidade",
         "description": ""
     },
     "COMPUTER_HEADING_CONTROL": {
@@ -280,11 +280,11 @@
         "description": ""
     },
     "SURFACE_GRAVITY": {
-        "message": "Surface gravity",
+        "message": "Gravidade de superfície",
         "description": ""
     },
     "DOCKED": {
-        "message": "Docked",
+        "message": "Docado",
         "description": ""
     },
     "COMMA_HIGHLY_VOLCANIC": {
@@ -308,7 +308,7 @@
         "description": ""
     },
     "BODIES": {
-        "message": "bodies",
+        "message": "Corpos",
         "description": ""
     },
     "SCREENSHOT_FILENAME_TEMPLATE": {
@@ -316,19 +316,19 @@
         "description": ""
     },
     "STAR_K_GIANT": {
-        "message": "Orange giant star - Unstable",
+        "message": "Estrela gigante laranja - Instável",
         "description": ""
     },
     "SHIELD_STRENGTH_N": {
-        "message": "Shield strength: %shields{f.2}",
+        "message": "Força do escudo: %shields{f.2}",
         "description": ""
     },
     "N_YEARS": {
-        "message": "%years{f.1} years",
+        "message": "%years{f.1} anos",
         "description": ""
     },
     "SMALL_PLASMA_ACCEL": {
-        "message": "Small plasma accelerator",
+        "message": "Acelerador de plasma pequeno",
         "description": ""
     },
     "THRUSTER_PORT": {
@@ -344,11 +344,11 @@
         "description": "The name that native speakers use for this language. This will be used in the language selection screen. For obscure reasons this currently must only use Latin-1 characters."
     },
     "CAMERA_BOTTOM_VIEW": {
-        "message": "Bottom camera",
+        "message": "Câmara inferior",
         "description": ""
     },
     "DAY_LENGTH": {
-        "message": "Day length",
+        "message": "Duração do dia",
         "description": ""
     },
     "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND": {
@@ -364,11 +364,11 @@
         "description": ""
     },
     "MONTH_MAY": {
-        "message": "May",
+        "message": "Mai",
         "description": ""
     },
     "ASTEROID": {
-        "message": "Asteroid",
+        "message": "Asteróide",
         "description": ""
     },
     "NUMBER_G": {
@@ -376,7 +376,7 @@
         "description": ""
     },
     "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
-        "message": "Simulating evolution of the universe: %age{f.1} billion years ;-)",
+        "message": "A simular a evolução do universo: %age{f.1} mil milhões de anos ;-)",
         "description": ""
     },
     "MININGCANNON_17MW_DESCRIPTION": {
@@ -388,15 +388,15 @@
         "description": ""
     },
     "PAY_THE_FINE_NOW": {
-        "message": "Pay the fine now.",
+        "message": "Pagar multa agora.",
         "description": ""
     },
     "CO2_ATMOSPHERE": {
-        "message": "\" Carbon Dioxide atmosphere\"",
+        "message": "\" Atmosfera de Dióxido de Carbono\"",
         "description": ""
     },
     "MILITARY_DICTATORSHIP": {
-        "message": "Military dictatorship",
+        "message": "Ditadura militar",
         "description": ""
     },
     "SCUTUM_CENTAURUS_ARM": {
@@ -404,15 +404,15 @@
         "description": ""
     },
     "REMOVE": {
-        "message": "Remove",
+        "message": "Remover",
         "description": ""
     },
     "LAUNCH_PERMISSION_DENIED_BUSY": {
-        "message": "Permission to launch denied: docking bay busy.",
+        "message": "Autorização para descolar negada: baía de docagem ocupada.",
         "description": ""
     },
     "CH4_ATMOSPHERE": {
-        "message": "\" Methane atmosphere\"",
+        "message": "\"Atmosfera de Metano\"",
         "description": ""
     },
     "HEADING_LOCK_BACKWARD": {
@@ -432,11 +432,11 @@
         "description": ""
     },
     "CAMERA_FRONT_VIEW": {
-        "message": "Front camera",
+        "message": "Câmara frontal",
         "description": ""
     },
     "ROBOTS": {
-        "message": "Robots",
+        "message": "Robôs",
         "description": ""
     },
     "PASSENGER_CABIN": {
@@ -444,11 +444,11 @@
         "description": ""
     },
     "INDUSTRIAL_COLONY": {
-        "message": "Industrial colony.",
+        "message": "Colónia industrial.",
         "description": ""
     },
     "UNEXPLORED_SYSTEM_NO_DATA": {
-        "message": "Unexplored system. No more data available.",
+        "message": "Sistema inexplorado. Informação adicional indisponível.",
         "description": ""
     },
     "SCANNER": {
@@ -464,7 +464,7 @@
         "description": ""
     },
     "SELECT_A_TARGET": {
-        "message": "Select a target",
+        "message": "Selecione destino",
         "description": ""
     },
     "SHIP_IS_FULLY_LADEN": {
@@ -472,23 +472,23 @@
         "description": ""
     },
     "MONTH_FEB": {
-        "message": "Feb",
+        "message": "Fev",
         "description": ""
     },
     "PLANETARY_INFO": {
-        "message": "Planetary info",
+        "message": "Informação planetária",
         "description": ""
     },
     "METAL_ALLOYS": {
-        "message": "Metal alloys",
+        "message": "Ligas metálicas",
         "description": ""
     },
     "RESET": {
-        "message": "Reset",
+        "message": "Reiniciar",
         "description": ""
     },
     "CARGO": {
-        "message": "Cargo",
+        "message": "Mercadoria",
         "description": ""
     },
     "JOY_AXIS": {
@@ -500,11 +500,11 @@
         "description": ""
     },
     "COMPUTERS": {
-        "message": "Computers",
+        "message": "Computadores",
         "description": ""
     },
     "LARGE_GAS_GIANT": {
-        "message": "Large gas giant",
+        "message": "Gigante de gás grande",
         "description": ""
     },
     "SOMEWHERE_SHIP_REPAIRS": {
@@ -516,11 +516,11 @@
         "description": ""
     },
     "MAJOR_EXPORTS": {
-        "message": "Major Exports:",
+        "message": "Exportações principais:",
         "description": ""
     },
     "CAMERA_RIGHT_VIEW": {
-        "message": "Right camera",
+        "message": "Câmara direita",
         "description": ""
     },
     "NUMBER_LY": {
@@ -536,7 +536,7 @@
         "description": ""
     },
     "SOURCE": {
-        "message": "Origin",
+        "message": "Origem",
         "description": ""
     },
     "EARTH_FEDERATION_COLONIAL_RULE": {
@@ -544,7 +544,7 @@
         "description": ""
     },
     "GALACTIC_VIEW": {
-        "message": "Galactic view",
+        "message": "Vista galática",
         "description": ""
     },
     "THRUSTER_DORSAL": {
@@ -596,15 +596,15 @@
         "description": ""
     },
     "SURFACE_TEMPERATURE": {
-        "message": "Surface temperature",
+        "message": "Temperatura de superfície",
         "description": ""
     },
     "GAME_SAVED_TO": {
-        "message": "\"Game saved to \"",
+        "message": "\"Jogo guardado em \"",
         "description": ""
     },
     "STOCK": {
-        "message": "Stock",
+        "message": "Inventário",
         "description": ""
     },
     "YOUNG_FARMING_COLONY": {
@@ -616,7 +616,7 @@
         "description": ""
     },
     "LARGE_PLASMA_ACCEL": {
-        "message": "Large plasma accelerator",
+        "message": "Acelerador de plasma grande",
         "description": ""
     },
     "PAY_FINE_REMOTELY": {
@@ -636,11 +636,11 @@
         "description": ""
     },
     "SHIP_DETECTED_NEARBY": {
-        "message": "Ship detected nearby.",
+        "message": "Nave detetada nas proximidades.",
         "description": ""
     },
     "N_DISTANCE_TO_TARGET": {
-        "message": "%distance to target",
+        "message": "%distance até ao destino",
         "description": ""
     },
     "APOAPSIS_DISTANCE": {
@@ -652,7 +652,7 @@
         "description": ""
     },
     "FUEL_WEIGHT": {
-        "message": "Fuel weight",
+        "message": "Peso do combustível",
         "description": ""
     },
     "SMALL_INDUSTRIAL_OUTPOST": {
@@ -676,15 +676,15 @@
         "description": ""
     },
     "SHIP_NEARBY": {
-        "message": "Ship nearby",
+        "message": "Nave nas proximidades",
         "description": ""
     },
     "POPULATION": {
-        "message": "Population:",
+        "message": "População:",
         "description": ""
     },
     "STAR_B_GIANT": {
-        "message": "Blue giant star",
+        "message": "Estrela gigante azul",
         "description": ""
     },
     "SPACESTATION_LONG_WELCOME_MESSAGE": {
@@ -708,11 +708,11 @@
         "description": ""
     },
     "CO_ATMOSPHERE": {
-        "message": "\" Carbon Monoxide atmosphere\"",
+        "message": "\" Atmosfera de Monóxido de Carbono\"",
         "description": ""
     },
     "CABINS": {
-        "message": "Cabins",
+        "message": "Cabines",
         "description": ""
     },
     "INCREASE_SCAN_RANGE": {
@@ -720,11 +720,11 @@
         "description": ""
     },
     "MONTH_OCT": {
-        "message": "Oct",
+        "message": "Out",
         "description": ""
     },
     "SMALL_GAS_GIANT": {
-        "message": "Small gas giant",
+        "message": "Gigante de gás pequena",
         "description": ""
     },
     "MISSILE_GUIDED": {
@@ -748,11 +748,11 @@
         "description": ""
     },
     "HULL_TEMP": {
-        "message": "Hull temp",
+        "message": "Temperatura do casco",
         "description": ""
     },
     "N_ATMOSPHERE": {
-        "message": "\" Nitrogen atmosphere\"",
+        "message": "\" Atmosfera de Nitrogénio\"",
         "description": ""
     },
     "AND_HIGHLY_COMPLEX_ECOSYSTEM": {
@@ -760,7 +760,7 @@
         "description": ""
     },
     "UNKNOWN": {
-        "message": "<unknown>",
+        "message": "<desconhecido>",
         "description": ""
     },
     "SHIELD_ENERGY_BOOSTER": {
@@ -772,7 +772,7 @@
         "description": ""
     },
     "SMALL": {
-        "message": "Small",
+        "message": "Pequeno",
         "description": ""
     },
     "AIR_PROCESSORS": {
@@ -788,7 +788,7 @@
         "description": ""
     },
     "WEIGHT_FULLY_LADEN": {
-        "message": "Weight fully loaded",
+        "message": "Peso totalmente carregado",
         "description": ""
     },
     "UNOCCUPIED_CABIN_DESCRIPTION": {
@@ -796,7 +796,7 @@
         "description": ""
     },
     "MASS": {
-        "message": "Mass",
+        "message": "Massa",
         "description": ""
     },
     "THRIVING_OUTDOOR_WORLD": {
@@ -812,7 +812,7 @@
         "description": ""
     },
     "MURDER": {
-        "message": "Murder",
+        "message": "Assasinato",
         "description": ""
     },
     "YAW": {
@@ -824,11 +824,11 @@
         "description": ""
     },
     "X_CANNOT_BE_TOLERATED_HERE": {
-        "message": "%crime cannot be tolerated here.",
+        "message": "Aqui não é tolerado o %crime.",
         "description": ""
     },
     "PAUSED": {
-        "message": "PAUSED",
+        "message": "PAUSADO",
         "description": ""
     },
     "MISSILE_SMART": {
@@ -844,7 +844,7 @@
         "description": ""
     },
     "RADIOACTIVES": {
-        "message": "Radioactive waste",
+        "message": "Lixo radioactivo",
         "description": ""
     },
     "PLANNED_ECONOMY": {
@@ -860,11 +860,11 @@
         "description": ""
     },
     "BATTLE_WEAPONS": {
-        "message": "Battle weapons",
+        "message": "Armas de combate",
         "description": ""
     },
     "HYPERSPACE_DEPARTURE_CLOUD": {
-        "message": "Hyperspace departure cloud",
+        "message": "Nuvem de partida do hiperespaço",
         "description": ""
     },
     "SHIFT": {
@@ -872,7 +872,7 @@
         "description": ""
     },
     "DESTINATION": {
-        "message": "Destination",
+        "message": "Destino",
         "description": ""
     },
     "REQUEST_DOCKING_CLEARANCE": {
@@ -880,7 +880,7 @@
         "description": ""
     },
     "SHIP_TYPE": {
-        "message": "Ship type",
+        "message": "Tipo de nave",
         "description": ""
     },
     "FINE_PAID_N_BUT_N_REMAINING": {
@@ -896,15 +896,15 @@
         "description": ""
     },
     "COMMS": {
-        "message": "Comms",
+        "message": "Comunicações",
         "description": ""
     },
     "PIRACY": {
-        "message": "Piracy",
+        "message": "Pirataria",
         "description": ""
     },
     "ATMOSPHERIC_SHIELDING": {
-        "message": "Atmospheric Shielding",
+        "message": "Escudo Atmosférico",
         "description": ""
     },
     "COUNT_ON_SURFACE": {
@@ -912,11 +912,11 @@
         "description": ""
     },
     "YOU_NO_MONEY": {
-        "message": "You do not have any money.",
+        "message": "Não tem dinheiro suficiente.",
         "description": ""
     },
     "PLASTICS": {
-        "message": "Plastics",
+        "message": "Plásticos",
         "description": ""
     },
     "HYPERSPACE_JUMP": {
@@ -924,15 +924,15 @@
         "description": ""
     },
     "A_FEW_THOUSAND": {
-        "message": "Only a few thousand",
+        "message": "Apenas alguns milhares",
         "description": ""
     },
     "NONE": {
-        "message": "None",
+        "message": "Nada",
         "description": ""
     },
     "RADAR_MAPPER": {
-        "message": "Radar Mapper",
+        "message": "Mapeador de Radar",
         "description": ""
     },
     "PERSEUS_ARM": {
@@ -940,7 +940,7 @@
         "description": ""
     },
     "NOT_FOUND": {
-        "message": "Not found",
+        "message": "Não encontrado",
         "description": ""
     },
     "SHIELD_GENERATOR_DESCRIPTION": {
@@ -952,15 +952,15 @@
         "description": ""
     },
     "YOU_DO_NOT_HAVE_ANY_X": {
-        "message": "You do not have any %item.",
+        "message": "Não tem nenhum %item.",
         "description": ""
     },
     "VERY_DENSE": {
-        "message": "very dense",
+        "message": "muito denso",
         "description": ""
     },
     "FUEL": {
-        "message": "Fuel",
+        "message": "Combustível",
         "description": ""
     },
     "ROLL": {
@@ -984,27 +984,27 @@
         "description": ""
     },
     "ROCKY_PLANET": {
-        "message": "\" rocky planet\"",
+        "message": "\" planeta rochoso\"",
         "description": ""
     },
     "SOMEWHERE_SERVICES": {
-        "message": "%station services",
+        "message": "Serviços da %station",
         "description": ""
     },
     "AUTOPILOT": {
-        "message": "Piloto automático",
+        "message": "Piloto autom.",
         "description": ""
     },
     "AUTOPILOT_ENTER_LOW_ORBIT_AROUND": {
-        "message": "Autopilot: Enter low orbit around %target",
+        "message": "Piloto automático: Entrar em órbita baixa à volta de %target",
         "description": ""
     },
     "SHIP": {
-        "message": "Ship",
+        "message": "Nave",
         "description": ""
     },
     "BULLETIN_BOARD": {
-        "message": "Bulletin Board",
+        "message": "Quadro de Anúncios",
         "description": ""
     },
     "WE_HAVE_NO_BUSINESS_WITH_YOU": {
@@ -1016,7 +1016,7 @@
         "description": ""
     },
     "LIBERAL_DEMOCRACY": {
-        "message": "Liberal democracy",
+        "message": "Democracia liberal",
         "description": ""
     },
     "CTRL": {
@@ -1024,7 +1024,7 @@
         "description": ""
     },
     "REPAIRS_AND_SERVICING": {
-        "message": "Repairs and servicing",
+        "message": "Manutenção e reparação",
         "description": ""
     },
     "SET_SPEED_KM_S": {
@@ -1040,15 +1040,15 @@
         "description": ""
     },
     "THICK": {
-        "message": "thick",
+        "message": "espesso",
         "description": ""
     },
     "HEAVY_INDUSTRY": {
-        "message": "Heavy industry.",
+        "message": "Indústria pesada.",
         "description": ""
     },
     "STAR_K_SUPER_GIANT": {
-        "message": "Orange super giant star",
+        "message": "Estrela super gigante laranja.",
         "description": ""
     },
     "ITEM_IS_OUT_OF_STOCK": {
@@ -1092,7 +1092,7 @@
         "description": ""
     },
     "VERY_LARGE_GAS_GIANT": {
-        "message": "Very large gas giant",
+        "message": "Gigante de gás muito grande",
         "description": ""
     },
     "OUTDOOR_AGRICULTURAL_WORLD": {
@@ -1104,27 +1104,27 @@
         "description": ""
     },
     "THIN": {
-        "message": "thin",
+        "message": "fino",
         "description": ""
     },
     "SLAVES": {
-        "message": "Slaves",
+        "message": "Escravos",
         "description": ""
     },
     "PITCH": {
-        "message": "Pitch",
+        "message": "$ para montar",
         "description": ""
     },
     "PRICE_TO_FIT": {
-        "message": "$ to fit",
+        "message": "$ para instalar",
         "description": ""
     },
     "SHIP_IS_ALREADY_FULLY_REPAIRED": {
-        "message": "Your ship is in perfect working condition.",
+        "message": "A sua nave está em perfeitas condições.",
         "description": ""
     },
     "STAR_S_BH": {
-        "message": "A stellar black hole",
+        "message": "Buraco negro estelar",
         "description": ""
     },
     "SEMI_MAJOR_AXIS": {
@@ -1132,15 +1132,15 @@
         "description": ""
     },
     "LARGE": {
-        "message": "Large",
+        "message": "Grande",
         "description": ""
     },
     "GRAIN": {
-        "message": "Grain",
+        "message": "Grão",
         "description": ""
     },
     "AUTOPILOT_DOCK_WITH_STATION": {
-        "message": "Autopilot: Dock with space station",
+        "message": "Piloto automático: Docar com a estação espacial",
         "description": ""
     },
     "ROLL_LEFT": {
@@ -1148,11 +1148,11 @@
         "description": ""
     },
     "CONTACT_LOCAL_POLICE": {
-        "message": "Contact local police",
+        "message": "Contactar a polícia local",
         "description": ""
     },
     "MONTH_DEC": {
-        "message": "Dec",
+        "message": "Dez",
         "description": ""
     },
     "PRESSURE_N_ATMOSPHERES": {
@@ -1160,19 +1160,19 @@
         "description": ""
     },
     "NUMBER_DAYS": {
-        "message": "%days{f.0} days",
+        "message": "%days{f.0} dias",
         "description": ""
     },
     "SYSTEM_NUMBER": {
-        "message": "System number:",
+        "message": "Número do sistema:",
         "description": ""
     },
     "SEARCH": {
-        "message": "Search",
+        "message": "Procura",
         "description": ""
     },
     "BUY": {
-        "message": "Buy",
+        "message": "Comprar",
         "description": ""
     },
     "GAME_SAVE_CANNOT_WRITE": {
@@ -1188,7 +1188,7 @@
         "description": ""
     },
     "SHIP_MASS_N_TONNES": {
-        "message": "Ship mass: %{mass}t",
+        "message": "Massa da nave: %{mass}t",
         "description": ""
     },
     "AUTOPILOT_DESCRIPTION": {
@@ -1196,11 +1196,11 @@
         "description": ""
     },
     "O2_ATMOSPHERE": {
-        "message": "\" Oxygen atmosphere\"",
+        "message": "\" Atmosfera de Oxigénio\"",
         "description": ""
     },
     "AUTOPILOT_FLY_TO_VICINITY_OF": {
-        "message": "Autopilot: Fly to vicinity of %target",
+        "message": "Piloto automático: Voar até à proximidade de %target",
         "description": ""
     },
     "CARGO_LIFE_SUPPORT": {
@@ -1208,7 +1208,7 @@
         "description": ""
     },
     "HE_ATMOSPHERE": {
-        "message": "\" Helium atmosphere\"",
+        "message": "\" Atmosfera de Hélio\"",
         "description": ""
     },
     "CLEARANCE_ALREADY_GRANTED_BAY_N": {
@@ -1220,7 +1220,7 @@
         "description": ""
     },
     "BUY_THIS_SHIP": {
-        "message": "Buy this ship",
+        "message": "Comprar esta nave",
         "description": ""
     },
     "ROTATE_UP": {
@@ -1244,19 +1244,19 @@
         "description": ""
     },
     "MESSAGE_FROM_X": {
-        "message": "Message from %sender:",
+        "message": "Mensagem de %sender:",
         "description": ""
     },
     "LOCKED": {
-        "message": "locked",
+        "message": "bloqueado",
         "description": ""
     },
     "STAR_B_HYPER_GIANT": {
-        "message": "Blue hyper giant star",
+        "message": "Estrela hiper gigante azul",
         "description": ""
     },
     "BUTTON": {
-        "message": "\" Button \"",
+        "message": "\" Botão \"",
         "description": ""
     },
     "FORWARD_ACCEL_LADEN": {
@@ -1276,11 +1276,11 @@
         "description": ""
     },
     "REQUEST_LAUNCH": {
-        "message": "Request Launch",
+        "message": "Requerer Descolagem",
         "description": ""
     },
     "IN_TRANSIT": {
-        "message": "In transit",
+        "message": "Em transito",
         "description": ""
     },
     "SPEED_CONTROL_MODE": {
@@ -1304,7 +1304,7 @@
         "description": ""
     },
     "ANIMAL_MEAT": {
-        "message": "Animal Meat",
+        "message": "Carne Animal",
         "description": ""
     },
     "STAR_M": {
@@ -1344,11 +1344,11 @@
         "description": ""
     },
     "CASH": {
-        "message": "Cash",
+        "message": "Dinheiro",
         "description": ""
     },
     "FIRE_MISSILE": {
-        "message": "Fire missile",
+        "message": "Disparar míssil",
         "description": ""
     },
     "PULSECANNON_20MW": {
@@ -1372,11 +1372,11 @@
         "description": ""
     },
     "FREE": {
-        "message": "Free",
+        "message": "Livre",
         "description": ""
     },
     "FRONT": {
-        "message": "Front",
+        "message": "Frente",
         "description": ""
     },
     "FITTING": {
@@ -1384,15 +1384,15 @@
         "description": ""
     },
     "NO_FREE_SPACE_FOR_ITEM": {
-        "message": "You have no free space for this item.",
+        "message": "Não tem espaço disponível para este item.",
         "description": ""
     },
     "RADIUS": {
-        "message": "Radius",
+        "message": "Raio",
         "description": ""
     },
     "SELECTED_SYSTEM": {
-        "message": "Selected system",
+        "message": "Sistema selecionado",
         "description": ""
     },
     "HANG_UP": {
@@ -1404,15 +1404,15 @@
         "description": ""
     },
     "TEXTILES": {
-        "message": "Textiles",
+        "message": "Téixteis",
         "description": ""
     },
     "NAME": {
-        "message": "Name",
+        "message": "Nome",
         "description": ""
     },
     "MONTH_SEP": {
-        "message": "Sep",
+        "message": "Set",
         "description": ""
     },
     "PITCH_DOWN": {
@@ -1420,7 +1420,7 @@
         "description": ""
     },
     "SIDEREAL_VIEW": {
-        "message": "Sidereal view",
+        "message": "Vista sideral",
         "description": ""
     },
     "PITCH_UP": {
@@ -1428,7 +1428,7 @@
         "description": ""
     },
     "VID_LINK_ESTABLISHED": {
-        "message": "Video link established",
+        "message": "Ligação de vídeo estabelecida",
         "description": ""
     },
     "PERIAPSIS_DISTANCE": {
@@ -1436,7 +1436,7 @@
         "description": ""
     },
     "CAPITALIST": {
-        "message": "Capitalist",
+        "message": "Capitalista",
         "description": ""
     },
     "SET_SPEED_M_S": {
@@ -1484,11 +1484,11 @@
         "description": ""
     },
     "N_DAYS": {
-        "message": "%days{f.1} days",
+        "message": "%days{f.1} dias",
         "description": ""
     },
     "POLICE_SHIP_REGISTRATION": {
-        "message": "POLICE",
+        "message": "POLÍCIA",
         "description": ""
     },
     "SCANNER_CONTROL": {
@@ -1500,7 +1500,7 @@
         "description": ""
     },
     "LASER_FIRE_DETECTED": {
-        "message": "Laser fire detected.",
+        "message": "Disparo de laser detetado.",
         "description": ""
     },
     "ZOOM_IN": {
@@ -1508,7 +1508,7 @@
         "description": ""
     },
     "CARGO_SPACE": {
-        "message": "Cargo space",
+        "message": "Espaço para mercadoria",
         "description": ""
     },
     "AND_INDIGENOUS_MICROBIAL_LIFE": {
@@ -1516,7 +1516,7 @@
         "description": ""
     },
     "NO_ALERT": {
-        "message": "No alert",
+        "message": "Sem alertas",
         "description": ""
     },
     "PULSECANNON_2MW": {
@@ -1524,7 +1524,7 @@
         "description": ""
     },
     "AR_ATMOSPHERE": {
-        "message": "\" Argon atmosphere\"",
+        "message": "\" Atmosfera de Árgon\"",
         "description": ""
     },
     "AND_INDIGENOUS_PLANT_LIFE": {
@@ -1532,7 +1532,7 @@
         "description": ""
     },
     "LIVE_ANIMALS": {
-        "message": "Live Animals",
+        "message": "Animais Vivos",
         "description": ""
     },
     "STARPORTS": {
@@ -1572,11 +1572,11 @@
         "description": ""
     },
     "ECONOMY_TYPE": {
-        "message": "Economy type:",
+        "message": "Tipo de economia:",
         "description": ""
     },
     "SHIP_ALTITUDE_ABOVE_TERRAIN": {
-        "message": "Ship altitude above terrain",
+        "message": "Altitude do navio acima do terreno",
         "description": ""
     },
     "QUADRUPLE_SYSTEM": {
@@ -1592,7 +1592,7 @@
         "description": ""
     },
     "SHIP_INFORMATION": {
-        "message": "Ship information",
+        "message": "Informação da nave",
         "description": ""
     },
     "ROTATION_DAMPING_OFF": {
@@ -1608,11 +1608,11 @@
         "description": ""
     },
     "COMMUNIST": {
-        "message": "Communist",
+        "message": "Comunista",
         "description": ""
     },
     "NAVIGATION_STAR_MAPS": {
-        "message": "Navigation and star maps",
+        "message": "Navegação e mapas de estrelas",
         "description": ""
     },
     "FUEL_SCOOP": {
@@ -1628,7 +1628,7 @@
         "description": ""
     },
     "MISCELLANEOUS": {
-        "message": "Miscellaneous",
+        "message": "Diversos",
         "description": ""
     },
     "SOMEWHERE_SHIP_EQUIPMENT": {
@@ -1652,11 +1652,11 @@
         "description": ""
     },
     "ALERT_CANCELLED": {
-        "message": "Alert cancelled.",
+        "message": "Alerta cancelado.",
         "description": ""
     },
     "SHIPYARD": {
-        "message": "Shipyard",
+        "message": "Estaleiro",
         "description": ""
     },
     "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED": {
@@ -1664,15 +1664,15 @@
         "description": ""
     },
     "MASSIVE": {
-        "message": "Massive",
+        "message": "Massivo",
         "description": ""
     },
     "CLEAN": {
-        "message": "Clean",
+        "message": "Limpo",
         "description": ""
     },
     "STAR_M_GIANT": {
-        "message": "Red giant star",
+        "message": "Estrela vermelha gigante",
         "description": ""
     },
     "NORMA_ARM": {
@@ -1680,15 +1680,15 @@
         "description": ""
     },
     "WEAPON_TEMP": {
-        "message": "Weapon temp",
+        "message": "Temperatura da arma",
         "description": ""
     },
     "AUTOPILOT_ON": {
-        "message": "Autopilot on",
+        "message": "Piloto automático ligado",
         "description": ""
     },
     "CARGO_LIFE_SUPPORT_DESCRIPTION": {
-        "message": "Allows the transport of live cargo.",
+        "message": "Permite o transporte de mercadoria viva.",
         "description": ""
     },
     "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT": {
@@ -1700,7 +1700,7 @@
         "description": ""
     },
     "SHIELD_INTEGRITY": {
-        "message": "Shield integrity",
+        "message": "Integridade do escudo",
         "description": ""
     },
     "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED": {
@@ -1708,7 +1708,7 @@
         "description": ""
     },
     "MIXED_ECONOMY": {
-        "message": "Mixed economy",
+        "message": "Economia mista",
         "description": ""
     },
     "CLEARANCE_DENIED_NO_BAYS": {
@@ -1716,7 +1716,7 @@
         "description": ""
     },
     "STAR_AF_HYPER_GIANT": {
-        "message": "White hyper giant star",
+        "message": "Estrela branca hiper gigante",
         "description": ""
     },
     "OUTER_ARM": {
@@ -1724,15 +1724,15 @@
         "description": ""
     },
     "WHEELS_ARE_UP": {
-        "message": "Wheels are up",
+        "message": "Trem de aterragem em cima",
         "description": ""
     },
     "LIQUOR": {
-        "message": "Liquor",
+        "message": "Lícor",
         "description": ""
     },
     "NO_SPACE_ON_SHIP": {
-        "message": "There is no space on your ship",
+        "message": "Não há espaço na sua nave",
         "description": ""
     },
     "ROLL_RIGHT": {
@@ -1740,11 +1740,11 @@
         "description": ""
     },
     "GO_BACK": {
-        "message": "Go back",
+        "message": "Voltar",
         "description": ""
     },
     "DOCKING": {
-        "message": "Docking",
+        "message": "Docar",
         "description": ""
     },
     "TOGGLE_HUD_MODE": {
@@ -1752,7 +1752,7 @@
         "description": ""
     },
     "EXTERNAL_VIEW": {
-        "message": "External view",
+        "message": "Vista externa",
         "description": ""
     },
     "ECM_BASIC_DESCRIPTION": {
@@ -1764,7 +1764,7 @@
         "description": ""
     },
     "HYPERSPACE": {
-        "message": "Hyperspace",
+        "message": "Hiperespaço",
         "description": ""
     },
     "FINE_PAID_N": {
@@ -1772,7 +1772,7 @@
         "description": ""
     },
     "EXTERNAL_ATMOSPHERIC_PRESSURE": {
-        "message": "External atmospheric pressure",
+        "message": "Pressão atmosférica experior",
         "description": ""
     },
     "THRUSTER_RETRO": {
@@ -1780,15 +1780,15 @@
         "description": ""
     },
     "MEDICINES": {
-        "message": "Medicines",
+        "message": "Medicamentos",
         "description": ""
     },
     "YOU_NOT_ENOUGH_MONEY": {
-        "message": "You do not have enough money",
+        "message": "Não tem dinheiro suficiente.",
         "description": ""
     },
     "ILLEGAL_GOODS": {
-        "message": "Illegal Goods:",
+        "message": "Bens Ilegais:",
         "description": ""
     },
     "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND": {
@@ -1800,27 +1800,27 @@
         "description": ""
     },
     "UNOCCUPIED_CABIN": {
-        "message": "Extra Passenger Cabin",
+        "message": "Cabine de Passageiro Extra",
         "description": ""
     },
     "SHIP_ORIENTATION": {
-        "message": "Ship orientation",
+        "message": "Orientação da nave",
         "description": ""
     },
     "MILITARY_FUEL": {
-        "message": "Military fuel",
+        "message": "Combustível militar",
         "description": ""
     },
     "FIRE_LASER": {
-        "message": "Fire laser",
+        "message": "Disparar laser",
         "description": ""
     },
     "MEDIUM_GAS_GIANT": {
-        "message": "Medium gas giant",
+        "message": "Gigante de gás médio",
         "description": ""
     },
     "DRAW_VERTICAL_LINES": {
-        "message": "Draw vertical lines",
+        "message": "Desenhar linhas verticais",
         "description": ""
     },
     "SOMEWHERE_POLICE": {
@@ -1832,7 +1832,7 @@
         "description": ""
     },
     "CURRENT_SYSTEM": {
-        "message": "Current system",
+        "message": "Sistema atual",
         "description": ""
     },
     "CARGO_SCOOP": {
@@ -1856,15 +1856,15 @@
         "description": ""
     },
     "SYSTEM_TYPE": {
-        "message": "System type:",
+        "message": "Tipo de sistema:",
         "description": ""
     },
     "N_WHATEVER_MASSES": {
-        "message": "%mass{f.3} %units masses",
+        "message": "%mass{f.3} %units massas",
         "description": ""
     },
     "PRECIOUS_METALS": {
-        "message": "Precious metals",
+        "message": "Metais preciosos",
         "description": ""
     },
     "WITH_NO_SIGNIFICANT_ATMOSPHERE": {
@@ -1872,11 +1872,11 @@
         "description": ""
     },
     "INTERNAL_VIEW": {
-        "message": "Internal view",
+        "message": "Vista interna",
         "description": ""
     },
     "INT_LY": {
-        "message": "%scale ly",
+        "message": "%scale al",
         "description": ""
     },
     "ROTATION_DAMPING_ON": {
@@ -1884,27 +1884,27 @@
         "description": ""
     },
     "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW": {
-        "message": "Unexplored system. System view unavailable.",
+        "message": "Sistema inexplorado. Vista de sistema indisponível.",
         "description": ""
     },
     "TENUOUS": {
-        "message": "tenuous",
+        "message": "ténue",
         "description": ""
     },
     "TAKEOFF": {
-        "message": "Takeoff",
+        "message": "Descolagem",
         "description": ""
     },
     "EARTH": {
-        "message": "Earth",
+        "message": "Terra",
         "description": ""
     },
     "STAR_M_HYPER_GIANT": {
-        "message": "Red hyper giant star",
+        "message": "Estrela Vermelha hiper gigante",
         "description": ""
     },
     "STAR_AF_SUPER_GIANT": {
-        "message": "White super giant star",
+        "message": "Estrela branca super gigante",
         "description": ""
     },
     "ALT_IN_KM": {
@@ -1964,11 +1964,11 @@
         "description": ""
     },
     "GALAXY_SECTOR_VIEW": {
-        "message": "Galaxy sector view",
+        "message": "Vista de setor da galáxia",
         "description": ""
     },
     "PLANET_CONTAINING_LIQUID_WATER": {
-        "message": "\" planet containing liquid water\"",
+        "message": "\" planeta com água líquida\"",
         "description": ""
     },
     "N_EARTH_DAYS": {
@@ -1984,11 +1984,11 @@
         "description": ""
     },
     "MONTH_APR": {
-        "message": "Apr",
+        "message": "Abr",
         "description": ""
     },
     "BOUGHT_1T_OF": {
-        "message": "You have bought 1t of %commodity.",
+        "message": "Comprou 1t de %commodity",
         "description": ""
     },
     "SHIP_VELOCITY_BY_REFERENCE_OBJECT": {
@@ -2000,7 +2000,7 @@
         "description": ""
     },
     "MAJOR_IMPORTS": {
-        "message": "Major Imports:",
+        "message": "Importações principais:",
         "description": ""
     },
     "JOYSTICK_INPUT": {
@@ -2008,19 +2008,19 @@
         "description": ""
     },
     "ECONOMIC_INFO": {
-        "message": "Economic info",
+        "message": "Informação económica",
         "description": ""
     },
     "ORBITAL_PERIOD": {
-        "message": "Orbital period",
+        "message": "Período orbital",
         "description": ""
     },
     "CARBON_ORE": {
-        "message": "Carbon ore",
+        "message": "Minério de carbono",
         "description": ""
     },
     "OVER_N_BILLION": {
-        "message": "Over %population billion",
+        "message": "Mais de %population mil milhões",
         "description": ""
     },
     "DATE_DUE_N": {
@@ -2044,15 +2044,15 @@
         "description": ""
     },
     "S_ATMOSPHERE": {
-        "message": "\" Sulfuric atmosphere\"",
+        "message": "\" Atmosfera de Sulfúrico\"",
         "description": ""
     },
     "MISSILE_NAVAL": {
-        "message": "Naval Missile",
+        "message": "Míssil Naval",
         "description": ""
     },
     "SUGGESTED_RESPONSES": {
-        "message": "Suggested responses:",
+        "message": "Respostas sugeridas:",
         "description": ""
     },
     "STAR_M_WF": {
@@ -2060,7 +2060,7 @@
         "description": ""
     },
     "H_ATMOSPHERE": {
-        "message": "\" Hydrogen atmosphere\"",
+        "message": "\" Atmosfera de Hidrogénio\"",
         "description": ""
     },
     "PULSECANNON_RAPID_2MW": {
@@ -2076,7 +2076,7 @@
         "description": ""
     },
     "DEMOGRAPHICS": {
-        "message": "Demographics",
+        "message": "Demografia",
         "description": ""
     },
     "CLEARANCE_GRANTED_BAY_N": {
@@ -2084,7 +2084,7 @@
         "description": ""
     },
     "WEAPONS": {
-        "message": "Weapons",
+        "message": "Armas",
         "description": ""
     },
     "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO": {
@@ -2092,11 +2092,11 @@
         "description": ""
     },
     "STAR_M_SUPER_GIANT": {
-        "message": "Red super giant star",
+        "message": "Estrela vermelha super gigante",
         "description": ""
     },
     "FERTILIZER": {
-        "message": "Fertilizer",
+        "message": "Fertilizante",
         "description": ""
     },
     "NO_TARGET_SELECTED": {
@@ -2112,31 +2112,31 @@
         "description": ""
     },
     "LIQUID_OXYGEN": {
-        "message": "Liquid Oxygen",
+        "message": "Oxigénio Líquido",
         "description": ""
     },
     "SELL": {
-        "message": "Sell",
+        "message": "Vender",
         "description": ""
     },
     "CAMERA_REAR_VIEW": {
-        "message": "Rear camera",
+        "message": "Câmara traseira",
         "description": ""
     },
     "OCEANICWORLD": {
-        "message": "\" oceanic world\"",
+        "message": "\" mundo oceânico\"",
         "description": ""
     },
     "PRICE": {
-        "message": "Price",
+        "message": "Preço",
         "description": ""
     },
     "SYSTEM": {
-        "message": "System",
+        "message": "Sistema",
         "description": ""
     },
     "CAMERA_LEFT_VIEW": {
-        "message": "Left camera",
+        "message": "Câmara esquerda",
         "description": ""
     },
     "ROTATE_RIGHT": {

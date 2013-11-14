@@ -20,7 +20,7 @@
         "description": ""
     },
     "COMPUTER_SPEED_CONTROL": {
-        "message": "Computer controllo velocità",
+        "message": "Controllo velocità assitito",
         "description": ""
     },
     "ALT": {
@@ -276,7 +276,7 @@
         "description": ""
     },
     "COMPUTER_HEADING_CONTROL": {
-        "message": "Computer di controllo orientamento",
+        "message": "Controllo orientamento assistito",
         "description": ""
     },
     "SURFACE_GRAVITY": {
@@ -416,7 +416,7 @@
         "description": ""
     },
     "HEADING_LOCK_BACKWARD": {
-        "message": "Bloc. Orient. (post)",
+        "message": "Orient. (post)",
         "description": ""
     },
     "HULL_AUTOREPAIR_DESCRIPTION": {
@@ -1456,7 +1456,7 @@
         "description": ""
     },
     "HEADING_LOCK_FORWARD": {
-        "message": "Bloc. Orient. (ant)",
+        "message": "Orient. (ant)",
         "description": ""
     },
     "CANT_SAVE_IN_HYPERSPACE": {
@@ -1464,7 +1464,7 @@
         "description": ""
     },
     "MANUAL_CONTROL_MODE": {
-        "message": "Controllo Manuale",
+        "message": "Modalità controllo manuale",
         "description": ""
     },
     "MONTH_JUN": {
@@ -1568,7 +1568,7 @@
         "description": ""
     },
     "MANUAL_CONTROL": {
-        "message": "Controllo manuale",
+        "message": "Manuale",
         "description": ""
     },
     "ECONOMY_TYPE": {
@@ -1684,7 +1684,7 @@
         "description": ""
     },
     "AUTOPILOT_ON": {
-        "message": "Autopilota on",
+        "message": "Autopilota attivo",
         "description": ""
     },
     "CARGO_LIFE_SUPPORT_DESCRIPTION": {

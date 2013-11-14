@@ -291,4 +291,8 @@ template <typename T> inline void LuaObject<T>::PushToLua(const T &o) {
 	Register(new (LuaObjectBase::Allocate(sizeof(LuaCopyObject<T>))) LuaCopyObject<T>(o));
 }
 
+// specialise for SystemPath, which needs custom machinery to deduplicate system paths
+class SystemPath;
+template <> void LuaObject<SystemPath>::PushToLua(const SystemPath &o);
+
 #endif

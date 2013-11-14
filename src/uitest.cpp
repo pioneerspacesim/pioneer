@@ -127,7 +127,7 @@ int main(int argc, char **argv)
 
 	Lua::Init();
 
-	RefCountedPtr<UI::Context> c(new UI::Context(Lua::manager, r, WIDTH, HEIGHT, "English"));
+	RefCountedPtr<UI::Context> c(new UI::Context(Lua::manager, r, WIDTH, HEIGHT, "en"));
 
 #if 0
 	UI::Gauge *gauge;
