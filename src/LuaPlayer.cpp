@@ -24,92 +24,6 @@ static int l_player_is_player(lua_State *l)
 }
 
 /*
- * Method: GetMoney
- *
- * Get the player's current money
- *
- * > money = player:GetMoney()
- *
- * Return:
- *
- *   money - the player's money, in dollars
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   experimental
- */
-static int l_player_get_money(lua_State *l)
-{
-	Player *p = LuaObject<Player>::CheckFromLua(1);
-	lua_pushnumber(l, p->GetMoney()*0.01);
-	return 1;
-}
-
-/*
- * Method: SetMoney
- *
- * Set the player's money
- *
- * > player:SetMoney(money)
- *
- * Parameters:
- *
- *   money - the new amount of money, in dollars
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   experimental
- */
-static int l_player_set_money(lua_State *l)
-{
-	Player *p = LuaObject<Player>::CheckFromLua(1);
-	float m = luaL_checknumber(l, 2);
-	p->SetMoney(Sint64(m*100.0));
-	return 0;
-}
-
-/*
- * Method: AddMoney
- *
- * Add an amount to the player's money
- *
- * > money = player:AddMoney(change)
- *
- * Parameters:
- *
- *   change - the amount of money to add to the player's money, in dollars
- *
- * Return:
- *
- *   money - the player's new money, in dollars
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   experimental
- */
-static int l_player_add_money(lua_State *l)
-{
-	Player *p = LuaObject<Player>::CheckFromLua(1);
-	float a = luaL_checknumber(l, 2);
-	Sint64 m = p->GetMoney() + Sint64(a*100.0);
-	p->SetMoney(m);
-	lua_pushnumber(l, m*0.01);
-	return 1;
-}
-
-/*
  * Method: AddCrime
  *
  * Add a crime to the player's criminal record
@@ -353,10 +267,6 @@ template <> void LuaObject<Player>::RegisterClass()
 
 	static const luaL_Reg l_methods[] = {
 		{ "IsPlayer", l_player_is_player },
-
-		{ "GetMoney", l_player_get_money },
-		{ "SetMoney", l_player_set_money },
-		{ "AddMoney", l_player_add_money },
 
 		{ "AddCrime",       l_player_add_crime },
 		{ "GetCrime",       l_player_get_crime },

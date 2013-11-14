@@ -5,6 +5,7 @@ local Engine = import("Engine")
 local Lang = import("Lang")
 local Game = import("Game")
 local Ship = import("Ship")
+local Player = import("Player")
 local SystemPath = import("SystemPath")
 local ErrorScreen = import("ErrorScreen")
 
