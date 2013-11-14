@@ -36,15 +36,15 @@
         "description": ""
     },
     "FLAVOUR_INTROTEXT_9": {
-        "message": "Cześć, nazywam się {name}, muszę szybko dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}), {dist}lś. Płacę {cash}.",
+        "message": "Cześć, nazywam się {name}, muszę szybko dostać się do systemu {system} ({sectorx},{sectory},{sectorz}), {dist}lś. Płacę {cash}.",
         "description": ""
     },
     "FLAVOUR_INTROTEXT_8": {
-        "message": "Cześć, nazywam się {name}, muszę szybko dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}), {dist}lś. Płacę {cash}.",
+        "message": "Cześć, nazywam się {name}, muszę szybko dostać się do systemu {system} ({sectorx},{sectory},{sectorz}), {dist}lś. Płacę {cash}.",
         "description": ""
     },
     "FLAVOUR_INTROTEXT_7": {
-        "message": "Cześć, nazywam się {name}, chcę dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}), {dist}lś. Zapłacę {cash}.",
+        "message": "Cześć, nazywam się {name}, chcę dostać się do systemu {system} ({sectorx},{sectory},{sectorz}), {dist}lś. Zapłacę {cash}.",
         "description": ""
     },
     "FLAVOUR_ADTEXT_4": {
@@ -52,11 +52,11 @@
         "description": ""
     },
     "FLAVOUR_INTROTEXT_5": {
-        "message": "Cześć, nazywam się {name}, chcę dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}), {dist}lś. Zapłacę {cash}.",
+        "message": "Cześć, nazywam się {name}, chcę dostać się do systemu {system} ({sectorx},{sectory},{sectorz}), {dist}lś. Zapłacę {cash}.",
         "description": ""
     },
     "FLAVOUR_INTROTEXT_4": {
-        "message": "Cześć, nazywam się {name}, chcę dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}), {dist}lś. Zapłacę {cash}.",
+        "message": "Cześć, nazywam się {name}, chcę dostać się do systemu {system} ({sectorx},{sectory},{sectorz}), {dist}lś. Zapłacę {cash}.",
         "description": ""
     },
     "FLAVOUR_ADTEXT_1": {
@@ -64,7 +64,7 @@
         "description": ""
     },
     "FLAVOUR_INTROTEXT_2": {
-        "message": "Cześć, nazywam się {name} i szukam transportu dla małej grupy osób do systemu {system} ({sectorx}, {sectory}, {sectorz}), {dist}lś. Zapłacę {cash}.",
+        "message": "Cześć, nazywam się {name} i szukam transportu dla małej grupy osób do systemu {system} ({sectorx},{sectory},{sectorz}), {dist}lś. Zapłacę {cash}.",
         "description": ""
     },
     "FLAVOUR_ADTEXT_3": {
@@ -72,7 +72,7 @@
         "description": ""
     },
     "FLAVOUR_INTROTEXT_0": {
-        "message": "Cześć, nazywam się {name} i szukam transportu dla małej grupy osób do systemu {system} ({sectorx}, {sectory}, {sectorz}), {dist}lś. Zapłacę {cash}.",
+        "message": "Cześć, nazywam się {name} i szukam transportu dla małej grupy osób do systemu {system} ({sectorx},{sectory},{sectorz}), {dist}lś. Zapłacę {cash}.",
         "description": ""
     },
     "FLAVOUR_DANGER_10": {
@@ -88,15 +88,15 @@
         "description": ""
     },
     "FLAVOUR_INTROTEXT_12": {
-        "message": "Nazywam się {name}, chcę dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}), {dist}lś. Płacę {cash}.",
+        "message": "Nazywam się {name}, chcę dostać się do systemu {system} ({sectorx},{sectory},{sectorz}), {dist}lś. Płacę {cash}.",
         "description": ""
     },
     "FLAVOUR_INTROTEXT_11": {
-        "message": "Cześć, nazywam się {name}, muszę szybko dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}), {dist}lś. Płacę {cash}.",
+        "message": "Cześć, nazywam się {name}, muszę szybko dostać się do systemu {system} ({sectorx},{sectory},{sectorz}), {dist}lś. Płacę {cash}.",
         "description": ""
     },
     "FLAVOUR_INTROTEXT_10": {
-        "message": "Cześć, nazywam się {name}, muszę szybko dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}), {dist}lś. Zapłata {cash}.",
+        "message": "Cześć, nazywam się {name}, muszę szybko dostać się do systemu {system} ({sectorx},{sectory},{sectorz}), {dist}lś. Zapłata {cash}.",
         "description": ""
     },
     "EXCELLENT": {
@@ -304,7 +304,7 @@
         "description": ""
     },
     "FLAVOUR_INTROTEXT_1": {
-        "message": "Cześć, nazywam się {name} i szukam transportu dla małej grupy osób do systemu {system} ({sectorx}, {sectory}, {sectorz}), {dist}lś. Zapłacę {cash}.",
+        "message": "Cześć, nazywam się {name} i szukam transportu dla małej grupy osób do systemu {system} ({sectorx},{sectory},{sectorz}), {dist}lś. Zapłacę {cash}.",
         "description": ""
     },
     "CORPORATIONS_10": {
@@ -412,7 +412,7 @@
         "description": ""
     },
     "FLAVOUR_INTROTEXT_6": {
-        "message": "Cześć, nazywam się {name}, chcę dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}), {dist}lś. Zapłacę {cash}.",
+        "message": "Cześć, nazywam się {name}, chcę dostać się do systemu {system} ({sectorx},{sectory},{sectorz}), {dist}lś. Zapłacę {cash}.",
         "description": ""
     },
     "FLAVOUR_ADTEXT_7": {
@@ -432,7 +432,7 @@
         "description": ""
     },
     "FLAVOUR_INTROTEXT_3": {
-        "message": "Cześć, nazywam się {name}, chcę dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}), {dist}lś. Zapłacę {cash}.",
+        "message": "Cześć, nazywam się {name}, chcę dostać się do systemu {system} ({sectorx},{sectory},{sectorz}), {dist}lś. Zapłacę {cash}.",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_9": {

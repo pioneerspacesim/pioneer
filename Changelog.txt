@@ -13,6 +13,7 @@ November 2013
    * Internal changes
      * Build fixes for MSVC
      * Explicitly enable depth testing where we need it (#2530)
+     * Intern Lua SystemPath objects to deduplicate them (#2543, #2546)
 
 October 2013
 
