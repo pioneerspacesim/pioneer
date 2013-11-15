@@ -17,6 +17,7 @@ public:
 		FORMAT_INTEGER,
 		FORMAT_PERCENT,
 		FORMAT_PERCENT_INTEGER,
+		FORMAT_MONEY,
 	};
 
 	NumberLabel *SetValue(double v);
