@@ -3,8 +3,6 @@
 
 local Player = import_core("Player")
 
-local money = 0
-
 --
 -- Method: GetMoney
 --
@@ -25,7 +23,7 @@ local money = 0
 --   experimental
 --
 function Player:GetMoney ()
-	return money
+	return self.cash
 end
 
 --
@@ -48,7 +46,7 @@ end
 --   experimental
 --
 function Player:SetMoney (m)
-	money = m
+	self:setprop("cash", m)
 end
 
 --
@@ -75,7 +73,7 @@ end
 --   experimental
 --
 function Player:AddMoney (m)
-	money = money + m
+	self:setprop("cash", self.cash + m)
 end
 
 return Player
