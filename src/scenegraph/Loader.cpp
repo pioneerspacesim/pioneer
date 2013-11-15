@@ -238,8 +238,6 @@ Model *Loader::CreateModel(ModelDefinition &def)
 		//texture3 is reserved for pattern
 		//texture4 is reserved for color gradient
 
-		mat->heatGradient = Graphics::TextureBuilder::Decal("textures/heat_gradient.png").GetOrCreateTexture(m_renderer, "model");
-
 		model->m_materials.push_back(std::make_pair((*it).name, mat));
 	}
 	//printf("Loaded %d materials\n", int(model->m_materials.size()));
