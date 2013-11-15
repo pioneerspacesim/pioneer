@@ -1,6 +1,6 @@
 {
     "FLAVOUR_SUCCESSMSG_3": {
-        "message": "Se aprecia su servicio discreto y a tiempo. Se le pagará el montante.",
+        "message": "Se aprecia su servicio discreto y a tiempo. Se le pagará inmediatamente.",
         "description": ""
     },
     "WHY_SO_MUCH_MONEY": {
@@ -68,7 +68,7 @@
         "description": ""
     },
     "OK_AGREED": {
-        "message": "Vale, De acuerdo.",
+        "message": "Bien, de acuerdo.",
         "description": ""
     },
     "FLAVOUR_ADTEXT_0": {
