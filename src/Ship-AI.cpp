@@ -316,7 +316,7 @@ vector3d Ship::AIGetLeadDir(const Body *target, const vector3d& targaccel, int g
 {
 	assert(target);
 	if (m_equipment.Get(Equip::SLOT_LASER) != Equip::NONE)
-		return target->GetPositionRelTo(this);
+		return target->GetPositionRelTo(this).Normalized();
 
 	const vector3d targpos = target->GetPositionRelTo(this);
 	const vector3d targvel = target->GetVelocityRelTo(this);
