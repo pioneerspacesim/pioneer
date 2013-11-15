@@ -1205,11 +1205,15 @@ static int l_ship_cancel_ai(lua_State *l)
 }
 
 /*
- * Method(s): GetInvulnerable()
- *			  SetInvulnerable()
+ * Method: GetInvulnerable
  *
- * Check if the ship is invulnerable
- * Make the ship invulnerable
+ * Find out whether a ship can take damage or not.
+ *
+ * > is_invulnerable = ship:GetInvulnerable()
+ *
+ * Return:
+ *
+ *   is_invulnerable - boolean; true if the ship is invulnerable to damage
  *
  * Availability:
  *
@@ -1226,6 +1230,21 @@ static int l_ship_get_invulnerable(lua_State *l)
 	return 1;
 }
 
+/*
+ * Method: SetInvulnerable
+ *
+ * Make a ship invulnerable to damage (or not)
+ *
+ * > ship:SetInvulnerable(true)
+ *
+ * Availability:
+ *
+ *  ???
+ *
+ * Status:
+ *
+ *  experimental
+ */
 static int l_ship_set_invulnerable(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
