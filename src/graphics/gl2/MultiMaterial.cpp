@@ -85,10 +85,13 @@ void MultiMaterial::Apply()
 	p->texture4.Set(this->texture4, 4);
 
 	p->heatGradient.Set(this->heatGradient, 5);
-	if(specialParameter0) {
+	if(nullptr!=specialParameter0) {
 		HeatGradientParameters_t *pMGP = static_cast<HeatGradientParameters_t*>(specialParameter0);
 		p->heatingNormal.Set(pMGP->heatingNormal);
 		p->heatingAmount.Set(pMGP->heatingAmount);
+	} else {
+		p->heatingNormal.Set(vector3f(0.0f, -1.0f, 0.0f));
+		p->heatingAmount.Set(0.0f);
 	}
 
 	glPushAttrib(GL_ENABLE_BIT);
