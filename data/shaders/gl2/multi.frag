@@ -17,6 +17,7 @@ varying vec3 normal;
 		uniform sampler2D heatGradient;
 		uniform vec3 heatingNormal; // normalised
 		uniform float heatingAmount; // 0.0 to 1.0 used for `u` component of heatGradient texture
+		varying vec3 heatingDir;
 	#endif // HEAT_COLOURING
 #endif // (NUM_LIGHTS > 0)
 
@@ -82,11 +83,18 @@ void main(void)
 
 #if (NUM_LIGHTS > 0)
 	#ifdef HEAT_COLOURING
-		float dphNn = clamp(dot(heatingNormal, normal), 0.0, 1.0);
-		float heatDot = heatingAmount * (dphNn * dphNn * dphNn);
-		vec4 heatColour = texture2D(heatGradient, vec2(heatDot, 0.5)); //heat gradient blend
-		gl_FragColor = color * light + specular;
-		gl_FragColor.rgb = gl_FragColor.rgb + heatColour.rgb;
+		if (heatingAmount > 0.0)
+		{
+			float dphNn = clamp(dot(heatingDir, normal), 0.0, 1.0);
+			float heatDot = heatingAmount * (dphNn * dphNn * dphNn);
+			vec4 heatColour = texture2D(heatGradient, vec2(heatDot, 0.5)); //heat gradient blend
+			gl_FragColor = color * light + specular;
+			gl_FragColor.rgb = gl_FragColor.rgb + heatColour.rgb;
+		}
+		else
+		{
+			gl_FragColor = color * light + specular;
+		}
 	#else
 		gl_FragColor = color * light + specular;
 	#endif // HEAT_COLOURING
