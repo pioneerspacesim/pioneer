@@ -41,11 +41,17 @@ ui.templates.StationView = function (args)
 
 	local player = Game.player
 
+	local cashLabel = ui:NumberLabel("MONEY")
+	cashLabel:Bind("value", player, "cash")
+
 	local footer =
 		ui:Margin(5, "VERTICAL",
 			ui:Grid({15,30,30,15},1):SetRow(0, {
 				ui:Margin(10, "HORIZONTAL",
-					l.CASH..": "..Format.Money(player:GetMoney())
+					ui:HBox():PackEnd({
+						l.CASH..": ",
+						cashLabel,
+					})
 				),
 				ui:Margin(10, "HORIZONTAL",
 					ui:HBox():PackEnd({
