@@ -944,6 +944,55 @@ static int l_ship_hyperspace_to(lua_State *l)
 }
 
 /*
+ * Method: GetInvulnerable
+ *
+ * Find out whether a ship can take damage or not.
+ *
+ * > is_invulnerable = ship:GetInvulnerable()
+ *
+ * Return:
+ *
+ *   is_invulnerable - boolean; true if the ship is invulnerable to damage
+ *
+ * Availability:
+ *
+ *  ???
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_ship_get_invulnerable(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	lua_pushboolean(l, s->IsInvulnerable());
+	return 1;
+}
+
+/*
+ * Method: SetInvulnerable
+ *
+ * Make a ship invulnerable to damage (or not)
+ *
+ * > ship:SetInvulnerable(true)
+ *
+ * Availability:
+ *
+ *  ???
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_ship_set_invulnerable(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	luaL_checkany(l, 2);
+	s->SetInvulnerable(lua_toboolean(l, 2));
+	return 0;
+}
+
+/*
  * Group: AI methods
  *
  * The AI methods are the script's equivalent of the autopilot. They are
@@ -1201,55 +1250,6 @@ static int l_ship_cancel_ai(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
 	s->AIClearInstructions();
-	return 0;
-}
-
-/*
- * Method: GetInvulnerable
- *
- * Find out whether a ship can take damage or not.
- *
- * > is_invulnerable = ship:GetInvulnerable()
- *
- * Return:
- *
- *   is_invulnerable - boolean; true if the ship is invulnerable to damage
- *
- * Availability:
- *
- *  ???
- *
- * Status:
- *
- *  experimental
- */
-static int l_ship_get_invulnerable(lua_State *l)
-{
-	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	lua_pushboolean(l, s->IsInvulnerable());
-	return 1;
-}
-
-/*
- * Method: SetInvulnerable
- *
- * Make a ship invulnerable to damage (or not)
- *
- * > ship:SetInvulnerable(true)
- *
- * Availability:
- *
- *  ???
- *
- * Status:
- *
- *  experimental
- */
-static int l_ship_set_invulnerable(lua_State *l)
-{
-	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	luaL_checkany(l, 2);
-	s->SetInvulnerable(lua_toboolean(l, 2));
 	return 0;
 }
 
