@@ -972,7 +972,8 @@ static int l_ship_get_invulnerable(lua_State *l)
 /*
  * Method: SetInvulnerable
  *
- * Make a ship invulnerable to damage (or not)
+ * Make a ship invulnerable to damage (or not).
+ * Note: Invulnerability is not currently stored in the save game.
  *
  * > ship:SetInvulnerable(true)
  *
