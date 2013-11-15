@@ -1229,8 +1229,8 @@ static int l_ship_get_invulnerable(lua_State *l)
 static int l_ship_set_invulnerable(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	int i = luaL_checkinteger(l, 2);
-	s->SetInvulnerable(i > 0);
+	luaL_checkany(l, 2);
+	s->SetInvulnerable(lua_toboolean(l, 2));
 	return 0;
 }
 
