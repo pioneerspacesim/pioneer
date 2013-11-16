@@ -15,7 +15,6 @@ varying vec3 eyePos;
 varying vec3 normal;
 	#ifdef HEAT_COLOURING
 		uniform sampler2D heatGradient;
-		uniform vec3 heatingNormal; // normalised
 		uniform float heatingAmount; // 0.0 to 1.0 used for `u` component of heatGradient texture
 		varying vec3 heatingDir;
 	#endif // HEAT_COLOURING

@@ -1153,6 +1153,9 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	//angthrust negated, for some reason
 	GetModel()->SetThrust(vector3f(m_thrusters), -vector3f(m_angThrusters));
 
+	matrix3x3f mt;
+	matrix3x3dtof(viewTransform.InverseOf().GetOrient(), mt);
+	s_heatGradientParams.heatingMatrix = mt;
 	s_heatGradientParams.heatingNormal = vector3f(GetVelocity().Normalized());
 	s_heatGradientParams.heatingAmount = Clamp(GetHullTemperature(),0.0,1.0);
 

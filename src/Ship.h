@@ -26,6 +26,7 @@ class Missile;
 namespace Graphics { class Renderer; }
 
 struct HeatGradientParameters_t {
+	matrix3x3f heatingMatrix;
 	vector3f heatingNormal; // normalised
 	float heatingAmount; // 0.0 to 1.0 used for `u` component of heatGradient texture
 };
