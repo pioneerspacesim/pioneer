@@ -151,7 +151,7 @@ void StationShipViewForm::BuyShip()
 		const int freeDockingPort = m_station->GetFreeDockingPort(Pi::player);
 		if(freeDockingPort >= 0) {
 			// change docking port we're docked at to the free one we found
-			m_station->SwapDockedShipsPort(Pi::player, dockingPort, freeDockingPort);
+			m_station->SwapDockedShipsPort(dockingPort, freeDockingPort);
 		}
 	}
 

@@ -298,24 +298,21 @@ int SpaceStation::NumShipsDocked() const
 
 int SpaceStation::GetFreeDockingPort(const Ship *s) const
 {
+	assert(s);
 	for (unsigned int i=0; i<m_type->numDockingPorts; i++) {
 		if (m_shipDocking[i].ship == 0) {
-			if(s) {
-				// fwing
-				// initial unoccupied check
-				if (m_shipDocking[i].ship != 0) continue;
+			// fwing
+			// initial unoccupied check
+			if (m_shipDocking[i].ship != 0) continue;
 
-				// size-of-ship vs size-of-bay check
-				const SpaceStationType::SBayGroup *const pBayGroup = m_type->FindGroupByBay(i);
-				if( !pBayGroup ) continue;
+			// size-of-ship vs size-of-bay check
+			const SpaceStationType::SBayGroup *const pBayGroup = m_type->FindGroupByBay(i);
+			if( !pBayGroup ) continue;
 
-				const Aabb &bbox = s->GetAabb();
-				const double bboxRad = bbox.GetRadius();
+			const Aabb &bbox = s->GetAabb();
+			const double bboxRad = bbox.GetRadius();
 
-				if( pBayGroup->minShipSize < bboxRad && bboxRad < pBayGroup->maxShipSize ) {
-					return i;
-				}
-			} else {
+			if( pBayGroup->minShipSize < bboxRad && bboxRad < pBayGroup->maxShipSize ) {
 				return i;
 			}
 		}
@@ -336,13 +333,14 @@ void SpaceStation::SetDocked(Ship *ship, int port)
 	PositionDockedShip(ship, port);
 }
 
-void SpaceStation::SwapDockedShipsPort(Ship *ship, const int oldPort, const int newPort)
+void SpaceStation::SwapDockedShipsPort(const int oldPort, const int newPort)
 {
 	if( oldPort == newPort )
 		return;
 
 	// set new location
-	//SetDocked(ship, newPort);
+	Ship *ship = m_shipDocking[oldPort].ship;
+	assert(ship);
 	ship->SetDockedWith(this, newPort);
 
 	m_shipDocking[oldPort].ship = 0;

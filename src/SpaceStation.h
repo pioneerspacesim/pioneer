@@ -79,7 +79,7 @@ public:
 	// Returns true on success, false if permission denied
 	bool LaunchShip(Ship *ship, int port);
 	void SetDocked(Ship *ship, int port);
-	void SwapDockedShipsPort(Ship *ship, const int oldPort, const int newPort);
+	void SwapDockedShipsPort(const int oldPort, const int newPort);
 
 	bool GetDockingClearance(Ship *s, std::string &outMsg);
 	int GetDockingPortCount() const { return m_type->numDockingPorts; }
