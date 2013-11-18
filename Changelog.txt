@@ -2,16 +2,21 @@ November 2013
 
    * New features
      * Translations now managed via Transifex (#2521, #2537, #2536)
+     * "Speed lines" option to convey movement to the player (#2528)
 
    * Minor changes and tweaks
      * Improvements to the ship spinner (used in Ship Info view) (#2532)
 
+   * Script and UI API changes
+     * New methods Ship:SetInvulnerable and Ship:GetInvulnerable (#2531)
+
    * Fixes
-     * Fix potential divide-by-zero in autopilot (#2535)
+     * Fix potential divide-by-zero in autopilot (#2535, #2547)
 
    * Internal changes
      * Build fixes for MSVC
      * Explicitly enable depth testing where we need it (#2530)
+     * Intern Lua SystemPath objects to deduplicate them (#2543, #2546)
 
 October 2013
 

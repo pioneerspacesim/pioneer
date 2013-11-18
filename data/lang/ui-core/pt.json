@@ -1,6 +1,6 @@
 {
     "CARGO": {
-        "message": "Cargo",
+        "message": "Mercadoria",
         "description": ""
     },
     "DELTA_V": {
@@ -93,6 +93,10 @@
     },
     "ORBITAL_ANALYSIS_NOTES": {
         "message": "Circular orbit speed is given for a tangential velocity. The ship should be moving in a direction at 90° to the ship/{name} axis.\n\nDescent speed is an absolute minimum, and is also tangential. A slower speed or a lower angle will result in a course which intersects with the surface of {name}.\n\nEscape speed will in theory work in any direction, as long as the ship does not collide with {name} on the way.\n\t\t",
+        "description": ""
+    },
+    "DISPLAY_SPEED_LINES": {
+        "message": "Display speed lines",
         "description": ""
     },
     "CLEAR": {
@@ -212,7 +216,7 @@
         "description": ""
     },
     "FUEL_WEIGHT": {
-        "message": "Fuel weight",
+        "message": "Peso do combustível",
         "description": ""
     },
     "MISSION_DETAILS": {
@@ -240,7 +244,7 @@
         "description": ""
     },
     "NONE": {
-        "message": "None",
+        "message": "Nada",
         "description": ""
     },
     "LANGUAGE": {
@@ -292,7 +296,7 @@
         "description": ""
     },
     "CABINS": {
-        "message": "Cabins",
+        "message": "Cabines",
         "description": ""
     },
     "N_UNOCCUPIED_PASSENGER_CABINS": {
@@ -340,7 +344,7 @@
         "description": ""
     },
     "CONTROLS": {
-        "message": "Controls",
+        "message": "Controlos",
         "description": ""
     },
     "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR": {
@@ -408,7 +412,7 @@
         "description": ""
     },
     "CASH": {
-        "message": "Cash",
+        "message": "Dinheiro",
         "description": ""
     },
     "COMMANDER": {
@@ -464,7 +468,7 @@
         "description": ""
     },
     "NAME": {
-        "message": "Name",
+        "message": "Nome",
         "description": ""
     },
     "GIVE_ORDERS_TO_CREW": {
@@ -540,7 +544,7 @@
         "description": ""
     },
     "CARGO_SPACE": {
-        "message": "Cargo space",
+        "message": "Espaço para mercadoria",
         "description": ""
     },
     "COMPLETED": {
@@ -624,7 +628,7 @@
         "description": ""
     },
     "USED": {
-        "message": "Used",
+        "message": "Usado",
         "description": ""
     },
     "ABOVE_AVERAGE": {
@@ -632,7 +636,7 @@
         "description": ""
     },
     "METAL_ALLOYS": {
-        "message": "Metal alloys",
+        "message": "Ligas metálicas",
         "description": ""
     },
     "SELECT_FILE": {
@@ -656,7 +660,7 @@
         "description": ""
     },
     "FUEL": {
-        "message": "Fuel",
+        "message": "Combustível",
         "description": ""
     },
     "ELITE": {

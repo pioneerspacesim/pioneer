@@ -8,7 +8,7 @@
         "description": ""
     },
     "DISPLAY_NAV_TUNNELS": {
-        "message": "Navigációs alagút mutatása",
+        "message": "Navigációs alagút",
         "description": ""
     },
     "ORBIT": {
@@ -48,7 +48,7 @@
         "description": ""
     },
     "ECONOMY_TRADE": {
-        "message": "gazdaság és kereskedelem",
+        "message": "Leltár",
         "description": ""
     },
     "REFUEL": {
@@ -93,6 +93,10 @@
     },
     "ORBITAL_ANALYSIS_NOTES": {
         "message": "A körpályához megadott sebesség párhuzamos a bolygó felszínével. A hajónak 90°-os szögben kell haladnia a ship/{name} tengelyhez képest.\n\nAz ereszkedési sebesség a lehető legalacsonyabb, és szintén párhuzamos a felszínnel. Lassabb sebesség vagy nagyobb ereszkedési szög ütközőpályát eredményez.\n\nA szökési sebesség elméletben bármely irányba működik, ütközőpályákat kivéve.",
+        "description": ""
+    },
+    "DISPLAY_SPEED_LINES": {
+        "message": "Sebességjelző vonalak",
         "description": ""
     },
     "CLEAR": {

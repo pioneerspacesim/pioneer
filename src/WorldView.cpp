@@ -214,6 +214,8 @@ void WorldView::InitObject()
 	const Graphics::TextureDescriptor &descriptor = b.GetDescriptor();
 	m_indicatorMousedirSize = vector2f(descriptor.dataSize.x*descriptor.texSize.x,descriptor.dataSize.y*descriptor.texSize.y);
 
+    m_speedLines.reset(new SpeedLines(Pi::player));
+
 	//get near & far clipping distances
 	//XXX m_renderer not set yet
 	float znear;
@@ -389,6 +391,13 @@ void WorldView::Draw3D()
 	assert(Pi::player);
 	assert(!Pi::player->IsDead());
 	m_camera->Draw(m_renderer, GetCamType() == CAM_INTERNAL ? Pi::player : 0);
+
+	if (!Pi::DrawGUI) return;
+
+	// Draw 3D HUD
+	// Speed lines
+	if (Pi::AreSpeedLinesDisplayed())
+		m_speedLines->Render(m_renderer);
 }
 
 void WorldView::OnToggleLabels()
@@ -871,6 +880,19 @@ void WorldView::Update()
 	m_camera->Update();
 
 	UpdateProjectedObjects();
+
+	//speedlines need cam_frame for transform, so they
+	//must be updated here (or don't delete cam_frame so early...)
+	if (Pi::AreSpeedLinesDisplayed()) {
+		m_speedLines->Update(Pi::game->GetTimeStep());
+		const Frame *cam_frame = m_camera->GetCamFrame();
+		matrix4x4d trans;
+		Frame::GetFrameRenderTransform(Pi::player->GetFrame(), cam_frame, trans);
+
+		trans[12] = trans[13] = trans[14] = 0.0;
+		trans[15] = 1.0;
+		m_speedLines->SetTransform(trans);
+	}
 
 	// target object under the crosshairs. must be done after
 	// UpdateProjectedObjects() to be sure that m_projectedPos does not have
