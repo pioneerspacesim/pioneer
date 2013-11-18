@@ -254,6 +254,7 @@
     <ClCompile Include="..\..\src\SpaceStation.cpp" />
     <ClCompile Include="..\..\src\SpaceStationType.cpp" />
     <ClCompile Include="..\..\src\SpaceStationView.cpp" />
+    <ClCompile Include="..\..\src\SpeedLines.cpp" />
     <ClCompile Include="..\..\src\Star.cpp" />
     <ClCompile Include="..\..\src\StationAdvertForm.cpp" />
     <ClCompile Include="..\..\src\StationBulletinBoardForm.cpp" />
@@ -420,6 +421,7 @@
     <ClInclude Include="..\..\src\SpaceStation.h" />
     <ClInclude Include="..\..\src\SpaceStationType.h" />
     <ClInclude Include="..\..\src\SpaceStationView.h" />
+    <ClInclude Include="..\..\src\SpeedLines.h" />
     <ClInclude Include="..\..\src\Star.h" />
     <ClInclude Include="..\..\src\StationAdvertForm.h" />
     <ClInclude Include="..\..\src\StationBulletinBoardForm.h" />

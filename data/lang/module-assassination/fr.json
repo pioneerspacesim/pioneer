@@ -76,7 +76,7 @@
         "description": ""
     },
     "IT_MUST_BE_DONE_AFTER": {
-        "message": "Cel doit etre fait apres que {target} quitteras {spaceport}. Ne loupez pas cette opportunitée.",
+        "message": "Ce doit etre fait dès que {target} quitteras {spaceport}. Ne loupez pas cette opportunitée.",
         "description": ""
     },
     "HOW_WILL_I_BE_PAID": {

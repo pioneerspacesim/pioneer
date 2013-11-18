@@ -48,7 +48,7 @@
         "description": ""
     },
     "FLAVOUR_INTROTEXT_3": {
-        "message": "Cześć, nazywam się {name}. Zapłacę {cash} za dostarczenie dokumentów do  {starport} w systemie {system} ({sectorx}, {sectory}, {sectorz}) ({dist} lś) .",
+        "message": "Cześć, nazywam się {name}. Zapłacę {cash} za dostarczenie dokumentów do  {starport} w systemie {system} ({sectorx},{sectory},{sectorz}) ({dist}lś) .",
         "description": ""
     },
     "FLAVOUR_SUCCESSMSG_0": {
@@ -184,7 +184,7 @@
         "description": ""
     },
     "FLAVOUR_INTROTEXT_4": {
-        "message": "Pozdrowienia. To automatyczna wiadomość z Firmy Kurierskiej Bedford i {name}. Zapłacimy {cash} za dostawę do {starport} w systemie {system} ({sectorx}, {sectory}, {sectorz}) ({dist} lś).",
+        "message": "Pozdrowienia. To automatyczna wiadomość z Firmy Kurierskiej Bedford i {name}. Zapłacimy {cash} za dostawę do {starport} w systemie {system} ({sectorx},{sectory},{sectorz}) ({dist}lś).",
         "description": ""
     },
     "FLAVOUR_ADTEXT_1": {
@@ -192,7 +192,7 @@
         "description": ""
     },
     "FLAVOUR_INTROTEXT_2": {
-        "message": "Cześć, nazywam się {name}. Oferuję {cash} dla statku który szybko dostarczy paczkę do {starport} w systemie {system} ({sectorx}, {sectory}, {sectorz}) ({dist} lś) .",
+        "message": "Cześć, nazywam się {name}. Oferuję {cash} dla statku który szybko dostarczy paczkę do {starport} w systemie {system} ({sectorx},{sectory},{sectorz}) ({dist}lś) .",
         "description": ""
     },
     "FLAVOUR_ADTEXT_3": {
@@ -200,7 +200,7 @@
         "description": ""
     },
     "FLAVOUR_INTROTEXT_0": {
-        "message": "Cześć, nazywam się {name}. Zapłacę {cash} jeśli dostarczysz małą paczkę do {starport} w systemie {system} ({sectorx}, {sectory}, {sectorz}) ({dist} lś) .",
+        "message": "Cześć, nazywam się {name}. Zapłacę {cash} jeśli dostarczysz małą paczkę do {starport} w systemie {system} ({sectorx},{sectory},{sectorz}) ({dist}lś) .",
         "description": ""
     },
     "DELIVERY": {
@@ -208,7 +208,7 @@
         "description": ""
     },
     "FLAVOUR_INTROTEXT_1": {
-        "message": "Cześć, nazywam się {name}. Oferuję {cash} dla statku który przewiezie paczkę do {starport} w systemie {system} ({sectorx}, {sectory}, {sectorz}) ({dist} lś).",
+        "message": "Cześć, nazywam się {name}. Oferuję {cash} dla statku który przewiezie paczkę do {starport} w systemie {system} ({sectorx},{sectory},{sectorz}) ({dist}lś).",
         "description": ""
     },
     "HANG_UP": {

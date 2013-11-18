@@ -8,7 +8,7 @@
         "description": ""
     },
     "DISPLAY_NAV_TUNNELS": {
-        "message": "Wyświetl tunel nawigacyjny",
+        "message": "Wyświetlaj tunel nawigacyjny",
         "description": ""
     },
     "ORBIT": {
@@ -93,6 +93,10 @@
     },
     "ORBITAL_ANALYSIS_NOTES": {
         "message": "Prędkość orbitalna to stała prędkość z jaką powinien poruszać się statek pod kątem 90° względem osi statek/{name}.\n\nPrędkość graniczna, jest minimalną prędkością przy której statek pozostaje na orbicie.  Przy mniejszej prędkości lub kącie, rozpocznie się opadanie ku powierzchni {name}.\n\nPrędkość ucieczki teoretycznie powoduje opuszczenie orbity, jeśli tylko statek nie jest na kursie kolizyjnym z {name}.\n\t\t",
+        "description": ""
+    },
+    "DISPLAY_SPEED_LINES": {
+        "message": "Wyświetlaj linie dużych prędkości",
         "description": ""
     },
     "CLEAR": {
@@ -328,7 +332,7 @@
         "description": ""
     },
     "CITY_DETAIL_LEVEL": {
-        "message": "Szczeg. miast",
+        "message": "Szczegółowość miast",
         "description": ""
     },
     "N_OCCUPIED_PASSENGER_CABINS": {
@@ -368,7 +372,7 @@
         "description": ""
     },
     "FRACTAL_DETAIL": {
-        "message": "Dokł. fraktali",
+        "message": "Dokładność fraktali",
         "description": ""
     },
     "ALLEGIANCE": {
@@ -488,7 +492,7 @@
         "description": ""
     },
     "PLANET_DETAIL_DISTANCE": {
-        "message": "Szczeg. planet",
+        "message": "Szczegółowość planet",
         "description": ""
     },
     "CAPACITY_USED": {

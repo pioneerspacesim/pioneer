@@ -174,6 +174,8 @@ void Ship::InitGun(const char *tag, int num)
 
 void Ship::Init()
 {
+	m_invulnerable = false;
+
 	m_navLights.reset(new NavLights(GetModel()));
 	m_navLights->SetEnabled(true);
 
@@ -293,6 +295,11 @@ double Ship::GetSpeedReachedWithFuel() const
 
 bool Ship::OnDamage(Object *attacker, float kgDamage)
 {
+	if (m_invulnerable) {
+		Sound::BodyMakeNoise(this, "Hull_hit_Small", 0.5f);
+		return true;
+	}
+
 	if (!IsDead()) {
 		float dam = kgDamage*0.001f;
 		if (m_stats.shield_mass_left > 0.0f) {
@@ -385,6 +392,8 @@ bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 //destroy ship in an explosion
 void Ship::Explode()
 {
+	if (m_invulnerable) return;
+
 	Pi::game->GetSpace()->KillBody(this);
 	Sfx::Add(this, Sfx::TYPE_EXPLOSION);
 	Sound::BodyMakeNoise(this, "Explosion_1", 1.0f);

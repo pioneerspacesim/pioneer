@@ -314,20 +314,31 @@ double Ship::AIFaceDirection(const vector3d &dir, double av)
 // returns direction in ship's frame from this ship to target lead position
 vector3d Ship::AIGetLeadDir(const Body *target, const vector3d& targaccel, int gunindex)
 {
-	vector3d targpos = target->GetPositionRelTo(this);
-	vector3d targvel = target->GetVelocityRelTo(this);
+	assert(target);
+	if (m_equipment.Get(Equip::SLOT_LASER) == Equip::NONE)
+		return target->GetPositionRelTo(this).Normalized();
+
+	const vector3d targpos = target->GetPositionRelTo(this);
+	const vector3d targvel = target->GetVelocityRelTo(this);
 	// todo: should adjust targpos for gunmount offset
 
-	int laser = Equip::types[m_equipment.Get(Equip::SLOT_LASER, gunindex)].tableIndex;
-	double projspeed = Equip::lasers[laser].speed;
+	const int laser = Equip::types[m_equipment.Get(Equip::SLOT_LASER, gunindex)].tableIndex;
+	const double projspeed = Equip::lasers[laser].speed;
 
-	// first attempt
-	double projtime = targpos.Length() / projspeed;
-	vector3d leadpos = targpos + targvel*projtime + 0.5*targaccel*projtime*projtime;
+	vector3d leadpos;
+	// avoid a divide-by-zero floating point exception (very nearly zero is ok)
+	if( !is_zero_exact(projspeed) ) {
+		// first attempt
+		double projtime = targpos.Length() / projspeed;
+		leadpos = targpos + targvel*projtime + 0.5*targaccel*projtime*projtime;
 
-	// second pass
-	projtime = leadpos.Length() / projspeed;
-	leadpos = targpos + targvel*projtime + 0.5*targaccel*projtime*projtime;
+		// second pass
+		projtime = leadpos.Length() / projspeed;
+		leadpos = targpos + targvel*projtime + 0.5*targaccel*projtime*projtime;
+	} else {
+		// default
+		leadpos = targpos;
+	}
 
 	return leadpos.Normalized();
 }

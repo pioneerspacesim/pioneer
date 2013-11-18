@@ -40,11 +40,11 @@
         "description": ""
     },
     "TITLE_22": {
-        "message": "marynarz",
+        "message": "Marynarz",
         "description": ""
     },
     "TITLE_21": {
-        "message": "rektor",
+        "message": "Rektor",
         "description": ""
     },
     "FLAVOUR_INTROTEXT_4": {
@@ -56,11 +56,11 @@
         "description": ""
     },
     "TITLE_24": {
-        "message": "sierżant",
+        "message": "Sierżant",
         "description": ""
     },
     "TITLE_9": {
-        "message": "kapral",
+        "message": "Kapral",
         "description": ""
     },
     "FLAVOUR_ADTEXT_0": {
@@ -68,7 +68,7 @@
         "description": ""
     },
     "TITLE_13": {
-        "message": "prawnik",
+        "message": "Prawnik",
         "description": ""
     },
     "HOW_SOON_MUST_IT_BE_DONE": {
@@ -92,11 +92,11 @@
         "description": ""
     },
     "TITLE_8": {
-        "message": "komandor",
+        "message": "Komandor",
         "description": ""
     },
     "X_WILL_BE_LEAVING": {
-        "message": "{target} będzie opuszczał {spaceport} w systemie {system} ({sectorX}, {sectorY}, {sectorZ}), oddalonym o {dist} lś, punktualnie o {date}. Na statku {shipname} o identyfikatorze {shipregid}.",
+        "message": "{target} będzie opuszczał {spaceport} w systemie {system} ({sectorX},{sectorY},{sectorZ}), oddalonym o {dist}lś, punktualnie o {date}. Na statku {shipname} o identyfikatorze {shipregid}.",
         "description": ""
     },
     "LY": {
@@ -108,7 +108,7 @@
         "description": ""
     },
     "TITLE_3": {
-        "message": "kadet",
+        "message": "Kadet",
         "description": ""
     },
     "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID": {
@@ -156,23 +156,23 @@
         "description": ""
     },
     "TITLE_16": {
-        "message": "kupiec",
+        "message": "Kupiec",
         "description": ""
     },
     "TITLE_17": {
-        "message": "oficer",
+        "message": "Oficer",
         "description": ""
     },
     "TITLE_14": {
-        "message": "porucznik",
+        "message": "Porucznik",
         "description": ""
     },
     "TITLE_15": {
-        "message": "marszałek",
+        "message": "Marszałek",
         "description": ""
     },
     "TITLE_12": {
-        "message": "sędzia",
+        "message": "Sędzia",
         "description": ""
     },
     "FLAVOUR_INTROTEXT_1": {
@@ -180,11 +180,11 @@
         "description": ""
     },
     "TITLE_10": {
-        "message": "chorąży",
+        "message": "Chorąży",
         "description": ""
     },
     "TITLE_11": {
-        "message": "generał",
+        "message": "Generał",
         "description": ""
     },
     "SHIP": {
@@ -196,27 +196,27 @@
         "description": ""
     },
     "TITLE_6": {
-        "message": "pułkownik",
+        "message": "Pułkownik",
         "description": ""
     },
     "TITLE_18": {
-        "message": "szeregowiec",
+        "message": "Szeregowiec",
         "description": ""
     },
     "TITLE_19": {
-        "message": "profesor",
+        "message": "Profesor",
         "description": ""
     },
     "TITLE_20": {
-        "message": "prokurator",
+        "message": "Prokurator",
         "description": ""
     },
     "TITLE_23": {
-        "message": "senator",
+        "message": "Senator",
         "description": ""
     },
     "TITLE_7": {
-        "message": "komendant",
+        "message": "Komendant",
         "description": ""
     },
     "SHIP_ID": {
@@ -224,7 +224,7 @@
         "description": ""
     },
     "TITLE_0": {
-        "message": "admirał",
+        "message": "Admirał",
         "description": ""
     },
     "SYSTEM": {
@@ -236,7 +236,7 @@
         "description": ""
     },
     "TITLE_1": {
-        "message": "ambasador",
+        "message": "Ambasador",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG2_5": {
@@ -264,11 +264,11 @@
         "description": ""
     },
     "TITLE_4": {
-        "message": "kapitan",
+        "message": "Kapitan",
         "description": ""
     },
     "TITLE_5": {
-        "message": "kardynał",
+        "message": "Kardynał",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_4": {
@@ -288,7 +288,7 @@
         "description": ""
     },
     "TITLE_2": {
-        "message": "brygadier",
+        "message": "Brygadier",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_1": {

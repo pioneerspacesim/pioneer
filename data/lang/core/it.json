@@ -20,7 +20,7 @@
         "description": ""
     },
     "COMPUTER_SPEED_CONTROL": {
-        "message": "Computer controllo velocità",
+        "message": "Controllo velocità assitito",
         "description": ""
     },
     "ALT": {
@@ -276,7 +276,7 @@
         "description": ""
     },
     "COMPUTER_HEADING_CONTROL": {
-        "message": "Computer di controllo orientamento",
+        "message": "Controllo orientamento assistito",
         "description": ""
     },
     "SURFACE_GRAVITY": {
@@ -416,7 +416,7 @@
         "description": ""
     },
     "HEADING_LOCK_BACKWARD": {
-        "message": "Blocco Orientamento (post)",
+        "message": "Orient. (post)",
         "description": ""
     },
     "HULL_AUTOREPAIR_DESCRIPTION": {
@@ -1204,7 +1204,7 @@
         "description": ""
     },
     "CARGO_LIFE_SUPPORT": {
-        "message": "Supporti vitali per la stiva.",
+        "message": "Supporti vitali per la stiva",
         "description": ""
     },
     "HE_ATMOSPHERE": {
@@ -1328,7 +1328,7 @@
         "description": ""
     },
     "KM_S_RELATIVE_TO": {
-        "message": "%speed{f.2} km/s rel.va a %frame",
+        "message": "%speed{f.2} km/s relativa a %frame",
         "description": ""
     },
     "STAR_G": {
@@ -1456,7 +1456,7 @@
         "description": ""
     },
     "HEADING_LOCK_FORWARD": {
-        "message": "Blocco Orientamento (ant)",
+        "message": "Orient. (ant)",
         "description": ""
     },
     "CANT_SAVE_IN_HYPERSPACE": {
@@ -1464,7 +1464,7 @@
         "description": ""
     },
     "MANUAL_CONTROL_MODE": {
-        "message": "Controllo Manuale",
+        "message": "Modalità controllo manuale",
         "description": ""
     },
     "MONTH_JUN": {
@@ -1480,7 +1480,7 @@
         "description": ""
     },
     "M_S_RELATIVE_TO": {
-        "message": "%speed{f.0} m/s rel.va a %frame",
+        "message": "%speed{f.0} m/s relativa a %frame",
         "description": ""
     },
     "N_DAYS": {
@@ -1552,7 +1552,7 @@
         "description": ""
     },
     "TOMBSTONE_EPITAPH": {
-        "message": "Riposa in Pace,\\nVecchio Mio",
+        "message": "R.I.P. Amico mio",
         "description": ""
     },
     "MINOR_EXPORTS": {
@@ -1568,7 +1568,7 @@
         "description": ""
     },
     "MANUAL_CONTROL": {
-        "message": "Controllo manuale",
+        "message": "Manuale",
         "description": ""
     },
     "ECONOMY_TYPE": {
@@ -1684,7 +1684,7 @@
         "description": ""
     },
     "AUTOPILOT_ON": {
-        "message": "Autopilota on",
+        "message": "Autopilota attivo",
         "description": ""
     },
     "CARGO_LIFE_SUPPORT_DESCRIPTION": {
