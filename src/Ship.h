@@ -26,7 +26,6 @@ class Missile;
 namespace Graphics { class Renderer; }
 
 struct shipstats_t {
-	int max_capacity;
 	int used_capacity;
 	int used_cargo;
 	int free_capacity;
@@ -36,9 +35,7 @@ struct shipstats_t {
 	float hyperspace_range_max;
 	float shield_mass;
 	float shield_mass_left;
-	float fuel_tank_mass; //thruster, not hyperspace fuel
 	float fuel_tank_mass_left;
-	float fuel_use; // percentage (ie, 0--100) of tank used per second at full thrust
 };
 
 class SerializableEquipSet: public EquipSet {

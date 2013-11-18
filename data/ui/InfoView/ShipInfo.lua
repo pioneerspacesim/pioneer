@@ -81,7 +81,7 @@ local shipInfo = function (args)
 						"",
 						{ l.WEIGHT_EMPTY,       string.format("%dt", stats.totalMass - stats.usedCapacity) },
 						{ l.CAPACITY_USED..":", string.format("%dt (%dt "..l.FREE..")", stats.usedCapacity,  stats.freeCapacity) },
-						{ l.FUEL_WEIGHT..":",   string.format("%dt (%dt "..l.MAX..")", stats.fuelMassLeft, stats.maxFuelTankMass ) },
+						{ l.FUEL_WEIGHT..":",   string.format("%dt (%dt "..l.MAX..")", stats.fuelMassLeft, ShipDef[Game.player.shipId].fuelTankMass ) },
 						{ l.ALL_UP_WEIGHT..":", string.format("%dt", mass_with_fuel ) },
 						"",
 						{ l.FRONT_WEAPON..":", EquipDef[frontWeapon].name },

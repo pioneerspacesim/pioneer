@@ -452,7 +452,6 @@ Equip::Type Ship::GetHyperdriveFuelType() const
 
 void Ship::UpdateEquipStats()
 {
-	m_stats.max_capacity = m_type->capacity;
 	m_stats.used_capacity = 0;
 	m_stats.used_cargo = 0;
 
@@ -463,7 +462,7 @@ void Ship::UpdateEquipStats()
 			if (Equip::Slot(i) == Equip::SLOT_CARGO) m_stats.used_cargo += Equip::types[t].mass;
 		}
 	}
-	m_stats.free_capacity = m_stats.max_capacity - m_stats.used_capacity;
+	m_stats.free_capacity = m_type->capacity - m_stats.used_capacity;
 	m_stats.total_mass = m_stats.used_capacity + m_type->hullMass;
 
 	m_stats.shield_mass = TONS_HULL_PER_SHIELD * float(m_equipment.Count(Equip::SLOT_SHIELD, Equip::SHIELD_GENERATOR));
@@ -489,9 +488,7 @@ void Ship::UpdateEquipStats()
 
 void Ship::UpdateFuelStats()
 {
-	m_stats.fuel_tank_mass = m_type->fuelTankMass;
-	m_stats.fuel_use = GetShipType()->GetFuelUseRate();
-	m_stats.fuel_tank_mass_left = m_stats.fuel_tank_mass * GetFuel();
+	m_stats.fuel_tank_mass_left = m_type->fuelTankMass * GetFuel();
 
 	UpdateMass();
 }

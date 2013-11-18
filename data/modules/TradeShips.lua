@@ -782,7 +782,7 @@ local onShipHit = function (ship, attacker)
 	-- maybe jettison a bit of cargo
 	if Engine.rand:Number(1) < trader.chance then
 		local cargo_type = nil
-		local max_cap = ship:GetStats().maxCapacity
+		local max_cap = ShipDef[ship.shipId].capacity
 		for k, v in pairs(trader.cargo) do
 			if v > 1 and Engine.rand:Number(1) < v / max_cap then
 				cargo_type = k

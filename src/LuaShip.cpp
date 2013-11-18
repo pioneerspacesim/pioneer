@@ -70,7 +70,6 @@ static int l_ship_is_player(lua_State *l)
  *
  *   stats - a table with the following fields
  *
- *     maxCapacity - maximum space for cargo and equipment (t)
  *     usedCapacity - amount of space used (t)
  *     usedCargo - amount of cargo space used (t)
  *     freeCapacity - total space remaining (t)
@@ -80,9 +79,7 @@ static int l_ship_is_player(lua_State *l)
  *     shieldMassLeft - remaining shield mass. when this reaches 0, the shields are depleted and the hull is exposed (t)
  *     hyperspaceRange - distance of furthest possible jump based on current contents (ly)
  *     maxHyperspaceRange - distance furthest possible jump under ideal conditions (ly)
- *     maxFuelTankMass - mass of internal (thruster) fuel tank, when full (t)
  *     fuelMassLeft - current mass of the internal fuel tank (t)
- *     fuelUse - thruster fuel use, scaled for the strongest thrusters at full thrust (percentage points per second, e.g. 0.0003)
  *
  * Example:
  *
@@ -107,7 +104,6 @@ static int l_ship_get_stats(lua_State *l)
 	const shipstats_t &stats = s->GetStats();
 
 	lua_newtable(l);
-	pi_lua_settable(l, "maxCapacity",        stats.max_capacity);
 	pi_lua_settable(l, "usedCapacity",       stats.used_capacity);
 	pi_lua_settable(l, "usedCargo",          stats.used_cargo);
 	pi_lua_settable(l, "freeCapacity",       stats.free_capacity);
@@ -117,8 +113,6 @@ static int l_ship_get_stats(lua_State *l)
 	pi_lua_settable(l, "maxHyperspaceRange", stats.hyperspace_range_max);
 	pi_lua_settable(l, "shieldMass",         stats.shield_mass);
 	pi_lua_settable(l, "shieldMassLeft",     stats.shield_mass_left);
-	pi_lua_settable(l, "maxFuelTankMass",    stats.fuel_tank_mass);
-	pi_lua_settable(l, "fuelUse",            stats.fuel_use);
 	pi_lua_settable(l, "fuelMassLeft",       stats.fuel_tank_mass_left);
 
 	LUA_DEBUG_END(l, 1);
