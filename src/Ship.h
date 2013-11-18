@@ -250,6 +250,9 @@ public:
 	// actually changing state
 	mutable sigc::signal<void> onFlavourChanged;
 
+	bool IsInvulnerable() const { return m_invulnerable; }
+	void SetInvulnerable(bool b) { m_invulnerable = b; }
+
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
@@ -291,6 +294,8 @@ private:
 	void OnEquipmentChange(Equip::Type e);
 	void EnterHyperspace();
 	void InitGun(const char *tag, int num);
+
+	bool m_invulnerable;
 
 	shipstats_t m_stats;
 	const ShipType *m_type;

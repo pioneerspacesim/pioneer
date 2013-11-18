@@ -7,6 +7,9 @@ November 2013
    * Minor changes and tweaks
      * Improvements to the ship spinner (used in Ship Info view) (#2532)
 
+   * Script and UI API changes
+     * New methods Ship:SetInvulnerable and Ship:GetInvulnerable (#2531)
+
    * Fixes
      * Fix potential divide-by-zero in autopilot (#2535, #2547)
 
