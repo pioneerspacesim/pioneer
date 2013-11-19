@@ -293,6 +293,7 @@ void Table::ClearRows()
 {
 	m_body->Clear();
 	m_dirty = true;
+	GetContext()->RequestLayout();
 }
 
 Table *Table::SetRowSpacing(int spacing)
