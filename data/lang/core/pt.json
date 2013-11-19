@@ -60,7 +60,7 @@
         "description": ""
     },
     "FIT": {
-        "message": "Fit",
+        "message": "Instalar",
         "description": ""
     },
     "EXTENSIVE_MINING": {
@@ -88,7 +88,7 @@
         "description": ""
     },
     "TOGGLE_LUA_CONSOLE": {
-        "message": "Toggle Lua console",
+        "message": "Ativar consola Lua",
         "description": ""
     },
     "SOCIAL_DEMOCRACY": {
@@ -160,7 +160,7 @@
         "description": ""
     },
     "PRICE_TO_REMOVE": {
-        "message": "$ for removal",
+        "message": "$ para remover",
         "description": ""
     },
     "IMPERIAL_RULE": {
@@ -180,7 +180,7 @@
         "description": ""
     },
     "SOMEWHERE_COMMODITIES_MARKET": {
-        "message": "%station commodities market",
+        "message": "Mercado de produtos da %station",
         "description": ""
     },
     "NARCOTICS": {
@@ -428,7 +428,7 @@
         "description": ""
     },
     "ENABLED_AUTOMATIC_SYSTEM_SELECTION": {
-        "message": "Enabled automatic system selection.",
+        "message": "Ativar seleção de sistema automático",
         "description": ""
     },
     "CAMERA_FRONT_VIEW": {
@@ -804,7 +804,7 @@
         "description": ""
     },
     "COMMODITIES_MARKET": {
-        "message": "Commodities market",
+        "message": "Mercado de produtos",
         "description": ""
     },
     "FARM_MACHINERY": {
@@ -1036,7 +1036,7 @@
         "description": ""
     },
     "SHIP_EQUIPMENT": {
-        "message": "Ship equipment",
+        "message": "Equipamento da nave",
         "description": ""
     },
     "THICK": {
@@ -1632,7 +1632,7 @@
         "description": ""
     },
     "SOMEWHERE_SHIP_EQUIPMENT": {
-        "message": "%station ship equipment",
+        "message": "Equipamento da nave da %station",
         "description": ""
     },
     "SAGITTARIUS_ARM": {
