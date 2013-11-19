@@ -138,13 +138,7 @@ public:
 
 	// determine if a point is inside a widgets active area
 	bool Contains(const Point &point) const {
-		return (point.x >= m_activeOffset.x && point.y >= m_activeOffset.y && point.x < m_activeOffset.x+m_activeArea.x && point.y < m_activeOffset.y+m_activeArea.y);
-	}
-
-	// deterine if an absolute point is inside a widget's active area
-	bool ContainsAbsolute(const Point &point) const {
-		Point pos = GetAbsolutePosition() + m_activeOffset;
-		return (point.x >= pos.x && point.y >= pos.y && point.x < pos.x+m_activeArea.x && point.y < pos.y+m_activeArea.y);
+		return (point.x >= m_activeOffset.x-m_drawOffset.x && point.y >= m_activeOffset.y-m_drawOffset.y && point.x < m_activeOffset.x+m_activeArea.x-m_drawOffset.x && point.y < m_activeOffset.y+m_activeArea.y-m_drawOffset.y);
 	}
 
 	// calculate layout contribution based on preferred size and flags

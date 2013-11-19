@@ -531,6 +531,7 @@ int main(int argc, char **argv)
 		c->Label("ten"),
 		c->Label("twenty")
 	));
+	table->SetMouseEnabled(true);
 	for (char ch = 'a'; ch <= 'z'; ch++) {
 		static char buf[32];
 		memset(buf, ch, sizeof(buf));

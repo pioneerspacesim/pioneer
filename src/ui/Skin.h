@@ -119,6 +119,18 @@ public:
 	}
 
 
+	void DrawRectColor(const Color4f &col, const Point &pos, const Point &size) const;
+	void DrawRectNormal(const Point &pos, const Point &size) const {
+		DrawRectColor(Color4f(0,0,0,AlphaNormal()), pos, size);
+	}
+	void DrawRectHover(const Point &pos, const Point &size) const {
+		DrawRectColor(Color4f(0,0,0,AlphaHover()), pos, size);
+	}
+	void DrawRectSelect(const Point &pos, const Point &size) const {
+		DrawRectColor(Color4f(0,0,0,AlphaSelect()), pos, size);
+	}
+
+
 	struct RectElement {
 		RectElement() {}
 		RectElement(unsigned int x, unsigned int y, unsigned int w, unsigned int h) : pos(x,y), size(w,h) {}
@@ -177,9 +189,9 @@ public:
 
 	unsigned int ButtonMinInnerSize() const { return m_buttonMinInnerSize; }
 
-	float ListAlphaNormal() const { return m_listAlphaNormal; }
-	float ListAlphaSelect() const { return m_listAlphaSelect; }
-	float ListAlphaHover()  const { return m_listAlphaHover; }
+	float AlphaNormal() const { return m_alphaNormal; }
+	float AlphaSelect() const { return m_alphaSelect; }
+	float AlphaHover()  const { return m_alphaHover; }
 
 private:
 	Graphics::Renderer *m_renderer;
@@ -187,7 +199,8 @@ private:
 	float m_scale;
 
 	RefCountedPtr<Graphics::Texture> m_texture;
-	RefCountedPtr<Graphics::Material> m_material;
+	RefCountedPtr<Graphics::Material> m_textureMaterial;
+	RefCountedPtr<Graphics::Material> m_colorMaterial;
 
 	void DrawRectElement(const RectElement &element, const Point &pos, const Point &size, Graphics::BlendMode blendMode = Graphics::BLEND_ALPHA) const;
 	void DrawBorderedRectElement(const BorderedRectElement &element, const Point &pos, const Point &size, Graphics::BlendMode blendMode = Graphics::BLEND_ALPHA) const;
@@ -238,9 +251,9 @@ private:
 
 	unsigned int m_buttonMinInnerSize;
 
-	float m_listAlphaNormal;
-	float m_listAlphaSelect;
-	float m_listAlphaHover;
+	float m_alphaNormal;
+	float m_alphaSelect;
+	float m_alphaHover;
 };
 
 }
