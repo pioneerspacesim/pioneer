@@ -198,6 +198,14 @@ void Table::Inner::HandleMouseMove(const MouseMotionEvent &e)
 	Container::HandleMouseMove(e);
 }
 
+void Table::Inner::HandleClick()
+{
+	if (m_mouseEnabled && m_mouseRow >= 0)
+		onRowClicked.emit(m_mouseRow);
+
+	Container::HandleClick();
+}
+
 
 Table::Table(Context *context) : Container(context),
 	m_dirty(false)
@@ -207,6 +215,8 @@ Table::Table(Context *context) : Container(context),
 
 	m_body.Reset(new Table::Inner(GetContext(), m_layout));
 	AddWidget(m_body.Get());
+
+	m_body->onRowClicked.connect(sigc::mem_fun(&onRowClicked, &sigc::signal<void,unsigned int>::emit));
 
 	m_slider.Reset(GetContext()->VSlider());
 	m_slider->onValueChanged.connect(sigc::mem_fun(this, &Table::OnScroll));

@@ -4,6 +4,7 @@
 #include "Table.h"
 #include "Lua.h"
 #include "LuaConstants.h"
+#include "LuaSignal.h"
 
 namespace UI {
 
@@ -114,6 +115,12 @@ public:
 		return 1;
 	}
 
+	static int l_attr_table_on_row_clicked(lua_State *l) {
+		UI::Table *t = LuaObject<UI::Table>::CheckFromLua(1);
+		LuaSignal<unsigned int>().Wrap(l, t->onRowClicked);
+		return 1;
+    }
+
 };
 
 }
@@ -137,6 +144,11 @@ template <> void LuaObject<UI::Table>::RegisterClass()
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, 0, 0);
+	static const luaL_Reg l_attrs[] = {
+		{ "onRowClicked",     UI::LuaTable::l_attr_table_on_row_clicked },
+		{ 0, 0 }
+	};
+
+	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, l_attrs, 0);
 	LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<UI::Table>::DynamicCastPromotionTest);
 }

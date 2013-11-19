@@ -29,6 +29,8 @@ public:
 
 	Table *SetMouseEnabled(bool enabled);
 
+	sigc::signal<void,unsigned int> onRowClicked;
+
 private:
 
 	class LayoutAccumulator {
@@ -70,8 +72,11 @@ private:
 
 		void SetMouseEnabled(bool enabled) { m_mouseEnabled = enabled; }
 
+		sigc::signal<void,unsigned int> onRowClicked;
+
 	protected:
 		virtual void HandleMouseMove(const MouseMotionEvent &event);
+		virtual void HandleClick();
 
 	private:
 
