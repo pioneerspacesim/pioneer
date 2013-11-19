@@ -524,8 +524,6 @@ static void pi_lua_dofile(lua_State *l, const FileSystem::FileData &code, int nr
 {
 	assert(l);
 	LUA_DEBUG_START(l);
-	// XXX make this a proper protected call (after working out the implications -- *sigh*)
-	lua_pushcfunction(l, &pi_lua_panic);
 
 	const StringRange source = code.AsStringRange().StripUTF8BOM();
 
@@ -533,17 +531,19 @@ static void pi_lua_dofile(lua_State *l, const FileSystem::FileData &code, int nr
 	if (path.at(0) == '[') {
 		fprintf(stderr, "Paths starting with '[' are reserved in pi_lua_dofile('%s'\n",
 		        code.GetInfo().GetAbsolutePath().c_str());
-		lua_pop(l, 1);
 		return;
 	}
 
 	bool trusted = code.GetInfo().GetSource().IsTrusted();
 	const std::string chunkName = (trusted ? "[T] @" : "@") + path;
 
-	int panicidx = lua_absindex(l, -1);
 	if (luaL_loadbuffer(l, source.begin, source.Size(), chunkName.c_str())) {
 		pi_lua_panic(l);
 	} else {
+		// XXX make this a proper protected call (after working out the implications -- *sigh*)
+		lua_pushcfunction(l, &pi_lua_panic);
+		lua_insert(l, -2);
+		int panicidx = lua_absindex(l, -2);
 
 		// give the file its own global table, backed by the "real" one
 		lua_newtable(l);
@@ -554,7 +554,7 @@ static void pi_lua_dofile(lua_State *l, const FileSystem::FileData &code, int nr
 		lua_setmetatable(l, -2);
 		lua_setupvalue(l, -2, 1);
 
-		int ret = lua_pcall(l, 0, nret, -2);
+		int ret = lua_pcall(l, 0, nret, panicidx);
 		if (ret) {
 			const char *emsg = lua_tostring(l, -1);
 			if (emsg) { fprintf(stderr, "lua error: %s\n", emsg); }
@@ -575,8 +575,9 @@ static void pi_lua_dofile(lua_State *l, const FileSystem::FileData &code, int nr
 			}
 			lua_pop(l, 1);
 		}
+
+		lua_remove(l, panicidx);
 	}
-	lua_remove(l, panicidx);
 	LUA_DEBUG_END(l, nret);
 }
 
