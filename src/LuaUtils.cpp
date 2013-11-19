@@ -543,8 +543,10 @@ static void pi_lua_dofile(lua_State *l, const FileSystem::FileData &code, int nr
 	assert(l);
 	LUA_DEBUG_START(l);
 
-	if (pi_lua_loadfile(l, code) != LUA_OK)
-		pi_lua_panic(l);
+	if (pi_lua_loadfile(l, code) != LUA_OK) {
+		const char *msg = lua_tostring(l, -1);
+		Error("%s", msg);
+	}
 
 	// XXX make this a proper protected call (after working out the implications -- *sigh*)
 	lua_pushcfunction(l, &pi_lua_panic);
