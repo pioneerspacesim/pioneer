@@ -21,6 +21,7 @@ public:
 
 	Table *SetHeadingRow(const WidgetSet &set);
 	Table *AddRow(const WidgetSet &set);
+	void ClearRows();
 
 	Table *SetRowSpacing(int spacing);
 	Table *SetColumnSpacing(int spacing);

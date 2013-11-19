@@ -293,7 +293,12 @@ Table *Table::AddRow(const WidgetSet &set)
 	m_body->AddRow(set.widgets);
 	m_dirty = true;
 	return this;
+}
 
+void Table::ClearRows()
+{
+	m_body->Clear();
+	m_dirty = true;
 }
 
 Table *Table::SetRowSpacing(int spacing)

@@ -83,6 +83,12 @@ public:
 		return 1;
 	}
 
+	static int l_clear_rows(lua_State *l) {
+		UI::Table *t = LuaObject<UI::Table>::CheckFromLua(1);
+		t->ClearRows();
+		return 0;
+	}
+
 	static int l_set_row_spacing(lua_State *l) {
 		UI::Table *t = LuaObject<UI::Table>::CheckFromLua(1);
 		int spacing = luaL_checkinteger(l, 2);
@@ -137,6 +143,7 @@ template <> void LuaObject<UI::Table>::RegisterClass()
 		{ "SetHeadingRow",    UI::LuaTable::l_set_heading_row    },
 		{ "AddRow",           UI::LuaTable::l_add_row            },
 		{ "AddRows",          UI::LuaTable::l_add_rows           },
+		{ "ClearRows",        UI::LuaTable::l_clear_rows         },
 		{ "SetRowSpacing",    UI::LuaTable::l_set_row_spacing    },
 		{ "SetColumnSpacing", UI::LuaTable::l_set_column_spacing },
 		{ "SetHeadingFont",   UI::LuaTable::l_set_heading_font   },
