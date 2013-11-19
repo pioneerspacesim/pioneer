@@ -96,29 +96,6 @@ static int l_ship_is_player(lua_State *l)
  *
  *  experimental
  */
-static int l_ship_get_stats(lua_State *l)
-{
-	LUA_DEBUG_START(l);
-
-	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	const shipstats_t &stats = s->GetStats();
-
-	lua_newtable(l);
-	pi_lua_settable(l, "usedCapacity",       stats.used_capacity);
-	pi_lua_settable(l, "usedCargo",          stats.used_cargo);
-	pi_lua_settable(l, "freeCapacity",       stats.free_capacity);
-	pi_lua_settable(l, "totalMass",          stats.total_mass);
-	pi_lua_settable(l, "hullMassLeft",       stats.hull_mass_left);
-	pi_lua_settable(l, "hyperspaceRange",    stats.hyperspace_range);
-	pi_lua_settable(l, "maxHyperspaceRange", stats.hyperspace_range_max);
-	pi_lua_settable(l, "shieldMass",         stats.shield_mass);
-	pi_lua_settable(l, "shieldMassLeft",     stats.shield_mass_left);
-	pi_lua_settable(l, "fuelMassLeft",       stats.fuel_tank_mass_left);
-
-	LUA_DEBUG_END(l, 1);
-
-	return 1;
-}
 
 /* Method: SetShipType
  *
@@ -1257,7 +1234,6 @@ template <> void LuaObject<Ship>::RegisterClass()
 	static const luaL_Reg l_methods[] = {
 		{ "IsPlayer", l_ship_is_player },
 
-		{ "GetStats", l_ship_get_stats },
 		{ "SetShipType", l_ship_set_type },
 		{ "SetHullPercent", l_ship_set_hull_percent },
 		{ "SetFuelPercent", l_ship_set_fuel_percent },

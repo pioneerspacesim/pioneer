@@ -144,6 +144,11 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 	m_reserveFuel = rd.Double();
 	UpdateStats(); // this is necessary, UpdateStats() in Ship::Init has wrong values of m_thrusterFuel after Load
 
+	PropertyMap &p = Properties();
+	p.Set("hullMassLeft", m_stats.hull_mass_left);
+	p.Set("shieldMassLeft", m_stats.shield_mass_left);
+	p.Set("fuelMassLeft", m_stats.fuel_tank_mass_left);
+
 	m_controller = 0;
 	const ShipController::Type ctype = static_cast<ShipController::Type>(rd.Int32());
 	if (ctype == ShipController::PLAYER)
@@ -183,6 +188,12 @@ void Ship::Init()
 	UpdateStats();
 	m_stats.hull_mass_left = float(m_type->hullMass);
 	m_stats.shield_mass_left = 0;
+
+	PropertyMap &p = Properties();
+	p.Set("hullMassLeft", m_stats.hull_mass_left);
+	p.Set("shieldMassLeft", m_stats.shield_mass_left);
+	p.Set("fuelMassLeft", m_stats.fuel_tank_mass_left);
+
 	m_hyperspace.now = false;			// TODO: move this on next savegame change, maybe
 	m_hyperspaceCloud = 0;
 
@@ -272,6 +283,7 @@ float Ship::GetPercentShields() const
 void Ship::SetPercentHull(float p)
 {
 	m_stats.hull_mass_left = 0.01f * Clamp(p, 0.0f, 100.0f) * float(m_type->hullMass);
+	Properties().Set("hullMassLeft", m_stats.hull_mass_left);
 }
 
 void Ship::UpdateMass()
@@ -310,9 +322,11 @@ bool Ship::OnDamage(Object *attacker, float kgDamage)
 				dam -= m_stats.shield_mass_left;
 				m_stats.shield_mass_left = 0;
 			}
+			Properties().Set("shieldMassLeft", m_stats.shield_mass_left);
 		}
 
 		m_stats.hull_mass_left -= dam;
+		Properties().Set("hullMassLeft", m_stats.hull_mass_left);
 		if (m_stats.hull_mass_left < 0) {
 			if (attacker) {
 				if (attacker->IsType(Object::BODY))
@@ -452,6 +466,8 @@ Equip::Type Ship::GetHyperdriveFuelType() const
 
 void Ship::UpdateEquipStats()
 {
+	PropertyMap &p = Properties();
+
 	m_stats.used_capacity = 0;
 	m_stats.used_cargo = 0;
 
@@ -465,30 +481,37 @@ void Ship::UpdateEquipStats()
 	m_stats.free_capacity = m_type->capacity - m_stats.used_capacity;
 	m_stats.total_mass = m_stats.used_capacity + m_type->hullMass;
 
+	p.Set("usedCapacity", m_stats.used_capacity);
+	p.Set("usedCargo", m_stats.used_cargo);
+	p.Set("freeCapacity", m_stats.free_capacity);
+	p.Set("totalMass", m_stats.total_mass);
+
 	m_stats.shield_mass = TONS_HULL_PER_SHIELD * float(m_equipment.Count(Equip::SLOT_SHIELD, Equip::SHIELD_GENERATOR));
+	p.Set("shieldMass", m_stats.shield_mass);
 
 	UpdateMass();
 	UpdateFuelStats();
 
 	Equip::Type fuelType = GetHyperdriveFuelType();
 
+	m_stats.hyperspace_range = m_stats.hyperspace_range_max = 0;
 	if (m_type->equipSlotCapacity[Equip::SLOT_ENGINE]) {
 		Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
 		int hyperclass = Equip::types[t].pval;
-		if (!hyperclass) { // no drive
-			m_stats.hyperspace_range = m_stats.hyperspace_range_max = 0;
-		} else {
+		if (hyperclass) {
 			m_stats.hyperspace_range_max = Pi::CalcHyperspaceRangeMax(hyperclass, GetMass()/1000);
 			m_stats.hyperspace_range = Pi::CalcHyperspaceRange(hyperclass, GetMass()/1000, m_equipment.Count(Equip::SLOT_CARGO, fuelType));
 		}
-	} else {
-		m_stats.hyperspace_range = m_stats.hyperspace_range_max = 0;
 	}
+
+	p.Set("hyperspaceRange", m_stats.hyperspace_range);
+	p.Set("maxHyperspaceRange", m_stats.hyperspace_range_max);
 }
 
 void Ship::UpdateFuelStats()
 {
 	m_stats.fuel_tank_mass_left = m_type->fuelTankMass * GetFuel();
+	Properties().Set("fuelTankMass", m_stats.fuel_tank_mass_left);
 
 	UpdateMass();
 }
@@ -1053,9 +1076,9 @@ void Ship::StaticUpdate(const float timeStep)
 		if (m_equipment.Get(Equip::SLOT_ENERGYBOOSTER) != Equip::NONE) {
 			recharge_rate *= float(Equip::types[ m_equipment.Get(Equip::SLOT_ENERGYBOOSTER) ].pval);
 		}
-		m_stats.shield_mass_left += m_stats.shield_mass * recharge_rate * timeStep;
+		m_stats.shield_mass_left = Clamp(m_stats.shield_mass_left + m_stats.shield_mass * recharge_rate * timeStep, 0.0f, m_stats.shield_mass);
+		Properties().Set("shieldMassLeft", m_stats.shield_mass_left);
 	}
-	m_stats.shield_mass_left = Clamp(m_stats.shield_mass_left, 0.0f, m_stats.shield_mass);
 
 	if (m_wheelTransition) {
 		m_wheelState += m_wheelTransition*0.3f*timeStep;
@@ -1066,8 +1089,10 @@ void Ship::StaticUpdate(const float timeStep)
 
 	if (m_testLanded) TestLanded();
 
-	if (m_equipment.Get(Equip::SLOT_HULLAUTOREPAIR) == Equip::HULL_AUTOREPAIR)
+	if (m_equipment.Get(Equip::SLOT_HULLAUTOREPAIR) == Equip::HULL_AUTOREPAIR) {
 		m_stats.hull_mass_left = std::min(m_stats.hull_mass_left + 0.1f*timeStep, float(m_type->hullMass));
+		Properties().Set("hullMassLeft", m_stats.hull_mass_left);
+	}
 
 	// After calling StartHyperspaceTo this Ship must not spawn objects
 	// holding references to it (eg missiles), as StartHyperspaceTo
