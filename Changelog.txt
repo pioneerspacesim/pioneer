@@ -12,6 +12,7 @@ November 2013
 
    * Fixes
      * Fix potential divide-by-zero in autopilot (#2535, #2547)
+     * Spawn docked ships in the correct bay based on size (#2538)
 
    * Internal changes
      * Build fixes for MSVC

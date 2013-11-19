@@ -676,16 +676,17 @@ void Pi::HandleEvents()
 								} else if (KeyState(SDLK_LSHIFT)) {
 									SpaceStation *s = static_cast<SpaceStation*>(Pi::player->GetNavTarget());
 									if (s) {
-										int port = s->GetFreeDockingPort();
+										Ship *ship = new Ship(ShipType::POLICE);
+										int port = s->GetFreeDockingPort(ship);
 										if (port != -1) {
 											printf("Putting ship into station\n");
 											// Make police ship intent on killing the player
-											Ship *ship = new Ship(ShipType::POLICE);
 											ship->AIKill(Pi::player);
 											ship->SetFrame(Pi::player->GetFrame());
 											ship->SetDockedWith(s, port);
 											game->GetSpace()->AddBody(ship);
 										} else {
+											delete ship;
 											printf("No docking ports free dude\n");
 										}
 									} else {
