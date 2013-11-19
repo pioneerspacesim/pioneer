@@ -125,7 +125,7 @@ public:
 		UI::Table *t = LuaObject<UI::Table>::CheckFromLua(1);
 		LuaSignal<unsigned int>().Wrap(l, t->onRowClicked);
 		return 1;
-    }
+	}
 
 };
 
