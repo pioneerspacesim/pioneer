@@ -106,6 +106,14 @@ public:
 		return 1;
 	}
 
+	static int l_set_mouse_enabled(lua_State *l) {
+		UI::Table *t = LuaObject<UI::Table>::CheckFromLua(1);
+		bool enabled = lua_toboolean(l, 2);
+		t->SetMouseEnabled(enabled);
+		lua_pushvalue(l, 1);
+		return 1;
+	}
+
 };
 
 }
@@ -125,6 +133,7 @@ template <> void LuaObject<UI::Table>::RegisterClass()
 		{ "SetRowSpacing",    UI::LuaTable::l_set_row_spacing    },
 		{ "SetColumnSpacing", UI::LuaTable::l_set_column_spacing },
 		{ "SetHeadingFont",   UI::LuaTable::l_set_heading_font   },
+		{ "SetMouseEnabled",  UI::LuaTable::l_set_mouse_enabled  },
 		{ 0, 0 }
 	};
 

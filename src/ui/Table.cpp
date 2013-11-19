@@ -47,7 +47,8 @@ void Table::LayoutAccumulator::SetColumnSpacing(int spacing) {
 Table::Inner::Inner(Context *context, LayoutAccumulator &layout) : Container(context),
 	m_layout(layout),
 	m_rowSpacing(0),
-	m_dirty(false)
+	m_dirty(false),
+	m_mouseEnabled(false)
 {
 }
 
@@ -110,6 +111,15 @@ void Table::Inner::Layout()
 	LayoutChildren();
 }
 
+void Table::Inner::Draw()
+{
+	if (m_mouseEnabled && IsMouseOver() && m_mouseRow >= 0) {
+		GetContext()->GetSkin().DrawBackgroundHover(Point(0, m_mouseRowTop), Point(GetSize().x, m_mouseRowHeight));
+	}
+
+	Container::Draw();
+}
+
 void Table::Inner::AddRow(const std::vector<Widget*> &widgets)
 {
 	m_rows.push_back(widgets);
@@ -150,6 +160,42 @@ void Table::Inner::SetRowSpacing(int spacing)
 {
 	m_rowSpacing = spacing;
 	m_dirty = true;
+}
+
+void Table::Inner::HandleMouseMove(const MouseMotionEvent &e)
+{
+	if (!m_mouseEnabled) {
+		Container::HandleMouseMove(e);
+		return;
+	}
+
+	int start = 0, end = m_rows.size()-1, mid = 0;
+	while (1) {
+		if (end < start) {
+			// over row spacing
+			m_mouseRow = -1;
+			break;
+		}
+
+		mid = start+((end-start)/2);
+
+		const Widget *w = m_rows[mid][0];
+		const int rowTop = w->GetPosition().y;
+		const int rowBottom = rowTop + w->GetSize().y;
+
+		if (e.pos.y < rowTop)
+			end = mid-1;
+		else if (e.pos.y >= rowBottom)
+			start = mid+1;
+		else {
+			m_mouseRow = mid;
+			m_mouseRowTop = rowTop;
+			m_mouseRowHeight = rowBottom-rowTop;
+			break;
+		}
+	}
+
+	Container::HandleMouseMove(e);
 }
 
 
@@ -259,6 +305,12 @@ Table *Table::SetHeadingFont(Font font)
 {
 	m_header->SetFont(font);
 	m_dirty = true;
+	return this;
+}
+
+Table *Table::SetMouseEnabled(bool enabled)
+{
+	m_body->SetMouseEnabled(enabled);
 	return this;
 }
 
