@@ -229,6 +229,7 @@ Table *Table::SetHeadingRow(const WidgetSet &set)
 	m_header->Clear();
 	m_header->AddRow(set.widgets);
 	m_dirty = true;
+	GetContext()->RequestLayout();
 	return this;
 }
 
@@ -236,14 +237,15 @@ Table *Table::AddRow(const WidgetSet &set)
 {
 	m_body->AddRow(set.widgets);
 	m_dirty = true;
+	GetContext()->RequestLayout();
 	return this;
-
 }
 
 Table *Table::SetRowSpacing(int spacing)
 {
 	m_body->SetRowSpacing(spacing);
 	m_dirty = true;
+	GetContext()->RequestLayout();
 	return this;
 }
 
@@ -251,6 +253,7 @@ Table *Table::SetColumnSpacing(int spacing)
 {
 	m_layout.SetColumnSpacing(spacing);
 	m_dirty = true;
+	GetContext()->RequestLayout();
 	return this;
 }
 
@@ -259,6 +262,7 @@ Table *Table::SetHeadingFont(Font font)
 {
 	m_header->SetFont(font);
 	m_dirty = true;
+	GetContext()->RequestLayout();
 	return this;
 }
 
