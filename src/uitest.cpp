@@ -129,13 +129,12 @@ int main(int argc, char **argv)
 
 	RefCountedPtr<UI::Context> c(new UI::Context(Lua::manager, r, WIDTH, HEIGHT, "en"));
 
-#if 0
 	UI::Gauge *gauge;
 	c->GetTopLayer()->SetInnerWidget(c->HBox()->PackEnd(gauge = c->Gauge()));
 	gauge->SetWarningLevel(0.4f);
 	gauge->SetCriticalLevel(0.2f);
 	gauge->SetLevelAscending(false);
-#endif
+	gauge->SetUpperValue(14.0f);
 
 #if 0
 	Thing thing(Lua::manager);
@@ -580,11 +579,13 @@ int main(int argc, char **argv)
 	);
 #endif
 
+#if 0
 	UI::Table *t = c->Table();
 	t->AddRow(c->MultiLineText("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."));
 	t->AddRow(c->MultiLineText("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."));
 	t->AddRow(c->MultiLineText("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."));
 	c->GetTopLayer()->SetInnerWidget(t);
+#endif
 
 	//int count = 0;
 
@@ -611,7 +612,7 @@ int main(int argc, char **argv)
 //		thing.Update();
 
 //		slider->SetValue(slider->GetValue() + 0.01);
-//		gauge->SetValue(gauge->GetValue() + 0.001);
+		gauge->SetValue(gauge->GetValue() + 0.1);
 
 #if 0
 		if (++count == 400) {
