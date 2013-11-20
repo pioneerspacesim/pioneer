@@ -86,10 +86,10 @@ void LuaConsole::RunAutoexec() {
 	if (ret != LUA_OK) {
 		if (ret == LUA_ERRSYNTAX) {
 			const char *msg = lua_tostring(L, -1);
-			fprintf(stderr, "autoexec.lua: %s\n", msg);
+			fprintf(stderr, "console.lua: %s\n", msg);
 			lua_pop(L, 1);
 		}
-		AddOutput("Failed to run autoexec.lua");
+		AddOutput("Failed to run console.lua");
 		return;
 	}
 
@@ -103,8 +103,8 @@ void LuaConsole::RunAutoexec() {
 	ret = lua_pcall(L, 0, 0, -2);
 	if (ret != LUA_OK) {
 		const char *msg = lua_tostring(L, -1);
-		fprintf(stderr, "autoexec.lua:\n%s\n", msg);
-		AddOutput("Failed to run autoexec.lua");
+		fprintf(stderr, "console.lua:\n%s\n", msg);
+		AddOutput("Failed to run console.lua");
 		lua_pop(L, 1);
 	}
 
