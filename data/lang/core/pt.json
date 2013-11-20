@@ -20,7 +20,7 @@
         "description": ""
     },
     "COMPUTER_SPEED_CONTROL": {
-        "message": "Computer speed control",
+        "message": "Controlo de velocidade por computador",
         "description": ""
     },
     "ALT": {
@@ -88,7 +88,7 @@
         "description": ""
     },
     "TOGGLE_LUA_CONSOLE": {
-        "message": "Ativar consola Lua",
+        "message": "Alternar consola Lua",
         "description": ""
     },
     "SOCIAL_DEMOCRACY": {
@@ -120,7 +120,7 @@
         "description": ""
     },
     "GAME_LOAD_WRONG_VERSION": {
-        "message": "This saved game cannot be loaded because it was created by a different version of Pioneer.",
+        "message": "Este jogo guardado não pode ser carregado porque foi criado por uma versão diferente do Pioneer.",
         "description": ""
     },
     "ECM_ADVANCED_DESCRIPTION": {
@@ -132,7 +132,7 @@
         "description": ""
     },
     "DRIVE_MIL3": {
-        "message": "Class 3 Military drive",
+        "message": "Drive Militar de classe 3",
         "description": ""
     },
     "LIQUID_OXYGEN_DESCRIPTION": {
@@ -140,7 +140,7 @@
         "description": ""
     },
     "DRIVE_MIL1": {
-        "message": "Class 1 Military drive",
+        "message": "Drive Militar de classe 1",
         "description": ""
     },
     "CORPORATE_SYSTEM": {
@@ -296,7 +296,7 @@
         "description": ""
     },
     "DECREASE_SET_SPEED": {
-        "message": "Decrease set speed",
+        "message": "Diminuir velocidade definida",
         "description": ""
     },
     "ROCKY_PLANET_CONTAINING_COME_LIQUIDS": {
@@ -856,7 +856,7 @@
         "description": ""
     },
     "DRIVE_MIL2": {
-        "message": "Class 2 Military drive",
+        "message": "Drive Militar de classe 2",
         "description": ""
     },
     "BATTLE_WEAPONS": {
@@ -1008,11 +1008,11 @@
         "description": ""
     },
     "WE_HAVE_NO_BUSINESS_WITH_YOU": {
-        "message": "We have no business with you at the moment.",
+        "message": "Não temos nenhum assunto a tratar consigo neste momento.",
         "description": ""
     },
     "DRIVE_CLASS8": {
-        "message": "Class 8 Hyperdrive",
+        "message": "Hiperdrive de classe 8",
         "description": ""
     },
     "LIBERAL_DEMOCRACY": {
@@ -1032,7 +1032,7 @@
         "description": ""
     },
     "HYPERSPACE_ARRIVAL_CLOUD_REMNANT": {
-        "message": "Hyperspace arrival cloud remnant",
+        "message": "Remanescente de nuvem de chegada do hiperespaço",
         "description": ""
     },
     "SHIP_EQUIPMENT": {
@@ -1052,7 +1052,7 @@
         "description": ""
     },
     "ITEM_IS_OUT_OF_STOCK": {
-        "message": "This item is out of stock.",
+        "message": "Este item está esgotado.",
         "description": ""
     },
     "YAW_RIGHT": {
@@ -1060,11 +1060,11 @@
         "description": ""
     },
     "OVER_N_MILLION": {
-        "message": "Over %population million",
+        "message": "Mais de %population milhões",
         "description": ""
     },
     "ICE_WORLD": {
-        "message": "\" ice world\"",
+        "message": "\" mundo de gelo\"",
         "description": ""
     },
     "N_CELSIUS": {
@@ -1072,7 +1072,7 @@
         "description": ""
     },
     "COMMS_LINK": {
-        "message": "Comms link",
+        "message": "Ligação de comunicações",
         "description": ""
     },
     "X": {
@@ -1084,11 +1084,11 @@
         "description": ""
     },
     "TRIPLE_SYSTEM": {
-        "message": "Triple system",
+        "message": "Sistema triplo",
         "description": ""
     },
     "ROTATIONAL_PERIOD": {
-        "message": "\" (rotational period)\"",
+        "message": "\" (período rotacional)\"",
         "description": ""
     },
     "VERY_LARGE_GAS_GIANT": {
@@ -1112,7 +1112,7 @@
         "description": ""
     },
     "PITCH": {
-        "message": "$ para montar",
+        "message": "Pitch",
         "description": ""
     },
     "PRICE_TO_FIT": {
@@ -1144,7 +1144,7 @@
         "description": ""
     },
     "ROLL_LEFT": {
-        "message": "Roll left",
+        "message": "Rolar à esquerda",
         "description": ""
     },
     "CONTACT_LOCAL_POLICE": {
@@ -1176,7 +1176,7 @@
         "description": ""
     },
     "GAME_SAVE_CANNOT_WRITE": {
-        "message": "This saved game file could not be written because of a system error.",
+        "message": "Não foi possível guardar o jogo porque ocorreu um erro de sistema.",
         "description": ""
     },
     "THRUSTER_STARBOARD": {
@@ -1184,7 +1184,7 @@
         "description": ""
     },
     "MINOR_IMPORTS": {
-        "message": "Minor Imports:",
+        "message": "Importações menores:",
         "description": ""
     },
     "SHIP_MASS_N_TONNES": {
@@ -1192,7 +1192,7 @@
         "description": ""
     },
     "AUTOPILOT_DESCRIPTION": {
-        "message": "An on-board flight computer.",
+        "message": "Computador de voo de bordo.",
         "description": ""
     },
     "O2_ATMOSPHERE": {
@@ -1204,7 +1204,7 @@
         "description": ""
     },
     "CARGO_LIFE_SUPPORT": {
-        "message": "Cargo Bay Life Support",
+        "message": "Suporte de Vida da Baía de Mercadoria",
         "description": ""
     },
     "HE_ATMOSPHERE": {
@@ -1212,7 +1212,7 @@
         "description": ""
     },
     "CLEARANCE_ALREADY_GRANTED_BAY_N": {
-        "message": "Clearance already granted. Proceed to docking bay %bay.",
+        "message": "Já foi autorizada a docagem. Proceda para a doca %bay.",
         "description": ""
     },
     "PLUTOCRATIC_DICTATORSHIP": {
@@ -1224,11 +1224,11 @@
         "description": ""
     },
     "ROTATE_UP": {
-        "message": "Rotate Up",
+        "message": "Girar para cima",
         "description": ""
     },
     "NO_REGISTERED_INHABITANTS": {
-        "message": "No registered inhabitants",
+        "message": "Não há registo de habitantes",
         "description": ""
     },
     "GOVERNMENT_TYPE": {
@@ -1236,11 +1236,11 @@
         "description": ""
     },
     "METAL_ORE": {
-        "message": "Metal ore",
+        "message": "Minério de metal",
         "description": ""
     },
     "PROBABILITY_OF_ARRIVAL_X_PERCENT": {
-        "message": "Probability of arrival: %probability%%",
+        "message": "Probabilidade de chegada: %probability%%",
         "description": ""
     },
     "MESSAGE_FROM_X": {
@@ -1260,7 +1260,7 @@
         "description": ""
     },
     "FORWARD_ACCEL_LADEN": {
-        "message": "Forward accel (laden)",
+        "message": "Aceleração (carregado)",
         "description": ""
     },
     "USE_LOW_THRUST": {
@@ -1268,11 +1268,11 @@
         "description": ""
     },
     "REPAIR_1_PERCENT_HULL": {
-        "message": "Repair 1.0% of hull damage",
+        "message": "Reparar 1.0% de danos no casco",
         "description": ""
     },
     "LASER_COOLING_BOOSTER": {
-        "message": "Laser Cooling Booster",
+        "message": "Impulsionador de Refrigeração de Laser",
         "description": ""
     },
     "REQUEST_LAUNCH": {
@@ -1284,23 +1284,23 @@
         "description": ""
     },
     "SPEED_CONTROL_MODE": {
-        "message": "Speed control mode",
+        "message": "Modo de controlo da valocidade",
         "description": ""
     },
     "PULSECANNON_1MW": {
-        "message": "1MW pulse cannon",
+        "message": "Canhão de impulso de 1MW",
         "description": ""
     },
     "MINING_COLONY": {
-        "message": "Mining colony.",
+        "message": "Colónia de mineração.",
         "description": ""
     },
     "STAR_K": {
-        "message": "Type 'K' orange star",
+        "message": "Estrela laranja tipo 'K'",
         "description": ""
     },
     "STAR_O": {
-        "message": "Hot, massive type 'O' star",
+        "message": "Estrela quente massiva tipo 'O'",
         "description": ""
     },
     "ANIMAL_MEAT": {
@@ -1308,11 +1308,11 @@
         "description": ""
     },
     "STAR_M": {
-        "message": "Type 'M' red star",
+        "message": "Estrela vermelha tipo 'M'",
         "description": ""
     },
     "TRADER_NOT_ENOUGH_MONEY": {
-        "message": "Trader does not have enough money",
+        "message": "O comerciante não tem dinheiro suficiente",
         "description": ""
     },
     "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS": {
@@ -1320,11 +1320,11 @@
         "description": ""
     },
     "STAR_B": {
-        "message": "Bright type 'B' blue star",
+        "message": "Estrela azul brilhante tipo 'B'",
         "description": ""
     },
     "STAR_A": {
-        "message": "Type 'A' hot white star",
+        "message": "Estrela quente branca tipo 'A'",
         "description": ""
     },
     "KM_S_RELATIVE_TO": {
@@ -1332,15 +1332,15 @@
         "description": ""
     },
     "STAR_G": {
-        "message": "Type 'G' yellow star",
+        "message": "Estrela amarela tipo 'G'",
         "description": ""
     },
     "STAR_F": {
-        "message": "Type 'F' white star",
+        "message": "Estrela branca tipo 'F'",
         "description": ""
     },
     "FIT_TO_WHICH_MOUNT": {
-        "message": "Fit laser to which gun mount?",
+        "message": "Em que ponto de montagem deve ser instalado o laser?",
         "description": ""
     },
     "CASH": {
@@ -1352,7 +1352,7 @@
         "description": ""
     },
     "PULSECANNON_20MW": {
-        "message": "20MW pulse cannon",
+        "message": "Canhão de impulso de 20MW",
         "description": ""
     },
     "PULSECANNON_DUAL_1MW": {
@@ -1360,7 +1360,7 @@
         "description": ""
     },
     "UNLAWFUL_WEAPONS_DISCHARGE": {
-        "message": "Unlawful weapons discharge",
+        "message": "Descarga de armas ilegal",
         "description": ""
     },
     "COUNT_STARPORTS": {
@@ -1368,7 +1368,7 @@
         "description": ""
     },
     "FOLLOWING_SELECTION": {
-        "message": "following selection",
+        "message": "seguir selecção",
         "description": ""
     },
     "FREE": {
@@ -1380,7 +1380,7 @@
         "description": ""
     },
     "FITTING": {
-        "message": "\"Fitting \"",
+        "message": "\"Instalação\"",
         "description": ""
     },
     "NO_FREE_SPACE_FOR_ITEM": {
@@ -1400,7 +1400,7 @@
         "description": ""
     },
     "COULD_NOT_OPEN_FILENAME": {
-        "message": "Could not open %path",
+        "message": "Não é possível abrir %path",
         "description": ""
     },
     "TEXTILES": {
@@ -1448,7 +1448,7 @@
         "description": ""
     },
     "STAR_O_HYPER_GIANT": {
-        "message": "Hot Blue hyper giant star",
+        "message": "Estrela quente azul hiper gigante",
         "description": ""
     },
     "INDUSTRIAL_HUB_SYSTEM": {
@@ -1460,11 +1460,11 @@
         "description": ""
     },
     "CANT_SAVE_IN_HYPERSPACE": {
-        "message": "Can't save game while in hyperspace",
+        "message": "Não é possível guardar o jogo no hiperespaço",
         "description": ""
     },
     "MANUAL_CONTROL_MODE": {
-        "message": "Manual control mode",
+        "message": "Modo de controlo manual",
         "description": ""
     },
     "MONTH_JUN": {
@@ -1472,7 +1472,7 @@
         "description": ""
     },
     "GAME_LOAD_CORRUPT": {
-        "message": "This saved game cannot be loaded because it contains errors.",
+        "message": "Este jogo guardado não pode ser carregado porque contém erros.",
         "description": ""
     },
     "MONTH_JUL": {
@@ -1512,7 +1512,7 @@
         "description": ""
     },
     "AND_INDIGENOUS_MICROBIAL_LIFE": {
-        "message": "\" and indigenous microbial life.\"",
+        "message": "\" e vida indígena microbiana.\"",
         "description": ""
     },
     "NO_ALERT": {
@@ -1520,7 +1520,7 @@
         "description": ""
     },
     "PULSECANNON_2MW": {
-        "message": "2MW pulse cannon",
+        "message": "Canhão de impulso de 2MW",
         "description": ""
     },
     "AR_ATMOSPHERE": {
@@ -1528,7 +1528,7 @@
         "description": ""
     },
     "AND_INDIGENOUS_PLANT_LIFE": {
-        "message": "\" and indigenous plant life.\"",
+        "message": "\" e vida indígena vegetal.\"",
         "description": ""
     },
     "LIVE_ANIMALS": {
@@ -1544,11 +1544,11 @@
         "description": ""
     },
     "SOMEWHERE_SHIPYARD": {
-        "message": "%station shipyard",
+        "message": "Estaleiro de %station",
         "description": ""
     },
     "RADAR_MAPPER_DESCRIPTION": {
-        "message": "Used to remotely inspect the equipment, cargo and state of other ships.",
+        "message": "Usado para inspeccionar equipamento, mercadoria e estado de outras naves remotamente.",
         "description": ""
     },
     "TOMBSTONE_EPITAPH": {
@@ -1556,19 +1556,19 @@
         "description": ""
     },
     "MINOR_EXPORTS": {
-        "message": "Minor Exports:",
+        "message": "Exportações menores:",
         "description": ""
     },
     "MASS_N_TONNES": {
-        "message": "Mass: %{mass}t",
+        "message": "Massa: %{mass}t",
         "description": ""
     },
     "MISSILE_UNGUIDED": {
-        "message": "R40 Unguided Rocket",
+        "message": "Roquete não guiado R40",
         "description": ""
     },
     "MANUAL_CONTROL": {
-        "message": "Manual control",
+        "message": "Controlo manual",
         "description": ""
     },
     "ECONOMY_TYPE": {
@@ -1580,7 +1580,7 @@
         "description": ""
     },
     "QUADRUPLE_SYSTEM": {
-        "message": "Quadruple system",
+        "message": "Sistema quadruplo",
         "description": ""
     },
     "NUMBER_HOURS": {
@@ -1588,7 +1588,7 @@
         "description": ""
     },
     "YOU_MUST_PAY_FINE_OF_N_CREDITS": {
-        "message": "We do not tolerate crime. You must pay a fine of %fine.",
+        "message": "Não toleramos actos criminosos. Tem de pagar uma multa no valor de %fine.",
         "description": ""
     },
     "SHIP_INFORMATION": {
@@ -1600,11 +1600,11 @@
         "description": ""
     },
     "LASER_COOLING_BOOSTER_DESCRIPTION": {
-        "message": "An improved cooling system for your weapons.",
+        "message": "Sistema de arrefecimento melhorado para as suas armas.",
         "description": ""
     },
     "ECM_BASIC": {
-        "message": "ECM system",
+        "message": "Sistema ECM",
         "description": ""
     },
     "COMMUNIST": {
@@ -1616,15 +1616,15 @@
         "description": ""
     },
     "FUEL_SCOOP": {
-        "message": "Fuel Scoop",
+        "message": "Escavador de Combustível",
         "description": ""
     },
     "HYPERSPACE_JUMP_ABORTED": {
-        "message": "Hyperspace jump aborted.",
+        "message": "Salto de hiperespaço cancelado.",
         "description": ""
     },
     "REPAIR_ENTIRE_HULL": {
-        "message": "Repair all hull damage (%repairpercent{f.1}%%)",
+        "message": "Reparar todos os danos do casco (%repairpercent{f.1}%%)",
         "description": ""
     },
     "MISCELLANEOUS": {
@@ -1640,15 +1640,15 @@
         "description": ""
     },
     "FUEL_SCOOP_DESCRIPTION": {
-        "message": "Permits scooping hydrogen fuel from gas giant planets.",
+        "message": "Permite escavar combustível de hidrogénio a partir de planetas gigantes gasosos.",
         "description": ""
     },
     "STAR_O_SUPER_GIANT": {
-        "message": "Hot Blue super giant star",
+        "message": "Estrela quente azul super gigante",
         "description": ""
     },
     "STAR_O_WF": {
-        "message": "Wolf-Rayet star - Imminent collapse",
+        "message": "Estrela Wolf-Rayet - Colapso iminente",
         "description": ""
     },
     "ALERT_CANCELLED": {
@@ -1660,7 +1660,7 @@
         "description": ""
     },
     "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED": {
-        "message": "Fuel scoop active. You now have %quantity tonnes of hydrogen.",
+        "message": "Escavação de combustível ativo. Tem agora %quantity toneladas de hidrogénio.",
         "description": ""
     },
     "MASSIVE": {
@@ -1704,7 +1704,7 @@
         "description": ""
     },
     "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED": {
-        "message": "Cargo scoop active. Collected 1 tonne of %item.",
+        "message": "Escavação de mercadoria ativo. Apanhadas 1 tonelada de %item.",
         "description": ""
     },
     "MIXED_ECONOMY": {
@@ -1712,7 +1712,7 @@
         "description": ""
     },
     "CLEARANCE_DENIED_NO_BAYS": {
-        "message": "Clearance denied. There are no free docking bays.",
+        "message": "Autorização de docagem recusada. Não há docas livres.",
         "description": ""
     },
     "STAR_AF_HYPER_GIANT": {
@@ -1736,7 +1736,7 @@
         "description": ""
     },
     "ROLL_RIGHT": {
-        "message": "Roll right",
+        "message": "Rolar à direita",
         "description": ""
     },
     "GO_BACK": {
@@ -1748,7 +1748,7 @@
         "description": ""
     },
     "TOGGLE_HUD_MODE": {
-        "message": "Toggle HUD mode",
+        "message": "Alternar modo HUD",
         "description": ""
     },
     "EXTERNAL_VIEW": {
@@ -1756,7 +1756,7 @@
         "description": ""
     },
     "ECM_BASIC_DESCRIPTION": {
-        "message": "An electronic countermeasure missile defence system, capable of destroying some homing missiles.",
+        "message": "Um sistema de contra-medida electrónica de defesa míssil, capaz de destruir mísseis teleguiados.",
         "description": ""
     },
     "VAST_STRIP_MINE": {
@@ -1768,7 +1768,7 @@
         "description": ""
     },
     "FINE_PAID_N": {
-        "message": "You have paid the fine of %fine.",
+        "message": "Pagou a multa no valor de %fine.",
         "description": ""
     },
     "EXTERNAL_ATMOSPHERIC_PRESSURE": {
@@ -1824,11 +1824,11 @@
         "description": ""
     },
     "SOMEWHERE_POLICE": {
-        "message": "%station Police",
+        "message": "Polícia de %station",
         "description": ""
     },
     "SYSTEM_ORBIT_VIEW": {
-        "message": "System orbit view",
+        "message": "Vista de órbita do sistema",
         "description": ""
     },
     "CURRENT_SYSTEM": {
@@ -1836,19 +1836,19 @@
         "description": ""
     },
     "CARGO_SCOOP": {
-        "message": "Cargo Scoop",
+        "message": "Escavador de Mercadoria",
         "description": ""
     },
     "ROTATE_DOWN": {
-        "message": "Rotate Down",
+        "message": "Girar para baixo",
         "description": ""
     },
     "SOMEWHERE_SHIP_MARKET": {
-        "message": "%station ship market",
+        "message": "Mercado de naves de %station",
         "description": ""
     },
     "DISABLED_AUTOMATIC_SYSTEM_SELECTION": {
-        "message": "Disabled automatic system selection.",
+        "message": "Seleção automática de sistema desativado.",
         "description": ""
     },
     "STARPORT": {
@@ -1916,39 +1916,39 @@
         "description": ""
     },
     "DRIVE_CLASS3": {
-        "message": "Class 3 Hyperdrive",
+        "message": "Hiperdrive de classe 3",
         "description": ""
     },
     "DRIVE_CLASS2": {
-        "message": "Class 2 Hyperdrive",
+        "message": "Hiperdrive de classe 2",
         "description": ""
     },
     "DRIVE_CLASS1": {
-        "message": "Class 1 Hyperdrive",
+        "message": "Hiperdrive de classe 1",
         "description": ""
     },
     "DRIVE_CLASS7": {
-        "message": "Class 7 Hyperdrive",
+        "message": "Hiperdrive de classe 7",
         "description": ""
     },
     "DRIVE_CLASS6": {
-        "message": "Class 6 Hyperdrive",
+        "message": "Hiperdrive de classe 6",
         "description": ""
     },
     "DRIVE_CLASS5": {
-        "message": "Class 5 Hyperdrive",
+        "message": "Hiperdrive de classe 5",
         "description": ""
     },
     "DRIVE_CLASS4": {
-        "message": "Class 4 Hyperdrive",
+        "message": "Hiperdrive de classe 4",
         "description": ""
     },
     "DOWNGRADING_ALERT_STATUS": {
-        "message": "No fire detected for 60 seconds, downgrading alert status.",
+        "message": "Não foi detectado nenhum disparos nos últimos 60 segundo, diminuído o estado de alerta.",
         "description": ""
     },
     "DRIVE_CLASS9": {
-        "message": "Class 9 Hyperdrive",
+        "message": "Hiperdrive de classe 9",
         "description": ""
     },
     "Z": {
@@ -1956,7 +1956,7 @@
         "description": ""
     },
     "FRUIT_AND_VEG": {
-        "message": "Fruit and Veg",
+        "message": "Frutas e Vegetais",
         "description": ""
     },
     "PIONEER": {
@@ -1980,7 +1980,7 @@
         "description": ""
     },
     "STAR_SM_BH": {
-        "message": "Our galactic anchor",
+        "message": "A nossa ancora galáctica",
         "description": ""
     },
     "MONTH_APR": {
@@ -1992,7 +1992,7 @@
         "description": ""
     },
     "SHIP_VELOCITY_BY_REFERENCE_OBJECT": {
-        "message": "Ship velocity by reference object",
+        "message": "Velocidade da nave por referência ao objecto",
         "description": ""
     },
     "NERVE_GAS": {
@@ -2028,7 +2028,7 @@
         "description": ""
     },
     "PULSECANNON_4MW": {
-        "message": "4MW pulse cannon",
+        "message": "Canhão de impulso de 4MW",
         "description": ""
     },
     "TARGET_OBJECT_IN_SIGHTS": {
@@ -2036,11 +2036,11 @@
         "description": ""
     },
     "STAR_IM_BH": {
-        "message": "An intermediate-mass black hole",
+        "message": "Buraco negro mediano",
         "description": ""
     },
     "DISTANCE_LY": {
-        "message": "Distance: %distance{f.2} ly",
+        "message": "Distância: %distance{f.2} ly",
         "description": ""
     },
     "S_ATMOSPHERE": {
@@ -2056,7 +2056,7 @@
         "description": ""
     },
     "STAR_M_WF": {
-        "message": "Wolf-Rayet star - Unstable",
+        "message": "Estrela Wolf-Rayet - Instável",
         "description": ""
     },
     "H_ATMOSPHERE": {
@@ -2064,7 +2064,7 @@
         "description": ""
     },
     "PULSECANNON_RAPID_2MW": {
-        "message": "2MW rapid-fire pulse cannon",
+        "message": "Canhão de impulso de disparo rápido de 2MW",
         "description": ""
     },
     "YAW_LEFT": {
@@ -2072,7 +2072,7 @@
         "description": ""
     },
     "ATMOSPHERIC_SHIELDING_DESCRIPTION": {
-        "message": "Shields your spaceship from the heat of atmospheric re-entry.",
+        "message": "Protege a nave do calor da reentrada atmosférica.",
         "description": ""
     },
     "DEMOGRAPHICS": {
@@ -2080,7 +2080,7 @@
         "description": ""
     },
     "CLEARANCE_GRANTED_BAY_N": {
-        "message": "Clearance granted. Proceed to docking bay %bay.",
+        "message": "Autorização garantida. Dirija-se à doca %bay.",
         "description": ""
     },
     "WEAPONS": {
@@ -2108,7 +2108,7 @@
         "description": ""
     },
     "NAVIGATION_TARGETS_IN_THIS_SYSTEM": {
-        "message": "Navigation targets in this system",
+        "message": "Destinos de navegação neste sistema",
         "description": ""
     },
     "LIQUID_OXYGEN": {
