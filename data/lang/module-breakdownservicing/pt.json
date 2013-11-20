@@ -20,7 +20,7 @@
         "description": ""
     },
     "FLAVOUR_INTRO_1": {
-        "message": "Sou o {proprietor}. Posso fazer a manutenção do {drive}, garantindo pelo menos um ano de funcionamento sem problemas. O custo da manutenção será {price}\n{lasttime}",
+        "message": "Olá, chamo-me {proprietor}. Posso fazer a manutenção do {drive}, garantindo pelo menos um ano de funcionamento sem problemas. O custo da manutenção será {price}\n{lasttime}",
         "description": ""
     },
     "I_DONT_HAVE_ENOUGH_MONEY": {

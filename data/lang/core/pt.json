@@ -24,7 +24,7 @@
         "description": ""
     },
     "ALT": {
-        "message": "\"alt \"",
+        "message": "\"alt\"",
         "description": ""
     },
     "HYPERSPACE_ARRIVAL_CLOUD": {
@@ -36,7 +36,7 @@
         "description": ""
     },
     "CARBON_ORE_DESCRIPTION": {
-        "message": "Carbon ores (coal and oil) are required for the synthesis of many useful chemicals, including plastics, synthetic foodstuffs, medicines and textiles",
+        "message": "Minérios de carbono (carvão e petróleo) são necessários para a síntese de muitos produtos químicos úteis, incluindo plásticos, alimentos sintéticos, medicamentos e produtos têxteis",
         "description": ""
     },
     "CAMERA_TOP_VIEW": {
@@ -68,7 +68,7 @@
         "description": ""
     },
     "REVERSE_ACCEL_LADEN": {
-        "message": "Reverse accel (laden)",
+        "message": "Aceleração inversa (carregado)",
         "description": ""
     },
     "LEGAL_STATUS": {
@@ -112,7 +112,7 @@
         "description": ""
     },
     "HIGHLY_VOLCANIC": {
-        "message": "Highly volcanic",
+        "message": "Altamente vulcânico",
         "description": ""
     },
     "USED": {
@@ -124,7 +124,7 @@
         "description": ""
     },
     "ECM_ADVANCED_DESCRIPTION": {
-        "message": "An electronic countermeasure missile defence system, capable of destroying more advanced types of homing missiles.",
+        "message": "Um sistema de contra-medida electrónica de defesa míssil, capaz de destruir os mais avançados tipos de mísseis teleguiados.",
         "description": ""
     },
     "DRIVE_MIL4": {
@@ -144,7 +144,7 @@
         "description": ""
     },
     "CORPORATE_SYSTEM": {
-        "message": "Corporate system",
+        "message": "Sistema corporativo",
         "description": ""
     },
     "HYDROGEN": {
@@ -152,7 +152,7 @@
         "description": ""
     },
     "REVERSE_ACCEL_EMPTY": {
-        "message": "Reverse accel (empty)",
+        "message": "Aceleração inversa (vazio)",
         "description": ""
     },
     "MONTH_JAN": {
@@ -168,7 +168,7 @@
         "description": ""
     },
     "BINARY_SYSTEM": {
-        "message": "Binary system",
+        "message": "Sistema binário",
         "description": ""
     },
     "ALT_IN_METRES": {
@@ -176,7 +176,7 @@
         "description": ""
     },
     "SHIELD_GENERATOR": {
-        "message": "Shield Generator",
+        "message": "Gerador do Escudo",
         "description": ""
     },
     "SOMEWHERE_COMMODITIES_MARKET": {
@@ -188,15 +188,15 @@
         "description": ""
     },
     "THRUSTER_VENTRAL": {
-        "message": "Thrust up",
+        "message": "Impulso acima",
         "description": ""
     },
     "STAR_K_HYPER_GIANT": {
-        "message": "Orange hyper giant star - Unstable",
+        "message": "Estrela laranja hiper gigante - Instável",
         "description": ""
     },
     "NEW_AND_RECONDITIONED_SHIPS": {
-        "message": "New and reconditioned ships",
+        "message": "Naves novas e usadas",
         "description": ""
     },
     "STAR_AF_GIANT": {
@@ -208,7 +208,7 @@
         "description": ""
     },
     "SOME_ESTABLISHED_MINING": {
-        "message": "Some established mining.",
+        "message": "Alguma mineração estabelecida.",
         "description": ""
     },
     "CONTROLS": {
@@ -216,7 +216,7 @@
         "description": ""
     },
     "CARGO_N": {
-        "message": "Cargo: %{mass}t",
+        "message": "Mercadoria: %{mass}t",
         "description": ""
     },
     "HAND_WEAPONS": {
@@ -244,7 +244,7 @@
         "description": ""
     },
     "ALLEGIANCE": {
-        "message": "Allegiance:",
+        "message": "Fidelidade:",
         "description": ""
     },
     "WEIGHT_EMPTY": {
@@ -252,11 +252,11 @@
         "description": ""
     },
     "N_DEGREES": {
-        "message": "%angle{f.1} degrees",
+        "message": "%angle{f.1} graus",
         "description": ""
     },
     "IN_TRANSIT_TO_N_X_X_X": {
-        "message": "In transit to %system [%x,%y,%z]",
+        "message": "A caminho de %system [%x,%y,%z]",
         "description": ""
     },
     "REAR": {
@@ -268,7 +268,7 @@
         "description": ""
     },
     "DISTANCE_FROM_SHIP_TO_NAV_TARGET": {
-        "message": "Distance from ship to navigation target",
+        "message": "Distância da nave ao destino",
         "description": ""
     },
     "CAPACITY": {
@@ -276,7 +276,7 @@
         "description": ""
     },
     "COMPUTER_HEADING_CONTROL": {
-        "message": "Computer heading control",
+        "message": "Controlo de posição por computador",
         "description": ""
     },
     "SURFACE_GRAVITY": {
@@ -288,11 +288,11 @@
         "description": ""
     },
     "COMMA_HIGHLY_VOLCANIC": {
-        "message": ", highly volcanic",
+        "message": ", altamente vulcânico",
         "description": ""
     },
     "UNEXPLORED_SYSTEM_STAR_INFO_ONLY": {
-        "message": "Unexplored System. Star information has been gathered by remote telescope, but no planetary information is available.",
+        "message": "Sistema inexplorado. As informações sobre a estrela foram recolhidas pelo telescópio remoto, mas não está disponível nenhuma informação planetária.",
         "description": ""
     },
     "DECREASE_SET_SPEED": {
@@ -300,15 +300,15 @@
         "description": ""
     },
     "ROCKY_PLANET_CONTAINING_COME_LIQUIDS": {
-        "message": "\" rocky planet containing some liquids,\"",
+        "message": "\" planeta rochoso contendo alguns líquidos,\"",
         "description": ""
     },
     "REMOVE_FROM_WHICH_MOUNT": {
-        "message": "Remove laser from which gun mount?",
+        "message": "De qual ponto de montagem deve ser retirado o laser?",
         "description": ""
     },
     "BODIES": {
-        "message": "Corpos",
+        "message": "corpos",
         "description": ""
     },
     "SCREENSHOT_FILENAME_TEMPLATE": {
@@ -332,7 +332,7 @@
         "description": ""
     },
     "THRUSTER_PORT": {
-        "message": "Thrust left",
+        "message": "Impulso à esquerda",
         "description": ""
     },
     "TOGGLE_ROTATION_DAMPING": {
@@ -352,15 +352,15 @@
         "description": ""
     },
     "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND": {
-        "message": "Autopilot: Enter medium orbit around %target",
+        "message": "Piloto automático: Entrar em órbita média à volta de %",
         "description": ""
     },
     "INCREASE_SET_SPEED": {
-        "message": "Increase set speed",
+        "message": "Aumentar velocidade definida",
         "description": ""
     },
     "CARGO_SCOOP_DESCRIPTION": {
-        "message": "Permits scooping cargo pods from space.",
+        "message": "Permite escavar contentores de mercadoria do espaço.",
         "description": ""
     },
     "MONTH_MAY": {
@@ -380,7 +380,7 @@
         "description": ""
     },
     "MININGCANNON_17MW_DESCRIPTION": {
-        "message": "Used to blast-mine mineral rich asteroids.",
+        "message": "Usado para explodir asteróides ricos em minerais.",
         "description": ""
     },
     "MONTH_MAR": {
@@ -416,15 +416,15 @@
         "description": ""
     },
     "HEADING_LOCK_BACKWARD": {
-        "message": "Heading Lock (aft)",
+        "message": "Posição Bloqueada (popa)",
         "description": ""
     },
     "HULL_AUTOREPAIR_DESCRIPTION": {
-        "message": "Automatically repairs the ship's hull in the event of damage.",
+        "message": "Repara automaticamente o casco da nave em caso de dano.",
         "description": ""
     },
     "SHIELD_ENERGY_BOOSTER_DESCRIPTION": {
-        "message": "Increases the rate at which shields recharge.",
+        "message": "Aumentar a velocidade de recarga dos escudos",
         "description": ""
     },
     "ENABLED_AUTOMATIC_SYSTEM_SELECTION": {
@@ -440,7 +440,7 @@
         "description": ""
     },
     "PASSENGER_CABIN": {
-        "message": "Occupied Passenger Cabin",
+        "message": "Cabines de Passageiros ocupados",
         "description": ""
     },
     "INDUSTRIAL_COLONY": {
@@ -456,11 +456,11 @@
         "description": ""
     },
     "THRUSTER_MAIN": {
-        "message": "Thrust forward",
+        "message": "Impulso à frente",
         "description": ""
     },
     "HARD_CAPITALIST": {
-        "message": "Entirely Capitalist - no government welfare provision",
+        "message": "Completamente Capitalista - não há segurança social do estado",
         "description": ""
     },
     "SELECT_A_TARGET": {
@@ -468,7 +468,7 @@
         "description": ""
     },
     "SHIP_IS_FULLY_LADEN": {
-        "message": "Your ship is fully laden.",
+        "message": "A nave está completamente carregada.",
         "description": ""
     },
     "MONTH_FEB": {
@@ -496,7 +496,7 @@
         "description": ""
     },
     "STAR_G_SUPER_GIANT": {
-        "message": "Yellow super giant star",
+        "message": "Estrela amarela super gigante",
         "description": ""
     },
     "COMPUTERS": {
@@ -508,7 +508,7 @@
         "description": ""
     },
     "SOMEWHERE_SHIP_REPAIRS": {
-        "message": "%station ship repairs",
+        "message": "Reparação da nave de %station",
         "description": ""
     },
     "JOY": {
@@ -528,7 +528,7 @@
         "description": ""
     },
     "ECM_ADVANCED": {
-        "message": "Advanced ECM system",
+        "message": "Sistema ECM avançado",
         "description": ""
     },
     "NO_HYPERDRIVE": {
@@ -548,19 +548,19 @@
         "description": ""
     },
     "THRUSTER_DORSAL": {
-        "message": "Thrust down",
+        "message": "Impulso abaixo",
         "description": ""
     },
     "THANKS_AND_REMEMBER_TO_BUY_FUEL": {
-        "message": "Thank you for your purchase. Remember to fit equipment and buy fuel before you depart.",
+        "message": "Obrigado pela sua compra. Não se esqueça de instalar os equipamentos e de comprar combustível antes de partir.",
         "description": ""
     },
     "STAR_B_WF": {
-        "message": "Wolf-Rayet star - Risk of collapse",
+        "message": "Estrela Wolf-Rayet - Risco de colapso",
         "description": ""
     },
     "BROWN_DWARF": {
-        "message": "Brown dwarf sub-stellar object",
+        "message": "Objecto sub-estelar anã castanha",
         "description": ""
     },
     "HIGH_POPULATION_OUTDOOR_WORLD": {
@@ -568,19 +568,19 @@
         "description": ""
     },
     "ROTATE_LEFT": {
-        "message": "Rotate Left",
+        "message": "Girar à esquerda",
         "description": ""
     },
     "TRADING_ILLEGAL_GOODS": {
-        "message": "Trading illegal goods",
+        "message": "Bens de comércio ilegais",
         "description": ""
     },
     "STAR_G_GIANT": {
-        "message": "Yellow giant star - Unstable",
+        "message": "Estrela amarela gigante - Instável",
         "description": ""
     },
     "SCANNER_DESCRIPTION": {
-        "message": "Provides a 3D map of nearby ships.",
+        "message": "Fornece um mapa 3D das naves na vizinhança",
         "description": ""
     },
     "MONTH_NOV": {
@@ -588,11 +588,11 @@
         "description": ""
     },
     "EXACT_MATCH_X": {
-        "message": "Exact match: %system",
+        "message": "Correspondência exacta: %system",
         "description": ""
     },
     "SOLD_1T_OF": {
-        "message": "You have sold 1t of %commodity.",
+        "message": "Vendeu 1t de %commodity.",
         "description": ""
     },
     "SURFACE_TEMPERATURE": {
@@ -608,7 +608,7 @@
         "description": ""
     },
     "YOUNG_FARMING_COLONY": {
-        "message": "Young farming colony.",
+        "message": "Colónia agrícola jovem.",
         "description": ""
     },
     "NUMBER_TONNES": {
@@ -624,7 +624,7 @@
         "description": ""
     },
     "MISSILE": {
-        "message": "missile",
+        "message": "míssil",
         "description": ""
     },
     "DRAW_OUT_RANGE_LABELS": {
@@ -632,7 +632,7 @@
         "description": ""
     },
     "VIOLENT_ANARCHY": {
-        "message": "Disorder - Overall governance contested by armed factions",
+        "message": "Desordem - Governo geral contestado por facções armadas",
         "description": ""
     },
     "SHIP_DETECTED_NEARBY": {
@@ -644,11 +644,11 @@
         "description": ""
     },
     "APOAPSIS_DISTANCE": {
-        "message": "Apoapsis distance",
+        "message": "Distância de periastro",
         "description": ""
     },
     "PLANET_WITH_SOME_ICE": {
-        "message": "\" planet with some ice\"",
+        "message": "\" planeta com algum gelo\"",
         "description": ""
     },
     "FUEL_WEIGHT": {
@@ -656,11 +656,11 @@
         "description": ""
     },
     "SMALL_INDUSTRIAL_OUTPOST": {
-        "message": "Small industrial outpost.",
+        "message": "Pequeno posto avançado industrial.",
         "description": ""
     },
     "SELECT_LOW_THRUST_POWER_LEVEL": {
-        "message": "Select low thrust power level",
+        "message": "Selecionar poder de impulso baixo",
         "description": ""
     },
     "N_WHATEVER_RADII": {
@@ -668,11 +668,11 @@
         "description": ""
     },
     "AXIAL_TILT": {
-        "message": "Axial tilt",
+        "message": "Inclinação de axial",
         "description": ""
     },
     "ECCENTRICITY": {
-        "message": "Eccentricity",
+        "message": "Excentricidade",
         "description": ""
     },
     "SHIP_NEARBY": {
@@ -688,11 +688,11 @@
         "description": ""
     },
     "SPACESTATION_LONG_WELCOME_MESSAGE": {
-        "message": "Hello, traveller.  Welcome to our little blue play-pen.  If it's your first time here, feel free to get acquainted with the residents.  We hope you enjoy your stay.\\nPlease remember that renovations are under way, and that scenery may change between visits.",
+        "message": "Olá, viajante. Bem-vindo ao nosso pequeno planeta azul. Se é a primeira vez aqui, sinta-se livre para se familiarizar com os moradores. Desejamos que aproveite a sua estadia. \\nPor favor, lembre-se que as obras de melhoria estão em curso e que o cenário pode mudar entre visitas.",
         "description": ""
     },
     "NO_CENTRAL_GOVERNANCE": {
-        "message": "No central governance",
+        "message": "Sem governo central",
         "description": ""
     },
     "RUBBISH": {
@@ -704,7 +704,7 @@
         "description": ""
     },
     "HYDROGEN_DESCRIPTION": {
-        "message": "Hydrogen is primarily used as a fusion fuel",
+        "message": "O hidrogénio é usado principalmente como combustível de fusão",
         "description": ""
     },
     "CO_ATMOSPHERE": {
@@ -728,7 +728,7 @@
         "description": ""
     },
     "MISSILE_GUIDED": {
-        "message": "Guided Missile",
+        "message": "Míssil Guiado",
         "description": ""
     },
     "ZOOM_OUT": {
@@ -736,15 +736,15 @@
         "description": ""
     },
     "SECTOR_COORDINATES": {
-        "message": "Sector coordinates:",
+        "message": "Coordenadas do sector:",
         "description": ""
     },
     "PULSECANNON_10MW": {
-        "message": "10MW pulse cannon",
+        "message": "Canhão de impulso de 10MW",
         "description": ""
     },
     "WHITE_DWARF": {
-        "message": "White dwarf stellar remnant",
+        "message": "Remanescente estelar de uma anã branca",
         "description": ""
     },
     "HULL_TEMP": {
@@ -756,7 +756,7 @@
         "description": ""
     },
     "AND_HIGHLY_COMPLEX_ECOSYSTEM": {
-        "message": "\" and a highly complex ecosystem.\"",
+        "message": "\" e o ecossistema altamente complexo.\"",
         "description": ""
     },
     "UNKNOWN": {
@@ -764,7 +764,7 @@
         "description": ""
     },
     "SHIELD_ENERGY_BOOSTER": {
-        "message": "Shield Energy Booster",
+        "message": "Impulsionador de Energia do Escudo",
         "description": ""
     },
     "NO_ESTABLISHED_ORDER": {
@@ -776,7 +776,7 @@
         "description": ""
     },
     "AIR_PROCESSORS": {
-        "message": "Air processors",
+        "message": "Processadores de ar",
         "description": ""
     },
     "DECREASE_SCAN_RANGE": {
@@ -784,7 +784,7 @@
         "description": ""
     },
     "SET_HYPERSPACE_DESTINATION_TO": {
-        "message": "Set hyperspace destination to %system",
+        "message": "Definir destino de hiperespaço para %system",
         "description": ""
     },
     "WEIGHT_FULLY_LADEN": {
@@ -808,7 +808,7 @@
         "description": ""
     },
     "FARM_MACHINERY": {
-        "message": "Farm machinery",
+        "message": "Maquinaria agrícola",
         "description": ""
     },
     "MURDER": {
@@ -832,11 +832,11 @@
         "description": ""
     },
     "MISSILE_SMART": {
-        "message": "Smart Missile",
+        "message": "Míssil Inteligente",
         "description": ""
     },
     "NOT_FOUND_BEST_MATCH_X": {
-        "message": "Not found, best match: %system",
+        "message": "Não encontrado, melhor correspondência: %system",
         "description": ""
     },
     "SECTOR_X_Y_Z": {
@@ -1180,7 +1180,7 @@
         "description": ""
     },
     "THRUSTER_STARBOARD": {
-        "message": "Thrust right",
+        "message": "Impulso à direita",
         "description": ""
     },
     "MINOR_IMPORTS": {
@@ -1232,7 +1232,7 @@
         "description": ""
     },
     "GOVERNMENT_TYPE": {
-        "message": "Government type:",
+        "message": "Tipo de governo:",
         "description": ""
     },
     "METAL_ORE": {
@@ -1264,7 +1264,7 @@
         "description": ""
     },
     "USE_LOW_THRUST": {
-        "message": "Use low thrust",
+        "message": "Usar impulso baixo",
         "description": ""
     },
     "REPAIR_1_PERCENT_HULL": {
@@ -1276,7 +1276,7 @@
         "description": ""
     },
     "REQUEST_LAUNCH": {
-        "message": "Requerer Descolagem",
+        "message": "Requisitar Autorização de Descolagem",
         "description": ""
     },
     "IN_TRANSIT": {
@@ -1444,7 +1444,7 @@
         "description": ""
     },
     "STAR_SYSTEM_INFORMATION": {
-        "message": "Star system information",
+        "message": "Informação do sistema estelar",
         "description": ""
     },
     "STAR_O_HYPER_GIANT": {
@@ -1692,7 +1692,7 @@
         "description": ""
     },
     "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT": {
-        "message": "Set low thrust power level to %power%%",
+        "message": "Definir poder de impulso baixo para %power%%",
         "description": ""
     },
     "REMOVING": {
@@ -1776,7 +1776,7 @@
         "description": ""
     },
     "THRUSTER_RETRO": {
-        "message": "Thrust backwards",
+        "message": "Impulso atrás",
         "description": ""
     },
     "MEDICINES": {
@@ -1792,7 +1792,7 @@
         "description": ""
     },
     "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND": {
-        "message": "Autopilot: Enter high orbit around %target",
+        "message": "Piloto automático: Entrar em órbita alta à volta de %target",
         "description": ""
     },
     "ORBITAL_STARPORT": {
@@ -1868,7 +1868,7 @@
         "description": ""
     },
     "WITH_NO_SIGNIFICANT_ATMOSPHERE": {
-        "message": "\" with no significant atmosphere\"",
+        "message": "\" sem atmosfera significativa\"",
         "description": ""
     },
     "INTERNAL_VIEW": {
