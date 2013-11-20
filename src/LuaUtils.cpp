@@ -526,12 +526,6 @@ int pi_lua_loadfile(lua_State *l, const FileSystem::FileData &code)
 
 	const StringRange source = code.AsStringRange().StripUTF8BOM();
 	const std::string &path(code.GetInfo().GetPath());
-	if (path.at(0) == '[') {
-		fprintf(stderr, "Paths starting with '[' are reserved in pi_lua_dofile('%s'\n",
-		        code.GetInfo().GetAbsolutePath().c_str());
-		// actually, paths starting with '[' are still safe, because
-		// we always prefix the path with '@' in the chunk name
-	}
 	bool trusted = code.GetInfo().GetSource().IsTrusted();
 	const std::string chunkName = (trusted ? "[T] @" : "@") + path;
 
