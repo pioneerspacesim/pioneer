@@ -8,6 +8,7 @@ November 2013
      * Improvements to the ship spinner (used in Ship Info view) (#2532)
 
    * Script and UI API changes
+     * Console will load "console.lua" in your user dir at startup (#2556)
      * New methods Ship:SetInvulnerable and Ship:GetInvulnerable (#2531)
      * UI.Table widget now accepts mouse events and has added methods:
        ClearRows, SetMouseEnabled, and onRowClicked (#2554)
