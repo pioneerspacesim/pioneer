@@ -122,7 +122,12 @@ int LuaObjectBase::l_setprop(lua_State *l)
 {
 	luaL_checktype(l, 1, LUA_TUSERDATA);
 	const std::string key(luaL_checkstring(l, 2));
-	const std::string value(luaL_checkstring(l, 3));
+
+	int isnum;
+	double vn = lua_tonumberx(l, 3, &isnum);
+	std::string vs;
+	if (!isnum)
+		vs = luaL_checkstring(l, 3);
 
 	// quick check to make sure this object actually has properties
 	// before we go diving through the stack etc
@@ -138,7 +143,10 @@ int LuaObjectBase::l_setprop(lua_State *l)
 	PropertiedObject *po = dynamic_cast<PropertiedObject*>(o);
 	assert(po);
 
-	po->Properties().Set(key, value);
+	if (isnum)
+		po->Properties().Set(key, vn);
+	else
+		po->Properties().Set(key, vs);
 
 	return 0;
 }
