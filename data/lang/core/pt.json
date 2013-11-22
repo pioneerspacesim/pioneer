@@ -100,7 +100,7 @@
         "description": ""
     },
     "HULL_INTEGRITY": {
-        "message": "Integridade do casco",
+        "message": "Integri. do casco",
         "description": ""
     },
     "EARTH_FEDERATION_DEMOCRACY": {
@@ -228,7 +228,7 @@
         "description": ""
     },
     "MINING_MACHINERY": {
-        "message": "Maquinaria industrial",
+        "message": "Maquinaria de mineração",
         "description": ""
     },
     "MININGCANNON_17MW": {
@@ -944,7 +944,7 @@
         "description": ""
     },
     "SHIELD_GENERATOR_DESCRIPTION": {
-        "message": "Provides additional hull defences with each unit fitted.",
+        "message": "Providencia defesas adicionais do casco por cada unidade instalada.",
         "description": ""
     },
     "HYPERCLOUD_ANALYZER_DESCRIPTION": {
@@ -1072,7 +1072,7 @@
         "description": ""
     },
     "COMMS_LINK": {
-        "message": "Ligação de comunicações",
+        "message": "Lig. de com.",
         "description": ""
     },
     "X": {
@@ -1440,7 +1440,7 @@
         "description": ""
     },
     "SET_SPEED_M_S": {
-        "message": "Set speed: %speed{f.0} m/s",
+        "message": "Velocidade definida: %speed{f.0} m/s",
         "description": ""
     },
     "STAR_SYSTEM_INFORMATION": {
@@ -1912,7 +1912,7 @@
         "description": ""
     },
     "REGISTRATION_ID": {
-        "message": "Registration id",
+        "message": "Número de registo",
         "description": ""
     },
     "DRIVE_CLASS3": {
@@ -2100,11 +2100,11 @@
         "description": ""
     },
     "NO_TARGET_SELECTED": {
-        "message": "Ship Computer: No target selected",
+        "message": "Computador de Bordo: Nenhum alvo selecionado",
         "description": ""
     },
     "STAR_O_GIANT": {
-        "message": "Hot Blue giant star",
+        "message": "Estrela azul quente gigante",
         "description": ""
     },
     "NAVIGATION_TARGETS_IN_THIS_SYSTEM": {
@@ -2140,7 +2140,7 @@
         "description": ""
     },
     "ROTATE_RIGHT": {
-        "message": "Rotate Right",
+        "message": "Girar à direita",
         "description": ""
     }
 }

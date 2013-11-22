@@ -116,11 +116,11 @@
         "description": ""
     },
     "OK_AGREED": {
-        "message": "Ok, agreed.",
+        "message": "Ok, temos acordo.",
         "description": ""
     },
     "DISTANCE": {
-        "message": "Distance:",
+        "message": "Distância:",
         "description": ""
     },
     "FLAVOUR_ADTEXT_5": {
@@ -260,7 +260,7 @@
         "description": ""
     },
     "EXCELLENT": {
-        "message": "Excellent.",
+        "message": "Excelente.",
         "description": ""
     },
     "TITLE_4": {
