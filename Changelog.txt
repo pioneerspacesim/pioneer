@@ -12,6 +12,7 @@ November 2013
      * New methods Ship:SetInvulnerable and Ship:GetInvulnerable (#2531)
      * UI.Table widget now accepts mouse events and has added methods:
        ClearRows, SetMouseEnabled, and onRowClicked (#2554)
+     * It is now possible to create custom properties (#2553)
 
    * Fixes
      * Fix potential divide-by-zero in autopilot (#2535, #2547)
