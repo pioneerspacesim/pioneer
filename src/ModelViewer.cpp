@@ -1137,13 +1137,20 @@ void ModelViewer::UpdateCamera()
 	}
 
 	if (m_options.fpsViewControls) {
-		const float rot_y = 0.2f*m_mouseMotion[0];
-		const float rot_x = 0.2f*m_mouseMotion[1];
-		const matrix3x3f rot =
-			matrix3x3f::RotateX(DEG2RAD(rot_x)) *
-			matrix3x3f::RotateY(DEG2RAD(rot_y));
+		const float degrees_per_pixel = 0.2f;
+		if (!m_mouseButton[SDL_BUTTON_RIGHT]) {
+			// yaw and pitch
+			const float rot_y = degrees_per_pixel*m_mouseMotion[0];
+			const float rot_x = degrees_per_pixel*m_mouseMotion[1];
+			const matrix3x3f rot =
+				matrix3x3f::RotateX(DEG2RAD(rot_x)) *
+				matrix3x3f::RotateY(DEG2RAD(rot_y));
 
-		m_viewRot = m_viewRot * rot;
+			m_viewRot = m_viewRot * rot;
+		} else {
+			// roll
+			m_viewRot = m_viewRot * matrix3x3f::RotateZ(DEG2RAD(degrees_per_pixel * m_mouseMotion[0]));
+		}
 
 		vector3f motion(0.0f);
 		if (m_keyStates[SDLK_w]) motion.z -= moveRate;
