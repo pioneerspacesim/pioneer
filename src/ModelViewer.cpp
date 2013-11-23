@@ -25,7 +25,7 @@ ModelViewer::Options::Options()
 , showLandingPad(false)
 , showUI(true)
 , wireframe(false)
-, fpsViewControls(false)
+, mouselookEnabled(false)
 , gridInterval(10.f)
 , lightPreset(0)
 {
@@ -290,14 +290,14 @@ void ModelViewer::ChangeCameraPreset(SDL_Keycode key, SDL_Keymod mod)
 
 void ModelViewer::ToggleViewControlMode()
 {
-	m_options.fpsViewControls = !m_options.fpsViewControls;
-	m_renderer->GetWindow()->SetGrab(m_options.fpsViewControls);
+	m_options.mouselookEnabled = !m_options.mouselookEnabled;
+	m_renderer->GetWindow()->SetGrab(m_options.mouselookEnabled);
 
-	if (m_options.fpsViewControls) {
+	if (m_options.mouselookEnabled) {
 		m_viewRot = matrix3x3f::RotateY(DEG2RAD(m_rotY)) * matrix3x3f::RotateX(DEG2RAD(Clamp(m_rotX, -90.0f, 90.0f)));
 		m_viewPos = zoom_distance(m_baseDistance, m_zoom) * m_viewRot.VectorZ();
 	} else {
-		// XXX re-initialise the turntable style view position from the FPS-style view position
+		// XXX re-initialise the turntable style view position from the current mouselook view
 		ResetCamera();
 	}
 }
@@ -313,7 +313,7 @@ void ModelViewer::ClearModel()
 	m_gunModel.reset();
 	m_scaleModel.reset();
 
-	m_options.fpsViewControls = false;
+	m_options.mouselookEnabled = false;
 	m_renderer->GetWindow()->SetGrab(false);
 	m_viewPos = vector3f(0.0f, 0.0f, 10.0f);
 	ResetCamera();
@@ -502,7 +502,7 @@ void ModelViewer::DrawModel()
 	UpdateLights();
 
 	matrix4x4f mv;
-	if (m_options.fpsViewControls) {
+	if (m_options.mouselookEnabled) {
 		mv = m_viewRot.Transpose() * matrix4x4f::Translation(-m_viewPos);
 	} else {
 		m_rotX = Clamp(m_rotX, -90.0f, 90.0f);
@@ -1136,7 +1136,7 @@ void ModelViewer::UpdateCamera()
 		rotateRate *= 2.0f;
 	}
 
-	if (m_options.fpsViewControls) {
+	if (m_options.mouselookEnabled) {
 		const float degrees_per_pixel = 0.2f;
 		if (!m_mouseButton[SDL_BUTTON_RIGHT]) {
 			// yaw and pitch
