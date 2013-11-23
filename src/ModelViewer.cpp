@@ -294,8 +294,8 @@ void ModelViewer::ToggleViewControlMode()
 	m_renderer->GetWindow()->SetGrab(m_options.fpsViewControls);
 
 	if (m_options.fpsViewControls) {
-		matrix3x3f rot = matrix3x3f::RotateY(DEG2RAD(m_rotY)) * matrix3x3f::RotateX(DEG2RAD(Clamp(m_rotX, -90.0f, 90.0f)));
-		m_viewPos = zoom_distance(m_baseDistance, m_zoom) * rot.VectorZ();
+		m_viewRot = matrix3x3f::RotateY(DEG2RAD(m_rotY)) * matrix3x3f::RotateX(DEG2RAD(Clamp(m_rotX, -90.0f, 90.0f)));
+		m_viewPos = zoom_distance(m_baseDistance, m_zoom) * m_viewRot.VectorZ();
 	} else {
 		// XXX re-initialise the turntable style view position from the FPS-style view position
 		ResetCamera();
@@ -501,15 +501,14 @@ void ModelViewer::DrawModel()
 	m_renderer->SetTransform(matrix4x4f::Identity());
 	UpdateLights();
 
-	m_rotX = Clamp(m_rotX, -90.0f, 90.0f);
-	matrix4x4f rot = matrix4x4f::Identity();
-	rot.RotateX(DEG2RAD(-m_rotX));
-	rot.RotateY(DEG2RAD(-m_rotY));
-
 	matrix4x4f mv;
 	if (m_options.fpsViewControls) {
-		mv = rot * matrix4x4f::Translation(-m_viewPos);
+		mv = m_viewRot.Transpose() * matrix4x4f::Translation(-m_viewPos);
 	} else {
+		m_rotX = Clamp(m_rotX, -90.0f, 90.0f);
+		matrix4x4f rot = matrix4x4f::Identity();
+		rot.RotateX(DEG2RAD(-m_rotX));
+		rot.RotateY(DEG2RAD(-m_rotY));
 		mv = matrix4x4f::Translation(0.0f, 0.0f, -zoom_distance(m_baseDistance, m_zoom)) * rot;
 	}
 
@@ -1137,25 +1136,16 @@ void ModelViewer::UpdateCamera()
 		rotateRate *= 2.0f;
 	}
 
-	//zoom
-	if (m_keyStates[SDLK_EQUALS] || m_keyStates[SDLK_KP_PLUS]) m_zoom -= zoomRate;
-	if (m_keyStates[SDLK_MINUS] || m_keyStates[SDLK_KP_MINUS]) m_zoom += zoomRate;
-
-	//zoom with mouse wheel
-	if (m_mouseWheelUp) m_zoom -= BASE_ZOOM_RATE;
-	if (m_mouseWheelDown) m_zoom += BASE_ZOOM_RATE;
-
-	m_zoom = Clamp(m_zoom, -10.0f, 10.0f); // distance range: [baseDistance * 1/1024, baseDistance * 1024]
-
-	//rotate
-	if (m_keyStates[SDLK_UP]) m_rotX += rotateRate;
-	if (m_keyStates[SDLK_DOWN]) m_rotX -= rotateRate;
-	if (m_keyStates[SDLK_LEFT]) m_rotY += rotateRate;
-	if (m_keyStates[SDLK_RIGHT]) m_rotY -= rotateRate;
-
 	if (m_options.fpsViewControls) {
-		vector3f motion(0.0f);
+		const float rot_y = 0.2f*m_mouseMotion[0];
+		const float rot_x = 0.2f*m_mouseMotion[1];
+		const matrix3x3f rot =
+			matrix3x3f::RotateX(DEG2RAD(rot_x)) *
+			matrix3x3f::RotateY(DEG2RAD(rot_y));
 
+		m_viewRot = m_viewRot * rot;
+
+		vector3f motion(0.0f);
 		if (m_keyStates[SDLK_w]) motion.z -= moveRate;
 		if (m_keyStates[SDLK_s]) motion.z += moveRate;
 		if (m_keyStates[SDLK_a]) motion.x -= moveRate;
@@ -1163,16 +1153,29 @@ void ModelViewer::UpdateCamera()
 		if (m_keyStates[SDLK_q]) motion.y -= moveRate;
 		if (m_keyStates[SDLK_e]) motion.y += moveRate;
 
-		const matrix3x3f rot =
-			matrix3x3f::RotateY(DEG2RAD(m_rotY)) *
-			matrix3x3f::RotateX(DEG2RAD(Clamp(m_rotX, -90.0f, 90.0f)));
-		m_viewPos += rot * motion;
-	}
+		m_viewPos += m_viewRot * motion;
+	} else {
+		//zoom
+		if (m_keyStates[SDLK_EQUALS] || m_keyStates[SDLK_KP_PLUS]) m_zoom -= zoomRate;
+		if (m_keyStates[SDLK_MINUS] || m_keyStates[SDLK_KP_MINUS]) m_zoom += zoomRate;
 
-	//mouse rotate when right button held or when using FPS-style mouse-look
-	if (m_mouseButton[SDL_BUTTON_RIGHT] || m_options.fpsViewControls) {
-		m_rotY += 0.2f*m_mouseMotion[0];
-		m_rotX += 0.2f*m_mouseMotion[1];
+		//zoom with mouse wheel
+		if (m_mouseWheelUp) m_zoom -= BASE_ZOOM_RATE;
+		if (m_mouseWheelDown) m_zoom += BASE_ZOOM_RATE;
+
+		m_zoom = Clamp(m_zoom, -10.0f, 10.0f); // distance range: [baseDistance * 1/1024, baseDistance * 1024]
+
+		//rotate
+		if (m_keyStates[SDLK_UP]) m_rotX += rotateRate;
+		if (m_keyStates[SDLK_DOWN]) m_rotX -= rotateRate;
+		if (m_keyStates[SDLK_LEFT]) m_rotY += rotateRate;
+		if (m_keyStates[SDLK_RIGHT]) m_rotY -= rotateRate;
+
+		//mouse rotate when right button held
+		if (m_mouseButton[SDL_BUTTON_RIGHT]) {
+			m_rotY += 0.2f*m_mouseMotion[0];
+			m_rotX += 0.2f*m_mouseMotion[1];
+		}
 	}
 }
 
