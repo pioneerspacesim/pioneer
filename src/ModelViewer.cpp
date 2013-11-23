@@ -503,14 +503,14 @@ void ModelViewer::DrawModel()
 
 	m_rotX = Clamp(m_rotX, -90.0f, 90.0f);
 	matrix4x4f rot = matrix4x4f::Identity();
-	rot.RotateY(DEG2RAD(m_rotY));
-	rot.RotateX(DEG2RAD(m_rotX));
+	rot.RotateX(DEG2RAD(-m_rotX));
+	rot.RotateY(DEG2RAD(-m_rotY));
 
 	matrix4x4f mv;
 	if (m_options.fpsViewControls) {
-		mv = rot.InverseOf() * matrix4x4f::Translation(-m_viewPos);
+		mv = rot * matrix4x4f::Translation(-m_viewPos);
 	} else {
-		mv = matrix4x4f::Translation(0.0f, 0.0f, -zoom_distance(m_baseDistance, m_zoom)) * rot.InverseOf();
+		mv = matrix4x4f::Translation(0.0f, 0.0f, -zoom_distance(m_baseDistance, m_zoom)) * rot;
 	}
 
 	if (m_options.showGrid)
