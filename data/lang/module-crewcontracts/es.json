@@ -88,7 +88,7 @@
         "description": ""
     },
     "POTENTIAL_CREW_MEMBERS": {
-        "message": "Tripulación en potencia registrada buscando trabajo en {station}:",
+        "message": "Tripulación potencial buscando trabajo, registrada en {station}:",
         "description": ""
     },
     "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME": {
