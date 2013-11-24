@@ -1337,5 +1337,141 @@ template <> void LuaObject<Ship>::RegisterClass()
  * Status:
  *
  *   experimental
+ *
+ *
+ * Attribute: fuelMassLeft
+ *
+ * Remaining thruster fuel mass in tonnes.
+ *
+ * Availability:
+ *
+ *   November 2013
+ *
+ * Status:
+ *
+ *   experimental
+ *
+ *
+ * Attribute: hullMassLeft
+ *
+ * Remaining hull integrity in tonnes. Ship damage reduces hull integrity.
+ * When this reaches 0, the ship is destroyed.
+ *
+ * Availability:
+ *
+ *   November 2013
+ *
+ * Status:
+ *
+ *   experimental
+ *
+ *
+ * Attribute: shieldMassLeft
+ *
+ * Remaining shield strength in tonnes. As shields are depleted, the
+ * shield strength decreases. When this reaches 0, the shields are
+ * fully depleted and the hull is exposed to damage.
+ *
+ * Availability:
+ *
+ *   November 2013
+ *
+ * Status:
+ *
+ *   experimental
+ *
+ *
+ * Attribute: shieldMass
+ *
+ * Maximum shield strength for installed shields. Measured in tonnes.
+ *
+ * Availability:
+ *
+ *   November 2013
+ *
+ * Status:
+ *
+ *   experimental
+ *
+ *
+ * Attribute: hyperspaceRange
+ *
+ * Furthest possible hyperjump given current hyperspace fuel available.
+ * Measured in light-years.
+ *
+ * Availability:
+ *
+ *   November 2013
+ *
+ * Status:
+ *
+ *   experimental
+ *
+ *
+ * Attribute: maxHyperspaceRange
+ *
+ * Furthest possible hyperjump assuming no limits to available hyperspace fuel.
+ * Measured in light-years.
+ *
+ * Availability:
+ *
+ *   November 2013
+ *
+ * Status:
+ *
+ *   experimental
+ *
+ *
+ * Attribute: totalMass
+ *
+ * Mass of the ship including hull, equipment and cargo, but excluding
+ * thruster fuel mass. Measured in tonnes.
+ *
+ * Availability:
+ *
+ *   November 2013
+ *
+ * Status:
+ *
+ *   experimental
+ *
+ *
+ * Attribute: usedCapacity
+ *
+ * Hull capacity used by equipment and cargo. Measured in tonnes.
+ *
+ * Availability:
+ *
+ *   November 2013
+ *
+ * Status:
+ *
+ *   experimental
+ *
+ *
+ * Attribute: usedCargo
+ *
+ * Hull capacity used by cargo only (not equipment). Measured in tonnes.
+ *
+ * Availability:
+ *
+ *   November 2013
+ *
+ * Status:
+ *
+ *   experimental
+ *
+ *
+ * Attribute: freeCapacity
+ *
+ * Total space remaining. Measured in tonnes.
+ *
+ * Availability:
+ *
+ *   November 2013
+ *
+ * Status:
+ *
+ *   experimental
+ *
  */
-
