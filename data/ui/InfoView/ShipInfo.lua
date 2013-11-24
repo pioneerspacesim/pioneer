@@ -63,8 +63,6 @@ local shipInfo = function (args)
 		end
 	end
 
-	local player = Game.player
-
 	return
 		ui:Grid(2,1)
 			:SetColumn(0, {
