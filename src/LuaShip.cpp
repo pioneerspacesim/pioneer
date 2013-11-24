@@ -59,44 +59,6 @@ static int l_ship_is_player(lua_State *l)
     return 1;
 }
 
-/*
- * Method: GetStats
- *
- * Returns statistics for the ship
- *
- * > stats = ship:GetStats()
- *
- * Returns:
- *
- *   stats - a table with the following fields
- *
- *     usedCapacity - amount of space used (t)
- *     usedCargo - amount of cargo space used (t)
- *     freeCapacity - total space remaining (t)
- *     totalMass - total mass of the ship (cargo, equipment & hull) (t)
- *     hullMassLeft - remaining hull mass. when this reaches 0, the ship is destroyed (t)
- *     shieldMass - total mass equivalent of all shields (t)
- *     shieldMassLeft - remaining shield mass. when this reaches 0, the shields are depleted and the hull is exposed (t)
- *     hyperspaceRange - distance of furthest possible jump based on current contents (ly)
- *     maxHyperspaceRange - distance furthest possible jump under ideal conditions (ly)
- *     fuelMassLeft - current mass of the internal fuel tank (t)
- *
- * Example:
- *
- * > local stats = ship:GetStats()
- * > if stats.shieldMass == stats.shieldMassLeft then
- * >     print("shields at full strength")
- * > end
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  experimental
- */
-
 /* Method: SetShipType
  *
  * Replaces the ship with a new ship of the specified type.
