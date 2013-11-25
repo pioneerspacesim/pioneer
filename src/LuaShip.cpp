@@ -889,7 +889,7 @@ static int l_ship_hyperspace_to(lua_State *l)
  *
  * Availability:
  *
- *  ???
+ *  November 2013
  *
  * Status:
  *
@@ -912,7 +912,7 @@ static int l_ship_get_invulnerable(lua_State *l)
  *
  * Availability:
  *
- *  ???
+ *  November 2013
  *
  * Status:
  *
