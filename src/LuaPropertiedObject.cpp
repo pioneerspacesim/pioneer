@@ -16,6 +16,40 @@
  * The UI is a big user of this feature, see <Widget.Bind> for details.
  */
 
+
+class PropertyConnection final : public LuaWrappable {
+public:
+	PropertyConnection(const sigc::connection &conn) : m_connection(conn) {}
+	void Disconnect() { m_connection.disconnect(); }
+private:
+	sigc::connection m_connection;
+};
+
+class LuaPropertyConnection {
+public:
+
+	static int l_disconnect(lua_State *l) {
+		PropertyConnection *conn = LuaObject<PropertyConnection>::CheckFromLua(1);
+		conn->Disconnect();
+		return 0;
+	}
+
+};
+
+template <> const char *LuaObject<PropertyConnection>::s_type = "PropertyConnection";
+
+template <> void LuaObject<PropertyConnection>::RegisterClass()
+{
+	static const luaL_Reg l_methods[] = {
+		{ "Disconnect", LuaPropertyConnection::l_disconnect },
+		{ 0, 0 }
+	};
+
+	LuaObjectBase::CreateClass(s_type, 0, l_methods, 0, 0);
+}
+
+
+
 class LuaPropertiedObject {
 public:
 
@@ -28,12 +62,24 @@ public:
  *
  * Register a function to be called when the named property changes.
  *
- * > object:Connect(property, function)
+ * > connection = object:Connect(property, function)
  *
  * Note that some properties can be changed often, sometimes every frame or
  * more. Do not use this mechanism for those properties; it will cause things
  * to slow down significantly. Consider another facility (eg a UI bind) to do
  * what you need.
+ *
+ * Parameters:
+ *
+ *   property - name of the property to connect to
+ *
+ *   function - function to call when the property changes. Takes no arguments.
+ *
+ * Returns:
+ *
+ *   connection - a object representing the property connection. If you are no
+ *                longer interested in receiving notifications about changes
+ *                to a property, call connection:Disconnect().
  *
  * Example:
  *
@@ -43,7 +89,7 @@ public:
  *
  * Availability:
  *
- *   201308
+ *   November 2013
  *
  * Status:
  *
@@ -61,9 +107,10 @@ public:
 		luaL_checktype(l, 3, LUA_TFUNCTION);
 		LuaRef ref(l, 3);
 
-		po->Properties().Connect(propertyName, sigc::bind(sigc::ptr_fun(_signal_trampoline), ref, l));
+		sigc::connection conn = po->Properties().Connect(propertyName, sigc::bind(sigc::ptr_fun(_signal_trampoline), ref, l));
 
-		return 0;
+		LuaObject<PropertyConnection>::PushToLua(PropertyConnection(conn));
+		return 1;
 	}
 
 };
@@ -78,4 +125,6 @@ template <> void LuaObject<PropertiedObject>::RegisterClass()
 	};
 
 	LuaObjectBase::CreateClass(s_type, 0, l_methods, 0, 0);
+
+	LuaObject<PropertyConnection>::RegisterClass();
 }
