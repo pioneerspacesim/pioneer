@@ -611,10 +611,6 @@
       "description" : "",
       "message" : "Used"
    },
-   "USE_SHADERS" : {
-      "description" : "",
-      "message" : "Use shaders"
-   },
    "VERY_HIGH" : {
       "description" : "",
       "message" : "Very high"
