@@ -38,7 +38,6 @@ local shipRepairs = function (args)
 	local repair1Btn = ui:Button(ui:Expand('HORIZONTAL', repair1Label))
 	local repairAllBtn = ui:Button(ui:Expand('HORIZONTAL', repairAllLabel))
 
-	local cashLabel = ui:Label('<cash>')
 	local integrityGauge = InfoGauge.New({
 		formatter = function (v) return string.format('%.0f%%', v * 100); end,
 		warningLevel = 0.5,
@@ -52,8 +51,6 @@ local shipRepairs = function (args)
 		local shipDef = ShipDef[Game.player.shipId]
 		local hullPercent = Game.player.hullPercent
 
-		cashLabel:SetText(string.interp(l.CASH_N,
-			{money = Format.Money(Game.player:GetMoney())}))
 		integrityGauge:SetValue(hullPercent / 100)
 
 		if hullPercent >= 100 then
@@ -114,7 +111,6 @@ local shipRepairs = function (args)
 	local shipView = ui:VBox(5):PackEnd({
 		ui:Grid({1,2,1},1):SetCell(1, 0, ModelSpinner.New(ui, shipDef.modelName, Game.player:GetSkin())),
 		ui:Expand('VERTICAL'),
-		cashLabel,
 		ui:Label(l.HULL_INTEGRITY),
 		integrityGauge,
 	})

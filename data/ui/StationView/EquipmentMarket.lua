@@ -8,8 +8,6 @@ local ShipDef = import("ShipDef")
 local Comms = import("Comms")
 local EquipDef = import("EquipDef")
 
-local InfoGauge = import("ui/InfoGauge")
-
 local EquipmentTableWidgets = import("EquipmentTableWidgets")
 
 local l = Lang.GetResource("ui-core")
@@ -20,20 +18,6 @@ local ui = Engine.ui
 local equipmentMarket = function (args)
 	local player = Game.player
 	local station = player:GetDockedWith()
-
-	local cargoGauge = InfoGauge.New({
-		formatter = function (v)
-			return string.format("%d/%dt", player.usedCargo, ShipDef[player.shipId].capacity-player.usedCapacity+player.usedCargo)
-		end
-	})
-
-	local cashLabel = ui:Label("")
-
-	local function updateStats ()
-		cargoGauge:SetValue(player.usedCargo/(ShipDef[player.shipId].capacity-player.usedCapacity+player.usedCargo))
-		cashLabel:SetText(string.format("$%.2f", player:GetMoney()))
-	end
-	updateStats()
 
 	local stationTable, shipTable = EquipmentTableWidgets.Pair({
 		station = station,
@@ -67,16 +51,12 @@ local equipmentMarket = function (args)
 			assert(player:AddEquip(e) == 1)
 			player:AddMoney(-station:GetEquipmentPrice(e))
 			station:AddEquipmentStock(e, -1)
-
-			updateStats()
 		end,
 
 		onSell = function (e)
 			player:RemoveEquip(e)
 			player:AddMoney(station:GetEquipmentPrice(e))
 			station:AddEquipmentStock(e, 1)
-
-			updateStats()
 		end,
 	})
 
@@ -92,14 +72,6 @@ local equipmentMarket = function (args)
 				ui:VBox():PackEnd({
 					ui:Label("Equipped"):SetFont("HEADING_LARGE"),
 					ui:Expand():SetInnerWidget(shipTable),
-					ui:HBox():PackEnd({
-						"Cash: ",
-						cashLabel
-					}),
-					ui:HBox():PackEnd({
-						"Cargo space: ",
-						cargoGauge
-					})
 				})
 			})
 end
