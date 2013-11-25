@@ -3,6 +3,7 @@
 
 #include "NumberLabel.h"
 #include "StringF.h"
+#include "Lang.h"
 #include "utils.h"
 
 namespace UI {
@@ -35,6 +36,10 @@ NumberLabel *NumberLabel::SetValue(double v)
 
 		case FORMAT_PERCENT_INTEGER:
 			SetText(stringf("%0{u}%%", Uint32(v*100.0+0.5)));
+			break;
+
+		case FORMAT_MASS_TONNES:
+			SetText(stringf(Lang::NUMBER_TONNES, formatarg("mass", v)));
 			break;
 
 		case FORMAT_MONEY:

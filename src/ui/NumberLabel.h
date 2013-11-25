@@ -18,6 +18,7 @@ public:
 		FORMAT_PERCENT,
 		FORMAT_PERCENT_INTEGER,
 		FORMAT_MONEY,
+		FORMAT_MASS_TONNES
 	};
 
 	NumberLabel *SetValue(double v);
