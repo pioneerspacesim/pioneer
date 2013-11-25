@@ -31,18 +31,36 @@ ui.templates.StationView = function (args)
 
 	tabGroup = TabGroup.New()
 
-	tabGroup:AddTab({ id = "lobby",           title = "Lobby",            icon = "Info",      template = lobby           })
-	tabGroup:AddTab({ id = "bulletinBoard",   title = l.BULLETIN_BOARD,   icon = "Clipboard", template = bulletinBoard   })
-	tabGroup:AddTab({ id = "commodityMarket", title = "Commodity Market", icon = "Cart",      template = commodityMarket })
-	tabGroup:AddTab({ id = "shipMarket",      title = "Ship Market",      icon = "Car",       template = shipMarket      })
-	tabGroup:AddTab({ id = "equipmentMarket", title = "Equipment Market", icon = "Radio",     template = equipmentMarket })
-	tabGroup:AddTab({ id = "shipRepairs",     title = "Ship repairs",     icon = "Tools",     template = shipRepairs     })
-	tabGroup:AddTab({ id = "police",          title = "Police",           icon = "Shield",    template = police          })
-
 	local player = Game.player
 
 	local cashLabel = ui:NumberLabel("MONEY")
 	cashLabel:Bind("value", player, "cash")
+
+	local cargoGauge = ui:Gauge()
+	local cargoUsedLabel = ui:NumberLabel("INTEGER")
+	local cargoTotalLabel = ui:NumberLabel("MASS_TONNES")
+	local function cargoUpdate ()
+		cargoGauge:SetUpperValue(player.totalCargo)
+		cargoGauge:SetValue(player.usedCargo)
+		cargoUsedLabel:SetValue(player.usedCargo)
+		cargoTotalLabel:SetValue(player.totalCargo)
+	end
+	player:Connect("usedCargo", cargoUpdate)
+	player:Connect("totalCargo", cargoUpdate)
+	cargoUpdate()
+
+	local cabinGauge = ui:Gauge()
+	local cabinUsedLabel = ui:NumberLabel("INTEGER")
+	local cabinTotalLabel = ui:NumberLabel("INTEGER")
+	local function cabinUpdate ()
+		cabinGauge:SetUpperValue(player.totalCabins)
+		cabinGauge:SetValue(player.usedCabins)
+		cabinUsedLabel:SetValue(player.usedCabins)
+		cabinTotalLabel:SetValue(player.totalCabins)
+	end
+	player:Connect("usedCabins", cabinUpdate)
+	player:Connect("totalCabins", cabinUpdate)
+	cabinUpdate()
 
 	local footer =
 		ui:Margin(5, "VERTICAL",
@@ -54,24 +72,24 @@ ui.templates.StationView = function (args)
 					})
 				),
 				ui:Margin(10, "HORIZONTAL",
-					ui:HBox():PackEnd({
-						l.CARGO..": ",
-						InfoGauge.New({
-							formatter = function (v)
-								return string.format("%d/%dt", player.usedCargo, ShipDef[player.shipId].capacity-player.usedCapacity+player.usedCargo)
-							end
+					ui:HBox(10):PackEnd({
+						l.CARGO..":",
+						cargoGauge,
+						ui:HBox():PackEnd({
+							cargoUsedLabel,
+							"/",
+							cargoTotalLabel,
 						}),
 					})
 				),
 				ui:Margin(10, "HORIZONTAL",
-					ui:HBox():PackEnd({
-						l.CABINS..": ",
-						InfoGauge.New({
-							formatter = function (v)
-								local occupied   = player:GetEquipCount("CABIN", "PASSENGER_CABIN")
-								local unoccupied = player:GetEquipCount("CABIN", "UNOCCUPIED_CABIN")
-								return string.format("%d/%d", occupied, unoccupied+occupied)
-							end
+					ui:HBox(10):PackEnd({
+						l.CABINS..":",
+						cabinGauge,
+						ui:HBox():PackEnd({
+							cabinUsedLabel,
+							"/",
+							cabinTotalLabel,
 						}),
 					})
 				),
@@ -82,6 +100,14 @@ ui.templates.StationView = function (args)
 				),
 			})
 		)
+
+	tabGroup:AddTab({ id = "lobby",           title = "Lobby",            icon = "Info",      template = lobby           })
+	tabGroup:AddTab({ id = "bulletinBoard",   title = l.BULLETIN_BOARD,   icon = "Clipboard", template = bulletinBoard   })
+	tabGroup:AddTab({ id = "commodityMarket", title = "Commodity Market", icon = "Cart",      template = commodityMarket })
+	tabGroup:AddTab({ id = "shipMarket",      title = "Ship Market",      icon = "Car",       template = shipMarket      })
+	tabGroup:AddTab({ id = "equipmentMarket", title = "Equipment Market", icon = "Radio",     template = equipmentMarket })
+	tabGroup:AddTab({ id = "shipRepairs",     title = "Ship repairs",     icon = "Tools",     template = shipRepairs     })
+	tabGroup:AddTab({ id = "police",          title = "Police",           icon = "Shield",    template = police          })
 
 	tabGroup:SetFooter(footer)
 
