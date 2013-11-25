@@ -83,8 +83,8 @@ public:
  *
  * Example:
  *
- * > ship:Connect("fuel", function ()
- * >     print(string.format("player fuel %f%%", Game.player.fuel)
+ * > ship:Connect("fuel", function (key, value)
+ * >     print(string.format("player fuel %f%%", value)
  * > end)
  *
  * Availability:
@@ -98,7 +98,12 @@ public:
 
 	static void _signal_trampoline(PropertyMap &map, const std::string &k, LuaRef ref, lua_State *l) {
 		ref.PushCopyToStack();
-		pi_lua_protected_call(l, 0, 0);
+		lua_pushlstring(l, k.c_str(), k.size());
+		map.PushLuaTable();
+		lua_pushvalue(l, -2);
+		lua_rawget(l, -2);
+		lua_remove(l, -2);
+		pi_lua_protected_call(l, 2, 0);
 	}
 
 	static int l_connect(lua_State *l) {
