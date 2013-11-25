@@ -4,6 +4,7 @@ November 2013
      * Translations now managed via Transifex (#2521, #2537, #2536)
      * "Speed lines" option to convey movement to the player (#2528)
      * Modelviewer mouselook mode (#2559)
+     * Pioneer now requires OpenGL 2.0 and always uses shaders (#2540)
 
    * Minor changes and tweaks
      * Improvements to the ship spinner (used in Ship Info view) (#2532)
