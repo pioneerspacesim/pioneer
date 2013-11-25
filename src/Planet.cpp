@@ -327,5 +327,4 @@ void Planet::DrawAtmosphere(Renderer *renderer, const matrix4x4d &modelView, con
 void Planet::SubRender(Renderer *r, const matrix4x4d &viewTran, const vector3d &camPos)
 {
 	if (GetSystemBody()->HasRings()) { DrawGasGiantRings(r, viewTran); }
-	if (!AreShadersEnabled()) DrawAtmosphere(r, viewTran, camPos);
 }

@@ -107,7 +107,7 @@ void TerrainBody::Render(Graphics::Renderer *renderer, const Camera *camera, con
 
 	// if not using shader then z-buffer precision is hopeless and
 	// we can't place objects on the terrain without awful z artifacts
-	if (shrink || !Graphics::AreShadersEnabled())
+	if (shrink)
 		renderer->ClearDepthBuffer();
 }
 
