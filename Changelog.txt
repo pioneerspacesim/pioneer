@@ -14,6 +14,8 @@ November 2013
      * UI.Table widget now accepts mouse events and has added methods:
        ClearRows, SetMouseEnabled, and onRowClicked (#2554)
      * It is now possible to create custom properties (#2553)
+     * Ship:GetStats() has been removed; stats are now exposed as
+       properties of the Ship object (#2552)
 
    * Fixes
      * Fix potential divide-by-zero in autopilot (#2535, #2547)

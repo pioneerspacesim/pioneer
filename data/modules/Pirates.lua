@@ -39,8 +39,7 @@ local onEnterSystem = function (player)
 		ship:AddEquip(default_drive)
 		ship:AddEquip(laserdef.id)
 
-		local playerStats = player:GetStats()
-		local playerCargoCapacity = playerStats.maxCapacity
+		local playerCargoCapacity = ShipDef[player.shipId].capacity
 		local probabilityPirateIsInterested = playerCargoCapacity/100.0
 		if Engine.rand:Number(1) < probabilityPirateIsInterested then
 			ship:AIKill(Game.player)

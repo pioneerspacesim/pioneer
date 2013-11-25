@@ -366,8 +366,7 @@ local onAICompleted = function (ship, ai_error)
 		if mission.status == 'ACTIVE' and
 		   mission.ship == ship then
 			if mission.shipstate == 'outbound' then
-				local stats = ship:GetStats()
-				local systems = Game.system:GetNearbySystems(stats.hyperspaceRange, function (s) return #s:GetStationPaths() > 0 end)
+				local systems = Game.system:GetNearbySystems(ship.hyperspaceRange, function (s) return #s:GetStationPaths() > 0 end)
 				if #systems == 0 then return end
 				local system = systems[Engine.rand:Integer(1,#systems)]
 
