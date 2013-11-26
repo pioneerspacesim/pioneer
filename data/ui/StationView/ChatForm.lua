@@ -8,6 +8,8 @@ local Face = import("UI.Game.Face")
 
 local SmallLabeledButton = import("ui/SmallLabeledButton")
 
+local EquipmentTableWidgets = import("EquipmentTableWidgets")
+
 local ui = Engine.ui
 
 local l = Lang.GetResource("ui-core")
@@ -19,10 +21,11 @@ ChatForm.meta = {
 	class = "ChatForm",
 }
 
-function ChatForm.New (chatFunc, removeFunc)
+function ChatForm.New (chatFunc, removeFunc, ref)
 	local form = {
 		chatFunc = chatFunc,
 		removeFunc = removeFunc,
+		ref = ref,
 	}
 	setmetatable(form, ChatForm.meta)
 	form.chatFunc(form, 0)
@@ -75,6 +78,28 @@ function ChatForm:BuildWidget ()
 		box:PackEnd(optionBox)
 	end
 
+	if self.tradeFuncs then
+		local stationTable, shipTable = EquipmentTableWidgets.Pair({
+			stationColumns = { "icon", "name", "price", "stock" },
+			shipColumns = { "icon", "name", "amount" },
+
+			isTradeable = function (def) return self.tradeFuncs.canTrade(self.ref, def.id) end,
+		})
+
+		box:PackEnd(
+			ui:HBox(10):PackEnd({
+				ui:VBox():PackEnd({
+					ui:Label("Available for purchase"):SetFont("HEADING_LARGE"),
+					stationTable,
+				}),
+				ui:VBox():PackEnd({
+					ui:Label("In cargo hold"):SetFont("HEADING_LARGE"),
+					shipTable,
+				})
+			})
+		)
+	end
+
 	local hangupButton = SmallLabeledButton.New(l.HANG_UP)
 	hangupButton.button.onClick:Connect(closeForm)
 
@@ -116,10 +141,11 @@ function ChatForm:Clear ()
 	self.title = nil
 	self.message = nil
 	self.options = nil
+	self.tradeFuncs = nil
 end
 
 function ChatForm:AddGoodsTrader (funcs)
-	print("ChatForm:AddGoodsTrader")
+	self.tradeFuncs = funcs
 end
 
 function ChatForm:Close ()

@@ -27,7 +27,7 @@ bbTable.onRowClicked:Connect(function (row)
 		station:RemoveAdvert(ref)
 	end or nil
 
-	local form = ChatForm.New(chatFunc, removeFunc)
+	local form = ChatForm.New(chatFunc, removeFunc, ref)
 	ui:NewLayer(form:BuildWidget())
 end)
 
