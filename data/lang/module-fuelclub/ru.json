@@ -1,6 +1,6 @@
 {
-    "FLAVOUR_CLUBNAME_0": {
-        "message": "Космическое Топливное Содружество Пилотов",
+    "FLAVOUR_0_MEMBER_INTRO": {
+        "message": "You may purhase fuel and dispose of {radioactives} here.",
         "description": ""
     },
     "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED": {
@@ -11,12 +11,8 @@
         "message": "Перед тем как сдать на утилизацию {radioactives}, вы должны приобрести у нас {military_fuel}.",
         "description": ""
     },
-    "WE_WILL_ONLY_DISPOSE_OF": {
-        "message": "Вы можете сдать на утилизацию столько же тонн радиоактивных отходов, сколько тонн военного топлива вы у нас приобрели.",
-        "description": ""
-    },
-    "FLAVOUR_WELCOME_0": {
-        "message": "Космическое Топливное Содружество Пилотов приветствует вас, капитан!",
+    "FLAVOUR_0_CLUBNAME": {
+        "message": "Interstellar Pilots' Fuel Co-operative",
         "description": ""
     },
     "WHAT_CONDITIONS_APPLY": {
@@ -25,6 +21,10 @@
     },
     "YOU_ARE_NOW_A_MEMBER": {
         "message": "Ваша заявка одобрена Содружеством. Ваш членский билет действует до {expiry_date}.",
+        "description": ""
+    },
+    "RADIOACTIVES": {
+        "message": "Радиоактивные отходы",
         "description": ""
     },
     "BEGIN_TRADE": {
@@ -39,8 +39,8 @@
         "message": "Мне заинтересовало ваше предложения. Вот моя заявка на вступление в Содружество.",
         "description": ""
     },
-    "RADIOACTIVES": {
-        "message": "Радиоактивные отходы",
+    "FLAVOUR_0_WELCOME": {
+        "message": "Welcome to {clubname}",
         "description": ""
     },
     "GO_BACK": {
@@ -51,20 +51,20 @@
         "message": "Военное топливо",
         "description": ""
     },
-    "HANG_UP": {
-        "message": "Спасибо за информацию, конец связи.",
+    "FLAVOUR_0_NONMEMBER_INTRO": {
+        "message": "{clubname} is an independent organisation dedicated to providing discounted starship fuel to its members. Branches can be found throughout the galaxy. Benefits of membership include:\n\n\t* Our own stocks of fuel, independent of the general market\n\t* {hydrogen} at discount prices\n\t* {military_fuel} at discount prices\n\t* {water} at discount prices\n\t* {radioactives}, free disposal (conditions apply)\n\t* Fuel tank refilling, where necessary\n\nJoin now! Annual membership costs only {membership_fee}",
         "description": ""
     },
-    "FLAVOUR_MEMBER_INTRO_0": {
-        "message": "Здесь вы можете приобрести топливо и сдать радиоактивные отходы на утилизацию.",
+    "HANG_UP": {
+        "message": "Спасибо за информацию, конец связи.",
         "description": ""
     },
     "HYDROGEN": {
         "message": "Водород",
         "description": ""
     },
-    "FLAVOUR_NONMEMBER_INTRO_0": {
-        "message": "{clubname} - независимая организация, предоставляющая своим членам собственные топливные ресурсы. Наша организация работает по всей Галактике. Членство даёт следующие преимущества:\n\n\t* Собственные запасы топлива,  независимые от предложения на открытом рынке.\n\t* {hydrogen} по привлекательной цене.\n\t* {military_fuel} продается без акцизов.\n\t* {water} по сниженным ценам.\n\t* {radioactives} - принимаются для утилизации бесплатно (при определенных условиях).\n\t* Заправка топливного бака, по необходимости.\n\nПрисоединяйтесь! Членство в Содружестве стоит всего лишь {membership_fee} в год.",
+    "WE_WILL_ONLY_DISPOSE_OF": {
+        "message": "Вы можете сдать на утилизацию столько же тонн радиоактивных отходов, сколько тонн военного топлива вы у нас приобрели.",
         "description": ""
     }
 }

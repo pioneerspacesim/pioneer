@@ -1,6 +1,6 @@
 {
-    "FLAVOUR_CLUBNAME_0": {
-        "message": "Spółdzielnia Paliwowa Pilotów Międzygwiezdnych",
+    "FLAVOUR_0_MEMBER_INTRO": {
+        "message": "You may purhase fuel and dispose of {radioactives} here.",
         "description": ""
     },
     "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED": {
@@ -11,12 +11,8 @@
         "message": "Musisz zakupić u nas {military_fuel} zanim zutylizujemy twoje {radioactives}",
         "description": ""
     },
-    "WE_WILL_ONLY_DISPOSE_OF": {
-        "message": "Zutylizujemy tylko tyle odpadów radioaktywnych, ile zakupisz od nas paliwa wojskowego.",
-        "description": ""
-    },
-    "FLAVOUR_WELCOME_0": {
-        "message": "Witamy w Spółdzielni Paliwowej Pilotów Międzygwiezdnych",
+    "FLAVOUR_0_CLUBNAME": {
+        "message": "Interstellar Pilots' Fuel Co-operative",
         "description": ""
     },
     "WHAT_CONDITIONS_APPLY": {
@@ -25,6 +21,10 @@
     },
     "YOU_ARE_NOW_A_MEMBER": {
         "message": "Wniosek został przyjęty. Twoje członkostwo wygasa {expiry_date}.",
+        "description": ""
+    },
+    "RADIOACTIVES": {
+        "message": "Odpady radioaktywne",
         "description": ""
     },
     "BEGIN_TRADE": {
@@ -39,8 +39,8 @@
         "message": "Wystąp o członkostwo",
         "description": ""
     },
-    "RADIOACTIVES": {
-        "message": "Odpady radioaktywne",
+    "FLAVOUR_0_WELCOME": {
+        "message": "Welcome to {clubname}",
         "description": ""
     },
     "GO_BACK": {
@@ -51,20 +51,20 @@
         "message": "Paliwo wojskowe",
         "description": ""
     },
-    "HANG_UP": {
-        "message": "Rozłącz się.",
+    "FLAVOUR_0_NONMEMBER_INTRO": {
+        "message": "{clubname} is an independent organisation dedicated to providing discounted starship fuel to its members. Branches can be found throughout the galaxy. Benefits of membership include:\n\n\t* Our own stocks of fuel, independent of the general market\n\t* {hydrogen} at discount prices\n\t* {military_fuel} at discount prices\n\t* {water} at discount prices\n\t* {radioactives}, free disposal (conditions apply)\n\t* Fuel tank refilling, where necessary\n\nJoin now! Annual membership costs only {membership_fee}",
         "description": ""
     },
-    "FLAVOUR_MEMBER_INTRO_0": {
-        "message": "Zakup paliwa i utylizacja odpadów radioaktywnych.",
+    "HANG_UP": {
+        "message": "Rozłącz się.",
         "description": ""
     },
     "HYDROGEN": {
         "message": "Wodór",
         "description": ""
     },
-    "FLAVOUR_NONMEMBER_INTRO_0": {
-        "message": "{clubname} jest niezależną organizacją, udostępniającą swoim członkom własne zapasy paliwa, posiadamy filie w całej galaktyce. Korzyści płynące z członkostwa:\n\n\t* Posiadamy własne zapasy paliwa, niezależne od zapasów na wolnym rynku.\n\t* {hydrogen} w atrakcyjnej cenie.\n\t* {military_fuel} w atrakcyjnej cenie.\n\t* {water} w atrakcyjnej cenie.\n\t* {radioactives} - darmowa utylizacja (pod pewnymi warunkami).\n\t* Uzupełnienie zbiornika z paliwem, kiedy to konieczne.\n\nPrzyłącz się! Członkostwo kosztuje tylko {membership_fee} rocznie",
+    "WE_WILL_ONLY_DISPOSE_OF": {
+        "message": "Zutylizujemy tylko tyle odpadów radioaktywnych, ile zakupisz od nas paliwa wojskowego.",
         "description": ""
     }
 }

@@ -1,42 +1,42 @@
 {
-    "FLAVOUR_SUCCESSMSG_3": {
-        "message": "{target} je po smrti. Zde je tvá odměna.",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_2": {
-        "message": "Za vyřízení této důležité dohody jsi dostal zaplaceno v plné výši.",
+    "FLAVOUR_0_FAILUREMSG": {
+        "message": "I am most displeased to find that {target} is still alive. Needless to say you will receive no payment.",
         "description": ""
     },
     "SPACEPORT": {
         "message": "Stanice:",
         "description": ""
     },
-    "FLAVOUR_SUCCESSMSG_0": {
-        "message": "Zprávy o {target}'s dlouhé \"dovolené\" už dorazily. Výborně, dostal jsi zaplaceno v plné výši.",
-        "description": ""
-    },
     "TARGET_WILL_BE_LEAVING_SPACEPORT_AT": {
         "message": "Cíl opustí stanici v:",
         "description": ""
     },
-    "FLAVOUR_SUCCESSMSG_5": {
-        "message": "Zpráva o konci {target} šťastně dorazila. Zde je tvých {cash}.",
+    "FLAVOUR_1_FAILUREMSG2": {
+        "message": "{target}'s demise was not caused by you, so do not ask for payment.",
         "description": ""
     },
-    "FLAVOUR_SUCCESSMSG_4": {
-        "message": "Obdrželi jsme báječné zprávy o {target}'s odchodu do důchodu. Zde jsou tvé peníze.",
+    "FLAVOUR_2_FAILUREMSG2": {
+        "message": "Contract was completed by someone else. Be faster next time!",
         "description": ""
     },
     "HANG_UP": {
         "message": "Konec",
         "description": ""
     },
-    "FLAVOUR_SUCCESSMSG_1": {
-        "message": "Donesla se mi žalostná zpráva o úmrtí {target}. Dostal jsi zaplaceno v plné výši.",
+    "FLAVOUR_3_SUCCESSMSG": {
+        "message": "{target} is dead. Here is your award.",
         "description": ""
     },
-    "FLAVOUR_INTROTEXT_3": {
-        "message": "{target} musí být rozprášen(a) na kousíčky. Odměna bude {cash} když to uděláš.",
+    "FLAVOUR_1_SUCCESSMSG": {
+        "message": "I am most sad to hear of {target}'s demise. You have been paid in full.",
+        "description": ""
+    },
+    "FLAVOUR_4_FAILUREMSG2": {
+        "message": "Retirement of {target} was done by someone else.",
+        "description": ""
+    },
+    "TITLE_23": {
+        "message": "senátor",
         "description": ""
     },
     "TITLE_22": {
@@ -47,28 +47,36 @@
         "message": "kancléř",
         "description": ""
     },
-    "FLAVOUR_INTROTEXT_4": {
-        "message": "{cash} zaplatíme tomu, kdo povzbudí {target}, aby okamžitě zanechal(a) práce a šel/šla do penze.",
+    "TITLE_20": {
+        "message": "prokurátor",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG_2": {
-        "message": "Je velmi politováníhodné, že {target} je pořád naživu. Žádné peníze nedostaneš, protože jsi nesplnil naši dohodu.",
+    "FLAVOUR_2_FAILUREMSG": {
+        "message": "It is most regrettable that {target} is still live and well. You will receive no payment as you did not complete your contract.",
         "description": ""
     },
     "TITLE_24": {
         "message": "seržant",
         "description": ""
     },
-    "TITLE_9": {
-        "message": "desátník",
+    "FLAVOUR_4_FAILUREMSG": {
+        "message": "{target} is still breathing and I'm not giving money to you.",
         "description": ""
     },
-    "FLAVOUR_ADTEXT_0": {
-        "message": "HLEDANÝ: Odstranit {target} ze systému {system}.",
+    "FLAVOUR_2_ADTEXT": {
+        "message": "REMOVAL: {target} is no longer wanted in the {system} system.",
         "description": ""
     },
-    "TITLE_13": {
-        "message": "právník",
+    "FLAVOUR_0_FAILUREMSG2": {
+        "message": "{target}'s removal was not done by you. No payment this time.",
+        "description": ""
+    },
+    "FLAVOUR_5_ADTEXT": {
+        "message": "BIOGRAPHICAL: Some admirers wish {target} dead.",
+        "description": ""
+    },
+    "FLAVOUR_5_INTROTEXT": {
+        "message": "We wish {target} to have a fitting career end in the {system} system for {cash}.",
         "description": ""
     },
     "HOW_SOON_MUST_IT_BE_DONE": {
@@ -79,20 +87,28 @@
         "message": "Úkol musí být splněn až po té, co {target} opustí {spaceport}. Nezmeškej tuto příležitost!",
         "description": ""
     },
+    "FLAVOUR_5_SUCCESSMSG": {
+        "message": "Message of {target}'s ending career happily acquired. Here is your {cash}.",
+        "description": ""
+    },
+    "FLAVOUR_1_FAILUREMSG": {
+        "message": "I hear that {target} is in good health. This pains me.",
+        "description": ""
+    },
     "HOW_WILL_I_BE_PAID": {
         "message": "Jak dostanu zaplaceno?",
         "description": ""
     },
-    "TARGET_NAME": {
-        "message": "Jméno cíle:",
+    "FLAVOUR_3_INTROTEXT": {
+        "message": "The {target} must be reduced to space dust. I'll award you {cash} to do this.",
         "description": ""
     },
     "WHERE_CAN_I_FIND_X": {
         "message": "Kde můžu {target} najít?",
         "description": ""
     },
-    "TITLE_8": {
-        "message": "komodor",
+    "FLAVOUR_5_FAILUREMSG": {
+        "message": "We found out that {target} is nonetheless operative. This saddens us.",
         "description": ""
     },
     "X_WILL_BE_LEAVING": {
@@ -101,10 +117,6 @@
     },
     "LY": {
         "message": "ly",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_0": {
-        "message": "Jsem velmi nespokojen(a), že {target} je stále naživu. Je zbytečné dodávat, že žádné peníze nedostaneš.",
         "description": ""
     },
     "TITLE_3": {
@@ -123,36 +135,24 @@
         "message": "Vzdálenost:",
         "description": ""
     },
-    "FLAVOUR_ADTEXT_5": {
-        "message": "ŽIVOTOPISNÝ: Někteří ctitelé si přejí smrt {target}.",
+    "TARGET_NAME": {
+        "message": "Jméno cíle:",
         "description": ""
     },
-    "FLAVOUR_ADTEXT_4": {
-        "message": "VÝSLUŽBA: Kdo pošle na odpočinek {target}?",
+    "FLAVOUR_1_INTROTEXT": {
+        "message": "I need {target} taken out of the picture. I'll pay you {cash} to do this.",
         "description": ""
     },
-    "FLAVOUR_INTROTEXT_5": {
-        "message": "Přejeme si ukončit kariéru {target} v systému {system}, jsme ochotni zaplatit {cash}.",
+    "FLAVOUR_2_SUCCESSMSG": {
+        "message": "You have been paid in full for the completion of that important contract.",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG2_0": {
-        "message": "{target} nebyl odstraněn tebou. Tentokrát žádná platba nebude.",
+    "FLAVOUR_3_FAILUREMSG": {
+        "message": "You will pay for not eliminating {target}!",
         "description": ""
     },
-    "FLAVOUR_ADTEXT_1": {
-        "message": "HLEDANÝ: Zabít {target} ze systému {system}.",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_2": {
-        "message": "Jsem {name}, zaplatím ti {cash} když eliminuješ {target}.",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_3": {
-        "message": "ELIMINACE: Kdo odstraní {target}?",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_0": {
-        "message": "Zdravím, jsem {name}. Zaplatím ti {cash} když mě zbavíš {target}.",
+    "FLAVOUR_2_INTROTEXT": {
+        "message": "I am {name}, and I will pay you {cash} to terminate {target}.",
         "description": ""
     },
     "TITLE_16": {
@@ -171,12 +171,12 @@
         "message": "maršál",
         "description": ""
     },
-    "TITLE_12": {
-        "message": "soudce",
+    "TITLE_19": {
+        "message": "profesor",
         "description": ""
     },
-    "FLAVOUR_INTROTEXT_1": {
-        "message": "Potřebuji aby {target} zmizel ze scény. Zaplatím ti {cash} když to zařídíš.",
+    "FLAVOUR_0_SUCCESSMSG": {
+        "message": "News of {target}'s long vacation gratefully received. Well done, I have initiated your full payment.",
         "description": ""
     },
     "TITLE_10": {
@@ -191,10 +191,6 @@
         "message": "Loď:",
         "description": ""
     },
-    "FLAVOUR_ADTEXT_2": {
-        "message": "ODSTRANĚNÍ: {target} již není v systému {system} vítán.",
-        "description": ""
-    },
     "TITLE_6": {
         "message": "plukovník",
         "description": ""
@@ -203,20 +199,20 @@
         "message": "vojín",
         "description": ""
     },
-    "TITLE_19": {
-        "message": "profesor",
+    "FLAVOUR_0_ADTEXT": {
+        "message": "WANTED: Removal of {target} from the {system} system.",
         "description": ""
     },
-    "TITLE_20": {
-        "message": "prokurátor",
+    "FLAVOUR_1_ADTEXT": {
+        "message": "WANTED: Someone to kill {target} from the {system} system.",
         "description": ""
     },
-    "TITLE_23": {
-        "message": "senátor",
+    "TITLE_12": {
+        "message": "soudce",
         "description": ""
     },
-    "TITLE_7": {
-        "message": "velitel",
+    "FLAVOUR_3_ADTEXT": {
+        "message": "TERMINATION: Someone to eliminate {target}.",
         "description": ""
     },
     "SHIP_ID": {
@@ -227,6 +223,18 @@
         "message": "admirál",
         "description": ""
     },
+    "FLAVOUR_5_FAILUREMSG2": {
+        "message": "{target} was neutralized by someone else.",
+        "description": ""
+    },
+    "FLAVOUR_0_INTROTEXT": {
+        "message": "Hi, I'm {name}. I'll pay you {cash} to get rid of {target}.",
+        "description": ""
+    },
+    "FLAVOUR_3_FAILUREMSG2": {
+        "message": "Are you asking money for job done by someone else? Get lost.",
+        "description": ""
+    },
     "SYSTEM": {
         "message": "Systém:",
         "description": ""
@@ -235,28 +243,20 @@
         "message": "Atentát",
         "description": ""
     },
-    "TITLE_1": {
-        "message": "velvyslanec",
+    "FLAVOUR_4_SUCCESSMSG": {
+        "message": "News of {target}'s retirement delightfully obtained. Here is your money.",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG2_5": {
-        "message": "{target} byl neutralizován někým jiným!",
+    "FLAVOUR_4_ADTEXT": {
+        "message": "RETIREMENT: Someone to retire {target}.",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG2_4": {
-        "message": "{target} poslal na odpočinek někdo jiný!",
+    "TITLE_8": {
+        "message": "komodor",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG2_3": {
-        "message": "Ty chceš peníze za práci, kterou vyřídil někdo jiný? Ať už tě nevidím!",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG2_2": {
-        "message": "Úkol byl vyřízen někým jiným. Přístě buď rychlejší!",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG2_1": {
-        "message": "{target} zemřel rukou někoho jiného, tak se neptej na peníze!",
+    "TITLE_9": {
+        "message": "desátník",
         "description": ""
     },
     "EXCELLENT": {
@@ -271,28 +271,28 @@
         "message": "kardinál",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG_4": {
-        "message": "{target} pořád dýchá, žádné peníze nedostaneš!",
+    "FLAVOUR_4_INTROTEXT": {
+        "message": "For {cash} we wish to encourage {target} to stop work permanently.",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG_5": {
-        "message": "Zjistili jsme, že je {target} víceméně stále aktivní. To nás rmoutí.",
+    "TITLE_7": {
+        "message": "velitel",
         "description": ""
     },
     "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
         "message": "Můžeš mi zopakovat původní dotaz?",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG_3": {
-        "message": "Toho budeš litovat, {target} je naživu a ty chceš peníze!?!",
+    "TITLE_1": {
+        "message": "velvyslanec",
         "description": ""
     },
     "TITLE_2": {
         "message": "velitel brigády",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG_1": {
-        "message": "Slyšel(a) jsem, že {target} se těší dobrému zdraví. To mě opravdu bolí.",
+    "TITLE_13": {
+        "message": "právník",
         "description": ""
     }
 }

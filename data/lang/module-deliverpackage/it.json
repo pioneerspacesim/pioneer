@@ -1,86 +1,82 @@
 {
-    "FLAVOUR_SUCCESSMSG_3": {
-        "message": "Il suo servizio puntuale e discreto è stato molto apprezzato. La sua ricompensa è stata depositata.",
+    "FLAVOUR_0_FAILUREMSG": {
+        "message": "Unacceptable! You took forever over that delivery. I'm not willing to pay you.",
         "description": ""
     },
-    "WHY_SO_MUCH_MONEY": {
-        "message": "Perché così tanti crediti?",
+    "HOW_SOON_MUST_IT_BE_DELIVERED": {
+        "message": "Per quando dev'essere consegnato?",
         "description": ""
     },
     "SPACEPORT": {
         "message": "Astroporto:",
         "description": ""
     },
-    "PIRATE_TAUNTS_4": {
-        "message": "Sono sicuro che questo ci frutterà qualche bel soldino sul mercato",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_7": {
-        "message": "Eccellente, abbiamo acceditaro i fondi sul suo conto.",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_6": {
-        "message": "Grazie per il pacco, ecco la sua ricompensa intera.",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_5": {
-        "message": "Oh, stupendo. Inizierò immediatamente a scaricare. Grazie ancora.",
-        "description": ""
-    },
     "DANGER": {
         "message": "Pericolo:",
         "description": ""
     },
-    "FLAVOUR_SUCCESSMSG_9": {
-        "message": "Grandioso! Inizieremo a disimballare immediatamente. Farò in modo che il suo conto venga aggiornato seduta stante.",
+    "FLAVOUR_4_FAILUREMSG": {
+        "message": "Your ship registration has been noted, we will reject all further applications for work from you.",
         "description": ""
     },
-    "FLAVOUR_SUCCESSMSG_8": {
-        "message": "La sua pronta consegna è stata apprezzata, le ho fatto l'accredito come concordato.",
+    "FLAVOUR_1_WHYSOMUCHTEXT": {
+        "message": "It is nothing special.",
         "description": ""
     },
-    "FLAVOUR_SUCCESSMSG_1": {
-        "message": "Il pacco è stato ricevuto. Ecco il compenso che avevamo concordato.",
+    "FLAVOUR_3_SUCCESSMSG": {
+        "message": "Your timely and discrete service is much appreciated. You have been paid in full.",
         "description": ""
     },
-    "FLAVOUR_WHYSOMUCHTEXT_7": {
-        "message": "Tariffa standard, lavoriamo all'interno del mercato.",
+    "FLAVOUR_1_SUCCESSMSG": {
+        "message": "The package has been received and you have been paid in full.",
         "description": ""
     },
-    "FLAVOUR_INTROTEXT_3": {
-        "message": "Salve. Sono {name}. Sono disposto a pagare {cash} perchè un'astronave trasporti un incartamento a {starport} nel sistema {system} ({sectorx}, {sectory}, {sectorz}), distante {dist} AL.",
+    "PIRATE_TAUNTS_1": {
+        "message": "Pare che sia arrivata la mia paga!",
         "description": ""
     },
-    "FLAVOUR_SUCCESSMSG_0": {
-        "message": "Grazie per la consegna. Le è stata trasferita la somma completa.",
+    "FLAVOUR_1_ADTEXT": {
+        "message": "WANTED. Delivery of a package to the {system} system.",
         "description": ""
     },
     "DEADLINE": {
         "message": "Scadenza:",
         "description": ""
     },
-    "THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN": {
-        "message": "È un pacco di valore, dovrà tenere gli occhi ben aperti.",
+    "FLAVOUR_2_FAILUREMSG": {
+        "message": "I was quite clear about the deadline and am very disappointed by the late delivery. You will not be paid.",
         "description": ""
     },
-    "FLAVOUR_SUCCESSMSG_2": {
-        "message": "È stato pagato interamente per la consegna. Molte grazie.",
+    "FLAVOUR_7_ADTEXT": {
+        "message": "INTER-PLANETARY CARGO. Freight of local cargo to {starport}.",
         "description": ""
     },
-    "OK_AGREED": {
-        "message": "Ok, accordato.",
+    "PIRATE_TAUNTS_0": {
+        "message": "Te ne pentirai di aver avuto a che fare con {client}",
         "description": ""
     },
-    "FLAVOUR_ADTEXT_0": {
-        "message": "ANDATE sul sistema {system}? Si paga per la consegna di un piccolo pacco.",
+    "FLAVOUR_6_FAILUREMSG": {
+        "message": "I could have delivered it faster myself. I'm not paying you.",
+        "description": ""
+    },
+    "FLAVOUR_2_WHYSOMUCHTEXT": {
+        "message": "It is a research proposal and must be delivered by the deadline or we may not get funding.",
+        "description": ""
+    },
+    "FLAVOUR_9_INTROTEXT": {
+        "message": "Greetings, we're behind with our produce shipment and need it delivered to {starport} urgently. We'll pay you {cash} for your troubles.",
+        "description": ""
+    },
+    "FLAVOUR_5_ADTEXT": {
+        "message": "MOVING HOME. Move of hardware to {starport} from storage.",
         "description": ""
     },
     "EXCELLENT_I_WILL_LET_THE_RECIPIENT_KNOW_YOU_ARE_ON_YOUR_WAY": {
         "message": "Eccellente. Farò sapere al richiedente che state arrivando.",
         "description": ""
     },
-    "PIRATE_TAUNTS_9": {
-        "message": "Pagherai per quel carico, con la tua vita.",
+    "FLAVOUR_5_INTROTEXT": {
+        "message": "Nice to meet you. I am {name} and I'm willing to pay {cash} for someone with a ship to help me move my belongings to {starport}. No rush, they are just some leftovers from moving house.",
         "description": ""
     },
     "PIRATE_TAUNTS_8": {
@@ -99,8 +95,8 @@
         "message": "Oggi non è il tuo giorno fortunato! Preparati a morire.",
         "description": ""
     },
-    "FLAVOUR_SUCCESSMSG_4": {
-        "message": "È stato molto apprezzato il suo servizio discreto e puntuale. Il suo compenso è stato depositato interamente.",
+    "PIRATE_TAUNTS_4": {
+        "message": "Sono sicuro che questo ci frutterà qualche bel soldino sul mercato",
         "description": ""
     },
     "PIRATE_TAUNTS_3": {
@@ -111,104 +107,108 @@
         "message": "Lavori per {client}? È stata una pessima idea.",
         "description": ""
     },
-    "PIRATE_TAUNTS_1": {
-        "message": "Pare che sia arrivata la mia paga!",
+    "FLAVOUR_5_SUCCESSMSG": {
+        "message": "Oh wonderful. I'll start unloading immediately. Thanks again.",
         "description": ""
     },
-    "PIRATE_TAUNTS_0": {
-        "message": "Te ne pentirai di aver avuto a che fare con {client}",
+    "FLAVOUR_1_FAILUREMSG": {
+        "message": "I'm frustrated by the late delivery of my package, and I refuse to pay you.",
         "description": ""
     },
-    "FLAVOUR_INTROTEXT_7": {
-        "message": "Salve. Abbiamo bisogno che queste casse vengano consegnate a {starport} il più presto possibile. La normale parcella per queste consegne è di {cash}.",
+    "THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN": {
+        "message": "È un pacco di valore, dovrà tenere gli occhi ben aperti.",
         "description": ""
     },
-    "FLAVOUR_ADTEXT_4": {
-        "message": "SERVIZIO POSTALE: Richiediamo un'astronave per il giro di consegne al sistema {system}.",
+    "FLAVOUR_5_WHYSOMUCHTEXT": {
+        "message": "Is it a lot? I should rethink my offer!",
+        "description": ""
+    },
+    "FLAVOUR_3_INTROTEXT": {
+        "message": "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly.",
+        "description": ""
+    },
+    "FLAVOUR_2_SUCCESSMSG": {
+        "message": "You have been paid in full for the delivery. Thank you.",
         "description": ""
     },
     "IT_COULD_BE_DANGEROUS_YOU_SHOULD_MAKE_SURE_YOURE_ADEQUATELY_PREPARED": {
         "message": "Potrebbe essere pericoloso, dovrà assicurarsi di essere adeguatamente preparato.",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG_2": {
-        "message": "Ero stato abbastanza chiaro riguardo alla scadenza e sono molto scontento di questa consegna in ritardo. Non verrà pagato.",
-        "description": ""
-    },
     "WILL_I_BE_IN_ANY_DANGER": {
         "message": "Sarò in pericolo?",
         "description": ""
     },
-    "FLAVOUR_ADTEXT_7": {
-        "message": "CARICO INTERPLANETARIO: Trasporto di merci locali a {starport}.",
+    "FLAVOUR_5_FAILUREMSG": {
+        "message": "What are these? Oh, you took so long that I forgot I'd even sent this!",
+        "description": ""
+    },
+    "FLAVOUR_7_SUCCESSMSG": {
+        "message": "Excellent, we've credited the funds into your account.",
         "description": ""
     },
     "LY": {
         "message": "AL",
         "description": ""
     },
-    "HOW_SOON_MUST_IT_BE_DELIVERED": {
-        "message": "Per quando dev'essere consegnato?",
+    "FLAVOUR_7_INTROTEXT": {
+        "message": "Hello. We need these crates delivered to {starport} as soon as possible. Standard payment for this shipment is {cash}.",
         "description": ""
     },
-    "FLAVOUR_ADTEXT_6": {
-        "message": "CORRIERE A CORTO-RAGGIO: Consegna di un pacchetto a {starport}",
+    "FLAVOUR_6_ADTEXT": {
+        "message": "SHORT-RANGE COURIER. Delivery of a small package to {starport}.",
         "description": ""
     },
-    "FLAVOUR_ADTEXT_9": {
-        "message": "CONSEGNA PACCO: Spedizione urgente di materiale deperibile a {starport}",
+    "FLAVOUR_8_WHYSOMUCHTEXT": {
+        "message": "It's really urgent.",
         "description": ""
     },
-    "FLAVOUR_ADTEXT_8": {
-        "message": "CONSEGNA VICINA: Richiesta consegna rapida di merce a {starport}",
+    "OK_AGREED": {
+        "message": "Ok, accordato.",
         "description": ""
     },
-    "FLAVOUR_INTROTEXT_9": {
-        "message": "Salve, siamo in ritardo con la consegna dei nostri prodotti ed abbiamo bisogno che vengano recapitati urgentemente a {starport}. La pagheremo {cash} per il disturbo.",
+    "FLAVOUR_3_ADTEXT": {
+        "message": "DELIVERY. Documents to the {system} system. {cash} to an experienced pilot.",
         "description": ""
     },
-    "FLAVOUR_INTROTEXT_8": {
-        "message": "Il mio nome è {name} ed ho bisogno che quest'oggetto venga consegnato immediatamente ad un amico a {starport}, la pagherò {cash} se riuscirà ad essere là in tempi ragionevoli.",
+    "FLAVOUR_9_ADTEXT": {
+        "message": "PACKAGE DROP. Urgent dispatch of perishables to {starport}.",
         "description": ""
     },
-    "FLAVOUR_ADTEXT_5": {
-        "message": "TRASLOCO: Trasporto di hardware dal magazzino a {starport}.",
+    "FLAVOUR_7_FAILUREMSG": {
+        "message": "Our customers are not going to be happy with this. Do not expect to be paid.",
         "description": ""
     },
-    "FLAVOUR_INTROTEXT_6": {
-        "message": "Ossequi. State parlando con {name}. Verrete pagati {cash} se consegnerete questo pacchetto a {starport}.",
+    "FLAVOUR_1_INTROTEXT": {
+        "message": "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly.",
         "description": ""
     },
-    "FLAVOUR_INTROTEXT_5": {
-        "message": "Piacere di conoscerci. Sono {name} e posso pagare {cash} a chi mi può aiutare a traslocare i miei averi a {starport}. Non c'è fretta, sono solo alcuni avanzi di un trasloco.",
+    "FLAVOUR_3_FAILUREMSG": {
+        "message": "Useless! I will never depend on you again! Needless to say, you will not be paid for this.",
         "description": ""
     },
-    "FLAVOUR_INTROTEXT_4": {
-        "message": "Saluti. Questo è un messaggio automatico dal Servizio Consegne Bedford e {name}. Paghiamo {cash} per una corsa verso {starport} nel sistema {system} ({sectorx}, {sectory}, {sectorz}), distante {dist} AL.",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_1": {
-        "message": "CERCASI: Consegna di un pacco sul sistema {system}.",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_2": {
-        "message": "Salute. Mi chiamo {name}. Posso pagare {cash} affinchè una nave trasporti il mio pacco a {starport} nel sistema {system} ({sectorx}, {sectory}, {sectorz}), a {dist} anni luce di distanza.",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_3": {
-        "message": "CONSEGNA: Documenti al sistema {system}. {cash} ad un pilota con esperienza.",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_0": {
-        "message": "Salve. Sono {name}. Sarà ricompensato con {cash} se consegnerà un piccolo pacco a {starport} nel sistema {system} ({sectorx}, {sectory}, {sectorz}), che dista {dist} AL.",
+    "FLAVOUR_2_INTROTEXT": {
+        "message": "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly.",
         "description": ""
     },
     "DELIVERY": {
         "message": "Consegna",
         "description": ""
     },
-    "FLAVOUR_INTROTEXT_1": {
-        "message": "Ciao. Sono {name}. Pago {cash} al pilota di astronave che consegnerà un pacchetto a {starport} nel sistema {system} ({sectorx}, {sectory}, {sectorz}), distante {dist} anni luce.",
+    "FLAVOUR_7_WHYSOMUCHTEXT": {
+        "message": "Standard rates, we work with the market.",
+        "description": ""
+    },
+    "FLAVOUR_0_INTROTEXT": {
+        "message": "Hi, I'm {name}. I'll pay you {cash} if you will deliver a small package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly.",
+        "description": ""
+    },
+    "FLAVOUR_0_SUCCESSMSG": {
+        "message": "Thank you for the delivery. You have been paid in full.",
+        "description": ""
+    },
+    "FLAVOUR_2_ADTEXT": {
+        "message": "URGENT. Fast ship needed to deliver a package to the {system} system.",
         "description": ""
     },
     "HANG_UP": {
@@ -219,20 +219,32 @@
         "message": "Dev'essere consegnata entro le ",
         "description": ""
     },
-    "FLAVOUR_ADTEXT_2": {
-        "message": "URGENTE: Richiesta astronave veloce per consegnare un pacco nel sistema {system}.",
+    "FLAVOUR_8_SUCCESSMSG": {
+        "message": "Your prompt delivery is appreciated, I have credited your account accordingly.",
+        "description": ""
+    },
+    "FLAVOUR_9_SUCCESSMSG": {
+        "message": "Grand! We'll start unpacking immediately. I'll have your account updated right away.",
+        "description": ""
+    },
+    "FLAVOUR_0_ADTEXT": {
+        "message": "GOING TO the {system} system? Money paid for delivery of a small package.",
         "description": ""
     },
     "DISTANCE": {
         "message": "Distanza:",
         "description": ""
     },
-    "FLAVOUR_WHYSOMUCHTEXT_8": {
-        "message": "È molto urgente.",
+    "FLAVOUR_6_SUCCESSMSG": {
+        "message": "Thank you for the package, you have been paid in full.",
         "description": ""
     },
-    "FLAVOUR_WHYSOMUCHTEXT_9": {
-        "message": "Le nostre vite dipendono da esso.",
+    "FLAVOUR_6_WHYSOMUCHTEXT": {
+        "message": "I don't think it's a lot.",
+        "description": ""
+    },
+    "PIRATE_TAUNTS_9": {
+        "message": "Pagherai per quel carico, con la tua vita.",
         "description": ""
     },
     "THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE": {
@@ -243,80 +255,68 @@
         "message": "Ne dubito fortemente.",
         "description": ""
     },
-    "FLAVOUR_WHYSOMUCHTEXT_2": {
-        "message": "Si tratta di una propostia di ricerca e dev'essere consegnata entro la scadenza, o potremmo non ottenere il finanziamento.",
+    "WHY_SO_MUCH_MONEY": {
+        "message": "Perché così tanti crediti?",
         "description": ""
     },
-    "FLAVOUR_WHYSOMUCHTEXT_3": {
-        "message": "Alcuni documenti estremamente sensibili sono finiti nelle mie mani, ed ho ragione di credere che la fuga d'informazioni sia stata attribuita a me.",
+    "FLAVOUR_6_INTROTEXT": {
+        "message": "Hi. I'm {name} and I will pay {cash} for a ship to deliver this package to {starport}.",
         "description": ""
     },
-    "FLAVOUR_WHYSOMUCHTEXT_0": {
-        "message": "Quando un'amica mi ha fatto visita, ha dimenticato degli abiti ed un antico libro cartaceo. Vorrei poterglieli restituire.",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCHTEXT_1": {
-        "message": "Niente di speciale.",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCHTEXT_6": {
-        "message": "Non mi sembra che sia molto.",
+    "FLAVOUR_8_INTROTEXT": {
+        "message": "My name is {name} and I need this item delivered to a friend at {starport} pronto, I'll pay you {cash} credits if you get it there in a reasonable time.",
         "description": ""
     },
     "SYSTEM": {
         "message": "Sistema:",
         "description": ""
     },
-    "FLAVOUR_WHYSOMUCHTEXT_4": {
-        "message": "Saremmo contenti di pagarla meno.",
+    "FLAVOUR_9_WHYSOMUCHTEXT": {
+        "message": "Our livelyhood depends on it.",
         "description": ""
     },
-    "FLAVOUR_WHYSOMUCHTEXT_5": {
-        "message": "È troppo? Dovrei ripensare la mia offerta!",
+    "FLAVOUR_4_SUCCESSMSG": {
+        "message": "Your timely and discrete service is much appreciated. You have been paid in full.",
         "description": ""
     },
     "NOT_ANY_MORE_THAN_USUAL": {
         "message": "Non più del normale.",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG_8": {
-        "message": "Le era stato offerto un premio per una consegna rapida! Mi rifiuto di pagare per questo.",
+    "FLAVOUR_4_ADTEXT": {
+        "message": "POSTAL SERVICE. We require a ship for the delivery run to {system} system.",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG_9": {
-        "message": "Si è rovinato tutto, ormai non serve più a nessuno! Non possiamo e non vogliamo pagarla.",
+    "FLAVOUR_4_WHYSOMUCHTEXT": {
+        "message": "We would be happy to pay you less money.",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG_6": {
-        "message": "Avrei potuto consegnrala più velocemente da solo. Non le pago nulla.",
+    "FLAVOUR_8_ADTEXT": {
+        "message": "NEARBY DELIVERY. Require quick delivery of an item to {starport}.",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG_7": {
-        "message": "I nostri clienti non saranno contenti di questo. Non si aspetti di venire pagato.",
+    "FLAVOUR_8_FAILUREMSG": {
+        "message": "You were offered a premium for quick delivery! I refuse to pay for this.",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG_4": {
-        "message": "Abbiamo annotato il codice di registrazione della sua astronave. Rifiuteremo qualsiasi ulteriore domanda di lavoro da parte sua.",
+    "FLAVOUR_4_INTROTEXT": {
+        "message": "Greetings. This is an automated message from Bedford and {name} Courier Services. We pay {cash} for the run to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly.",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG_5": {
-        "message": "Cos'è questo? Oh, ci ha messo così tanto che mi ero persino dimenticato di averlo spedito!",
+    "FLAVOUR_3_WHYSOMUCHTEXT": {
+        "message": "Some extremely sensitive documents have fallen into my hands, and I have reason to believe that the leak has been traced to me.",
         "description": ""
     },
     "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
         "message": "Può ripetere la richiesta iniziale?",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG_3": {
-        "message": "Inutile! Non farò mai più affidamento su di lei! Inutile dire che non verrà pagato per questo.",
+    "FLAVOUR_0_WHYSOMUCHTEXT": {
+        "message": "When a friend visited me she left behind some clothes and antique paper books. I'd like to have them returned to her.",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG_0": {
-        "message": "Ineccattabile! Ci ha messo un'eternità con questa consegna. Non ho intenzione di pagarla.",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_1": {
-        "message": "Questo ritardo nella consegna del mio pacco è stato molto frustrante, ed io mi rifiuto di pagare.",
+    "FLAVOUR_9_FAILUREMSG": {
+        "message": "It's all spoilt, this is of no use to anyone! We cannot and will not pay you.",
         "description": ""
     }
 }

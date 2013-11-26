@@ -1,30 +1,22 @@
 {
-    "FLAVOUR_INTRO_4": {
-        "message": "Vitejte ve firmě ČasoProstor.\n\nSpecializujeme se na mezihvězdné motory. Veškeré údržbářské práce mají záruku 2 roky.\n{lasttime}\nÚdržba vašeho {drive} bude stát {price}.  Chcete ji provést?",
+    "FLAVOUR_2_YESPLEASE": {
+        "message": "Please tune my drive at the quoted price",
         "description": ""
     },
-    "FLAVOUR_INTRO_5": {
-        "message": "Vyhněte se problémům s pokaženým hypermotorem.  Dejte ten svůj k údržbě ještě dnes.\n\nMotor: {drive}\nServis: {price}\n{lasttime}",
-        "description": ""
-    },
-    "FLAVOUR_INTRO_2": {
-        "message": "Vítejte.  My ve firmě {proprietor} & spol. si stojíme za naší prací svým dobrým jménem.\n\n{lasttime}\nMůžeme vytunit váš {drive} a zaručit tak roční bezproblémový provoz za cenu {price}.  Na práci budu dohlížet já osobně, aby byla zaručena vaše spokojenost a prvotřídní kvalita.",
-        "description": ""
-    },
-    "FLAVOUR_INTRO_3": {
-        "message": "Vítejte u firmy SuperFix údržba.\n\n{lasttime}\nNastal čas pololetní údržby? Nechejte svůj hypermotor SuperFixovat!\nMůžeme vytunit váš {drive} za pouhých {price}.  Levnější firmu nenajdete!",
-        "description": ""
-    },
-    "FLAVOUR_INTRO_0": {
-        "message": "Vyhněte se problémům s pokaženým hypermotorem.  Dejte ten svůj k údržbě ještě dnes, k oficiálně schválené firmě {name} servis hypermotorů s.r.o.\n\nMotor: {drive}\nServis: {price}\nZáruka: 18 months\n{lasttime}",
-        "description": ""
-    },
-    "FLAVOUR_INTRO_1": {
-        "message": "Jsem {proprietor}.  Můžu provést údržbu tvého {drive} minimálně s roční zárukou bezporuchového provozu.  Cena této služby bude {price}\n{lasttime}",
+    "FLAVOUR_1_TITLE": {
+        "message": "{proprietor}: Hyperdrive maintenance specialist",
         "description": ""
     },
     "I_DONT_HAVE_ENOUGH_MONEY": {
         "message": "Nemám dostatek peněz",
+        "description": ""
+    },
+    "FLAVOUR_5_RESPONSE": {
+        "message": "Your engine has been serviced.",
+        "description": ""
+    },
+    "FLAVOUR_2_INTRO": {
+        "message": "Hi there.  We at {proprietor} & Co stake our reputation on our work.\n\n{lasttime}\nWe can tune your ship's {drive}, ensuring 12 months of trouble-free operation, for the sum of {price}.  I'll be supervising the work myself, so you can be sure that a good job will be done.",
         "description": ""
     },
     "THE_SHIPS_HYPERDRIVE_HAS_BEEN_DESTROYED_BY_A_MALFUNCTION": {
@@ -35,56 +27,48 @@
         "message": "Váš motor byl v servisu naposled {date} u firmy {company}",
         "description": ""
     },
-    "FLAVOUR_RESPONSE_4": {
-        "message": "Práce na vašem hypermotoru byly dokončeny.",
+    "FLAVOUR_0_YESPLEASE": {
+        "message": "Service hyperspace engine",
         "description": ""
     },
-    "FLAVOUR_RESPONSE_5": {
-        "message": "Údržba hypermotoru byla dokončena.",
+    "FLAVOUR_4_INTRO": {
+        "message": "Welcome to Time and Space.\n\nWe specialise in interstellar engines. All maintenance work guaranteed for two years.\n{lasttime}\nServicing your {drive} will cost {price}.  Would you like to proceed?",
         "description": ""
     },
-    "FLAVOUR_RESPONSE_0": {
-        "message": "Údržba hypermotoru byla dokončena.",
+    "FLAVOUR_1_INTRO": {
+        "message": "I'm {proprietor}.  I can service your {drive}, guaranteeing at least a year of trouble-free performance.  The cost for this service will be {price}\n{lasttime}",
         "description": ""
     },
-    "FLAVOUR_RESPONSE_1": {
-        "message": "Údržba hypermotoru byla dokončena.",
+    "FLAVOUR_4_YESPLEASE": {
+        "message": "Yes, please proceed",
         "description": ""
     },
-    "FLAVOUR_RESPONSE_2": {
-        "message": "Údržba dokončena.  Děkujeme za objednávku.",
+    "FLAVOUR_5_TITLE": {
+        "message": "{proprietor} Engine Servicing Company",
         "description": ""
     },
-    "FLAVOUR_RESPONSE_3": {
-        "message": "Vaše SuperFix údržba je hotova, i se SuperFix zárukou!",
+    "FLAVOUR_2_RESPONSE": {
+        "message": "Service complete.  Thanks for your custom.",
         "description": ""
     },
-    "YOU_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN": {
-        "message": "Opravil(a) jste hypermotor těsně před jeho selháním.",
+    "FLAVOUR_3_RESPONSE": {
+        "message": "Your SuperFix service is complete, with SuperFix guarantee!",
         "description": ""
     },
-    "FLAVOUR_TITLE_4": {
-        "message": "ČasoProstor Motory, spol. s r.o.",
+    "FLAVOUR_5_INTRO": {
+        "message": "Avoid the inconvenience of a broken-down hyperspace engine.  Get yours serviced today.\n\nEngine: {drive}\nService: {price}\n{lasttime}",
         "description": ""
     },
-    "FLAVOUR_TITLE_5": {
-        "message": "{name} servis motorů s.r.o.",
+    "FLAVOUR_3_INTRO": {
+        "message": "Welcome SuperFix Maintenance.\n\n{lasttime}\nTime for your biannual maintenance? Let us SuperFix your hyperdrive!\nWe can tune your {drive} for just {price}.  There's nobody cheaper!",
         "description": ""
     },
-    "FLAVOUR_TITLE_2": {
-        "message": "{proprietor} & spol. HyperMechanici",
+    "FLAVOUR_2_TITLE": {
+        "message": "{proprietor} & Co HyperMechanics",
         "description": ""
     },
-    "FLAVOUR_TITLE_3": {
-        "message": "SuperFix údržba (pobočka {name})",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_0": {
-        "message": "{name} servis motorů s.r.o.",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_1": {
-        "message": "{proprietor}: Specialista na údržbu hypermotorů",
+    "FLAVOUR_1_RESPONSE": {
+        "message": "I have serviced your hyperdrive.",
         "description": ""
     },
     "YOU_DO_NOT_HAVE_A_DRIVE_TO_SERVICE": {
@@ -95,28 +79,12 @@
         "message": "Váš motor ještě nebyl v servisu, od té doby co byl {date} namontován",
         "description": ""
     },
-    "FLAVOUR_YESPLEASE_5": {
-        "message": "Provést údržbu hypermotoru",
+    "FLAVOUR_0_RESPONSE": {
+        "message": "Your engine has been serviced.",
         "description": ""
     },
-    "FLAVOUR_YESPLEASE_4": {
-        "message": "Ano, proveďte údržbu",
-        "description": ""
-    },
-    "FLAVOUR_YESPLEASE_3": {
-        "message": "SuperFixujte mě!",
-        "description": ""
-    },
-    "FLAVOUR_YESPLEASE_2": {
-        "message": "Prosím vytuňte můj hypermotor za navrhovanou cenu",
-        "description": ""
-    },
-    "FLAVOUR_YESPLEASE_1": {
-        "message": "Proveď údržbu hypermotoru",
-        "description": ""
-    },
-    "FLAVOUR_YESPLEASE_0": {
-        "message": "Provést údržbu hypermotoru",
+    "YOU_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN": {
+        "message": "Opravil(a) jste hypermotor těsně před jeho selháním.",
         "description": ""
     },
     "I_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN": {
@@ -125,6 +93,38 @@
     },
     "HANG_UP": {
         "message": "Konec",
+        "description": ""
+    },
+    "FLAVOUR_0_TITLE": {
+        "message": "{name} Engine Servicing Company",
+        "description": ""
+    },
+    "FLAVOUR_5_YESPLEASE": {
+        "message": "Service hyperspace engine",
+        "description": ""
+    },
+    "FLAVOUR_1_YESPLEASE": {
+        "message": "Service my drive",
+        "description": ""
+    },
+    "FLAVOUR_0_INTRO": {
+        "message": "Avoid the inconvenience of a broken-down hyperspace engine.  Get yours serviced today, by the officially endorsed {name} Engine Servicing Company.\n\nEngine: {drive}\nService: {price}\nGuarantee: 18 months\n{lasttime}",
+        "description": ""
+    },
+    "FLAVOUR_3_YESPLEASE": {
+        "message": "SuperFix me!",
+        "description": ""
+    },
+    "FLAVOUR_3_TITLE": {
+        "message": "SuperFix Maintenance ({name} branch)",
+        "description": ""
+    },
+    "FLAVOUR_4_TITLE": {
+        "message": "Time and Space Engines, Inc.",
+        "description": ""
+    },
+    "FLAVOUR_4_RESPONSE": {
+        "message": "We have completed the work on your hyperdrive.",
         "description": ""
     }
 }

@@ -3,160 +3,136 @@
         "message": "Taxi",
         "description": ""
     },
-    "FLAVOUR_HOWMANY_11": {
-        "message": "Csak egy.",
+    "FLAVOUR_7_WHYSOMUCH": {
+        "message": "The Mafia want me dead.",
         "description": ""
     },
-    "FLAVOUR_HOWMANY_10": {
-        "message": "Csak én.",
+    "FLAVOUR_5_WHYSOMUCH": {
+        "message": "Didn't you know - I'm a well known dream star.",
         "description": ""
     },
-    "FLAVOUR_HOWMANY_12": {
-        "message": "Egy.",
+    "FLAVOUR_3_SUCCESSMSG": {
+        "message": "Thank you for the nice trip. You have been paid in full.",
         "description": ""
     },
-    "FLAVOUR_ADTEXT_11": {
-        "message": "GYORS HAJÓT KERESEK: Egy olyat, amely elvinne {system} rendszerbe.",
+    "FLAVOUR_1_ADTEXT": {
+        "message": "WANTED: Passage for a small group to {system} system. Will pay {cash}.",
         "description": ""
     },
-    "FLAVOUR_ADTEXT_10": {
-        "message": "HAJÓT KERESEK: {system} rendszerbe tartó gyors hajót keresek.",
+    "FLAVOUR_11_SUCCESSMSG": {
+        "message": "Thank you for the fast ride. You have been paid in full.",
         "description": ""
     },
-    "FLAVOUR_ADTEXT_12": {
-        "message": "HAJÓT KERESEK: Amely elvinne {system} rendszerbe.",
+    "FLAVOUR_9_INTROTEXT": {
+        "message": "My name is {name}. I need fast passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. Will pay {cash}.",
         "description": ""
     },
-    "FLAVOUR_ADTEXT_9": {
-        "message": "HAJÓT KERESEK: Olyat, amely gyorsan eljuttat {system} rendszerbe.",
+    "FLAVOUR_12_HOWMANY": {
+        "message": "Just one.",
         "description": ""
     },
-    "FLAVOUR_ADTEXT_8": {
-        "message": "HAJÓT KERESEK: Olyat, amely gyorsan elvinne {system} rendszerbe.",
+    "FLAVOUR_5_ADTEXT": {
+        "message": "WANTED: Passage to {system} system. Will pay {cash}.",
         "description": ""
     },
-    "FLAVOUR_INTROTEXT_9": {
-        "message": "A nevem {name}. Szeretnék gyorsan eljutni {system} rendszerbe ({sectorx}, {sectory}, {sectorz}), {dist} fé távolságra . {cash} kreditet fizetek.",
+    "FLAVOUR_4_DANGER": {
+        "message": "No.",
         "description": ""
     },
-    "FLAVOUR_INTROTEXT_8": {
-        "message": "A nevem {name}. Gyorsan el szeretnék jutni {system} rendszerbe ({sectorx}, {sectory}, {sectorz}), {dist} fényévre innen.  Az útért {cash} kreditet fizetek.",
+    "FLAVOUR_1_FAILUREMSG": {
+        "message": "Unacceptable! You took forever. We are not willing to pay you.",
         "description": ""
     },
-    "FLAVOUR_INTROTEXT_7": {
-        "message": "Helló, a nevem {name}. Szeretnék biztonságban eljutni {system} rendszerbe ({sectorx}, {sectory}, {sectorz}, {dist} fé). Fizetek érte {cash} kreditet.",
+    "FLAVOUR_10_INTROTEXT": {
+        "message": "My name is {name}. I want fast passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. Paying {cash}.",
         "description": ""
     },
-    "FLAVOUR_ADTEXT_4": {
-        "message": "HAJÓ KERESTETIK: Hajót keresek, ami {system} rendszerbe tart. {cash} kreditet fizetek.",
+    "FLAVOUR_6_ADTEXT": {
+        "message": "SHIP WANTED: Passage to {system} system. Will pay {cash}.",
         "description": ""
     },
-    "FLAVOUR_INTROTEXT_5": {
-        "message": "Helló, a nevem {name}. El akarok jutni a(z) {system} rendszerbe ({sectorx}, {sectory}, {sectorz}, {dist} fé távol). Fizetek {cash} kreditet.",
+    "FLAVOUR_0_WHYSOMUCH": {
+        "message": "We are visiting a friend.",
         "description": ""
     },
-    "FLAVOUR_INTROTEXT_4": {
-        "message": "Üdv! {name} vagyok, és {system} rendszerbe ({sectorx}, {sectory}, {sectorz}, {dist} fé) szeretnék eljutni. {cash} kreditet szánok rá.",
+    "HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS": {
+        "message": "Hé?! Ezért fizetni fogsz!!",
         "description": ""
     },
-    "FLAVOUR_ADTEXT_1": {
-        "message": "KERESÜNK: Utazási lehetőséget egy kisebb csoport számára {system} rendszerbe. Fizetünk  {cash} kreditet.",
+    "FLAVOUR_8_WHYSOMUCH": {
+        "message": "I'm visiting a sick relative.",
         "description": ""
     },
-    "FLAVOUR_INTROTEXT_2": {
-        "message": "Helló, a nevem {name}. Szeretném, ha elvinnél egy kisebb csoportot {system} rendszerbe ({sectorx}, {sectory}, {sectorz} szektor, {dist} fé). Fizetnénk a szállításért {cash} kreditet.",
+    "FLAVOUR_8_HOWMANY": {
+        "message": "Only me.",
         "description": ""
     },
-    "FLAVOUR_ADTEXT_3": {
-        "message": "HAJÓ KERESTETIK: Hajót keresek utazáshoz {system} rendszerbe. Fizetek {cash} kreditet.",
+    "FLAVOUR_6_WHEREAREWE": {
+        "message": "Where are we? I've waited enough - take me to the nearest station NOW!",
         "description": ""
     },
-    "FLAVOUR_INTROTEXT_0": {
-        "message": "Helló, a nevem {name}. {system} rendszerbe szeretne a csoportunk eljutni a {sectorx}, {sectory}, {sectorz} szektorba, {dist} fényévre innen.  {cash} kreditet szánunk rá.",
+    "FLAVOUR_4_INTROTEXT": {
+        "message": "Hi, I'm {name} and I need passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}.",
         "description": ""
     },
-    "FLAVOUR_DANGER_10": {
-        "message": "Szerintem valaki követ engem.",
+    "FLAVOUR_8_DANGER": {
+        "message": "No.",
         "description": ""
     },
-    "FLAVOUR_DANGER_11": {
-        "message": "Van amikor az ember nem szeretné, ha ellenőriznék.",
+    "FLAVOUR_6_SUCCESSMSG": {
+        "message": "Thank you for the nice trip. You have been paid in full.",
         "description": ""
     },
-    "FLAVOUR_DANGER_12": {
-        "message": "Valaki üldöz engem.",
+    "FLAVOUR_7_WHEREAREWE": {
+        "message": "Where are we? I've waited enough - take me to the nearest station NOW!",
         "description": ""
     },
-    "FLAVOUR_INTROTEXT_12": {
-        "message": "Helló, a nevem {name}. El akarok jutni a(z) {system} rendszerbe ({sectorx}, {sectory}, {sectorz}, {dist} fé távol). Fizetek {cash} kreditet.",
+    "FLAVOUR_12_SUCCESSMSG": {
+        "message": "Thank you for the ride. You have been paid in full.",
         "description": ""
     },
-    "FLAVOUR_INTROTEXT_11": {
-        "message": "Üdv! {name} vagyok, és {system} rendszerbe ({sectorx}, {sectory}, {sectorz}, {dist} fé) szeretnék eljutni minél hamarabb. {cash} kreditet szánok rá.",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_10": {
-        "message": "A nevem {name}. Gyorsan el szeretnék jutni {system}  rendszerbe, {dist} fényévre innen. Koordinátái: {sectorx}, {sectory}, {sectorz}. Fizetek {cash} kreditet.",
+    "FLAVOUR_3_WHYSOMUCH": {
+        "message": "An old rival is trying to kill me.",
         "description": ""
     },
     "EXCELLENT": {
         "message": "Kitünő.",
         "description": ""
     },
-    "FLAVOUR_SUCCESSMSG_3": {
-        "message": "Köszönöm az kellemes utat. Már ki is fizettem a járandóságod.",
-        "description": ""
-    },
     "WHY_SO_MUCH_MONEY": {
         "message": "Miért pont ennyiért?",
         "description": ""
     },
-    "FLAVOUR_SUCCESSMSG_1": {
-        "message": "Köszönjük az utat. Már ki is fizettünk.",
+    "FLAVOUR_1_SUCCESSMSG": {
+        "message": "Thank you for the nice trip. You have been paid in full.",
         "description": ""
     },
-    "FLAVOUR_SUCCESSMSG_0": {
-        "message": "Kiváló utam volt, köszönöm. Átutaltam a fizetséged.",
+    "FLAVOUR_0_HOWMANY": {
+        "message": "There are {group} of us.",
         "description": ""
     },
-    "FLAVOUR_SUCCESSMSG_7": {
-        "message": "Köszönöm, hogy biztonságban elhoztál ide. Kifizettelek, további sok sikert!",
+    "FLAVOUR_10_ADTEXT": {
+        "message": "SHIP WANTED: Passage on a fast ship to {system} system.",
         "description": ""
     },
-    "FLAVOUR_SUCCESSMSG_6": {
-        "message": "Köszönöm, hogy elhoztál, már a számládon a fizetség.",
+    "FLAVOUR_2_DANGER": {
+        "message": "No.",
         "description": ""
     },
-    "FLAVOUR_SUCCESSMSG_5": {
-        "message": "Kösz az utat. Már ki is fizettelek.",
+    "FLAVOUR_11_WHEREAREWE": {
+        "message": "Where are we? I've waited enough - take me to the nearest station NOW!",
         "description": ""
     },
-    "FLAVOUR_SUCCESSMSG_4": {
-        "message": "Köszönöm a fuvart. Ki is fizettelek. További sok szerencsét!",
+    "FLAVOUR_7_ADTEXT": {
+        "message": "SHIP WANTED: Safe passage to {system} system. Will pay {cash}.",
         "description": ""
     },
-    "FLAVOUR_SUCCESSMSG_9": {
-        "message": "Köszönöm a gyors utat. Fizetség a számládon.",
+    "FLAVOUR_4_HOWMANY": {
+        "message": "Just me.",
         "description": ""
     },
-    "FLAVOUR_SUCCESSMSG_8": {
-        "message": "Köszönöm a gyors érkezést, át is utaltam az árát.",
-        "description": ""
-    },
-    "WE_WANT_TO_BE_THERE_BEFORE": {
-        "message": "Oda kell érnünk eddig az időpontig:",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_10": {
-        "message": "Igen kezdő pilóta vagy. Ilyen útért nem jár fizetséget.",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_11": {
-        "message": "El fogom veszteni a munkámat a szerencsétlenkedésed miatt. Így pénzt sem várhatsz el, mert nekem nagyobb szükségem van rá.",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_12": {
-        "message": "Nincs elég pénzem. Bocs.",
+    "FLAVOUR_5_INTROTEXT": {
+        "message": "Hi, I'm {name} and I need passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}.",
         "description": ""
     },
     "PIRATE_TAUNTS_3": {
@@ -175,48 +151,120 @@
         "message": "Meg fogod bánni, hogy {client} megbízott téged!",
         "description": ""
     },
-    "FLAVOUR_WHYSOMUCH_12": {
-        "message": "Tartozom valakinek és a sarkamban van.",
+    "FLAVOUR_10_DANGER": {
+        "message": "I think someone is following me.",
+        "description": ""
+    },
+    "FLAVOUR_9_SUCCESSMSG": {
+        "message": "Thank you for the fast ride. You have been paid in full.",
         "description": ""
     },
     "GROUP_DETAILS": {
         "message": "Csoport:",
         "description": ""
     },
-    "FLAVOUR_WHEREAREWE_10": {
-        "message": "Hol vagyunk egyáltalán? Már eleget vártam - vigyél AZONNAL a legközelebbi űrkikötőbe!",
+    "FLAVOUR_4_WHEREAREWE": {
+        "message": "Where are we? I've waited enough - take me to the nearest station NOW!",
+        "description": ""
+    },
+    "FLAVOUR_7_INTROTEXT": {
+        "message": "Hi, my name is {name} and I need safe passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}.",
         "description": ""
     },
     "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP": {
         "message": "Nincs elég kabin a hajódon.",
         "description": ""
     },
+    "FLAVOUR_9_ADTEXT": {
+        "message": "SHIP WANTED: Passage on a fast ship to {system} system.",
+        "description": ""
+    },
+    "FLAVOUR_7_FAILUREMSG": {
+        "message": "Unacceptable! You took forever. I'm not willing to pay you.",
+        "description": ""
+    },
+    "FLAVOUR_2_INTROTEXT": {
+        "message": "Hi, I'm {name} and I need passage for a small group to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}.",
+        "description": ""
+    },
+    "FLAVOUR_0_INTROTEXT": {
+        "message": "Hi, I'm {name} and I need passage for a small group to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}.",
+        "description": ""
+    },
+    "FLAVOUR_10_FAILUREMSG": {
+        "message": "You are so inexperienced pilot. Not going to pay for this.",
+        "description": ""
+    },
+    "FLAVOUR_9_WHYSOMUCH": {
+        "message": "The Police want me to help them with their enquiries.",
+        "description": ""
+    },
+    "FLAVOUR_12_ADTEXT": {
+        "message": "SHIP REQUIRED: Passage to {system} system.",
+        "description": ""
+    },
+    "FLAVOUR_6_HOWMANY": {
+        "message": "It's only me.",
+        "description": ""
+    },
+    "FLAVOUR_5_DANGER": {
+        "message": "You might get some interest from the press. Just ignore them.",
+        "description": ""
+    },
+    "FLAVOUR_1_HOWMANY": {
+        "message": "There are {group} of us.",
+        "description": ""
+    },
     "DISTANCE": {
         "message": "Távolság:",
         "description": ""
     },
-    "HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS": {
-        "message": "Hé?! Ezért fizetni fogsz!!",
+    "FLAVOUR_8_INTROTEXT": {
+        "message": "My name is {name}. I need fast passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. Will pay {cash}.",
+        "description": ""
+    },
+    "FLAVOUR_10_HOWMANY": {
+        "message": "Just one.",
+        "description": ""
+    },
+    "FLAVOUR_1_WHYSOMUCH": {
+        "message": "We work for {corp} corporation and they are paying.",
+        "description": ""
+    },
+    "FLAVOUR_7_SUCCESSMSG": {
+        "message": "Thanks for carrying me safely here. I've paid in full. Good Luck!",
         "description": ""
     },
     "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
         "message": "Megismételnéd az eredeti kérést?",
         "description": ""
     },
-    "FLAVOUR_WHEREAREWE_12": {
-        "message": "Hol vagyunk? Már eleget vártam - vigyél a legközelebbi kikötőbe AZONNAL!",
+    "FLAVOUR_0_FAILUREMSG": {
+        "message": "Unacceptable! You took forever. We are not willing to pay you.",
         "description": ""
     },
-    "FLAVOUR_SUCCESSMSG_2": {
-        "message": "Köszönjük, hogy elhoztál, már ki is fizettünk. Sok szerencsét a továbbiakban.",
+    "FLAVOUR_12_WHYSOMUCH": {
+        "message": "I owe someone some money, and they're after me.",
         "description": ""
     },
-    "FLAVOUR_HOWMANY_2": {
-        "message": "{group} ember.",
+    "FLAVOUR_11_ADTEXT": {
+        "message": "FAST SHIP: Passage on a fast ship to {system} system.",
+        "description": ""
+    },
+    "FLAVOUR_11_WHYSOMUCH": {
+        "message": "I'm a factory inspector doing my rounds.",
+        "description": ""
+    },
+    "FLAVOUR_8_WHEREAREWE": {
+        "message": "Where are we? I've waited enough - take me to the nearest station NOW!",
         "description": ""
     },
     "I_MUST_BE_THERE_BEFORE": {
         "message": "Oda kell érnem még előtte:",
+        "description": ""
+    },
+    "FLAVOUR_2_WHEREAREWE": {
+        "message": "Where are we? We've waited enough - take us to the nearest station NOW!",
         "description": ""
     },
     "CORPORATIONS_8": {
@@ -259,52 +307,40 @@
         "message": "ACME",
         "description": ""
     },
-    "FLAVOUR_DANGER_8": {
-        "message": "Nem.",
+    "FLAVOUR_10_WHYSOMUCH": {
+        "message": "I would rather someone didn't find me.",
         "description": ""
     },
-    "FLAVOUR_DANGER_9": {
-        "message": "A rendőrség lehet hogy meg akar majd állítani.",
+    "FLAVOUR_12_WHEREAREWE": {
+        "message": "Where are we? I've waited enough - take me to the nearest station NOW!",
         "description": ""
     },
-    "FLAVOUR_DANGER_2": {
-        "message": "Nem.",
+    "FLAVOUR_9_FAILUREMSG": {
+        "message": "Useless! You took forever. I'm not willing to pay you.",
         "description": ""
     },
-    "FLAVOUR_DANGER_3": {
-        "message": "Úgy hiszem, egy orgyilkos van a nyomomban, lehet te is belekeveredhetsz.",
+    "FLAVOUR_2_FAILUREMSG": {
+        "message": "Unacceptable! You took forever. We are not willing to pay you.",
         "description": ""
     },
-    "FLAVOUR_DANGER_0": {
-        "message": "Nem.",
+    "FLAVOUR_11_INTROTEXT": {
+        "message": "My name is {name}. I need fast passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. Will pay {cash}.",
         "description": ""
     },
-    "FLAVOUR_DANGER_1": {
-        "message": "Nem.",
-        "description": ""
-    },
-    "FLAVOUR_DANGER_6": {
-        "message": "Nem.",
-        "description": ""
-    },
-    "FLAVOUR_DANGER_7": {
-        "message": "A maffia nem veszi jó néven, ha segíted az ellenségeit.",
-        "description": ""
-    },
-    "FLAVOUR_DANGER_4": {
-        "message": "Nem.",
-        "description": ""
-    },
-    "FLAVOUR_DANGER_5": {
-        "message": "Talán a sajtó zaklatni fog, de nem kell foglalkoznod velük.",
+    "FLAVOUR_2_SUCCESSMSG": {
+        "message": "Thanks for bringing us here. We've now paid in full. Good Luck!",
         "description": ""
     },
     "WILL_I_BE_IN_ANY_DANGER": {
         "message": "Lesz valamilyen veszély útközben?",
         "description": ""
     },
-    "FLAVOUR_INTROTEXT_1": {
-        "message": "Helló, a nevem {name}. Szeretném, ha elvinnéd a csoportunkat {system} rendszerbe ({sectorx}, {sectory}, {sectorz}, {dist} fé). Fizetnénk az útért {cash} kreditet.",
+    "FLAVOUR_1_INTROTEXT": {
+        "message": "Hi, I'm {name} and I need passage for a small group to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}.",
+        "description": ""
+    },
+    "FLAVOUR_11_FAILUREMSG": {
+        "message": "I'm going to lost my job because of your incompetence. So I need that money more than you.",
         "description": ""
     },
     "CORPORATIONS_10": {
@@ -315,248 +351,212 @@
         "message": "Arment Aerodynamics",
         "description": ""
     },
-    "FLAVOUR_WHYSOMUCH_11": {
-        "message": "Üzemvizsgáló tisztviselő vagyok ellenőrzőkörúton.",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCH_10": {
-        "message": "Szereném, ha egy bizonyos valaki nem találna rám.",
+    "FLAVOUR_7_DANGER": {
+        "message": "The Mafia don't take kindly to people helping their enemies.",
         "description": ""
     },
     "HANG_UP": {
         "message": "Kapcsolat megszakítása.",
         "description": ""
     },
-    "FLAVOUR_SUCCESSMSG_12": {
-        "message": "Köszönöm a fuvart, máris kifizetlek.",
+    "FLAVOUR_1_DANGER": {
+        "message": "No.",
         "description": ""
     },
-    "FLAVOUR_SUCCESSMSG_11": {
-        "message": "Köszönöm a gyors utat, máris kifizetlek érte.",
+    "FLAVOUR_2_ADTEXT": {
+        "message": "WANTED: Passage for a small group to {system} system. Will pay {cash}.",
         "description": ""
     },
-    "FLAVOUR_SUCCESSMSG_10": {
-        "message": "Köszönöm a gyors fuvart. Azonnal ki is fizetlek.",
+    "FLAVOUR_3_ADTEXT": {
+        "message": "SHIP REQUIRED: Passage to {system} system. Will pay {cash}.",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG_4": {
-        "message": "Ne is kérd a fizetséged! Jelentelek a hatóságoknak.",
+    "FLAVOUR_9_WHEREAREWE": {
+        "message": "Where are we? I've waited enough - take me to the nearest station NOW!",
+        "description": ""
+    },
+    "FLAVOUR_0_WHEREAREWE": {
+        "message": "Where are we? We've waited enough - take us to the nearest station NOW!",
+        "description": ""
+    },
+    "FLAVOUR_4_SUCCESSMSG": {
+        "message": "Thanks for carrying me here. I've paid in full. Good Luck!",
+        "description": ""
+    },
+    "FLAVOUR_9_DANGER": {
+        "message": "The Police may try to stop you.",
+        "description": ""
+    },
+    "FLAVOUR_10_SUCCESSMSG": {
+        "message": "Thank you for the fast ride. You have been paid in full.",
+        "description": ""
+    },
+    "FLAVOUR_3_HOWMANY": {
+        "message": "It's only me.",
+        "description": ""
+    },
+    "FLAVOUR_8_ADTEXT": {
+        "message": "SHIP WANTED: Passage on a fast ship to {system} system.",
         "description": ""
     },
     "HOW_MANY_OF_YOU_ARE_THERE": {
         "message": "Hány személyről van szó?",
         "description": ""
     },
+    "FLAVOUR_5_WHEREAREWE": {
+        "message": "Where are we? I've waited enough - take me to the nearest station NOW!",
+        "description": ""
+    },
+    "FLAVOUR_3_WHEREAREWE": {
+        "message": "Where are we? I've waited enough - take me to the nearest station NOW!",
+        "description": ""
+    },
     "DANGER": {
         "message": "Veszély:",
         "description": ""
     },
-    "FLAVOUR_ADTEXT_5": {
-        "message": "KERESEK: Utazási lehetőséget {system} rendszerbe. Fizetek érte {cash} kreditet.",
+    "FLAVOUR_3_DANGER": {
+        "message": "I think there is an assassin on my trail, and they may come after you.",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG_5": {
-        "message": "Mit csináltál! A turnémnak annyi, és elveszítettem a rajongóim felét.",
+    "FLAVOUR_7_HOWMANY": {
+        "message": "Me and nobody else.",
         "description": ""
     },
     "DEADLINE": {
         "message": "Határidő:",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG_6": {
-        "message": "Hihetetlen, meddig tartott! Örökké. Ezért én nem fogok neked még fizetni is.",
+    "FLAVOUR_11_DANGER": {
+        "message": "Sometimes people don't want to be inspected.",
         "description": ""
     },
-    "FLAVOUR_WHYSOMUCH_9": {
-        "message": "A rendőrség megkért, hogy segítsek a nyomozásukban.",
+    "FLAVOUR_4_WHYSOMUCH": {
+        "message": "I'm traveling salesman.",
         "description": ""
     },
-    "FLAVOUR_WHYSOMUCH_8": {
-        "message": "Egy beteg rokonomat látogatom meg.",
+    "FLAVOUR_12_DANGER": {
+        "message": "Someone is chasing me.",
         "description": ""
     },
-    "FLAVOUR_WHYSOMUCH_3": {
-        "message": "Egy régi riválisom meg akar ölni.",
+    "FLAVOUR_1_WHEREAREWE": {
+        "message": "Where are we? We've waited enough - take us to the nearest station NOW!",
         "description": ""
     },
-    "FLAVOUR_WHYSOMUCH_2": {
-        "message": "Csak egy üzleti út.",
+    "FLAVOUR_2_HOWMANY": {
+        "message": "There are {group} of us.",
         "description": ""
     },
-    "FLAVOUR_WHYSOMUCH_1": {
-        "message": "Mi a(z) {corp} vállalatnak dolgozunk, és ők fizetik az utat.",
+    "FLAVOUR_9_HOWMANY": {
+        "message": "Only me.",
         "description": ""
     },
-    "FLAVOUR_WHYSOMUCH_0": {
-        "message": "Egy barátunkat látogatjuk meg.",
+    "FLAVOUR_4_FAILUREMSG": {
+        "message": "Don't even ask for payment! I'm reporting you to the authorities.",
         "description": ""
     },
-    "FLAVOUR_WHYSOMUCH_7": {
-        "message": "A maffia holtan akar látni engem.",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCH_6": {
-        "message": "Szabadúszó újságíró vagyok.",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCH_5": {
-        "message": "Nem is tudod - én egy ismert álomsztár vagyok.",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCH_4": {
-        "message": "Utazó ügynök vagyok.",
+    "FLAVOUR_5_SUCCESSMSG": {
+        "message": "Thank you for the nice trip. You have been paid in full.",
         "description": ""
     },
     "TO": {
         "message": "Cél:",
         "description": ""
     },
-    "FLAVOUR_INTROTEXT_6": {
-        "message": "Helló, a nevem {name}, és szeretnék eljutni {system} rendszerbe a {sectorx}, {sectory}, {sectorz} szektorba, {dist} fényévre innen. {cash} kreditért.",
+    "FLAVOUR_3_INTROTEXT": {
+        "message": "Hi, I'm {name} and I need passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}.",
         "description": ""
     },
-    "FLAVOUR_ADTEXT_7": {
-        "message": "HAJÓT KERESEK: Hajót, amely biztonságban elvisz {system} rendszerbe {cash} kreditért cserébe.",
+    "FLAVOUR_12_FAILUREMSG": {
+        "message": "I do not have enough money. Sorry.",
+        "description": ""
+    },
+    "FLAVOUR_6_INTROTEXT": {
+        "message": "Hi, I'm {name} and I need passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}.",
+        "description": ""
+    },
+    "FLAVOUR_10_WHEREAREWE": {
+        "message": "Where are we? I've waited enough - take me to the nearest station NOW!",
+        "description": ""
+    },
+    "FLAVOUR_2_WHYSOMUCH": {
+        "message": "It's normal business trip.",
+        "description": ""
+    },
+    "FLAVOUR_5_FAILUREMSG": {
+        "message": "What have you done! My tour is all spoilt and I lost half of my fans.",
         "description": ""
     },
     "LY": {
         "message": "fé",
         "description": ""
     },
-    "FLAVOUR_ADTEXT_6": {
-        "message": "KERESEK: Hajót, ami elszállít {system} rendszerbe. Fizetek érte {cash} kreditet.",
-        "description": ""
-    },
     "OK_AGREED": {
         "message": "Rendben, vállalom.",
         "description": ""
     },
-    "FLAVOUR_INTROTEXT_3": {
-        "message": "Jó napot! A nevem {name}. {system} rendszerbe tartok, {dist} fényévre innen a {sectorx}, {sectory}, {sectorz} szektorban.  {cash} kreditet fizetek az útért.",
+    "FLAVOUR_6_WHYSOMUCH": {
+        "message": "I'm freelance journalist.",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG_9": {
-        "message": "Használhatatlan! Már mióta jövünk. És még fizetség is kellene?",
+    "FLAVOUR_6_FAILUREMSG": {
+        "message": "Unacceptable! You took forever. I'm not willing to pay you.",
         "description": ""
     },
-    "FLAVOUR_ADTEXT_0": {
-        "message": "KERESÜNK: Egy kisebb csoportot {system} rendszerbe elszállító hajót. A fizetség {cash} kredit.",
+    "FLAVOUR_3_FAILUREMSG": {
+        "message": "Unacceptable! You took forever. I'm not willing to pay you.",
         "description": ""
     },
-    "FLAVOUR_HOWMANY_5": {
-        "message": "Egyedül én.",
+    "FLAVOUR_8_FAILUREMSG": {
+        "message": "Unacceptable! You took forever. I'm not willing to pay you.",
         "description": ""
     },
-    "FLAVOUR_HOWMANY_4": {
-        "message": "Csak én.",
+    "FLAVOUR_0_SUCCESSMSG": {
+        "message": "Thank you for the nice trip. You have been paid in full.",
         "description": ""
     },
-    "FLAVOUR_HOWMANY_7": {
-        "message": "Én és senki más.",
+    "FLAVOUR_6_DANGER": {
+        "message": "No.",
         "description": ""
     },
-    "FLAVOUR_HOWMANY_6": {
-        "message": "Csak én vagyok.",
+    "FLAVOUR_0_DANGER": {
+        "message": "No.",
         "description": ""
     },
-    "FLAVOUR_HOWMANY_1": {
-        "message": "{group} fő.",
+    "FLAVOUR_5_HOWMANY": {
+        "message": "It's only me.",
         "description": ""
     },
-    "FLAVOUR_HOWMANY_0": {
-        "message": "{group} személyről van szó.",
-        "description": ""
-    },
-    "FLAVOUR_HOWMANY_3": {
-        "message": "Csak én vagyok.",
-        "description": ""
-    },
-    "FLAVOUR_WHEREAREWE_3": {
-        "message": "Hol a francban vagyunk? Már eleget vártam - azonnal vigyél a legközelebbi kikötőbe!",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_2": {
-        "message": "KERESÜNK: Utazási lehetőséget egy kisebb csoport számára {system} rendszerbe. Fizetünk érte {cash} kreditet.",
-        "description": ""
-    },
-    "FLAVOUR_HOWMANY_9": {
-        "message": "Csak én.",
-        "description": ""
-    },
-    "FLAVOUR_HOWMANY_8": {
-        "message": "Egyedül én.",
-        "description": ""
-    },
-    "FLAVOUR_WHEREAREWE_1": {
-        "message": "Hol vagyunk? Eleget vártunk - AZONNAL vigyél minket a legközelebbi kikötőbe!",
+    "FLAVOUR_0_ADTEXT": {
+        "message": "WANTED: Passage for a small group to {system} system. Will pay {cash}.",
         "description": ""
     },
     "FROM": {
         "message": "Honnan:",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG_2": {
-        "message": "Elfogadhatatlan! Meddig tartott ez az út!? Azt lesheted, hogy fizessek.",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_3": {
-        "message": "Ez elfogadhatatlan! Már mióta úton vagyunk. Nem fogok fizetni.",
+    "FLAVOUR_8_SUCCESSMSG": {
+        "message": "Thank you for the fast ride. You have been paid in full.",
         "description": ""
     },
     "HOW_SOON_YOU_MUST_BE_THERE": {
         "message": "Milyen hamar kell odaérni?",
         "description": ""
     },
-    "FLAVOUR_WHEREAREWE_8": {
-        "message": "Hol vagyunk egyáltalán? Már eleget vártam - vigyél AZONNAL a legközelebbi űrkikötőbe!",
+    "FLAVOUR_4_ADTEXT": {
+        "message": "SHIP WANTED: Passage to {system} system. Will pay {cash}.",
         "description": ""
     },
-    "FLAVOUR_WHEREAREWE_9": {
-        "message": "Hol a pokolban vagyunk? Már eleget várakoztam - vigyél AZONNAL a legközelebbi űrkikötőbe!",
+    "FLAVOUR_12_INTROTEXT": {
+        "message": "My name is {name}. I need passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. Will pay {cash}.",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG_0": {
-        "message": "Elfogadhatatlan! Meddig tartott ez az út!? Örökké! Nem fogunk még fizetni is érte!",
+    "WE_WANT_TO_BE_THERE_BEFORE": {
+        "message": "Oda kell érnünk eddig az időpontig:",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG_8": {
-        "message": "Elfogadhatatlan! Már egy örökkévalóság eltelt az indulás óta. Nem fogok még fizetni is érte.",
-        "description": ""
-    },
-    "FLAVOUR_WHEREAREWE_11": {
-        "message": "Hol vagyunk? Már eleget vártam - vigyél a legközelebbi kikötőbe AZONNAL!",
-        "description": ""
-    },
-    "FLAVOUR_WHEREAREWE_2": {
-        "message": "Hol vagyunk? Eleget vártunk - AZONNAL vigyél minket a legközelebbi kikötőbe!",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_7": {
-        "message": "Ez elfogadhatatlan, hogy mennyi időt elvesztegettél. Nem fogok még fizetni is ezért.",
-        "description": ""
-    },
-    "FLAVOUR_WHEREAREWE_0": {
-        "message": "Hol vagyunk? Eleget vártunk - AZONNAL vigyél minket a legközelebbi kikötőbe!",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_1": {
-        "message": "Elfogadhatatlan! Csoda, hogy ideértünk! Az is csoda lenne, ha fizetnék.",
-        "description": ""
-    },
-    "FLAVOUR_WHEREAREWE_6": {
-        "message": "Hol vagyunk egyáltalán? Már eleget vártam - vigyél AZONNAL a legközelebbi űrkikötőbe!",
-        "description": ""
-    },
-    "FLAVOUR_WHEREAREWE_7": {
-        "message": "Hol a pokolban vagyunk? Már eleget várakoztam - vigyél AZONNAL a legközelebbi űrkikötőbe!",
-        "description": ""
-    },
-    "FLAVOUR_WHEREAREWE_4": {
-        "message": "Hol vagyunk? Már eleget várakoztam - AZONNAL vigyél a legközelebbi kikötődokkba!",
-        "description": ""
-    },
-    "FLAVOUR_WHEREAREWE_5": {
-        "message": "Hol vagyunk? Már eleget vártam - vigyél a legközelebbi kikötőbe AZONNAL!",
+    "FLAVOUR_11_HOWMANY": {
+        "message": "Just one.",
         "description": ""
     }
 }

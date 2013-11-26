@@ -1,86 +1,82 @@
 {
-    "FLAVOUR_SUCCESSMSG_3": {
-        "message": "Velmi oceňuji tvůj rychlý a diskrétní přístup. Dostaneš zaplaceno v plné výši.",
+    "FLAVOUR_0_FAILUREMSG": {
+        "message": "Unacceptable! You took forever over that delivery. I'm not willing to pay you.",
         "description": ""
     },
-    "WHY_SO_MUCH_MONEY": {
-        "message": "Proč tolik peněz?",
+    "HOW_SOON_MUST_IT_BE_DELIVERED": {
+        "message": "Dokdy musí být zásilka doručena?",
         "description": ""
     },
     "SPACEPORT": {
         "message": "Stanice:",
         "description": ""
     },
-    "PIRATE_TAUNTS_4": {
-        "message": "Jsem si jistý, že s tímhle se dá na trhu vydělat pěkná škvára",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_7": {
-        "message": "Výborně, poslali jsme platbu na váš účet.",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_6": {
-        "message": "Děkuji za doručení, dostaneš zaplaceno v plné výši.",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_5": {
-        "message": "Oh skvělé. Hned začnu vybalovat. Ještě jednou díky.",
-        "description": ""
-    },
     "DANGER": {
         "message": "Nebezpečí:",
         "description": ""
     },
-    "FLAVOUR_SUCCESSMSG_9": {
-        "message": "Senzační! Okamžitě začneme vybalovat. Ihned zadám příkaz k platbě na tvůj účet.",
+    "FLAVOUR_4_FAILUREMSG": {
+        "message": "Your ship registration has been noted, we will reject all further applications for work from you.",
         "description": ""
     },
-    "FLAVOUR_SUCCESSMSG_8": {
-        "message": "Tvůj rychlý přístup velmi oceňuji. Platba je proto již na tvém účtu.",
+    "FLAVOUR_1_WHYSOMUCHTEXT": {
+        "message": "It is nothing special.",
         "description": ""
     },
-    "FLAVOUR_SUCCESSMSG_1": {
-        "message": "Balík byl převzat, dostaneš zaplaceno v plné výši.",
+    "FLAVOUR_3_SUCCESSMSG": {
+        "message": "Your timely and discrete service is much appreciated. You have been paid in full.",
         "description": ""
     },
-    "FLAVOUR_WHYSOMUCHTEXT_7": {
-        "message": "To je standardní tarif na trhu.",
+    "FLAVOUR_1_SUCCESSMSG": {
+        "message": "The package has been received and you have been paid in full.",
         "description": ""
     },
-    "FLAVOUR_INTROTEXT_3": {
-        "message": "Ahoj. Jsem {name}. Zaplatím vám {cash}, když lodí vezmete balík do stanice {starport} v systému {system} ({sectorx}, {sectory}, {sectorz}), vzdáleném {dist} ly.",
+    "PIRATE_TAUNTS_1": {
+        "message": "Vypadá to, že můj výplatní šek právě dorazil!",
         "description": ""
     },
-    "FLAVOUR_SUCCESSMSG_0": {
-        "message": "Děkuji za doručení balíku. Dostaneš zaplaceno v plné výši.",
+    "FLAVOUR_1_ADTEXT": {
+        "message": "WANTED. Delivery of a package to the {system} system.",
         "description": ""
     },
     "DEADLINE": {
         "message": "Termín:",
         "description": ""
     },
-    "THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN": {
-        "message": "Je to velmi cenný balík, měj oči otevřené.",
+    "FLAVOUR_2_FAILUREMSG": {
+        "message": "I was quite clear about the deadline and am very disappointed by the late delivery. You will not be paid.",
         "description": ""
     },
-    "FLAVOUR_SUCCESSMSG_2": {
-        "message": "Dostal jste zaplaceno v plné výši. Děkuji.",
+    "FLAVOUR_7_ADTEXT": {
+        "message": "INTER-PLANETARY CARGO. Freight of local cargo to {starport}.",
         "description": ""
     },
-    "OK_AGREED": {
-        "message": "OK, souhlasím.",
+    "PIRATE_TAUNTS_0": {
+        "message": "Budeš litovat, že jsis něco začal s {client}",
         "description": ""
     },
-    "FLAVOUR_ADTEXT_0": {
-        "message": "LETÍTE DO systému {system}? Zaplatím vám za doručení malého balíku.",
+    "FLAVOUR_6_FAILUREMSG": {
+        "message": "I could have delivered it faster myself. I'm not paying you.",
+        "description": ""
+    },
+    "FLAVOUR_2_WHYSOMUCHTEXT": {
+        "message": "It is a research proposal and must be delivered by the deadline or we may not get funding.",
+        "description": ""
+    },
+    "FLAVOUR_9_INTROTEXT": {
+        "message": "Greetings, we're behind with our produce shipment and need it delivered to {starport} urgently. We'll pay you {cash} for your troubles.",
+        "description": ""
+    },
+    "FLAVOUR_5_ADTEXT": {
+        "message": "MOVING HOME. Move of hardware to {starport} from storage.",
         "description": ""
     },
     "EXCELLENT_I_WILL_LET_THE_RECIPIENT_KNOW_YOU_ARE_ON_YOUR_WAY": {
         "message": "Výborně. Uvědomím příjemce že jsi na cestě.",
         "description": ""
     },
-    "PIRATE_TAUNTS_9": {
-        "message": "Za ten náklad zaplatíš, svým životem!",
+    "FLAVOUR_5_INTROTEXT": {
+        "message": "Nice to meet you. I am {name} and I'm willing to pay {cash} for someone with a ship to help me move my belongings to {starport}. No rush, they are just some leftovers from moving house.",
         "description": ""
     },
     "PIRATE_TAUNTS_8": {
@@ -99,8 +95,8 @@
         "message": "Dnes není tvůj šťastný den! Připrav se na smrt.",
         "description": ""
     },
-    "FLAVOUR_SUCCESSMSG_4": {
-        "message": "Velmi oceňujeme tvůj rychlý a diskrétní přístup. Dostaneš zaplaceno v plné výši.",
+    "PIRATE_TAUNTS_4": {
+        "message": "Jsem si jistý, že s tímhle se dá na trhu vydělat pěkná škvára",
         "description": ""
     },
     "PIRATE_TAUNTS_3": {
@@ -111,104 +107,108 @@
         "message": "Ty pracuješ pro {client}? To nebyl dobrý nápad.",
         "description": ""
     },
-    "PIRATE_TAUNTS_1": {
-        "message": "Vypadá to, že můj výplatní šek právě dorazil!",
+    "FLAVOUR_5_SUCCESSMSG": {
+        "message": "Oh wonderful. I'll start unloading immediately. Thanks again.",
         "description": ""
     },
-    "PIRATE_TAUNTS_0": {
-        "message": "Budeš litovat, že jsis něco začal s {client}",
+    "FLAVOUR_1_FAILUREMSG": {
+        "message": "I'm frustrated by the late delivery of my package, and I refuse to pay you.",
         "description": ""
     },
-    "FLAVOUR_INTROTEXT_7": {
-        "message": "Zdravím. Potřebujeme dopravit tyto kontejnery do stanice {starport} tak rychle, jak je to jen možné. Standardní platba za přepravu činí {cash}.",
+    "THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN": {
+        "message": "Je to velmi cenný balík, měj oči otevřené.",
         "description": ""
     },
-    "FLAVOUR_ADTEXT_4": {
-        "message": "POŠTOVNÍ SLUŽBA. Hledá se loď pro rozvážku do systému {system}.",
+    "FLAVOUR_5_WHYSOMUCHTEXT": {
+        "message": "Is it a lot? I should rethink my offer!",
+        "description": ""
+    },
+    "FLAVOUR_3_INTROTEXT": {
+        "message": "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly.",
+        "description": ""
+    },
+    "FLAVOUR_2_SUCCESSMSG": {
+        "message": "You have been paid in full for the delivery. Thank you.",
         "description": ""
     },
     "IT_COULD_BE_DANGEROUS_YOU_SHOULD_MAKE_SURE_YOURE_ADEQUATELY_PREPARED": {
         "message": "Může to být nebezpečné. Ujisti se, že jsi na to dostatečně připraven(a).",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG_2": {
-        "message": "Jsem velmi zklamaný(á), myslím, že jsem dodržení lhůty doručení dostatečně zdůraznil(a). Nedostaneš zaplaceno!",
-        "description": ""
-    },
     "WILL_I_BE_IN_ANY_DANGER": {
         "message": "Ocitnu se v nějakém nebezpečí?",
         "description": ""
     },
-    "FLAVOUR_ADTEXT_7": {
-        "message": "MEZIPLANETÁRNÍ NÁKLAD. Doprava kontejnerů do stanice {starport}.",
+    "FLAVOUR_5_FAILUREMSG": {
+        "message": "What are these? Oh, you took so long that I forgot I'd even sent this!",
+        "description": ""
+    },
+    "FLAVOUR_7_SUCCESSMSG": {
+        "message": "Excellent, we've credited the funds into your account.",
         "description": ""
     },
     "LY": {
         "message": "ly",
         "description": ""
     },
-    "HOW_SOON_MUST_IT_BE_DELIVERED": {
-        "message": "Dokdy musí být zásilka doručena?",
+    "FLAVOUR_7_INTROTEXT": {
+        "message": "Hello. We need these crates delivered to {starport} as soon as possible. Standard payment for this shipment is {cash}.",
         "description": ""
     },
-    "FLAVOUR_ADTEXT_6": {
-        "message": "KURÝR na KRÁTKÉ TRASY. Doručení malého balíku do stanice {starport}.",
+    "FLAVOUR_6_ADTEXT": {
+        "message": "SHORT-RANGE COURIER. Delivery of a small package to {starport}.",
         "description": ""
     },
-    "FLAVOUR_ADTEXT_9": {
-        "message": "SPĚŠNÝ BALÍK. Urgentní přeprava zboží podléhajícího rychlé zkáze do stanice {starport}.",
+    "FLAVOUR_8_WHYSOMUCHTEXT": {
+        "message": "It's really urgent.",
         "description": ""
     },
-    "FLAVOUR_ADTEXT_8": {
-        "message": "DORUČOVÁNÍ v SOUSEDSTVÍ. Požadováno rychlé doručení předmětu do stanice {starport}.",
+    "OK_AGREED": {
+        "message": "OK, souhlasím.",
         "description": ""
     },
-    "FLAVOUR_INTROTEXT_9": {
-        "message": "Zdravím, jsme pozadu s odbavováním našich zakázek, takže je potřebujeme fofrem dopravit do stanice {starport}. Za problémy s tím spojené ti zaplatíme {cash}.",
+    "FLAVOUR_3_ADTEXT": {
+        "message": "DELIVERY. Documents to the {system} system. {cash} to an experienced pilot.",
         "description": ""
     },
-    "FLAVOUR_INTROTEXT_8": {
-        "message": "Jmenuji se {name} a potřebuji pronto doručit tento předmět příteli do stanice {starport}. Zaplatím ti {cash}, když to zvládneš v rozumném čase.",
+    "FLAVOUR_9_ADTEXT": {
+        "message": "PACKAGE DROP. Urgent dispatch of perishables to {starport}.",
         "description": ""
     },
-    "FLAVOUR_ADTEXT_5": {
-        "message": "STĚHOVÁNÍ. Přeprava věcí z úschovny do stanice {starport}.",
+    "FLAVOUR_7_FAILUREMSG": {
+        "message": "Our customers are not going to be happy with this. Do not expect to be paid.",
         "description": ""
     },
-    "FLAVOUR_INTROTEXT_6": {
-        "message": "Ahoj. Jsem {name} a zaplatím {cash} když lodí vezmete tento balík do stanice {starport}.",
+    "FLAVOUR_1_INTROTEXT": {
+        "message": "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly.",
         "description": ""
     },
-    "FLAVOUR_INTROTEXT_5": {
-        "message": "Rád(a) vás poznávám. Jsem {name} a zaplatím {cash} pokud mi někdo s lodí pomůže přepravit můj majetek do stanice {starport}. Není třeba spěchat, jde jen o pár zbytků po stěhování z domu.",
+    "FLAVOUR_3_FAILUREMSG": {
+        "message": "Useless! I will never depend on you again! Needless to say, you will not be paid for this.",
         "description": ""
     },
-    "FLAVOUR_INTROTEXT_4": {
-        "message": "Zdravím. Toto je automatická zpráva z Bedford & {name} zásilkové služby. Zaplatíme {cash} za rozvážku do stanice {starport} v systému {system} ({sectorx}, {sectory}, {sectorz}), vzdáleném {dist} ly.",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_1": {
-        "message": "HLEDÁM. Doručení balíku do systému {system}.",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_2": {
-        "message": "Ahoj. Jsem {name}. Zaplatím vám {cash}, když lodí vezmete balík do stanice {starport} v systému {system} ({sectorx}, {sectory}, {sectorz}), vzdáleném {dist} ly.",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_3": {
-        "message": "DORUČOVÁNÍ. Dokumenty do systému {system}. {cash} zkušenému pilotovi.",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_0": {
-        "message": "Ahoj, jsem {name}. Zaplatím vám {cash} když doručíte malý balík do stanice {starport} v systému {system} ({sectorx}, {sectory}, {sectorz}), vzdáleném {dist} ly.",
+    "FLAVOUR_2_INTROTEXT": {
+        "message": "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly.",
         "description": ""
     },
     "DELIVERY": {
         "message": "Doručení",
         "description": ""
     },
-    "FLAVOUR_INTROTEXT_1": {
-        "message": "Zdravím. Jsem {name}. Zaplatím vám {cash}, když lodí vezmete balík do stanice {starport} v systému {system} ({sectorx}, {sectory}, {sectorz}), vzdáleném {dist} ly.",
+    "FLAVOUR_7_WHYSOMUCHTEXT": {
+        "message": "Standard rates, we work with the market.",
+        "description": ""
+    },
+    "FLAVOUR_0_INTROTEXT": {
+        "message": "Hi, I'm {name}. I'll pay you {cash} if you will deliver a small package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly.",
+        "description": ""
+    },
+    "FLAVOUR_0_SUCCESSMSG": {
+        "message": "Thank you for the delivery. You have been paid in full.",
+        "description": ""
+    },
+    "FLAVOUR_2_ADTEXT": {
+        "message": "URGENT. Fast ship needed to deliver a package to the {system} system.",
         "description": ""
     },
     "HANG_UP": {
@@ -219,20 +219,32 @@
         "message": "Doručení musí proběhnout do ",
         "description": ""
     },
-    "FLAVOUR_ADTEXT_2": {
-        "message": "URGENTNÍ. Hledá se rychlá loď k doručení balíku do systému {system}.",
+    "FLAVOUR_8_SUCCESSMSG": {
+        "message": "Your prompt delivery is appreciated, I have credited your account accordingly.",
+        "description": ""
+    },
+    "FLAVOUR_9_SUCCESSMSG": {
+        "message": "Grand! We'll start unpacking immediately. I'll have your account updated right away.",
+        "description": ""
+    },
+    "FLAVOUR_0_ADTEXT": {
+        "message": "GOING TO the {system} system? Money paid for delivery of a small package.",
         "description": ""
     },
     "DISTANCE": {
         "message": "Vzdálenost:",
         "description": ""
     },
-    "FLAVOUR_WHYSOMUCHTEXT_8": {
-        "message": "Protože to opravdu spěchá.",
+    "FLAVOUR_6_SUCCESSMSG": {
+        "message": "Thank you for the package, you have been paid in full.",
         "description": ""
     },
-    "FLAVOUR_WHYSOMUCHTEXT_9": {
-        "message": "Závisí na tom naše živobytí.",
+    "FLAVOUR_6_WHYSOMUCHTEXT": {
+        "message": "I don't think it's a lot.",
+        "description": ""
+    },
+    "PIRATE_TAUNTS_9": {
+        "message": "Za ten náklad zaplatíš, svým životem!",
         "description": ""
     },
     "THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE": {
@@ -243,80 +255,68 @@
         "message": "O tom vážně pochybuji.",
         "description": ""
     },
-    "FLAVOUR_WHYSOMUCHTEXT_2": {
-        "message": "Jde o výzkumný projekt a musí být rychle doručen. Je nutné dodržet lhůtu pro doručení, jinak bude ohroženo financování projektu.",
+    "WHY_SO_MUCH_MONEY": {
+        "message": "Proč tolik peněz?",
         "description": ""
     },
-    "FLAVOUR_WHYSOMUCHTEXT_3": {
-        "message": "Dostaly se mi do rukou extrémně citlivé dokumenty a mám důvod se domnívat, že stopy vedou zpět ke mě.",
+    "FLAVOUR_6_INTROTEXT": {
+        "message": "Hi. I'm {name} and I will pay {cash} for a ship to deliver this package to {starport}.",
         "description": ""
     },
-    "FLAVOUR_WHYSOMUCHTEXT_0": {
-        "message": "Kdysi mě navštívila kamarádka a zanechala tu nějaké oblečení a starobylé papírové knihy. Rád(a) bych aby je dostala zpět.",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCHTEXT_1": {
-        "message": "Nejde o nic zvláštního.",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCHTEXT_6": {
-        "message": "Nemyslím si že je to moc.",
+    "FLAVOUR_8_INTROTEXT": {
+        "message": "My name is {name} and I need this item delivered to a friend at {starport} pronto, I'll pay you {cash} credits if you get it there in a reasonable time.",
         "description": ""
     },
     "SYSTEM": {
         "message": "Systém:",
         "description": ""
     },
-    "FLAVOUR_WHYSOMUCHTEXT_4": {
-        "message": "No můžeme zaplatit i míň, to pro nás nebude problém.",
+    "FLAVOUR_9_WHYSOMUCHTEXT": {
+        "message": "Our livelyhood depends on it.",
         "description": ""
     },
-    "FLAVOUR_WHYSOMUCHTEXT_5": {
-        "message": "Je to moc? Tak to bych si svou nabídku měl(a) ještě promyslet!",
+    "FLAVOUR_4_SUCCESSMSG": {
+        "message": "Your timely and discrete service is much appreciated. You have been paid in full.",
         "description": ""
     },
     "NOT_ANY_MORE_THAN_USUAL": {
         "message": "Ne víc než normálně.",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG_8": {
-        "message": "Tomu říkáš rychlé doručení? Odmítám za to ještě platit!",
+    "FLAVOUR_4_ADTEXT": {
+        "message": "POSTAL SERVICE. We require a ship for the delivery run to {system} system.",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG_9": {
-        "message": "Všechno se zkazilo a můžeme to akorát tak vyhodit! Za to ti nemůžeme a ani nechceme zaplatit.",
+    "FLAVOUR_4_WHYSOMUCHTEXT": {
+        "message": "We would be happy to pay you less money.",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG_6": {
-        "message": "To už by to rychlej doručila moje babička. Nezaplatím.",
+    "FLAVOUR_8_ADTEXT": {
+        "message": "NEARBY DELIVERY. Require quick delivery of an item to {starport}.",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG_7": {
-        "message": "S takovým přístupem nebudou naši zákazníci spokojeni. Nečekej že ti zaplatíme.",
+    "FLAVOUR_8_FAILUREMSG": {
+        "message": "You were offered a premium for quick delivery! I refuse to pay for this.",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG_4": {
-        "message": "Registrační ID tvé lodi si značíme, veškeré budoucí pokusy o spolupráci budou zamítnuty.",
+    "FLAVOUR_4_INTROTEXT": {
+        "message": "Greetings. This is an automated message from Bedford and {name} Courier Services. We pay {cash} for the run to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly.",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG_5": {
-        "message": "Co je tohle? Oh, trvalo ti to tak dlouho, že jsem na to už zapoměl(a)!",
+    "FLAVOUR_3_WHYSOMUCHTEXT": {
+        "message": "Some extremely sensitive documents have fallen into my hands, and I have reason to believe that the leak has been traced to me.",
         "description": ""
     },
     "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
         "message": "Můžete mi znovu zopakovat váš požadavek?",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG_3": {
-        "message": "Jsi k ničemu! Už se na tebe nikdy nespolehnu! Je zbytečné dodávat, že nedostaneš zaplaceno.",
+    "FLAVOUR_0_WHYSOMUCHTEXT": {
+        "message": "When a friend visited me she left behind some clothes and antique paper books. I'd like to have them returned to her.",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG_0": {
-        "message": "Nepřijatelné! To doručení ti trvalo věčnost. Nedostaneš zaplaceno!",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_1": {
-        "message": "Jsem zklamaný(á) že doručení trvalo tak dlouho. Odmítám ti zaplatit.",
+    "FLAVOUR_9_FAILUREMSG": {
+        "message": "It's all spoilt, this is of no use to anyone! We cannot and will not pay you.",
         "description": ""
     }
 }

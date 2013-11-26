@@ -1,42 +1,42 @@
 {
-    "FLAVOUR_SUCCESSMSG_3": {
-        "message": "{target} est mort. Voici votre prime.",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_2": {
-        "message": "Vous avez été payé en totalité pour avoir honoré cet important contrat.",
+    "FLAVOUR_0_FAILUREMSG": {
+        "message": "I am most displeased to find that {target} is still alive. Needless to say you will receive no payment.",
         "description": ""
     },
     "SPACEPORT": {
         "message": "Spacioport:",
         "description": ""
     },
-    "FLAVOUR_SUCCESSMSG_0": {
-        "message": "J'ai appris avec soulagement la nouvelle des grandes vacances de  {target}. Bien joué. J'ai donné des ordres pour le payement integral.",
-        "description": ""
-    },
     "TARGET_WILL_BE_LEAVING_SPACEPORT_AT": {
         "message": "La cible quittera le spacioport a:",
         "description": ""
     },
-    "FLAVOUR_SUCCESSMSG_5": {
-        "message": "j'ai recu avec joie le message concernant la fin de carrière de  {target}. Voici vos {cash}.",
+    "FLAVOUR_1_FAILUREMSG2": {
+        "message": "{target}'s demise was not caused by you, so do not ask for payment.",
         "description": ""
     },
-    "FLAVOUR_SUCCESSMSG_4": {
-        "message": "J'ai apprisavec delice la nouvelle de la retraite de  {target}. Voici votre argent.",
+    "FLAVOUR_2_FAILUREMSG2": {
+        "message": "Contract was completed by someone else. Be faster next time!",
         "description": ""
     },
     "HANG_UP": {
         "message": "Raccrochez.",
         "description": ""
     },
-    "FLAVOUR_SUCCESSMSG_1": {
-        "message": "Je suis vraiment triste d'apprendre le deces de {target}. Vous avez été payé en totalité.",
+    "FLAVOUR_3_SUCCESSMSG": {
+        "message": "{target} is dead. Here is your award.",
         "description": ""
     },
-    "FLAVOUR_INTROTEXT_3": {
-        "message": " {target} doit etre reduit en poussière spaciale. Je vous offrirais {cash} pour ce travail.",
+    "FLAVOUR_1_SUCCESSMSG": {
+        "message": "I am most sad to hear of {target}'s demise. You have been paid in full.",
+        "description": ""
+    },
+    "FLAVOUR_4_FAILUREMSG2": {
+        "message": "Retirement of {target} was done by someone else.",
+        "description": ""
+    },
+    "TITLE_23": {
+        "message": "Sénateur",
         "description": ""
     },
     "TITLE_22": {
@@ -47,28 +47,36 @@
         "message": "Prévot",
         "description": ""
     },
-    "FLAVOUR_INTROTEXT_4": {
-        "message": "Pour {cash} nous voulons encourager  {target} a cesser son travail définitivement.",
+    "TITLE_20": {
+        "message": "Procureur",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG_2": {
-        "message": "Il est très regrettable que {target} soie encore en vie et bien portant. Vous ne recevrez aucun payement puisque vous n'avez pas rempli votre contrat.",
+    "FLAVOUR_2_FAILUREMSG": {
+        "message": "It is most regrettable that {target} is still live and well. You will receive no payment as you did not complete your contract.",
         "description": ""
     },
     "TITLE_24": {
         "message": "Sergent",
         "description": ""
     },
-    "TITLE_9": {
-        "message": "Caporal",
+    "FLAVOUR_4_FAILUREMSG": {
+        "message": "{target} is still breathing and I'm not giving money to you.",
         "description": ""
     },
-    "FLAVOUR_ADTEXT_0": {
-        "message": "ON RECHERCHE: Effacement de {target} du systeme {system}.",
+    "FLAVOUR_2_ADTEXT": {
+        "message": "REMOVAL: {target} is no longer wanted in the {system} system.",
         "description": ""
     },
-    "TITLE_13": {
-        "message": "Avocat",
+    "FLAVOUR_0_FAILUREMSG2": {
+        "message": "{target}'s removal was not done by you. No payment this time.",
+        "description": ""
+    },
+    "FLAVOUR_5_ADTEXT": {
+        "message": "BIOGRAPHICAL: Some admirers wish {target} dead.",
+        "description": ""
+    },
+    "FLAVOUR_5_INTROTEXT": {
+        "message": "We wish {target} to have a fitting career end in the {system} system for {cash}.",
         "description": ""
     },
     "HOW_SOON_MUST_IT_BE_DONE": {
@@ -79,20 +87,28 @@
         "message": "Ce doit etre fait dès que {target} quitteras {spaceport}. Ne loupez pas cette opportunitée.",
         "description": ""
     },
+    "FLAVOUR_5_SUCCESSMSG": {
+        "message": "Message of {target}'s ending career happily acquired. Here is your {cash}.",
+        "description": ""
+    },
+    "FLAVOUR_1_FAILUREMSG": {
+        "message": "I hear that {target} is in good health. This pains me.",
+        "description": ""
+    },
     "HOW_WILL_I_BE_PAID": {
         "message": "Comment serai-je payé ?",
         "description": ""
     },
-    "TARGET_NAME": {
-        "message": "Nom de la cible:",
+    "FLAVOUR_3_INTROTEXT": {
+        "message": "The {target} must be reduced to space dust. I'll award you {cash} to do this.",
         "description": ""
     },
     "WHERE_CAN_I_FIND_X": {
         "message": "Ou puis-je trouver {target} ?",
         "description": ""
     },
-    "TITLE_8": {
-        "message": "Commandeur",
+    "FLAVOUR_5_FAILUREMSG": {
+        "message": "We found out that {target} is nonetheless operative. This saddens us.",
         "description": ""
     },
     "X_WILL_BE_LEAVING": {
@@ -101,10 +117,6 @@
     },
     "LY": {
         "message": "al",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_0": {
-        "message": "Je suis très mécontent de constater que {target} est toujour vivant. Inutile de vous dire que vous ne recevrez rien.",
         "description": ""
     },
     "TITLE_3": {
@@ -123,36 +135,24 @@
         "message": "Distance:",
         "description": ""
     },
-    "FLAVOUR_ADTEXT_5": {
-        "message": "BIOGRAPHIE: Quelques admirateurs souhaiteraient le dècés de  {target}.",
+    "TARGET_NAME": {
+        "message": "Nom de la cible:",
         "description": ""
     },
-    "FLAVOUR_ADTEXT_4": {
-        "message": "RETRAITE: Quelqu'un pour mettre à la retraite {target}. ",
+    "FLAVOUR_1_INTROTEXT": {
+        "message": "I need {target} taken out of the picture. I'll pay you {cash} to do this.",
         "description": ""
     },
-    "FLAVOUR_INTROTEXT_5": {
-        "message": "Nous voulons que {target} finisse sa carrière dans le systeme {system} pour {cash}.",
+    "FLAVOUR_2_SUCCESSMSG": {
+        "message": "You have been paid in full for the completion of that important contract.",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG2_0": {
-        "message": "Le nettoyage de {target} n'a pas été fait par vous. Pas de payement cette fois ci.",
+    "FLAVOUR_3_FAILUREMSG": {
+        "message": "You will pay for not eliminating {target}!",
         "description": ""
     },
-    "FLAVOUR_ADTEXT_1": {
-        "message": "ON RECHERCHE: Quelqu'un pour tuer {target} du systeme {system}. ",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_2": {
-        "message": "Je suis {name}, et je vous payerai  {cash} pour eliminer {target}.",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_3": {
-        "message": "EFFACEMENT: : Quelqu'un pour eliminer {target} ",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_0": {
-        "message": "Salut, je suis {name}. Je vous payerais {cash} pour me debarrasser de {target}.",
+    "FLAVOUR_2_INTROTEXT": {
+        "message": "I am {name}, and I will pay you {cash} to terminate {target}.",
         "description": ""
     },
     "TITLE_16": {
@@ -171,12 +171,12 @@
         "message": "Maréchal",
         "description": ""
     },
-    "TITLE_12": {
-        "message": "Juge",
+    "TITLE_19": {
+        "message": "Professeur",
         "description": ""
     },
-    "FLAVOUR_INTROTEXT_1": {
-        "message": "J'ai besoin que {target} sorte de la scene. je vous payerais {cash} pour ca .  ",
+    "FLAVOUR_0_SUCCESSMSG": {
+        "message": "News of {target}'s long vacation gratefully received. Well done, I have initiated your full payment.",
         "description": ""
     },
     "TITLE_10": {
@@ -191,10 +191,6 @@
         "message": "Vaisseau:",
         "description": ""
     },
-    "FLAVOUR_ADTEXT_2": {
-        "message": "NETTOYAGE: {target} n'est plus souhaité dans le systeme {system}.",
-        "description": ""
-    },
     "TITLE_6": {
         "message": "Colonel",
         "description": ""
@@ -203,20 +199,20 @@
         "message": "Détective",
         "description": ""
     },
-    "TITLE_19": {
-        "message": "Professeur",
+    "FLAVOUR_0_ADTEXT": {
+        "message": "WANTED: Removal of {target} from the {system} system.",
         "description": ""
     },
-    "TITLE_20": {
-        "message": "Procureur",
+    "FLAVOUR_1_ADTEXT": {
+        "message": "WANTED: Someone to kill {target} from the {system} system.",
         "description": ""
     },
-    "TITLE_23": {
-        "message": "Sénateur",
+    "TITLE_12": {
+        "message": "Juge",
         "description": ""
     },
-    "TITLE_7": {
-        "message": "Commandant",
+    "FLAVOUR_3_ADTEXT": {
+        "message": "TERMINATION: Someone to eliminate {target}.",
         "description": ""
     },
     "SHIP_ID": {
@@ -227,6 +223,18 @@
         "message": "Amiral",
         "description": ""
     },
+    "FLAVOUR_5_FAILUREMSG2": {
+        "message": "{target} was neutralized by someone else.",
+        "description": ""
+    },
+    "FLAVOUR_0_INTROTEXT": {
+        "message": "Hi, I'm {name}. I'll pay you {cash} to get rid of {target}.",
+        "description": ""
+    },
+    "FLAVOUR_3_FAILUREMSG2": {
+        "message": "Are you asking money for job done by someone else? Get lost.",
+        "description": ""
+    },
     "SYSTEM": {
         "message": "Systeme:",
         "description": ""
@@ -235,28 +243,20 @@
         "message": "Assassinat",
         "description": ""
     },
-    "TITLE_1": {
-        "message": "Ambassadeur",
+    "FLAVOUR_4_SUCCESSMSG": {
+        "message": "News of {target}'s retirement delightfully obtained. Here is your money.",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG2_5": {
-        "message": "{target} a été neutralisé par quelqu'un d'autre.",
+    "FLAVOUR_4_ADTEXT": {
+        "message": "RETIREMENT: Someone to retire {target}.",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG2_4": {
-        "message": "La mise a la retraite de {target} a éte faite par quelqu'un d'autre. ",
+    "TITLE_8": {
+        "message": "Commandeur",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG2_3": {
-        "message": "Vous reclamez de l'argent pour un travail fait par un autre ? Allez vous faire voir !",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG2_2": {
-        "message": "Le contrat a été rempli par un autre. Soyez plus rapide la prochaine fois !",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG2_1": {
-        "message": "Le deces de {target} n'a pas été causé par vous, Donc inutile de réclamer un payement.",
+    "TITLE_9": {
+        "message": "Caporal",
         "description": ""
     },
     "EXCELLENT": {
@@ -271,28 +271,28 @@
         "message": "Cardinal",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG_4": {
-        "message": "{target} respire toujours et je ne vous donne pas d'argent.",
+    "FLAVOUR_4_INTROTEXT": {
+        "message": "For {cash} we wish to encourage {target} to stop work permanently.",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG_5": {
-        "message": "Nous avons découvert que {target} est encore opérationel. Ceci nous attriste. ",
+    "TITLE_7": {
+        "message": "Commandant",
         "description": ""
     },
     "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
         "message": "Pourriez vous reformuler la demande d'origine ? ",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG_3": {
-        "message": "Vous payerez cher pour ne pas avoir éliminé {target}!",
+    "TITLE_1": {
+        "message": "Ambassadeur",
         "description": ""
     },
     "TITLE_2": {
         "message": "Brigadier",
         "description": ""
     },
-    "FLAVOUR_FAILUREMSG_1": {
-        "message": "J'ai entendu dire que {target} est en bonne santé. Cela me fait de la peine.",
+    "TITLE_13": {
+        "message": "Avocat",
         "description": ""
     }
 }

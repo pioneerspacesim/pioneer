@@ -1,6 +1,6 @@
 {
-    "FLAVOUR_CLUBNAME_0": {
-        "message": "Coopérative interstellaire pour le carburants des pilotes (CICP)",
+    "FLAVOUR_0_MEMBER_INTRO": {
+        "message": "You may purhase fuel and dispose of {radioactives} here.",
         "description": ""
     },
     "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED": {
@@ -11,12 +11,8 @@
         "message": "Vous devez d'abord acheter notre  {military_fuel} avant que nous acceptions des {radioactives}",
         "description": ""
     },
-    "WE_WILL_ONLY_DISPOSE_OF": {
-        "message": "Nous ne pouvons accepter que le nombre de tonnes de {radioactives} correspondant aux tonnes de  {military_fuel} achetés chez nous.",
-        "description": ""
-    },
-    "FLAVOUR_WELCOME_0": {
-        "message": "Bienvenue chez {clubname}",
+    "FLAVOUR_0_CLUBNAME": {
+        "message": "Interstellar Pilots' Fuel Co-operative",
         "description": ""
     },
     "WHAT_CONDITIONS_APPLY": {
@@ -25,6 +21,10 @@
     },
     "YOU_ARE_NOW_A_MEMBER": {
         "message": "Vous etes désormais membre . Votre adhesion expire le {expiry_date}.",
+        "description": ""
+    },
+    "RADIOACTIVES": {
+        "message": "Déchets radioactifs",
         "description": ""
     },
     "BEGIN_TRADE": {
@@ -39,8 +39,8 @@
         "message": "Demande d'adhesion",
         "description": ""
     },
-    "RADIOACTIVES": {
-        "message": "Déchets radioactifs",
+    "FLAVOUR_0_WELCOME": {
+        "message": "Welcome to {clubname}",
         "description": ""
     },
     "GO_BACK": {
@@ -51,20 +51,20 @@
         "message": "Carburant militaire",
         "description": ""
     },
-    "HANG_UP": {
-        "message": "Raccrochez.",
+    "FLAVOUR_0_NONMEMBER_INTRO": {
+        "message": "{clubname} is an independent organisation dedicated to providing discounted starship fuel to its members. Branches can be found throughout the galaxy. Benefits of membership include:\n\n\t* Our own stocks of fuel, independent of the general market\n\t* {hydrogen} at discount prices\n\t* {military_fuel} at discount prices\n\t* {water} at discount prices\n\t* {radioactives}, free disposal (conditions apply)\n\t* Fuel tank refilling, where necessary\n\nJoin now! Annual membership costs only {membership_fee}",
         "description": ""
     },
-    "FLAVOUR_MEMBER_INTRO_0": {
-        "message": "Vous pouvez acheter le carburant et deposer vos {radioactives} ici.",
+    "HANG_UP": {
+        "message": "Raccrochez.",
         "description": ""
     },
     "HYDROGEN": {
         "message": "Hydrogène",
         "description": ""
     },
-    "FLAVOUR_NONMEMBER_INTRO_0": {
-        "message": "{clubname} est une organisation indépendante créée afin de fournir a ses membres du carburant de vaisseau a prix discount. Des agences sont présentes dans toute la galaxie. Avantages inclus pour les membres:\n\n * Nos propres stocks de carburant, indépendants du marché de la bourse\n *  {hydrogen} a prix reduits\n *  {military_fuel} a prix reduits\n *  {water} a prix reduits\n *  {radioactives}, dépot gratuit (sous conditions)\n *  Remplissage des reservoirs en cas de besoin\n\nRejoignez nous! La cotisation annuelle ne coute que {membership_fee}",
+    "WE_WILL_ONLY_DISPOSE_OF": {
+        "message": "Nous ne pouvons accepter que le nombre de tonnes de {radioactives} correspondant aux tonnes de  {military_fuel} achetés chez nous.",
         "description": ""
     }
 }
