@@ -31,11 +31,11 @@ local max_ass_dist = 30
 local flavours = {}
 for i = 0,5 do
 	table.insert(flavours, {
-		adtext      = l["FLAVOUR_ADTEXT_"..i],
-		introtext   = l["FLAVOUR_INTROTEXT_"..i],
-		successmsg  = l["FLAVOUR_SUCCESSMSG_"..i],
-		failuremsg  = l["FLAVOUR_FAILUREMSG_"..i],
-		failuremsg2 = l["FLAVOUR_FAILUREMSG2_"..i],
+		adtext      = l["FLAVOUR_" .. i .. "_ADTEXT"],
+		introtext   = l["FLAVOUR_" .. i .. "_INTROTEXT"],
+		successmsg  = l["FLAVOUR_" .. i .. "_SUCCESSMSG"],
+		failuremsg  = l["FLAVOUR_" .. i .. "_FAILUREMSG"],
+		failuremsg2 = l["FLAVOUR_" .. i .. "_FAILUREMSG2"],
 	})
 end
 local num_titles = 25

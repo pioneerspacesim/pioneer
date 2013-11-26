@@ -46,10 +46,10 @@ local chance_of_availability = 3
 
 local flavours = {
 	{
-		clubname = l.FLAVOUR_CLUBNAME_0,
-		welcome = l.FLAVOUR_WELCOME_0,
-		nonmember_intro = l.FLAVOUR_NONMEMBER_INTRO_0,
-		member_intro = l.FLAVOUR_MEMBER_INTRO_0,
+		clubname = l.FLAVOUR_0_CLUBNAME,
+		welcome = l.FLAVOUR_0_WELCOME,
+		nonmember_intro = l.FLAVOUR_0_NONMEMBER_INTRO,
+		member_intro = l.FLAVOUR_0_MEMBER_INTRO,
 		annual_fee = 400,
 	}
 }
