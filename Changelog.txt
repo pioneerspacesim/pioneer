@@ -1,7 +1,7 @@
 November 2013
 
    * New features
-     * Translations now managed via Transifex (#2521, #2537, #2536)
+     * Translations now managed via Transifex (#2521, #2537, #2536, #2562)
      * "Speed lines" option to convey movement to the player (#2528)
      * Modelviewer mouselook mode (#2559)
      * Pioneer now requires OpenGL 2.0 and always uses shaders (#2540)

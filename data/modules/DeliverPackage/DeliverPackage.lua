@@ -80,11 +80,11 @@ local flavours = {
 -- add strings to flavours
 for i = 1,#flavours do
 	local f = flavours[i]
-	f.adtext        = l["FLAVOUR_ADTEXT_"..i-1]
-	f.introtext     = l["FLAVOUR_INTROTEXT_"..i-1]
-	f.whysomuchtext = l["FLAVOUR_WHYSOMUCHTEXT_"..i-1]
-	f.successmsg    = l["FLAVOUR_SUCCESSMSG_"..i-1]
-	f.failuremsg    = l["FLAVOUR_FAILUREMSG_"..i-1]
+	f.adtext        = l["FLAVOUR_" .. i-1 .. "_ADTEXT"]
+	f.introtext     = l["FLAVOUR_" .. i-1 .. "_INTROTEXT"]
+	f.whysomuchtext = l["FLAVOUR_" .. i-1 .. "_WHYSOMUCHTEXT"]
+	f.successmsg    = l["FLAVOUR_" .. i-1 .. "_SUCCESSMSG"]
+	f.failuremsg    = l["FLAVOUR_" .. i-1 .. "_FAILUREMSG"]
 end
 
 local ads = {}

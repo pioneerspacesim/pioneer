@@ -15,123 +15,123 @@
       "description" : "",
       "message" : "Excellent."
    },
-   "FLAVOUR_ADTEXT_0" : {
+   "FLAVOUR_0_ADTEXT" : {
       "description" : "",
       "message" : "WANTED: Removal of {target} from the {system} system."
    },
-   "FLAVOUR_ADTEXT_1" : {
-      "description" : "",
-      "message" : "WANTED: Someone to kill {target} from the {system} system."
-   },
-   "FLAVOUR_ADTEXT_2" : {
-      "description" : "",
-      "message" : "REMOVAL: {target} is no longer wanted in the {system} system."
-   },
-   "FLAVOUR_ADTEXT_3" : {
-      "description" : "",
-      "message" : "TERMINATION: Someone to eliminate {target}."
-   },
-   "FLAVOUR_ADTEXT_4" : {
-      "description" : "",
-      "message" : "RETIREMENT: Someone to retire {target}."
-   },
-   "FLAVOUR_ADTEXT_5" : {
-      "description" : "",
-      "message" : "BIOGRAPHICAL: Some admirers wish {target} dead."
-   },
-   "FLAVOUR_FAILUREMSG2_0" : {
-      "description" : "",
-      "message" : "{target}'s removal was not done by you. No payment this time."
-   },
-   "FLAVOUR_FAILUREMSG2_1" : {
-      "description" : "",
-      "message" : "{target}'s demise was not caused by you, so do not ask for payment."
-   },
-   "FLAVOUR_FAILUREMSG2_2" : {
-      "description" : "",
-      "message" : "Contract was completed by someone else. Be faster next time!"
-   },
-   "FLAVOUR_FAILUREMSG2_3" : {
-      "description" : "",
-      "message" : "Are you asking money for job done by someone else? Get lost."
-   },
-   "FLAVOUR_FAILUREMSG2_4" : {
-      "description" : "",
-      "message" : "Retirement of {target} was done by someone else."
-   },
-   "FLAVOUR_FAILUREMSG2_5" : {
-      "description" : "",
-      "message" : "{target} was neutralized by someone else."
-   },
-   "FLAVOUR_FAILUREMSG_0" : {
+   "FLAVOUR_0_FAILUREMSG" : {
       "description" : "",
       "message" : "I am most displeased to find that {target} is still alive. Needless to say you will receive no payment."
    },
-   "FLAVOUR_FAILUREMSG_1" : {
+   "FLAVOUR_0_FAILUREMSG2" : {
       "description" : "",
-      "message" : "I hear that {target} is in good health. This pains me."
+      "message" : "{target}'s removal was not done by you. No payment this time."
    },
-   "FLAVOUR_FAILUREMSG_2" : {
-      "description" : "",
-      "message" : "It is most regrettable that {target} is still live and well. You will receive no payment as you did not complete your contract."
-   },
-   "FLAVOUR_FAILUREMSG_3" : {
-      "description" : "",
-      "message" : "You will pay for not eliminating {target}!"
-   },
-   "FLAVOUR_FAILUREMSG_4" : {
-      "description" : "",
-      "message" : "{target} is still breathing and I'm not giving money to you."
-   },
-   "FLAVOUR_FAILUREMSG_5" : {
-      "description" : "",
-      "message" : "We found out that {target} is nonetheless operative. This saddens us."
-   },
-   "FLAVOUR_INTROTEXT_0" : {
+   "FLAVOUR_0_INTROTEXT" : {
       "description" : "",
       "message" : "Hi, I'm {name}. I'll pay you {cash} to get rid of {target}."
    },
-   "FLAVOUR_INTROTEXT_1" : {
-      "description" : "",
-      "message" : "I need {target} taken out of the picture. I'll pay you {cash} to do this."
-   },
-   "FLAVOUR_INTROTEXT_2" : {
-      "description" : "",
-      "message" : "I am {name}, and I will pay you {cash} to terminate {target}."
-   },
-   "FLAVOUR_INTROTEXT_3" : {
-      "description" : "",
-      "message" : "The {target} must be reduced to space dust. I'll award you {cash} to do this."
-   },
-   "FLAVOUR_INTROTEXT_4" : {
-      "description" : "",
-      "message" : "For {cash} we wish to encourage {target} to stop work permanently."
-   },
-   "FLAVOUR_INTROTEXT_5" : {
-      "description" : "",
-      "message" : "We wish {target} to have a fitting career end in the {system} system for {cash}."
-   },
-   "FLAVOUR_SUCCESSMSG_0" : {
+   "FLAVOUR_0_SUCCESSMSG" : {
       "description" : "",
       "message" : "News of {target}'s long vacation gratefully received. Well done, I have initiated your full payment."
    },
-   "FLAVOUR_SUCCESSMSG_1" : {
+   "FLAVOUR_1_ADTEXT" : {
+      "description" : "",
+      "message" : "WANTED: Someone to kill {target} from the {system} system."
+   },
+   "FLAVOUR_1_FAILUREMSG" : {
+      "description" : "",
+      "message" : "I hear that {target} is in good health. This pains me."
+   },
+   "FLAVOUR_1_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "{target}'s demise was not caused by you, so do not ask for payment."
+   },
+   "FLAVOUR_1_INTROTEXT" : {
+      "description" : "",
+      "message" : "I need {target} taken out of the picture. I'll pay you {cash} to do this."
+   },
+   "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
       "message" : "I am most sad to hear of {target}'s demise. You have been paid in full."
    },
-   "FLAVOUR_SUCCESSMSG_2" : {
+   "FLAVOUR_2_ADTEXT" : {
+      "description" : "",
+      "message" : "REMOVAL: {target} is no longer wanted in the {system} system."
+   },
+   "FLAVOUR_2_FAILUREMSG" : {
+      "description" : "",
+      "message" : "It is most regrettable that {target} is still live and well. You will receive no payment as you did not complete your contract."
+   },
+   "FLAVOUR_2_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "Contract was completed by someone else. Be faster next time!"
+   },
+   "FLAVOUR_2_INTROTEXT" : {
+      "description" : "",
+      "message" : "I am {name}, and I will pay you {cash} to terminate {target}."
+   },
+   "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
       "message" : "You have been paid in full for the completion of that important contract."
    },
-   "FLAVOUR_SUCCESSMSG_3" : {
+   "FLAVOUR_3_ADTEXT" : {
+      "description" : "",
+      "message" : "TERMINATION: Someone to eliminate {target}."
+   },
+   "FLAVOUR_3_FAILUREMSG" : {
+      "description" : "",
+      "message" : "You will pay for not eliminating {target}!"
+   },
+   "FLAVOUR_3_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "Are you asking money for job done by someone else? Get lost."
+   },
+   "FLAVOUR_3_INTROTEXT" : {
+      "description" : "",
+      "message" : "The {target} must be reduced to space dust. I'll award you {cash} to do this."
+   },
+   "FLAVOUR_3_SUCCESSMSG" : {
       "description" : "",
       "message" : "{target} is dead. Here is your award."
    },
-   "FLAVOUR_SUCCESSMSG_4" : {
+   "FLAVOUR_4_ADTEXT" : {
+      "description" : "",
+      "message" : "RETIREMENT: Someone to retire {target}."
+   },
+   "FLAVOUR_4_FAILUREMSG" : {
+      "description" : "",
+      "message" : "{target} is still breathing and I'm not giving money to you."
+   },
+   "FLAVOUR_4_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "Retirement of {target} was done by someone else."
+   },
+   "FLAVOUR_4_INTROTEXT" : {
+      "description" : "",
+      "message" : "For {cash} we wish to encourage {target} to stop work permanently."
+   },
+   "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
       "message" : "News of {target}'s retirement delightfully obtained. Here is your money."
    },
-   "FLAVOUR_SUCCESSMSG_5" : {
+   "FLAVOUR_5_ADTEXT" : {
+      "description" : "",
+      "message" : "BIOGRAPHICAL: Some admirers wish {target} dead."
+   },
+   "FLAVOUR_5_FAILUREMSG" : {
+      "description" : "",
+      "message" : "We found out that {target} is nonetheless operative. This saddens us."
+   },
+   "FLAVOUR_5_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "{target} was neutralized by someone else."
+   },
+   "FLAVOUR_5_INTROTEXT" : {
+      "description" : "",
+      "message" : "We wish {target} to have a fitting career end in the {system} system for {cash}."
+   },
+   "FLAVOUR_5_SUCCESSMSG" : {
       "description" : "",
       "message" : "Message of {target}'s ending career happily acquired. Here is your {cash}."
    },
