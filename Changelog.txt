@@ -16,6 +16,7 @@ November 2013
        ClearRows, SetMouseEnabled, and onRowClicked (#2554)
      * UI.Gauge widget has added method SetUpperLimit (#2561)
      * It is now possible to create custom properties (#2553)
+     * Property change signals can be connected to Lua functions (#2560)
      * Ship:GetStats() has been removed; stats are now exposed as
        properties of the Ship object (#2552)
 
