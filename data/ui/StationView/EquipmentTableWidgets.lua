@@ -83,7 +83,7 @@ local EquipmentTableWidgets = {}
 function EquipmentTableWidgets.Pair (config)
 	local equipTypes = {}
 	for k,v in pairs(EquipDef) do
-		if config.isValidSlot(v.slot) and k ~= "NONE" then
+		if config.isTradeable(v) and k ~= "NONE" then
 			table.insert(equipTypes, k)
 		end
 	end

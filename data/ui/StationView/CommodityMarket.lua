@@ -24,7 +24,7 @@ local commodityMarket = function (args)
 		stationColumns = { "icon", "name", "price", "stock" },
 		shipColumns = { "icon", "name", "amount" },
 
-		isValidSlot = function (slot) return slot == "CARGO" end,
+		isTradeable = function (def) return def.purchasable and def.slot == "CARGO" end,
 
 		onBuy = function (e)
 			if station:GetEquipmentStock(e) <= 0 then

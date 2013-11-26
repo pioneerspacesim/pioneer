@@ -25,7 +25,7 @@ local equipmentMarket = function (args)
 		stationColumns = { "name", "price", "mass", "stock" },
 		shipColumns = { "name", "amount", "mass", "massTotal" },
 
-		isValidSlot = function (slot) return slot ~= "CARGO" end,
+		isTradeable = function (def) return def.purchasable and def.slot ~= "CARGO" end,
 
 		onBuy = function (e)
 			if station:GetEquipmentStock(e) <= 0 then
