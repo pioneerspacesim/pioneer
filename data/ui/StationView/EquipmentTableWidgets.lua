@@ -5,6 +5,7 @@ local Engine = import("Engine")
 local Lang = import("Lang")
 local Game = import("Game")
 local EquipDef = import("EquipDef")
+local Comms = import("Comms")
 local utils = import("utils")
 
 local l = Lang.GetResource("ui-core")
@@ -64,18 +65,18 @@ local shipColumnHeading = {
 }
 
 local stationColumnValue = {
-	icon  = function (c,e) return equipIcon[e] and ui:Image("icons/goods/"..equipIcon[e]..".png") or "" end,
-	name  = function (c,e) return lcore[e] end,
-	price = function (c,e) return string.format("%0.2f", c.station:GetEquipmentPrice(e)) end,
-	stock = function (c,e) return c.station:GetEquipmentStock(e) end,
-	mass  = function (c,e) return string.format("%dt", EquipDef[e].mass) end,
+	icon  = function (e) return equipIcon[e] and ui:Image("icons/goods/"..equipIcon[e]..".png") or "" end,
+	name  = function (e) return lcore[e] end,
+	price = function (e) return string.format("%0.2f", Game.player:GetDockedWith():GetEquipmentPrice(e)) end,
+	stock = function (e) return Game.player:GetDockedWith():GetEquipmentStock(e) end,
+	mass  = function (e) return string.format("%dt", EquipDef[e].mass) end,
 }
 local shipColumnValue = {
-	icon      = function (c,e) return equipIcon[e] and ui:Image("icons/goods/"..equipIcon[e]..".png") or "" end,
-	name      = function (c,e) return lcore[e] end,
-	amount    = function (c,e) return Game.player:GetEquipCount(EquipDef[e].slot, e) end,
-	mass      = function (c,e) return string.format("%dt", EquipDef[e].mass) end,
-	massTotal = function (c,e) return string.format("%dt", Game.player:GetEquipCount(EquipDef[e].slot,e)*EquipDef[e].mass) end,
+	icon      = function (e) return equipIcon[e] and ui:Image("icons/goods/"..equipIcon[e]..".png") or "" end,
+	name      = function (e) return lcore[e] end,
+	amount    = function (e) return Game.player:GetEquipCount(EquipDef[e].slot, e) end,
+	mass      = function (e) return string.format("%dt", EquipDef[e].mass) end,
+	massTotal = function (e) return string.format("%dt", Game.player:GetEquipCount(EquipDef[e].slot,e)*EquipDef[e].mass) end,
 }
 
 local EquipmentTableWidgets = {}
@@ -104,7 +105,7 @@ function EquipmentTableWidgets.Pair (config)
 		local row = 1
 		for i=1,#equipTypes do
 			local e = equipTypes[i]
-			stationTable:AddRow(utils.build_table(utils.map(function (k,v) return k,stationColumnValue[v](config,e) end, ipairs(config.stationColumns))))
+			stationTable:AddRow(utils.build_table(utils.map(function (k,v) return k,stationColumnValue[v](e) end, ipairs(config.stationColumns))))
 			rowEquip[row] = e
 			row = row + 1
 		end
@@ -131,7 +132,7 @@ function EquipmentTableWidgets.Pair (config)
 			local n = Game.player:GetEquipCount(EquipDef[e].slot, e)
 			if n > 0 then
 				local icon = equipIcon[e] and ui:Image("icons/goods/"..equipIcon[e]..".png") or ""
-				shipTable:AddRow(utils.build_table(utils.map(function (k,v) return k,shipColumnValue[v](config,e) end, ipairs(config.shipColumns))))
+				shipTable:AddRow(utils.build_table(utils.map(function (k,v) return k,shipColumnValue[v](e) end, ipairs(config.shipColumns))))
 				rowEquip[row] = e
 				row = row + 1
 			end
@@ -141,10 +142,48 @@ function EquipmentTableWidgets.Pair (config)
 	end
 	local shipRowEquip = fillShipTable()
 
+	local function onBuy (e)
+		local player = Game.player
+		local station = player:GetDockedWith()
+
+		if station:GetEquipmentStock(e) <= 0 then
+			Comms.Message(l.ITEM_IS_OUT_OF_STOCK)
+			return
+		end
+
+		if player:GetEquipFree(EquipDef[e].slot) < 1 then
+			Comms.Message(l.SHIP_IS_FULLY_LADEN)
+			return
+		end
+
+		if player.freeCapacity < EquipDef[e].mass then
+			Comms.Message(l.SHIP_IS_FULLY_LADEN)
+			return
+		end
+
+		if player:GetMoney() < station:GetEquipmentPrice(e) then
+			Comms.Message(l.YOU_NOT_ENOUGH_MONEY)
+			return
+		end
+
+		assert(player:AddEquip(e) == 1)
+		player:AddMoney(-station:GetEquipmentPrice(e))
+		station:AddEquipmentStock(e, -1)
+	end
+
+	local function onSell (e)
+		local player = Game.player
+		local station = player:GetDockedWith()
+
+		player:RemoveEquip(e)
+		player:AddMoney(station:GetEquipmentPrice(e))
+		station:AddEquipmentStock(e, 1)
+	end
+
 	stationTable.onRowClicked:Connect(function(row)
 		local e = stationRowEquip[row+1]
 
-		config.onBuy(e)
+		onBuy(e)
 
 		stationRowEquip = fillStationTable()
 		shipRowEquip = fillShipTable()
@@ -153,7 +192,7 @@ function EquipmentTableWidgets.Pair (config)
 	shipTable.onRowClicked:Connect(function (row)
 		local e = shipRowEquip[row+1]
 
-		config.onSell(e)
+		onSell(e)
 
 		stationRowEquip = fillStationTable()
 		shipRowEquip = fillShipTable()

@@ -16,48 +16,11 @@ local ui = Engine.ui
 
 
 local equipmentMarket = function (args)
-	local player = Game.player
-	local station = player:GetDockedWith()
-
 	local stationTable, shipTable = EquipmentTableWidgets.Pair({
-		station = station,
-
 		stationColumns = { "name", "price", "mass", "stock" },
 		shipColumns = { "name", "amount", "mass", "massTotal" },
 
 		isTradeable = function (def) return def.purchasable and def.slot ~= "CARGO" end,
-
-		onBuy = function (e)
-			if station:GetEquipmentStock(e) <= 0 then
-				Comms.message(l.ITEM_IS_OUT_OF_STOCK)
-				return
-			end
-
-			if player:GetEquipFree(EquipDef[e].slot) < 1 then
-				Comms.Message(l.SHIP_IS_FULLY_LADEN)
-				return
-			end
-
-			if player.freeCapacity < EquipDef[e].mass then
-				Comms.Message(l.SHIP_IS_FULLY_LADEN)
-				return
-			end
-
-			if player:GetMoney() < station:GetEquipmentPrice(e) then
-				Comms.Message(l.YOU_NOT_ENOUGH_MONEY)
-				return
-			end
-
-			assert(player:AddEquip(e) == 1)
-			player:AddMoney(-station:GetEquipmentPrice(e))
-			station:AddEquipmentStock(e, -1)
-		end,
-
-		onSell = function (e)
-			player:RemoveEquip(e)
-			player:AddMoney(station:GetEquipmentPrice(e))
-			station:AddEquipmentStock(e, 1)
-		end,
 	})
 
 	return
