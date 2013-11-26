@@ -1,10 +1,10 @@
 {
-    "YOUR_FUEL_TANK_IS_ALMOST_EMPTY": {
-        "message": "Топливные баки корабля почти пусты!",
-        "description": ""
-    },
-    "YOUR_FUEL_TANK_IS_EMPTY": {
-        "message": "Топливные баки корабля абсолютно пусты!",
-        "description": ""
-    }
+   "YOUR_FUEL_TANK_IS_ALMOST_EMPTY" : {
+      "description" : "",
+      "message" : "Топливные баки корабля почти пусты!"
+   },
+   "YOUR_FUEL_TANK_IS_EMPTY" : {
+      "description" : "",
+      "message" : "Топливные баки корабля абсолютно пусты!"
+   }
 }

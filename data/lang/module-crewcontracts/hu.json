@@ -1,110 +1,110 @@
 {
-    "CREWDETAILSHEETBB": {
-        "message": "Legénységi posztot keres\n\nNév: {name}\nTapasztalat: {experience}\nFizetési igény: {wage} hetente\n\n{response}\n",
-        "description": ""
-    },
-    "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY": {
-        "message": "Köszönöm. Meg is keresem a kabinomat.",
-        "description": ""
-    },
-    "CREWTESTRESULTSBB": {
-        "message": "Teszteredmények:\n\nÁltalános kompetecia: {general}%\nGépészet és javítás: {engineering}%\nKormányzás és űrrepülés: {piloting}%\nNavigáció és pályatervezés: {navigation}%\nÉrzékelés és védelem: {sensors}%\nÖsszesített eredmény: {overall}%",
-        "description": ""
-    },
-    "OK_I_SUPPOSE_THATS_ALL_RIGHT": {
-        "message": "Rendben, azt hiszem jó lesz így.",
-        "description": ""
-    },
-    "GO_BACK": {
-        "message": "Vissza",
-        "description": ""
-    },
-    "VETERAN_TIME_SERVED_CREW_MEMBER": {
-        "message": "Veterán legénységi tag magas repült óraszámmal",
-        "description": ""
-    },
-    "ASK_CANDIDATE_TO_SIT_A_TEST": {
-        "message": "Teszt kitöltetése a jelölttel",
-        "description": ""
-    },
-    "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER": {
-        "message": "Sajnálom, de ennél alacsonyabbat nem tudok elfogadni.",
-        "description": ""
-    },
-    "SENSORS_AND_DEFENCE": {
-        "message": "Érzékelők és védelem",
-        "description": ""
-    },
-    "THATS_EXTREMELY_GENEROUS_OF_YOU": {
-        "message": "Igazán nagylelkű!",
-        "description": ""
-    },
-    "MINIMAL_TIME_SERVED_ABOARD_SHIP": {
-        "message": "Minimális időt szolgált űrhajón.",
-        "description": ""
-    },
-    "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT": {
-        "message": "Pozíció felajánlása a megbeszélt bérért.",
-        "description": ""
-    },
-    "THERE_DOESNT_SEEM_TO_BE_SPACE_FOR_ME_ON_BOARD": {
-        "message": "Úgy fest nincs több szabad legénységi kabin a fedélzeten!",
-        "description": ""
-    },
-    "NAVIGATOR": {
-        "message": "Navigátor",
-        "description": ""
-    },
-    "TIME_SERVED_CREW_MEMBER": {
-        "message": "Sokat látott legénységi tag",
-        "description": ""
-    },
-    "PILOT": {
-        "message": "Pilóta",
-        "description": ""
-    },
-    "CREWMEMBER_WAGE_PER_WEEK": {
-        "message": "{potentialCrewMember} ({wage}/hét)",
-        "description": ""
-    },
-    "THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER": {
-        "message": "Rögtön jobban hangzik!",
-        "description": ""
-    },
-    "CREW_FOR_HIRE": {
-        "message": "Legénységi pozíciót keres",
-        "description": ""
-    },
-    "SUGGEST_NEW_WEEKLY_WAGE_OF_N": {
-        "message": "Új heti bér javaslat:  {newAmount}",
-        "description": ""
-    },
-    "SHIPS_ENGINEER": {
-        "message": "Hajógépész",
-        "description": ""
-    },
-    "HANG_UP": {
-        "message": "Kapcsolat megszakítása.",
-        "description": ""
-    },
-    "POTENTIAL_CREW_MEMBERS": {
-        "message": "{station} regisztrált állást kereső űrhajósai:",
-        "description": ""
-    },
-    "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME": {
-        "message": "Sajnálom de ez nem túl vonzó ajánlat.",
-        "description": ""
-    },
-    "SIMULATOR_TRAINING_ONLY": {
-        "message": "Kizárólag szimulátoros kiképzést kapott",
-        "description": ""
-    },
-    "SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS": {
-        "message": "Némi tapasztalat kontrollált környezetben",
-        "description": ""
-    },
-    "NO_EXPERIENCE": {
-        "message": "Nincs tapasztalata",
-        "description": ""
-    }
+   "ASK_CANDIDATE_TO_SIT_A_TEST" : {
+      "description" : "",
+      "message" : "Teszt kitöltetése a jelölttel"
+   },
+   "CREWDETAILSHEETBB" : {
+      "description" : "",
+      "message" : "Legénységi posztot keres\n\nNév: {name}\nTapasztalat: {experience}\nFizetési igény: {wage} hetente\n\n{response}\n"
+   },
+   "CREWMEMBER_WAGE_PER_WEEK" : {
+      "description" : "",
+      "message" : "{potentialCrewMember} ({wage}/hét)"
+   },
+   "CREWTESTRESULTSBB" : {
+      "description" : "",
+      "message" : "Teszteredmények:\n\nÁltalános kompetecia: {general}%\nGépészet és javítás: {engineering}%\nKormányzás és űrrepülés: {piloting}%\nNavigáció és pályatervezés: {navigation}%\nÉrzékelés és védelem: {sensors}%\nÖsszesített eredmény: {overall}%"
+   },
+   "CREW_FOR_HIRE" : {
+      "description" : "",
+      "message" : "Legénységi pozíciót keres"
+   },
+   "GO_BACK" : {
+      "description" : "",
+      "message" : "Vissza"
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Kapcsolat megszakítása."
+   },
+   "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER" : {
+      "description" : "",
+      "message" : "Sajnálom, de ennél alacsonyabbat nem tudok elfogadni."
+   },
+   "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME" : {
+      "description" : "",
+      "message" : "Sajnálom de ez nem túl vonzó ajánlat."
+   },
+   "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT" : {
+      "description" : "",
+      "message" : "Pozíció felajánlása a megbeszélt bérért."
+   },
+   "MINIMAL_TIME_SERVED_ABOARD_SHIP" : {
+      "description" : "",
+      "message" : "Minimális időt szolgált űrhajón."
+   },
+   "NAVIGATOR" : {
+      "description" : "",
+      "message" : "Navigátor"
+   },
+   "NO_EXPERIENCE" : {
+      "description" : "",
+      "message" : "Nincs tapasztalata"
+   },
+   "OK_I_SUPPOSE_THATS_ALL_RIGHT" : {
+      "description" : "",
+      "message" : "Rendben, azt hiszem jó lesz így."
+   },
+   "PILOT" : {
+      "description" : "",
+      "message" : "Pilóta"
+   },
+   "POTENTIAL_CREW_MEMBERS" : {
+      "description" : "",
+      "message" : "{station} regisztrált állást kereső űrhajósai:"
+   },
+   "SENSORS_AND_DEFENCE" : {
+      "description" : "",
+      "message" : "Érzékelők és védelem"
+   },
+   "SHIPS_ENGINEER" : {
+      "description" : "",
+      "message" : "Hajógépész"
+   },
+   "SIMULATOR_TRAINING_ONLY" : {
+      "description" : "",
+      "message" : "Kizárólag szimulátoros kiképzést kapott"
+   },
+   "SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS" : {
+      "description" : "",
+      "message" : "Némi tapasztalat kontrollált környezetben"
+   },
+   "SUGGEST_NEW_WEEKLY_WAGE_OF_N" : {
+      "description" : "",
+      "message" : "Új heti bér javaslat:  {newAmount}"
+   },
+   "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY" : {
+      "description" : "",
+      "message" : "Köszönöm. Meg is keresem a kabinomat."
+   },
+   "THATS_EXTREMELY_GENEROUS_OF_YOU" : {
+      "description" : "",
+      "message" : "Igazán nagylelkű!"
+   },
+   "THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER" : {
+      "description" : "",
+      "message" : "Rögtön jobban hangzik!"
+   },
+   "THERE_DOESNT_SEEM_TO_BE_SPACE_FOR_ME_ON_BOARD" : {
+      "description" : "",
+      "message" : "Úgy fest nincs több szabad legénységi kabin a fedélzeten!"
+   },
+   "TIME_SERVED_CREW_MEMBER" : {
+      "description" : "",
+      "message" : "Sokat látott legénységi tag"
+   },
+   "VETERAN_TIME_SERVED_CREW_MEMBER" : {
+      "description" : "",
+      "message" : "Veterán legénységi tag magas repült óraszámmal"
+   }
 }
