@@ -73,7 +73,9 @@ public:
  *
  *   property - name of the property to connect to
  *
- *   function - function to call when the property changes. Takes no arguments.
+ *   function - function to call when the property changes. This function is
+ *              called with two arguments: the name of the property, and the
+ *              new value.
  *
  * Returns:
  *
