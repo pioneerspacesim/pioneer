@@ -235,10 +235,6 @@
         "message": "Hyperpropulsion",
         "description": ""
     },
-    "USE_SHADERS": {
-        "message": "Utiliser les Shaders",
-        "description": ""
-    },
     "SELECT": {
         "message": "Selectionner",
         "description": ""

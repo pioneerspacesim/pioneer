@@ -235,10 +235,6 @@
         "message": "Hyperraumantrieb",
         "description": ""
     },
-    "USE_SHADERS": {
-        "message": "Pixel-Shader aktivieren",
-        "description": ""
-    },
     "SELECT": {
         "message": "Auswählen",
         "description": ""

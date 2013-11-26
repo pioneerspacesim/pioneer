@@ -12,15 +12,15 @@
         "description": ""
     },
     "PIRATE_TAUNTS_4": {
-        "message": "Estoy seguro que esto traerá un dineral al mercado",
+        "message": "Estoy seguro que esa carga vale un dineral en el mercado",
         "description": ""
     },
     "FLAVOUR_SUCCESSMSG_7": {
-        "message": "Excelente, hemos añadido los fondos en su cuenta.",
+        "message": "Excelente, hemos transferido los fondos a su cuenta.",
         "description": ""
     },
     "FLAVOUR_SUCCESSMSG_6": {
-        "message": "Gracias por el paquete, Se le ha pagado el montante completo.",
+        "message": "Gracias por el paquete. Se le ha transferido el pago completo.",
         "description": ""
     },
     "FLAVOUR_SUCCESSMSG_5": {
@@ -28,7 +28,7 @@
         "description": ""
     },
     "DANGER": {
-        "message": "Peligro:",
+        "message": "Riesgo:",
         "description": ""
     },
     "FLAVOUR_SUCCESSMSG_9": {
@@ -44,7 +44,7 @@
         "description": ""
     },
     "FLAVOUR_WHYSOMUCHTEXT_7": {
-        "message": "Las tarifas estandar, trabajamos con el mercado.",
+        "message": "Es la tarifa estándar, trabajamos con los valores de mercado.",
         "description": ""
     },
     "FLAVOUR_INTROTEXT_3": {
@@ -52,7 +52,7 @@
         "description": ""
     },
     "FLAVOUR_SUCCESSMSG_0": {
-        "message": "Gracias por la entrega. Se le ha pagado al contado.",
+        "message": "Gracias por la entrega. Se le ha transferido el total de su paga.",
         "description": ""
     },
     "DEADLINE": {
@@ -100,15 +100,15 @@
         "description": ""
     },
     "FLAVOUR_SUCCESSMSG_4": {
-        "message": "Se aprecia su entrega discreta y a tiempo. Se le ha pagado el montante completo.",
+        "message": "Se aprecia su entrega discreta y a tiempo. Se le ha transferido su pago completo.",
         "description": ""
     },
     "PIRATE_TAUNTS_3": {
-        "message": "¡La carga y la vida, piloto!",
+        "message": "¡Tomaré su carga y su vida, piloto!",
         "description": ""
     },
     "PIRATE_TAUNTS_2": {
-        "message": "¿Trabajas para {client}? Eso ha sido una mala idea.",
+        "message": "¿Estás al servicio de {client}? Eso ha sido una mala idea.",
         "description": ""
     },
     "PIRATE_TAUNTS_1": {
@@ -136,7 +136,7 @@
         "description": ""
     },
     "WILL_I_BE_IN_ANY_DANGER": {
-        "message": "¿Correré peligro?",
+        "message": "¿Correré algún riesgo?",
         "description": ""
     },
     "FLAVOUR_ADTEXT_7": {
@@ -176,7 +176,7 @@
         "description": ""
     },
     "FLAVOUR_INTROTEXT_6": {
-        "message": "Qué hay. Soy {name} y pagaré {cash} por una nave que entregue este paquete en {starport}.",
+        "message": "Hola. Soy {name} y pagaré {cash} por una nave que entregue este paquete en {starport}.",
         "description": ""
     },
     "FLAVOUR_INTROTEXT_5": {
@@ -236,7 +236,7 @@
         "description": ""
     },
     "THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE": {
-        "message": "Es muy arriesgado, Encontrará resistencia.",
+        "message": "Es muy arriesgado. Encontrará resistencia.",
         "description": ""
     },
     "I_HIGHLY_DOUBT_IT": {
@@ -272,11 +272,11 @@
         "description": ""
     },
     "FLAVOUR_WHYSOMUCHTEXT_5": {
-        "message": "¿Es mucho? ¡Debería replantearme la oferta!",
+        "message": "¿Es mucho? ¡Debería replantear la oferta!",
         "description": ""
     },
     "NOT_ANY_MORE_THAN_USUAL": {
-        "message": "No mas de lo habitual.",
+        "message": "No más de lo habitual.",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_8": {
@@ -284,7 +284,7 @@
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_9": {
-        "message": "¡Está todo estropeado, No vale para nada! No podemos pagarle.",
+        "message": "¡Está todo estropeado! ¡No sirve para nada! No podemos pagarle.",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_6": {
@@ -292,7 +292,7 @@
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_7": {
-        "message": "Nuestros clientes no se van a alegrar de esto. No espere pago alguno.",
+        "message": "Nuestros clientes no se van a alegrar con esto. No espere pago alguno.",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_4": {
@@ -308,7 +308,7 @@
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_3": {
-        "message": "¡Inutil! ¡No volveré a depender de usted en el futuro! Es innecesario decir que no se le pagará ni un crédito.",
+        "message": "¡Inútil! ¡No volveré a depender de usted en el futuro! Es innecesario decir que no se le pagará ni un crédito.",
         "description": ""
     },
     "FLAVOUR_FAILUREMSG_0": {

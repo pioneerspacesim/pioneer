@@ -235,10 +235,6 @@
         "message": "Hypermotor",
         "description": ""
     },
-    "USE_SHADERS": {
-        "message": "Použít shadery",
-        "description": ""
-    },
     "SELECT": {
         "message": "Otevřít",
         "description": ""

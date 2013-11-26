@@ -235,10 +235,6 @@
         "message": "Hipermotor",
         "description": ""
     },
-    "USE_SHADERS": {
-        "message": "Shader-ek használata",
-        "description": ""
-    },
     "SELECT": {
         "message": "Kiválaszt",
         "description": ""

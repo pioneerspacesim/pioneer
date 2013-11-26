@@ -235,10 +235,6 @@
         "message": "Установленный двигатель",
         "description": ""
     },
-    "USE_SHADERS": {
-        "message": "Использовать шейдеры",
-        "description": ""
-    },
     "SELECT": {
         "message": "Выбрать",
         "description": ""

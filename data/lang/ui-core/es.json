@@ -235,10 +235,6 @@
         "message": "Hipermotor",
         "description": ""
     },
-    "USE_SHADERS": {
-        "message": "Usar Shaders",
-        "description": ""
-    },
     "SELECT": {
         "message": "Seleccionar",
         "description": ""

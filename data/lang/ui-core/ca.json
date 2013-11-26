@@ -235,10 +235,6 @@
         "message": "Hyperdrive",
         "description": ""
     },
-    "USE_SHADERS": {
-        "message": "Emprar shaders",
-        "description": ""
-    },
     "SELECT": {
         "message": "Seleccionar",
         "description": ""

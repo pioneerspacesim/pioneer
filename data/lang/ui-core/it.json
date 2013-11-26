@@ -235,10 +235,6 @@
         "message": "Ipermotore",
         "description": ""
     },
-    "USE_SHADERS": {
-        "message": "Usa shaders",
-        "description": ""
-    },
     "SELECT": {
         "message": "Seleziona",
         "description": ""
