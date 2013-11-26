@@ -1,10 +1,10 @@
 {
     "FLAVOUR_2_YESPLEASE": {
-        "message": "Please tune my drive at the quoted price",
+        "message": "Bitte stimmen sie meinen Antrieb für den genannten Preis ab.",
         "description": ""
     },
     "FLAVOUR_1_TITLE": {
-        "message": "{proprietor}: Hyperdrive maintenance specialist",
+        "message": "{proprietor}: Hyperdrive Instandhaltungs-Spezialist",
         "description": ""
     },
     "I_DONT_HAVE_ENOUGH_MONEY": {
@@ -12,11 +12,11 @@
         "description": ""
     },
     "FLAVOUR_5_RESPONSE": {
-        "message": "Your engine has been serviced.",
+        "message": "Ihr Antrieb wurde überholt.",
         "description": ""
     },
     "FLAVOUR_2_INTRO": {
-        "message": "Hi there.  We at {proprietor} & Co stake our reputation on our work.\n\n{lasttime}\nWe can tune your ship's {drive}, ensuring 12 months of trouble-free operation, for the sum of {price}.  I'll be supervising the work myself, so you can be sure that a good job will be done.",
+        "message": "Hallo.  Wir bei {proprietor} & Co stehen mit unserem guten Namen für unsere Arbeit.\n\n{lasttime}\nWir können den {drive} ihres Schiffes so abstimmen, dass 12 Monate Problemloses Laufen möglich ist. Das alles gibt es für nur {price}.  Ich werde die Arbeit persönlich überwachen, Sie können also auf eine gut ausgeführte Arbeit zählen.",
         "description": ""
     },
     "THE_SHIPS_HYPERDRIVE_HAS_BEEN_DESTROYED_BY_A_MALFUNCTION": {
@@ -28,15 +28,15 @@
         "description": ""
     },
     "FLAVOUR_0_YESPLEASE": {
-        "message": "Service hyperspace engine",
+        "message": "Überhole Hyperraum-Antrieb",
         "description": ""
     },
     "FLAVOUR_4_INTRO": {
-        "message": "Welcome to Time and Space.\n\nWe specialise in interstellar engines. All maintenance work guaranteed for two years.\n{lasttime}\nServicing your {drive} will cost {price}.  Would you like to proceed?",
+        "message": "Wilkommen bei Zeit und Raum.\n\nWir sind Spezialisten für Interstellare Antriebe. Alle Instandhaltungsarbeiten haben eine Garantie von 2 Jahren.\n{lasttime}\nServicing your {drive} will cost {price}.  Would you like to proceed?",
         "description": ""
     },
     "FLAVOUR_1_INTRO": {
-        "message": "I'm {proprietor}.  I can service your {drive}, guaranteeing at least a year of trouble-free performance.  The cost for this service will be {price}\n{lasttime}",
+        "message": "Ich bin {proprietor}.  Ich kann Ihr {drive} überholen und garantiere mindestens ein Jahr problemloses Laufen.  Die Kosen für diesen Service liegen bei {price}.\n{lasttime}",
         "description": ""
     },
     "FLAVOUR_4_YESPLEASE": {
@@ -44,31 +44,31 @@
         "description": ""
     },
     "FLAVOUR_5_TITLE": {
-        "message": "{proprietor} Engine Servicing Company",
+        "message": "{name} Triebwerk Service GmbH ",
         "description": ""
     },
     "FLAVOUR_2_RESPONSE": {
-        "message": "Service complete.  Thanks for your custom.",
+        "message": "Die Arbeiten sind vollendet.  Danke, dass Sie sich für uns entschieden haben.",
         "description": ""
     },
     "FLAVOUR_3_RESPONSE": {
-        "message": "Your SuperFix service is complete, with SuperFix guarantee!",
+        "message": "Ihr SuperFix Service ist fertiggestellt mit SuperFix Garantie!",
         "description": ""
     },
     "FLAVOUR_5_INTRO": {
-        "message": "Avoid the inconvenience of a broken-down hyperspace engine.  Get yours serviced today.\n\nEngine: {drive}\nService: {price}\n{lasttime}",
+        "message": "Vermeiden Sie die Unannehmlichkeiten eines kaputten Hyperraum-Antriebs.  Lassen Sie Ihres heute noch überholen, von der offiziell zugelassenen {name} Triebwerksservice-Firma.\n\nEngine: {drive}\nService: {price}\nGuarantee: 18 months\n{lasttime}",
         "description": ""
     },
     "FLAVOUR_3_INTRO": {
-        "message": "Welcome SuperFix Maintenance.\n\n{lasttime}\nTime for your biannual maintenance? Let us SuperFix your hyperdrive!\nWe can tune your {drive} for just {price}.  There's nobody cheaper!",
+        "message": "Wilkommen SuperFix Instandhaltung.\n\n{lasttime}\nZeit für Ihren halbjährlichen Check? Lassen Sie uns von uns Ihren Hyperraum-Antrieb SuperFix-en!\nWir können Ihr {drive} für nur {price}.  Nur wir haben den besten Preis!",
         "description": ""
     },
     "FLAVOUR_2_TITLE": {
-        "message": "{proprietor} & Co HyperMechanics",
+        "message": "{proprietor} & Co HyperMechanik",
         "description": ""
     },
     "FLAVOUR_1_RESPONSE": {
-        "message": "I have serviced your hyperdrive.",
+        "message": "Ihr Hyperraum-Antrieb wurde in Stand gesetzt.",
         "description": ""
     },
     "YOU_DO_NOT_HAVE_A_DRIVE_TO_SERVICE": {
@@ -80,7 +80,7 @@
         "description": ""
     },
     "FLAVOUR_0_RESPONSE": {
-        "message": "Your engine has been serviced.",
+        "message": "Ihr Antrieb wurde überholt.",
         "description": ""
     },
     "YOU_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN": {
@@ -96,31 +96,31 @@
         "description": ""
     },
     "FLAVOUR_0_TITLE": {
-        "message": "{name} Engine Servicing Company",
+        "message": "{name} Triebwerk Service GmbH ",
         "description": ""
     },
     "FLAVOUR_5_YESPLEASE": {
-        "message": "Service hyperspace engine",
+        "message": "Überhole Hyperraum-Antrieb",
         "description": ""
     },
     "FLAVOUR_1_YESPLEASE": {
-        "message": "Service my drive",
+        "message": "Überhole Antrieb",
         "description": ""
     },
     "FLAVOUR_0_INTRO": {
-        "message": "Avoid the inconvenience of a broken-down hyperspace engine.  Get yours serviced today, by the officially endorsed {name} Engine Servicing Company.\n\nEngine: {drive}\nService: {price}\nGuarantee: 18 months\n{lasttime}",
+        "message": "Vermeiden Sie die Unannehmlichkeiten eines kaputten Hyperraum-Antriebs.  Lassen Sie Ihres heute noch überholen, von der offiziell zugelassenen {name} Triebwerksservice-Firma.\n\nEngine: {drive}\nService: {price}\nGuarantee: 18 months\n{lasttime}",
         "description": ""
     },
     "FLAVOUR_3_YESPLEASE": {
-        "message": "SuperFix me!",
+        "message": "SuperFix-en Sie mich!",
         "description": ""
     },
     "FLAVOUR_3_TITLE": {
-        "message": "SuperFix Maintenance ({name} branch)",
+        "message": "SuperFix Instandhaltung ({name} Ableger)",
         "description": ""
     },
     "FLAVOUR_4_TITLE": {
-        "message": "Time and Space Engines, Inc.",
+        "message": "Zeit und Raum Triebwerke, Inc.",
         "description": ""
     },
     "FLAVOUR_4_RESPONSE": {

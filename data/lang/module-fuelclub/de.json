@@ -1,6 +1,6 @@
 {
     "FLAVOUR_0_MEMBER_INTRO": {
-        "message": "You may purhase fuel and dispose of {radioactives} here.",
+        "message": "Du kannst hier Kraftstoffe kaufen und {radioactives} entsorgen.",
         "description": ""
     },
     "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED": {
@@ -12,7 +12,7 @@
         "description": ""
     },
     "FLAVOUR_0_CLUBNAME": {
-        "message": "Interstellar Pilots' Fuel Co-operative",
+        "message": "Treibstoff-Kooperative Interstellarer Piloten",
         "description": ""
     },
     "WHAT_CONDITIONS_APPLY": {
@@ -40,7 +40,7 @@
         "description": ""
     },
     "FLAVOUR_0_WELCOME": {
-        "message": "Welcome to {clubname}",
+        "message": "Wilkommen bei der {clubname}",
         "description": ""
     },
     "GO_BACK": {
@@ -52,7 +52,7 @@
         "description": ""
     },
     "FLAVOUR_0_NONMEMBER_INTRO": {
-        "message": "{clubname} is an independent organisation dedicated to providing discounted starship fuel to its members. Branches can be found throughout the galaxy. Benefits of membership include:\n\n\t* Our own stocks of fuel, independent of the general market\n\t* {hydrogen} at discount prices\n\t* {military_fuel} at discount prices\n\t* {water} at discount prices\n\t* {radioactives}, free disposal (conditions apply)\n\t* Fuel tank refilling, where necessary\n\nJoin now! Annual membership costs only {membership_fee}",
+        "message": "{clubname} ist eine unabhängige Organisation, deren Ziel es ist, günstigen Raumschifftreibstoff an seine Mitglieder zu Verkaufen. Ableger können überall in der Galaxie gefunden werden. Die Vorteile einer Mitgliedschaft umfassen:\n\n\t* Unsere eigenen, vom Markt unabhängigen, Treibstoffvorräte\n\t* {hydrogen} zu Discount-Preisen\n\t* {military_fuel} zu Discount-Preisen\n\t* {water} zu Discount-Preisen\n\t* {radioactives}, kostenlose Entsorgung (siehe Konditionen)\n\t* Kraftstoff-Nachfüllung wo es nötig ist\n\nTrete uns noch heute bei! Jährliche Mitgliedschaft nur {membership_fee}",
         "description": ""
     },
     "HANG_UP": {

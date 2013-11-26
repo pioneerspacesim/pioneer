@@ -4,23 +4,23 @@
         "description": ""
     },
     "FLAVOUR_1_MESSAGE": {
-        "message": "Peace be with you, brother. Please select an amount to donate to the Guardians of the Free Spirit.",
+        "message": "Pokój z Tobą, bracie. Proszę wybrać wysokość datku dla Strażników Wolnego Ducha.",
         "description": ""
     },
     "FLAVOUR_1_TITLE": {
-        "message": "DONATE. The Guardians of the Free Spirit humbly request your charity to support our monasteries.",
+        "message": "WSPOMÓŻ. Strażnicy Wolnego Ducha pokornie proszą o wsparcie naszych klasztorów.",
         "description": ""
     },
     "FLAVOUR_2_TITLE": {
-        "message": "FEELING GENEROUS? War Orphan's Support needs your help to keep up its essential work.",
+        "message": "JESTEŚ HOJNY? Pomoc Sierotom Wojennym, potrzebuje twojego wsparcia by kontynuować swoją działalność.",
         "description": ""
     },
     "FLAVOUR_2_MESSAGE": {
-        "message": "Please select an amount to donate to War Orphan's Support, and end the suffering of children all over the galaxy.",
+        "message": "Proszę wybrać wysokość datku, jaką chcesz wesprzeć Pomoc Sierotom Wojennym, i zakończ cierpienie dzieci w całej galaktyce.",
         "description": ""
     },
     "FLAVOUR_0_TITLE": {
-        "message": "DONATE! The Church of The Celestial Flying Spaghetti Monster needs YOUR money to spread the word of god.",
+        "message": "WSPOMÓŻ! Kościół Latającego Potwora Spaghetti potrzebuje TWOICH pieniędzy by móc szerzyć słowo boże.",
         "description": ""
     },
     "HANG_UP": {
@@ -28,15 +28,15 @@
         "description": ""
     },
     "FLAVOUR_3_MESSAGE": {
-        "message": "Please select an amount to donate to the GreenWatch, and end the pollution of our galaxy.",
+        "message": "Proszę wybierz kwotę jaką chcesz wesprzeć GreenWatch, i zakończ zanieczyszczanie naszej galaktyki.",
         "description": ""
     },
     "FLAVOUR_4_MESSAGE": {
-        "message": "Please select an amount to donate.",
+        "message": "Proszę wybrać wysokość wsparcia.",
         "description": ""
     },
     "FLAVOUR_0_MESSAGE": {
-        "message": "Please select an amount to donate to the Church of the Celestial Flying Spaghetti Monster.",
+        "message": "Proszę wybrać wysokość datku, jaką chcesz wesprzeć Kościół Latającego Potwora Spaghetti.",
         "description": ""
     },
     "YOU_DO_NOT_HAVE_ENOUGH_MONEY": {
@@ -44,11 +44,11 @@
         "description": ""
     },
     "FLAVOUR_3_TITLE": {
-        "message": "CONTRIBUTE. The Friends of the Galaxy 'Ban Military Drives' campaign needs your money.",
+        "message": "PRZYŁĄCZ SIĘ. Kampania Galaktyczni Przyjaciele na rzecz 'Zakazu Napędów Wojskowych' potrzebuje twoich pieniędzy.",
         "description": ""
     },
     "FLAVOUR_4_TITLE": {
-        "message": "DONATE! Save our species. Stop the carnage of newly settled worlds.",
+        "message": "DOFINANSUJ! Ocal nasz gatunek. Stop rzezi na nowo skolonizowanych światach.",
         "description": ""
     },
     "WOW_THAT_WAS_VERY_GENEROUS": {

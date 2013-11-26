@@ -4,23 +4,23 @@
         "description": ""
     },
     "FLAVOUR_1_MESSAGE": {
-        "message": "Peace be with you, brother. Please select an amount to donate to the Guardians of the Free Spirit.",
+        "message": "A béke legyen veled, testvér. Kérlek válaszd ki a felajánlásra szánt összeget a Szabad Szellem Őrzői számára.",
         "description": ""
     },
     "FLAVOUR_1_TITLE": {
-        "message": "DONATE. The Guardians of the Free Spirit humbly request your charity to support our monasteries.",
+        "message": "ADAKOZZ. A Szabad Szellem Őrzői alázatosan kérik jótékony adományodat a kolostoraink támogatásához.",
         "description": ""
     },
     "FLAVOUR_2_TITLE": {
-        "message": "FEELING GENEROUS? War Orphan's Support needs your help to keep up its essential work.",
+        "message": "NAGYLELKŰ VAGY? A Háborús árvák Támogató Egylete a segítséged kéri a fennmaradáshoz.",
         "description": ""
     },
     "FLAVOUR_2_MESSAGE": {
-        "message": "Please select an amount to donate to War Orphan's Support, and end the suffering of children all over the galaxy.",
+        "message": "Kérlek, válaszd ki a háborús árvák számára a felajánlásra szánt összeget, hogy véget vethessünk a szenvedésüknek.",
         "description": ""
     },
     "FLAVOUR_0_TITLE": {
-        "message": "DONATE! The Church of The Celestial Flying Spaghetti Monster needs YOUR money to spread the word of god.",
+        "message": "ADAKOZZ! A Szent Repülő Spagettiszörny egyházának szüksége van a pénzedre, hogy terjeszthessük a tanokat.",
         "description": ""
     },
     "HANG_UP": {
@@ -28,15 +28,15 @@
         "description": ""
     },
     "FLAVOUR_3_MESSAGE": {
-        "message": "Please select an amount to donate to the GreenWatch, and end the pollution of our galaxy.",
+        "message": "Kérlek válaszd ki a Zöld Figyelőknek juttatandó összeget, hogy véget vessünk a galaxisunk szennyezésének.",
         "description": ""
     },
     "FLAVOUR_4_MESSAGE": {
-        "message": "Please select an amount to donate.",
+        "message": "Kérlek válaszd ki az adományozásra szánt összeget.",
         "description": ""
     },
     "FLAVOUR_0_MESSAGE": {
-        "message": "Please select an amount to donate to the Church of the Celestial Flying Spaghetti Monster.",
+        "message": "Kérlek válaszd ki a felajánlásra szánt összeget a Szent Repülő Spagettiszörny egyházának.",
         "description": ""
     },
     "YOU_DO_NOT_HAVE_ENOUGH_MONEY": {
@@ -44,11 +44,11 @@
         "description": ""
     },
     "FLAVOUR_3_TITLE": {
-        "message": "CONTRIBUTE. The Friends of the Galaxy 'Ban Military Drives' campaign needs your money.",
+        "message": "ADAKOZZ. A Galaxis Barátai 'Tiltsák be a katonai hajtóműveket' hadjáratának a pénzbeli segítséged kell.",
         "description": ""
     },
     "FLAVOUR_4_TITLE": {
-        "message": "DONATE! Save our species. Stop the carnage of newly settled worlds.",
+        "message": "ADAKOZZ! Mentsük meg a fajokat. Állítsuk meg az újonnan betelepült világok kifosztását.",
         "description": ""
     },
     "WOW_THAT_WAS_VERY_GENEROUS": {

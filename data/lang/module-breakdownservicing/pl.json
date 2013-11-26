@@ -1,10 +1,10 @@
 {
     "FLAVOUR_2_YESPLEASE": {
-        "message": "Please tune my drive at the quoted price",
+        "message": "Wyreguluj napęd za podaną cenę",
         "description": ""
     },
     "FLAVOUR_1_TITLE": {
-        "message": "{proprietor}: Hyperdrive maintenance specialist",
+        "message": "Fachowiec od konserwacji napędów nadprzestrzennych {proprietor}",
         "description": ""
     },
     "I_DONT_HAVE_ENOUGH_MONEY": {
@@ -12,11 +12,11 @@
         "description": ""
     },
     "FLAVOUR_5_RESPONSE": {
-        "message": "Your engine has been serviced.",
+        "message": "Napęd przeszedł przegląd.",
         "description": ""
     },
     "FLAVOUR_2_INTRO": {
-        "message": "Hi there.  We at {proprietor} & Co stake our reputation on our work.\n\n{lasttime}\nWe can tune your ship's {drive}, ensuring 12 months of trouble-free operation, for the sum of {price}.  I'll be supervising the work myself, so you can be sure that a good job will be done.",
+        "message": "Cześć.  Jestem z {proprietor} & Co, nasza doskonała reputacja świadczy o jakości naszych usług.\n\n{lasttime}\nMożemy dostroić twój {drive}, za {price}, zapewniamy 12 miesięcy bezproblemowej pracy.  Zajmę się tym osobiście, więc możesz być pewien usługi na najwyższym poziomie.",
         "description": ""
     },
     "THE_SHIPS_HYPERDRIVE_HAS_BEEN_DESTROYED_BY_A_MALFUNCTION": {
@@ -28,39 +28,39 @@
         "description": ""
     },
     "FLAVOUR_0_YESPLEASE": {
-        "message": "Service hyperspace engine",
+        "message": "Rozpocznij przegląd",
         "description": ""
     },
     "FLAVOUR_4_INTRO": {
-        "message": "Welcome to Time and Space.\n\nWe specialise in interstellar engines. All maintenance work guaranteed for two years.\n{lasttime}\nServicing your {drive} will cost {price}.  Would you like to proceed?",
+        "message": "Witamy w Time and Space.\n\nSpecjalizujemy się w napędach nadprzestrzennych. Dajemy dwuletnią gwarancję na wszystkie prace konserwacyjne.\n{lasttime}\nZa {drive} cena wynosi {price}.  Kontynuować?",
         "description": ""
     },
     "FLAVOUR_1_INTRO": {
-        "message": "I'm {proprietor}.  I can service your {drive}, guaranteeing at least a year of trouble-free performance.  The cost for this service will be {price}\n{lasttime}",
+        "message": "Jestem {proprietor}.  Mogę obejrzeć twój {drive}, gwarantuje nie mniej niż rok bezproblemowego działania.  Koszt tej usługi wynosi {price}\n{lasttime}",
         "description": ""
     },
     "FLAVOUR_4_YESPLEASE": {
-        "message": "Yes, please proceed",
+        "message": "Tak, proszę",
         "description": ""
     },
     "FLAVOUR_5_TITLE": {
-        "message": "{proprietor} Engine Servicing Company",
+        "message": "Warsztat Pan Józek i {proprietor}",
         "description": ""
     },
     "FLAVOUR_2_RESPONSE": {
-        "message": "Service complete.  Thanks for your custom.",
+        "message": "Zrobione.  Dziękujemy za zaufanie",
         "description": ""
     },
     "FLAVOUR_3_RESPONSE": {
-        "message": "Your SuperFix service is complete, with SuperFix guarantee!",
+        "message": "Napęd wyregulowany, z gwarancją SuperFix!",
         "description": ""
     },
     "FLAVOUR_5_INTRO": {
-        "message": "Avoid the inconvenience of a broken-down hyperspace engine.  Get yours serviced today.\n\nEngine: {drive}\nService: {price}\n{lasttime}",
+        "message": "Uniknij kłopotów związanych z uszkodzeniem napędu nadprzestrzennego.  Zamów przegląd jeszcze dziś.\n\nSilnik: {drive}\nUsługa: {price}\n{lasttime}",
         "description": ""
     },
     "FLAVOUR_3_INTRO": {
-        "message": "Welcome SuperFix Maintenance.\n\n{lasttime}\nTime for your biannual maintenance? Let us SuperFix your hyperdrive!\nWe can tune your {drive} for just {price}.  There's nobody cheaper!",
+        "message": "Witamy w SuperFix Maintenance.\n\n{lasttime}\nCzas na co półroczny przegląd? Pozwól że obejrzę twój napęd!\nMogę wyregulować twój {drive} za jedyne {price}.  Nie znajdziesz nikogo tańszego!",
         "description": ""
     },
     "FLAVOUR_2_TITLE": {
@@ -68,7 +68,7 @@
         "description": ""
     },
     "FLAVOUR_1_RESPONSE": {
-        "message": "I have serviced your hyperdrive.",
+        "message": "Zakończyłem przegląd twojego napędu nadprzestrzennego.",
         "description": ""
     },
     "YOU_DO_NOT_HAVE_A_DRIVE_TO_SERVICE": {
@@ -80,7 +80,7 @@
         "description": ""
     },
     "FLAVOUR_0_RESPONSE": {
-        "message": "Your engine has been serviced.",
+        "message": "Silnik przeszedł przegląd.",
         "description": ""
     },
     "YOU_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN": {
@@ -96,27 +96,27 @@
         "description": ""
     },
     "FLAVOUR_0_TITLE": {
-        "message": "{name} Engine Servicing Company",
+        "message": "Konserwacja Silników {name}",
         "description": ""
     },
     "FLAVOUR_5_YESPLEASE": {
-        "message": "Service hyperspace engine",
+        "message": "Rozpocznij przegląd napędu",
         "description": ""
     },
     "FLAVOUR_1_YESPLEASE": {
-        "message": "Service my drive",
+        "message": "Dokonaj przeglądu",
         "description": ""
     },
     "FLAVOUR_0_INTRO": {
-        "message": "Avoid the inconvenience of a broken-down hyperspace engine.  Get yours serviced today, by the officially endorsed {name} Engine Servicing Company.\n\nEngine: {drive}\nService: {price}\nGuarantee: 18 months\n{lasttime}",
+        "message": "Uniknij kłopotów związanych z uszkodzeniem napędu nadprzestrzennego.  Zamów przegląd, w certyfikowanej firmie Konserwacja Silników {name}.\n\nSilnik: {drive}\nPrzegląd: {price}\nGwarancja: 18 miesięcy\n{lasttime}",
         "description": ""
     },
     "FLAVOUR_3_YESPLEASE": {
-        "message": "SuperFix me!",
+        "message": "Zleć usługę SuperFix!",
         "description": ""
     },
     "FLAVOUR_3_TITLE": {
-        "message": "SuperFix Maintenance ({name} branch)",
+        "message": "{name} przedstawiciel SuperFix Maintenance.",
         "description": ""
     },
     "FLAVOUR_4_TITLE": {
@@ -124,7 +124,7 @@
         "description": ""
     },
     "FLAVOUR_4_RESPONSE": {
-        "message": "We have completed the work on your hyperdrive.",
+        "message": "Zakończyliśmy prace nad napędem.",
         "description": ""
     }
 }

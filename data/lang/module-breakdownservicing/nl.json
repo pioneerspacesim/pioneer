@@ -1,10 +1,10 @@
 {
     "FLAVOUR_2_YESPLEASE": {
-        "message": "Please tune my drive at the quoted price",
+        "message": "Geeft u mijn hyperaandrijving alstublieft een beurt tegen de genoemde prijs",
         "description": ""
     },
     "FLAVOUR_1_TITLE": {
-        "message": "{proprietor}: Hyperdrive maintenance specialist",
+        "message": "{proprietor}: Hyperaandrijving onderhouds-specialist",
         "description": ""
     },
     "I_DONT_HAVE_ENOUGH_MONEY": {
@@ -12,11 +12,11 @@
         "description": ""
     },
     "FLAVOUR_5_RESPONSE": {
-        "message": "Your engine has been serviced.",
+        "message": "Uw hyperaandrijving heeft een servicebeurt gekregen.",
         "description": ""
     },
     "FLAVOUR_2_INTRO": {
-        "message": "Hi there.  We at {proprietor} & Co stake our reputation on our work.\n\n{lasttime}\nWe can tune your ship's {drive}, ensuring 12 months of trouble-free operation, for the sum of {price}.  I'll be supervising the work myself, so you can be sure that a good job will be done.",
+        "message": "Hallo.  Wij van {proprietor} & Co. zetten onze reputatie in op de kwaliteit van ons werk!\n\n{lasttime}\nWe kunnen uw {drive} een onderhoudsbeurt geven, waarna we 12 maanden dienst garanderen.  De kosten bedragen {price}. Ik zal het werk zelf overzien om de kwaliteit te bewaken!",
         "description": ""
     },
     "THE_SHIPS_HYPERDRIVE_HAS_BEEN_DESTROYED_BY_A_MALFUNCTION": {
@@ -28,47 +28,47 @@
         "description": ""
     },
     "FLAVOUR_0_YESPLEASE": {
-        "message": "Service hyperspace engine",
+        "message": "Ik wil een servicebeurt",
         "description": ""
     },
     "FLAVOUR_4_INTRO": {
-        "message": "Welcome to Time and Space.\n\nWe specialise in interstellar engines. All maintenance work guaranteed for two years.\n{lasttime}\nServicing your {drive} will cost {price}.  Would you like to proceed?",
+        "message": "Welkom bij Tijd en Ruimte.\n\nWij specialiseren ons in interstellaire aandrijf-systemen. Op al ons onderhoudswerk zit een garantie van twee jaar.\n\n{lasttime}\nHet onderhoud aan uw {drive} kost {price}.  Wilt u doorgaan?",
         "description": ""
     },
     "FLAVOUR_1_INTRO": {
-        "message": "I'm {proprietor}.  I can service your {drive}, guaranteeing at least a year of trouble-free performance.  The cost for this service will be {price}\n{lasttime}",
+        "message": "Ik ben {proprietor}.  Ik kan uw {drive} onderhouden, zodat deze er minstens een jaar tegenaan kan! De kosten bedragen {price}\n{lasttime}",
         "description": ""
     },
     "FLAVOUR_4_YESPLEASE": {
-        "message": "Yes, please proceed",
+        "message": "Ja, gaat u alstublieft aan de slag",
         "description": ""
     },
     "FLAVOUR_5_TITLE": {
-        "message": "{proprietor} Engine Servicing Company",
+        "message": "{proprietor} Motor-service B.V.",
         "description": ""
     },
     "FLAVOUR_2_RESPONSE": {
-        "message": "Service complete.  Thanks for your custom.",
+        "message": "Service voltooid.  Bedankt voor uw klanditie.",
         "description": ""
     },
     "FLAVOUR_3_RESPONSE": {
-        "message": "Your SuperFix service is complete, with SuperFix guarantee!",
+        "message": "Uw SuperFix-service is voltooid, met een SuperFix-garantie!",
         "description": ""
     },
     "FLAVOUR_5_INTRO": {
-        "message": "Avoid the inconvenience of a broken-down hyperspace engine.  Get yours serviced today.\n\nEngine: {drive}\nService: {price}\n{lasttime}",
+        "message": "Vermijdt het ongemak van een kapotte hyperaandrijving!  Laat de uwe vandaag nog nalopen!\n\nHyperaandrijving: {drive}\nServicebeurt: {price}\n{lasttime}",
         "description": ""
     },
     "FLAVOUR_3_INTRO": {
-        "message": "Welcome SuperFix Maintenance.\n\n{lasttime}\nTime for your biannual maintenance? Let us SuperFix your hyperdrive!\nWe can tune your {drive} for just {price}.  There's nobody cheaper!",
+        "message": "Welkom bij SuperFix Onderhoud.\n\n{lasttime}\nTijd voor uw half-jaarlijkse onderhoudsbeurt?  Laat ons uw hyperaandrijving SuperFixen!\nWe kunnen uw {drive} onderhouden voor slechts {price}.  Niemand is goedkoper!",
         "description": ""
     },
     "FLAVOUR_2_TITLE": {
-        "message": "{proprietor} & Co HyperMechanics",
+        "message": "{proprietor} & Co. HyperMonteurs",
         "description": ""
     },
     "FLAVOUR_1_RESPONSE": {
-        "message": "I have serviced your hyperdrive.",
+        "message": "Ik heb uw hyperaandrijving een beurt gegeven.",
         "description": ""
     },
     "YOU_DO_NOT_HAVE_A_DRIVE_TO_SERVICE": {
@@ -80,7 +80,7 @@
         "description": ""
     },
     "FLAVOUR_0_RESPONSE": {
-        "message": "Your engine has been serviced.",
+        "message": "Uw hyperaandrijving heeft een servicebeurt gekregen.",
         "description": ""
     },
     "YOU_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN": {
@@ -96,35 +96,35 @@
         "description": ""
     },
     "FLAVOUR_0_TITLE": {
-        "message": "{name} Engine Servicing Company",
+        "message": "{name} Motor-service B.V.",
         "description": ""
     },
     "FLAVOUR_5_YESPLEASE": {
-        "message": "Service hyperspace engine",
+        "message": "Ik wil een servicebeurt",
         "description": ""
     },
     "FLAVOUR_1_YESPLEASE": {
-        "message": "Service my drive",
+        "message": "Geef mijn hyperaandrijving een servicebeurt",
         "description": ""
     },
     "FLAVOUR_0_INTRO": {
-        "message": "Avoid the inconvenience of a broken-down hyperspace engine.  Get yours serviced today, by the officially endorsed {name} Engine Servicing Company.\n\nEngine: {drive}\nService: {price}\nGuarantee: 18 months\n{lasttime}",
+        "message": "Vermijdt het ongemak van een kapotte hyperaandrijving!  Laat de uwe vandaag nog onderhouden door de officieël erkende {name} Motor-service B.V.\n\nHyperaandrijving: {drive}\nServicebeurt: {price}\nGarantie: 18 maanden\n{lasttime}",
         "description": ""
     },
     "FLAVOUR_3_YESPLEASE": {
-        "message": "SuperFix me!",
+        "message": "Geef me een SuperFix!",
         "description": ""
     },
     "FLAVOUR_3_TITLE": {
-        "message": "SuperFix Maintenance ({name} branch)",
+        "message": "SuperFix Onderhoud (afdeling {name})",
         "description": ""
     },
     "FLAVOUR_4_TITLE": {
-        "message": "Time and Space Engines, Inc.",
+        "message": "Tijd en Ruimte Motoren, B.V.",
         "description": ""
     },
     "FLAVOUR_4_RESPONSE": {
-        "message": "We have completed the work on your hyperdrive.",
+        "message": "We hebben het werk aan uw hyperaandrijving voltooid.",
         "description": ""
     }
 }

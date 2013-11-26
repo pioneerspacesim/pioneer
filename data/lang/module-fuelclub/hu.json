@@ -1,6 +1,6 @@
 {
     "FLAVOUR_0_MEMBER_INTRO": {
-        "message": "You may purhase fuel and dispose of {radioactives} here.",
+        "message": "Továbbá vehetsz üzemanyagot és a {radioactives} megsemmisítését is vállaljuk.",
         "description": ""
     },
     "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED": {
@@ -12,7 +12,7 @@
         "description": ""
     },
     "FLAVOUR_0_CLUBNAME": {
-        "message": "Interstellar Pilots' Fuel Co-operative",
+        "message": "Csillagközi Pilóták Üzemanyag Szövetsége",
         "description": ""
     },
     "WHAT_CONDITIONS_APPLY": {
@@ -40,7 +40,7 @@
         "description": ""
     },
     "FLAVOUR_0_WELCOME": {
-        "message": "Welcome to {clubname}",
+        "message": "Üdvözlünk a {clubname}ben.",
         "description": ""
     },
     "GO_BACK": {
@@ -52,7 +52,7 @@
         "description": ""
     },
     "FLAVOUR_0_NONMEMBER_INTRO": {
-        "message": "{clubname} is an independent organisation dedicated to providing discounted starship fuel to its members. Branches can be found throughout the galaxy. Benefits of membership include:\n\n\t* Our own stocks of fuel, independent of the general market\n\t* {hydrogen} at discount prices\n\t* {military_fuel} at discount prices\n\t* {water} at discount prices\n\t* {radioactives}, free disposal (conditions apply)\n\t* Fuel tank refilling, where necessary\n\nJoin now! Annual membership costs only {membership_fee}",
+        "message": "{clubname} egy független szervezet, amely olcsón kínál hiperhajtómű üzemanyagot tagjainak. Galaxis-szerte megtalálhatóak fiókjaink. A tagság előnyei a következők:\n\n\t* Saját üzemanyagraktárunk árai függetlenek a piactól\n\t* {hydrogen} kedvezményes áron kapható\n\t* {military_fuel} a piaci ár alatt\n\t* {radioactives} megsemmisítése ingyen (feltételekkel)\n\nCsatlakozz most! Az éves tagsági díj csak {membership_fee}",
         "description": ""
     },
     "HANG_UP": {

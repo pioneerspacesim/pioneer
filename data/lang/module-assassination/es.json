@@ -1,6 +1,6 @@
 {
     "FLAVOUR_0_FAILUREMSG": {
-        "message": "I am most displeased to find that {target} is still alive. Needless to say you will receive no payment.",
+        "message": "Estoy muy disgustado al enterarme de que {target} aún sigue respirando. No es necesario decir que no recibirá pago alguno.",
         "description": ""
     },
     "SPACEPORT": {
@@ -12,11 +12,11 @@
         "description": ""
     },
     "FLAVOUR_1_FAILUREMSG2": {
-        "message": "{target}'s demise was not caused by you, so do not ask for payment.",
+        "message": "Usted no ha tenido nada que ver con el fallecimiento de {target}, por lo tanto no pregunte por su recompensa.",
         "description": ""
     },
     "FLAVOUR_2_FAILUREMSG2": {
-        "message": "Contract was completed by someone else. Be faster next time!",
+        "message": "El contrato ha sido cumplido por otra persona. ¡La próxima vez sea mas rápido!",
         "description": ""
     },
     "HANG_UP": {
@@ -24,15 +24,15 @@
         "description": ""
     },
     "FLAVOUR_3_SUCCESSMSG": {
-        "message": "{target} is dead. Here is your award.",
+        "message": "{target} está muerto. He aquí su premio.",
         "description": ""
     },
     "FLAVOUR_1_SUCCESSMSG": {
-        "message": "I am most sad to hear of {target}'s demise. You have been paid in full.",
+        "message": "Me entristecen las noticias sobre el fallecimiento de {target}. Se le ha efectuado el pago completo.",
         "description": ""
     },
     "FLAVOUR_4_FAILUREMSG2": {
-        "message": "Retirement of {target} was done by someone else.",
+        "message": "El retiro de {target} fue ejecutado por otra persona.",
         "description": ""
     },
     "TITLE_23": {
@@ -52,7 +52,7 @@
         "description": ""
     },
     "FLAVOUR_2_FAILUREMSG": {
-        "message": "It is most regrettable that {target} is still live and well. You will receive no payment as you did not complete your contract.",
+        "message": "Es muy lamentable que {target} aun está vivito y coleando. No recibirá pago alguno puesto que el contrato no ha sido cumplido.",
         "description": ""
     },
     "TITLE_24": {
@@ -60,23 +60,23 @@
         "description": ""
     },
     "FLAVOUR_4_FAILUREMSG": {
-        "message": "{target} is still breathing and I'm not giving money to you.",
+        "message": "{target} aún respira y no habrá recompensa alguna.",
         "description": ""
     },
     "FLAVOUR_2_ADTEXT": {
-        "message": "REMOVAL: {target} is no longer wanted in the {system} system.",
+        "message": "ELIMINACION: {target} ya no es grato en el sistema {system}.",
         "description": ""
     },
     "FLAVOUR_0_FAILUREMSG2": {
-        "message": "{target}'s removal was not done by you. No payment this time.",
+        "message": "No ha sido usted quien ha eliminado a {target}. Esta vez no hay recompensa.",
         "description": ""
     },
     "FLAVOUR_5_ADTEXT": {
-        "message": "BIOGRAPHICAL: Some admirers wish {target} dead.",
+        "message": "BIOGRAFICO: Ciertos admiradores quieren a {target} fiambre.",
         "description": ""
     },
     "FLAVOUR_5_INTROTEXT": {
-        "message": "We wish {target} to have a fitting career end in the {system} system for {cash}.",
+        "message": "Nos gustaría terminar con la carrera de {target} en el sistema {system} por {cash}.",
         "description": ""
     },
     "HOW_SOON_MUST_IT_BE_DONE": {
@@ -88,11 +88,11 @@
         "description": ""
     },
     "FLAVOUR_5_SUCCESSMSG": {
-        "message": "Message of {target}'s ending career happily acquired. Here is your {cash}.",
+        "message": "El mensaje sobre el fin de la carrera de {target} se ha recibido felizmente. He aquí sus {cash}.",
         "description": ""
     },
     "FLAVOUR_1_FAILUREMSG": {
-        "message": "I hear that {target} is in good health. This pains me.",
+        "message": "He escuchado que {target} goza de buena salud. Eso me apena.",
         "description": ""
     },
     "HOW_WILL_I_BE_PAID": {
@@ -100,7 +100,7 @@
         "description": ""
     },
     "FLAVOUR_3_INTROTEXT": {
-        "message": "The {target} must be reduced to space dust. I'll award you {cash} to do this.",
+        "message": "{target} debe ser reducido a polvo. Le recompensaré con {cash} por el trabajo.",
         "description": ""
     },
     "WHERE_CAN_I_FIND_X": {
@@ -108,7 +108,7 @@
         "description": ""
     },
     "FLAVOUR_5_FAILUREMSG": {
-        "message": "We found out that {target} is nonetheless operative. This saddens us.",
+        "message": "Nos han llegado noticias de que {target} está totalmente operativo. Y esto nos entristece.",
         "description": ""
     },
     "X_WILL_BE_LEAVING": {
@@ -140,19 +140,19 @@
         "description": ""
     },
     "FLAVOUR_1_INTROTEXT": {
-        "message": "I need {target} taken out of the picture. I'll pay you {cash} to do this.",
+        "message": "Necesito a {target} borrado del mapa. Se le pagará {cash} por el trabajo.",
         "description": ""
     },
     "FLAVOUR_2_SUCCESSMSG": {
-        "message": "You have been paid in full for the completion of that important contract.",
+        "message": "Se le ha pagado al completo por cumplir con éxito este importante contrato.",
         "description": ""
     },
     "FLAVOUR_3_FAILUREMSG": {
-        "message": "You will pay for not eliminating {target}!",
+        "message": "¡Las pagará por no eliminar a {target}!",
         "description": ""
     },
     "FLAVOUR_2_INTROTEXT": {
-        "message": "I am {name}, and I will pay you {cash} to terminate {target}.",
+        "message": "Soy {name}, y le pagaré {cash} por acabar con {target}.",
         "description": ""
     },
     "TITLE_16": {
@@ -176,7 +176,7 @@
         "description": ""
     },
     "FLAVOUR_0_SUCCESSMSG": {
-        "message": "News of {target}'s long vacation gratefully received. Well done, I have initiated your full payment.",
+        "message": "Las gratas noticias sobre las largas vacaciones de {target} han sido recibidas. Bien hecho, he iniciado su pago.",
         "description": ""
     },
     "TITLE_10": {
@@ -200,11 +200,11 @@
         "description": ""
     },
     "FLAVOUR_0_ADTEXT": {
-        "message": "WANTED: Removal of {target} from the {system} system.",
+        "message": "SE BUSCA: Eliminación de {target} en el sistema {system}.",
         "description": ""
     },
     "FLAVOUR_1_ADTEXT": {
-        "message": "WANTED: Someone to kill {target} from the {system} system.",
+        "message": "SE BUSCA: Alguien para matar a {target} en el sistema {system}.",
         "description": ""
     },
     "TITLE_12": {
@@ -212,7 +212,7 @@
         "description": ""
     },
     "FLAVOUR_3_ADTEXT": {
-        "message": "TERMINATION: Someone to eliminate {target}.",
+        "message": "EXTERMINACION: Se necesita a alguien para eliminar a {target}.",
         "description": ""
     },
     "SHIP_ID": {
@@ -224,15 +224,15 @@
         "description": ""
     },
     "FLAVOUR_5_FAILUREMSG2": {
-        "message": "{target} was neutralized by someone else.",
+        "message": "{target} fue neutralizado por otro.",
         "description": ""
     },
     "FLAVOUR_0_INTROTEXT": {
-        "message": "Hi, I'm {name}. I'll pay you {cash} to get rid of {target}.",
+        "message": "Hola, Soy {name}. Le pagaré {cash} para que se deshaga de {target}.",
         "description": ""
     },
     "FLAVOUR_3_FAILUREMSG2": {
-        "message": "Are you asking money for job done by someone else? Get lost.",
+        "message": "¿Estas pidiendo dinero por un trabajo que ha hecho otro? Piérdete.",
         "description": ""
     },
     "SYSTEM": {
@@ -244,11 +244,11 @@
         "description": ""
     },
     "FLAVOUR_4_SUCCESSMSG": {
-        "message": "News of {target}'s retirement delightfully obtained. Here is your money.",
+        "message": "Las noticias sobre el retiro forzoso de {target} se han recibido con placer. Aquí está su dinero.",
         "description": ""
     },
     "FLAVOUR_4_ADTEXT": {
-        "message": "RETIREMENT: Someone to retire {target}.",
+        "message": "RETIRO FORZOSO: Se busca a alguien que retire a {target}.",
         "description": ""
     },
     "TITLE_8": {
@@ -272,7 +272,7 @@
         "description": ""
     },
     "FLAVOUR_4_INTROTEXT": {
-        "message": "For {cash} we wish to encourage {target} to stop work permanently.",
+        "message": "Por {cash} nos gustaría forzar a {target} a que cese sus actividades de forma permanante.",
         "description": ""
     },
     "TITLE_7": {
