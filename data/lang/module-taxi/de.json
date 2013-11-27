@@ -233,7 +233,7 @@
    },
    "FLAVOUR_2_DANGER" : {
       "description" : "",
-      "message" : "No."
+      "message" : "Nein."
    },
    "FLAVOUR_2_FAILUREMSG" : {
       "description" : "",
@@ -277,7 +277,7 @@
    },
    "FLAVOUR_3_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi, I'm {name} and I need passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}."
+      "message" : "Hi, Ich bin {name} und ich brauche eine Passage zum {system} ({sectorx}, {sectory}, {sectorz}) System, {dist} ly Entfernung. Ich zahle {cash}."
    },
    "FLAVOUR_3_SUCCESSMSG" : {
       "description" : "",
@@ -513,7 +513,7 @@
    },
    "LY" : {
       "description" : "",
-      "message" : "ly"
+      "message" : "Lj"
    },
    "OK_AGREED" : {
       "description" : "",
