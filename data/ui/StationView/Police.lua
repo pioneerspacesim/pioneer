@@ -7,6 +7,7 @@ local Game = import("Game")
 local Rand = import("Rand")
 local Character = import("Character")
 local Format = import("Format")
+local Comms = import("Comms")
 local utils = import("utils")
 
 local InfoFace = import("ui/InfoFace")
