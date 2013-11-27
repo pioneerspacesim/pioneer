@@ -18,8 +18,6 @@ local commodityMarket = function (args)
 	local stationTable, shipTable = EquipmentTableWidgets.Pair({
 		stationColumns = { "icon", "name", "price", "stock" },
 		shipColumns = { "icon", "name", "amount" },
-
-		isTradeable = function (def) return def.purchasable and def.slot == "CARGO" end,
 	})
 
 	return

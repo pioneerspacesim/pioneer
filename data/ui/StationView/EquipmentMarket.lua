@@ -20,7 +20,7 @@ local equipmentMarket = function (args)
 		stationColumns = { "name", "price", "mass", "stock" },
 		shipColumns = { "name", "amount", "mass", "massTotal" },
 
-		isTradeable = function (def) return def.purchasable and def.slot ~= "CARGO" end,
+		canTrade = function (e) return EquipDef[e].purchasable and EquipDef[e].slot ~= "CARGO" end,
 	})
 
 	return

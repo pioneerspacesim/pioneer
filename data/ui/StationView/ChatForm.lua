@@ -78,13 +78,8 @@ function ChatForm:BuildWidget ()
 		box:PackEnd(optionBox)
 	end
 
-	if self.tradeFuncs then
-		local stationTable, shipTable = EquipmentTableWidgets.Pair({
-			stationColumns = { "icon", "name", "price", "stock" },
-			shipColumns = { "icon", "name", "amount" },
-
-			isTradeable = function (def) return self.tradeFuncs.canTrade(self.ref, def.id) end,
-		})
+	if self.equipWidgetConfig then
+		local stationTable, shipTable = EquipmentTableWidgets.Pair(self.equipWidgetConfig)
 
 		box:PackEnd(
 			ui:HBox(10):PackEnd({
@@ -144,8 +139,22 @@ function ChatForm:Clear ()
 	self.tradeFuncs = nil
 end
 
+local tradeFuncKeys = { "canTrade", "getStock", "getPrice", "onClickBuy", "onClickSell", "bought", "sold" }
 function ChatForm:AddGoodsTrader (funcs)
-	self.tradeFuncs = funcs
+	self.equipWidgetConfig = {
+		stationColumns = { "icon", "name", "price", "stock" },
+		shipColumns = { "icon", "name", "amount" },
+	}
+
+	for i = 1,#tradeFuncKeys do
+		local key = tradeFuncKeys[i]
+		local fn = funcs[key]
+		if fn then
+			self.equipWidgetConfig[key] = function (e)
+				return fn(self.ref, e)
+			end
+		end
+	end
 end
 
 function ChatForm:Close ()

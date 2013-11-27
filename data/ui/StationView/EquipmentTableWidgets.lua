@@ -49,6 +49,46 @@ local equipIcon = {
 	RADIOACTIVES =          "Radioactive_waste",
 }
 
+local defaultFuncs = {
+	-- can we trade in this item
+	canTrade = function (e)
+		return EquipDef[e].purchasable and EquipDef[e].slot == "CARGO"
+	end,
+
+	-- how much of this item do we have in stock?
+	getStock = function (e)
+		return Game.player:GetDockedWith():GetEquipmentStock(e)
+	end,
+
+	-- what do we charge for this item?
+	getPrice = function (e)
+		return Game.player:GetDockedWith():GetEquipmentPrice(e)
+	end,
+
+	-- do something when a "buy" button is clicked
+	-- return true if the buy can proceed
+	onClickBuy = function (e)
+		return true -- allow buy
+	end,
+
+	-- do something when a "sell" button is clicked
+	-- return true if the buy can proceed
+	onClickSell = function (e)
+		return true -- allow sell
+	end,
+
+	-- do something when we buy this commodity
+	bought = function (e)
+		-- add one to our stock
+		Game.player:GetDockedWith():AddEquipmentStock(e, 1)
+	end,
+
+	-- do something when we sell this items
+	sold = function (e)
+		Game.player:GetDockedWith():AddEquipmentStock(e, -1)
+	end,
+}
+
 local stationColumnHeading = {
 	icon  = "",
 	name  = l.NAME,
@@ -65,26 +105,36 @@ local shipColumnHeading = {
 }
 
 local stationColumnValue = {
-	icon  = function (e) return equipIcon[e] and ui:Image("icons/goods/"..equipIcon[e]..".png") or "" end,
-	name  = function (e) return lcore[e] end,
-	price = function (e) return string.format("%0.2f", Game.player:GetDockedWith():GetEquipmentPrice(e)) end,
-	stock = function (e) return Game.player:GetDockedWith():GetEquipmentStock(e) end,
-	mass  = function (e) return string.format("%dt", EquipDef[e].mass) end,
+	icon  = function (e, funcs) return equipIcon[e] and ui:Image("icons/goods/"..equipIcon[e]..".png") or "" end,
+	name  = function (e, funcs) return lcore[e] end,
+	price = function (e, funcs) return string.format("%0.2f", funcs.getPrice(e)) end,
+	stock = function (e, funcs) return funcs.getStock(e) end,
+	mass  = function (e, funcs) return string.format("%dt", EquipDef[e].mass) end,
 }
 local shipColumnValue = {
-	icon      = function (e) return equipIcon[e] and ui:Image("icons/goods/"..equipIcon[e]..".png") or "" end,
-	name      = function (e) return lcore[e] end,
-	amount    = function (e) return Game.player:GetEquipCount(EquipDef[e].slot, e) end,
-	mass      = function (e) return string.format("%dt", EquipDef[e].mass) end,
-	massTotal = function (e) return string.format("%dt", Game.player:GetEquipCount(EquipDef[e].slot,e)*EquipDef[e].mass) end,
+	icon      = function (e, funcs) return equipIcon[e] and ui:Image("icons/goods/"..equipIcon[e]..".png") or "" end,
+	name      = function (e, funcs) return lcore[e] end,
+	amount    = function (e, funcs) return Game.player:GetEquipCount(EquipDef[e].slot, e) end,
+	mass      = function (e, funcs) return string.format("%dt", EquipDef[e].mass) end,
+	massTotal = function (e, funcs) return string.format("%dt", Game.player:GetEquipCount(EquipDef[e].slot,e)*EquipDef[e].mass) end,
 }
 
 local EquipmentTableWidgets = {}
 
 function EquipmentTableWidgets.Pair (config)
+	local funcs = {
+		canTrade = config.canTrade or defaultFuncs.canTrade,
+		getStock = config.getStock or defaultFuncs.getStock,
+		getPrice = config.getPrice or defaultFuncs.getPrice,
+		onClickBuy = config.onClickBuy or defaultFuncs.onClickBuy,
+		onClickSell = config.onClickSell or defaultFuncs.onClickSell,
+		bought = config.bought or defaultFuncs.bought,
+		sold = config.sold or defaultFuncs.sold,
+	}
+
 	local equipTypes = {}
 	for k,v in pairs(EquipDef) do
-		if config.isTradeable(v) and k ~= "NONE" then
+		if funcs.canTrade(v.id) and k ~= "NONE" then
 			table.insert(equipTypes, k)
 		end
 	end
@@ -105,7 +155,7 @@ function EquipmentTableWidgets.Pair (config)
 		local row = 1
 		for i=1,#equipTypes do
 			local e = equipTypes[i]
-			stationTable:AddRow(utils.build_table(utils.map(function (k,v) return k,stationColumnValue[v](e) end, ipairs(config.stationColumns))))
+			stationTable:AddRow(utils.build_table(utils.map(function (k,v) return k,stationColumnValue[v](e,funcs) end, ipairs(config.stationColumns))))
 			rowEquip[row] = e
 			row = row + 1
 		end
@@ -132,7 +182,7 @@ function EquipmentTableWidgets.Pair (config)
 			local n = Game.player:GetEquipCount(EquipDef[e].slot, e)
 			if n > 0 then
 				local icon = equipIcon[e] and ui:Image("icons/goods/"..equipIcon[e]..".png") or ""
-				shipTable:AddRow(utils.build_table(utils.map(function (k,v) return k,shipColumnValue[v](e) end, ipairs(config.shipColumns))))
+				shipTable:AddRow(utils.build_table(utils.map(function (k,v) return k,shipColumnValue[v](e, funcs) end, ipairs(config.shipColumns))))
 				rowEquip[row] = e
 				row = row + 1
 			end
@@ -143,13 +193,14 @@ function EquipmentTableWidgets.Pair (config)
 	local shipRowEquip = fillShipTable()
 
 	local function onBuy (e)
-		local player = Game.player
-		local station = player:GetDockedWith()
+		if not funcs.onClickBuy(e) then return end
 
-		if station:GetEquipmentStock(e) <= 0 then
+		if funcs.getStock(e) <= 0 then
 			Comms.Message(l.ITEM_IS_OUT_OF_STOCK)
 			return
 		end
+
+		local player = Game.player
 
 		if player:GetEquipFree(EquipDef[e].slot) < 1 then
 			Comms.Message(l.SHIP_IS_FULLY_LADEN)
@@ -161,23 +212,27 @@ function EquipmentTableWidgets.Pair (config)
 			return
 		end
 
-		if player:GetMoney() < station:GetEquipmentPrice(e) then
+		local price = funcs.getPrice(e)
+		if player:GetMoney() < funcs.getPrice(e) then
 			Comms.Message(l.YOU_NOT_ENOUGH_MONEY)
 			return
 		end
 
 		assert(player:AddEquip(e) == 1)
-		player:AddMoney(-station:GetEquipmentPrice(e))
-		station:AddEquipmentStock(e, -1)
+		player:AddMoney(-price)
+
+		funcs.sold(e)
 	end
 
 	local function onSell (e)
+		if not funcs.onClickSell(e) then return end
+
 		local player = Game.player
-		local station = player:GetDockedWith()
 
 		player:RemoveEquip(e)
-		player:AddMoney(station:GetEquipmentPrice(e))
-		station:AddEquipmentStock(e, 1)
+		player:AddMoney(funcs.getPrice(e))
+
+		funcs.bought(e)
 	end
 
 	stationTable.onRowClicked:Connect(function(row)
