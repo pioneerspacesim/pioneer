@@ -125,7 +125,7 @@ function TabGroup.SwitchToNum (self, num)
 
 	self.title:SetText(tab.title)
 
-	self.body:SetInnerWidget(tab.template(tab))
+	self.body:SetInnerWidget(tab.template(tab, self))
 end
 
 function TabGroup.SwitchTo (self, id)
