@@ -53,13 +53,6 @@ function ChatForm:BuildWidget ()
 		box:PackEnd(hbox)
 	end
 
-	local function closeForm ()
-		ui:DropLayer();
-		if self.removeOnClose and self.removeFunc then
-			self.removeFunc()
-		end
-	end
-
 	if self.options then
 		local optionBox = ui:VBox()
 		for i = 1,#self.options do
@@ -68,7 +61,7 @@ function ChatForm:BuildWidget ()
 			optionBox:PackEnd(b)
 			b.button.onClick:Connect(function ()
 				if (option[2] == -1) then
-					closeForm()
+					self:Close()
 				else
 					self.chatFunc(self, option[2])
 					ui.layer:SetInnerWidget(self:BuildWidget())
@@ -96,7 +89,7 @@ function ChatForm:BuildWidget ()
 	end
 
 	local hangupButton = SmallLabeledButton.New(l.HANG_UP)
-	hangupButton.button.onClick:Connect(closeForm)
+	hangupButton.button.onClick:Connect(function () self:Close() end)
 
 	return
 		ui:ColorBackground(0,0,0,0.5,
@@ -158,7 +151,10 @@ function ChatForm:AddGoodsTrader (funcs)
 end
 
 function ChatForm:Close ()
-	print("ChatForm:Close")
+	ui:DropLayer();
+	if self.removeOnClose and self.removeFunc then
+		self.removeFunc()
+	end
 end
 
 function ChatForm:GotoPolice ()
