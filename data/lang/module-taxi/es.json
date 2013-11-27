@@ -53,11 +53,11 @@
    },
    "DANGER" : {
       "description" : "",
-      "message" : "Peligro:"
+      "message" : "Riesgo:"
    },
    "DEADLINE" : {
       "description" : "",
-      "message" : "Vencimiento:"
+      "message" : "Fecha límite:"
    },
    "DISTANCE" : {
       "description" : "",
@@ -81,7 +81,7 @@
    },
    "FLAVOUR_0_HOWMANY" : {
       "description" : "",
-      "message" : "Seremos {group}."
+      "message" : "Somos {group}."
    },
    "FLAVOUR_0_INTROTEXT" : {
       "description" : "",
@@ -217,7 +217,7 @@
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Gracias por el agradable trayecto. Se le ha pagado al completo."
+      "message" : "Gracias por el agradable trayecto. Se le ha pagado completamente."
    },
    "FLAVOUR_1_WHEREAREWE" : {
       "description" : "",
@@ -289,7 +289,7 @@
    },
    "FLAVOUR_3_WHYSOMUCH" : {
       "description" : "",
-      "message" : "Un antiguo enemigo trata de liquidarme."
+      "message" : "Un antiguo enemigo quiere matarme."
    },
    "FLAVOUR_4_ADTEXT" : {
       "description" : "",
@@ -305,7 +305,7 @@
    },
    "FLAVOUR_4_HOWMANY" : {
       "description" : "",
-      "message" : "Yo solo."
+      "message" : "Solo yo."
    },
    "FLAVOUR_4_INTROTEXT" : {
       "description" : "",
@@ -417,7 +417,7 @@
    },
    "FLAVOUR_7_WHYSOMUCH" : {
       "description" : "",
-      "message" : "La Mafia me quiere fiambre."
+      "message" : "La Mafia me quiere ver muerto."
    },
    "FLAVOUR_8_ADTEXT" : {
       "description" : "",
@@ -485,7 +485,7 @@
    },
    "FROM" : {
       "description" : "",
-      "message" : "Desde:"
+      "message" : "Puerto Espacial:"
    },
    "GROUP_DETAILS" : {
       "description" : "",
@@ -533,7 +533,7 @@
    },
    "PIRATE_TAUNTS_3" : {
       "description" : "",
-      "message" : "¡Hoy no vas a atracar!"
+      "message" : "¡Hoy no vas a llegar!"
    },
    "TAXI" : {
       "description" : "",
@@ -541,7 +541,7 @@
    },
    "TO" : {
       "description" : "",
-      "message" : "A:"
+      "message" : "En Sistema:"
    },
    "WE_WANT_TO_BE_THERE_BEFORE" : {
       "description" : "",

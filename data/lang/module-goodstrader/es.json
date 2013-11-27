@@ -17,7 +17,7 @@
    },
    "GOODS_TRADER_4" : {
       "description" : "",
-      "message" : "{name} Holdings"
+      "message" : "Empresas {name}"
    },
    "GOODS_TRADER_5" : {
       "description" : "",
