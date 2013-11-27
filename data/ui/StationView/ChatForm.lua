@@ -21,11 +21,12 @@ ChatForm.meta = {
 	class = "ChatForm",
 }
 
-function ChatForm.New (chatFunc, removeFunc, ref)
+function ChatForm.New (chatFunc, removeFunc, ref, tabGroup)
 	local form = {
 		chatFunc = chatFunc,
 		removeFunc = removeFunc,
 		ref = ref,
+        tabGroup = tabGroup,
 	}
 	setmetatable(form, ChatForm.meta)
 	form.chatFunc(form, 0)
@@ -158,7 +159,8 @@ function ChatForm:Close ()
 end
 
 function ChatForm:GotoPolice ()
-	print("ChatForm:GotoPolice")
+    self:Close()
+	self.tabGroup:SwitchTo("police")
 end
 
 function ChatForm:RemoveAdvertOnClose()

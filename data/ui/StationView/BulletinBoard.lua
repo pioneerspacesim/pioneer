@@ -10,6 +10,8 @@ local utils = import("utils")
 
 local ui = Engine.ui
 
+local tabGroup
+
 local rowRef = {}
 
 local bbTable = ui:Table():SetMouseEnabled(true)
@@ -27,7 +29,7 @@ bbTable.onRowClicked:Connect(function (row)
 		station:RemoveAdvert(ref)
 	end or nil
 
-	local form = ChatForm.New(chatFunc, removeFunc, ref)
+	local form = ChatForm.New(chatFunc, removeFunc, ref, tabGroup)
 	ui:NewLayer(form:BuildWidget())
 end)
 
@@ -54,7 +56,8 @@ end
 Event.Register("onAdvertAdded", updateTable)
 Event.Register("onAdvertRemoved", updateTable) -- XXX close form if open
 
-local bulletinBoard = function (args)
+local bulletinBoard = function (args, tg)
+	tabGroup = tg
 	return bbTable
 end
 
