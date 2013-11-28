@@ -5,6 +5,6 @@
    },
    "YOUR_FUEL_TANK_IS_EMPTY" : {
       "description" : "",
-      "message" : "\"¡ALERTA! El propelente está agotado.\""
+      "message" : "¡ALERTA! Propelente agotado. Su nave está a la deriva."
    }
 }

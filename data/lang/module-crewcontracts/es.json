@@ -69,7 +69,7 @@
    },
    "SHIPS_ENGINEER" : {
       "description" : "",
-      "message" : "Ingeniero de naves"
+      "message" : "Ingeniero"
    },
    "SIMULATOR_TRAINING_ONLY" : {
       "description" : "",
