@@ -202,22 +202,6 @@ static int l_engine_set_vsync_enabled(lua_State *l)
 	return 0;
 }
 
-static int l_engine_get_shaders_enabled(lua_State *l)
-{
-	lua_pushboolean(l, Pi::config->Int("DisableShaders") == 0);
-	return 1;
-}
-
-static int l_engine_set_shaders_enabled(lua_State *l)
-{
-	if (lua_isnone(l, 1))
-		return luaL_error(l, "SetShadersEnabled takes one boolean argument");
-	const bool enabled = lua_toboolean(l, 1);
-	Pi::config->SetInt("DisableShaders", (enabled ? 0 : 1));
-	Pi::config->Save();
-	return 0;
-}
-
 static int l_engine_get_texture_compression_enabled(lua_State *l)
 {
 	lua_pushboolean(l, Pi::config->Int("UseTextureCompression") != 0);
@@ -701,8 +685,6 @@ void LuaEngine::Register()
 		{ "SetFullscreen", l_engine_set_fullscreen },
 		{ "GetVSyncEnabled", l_engine_get_vsync_enabled },
 		{ "SetVSyncEnabled", l_engine_set_vsync_enabled },
-		{ "GetShadersEnabled", l_engine_get_shaders_enabled },
-		{ "SetShadersEnabled", l_engine_set_shaders_enabled },
 		{ "GetTextureCompressionEnabled", l_engine_get_texture_compression_enabled },
 		{ "SetTextureCompressionEnabled", l_engine_set_texture_compression_enabled },
 		{ "GetMultisampling", l_engine_get_multisampling },

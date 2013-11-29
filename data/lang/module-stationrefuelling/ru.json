@@ -1,10 +1,10 @@
 {
-    "WELCOME_ABOARD_STATION_FEE_DEDUCTED": {
-        "message": "Добро пожаловать на станцию {station}! Оплата в {fee} за стыковку и дозаправку списана с вашего счёта.",
-        "description": ""
-    },
-    "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH": {
-        "message": "Говорит диспетчер станции {station}. У вас нет необходимой суммы в {fee} для оплаты стыковки. В дозаправке отказано.",
-        "description": ""
-    }
+   "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH" : {
+      "description" : "",
+      "message" : "Говорит диспетчер станции {station}. У вас нет необходимой суммы в {fee} для оплаты стыковки. В дозаправке отказано."
+   },
+   "WELCOME_ABOARD_STATION_FEE_DEDUCTED" : {
+      "description" : "",
+      "message" : "Добро пожаловать на станцию {station}! Оплата в {fee} за стыковку и дозаправку списана с вашего счёта."
+   }
 }

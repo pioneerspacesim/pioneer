@@ -1,10 +1,10 @@
 {
-    "YOUR_FUEL_TANK_IS_ALMOST_EMPTY": {
-        "message": "Tu tanque de fuel esta casi vacío.",
-        "description": ""
-    },
-    "YOUR_FUEL_TANK_IS_EMPTY": {
-        "message": "Tu tanque de fuel está vacío.",
-        "description": ""
-    }
+   "YOUR_FUEL_TANK_IS_ALMOST_EMPTY" : {
+      "description" : "",
+      "message" : "¡ALERTA! El propelente se está agotando."
+   },
+   "YOUR_FUEL_TANK_IS_EMPTY" : {
+      "description" : "",
+      "message" : "¡ALERTA! Propelente agotado. Su nave está a la deriva."
+   }
 }

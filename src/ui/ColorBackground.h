@@ -14,14 +14,14 @@ class ColorBackground : public Single {
 public:
 	virtual void Draw();
 
-	void SetColor(const Color &color) { m_material->diffuse = color; }
+	void SetColor(const Color &color) { m_color = color; }
 
 protected:
 	friend class Context;
 	ColorBackground(Context *context, const Color &color);
 
 private:
-	std::unique_ptr<Graphics::Material> m_material;
+	Color m_color;
 };
 
 }

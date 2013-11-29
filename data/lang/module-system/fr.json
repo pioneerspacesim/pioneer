@@ -1,10 +1,10 @@
 {
-    "YOUR_FUEL_TANK_IS_ALMOST_EMPTY": {
-        "message": "Les reservoirs sont presque vides",
-        "description": ""
-    },
-    "YOUR_FUEL_TANK_IS_EMPTY": {
-        "message": "Les reservoirs sont vides.",
-        "description": ""
-    }
+   "YOUR_FUEL_TANK_IS_ALMOST_EMPTY" : {
+      "description" : "",
+      "message" : "Les reservoirs sont presque vides"
+   },
+   "YOUR_FUEL_TANK_IS_EMPTY" : {
+      "description" : "",
+      "message" : "Les reservoirs sont vides."
+   }
 }

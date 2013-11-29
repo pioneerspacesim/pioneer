@@ -1,110 +1,110 @@
 {
-    "CREWDETAILSHEETBB": {
-        "message": "Se ofrece tripulante\n\nNombre: {name}\nExperiencia: {experience}\nSueldo solicitado: {wage} por semana\n\n{response}\n",
-        "description": ""
-    },
-    "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY": {
-        "message": "Gracias, iré a bordo inmediatamente.",
-        "description": ""
-    },
-    "CREWTESTRESULTSBB": {
-        "message": "Resultado del examen:\n\nCompetencia general: {general}%\nIngeniería y reparación: {engineering}%\nPilotaje y vuelo: {piloting}%\nNavegación y preparación: {navigation}%\nDetección y defensa: {sensors}%\nPuntuación total: {overall}%",
-        "description": ""
-    },
-    "OK_I_SUPPOSE_THATS_ALL_RIGHT": {
-        "message": "De acuerdo, creo que es adecuado.",
-        "description": ""
-    },
-    "GO_BACK": {
-        "message": "Atrás",
-        "description": ""
-    },
-    "VETERAN_TIME_SERVED_CREW_MEMBER": {
-        "message": "Tripulante veterano",
-        "description": ""
-    },
-    "ASK_CANDIDATE_TO_SIT_A_TEST": {
-        "message": "Pedir al candidato pasar un examen",
-        "description": ""
-    },
-    "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER": {
-        "message": "Lo siento, no estoy preparado para bajar más.",
-        "description": ""
-    },
-    "SENSORS_AND_DEFENCE": {
-        "message": "Detección y defensa",
-        "description": ""
-    },
-    "THATS_EXTREMELY_GENEROUS_OF_YOU": {
-        "message": "¡Es usted muy generoso!",
-        "description": ""
-    },
-    "MINIMAL_TIME_SERVED_ABOARD_SHIP": {
-        "message": "Un tiempo mínimo en una nave",
-        "description": ""
-    },
-    "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT": {
-        "message": "Ofertar la posición en la nave por el sueldo ofrecido",
-        "description": ""
-    },
-    "THERE_DOESNT_SEEM_TO_BE_SPACE_FOR_ME_ON_BOARD": {
-        "message": "¡No parece haber espacio para mí!",
-        "description": ""
-    },
-    "NAVIGATOR": {
-        "message": "Navegador",
-        "description": ""
-    },
-    "TIME_SERVED_CREW_MEMBER": {
-        "message": "Experiencia normal como tripulante",
-        "description": ""
-    },
-    "PILOT": {
-        "message": "Piloto",
-        "description": ""
-    },
-    "CREWMEMBER_WAGE_PER_WEEK": {
-        "message": "{potentialCrewMember} ({wage}/sem.)",
-        "description": ""
-    },
-    "THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER": {
-        "message": "¡Eso hace que esta oferta parezca mejor!",
-        "description": ""
-    },
-    "CREW_FOR_HIRE": {
-        "message": "Se ofrece tripulación",
-        "description": ""
-    },
-    "SUGGEST_NEW_WEEKLY_WAGE_OF_N": {
-        "message": "Sugerir nuevo sueldo mensual de {newAmount}",
-        "description": ""
-    },
-    "SHIPS_ENGINEER": {
-        "message": "Ingeniero de naves",
-        "description": ""
-    },
-    "HANG_UP": {
-        "message": "Colgar.",
-        "description": ""
-    },
-    "POTENTIAL_CREW_MEMBERS": {
-        "message": "Tripulación en potencia registrada buscando trabajo en {station}:",
-        "description": ""
-    },
-    "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME": {
-        "message": "Lo siento, su oferta no me interesa.",
-        "description": ""
-    },
-    "SIMULATOR_TRAINING_ONLY": {
-        "message": "Entrenamiento en simulador solamente",
-        "description": ""
-    },
-    "SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS": {
-        "message": "Algo de experiencia en entornos controlados",
-        "description": ""
-    },
-    "NO_EXPERIENCE": {
-        "message": "Sin experiencia",
-        "description": ""
-    }
+   "ASK_CANDIDATE_TO_SIT_A_TEST" : {
+      "description" : "",
+      "message" : "Pedir al candidato pasar un examen"
+   },
+   "CREWDETAILSHEETBB" : {
+      "description" : "",
+      "message" : "Se ofrece tripulante\n\nNombre: {name}\nExperiencia: {experience}\nSueldo solicitado: {wage} por semana\n\n{response}\n"
+   },
+   "CREWMEMBER_WAGE_PER_WEEK" : {
+      "description" : "",
+      "message" : "{potentialCrewMember} ({wage}/sem.)"
+   },
+   "CREWTESTRESULTSBB" : {
+      "description" : "",
+      "message" : "Resultado del examen:\n\nCompetencia general: {general}%\nIngeniería y reparación: {engineering}%\nPilotaje y vuelo: {piloting}%\nNavegación y preparación: {navigation}%\nDetección y defensa: {sensors}%\nPuntuación total: {overall}%"
+   },
+   "CREW_FOR_HIRE" : {
+      "description" : "",
+      "message" : "Se ofrece tripulación"
+   },
+   "GO_BACK" : {
+      "description" : "",
+      "message" : "Atrás"
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Colgar."
+   },
+   "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER" : {
+      "description" : "",
+      "message" : "Lo siento, no estoy preparado para bajar más."
+   },
+   "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME" : {
+      "description" : "",
+      "message" : "Lo siento, su oferta no me interesa."
+   },
+   "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT" : {
+      "description" : "",
+      "message" : "Ofertar la posición en la nave por el sueldo ofrecido"
+   },
+   "MINIMAL_TIME_SERVED_ABOARD_SHIP" : {
+      "description" : "",
+      "message" : "Un tiempo mínimo en una nave"
+   },
+   "NAVIGATOR" : {
+      "description" : "",
+      "message" : "Navegador"
+   },
+   "NO_EXPERIENCE" : {
+      "description" : "",
+      "message" : "Sin experiencia"
+   },
+   "OK_I_SUPPOSE_THATS_ALL_RIGHT" : {
+      "description" : "",
+      "message" : "De acuerdo, creo que es adecuado."
+   },
+   "PILOT" : {
+      "description" : "",
+      "message" : "Piloto"
+   },
+   "POTENTIAL_CREW_MEMBERS" : {
+      "description" : "",
+      "message" : "Tripulación potencial buscando trabajo, registrada en {station}:"
+   },
+   "SENSORS_AND_DEFENCE" : {
+      "description" : "",
+      "message" : "Detección y defensa"
+   },
+   "SHIPS_ENGINEER" : {
+      "description" : "",
+      "message" : "Ingeniero"
+   },
+   "SIMULATOR_TRAINING_ONLY" : {
+      "description" : "",
+      "message" : "Entrenamiento en simulador solamente"
+   },
+   "SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS" : {
+      "description" : "",
+      "message" : "Algo de experiencia en entornos controlados"
+   },
+   "SUGGEST_NEW_WEEKLY_WAGE_OF_N" : {
+      "description" : "",
+      "message" : "Sugerir nuevo sueldo mensual de {newAmount}"
+   },
+   "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY" : {
+      "description" : "",
+      "message" : "Gracias, iré a bordo inmediatamente."
+   },
+   "THATS_EXTREMELY_GENEROUS_OF_YOU" : {
+      "description" : "",
+      "message" : "¡Es usted muy generoso!"
+   },
+   "THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER" : {
+      "description" : "",
+      "message" : "¡Eso hace que esta oferta parezca mejor!"
+   },
+   "THERE_DOESNT_SEEM_TO_BE_SPACE_FOR_ME_ON_BOARD" : {
+      "description" : "",
+      "message" : "¡No parece haber espacio para mí!"
+   },
+   "TIME_SERVED_CREW_MEMBER" : {
+      "description" : "",
+      "message" : "Experiencia normal como tripulante"
+   },
+   "VETERAN_TIME_SERVED_CREW_MEMBER" : {
+      "description" : "",
+      "message" : "Tripulante veterano"
+   }
 }

@@ -1,18 +1,18 @@
 {
-    "AUTOPILOT": {
-        "message": "Robotpilóta",
-        "description": ""
-    },
-    "CANNOT_COMPENSATE_FOR_LOCAL_GRAVITY": {
-        "message": "Nem kompenzálható a helyi gravitáció",
-        "description": ""
-    },
-    "CANNOT_COMPUTE_ORBIT_PARAMETERS": {
-        "message": "Nem lehet kiszámítani a pályaadatokat",
-        "description": ""
-    },
-    "STARPORT_REFUSED_DOCKING_PERMISSION": {
-        "message": "A kikötő nem adott dokkolási engedélyt",
-        "description": ""
-    }
+   "AUTOPILOT" : {
+      "description" : "",
+      "message" : "Robotpilóta"
+   },
+   "CANNOT_COMPENSATE_FOR_LOCAL_GRAVITY" : {
+      "description" : "",
+      "message" : "Nem kompenzálható a helyi gravitáció"
+   },
+   "CANNOT_COMPUTE_ORBIT_PARAMETERS" : {
+      "description" : "",
+      "message" : "Nem lehet kiszámítani a pályaadatokat"
+   },
+   "STARPORT_REFUSED_DOCKING_PERMISSION" : {
+      "description" : "",
+      "message" : "A kikötő nem adott dokkolási engedélyt"
+   }
 }

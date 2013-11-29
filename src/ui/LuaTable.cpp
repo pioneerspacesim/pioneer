@@ -4,6 +4,7 @@
 #include "Table.h"
 #include "Lua.h"
 #include "LuaConstants.h"
+#include "LuaSignal.h"
 
 namespace UI {
 
@@ -82,6 +83,12 @@ public:
 		return 1;
 	}
 
+	static int l_clear_rows(lua_State *l) {
+		UI::Table *t = LuaObject<UI::Table>::CheckFromLua(1);
+		t->ClearRows();
+		return 0;
+	}
+
 	static int l_set_row_spacing(lua_State *l) {
 		UI::Table *t = LuaObject<UI::Table>::CheckFromLua(1);
 		int spacing = luaL_checkinteger(l, 2);
@@ -106,6 +113,20 @@ public:
 		return 1;
 	}
 
+	static int l_set_mouse_enabled(lua_State *l) {
+		UI::Table *t = LuaObject<UI::Table>::CheckFromLua(1);
+		bool enabled = lua_toboolean(l, 2);
+		t->SetMouseEnabled(enabled);
+		lua_pushvalue(l, 1);
+		return 1;
+	}
+
+	static int l_attr_table_on_row_clicked(lua_State *l) {
+		UI::Table *t = LuaObject<UI::Table>::CheckFromLua(1);
+		LuaSignal<unsigned int>().Wrap(l, t->onRowClicked);
+		return 1;
+	}
+
 };
 
 }
@@ -122,12 +143,19 @@ template <> void LuaObject<UI::Table>::RegisterClass()
 		{ "SetHeadingRow",    UI::LuaTable::l_set_heading_row    },
 		{ "AddRow",           UI::LuaTable::l_add_row            },
 		{ "AddRows",          UI::LuaTable::l_add_rows           },
+		{ "ClearRows",        UI::LuaTable::l_clear_rows         },
 		{ "SetRowSpacing",    UI::LuaTable::l_set_row_spacing    },
 		{ "SetColumnSpacing", UI::LuaTable::l_set_column_spacing },
 		{ "SetHeadingFont",   UI::LuaTable::l_set_heading_font   },
+		{ "SetMouseEnabled",  UI::LuaTable::l_set_mouse_enabled  },
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, 0, 0);
+	static const luaL_Reg l_attrs[] = {
+		{ "onRowClicked",     UI::LuaTable::l_attr_table_on_row_clicked },
+		{ 0, 0 }
+	};
+
+	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, l_attrs, 0);
 	LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<UI::Table>::DynamicCastPromotionTest);
 }

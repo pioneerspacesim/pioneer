@@ -1,70 +1,70 @@
 {
-    "FLAVOUR_CLUBNAME_0": {
-        "message": "Coopérative interstellaire pour le carburants des pilotes (CICP)",
-        "description": ""
-    },
-    "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED": {
-        "message": "Votre demande d'adhésion a été refusée.",
-        "description": ""
-    },
-    "YOU_MUST_BUY": {
-        "message": "Vous devez d'abord acheter notre  {military_fuel} avant que nous acceptions des {radioactives}",
-        "description": ""
-    },
-    "WE_WILL_ONLY_DISPOSE_OF": {
-        "message": "Nous ne pouvons accepter que le nombre de tonnes de {radioactives} correspondant aux tonnes de  {military_fuel} achetés chez nous.",
-        "description": ""
-    },
-    "FLAVOUR_WELCOME_0": {
-        "message": "Bienvenue chez {clubname}",
-        "description": ""
-    },
-    "WHAT_CONDITIONS_APPLY": {
-        "message": "Quelles sont les conditions pour deposer des {radioactives} ?",
-        "description": ""
-    },
-    "YOU_ARE_NOW_A_MEMBER": {
-        "message": "Vous etes désormais membre . Votre adhesion expire le {expiry_date}.",
-        "description": ""
-    },
-    "BEGIN_TRADE": {
-        "message": "Commencer les transactions",
-        "description": ""
-    },
-    "WATER": {
-        "message": "Eau",
-        "description": ""
-    },
-    "APPLY_FOR_MEMBERSHIP": {
-        "message": "Demande d'adhesion",
-        "description": ""
-    },
-    "RADIOACTIVES": {
-        "message": "Déchets radioactifs",
-        "description": ""
-    },
-    "GO_BACK": {
-        "message": "Retour",
-        "description": ""
-    },
-    "MILITARY_FUEL": {
-        "message": "Carburant militaire",
-        "description": ""
-    },
-    "HANG_UP": {
-        "message": "Raccrochez.",
-        "description": ""
-    },
-    "FLAVOUR_MEMBER_INTRO_0": {
-        "message": "Vous pouvez acheter le carburant et deposer vos {radioactives} ici.",
-        "description": ""
-    },
-    "HYDROGEN": {
-        "message": "Hydrogène",
-        "description": ""
-    },
-    "FLAVOUR_NONMEMBER_INTRO_0": {
-        "message": "{clubname} est une organisation indépendante créée afin de fournir a ses membres du carburant de vaisseau a prix discount. Des agences sont présentes dans toute la galaxie. Avantages inclus pour les membres:\n\n * Nos propres stocks de carburant, indépendants du marché de la bourse\n *  {hydrogen} a prix reduits\n *  {military_fuel} a prix reduits\n *  {water} a prix reduits\n *  {radioactives}, dépot gratuit (sous conditions)\n *  Remplissage des reservoirs en cas de besoin\n\nRejoignez nous! La cotisation annuelle ne coute que {membership_fee}",
-        "description": ""
-    }
+   "APPLY_FOR_MEMBERSHIP" : {
+      "description" : "",
+      "message" : "Demande d'adhesion"
+   },
+   "BEGIN_TRADE" : {
+      "description" : "",
+      "message" : "Commencer les transactions"
+   },
+   "FLAVOUR_0_CLUBNAME" : {
+      "description" : "",
+      "message" : "Coopérative interstellaire pour le carburants des pilotes (CICP)"
+   },
+   "FLAVOUR_0_MEMBER_INTRO" : {
+      "description" : "",
+      "message" : "Vous pouvez acheter le carburant et deposer vos {radioactives} ici."
+   },
+   "FLAVOUR_0_NONMEMBER_INTRO" : {
+      "description" : "",
+      "message" : "{clubname} est une organisation indépendante créée afin de fournir a ses membres du carburant de vaisseau a prix discount. Des agences sont présentes dans toute la galaxie. Avantages inclus pour les membres:\n\n * Nos propres stocks de carburant, indépendants du marché de la bourse\n *  {hydrogen} a prix reduits\n *  {military_fuel} a prix reduits\n *  {water} a prix reduits\n *  {radioactives}, dépot gratuit (sous conditions)\n *  Remplissage des reservoirs en cas de besoin\n\nRejoignez nous! La cotisation annuelle ne coute que {membership_fee}"
+   },
+   "FLAVOUR_0_WELCOME" : {
+      "description" : "",
+      "message" : "Bienvenue chez {clubname}"
+   },
+   "GO_BACK" : {
+      "description" : "",
+      "message" : "Retour"
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Raccrochez."
+   },
+   "HYDROGEN" : {
+      "description" : "",
+      "message" : "Hydrogène"
+   },
+   "MILITARY_FUEL" : {
+      "description" : "",
+      "message" : "Carburant militaire"
+   },
+   "RADIOACTIVES" : {
+      "description" : "",
+      "message" : "Déchets radioactifs"
+   },
+   "WATER" : {
+      "description" : "",
+      "message" : "Eau"
+   },
+   "WE_WILL_ONLY_DISPOSE_OF" : {
+      "description" : "",
+      "message" : "Nous ne pouvons accepter que le nombre de tonnes de {radioactives} correspondant aux tonnes de  {military_fuel} achetés chez nous."
+   },
+   "WHAT_CONDITIONS_APPLY" : {
+      "description" : "",
+      "message" : "Quelles sont les conditions pour deposer des {radioactives} ?"
+   },
+   "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED" : {
+      "description" : "",
+      "message" : "Votre demande d'adhésion a été refusée."
+   },
+   "YOU_ARE_NOW_A_MEMBER" : {
+      "description" : "",
+      "message" : "Vous etes désormais membre . Votre adhesion expire le {expiry_date}."
+   },
+   "YOU_MUST_BUY" : {
+      "description" : "",
+      "message" : "Vous devez d'abord acheter notre  {military_fuel} avant que nous acceptions des {radioactives}"
+   }
 }

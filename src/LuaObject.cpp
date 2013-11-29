@@ -118,6 +118,39 @@ int LuaObjectBase::l_exists(lua_State *l)
 	return 1;
 }
 
+int LuaObjectBase::l_setprop(lua_State *l)
+{
+	luaL_checktype(l, 1, LUA_TUSERDATA);
+	const std::string key(luaL_checkstring(l, 2));
+
+	int isnum;
+	double vn = lua_tonumberx(l, 3, &isnum);
+	std::string vs;
+	if (!isnum)
+		vs = luaL_checkstring(l, 3);
+
+	// quick check to make sure this object actually has properties
+	// before we go diving through the stack etc
+	lua_getuservalue(l, 1);
+	if (lua_isnil(l, -1))
+		return luaL_error(l, "Object has no property map");
+
+	LuaObjectBase *lo = static_cast<LuaObjectBase*>(lua_touserdata(l, 1));
+	LuaWrappable *o = lo->GetObject();
+	if (!o)
+		return luaL_error(l, "Object is no longer valid");
+
+	PropertiedObject *po = dynamic_cast<PropertiedObject*>(o);
+	assert(po);
+
+	if (isnum)
+		po->Properties().Set(key, vn);
+	else
+		po->Properties().Set(key, vs);
+
+	return 0;
+}
+
 int LuaObjectBase::l_isa(lua_State *l)
 {
 	luaL_checktype(l, 1, LUA_TUSERDATA);
@@ -529,6 +562,11 @@ void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL
 	// add the isa method
 	lua_pushstring(l, "isa");
 	lua_pushcfunction(l, LuaObjectBase::l_isa);
+	lua_rawset(l, -3);
+
+	// add the setprop method
+	lua_pushstring(l, "setprop");
+	lua_pushcfunction(l, LuaObjectBase::l_setprop);
 	lua_rawset(l, -3);
 
 	// publish the method table

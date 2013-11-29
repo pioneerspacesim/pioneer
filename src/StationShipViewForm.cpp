@@ -140,6 +140,21 @@ void StationShipViewForm::BuyShip()
 
 	m_station->ReplaceShipOnSale(m_marketIndex, old);
 
+	const int dockingPort = m_station->GetMyDockingPort( Pi::player );
+	const SpaceStationType::SBayGroup* pBayGroup = m_station->GetStationType()->FindGroupByBay( dockingPort );
+
+	const Aabb &bbox = Pi::player->GetAabb();
+	const double bboxRad = bbox.GetRadius();
+
+	if( (pBayGroup->minShipSize > bboxRad) || (bboxRad > pBayGroup->maxShipSize) ) {
+		// find another free docking port that we can fit into.
+		const int freeDockingPort = m_station->GetFreeDockingPort(Pi::player);
+		if(freeDockingPort >= 0) {
+			// change docking port we're docked at to the free one we found
+			m_station->SwapDockedShipsPort(dockingPort, freeDockingPort);
+		}
+	}
+
     Pi::cpan->MsgLog()->Message("", Lang::THANKS_AND_REMEMBER_TO_BUY_FUEL);
 
     m_formController->CloseForm();

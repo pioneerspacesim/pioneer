@@ -275,12 +275,14 @@ static int l_space_spawn_ship_docked(lua_State *l)
 
 	SpaceStation *station = LuaObject<SpaceStation>::CheckFromLua(2);
 
-	int port = station->GetFreeDockingPort();
-	if (port < 0)
-		return 0;
-
 	Ship *ship = new Ship(type);
 	assert(ship);
+
+	int port = station->GetFreeDockingPort(ship);	// pass in the ship to get a port we fit into
+	if(port < 0) {
+		delete ship;
+		return 0;
+	}
 
 	ship->SetFrame(station->GetFrame());
 	Pi::game->GetSpace()->AddBody(ship);

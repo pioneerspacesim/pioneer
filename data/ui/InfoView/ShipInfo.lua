@@ -22,9 +22,9 @@ local shipInfo = function (args)
 	frontWeapon = frontWeapon or "NONE"
 	rearWeapon =  rearWeapon  or "NONE"
 
-	local stats = Game.player:GetStats()
+	local player = Game.player
 
-	local mass_with_fuel = stats.totalMass + stats.fuelMassLeft
+	local mass_with_fuel = player.totalMass + player.fuelMassLeft
 	local mass_with_fuel_kg = 1000 * mass_with_fuel
 
 	-- ship stats mass is in tonnes; scale by 1000 to convert to kg
@@ -33,7 +33,7 @@ local shipInfo = function (args)
 	local up_acc = shipDef.linearThrust.UP / mass_with_fuel_kg
 
 	-- delta-v calculation according to http://en.wikipedia.org/wiki/Tsiolkovsky_rocket_equation
-	local deltav = shipDef.effectiveExhaustVelocity * math.log((stats.totalMass + stats.fuelMassLeft) / stats.totalMass)
+	local deltav = shipDef.effectiveExhaustVelocity * math.log((player.totalMass + player.fuelMassLeft) / player.totalMass)
 
 	local equipItems = {}
 	for i = 1,#Constants.EquipType do
@@ -73,15 +73,15 @@ local shipInfo = function (args)
 							l.HYPERSPACE_RANGE..":",
 							string.interp(
 								l.N_LIGHT_YEARS_N_MAX, {
-									range    = string.format("%.1f",stats.hyperspaceRange),
-									maxRange = string.format("%.1f",stats.maxHyperspaceRange)
+									range    = string.format("%.1f",player.hyperspaceRange),
+									maxRange = string.format("%.1f",player.maxHyperspaceRange)
 								}
 							),
 						},
 						"",
-						{ l.WEIGHT_EMPTY,       string.format("%dt", stats.totalMass - stats.usedCapacity) },
-						{ l.CAPACITY_USED..":", string.format("%dt (%dt "..l.FREE..")", stats.usedCapacity,  stats.freeCapacity) },
-						{ l.FUEL_WEIGHT..":",   string.format("%dt (%dt "..l.MAX..")", stats.fuelMassLeft, stats.maxFuelTankMass ) },
+						{ l.WEIGHT_EMPTY,       string.format("%dt", player.totalMass - player.usedCapacity) },
+						{ l.CAPACITY_USED..":", string.format("%dt (%dt "..l.FREE..")", player.usedCapacity,  player.freeCapacity) },
+						{ l.FUEL_WEIGHT..":",   string.format("%dt (%dt "..l.MAX..")", player.fuelMassLeft, ShipDef[Game.player.shipId].fuelTankMass ) },
 						{ l.ALL_UP_WEIGHT..":", string.format("%dt", mass_with_fuel ) },
 						"",
 						{ l.FRONT_WEAPON..":", EquipDef[frontWeapon].name },

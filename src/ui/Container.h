@@ -35,7 +35,7 @@ public:
 
 	virtual bool IsContainer() const { return true; }
 
-	Widget *GetWidgetAtAbsolute(const Point &pos) { return GetWidgetAt(pos - GetAbsolutePosition()); }
+	// widget at pos relative to this widget
 	virtual Widget *GetWidgetAt(const Point &pos);
 
 	virtual void Disable();

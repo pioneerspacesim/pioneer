@@ -390,6 +390,7 @@ uitest_LDADD = \
 	posix/libposix.a \
 	../contrib/jenkins/libjenkins.a \
 	../contrib/PicoDDS/libpicodds.a \
+	../contrib/json/libjson.a \
 	../contrib/glew/libglew.a
 
 uitest_LDADD += \

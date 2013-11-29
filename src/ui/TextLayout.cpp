@@ -78,7 +78,7 @@ Point TextLayout::ComputeSize(const Point &layoutSize)
 		// - the word does not go past the right edge of the box
 		bool wordAdded = false;
 		while (!wordAdded) {
-			if (pos.x == 0 || pos.x + wordSize.x < layoutSize.x) {
+			if (pos.x == 0 || pos.x + wordSize.x <= layoutSize.x) {
 				(*i).pos = pos;
 
 				// move to the end of the word

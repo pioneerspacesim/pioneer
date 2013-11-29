@@ -43,8 +43,6 @@ static bool check_glsl_errors(const char *filename, GLuint obj)
 			"Pioneer will not work as intended. Try disabling shaders in the options or the config file.\n",
 			filename, infoLog, glGetString(GL_VENDOR), glGetString(GL_RENDERER));
 #endif
-		shadersAvailable = false;
-		shadersEnabled = false;
 		return false;
 	}
 
