@@ -45,7 +45,7 @@
    },
    "CARGO" : {
       "description" : "",
-      "message" : "Cargo"
+      "message" : "Carago"
    },
    "CARGO_SPACE" : {
       "description" : "",
@@ -101,7 +101,7 @@
    },
    "CONTROL_OPTIONS" : {
       "description" : "",
-      "message" : "Control Options"
+      "message" : "Roghainnean nan innealan-smachd"
    },
    "COULD_NOT_LOAD_GAME" : {
       "description" : "",
@@ -133,7 +133,7 @@
    },
    "DESTROY_ENEMY_SHIP" : {
       "description" : "",
-      "message" : "Destroy enemy ship"
+      "message" : "Mill soitheach an nàmhaid"
    },
    "DISMISS" : {
       "description" : "",
@@ -161,7 +161,7 @@
    },
    "ECONOMY_TRADE" : {
       "description" : "",
-      "message" : "Economy & Trade"
+      "message" : "Eaconamaidh ⁊ malart"
    },
    "EFFECTS" : {
       "description" : "",
@@ -385,7 +385,7 @@
    },
    "MULTISAMPLING" : {
       "description" : "",
-      "message" : "Multisampling"
+      "message" : "Ioma-shamplachadh"
    },
    "MUSIC" : {
       "description" : "",
@@ -457,7 +457,7 @@
    },
    "ORBIT" : {
       "description" : "",
-      "message" : "Orbit"
+      "message" : "Reul-chuairt"
    },
    "ORBITAL_ANALYSIS" : {
       "description" : "",
@@ -525,7 +525,7 @@
    },
    "REFUEL" : {
       "description" : "",
-      "message" : "Refuel"
+      "message" : "Tog connadh"
    },
    "RETURN_TO_MENU" : {
       "description" : "",
@@ -537,7 +537,7 @@
    },
    "SAVE" : {
       "description" : "",
-      "message" : "Save"
+      "message" : "Sàbhail"
    },
    "SELECT" : {
       "description" : "",
@@ -561,7 +561,7 @@
    },
    "SHIP_INFORMATION" : {
       "description" : "",
-      "message" : "Ship Information"
+      "message" : "Fiosrachadh an t-soithich"
    },
    "SOUND" : {
       "description" : "",
@@ -577,7 +577,7 @@
    },
    "START_AT_NEW_HOPE" : {
       "description" : "",
-      "message" : "Start at New Hope"
+      "message" : "Tòisich air Dòchas Ùr"
    },
    "STATUS" : {
       "description" : "",
@@ -585,7 +585,7 @@
    },
    "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP" : {
       "description" : "",
-      "message" : "There is nobody else on board able to fly this ship."
+      "message" : "Chan eil duine sam bith aile air bòrd a bhiodh comasach air an t-soitheach seo a stiùireadh."
    },
    "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
       "description" : "",
@@ -597,7 +597,7 @@
    },
    "TOTAL" : {
       "description" : "",
-      "message" : "Total: "
+      "message" : "Iomlan:"
    },
    "TYPE" : {
       "description" : "",
@@ -629,7 +629,7 @@
    },
    "VIDEO_RESOLUTION" : {
       "description" : "",
-      "message" : "Video resolution"
+      "message" : "Dùmhlachd-bhreacaidh"
    },
    "WAGE" : {
       "description" : "",
