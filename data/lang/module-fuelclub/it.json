@@ -1,70 +1,70 @@
 {
-    "FLAVOUR_CLUBNAME_0": {
-        "message": "Cooperativa Piloti Interstellari per il Carburante",
-        "description": ""
-    },
-    "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED": {
-        "message": "La sua richiesta di adesione è stata rifiutata.",
-        "description": ""
-    },
-    "YOU_MUST_BUY": {
-        "message": "Deve comprare il nostro {military_fuel} prima che possiamo prendere le sue {radioactives}",
-        "description": ""
-    },
-    "WE_WILL_ONLY_DISPOSE_OF": {
-        "message": "Possiamo smaltire solo la stessa quantità di {radioactives} del {military_fuel} che ha comprato da noi.",
-        "description": ""
-    },
-    "FLAVOUR_WELCOME_0": {
-        "message": "Benvenuto alla {clubname}",
-        "description": ""
-    },
-    "WHAT_CONDITIONS_APPLY": {
-        "message": "Che condizioni si applicano allo smaltimento di {radioactives}?",
-        "description": ""
-    },
-    "YOU_ARE_NOW_A_MEMBER": {
-        "message": "Ora è iscritto. La sua adesione scadrà il {expiry_date}.",
-        "description": ""
-    },
-    "BEGIN_TRADE": {
-        "message": "Inizia a commerciare",
-        "description": ""
-    },
-    "WATER": {
-        "message": "Acqua",
-        "description": ""
-    },
-    "APPLY_FOR_MEMBERSHIP": {
-        "message": "Richiedere l'adesione",
-        "description": ""
-    },
-    "RADIOACTIVES": {
-        "message": "Scorie Radioattive",
-        "description": ""
-    },
-    "GO_BACK": {
-        "message": "Indietro",
-        "description": ""
-    },
-    "MILITARY_FUEL": {
-        "message": "Carburante militare",
-        "description": ""
-    },
-    "HANG_UP": {
-        "message": "Riaggancia.",
-        "description": ""
-    },
-    "FLAVOUR_MEMBER_INTRO_0": {
-        "message": "Qua è possibile acquistare carburante e smaltire {radioactives}.",
-        "description": ""
-    },
-    "HYDROGEN": {
-        "message": "Idrogeno",
-        "description": ""
-    },
-    "FLAVOUR_NONMEMBER_INTRO_0": {
-        "message": "{clubname} è un'organizzazione indipendente che ha lo scopo di fornire ai propri membi carburante per astronavi scontato. Si possono trovare succursali in tutta la galassia. L'iscrizione porta i seguenti vantaggi:\n\n* Le nostre scorte di combustibile, indipendenti dal mercato generale\n* {hydrogen} a prezzi scontati\n* {military_fuel} a prezzi scontati\n* {water} a prezzi scontati\n* {radioactives}, smaltimento gratuito (si applicano delle condizioni)\n* Rabbocco di carburante, se necessario\n\nIscriviti ora! La quota d'iscrizione annuale è di soli {membership_fee}",
-        "description": ""
-    }
+   "APPLY_FOR_MEMBERSHIP" : {
+      "description" : "",
+      "message" : "Richiedere l'adesione"
+   },
+   "BEGIN_TRADE" : {
+      "description" : "",
+      "message" : "Inizia a commerciare"
+   },
+   "FLAVOUR_0_CLUBNAME" : {
+      "description" : "",
+      "message" : "Cooperativa Piloti Interstellari per il Carburante"
+   },
+   "FLAVOUR_0_MEMBER_INTRO" : {
+      "description" : "",
+      "message" : "Qua è possibile acquistare carburante e smaltire {radioactives}."
+   },
+   "FLAVOUR_0_NONMEMBER_INTRO" : {
+      "description" : "",
+      "message" : "{clubname} è un'organizzazione indipendente che ha lo scopo di fornire ai propri membi carburante per astronavi scontato. Si possono trovare succursali in tutta la galassia. L'iscrizione porta i seguenti vantaggi:\n\n* Le nostre scorte di combustibile, indipendenti dal mercato generale\n* {hydrogen} a prezzi scontati\n* {military_fuel} a prezzi scontati\n* {water} a prezzi scontati\n* {radioactives}, smaltimento gratuito (si applicano delle condizioni)\n* Rabbocco di carburante, se necessario\n\nIscriviti ora! La quota d'iscrizione annuale è di soli {membership_fee}"
+   },
+   "FLAVOUR_0_WELCOME" : {
+      "description" : "",
+      "message" : "Benvenuto alla {clubname}"
+   },
+   "GO_BACK" : {
+      "description" : "",
+      "message" : "Indietro"
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Riaggancia."
+   },
+   "HYDROGEN" : {
+      "description" : "",
+      "message" : "Idrogeno"
+   },
+   "MILITARY_FUEL" : {
+      "description" : "",
+      "message" : "Carburante militare"
+   },
+   "RADIOACTIVES" : {
+      "description" : "",
+      "message" : "Scorie Radioattive"
+   },
+   "WATER" : {
+      "description" : "",
+      "message" : "Acqua"
+   },
+   "WE_WILL_ONLY_DISPOSE_OF" : {
+      "description" : "",
+      "message" : "Possiamo smaltire solo la stessa quantità di {radioactives} del {military_fuel} che ha comprato da noi."
+   },
+   "WHAT_CONDITIONS_APPLY" : {
+      "description" : "",
+      "message" : "Che condizioni si applicano allo smaltimento di {radioactives}?"
+   },
+   "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED" : {
+      "description" : "",
+      "message" : "La sua richiesta di adesione è stata rifiutata."
+   },
+   "YOU_ARE_NOW_A_MEMBER" : {
+      "description" : "",
+      "message" : "Ora è iscritto. La sua adesione scadrà il {expiry_date}."
+   },
+   "YOU_MUST_BUY" : {
+      "description" : "",
+      "message" : "Deve comprare il nostro {military_fuel} prima che possiamo prendere le sue {radioactives}"
+   }
 }

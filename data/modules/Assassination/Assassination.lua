@@ -31,11 +31,11 @@ local max_ass_dist = 30
 local flavours = {}
 for i = 0,5 do
 	table.insert(flavours, {
-		adtext      = l["FLAVOUR_ADTEXT_"..i],
-		introtext   = l["FLAVOUR_INTROTEXT_"..i],
-		successmsg  = l["FLAVOUR_SUCCESSMSG_"..i],
-		failuremsg  = l["FLAVOUR_FAILUREMSG_"..i],
-		failuremsg2 = l["FLAVOUR_FAILUREMSG2_"..i],
+		adtext      = l["FLAVOUR_" .. i .. "_ADTEXT"],
+		introtext   = l["FLAVOUR_" .. i .. "_INTROTEXT"],
+		successmsg  = l["FLAVOUR_" .. i .. "_SUCCESSMSG"],
+		failuremsg  = l["FLAVOUR_" .. i .. "_FAILUREMSG"],
+		failuremsg2 = l["FLAVOUR_" .. i .. "_FAILUREMSG2"],
 	})
 end
 local num_titles = 25
@@ -366,8 +366,7 @@ local onAICompleted = function (ship, ai_error)
 		if mission.status == 'ACTIVE' and
 		   mission.ship == ship then
 			if mission.shipstate == 'outbound' then
-				local stats = ship:GetStats()
-				local systems = Game.system:GetNearbySystems(stats.hyperspaceRange, function (s) return #s:GetStationPaths() > 0 end)
+				local systems = Game.system:GetNearbySystems(ship.hyperspaceRange, function (s) return #s:GetStationPaths() > 0 end)
 				if #systems == 0 then return end
 				local system = systems[Engine.rand:Integer(1,#systems)]
 

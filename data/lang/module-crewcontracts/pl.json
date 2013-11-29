@@ -1,110 +1,110 @@
 {
-    "CREWDETAILSHEETBB": {
-        "message": "Załoga do wynajęcia\n\nNazwisko: {name}\nDoświadczenie: {experience}\nOczekiwana stawka: {wage} na tydzień\n\n{response}\n",
-        "description": ""
-    },
-    "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY": {
-        "message": "Dzięki, stawię się niezwłocznie na pokładzie.",
-        "description": ""
-    },
-    "CREWTESTRESULTSBB": {
-        "message": "Wynik kontroli:\n\nKompetencje członka załogi: {general}%\nInżynieria i naprawy: {engineering}%\nPilotowanie i lot przestrzenny: {piloting}%\nNawigacja i mapy: {navigation}%\nSensory i obrona: {sensors}%\nOgólny wynik egzaminu: {overall}%",
-        "description": ""
-    },
-    "OK_I_SUPPOSE_THATS_ALL_RIGHT": {
-        "message": "OK, myślę że stawka jest w porządku.",
-        "description": ""
-    },
-    "GO_BACK": {
-        "message": "Powrót",
-        "description": ""
-    },
-    "VETERAN_TIME_SERVED_CREW_MEMBER": {
-        "message": "Weteran, ma doświadczenie w służbie członka załogi",
-        "description": ""
-    },
-    "ASK_CANDIDATE_TO_SIT_A_TEST": {
-        "message": "Poproś kandydata o przeprowadzenie testu",
-        "description": ""
-    },
-    "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER": {
-        "message": "Przepraszam, ale nie zdecyduję się na tak niską stawkę.",
-        "description": ""
-    },
-    "SENSORS_AND_DEFENCE": {
-        "message": "Sensory i obrona",
-        "description": ""
-    },
-    "THATS_EXTREMELY_GENEROUS_OF_YOU": {
-        "message": "Twoja hojność jest niezmiernie wielka!",
-        "description": ""
-    },
-    "MINIMAL_TIME_SERVED_ABOARD_SHIP": {
-        "message": "Krótki czas służby na statku",
-        "description": ""
-    },
-    "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT": {
-        "message": "Złóż ofertę zatrudnienia przy wynegocjowanej stawce",
-        "description": ""
-    },
-    "THERE_DOESNT_SEEM_TO_BE_SPACE_FOR_ME_ON_BOARD": {
-        "message": "Nie wydaje mi się, aby było dla mnie miejsce na pokładzie!",
-        "description": ""
-    },
-    "NAVIGATOR": {
-        "message": "Nawigator",
-        "description": ""
-    },
-    "TIME_SERVED_CREW_MEMBER": {
-        "message": "Ma doświadczenie w służbie członka załogi",
-        "description": ""
-    },
-    "PILOT": {
-        "message": "Pilot",
-        "description": ""
-    },
-    "CREWMEMBER_WAGE_PER_WEEK": {
-        "message": "{potentialCrewMember} ({wage}/tydzień)",
-        "description": ""
-    },
-    "THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER": {
-        "message": "To z pewnością uczyni ofertę atrakcyjniejszą!",
-        "description": ""
-    },
-    "CREW_FOR_HIRE": {
-        "message": "Załoga do wynajęcia",
-        "description": ""
-    },
-    "SUGGEST_NEW_WEEKLY_WAGE_OF_N": {
-        "message": "Zaproponuj zmianę stawki tygodniowej na {newAmount}",
-        "description": ""
-    },
-    "SHIPS_ENGINEER": {
-        "message": "Mechanik pokładowy",
-        "description": ""
-    },
-    "HANG_UP": {
-        "message": "Rozłącz się.",
-        "description": ""
-    },
-    "POTENTIAL_CREW_MEMBERS": {
-        "message": "Potencjalni członkowie załogi, zarejestrowani na stacji {station}, jako osoby poszukujące zatrudnienia:",
-        "description": ""
-    },
-    "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME": {
-        "message": "Przepraszam, ale twoja oferta nie jest dla mnie atrakcyjna.",
-        "description": ""
-    },
-    "SIMULATOR_TRAINING_ONLY": {
-        "message": "Tylko symulatory treningowe",
-        "description": ""
-    },
-    "SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS": {
-        "message": "Ma pewne doświadczenie w kontrolowanych warunkach",
-        "description": ""
-    },
-    "NO_EXPERIENCE": {
-        "message": "Brak doświadczenia",
-        "description": ""
-    }
+   "ASK_CANDIDATE_TO_SIT_A_TEST" : {
+      "description" : "",
+      "message" : "Poproś kandydata o przeprowadzenie testu"
+   },
+   "CREWDETAILSHEETBB" : {
+      "description" : "",
+      "message" : "Załoga do wynajęcia\n\nNazwisko: {name}\nDoświadczenie: {experience}\nOczekiwana stawka: {wage} na tydzień\n\n{response}\n"
+   },
+   "CREWMEMBER_WAGE_PER_WEEK" : {
+      "description" : "",
+      "message" : "{potentialCrewMember} ({wage}/tydzień)"
+   },
+   "CREWTESTRESULTSBB" : {
+      "description" : "",
+      "message" : "Wynik kontroli:\n\nKompetencje członka załogi: {general}%\nInżynieria i naprawy: {engineering}%\nPilotowanie i lot przestrzenny: {piloting}%\nNawigacja i mapy: {navigation}%\nSensory i obrona: {sensors}%\nOgólny wynik egzaminu: {overall}%"
+   },
+   "CREW_FOR_HIRE" : {
+      "description" : "",
+      "message" : "Załoga do wynajęcia"
+   },
+   "GO_BACK" : {
+      "description" : "",
+      "message" : "Powrót"
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Rozłącz się."
+   },
+   "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER" : {
+      "description" : "",
+      "message" : "Przepraszam, ale nie zdecyduję się na tak niską stawkę."
+   },
+   "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME" : {
+      "description" : "",
+      "message" : "Przepraszam, ale twoja oferta nie jest dla mnie atrakcyjna."
+   },
+   "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT" : {
+      "description" : "",
+      "message" : "Złóż ofertę zatrudnienia przy wynegocjowanej stawce"
+   },
+   "MINIMAL_TIME_SERVED_ABOARD_SHIP" : {
+      "description" : "",
+      "message" : "Krótki czas służby na statku"
+   },
+   "NAVIGATOR" : {
+      "description" : "",
+      "message" : "Nawigator"
+   },
+   "NO_EXPERIENCE" : {
+      "description" : "",
+      "message" : "Brak doświadczenia"
+   },
+   "OK_I_SUPPOSE_THATS_ALL_RIGHT" : {
+      "description" : "",
+      "message" : "OK, myślę że stawka jest w porządku."
+   },
+   "PILOT" : {
+      "description" : "",
+      "message" : "Pilot"
+   },
+   "POTENTIAL_CREW_MEMBERS" : {
+      "description" : "",
+      "message" : "Potencjalni członkowie załogi, zarejestrowani jako poszukujący zatrudnienia na stacji {station}:"
+   },
+   "SENSORS_AND_DEFENCE" : {
+      "description" : "",
+      "message" : "Sensory i obrona"
+   },
+   "SHIPS_ENGINEER" : {
+      "description" : "",
+      "message" : "Mechanik pokładowy"
+   },
+   "SIMULATOR_TRAINING_ONLY" : {
+      "description" : "",
+      "message" : "Tylko symulatory treningowe"
+   },
+   "SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS" : {
+      "description" : "",
+      "message" : "Ma pewne doświadczenie w kontrolowanych warunkach"
+   },
+   "SUGGEST_NEW_WEEKLY_WAGE_OF_N" : {
+      "description" : "",
+      "message" : "Zaproponuj zmianę stawki tygodniowej na {newAmount}"
+   },
+   "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY" : {
+      "description" : "",
+      "message" : "Dzięki, stawię się niezwłocznie na pokładzie."
+   },
+   "THATS_EXTREMELY_GENEROUS_OF_YOU" : {
+      "description" : "",
+      "message" : "Twoja hojność jest niezmiernie wielka!"
+   },
+   "THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER" : {
+      "description" : "",
+      "message" : "To z pewnością uczyni ofertę atrakcyjniejszą!"
+   },
+   "THERE_DOESNT_SEEM_TO_BE_SPACE_FOR_ME_ON_BOARD" : {
+      "description" : "",
+      "message" : "Nie wydaje mi się, aby było dla mnie miejsce na pokładzie!"
+   },
+   "TIME_SERVED_CREW_MEMBER" : {
+      "description" : "",
+      "message" : "Ma doświadczenie w służbie członka załogi"
+   },
+   "VETERAN_TIME_SERVED_CREW_MEMBER" : {
+      "description" : "",
+      "message" : "Weteran, ma doświadczenie w służbie członka załogi"
+   }
 }

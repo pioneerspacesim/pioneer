@@ -25,6 +25,7 @@ ModelViewer::Options::Options()
 , showLandingPad(false)
 , showUI(true)
 , wireframe(false)
+, mouselookEnabled(false)
 , gridInterval(10.f)
 , lightPreset(0)
 {
@@ -91,7 +92,7 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm)
 , m_model(0)
 , m_modelName("")
 {
-	m_ui.Reset(new UI::Context(lm, r, Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), "English"));
+	m_ui.Reset(new UI::Context(lm, r, Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), "en"));
 
 	m_log = m_ui->MultiLineText("");
 	m_log->SetFont(UI::Widget::FONT_SMALLEST);
@@ -133,7 +134,6 @@ void ModelViewer::Run(const std::string &modelName)
 	videoSettings.width = config->Int("ScrWidth");
 	videoSettings.height = config->Int("ScrHeight");
 	videoSettings.fullscreen = (config->Int("StartFullscreen") != 0);
-	videoSettings.shaders = (config->Int("DisableShaders") == 0);
 	videoSettings.requestedSamples = config->Int("AntiAliasingMode");
 	videoSettings.vsync = (config->Int("VSync") != 0);
 	videoSettings.useTextureCompression = (config->Int("UseTextureCompression") != 0);
@@ -287,6 +287,20 @@ void ModelViewer::ChangeCameraPreset(SDL_Keycode key, SDL_Keymod mod)
 	}
 }
 
+void ModelViewer::ToggleViewControlMode()
+{
+	m_options.mouselookEnabled = !m_options.mouselookEnabled;
+	m_renderer->GetWindow()->SetGrab(m_options.mouselookEnabled);
+
+	if (m_options.mouselookEnabled) {
+		m_viewRot = matrix3x3f::RotateY(DEG2RAD(m_rotY)) * matrix3x3f::RotateX(DEG2RAD(Clamp(m_rotX, -90.0f, 90.0f)));
+		m_viewPos = zoom_distance(m_baseDistance, m_zoom) * m_viewRot.VectorZ();
+	} else {
+		// XXX re-initialise the turntable style view position from the current mouselook view
+		ResetCamera();
+	}
+}
+
 void ModelViewer::ClearLog()
 {
 	m_log->SetText("");
@@ -297,6 +311,11 @@ void ModelViewer::ClearModel()
 	delete m_model; m_model = 0;
 	m_gunModel.reset();
 	m_scaleModel.reset();
+
+	m_options.mouselookEnabled = false;
+	m_renderer->GetWindow()->SetGrab(false);
+	m_viewPos = vector3f(0.0f, 0.0f, 10.0f);
+	ResetCamera();
 }
 
 void ModelViewer::CreateTestResources()
@@ -481,12 +500,16 @@ void ModelViewer::DrawModel()
 	m_renderer->SetTransform(matrix4x4f::Identity());
 	UpdateLights();
 
-	m_rotX = Clamp(m_rotX, -90.0f, 90.0f);
-	matrix4x4f rot = matrix4x4f::Identity();
-	rot.RotateY(DEG2RAD(m_rotY));
-	rot.RotateX(DEG2RAD(m_rotX));
-
-	const matrix4x4f mv = matrix4x4f::Translation(0.0f, 0.0f, -zoom_distance(m_baseDistance, m_zoom)) * rot.InverseOf();
+	matrix4x4f mv;
+	if (m_options.mouselookEnabled) {
+		mv = m_viewRot.Transpose() * matrix4x4f::Translation(-m_viewPos);
+	} else {
+		m_rotX = Clamp(m_rotX, -90.0f, 90.0f);
+		matrix4x4f rot = matrix4x4f::Identity();
+		rot.RotateX(DEG2RAD(-m_rotX));
+		rot.RotateY(DEG2RAD(-m_rotY));
+		mv = matrix4x4f::Translation(0.0f, 0.0f, -zoom_distance(m_baseDistance, m_zoom)) * rot;
+	}
 
 	if (m_options.showGrid)
 		DrawGrid(mv, m_model->GetDrawClipRadius());
@@ -704,6 +727,9 @@ void ModelViewer::PollEvents()
 				break;
 			case SDLK_z:
 				m_options.wireframe = !m_options.wireframe;
+				break;
+			case SDLK_f:
+				ToggleViewControlMode();
 				break;
 			case SDLK_F11:
 				if (event.key.keysym.mod & KMOD_SHIFT)
@@ -1095,36 +1121,67 @@ void ModelViewer::UpdateCamera()
 {
 	static const float BASE_ZOOM_RATE = 1.0f / 12.0f;
 	float zoomRate = (BASE_ZOOM_RATE * 8.0f) * m_frameTime;
-	float moveRate = 25.f * m_frameTime;
+	float rotateRate = 25.f * m_frameTime;
+	float moveRate = 10.0f * m_frameTime;
+
 	if (m_keyStates[SDLK_LSHIFT]) {
 		zoomRate *= 8.0f;
-		moveRate = 100.f * m_frameTime;
+		moveRate *= 4.0f;
+		rotateRate *= 4.0f;
 	}
 	else if (m_keyStates[SDLK_RSHIFT]) {
 		zoomRate *= 3.0f;
-		moveRate = 50.f * m_frameTime;
+		moveRate *= 2.0f;
+		rotateRate *= 2.0f;
 	}
 
-	//zoom
-	if (m_keyStates[SDLK_EQUALS] || m_keyStates[SDLK_KP_PLUS]) m_zoom -= zoomRate;
-	if (m_keyStates[SDLK_MINUS] || m_keyStates[SDLK_KP_MINUS]) m_zoom += zoomRate;
+	if (m_options.mouselookEnabled) {
+		const float degrees_per_pixel = 0.2f;
+		if (!m_mouseButton[SDL_BUTTON_RIGHT]) {
+			// yaw and pitch
+			const float rot_y = degrees_per_pixel*m_mouseMotion[0];
+			const float rot_x = degrees_per_pixel*m_mouseMotion[1];
+			const matrix3x3f rot =
+				matrix3x3f::RotateX(DEG2RAD(rot_x)) *
+				matrix3x3f::RotateY(DEG2RAD(rot_y));
 
-	//zoom with mouse wheel
-	if (m_mouseWheelUp) m_zoom -= BASE_ZOOM_RATE;
-	if (m_mouseWheelDown) m_zoom += BASE_ZOOM_RATE;
+			m_viewRot = m_viewRot * rot;
+		} else {
+			// roll
+			m_viewRot = m_viewRot * matrix3x3f::RotateZ(DEG2RAD(degrees_per_pixel * m_mouseMotion[0]));
+		}
 
-	m_zoom = Clamp(m_zoom, -10.0f, 10.0f); // distance range: [baseDistance * 1/1024, baseDistance * 1024]
+		vector3f motion(0.0f);
+		if (m_keyStates[SDLK_w]) motion.z -= moveRate;
+		if (m_keyStates[SDLK_s]) motion.z += moveRate;
+		if (m_keyStates[SDLK_a]) motion.x -= moveRate;
+		if (m_keyStates[SDLK_d]) motion.x += moveRate;
+		if (m_keyStates[SDLK_q]) motion.y -= moveRate;
+		if (m_keyStates[SDLK_e]) motion.y += moveRate;
 
-	//rotate
-	if (m_keyStates[SDLK_UP]) m_rotX += moveRate;
-	if (m_keyStates[SDLK_DOWN]) m_rotX -= moveRate;
-	if (m_keyStates[SDLK_LEFT]) m_rotY += moveRate;
-	if (m_keyStates[SDLK_RIGHT]) m_rotY -= moveRate;
+		m_viewPos += m_viewRot * motion;
+	} else {
+		//zoom
+		if (m_keyStates[SDLK_EQUALS] || m_keyStates[SDLK_KP_PLUS]) m_zoom -= zoomRate;
+		if (m_keyStates[SDLK_MINUS] || m_keyStates[SDLK_KP_MINUS]) m_zoom += zoomRate;
 
-	//mouse rotate when right button held
-	if (m_mouseButton[SDL_BUTTON_RIGHT]) {
-		m_rotY += 0.2f*m_mouseMotion[0];
-		m_rotX += 0.2f*m_mouseMotion[1];
+		//zoom with mouse wheel
+		if (m_mouseWheelUp) m_zoom -= BASE_ZOOM_RATE;
+		if (m_mouseWheelDown) m_zoom += BASE_ZOOM_RATE;
+
+		m_zoom = Clamp(m_zoom, -10.0f, 10.0f); // distance range: [baseDistance * 1/1024, baseDistance * 1024]
+
+		//rotate
+		if (m_keyStates[SDLK_UP]) m_rotX += rotateRate;
+		if (m_keyStates[SDLK_DOWN]) m_rotX -= rotateRate;
+		if (m_keyStates[SDLK_LEFT]) m_rotY += rotateRate;
+		if (m_keyStates[SDLK_RIGHT]) m_rotY -= rotateRate;
+
+		//mouse rotate when right button held
+		if (m_mouseButton[SDL_BUTTON_RIGHT]) {
+			m_rotY += 0.2f*m_mouseMotion[0];
+			m_rotX += 0.2f*m_mouseMotion[1];
+		}
 	}
 }
 

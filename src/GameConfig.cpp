@@ -9,8 +9,7 @@ GameConfig::GameConfig()
 {
 	// set defaults
 	std::map<std::string, std::string> &map = m_map[""];
-	map["Lang"] = "English";
-	map["DisableShaders"] = "0";
+	map["Lang"] = "en";
 	map["DisableEclipse"] = "0";
 	map["DisableSound"] = "0";
 	map["StartFullscreen"] = "0";
@@ -39,6 +38,7 @@ GameConfig::GameConfig()
 	map["UseTextureCompression"] = "0";
 	map["CockpitCamera"] = "1";
 	map["WorkerThreads"] = "0";
+	map["SpeedLines"] = "0";
 
 #ifdef _WIN32
 	map["RedirectStdio"] = "1";

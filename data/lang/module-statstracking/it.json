@@ -1,10 +1,10 @@
 {
-    "PIONEERING_PILOTS_GUILD": {
-        "message": "Confederazione Interstellare dei Piloti PIONEER",
-        "description": ""
-    },
-    "WELL_DONE_COMMANDER_YOUR_COMBAT_RATING_HAS_IMPROVED": {
-        "message": "Ben fatto Comandante! La Sua qualifica di combattimento è aumentata!",
-        "description": ""
-    }
+   "PIONEERING_PILOTS_GUILD" : {
+      "description" : "",
+      "message" : "Confederazione Interstellare dei Piloti PIONEER"
+   },
+   "WELL_DONE_COMMANDER_YOUR_COMBAT_RATING_HAS_IMPROVED" : {
+      "description" : "",
+      "message" : "Ben fatto Comandante! La Sua qualifica di combattimento è aumentata!"
+   }
 }

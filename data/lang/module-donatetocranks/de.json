@@ -1,58 +1,58 @@
 {
-    "FLAVOUR_MESSAGE_3": {
-        "message": "Bitte wähle eine Summe, die du GreenWatch spenden willst, um die Verschmutzung unserer Galaxie zu beenden.",
-        "description": ""
-    },
-    "FLAVOUR_MESSAGE_2": {
-        "message": "Bitte wähle die Summe, die du der Kriegswaisen-Unterstützung spenden willst, um damit das Leiden von Kindern aus der ganzen Galaxie zu lindern.",
-        "description": ""
-    },
-    "FLAVOUR_MESSAGE_1": {
-        "message": "Friede sei mit dir, Bruder. Bitte wähle die Summe, die du den Wächtern des Freien Geistes spenden möchtest.",
-        "description": ""
-    },
-    "FLAVOUR_MESSAGE_0": {
-        "message": "Bitte wähle eine Summe um an die Kirche des Fliegenden Himmel-Spagettimonster zu spenden.",
-        "description": ""
-    },
-    "FLAVOUR_MESSAGE_4": {
-        "message": "Bitte wähle aus, wie viel du spenden willst.",
-        "description": ""
-    },
-    "THANK_YOU_ALL_DONATIONS_ARE_WELCOME": {
-        "message": "Danke. Alle Spenden sind wilkommen.",
-        "description": ""
-    },
-    "HANG_UP": {
-        "message": "Auflegen.",
-        "description": ""
-    },
-    "YOU_DO_NOT_HAVE_ENOUGH_MONEY": {
-        "message": "Du hast nicht genug Geld.",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_4": {
-        "message": "SPENDE! Rette unsere Spezies. Stoppe das Massensterben auf neu besiedelten Welten.",
-        "description": ""
-    },
-    "WOW_THAT_WAS_VERY_GENEROUS": {
-        "message": "Wow! Das war sehr großzügig.",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_2": {
-        "message": "IN SPENDENLAUNE? Die Kriegswaisen-Unterstützung braucht deine Hilfe um die Lebenswichtige Arbeit weiterzuführen.",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_3": {
-        "message": "TRAGE BEI. Die Freundde der Galaktischen 'Verbot Militärischer Antriebe' Kampagne braucht dein Geld.",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_0": {
-        "message": "SPENDE! Die Kirche des Fliegenden Himmel-Spagettimonster braucht DEIN Geld, um das Wort von Gott zu verbreiten!",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_1": {
-        "message": "SPENDE. Die Wächter des Freien Geistes appellieren demütig an Ihre Wohltätigkeit, um unsere Klöster zu unterstützen.",
-        "description": ""
-    }
+   "FLAVOUR_0_MESSAGE" : {
+      "description" : "",
+      "message" : "Bitte wähle eine Summe um an die Kirche des Fliegenden Himmel-Spagettimonster zu spenden."
+   },
+   "FLAVOUR_0_TITLE" : {
+      "description" : "",
+      "message" : "SPENDE! Die Kirche des Fliegenden Himmel-Spagettimonster braucht DEIN Geld, um das Wort von Gott zu verbreiten!"
+   },
+   "FLAVOUR_1_MESSAGE" : {
+      "description" : "",
+      "message" : "Friede sei mit dir, Bruder. Bitte wähle die Summe, die du den Wächtern des Freien Geistes spenden möchtest."
+   },
+   "FLAVOUR_1_TITLE" : {
+      "description" : "",
+      "message" : "SPENDE. Die Wächter des Freien Geistes appellieren demütig an Ihre Wohltätigkeit, um unsere Klöster zu unterstützen."
+   },
+   "FLAVOUR_2_MESSAGE" : {
+      "description" : "",
+      "message" : "Bitte wähle die Summe, die du der Kriegswaisen-Unterstützung spenden willst, um damit das Leiden von Kindern aus der ganzen Galaxie zu lindern."
+   },
+   "FLAVOUR_2_TITLE" : {
+      "description" : "",
+      "message" : "IN SPENDENLAUNE? Die Kriegswaisen-Unterstützung braucht deine Hilfe um die Lebenswichtige Arbeit weiterzuführen."
+   },
+   "FLAVOUR_3_MESSAGE" : {
+      "description" : "",
+      "message" : "Bitte wähle eine Summe, die du GreenWatch spenden willst, um die Verschmutzung unserer Galaxie zu beenden."
+   },
+   "FLAVOUR_3_TITLE" : {
+      "description" : "",
+      "message" : "TRAGE BEI. Die Freundde der Galaktischen 'Verbot Militärischer Antriebe' Kampagne braucht dein Geld."
+   },
+   "FLAVOUR_4_MESSAGE" : {
+      "description" : "",
+      "message" : "Bitte wähle aus, wie viel du spenden willst."
+   },
+   "FLAVOUR_4_TITLE" : {
+      "description" : "",
+      "message" : "SPENDE! Rette unsere Spezies. Stoppe das Massensterben auf neu besiedelten Welten."
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Auflegen."
+   },
+   "THANK_YOU_ALL_DONATIONS_ARE_WELCOME" : {
+      "description" : "",
+      "message" : "Danke. Alle Spenden sind wilkommen."
+   },
+   "WOW_THAT_WAS_VERY_GENEROUS" : {
+      "description" : "",
+      "message" : "Wow! Das war sehr großzügig."
+   },
+   "YOU_DO_NOT_HAVE_ENOUGH_MONEY" : {
+      "description" : "",
+      "message" : "Du hast nicht genug Geld."
+   }
 }

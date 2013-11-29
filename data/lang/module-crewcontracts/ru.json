@@ -1,110 +1,110 @@
 {
-    "CREWDETAILSHEETBB": {
-        "message": "Найм экипажа\n\nИмя: {name}\nОпыт: {experience}\nЖелаемая з\\п: {wage} в неделю\n\n{response}\n",
-        "description": ""
-    },
-    "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY": {
-        "message": "Спасибо, я немедленно поднимаюсь на борт.",
-        "description": ""
-    },
-    "CREWTESTRESULTSBB": {
-        "message": "Экзаменационные результаты:\n\nОбщая компетенция экипажа: {general}%\nИнженерия и ремонт: {engineering}%\nПилотирование и перелеты: {piloting}%\nНавигация и картография: {navigation}%\nСенсоры и защита: {sensors}%\nОбщая экзаменационная оценка: {overall}%",
-        "description": ""
-    },
-    "OK_I_SUPPOSE_THATS_ALL_RIGHT": {
-        "message": "ОК, мне кажется, что всё в порядке.",
-        "description": ""
-    },
-    "GO_BACK": {
-        "message": "[Назад]",
-        "description": ""
-    },
-    "VETERAN_TIME_SERVED_CREW_MEMBER": {
-        "message": "Ветеран, служил в составе экипажа корабля",
-        "description": ""
-    },
-    "ASK_CANDIDATE_TO_SIT_A_TEST": {
-        "message": "Попросить кандидата пройти тест",
-        "description": ""
-    },
-    "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER": {
-        "message": "Извините, но я не готов к понижению.",
-        "description": ""
-    },
-    "SENSORS_AND_DEFENCE": {
-        "message": "Сенсоры и защита",
-        "description": ""
-    },
-    "THATS_EXTREMELY_GENEROUS_OF_YOU": {
-        "message": "Это очень великодушно с вашей стороны!",
-        "description": ""
-    },
-    "MINIMAL_TIME_SERVED_ABOARD_SHIP": {
-        "message": "Недолго служил на корабле",
-        "description": ""
-    },
-    "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT": {
-        "message": "Предложить должность на корабле с указанной зарплатой",
-        "description": ""
-    },
-    "THERE_DOESNT_SEEM_TO_BE_SPACE_FOR_ME_ON_BOARD": {
-        "message": "Кажется, для меня нет места на корабле!",
-        "description": ""
-    },
-    "NAVIGATOR": {
-        "message": "Навигатор",
-        "description": ""
-    },
-    "TIME_SERVED_CREW_MEMBER": {
-        "message": "Служил в составе экипажа корабля",
-        "description": ""
-    },
-    "PILOT": {
-        "message": "Пилот",
-        "description": ""
-    },
-    "CREWMEMBER_WAGE_PER_WEEK": {
-        "message": "{potentialCrewMember} ({wage}/неделя)",
-        "description": ""
-    },
-    "THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER": {
-        "message": "Это, конечно, делает ваше предложение интересней!",
-        "description": ""
-    },
-    "CREW_FOR_HIRE": {
-        "message": "Найм экипажа",
-        "description": ""
-    },
-    "SUGGEST_NEW_WEEKLY_WAGE_OF_N": {
-        "message": "Предложить уровень зарплаты в {newAmount}",
-        "description": ""
-    },
-    "SHIPS_ENGINEER": {
-        "message": "Корабельный инженер",
-        "description": ""
-    },
-    "HANG_UP": {
-        "message": "Спасибо за информацию, конец связи.",
-        "description": ""
-    },
-    "POTENTIAL_CREW_MEMBERS": {
-        "message": "Потенциальные члены экипажа, зарегистрированные в качестве ищущих работу на {station}:",
-        "description": ""
-    },
-    "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME": {
-        "message": "Извините, но ваше предложение меня не заинтересовало.",
-        "description": ""
-    },
-    "SIMULATOR_TRAINING_ONLY": {
-        "message": "Тренировки на симуляторе",
-        "description": ""
-    },
-    "SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS": {
-        "message": "Некоторый опыт под наблюдением инструкторов.",
-        "description": ""
-    },
-    "NO_EXPERIENCE": {
-        "message": "Опыт отсутствует",
-        "description": ""
-    }
+   "ASK_CANDIDATE_TO_SIT_A_TEST" : {
+      "description" : "",
+      "message" : "Попросить кандидата пройти тест"
+   },
+   "CREWDETAILSHEETBB" : {
+      "description" : "",
+      "message" : "Найм экипажа\n\nИмя: {name}\nОпыт: {experience}\nЖелаемая з\\п: {wage} в неделю\n\n{response}\n"
+   },
+   "CREWMEMBER_WAGE_PER_WEEK" : {
+      "description" : "",
+      "message" : "{potentialCrewMember} ({wage}/неделя)"
+   },
+   "CREWTESTRESULTSBB" : {
+      "description" : "",
+      "message" : "Экзаменационные результаты:\n\nОбщая компетенция экипажа: {general}%\nИнженерия и ремонт: {engineering}%\nПилотирование и перелеты: {piloting}%\nНавигация и картография: {navigation}%\nСенсоры и защита: {sensors}%\nОбщая экзаменационная оценка: {overall}%"
+   },
+   "CREW_FOR_HIRE" : {
+      "description" : "",
+      "message" : "Найм экипажа"
+   },
+   "GO_BACK" : {
+      "description" : "",
+      "message" : "[Назад]"
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Спасибо за информацию, конец связи."
+   },
+   "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER" : {
+      "description" : "",
+      "message" : "Извините, но я не готов к понижению."
+   },
+   "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME" : {
+      "description" : "",
+      "message" : "Извините, но ваше предложение меня не заинтересовало."
+   },
+   "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT" : {
+      "description" : "",
+      "message" : "Предложить должность на корабле с указанной зарплатой"
+   },
+   "MINIMAL_TIME_SERVED_ABOARD_SHIP" : {
+      "description" : "",
+      "message" : "Недолго служил на корабле"
+   },
+   "NAVIGATOR" : {
+      "description" : "",
+      "message" : "Навигатор"
+   },
+   "NO_EXPERIENCE" : {
+      "description" : "",
+      "message" : "Опыт отсутствует"
+   },
+   "OK_I_SUPPOSE_THATS_ALL_RIGHT" : {
+      "description" : "",
+      "message" : "ОК, мне кажется, что всё в порядке."
+   },
+   "PILOT" : {
+      "description" : "",
+      "message" : "Пилот"
+   },
+   "POTENTIAL_CREW_MEMBERS" : {
+      "description" : "",
+      "message" : "Потенциальные члены экипажа, зарегистрированные в качестве ищущих работу на {station}:"
+   },
+   "SENSORS_AND_DEFENCE" : {
+      "description" : "",
+      "message" : "Сенсоры и защита"
+   },
+   "SHIPS_ENGINEER" : {
+      "description" : "",
+      "message" : "Корабельный инженер"
+   },
+   "SIMULATOR_TRAINING_ONLY" : {
+      "description" : "",
+      "message" : "Тренировки на симуляторе"
+   },
+   "SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS" : {
+      "description" : "",
+      "message" : "Некоторый опыт под наблюдением инструкторов."
+   },
+   "SUGGEST_NEW_WEEKLY_WAGE_OF_N" : {
+      "description" : "",
+      "message" : "Предложить уровень зарплаты в {newAmount}"
+   },
+   "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY" : {
+      "description" : "",
+      "message" : "Спасибо, я немедленно поднимаюсь на борт."
+   },
+   "THATS_EXTREMELY_GENEROUS_OF_YOU" : {
+      "description" : "",
+      "message" : "Это очень великодушно с вашей стороны!"
+   },
+   "THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER" : {
+      "description" : "",
+      "message" : "Это, конечно, делает ваше предложение интересней!"
+   },
+   "THERE_DOESNT_SEEM_TO_BE_SPACE_FOR_ME_ON_BOARD" : {
+      "description" : "",
+      "message" : "Кажется, для меня нет места на корабле!"
+   },
+   "TIME_SERVED_CREW_MEMBER" : {
+      "description" : "",
+      "message" : "Служил в составе экипажа корабля"
+   },
+   "VETERAN_TIME_SERVED_CREW_MEMBER" : {
+      "description" : "",
+      "message" : "Ветеран, служил в составе экипажа корабля"
+   }
 }

@@ -1,322 +1,322 @@
 {
-    "FLAVOUR_SUCCESSMSG_3": {
-        "message": "Gyors és diszkrét szolgálatodat örömmel vettem, és fizettem ki.",
-        "description": ""
-    },
-    "WHY_SO_MUCH_MONEY": {
-        "message": "Miért ennyi a munkadíj?",
-        "description": ""
-    },
-    "SPACEPORT": {
-        "message": "Kikötő:",
-        "description": ""
-    },
-    "PIRATE_TAUNTS_4": {
-        "message": "Úgy gondolom, ez megér némi pénzt a feketepiacon",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_7": {
-        "message": "Kitünő munka, máris átutalom a fizetséged.",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_6": {
-        "message": "Köszönöm a csomagot, máris kifizetlek.",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_5": {
-        "message": "Na, szuper. Már kezdek is kipakolni. Kösz ismét.",
-        "description": ""
-    },
-    "DANGER": {
-        "message": "Veszély:",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_9": {
-        "message": "Nagyszerű! Máris elkezdjük kipakolni. Már át is utaltam a fizetséged.",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_8": {
-        "message": "Gyors és pontos szállításod pontos fizetséget is érdemel.",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_1": {
-        "message": "A csomag megérkezett, így megkapod a fizetséget a szállításért.",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCHTEXT_7": {
-        "message": "Szokványos fizetség, a piaci árak ilyenek.",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_3": {
-        "message": "Hello. A nevem {name}. Fizetek {cash} kreditet annak, aki elvisz egy csomagot {starport} kikötőjébe a(z) {system} ({sectorx}, {sectory}, {sectorz}) ({dist} ly) rendszerben.",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_0": {
-        "message": "Köszönöm a szállítást, máris megkapod érte a fizetséget.",
-        "description": ""
-    },
-    "DEADLINE": {
-        "message": "Határidő:",
-        "description": ""
-    },
-    "THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN": {
-        "message": "Ez egy értékes csomag, szóval légy körültekintő.",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_2": {
-        "message": "A szállításért máris megkapod a fizetséget. Köszönöm.",
-        "description": ""
-    },
-    "OK_AGREED": {
-        "message": "Oké, elvállalom.",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_0": {
-        "message": "ÚTBAN VAGY a(z) {system} rendszerbe? Egy kis csomag elviteléért pénzt fizetek.",
-        "description": ""
-    },
-    "EXCELLENT_I_WILL_LET_THE_RECIPIENT_KNOW_YOU_ARE_ON_YOUR_WAY": {
-        "message": "Kitünő. Tudatom a címzettel, hogy úton van a csomag.",
-        "description": ""
-    },
-    "PIRATE_TAUNTS_9": {
-        "message": "Ezért a csomagért megfizetsz, méghozzá az életeddel.",
-        "description": ""
-    },
-    "PIRATE_TAUNTS_8": {
-        "message": "Nem fogsz eljutni {location} célodhoz!",
-        "description": ""
-    },
-    "PIRATE_TAUNTS_7": {
-        "message": "Ez a csomag nem fog ma elérni a célállomásra.",
-        "description": ""
-    },
-    "PIRATE_TAUNTS_6": {
-        "message": "Mondd meg régi barátomnak: {client}... viszlát a pokolban!",
-        "description": ""
-    },
-    "PIRATE_TAUNTS_5": {
-        "message": "A mai nap nem a szerencsenapod! Készülj a halálra.",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_4": {
-        "message": "Gyorsaságodat és diszkréciódat díjazzuk, amely díjazást már át is utaltuk.",
-        "description": ""
-    },
-    "PIRATE_TAUNTS_3": {
-        "message": "A rakományod és az életed!",
-        "description": ""
-    },
-    "PIRATE_TAUNTS_2": {
-        "message": "Nocsak, {client} a megbízód? Ez egy nagyon rossz ötlet volt.",
-        "description": ""
-    },
-    "PIRATE_TAUNTS_1": {
-        "message": "Úgy tűnik, megjött a fizetési csekkem!",
-        "description": ""
-    },
-    "PIRATE_TAUNTS_0": {
-        "message": "Megbánod még, hogy {client} fizeti a munkádat!",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_7": {
-        "message": "Helló. Szeretnék, ha ezeket a dobozokat elvinnéd {starport} kikötőjébe, amilyen gyorsan tudod. A szállítás szokványos fizetsége {cash} kredit.",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_4": {
-        "message": "POSTAI SZOLGÁLTATÁS. Szükségünk van egy gyors kézbesítésre a(z) {system} rendszerbe.",
-        "description": ""
-    },
-    "IT_COULD_BE_DANGEROUS_YOU_SHOULD_MAKE_SURE_YOURE_ADEQUATELY_PREPARED": {
-        "message": "Lehet, hogy veszélyes, szóval legyél nagyon felkészült.",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_2": {
-        "message": "Elég egyértelmű voltam a határidővel kapcsolatban, és nem sikerült tartani. Nem kapod meg a fizetséget.",
-        "description": ""
-    },
-    "WILL_I_BE_IN_ANY_DANGER": {
-        "message": "Fenyeget valamilyen veszély közben?",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_7": {
-        "message": "BOLYGÓKÖZI SZÁLLÍTÁS. Némi rakomány szállítása {starport} kikötőjébe.",
-        "description": ""
-    },
-    "LY": {
-        "message": "fé",
-        "description": ""
-    },
-    "HOW_SOON_MUST_IT_BE_DELIVERED": {
-        "message": "Mikorra kell leszállítani?",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_6": {
-        "message": "RÖVID TÁVOLSÁGRA FUTÁR. Egy kis csomag szállítását kérném {starport} kikötőjébe.",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_9": {
-        "message": "CSOMAGSZÁLLÍTÁS. Sürgős, romlandó áru szállítása {starport} kikötőjébe.",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_8": {
-        "message": "KÖZELI CÉLÁLLOMÁS. Gyors kiszállítás szükséges a(z) {starport} közeli űrkikötőbe.",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_9": {
-        "message": "Üdvözöllek, sürgősen el szeretnénk juttatni a szállítmányunkat {starport} kikötőjébe. Fizetünk a kényelmetlenségekért {cash} kreditet.",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_8": {
-        "message": "A nevem {name}. Szeretném ezt a tárgyat azonnal eljuttatni egy barátomnak {starport} kikötőjébe. Fizetek a szállításért {cash} kreditet, ha elfogadható gyorsasággal végrehajtod a munkát.",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_5": {
-        "message": "KÖLTÖZTETÉS. Tárgyak, alkatrészek szállítása a(z) {starport} űrkikötőbe.",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_6": {
-        "message": "Helló. A nevem {name}, és fizetek {cash} kreditet annak, aki elviszi ezt a csomagot {starport} kikötőjébe.",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_5": {
-        "message": "Örülök, hogy találkoztunk. A nevem {name}, és hajlandó vagyok fizetni {cash} kreditet, ha segítesz elszállítani a cuccaimat {starport} kikötőjébe. Semmi fontos, csak néhány hátramaradt dolog költözésből.",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_4": {
-        "message": "Üdvözlet. Ez egy automatikus üzenet a Beford és {name} postaszolgálattól. Fizetünk {cash} kreditet, ha elszállítasz valamit {starport} kikötőbe a(z)  {system} ({sectorx}, {sectory}, {sectorz}) ({dist} ly) rendszerben.",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_1": {
-        "message": "KERESEK. Egy olyan személyt, aki elvinne egy csomagot a(z) {system} rendszerbe.",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_2": {
-        "message": "Helló, a nevem {name}. Fizetek {cash} kreditet, ha elviszel egy csomagot {starport} kikötőjébe a(z) {system} ({sectorx}, {sectory}, {sectorz}) ({dist} ly) rendszerben.",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_3": {
-        "message": "SZÁLLÍTÁS. Dokumentumok szállítása {system} rendszerbe. A tapasztalt pilóta fizetsége {cash} kredit.",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_0": {
-        "message": "Helló, a nevem {name}. Fizetek neked {cash} összeget, ha elviszel egy kisebb csomagot {starport} kikötőjébe a(z) {system} ({sectorx}, {sectory}, {sectorz}) ({dist} ly) rendszerben.",
-        "description": ""
-    },
-    "DELIVERY": {
-        "message": "Szállítás",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_1": {
-        "message": "Helló. A nevem {name}. Fizetek {cash} kreditet, ha elszállítasz egy csomagot {starport} kikötőjébe a(z) {system} ({sectorx}, {sectory}, {sectorz}) ({dist} ly) rendszerben.",
-        "description": ""
-    },
-    "HANG_UP": {
-        "message": "Kapcsolat megszakítása.",
-        "description": ""
-    },
-    "IT_MUST_BE_DELIVERED_BY": {
-        "message": "Le kell szállítani ",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_2": {
-        "message": "SÜRGŐS. Egy gyors hajóval kellene csomagot szállítani a(z) {system} rendszerbe.",
-        "description": ""
-    },
-    "DISTANCE": {
-        "message": "Távolság:",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCHTEXT_8": {
-        "message": "Rettentően sürgős.",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCHTEXT_9": {
-        "message": "A túlélésünk múlik rajta.",
-        "description": ""
-    },
-    "THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE": {
-        "message": "Hihetetlenül veszélyes, biztos, hogy ellenállásba fogsz ütközni.",
-        "description": ""
-    },
-    "I_HIGHLY_DOUBT_IT": {
-        "message": "Azt erősen kétlem.",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCHTEXT_2": {
-        "message": "Ez egy kutatási anyag, amelyet időben le kell szállítani, hogy támogatást szerezzek rá.",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCHTEXT_3": {
-        "message": "Néhány különösen titkos dokumentum került a birtokomba, és okom van azt hinni, hogy visszavezetnek hozzám a nyomok.",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCHTEXT_0": {
-        "message": "A múltkor, amikor a barátnőm meglátogatott, itthagyott néhány ruhát és pár régi papírkönyvet. Szeretném visszajuttatni neki.",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCHTEXT_1": {
-        "message": "Semmi különleges.",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCHTEXT_6": {
-        "message": "Szerintem nem sok ez.",
-        "description": ""
-    },
-    "SYSTEM": {
-        "message": "Rendszer:",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCHTEXT_4": {
-        "message": "Boldogan fizetünk kevesebbet is.",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCHTEXT_5": {
-        "message": "Hm, ez sok pénz? Talán újra kéne gondolnom az összeget!",
-        "description": ""
-    },
-    "NOT_ANY_MORE_THAN_USUAL": {
-        "message": "Nem több, mint általában.",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_8": {
-        "message": "A gyors szállításért kaptál volna prémiumot! Ezt viszont nem fogom kifizetni.",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_9": {
-        "message": "Mindennek annyi, már nem lehet használni ezeket! Nem tudunk és nem is akarunk ezért fizetni neked.",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_6": {
-        "message": "Még én is gyorsabb lettem volna. Nem fizetek neked semmit.",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_7": {
-        "message": "Az ügyfeleink nem fognak ennek örülni, így ne is várj fizetséget.",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_4": {
-        "message": "Megjegyeztük a hajód számát, így ne várd, hogy újra alkalmazni fog szolgálatunk téged.",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_5": {
-        "message": "Mi a fenék ezek? Óh, olyan soká tartott idehozni a cuccaimat, hogy elfelejtettem, hogy én küldtem!",
-        "description": ""
-    },
-    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
-        "message": "Megismételnéd az eredeti feladatot?",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_3": {
-        "message": "Használhatatlan vagy! Soha nem fogok benned bízni, és szerintem szükségtelen mondanom, hogy semmilyen fizetséged nem kapsz ezért sem.",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_0": {
-        "message": "Elfogadhatatlan! Egy egyszerű szállítás ennyi ideig tartson... nem fogsz fizetséget kapni érte.",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_1": {
-        "message": "A szállítási késedelmek miatt nem kapsz semmilyen fizetséget a 'munkáért'.",
-        "description": ""
-    }
+   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
+      "description" : "",
+      "message" : "Megismételnéd az eredeti feladatot?"
+   },
+   "DANGER" : {
+      "description" : "",
+      "message" : "Veszély:"
+   },
+   "DEADLINE" : {
+      "description" : "",
+      "message" : "Határidő:"
+   },
+   "DELIVERY" : {
+      "description" : "",
+      "message" : "Szállítás"
+   },
+   "DISTANCE" : {
+      "description" : "",
+      "message" : "Távolság:"
+   },
+   "EXCELLENT_I_WILL_LET_THE_RECIPIENT_KNOW_YOU_ARE_ON_YOUR_WAY" : {
+      "description" : "",
+      "message" : "Kitünő. Tudatom a címzettel, hogy úton van a csomag."
+   },
+   "FLAVOUR_0_ADTEXT" : {
+      "description" : "",
+      "message" : "ÚTBAN VAGY a(z) {system} rendszerbe? Egy kis csomag elviteléért pénzt fizetek."
+   },
+   "FLAVOUR_0_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Elfogadhatatlan! Egy egyszerű szállítás ennyi ideig tartson... nem fogsz fizetséget kapni érte."
+   },
+   "FLAVOUR_0_INTROTEXT" : {
+      "description" : "",
+      "message" : "Helló, a nevem {name}. Fizetek neked {cash} összeget, ha elviszel egy kisebb csomagot {starport} kikötőjébe a(z) {system} ({sectorx}, {sectory}, {sectorz}) ({dist} ly) rendszerben."
+   },
+   "FLAVOUR_0_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Köszönöm a szállítást, máris megkapod érte a fizetséget."
+   },
+   "FLAVOUR_0_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "A múltkor, amikor a barátnőm meglátogatott, itthagyott néhány ruhát és pár régi papírkönyvet. Szeretném visszajuttatni neki."
+   },
+   "FLAVOUR_1_ADTEXT" : {
+      "description" : "",
+      "message" : "KERESEK. Egy olyan személyt, aki elvinne egy csomagot a(z) {system} rendszerbe."
+   },
+   "FLAVOUR_1_FAILUREMSG" : {
+      "description" : "",
+      "message" : "A szállítási késedelmek miatt nem kapsz semmilyen fizetséget a 'munkáért'."
+   },
+   "FLAVOUR_1_INTROTEXT" : {
+      "description" : "",
+      "message" : "Helló. A nevem {name}. Fizetek {cash} kreditet, ha elszállítasz egy csomagot {starport} kikötőjébe a(z) {system} ({sectorx}, {sectory}, {sectorz}) ({dist} ly) rendszerben."
+   },
+   "FLAVOUR_1_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "A csomag megérkezett, így megkapod a fizetséget a szállításért."
+   },
+   "FLAVOUR_1_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "Semmi különleges."
+   },
+   "FLAVOUR_2_ADTEXT" : {
+      "description" : "",
+      "message" : "SÜRGŐS. Egy gyors hajóval kellene csomagot szállítani a(z) {system} rendszerbe."
+   },
+   "FLAVOUR_2_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Elég egyértelmű voltam a határidővel kapcsolatban, és nem sikerült tartani. Nem kapod meg a fizetséget."
+   },
+   "FLAVOUR_2_INTROTEXT" : {
+      "description" : "",
+      "message" : "Helló, a nevem {name}. Fizetek {cash} kreditet, ha elviszel egy csomagot {starport} kikötőjébe a(z) {system} ({sectorx}, {sectory}, {sectorz}) ({dist} ly) rendszerben."
+   },
+   "FLAVOUR_2_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "A szállításért máris megkapod a fizetséget. Köszönöm."
+   },
+   "FLAVOUR_2_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "Ez egy kutatási anyag, amelyet időben le kell szállítani, hogy támogatást szerezzek rá."
+   },
+   "FLAVOUR_3_ADTEXT" : {
+      "description" : "",
+      "message" : "SZÁLLÍTÁS. Dokumentumok szállítása {system} rendszerbe. A tapasztalt pilóta fizetsége {cash} kredit."
+   },
+   "FLAVOUR_3_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Használhatatlan vagy! Soha nem fogok benned bízni, és szerintem szükségtelen mondanom, hogy semmilyen fizetséged nem kapsz ezért sem."
+   },
+   "FLAVOUR_3_INTROTEXT" : {
+      "description" : "",
+      "message" : "Hello. A nevem {name}. Fizetek {cash} kreditet annak, aki elvisz egy csomagot {starport} kikötőjébe a(z) {system} ({sectorx}, {sectory}, {sectorz}) ({dist} ly) rendszerben."
+   },
+   "FLAVOUR_3_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Gyors és diszkrét szolgálatodat örömmel vettem, és fizettem ki."
+   },
+   "FLAVOUR_3_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "Néhány különösen titkos dokumentum került a birtokomba, és okom van azt hinni, hogy visszavezetnek hozzám a nyomok."
+   },
+   "FLAVOUR_4_ADTEXT" : {
+      "description" : "",
+      "message" : "POSTAI SZOLGÁLTATÁS. Szükségünk van egy gyors kézbesítésre a(z) {system} rendszerbe."
+   },
+   "FLAVOUR_4_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Megjegyeztük a hajód számát, így ne várd, hogy újra alkalmazni fog szolgálatunk téged."
+   },
+   "FLAVOUR_4_INTROTEXT" : {
+      "description" : "",
+      "message" : "Üdvözlet. Ez egy automatikus üzenet a Beford és {name} postaszolgálattól. Fizetünk {cash} kreditet, ha elszállítasz valamit {starport} kikötőbe a(z)  {system} ({sectorx}, {sectory}, {sectorz}) ({dist} ly) rendszerben."
+   },
+   "FLAVOUR_4_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Gyorsaságodat és diszkréciódat díjazzuk, amely díjazást már át is utaltuk."
+   },
+   "FLAVOUR_4_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "Boldogan fizetünk kevesebbet is."
+   },
+   "FLAVOUR_5_ADTEXT" : {
+      "description" : "",
+      "message" : "KÖLTÖZTETÉS. Tárgyak, alkatrészek szállítása a(z) {starport} űrkikötőbe."
+   },
+   "FLAVOUR_5_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Mi a fenék ezek? Óh, olyan soká tartott idehozni a cuccaimat, hogy elfelejtettem, hogy én küldtem!"
+   },
+   "FLAVOUR_5_INTROTEXT" : {
+      "description" : "",
+      "message" : "Örülök, hogy találkoztunk. A nevem {name}, és hajlandó vagyok fizetni {cash} kreditet, ha segítesz elszállítani a cuccaimat {starport} kikötőjébe. Semmi fontos, csak néhány hátramaradt dolog költözésből."
+   },
+   "FLAVOUR_5_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Na, szuper. Már kezdek is kipakolni. Kösz ismét."
+   },
+   "FLAVOUR_5_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "Hm, ez sok pénz? Talán újra kéne gondolnom az összeget!"
+   },
+   "FLAVOUR_6_ADTEXT" : {
+      "description" : "",
+      "message" : "RÖVID TÁVOLSÁGRA FUTÁR. Egy kis csomag szállítását kérném {starport} kikötőjébe."
+   },
+   "FLAVOUR_6_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Még én is gyorsabb lettem volna. Nem fizetek neked semmit."
+   },
+   "FLAVOUR_6_INTROTEXT" : {
+      "description" : "",
+      "message" : "Helló. A nevem {name}, és fizetek {cash} kreditet annak, aki elviszi ezt a csomagot {starport} kikötőjébe."
+   },
+   "FLAVOUR_6_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Köszönöm a csomagot, máris kifizetlek."
+   },
+   "FLAVOUR_6_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "Szerintem nem sok ez."
+   },
+   "FLAVOUR_7_ADTEXT" : {
+      "description" : "",
+      "message" : "BOLYGÓKÖZI SZÁLLÍTÁS. Némi rakomány szállítása {starport} kikötőjébe."
+   },
+   "FLAVOUR_7_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Az ügyfeleink nem fognak ennek örülni, így ne is várj fizetséget."
+   },
+   "FLAVOUR_7_INTROTEXT" : {
+      "description" : "",
+      "message" : "Helló. Szeretnék, ha ezeket a dobozokat elvinnéd {starport} kikötőjébe, amilyen gyorsan tudod. A szállítás szokványos fizetsége {cash} kredit."
+   },
+   "FLAVOUR_7_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Kitünő munka, máris átutalom a fizetséged."
+   },
+   "FLAVOUR_7_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "Szokványos fizetség, a piaci árak ilyenek."
+   },
+   "FLAVOUR_8_ADTEXT" : {
+      "description" : "",
+      "message" : "KÖZELI CÉLÁLLOMÁS. Gyors kiszállítás szükséges a(z) {starport} közeli űrkikötőbe."
+   },
+   "FLAVOUR_8_FAILUREMSG" : {
+      "description" : "",
+      "message" : "A gyors szállításért kaptál volna prémiumot! Ezt viszont nem fogom kifizetni."
+   },
+   "FLAVOUR_8_INTROTEXT" : {
+      "description" : "",
+      "message" : "A nevem {name}. Szeretném ezt a tárgyat azonnal eljuttatni egy barátomnak {starport} kikötőjébe. Fizetek a szállításért {cash} kreditet, ha elfogadható gyorsasággal végrehajtod a munkát."
+   },
+   "FLAVOUR_8_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Gyors és pontos szállításod pontos fizetséget is érdemel."
+   },
+   "FLAVOUR_8_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "Rettentően sürgős."
+   },
+   "FLAVOUR_9_ADTEXT" : {
+      "description" : "",
+      "message" : "CSOMAGSZÁLLÍTÁS. Sürgős, romlandó áru szállítása {starport} kikötőjébe."
+   },
+   "FLAVOUR_9_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Mindennek annyi, már nem lehet használni ezeket! Nem tudunk és nem is akarunk ezért fizetni neked."
+   },
+   "FLAVOUR_9_INTROTEXT" : {
+      "description" : "",
+      "message" : "Üdvözöllek, sürgősen el szeretnénk juttatni a szállítmányunkat {starport} kikötőjébe. Fizetünk a kényelmetlenségekért {cash} kreditet."
+   },
+   "FLAVOUR_9_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Nagyszerű! Máris elkezdjük kipakolni. Már át is utaltam a fizetséged."
+   },
+   "FLAVOUR_9_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "A túlélésünk múlik rajta."
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Kapcsolat megszakítása."
+   },
+   "HOW_SOON_MUST_IT_BE_DELIVERED" : {
+      "description" : "",
+      "message" : "Mikorra kell leszállítani?"
+   },
+   "IT_COULD_BE_DANGEROUS_YOU_SHOULD_MAKE_SURE_YOURE_ADEQUATELY_PREPARED" : {
+      "description" : "",
+      "message" : "Lehet, hogy veszélyes, szóval legyél nagyon felkészült."
+   },
+   "IT_MUST_BE_DELIVERED_BY" : {
+      "description" : "",
+      "message" : "Le kell szállítani "
+   },
+   "I_HIGHLY_DOUBT_IT" : {
+      "description" : "",
+      "message" : "Azt erősen kétlem."
+   },
+   "LY" : {
+      "description" : "",
+      "message" : "fé"
+   },
+   "NOT_ANY_MORE_THAN_USUAL" : {
+      "description" : "",
+      "message" : "Nem több, mint általában."
+   },
+   "OK_AGREED" : {
+      "description" : "",
+      "message" : "Oké, elvállalom."
+   },
+   "PIRATE_TAUNTS_0" : {
+      "description" : "",
+      "message" : "Megbánod még, hogy {client} fizeti a munkádat!"
+   },
+   "PIRATE_TAUNTS_1" : {
+      "description" : "",
+      "message" : "Úgy tűnik, megjött a fizetési csekkem!"
+   },
+   "PIRATE_TAUNTS_2" : {
+      "description" : "",
+      "message" : "Nocsak, {client} a megbízód? Ez egy nagyon rossz ötlet volt."
+   },
+   "PIRATE_TAUNTS_3" : {
+      "description" : "",
+      "message" : "A rakományod és az életed!"
+   },
+   "PIRATE_TAUNTS_4" : {
+      "description" : "",
+      "message" : "Úgy gondolom, ez megér némi pénzt a feketepiacon"
+   },
+   "PIRATE_TAUNTS_5" : {
+      "description" : "",
+      "message" : "A mai nap nem a szerencsenapod! Készülj a halálra."
+   },
+   "PIRATE_TAUNTS_6" : {
+      "description" : "",
+      "message" : "Mondd meg régi barátomnak: {client}... viszlát a pokolban!"
+   },
+   "PIRATE_TAUNTS_7" : {
+      "description" : "",
+      "message" : "Ez a csomag nem fog ma elérni a célállomásra."
+   },
+   "PIRATE_TAUNTS_8" : {
+      "description" : "",
+      "message" : "Nem fogsz eljutni {location} célodhoz!"
+   },
+   "PIRATE_TAUNTS_9" : {
+      "description" : "",
+      "message" : "Ezért a csomagért megfizetsz, méghozzá az életeddel."
+   },
+   "SPACEPORT" : {
+      "description" : "",
+      "message" : "Kikötő:"
+   },
+   "SYSTEM" : {
+      "description" : "",
+      "message" : "Rendszer:"
+   },
+   "THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN" : {
+      "description" : "",
+      "message" : "Ez egy értékes csomag, szóval légy körültekintő."
+   },
+   "THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE" : {
+      "description" : "",
+      "message" : "Hihetetlenül veszélyes, biztos, hogy ellenállásba fogsz ütközni."
+   },
+   "WHY_SO_MUCH_MONEY" : {
+      "description" : "",
+      "message" : "Miért ennyi a munkadíj?"
+   },
+   "WILL_I_BE_IN_ANY_DANGER" : {
+      "description" : "",
+      "message" : "Fenyeget valamilyen veszély közben?"
+   }
 }

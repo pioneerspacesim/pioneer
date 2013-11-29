@@ -435,15 +435,6 @@ static int l_sbodypath_attr_body_index(lua_State *l)
 	return 1;
 }
 
-static int l_sbodypath_meta_eq(lua_State *l)
-{
-	SystemPath *a = LuaObject<SystemPath>::CheckFromLua(1);
-	SystemPath *b = LuaObject<SystemPath>::CheckFromLua(2);
-
-	lua_pushboolean(l, *a == *b);
-	return 1;
-}
-
 static int l_sbodypath_meta_tostring(lua_State *l)
 {
 	SystemPath *path = LuaObject<SystemPath>::CheckFromLua(1);
@@ -460,6 +451,45 @@ static int l_sbodypath_meta_tostring(lua_State *l)
 			path->systemIndex, path->bodyIndex);
 	}
 	return 1;
+}
+
+template <> void LuaObject<SystemPath>::PushToLua(const SystemPath &o) {
+	lua_State *l = Lua::manager->GetLuaState();
+
+	// get the system path object cache
+	if (!luaL_getsubtable(l, LUA_REGISTRYINDEX, "SystemPaths")) {
+		lua_createtable(l, 0, 1);
+		lua_pushliteral(l, "v");
+		lua_setfield(l, -2, "__mode");
+		lua_setmetatable(l, -2);
+	}
+
+	// stack: [SystemPaths]
+
+	// push the system path as a blob to use as a key to look up the actual SystemPath object
+	char key_blob[SystemPath::SizeAsBlob];
+	o.SerializeToBlob(key_blob);
+
+	lua_pushlstring(l, key_blob, sizeof(key_blob)); // [SystemPaths key]
+	lua_pushvalue(l, -1); // [SystemPaths key key]
+	lua_rawget(l, -3); // [SystemPaths key value/nil]
+	if (lua_isnil(l, -1)) {
+		// [SystemPaths key nil]
+		lua_pop(l, 1);
+
+		// push a new Lua SystemPath object
+		Register(new (LuaObjectBase::Allocate(sizeof(LuaCopyObject<SystemPath>))) LuaCopyObject<SystemPath>(o));
+
+		// store it in the SystemPaths cache, but keep a copy on the stack
+		lua_pushvalue(l, -1); // [SystemPaths  key  value  value]
+		lua_insert(l, -4); // [value SystemPaths key value]
+		lua_rawset(l, -3); // [value SystemPaths]
+		lua_pop(l, 1); // [value]
+	} else {
+		// [SystemPaths key value]
+		lua_insert(l, -3); // [value SystemPaths key]
+		lua_pop(l, 2); // [value]
+	}
 }
 
 template <> const char *LuaObject<SystemPath>::s_type = "SystemPath";
@@ -493,7 +523,6 @@ template <> void LuaObject<SystemPath>::RegisterClass()
 	};
 
 	static const luaL_Reg l_meta[] = {
-		{ "__eq",  l_sbodypath_meta_eq },
 		{ "__tostring", l_sbodypath_meta_tostring },
 		{ 0, 0 }
 	};

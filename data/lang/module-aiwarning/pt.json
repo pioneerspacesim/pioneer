@@ -1,18 +1,18 @@
 {
-    "AUTOPILOT": {
-        "message": "Piloto automático",
-        "description": ""
-    },
-    "CANNOT_COMPENSATE_FOR_LOCAL_GRAVITY": {
-        "message": "Impossível compensar a gravidade local",
-        "description": ""
-    },
-    "CANNOT_COMPUTE_ORBIT_PARAMETERS": {
-        "message": "Impossível calcular o parâmetros para a órbita",
-        "description": ""
-    },
-    "STARPORT_REFUSED_DOCKING_PERMISSION": {
-        "message": "A Startport recusou o pedido de acoplamento",
-        "description": ""
-    }
+   "AUTOPILOT" : {
+      "description" : "",
+      "message" : "Piloto automático"
+   },
+   "CANNOT_COMPENSATE_FOR_LOCAL_GRAVITY" : {
+      "description" : "",
+      "message" : "Impossível compensar a gravidade local"
+   },
+   "CANNOT_COMPUTE_ORBIT_PARAMETERS" : {
+      "description" : "",
+      "message" : "Impossível calcular o parâmetros para a órbita"
+   },
+   "STARPORT_REFUSED_DOCKING_PERMISSION" : {
+      "description" : "",
+      "message" : "A Startport recusou o pedido de acoplamento"
+   }
 }

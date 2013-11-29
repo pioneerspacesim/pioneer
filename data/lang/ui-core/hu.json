@@ -1,666 +1,666 @@
 {
-    "CARGO": {
-        "message": "Raktér",
-        "description": ""
-    },
-    "DELTA_V": {
-        "message": "Delta-V",
-        "description": ""
-    },
-    "DISPLAY_NAV_TUNNELS": {
-        "message": "Navigációs alagút mutatása",
-        "description": ""
-    },
-    "ORBIT": {
-        "message": "Orbitális pálya",
-        "description": ""
-    },
-    "ENABLE_JOYSTICK": {
-        "message": "Joystick irányítás engedélyezése",
-        "description": ""
-    },
-    "SHIP_INFORMATION": {
-        "message": "Hajó információ",
-        "description": ""
-    },
-    "VIDEO_RESOLUTION": {
-        "message": "Képernyő-felbontás",
-        "description": ""
-    },
-    "REAR_WEAPON": {
-        "message": "Hátsó fegyver",
-        "description": ""
-    },
-    "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE": {
-        "message": "Elhanyagolható sérülés: hajótest javítása sikertelen.",
-        "description": ""
-    },
-    "MAKE_NEW_FACE": {
-        "message": "Új arc",
-        "description": ""
-    },
-    "START_AT_NEW_HOPE": {
-        "message": "Kezdés New Hope-on",
-        "description": ""
-    },
-    "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
-        "message": "Vezérlést átvette az állomás, parancsnok.",
-        "description": ""
-    },
-    "ECONOMY_TRADE": {
-        "message": "gazdaság és kereskedelem",
-        "description": ""
-    },
-    "REFUEL": {
-        "message": "Újratölt",
-        "description": ""
-    },
-    "ENGINEERING": {
-        "message": "Gépészet",
-        "description": ""
-    },
-    "DESCENT_TO_GROUND_SPEED": {
-        "message": "Sebesség ereszkedéshez:",
-        "description": ""
-    },
-    "DESTROY_ENEMY_SHIP": {
-        "message": "Lődd ki az ellenséges hajót.",
-        "description": ""
-    },
-    "TOTAL": {
-        "message": "Összesen:",
-        "description": ""
-    },
-    "PILOTING": {
-        "message": "Kormányzás:",
-        "description": ""
-    },
-    "MORE_INFO": {
-        "message": "Több info...",
-        "description": ""
-    },
-    "RATING": {
-        "message": "Minősítés:",
-        "description": ""
-    },
-    "OFF": {
-        "message": "Ki",
-        "description": ""
-    },
-    "LOCATION": {
-        "message": "Helyzet",
-        "description": ""
-    },
-    "ORBITAL_ANALYSIS_NOTES": {
-        "message": "A körpályához megadott sebesség párhuzamos a bolygó felszínével. A hajónak 90°-os szögben kell haladnia a ship/{name} tengelyhez képest.\n\nAz ereszkedési sebesség a lehető legalacsonyabb, és szintén párhuzamos a felszínnel. Lassabb sebesség vagy nagyobb ereszkedési szög ütközőpályát eredményez.\n\nA szökési sebesség elméletben bármely irányba működik, ütközőpályákat kivéve.",
-        "description": ""
-    },
-    "CLEAR": {
-        "message": "Töröl",
-        "description": ""
-    },
-    "CREW_ROSTER": {
-        "message": "Legénység:",
-        "description": ""
-    },
-    "HIGH": {
-        "message": "Magas",
-        "description": ""
-    },
-    "MINIMUM_CREW": {
-        "message": "Minimális legénység",
-        "description": ""
-    },
-    "CREW_CABINS": {
-        "message": "Legénységi kabin",
-        "description": ""
-    },
-    "WEIGHT_EMPTY": {
-        "message": "Üres tömeg:",
-        "description": ""
-    },
-    "POSITION": {
-        "message": "Helyzet",
-        "description": ""
-    },
-    "FRONT_WEAPON": {
-        "message": "Első fegyver",
-        "description": ""
-    },
-    "OK": {
-        "message": "Ok",
-        "description": ""
-    },
-    "PLANET_TEXTURES": {
-        "message": "Bolygótextúrák",
-        "description": ""
-    },
-    "CONTROL_OPTIONS": {
-        "message": "Vezérlés beállítása",
-        "description": ""
-    },
-    "D_DAYS_LEFT": {
-        "message": "%d nap maradt",
-        "description": ""
-    },
-    "GENERAL_CREW": {
-        "message": "Általános legénység",
-        "description": ""
-    },
-    "KILLS": {
-        "message": "Győzelem:",
-        "description": ""
-    },
-    "QUALIFICATION_SCORES": {
-        "message": "Képzettség pont:",
-        "description": ""
-    },
-    "CHANGE_BINDING": {
-        "message": "Hozzárendel",
-        "description": ""
-    },
-    "MAX": {
-        "message": "max",
-        "description": ""
-    },
-    "RETURN_TO_MENU": {
-        "message": "Vissza a menübe",
-        "description": ""
-    },
-    "N_LIGHT_YEARS_N_MAX": {
-        "message": "{range} fényév ({maxRange} max)",
-        "description": ""
-    },
-    "FAILED": {
-        "message": "Sikertelen",
-        "description": ""
-    },
-    "HYPERSPACE_RANGE": {
-        "message": "Hiperűr hatótáv",
-        "description": ""
-    },
-    "EFFECTS": {
-        "message": "Effektek:",
-        "description": ""
-    },
-    "VERY_LOW": {
-        "message": "Nagyon alacsony",
-        "description": ""
-    },
-    "REWARD": {
-        "message": "Jutalom",
-        "description": ""
-    },
-    "SOUND": {
-        "message": "Hang",
-        "description": ""
-    },
-    "STATUS": {
-        "message": "Státusz",
-        "description": ""
-    },
-    "FUEL_TANK_FULL": {
-        "message": "Hajtóanyag-tartály tele.",
-        "description": ""
-    },
-    "ESCAPE_SPEED": {
-        "message": "Szökési sebesség:",
-        "description": ""
-    },
-    "NOTES": {
-        "message": "Megjegyzés:",
-        "description": ""
-    },
-    "FUEL_WEIGHT": {
-        "message": "Hajtóanyag tömeg",
-        "description": ""
-    },
-    "MISSION_DETAILS": {
-        "message": "Küldetés részletei",
-        "description": ""
-    },
-    "HULL_DOES_NOT_REQUIRE_REPAIR": {
-        "message": "A hajótest nem javítása nem szükséges.",
-        "description": ""
-    },
-    "FORWARD_ACCEL": {
-        "message": "Gyorsulás előre",
-        "description": ""
-    },
-    "HYPERDRIVE": {
-        "message": "Hipermotor",
-        "description": ""
-    },
-    "USE_SHADERS": {
-        "message": "Shader-ek használata",
-        "description": ""
-    },
-    "SELECT": {
-        "message": "Kiválaszt",
-        "description": ""
-    },
-    "NONE": {
-        "message": "Nincs",
-        "description": ""
-    },
-    "LANGUAGE": {
-        "message": "Nyelv",
-        "description": ""
-    },
-    "MOSTLY_HARMLESS": {
-        "message": "Jobbára ártalmatlan",
-        "description": ""
-    },
-    "MULTISAMPLING": {
-        "message": "Élsimítás",
-        "description": ""
-    },
-    "VIDEO": {
-        "message": "Video",
-        "description": ""
-    },
-    "PERSONAL_INFORMATION": {
-        "message": "Személyi adatok",
-        "description": ""
-    },
-    "LOAD_GAME": {
-        "message": "Játék betöltése",
-        "description": ""
-    },
-    "MILITARY": {
-        "message": "Hadi",
-        "description": ""
-    },
-    "MALE": {
-        "message": "Férfi",
-        "description": ""
-    },
-    "COULD_NOT_LOAD_GAME": {
-        "message": "Mentés nem tölthető be:",
-        "description": ""
-    },
-    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME": {
-        "message": "{distance}km-re található a {name} középpontjától:",
-        "description": ""
-    },
-    "LOAD": {
-        "message": "Tölt",
-        "description": ""
-    },
-    "MEDIUM": {
-        "message": "Közepes",
-        "description": ""
-    },
-    "CABINS": {
-        "message": "Utaskabin",
-        "description": ""
-    },
-    "N_UNOCCUPIED_PASSENGER_CABINS": {
-        "message": "{quantity} szabad kabin",
-        "description": ""
-    },
-    "YOURE_GOING_TO_REGRET_SACKING_ME": {
-        "message": "Megbánod még, hogy kirúgtál!",
-        "description": ""
-    },
-    "SELECT_GAME_TO_LOAD": {
-        "message": "Válassz betöltendö mentést...",
-        "description": ""
-    },
-    "ERROR": {
-        "message": "Hiba",
-        "description": ""
-    },
-    "ACTIVE": {
-        "message": "Aktív",
-        "description": ""
-    },
-    "WAGE": {
-        "message": "Bér",
-        "description": ""
-    },
-    "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY": {
-        "message": "Video beállítások (újraindítás szükséges)",
-        "description": ""
-    },
-    "SAVE": {
-        "message": "Ment",
-        "description": ""
-    },
-    "CITY_DETAIL_LEVEL": {
-        "message": "Város részletesség",
-        "description": ""
-    },
-    "N_OCCUPIED_PASSENGER_CABINS": {
-        "message": "{quantity} foglalt kabin",
-        "description": ""
-    },
-    "INVERT_MOUSE_Y": {
-        "message": "Egér Y tengely megfordítása",
-        "description": ""
-    },
-    "CONTROLS": {
-        "message": "Irányítás",
-        "description": ""
-    },
-    "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR": {
-        "message": "Nincs elegendő {alloy} a javításhoz.",
-        "description": ""
-    },
-    "NEXT_PAID": {
-        "message": "Következő kifizetés",
-        "description": ""
-    },
-    "CLIENT": {
-        "message": "Kliens",
-        "description": ""
-    },
-    "SENSORS": {
-        "message": "Érzékelők:",
-        "description": ""
-    },
-    "ORBITAL_ANALYSIS": {
-        "message": "Pályanalízis",
-        "description": ""
-    },
-    "UP_ACCEL": {
-        "message": "Gyorsulás fel",
-        "description": ""
-    },
-    "FRACTAL_DETAIL": {
-        "message": "Fraktál részletesség",
-        "description": ""
-    },
-    "ALLEGIANCE": {
-        "message": "Szövetség:",
-        "description": ""
-    },
-    "RANK": {
-        "message": "Rang:",
-        "description": ""
-    },
-    "DOCK_AT_CURRENT_TARGET": {
-        "message": "Dokkolj a célponttal.",
-        "description": ""
-    },
-    "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP": {
-        "message": "Nincs más a fedélzeten, aki vezetni tudja a hajót.",
-        "description": ""
-    },
-    "AN_ERROR_HAS_OCCURRED": {
-        "message": "Hiba történt",
-        "description": ""
-    },
-    "INACTIVE": {
-        "message": "Inaktív",
-        "description": ""
-    },
-    "N_SHIELD_GENERATORS": {
-        "message": "{quantity} pajzsgenerátor",
-        "description": ""
-    },
-    "TOGGLE_MALE_FEMALE": {
-        "message": "Férfi/Nő",
-        "description": ""
-    },
-    "DISMISS": {
-        "message": "Elbocsájt",
-        "description": ""
-    },
-    "CASH": {
-        "message": "Pénz",
-        "description": ""
-    },
-    "COMMANDER": {
-        "message": "Parancsnok",
-        "description": ""
-    },
-    "OWED": {
-        "message": "Tartozás",
-        "description": ""
-    },
-    "MASTER": {
-        "message": "Fő hangerő:",
-        "description": ""
-    },
-    "NO_MISSIONS": {
-        "message": "Nincs küldetés.",
-        "description": ""
-    },
-    "DANGEROUS": {
-        "message": "Veszélyes",
-        "description": ""
-    },
-    "AVERAGE": {
-        "message": "Átlagos",
-        "description": ""
-    },
-    "DUE": {
-        "message": "Lejár",
-        "description": ""
-    },
-    "FREE": {
-        "message": "szabad",
-        "description": ""
-    },
-    "YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER": {
-        "message": "Jelöljön ki egy ulticélt, Parancsnok!",
-        "description": ""
-    },
-    "JETTISON": {
-        "message": "Kidob",
-        "description": ""
-    },
-    "CIRCULAR_ORBIT_SPEED": {
-        "message": "Sebesség körpályához",
-        "description": ""
-    },
-    "WE_ARE_IN_HYPERSPACE_COMMANDER": {
-        "message": "Hiperűrben vagyunk, Parancsnok.",
-        "description": ""
-    },
-    "QUIT": {
-        "message": "Kilépés",
-        "description": ""
-    },
-    "NAME": {
-        "message": "Név",
-        "description": ""
-    },
-    "GIVE_ORDERS_TO_CREW": {
-        "message": "Parancs a legénységnek",
-        "description": ""
-    },
-    "EXIT_THIS_GAME": {
-        "message": "Kilépés",
-        "description": ""
-    },
-    "HARMLESS": {
-        "message": "Ártalmatlan",
-        "description": ""
-    },
-    "GOOD_RIDDANCE_TO_YOU_TOO": {
-        "message": "Jó szerencsét neked is!",
-        "description": ""
-    },
-    "TYPE": {
-        "message": "Típus",
-        "description": ""
-    },
-    "PLANET_DETAIL_DISTANCE": {
-        "message": "Bolygó-részlet távolság",
-        "description": ""
-    },
-    "CAPACITY_USED": {
-        "message": "Foglalt kapacitás",
-        "description": ""
-    },
-    "COMBAT": {
-        "message": "Harc",
-        "description": ""
-    },
-    "EQUIPMENT": {
-        "message": "Felszerelés",
-        "description": ""
-    },
-    "LOW": {
-        "message": "Alacsony",
-        "description": ""
-    },
-    "YOU_MUST_LAUNCH_FIRST_COMMANDER": {
-        "message": "Előbb fel kell szállnunk, Parancsnok!",
-        "description": ""
-    },
-    "BACKWARD_ACCEL": {
-        "message": "Gyorsulás hátra",
-        "description": ""
-    },
-    "COMPRESS_TEXTURES": {
-        "message": "Textúrák tömörítése",
-        "description": ""
-    },
-    "EMPLOYMENT": {
-        "message": "Alkalmazás",
-        "description": ""
-    },
-    "OPTIONS": {
-        "message": "Beállítások",
-        "description": ""
-    },
-    "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME": {
-        "message": "Válaszd ki a mentést, vagy add meg az őj mentés nevét",
-        "description": ""
-    },
-    "MISSIONS": {
-        "message": "Küldetések",
-        "description": ""
-    },
-    "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT": {
-        "message": " {name} javítást végzett, hajótest állapota {repairPercent}%",
-        "description": ""
-    },
-    "CARGO_SPACE": {
-        "message": "Raktér kapacitás",
-        "description": ""
-    },
-    "COMPLETED": {
-        "message": "Befejezve",
-        "description": ""
-    },
-    "FULL_SCREEN": {
-        "message": "Teljes képernyő",
-        "description": ""
-    },
-    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER": {
-        "message": "Először határozza meg a célpontot, Parancsnok!",
-        "description": ""
-    },
-    "ATTEMPT_TO_REPAIR_HULL": {
-        "message": "Kíséreld meg a hajótest javítását",
-        "description": ""
-    },
-    "LANGUAGE_RESTART_GAME_TO_APPLY": {
-        "message": "Nyelv (újraindítás szükséges)",
-        "description": ""
-    },
-    "NAVIGATION": {
-        "message": "Navigáció:",
-        "description": ""
-    },
-    "LY": {
-        "message": "fé",
-        "description": ""
-    },
-    "POOR": {
-        "message": "Gyenge",
-        "description": ""
-    },
-    "MUTE": {
-        "message": "Némít",
-        "description": ""
-    },
-    "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE": {
-        "message": "Öröm volt önnek dolgozni. Itt leszek még egy darabig, ha mégis szükség lenne rám.",
-        "description": ""
-    },
-    "START_AT_EARTH": {
-        "message": "Kezdés a Földön",
-        "description": ""
-    },
-    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS": {
-        "message": "Elegem van abból, hogy a semmiért dolgozom! Tudja egyáltalán, mi az a szerződés?",
-        "description": ""
-    },
-    "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME": {
-        "message": " {name} a kormánynál",
-        "description": ""
-    },
-    "MUSIC": {
-        "message": "Zene:",
-        "description": ""
-    },
-    "FEMALE": {
-        "message": "Nő",
-        "description": ""
-    },
-    "CANCEL": {
-        "message": "Mégse",
-        "description": ""
-    },
-    "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER": {
-        "message": "Előbb kérjen felszállási engedélyt, Parancsnok.",
-        "description": ""
-    },
-    "PRESS_A_KEY_OR_CONTROLLER_BUTTON": {
-        "message": "Nyomj meg egy gombot",
-        "description": ""
-    },
-    "START_AT_BARNARDS_STAR": {
-        "message": "Kezdés Barnard's Star rendszerben",
-        "description": ""
-    },
-    "VERY_HIGH": {
-        "message": "Nagyon magas",
-        "description": ""
-    },
-    "USED": {
-        "message": "Használt",
-        "description": ""
-    },
-    "ABOVE_AVERAGE": {
-        "message": "Átlag feletti",
-        "description": ""
-    },
-    "METAL_ALLOYS": {
-        "message": "Fémötvözetek",
-        "description": ""
-    },
-    "SELECT_FILE": {
-        "message": "Fájl kiválasztás...",
-        "description": ""
-    },
-    "COMPETENT": {
-        "message": "Versenyképes",
-        "description": ""
-    },
-    "NEGOTIATE": {
-        "message": "Alku",
-        "description": ""
-    },
-    "ALL_UP_WEIGHT": {
-        "message": "Teljes tömeg",
-        "description": ""
-    },
-    "DEADLY": {
-        "message": "Halálos",
-        "description": ""
-    },
-    "FUEL": {
-        "message": "Hajtóanyag",
-        "description": ""
-    },
-    "ELITE": {
-        "message": "ELITE",
-        "description": ""
-    }
+   "ABOVE_AVERAGE" : {
+      "description" : "",
+      "message" : "Átlag feletti"
+   },
+   "ACTIVE" : {
+      "description" : "",
+      "message" : "Aktív"
+   },
+   "ALLEGIANCE" : {
+      "description" : "",
+      "message" : "Szövetség:"
+   },
+   "ALL_UP_WEIGHT" : {
+      "description" : "",
+      "message" : "Teljes tömeg"
+   },
+   "AN_ERROR_HAS_OCCURRED" : {
+      "description" : "",
+      "message" : "Hiba történt"
+   },
+   "ATTEMPT_TO_REPAIR_HULL" : {
+      "description" : "",
+      "message" : "Kíséreld meg a hajótest javítását"
+   },
+   "AVERAGE" : {
+      "description" : "",
+      "message" : "Átlagos"
+   },
+   "BACKWARD_ACCEL" : {
+      "description" : "",
+      "message" : "Gyorsulás hátra"
+   },
+   "CABINS" : {
+      "description" : "",
+      "message" : "Utaskabin"
+   },
+   "CANCEL" : {
+      "description" : "",
+      "message" : "Mégse"
+   },
+   "CAPACITY_USED" : {
+      "description" : "",
+      "message" : "Foglalt kapacitás"
+   },
+   "CARGO" : {
+      "description" : "",
+      "message" : "Raktér"
+   },
+   "CARGO_SPACE" : {
+      "description" : "",
+      "message" : "Raktér kapacitás"
+   },
+   "CASH" : {
+      "description" : "",
+      "message" : "Pénz"
+   },
+   "CHANGE_BINDING" : {
+      "description" : "",
+      "message" : "Hozzárendel"
+   },
+   "CIRCULAR_ORBIT_SPEED" : {
+      "description" : "",
+      "message" : "Sebesség körpályához"
+   },
+   "CITY_DETAIL_LEVEL" : {
+      "description" : "",
+      "message" : "Város részletesség"
+   },
+   "CLEAR" : {
+      "description" : "",
+      "message" : "Töröl"
+   },
+   "CLIENT" : {
+      "description" : "",
+      "message" : "Kliens"
+   },
+   "COMBAT" : {
+      "description" : "",
+      "message" : "Harc"
+   },
+   "COMMANDER" : {
+      "description" : "",
+      "message" : "Parancsnok"
+   },
+   "COMPETENT" : {
+      "description" : "",
+      "message" : "Versenyképes"
+   },
+   "COMPLETED" : {
+      "description" : "",
+      "message" : "Befejezve"
+   },
+   "COMPRESS_TEXTURES" : {
+      "description" : "",
+      "message" : "Textúrák tömörítése"
+   },
+   "CONTROLS" : {
+      "description" : "",
+      "message" : "Irányítás"
+   },
+   "CONTROL_OPTIONS" : {
+      "description" : "",
+      "message" : "Vezérlés beállítása"
+   },
+   "COULD_NOT_LOAD_GAME" : {
+      "description" : "",
+      "message" : "Mentés nem tölthető be:"
+   },
+   "CREW_CABINS" : {
+      "description" : "",
+      "message" : "Legénységi kabin"
+   },
+   "CREW_ROSTER" : {
+      "description" : "",
+      "message" : "Legénység:"
+   },
+   "DANGEROUS" : {
+      "description" : "",
+      "message" : "Veszélyes"
+   },
+   "DEADLY" : {
+      "description" : "",
+      "message" : "Halálos"
+   },
+   "DELTA_V" : {
+      "description" : "",
+      "message" : "Delta-V"
+   },
+   "DESCENT_TO_GROUND_SPEED" : {
+      "description" : "",
+      "message" : "Sebesség ereszkedéshez:"
+   },
+   "DESTROY_ENEMY_SHIP" : {
+      "description" : "",
+      "message" : "Lődd ki az ellenséges hajót."
+   },
+   "DISMISS" : {
+      "description" : "",
+      "message" : "Elbocsájt"
+   },
+   "DISPLAY_NAV_TUNNELS" : {
+      "description" : "",
+      "message" : "Navigációs alagút"
+   },
+   "DISPLAY_SPEED_LINES" : {
+      "description" : "",
+      "message" : "Sebességjelző vonalak"
+   },
+   "DOCK_AT_CURRENT_TARGET" : {
+      "description" : "",
+      "message" : "Dokkolj a célponttal."
+   },
+   "DUE" : {
+      "description" : "",
+      "message" : "Lejár"
+   },
+   "D_DAYS_LEFT" : {
+      "description" : "",
+      "message" : "%d nap maradt"
+   },
+   "ECONOMY_TRADE" : {
+      "description" : "",
+      "message" : "Leltár"
+   },
+   "EFFECTS" : {
+      "description" : "",
+      "message" : "Effektek:"
+   },
+   "ELITE" : {
+      "description" : "",
+      "message" : "ELITE"
+   },
+   "EMPLOYMENT" : {
+      "description" : "",
+      "message" : "Alkalmazás"
+   },
+   "ENABLE_JOYSTICK" : {
+      "description" : "",
+      "message" : "Joystick irányítás engedélyezése"
+   },
+   "ENGINEERING" : {
+      "description" : "",
+      "message" : "Gépészet"
+   },
+   "EQUIPMENT" : {
+      "description" : "",
+      "message" : "Felszerelés"
+   },
+   "ERROR" : {
+      "description" : "",
+      "message" : "Hiba"
+   },
+   "ESCAPE_SPEED" : {
+      "description" : "",
+      "message" : "Szökési sebesség:"
+   },
+   "EXIT_THIS_GAME" : {
+      "description" : "",
+      "message" : "Kilépés"
+   },
+   "FAILED" : {
+      "description" : "",
+      "message" : "Sikertelen"
+   },
+   "FEMALE" : {
+      "description" : "",
+      "message" : "Nő"
+   },
+   "FORWARD_ACCEL" : {
+      "description" : "",
+      "message" : "Gyorsulás előre"
+   },
+   "FRACTAL_DETAIL" : {
+      "description" : "",
+      "message" : "Fraktál részletesség"
+   },
+   "FREE" : {
+      "description" : "",
+      "message" : "szabad"
+   },
+   "FRONT_WEAPON" : {
+      "description" : "",
+      "message" : "Első fegyver"
+   },
+   "FUEL" : {
+      "description" : "",
+      "message" : "Hajtóanyag"
+   },
+   "FUEL_TANK_FULL" : {
+      "description" : "",
+      "message" : "Hajtóanyag-tartály tele."
+   },
+   "FUEL_WEIGHT" : {
+      "description" : "",
+      "message" : "Hajtóanyag tömeg"
+   },
+   "FULL_SCREEN" : {
+      "description" : "",
+      "message" : "Teljes képernyő"
+   },
+   "GENERAL_CREW" : {
+      "description" : "",
+      "message" : "Általános legénység"
+   },
+   "GIVE_ORDERS_TO_CREW" : {
+      "description" : "",
+      "message" : "Parancs a legénységnek"
+   },
+   "GOOD_RIDDANCE_TO_YOU_TOO" : {
+      "description" : "",
+      "message" : "Jó szerencsét neked is!"
+   },
+   "HARMLESS" : {
+      "description" : "",
+      "message" : "Ártalmatlan"
+   },
+   "HIGH" : {
+      "description" : "",
+      "message" : "Magas"
+   },
+   "HULL_DOES_NOT_REQUIRE_REPAIR" : {
+      "description" : "",
+      "message" : "A hajótest nem javítása nem szükséges."
+   },
+   "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT" : {
+      "description" : "",
+      "message" : " {name} javítást végzett, hajótest állapota {repairPercent}%"
+   },
+   "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE" : {
+      "description" : "",
+      "message" : "Elhanyagolható sérülés: hajótest javítása sikertelen."
+   },
+   "HYPERDRIVE" : {
+      "description" : "",
+      "message" : "Hipermotor"
+   },
+   "HYPERSPACE_RANGE" : {
+      "description" : "",
+      "message" : "Hiperűr hatótáv"
+   },
+   "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
+      "description" : "",
+      "message" : "Elegem van abból, hogy a semmiért dolgozom! Tudja egyáltalán, mi az a szerződés?"
+   },
+   "INACTIVE" : {
+      "description" : "",
+      "message" : "Inaktív"
+   },
+   "INVERT_MOUSE_Y" : {
+      "description" : "",
+      "message" : "Egér Y tengely megfordítása"
+   },
+   "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE" : {
+      "description" : "",
+      "message" : "Öröm volt önnek dolgozni. Itt leszek még egy darabig, ha mégis szükség lenne rám."
+   },
+   "JETTISON" : {
+      "description" : "",
+      "message" : "Kidob"
+   },
+   "KILLS" : {
+      "description" : "",
+      "message" : "Győzelem:"
+   },
+   "LANGUAGE" : {
+      "description" : "",
+      "message" : "Nyelv"
+   },
+   "LANGUAGE_RESTART_GAME_TO_APPLY" : {
+      "description" : "",
+      "message" : "Nyelv (újraindítás szükséges)"
+   },
+   "LOAD" : {
+      "description" : "",
+      "message" : "Tölt"
+   },
+   "LOAD_GAME" : {
+      "description" : "",
+      "message" : "Játék betöltése"
+   },
+   "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
+      "description" : "",
+      "message" : "{distance}km-re található a {name} középpontjától:"
+   },
+   "LOCATION" : {
+      "description" : "",
+      "message" : "Helyzet"
+   },
+   "LOW" : {
+      "description" : "",
+      "message" : "Alacsony"
+   },
+   "LY" : {
+      "description" : "",
+      "message" : "fé"
+   },
+   "MAKE_NEW_FACE" : {
+      "description" : "",
+      "message" : "Új arc"
+   },
+   "MALE" : {
+      "description" : "",
+      "message" : "Férfi"
+   },
+   "MASTER" : {
+      "description" : "",
+      "message" : "Fő hangerő:"
+   },
+   "MAX" : {
+      "description" : "",
+      "message" : "max"
+   },
+   "MEDIUM" : {
+      "description" : "",
+      "message" : "Közepes"
+   },
+   "METAL_ALLOYS" : {
+      "description" : "",
+      "message" : "Fémötvözetek"
+   },
+   "MILITARY" : {
+      "description" : "",
+      "message" : "Hadi"
+   },
+   "MINIMUM_CREW" : {
+      "description" : "",
+      "message" : "Minimális legénység"
+   },
+   "MISSIONS" : {
+      "description" : "",
+      "message" : "Küldetések"
+   },
+   "MISSION_DETAILS" : {
+      "description" : "",
+      "message" : "Küldetés részletei"
+   },
+   "MORE_INFO" : {
+      "description" : "",
+      "message" : "Több info..."
+   },
+   "MOSTLY_HARMLESS" : {
+      "description" : "",
+      "message" : "Jobbára ártalmatlan"
+   },
+   "MULTISAMPLING" : {
+      "description" : "",
+      "message" : "Élsimítás"
+   },
+   "MUSIC" : {
+      "description" : "",
+      "message" : "Zene:"
+   },
+   "MUTE" : {
+      "description" : "",
+      "message" : "Némít"
+   },
+   "NAME" : {
+      "description" : "",
+      "message" : "Név"
+   },
+   "NAVIGATION" : {
+      "description" : "",
+      "message" : "Navigáció:"
+   },
+   "NEGOTIATE" : {
+      "description" : "",
+      "message" : "Alku"
+   },
+   "NEXT_PAID" : {
+      "description" : "",
+      "message" : "Következő kifizetés"
+   },
+   "NONE" : {
+      "description" : "",
+      "message" : "Nincs"
+   },
+   "NOTES" : {
+      "description" : "",
+      "message" : "Megjegyzés:"
+   },
+   "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR" : {
+      "description" : "",
+      "message" : "Nincs elegendő {alloy} a javításhoz."
+   },
+   "NO_MISSIONS" : {
+      "description" : "",
+      "message" : "Nincs küldetés."
+   },
+   "N_LIGHT_YEARS_N_MAX" : {
+      "description" : "",
+      "message" : "{range} fényév ({maxRange} max)"
+   },
+   "N_OCCUPIED_PASSENGER_CABINS" : {
+      "description" : "",
+      "message" : "{quantity} foglalt kabin"
+   },
+   "N_SHIELD_GENERATORS" : {
+      "description" : "",
+      "message" : "{quantity} pajzsgenerátor"
+   },
+   "N_UNOCCUPIED_PASSENGER_CABINS" : {
+      "description" : "",
+      "message" : "{quantity} szabad kabin"
+   },
+   "OFF" : {
+      "description" : "",
+      "message" : "Ki"
+   },
+   "OK" : {
+      "description" : "",
+      "message" : "Ok"
+   },
+   "OPTIONS" : {
+      "description" : "",
+      "message" : "Beállítások"
+   },
+   "ORBIT" : {
+      "description" : "",
+      "message" : "Orbitális pálya"
+   },
+   "ORBITAL_ANALYSIS" : {
+      "description" : "",
+      "message" : "Pályanalízis"
+   },
+   "ORBITAL_ANALYSIS_NOTES" : {
+      "description" : "",
+      "message" : "A körpályához megadott sebesség párhuzamos a bolygó felszínével. A hajónak 90°-os szögben kell haladnia a ship/{name} tengelyhez képest.\n\nAz ereszkedési sebesség a lehető legalacsonyabb, és szintén párhuzamos a felszínnel. Lassabb sebesség vagy nagyobb ereszkedési szög ütközőpályát eredményez.\n\nA szökési sebesség elméletben bármely irányba működik, ütközőpályákat kivéve."
+   },
+   "OWED" : {
+      "description" : "",
+      "message" : "Tartozás"
+   },
+   "PERSONAL_INFORMATION" : {
+      "description" : "",
+      "message" : "Személyi adatok"
+   },
+   "PILOTING" : {
+      "description" : "",
+      "message" : "Kormányzás:"
+   },
+   "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME" : {
+      "description" : "",
+      "message" : " {name} a kormánynál"
+   },
+   "PLANET_DETAIL_DISTANCE" : {
+      "description" : "",
+      "message" : "Bolygó-részlet távolság"
+   },
+   "PLANET_TEXTURES" : {
+      "description" : "",
+      "message" : "Bolygótextúrák"
+   },
+   "POOR" : {
+      "description" : "",
+      "message" : "Gyenge"
+   },
+   "POSITION" : {
+      "description" : "",
+      "message" : "Helyzet"
+   },
+   "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
+      "description" : "",
+      "message" : "Nyomj meg egy gombot"
+   },
+   "QUALIFICATION_SCORES" : {
+      "description" : "",
+      "message" : "Képzettség pont:"
+   },
+   "QUIT" : {
+      "description" : "",
+      "message" : "Kilépés"
+   },
+   "RANK" : {
+      "description" : "",
+      "message" : "Rang:"
+   },
+   "RATING" : {
+      "description" : "",
+      "message" : "Minősítés:"
+   },
+   "REAR_WEAPON" : {
+      "description" : "",
+      "message" : "Hátsó fegyver"
+   },
+   "REFUEL" : {
+      "description" : "",
+      "message" : "Újratölt"
+   },
+   "RETURN_TO_MENU" : {
+      "description" : "",
+      "message" : "Vissza a menübe"
+   },
+   "REWARD" : {
+      "description" : "",
+      "message" : "Jutalom"
+   },
+   "SAVE" : {
+      "description" : "",
+      "message" : "Ment"
+   },
+   "SELECT" : {
+      "description" : "",
+      "message" : "Kiválaszt"
+   },
+   "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME" : {
+      "description" : "",
+      "message" : "Válaszd ki a mentést, vagy add meg az őj mentés nevét"
+   },
+   "SELECT_FILE" : {
+      "description" : "",
+      "message" : "Fájl kiválasztás..."
+   },
+   "SELECT_GAME_TO_LOAD" : {
+      "description" : "",
+      "message" : "Válassz betöltendö mentést..."
+   },
+   "SENSORS" : {
+      "description" : "",
+      "message" : "Érzékelők:"
+   },
+   "SHIP_INFORMATION" : {
+      "description" : "",
+      "message" : "Hajó információ"
+   },
+   "SOUND" : {
+      "description" : "",
+      "message" : "Hang"
+   },
+   "START_AT_BARNARDS_STAR" : {
+      "description" : "",
+      "message" : "Kezdés Barnard's Star rendszerben"
+   },
+   "START_AT_EARTH" : {
+      "description" : "",
+      "message" : "Kezdés a Földön"
+   },
+   "START_AT_NEW_HOPE" : {
+      "description" : "",
+      "message" : "Kezdés New Hope-on"
+   },
+   "STATUS" : {
+      "description" : "",
+      "message" : "Státusz"
+   },
+   "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP" : {
+      "description" : "",
+      "message" : "Nincs más a fedélzeten, aki vezetni tudja a hajót."
+   },
+   "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
+      "description" : "",
+      "message" : "Vezérlést átvette az állomás, parancsnok."
+   },
+   "TOGGLE_MALE_FEMALE" : {
+      "description" : "",
+      "message" : "Férfi/Nő"
+   },
+   "TOTAL" : {
+      "description" : "",
+      "message" : "Összesen:"
+   },
+   "TYPE" : {
+      "description" : "",
+      "message" : "Típus"
+   },
+   "UP_ACCEL" : {
+      "description" : "",
+      "message" : "Gyorsulás fel"
+   },
+   "USED" : {
+      "description" : "",
+      "message" : "Használt"
+   },
+   "VERY_HIGH" : {
+      "description" : "",
+      "message" : "Nagyon magas"
+   },
+   "VERY_LOW" : {
+      "description" : "",
+      "message" : "Nagyon alacsony"
+   },
+   "VIDEO" : {
+      "description" : "",
+      "message" : "Video"
+   },
+   "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY" : {
+      "description" : "",
+      "message" : "Video beállítások (újraindítás szükséges)"
+   },
+   "VIDEO_RESOLUTION" : {
+      "description" : "",
+      "message" : "Képernyő-felbontás"
+   },
+   "WAGE" : {
+      "description" : "",
+      "message" : "Bér"
+   },
+   "WEIGHT_EMPTY" : {
+      "description" : "",
+      "message" : "Üres tömeg:"
+   },
+   "WE_ARE_IN_HYPERSPACE_COMMANDER" : {
+      "description" : "",
+      "message" : "Hiperűrben vagyunk, Parancsnok."
+   },
+   "YOURE_GOING_TO_REGRET_SACKING_ME" : {
+      "description" : "",
+      "message" : "Megbánod még, hogy kirúgtál!"
+   },
+   "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
+      "description" : "",
+      "message" : "Először határozza meg a célpontot, Parancsnok!"
+   },
+   "YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER" : {
+      "description" : "",
+      "message" : "Jelöljön ki egy ulticélt, Parancsnok!"
+   },
+   "YOU_MUST_LAUNCH_FIRST_COMMANDER" : {
+      "description" : "",
+      "message" : "Előbb fel kell szállnunk, Parancsnok!"
+   },
+   "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER" : {
+      "description" : "",
+      "message" : "Előbb kérjen felszállási engedélyt, Parancsnok."
+   }
 }

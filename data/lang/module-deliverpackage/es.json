@@ -1,322 +1,322 @@
 {
-    "FLAVOUR_SUCCESSMSG_3": {
-        "message": "Se aprecia su servicio discreto y a tiempo. Se le pagará el montante.",
-        "description": ""
-    },
-    "WHY_SO_MUCH_MONEY": {
-        "message": "¿Por qué tanto dinero?",
-        "description": ""
-    },
-    "SPACEPORT": {
-        "message": "Puerto espacial:",
-        "description": ""
-    },
-    "PIRATE_TAUNTS_4": {
-        "message": "Estoy seguro que esto traerá un dineral al mercado",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_7": {
-        "message": "Excelente, hemos añadido los fondos en su cuenta.",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_6": {
-        "message": "Gracias por el paquete, Se le ha pagado el montante completo.",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_5": {
-        "message": "Maravilloso. Empezaré a desembalar inmediatamente. Gracias de nuevo.",
-        "description": ""
-    },
-    "DANGER": {
-        "message": "Peligro:",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_9": {
-        "message": "¡Magnífico! Empezaremos a desembalar urgentemente. Le actualizaré la cuenta inmediatamente.",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_8": {
-        "message": "Su entrega a tiempo es apreciada, en consecuencia he acreditado su cuenta.",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_1": {
-        "message": "El paquete se ha recibido y se le ha pagado lo acordado.",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCHTEXT_7": {
-        "message": "Las tarifas estandar, trabajamos con el mercado.",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_3": {
-        "message": "Hola. Soy {name}. Tengo la intención de pagar {cash} por una nave que transporte una carga a {starport} en el sistema {system} ({sectorx}, {sectory}, {sectorz})) ({dist} ly).",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_0": {
-        "message": "Gracias por la entrega. Se le ha pagado al contado.",
-        "description": ""
-    },
-    "DEADLINE": {
-        "message": "Fecha tope:",
-        "description": ""
-    },
-    "THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN": {
-        "message": "Es un paquete valioso, debería mantener los ojos abiertos.",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_2": {
-        "message": "Se le ha efectuado el pago completo por la entrega. Gracias.",
-        "description": ""
-    },
-    "OK_AGREED": {
-        "message": "Vale, De acuerdo.",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_0": {
-        "message": "VIAJA al sistema {system}? Se paga dinero por la entrega de un pequeño paquete.",
-        "description": ""
-    },
-    "EXCELLENT_I_WILL_LET_THE_RECIPIENT_KNOW_YOU_ARE_ON_YOUR_WAY": {
-        "message": "Excelente. Haré saber al receptor que está en camino.",
-        "description": ""
-    },
-    "PIRATE_TAUNTS_9": {
-        "message": "Pagarás por ese cargamento, pero con tu vida.",
-        "description": ""
-    },
-    "PIRATE_TAUNTS_8": {
-        "message": "¡Hoy no vas a llegar a {location}!",
-        "description": ""
-    },
-    "PIRATE_TAUNTS_7": {
-        "message": "Ese paquete hoy no va a llegar a su destino.",
-        "description": ""
-    },
-    "PIRATE_TAUNTS_6": {
-        "message": "¡Di a mi viejo amigo {client} que les veré en el infierno!",
-        "description": ""
-    },
-    "PIRATE_TAUNTS_5": {
-        "message": "¡Hoy no es tu día de suerte! Prepárate para morir.",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_4": {
-        "message": "Se aprecia su entrega discreta y a tiempo. Se le ha pagado el montante completo.",
-        "description": ""
-    },
-    "PIRATE_TAUNTS_3": {
-        "message": "¡La carga y la vida, piloto!",
-        "description": ""
-    },
-    "PIRATE_TAUNTS_2": {
-        "message": "¿Trabajas para {client}? Eso ha sido una mala idea.",
-        "description": ""
-    },
-    "PIRATE_TAUNTS_1": {
-        "message": "¡Al parecer mi cheque ha llegado!",
-        "description": ""
-    },
-    "PIRATE_TAUNTS_0": {
-        "message": "Vas a lamentar el hacer negocios con {client}",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_7": {
-        "message": "Hola. Necesitamos estas cajas entregadas en {starport} tan pronto como sea posible. El pago estandar para este envío es de {cash}.",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_4": {
-        "message": "SERVICIO POSTAL. Se requiere una nave para una entrega en el sistema {system}.",
-        "description": ""
-    },
-    "IT_COULD_BE_DANGEROUS_YOU_SHOULD_MAKE_SURE_YOURE_ADEQUATELY_PREPARED": {
-        "message": "Podría ser peligroso, debería prepararse adecuadamente.",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_2": {
-        "message": "Creo que fui bastante claro con la fecha tope y estoy muy defraudado por la tardanza. No se le pagará.",
-        "description": ""
-    },
-    "WILL_I_BE_IN_ANY_DANGER": {
-        "message": "¿Correré peligro?",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_7": {
-        "message": "CARGAMENTO INTERPLANETARIO. Transporte de carga local a {starport}.",
-        "description": ""
-    },
-    "LY": {
-        "message": "ly",
-        "description": ""
-    },
-    "HOW_SOON_MUST_IT_BE_DELIVERED": {
-        "message": "¿Cual es la fecha de entrega?",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_6": {
-        "message": "MENSAJERO DE CORTA DISTANCIA. Entrega de un paquete pequeño en {starport}.",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_9": {
-        "message": "PAQUETE PENDIENTE. Envío urgente de alimentos perecederos a {starport}.",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_8": {
-        "message": "ENTREGA INMEDIATA. Se requiere la entrega express de un objeto a {starport}.",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_9": {
-        "message": "Saludos, vamos retrasados con nuestro envio de productos y necesitamos entregarlos a {starport} urgentemente. Le pagaremos {cash} por las molestias.",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_8": {
-        "message": "Mi nombre es {name} y necesito la entrega de este objeto a un amigo en {starport} pronto, Le pagaré {cash} créditos si lo tiene allí en un tiempo razonable.",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_5": {
-        "message": "MUDANZA. Traslado de soportes físicos a {starport}.",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_6": {
-        "message": "Qué hay. Soy {name} y pagaré {cash} por una nave que entregue este paquete en {starport}.",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_5": {
-        "message": "Encantado de conocerle. Soy {name} y estoy dispuesto a pagar {cash} a alguien con una nave que me ayude a trasladar mis pertenencias a {starport}. No hay prisa, no son más que algunos restos de la mudanza.",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_4": {
-        "message": "Saludos. Este es un mensaje automatizado de los Servicios de Mensajería Bedford y {name}. Pagamos {cash} por una carrera a {starport} en el sistema {system} ({sectorx}, {sectory}, {sectorz})) ({dist} ly).",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_1": {
-        "message": "SE BUSCA. Entrega de un paquete al sistema {system}.",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_2": {
-        "message": "Hola. Soy {name}. Y mi intención es pagar {cash} por una nave que transporte un paquete a {starport} en el sistema {system} ({sectorx}, {sectory}, {sectorz})) ({dist} ly).",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_3": {
-        "message": "ENTREGA. Documentos al sistema {system}. {cash} para un piloto experimentado.",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_0": {
-        "message": "Qué hay, Soy {name}. Le pagaré {cash} si entrega un pequeño paquete en {starport} en el sistema {system} ({sectorx}, {sectory}, {sectorz}) ({dist} ly).",
-        "description": ""
-    },
-    "DELIVERY": {
-        "message": "Entrega",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_1": {
-        "message": "Hola. Soy {name}. Tengo intención de pagar {cash} por una nave que transporte un paquete a {starport} en el sistema {system} ({sectorx}, {sectory}, {sectorz})) ({dist} ly).",
-        "description": ""
-    },
-    "HANG_UP": {
-        "message": "Colgar.",
-        "description": ""
-    },
-    "IT_MUST_BE_DELIVERED_BY": {
-        "message": "La fecha de entrega es ",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_2": {
-        "message": "URGENTE. Se necesita una nave rápida para la entrega de un paquete en el sistema {system}.",
-        "description": ""
-    },
-    "DISTANCE": {
-        "message": "Distancia:",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCHTEXT_8": {
-        "message": "Es muy urgente.",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCHTEXT_9": {
-        "message": "Nuestro sustento depende de esto.",
-        "description": ""
-    },
-    "THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE": {
-        "message": "Es muy arriesgado, Encontrará resistencia.",
-        "description": ""
-    },
-    "I_HIGHLY_DOUBT_IT": {
-        "message": "Lo dudo mucho.",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCHTEXT_2": {
-        "message": "Es una propuesta de investigación y debe ser entregada en el plazo o no tendremos financiación.",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCHTEXT_3": {
-        "message": "Ciertos documentos extremadamente sensibles han caido en mis manos, y tengo razones para creer que estoy bajo vigilancia.",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCHTEXT_0": {
-        "message": "Cuando una amiga me visitó se dejó algunas prendas y unos libros antiguos en papel. Me gustaría devolverselos.",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCHTEXT_1": {
-        "message": "No es nada especial.",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCHTEXT_6": {
-        "message": "No creo que sea mucho.",
-        "description": ""
-    },
-    "SYSTEM": {
-        "message": "Sistema:",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCHTEXT_4": {
-        "message": "Estaríamos encantados de pagarle menos dinero.",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCHTEXT_5": {
-        "message": "¿Es mucho? ¡Debería replantearme la oferta!",
-        "description": ""
-    },
-    "NOT_ANY_MORE_THAN_USUAL": {
-        "message": "No mas de lo habitual.",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_8": {
-        "message": "¡Las condiciones eran una rápida entrega! Me niego a pagarle por esto.",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_9": {
-        "message": "¡Está todo estropeado, No vale para nada! No podemos pagarle.",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_6": {
-        "message": "Yo lo habría entregado mas rápido. No le voy a pagar.",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_7": {
-        "message": "Nuestros clientes no se van a alegrar de esto. No espere pago alguno.",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_4": {
-        "message": "Se ha anotado el registro de su nave, vamos a rechazar cualquier solicitud de trabajo suya en el futuro.",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_5": {
-        "message": "¿Qué es esto? ¡Oh, ha tardado tanto que me había olvidado de que lo había enviado!",
-        "description": ""
-    },
-    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
-        "message": "¿Podría repetir la petición original?",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_3": {
-        "message": "¡Inutil! ¡No volveré a depender de usted en el futuro! Es innecesario decir que no se le pagará ni un crédito.",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_0": {
-        "message": "¡Inaceptable! La entrega ha tardado una eternidad. No tengo intención de pagarle.",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_1": {
-        "message": "Estoy frustrado por la tardanza de mi paquete, me niego a pagarle.",
-        "description": ""
-    }
+   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
+      "description" : "",
+      "message" : "¿Podría repetir la petición original?"
+   },
+   "DANGER" : {
+      "description" : "",
+      "message" : "Riesgo:"
+   },
+   "DEADLINE" : {
+      "description" : "",
+      "message" : "Fecha tope:"
+   },
+   "DELIVERY" : {
+      "description" : "",
+      "message" : "Entrega"
+   },
+   "DISTANCE" : {
+      "description" : "",
+      "message" : "Distancia:"
+   },
+   "EXCELLENT_I_WILL_LET_THE_RECIPIENT_KNOW_YOU_ARE_ON_YOUR_WAY" : {
+      "description" : "",
+      "message" : "Excelente. Haré saber al receptor que está en camino."
+   },
+   "FLAVOUR_0_ADTEXT" : {
+      "description" : "",
+      "message" : "VIAJA al sistema {system}? Se paga dinero por la entrega de un pequeño paquete."
+   },
+   "FLAVOUR_0_FAILUREMSG" : {
+      "description" : "",
+      "message" : "¡Inaceptable! La entrega ha tardado una eternidad. No tengo intención de pagarle."
+   },
+   "FLAVOUR_0_INTROTEXT" : {
+      "description" : "",
+      "message" : "Qué hay, Soy {name}. Le pagaré {cash} si entrega un pequeño paquete en {starport} en el sistema {system} ({sectorx}, {sectory}, {sectorz}) ({dist} ly)."
+   },
+   "FLAVOUR_0_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Gracias por la entrega. Se le ha transferido el total de su paga."
+   },
+   "FLAVOUR_0_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "Cuando una amiga me visitó se dejó algunas prendas y unos libros antiguos en papel. Me gustaría devolverselos."
+   },
+   "FLAVOUR_1_ADTEXT" : {
+      "description" : "",
+      "message" : "SE BUSCA. Entrega de un paquete al sistema {system}."
+   },
+   "FLAVOUR_1_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Estoy frustrado por la tardanza de mi paquete, me niego a pagarle."
+   },
+   "FLAVOUR_1_INTROTEXT" : {
+      "description" : "",
+      "message" : "Hola. Soy {name}. Tengo intención de pagar {cash} por una nave que transporte un paquete a {starport} en el sistema {system} ({sectorx}, {sectory}, {sectorz})) ({dist} ly)."
+   },
+   "FLAVOUR_1_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "El paquete se ha recibido y se le ha pagado lo acordado."
+   },
+   "FLAVOUR_1_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "No es nada especial."
+   },
+   "FLAVOUR_2_ADTEXT" : {
+      "description" : "",
+      "message" : "URGENTE. Se necesita una nave rápida para la entrega de un paquete en el sistema {system}."
+   },
+   "FLAVOUR_2_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Creo que fui bastante claro con la fecha tope y estoy muy defraudado por la tardanza. No se le pagará."
+   },
+   "FLAVOUR_2_INTROTEXT" : {
+      "description" : "",
+      "message" : "Hola. Soy {name}. Y mi intención es pagar {cash} por una nave que transporte un paquete a {starport} en el sistema {system} ({sectorx}, {sectory}, {sectorz})) ({dist} ly)."
+   },
+   "FLAVOUR_2_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Se le ha efectuado el pago completo por la entrega. Gracias."
+   },
+   "FLAVOUR_2_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "Es una propuesta de investigación y debe ser entregada en el plazo o no tendremos financiación."
+   },
+   "FLAVOUR_3_ADTEXT" : {
+      "description" : "",
+      "message" : "ENTREGA. Documentos al sistema {system}. {cash} para un piloto experimentado."
+   },
+   "FLAVOUR_3_FAILUREMSG" : {
+      "description" : "",
+      "message" : "¡Inútil! ¡No volveré a depender de usted en el futuro! Es innecesario decir que no se le pagará ni un crédito."
+   },
+   "FLAVOUR_3_INTROTEXT" : {
+      "description" : "",
+      "message" : "Hola. Soy {name}. Tengo la intención de pagar {cash} por una nave que transporte una carga a {starport} en el sistema {system} ({sectorx}, {sectory}, {sectorz})) ({dist} ly)."
+   },
+   "FLAVOUR_3_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Se aprecia su servicio discreto y a tiempo. Se le pagará inmediatamente."
+   },
+   "FLAVOUR_3_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "Ciertos documentos extremadamente sensibles han caido en mis manos, y tengo razones para creer que estoy bajo vigilancia."
+   },
+   "FLAVOUR_4_ADTEXT" : {
+      "description" : "",
+      "message" : "SERVICIO POSTAL. Se requiere una nave para una entrega en el sistema {system}."
+   },
+   "FLAVOUR_4_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Se ha anotado el registro de su nave, vamos a rechazar cualquier solicitud de trabajo suya en el futuro."
+   },
+   "FLAVOUR_4_INTROTEXT" : {
+      "description" : "",
+      "message" : "Saludos. Este es un mensaje automatizado de los Servicios de Mensajería Bedford y {name}. Pagamos {cash} por una carrera a {starport} en el sistema {system} ({sectorx}, {sectory}, {sectorz})) ({dist} ly)."
+   },
+   "FLAVOUR_4_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Se aprecia su entrega discreta y a tiempo. Se le ha transferido su pago completo."
+   },
+   "FLAVOUR_4_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "Estaríamos encantados de pagarle menos dinero."
+   },
+   "FLAVOUR_5_ADTEXT" : {
+      "description" : "",
+      "message" : "MUDANZA. Traslado de soportes físicos a {starport}."
+   },
+   "FLAVOUR_5_FAILUREMSG" : {
+      "description" : "",
+      "message" : "¿Qué es esto? ¡Oh, ha tardado tanto que me había olvidado de que lo había enviado!"
+   },
+   "FLAVOUR_5_INTROTEXT" : {
+      "description" : "",
+      "message" : "Encantado de conocerle. Soy {name} y estoy dispuesto a pagar {cash} a alguien con una nave que me ayude a trasladar mis pertenencias a {starport}. No hay prisa, no son más que algunos restos de la mudanza."
+   },
+   "FLAVOUR_5_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Maravilloso. Empezaré a desembalar inmediatamente. Gracias de nuevo."
+   },
+   "FLAVOUR_5_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "¿Es mucho? ¡Debería replantear la oferta!"
+   },
+   "FLAVOUR_6_ADTEXT" : {
+      "description" : "",
+      "message" : "MENSAJERO DE CORTA DISTANCIA. Entrega de un paquete pequeño en {starport}."
+   },
+   "FLAVOUR_6_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Yo lo habría entregado mas rápido. No le voy a pagar."
+   },
+   "FLAVOUR_6_INTROTEXT" : {
+      "description" : "",
+      "message" : "Hola. Soy {name} y pagaré {cash} por una nave que entregue este paquete en {starport}."
+   },
+   "FLAVOUR_6_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Gracias por el paquete. Se le ha transferido el pago completo."
+   },
+   "FLAVOUR_6_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "No creo que sea mucho."
+   },
+   "FLAVOUR_7_ADTEXT" : {
+      "description" : "",
+      "message" : "CARGAMENTO INTERPLANETARIO. Transporte de carga local a {starport}."
+   },
+   "FLAVOUR_7_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Nuestros clientes no se van a alegrar con esto. No espere pago alguno."
+   },
+   "FLAVOUR_7_INTROTEXT" : {
+      "description" : "",
+      "message" : "Hola. Necesitamos estas cajas entregadas en {starport} tan pronto como sea posible. El pago estandar para este envío es de {cash}."
+   },
+   "FLAVOUR_7_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Excelente, hemos transferido los fondos a su cuenta."
+   },
+   "FLAVOUR_7_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "Es la tarifa estándar, trabajamos con los valores de mercado."
+   },
+   "FLAVOUR_8_ADTEXT" : {
+      "description" : "",
+      "message" : "ENTREGA INMEDIATA. Se requiere la entrega express de un objeto a {starport}."
+   },
+   "FLAVOUR_8_FAILUREMSG" : {
+      "description" : "",
+      "message" : "¡Las condiciones eran una rápida entrega! Me niego a pagarle por esto."
+   },
+   "FLAVOUR_8_INTROTEXT" : {
+      "description" : "",
+      "message" : "Mi nombre es {name} y necesito la entrega de este objeto a un amigo en {starport} pronto, Le pagaré {cash} créditos si lo tiene allí en un tiempo razonable."
+   },
+   "FLAVOUR_8_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Su entrega a tiempo es apreciada, en consecuencia he acreditado su cuenta."
+   },
+   "FLAVOUR_8_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "Es muy urgente."
+   },
+   "FLAVOUR_9_ADTEXT" : {
+      "description" : "",
+      "message" : "PAQUETE PENDIENTE. Envío urgente de alimentos perecederos a {starport}."
+   },
+   "FLAVOUR_9_FAILUREMSG" : {
+      "description" : "",
+      "message" : "¡Está todo estropeado! ¡No sirve para nada! No podemos pagarle."
+   },
+   "FLAVOUR_9_INTROTEXT" : {
+      "description" : "",
+      "message" : "Saludos, vamos retrasados con nuestro envio de productos y necesitamos entregarlos a {starport} urgentemente. Le pagaremos {cash} por las molestias."
+   },
+   "FLAVOUR_9_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "¡Magnífico! Empezaremos a desembalar urgentemente. Le actualizaré la cuenta inmediatamente."
+   },
+   "FLAVOUR_9_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "Nuestro sustento depende de esto."
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Colgar."
+   },
+   "HOW_SOON_MUST_IT_BE_DELIVERED" : {
+      "description" : "",
+      "message" : "¿Cual es la fecha de entrega?"
+   },
+   "IT_COULD_BE_DANGEROUS_YOU_SHOULD_MAKE_SURE_YOURE_ADEQUATELY_PREPARED" : {
+      "description" : "",
+      "message" : "Podría ser peligroso, debería prepararse adecuadamente."
+   },
+   "IT_MUST_BE_DELIVERED_BY" : {
+      "description" : "",
+      "message" : "La fecha de entrega es "
+   },
+   "I_HIGHLY_DOUBT_IT" : {
+      "description" : "",
+      "message" : "Lo dudo mucho."
+   },
+   "LY" : {
+      "description" : "",
+      "message" : "ly"
+   },
+   "NOT_ANY_MORE_THAN_USUAL" : {
+      "description" : "",
+      "message" : "No más de lo habitual."
+   },
+   "OK_AGREED" : {
+      "description" : "",
+      "message" : "Bien, de acuerdo."
+   },
+   "PIRATE_TAUNTS_0" : {
+      "description" : "",
+      "message" : "Vas a lamentar el hacer negocios con {client}"
+   },
+   "PIRATE_TAUNTS_1" : {
+      "description" : "",
+      "message" : "¡Al parecer mi cheque ha llegado!"
+   },
+   "PIRATE_TAUNTS_2" : {
+      "description" : "",
+      "message" : "¿Estás al servicio de {client}? Eso ha sido una mala idea."
+   },
+   "PIRATE_TAUNTS_3" : {
+      "description" : "",
+      "message" : "¡Tomaré su carga y su vida, piloto!"
+   },
+   "PIRATE_TAUNTS_4" : {
+      "description" : "",
+      "message" : "Estoy seguro que esa carga vale un dineral en el mercado"
+   },
+   "PIRATE_TAUNTS_5" : {
+      "description" : "",
+      "message" : "¡Hoy no es tu día de suerte! Prepárate para morir."
+   },
+   "PIRATE_TAUNTS_6" : {
+      "description" : "",
+      "message" : "¡Di a mi viejo amigo {client} que les veré en el infierno!"
+   },
+   "PIRATE_TAUNTS_7" : {
+      "description" : "",
+      "message" : "Ese paquete hoy no va a llegar a su destino."
+   },
+   "PIRATE_TAUNTS_8" : {
+      "description" : "",
+      "message" : "¡Hoy no vas a llegar a {location}!"
+   },
+   "PIRATE_TAUNTS_9" : {
+      "description" : "",
+      "message" : "Pagarás por ese cargamento, pero con tu vida."
+   },
+   "SPACEPORT" : {
+      "description" : "",
+      "message" : "Puerto espacial:"
+   },
+   "SYSTEM" : {
+      "description" : "",
+      "message" : "Sistema:"
+   },
+   "THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN" : {
+      "description" : "",
+      "message" : "Es un paquete valioso, debería mantener los ojos abiertos."
+   },
+   "THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE" : {
+      "description" : "",
+      "message" : "Es muy arriesgado. Encontrará resistencia."
+   },
+   "WHY_SO_MUCH_MONEY" : {
+      "description" : "",
+      "message" : "¿Por qué tanto dinero?"
+   },
+   "WILL_I_BE_IN_ANY_DANGER" : {
+      "description" : "",
+      "message" : "¿Correré algún riesgo?"
+   }
 }

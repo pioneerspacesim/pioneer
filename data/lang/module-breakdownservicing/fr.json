@@ -1,130 +1,130 @@
 {
-    "FLAVOUR_INTRO_4": {
-        "message": "Bienvenue chez Espace-Temps\n\nNous somme specialisés dans les conduites interstellaires. Tous nos travaux de maintenance sont garantis deux ans.\n{lasttime}\nLa révision de votre {drive} couteras {price}. Voulez vous proceder ? ",
-        "description": ""
-    },
-    "FLAVOUR_INTRO_5": {
-        "message": "Evitez les désagréments d'une panne de moteur Hyperspacial. Utilisez nos service dès aujourd'hui.\n\nMoteur:  {drive}\nMaintenance: {price}\n{lasttime}",
-        "description": ""
-    },
-    "FLAVOUR_INTRO_2": {
-        "message": "Salutations. Sommes {proprietor} & Co. Nous construisons notre réputation grace a notre travail.\n\n{lasttime}\nNous pouvons regler {drive}devotre vaisseau, avec la garantie de 12 mois de fonctionnement sans problêmes, pour la somme de {price}. Je superviserais les travaux personellement, ainsi soyez sur que le travail sera bien fait.",
-        "description": ""
-    },
-    "FLAVOUR_INTRO_3": {
-        "message": "Bienvenue chez SuperFix Maintenance.\n\n{lasttime}\nC'est le moment de votre maintenance bi-annuelle ? Laisser nous SuperFixer votre conduite !\nNous pouvons regler votre {drive} pour seulement {price}. Vous ne trouverez  pas moins cher!",
-        "description": ""
-    },
-    "FLAVOUR_INTRO_0": {
-        "message": "Evitez les désagréments d'une panne de moteur Hyperspacial. Utilisez nos service dès aujourd'hui, par une compagnie approuvée officiellement {name} entretien de moteurs.\n\nMoteur:  {drive}\nEntretien: {price}\nGarantie: 18 mois\n {lasttime} ",
-        "description": ""
-    },
-    "FLAVOUR_INTRO_1": {
-        "message": "Je suis {proprietor}. je peut réviser votre {drive}, vous garantissant la prochaine année sans problèmes de performance. Le cout de cette révision sera de  {price}.\n{lasttime}",
-        "description": ""
-    },
-    "I_DONT_HAVE_ENOUGH_MONEY": {
-        "message": "Je n'ai pas assez d'argent",
-        "description": ""
-    },
-    "THE_SHIPS_HYPERDRIVE_HAS_BEEN_DESTROYED_BY_A_MALFUNCTION": {
-        "message": "L'hyperpropulsion du vaisseau a été détruite par une malfonction",
-        "description": ""
-    },
-    "YOUR_DRIVE_WAS_LAST_SERVICED_ON": {
-        "message": "Votre conduite a été revisée le {date} par {company}",
-        "description": ""
-    },
-    "FLAVOUR_RESPONSE_4": {
-        "message": "Nous avons terminé le travail sur votre hyperpropulsion.",
-        "description": ""
-    },
-    "FLAVOUR_RESPONSE_5": {
-        "message": "Votre moteur a été révisé.",
-        "description": ""
-    },
-    "FLAVOUR_RESPONSE_0": {
-        "message": "Votre moteur a été révisé.",
-        "description": ""
-    },
-    "FLAVOUR_RESPONSE_1": {
-        "message": "J'ai révisé votre hyperpropulsion.",
-        "description": ""
-    },
-    "FLAVOUR_RESPONSE_2": {
-        "message": "Révision terminée. Merci de votre confiance.",
-        "description": ""
-    },
-    "FLAVOUR_RESPONSE_3": {
-        "message": "Votre révision SuperFix est terminée, avec la garantie SuperFix !",
-        "description": ""
-    },
-    "YOU_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN": {
-        "message": "Vous avez réparé l'Hyperpropulsion avant qu'elle ne casse.",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_4": {
-        "message": "Moteurs Espace-Temps, Inc. ",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_5": {
-        "message": "{proprietor} Révision Moteur Compagnie",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_2": {
-        "message": "{proprietor} & Co. HyperMecanique",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_3": {
-        "message": "SuperFix Maintenance (Agence {name})",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_0": {
-        "message": "Révision Moteur {name} Compagnie",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_1": {
-        "message": "{proprietor}: Spécialiste en maintenance Hyperpropulsion",
-        "description": ""
-    },
-    "YOU_DO_NOT_HAVE_A_DRIVE_TO_SERVICE": {
-        "message": "Vous n'avez aucune propulsion a réviser !",
-        "description": ""
-    },
-    "YOUR_DRIVE_HAS_NOT_BEEN_SERVICED": {
-        "message": "Votre propulsion n'a jamais été révisée depuis son installation en date du {date}",
-        "description": ""
-    },
-    "FLAVOUR_YESPLEASE_5": {
-        "message": "Révision de moteur hyperspacial",
-        "description": ""
-    },
-    "FLAVOUR_YESPLEASE_4": {
-        "message": "Oui, s'il vous plait.",
-        "description": ""
-    },
-    "FLAVOUR_YESPLEASE_3": {
-        "message": "SuperFixez moi !",
-        "description": ""
-    },
-    "FLAVOUR_YESPLEASE_2": {
-        "message": "SVP reglez ma propulsion pour le prix indiqué",
-        "description": ""
-    },
-    "FLAVOUR_YESPLEASE_1": {
-        "message": "Révisez ma Propulsion",
-        "description": ""
-    },
-    "FLAVOUR_YESPLEASE_0": {
-        "message": "Révision de moteur hyperspacial",
-        "description": ""
-    },
-    "I_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN": {
-        "message": "J'ai  réparé l'Hyperpropulsion avant qu'elle ne casse.",
-        "description": ""
-    },
-    "HANG_UP": {
-        "message": "Raccrochez.",
-        "description": ""
-    }
+   "FLAVOUR_0_INTRO" : {
+      "description" : "",
+      "message" : "Evitez les désagréments d'une panne de moteur Hyperspacial. Utilisez nos service dès aujourd'hui, par une compagnie approuvée officiellement {name} entretien de moteurs.\n\nMoteur:  {drive}\nEntretien: {price}\nGarantie: 18 mois\n {lasttime} "
+   },
+   "FLAVOUR_0_RESPONSE" : {
+      "description" : "",
+      "message" : "Votre moteur a été révisé."
+   },
+   "FLAVOUR_0_TITLE" : {
+      "description" : "",
+      "message" : "Révision Moteur {name} Compagnie"
+   },
+   "FLAVOUR_0_YESPLEASE" : {
+      "description" : "",
+      "message" : "Révision de moteur hyperspacial"
+   },
+   "FLAVOUR_1_INTRO" : {
+      "description" : "",
+      "message" : "Je suis {proprietor}. je peut réviser votre {drive}, vous garantissant la prochaine année sans problèmes de performance. Le cout de cette révision sera de  {price}.\n{lasttime}"
+   },
+   "FLAVOUR_1_RESPONSE" : {
+      "description" : "",
+      "message" : "J'ai révisé votre hyperpropulsion."
+   },
+   "FLAVOUR_1_TITLE" : {
+      "description" : "",
+      "message" : "{proprietor}: Spécialiste en maintenance Hyperpropulsion"
+   },
+   "FLAVOUR_1_YESPLEASE" : {
+      "description" : "",
+      "message" : "Révisez ma Propulsion"
+   },
+   "FLAVOUR_2_INTRO" : {
+      "description" : "",
+      "message" : "Salutations. Sommes {proprietor} & Co. Nous construisons notre réputation grace a notre travail.\n\n{lasttime}\nNous pouvons regler {drive}devotre vaisseau, avec la garantie de 12 mois de fonctionnement sans problêmes, pour la somme de {price}. Je superviserais les travaux personellement, ainsi soyez sur que le travail sera bien fait."
+   },
+   "FLAVOUR_2_RESPONSE" : {
+      "description" : "",
+      "message" : "Révision terminée. Merci de votre confiance."
+   },
+   "FLAVOUR_2_TITLE" : {
+      "description" : "",
+      "message" : "{proprietor} & Co. HyperMecanique"
+   },
+   "FLAVOUR_2_YESPLEASE" : {
+      "description" : "",
+      "message" : "SVP reglez ma propulsion pour le prix indiqué"
+   },
+   "FLAVOUR_3_INTRO" : {
+      "description" : "",
+      "message" : "Bienvenue chez SuperFix Maintenance.\n\n{lasttime}\nC'est le moment de votre maintenance bi-annuelle ? Laisser nous SuperFixer votre conduite !\nNous pouvons regler votre {drive} pour seulement {price}. Vous ne trouverez  pas moins cher!"
+   },
+   "FLAVOUR_3_RESPONSE" : {
+      "description" : "",
+      "message" : "Votre révision SuperFix est terminée, avec la garantie SuperFix !"
+   },
+   "FLAVOUR_3_TITLE" : {
+      "description" : "",
+      "message" : "SuperFix Maintenance (Agence {name})"
+   },
+   "FLAVOUR_3_YESPLEASE" : {
+      "description" : "",
+      "message" : "SuperFixez moi !"
+   },
+   "FLAVOUR_4_INTRO" : {
+      "description" : "",
+      "message" : "Bienvenue chez Espace-Temps\n\nNous somme specialisés dans les conduites interstellaires. Tous nos travaux de maintenance sont garantis deux ans.\n{lasttime}\nLa révision de votre {drive} couteras {price}. Voulez vous proceder ? "
+   },
+   "FLAVOUR_4_RESPONSE" : {
+      "description" : "",
+      "message" : "Nous avons terminé le travail sur votre hyperpropulsion."
+   },
+   "FLAVOUR_4_TITLE" : {
+      "description" : "",
+      "message" : "Moteurs Espace-Temps, Inc. "
+   },
+   "FLAVOUR_4_YESPLEASE" : {
+      "description" : "",
+      "message" : "Oui, s'il vous plait."
+   },
+   "FLAVOUR_5_INTRO" : {
+      "description" : "",
+      "message" : "Evitez les désagréments d'une panne de moteur Hyperspacial. Utilisez nos service dès aujourd'hui.\n\nMoteur:  {drive}\nMaintenance: {price}\n{lasttime}"
+   },
+   "FLAVOUR_5_RESPONSE" : {
+      "description" : "",
+      "message" : "Votre moteur a été révisé."
+   },
+   "FLAVOUR_5_TITLE" : {
+      "description" : "",
+      "message" : "{proprietor} Révision Moteur Compagnie"
+   },
+   "FLAVOUR_5_YESPLEASE" : {
+      "description" : "",
+      "message" : "Révision de moteur hyperspacial"
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Raccrochez."
+   },
+   "I_DONT_HAVE_ENOUGH_MONEY" : {
+      "description" : "",
+      "message" : "Je n'ai pas assez d'argent"
+   },
+   "I_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN" : {
+      "description" : "",
+      "message" : "J'ai  réparé l'Hyperpropulsion avant qu'elle ne casse."
+   },
+   "THE_SHIPS_HYPERDRIVE_HAS_BEEN_DESTROYED_BY_A_MALFUNCTION" : {
+      "description" : "",
+      "message" : "L'hyperpropulsion du vaisseau a été détruite par une malfonction"
+   },
+   "YOUR_DRIVE_HAS_NOT_BEEN_SERVICED" : {
+      "description" : "",
+      "message" : "Votre propulsion n'a jamais été révisée depuis son installation en date du {date}"
+   },
+   "YOUR_DRIVE_WAS_LAST_SERVICED_ON" : {
+      "description" : "",
+      "message" : "Votre conduite a été revisée le {date} par {company}"
+   },
+   "YOU_DO_NOT_HAVE_A_DRIVE_TO_SERVICE" : {
+      "description" : "",
+      "message" : "Vous n'avez aucune propulsion a réviser !"
+   },
+   "YOU_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN" : {
+      "description" : "",
+      "message" : "Vous avez réparé l'Hyperpropulsion avant qu'elle ne casse."
+   }
 }

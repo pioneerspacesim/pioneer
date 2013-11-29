@@ -38,7 +38,11 @@ static int l_lang_get_resource(lua_State *l)
 	}
 	lua_pop(l, 1);
 
-	Lang::Resource res = Lang::GetResource(resourceName, langCode);
+	Lang::Resource res(resourceName, langCode);
+	if (!res.Load()) {
+		lua_pushnil(l);
+		return 1;
+	}
 
 	lua_newtable(l);
 
