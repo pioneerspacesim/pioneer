@@ -297,7 +297,7 @@
    },
    "CONTROLS" : {
       "description" : "",
-      "message" : "Controls"
+      "message" : "Uidheaman-smachd"
    },
    "CORPORATE_SYSTEM" : {
       "description" : "",
@@ -569,7 +569,7 @@
    },
    "FUEL" : {
       "description" : "",
-      "message" : "Fuel"
+      "message" : "Connadh"
    },
    "FUEL_SCOOP" : {
       "description" : "",
@@ -1045,7 +1045,7 @@
    },
    "NAME" : {
       "description" : "",
-      "message" : "Name"
+      "message" : "Ainm"
    },
    "NARCOTICS" : {
       "description" : "",
@@ -1069,7 +1069,7 @@
    },
    "NONE" : {
       "description" : "",
-      "message" : "None"
+      "message" : "Chan eil gin"
    },
    "NORMA_ARM" : {
       "description" : "",
@@ -2005,7 +2005,7 @@
    },
    "USED" : {
       "description" : "",
-      "message" : "Used"
+      "message" : "Air a chleachdadh"
    },
    "USE_LOW_THRUST" : {
       "description" : "",

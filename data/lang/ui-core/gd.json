@@ -1,11 +1,11 @@
 {
    "ABOVE_AVERAGE" : {
       "description" : "",
-      "message" : "Above Average"
+      "message" : "Cuibheasach 's a chorr"
    },
    "ACTIVE" : {
       "description" : "",
-      "message" : "Active"
+      "message" : "Gnìomhach"
    },
    "ALLEGIANCE" : {
       "description" : "",
@@ -17,7 +17,7 @@
    },
    "AN_ERROR_HAS_OCCURRED" : {
       "description" : "",
-      "message" : "An error has occurred"
+      "message" : "Thachair mearachd"
    },
    "ATTEMPT_TO_REPAIR_HULL" : {
       "description" : "",
@@ -25,7 +25,7 @@
    },
    "AVERAGE" : {
       "description" : "",
-      "message" : "Average"
+      "message" : "Cuibheasach"
    },
    "BACKWARD_ACCEL" : {
       "description" : "",
@@ -37,7 +37,7 @@
    },
    "CANCEL" : {
       "description" : "",
-      "message" : "Cancel"
+      "message" : "Sguir dheth"
    },
    "CAPACITY_USED" : {
       "description" : "",
@@ -57,7 +57,7 @@
    },
    "CHANGE_BINDING" : {
       "description" : "",
-      "message" : "Change Binding"
+      "message" : "Atharraich an nasgadh"
    },
    "CIRCULAR_ORBIT_SPEED" : {
       "description" : "",
@@ -69,7 +69,7 @@
    },
    "CLEAR" : {
       "description" : "",
-      "message" : "Clear"
+      "message" : "Falamhaich"
    },
    "CLIENT" : {
       "description" : "",
@@ -77,7 +77,7 @@
    },
    "COMBAT" : {
       "description" : "",
-      "message" : "Combat"
+      "message" : "Còmhrag"
    },
    "COMMANDER" : {
       "description" : "",
@@ -85,19 +85,19 @@
    },
    "COMPETENT" : {
       "description" : "",
-      "message" : "Competent"
+      "message" : "Comasach"
    },
    "COMPLETED" : {
       "description" : "",
-      "message" : "Completed"
+      "message" : "Coileanta"
    },
    "COMPRESS_TEXTURES" : {
       "description" : "",
-      "message" : "Compress Textures"
+      "message" : "Dùmhlaich na h-innich"
    },
    "CONTROLS" : {
       "description" : "",
-      "message" : "Controls"
+      "message" : "Uidheaman-smachd"
    },
    "CONTROL_OPTIONS" : {
       "description" : "",
@@ -105,7 +105,7 @@
    },
    "COULD_NOT_LOAD_GAME" : {
       "description" : "",
-      "message" : "Could not load game: "
+      "message" : "Cha b' urrainn dhuinn an geama a luchdadh:"
    },
    "CREW_CABINS" : {
       "description" : "",
@@ -117,11 +117,11 @@
    },
    "DANGEROUS" : {
       "description" : "",
-      "message" : "Dangerous"
+      "message" : "Cunnartach"
    },
    "DEADLY" : {
       "description" : "",
-      "message" : "Deadly"
+      "message" : "Marbhtach"
    },
    "DELTA_V" : {
       "description" : "",
@@ -137,7 +137,7 @@
    },
    "DISMISS" : {
       "description" : "",
-      "message" : "Dismiss"
+      "message" : "Leig seachad"
    },
    "DISPLAY_NAV_TUNNELS" : {
       "description" : "",
@@ -145,7 +145,7 @@
    },
    "DISPLAY_SPEED_LINES" : {
       "description" : "",
-      "message" : "Display speed lines"
+      "message" : "Seall loidhnichean luaiths"
    },
    "DOCK_AT_CURRENT_TARGET" : {
       "description" : "",
@@ -157,7 +157,7 @@
    },
    "D_DAYS_LEFT" : {
       "description" : "",
-      "message" : "Days left: %d"
+      "message" : "Làithean air am fàgail: %d"
    },
    "ECONOMY_TRADE" : {
       "description" : "",
@@ -165,7 +165,7 @@
    },
    "EFFECTS" : {
       "description" : "",
-      "message" : "Effects:"
+      "message" : "Èifeachdan:"
    },
    "ELITE" : {
       "description" : "",
@@ -173,11 +173,11 @@
    },
    "EMPLOYMENT" : {
       "description" : "",
-      "message" : "Employment"
+      "message" : "Obair"
    },
    "ENABLE_JOYSTICK" : {
       "description" : "",
-      "message" : "Enable joystick"
+      "message" : "Cuir joystick an comas"
    },
    "ENGINEERING" : {
       "description" : "",
@@ -185,11 +185,11 @@
    },
    "EQUIPMENT" : {
       "description" : "",
-      "message" : "Equipment"
+      "message" : "Uidheamachd"
    },
    "ERROR" : {
       "description" : "",
-      "message" : "Error"
+      "message" : "Mearachd"
    },
    "ESCAPE_SPEED" : {
       "description" : "",
@@ -197,15 +197,15 @@
    },
    "EXIT_THIS_GAME" : {
       "description" : "",
-      "message" : "Exit this game"
+      "message" : "Fàg an geama seo"
    },
    "FAILED" : {
       "description" : "",
-      "message" : "Failed"
+      "message" : "Air fhàilligeadh"
    },
    "FEMALE" : {
       "description" : "",
-      "message" : "Female"
+      "message" : "Boireann"
    },
    "FORWARD_ACCEL" : {
       "description" : "",
@@ -217,15 +217,15 @@
    },
    "FREE" : {
       "description" : "",
-      "message" : "free"
+      "message" : "saor"
    },
    "FRONT_WEAPON" : {
       "description" : "",
-      "message" : "Front weapon"
+      "message" : "Arm beulaibh"
    },
    "FUEL" : {
       "description" : "",
-      "message" : "Fuel"
+      "message" : "Connadh"
    },
    "FUEL_TANK_FULL" : {
       "description" : "",
@@ -237,7 +237,7 @@
    },
    "FULL_SCREEN" : {
       "description" : "",
-      "message" : "Full screen"
+      "message" : "Làn-sgrìn"
    },
    "GENERAL_CREW" : {
       "description" : "",
@@ -245,7 +245,7 @@
    },
    "GIVE_ORDERS_TO_CREW" : {
       "description" : "",
-      "message" : "Give orders to crew"
+      "message" : "Thoir òrduighean dhan sgioba"
    },
    "GOOD_RIDDANCE_TO_YOU_TOO" : {
       "description" : "",
@@ -257,7 +257,7 @@
    },
    "HIGH" : {
       "description" : "",
-      "message" : "High"
+      "message" : "Àrd"
    },
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
       "description" : "",
@@ -285,7 +285,7 @@
    },
    "INACTIVE" : {
       "description" : "",
-      "message" : "Inactive"
+      "message" : "Neo-ghnìomhach"
    },
    "INVERT_MOUSE_Y" : {
       "description" : "",
@@ -297,7 +297,7 @@
    },
    "JETTISON" : {
       "description" : "",
-      "message" : "Jettison"
+      "message" : "Tilg a-mach"
    },
    "KILLS" : {
       "description" : "",
@@ -305,31 +305,31 @@
    },
    "LANGUAGE" : {
       "description" : "",
-      "message" : "Language"
+      "message" : "Cànan"
    },
    "LANGUAGE_RESTART_GAME_TO_APPLY" : {
       "description" : "",
-      "message" : "Language (restart game to apply)"
+      "message" : "Cànan (ath-thòisich an geama gus a chur an sàs)"
    },
    "LOAD" : {
       "description" : "",
-      "message" : "Load"
+      "message" : "Luchdaich"
    },
    "LOAD_GAME" : {
       "description" : "",
-      "message" : "Load game"
+      "message" : "Luchdaich geama"
    },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
-      "message" : "Located {distance}km from the centre of {name}:"
+      "message" : "{distance}km air falbh o mheadhan {name}:"
    },
    "LOCATION" : {
       "description" : "",
-      "message" : "Location"
+      "message" : "Ionad"
    },
    "LOW" : {
       "description" : "",
-      "message" : "Low"
+      "message" : "Ìosal"
    },
    "LY" : {
       "description" : "",
@@ -337,11 +337,11 @@
    },
    "MAKE_NEW_FACE" : {
       "description" : "",
-      "message" : "Make new face"
+      "message" : "Cruthaich aodann ùr"
    },
    "MALE" : {
       "description" : "",
-      "message" : "Male"
+      "message" : "Fireann"
    },
    "MASTER" : {
       "description" : "",
@@ -349,11 +349,11 @@
    },
    "MAX" : {
       "description" : "",
-      "message" : "max"
+      "message" : "as motha"
    },
    "MEDIUM" : {
       "description" : "",
-      "message" : "Medium"
+      "message" : "Meadhanach"
    },
    "METAL_ALLOYS" : {
       "description" : "",
@@ -361,7 +361,7 @@
    },
    "MILITARY" : {
       "description" : "",
-      "message" : "Military"
+      "message" : "An arm"
    },
    "MINIMUM_CREW" : {
       "description" : "",
@@ -369,15 +369,15 @@
    },
    "MISSIONS" : {
       "description" : "",
-      "message" : "Missions"
+      "message" : "Miseanan"
    },
    "MISSION_DETAILS" : {
       "description" : "",
-      "message" : "Mission Details"
+      "message" : "Fiosrachadh a' mhisein"
    },
    "MORE_INFO" : {
       "description" : "",
-      "message" : "More info..."
+      "message" : "Barrachd fiosrachaidh..."
    },
    "MOSTLY_HARMLESS" : {
       "description" : "",
@@ -389,7 +389,7 @@
    },
    "MUSIC" : {
       "description" : "",
-      "message" : "Music:"
+      "message" : "Ceòl:"
    },
    "MUTE" : {
       "description" : "",
@@ -397,7 +397,7 @@
    },
    "NAME" : {
       "description" : "",
-      "message" : "Name"
+      "message" : "Ainm"
    },
    "NAVIGATION" : {
       "description" : "",
@@ -413,23 +413,23 @@
    },
    "NONE" : {
       "description" : "",
-      "message" : "None"
+      "message" : "Chan eil gin"
    },
    "NOTES" : {
       "description" : "",
-      "message" : "Notes:"
+      "message" : "Nòtaichean:"
    },
    "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR" : {
       "description" : "",
-      "message" : "Not enough {alloy} to attempt a repair"
+      "message" : "Chan eil {alloy} gu leòr agad gus feuchainn ris a chàradh"
    },
    "NO_MISSIONS" : {
       "description" : "",
-      "message" : "No missions."
+      "message" : "Chan eil misean agad."
    },
    "N_LIGHT_YEARS_N_MAX" : {
       "description" : "",
-      "message" : "{range} light years ({maxRange} max)"
+      "message" : "{range} bliadhna solais ({maxRange} as motha)"
    },
    "N_OCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
@@ -445,15 +445,15 @@
    },
    "OFF" : {
       "description" : "",
-      "message" : "Off"
+      "message" : "Dheth"
    },
    "OK" : {
       "description" : "",
-      "message" : "Ok"
+      "message" : "Ceart ma-thà"
    },
    "OPTIONS" : {
       "description" : "",
-      "message" : "Options"
+      "message" : "Roghainnean"
    },
    "ORBIT" : {
       "description" : "",
@@ -473,7 +473,7 @@
    },
    "PERSONAL_INFORMATION" : {
       "description" : "",
-      "message" : "Personal Information"
+      "message" : "Fiosrachadh pearsanta"
    },
    "PILOTING" : {
       "description" : "",
@@ -489,19 +489,19 @@
    },
    "PLANET_TEXTURES" : {
       "description" : "",
-      "message" : "Planet textures"
+      "message" : "Innich na planaid"
    },
    "POOR" : {
       "description" : "",
-      "message" : "Poor"
+      "message" : "Bochd"
    },
    "POSITION" : {
       "description" : "",
-      "message" : "Position"
+      "message" : "Ionad"
    },
    "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
       "description" : "",
-      "message" : "Press a key or controller button"
+      "message" : "Brùth air iuchair no putan uidheim-smachd"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
@@ -509,19 +509,19 @@
    },
    "QUIT" : {
       "description" : "",
-      "message" : "Quit"
+      "message" : "Fàg an-seo"
    },
    "RANK" : {
       "description" : "",
-      "message" : "Rank:"
+      "message" : "Rang:"
    },
    "RATING" : {
       "description" : "",
-      "message" : "Rating:"
+      "message" : "Rangachadh:"
    },
    "REAR_WEAPON" : {
       "description" : "",
-      "message" : "Rear weapon"
+      "message" : "Arm cùlaibh"
    },
    "REFUEL" : {
       "description" : "",
@@ -529,11 +529,11 @@
    },
    "RETURN_TO_MENU" : {
       "description" : "",
-      "message" : "Return to menu"
+      "message" : "Till dhan chlàr-taice"
    },
    "REWARD" : {
       "description" : "",
-      "message" : "Reward"
+      "message" : "Duais"
    },
    "SAVE" : {
       "description" : "",
@@ -541,19 +541,19 @@
    },
    "SELECT" : {
       "description" : "",
-      "message" : "Select"
+      "message" : "Tagh"
    },
    "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME" : {
       "description" : "",
-      "message" : "Select a file to save to or enter a new filename"
+      "message" : "Tagh faidhle airson sàbhaladh no cuir a-steach ainm faidhle ùr"
    },
    "SELECT_FILE" : {
       "description" : "",
-      "message" : "Select file..."
+      "message" : "Tagh faidhle..."
    },
    "SELECT_GAME_TO_LOAD" : {
       "description" : "",
-      "message" : "Select game to load..."
+      "message" : "Tagh geama gus a luchdadh..."
    },
    "SENSORS" : {
       "description" : "",
@@ -565,15 +565,15 @@
    },
    "SOUND" : {
       "description" : "",
-      "message" : "Sound"
+      "message" : "Fuaim"
    },
    "START_AT_BARNARDS_STAR" : {
       "description" : "",
-      "message" : "Start at Barnard's Star"
+      "message" : "Tòisich air Reul Bharnard"
    },
    "START_AT_EARTH" : {
       "description" : "",
-      "message" : "Start at Earth"
+      "message" : "Tòisich air an Talamh"
    },
    "START_AT_NEW_HOPE" : {
       "description" : "",
@@ -581,7 +581,7 @@
    },
    "STATUS" : {
       "description" : "",
-      "message" : "Status"
+      "message" : "Staid"
    },
    "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP" : {
       "description" : "",
@@ -593,7 +593,7 @@
    },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "",
-      "message" : "Toggle male/female"
+      "message" : "Toglaich fireann/boireann"
    },
    "TOTAL" : {
       "description" : "",
@@ -601,7 +601,7 @@
    },
    "TYPE" : {
       "description" : "",
-      "message" : "Type"
+      "message" : "Seòrsa"
    },
    "UP_ACCEL" : {
       "description" : "",
@@ -609,15 +609,15 @@
    },
    "USED" : {
       "description" : "",
-      "message" : "Used"
+      "message" : "Air a chleachdadh"
    },
    "VERY_HIGH" : {
       "description" : "",
-      "message" : "Very high"
+      "message" : "Glè àrd"
    },
    "VERY_LOW" : {
       "description" : "",
-      "message" : "Very low"
+      "message" : "Glè ìosal"
    },
    "VIDEO" : {
       "description" : "",
@@ -625,7 +625,7 @@
    },
    "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY" : {
       "description" : "",
-      "message" : "Video configuration (restart game to apply)"
+      "message" : "Rèiteachadh video (ath-thòisich an geama gus a chur an sàs)"
    },
    "VIDEO_RESOLUTION" : {
       "description" : "",
