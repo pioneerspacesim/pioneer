@@ -533,7 +533,7 @@ void SectorView::PutSystemLabels(Sector *sec, const vector3f &origin, int drawRa
 			// reject back-projected labels
 			if(screenPos.z > 1.0f)
 				continue;
-			
+
 			// work out the colour
 			Color labelColor = (*sys).faction->AdjustedColour((*sys).population, inRange);
 
