@@ -6,6 +6,7 @@
 
 #include "Container.h"
 #include "Slider.h"
+#include "Event.h"
 
 namespace UI {
 
@@ -20,11 +21,16 @@ public:
 
 	Table *SetHeadingRow(const WidgetSet &set);
 	Table *AddRow(const WidgetSet &set);
+	void ClearRows();
 
 	Table *SetRowSpacing(int spacing);
 	Table *SetColumnSpacing(int spacing);
 
 	Table *SetHeadingFont(Font font);
+
+	Table *SetMouseEnabled(bool enabled);
+
+	sigc::signal<void,unsigned int> onRowClicked;
 
 private:
 
@@ -55,6 +61,7 @@ private:
 
 		virtual Point PreferredSize();
 		virtual void Layout();
+		virtual void Draw();
 
 		void AddRow(const std::vector<Widget*> &widgets);
 		void Clear();
@@ -64,13 +71,24 @@ private:
 		void SetRowSpacing(int spacing);
 		void SetColumnSpacing(int spacing);
 
+		void SetMouseEnabled(bool enabled) { m_mouseEnabled = enabled; }
+
+		sigc::signal<void,unsigned int> onRowClicked;
+
+	protected:
+		virtual void HandleClick();
+
 	private:
+		int RowUnderPoint(const Point &pt, int *out_row_top = 0, int *out_row_bottom = 0) const;
+
 		LayoutAccumulator &m_layout;
 		std::vector< std::vector<Widget*> > m_rows;
 		std::vector<int> m_rowHeight;
 		Point m_preferredSize;
 		int m_rowSpacing;
 		bool m_dirty;
+
+		bool m_mouseEnabled;
 	};
 
 	LayoutAccumulator m_layout;

@@ -79,11 +79,13 @@ public:
 	// Returns true on success, false if permission denied
 	bool LaunchShip(Ship *ship, int port);
 	void SetDocked(Ship *ship, int port);
+	void SwapDockedShipsPort(const int oldPort, const int newPort);
 
 	bool GetDockingClearance(Ship *s, std::string &outMsg);
 	int GetDockingPortCount() const { return m_type->numDockingPorts; }
-	int GetFreeDockingPort() const; // returns -1 if none free
+	int GetFreeDockingPort(const Ship *s) const; // returns -1 if none free
 	int GetMyDockingPort(const Ship *s) const;
+	int NumShipsDocked() const;
 
 	const SpaceStationType *GetStationType() const { return m_type; }
 	bool IsGroundStation() const;

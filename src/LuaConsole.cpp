@@ -11,6 +11,8 @@
 #include "text/TextureFont.h"
 #include "text/TextSupport.h"
 #include "KeyBindings.h"
+#include "FileSystem.h"
+#include "LuaUtils.h"
 #include <sstream>
 #include <stack>
 #include <algorithm>
@@ -61,6 +63,54 @@ LuaConsole::LuaConsole(int displayedOutputLines):
 	lua_setfield(l, LUA_REGISTRYINDEX, "ConsoleGlobal");
 
 	LUA_DEBUG_END(l, 0);
+
+	RunAutoexec();
+}
+
+static int capture_traceback(lua_State *L) {
+	lua_pushstring(L, "\n");
+	luaL_traceback(L, L, nullptr, 0);
+	lua_concat(L, 3);
+	return 1;
+}
+
+void LuaConsole::RunAutoexec() {
+	lua_State *L = Lua::manager->GetLuaState();
+	LUA_DEBUG_START(L);
+
+	RefCountedPtr<FileSystem::FileData> code = FileSystem::userFiles.ReadFile("console.lua");
+	if (!code)
+		return;
+
+	int ret = pi_lua_loadfile(L, *code);
+	if (ret != LUA_OK) {
+		if (ret == LUA_ERRSYNTAX) {
+			const char *msg = lua_tostring(L, -1);
+			fprintf(stderr, "console.lua: %s\n", msg);
+			lua_pop(L, 1);
+		}
+		AddOutput("Failed to run console.lua");
+		return;
+	}
+
+	// set the chunk's _ENV (globals) var
+	lua_getfield(L, LUA_REGISTRYINDEX, "ConsoleGlobal");
+	lua_setupvalue(L, -2, 1);
+
+	lua_pushcfunction(L, &capture_traceback);
+	lua_insert(L, -2);
+
+	ret = lua_pcall(L, 0, 0, -2);
+	if (ret != LUA_OK) {
+		const char *msg = lua_tostring(L, -1);
+		fprintf(stderr, "console.lua:\n%s\n", msg);
+		AddOutput("Failed to run console.lua");
+		lua_pop(L, 1);
+	}
+
+	// pop capture_traceback function
+	lua_pop(L, 1);
+	LUA_DEBUG_END(L, 0);
 }
 
 LuaConsole::~LuaConsole() {}

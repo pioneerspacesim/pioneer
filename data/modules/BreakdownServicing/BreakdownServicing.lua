@@ -50,10 +50,10 @@ local flavours = {
 -- add strings to flavours
 for i = 1,#flavours do
 	local f = flavours[i]
-	f.title     = l["FLAVOUR_TITLE_"..i-1]
-	f.intro     = l["FLAVOUR_INTRO_"..i-1]
-	f.yesplease = l["FLAVOUR_YESPLEASE_"..i-1]
-	f.response  = l["FLAVOUR_RESPONSE_"..i-1]
+	f.title     = l["FLAVOUR_" .. i-1 .. "_TITLE"]
+	f.intro     = l["FLAVOUR_" .. i-1 .. "_INTRO"]
+	f.yesplease = l["FLAVOUR_" .. i-1 .. "_YESPLEASE"]
+	f.response  = l["FLAVOUR_" .. i-1 .. "_RESPONSE"]
 end
 
 local ads = {}

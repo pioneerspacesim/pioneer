@@ -286,11 +286,35 @@ int SpaceStation::GetMyDockingPort(const Ship *s) const
 	return -1;
 }
 
-int SpaceStation::GetFreeDockingPort() const
+int SpaceStation::NumShipsDocked() const
 {
+	Sint32 numShipsDocked = 0;
+	for (Uint32 i=0; i<m_shipDocking.size(); i++) {
+		if (NULL != m_shipDocking[i].ship) 
+			++numShipsDocked;
+	}
+	return numShipsDocked;
+}
+
+int SpaceStation::GetFreeDockingPort(const Ship *s) const
+{
+	assert(s);
 	for (unsigned int i=0; i<m_type->numDockingPorts; i++) {
 		if (m_shipDocking[i].ship == 0) {
-			return i;
+			// fwing
+			// initial unoccupied check
+			if (m_shipDocking[i].ship != 0) continue;
+
+			// size-of-ship vs size-of-bay check
+			const SpaceStationType::SBayGroup *const pBayGroup = m_type->FindGroupByBay(i);
+			if( !pBayGroup ) continue;
+
+			const Aabb &bbox = s->GetAabb();
+			const double bboxRad = bbox.GetRadius();
+
+			if( pBayGroup->minShipSize < bboxRad && bboxRad < pBayGroup->maxShipSize ) {
+				return i;
+			}
 		}
 	}
 	return -1;
@@ -307,6 +331,20 @@ void SpaceStation::SetDocked(Ship *ship, int port)
 	ship->SetAngVelocity(vector3d(0.0));
 	ship->ClearThrusterState();
 	PositionDockedShip(ship, port);
+}
+
+void SpaceStation::SwapDockedShipsPort(const int oldPort, const int newPort)
+{
+	if( oldPort == newPort )
+		return;
+
+	// set new location
+	Ship *ship = m_shipDocking[oldPort].ship;
+	assert(ship);
+	ship->SetDockedWith(this, newPort);
+
+	m_shipDocking[oldPort].ship = 0;
+	m_shipDocking[oldPort].stage = 0;
 }
 
 bool SpaceStation::LaunchShip(Ship *ship, int port)
@@ -536,7 +574,7 @@ void SpaceStation::StaticUpdate(const float timeStep)
 	bool update = false;
 
 	// if there's no BB and there are ships here, make one
-	if (!m_bbCreated && GetFreeDockingPort() != 0) {
+	if (!m_bbCreated && NumShipsDocked() > 0) {
 		CreateBB();
 		update = true;
 	}
@@ -786,7 +824,8 @@ void SpaceStation::DoLawAndOrder(const double timeStep)
 			&& m_numPoliceDocked
 			&& (fine > 1000)
 			&& (GetPositionRelTo(Pi::player).Length() < 100000.0)) {
-		int port = GetFreeDockingPort();
+		Ship *ship = new Ship(ShipType::POLICE);
+		int port = GetFreeDockingPort(ship);
 		// at 60 Hz updates (ie, 1x time acceleration),
 		// this spawns a police ship with probability ~0.83% each frame
 		// This makes it unlikely (but not impossible) that police will spawn on top of each other
@@ -795,7 +834,6 @@ void SpaceStation::DoLawAndOrder(const double timeStep)
 		if (port != -1 && 2.0*Pi::rng.Double() < timeStep) {
 			m_numPoliceDocked--;
 			// Make police ship intent on killing the player
-			Ship *ship = new Ship(ShipType::POLICE);
 			ship->AIKill(Pi::player);
 			ship->SetFrame(GetFrame());
 			ship->SetDockedWith(this, port);
@@ -805,6 +843,8 @@ void SpaceStation::DoLawAndOrder(const double timeStep)
 			ship->m_equipment.Add(Equip::LASER_COOLING_BOOSTER);
 			ship->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
 			ship->UpdateStats();
+		} else {
+			delete ship;
 		}
 	}
 }

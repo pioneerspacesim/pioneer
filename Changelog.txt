@@ -1,19 +1,34 @@
 November 2013
 
    * New features
-     * Translations now managed via Transifex (#2521, #2537, #2536)
+     * Translations now managed via Transifex (#2521, #2537, #2536, #2562)
      * "Speed lines" option to convey movement to the player (#2528)
+     * Modelviewer mouselook mode (#2559)
+     * Pioneer now requires OpenGL 2.0 and always uses shaders (#2540)
 
    * Minor changes and tweaks
      * Improvements to the ship spinner (used in Ship Info view) (#2532)
 
+   * Script and UI API changes
+     * Console will load "console.lua" in your user dir at startup (#2556)
+     * New methods Ship:SetInvulnerable and Ship:GetInvulnerable (#2531)
+     * UI.Table widget now accepts mouse events and has added methods:
+       ClearRows, SetMouseEnabled, and onRowClicked (#2554)
+     * UI.Gauge widget has added method SetUpperLimit (#2561)
+     * It is now possible to create custom properties (#2553)
+     * Property change signals can be connected to Lua functions (#2560)
+     * Ship:GetStats() has been removed; stats are now exposed as
+       properties of the Ship object (#2552)
+
    * Fixes
-     * Fix potential divide-by-zero in autopilot (#2535)
+     * Fix potential divide-by-zero in autopilot (#2535, #2547)
+     * Spawn docked ships in the correct bay based on size (#2538)
+     * Table widget now recomputes layout on content and style changes (#2555)
 
    * Internal changes
      * Build fixes for MSVC
      * Explicitly enable depth testing where we need it (#2530)
-     * Intern Lua SystemPath objects to deduplicate them (#2543)
+     * Intern Lua SystemPath objects to deduplicate them (#2543, #2546)
 
 October 2013
 
