@@ -334,7 +334,7 @@ void Screen::RenderString(const std::string &s, float xoff, float yoff, const Co
 	if(!pRenderer) return;
 	
 	const matrix4x4f &modelMatrix_ = pRenderer->GetCurrentModelView();
-	pRenderer->PushMatrix();
+	Graphics::ScopedMatrixPushPop smpp(pRenderer, GL_MODELVIEW);
 	{
 		const float x = modelMatrix_[12] + xoff;
 		const float y = modelMatrix_[13] + yoff;
@@ -343,7 +343,6 @@ void Screen::RenderString(const std::string &s, float xoff, float yoff, const Co
 		pRenderer->Scale(Screen::fontScale[0], Screen::fontScale[1], 1);
 		font->RenderString(s.c_str(), 0, 0, color);
 	}
-	pRenderer->PopMatrix();
 }
 
 void Screen::RenderMarkup(const std::string &s, const Color &color, Text::TextureFont *font)
@@ -355,7 +354,7 @@ void Screen::RenderMarkup(const std::string &s, const Color &color, Text::Textur
 	if(!pRenderer) return;
 	
 	const matrix4x4f &modelMatrix_ = pRenderer->GetCurrentModelView();
-	pRenderer->PushMatrix();
+	Graphics::ScopedMatrixPushPop smpp(pRenderer, GL_MODELVIEW);
 	{
 		const float x = modelMatrix_[12];
 		const float y = modelMatrix_[13];
@@ -364,7 +363,6 @@ void Screen::RenderMarkup(const std::string &s, const Color &color, Text::Textur
 		pRenderer->Scale(Screen::fontScale[0], Screen::fontScale[1], 1);
 		font->RenderMarkup(s.c_str(), 0, 0, color);
 	}
-	pRenderer->PopMatrix();
 }
 
 void Screen::AddShortcutWidget(Widget *w)

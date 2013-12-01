@@ -132,10 +132,9 @@ void LabelButton::Draw()
 	Graphics::Renderer *pRenderer = Gui::Screen::GetRenderer();
 	if(!pRenderer) return;
 
-	pRenderer->PushMatrix();
+	Graphics::ScopedMatrixPushPop smpp(pRenderer, GL_MODELVIEW);
 	pRenderer->Translate(m_padding, m_padding*0.5, 0);
 	m_label->Draw();
-	pRenderer->PopMatrix();
 }
 
 void LabelButton::OnSetSize()

@@ -129,11 +129,10 @@ void VScrollPortal::Draw()
 
 	Graphics::Renderer *pRenderer = Gui::Screen::GetRenderer();
 	if(pRenderer) {
-		pRenderer->PushMatrix();
+		Graphics::ScopedMatrixPushPop smpp(pRenderer, GL_MODELVIEW);
 		// scroll to whole pixel locations whatever the resolution
 		pRenderer->Translate(0, floor((-m_scrollY*toScroll)/scale[1])*scale[1], 0);
 		Container::Draw();
-		pRenderer->PopMatrix();
 	}
 
 	SetScissor(false);

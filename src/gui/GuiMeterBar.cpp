@@ -31,13 +31,12 @@ void MeterBar::Draw()
 
 	Graphics::Renderer *pRenderer = Gui::Screen::GetRenderer();
 	if(pRenderer) {
-		pRenderer->PushMatrix();
+		Graphics::ScopedMatrixPushPop smpp(pRenderer, GL_MODELVIEW);
 		glColor4fv(m_barColor);
 		pRenderer->Translate(METERBAR_PADDING, METERBAR_PADDING, 0.0f);
 		size[0] = m_barValue * (size[0] - 2.0f*METERBAR_PADDING);
 		size[1] = METERBAR_BAR_HEIGHT;
 		Gui::Theme::DrawRoundEdgedRect(size, 3.0f);
-		pRenderer->PopMatrix();
 	}
 	glBlendFunc(GL_ONE, GL_ZERO);
 	glDisable(GL_BLEND);
