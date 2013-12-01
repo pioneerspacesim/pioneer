@@ -357,6 +357,7 @@ double Game::GetHyperspaceArrivalProbability() const
 
 void Game::SwitchToHyperspace()
 {
+	PROFILE_SCOPED()
 	// remember where we came from so we can properly place the player on exit
 	m_hyperspaceSource = m_space->GetStarSystem()->GetPath();
 
@@ -426,6 +427,7 @@ void Game::SwitchToHyperspace()
 
 void Game::SwitchToNormalSpace()
 {
+	PROFILE_SCOPED()
 	// remove the player from hyperspace
 	m_space->RemoveBody(m_player.get());
 
