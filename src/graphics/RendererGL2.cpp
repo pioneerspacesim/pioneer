@@ -162,6 +162,7 @@ static std::string glerr_to_string(GLenum err)
 
 bool RendererGL2::SwapBuffers()
 {
+	PROFILE_SCOPED()
 #ifndef NDEBUG
 	// Check if an error occurred during the frame. This is not very useful for
 	// determining *where* the error happened. For that purpose, try GDebugger or
@@ -356,7 +357,7 @@ bool RendererGL2::SetLights(int numlights, const Light *lights)
 
 	//glLight depends on the current transform, but we have always
 	//relied on it being identity when setting lights.
-	PushMatrix();
+	Graphics::ScopedMatrixPushPop smpp(this, GL_MODELVIEW);
 	SetTransform(matrix4x4f::Identity());
 
 	m_numLights = numlights;
@@ -974,8 +975,11 @@ bool RendererGL2::PrintDebugInfo(std::ostream &out)
 void RendererGL2::MatrixMode(GLuint mm) 
 { 
 	PROFILE_SCOPED()
-	glMatrixMode(mm);
-	m_matrixMode = mm; 
+	if( mm != m_matrixMode )
+	{
+		glMatrixMode(mm);
+		m_matrixMode = mm; 
+	}
 }
 
 void RendererGL2::PushMatrix() 

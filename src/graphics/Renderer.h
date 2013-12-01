@@ -217,6 +217,26 @@ private:
 	std::unique_ptr<RenderInfo> m_renderInfo;
 };
 
+class ScopedMatrixPushPop
+{
+public:
+	ScopedMatrixPushPop(Renderer* pRenderer, Uint32 matrixMode) : m_pRenderer(pRenderer), m_matrixMode(matrixMode) {
+		assert(m_pRenderer);
+		assert(GL_MODELVIEW==matrixMode || GL_PROJECTION==matrixMode);
+		m_pRenderer->MatrixMode(m_matrixMode);
+		m_pRenderer->PushMatrix();
+	}
+
+	~ScopedMatrixPushPop() {
+		m_pRenderer->MatrixMode(m_matrixMode);
+		m_pRenderer->PopMatrix();
+	}
+
+private:
+	Renderer* m_pRenderer;
+	Uint32 m_matrixMode;
+};
+
 }
 
 #endif
