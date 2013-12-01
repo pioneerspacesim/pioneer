@@ -223,7 +223,7 @@ void Container::Draw()
 
 		PROFILE_SCOPED_RAW("Container::Draw - Child Loop")
 		
-		pRenderer->PushMatrix();
+		Graphics::ScopedMatrixPushPop smpp(pRenderer, GL_MODELVIEW);
 		pRenderer->Translate((*i).pos[0], (*i).pos[1], 0);
 #ifdef GUI_DEBUG_CONTAINER
 		float csize[2];
@@ -238,7 +238,6 @@ void Container::Draw()
 		glEnd();
 #endif /* GUI_DEBUG_CONTAINER */
 		(*i).w->Draw();
-		pRenderer->PopMatrix();
 	}
 }
 

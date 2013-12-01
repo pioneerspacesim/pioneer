@@ -79,13 +79,12 @@ void ToolTip::Draw()
 
 	Graphics::Renderer *pRenderer = Gui::Screen::GetRenderer();
 	if(pRenderer) {
-		pRenderer->PushMatrix();
+		Graphics::ScopedMatrixPushPop smpp(pRenderer, GL_MODELVIEW);
 		{
 			pRenderer->Translate(TOOLTIP_PADDING,0,0);
 			glColor4f(1,1,1,alpha);
 			m_layout->Render(size[0]-2*TOOLTIP_PADDING);
 		}
-		pRenderer->PopMatrix();
 	}
 	glBlendFunc(GL_ONE, GL_ZERO);
 	glDisable(GL_BLEND);

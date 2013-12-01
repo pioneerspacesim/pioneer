@@ -78,7 +78,7 @@ void TextLayout::Render(const float width, const Color &color) const
 	if(!pRenderer) return;
 	
 	const matrix4x4f &modelMatrix = pRenderer->GetCurrentModelView();
-	pRenderer->PushMatrix();
+	Graphics::ScopedMatrixPushPop smpp(pRenderer, GL_MODELVIEW);
 	{
 		const float x = modelMatrix[12];
 		const float y = modelMatrix[13];
@@ -87,7 +87,6 @@ void TextLayout::Render(const float width, const Color &color) const
 		pRenderer->Scale(fontScale[0], fontScale[1], 1);
 		_RenderRaw(width / fontScale[0], color);
 	}
-	pRenderer->PopMatrix();
 }
 
 void TextLayout::_RenderRaw(float maxWidth, const Color &color) const
@@ -98,7 +97,7 @@ void TextLayout::_RenderRaw(float maxWidth, const Color &color) const
 	Graphics::Renderer *pRenderer = Gui::Screen::GetRenderer();
 	if(!pRenderer) return;
 
-	pRenderer->PushMatrix();
+	Graphics::ScopedMatrixPushPop smpp(pRenderer, GL_MODELVIEW);
 
 	const float spaceWidth = m_font->GetGlyph(' ').advx;
 
@@ -151,7 +150,6 @@ void TextLayout::_RenderRaw(float maxWidth, const Color &color) const
 		}
 		py += m_font->GetHeight() * (explicit_newline ? PARAGRAPH_SPACING : 1.0f);
 	}
-	pRenderer->PopMatrix();
 }
 
 void TextLayout::_MeasureSizeRaw(const float layoutWidth, float outSize[2]) const
