@@ -362,6 +362,7 @@ bool RendererLegacy::SetScissor(bool enabled, const vector2f &pos, const vector2
 
 bool RendererLegacy::DrawLines(int count, const vector3f *v, const Color *c, LineType t)
 {
+	PROFILE_SCOPED()
 	if (count < 2) return false;
 
 	glPushAttrib(GL_LIGHTING_BIT);
@@ -382,6 +383,7 @@ bool RendererLegacy::DrawLines(int count, const vector3f *v, const Color *c, Lin
 
 bool RendererLegacy::DrawLines(int count, const vector3f *v, const Color &c, LineType t)
 {
+	PROFILE_SCOPED()
 	if (count < 2 || !v) return false;
 
 	glPushAttrib(GL_LIGHTING_BIT);
@@ -406,6 +408,7 @@ bool RendererLegacy::DrawLines(int count, const vector3f *v, const Color &c, Lin
 
 bool RendererLegacy::DrawLines2D(int count, const vector2f *v, const Color &c, LineType t)
 {
+	PROFILE_SCOPED()
 	if (count < 2 || !v) return false;
 
 	glPushAttrib(GL_LIGHTING_BIT);
@@ -425,6 +428,7 @@ bool RendererLegacy::DrawLines2D(int count, const vector2f *v, const Color &c, L
 
 bool RendererLegacy::DrawPoints(int count, const vector3f *points, const Color *colors, float size)
 {
+	PROFILE_SCOPED()
 	if (count < 1 || !points || !colors) return false;
 
 	glPushAttrib(GL_LIGHTING_BIT);
@@ -447,6 +451,7 @@ bool RendererLegacy::DrawPoints(int count, const vector3f *points, const Color *
 
 bool RendererLegacy::DrawTriangles(const VertexArray *v, Material *m, PrimitiveType t)
 {
+	PROFILE_SCOPED()
 	if (!v || v->position.size() < 3) return false;
 
 	m->Apply();
@@ -462,6 +467,7 @@ bool RendererLegacy::DrawTriangles(const VertexArray *v, Material *m, PrimitiveT
 
 bool RendererLegacy::DrawSurface(const Surface *s)
 {
+	PROFILE_SCOPED()
 	if (!s || !s->GetVertices() || s->GetNumIndices() < 3) return false;
 
 	const Material *m = s->GetMaterial().Get();
@@ -480,6 +486,7 @@ bool RendererLegacy::DrawSurface(const Surface *s)
 
 bool RendererLegacy::DrawPointSprites(int count, const vector3f *positions, Material *material, float size)
 {
+	PROFILE_SCOPED()
 	if (count < 1 || !material || !material->texture0) return false;
 
 	SetDepthWrite(false);
@@ -518,6 +525,7 @@ bool RendererLegacy::DrawPointSprites(int count, const vector3f *positions, Mate
 
 bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 {
+	PROFILE_SCOPED()
 	if (!t) return false;
 
 	//Approach:
@@ -682,6 +690,7 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 
 Material *RendererLegacy::CreateMaterial(const MaterialDescriptor &desc)
 {
+	PROFILE_SCOPED()
 	MaterialLegacy *m;
 	switch (desc.effect) {
 	case EFFECT_STARFIELD:
@@ -705,6 +714,7 @@ Material *RendererLegacy::CreateMaterial(const MaterialDescriptor &desc)
 
 Texture *RendererLegacy::CreateTexture(const TextureDescriptor &descriptor)
 {
+	PROFILE_SCOPED()
 	return new TextureGL(descriptor, m_useCompressedTextures);
 }
 

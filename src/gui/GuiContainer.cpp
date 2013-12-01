@@ -278,6 +278,7 @@ void Container::GetChildPosition(const Widget *child, float outPos[2]) const
 
 void Container::Show()
 {
+	PROFILE_SCOPED()
 	Widget::Show();
 	if (IsVisible()) {
 		ResizeRequest();

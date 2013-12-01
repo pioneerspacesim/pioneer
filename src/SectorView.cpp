@@ -512,6 +512,7 @@ void SectorView::OnClickSystem(const SystemPath &path)
 
 void SectorView::PutSystemLabels(Sector *sec, const vector3f &origin, int drawRadius)
 {
+	PROFILE_SCOPED()
 	Uint32 sysIdx = 0;
 	for (std::vector<Sector::System>::iterator sys = sec->m_systems.begin(); sys !=sec->m_systems.end(); ++sys, ++sysIdx) {
 		// skip the system if it doesn't fall within the sphere we're viewing.
@@ -557,6 +558,7 @@ void SectorView::PutSystemLabels(Sector *sec, const vector3f &origin, int drawRa
 
 void SectorView::PutFactionLabels(const vector3f &origin)
 {
+	PROFILE_SCOPED()
 	glDepthRange(0,1);
 	Gui::Screen::EnterOrtho();
 	for (std::set<Faction*>::iterator it = m_visibleFactions.begin(); it != m_visibleFactions.end(); ++it) {
@@ -607,6 +609,7 @@ void SectorView::PutFactionLabels(const vector3f &origin)
 
 void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path)
 {
+	PROFILE_SCOPED()
 	Sector *sec = GetCached(path.sectorX, path.sectorY, path.sectorZ);
 	Sector *playerSec = GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
 
@@ -690,6 +693,7 @@ void SectorView::OnToggleFaction(Gui::ToggleButton* button, bool pressed, Factio
 
 void SectorView::UpdateFactionToggles()
 {
+	PROFILE_SCOPED()
 	// make sure we have enough row in the ui
 	while (m_visibleFactionLabels.size() < m_visibleFactions.size()) {
 		Gui::HBox*         row    = new Gui::HBox();
@@ -732,6 +736,7 @@ void SectorView::UpdateFactionToggles()
 
 void SectorView::DrawNearSectors(const matrix4x4f& modelview)
 {
+	PROFILE_SCOPED()
 	m_visibleFactions.clear();
 
 	const Sector *playerSec = GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
@@ -764,6 +769,7 @@ void SectorView::DrawNearSectors(const matrix4x4f& modelview)
 
 void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const vector3f &playerAbsPos,const matrix4x4f &trans)
 {
+	PROFILE_SCOPED()
 	m_renderer->SetTransform(trans);
 	Sector* ps = GetCached(sx, sy, sz);
 
@@ -918,6 +924,7 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 
 void SectorView::DrawFarSectors(const matrix4x4f& modelview)
 {
+	PROFILE_SCOPED()
 	int buildRadius = ceilf((m_zoomClamped/FAR_THRESHOLD) * 3);
 	if (buildRadius <= DRAW_RAD) buildRadius = DRAW_RAD;
 
@@ -954,6 +961,7 @@ void SectorView::DrawFarSectors(const matrix4x4f& modelview)
 
 void SectorView::BuildFarSector(Sector* sec, const vector3f &origin, std::vector<vector3f> &points, std::vector<Color> &colors)
 {
+	PROFILE_SCOPED()
 	Color starColor;
 	for (std::vector<Sector::System>::iterator i = sec->m_systems.begin(); i != sec->m_systems.end(); ++i) {
 		// skip the system if it doesn't fall within the sphere we're viewing.
@@ -1076,6 +1084,7 @@ void SectorView::OnKeyPressed(SDL_Keysym *keysym)
 
 void SectorView::Update()
 {
+	PROFILE_SCOPED()
 	SystemPath last_current = m_current;
 	bool last_inSystem = m_inSystem;
 
@@ -1228,6 +1237,7 @@ void SectorView::MouseWheel(bool up)
 
 Sector* SectorView::GetCached(const SystemPath& loc)
 {
+	PROFILE_SCOPED()
 	Sector *s = 0;
 
 	std::map<SystemPath,Sector*>::iterator i = m_sectorCache.find(loc);
@@ -1243,6 +1253,7 @@ Sector* SectorView::GetCached(const SystemPath& loc)
 
 Sector* SectorView::GetCached(const int sectorX, const int sectorY, const int sectorZ)
 {
+	PROFILE_SCOPED()
 	const SystemPath loc(sectorX, sectorY, sectorZ);
 	return GetCached(loc);
 }

@@ -984,14 +984,14 @@ void Pi::MainLoop()
 	while (Pi::game) {
 		PROFILE_SCOPED()
 #if WITH_DEVKEYS
+		Profiler::reset();
 		if (Pi::wantsProfiling) {
 			Pi::wantsProfiling = false;
 			Pi::isProfiling = true;
-			Profiler::reset();
 		}
 #endif
-
-		double newTime = 0.001 * double(SDL_GetTicks());
+		const Uint32 newTicks = SDL_GetTicks();
+		double newTime = 0.001 * double(newTicks);
 		Pi::frameTime = newTime - currentTime;
 		if (Pi::frameTime > 0.25) Pi::frameTime = 0.25;
 		currentTime = newTime;
@@ -1138,7 +1138,9 @@ void Pi::MainLoop()
 			else last_stats += 1000;
 		}
 		Pi::statSceneTris = 0;
-		if (Pi::isProfiling) {
+
+		const Uint32 testTicks = SDL_GetTicks();
+		if (Pi::isProfiling || (testTicks - newTicks) > 100 ) {
 			Profiler::dumphtml();
 			Pi::isProfiling = false;
 		}

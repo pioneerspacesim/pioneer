@@ -123,6 +123,7 @@ bool RendererGL2::DrawLines(int count, const vector3f *v, const Color &c, LineTy
 
 Material *RendererGL2::CreateMaterial(const MaterialDescriptor &d)
 {
+	PROFILE_SCOPED()
 	MaterialDescriptor desc = d;
 
 	GL2::Material *mat = 0;
