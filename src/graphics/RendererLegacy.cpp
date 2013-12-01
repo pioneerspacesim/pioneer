@@ -568,6 +568,7 @@ bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 
 void RendererLegacy::EnableClientStates(const VertexArray *v)
 {
+	PROFILE_SCOPED()
 	if (!v) return;
 	assert(v->position.size() > 0); //would be strange
 
@@ -598,6 +599,7 @@ void RendererLegacy::EnableClientStates(const VertexArray *v)
 
 void RendererLegacy::DisableClientStates()
 {
+	PROFILE_SCOPED()
 	for (std::vector<GLenum>::const_iterator i = m_clientStates.begin(); i != m_clientStates.end(); ++i)
 		glDisableClientState(*i);
 	m_clientStates.clear();
@@ -605,6 +607,7 @@ void RendererLegacy::DisableClientStates()
 
 bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 {
+	PROFILE_SCOPED()
 	const AttributeSet set = mesh->GetAttributeSet();
 	bool background = false;
 	bool model = false;

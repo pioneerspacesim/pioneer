@@ -412,6 +412,7 @@ void ShipCpanel::SetAlertState(Ship::AlertState as)
 
 void ShipCpanel::TimeStepUpdate(float step)
 {
+	PROFILE_SCOPED()
 	m_scanner->TimeStepUpdate(step);
 }
 
