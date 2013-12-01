@@ -117,6 +117,7 @@ void Screen::ShowBadError(const char *msg)
 
 bool Screen::Project(const vector3d &in, vector3d &out)
 {
+	PROFILE_SCOPED()
 	// implements gluProject (see the OpenGL documentation or the Mesa implementation of gluProject)
 	const double * const M = modelMatrix;
 	const double * const P = projMatrix;

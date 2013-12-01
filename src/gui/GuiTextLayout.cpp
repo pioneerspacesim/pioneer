@@ -122,6 +122,7 @@ void TextLayout::Render(const float width, const Color &color) const
 
 void TextLayout::_RenderRaw(float maxWidth, const Color &color) const
 {
+	PROFILE_SCOPED()
 	float py = 0;
 	init_clip_test();
 
