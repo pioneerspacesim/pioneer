@@ -9,11 +9,11 @@
    },
    "ALLEGIANCE" : {
       "description" : "",
-      "message" : "Allegiance:"
+      "message" : "Dìlseachd:"
    },
    "ALL_UP_WEIGHT" : {
       "description" : "",
-      "message" : "All-up weight"
+      "message" : "Cuideam iomlan"
    },
    "AN_ERROR_HAS_OCCURRED" : {
       "description" : "",
@@ -21,7 +21,7 @@
    },
    "ATTEMPT_TO_REPAIR_HULL" : {
       "description" : "",
-      "message" : "Attempt to repair hull"
+      "message" : "A' feuchainn ris an t-slige a chàradh"
    },
    "AVERAGE" : {
       "description" : "",
@@ -29,11 +29,11 @@
    },
    "BACKWARD_ACCEL" : {
       "description" : "",
-      "message" : "Backward acceleration"
+      "message" : "Luathachadh air ais"
    },
    "CABINS" : {
       "description" : "",
-      "message" : "Cabins"
+      "message" : "Cèibinnean"
    },
    "CANCEL" : {
       "description" : "",
@@ -41,7 +41,7 @@
    },
    "CAPACITY_USED" : {
       "description" : "",
-      "message" : "Capacity used"
+      "message" : "Tomhas 'ga chleachdadh"
    },
    "CARGO" : {
       "description" : "",
@@ -49,11 +49,11 @@
    },
    "CARGO_SPACE" : {
       "description" : "",
-      "message" : "Cargo space"
+      "message" : "Rum airson carago"
    },
    "CASH" : {
       "description" : "",
-      "message" : "Cash"
+      "message" : "Airgead"
    },
    "CHANGE_BINDING" : {
       "description" : "",
@@ -61,11 +61,11 @@
    },
    "CIRCULAR_ORBIT_SPEED" : {
       "description" : "",
-      "message" : "Circular orbit speed"
+      "message" : "Luaths cuairteach na reul-chuairte"
    },
    "CITY_DETAIL_LEVEL" : {
       "description" : "",
-      "message" : "City detail level"
+      "message" : "Leibheil mion-shealladh nam bailtean"
    },
    "CLEAR" : {
       "description" : "",
@@ -81,7 +81,7 @@
    },
    "COMMANDER" : {
       "description" : "",
-      "message" : "Commander"
+      "message" : "Comandair"
    },
    "COMPETENT" : {
       "description" : "",
@@ -109,11 +109,11 @@
    },
    "CREW_CABINS" : {
       "description" : "",
-      "message" : "Crew cabins"
+      "message" : "Cèibinnean criutha"
    },
    "CREW_ROSTER" : {
       "description" : "",
-      "message" : "Crew Roster"
+      "message" : "Clàr an sgioba"
    },
    "DANGEROUS" : {
       "description" : "",
@@ -129,7 +129,7 @@
    },
    "DESCENT_TO_GROUND_SPEED" : {
       "description" : "",
-      "message" : "Descent-to-ground speed:"
+      "message" : "Luaths teàrnadh dhan làr:"
    },
    "DESTROY_ENEMY_SHIP" : {
       "description" : "",
@@ -141,7 +141,7 @@
    },
    "DISPLAY_NAV_TUNNELS" : {
       "description" : "",
-      "message" : "Display nav tunnels"
+      "message" : "Seall tunailean seòladaireachd"
    },
    "DISPLAY_SPEED_LINES" : {
       "description" : "",
@@ -149,7 +149,7 @@
    },
    "DOCK_AT_CURRENT_TARGET" : {
       "description" : "",
-      "message" : "Dock at current target"
+      "message" : "Docaich aig an targaid làithreach"
    },
    "DUE" : {
       "description" : "",
@@ -169,7 +169,7 @@
    },
    "ELITE" : {
       "description" : "",
-      "message" : "ELITE"
+      "message" : "SEANN-EÒLACH"
    },
    "EMPLOYMENT" : {
       "description" : "",
@@ -181,7 +181,7 @@
    },
    "ENGINEERING" : {
       "description" : "",
-      "message" : "Engineering"
+      "message" : "Einnseanaireachd"
    },
    "EQUIPMENT" : {
       "description" : "",
@@ -209,11 +209,11 @@
    },
    "FORWARD_ACCEL" : {
       "description" : "",
-      "message" : "Forward acceleration"
+      "message" : "Luathachadh air adhart"
    },
    "FRACTAL_DETAIL" : {
       "description" : "",
-      "message" : "Fractal detail"
+      "message" : "Mion-shealladh fractalach"
    },
    "FREE" : {
       "description" : "",
@@ -229,11 +229,11 @@
    },
    "FUEL_TANK_FULL" : {
       "description" : "",
-      "message" : "Fuel tank full."
+      "message" : "Tha an taca-connaidh làn."
    },
    "FUEL_WEIGHT" : {
       "description" : "",
-      "message" : "Fuel weight"
+      "message" : "Cuideam a' connaidh"
    },
    "FULL_SCREEN" : {
       "description" : "",
@@ -241,7 +241,7 @@
    },
    "GENERAL_CREW" : {
       "description" : "",
-      "message" : "General crew"
+      "message" : "Sgioba coitcheann"
    },
    "GIVE_ORDERS_TO_CREW" : {
       "description" : "",
@@ -249,11 +249,11 @@
    },
    "GOOD_RIDDANCE_TO_YOU_TOO" : {
       "description" : "",
-      "message" : "Good riddance to you, too."
+      "message" : "'S math cuidhteas fhaighinn dhutsa cuideachd."
    },
    "HARMLESS" : {
       "description" : "",
-      "message" : "Harmless"
+      "message" : "Neoichiontach"
    },
    "HIGH" : {
       "description" : "",
@@ -261,15 +261,15 @@
    },
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
       "description" : "",
-      "message" : "Hull does not require repair."
+      "message" : "Chan eil càradh a dhìth air an t-slige."
    },
    "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT" : {
       "description" : "",
-      "message" : "Hull repaired by {name}, now at {repairPercent}%"
+      "message" : "Chaidh an t-slige a chàradh le {name}, air {repairPercent}% a-nis"
    },
    "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE" : {
       "description" : "",
-      "message" : "Hull repair attempt failed. Hull suffered minor damage."
+      "message" : "Dh'fhàillig le càradh na slige. Fhuair an t-slige beagan dochainn."
    },
    "HYPERDRIVE" : {
       "description" : "",
@@ -281,7 +281,7 @@
    },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
-      "message" : "I'm tired of working for nothing. Don't you know what a contract is?"
+      "message" : "Tha mi sgìth dhen a bhith 'g obair gun phàigheadh. Nach eil fhios agaibh dè th' ann an cùmhnant?"
    },
    "INACTIVE" : {
       "description" : "",
@@ -289,11 +289,11 @@
    },
    "INVERT_MOUSE_Y" : {
       "description" : "",
-      "message" : "Invert Mouse Y"
+      "message" : "Ais-tionndaidh Y na luchaige"
    },
    "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE" : {
       "description" : "",
-      "message" : "It's been great working for you. If you need me again, I'll be here a while."
+      "message" : "Chòrd e rium obair air ur son. Bidh mi an-seo greis fhathast ma bhios feum agaibh orm a-rithist."
    },
    "JETTISON" : {
       "description" : "",
@@ -301,7 +301,7 @@
    },
    "KILLS" : {
       "description" : "",
-      "message" : "Kills:"
+      "message" : "Air a mhilleadh"
    },
    "LANGUAGE" : {
       "description" : "",
@@ -345,7 +345,7 @@
    },
    "MASTER" : {
       "description" : "",
-      "message" : "Master:"
+      "message" : "Iomlan:"
    },
    "MAX" : {
       "description" : "",
@@ -357,7 +357,7 @@
    },
    "METAL_ALLOYS" : {
       "description" : "",
-      "message" : "Metal alloys"
+      "message" : "Co-mheatailtean"
    },
    "MILITARY" : {
       "description" : "",
@@ -365,7 +365,7 @@
    },
    "MINIMUM_CREW" : {
       "description" : "",
-      "message" : "Minimum crew"
+      "message" : "An criutha as lugha"
    },
    "MISSIONS" : {
       "description" : "",
@@ -381,7 +381,7 @@
    },
    "MOSTLY_HARMLESS" : {
       "description" : "",
-      "message" : "Mostly Harmless"
+      "message" : "Cha mhòr neo-chiontach"
    },
    "MULTISAMPLING" : {
       "description" : "",
@@ -393,7 +393,7 @@
    },
    "MUTE" : {
       "description" : "",
-      "message" : "Mute"
+      "message" : "Mùch"
    },
    "NAME" : {
       "description" : "",
@@ -401,11 +401,11 @@
    },
    "NAVIGATION" : {
       "description" : "",
-      "message" : "Navigation:"
+      "message" : "Seòladaireachd:"
    },
    "NEGOTIATE" : {
       "description" : "",
-      "message" : "Negotiate"
+      "message" : "Rèitich"
    },
    "NEXT_PAID" : {
       "description" : "",
@@ -433,15 +433,15 @@
    },
    "N_OCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
-      "message" : "{quantity} Occupied Passenger Cabins"
+      "message" : "{quantity} cèibinnean taistealaich air an còmhnadh"
    },
    "N_SHIELD_GENERATORS" : {
       "description" : "",
-      "message" : "{quantity} Shield Generators"
+      "message" : "{quantity} gineadairean sgèithe"
    },
    "N_UNOCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
-      "message" : "{quantity} Unoccupied Passenger Cabins"
+      "message" : "{quantity} cèibinnean taistealaich gun chòmhnadh"
    },
    "OFF" : {
       "description" : "",
@@ -461,7 +461,7 @@
    },
    "ORBITAL_ANALYSIS" : {
       "description" : "",
-      "message" : "Orbital Analysis"
+      "message" : "Sgrùdadh na reul-chuairte"
    },
    "ORBITAL_ANALYSIS_NOTES" : {
       "description" : "",
@@ -477,15 +477,15 @@
    },
    "PILOTING" : {
       "description" : "",
-      "message" : "Piloting:"
+      "message" : "Stiùireadh:"
    },
    "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME" : {
       "description" : "",
-      "message" : "Pilot seat is now occupied by {name}"
+      "message" : "Tha {name} 'na phaidhleat a-nis"
    },
    "PLANET_DETAIL_DISTANCE" : {
       "description" : "",
-      "message" : "Planet detail distance"
+      "message" : "Astar mion-shealladh nam planaidean"
    },
    "PLANET_TEXTURES" : {
       "description" : "",
@@ -557,7 +557,7 @@
    },
    "SENSORS" : {
       "description" : "",
-      "message" : "Sensors:"
+      "message" : "Mothaichearan:"
    },
    "SHIP_INFORMATION" : {
       "description" : "",
@@ -589,7 +589,7 @@
    },
    "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
       "description" : "",
-      "message" : "The ship is under station control, Commander."
+      "message" : "Tha an saoitheach fo smachd an stèisein, a Chomandair."
    },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "",
@@ -605,7 +605,7 @@
    },
    "UP_ACCEL" : {
       "description" : "",
-      "message" : "Up acceleration"
+      "message" : "Luathachadh suas"
    },
    "USED" : {
       "description" : "",
@@ -633,11 +633,11 @@
    },
    "WAGE" : {
       "description" : "",
-      "message" : "Wage"
+      "message" : "Tuarastal"
    },
    "WEIGHT_EMPTY" : {
       "description" : "",
-      "message" : "Weight empty:"
+      "message" : "Cuideam falamh:"
    },
    "WE_ARE_IN_HYPERSPACE_COMMANDER" : {
       "description" : "",
@@ -645,22 +645,22 @@
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",
-      "message" : "You're going to regret sacking me!"
+      "message" : "Bidh sibh duilich gun tug sibh a' bhròg dhomh!"
    },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",
-      "message" : "You must first select a combat target, Commander."
+      "message" : "Feumaidh sibh targaid còmhraige a thaghadh an toiseach, a Chomandair."
    },
    "YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER" : {
       "description" : "",
-      "message" : "You must first select a suitable navigation target, Commander."
+      "message" : "Feumaidh sibh targaid seòladaireachd a thaghadh an toiseach, a Chomandair."
    },
    "YOU_MUST_LAUNCH_FIRST_COMMANDER" : {
       "description" : "",
-      "message" : "You must launch first, Commander."
+      "message" : "Feumaidh sibh losgadh an toiseach, a Chomandair."
    },
    "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER" : {
       "description" : "",
-      "message" : "You must request launch clearance first, Commander."
+      "message" : "Feumaidh sibh cead falbh iarraidh an toiseachd, a Chomandair."
    }
 }

@@ -9,7 +9,7 @@
    },
    "ALLEGIANCE" : {
       "description" : "",
-      "message" : "Allegiance:"
+      "message" : "Dìlseachd:"
    },
    "ALT" : {
       "description" : "",
@@ -141,7 +141,7 @@
    },
    "CABINS" : {
       "description" : "",
-      "message" : "Cabins"
+      "message" : "Cèibinnean"
    },
    "CAMERA_BOTTOM_VIEW" : {
       "description" : "",
@@ -221,11 +221,11 @@
    },
    "CARGO_SPACE" : {
       "description" : "",
-      "message" : "Cargo space"
+      "message" : "Rum airson carago"
    },
    "CASH" : {
       "description" : "",
-      "message" : "Cash"
+      "message" : "Airgead"
    },
    "CH4_ATMOSPHERE" : {
       "description" : "",
@@ -585,7 +585,7 @@
    },
    "FUEL_WEIGHT" : {
       "description" : "",
-      "message" : "Fuel weight"
+      "message" : "Cuideam a' connaidh"
    },
    "GALACTIC_VIEW" : {
       "description" : "",
@@ -921,7 +921,7 @@
    },
    "METAL_ALLOYS" : {
       "description" : "",
-      "message" : "Metal alloys"
+      "message" : "Co-mheatailtean"
    },
    "METAL_ORE" : {
       "description" : "",
