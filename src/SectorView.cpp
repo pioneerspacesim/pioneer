@@ -379,6 +379,7 @@ void SectorView::OnSearchBoxKeyPress(const SDL_Keysym *keysym)
 void SectorView::Draw3D()
 {
 	PROFILE_SCOPED()
+
 	m_lineVerts->Clear();
 	m_secLineVerts->Clear();
 	m_clickableLabels->Clear();
@@ -404,8 +405,7 @@ void SectorView::Draw3D()
 		m_distanceLabel->SetText("");
 	}
 
-	m_renderer->MatrixMode(GL_MODELVIEW);
-	m_renderer->PushMatrix();
+	Graphics::ScopedMatrixPushPop smpp(m_renderer, GL_MODELVIEW);
 
 	// units are lightyears, my friend
 	modelview.Translate(0.f, 0.f, -10.f-10.f*m_zoom);    // not zoomClamped, let us zoom out a bit beyond what we're drawing
@@ -982,7 +982,10 @@ void SectorView::BuildFarSector(Sector* sec, const vector3f &origin, std::vector
 	}
 }
 
-void SectorView::OnSwitchTo() {
+void SectorView::OnSwitchTo() 
+{
+	m_renderer->SetViewport(0, 0, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
+
 	if (!m_onKeyPressConnection.connected())
 		m_onKeyPressConnection =
 			Pi::onKeyPress.connect(sigc::mem_fun(this, &SectorView::OnKeyPressed));
