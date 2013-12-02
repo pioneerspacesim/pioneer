@@ -376,8 +376,6 @@ void SectorView::OnSearchBoxKeyPress(const SDL_Keysym *keysym)
 void SectorView::Draw3D()
 {
 	PROFILE_SCOPED()
-	
-	m_renderer->SetViewport(0, 0, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
 
 	m_lineVerts->Clear();
 	m_secLineVerts->Clear();
@@ -986,7 +984,10 @@ void SectorView::BuildFarSector(Sector* sec, const vector3f &origin, std::vector
 	}
 }
 
-void SectorView::OnSwitchTo() {
+void SectorView::OnSwitchTo() 
+{
+	m_renderer->SetViewport(0, 0, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
+
 	if (!m_onKeyPressConnection.connected())
 		m_onKeyPressConnection =
 			Pi::onKeyPress.connect(sigc::mem_fun(this, &SectorView::OnKeyPressed));
