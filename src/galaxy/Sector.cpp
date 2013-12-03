@@ -240,7 +240,7 @@ float Sector::DistanceBetween(const Sector *a, int sysIdxA, const Sector *b, int
 	return dv.Length();
 }
 
-const std::string& Sector::GenName(System &sys, int si, Random &rng)
+const std::string Sector::GenName(System &sys, int si, Random &rng)
 {
 	PROFILE_SCOPED()
 	std::string name;
