@@ -101,7 +101,7 @@
    },
    "CONTROL_OPTIONS" : {
       "description" : "",
-      "message" : "Roghainnean nan innealan-smachd"
+      "message" : "Roghainnean nan uidheaman-smachd"
    },
    "COULD_NOT_LOAD_GAME" : {
       "description" : "",
@@ -309,7 +309,7 @@
    },
    "LANGUAGE_RESTART_GAME_TO_APPLY" : {
       "description" : "",
-      "message" : "Cànan (ath-thòisich an geama gus a chur an sàs)"
+      "message" : "Cànan (ath-thòisich an geama gus seo a chur an sàs)"
    },
    "LOAD" : {
       "description" : "",
@@ -329,7 +329,7 @@
    },
    "LOW" : {
       "description" : "",
-      "message" : "Ìosal"
+      "message" : "Ìseal"
    },
    "LY" : {
       "description" : "",
@@ -489,7 +489,7 @@
    },
    "PLANET_TEXTURES" : {
       "description" : "",
-      "message" : "Innich na planaid"
+      "message" : "Innich nam planaidean"
    },
    "POOR" : {
       "description" : "",
@@ -617,7 +617,7 @@
    },
    "VERY_LOW" : {
       "description" : "",
-      "message" : "Glè ìosal"
+      "message" : "Glè ìseal"
    },
    "VIDEO" : {
       "description" : "",
@@ -625,7 +625,7 @@
    },
    "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY" : {
       "description" : "",
-      "message" : "Rèiteachadh video (ath-thòisich an geama gus a chur an sàs)"
+      "message" : "Rèiteachadh video (bidh ath-thòiseachadh a dhìth)"
    },
    "VIDEO_RESOLUTION" : {
       "description" : "",

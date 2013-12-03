@@ -301,7 +301,7 @@
    },
    "CORPORATE_SYSTEM" : {
       "description" : "",
-      "message" : "Corporate system"
+      "message" : "Siostam corporra"
    },
    "COULD_NOT_OPEN_FILENAME" : {
       "description" : "",
@@ -429,15 +429,15 @@
    },
    "DRIVE_MIL1" : {
       "description" : "",
-      "message" : "Class 1 Military drive"
+      "message" : "Draibh an airm clas 1"
    },
    "DRIVE_MIL2" : {
       "description" : "",
-      "message" : "Class 2 Military drive"
+      "message" : "Draibh an airm clas 2"
    },
    "DRIVE_MIL3" : {
       "description" : "",
-      "message" : "Class 3 Military drive"
+      "message" : "Draibh an airm clas 3"
    },
    "DRIVE_MIL4" : {
       "description" : "",
@@ -685,7 +685,7 @@
    },
    "HYDROGEN" : {
       "description" : "",
-      "message" : "Hydrogen"
+      "message" : "Hàidhdreaidean"
    },
    "HYDROGEN_DESCRIPTION" : {
       "description" : "",
@@ -813,7 +813,7 @@
    },
    "LANDED" : {
       "description" : "",
-      "message" : "Landed"
+      "message" : "Air tìr"
    },
    "LANG_NAME" : {
       "description" : "The name that native speakers use for this language. This will be used in the language selection screen. For obscure reasons this currently must only use Latin-1 characters.",
@@ -849,7 +849,7 @@
    },
    "LEGAL_STATUS" : {
       "description" : "",
-      "message" : "Legal status"
+      "message" : "Staid laghail"
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
@@ -989,35 +989,35 @@
    },
    "MONTH_APR" : {
       "description" : "",
-      "message" : "Apr"
+      "message" : "Gibl"
    },
    "MONTH_AUG" : {
       "description" : "",
-      "message" : "Aug"
+      "message" : "Lùna"
    },
    "MONTH_DEC" : {
       "description" : "",
-      "message" : "Dec"
+      "message" : "Dùbh"
    },
    "MONTH_FEB" : {
       "description" : "",
-      "message" : "Feb"
+      "message" : "Gearr"
    },
    "MONTH_JAN" : {
       "description" : "",
-      "message" : "Jan"
+      "message" : "Faoi"
    },
    "MONTH_JUL" : {
       "description" : "",
-      "message" : "Jul"
+      "message" : "Iuch"
    },
    "MONTH_JUN" : {
       "description" : "",
-      "message" : "Jun"
+      "message" : "Ògmh"
    },
    "MONTH_MAR" : {
       "description" : "",
-      "message" : "Mar"
+      "message" : "Màrt"
    },
    "MONTH_MAY" : {
       "description" : "",
@@ -1025,15 +1025,15 @@
    },
    "MONTH_NOV" : {
       "description" : "",
-      "message" : "Nov"
+      "message" : "Samh"
    },
    "MONTH_OCT" : {
       "description" : "",
-      "message" : "Oct"
+      "message" : "Dàmh"
    },
    "MONTH_SEP" : {
       "description" : "",
-      "message" : "Sep"
+      "message" : "Sult"
    },
    "MURDER" : {
       "description" : "",
@@ -1941,7 +1941,7 @@
    },
    "TINY" : {
       "description" : "",
-      "message" : "Tiny"
+      "message" : "Beag bìodach"
    },
    "TOGGLE_HUD_MODE" : {
       "description" : "",
@@ -1949,7 +1949,7 @@
    },
    "TOGGLE_LUA_CONSOLE" : {
       "description" : "",
-      "message" : "Toggle Lua console"
+      "message" : "Toglaich a' chonsoil Lua"
    },
    "TOGGLE_ROTATION_DAMPING" : {
       "description" : "",
@@ -2025,7 +2025,7 @@
    },
    "VID_CONNECTING" : {
       "description" : "",
-      "message" : "Connecting..."
+      "message" : "A' cheangal..."
    },
    "VID_LINK_ESTABLISHED" : {
       "description" : "",
@@ -2033,7 +2033,7 @@
    },
    "VIEW" : {
       "description" : "",
-      "message" : "View"
+      "message" : "Seall"
    },
    "VIOLENT_ANARCHY" : {
       "description" : "",
@@ -2041,7 +2041,7 @@
    },
    "WATER" : {
       "description" : "",
-      "message" : "Water"
+      "message" : "Uisge"
    },
    "WEAPONS" : {
       "description" : "",
@@ -2065,7 +2065,7 @@
    },
    "WHEELS_ARE_DOWN" : {
       "description" : "",
-      "message" : "Wheels are down"
+      "message" : "Tha na cuibhlichean shìos"
    },
    "WHEELS_ARE_UP" : {
       "description" : "",
@@ -2077,7 +2077,7 @@
    },
    "WITH_A" : {
       "description" : "",
-      "message" : "\" with a \""
+      "message" : "\" le \""
    },
    "WITH_NO_SIGNIFICANT_ATMOSPHERE" : {
       "description" : "",
