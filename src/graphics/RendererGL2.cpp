@@ -321,6 +321,8 @@ bool RendererGL2::SetLights(int numlights, const Light *lights)
 {
 	if (numlights < 1) return false;
 
+	// XXX move lighting out to shaders
+
 	//glLight depends on the current transform, but we have always
 	//relied on it being identity when setting lights.
 	glPushMatrix();
@@ -351,7 +353,6 @@ bool RendererGL2::SetLights(int numlights, const Light *lights)
 
 	glPopMatrix();
 
-	//XXX should probably disable unused lights (for legacy renderer only)
 	return true;
 }
 
