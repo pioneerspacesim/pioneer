@@ -131,7 +131,7 @@ std::vector<std::string> Resource::GetAvailableLanguages(const std::string &reso
 	for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, "lang/" + resourceName); !files.Finished(); files.Next()) {
 		assert(files.Current().IsFile());
 		const std::string &path = files.Current().GetPath();
-		if (ends_with(path, ".json")) {
+		if (ends_with_ci(path, ".json")) {
 			const std::string name = files.Current().GetName();
 			languages.push_back(name.substr(0, name.size() - 5));
 		}

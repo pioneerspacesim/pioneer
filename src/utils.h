@@ -69,11 +69,7 @@ inline bool starts_with(const std::string &s, const std::string &t) {
 }
 
 inline bool ends_with(const char *s, size_t ns, const char *t, size_t nt) {
-	if (ns<nt) return false;
-	s += (ns-nt);
-	for (size_t i=0; i<nt; i++)
-		if(tolower(*s++)!=tolower(*t++)) return false;
-	return true;
+	return (ns >= nt) && (memcmp(s+(ns-nt), t, nt) == 0);
 }
 
 inline bool ends_with(const char *s, const char *t) {
@@ -86,6 +82,26 @@ inline bool ends_with(const std::string &s, const char *t) {
 
 inline bool ends_with(const std::string &s, const std::string &t) {
 	return ends_with(s.c_str(), s.size(), t.c_str(), t.size());
+}
+
+inline bool ends_with_ci(const char *s, size_t ns, const char *t, size_t nt) {
+	if (ns<nt) return false;
+	s += (ns-nt);
+	for (size_t i=0; i<nt; i++)
+		if(tolower(*s++)!=tolower(*t++)) return false;
+	return true;
+}
+
+inline bool ends_with_ci(const char *s, const char *t) {
+	return ends_with_ci(s, strlen(s), t, strlen(t));
+}
+
+inline bool ends_with_ci(const std::string &s, const char *t) {
+	return ends_with_ci(s.c_str(), s.size(), t, strlen(t));
+}
+
+inline bool ends_with_ci(const std::string &s, const std::string &t) {
+	return ends_with_ci(s.c_str(), s.size(), t.c_str(), t.size());
 }
 
 // add a few things that MSVC is missing
