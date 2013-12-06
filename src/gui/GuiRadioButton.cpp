@@ -40,6 +40,7 @@ void RadioButton::GetSizeRequested(float size[2])
 
 void RadioButton::Draw()
 {
+	PROFILE_SCOPED()
 	float size[2];
 	GetSize(size);
 	if (m_pressed) {

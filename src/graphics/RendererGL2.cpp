@@ -51,6 +51,7 @@ RendererGL2::~RendererGL2()
 
 bool RendererGL2::BeginFrame()
 {
+	PROFILE_SCOPED()
 	glClearColor(0,0,0,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	return true;
@@ -58,6 +59,7 @@ bool RendererGL2::BeginFrame()
 
 bool RendererGL2::SetRenderTarget(RenderTarget *rt)
 {
+	PROFILE_SCOPED()
 	if (rt)
 		static_cast<GL2::RenderTarget*>(rt)->Bind();
 	else if (m_activeRenderTarget)
@@ -70,6 +72,7 @@ bool RendererGL2::SetRenderTarget(RenderTarget *rt)
 
 bool RendererGL2::SetPerspectiveProjection(float fov, float aspect, float near, float far)
 {
+	PROFILE_SCOPED()
 	// update values for log-z hack
 	m_invLogZfarPlus1 = 1.0f / (log(far+1.0f)/log(2.0f));
 
@@ -84,6 +87,7 @@ bool RendererGL2::SetAmbientColor(const Color &c)
 
 bool RendererGL2::DrawLines(int count, const vector3f *v, const Color *c, LineType t)
 {
+	PROFILE_SCOPED()
 	if (count < 2 || !v) return false;
 
 	vtxColorProg->Use();
@@ -102,6 +106,7 @@ bool RendererGL2::DrawLines(int count, const vector3f *v, const Color *c, LineTy
 
 bool RendererGL2::DrawLines(int count, const vector3f *v, const Color &c, LineType t)
 {
+	PROFILE_SCOPED()
 	if (count < 2 || !v) return false;
 
 	flatColorProg->Use();
@@ -118,6 +123,7 @@ bool RendererGL2::DrawLines(int count, const vector3f *v, const Color &c, LineTy
 
 Material *RendererGL2::CreateMaterial(const MaterialDescriptor &d)
 {
+	PROFILE_SCOPED()
 	MaterialDescriptor desc = d;
 
 	GL2::Material *mat = 0;

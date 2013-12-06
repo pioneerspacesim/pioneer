@@ -87,6 +87,7 @@ ObjectViewerView::ObjectViewerView(): View()
 
 void ObjectViewerView::Draw3D()
 {
+	PROFILE_SCOPED()
 	m_renderer->ClearScreen();
 	float znear, zfar;
 	m_renderer->GetNearFarRange(znear, zfar);

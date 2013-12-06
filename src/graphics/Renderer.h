@@ -109,6 +109,7 @@ public:
 	//set projection matrix
 	virtual bool SetPerspectiveProjection(float fov, float aspect, float near, float far) { return false; }
 	virtual bool SetOrthographicProjection(float xmin, float xmax, float ymin, float ymax, float zmin, float zmax) { return false; }
+	virtual bool SetProjection(const matrix4x4f &m) { return false; }
 
 	//render state functions
 	virtual bool SetBlendMode(BlendMode type) { return false; }
@@ -156,6 +157,19 @@ public:
 
 	virtual bool ReloadShaders() { return false; }
 
+	// our own matrix stack
+	virtual const matrix4x4f& GetCurrentModelView() const  = 0;
+	virtual const matrix4x4f& GetCurrentProjection() const  = 0;
+	virtual void GetCurrentViewport(Sint32 *vp) const  = 0;
+
+	virtual void MatrixMode(Uint32 mm) = 0;
+	virtual void PushMatrix() = 0;
+	virtual void PopMatrix() = 0;
+	virtual void LoadIdentity() = 0;
+	virtual void LoadMatrix(const matrix4x4f &m) = 0;
+	virtual void Translate( const float x, const float y, const float z ) = 0;
+	virtual void Scale( const float x, const float y, const float z ) = 0;
+
 	// take a ticket representing the current renderer state. when the ticket
 	// is deleted, the renderer state is restored
 	class StateTicket {
@@ -202,6 +216,26 @@ public:
 
 private:
 	std::unique_ptr<RenderInfo> m_renderInfo;
+};
+
+class ScopedMatrixPushPop
+{
+public:
+	ScopedMatrixPushPop(Renderer* pRenderer, Uint32 matrixMode) : m_pRenderer(pRenderer), m_matrixMode(matrixMode) {
+		assert(m_pRenderer);
+		assert(GL_MODELVIEW==matrixMode || GL_PROJECTION==matrixMode);
+		m_pRenderer->MatrixMode(m_matrixMode);
+		m_pRenderer->PushMatrix();
+	}
+
+	~ScopedMatrixPushPop() {
+		m_pRenderer->MatrixMode(m_matrixMode);
+		m_pRenderer->PopMatrix();
+	}
+
+private:
+	Renderer* m_pRenderer;
+	Uint32 m_matrixMode;
 };
 
 }

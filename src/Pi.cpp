@@ -117,7 +117,9 @@ Game *Pi::game;
 Random Pi::rng;
 float Pi::frameTime;
 #if WITH_DEVKEYS
-bool Pi::showDebugInfo;
+bool Pi::showDebugInfo = false;
+bool Pi::wantsProfiling = false;
+bool Pi::isProfiling = false;
 #endif
 int Pi::statSceneTris;
 GameConfig *Pi::config;
@@ -250,6 +252,8 @@ std::string Pi::GetSaveDir()
 
 void Pi::Init()
 {
+	Profiler::reset();
+
 	OS::NotifyLoadBegin();
 
 	FileSystem::Init();
@@ -593,6 +597,7 @@ void Pi::OnChangeDetailLevel()
 
 void Pi::HandleEvents()
 {
+	PROFILE_SCOPED()
 	SDL_Event event;
 
 	Pi::mouseMotion[0] = Pi::mouseMotion[1] = 0;
@@ -653,6 +658,11 @@ void Pi::HandleEvents()
 						case SDLK_i: // Toggle Debug info
 							Pi::showDebugInfo = !Pi::showDebugInfo;
 							break;
+						
+						case SDLK_p: // alert it that we want to profile
+							Pi::wantsProfiling = true;
+							break;
+
 						case SDLK_m:  // Gimme money!
 							if(Pi::game) {
 								Pi::player->SetMoney(Pi::player->GetMoney() + 10000000);
@@ -972,7 +982,16 @@ void Pi::MainLoop()
 	Pi::gameTickAlpha = 0;
 
 	while (Pi::game) {
-		double newTime = 0.001 * double(SDL_GetTicks());
+		PROFILE_SCOPED()
+#if WITH_DEVKEYS
+		Profiler::reset();
+		if (Pi::wantsProfiling) {
+			Pi::wantsProfiling = false;
+			Pi::isProfiling = true;
+		}
+#endif
+		const Uint32 newTicks = SDL_GetTicks();
+		double newTime = 0.001 * double(newTicks);
 		Pi::frameTime = newTime - currentTime;
 		if (Pi::frameTime > 0.25) Pi::frameTime = 0.25;
 		currentTime = newTime;
@@ -980,6 +999,7 @@ void Pi::MainLoop()
 
 		const float step = Pi::game->GetTimeStep();
 		if (step > 0.0f) {
+			PROFILE_SCOPED_RAW("unpaused")
 			int phys_ticks = 0;
 			while (accumulator >= step) {
 				if (++phys_ticks >= MAX_PHYSICS_TICKS) {
@@ -1001,6 +1021,7 @@ void Pi::MainLoop()
 #endif
 		} else {
 			// paused
+			PROFILE_SCOPED_RAW("paused")
 			GeoSphere::UpdateAllGeoSpheres();
 		}
 		frame_stat++;
@@ -1117,6 +1138,12 @@ void Pi::MainLoop()
 			else last_stats += 1000;
 		}
 		Pi::statSceneTris = 0;
+
+		const Uint32 testTicks = SDL_GetTicks();
+		if (Pi::isProfiling || (testTicks - newTicks) > 100 ) {
+			Profiler::dumphtml();
+			Pi::isProfiling = false;
+		}
 #endif
 
 #ifdef MAKING_VIDEO

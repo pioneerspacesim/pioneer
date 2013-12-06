@@ -111,6 +111,7 @@ noinst_HEADERS = \
 	Random.h \
 	RefCounted.h \
 	SDLWrappers.h \
+	SectorCache.h \
 	SectorView.h \
 	Serializer.h \
 	StationAdvertForm.h \
@@ -257,6 +258,7 @@ pioneer_SOURCES	= \
 	Projectile.cpp \
 	PropertyMap.cpp \
 	SDLWrappers.cpp \
+	SectorCache.cpp \
 	SectorView.cpp \
 	Serializer.cpp \
 	StationAdvertForm.cpp \
@@ -312,7 +314,8 @@ pioneer_LDADD = \
 	../contrib/PicoDDS/libpicodds.a \
 	../contrib/jenkins/libjenkins.a \
 	../contrib/json/libjson.a \
-	../contrib/glew/libglew.a
+	../contrib/glew/libglew.a \
+	../contrib/profiler/libprofiler.a
 
 pioneer_LDADD += \
 	$(FREETYPE_LIBS) $(GL_LIBS) \

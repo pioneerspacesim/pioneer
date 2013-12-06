@@ -15,10 +15,9 @@ namespace Graphics {
 // the one used for rendering
 class Frustum {
 public:
-	static Frustum FromGLState();
-
 	// create for specified values
 	Frustum(float width, float height, float fovAng, float nearClip, float farClip);
+	Frustum(const matrix4x4d &modelview, const matrix4x4d &projection);
 
 	// apply the saved frustum
 	void Enable();
@@ -39,7 +38,6 @@ private:
 	Frustum();
 
 	void InitFromMatrix(const matrix4x4d &m);
-	void InitFromGLState();
 
 	struct Plane {
 		double a, b, c, d;

@@ -53,7 +53,18 @@ RendererLegacy::RendererLegacy(WindowSDL *window, const Graphics::Settings &vs)
 , m_minZNear(10.f)
 , m_maxZFar(1000000.0f)
 , m_useCompressedTextures(false)
+, m_currentModelView(0)
+, m_currentProjection(0)
+, m_matrixMode(GL_MODELVIEW)
 {
+	for(Uint32 i = 0; i < kMaxStackDepth; i++) {
+		m_ModelViewStack[i]		= matrix4x4f::Identity();
+		m_ProjectionStack[i]	= matrix4x4f::Identity();
+	}
+	for(Uint32 i = 0; i < 4; i++) {
+		m_currentViewport[i] = 0;
+	}
+
 	const bool useDXTnTextures = vs.useTextureCompression && glewIsSupported("GL_EXT_texture_compression_s3tc");
 	m_useCompressedTextures = useDXTnTextures;
 
@@ -90,6 +101,7 @@ bool RendererLegacy::GetNearFarRange(float &near, float &far) const
 
 bool RendererLegacy::BeginFrame()
 {
+	PROFILE_SCOPED()
 	ClearScreen();
 	return true;
 }
@@ -124,6 +136,7 @@ static std::string glerr_to_string(GLenum err)
 
 bool RendererLegacy::SwapBuffers()
 {
+	PROFILE_SCOPED()
 #ifndef NDEBUG
 	// Check if an error occurred during the frame. This is not very useful for
 	// determining *where* the error happened. For that purpose, try GDebugger or
@@ -167,53 +180,70 @@ bool RendererLegacy::SetClearColor(const Color &c)
 
 bool RendererLegacy::SetViewport(int x, int y, int width, int height)
 {
+	m_currentViewport[0] = x;
+	m_currentViewport[1] = y;
+	m_currentViewport[2] = width;
+	m_currentViewport[3] = height;
 	glViewport(x, y, width, height);
 	return true;
 }
 
 bool RendererLegacy::SetTransform(const matrix4x4d &m)
 {
+	PROFILE_SCOPED()
 	//XXX this is not pretty but there's no standard way of converting between them.
+	matrix4x4f temp;
 	for (int i=0; i<16; ++i) {
-		m_currentTransform[i] = m[i];
+		temp[i] = float(m[i]);
 	}
 	//XXX you might still need the occasional push/pop
 	//GL2+ or ES2 renderers can forego the classic matrix stuff entirely and use uniforms
-	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixd(&m[0]);
+	MatrixMode(GL_MODELVIEW);
+	LoadMatrix(&temp[0]);
 	return true;
 }
 
 bool RendererLegacy::SetTransform(const matrix4x4f &m)
 {
+	PROFILE_SCOPED()
 	//same as above
-	m_currentTransform = m;
-	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf(&m[0]);
+	m_ModelViewStack[m_currentModelView] = m;
+	MatrixMode(GL_MODELVIEW);
+	LoadMatrix(&m[0]);
 	return true;
 }
 
 bool RendererLegacy::SetPerspectiveProjection(float fov, float aspect, float near, float far)
 {
+	PROFILE_SCOPED()
 	Graphics::SetFov(fov);
 
-	double ymax = near * tan(fov * M_PI / 360.0);
-	double ymin = -ymax;
-	double xmin = ymin * aspect;
-	double xmax = ymax * aspect;
+	float ymax = near * tan(fov * M_PI / 360.0);
+	float ymin = -ymax;
+	float xmin = ymin * aspect;
+	float xmax = ymax * aspect;
 
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glFrustum(xmin, xmax, ymin, ymax, near, far);
+	const matrix4x4f frustrumMat = matrix4x4f::FrustumMatrix(xmin, xmax, ymin, ymax, near, far);
+	SetProjection(frustrumMat);
 	return true;
 }
 
 bool RendererLegacy::SetOrthographicProjection(float xmin, float xmax, float ymin, float ymax, float zmin, float zmax)
 {
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(xmin, xmax, ymin, ymax, zmin, zmax);
+	PROFILE_SCOPED()
+	const matrix4x4f orthoMat = matrix4x4f::OrthoFrustum(xmin, xmax, ymin, ymax, zmin, zmax);
+	SetProjection(orthoMat);
 	return true;
+}
+
+bool RendererLegacy::SetProjection(const matrix4x4f &m) 
+{ 
+	PROFILE_SCOPED()
+	//same as above
+	m_ProjectionStack[m_currentProjection] = m;
+	MatrixMode(GL_PROJECTION);
+	LoadMatrix(&m[0]);
+	return true; 
 }
 
 bool RendererLegacy::SetBlendMode(BlendMode m)
@@ -282,7 +312,7 @@ bool RendererLegacy::SetLights(int numlights, const Light *lights)
 
 	//glLight depends on the current transform, but we have always
 	//relied on it being identity when setting lights.
-	glPushMatrix();
+	Graphics::ScopedMatrixPushPop smpp(this, GL_MODELVIEW);
 	SetTransform(matrix4x4f::Identity());
 
 	m_numLights = numlights;
@@ -308,8 +338,6 @@ bool RendererLegacy::SetLights(int numlights, const Light *lights)
 		assert(m_numDirLights < 5);
 	}
 
-	glPopMatrix();
-
 	//XXX should probably disable unused lights (for legacy renderer only)
 	return true;
 }
@@ -334,6 +362,7 @@ bool RendererLegacy::SetScissor(bool enabled, const vector2f &pos, const vector2
 
 bool RendererLegacy::DrawLines(int count, const vector3f *v, const Color *c, LineType t)
 {
+	PROFILE_SCOPED()
 	if (count < 2) return false;
 
 	glPushAttrib(GL_LIGHTING_BIT);
@@ -354,6 +383,7 @@ bool RendererLegacy::DrawLines(int count, const vector3f *v, const Color *c, Lin
 
 bool RendererLegacy::DrawLines(int count, const vector3f *v, const Color &c, LineType t)
 {
+	PROFILE_SCOPED()
 	if (count < 2 || !v) return false;
 
 	glPushAttrib(GL_LIGHTING_BIT);
@@ -378,6 +408,7 @@ bool RendererLegacy::DrawLines(int count, const vector3f *v, const Color &c, Lin
 
 bool RendererLegacy::DrawLines2D(int count, const vector2f *v, const Color &c, LineType t)
 {
+	PROFILE_SCOPED()
 	if (count < 2 || !v) return false;
 
 	glPushAttrib(GL_LIGHTING_BIT);
@@ -397,6 +428,7 @@ bool RendererLegacy::DrawLines2D(int count, const vector2f *v, const Color &c, L
 
 bool RendererLegacy::DrawPoints(int count, const vector3f *points, const Color *colors, float size)
 {
+	PROFILE_SCOPED()
 	if (count < 1 || !points || !colors) return false;
 
 	glPushAttrib(GL_LIGHTING_BIT);
@@ -419,6 +451,7 @@ bool RendererLegacy::DrawPoints(int count, const vector3f *points, const Color *
 
 bool RendererLegacy::DrawTriangles(const VertexArray *v, Material *m, PrimitiveType t)
 {
+	PROFILE_SCOPED()
 	if (!v || v->position.size() < 3) return false;
 
 	m->Apply();
@@ -434,6 +467,7 @@ bool RendererLegacy::DrawTriangles(const VertexArray *v, Material *m, PrimitiveT
 
 bool RendererLegacy::DrawSurface(const Surface *s)
 {
+	PROFILE_SCOPED()
 	if (!s || !s->GetVertices() || s->GetNumIndices() < 3) return false;
 
 	const Material *m = s->GetMaterial().Get();
@@ -452,12 +486,13 @@ bool RendererLegacy::DrawSurface(const Surface *s)
 
 bool RendererLegacy::DrawPointSprites(int count, const vector3f *positions, Material *material, float size)
 {
+	PROFILE_SCOPED()
 	if (count < 1 || !material || !material->texture0) return false;
 
 	SetDepthWrite(false);
 	VertexArray va(ATTRIB_POSITION | ATTRIB_UV0, count * 6);
 
-	matrix4x4f rot(GetCurrentTransform());
+	matrix4x4f rot(GetCurrentModelView());
 	rot.ClearToRotOnly();
 	rot = rot.InverseOf();
 
@@ -490,6 +525,7 @@ bool RendererLegacy::DrawPointSprites(int count, const vector3f *positions, Mate
 
 bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 {
+	PROFILE_SCOPED()
 	if (!t) return false;
 
 	//Approach:
@@ -532,6 +568,7 @@ bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 
 void RendererLegacy::EnableClientStates(const VertexArray *v)
 {
+	PROFILE_SCOPED()
 	if (!v) return;
 	assert(v->position.size() > 0); //would be strange
 
@@ -562,6 +599,7 @@ void RendererLegacy::EnableClientStates(const VertexArray *v)
 
 void RendererLegacy::DisableClientStates()
 {
+	PROFILE_SCOPED()
 	for (std::vector<GLenum>::const_iterator i = m_clientStates.begin(); i != m_clientStates.end(); ++i)
 		glDisableClientState(*i);
 	m_clientStates.clear();
@@ -569,6 +607,7 @@ void RendererLegacy::DisableClientStates()
 
 bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 {
+	PROFILE_SCOPED()
 	const AttributeSet set = mesh->GetAttributeSet();
 	bool background = false;
 	bool model = false;
@@ -654,6 +693,7 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 
 Material *RendererLegacy::CreateMaterial(const MaterialDescriptor &desc)
 {
+	PROFILE_SCOPED()
 	MaterialLegacy *m;
 	switch (desc.effect) {
 	case EFFECT_STARFIELD:
@@ -677,6 +717,7 @@ Material *RendererLegacy::CreateMaterial(const MaterialDescriptor &desc)
 
 Texture *RendererLegacy::CreateTexture(const TextureDescriptor &descriptor)
 {
+	PROFILE_SCOPED()
 	return new TextureGL(descriptor, m_useCompressedTextures);
 }
 
@@ -685,20 +726,20 @@ Texture *RendererLegacy::CreateTexture(const TextureDescriptor &descriptor)
 // only restoring the things that have changed
 void RendererLegacy::PushState()
 {
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
+	MatrixMode(GL_PROJECTION);
+	PushMatrix();
+	MatrixMode(GL_MODELVIEW);
+	PushMatrix();
 	glPushAttrib(GL_ALL_ATTRIB_BITS & (~GL_POINT_BIT));
 }
 
 void RendererLegacy::PopState()
 {
 	glPopAttrib();
-	glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
+	MatrixMode(GL_PROJECTION);
+	PopMatrix();
+	MatrixMode(GL_MODELVIEW);
+	PopMatrix();
 }
 
 static void dump_opengl_value(std::ostream &out, const char *name, GLenum id, int num_elems)
@@ -805,6 +846,129 @@ bool RendererLegacy::PrintDebugInfo(std::ostream &out)
 #undef DUMP_GL_VALUE2
 
 	return true;
+}
+
+void RendererLegacy::MatrixMode(GLuint mm) 
+{ 
+	PROFILE_SCOPED()
+	if( mm != m_matrixMode )
+	{
+		glMatrixMode(mm);
+		m_matrixMode = mm; 
+	}
+}
+
+void RendererLegacy::PushMatrix() 
+{
+	PROFILE_SCOPED()
+	
+	glPushMatrix();
+	switch(m_matrixMode) {
+	case GL_MODELVIEW:		
+	case GL_MODELVIEW_MATRIX:
+		m_ModelViewStack[m_currentModelView+1] = m_ModelViewStack[m_currentModelView];
+		++m_currentModelView;	
+		break;
+	case GL_PROJECTION:
+	case GL_PROJECTION_MATRIX:
+		m_ModelViewStack[m_currentProjection+1] = m_ModelViewStack[m_currentProjection];
+		++m_currentProjection;	
+		break;
+	default:
+		assert(false && "invalid matrixMode set");
+	}
+	assert(m_currentProjection<kMaxStackDepth);
+}
+
+void RendererLegacy::PopMatrix() 
+{
+	PROFILE_SCOPED()
+	glPopMatrix();
+	switch(m_matrixMode) {
+	case GL_MODELVIEW:		
+	case GL_MODELVIEW_MATRIX:
+		--m_currentModelView;	
+		break;
+	case GL_PROJECTION:
+	case GL_PROJECTION_MATRIX:	
+		--m_currentProjection;	
+		break;
+	default:
+		assert(false && "invalid matrixMode set");
+	}
+	assert(m_currentProjection>=0);
+}
+
+void RendererLegacy::LoadIdentity()
+{
+	PROFILE_SCOPED()
+	glLoadIdentity();
+	switch(m_matrixMode) {
+	case GL_MODELVIEW:		
+	case GL_MODELVIEW_MATRIX:
+		m_ModelViewStack[m_currentModelView] = matrix4x4f::Identity();		
+		break;
+	case GL_PROJECTION:
+	case GL_PROJECTION_MATRIX:
+		m_ProjectionStack[m_currentProjection] = matrix4x4f::Identity();	
+		break;
+	default:
+		assert(false && "invalid matrixMode set");
+	}
+}
+
+void RendererLegacy::LoadMatrix(const matrix4x4f &m)
+{
+	PROFILE_SCOPED()
+	glLoadMatrixf(&m[0]);
+	switch(m_matrixMode) {
+	case GL_MODELVIEW:		
+	case GL_MODELVIEW_MATRIX:
+		m_ModelViewStack[m_currentModelView] = m;		
+		break;
+	case GL_PROJECTION:
+	case GL_PROJECTION_MATRIX:
+		m_ProjectionStack[m_currentProjection] = m;	
+		break;
+	default:
+		assert(false && "invalid matrixMode set");
+	}
+}
+
+void RendererLegacy::Translate( const float x, const float y, const float z ) 
+{
+	PROFILE_SCOPED()
+	glTranslatef(x,y,z);
+	switch(m_matrixMode) {
+	case GL_MODELVIEW:		
+	case GL_MODELVIEW_MATRIX:
+		m_ModelViewStack[m_currentModelView].Translate(x,y,z);		
+		break;
+	case GL_PROJECTION:
+	case GL_PROJECTION_MATRIX:
+		m_ProjectionStack[m_currentProjection].Translate(x,y,z);	
+		break;
+	default:
+		assert(false && "invalid matrixMode set");
+	}
+}
+
+void RendererLegacy::Scale( const float x, const float y, const float z ) 
+{
+	PROFILE_SCOPED()
+	glScalef(x,y,z);
+	switch(m_matrixMode) {
+	case GL_MODELVIEW:		
+	case GL_MODELVIEW_MATRIX:
+		m_ModelViewStack[m_currentModelView].Scale(x,y,z);		
+		break;
+	case GL_PROJECTION:
+	case GL_PROJECTION_MATRIX:
+		m_ProjectionStack[m_currentProjection].Scale(x,y,z);	
+		break;
+	default:
+		assert(false && "invalid matrixMode set");
+	}
 }
 
 }

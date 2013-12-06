@@ -36,6 +36,7 @@ public:
 	virtual bool SetTransform(const matrix4x4f &m);
 	virtual bool SetPerspectiveProjection(float fov, float aspect, float near, float far);
 	virtual bool SetOrthographicProjection(float xmin, float xmax, float ymin, float ymax, float zmin, float zmax);
+	virtual bool SetProjection(const matrix4x4f &m);
 
 	virtual bool SetBlendMode(BlendMode mode);
 	virtual bool SetDepthTest(bool enabled);
@@ -61,6 +62,21 @@ public:
 
 	virtual bool PrintDebugInfo(std::ostream &out);
 
+	virtual const matrix4x4f& GetCurrentModelView() const { return m_ModelViewStack[m_currentModelView]; }
+	virtual const matrix4x4f& GetCurrentProjection() const { return m_ProjectionStack[m_currentProjection]; }
+	virtual void GetCurrentViewport(Sint32 *vp) const {
+		for(int i=0; i<4; i++)
+			vp[i] = m_currentViewport[i];
+	}
+
+	virtual void MatrixMode(Uint32 mm);
+	virtual void PushMatrix();
+	virtual void PopMatrix();
+	virtual void LoadIdentity();
+	virtual void LoadMatrix(const matrix4x4f &m);
+	virtual void Translate( const float x, const float y, const float z );
+	virtual void Scale( const float x, const float y, const float z );
+
 protected:
 	virtual void PushState();
 	virtual void PopState();
@@ -78,8 +94,13 @@ protected:
 	float m_maxZFar;
 	bool m_useCompressedTextures;
 
-	matrix4x4f& GetCurrentTransform() { return m_currentTransform; }
-	matrix4x4f m_currentTransform;
+	static const Uint32 kMaxStackDepth = 128;
+	Uint32 m_currentModelView;
+	Uint32 m_currentProjection;
+	matrix4x4f m_ModelViewStack[kMaxStackDepth];
+	matrix4x4f m_ProjectionStack[kMaxStackDepth];
+	Sint32 m_currentViewport[4];
+	GLuint m_matrixMode;
 };
 
 }
