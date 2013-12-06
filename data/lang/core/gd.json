@@ -37,7 +37,7 @@
    },
    "ANIMAL_MEAT" : {
       "description" : "",
-      "message" : "Animal Meat"
+      "message" : "Feòil bheathaichean"
    },
    "APOAPSIS_DISTANCE" : {
       "description" : "",
@@ -49,7 +49,7 @@
    },
    "ASTEROID" : {
       "description" : "",
-      "message" : "Asteroid"
+      "message" : "Dreag"
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
@@ -125,7 +125,7 @@
    },
    "BULLETIN_BOARD" : {
       "description" : "",
-      "message" : "Bulletin Board"
+      "message" : "Bòrd-brath"
    },
    "BUTTON" : {
       "description" : "",
@@ -133,11 +133,11 @@
    },
    "BUY" : {
       "description" : "",
-      "message" : "Buy"
+      "message" : "Ceannaich"
    },
    "BUY_THIS_SHIP" : {
       "description" : "",
-      "message" : "Buy this ship"
+      "message" : "Ceannaich an soitheach seo"
    },
    "CABINS" : {
       "description" : "",
@@ -161,7 +161,7 @@
    },
    "CAMERA_RIGHT_VIEW" : {
       "description" : "",
-      "message" : "Right camera"
+      "message" : "Camara deas"
    },
    "CAMERA_TOP_VIEW" : {
       "description" : "",
@@ -173,7 +173,7 @@
    },
    "CAPACITY" : {
       "description" : "",
-      "message" : "Capacity"
+      "message" : "Tomhas-lìonaidh"
    },
    "CAPITALIST" : {
       "description" : "",
@@ -205,7 +205,7 @@
    },
    "CARGO_N" : {
       "description" : "",
-      "message" : "Cargo: %{mass}t"
+      "message" : "Carago: %{mass}t"
    },
    "CARGO_SCOOP" : {
       "description" : "",
@@ -277,7 +277,7 @@
    },
    "COMPUTERS" : {
       "description" : "",
-      "message" : "Computers"
+      "message" : "Coimpiutairean"
    },
    "COMPUTER_HEADING_CONTROL" : {
       "description" : "",
@@ -293,7 +293,7 @@
    },
    "CONTACT_LOCAL_POLICE" : {
       "description" : "",
-      "message" : "Contact local police"
+      "message" : "Bruidhinn ris a' phoileas ionadail"
    },
    "CONTROLS" : {
       "description" : "",
@@ -333,11 +333,11 @@
    },
    "DAY_LENGTH" : {
       "description" : "",
-      "message" : "Day length"
+      "message" : "Faide latha"
    },
    "DECREASE_SCAN_RANGE" : {
       "description" : "",
-      "message" : "Decrease scanner range"
+      "message" : "Lùghdaich rainse an sganair"
    },
    "DECREASE_SET_SPEED" : {
       "description" : "",
@@ -349,7 +349,7 @@
    },
    "DESTINATION" : {
       "description" : "",
-      "message" : "Destination"
+      "message" : "Ceann-uidhe"
    },
    "DIRECTION" : {
       "description" : "",
@@ -369,7 +369,7 @@
    },
    "DOCKED" : {
       "description" : "",
-      "message" : "Docked"
+      "message" : "Docaichte"
    },
    "DOCKING" : {
       "description" : "",
@@ -509,7 +509,7 @@
    },
    "FARM_MACHINERY" : {
       "description" : "",
-      "message" : "Farm machinery"
+      "message" : "Acainnean tuathanais"
    },
    "FERTILIZER" : {
       "description" : "",
@@ -529,7 +529,7 @@
    },
    "FIRE_MISSILE" : {
       "description" : "",
-      "message" : "Fire missile"
+      "message" : "Loisg astas"
    },
    "FIT" : {
       "description" : "",
@@ -613,15 +613,15 @@
    },
    "GAME_SAVE_CANNOT_WRITE" : {
       "description" : "",
-      "message" : "This saved game file could not be written because of a system error."
+      "message" : "Cha b' urrainn dhuinn faidhle sàbhaladh a' gheama a sgrìobhadh air sàilleibh mearachd an t-siostaim."
    },
    "GOVERNMENT_TYPE" : {
       "description" : "",
-      "message" : "Government type:"
+      "message" : "Seòrsa an riaghaltais:"
    },
    "GO_BACK" : {
       "description" : "",
-      "message" : "Go back"
+      "message" : "Till"
    },
    "GRAIN" : {
       "description" : "",
@@ -629,7 +629,7 @@
    },
    "HAND_WEAPONS" : {
       "description" : "",
-      "message" : "Hand weapons"
+      "message" : "Airm làimhe"
    },
    "HANG_UP" : {
       "description" : "",
@@ -681,7 +681,7 @@
    },
    "HULL_TEMP" : {
       "description" : "",
-      "message" : "Hull temp"
+      "message" : "Teothachd na slige"
    },
    "HYDROGEN" : {
       "description" : "",
@@ -753,7 +753,7 @@
    },
    "INCREASE_SCAN_RANGE" : {
       "description" : "",
-      "message" : "Increase scanner range"
+      "message" : "Meudaich rainse an sganair"
    },
    "INCREASE_SET_SPEED" : {
       "description" : "",
@@ -781,11 +781,11 @@
    },
    "IN_TRANSIT" : {
       "description" : "",
-      "message" : "In transit"
+      "message" : "A' siubhal"
    },
    "IN_TRANSIT_TO_N_X_X_X" : {
       "description" : "",
-      "message" : "In transit to %system [%x,%y,%z]"
+      "message" : "A' siubhal gu %system [%x,%y,%z]"
    },
    "ITEM" : {
       "description" : "",
@@ -873,7 +873,7 @@
    },
    "LOCKED" : {
       "description" : "",
-      "message" : "locked"
+      "message" : "glaiste"
    },
    "MAJOR_EXPORTS" : {
       "description" : "",
@@ -893,7 +893,7 @@
    },
    "MASS" : {
       "description" : "",
-      "message" : "Mass"
+      "message" : "Tomad"
    },
    "MASSIVE" : {
       "description" : "",
@@ -913,7 +913,7 @@
    },
    "MESSAGE_FROM_X" : {
       "description" : "",
-      "message" : "Message from %sender:"
+      "message" : "Teachdaireachd o %sender:"
    },
    "META" : {
       "description" : "",
@@ -925,7 +925,7 @@
    },
    "METAL_ORE" : {
       "description" : "",
-      "message" : "Metal ore"
+      "message" : "Clach-mhèinnir"
    },
    "MILITARY_DICTATORSHIP" : {
       "description" : "",
@@ -949,7 +949,7 @@
    },
    "MINING_MACHINERY" : {
       "description" : "",
-      "message" : "Mining machinery"
+      "message" : "Acainn mèinnearachd"
    },
    "MINOR_EXPORTS" : {
       "description" : "",
@@ -965,7 +965,7 @@
    },
    "MISSILE" : {
       "description" : "",
-      "message" : "missile"
+      "message" : "astas"
    },
    "MISSILE_GUIDED" : {
       "description" : "",
@@ -977,7 +977,7 @@
    },
    "MISSILE_SMART" : {
       "description" : "",
-      "message" : "Smart Missile"
+      "message" : "Astas glic"
    },
    "MISSILE_UNGUIDED" : {
       "description" : "",
@@ -1021,7 +1021,7 @@
    },
    "MONTH_MAY" : {
       "description" : "",
-      "message" : "May"
+      "message" : "Cèit"
    },
    "MONTH_NOV" : {
       "description" : "",
@@ -1037,7 +1037,7 @@
    },
    "MURDER" : {
       "description" : "",
-      "message" : "Murder"
+      "message" : "Murt"
    },
    "M_S_RELATIVE_TO" : {
       "description" : "",
@@ -1077,7 +1077,7 @@
    },
    "NOT_FOUND" : {
       "description" : "",
-      "message" : "Not found"
+      "message" : "Cha deach a lorg"
    },
    "NOT_FOUND_BEST_MATCH_X" : {
       "description" : "",
@@ -1209,7 +1209,7 @@
    },
    "PAUSED" : {
       "description" : "",
-      "message" : "PAUSED"
+      "message" : "'NA STAD"
    },
    "PAY_FINE_REMOTELY" : {
       "description" : "",
@@ -1233,7 +1233,7 @@
    },
    "PIRACY" : {
       "description" : "",
-      "message" : "Piracy"
+      "message" : "Spùinneadaireachd"
    },
    "PITCH" : {
       "description" : "",
@@ -1249,7 +1249,7 @@
    },
    "PLANETARY_INFO" : {
       "description" : "",
-      "message" : "Planetary info"
+      "message" : "Fiosrachadh na planaid"
    },
    "PLANET_CONTAINING_LIQUID_WATER" : {
       "description" : "",
@@ -1265,7 +1265,7 @@
    },
    "PLASTICS" : {
       "description" : "",
-      "message" : "Plastics"
+      "message" : "Plastaig"
    },
    "PLUTOCRATIC_DICTATORSHIP" : {
       "description" : "",
@@ -1277,7 +1277,7 @@
    },
    "POPULATION" : {
       "description" : "",
-      "message" : "Population:"
+      "message" : "Sluagh:"
    },
    "PRECIOUS_METALS" : {
       "description" : "",
@@ -1301,7 +1301,7 @@
    },
    "PROBABILITY_OF_ARRIVAL_X_PERCENT" : {
       "description" : "",
-      "message" : "Probability of arrival: %probability%%"
+      "message" : "Coltachd na ruigsinn: %probability%%"
    },
    "PULSECANNON_10MW" : {
       "description" : "",
@@ -1361,7 +1361,7 @@
    },
    "REMOVE" : {
       "description" : "",
-      "message" : "Remove"
+      "message" : "Thoir air falbh"
    },
    "REMOVE_FROM_WHICH_MOUNT" : {
       "description" : "",
@@ -1373,7 +1373,7 @@
    },
    "REPAIRS_AND_SERVICING" : {
       "description" : "",
-      "message" : "Repairs and servicing"
+      "message" : "Obair-chàraidh"
    },
    "REPAIR_1_PERCENT_HULL" : {
       "description" : "",
@@ -1385,15 +1385,15 @@
    },
    "REQUEST_DOCKING_CLEARANCE" : {
       "description" : "",
-      "message" : "Request docking clearance"
+      "message" : "Iarr cead docachaidh"
    },
    "REQUEST_LAUNCH" : {
       "description" : "",
-      "message" : "Request Launch"
+      "message" : "Iarr cead losgaidh"
    },
    "RESET" : {
       "description" : "",
-      "message" : "Reset"
+      "message" : "Ath-shuidhich"
    },
    "REVERSE_ACCEL_EMPTY" : {
       "description" : "",
@@ -1405,7 +1405,7 @@
    },
    "ROBOTS" : {
       "description" : "",
-      "message" : "Robots"
+      "message" : "Robotairean"
    },
    "ROCKY_PLANET" : {
       "description" : "",
@@ -1457,7 +1457,7 @@
    },
    "RUBBISH" : {
       "description" : "",
-      "message" : "Rubbish"
+      "message" : "Sgudal"
    },
    "SAGITTARIUS_ARM" : {
       "description" : "",
@@ -1465,7 +1465,7 @@
    },
    "SCANNER" : {
       "description" : "",
-      "message" : "Scanner"
+      "message" : "Sganair"
    },
    "SCANNER_CONTROL" : {
       "description" : "",
@@ -1501,7 +1501,7 @@
    },
    "SELECT_A_TARGET" : {
       "description" : "",
-      "message" : "Select a target"
+      "message" : "Tagh amas"
    },
    "SELECT_LOW_THRUST_POWER_LEVEL" : {
       "description" : "",
@@ -1565,7 +1565,7 @@
    },
    "SHIP" : {
       "description" : "",
-      "message" : "Ship"
+      "message" : "Soitheach"
    },
    "SHIPYARD" : {
       "description" : "",
@@ -1581,7 +1581,7 @@
    },
    "SHIP_EQUIPMENT" : {
       "description" : "",
-      "message" : "Ship equipment"
+      "message" : "Uidheamachd an t-soithich"
    },
    "SHIP_INFORMATION" : {
       "description" : "",
@@ -1593,7 +1593,7 @@
    },
    "SHIP_IS_FULLY_LADEN" : {
       "description" : "",
-      "message" : "Your ship is fully laden."
+      "message" : "Tha an soitheach agad làn."
    },
    "SHIP_MASS_N_TONNES" : {
       "description" : "",
@@ -1601,7 +1601,7 @@
    },
    "SHIP_NEARBY" : {
       "description" : "",
-      "message" : "Ship nearby"
+      "message" : "Soitheach am fagas"
    },
    "SHIP_ORIENTATION" : {
       "description" : "",
@@ -1609,7 +1609,7 @@
    },
    "SHIP_TYPE" : {
       "description" : "",
-      "message" : "Ship type"
+      "message" : "Seòrsa an t-soithich"
    },
    "SHIP_VELOCITY_BY_REFERENCE_OBJECT" : {
       "description" : "",
@@ -1621,15 +1621,15 @@
    },
    "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
       "description" : "",
-      "message" : "Simulating evolution of the universe: %age{f.1} billion years ;-)"
+      "message" : "A' cruthachadh gnè an domhain: %age{f.1} billean bliadhna ;-)"
    },
    "SLAVES" : {
       "description" : "",
-      "message" : "Slaves"
+      "message" : "Tràillean"
    },
    "SMALL" : {
       "description" : "",
-      "message" : "Small"
+      "message" : "Beag"
    },
    "SMALL_GAS_GIANT" : {
       "description" : "",
@@ -1693,7 +1693,7 @@
    },
    "SOURCE" : {
       "description" : "",
-      "message" : "Origin"
+      "message" : "Tùs"
    },
    "SPACESTATION_LONG_WELCOME_MESSAGE" : {
       "description" : "",
@@ -1837,7 +1837,7 @@
    },
    "STAR_SYSTEM_INFORMATION" : {
       "description" : "",
-      "message" : "Star system information"
+      "message" : "Fiosrachadh an t-siostam reultan"
    },
    "STAR_S_BH" : {
       "description" : "",
@@ -1853,11 +1853,11 @@
    },
    "SURFACE_GRAVITY" : {
       "description" : "",
-      "message" : "Surface gravity"
+      "message" : "Iom-tharraing an uachdair"
    },
    "SURFACE_TEMPERATURE" : {
       "description" : "",
-      "message" : "Surface temperature"
+      "message" : "Teothachd an uachdair"
    },
    "SYSTEM" : {
       "description" : "",
@@ -1865,7 +1865,7 @@
    },
    "SYSTEM_NUMBER" : {
       "description" : "",
-      "message" : "System number:"
+      "message" : "Àireamh an t-siostaim:"
    },
    "SYSTEM_ORBIT_VIEW" : {
       "description" : "",
@@ -1957,7 +1957,7 @@
    },
    "TOGGLE_SCAN_MODE" : {
       "description" : "",
-      "message" : "Toggle scanner mode"
+      "message" : "Toglaich modh an sganair"
    },
    "TOMBSTONE_EPITAPH" : {
       "description" : "",
@@ -2053,11 +2053,11 @@
    },
    "WEIGHT_EMPTY" : {
       "description" : "",
-      "message" : "Weight empty"
+      "message" : "Cuideam falamh"
    },
    "WEIGHT_FULLY_LADEN" : {
       "description" : "",
-      "message" : "Weight fully loaded"
+      "message" : "Cuideam làn"
    },
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
       "description" : "",
@@ -2117,7 +2117,7 @@
    },
    "YOU_DO_NOT_HAVE_ANY_X" : {
       "description" : "",
-      "message" : "You do not have any %item."
+      "message" : "Chan eil %item agad."
    },
    "YOU_MUST_PAY_FINE_OF_N_CREDITS" : {
       "description" : "",
@@ -2129,7 +2129,7 @@
    },
    "YOU_NO_MONEY" : {
       "description" : "",
-      "message" : "You do not have any money."
+      "message" : "Chan eil airgead agad."
    },
    "Z" : {
       "description" : "",
@@ -2141,6 +2141,6 @@
    },
    "ZOOM_OUT" : {
       "description" : "",
-      "message" : "Zoom out"
+      "message" : "Sùm a-mach"
    }
 }
