@@ -118,6 +118,8 @@ Random Pi::rng;
 float Pi::frameTime;
 #if WITH_DEVKEYS
 bool Pi::showDebugInfo = false;
+#endif
+#if PIONEER_PROFILER
 bool Pi::wantsProfiling = false;
 bool Pi::isProfiling = false;
 #endif
@@ -252,7 +254,9 @@ std::string Pi::GetSaveDir()
 
 void Pi::Init()
 {
+#ifdef PIONEER_PROFILER
 	Profiler::reset();
+#endif
 
 	OS::NotifyLoadBegin();
 
@@ -658,10 +662,12 @@ void Pi::HandleEvents()
 						case SDLK_i: // Toggle Debug info
 							Pi::showDebugInfo = !Pi::showDebugInfo;
 							break;
-						
+
+#ifdef PIONEER_PROFILER
 						case SDLK_p: // alert it that we want to profile
 							Pi::wantsProfiling = true;
 							break;
+#endif
 
 						case SDLK_m:  // Gimme money!
 							if(Pi::game) {
@@ -983,13 +989,15 @@ void Pi::MainLoop()
 
 	while (Pi::game) {
 		PROFILE_SCOPED()
-#if WITH_DEVKEYS
+
+#ifdef PIONEER_PROFILER
 		Profiler::reset();
 		if (Pi::wantsProfiling) {
 			Pi::wantsProfiling = false;
 			Pi::isProfiling = true;
 		}
 #endif
+
 		const Uint32 newTicks = SDL_GetTicks();
 		double newTime = 0.001 * double(newTicks);
 		Pi::frameTime = newTime - currentTime;
@@ -1139,11 +1147,14 @@ void Pi::MainLoop()
 		}
 		Pi::statSceneTris = 0;
 
+#ifdef PIONEER_PROFILER
 		const Uint32 testTicks = SDL_GetTicks();
 		if (Pi::isProfiling || (testTicks - newTicks) > 100 ) {
 			Profiler::dumphtml();
 			Pi::isProfiling = false;
 		}
+#endif
+
 #endif
 
 #ifdef MAKING_VIDEO

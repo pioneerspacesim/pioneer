@@ -134,9 +134,12 @@ public:
 
 #if WITH_DEVKEYS
 	static bool showDebugInfo;
+#endif
+#if PIONEER_PROFILER
 	static bool wantsProfiling;
 	static bool isProfiling;
 #endif
+
 	static Player *player;
 	static SectorView *sectorView;
 	static GalacticView *galacticView;

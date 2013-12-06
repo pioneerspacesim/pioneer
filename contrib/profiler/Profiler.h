@@ -1,7 +1,10 @@
 #ifndef __PROFILER_H__
 #define __PROFILER_H__
 
-//#define __PROFILER_ENABLED__
+#ifdef PIONEER_PROFILER
+#define __PROFILER_ENABLED__
+#endif
+
 #define __PROFILER_FULL_TYPE_EXPANSION__
 
 #undef noinline
