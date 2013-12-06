@@ -67,7 +67,7 @@ namespace {
 			const std::string &fpath = info.GetPath();
 
 			//check it's the expected type
-			if (info.IsFile() && ends_with(fpath, ".png")) {
+			if (info.IsFile() && ends_with_ci(fpath, ".png")) {
 				list.push_back(info.GetName().substr(0, info.GetName().size()-4));
 			}
 		}
@@ -862,7 +862,7 @@ static void collect_models(std::vector<std::string> &list)
 		const std::string &fpath = info.GetPath();
 
 		//check it's the expected type
-		if (info.IsFile() && ends_with(fpath, ".model")) {
+		if (info.IsFile() && ends_with_ci(fpath, ".model")) {
 			list.push_back(info.GetName().substr(0, info.GetName().size()-6));
 		}
 	}
