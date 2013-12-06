@@ -111,6 +111,7 @@ noinst_HEADERS = \
 	Random.h \
 	RefCounted.h \
 	SDLWrappers.h \
+	SectorCache.h \
 	SectorView.h \
 	Serializer.h \
 	StationAdvertForm.h \
@@ -257,6 +258,7 @@ pioneer_SOURCES	= \
 	Projectile.cpp \
 	PropertyMap.cpp \
 	SDLWrappers.cpp \
+	SectorCache.cpp \
 	SectorView.cpp \
 	Serializer.cpp \
 	StationAdvertForm.cpp \
