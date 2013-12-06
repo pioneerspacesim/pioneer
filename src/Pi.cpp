@@ -1149,7 +1149,7 @@ void Pi::MainLoop()
 
 #ifdef PIONEER_PROFILER
 		const Uint32 testTicks = SDL_GetTicks();
-		if (Pi::isProfiling || (testTicks - newTicks) > 100 ) {
+		if (Pi::isProfiling && (testTicks - newTicks) > 100 ) {
 			Profiler::dumphtml();
 			Pi::isProfiling = false;
 		}
