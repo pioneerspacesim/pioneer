@@ -610,7 +610,7 @@ void pi_lua_dofile_recursive(lua_State *l, const std::string &basepath)
 			pi_lua_dofile_recursive(l, fpath);
 		} else {
 			assert(info.IsFile());
-			if (ends_with(fpath, ".lua")) {
+			if (ends_with_ci(fpath, ".lua")) {
 				RefCountedPtr<FileSystem::FileData> code = info.Read();
 				pi_lua_dofile(l, *code);
 			}
