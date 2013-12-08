@@ -30,13 +30,18 @@
 	#define PROFILE_FUNCTION() __FUNCTION__
 #endif
 
+	// http://stackoverflow.com/questions/1597007/creating-c-macro-with-and-line-token-concatenation-with-positioning-macr
+	#define _PROFILE_JOIN2(x,y) x##y
+	#define _PROFILE_JOIN(x,y) _PROFILE_JOIN2(x,y)
+	#define PROFILE_LINENAME(x) _PROFILE_JOIN(x,__LINE__)
+
 #if defined(__PROFILER_ENABLED__)
 	// thread
 	#define PROFILE_THREAD_START_RAW( text )   Profiler::threadenter( text );
 	#define PROFILE_THREAD_START()             PROFILE_THREAD_START_RAW( PROFILE_FUNCTION()  )
 	#define PROFILE_THREAD_START_DESC( desc )  PROFILE_THREAD_START_RAW( PROFILE_CONCAT( PROFILE_FUNCTION(), desc ) )
 
-	#define PROFILE_THREAD_SCOPED_RAW( text )  Profiler::ScopedThread profiler##__LINE__ ( text );
+	#define PROFILE_THREAD_SCOPED_RAW( text )  Profiler::ScopedThread PROFILE_LINENAME(profiler) ( text );
 	#define PROFILE_THREAD_SCOPED()            PROFILE_THREAD_SCOPED_RAW( PROFILE_FUNCTION() )
 	#define PROFILE_THREAD_SCOPED_DESC( desc ) PROFILE_THREAD_SCOPED_RAW( PROFILE_CONCAT( PROFILE_FUNCTION(), desc ) )
 
@@ -45,13 +50,13 @@
 	// function
 	#define PROFILE_PAUSE()             Profiler::pause();
 	#define PROFILE_UNPAUSE()           Profiler::unpause();
-	#define PROFILE_PAUSE_SCOPED()      Profiler::ScopedPause profilerpause##__LINE__;
+	#define PROFILE_PAUSE_SCOPED()      Profiler::ScopedPause PROFILE_LINENAME(profilerpause);
 
 	#define PROFILE_START_RAW( text )   Profiler::enter( text );
 	#define PROFILE_START()             PROFILE_START_RAW( PROFILE_FUNCTION()  )
 	#define PROFILE_START_DESC( desc )  PROFILE_START_RAW( PROFILE_CONCAT( PROFILE_FUNCTION(), desc ) )
 
-	#define PROFILE_SCOPED_RAW( text )  Profiler::Scoped profiler##__LINE__ ( text );
+	#define PROFILE_SCOPED_RAW( text )  Profiler::Scoped PROFILE_LINENAME(profiler) ( text );
 	#define PROFILE_SCOPED()            PROFILE_SCOPED_RAW( PROFILE_FUNCTION() )
 	#define PROFILE_SCOPED_DESC( desc ) PROFILE_SCOPED_RAW( PROFILE_CONCAT( PROFILE_FUNCTION(), desc ) )
 
