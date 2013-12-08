@@ -50,3 +50,5 @@ pioneer-*.tar.*
 Thumbs.db
 *.wwdb
 gmon.out
+.project
+.cproject

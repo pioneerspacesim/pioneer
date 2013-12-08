@@ -13,8 +13,8 @@ local l = Lang.GetResource("module-donatetocranks")
 local flavours = {}
 for i = 0,4 do
 	table.insert(flavours, {
-		title     = l["FLAVOUR_TITLE_"..i],
-		message   = l["FLAVOUR_MESSAGE_"..i],
+		title     = l["FLAVOUR_" .. i .. "_TITLE"],
+		message   = l["FLAVOUR_" .. i .. "_MESSAGE"],
 	})
 end
 

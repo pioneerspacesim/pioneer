@@ -1,130 +1,130 @@
 {
-    "FLAVOUR_INTRO_4": {
-        "message": "Witamy w Time and Space.\n\nSpecjalizujemy się w napędach nadprzestrzennych. Dajemy dwuletnią gwarancję na wszystkie prace konserwacyjne.\n{lasttime}\nZa {drive} cena wynosi {price}.  Kontynuować?",
-        "description": ""
-    },
-    "FLAVOUR_INTRO_5": {
-        "message": "Uniknij kłopotów związanych z uszkodzeniem napędu nadprzestrzennego.  Zamów przegląd jeszcze dziś.\n\nSilnik: {drive}\nUsługa: {price}\n{lasttime}",
-        "description": ""
-    },
-    "FLAVOUR_INTRO_2": {
-        "message": "Cześć.  Jestem z {proprietor} & Co, nasza doskonała reputacja świadczy o jakości naszych usług.\n\n{lasttime}\nMożemy dostroić twój {drive}, za {price}, zapewniamy 12 miesięcy bezproblemowej pracy.  Zajmę się tym osobiście, więc możesz być pewien usługi na najwyższym poziomie.",
-        "description": ""
-    },
-    "FLAVOUR_INTRO_3": {
-        "message": "Witamy w SuperFix Maintenance.\n\n{lasttime}\nCzas na co półroczny przegląd? Pozwól że obejrzę twój napęd!\nMogę wyregulować twój {drive} za jedyne {price}.  Nie znajdziesz nikogo tańszego!",
-        "description": ""
-    },
-    "FLAVOUR_INTRO_0": {
-        "message": "Uniknij kłopotów związanych z uszkodzeniem napędu nadprzestrzennego.  Zamów przegląd, w certyfikowanej firmie Konserwacja Silników {name}.\n\nSilnik: {drive}\nPrzegląd: {price}\nGwarancja: 18 miesięcy\n{lasttime}",
-        "description": ""
-    },
-    "FLAVOUR_INTRO_1": {
-        "message": "Jestem {proprietor}.  Mogę obejrzeć twój {drive}, gwarantuje nie mniej niż rok bezproblemowego działania.  Koszt tej usługi wynosi {price}\n{lasttime}",
-        "description": ""
-    },
-    "I_DONT_HAVE_ENOUGH_MONEY": {
-        "message": "Nie mam tyle pieniędzy",
-        "description": ""
-    },
-    "THE_SHIPS_HYPERDRIVE_HAS_BEEN_DESTROYED_BY_A_MALFUNCTION": {
-        "message": "Napęd nadprzestrzenny statku uległ zniszczeniu w wyniku awarii.",
-        "description": ""
-    },
-    "YOUR_DRIVE_WAS_LAST_SERVICED_ON": {
-        "message": "Ostatni przegląd wykonany {date} przez {company}",
-        "description": ""
-    },
-    "FLAVOUR_RESPONSE_4": {
-        "message": "Zakończyliśmy prace nad napędem.",
-        "description": ""
-    },
-    "FLAVOUR_RESPONSE_5": {
-        "message": "Napęd przeszedł przegląd.",
-        "description": ""
-    },
-    "FLAVOUR_RESPONSE_0": {
-        "message": "Silnik przeszedł przegląd.",
-        "description": ""
-    },
-    "FLAVOUR_RESPONSE_1": {
-        "message": "Zakończyłem przegląd twojego napędu nadprzestrzennego.",
-        "description": ""
-    },
-    "FLAVOUR_RESPONSE_2": {
-        "message": "Zrobione.  Dziękujemy za zaufanie",
-        "description": ""
-    },
-    "FLAVOUR_RESPONSE_3": {
-        "message": "Napęd wyregulowany, z gwarancją SuperFix!",
-        "description": ""
-    },
-    "YOU_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN": {
-        "message": "Naprawiasz napęd nadprzestrzenny zapobiegając awarii.",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_4": {
-        "message": "Time and Space Engines, Inc.",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_5": {
-        "message": "Warsztat Pan Józek i {proprietor}",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_2": {
-        "message": "{proprietor} & Co HyperMechanics",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_3": {
-        "message": "{name} przedstawiciel SuperFix Maintenance.",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_0": {
-        "message": "Konserwacja Silników {name}",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_1": {
-        "message": "Fachowiec od konserwacji napędów nadprzestrzennych {proprietor}",
-        "description": ""
-    },
-    "YOU_DO_NOT_HAVE_A_DRIVE_TO_SERVICE": {
-        "message": "Nie posiadasz hipernapędu!",
-        "description": ""
-    },
-    "YOUR_DRIVE_HAS_NOT_BEEN_SERVICED": {
-        "message": "Twój napęd nie przechodził przeglądu od czasu instalacji - dnia {date}",
-        "description": ""
-    },
-    "FLAVOUR_YESPLEASE_5": {
-        "message": "Rozpocznij przegląd napędu",
-        "description": ""
-    },
-    "FLAVOUR_YESPLEASE_4": {
-        "message": "Tak, proszę",
-        "description": ""
-    },
-    "FLAVOUR_YESPLEASE_3": {
-        "message": "Zleć usługę SuperFix!",
-        "description": ""
-    },
-    "FLAVOUR_YESPLEASE_2": {
-        "message": "Wyreguluj napęd za podaną cenę",
-        "description": ""
-    },
-    "FLAVOUR_YESPLEASE_1": {
-        "message": "Dokonaj przeglądu",
-        "description": ""
-    },
-    "FLAVOUR_YESPLEASE_0": {
-        "message": "Rozpocznij przegląd",
-        "description": ""
-    },
-    "I_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN": {
-        "message": "Naprawiam napęd nadprzestrzenny zapobiegając awarii.",
-        "description": ""
-    },
-    "HANG_UP": {
-        "message": "Rozłącz się.",
-        "description": ""
-    }
+   "FLAVOUR_0_INTRO" : {
+      "description" : "",
+      "message" : "Uniknij kłopotów związanych z uszkodzeniem napędu nadprzestrzennego.  Zamów przegląd, w certyfikowanej firmie Konserwacja Silników {name}.\n\nSilnik: {drive}\nPrzegląd: {price}\nGwarancja: 18 miesięcy\n{lasttime}"
+   },
+   "FLAVOUR_0_RESPONSE" : {
+      "description" : "",
+      "message" : "Silnik przeszedł przegląd."
+   },
+   "FLAVOUR_0_TITLE" : {
+      "description" : "",
+      "message" : "Konserwacja Silników {name}"
+   },
+   "FLAVOUR_0_YESPLEASE" : {
+      "description" : "",
+      "message" : "Rozpocznij przegląd"
+   },
+   "FLAVOUR_1_INTRO" : {
+      "description" : "",
+      "message" : "Jestem {proprietor}.  Mogę obejrzeć twój {drive}, gwarantuje nie mniej niż rok bezproblemowego działania.  Koszt tej usługi wynosi {price}\n{lasttime}"
+   },
+   "FLAVOUR_1_RESPONSE" : {
+      "description" : "",
+      "message" : "Zakończyłem przegląd twojego napędu nadprzestrzennego."
+   },
+   "FLAVOUR_1_TITLE" : {
+      "description" : "",
+      "message" : "Fachowiec od konserwacji napędów nadprzestrzennych {proprietor}"
+   },
+   "FLAVOUR_1_YESPLEASE" : {
+      "description" : "",
+      "message" : "Dokonaj przeglądu"
+   },
+   "FLAVOUR_2_INTRO" : {
+      "description" : "",
+      "message" : "Cześć.  Jestem z {proprietor} & Co, nasza doskonała reputacja świadczy o jakości naszych usług.\n\n{lasttime}\nMożemy dostroić twój {drive}, za {price}, zapewniamy 12 miesięcy bezproblemowej pracy.  Zajmę się tym osobiście, więc możesz być pewien usługi na najwyższym poziomie."
+   },
+   "FLAVOUR_2_RESPONSE" : {
+      "description" : "",
+      "message" : "Zrobione.  Dziękujemy za zaufanie"
+   },
+   "FLAVOUR_2_TITLE" : {
+      "description" : "",
+      "message" : "{proprietor} & Co HyperMechanics"
+   },
+   "FLAVOUR_2_YESPLEASE" : {
+      "description" : "",
+      "message" : "Wyreguluj napęd za podaną cenę"
+   },
+   "FLAVOUR_3_INTRO" : {
+      "description" : "",
+      "message" : "Witamy w SuperFix Maintenance.\n\n{lasttime}\nCzas na co półroczny przegląd? Pozwól że obejrzę twój napęd!\nMogę wyregulować twój {drive} za jedyne {price}.  Nie znajdziesz nikogo tańszego!"
+   },
+   "FLAVOUR_3_RESPONSE" : {
+      "description" : "",
+      "message" : "Napęd wyregulowany, z gwarancją SuperFix!"
+   },
+   "FLAVOUR_3_TITLE" : {
+      "description" : "",
+      "message" : "{name} przedstawiciel SuperFix Maintenance."
+   },
+   "FLAVOUR_3_YESPLEASE" : {
+      "description" : "",
+      "message" : "Zleć usługę SuperFix!"
+   },
+   "FLAVOUR_4_INTRO" : {
+      "description" : "",
+      "message" : "Witamy w Time and Space.\n\nSpecjalizujemy się w napędach nadprzestrzennych. Dajemy dwuletnią gwarancję na wszystkie prace konserwacyjne.\n{lasttime}\nZa {drive} cena wynosi {price}.  Kontynuować?"
+   },
+   "FLAVOUR_4_RESPONSE" : {
+      "description" : "",
+      "message" : "Zakończyliśmy prace nad napędem."
+   },
+   "FLAVOUR_4_TITLE" : {
+      "description" : "",
+      "message" : "Time and Space Engines, Inc."
+   },
+   "FLAVOUR_4_YESPLEASE" : {
+      "description" : "",
+      "message" : "Tak, proszę"
+   },
+   "FLAVOUR_5_INTRO" : {
+      "description" : "",
+      "message" : "Uniknij kłopotów związanych z uszkodzeniem napędu nadprzestrzennego.  Zamów przegląd jeszcze dziś.\n\nSilnik: {drive}\nUsługa: {price}\n{lasttime}"
+   },
+   "FLAVOUR_5_RESPONSE" : {
+      "description" : "",
+      "message" : "Napęd przeszedł przegląd."
+   },
+   "FLAVOUR_5_TITLE" : {
+      "description" : "",
+      "message" : "Warsztat Pan Józek i {proprietor}"
+   },
+   "FLAVOUR_5_YESPLEASE" : {
+      "description" : "",
+      "message" : "Rozpocznij przegląd napędu"
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Rozłącz się."
+   },
+   "I_DONT_HAVE_ENOUGH_MONEY" : {
+      "description" : "",
+      "message" : "Nie mam tyle pieniędzy"
+   },
+   "I_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN" : {
+      "description" : "",
+      "message" : "Naprawiam napęd nadprzestrzenny zapobiegając awarii."
+   },
+   "THE_SHIPS_HYPERDRIVE_HAS_BEEN_DESTROYED_BY_A_MALFUNCTION" : {
+      "description" : "",
+      "message" : "Napęd nadprzestrzenny statku uległ zniszczeniu w wyniku awarii."
+   },
+   "YOUR_DRIVE_HAS_NOT_BEEN_SERVICED" : {
+      "description" : "",
+      "message" : "Twój napęd nie przechodził przeglądu od czasu instalacji - dnia {date}"
+   },
+   "YOUR_DRIVE_WAS_LAST_SERVICED_ON" : {
+      "description" : "",
+      "message" : "Ostatni przegląd wykonany {date} przez {company}"
+   },
+   "YOU_DO_NOT_HAVE_A_DRIVE_TO_SERVICE" : {
+      "description" : "",
+      "message" : "Nie posiadasz hipernapędu!"
+   },
+   "YOU_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN" : {
+      "description" : "",
+      "message" : "Naprawiasz napęd nadprzestrzenny zapobiegając awarii."
+   }
 }

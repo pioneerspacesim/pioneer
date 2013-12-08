@@ -47,7 +47,8 @@ void Table::LayoutAccumulator::SetColumnSpacing(int spacing) {
 Table::Inner::Inner(Context *context, LayoutAccumulator &layout) : Container(context),
 	m_layout(layout),
 	m_rowSpacing(0),
-	m_dirty(false)
+	m_dirty(false),
+	m_mouseEnabled(false)
 {
 }
 
@@ -110,6 +111,16 @@ void Table::Inner::Layout()
 	LayoutChildren();
 }
 
+void Table::Inner::Draw()
+{
+	int row_top, row_bottom;
+	if (m_mouseEnabled && IsMouseOver() && RowUnderPoint(GetMousePos(), &row_top, &row_bottom) >= 0) {
+		GetContext()->GetSkin().DrawRectHover(Point(0, row_top), Point(GetSize().x, row_bottom - row_top));
+	}
+
+	Container::Draw();
+}
+
 void Table::Inner::AddRow(const std::vector<Widget*> &widgets)
 {
 	m_rows.push_back(widgets);
@@ -152,6 +163,43 @@ void Table::Inner::SetRowSpacing(int spacing)
 	m_dirty = true;
 }
 
+void Table::Inner::HandleClick()
+{
+	if (m_mouseEnabled) {
+		int row = RowUnderPoint(GetMousePos());
+		if (row >= 0)
+			onRowClicked.emit(row);
+	}
+
+	Container::HandleClick();
+}
+
+int Table::Inner::RowUnderPoint(const Point &pt, int *out_row_top, int *out_row_bottom) const
+{
+	int start = 0, end = m_rows.size()-1, mid = 0;
+	while (start <= end) {
+		mid = start+((end-start)/2);
+
+		const Widget *w = m_rows[mid][0];
+		const int rowTop = w->GetPosition().y;
+		const int rowBottom = rowTop + w->GetSize().y;
+
+		if (pt.y < rowTop)
+			end = mid-1;
+		else if (pt.y >= rowBottom)
+			start = mid+1;
+		else {
+			if (out_row_top) { *out_row_top = rowTop; }
+			if (out_row_bottom) { *out_row_bottom = rowBottom; }
+			return mid;
+		}
+	}
+
+	if (out_row_top) { *out_row_top = 0; }
+	if (out_row_bottom) { *out_row_bottom = 0; }
+	return -1;
+}
+
 
 Table::Table(Context *context) : Container(context),
 	m_dirty(false)
@@ -161,6 +209,8 @@ Table::Table(Context *context) : Container(context),
 
 	m_body.Reset(new Table::Inner(GetContext(), m_layout));
 	AddWidget(m_body.Get());
+
+	m_body->onRowClicked.connect(sigc::mem_fun(&onRowClicked, &sigc::signal<void,unsigned int>::emit));
 
 	m_slider.Reset(GetContext()->VSlider());
 	m_slider->onValueChanged.connect(sigc::mem_fun(this, &Table::OnScroll));
@@ -229,6 +279,7 @@ Table *Table::SetHeadingRow(const WidgetSet &set)
 	m_header->Clear();
 	m_header->AddRow(set.widgets);
 	m_dirty = true;
+	GetContext()->RequestLayout();
 	return this;
 }
 
@@ -236,14 +287,22 @@ Table *Table::AddRow(const WidgetSet &set)
 {
 	m_body->AddRow(set.widgets);
 	m_dirty = true;
+	GetContext()->RequestLayout();
 	return this;
+}
 
+void Table::ClearRows()
+{
+	m_body->Clear();
+	m_dirty = true;
+	GetContext()->RequestLayout();
 }
 
 Table *Table::SetRowSpacing(int spacing)
 {
 	m_body->SetRowSpacing(spacing);
 	m_dirty = true;
+	GetContext()->RequestLayout();
 	return this;
 }
 
@@ -251,6 +310,7 @@ Table *Table::SetColumnSpacing(int spacing)
 {
 	m_layout.SetColumnSpacing(spacing);
 	m_dirty = true;
+	GetContext()->RequestLayout();
 	return this;
 }
 
@@ -259,6 +319,13 @@ Table *Table::SetHeadingFont(Font font)
 {
 	m_header->SetFont(font);
 	m_dirty = true;
+	GetContext()->RequestLayout();
+	return this;
+}
+
+Table *Table::SetMouseEnabled(bool enabled)
+{
+	m_body->SetMouseEnabled(enabled);
 	return this;
 }
 

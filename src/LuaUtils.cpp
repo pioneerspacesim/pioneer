@@ -520,62 +520,64 @@ void pi_lua_protected_call(lua_State* L, int nargs, int nresults) {
 	}
 }
 
+int pi_lua_loadfile(lua_State *l, const FileSystem::FileData &code)
+{
+	assert(l);
+
+	const StringRange source = code.AsStringRange().StripUTF8BOM();
+	const std::string &path(code.GetInfo().GetPath());
+	bool trusted = code.GetInfo().GetSource().IsTrusted();
+	const std::string chunkName = (trusted ? "[T] @" : "@") + path;
+
+	return luaL_loadbuffer(l, source.begin, source.Size(), chunkName.c_str());
+}
+
 static void pi_lua_dofile(lua_State *l, const FileSystem::FileData &code, int nret)
 {
 	assert(l);
 	LUA_DEBUG_START(l);
+
+	if (pi_lua_loadfile(l, code) != LUA_OK) {
+		const char *msg = lua_tostring(l, -1);
+		Error("%s", msg);
+	}
+
 	// XXX make this a proper protected call (after working out the implications -- *sigh*)
 	lua_pushcfunction(l, &pi_lua_panic);
+	lua_insert(l, -2);
+	int panicidx = lua_absindex(l, -2);
 
-	const StringRange source = code.AsStringRange().StripUTF8BOM();
+	// give the file its own global table, backed by the "real" one
+	lua_newtable(l);
+	lua_newtable(l);
+	lua_pushliteral(l, "__index");
+	lua_getglobal(l, "_G");
+	lua_rawset(l, -3);
+	lua_setmetatable(l, -2);
+	lua_setupvalue(l, -2, 1);
 
-	const std::string &path(code.GetInfo().GetPath());
-	if (path.at(0) == '[') {
-		fprintf(stderr, "Paths starting with '[' are reserved in pi_lua_dofile('%s'\n",
-		        code.GetInfo().GetAbsolutePath().c_str());
-		lua_pop(l, 1);
-		return;
-	}
-
-	bool trusted = code.GetInfo().GetSource().IsTrusted();
-	const std::string chunkName = (trusted ? "[T] @" : "@") + path;
-
-	int panicidx = lua_absindex(l, -1);
-	if (luaL_loadbuffer(l, source.begin, source.Size(), chunkName.c_str())) {
-		pi_lua_panic(l);
-	} else {
-
-		// give the file its own global table, backed by the "real" one
-		lua_newtable(l);
-		lua_newtable(l);
-		lua_pushliteral(l, "__index");
-		lua_getglobal(l, "_G");
-		lua_rawset(l, -3);
-		lua_setmetatable(l, -2);
-		lua_setupvalue(l, -2, 1);
-
-		int ret = lua_pcall(l, 0, nret, -2);
-		if (ret) {
-			const char *emsg = lua_tostring(l, -1);
-			if (emsg) { fprintf(stderr, "lua error: %s\n", emsg); }
-			switch (ret) {
-				case LUA_ERRRUN:
-					fprintf(stderr, "Lua runtime error in pi_lua_dofile('%s')\n",
-							code.GetInfo().GetAbsolutePath().c_str());
-					break;
-				case LUA_ERRMEM:
-					fprintf(stderr, "Memory allocation error in Lua pi_lua_dofile('%s')\n",
-							code.GetInfo().GetAbsolutePath().c_str());
-					break;
-				case LUA_ERRERR:
-					fprintf(stderr, "Error running error handler in pi_lua_dofile('%s')\n",
-							code.GetInfo().GetAbsolutePath().c_str());
-					break;
-				default: abort();
-			}
-			lua_pop(l, 1);
+	int ret = lua_pcall(l, 0, nret, panicidx);
+	if (ret) {
+		const char *emsg = lua_tostring(l, -1);
+		if (emsg) { fprintf(stderr, "lua error: %s\n", emsg); }
+		switch (ret) {
+			case LUA_ERRRUN:
+				fprintf(stderr, "Lua runtime error in pi_lua_dofile('%s')\n",
+						code.GetInfo().GetAbsolutePath().c_str());
+				break;
+			case LUA_ERRMEM:
+				fprintf(stderr, "Memory allocation error in Lua pi_lua_dofile('%s')\n",
+						code.GetInfo().GetAbsolutePath().c_str());
+				break;
+			case LUA_ERRERR:
+				fprintf(stderr, "Error running error handler in pi_lua_dofile('%s')\n",
+						code.GetInfo().GetAbsolutePath().c_str());
+				break;
+			default: abort();
 		}
+		lua_pop(l, 1);
 	}
+
 	lua_remove(l, panicidx);
 	LUA_DEBUG_END(l, nret);
 }
@@ -608,7 +610,7 @@ void pi_lua_dofile_recursive(lua_State *l, const std::string &basepath)
 			pi_lua_dofile_recursive(l, fpath);
 		} else {
 			assert(info.IsFile());
-			if (ends_with(fpath, ".lua")) {
+			if (ends_with_ci(fpath, ".lua")) {
 				RefCountedPtr<FileSystem::FileData> code = info.Read();
 				pi_lua_dofile(l, *code);
 			}

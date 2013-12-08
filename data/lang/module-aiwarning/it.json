@@ -1,18 +1,18 @@
 {
-    "AUTOPILOT": {
-        "message": "Pilota Automatico",
-        "description": ""
-    },
-    "CANNOT_COMPENSATE_FOR_LOCAL_GRAVITY": {
-        "message": "Impossibile compensare la gravità locale",
-        "description": ""
-    },
-    "CANNOT_COMPUTE_ORBIT_PARAMETERS": {
-        "message": "Impossibile calcolare i parametri orbitali",
-        "description": ""
-    },
-    "STARPORT_REFUSED_DOCKING_PERMISSION": {
-        "message": "Lo spazioporto ha rifiutato la richiesta di attracco",
-        "description": ""
-    }
+   "AUTOPILOT" : {
+      "description" : "",
+      "message" : "Pilota Automatico"
+   },
+   "CANNOT_COMPENSATE_FOR_LOCAL_GRAVITY" : {
+      "description" : "",
+      "message" : "Impossibile compensare la gravità locale"
+   },
+   "CANNOT_COMPUTE_ORBIT_PARAMETERS" : {
+      "description" : "",
+      "message" : "Impossibile calcolare i parametri orbitali"
+   },
+   "STARPORT_REFUSED_DOCKING_PERMISSION" : {
+      "description" : "",
+      "message" : "Lo spazioporto ha rifiutato la richiesta di attracco"
+   }
 }

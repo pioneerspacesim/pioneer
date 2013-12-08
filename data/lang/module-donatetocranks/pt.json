@@ -1,0 +1,58 @@
+{
+   "FLAVOUR_0_MESSAGE" : {
+      "description" : "",
+      "message" : "Por favor selecione um montante a doar para a Church of the Celestial Flying Spaghetti Monster."
+   },
+   "FLAVOUR_0_TITLE" : {
+      "description" : "",
+      "message" : "DOE! A Church of The Celestial Flying Spaghetti Monster precisa do SEU apoio financeiro para anunciar a palavra de deus."
+   },
+   "FLAVOUR_1_MESSAGE" : {
+      "description" : "",
+      "message" : "A paz esteja contigo, irmão. Por favor, selecione um montante para doar para os Guardians of the Free Spirit."
+   },
+   "FLAVOUR_1_TITLE" : {
+      "description" : "",
+      "message" : "DOE. O Guardians of the Free Spirit pede humildemente a sua caridade para suportar os mosteiros."
+   },
+   "FLAVOUR_2_MESSAGE" : {
+      "description" : "",
+      "message" : "Por favor, selecione um montante para doar para o War Orphan's Support e acabar com o sofrimento das crianças por toda a galáxia."
+   },
+   "FLAVOUR_2_TITLE" : {
+      "description" : "",
+      "message" : "SENTE-SE GENEROSO? O War Orphan's Support precisa da sua ajuda para continuar a fazer o seu trabalho."
+   },
+   "FLAVOUR_3_MESSAGE" : {
+      "description" : "",
+      "message" : "Por favor, selecione um montante para doar para o GreenWatch e acabar com a poluição da nossa galáxia."
+   },
+   "FLAVOUR_3_TITLE" : {
+      "description" : "",
+      "message" : "CONTRIBUA. A campanha The Friends of the Galaxy 'Ban Military Drives' precisa do seu apoio financeiro."
+   },
+   "FLAVOUR_4_MESSAGE" : {
+      "description" : "",
+      "message" : "Por favor selecione um montante a doar."
+   },
+   "FLAVOUR_4_TITLE" : {
+      "description" : "",
+      "message" : "DOE! Salve a nossa espécie. Pare a carnificina dos mundos recém estabelecidos."
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Desligar."
+   },
+   "THANK_YOU_ALL_DONATIONS_ARE_WELCOME" : {
+      "description" : "",
+      "message" : "Obrigado. Todas as doações são bem-vindas."
+   },
+   "WOW_THAT_WAS_VERY_GENEROUS" : {
+      "description" : "",
+      "message" : "Wow! Foi muito generoso."
+   },
+   "YOU_DO_NOT_HAVE_ENOUGH_MONEY" : {
+      "description" : "",
+      "message" : "Não tem créditos suficientes."
+   }
+}

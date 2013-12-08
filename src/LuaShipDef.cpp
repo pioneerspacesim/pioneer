@@ -212,6 +212,7 @@ void LuaShipDef::Register()
 		pi_lua_settable(l, "angularThrust",     st.angThrust);
 		pi_lua_settable(l, "capacity",          st.capacity);
 		pi_lua_settable(l, "hullMass",          st.hullMass);
+		pi_lua_settable(l, "fuelTankMass",      st.fuelTankMass);
 		pi_lua_settable(l, "basePrice",         double(st.baseprice)*0.01);
 		pi_lua_settable(l, "minCrew",           st.minCrew);
 		pi_lua_settable(l, "maxCrew",           st.maxCrew);

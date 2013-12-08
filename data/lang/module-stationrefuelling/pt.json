@@ -1,0 +1,10 @@
+{
+   "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH" : {
+      "description" : "",
+      "message" : "Esta é a {station}. Não tem créditos suficientes para pagar {fee} pelo acoplamento. O combustível foi suspendido."
+   },
+   "WELCOME_ABOARD_STATION_FEE_DEDUCTED" : {
+      "description" : "",
+      "message" : "Bem vindo a bordo da {station}. Foi deduzido {fee} pelo pagamento do acoplamento e reabastecimento."
+   }
+}

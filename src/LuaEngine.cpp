@@ -202,22 +202,6 @@ static int l_engine_set_vsync_enabled(lua_State *l)
 	return 0;
 }
 
-static int l_engine_get_shaders_enabled(lua_State *l)
-{
-	lua_pushboolean(l, Pi::config->Int("DisableShaders") == 0);
-	return 1;
-}
-
-static int l_engine_set_shaders_enabled(lua_State *l)
-{
-	if (lua_isnone(l, 1))
-		return luaL_error(l, "SetShadersEnabled takes one boolean argument");
-	const bool enabled = lua_toboolean(l, 1);
-	Pi::config->SetInt("DisableShaders", (enabled ? 0 : 1));
-	Pi::config->Save();
-	return 0;
-}
-
 static int l_engine_get_texture_compression_enabled(lua_State *l)
 {
 	lua_pushboolean(l, Pi::config->Int("UseTextureCompression") != 0);
@@ -336,6 +320,23 @@ static int l_engine_set_display_nav_tunnels(lua_State *l)
 	Pi::config->SetInt("DisplayNavTunnel", (enabled ? 1 : 0));
 	Pi::config->Save();
 	Pi::SetNavTunnelDisplayed(enabled);
+	return 0;
+}
+
+static int l_engine_get_display_speed_lines(lua_State *l)
+{
+	lua_pushboolean(l, Pi::config->Int("SpeedLines") != 0);
+	return 1;
+}
+
+static int l_engine_set_display_speed_lines(lua_State *l)
+{
+	if (lua_isnone(l, 1))
+		return luaL_error(l, "SetDisplaySpeedLines takes one boolean argument");
+	const bool enabled = lua_toboolean(l, 1);
+	Pi::config->SetInt("SpeedLines", (enabled ? 1 : 0));
+	Pi::config->Save();
+	Pi::SetSpeedLinesDisplayed(enabled);
 	return 0;
 }
 
@@ -684,8 +685,6 @@ void LuaEngine::Register()
 		{ "SetFullscreen", l_engine_set_fullscreen },
 		{ "GetVSyncEnabled", l_engine_get_vsync_enabled },
 		{ "SetVSyncEnabled", l_engine_set_vsync_enabled },
-		{ "GetShadersEnabled", l_engine_get_shaders_enabled },
-		{ "SetShadersEnabled", l_engine_set_shaders_enabled },
 		{ "GetTextureCompressionEnabled", l_engine_get_texture_compression_enabled },
 		{ "SetTextureCompressionEnabled", l_engine_set_texture_compression_enabled },
 		{ "GetMultisampling", l_engine_get_multisampling },
@@ -702,6 +701,9 @@ void LuaEngine::Register()
 
 		{ "GetDisplayNavTunnels", l_engine_get_display_nav_tunnels },
 		{ "SetDisplayNavTunnels", l_engine_set_display_nav_tunnels },
+
+		{ "GetDisplaySpeedLines", l_engine_get_display_speed_lines },
+		{ "SetDisplaySpeedLines", l_engine_set_display_speed_lines },
 
 		{ "GetMasterMuted", l_engine_get_master_muted },
 		{ "SetMasterMuted", l_engine_set_master_muted },

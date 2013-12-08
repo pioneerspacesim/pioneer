@@ -1,58 +1,58 @@
 {
-    "FLAVOUR_MESSAGE_3": {
-        "message": "Kérlek válaszd ki a Zöld Figyelőknek juttatandó összeget, hogy véget vessünk a galaxisunk szennyezésének.",
-        "description": ""
-    },
-    "FLAVOUR_MESSAGE_2": {
-        "message": "Kérlek, válaszd ki a háborús árvák számára a felajánlásra szánt összeget, hogy véget vethessünk a szenvedésüknek.",
-        "description": ""
-    },
-    "FLAVOUR_MESSAGE_1": {
-        "message": "A béke legyen veled, testvér. Kérlek válaszd ki a felajánlásra szánt összeget a Szabad Szellem Őrzői számára.",
-        "description": ""
-    },
-    "FLAVOUR_MESSAGE_0": {
-        "message": "Kérlek válaszd ki a felajánlásra szánt összeget a Szent Repülő Spagettiszörny egyházának.",
-        "description": ""
-    },
-    "FLAVOUR_MESSAGE_4": {
-        "message": "Kérlek válaszd ki az adományozásra szánt összeget.",
-        "description": ""
-    },
-    "THANK_YOU_ALL_DONATIONS_ARE_WELCOME": {
-        "message": "Köszönjük. Minden felajánlást szívesen fogadunk.",
-        "description": ""
-    },
-    "HANG_UP": {
-        "message": "Kapcsolat megszakítása.",
-        "description": ""
-    },
-    "YOU_DO_NOT_HAVE_ENOUGH_MONEY": {
-        "message": "Nincsen elég pénzed.",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_4": {
-        "message": "ADAKOZZ! Mentsük meg a fajokat. Állítsuk meg az újonnan betelepült világok kifosztását.",
-        "description": ""
-    },
-    "WOW_THAT_WAS_VERY_GENEROUS": {
-        "message": "Azta! Ez aztán nagylelkű.",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_2": {
-        "message": "NAGYLELKŰ VAGY? A Háborús árvák Támogató Egylete a segítséged kéri a fennmaradáshoz.",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_3": {
-        "message": "ADAKOZZ. A Galaxis Barátai 'Tiltsák be a katonai hajtóműveket' hadjáratának a pénzbeli segítséged kell.",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_0": {
-        "message": "ADAKOZZ! A Szent Repülő Spagettiszörny egyházának szüksége van a pénzedre, hogy terjeszthessük a tanokat.",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_1": {
-        "message": "ADAKOZZ. A Szabad Szellem Őrzői alázatosan kérik jótékony adományodat a kolostoraink támogatásához.",
-        "description": ""
-    }
+   "FLAVOUR_0_MESSAGE" : {
+      "description" : "",
+      "message" : "Kérlek válaszd ki a felajánlásra szánt összeget a Szent Repülő Spagettiszörny egyházának."
+   },
+   "FLAVOUR_0_TITLE" : {
+      "description" : "",
+      "message" : "ADAKOZZ! A Szent Repülő Spagettiszörny egyházának szüksége van a pénzedre, hogy terjeszthessük a tanokat."
+   },
+   "FLAVOUR_1_MESSAGE" : {
+      "description" : "",
+      "message" : "A béke legyen veled, testvér. Kérlek válaszd ki a felajánlásra szánt összeget a Szabad Szellem Őrzői számára."
+   },
+   "FLAVOUR_1_TITLE" : {
+      "description" : "",
+      "message" : "ADAKOZZ. A Szabad Szellem Őrzői alázatosan kérik jótékony adományodat a kolostoraink támogatásához."
+   },
+   "FLAVOUR_2_MESSAGE" : {
+      "description" : "",
+      "message" : "Kérlek, válaszd ki a háborús árvák számára a felajánlásra szánt összeget, hogy véget vethessünk a szenvedésüknek."
+   },
+   "FLAVOUR_2_TITLE" : {
+      "description" : "",
+      "message" : "NAGYLELKŰ VAGY? A Háborús árvák Támogató Egylete a segítséged kéri a fennmaradáshoz."
+   },
+   "FLAVOUR_3_MESSAGE" : {
+      "description" : "",
+      "message" : "Kérlek válaszd ki a Zöld Figyelőknek juttatandó összeget, hogy véget vessünk a galaxisunk szennyezésének."
+   },
+   "FLAVOUR_3_TITLE" : {
+      "description" : "",
+      "message" : "ADAKOZZ. A Galaxis Barátai 'Tiltsák be a katonai hajtóműveket' hadjáratának a pénzbeli segítséged kell."
+   },
+   "FLAVOUR_4_MESSAGE" : {
+      "description" : "",
+      "message" : "Kérlek válaszd ki az adományozásra szánt összeget."
+   },
+   "FLAVOUR_4_TITLE" : {
+      "description" : "",
+      "message" : "ADAKOZZ! Mentsük meg a fajokat. Állítsuk meg az újonnan betelepült világok kifosztását."
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Kapcsolat megszakítása."
+   },
+   "THANK_YOU_ALL_DONATIONS_ARE_WELCOME" : {
+      "description" : "",
+      "message" : "Köszönjük. Minden felajánlást szívesen fogadunk."
+   },
+   "WOW_THAT_WAS_VERY_GENEROUS" : {
+      "description" : "",
+      "message" : "Azta! Ez aztán nagylelkű."
+   },
+   "YOU_DO_NOT_HAVE_ENOUGH_MONEY" : {
+      "description" : "",
+      "message" : "Nincsen elég pénzed."
+   }
 }

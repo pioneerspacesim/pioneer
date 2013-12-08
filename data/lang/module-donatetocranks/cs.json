@@ -1,58 +1,58 @@
 {
-    "FLAVOUR_MESSAGE_3": {
-        "message": "Prosím zvolte částku, kterou chcete přispět 'Zeleným' a skoncovat tak se znečištěním galaxie.",
-        "description": ""
-    },
-    "FLAVOUR_MESSAGE_2": {
-        "message": "Prosím zvolte částku, kterou chcete darovat Domovu pro válečné sirotky a ukončit tak utrpení dětí po celé galaxii.",
-        "description": ""
-    },
-    "FLAVOUR_MESSAGE_1": {
-        "message": "Mír s tebou, bratře/sestro. Prosím zvolte částku, kterou chcete darovat Ochráncům svobodného ducha.",
-        "description": ""
-    },
-    "FLAVOUR_MESSAGE_0": {
-        "message": "Prosím zvolte částku, kterou chcete darovat Církvi nebeských létajících špageti nestvůr.",
-        "description": ""
-    },
-    "FLAVOUR_MESSAGE_4": {
-        "message": "Prosím zvolte částku, kterou chcete přispět.",
-        "description": ""
-    },
-    "THANK_YOU_ALL_DONATIONS_ARE_WELCOME": {
-        "message": "Děkujeme. Všechny příspěvky jsou vítány.",
-        "description": ""
-    },
-    "HANG_UP": {
-        "message": "Konec",
-        "description": ""
-    },
-    "YOU_DO_NOT_HAVE_ENOUGH_MONEY": {
-        "message": "Nemáš dostatek peněz.",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_4": {
-        "message": "PŘISPĚJTE! Zachraňte náš druh. Zastavte masakr na nově obydlených světech.",
-        "description": ""
-    },
-    "WOW_THAT_WAS_VERY_GENEROUS": {
-        "message": "Wow! To od vás bylo velmi štědré.",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_2": {
-        "message": "CÍTÍTE se ŠTĚDŘE? Domov pro válečné sirotky potřebuje vaši pomoc, aby mohl poskytovat základní péči.",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_3": {
-        "message": "DARUJTE. Přátelé Galaxie potřebují vaše peníze pro svou kampaň 'Zakažme vojenské motory'.",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_0": {
-        "message": "PŘISPĚJTE! Církev nebeských létajících špageti nestvůr potřebuje VAŠE peníze, aby mohla hlásat slovo Boží.",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_1": {
-        "message": "PŘISPĚJTE. Ochránci svobodného ducha vás pokorně žádají o příspěvek pro své kláštery.",
-        "description": ""
-    }
+   "FLAVOUR_0_MESSAGE" : {
+      "description" : "",
+      "message" : "Prosím zvolte částku, kterou chcete darovat Církvi nebeských létajících špageti nestvůr."
+   },
+   "FLAVOUR_0_TITLE" : {
+      "description" : "",
+      "message" : "PŘISPĚJTE! Církev nebeských létajících špageti nestvůr potřebuje VAŠE peníze, aby mohla hlásat slovo Boží."
+   },
+   "FLAVOUR_1_MESSAGE" : {
+      "description" : "",
+      "message" : "Mír s tebou, bratře/sestro. Prosím zvolte částku, kterou chcete darovat Ochráncům svobodného ducha."
+   },
+   "FLAVOUR_1_TITLE" : {
+      "description" : "",
+      "message" : "PŘISPĚJTE. Ochránci svobodného ducha vás pokorně žádají o příspěvek pro své kláštery."
+   },
+   "FLAVOUR_2_MESSAGE" : {
+      "description" : "",
+      "message" : "Prosím zvolte částku, kterou chcete darovat Domovu pro válečné sirotky a ukončit tak utrpení dětí po celé galaxii."
+   },
+   "FLAVOUR_2_TITLE" : {
+      "description" : "",
+      "message" : "CÍTÍTE se ŠTĚDŘE? Domov pro válečné sirotky potřebuje vaši pomoc, aby mohl poskytovat základní péči."
+   },
+   "FLAVOUR_3_MESSAGE" : {
+      "description" : "",
+      "message" : "Prosím zvolte částku, kterou chcete přispět 'Zeleným' a skoncovat tak se znečištěním galaxie."
+   },
+   "FLAVOUR_3_TITLE" : {
+      "description" : "",
+      "message" : "DARUJTE. Přátelé Galaxie potřebují vaše peníze pro svou kampaň 'Zakažme vojenské motory'."
+   },
+   "FLAVOUR_4_MESSAGE" : {
+      "description" : "",
+      "message" : "Prosím zvolte částku, kterou chcete přispět."
+   },
+   "FLAVOUR_4_TITLE" : {
+      "description" : "",
+      "message" : "PŘISPĚJTE! Zachraňte náš druh. Zastavte masakr na nově obydlených světech."
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Konec"
+   },
+   "THANK_YOU_ALL_DONATIONS_ARE_WELCOME" : {
+      "description" : "",
+      "message" : "Děkujeme. Všechny příspěvky jsou vítány."
+   },
+   "WOW_THAT_WAS_VERY_GENEROUS" : {
+      "description" : "",
+      "message" : "Wow! To od vás bylo velmi štědré."
+   },
+   "YOU_DO_NOT_HAVE_ENOUGH_MONEY" : {
+      "description" : "",
+      "message" : "Nemáš dostatek peněz."
+   }
 }

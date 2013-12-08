@@ -100,14 +100,12 @@ local addShipEquip = function (ship)
 	ship:AddEquip('AUTOPILOT')
 	ship:AddEquip('CARGO_LIFE_SUPPORT')
 
-	local stats = ship:GetStats()
-
 	-- add defensive equipment based on lawlessness, luck and size
 	local lawlessness = Game.system.lawlessness
-	local size_factor = stats.freeCapacity ^ 2 / 2000000
+	local size_factor = ship.freeCapacity ^ 2 / 2000000
 
 	if Engine.rand:Number(1) - 0.1 < lawlessness then
-		local num = math.floor(math.sqrt(stats.freeCapacity / 50)) -
+		local num = math.floor(math.sqrt(ship.freeCapacity / 50)) -
 					 ship:GetEquipCount('SHIELD', 'SHIELD_GENERATOR')
 		if num > 0 then ship:AddEquip('SHIELD_GENERATOR', num) end
 		if ship_type.equipSlotCapacity.ENERGYBOOSTER > 0 and
@@ -135,7 +133,7 @@ end
 local addShipCargo = function (ship, direction)
 	local prices = Game.system:GetCommodityBasePriceAlterations()
 	local total = 0
-	local empty_space = ship:GetStats().freeCapacity
+	local empty_space = ship.freeCapacity
 	local size_factor = empty_space / 20
 	local cargo = {}
 
@@ -233,8 +231,7 @@ local getNearestStarport = function (ship, current)
 end
 
 local getSystem = function (ship)
-	local stats = ship:GetStats()
-	local systems_in_range = Game.system:GetNearbySystems(stats.hyperspaceRange)
+	local systems_in_range = Game.system:GetNearbySystems(ship.hyperspaceRange)
 	if #systems_in_range == 0 then return nil end
 	if #systems_in_range == 1 then
 		return systems_in_range[1].path
@@ -262,7 +259,7 @@ local getSystem = function (ship)
 		target_system = systems_in_range[Engine.rand:Integer(1, #systems_in_range)]
 
 		-- get closer systems
-		local systems_half_range = Game.system:GetNearbySystems(stats.hyperspaceRange / 2)
+		local systems_half_range = Game.system:GetNearbySystems(ship.hyperspaceRange / 2)
 
 		if #systems_half_range > 1 then
 			target_system = systems_half_range[Engine.rand:Integer(1, #systems_half_range)]
@@ -636,7 +633,7 @@ local onShipDocked = function (ship, starport)
 	end
 
 	local damage = ShipDef[trader.ship_name].hullMass -
-					ship:GetStats().hullMassLeft
+					ship.hullMassLeft
 	if damage > 0 then
 		ship:SetHullPercent()
 		addShipEquip(ship)
@@ -782,7 +779,7 @@ local onShipHit = function (ship, attacker)
 	-- maybe jettison a bit of cargo
 	if Engine.rand:Number(1) < trader.chance then
 		local cargo_type = nil
-		local max_cap = ship:GetStats().maxCapacity
+		local max_cap = ShipDef[ship.shipId].capacity
 		for k, v in pairs(trader.cargo) do
 			if v > 1 and Engine.rand:Number(1) < v / max_cap then
 				cargo_type = k

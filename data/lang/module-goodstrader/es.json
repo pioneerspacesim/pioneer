@@ -1,30 +1,30 @@
 {
-    "WELCOME_TO": {
-        "message": "Bienvenido a ",
-        "description": ""
-    },
-    "GOODS_TRADER_2": {
-        "message": "Almacén {name}",
-        "description": ""
-    },
-    "GOODS_TRADER_3": {
-        "message": "Centro de Productos {name}",
-        "description": ""
-    },
-    "GOODS_TRADER_0": {
-        "message": "Emporio del Honesto {name}",
-        "description": ""
-    },
-    "GOODS_TRADER_1": {
-        "message": "Casa de Comercio {name}",
-        "description": ""
-    },
-    "GOODS_TRADER_4": {
-        "message": "{name} Holdings",
-        "description": ""
-    },
-    "GOODS_TRADER_5": {
-        "message": "{name} & Hijos",
-        "description": ""
-    }
+   "GOODS_TRADER_0" : {
+      "description" : "",
+      "message" : "Emporio del Honesto {name}"
+   },
+   "GOODS_TRADER_1" : {
+      "description" : "",
+      "message" : "Casa de Comercio {name}"
+   },
+   "GOODS_TRADER_2" : {
+      "description" : "",
+      "message" : "Almacén {name}"
+   },
+   "GOODS_TRADER_3" : {
+      "description" : "",
+      "message" : "Centro de Productos {name}"
+   },
+   "GOODS_TRADER_4" : {
+      "description" : "",
+      "message" : "Empresas {name}"
+   },
+   "GOODS_TRADER_5" : {
+      "description" : "",
+      "message" : "{name} & Hijos"
+   },
+   "WELCOME_TO" : {
+      "description" : "",
+      "message" : "Bienvenido a "
+   }
 }

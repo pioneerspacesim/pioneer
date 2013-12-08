@@ -1,10 +1,10 @@
 {
-    "WELCOME_ABOARD_STATION_FEE_DEDUCTED": {
-        "message": "Benvenuto a {station}. Le è stata dedotta una tassa di {fee} per l'attracco ed il rifornimento di carburante.",
-        "description": ""
-    },
-    "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH": {
-        "message": "Qui è {station}. Non ha abbastanza crediti per la tassa di attracco di {fee}. Il suo carburante le è stato trattenuto.",
-        "description": ""
-    }
+   "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH" : {
+      "description" : "",
+      "message" : "Qui è {station}. Non ha abbastanza crediti per la tassa di attracco di {fee}. Il suo carburante le è stato trattenuto."
+   },
+   "WELCOME_ABOARD_STATION_FEE_DEDUCTED" : {
+      "description" : "",
+      "message" : "Benvenuto a {station}. Le è stata dedotta una tassa di {fee} per l'attracco ed il rifornimento di carburante."
+   }
 }

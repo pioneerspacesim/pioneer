@@ -1,0 +1,70 @@
+{
+   "APPLY_FOR_MEMBERSHIP" : {
+      "description" : "",
+      "message" : "Pedir associação"
+   },
+   "BEGIN_TRADE" : {
+      "description" : "",
+      "message" : "Começar comércio"
+   },
+   "FLAVOUR_0_CLUBNAME" : {
+      "description" : "",
+      "message" : "Cooperativa interestelar de combustível para pilotos"
+   },
+   "FLAVOUR_0_MEMBER_INTRO" : {
+      "description" : "",
+      "message" : "Pode comprar combustível e depositar {radioactives} aqui."
+   },
+   "FLAVOUR_0_NONMEMBER_INTRO" : {
+      "description" : "",
+      "message" : "O {clubname} é uma organização independente que providencia combustível com descontos aos seus membros. As filiais podem ser encontradas por toda a galáxia. Os benefícios de ser membro incluem:\n\n* Armazenamento de combustível próprio, independente do mercado geral\n* {hydrogen} com desconto\n* {military_fuel} com desconto\n* {water} com desconto\n* {radioactives}, depósito livre (aplican-se condições)\n* Reenchimento do tanque de combustível, quando necessário\n\nAssocie-se agora! Apenas {membership_fee} por ano"
+   },
+   "FLAVOUR_0_WELCOME" : {
+      "description" : "",
+      "message" : "Bem-Vindo ao {clubname}"
+   },
+   "GO_BACK" : {
+      "description" : "",
+      "message" : "Voltar"
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Desligar."
+   },
+   "HYDROGEN" : {
+      "description" : "",
+      "message" : "Hidrogénio"
+   },
+   "MILITARY_FUEL" : {
+      "description" : "",
+      "message" : "Combustível militar"
+   },
+   "RADIOACTIVES" : {
+      "description" : "",
+      "message" : "Lixo radioactivo"
+   },
+   "WATER" : {
+      "description" : "",
+      "message" : "Água"
+   },
+   "WE_WILL_ONLY_DISPOSE_OF" : {
+      "description" : "",
+      "message" : "Apenas iremos dispensar tantas toneladas de {radioactives} quantas toneladas de {military_fuel} nos comprou."
+   },
+   "WHAT_CONDITIONS_APPLY" : {
+      "description" : "",
+      "message" : "Quais as condições que se aplicam ao depósito de {radioactives}?"
+   },
+   "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED" : {
+      "description" : "",
+      "message" : "O pedido de associação foi recusado."
+   },
+   "YOU_ARE_NOW_A_MEMBER" : {
+      "description" : "",
+      "message" : "É agora membro. A sua associação expira em {expiry_date}"
+   },
+   "YOU_MUST_BUY" : {
+      "description" : "",
+      "message" : "Tem de comprar o nosso {military_fuel} antes que possamos aceitar o  seu {radioactives}"
+   }
+}

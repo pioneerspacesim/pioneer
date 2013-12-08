@@ -1,666 +1,666 @@
 {
-    "CARGO": {
-        "message": "Ladung",
-        "description": ""
-    },
-    "DELTA_V": {
-        "message": "Delta-v",
-        "description": ""
-    },
-    "DISPLAY_NAV_TUNNELS": {
-        "message": "Navigationstunnel anzeigen",
-        "description": ""
-    },
-    "ORBIT": {
-        "message": "Bahn",
-        "description": ""
-    },
-    "ENABLE_JOYSTICK": {
-        "message": "Joystick-Steuerung aktivieren",
-        "description": ""
-    },
-    "SHIP_INFORMATION": {
-        "message": "Schiffs-Informationen",
-        "description": ""
-    },
-    "VIDEO_RESOLUTION": {
-        "message": "Grafikauflösung",
-        "description": ""
-    },
-    "REAR_WEAPON": {
-        "message": "Achtern",
-        "description": ""
-    },
-    "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE": {
-        "message": "Reparatur des Schiffsrumpfs fehlgeschlagen. Schiffrumpf erlitt einen geringen Schaden",
-        "description": ""
-    },
-    "MAKE_NEW_FACE": {
-        "message": "Neues Gesicht erstellen",
-        "description": ""
-    },
-    "START_AT_NEW_HOPE": {
-        "message": "Starte auf New Hope",
-        "description": ""
-    },
-    "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
-        "message": "Das Schiff ist unter Kontrolle der Station, Commander",
-        "description": ""
-    },
-    "ECONOMY_TRADE": {
-        "message": "Wirtschaft & Handel",
-        "description": ""
-    },
-    "REFUEL": {
-        "message": "Auftanken",
-        "description": ""
-    },
-    "ENGINEERING": {
-        "message": "Konstruktion",
-        "description": ""
-    },
-    "DESCENT_TO_GROUND_SPEED": {
-        "message": "Landegeschwindigkeit:",
-        "description": ""
-    },
-    "DESTROY_ENEMY_SHIP": {
-        "message": "Feindliches Schiff zerstören",
-        "description": ""
-    },
-    "TOTAL": {
-        "message": "Komplett: ",
-        "description": ""
-    },
-    "PILOTING": {
-        "message": "Steuern:",
-        "description": ""
-    },
-    "MORE_INFO": {
-        "message": "Weitere Informationen",
-        "description": ""
-    },
-    "RATING": {
-        "message": "Einstufung:",
-        "description": ""
-    },
-    "OFF": {
-        "message": "Aus",
-        "description": ""
-    },
-    "LOCATION": {
-        "message": "Ort",
-        "description": ""
-    },
-    "ORBITAL_ANALYSIS_NOTES": {
-        "message": "Die Kreisbahn-Geschwindigkeit wird für eine tangentiale Geschwindigkeit angegeben. Das schiff sollte in einem 90°-Winkel zur Schiff/{name}-Achse stehen.\n\nDie Landegeschwindigkeit ist ein absolutes Minimum und ist auch tangential. Eine geringere Geschwindigkeit und ein kleinerer Winkel wird in einem Kurs resultieren, der die Oberfläche von {name} schneidet.\n\nDie Fluchtgeschwindigkeit funktioniert theoretisch gesehen in alle Richtungen, solange das Schiff auf dem Weg mit {name} kollidiert.\n\t\t",
-        "description": ""
-    },
-    "CLEAR": {
-        "message": "löschen",
-        "description": ""
-    },
-    "CREW_ROSTER": {
-        "message": "Liste der Crew",
-        "description": ""
-    },
-    "HIGH": {
-        "message": "Hoch",
-        "description": ""
-    },
-    "MINIMUM_CREW": {
-        "message": "Kleinste Crew",
-        "description": ""
-    },
-    "CREW_CABINS": {
-        "message": "Kabinen der Crew",
-        "description": ""
-    },
-    "WEIGHT_EMPTY": {
-        "message": "Leergewicht:",
-        "description": ""
-    },
-    "POSITION": {
-        "message": "Position",
-        "description": ""
-    },
-    "FRONT_WEAPON": {
-        "message": "Vorne",
-        "description": ""
-    },
-    "OK": {
-        "message": "Ok",
-        "description": ""
-    },
-    "PLANET_TEXTURES": {
-        "message": "Planeten Texturen",
-        "description": ""
-    },
-    "CONTROL_OPTIONS": {
-        "message": "Steuerungseinstellungen",
-        "description": ""
-    },
-    "D_DAYS_LEFT": {
-        "message": "Verbleibende Tage: %d",
-        "description": ""
-    },
-    "GENERAL_CREW": {
-        "message": "Hauptcrew",
-        "description": ""
-    },
-    "KILLS": {
-        "message": "Abschüsse:",
-        "description": ""
-    },
-    "QUALIFICATION_SCORES": {
-        "message": "Qualifizierungspunkte",
-        "description": ""
-    },
-    "CHANGE_BINDING": {
-        "message": "Anbindung ändern",
-        "description": ""
-    },
-    "MAX": {
-        "message": "Maximum",
-        "description": ""
-    },
-    "RETURN_TO_MENU": {
-        "message": "Zurück zum Menü",
-        "description": ""
-    },
-    "N_LIGHT_YEARS_N_MAX": {
-        "message": "{range} Lichtjahre ({maxRange} max)",
-        "description": ""
-    },
-    "FAILED": {
-        "message": "Gescheitert",
-        "description": ""
-    },
-    "HYPERSPACE_RANGE": {
-        "message": "Hyperraum Reichweite",
-        "description": ""
-    },
-    "EFFECTS": {
-        "message": "Effekte:",
-        "description": ""
-    },
-    "VERY_LOW": {
-        "message": "Sehr niedrig",
-        "description": ""
-    },
-    "REWARD": {
-        "message": "Belohnung",
-        "description": ""
-    },
-    "SOUND": {
-        "message": "Ton",
-        "description": ""
-    },
-    "STATUS": {
-        "message": "Status",
-        "description": ""
-    },
-    "FUEL_TANK_FULL": {
-        "message": "Treibstofftank ist voll.",
-        "description": ""
-    },
-    "ESCAPE_SPEED": {
-        "message": "Fluchtgeschwindigkeit:",
-        "description": ""
-    },
-    "NOTES": {
-        "message": "Notizen:",
-        "description": ""
-    },
-    "FUEL_WEIGHT": {
-        "message": "Treibstoffgewicht",
-        "description": ""
-    },
-    "MISSION_DETAILS": {
-        "message": "Missionsdetails",
-        "description": ""
-    },
-    "HULL_DOES_NOT_REQUIRE_REPAIR": {
-        "message": "Schiffsrumpf benötigt keine Reparatur",
-        "description": ""
-    },
-    "FORWARD_ACCEL": {
-        "message": "Beschleunigung vorwärts",
-        "description": ""
-    },
-    "HYPERDRIVE": {
-        "message": "Hyperraumantrieb",
-        "description": ""
-    },
-    "USE_SHADERS": {
-        "message": "Pixel-Shader aktivieren",
-        "description": ""
-    },
-    "SELECT": {
-        "message": "Auswählen",
-        "description": ""
-    },
-    "NONE": {
-        "message": "keine",
-        "description": ""
-    },
-    "LANGUAGE": {
-        "message": "Sprache",
-        "description": ""
-    },
-    "MOSTLY_HARMLESS": {
-        "message": "Relativ harmlos",
-        "description": ""
-    },
-    "MULTISAMPLING": {
-        "message": "Multisampling",
-        "description": ""
-    },
-    "VIDEO": {
-        "message": "Video",
-        "description": ""
-    },
-    "PERSONAL_INFORMATION": {
-        "message": "Persönliche Informationen",
-        "description": ""
-    },
-    "LOAD_GAME": {
-        "message": "Lade Spiel",
-        "description": ""
-    },
-    "MILITARY": {
-        "message": "Militärisch",
-        "description": ""
-    },
-    "MALE": {
-        "message": "Männlich",
-        "description": ""
-    },
-    "COULD_NOT_LOAD_GAME": {
-        "message": "Kann Spiel nicht laden:",
-        "description": ""
-    },
-    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME": {
-        "message": "{distance}km vom Zentrum von {name} lokalisiert:",
-        "description": ""
-    },
-    "LOAD": {
-        "message": "Laden",
-        "description": ""
-    },
-    "MEDIUM": {
-        "message": "Mittel",
-        "description": ""
-    },
-    "CABINS": {
-        "message": "Kabinen",
-        "description": ""
-    },
-    "N_UNOCCUPIED_PASSENGER_CABINS": {
-        "message": "{quantity} Unbelegte Passagierkabinen",
-        "description": ""
-    },
-    "YOURE_GOING_TO_REGRET_SACKING_ME": {
-        "message": "Du wirst meinen Rauswurf bedauern",
-        "description": ""
-    },
-    "SELECT_GAME_TO_LOAD": {
-        "message": "Spiel zum Laden auswählen...",
-        "description": ""
-    },
-    "ERROR": {
-        "message": "Fehler",
-        "description": ""
-    },
-    "ACTIVE": {
-        "message": "Offen",
-        "description": ""
-    },
-    "WAGE": {
-        "message": "Gehalt",
-        "description": ""
-    },
-    "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY": {
-        "message": "Grafikeinstellungen (Programm muss neu gestartet werden)",
-        "description": ""
-    },
-    "SAVE": {
-        "message": "Speichern",
-        "description": ""
-    },
-    "CITY_DETAIL_LEVEL": {
-        "message": "Detailstufe für Städte",
-        "description": ""
-    },
-    "N_OCCUPIED_PASSENGER_CABINS": {
-        "message": "{quantity} Belegte Passagierkabinen",
-        "description": ""
-    },
-    "INVERT_MOUSE_Y": {
-        "message": "Maus Y-Achse invertieren",
-        "description": ""
-    },
-    "CONTROLS": {
-        "message": "Steuerung",
-        "description": ""
-    },
-    "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR": {
-        "message": "Nicht genig {alloy} um eine Reparatur durchzuführen",
-        "description": ""
-    },
-    "NEXT_PAID": {
-        "message": "Nächster Bezahlter",
-        "description": ""
-    },
-    "CLIENT": {
-        "message": "Auftraggeber",
-        "description": ""
-    },
-    "SENSORS": {
-        "message": "Sensoren:",
-        "description": ""
-    },
-    "ORBITAL_ANALYSIS": {
-        "message": "Bahnanalyse",
-        "description": ""
-    },
-    "UP_ACCEL": {
-        "message": "Beschleunigung nach oben",
-        "description": ""
-    },
-    "FRACTAL_DETAIL": {
-        "message": "Detailstufe für Fraktale",
-        "description": ""
-    },
-    "ALLEGIANCE": {
-        "message": "Zugehörigkeit:",
-        "description": ""
-    },
-    "RANK": {
-        "message": "Rang:",
-        "description": ""
-    },
-    "DOCK_AT_CURRENT_TARGET": {
-        "message": "An aktuellen Ziel anlegen",
-        "description": ""
-    },
-    "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP": {
-        "message": "Es gibt an Bord niemanden sonst, der dieses Schiff fliegen kann.",
-        "description": ""
-    },
-    "AN_ERROR_HAS_OCCURRED": {
-        "message": "Es ist ein Fehler aufgetreten",
-        "description": ""
-    },
-    "INACTIVE": {
-        "message": "Inaktiv",
-        "description": ""
-    },
-    "N_SHIELD_GENERATORS": {
-        "message": "{quantity} Schild-Generatoren",
-        "description": ""
-    },
-    "TOGGLE_MALE_FEMALE": {
-        "message": "Zwischen männlich/weiblich umschalten",
-        "description": ""
-    },
-    "DISMISS": {
-        "message": "Entlassen",
-        "description": ""
-    },
-    "CASH": {
-        "message": "Geld",
-        "description": ""
-    },
-    "COMMANDER": {
-        "message": "Kommandant",
-        "description": ""
-    },
-    "OWED": {
-        "message": "Schuld",
-        "description": ""
-    },
-    "MASTER": {
-        "message": "Master:",
-        "description": ""
-    },
-    "NO_MISSIONS": {
-        "message": "Keine Missionen.",
-        "description": ""
-    },
-    "DANGEROUS": {
-        "message": "Gefährlich",
-        "description": ""
-    },
-    "AVERAGE": {
-        "message": "Durchschnittlich",
-        "description": ""
-    },
-    "DUE": {
-        "message": "Fällig",
-        "description": ""
-    },
-    "FREE": {
-        "message": "Verfügbar",
-        "description": ""
-    },
-    "YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER": {
-        "message": "Sie müssen erst ein passendes Navigationsziel auswählen, Kommandant.",
-        "description": ""
-    },
-    "JETTISON": {
-        "message": "Abwerfen",
-        "description": ""
-    },
-    "CIRCULAR_ORBIT_SPEED": {
-        "message": "Kreisbahn-Geschwindigkeit",
-        "description": ""
-    },
-    "WE_ARE_IN_HYPERSPACE_COMMANDER": {
-        "message": "Wir sind im Hyperspace, Kommandant.",
-        "description": ""
-    },
-    "QUIT": {
-        "message": "Beenden",
-        "description": ""
-    },
-    "NAME": {
-        "message": "Name",
-        "description": ""
-    },
-    "GIVE_ORDERS_TO_CREW": {
-        "message": "Gib der Crew Anweisungen",
-        "description": ""
-    },
-    "EXIT_THIS_GAME": {
-        "message": "Spiel beenden",
-        "description": ""
-    },
-    "HARMLESS": {
-        "message": "Harmlos",
-        "description": ""
-    },
-    "GOOD_RIDDANCE_TO_YOU_TOO": {
-        "message": "Dir auch auf Nimmerwiedersehen!",
-        "description": ""
-    },
-    "TYPE": {
-        "message": "Typ",
-        "description": ""
-    },
-    "PLANET_DETAIL_DISTANCE": {
-        "message": "Detailentfernung für Planeten",
-        "description": ""
-    },
-    "CAPACITY_USED": {
-        "message": "Ausgelastete Kapazität",
-        "description": ""
-    },
-    "COMBAT": {
-        "message": "Kampf",
-        "description": ""
-    },
-    "EQUIPMENT": {
-        "message": "Ausrüstung",
-        "description": ""
-    },
-    "LOW": {
-        "message": "Niedrig",
-        "description": ""
-    },
-    "YOU_MUST_LAUNCH_FIRST_COMMANDER": {
-        "message": "Sie müssen zuerst starten, Kommandant.",
-        "description": ""
-    },
-    "BACKWARD_ACCEL": {
-        "message": "Beschleunigung rückwärts",
-        "description": ""
-    },
-    "COMPRESS_TEXTURES": {
-        "message": "Texturen komprimieren",
-        "description": ""
-    },
-    "EMPLOYMENT": {
-        "message": "Anstellung",
-        "description": ""
-    },
-    "OPTIONS": {
-        "message": "Optionen",
-        "description": ""
-    },
-    "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME": {
-        "message": "Wählen Sie den Dateinamen",
-        "description": ""
-    },
-    "MISSIONS": {
-        "message": "Missionen",
-        "description": ""
-    },
-    "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT": {
-        "message": "Schiffsrumpf repariert durch {name}, nun bei {repairPercent}%",
-        "description": ""
-    },
-    "CARGO_SPACE": {
-        "message": "Laderaum",
-        "description": ""
-    },
-    "COMPLETED": {
-        "message": "Abgeschlossen",
-        "description": ""
-    },
-    "FULL_SCREEN": {
-        "message": "Vollbildmodus",
-        "description": ""
-    },
-    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER": {
-        "message": "Sie müssen erst ein passendes Angriffziel auswählen, Kommandant.",
-        "description": ""
-    },
-    "ATTEMPT_TO_REPAIR_HULL": {
-        "message": "Versuch, den Rumpf zu reparieren",
-        "description": ""
-    },
-    "LANGUAGE_RESTART_GAME_TO_APPLY": {
-        "message": "Sprachauswahl (Programm muss neu gestartet werden)",
-        "description": ""
-    },
-    "NAVIGATION": {
-        "message": "Navigation:",
-        "description": ""
-    },
-    "LY": {
-        "message": "ly",
-        "description": ""
-    },
-    "POOR": {
-        "message": "Schlecht",
-        "description": ""
-    },
-    "MUTE": {
-        "message": "Stummschalten",
-        "description": ""
-    },
-    "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE": {
-        "message": "Es war großartig, für sie zu arbeiten. Wenn sie mich wieder brauchen, bin ich noch eine Weile hier.",
-        "description": ""
-    },
-    "START_AT_EARTH": {
-        "message": "Starte auf der Erde",
-        "description": ""
-    },
-    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS": {
-        "message": "Ich bin es leid für nichts zu arbeiten. Wissen sie nicht, was ein Vertrag ist?",
-        "description": ""
-    },
-    "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME": {
-        "message": "Der Pilotensessel ist besetzt von {name}",
-        "description": ""
-    },
-    "MUSIC": {
-        "message": "Musik:",
-        "description": ""
-    },
-    "FEMALE": {
-        "message": "Weiblich",
-        "description": ""
-    },
-    "CANCEL": {
-        "message": "Abbrechen",
-        "description": ""
-    },
-    "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER": {
-        "message": "Sie müssen erst die Startfreigabe anfragen, Kommandant.",
-        "description": ""
-    },
-    "PRESS_A_KEY_OR_CONTROLLER_BUTTON": {
-        "message": "Drücken sie eine Taste oder einen Knopf des Controllers",
-        "description": ""
-    },
-    "START_AT_BARNARDS_STAR": {
-        "message": "Starte auf Barnard's Star",
-        "description": ""
-    },
-    "VERY_HIGH": {
-        "message": "Sehr hoch",
-        "description": ""
-    },
-    "USED": {
-        "message": "Benutzt",
-        "description": ""
-    },
-    "ABOVE_AVERAGE": {
-        "message": "Überdurchschnittlich",
-        "description": ""
-    },
-    "METAL_ALLOYS": {
-        "message": "Legierungen",
-        "description": ""
-    },
-    "SELECT_FILE": {
-        "message": "Datei auswählen...",
-        "description": ""
-    },
-    "COMPETENT": {
-        "message": "Kompetent",
-        "description": ""
-    },
-    "NEGOTIATE": {
-        "message": "Verhandeln",
-        "description": ""
-    },
-    "ALL_UP_WEIGHT": {
-        "message": "Gesamtgewicht",
-        "description": ""
-    },
-    "DEADLY": {
-        "message": "Tödlich",
-        "description": ""
-    },
-    "FUEL": {
-        "message": "Treibstoff",
-        "description": ""
-    },
-    "ELITE": {
-        "message": "ELITE",
-        "description": ""
-    }
+   "ABOVE_AVERAGE" : {
+      "description" : "",
+      "message" : "Überdurchschnittlich"
+   },
+   "ACTIVE" : {
+      "description" : "",
+      "message" : "Offen"
+   },
+   "ALLEGIANCE" : {
+      "description" : "",
+      "message" : "Zugehörigkeit:"
+   },
+   "ALL_UP_WEIGHT" : {
+      "description" : "",
+      "message" : "Gesamtgewicht"
+   },
+   "AN_ERROR_HAS_OCCURRED" : {
+      "description" : "",
+      "message" : "Es ist ein Fehler aufgetreten"
+   },
+   "ATTEMPT_TO_REPAIR_HULL" : {
+      "description" : "",
+      "message" : "Versuch, den Rumpf zu reparieren"
+   },
+   "AVERAGE" : {
+      "description" : "",
+      "message" : "Durchschnittlich"
+   },
+   "BACKWARD_ACCEL" : {
+      "description" : "",
+      "message" : "Beschleunigung rückwärts"
+   },
+   "CABINS" : {
+      "description" : "",
+      "message" : "Kabinen"
+   },
+   "CANCEL" : {
+      "description" : "",
+      "message" : "Abbrechen"
+   },
+   "CAPACITY_USED" : {
+      "description" : "",
+      "message" : "Ausgelastete Kapazität"
+   },
+   "CARGO" : {
+      "description" : "",
+      "message" : "Ladung"
+   },
+   "CARGO_SPACE" : {
+      "description" : "",
+      "message" : "Laderaum"
+   },
+   "CASH" : {
+      "description" : "",
+      "message" : "Geld"
+   },
+   "CHANGE_BINDING" : {
+      "description" : "",
+      "message" : "Anbindung ändern"
+   },
+   "CIRCULAR_ORBIT_SPEED" : {
+      "description" : "",
+      "message" : "Kreisbahn-Geschwindigkeit"
+   },
+   "CITY_DETAIL_LEVEL" : {
+      "description" : "",
+      "message" : "Detailstufe für Städte"
+   },
+   "CLEAR" : {
+      "description" : "",
+      "message" : "löschen"
+   },
+   "CLIENT" : {
+      "description" : "",
+      "message" : "Auftraggeber"
+   },
+   "COMBAT" : {
+      "description" : "",
+      "message" : "Kampf"
+   },
+   "COMMANDER" : {
+      "description" : "",
+      "message" : "Kommandant"
+   },
+   "COMPETENT" : {
+      "description" : "",
+      "message" : "Kompetent"
+   },
+   "COMPLETED" : {
+      "description" : "",
+      "message" : "Abgeschlossen"
+   },
+   "COMPRESS_TEXTURES" : {
+      "description" : "",
+      "message" : "Texturen komprimieren"
+   },
+   "CONTROLS" : {
+      "description" : "",
+      "message" : "Steuerung"
+   },
+   "CONTROL_OPTIONS" : {
+      "description" : "",
+      "message" : "Steuerungseinstellungen"
+   },
+   "COULD_NOT_LOAD_GAME" : {
+      "description" : "",
+      "message" : "Kann Spiel nicht laden:"
+   },
+   "CREW_CABINS" : {
+      "description" : "",
+      "message" : "Kabinen der Crew"
+   },
+   "CREW_ROSTER" : {
+      "description" : "",
+      "message" : "Liste der Crew"
+   },
+   "DANGEROUS" : {
+      "description" : "",
+      "message" : "Gefährlich"
+   },
+   "DEADLY" : {
+      "description" : "",
+      "message" : "Tödlich"
+   },
+   "DELTA_V" : {
+      "description" : "",
+      "message" : "Delta-v"
+   },
+   "DESCENT_TO_GROUND_SPEED" : {
+      "description" : "",
+      "message" : "Landegeschwindigkeit:"
+   },
+   "DESTROY_ENEMY_SHIP" : {
+      "description" : "",
+      "message" : "Feindliches Schiff zerstören"
+   },
+   "DISMISS" : {
+      "description" : "",
+      "message" : "Entlassen"
+   },
+   "DISPLAY_NAV_TUNNELS" : {
+      "description" : "",
+      "message" : "Navigationstunnel anzeigen"
+   },
+   "DISPLAY_SPEED_LINES" : {
+      "description" : "",
+      "message" : "Geschwindigkeitslinien anzeigen"
+   },
+   "DOCK_AT_CURRENT_TARGET" : {
+      "description" : "",
+      "message" : "An aktuellen Ziel anlegen"
+   },
+   "DUE" : {
+      "description" : "",
+      "message" : "Fällig"
+   },
+   "D_DAYS_LEFT" : {
+      "description" : "",
+      "message" : "Verbleibende Tage: %d"
+   },
+   "ECONOMY_TRADE" : {
+      "description" : "",
+      "message" : "Wirtschaft & Handel"
+   },
+   "EFFECTS" : {
+      "description" : "",
+      "message" : "Effekte:"
+   },
+   "ELITE" : {
+      "description" : "",
+      "message" : "ELITE"
+   },
+   "EMPLOYMENT" : {
+      "description" : "",
+      "message" : "Anstellung"
+   },
+   "ENABLE_JOYSTICK" : {
+      "description" : "",
+      "message" : "Joystick-Steuerung aktivieren"
+   },
+   "ENGINEERING" : {
+      "description" : "",
+      "message" : "Konstruktion"
+   },
+   "EQUIPMENT" : {
+      "description" : "",
+      "message" : "Ausrüstung"
+   },
+   "ERROR" : {
+      "description" : "",
+      "message" : "Fehler"
+   },
+   "ESCAPE_SPEED" : {
+      "description" : "",
+      "message" : "Fluchtgeschwindigkeit:"
+   },
+   "EXIT_THIS_GAME" : {
+      "description" : "",
+      "message" : "Spiel beenden"
+   },
+   "FAILED" : {
+      "description" : "",
+      "message" : "Gescheitert"
+   },
+   "FEMALE" : {
+      "description" : "",
+      "message" : "Weiblich"
+   },
+   "FORWARD_ACCEL" : {
+      "description" : "",
+      "message" : "Beschleunigung vorwärts"
+   },
+   "FRACTAL_DETAIL" : {
+      "description" : "",
+      "message" : "Detailstufe für Fraktale"
+   },
+   "FREE" : {
+      "description" : "",
+      "message" : "Verfügbar"
+   },
+   "FRONT_WEAPON" : {
+      "description" : "",
+      "message" : "Vorne"
+   },
+   "FUEL" : {
+      "description" : "",
+      "message" : "Treibstoff"
+   },
+   "FUEL_TANK_FULL" : {
+      "description" : "",
+      "message" : "Treibstofftank ist voll."
+   },
+   "FUEL_WEIGHT" : {
+      "description" : "",
+      "message" : "Treibstoffgewicht"
+   },
+   "FULL_SCREEN" : {
+      "description" : "",
+      "message" : "Vollbildmodus"
+   },
+   "GENERAL_CREW" : {
+      "description" : "",
+      "message" : "Hauptcrew"
+   },
+   "GIVE_ORDERS_TO_CREW" : {
+      "description" : "",
+      "message" : "Gib der Crew Anweisungen"
+   },
+   "GOOD_RIDDANCE_TO_YOU_TOO" : {
+      "description" : "",
+      "message" : "Dir auch auf Nimmerwiedersehen!"
+   },
+   "HARMLESS" : {
+      "description" : "",
+      "message" : "Harmlos"
+   },
+   "HIGH" : {
+      "description" : "",
+      "message" : "Hoch"
+   },
+   "HULL_DOES_NOT_REQUIRE_REPAIR" : {
+      "description" : "",
+      "message" : "Schiffsrumpf benötigt keine Reparatur"
+   },
+   "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT" : {
+      "description" : "",
+      "message" : "Schiffsrumpf repariert durch {name}, nun bei {repairPercent}%"
+   },
+   "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE" : {
+      "description" : "",
+      "message" : "Reparatur des Schiffsrumpfs fehlgeschlagen. Schiffrumpf erlitt einen geringen Schaden"
+   },
+   "HYPERDRIVE" : {
+      "description" : "",
+      "message" : "Hyperraumantrieb"
+   },
+   "HYPERSPACE_RANGE" : {
+      "description" : "",
+      "message" : "Hyperraum Reichweite"
+   },
+   "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
+      "description" : "",
+      "message" : "Ich bin es leid für nichts zu arbeiten. Wissen sie nicht, was ein Vertrag ist?"
+   },
+   "INACTIVE" : {
+      "description" : "",
+      "message" : "Inaktiv"
+   },
+   "INVERT_MOUSE_Y" : {
+      "description" : "",
+      "message" : "Maus Y-Achse invertieren"
+   },
+   "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE" : {
+      "description" : "",
+      "message" : "Es war großartig, für sie zu arbeiten. Wenn sie mich wieder brauchen, bin ich noch eine Weile hier."
+   },
+   "JETTISON" : {
+      "description" : "",
+      "message" : "Abwerfen"
+   },
+   "KILLS" : {
+      "description" : "",
+      "message" : "Abschüsse:"
+   },
+   "LANGUAGE" : {
+      "description" : "",
+      "message" : "Sprache"
+   },
+   "LANGUAGE_RESTART_GAME_TO_APPLY" : {
+      "description" : "",
+      "message" : "Sprachauswahl (Programm muss neu gestartet werden)"
+   },
+   "LOAD" : {
+      "description" : "",
+      "message" : "Laden"
+   },
+   "LOAD_GAME" : {
+      "description" : "",
+      "message" : "Lade Spiel"
+   },
+   "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
+      "description" : "",
+      "message" : "{distance}km vom Zentrum von {name} lokalisiert:"
+   },
+   "LOCATION" : {
+      "description" : "",
+      "message" : "Ort"
+   },
+   "LOW" : {
+      "description" : "",
+      "message" : "Niedrig"
+   },
+   "LY" : {
+      "description" : "",
+      "message" : "Lj"
+   },
+   "MAKE_NEW_FACE" : {
+      "description" : "",
+      "message" : "Neues Gesicht erstellen"
+   },
+   "MALE" : {
+      "description" : "",
+      "message" : "Männlich"
+   },
+   "MASTER" : {
+      "description" : "",
+      "message" : "Master:"
+   },
+   "MAX" : {
+      "description" : "",
+      "message" : "Maximum"
+   },
+   "MEDIUM" : {
+      "description" : "",
+      "message" : "Mittel"
+   },
+   "METAL_ALLOYS" : {
+      "description" : "",
+      "message" : "Legierungen"
+   },
+   "MILITARY" : {
+      "description" : "",
+      "message" : "Militärisch"
+   },
+   "MINIMUM_CREW" : {
+      "description" : "",
+      "message" : "Kleinste Crew"
+   },
+   "MISSIONS" : {
+      "description" : "",
+      "message" : "Missionen"
+   },
+   "MISSION_DETAILS" : {
+      "description" : "",
+      "message" : "Missionsdetails"
+   },
+   "MORE_INFO" : {
+      "description" : "",
+      "message" : "Weitere Informationen"
+   },
+   "MOSTLY_HARMLESS" : {
+      "description" : "",
+      "message" : "Relativ harmlos"
+   },
+   "MULTISAMPLING" : {
+      "description" : "",
+      "message" : "Multisampling"
+   },
+   "MUSIC" : {
+      "description" : "",
+      "message" : "Musik:"
+   },
+   "MUTE" : {
+      "description" : "",
+      "message" : "Stummschalten"
+   },
+   "NAME" : {
+      "description" : "",
+      "message" : "Name"
+   },
+   "NAVIGATION" : {
+      "description" : "",
+      "message" : "Navigation:"
+   },
+   "NEGOTIATE" : {
+      "description" : "",
+      "message" : "Verhandeln"
+   },
+   "NEXT_PAID" : {
+      "description" : "",
+      "message" : "Nächster Bezahlter"
+   },
+   "NONE" : {
+      "description" : "",
+      "message" : "keine"
+   },
+   "NOTES" : {
+      "description" : "",
+      "message" : "Notizen:"
+   },
+   "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR" : {
+      "description" : "",
+      "message" : "Nicht genig {alloy} um eine Reparatur durchzuführen"
+   },
+   "NO_MISSIONS" : {
+      "description" : "",
+      "message" : "Keine Missionen."
+   },
+   "N_LIGHT_YEARS_N_MAX" : {
+      "description" : "",
+      "message" : "{range} Lichtjahre ({maxRange} max)"
+   },
+   "N_OCCUPIED_PASSENGER_CABINS" : {
+      "description" : "",
+      "message" : "{quantity} Belegte Passagierkabinen"
+   },
+   "N_SHIELD_GENERATORS" : {
+      "description" : "",
+      "message" : "{quantity} Schild-Generatoren"
+   },
+   "N_UNOCCUPIED_PASSENGER_CABINS" : {
+      "description" : "",
+      "message" : "{quantity} Unbelegte Passagierkabinen"
+   },
+   "OFF" : {
+      "description" : "",
+      "message" : "Aus"
+   },
+   "OK" : {
+      "description" : "",
+      "message" : "Ok"
+   },
+   "OPTIONS" : {
+      "description" : "",
+      "message" : "Optionen"
+   },
+   "ORBIT" : {
+      "description" : "",
+      "message" : "Bahn"
+   },
+   "ORBITAL_ANALYSIS" : {
+      "description" : "",
+      "message" : "Bahnanalyse"
+   },
+   "ORBITAL_ANALYSIS_NOTES" : {
+      "description" : "",
+      "message" : "Die Kreisbahn-Geschwindigkeit wird für eine tangentiale Geschwindigkeit angegeben. Das schiff sollte in einem 90°-Winkel zur Schiff/{name}-Achse stehen.\n\nDie Landegeschwindigkeit ist ein absolutes Minimum und ist auch tangential. Eine geringere Geschwindigkeit und ein kleinerer Winkel wird in einem Kurs resultieren, der die Oberfläche von {name} schneidet.\n\nDie Fluchtgeschwindigkeit funktioniert theoretisch gesehen in alle Richtungen, solange das Schiff auf dem Weg mit {name} kollidiert.\n\t\t"
+   },
+   "OWED" : {
+      "description" : "",
+      "message" : "Schuld"
+   },
+   "PERSONAL_INFORMATION" : {
+      "description" : "",
+      "message" : "Persönliche Informationen"
+   },
+   "PILOTING" : {
+      "description" : "",
+      "message" : "Steuern:"
+   },
+   "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME" : {
+      "description" : "",
+      "message" : "Der Pilotensessel ist besetzt von {name}"
+   },
+   "PLANET_DETAIL_DISTANCE" : {
+      "description" : "",
+      "message" : "Detailentfernung für Planeten"
+   },
+   "PLANET_TEXTURES" : {
+      "description" : "",
+      "message" : "Planeten Texturen"
+   },
+   "POOR" : {
+      "description" : "",
+      "message" : "Schlecht"
+   },
+   "POSITION" : {
+      "description" : "",
+      "message" : "Position"
+   },
+   "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
+      "description" : "",
+      "message" : "Drücken sie eine Taste oder einen Knopf des Controllers"
+   },
+   "QUALIFICATION_SCORES" : {
+      "description" : "",
+      "message" : "Qualifizierungspunkte"
+   },
+   "QUIT" : {
+      "description" : "",
+      "message" : "Beenden"
+   },
+   "RANK" : {
+      "description" : "",
+      "message" : "Rang:"
+   },
+   "RATING" : {
+      "description" : "",
+      "message" : "Einstufung:"
+   },
+   "REAR_WEAPON" : {
+      "description" : "",
+      "message" : "Achtern"
+   },
+   "REFUEL" : {
+      "description" : "",
+      "message" : "Auftanken"
+   },
+   "RETURN_TO_MENU" : {
+      "description" : "",
+      "message" : "Zurück zum Menü"
+   },
+   "REWARD" : {
+      "description" : "",
+      "message" : "Belohnung"
+   },
+   "SAVE" : {
+      "description" : "",
+      "message" : "Speichern"
+   },
+   "SELECT" : {
+      "description" : "",
+      "message" : "Auswählen"
+   },
+   "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME" : {
+      "description" : "",
+      "message" : "Wählen Sie den Dateinamen"
+   },
+   "SELECT_FILE" : {
+      "description" : "",
+      "message" : "Datei auswählen..."
+   },
+   "SELECT_GAME_TO_LOAD" : {
+      "description" : "",
+      "message" : "Spiel zum Laden auswählen..."
+   },
+   "SENSORS" : {
+      "description" : "",
+      "message" : "Sensoren:"
+   },
+   "SHIP_INFORMATION" : {
+      "description" : "",
+      "message" : "Schiffs-Informationen"
+   },
+   "SOUND" : {
+      "description" : "",
+      "message" : "Ton"
+   },
+   "START_AT_BARNARDS_STAR" : {
+      "description" : "",
+      "message" : "Starte auf Barnard's Star"
+   },
+   "START_AT_EARTH" : {
+      "description" : "",
+      "message" : "Starte auf der Erde"
+   },
+   "START_AT_NEW_HOPE" : {
+      "description" : "",
+      "message" : "Starte auf New Hope"
+   },
+   "STATUS" : {
+      "description" : "",
+      "message" : "Status"
+   },
+   "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP" : {
+      "description" : "",
+      "message" : "Es gibt an Bord niemanden sonst, der dieses Schiff fliegen kann."
+   },
+   "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
+      "description" : "",
+      "message" : "Das Schiff ist unter Kontrolle der Station, Commander"
+   },
+   "TOGGLE_MALE_FEMALE" : {
+      "description" : "",
+      "message" : "Zwischen männlich/weiblich umschalten"
+   },
+   "TOTAL" : {
+      "description" : "",
+      "message" : "Komplett: "
+   },
+   "TYPE" : {
+      "description" : "",
+      "message" : "Typ"
+   },
+   "UP_ACCEL" : {
+      "description" : "",
+      "message" : "Beschleunigung nach oben"
+   },
+   "USED" : {
+      "description" : "",
+      "message" : "Benutzt"
+   },
+   "VERY_HIGH" : {
+      "description" : "",
+      "message" : "Sehr hoch"
+   },
+   "VERY_LOW" : {
+      "description" : "",
+      "message" : "Sehr niedrig"
+   },
+   "VIDEO" : {
+      "description" : "",
+      "message" : "Video"
+   },
+   "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY" : {
+      "description" : "",
+      "message" : "Grafikeinstellungen (Programm muss neu gestartet werden)"
+   },
+   "VIDEO_RESOLUTION" : {
+      "description" : "",
+      "message" : "Grafikauflösung"
+   },
+   "WAGE" : {
+      "description" : "",
+      "message" : "Gehalt"
+   },
+   "WEIGHT_EMPTY" : {
+      "description" : "",
+      "message" : "Leergewicht:"
+   },
+   "WE_ARE_IN_HYPERSPACE_COMMANDER" : {
+      "description" : "",
+      "message" : "Wir sind im Hyperspace, Kommandant."
+   },
+   "YOURE_GOING_TO_REGRET_SACKING_ME" : {
+      "description" : "",
+      "message" : "Du wirst meinen Rauswurf bedauern"
+   },
+   "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
+      "description" : "",
+      "message" : "Sie müssen erst ein passendes Angriffziel auswählen, Kommandant."
+   },
+   "YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER" : {
+      "description" : "",
+      "message" : "Sie müssen erst ein passendes Navigationsziel auswählen, Kommandant."
+   },
+   "YOU_MUST_LAUNCH_FIRST_COMMANDER" : {
+      "description" : "",
+      "message" : "Sie müssen zuerst starten, Kommandant."
+   },
+   "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER" : {
+      "description" : "",
+      "message" : "Sie müssen erst die Startfreigabe anfragen, Kommandant."
+   }
 }

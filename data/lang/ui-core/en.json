@@ -143,6 +143,10 @@
       "description" : "",
       "message" : "Display nav tunnels"
    },
+   "DISPLAY_SPEED_LINES" : {
+      "description" : "",
+      "message" : "Display speed lines"
+   },
    "DOCK_AT_CURRENT_TARGET" : {
       "description" : "",
       "message" : "Dock at current target"
@@ -606,10 +610,6 @@
    "USED" : {
       "description" : "",
       "message" : "Used"
-   },
-   "USE_SHADERS" : {
-      "description" : "",
-      "message" : "Use shaders"
    },
    "VERY_HIGH" : {
       "description" : "",

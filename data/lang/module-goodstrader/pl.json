@@ -1,30 +1,30 @@
 {
-    "WELCOME_TO": {
-        "message": "Witamy w ",
-        "description": ""
-    },
-    "GOODS_TRADER_2": {
-        "message": "Skład {name}'s",
-        "description": ""
-    },
-    "GOODS_TRADER_3": {
-        "message": "Wymiana Towarów {name}'s",
-        "description": ""
-    },
-    "GOODS_TRADER_0": {
-        "message": "Uczciwy {name}'s - Magazyn Towarów",
-        "description": ""
-    },
-    "GOODS_TRADER_1": {
-        "message": "Dom Handlowy {name}'s",
-        "description": ""
-    },
-    "GOODS_TRADER_4": {
-        "message": "Gospodarstwo {name}",
-        "description": ""
-    },
-    "GOODS_TRADER_5": {
-        "message": "{name} & Synowie",
-        "description": ""
-    }
+   "GOODS_TRADER_0" : {
+      "description" : "",
+      "message" : "Uczciwy {name}'s - Magazyn Towarów"
+   },
+   "GOODS_TRADER_1" : {
+      "description" : "",
+      "message" : "Dom Handlowy {name}'s"
+   },
+   "GOODS_TRADER_2" : {
+      "description" : "",
+      "message" : "Skład {name}'s"
+   },
+   "GOODS_TRADER_3" : {
+      "description" : "",
+      "message" : "Wymiana Towarów {name}'s"
+   },
+   "GOODS_TRADER_4" : {
+      "description" : "",
+      "message" : "Gospodarstwo {name}"
+   },
+   "GOODS_TRADER_5" : {
+      "description" : "",
+      "message" : "{name} & Synowie"
+   },
+   "WELCOME_TO" : {
+      "description" : "",
+      "message" : "Witamy w "
+   }
 }

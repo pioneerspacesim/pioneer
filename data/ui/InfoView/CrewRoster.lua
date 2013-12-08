@@ -60,7 +60,7 @@ local crewRoster = function ()
 			ATTEMPT_TO_REPAIR_HULL = function ()
 				-- Convoluted...
 				local hullMass = ShipDef[Game.player.shipId].hullMass
-				local hullMassLeft = Game.player:GetStats().hullMassLeft 
+				local hullMassLeft = Game.player.hullMassLeft 
 				local hullDamage = hullMass - hullMassLeft
 				if hullDamage > 0 then
 					if Game.player:GetEquipCount('CARGO','METAL_ALLOYS') <= 0 then
