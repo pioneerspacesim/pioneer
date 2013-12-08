@@ -172,8 +172,8 @@ namespace Profiler {
 
 	void detect( int argc, char **argv );
 	//void detect( const char *commandLine );
-	void dump();
-	void dumphtml();
+	void dump(const char *dir = 0);
+	void dumphtml(const char *dir = 0);
 	void fastcall enter( const char *name );
 	void fastcall exit();
 	void fastcall pause();

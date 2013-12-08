@@ -120,6 +120,7 @@ float Pi::frameTime;
 bool Pi::showDebugInfo = false;
 #endif
 #if PIONEER_PROFILER
+std::string Pi::profilerPath;
 bool Pi::wantsProfiling = false;
 bool Pi::isProfiling = false;
 #endif
@@ -262,6 +263,10 @@ void Pi::Init()
 
 	FileSystem::Init();
 	FileSystem::userFiles.MakeDirectory(""); // ensure the config directory exists
+#ifdef PIONEER_PROFILER
+	FileSystem::userFiles.MakeDirectory("profiler");
+	profilerPath = FileSystem::JoinPathBelow(FileSystem::userFiles.GetRoot(), "profiler");
+#endif
 
 	Pi::config = new GameConfig();
 	KeyBindings::InitBindings();
@@ -1150,7 +1155,7 @@ void Pi::MainLoop()
 #ifdef PIONEER_PROFILER
 		const Uint32 testTicks = SDL_GetTicks();
 		if (Pi::isProfiling && (testTicks - newTicks) > 100 ) {
-			Profiler::dumphtml();
+			Profiler::dumphtml(profilerPath.c_str());
 			Pi::isProfiling = false;
 		}
 #endif

@@ -860,7 +860,7 @@ namespace Profiler {
 	*/
 
 	struct PrintfDumper {
-		void Init() {
+		void Init(const char *dir) {
 		}
 
 		void GlobalInfo( u64 rawCycles ) {
@@ -886,7 +886,7 @@ namespace Profiler {
 	};
 
 	struct HTMLDumper {
-		void Init() {
+		void Init(const char *dir) {
 			Caller::mColors.clear();
 			Caller::mColors.push( ColorF( 255.0f/255.0f, 255.0f/255.0f, 255.0f/255.0f ), 0.00f );
 			//Caller::mColors.push( ColorF( 255.0f/255.0f, 212.0f/255.0f, 129.0f/255.0f ), 0.50f );
@@ -897,7 +897,7 @@ namespace Profiler {
 			time( &now );
 			tm *now_tm = localtime( &now );
 			strftime( timeFormat, 255, "%Y%m%d_%H%M%S", now_tm );
-			snprintf( fileFormat, 255, "%s-profile-%s.html", programName ? programName : "no-info-given", timeFormat );
+			snprintf( fileFormat, 4096, "%s%s%s-profile-%s.html", dir ? dir : "", dir ? "/" : "", programName ? programName : "no-info-given", timeFormat );
 			strftime( timeFormat, 255, "%#c", now_tm );			
 			f = fopen( fileFormat, "wb+" );
 
@@ -977,17 +977,17 @@ namespace Profiler {
 
 	protected:
 		FILE *f;
-		char timeFormat[256], fileFormat[256];
+		char timeFormat[256], fileFormat[4096];
 	};
 
 	template< class Dumper >
-	void dumpThreads( Dumper dumper ) {
+	void dumpThreads( Dumper dumper, const char *dir ) {
 		u64 rawDuration = ( Timer::getticks() - globalStart );
 
 		Caller *accumulate = new Caller( "/Top Callers" ), *packer = new Caller( "/Thread Packer" );
 		Buffer<Caller *> packedThreads;
 
-		dumper.Init();
+		dumper.Init(dir);
 		dumper.GlobalInfo( rawDuration );
 
 		threads.AcquireGlobalLock();	
@@ -1191,8 +1191,8 @@ namespace Profiler {
 
 	void detect( int argc, char **argv ) { detectByArgs( argc, argv ); }
 	//void detect( const char *commandLine ) { detectWinMain( commandLine ); }
-	void dump() { dumpThreads( PrintfDumper() ); }
-	void dumphtml() { dumpThreads( HTMLDumper() ); }
+	void dump(const char *dir) { dumpThreads( PrintfDumper(), dir ); }
+	void dumphtml(const char *dir) { dumpThreads( HTMLDumper(), dir ); }
 	void fastcall enter( const char *name ) { enterCaller( name ); }
 	void fastcall exit() { exitCaller(); }
 	void fastcall pause() { pauseCaller(); }
@@ -1203,8 +1203,8 @@ namespace Profiler {
 #else
 	void detect( int argc, char **argv ) {}
 	//void detect( const char *commandLine ) {}
-	void dump() {}
-	void dumphtml() {}
+	void dump(const char *dir) {}
+	void dumphtml(const char *dir) {}
 	void fastcall enter( const char *name ) {}
 	void fastcall exit() {}
 	void fastcall pause() {}

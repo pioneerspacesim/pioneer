@@ -136,6 +136,7 @@ public:
 	static bool showDebugInfo;
 #endif
 #if PIONEER_PROFILER
+	static std::string profilerPath;
 	static bool wantsProfiling;
 	static bool isProfiling;
 #endif
