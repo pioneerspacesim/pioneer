@@ -223,12 +223,11 @@ void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d 
 	// Not quite correct, since it always uses the first light
 	GLfloat col[4];
 	glGetLightfv(GL_LIGHT0, GL_DIFFUSE, col);
-	col[3] = 1.f;
 
 	static VertexArray va(ATTRIB_POSITION | ATTRIB_DIFFUSE);
 	va.Clear();
 
-	const Color center(col[0], col[1], col[2], col[2]);
+	const Color center(col[0], col[1], col[2], 1.f);
 	const Color edges(col[0], col[1], col[2], 0.f);
 
 	//center
