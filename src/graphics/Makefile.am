@@ -12,13 +12,11 @@ noinst_HEADERS = \
 	WindowSDL.h \
 	Renderer.h \
 	RendererGL2.h \
-	RendererLegacy.h \
 	RenderTarget.h \
 	GLDebug.h \
 	Frustum.h \
 	Light.h \
 	Material.h \
-	MaterialLegacy.h \
 	StaticMesh.h \
 	Surface.h \
 	VertexArray.h \
@@ -41,11 +39,9 @@ libgraphics_a_SOURCES = \
 	WindowSDL.cpp \
 	Renderer.cpp \
 	RendererGL2.cpp \
-	RendererLegacy.cpp \
 	Frustum.cpp \
 	Light.cpp \
 	Material.cpp \
-	MaterialLegacy.cpp \
 	StaticMesh.cpp \
 	VertexArray.cpp \
 	TextureGL.cpp \
