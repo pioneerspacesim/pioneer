@@ -17,7 +17,7 @@
    },
    "ALT_IN_KM" : {
       "description" : "",
-      "message" : "Alt: %altitude{f.0}km (%vspeed{f.1}km/s)"
+      "message" : "Alt: %altitude{f.0}km (%vspeed{f.1}kms/s)"
    },
    "ALT_IN_METRES" : {
       "description" : "",
@@ -321,7 +321,7 @@
    },
    "CTRL" : {
       "description" : "",
-      "message" : "\"ctrl \""
+      "message" : "\"ctrl\""
    },
    "CURRENT_SYSTEM" : {
       "description" : "",
@@ -797,7 +797,7 @@
    },
    "JOY" : {
       "description" : "",
-      "message" : "Joy"
+      "message" : "joy"
    },
    "JOYSTICK_INPUT" : {
       "description" : "",
@@ -1017,7 +1017,7 @@
    },
    "MONTH_MAR" : {
       "description" : "",
-      "message" : "Mar"
+      "message" : "Mars"
    },
    "MONTH_MAY" : {
       "description" : "",
@@ -1033,7 +1033,7 @@
    },
    "MONTH_SEP" : {
       "description" : "",
-      "message" : "Sep"
+      "message" : "Sept"
    },
    "MURDER" : {
       "description" : "",
@@ -1561,7 +1561,7 @@
    },
    "SHIFT" : {
       "description" : "",
-      "message" : "\"shift \""
+      "message" : "\"shift\""
    },
    "SHIP" : {
       "description" : "",
@@ -1669,7 +1669,7 @@
    },
    "SOMEWHERE_SERVICES" : {
       "description" : "",
-      "message" : "%station services"
+      "message" : "%stations services"
    },
    "SOMEWHERE_SHIPYARD" : {
       "description" : "",
