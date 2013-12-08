@@ -5,7 +5,6 @@
 #include "FileSystem.h"
 #include "Material.h"
 #include "RendererGL2.h"
-#include "RendererLegacy.h"
 #include "OS.h"
 
 namespace Graphics {

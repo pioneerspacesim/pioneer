@@ -8,9 +8,7 @@
 
 namespace Graphics {
 
-/* OpenGL renderer data structures and bufferobject stuff.
- * This can be used by both the Legacy and GL2 renderers
- */
+// OpenGL renderer data structures and bufferobject stuff.
 
 struct GLVertex {
 	vector3f position;

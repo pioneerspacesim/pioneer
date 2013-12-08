@@ -17,7 +17,7 @@
    },
    "ALT_IN_KM" : {
       "description" : "",
-      "message" : "Alt: %altitude{f.0}km (%vspeed{f.1}km/s)"
+      "message" : "Höhe: %altitude{f.0}km (%vspeed{f.1}km/s)"
    },
    "ALT_IN_METRES" : {
       "description" : "",

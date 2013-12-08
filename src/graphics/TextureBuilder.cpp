@@ -91,7 +91,7 @@ void TextureBuilder::PrepareSurface()
 	if (!m_surface && !m_filename.empty()) {
 		std::string filename = m_filename;
 		std::transform(filename.begin(), filename.end(), filename.begin(), ::tolower);
-		if (ends_with(filename, ".dds")) {
+		if (ends_with_ci(filename, ".dds")) {
 			LoadDDS();
 		} else {
 			LoadSurface();

@@ -73,7 +73,7 @@ void test_enum_models(FileSystem::FileSource &fs)
 	files.AddSearchRoot("models");
 	while (!files.Finished()) {
 		const FileInfo &fi = files.Current();
-		if (fi.IsDir() || ends_with(fi.GetPath(), ".model")) {
+		if (fi.IsDir() || ends_with_ci(fi.GetPath(), ".model")) {
 			printf("  %s (%s) (%s)\n", fi.GetPath().c_str(), ftype_name(fi), fi.GetSource().GetRoot().c_str());
 		}
 		files.Next();

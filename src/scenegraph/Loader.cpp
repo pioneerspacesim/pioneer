@@ -146,7 +146,7 @@ Model *Loader::LoadModel(const std::string &shortname, const std::string &basepa
 		const std::string &fpath = info.GetPath();
 
 		//check it's the expected type
-		if (info.IsFile() && ends_with(fpath, ".model")) {
+		if (info.IsFile() && ends_with_ci(fpath, ".model")) {
 			//check it's the wanted name & load it
 			const std::string name = info.GetName();
 
@@ -352,7 +352,7 @@ void Loader::FindPatterns(PatternContainer &output)
 		const FileSystem::FileInfo &info = files.Current();
 		if (info.IsFile()) {
 			const std::string &name = info.GetName();
-			if (ends_with(name, ".png") && starts_with(name, "pattern"))
+			if (ends_with_ci(name, ".png") && starts_with(name, "pattern"))
 				output.push_back(Pattern(name, m_curPath, m_renderer));
 		}
 	}
