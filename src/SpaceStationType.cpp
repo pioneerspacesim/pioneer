@@ -360,7 +360,7 @@ void SpaceStationType::Init()
 	for (fs::FileEnumerator files(fs::gameDataFiles, "stations", fs::FileEnumerator::Recurse);
 			!files.Finished(); files.Next()) {
 		const fs::FileInfo &info = files.Current();
-		if (ends_with(info.GetPath(), ".lua")) {
+		if (ends_with_ci(info.GetPath(), ".lua")) {
 			const std::string name = info.GetName();
 			s_currentStationFile = name.substr(0, name.size()-4);
 			pi_lua_dofile(L, info.GetPath());

@@ -69,7 +69,6 @@ TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompress
 	glGenTextures(1, &m_texture);
 	glBindTexture(m_target, m_texture);
 
-	glEnable(m_target); //XXX legacy only
 
 	// useCompressed is the global scope flag whereas descriptor.allowCompression is the local texture mode flag
 	// either both or neither might be true however only compress the texture when both are true.
@@ -148,7 +147,6 @@ TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompress
 	glTexParameteri(m_target, GL_TEXTURE_MAG_FILTER, magFilter);
 	glTexParameteri(m_target, GL_TEXTURE_MIN_FILTER, minFilter);
 
-	glDisable(m_target);  //XXX legacy only
 }
 
 TextureGL::~TextureGL()
@@ -158,7 +156,6 @@ TextureGL::~TextureGL()
 
 void TextureGL::Update(const void *data, const vector2f &dataSize, TextureFormat format, const unsigned int numMips)
 {
-	glEnable(m_target);  //XXX legacy only
 	glBindTexture(m_target, m_texture);
 
 	switch (m_target) {
@@ -191,19 +188,16 @@ void TextureGL::Update(const void *data, const vector2f &dataSize, TextureFormat
 	}
 
 	glBindTexture(m_target, 0);
-	glDisable(m_target);  //XXX legacy only
 }
 
 void TextureGL::Bind()
 {
-	glEnable(m_target);  //XXX legacy only
 	glBindTexture(m_target, m_texture);
 }
 
 void TextureGL::Unbind()
 {
 	glBindTexture(m_target, 0);
-	glDisable(m_target);  //XXX legacy only
 }
 
 void TextureGL::SetSampleMode(TextureSampleMode mode)

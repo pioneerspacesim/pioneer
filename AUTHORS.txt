@@ -48,6 +48,7 @@ The Pioneer Developers are:
 * Marcel Tulloh
 * Marcus de Roos
 * Michele Botticelli
+* Miha Vitorovič
 * Nic
 * Oleg Ovcharenko
 * Paul Mahol

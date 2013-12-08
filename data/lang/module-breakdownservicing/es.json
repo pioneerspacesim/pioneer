@@ -101,30 +101,30 @@
    },
    "I_DONT_HAVE_ENOUGH_MONEY" : {
       "description" : "",
-      "message" : "No dispongo de dinero suficiente"
+      "message" : "No dispone de dinero suficiente"
    },
    "I_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN" : {
       "description" : "",
-      "message" : "Reparé el hipermotor antes de que se averiara."
+      "message" : "Revisé el hipermotor para prevenir averías."
    },
    "THE_SHIPS_HYPERDRIVE_HAS_BEEN_DESTROYED_BY_A_MALFUNCTION" : {
       "description" : "",
-      "message" : "El motor de hiperimpulso de la nave se ha destruído por un mal funcionamiento"
+      "message" : "El hipermotor de la nave se ha destruído por un mal funcionamiento"
    },
    "YOUR_DRIVE_HAS_NOT_BEEN_SERVICED" : {
       "description" : "",
-      "message" : "Su motor no ha tenido ninguna revisión desde que fué instalado el {date}"
+      "message" : "Su hipermotor no ha tenido ninguna revisión desde {date}"
    },
    "YOUR_DRIVE_WAS_LAST_SERVICED_ON" : {
       "description" : "",
-      "message" : "La última revisión de su motor fue el {date} por {company}"
+      "message" : "La última revisión de su hipermotor fue el {date} por {company}"
    },
    "YOU_DO_NOT_HAVE_A_DRIVE_TO_SERVICE" : {
       "description" : "",
-      "message" : "¡No dispone de motor para revisar!"
+      "message" : "¡Su nave no tiene ningún hipermotor instalado para revisar!"
    },
    "YOU_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN" : {
       "description" : "",
-      "message" : "Reparaste el hipermotor antes de que se averiara."
+      "message" : "Debe hacer revisar el hipermotor antes de que se averíe."
    }
 }

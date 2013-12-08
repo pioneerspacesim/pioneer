@@ -37,7 +37,6 @@ namespace Graphics {
 class Light;
 class Material;
 class MaterialDescriptor;
-class RendererLegacy;
 class RenderTarget;
 class StaticMesh;
 class Surface;
@@ -185,7 +184,7 @@ private:
 };
 
 // subclass this to store renderer specific information
-// See top of RendererLegacy.cpp
+// See top of RendererGL2.cpp
 struct RenderInfo {
 	RenderInfo() { }
 	virtual ~RenderInfo() { }

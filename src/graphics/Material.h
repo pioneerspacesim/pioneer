@@ -18,7 +18,6 @@
 namespace Graphics {
 
 class Texture;
-class RendererLegacy;
 class RendererGL2;
 
 // Shorthand for unique effects
@@ -89,7 +88,6 @@ protected:
 	MaterialDescriptor m_descriptor;
 
 private:
-	friend class RendererLegacy;
 	friend class RendererGL2;
 };
 

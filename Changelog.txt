@@ -1,3 +1,11 @@
+December 2013
+
+   * Minor changes and tweaks
+     * Make file type (file extension) checks case insensitive (#2328, #2563)
+
+   * Internal changes
+     * Remove legacy (non-shader) renderer (#2568)
+
 November 2013
 
    * New features

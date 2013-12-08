@@ -1477,7 +1477,7 @@
    },
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
-      "message" : "screenshot%index{d08}.png"
+      "message" : "schermata%index{d08}.png"
    },
    "SCUTUM_CENTAURUS_ARM" : {
       "description" : "",

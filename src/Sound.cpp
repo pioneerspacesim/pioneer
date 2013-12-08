@@ -445,7 +445,7 @@ void DestroyAllEvents()
 
 static void load_sound(const std::string &basename, const std::string &path, bool is_music)
 {
-	if (!ends_with(basename, ".ogg")) return;
+	if (!ends_with_ci(basename, ".ogg")) return;
 
 	Sample sample;
 	OggVorbis_File oggv;

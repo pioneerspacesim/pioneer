@@ -381,7 +381,7 @@
    },
    "DOWNGRADING_ALERT_STATUS" : {
       "description" : "",
-      "message" : "Sin detección de disparos durante 60 segundos, Rebajando el nivel de alerta."
+      "message" : "Sin detección de disparos durante 60 segundos. Bajando el nivel de alerta."
    },
    "DRAW_OUT_RANGE_LABELS" : {
       "description" : "",
@@ -1949,7 +1949,7 @@
    },
    "TOGGLE_LUA_CONSOLE" : {
       "description" : "",
-      "message" : "Consola Lua ON/OFF"
+      "message" : "Consola Lua SI/NO"
    },
    "TOGGLE_ROTATION_DAMPING" : {
       "description" : "",
