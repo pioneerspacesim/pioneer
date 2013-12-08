@@ -121,8 +121,8 @@ bool Pi::showDebugInfo = false;
 #endif
 #if PIONEER_PROFILER
 std::string Pi::profilerPath;
-bool Pi::wantsProfiling = false;
-bool Pi::isProfiling = false;
+bool Pi::doProfileSlow = false;
+bool Pi::doProfileOne = false;
 #endif
 int Pi::statSceneTris;
 GameConfig *Pi::config;
@@ -670,7 +670,12 @@ void Pi::HandleEvents()
 
 #ifdef PIONEER_PROFILER
 						case SDLK_p: // alert it that we want to profile
-							Pi::wantsProfiling = true;
+							if (KeyState(SDLK_LSHIFT) || KeyState(SDLK_RSHIFT))
+								Pi::doProfileOne = true;
+							else {
+								Pi::doProfileSlow = !Pi::doProfileSlow;
+								printf("slow frame profiling %s\n", Pi::doProfileSlow ? "enabled" : "disabled");
+							}
 							break;
 #endif
 
@@ -997,10 +1002,6 @@ void Pi::MainLoop()
 
 #ifdef PIONEER_PROFILER
 		Profiler::reset();
-		if (Pi::wantsProfiling) {
-			Pi::wantsProfiling = false;
-			Pi::isProfiling = true;
-		}
 #endif
 
 		const Uint32 newTicks = SDL_GetTicks();
@@ -1153,10 +1154,11 @@ void Pi::MainLoop()
 		Pi::statSceneTris = 0;
 
 #ifdef PIONEER_PROFILER
-		const Uint32 testTicks = SDL_GetTicks();
-		if (Pi::isProfiling && (testTicks - newTicks) > 100 ) {
+		const Uint32 profTicks = SDL_GetTicks();
+		if (Pi::doProfileOne || (Pi::doProfileSlow && (profTicks-newTicks) > 100)) { // slow: < ~10fps
+			printf("dumping profile data\n");
 			Profiler::dumphtml(profilerPath.c_str());
-			Pi::isProfiling = false;
+			Pi::doProfileOne = false;
 		}
 #endif
 

@@ -137,8 +137,8 @@ public:
 #endif
 #if PIONEER_PROFILER
 	static std::string profilerPath;
-	static bool wantsProfiling;
-	static bool isProfiling;
+	static bool doProfileSlow;
+	static bool doProfileOne;
 #endif
 
 	static Player *player;
