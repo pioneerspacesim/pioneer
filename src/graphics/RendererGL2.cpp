@@ -383,8 +383,6 @@ bool RendererGL2::SetLights(int numlights, const Light *lights)
 		assert(m_numDirLights < 5);
 	}
 
-	PopMatrix();
-
 	return true;
 }
 

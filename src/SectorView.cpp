@@ -432,7 +432,6 @@ void SectorView::Draw3D()
 	UpdateFactionToggles();
 
 	m_renderer->SetBlendMode(BLEND_SOLID);
-	m_renderer->PopMatrix();
 }
 
 void SectorView::SetHyperspaceTarget(const SystemPath &path)
