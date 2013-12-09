@@ -990,16 +990,17 @@ void RendererGL2::PushMatrix()
 	case GL_MODELVIEW_MATRIX:
 		m_ModelViewStack[m_currentModelView+1] = m_ModelViewStack[m_currentModelView];
 		++m_currentModelView;	
+		assert(m_currentModelView<kMaxStackDepth);
 		break;
 	case GL_PROJECTION:
 	case GL_PROJECTION_MATRIX:
 		m_ModelViewStack[m_currentProjection+1] = m_ModelViewStack[m_currentProjection];
 		++m_currentProjection;	
+		assert(m_currentProjection<kMaxStackDepth);
 		break;
 	default:
 		assert(false && "invalid matrixMode set");
 	}
-	assert(m_currentProjection<kMaxStackDepth);
 }
 
 void RendererGL2::PopMatrix() 
@@ -1009,16 +1010,17 @@ void RendererGL2::PopMatrix()
 	switch(m_matrixMode) {
 	case GL_MODELVIEW:		
 	case GL_MODELVIEW_MATRIX:
+		assert(m_currentModelView);
 		--m_currentModelView;	
 		break;
 	case GL_PROJECTION:
 	case GL_PROJECTION_MATRIX:	
+		assert(m_currentProjection);
 		--m_currentProjection;	
 		break;
 	default:
 		assert(false && "invalid matrixMode set");
 	}
-	assert(m_currentProjection>=0);
 }
 
 void RendererGL2::LoadIdentity()
