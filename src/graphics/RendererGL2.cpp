@@ -992,7 +992,7 @@ void RendererGL2::SetMatrixMode(MatrixMode mm)
 void RendererGL2::PushMatrix() 
 {
 	PROFILE_SCOPED()
-	
+
 	glPushMatrix();
 	switch(m_matrixMode) {
 		case MatrixMode::MODELVIEW:
@@ -1001,7 +1001,7 @@ void RendererGL2::PushMatrix()
 			assert(m_currentModelView<kMaxStackDepth);
 			break;
 		case MatrixMode::PROJECTION:
-			m_ModelViewStack[m_currentProjection+1] = m_ModelViewStack[m_currentProjection];
+			m_ProjectionStack[m_currentProjection+1] = m_ProjectionStack[m_currentProjection];
 			++m_currentProjection;	
 			assert(m_currentProjection<kMaxStackDepth);
 			break;
