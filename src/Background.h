@@ -45,6 +45,8 @@ namespace Background
 
 		Graphics::StaticMesh *m_model;
 		Graphics::Texture* m_cubemap;
+
+		Uint32 m_numCubemaps;
 	};
 
 	class Starfield : public BackgroundElement

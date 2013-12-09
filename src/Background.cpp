@@ -3,6 +3,7 @@
 
 #include "Background.h"
 #include "Frame.h"
+#include "FileSystem.h"
 #include "Game.h"
 #include "perlin.h"
 #include "Pi.h"
@@ -21,6 +22,28 @@
 #include <iostream>
 
 using namespace Graphics;
+
+namespace
+{
+	static Uint32 GetNumSkyboxes()
+	{
+		char filename[1024];
+		snprintf(filename, sizeof(filename), "textures/cube");
+		std::vector<FileSystem::FileInfo> fileList;
+		FileSystem::gameDataFiles.ReadDirectory(filename, fileList);
+
+		char itemMask[256];
+		snprintf(itemMask, sizeof(itemMask), "ub");
+
+		Uint32 num_matching = 0;
+		for (std::vector<FileSystem::FileInfo>::const_iterator it = fileList.begin(), itEnd = fileList.end(); it!=itEnd; ++it) {
+			if (starts_with((*it).GetName(), itemMask)) {
+				++num_matching;
+			}
+		}
+		return num_matching;
+	}
+};
 
 namespace Background
 {
@@ -44,7 +67,7 @@ UniverseBox::~UniverseBox()
 void UniverseBox::Init(Graphics::Renderer *r)
 {
 	// Load cubemap
-	TextureBuilder texture_builder = TextureBuilder::Cube("textures/cube/ub0.dds");
+	TextureBuilder texture_builder = TextureBuilder::Cube("textures/cube/default.dds");
 	m_cubemap = texture_builder.CreateTexture(r);
 
 	// Create skybox geometry
@@ -99,6 +122,8 @@ void UniverseBox::Init(Graphics::Renderer *r)
 	m_material->texture0 = m_cubemap;
 	m_model->AddSurface(RefCountedPtr<Surface>(new Surface(TRIANGLES, box, m_material)));
 	SetIntensity(1.0f);
+
+	m_numCubemaps = GetNumSkyboxes();
 }
 
 void UniverseBox::Draw(Graphics::Renderer *r)
@@ -114,8 +139,8 @@ void UniverseBox::LoadCubeMap(Graphics::Renderer *r, Random* randomizer)
 	delete m_cubemap;
 	m_cubemap = nullptr;
 	
-	if(randomizer) {
-		int new_ubox_index = randomizer->Int32(0, 4);
+	if(randomizer && m_numCubemaps>0) {
+		int new_ubox_index = randomizer->Int32(0, m_numCubemaps);
 		if(new_ubox_index > 0) {
 			// Load new one
 			std::ostringstream os;
@@ -124,6 +149,11 @@ void UniverseBox::LoadCubeMap(Graphics::Renderer *r, Random* randomizer)
 			m_cubemap = texture_builder.CreateTexture(r);
 			m_material->texture0 = m_cubemap;
 		}
+	} else {
+		// Load cubemap
+		TextureBuilder texture_builder = TextureBuilder::Cube("textures/cube/default.dds");
+		m_cubemap = texture_builder.CreateTexture(r);
+		m_material->texture0 = m_cubemap;
 	}
 }
 
