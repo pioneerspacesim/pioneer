@@ -5,6 +5,8 @@
 #define _BACKGROUND_H
 
 #include "libs.h"
+#include "galaxy/SystemPath.h"
+#include "graphics/Texture.h"
 
 namespace Graphics {
 	class Renderer;
@@ -25,6 +27,24 @@ namespace Background
 
 	protected:
 		RefCountedPtr<Graphics::Material> m_material;
+	};
+
+	class UniverseBox : public BackgroundElement
+	{
+	public:
+		UniverseBox(Graphics::Renderer *r);
+		~UniverseBox();
+
+		void Draw(Graphics::Renderer *r);
+		void LoadCubeMap(Graphics::Renderer *r, Random* randomizer = nullptr);
+
+	private:
+		void Init(Graphics::Renderer *);
+		Random createRandom(Uint32 seed);
+		Random createRandom(const SystemPath& system_path);
+
+		Graphics::StaticMesh *m_model;
+		Graphics::Texture* m_cubemap;
 	};
 
 	class Starfield : public BackgroundElement
@@ -68,7 +88,7 @@ namespace Background
 		// default constructor, needs Refresh with proper seed to show starfield
 		Container(Graphics::Renderer*);
 		Container(Graphics::Renderer*, Uint32 seed);
-		void Draw(Graphics::Renderer *r, const matrix4x4d &transform) const;
+		void Draw(Graphics::Renderer *r, const matrix4x4d &transform);
 		void Refresh(Uint32 seed);
 
 		void SetIntensity(float intensity);
@@ -76,6 +96,9 @@ namespace Background
 	private:
 		MilkyWay m_milkyWay;
 		Starfield m_starField;
+		UniverseBox m_universeBox;
+		bool m_bLoadNewCubemap;
+		Uint32 m_uSeed;
 	};
 
 } //namespace Background
