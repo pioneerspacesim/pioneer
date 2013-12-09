@@ -99,10 +99,10 @@ bool Parser::checkColor(std::stringstream &ss, Color &color)
 {
 	float r, g, b;
 	ss >> r >> g >> b;
-	color.r = Clamp(r, 0.f, 1.f);
-	color.g = Clamp(g, 0.f, 1.f);
-	color.b = Clamp(b, 0.f, 1.f);
-	color.a = 1.f; //alpha comes from opacity statement
+	color.r = Clamp(r, 0.f, 1.f) * 255;
+	color.g = Clamp(g, 0.f, 1.f) * 255;
+	color.b = Clamp(b, 0.f, 1.f) * 255;
+	color.a = 255; //alpha comes from opacity statement
 	return true;
 }
 

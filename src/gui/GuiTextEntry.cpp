@@ -228,9 +228,9 @@ void TextEntry::Draw()
 		glVertex2f(0,0);
 	glEnd();
 
-	Color c = IsFocused() ? Color::WHITE : Color(0.75f,0.75f,0.75f,1.0f);
+	Color c = IsFocused() ? Color::WHITE : Color(192, 192, 192, 255);
 
-	glColor4fv(c);
+	glColor4ubv(c);
 	glBegin(GL_LINE_LOOP);
 		glVertex2f(0,0);
 		glVertex2f(size[0],0);

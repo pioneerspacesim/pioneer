@@ -365,8 +365,8 @@ bool RendererGL2::SetLights(int numlights, const Light *lights)
 			l.GetType() == Light::LIGHT_DIRECTIONAL ? 0.f : 1.f
 		};
 		glLightfv(GL_LIGHT0+i, GL_POSITION, pos);
-		glLightfv(GL_LIGHT0+i, GL_DIFFUSE, l.GetDiffuse());
-		glLightfv(GL_LIGHT0+i, GL_SPECULAR, l.GetSpecular());
+		glLightfv(GL_LIGHT0+i, GL_DIFFUSE, l.GetDiffuse().ToColor4f());
+		glLightfv(GL_LIGHT0+i, GL_SPECULAR, l.GetSpecular().ToColor4f());
 		glEnable(GL_LIGHT0+i);
 
 		if (l.GetType() == Light::LIGHT_DIRECTIONAL)
@@ -405,7 +405,7 @@ bool RendererGL2::DrawLines(int count, const vector3f *v, const Color *c, LineTy
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
 	glVertexPointer(3, GL_FLOAT, sizeof(vector3f), v);
-	glColorPointer(4, GL_FLOAT, sizeof(Color), c);
+	glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(Color), c);
 	glDrawArrays(t, 0, count);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
@@ -438,12 +438,12 @@ bool RendererGL2::DrawLines2D(int count, const vector2f *v, const Color &c, Line
 	glPushAttrib(GL_LIGHTING_BIT);
 	glDisable(GL_LIGHTING);
 
-	glColor4f(c.r, c.g, c.b, c.a);
+	glColor4ub(c.r, c.g, c.b, c.a);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(2, GL_FLOAT, sizeof(vector2f), v);
 	glDrawArrays(t, 0, count);
 	glDisableClientState(GL_VERTEX_ARRAY);
-	glColor4f(1.f, 1.f, 1.f, 1.f);
+	glColor4ub(1.f, 1.f, 1.f, 1.f);
 
 	glPopAttrib();
 
@@ -461,7 +461,7 @@ bool RendererGL2::DrawPoints(int count, const vector3f *points, const Color *col
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
 	glVertexPointer(3, GL_FLOAT, 0, points);
-	glColorPointer(4, GL_FLOAT, 0, colors);
+	glColorPointer(4, GL_UNSIGNED_BYTE, 0, colors);
 	glDrawArrays(GL_POINTS, 0, count);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
@@ -601,7 +601,7 @@ void RendererGL2::EnableClientStates(const VertexArray *v)
 		assert(! v->diffuse.empty());
 		m_clientStates.push_back(GL_COLOR_ARRAY);
 		glEnableClientState(GL_COLOR_ARRAY);
-		glColorPointer(4, GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->diffuse[0]));
+		glColorPointer(4, GL_UNSIGNED_BYTE, 0, reinterpret_cast<const GLvoid *>(&v->diffuse[0]));
 	}
 	if (v->HasAttrib(ATTRIB_NORMAL)) {
 		assert(! v->normal.empty());

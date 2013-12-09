@@ -32,7 +32,7 @@ void MeterBar::Draw()
 	Graphics::Renderer *r = Gui::Screen::GetRenderer();
 	Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
 
-	glColor4fv(m_barColor);
+	glColor4ubv(m_barColor);
 	r->Translate(METERBAR_PADDING, METERBAR_PADDING, 0.0f);
 	size[0] = m_barValue * (size[0] - 2.0f*METERBAR_PADDING);
 	size[1] = METERBAR_BAR_HEIGHT;

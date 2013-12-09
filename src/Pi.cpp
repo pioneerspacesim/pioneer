@@ -903,7 +903,7 @@ void Pi::Start()
 
 	//XXX global ambient colour hack to make explicit the old default ambient colour dependency
 	// for some models
-	Pi::renderer->SetAmbientColor(Color(0.2f, 0.2f, 0.2f, 1.f));
+	Pi::renderer->SetAmbientColor(Color(51, 51, 51, 255));
 
 	ui->Layout();
 
