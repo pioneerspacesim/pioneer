@@ -83,10 +83,19 @@ namespace Background
 		Graphics::StaticMesh *m_model;
 	};
 
+	
+
 	// contains starfield, milkyway, possibly other Background elements
 	class Container
 	{
 	public:
+		enum BackgroundDrawFlags
+		{
+			DRAW_STARS = 1<<0,
+			DRAW_MILKY = 1<<1,
+			DRAW_SKYBX = 1<<2
+		};
+
 		// default constructor, needs Refresh with proper seed to show starfield
 		Container(Graphics::Renderer*);
 		Container(Graphics::Renderer*, Uint32 seed);
@@ -94,6 +103,7 @@ namespace Background
 		void Refresh(Uint32 seed);
 
 		void SetIntensity(float intensity);
+		void SetDrawFlags(const Uint32 flags);
 
 	private:
 		MilkyWay m_milkyWay;
@@ -101,6 +111,7 @@ namespace Background
 		UniverseBox m_universeBox;
 		bool m_bLoadNewCubemap;
 		Uint32 m_uSeed;
+		Uint32 m_drawFlags;
 	};
 
 } //namespace Background
