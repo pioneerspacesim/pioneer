@@ -196,7 +196,7 @@ void ScannerWidget::Draw()
 
 	// circles and spokes
 	{
-		Graphics::ScopedMatrixPushPop smpp(m_renderer, GL_MODELVIEW);
+		Graphics::ScopedMatrixPushPop smpp(m_renderer, Graphics::MatrixMode::MODELVIEW);
 		m_renderer->Translate(m_x, m_y, 0);
 		m_renderer->Scale(m_x, m_y, 1.0f);
 		DrawRingsAndSpokes(false);

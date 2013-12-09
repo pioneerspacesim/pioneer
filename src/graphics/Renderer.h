@@ -70,6 +70,12 @@ enum BlendMode {
 	BLEND_DEST_ALPHA // XXX maybe crappy name
 };
 
+enum class MatrixMode {
+	MODELVIEW,
+	PROJECTION
+};
+
+
 // Renderer base, functions return false if
 // failed/unsupported
 class Renderer
@@ -157,11 +163,13 @@ public:
 	virtual bool ReloadShaders() { return false; }
 
 	// our own matrix stack
+	// XXX state must die
 	virtual const matrix4x4f& GetCurrentModelView() const  = 0;
 	virtual const matrix4x4f& GetCurrentProjection() const  = 0;
 	virtual void GetCurrentViewport(Sint32 *vp) const  = 0;
 
-	virtual void MatrixMode(Uint32 mm) = 0;
+	// XXX all quite GL specific. state must die!
+	virtual void SetMatrixMode(MatrixMode mm) = 0;
 	virtual void PushMatrix() = 0;
 	virtual void PopMatrix() = 0;
 	virtual void LoadIdentity() = 0;
@@ -220,21 +228,20 @@ private:
 class ScopedMatrixPushPop
 {
 public:
-	ScopedMatrixPushPop(Renderer* pRenderer, Uint32 matrixMode) : m_pRenderer(pRenderer), m_matrixMode(matrixMode) {
+	ScopedMatrixPushPop(Renderer* pRenderer, MatrixMode matrixMode) : m_pRenderer(pRenderer), m_matrixMode(matrixMode) {
 		assert(m_pRenderer);
-		assert(GL_MODELVIEW==matrixMode || GL_PROJECTION==matrixMode);
-		m_pRenderer->MatrixMode(m_matrixMode);
+		m_pRenderer->SetMatrixMode(m_matrixMode);
 		m_pRenderer->PushMatrix();
 	}
 
 	~ScopedMatrixPushPop() {
-		m_pRenderer->MatrixMode(m_matrixMode);
+		m_pRenderer->SetMatrixMode(m_matrixMode);
 		m_pRenderer->PopMatrix();
 	}
 
 private:
 	Renderer* m_pRenderer;
-	Uint32 m_matrixMode;
+	MatrixMode m_matrixMode;
 };
 
 }

@@ -405,7 +405,7 @@ void SectorView::Draw3D()
 		m_distanceLabel->SetText("");
 	}
 
-	Graphics::ScopedMatrixPushPop smpp(m_renderer, GL_MODELVIEW);
+	Graphics::ScopedMatrixPushPop smpp(m_renderer, Graphics::MatrixMode::MODELVIEW);
 
 	// units are lightyears, my friend
 	modelview.Translate(0.f, 0.f, -10.f-10.f*m_zoom);    // not zoomClamped, let us zoom out a bit beyond what we're drawing

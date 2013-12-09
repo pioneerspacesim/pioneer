@@ -131,9 +131,9 @@ void MainLoopIteration()
 	Graphics::Renderer *pRenderer = Gui::Screen::GetRenderer();
 	if(!pRenderer) return;
 
-	pRenderer->MatrixMode(GL_PROJECTION);
+	pRenderer->SetMatrixMode(Graphics::MatrixMode::PROJECTION);
 	pRenderer->LoadIdentity();
-	pRenderer->MatrixMode(GL_MODELVIEW);
+	pRenderer->SetMatrixMode(Graphics::MatrixMode::MODELVIEW);
 	pRenderer->LoadIdentity();
 
 	glClearColor(0,0,0,0);

@@ -75,7 +75,7 @@ void FaceVideoLink::Draw() {
 
 	m_quad->Draw(pRenderer, vector2f(0.0f), vector2f(size[0],size[1]));
 
-	Graphics::ScopedMatrixPushPop smpp(pRenderer, GL_MODELVIEW);
+	Graphics::ScopedMatrixPushPop smpp(pRenderer, Graphics::MatrixMode::MODELVIEW);
 	pRenderer->Translate(0.f, size[1]- size[1] * 0.16f, 0.f);
 	m_characterInfo->Draw();
 }
@@ -90,7 +90,7 @@ void FaceVideoLink::DrawMessage() {
 	Graphics::Renderer *pRenderer = Gui::Screen::GetRenderer();
 	if(!pRenderer) return;
 
-	Graphics::ScopedMatrixPushPop smpp(pRenderer, GL_MODELVIEW);
+	Graphics::ScopedMatrixPushPop smpp(pRenderer, Graphics::MatrixMode::MODELVIEW);
 	pRenderer->Translate(size[0]*0.5f-msgSize[0]*0.5f, size[1]-msgSize[1]*1.5f, 0);
 	m_message->Draw();
 }
@@ -150,7 +150,7 @@ void CharacterInfoText::Draw()
 	if(!pRenderer) return;
 
 	for (WidgetList::iterator i = m_children.begin(), itEnd = m_children.end(); i != itEnd; ++i) {
-		Graphics::ScopedMatrixPushPop smpp(pRenderer, GL_MODELVIEW);
+		Graphics::ScopedMatrixPushPop smpp(pRenderer, Graphics::MatrixMode::MODELVIEW);
 		pRenderer->Translate((*i).pos[0], (*i).pos[1], 0);
 		(*i).w->Draw();
 	}

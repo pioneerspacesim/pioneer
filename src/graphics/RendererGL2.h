@@ -91,7 +91,7 @@ public:
 			vp[i] = m_currentViewport[i];
 	}
 
-	virtual void MatrixMode(Uint32 mm);
+	virtual void SetMatrixMode(MatrixMode mm);
 	virtual void PushMatrix();
 	virtual void PopMatrix();
 	virtual void LoadIdentity();
@@ -136,7 +136,7 @@ protected:
 	matrix4x4f m_ModelViewStack[kMaxStackDepth];
 	matrix4x4f m_ProjectionStack[kMaxStackDepth];
 	Sint32 m_currentViewport[4];
-	GLuint m_matrixMode;
+	MatrixMode m_matrixMode;
 };
 
 }

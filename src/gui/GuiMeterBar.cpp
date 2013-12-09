@@ -31,7 +31,7 @@ void MeterBar::Draw()
 
 	Graphics::Renderer *pRenderer = Gui::Screen::GetRenderer();
 	if(pRenderer) {
-		Graphics::ScopedMatrixPushPop smpp(pRenderer, GL_MODELVIEW);
+		Graphics::ScopedMatrixPushPop smpp(pRenderer, Graphics::MatrixMode::MODELVIEW);
 		glColor4fv(m_barColor);
 		pRenderer->Translate(METERBAR_PADDING, METERBAR_PADDING, 0.0f);
 		size[0] = m_barValue * (size[0] - 2.0f*METERBAR_PADDING);

@@ -73,7 +73,7 @@ RendererGL2::RendererGL2(WindowSDL *window, const Graphics::Settings &vs)
 , m_activeRenderTarget(0)
 , m_currentModelView(0)
 , m_currentProjection(0)
-, m_matrixMode(GL_MODELVIEW)
+, m_matrixMode(MatrixMode::MODELVIEW)
 {
 	for(Uint32 i = 0; i < kMaxStackDepth; i++) {
 		m_ModelViewStack[i]		= matrix4x4f::Identity();
@@ -97,6 +97,8 @@ RendererGL2::RendererGL2(WindowSDL *window, const Graphics::Settings &vs)
 	glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
 	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 	glAlphaFunc(GL_GREATER, 0.5f);
+
+	glMatrixMode(GL_MODELVIEW);
 
 	SetClearColor(Color(0.f));
 	SetViewport(0, 0, m_width, m_height);
@@ -237,7 +239,7 @@ bool RendererGL2::SetTransform(const matrix4x4d &m)
 	}
 	//XXX you might still need the occasional push/pop
 	//GL2+ or ES2 renderers can forego the classic matrix stuff entirely and use uniforms
-	MatrixMode(GL_MODELVIEW);
+	SetMatrixMode(MatrixMode::MODELVIEW);
 	LoadMatrix(&temp[0]);
 	return true;
 }
@@ -247,7 +249,7 @@ bool RendererGL2::SetTransform(const matrix4x4f &m)
 	PROFILE_SCOPED()
 	//same as above
 	m_ModelViewStack[m_currentModelView] = m;
-	MatrixMode(GL_MODELVIEW);
+	SetMatrixMode(MatrixMode::MODELVIEW);
 	LoadMatrix(&m[0]);
 	return true;
 }
@@ -284,7 +286,7 @@ bool RendererGL2::SetProjection(const matrix4x4f &m)
 	PROFILE_SCOPED()
 	//same as above
 	m_ProjectionStack[m_currentProjection] = m;
-	MatrixMode(GL_PROJECTION);
+	SetMatrixMode(MatrixMode::PROJECTION);
 	LoadMatrix(&m[0]);
 	return true; 
 }
@@ -357,7 +359,7 @@ bool RendererGL2::SetLights(int numlights, const Light *lights)
 
 	//glLight depends on the current transform, but we have always
 	//relied on it being identity when setting lights.
-	Graphics::ScopedMatrixPushPop smpp(this, GL_MODELVIEW);
+	Graphics::ScopedMatrixPushPop smpp(this, MatrixMode::MODELVIEW);
 	SetTransform(matrix4x4f::Identity());
 
 	m_numLights = numlights;
@@ -848,9 +850,9 @@ RenderTarget *RendererGL2::CreateRenderTarget(const RenderTargetDesc &desc)
 // only restoring the things that have changed
 void RendererGL2::PushState()
 {
-	MatrixMode(GL_PROJECTION);
+	SetMatrixMode(MatrixMode::PROJECTION);
 	PushMatrix();
-	MatrixMode(GL_MODELVIEW);
+	SetMatrixMode(MatrixMode::MODELVIEW);
 	PushMatrix();
 	glPushAttrib(GL_ALL_ATTRIB_BITS & (~GL_POINT_BIT));
 }
@@ -858,9 +860,9 @@ void RendererGL2::PushState()
 void RendererGL2::PopState()
 {
 	glPopAttrib();
-	MatrixMode(GL_PROJECTION);
+	SetMatrixMode(MatrixMode::PROJECTION);
 	PopMatrix();
-	MatrixMode(GL_MODELVIEW);
+	SetMatrixMode(MatrixMode::MODELVIEW);
 	PopMatrix();
 }
 
@@ -970,12 +972,19 @@ bool RendererGL2::PrintDebugInfo(std::ostream &out)
 	return true;
 }
 
-void RendererGL2::MatrixMode(GLuint mm) 
+void RendererGL2::SetMatrixMode(MatrixMode mm) 
 { 
 	PROFILE_SCOPED()
 	if( mm != m_matrixMode )
 	{
-		glMatrixMode(mm);
+		switch (mm) {
+			case MatrixMode::MODELVIEW:
+				glMatrixMode(GL_MODELVIEW);
+				break;
+			case MatrixMode::PROJECTION:
+				glMatrixMode(GL_PROJECTION);
+				break;
+		}
 		m_matrixMode = mm; 
 	}
 }
@@ -986,20 +995,16 @@ void RendererGL2::PushMatrix()
 	
 	glPushMatrix();
 	switch(m_matrixMode) {
-	case GL_MODELVIEW:		
-	case GL_MODELVIEW_MATRIX:
-		m_ModelViewStack[m_currentModelView+1] = m_ModelViewStack[m_currentModelView];
-		++m_currentModelView;	
-		assert(m_currentModelView<kMaxStackDepth);
-		break;
-	case GL_PROJECTION:
-	case GL_PROJECTION_MATRIX:
-		m_ModelViewStack[m_currentProjection+1] = m_ModelViewStack[m_currentProjection];
-		++m_currentProjection;	
-		assert(m_currentProjection<kMaxStackDepth);
-		break;
-	default:
-		assert(false && "invalid matrixMode set");
+		case MatrixMode::MODELVIEW:
+			m_ModelViewStack[m_currentModelView+1] = m_ModelViewStack[m_currentModelView];
+			++m_currentModelView;	
+			assert(m_currentModelView<kMaxStackDepth);
+			break;
+		case MatrixMode::PROJECTION:
+			m_ModelViewStack[m_currentProjection+1] = m_ModelViewStack[m_currentProjection];
+			++m_currentProjection;	
+			assert(m_currentProjection<kMaxStackDepth);
+			break;
 	}
 }
 
@@ -1008,18 +1013,14 @@ void RendererGL2::PopMatrix()
 	PROFILE_SCOPED()
 	glPopMatrix();
 	switch(m_matrixMode) {
-	case GL_MODELVIEW:		
-	case GL_MODELVIEW_MATRIX:
-		assert(m_currentModelView);
-		--m_currentModelView;	
-		break;
-	case GL_PROJECTION:
-	case GL_PROJECTION_MATRIX:	
-		assert(m_currentProjection);
-		--m_currentProjection;	
-		break;
-	default:
-		assert(false && "invalid matrixMode set");
+		case MatrixMode::MODELVIEW:		
+			assert(m_currentModelView);
+			--m_currentModelView;	
+			break;
+		case MatrixMode::PROJECTION:
+			assert(m_currentProjection);
+			--m_currentProjection;	
+			break;
 	}
 }
 
@@ -1028,16 +1029,12 @@ void RendererGL2::LoadIdentity()
 	PROFILE_SCOPED()
 	glLoadIdentity();
 	switch(m_matrixMode) {
-	case GL_MODELVIEW:		
-	case GL_MODELVIEW_MATRIX:
-		m_ModelViewStack[m_currentModelView] = matrix4x4f::Identity();		
-		break;
-	case GL_PROJECTION:
-	case GL_PROJECTION_MATRIX:
-		m_ProjectionStack[m_currentProjection] = matrix4x4f::Identity();	
-		break;
-	default:
-		assert(false && "invalid matrixMode set");
+		case MatrixMode::MODELVIEW:
+			m_ModelViewStack[m_currentModelView] = matrix4x4f::Identity();		
+			break;
+		case MatrixMode::PROJECTION:
+			m_ProjectionStack[m_currentProjection] = matrix4x4f::Identity();	
+			break;
 	}
 }
 
@@ -1046,16 +1043,12 @@ void RendererGL2::LoadMatrix(const matrix4x4f &m)
 	PROFILE_SCOPED()
 	glLoadMatrixf(&m[0]);
 	switch(m_matrixMode) {
-	case GL_MODELVIEW:		
-	case GL_MODELVIEW_MATRIX:
-		m_ModelViewStack[m_currentModelView] = m;		
-		break;
-	case GL_PROJECTION:
-	case GL_PROJECTION_MATRIX:
-		m_ProjectionStack[m_currentProjection] = m;	
-		break;
-	default:
-		assert(false && "invalid matrixMode set");
+		case MatrixMode::MODELVIEW:		
+			m_ModelViewStack[m_currentModelView] = m;		
+			break;
+		case MatrixMode::PROJECTION:
+			m_ProjectionStack[m_currentProjection] = m;	
+			break;
 	}
 }
 
@@ -1064,17 +1057,13 @@ void RendererGL2::Translate( const float x, const float y, const float z )
 	PROFILE_SCOPED()
 	glTranslatef(x,y,z);
 	switch(m_matrixMode) {
-	case GL_MODELVIEW:		
-	case GL_MODELVIEW_MATRIX:
-		m_ModelViewStack[m_currentModelView].Translate(x,y,z);		
-		break;
-	case GL_PROJECTION:
-	case GL_PROJECTION_MATRIX:
-		m_ProjectionStack[m_currentProjection].Translate(x,y,z);	
-		break;
-	default:
-		assert(false && "invalid matrixMode set");
-	}
+        case MatrixMode::MODELVIEW:		
+            m_ModelViewStack[m_currentModelView].Translate(x,y,z);		
+            break;
+        case MatrixMode::PROJECTION:
+            m_ProjectionStack[m_currentProjection].Translate(x,y,z);	
+            break;
+        }
 }
 
 void RendererGL2::Scale( const float x, const float y, const float z ) 
@@ -1082,16 +1071,12 @@ void RendererGL2::Scale( const float x, const float y, const float z )
 	PROFILE_SCOPED()
 	glScalef(x,y,z);
 	switch(m_matrixMode) {
-	case GL_MODELVIEW:		
-	case GL_MODELVIEW_MATRIX:
-		m_ModelViewStack[m_currentModelView].Scale(x,y,z);		
-		break;
-	case GL_PROJECTION:
-	case GL_PROJECTION_MATRIX:
-		m_ProjectionStack[m_currentProjection].Scale(x,y,z);	
-		break;
-	default:
-		assert(false && "invalid matrixMode set");
+        case MatrixMode::MODELVIEW:		
+            m_ModelViewStack[m_currentModelView].Scale(x,y,z);		
+            break;
+        case MatrixMode::PROJECTION:
+            m_ProjectionStack[m_currentProjection].Scale(x,y,z);	
+            break;
 	}
 }
 
