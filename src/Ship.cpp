@@ -1182,7 +1182,7 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 
 		//fade based on strength
 		Sfx::shieldEffect->GetMaterial()->diffuse =
-			Color((1.0f-shield),shield,0.0,0.33f*(1.0f-shield));
+			Color((1.0f-shield)*255,shield*255,0,0.33f*(1.0f-shield)*255);
 		Sfx::shieldEffect->Draw(renderer);
 
 		renderer->SetBlendMode(Graphics::BLEND_SOLID);
@@ -1200,10 +1200,10 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 				vector3d(r1, r2, r3).Normalized()
 			));
 		}
-		Color c(0.5,0.5,1.0,1.0);
+		Color c(128,128,255,255);
 		float totalRechargeTime = GetECMRechargeTime();
 		if (totalRechargeTime >= 0.0f) {
-			c.a = m_ecmRecharge / totalRechargeTime;
+			c.a = (m_ecmRecharge / totalRechargeTime) * 255;
 		}
 
 		Sfx::ecmParticle->diffuse = c;

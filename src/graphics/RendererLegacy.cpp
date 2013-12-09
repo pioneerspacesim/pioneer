@@ -69,7 +69,7 @@ RendererLegacy::RendererLegacy(WindowSDL *window, const Graphics::Settings &vs)
 	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 	glAlphaFunc(GL_GREATER, 0.5f);
 
-	SetClearColor(Color(0.f));
+	SetClearColor(Color(0));
 	SetViewport(0, 0, m_width, m_height);
 
 	if (vs.enableDebugMessages)
@@ -161,7 +161,7 @@ bool RendererLegacy::ClearDepthBuffer()
 
 bool RendererLegacy::SetClearColor(const Color &c)
 {
-	glClearColor(c.r, c.g, c.b, c.a);
+	glClearColor(c.r/255.0f, c.g/255.0f, c.b/255.0f, c.a/255.0f);
 	return true;
 }
 
@@ -298,8 +298,8 @@ bool RendererLegacy::SetLights(int numlights, const Light *lights)
 			l.GetType() == Light::LIGHT_DIRECTIONAL ? 0.f : 1.f
 		};
 		glLightfv(GL_LIGHT0+i, GL_POSITION, pos);
-		glLightfv(GL_LIGHT0+i, GL_DIFFUSE, l.GetDiffuse());
-		glLightfv(GL_LIGHT0+i, GL_SPECULAR, l.GetSpecular());
+		glLightfv(GL_LIGHT0+i, GL_DIFFUSE, l.GetDiffuse().ToColor4f());
+		glLightfv(GL_LIGHT0+i, GL_SPECULAR, l.GetSpecular().ToColor4f());
 		glEnable(GL_LIGHT0+i);
 
 		if (l.GetType() == Light::LIGHT_DIRECTIONAL)
@@ -316,7 +316,7 @@ bool RendererLegacy::SetLights(int numlights, const Light *lights)
 
 bool RendererLegacy::SetAmbientColor(const Color &c)
 {
-	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, c);
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, c.ToColor4f());
 	m_ambient = c;
 	return true;
 }
@@ -342,7 +342,7 @@ bool RendererLegacy::DrawLines(int count, const vector3f *v, const Color *c, Lin
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
 	glVertexPointer(3, GL_FLOAT, sizeof(vector3f), v);
-	glColorPointer(4, GL_FLOAT, sizeof(Color), c);
+	glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(Color), c);
 	glDrawArrays(t, 0, count);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
@@ -362,12 +362,12 @@ bool RendererLegacy::DrawLines(int count, const vector3f *v, const Color &c, Lin
 	//XXX enable when multisampling is not available
 	//glEnable(GL_LINE_SMOOTH);
 
-	glColor4f(c.r, c.g, c.b, c.a);
+	glColor4ub(c.r, c.g, c.b, c.a);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_FLOAT, sizeof(vector3f), v);
 	glDrawArrays(t, 0, count);
 	glDisableClientState(GL_VERTEX_ARRAY);
-	glColor4f(1.f, 1.f, 1.f, 1.f);
+	glColor4ub(255, 255, 255, 255);
 
 	//glDisable(GL_LINE_SMOOTH);
 
@@ -383,12 +383,12 @@ bool RendererLegacy::DrawLines2D(int count, const vector2f *v, const Color &c, L
 	glPushAttrib(GL_LIGHTING_BIT);
 	glDisable(GL_LIGHTING);
 
-	glColor4f(c.r, c.g, c.b, c.a);
+	glColor4ub(c.r, c.g, c.b, c.a);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(2, GL_FLOAT, sizeof(vector2f), v);
 	glDrawArrays(t, 0, count);
 	glDisableClientState(GL_VERTEX_ARRAY);
-	glColor4f(1.f, 1.f, 1.f, 1.f);
+	glColor4ub(255, 255, 255, 255);
 
 	glPopAttrib();
 
@@ -405,8 +405,8 @@ bool RendererLegacy::DrawPoints(int count, const vector3f *points, const Color *
 	glPointSize(size);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
-	glVertexPointer(3, GL_FLOAT, 0, points);
-	glColorPointer(4, GL_FLOAT, 0, colors);
+	glVertexPointer(3, GL_FLOAT, sizeof(vector3f), points);
+	glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(Color), colors);
 	glDrawArrays(GL_POINTS, 0, count);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
@@ -544,7 +544,7 @@ void RendererLegacy::EnableClientStates(const VertexArray *v)
 		assert(! v->diffuse.empty());
 		m_clientStates.push_back(GL_COLOR_ARRAY);
 		glEnableClientState(GL_COLOR_ARRAY);
-		glColorPointer(4, GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->diffuse[0]));
+		glColorPointer(4, GL_UNSIGNED_BYTE, 0, reinterpret_cast<const GLvoid *>(&v->diffuse[0]));
 	}
 	if (v->HasAttrib(ATTRIB_NORMAL)) {
 		assert(! v->normal.empty());
@@ -681,7 +681,7 @@ Texture *RendererLegacy::CreateTexture(const TextureDescriptor &descriptor)
 }
 
 // XXX very heavy. in the future when all GL calls are made through the
-// renderer, we can probably do better by trackingn current state and
+// renderer, we can probably do better by tracking current state and
 // only restoring the things that have changed
 void RendererLegacy::PushState()
 {

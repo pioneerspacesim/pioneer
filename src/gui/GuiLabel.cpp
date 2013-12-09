@@ -27,7 +27,7 @@ void Label::Init(const std::string &text, TextLayout::ColourMarkupMode colourMar
 	m_layout = 0;
 	m_dlist = 0;
 	m_font = Gui::Screen::GetFont();
-	m_color = ::Color(1.0f, 1.0f, 1.0f, 1.0f);
+	m_color = ::Color(255);
 	SetText(text);
 }
 
@@ -44,7 +44,7 @@ void Label::RecalcSize()
 	ResizeRequest();
 }
 
-Label *Label::Color(float r, float g, float b)
+Label *Label::Color(Uint8 r, Uint8 g, Uint8 b)
 {
 	m_color = ::Color(r, g, b);
 	return this;

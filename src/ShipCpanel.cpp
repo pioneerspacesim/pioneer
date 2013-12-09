@@ -18,7 +18,7 @@
 #include "Game.h"
 
 // XXX duplicated in WorldView. should probably be a theme variable
-static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.8f);
+static const Color s_hudTextColor(0,255,0,204);
 
 ShipCpanel::ShipCpanel(Graphics::Renderer *r): Gui::Fixed(float(Gui::Screen::GetWidth()), 80)
 {
@@ -147,7 +147,7 @@ void ShipCpanel::InitObject()
 	comms_button->SetRenderDimensions(30, 22);
 	Add(comms_button, 98, 56);
 
-	m_clock = (new Gui::Label(""))->Color(1.0f,0.7f,0.0f);
+	m_clock = (new Gui::Label(""))->Color(255,178,0);
 	Add(m_clock, 4, 18);
 
 	m_rightButtonGroup = new Gui::RadioGroup();

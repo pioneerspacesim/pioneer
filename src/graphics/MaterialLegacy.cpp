@@ -17,15 +17,15 @@ void MaterialLegacy::Apply()
 	glPushAttrib(GL_LIGHTING_BIT | GL_ENABLE_BIT);
 
 	if (!vertexColors)
-		glColor4f(diffuse.r, diffuse.g, diffuse.b, diffuse.a);
+		glColor4ub(diffuse.r, diffuse.g, diffuse.b, diffuse.a);
 
 	if (unlit) {
 		glDisable(GL_LIGHTING);
 	} else {
 		glEnable(GL_LIGHTING);
-		glMaterialfv (GL_FRONT, GL_AMBIENT_AND_DIFFUSE, &diffuse[0]);
-		glMaterialfv (GL_FRONT, GL_SPECULAR, &specular[0]);
-		glMaterialfv (GL_FRONT, GL_EMISSION, &emissive[0]);
+		glMaterialfv (GL_FRONT, GL_AMBIENT_AND_DIFFUSE, &(diffuse.ToColor4f())[0]);
+		glMaterialfv (GL_FRONT, GL_SPECULAR, &(specular.ToColor4f())[0]);
+		glMaterialfv (GL_FRONT, GL_EMISSION, &(emissive.ToColor4f())[0]);
 		glMaterialf (GL_FRONT, GL_SHININESS, shininess);
 	}
 	if (twoSided) {
@@ -62,8 +62,8 @@ void GeoSphereSurfaceMaterialLegacy::Apply()
 	glEnable(GL_COLOR_MATERIAL);
 	glEnable(GL_NORMALIZE);
 	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
-	glMaterialfv (GL_FRONT, GL_SPECULAR, &Color::BLACK[0]);
-	glMaterialfv (GL_FRONT, GL_EMISSION, &emissive[0]);
+	glMaterialfv (GL_FRONT, GL_SPECULAR, &Color4f::BLACK[0]);
+	glMaterialfv (GL_FRONT, GL_EMISSION, &(emissive.ToColor4f())[0]);
 }
 
 void GeoSphereSurfaceMaterialLegacy::Unapply()
