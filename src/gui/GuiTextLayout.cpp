@@ -74,17 +74,17 @@ void TextLayout::Render(const float width, const Color &color) const
 	float fontScale[2];
 	Gui::Screen::GetCoords2Pixels(fontScale);
 
-	Graphics::Renderer *pRenderer = Gui::Screen::GetRenderer();
-	if(!pRenderer) return;
+	Graphics::Renderer *r = Gui::Screen::GetRenderer();
+	if(!r) return;
 	
-	const matrix4x4f &modelMatrix = pRenderer->GetCurrentModelView();
-	Graphics::Renderer::MatrixTicket ticket(pRenderer, Graphics::MatrixMode::MODELVIEW);
+	const matrix4x4f &modelMatrix = r->GetCurrentModelView();
+	Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
 	{
 		const float x = modelMatrix[12];
 		const float y = modelMatrix[13];
-		pRenderer->LoadIdentity();
-		pRenderer->Translate(floor(x/fontScale[0])*fontScale[0], floor(y/fontScale[1])*fontScale[1], 0);
-		pRenderer->Scale(fontScale[0], fontScale[1], 1);
+		r->LoadIdentity();
+		r->Translate(floor(x/fontScale[0])*fontScale[0], floor(y/fontScale[1])*fontScale[1], 0);
+		r->Scale(fontScale[0], fontScale[1], 1);
 		_RenderRaw(width / fontScale[0], color);
 	}
 }
@@ -94,10 +94,10 @@ void TextLayout::_RenderRaw(float maxWidth, const Color &color) const
 	PROFILE_SCOPED()
 	float py = 0;
 
-	Graphics::Renderer *pRenderer = Gui::Screen::GetRenderer();
-	if(!pRenderer) return;
+	Graphics::Renderer *r = Gui::Screen::GetRenderer();
+	if(!r) return;
 
-	Graphics::Renderer::MatrixTicket ticket(pRenderer, Graphics::MatrixMode::MODELVIEW);
+	Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
 
 	const float spaceWidth = m_font->GetGlyph(' ').advx;
 

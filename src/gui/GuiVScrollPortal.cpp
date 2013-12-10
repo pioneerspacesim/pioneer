@@ -127,11 +127,11 @@ void VScrollPortal::Draw()
 	float scale[2];
 	Screen::GetCoords2Pixels(scale);
 
-	Graphics::Renderer *pRenderer = Gui::Screen::GetRenderer();
-	if(pRenderer) {
-		Graphics::Renderer::MatrixTicket ticket(pRenderer, Graphics::MatrixMode::MODELVIEW);
+	Graphics::Renderer *r = Gui::Screen::GetRenderer();
+	if(r) {
+		Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
 		// scroll to whole pixel locations whatever the resolution
-		pRenderer->Translate(0, floor((-m_scrollY*toScroll)/scale[1])*scale[1], 0);
+		r->Translate(0, floor((-m_scrollY*toScroll)/scale[1])*scale[1], 0);
 		Container::Draw();
 	}
 

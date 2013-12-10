@@ -159,32 +159,32 @@ void Screen::EnterOrtho()
 {
 	PROFILE_SCOPED()
 
-	Graphics::Renderer *pRenderer = GetRenderer();
-	if(!pRenderer) return;
+	Graphics::Renderer *r = GetRenderer();
+	if(!r) return;
 
 	{
 		PROFILE_SCOPED_DESC("EnterOrtho :: replaced glGet*")
-		modelMatrix = pRenderer->GetCurrentModelView();
-		projMatrix = pRenderer->GetCurrentProjection();
-		pRenderer->GetCurrentViewport(&viewport[0]);
+		modelMatrix = r->GetCurrentModelView();
+		projMatrix = r->GetCurrentProjection();
+		r->GetCurrentViewport(&viewport[0]);
 	}
 
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	pRenderer->SetOrthographicProjection(0, width, height, 0, -1, 1);
-	pRenderer->SetTransform(matrix4x4f::Identity());
+	r->SetOrthographicProjection(0, width, height, 0, -1, 1);
+	r->SetTransform(matrix4x4f::Identity());
 }
 
 void Screen::LeaveOrtho()
 {
 	PROFILE_SCOPED()
 
-	Graphics::Renderer *pRenderer = GetRenderer();
-	if(!pRenderer) return;
+	Graphics::Renderer *r = GetRenderer();
+	if(!r) return;
 
-	pRenderer->SetProjection(projMatrix);
-	pRenderer->SetTransform(modelMatrix);
+	r->SetProjection(projMatrix);
+	r->SetTransform(modelMatrix);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_DEPTH_TEST);
 }
@@ -330,17 +330,17 @@ void Screen::RenderString(const std::string &s, float xoff, float yoff, const Co
 	PROFILE_SCOPED()
     if (!font) font = GetFont().Get();
 
-	Graphics::Renderer *pRenderer = Gui::Screen::GetRenderer();
-	if(!pRenderer) return;
+	Graphics::Renderer *r = Gui::Screen::GetRenderer();
+	if(!r) return;
 	
-	const matrix4x4f &modelMatrix_ = pRenderer->GetCurrentModelView();
-	Graphics::Renderer::MatrixTicket ticket(pRenderer, Graphics::MatrixMode::MODELVIEW);
+	const matrix4x4f &modelMatrix_ = r->GetCurrentModelView();
+	Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
 	{
 		const float x = modelMatrix_[12] + xoff;
 		const float y = modelMatrix_[13] + yoff;
-		pRenderer->LoadIdentity();
-		pRenderer->Translate(floor(x/Screen::fontScale[0])*Screen::fontScale[0], floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
-		pRenderer->Scale(Screen::fontScale[0], Screen::fontScale[1], 1);
+		r->LoadIdentity();
+		r->Translate(floor(x/Screen::fontScale[0])*Screen::fontScale[0], floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
+		r->Scale(Screen::fontScale[0], Screen::fontScale[1], 1);
 		font->RenderString(s.c_str(), 0, 0, color);
 	}
 }
@@ -350,17 +350,17 @@ void Screen::RenderMarkup(const std::string &s, const Color &color, Text::Textur
 	PROFILE_SCOPED()
     if (!font) font = GetFont().Get();
 
-	Graphics::Renderer *pRenderer = Gui::Screen::GetRenderer();
-	if(!pRenderer) return;
+	Graphics::Renderer *r = Gui::Screen::GetRenderer();
+	if(!r) return;
 	
-	const matrix4x4f &modelMatrix_ = pRenderer->GetCurrentModelView();
-	Graphics::Renderer::MatrixTicket ticket(pRenderer, Graphics::MatrixMode::MODELVIEW);
+	const matrix4x4f &modelMatrix_ = r->GetCurrentModelView();
+	Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
 	{
 		const float x = modelMatrix_[12];
 		const float y = modelMatrix_[13];
-		pRenderer->LoadIdentity();
-		pRenderer->Translate(floor(x/Screen::fontScale[0])*Screen::fontScale[0], floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
-		pRenderer->Scale(Screen::fontScale[0], Screen::fontScale[1], 1);
+		r->LoadIdentity();
+		r->Translate(floor(x/Screen::fontScale[0])*Screen::fontScale[0], floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
+		r->Scale(Screen::fontScale[0], Screen::fontScale[1], 1);
 		font->RenderMarkup(s.c_str(), 0, 0, color);
 	}
 }

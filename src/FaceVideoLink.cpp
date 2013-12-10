@@ -70,13 +70,13 @@ void FaceVideoLink::Draw() {
 		return;
 	}
 
-	Graphics::Renderer *pRenderer = Gui::Screen::GetRenderer();
-	if(!pRenderer) return;
+	Graphics::Renderer *r = Gui::Screen::GetRenderer();
+	if(!r) return;
 
-	m_quad->Draw(pRenderer, vector2f(0.0f), vector2f(size[0],size[1]));
+	m_quad->Draw(r, vector2f(0.0f), vector2f(size[0],size[1]));
 
-	Graphics::Renderer::MatrixTicket ticket(pRenderer, Graphics::MatrixMode::MODELVIEW);
-	pRenderer->Translate(0.f, size[1]- size[1] * 0.16f, 0.f);
+	Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
+	r->Translate(0.f, size[1]- size[1] * 0.16f, 0.f);
 	m_characterInfo->Draw();
 }
 
@@ -87,11 +87,11 @@ void FaceVideoLink::DrawMessage() {
 	float msgSize[2];
 	m_message->GetSize(msgSize);
 
-	Graphics::Renderer *pRenderer = Gui::Screen::GetRenderer();
-	if(!pRenderer) return;
+	Graphics::Renderer *r = Gui::Screen::GetRenderer();
+	if(!r) return;
 
-	Graphics::Renderer::MatrixTicket ticket(pRenderer, Graphics::MatrixMode::MODELVIEW);
-	pRenderer->Translate(size[0]*0.5f-msgSize[0]*0.5f, size[1]-msgSize[1]*1.5f, 0);
+	Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
+	r->Translate(size[0]*0.5f-msgSize[0]*0.5f, size[1]-msgSize[1]*1.5f, 0);
 	m_message->Draw();
 }
 
@@ -146,12 +146,12 @@ void CharacterInfoText::Draw()
 {
 	if (m_characterName.empty() && m_characterTitle.empty()) return;
 
-	Graphics::Renderer *pRenderer = Gui::Screen::GetRenderer();
-	if(!pRenderer) return;
+	Graphics::Renderer *r = Gui::Screen::GetRenderer();
+	if(!r) return;
 
 	for (WidgetList::iterator i = m_children.begin(), itEnd = m_children.end(); i != itEnd; ++i) {
-		Graphics::Renderer::MatrixTicket ticket(pRenderer, Graphics::MatrixMode::MODELVIEW);
-		pRenderer->Translate((*i).pos[0], (*i).pos[1], 0);
+		Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
+		r->Translate((*i).pos[0], (*i).pos[1], 0);
 		(*i).w->Draw();
 	}
 }

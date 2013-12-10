@@ -77,11 +77,11 @@ void ToolTip::Draw()
 		glVertex2f(0, 0);
 	glEnd();
 
-	Graphics::Renderer *pRenderer = Gui::Screen::GetRenderer();
-	if(pRenderer) {
-		Graphics::Renderer::MatrixTicket ticket(pRenderer, Graphics::MatrixMode::MODELVIEW);
+	Graphics::Renderer *r = Gui::Screen::GetRenderer();
+	if(r) {
+		Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
 		{
-			pRenderer->Translate(TOOLTIP_PADDING,0,0);
+			r->Translate(TOOLTIP_PADDING,0,0);
 			glColor4f(1,1,1,alpha);
 			m_layout->Render(size[0]-2*TOOLTIP_PADDING);
 		}

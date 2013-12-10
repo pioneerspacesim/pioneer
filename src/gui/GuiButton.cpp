@@ -129,11 +129,11 @@ void LabelButton::Draw()
 		Theme::DrawOutdent(size);
 	}
 
-	Graphics::Renderer *pRenderer = Gui::Screen::GetRenderer();
-	if(!pRenderer) return;
+	Graphics::Renderer *r = Gui::Screen::GetRenderer();
+	if(!r) return;
 
-	Graphics::Renderer::MatrixTicket ticket(pRenderer, Graphics::MatrixMode::MODELVIEW);
-	pRenderer->Translate(m_padding, m_padding*0.5, 0);
+	Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
+	r->Translate(m_padding, m_padding*0.5, 0);
 	m_label->Draw();
 }
 

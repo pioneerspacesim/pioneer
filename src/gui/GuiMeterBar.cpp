@@ -29,11 +29,11 @@ void MeterBar::Draw()
 	glColor4f(1.0f,1.0f,1.0f,.125f);
 	Gui::Theme::DrawRoundEdgedRect(size, 5.0);
 
-	Graphics::Renderer *pRenderer = Gui::Screen::GetRenderer();
-	if(pRenderer) {
-		Graphics::Renderer::MatrixTicket ticket(pRenderer, Graphics::MatrixMode::MODELVIEW);
+	Graphics::Renderer *r = Gui::Screen::GetRenderer();
+	if(r) {
+		Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
 		glColor4fv(m_barColor);
-		pRenderer->Translate(METERBAR_PADDING, METERBAR_PADDING, 0.0f);
+		r->Translate(METERBAR_PADDING, METERBAR_PADDING, 0.0f);
 		size[0] = m_barValue * (size[0] - 2.0f*METERBAR_PADDING);
 		size[1] = METERBAR_BAR_HEIGHT;
 		Gui::Theme::DrawRoundEdgedRect(size, 3.0f);

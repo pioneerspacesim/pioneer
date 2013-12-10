@@ -81,11 +81,11 @@ void Label::Draw()
 		glVertex2f(0, 0);
 	glEnd();*/
 	if (m_shadow) {
-		Graphics::Renderer *pRenderer = Gui::Screen::GetRenderer();
-		if(!pRenderer) return;
-		pRenderer->Translate(1,1,0);
+		Graphics::Renderer *r = Gui::Screen::GetRenderer();
+		if(!r) return;
+		r->Translate(1,1,0);
 		m_layout->Render(size[0], Color::BLACK);
-		pRenderer->Translate(-1,-1,0);
+		r->Translate(-1,-1,0);
 	}
 	m_layout->Render(size[0], m_color);
 }

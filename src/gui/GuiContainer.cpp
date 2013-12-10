@@ -216,15 +216,15 @@ void Container::Draw()
 		glVertex2f(0, 0);
 	glEnd();
 #endif /* GUI_DEBUG_CONTAINER */
-	Graphics::Renderer *pRenderer = Gui::Screen::GetRenderer();
-	if(!pRenderer) return;
+	Graphics::Renderer *r = Gui::Screen::GetRenderer();
+	if(!r) return;
 	for (WidgetList::iterator i = m_children.begin(), itEnd = m_children.end(); i != itEnd; ++i) {
 		if (!(*i).w->IsVisible()) continue;
 
 		PROFILE_SCOPED_RAW("Container::Draw - Child Loop")
 		
-		Graphics::Renderer::MatrixTicket ticket(pRenderer, Graphics::MatrixMode::MODELVIEW);
-		pRenderer->Translate((*i).pos[0], (*i).pos[1], 0);
+		Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
+		r->Translate((*i).pos[0], (*i).pos[1], 0);
 #ifdef GUI_DEBUG_CONTAINER
 		float csize[2];
 		(*i).w->GetSize(csize);
