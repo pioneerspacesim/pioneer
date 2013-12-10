@@ -228,15 +228,9 @@ bool RendererGL2::SetViewport(int x, int y, int width, int height)
 bool RendererGL2::SetTransform(const matrix4x4d &m)
 {
 	PROFILE_SCOPED()
-	//XXX this is not pretty but there's no standard way of converting between them.
-	matrix4x4f temp;
-	for (int i=0; i<16; ++i) {
-		temp[i] = float(m[i]);
-	}
-	//XXX you might still need the occasional push/pop
-	//GL2+ or ES2 renderers can forego the classic matrix stuff entirely and use uniforms
-	SetMatrixMode(MatrixMode::MODELVIEW);
-	LoadMatrix(&temp[0]);
+	matrix4x4f mf;
+	matrix4x4dtof(m, mf);
+	return SetTransform(mf);
 	return true;
 }
 
