@@ -20,8 +20,11 @@ const Color  Faction::BAD_FACTION_COLOUR   = Color(0.8f,0.8f,0.8f,0.50f);
 const float  Faction::FACTION_BASE_ALPHA   = 0.40f;
 const double Faction::FACTION_CURRENT_YEAR = 3200;
 
+
 typedef std::vector<Faction*> FactionList;
 typedef FactionList::iterator FactionIterator;
+typedef const std::vector<Faction*> ConstFactionList;
+typedef ConstFactionList::const_iterator ConstFactionIterator;
 typedef std::map<std::string, Faction*> FactionMap;
 typedef std::set<SystemPath>  HomeSystemSet;
 
@@ -359,7 +362,7 @@ Faction *Faction::GetFaction(const Uint32 index)
 	return s_factions[index];
 }
 
-Faction* Faction::GetFaction(const std::string factionName)
+Faction* Faction::GetFaction(const std::string& factionName)
 {
 	PROFILE_SCOPED()
 	if (s_factions_byName.find(factionName) != s_factions_byName.end()) {
@@ -381,7 +384,7 @@ const Uint32 Faction::GetNumFactions()
 	if it is, then the passed distance will also be updated to be the distance
 	from the factions homeworld to the sysPath.
 */
-const bool Faction::IsCloserAndContains(double& closestFactionDist, const Sector sec, Uint32 sysIndex)
+const bool Faction::IsCloserAndContains(double& closestFactionDist, const Sector& sec, Uint32 sysIndex)
 {
 	PROFILE_SCOPED()
 	/*	Treat factions without homeworlds as if they are of effectively infinite radius,
@@ -419,7 +422,7 @@ const bool Faction::IsCloserAndContains(double& closestFactionDist, const Sector
 	}
 }
 
-Faction* Faction::GetNearestFaction(const Sector sec, Uint32 sysIndex)
+Faction* Faction::GetNearestFaction(const Sector& sec, Uint32 sysIndex)
 {
 	PROFILE_SCOPED()
 	// firstly if this a custom StarSystem it may already have a faction assigned
@@ -427,13 +430,12 @@ Faction* Faction::GetNearestFaction(const Sector sec, Uint32 sysIndex)
 		return sec.m_systems[sysIndex].customSys->faction;
 	}
 
-	/* if it didn't, or it wasn't a custom StarStystem, then we go ahead and assign it a faction allegiance like normal below...
-	*/
+	// if it didn't, or it wasn't a custom StarStystem, then we go ahead and assign it a faction allegiance like normal below...
 	Faction*    result             = &s_no_faction;
 	double      closestFactionDist = HUGE_VAL;
-	FactionList candidates         = s_spatial_index.CandidateFactions(sec, sysIndex);
+	ConstFactionList& candidates   = s_spatial_index.CandidateFactions(sec, sysIndex);
 
-	for (FactionIterator it = candidates.begin(); it != candidates.end(); ++it) {
+	for (ConstFactionIterator it = candidates.begin(); it != candidates.end(); ++it) {
 		if ((*it)->IsCloserAndContains(closestFactionDist, sec, sysIndex)) result = *it;
 	}
 	return result;
@@ -617,7 +619,7 @@ void FactionOctsapling::PruneDuplicates(const int bx, const int by, const int bz
 	octbox[bx][by][bz].erase(std::unique( octbox[bx][by][bz].begin(), octbox[bx][by][bz].end() ), octbox[bx][by][bz].end() );
 }
 
-std::vector<Faction*> FactionOctsapling::CandidateFactions(const Sector sec, Uint32 sysIndex)
+const std::vector<Faction*>& FactionOctsapling::CandidateFactions(const Sector& sec, Uint32 sysIndex)
 {
 	PROFILE_SCOPED()
 	/* answer the factions that we've put in the same octobox cell as the one the

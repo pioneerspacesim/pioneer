@@ -6,6 +6,7 @@ December 2013
    * Internal changes
      * Remove legacy (non-shader) renderer (#2568)
      * Single frame profiler (#2541, #2569)
+     * Avoid some unnecessary string copies (#2541)
 
 November 2013
 
