@@ -160,7 +160,6 @@ void Screen::EnterOrtho()
 	PROFILE_SCOPED()
 
 	Graphics::Renderer *r = GetRenderer();
-	if(!r) return;
 
 	{
 		PROFILE_SCOPED_DESC("EnterOrtho :: replaced glGet*")
@@ -181,8 +180,6 @@ void Screen::LeaveOrtho()
 	PROFILE_SCOPED()
 
 	Graphics::Renderer *r = GetRenderer();
-	if(!r) return;
-
 	r->SetProjection(projMatrix);
 	r->SetTransform(modelMatrix);
 	glEnable(GL_LIGHTING);
@@ -331,8 +328,7 @@ void Screen::RenderString(const std::string &s, float xoff, float yoff, const Co
     if (!font) font = GetFont().Get();
 
 	Graphics::Renderer *r = Gui::Screen::GetRenderer();
-	if(!r) return;
-	
+
 	const matrix4x4f &modelMatrix_ = r->GetCurrentModelView();
 	Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
 	{
@@ -351,8 +347,7 @@ void Screen::RenderMarkup(const std::string &s, const Color &color, Text::Textur
     if (!font) font = GetFont().Get();
 
 	Graphics::Renderer *r = Gui::Screen::GetRenderer();
-	if(!r) return;
-	
+
 	const matrix4x4f &modelMatrix_ = r->GetCurrentModelView();
 	Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
 	{

@@ -217,7 +217,6 @@ void Container::Draw()
 	glEnd();
 #endif /* GUI_DEBUG_CONTAINER */
 	Graphics::Renderer *r = Gui::Screen::GetRenderer();
-	if(!r) return;
 	for (WidgetList::iterator i = m_children.begin(), itEnd = m_children.end(); i != itEnd; ++i) {
 		if (!(*i).w->IsVisible()) continue;
 

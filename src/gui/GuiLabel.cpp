@@ -82,7 +82,6 @@ void Label::Draw()
 	glEnd();*/
 	if (m_shadow) {
 		Graphics::Renderer *r = Gui::Screen::GetRenderer();
-		if(!r) return;
 		r->Translate(1,1,0);
 		m_layout->Render(size[0], Color::BLACK);
 		r->Translate(-1,-1,0);

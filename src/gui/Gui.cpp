@@ -129,7 +129,6 @@ void MainLoopIteration()
 	PROFILE_SCOPED()
 
 	Graphics::Renderer *r = Gui::Screen::GetRenderer();
-	if(!r) return;
 
 	r->SetMatrixMode(Graphics::MatrixMode::PROJECTION);
 	r->LoadIdentity();

@@ -75,8 +75,7 @@ void TextLayout::Render(const float width, const Color &color) const
 	Gui::Screen::GetCoords2Pixels(fontScale);
 
 	Graphics::Renderer *r = Gui::Screen::GetRenderer();
-	if(!r) return;
-	
+
 	const matrix4x4f &modelMatrix = r->GetCurrentModelView();
 	Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
 	{
@@ -95,8 +94,6 @@ void TextLayout::_RenderRaw(float maxWidth, const Color &color) const
 	float py = 0;
 
 	Graphics::Renderer *r = Gui::Screen::GetRenderer();
-	if(!r) return;
-
 	Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
 
 	const float spaceWidth = m_font->GetGlyph(' ').advx;

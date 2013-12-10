@@ -78,13 +78,11 @@ void ToolTip::Draw()
 	glEnd();
 
 	Graphics::Renderer *r = Gui::Screen::GetRenderer();
-	if(r) {
-		Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
-		{
-			r->Translate(TOOLTIP_PADDING,0,0);
-			glColor4f(1,1,1,alpha);
-			m_layout->Render(size[0]-2*TOOLTIP_PADDING);
-		}
+	Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
+	{
+		r->Translate(TOOLTIP_PADDING,0,0);
+		glColor4f(1,1,1,alpha);
+		m_layout->Render(size[0]-2*TOOLTIP_PADDING);
 	}
 	glBlendFunc(GL_ONE, GL_ZERO);
 	glDisable(GL_BLEND);

@@ -71,7 +71,6 @@ void FaceVideoLink::Draw() {
 	}
 
 	Graphics::Renderer *r = Gui::Screen::GetRenderer();
-	if(!r) return;
 
 	m_quad->Draw(r, vector2f(0.0f), vector2f(size[0],size[1]));
 
@@ -88,8 +87,6 @@ void FaceVideoLink::DrawMessage() {
 	m_message->GetSize(msgSize);
 
 	Graphics::Renderer *r = Gui::Screen::GetRenderer();
-	if(!r) return;
-
 	Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
 	r->Translate(size[0]*0.5f-msgSize[0]*0.5f, size[1]-msgSize[1]*1.5f, 0);
 	m_message->Draw();
@@ -147,7 +144,6 @@ void CharacterInfoText::Draw()
 	if (m_characterName.empty() && m_characterTitle.empty()) return;
 
 	Graphics::Renderer *r = Gui::Screen::GetRenderer();
-	if(!r) return;
 
 	for (WidgetList::iterator i = m_children.begin(), itEnd = m_children.end(); i != itEnd; ++i) {
 		Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
