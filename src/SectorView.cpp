@@ -981,7 +981,7 @@ void SectorView::BuildFarSector(Sector* sec, const vector3f &origin, std::vector
 	}
 }
 
-void SectorView::OnSwitchTo() 
+void SectorView::OnSwitchTo()
 {
 	m_renderer->SetViewport(0, 0, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
 

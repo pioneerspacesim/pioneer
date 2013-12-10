@@ -161,18 +161,17 @@ void Screen::EnterOrtho()
 
 	Graphics::Renderer *r = GetRenderer();
 
-	{
-		PROFILE_SCOPED_DESC("EnterOrtho :: replaced glGet*")
-		modelMatrix = r->GetCurrentModelView();
-		projMatrix = r->GetCurrentProjection();
-		r->GetCurrentViewport(&viewport[0]);
-	}
+	modelMatrix = r->GetCurrentModelView();
+	projMatrix = r->GetCurrentProjection();
+
+	r->GetCurrentViewport(&viewport[0]);
+	r->SetOrthographicProjection(0, width, height, 0, -1, 1);
+	r->SetTransform(matrix4x4f::Identity());
 
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	r->SetOrthographicProjection(0, width, height, 0, -1, 1);
-	r->SetTransform(matrix4x4f::Identity());
+
 }
 
 void Screen::LeaveOrtho()
@@ -180,8 +179,10 @@ void Screen::LeaveOrtho()
 	PROFILE_SCOPED()
 
 	Graphics::Renderer *r = GetRenderer();
+
 	r->SetProjection(projMatrix);
 	r->SetTransform(modelMatrix);
+
 	glEnable(GL_LIGHTING);
 	glEnable(GL_DEPTH_TEST);
 }
@@ -331,14 +332,15 @@ void Screen::RenderString(const std::string &s, float xoff, float yoff, const Co
 
 	const matrix4x4f &modelMatrix_ = r->GetCurrentModelView();
 	Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
-	{
-		const float x = modelMatrix_[12] + xoff;
-		const float y = modelMatrix_[13] + yoff;
-		r->LoadIdentity();
-		r->Translate(floor(x/Screen::fontScale[0])*Screen::fontScale[0], floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
-		r->Scale(Screen::fontScale[0], Screen::fontScale[1], 1);
-		font->RenderString(s.c_str(), 0, 0, color);
-	}
+
+	const float x = modelMatrix_[12] + xoff;
+	const float y = modelMatrix_[13] + yoff;
+
+	r->LoadIdentity();
+	r->Translate(floor(x/Screen::fontScale[0])*Screen::fontScale[0], floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
+	r->Scale(Screen::fontScale[0], Screen::fontScale[1], 1);
+
+	font->RenderString(s.c_str(), 0, 0, color);
 }
 
 void Screen::RenderMarkup(const std::string &s, const Color &color, Text::TextureFont *font)
@@ -350,14 +352,15 @@ void Screen::RenderMarkup(const std::string &s, const Color &color, Text::Textur
 
 	const matrix4x4f &modelMatrix_ = r->GetCurrentModelView();
 	Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
-	{
-		const float x = modelMatrix_[12];
-		const float y = modelMatrix_[13];
-		r->LoadIdentity();
-		r->Translate(floor(x/Screen::fontScale[0])*Screen::fontScale[0], floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
-		r->Scale(Screen::fontScale[0], Screen::fontScale[1], 1);
-		font->RenderMarkup(s.c_str(), 0, 0, color);
-	}
+
+	const float x = modelMatrix_[12];
+	const float y = modelMatrix_[13];
+
+	r->LoadIdentity();
+	r->Translate(floor(x/Screen::fontScale[0])*Screen::fontScale[0], floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
+	r->Scale(Screen::fontScale[0], Screen::fontScale[1], 1);
+
+	font->RenderMarkup(s.c_str(), 0, 0, color);
 }
 
 void Screen::AddShortcutWidget(Widget *w)

@@ -277,14 +277,14 @@ bool RendererGL2::SetOrthographicProjection(float xmin, float xmax, float ymin, 
 	return true;
 }
 
-bool RendererGL2::SetProjection(const matrix4x4f &m) 
-{ 
+bool RendererGL2::SetProjection(const matrix4x4f &m)
+{
 	PROFILE_SCOPED()
 	//same as above
 	m_projectionStack.top() = m;
 	SetMatrixMode(MatrixMode::PROJECTION);
 	LoadMatrix(&m[0]);
-	return true; 
+	return true;
 }
 
 bool RendererGL2::SetBlendMode(BlendMode m)
@@ -968,11 +968,10 @@ bool RendererGL2::PrintDebugInfo(std::ostream &out)
 	return true;
 }
 
-void RendererGL2::SetMatrixMode(MatrixMode mm) 
-{ 
+void RendererGL2::SetMatrixMode(MatrixMode mm)
+{
 	PROFILE_SCOPED()
-	if( mm != m_matrixMode )
-	{
+	if( mm != m_matrixMode ) {
 		switch (mm) {
 			case MatrixMode::MODELVIEW:
 				glMatrixMode(GL_MODELVIEW);
@@ -981,11 +980,11 @@ void RendererGL2::SetMatrixMode(MatrixMode mm)
 				glMatrixMode(GL_PROJECTION);
 				break;
 		}
-		m_matrixMode = mm; 
+		m_matrixMode = mm;
 	}
 }
 
-void RendererGL2::PushMatrix() 
+void RendererGL2::PushMatrix()
 {
 	PROFILE_SCOPED()
 
@@ -1000,12 +999,12 @@ void RendererGL2::PushMatrix()
 	}
 }
 
-void RendererGL2::PopMatrix() 
+void RendererGL2::PopMatrix()
 {
 	PROFILE_SCOPED()
 	glPopMatrix();
 	switch(m_matrixMode) {
-		case MatrixMode::MODELVIEW:		
+		case MatrixMode::MODELVIEW:
 			m_modelViewStack.pop();
 			assert(m_modelViewStack.size());
 			break;
@@ -1022,10 +1021,10 @@ void RendererGL2::LoadIdentity()
 	glLoadIdentity();
 	switch(m_matrixMode) {
 		case MatrixMode::MODELVIEW:
-			m_modelViewStack.top() = matrix4x4f::Identity();		
+			m_modelViewStack.top() = matrix4x4f::Identity();
 			break;
 		case MatrixMode::PROJECTION:
-			m_projectionStack.top() = matrix4x4f::Identity();	
+			m_projectionStack.top() = matrix4x4f::Identity();
 			break;
 	}
 }
@@ -1035,7 +1034,7 @@ void RendererGL2::LoadMatrix(const matrix4x4f &m)
 	PROFILE_SCOPED()
 	glLoadMatrixf(&m[0]);
 	switch(m_matrixMode) {
-		case MatrixMode::MODELVIEW:		
+		case MatrixMode::MODELVIEW:
 			m_modelViewStack.top() = m;
 			break;
 		case MatrixMode::PROJECTION:
@@ -1044,31 +1043,31 @@ void RendererGL2::LoadMatrix(const matrix4x4f &m)
 	}
 }
 
-void RendererGL2::Translate( const float x, const float y, const float z ) 
+void RendererGL2::Translate( const float x, const float y, const float z )
 {
 	PROFILE_SCOPED()
 	glTranslatef(x,y,z);
 	switch(m_matrixMode) {
-        case MatrixMode::MODELVIEW:		
+		case MatrixMode::MODELVIEW:
 			m_modelViewStack.top().Translate(x,y,z);
-            break;
-        case MatrixMode::PROJECTION:
+			break;
+		case MatrixMode::PROJECTION:
 			m_projectionStack.top().Translate(x,y,z);
-            break;
-        }
+			break;
+	}
 }
 
-void RendererGL2::Scale( const float x, const float y, const float z ) 
+void RendererGL2::Scale( const float x, const float y, const float z )
 {
 	PROFILE_SCOPED()
 	glScalef(x,y,z);
 	switch(m_matrixMode) {
-        case MatrixMode::MODELVIEW:		
+		case MatrixMode::MODELVIEW:
 			m_modelViewStack.top().Scale(x,y,z);
-            break;
-        case MatrixMode::PROJECTION:
+			break;
+		case MatrixMode::PROJECTION:
 			m_modelViewStack.top().Scale(x,y,z);
-            break;
+			break;
 	}
 }
 

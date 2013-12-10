@@ -221,7 +221,7 @@ void Container::Draw()
 		if (!(*i).w->IsVisible()) continue;
 
 		PROFILE_SCOPED_RAW("Container::Draw - Child Loop")
-		
+
 		Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
 		r->Translate((*i).pos[0], (*i).pos[1], 0);
 #ifdef GUI_DEBUG_CONTAINER
