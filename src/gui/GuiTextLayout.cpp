@@ -78,7 +78,7 @@ void TextLayout::Render(const float width, const Color &color) const
 	if(!pRenderer) return;
 	
 	const matrix4x4f &modelMatrix = pRenderer->GetCurrentModelView();
-	Graphics::ScopedMatrixPushPop smpp(pRenderer, Graphics::MatrixMode::MODELVIEW);
+	Graphics::Renderer::MatrixTicket ticket(pRenderer, Graphics::MatrixMode::MODELVIEW);
 	{
 		const float x = modelMatrix[12];
 		const float y = modelMatrix[13];
@@ -97,7 +97,7 @@ void TextLayout::_RenderRaw(float maxWidth, const Color &color) const
 	Graphics::Renderer *pRenderer = Gui::Screen::GetRenderer();
 	if(!pRenderer) return;
 
-	Graphics::ScopedMatrixPushPop smpp(pRenderer, Graphics::MatrixMode::MODELVIEW);
+	Graphics::Renderer::MatrixTicket ticket(pRenderer, Graphics::MatrixMode::MODELVIEW);
 
 	const float spaceWidth = m_font->GetGlyph(' ').advx;
 

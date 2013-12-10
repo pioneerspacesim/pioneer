@@ -355,7 +355,7 @@ bool RendererGL2::SetLights(int numlights, const Light *lights)
 
 	//glLight depends on the current transform, but we have always
 	//relied on it being identity when setting lights.
-	Graphics::ScopedMatrixPushPop smpp(this, MatrixMode::MODELVIEW);
+	Graphics::Renderer::MatrixTicket ticket(this, MatrixMode::MODELVIEW);
 	SetTransform(matrix4x4f::Identity());
 
 	m_numLights = numlights;

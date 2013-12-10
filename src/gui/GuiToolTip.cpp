@@ -79,7 +79,7 @@ void ToolTip::Draw()
 
 	Graphics::Renderer *pRenderer = Gui::Screen::GetRenderer();
 	if(pRenderer) {
-		Graphics::ScopedMatrixPushPop smpp(pRenderer, Graphics::MatrixMode::MODELVIEW);
+		Graphics::Renderer::MatrixTicket ticket(pRenderer, Graphics::MatrixMode::MODELVIEW);
 		{
 			pRenderer->Translate(TOOLTIP_PADDING,0,0);
 			glColor4f(1,1,1,alpha);

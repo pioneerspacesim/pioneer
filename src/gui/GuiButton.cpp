@@ -132,7 +132,7 @@ void LabelButton::Draw()
 	Graphics::Renderer *pRenderer = Gui::Screen::GetRenderer();
 	if(!pRenderer) return;
 
-	Graphics::ScopedMatrixPushPop smpp(pRenderer, Graphics::MatrixMode::MODELVIEW);
+	Graphics::Renderer::MatrixTicket ticket(pRenderer, Graphics::MatrixMode::MODELVIEW);
 	pRenderer->Translate(m_padding, m_padding*0.5, 0);
 	m_label->Draw();
 }

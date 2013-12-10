@@ -179,6 +179,7 @@ public:
 
 	// take a ticket representing the current renderer state. when the ticket
 	// is deleted, the renderer state is restored
+	// XXX state must die
 	class StateTicket {
 	public:
 		StateTicket(Renderer *r) : m_renderer(r) { m_renderer->PushState(); }
@@ -187,6 +188,26 @@ public:
 		StateTicket(const StateTicket&);
 		StateTicket &operator=(const StateTicket&);
 		Renderer *m_renderer;
+	};
+
+	// take a ticket representing a single state matrix. when the ticket is
+	// deleted, the previous matrix state is restored
+	// XXX state must die
+	class MatrixTicket {
+	public:
+		MatrixTicket(Renderer *r, MatrixMode m) : m_renderer(r), m_matrixMode(m) {
+			m_renderer->SetMatrixMode(m_matrixMode);
+			m_renderer->PushMatrix();
+		}
+		virtual ~MatrixTicket() {
+			m_renderer->SetMatrixMode(m_matrixMode);
+			m_renderer->PopMatrix();
+		}
+	private:
+		MatrixTicket(const MatrixTicket&);
+		MatrixTicket &operator=(const MatrixTicket&);
+		Renderer *m_renderer;
+		MatrixMode m_matrixMode;
 	};
 
 protected:
@@ -223,25 +244,6 @@ public:
 
 private:
 	std::unique_ptr<RenderInfo> m_renderInfo;
-};
-
-class ScopedMatrixPushPop
-{
-public:
-	ScopedMatrixPushPop(Renderer* pRenderer, MatrixMode matrixMode) : m_pRenderer(pRenderer), m_matrixMode(matrixMode) {
-		assert(m_pRenderer);
-		m_pRenderer->SetMatrixMode(m_matrixMode);
-		m_pRenderer->PushMatrix();
-	}
-
-	~ScopedMatrixPushPop() {
-		m_pRenderer->SetMatrixMode(m_matrixMode);
-		m_pRenderer->PopMatrix();
-	}
-
-private:
-	Renderer* m_pRenderer;
-	MatrixMode m_matrixMode;
 };
 
 }

@@ -334,7 +334,7 @@ void Screen::RenderString(const std::string &s, float xoff, float yoff, const Co
 	if(!pRenderer) return;
 	
 	const matrix4x4f &modelMatrix_ = pRenderer->GetCurrentModelView();
-	Graphics::ScopedMatrixPushPop smpp(pRenderer, Graphics::MatrixMode::MODELVIEW);
+	Graphics::Renderer::MatrixTicket ticket(pRenderer, Graphics::MatrixMode::MODELVIEW);
 	{
 		const float x = modelMatrix_[12] + xoff;
 		const float y = modelMatrix_[13] + yoff;
@@ -354,7 +354,7 @@ void Screen::RenderMarkup(const std::string &s, const Color &color, Text::Textur
 	if(!pRenderer) return;
 	
 	const matrix4x4f &modelMatrix_ = pRenderer->GetCurrentModelView();
-	Graphics::ScopedMatrixPushPop smpp(pRenderer, Graphics::MatrixMode::MODELVIEW);
+	Graphics::Renderer::MatrixTicket ticket(pRenderer, Graphics::MatrixMode::MODELVIEW);
 	{
 		const float x = modelMatrix_[12];
 		const float y = modelMatrix_[13];
