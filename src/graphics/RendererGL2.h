@@ -12,6 +12,7 @@
  *  - get rid of built-in glMaterial, glMatrix use
  */
 #include "Renderer.h"
+#include <stack>
 
 namespace Graphics {
 
@@ -84,8 +85,8 @@ public:
 
 	virtual bool PrintDebugInfo(std::ostream &out);
 
-	virtual const matrix4x4f& GetCurrentModelView() const { return m_ModelViewStack[m_currentModelView]; }
-	virtual const matrix4x4f& GetCurrentProjection() const { return m_ProjectionStack[m_currentProjection]; }
+	virtual const matrix4x4f& GetCurrentModelView() const { return m_modelViewStack.top(); }
+	virtual const matrix4x4f& GetCurrentProjection() const { return m_projectionStack.top(); }
 	virtual void GetCurrentViewport(Sint32 *vp) const {
 		for(int i=0; i<4; i++)
 			vp[i] = m_currentViewport[i];
@@ -130,11 +131,8 @@ protected:
 	float m_invLogZfarPlus1;
 	GL2::RenderTarget *m_activeRenderTarget;
 
-	static const Uint32 kMaxStackDepth = 128;
-	Uint32 m_currentModelView;
-	Uint32 m_currentProjection;
-	matrix4x4f m_ModelViewStack[kMaxStackDepth];
-	matrix4x4f m_ProjectionStack[kMaxStackDepth];
+	std::stack<matrix4x4f> m_modelViewStack;
+	std::stack<matrix4x4f> m_projectionStack;
 	Sint32 m_currentViewport[4];
 	MatrixMode m_matrixMode;
 };

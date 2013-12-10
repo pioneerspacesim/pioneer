@@ -71,14 +71,8 @@ RendererGL2::RendererGL2(WindowSDL *window, const Graphics::Settings &vs)
 , m_useCompressedTextures(false)
 , m_invLogZfarPlus1(0.f)
 , m_activeRenderTarget(0)
-, m_currentModelView(0)
-, m_currentProjection(0)
 , m_matrixMode(MatrixMode::MODELVIEW)
 {
-	for(Uint32 i = 0; i < kMaxStackDepth; i++) {
-		m_ModelViewStack[i]		= matrix4x4f::Identity();
-		m_ProjectionStack[i]	= matrix4x4f::Identity();
-	}
 	for(Uint32 i = 0; i < 4; i++) {
 		m_currentViewport[i] = 0;
 	}
@@ -99,6 +93,8 @@ RendererGL2::RendererGL2(WindowSDL *window, const Graphics::Settings &vs)
 	glAlphaFunc(GL_GREATER, 0.5f);
 
 	glMatrixMode(GL_MODELVIEW);
+	m_modelViewStack.push(matrix4x4f::Identity());
+	m_projectionStack.push(matrix4x4f::Identity());
 
 	SetClearColor(Color(0.f));
 	SetViewport(0, 0, m_width, m_height);
@@ -248,7 +244,7 @@ bool RendererGL2::SetTransform(const matrix4x4f &m)
 {
 	PROFILE_SCOPED()
 	//same as above
-	m_ModelViewStack[m_currentModelView] = m;
+	m_modelViewStack.top() = m;
 	SetMatrixMode(MatrixMode::MODELVIEW);
 	LoadMatrix(&m[0]);
 	return true;
@@ -285,7 +281,7 @@ bool RendererGL2::SetProjection(const matrix4x4f &m)
 { 
 	PROFILE_SCOPED()
 	//same as above
-	m_ProjectionStack[m_currentProjection] = m;
+	m_projectionStack.top() = m;
 	SetMatrixMode(MatrixMode::PROJECTION);
 	LoadMatrix(&m[0]);
 	return true; 
@@ -996,14 +992,10 @@ void RendererGL2::PushMatrix()
 	glPushMatrix();
 	switch(m_matrixMode) {
 		case MatrixMode::MODELVIEW:
-			m_ModelViewStack[m_currentModelView+1] = m_ModelViewStack[m_currentModelView];
-			++m_currentModelView;	
-			assert(m_currentModelView<kMaxStackDepth);
+			m_modelViewStack.push(m_modelViewStack.top());
 			break;
 		case MatrixMode::PROJECTION:
-			m_ProjectionStack[m_currentProjection+1] = m_ProjectionStack[m_currentProjection];
-			++m_currentProjection;	
-			assert(m_currentProjection<kMaxStackDepth);
+			m_projectionStack.push(m_projectionStack.top());
 			break;
 	}
 }
@@ -1014,12 +1006,12 @@ void RendererGL2::PopMatrix()
 	glPopMatrix();
 	switch(m_matrixMode) {
 		case MatrixMode::MODELVIEW:		
-			assert(m_currentModelView);
-			--m_currentModelView;	
+			m_modelViewStack.pop();
+			assert(m_modelViewStack.size());
 			break;
 		case MatrixMode::PROJECTION:
-			assert(m_currentProjection);
-			--m_currentProjection;	
+			m_projectionStack.pop();
+			assert(m_projectionStack.size());
 			break;
 	}
 }
@@ -1030,10 +1022,10 @@ void RendererGL2::LoadIdentity()
 	glLoadIdentity();
 	switch(m_matrixMode) {
 		case MatrixMode::MODELVIEW:
-			m_ModelViewStack[m_currentModelView] = matrix4x4f::Identity();		
+			m_modelViewStack.top() = matrix4x4f::Identity();		
 			break;
 		case MatrixMode::PROJECTION:
-			m_ProjectionStack[m_currentProjection] = matrix4x4f::Identity();	
+			m_projectionStack.top() = matrix4x4f::Identity();	
 			break;
 	}
 }
@@ -1044,10 +1036,10 @@ void RendererGL2::LoadMatrix(const matrix4x4f &m)
 	glLoadMatrixf(&m[0]);
 	switch(m_matrixMode) {
 		case MatrixMode::MODELVIEW:		
-			m_ModelViewStack[m_currentModelView] = m;		
+			m_modelViewStack.top() = m;
 			break;
 		case MatrixMode::PROJECTION:
-			m_ProjectionStack[m_currentProjection] = m;	
+			m_projectionStack.top() = m;
 			break;
 	}
 }
@@ -1058,10 +1050,10 @@ void RendererGL2::Translate( const float x, const float y, const float z )
 	glTranslatef(x,y,z);
 	switch(m_matrixMode) {
         case MatrixMode::MODELVIEW:		
-            m_ModelViewStack[m_currentModelView].Translate(x,y,z);		
+			m_modelViewStack.top().Translate(x,y,z);
             break;
         case MatrixMode::PROJECTION:
-            m_ProjectionStack[m_currentProjection].Translate(x,y,z);	
+			m_projectionStack.top().Translate(x,y,z);
             break;
         }
 }
@@ -1072,10 +1064,10 @@ void RendererGL2::Scale( const float x, const float y, const float z )
 	glScalef(x,y,z);
 	switch(m_matrixMode) {
         case MatrixMode::MODELVIEW:		
-            m_ModelViewStack[m_currentModelView].Scale(x,y,z);		
+			m_modelViewStack.top().Scale(x,y,z);
             break;
         case MatrixMode::PROJECTION:
-            m_ProjectionStack[m_currentProjection].Scale(x,y,z);	
+			m_modelViewStack.top().Scale(x,y,z);
             break;
 	}
 }
