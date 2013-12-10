@@ -9,7 +9,7 @@
 
 #include "GuiWidget.h"
 #include <list>
-#include <SDL2/SDL_stdinc.h>
+#include <SDL_stdinc.h>
 
 namespace Gui {
 	class Container: public Widget {

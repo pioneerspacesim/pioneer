@@ -4,7 +4,7 @@
 #ifndef _COLOR_H
 #define _COLOR_H
 
-#include <SDL2/SDL_stdinc.h>
+#include <SDL_stdinc.h>
 
 struct lua_State;
 

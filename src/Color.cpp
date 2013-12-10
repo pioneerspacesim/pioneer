@@ -3,7 +3,7 @@
 
 #include "Color.h"
 #include "LuaUtils.h"
-#include <SDL2/SDL_stdinc.h>
+#include <SDL_stdinc.h>
 
 const Color4f Color4f::BLACK  = Color4f(0.0f,0.0f,0.0f,1.0f);
 const Color4f Color4f::WHITE  = Color4f(1.0f,1.0f,1.0f,1.0f);

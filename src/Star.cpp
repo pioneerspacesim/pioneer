@@ -6,7 +6,7 @@
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
 #include "gui/Gui.h"
-#include <SDL2/SDL_stdinc.h>
+#include <SDL_stdinc.h>
 
 using namespace Graphics;
 

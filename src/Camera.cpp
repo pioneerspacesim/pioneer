@@ -15,7 +15,7 @@
 #include "graphics/VertexArray.h"
 #include "graphics/Material.h"
 
-#include <SDL2/SDL_stdinc.h>
+#include <SDL_stdinc.h>
 
 using namespace Graphics;
 

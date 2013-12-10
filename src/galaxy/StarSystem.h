@@ -14,7 +14,7 @@
 #include "galaxy/SystemPath.h"
 #include "Orbit.h"
 #include "gameconsts.h"
-#include <SDL2/SDL_stdinc.h>
+#include <SDL_stdinc.h>
 
 class CustomSystemBody;
 class CustomSystem;
