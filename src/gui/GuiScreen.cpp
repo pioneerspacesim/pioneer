@@ -122,13 +122,13 @@ bool Screen::Project(const vector3d &in, vector3d &out)
 	const float * const M = modelMatrix.Data();
 	const float * const P = projMatrix.Data();
 
-	const float vcam[4] = { // camera space
+	const double vcam[4] = { // camera space
 		in.x*M[0] + in.y*M[4] + in.z*M[ 8] + M[12],
 		in.x*M[1] + in.y*M[5] + in.z*M[ 9] + M[13],
 		in.x*M[2] + in.y*M[6] + in.z*M[10] + M[14],
 		in.x*M[3] + in.y*M[7] + in.z*M[11] + M[15]
 	};
-	const float vclip[4] = { // clip space
+	const double vclip[4] = { // clip space
 		vcam[0]*P[0] + vcam[1]*P[4] + vcam[2]*P[ 8] + vcam[3]*P[12],
 		vcam[0]*P[1] + vcam[1]*P[5] + vcam[2]*P[ 9] + vcam[3]*P[13],
 		vcam[0]*P[2] + vcam[1]*P[6] + vcam[2]*P[10] + vcam[3]*P[14],
@@ -137,9 +137,9 @@ bool Screen::Project(const vector3d &in, vector3d &out)
 
 	if (is_zero_exact(vclip[3])) { return false; }
 
-	const float w = vclip[3];
+	const double w = vclip[3];
 
-	const float v[3] = {
+	const double v[3] = {
 		(vclip[0] / w) * 0.5 + 0.5,
 		(vclip[1] / w) * 0.5 + 0.5,
 		(vclip[2] / w) * 0.5 + 0.5
