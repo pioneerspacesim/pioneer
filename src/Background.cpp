@@ -211,6 +211,7 @@ void Container::Refresh(Uint32 seed)
 
 void Container::Draw(Graphics::Renderer *renderer, const matrix4x4d &transform) const
 {
+	PROFILE_SCOPED()
 	//XXX not really const - renderer can modify the buffers
 	renderer->SetBlendMode(BLEND_SOLID);
 	renderer->SetDepthTest(false);
@@ -225,6 +226,7 @@ void Container::Draw(Graphics::Renderer *renderer, const matrix4x4d &transform) 
 
 void Container::SetIntensity(float intensity)
 {
+	PROFILE_SCOPED()
 	m_starField.SetIntensity(intensity);
 	m_milkyWay.SetIntensity(intensity);
 }

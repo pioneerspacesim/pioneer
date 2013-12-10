@@ -70,6 +70,7 @@ void Label::SetText(const std::string &text)
 
 void Label::Draw()
 {
+	PROFILE_SCOPED()
 	if (!m_layout) UpdateLayout();
 	float size[2]; GetSize(size);
 /*	glColor3f(1,0,0);

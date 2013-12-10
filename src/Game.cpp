@@ -235,6 +235,7 @@ void Game::Serialize(Serializer::Writer &wr)
 
 void Game::TimeStep(float step)
 {
+	PROFILE_SCOPED()
 	m_time += step;			// otherwise planets lag time accel changes by a frame
 
 	m_space->TimeStep(step);
@@ -263,6 +264,7 @@ void Game::TimeStep(float step)
 
 bool Game::UpdateTimeAccel()
 {
+	PROFILE_SCOPED()
 	// don't modify the timeaccel if the game is paused
 	if (m_requestedTimeAccel == Game::TIMEACCEL_PAUSED) {
 		SetTimeAccel(Game::TIMEACCEL_PAUSED);
@@ -355,6 +357,7 @@ double Game::GetHyperspaceArrivalProbability() const
 
 void Game::SwitchToHyperspace()
 {
+	PROFILE_SCOPED()
 	// remember where we came from so we can properly place the player on exit
 	m_hyperspaceSource = m_space->GetStarSystem()->GetPath();
 
@@ -424,6 +427,7 @@ void Game::SwitchToHyperspace()
 
 void Game::SwitchToNormalSpace()
 {
+	PROFILE_SCOPED()
 	// remove the player from hyperspace
 	m_space->RemoveBody(m_player.get());
 

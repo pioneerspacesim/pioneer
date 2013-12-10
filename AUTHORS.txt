@@ -124,6 +124,10 @@ Pioneer includes the following third-party software:
   Copyright (c) 2007-2010 Baptiste Lepilleur
   Licensed under the MIT licence (see contrib/json/json.h)
 
+  High Performance C++ Profiler
+  https://code.google.com/p/high-performance-cplusplus-profiler/
+  Licensed under the MIT license
+
   Titillium Text font
   Copyright (C) 2007-2009 Academia di Belle Arte di Urbino - Campivisivi
   Licensed under the SIL Open Font Licence v1.1 (see licenses/SIL-1.1.txt)

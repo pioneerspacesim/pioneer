@@ -113,6 +113,7 @@ bool VScrollPortal::OnMouseMotion(MouseMotionEvent *e)
 
 void VScrollPortal::Draw()
 {
+	PROFILE_SCOPED()
 	SetScissor(true);
 
 	float size[2];

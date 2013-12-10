@@ -20,6 +20,7 @@ MeterBar::MeterBar(float width, const char *label, const ::Color &graphCol)
 
 void MeterBar::Draw()
 {
+	PROFILE_SCOPED()
 	float size[2];
 	GetSize(size);
 

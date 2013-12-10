@@ -117,6 +117,7 @@ void Screen::ShowBadError(const char *msg)
 
 bool Screen::Project(const vector3d &in, vector3d &out)
 {
+	PROFILE_SCOPED()
 	// implements gluProject (see the OpenGL documentation or the Mesa implementation of gluProject)
 	const double * const M = modelMatrix;
 	const double * const P = projMatrix;
@@ -184,6 +185,7 @@ void Screen::LeaveOrtho()
 
 void Screen::Draw()
 {
+	PROFILE_SCOPED()
 	assert(Screen::initted);
 	EnterOrtho();
 	baseContainer->Draw();
@@ -192,6 +194,7 @@ void Screen::Draw()
 
 bool Screen::IsBaseWidget(const Widget *w)
 {
+	PROFILE_SCOPED()
 	return w == static_cast<const Widget*>(baseContainer);
 }
 
@@ -318,6 +321,7 @@ int Screen::PickCharacterInString(const std::string &s, float x, float y, Text::
 
 void Screen::RenderString(const std::string &s, float xoff, float yoff, const Color &color, Text::TextureFont *font)
 {
+	PROFILE_SCOPED()
     if (!font) font = GetFont().Get();
 
 	GLdouble modelMatrix_[16];
@@ -335,6 +339,7 @@ void Screen::RenderString(const std::string &s, float xoff, float yoff, const Co
 
 void Screen::RenderMarkup(const std::string &s, const Color &color, Text::TextureFont *font)
 {
+	PROFILE_SCOPED()
     if (!font) font = GetFont().Get();
 
 	GLdouble modelMatrix_[16];

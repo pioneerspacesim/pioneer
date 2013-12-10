@@ -422,6 +422,7 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 
 void SystemInfoView::Draw3D()
 {
+	PROFILE_SCOPED()
 	m_renderer->SetTransform(matrix4x4f::Identity());
 	m_renderer->ClearScreen();
 }
