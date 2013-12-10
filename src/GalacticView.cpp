@@ -100,6 +100,7 @@ void GalacticView::PutLabels(vector3d offset)
 
 void GalacticView::Draw3D()
 {
+	PROFILE_SCOPED()
 	vector3f pos = Pi::sectorView->GetPosition();
 	float offset_x = (pos.x*Sector::SIZE + Galaxy::SOL_OFFSET_X)/Galaxy::GALAXY_RADIUS;
 	float offset_y = (-pos.y*Sector::SIZE + Galaxy::SOL_OFFSET_Y)/Galaxy::GALAXY_RADIUS;

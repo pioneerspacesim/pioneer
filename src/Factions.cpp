@@ -354,12 +354,14 @@ void Faction::Uninit()
 
 Faction *Faction::GetFaction(const Uint32 index)
 {
+	PROFILE_SCOPED()
 	assert( index < s_factions.size() );
 	return s_factions[index];
 }
 
 Faction* Faction::GetFaction(const std::string factionName)
 {
+	PROFILE_SCOPED()
 	if (s_factions_byName.find(factionName) != s_factions_byName.end()) {
 		return s_factions_byName[factionName];
 	} else {
@@ -369,6 +371,7 @@ Faction* Faction::GetFaction(const std::string factionName)
 
 const Uint32 Faction::GetNumFactions()
 {
+	PROFILE_SCOPED()
 	return s_factions.size();
 }
 
@@ -380,6 +383,7 @@ const Uint32 Faction::GetNumFactions()
 */
 const bool Faction::IsCloserAndContains(double& closestFactionDist, const Sector sec, Uint32 sysIndex)
 {
+	PROFILE_SCOPED()
 	/*	Treat factions without homeworlds as if they are of effectively infinite radius,
 		so every world is potentially within their borders, but also treat them as if
 		they had a homeworld that was infinitely far away, so every other faction has
@@ -417,8 +421,8 @@ const bool Faction::IsCloserAndContains(double& closestFactionDist, const Sector
 
 Faction* Faction::GetNearestFaction(const Sector sec, Uint32 sysIndex)
 {
-	/* firstly if this a custom StarSystem it may already have a faction assigned
-	*/
+	PROFILE_SCOPED()
+	// firstly if this a custom StarSystem it may already have a faction assigned
 	if (sec.m_systems[sysIndex].customSys && sec.m_systems[sysIndex].customSys->faction) {
 		return sec.m_systems[sysIndex].customSys->faction;
 	}
@@ -437,11 +441,13 @@ Faction* Faction::GetNearestFaction(const Sector sec, Uint32 sysIndex)
 
 bool Faction::IsHomeSystem(const SystemPath& sysPath)
 {
+	PROFILE_SCOPED()
 	return s_homesystems.find(sysPath.SystemOnly()) != s_homesystems.end();
 }
 
 const Color Faction::AdjustedColour(fixed population, bool inRange)
 {
+	PROFILE_SCOPED()
 	Color result;
 	result   = population == 0 ? BAD_FACTION_COLOUR : colour;
 	result.a = population > 0  ? FACTION_BASE_ALPHA + (M_E + (logf(population.ToFloat() / 1.25))) / ((2 * M_E) + FACTION_BASE_ALPHA) : FACTION_BASE_ALPHA;
@@ -451,6 +457,7 @@ const Color Faction::AdjustedColour(fixed population, bool inRange)
 
 const Polit::GovType Faction::PickGovType(Random &rand) const
 {
+	PROFILE_SCOPED()
 	if( !govtype_weights.empty()) {
 		// if we roll a number between one and the total weighting...
 		Sint32 roll = rand.Int32(1, govtype_weights_total);
@@ -477,6 +484,7 @@ const Polit::GovType Faction::PickGovType(Random &rand) const
 */
 void Faction::SetBestFitHomeworld(Sint32 x, Sint32 y, Sint32 z, Sint32 si, Uint32 bi, Sint32 axisChange)
 {
+	PROFILE_SCOPED()
 	// search for a home system until we either find one sutiable, hit one of the axes,
 	// or hit the edge of inhabited space
 	Uint32 i = 0;
@@ -514,6 +522,7 @@ Faction::Faction() :
 	colour(BAD_FACTION_COLOUR),
 	m_homesector(0)
 {
+	PROFILE_SCOPED()
 	govtype_weights_total = 0;
 }
 
@@ -526,6 +535,7 @@ Faction::~Faction()
 
 void FactionOctsapling::Add(Faction* faction)
 {
+	PROFILE_SCOPED()
 	/*  The general principle here is to put the faction in every octbox cell that a system
 	    that is a member of that faction could be in. This should let us cut the number
 		of factions that have to be checked by GetNearestFaction, by eliminating right off
@@ -602,12 +612,14 @@ void FactionOctsapling::Add(Faction* faction)
 
 void FactionOctsapling::PruneDuplicates(const int bx, const int by, const int bz)
 {
+	PROFILE_SCOPED()
 	FactionList vec = octbox[bx][by][bz];
 	octbox[bx][by][bz].erase(std::unique( octbox[bx][by][bz].begin(), octbox[bx][by][bz].end() ), octbox[bx][by][bz].end() );
 }
 
 std::vector<Faction*> FactionOctsapling::CandidateFactions(const Sector sec, Uint32 sysIndex)
 {
+	PROFILE_SCOPED()
 	/* answer the factions that we've put in the same octobox cell as the one the
 	   system would go in. This part happens every time we do GetNearest faction
 	   so *is* performance criticale.e

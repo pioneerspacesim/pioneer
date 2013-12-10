@@ -203,6 +203,7 @@ void TextEntry::Unfocus()
 
 void TextEntry::Draw()
 {
+	PROFILE_SCOPED()
 	m_justFocused = false;
 
 	float size[2];

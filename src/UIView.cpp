@@ -13,6 +13,7 @@ void UIView::Update()
 
 void UIView::Draw3D()
 {
+	PROFILE_SCOPED()
 	Pi::ui->Draw();
 }
 
