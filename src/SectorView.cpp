@@ -21,7 +21,7 @@
 #include "gui/Gui.h"
 #include <algorithm>
 #include <sstream>
-#include <SDL2/SDL_stdinc.h>
+#include <SDL_stdinc.h>
 
 using namespace Graphics;
 

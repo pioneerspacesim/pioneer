@@ -17,7 +17,7 @@
  */
 
 
-class PropertyConnection final : public LuaWrappable {
+class PropertyConnection : public LuaWrappable {
 public:
 	PropertyConnection(const sigc::connection &conn) : m_connection(conn) {}
 	void Disconnect() { m_connection.disconnect(); }

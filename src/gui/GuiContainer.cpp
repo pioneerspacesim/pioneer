@@ -4,7 +4,7 @@
 #include "Gui.h"
 #include "GuiContainer.h"
 
-#include <SDL2/SDL_stdinc.h>
+#include <SDL_stdinc.h>
 
 //#define GUI_DEBUG_CONTAINER
 

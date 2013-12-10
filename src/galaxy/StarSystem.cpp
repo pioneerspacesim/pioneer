@@ -16,7 +16,7 @@
 #include "Orbit.h"
 #include "Lang.h"
 #include "StringF.h"
-#include <SDL2/SDL_stdinc.h>
+#include <SDL_stdinc.h>
 
 static const double CELSIUS	= 273.15;
 //#define DEBUG_DUMP

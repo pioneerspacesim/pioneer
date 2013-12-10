@@ -7,7 +7,7 @@
 #include "GuiWidget.h"
 #include "GuiTextLayout.h"
 #include <string>
-#include <SDL2/SDL_stdinc.h>
+#include <SDL_stdinc.h>
 
 namespace Text { class TextureFont; }
 

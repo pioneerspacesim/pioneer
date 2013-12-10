@@ -10,7 +10,7 @@
 #include "graphics/Material.h"
 #include "Point.h"
 
-#include <SDL2/SDL_stdinc.h>
+#include <SDL_stdinc.h>
 
 namespace UI {
 

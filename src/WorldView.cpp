@@ -29,7 +29,7 @@
 #include "Quaternion.h"
 #include <algorithm>
 #include <sstream>
-#include <SDL2/SDL_stdinc.h>
+#include <SDL_stdinc.h>
 
 const double WorldView::PICK_OBJECT_RECT_SIZE = 20.0;
 static const Color s_hudTextColor(0,255,0,230);
