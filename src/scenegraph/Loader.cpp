@@ -335,10 +335,10 @@ Model *Loader::CreateModel(ModelDefinition &def)
 		}
 
 		//set up some noticeable default colors
-		std::vector<Color4ub> colors;
-		colors.push_back(Color4ub::RED);
-		colors.push_back(Color4ub::GREEN);
-		colors.push_back(Color4ub::BLUE);
+		std::vector<Color> colors;
+		colors.push_back(Color::RED);
+		colors.push_back(Color::GREEN);
+		colors.push_back(Color::BLUE);
 		model->SetColors(colors);
 		model->SetPattern(0);
 	}
