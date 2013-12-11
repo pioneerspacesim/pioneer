@@ -128,10 +128,12 @@ void LabelButton::Draw()
 	} else {
 		Theme::DrawOutdent(size);
 	}
-	glPushMatrix();
-	glTranslatef(m_padding, m_padding*0.5, 0);
+
+	Graphics::Renderer *r = Gui::Screen::GetRenderer();
+	Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
+
+	r->Translate(m_padding, m_padding*0.5, 0);
 	m_label->Draw();
-	glPopMatrix();
 }
 
 void LabelButton::OnSetSize()

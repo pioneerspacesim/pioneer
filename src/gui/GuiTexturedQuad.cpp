@@ -13,12 +13,20 @@ namespace Gui {
 void TexturedQuad::Draw(Graphics::Renderer *renderer, const vector2f &pos, const vector2f &size, const vector2f &texPos, const vector2f &texSize, const Color &tint)
 {
 	PROFILE_SCOPED()
-    Graphics::VertexArray va(ATTRIB_POSITION | ATTRIB_UV0);
+	if(!m_va.get()) {
+		PROFILE_SCOPED_RAW("!m_va.get()")
+		m_va.reset(new Graphics::VertexArray(ATTRIB_POSITION | ATTRIB_UV0));
 
-	va.Add(vector3f(pos.x,        pos.y,        0.0f), vector2f(texPos.x,           texPos.y));
-	va.Add(vector3f(pos.x,        pos.y+size.y, 0.0f), vector2f(texPos.x,           texPos.y+texSize.y));
-	va.Add(vector3f(pos.x+size.x, pos.y,        0.0f), vector2f(texPos.x+texSize.x, texPos.y));
-	va.Add(vector3f(pos.x+size.x, pos.y+size.y, 0.0f), vector2f(texPos.x+texSize.x, texPos.y+texSize.y));
+		m_va->Add(vector3f(pos.x,        pos.y,        0.0f), vector2f(texPos.x,           texPos.y));
+		m_va->Add(vector3f(pos.x,        pos.y+size.y, 0.0f), vector2f(texPos.x,           texPos.y+texSize.y));
+		m_va->Add(vector3f(pos.x+size.x, pos.y,        0.0f), vector2f(texPos.x+texSize.x, texPos.y));
+		m_va->Add(vector3f(pos.x+size.x, pos.y+size.y, 0.0f), vector2f(texPos.x+texSize.x, texPos.y+texSize.y));
+	} else {
+		m_va->Set(0, vector3f(pos.x,        pos.y,        0.0f), vector2f(texPos.x,           texPos.y));
+		m_va->Set(1, vector3f(pos.x,        pos.y+size.y, 0.0f), vector2f(texPos.x,           texPos.y+texSize.y));
+		m_va->Set(2, vector3f(pos.x+size.x, pos.y,        0.0f), vector2f(texPos.x+texSize.x, texPos.y));
+		m_va->Set(3, vector3f(pos.x+size.x, pos.y+size.y, 0.0f), vector2f(texPos.x+texSize.x, texPos.y+texSize.y));
+	}
 
 	// Create material on first use. Bit of a hack.
 	if (!m_material) {
@@ -29,7 +37,7 @@ void TexturedQuad::Draw(Graphics::Renderer *renderer, const vector2f &pos, const
 		m_material->texture0 = m_texture.Get();
 	}
 	m_material->diffuse = tint;
-	renderer->DrawTriangles(&va, m_material.get(), TRIANGLE_STRIP);
+	renderer->DrawTriangles(m_va.get(), m_material.get(), TRIANGLE_STRIP);
 }
 
 }

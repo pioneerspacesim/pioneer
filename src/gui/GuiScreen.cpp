@@ -18,8 +18,8 @@ float Screen::fontScale[2];
 std::list<Widget*> Screen::kbshortcut_widgets;
 Gui::Fixed *Screen::baseContainer;
 Gui::Widget *Screen::focusedWidget;
-GLdouble Screen::modelMatrix[16];
-GLdouble Screen::projMatrix[16];
+matrix4x4f Screen::modelMatrix;
+matrix4x4f Screen::projMatrix;
 GLint Screen::viewport[4];
 
 FontCache Screen::s_fontCache;
@@ -119,8 +119,8 @@ bool Screen::Project(const vector3d &in, vector3d &out)
 {
 	PROFILE_SCOPED()
 	// implements gluProject (see the OpenGL documentation or the Mesa implementation of gluProject)
-	const double * const M = modelMatrix;
-	const double * const P = projMatrix;
+	const float * const M = modelMatrix.Data();
+	const float * const P = projMatrix.Data();
 
 	const double vcam[4] = { // camera space
 		in.x*M[0] + in.y*M[4] + in.z*M[ 8] + M[12],
@@ -157,28 +157,32 @@ bool Screen::Project(const vector3d &in, vector3d &out)
 
 void Screen::EnterOrtho()
 {
-	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix);
-	glGetDoublev (GL_PROJECTION_MATRIX, projMatrix);
-	glGetIntegerv (GL_VIEWPORT, viewport);
+	PROFILE_SCOPED()
+
+	Graphics::Renderer *r = GetRenderer();
+
+	modelMatrix = r->GetCurrentModelView();
+	projMatrix = r->GetCurrentProjection();
+
+	r->GetCurrentViewport(&viewport[0]);
+	r->SetOrthographicProjection(0, width, height, 0, -1, 1);
+	r->SetTransform(matrix4x4f::Identity());
 
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glLoadIdentity();
-	glOrtho(0, width, height, 0, -1, 1);
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glLoadIdentity();
+
 }
 
 void Screen::LeaveOrtho()
 {
-	glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
+	PROFILE_SCOPED()
+
+	Graphics::Renderer *r = GetRenderer();
+
+	r->SetProjection(projMatrix);
+	r->SetTransform(modelMatrix);
+
 	glEnable(GL_LIGHTING);
 	glEnable(GL_DEPTH_TEST);
 }
@@ -324,17 +328,19 @@ void Screen::RenderString(const std::string &s, float xoff, float yoff, const Co
 	PROFILE_SCOPED()
     if (!font) font = GetFont().Get();
 
-	GLdouble modelMatrix_[16];
-	glPushMatrix();
-	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix_);
-	float x = modelMatrix_[12] + xoff;
-	float y = modelMatrix_[13] + yoff;
-	glLoadIdentity();
-	glTranslatef(floor(x/Screen::fontScale[0])*Screen::fontScale[0],
-			floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
-	glScalef(Screen::fontScale[0], Screen::fontScale[1], 1);
+	Graphics::Renderer *r = Gui::Screen::GetRenderer();
+
+	const matrix4x4f &modelMatrix_ = r->GetCurrentModelView();
+	Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
+
+	const float x = modelMatrix_[12] + xoff;
+	const float y = modelMatrix_[13] + yoff;
+
+	r->LoadIdentity();
+	r->Translate(floor(x/Screen::fontScale[0])*Screen::fontScale[0], floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
+	r->Scale(Screen::fontScale[0], Screen::fontScale[1], 1);
+
 	font->RenderString(s.c_str(), 0, 0, color);
-	glPopMatrix();
 }
 
 void Screen::RenderMarkup(const std::string &s, const Color &color, Text::TextureFont *font)
@@ -342,17 +348,19 @@ void Screen::RenderMarkup(const std::string &s, const Color &color, Text::Textur
 	PROFILE_SCOPED()
     if (!font) font = GetFont().Get();
 
-	GLdouble modelMatrix_[16];
-	glPushMatrix();
-	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix_);
-	float x = modelMatrix_[12];
-	float y = modelMatrix_[13];
-	glLoadIdentity();
-	glTranslatef(floor(x/Screen::fontScale[0])*Screen::fontScale[0],
-			floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
-	glScalef(Screen::fontScale[0], Screen::fontScale[1], 1);
+	Graphics::Renderer *r = Gui::Screen::GetRenderer();
+
+	const matrix4x4f &modelMatrix_ = r->GetCurrentModelView();
+	Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
+
+	const float x = modelMatrix_[12];
+	const float y = modelMatrix_[13];
+
+	r->LoadIdentity();
+	r->Translate(floor(x/Screen::fontScale[0])*Screen::fontScale[0], floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
+	r->Scale(Screen::fontScale[0], Screen::fontScale[1], 1);
+
 	font->RenderMarkup(s.c_str(), 0, 0, color);
-	glPopMatrix();
 }
 
 void Screen::AddShortcutWidget(Widget *w)

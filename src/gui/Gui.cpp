@@ -128,10 +128,12 @@ void MainLoopIteration()
 {
 	PROFILE_SCOPED()
 
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+	Graphics::Renderer *r = Gui::Screen::GetRenderer();
+
+	r->SetMatrixMode(Graphics::MatrixMode::PROJECTION);
+	r->LoadIdentity();
+	r->SetMatrixMode(Graphics::MatrixMode::MODELVIEW);
+	r->LoadIdentity();
 
 	glClearColor(0,0,0,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -146,9 +148,9 @@ void MainLoopIteration()
 	}
 
 	SDL_ShowCursor(1);
-	Gui::Screen::GetRenderer()->GetWindow()->SetGrab(false);
+	r->GetWindow()->SetGrab(false);
 	Gui::Draw();
-	Gui::Screen::GetRenderer()->GetWindow()->SwapBuffers();
+	r->GetWindow()->SwapBuffers();
 }
 
 namespace Theme {

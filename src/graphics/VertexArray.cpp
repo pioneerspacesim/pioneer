@@ -93,4 +93,48 @@ void VertexArray::Add(const vector3f &v, const vector3f &n, const vector2f &uv)
 	uv0.push_back(uv);
 }
 
+void VertexArray::Set(const Uint32 idx, const vector3f &v)
+{
+	PROFILE_SCOPED()
+	position[idx] = v;
+}
+
+void VertexArray::Set(const Uint32 idx, const vector3f &v, const Color &c)
+{
+	PROFILE_SCOPED()
+	position[idx] = v;
+	diffuse[idx] = c;
+}
+
+void VertexArray::Set(const Uint32 idx, const vector3f &v, const Color &c, const vector3f &n)
+{
+	PROFILE_SCOPED()
+	position[idx] = v;
+	diffuse[idx] = c;
+	normal[idx] = n;
+}
+
+void VertexArray::Set(const Uint32 idx, const vector3f &v, const Color &c, const vector2f &uv)
+{
+	PROFILE_SCOPED()
+	position[idx] = v;
+	diffuse[idx] = c;
+	uv0[idx] = uv;
+}
+
+void VertexArray::Set(const Uint32 idx, const vector3f &v, const vector2f &uv)
+{
+	PROFILE_SCOPED()
+	position[idx] = v;
+	uv0[idx] = uv;
+}
+
+void VertexArray::Set(const Uint32 idx, const vector3f &v, const vector3f &n, const vector2f &uv)
+{
+	PROFILE_SCOPED()
+	position[idx] = v;
+	normal[idx] = n;
+	uv0[idx] = uv;
+}
+
 }
