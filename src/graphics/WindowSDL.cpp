@@ -15,6 +15,13 @@ bool WindowSDL::CreateWindowAndContext(const char *name, int w, int h, bool full
 	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, samples ? 1 : 0);
 	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, samples);
 
+	// need full 32-bit color
+	// (need an alpha channel because of the way progress bars are drawn)
+	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
+
 	m_window = SDL_CreateWindow(name, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, w, h, winFlags);
 	if (!m_window)
 		return false;
@@ -60,35 +67,6 @@ WindowSDL::WindowSDL(const Graphics::Settings &vs, const std::string &name)
 	// 5- abort!
 	if (!ok) {
 		OS::Error("Failed to set video mode: %s", SDL_GetError());
-	}
-
-	int bpp;
-	Uint32 rmask, gmask, bmask, amask;
-	SDL_PixelFormatEnumToMasks(SDL_GetWindowPixelFormat(m_window), &bpp, &rmask, &gmask, &bmask, &amask);
-
-	switch (bpp) {
-		case 16:
-			SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
-			SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 6);
-			SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
-			SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
-			break;
-		case 24:
-		case 32:
-			SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
-			SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
-			SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
-			SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
-			break;
-		default:
-			fprintf(stderr, "Invalid pixel depth: %d bpp\n", bpp);
-
-		// this valuable is not reliable if antialiasing vs are overridden by
-		// nvidia/ati/whatever vs
-		int actualSamples = 0;
-		SDL_GL_GetAttribute(SDL_GL_MULTISAMPLESAMPLES, &actualSamples);
-		if (vs.requestedSamples != actualSamples)
-			fprintf(stderr, "Requested AA mode: %dx, actual: %dx\n", vs.requestedSamples, actualSamples);
 	}
 
 	SDLSurfacePtr surface = LoadSurfaceFromFile(vs.iconFile);
