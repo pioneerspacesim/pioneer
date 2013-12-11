@@ -327,6 +327,7 @@ Container::Container(Graphics::Renderer *r)
 , m_universeBox(r)
 , m_bLoadNewCubemap(true)
 , m_uSeed(0)
+, m_drawFlags( DRAW_SKYBX )
 {
 }
 
