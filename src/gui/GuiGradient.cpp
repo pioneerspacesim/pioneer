@@ -10,11 +10,9 @@ Gradient::Gradient(float width, float height, const Color &beginColor, const Col
 {
 	SetSize(width, height);
 
-	Color4ub c0(beginColor);
-	Color4ub c1(endColor);
-	const unsigned char data[4][4] = {
-		{ c0.r, c0.g, c0.b, c0.a },
-		{ c1.r, c1.g, c1.b, c1.a },
+	const Uint8 data[4][4] = {
+		{ beginColor.r, beginColor.g, beginColor.b, beginColor.a },
+		{ endColor.r, endColor.g, endColor.b, endColor.a },
 	};
 
 	const Graphics::TextureFormat format = Graphics::TEXTURE_RGBA_8888;

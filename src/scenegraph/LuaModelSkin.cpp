@@ -26,15 +26,15 @@ public:
 
 		lua_getfield(l, 2, "primary");
 		if (lua_istable(l, -1))
-			skin->SetPrimaryColor(Color4ub(Color4f::FromLuaTable(l, -1)));
+			skin->SetPrimaryColor(Color(Color4f::FromLuaTable(l, -1)));
 
 		lua_getfield(l, 2, "secondary");
 		if (lua_istable(l, -1))
-			skin->SetSecondaryColor(Color4ub(Color4f::FromLuaTable(l, -1)));
+			skin->SetSecondaryColor(Color(Color4f::FromLuaTable(l, -1)));
 
 		lua_getfield(l, 2, "trim");
 		if (lua_istable(l, -1))
-			skin->SetTrimColor(Color4ub(Color4f::FromLuaTable(l, -1)));
+			skin->SetTrimColor(Color(Color4f::FromLuaTable(l, -1)));
 
 		lua_pop(l, 3);
 

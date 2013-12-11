@@ -44,8 +44,8 @@ namespace {
 	}
 
 	//extract color from RGB sliders
-	Color4ub get_slider_color(UI::Slider *r, UI::Slider *g, UI::Slider *b) {
-		return Color4ub(r->GetValue() * 255.f, g->GetValue() * 255.f, b->GetValue() * 255.f);
+	Color get_slider_color(UI::Slider *r, UI::Slider *g, UI::Slider *b) {
+		return Color(r->GetValue() * 255.f, g->GetValue() * 255.f, b->GetValue() * 255.f);
 	}
 
 	float get_thrust(const UI::Slider *s) {
@@ -626,7 +626,7 @@ void ModelViewer::OnModelColorsChanged(float)
 {
 	if (!m_model) return;
 	//don't care about the float. Fetch values from all sliders.
-	std::vector<Color4ub> colors;
+	std::vector<Color> colors;
 	colors.push_back(get_slider_color(colorSliders[0], colorSliders[1], colorSliders[2]));
 	colors.push_back(get_slider_color(colorSliders[3], colorSliders[4], colorSliders[5]));
 	colors.push_back(get_slider_color(colorSliders[6], colorSliders[7], colorSliders[8]));
