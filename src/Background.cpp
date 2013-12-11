@@ -336,7 +336,7 @@ Container::Container(Graphics::Renderer *r, Uint32 seed)
 , m_universeBox(r)
 , m_bLoadNewCubemap(true)
 , m_uSeed(seed)
-, m_drawFlags( DRAW_STARS | DRAW_SKYBX )
+, m_drawFlags( DRAW_SKYBX )
 {
 	Refresh(seed);
 };
