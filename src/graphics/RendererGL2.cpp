@@ -73,7 +73,12 @@ RendererGL2::RendererGL2(WindowSDL *window, const Graphics::Settings &vs)
 , m_useCompressedTextures(false)
 , m_invLogZfarPlus1(0.f)
 , m_activeRenderTarget(0)
+, m_matrixMode(MatrixMode::MODELVIEW)
 {
+	for(Uint32 i = 0; i < 4; i++) {
+		m_currentViewport[i] = 0;
+	}
+
 	const bool useDXTnTextures = vs.useTextureCompression && glewIsSupported("GL_EXT_texture_compression_s3tc");
 	m_useCompressedTextures = useDXTnTextures;
 
@@ -88,6 +93,10 @@ RendererGL2::RendererGL2(WindowSDL *window, const Graphics::Settings &vs)
 	glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
 	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 	glAlphaFunc(GL_GREATER, 0.5f);
+
+	glMatrixMode(GL_MODELVIEW);
+	m_modelViewStack.push(matrix4x4f::Identity());
+	m_projectionStack.push(matrix4x4f::Identity());
 
 	SetClearColor(Color(0.f));
 	SetViewport(0, 0, m_width, m_height);
@@ -117,6 +126,7 @@ bool RendererGL2::GetNearFarRange(float &near, float &far) const
 
 bool RendererGL2::BeginFrame()
 {
+	PROFILE_SCOPED()
 	glClearColor(0,0,0,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	return true;
@@ -152,6 +162,7 @@ static std::string glerr_to_string(GLenum err)
 
 bool RendererGL2::SwapBuffers()
 {
+	PROFILE_SCOPED()
 #ifndef NDEBUG
 	// Check if an error occurred during the frame. This is not very useful for
 	// determining *where* the error happened. For that purpose, try GDebugger or
@@ -175,6 +186,7 @@ bool RendererGL2::SwapBuffers()
 
 bool RendererGL2::SetRenderTarget(RenderTarget *rt)
 {
+	PROFILE_SCOPED()
 	if (rt)
 		static_cast<GL2::RenderTarget*>(rt)->Bind();
 	else if (m_activeRenderTarget)
@@ -207,55 +219,67 @@ bool RendererGL2::SetClearColor(const Color &c)
 
 bool RendererGL2::SetViewport(int x, int y, int width, int height)
 {
+	m_currentViewport[0] = x;
+	m_currentViewport[1] = y;
+	m_currentViewport[2] = width;
+	m_currentViewport[3] = height;
 	glViewport(x, y, width, height);
 	return true;
 }
 
 bool RendererGL2::SetTransform(const matrix4x4d &m)
 {
-	//XXX this is not pretty but there's no standard way of converting between them.
-	for (int i=0; i<16; ++i) {
-		m_currentTransform[i] = m[i];
-	}
-	//XXX you might still need the occasional push/pop
-	//GL2+ or ES2 renderers can forego the classic matrix stuff entirely and use uniforms
-	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixd(&m[0]);
+	PROFILE_SCOPED()
+	matrix4x4f mf;
+	matrix4x4dtof(m, mf);
+	return SetTransform(mf);
 	return true;
 }
 
 bool RendererGL2::SetTransform(const matrix4x4f &m)
 {
+	PROFILE_SCOPED()
 	//same as above
-	m_currentTransform = m;
-	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf(&m[0]);
+	m_modelViewStack.top() = m;
+	SetMatrixMode(MatrixMode::MODELVIEW);
+	LoadMatrix(&m[0]);
 	return true;
 }
 
 bool RendererGL2::SetPerspectiveProjection(float fov, float aspect, float near, float far)
 {
+	PROFILE_SCOPED()
+
 	// update values for log-z hack
 	m_invLogZfarPlus1 = 1.0f / (log(far+1.0f)/log(2.0f));
 
 	Graphics::SetFov(fov);
 
-	double ymax = near * tan(fov * M_PI / 360.0);
-	double ymin = -ymax;
-	double xmin = ymin * aspect;
-	double xmax = ymax * aspect;
+	float ymax = near * tan(fov * M_PI / 360.0);
+	float ymin = -ymax;
+	float xmin = ymin * aspect;
+	float xmax = ymax * aspect;
 
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glFrustum(xmin, xmax, ymin, ymax, near, far);
+	const matrix4x4f frustrumMat = matrix4x4f::FrustumMatrix(xmin, xmax, ymin, ymax, near, far);
+	SetProjection(frustrumMat);
 	return true;
 }
 
 bool RendererGL2::SetOrthographicProjection(float xmin, float xmax, float ymin, float ymax, float zmin, float zmax)
 {
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(xmin, xmax, ymin, ymax, zmin, zmax);
+	PROFILE_SCOPED()
+	const matrix4x4f orthoMat = matrix4x4f::OrthoFrustum(xmin, xmax, ymin, ymax, zmin, zmax);
+	SetProjection(orthoMat);
+	return true;
+}
+
+bool RendererGL2::SetProjection(const matrix4x4f &m)
+{
+	PROFILE_SCOPED()
+	//same as above
+	m_projectionStack.top() = m;
+	SetMatrixMode(MatrixMode::PROJECTION);
+	LoadMatrix(&m[0]);
 	return true;
 }
 
@@ -327,7 +351,7 @@ bool RendererGL2::SetLights(int numlights, const Light *lights)
 
 	//glLight depends on the current transform, but we have always
 	//relied on it being identity when setting lights.
-	glPushMatrix();
+	Graphics::Renderer::MatrixTicket ticket(this, MatrixMode::MODELVIEW);
 	SetTransform(matrix4x4f::Identity());
 
 	m_numLights = numlights;
@@ -353,8 +377,6 @@ bool RendererGL2::SetLights(int numlights, const Light *lights)
 		assert(m_numDirLights < 5);
 	}
 
-	glPopMatrix();
-
 	return true;
 }
 
@@ -377,6 +399,7 @@ bool RendererGL2::SetScissor(bool enabled, const vector2f &pos, const vector2f &
 
 bool RendererGL2::DrawLines(int count, const vector3f *v, const Color *c, LineType t)
 {
+	PROFILE_SCOPED()
 	if (count < 2 || !v) return false;
 
 	vtxColorProg->Use();
@@ -395,6 +418,7 @@ bool RendererGL2::DrawLines(int count, const vector3f *v, const Color *c, LineTy
 
 bool RendererGL2::DrawLines(int count, const vector3f *v, const Color &c, LineType t)
 {
+	PROFILE_SCOPED()
 	if (count < 2 || !v) return false;
 
 	flatColorProg->Use();
@@ -490,7 +514,7 @@ bool RendererGL2::DrawPointSprites(int count, const vector3f *positions, Materia
 	SetDepthWrite(false);
 	VertexArray va(ATTRIB_POSITION | ATTRIB_UV0, count * 6);
 
-	matrix4x4f rot(GetCurrentTransform());
+	matrix4x4f rot(GetCurrentModelView());
 	rot.ClearToRotOnly();
 	rot = rot.InverseOf();
 
@@ -565,6 +589,8 @@ bool RendererGL2::DrawStaticMesh(StaticMesh *t)
 
 void RendererGL2::EnableClientStates(const VertexArray *v)
 {
+	PROFILE_SCOPED();
+
 	if (!v) return;
 	assert(v->position.size() > 0); //would be strange
 
@@ -595,6 +621,8 @@ void RendererGL2::EnableClientStates(const VertexArray *v)
 
 void RendererGL2::DisableClientStates()
 {
+	PROFILE_SCOPED();
+
 	for (std::vector<GLenum>::const_iterator i = m_clientStates.begin(); i != m_clientStates.end(); ++i)
 		glDisableClientState(*i);
 	m_clientStates.clear();
@@ -602,6 +630,8 @@ void RendererGL2::DisableClientStates()
 
 bool RendererGL2::BufferStaticMesh(StaticMesh *mesh)
 {
+	PROFILE_SCOPED();
+
 	const AttributeSet set = mesh->GetAttributeSet();
 	bool background = false;
 	bool model = false;
@@ -691,6 +721,7 @@ bool RendererGL2::BufferStaticMesh(StaticMesh *mesh)
 
 Material *RendererGL2::CreateMaterial(const MaterialDescriptor &d)
 {
+	PROFILE_SCOPED()
 	MaterialDescriptor desc = d;
 
 	GL2::Material *mat = 0;
@@ -818,20 +849,20 @@ RenderTarget *RendererGL2::CreateRenderTarget(const RenderTargetDesc &desc)
 // only restoring the things that have changed
 void RendererGL2::PushState()
 {
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
+	SetMatrixMode(MatrixMode::PROJECTION);
+	PushMatrix();
+	SetMatrixMode(MatrixMode::MODELVIEW);
+	PushMatrix();
 	glPushAttrib(GL_ALL_ATTRIB_BITS & (~GL_POINT_BIT));
 }
 
 void RendererGL2::PopState()
 {
 	glPopAttrib();
-	glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
+	SetMatrixMode(MatrixMode::PROJECTION);
+	PopMatrix();
+	SetMatrixMode(MatrixMode::MODELVIEW);
+	PopMatrix();
 }
 
 static void dump_opengl_value(std::ostream &out, const char *name, GLenum id, int num_elems)
@@ -938,6 +969,109 @@ bool RendererGL2::PrintDebugInfo(std::ostream &out)
 #undef DUMP_GL_VALUE2
 
 	return true;
+}
+
+void RendererGL2::SetMatrixMode(MatrixMode mm)
+{
+	PROFILE_SCOPED()
+	if( mm != m_matrixMode ) {
+		switch (mm) {
+			case MatrixMode::MODELVIEW:
+				glMatrixMode(GL_MODELVIEW);
+				break;
+			case MatrixMode::PROJECTION:
+				glMatrixMode(GL_PROJECTION);
+				break;
+		}
+		m_matrixMode = mm;
+	}
+}
+
+void RendererGL2::PushMatrix()
+{
+	PROFILE_SCOPED()
+
+	glPushMatrix();
+	switch(m_matrixMode) {
+		case MatrixMode::MODELVIEW:
+			m_modelViewStack.push(m_modelViewStack.top());
+			break;
+		case MatrixMode::PROJECTION:
+			m_projectionStack.push(m_projectionStack.top());
+			break;
+	}
+}
+
+void RendererGL2::PopMatrix()
+{
+	PROFILE_SCOPED()
+	glPopMatrix();
+	switch(m_matrixMode) {
+		case MatrixMode::MODELVIEW:
+			m_modelViewStack.pop();
+			assert(m_modelViewStack.size());
+			break;
+		case MatrixMode::PROJECTION:
+			m_projectionStack.pop();
+			assert(m_projectionStack.size());
+			break;
+	}
+}
+
+void RendererGL2::LoadIdentity()
+{
+	PROFILE_SCOPED()
+	glLoadIdentity();
+	switch(m_matrixMode) {
+		case MatrixMode::MODELVIEW:
+			m_modelViewStack.top() = matrix4x4f::Identity();
+			break;
+		case MatrixMode::PROJECTION:
+			m_projectionStack.top() = matrix4x4f::Identity();
+			break;
+	}
+}
+
+void RendererGL2::LoadMatrix(const matrix4x4f &m)
+{
+	PROFILE_SCOPED()
+	glLoadMatrixf(&m[0]);
+	switch(m_matrixMode) {
+		case MatrixMode::MODELVIEW:
+			m_modelViewStack.top() = m;
+			break;
+		case MatrixMode::PROJECTION:
+			m_projectionStack.top() = m;
+			break;
+	}
+}
+
+void RendererGL2::Translate( const float x, const float y, const float z )
+{
+	PROFILE_SCOPED()
+	glTranslatef(x,y,z);
+	switch(m_matrixMode) {
+		case MatrixMode::MODELVIEW:
+			m_modelViewStack.top().Translate(x,y,z);
+			break;
+		case MatrixMode::PROJECTION:
+			m_projectionStack.top().Translate(x,y,z);
+			break;
+	}
+}
+
+void RendererGL2::Scale( const float x, const float y, const float z )
+{
+	PROFILE_SCOPED()
+	glScalef(x,y,z);
+	switch(m_matrixMode) {
+		case MatrixMode::MODELVIEW:
+			m_modelViewStack.top().Scale(x,y,z);
+			break;
+		case MatrixMode::PROJECTION:
+			m_modelViewStack.top().Scale(x,y,z);
+			break;
+	}
 }
 
 }

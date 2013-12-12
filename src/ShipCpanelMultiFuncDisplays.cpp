@@ -195,11 +195,10 @@ void ScannerWidget::Draw()
 	m_renderer->DrawTriangles(&va, Graphics::vtxColorMaterial, TRIANGLE_FAN);
 
 	// circles and spokes
-	glPushMatrix();
-	glTranslatef(m_x, m_y, 0);
-	glScalef(m_x, m_y, 1.0f);
+	Graphics::Renderer::MatrixTicket ticket(m_renderer, Graphics::MatrixMode::MODELVIEW);
+	m_renderer->Translate(m_x, m_y, 0);
+	m_renderer->Scale(m_x, m_y, 1.0f);
 	DrawRingsAndSpokes(false);
-	glPopMatrix();
 
 	// objects above
 	if (!m_contacts.empty()) DrawBlobs(false);
@@ -491,6 +490,7 @@ void ScannerWidget::DrawRingsAndSpokes(bool blend)
 
 void ScannerWidget::TimeStepUpdate(float step)
 {
+	PROFILE_SCOPED()
 	if (m_targetRange < m_currentRange)
 		m_currentRange = Clamp(m_currentRange - (m_currentRange*step), m_targetRange, SCANNER_RANGE_MAX);
 	else if (m_targetRange > m_currentRange)

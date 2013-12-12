@@ -44,6 +44,7 @@ void ToggleButton::GetSizeRequested(float size[2])
 
 void ToggleButton::Draw()
 {
+	PROFILE_SCOPED()
 	float size[2];
 	GetSize(size);
 	if (m_pressed) {

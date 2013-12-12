@@ -354,6 +354,8 @@ void Container::Refresh(Uint32 seed)
 
 void Container::Draw(Graphics::Renderer *renderer, const matrix4x4d &transform)
 {
+	PROFILE_SCOPED()
+	//XXX not really const - renderer can modify the buffers
 	if(m_bLoadNewCubemap) {
 		m_bLoadNewCubemap = false;
 		if(Pi::player == nullptr || Pi::player->GetFlightState() != Ship::HYPERSPACE) {
@@ -395,6 +397,7 @@ void Container::Draw(Graphics::Renderer *renderer, const matrix4x4d &transform)
 
 void Container::SetIntensity(float intensity)
 {
+	PROFILE_SCOPED()
 	m_universeBox.SetIntensity(intensity);
 	m_starField.SetIntensity(intensity);
 	m_milkyWay.SetIntensity(intensity);

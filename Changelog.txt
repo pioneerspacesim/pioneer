@@ -2,9 +2,16 @@ December 2013
 
    * Minor changes and tweaks
      * Make file type (file extension) checks case insensitive (#2328, #2563)
+     * Optimise GL matrix operations (improves FPS) (#2541, #2572)
+
+   * Fixes
+     * Fix GL color depth selection (forces alpha channel, which fixes
+       progress bars) (#2573)
 
    * Internal changes
      * Remove legacy (non-shader) renderer (#2568)
+     * Single frame profiler (#2541, #2569)
+     * Avoid some unnecessary string copies (#2541)
 
 November 2013
 

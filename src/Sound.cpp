@@ -462,7 +462,7 @@ static void load_sound(const std::string &basename, const std::string &path, boo
 	struct vorbis_info *info;
 	info = ov_info(&oggv, -1);
 
-	if ((info->rate != FREQ) && (info->rate != (FREQ>>1))) {
+	if ((static_cast<unsigned int>(info->rate) != FREQ) && (static_cast<unsigned int>(info->rate) != (FREQ>>1))) {
 		Error("Vorbis file %s is not %dHz or %dHz. Bad!", path.c_str(), FREQ, FREQ>>1);
 	}
 	if ((info->channels < 1) || (info->channels > 2)) {
