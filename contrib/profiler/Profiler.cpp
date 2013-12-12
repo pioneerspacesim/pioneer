@@ -38,8 +38,12 @@
 	#undef inline
 	#define inline __forceinline
 #else
-	#include <sched.h>
-	#define YIELD() sched_yield();
+	#if defined(__MINGW32__)
+		#define YIELD() Sleep(0);
+	#else
+		#include <sched.h>
+		#define YIELD() sched_yield();
+	#endif
 	#define PRINTFU64() "%llu"
 	#define PATHSLASH() '/'
 	#define threadlocal __thread
