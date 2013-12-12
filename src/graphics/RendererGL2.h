@@ -12,6 +12,7 @@
  *  - get rid of built-in glMaterial, glMatrix use
  */
 #include "Renderer.h"
+#include <stack>
 
 namespace Graphics {
 
@@ -55,6 +56,7 @@ public:
 	virtual bool SetTransform(const matrix4x4f &m);
 	virtual bool SetPerspectiveProjection(float fov, float aspect, float near, float far);
 	virtual bool SetOrthographicProjection(float xmin, float xmax, float ymin, float ymax, float zmin, float zmax);
+	virtual bool SetProjection(const matrix4x4f &m);
 
 	virtual bool SetBlendMode(BlendMode mode);
 	virtual bool SetDepthTest(bool enabled);
@@ -82,6 +84,21 @@ public:
 	virtual bool ReloadShaders();
 
 	virtual bool PrintDebugInfo(std::ostream &out);
+
+	virtual const matrix4x4f& GetCurrentModelView() const { return m_modelViewStack.top(); }
+	virtual const matrix4x4f& GetCurrentProjection() const { return m_projectionStack.top(); }
+	virtual void GetCurrentViewport(Sint32 *vp) const {
+		for(int i=0; i<4; i++)
+			vp[i] = m_currentViewport[i];
+	}
+
+	virtual void SetMatrixMode(MatrixMode mm);
+	virtual void PushMatrix();
+	virtual void PopMatrix();
+	virtual void LoadIdentity();
+	virtual void LoadMatrix(const matrix4x4f &m);
+	virtual void Translate( const float x, const float y, const float z );
+	virtual void Scale( const float x, const float y, const float z );
 
 protected:
 	virtual void PushState();
@@ -113,6 +130,11 @@ protected:
 	std::vector<std::pair<MaterialDescriptor, GL2::Program*> > m_programs;
 	float m_invLogZfarPlus1;
 	GL2::RenderTarget *m_activeRenderTarget;
+
+	std::stack<matrix4x4f> m_modelViewStack;
+	std::stack<matrix4x4f> m_projectionStack;
+	Sint32 m_currentViewport[4];
+	MatrixMode m_matrixMode;
 };
 
 }

@@ -76,11 +76,14 @@ void ToolTip::Draw()
 		glVertex2f(0, size[1]);
 		glVertex2f(0, 0);
 	glEnd();
-	glPushMatrix();
-	glTranslatef(TOOLTIP_PADDING,0,0);
+
+	Graphics::Renderer *r = Gui::Screen::GetRenderer();
+	Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
+
+	r->Translate(TOOLTIP_PADDING,0,0);
 	glColor4f(1,1,1,alpha);
 	m_layout->Render(size[0]-2*TOOLTIP_PADDING);
-	glPopMatrix();
+
 	glBlendFunc(GL_ONE, GL_ZERO);
 	glDisable(GL_BLEND);
 }
