@@ -38,20 +38,14 @@ local shipRepairs = function (args)
 	local repair1Btn = ui:Button(ui:Expand('HORIZONTAL', repair1Label))
 	local repairAllBtn = ui:Button(ui:Expand('HORIZONTAL', repairAllLabel))
 
-	local integrityGauge = InfoGauge.New({
-		formatter = function (v) return string.format('%.0f%%', v * 100); end,
-		warningLevel = 0.5,
-		criticalLevel = 0.2,
-		levelAscending = false,
-	})
+	local integrityGauge = ui:Gauge()
+	integrityGauge:Bind("valuePercent", Game.player, "hullPercent")
 
 	local damageAll, damage1, costRepairAll, costRepair1
 
 	local update = function (feedbackText)
 		local shipDef = ShipDef[Game.player.shipId]
 		local hullPercent = Game.player.hullPercent
-
-		integrityGauge:SetValue(hullPercent / 100)
 
 		if hullPercent >= 100 then
 			messageLabel:SetText(l.SHIP_IS_ALREADY_FULLY_REPAIRED)
@@ -99,26 +93,24 @@ local shipRepairs = function (args)
 	local rand = Rand.New(util.hash_random(station.seed .. '-repair-guy', 2^31-1) - 1)
 	local face = InfoFace.New(Character.New({ title = "Repair Guy" }, rand))
 
-	local repairShop = ui:VBox(5):PackEnd({
-		ui:Grid({1,1,1},1):SetCell(1, 0, face),
-		messageLabel,
-		repairButtons,
-		feedbackLabel,
-		ui:Expand('VERTICAL'),
-	})
-
-	local shipDef = ShipDef[Game.player.shipId]
-	local shipView = ui:VBox(5):PackEnd({
-		ui:Grid({1,2,1},1):SetCell(1, 0, ModelSpinner.New(ui, shipDef.modelName, Game.player:GetSkin())),
-		ui:Expand('VERTICAL'),
-		ui:Label(l.HULL_INTEGRITY),
-		integrityGauge,
-	})
-
 	return
 		ui:Grid(2,1)
-			:SetCell(0, 0, ui:Margin(20, 'RIGHT', repairShop))
-			:SetCell(1, 0, ui:Margin(20, 'LEFT', shipView))
+			:SetColumn(0, {
+				ui:VBox(5):PackEnd({
+					messageLabel,
+					repairButtons,
+					feedbackLabel,
+					ui:Expand("VERTICAL"),
+					ui:HBox(5):PackEnd({
+						ui:Label(l.HULL_INTEGRITY),
+						integrityGauge,
+					})
+				})
+			})
+			:SetColumn(1, {
+				face
+			})
+
 end
 
 return shipRepairs
