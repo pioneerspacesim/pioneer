@@ -111,9 +111,15 @@ AC_DEFUN([PIONEER_WARN_C_CXX_FLAG],
 	[_PIONEER_COMPILER_FLAG([C], [WARN], [C], [$1], [$CC/$CXX], [WARN_CXXFLAGS="$WARN_CXXFLAGS $1"])])
 
 dnl Early check for C++11
-dnl XXX -std=c++11 defines __STRICT_ANSI__, which causes MinGW some problems
-dnl     -std=gnu++11 does not, and appears to work fine with clang as well
-_PIONEER_COMPILER_FLAG([C++], [STD], [CXX], [-std=gnu++11], [$CXX], [], [AC_MSG_ERROR([No compiler support for C++11. Unable to build])])
+dnl     -std=c++11 defines __STRICT_ANSI__, which causes MinGW some problems so use gnu++11 on it instead
+case "$host" in
+  i686-pc-mingw32|x86_64-pc-mingw64)
+	_PIONEER_COMPILER_FLAG([C++], [STD], [CXX], [-std=gnu++11], [$CXX], [], [AC_MSG_ERROR([No compiler support for C++11. Unable to build])])
+	;;
+  *)
+	_PIONEER_COMPILER_FLAG([C++], [STD], [CXX], [-std=c++11], [$CXX], [], [AC_MSG_ERROR([No compiler support for C++11. Unable to build])])
+esac
+
 
 dnl Always add -Wall, where supported
 PIONEER_WARN_C_CXX_FLAG([-Wall])
