@@ -44,49 +44,57 @@ function ChatForm:BuildWidget ()
 		local hbox = ui:HBox(5)
 
 		if self.message then
-			hbox:PackEnd(ui:MultiLineText(self.message))
+			hbox:PackEnd(ui:Expand("HORIZONTAL", ui:MultiLineText(self.message)))
 		end
 
 		if self.face then
-			hbox:PackEnd(self.face)
+			hbox:PackEnd(ui:Align("RIGHT", self.face))
 		end
 
 		box:PackEnd(hbox)
 	end
 
-	if self.options then
-		local optionBox = ui:VBox()
-		for i = 1,#self.options do
-			local option = self.options[i]
-			local b = SmallLabeledButton.New(option[1])
-			optionBox:PackEnd(b)
-			b.button.onClick:Connect(function ()
-				if (option[2] == -1) then
-					self:Close()
-				else
-					self.chatFunc(self, option[2])
-					ui.layer:SetInnerWidget(self:BuildWidget())
-				end
-			end)
+	if self.options or self.equipWidgetConfig then
+
+		local scrollBox = ui:VBox()
+
+		if self.options then
+			local optionBox = ui:VBox()
+			for i = 1,#self.options do
+				local option = self.options[i]
+				local b = SmallLabeledButton.New(option[1])
+				optionBox:PackEnd(b)
+				b.button.onClick:Connect(function ()
+					if (option[2] == -1) then
+						self:Close()
+					else
+						self.chatFunc(self, option[2])
+						ui.layer:SetInnerWidget(self:BuildWidget())
+					end
+				end)
+			end
+			scrollBox:PackEnd(optionBox)
 		end
-		box:PackEnd(optionBox)
-	end
 
-	if self.equipWidgetConfig then
-		local stationTable, shipTable = EquipmentTableWidgets.Pair(self.equipWidgetConfig)
+		if self.equipWidgetConfig then
+			local stationTable, shipTable = EquipmentTableWidgets.Pair(self.equipWidgetConfig)
 
-		box:PackEnd(
-			ui:HBox(10):PackEnd({
-				ui:VBox():PackEnd({
-					ui:Label("Available for purchase"):SetFont("HEADING_LARGE"),
-					stationTable,
-				}),
-				ui:VBox():PackEnd({
-					ui:Label("In cargo hold"):SetFont("HEADING_LARGE"),
-					shipTable,
+			scrollBox:PackEnd(
+				ui:HBox(10):PackEnd({
+					ui:VBox():PackEnd({
+						ui:Label("Available for purchase"):SetFont("HEADING_LARGE"),
+						stationTable,
+					}),
+					ui:VBox():PackEnd({
+						ui:Label("In cargo hold"):SetFont("HEADING_LARGE"),
+						shipTable,
+					})
 				})
-			})
-		)
+			)
+		end
+
+		box:PackEnd(ui:Scroller(scrollBox))
+
 	end
 
 	local hangupButton = SmallLabeledButton.New(l.HANG_UP)
@@ -94,7 +102,7 @@ function ChatForm:BuildWidget ()
 
 	return
 		ui:ColorBackground(0,0,0,0.5,
-			ui:Align("MIDDLE",
+			ui:Grid({1,2,1},{1,2,1}):SetCell(1,1,
 				ui:Background(
 					ui:VBox(10)
 						:PackEnd({ box, hangupButton })
