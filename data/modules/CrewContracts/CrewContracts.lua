@@ -209,7 +209,6 @@ local onChat = function (form,ref,option)
 		form:SetMessage(l.POTENTIAL_CREW_MEMBERS:interp({station=station.label}))
 		for k,c in ipairs(crewInThisStation) do
 			form:AddOption(l.CREWMEMBER_WAGE_PER_WEEK:interp({potentialCrewMember = c.name,wage = c.estimatedWage}),k)
-			if k > 12 then break end -- XXX They just won't all fit on screen. New UI can scroll.
 		end
 	end
 
