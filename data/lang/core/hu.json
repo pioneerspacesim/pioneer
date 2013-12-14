@@ -917,7 +917,7 @@
    },
    "META" : {
       "description" : "",
-      "message" : "\"meta \""
+      "message" : "\"meta \" "
    },
    "METAL_ALLOYS" : {
       "description" : "",
@@ -1561,7 +1561,7 @@
    },
    "SHIFT" : {
       "description" : "",
-      "message" : "\"shift \""
+      "message" : "\"shift\""
    },
    "SHIP" : {
       "description" : "",

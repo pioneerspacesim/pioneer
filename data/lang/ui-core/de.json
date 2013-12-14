@@ -145,7 +145,7 @@
    },
    "DISPLAY_SPEED_LINES" : {
       "description" : "",
-      "message" : "Display speed lines"
+      "message" : "Geschwindigkeitslinien anzeigen"
    },
    "DOCK_AT_CURRENT_TARGET" : {
       "description" : "",

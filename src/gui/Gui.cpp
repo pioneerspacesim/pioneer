@@ -22,6 +22,7 @@ namespace RawEvents {
 static Sint32 lastMouseX, lastMouseY;
 void HandleSDLEvent(SDL_Event *event)
 {
+	PROFILE_SCOPED()
 	switch (event->type) {
 		case SDL_MOUSEBUTTONDOWN:
 			lastMouseX = event->button.x;
@@ -93,6 +94,7 @@ sigc::connection AddTimer(Uint32 ms, sigc::slot<void> slot)
 
 void Draw()
 {
+	PROFILE_SCOPED()
 	Uint32 t = SDL_GetTicks();
 	// also abused like an update() function...
 	for (std::list<TimerSignal*>::iterator i = g_timeSignals.begin(); i != g_timeSignals.end();) {
@@ -124,10 +126,15 @@ void Uninit()
 
 void MainLoopIteration()
 {
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+	PROFILE_SCOPED()
+
+	Graphics::Renderer *r = Gui::Screen::GetRenderer();
+
+	r->SetMatrixMode(Graphics::MatrixMode::PROJECTION);
+	r->LoadIdentity();
+	r->SetMatrixMode(Graphics::MatrixMode::MODELVIEW);
+	r->LoadIdentity();
+
 	glClearColor(0,0,0,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	// handle events
@@ -141,9 +148,9 @@ void MainLoopIteration()
 	}
 
 	SDL_ShowCursor(1);
-	Gui::Screen::GetRenderer()->GetWindow()->SetGrab(false);
+	r->GetWindow()->SetGrab(false);
 	Gui::Draw();
-	Gui::Screen::GetRenderer()->GetWindow()->SwapBuffers();
+	r->GetWindow()->SwapBuffers();
 }
 
 namespace Theme {

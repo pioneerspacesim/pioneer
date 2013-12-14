@@ -210,6 +210,7 @@ int TextureFont::PickCharacter(const char *str, float mouseX, float mouseY) cons
 
 void TextureFont::RenderString(const char *str, float x, float y, const Color &color)
 {
+	PROFILE_SCOPED()
 	m_renderer->SetBlendMode(Graphics::BLEND_ALPHA_PREMULT);
 	m_vertices.Clear();
 
@@ -255,6 +256,7 @@ void TextureFont::RenderString(const char *str, float x, float y, const Color &c
 
 Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &color)
 {
+	PROFILE_SCOPED()
 	m_renderer->SetBlendMode(Graphics::BLEND_ALPHA_PREMULT);
 	m_vertices.Clear();
 
@@ -270,9 +272,9 @@ Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &
 		if (str[i] == '#') {
 			int hexcol;
 			if (sscanf(str+i, "#%3x", &hexcol)==1) {
-				c.r = float((hexcol&0xf00)>>4);
-				c.g = float((hexcol&0xf0));
-				c.b = float((hexcol&0xf)<<4);
+				c.r = (hexcol&0xf00)>>4;
+				c.g = (hexcol&0xf0);
+				c.b = (hexcol&0xf)<<4;
 				// retain alpha value from RenderMarkup color parameter
 				premult_c.r = c.r * alpha_f;
 				premult_c.g = c.g * alpha_f;

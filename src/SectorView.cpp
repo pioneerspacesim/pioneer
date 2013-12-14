@@ -155,7 +155,7 @@ void SectorView::InitObject()
 
 	m_infoBox = new Gui::VBox();
 	m_infoBox->SetTransparency(false);
-	m_infoBox->SetBgColor(0.05f, 0.05f, 0.12f, 0.5f);
+	m_infoBox->SetBgColor(13, 13, 31, 128);
 	m_infoBox->SetSpacing(10.0f);
 	Add(m_infoBox, 5, 5);
 
@@ -263,7 +263,7 @@ void SectorView::InitObject()
 
 	m_factionBox = new Gui::VBox();
 	m_factionBox->SetTransparency(false);
-	m_factionBox->SetBgColor(0.05f, 0.05f, 0.12f, 0.5f);
+	m_factionBox->SetBgColor(13, 13, 31, 128);
 	m_factionBox->SetSpacing(5.0f);
 	m_factionBox->HideAll();
 	Add(m_factionBox, 5, 5);
@@ -379,6 +379,8 @@ void SectorView::OnSearchBoxKeyPress(const SDL_Keysym *keysym)
 
 void SectorView::Draw3D()
 {
+	PROFILE_SCOPED()
+
 	m_lineVerts->Clear();
 	m_secLineVerts->Clear();
 	m_clickableLabels->Clear();
@@ -403,6 +405,8 @@ void SectorView::Draw3D()
 	else {
 		m_distanceLabel->SetText("");
 	}
+
+	Graphics::Renderer::MatrixTicket ticket(m_renderer, Graphics::MatrixMode::MODELVIEW);
 
 	// units are lightyears, my friend
 	modelview.Translate(0.f, 0.f, -10.f-10.f*m_zoom);    // not zoomClamped, let us zoom out a bit beyond what we're drawing
@@ -508,6 +512,7 @@ void SectorView::OnClickSystem(const SystemPath &path)
 
 void SectorView::PutSystemLabels(Sector *sec, const vector3f &origin, int drawRadius)
 {
+	PROFILE_SCOPED()
 	Uint32 sysIdx = 0;
 	for (std::vector<Sector::System>::iterator sys = sec->m_systems.begin(); sys !=sec->m_systems.end(); ++sys, ++sysIdx) {
 		// skip the system if it doesn't fall within the sphere we're viewing.
@@ -533,7 +538,7 @@ void SectorView::PutSystemLabels(Sector *sec, const vector3f &origin, int drawRa
 			// reject back-projected labels
 			if(screenPos.z > 1.0f)
 				continue;
-			
+
 			// work out the colour
 			Color labelColor = (*sys).faction->AdjustedColour((*sys).population, inRange);
 
@@ -553,6 +558,7 @@ void SectorView::PutSystemLabels(Sector *sec, const vector3f &origin, int drawRa
 
 void SectorView::PutFactionLabels(const vector3f &origin)
 {
+	PROFILE_SCOPED()
 	glDepthRange(0,1);
 	Gui::Screen::EnterOrtho();
 	for (std::set<Faction*>::iterator it = m_visibleFactions.begin(); it != m_visibleFactions.end(); ++it) {
@@ -603,6 +609,7 @@ void SectorView::PutFactionLabels(const vector3f &origin)
 
 void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path)
 {
+	PROFILE_SCOPED()
 	Sector *sec = GetCached(path.sectorX, path.sectorY, path.sectorZ);
 	Sector *playerSec = GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
 
@@ -686,6 +693,7 @@ void SectorView::OnToggleFaction(Gui::ToggleButton* button, bool pressed, Factio
 
 void SectorView::UpdateFactionToggles()
 {
+	PROFILE_SCOPED()
 	// make sure we have enough row in the ui
 	while (m_visibleFactionLabels.size() < m_visibleFactions.size()) {
 		Gui::HBox*         row    = new Gui::HBox();
@@ -728,6 +736,7 @@ void SectorView::UpdateFactionToggles()
 
 void SectorView::DrawNearSectors(const matrix4x4f& modelview)
 {
+	PROFILE_SCOPED()
 	m_visibleFactions.clear();
 
 	const Sector *playerSec = GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
@@ -760,6 +769,7 @@ void SectorView::DrawNearSectors(const matrix4x4f& modelview)
 
 void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const vector3f &playerAbsPos,const matrix4x4f &trans)
 {
+	PROFILE_SCOPED()
 	m_renderer->SetTransform(trans);
 	Sector* ps = GetCached(sx, sy, sz);
 
@@ -914,6 +924,7 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 
 void SectorView::DrawFarSectors(const matrix4x4f& modelview)
 {
+	PROFILE_SCOPED()
 	int buildRadius = ceilf((m_zoomClamped/FAR_THRESHOLD) * 3);
 	if (buildRadius <= DRAW_RAD) buildRadius = DRAW_RAD;
 
@@ -950,6 +961,7 @@ void SectorView::DrawFarSectors(const matrix4x4f& modelview)
 
 void SectorView::BuildFarSector(Sector* sec, const vector3f &origin, std::vector<vector3f> &points, std::vector<Color> &colors)
 {
+	PROFILE_SCOPED()
 	Color starColor;
 	for (std::vector<Sector::System>::iterator i = sec->m_systems.begin(); i != sec->m_systems.end(); ++i) {
 		// skip the system if it doesn't fall within the sphere we're viewing.
@@ -970,7 +982,10 @@ void SectorView::BuildFarSector(Sector* sec, const vector3f &origin, std::vector
 	}
 }
 
-void SectorView::OnSwitchTo() {
+void SectorView::OnSwitchTo()
+{
+	m_renderer->SetViewport(0, 0, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
+
 	if (!m_onKeyPressConnection.connected())
 		m_onKeyPressConnection =
 			Pi::onKeyPress.connect(sigc::mem_fun(this, &SectorView::OnKeyPressed));
@@ -1072,6 +1087,7 @@ void SectorView::OnKeyPressed(SDL_Keysym *keysym)
 
 void SectorView::Update()
 {
+	PROFILE_SCOPED()
 	SystemPath last_current = m_current;
 	bool last_inSystem = m_inSystem;
 
@@ -1224,6 +1240,7 @@ void SectorView::MouseWheel(bool up)
 
 Sector* SectorView::GetCached(const SystemPath& loc)
 {
+	PROFILE_SCOPED()
 	Sector *s = 0;
 
 	std::map<SystemPath,Sector*>::iterator i = m_sectorCache.find(loc);
@@ -1239,12 +1256,14 @@ Sector* SectorView::GetCached(const SystemPath& loc)
 
 Sector* SectorView::GetCached(const int sectorX, const int sectorY, const int sectorZ)
 {
+	PROFILE_SCOPED()
 	const SystemPath loc(sectorX, sectorY, sectorZ);
 	return GetCached(loc);
 }
 
 void SectorView::ShrinkCache()
 {
+	PROFILE_SCOPED()
 	// we're going to use these to determine if our sectors are within the range that we'll ever render
 	const int drawRadius = (m_zoomClamped <= FAR_THRESHOLD) ? DRAW_RAD : ceilf((m_zoomClamped/FAR_THRESHOLD) * DRAW_RAD);
 

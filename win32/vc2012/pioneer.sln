@@ -3,6 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Windows Desktop
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pioneer", "pioneer.vcxproj", "{65A1BBFB-7A42-497C-BF65-A0A06664A204}"
 	ProjectSection(ProjectDependencies) = postProject
+		{FFDC1809-F67B-4933-B4E0-5298EA5DDB7E} = {FFDC1809-F67B-4933-B4E0-5298EA5DDB7E}
 		{82973C2C-FC40-4320-84AE-A47E36868C02} = {82973C2C-FC40-4320-84AE-A47E36868C02}
 		{5085B12D-F9AC-4878-9672-1FD4EB0EFB67} = {5085B12D-F9AC-4878-9672-1FD4EB0EFB67}
 		{06E6CE3D-9163-453B-BF8D-3B9DECB5AB78} = {06E6CE3D-9163-453B-BF8D-3B9DECB5AB78}
@@ -58,6 +59,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "json", "json\json.vcxproj", "{794ACEC3-F37F-4174-874F-8AE8EAD00545}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "glew", "glew\glew.vcxproj", "{03ACDDF1-56D2-49FF-8762-000EA6CB2C2F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "profiler", "profiler\profiler.vcxproj", "{FFDC1809-F67B-4933-B4E0-5298EA5DDB7E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -150,6 +153,12 @@ Global
 		{03ACDDF1-56D2-49FF-8762-000EA6CB2C2F}.PreRelease|Win32.Build.0 = PreRelease|Win32
 		{03ACDDF1-56D2-49FF-8762-000EA6CB2C2F}.Release|Win32.ActiveCfg = Release|Win32
 		{03ACDDF1-56D2-49FF-8762-000EA6CB2C2F}.Release|Win32.Build.0 = Release|Win32
+		{FFDC1809-F67B-4933-B4E0-5298EA5DDB7E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FFDC1809-F67B-4933-B4E0-5298EA5DDB7E}.Debug|Win32.Build.0 = Debug|Win32
+		{FFDC1809-F67B-4933-B4E0-5298EA5DDB7E}.PreRelease|Win32.ActiveCfg = PreRelease|Win32
+		{FFDC1809-F67B-4933-B4E0-5298EA5DDB7E}.PreRelease|Win32.Build.0 = PreRelease|Win32
+		{FFDC1809-F67B-4933-B4E0-5298EA5DDB7E}.Release|Win32.ActiveCfg = Release|Win32
+		{FFDC1809-F67B-4933-B4E0-5298EA5DDB7E}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

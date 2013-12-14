@@ -84,7 +84,7 @@ static void dummy() {}
 void GalacticView::PutLabels(vector3d offset)
 {
 	Gui::Screen::EnterOrtho();
-	glColor3f(1,1,1);
+	glColor3ub(255,255,255);
 
 	for (int i=0; s_labels[i].label; i++) {
 		vector3d p = m_zoom * (s_labels[i].pos + offset);
@@ -100,6 +100,7 @@ void GalacticView::PutLabels(vector3d offset)
 
 void GalacticView::Draw3D()
 {
+	PROFILE_SCOPED()
 	vector3f pos = Pi::sectorView->GetPosition();
 	float offset_x = (pos.x*Sector::SIZE + Galaxy::SOL_OFFSET_X)/Galaxy::GALAXY_RADIUS;
 	float offset_y = (-pos.y*Sector::SIZE + Galaxy::SOL_OFFSET_Y)/Galaxy::GALAXY_RADIUS;

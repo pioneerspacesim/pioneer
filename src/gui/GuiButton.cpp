@@ -81,6 +81,7 @@ void TransparentButton::GetSizeRequested(float size[2])
 
 void SolidButton::Draw()
 {
+	PROFILE_SCOPED()
 	float size[2];
 	GetSize(size);
 	if (IsPressed()) {
@@ -91,6 +92,7 @@ void SolidButton::Draw()
 }
 void TransparentButton::Draw()
 {
+	PROFILE_SCOPED()
 	float size[2];
 	GetSize(size);
 	glColor3f(1,1,1);
@@ -115,6 +117,7 @@ void LabelButton::GetSizeRequested(float size[2])
 
 void LabelButton::Draw()
 {
+	PROFILE_SCOPED()
 	float size[2];
 	GetSize(size);
 	//printf("%f,%f\n", size[0], size[1]);
@@ -125,10 +128,12 @@ void LabelButton::Draw()
 	} else {
 		Theme::DrawOutdent(size);
 	}
-	glPushMatrix();
-	glTranslatef(m_padding, m_padding*0.5, 0);
+
+	Graphics::Renderer *r = Gui::Screen::GetRenderer();
+	Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
+
+	r->Translate(m_padding, m_padding*0.5, 0);
 	m_label->Draw();
-	glPopMatrix();
 }
 
 void LabelButton::OnSetSize()

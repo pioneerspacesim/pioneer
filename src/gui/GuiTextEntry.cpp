@@ -203,6 +203,7 @@ void TextEntry::Unfocus()
 
 void TextEntry::Draw()
 {
+	PROFILE_SCOPED()
 	m_justFocused = false;
 
 	float size[2];
@@ -219,7 +220,7 @@ void TextEntry::Draw()
 		if (m_scroll < 0) m_scroll = 0;
 	}
 
-	glColor3f(0,0,0);
+	glColor3ub(0,0,0);
 	glBegin(GL_TRIANGLE_FAN);
 		glVertex2f(0,size[1]);
 		glVertex2f(size[0],size[1]);
@@ -243,7 +244,7 @@ void TextEntry::Draw()
 	Gui::Screen::RenderString(m_text, 1.0f - m_scroll, 0.0f, c, m_font.Get());
 
 	/* Cursor */
-	glColor3f(0.5f,0.5f,0.5f);
+	glColor3ub(128,128,128);
 	glBegin(GL_LINES);
 		glVertex2f(curs_x + 1.0f - m_scroll, curs_y + Gui::Screen::GetFontDescender(m_font.Get()) - Gui::Screen::GetFontHeight(m_font.Get()));
 		glVertex2f(curs_x + 1.0f - m_scroll, curs_y + Gui::Screen::GetFontDescender(m_font.Get()));
