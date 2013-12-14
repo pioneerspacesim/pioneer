@@ -13,6 +13,7 @@
 #include "Sound.h"
 #include "Sfx.h"
 #include "galaxy/Sector.h"
+#include "SectorCache.h"
 #include "Frame.h"
 #include "WorldView.h"
 #include "HyperspaceCloud.h"
@@ -528,10 +529,10 @@ static float distance_to_system(const SystemPath &dest)
 	assert(here.HasValidSystem());
 	assert(dest.HasValidSystem());
 
-	Sector sec1(here.sectorX, here.sectorY, here.sectorZ);
-	Sector sec2(dest.sectorX, dest.sectorY, dest.sectorZ);
+	const Sector* sec1 = SectorCache::GetCached(here.sectorX, here.sectorY, here.sectorZ);
+	const Sector* sec2 = SectorCache::GetCached(dest.sectorX, dest.sectorY, dest.sectorZ);
 
-	return Sector::DistanceBetween(&sec1, here.systemIndex, &sec2, dest.systemIndex);
+	return Sector::DistanceBetween(sec1, here.systemIndex, sec2, dest.systemIndex);
 }
 
 Ship::HyperjumpStatus Ship::GetHyperspaceDetails(const SystemPath &dest, int &outFuelRequired, double &outDurationSecs)

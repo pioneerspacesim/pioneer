@@ -319,10 +319,10 @@ static int l_starsystem_distance_to(lua_State *l)
 		loc2 = &(s2->GetPath());
 	}
 
-	Sector sec1(loc1->sectorX, loc1->sectorY, loc1->sectorZ);
-	Sector sec2(loc2->sectorX, loc2->sectorY, loc2->sectorZ);
+	const Sector* sec1 = SectorCache::GetCached(loc1->sectorX, loc1->sectorY, loc1->sectorZ);
+	const Sector* sec2 = SectorCache::GetCached(loc2->sectorX, loc2->sectorY, loc2->sectorZ);
 
-	double dist = Sector::DistanceBetween(&sec1, loc1->systemIndex, &sec2, loc2->systemIndex);
+	double dist = Sector::DistanceBetween(sec1, loc1->systemIndex, sec2, loc2->systemIndex);
 
 	lua_pushnumber(l, dist);
 

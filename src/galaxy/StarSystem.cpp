@@ -3,6 +3,7 @@
 
 #include "StarSystem.h"
 #include "Sector.h"
+#include "SectorCache.h"
 #include "Factions.h"
 
 #include "Serializer.h"
@@ -1384,7 +1385,7 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path)
 	assert(path.IsSystemPath());
 	memset(m_tradeLevel, 0, sizeof(m_tradeLevel));
 
-	Sector s = Sector(m_path.sectorX, m_path.sectorY, m_path.sectorZ);
+	const Sector &s = *SectorCache::GetCached(m_path.sectorX, m_path.sectorY, m_path.sectorZ);
 	assert(m_path.systemIndex >= 0 && m_path.systemIndex < s.m_systems.size());
 
 	m_seed    = s.m_systems[m_path.systemIndex].seed;
@@ -2520,7 +2521,7 @@ void StarSystem::ExportToLua(const char *filename) {
 
 	fprintf(f, "system:bodies(%s)\n\n", ExportBodyToLua(f, rootBody.Get()).c_str());
 
-	Sector sec(GetPath().sectorX, GetPath().sectorY, GetPath().sectorZ);
+	const Sector &sec = *SectorCache::GetCached(GetPath().sectorX, GetPath().sectorY, GetPath().sectorZ);
 	SystemPath pa = GetPath();
 
 	fprintf(f, "system:add_to_sector(%d,%d,%d,v(%.4f,%.4f,%.4f))\n",

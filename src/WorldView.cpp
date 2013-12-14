@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "Planet.h"
 #include "galaxy/Sector.h"
+#include "SectorCache.h"
 #include "SectorView.h"
 #include "Serializer.h"
 #include "ShipCpanel.h"
@@ -778,14 +779,14 @@ void WorldView::RefreshButtonStateAndVisibility()
 			}
 			else {
 				const SystemPath dest = ship->GetHyperspaceDest();
-				Sector s(dest.sectorX, dest.sectorY, dest.sectorZ);
+				const Sector* s = SectorCache::GetCached(dest.sectorX, dest.sectorY, dest.sectorZ);
 				text += (cloud->IsArrival() ? Lang::HYPERSPACE_ARRIVAL_CLOUD : Lang::HYPERSPACE_DEPARTURE_CLOUD);
 				text += "\n";
 				text += stringf(Lang::SHIP_MASS_N_TONNES, formatarg("mass", ship->GetStats().total_mass));
 				text += "\n";
 				text += (cloud->IsArrival() ? Lang::SOURCE : Lang::DESTINATION);
 				text += ": ";
-				text += s.m_systems[dest.systemIndex].name;
+				text += s->m_systems[dest.systemIndex].name;
 				text += "\n";
 				text += stringf(Lang::DATE_DUE_N, formatarg("date", format_date(cloud->GetDueDate())));
 				text += "\n";
