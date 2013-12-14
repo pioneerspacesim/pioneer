@@ -200,6 +200,13 @@ if test "x$with_extra_warnings" != xno; then
   done
 fi
 
+dnl Add some useful args for clang under ccache
+dnl http://petereisentraut.blogspot.com.au/2011/05/ccache-and-clang.html
+if test "x$CCACHE" != x; then
+    PIONEER_C_CXX_FLAG([-Qunused-arguments])
+    PIONEER_C_CXX_FLAG([-fcolor-diagnostics])
+fi
+
 dnl Data files directory
 if test "$PIONEER_DATA_DIR" = ''; then
   AC_MSG_WARN([Using the default value for PIONEER_DATA_DIR.])
