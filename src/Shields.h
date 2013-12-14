@@ -4,7 +4,7 @@
 #ifndef _SHIELDS_H_
 #define _SHIELDS_H_
 /*
- * Blinking navigation lights for ships and stations
+ * Mesh shields for ships and other objects.
  */
 #include "libs.h"
 #include "Serializer.h"
