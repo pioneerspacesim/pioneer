@@ -94,6 +94,7 @@ void MusicPlayer::FadeOut(const float fadeDelta)
 
 void MusicPlayer::Update()
 {
+	PROFILE_SCOPED()
 	if (m_playing) { //expecting report
 		if ((m_eventOnePlaying && !m_eventOne.IsPlaying()) || (!m_eventOnePlaying && !m_eventTwo.IsPlaying())) {
 			m_playing = false;

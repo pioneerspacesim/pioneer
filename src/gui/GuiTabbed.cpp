@@ -149,6 +149,7 @@ bool Tabbed::IsLabelWidget(const Widget *w)
 
 void Tabbed::Draw()
 {
+	PROFILE_SCOPED()
 	float size[2];
 	GetSize(size);
 	float xpos = 0;

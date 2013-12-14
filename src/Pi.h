@@ -135,6 +135,12 @@ public:
 #if WITH_DEVKEYS
 	static bool showDebugInfo;
 #endif
+#if PIONEER_PROFILER
+	static std::string profilerPath;
+	static bool doProfileSlow;
+	static bool doProfileOne;
+#endif
+
 	static Player *player;
 	static SectorView *sectorView;
 	static GalacticView *galacticView;

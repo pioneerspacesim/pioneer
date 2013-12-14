@@ -70,6 +70,7 @@ void Label::SetText(const std::string &text)
 
 void Label::Draw()
 {
+	PROFILE_SCOPED()
 	if (!m_layout) UpdateLayout();
 	float size[2]; GetSize(size);
 /*	glColor3f(1,0,0);
@@ -80,9 +81,10 @@ void Label::Draw()
 		glVertex2f(0, 0);
 	glEnd();*/
 	if (m_shadow) {
-		glTranslatef(1,1,0);
+		Graphics::Renderer *r = Gui::Screen::GetRenderer();
+		r->Translate(1,1,0);
 		m_layout->Render(size[0], Color::BLACK);
-		glTranslatef(-1,-1,0);
+		r->Translate(-1,-1,0);
 	}
 	m_layout->Render(size[0], m_color);
 }

@@ -42,6 +42,7 @@ Camera::~Camera()
 
 static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Camera::LightSource> &lights)
 {
+	PROFILE_SCOPED()
 	if (lights.size() > 3) return;
 
 	SystemBody *body = frame->GetSystemBody();
@@ -99,6 +100,7 @@ void Camera::Update()
 
 void Camera::Draw(Renderer *renderer, const Body *excludeBody)
 {
+	PROFILE_SCOPED()
 	if (!m_camFrame) return;
 	if (!renderer) return;
 
@@ -159,6 +161,7 @@ void Camera::Draw(Renderer *renderer, const Body *excludeBody)
 
 	{
 		std::vector<Graphics::Light> rendererLights;
+		rendererLights.reserve(m_lightSources.size());
 		for (size_t i = 0; i < m_lightSources.size(); i++)
 			rendererLights.push_back(m_lightSources[i].GetLight());
 		renderer->SetLights(rendererLights.size(), &rendererLights[0]);
@@ -198,6 +201,7 @@ void Camera::Draw(Renderer *renderer, const Body *excludeBody)
 
 void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
+	PROFILE_SCOPED()
 	// draw twinkly star-thing on faraway objects
 	// XXX this seems like a good case for drawing in 2D - use projected position, then the
 	// "face the camera dammit" bits can be skipped
@@ -223,12 +227,11 @@ void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d 
 	// Not quite correct, since it always uses the first light
 	GLfloat col[4];
 	glGetLightfv(GL_LIGHT0, GL_DIFFUSE, col);
-	col[3] = 1.f;
 
 	static VertexArray va(ATTRIB_POSITION | ATTRIB_DIFFUSE);
 	va.Clear();
 
-	const Color center(col[0], col[1], col[2], col[2]);
+	const Color center(col[0], col[1], col[2], 1.f);
 	const Color edges(col[0], col[1], col[2], 0.f);
 
 	//center

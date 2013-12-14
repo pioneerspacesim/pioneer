@@ -70,6 +70,7 @@ void ScrollBar::OnRawMouseMotion(MouseMotionEvent *e)
 
 void ScrollBar::Draw()
 {
+	PROFILE_SCOPED()
 	float size[2]; GetSize(size);
 	Theme::DrawIndent(size);
 	float pos = m_adjustment->GetValue();
@@ -106,6 +107,7 @@ void ScrollBar::GetMinimumSize(float size[2])
 
 void HScale::Draw()
 {
+	PROFILE_SCOPED()
 	float size[2]; GetSize(size);
 	float pos = m_adjustment->GetValue();
 
