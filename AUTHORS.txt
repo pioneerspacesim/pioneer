@@ -11,6 +11,7 @@ The Pioneer Developers are:
 * Alessandro Giachi
 * Andrew Cook
 * Andrew Copland
+* Antti Salonen
 * Asier Basagoiti
 * Benamucki
 * Benjamin Hodgetts
