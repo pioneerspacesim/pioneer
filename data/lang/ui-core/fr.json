@@ -197,7 +197,7 @@
    },
    "EXIT_THIS_GAME" : {
       "description" : "",
-      "message" : "Quitter le jeux"
+      "message" : "Quitter le jeu"
    },
    "FAILED" : {
       "description" : "",
