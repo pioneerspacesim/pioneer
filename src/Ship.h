@@ -13,6 +13,7 @@
 #include "Planet.h"
 #include "Serializer.h"
 #include "ShipType.h"
+#include "ShipCockpit.h"
 #include "scenegraph/SceneGraph.h"
 #include "scenegraph/ModelSkin.h"
 #include <list>
@@ -212,6 +213,8 @@ public:
 	const SceneGraph::ModelSkin &GetSkin() const { return m_skin; }
 	void SetSkin(const SceneGraph::ModelSkin &skin);
 
+	const ShipCockpit* GetCockpit() const {return m_cockpit.get();}
+
 	void SetLabel(const std::string &label);
 	static std::string MakeRandomLabel(); // XXX doesn't really belong here
 
@@ -297,6 +300,7 @@ private:
 	shipstats_t m_stats;
 	const ShipType *m_type;
 	SceneGraph::ModelSkin m_skin;
+	std::unique_ptr<ShipCockpit> m_cockpit;
 
 	FlightState m_flightState;
 	bool m_testLanded;

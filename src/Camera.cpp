@@ -98,7 +98,7 @@ void Camera::Update()
 	m_sortedBodies.sort();
 }
 
-void Camera::Draw(Renderer *renderer, const Body *excludeBody)
+void Camera::Draw(Renderer *renderer, const Body *excludeBody, ModelBody* cockpit)
 {
 	PROFILE_SCOPED()
 	if (!m_camFrame) return;
@@ -191,6 +191,17 @@ void Camera::Draw(Renderer *renderer, const Body *excludeBody)
 	}
 
 	Sfx::RenderAll(renderer, Pi::game->GetSpace()->GetRootFrame(), m_camFrame);
+
+	// Render cockpit
+	if(cockpit) {
+		//renderer->SetDepthTest(false);
+		renderer->ClearDepthBuffer();
+		cockpit->SetFrame(m_camFrame);
+		cockpit->Render(renderer, this, vector3d(0, 0, 0), matrix4x4d::Identity());
+		cockpit->SetFrame(nullptr);
+		//renderer->SetDepthTest(true);
+	}
+
 
 	m_frame->RemoveChild(m_camFrame);
 	delete m_camFrame;
