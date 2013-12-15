@@ -97,8 +97,8 @@ void Camera::Update()
 	// depth sort
 	m_sortedBodies.sort();
 }
-
-void Camera::Draw(Renderer *renderer, const Body *excludeBody, ModelBody* cockpit)
+#pragma optimize("",off)
+void Camera::Draw(Graphics::Renderer *renderer, const Body *excludeBody, ModelBody* cockpit)
 {
 	PROFILE_SCOPED()
 	if (!m_camFrame) return;
@@ -197,7 +197,10 @@ void Camera::Draw(Renderer *renderer, const Body *excludeBody, ModelBody* cockpi
 		//renderer->SetDepthTest(false);
 		renderer->ClearDepthBuffer();
 		cockpit->SetFrame(m_camFrame);
-		cockpit->Render(renderer, this, vector3d(0, 0, 0), matrix4x4d::Identity());
+		static double off_x = 0.0;
+		static double off_y = -1.0;
+		static double off_z = 2.0;
+		cockpit->Render(renderer, this, vector3d(off_x, off_y, off_z), matrix4x4d::Identity());
 		cockpit->SetFrame(nullptr);
 		//renderer->SetDepthTest(true);
 	}

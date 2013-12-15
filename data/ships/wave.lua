@@ -4,6 +4,7 @@
 define_ship {
 	name='Wave Heavy Hypersonic Fighter',
 	model='wave',
+	cockpit='cockpit',
 	forward_thrust = 88e5,
 	reverse_thrust = 29e5,
 	up_thrust = 15e5,

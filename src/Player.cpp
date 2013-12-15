@@ -25,6 +25,10 @@ Player::Player(ShipType::Id shipId): Ship(shipId)
 	SetController(new PlayerShipController());
 }
 
+Player::Player()
+{
+}
+
 void Player::Save(Serializer::Writer &wr, Space *space)
 {
 	Ship::Save(wr, space);

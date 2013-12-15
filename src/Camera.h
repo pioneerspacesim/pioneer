@@ -11,8 +11,9 @@
 #include "Background.h"
 #include "Body.h"
 
-
+// forward declarations
 class Frame;
+class ModelBody;
 namespace Graphics { class Renderer; }
 
 class Camera {
@@ -22,7 +23,7 @@ public:
 	virtual ~Camera();
 
 	void Update();
-	void Draw(Graphics::Renderer *r, const Body *excludeBody = 0, ModelBody* cockpit = nullptr);
+	void Draw(Graphics::Renderer *r, const Body *excludeBody = nullptr, ModelBody* cockpit = nullptr);
 
 	// frame to position the camera relative to
 	void SetFrame(Frame *frame) { m_frame = frame; }

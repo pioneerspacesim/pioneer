@@ -201,6 +201,10 @@ void Ship::Init()
 
 	InitGun("tag_gunmount_0", 0);
 	InitGun("tag_gunmount_1", 1);
+
+	if(!m_type->cockpitName.empty() && Pi::FindModel(m_type->cockpitName, false)) {
+		m_cockpit.reset(new ShipCockpit(*m_type));
+	}
 }
 
 void Ship::PostLoadFixup(Space *space)
@@ -250,10 +254,6 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	m_skin.SetRandomColors(Pi::rng);
 	m_skin.SetPattern(Pi::rng.Int32(0, GetModel()->GetNumPatterns()));
 	m_skin.Apply(GetModel());
-
-	if(m_type->cockpitName.length() > 0) {
-		m_cockpit.reset(new ShipCockpit(*m_type));
-	}
 
 	Init();
 	SetController(new ShipController());
