@@ -192,6 +192,9 @@ void Camera::Draw(Graphics::Renderer *renderer, const Body *excludeBody, ModelBo
 
 	Sfx::RenderAll(renderer, Pi::game->GetSpace()->GetRootFrame(), m_camFrame);
 
+	// NB: Do any screen space rendering after here:
+	// Things like the cockpit and AR features like hudtrails, space dust etc.
+
 	// Render cockpit
 	if(cockpit) {
 		//renderer->SetDepthTest(false);
