@@ -40,13 +40,15 @@ private:
 		Child(Widget *_widget) : widget(_widget) {}
 		Widget *widget;
 		Point  contribSize;
+		Point  size;
+		Point  position;
 	};
 
 	std::list<Child> m_children;
 
 	Point m_preferredSize;
-	int m_minAllocation;
-	int m_numVariable;
+	Uint32 m_minAllocation;
+	Uint32 m_numVariable;
 };
 
 class VBox: public Box {
