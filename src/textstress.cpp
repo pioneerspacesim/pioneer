@@ -1,6 +1,7 @@
 #include <cstdlib>
 #include "SDL.h"
 #include "FileSystem.h"
+#include "OS.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 #include "text/FontDescriptor.h"
@@ -18,44 +19,17 @@ int main(int argc, char **argv)
 		exit(-1);
 	}
 
-    const SDL_VideoInfo *info = SDL_GetVideoInfo();
-    switch (info->vfmt->BitsPerPixel) {
-        case 16:
-            SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
-            SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 6);
-            SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
-            break;
-        case 24:
-        case 32:
-            SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
-            SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
-            SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
-            break;
-        default:
-            fprintf(stderr, "invalid pixel depth: %d bpp\n", info->vfmt->BitsPerPixel);
-            exit(-1);
-    }
-    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-    SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);
-
-	SDL_Surface *surface = SDL_SetVideoMode(WIDTH, HEIGHT, info->vfmt->BitsPerPixel, SDL_OPENGL);
-	if (!surface) {
-		fprintf(stderr, "sdl video mode init failed: %s\n", SDL_GetError());
-		SDL_Quit();
-		exit(-1);
-	}
-
-	SDL_WM_SetCaption("textstress", "textstress");
-
 	Graphics::Settings videoSettings;
 	videoSettings.width = WIDTH;
 	videoSettings.height = HEIGHT;
 	videoSettings.fullscreen = false;
-	videoSettings.shaders = false;
 	videoSettings.requestedSamples = 0;
 	videoSettings.vsync = false;
 	videoSettings.useTextureCompression = false;
+	videoSettings.enableDebugMessages = false;
+	videoSettings.iconFile = OS::GetIconFilename();
+	videoSettings.title = "textstress";
+
 	Graphics::Renderer *r = Graphics::Init(videoSettings);
 
 	r->SetOrthographicProjection(0, WIDTH, HEIGHT, 0, -1, 1);
