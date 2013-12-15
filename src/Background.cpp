@@ -140,7 +140,7 @@ void UniverseBox::LoadCubeMap(Graphics::Renderer *r, Random* randomizer)
 	m_cubemap = nullptr;
 	
 	if(randomizer && m_numCubemaps>0) {
-		int new_ubox_index = randomizer->Int32(0, m_numCubemaps);
+		const int new_ubox_index = randomizer->Int32(1, m_numCubemaps);
 		if(new_ubox_index > 0) {
 			// Load new one
 			std::ostringstream os;
