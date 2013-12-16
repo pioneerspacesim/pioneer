@@ -27,13 +27,13 @@ local equipmentMarket = function (args)
 		ui:Grid(2,1)
 			:SetColumn(0, {
 				ui:VBox():PackEnd({
-					ui:Label("Available for purchase"):SetFont("HEADING_LARGE"),
+					ui:Label(l.AVAILABLE_FOR_PURCHASE):SetFont("HEADING_LARGE"),
 					ui:Expand():SetInnerWidget(stationTable),
 				})
 			})
 			:SetColumn(1, {
 				ui:VBox():PackEnd({
-					ui:Label("Equipped"):SetFont("HEADING_LARGE"),
+					ui:Label(l.EQUIPPED):SetFont("HEADING_LARGE"),
 					ui:Expand():SetInnerWidget(shipTable),
 				})
 			})

@@ -83,7 +83,7 @@ shipTable.onRowClicked:Connect(function (row)
 	local reverseAccelEmpty = -def.linearThrust.REVERSE / (-9.81*1000*(def.hullMass+def.fuelTankMass))
 	local reverseAccelFull  = -def.linearThrust.REVERSE / (-9.81*1000*(def.hullMass+def.capacity+def.fuelTankMass))
 
-	local buyButton = ui:Button("Buy Ship"):SetFont("HEADING_LARGE")
+	local buyButton = ui:Button(l.BUY_SHIP):SetFont("HEADING_LARGE")
 	buyButton.onClick:Connect(function () buyShip(currentShipOnSale) end)
 
 	shipInfo:SetInnerWidget(
@@ -94,7 +94,7 @@ shipTable.onRowClicked:Connect(function (row)
 			}),
 			ui:Grid(2,1):SetRow(0, {
 				l.PRICE..": "..Format.Money(def.basePrice),
-				"After trade-in: "..Format.Money(def.basePrice - tradeInValue(ShipDef[Game.player.shipId])),
+                l.AFTER_TRADE_IN..": "..Format.Money(def.basePrice - tradeInValue(ShipDef[Game.player.shipId])),
 			}),
 			ModelSpinner.New(ui, def.modelName, currentShipOnSale.skin),
 			ui:Label(l.HYPERDRIVE_FITTED.." "..lcore[def.defaultHyperdrive]):SetFont("SMALL"),
@@ -105,15 +105,15 @@ shipTable.onRowClicked:Connect(function (row)
 						ui:Table()
 							:SetColumnSpacing(5)
 							:AddRow({l.FORWARD_ACCEL_EMPTY, Format.AccelG(forwardAccelEmpty)})
-							:AddRow({"Forward accel (full)",  Format.AccelG(forwardAccelFull)})
+							:AddRow({l.FORWARD_ACCEL_FULL,  Format.AccelG(forwardAccelFull)})
 							:AddRow({l.REVERSE_ACCEL_EMPTY, Format.AccelG(reverseAccelEmpty)})
-							:AddRow({"Reverse accel (full)",  Format.AccelG(reverseAccelFull)}),
+							:AddRow({l.REVERSE_ACCEL_FULL,  Format.AccelG(reverseAccelFull)}),
 						ui:Table()
 							:SetColumnSpacing(5)
 							:AddRow({l.WEIGHT_EMPTY,        Format.MassTonnes(def.hullMass)})
 							:AddRow({l.CAPACITY,            Format.MassTonnes(def.capacity)})
 							:AddRow({l.FUEL_WEIGHT,         Format.MassTonnes(def.fuelTankMass)})
-							:AddRow({"Weight fully loaded", Format.MassTonnes(def.hullMass+def.capacity+def.fuelTankMass)})
+							:AddRow({l.WEIGHT_FULLY_LOADED, Format.MassTonnes(def.hullMass+def.capacity+def.fuelTankMass)})
 					})
 			),
 			ui:Align("MIDDLE", buyButton),
@@ -140,7 +140,7 @@ local function updateStation (station, shipsOnSale)
 	if currentShipOnSale and not seen then
 		currentShipOnSale = nil
 		shipInfo:SetInnerWidget(
-			ui:MultiLineText("The ship you were viewing has been sold.")
+			ui:MultiLineText(l.SHIP_VIEWING_WAS_SOLD)
 		)
 	end
 end

@@ -28,7 +28,7 @@ local police = function (tab)
 
 	local rand = Rand.New(util.hash_random(station.seed .. '-police', 2^31-1) - 1)
 	local face = InfoFace.New(Character.New({
-		title  = "Constable",
+		title  = l.CONSTABLE,
 		armour = true,
 	}, rand))
 
@@ -37,7 +37,7 @@ local police = function (tab)
 	local infoBox = ui:VBox(10)
 	if #crimes > 0 then
 		infoBox:PackEnd({
-			ui:Label("Criminal record"):SetFont("HEADING_LARGE"),
+			ui:Label(l.CRIMINAL_RECORD):SetFont("HEADING_LARGE"),
 			ui:VBox():PackEnd(
 				utils.build_table(utils.map(function (k,v) return k,crimeStrings[v] end, pairs(crimes)))
 			),
@@ -55,7 +55,7 @@ local police = function (tab)
 	if fine == 0 then
 		noBusiness()
 	else
-		local b = SmallLabeledButton.New("Pay fine of "..Format.Money(fine))
+		local b = SmallLabeledButton.New(string.interp(l.PAY_FINE_OF_N, { amount = Format.Money(fine) }))
 		actionBox:PackEnd(b)
 		b.button.onClick:Connect(function ()
 			if Game.player:GetMoney() < fine then

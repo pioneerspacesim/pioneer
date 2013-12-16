@@ -7,6 +7,10 @@
       "description" : "",
       "message" : "Active"
    },
+   "AFTER_TRADE_IN" : {
+      "description" : "",
+      "message" : "After trade-in"
+   },
    "ALLEGIANCE" : {
       "description" : "",
       "message" : "Allegiance:"
@@ -15,6 +19,10 @@
       "description" : "",
       "message" : "All-up weight"
    },
+   "AMOUNT" : {
+      "description" : "",
+      "message" : "Amount"
+   },
    "AN_ERROR_HAS_OCCURRED" : {
       "description" : "",
       "message" : "An error has occurred"
@@ -22,6 +30,10 @@
    "ATTEMPT_TO_REPAIR_HULL" : {
       "description" : "",
       "message" : "Attempt to repair hull"
+   },
+   "AVAILABLE_FOR_PURCHASE" : {
+      "description" : "",
+      "message" : "Available for purchase"
    },
    "AVERAGE" : {
       "description" : "",
@@ -34,6 +46,10 @@
    "BULLETIN_BOARD" : {
       "description" : "",
       "message" : "Bulletin Board"
+   },
+   "BUY_SHIP" : {
+      "description" : "",
+      "message" : "Buy Ship"
    },
    "CABINS" : {
       "description" : "",
@@ -71,6 +87,10 @@
       "description" : "",
       "message" : "Change Binding"
    },
+   "CHIEF_MECHANIC" : {
+      "description" : "",
+      "message" : "Chief Mechanic"
+   },
    "CIRCULAR_ORBIT_SPEED" : {
       "description" : "",
       "message" : "Circular orbit speed"
@@ -99,6 +119,10 @@
       "description" : "",
       "message" : "Commander"
    },
+   "COMMODITY_MARKET" : {
+      "description" : "",
+      "message" : "Commodity Market"
+   },
    "COMPETENT" : {
       "description" : "",
       "message" : "Competent"
@@ -110,6 +134,10 @@
    "COMPRESS_TEXTURES" : {
       "description" : "",
       "message" : "Compress Textures"
+   },
+   "CONSTABLE" : {
+      "description" : "",
+      "message" : "Constable"
    },
    "CONTROLS" : {
       "description" : "",
@@ -130,6 +158,10 @@
    "CREW_ROSTER" : {
       "description" : "",
       "message" : "Crew Roster"
+   },
+   "CRIMINAL_RECORD" : {
+      "description" : "",
+      "message" : "Criminal record"
    },
    "DANGEROUS" : {
       "description" : "",
@@ -203,6 +235,14 @@
       "description" : "",
       "message" : "Equipment"
    },
+   "EQUIPMENT_MARKET" : {
+      "description" : "",
+      "message" : "Equipment Market"
+   },
+   "EQUIPPED" : {
+      "description" : "",
+      "message" : "Equipped"
+   },
    "ERROR" : {
       "description" : "",
       "message" : "Error"
@@ -230,6 +270,10 @@
    "FORWARD_ACCEL_EMPTY" : {
       "description" : "",
       "message" : "Forward accel (empty)"
+   },
+   "FORWARD_ACCEL_FULL" : {
+      "description" : "",
+      "message" : "Forward accel (full)"
    },
    "FRACTAL_DETAIL" : {
       "description" : "",
@@ -323,6 +367,14 @@
       "description" : "",
       "message" : "Invert Mouse Y"
    },
+   "IN_CARGO_HOLD" : {
+      "description" : "",
+      "message" : "In cargo hold"
+   },
+   "IN_STOCK" : {
+      "description" : "",
+      "message" : "In stock"
+   },
    "ITEM_IS_OUT_OF_STOCK" : {
       "description" : "",
       "message" : "This item is out of stock."
@@ -358,6 +410,10 @@
    "LOAD_GAME" : {
       "description" : "",
       "message" : "Load game"
+   },
+   "LOBBY" : {
+      "description" : "",
+      "message" : "Lobby"
    },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
@@ -519,6 +575,10 @@
       "description" : "",
       "message" : "Owed"
    },
+   "PAY_FINE_OF_N" : {
+      "description" : "",
+      "message" : "Pay fine of {amount}"
+   },
    "PERSONAL_INFORMATION" : {
       "description" : "",
       "message" : "Personal Information"
@@ -542,6 +602,10 @@
    "PLANET_TEXTURES" : {
       "description" : "",
       "message" : "Planet textures"
+   },
+   "POLICE" : {
+      "description" : "",
+      "message" : "Police"
    },
    "POOR" : {
       "description" : "",
@@ -595,6 +659,10 @@
       "description" : "",
       "message" : "Reverse accel (empty)"
    },
+   "REVERSE_ACCEL_FULL" : {
+      "description" : "",
+      "message" : "Reverse accel (full)"
+   },
    "REWARD" : {
       "description" : "",
       "message" : "Reward"
@@ -631,13 +699,25 @@
       "description" : "",
       "message" : "Ship Information"
    },
+   "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
+      "description" : "",
+      "message" : "Your ship is in perfect working condition."
+   },
    "SHIP_IS_FULLY_LADEN" : {
       "description" : "",
       "message" : "Your ship is fully laden."
    },
-   "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
+   "SHIP_MARKET" : {
       "description" : "",
-      "message" : "Your ship is in perfect working condition."
+      "message" : "Ship Market"
+   },
+   "SHIP_REPAIRS" : {
+      "description" : "",
+      "message" : "Ship Repairs"
+   },
+   "SHIP_VIEWING_WAS_SOLD" : {
+      "description" : "",
+      "message" : "The ship you were viewing has been sold"
    },
    "SOUND" : {
       "description" : "",
@@ -654,6 +734,10 @@
    "START_AT_NEW_HOPE" : {
       "description" : "",
       "message" : "Start at New Hope"
+   },
+   "STATION_MANAGER" : {
+      "description" : "",
+      "message" : "Station manager"
    },
    "STATUS" : {
       "description" : "",
@@ -678,6 +762,10 @@
    "TOTAL" : {
       "description" : "",
       "message" : "Total: "
+   },
+   "TOTAL_MASS" : {
+      "description" : "",
+      "message" : "Total mass"
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
@@ -726,6 +814,10 @@
    "WEIGHT_EMPTY" : {
       "description" : "",
       "message" : "Weight empty:"
+   },
+   "WEIGHT_FULLY_LOADED" : {
+      "description" : "",
+      "message" : "Weight fully loaded"
    },
    "WE_ARE_IN_HYPERSPACE_COMMANDER" : {
       "description" : "",

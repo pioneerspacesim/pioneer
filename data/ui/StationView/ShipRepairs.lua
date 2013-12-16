@@ -30,11 +30,11 @@ local getRepairMessage = function (damage, price)
 end
 
 local shipRepairs = function (args)
-	local messageLabel = ui:Label('<message>')
-	local feedbackLabel = ui:Label('<feedback>')
+	local messageLabel = ui:Label('')
+	local feedbackLabel = ui:Label('')
 	local repairButtons = ui:VBox(5)
-	local repair1Label = ui:Label('Repair 1% hull damage for $.')
-	local repairAllLabel = ui:Label('Repair all hull damage $$$.')
+	local repair1Label = ui:Label('')
+	local repairAllLabel = ui:Label('')
 	local repair1Btn = ui:Button(ui:Expand('HORIZONTAL', repair1Label))
 	local repairAllBtn = ui:Button(ui:Expand('HORIZONTAL', repairAllLabel))
 
@@ -91,7 +91,7 @@ local shipRepairs = function (args)
 	-- XXX need a better way of seeding this
 	local station = Game.player:GetDockedWith()
 	local rand = Rand.New(util.hash_random(station.seed .. '-repair-guy', 2^31-1) - 1)
-	local face = InfoFace.New(Character.New({ title = "Repair Guy" }, rand))
+	local face = InfoFace.New(Character.New({ title = l.CHIEF_MECHANIC }, rand))
 
 	return
 		ui:Grid(2,1)

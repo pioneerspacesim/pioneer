@@ -93,15 +93,15 @@ local stationColumnHeading = {
 	icon  = "",
 	name  = l.NAME,
 	price = l.PRICE,
-	stock = "In stock",
+	stock = l.IN_STOCK,
 	mass  = l.MASS,
 }
 local shipColumnHeading = {
 	icon      = "",
 	name      = l.NAME,
-	amount    = "Amount",
+	amount    = l.AMOUNT,
 	mass      = l.MASS,
-	massTotal = "Total mass",
+	massTotal = l.TOTAL_MASS,
 }
 
 local stationColumnValue = {

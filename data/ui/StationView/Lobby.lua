@@ -5,8 +5,11 @@ local Engine = import("Engine")
 local Game = import("Game")
 local Rand = import("Rand")
 local Character = import("Character")
+local Lang = import("Lang")
 
 local InfoFace = import("ui/InfoFace")
+
+local l = Lang.GetResource("ui-core")
 
 local ui = Engine.ui
 
@@ -14,7 +17,7 @@ local lobby = function (tab)
 	local station = Game.player:GetDockedWith()
 
 	local rand = Rand.New(station.seed)
-	local face = InfoFace.New(Character.New({ title = "Station manager" }, rand))
+	local face = InfoFace.New(Character.New({ title = l.STATION_MANAGER }, rand))
 
 	return
 		ui:Grid(2,1)

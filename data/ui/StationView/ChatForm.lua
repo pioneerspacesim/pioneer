@@ -82,11 +82,11 @@ function ChatForm:BuildWidget ()
 			scrollBox:PackEnd(
 				ui:HBox(10):PackEnd({
 					ui:VBox():PackEnd({
-						ui:Label("Available for purchase"):SetFont("HEADING_LARGE"),
+						ui:Label(l.AVAILABLE_FOR_PURCHASE):SetFont("HEADING_LARGE"),
 						stationTable,
 					}),
 					ui:VBox():PackEnd({
-						ui:Label("In cargo hold"):SetFont("HEADING_LARGE"),
+						ui:Label(l.IN_CARGO_HOLD):SetFont("HEADING_LARGE"),
 						shipTable,
 					})
 				})
