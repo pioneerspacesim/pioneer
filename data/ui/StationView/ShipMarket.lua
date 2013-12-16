@@ -26,6 +26,7 @@ local shipTable =
 		:SetColumnSpacing(10)
 		:SetHeadingRow({'', l.SHIP, l.PRICE, l.CAPACITY})
 		:SetHeadingFont("LARGE")
+		:SetRowAlignment("CENTER")
 		:SetMouseEnabled(true)
 
 local shipInfo =
