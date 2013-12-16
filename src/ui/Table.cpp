@@ -47,6 +47,7 @@ void Table::LayoutAccumulator::SetColumnSpacing(int spacing) {
 Table::Inner::Inner(Context *context, LayoutAccumulator &layout) : Container(context),
 	m_layout(layout),
 	m_rowSpacing(0),
+	m_rowAlignment(TOP),
 	m_dirty(false),
 	m_mouseEnabled(false)
 {
@@ -93,7 +94,8 @@ void Table::Inner::Layout()
 	if (m_dirty)
 		PreferredSize();
 
-	Point pos;
+	int rowTop = 0;
+
 	const std::vector<int> &colWidth = m_layout.ColumnWidth();
 	const std::vector<int> &colLeft = m_layout.ColumnLeft();
 
@@ -102,10 +104,29 @@ void Table::Inner::Layout()
 		for (std::size_t j = 0; j < row.size(); j++) {
 			Widget *w = row[j];
 			if (!w) continue;
-			pos.x = colLeft[j];
-			SetWidgetDimensions(w, pos, Point(colWidth[j], m_rowHeight[i]));
+
+			const Point preferredSize(w->PreferredSize());
+			int height = std::min(preferredSize.y, m_rowHeight[i]);
+
+			int off = 0;
+			if (height != m_rowHeight[i]) {
+				switch (m_rowAlignment) {
+					case CENTER:
+						off = (m_rowHeight[i] - height) / 2;
+						break;
+					case BOTTOM:
+						off = m_rowHeight[i] - height;
+						break;
+					default:
+						off = 0;
+						break;
+				}
+			}
+
+			SetWidgetDimensions(w, Point(colLeft[j], rowTop+off), Point(colWidth[j], height));
 		}
-		pos.y += m_rowHeight[i] + m_rowSpacing;
+
+		rowTop += m_rowHeight[i] + m_rowSpacing;
 	}
 
 	LayoutChildren();
@@ -160,6 +181,12 @@ void Table::Inner::AccumulateLayout()
 void Table::Inner::SetRowSpacing(int spacing)
 {
 	m_rowSpacing = spacing;
+	m_dirty = true;
+}
+
+void Table::Inner::SetRowAlignment(RowAlignDirection dir)
+{
+	m_rowAlignment = dir;
 	m_dirty = true;
 }
 
@@ -314,6 +341,13 @@ Table *Table::SetColumnSpacing(int spacing)
 	return this;
 }
 
+Table *Table::SetRowAlignment(RowAlignDirection dir)
+{
+	m_body->SetRowAlignment(dir);
+	m_dirty = true;
+	GetContext()->RequestLayout();
+	return this;
+}
 
 Table *Table::SetHeadingFont(Font font)
 {
