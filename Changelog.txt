@@ -9,6 +9,9 @@ December 2013
      * Fix GL color depth selection (forces alpha channel, which fixes
        progress bars) (#2573)
 
+   * Script and UI API changes
+     * Add table row alignment, Table:SetRowAlignment (#2579)
+
    * Internal changes
      * Remove legacy (non-shader) renderer (#2568)
      * Single frame profiler (#2541, #2569)
