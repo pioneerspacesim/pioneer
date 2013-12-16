@@ -15,6 +15,8 @@
 #include "graphics/VertexArray.h"
 #include "graphics/Material.h"
 
+#include <SDL_stdinc.h>
+
 using namespace Graphics;
 
 Camera::Camera(float width, float height, float fovY, float znear, float zfar) :
@@ -52,9 +54,9 @@ static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Ca
 		const double dist = lpos.Length() / AU;
 		lpos *= 1.0/dist; // normalize
 
-		const float *col = StarSystem::starRealColors[body->type];
+		const Uint8 *col = StarSystem::starRealColors[body->type];
 
-		const Color lightCol(col[0], col[1], col[2], 0.f);
+		const Color lightCol(col[0], col[1], col[2], 0);
 		vector3f lightpos(lpos.x, lpos.y, lpos.z);
 		lights.push_back(Camera::LightSource(frame->GetBody(), Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, lightpos, lightCol, lightCol)));
 	}
@@ -126,7 +128,7 @@ void Camera::Draw(Renderer *renderer, const Body *excludeBody)
 
 	if (m_lightSources.empty()) {
 		// no lights means we're somewhere weird (eg hyperspace). fake one
-		const Color col(1.f);
+		const Color col(255);
 		m_lightSources.push_back(LightSource(0, Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f), col, col)));
 	}
 
@@ -231,8 +233,8 @@ void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d 
 	static VertexArray va(ATTRIB_POSITION | ATTRIB_DIFFUSE);
 	va.Clear();
 
-	const Color center(col[0], col[1], col[2], 1.f);
-	const Color edges(col[0], col[1], col[2], 0.f);
+	const Color center(col[0]*255, col[1]*255, col[2]*255, 255);
+	const Color edges(col[0]*255, col[1]*255, col[2]*255, 0);
 
 	//center
 	va.Add(vector3f(0.f), center);

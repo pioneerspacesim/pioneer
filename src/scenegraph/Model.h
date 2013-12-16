@@ -114,7 +114,7 @@ public:
 	const PatternContainer &GetPatterns() const { return m_patterns; }
 	unsigned int GetNumPatterns() const { return m_patterns.size(); }
 	void SetPattern(unsigned int index);
-	void SetColors(const std::vector<Color4ub> &colors);
+	void SetColors(const std::vector<Color> &colors);
 	void SetDecalTexture(Graphics::Texture *t, unsigned int index = 0);
 	void ClearDecal(unsigned int index = 0);
 	void ClearDecals();

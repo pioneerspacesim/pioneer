@@ -57,6 +57,7 @@ void StaticGeometry::AddMesh(RefCountedPtr<Graphics::StaticMesh> mesh)
 
 void StaticGeometry::DrawBoundingBox(const Aabb &bb)
 {
+	// TODO check entire function, because Color is now Color4ub
 	vector3f min(bb.min.x, bb.min.y, bb.min.z);
 	vector3f max(bb.max.x, bb.max.y, bb.max.z);
 	vector3f fbl(min.x, min.y, min.z); //front bottom left

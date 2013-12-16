@@ -57,7 +57,7 @@ void FaceVideoLink::Draw() {
 
 	if (now - m_created < 1500) {
 		glBegin(GL_QUADS);
-			glColor3f(0,0,0);
+			glColor3ub(0,0,0);
 			glVertex2f(0,0);
 			glVertex2f(0,size[1]);
 			glVertex2f(size[0],size[1]);
@@ -103,8 +103,8 @@ CharacterInfoText::CharacterInfoText(float w, float h,
 	if (m_characterTitle.empty())
 		h = h/1.5f;
 	SetSize(w, h);
-	m_background = new Gui::Gradient(w, h, Color(0.1f, 0.1f, 0.1f, 0.8f),
-		Color(0.f, 0.f, 0.1f, 0.f), Gui::Gradient::HORIZONTAL);
+	m_background = new Gui::Gradient(w, h, Color(26, 26, 26, 204),
+		Color(0, 0, 26, 0), Gui::Gradient::HORIZONTAL);
 	Gui::Screen::PushFont("OverlayFont");
 	m_nameLabel = new Gui::Label(m_characterName);
 	m_titleLabel = new Gui::Label(m_characterTitle);

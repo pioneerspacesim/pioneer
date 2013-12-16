@@ -84,7 +84,7 @@ static void dummy() {}
 void GalacticView::PutLabels(vector3d offset)
 {
 	Gui::Screen::EnterOrtho();
-	glColor3f(1,1,1);
+	glColor3ub(255,255,255);
 
 	for (int i=0; s_labels[i].label; i++) {
 		vector3d p = m_zoom * (s_labels[i].pos + offset);
@@ -121,20 +121,20 @@ void GalacticView::Draw3D()
 	m_quad.Draw(m_renderer, vector2f(-1.0f), vector2f(2.0f));
 
 	// "you are here" dot
-	Color green(0.f, 1.f, 0.f, 1.f);
+	//Color green(0, 255, 0, 255);
 	vector3f offs(offset_x, offset_y, 0.f);
-	m_renderer->DrawPoints(1, &offs, &green, 3.f);
+	m_renderer->DrawPoints(1, &offs, &Color::GREEN, 3.f);
 
 	// scale at the top
 	m_renderer->SetTransform(matrix4x4f::Identity());
-	Color white(1.f);
+	//Color white(255);
 	const vector2f vts[] = {
 		vector2f(-0.25f,-0.93f),
 		vector2f(-0.25f,-0.94f),
 		vector2f(0.25f,-0.94f),
 		vector2f(0.25f,-0.93f)
 	};
-	m_renderer->DrawLines2D(4, vts, white, LINE_STRIP);
+	m_renderer->DrawLines2D(4, vts, Color::WHITE, LINE_STRIP);
 
 	m_labels->Clear();
 	PutLabels(-vector3d(offset_x, offset_y, 0.0));
