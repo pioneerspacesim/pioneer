@@ -2,7 +2,8 @@
 -- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
 
 define_ship {
-	name='Deneb Transport',
+	name='Deneb',
+	ship_class='medium_freighter',
 	manufacturer='albr',
 	model='deneb',
 	forward_thrust = 15e6,

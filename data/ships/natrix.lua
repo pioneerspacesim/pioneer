@@ -3,6 +3,7 @@
 
 define_ship {
 	name='Natrix',
+	ship_class='light_freighter',
 	manufacturer='opli',
 	model='natrix',
 	forward_thrust = 124e5,

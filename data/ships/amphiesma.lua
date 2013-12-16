@@ -2,7 +2,8 @@
 -- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
 
 define_ship {
-	name='Amphiesma Courier',
+	name='Amphiesma',
+	ship_class='medium_courier',
 	manufacturer='opli',
 	model='amphiesma',
 	forward_thrust = 8e6,

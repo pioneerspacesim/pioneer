@@ -24,14 +24,20 @@ local shipTable =
 	ui:Table()
 		:SetRowSpacing(5)
 		:SetColumnSpacing(10)
-		:SetHeadingRow({l.SHIP, l.PRICE, l.CAPACITY})
+		:SetHeadingRow({'', l.SHIP, l.PRICE, l.CAPACITY})
 		:SetHeadingFont("LARGE")
 		:SetMouseEnabled(true)
 
 local shipInfo =
 	ui:Expand("VERTICAL")
 
-local function icon (manufacturer)
+local function shipClassIcon (shipClass)
+	return shipClass ~= ""
+		and ui:Image("icons/shipclass/"..shipClass..".png", { "PRESERVE_ASPECT" })
+		or ui:Margin(32)
+end
+
+local function manufacturerIcon (manufacturer)
 	return manufacturer ~= ""
 		and ui:Image("icons/manufacturer/"..manufacturer..".png", { "PRESERVE_ASPECT" })
 		or ui:Margin(32)
@@ -90,7 +96,7 @@ shipTable.onRowClicked:Connect(function (row)
 		ui:VBox():PackEnd({
 			ui:HBox():PackEnd({
 				ui:Align("LEFT", ui:Label(def.name):SetFont("HEADING_LARGE")),
-				ui:Expand("HORIZONTAL", ui:Align("RIGHT", icon(def.manufacturer))),
+				ui:Expand("HORIZONTAL", ui:Align("RIGHT", manufacturerIcon(def.manufacturer))),
 			}),
 			ui:Grid(2,1):SetRow(0, {
 				l.PRICE..": "..Format.Money(def.basePrice),
@@ -134,7 +140,7 @@ local function updateStation (station, shipsOnSale)
 			seen = true
 		end
 		local def = sos.def
-		shipTable:AddRow({def.name, Format.Money(def.basePrice), def.capacity.."t"})
+		shipTable:AddRow({shipClassIcon(def.shipClass), def.name, Format.Money(def.basePrice), def.capacity.."t"})
 	end
 
 	if currentShipOnSale and not seen then
