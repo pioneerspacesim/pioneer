@@ -4,6 +4,8 @@
 #include "Gui.h"
 #include "GuiContainer.h"
 
+#include <SDL_stdinc.h>
+
 //#define GUI_DEBUG_CONTAINER
 
 namespace Gui {
@@ -196,7 +198,7 @@ void Container::Draw()
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		}
 		glBegin(GL_QUADS);
-			glColor4fv(m_bgcol);
+			glColor4ubv(m_bgcol);
 			glVertex2f(0, size[1]);
 			glVertex2f(size[0], size[1]);
 			glVertex2f(size[0], 0);
@@ -304,7 +306,7 @@ void Container::SetBgColor(const Color &col)
 	m_bgcol = col;
 }
 
-void Container::SetBgColor(float r, float g, float b, float a)
+void Container::SetBgColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 {
 	m_bgcol = Color(r, g, b, a);
 }

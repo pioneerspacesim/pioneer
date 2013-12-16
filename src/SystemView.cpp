@@ -37,13 +37,13 @@ SystemView::SystemView()
 	Add(m_objectLabels, 0, 0);
 	Gui::Screen::PopFont();
 
-	m_timePoint = (new Gui::Label(""))->Color(0.7f, 0.7f, 0.7f);
+	m_timePoint = (new Gui::Label(""))->Color(178, 178, 178);
 	Add(m_timePoint, 2, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66);
 
-	m_infoLabel = (new Gui::Label(""))->Color(0.7f, 0.7f, 0.7f);
+	m_infoLabel = (new Gui::Label(""))->Color(178, 178, 178);
 	Add(m_infoLabel, 2, 0);
 
-	m_infoText = (new Gui::Label(""))->Color(0.7f, 0.7f, 0.7f);
+	m_infoText = (new Gui::Label(""))->Color(178, 178, 178);
 	Add(m_infoText, 200, 0);
 
 	m_zoomInButton = new Gui::ImageButton("icons/zoom_in.png");
@@ -241,15 +241,15 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 	if(frame->GetSystemBody() == b && frame->GetSystemBody()->GetMass() > 0) {
 		const double t0 = Pi::game->GetTime();
 		Orbit playerOrbit = Pi::player->ComputeOrbit();
-		PutOrbit(&playerOrbit, offset, Color(1.0f, 0.0f, 0.0f), b->GetRadius());
-		PutSelectionBox(offset + playerOrbit.OrbitalPosAtTime(m_time - t0)* double(m_zoom), Color(1.0f, 0.0f, 0.0f));
+		PutOrbit(&playerOrbit, offset, Color::RED, b->GetRadius());
+		PutSelectionBox(offset + playerOrbit.OrbitalPosAtTime(m_time - t0)* double(m_zoom), Color::RED);
 	}
 
 	if (b->children.size()) {
 		for(std::vector<SystemBody*>::const_iterator kid = b->children.begin(); kid != b->children.end(); ++kid) {
 			if (is_zero_general((*kid)->orbit.GetSemiMajorAxis())) continue;
 			if ((*kid)->orbit.GetSemiMajorAxis() * m_zoom < ROUGH_SIZE_OF_TURD) {
-				PutOrbit(&((*kid)->orbit), offset, Color(0.f, 1.f, 0.f, 1.f));
+				PutOrbit(&((*kid)->orbit), offset, Color(0, 255, 0, 255));
 			}
 
 			// not using current time yet
@@ -365,7 +365,7 @@ void SystemView::Draw3D()
 			const Body *navTarget = Pi::player->GetNavTarget();
 			const SystemBody *navTargetSystemBody = navTarget ? navTarget->GetSystemBody() : 0;
 			if (navTargetSystemBody)
-				PutSelectionBox(navTargetSystemBody, pos, Color(0.0, 1.0, 0.0, 1.0));
+				PutSelectionBox(navTargetSystemBody, pos, Color::GREEN);
 		}
 	}
 

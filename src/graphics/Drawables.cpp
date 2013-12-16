@@ -41,7 +41,7 @@ void Disk::Draw(Renderer *r)
 	r->DrawTriangles(m_vertices.get(), m_material.Get(), TRIANGLE_FAN);
 }
 
-void Disk::SetColor(const Color4f &c)
+void Disk::SetColor(const Color &c)
 {
 	m_material->diffuse = c;
 }
@@ -50,8 +50,8 @@ Line3D::Line3D()
 {
 	m_points[0] = vector3f(0.f);
 	m_points[1] = vector3f(0.f);
-	m_colors[0] = Color(0.f);
-	m_colors[1] = Color(1.f);
+	m_colors[0] = Color(0);
+	m_colors[1] = Color(255);
 	m_width     = 2.f; // XXX bug in Radeon drivers will cause crash in glLineWidth if width >= 3
 }
 

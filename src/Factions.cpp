@@ -16,7 +16,7 @@
 #include <algorithm>
 
 const Uint32 Faction::BAD_FACTION_IDX      = UINT_MAX;
-const Color  Faction::BAD_FACTION_COLOUR   = Color(0.8f,0.8f,0.8f,0.50f);
+const Color  Faction::BAD_FACTION_COLOUR   = Color(204,204,204,128);
 const float  Faction::FACTION_BASE_ALPHA   = 0.40f;
 const double Faction::FACTION_CURRENT_YEAR = 3200;
 
@@ -221,7 +221,7 @@ static int l_fac_colour(lua_State *L)
 	const float g = luaL_checknumber(L, 3);
 	const float b = luaL_checknumber(L, 4);
 
-	fac->colour = Color(r,g,b);
+	fac->colour = Color(r*255,g*255,b*255);
 
 	lua_settop(L, 1);
 
@@ -452,8 +452,8 @@ const Color Faction::AdjustedColour(fixed population, bool inRange)
 	PROFILE_SCOPED()
 	Color result;
 	result   = population == 0 ? BAD_FACTION_COLOUR : colour;
-	result.a = population > 0  ? FACTION_BASE_ALPHA + (M_E + (logf(population.ToFloat() / 1.25))) / ((2 * M_E) + FACTION_BASE_ALPHA) : FACTION_BASE_ALPHA;
-	result.a = inRange         ? 1.f : result.a;
+	result.a = population > 0  ? (FACTION_BASE_ALPHA + (M_E + (logf(population.ToFloat() / 1.25))) / ((2 * M_E) + FACTION_BASE_ALPHA)) * 255 : FACTION_BASE_ALPHA * 255;
+	result.a = inRange         ? 255 : result.a;
 	return result;
 }
 

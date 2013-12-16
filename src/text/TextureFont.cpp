@@ -214,7 +214,8 @@ void TextureFont::RenderString(const char *str, float x, float y, const Color &c
 	m_renderer->SetBlendMode(Graphics::BLEND_ALPHA_PREMULT);
 	m_vertices.Clear();
 
-	const Color premult_color = Color(color.r * color.a, color.g * color.a, color.b * color.a, color.a);
+	float alpha_f = color.a / 255.0f;
+	const Color premult_color = Color(color.r * alpha_f, color.g * alpha_f, color.b * alpha_f, color.a);
 
 	float px = x;
 	float py = y;
@@ -263,20 +264,21 @@ Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &
 	float py = y;
 
 	Color c = color;
-	Color premult_c = Color(c.r*c.a, c.g*c.a, c.b*c.a, c.a);
+	float alpha_f = c.a / 255.0f;
+	Color premult_c = Color(c.r * alpha_f, c.g * alpha_f, c.b * alpha_f, c.a);
 
 	int i = 0;
 	while (str[i]) {
 		if (str[i] == '#') {
 			int hexcol;
 			if (sscanf(str+i, "#%3x", &hexcol)==1) {
-				c.r = float((hexcol&0xf00)>>4)/255.0f;
-				c.g = float((hexcol&0xf0))/255.0f;
-				c.b = float((hexcol&0xf)<<4)/255.0f;
+				c.r = float((hexcol&0xf00)>>4);
+				c.g = float((hexcol&0xf0));
+				c.b = float((hexcol&0xf)<<4);
 				// retain alpha value from RenderMarkup color parameter
-				premult_c.r = c.r * c.a;
-				premult_c.g = c.g * c.a;
-				premult_c.b = c.b * c.a;
+				premult_c.r = c.r * alpha_f;
+				premult_c.g = c.g * alpha_f;
+				premult_c.b = c.b * alpha_f;
 				i+=4;
 				continue;
 			}

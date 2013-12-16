@@ -10,6 +10,8 @@
 #include "graphics/Material.h"
 #include "Point.h"
 
+#include <SDL_stdinc.h>
+
 namespace UI {
 
 class Skin {
@@ -119,15 +121,15 @@ public:
 	}
 
 
-	void DrawRectColor(const Color4f &col, const Point &pos, const Point &size) const;
+	void DrawRectColor(const Color &col, const Point &pos, const Point &size) const;
 	void DrawRectNormal(const Point &pos, const Point &size) const {
-		DrawRectColor(Color4f(0,0,0,AlphaNormal()), pos, size);
+		DrawRectColor(Color(0,0,0,AlphaNormal_ub()), pos, size);
 	}
 	void DrawRectHover(const Point &pos, const Point &size) const {
-		DrawRectColor(Color4f(0,0,0,AlphaHover()), pos, size);
+		DrawRectColor(Color(0,0,0,AlphaHover_ub()), pos, size);
 	}
 	void DrawRectSelect(const Point &pos, const Point &size) const {
-		DrawRectColor(Color4f(0,0,0,AlphaSelect()), pos, size);
+		DrawRectColor(Color(0,0,0,AlphaSelect_ub()), pos, size);
 	}
 
 
@@ -192,6 +194,10 @@ public:
 	float AlphaNormal() const { return m_alphaNormal; }
 	float AlphaSelect() const { return m_alphaSelect; }
 	float AlphaHover()  const { return m_alphaHover; }
+
+	Uint8 AlphaNormal_ub() const { return m_alphaNormal * 255; }
+	Uint8 AlphaSelect_ub() const { return m_alphaSelect * 255; }
+	Uint8 AlphaHover_ub()  const { return m_alphaHover * 255; }
 
 private:
 	Graphics::Renderer *m_renderer;
