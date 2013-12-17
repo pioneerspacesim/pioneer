@@ -323,6 +323,30 @@
       "description" : "",
       "message" : "Harmless"
    },
+   "HEAVY_CARGO_SHUTTLE" : {
+      "description" : "",
+      "message" : "Heavy cargo shuttle"
+   },
+   "HEAVY_COURIER" : {
+      "description" : "",
+      "message" : "Heavy courier"
+   },
+   "HEAVY_FIGHTER" : {
+      "description" : "",
+      "message" : "Heavy fighter"
+   },
+   "HEAVY_FREIGHTER" : {
+      "description" : "",
+      "message" : "Heavy freighter"
+   },
+   "HEAVY_PASSENGER_SHUTTLE" : {
+      "description" : "",
+      "message" : "Heavy passenger shuttle"
+   },
+   "HEAVY_PASSENGER_TRANSPORT" : {
+      "description" : "",
+      "message" : "Heavy passenger transport"
+   },
    "HIGH" : {
       "description" : "",
       "message" : "High"
@@ -403,6 +427,30 @@
       "description" : "",
       "message" : "Legal status"
    },
+   "LIGHT_CARGO_SHUTTLE" : {
+      "description" : "",
+      "message" : "Light cargo shuttle"
+   },
+   "LIGHT_COURIER" : {
+      "description" : "",
+      "message" : "Light courier"
+   },
+   "LIGHT_FIGHTER" : {
+      "description" : "",
+      "message" : "Light fighter"
+   },
+   "LIGHT_FREIGHTER" : {
+      "description" : "",
+      "message" : "Light freighter"
+   },
+   "LIGHT_PASSENGER_SHUTTLE" : {
+      "description" : "",
+      "message" : "Light passenger shuttle"
+   },
+   "LIGHT_PASSENGER_TRANSPORT" : {
+      "description" : "",
+      "message" : "Light passenger transport"
+   },
    "LOAD" : {
       "description" : "",
       "message" : "Load"
@@ -454,6 +502,30 @@
    "MEDIUM" : {
       "description" : "",
       "message" : "Medium"
+   },
+   "MEDIUM_CARGO_SHUTTLE" : {
+      "description" : "",
+      "message" : "Medium cargo shuttle"
+   },
+   "MEDIUM_COURIER" : {
+      "description" : "",
+      "message" : "Medium courier"
+   },
+   "MEDIUM_FIGHTER" : {
+      "description" : "",
+      "message" : "Medium fighter"
+   },
+   "MEDIUM_FREIGHTER" : {
+      "description" : "",
+      "message" : "Medium freighter"
+   },
+   "MEDIUM_PASSENGER_SHUTTLE" : {
+      "description" : "",
+      "message" : "Medium passenger shuttle"
+   },
+   "MEDIUM_PASSENGER_TRANSPORT" : {
+      "description" : "",
+      "message" : "Medium passenger transport"
    },
    "METAL_ALLOYS" : {
       "description" : "",
