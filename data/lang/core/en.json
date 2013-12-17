@@ -123,10 +123,6 @@
       "description" : "",
       "message" : "\" Button \""
    },
-   "BUY" : {
-      "description" : "",
-      "message" : "Buy"
-   },
    "CAMERA_BOTTOM_VIEW" : {
       "description" : "",
       "message" : "Bottom camera"
@@ -487,10 +483,6 @@
       "description" : "",
       "message" : "following selection"
    },
-   "FREE" : {
-      "description" : "",
-      "message" : "Free"
-   },
    "FRONT" : {
       "description" : "",
       "message" : "Front"
@@ -702,14 +694,6 @@
    "IN_TRANSIT_TO_N_X_X_X" : {
       "description" : "",
       "message" : "In transit to %system [%x,%y,%z]"
-   },
-   "ITEM" : {
-      "description" : "",
-      "message" : "Item"
-   },
-   "ITEM_IS_OUT_OF_STOCK" : {
-      "description" : "",
-      "message" : "This item is out of stock."
    },
    "JOY" : {
       "description" : "",
@@ -1003,10 +987,6 @@
       "description" : "",
       "message" : "No established order"
    },
-   "NO_FREE_SPACE_FOR_ITEM" : {
-      "description" : "",
-      "message" : "You have no free space for this item."
-   },
    "NO_HYPERDRIVE" : {
       "description" : "",
       "message" : "No hyperdrive"
@@ -1187,10 +1167,6 @@
       "description" : "",
       "message" : "P: %pressure{f.2} atm"
    },
-   "PRICE" : {
-      "description" : "",
-      "message" : "Price"
-   },
    "PROBABILITY_OF_ARRIVAL_X_PERCENT" : {
       "description" : "",
       "message" : "Probability of arrival: %probability%%"
@@ -1359,10 +1335,6 @@
       "description" : "",
       "message" : "Select low thrust power level"
    },
-   "SELL" : {
-      "description" : "",
-      "message" : "Sell"
-   },
    "SEMI_MAJOR_AXIS" : {
       "description" : "",
       "message" : "Semi-major axis"
@@ -1430,10 +1402,6 @@
    "SHIP_INFORMATION" : {
       "description" : "",
       "message" : "Ship information"
-   },
-   "SHIP_IS_FULLY_LADEN" : {
-      "description" : "",
-      "message" : "Your ship is fully laden."
    },
    "SHIP_MASS_N_TONNES" : {
       "description" : "",
@@ -1643,10 +1611,6 @@
       "description" : "",
       "message" : "A stellar black hole"
    },
-   "STOCK" : {
-      "description" : "",
-      "message" : "Stock"
-   },
    "SUGGESTED_RESPONSES" : {
       "description" : "",
       "message" : "Suggested responses:"
@@ -1759,10 +1723,6 @@
       "description" : "",
       "message" : "RIP OLD BEAN"
    },
-   "TRADER_NOT_ENOUGH_MONEY" : {
-      "description" : "",
-      "message" : "Trader does not have enough money"
-   },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
       "message" : "Trading illegal goods"
@@ -1798,10 +1758,6 @@
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",
       "message" : "Required for transport of a single passenger"
-   },
-   "USED" : {
-      "description" : "",
-      "message" : "Used"
    },
    "USE_LOW_THRUST" : {
       "description" : "",
@@ -1894,14 +1850,6 @@
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
       "message" : "Young farming colony."
-   },
-   "YOU_DO_NOT_HAVE_ANY_X" : {
-      "description" : "",
-      "message" : "You do not have any %item."
-   },
-   "YOU_NOT_ENOUGH_MONEY" : {
-      "description" : "",
-      "message" : "You do not have enough money"
    },
    "YOU_NO_MONEY" : {
       "description" : "",
