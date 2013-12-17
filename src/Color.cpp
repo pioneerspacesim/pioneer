@@ -99,13 +99,6 @@ Color4ub Color4ub::FromLuaTable(lua_State *l, int idx)
 
 Uint8 Color4ub::GetLuminance() const
 {
-	// Luminance4ub = Luminance4f * 255 =
-	// ((r_f * 0.299) + (g_f * 0.587) + (b_f * 0.144)) * 255 =
-	// (r_ub * 0.299) + (g_ub * 0.587) + (b_ub * 0.114) =
-	// (r_ub / 3.344481605) + (g_ub / 1.703577513) + (b_ub / 8.771929825) =    ; *(32/32)
-	// (r_ub << 5)/107 + (g_ub << 5 ) / 54 + (b_ub << 5) / 280
-	int lum = (static_cast<int>(r) << 5) / 107 +
-			(static_cast<int>(g) << 5) / 54 + (static_cast<int>(b) << 5) / 280;
-	return lum > 255 ? 255 : lum;
+	// these weights are those used for the JPEG luma channel
+	return (r*299 + g*587 + b*114) / 1000;
 }
-
