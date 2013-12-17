@@ -150,7 +150,7 @@ void Camera::Draw(Renderer *renderer, const Body *excludeBody)
 				for(std::vector<LightSource>::const_iterator it = m_lightSources.begin();
 					it != m_lightSources.end(); ++it) {
 					const vector3f lightDir(it->GetLight().GetPosition().Normalized());
-					angle += std::max(0.f, lightDir.Dot(-relpos.Normalized())) * it->GetLight().GetDiffuse().GetLuminance();
+					angle += std::max(0.f, lightDir.Dot(-relpos.Normalized())) * (it->GetLight().GetDiffuse().GetLuminance() / 255.0f);
 				}
 				//calculate background intensity with some hand-tweaked fuzz applied
 				bgIntensity = Clamp(1.f - std::min(1.f, powf(density, 0.25f)) * (0.3f + powf(angle, 0.25f)), 0.f, 1.f);
