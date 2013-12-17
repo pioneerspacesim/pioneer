@@ -63,42 +63,44 @@ ui.templates.StationView = function (args)
 	cabinUpdate()
 
 	local footer =
-		ui:Margin(5, "VERTICAL",
-			ui:Grid({15,30,30,15},1):SetRow(0, {
-				ui:Margin(10, "HORIZONTAL",
-					ui:HBox():PackEnd({
-						l.CASH..": ",
-						cashLabel,
-					})
-				),
-				ui:Margin(10, "HORIZONTAL",
-					ui:HBox(10):PackEnd({
-						l.CARGO..":",
-						cargoGauge,
+		ui:Margin(15, "TOP",
+			ui:Margin(5, "VERTICAL",
+				ui:Grid({15,30,30,15},1):SetRow(0, {
+					ui:Margin(10, "HORIZONTAL",
 						ui:HBox():PackEnd({
-							cargoUsedLabel,
-							"/",
-							cargoTotalLabel,
-						}),
-					})
-				),
-				ui:Margin(10, "HORIZONTAL",
-					ui:HBox(10):PackEnd({
-						l.CABINS..":",
-						cabinGauge,
-						ui:HBox():PackEnd({
-							cabinUsedLabel,
-							"/",
-							cabinTotalLabel,
-						}),
-					})
-				),
-				ui:Margin(10, "HORIZONTAL",
-					ui:Align("RIGHT",
-						l.LEGAL_STATUS..": "..l.CLEAN
-					)
-				),
-			})
+							l.CASH..": ",
+							cashLabel,
+						})
+					),
+					ui:Margin(10, "HORIZONTAL",
+						ui:HBox(10):PackEnd({
+							l.CARGO..":",
+							cargoGauge,
+							ui:HBox():PackEnd({
+								cargoUsedLabel,
+								"/",
+								cargoTotalLabel,
+							}),
+						})
+					),
+					ui:Margin(10, "HORIZONTAL",
+						ui:HBox(10):PackEnd({
+							l.CABINS..":",
+							cabinGauge,
+							ui:HBox():PackEnd({
+								cabinUsedLabel,
+								"/",
+								cabinTotalLabel,
+							}),
+						})
+					),
+					ui:Margin(10, "HORIZONTAL",
+						ui:Align("RIGHT",
+							l.LEGAL_STATUS..": "..l.CLEAN
+						)
+					),
+				})
+			)
 		)
 
 	tabGroup:AddTab({ id = "lobby",           title = l.LOBBY,            icon = "Info",      template = lobby           })
