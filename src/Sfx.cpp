@@ -138,7 +138,7 @@ void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
 			else
 				//end trail
 				smokeParticle->diffuse = Color((0.75-var)*255,
-						(0.75f-var)*255, (0.75f-var)*255, (0.5*0.5-(m_age/16.0))*255);
+						(0.75f-var)*255, (0.75f-var)*255, Clamp(0.5*0.5-(m_age/16.0),0.0,1.0)*255);
 
 			renderer->SetTransform(matrix4x4d::Translation(fpos));
 
