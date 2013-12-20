@@ -96,7 +96,7 @@ void SpeedLines::Render(Graphics::Renderer *r)
 
 		//distance fade
 		const Color col = Color(Color::GRAY.r, Color::GRAY.g, Color::GRAY.b,
-				(1.f - it->Length() / BOUNDS) * 255);
+				Clamp((1.f - it->Length() / BOUNDS),0.f,1.f) * 255);
 		m_vtxColors[vtx]   = col;
 		m_vtxColors[vtx+1] = col;
 
