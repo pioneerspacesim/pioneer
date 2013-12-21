@@ -197,15 +197,7 @@ void Camera::Draw(Graphics::Renderer *renderer, const Body *excludeBody, ModelBo
 
 	// Render cockpit
 	if(cockpit) {
-		//renderer->SetDepthTest(false);
-		renderer->ClearDepthBuffer();
-		cockpit->SetFrame(m_camFrame);
-		static double off_x = 0.0;
-		static double off_y = 0.0;
-		static double off_z = 0.0;
-		cockpit->Render(renderer, this, vector3d(off_x, off_y, off_z), matrix4x4d::Identity());
-		cockpit->SetFrame(nullptr);
-		//renderer->SetDepthTest(true);
+		static_cast<ShipCockpit*>(cockpit)->RenderCockpit(renderer, this, m_camFrame);
 	}
 
 

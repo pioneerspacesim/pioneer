@@ -243,3 +243,10 @@ void Player::ResetHyperspaceCountdown()
 	s_soundHyperdrive.Play("Hyperdrive_Abort");
 	Ship::ResetHyperspaceCountdown();
 }
+
+void Player::OnCockpitActivated()
+{
+	if(GetCockpit()) {
+		GetCockpit()->OnActivated();
+	}
+}

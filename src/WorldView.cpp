@@ -285,6 +285,7 @@ void WorldView::SetCamType(enum CamType c)
 			m_activeCameraController = m_siderealCameraController.get();
 			break;
 		case CAM_COCKPIT:
+			Pi::player->OnCockpitActivated();
 			m_activeCameraController = m_cockpitCameraController.get();
 			break;
 	}
