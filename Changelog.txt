@@ -16,7 +16,7 @@ December 2013
      * Remove legacy (non-shader) renderer (#2568)
      * Single frame profiler (#2541, #2569)
      * Avoid some unnecessary string copies (#2541)
-     * Replace most uses of Color4f with Color4ub (#2574, #2327)
+     * Replace most uses of Color4f with Color4ub (#2574, #2327, #2581, #2580)
 
 November 2013
 
