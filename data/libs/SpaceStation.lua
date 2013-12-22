@@ -12,6 +12,7 @@ local Game = import("Game")
 local Ship = import("Ship")
 local EquipDef = import("EquipDef")
 local ModelSkin = import("SceneGraph.ModelSkin")
+local Serializer = import("Serializer")
 
 --
 -- Class: SpaceStation
@@ -353,8 +354,32 @@ local function destroySystem ()
 	SpaceStation.adverts = {}
 end
 
+
+local loaded_data
+
 Event.Register("onGameStart", function ()
 	nextRef = 0
+	equipmentStock = {}
+	shipsOnSale = {}
+
+	if (loaded_data) then
+		equipmentStock = loaded_data.equipmentStock
+		for station,list in pairs(loaded_data.shipsOnSale) do
+			shipsOnSale[station] = {}
+			for i,entry in pairs(loaded_data.shipsOnSale[station]) do
+				local def = ShipDef[entry.id]
+				if (def) then
+					shipsOnSale[station][i] = {
+						def   = def,
+						skin  = entry.skin,
+						label = entry.label,
+					}
+				end
+			end
+		end
+		loaded_data = nil
+	end
+
 	updateSystem()
 	Timer:CallEvery(3600, updateSystem)
 end)
@@ -368,5 +393,30 @@ Event.Register("onLeaveSystem", function (ship)
 	destroySystem()
 end)
 Event.Register("onGameEnd", destroySystem)
+
+
+Serializer:Register("SpaceStation",
+	function ()
+		local data = {
+			equipmentStock = equipmentStock,
+			shipsOnSale = {},
+		}
+		for station,list in pairs(shipsOnSale) do
+			data.shipsOnSale[station] = {}
+			for i,entry in pairs(shipsOnSale[station]) do
+				data.shipsOnSale[station][i] = {
+					id    = entry.def.id,
+					skin  = entry.skin,
+					label = entry.label,
+				}
+			end
+		end
+		return data
+	end,
+	function (data)
+		loaded_data = data
+	end
+)
+
 
 return SpaceStation
