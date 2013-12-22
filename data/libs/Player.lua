@@ -2,6 +2,9 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Player = import_core("Player")
+local Serializer = import("Serializer")
+local Event = import("Event")
+local Game = import("Game")
 
 --
 -- Method: GetMoney
@@ -75,5 +78,25 @@ end
 function Player:AddMoney (m)
 	self:setprop("cash", self.cash + m)
 end
+
+
+local loaded_data
+
+Event.Register("onGameStart", function ()
+	if (loaded_data) then
+		Game.player:setprop("cash", loaded_data)
+		loaded_data = nil
+	end
+end)
+
+Serializer:Register("Player",
+	function ()
+		return Game.player.cash
+	end,
+	function (data)
+		loaded_data = data
+	end
+)
+
 
 return Player
