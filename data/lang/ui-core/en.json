@@ -723,6 +723,10 @@
       "description" : "",
       "message" : "Repair {damage}% hull damage for {price}"
    },
+   "REQUEST_LAUNCH" : {
+      "description" : "",
+      "message" : "Request Launch"
+   },
    "RETURN_TO_MENU" : {
       "description" : "",
       "message" : "Return to menu"
