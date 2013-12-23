@@ -18,7 +18,8 @@ local bbTable = ui:Table():SetMouseEnabled(true)
 bbTable.onRowClicked:Connect(function (row)
 	local station = Game.player:GetDockedWith()
 
-	local ref = rowRef[row+1]
+	local ref = rowRef[station][row+1]
+
 	local onChat = SpaceStation.adverts[station][ref][2]
 	local onDelete = SpaceStation.adverts[station][ref][3]
 
@@ -33,7 +34,7 @@ bbTable.onRowClicked:Connect(function (row)
 	ui:NewLayer(form:BuildWidget())
 end)
 
-local updateTable = function (station, ref)
+local updateTable = function (station)
 	if Game.player:GetDockedWith() ~= station then return end
 
 	bbTable:ClearRows()
@@ -41,23 +42,34 @@ local updateTable = function (station, ref)
 	local adverts = SpaceStation.adverts[station]
 	if not adverts then return end
 
-	rowRef = {}
 	local rows = {}
-	local rowNum = 1
 	for ref,ad in pairs(adverts) do
-		rowRef[rowNum] = ref
-		rowNum = rowNum+1
 		table.insert(rows, ad[1])
 	end
 
 	bbTable:AddRows(rows)
 end
 
-Event.Register("onAdvertAdded", updateTable)
-Event.Register("onAdvertRemoved", updateTable) -- XXX close form if open
+local updateRowRefs = function (station, ref)
+	local adverts = SpaceStation.adverts[station]
+	if not adverts then return end
+
+	rowRef[station] = {}
+	local rowNum = 1
+	for ref,ad in pairs(adverts) do
+		rowRef[station][rowNum] = ref
+		rowNum = rowNum+1
+	end
+
+	updateTable(station)
+end
+
+Event.Register("onAdvertAdded", updateRowRefs)
+Event.Register("onAdvertRemoved", updateRowRefs) -- XXX close form if open
 
 local bulletinBoard = function (args, tg)
 	tabGroup = tg
+	updateTable(Game.player:GetDockedWith())
 	return bbTable
 end
 
