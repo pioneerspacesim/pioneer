@@ -5,8 +5,8 @@
       <author>Bálint Szilárd [bszlrd@gmail.com]</author>
       <authoring_tool>Blender 2.69.0 r60995</authoring_tool>
     </contributor>
-    <created>2013-12-22T01:35:39</created>
-    <modified>2013-12-22T01:35:39</modified>
+    <created>2013-12-23T12:10:40</created>
+    <modified>2013-12-23T12:10:40</modified>
     <unit name="meter" meter="1"/>
     <up_axis>Z_UP</up_axis>
   </asset>
@@ -197,7 +197,7 @@
           </technique_common>
         </source>
         <source id="decal_01-mesh-map-0">
-          <float_array id="decal_01-mesh-map-0-array" count="8">0 1 1 1 1 0 0 0</float_array>
+          <float_array id="decal_01-mesh-map-0-array" count="8">1 1 0 1 0 0 1 0</float_array>
           <technique_common>
             <accessor source="#decal_01-mesh-map-0-array" count="4" stride="2">
               <param name="S" type="float"/>
