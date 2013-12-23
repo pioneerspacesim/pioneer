@@ -224,7 +224,7 @@ Model *Loader::CreateModel(ModelDefinition &def)
 		//the node must be marked transparent when using this material
 		//and should not be mixed with opaque materials
 		if ((*it).opacity < 100)
-			mat->diffuse.a = float((*it).opacity) / 100.f;
+			mat->diffuse.a = (float((*it).opacity) / 100.f) * 255;
 
 		if (!diffTex.empty())
 			mat->texture0 = Graphics::TextureBuilder::Model(diffTex).GetOrCreateTexture(m_renderer, "model");
@@ -513,7 +513,7 @@ void Loader::ConvertAiMeshes(std::vector<RefCountedPtr<StaticGeometry> > &geoms,
 
 		//turn on alpha blending and mark entire node as transparent
 		//(all importers split by material so far)
-		if (mat->diffuse.a < 0.99f) {
+		if (mat->diffuse.a < 255) {
 			geom->SetNodeMask(NODE_TRANSPARENT);
 			geom->m_blendMode = Graphics::BLEND_ALPHA;
 		}
