@@ -47,7 +47,6 @@
 #include "gui/GuiVScrollBar.h"
 #include "gui/GuiVScrollPortal.h"
 #include "gui/GuiWidget.h"
-#include "MarketAgent.h"
 #include "Random.h"
 #include "Object.h"
 #include "ObjectViewerView.h"
