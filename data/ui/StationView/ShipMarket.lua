@@ -170,11 +170,15 @@ local function updateStation (station, shipsOnSale)
 		shipTable:AddRow({shipClassIcon(def.shipClass), def.name, Format.Money(def.basePrice), def.capacity.."t"})
 	end
 
-	if currentShipOnSale and not seen then
-		currentShipOnSale = nil
-		shipInfo:SetInnerWidget(
-			ui:MultiLineText(l.SHIP_VIEWING_WAS_SOLD)
-		)
+	if currentShipOnSale then
+		if not seen then
+			currentShipOnSale = nil
+			shipInfo:SetInnerWidget(
+				ui:MultiLineText(l.SHIP_VIEWING_WAS_SOLD)
+			)
+		end
+	else
+		shipInfo:RemoveInnerWidget()
 	end
 end
 
