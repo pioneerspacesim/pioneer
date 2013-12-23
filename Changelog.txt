@@ -4,8 +4,6 @@ December 2013
      * Make file type (file extension) checks case insensitive (#2328, #2563)
      * Optimise GL matrix operations (improves FPS) (#2541, #2572)
      * Rewrote UI.Box layout to constrain children to the allocated area (#2575)
-     * Gun and camera positions for Amphiesma, Mola Mola, Natrix, Pumpkinseed
-       and Wave now set in model files (#2587)
 
    * Fixes
      * Fix GL color depth selection (forces alpha channel, which fixes
@@ -13,6 +11,11 @@ December 2013
 
    * Script and UI API changes
      * Add table row alignment, Table:SetRowAlignment (#2579)
+
+   * Model changes
+     * Gun and camera positions for Amphiesma, Mola Mola, Natrix, Pumpkinseed
+       and Wave now set in model files (#2587)
+     * New decals for ship manufacturers; old decals removed (#2578)
 
    * Internal changes
      * Remove legacy (non-shader) renderer (#2568)
