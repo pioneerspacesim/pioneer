@@ -1021,6 +1021,8 @@ void ModelViewer::SetupUI()
 		for (std::vector<std::string>::const_iterator it = decals.begin(); it != decals.end(); ++it) {
 			decalSelector->AddOption(*it);
 		}
+		if (decals.size() > 0)
+			decalSelector->SetSelectedOption("pioneer");
 	}
 
 	//light dropdown
@@ -1033,6 +1035,7 @@ void ModelViewer::SetupUI()
 			->AddOption("3  Backlight")
 			//->AddOption("4  Nuts")
 	);
+	lightSelector->SetSelectedOption("1  Front white");
 	m_options.lightPreset = 0;
 
 	add_pair(c, mainBox, gunsCheck = c->CheckBox(), "Attach guns");
@@ -1112,6 +1115,8 @@ void ModelViewer::UpdateAnimList()
 		for(unsigned int i=0; i<anims.size(); i++) {
 			animSelector->AddOption(anims[i]->GetName());
 		}
+		if (anims.size())
+			animSelector->SetSelectedOption(anims[0]->GetName());
 	}
 	animSelector->Layout();
 	OnAnimChanged(0, animSelector->GetSelectedOption());
@@ -1227,6 +1232,8 @@ void ModelViewer::UpdatePatternList()
 		for(unsigned int i=0; i<pats.size(); i++) {
 			patternSelector->AddOption(pats[i].name);
 		}
+		if (pats.size() > 0)
+			patternSelector->SetSelectedOption(pats[0].name);
 	}
 
 	m_ui->Layout();
