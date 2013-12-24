@@ -32,7 +32,7 @@ Intro::Intro(Graphics::Renderer *r, int width, int height)
 	m_lights.push_back(Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, -1.f, 0.f), two, Color::BLACK));
 
 	SceneGraph::ModelSkin skin;
-	skin.SetDecal("01_Badge");
+	skin.SetDecal("pioneer");
 	skin.SetLabel(Lang::PIONEER);
 
 	for (std::vector<ShipType::Id>::const_iterator i = ShipType::player_ships.begin(); i != ShipType::player_ships.end(); ++i) {

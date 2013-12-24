@@ -808,7 +808,7 @@ void ModelViewer::SetModel(const std::string &filename, bool resetCamera /* true
 
 		//set decal textures, max 4 supported.
 		//Identical texture at the moment
-		OnDecalChanged(0, "01_Badge");
+		OnDecalChanged(0, "pioneer");
 
 		//dump warnings
 		for (std::vector<std::string>::const_iterator it = loader.GetLogMessages().begin();
