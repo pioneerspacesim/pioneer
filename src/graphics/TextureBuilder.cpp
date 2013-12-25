@@ -13,12 +13,12 @@
 namespace Graphics {
 
 TextureBuilder::TextureBuilder(const SDLSurfacePtr &surface, TextureSampleMode sampleMode, bool generateMipmaps, bool potExtend, bool forceRGBA, bool compressTextures) :
-    m_surface(surface), m_sampleMode(sampleMode), m_generateMipmaps(generateMipmaps), m_potExtend(potExtend), m_forceRGBA(forceRGBA), m_compressTextures(compressTextures), m_prepared(false), m_textureType(TEXTURE_2D)
+    m_surface(surface), m_sampleMode(sampleMode), m_generateMipmaps(generateMipmaps), m_potExtend(potExtend), m_forceRGBA(forceRGBA), m_compressTextures(compressTextures), m_textureType(TEXTURE_2D), m_prepared(false)
 {
 }
 
 TextureBuilder::TextureBuilder(const std::string &filename, TextureSampleMode sampleMode, bool generateMipmaps, bool potExtend, bool forceRGBA, bool compressTextures, TextureType textureType) :
-    m_filename(filename), m_sampleMode(sampleMode), m_generateMipmaps(generateMipmaps), m_potExtend(potExtend), m_forceRGBA(forceRGBA), m_compressTextures(compressTextures), m_prepared(false), m_textureType(textureType)
+    m_filename(filename), m_sampleMode(sampleMode), m_generateMipmaps(generateMipmaps), m_potExtend(potExtend), m_forceRGBA(forceRGBA), m_compressTextures(compressTextures), m_textureType(textureType), m_prepared(false)
 {
 }
 
@@ -210,7 +210,7 @@ void TextureBuilder::LoadSurface()
 			s = LoadSurfaceFromFile("textures/unknown.png"); 
 		}
 	} else if(m_textureType == TEXTURE_CUBE_MAP) {
-		int idx = m_filename.find_last_of('.');
+		Uint32 idx = m_filename.find_last_of('.');
 		assert(idx != std::string::npos); // Error: filename incorrect, should be "file.ext"
 		// Loads cube map based on SpaceScape format: cubemap_sideN.png/.jpg
 		std::string cube_right = m_filename.substr(0, idx) + "_right1" + m_filename.substr(idx);
