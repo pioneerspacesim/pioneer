@@ -1197,7 +1197,7 @@
    },
    "OVER_N_BILLION" : {
       "description" : "",
-      "message" : "Alrededor de %population billones"
+      "message" : "Alrededor de %population\\b000 millones"
    },
    "OVER_N_MILLION" : {
       "description" : "",
