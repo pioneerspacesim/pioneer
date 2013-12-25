@@ -22,6 +22,8 @@
 #include "gl2/RingMaterial.h"
 #include "gl2/StarfieldMaterial.h"
 #include "gl2/FresnelColourMaterial.h"
+#include "gl2/SkyboxMaterial.h"
+
 #include <stddef.h> //for offsetof
 #include <ostream>
 #include <sstream>
@@ -634,7 +636,7 @@ bool RendererGL2::BufferStaticMesh(StaticMesh *mesh)
 	bool background = false;
 	bool model = false;
 	//XXX does this really have to support every case. I don't know.
-	if (set == (ATTRIB_POSITION | ATTRIB_NORMAL | ATTRIB_UV0))
+	if (set == (ATTRIB_POSITION | ATTRIB_NORMAL | ATTRIB_UV0) || set == (ATTRIB_POSITION | ATTRIB_UV0))
 		model = true;
 	else if (set == (ATTRIB_POSITION | ATTRIB_DIFFUSE))
 		background = true;
@@ -660,8 +662,12 @@ bool RendererGL2::BufferStaticMesh(StaticMesh *mesh)
 			std::unique_ptr<ModelVertex[]> vts(new ModelVertex[numsverts]);
 			for(int j=0; j<numsverts; j++) {
 				vts[j].position = va->position[j];
-				vts[j].normal = va->normal[j];
-				vts[j].uv = va->uv0[j];
+				if(set & ATTRIB_NORMAL) {
+					vts[j].normal = va->normal[j];
+				}
+				if(set & ATTRIB_UV0) {
+					vts[j].uv = va->uv0[j];
+				}
 			}
 
 			if (!buf)
@@ -744,6 +750,9 @@ Material *RendererGL2::CreateMaterial(const MaterialDescriptor &d)
 		break;
 	case EFFECT_FRESNEL_SPHERE:
 		mat = new GL2::FresnelColourMaterial();
+		break;
+	case EFFECT_SKYBOX:
+		mat = new GL2::SkyboxMaterial();
 		break;
 	default:
 		if (desc.lighting)

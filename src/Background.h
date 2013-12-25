@@ -5,6 +5,8 @@
 #define _BACKGROUND_H
 
 #include "libs.h"
+#include "galaxy/SystemPath.h"
+#include "graphics/Texture.h"
 
 namespace Graphics {
 	class Renderer;
@@ -25,6 +27,26 @@ namespace Background
 
 	protected:
 		RefCountedPtr<Graphics::Material> m_material;
+	};
+
+	class UniverseBox : public BackgroundElement
+	{
+	public:
+		UniverseBox(Graphics::Renderer *r);
+		~UniverseBox();
+
+		void Draw(Graphics::Renderer *r);
+		void LoadCubeMap(Graphics::Renderer *r, Random* randomizer = nullptr);
+
+	private:
+		void Init(Graphics::Renderer *);
+		Random createRandom(Uint32 seed);
+		Random createRandom(const SystemPath& system_path);
+
+		Graphics::StaticMesh *m_model;
+		Graphics::Texture* m_cubemap;
+
+		Uint32 m_numCubemaps;
 	};
 
 	class Starfield : public BackgroundElement
@@ -61,21 +83,35 @@ namespace Background
 		Graphics::StaticMesh *m_model;
 	};
 
+	
+
 	// contains starfield, milkyway, possibly other Background elements
 	class Container
 	{
 	public:
+		enum BackgroundDrawFlags
+		{
+			DRAW_STARS = 1<<0,
+			DRAW_MILKY = 1<<1,
+			DRAW_SKYBX = 1<<2
+		};
+
 		// default constructor, needs Refresh with proper seed to show starfield
 		Container(Graphics::Renderer*);
 		Container(Graphics::Renderer*, Uint32 seed);
-		void Draw(Graphics::Renderer *r, const matrix4x4d &transform) const;
+		void Draw(Graphics::Renderer *r, const matrix4x4d &transform);
 		void Refresh(Uint32 seed);
 
 		void SetIntensity(float intensity);
+		void SetDrawFlags(const Uint32 flags);
 
 	private:
 		MilkyWay m_milkyWay;
 		Starfield m_starField;
+		UniverseBox m_universeBox;
+		bool m_bLoadNewCubemap;
+		Uint32 m_uSeed;
+		Uint32 m_drawFlags;
 	};
 
 } //namespace Background
