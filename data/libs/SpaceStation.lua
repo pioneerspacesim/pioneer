@@ -342,9 +342,9 @@ local function updateSystem ()
 	end
 end
 local function destroySystem ()
-	SpaceStation.equipmentStock = {}
+	equipmentStock = {}
 
-	SpaceStation.shipsOnSale = {}
+	shipsOnSale = {}
 
 	for station,ads in pairs(SpaceStation.adverts) do
 		for ref,ad in pairs(ads) do
