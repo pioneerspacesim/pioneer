@@ -298,8 +298,8 @@ vector3d Space::GetHyperspaceExitPoint(const SystemPath &source) const
 
 	const SystemPath &dest = m_starSystem->GetPath();
 
-	const Sector* source_sec = SectorCache::GetCached(source.sectorX, source.sectorY, source.sectorZ);
-	const Sector* dest_sec = SectorCache::GetCached(dest.sectorX, dest.sectorY, dest.sectorZ);
+	const Sector* source_sec = Sector::cache.GetCached(source.sectorX, source.sectorY, source.sectorZ);
+	const Sector* dest_sec = Sector::cache.GetCached(dest.sectorX, dest.sectorY, dest.sectorZ);
 
 	Sector::System source_sys = source_sec->m_systems[source.systemIndex];
 	Sector::System dest_sys = dest_sec->m_systems[dest.systemIndex];

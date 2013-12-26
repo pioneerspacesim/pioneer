@@ -780,7 +780,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			}
 			else {
 				const SystemPath dest = ship->GetHyperspaceDest();
-				const Sector* s = SectorCache::GetCached(dest.sectorX, dest.sectorY, dest.sectorZ);
+				const Sector* s = Sector::cache.GetCached(dest.sectorX, dest.sectorY, dest.sectorZ);
 				text += (cloud->IsArrival() ? Lang::HYPERSPACE_ARRIVAL_CLOUD : Lang::HYPERSPACE_DEPARTURE_CLOUD);
 				text += "\n";
 				text += stringf(Lang::SHIP_MASS_N_TONNES, formatarg("mass", ship->GetStats().total_mass));

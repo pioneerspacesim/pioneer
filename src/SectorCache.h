@@ -1,48 +1,43 @@
 // Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef _SECTORCACHE_H
-#define _SECTORCACHE_H
+#ifndef SECTORCACHE_H
+#define SECTORCACHE_H
 
 #include "libs.h"
-#include "gui/Gui.h"
-#include "View.h"
-#include <vector>
-#include <set>
-#include <string>
-#include "View.h"
-#include "galaxy/Sector.h"
 #include "galaxy/SystemPath.h"
 #include "graphics/Drawables.h"
 
+class Sector;
+
 class SectorCache {
 public:
-	static void Init();
-	static void DeInit();
+	SectorCache();
+	~SectorCache();
 
-	static Sector* GetCached(const SystemPath& loc);
-	static Sector* GetCached(const int sectorX, const int sectorY, const int sectorZ);
-	static void ShrinkCache();
+	Sector* GetCached(const SystemPath& loc);
+	Sector* GetCached(const int sectorX, const int sectorY, const int sectorZ);
+	void ShrinkCache();
 
-	static void SetZoomClamp(const float zoomClamp) { m_zoomClamped = zoomClamp; }
-	static void SetPosition(const vector3f& pos) { m_pos = pos; }
+	void SetZoomClamp(const float zoomClamp) { m_zoomClamped = zoomClamp; }
+	void SetPosition(const vector3f& pos) { m_pos = pos; }
 
 	typedef std::map<SystemPath,Sector*> SectorCacheMap;
 	typedef SectorCacheMap::const_iterator SectorCacheMapConstIterator;
 
-	static SectorCacheMap& GetCache() { return m_sectorCache; }
+	SectorCacheMap& GetCache() { return m_sectorCache; }
 
 private:
-	static SectorCacheMap m_sectorCache;
+	SectorCacheMap m_sectorCache;
 
-	static int m_cacheXMin;
-	static int m_cacheXMax;
-	static int m_cacheYMin;
-	static int m_cacheYMax;
-	static int m_cacheZMin;
-	static int m_cacheZMax;
-	static float m_zoomClamped;
-	static vector3f m_pos;
+	int m_cacheXMin;
+	int m_cacheXMax;
+	int m_cacheYMin;
+	int m_cacheYMax;
+	int m_cacheZMin;
+	int m_cacheZMax;
+	float m_zoomClamped;
+	vector3f m_pos;
 };
 
-#endif /* _SECTORCACHE_H */
+#endif

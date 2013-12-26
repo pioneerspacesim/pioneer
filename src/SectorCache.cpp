@@ -13,31 +13,25 @@ using namespace Graphics;
 static const int DRAW_RAD = 5;
 static const float FAR_THRESHOLD = 7.5f;
 
-SectorCache::SectorCacheMap SectorCache::m_sectorCache;
-int SectorCache::m_cacheXMin = 0;
-int SectorCache::m_cacheXMax = 0;
-int SectorCache::m_cacheYMin = 0;
-int SectorCache::m_cacheYMax = 0;
-int SectorCache::m_cacheZMin = 0;
-int SectorCache::m_cacheZMax = 0;
-float SectorCache::m_zoomClamped = 1.0f;
-vector3f SectorCache::m_pos;
-
-void SectorCache::Init()
+SectorCache::SectorCache() :
+	m_cacheXMin(0),
+	m_cacheXMax(0),
+	m_cacheYMin(0),
+	m_cacheYMax(0),
+	m_cacheZMin(0),
+	m_cacheZMax(0),
+	m_zoomClamped(1.0f)
 {
 }
 
-void SectorCache::DeInit()
+SectorCache::~SectorCache()
 {
 	SectorCacheMap::iterator iter = m_sectorCache.begin();
 	while (iter != m_sectorCache.end())	{
 		Sector *s = (*iter).second;
-		if (s) {
-			delete s;
-		}
+		delete s;
 		iter++;
 	}
-	m_sectorCache.clear();
 }
 
 Sector* SectorCache::GetCached(const SystemPath& loc)

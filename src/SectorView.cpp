@@ -64,7 +64,7 @@ SectorView::SectorView()
 
 	GotoSystem(m_current);
 	m_pos = m_posMovingTo;
-	SectorCache::SetPosition(m_pos);
+	Sector::cache.SetPosition(m_pos);
 
 	m_matchTargetToSelection   = true;
 	m_selectionFollowsMovement = true;
@@ -81,7 +81,7 @@ SectorView::SectorView(Serializer::Reader &rd)
 	m_pos.x = m_posMovingTo.x = rd.Float();
 	m_pos.y = m_posMovingTo.y = rd.Float();
 	m_pos.z = m_posMovingTo.z = rd.Float();
-	SectorCache::SetPosition(m_pos);
+	Sector::cache.SetPosition(m_pos);
 	m_rotX = m_rotXMovingTo = rd.Float();
 	m_rotZ = m_rotZMovingTo = rd.Float();
 	m_zoom = m_zoomMovingTo = rd.Float();
@@ -315,7 +315,7 @@ void SectorView::OnSearchBoxKeyPress(const SDL_Keysym *keysym)
 	SystemPath bestMatch;
 	const std::string *bestMatchName = 0;
 
-	for (SectorCache::SectorCacheMapConstIterator i = SectorCache::GetCache().begin(); i != SectorCache::GetCache().end(); ++i)
+	for (auto i = Sector::cache.GetCache().begin(); i != Sector::cache.GetCache().end(); ++i)
 
 		for (unsigned int systemIndex = 0; systemIndex < (*i).second->m_systems.size(); systemIndex++) {
 			const Sector::System *ss = &((*i).second->m_systems[systemIndex]);
@@ -473,13 +473,13 @@ void SectorView::GotoSector(const SystemPath &path)
 	// for performance don't animate the travel if we're Far Zoomed
 	if (m_zoomClamped > FAR_THRESHOLD) {
 		m_pos = m_posMovingTo;
-		SectorCache::SetPosition(m_pos);
+		Sector::cache.SetPosition(m_pos);
 	}
 }
 
 void SectorView::GotoSystem(const SystemPath &path)
 {
-	Sector* ps = SectorCache::GetCached(path.sectorX, path.sectorY, path.sectorZ);
+	Sector* ps = Sector::cache.GetCached(path.sectorX, path.sectorY, path.sectorZ);
 	const vector3f &p = ps->m_systems[path.systemIndex].p;
 	m_posMovingTo.x = path.sectorX + p.x/Sector::SIZE;
 	m_posMovingTo.y = path.sectorY + p.y/Sector::SIZE;
@@ -488,7 +488,7 @@ void SectorView::GotoSystem(const SystemPath &path)
 	// for performance don't animate the travel if we're Far Zoomed
 	if (m_zoomClamped > FAR_THRESHOLD) {
 		m_pos = m_posMovingTo;
-		SectorCache::SetPosition(m_pos);
+		Sector::cache.SetPosition(m_pos);
 	}
 }
 
@@ -530,7 +530,7 @@ void SectorView::PutSystemLabels(Sector *sec, const vector3f &origin, int drawRa
 		if (m_hiddenFactions.find((*sys).faction) != m_hiddenFactions.end() && can_skip) continue;
 
 		// determine if system in hyperjump range or not
-		Sector *playerSec = SectorCache::GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
+		Sector *playerSec = Sector::cache.GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
 		float dist = Sector::DistanceBetween(sec, sysIdx, playerSec, m_current.systemIndex);
 		bool inRange = dist <= m_playerHyperspaceRange;
 
@@ -567,7 +567,7 @@ void SectorView::PutFactionLabels(const vector3f &origin)
 	for (std::set<Faction*>::iterator it = m_visibleFactions.begin(); it != m_visibleFactions.end(); ++it) {
 		if ((*it)->hasHomeworld && m_hiddenFactions.find((*it)) == m_hiddenFactions.end()) {
 
-			Sector::System sys = SectorCache::GetCached((*it)->homeworld)->m_systems[(*it)->homeworld.systemIndex];
+			Sector::System sys = Sector::cache.GetCached((*it)->homeworld)->m_systems[(*it)->homeworld.systemIndex];
 			if ((m_pos*Sector::SIZE - sys.FullPosition()).Length() > (m_zoomClamped/FAR_THRESHOLD )*OUTER_RADIUS) continue;
 
 			vector3d pos;
@@ -613,8 +613,8 @@ void SectorView::PutFactionLabels(const vector3f &origin)
 void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path)
 {
 	PROFILE_SCOPED()
-	Sector *sec = SectorCache::GetCached(path.sectorX, path.sectorY, path.sectorZ);
-	Sector *playerSec = SectorCache::GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
+	Sector *sec = Sector::cache.GetCached(path.sectorX, path.sectorY, path.sectorZ);
+	Sector *playerSec = Sector::cache.GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
 
 	char format[256];
 
@@ -742,7 +742,7 @@ void SectorView::DrawNearSectors(const matrix4x4f& modelview)
 	PROFILE_SCOPED()
 	m_visibleFactions.clear();
 
-	const Sector *playerSec = SectorCache::GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
+	const Sector *playerSec = Sector::cache.GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
 	const vector3f playerPos = Sector::SIZE * vector3f(float(m_current.sectorX), float(m_current.sectorY), float(m_current.sectorZ)) + playerSec->m_systems[m_current.systemIndex].p;
 
 	for (int sx = -DRAW_RAD; sx <= DRAW_RAD; sx++) {
@@ -763,7 +763,7 @@ void SectorView::DrawNearSectors(const matrix4x4f& modelview)
 	for (int sx = -DRAW_RAD; sx <= DRAW_RAD; sx++) {
 		for (int sy = -DRAW_RAD; sy <= DRAW_RAD; sy++) {
 			for (int sz = -DRAW_RAD; sz <= DRAW_RAD; sz++) {
-				PutSystemLabels(SectorCache::GetCached(sx + secOrigin.x, sy + secOrigin.y, sz + secOrigin.z), Sector::SIZE * secOrigin, Sector::SIZE * DRAW_RAD);
+				PutSystemLabels(Sector::cache.GetCached(sx + secOrigin.x, sy + secOrigin.y, sz + secOrigin.z), Sector::SIZE * secOrigin, Sector::SIZE * DRAW_RAD);
 			}
 		}
 	}
@@ -774,7 +774,7 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 {
 	PROFILE_SCOPED()
 	m_renderer->SetTransform(trans);
-	Sector* ps = SectorCache::GetCached(sx, sy, sz);
+	Sector* ps = Sector::cache.GetCached(sx, sy, sz);
 
 	int cz = int(floor(m_pos.z+0.5f));
 
@@ -819,7 +819,7 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 		if (m_hiddenFactions.find(i->faction) != m_hiddenFactions.end() && can_skip) continue;
 
 		// determine if system in hyperjump range or not
-		Sector *playerSec = SectorCache::GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
+		Sector *playerSec = Sector::cache.GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
 		float dist = Sector::DistanceBetween(ps, sysIdx, playerSec, m_current.systemIndex);
 		bool inRange = dist <= m_playerHyperspaceRange;
 
@@ -943,7 +943,7 @@ void SectorView::DrawFarSectors(const matrix4x4f& modelview)
 			for (int sy = secOrigin.y-buildRadius; sy <= secOrigin.y+buildRadius; sy++) {
 				for (int sz = secOrigin.z-buildRadius; sz <= secOrigin.z+buildRadius; sz++) {
 						if ((vector3f(sx,sy,sz) - secOrigin).Length() <= buildRadius){
-							BuildFarSector(SectorCache::GetCached(sx, sy, sz), Sector::SIZE * secOrigin, m_farstars, m_farstarsColor);
+							BuildFarSector(Sector::cache.GetCached(sx, sy, sz), Sector::SIZE * secOrigin, m_farstars, m_farstarsColor);
 						}
 					}
 				}
@@ -1155,7 +1155,7 @@ void SectorView::Update()
 		if (travelPos.Length() > diffPos.Length()) m_pos = m_posMovingTo;
 		else m_pos = m_pos + travelPos;
 
-		SectorCache::SetPosition(m_pos);
+		Sector::cache.SetPosition(m_pos);
 
 		float diffX = m_rotXMovingTo - m_rotX;
 		float travelX = diffX * 10.0f*frameTime;
@@ -1188,7 +1188,7 @@ void SectorView::Update()
 	if (m_selectionFollowsMovement) {
 		SystemPath new_selected = SystemPath(int(floor(m_pos.x)), int(floor(m_pos.y)), int(floor(m_pos.z)), 0);
 
-		Sector* ps = SectorCache::GetCached(new_selected.sectorX, new_selected.sectorY, new_selected.sectorZ);
+		Sector* ps = Sector::cache.GetCached(new_selected.sectorX, new_selected.sectorY, new_selected.sectorZ);
 		if (ps->m_systems.size()) {
 			float px = FFRAC(m_pos.x)*Sector::SIZE;
 			float py = FFRAC(m_pos.y)*Sector::SIZE;
@@ -1212,7 +1212,7 @@ void SectorView::Update()
 		}
 	}
 
-	SectorCache::ShrinkCache();
+	Sector::cache.ShrinkCache();
 
 	m_playerHyperspaceRange = Pi::player->GetStats().hyperspace_range;
 
