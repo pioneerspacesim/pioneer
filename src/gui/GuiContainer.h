@@ -31,7 +31,6 @@ namespace Gui {
 		virtual void HideAll();
 		virtual void OnChildResizeRequest(Widget *) = 0;
 		void SetBgColor(const Color &col);
-		void SetBgColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 		void SetTransparency(bool a) { m_transparent = a; }
 		virtual void UpdateAllChildSizes() = 0;
 		void RemoveChild(Widget *w);
