@@ -160,10 +160,7 @@ function ChatForm:AddGoodsTrader (funcs)
 end
 
 function ChatForm:Close ()
-	ui:DropLayer();
-	if self.removeOnClose and self.removeFunc then
-		self.removeFunc()
-	end
+	ui:DropLayer()
 end
 
 function ChatForm:GotoPolice ()
@@ -172,7 +169,11 @@ function ChatForm:GotoPolice ()
 end
 
 function ChatForm:RemoveAdvertOnClose()
-	self.removeOnClose = true
+	-- removing it now. has the same effect for the player, without requiring
+	-- us to somehow hook the entire view being closed (eg switch back to worldview)
+	if self.removeFunc then
+		self.removeFunc()
+	end
 end
 
 return ChatForm
