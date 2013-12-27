@@ -17,6 +17,8 @@ static const char *sys_names[SYS_NAME_FRAGS] =
 
 const float Sector::SIZE = 8.f;
 
+SectorCache Sector::cache;
+
 void Sector::GetCustomSystems()
 {
 	PROFILE_SCOPED()
