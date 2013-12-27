@@ -16,7 +16,6 @@ public:
 	~SectorCache();
 
 	Sector* GetCached(const SystemPath& loc);
-	Sector* GetCached(const int sectorX, const int sectorY, const int sectorZ);
 	void ShrinkCache();
 
 	void SetZoomClamp(const float zoomClamp) { m_zoomClamped = zoomClamp; }

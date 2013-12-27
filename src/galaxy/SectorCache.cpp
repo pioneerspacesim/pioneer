@@ -50,13 +50,6 @@ Sector* SectorCache::GetCached(const SystemPath& loc)
 	return s;
 }
 
-Sector* SectorCache::GetCached(const int sectorX, const int sectorY, const int sectorZ)
-{
-	PROFILE_SCOPED()
-	const SystemPath loc(sectorX, sectorY, sectorZ);
-	return GetCached(loc);
-}
-
 void SectorCache::ShrinkCache()
 {
 	PROFILE_SCOPED()

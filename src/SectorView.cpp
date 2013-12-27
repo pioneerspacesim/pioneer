@@ -479,7 +479,7 @@ void SectorView::GotoSector(const SystemPath &path)
 
 void SectorView::GotoSystem(const SystemPath &path)
 {
-	Sector* ps = Sector::cache.GetCached(path.sectorX, path.sectorY, path.sectorZ);
+	Sector* ps = Sector::cache.GetCached(path);
 	const vector3f &p = ps->m_systems[path.systemIndex].p;
 	m_posMovingTo.x = path.sectorX + p.x/Sector::SIZE;
 	m_posMovingTo.y = path.sectorY + p.y/Sector::SIZE;
@@ -530,7 +530,7 @@ void SectorView::PutSystemLabels(Sector *sec, const vector3f &origin, int drawRa
 		if (m_hiddenFactions.find((*sys).faction) != m_hiddenFactions.end() && can_skip) continue;
 
 		// determine if system in hyperjump range or not
-		Sector *playerSec = Sector::cache.GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
+		Sector *playerSec = Sector::cache.GetCached(m_current);
 		float dist = Sector::DistanceBetween(sec, sysIdx, playerSec, m_current.systemIndex);
 		bool inRange = dist <= m_playerHyperspaceRange;
 
@@ -613,8 +613,8 @@ void SectorView::PutFactionLabels(const vector3f &origin)
 void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path)
 {
 	PROFILE_SCOPED()
-	Sector *sec = Sector::cache.GetCached(path.sectorX, path.sectorY, path.sectorZ);
-	Sector *playerSec = Sector::cache.GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
+	Sector *sec = Sector::cache.GetCached(path);
+	Sector *playerSec = Sector::cache.GetCached(m_current);
 
 	char format[256];
 
@@ -742,7 +742,7 @@ void SectorView::DrawNearSectors(const matrix4x4f& modelview)
 	PROFILE_SCOPED()
 	m_visibleFactions.clear();
 
-	const Sector *playerSec = Sector::cache.GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
+	const Sector *playerSec = Sector::cache.GetCached(m_current);
 	const vector3f playerPos = Sector::SIZE * vector3f(float(m_current.sectorX), float(m_current.sectorY), float(m_current.sectorZ)) + playerSec->m_systems[m_current.systemIndex].p;
 
 	for (int sx = -DRAW_RAD; sx <= DRAW_RAD; sx++) {
@@ -763,7 +763,7 @@ void SectorView::DrawNearSectors(const matrix4x4f& modelview)
 	for (int sx = -DRAW_RAD; sx <= DRAW_RAD; sx++) {
 		for (int sy = -DRAW_RAD; sy <= DRAW_RAD; sy++) {
 			for (int sz = -DRAW_RAD; sz <= DRAW_RAD; sz++) {
-				PutSystemLabels(Sector::cache.GetCached(sx + secOrigin.x, sy + secOrigin.y, sz + secOrigin.z), Sector::SIZE * secOrigin, Sector::SIZE * DRAW_RAD);
+				PutSystemLabels(Sector::cache.GetCached(SystemPath(sx + secOrigin.x, sy + secOrigin.y, sz + secOrigin.z)), Sector::SIZE * secOrigin, Sector::SIZE * DRAW_RAD);
 			}
 		}
 	}
@@ -774,7 +774,7 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 {
 	PROFILE_SCOPED()
 	m_renderer->SetTransform(trans);
-	Sector* ps = Sector::cache.GetCached(sx, sy, sz);
+	Sector* ps = Sector::cache.GetCached(SystemPath(sx, sy, sz));
 
 	int cz = int(floor(m_pos.z+0.5f));
 
@@ -819,7 +819,7 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 		if (m_hiddenFactions.find(i->faction) != m_hiddenFactions.end() && can_skip) continue;
 
 		// determine if system in hyperjump range or not
-		Sector *playerSec = Sector::cache.GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
+		Sector *playerSec = Sector::cache.GetCached(m_current);
 		float dist = Sector::DistanceBetween(ps, sysIdx, playerSec, m_current.systemIndex);
 		bool inRange = dist <= m_playerHyperspaceRange;
 
@@ -943,7 +943,7 @@ void SectorView::DrawFarSectors(const matrix4x4f& modelview)
 			for (int sy = secOrigin.y-buildRadius; sy <= secOrigin.y+buildRadius; sy++) {
 				for (int sz = secOrigin.z-buildRadius; sz <= secOrigin.z+buildRadius; sz++) {
 						if ((vector3f(sx,sy,sz) - secOrigin).Length() <= buildRadius){
-							BuildFarSector(Sector::cache.GetCached(sx, sy, sz), Sector::SIZE * secOrigin, m_farstars, m_farstarsColor);
+							BuildFarSector(Sector::cache.GetCached(SystemPath(sx, sy, sz)), Sector::SIZE * secOrigin, m_farstars, m_farstarsColor);
 						}
 					}
 				}
@@ -1188,7 +1188,7 @@ void SectorView::Update()
 	if (m_selectionFollowsMovement) {
 		SystemPath new_selected = SystemPath(int(floor(m_pos.x)), int(floor(m_pos.y)), int(floor(m_pos.z)), 0);
 
-		Sector* ps = Sector::cache.GetCached(new_selected.sectorX, new_selected.sectorY, new_selected.sectorZ);
+		Sector* ps = Sector::cache.GetCached(new_selected);
 		if (ps->m_systems.size()) {
 			float px = FFRAC(m_pos.x)*Sector::SIZE;
 			float py = FFRAC(m_pos.y)*Sector::SIZE;

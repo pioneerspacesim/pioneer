@@ -71,7 +71,7 @@ static int l_sbodypath_new(lua_State *l)
 		path.systemIndex = luaL_checkinteger(l, 4);
 
 		// if this is a system path, then check that the system exists
-		const Sector* s = Sector::cache.GetCached(sector_x, sector_y, sector_z);
+		const Sector* s = Sector::cache.GetCached(path);
 		if (size_t(path.systemIndex) >= s->m_systems.size())
 			luaL_error(l, "System %d in sector <%d,%d,%d> does not exist", path.systemIndex, sector_x, sector_y, sector_z);
 
@@ -242,8 +242,8 @@ static int l_sbodypath_distance_to(lua_State *l)
 		loc2 = &(s2->GetPath());
 	}
 
-	const Sector* sec1 = Sector::cache.GetCached(loc1->sectorX, loc1->sectorY, loc1->sectorZ);
-	const Sector* sec2 = Sector::cache.GetCached(loc2->sectorX, loc2->sectorY, loc2->sectorZ);
+	const Sector* sec1 = Sector::cache.GetCached(*loc1);
+	const Sector* sec2 = Sector::cache.GetCached(*loc2);
 
 	double dist = Sector::DistanceBetween(sec1, loc1->systemIndex, sec2, loc2->systemIndex);
 
