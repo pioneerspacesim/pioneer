@@ -7,7 +7,7 @@
 #include "Player.h"
 #include "Planet.h"
 #include "galaxy/Sector.h"
-#include "SectorCache.h"
+#include "galaxy/SectorCache.h"
 #include "SectorView.h"
 #include "Serializer.h"
 #include "ShipCpanel.h"

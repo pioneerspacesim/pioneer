@@ -20,7 +20,7 @@
 #include "HyperspaceCloud.h"
 #include "graphics/Graphics.h"
 #include "WorldView.h"
-#include "SectorCache.h"
+#include "galaxy/SectorCache.h"
 #include "SectorView.h"
 #include "Lang.h"
 #include "Game.h"

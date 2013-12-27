@@ -6,7 +6,7 @@
 #include "galaxy/SystemPath.h"
 #include "galaxy/StarSystem.h"
 #include "galaxy/Sector.h"
-#include "SectorCache.h"
+#include "galaxy/SectorCache.h"
 
 /*
  * Class: SystemPath
