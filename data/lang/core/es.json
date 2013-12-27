@@ -1101,7 +1101,7 @@
    },
    "NO_HYPERDRIVE" : {
       "description" : "",
-      "message" : "Sin motor hiperespacial"
+      "message" : "Sin hipermotor"
    },
    "NO_REGISTERED_INHABITANTS" : {
       "description" : "",
@@ -1337,7 +1337,7 @@
    },
    "RADAR_MAPPER" : {
       "description" : "",
-      "message" : "Mapeo de radar"
+      "message" : "Radar Mapeador"
    },
    "RADAR_MAPPER_DESCRIPTION" : {
       "description" : "",
