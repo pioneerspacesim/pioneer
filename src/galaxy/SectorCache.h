@@ -25,7 +25,8 @@ public:
 	typedef std::map<SystemPath,Sector*> SectorCacheMap;
 	typedef SectorCacheMap::const_iterator SectorCacheMapConstIterator;
 
-	SectorCacheMap& GetCache() { return m_sectorCache; }
+	SectorCacheMapConstIterator Begin() { return m_sectorCache.begin(); }
+	SectorCacheMapConstIterator End() { return m_sectorCache.end(); }
 
 private:
 	SectorCacheMap m_sectorCache;

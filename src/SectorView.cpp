@@ -315,7 +315,7 @@ void SectorView::OnSearchBoxKeyPress(const SDL_Keysym *keysym)
 	SystemPath bestMatch;
 	const std::string *bestMatchName = 0;
 
-	for (auto i = Sector::cache.GetCache().begin(); i != Sector::cache.GetCache().end(); ++i)
+	for (auto i = Sector::cache.Begin(); i != Sector::cache.End(); ++i)
 
 		for (unsigned int systemIndex = 0; systemIndex < (*i).second->m_systems.size(); systemIndex++) {
 			const Sector::System *ss = &((*i).second->m_systems[systemIndex]);
