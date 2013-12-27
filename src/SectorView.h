@@ -69,10 +69,6 @@ private:
 
 	void UpdateHyperspaceLockLabel();
 
-	Sector* GetCached(const SystemPath& loc);
-	Sector* GetCached(const int sectorX, const int sectorY, const int sectorZ);
-	void ShrinkCache();
-
 	void MouseWheel(bool up);
 	void OnKeyPressed(SDL_Keysym *keysym);
 	void OnSearchBoxKeyPress(const SDL_Keysym *keysym);
@@ -134,7 +130,6 @@ private:
 	sigc::connection m_onMouseWheelCon;
 	sigc::connection m_onKeyPressConnection;
 
-	std::map<SystemPath,Sector*> m_sectorCache;
 	std::string m_previousSearch;
 
 	float m_playerHyperspaceRange;
@@ -148,13 +143,6 @@ private:
 	vector3f m_secPosFar;
 	int      m_radiusFar;
 	bool     m_toggledFaction;
-
-	int m_cacheXMin;
-	int m_cacheXMax;
-	int m_cacheYMin;
-	int m_cacheYMax;
-	int m_cacheZMin;
-	int m_cacheZMax;
 
 	std::unique_ptr<Graphics::VertexArray> m_lineVerts;
 	std::unique_ptr<Graphics::VertexArray> m_secLineVerts;
