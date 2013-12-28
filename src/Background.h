@@ -93,7 +93,7 @@ namespace Background
 		{
 			DRAW_STARS = 1<<0,
 			DRAW_MILKY = 1<<1,
-			DRAW_SKYBX = 1<<2
+			DRAW_SKYBOX = 1<<2
 		};
 
 		// default constructor, needs Refresh with proper seed to show starfield
@@ -109,8 +109,8 @@ namespace Background
 		MilkyWay m_milkyWay;
 		Starfield m_starField;
 		UniverseBox m_universeBox;
-		bool m_bLoadNewCubemap;
-		Uint32 m_uSeed;
+		bool m_loadNewCubemap;
+		Uint32 m_seed;
 		Uint32 m_drawFlags;
 	};
 
