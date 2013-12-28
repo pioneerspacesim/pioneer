@@ -17,6 +17,7 @@
 #include "graphics/Surface.h"
 #include "graphics/VertexArray.h"
 #include "graphics/TextureBuilder.h"
+#include "StringF.h"
 
 #include <SDL_stdinc.h>
 #include <sstream>
@@ -26,6 +27,8 @@ using namespace Graphics;
 
 namespace
 {
+	static std::unique_ptr<Graphics::Texture> s_defaultCubeMap;
+	
 	static Uint32 GetNumSkyboxes()
 	{
 		char filename[1024];
@@ -64,6 +67,10 @@ UniverseBox::~UniverseBox()
 
 void UniverseBox::Init(Graphics::Renderer *r)
 {
+	// Load default cubemap
+	TextureBuilder texture_builder = TextureBuilder::Cube("textures/skybox/default.dds");
+	s_defaultCubeMap.reset( texture_builder.CreateTexture(r) );
+
 	// Create skybox geometry
 	VertexArray *box = new VertexArray(ATTRIB_POSITION | ATTRIB_UV0, 36);
 	const float vp = 1000.0f;
@@ -113,6 +120,7 @@ void UniverseBox::Init(Graphics::Renderer *r)
 	Graphics::MaterialDescriptor desc;
 	desc.effect = EFFECT_SKYBOX;
 	m_material.Reset(r->CreateMaterial(desc));
+	m_material->texture0 = nullptr;
 
 	// safe to load the default cube map now
 	LoadCubeMap(r);
@@ -125,31 +133,26 @@ void UniverseBox::Init(Graphics::Renderer *r)
 
 void UniverseBox::Draw(Graphics::Renderer *r)
 {
-	if(m_cubemap) {
+	if(m_material->texture0) {
 		r->DrawStaticMesh(m_model.get());
 	}
 }
 
 void UniverseBox::LoadCubeMap(Graphics::Renderer *r, Random* randomizer)
 {
-	// Clean old texture
-	m_cubemap.reset();
-	
 	if(randomizer && m_numCubemaps>0) {
 		const int new_ubox_index = randomizer->Int32(1, m_numCubemaps);
 		if(new_ubox_index > 0) {
 			// Load new one
-			std::ostringstream os;
-			os << "textures/skybox/ub" << (new_ubox_index - 1) << ".dds";
-			TextureBuilder texture_builder = TextureBuilder::Cube(os.str().c_str());
+			const std::string os = stringf("textures/skybox/ub%0{d}.dds", (new_ubox_index - 1));
+			TextureBuilder texture_builder = TextureBuilder::Cube(os.c_str());
 			m_cubemap.reset( texture_builder.CreateTexture(r) );
 			m_material->texture0 = m_cubemap.get();
 		}
 	} else {
-		// Load cubemap
-		TextureBuilder texture_builder = TextureBuilder::Cube("textures/skybox/default.dds");
-		m_cubemap.reset( texture_builder.CreateTexture(r) );
-		m_material->texture0 = m_cubemap.get();
+		// use default cubemap
+		m_cubemap.reset();
+		m_material->texture0 = s_defaultCubeMap.get();
 	}
 }
 
