@@ -210,24 +210,8 @@ void TextureBuilder::LoadSurface()
 			s = LoadSurfaceFromFile("textures/unknown.png"); 
 		}
 	} else if(m_textureType == TEXTURE_CUBE_MAP) {
-		Uint32 idx = m_filename.find_last_of('.');
-		assert(idx != std::string::npos); // Error: filename incorrect, should be "file.ext"
-		// Loads cube map based on SpaceScape format: cubemap_sideN.png/.jpg
-		std::string cube_right = m_filename.substr(0, idx) + "_right1" + m_filename.substr(idx);
-		std::string cube_left = m_filename.substr(0, idx) + "_left2" + m_filename.substr(idx);
-		std::string cube_top = m_filename.substr(0, idx) + "_top3" + m_filename.substr(idx);
-		std::string cube_bottom = m_filename.substr(0, idx) + "_bottom4" + m_filename.substr(idx);
-		std::string cube_front = m_filename.substr(0, idx) + "_front5" + m_filename.substr(idx);
-		std::string cube_back = m_filename.substr(0, idx) + "_back6" + m_filename.substr(idx);
-		m_cubemap.clear();
-		m_cubemap.push_back(LoadSurfaceFromFile(cube_right));
-		m_cubemap.push_back(LoadSurfaceFromFile(cube_left));
-		m_cubemap.push_back(LoadSurfaceFromFile(cube_top));
-		m_cubemap.push_back(LoadSurfaceFromFile(cube_bottom));
-		m_cubemap.push_back(LoadSurfaceFromFile(cube_front));
-		m_cubemap.push_back(LoadSurfaceFromFile(cube_back));
-		assert(m_cubemap[0] && m_cubemap[1] && m_cubemap[2] && m_cubemap[3] && m_cubemap[4] && m_cubemap[5]);
-		s = m_cubemap[0];
+		assert(false);
+		fprintf(stderr, "LoadSurface: %s: cannot load non-DDS cubemaps\n", m_filename.c_str());
 	}
 
 	// XXX if we can't load the fallback texture, then what?
