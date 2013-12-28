@@ -33,8 +33,7 @@ namespace
 		std::vector<FileSystem::FileInfo> fileList;
 		FileSystem::gameDataFiles.ReadDirectory(filename, fileList);
 
-		char itemMask[256];
-		snprintf(itemMask, sizeof(itemMask), "ub");
+		const char *itemMask = "ub";
 
 		Uint32 num_matching = 0;
 		for (std::vector<FileSystem::FileInfo>::const_iterator it = fileList.begin(), itEnd = fileList.end(); it!=itEnd; ++it) {
@@ -61,15 +60,13 @@ UniverseBox::UniverseBox(Graphics::Renderer *r)
 
 UniverseBox::~UniverseBox()
 {
-	delete m_cubemap;
-	delete m_model;
 }
 
 void UniverseBox::Init(Graphics::Renderer *r)
 {
 	// Load cubemap
 	TextureBuilder texture_builder = TextureBuilder::Cube("textures/cube/default.dds");
-	m_cubemap = texture_builder.CreateTexture(r);
+	m_cubemap.reset( texture_builder.CreateTexture(r) );
 
 	// Create skybox geometry
 	VertexArray *box = new VertexArray(ATTRIB_POSITION | ATTRIB_UV0, 36);
@@ -116,11 +113,11 @@ void UniverseBox::Init(Graphics::Renderer *r)
 	box->Add(vector3f(-vp,  vp, -vp), vector2f(1.0f, 0.0f));
 	box->Add(vector3f(-vp, -vp,  vp), vector2f(0.0f, 1.0f));
 	box->Add(vector3f(-vp, -vp, -vp), vector2f(1.0f, 1.0f));
-	m_model = new StaticMesh(TRIANGLES);
+	m_model.reset( new StaticMesh(TRIANGLES) );
 	Graphics::MaterialDescriptor desc;
 	desc.effect = EFFECT_SKYBOX;
 	m_material.Reset(r->CreateMaterial(desc));
-	m_material->texture0 = m_cubemap;
+	m_material->texture0 = m_cubemap.get();
 	m_model->AddSurface(RefCountedPtr<Surface>(new Surface(TRIANGLES, box, m_material)));
 	SetIntensity(1.0f);
 
@@ -130,15 +127,14 @@ void UniverseBox::Init(Graphics::Renderer *r)
 void UniverseBox::Draw(Graphics::Renderer *r)
 {
 	if(m_cubemap) {
-		r->DrawStaticMesh(m_model);
+		r->DrawStaticMesh(m_model.get());
 	}
 }
 
 void UniverseBox::LoadCubeMap(Graphics::Renderer *r, Random* randomizer)
 {
 	// Clean old texture
-	delete m_cubemap;
-	m_cubemap = nullptr;
+	m_cubemap.reset();
 	
 	if(randomizer && m_numCubemaps>0) {
 		const int new_ubox_index = randomizer->Int32(1, m_numCubemaps);
@@ -147,14 +143,14 @@ void UniverseBox::LoadCubeMap(Graphics::Renderer *r, Random* randomizer)
 			std::ostringstream os;
 			os << "textures/cube/ub" << (new_ubox_index - 1) << ".dds";
 			TextureBuilder texture_builder = TextureBuilder::Cube(os.str().c_str());
-			m_cubemap = texture_builder.CreateTexture(r);
-			m_material->texture0 = m_cubemap;
+			m_cubemap.reset( texture_builder.CreateTexture(r) );
+			m_material->texture0 = m_cubemap.get();
 		}
 	} else {
 		// Load cubemap
 		TextureBuilder texture_builder = TextureBuilder::Cube("textures/cube/default.dds");
-		m_cubemap = texture_builder.CreateTexture(r);
-		m_material->texture0 = m_cubemap;
+		m_cubemap.reset( texture_builder.CreateTexture(r) );
+		m_material->texture0 = m_cubemap.get();
 	}
 }
 

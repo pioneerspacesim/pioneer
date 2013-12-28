@@ -43,8 +43,8 @@ namespace Background
 		Random createRandom(Uint32 seed);
 		Random createRandom(const SystemPath& system_path);
 
-		Graphics::StaticMesh *m_model;
-		Graphics::Texture* m_cubemap;
+		std::unique_ptr<Graphics::StaticMesh> m_model;
+		std::unique_ptr<Graphics::Texture> m_cubemap;
 
 		Uint32 m_numCubemaps;
 	};
