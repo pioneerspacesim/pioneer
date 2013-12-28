@@ -29,7 +29,7 @@ namespace
 	static Uint32 GetNumSkyboxes()
 	{
 		char filename[1024];
-		snprintf(filename, sizeof(filename), "textures/cube");
+		snprintf(filename, sizeof(filename), "textures/skybox");
 		std::vector<FileSystem::FileInfo> fileList;
 		FileSystem::gameDataFiles.ReadDirectory(filename, fileList);
 
