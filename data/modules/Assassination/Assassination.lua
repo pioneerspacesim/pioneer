@@ -16,6 +16,7 @@ local Format = import("Format")
 local Serializer = import("Serializer")
 local EquipDef = import("EquipDef")
 local ShipDef = import("ShipDef")
+local Ship = import("Ship")
 local utils = import("utils")
 
 local InfoFace = import("ui/InfoFace")
@@ -120,7 +121,6 @@ local onChat = function (form, ref, option)
 		table.insert(missions,Mission.New(mission))
 
 		form:SetMessage(l.EXCELLENT)
-		form:AddOption(l.HANG_UP, -1)
 
 		return
 	elseif option == 4 then
@@ -131,14 +131,6 @@ local onChat = function (form, ref, option)
 	form:AddOption(l.HOW_SOON_MUST_IT_BE_DONE, 2);
 	form:AddOption(l.HOW_WILL_I_BE_PAID, 4);
 	form:AddOption(l.OK_AGREED, 3);
-	form:AddOption(l.HANG_UP, -1);
-end
-
-local RandomShipRegId = function ()
-	local letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-	local a = Engine.rand:Integer(1, #letters)
-	local b = Engine.rand:Integer(1, #letters)
-	return string.format("%s%s-%04d", letters:sub(a,a), letters:sub(b,b), Engine.rand:Integer(0, 9999))
 end
 
 local nearbysystems
@@ -179,7 +171,7 @@ local makeAdvert = function (station)
 		reward = reward,
 		shipid = shipid,
 		shipname = shipname,
-		shipregid = RandomShipRegId(),
+		shipregid = Ship.MakeRandomLabel(),
 		station = station,
 		target = target,
 	}

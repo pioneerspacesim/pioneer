@@ -115,33 +115,13 @@
       "description" : "",
       "message" : "corpo"
    },
-   "BOUGHT_1T_OF" : {
-      "description" : "",
-      "message" : "Ha acquistato 1t di %commodity."
-   },
    "BROWN_DWARF" : {
       "description" : "",
       "message" : "Nana Bruna (oggetto substellare)"
    },
-   "BULLETIN_BOARD" : {
-      "description" : "",
-      "message" : "Bacheca Elettronica: Offerte di lavoro, Annunci, Occasioni"
-   },
    "BUTTON" : {
       "description" : "",
       "message" : "\" Pulsante \""
-   },
-   "BUY" : {
-      "description" : "",
-      "message" : "Compra"
-   },
-   "BUY_THIS_SHIP" : {
-      "description" : "",
-      "message" : "Acquista"
-   },
-   "CABINS" : {
-      "description" : "",
-      "message" : "Alloggi"
    },
    "CAMERA_BOTTOM_VIEW" : {
       "description" : "",
@@ -170,10 +150,6 @@
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
       "message" : "Non è possibile salvare mentre si è in iperspazio"
-   },
-   "CAPACITY" : {
-      "description" : "",
-      "message" : "Capacità"
    },
    "CAPITALIST" : {
       "description" : "",
@@ -219,25 +195,9 @@
       "description" : "",
       "message" : "Permette la raccolta di container di cargo vaganti nello spazio."
    },
-   "CARGO_SPACE" : {
-      "description" : "",
-      "message" : "Capacità di carico"
-   },
-   "CASH" : {
-      "description" : "",
-      "message" : "Crediti"
-   },
    "CH4_ATMOSPHERE" : {
       "description" : "",
       "message" : "\" atmosfera a prevalenza di metano\""
-   },
-   "CLASS_NUMBER" : {
-      "description" : "",
-      "message" : "Classe %class"
-   },
-   "CLEAN" : {
-      "description" : "",
-      "message" : "Pulisci"
    },
    "CLEARANCE_ALREADY_GRANTED_BAY_N" : {
       "description" : "",
@@ -259,15 +219,7 @@
       "description" : "",
       "message" : ", altamente vulcanico"
    },
-   "COMMODITIES_MARKET" : {
-      "description" : "",
-      "message" : "Mercato dei beni di scambio"
-   },
    "COMMS" : {
-      "description" : "",
-      "message" : "Comunicazioni"
-   },
-   "COMMS_LINK" : {
       "description" : "",
       "message" : "Comunicazioni"
    },
@@ -290,10 +242,6 @@
    "CONSUMER_GOODS" : {
       "description" : "",
       "message" : "Beni di consumo"
-   },
-   "CONTACT_LOCAL_POLICE" : {
-      "description" : "",
-      "message" : "Contatta la polizia locale"
    },
    "CONTROLS" : {
       "description" : "",
@@ -531,33 +479,9 @@
       "description" : "",
       "message" : "Spara missile"
    },
-   "FIT" : {
-      "description" : "",
-      "message" : "+"
-   },
-   "FITTING" : {
-      "description" : "",
-      "message" : "\"Montaggio in corso \""
-   },
-   "FIT_TO_WHICH_MOUNT" : {
-      "description" : "",
-      "message" : "Montaggio su quale supporto?"
-   },
    "FOLLOWING_SELECTION" : {
       "description" : "",
       "message" : "segue la selezione"
-   },
-   "FORWARD_ACCEL_EMPTY" : {
-      "description" : "",
-      "message" : "Accelerazione (vuoto)"
-   },
-   "FORWARD_ACCEL_LADEN" : {
-      "description" : "",
-      "message" : "Accelerazione (carico)"
-   },
-   "FREE" : {
-      "description" : "",
-      "message" : "Libero"
    },
    "FRONT" : {
       "description" : "",
@@ -582,10 +506,6 @@
    "FUEL_SCOOP_DESCRIPTION" : {
       "description" : "",
       "message" : "Permette la raccolta e lo stoccaggio di idrogeno dall'atmosfera dei giganti gassosi."
-   },
-   "FUEL_WEIGHT" : {
-      "description" : "",
-      "message" : "Peso carburante"
    },
    "GALACTIC_VIEW" : {
       "description" : "",
@@ -619,10 +539,6 @@
       "description" : "",
       "message" : "Forma di governo:"
    },
-   "GO_BACK" : {
-      "description" : "",
-      "message" : "Indietro"
-   },
    "GRAIN" : {
       "description" : "",
       "message" : "Grano e altri cereali"
@@ -630,10 +546,6 @@
    "HAND_WEAPONS" : {
       "description" : "",
       "message" : "Armi a mano"
-   },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Riaggancia."
    },
    "HARD_CAPITALIST" : {
       "description" : "",
@@ -698,10 +610,6 @@
    "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
       "description" : "",
       "message" : "Analizza i residui di un balzo iperspaziale (c.d. nubi iperspaziali) per determinare la destinazione ed il tempo di arrivo o partenza dell'astronave che lo ha generato."
-   },
-   "HYPERDRIVE_FITTED" : {
-      "description" : "",
-      "message" : "Ipermotore montato:"
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -787,14 +695,6 @@
       "description" : "",
       "message" : "In transito verso %system [%x,%y,%z]"
    },
-   "ITEM" : {
-      "description" : "",
-      "message" : "Elementi"
-   },
-   "ITEM_IS_OUT_OF_STOCK" : {
-      "description" : "",
-      "message" : "Quest'articolo è esaurito."
-   },
    "JOY" : {
       "description" : "",
       "message" : "Joy"
@@ -846,10 +746,6 @@
    "LAUNCH_PERMISSION_DENIED_BUSY" : {
       "description" : "",
       "message" : "Autorizzazione al lancio negata: attracco occupato."
-   },
-   "LEGAL_STATUS" : {
-      "description" : "",
-      "message" : "Stato giuridico"
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
@@ -1063,10 +959,6 @@
       "description" : "",
       "message" : "Gas nervini"
    },
-   "NEW_AND_RECONDITIONED_SHIPS" : {
-      "description" : "",
-      "message" : "Astronavi nuove e ricondizionate"
-   },
    "NONE" : {
       "description" : "",
       "message" : "Vuoto"
@@ -1095,10 +987,6 @@
       "description" : "",
       "message" : "Nessun ordine costituito"
    },
-   "NO_FREE_SPACE_FOR_ITEM" : {
-      "description" : "",
-      "message" : "Non c'è abbastanza spazio per questo articolo."
-   },
    "NO_HYPERDRIVE" : {
       "description" : "",
       "message" : "Ipermotore non montato"
@@ -1106,10 +994,6 @@
    "NO_REGISTERED_INHABITANTS" : {
       "description" : "",
       "message" : "Nessun residente registrato"
-   },
-   "NO_SPACE_ON_SHIP" : {
-      "description" : "",
-      "message" : "Spazio a bordo insufficiente"
    },
    "NO_TARGET_SELECTED" : {
       "description" : "",
@@ -1215,10 +1099,6 @@
       "description" : "",
       "message" : "Paga sanzione via remoto (%amount)"
    },
-   "PAY_THE_FINE_NOW" : {
-      "description" : "",
-      "message" : "Paga la multa ora."
-   },
    "PERIAPSIS_DISTANCE" : {
       "description" : "",
       "message" : "Distanza dal periapside"
@@ -1287,18 +1167,6 @@
       "description" : "",
       "message" : "P: %pressure{f.2} atm"
    },
-   "PRICE" : {
-      "description" : "",
-      "message" : "Prezzo"
-   },
-   "PRICE_TO_FIT" : {
-      "description" : "",
-      "message" : "$ per montare"
-   },
-   "PRICE_TO_REMOVE" : {
-      "description" : "",
-      "message" : "$ per rimuovere"
-   },
    "PROBABILITY_OF_ARRIVAL_X_PERCENT" : {
       "description" : "",
       "message" : "Probabilità di arrivo: %probability%%"
@@ -1355,53 +1223,13 @@
       "description" : "",
       "message" : "Retro"
    },
-   "REGISTRATION_ID" : {
-      "description" : "",
-      "message" : "Codice Reg."
-   },
-   "REMOVE" : {
-      "description" : "",
-      "message" : "-"
-   },
-   "REMOVE_FROM_WHICH_MOUNT" : {
-      "description" : "",
-      "message" : "Rimozione da quale supporto?"
-   },
-   "REMOVING" : {
-      "description" : "",
-      "message" : "\"Smontaggio in corso \""
-   },
-   "REPAIRS_AND_SERVICING" : {
-      "description" : "",
-      "message" : "Officine Astronautiche"
-   },
-   "REPAIR_1_PERCENT_HULL" : {
-      "description" : "",
-      "message" : "Riparazione dell'1.0% dei danni allo scafo"
-   },
-   "REPAIR_ENTIRE_HULL" : {
-      "description" : "",
-      "message" : "Riparazione totale dei danni allo scafo (%repairpercent{f.1}%%)"
-   },
    "REQUEST_DOCKING_CLEARANCE" : {
       "description" : "",
       "message" : "Richiedo autorizzazione all'attracco"
    },
-   "REQUEST_LAUNCH" : {
-      "description" : "",
-      "message" : "Richiesta autorizzazione al lancio"
-   },
    "RESET" : {
       "description" : "",
       "message" : "Azzera Zoom"
-   },
-   "REVERSE_ACCEL_EMPTY" : {
-      "description" : "",
-      "message" : "Decelerazione (vuoto)"
-   },
-   "REVERSE_ACCEL_LADEN" : {
-      "description" : "",
-      "message" : "Decelerazione (carico)"
    },
    "ROBOTS" : {
       "description" : "",
@@ -1507,10 +1335,6 @@
       "description" : "",
       "message" : "Seleziona il livello di spinta ridotto"
    },
-   "SELL" : {
-      "description" : "",
-      "message" : "Vendi"
-   },
    "SEMI_MAJOR_AXIS" : {
       "description" : "",
       "message" : "Semiasse maggiore"
@@ -1567,10 +1391,6 @@
       "description" : "",
       "message" : "Astronave"
    },
-   "SHIPYARD" : {
-      "description" : "",
-      "message" : "Cantieri Astronautici"
-   },
    "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
       "description" : "",
       "message" : "Altezza dal terreno"
@@ -1579,21 +1399,9 @@
       "description" : "",
       "message" : "Rilevata astronave nelle vicinanze."
    },
-   "SHIP_EQUIPMENT" : {
-      "description" : "",
-      "message" : "Equipaggiamento"
-   },
    "SHIP_INFORMATION" : {
       "description" : "",
       "message" : "Scheda Astronave"
-   },
-   "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
-      "description" : "",
-      "message" : "Al momento la Sua nave non necessita di manutenzione."
-   },
-   "SHIP_IS_FULLY_LADEN" : {
-      "description" : "",
-      "message" : "L'astronave è a pieno carico."
    },
    "SHIP_MASS_N_TONNES" : {
       "description" : "",
@@ -1606,10 +1414,6 @@
    "SHIP_ORIENTATION" : {
       "description" : "",
       "message" : "Orientamento astronave"
-   },
-   "SHIP_TYPE" : {
-      "description" : "",
-      "message" : "Tipo di astronave"
    },
    "SHIP_VELOCITY_BY_REFERENCE_OBJECT" : {
       "description" : "",
@@ -1655,38 +1459,6 @@
       "description" : "",
       "message" : "solare"
    },
-   "SOLD_1T_OF" : {
-      "description" : "",
-      "message" : "Ha venduto 1t di %commodity."
-   },
-   "SOMEWHERE_COMMODITIES_MARKET" : {
-      "description" : "",
-      "message" : "Mercato dei prodotti di %station"
-   },
-   "SOMEWHERE_POLICE" : {
-      "description" : "",
-      "message" : "%station Polizia"
-   },
-   "SOMEWHERE_SERVICES" : {
-      "description" : "",
-      "message" : "Servizi di %station"
-   },
-   "SOMEWHERE_SHIPYARD" : {
-      "description" : "",
-      "message" : "Cantieri Astronautici di %station"
-   },
-   "SOMEWHERE_SHIP_EQUIPMENT" : {
-      "description" : "",
-      "message" : "Equipaggiamento Astronautico di %station"
-   },
-   "SOMEWHERE_SHIP_MARKET" : {
-      "description" : "",
-      "message" : "Mercato Astronautico di %station. Le migliori offerte ed occasioni."
-   },
-   "SOMEWHERE_SHIP_REPAIRS" : {
-      "description" : "",
-      "message" : "Officine Astronautiche di %station"
-   },
    "SOME_ESTABLISHED_MINING" : {
       "description" : "",
       "message" : "Modeste attività estrattive."
@@ -1694,10 +1466,6 @@
    "SOURCE" : {
       "description" : "",
       "message" : "Origine"
-   },
-   "SPACESTATION_LONG_WELCOME_MESSAGE" : {
-      "description" : "",
-      "message" : "Benvenuto a bordo della nostra Stazione Spaziale. Abbiamo riscontrato episodi di vandalismo e attacchi di graffitari. Se trova che qualcuno dei nostri annunci pubblicitari sia deviante, errato o semplicemente mancante, La preghiamo di avvertire il personale di sicurezza.\\nL'aria che respirate è, al momento, fornita gratuitamente."
    },
    "SPEED_CONTROL_MODE" : {
       "description" : "",
@@ -1843,10 +1611,6 @@
       "description" : "",
       "message" : "Buco Nero di massa stellare"
    },
-   "STOCK" : {
-      "description" : "",
-      "message" : "Giacenza"
-   },
    "SUGGESTED_RESPONSES" : {
       "description" : "",
       "message" : "Risposte suggerite:"
@@ -1894,10 +1658,6 @@
    "TEXTILES" : {
       "description" : "",
       "message" : "Prodotti tessili"
-   },
-   "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
-      "description" : "",
-      "message" : "Nel ringraziarLa per il Suo acquisto Le consigliamo di passare al Reparto Equipaggiamento ... e non dimentichi di rifornirsi di carburante PRIMA del lancio."
    },
    "THICK" : {
       "description" : "",
@@ -1963,10 +1723,6 @@
       "description" : "",
       "message" : "R.I.P. Amico mio"
    },
-   "TRADER_NOT_ENOUGH_MONEY" : {
-      "description" : "",
-      "message" : "Il commerciante non ha abbastanza crediti"
-   },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
       "message" : "Commercio di merci Illegali"
@@ -2002,10 +1758,6 @@
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",
       "message" : "Richiesta per il trasporto di un singolo passeggero"
-   },
-   "USED" : {
-      "description" : "",
-      "message" : "Utilizzato"
    },
    "USE_LOW_THRUST" : {
       "description" : "",
@@ -2051,18 +1803,6 @@
       "description" : "",
       "message" : "Temp. armi"
    },
-   "WEIGHT_EMPTY" : {
-      "description" : "",
-      "message" : "Peso a vuoto"
-   },
-   "WEIGHT_FULLY_LADEN" : {
-      "description" : "",
-      "message" : "Peso a pieno carico"
-   },
-   "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
-      "description" : "",
-      "message" : "Al momento non ha pendenze con la Polizia."
-   },
    "WHEELS_ARE_DOWN" : {
       "description" : "",
       "message" : "Carrello abbassato"
@@ -2082,10 +1822,6 @@
    "WITH_NO_SIGNIFICANT_ATMOSPHERE" : {
       "description" : "",
       "message" : "\" con atmosfera insignificante\""
-   },
-   "WT" : {
-      "description" : "",
-      "message" : "P"
    },
    "X" : {
       "description" : "",
@@ -2114,18 +1850,6 @@
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
       "message" : "Giovane colonia agricola."
-   },
-   "YOU_DO_NOT_HAVE_ANY_X" : {
-      "description" : "",
-      "message" : "Non hai nessun %item."
-   },
-   "YOU_MUST_PAY_FINE_OF_N_CREDITS" : {
-      "description" : "",
-      "message" : "Il crimine non è tollerato qui. Le viene comminata una sanzione di %fine."
-   },
-   "YOU_NOT_ENOUGH_MONEY" : {
-      "description" : "",
-      "message" : "Crediti insufficienti"
    },
    "YOU_NO_MONEY" : {
       "description" : "",

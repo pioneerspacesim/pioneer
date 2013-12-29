@@ -4,7 +4,6 @@
 #include "libs.h"
 #include "Pi.h"
 #include "ShipCpanel.h"
-#include "SpaceStationView.h"
 #include "Player.h"
 #include "WorldView.h"
 #include "SpaceStation.h"

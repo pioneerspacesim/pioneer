@@ -10,6 +10,13 @@
 
 namespace FileSystem { class FileData; }
 
+inline void pi_lua_settable(lua_State *l, const char *key, bool value)
+{
+	lua_pushstring(l, key);
+	lua_pushboolean(l, value);
+	lua_rawset(l, -3);
+}
+
 inline void pi_lua_settable(lua_State *l, const char *key, int value)
 {
 	lua_pushstring(l, key);

@@ -2,7 +2,9 @@
 -- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
 
 define_ship {
-	name='Mola Mola Light Transport',
+	name='Mola Mola',
+	ship_class='light_freighter',
+	manufacturer='kaluri',
 	model='molamola',
 	forward_thrust = 5e6,
 	reverse_thrust = 22e5,

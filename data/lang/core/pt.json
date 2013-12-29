@@ -115,33 +115,13 @@
       "description" : "",
       "message" : "corpo"
    },
-   "BOUGHT_1T_OF" : {
-      "description" : "",
-      "message" : "Comprou 1t de %commodity"
-   },
    "BROWN_DWARF" : {
       "description" : "",
       "message" : "Objecto sub-estelar anã castanha"
    },
-   "BULLETIN_BOARD" : {
-      "description" : "",
-      "message" : "Quadro de Anúncios"
-   },
    "BUTTON" : {
       "description" : "",
       "message" : "\" Botão \""
-   },
-   "BUY" : {
-      "description" : "",
-      "message" : "Comprar"
-   },
-   "BUY_THIS_SHIP" : {
-      "description" : "",
-      "message" : "Comprar esta nave"
-   },
-   "CABINS" : {
-      "description" : "",
-      "message" : "Cabines"
    },
    "CAMERA_BOTTOM_VIEW" : {
       "description" : "",
@@ -170,10 +150,6 @@
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
       "message" : "Não é possível guardar o jogo no hiperespaço"
-   },
-   "CAPACITY" : {
-      "description" : "",
-      "message" : "Capacidade"
    },
    "CAPITALIST" : {
       "description" : "",
@@ -219,25 +195,9 @@
       "description" : "",
       "message" : "Permite escavar contentores de mercadoria do espaço."
    },
-   "CARGO_SPACE" : {
-      "description" : "",
-      "message" : "Espaço para mercadoria"
-   },
-   "CASH" : {
-      "description" : "",
-      "message" : "Dinheiro"
-   },
    "CH4_ATMOSPHERE" : {
       "description" : "",
       "message" : "\"Atmosfera de Metano\""
-   },
-   "CLASS_NUMBER" : {
-      "description" : "",
-      "message" : "Classe %class"
-   },
-   "CLEAN" : {
-      "description" : "",
-      "message" : "Limpo"
    },
    "CLEARANCE_ALREADY_GRANTED_BAY_N" : {
       "description" : "",
@@ -259,17 +219,9 @@
       "description" : "",
       "message" : ", altamente vulcânico"
    },
-   "COMMODITIES_MARKET" : {
-      "description" : "",
-      "message" : "Mercado de produtos"
-   },
    "COMMS" : {
       "description" : "",
       "message" : "Comunicações"
-   },
-   "COMMS_LINK" : {
-      "description" : "",
-      "message" : "Lig. de com."
    },
    "COMMUNIST" : {
       "description" : "",
@@ -290,10 +242,6 @@
    "CONSUMER_GOODS" : {
       "description" : "",
       "message" : "Bens de consumo"
-   },
-   "CONTACT_LOCAL_POLICE" : {
-      "description" : "",
-      "message" : "Contactar a polícia local"
    },
    "CONTROLS" : {
       "description" : "",
@@ -531,33 +479,9 @@
       "description" : "",
       "message" : "Disparar míssil"
    },
-   "FIT" : {
-      "description" : "",
-      "message" : "Instalar"
-   },
-   "FITTING" : {
-      "description" : "",
-      "message" : "\"Instalação\""
-   },
-   "FIT_TO_WHICH_MOUNT" : {
-      "description" : "",
-      "message" : "Em que ponto de montagem deve ser instalado o laser?"
-   },
    "FOLLOWING_SELECTION" : {
       "description" : "",
       "message" : "seguir selecção"
-   },
-   "FORWARD_ACCEL_EMPTY" : {
-      "description" : "",
-      "message" : "Forward accel (empty)"
-   },
-   "FORWARD_ACCEL_LADEN" : {
-      "description" : "",
-      "message" : "Aceleração (carregado)"
-   },
-   "FREE" : {
-      "description" : "",
-      "message" : "Livre"
    },
    "FRONT" : {
       "description" : "",
@@ -582,10 +506,6 @@
    "FUEL_SCOOP_DESCRIPTION" : {
       "description" : "",
       "message" : "Permite escavar combustível de hidrogénio a partir de planetas gigantes gasosos."
-   },
-   "FUEL_WEIGHT" : {
-      "description" : "",
-      "message" : "Peso do combustível"
    },
    "GALACTIC_VIEW" : {
       "description" : "",
@@ -619,10 +539,6 @@
       "description" : "",
       "message" : "Tipo de governo:"
    },
-   "GO_BACK" : {
-      "description" : "",
-      "message" : "Voltar"
-   },
    "GRAIN" : {
       "description" : "",
       "message" : "Grão"
@@ -630,10 +546,6 @@
    "HAND_WEAPONS" : {
       "description" : "",
       "message" : "Armas de mão"
-   },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Desligar."
    },
    "HARD_CAPITALIST" : {
       "description" : "",
@@ -698,10 +610,6 @@
    "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
       "description" : "",
       "message" : "Analyze hyperspace clouds to determine destination and time of arrival or departure."
-   },
-   "HYPERDRIVE_FITTED" : {
-      "description" : "",
-      "message" : "Hyperdrive fitted:"
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -787,14 +695,6 @@
       "description" : "",
       "message" : "A caminho de %system [%x,%y,%z]"
    },
-   "ITEM" : {
-      "description" : "",
-      "message" : "Item"
-   },
-   "ITEM_IS_OUT_OF_STOCK" : {
-      "description" : "",
-      "message" : "Este item está esgotado."
-   },
    "JOY" : {
       "description" : "",
       "message" : "Joy"
@@ -846,10 +746,6 @@
    "LAUNCH_PERMISSION_DENIED_BUSY" : {
       "description" : "",
       "message" : "Autorização para descolar negada: baía de docagem ocupada."
-   },
-   "LEGAL_STATUS" : {
-      "description" : "",
-      "message" : "Estado legal"
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
@@ -1063,10 +959,6 @@
       "description" : "",
       "message" : "Nerve Gas"
    },
-   "NEW_AND_RECONDITIONED_SHIPS" : {
-      "description" : "",
-      "message" : "Naves novas e usadas"
-   },
    "NONE" : {
       "description" : "",
       "message" : "Nada"
@@ -1095,10 +987,6 @@
       "description" : "",
       "message" : "No established order"
    },
-   "NO_FREE_SPACE_FOR_ITEM" : {
-      "description" : "",
-      "message" : "Não tem espaço disponível para este item."
-   },
    "NO_HYPERDRIVE" : {
       "description" : "",
       "message" : "No hyperdrive"
@@ -1106,10 +994,6 @@
    "NO_REGISTERED_INHABITANTS" : {
       "description" : "",
       "message" : "Não há registo de habitantes"
-   },
-   "NO_SPACE_ON_SHIP" : {
-      "description" : "",
-      "message" : "Não há espaço na sua nave"
    },
    "NO_TARGET_SELECTED" : {
       "description" : "",
@@ -1215,10 +1099,6 @@
       "description" : "",
       "message" : "Pay fine by remote transfer (%amount)"
    },
-   "PAY_THE_FINE_NOW" : {
-      "description" : "",
-      "message" : "Pagar multa agora."
-   },
    "PERIAPSIS_DISTANCE" : {
       "description" : "",
       "message" : "Periapsis distance"
@@ -1287,18 +1167,6 @@
       "description" : "",
       "message" : "P: %pressure{f.2} atm"
    },
-   "PRICE" : {
-      "description" : "",
-      "message" : "Preço"
-   },
-   "PRICE_TO_FIT" : {
-      "description" : "",
-      "message" : "$ para instalar"
-   },
-   "PRICE_TO_REMOVE" : {
-      "description" : "",
-      "message" : "$ para remover"
-   },
    "PROBABILITY_OF_ARRIVAL_X_PERCENT" : {
       "description" : "",
       "message" : "Probabilidade de chegada: %probability%%"
@@ -1355,53 +1223,13 @@
       "description" : "",
       "message" : "Traseira"
    },
-   "REGISTRATION_ID" : {
-      "description" : "",
-      "message" : "Número de registo"
-   },
-   "REMOVE" : {
-      "description" : "",
-      "message" : "Remover"
-   },
-   "REMOVE_FROM_WHICH_MOUNT" : {
-      "description" : "",
-      "message" : "De qual ponto de montagem deve ser retirado o laser?"
-   },
-   "REMOVING" : {
-      "description" : "",
-      "message" : "\"Removing \""
-   },
-   "REPAIRS_AND_SERVICING" : {
-      "description" : "",
-      "message" : "Manutenção e reparação"
-   },
-   "REPAIR_1_PERCENT_HULL" : {
-      "description" : "",
-      "message" : "Reparar 1.0% de danos no casco"
-   },
-   "REPAIR_ENTIRE_HULL" : {
-      "description" : "",
-      "message" : "Reparar todos os danos do casco (%repairpercent{f.1}%%)"
-   },
    "REQUEST_DOCKING_CLEARANCE" : {
       "description" : "",
       "message" : "Request docking clearance"
    },
-   "REQUEST_LAUNCH" : {
-      "description" : "",
-      "message" : "Requisitar Autorização de Descolagem"
-   },
    "RESET" : {
       "description" : "",
       "message" : "Reiniciar"
-   },
-   "REVERSE_ACCEL_EMPTY" : {
-      "description" : "",
-      "message" : "Aceleração inversa (vazio)"
-   },
-   "REVERSE_ACCEL_LADEN" : {
-      "description" : "",
-      "message" : "Aceleração inversa (carregado)"
    },
    "ROBOTS" : {
       "description" : "",
@@ -1507,10 +1335,6 @@
       "description" : "",
       "message" : "Selecionar poder de impulso baixo"
    },
-   "SELL" : {
-      "description" : "",
-      "message" : "Vender"
-   },
    "SEMI_MAJOR_AXIS" : {
       "description" : "",
       "message" : "Semi-major axis"
@@ -1567,10 +1391,6 @@
       "description" : "",
       "message" : "Nave"
    },
-   "SHIPYARD" : {
-      "description" : "",
-      "message" : "Estaleiro"
-   },
    "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
       "description" : "",
       "message" : "Altitude do navio acima do terreno"
@@ -1579,21 +1399,9 @@
       "description" : "",
       "message" : "Nave detetada nas proximidades."
    },
-   "SHIP_EQUIPMENT" : {
-      "description" : "",
-      "message" : "Equipamento da nave"
-   },
    "SHIP_INFORMATION" : {
       "description" : "",
       "message" : "Informação da nave"
-   },
-   "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
-      "description" : "",
-      "message" : "A sua nave está em perfeitas condições."
-   },
-   "SHIP_IS_FULLY_LADEN" : {
-      "description" : "",
-      "message" : "A nave está completamente carregada."
    },
    "SHIP_MASS_N_TONNES" : {
       "description" : "",
@@ -1606,10 +1414,6 @@
    "SHIP_ORIENTATION" : {
       "description" : "",
       "message" : "Orientação da nave"
-   },
-   "SHIP_TYPE" : {
-      "description" : "",
-      "message" : "Tipo de nave"
    },
    "SHIP_VELOCITY_BY_REFERENCE_OBJECT" : {
       "description" : "",
@@ -1655,38 +1459,6 @@
       "description" : "",
       "message" : "Solar"
    },
-   "SOLD_1T_OF" : {
-      "description" : "",
-      "message" : "Vendeu 1t de %commodity."
-   },
-   "SOMEWHERE_COMMODITIES_MARKET" : {
-      "description" : "",
-      "message" : "Mercado de produtos da %station"
-   },
-   "SOMEWHERE_POLICE" : {
-      "description" : "",
-      "message" : "Polícia de %station"
-   },
-   "SOMEWHERE_SERVICES" : {
-      "description" : "",
-      "message" : "Serviços da %station"
-   },
-   "SOMEWHERE_SHIPYARD" : {
-      "description" : "",
-      "message" : "Estaleiro de %station"
-   },
-   "SOMEWHERE_SHIP_EQUIPMENT" : {
-      "description" : "",
-      "message" : "Equipamento da nave da %station"
-   },
-   "SOMEWHERE_SHIP_MARKET" : {
-      "description" : "",
-      "message" : "Mercado de naves de %station"
-   },
-   "SOMEWHERE_SHIP_REPAIRS" : {
-      "description" : "",
-      "message" : "Reparação da nave de %station"
-   },
    "SOME_ESTABLISHED_MINING" : {
       "description" : "",
       "message" : "Alguma mineração estabelecida."
@@ -1694,10 +1466,6 @@
    "SOURCE" : {
       "description" : "",
       "message" : "Origem"
-   },
-   "SPACESTATION_LONG_WELCOME_MESSAGE" : {
-      "description" : "",
-      "message" : "Olá, viajante. Bem-vindo ao nosso pequeno planeta azul. Se é a primeira vez aqui, sinta-se livre para se familiarizar com os moradores. Desejamos que aproveite a sua estadia. \\nPor favor, lembre-se que as obras de melhoria estão em curso e que o cenário pode mudar entre visitas."
    },
    "SPEED_CONTROL_MODE" : {
       "description" : "",
@@ -1843,10 +1611,6 @@
       "description" : "",
       "message" : "Buraco negro estelar"
    },
-   "STOCK" : {
-      "description" : "",
-      "message" : "Inventário"
-   },
    "SUGGESTED_RESPONSES" : {
       "description" : "",
       "message" : "Respostas sugeridas:"
@@ -1894,10 +1658,6 @@
    "TEXTILES" : {
       "description" : "",
       "message" : "Téixteis"
-   },
-   "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
-      "description" : "",
-      "message" : "Obrigado pela sua compra. Não se esqueça de instalar os equipamentos e de comprar combustível antes de partir."
    },
    "THICK" : {
       "description" : "",
@@ -1963,10 +1723,6 @@
       "description" : "",
       "message" : "RIP OLD BEAN"
    },
-   "TRADER_NOT_ENOUGH_MONEY" : {
-      "description" : "",
-      "message" : "O comerciante não tem dinheiro suficiente"
-   },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
       "message" : "Bens de comércio ilegais"
@@ -2002,10 +1758,6 @@
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",
       "message" : "Required for transport of a single passenger"
-   },
-   "USED" : {
-      "description" : "",
-      "message" : "Usado"
    },
    "USE_LOW_THRUST" : {
       "description" : "",
@@ -2051,18 +1803,6 @@
       "description" : "",
       "message" : "Temperatura da arma"
    },
-   "WEIGHT_EMPTY" : {
-      "description" : "",
-      "message" : "Peso em vazio"
-   },
-   "WEIGHT_FULLY_LADEN" : {
-      "description" : "",
-      "message" : "Peso totalmente carregado"
-   },
-   "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
-      "description" : "",
-      "message" : "Não temos nenhum assunto a tratar consigo neste momento."
-   },
    "WHEELS_ARE_DOWN" : {
       "description" : "",
       "message" : "O trem de aterragem está em baixo"
@@ -2082,10 +1822,6 @@
    "WITH_NO_SIGNIFICANT_ATMOSPHERE" : {
       "description" : "",
       "message" : "\" sem atmosfera significativa\""
-   },
-   "WT" : {
-      "description" : "",
-      "message" : "Wt"
    },
    "X" : {
       "description" : "",
@@ -2114,18 +1850,6 @@
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
       "message" : "Colónia agrícola jovem."
-   },
-   "YOU_DO_NOT_HAVE_ANY_X" : {
-      "description" : "",
-      "message" : "Não tem nenhum %item."
-   },
-   "YOU_MUST_PAY_FINE_OF_N_CREDITS" : {
-      "description" : "",
-      "message" : "Não toleramos actos criminosos. Tem de pagar uma multa no valor de %fine."
-   },
-   "YOU_NOT_ENOUGH_MONEY" : {
-      "description" : "",
-      "message" : "Não tem dinheiro suficiente."
    },
    "YOU_NO_MONEY" : {
       "description" : "",

@@ -115,33 +115,13 @@
       "description" : "",
       "message" : "Körper"
    },
-   "BOUGHT_1T_OF" : {
-      "description" : "",
-      "message" : "Sie haben 1t %commodity gekauft."
-   },
    "BROWN_DWARF" : {
       "description" : "",
       "message" : "Brauner Zwerg (substellares Objekt)"
    },
-   "BULLETIN_BOARD" : {
-      "description" : "",
-      "message" : "Nachrichten und Missionen"
-   },
    "BUTTON" : {
       "description" : "",
       "message" : "\"-Taste \""
-   },
-   "BUY" : {
-      "description" : "",
-      "message" : "Kaufen"
-   },
-   "BUY_THIS_SHIP" : {
-      "description" : "",
-      "message" : "Dieses Schiff kaufen"
-   },
-   "CABINS" : {
-      "description" : "",
-      "message" : "Kabinen"
    },
    "CAMERA_BOTTOM_VIEW" : {
       "description" : "",
@@ -170,10 +150,6 @@
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
       "message" : "Spiel kann nicht im Hyperraum gespeichert werden"
-   },
-   "CAPACITY" : {
-      "description" : "",
-      "message" : "Kapazität"
    },
    "CAPITALIST" : {
       "description" : "",
@@ -219,25 +195,9 @@
       "description" : "",
       "message" : "Erlaubt es, abgeworfene Fracht im Weltraum aufzusammeln"
    },
-   "CARGO_SPACE" : {
-      "description" : "",
-      "message" : "Laderaum"
-   },
-   "CASH" : {
-      "description" : "",
-      "message" : "Geld"
-   },
    "CH4_ATMOSPHERE" : {
       "description" : "",
       "message" : "\" Methanatmosphäre\""
-   },
-   "CLASS_NUMBER" : {
-      "description" : "",
-      "message" : "Klasse %class"
-   },
-   "CLEAN" : {
-      "description" : "",
-      "message" : "Sauber"
    },
    "CLEARANCE_ALREADY_GRANTED_BAY_N" : {
       "description" : "",
@@ -259,17 +219,9 @@
       "description" : "",
       "message" : ", stark vulkanischer"
    },
-   "COMMODITIES_MARKET" : {
-      "description" : "",
-      "message" : "Warenbörse"
-   },
    "COMMS" : {
       "description" : "",
       "message" : "Kommunikation"
-   },
-   "COMMS_LINK" : {
-      "description" : "",
-      "message" : "Kommunikationsverbindung"
    },
    "COMMUNIST" : {
       "description" : "",
@@ -290,10 +242,6 @@
    "CONSUMER_GOODS" : {
       "description" : "",
       "message" : "Konsumgüter"
-   },
-   "CONTACT_LOCAL_POLICE" : {
-      "description" : "",
-      "message" : "Lokale Polizei kontaktieren"
    },
    "CONTROLS" : {
       "description" : "",
@@ -531,33 +479,9 @@
       "description" : "",
       "message" : "Rakete starten"
    },
-   "FIT" : {
-      "description" : "",
-      "message" : "Inst."
-   },
-   "FITTING" : {
-      "description" : "",
-      "message" : "\"Einbauen: \""
-   },
-   "FIT_TO_WHICH_MOUNT" : {
-      "description" : "",
-      "message" : "An welcher Position soll die Waffe eingebaut werden?"
-   },
    "FOLLOWING_SELECTION" : {
       "description" : "",
       "message" : "Auswahl folgen"
-   },
-   "FORWARD_ACCEL_EMPTY" : {
-      "description" : "",
-      "message" : "Vorwärts Beschleunigung (unbeladen)"
-   },
-   "FORWARD_ACCEL_LADEN" : {
-      "description" : "",
-      "message" : "Vorwärts Beschleunigung (beladen)"
-   },
-   "FREE" : {
-      "description" : "",
-      "message" : "Verfügbar"
    },
    "FRONT" : {
       "description" : "",
@@ -582,10 +506,6 @@
    "FUEL_SCOOP_DESCRIPTION" : {
       "description" : "",
       "message" : "Erlaubt es, Wasserstofftreibstoff von Gasriesen zu sammeln."
-   },
-   "FUEL_WEIGHT" : {
-      "description" : "",
-      "message" : "Treibstoffgewicht"
    },
    "GALACTIC_VIEW" : {
       "description" : "",
@@ -619,10 +539,6 @@
       "description" : "",
       "message" : "Regierungstyp:"
    },
-   "GO_BACK" : {
-      "description" : "",
-      "message" : "Zurück"
-   },
    "GRAIN" : {
       "description" : "",
       "message" : "Getreide"
@@ -630,10 +546,6 @@
    "HAND_WEAPONS" : {
       "description" : "",
       "message" : "Handwaffen"
-   },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Auflegen."
    },
    "HARD_CAPITALIST" : {
       "description" : "",
@@ -698,10 +610,6 @@
    "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
       "description" : "",
       "message" : "Analysiert Hyperraumwolken um den Zeitpunkt der Ankunft oder des Abfluges zu bestimmen."
-   },
-   "HYPERDRIVE_FITTED" : {
-      "description" : "",
-      "message" : "Hyperraumantrieb installiert:"
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -787,14 +695,6 @@
       "description" : "",
       "message" : "Auf dem Weg nach %system [%x,%y,%z]"
    },
-   "ITEM" : {
-      "description" : "",
-      "message" : "Artikel"
-   },
-   "ITEM_IS_OUT_OF_STOCK" : {
-      "description" : "",
-      "message" : "Dieser Artikel ist ausverkauft."
-   },
    "JOY" : {
       "description" : "",
       "message" : "Joy"
@@ -846,10 +746,6 @@
    "LAUNCH_PERMISSION_DENIED_BUSY" : {
       "description" : "",
       "message" : "Starterlaubnis verweigert: Das Dockingsystem ist belegt."
-   },
-   "LEGAL_STATUS" : {
-      "description" : "",
-      "message" : "Rechtlicher Status"
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
@@ -1063,10 +959,6 @@
       "description" : "",
       "message" : "Chemische Kampfstoffe"
    },
-   "NEW_AND_RECONDITIONED_SHIPS" : {
-      "description" : "",
-      "message" : "Schiffe - Neu und Gebraucht"
-   },
    "NONE" : {
       "description" : "",
       "message" : "Nichts"
@@ -1095,10 +987,6 @@
       "description" : "",
       "message" : "Keine etablierte Ordnung"
    },
-   "NO_FREE_SPACE_FOR_ITEM" : {
-      "description" : "",
-      "message" : "Sie haben keinen freien Platz für diesen Artikel."
-   },
    "NO_HYPERDRIVE" : {
       "description" : "",
       "message" : "Kein Hyperraumantrieb"
@@ -1106,10 +994,6 @@
    "NO_REGISTERED_INHABITANTS" : {
       "description" : "",
       "message" : "Keine registrierten Einwohner"
-   },
-   "NO_SPACE_ON_SHIP" : {
-      "description" : "",
-      "message" : "Es gibt keinen Platz in Ihrem Schiff."
    },
    "NO_TARGET_SELECTED" : {
       "description" : "",
@@ -1215,10 +1099,6 @@
       "description" : "",
       "message" : "Geldstrafe per Fernübertragung bezahlen (%amount)."
    },
-   "PAY_THE_FINE_NOW" : {
-      "description" : "",
-      "message" : "Die Geldstrafe jetzt zahlen."
-   },
    "PERIAPSIS_DISTANCE" : {
       "description" : "",
       "message" : "Periapsisdistanz"
@@ -1287,18 +1167,6 @@
       "description" : "",
       "message" : "Druck: %pressure{f.2} atm"
    },
-   "PRICE" : {
-      "description" : "",
-      "message" : "Preis"
-   },
-   "PRICE_TO_FIT" : {
-      "description" : "",
-      "message" : "$ bei Einbau"
-   },
-   "PRICE_TO_REMOVE" : {
-      "description" : "",
-      "message" : "$ bei Ausbau"
-   },
    "PROBABILITY_OF_ARRIVAL_X_PERCENT" : {
       "description" : "",
       "message" : "Ankunftswahrscheinlichkeit: %probability%%"
@@ -1355,53 +1223,13 @@
       "description" : "",
       "message" : "Heck"
    },
-   "REGISTRATION_ID" : {
-      "description" : "",
-      "message" : "Registrierungs-ID"
-   },
-   "REMOVE" : {
-      "description" : "",
-      "message" : "Entf."
-   },
-   "REMOVE_FROM_WHICH_MOUNT" : {
-      "description" : "",
-      "message" : "An welcher Position soll die Waffe ausgebaut werden?"
-   },
-   "REMOVING" : {
-      "description" : "",
-      "message" : "\"Ausbauen: \""
-   },
-   "REPAIRS_AND_SERVICING" : {
-      "description" : "",
-      "message" : "Reparaturen und Service"
-   },
-   "REPAIR_1_PERCENT_HULL" : {
-      "description" : "",
-      "message" : "1.0% des Rumpfschadens reparieren"
-   },
-   "REPAIR_ENTIRE_HULL" : {
-      "description" : "",
-      "message" : "Den Rumpf komplett instand setzen (%repairpercent{f.1}%%)"
-   },
    "REQUEST_DOCKING_CLEARANCE" : {
       "description" : "",
       "message" : "Andockerlaubnis anfordern"
    },
-   "REQUEST_LAUNCH" : {
-      "description" : "",
-      "message" : "Starterlaubnis anfordern"
-   },
    "RESET" : {
       "description" : "",
       "message" : "Zurücksetzen"
-   },
-   "REVERSE_ACCEL_EMPTY" : {
-      "description" : "",
-      "message" : "Rückwärts Beschleunigung (unbeladen)"
-   },
-   "REVERSE_ACCEL_LADEN" : {
-      "description" : "",
-      "message" : "Rückwärts Beschleunigung (beladen)"
    },
    "ROBOTS" : {
       "description" : "",
@@ -1507,10 +1335,6 @@
       "description" : "",
       "message" : "Wähle Niedrigschub-Energielevel"
    },
-   "SELL" : {
-      "description" : "",
-      "message" : "Verkaufen"
-   },
    "SEMI_MAJOR_AXIS" : {
       "description" : "",
       "message" : "Große Halbachse"
@@ -1567,10 +1391,6 @@
       "description" : "",
       "message" : "Schiff"
    },
-   "SHIPYARD" : {
-      "description" : "",
-      "message" : "Werft"
-   },
    "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
       "description" : "",
       "message" : "Höhe über Bodenniveau"
@@ -1579,21 +1399,9 @@
       "description" : "",
       "message" : "Nahes Schiff detektiert."
    },
-   "SHIP_EQUIPMENT" : {
-      "description" : "",
-      "message" : "Schiffsausrüstung"
-   },
    "SHIP_INFORMATION" : {
       "description" : "",
       "message" : "Raumschiff Information"
-   },
-   "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
-      "description" : "",
-      "message" : "Ihr Schiff ist in voll funktionsfähigem Zustand."
-   },
-   "SHIP_IS_FULLY_LADEN" : {
-      "description" : "",
-      "message" : "Ihr Schiff ist voll."
    },
    "SHIP_MASS_N_TONNES" : {
       "description" : "",
@@ -1606,10 +1414,6 @@
    "SHIP_ORIENTATION" : {
       "description" : "",
       "message" : "Schiffsausrichtung"
-   },
-   "SHIP_TYPE" : {
-      "description" : "",
-      "message" : "Schiffstyp"
    },
    "SHIP_VELOCITY_BY_REFERENCE_OBJECT" : {
       "description" : "",
@@ -1655,38 +1459,6 @@
       "description" : "",
       "message" : "Sonnen"
    },
-   "SOLD_1T_OF" : {
-      "description" : "",
-      "message" : "Sie haben 1t %commodity verkauft."
-   },
-   "SOMEWHERE_COMMODITIES_MARKET" : {
-      "description" : "",
-      "message" : "%station Warenbörse"
-   },
-   "SOMEWHERE_POLICE" : {
-      "description" : "",
-      "message" : "%station Polizei"
-   },
-   "SOMEWHERE_SERVICES" : {
-      "description" : "",
-      "message" : "%station Service"
-   },
-   "SOMEWHERE_SHIPYARD" : {
-      "description" : "",
-      "message" : "%station Werft"
-   },
-   "SOMEWHERE_SHIP_EQUIPMENT" : {
-      "description" : "",
-      "message" : "%station Schiffsausrüstung"
-   },
-   "SOMEWHERE_SHIP_MARKET" : {
-      "description" : "",
-      "message" : "%station Schiffsmarkt"
-   },
-   "SOMEWHERE_SHIP_REPAIRS" : {
-      "description" : "",
-      "message" : "%station Reparaturservice"
-   },
    "SOME_ESTABLISHED_MINING" : {
       "description" : "",
       "message" : "Ein wenig Bergbau."
@@ -1694,10 +1466,6 @@
    "SOURCE" : {
       "description" : "",
       "message" : "Ursprung"
-   },
-   "SPACESTATION_LONG_WELCOME_MESSAGE" : {
-      "description" : "",
-      "message" : "Willkommen Reisende. Es gibt Vorfälle von Vandalismus und Schmierereien an Bord unserer Station. Falls die Beschilderung irreführend oder fehlerhaft beschriftet ist oder schlicht fehlt, wenden Sie sich bitte an das Stationspersonal. Wir halten zahlreiche Dienstleistungsangebote für Sie bereit.\\nDie Atemluft ist zurzeit kostenlos."
    },
    "SPEED_CONTROL_MODE" : {
       "description" : "",
@@ -1843,10 +1611,6 @@
       "description" : "",
       "message" : "Stellares Schwarzes Loch"
    },
-   "STOCK" : {
-      "description" : "",
-      "message" : "Auf Lager"
-   },
    "SUGGESTED_RESPONSES" : {
       "description" : "",
       "message" : "Vorgeschlagene Antworten:"
@@ -1894,10 +1658,6 @@
    "TEXTILES" : {
       "description" : "",
       "message" : "Textilien"
-   },
-   "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
-      "description" : "",
-      "message" : "Vielen Dank für Ihren Einkauf. Bitte denken Sie an die notwendige Ausrüstung für Ihr Schiff und ausreichend Treibstoff, bevor Sie abdocken."
    },
    "THICK" : {
       "description" : "",
@@ -1963,10 +1723,6 @@
       "description" : "",
       "message" : "Ruhe in Frieden, Kumpel"
    },
-   "TRADER_NOT_ENOUGH_MONEY" : {
-      "description" : "",
-      "message" : "Ihr Handelspartner hat nicht genügend Geld."
-   },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
       "message" : "Handel mit illegalen Waren"
@@ -2002,10 +1758,6 @@
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",
       "message" : "Benötigt für den Transport von einem Passagier"
-   },
-   "USED" : {
-      "description" : "",
-      "message" : "Benutzt"
    },
    "USE_LOW_THRUST" : {
       "description" : "",
@@ -2051,18 +1803,6 @@
       "description" : "",
       "message" : "Waffentemperatur"
    },
-   "WEIGHT_EMPTY" : {
-      "description" : "",
-      "message" : "Leergewicht"
-   },
-   "WEIGHT_FULLY_LADEN" : {
-      "description" : "",
-      "message" : "Gesamtgewicht"
-   },
-   "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
-      "description" : "",
-      "message" : "Im Moment haben wir mit Ihnen keine offenen Angelegenheiten."
-   },
    "WHEELS_ARE_DOWN" : {
       "description" : "",
       "message" : "Fahrwerk ausgefahren"
@@ -2082,10 +1822,6 @@
    "WITH_NO_SIGNIFICANT_ATMOSPHERE" : {
       "description" : "",
       "message" : "\" ohne signifikante Atmosphäre\""
-   },
-   "WT" : {
-      "description" : "",
-      "message" : "Gw"
    },
    "X" : {
       "description" : "",
@@ -2114,18 +1850,6 @@
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
       "message" : "Neu gegründete landwirtschaftliche Kolonie."
-   },
-   "YOU_DO_NOT_HAVE_ANY_X" : {
-      "description" : "",
-      "message" : "Sie haben keine Waren des Artikels %item."
-   },
-   "YOU_MUST_PAY_FINE_OF_N_CREDITS" : {
-      "description" : "",
-      "message" : "Wir tolerieren keine Verbrechen. Sie müssen eine Geldstrafe von %fine zahlen."
-   },
-   "YOU_NOT_ENOUGH_MONEY" : {
-      "description" : "",
-      "message" : "Sie haben nicht genügend Geld."
    },
    "YOU_NO_MONEY" : {
       "description" : "",
