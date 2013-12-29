@@ -3,6 +3,7 @@
 
 local Engine = import("Engine")
 local Lang = import("Lang")
+local Event = import("Event")
 
 local TabGroup = import("ui/TabGroup")
 
