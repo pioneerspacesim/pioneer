@@ -1,5 +1,8 @@
 December 2013
 
+   * New features
+     * StationView (F4) rewrite (#2589)
+
    * Minor changes and tweaks
      * Make file type (file extension) checks case insensitive (#2328, #2563)
      * Optimise GL matrix operations (improves FPS) (#2541, #2572)
@@ -8,14 +11,26 @@ December 2013
    * Fixes
      * Fix GL color depth selection (forces alpha channel, which fixes
        progress bars) (#2573)
+     * ARMOUR flag to InfoFace now works (#2589)
 
    * Script and UI API changes
+     * Money is now handled entirely in Lua (#2589)
+     * SceneGraph.ModelSkin is serializable (#2589)
+     * Ship.hullPercent is now bindable (#2589)
+     * New format functions: Format.AccelG and Format.MassTonnes (#2589)
+     * New ship properties: totalCargo, usedCabins, totalCabins (#2589)
+
+   * UI API changes
      * Add table row alignment, Table:SetRowAlignment (#2579)
+     * TabGroup can now have a common footer shared between tabs (#2589)
+     * New method GameUI.Face:SetHeightLines to help set face height against a
+       chunk of text (#2589)
 
    * Model changes
      * Gun and camera positions for Amphiesma, Mola Mola, Natrix, Pumpkinseed
        and Wave now set in model files (#2587)
      * New decals for ship manufacturers; old decals removed (#2578)
+     * Ships definitions now have "manufacturer" and "ship_class" fields (#2589)
 
    * Internal changes
      * Remove legacy (non-shader) renderer (#2568)

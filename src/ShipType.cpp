@@ -61,7 +61,10 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 	LuaTable t(L, -1);
 
 	s.name = t.Get("name", "");
+	s.shipClass = t.Get("ship_class", "");
+	s.manufacturer = t.Get("manufacturer", "");
 	s.modelName = t.Get("model", "");
+
 	s.linThrust[ShipType::THRUSTER_REVERSE] = t.Get("reverse_thrust", 0.0f);
 	s.linThrust[ShipType::THRUSTER_FORWARD] = t.Get("forward_thrust", 0.0f);
 	s.linThrust[ShipType::THRUSTER_UP] = t.Get("up_thrust", 0.0f);

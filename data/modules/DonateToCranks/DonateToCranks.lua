@@ -36,7 +36,6 @@ local onChat = function (form, ref, option)
 		form:AddOption("$1000", 1000)
 		form:AddOption("$10000", 10000)
 		form:AddOption("$100000", 100000)
-		form:AddOption(l.HANG_UP, -1)
 
 		return
 	end

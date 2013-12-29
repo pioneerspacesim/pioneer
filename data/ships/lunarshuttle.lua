@@ -3,6 +3,8 @@
 
 define_ship {
 	name='Lunar Shuttle',
+	ship_class='light_passenger_shuttle',
+	manufacturer='haber',
 	model='lunarshuttle',
 	forward_thrust = 52e5,
 	reverse_thrust = 16e5,

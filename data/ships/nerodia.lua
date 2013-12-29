@@ -2,7 +2,9 @@
 -- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
 
 define_ship {
-	name='Nerodia Transport',
+	name='Nerodia',
+	ship_class='medium_freighter',
+	manufacturer='opli',
 	model='nerodia',
 	forward_thrust = 25e7,
 	reverse_thrust = 14e7,

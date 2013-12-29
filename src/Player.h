@@ -7,14 +7,13 @@
 #include "libs.h"
 #include <list>
 #include "HyperspaceCloud.h"
-#include "MarketAgent.h"
 #include "Ship.h"
 #include "ShipController.h"
 #include "galaxy/StarSystem.h"
 
 namespace Graphics { class Renderer; }
 
-class Player: public Ship, public MarketAgent {
+class Player: public Ship {
 public:
 	OBJDEF(Player, Ship, PLAYER);
 	Player(ShipType::Id shipId);
@@ -25,13 +24,6 @@ public:
 	virtual Missile * SpawnMissile(ShipType::Id missile_type, int power=-1);
 	virtual void SetAlertState(Ship::AlertState as);
 	virtual void NotifyRemoved(const Body* const removedBody);
-
-	/* MarketAgent stuff */
-	int GetStock(Equip::Type t) const { assert(0); return 0; }
-	bool CanBuy(Equip::Type t, bool verbose) const;
-	bool CanSell(Equip::Type t, bool verbose) const;
-	bool DoesSell(Equip::Type t) const { return true; }
-	Sint64 GetPrice(Equip::Type t) const;
 
 	PlayerShipController *GetPlayerController() const;
 	//XXX temporary things to avoid causing too many changes right now
@@ -50,10 +42,6 @@ protected:
 
 	virtual void OnEnterSystem();
 	virtual void OnEnterHyperspace();
-
-	/* MarketAgent stuff */
-	void Bought(Equip::Type t);
-	void Sold(Equip::Type t);
 };
 
 #endif /* _PLAYER_H */

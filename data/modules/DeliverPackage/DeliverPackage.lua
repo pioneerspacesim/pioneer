@@ -14,6 +14,7 @@ local Serializer = import("Serializer")
 local Character = import("Character")
 local EquipDef = import("EquipDef")
 local ShipDef = import("ShipDef")
+local Ship = import("Ship")
 local utils = import("utils")
 
 local InfoFace = import("ui/InfoFace")
@@ -156,7 +157,6 @@ local onChat = function (form, ref, option)
 		table.insert(missions,Mission.New(mission))
 
 		form:SetMessage(l.EXCELLENT_I_WILL_LET_THE_RECIPIENT_KNOW_YOU_ARE_ON_YOUR_WAY)
-		form:AddOption(l.HANG_UP, -1)
 
 		return
 	end
@@ -166,7 +166,6 @@ local onChat = function (form, ref, option)
 	form:AddOption(l.WILL_I_BE_IN_ANY_DANGER, 4)
 	form:AddOption(l.COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST, 0)
 	form:AddOption(l.OK_AGREED, 3)
-	form:AddOption(l.HANG_UP, -1)
 end
 
 local onDelete = function (ref)
@@ -292,6 +291,7 @@ local onEnterSystem = function (player)
                     local laserdef = laserdefs[Engine.rand:Integer(1,#laserdefs)]
 
 					ship = Space.SpawnShipNear(shipdef.id, Game.player, 50, 100)
+					ship:SetLabel(Ship.MakeRandomLabel())
 					ship:AddEquip(default_drive)
 					ship:AddEquip(laserdef.id)
 					ship:AIKill(Game.player)
