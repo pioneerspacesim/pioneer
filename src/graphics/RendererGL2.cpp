@@ -636,7 +636,7 @@ bool RendererGL2::BufferStaticMesh(StaticMesh *mesh)
 	bool background = false;
 	bool model = false;
 	//XXX does this really have to support every case. I don't know.
-	if (set == (ATTRIB_POSITION | ATTRIB_NORMAL | ATTRIB_UV0) || set == (ATTRIB_POSITION | ATTRIB_UV0))
+	if ((set & ~ATTRIB_NORMAL) == (ATTRIB_POSITION | ATTRIB_UV0))
 		model = true;
 	else if (set == (ATTRIB_POSITION | ATTRIB_DIFFUSE))
 		background = true;
