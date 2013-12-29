@@ -45,7 +45,7 @@ void Fixed::GetSizeRequested(float size[2])
 	} else {
 		float wanted[2];
 		wanted[0] = wanted[1] = 0;
-		for (std::list<widget_pos>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
+		for (WidgetList::iterator i = m_children.begin(), itEnd = m_children.end(); i != itEnd; ++i) {
 			float rsize[2] = { size[0] - (*i).pos[0],
 					   size[1] - (*i).pos[1] };
 			(*i).w->GetSizeRequested(rsize);
@@ -67,7 +67,7 @@ void Fixed::UpdateAllChildSizes()
 {
 	float size[2];
 	GetSize(size);
-	for (std::list<widget_pos>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
+	for (WidgetList::iterator i = m_children.begin(), itEnd = m_children.end(); i != itEnd; ++i) {
 		float rsize[2] = { size[0] - (*i).pos[0],
 				   size[1] - (*i).pos[1] };
 		(*i).w->GetSizeRequested(rsize);
@@ -81,7 +81,7 @@ void Fixed::OnChildResizeRequest(Widget *child)
 {
 	float size[2];
 	GetSize(size);
-	for (std::list<widget_pos>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
+	for (WidgetList::iterator i = m_children.begin(), itEnd = m_children.end(); i != itEnd; ++i) {
 		if ((*i).w == child) {
 			float rsize[2] = { size[0] - (*i).pos[0],
 					   size[1] - (*i).pos[1] };

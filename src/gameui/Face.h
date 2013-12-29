@@ -14,9 +14,11 @@ class Face : public UI::Single {
 public:
 	Face(UI::Context *context, Uint32 flags = 0, Uint32 seed = 0);
 
-	virtual UI::Point PreferredSize() { return UI::Point(INT_MAX); }
+	virtual UI::Point PreferredSize();
 	virtual void Layout();
 	virtual void Draw();
+
+	Face *SetHeightLines(Uint32 lines);
 
 	enum Flags { // <enum scope='GameUI::Face' name=GameUIFaceFlags public>
 		RAND        = 0,
@@ -28,6 +30,8 @@ public:
 	};
 
 private:
+	UI::Point m_preferredSize;
+
 	Uint32 m_flags;
 	Uint32 m_seed;
 

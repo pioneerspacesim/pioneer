@@ -1,58 +1,58 @@
 {
-    "FLAVOUR_MESSAGE_3": {
-        "message": "Prego, selezionare l'ammontare da donare a GreenWatch, e porre fine all'inquinamento della nostra galassia.",
-        "description": ""
-    },
-    "FLAVOUR_MESSAGE_2": {
-        "message": "Prego, selezionare l'ammontare da donare al Sostegno Orfani di Guerra, e porre fine alla sofferenza dei bambini in tutta la galassia.",
-        "description": ""
-    },
-    "FLAVOUR_MESSAGE_1": {
-        "message": "Che la pace sia con te, fratello. Prego, selezionare l'ammontare da donare ai Guardiani del Libero Spirito.",
-        "description": ""
-    },
-    "FLAVOUR_MESSAGE_0": {
-        "message": "Prego, selezionare l'ammontare da donare alla Chiesta del Celeste Mostro di Spaghetti Volante.",
-        "description": ""
-    },
-    "FLAVOUR_MESSAGE_4": {
-        "message": "Prego selezionare l'ammontare da donare.",
-        "description": ""
-    },
-    "THANK_YOU_ALL_DONATIONS_ARE_WELCOME": {
-        "message": "Grazie. Ogni donazione è benvenuta.",
-        "description": ""
-    },
-    "HANG_UP": {
-        "message": "Riaggancia.",
-        "description": ""
-    },
-    "YOU_DO_NOT_HAVE_ENOUGH_MONEY": {
-        "message": "Non ha abbastanza crediti.",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_4": {
-        "message": "DONA! Salva le nostre specie. Ferma la carneficina dei nuovi insediamenti planetari.",
-        "description": ""
-    },
-    "WOW_THAT_WAS_VERY_GENEROUS": {
-        "message": "Wow! È stato molto generoso.",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_2": {
-        "message": "VI SENTITE GENEROSI? Sostegno Orfani di Guerra ha bisogno del vostro aiuto per poter proseguire con il proprio indispensabile lavoro.",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_3": {
-        "message": "CONTRIBUITE. La campagna 'Aboliamo gli Ipermotori Militari', degli Amici della Galassia, ha bisogno del tuo contributo.",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_0": {
-        "message": "DONATE! La Chiesta del Celestiale Mostro di Spaghetti Volante ha bisogno del VOSTRO contributo per diffondere la parola di dio.",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_1": {
-        "message": "DONATE. I Guardiani del Libero Spirito chiedono umilmente la tua carità per sostenere i propri monasteri.",
-        "description": ""
-    }
+   "FLAVOUR_0_MESSAGE" : {
+      "description" : "",
+      "message" : "Prego, selezionare l'ammontare da donare alla Chiesta del Celeste Mostro di Spaghetti Volante."
+   },
+   "FLAVOUR_0_TITLE" : {
+      "description" : "",
+      "message" : "DONATE! La Chiesta del Celestiale Mostro di Spaghetti Volante ha bisogno del VOSTRO contributo per diffondere la parola di dio."
+   },
+   "FLAVOUR_1_MESSAGE" : {
+      "description" : "",
+      "message" : "Che la pace sia con te, fratello. Prego, selezionare l'ammontare da donare ai Guardiani del Libero Spirito."
+   },
+   "FLAVOUR_1_TITLE" : {
+      "description" : "",
+      "message" : "DONATE. I Guardiani del Libero Spirito chiedono umilmente la tua carità per sostenere i propri monasteri."
+   },
+   "FLAVOUR_2_MESSAGE" : {
+      "description" : "",
+      "message" : "Prego, selezionare l'ammontare da donare al Sostegno Orfani di Guerra, e porre fine alla sofferenza dei bambini in tutta la galassia."
+   },
+   "FLAVOUR_2_TITLE" : {
+      "description" : "",
+      "message" : "VI SENTITE GENEROSI? Sostegno Orfani di Guerra ha bisogno del vostro aiuto per poter proseguire con il proprio indispensabile lavoro."
+   },
+   "FLAVOUR_3_MESSAGE" : {
+      "description" : "",
+      "message" : "Prego, selezionare l'ammontare da donare a GreenWatch, e porre fine all'inquinamento della nostra galassia."
+   },
+   "FLAVOUR_3_TITLE" : {
+      "description" : "",
+      "message" : "CONTRIBUITE. La campagna 'Aboliamo gli Ipermotori Militari', degli Amici della Galassia, ha bisogno del tuo contributo."
+   },
+   "FLAVOUR_4_MESSAGE" : {
+      "description" : "",
+      "message" : "Prego selezionare l'ammontare da donare."
+   },
+   "FLAVOUR_4_TITLE" : {
+      "description" : "",
+      "message" : "DONA! Salva le nostre specie. Ferma la carneficina dei nuovi insediamenti planetari."
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Riaggancia."
+   },
+   "THANK_YOU_ALL_DONATIONS_ARE_WELCOME" : {
+      "description" : "",
+      "message" : "Grazie. Ogni donazione è benvenuta."
+   },
+   "WOW_THAT_WAS_VERY_GENEROUS" : {
+      "description" : "",
+      "message" : "Wow! È stato molto generoso."
+   },
+   "YOU_DO_NOT_HAVE_ENOUGH_MONEY" : {
+      "description" : "",
+      "message" : "Non ha abbastanza crediti."
+   }
 }

@@ -1,58 +1,58 @@
 {
-    "FLAVOUR_MESSAGE_3": {
-        "message": "Proszę wybierz kwotę jaką chcesz wesprzeć GreenWatch, i zakończ zanieczyszczanie naszej galaktyki.",
-        "description": ""
-    },
-    "FLAVOUR_MESSAGE_2": {
-        "message": "Proszę wybrać wysokość datku, jaką chcesz wesprzeć Pomoc Sierotom Wojennym, i zakończ cierpienie dzieci w całej galaktyce.",
-        "description": ""
-    },
-    "FLAVOUR_MESSAGE_1": {
-        "message": "Pokój z Tobą, bracie. Proszę wybrać wysokość datku dla Strażników Wolnego Ducha.",
-        "description": ""
-    },
-    "FLAVOUR_MESSAGE_0": {
-        "message": "Proszę wybrać wysokość datku, jaką chcesz wesprzeć Kościół Latającego Potwora Spaghetti.",
-        "description": ""
-    },
-    "FLAVOUR_MESSAGE_4": {
-        "message": "Proszę wybrać wysokość wsparcia.",
-        "description": ""
-    },
-    "THANK_YOU_ALL_DONATIONS_ARE_WELCOME": {
-        "message": "Dziękuję. Cenimy każde wsparcie.",
-        "description": ""
-    },
-    "HANG_UP": {
-        "message": "Rozłącz się.",
-        "description": ""
-    },
-    "YOU_DO_NOT_HAVE_ENOUGH_MONEY": {
-        "message": "Nie masz dość pieniędzy.",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_4": {
-        "message": "DOFINANSUJ! Ocal nasz gatunek. Stop rzezi na nowo skolonizowanych światach.",
-        "description": ""
-    },
-    "WOW_THAT_WAS_VERY_GENEROUS": {
-        "message": "O! Jesteś bardzo hojny.",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_2": {
-        "message": "JESTEŚ HOJNY? Pomoc Sierotom Wojennym, potrzebuje twojego wsparcia by kontynuować swoją działalność.",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_3": {
-        "message": "PRZYŁĄCZ SIĘ. Kampania Galaktyczni Przyjaciele na rzecz 'Zakazu Napędów Wojskowych' potrzebuje twoich pieniędzy.",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_0": {
-        "message": "WSPOMÓŻ! Kościół Latającego Potwora Spaghetti potrzebuje TWOICH pieniędzy by móc szerzyć słowo boże.",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_1": {
-        "message": "WSPOMÓŻ. Strażnicy Wolnego Ducha pokornie proszą o wsparcie naszych klasztorów.",
-        "description": ""
-    }
+   "FLAVOUR_0_MESSAGE" : {
+      "description" : "",
+      "message" : "Proszę wybrać wysokość datku, jaką chcesz wesprzeć Kościół Latającego Potwora Spaghetti."
+   },
+   "FLAVOUR_0_TITLE" : {
+      "description" : "",
+      "message" : "WSPOMÓŻ! Kościół Latającego Potwora Spaghetti potrzebuje TWOICH pieniędzy by móc szerzyć słowo boże."
+   },
+   "FLAVOUR_1_MESSAGE" : {
+      "description" : "",
+      "message" : "Pokój z Tobą, bracie. Proszę wybrać wysokość datku dla Strażników Wolnego Ducha."
+   },
+   "FLAVOUR_1_TITLE" : {
+      "description" : "",
+      "message" : "WSPOMÓŻ. Strażnicy Wolnego Ducha pokornie proszą o wsparcie naszych klasztorów."
+   },
+   "FLAVOUR_2_MESSAGE" : {
+      "description" : "",
+      "message" : "Proszę wybrać wysokość datku, jaką chcesz wesprzeć Pomoc Sierotom Wojennym, i zakończ cierpienie dzieci w całej galaktyce."
+   },
+   "FLAVOUR_2_TITLE" : {
+      "description" : "",
+      "message" : "JESTEŚ HOJNY? Pomoc Sierotom Wojennym, potrzebuje twojego wsparcia by kontynuować swoją działalność."
+   },
+   "FLAVOUR_3_MESSAGE" : {
+      "description" : "",
+      "message" : "Proszę wybierz kwotę jaką chcesz wesprzeć GreenWatch, i zakończ zanieczyszczanie naszej galaktyki."
+   },
+   "FLAVOUR_3_TITLE" : {
+      "description" : "",
+      "message" : "PRZYŁĄCZ SIĘ. Kampania Galaktyczni Przyjaciele na rzecz 'Zakazu Napędów Wojskowych' potrzebuje twoich pieniędzy."
+   },
+   "FLAVOUR_4_MESSAGE" : {
+      "description" : "",
+      "message" : "Proszę wybrać wysokość wsparcia."
+   },
+   "FLAVOUR_4_TITLE" : {
+      "description" : "",
+      "message" : "DOFINANSUJ! Ocal nasz gatunek. Stop rzezi na nowo skolonizowanych światach."
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Rozłącz się."
+   },
+   "THANK_YOU_ALL_DONATIONS_ARE_WELCOME" : {
+      "description" : "",
+      "message" : "Dziękuję. Cenimy każde wsparcie."
+   },
+   "WOW_THAT_WAS_VERY_GENEROUS" : {
+      "description" : "",
+      "message" : "O! Jesteś bardzo hojny."
+   },
+   "YOU_DO_NOT_HAVE_ENOUGH_MONEY" : {
+      "description" : "",
+      "message" : "Nie masz dość pieniędzy."
+   }
 }

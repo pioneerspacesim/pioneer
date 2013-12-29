@@ -1,70 +1,70 @@
 {
-    "FLAVOUR_CLUBNAME_0": {
-        "message": "Cooperativa Interestelar de Combustibles",
-        "description": ""
-    },
-    "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED": {
-        "message": "Su ingreso ha sido rechazado.",
-        "description": ""
-    },
-    "YOU_MUST_BUY": {
-        "message": "Debe adquirir nuestro {military_fuel} para dispensarle {radioactives}",
-        "description": ""
-    },
-    "WE_WILL_ONLY_DISPOSE_OF": {
-        "message": "Solo dispensaremos una cantidad de {radioactives} equivalente a las toneladas de {military_fuel} adquiridas.",
-        "description": ""
-    },
-    "FLAVOUR_WELCOME_0": {
-        "message": "Bienvenido a {clubname}",
-        "description": ""
-    },
-    "WHAT_CONDITIONS_APPLY": {
-        "message": "¿Cuáles son las condiciones aplicables en la disponibilidad de {radioactives}?",
-        "description": ""
-    },
-    "YOU_ARE_NOW_A_MEMBER": {
-        "message": "Ahora es miembro. Su afiliación expira en {expiry_date}.",
-        "description": ""
-    },
-    "BEGIN_TRADE": {
-        "message": "Comenzar transacción",
-        "description": ""
-    },
-    "WATER": {
-        "message": "Agua",
-        "description": ""
-    },
-    "APPLY_FOR_MEMBERSHIP": {
-        "message": "Solicitar el ingreso",
-        "description": ""
-    },
-    "RADIOACTIVES": {
-        "message": "Residuos radioactivos",
-        "description": ""
-    },
-    "GO_BACK": {
-        "message": "Atrás",
-        "description": ""
-    },
-    "MILITARY_FUEL": {
-        "message": "Combustible militar",
-        "description": ""
-    },
-    "HANG_UP": {
-        "message": "Colgar.",
-        "description": ""
-    },
-    "FLAVOUR_MEMBER_INTRO_0": {
-        "message": "Puede adquirir combustible y disponer de {radioactives} aquí.",
-        "description": ""
-    },
-    "HYDROGEN": {
-        "message": "Hidrógeno",
-        "description": ""
-    },
-    "FLAVOUR_NONMEMBER_INTRO_0": {
-        "message": "{clubname} es una organización independiente dedicada a proveer descuentos en combustible a sus miembros. Sus sedes se encuentran por toda la galaxia. Los beneficios de afiliación incluyen:\n\n\t* Existencias de combustible propias, independientes del mercado general\n\t* Descuento de precios en {hydrogen}\n\t* Descuento de precios en {military_fuel}\n\t* Descuento de precios en {water}\n\t* {radioactives}, disponibilidad libre (bajo condiciones)\n\t* Rellenado de su depósito cuando sea necesario\n\n¡Apúntese! Afiliación anual por solo {membership_fee}",
-        "description": ""
-    }
+   "APPLY_FOR_MEMBERSHIP" : {
+      "description" : "",
+      "message" : "Solicitar el ingreso"
+   },
+   "BEGIN_TRADE" : {
+      "description" : "",
+      "message" : "Comenzar transacción"
+   },
+   "FLAVOUR_0_CLUBNAME" : {
+      "description" : "",
+      "message" : "Cooperativa Interestelar de Combustibles"
+   },
+   "FLAVOUR_0_MEMBER_INTRO" : {
+      "description" : "",
+      "message" : "Puede adquirir combustible y disponer de {radioactives} aquí."
+   },
+   "FLAVOUR_0_NONMEMBER_INTRO" : {
+      "description" : "",
+      "message" : "{clubname} es una organización independiente dedicada a proveer descuentos en combustible a sus miembros. Sus sedes se encuentran por toda la galaxia. Los beneficios de afiliación incluyen:\n\n\t* Existencias de combustible propias, independientes del mercado general\n\t* Descuento de precios en {hydrogen}\n\t* Descuento de precios en {military_fuel}\n\t* Descuento de precios en {water}\n\t* {radioactives}, disponibilidad libre (bajo condiciones)\n\t* Rellenado de su depósito cuando sea necesario\n\n¡Apúntese! Afiliación anual por solo {membership_fee}"
+   },
+   "FLAVOUR_0_WELCOME" : {
+      "description" : "",
+      "message" : "Bienvenido a {clubname}"
+   },
+   "GO_BACK" : {
+      "description" : "",
+      "message" : "Atrás"
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Colgar."
+   },
+   "HYDROGEN" : {
+      "description" : "",
+      "message" : "Hidrógeno"
+   },
+   "MILITARY_FUEL" : {
+      "description" : "",
+      "message" : "Combustible militar"
+   },
+   "RADIOACTIVES" : {
+      "description" : "",
+      "message" : "Residuos radioactivos"
+   },
+   "WATER" : {
+      "description" : "",
+      "message" : "Agua"
+   },
+   "WE_WILL_ONLY_DISPOSE_OF" : {
+      "description" : "",
+      "message" : "Solo dispensaremos una cantidad de {radioactives} equivalente a las toneladas de {military_fuel} adquiridas."
+   },
+   "WHAT_CONDITIONS_APPLY" : {
+      "description" : "",
+      "message" : "¿Cuáles son las condiciones aplicables en la disponibilidad de {radioactives}?"
+   },
+   "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED" : {
+      "description" : "",
+      "message" : "Su ingreso ha sido rechazado."
+   },
+   "YOU_ARE_NOW_A_MEMBER" : {
+      "description" : "",
+      "message" : "Ahora es miembro. Su afiliación expira en {expiry_date}."
+   },
+   "YOU_MUST_BUY" : {
+      "description" : "",
+      "message" : "Debe adquirir nuestro {military_fuel} para dispensarle {radioactives}"
+   }
 }

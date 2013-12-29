@@ -1,18 +1,18 @@
 {
-    "AUTOPILOT": {
-        "message": "Автопилот",
-        "description": ""
-    },
-    "CANNOT_COMPENSATE_FOR_LOCAL_GRAVITY": {
-        "message": "Невозможно компенсировать местную гравитацию",
-        "description": ""
-    },
-    "CANNOT_COMPUTE_ORBIT_PARAMETERS": {
-        "message": "Не удается вычислить параметры орбиты",
-        "description": ""
-    },
-    "STARPORT_REFUSED_DOCKING_PERMISSION": {
-        "message": "База отказала в разрешении на стыковку",
-        "description": ""
-    }
+   "AUTOPILOT" : {
+      "description" : "",
+      "message" : "Автопилот"
+   },
+   "CANNOT_COMPENSATE_FOR_LOCAL_GRAVITY" : {
+      "description" : "",
+      "message" : "Невозможно компенсировать местную гравитацию"
+   },
+   "CANNOT_COMPUTE_ORBIT_PARAMETERS" : {
+      "description" : "",
+      "message" : "Не удается вычислить параметры орбиты"
+   },
+   "STARPORT_REFUSED_DOCKING_PERMISSION" : {
+      "description" : "",
+      "message" : "База отказала в разрешении на стыковку"
+   }
 }

@@ -8,9 +8,7 @@
 
 namespace Graphics {
 
-/* OpenGL renderer data structures and bufferobject stuff.
- * This can be used by both the Legacy and GL2 renderers
- */
+// OpenGL renderer data structures and bufferobject stuff.
 
 struct GLVertex {
 	vector3f position;
@@ -129,7 +127,7 @@ public:
 	}
 
 	void ColorPointer(GLsizei stride, size_t pointer) {
-		glColorPointer(4, GL_FLOAT, stride, reinterpret_cast<const GLvoid *>(pointer));
+		glColorPointer(4, GL_UNSIGNED_BYTE, stride, reinterpret_cast<const GLvoid *>(pointer));
 	}
 
 	//XXX this only supports ModelVertex vertices!!

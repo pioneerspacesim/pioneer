@@ -46,10 +46,10 @@ local chance_of_availability = 3
 
 local flavours = {
 	{
-		clubname = l.FLAVOUR_CLUBNAME_0,
-		welcome = l.FLAVOUR_WELCOME_0,
-		nonmember_intro = l.FLAVOUR_NONMEMBER_INTRO_0,
-		member_intro = l.FLAVOUR_MEMBER_INTRO_0,
+		clubname = l.FLAVOUR_0_CLUBNAME,
+		welcome = l.FLAVOUR_0_WELCOME,
+		nonmember_intro = l.FLAVOUR_0_NONMEMBER_INTRO,
+		member_intro = l.FLAVOUR_0_MEMBER_INTRO,
 		annual_fee = 400,
 	}
 }
@@ -156,7 +156,6 @@ onChat = function (form, ref, option)
 		setMessage(l.WE_WILL_ONLY_DISPOSE_OF)
 		form:AddOption(l.APPLY_FOR_MEMBERSHIP,2)
 		form:AddOption(l.GO_BACK,0)
-		form:AddOption(l.HANG_UP,-1)
 
 	elseif option == 2 then
 		-- Player applied for membership
@@ -172,11 +171,9 @@ onChat = function (form, ref, option)
 				expiry_date = Format.Date(memberships[ad.flavour.clubname].joined + memberships[ad.flavour.clubname].expiry)
 			}))
 			form:AddOption(l.BEGIN_TRADE,0)
-			form:AddOption(l.HANG_UP,-1)
 		else
 			-- Membership application unsuccessful
 			setMessage(l.YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED)
-			form:AddOption(l.HANG_UP,-1)
 		end
 
 	else
@@ -186,7 +183,6 @@ onChat = function (form, ref, option)
 		}))
 		form:AddOption(l.WHAT_CONDITIONS_APPLY:interp({radioactives = l.RADIOACTIVES}),1)
 		form:AddOption(l.APPLY_FOR_MEMBERSHIP,2)
-		form:AddOption(l.HANG_UP,-1)
 	end
 end
 

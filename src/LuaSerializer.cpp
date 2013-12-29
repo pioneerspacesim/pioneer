@@ -182,7 +182,7 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 			LuaObjectBase *lo = static_cast<LuaObjectBase*>(lua_touserdata(l, idx));
 			void *o = lo->GetObject();
 			if (!o)
-				Error("Lua serializer '%s' tried to serialize an invalid object", key);
+				Error("Lua serializer '%s' tried to serialize an invalid '%s' object", key, lo->GetType());
 
 			// XXX object wrappers should really have Serialize/Unserialize
 			// methods to deal with this
@@ -198,6 +198,17 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 				Body *b = static_cast<Body*>(o);
 				snprintf(buf, sizeof(buf), "Body\n%u\n", Pi::game->GetSpace()->GetIndexForBody(b));
 				out += buf;
+				break;
+			}
+
+			if (lo->Isa("SceneGraph.ModelSkin")) {
+				SceneGraph::ModelSkin *skin = static_cast<SceneGraph::ModelSkin*>(o);
+				Serializer::Writer wr;
+				skin->Save(wr);
+				const std::string &ser = wr.GetData();
+				snprintf(buf, sizeof(buf), "ModelSkin\n%lu\n", ser.size());
+				out += buf;
+				out += ser;
 				break;
 			}
 
@@ -350,6 +361,25 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 					default:
 						throw SavedGameCorruptException();
 				}
+
+				break;
+			}
+
+			if (len == 9 && strncmp(pos, "ModelSkin", 9) == 0) {
+				pos = end;
+
+				Uint32 serlen = strtoul(pos, const_cast<char**>(&end), 0);
+				if (pos == end) throw SavedGameCorruptException();
+				pos = end+1; // skip newline
+
+				std::string buf(pos, serlen);
+				Serializer::Reader rd(buf);
+				SceneGraph::ModelSkin skin;
+				skin.Load(rd);
+
+				LuaObject<SceneGraph::ModelSkin>::PushToLua(skin);
+
+				pos += serlen;
 
 				break;
 			}

@@ -1,10 +1,10 @@
 {
-    "PIONEERING_PILOTS_GUILD": {
-        "message": "Gremi de Pilots Pioners",
-        "description": ""
-    },
-    "WELL_DONE_COMMANDER_YOUR_COMBAT_RATING_HAS_IMPROVED": {
-        "message": "Bona feina comandant! La vostra qualificació de pilot ha millorat!",
-        "description": ""
-    }
+   "PIONEERING_PILOTS_GUILD" : {
+      "description" : "",
+      "message" : "Gremi de Pilots Pioners"
+   },
+   "WELL_DONE_COMMANDER_YOUR_COMBAT_RATING_HAS_IMPROVED" : {
+      "description" : "",
+      "message" : "Bona feina comandant! La vostra qualificació de pilot ha millorat!"
+   }
 }

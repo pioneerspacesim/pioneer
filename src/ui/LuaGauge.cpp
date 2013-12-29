@@ -21,6 +21,13 @@ public:
 		return 1;
 	}
 
+	static int l_set_upper_value(lua_State *l) {
+		UI::Gauge *gauge = LuaObject<UI::Gauge>::CheckFromLua(1);
+		gauge->SetUpperValue(luaL_checknumber(l, 2));
+		lua_pushvalue(l, 1);
+		return 1;
+	}
+
 	static int l_set_warning_level(lua_State *l) {
 		UI::Gauge *gauge = LuaObject<UI::Gauge>::CheckFromLua(1);
 		gauge->SetWarningLevel(luaL_checknumber(l, 2));
@@ -56,6 +63,7 @@ template <> void LuaObject<UI::Gauge>::RegisterClass()
 
 	static const luaL_Reg l_methods[] = {
 		{ "SetValue",          &LuaGauge::l_set_value },
+		{ "SetUpperValue",     &LuaGauge::l_set_upper_value },
 		{ "SetWarningLevel",   &LuaGauge::l_set_warning_level },
 		{ "SetCriticalLevel",  &LuaGauge::l_set_critical_level },
 		{ "SetLevelAscending", &LuaGauge::l_set_level_ascending },

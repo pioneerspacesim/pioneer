@@ -1,10 +1,10 @@
 {
-    "PIONEERING_PILOTS_GUILD": {
-        "message": "Pionerend Piloten Gilde",
-        "description": ""
-    },
-    "WELL_DONE_COMMANDER_YOUR_COMBAT_RATING_HAS_IMPROVED": {
-        "message": "Goed gedaan commandant! Uw gevechtswaardering is verhoogd!",
-        "description": ""
-    }
+   "PIONEERING_PILOTS_GUILD" : {
+      "description" : "",
+      "message" : "Pionerend Piloten Gilde"
+   },
+   "WELL_DONE_COMMANDER_YOUR_COMBAT_RATING_HAS_IMPROVED" : {
+      "description" : "",
+      "message" : "Goed gedaan commandant! Uw gevechtswaardering is verhoogd!"
+   }
 }

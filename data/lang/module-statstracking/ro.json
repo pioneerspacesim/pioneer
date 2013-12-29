@@ -1,10 +1,10 @@
 {
-    "PIONEERING_PILOTS_GUILD": {
-        "message": "Asociaţia Piloţilor Pionieri",
-        "description": ""
-    },
-    "WELL_DONE_COMMANDER_YOUR_COMBAT_RATING_HAS_IMPROVED": {
-        "message": "Felicitări comandante! Clasificarea nivelului dumneavoastră de luptă a crescut!",
-        "description": ""
-    }
+   "PIONEERING_PILOTS_GUILD" : {
+      "description" : "",
+      "message" : "Asociaţia Piloţilor Pionieri"
+   },
+   "WELL_DONE_COMMANDER_YOUR_COMBAT_RATING_HAS_IMPROVED" : {
+      "description" : "",
+      "message" : "Felicitări comandante! Clasificarea nivelului dumneavoastră de luptă a crescut!"
+   }
 }

@@ -50,10 +50,10 @@ local flavours = {
 -- add strings to flavours
 for i = 1,#flavours do
 	local f = flavours[i]
-	f.title     = l["FLAVOUR_TITLE_"..i-1]
-	f.intro     = l["FLAVOUR_INTRO_"..i-1]
-	f.yesplease = l["FLAVOUR_YESPLEASE_"..i-1]
-	f.response  = l["FLAVOUR_RESPONSE_"..i-1]
+	f.title     = l["FLAVOUR_" .. i-1 .. "_TITLE"]
+	f.intro     = l["FLAVOUR_" .. i-1 .. "_INTRO"]
+	f.yesplease = l["FLAVOUR_" .. i-1 .. "_YESPLEASE"]
+	f.response  = l["FLAVOUR_" .. i-1 .. "_RESPONSE"]
 end
 
 local ads = {}
@@ -131,7 +131,6 @@ local onChat = function (form, ref, option)
 		else
 			form:AddOption(ad.yesplease, 1)
 		end
-		form:AddOption(l.HANG_UP, -1)
 		print(('DEBUG: %.2f years / %.2f price = %.2f'):format(ad.strength, ad.baseprice, ad.strength/ad.baseprice))
 	end
 
@@ -142,7 +141,6 @@ local onChat = function (form, ref, option)
 		if Game.player:GetMoney() >= price then -- We did check earlier, but...
 			-- Say thanks
 			form:SetMessage(ad.response)
-			form:AddOption(l.HANG_UP, -1)
 			Game.player:AddMoney(-price)
 			service_history.lastdate = Game.time
 			service_history.service_period = ad.strength * oneyear

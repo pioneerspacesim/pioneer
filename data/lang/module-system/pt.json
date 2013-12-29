@@ -1,10 +1,10 @@
 {
-    "YOUR_FUEL_TANK_IS_ALMOST_EMPTY": {
-        "message": "O depósito de combustível está na reserva.",
-        "description": ""
-    },
-    "YOUR_FUEL_TANK_IS_EMPTY": {
-        "message": "O depósito de combustível está vazio.",
-        "description": ""
-    }
+   "YOUR_FUEL_TANK_IS_ALMOST_EMPTY" : {
+      "description" : "",
+      "message" : "O depósito de combustível está na reserva."
+   },
+   "YOUR_FUEL_TANK_IS_EMPTY" : {
+      "description" : "",
+      "message" : "O depósito de combustível está vazio."
+   }
 }

@@ -48,5 +48,6 @@ void DeathView::Update()
 
 void DeathView::Draw3D()
 {
+	PROFILE_SCOPED()
 	m_cam->Draw(m_renderer);
 }

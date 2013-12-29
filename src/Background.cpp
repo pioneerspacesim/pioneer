@@ -15,6 +15,7 @@
 #include "graphics/StaticMesh.h"
 #include "graphics/Surface.h"
 #include "graphics/VertexArray.h"
+#include <SDL_stdinc.h>
 
 using namespace Graphics;
 
@@ -23,7 +24,7 @@ namespace Background
 
 void BackgroundElement::SetIntensity(float intensity)
 {
-	m_material->emissive = Color(intensity);
+	m_material->emissive = Color(intensity*255);
 }
 
 Starfield::Starfield(Graphics::Renderer *r)
@@ -70,7 +71,7 @@ void Starfield::Fill(Uint32 seed)
 
 	//fill the array
 	for (int i=0; i<BG_STAR_MAX; i++) {
-		float col = float(rand.Double(0.2,0.7));
+		Uint8 col = rand.Double(0.2,0.7)*255;
 
 		// this is proper random distribution on a sphere's surface
 		const float theta = float(rand.Double(0.0, 2.0*M_PI));
@@ -80,7 +81,7 @@ void Starfield::Fill(Uint32 seed)
 				1000.0f * sqrt(1.0f - u*u) * cos(theta),
 				1000.0f * u,
 				1000.0f * sqrt(1.0f - u*u) * sin(theta)
-			), Color(col, col, col,	1.f)
+			), Color(col, col, col,	255)
 		);
 	}
 }
@@ -132,8 +133,8 @@ MilkyWay::MilkyWay(Graphics::Renderer *r)
 	VertexArray *bottom = new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE);
 	VertexArray *top = new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE);
 
-	const Color dark(0.f);
-	const Color bright(0.05f, 0.05f, 0.05f, 0.05f);
+	const Color dark(0);
+	const Color bright(13, 13, 13, 13);
 
 	//bottom
 	float theta;
@@ -211,6 +212,7 @@ void Container::Refresh(Uint32 seed)
 
 void Container::Draw(Graphics::Renderer *renderer, const matrix4x4d &transform) const
 {
+	PROFILE_SCOPED()
 	//XXX not really const - renderer can modify the buffers
 	renderer->SetBlendMode(BLEND_SOLID);
 	renderer->SetDepthTest(false);
@@ -225,6 +227,7 @@ void Container::Draw(Graphics::Renderer *renderer, const matrix4x4d &transform) 
 
 void Container::SetIntensity(float intensity)
 {
+	PROFILE_SCOPED()
 	m_starField.SetIntensity(intensity);
 	m_milkyWay.SetIntensity(intensity);
 }

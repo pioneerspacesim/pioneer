@@ -2,6 +2,7 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Ship = import_core("Ship")
+local Engine = import("Engine")
 local Event = import("Event")
 local Serializer = import("Serializer")
 local ShipDef = import("ShipDef")
@@ -22,6 +23,14 @@ local missile_names = {
 --
 -- Class representing a ship. Inherits from <Body>.
 --
+
+-- class method
+function Ship.MakeRandomLabel ()
+	local letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	local a = Engine.rand:Integer(1, #letters)
+	local b = Engine.rand:Integer(1, #letters)
+	return string.format("%s%s-%04d", letters:sub(a,a), letters:sub(b,b), Engine.rand:Integer(10000))
+end
 
 -- This is a protected table (accessors only) in which details of each ship's crew
 -- will be stored.
@@ -131,10 +140,10 @@ Ship.Refuel = function (self,amount)
         Comms.Message(l.FUEL_TANK_FULL) -- XXX don't translate in libs
         return 0
     end
-    local ship_stats = self:GetStats()
-    local needed = math.clamp(math.ceil(ship_stats.maxFuelTankMass - ship_stats.fuelMassLeft),0, amount)
+    local fuelTankMass = ShipDef[self.shipId].fuelTankMass
+    local needed = math.clamp(math.ceil(fuelTankMass - self.fuelMassLeft),0, amount)
     local removed = self:RemoveEquip('WATER', needed)
-    self:SetFuelPercent(math.clamp(self.fuel + removed * 100 / ship_stats.maxFuelTankMass, 0, 100))
+    self:SetFuelPercent(math.clamp(self.fuel + removed * 100 / fuelTankMass, 0, 100))
     return removed
 end
 

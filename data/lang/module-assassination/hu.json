@@ -1,298 +1,298 @@
 {
-    "FLAVOUR_SUCCESSMSG_3": {
-        "message": "{target} meghalt. Itt a díjad.",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_2": {
-        "message": "A fontos megbízás sikeres teljesítéséért megkapod teljes fizetséged.",
-        "description": ""
-    },
-    "SPACEPORT": {
-        "message": "Ürkikötő:",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_0": {
-        "message": "Úgy hallom, {target} hosszú szabadságra ment. Nagyszerű, máris elküldöm a fizetséget.",
-        "description": ""
-    },
-    "TARGET_WILL_BE_LEAVING_SPACEPORT_AT": {
-        "message": "A célszemély indulásának időpontja:",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_5": {
-        "message": "{target} karrierjének vége. Itt a pénzed: {cash}.",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_4": {
-        "message": "{target} visszavonulásának híre örömmel tölt el. Itt van a pénzed.",
-        "description": ""
-    },
-    "HANG_UP": {
-        "message": "Kapcsolat megszakítása.",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_1": {
-        "message": "Sajnálattal hallottam {target} halálhírét. Máris megkapod a fizetséged.",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_3": {
-        "message": "Csak űrpor maradhat {target} után. Ha megteszed, {cash} Kredit üti a markod.",
-        "description": ""
-    },
-    "TITLE_22": {
-        "message": "Matróz",
-        "description": ""
-    },
-    "TITLE_21": {
-        "message": "Felügyelő",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_4": {
-        "message": "{cash} összegért cserébe szeretnénk, ha {target} végleg felhagyna tevékenységével.",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_2": {
-        "message": "Nagyon sajnálatos, hogy {target} még mindig él, és virul. Nem kapsz fizetséget, ha egyszer nem végezted el a feladatot.",
-        "description": ""
-    },
-    "TITLE_24": {
-        "message": "Őrmester",
-        "description": ""
-    },
-    "TITLE_9": {
-        "message": "Tizedes",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_0": {
-        "message": "KERESEK: Olyan személyt, aki eltávolítaná {target} személyét {system} rendszerből.",
-        "description": ""
-    },
-    "TITLE_13": {
-        "message": "Ügyvéd",
-        "description": ""
-    },
-    "HOW_SOON_MUST_IT_BE_DONE": {
-        "message": "Milyen hamar kell elvégezni?",
-        "description": ""
-    },
-    "IT_MUST_BE_DONE_AFTER": {
-        "message": "Akkor kell elintézni, miután {target} elhagyta {spaceport} kikötőjét. Ne halaszd el a lehetőséget.",
-        "description": ""
-    },
-    "HOW_WILL_I_BE_PAID": {
-        "message": "Hogy leszek megfizetve?",
-        "description": ""
-    },
-    "TARGET_NAME": {
-        "message": "Célszemély:",
-        "description": ""
-    },
-    "WHERE_CAN_I_FIND_X": {
-        "message": "Hol találhatom meg {target} hajóját?",
-        "description": ""
-    },
-    "TITLE_8": {
-        "message": "Tengernagy",
-        "description": ""
-    },
-    "X_WILL_BE_LEAVING": {
-        "message": "{target} {date} időpontban hagyja el {system} {spaceport} kikötőjét ({sectorX}, {sectorY}, {sectorZ}). \n\nA hajó típusa: {shipname}, regisztrációs száma pedig {shipregid}.",
-        "description": ""
-    },
-    "LY": {
-        "message": "fé",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_0": {
-        "message": "Nagyon elégedetlen vagyok azzal, hogy {target} még mindig életben van. Mondanom sem kell, hogy semmit nem kapsz.",
-        "description": ""
-    },
-    "TITLE_3": {
-        "message": "Kadét",
-        "description": ""
-    },
-    "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID": {
-        "message": "Térj vissza ide a megbízás teljesítése után, hogy megkapd a fizetséged.",
-        "description": ""
-    },
-    "OK_AGREED": {
-        "message": "Rendben, vállalom.",
-        "description": ""
-    },
-    "DISTANCE": {
-        "message": "Távolság:",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_5": {
-        "message": "BIOGRÁFIA: Néhány csodálója szeretné halottan látni {target} személyét.",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_4": {
-        "message": "NYUGDÍJAZÁS: Valakinek nyugdíjazni kellene {target} személyét.",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_5": {
-        "message": "Szeretnénk, ha {target} karrierjének vége lenne {system} rendszerben. Fizetünk {cash} Kreditet, ha megteszed.",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG2_0": {
-        "message": "{target} más áldozata lett. Így neked nem jár fizetség sem.",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_1": {
-        "message": "KERESEK: Olyat, aki megölné {target} nem kívánatos személyt a(z) {system} rendszerben.",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_2": {
-        "message": "A nevem {name}, és örömmel fizetek {cash} Kreditet {target} megsemmisítéséért.",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_3": {
-        "message": "MEGSEMMISÍTÉS: Keresek valakit, aki eltenné láb alól: {target}.",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_0": {
-        "message": "Helló, a nevem {name}. Fizetnék {cash} összeget, hogy megszabaduljak tőle: {target}.",
-        "description": ""
-    },
-    "TITLE_16": {
-        "message": "Kereskedő",
-        "description": ""
-    },
-    "TITLE_17": {
-        "message": "Tisztviselő",
-        "description": ""
-    },
-    "TITLE_14": {
-        "message": "Hadnagy",
-        "description": ""
-    },
-    "TITLE_15": {
-        "message": "Marsall",
-        "description": ""
-    },
-    "TITLE_12": {
-        "message": "Bíró",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_1": {
-        "message": "Szeretném, ha {target} eltűnne örökre. Fizetek {cash} összeget, ha megteszed nekem.",
-        "description": ""
-    },
-    "TITLE_10": {
-        "message": "Zászlós",
-        "description": ""
-    },
-    "TITLE_11": {
-        "message": "Tábornok",
-        "description": ""
-    },
-    "SHIP": {
-        "message": "Hajó:",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_2": {
-        "message": "ELTÁVOLÍTÁS: {target} eltávolítása {system} rendszerből.",
-        "description": ""
-    },
-    "TITLE_6": {
-        "message": "Ezredes",
-        "description": ""
-    },
-    "TITLE_18": {
-        "message": "Közlegény",
-        "description": ""
-    },
-    "TITLE_19": {
-        "message": "Professzor",
-        "description": ""
-    },
-    "TITLE_20": {
-        "message": "Ügyész",
-        "description": ""
-    },
-    "TITLE_23": {
-        "message": "Szenátor",
-        "description": ""
-    },
-    "TITLE_7": {
-        "message": "Parancsnok",
-        "description": ""
-    },
-    "SHIP_ID": {
-        "message": "Hajó regisztrációs száma:",
-        "description": ""
-    },
-    "TITLE_0": {
-        "message": "Admirális",
-        "description": ""
-    },
-    "SYSTEM": {
-        "message": "Rendszer:",
-        "description": ""
-    },
-    "ASSASSINATION": {
-        "message": "Orgyilkosság",
-        "description": ""
-    },
-    "TITLE_1": {
-        "message": "Nagykövet",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG2_5": {
-        "message": "{target} karrierváltozását valaki más intézte.",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG2_4": {
-        "message": "{target} nyugdíjazását más intézte el.",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG2_3": {
-        "message": "Azért kérsz pénzt, amit nem is te végeztél el? Na takarodj innen.",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG2_2": {
-        "message": "A megbízást más teljesítette. Legközelebb légy gyorsabb!",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG2_1": {
-        "message": "{target} halálát nem te okoztad, így ne is kérd a fizetséget érte.",
-        "description": ""
-    },
-    "EXCELLENT": {
-        "message": "Kitünő.",
-        "description": ""
-    },
-    "TITLE_4": {
-        "message": "Százados",
-        "description": ""
-    },
-    "TITLE_5": {
-        "message": "Bíboros",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_4": {
-        "message": "{target} még mindig él, így nem adok semmi pénzt.",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_5": {
-        "message": "Szomorúan halljuk, hogy {target} még mindig munkálkodik.",
-        "description": ""
-    },
-    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
-        "message": "Megismételnéd a hirdetést?",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_3": {
-        "message": "Még megfizetsz azért, hogy {target} elmenekült!",
-        "description": ""
-    },
-    "TITLE_2": {
-        "message": "Dandártábornok",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_1": {
-        "message": "Úgy hallottam, hogy {target} jó egészségnek örvend. Ez sajnálattal tölt el.",
-        "description": ""
-    }
+   "ASSASSINATION" : {
+      "description" : "",
+      "message" : "Orgyilkosság"
+   },
+   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
+      "description" : "",
+      "message" : "Megismételnéd a hirdetést?"
+   },
+   "DISTANCE" : {
+      "description" : "",
+      "message" : "Távolság:"
+   },
+   "EXCELLENT" : {
+      "description" : "",
+      "message" : "Kitünő."
+   },
+   "FLAVOUR_0_ADTEXT" : {
+      "description" : "",
+      "message" : "KERESEK: Olyan személyt, aki eltávolítaná {target} személyét {system} rendszerből."
+   },
+   "FLAVOUR_0_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Nagyon elégedetlen vagyok azzal, hogy {target} még mindig életben van. Mondanom sem kell, hogy semmit nem kapsz."
+   },
+   "FLAVOUR_0_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "{target} más áldozata lett. Így neked nem jár fizetség sem."
+   },
+   "FLAVOUR_0_INTROTEXT" : {
+      "description" : "",
+      "message" : "Helló, a nevem {name}. Fizetnék {cash} összeget, hogy megszabaduljak tőle: {target}."
+   },
+   "FLAVOUR_0_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Úgy hallom, {target} hosszú szabadságra ment. Nagyszerű, máris elküldöm a fizetséget."
+   },
+   "FLAVOUR_1_ADTEXT" : {
+      "description" : "",
+      "message" : "KERESEK: Olyat, aki megölné {target} nem kívánatos személyt a(z) {system} rendszerben."
+   },
+   "FLAVOUR_1_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Úgy hallottam, hogy {target} jó egészségnek örvend. Ez sajnálattal tölt el."
+   },
+   "FLAVOUR_1_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "{target} halálát nem te okoztad, így ne is kérd a fizetséget érte."
+   },
+   "FLAVOUR_1_INTROTEXT" : {
+      "description" : "",
+      "message" : "Szeretném, ha {target} eltűnne örökre. Fizetek {cash} összeget, ha megteszed nekem."
+   },
+   "FLAVOUR_1_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Sajnálattal hallottam {target} halálhírét. Máris megkapod a fizetséged."
+   },
+   "FLAVOUR_2_ADTEXT" : {
+      "description" : "",
+      "message" : "ELTÁVOLÍTÁS: {target} eltávolítása {system} rendszerből."
+   },
+   "FLAVOUR_2_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Nagyon sajnálatos, hogy {target} még mindig él, és virul. Nem kapsz fizetséget, ha egyszer nem végezted el a feladatot."
+   },
+   "FLAVOUR_2_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "A megbízást más teljesítette. Legközelebb légy gyorsabb!"
+   },
+   "FLAVOUR_2_INTROTEXT" : {
+      "description" : "",
+      "message" : "A nevem {name}, és örömmel fizetek {cash} Kreditet {target} megsemmisítéséért."
+   },
+   "FLAVOUR_2_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "A fontos megbízás sikeres teljesítéséért megkapod teljes fizetséged."
+   },
+   "FLAVOUR_3_ADTEXT" : {
+      "description" : "",
+      "message" : "MEGSEMMISÍTÉS: Keresek valakit, aki eltenné láb alól: {target}."
+   },
+   "FLAVOUR_3_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Még megfizetsz azért, hogy {target} elmenekült!"
+   },
+   "FLAVOUR_3_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "Azért kérsz pénzt, amit nem is te végeztél el? Na takarodj innen."
+   },
+   "FLAVOUR_3_INTROTEXT" : {
+      "description" : "",
+      "message" : "Csak űrpor maradhat {target} után. Ha megteszed, {cash} Kredit üti a markod."
+   },
+   "FLAVOUR_3_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "{target} meghalt. Itt a díjad."
+   },
+   "FLAVOUR_4_ADTEXT" : {
+      "description" : "",
+      "message" : "NYUGDÍJAZÁS: Valakinek nyugdíjazni kellene {target} személyét."
+   },
+   "FLAVOUR_4_FAILUREMSG" : {
+      "description" : "",
+      "message" : "{target} még mindig él, így nem adok semmi pénzt."
+   },
+   "FLAVOUR_4_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "{target} nyugdíjazását más intézte el."
+   },
+   "FLAVOUR_4_INTROTEXT" : {
+      "description" : "",
+      "message" : "{cash} összegért cserébe szeretnénk, ha {target} végleg felhagyna tevékenységével."
+   },
+   "FLAVOUR_4_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "{target} visszavonulásának híre örömmel tölt el. Itt van a pénzed."
+   },
+   "FLAVOUR_5_ADTEXT" : {
+      "description" : "",
+      "message" : "BIOGRÁFIA: Néhány csodálója szeretné halottan látni {target} személyét."
+   },
+   "FLAVOUR_5_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Szomorúan halljuk, hogy {target} még mindig munkálkodik."
+   },
+   "FLAVOUR_5_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "{target} karrierváltozását valaki más intézte."
+   },
+   "FLAVOUR_5_INTROTEXT" : {
+      "description" : "",
+      "message" : "Szeretnénk, ha {target} karrierjének vége lenne {system} rendszerben. Fizetünk {cash} Kreditet, ha megteszed."
+   },
+   "FLAVOUR_5_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "{target} karrierjének vége. Itt a pénzed: {cash}."
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Kapcsolat megszakítása."
+   },
+   "HOW_SOON_MUST_IT_BE_DONE" : {
+      "description" : "",
+      "message" : "Milyen hamar kell elvégezni?"
+   },
+   "HOW_WILL_I_BE_PAID" : {
+      "description" : "",
+      "message" : "Hogy leszek megfizetve?"
+   },
+   "IT_MUST_BE_DONE_AFTER" : {
+      "description" : "",
+      "message" : "Akkor kell elintézni, miután {target} elhagyta {spaceport} kikötőjét. Ne halaszd el a lehetőséget."
+   },
+   "LY" : {
+      "description" : "",
+      "message" : "fé"
+   },
+   "OK_AGREED" : {
+      "description" : "",
+      "message" : "Rendben, vállalom."
+   },
+   "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID" : {
+      "description" : "",
+      "message" : "Térj vissza ide a megbízás teljesítése után, hogy megkapd a fizetséged."
+   },
+   "SHIP" : {
+      "description" : "",
+      "message" : "Hajó:"
+   },
+   "SHIP_ID" : {
+      "description" : "",
+      "message" : "Hajó regisztrációs száma:"
+   },
+   "SPACEPORT" : {
+      "description" : "",
+      "message" : "Ürkikötő:"
+   },
+   "SYSTEM" : {
+      "description" : "",
+      "message" : "Rendszer:"
+   },
+   "TARGET_NAME" : {
+      "description" : "",
+      "message" : "Célszemély:"
+   },
+   "TARGET_WILL_BE_LEAVING_SPACEPORT_AT" : {
+      "description" : "",
+      "message" : "A célszemély indulásának időpontja:"
+   },
+   "TITLE_0" : {
+      "description" : "",
+      "message" : "Admirális"
+   },
+   "TITLE_1" : {
+      "description" : "",
+      "message" : "Nagykövet"
+   },
+   "TITLE_10" : {
+      "description" : "",
+      "message" : "Zászlós"
+   },
+   "TITLE_11" : {
+      "description" : "",
+      "message" : "Tábornok"
+   },
+   "TITLE_12" : {
+      "description" : "",
+      "message" : "Bíró"
+   },
+   "TITLE_13" : {
+      "description" : "",
+      "message" : "Ügyvéd"
+   },
+   "TITLE_14" : {
+      "description" : "",
+      "message" : "Hadnagy"
+   },
+   "TITLE_15" : {
+      "description" : "",
+      "message" : "Marsall"
+   },
+   "TITLE_16" : {
+      "description" : "",
+      "message" : "Kereskedő"
+   },
+   "TITLE_17" : {
+      "description" : "",
+      "message" : "Tisztviselő"
+   },
+   "TITLE_18" : {
+      "description" : "",
+      "message" : "Közlegény"
+   },
+   "TITLE_19" : {
+      "description" : "",
+      "message" : "Professzor"
+   },
+   "TITLE_2" : {
+      "description" : "",
+      "message" : "Dandártábornok"
+   },
+   "TITLE_20" : {
+      "description" : "",
+      "message" : "Ügyész"
+   },
+   "TITLE_21" : {
+      "description" : "",
+      "message" : "Felügyelő"
+   },
+   "TITLE_22" : {
+      "description" : "",
+      "message" : "Matróz"
+   },
+   "TITLE_23" : {
+      "description" : "",
+      "message" : "Szenátor"
+   },
+   "TITLE_24" : {
+      "description" : "",
+      "message" : "Őrmester"
+   },
+   "TITLE_3" : {
+      "description" : "",
+      "message" : "Kadét"
+   },
+   "TITLE_4" : {
+      "description" : "",
+      "message" : "Százados"
+   },
+   "TITLE_5" : {
+      "description" : "",
+      "message" : "Bíboros"
+   },
+   "TITLE_6" : {
+      "description" : "",
+      "message" : "Ezredes"
+   },
+   "TITLE_7" : {
+      "description" : "",
+      "message" : "Parancsnok"
+   },
+   "TITLE_8" : {
+      "description" : "",
+      "message" : "Tengernagy"
+   },
+   "TITLE_9" : {
+      "description" : "",
+      "message" : "Tizedes"
+   },
+   "WHERE_CAN_I_FIND_X" : {
+      "description" : "",
+      "message" : "Hol találhatom meg {target} hajóját?"
+   },
+   "X_WILL_BE_LEAVING" : {
+      "description" : "",
+      "message" : "{target} {date} időpontban hagyja el {system} {spaceport} kikötőjét ({sectorX}, {sectorY}, {sectorZ}). \n\nA hajó típusa: {shipname}, regisztrációs száma pedig {shipregid}."
+   }
 }

@@ -209,6 +209,7 @@ void JobQueue::Finish(Job *job, const uint8_t threadIdx)
 // call OnFinish methods for completed jobs, and clean up
 Uint32 JobQueue::FinishJobs()
 {
+	PROFILE_SCOPED()
 	Uint32 finished = 0;
 
 	const uint32_t numRunners = m_runners.size();

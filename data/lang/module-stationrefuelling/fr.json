@@ -1,10 +1,10 @@
 {
-    "WELCOME_ABOARD_STATION_FEE_DEDUCTED": {
-        "message": "Bienvenue à {station}. Vos frais d'arrimage et de carburant de {fee} ont été débités.",
-        "description": ""
-    },
-    "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH": {
-        "message": "Ceci est un message de {station}. Vous ne disposez pas de la somme requise pour vous acquiter de vos frais d'arrimage s'élevant à {fee}. Votre carburant a été retenu.",
-        "description": ""
-    }
+   "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH" : {
+      "description" : "",
+      "message" : "Ceci est un message de {station}. Vous ne disposez pas de la somme requise pour vous acquiter de vos frais d'arrimage s'élevant à {fee}. Votre carburant a été retenu."
+   },
+   "WELCOME_ABOARD_STATION_FEE_DEDUCTED" : {
+      "description" : "",
+      "message" : "Bienvenue à {station}. Vos frais d'arrimage et de carburant de {fee} ont été débités."
+   }
 }

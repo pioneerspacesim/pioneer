@@ -11,6 +11,7 @@ The Pioneer Developers are:
 * Alessandro Giachi
 * Andrew Cook
 * Andrew Copland
+* Antti Salonen
 * Asier Basagoiti
 * Benamucki
 * Benjamin Hodgetts
@@ -48,6 +49,7 @@ The Pioneer Developers are:
 * Marcel Tulloh
 * Marcus de Roos
 * Michele Botticelli
+* Miha Vitorovič
 * Nic
 * Oleg Ovcharenko
 * Paul Mahol
@@ -122,6 +124,10 @@ Pioneer includes the following third-party software:
   jsoncpp
   Copyright (c) 2007-2010 Baptiste Lepilleur
   Licensed under the MIT licence (see contrib/json/json.h)
+
+  High Performance C++ Profiler
+  https://code.google.com/p/high-performance-cplusplus-profiler/
+  Licensed under the MIT license
 
   Titillium Text font
   Copyright (C) 2007-2009 Academia di Belle Arte di Urbino - Campivisivi

@@ -13,8 +13,8 @@ local l = Lang.GetResource("module-donatetocranks")
 local flavours = {}
 for i = 0,4 do
 	table.insert(flavours, {
-		title     = l["FLAVOUR_TITLE_"..i],
-		message   = l["FLAVOUR_MESSAGE_"..i],
+		title     = l["FLAVOUR_" .. i .. "_TITLE"],
+		message   = l["FLAVOUR_" .. i .. "_MESSAGE"],
 	})
 end
 
@@ -36,7 +36,6 @@ local onChat = function (form, ref, option)
 		form:AddOption("$1000", 1000)
 		form:AddOption("$10000", 10000)
 		form:AddOption("$100000", 100000)
-		form:AddOption(l.HANG_UP, -1)
 
 		return
 	end

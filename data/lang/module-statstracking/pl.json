@@ -1,10 +1,10 @@
 {
-    "PIONEERING_PILOTS_GUILD": {
-        "message": "Gildia Pilotów Pioniera",
-        "description": ""
-    },
-    "WELL_DONE_COMMANDER_YOUR_COMBAT_RATING_HAS_IMPROVED": {
-        "message": "Dobra robota kapitanie! Twoja ranga bojowa została podniesiona!",
-        "description": ""
-    }
+   "PIONEERING_PILOTS_GUILD" : {
+      "description" : "",
+      "message" : "Gildia Pilotów Pioniera"
+   },
+   "WELL_DONE_COMMANDER_YOUR_COMBAT_RATING_HAS_IMPROVED" : {
+      "description" : "",
+      "message" : "Dobra robota kapitanie! Twoja ranga bojowa została podniesiona!"
+   }
 }

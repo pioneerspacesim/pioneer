@@ -1,70 +1,70 @@
 {
-    "FLAVOUR_CLUBNAME_0": {
-        "message": "Treibstoff-Kooperative Interstellarer Piloten",
-        "description": ""
-    },
-    "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED": {
-        "message": "Deine Bewerbung wurde abgelehnt.",
-        "description": ""
-    },
-    "YOU_MUST_BUY": {
-        "message": "Du musst unseren {military_fuel} kaufen, bevor wir deine {radioactives} annehmen",
-        "description": ""
-    },
-    "WE_WILL_ONLY_DISPOSE_OF": {
-        "message": "Wir werden die gleiche Menge {radioactives} entsorgen, wie du {military_fuel} von uns gekauft hast.",
-        "description": ""
-    },
-    "FLAVOUR_WELCOME_0": {
-        "message": "Wilkommen bei der {clubname}",
-        "description": ""
-    },
-    "WHAT_CONDITIONS_APPLY": {
-        "message": "Welche Konditionen gelten bei der Entsorgung von {radioactives}?",
-        "description": ""
-    },
-    "YOU_ARE_NOW_A_MEMBER": {
-        "message": "Du bist nun Mitglied. Die Mitgliedschaft verfällt am {expiry_date}.",
-        "description": ""
-    },
-    "BEGIN_TRADE": {
-        "message": "Beginne Handel",
-        "description": ""
-    },
-    "WATER": {
-        "message": "Wasser",
-        "description": ""
-    },
-    "APPLY_FOR_MEMBERSHIP": {
-        "message": "Für Mitgliedschaft bewerben",
-        "description": ""
-    },
-    "RADIOACTIVES": {
-        "message": "Radioaktive Abfälle",
-        "description": ""
-    },
-    "GO_BACK": {
-        "message": "Zurück",
-        "description": ""
-    },
-    "MILITARY_FUEL": {
-        "message": "Militär-Treibstoff",
-        "description": ""
-    },
-    "HANG_UP": {
-        "message": "Auflegen.",
-        "description": ""
-    },
-    "FLAVOUR_MEMBER_INTRO_0": {
-        "message": "Du kannst hier Kraftstoffe kaufen und {radioactives} entsorgen.",
-        "description": ""
-    },
-    "HYDROGEN": {
-        "message": "Wasserstoff",
-        "description": ""
-    },
-    "FLAVOUR_NONMEMBER_INTRO_0": {
-        "message": "{clubname} ist eine unabhängige Organisation, deren Ziel es ist, günstigen Raumschifftreibstoff an seine Mitglieder zu Verkaufen. Ableger können überall in der Galaxie gefunden werden. Die Vorteile einer Mitgliedschaft umfassen:\n\n\t* Unsere eigenen, vom Markt unabhängigen, Treibstoffvorräte\n\t* {hydrogen} zu Discount-Preisen\n\t* {military_fuel} zu Discount-Preisen\n\t* {water} zu Discount-Preisen\n\t* {radioactives}, kostenlose Entsorgung (siehe Konditionen)\n\t* Kraftstoff-Nachfüllung wo es nötig ist\n\nTrete uns noch heute bei! Jährliche Mitgliedschaft nur {membership_fee}",
-        "description": ""
-    }
+   "APPLY_FOR_MEMBERSHIP" : {
+      "description" : "",
+      "message" : "Für Mitgliedschaft bewerben"
+   },
+   "BEGIN_TRADE" : {
+      "description" : "",
+      "message" : "Beginne Handel"
+   },
+   "FLAVOUR_0_CLUBNAME" : {
+      "description" : "",
+      "message" : "Treibstoff-Kooperative Interstellarer Piloten"
+   },
+   "FLAVOUR_0_MEMBER_INTRO" : {
+      "description" : "",
+      "message" : "Du kannst hier Kraftstoffe kaufen und {radioactives} entsorgen."
+   },
+   "FLAVOUR_0_NONMEMBER_INTRO" : {
+      "description" : "",
+      "message" : "{clubname} ist eine unabhängige Organisation, deren Ziel es ist, günstigen Raumschifftreibstoff an seine Mitglieder zu Verkaufen. Ableger können überall in der Galaxie gefunden werden. Die Vorteile einer Mitgliedschaft umfassen:\n\n\t* Unsere eigenen, vom Markt unabhängigen, Treibstoffvorräte\n\t* {hydrogen} zu Discount-Preisen\n\t* {military_fuel} zu Discount-Preisen\n\t* {water} zu Discount-Preisen\n\t* {radioactives}, kostenlose Entsorgung (siehe Konditionen)\n\t* Kraftstoff-Nachfüllung wo es nötig ist\n\nTrete uns noch heute bei! Jährliche Mitgliedschaft nur {membership_fee}"
+   },
+   "FLAVOUR_0_WELCOME" : {
+      "description" : "",
+      "message" : "Wilkommen bei der {clubname}"
+   },
+   "GO_BACK" : {
+      "description" : "",
+      "message" : "Zurück"
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Auflegen."
+   },
+   "HYDROGEN" : {
+      "description" : "",
+      "message" : "Wasserstoff"
+   },
+   "MILITARY_FUEL" : {
+      "description" : "",
+      "message" : "Militär-Treibstoff"
+   },
+   "RADIOACTIVES" : {
+      "description" : "",
+      "message" : "Radioaktive Abfälle"
+   },
+   "WATER" : {
+      "description" : "",
+      "message" : "Wasser"
+   },
+   "WE_WILL_ONLY_DISPOSE_OF" : {
+      "description" : "",
+      "message" : "Wir werden die gleiche Menge {radioactives} entsorgen, wie du {military_fuel} von uns gekauft hast."
+   },
+   "WHAT_CONDITIONS_APPLY" : {
+      "description" : "",
+      "message" : "Welche Konditionen gelten bei der Entsorgung von {radioactives}?"
+   },
+   "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED" : {
+      "description" : "",
+      "message" : "Deine Bewerbung wurde abgelehnt."
+   },
+   "YOU_ARE_NOW_A_MEMBER" : {
+      "description" : "",
+      "message" : "Du bist nun Mitglied. Die Mitgliedschaft verfällt am {expiry_date}."
+   },
+   "YOU_MUST_BUY" : {
+      "description" : "",
+      "message" : "Du musst unseren {military_fuel} kaufen, bevor wir deine {radioactives} annehmen"
+   }
 }

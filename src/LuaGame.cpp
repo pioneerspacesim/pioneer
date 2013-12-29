@@ -10,6 +10,7 @@
 #include "Game.h"
 #include "Lang.h"
 #include "StringF.h"
+#include "WorldView.h"
 
 /*
  * Interface: Game
@@ -246,6 +247,16 @@ static int l_game_attr_time(lua_State *l)
 	return 1;
 }
 
+// XXX temporary to support StationView "Launch" button
+// remove once WorldView has been converted to the new UI
+static int l_game_switch_to_world_view(lua_State *l)
+{
+	if (!Pi::game)
+		return luaL_error(l, "can't switch view when no game is running");
+	Pi::SetView(Pi::worldView);
+	return 0;
+}
+
 void LuaGame::Register()
 {
 	lua_State *l = Lua::manager->GetLuaState();
@@ -257,6 +268,9 @@ void LuaGame::Register()
 		{ "LoadGame",  l_game_load_game  },
 		{ "SaveGame",  l_game_save_game  },
 		{ "EndGame",   l_game_end_game   },
+
+		{ "SwitchToWorldView", l_game_switch_to_world_view },
+
 		{ 0, 0 }
 	};
 

@@ -14,6 +14,7 @@ local Serializer = import("Serializer")
 local Character = import("Character")
 local EquipDef = import("EquipDef")
 local ShipDef = import("ShipDef")
+local Ship = import("Ship")
 local utils = import("utils")
 
 local InfoFace = import("ui/InfoFace")
@@ -95,14 +96,14 @@ local flavours = {
 -- add strings to flavours
 for i = 1,#flavours do
 	local f = flavours[i]
-	f.adtext     = l["FLAVOUR_ADTEXT_"..i-1]
-	f.introtext  = l["FLAVOUR_INTROTEXT_"..i-1]
-	f.whysomuch  = l["FLAVOUR_WHYSOMUCH_"..i-1]
-	f.howmany    = l["FLAVOUR_HOWMANY_"..i-1]
-	f.danger     = l["FLAVOUR_DANGER_"..i-1]
-	f.successmsg = l["FLAVOUR_SUCCESSMSG_"..i-1]
-	f.failuremsg = l["FLAVOUR_FAILUREMSG_"..i-1]
-	f.wherearewe = l["FLAVOUR_WHEREAREWE_"..i-1]
+	f.adtext     = l["FLAVOUR_" .. i-1 .. "_ADTEXT"]
+	f.introtext  = l["FLAVOUR_" .. i-1 .. "_INTROTEXT"]
+	f.whysomuch  = l["FLAVOUR_" .. i-1 .. "_WHYSOMUCH"]
+	f.howmany    = l["FLAVOUR_" .. i-1 .. "_HOWMANY"]
+	f.danger     = l["FLAVOUR_" .. i-1 .. "_DANGER"]
+	f.successmsg = l["FLAVOUR_" .. i-1 .. "_SUCCESSMSG"]
+	f.failuremsg = l["FLAVOUR_" .. i-1 .. "_FAILUREMSG"]
+	f.wherearewe = l["FLAVOUR_" .. i-1 .. "_WHEREAREWE"]
 end
 
 local ads = {}
@@ -167,7 +168,6 @@ local onChat = function (form, ref, option)
 		local capacity = ShipDef[Game.player.shipId].equipSlotCapacity.CABIN
 		if capacity < ad.group or Game.player:GetEquipCount('CABIN', 'UNOCCUPIED_CABIN') < ad.group then
 			form:SetMessage(l.YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP)
-			form:AddOption(l.HANG_UP, -1)
 			return
 		end
 
@@ -192,7 +192,6 @@ local onChat = function (form, ref, option)
 		table.insert(missions,Mission.New(mission))
 
 		form:SetMessage(l.EXCELLENT)
-		form:AddOption(l.HANG_UP, -1)
 
 		return
 	elseif option == 4 then
@@ -212,7 +211,6 @@ local onChat = function (form, ref, option)
 	form:AddOption(l.WILL_I_BE_IN_ANY_DANGER, 5)
 	form:AddOption(l.COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST, 0)
 	form:AddOption(l.OK_AGREED, 3)
-	form:AddOption(l.HANG_UP, -1)
 end
 
 local onDelete = function (ref)
@@ -321,6 +319,7 @@ local onEnterSystem = function (player)
 					local laserdef = laserdefs[Engine.rand:Integer(1,#laserdefs)]
 
 					ship = Space.SpawnShipNear(shipdef.id, Game.player, 50, 100)
+					ship:SetLabel(Ship.MakeRandomLabel())
 					ship:AddEquip(default_drive)
 					ship:AddEquip(laserdef.id)
 					ship:AddEquip('SHIELD_GENERATOR', math.ceil(risk * 3))
