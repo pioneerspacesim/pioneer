@@ -7,6 +7,7 @@ local Space = import("Space")
 local Event = import("Event")
 local Serializer = import("Serializer")
 local ShipDef = import("ShipDef")
+local Ship = import("Ship")
 local utils = import("utils")
 
 local loaded
@@ -31,7 +32,8 @@ local spawnShips = function ()
 
 	for i=1, num_bulk_ships do
 	local station = stations[Engine.rand:Integer(1,#stations)]
-		Space.SpawnShipParked(shipdefs[Engine.rand:Integer(1,#shipdefs)].id, station)
+		local ship = Space.SpawnShipParked(shipdefs[Engine.rand:Integer(1,#shipdefs)].id, station)
+		ship:SetLabel(Ship.MakeRandomLabel())
 	end
 end
 

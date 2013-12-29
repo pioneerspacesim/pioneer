@@ -201,6 +201,17 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 				break;
 			}
 
+			if (lo->Isa("SceneGraph.ModelSkin")) {
+				SceneGraph::ModelSkin *skin = static_cast<SceneGraph::ModelSkin*>(o);
+				Serializer::Writer wr;
+				skin->Save(wr);
+				const std::string &ser = wr.GetData();
+				snprintf(buf, sizeof(buf), "ModelSkin\n%lu\n", ser.size());
+				out += buf;
+				out += ser;
+				break;
+			}
+
 			Error("Lua serializer '%s' tried to serialize unsupported userdata value", key);
 			break;
 		}
@@ -350,6 +361,25 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 					default:
 						throw SavedGameCorruptException();
 				}
+
+				break;
+			}
+
+			if (len == 9 && strncmp(pos, "ModelSkin", 9) == 0) {
+				pos = end;
+
+				Uint32 serlen = strtoul(pos, const_cast<char**>(&end), 0);
+				if (pos == end) throw SavedGameCorruptException();
+				pos = end+1; // skip newline
+
+				std::string buf(pos, serlen);
+				Serializer::Reader rd(buf);
+				SceneGraph::ModelSkin skin;
+				skin.Load(rd);
+
+				LuaObject<SceneGraph::ModelSkin>::PushToLua(skin);
+
+				pos += serlen;
 
 				break;
 			}

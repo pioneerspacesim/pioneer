@@ -9,6 +9,7 @@ local Timer = import("Timer")
 local Event = import("Event")
 local Serializer = import("Serializer")
 local ShipDef = import("ShipDef")
+local Ship = import("Ship")
 local utils = import("utils")
 
 --[[
@@ -400,6 +401,7 @@ local spawnInitialShips = function (game_start)
 
 			ship = Space.SpawnShipDocked(ship_name, starport)
 			if ship ~= nil then
+				ship:SetLabel(Ship.MakeRandomLabel())
 				trade_ships[ship] = {
 					status		= 'docked',
 					starport	= starport,
@@ -409,6 +411,7 @@ local spawnInitialShips = function (game_start)
 			else
 				-- the starport must have been full
 				ship = Space.SpawnShipNear(ship_name, starport, 10000000, 149598000) -- 10mkm - 1AU
+				ship:SetLabel(Ship.MakeRandomLabel())
 				trade_ships[ship] = {
 					status		= 'inbound',
 					starport	= starport,
@@ -424,6 +427,7 @@ local spawnInitialShips = function (game_start)
 			end
 
 			ship = Space.SpawnShip(ship_name, min_dist, min_dist + range)
+			ship:SetLabel(Ship.MakeRandomLabel())
 			trade_ships[ship] = {
 				status		= 'inbound',
 				ship_name	= ship_name,
@@ -440,6 +444,7 @@ local spawnInitialShips = function (game_start)
 			local from = from_paths[Engine.rand:Integer(1, #from_paths)]
 
 			ship = Space.SpawnShip(ship_name, 9, 11, {from, dest_time})
+			ship:SetLabel(Ship.MakeRandomLabel())
 			trade_ships[ship] = {
 				status		= 'hyperspace',
 				dest_time	= dest_time,
@@ -483,6 +488,7 @@ local spawnReplacement = function ()
 		local from = from_paths[Engine.rand:Integer(1, #from_paths)]
 
 		local ship = Space.SpawnShip(ship_name, 9, 11, {from, dest_time})
+		ship:SetLabel(Ship.MakeRandomLabel())
 		trade_ships[ship] = {
 			status		= 'hyperspace',
 			dest_time	= dest_time,

@@ -213,7 +213,6 @@ public:
 	void SetSkin(const SceneGraph::ModelSkin &skin);
 
 	void SetLabel(const std::string &label);
-	static std::string MakeRandomLabel(); // XXX doesn't really belong here
 
 	float GetPercentShields() const;
 	float GetPercentHull() const;

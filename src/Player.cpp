@@ -12,7 +12,6 @@
 #include "ShipCpanel.h"
 #include "Sound.h"
 #include "SpaceStation.h"
-#include "SpaceStationView.h"
 #include "WorldView.h"
 #include "StringF.h"
 
@@ -28,14 +27,12 @@ Player::Player(ShipType::Id shipId): Ship(shipId)
 void Player::Save(Serializer::Writer &wr, Space *space)
 {
 	Ship::Save(wr, space);
-	MarketAgent::Save(wr);
 }
 
 void Player::Load(Serializer::Reader &rd, Space *space)
 {
 	Pi::player = this;
 	Ship::Load(rd, space);
-	MarketAgent::Load(rd);
 }
 
 //XXX perhaps remove this, the sound is very annoying
@@ -116,58 +113,6 @@ void Player::NotifyRemoved(const Body* const removedBody)
 	}
 
 	Ship::NotifyRemoved(removedBody);
-}
-
-/* MarketAgent shite */
-//XXX move to Player character .cpp
-void Player::Bought(Equip::Type t)
-{
-	m_equipment.Add(t);
-	UpdateEquipStats();
-}
-
-void Player::Sold(Equip::Type t)
-{
-	m_equipment.Remove(t, 1);
-	UpdateEquipStats();
-}
-
-bool Player::CanBuy(Equip::Type t, bool verbose) const
-{
-	Equip::Slot slot = Equip::types[int(t)].slot;
-	bool freespace = (m_equipment.FreeSpace(slot)!=0);
-	bool freecapacity = (GetStats().free_capacity >= Equip::types[int(t)].mass);
-	if (verbose) {
-		if (!freespace) {
-			Pi::Message(Lang::NO_FREE_SPACE_FOR_ITEM);
-		}
-		else if (!freecapacity) {
-			Pi::Message(Lang::SHIP_IS_FULLY_LADEN);
-		}
-	}
-	return (freespace && freecapacity);
-}
-
-bool Player::CanSell(Equip::Type t, bool verbose) const
-{
-	Equip::Slot slot = Equip::types[int(t)].slot;
-	bool cansell = (m_equipment.Count(slot, t) > 0);
-	if (verbose) {
-		if (!cansell) {
-			Pi::Message(stringf(Lang::YOU_DO_NOT_HAVE_ANY_X, formatarg("item", Equip::types[int(t)].name)));
-		}
-	}
-	return cansell;
-}
-
-Sint64 Player::GetPrice(Equip::Type t) const
-{
-	if (Ship::GetDockedWith()) {
-		return Ship::GetDockedWith()->GetPrice(t);
-	} else {
-		assert(0);
-		return 0;
-	}
 }
 
 //XXX ui stuff

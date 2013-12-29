@@ -4,6 +4,8 @@
 local Engine = import("Engine")
 local Lang = import("Lang")
 local Game = import("Game")
+local Ship = import("Ship")
+local Player = import("Player")
 local SystemPath = import("SystemPath")
 local ErrorScreen = import("ErrorScreen")
 
@@ -12,6 +14,7 @@ local l = Lang.GetResource("ui-core");
 
 local setupPlayerWave = function ()
 	Game.player:SetShipType("wave")
+	Game.player:SetLabel(Ship.MakeRandomLabel())
 	Game.player:AddEquip("PULSECANNON_1MW")
 	Game.player:AddEquip("ATMOSPHERIC_SHIELDING")
 	Game.player:AddEquip("AUTOPILOT")
