@@ -115,33 +115,13 @@
       "description" : "",
       "message" : "tělesem"
    },
-   "BOUGHT_1T_OF" : {
-      "description" : "",
-      "message" : "Koupil(a) jste 1t %commodity."
-   },
    "BROWN_DWARF" : {
       "description" : "",
       "message" : "Hnědý trpaslík (podhvězda)"
    },
-   "BULLETIN_BOARD" : {
-      "description" : "",
-      "message" : "Bulletin: Zprávy / Mise"
-   },
    "BUTTON" : {
       "description" : "",
       "message" : "\" klávesa \""
-   },
-   "BUY" : {
-      "description" : "",
-      "message" : "[+]"
-   },
-   "BUY_THIS_SHIP" : {
-      "description" : "",
-      "message" : "Koupit loď"
-   },
-   "CABINS" : {
-      "description" : "",
-      "message" : "Kabiny"
    },
    "CAMERA_BOTTOM_VIEW" : {
       "description" : "",
@@ -170,10 +150,6 @@
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
       "message" : "V hyperprostoru nelze hru ukládat"
-   },
-   "CAPACITY" : {
-      "description" : "",
-      "message" : "Kapacita"
    },
    "CAPITALIST" : {
       "description" : "",
@@ -219,25 +195,9 @@
       "description" : "",
       "message" : "Umožňuje sbírat nákladové kontejnery ve vesmíru"
    },
-   "CARGO_SPACE" : {
-      "description" : "",
-      "message" : "Nákladový prostor"
-   },
-   "CASH" : {
-      "description" : "",
-      "message" : "Hotovost"
-   },
    "CH4_ATMOSPHERE" : {
       "description" : "",
       "message" : "\" metanovou atmosférou\""
-   },
-   "CLASS_NUMBER" : {
-      "description" : "",
-      "message" : "Třída %class"
-   },
-   "CLEAN" : {
-      "description" : "",
-      "message" : "Čistý"
    },
    "CLEARANCE_ALREADY_GRANTED_BAY_N" : {
       "description" : "",
@@ -259,15 +219,7 @@
       "description" : "",
       "message" : ", vysoce vulkanická"
    },
-   "COMMODITIES_MARKET" : {
-      "description" : "",
-      "message" : "Obchod s komoditami"
-   },
    "COMMS" : {
-      "description" : "",
-      "message" : "Kom.linka"
-   },
-   "COMMS_LINK" : {
       "description" : "",
       "message" : "Kom.linka"
    },
@@ -290,10 +242,6 @@
    "CONSUMER_GOODS" : {
       "description" : "",
       "message" : "Spotřební zboží"
-   },
-   "CONTACT_LOCAL_POLICE" : {
-      "description" : "",
-      "message" : "Kontaktuj místní policii"
    },
    "CONTROLS" : {
       "description" : "",
@@ -531,33 +479,9 @@
       "description" : "",
       "message" : "Vypustit střelu"
    },
-   "FIT" : {
-      "description" : "",
-      "message" : "[+]"
-   },
-   "FITTING" : {
-      "description" : "",
-      "message" : "\"Instaluji \""
-   },
-   "FIT_TO_WHICH_MOUNT" : {
-      "description" : "",
-      "message" : "Kam zbraň umístit?"
-   },
    "FOLLOWING_SELECTION" : {
       "description" : "",
       "message" : "Následovat výběr"
-   },
-   "FORWARD_ACCEL_EMPTY" : {
-      "description" : "",
-      "message" : "Zrychlení vpřed (prázdná)"
-   },
-   "FORWARD_ACCEL_LADEN" : {
-      "description" : "",
-      "message" : "Zrychlení vpřed (naložená)"
-   },
-   "FREE" : {
-      "description" : "",
-      "message" : "Dostupný"
    },
    "FRONT" : {
       "description" : "",
@@ -582,10 +506,6 @@
    "FUEL_SCOOP_DESCRIPTION" : {
       "description" : "",
       "message" : "Umožňuje čerpat vodíkové palivo z plynných obrů (planet)"
-   },
-   "FUEL_WEIGHT" : {
-      "description" : "",
-      "message" : "Hmotnost paliva"
    },
    "GALACTIC_VIEW" : {
       "description" : "",
@@ -619,10 +539,6 @@
       "description" : "",
       "message" : "Druh vlády:"
    },
-   "GO_BACK" : {
-      "description" : "",
-      "message" : "Zpět"
-   },
    "GRAIN" : {
       "description" : "",
       "message" : "Obilí"
@@ -630,10 +546,6 @@
    "HAND_WEAPONS" : {
       "description" : "",
       "message" : "Ruční zbraně"
-   },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Konec"
    },
    "HARD_CAPITALIST" : {
       "description" : "",
@@ -698,10 +610,6 @@
    "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
       "description" : "",
       "message" : "Analyzuje hyperprostorová okna ke zjištění času příletu/odletu"
-   },
-   "HYPERDRIVE_FITTED" : {
-      "description" : "",
-      "message" : "Hypermotor:"
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -787,14 +695,6 @@
       "description" : "",
       "message" : "Na cestě do %system [%x,%y,%z]"
    },
-   "ITEM" : {
-      "description" : "",
-      "message" : "Položka"
-   },
-   "ITEM_IS_OUT_OF_STOCK" : {
-      "description" : "",
-      "message" : "Tato položka není skladem."
-   },
    "JOY" : {
       "description" : "",
       "message" : "Joy"
@@ -846,10 +746,6 @@
    "LAUNCH_PERMISSION_DENIED_BUSY" : {
       "description" : "",
       "message" : "Povolení ke startu zamítnuto: dokovací prostor je obsazen."
-   },
-   "LEGAL_STATUS" : {
-      "description" : "",
-      "message" : "Právní status"
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
@@ -1063,10 +959,6 @@
       "description" : "",
       "message" : "Nervový plyn"
    },
-   "NEW_AND_RECONDITIONED_SHIPS" : {
-      "description" : "",
-      "message" : "Nové a repasované lodě"
-   },
    "NONE" : {
       "description" : "",
       "message" : "Nic"
@@ -1095,10 +987,6 @@
       "description" : "",
       "message" : "Bez stanoveného zřízení"
    },
-   "NO_FREE_SPACE_FOR_ITEM" : {
-      "description" : "",
-      "message" : "Pro tuto položku nemáte dostatek místa."
-   },
    "NO_HYPERDRIVE" : {
       "description" : "",
       "message" : "Žádný hypermotor"
@@ -1106,10 +994,6 @@
    "NO_REGISTERED_INHABITANTS" : {
       "description" : "",
       "message" : "Žádní registrovaní obyvatelé"
-   },
-   "NO_SPACE_ON_SHIP" : {
-      "description" : "",
-      "message" : "Na lodi už není místo"
    },
    "NO_TARGET_SELECTED" : {
       "description" : "",
@@ -1215,10 +1099,6 @@
       "description" : "",
       "message" : "Zaplatit pokutu dálkovým převodem (%amount)"
    },
-   "PAY_THE_FINE_NOW" : {
-      "description" : "",
-      "message" : "Zaplať pokutu hned."
-   },
    "PERIAPSIS_DISTANCE" : {
       "description" : "",
       "message" : "Perihel (přísluní)"
@@ -1287,18 +1167,6 @@
       "description" : "",
       "message" : "Tlak: %pressure{f.2} atm"
    },
-   "PRICE" : {
-      "description" : "",
-      "message" : "Cena"
-   },
-   "PRICE_TO_FIT" : {
-      "description" : "",
-      "message" : "$ za nákup"
-   },
-   "PRICE_TO_REMOVE" : {
-      "description" : "",
-      "message" : "$ za prodej"
-   },
    "PROBABILITY_OF_ARRIVAL_X_PERCENT" : {
       "description" : "",
       "message" : "Pravděpodobnost příletu: %probability%%"
@@ -1355,53 +1223,13 @@
       "description" : "",
       "message" : "Záď"
    },
-   "REGISTRATION_ID" : {
-      "description" : "",
-      "message" : "Registrační id"
-   },
-   "REMOVE" : {
-      "description" : "",
-      "message" : "[-]"
-   },
-   "REMOVE_FROM_WHICH_MOUNT" : {
-      "description" : "",
-      "message" : "Odkud zbraň odebrat?"
-   },
-   "REMOVING" : {
-      "description" : "",
-      "message" : "\"Odstraňuji \""
-   },
-   "REPAIRS_AND_SERVICING" : {
-      "description" : "",
-      "message" : "Opravy a servis"
-   },
-   "REPAIR_1_PERCENT_HULL" : {
-      "description" : "",
-      "message" : "Opravit 1.0% poškození trupu"
-   },
-   "REPAIR_ENTIRE_HULL" : {
-      "description" : "",
-      "message" : "Opravit veškeré poškození trupu (%repairpercent{f.1}%%)"
-   },
    "REQUEST_DOCKING_CLEARANCE" : {
       "description" : "",
       "message" : "Vyžádat povolení k přistání"
    },
-   "REQUEST_LAUNCH" : {
-      "description" : "",
-      "message" : "Požádat o povolení k odletu"
-   },
    "RESET" : {
       "description" : "",
       "message" : "Reset"
-   },
-   "REVERSE_ACCEL_EMPTY" : {
-      "description" : "",
-      "message" : "Zrychlení vzad (prázdná)"
-   },
-   "REVERSE_ACCEL_LADEN" : {
-      "description" : "",
-      "message" : "Zrychlení vzad (naložená)"
    },
    "ROBOTS" : {
       "description" : "",
@@ -1507,10 +1335,6 @@
       "description" : "",
       "message" : "Zapnout režim nízkého tahu"
    },
-   "SELL" : {
-      "description" : "",
-      "message" : "[-]"
-   },
    "SEMI_MAJOR_AXIS" : {
       "description" : "",
       "message" : "Velká poloosa dráhy"
@@ -1567,10 +1391,6 @@
       "description" : "",
       "message" : "Loď"
    },
-   "SHIPYARD" : {
-      "description" : "",
-      "message" : "Lodní dok"
-   },
    "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
       "description" : "",
       "message" : "Výška nad terénem"
@@ -1579,21 +1399,9 @@
       "description" : "",
       "message" : "Detekována loď v blízkosti."
    },
-   "SHIP_EQUIPMENT" : {
-      "description" : "",
-      "message" : "Vybavení lodě"
-   },
    "SHIP_INFORMATION" : {
       "description" : "",
       "message" : "Informace o lodi"
-   },
-   "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
-      "description" : "",
-      "message" : "Vaše loď je již zcela opravena."
-   },
-   "SHIP_IS_FULLY_LADEN" : {
-      "description" : "",
-      "message" : "Vaše loď je plně naložena."
    },
    "SHIP_MASS_N_TONNES" : {
       "description" : "",
@@ -1606,10 +1414,6 @@
    "SHIP_ORIENTATION" : {
       "description" : "",
       "message" : "Orientace lodi (vzhledem k HUD)"
-   },
-   "SHIP_TYPE" : {
-      "description" : "",
-      "message" : "Typ lodi"
    },
    "SHIP_VELOCITY_BY_REFERENCE_OBJECT" : {
       "description" : "",
@@ -1655,38 +1459,6 @@
       "description" : "",
       "message" : "Sluncí"
    },
-   "SOLD_1T_OF" : {
-      "description" : "",
-      "message" : "Prodal(a) jste 1t %commodity."
-   },
-   "SOMEWHERE_COMMODITIES_MARKET" : {
-      "description" : "",
-      "message" : "%station obchod s komoditami"
-   },
-   "SOMEWHERE_POLICE" : {
-      "description" : "",
-      "message" : "%station Policie"
-   },
-   "SOMEWHERE_SERVICES" : {
-      "description" : "",
-      "message" : "%station služby"
-   },
-   "SOMEWHERE_SHIPYARD" : {
-      "description" : "",
-      "message" : "%station dok"
-   },
-   "SOMEWHERE_SHIP_EQUIPMENT" : {
-      "description" : "",
-      "message" : "%station výbava lodí"
-   },
-   "SOMEWHERE_SHIP_MARKET" : {
-      "description" : "",
-      "message" : "%station obchod s loděmi"
-   },
-   "SOMEWHERE_SHIP_REPAIRS" : {
-      "description" : "",
-      "message" : "%station opravna lodí"
-   },
    "SOME_ESTABLISHED_MINING" : {
       "description" : "",
       "message" : "Důlní činnost malého rozsahu."
@@ -1694,10 +1466,6 @@
    "SOURCE" : {
       "description" : "",
       "message" : "Původ"
-   },
-   "SPACESTATION_LONG_WELCOME_MESSAGE" : {
-      "description" : "",
-      "message" : "Zdravím tě poutníče, vítej v naší malé modré ohrádce.  Pokud jsi zde poprvé, klidně se seznam s našimi obyvateli. Doufáme, že se ti pobyt zde bude líbit.\\nPamatuj prosím, že zde probíhají úpravy, takže se scenérie může mezi návštěvami změnit."
    },
    "SPEED_CONTROL_MODE" : {
       "description" : "",
@@ -1843,10 +1611,6 @@
       "description" : "",
       "message" : "Hvězdná černá díra"
    },
-   "STOCK" : {
-      "description" : "",
-      "message" : "Sklad"
-   },
    "SUGGESTED_RESPONSES" : {
       "description" : "",
       "message" : "Navrhované odpovědi:"
@@ -1894,10 +1658,6 @@
    "TEXTILES" : {
       "description" : "",
       "message" : "Textil"
-   },
-   "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
-      "description" : "",
-      "message" : "Děkujeme za nákup. Nezapomeňte před odletem nakoupit palivo a vybavení."
    },
    "THICK" : {
       "description" : "",
@@ -1963,10 +1723,6 @@
       "description" : "",
       "message" : "R.I.P."
    },
-   "TRADER_NOT_ENOUGH_MONEY" : {
-      "description" : "",
-      "message" : "Obchodník nemá dostatek peněz"
-   },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
       "message" : "Obchod s nelegálním zbožím"
@@ -2002,10 +1758,6 @@
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",
       "message" : "Vyžadována pro přepravu jednoho pasažéra"
-   },
-   "USED" : {
-      "description" : "",
-      "message" : "Použitý"
    },
    "USE_LOW_THRUST" : {
       "description" : "",
@@ -2051,18 +1803,6 @@
       "description" : "",
       "message" : "Teplota zbraně"
    },
-   "WEIGHT_EMPTY" : {
-      "description" : "",
-      "message" : "Prázdná váha"
-   },
-   "WEIGHT_FULLY_LADEN" : {
-      "description" : "",
-      "message" : "Plná váha"
-   },
-   "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
-      "description" : "",
-      "message" : "Momentálně s tebou nemáme uzavřen žádný obchod."
-   },
    "WHEELS_ARE_DOWN" : {
       "description" : "",
       "message" : "Podvozek vysunut"
@@ -2082,10 +1822,6 @@
    "WITH_NO_SIGNIFICANT_ATMOSPHERE" : {
       "description" : "",
       "message" : "\" bez výrazné atmosféry\""
-   },
-   "WT" : {
-      "description" : "",
-      "message" : "Váha"
    },
    "X" : {
       "description" : "",
@@ -2114,18 +1850,6 @@
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
       "message" : "Nová zemědělská kolonie."
-   },
-   "YOU_DO_NOT_HAVE_ANY_X" : {
-      "description" : "",
-      "message" : "Nemáte %item."
-   },
-   "YOU_MUST_PAY_FINE_OF_N_CREDITS" : {
-      "description" : "",
-      "message" : "Netolerujeme zločin. Musíš zaplatit pokutu %fine."
-   },
-   "YOU_NOT_ENOUGH_MONEY" : {
-      "description" : "",
-      "message" : "Nemáš dostatek peněz"
    },
    "YOU_NO_MONEY" : {
       "description" : "",

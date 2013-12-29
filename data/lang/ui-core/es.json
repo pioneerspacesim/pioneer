@@ -7,6 +7,10 @@
       "description" : "",
       "message" : "Activa"
    },
+   "AFTER_TRADE_IN" : {
+      "description" : "",
+      "message" : "After trade-in"
+   },
    "ALLEGIANCE" : {
       "description" : "",
       "message" : "Alianza:"
@@ -14,6 +18,10 @@
    "ALL_UP_WEIGHT" : {
       "description" : "",
       "message" : "Masa total"
+   },
+   "AMOUNT" : {
+      "description" : "",
+      "message" : "Amount"
    },
    "AN_ERROR_HAS_OCCURRED" : {
       "description" : "",
@@ -23,6 +31,10 @@
       "description" : "",
       "message" : "Reparar casco"
    },
+   "AVAILABLE_FOR_PURCHASE" : {
+      "description" : "",
+      "message" : "Available for purchase"
+   },
    "AVERAGE" : {
       "description" : "",
       "message" : "Standard"
@@ -31,6 +43,14 @@
       "description" : "",
       "message" : "Retroceso"
    },
+   "BULLETIN_BOARD" : {
+      "description" : "",
+      "message" : "Bulletin Board"
+   },
+   "BUY_SHIP" : {
+      "description" : "",
+      "message" : "Buy Ship"
+   },
    "CABINS" : {
       "description" : "",
       "message" : "Cabinas"
@@ -38,6 +58,10 @@
    "CANCEL" : {
       "description" : "",
       "message" : "Cancelar"
+   },
+   "CAPACITY" : {
+      "description" : "",
+      "message" : "Capacity"
    },
    "CAPACITY_USED" : {
       "description" : "",
@@ -55,9 +79,17 @@
       "description" : "",
       "message" : "Efectivo"
    },
+   "CASH_N" : {
+      "description" : "",
+      "message" : "Cash: {money}"
+   },
    "CHANGE_BINDING" : {
       "description" : "",
       "message" : "Modificar"
+   },
+   "CHIEF_MECHANIC" : {
+      "description" : "",
+      "message" : "Chief Mechanic"
    },
    "CIRCULAR_ORBIT_SPEED" : {
       "description" : "",
@@ -66,6 +98,10 @@
    "CITY_DETAIL_LEVEL" : {
       "description" : "",
       "message" : "Detalles urbanos"
+   },
+   "CLEAN" : {
+      "description" : "",
+      "message" : "Clean"
    },
    "CLEAR" : {
       "description" : "",
@@ -83,6 +119,10 @@
       "description" : "",
       "message" : "Comandante"
    },
+   "COMMODITY_MARKET" : {
+      "description" : "",
+      "message" : "Commodity Market"
+   },
    "COMPETENT" : {
       "description" : "",
       "message" : "Competente"
@@ -94,6 +134,10 @@
    "COMPRESS_TEXTURES" : {
       "description" : "",
       "message" : "Comprimir Texturas"
+   },
+   "CONSTABLE" : {
+      "description" : "",
+      "message" : "Constable"
    },
    "CONTROLS" : {
       "description" : "",
@@ -114,6 +158,10 @@
    "CREW_ROSTER" : {
       "description" : "",
       "message" : "Registro de Tripulación"
+   },
+   "CRIMINAL_RECORD" : {
+      "description" : "",
+      "message" : "Criminal record"
    },
    "DANGEROUS" : {
       "description" : "",
@@ -187,6 +235,14 @@
       "description" : "",
       "message" : "Equipo"
    },
+   "EQUIPMENT_MARKET" : {
+      "description" : "",
+      "message" : "Equipment Market"
+   },
+   "EQUIPPED" : {
+      "description" : "",
+      "message" : "Equipped"
+   },
    "ERROR" : {
       "description" : "",
       "message" : "Error"
@@ -210,6 +266,14 @@
    "FORWARD_ACCEL" : {
       "description" : "",
       "message" : "Avance"
+   },
+   "FORWARD_ACCEL_EMPTY" : {
+      "description" : "",
+      "message" : "Forward accel (empty)"
+   },
+   "FORWARD_ACCEL_FULL" : {
+      "description" : "",
+      "message" : "Forward accel (full)"
    },
    "FRACTAL_DETAIL" : {
       "description" : "",
@@ -251,9 +315,37 @@
       "description" : "",
       "message" : "Buen viaje, igualmente."
    },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Hang up."
+   },
    "HARMLESS" : {
       "description" : "",
       "message" : "Inofensivo"
+   },
+   "HEAVY_CARGO_SHUTTLE" : {
+      "description" : "",
+      "message" : "Heavy cargo shuttle"
+   },
+   "HEAVY_COURIER" : {
+      "description" : "",
+      "message" : "Heavy courier"
+   },
+   "HEAVY_FIGHTER" : {
+      "description" : "",
+      "message" : "Heavy fighter"
+   },
+   "HEAVY_FREIGHTER" : {
+      "description" : "",
+      "message" : "Heavy freighter"
+   },
+   "HEAVY_PASSENGER_SHUTTLE" : {
+      "description" : "",
+      "message" : "Heavy passenger shuttle"
+   },
+   "HEAVY_PASSENGER_TRANSPORT" : {
+      "description" : "",
+      "message" : "Heavy passenger transport"
    },
    "HIGH" : {
       "description" : "",
@@ -262,6 +354,10 @@
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
       "description" : "",
       "message" : "El casco no requiere reparación."
+   },
+   "HULL_INTEGRITY" : {
+      "description" : "",
+      "message" : "Hull integrity"
    },
    "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT" : {
       "description" : "",
@@ -274,6 +370,10 @@
    "HYPERDRIVE" : {
       "description" : "",
       "message" : "Hipermotor"
+   },
+   "HYPERDRIVE_FITTED" : {
+      "description" : "",
+      "message" : "Hyperdrive fitted:"
    },
    "HYPERSPACE_RANGE" : {
       "description" : "",
@@ -290,6 +390,18 @@
    "INVERT_MOUSE_Y" : {
       "description" : "",
       "message" : "Invertir Mouse Y"
+   },
+   "IN_CARGO_HOLD" : {
+      "description" : "",
+      "message" : "In cargo hold"
+   },
+   "IN_STOCK" : {
+      "description" : "",
+      "message" : "In stock"
+   },
+   "ITEM_IS_OUT_OF_STOCK" : {
+      "description" : "",
+      "message" : "This item is out of stock."
    },
    "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE" : {
       "description" : "",
@@ -311,6 +423,34 @@
       "description" : "",
       "message" : "Idioma (reiniciar para aplicar)"
    },
+   "LEGAL_STATUS" : {
+      "description" : "",
+      "message" : "Legal status"
+   },
+   "LIGHT_CARGO_SHUTTLE" : {
+      "description" : "",
+      "message" : "Light cargo shuttle"
+   },
+   "LIGHT_COURIER" : {
+      "description" : "",
+      "message" : "Light courier"
+   },
+   "LIGHT_FIGHTER" : {
+      "description" : "",
+      "message" : "Light fighter"
+   },
+   "LIGHT_FREIGHTER" : {
+      "description" : "",
+      "message" : "Light freighter"
+   },
+   "LIGHT_PASSENGER_SHUTTLE" : {
+      "description" : "",
+      "message" : "Light passenger shuttle"
+   },
+   "LIGHT_PASSENGER_TRANSPORT" : {
+      "description" : "",
+      "message" : "Light passenger transport"
+   },
    "LOAD" : {
       "description" : "",
       "message" : "Cargar"
@@ -318,6 +458,10 @@
    "LOAD_GAME" : {
       "description" : "",
       "message" : "Cargar Juego"
+   },
+   "LOBBY" : {
+      "description" : "",
+      "message" : "Lobby"
    },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
@@ -343,6 +487,10 @@
       "description" : "",
       "message" : "Hombre"
    },
+   "MASS" : {
+      "description" : "",
+      "message" : "Mass"
+   },
    "MASTER" : {
       "description" : "",
       "message" : "Maestro:"
@@ -354,6 +502,30 @@
    "MEDIUM" : {
       "description" : "",
       "message" : "Medio"
+   },
+   "MEDIUM_CARGO_SHUTTLE" : {
+      "description" : "",
+      "message" : "Medium cargo shuttle"
+   },
+   "MEDIUM_COURIER" : {
+      "description" : "",
+      "message" : "Medium courier"
+   },
+   "MEDIUM_FIGHTER" : {
+      "description" : "",
+      "message" : "Medium fighter"
+   },
+   "MEDIUM_FREIGHTER" : {
+      "description" : "",
+      "message" : "Medium freighter"
+   },
+   "MEDIUM_PASSENGER_SHUTTLE" : {
+      "description" : "",
+      "message" : "Medium passenger shuttle"
+   },
+   "MEDIUM_PASSENGER_TRANSPORT" : {
+      "description" : "",
+      "message" : "Medium passenger transport"
    },
    "METAL_ALLOYS" : {
       "description" : "",
@@ -386,6 +558,10 @@
    "MULTISAMPLING" : {
       "description" : "",
       "message" : "Antialias"
+   },
+   "MURDER" : {
+      "description" : "",
+      "message" : "Murder"
    },
    "MUSIC" : {
       "description" : "",
@@ -471,6 +647,10 @@
       "description" : "",
       "message" : "Deuda"
    },
+   "PAY_FINE_OF_N" : {
+      "description" : "",
+      "message" : "Pay fine of {amount}"
+   },
    "PERSONAL_INFORMATION" : {
       "description" : "",
       "message" : "Info Personal"
@@ -483,6 +663,10 @@
       "description" : "",
       "message" : "Actualmente el puesto de piloto esta ocupado por {name}"
    },
+   "PIRACY" : {
+      "description" : "",
+      "message" : "Piracy"
+   },
    "PLANET_DETAIL_DISTANCE" : {
       "description" : "",
       "message" : "Dist. detalle planetario"
@@ -490,6 +674,10 @@
    "PLANET_TEXTURES" : {
       "description" : "",
       "message" : "Textura planet."
+   },
+   "POLICE" : {
+      "description" : "",
+      "message" : "Police"
    },
    "POOR" : {
       "description" : "",
@@ -502,6 +690,10 @@
    "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
       "description" : "",
       "message" : "Pulsa una tecla o botón del controlador"
+   },
+   "PRICE" : {
+      "description" : "",
+      "message" : "Price"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
@@ -527,9 +719,25 @@
       "description" : "",
       "message" : "Repostar"
    },
+   "REPAIR_X_HULL_DAMAGE_FOR_X" : {
+      "description" : "",
+      "message" : "Repair {damage}% hull damage for {price}"
+   },
+   "REQUEST_LAUNCH" : {
+      "description" : "",
+      "message" : "Request Launch"
+   },
    "RETURN_TO_MENU" : {
       "description" : "",
       "message" : "Volver al menú"
+   },
+   "REVERSE_ACCEL_EMPTY" : {
+      "description" : "",
+      "message" : "Reverse accel (empty)"
+   },
+   "REVERSE_ACCEL_FULL" : {
+      "description" : "",
+      "message" : "Reverse accel (full)"
    },
    "REWARD" : {
       "description" : "",
@@ -559,9 +767,33 @@
       "description" : "",
       "message" : "Sensores:"
    },
+   "SHIP" : {
+      "description" : "",
+      "message" : "Ship"
+   },
    "SHIP_INFORMATION" : {
       "description" : "",
       "message" : "Info de la Nave"
+   },
+   "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
+      "description" : "",
+      "message" : "Your ship is in perfect working condition."
+   },
+   "SHIP_IS_FULLY_LADEN" : {
+      "description" : "",
+      "message" : "Your ship is fully laden."
+   },
+   "SHIP_MARKET" : {
+      "description" : "",
+      "message" : "Ship Market"
+   },
+   "SHIP_REPAIRS" : {
+      "description" : "",
+      "message" : "Ship Repairs"
+   },
+   "SHIP_VIEWING_WAS_SOLD" : {
+      "description" : "",
+      "message" : "The ship you were viewing has been sold"
    },
    "SOUND" : {
       "description" : "",
@@ -579,9 +811,17 @@
       "description" : "",
       "message" : "Comenzar en New Hope"
    },
+   "STATION_MANAGER" : {
+      "description" : "",
+      "message" : "Station manager"
+   },
    "STATUS" : {
       "description" : "",
       "message" : "Estado"
+   },
+   "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
+      "description" : "",
+      "message" : "Thank you for your purchase. Remember to fit equipment and buy fuel before you depart."
    },
    "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP" : {
       "description" : "",
@@ -599,9 +839,21 @@
       "description" : "",
       "message" : "Total:"
    },
+   "TOTAL_MASS" : {
+      "description" : "",
+      "message" : "Total mass"
+   },
+   "TRADING_ILLEGAL_GOODS" : {
+      "description" : "",
+      "message" : "Trading illegal goods"
+   },
    "TYPE" : {
       "description" : "",
       "message" : "Tipo"
+   },
+   "UNLAWFUL_WEAPONS_DISCHARGE" : {
+      "description" : "",
+      "message" : "Unlawful weapons discharge"
    },
    "UP_ACCEL" : {
       "description" : "",
@@ -639,13 +891,29 @@
       "description" : "",
       "message" : "Peso en vacío:"
    },
+   "WEIGHT_FULLY_LOADED" : {
+      "description" : "",
+      "message" : "Weight fully loaded"
+   },
    "WE_ARE_IN_HYPERSPACE_COMMANDER" : {
       "description" : "",
       "message" : "Estamos en el hiperespacio, Capitán."
    },
+   "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
+      "description" : "",
+      "message" : "We have no business with you at the moment."
+   },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",
       "message" : "Va a lamentar haberme explotado!"
+   },
+   "YOUR_HULL_IS_AT_X_INTEGRITY" : {
+      "description" : "",
+      "message" : "Your hull is at {value}% integrity."
+   },
+   "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION" : {
+      "description" : "",
+      "message" : "You don't have enough money for that option."
    },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",
@@ -662,5 +930,9 @@
    "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER" : {
       "description" : "",
       "message" : "Primero debe solicitar autorización para el despegue, Capitán."
+   },
+   "YOU_NOT_ENOUGH_MONEY" : {
+      "description" : "",
+      "message" : "You do not have enough money"
    }
 }
