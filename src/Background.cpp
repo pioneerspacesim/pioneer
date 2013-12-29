@@ -131,7 +131,7 @@ void UniverseBox::Init(Graphics::Renderer *r)
 	m_numCubemaps = GetNumSkyboxes();
 }
 
-void UniverseBox::Draw(Graphics::Renderer *r)
+void UniverseBox::Draw(Graphics::Renderer *r) const
 {
 	if(m_material->texture0) {
 		r->DrawStaticMesh(m_model.get());
@@ -189,6 +189,12 @@ void Starfield::Init(Graphics::Renderer *r)
 
 	m_hyperVtx = 0;
 	m_hyperCol = 0;
+
+	//XXX this is a lot of lines
+	if (m_hyperVtx == 0) {
+		m_hyperVtx = new vector3f[BG_STAR_MAX * 2];
+		m_hyperCol = new Color[BG_STAR_MAX * 2];
+	}
 }
 
 void Starfield::Fill(Uint32 seed)
@@ -215,7 +221,7 @@ void Starfield::Fill(Uint32 seed)
 	}
 }
 
-void Starfield::Draw(Graphics::Renderer *renderer)
+void Starfield::Draw(Graphics::Renderer *renderer) const
 {
 	// XXX would be nice to get rid of the Pi:: stuff here
 	if (!Pi::game || Pi::player->GetFlightState() != Ship::HYPERSPACE) {
@@ -228,15 +234,10 @@ void Starfield::Draw(Graphics::Renderer *renderer)
 
 		double hyperspaceProgress = Pi::game->GetHyperspaceProgress();
 
-		//XXX this is a lot of lines
-		if (m_hyperVtx == 0) {
-			m_hyperVtx = new vector3f[BG_STAR_MAX * 2];
-			m_hyperCol = new Color[BG_STAR_MAX * 2];
-		}
+		assert(m_hyperVtx);
 		VertexArray *va = m_model->GetSurface(0)->GetVertices();
-		vector3d pz = Pi::player->GetOrient().VectorZ();	//back vector
+		const vector3d pz = Pi::player->GetOrient().VectorZ();	//back vector
 		for (int i=0; i<BG_STAR_MAX; i++) {
-
 			vector3f v(va->position[i]);
 			v += vector3f(pz*hyperspaceProgress*mult);
 
@@ -314,7 +315,7 @@ MilkyWay::~MilkyWay()
 	delete m_model;
 }
 
-void MilkyWay::Draw(Graphics::Renderer *renderer)
+void MilkyWay::Draw(Graphics::Renderer *renderer) const
 {
 	assert(m_model != 0);
 	renderer->DrawStaticMesh(m_model);
@@ -324,7 +325,6 @@ Container::Container(Graphics::Renderer *r)
 : m_milkyWay(r)
 , m_starField(r)
 , m_universeBox(r)
-, m_loadNewCubemap(true)
 , m_seed(0)
 , m_drawFlags( DRAW_SKYBOX )
 {
@@ -334,7 +334,6 @@ Container::Container(Graphics::Renderer *r, Uint32 seed)
 : m_milkyWay(r)
 , m_starField(r)
 , m_universeBox(r)
-, m_loadNewCubemap(true)
 , m_seed(seed)
 , m_drawFlags( DRAW_SKYBOX )
 {
@@ -346,17 +345,7 @@ void Container::Refresh(Uint32 seed)
 	// redo starfield, milkyway stays normal for now
 	m_starField.Fill(seed);
 	if(m_seed != seed) {
-		m_loadNewCubemap = true;
-	}
-	m_seed = seed;
-}
-
-void Container::Draw(Graphics::Renderer *renderer, const matrix4x4d &transform)
-{
-	PROFILE_SCOPED()
-	//XXX not really const - renderer can modify the buffers
-	if(m_loadNewCubemap) {
-		m_loadNewCubemap = false;
+		Graphics::Renderer *r = Pi::renderer;
 		if(Pi::player == nullptr || Pi::player->GetFlightState() != Ship::HYPERSPACE) {
 			if(Pi::player && Pi::game->GetSpace()->GetStarSystem()) {
 				Uint32 seeds [5];
@@ -367,15 +356,21 @@ void Container::Draw(Graphics::Renderer *renderer, const matrix4x4d &transform)
 				seeds[3] = system_path.sectorZ;
 				seeds[4] = UNIVERSE_SEED;
 				Random rand(seeds, 5);
-				m_universeBox.LoadCubeMap(renderer, &rand);
+				m_universeBox.LoadCubeMap(r, &rand);
 			} else {
 				Random rand(m_seed);
-				m_universeBox.LoadCubeMap(renderer, &rand);
+				m_universeBox.LoadCubeMap(r, &rand);
 			}
 		} else {
-			m_universeBox.LoadCubeMap(renderer);
+			m_universeBox.LoadCubeMap(r);
 		}
 	}
+	m_seed = seed;
+}
+
+void Container::Draw(Graphics::Renderer *renderer, const matrix4x4d &transform) const
+{
+	PROFILE_SCOPED()
 	renderer->SetBlendMode(BLEND_SOLID);
 	renderer->SetDepthTest(false);
 	renderer->SetTransform(transform);
