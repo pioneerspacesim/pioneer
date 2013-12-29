@@ -1,7 +1,7 @@
 December 2013
 
    * New features
-     * StationView (F4) rewrite (#2589)
+     * StationView (F4) rewrite (#2589, #2593)
 
    * Minor changes and tweaks
      * Make file type (file extension) checks case insensitive (#2328, #2563)

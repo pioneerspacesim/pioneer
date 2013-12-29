@@ -52,7 +52,7 @@ local equipIcon = {
 local defaultFuncs = {
 	-- can we trade in this item
 	canTrade = function (e)
-		return EquipDef[e].purchasable and EquipDef[e].slot == "CARGO"
+		return EquipDef[e].purchasable and EquipDef[e].slot == "CARGO" and Game.system:IsCommodityLegal(e)
 	end,
 
 	-- how much of this item do we have in stock?
