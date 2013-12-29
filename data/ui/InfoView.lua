@@ -35,3 +35,6 @@ ui.templates.InfoView = function (args)
 	return tabGroup.widget
 end
 
+Event.Register("onGameEnd", function ()
+	tabGroup = nil
+end)

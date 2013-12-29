@@ -6,6 +6,7 @@ local Format = import("Format")
 local Engine = import("Engine")
 local ShipDef = import("ShipDef")
 local Lang = import("Lang")
+local Event = import("Event")
 
 local TabGroup = import("ui/TabGroup")
 local InfoGauge = import("ui/InfoGauge")
@@ -116,3 +117,6 @@ ui.templates.StationView = function (args)
 	return tabGroup.widget
 end
 
+Event.Register("onGameEnd", function ()
+	tabGroup = nil
+end)
