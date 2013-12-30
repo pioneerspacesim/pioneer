@@ -187,14 +187,8 @@ void Starfield::Init(Graphics::Renderer *r)
 	m_material->emissive = Color::WHITE;
 	m_model->AddSurface(RefCountedPtr<Surface>(new Surface(POINTS, stars, m_material)));
 
-	m_hyperVtx = 0;
-	m_hyperCol = 0;
-
-	//XXX this is a lot of lines
-	if (m_hyperVtx == 0) {
-		m_hyperVtx = new vector3f[BG_STAR_MAX * 2];
-		m_hyperCol = new Color[BG_STAR_MAX * 2];
-	}
+	m_hyperVtx = new vector3f[BG_STAR_MAX * 2];
+	m_hyperCol = new Color[BG_STAR_MAX * 2];
 }
 
 void Starfield::Fill(Uint32 seed)
