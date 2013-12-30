@@ -285,7 +285,8 @@ void Table::Layout()
 	}
 	else {
 		AddWidget(m_slider.Get());
-		m_onMouseWheelConn = onMouseWheel.connect(sigc::mem_fun(this, &Table::OnMouseWheel));
+		if (!m_onMouseWheelConn.connected())
+			m_onMouseWheelConn = onMouseWheel.connect(sigc::mem_fun(this, &Table::OnMouseWheel));
 
 		sliderLeft = std::max(sliderLeft, preferredSize.x);
 
