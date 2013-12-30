@@ -19,6 +19,7 @@
 #include "ui/Gradient.h"
 #include "ui/Margin.h"
 #include "ui/NumberLabel.h"
+#include "ui/Table.h"
 #include "ui/Widget.h"
 
 const struct EnumItem ENUM_EquipSlot[] = {
@@ -409,6 +410,15 @@ const struct EnumItem ENUM_UINumberLabelFormat[] = {
 	{ "INTEGER", UI::NumberLabel::FORMAT_INTEGER },
 	{ "PERCENT", UI::NumberLabel::FORMAT_PERCENT },
 	{ "PERCENT_INTEGER", UI::NumberLabel::FORMAT_PERCENT_INTEGER },
+	{ "MONEY", UI::NumberLabel::FORMAT_MONEY },
+	{ "MASS_TONNES", UI::NumberLabel::FORMAT_MASS_TONNES },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_UITableRowAlignDirection[] = {
+	{ "TOP", UI::Table::TOP },
+	{ "CENTER", UI::Table::CENTER },
+	{ "BOTTOM", UI::Table::BOTTOM },
 	{ 0, 0 },
 };
 
@@ -468,6 +478,7 @@ const struct EnumTable ENUM_TABLES[] = {
 	{ "UIGradientDirection", ENUM_UIGradientDirection },
 	{ "UIMarginDirection", ENUM_UIMarginDirection },
 	{ "UINumberLabelFormat", ENUM_UINumberLabelFormat },
+	{ "UITableRowAlignDirection", ENUM_UITableRowAlignDirection },
 	{ "UISizeControl", ENUM_UISizeControl },
 	{ "UIFont", ENUM_UIFont },
 	{ 0, 0 },
@@ -504,6 +515,7 @@ const struct EnumTable ENUM_TABLES_PUBLIC[] = {
 	{ "UIExpandDirection", ENUM_UIExpandDirection },
 	{ "UIGradientDirection", ENUM_UIGradientDirection },
 	{ "UIMarginDirection", ENUM_UIMarginDirection },
+	{ "UITableRowAlignDirection", ENUM_UITableRowAlignDirection },
 	{ "UISizeControl", ENUM_UISizeControl },
 	{ "UIFont", ENUM_UIFont },
 	{ 0, 0 },

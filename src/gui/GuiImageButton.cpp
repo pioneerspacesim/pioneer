@@ -41,6 +41,7 @@ void ImageButton::GetSizeRequested(float size[2])
 
 void ImageButton::Draw()
 {
+	PROFILE_SCOPED()
 	float size[2];
 	GetSize(size);
 	Gui::Image *img;
@@ -51,7 +52,7 @@ void ImageButton::Draw()
 	if (GetEnabled())
 		img->SetModulateColor(Color::WHITE);
 	else
-		img->SetModulateColor(Color(0.5f,0.5f,0.5f,1.0f));
+		img->SetModulateColor(Color(128,128,128,255));
 	img->SetSize(size[0], size[1]);
 	img->Draw();
 }

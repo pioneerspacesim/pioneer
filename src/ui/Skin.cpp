@@ -180,7 +180,7 @@ void Skin::DrawHorizontalEdgedRectElement(const EdgedRectElement &element, const
 	m_renderer->DrawTriangles(&va, m_textureMaterial.Get(), Graphics::TRIANGLE_STRIP);
 }
 
-void Skin::DrawRectColor(const Color4f &col, const Point &pos, const Point &size) const
+void Skin::DrawRectColor(const Color &col, const Point &pos, const Point &size) const
 {
 	Graphics::VertexArray va(Graphics::ATTRIB_POSITION);
 

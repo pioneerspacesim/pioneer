@@ -65,6 +65,7 @@ static void print_info(const SystemBody *sbody, const Terrain *terrain)
 // static
 void GeoSphere::UpdateAllGeoSpheres()
 {
+	PROFILE_SCOPED()
 	for(std::vector<GeoSphere*>::iterator i = s_allGeospheres.begin(); i != s_allGeospheres.end(); ++i)
 	{
 		(*i)->Update();
@@ -433,7 +434,11 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 	matrix4x4d trans = modelView;
 	trans.Translate(-campos.x, -campos.y, -campos.z);
 	renderer->SetTransform(trans); //need to set this for the following line to work
-	Graphics::Frustum frustum = Graphics::Frustum::FromGLState();
+	matrix4x4d modv;
+	matrix4x4d proj;
+	matrix4x4ftod(renderer->GetCurrentModelView(), modv);
+	matrix4x4ftod(renderer->GetCurrentProjection(), proj);
+	Graphics::Frustum frustum( modv, proj );
 
 	// no frustum test of entire geosphere, since Space::Render does this
 	// for each body using its GetBoundingRadius() value
@@ -476,12 +481,12 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 
 	if ((m_sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR) || (m_sbody->type == SystemBody::TYPE_BROWN_DWARF)) {
 		// stars should emit light and terrain should be visible from distance
-		ambient.r = ambient.g = ambient.b = 0.2f;
-		ambient.a = 1.0f;
+		ambient.r = ambient.g = ambient.b = 51;
+		ambient.a = 255;
 		emission.r = StarSystem::starRealColors[m_sbody->type][0];
 		emission.g = StarSystem::starRealColors[m_sbody->type][1];
 		emission.b = StarSystem::starRealColors[m_sbody->type][2];
-		emission.a = 1.f;
+		emission.a = 255;
 	}
 
 	else {
@@ -491,8 +496,8 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 		// why the fuck is this returning 0.1 when we are sat on the planet??
 		// JJ: Because campos is relative to a unit-radius planet - 1.0 at the surface
 		// XXX oh well, it is the value we want anyway...
-		ambient.r = ambient.g = ambient.b = float(camdist);
-		ambient.a = 1.0f;
+		ambient.r = ambient.g = ambient.b = camdist * 255;
+		ambient.a = 255;
 	}
 
 	renderer->SetAmbientColor(ambient);

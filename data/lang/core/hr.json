@@ -115,33 +115,13 @@
       "description" : "",
       "message" : "tijelo"
    },
-   "BOUGHT_1T_OF" : {
-      "description" : "",
-      "message" : "Kupili ste 1t %commodity."
-   },
    "BROWN_DWARF" : {
       "description" : "",
       "message" : "Smeđi patuljak pod-zvijezdani objekt"
    },
-   "BULLETIN_BOARD" : {
-      "description" : "",
-      "message" : "Oglasna ploča"
-   },
    "BUTTON" : {
       "description" : "",
       "message" : "\" Tipka \""
-   },
-   "BUY" : {
-      "description" : "",
-      "message" : "Kupi"
-   },
-   "BUY_THIS_SHIP" : {
-      "description" : "",
-      "message" : "Kupi ovaj brod"
-   },
-   "CABINS" : {
-      "description" : "",
-      "message" : "Cabins"
    },
    "CAMERA_BOTTOM_VIEW" : {
       "description" : "",
@@ -170,10 +150,6 @@
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
       "message" : "Can't save game while in hyperspace"
-   },
-   "CAPACITY" : {
-      "description" : "",
-      "message" : "Kapacitet"
    },
    "CAPITALIST" : {
       "description" : "",
@@ -219,25 +195,9 @@
       "description" : "",
       "message" : "Omogućava prikupljanje kontejnera iz svemira."
    },
-   "CARGO_SPACE" : {
-      "description" : "",
-      "message" : "Teretni prostor"
-   },
-   "CASH" : {
-      "description" : "",
-      "message" : "Novac"
-   },
    "CH4_ATMOSPHERE" : {
       "description" : "",
       "message" : "\" metanskom atmosferom\""
-   },
-   "CLASS_NUMBER" : {
-      "description" : "",
-      "message" : "Klasa %class"
-   },
-   "CLEAN" : {
-      "description" : "",
-      "message" : "Čist"
    },
    "CLEARANCE_ALREADY_GRANTED_BAY_N" : {
       "description" : "",
@@ -259,17 +219,9 @@
       "description" : "",
       "message" : ", veoma vulkanski"
    },
-   "COMMODITIES_MARKET" : {
-      "description" : "",
-      "message" : "Trgovina proizvoda"
-   },
    "COMMS" : {
       "description" : "",
       "message" : "Komunikacije"
-   },
-   "COMMS_LINK" : {
-      "description" : "",
-      "message" : "Komunikacijska veza"
    },
    "COMMUNIST" : {
       "description" : "",
@@ -290,10 +242,6 @@
    "CONSUMER_GOODS" : {
       "description" : "",
       "message" : "Potrošačka roba"
-   },
-   "CONTACT_LOCAL_POLICE" : {
-      "description" : "",
-      "message" : "Kontaktiraj mjesnu policiju"
    },
    "CONTROLS" : {
       "description" : "",
@@ -531,33 +479,9 @@
       "description" : "",
       "message" : "Fire missile"
    },
-   "FIT" : {
-      "description" : "",
-      "message" : "Montiraj"
-   },
-   "FITTING" : {
-      "description" : "",
-      "message" : "\"Montiranje \""
-   },
-   "FIT_TO_WHICH_MOUNT" : {
-      "description" : "",
-      "message" : "Montiraj laser na koju poziciju?"
-   },
    "FOLLOWING_SELECTION" : {
       "description" : "",
       "message" : "pratim odabir"
-   },
-   "FORWARD_ACCEL_EMPTY" : {
-      "description" : "",
-      "message" : "Prednje ubrzanje (prazan)"
-   },
-   "FORWARD_ACCEL_LADEN" : {
-      "description" : "",
-      "message" : "Prednje ubrzanje (pun)"
-   },
-   "FREE" : {
-      "description" : "",
-      "message" : "Slobodno"
    },
    "FRONT" : {
       "description" : "",
@@ -582,10 +506,6 @@
    "FUEL_SCOOP_DESCRIPTION" : {
       "description" : "",
       "message" : "Omogućava crpljenje vodika iz plinovitih divova."
-   },
-   "FUEL_WEIGHT" : {
-      "description" : "",
-      "message" : "Fuel weight"
    },
    "GALACTIC_VIEW" : {
       "description" : "",
@@ -619,10 +539,6 @@
       "description" : "",
       "message" : "Tip uprave:"
    },
-   "GO_BACK" : {
-      "description" : "",
-      "message" : "Nazad"
-   },
    "GRAIN" : {
       "description" : "",
       "message" : "Žito"
@@ -630,10 +546,6 @@
    "HAND_WEAPONS" : {
       "description" : "",
       "message" : "Lako oružje"
-   },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Prekini."
    },
    "HARD_CAPITALIST" : {
       "description" : "",
@@ -698,10 +610,6 @@
    "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
       "description" : "",
       "message" : "Analizira hiperprostorne oblake kako bi odredio destinaciju i vrijeme dolaska ili polaska."
-   },
-   "HYPERDRIVE_FITTED" : {
-      "description" : "",
-      "message" : "Montiran hiperpogon:"
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -787,14 +695,6 @@
       "description" : "",
       "message" : "Prijelaz u %system [%x,%y,%z]"
    },
-   "ITEM" : {
-      "description" : "",
-      "message" : "Jedinica"
-   },
-   "ITEM_IS_OUT_OF_STOCK" : {
-      "description" : "",
-      "message" : "Ovaj proizvod je rasprodan."
-   },
    "JOY" : {
       "description" : "",
       "message" : "Joy"
@@ -846,10 +746,6 @@
    "LAUNCH_PERMISSION_DENIED_BUSY" : {
       "description" : "",
       "message" : "Dozvola za poljetanje odbijena: spojni vezovi zauzeti."
-   },
-   "LEGAL_STATUS" : {
-      "description" : "",
-      "message" : "Pravni položaj"
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
@@ -1063,10 +959,6 @@
       "description" : "",
       "message" : "Nervni plin"
    },
-   "NEW_AND_RECONDITIONED_SHIPS" : {
-      "description" : "",
-      "message" : "Novi i obnovljeni brodovi"
-   },
    "NONE" : {
       "description" : "",
       "message" : "Ništa"
@@ -1095,10 +987,6 @@
       "description" : "",
       "message" : "Bez uspostavljenog uređenja"
    },
-   "NO_FREE_SPACE_FOR_ITEM" : {
-      "description" : "",
-      "message" : "Nemate slobodnog prostora za tu stavku."
-   },
    "NO_HYPERDRIVE" : {
       "description" : "",
       "message" : "Bez hiperpogona"
@@ -1106,10 +994,6 @@
    "NO_REGISTERED_INHABITANTS" : {
       "description" : "",
       "message" : "Bez registriranih stanovnika"
-   },
-   "NO_SPACE_ON_SHIP" : {
-      "description" : "",
-      "message" : "Nema mjesta na vašem brodu"
    },
    "NO_TARGET_SELECTED" : {
       "description" : "",
@@ -1215,10 +1099,6 @@
       "description" : "",
       "message" : "Plati globu preko udaljenog transfera (%amount)"
    },
-   "PAY_THE_FINE_NOW" : {
-      "description" : "",
-      "message" : "Plati globu sada."
-   },
    "PERIAPSIS_DISTANCE" : {
       "description" : "",
       "message" : "Periapsis udaljenost"
@@ -1287,18 +1167,6 @@
       "description" : "",
       "message" : "P: %pressure{f.2} atm"
    },
-   "PRICE" : {
-      "description" : "",
-      "message" : "Cijena"
-   },
-   "PRICE_TO_FIT" : {
-      "description" : "",
-      "message" : "$ za montiranje"
-   },
-   "PRICE_TO_REMOVE" : {
-      "description" : "",
-      "message" : "$ za uklanjanje"
-   },
    "PROBABILITY_OF_ARRIVAL_X_PERCENT" : {
       "description" : "",
       "message" : "Probability of arrival: %probability%%"
@@ -1355,53 +1223,13 @@
       "description" : "",
       "message" : "Stražnji"
    },
-   "REGISTRATION_ID" : {
-      "description" : "",
-      "message" : "Registracija"
-   },
-   "REMOVE" : {
-      "description" : "",
-      "message" : "Ukloni"
-   },
-   "REMOVE_FROM_WHICH_MOUNT" : {
-      "description" : "",
-      "message" : "Ukloni laser sa koje pozicije?"
-   },
-   "REMOVING" : {
-      "description" : "",
-      "message" : "\"Uklanjanje \""
-   },
-   "REPAIRS_AND_SERVICING" : {
-      "description" : "",
-      "message" : "Popravci i servisiranje"
-   },
-   "REPAIR_1_PERCENT_HULL" : {
-      "description" : "",
-      "message" : "Popravi 1.0% štete na trupu"
-   },
-   "REPAIR_ENTIRE_HULL" : {
-      "description" : "",
-      "message" : "Popravi svu štetu na trupu (%repairpercent{f.1}%%)"
-   },
    "REQUEST_DOCKING_CLEARANCE" : {
       "description" : "",
       "message" : "Zatraži dopuštenje za spajanje"
    },
-   "REQUEST_LAUNCH" : {
-      "description" : "",
-      "message" : "Zahtjev za lansiranje"
-   },
    "RESET" : {
       "description" : "",
       "message" : "Reset"
-   },
-   "REVERSE_ACCEL_EMPTY" : {
-      "description" : "",
-      "message" : "Stražnje ubrzanje (prazan)"
-   },
-   "REVERSE_ACCEL_LADEN" : {
-      "description" : "",
-      "message" : "Stražnje ubrzanje (pun)"
    },
    "ROBOTS" : {
       "description" : "",
@@ -1507,10 +1335,6 @@
       "description" : "",
       "message" : "Select low thrust power level"
    },
-   "SELL" : {
-      "description" : "",
-      "message" : "Prodaj"
-   },
    "SEMI_MAJOR_AXIS" : {
       "description" : "",
       "message" : "Velika poluos"
@@ -1567,10 +1391,6 @@
       "description" : "",
       "message" : "Brod"
    },
-   "SHIPYARD" : {
-      "description" : "",
-      "message" : "Brodogradilište"
-   },
    "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
       "description" : "",
       "message" : "Brodsko nadvišenje iznad terena"
@@ -1579,21 +1399,9 @@
       "description" : "",
       "message" : "Brod primjećen u blizini."
    },
-   "SHIP_EQUIPMENT" : {
-      "description" : "",
-      "message" : "Brodska oprema"
-   },
    "SHIP_INFORMATION" : {
       "description" : "",
       "message" : "Podaci o brodu"
-   },
-   "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
-      "description" : "",
-      "message" : "Vaš brod je u savršenom stanju."
-   },
-   "SHIP_IS_FULLY_LADEN" : {
-      "description" : "",
-      "message" : "Vaš brod je pun."
    },
    "SHIP_MASS_N_TONNES" : {
       "description" : "",
@@ -1606,10 +1414,6 @@
    "SHIP_ORIENTATION" : {
       "description" : "",
       "message" : "Orijentacija broda"
-   },
-   "SHIP_TYPE" : {
-      "description" : "",
-      "message" : "Tip broda"
    },
    "SHIP_VELOCITY_BY_REFERENCE_OBJECT" : {
       "description" : "",
@@ -1655,38 +1459,6 @@
       "description" : "",
       "message" : "sunčevih"
    },
-   "SOLD_1T_OF" : {
-      "description" : "",
-      "message" : "Prodali ste 1t %commodity."
-   },
-   "SOMEWHERE_COMMODITIES_MARKET" : {
-      "description" : "",
-      "message" : "%station tržnica"
-   },
-   "SOMEWHERE_POLICE" : {
-      "description" : "",
-      "message" : "%station Policija"
-   },
-   "SOMEWHERE_SERVICES" : {
-      "description" : "",
-      "message" : "%station servisi"
-   },
-   "SOMEWHERE_SHIPYARD" : {
-      "description" : "",
-      "message" : "%station brodogradilište"
-   },
-   "SOMEWHERE_SHIP_EQUIPMENT" : {
-      "description" : "",
-      "message" : "%station brodska oprema"
-   },
-   "SOMEWHERE_SHIP_MARKET" : {
-      "description" : "",
-      "message" : "%station trgovina brodova"
-   },
-   "SOMEWHERE_SHIP_REPAIRS" : {
-      "description" : "",
-      "message" : "%station popravak brodova"
-   },
    "SOME_ESTABLISHED_MINING" : {
       "description" : "",
       "message" : "Nešto uspostavljenog rudarenja."
@@ -1694,10 +1466,6 @@
    "SOURCE" : {
       "description" : "",
       "message" : "Ishodište"
-   },
-   "SPACESTATION_LONG_WELCOME_MESSAGE" : {
-      "description" : "",
-      "message" : "Zdravo, putniče.  Dobrodošao u ovu svemirsku luku."
    },
    "SPEED_CONTROL_MODE" : {
       "description" : "",
@@ -1843,10 +1611,6 @@
       "description" : "",
       "message" : "Zvijezdana crna rupa"
    },
-   "STOCK" : {
-      "description" : "",
-      "message" : "Roba"
-   },
    "SUGGESTED_RESPONSES" : {
       "description" : "",
       "message" : "Predloženi odgovori:"
@@ -1894,10 +1658,6 @@
    "TEXTILES" : {
       "description" : "",
       "message" : "Tekstil"
-   },
-   "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
-      "description" : "",
-      "message" : "Hvala vam na kupovini. Sjetite se ugraditi opremu i kupiti gorivo prije odlaska."
    },
    "THICK" : {
       "description" : "",
@@ -1963,10 +1723,6 @@
       "description" : "",
       "message" : "POČIVAJ U MIRU"
    },
-   "TRADER_NOT_ENOUGH_MONEY" : {
-      "description" : "",
-      "message" : "Trgovac nema dovoljno novaca"
-   },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
       "message" : "Nezakonito trgovanje dobrima"
@@ -2002,10 +1758,6 @@
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",
       "message" : "Required for transport of a single passenger"
-   },
-   "USED" : {
-      "description" : "",
-      "message" : "Iskorišteno"
    },
    "USE_LOW_THRUST" : {
       "description" : "",
@@ -2051,18 +1803,6 @@
       "description" : "",
       "message" : "Temperatura oružja"
    },
-   "WEIGHT_EMPTY" : {
-      "description" : "",
-      "message" : "Masa kad je prazan"
-   },
-   "WEIGHT_FULLY_LADEN" : {
-      "description" : "",
-      "message" : "Masa kad je potpuno pun"
-   },
-   "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
-      "description" : "",
-      "message" : "Nemamo posla s vama ovog trena."
-   },
    "WHEELS_ARE_DOWN" : {
       "description" : "",
       "message" : "Kotači su spušteni"
@@ -2082,10 +1822,6 @@
    "WITH_NO_SIGNIFICANT_ATMOSPHERE" : {
       "description" : "",
       "message" : "\" sa beznačajnom atmosferom\""
-   },
-   "WT" : {
-      "description" : "",
-      "message" : "Težina"
    },
    "X" : {
       "description" : "",
@@ -2114,18 +1850,6 @@
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
       "message" : "Mlada poljoprivredna kolonija."
-   },
-   "YOU_DO_NOT_HAVE_ANY_X" : {
-      "description" : "",
-      "message" : "Nemate niti jedan %item."
-   },
-   "YOU_MUST_PAY_FINE_OF_N_CREDITS" : {
-      "description" : "",
-      "message" : "Ne toleriramo kriminal. Morate platiti kaznu od %fine."
-   },
-   "YOU_NOT_ENOUGH_MONEY" : {
-      "description" : "",
-      "message" : "Nemate dovoljno novaca"
    },
    "YOU_NO_MONEY" : {
       "description" : "",

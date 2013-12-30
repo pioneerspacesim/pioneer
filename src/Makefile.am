@@ -27,8 +27,6 @@ noinst_HEADERS = \
 	ChatForm.h \
 	CityOnPlanet.h \
 	Color.h \
-	Colors.h \
-	CommodityTradeWidget.h \
 	Cutscene.h \
 	CRC32.h \
 	DeathView.h \
@@ -59,7 +57,6 @@ noinst_HEADERS = \
 	Lang.h \
 	LangStrings.inc.h \
 	Lua.h \
-	LuaChatForm.h \
 	LuaComms.h \
 	LuaConsole.h \
 	LuaConstants.h \
@@ -88,7 +85,6 @@ noinst_HEADERS = \
 	LuaTimer.h \
 	LuaUtils.h \
 	LuaWrappable.h \
-	MarketAgent.h \
 	MathUtil.h \
 	Missile.h \
 	ModelBody.h \
@@ -115,16 +111,6 @@ noinst_HEADERS = \
 	SDLWrappers.h \
 	SectorView.h \
 	Serializer.h \
-	StationAdvertForm.h \
-	StationBulletinBoardForm.h \
-	StationCommodityMarketForm.h \
-	StationPoliceForm.h \
-	StationServicesForm.h \
-	StationShipEquipmentForm.h \
-	StationShipMarketForm.h \
-	StationShipRepairForm.h \
-	StationShipViewForm.h \
-	StationShipyardForm.h \
 	StringF.h \
 	StringRange.h \
 	Sfx.h \
@@ -140,7 +126,6 @@ noinst_HEADERS = \
 	Space.h \
 	SpaceStation.h \
 	SpaceStationType.h \
-	SpaceStationView.h \
 	SpeedLines.h \
 	Star.h \
 	SystemInfoView.h \
@@ -174,7 +159,6 @@ pioneer_SOURCES	= \
 	Colors.cpp \
 	ChatForm.cpp \
 	CityOnPlanet.cpp \
-	CommodityTradeWidget.cpp \
 	CRC32.cpp \
 	DeathView.cpp \
 	DynamicBody.cpp \
@@ -206,7 +190,6 @@ pioneer_SOURCES	= \
 	Lua.cpp \
 	LuaBody.cpp \
 	LuaCargoBody.cpp \
-	LuaChatForm.cpp \
 	LuaComms.cpp \
 	LuaConsole.cpp \
 	LuaConstants.cpp \
@@ -243,7 +226,6 @@ pioneer_SOURCES	= \
 	LuaStarSystem.cpp \
 	LuaTimer.cpp \
 	LuaUtils.cpp \
-	MarketAgent.cpp \
 	MathUtil.cpp \
 	Missile.cpp \
 	ModelBody.cpp \
@@ -263,16 +245,6 @@ pioneer_SOURCES	= \
 	SDLWrappers.cpp \
 	SectorView.cpp \
 	Serializer.cpp \
-	StationAdvertForm.cpp \
-	StationBulletinBoardForm.cpp \
-	StationCommodityMarketForm.cpp \
-	StationPoliceForm.cpp \
-	StationServicesForm.cpp \
-	StationShipEquipmentForm.cpp \
-	StationShipMarketForm.cpp \
-	StationShipRepairForm.cpp \
-	StationShipViewForm.cpp \
-	StationShipyardForm.cpp \
 	StringF.cpp \
 	Sfx.cpp \
 	Ship-AI.cpp \
@@ -288,7 +260,6 @@ pioneer_SOURCES	= \
 	Space.cpp \
 	SpaceStation.cpp \
 	SpaceStationType.cpp \
-	SpaceStationView.cpp \
 	SpeedLines.cpp \
 	Star.cpp \
 	SystemInfoView.cpp \
@@ -316,7 +287,8 @@ pioneer_LDADD = \
 	../contrib/PicoDDS/libpicodds.a \
 	../contrib/jenkins/libjenkins.a \
 	../contrib/json/libjson.a \
-	../contrib/glew/libglew.a
+	../contrib/glew/libglew.a \
+	../contrib/profiler/libprofiler.a
 
 pioneer_LDADD += \
 	$(FREETYPE_LIBS) $(GL_LIBS) \
@@ -393,7 +365,8 @@ uitest_LDADD = \
 	../contrib/jenkins/libjenkins.a \
 	../contrib/PicoDDS/libpicodds.a \
 	../contrib/json/libjson.a \
-	../contrib/glew/libglew.a
+	../contrib/glew/libglew.a \
+	../contrib/profiler/libprofiler.a
 
 uitest_LDADD += \
 	$(FREETYPE_LIBS) $(GL_LIBS) \
@@ -419,8 +392,9 @@ textstress_LDADD = \
 	text/libtext.a \
 	graphics/libgraphics.a \
 	posix/libposix.a \
-	../contrib/PicoDDS/libpicodds.a \
-	../contrib/glew/libglew.a
+	../contrib/json/libjson.a \
+	../contrib/glew/libglew.a \
+	../contrib/profiler/libprofiler.a
 
 textstress_LDADD += \
 	$(FREETYPE_LIBS) $(GL_LIBS) \

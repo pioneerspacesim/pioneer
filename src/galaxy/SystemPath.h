@@ -8,7 +8,7 @@
 #include "LuaWrappable.h"
 #include <stdexcept>
 
-class SystemPath final : public LuaWrappable {
+class SystemPath : public LuaWrappable {
 public:
 	struct ParseFailure : public std::invalid_argument {
 		ParseFailure(): std::invalid_argument("invalid SystemPath format") {}

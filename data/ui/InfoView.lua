@@ -3,6 +3,7 @@
 
 local Engine = import("Engine")
 local Lang = import("Lang")
+local Event = import("Event")
 
 local TabGroup = import("ui/TabGroup")
 
@@ -35,3 +36,6 @@ ui.templates.InfoView = function (args)
 	return tabGroup.widget
 end
 
+Event.Register("onGameEnd", function ()
+	tabGroup = nil
+end)

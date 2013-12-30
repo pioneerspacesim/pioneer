@@ -33,7 +33,7 @@ LuaConsole::LuaConsole(int displayedOutputLines):
 	m_historyPosition = -1;
 
 	SetTransparency(false);
-	SetBgColor(0.6f, 0.1f, 0.0f, 0.6f);
+	SetBgColor(Color(160,32,0,160));
 
 	Gui::Screen::PushFont("ConsoleFont");
 	m_entryField = new Gui::TextEntry();

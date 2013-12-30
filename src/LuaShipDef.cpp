@@ -207,6 +207,8 @@ void LuaShipDef::Register()
 
 		pi_lua_settable(l, "id",                (*i).first.c_str());
 		pi_lua_settable(l, "name",              st.name.c_str());
+		pi_lua_settable(l, "shipClass",         st.shipClass.c_str());
+		pi_lua_settable(l, "manufacturer",      st.manufacturer.c_str());
 		pi_lua_settable(l, "modelName",         st.modelName.c_str());
 		pi_lua_settable(l, "tag",               EnumStrings::GetString("ShipTypeTag", st.tag));
 		pi_lua_settable(l, "angularThrust",     st.angThrust);

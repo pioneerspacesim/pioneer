@@ -81,6 +81,7 @@ void Sfx::SetPosition(const vector3d &p)
 
 void Sfx::TimeStepUpdate(const float timeStep)
 {
+	PROFILE_SCOPED()
 	m_age += timeStep;
 	m_pos += m_vel * double(timeStep);
 
@@ -101,6 +102,7 @@ void Sfx::TimeStepUpdate(const float timeStep)
 
 void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
 {
+	PROFILE_SCOPED()
 	vector3d fpos = ftransform * GetPosition();
 	vector3f pos(&fpos.x);
 
@@ -110,20 +112,20 @@ void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
 			//Explosion effect: A quick flash of three concentric coloured spheres. A bit retro.
 			const matrix4x4f trans = matrix4x4f::Translation(fpos.x, fpos.y, fpos.z);
 			RefCountedPtr<Material> exmat = Sfx::explosionEffect->GetMaterial();
-			exmat->diffuse = Color(1.f, 1.f, 0.5f, 1.f);
+			exmat->diffuse = Color(255, 255, 128, 255);
 			renderer->SetTransform(trans * matrix4x4f::ScaleMatrix(500*m_age));
 			Sfx::explosionEffect->Draw(renderer);
 			renderer->SetBlendMode(BLEND_ALPHA);
-			exmat->diffuse = Color(1.f, 0.5f, 0.f, 0.66f);
+			exmat->diffuse = Color(255, 128, 0, 168);
 			renderer->SetTransform(trans * matrix4x4f::ScaleMatrix(750*m_age));
 			Sfx::explosionEffect->Draw(renderer);
-			exmat->diffuse = Color(1.f, 0.f, 0.f, 0.33f);
+			exmat->diffuse = Color(255, 0, 0, 84);
 			renderer->SetTransform(trans * matrix4x4f::ScaleMatrix(1000*m_age));
 			Sfx::explosionEffect->Draw(renderer);
 			break;
 		} case TYPE_DAMAGE: {
 			renderer->SetTransform(matrix4x4d::Translation(fpos));
-			damageParticle->diffuse = Color(1.f, 1.f, 0.f, 1.0f-(m_age/2.0f));
+			damageParticle->diffuse = Color(255, 255, 0, (1.0f-(m_age/2.0f))*255);
 			renderer->SetBlendMode(BLEND_ALPHA_ONE);
 			renderer->DrawPointSprites(1, &pos, damageParticle, 20.f);
 			break;
@@ -131,10 +133,12 @@ void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
 			float var = Pi::rng.Double()*0.05f; //slightly variation to trail color
 			if (m_age < 0.5)
 				//start trail
-				smokeParticle->diffuse = Color(0.75f-var, 0.75f-var, 0.75f-var, m_age*0.5-(m_age/2.0f));
+				smokeParticle->diffuse = Color((0.75f-var)*255,
+						(0.75f-var)*255, (0.75f-var)*255, (m_age*0.5-(m_age/2.0f))*255);
 			else
 				//end trail
-				smokeParticle->diffuse = Color(0.75-var, 0.75f-var, 0.75f-var, 0.5*0.5-(m_age/16.0));
+				smokeParticle->diffuse = Color((0.75-var)*255,
+						(0.75f-var)*255, (0.75f-var)*255, Clamp(0.5*0.5-(m_age/16.0),0.0,1.0)*255);
 
 			renderer->SetTransform(matrix4x4d::Translation(fpos));
 
@@ -189,6 +193,7 @@ void Sfx::AddThrustSmoke(const Body *b, TYPE t, const float speed, vector3d adju
 
 void Sfx::TimeStepAll(const float timeStep, Frame *f)
 {
+	PROFILE_SCOPED()
 	if (f->m_sfx) {
 		for (int i=0; i<MAX_SFX_PER_FRAME; i++) {
 			if (f->m_sfx[i].m_type != TYPE_NONE) {
@@ -204,6 +209,7 @@ void Sfx::TimeStepAll(const float timeStep, Frame *f)
 
 void Sfx::RenderAll(Renderer *renderer, Frame *f, const Frame *camFrame)
 {
+	PROFILE_SCOPED()
 	if (f->m_sfx) {
 		matrix4x4d ftran;
 		Frame::GetFrameTransform(f, camFrame, ftran);

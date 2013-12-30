@@ -9,6 +9,13 @@ namespace SceneGraph {
 class LuaModelSkin {
 public:
 
+	static int l_new(lua_State *l)
+	{
+		ModelSkin skin;
+		LuaObject<ModelSkin>::PushToLua(skin);
+		return 1;
+	}
+
 	static int l_set_pattern(lua_State *l)
 	{
 		ModelSkin *skin = LuaObject<ModelSkin>::CheckFromLua(1);
@@ -26,15 +33,15 @@ public:
 
 		lua_getfield(l, 2, "primary");
 		if (lua_istable(l, -1))
-			skin->SetPrimaryColor(Color4ub(Color4f::FromLuaTable(l, -1)));
+			skin->SetPrimaryColor(Color(Color4f::FromLuaTable(l, -1)));
 
 		lua_getfield(l, 2, "secondary");
 		if (lua_istable(l, -1))
-			skin->SetSecondaryColor(Color4ub(Color4f::FromLuaTable(l, -1)));
+			skin->SetSecondaryColor(Color(Color4f::FromLuaTable(l, -1)));
 
 		lua_getfield(l, 2, "trim");
 		if (lua_istable(l, -1))
-			skin->SetTrimColor(Color4ub(Color4f::FromLuaTable(l, -1)));
+			skin->SetTrimColor(Color(Color4f::FromLuaTable(l, -1)));
 
 		lua_pop(l, 3);
 
@@ -102,6 +109,7 @@ template <> const char *LuaObject<SceneGraph::ModelSkin>::s_type = "SceneGraph.M
 template <> void LuaObject<SceneGraph::ModelSkin>::RegisterClass()
 {
 	static const luaL_Reg l_methods[] = {
+		{ "New",             LuaModelSkin::l_new               },
 		{ "SetPattern",      LuaModelSkin::l_set_pattern       },
 		{ "SetColors",       LuaModelSkin::l_set_colors        },
 		{ "SetRandomColors", LuaModelSkin::l_set_random_colors },

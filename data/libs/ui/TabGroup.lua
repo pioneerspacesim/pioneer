@@ -29,6 +29,7 @@ function TabGroup.New ()
 	self.title     = ui:Label(""):SetFont("HEADING_XLARGE")
 	self.titleArea = ui:Expand("HORIZONTAL"):SetInnerWidget(ui:Align("RIGHT"):SetInnerWidget(self.title))
 	self.body      = ui:Expand()
+	self.footer    = ui:Margin(0)
 
 	self.widget =
 		ui:VBox():PackEnd({
@@ -37,9 +38,10 @@ function TabGroup.New ()
 			),
 			ui:Margin(5):SetInnerWidget(
 				ui:Background():SetInnerWidget(
-					ui:Expand():SetInnerWidget(
-						self.body
-					)
+					ui:VBox():PackEnd({
+						self.body,
+						self.footer
+					})
 				)
 			)
 		})
@@ -84,9 +86,15 @@ function TabGroup.AddTab (self, args)
 		self:Refresh()
 	end
 
+	tab.SetTitle = function (t, text)
+		self.title:SetText(text)
+	end
+
 	if not self.current then
 		self:SwitchToNum(num)
 	end
+
+	return tab
 end
 
 function TabGroup.RemoveTab (self, id)
@@ -117,7 +125,7 @@ function TabGroup.SwitchToNum (self, num)
 
 	self.title:SetText(tab.title)
 
-	self.body:SetInnerWidget(tab.template(tab))
+	self.body:SetInnerWidget(tab.template(tab, self))
 end
 
 function TabGroup.SwitchTo (self, id)
@@ -157,6 +165,10 @@ function TabGroup.Refresh (self)
 	else
 		self:SwitchToNum(self.current)
 	end
+end
+
+function TabGroup.SetFooter (self, footer)
+	self.footer:SetInnerWidget(footer)
 end
 
 return TabGroup

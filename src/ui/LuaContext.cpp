@@ -123,7 +123,7 @@ public:
 			a = luaL_checknumber(l, 5);
 			implicit = 6;
 		}
-		UI::ColorBackground *cb = c->ColorBackground(Color(r,g,b,a));
+		UI::ColorBackground *cb = c->ColorBackground(Color(r*255,g*255,b*255,a*255));
 		_implicit_set_inner_widget(l, cb, implicit);
 		LuaObject<UI::ColorBackground>::PushToLua(cb);
 		return 1;

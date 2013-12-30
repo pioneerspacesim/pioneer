@@ -6,6 +6,7 @@
 #include "galaxy/SystemPath.h"
 #include "galaxy/StarSystem.h"
 #include "galaxy/Sector.h"
+#include "galaxy/SectorCache.h"
 
 /*
  * Class: SystemPath
@@ -70,8 +71,8 @@ static int l_sbodypath_new(lua_State *l)
 		path.systemIndex = luaL_checkinteger(l, 4);
 
 		// if this is a system path, then check that the system exists
-		Sector s(sector_x, sector_y, sector_z);
-		if (size_t(path.systemIndex) >= s.m_systems.size())
+		const Sector* s = Sector::cache.GetCached(path);
+		if (size_t(path.systemIndex) >= s->m_systems.size())
 			luaL_error(l, "System %d in sector <%d,%d,%d> does not exist", path.systemIndex, sector_x, sector_y, sector_z);
 
 		if (lua_gettop(l) > 4) {
@@ -241,10 +242,10 @@ static int l_sbodypath_distance_to(lua_State *l)
 		loc2 = &(s2->GetPath());
 	}
 
-	Sector sec1(loc1->sectorX, loc1->sectorY, loc1->sectorZ);
-	Sector sec2(loc2->sectorX, loc2->sectorY, loc2->sectorZ);
+	const Sector* sec1 = Sector::cache.GetCached(*loc1);
+	const Sector* sec2 = Sector::cache.GetCached(*loc2);
 
-	double dist = Sector::DistanceBetween(&sec1, loc1->systemIndex, &sec2, loc2->systemIndex);
+	double dist = Sector::DistanceBetween(sec1, loc1->systemIndex, sec2, loc2->systemIndex);
 
 	lua_pushnumber(l, dist);
 

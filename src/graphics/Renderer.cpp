@@ -9,7 +9,6 @@ namespace Graphics {
 Renderer::Renderer(WindowSDL *window, int w, int h) :
 	m_width(w), m_height(h), m_ambient(Color::BLACK), m_window(window)
 {
-
 }
 
 Renderer::~Renderer()
