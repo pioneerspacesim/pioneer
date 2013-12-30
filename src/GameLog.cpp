@@ -70,7 +70,7 @@ void GameLog::DrawHudMessages(Graphics::Renderer *r)
 		float alpha = 1.f;
 		if (it->time > FADE_AFTER)
 			alpha = 1.0 - (float(it->time - FADE_AFTER) / FADE_TIME);
-		m_font->RenderString(it->msg.c_str(), m_offset.x, m_offset.y + y, Color(c.r, c.g, c.b, alpha));
+		m_font->RenderString(it->msg.c_str(), m_offset.x, m_offset.y + y, Color(c.r, c.g, c.b, alpha*255));
 		y -= m_lineHeight;
 	}
 }

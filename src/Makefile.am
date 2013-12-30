@@ -27,6 +27,7 @@ noinst_HEADERS = \
 	ChatForm.h \
 	CityOnPlanet.h \
 	Color.h \
+	Colors.h \
 	Cutscene.h \
 	CRC32.h \
 	DeathView.h \
