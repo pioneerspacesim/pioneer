@@ -899,14 +899,6 @@ void WorldView::Update()
 		matrix4x4d trans;
 		Frame::GetFrameRenderTransform(Pi::player->GetFrame(), cam_frame, trans);
 
-		if ( Pi::AreHudTrailsDisplayed() ) {
-			for (auto it = Pi::player->GetSensors()->GetContacts().begin(); it != Pi::player->GetSensors()->GetContacts().end(); ++it)
-				it->trail->SetTransform(trans);
-		} else {
-			for (auto it = Pi::player->GetSensors()->GetContacts().begin(); it != Pi::player->GetSensors()->GetContacts().end(); ++it)
-				it->trail->Reset(Pi::player->GetFrame());
-		}
-
 		if ( m_speedLines.get() && Pi::AreSpeedLinesDisplayed() ) {
 			m_speedLines->Update(Pi::game->GetTimeStep());
 
@@ -914,6 +906,19 @@ void WorldView::Update()
 			trans[15] = 1.0;
 			m_speedLines->SetTransform(trans);
 		}
+	}
+
+	if( Pi::AreHudTrailsDisplayed() )
+	{
+		const Frame *cam_frame = m_camera->GetCamFrame();
+		matrix4x4d trans;
+		Frame::GetFrameRenderTransform(Pi::player->GetFrame(), cam_frame, trans);
+
+		for (auto it = Pi::player->GetSensors()->GetContacts().begin(); it != Pi::player->GetSensors()->GetContacts().end(); ++it)
+			it->trail->SetTransform(trans);
+	} else {
+		for (auto it = Pi::player->GetSensors()->GetContacts().begin(); it != Pi::player->GetSensors()->GetContacts().end(); ++it)
+			it->trail->Reset(Pi::player->GetFrame());
 	}
 
 	// target object under the crosshairs. must be done after
