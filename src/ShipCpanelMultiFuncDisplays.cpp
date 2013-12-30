@@ -195,10 +195,12 @@ void ScannerWidget::Draw()
 	m_renderer->DrawTriangles(&va, Graphics::vtxColorMaterial, TRIANGLE_FAN);
 
 	// circles and spokes
-	Graphics::Renderer::MatrixTicket ticket(m_renderer, Graphics::MatrixMode::MODELVIEW);
-	m_renderer->Translate(m_x, m_y, 0);
-	m_renderer->Scale(m_x, m_y, 1.0f);
-	DrawRingsAndSpokes(false);
+	{
+		Graphics::Renderer::MatrixTicket ticket(m_renderer, Graphics::MatrixMode::MODELVIEW);
+		m_renderer->Translate(m_x, m_y, 0);
+		m_renderer->Scale(m_x, m_y, 1.0f);
+		DrawRingsAndSpokes(false);
+	}
 
 	// objects above
 	if (!m_contacts.empty()) DrawBlobs(false);
