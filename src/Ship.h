@@ -216,7 +216,6 @@ public:
 	ShipCockpit* GetCockpit() const {return m_cockpit.get();}
 
 	void SetLabel(const std::string &label);
-	static std::string MakeRandomLabel(); // XXX doesn't really belong here
 
 	float GetPercentShields() const;
 	float GetPercentHull() const;

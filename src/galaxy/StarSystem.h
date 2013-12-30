@@ -14,6 +14,7 @@
 #include "galaxy/SystemPath.h"
 #include "Orbit.h"
 #include "gameconsts.h"
+#include <SDL_stdinc.h>
 
 class CustomSystemBody;
 class CustomSystem;
@@ -36,7 +37,7 @@ struct RingStyle {
 	// (e.g., 1.6)
 	fixed minRadius;
 	fixed maxRadius;
-	Color4ub baseColor;
+	Color baseColor;
 };
 
 class SystemBody : public RefCounted {
@@ -230,8 +231,8 @@ public:
 	int GetNumStars() const { return m_numStars; }
 	const SysPolit &GetSysPolit() const { return m_polit; }
 
-	static float starColors[][3];
-	static float starRealColors[][3];
+	static Uint8 starColors[][3];
+	static Uint8 starRealColors[][3];
 	static double starLuminosities[];
 	static float starScale[];
 	static fixed starMetallicities[];

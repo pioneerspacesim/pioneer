@@ -13,6 +13,7 @@
 #include "Sound.h"
 #include "Sfx.h"
 #include "galaxy/Sector.h"
+#include "galaxy/SectorCache.h"
 #include "Frame.h"
 #include "WorldView.h"
 #include "HyperspaceCloud.h"
@@ -146,6 +147,7 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 
 	PropertyMap &p = Properties();
 	p.Set("hullMassLeft", m_stats.hull_mass_left);
+	p.Set("hullPercent", 100.0f * (m_stats.hull_mass_left / float(m_type->hullMass)));
 	p.Set("shieldMassLeft", m_stats.shield_mass_left);
 	p.Set("fuelMassLeft", m_stats.fuel_tank_mass_left);
 
@@ -195,6 +197,7 @@ void Ship::Init()
 
 	PropertyMap &p = Properties();
 	p.Set("hullMassLeft", m_stats.hull_mass_left);
+	p.Set("hullPercent", 100.0f * (m_stats.hull_mass_left / float(m_type->hullMass)));
 	p.Set("shieldMassLeft", m_stats.shield_mass_left);
 	p.Set("fuelMassLeft", m_stats.fuel_tank_mass_left);
 
@@ -250,7 +253,7 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
 
 	SetModel(m_type->modelName.c_str());
-	SetLabel(MakeRandomLabel());
+	SetLabel("UNLABELED_SHIP");
 	m_skin.SetRandomColors(Pi::rng);
 	m_skin.SetPattern(Pi::rng.Int32(0, GetModel()->GetNumPatterns()));
 	m_skin.Apply(GetModel());
@@ -288,6 +291,7 @@ void Ship::SetPercentHull(float p)
 {
 	m_stats.hull_mass_left = 0.01f * Clamp(p, 0.0f, 100.0f) * float(m_type->hullMass);
 	Properties().Set("hullMassLeft", m_stats.hull_mass_left);
+	Properties().Set("hullPercent", 100.0f * (m_stats.hull_mass_left / float(m_type->hullMass)));
 }
 
 void Ship::UpdateMass()
@@ -486,7 +490,15 @@ void Ship::UpdateEquipStats()
 	m_stats.total_mass = m_stats.used_capacity + m_type->hullMass;
 
 	p.Set("usedCapacity", m_stats.used_capacity);
+
 	p.Set("usedCargo", m_stats.used_cargo);
+	p.Set("totalCargo", m_stats.free_capacity+m_stats.used_cargo);
+
+	const int usedCabins = m_equipment.Count(Equip::SLOT_CABIN, Equip::PASSENGER_CABIN);
+	const int unusedCabins = m_equipment.Count(Equip::SLOT_CABIN, Equip::UNOCCUPIED_CABIN);
+	p.Set("usedCabins", usedCabins);
+	p.Set("totalCabins", usedCabins+unusedCabins);
+
 	p.Set("freeCapacity", m_stats.free_capacity);
 	p.Set("totalMass", m_stats.total_mass);
 
@@ -532,10 +544,10 @@ static float distance_to_system(const SystemPath &dest)
 	assert(here.HasValidSystem());
 	assert(dest.HasValidSystem());
 
-	Sector sec1(here.sectorX, here.sectorY, here.sectorZ);
-	Sector sec2(dest.sectorX, dest.sectorY, dest.sectorZ);
+	const Sector* sec1 = Sector::cache.GetCached(here);
+	const Sector* sec2 = Sector::cache.GetCached(dest);
 
-	return Sector::DistanceBetween(&sec1, here.systemIndex, &sec2, dest.systemIndex);
+	return Sector::DistanceBetween(sec1, here.systemIndex, sec2, dest.systemIndex);
 }
 
 Ship::HyperjumpStatus Ship::GetHyperspaceDetails(const SystemPath &dest, int &outFuelRequired, double &outDurationSecs)
@@ -1191,7 +1203,7 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 
 		//fade based on strength
 		Sfx::shieldEffect->GetMaterial()->diffuse =
-			Color((1.0f-shield),shield,0.0,0.33f*(1.0f-shield));
+			Color((1.0f-shield)*255,shield*255,0,0.33f*(1.0f-shield)*255);
 		Sfx::shieldEffect->Draw(renderer);
 
 		renderer->SetBlendMode(Graphics::BLEND_SOLID);
@@ -1209,10 +1221,10 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 				vector3d(r1, r2, r3).Normalized()
 			));
 		}
-		Color c(0.5,0.5,1.0,1.0);
+		Color c(128,128,255,255);
 		float totalRechargeTime = GetECMRechargeTime();
 		if (totalRechargeTime >= 0.0f) {
-			c.a = m_ecmRecharge / totalRechargeTime;
+			c.a = (m_ecmRecharge / totalRechargeTime) * 255;
 		}
 
 		Sfx::ecmParticle->diffuse = c;
@@ -1292,19 +1304,6 @@ void Ship::EnterSystem() {
 
 void Ship::OnEnterSystem() {
 	m_hyperspaceCloud = 0;
-}
-
-std::string Ship::MakeRandomLabel()
-{
-	std::string regid = "XX-1111";
-	regid[0] = 'A' + Pi::rng.Int32(26);
-	regid[1] = 'A' + Pi::rng.Int32(26);
-	int code = Pi::rng.Int32(10000);
-	regid[3] = '0' + ((code / 1000) % 10);
-	regid[4] = '0' + ((code /  100) % 10);
-	regid[5] = '0' + ((code /   10) % 10);
-	regid[6] = '0' + ((code /    1) % 10);
-	return regid;
 }
 
 void Ship::SetShipId(const ShipType::Id &shipId)

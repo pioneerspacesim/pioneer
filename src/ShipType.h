@@ -42,6 +42,8 @@ struct ShipType {
 	Tag tag;
 	Id id;
 	std::string name;
+	std::string shipClass;
+	std::string manufacturer;
 	std::string modelName;
 	std::string cockpitName;
 	float linThrust[THRUSTER_MAX];

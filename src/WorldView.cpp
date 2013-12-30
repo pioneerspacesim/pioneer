@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "Planet.h"
 #include "galaxy/Sector.h"
+#include "galaxy/SectorCache.h"
 #include "SectorView.h"
 #include "Serializer.h"
 #include "ShipCpanel.h"
@@ -29,14 +30,15 @@
 #include "Quaternion.h"
 #include <algorithm>
 #include <sstream>
+#include <SDL_stdinc.h>
 
 const double WorldView::PICK_OBJECT_RECT_SIZE = 20.0;
-static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.9f);
+static const Color s_hudTextColor(0,255,0,230);
 static const float ZOOM_SPEED = 1.f;
 static const float WHEEL_SENSITIVITY = .05f;	// Should be a variable in user settings.
 
 static const float HUD_CROSSHAIR_SIZE = 24.0f;
-static const float HUD_ALPHA          = 0.34f;
+static const Uint8 HUD_ALPHA          = 87;
 
 WorldView::WorldView(): View()
 {
@@ -152,12 +154,12 @@ void WorldView::InitObject()
 	m_flightControlButton->SetRenderDimensions(30.0f, 22.0f);
 	m_rightButtonBar->Add(m_flightControlButton, 2, 2);
 
-	m_flightStatus = (new Gui::Label(""))->Color(1.0f, 0.7f, 0.0f);
+	m_flightStatus = (new Gui::Label(""))->Color(255, 178, 0);
 	m_rightRegion2->Add(m_flightStatus, 2, 0);
 
 #if WITH_DEVKEYS
 	Gui::Screen::PushFont("ConsoleFont");
-	m_debugInfo = (new Gui::Label(""))->Color(0.8f, 0.8f, 0.8f);
+	m_debugInfo = (new Gui::Label(""))->Color(204, 204, 204);
 	Add(m_debugInfo, 10, 200);
 	Gui::Screen::PopFont();
 #endif
@@ -165,19 +167,19 @@ void WorldView::InitObject()
 	m_hudHyperspaceInfo = (new Gui::Label(""))->Color(s_hudTextColor);
 	Add(m_hudHyperspaceInfo, Gui::Screen::GetWidth()*0.4f, Gui::Screen::GetHeight()*0.3f);
 
-	m_hudHullTemp = new Gui::MeterBar(100.0f, Lang::HULL_TEMP, Color(1.0f,0.0f,0.0f,0.8f));
-	m_hudWeaponTemp = new Gui::MeterBar(100.0f, Lang::WEAPON_TEMP, Color(1.0f,0.5f,0.0f,0.8f));
-	m_hudHullIntegrity = new Gui::MeterBar(100.0f, Lang::HULL_INTEGRITY, Color(1.0f,1.0f,0.0f,0.8f));
-	m_hudShieldIntegrity = new Gui::MeterBar(100.0f, Lang::SHIELD_INTEGRITY, Color(1.0f,1.0f,0.0f,0.8f));
-	m_hudFuelGauge = new Gui::MeterBar(100.f, Lang::FUEL, Color(1.f, 1.f, 0.f, 0.8f));
+	m_hudHullTemp = new Gui::MeterBar(100.0f, Lang::HULL_TEMP, Color(255,0,0,204));
+	m_hudWeaponTemp = new Gui::MeterBar(100.0f, Lang::WEAPON_TEMP, Color(255,128,0,204));
+	m_hudHullIntegrity = new Gui::MeterBar(100.0f, Lang::HULL_INTEGRITY, Color(255,255,0,204));
+	m_hudShieldIntegrity = new Gui::MeterBar(100.0f, Lang::SHIELD_INTEGRITY, Color(255,255,0,204));
+	m_hudFuelGauge = new Gui::MeterBar(100.f, Lang::FUEL, Color(255, 255, 0, 204));
 	Add(m_hudFuelGauge, 5.0f, Gui::Screen::GetHeight() - 104.0f);
 	Add(m_hudHullTemp, 5.0f, Gui::Screen::GetHeight() - 144.0f);
 	Add(m_hudWeaponTemp, 5.0f, Gui::Screen::GetHeight() - 184.0f);
 	Add(m_hudHullIntegrity, Gui::Screen::GetWidth() - 105.0f, Gui::Screen::GetHeight() - 104.0f);
 	Add(m_hudShieldIntegrity, Gui::Screen::GetWidth() - 105.0f, Gui::Screen::GetHeight() - 144.0f);
 
-	m_hudTargetHullIntegrity = new Gui::MeterBar(100.0f, Lang::HULL_INTEGRITY, Color(1.0f,1.0f,0.0f,0.8f));
-	m_hudTargetShieldIntegrity = new Gui::MeterBar(100.0f, Lang::SHIELD_INTEGRITY, Color(1.0f,1.0f,0.0f,0.8f));
+	m_hudTargetHullIntegrity = new Gui::MeterBar(100.0f, Lang::HULL_INTEGRITY, Color(255,255,0,204));
+	m_hudTargetShieldIntegrity = new Gui::MeterBar(100.0f, Lang::SHIELD_INTEGRITY, Color(255,255,0,204));
 	Add(m_hudTargetHullIntegrity, Gui::Screen::GetWidth() - 105.0f, 5.0f);
 	Add(m_hudTargetShieldIntegrity, Gui::Screen::GetWidth() - 105.0f, 45.0f);
 
@@ -186,7 +188,7 @@ void WorldView::InitObject()
 
 	Gui::Screen::PushFont("OverlayFont");
 	m_bodyLabels = new Gui::LabelSet();
-	m_bodyLabels->SetLabelColor(Color(1.0f, 1.0f, 1.0f, 0.9f));
+	m_bodyLabels->SetLabelColor(Color(255, 255, 255, 230));
 	Add(m_bodyLabels, 0, 0);
 
 	{
@@ -197,8 +199,8 @@ void WorldView::InitObject()
 	}
 	Gui::Screen::PopFont();
 
-	m_navTargetIndicator.label = (new Gui::Label(""))->Color(0.0f, 1.0f, 0.0f);
-	m_navVelIndicator.label = (new Gui::Label(""))->Color(0.0f, 1.0f, 0.0f);
+	m_navTargetIndicator.label = (new Gui::Label(""))->Color(0, 255, 0);
+	m_navVelIndicator.label = (new Gui::Label(""))->Color(0, 255, 0);
 	m_combatTargetIndicator.label = new Gui::Label(""); // colour set dynamically
 	m_targetLeadIndicator.label = new Gui::Label("");
 
@@ -440,11 +442,11 @@ void WorldView::ShowAll()
 static Color get_color_for_warning_meter_bar(float v) {
 	Color c;
 	if (v < 50.0f)
-		c = Color(1,0,0,HUD_ALPHA);
+		c = Color(255,0,0,HUD_ALPHA);
 	else if (v < 75.0f)
-		c = Color(1,0.5,0,HUD_ALPHA);
+		c = Color(255,128,0,HUD_ALPHA);
 	else
-		c = Color(1,1,0,HUD_ALPHA);
+		c = Color(255,255,0,HUD_ALPHA);
 	return c;
 }
 
@@ -794,14 +796,14 @@ void WorldView::RefreshButtonStateAndVisibility()
 			}
 			else {
 				const SystemPath dest = ship->GetHyperspaceDest();
-				Sector s(dest.sectorX, dest.sectorY, dest.sectorZ);
+				const Sector* s = Sector::cache.GetCached(dest);
 				text += (cloud->IsArrival() ? Lang::HYPERSPACE_ARRIVAL_CLOUD : Lang::HYPERSPACE_DEPARTURE_CLOUD);
 				text += "\n";
 				text += stringf(Lang::SHIP_MASS_N_TONNES, formatarg("mass", ship->GetStats().total_mass));
 				text += "\n";
 				text += (cloud->IsArrival() ? Lang::SOURCE : Lang::DESTINATION);
 				text += ": ";
-				text += s.m_systems[dest.systemIndex].name;
+				text += s->m_systems[dest.systemIndex].name;
 				text += "\n";
 				text += stringf(Lang::DATE_DUE_N, formatarg("date", format_date(cloud->GetDueDate())));
 				text += "\n";
@@ -1049,6 +1051,10 @@ static void PlayerRequestDockingClearance(SpaceStation *s)
 	Pi::cpan->MsgLog()->ImportantMessage(s->GetLabel(), msg);
 }
 
+// XXX paying fine remotely can't really be done until crime and
+// worldview are in Lua. I'm leaving this code here so its not
+// forgotten
+/*
 static void PlayerPayFine()
 {
 	Sint64 crime, fine;
@@ -1070,6 +1076,7 @@ static void PlayerPayFine()
 		Polit::AddCrime(0, -fine);
 	}
 }
+*/
 
 void WorldView::OnHyperspaceTargetChanged()
 {
@@ -1163,6 +1170,10 @@ void WorldView::UpdateCommsOptions()
 				ypos += 32;
 			}
 
+			// XXX paying fine remotely can't really be done until crime and
+			// worldview are in Lua. I'm leaving this code here so its not
+			// forgotten
+			/*
 			Sint64 crime, fine;
 			Polit::GetCrime(&crime, &fine);
 			if (fine) {
@@ -1171,6 +1182,7 @@ void WorldView::UpdateCommsOptions()
 				button->onClick.connect(sigc::ptr_fun(&PlayerPayFine));
 				ypos += 32;
 			}
+			*/
 		}
 		if (hasAutopilot) {
 			button = AddCommsOption(stringf(Lang::AUTOPILOT_FLY_TO_VICINITY_OF, formatarg("target", navtarget->GetLabel())), ypos, optnum++);
@@ -1405,8 +1417,8 @@ void WorldView::UpdateProjectedObjects()
 			float r = float(0.2+(c+1.0)*0.4);
 			float b = float(0.2+(1.0-c)*0.4);
 
-			m_combatTargetIndicator.label->Color(r, 0.0f, b);
-			m_targetLeadIndicator.label->Color(r, 0.0f, b);
+			m_combatTargetIndicator.label->Color(r*255, 0, b*255);
+			m_targetLeadIndicator.label->Color(r*255, 0, b*255);
 
 			snprintf(buf, sizeof(buf), "%0.fm/s", vel);
 			m_targetLeadIndicator.label->SetText(buf);
@@ -1622,10 +1634,10 @@ void WorldView::Draw()
 	glPushAttrib(GL_CURRENT_BIT | GL_LINE_BIT);
 	glLineWidth(2.0f);
 
-	Color white(1.f, 1.f, 1.f, 0.8f);
-	Color green(0.f, 1.f, 0.f, 0.8f);
-	Color yellow(0.9f, 0.9f, 0.3f, 1.f);
-	Color red(1.f, 0.f, 0.f, 0.5f);
+	Color white(255, 255, 255, 204);
+	Color green(0, 255, 0, 204);
+	Color yellow(230, 230, 77, 255);
+	Color red(255, 0, 0, 128);
 
 	// nav target square
 	DrawTargetSquare(m_navTargetIndicator, green);
@@ -1833,7 +1845,7 @@ void NavTunnelWidget::Draw() {
 		const vector3d eyevec = rotmat * m_worldView->m_activeCameraController->GetOrient().VectorZ();
 		if (eyevec.Dot(navpos) >= 0.0) return;
 
-		const Color green = Color(0.f, 1.f, 0.f, 0.8f);
+		const Color green = Color(0, 255, 0, 204);
 
 		const double distToDest = Pi::player->GetPositionRelTo(navtarget).Length();
 
@@ -1879,7 +1891,7 @@ void NavTunnelWidget::DrawTargetGuideSquare(const vector2f &pos, const float siz
 		vector3f(x1,    pos.y, 0.f)
 	};
 	Color black(c);
-	black.a = c.a / 6.f;
+	black.a = c.a / 6;
 	const Color col[] = {
 		c,
 		black,

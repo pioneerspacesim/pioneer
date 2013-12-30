@@ -20,7 +20,7 @@ namespace Graphics {
 			void Set(float);
 			void Set(const vector3f&);
 			void Set(const vector3d&);
-			void Set(const Color4f&);
+			void Set(const Color&);
 			void Set(const int v[3]);
 			void Set(const float m[9]);
 			void Set(Texture *t, unsigned int unit);

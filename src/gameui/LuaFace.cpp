@@ -44,6 +44,14 @@ public:
 		return 1;
 	}
 
+	static int l_set_height_lines(lua_State *l) {
+		Face *f = LuaObject<GameUI::Face>::CheckFromLua(1);
+		Uint32 lines = luaL_checkinteger(l, 2);
+		f->SetHeightLines(lines);
+		lua_pushvalue(l, 1);
+		return 1;
+	}
+
 };
 
 }
@@ -57,7 +65,8 @@ template <> void LuaObject<GameUI::Face>::RegisterClass()
 	static const char *l_parent = "UI.Single";
 
 	static const luaL_Reg l_methods[] = {
-		{ "New", LuaFace::l_new },
+		{ "New",            LuaFace::l_new },
+		{ "SetHeightLines", LuaFace::l_set_height_lines },
         { 0, 0 }
 	};
 

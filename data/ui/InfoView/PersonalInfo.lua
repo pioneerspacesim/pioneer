@@ -68,7 +68,7 @@ local personalInfo = function ()
 							generateFaceButton,
 						})
 					}))
-					:PackEnd(faceWidgetContainer)
+					:PackEnd(ui:Expand("BOTH", faceWidgetContainer))
 			})
 end
 

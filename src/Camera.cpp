@@ -15,6 +15,8 @@
 #include "graphics/VertexArray.h"
 #include "graphics/Material.h"
 
+#include <SDL_stdinc.h>
+
 using namespace Graphics;
 
 Camera::Camera(float width, float height, float fovY, float znear, float zfar) :
@@ -52,9 +54,9 @@ static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Ca
 		const double dist = lpos.Length() / AU;
 		lpos *= 1.0/dist; // normalize
 
-		const float *col = StarSystem::starRealColors[body->type];
+		const Uint8 *col = StarSystem::starRealColors[body->type];
 
-		const Color lightCol(col[0], col[1], col[2], 0.f);
+		const Color lightCol(col[0], col[1], col[2], 0);
 		vector3f lightpos(lpos.x, lpos.y, lpos.z);
 		lights.push_back(Camera::LightSource(frame->GetBody(), Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, lightpos, lightCol, lightCol)));
 	}
@@ -126,7 +128,7 @@ void Camera::Draw(Graphics::Renderer *renderer, const Body *excludeBody, ModelBo
 
 	if (m_lightSources.empty()) {
 		// no lights means we're somewhere weird (eg hyperspace). fake one
-		const Color col(1.f);
+		const Color col(255);
 		m_lightSources.push_back(LightSource(0, Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f), col, col)));
 	}
 
@@ -148,7 +150,7 @@ void Camera::Draw(Graphics::Renderer *renderer, const Body *excludeBody, ModelBo
 				for(std::vector<LightSource>::const_iterator it = m_lightSources.begin();
 					it != m_lightSources.end(); ++it) {
 					const vector3f lightDir(it->GetLight().GetPosition().Normalized());
-					angle += std::max(0.f, lightDir.Dot(-relpos.Normalized())) * it->GetLight().GetDiffuse().GetLuminance();
+					angle += std::max(0.f, lightDir.Dot(-relpos.Normalized())) * (it->GetLight().GetDiffuse().GetLuminance() / 255.0f);
 				}
 				//calculate background intensity with some hand-tweaked fuzz applied
 				bgIntensity = Clamp(1.f - std::min(1.f, powf(density, 0.25f)) * (0.3f + powf(angle, 0.25f)), 0.f, 1.f);
@@ -240,8 +242,8 @@ void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d 
 	static VertexArray va(ATTRIB_POSITION | ATTRIB_DIFFUSE);
 	va.Clear();
 
-	const Color center(col[0], col[1], col[2], 1.f);
-	const Color edges(col[0], col[1], col[2], 0.f);
+	const Color center(col[0]*255, col[1]*255, col[2]*255, 255);
+	const Color edges(col[0]*255, col[1]*255, col[2]*255, 0);
 
 	//center
 	va.Add(vector3f(0.f), center);

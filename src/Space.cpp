@@ -20,6 +20,7 @@
 #include "HyperspaceCloud.h"
 #include "graphics/Graphics.h"
 #include "WorldView.h"
+#include "galaxy/SectorCache.h"
 #include "SectorView.h"
 #include "Lang.h"
 #include "Game.h"
@@ -297,11 +298,11 @@ vector3d Space::GetHyperspaceExitPoint(const SystemPath &source) const
 
 	const SystemPath &dest = m_starSystem->GetPath();
 
-	Sector source_sec(source.sectorX, source.sectorY, source.sectorZ);
-	Sector dest_sec(dest.sectorX, dest.sectorY, dest.sectorZ);
+	const Sector* source_sec = Sector::cache.GetCached(source);
+	const Sector* dest_sec = Sector::cache.GetCached(dest);
 
-	Sector::System source_sys = source_sec.m_systems[source.systemIndex];
-	Sector::System dest_sys = dest_sec.m_systems[dest.systemIndex];
+	Sector::System source_sys = source_sec->m_systems[source.systemIndex];
+	Sector::System dest_sys = dest_sec->m_systems[dest.systemIndex];
 
 	const vector3d sourcePos = vector3d(source_sys.p) + vector3d(source.sectorX, source.sectorY, source.sectorZ);
 	const vector3d destPos = vector3d(dest_sys.p) + vector3d(dest.sectorX, dest.sectorY, dest.sectorZ);

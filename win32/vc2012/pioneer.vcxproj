@@ -138,7 +138,6 @@
     <ClCompile Include="..\..\src\ChatForm.cpp" />
     <ClCompile Include="..\..\src\CityOnPlanet.cpp" />
     <ClCompile Include="..\..\src\Color.cpp" />
-    <ClCompile Include="..\..\src\CommodityTradeWidget.cpp" />
     <ClCompile Include="..\..\src\CRC32.cpp" />
     <ClCompile Include="..\..\src\DeathView.cpp" />
     <ClCompile Include="..\..\src\DynamicBody.cpp" />
@@ -170,7 +169,6 @@
     <ClCompile Include="..\..\src\Lua.cpp" />
     <ClCompile Include="..\..\src\LuaBody.cpp" />
     <ClCompile Include="..\..\src\LuaCargoBody.cpp" />
-    <ClCompile Include="..\..\src\LuaChatForm.cpp" />
     <ClCompile Include="..\..\src\LuaComms.cpp" />
     <ClCompile Include="..\..\src\LuaConsole.cpp" />
     <ClCompile Include="..\..\src\LuaConstants.cpp" />
@@ -208,7 +206,6 @@
     <ClCompile Include="..\..\src\LuaUtils.cpp" />
     <ClCompile Include="..\..\src\LuaVector.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
-    <ClCompile Include="..\..\src\MarketAgent.cpp" />
     <ClCompile Include="..\..\src\MathUtil.cpp" />
     <ClCompile Include="..\..\src\Missile.cpp" />
     <ClCompile Include="..\..\src\ModelBody.cpp" />
@@ -253,19 +250,8 @@
     <ClCompile Include="..\..\src\Space.cpp" />
     <ClCompile Include="..\..\src\SpaceStation.cpp" />
     <ClCompile Include="..\..\src\SpaceStationType.cpp" />
-    <ClCompile Include="..\..\src\SpaceStationView.cpp" />
     <ClCompile Include="..\..\src\SpeedLines.cpp" />
     <ClCompile Include="..\..\src\Star.cpp" />
-    <ClCompile Include="..\..\src\StationAdvertForm.cpp" />
-    <ClCompile Include="..\..\src\StationBulletinBoardForm.cpp" />
-    <ClCompile Include="..\..\src\StationCommodityMarketForm.cpp" />
-    <ClCompile Include="..\..\src\StationPoliceForm.cpp" />
-    <ClCompile Include="..\..\src\StationServicesForm.cpp" />
-    <ClCompile Include="..\..\src\StationShipEquipmentForm.cpp" />
-    <ClCompile Include="..\..\src\StationShipMarketForm.cpp" />
-    <ClCompile Include="..\..\src\StationShipRepairForm.cpp" />
-    <ClCompile Include="..\..\src\StationShipViewForm.cpp" />
-    <ClCompile Include="..\..\src\StationShipyardForm.cpp" />
     <ClCompile Include="..\..\src\StringF.cpp" />
     <ClCompile Include="..\..\src\SystemInfoView.cpp" />
     <ClCompile Include="..\..\src\SystemView.cpp" />
@@ -285,7 +271,6 @@
     <ClCompile Include="..\..\src\WorldView.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\pioneer\src\EquipSet.h" />
     <ClInclude Include="..\..\contrib\PicoDDS\PicoDDS.h" />
     <ClInclude Include="..\..\src\Aabb.h" />
     <ClInclude Include="..\..\src\AmbientSounds.h" />
@@ -300,13 +285,13 @@
     <ClInclude Include="..\..\src\ChatForm.h" />
     <ClInclude Include="..\..\src\CityOnPlanet.h" />
     <ClInclude Include="..\..\src\Color.h" />
-    <ClInclude Include="..\..\src\CommodityTradeWidget.h" />
     <ClInclude Include="..\..\src\CRC32.h" />
     <ClInclude Include="..\..\src\DeathView.h" />
     <ClInclude Include="..\..\src\DeleteEmitter.h" />
     <ClInclude Include="..\..\src\DynamicBody.h" />
     <ClInclude Include="..\..\src\EnumStrings.h" />
     <ClInclude Include="..\..\src\enum_table.h" />
+    <ClInclude Include="..\..\src\EquipSet.h" />
     <ClInclude Include="..\..\src\EquipType.h" />
     <ClInclude Include="..\..\src\FaceGenManager.h" />
     <ClInclude Include="..\..\src\FaceVideoLink.h" />
@@ -334,7 +319,6 @@
     <ClInclude Include="..\..\src\libs.h" />
     <ClInclude Include="..\..\src\Lua.h" />
     <ClInclude Include="..\..\src\LuaEquipDef.h" />
-    <ClInclude Include="..\..\src\LuaChatForm.h" />
     <ClInclude Include="..\..\src\LuaComms.h" />
     <ClInclude Include="..\..\src\LuaConsole.h" />
     <ClInclude Include="..\..\src\LuaConstants.h" />
@@ -362,7 +346,6 @@
     <ClInclude Include="..\..\src\LuaUtils.h" />
     <ClInclude Include="..\..\src\LuaVector.h" />
     <ClInclude Include="..\..\src\LuaWrappable.h" />
-    <ClInclude Include="..\..\src\MarketAgent.h" />
     <ClInclude Include="..\..\src\MathUtil.h" />
     <ClInclude Include="..\..\src\matrix4x4.h" />
     <ClInclude Include="..\..\src\Missile.h" />
@@ -405,19 +388,8 @@
     <ClInclude Include="..\..\src\Space.h" />
     <ClInclude Include="..\..\src\SpaceStation.h" />
     <ClInclude Include="..\..\src\SpaceStationType.h" />
-    <ClInclude Include="..\..\src\SpaceStationView.h" />
     <ClInclude Include="..\..\src\SpeedLines.h" />
     <ClInclude Include="..\..\src\Star.h" />
-    <ClInclude Include="..\..\src\StationAdvertForm.h" />
-    <ClInclude Include="..\..\src\StationBulletinBoardForm.h" />
-    <ClInclude Include="..\..\src\StationCommodityMarketForm.h" />
-    <ClInclude Include="..\..\src\StationPoliceForm.h" />
-    <ClInclude Include="..\..\src\StationServicesForm.h" />
-    <ClInclude Include="..\..\src\StationShipEquipmentForm.h" />
-    <ClInclude Include="..\..\src\StationShipMarketForm.h" />
-    <ClInclude Include="..\..\src\StationShipRepairForm.h" />
-    <ClInclude Include="..\..\src\StationShipViewForm.h" />
-    <ClInclude Include="..\..\src\StationShipyardForm.h" />
     <ClInclude Include="..\..\src\StringF.h" />
     <ClInclude Include="..\..\src\StringRange.h" />
     <ClInclude Include="..\..\src\SystemInfoView.h" />

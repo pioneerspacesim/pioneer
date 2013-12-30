@@ -4,6 +4,8 @@
 #include "Gui.h"
 #include "GuiContainer.h"
 
+#include <SDL_stdinc.h>
+
 //#define GUI_DEBUG_CONTAINER
 
 namespace Gui {
@@ -191,18 +193,18 @@ void Container::Draw()
 	GetSize(size);
 	if (!m_transparent) {
 		PROFILE_SCOPED_RAW("Container::Draw - !m_transparent")
-		if (m_bgcol[3] < 1.0) {
+		if (m_bgcol[3] < 255) {
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		}
 		glBegin(GL_QUADS);
-			glColor4fv(m_bgcol);
+			glColor4ubv(m_bgcol);
 			glVertex2f(0, size[1]);
 			glVertex2f(size[0], size[1]);
 			glVertex2f(size[0], 0);
 			glVertex2f(0, 0);
 		glEnd();
-		if (m_bgcol[3] < 1.0) {
+		if (m_bgcol[3] < 255) {
 			glBlendFunc(GL_ONE, GL_ZERO);
 			glDisable(GL_BLEND);
 		}
@@ -302,11 +304,6 @@ void Container::HideAll()
 void Container::SetBgColor(const Color &col)
 {
 	m_bgcol = col;
-}
-
-void Container::SetBgColor(float r, float g, float b, float a)
-{
-	m_bgcol = Color(r, g, b, a);
 }
 
 }

@@ -95,7 +95,7 @@ void Screen::ShowBadError(const char *msg)
 	Gui::Fixed *f = new Gui::Fixed(6*GetWidth()/8.0f, 6*GetHeight()/8.0f);
 	Gui::Screen::AddBaseWidget(f, GetWidth()/8, GetHeight()/8);
 	f->SetTransparency(false);
-	f->SetBgColor(0.4f,0,0,1.0f);
+	f->SetBgColor(Color(96,0,0,255));
 	f->Add(new Gui::Label(msg, TextLayout::ColourMarkupNone), 10, 10);
 
 	Gui::Button *okButton = new Gui::LabelButton(new Gui::Label("Ok"));

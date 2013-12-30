@@ -3,6 +3,7 @@
 
 #include "StarSystem.h"
 #include "Sector.h"
+#include "SectorCache.h"
 #include "Factions.h"
 
 #include "Serializer.h"
@@ -16,6 +17,7 @@
 #include "Orbit.h"
 #include "Lang.h"
 #include "StringF.h"
+#include <SDL_stdinc.h>
 
 static const double CELSIUS	= 273.15;
 //#define DEBUG_DUMP
@@ -38,85 +40,85 @@ static const fixed SUN_MASS_TO_EARTH_MASS = fixed(332998,1);
 static const fixed FIXED_PI = fixed(103993,33102);
 
 // indexed by enum type turd
-float StarSystem::starColors[][3] = {
+Uint8 StarSystem::starColors[][3] = {
 	{ 0, 0, 0 }, // gravpoint
-	{ 0.5f, 0.0f, 0.0f }, // brown dwarf
-	{ 0.4f, 0.4f, 0.8f }, // white dwarf
-	{ 1.0f, 0.2f, 0.0f }, // M
-	{ 1.0f, 0.6f, 0.1f }, // K
-	{ 1.0f, 1.0f, 0.4f }, // G
-	{ 1.0f, 1.0f, 0.8f }, // F
-	{ 1.0f, 1.0f, 1.0f }, // A
-	{ 0.7f, 0.7f, 1.0f }, // B
-	{ 1.0f, 0.7f, 1.0f }, // O
-	{ 1.0f, 0.2f, 0.0f }, // M Giant
-	{ 1.0f, 0.6f, 0.1f }, // K Giant
-	{ 1.0f, 1.0f, 0.4f }, // G Giant
-	{ 1.0f, 1.0f, 0.8f }, // F Giant
-	{ 1.0f, 1.0f, 1.0f }, // A Giant
-	{ 0.7f, 0.7f, 1.0f }, // B Giant
-	{ 1.0f, 0.7f, 1.0f }, // O Giant
-	{ 1.0f, 0.2f, 0.0f }, // M Super Giant
-	{ 1.0f, 0.6f, 0.1f }, // K Super Giant
-	{ 1.0f, 1.0f, 0.4f }, // G Super Giant
-	{ 1.0f, 1.0f, 0.8f }, // F Super Giant
-	{ 1.0f, 1.0f, 1.0f }, // A Super Giant
-	{ 0.7f, 0.7f, 1.0f }, // B Super Giant
-	{ 1.0f, 0.7f, 1.0f }, // O Super Giant
-	{ 1.0f, 0.2f, 0.0f }, // M Hyper Giant
-	{ 1.0f, 0.6f, 0.1f }, // K Hyper Giant
-	{ 1.0f, 1.0f, 0.4f }, // G Hyper Giant
-	{ 1.0f, 1.0f, 0.8f }, // F Hyper Giant
-	{ 1.0f, 1.0f, 1.0f }, // A Hyper Giant
-	{ 0.7f, 0.7f, 1.0f }, // B Hyper Giant
-	{ 1.0f, 0.7f, 1.0f }, // O Hyper Giant
-	{ 1.0f, 0.2f, 0.0f }, // Red/M Wolf Rayet Star
-	{ 0.7f, 0.7f, 1.0f }, // Blue/B Wolf Rayet Star
-	{ 1.0f, 0.7f, 1.0f }, // Purple-Blue/O Wolf Rayet Star
-	{ 0.3f, 0.7f, 0.3f }, // Stellar Blackhole
-	{ 0.2f, 0.9f, 0.2f }, // Intermediate mass Black-hole
-	{ 0.0f, 1.0f, 0.0f }, // Super massive black hole
+	{ 128, 0, 0 }, // brown dwarf
+	{ 102, 102, 204 }, // white dwarf
+	{ 255, 51, 0 }, // M
+	{ 255, 153, 26 }, // K
+	{ 255, 255, 102 }, // G
+	{ 255, 255, 204 }, // F
+	{ 255, 255, 255 }, // A
+	{ 178, 178, 255 }, // B
+	{ 255, 178, 255 }, // O
+	{ 255, 51, 0 }, // M Giant
+	{ 255, 153, 26 }, // K Giant
+	{ 255, 255, 102 }, // G Giant
+	{ 255, 255, 204 }, // F Giant
+	{ 255, 255, 255 }, // A Giant
+	{ 178, 178, 255 }, // B Giant
+	{ 255, 178, 255 }, // O Giant
+	{ 255, 51, 0 }, // M Super Giant
+	{ 255, 153, 26 }, // K Super Giant
+	{ 255, 255, 102 }, // G Super Giant
+	{ 255, 255, 204 }, // F Super Giant
+	{ 255, 255, 255 }, // A Super Giant
+	{ 178, 178, 255 }, // B Super Giant
+	{ 255, 178, 255 }, // O Super Giant
+	{ 255, 51, 0 }, // M Hyper Giant
+	{ 255, 153, 26 }, // K Hyper Giant
+	{ 255, 255, 102 }, // G Hyper Giant
+	{ 255, 255, 204 }, // F Hyper Giant
+	{ 255, 255, 255 }, // A Hyper Giant
+	{ 178, 178, 255 }, // B Hyper Giant
+	{ 255, 178, 255 }, // O Hyper Giant
+	{ 255, 51, 0 }, // Red/M Wolf Rayet Star
+	{ 178, 178, 255 }, // Blue/B Wolf Rayet Star
+	{ 255, 178, 255 }, // Purple-Blue/O Wolf Rayet Star
+	{ 76, 178, 76 }, // Stellar Blackhole
+	{ 51, 230, 51 }, // Intermediate mass Black-hole
+	{ 0, 255, 0 }, // Super massive black hole
 };
 
 // indexed by enum type turd
-float StarSystem::starRealColors[][3] = {
+Uint8 StarSystem::starRealColors[][3] = {
 	{ 0, 0, 0 }, // gravpoint
-	{ 0.5f, 0.0f, 0.0f }, // brown dwarf
-	{ 1.0f, 1.0f, 1.0f }, // white dwarf
-	{ 1.0f, 0.5f, 0.2f }, // M
-	{ 1.0f, 1.0f, 0.4f }, // K
-	{ 1.0f, 1.0f, 0.95f }, // G
-	{ 1.0f, 1.0f, 1.0f }, // F
-	{ 1.0f, 1.0f, 1.0f }, // A
-	{ 0.8f, 0.8f, 1.0f }, // B
-	{ 1.0f, 0.8f, 1.0f },  // O
-	{ 1.0f, 0.5f, 0.2f }, // M Giant
-	{ 1.0f, 1.0f, 0.4f }, // K Giant
-	{ 1.0f, 1.0f, 0.95f }, // G Giant
-	{ 1.0f, 1.0f, 1.0f }, // F Giant
-	{ 1.0f, 1.0f, 1.0f }, // A Giant
-	{ 0.8f, 0.8f, 1.0f }, // B Giant
-	{ 1.0f, 0.8f, 1.0f },  // O Giant
-	{ 1.0f, 0.5f, 0.2f }, // M Super Giant
-	{ 1.0f, 1.0f, 0.4f }, // K Super Giant
-	{ 1.0f, 1.0f, 0.95f }, // G Super Giant
-	{ 1.0f, 1.0f, 1.0f }, // F Super Giant
-	{ 1.0f, 1.0f, 1.0f }, // A Super Giant
-	{ 0.8f, 0.8f, 1.0f }, // B Super Giant
-	{ 1.0f, 0.8f, 1.0f },  // O Super Giant
-	{ 1.0f, 0.5f, 0.2f }, // M Hyper Giant
-	{ 1.0f, 1.0f, 0.4f }, // K Hyper Giant
-	{ 1.0f, 1.0f, 0.95f }, // G Hyper Giant
-	{ 1.0f, 1.0f, 1.0f }, // F Hyper Giant
-	{ 1.0f, 1.0f, 1.0f }, // A Hyper Giant
-	{ 0.8f, 0.8f, 1.0f }, // B Hyper Giant
-	{ 1.0f, 0.8f, 1.0f },  // O Hyper Giant
-	{ 1.0f, 0.6f, 0.6f }, // M WF
-	{ 0.8f, 0.8f, 1.0f }, // B WF
-	{ 1.0f, 0.8f, 1.0f },  // O WF
-	{ 1.0f, 1.0f, 1.0f },  // small Black hole
-	{ 0.06f, 0.0f, 0.08f }, // med BH
-	{ 0.04f, 0.0f, 0.06f }, // massive BH
+	{ 128, 0, 0 }, // brown dwarf
+	{ 255, 255, 255 }, // white dwarf
+	{ 255, 128, 51 }, // M
+	{ 255, 255, 102 }, // K
+	{ 255, 255, 242 }, // G
+	{ 255, 255, 255 }, // F
+	{ 255, 255, 255 }, // A
+	{ 204, 204, 255 }, // B
+	{ 255, 204, 255 },  // O
+	{ 255, 128, 51 }, // M Giant
+	{ 255, 255, 102 }, // K Giant
+	{ 255, 255, 242 }, // G Giant
+	{ 255, 255, 255 }, // F Giant
+	{ 255, 255, 255 }, // A Giant
+	{ 204, 204, 255 }, // B Giant
+	{ 255, 204, 255 },  // O Giant
+	{ 255, 128, 51 }, // M Super Giant
+	{ 255, 255, 102 }, // K Super Giant
+	{ 255, 255, 242 }, // G Super Giant
+	{ 255, 255, 255 }, // F Super Giant
+	{ 255, 255, 255 }, // A Super Giant
+	{ 204, 204, 255 }, // B Super Giant
+	{ 255, 204, 255 },  // O Super Giant
+	{ 255, 128, 51 }, // M Hyper Giant
+	{ 255, 255, 102 }, // K Hyper Giant
+	{ 255, 255, 242 }, // G Hyper Giant
+	{ 255, 255, 255 }, // F Hyper Giant
+	{ 255, 255, 255 }, // A Hyper Giant
+	{ 204, 204, 255 }, // B Hyper Giant
+	{ 255, 204, 255 },  // O Hyper Giant
+	{ 255, 153, 153 }, // M WF
+	{ 204, 204, 255 }, // B WF
+	{ 255, 204, 255 },  // O WF
+	{ 255, 255, 255 },  // small Black hole
+	{ 16, 0, 20 }, // med BH
+	{ 10, 0, 16 }, // massive BH
 };
 
 double StarSystem::starLuminosities[] = {
@@ -1179,11 +1181,11 @@ void SystemBody::PickAtmosphere()
 	switch (type) {
 		case SystemBody::TYPE_PLANET_GAS_GIANT:
 
-			m_atmosColor = Color(1.0f, 1.0f, 1.0f, 0.01f);
+			m_atmosColor = Color(255, 255, 255, 3);
 			m_atmosDensity = 14.0;
 			break;
 		case SystemBody::TYPE_PLANET_ASTEROID:
-			m_atmosColor = Color(0.0f, 0.0f, 0.0f, 0.0f);
+			m_atmosColor = Color(0);
 			m_atmosDensity = 0.0;
 			break;
 		default:
@@ -1237,9 +1239,9 @@ void SystemBody::PickAtmosphere()
 					g = 1.0f;
 					b = 1.0f;
 				}
-				m_atmosColor = Color(r, g, b, 1.0f);
+				m_atmosColor = Color(r*255, g*255, b*255, 255);
 			} else {
-				m_atmosColor = Color(0.0, 0.0, 0.0, 0.0f);
+				m_atmosColor = Color(0);
 			}
 			m_atmosDensity = m_volatileGas.ToDouble();
 			//printf("| Atmosphere :\n|      red   : [%f] \n|      green : [%f] \n|      blue  : [%f] \n", r, g, b);
@@ -1264,7 +1266,7 @@ void SystemBody::PickRings(bool forceRings)
 {
 	m_rings.minRadius = fixed(0);
 	m_rings.maxRadius = fixed(0);
-	m_rings.baseColor = Color4ub(255,255,255,255);
+	m_rings.baseColor = Color(255,255,255,255);
 
 	if (type == SystemBody::TYPE_PLANET_GAS_GIANT) {
 		Random ringRng(seed + 965467);
@@ -1384,7 +1386,7 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path)
 	assert(path.IsSystemPath());
 	memset(m_tradeLevel, 0, sizeof(m_tradeLevel));
 
-	Sector s = Sector(m_path.sectorX, m_path.sectorY, m_path.sectorZ);
+	const Sector &s = *Sector::cache.GetCached(m_path);
 	assert(m_path.systemIndex >= 0 && m_path.systemIndex < s.m_systems.size());
 
 	m_seed    = s.m_systems[m_path.systemIndex].seed;
@@ -2520,7 +2522,7 @@ void StarSystem::ExportToLua(const char *filename) {
 
 	fprintf(f, "system:bodies(%s)\n\n", ExportBodyToLua(f, rootBody.Get()).c_str());
 
-	Sector sec(GetPath().sectorX, GetPath().sectorY, GetPath().sectorZ);
+	const Sector &sec = *Sector::cache.GetCached(GetPath());
 	SystemPath pa = GetPath();
 
 	fprintf(f, "system:add_to_sector(%d,%d,%d,v(%.4f,%.4f,%.4f))\n",

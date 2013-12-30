@@ -155,7 +155,7 @@ void Tabbed::Draw()
 	float xpos = 0;
 	unsigned int index = 0;
 
-	glColor4fv(Theme::Colors::bgShadow);
+	glColor4ubv(Theme::Colors::bgShadow);
 	glBegin(GL_QUADS);
 		glVertex2f(0, TAB_BAR_HEIGHT);
 		glVertex2f(size[0], TAB_BAR_HEIGHT);
@@ -169,7 +169,7 @@ void Tabbed::Draw()
 		(*i).first->GetSize(csize);
 		csize[0] += 2*LABEL_PADDING;
 		if (index == m_page) {
-			glColor4fv(Theme::Colors::bg);
+			glColor4ubv(Theme::Colors::bg);
 			glBegin(GL_QUADS);
 				glVertex2f(xpos, TAB_BAR_HEIGHT);
 				glVertex2f(xpos+csize[0], TAB_BAR_HEIGHT);

@@ -3,6 +3,8 @@
 
 define_ship {
 	name='Kanara Interceptor',
+	ship_class='light_fighter',
+	manufacturer='mandarava_csepel',
 	model='kanara_civ',
 	forward_thrust = 8980000,
 	reverse_thrust = 1800000,
