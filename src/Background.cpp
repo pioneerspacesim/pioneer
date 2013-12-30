@@ -131,7 +131,7 @@ void UniverseBox::Init(Graphics::Renderer *r)
 	m_numCubemaps = GetNumSkyboxes();
 }
 
-void UniverseBox::Draw(Graphics::Renderer *r) const
+void UniverseBox::Draw(Graphics::Renderer *r)
 {
 	if(m_material->texture0) {
 		r->DrawStaticMesh(m_model.get());
@@ -215,7 +215,7 @@ void Starfield::Fill(Uint32 seed)
 	}
 }
 
-void Starfield::Draw(Graphics::Renderer *renderer) const
+void Starfield::Draw(Graphics::Renderer *renderer)
 {
 	// XXX would be nice to get rid of the Pi:: stuff here
 	if (!Pi::game || Pi::player->GetFlightState() != Ship::HYPERSPACE) {
@@ -309,7 +309,7 @@ MilkyWay::~MilkyWay()
 	delete m_model;
 }
 
-void MilkyWay::Draw(Graphics::Renderer *renderer) const
+void MilkyWay::Draw(Graphics::Renderer *renderer)
 {
 	assert(m_model != 0);
 	renderer->DrawStaticMesh(m_model);
@@ -321,6 +321,7 @@ Container::Container(Graphics::Renderer *r)
 , m_universeBox(r)
 , m_seed(0)
 , m_drawFlags( DRAW_SKYBOX )
+, m_loadCubeMap(true)
 {
 }
 
@@ -330,6 +331,7 @@ Container::Container(Graphics::Renderer *r, Uint32 seed)
 , m_universeBox(r)
 , m_seed(seed)
 , m_drawFlags( DRAW_SKYBOX )
+, m_loadCubeMap(true)
 {
 	Refresh(seed);
 };
@@ -339,7 +341,17 @@ void Container::Refresh(Uint32 seed)
 	// redo starfield, milkyway stays normal for now
 	m_starField.Fill(seed);
 	if(m_seed != seed) {
-		Graphics::Renderer *r = Pi::renderer;
+		m_loadCubeMap = true;
+	}
+	m_seed = seed;
+}
+
+void Container::Draw(Graphics::Renderer *renderer, const matrix4x4d &transform)
+{
+	PROFILE_SCOPED()
+	if( m_loadCubeMap )
+	{
+		m_loadCubeMap = false;
 		if(Pi::player == nullptr || Pi::player->GetFlightState() != Ship::HYPERSPACE) {
 			if(Pi::player && Pi::game->GetSpace()->GetStarSystem()) {
 				Uint32 seeds [5];
@@ -350,21 +362,15 @@ void Container::Refresh(Uint32 seed)
 				seeds[3] = system_path.sectorZ;
 				seeds[4] = UNIVERSE_SEED;
 				Random rand(seeds, 5);
-				m_universeBox.LoadCubeMap(r, &rand);
+				m_universeBox.LoadCubeMap(renderer, &rand);
 			} else {
 				Random rand(m_seed);
-				m_universeBox.LoadCubeMap(r, &rand);
+				m_universeBox.LoadCubeMap(renderer, &rand);
 			}
 		} else {
-			m_universeBox.LoadCubeMap(r);
+			m_universeBox.LoadCubeMap(renderer);
 		}
 	}
-	m_seed = seed;
-}
-
-void Container::Draw(Graphics::Renderer *renderer, const matrix4x4d &transform) const
-{
-	PROFILE_SCOPED()
 	renderer->SetBlendMode(BLEND_SOLID);
 	renderer->SetDepthTest(false);
 	renderer->SetTransform(transform);
