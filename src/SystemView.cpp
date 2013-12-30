@@ -318,6 +318,7 @@ void SystemView::Draw3D()
 {
 	PROFILE_SCOPED()
 	m_renderer->SetPerspectiveProjection(50.f, m_renderer->GetDisplayAspect(), 1.f, 1000.f);
+	m_renderer->SetDepthWrite(true);
 	m_renderer->ClearScreen();
 
 	SystemPath path = Pi::sectorView->GetSelectedSystem();

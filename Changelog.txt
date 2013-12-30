@@ -12,6 +12,7 @@ December 2013
      * Fix GL color depth selection (forces alpha channel, which fixes
        progress bars) (#2573)
      * ARMOUR flag to InfoFace now works (#2589)
+     * Fix depth bug in System and Sector views  (#2595, #2551)
 
    * Script and UI API changes
      * Money is now handled entirely in Lua (#2589)
