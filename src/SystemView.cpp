@@ -372,6 +372,11 @@ void SystemView::Draw3D()
 	glDisable(GL_FOG);
 }
 
+void SystemView::OnSwitchTo() 
+{
+	m_renderer->SetViewport(0, 0, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
+}
+
 void SystemView::Update()
 {
 	const float ft = Pi::GetFrameTime();

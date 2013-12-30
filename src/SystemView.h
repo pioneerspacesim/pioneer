@@ -20,7 +20,7 @@ public:
 	virtual void Update();
 	virtual void Draw3D();
 protected:
-	virtual void OnSwitchTo() {}
+	virtual void OnSwitchTo();
 private:
 	static const double PICK_OBJECT_RECT_SIZE;
 	void PutOrbit(const Orbit *orb, const vector3d &offset, const Color &color, double planetRadius = 0.0);
