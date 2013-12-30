@@ -401,17 +401,16 @@ void WorldView::Draw3D()
 	assert(Pi::player);
 	assert(!Pi::player->IsDead());
 
+	ModelBody* excludeBody = nullptr;
 	ShipCockpit* cockpit = nullptr;
 	if(GetCamType() == CAM_COCKPIT && Pi::player) {
 		cockpit = const_cast<ShipCockpit*>(Pi::player->GetCockpit());
+		excludeBody = Pi::player;
+	} else if (GetCamType() == CAM_INTERNAL) {
+		excludeBody = Pi::player;
 	}
 
-	m_camera->Draw(
-		m_renderer, 
-		GetCamType() == CAM_INTERNAL ? Pi::player : nullptr,
-		cockpit);
-
-	if (!Pi::DrawGUI) return;
+	m_camera->Draw(m_renderer, excludeBody, cockpit);
 
 	// Draw 3D HUD
 	// Speed lines
