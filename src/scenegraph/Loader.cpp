@@ -323,6 +323,9 @@ Model *Loader::CreateModel(ModelDefinition &def)
 	// If no collision mesh is defined, a simple bounding box will be generated
 	m_model->CreateCollisionMesh();
 
+	// Do an initial animation update to get all the animation transforms correct
+	m_model->UpdateAnimations();
+
 	//find usable pattern textures from the model directory
 	if (patternsUsed) {
 		FindPatterns(model->m_patterns);
