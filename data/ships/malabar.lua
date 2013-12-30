@@ -28,6 +28,6 @@ define_ship {
 	-- Smaller ships built for speed often mount engines with higher Vc. Another way to make faster ship is to increase fuel_tank_mass.
 	effective_exhaust_velocity = 312172000,
 	price = 700000,
-	hyperdrive_class = 0,
+	hyperdrive_class = 9,
 }
 
