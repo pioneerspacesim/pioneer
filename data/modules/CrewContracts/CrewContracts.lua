@@ -400,6 +400,7 @@ Event.Register("onGameStart", function()
 		for k,station in ipairs(loaded_data.stationsWithAdverts) do
 			stationsWithAdverts[station:AddAdvert(l.CREW_FOR_HIRE, onChat)] = station
 		end
+		loaded_data = nil
 	end
 end)
 
