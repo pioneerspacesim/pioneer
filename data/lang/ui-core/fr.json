@@ -9,7 +9,7 @@
    },
    "AFTER_TRADE_IN" : {
       "description" : "",
-      "message" : "After trade-in"
+      "message" : "Après échange"
    },
    "ALLEGIANCE" : {
       "description" : "",
@@ -21,7 +21,7 @@
    },
    "AMOUNT" : {
       "description" : "",
-      "message" : "Amount"
+      "message" : "Montant"
    },
    "AN_ERROR_HAS_OCCURRED" : {
       "description" : "",
@@ -33,7 +33,7 @@
    },
    "AVAILABLE_FOR_PURCHASE" : {
       "description" : "",
-      "message" : "Available for purchase"
+      "message" : "Disponible à l'achat"
    },
    "AVERAGE" : {
       "description" : "",
@@ -45,11 +45,11 @@
    },
    "BULLETIN_BOARD" : {
       "description" : "",
-      "message" : "Bulletin Board"
+      "message" : "Tableau d'affichage"
    },
    "BUY_SHIP" : {
       "description" : "",
-      "message" : "Buy Ship"
+      "message" : "Acheter vaisseau"
    },
    "CABINS" : {
       "description" : "",
@@ -61,7 +61,7 @@
    },
    "CAPACITY" : {
       "description" : "",
-      "message" : "Capacity"
+      "message" : "Capacité"
    },
    "CAPACITY_USED" : {
       "description" : "",
@@ -81,7 +81,7 @@
    },
    "CASH_N" : {
       "description" : "",
-      "message" : "Cash: {money}"
+      "message" : "Argent:{money}"
    },
    "CHANGE_BINDING" : {
       "description" : "",
@@ -89,7 +89,7 @@
    },
    "CHIEF_MECHANIC" : {
       "description" : "",
-      "message" : "Chief Mechanic"
+      "message" : "Chef mécanicien"
    },
    "CIRCULAR_ORBIT_SPEED" : {
       "description" : "",
@@ -101,7 +101,7 @@
    },
    "CLEAN" : {
       "description" : "",
-      "message" : "Clean"
+      "message" : "Vierge"
    },
    "CLEAR" : {
       "description" : "",
@@ -121,7 +121,7 @@
    },
    "COMMODITY_MARKET" : {
       "description" : "",
-      "message" : "Commodity Market"
+      "message" : "Bourse d'échange"
    },
    "COMPETENT" : {
       "description" : "",
@@ -137,7 +137,7 @@
    },
    "CONSTABLE" : {
       "description" : "",
-      "message" : "Constable"
+      "message" : "Agent de police"
    },
    "CONTROLS" : {
       "description" : "",
@@ -161,7 +161,7 @@
    },
    "CRIMINAL_RECORD" : {
       "description" : "",
-      "message" : "Criminal record"
+      "message" : "Casier judiciaire"
    },
    "DANGEROUS" : {
       "description" : "",
@@ -269,7 +269,7 @@
    },
    "FORWARD_ACCEL_EMPTY" : {
       "description" : "",
-      "message" : "Forward accel (empty)"
+      "message" : "Poussée (à vide)"
    },
    "FORWARD_ACCEL_FULL" : {
       "description" : "",
@@ -317,7 +317,7 @@
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Hang up."
+      "message" : "Raccrochez."
    },
    "HARMLESS" : {
       "description" : "",
@@ -357,7 +357,7 @@
    },
    "HULL_INTEGRITY" : {
       "description" : "",
-      "message" : "Hull integrity"
+      "message" : "Intégrité coque"
    },
    "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT" : {
       "description" : "",
@@ -373,7 +373,7 @@
    },
    "HYPERDRIVE_FITTED" : {
       "description" : "",
-      "message" : "Hyperdrive fitted:"
+      "message" : "Hyperpropulsion installée :"
    },
    "HYPERSPACE_RANGE" : {
       "description" : "",
@@ -401,7 +401,7 @@
    },
    "ITEM_IS_OUT_OF_STOCK" : {
       "description" : "",
-      "message" : "This item is out of stock."
+      "message" : "Nous n'avons pas cet objet en stock."
    },
    "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE" : {
       "description" : "",
@@ -425,7 +425,7 @@
    },
    "LEGAL_STATUS" : {
       "description" : "",
-      "message" : "Legal status"
+      "message" : "Casier judiciaire"
    },
    "LIGHT_CARGO_SHUTTLE" : {
       "description" : "",
@@ -489,7 +489,7 @@
    },
    "MASS" : {
       "description" : "",
-      "message" : "Mass"
+      "message" : "Masse"
    },
    "MASTER" : {
       "description" : "",
@@ -561,7 +561,7 @@
    },
    "MURDER" : {
       "description" : "",
-      "message" : "Murder"
+      "message" : "Meurtre"
    },
    "MUSIC" : {
       "description" : "",
@@ -665,7 +665,7 @@
    },
    "PIRACY" : {
       "description" : "",
-      "message" : "Piracy"
+      "message" : "Piraterie"
    },
    "PLANET_DETAIL_DISTANCE" : {
       "description" : "",
@@ -693,7 +693,7 @@
    },
    "PRICE" : {
       "description" : "",
-      "message" : "Price"
+      "message" : "Prix"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
@@ -725,7 +725,7 @@
    },
    "REQUEST_LAUNCH" : {
       "description" : "",
-      "message" : "Request Launch"
+      "message" : "Requête de lancement"
    },
    "RETURN_TO_MENU" : {
       "description" : "",
@@ -733,7 +733,7 @@
    },
    "REVERSE_ACCEL_EMPTY" : {
       "description" : "",
-      "message" : "Reverse accel (empty)"
+      "message" : "Décélération (à vide)"
    },
    "REVERSE_ACCEL_FULL" : {
       "description" : "",
@@ -769,7 +769,7 @@
    },
    "SHIP" : {
       "description" : "",
-      "message" : "Ship"
+      "message" : "Vaisseau"
    },
    "SHIP_INFORMATION" : {
       "description" : "",
@@ -777,11 +777,11 @@
    },
    "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
       "description" : "",
-      "message" : "Your ship is in perfect working condition."
+      "message" : "Votre vaisseau est en parfait état."
    },
    "SHIP_IS_FULLY_LADEN" : {
       "description" : "",
-      "message" : "Your ship is fully laden."
+      "message" : "Votre vaisseau est rempli."
    },
    "SHIP_MARKET" : {
       "description" : "",
@@ -821,7 +821,7 @@
    },
    "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
       "description" : "",
-      "message" : "Thank you for your purchase. Remember to fit equipment and buy fuel before you depart."
+      "message" : "Merci pour votre achat. Souvenez vous d'installer l'équipement et de faire le plein."
    },
    "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP" : {
       "description" : "",
@@ -845,7 +845,7 @@
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
-      "message" : "Trading illegal goods"
+      "message" : "Contrebande de produits illégaux"
    },
    "TYPE" : {
       "description" : "",
@@ -853,7 +853,7 @@
    },
    "UNLAWFUL_WEAPONS_DISCHARGE" : {
       "description" : "",
-      "message" : "Unlawful weapons discharge"
+      "message" : "Utilisation illégale d'armes"
    },
    "UP_ACCEL" : {
       "description" : "",
@@ -893,7 +893,7 @@
    },
    "WEIGHT_FULLY_LOADED" : {
       "description" : "",
-      "message" : "Weight fully loaded"
+      "message" : "Poids à pleine charge"
    },
    "WE_ARE_IN_HYPERSPACE_COMMANDER" : {
       "description" : "",
@@ -901,7 +901,7 @@
    },
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
       "description" : "",
-      "message" : "We have no business with you at the moment."
+      "message" : "Nous n'avons rien à vous reprocher pour le moment."
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",
@@ -933,6 +933,6 @@
    },
    "YOU_NOT_ENOUGH_MONEY" : {
       "description" : "",
-      "message" : "You do not have enough money"
+      "message" : "Vous n'avez pas assez d'argent"
    }
 }
