@@ -19,6 +19,7 @@ public:
 	// lightyears
 	static const float SIZE;
 	Sector(int x, int y, int z);
+	Sector(const SystemPath& path);
 	static float DistanceBetween(const Sector *a, int sysIdxA, const Sector *b, int sysIdxB);
 	static void Init();
 
@@ -30,6 +31,9 @@ public:
 
 	// sets appropriate factions for all systems in the sector
 	void AssignFactions();
+
+	// get the SystemPath for this sector
+	SystemPath GetSystemPath() const { return SystemPath(sx, sy, sz); }
 
 	class System {
 	public:

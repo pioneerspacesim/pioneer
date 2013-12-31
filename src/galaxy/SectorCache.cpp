@@ -34,6 +34,13 @@ SectorCache::~SectorCache()
 	}
 }
 
+void SectorCache::AddToCache(const std::vector<Sector>& secIn)
+{
+	for (auto it = secIn.begin(), itEnd = secIn.end(); it != itEnd; ++it) {
+		m_sectorCache.insert( std::pair<SystemPath,Sector*>((*it).GetSystemPath(), new Sector((*it))) );
+	}
+}
+
 Sector* SectorCache::GetCached(const SystemPath& loc)
 {
 	PROFILE_SCOPED()
@@ -48,6 +55,17 @@ Sector* SectorCache::GetCached(const SystemPath& loc)
 	s->AssignFactions();
 
 	return s;
+}
+
+bool SectorCache::HasCached(const SystemPath& loc) const
+{
+	PROFILE_SCOPED()
+
+	const SectorCacheMap::const_iterator i = m_sectorCache.find(loc);
+	if (i != m_sectorCache.end())
+		return true;
+
+	return false;
 }
 
 void SectorCache::ShrinkCache()
@@ -87,4 +105,24 @@ void SectorCache::ShrinkCache()
 		m_cacheZMin = zmin;
 		m_cacheZMax = zmax;
 	}
+}
+
+SectorCacheJob::SectorCacheJob(const std::vector<SystemPath>& path) : Job(), m_paths(path)
+{
+	m_sectors.reserve(m_paths.size());
+}
+
+//virtual
+void SectorCacheJob::OnRun()    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
+{
+	for (auto it = m_paths.begin(), itEnd = m_paths.end(); it != itEnd; ++it) {
+		Sector newSec(*it);
+		newSec.AssignFactions();
+		m_sectors.push_back( newSec );
+	}
+}
+//virtual
+void SectorCacheJob::OnFinish()  // runs in primary thread of the context
+{
+	Sector::cache.AddToCache( m_sectors );
 }

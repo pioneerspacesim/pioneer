@@ -76,6 +76,7 @@ public:
 
 
 private:
+	void GenSectorCache();
 	void GenBody(double at_time, SystemBody *b, Frame *f);
 	// make sure SystemBody* is in Pi::currentSystem
 	Frame *GetFrameWithSystemBody(const SystemBody *b) const;

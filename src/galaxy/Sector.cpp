@@ -234,6 +234,10 @@ Sector::Sector(int x, int y, int z)
 	}
 }
 
+Sector::Sector(const SystemPath& path) : Sector(path.sectorX, path.sectorY, path.sectorZ)
+{
+}
+
 float Sector::DistanceBetween(const Sector *a, int sysIdxA, const Sector *b, int sysIdxB)
 {
 	PROFILE_SCOPED()
