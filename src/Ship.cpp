@@ -335,6 +335,7 @@ bool Ship::OnDamage(Object *attacker, float kgDamage)
 
 		m_stats.hull_mass_left -= dam;
 		Properties().Set("hullMassLeft", m_stats.hull_mass_left);
+		Properties().Set("hullPercent", 100.0f * (m_stats.hull_mass_left / float(m_type->hullMass)));
 		if (m_stats.hull_mass_left < 0) {
 			if (attacker) {
 				if (attacker->IsType(Object::BODY))
@@ -1108,6 +1109,7 @@ void Ship::StaticUpdate(const float timeStep)
 	if (m_equipment.Get(Equip::SLOT_HULLAUTOREPAIR) == Equip::HULL_AUTOREPAIR) {
 		m_stats.hull_mass_left = std::min(m_stats.hull_mass_left + 0.1f*timeStep, float(m_type->hullMass));
 		Properties().Set("hullMassLeft", m_stats.hull_mass_left);
+		Properties().Set("hullPercent", 100.0f * (m_stats.hull_mass_left / float(m_type->hullMass)));
 	}
 
 	// After calling StartHyperspaceTo this Ship must not spawn objects

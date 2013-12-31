@@ -26,7 +26,7 @@ void MeterBar::Draw()
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glColor4b(255,255,255,32);
+	glColor4ub(255,255,255,32);
 	Gui::Theme::DrawRoundEdgedRect(size, 5.0);
 
 	Graphics::Renderer *r = Gui::Screen::GetRenderer();
