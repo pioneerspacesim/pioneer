@@ -71,11 +71,11 @@ local police = function (tab)
 	end
 
 	return
-		ui:Grid(2,1)
+		ui:Grid({48,4,48},1)
 			:SetColumn(0, {
 				infoBox
 			})
-			:SetColumn(1, {
+			:SetColumn(2, {
 				face.widget
 			})
 end
