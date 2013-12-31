@@ -99,7 +99,7 @@ void Camera::Update()
 	// depth sort
 	m_sortedBodies.sort();
 }
-#pragma optimize("",off)
+
 void Camera::Draw(Graphics::Renderer *renderer, const Body *excludeBody, ModelBody* cockpit)
 {
 	PROFILE_SCOPED()

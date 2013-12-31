@@ -274,6 +274,9 @@ void WorldView::SetCamType(enum CamType c)
 	if (Pi::player->GetFlightState() == Ship::DOCKED && !Pi::player->GetDockedWith()->IsGroundStation())
 		c = CAM_INTERNAL;
 
+	if (CAM_COCKPIT == c && Pi::player->GetCockpit() == nullptr)
+		c = CAM_INTERNAL;
+
 	m_camType = c;
 
 	switch(m_camType) {
