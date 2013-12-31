@@ -395,8 +395,6 @@ void WorldView::Draw3D()
 	assert(!Pi::player->IsDead());
 	m_camera->Draw(m_renderer, GetCamType() == CAM_INTERNAL ? Pi::player : 0);
 
-	if (!Pi::DrawGUI) return;
-
 	// Draw 3D HUD
 	// Speed lines
 	if (Pi::AreSpeedLinesDisplayed())
