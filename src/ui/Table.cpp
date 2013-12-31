@@ -274,8 +274,6 @@ void Table::Layout()
 	int top = preferredSize.y;
 	size.y -= top;
 
-	int sliderLeft = preferredSize.x;
-
 	preferredSize = m_body->PreferredSize();
 	if (preferredSize.y <= size.y) {
 		if (m_slider->GetContainer()) {
@@ -288,10 +286,8 @@ void Table::Layout()
 		if (!m_onMouseWheelConn.connected())
 			m_onMouseWheelConn = onMouseWheel.connect(sigc::mem_fun(this, &Table::OnMouseWheel));
 
-		sliderLeft = std::max(sliderLeft, preferredSize.x);
-
 		const Point sliderSize(m_slider->PreferredSize().x, size.y);
-		const Point sliderPos(std::min(sliderLeft,size.x-sliderSize.x), top);
+		const Point sliderPos(size.x-sliderSize.x, top);
 		SetWidgetDimensions(m_slider.Get(), sliderPos, sliderSize);
 
 		size.x = sliderPos.x;

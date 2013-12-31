@@ -7,6 +7,7 @@ December 2013
      * Make file type (file extension) checks case insensitive (#2328, #2563)
      * Optimise GL matrix operations (improves FPS) (#2541, #2572)
      * Rewrote UI.Box layout to constrain children to the allocated area (#2575)
+     * Table widget now positions its scroll bar on its far-right edge (#2601)
 
    * Fixes
      * Fix GL color depth selection (forces alpha channel, which fixes

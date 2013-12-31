@@ -233,7 +233,7 @@ local crewRoster = function ()
 			end
 		end)
 
-		CrewScreen:SetInnerWidget(ui:Grid(2,1)
+		CrewScreen:SetInnerWidget(ui:Grid({48,4,48},1)
 		-- Set left hand side of page: General information about the Character
 		:SetColumn(0, {
 			ui:VBox(20):PackEnd({
@@ -275,7 +275,7 @@ local crewRoster = function ()
 			})
 		})
 		-- Set Right hand side of page: Character's face
-		:SetColumn(1, { InfoFace.New(crewMember) }))
+		:SetColumn(2, { InfoFace.New(crewMember) }))
 	end
 
 	CrewScreen:SetInnerWidget(makeCrewList())
