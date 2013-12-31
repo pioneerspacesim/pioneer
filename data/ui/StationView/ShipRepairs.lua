@@ -94,7 +94,7 @@ local shipRepairs = function (args)
 	local face = InfoFace.New(Character.New({ title = l.CHIEF_MECHANIC }, rand))
 
 	return
-		ui:Grid(2,1)
+		ui:Grid({48,4,48},1)
 			:SetColumn(0, {
 				ui:VBox(5):PackEnd({
 					messageLabel,
@@ -107,7 +107,7 @@ local shipRepairs = function (args)
 					})
 				})
 			})
-			:SetColumn(1, {
+			:SetColumn(2, {
 				face
 			})
 

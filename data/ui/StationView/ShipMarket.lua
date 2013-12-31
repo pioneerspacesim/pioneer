@@ -190,9 +190,9 @@ local shipMarket = function (args)
 	updateStation(station, station:GetShipsOnSale())
 
 	return
-		ui:Grid(2,1)
+		ui:Grid({48,4,48},1)
 			:SetColumn(0, {shipTable})
-			:SetColumn(1, {shipInfo})
+			:SetColumn(2, {shipInfo})
 end
 
 return shipMarket
