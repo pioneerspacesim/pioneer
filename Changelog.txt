@@ -17,7 +17,7 @@ December 2013
    * Script and UI API changes
      * Money is now handled entirely in Lua (#2589)
      * SceneGraph.ModelSkin is serializable (#2589)
-     * Ship.hullPercent is now bindable (#2589)
+     * Ship.hullPercent is now bindable (#2589, #2600, #2598)
      * New format functions: Format.AccelG and Format.MassTonnes (#2589)
      * New ship properties: totalCargo, usedCabins, totalCabins (#2589)
 
