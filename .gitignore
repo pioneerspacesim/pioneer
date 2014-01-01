@@ -43,6 +43,8 @@ configure
 depcomp
 install-sh
 missing
+compile
+test-driver
 stamp-h1
 *~
 *.orig
