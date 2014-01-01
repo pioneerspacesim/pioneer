@@ -73,9 +73,7 @@ RendererGL2::RendererGL2(WindowSDL *window, const Graphics::Settings &vs)
 , m_activeRenderTarget(0)
 , m_matrixMode(MatrixMode::MODELVIEW)
 {
-	for(Uint32 i = 0; i < 4; i++) {
-		m_currentViewport[i] = 0;
-	}
+	m_viewportStack.push(TViewport());
 
 	const bool useDXTnTextures = vs.useTextureCompression && glewIsSupported("GL_EXT_texture_compression_s3tc");
 	m_useCompressedTextures = useDXTnTextures;
@@ -217,10 +215,12 @@ bool RendererGL2::SetClearColor(const Color &c)
 
 bool RendererGL2::SetViewport(int x, int y, int width, int height)
 {
-	m_currentViewport[0] = x;
-	m_currentViewport[1] = y;
-	m_currentViewport[2] = width;
-	m_currentViewport[3] = height;
+	assert(!m_viewportStack.empty());
+	TViewport& currentViewport = m_viewportStack.top();
+	currentViewport.viewport[0] = x;
+	currentViewport.viewport[1] = y;
+	currentViewport.viewport[2] = width;
+	currentViewport.viewport[3] = height;
 	glViewport(x, y, width, height);
 	return true;
 }
@@ -844,12 +844,15 @@ void RendererGL2::PushState()
 	PushMatrix();
 	SetMatrixMode(MatrixMode::MODELVIEW);
 	PushMatrix();
+	m_viewportStack.push( m_viewportStack.top() );
 	glPushAttrib(GL_ALL_ATTRIB_BITS & (~GL_POINT_BIT));
 }
 
 void RendererGL2::PopState()
 {
 	glPopAttrib();
+	m_viewportStack.pop();
+	assert(!m_viewportStack.empty());
 	SetMatrixMode(MatrixMode::PROJECTION);
 	PopMatrix();
 	SetMatrixMode(MatrixMode::MODELVIEW);
