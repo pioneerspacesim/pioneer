@@ -47,7 +47,9 @@ void Table::LayoutAccumulator::SetColumnSpacing(int spacing) {
 Table::Inner::Inner(Context *context, LayoutAccumulator &layout) : Container(context),
 	m_layout(layout),
 	m_rowSpacing(0),
-	m_dirty(false)
+	m_rowAlignment(TOP),
+	m_dirty(false),
+	m_mouseEnabled(false)
 {
 }
 
@@ -92,7 +94,8 @@ void Table::Inner::Layout()
 	if (m_dirty)
 		PreferredSize();
 
-	Point pos;
+	int rowTop = 0;
+
 	const std::vector<int> &colWidth = m_layout.ColumnWidth();
 	const std::vector<int> &colLeft = m_layout.ColumnLeft();
 
@@ -101,13 +104,42 @@ void Table::Inner::Layout()
 		for (std::size_t j = 0; j < row.size(); j++) {
 			Widget *w = row[j];
 			if (!w) continue;
-			pos.x = colLeft[j];
-			SetWidgetDimensions(w, pos, Point(colWidth[j], m_rowHeight[i]));
+
+			const Point preferredSize(w->PreferredSize());
+			int height = std::min(preferredSize.y, m_rowHeight[i]);
+
+			int off = 0;
+			if (height != m_rowHeight[i]) {
+				switch (m_rowAlignment) {
+					case CENTER:
+						off = (m_rowHeight[i] - height) / 2;
+						break;
+					case BOTTOM:
+						off = m_rowHeight[i] - height;
+						break;
+					default:
+						off = 0;
+						break;
+				}
+			}
+
+			SetWidgetDimensions(w, Point(colLeft[j], rowTop+off), Point(colWidth[j], height));
 		}
-		pos.y += m_rowHeight[i] + m_rowSpacing;
+
+		rowTop += m_rowHeight[i] + m_rowSpacing;
 	}
 
 	LayoutChildren();
+}
+
+void Table::Inner::Draw()
+{
+	int row_top, row_bottom;
+	if (m_mouseEnabled && IsMouseOver() && RowUnderPoint(GetMousePos(), &row_top, &row_bottom) >= 0) {
+		GetContext()->GetSkin().DrawRectHover(Point(0, row_top), Point(GetSize().x, row_bottom - row_top));
+	}
+
+	Container::Draw();
 }
 
 void Table::Inner::AddRow(const std::vector<Widget*> &widgets)
@@ -152,6 +184,49 @@ void Table::Inner::SetRowSpacing(int spacing)
 	m_dirty = true;
 }
 
+void Table::Inner::SetRowAlignment(RowAlignDirection dir)
+{
+	m_rowAlignment = dir;
+	m_dirty = true;
+}
+
+void Table::Inner::HandleClick()
+{
+	if (m_mouseEnabled) {
+		int row = RowUnderPoint(GetMousePos());
+		if (row >= 0)
+			onRowClicked.emit(row);
+	}
+
+	Container::HandleClick();
+}
+
+int Table::Inner::RowUnderPoint(const Point &pt, int *out_row_top, int *out_row_bottom) const
+{
+	int start = 0, end = m_rows.size()-1, mid = 0;
+	while (start <= end) {
+		mid = start+((end-start)/2);
+
+		const Widget *w = m_rows[mid][0];
+		const int rowTop = w->GetPosition().y;
+		const int rowBottom = rowTop + w->GetSize().y;
+
+		if (pt.y < rowTop)
+			end = mid-1;
+		else if (pt.y >= rowBottom)
+			start = mid+1;
+		else {
+			if (out_row_top) { *out_row_top = rowTop; }
+			if (out_row_bottom) { *out_row_bottom = rowBottom; }
+			return mid;
+		}
+	}
+
+	if (out_row_top) { *out_row_top = 0; }
+	if (out_row_bottom) { *out_row_bottom = 0; }
+	return -1;
+}
+
 
 Table::Table(Context *context) : Container(context),
 	m_dirty(false)
@@ -161,6 +236,8 @@ Table::Table(Context *context) : Container(context),
 
 	m_body.Reset(new Table::Inner(GetContext(), m_layout));
 	AddWidget(m_body.Get());
+
+	m_body->onRowClicked.connect(sigc::mem_fun(&onRowClicked, &sigc::signal<void,unsigned int>::emit));
 
 	m_slider.Reset(GetContext()->VSlider());
 	m_slider->onValueChanged.connect(sigc::mem_fun(this, &Table::OnScroll));
@@ -197,8 +274,6 @@ void Table::Layout()
 	int top = preferredSize.y;
 	size.y -= top;
 
-	int sliderLeft = preferredSize.x;
-
 	preferredSize = m_body->PreferredSize();
 	if (preferredSize.y <= size.y) {
 		if (m_slider->GetContainer()) {
@@ -208,12 +283,11 @@ void Table::Layout()
 	}
 	else {
 		AddWidget(m_slider.Get());
-		m_onMouseWheelConn = onMouseWheel.connect(sigc::mem_fun(this, &Table::OnMouseWheel));
-
-		sliderLeft = std::max(sliderLeft, preferredSize.x);
+		if (!m_onMouseWheelConn.connected())
+			m_onMouseWheelConn = onMouseWheel.connect(sigc::mem_fun(this, &Table::OnMouseWheel));
 
 		const Point sliderSize(m_slider->PreferredSize().x, size.y);
-		const Point sliderPos(std::min(sliderLeft,size.x-sliderSize.x), top);
+		const Point sliderPos(size.x-sliderSize.x, top);
 		SetWidgetDimensions(m_slider.Get(), sliderPos, sliderSize);
 
 		size.x = sliderPos.x;
@@ -229,6 +303,7 @@ Table *Table::SetHeadingRow(const WidgetSet &set)
 	m_header->Clear();
 	m_header->AddRow(set.widgets);
 	m_dirty = true;
+	GetContext()->RequestLayout();
 	return this;
 }
 
@@ -236,14 +311,22 @@ Table *Table::AddRow(const WidgetSet &set)
 {
 	m_body->AddRow(set.widgets);
 	m_dirty = true;
+	GetContext()->RequestLayout();
 	return this;
+}
 
+void Table::ClearRows()
+{
+	m_body->Clear();
+	m_dirty = true;
+	GetContext()->RequestLayout();
 }
 
 Table *Table::SetRowSpacing(int spacing)
 {
 	m_body->SetRowSpacing(spacing);
 	m_dirty = true;
+	GetContext()->RequestLayout();
 	return this;
 }
 
@@ -251,14 +334,29 @@ Table *Table::SetColumnSpacing(int spacing)
 {
 	m_layout.SetColumnSpacing(spacing);
 	m_dirty = true;
+	GetContext()->RequestLayout();
 	return this;
 }
 
+Table *Table::SetRowAlignment(RowAlignDirection dir)
+{
+	m_body->SetRowAlignment(dir);
+	m_dirty = true;
+	GetContext()->RequestLayout();
+	return this;
+}
 
 Table *Table::SetHeadingFont(Font font)
 {
 	m_header->SetFont(font);
 	m_dirty = true;
+	GetContext()->RequestLayout();
+	return this;
+}
+
+Table *Table::SetMouseEnabled(bool enabled)
+{
+	m_body->SetMouseEnabled(enabled);
 	return this;
 }
 

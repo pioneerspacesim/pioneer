@@ -7,6 +7,7 @@ local Space = import("Space")
 local Event = import("Event")
 local EquipDef = import("EquipDef")
 local ShipDef = import("ShipDef")
+local Ship = import("Ship")
 local utils = import("utils")
 
 local onEnterSystem = function (player)
@@ -36,11 +37,11 @@ local onEnterSystem = function (player)
 		local laserdef = laserdefs[Engine.rand:Integer(1,#laserdefs)]
 
 		local ship = Space.SpawnShip(shipdef.id, 8, 12)
+		ship:SetLabel(Ship.MakeRandomLabel())
 		ship:AddEquip(default_drive)
 		ship:AddEquip(laserdef.id)
 
-		local playerStats = player:GetStats()
-		local playerCargoCapacity = playerStats.maxCapacity
+		local playerCargoCapacity = ShipDef[player.shipId].capacity
 		local probabilityPirateIsInterested = playerCargoCapacity/100.0
 		if Engine.rand:Number(1) < probabilityPirateIsInterested then
 			ship:AIKill(Game.player)

@@ -13,7 +13,7 @@ namespace SceneGraph {
 
 static const std::string thrusterTextureFilename("textures/thruster.png");
 static const std::string thrusterGlowTextureFilename("textures/halo.png");
-static Color baseColor(0.7f, 0.6f, 1.f, 1.f);
+static Color baseColor(178, 153, 255, 255);
 
 Thruster::Thruster(Graphics::Renderer *r, bool _linear, const vector3f &_pos, const vector3f &_dir)
 : Node(r, NODE_TRANSPARENT)
@@ -95,8 +95,9 @@ void Thruster::Render(const matrix4x4f &trans, const RenderData *rd)
 	//directional fade
 	vector3f cdir = vector3f(trans * -dir).Normalized();
 	vector3f vdir = vector3f(trans[2], trans[6], -trans[10]).Normalized();
-	m_glowMat->diffuse.a = Easing::Circ::EaseIn(Clamp(vdir.Dot(cdir), 0.f, 1.f), 0.f, 1.f, 1.f);
-	m_tMat->diffuse.a = 1.f - m_glowMat->diffuse.a;
+	// XXX check this for transition to new colors.
+	m_glowMat->diffuse.a = Easing::Circ::EaseIn(Clamp(vdir.Dot(cdir), 0.f, 1.f), 0.f, 1.f, 1.f) * 255;
+	m_tMat->diffuse.a = 255 - m_glowMat->diffuse.a;
 
 	r->DrawTriangles(m_tVerts.get(), m_tMat.Get());
 	r->DrawTriangles(m_glowVerts.get(), m_glowMat.Get());

@@ -7,19 +7,19 @@
       "description" : "",
       "message" : "Begin trade"
    },
-   "FLAVOUR_CLUBNAME_0" : {
+   "FLAVOUR_0_CLUBNAME" : {
       "description" : "",
       "message" : "Interstellar Pilots' Fuel Co-operative"
    },
-   "FLAVOUR_MEMBER_INTRO_0" : {
+   "FLAVOUR_0_MEMBER_INTRO" : {
       "description" : "",
       "message" : "You may purhase fuel and dispose of {radioactives} here."
    },
-   "FLAVOUR_NONMEMBER_INTRO_0" : {
+   "FLAVOUR_0_NONMEMBER_INTRO" : {
       "description" : "",
       "message" : "{clubname} is an independent organisation dedicated to providing discounted starship fuel to its members. Branches can be found throughout the galaxy. Benefits of membership include:\n\n\t* Our own stocks of fuel, independent of the general market\n\t* {hydrogen} at discount prices\n\t* {military_fuel} at discount prices\n\t* {water} at discount prices\n\t* {radioactives}, free disposal (conditions apply)\n\t* Fuel tank refilling, where necessary\n\nJoin now! Annual membership costs only {membership_fee}"
    },
-   "FLAVOUR_WELCOME_0" : {
+   "FLAVOUR_0_WELCOME" : {
       "description" : "",
       "message" : "Welcome to {clubname}"
    },

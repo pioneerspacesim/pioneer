@@ -102,9 +102,6 @@ ui.templates.Settings = function (args)
 		local fullScreenCheckBox = optionCheckBox(
 			Engine.GetFullscreen, Engine.SetFullscreen,
 			l.FULL_SCREEN)
-		local shadersCheckBox = optionCheckBox(
-			Engine.GetShadersEnabled, Engine.SetShadersEnabled,
-			l.USE_SHADERS)
 		local compressionCheckBox = optionCheckBox(
 			Engine.GetTextureCompressionEnabled, Engine.SetTextureCompressionEnabled,
 			l.COMPRESS_TEXTURES)
@@ -115,7 +112,6 @@ ui.templates.Settings = function (args)
 				modeDropDown,
 				aaDropDown,
 				fullScreenCheckBox,
-				shadersCheckBox,
 				compressionCheckBox,
 			})))
 			:SetCell(1,0, ui:Margin(5, 'ALL', ui:VBox(5):PackEnd({

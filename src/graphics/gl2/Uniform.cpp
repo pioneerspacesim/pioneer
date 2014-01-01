@@ -41,10 +41,11 @@ void Uniform::Set(const vector3d &v)
 		glUniform3f(m_location, v.x, v.y, v.z); //yes, 3f
 }
 
-void Uniform::Set(const Color4f &c)
+void Uniform::Set(const Color &c)
 {
+	Color4f c4f = c.ToColor4f();
 	if (m_location != -1)
-		glUniform4f(m_location, c.r, c.g, c.b, c.a);
+		glUniform4f(m_location, c4f.r, c4f.g, c4f.b, c4f.a);
 }
 
 void Uniform::Set(const int v[3])

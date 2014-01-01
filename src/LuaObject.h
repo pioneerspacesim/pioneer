@@ -128,6 +128,8 @@ protected:
     // get a pointer to the underlying object
 	virtual LuaWrappable *GetObject() const = 0;
 
+	const char *GetType() const { return m_type; }
+
 private:
 	LuaObjectBase() {}
 	LuaObjectBase(const LuaObjectBase &) {}
@@ -139,6 +141,9 @@ private:
 	// lua method to determine if the object inherits from a type. wrapper
 	// around ::Isa()
 	static int l_isa(lua_State *l);
+
+	// lua method to set a property on a propertied object
+	static int l_setprop(lua_State *l);
 
 	// the lua object "destructor" that gets called by the garbage collector.
 	static int l_gc(lua_State *l);

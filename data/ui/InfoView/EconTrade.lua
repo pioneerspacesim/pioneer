@@ -16,7 +16,7 @@ local econTrade = function ()
 
 	local cash = Game.player:GetMoney()
 
-	local stats = Game.player:GetStats()
+	local player = Game.player
 
 	local usedCabins = Game.player:GetEquipCount("CABIN", "PASSENGER_CABIN")
 	local totalCabins = Game.player:GetEquipCount("CABIN", "UNOCCUPIED_CABIN") + usedCabins
@@ -75,11 +75,10 @@ local econTrade = function ()
 
 	local cargoGauge = InfoGauge.New({
 		formatter = function (v)
-			local stats = Game.player:GetStats()
-			return string.format("%d/%dt", stats.usedCargo, stats.freeCapacity)
+			return string.format("%d/%dt", player.usedCargo, player.freeCapacity)
 		end
 	})
-	cargoGauge:SetValue(stats.usedCargo/stats.freeCapacity)
+	cargoGauge:SetValue(player.usedCargo/player.freeCapacity)
 
 	local fuelGauge = InfoGauge.New({
 		label          = ui:NumberLabel("PERCENT"),
@@ -105,8 +104,7 @@ local econTrade = function ()
 		-- ...then we update the cargo list widget...
 		cargoListWidget:SetInnerWidget(updateCargoListWidget())
 		-- ...and the gauge.
-		stats = Game.player:GetStats()
-		cargoGauge:SetValue(stats.usedCargo/stats.freeCapacity)
+		cargoGauge:SetValue(player.usedCargo/player.freeCapacity)
 
 		refuelButtonRefresh()
 	end
@@ -114,7 +112,7 @@ local econTrade = function ()
 	refuelButton.button.onClick:Connect(refuel)
 
 	return ui:Expand():SetInnerWidget(
-		ui:Grid(2,1)
+		ui:Grid({48,4,48},1)
 			:SetColumn(0, {
 				ui:Margin(5, "HORIZONTAL",
 					ui:VBox(20):PackEnd({
@@ -149,7 +147,7 @@ local econTrade = function ()
 					})
 				)
 			})
-			:SetColumn(1, {
+			:SetColumn(2, {
 				cargoListWidget
 			})
 	)

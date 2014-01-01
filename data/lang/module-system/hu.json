@@ -1,10 +1,10 @@
 {
-    "YOUR_FUEL_TANK_IS_ALMOST_EMPTY": {
-        "message": "Hajtóanyag-szint alacsony.",
-        "description": ""
-    },
-    "YOUR_FUEL_TANK_IS_EMPTY": {
-        "message": "A hajtóanyag-tartály üres.",
-        "description": ""
-    }
+   "YOUR_FUEL_TANK_IS_ALMOST_EMPTY" : {
+      "description" : "",
+      "message" : "Hajtóanyag-szint alacsony."
+   },
+   "YOUR_FUEL_TANK_IS_EMPTY" : {
+      "description" : "",
+      "message" : "A hajtóanyag-tartály üres."
+   }
 }

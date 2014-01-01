@@ -70,12 +70,13 @@ void FaceVideoLink::Draw() {
 		return;
 	}
 
-	m_quad->Draw(Gui::Screen::GetRenderer(), vector2f(0.0f), vector2f(size[0],size[1]));
+	Graphics::Renderer *r = Gui::Screen::GetRenderer();
 
-	glPushMatrix();
-	glTranslatef(0.f, size[1]- size[1] * 0.16f, 0.f);
+	m_quad->Draw(r, vector2f(0.0f), vector2f(size[0],size[1]));
+
+	Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
+	r->Translate(0.f, size[1]- size[1] * 0.16f, 0.f);
 	m_characterInfo->Draw();
-	glPopMatrix();
 }
 
 void FaceVideoLink::DrawMessage() {
@@ -85,10 +86,10 @@ void FaceVideoLink::DrawMessage() {
 	float msgSize[2];
 	m_message->GetSize(msgSize);
 
-	glPushMatrix();
-	glTranslatef(size[0]*0.5f-msgSize[0]*0.5f, size[1]-msgSize[1]*1.5f, 0);
+	Graphics::Renderer *r = Gui::Screen::GetRenderer();
+	Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
+	r->Translate(size[0]*0.5f-msgSize[0]*0.5f, size[1]-msgSize[1]*1.5f, 0);
 	m_message->Draw();
-	glPopMatrix();
 }
 
 CharacterInfoText::CharacterInfoText(float w, float h,
@@ -102,8 +103,8 @@ CharacterInfoText::CharacterInfoText(float w, float h,
 	if (m_characterTitle.empty())
 		h = h/1.5f;
 	SetSize(w, h);
-	m_background = new Gui::Gradient(w, h, Color(0.1f, 0.1f, 0.1f, 0.8f),
-		Color(0.f, 0.f, 0.1f, 0.f), Gui::Gradient::HORIZONTAL);
+	m_background = new Gui::Gradient(w, h, Color(26, 26, 26, 204),
+		Color(0, 0, 26, 0), Gui::Gradient::HORIZONTAL);
 	Gui::Screen::PushFont("OverlayFont");
 	m_nameLabel = new Gui::Label(m_characterName);
 	m_titleLabel = new Gui::Label(m_characterTitle);
@@ -142,10 +143,11 @@ void CharacterInfoText::Draw()
 {
 	if (m_characterName.empty() && m_characterTitle.empty()) return;
 
-	for (std::list<widget_pos>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
-		glPushMatrix();
-		glTranslatef((*i).pos[0], (*i).pos[1], 0);
+	Graphics::Renderer *r = Gui::Screen::GetRenderer();
+
+	for (WidgetList::iterator i = m_children.begin(), itEnd = m_children.end(); i != itEnd; ++i) {
+		Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
+		r->Translate((*i).pos[0], (*i).pos[1], 0);
 		(*i).w->Draw();
-		glPopMatrix();
 	}
 }

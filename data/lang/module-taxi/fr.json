@@ -1,562 +1,562 @@
 {
-    "TAXI": {
-        "message": "Taxi",
-        "description": ""
-    },
-    "FLAVOUR_HOWMANY_11": {
-        "message": "Une seule.",
-        "description": ""
-    },
-    "FLAVOUR_HOWMANY_10": {
-        "message": "Une seule.",
-        "description": ""
-    },
-    "FLAVOUR_HOWMANY_12": {
-        "message": "Une seule.",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_11": {
-        "message": "VAISSEAU RAPIDE: voyage en vaisseau rapide pour le système {system}.",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_10": {
-        "message": "VAISSEAU RECHERCHÉ: voyage en vaisseau rapide pour le système {system}.",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_12": {
-        "message": "VAISSEAU REQUIS: voyage pour le système {system}.",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_9": {
-        "message": "VAISSEAU RECHERCHÉ: voyage en vaisseau rapide pour le système {system}.",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_8": {
-        "message": "VAISSEAU RECHERCHÉ: voyage en vaisseau rapide pour le système {system}.",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_9": {
-        "message": "Mon nom est {name}. J'ai besoin de me rendre rapidement au système {system} ({sectorx}, {sectory}, {sectorz}), éloigné de {dist} al. Je paie {cash}.",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_8": {
-        "message": "Mon nom est {name}. J'ai besoin de me rendre rapidement au système {system} ({sectorx}, {sectory}, {sectorz}), éloigné de {dist} al. Je paie {cash}.",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_7": {
-        "message": "Salut, mon nom est {name} et j'ai besoin de me rendre en toute sécurité au système {system} ({sectorx}, {sectory}, {sectorz}), éloigné de {dist} al. Je paie {cash}.",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_4": {
-        "message": "VAISSEAU RECHERCHÉ: voyage pour le système {system}. Je paie {cash}.",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_5": {
-        "message": "Salut, mon nom est {name} et j'ai besoin de me rendre au système {system} ({sectorx}, {sectory}, {sectorz}), éloigné de {dist} al. Je paie {cash}.",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_4": {
-        "message": "Salut, mon nom est {name} et j'ai besoin de me rendre au système {system} ({sectorx}, {sectory}, {sectorz}), éloigné de {dist} al. Je paie {cash}.",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_1": {
-        "message": "RECHERCHÉ: transport d'un petit groupe pour le système {system}. Payons {cash}.",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_2": {
-        "message": "Salut, mon nom est {name} et j'ai besoin de transporter un petit groupe dans le système {system} ({sectorx}, {sectory}, {sectorz}), éloigné de {dist} al. Je paie {cash}.",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_3": {
-        "message": "VAISSEAU REQUIS: voyage pour le système {system}. Je paie {cash}.",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_0": {
-        "message": "Salut, mon nom est {name} et j'ai besoin de transporter un petit groupe dans le système {system} ({sectorx}, {sectory}, {sectorz}), éloigné de {dist} al. Je paie {cash}.",
-        "description": ""
-    },
-    "FLAVOUR_DANGER_10": {
-        "message": "Je pense que quelqu'un me suit.",
-        "description": ""
-    },
-    "FLAVOUR_DANGER_11": {
-        "message": "Les gens ne désirent parfois pas être contrôlés.",
-        "description": ""
-    },
-    "FLAVOUR_DANGER_12": {
-        "message": "Quelqu'un me pourchasse.",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_12": {
-        "message": "Mon nom est {name}. J'ai besoin de me rendre au système {system} ({sectorx}, {sectory}, {sectorz}), éloigné de {dist} al. Je paie {cash}.",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_11": {
-        "message": "Mon nom est {name}. J'ai besoin de me rendre rapidement au système {system} ({sectorx}, {sectory}, {sectorz}), éloigné de {dist} al. Je paie {cash}.",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_10": {
-        "message": "Mon nom est {name}. J'ai besoin de me rendre rapidement au système {system} ({sectorx}, {sectory}, {sectorz}), éloigné de {dist} al. Je paie {cash}.",
-        "description": ""
-    },
-    "EXCELLENT": {
-        "message": "Excellent.",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_3": {
-        "message": "Merci pour l'agréable voyage. Vous avez été payé en intégralité.",
-        "description": ""
-    },
-    "WHY_SO_MUCH_MONEY": {
-        "message": "Pourquoi autant d'argent?",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_1": {
-        "message": "Merci pour l'agréable voyage. Vous avez été payé en intégralité.",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_0": {
-        "message": "Merci pour l'agréable voyage. Vous avez été payé en intégralité.",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_7": {
-        "message": "Merci de m'avoir amené ici en toute sécurité. Je vous ai payé en intégralité. Bonne chance!",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_6": {
-        "message": "Merci pour l'agréable voyage. Vous avez été payé en intégralité.",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_5": {
-        "message": "Merci pour l'agréable voyage. Vous avez été payé en intégralité.",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_4": {
-        "message": "Merci de m'avoir amené ici. Je vous ai payé en intégralité. Bonne chance!",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_9": {
-        "message": "Merci pour le voyage rapide. Vous avez été payé en intégralité.",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_8": {
-        "message": "Merci pour le voyage rapide. Vous avez été payé en intégralité.",
-        "description": ""
-    },
-    "WE_WANT_TO_BE_THERE_BEFORE": {
-        "message": "Nous voulons être arrivés avant",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_10": {
-        "message": "Vous êtes un pilote extrêmement inexpérimenté. N'espérez pas être payé pour ceci.",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_11": {
-        "message": "Je ne veux pas perdre mon emploi à cause de votre incompétence. J'ai donc plus besoin que vous de l'argent du prix du transport.",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_12": {
-        "message": "Je n'ai pas assez d'argent pour vous payer. Désolé.",
-        "description": ""
-    },
-    "PIRATE_TAUNTS_3": {
-        "message": "Vou n'êtes pas prêt de vous arrimer aujourd'hui!",
-        "description": ""
-    },
-    "PIRATE_TAUNTS_2": {
-        "message": "Ce n'est pas votre jour de chance. Préparez-vous à mourir!",
-        "description": ""
-    },
-    "PIRATE_TAUNTS_1": {
-        "message": "Est-ce que {client} voyage avec vous? C'était une mauvaise idée.",
-        "description": ""
-    },
-    "PIRATE_TAUNTS_0": {
-        "message": "Vous allez regretter d'être entré en affaires avec {client}.",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCH_12": {
-        "message": "Je dois de l'argent à quelqu'un, et ils me poursuivent.",
-        "description": ""
-    },
-    "GROUP_DETAILS": {
-        "message": "Détail du groupe:",
-        "description": ""
-    },
-    "FLAVOUR_WHEREAREWE_10": {
-        "message": "Où sommes-nous? J'ai attendu assez longtemps, conduisez-moi à la plus proche station, immédiatement!",
-        "description": ""
-    },
-    "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP": {
-        "message": "Vous n'avez pas assez de cabines voyageur à bord de votre vaisseau.",
-        "description": ""
-    },
-    "DISTANCE": {
-        "message": "Distance:",
-        "description": ""
-    },
-    "HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS": {
-        "message": "Hé!?! Vous allez payer pour cela!!!",
-        "description": ""
-    },
-    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
-        "message": "Pouvez-vous répéter la demande initiale?",
-        "description": ""
-    },
-    "FLAVOUR_WHEREAREWE_12": {
-        "message": "Où sommes-nous? J'ai attendu assez longtemps, conduisez-moi à la plus proche station, immédiatement!",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_2": {
-        "message": "Merci de nous avoir amené ici. Nous vous avons maintenant payé en intégralité. Bonne chance!",
-        "description": ""
-    },
-    "FLAVOUR_HOWMANY_2": {
-        "message": "Nous sommes {group}.",
-        "description": ""
-    },
-    "I_MUST_BE_THERE_BEFORE": {
-        "message": "Je dois être arrivé avant",
-        "description": ""
-    },
-    "CORPORATIONS_8": {
-        "message": "Vega Voyages",
-        "description": ""
-    },
-    "CORPORATIONS_9": {
-        "message": "Digital",
-        "description": ""
-    },
-    "CORPORATIONS_6": {
-        "message": "Amaliel",
-        "description": ""
-    },
-    "CORPORATIONS_7": {
-        "message": "Marett Space",
-        "description": ""
-    },
-    "CORPORATIONS_4": {
-        "message": "Aquarian Construction",
-        "description": ""
-    },
-    "CORPORATIONS_5": {
-        "message": "Rockforth",
-        "description": ""
-    },
-    "CORPORATIONS_2": {
-        "message": "Cool Cola",
-        "description": ""
-    },
-    "CORPORATIONS_3": {
-        "message": "Taranis",
-        "description": ""
-    },
-    "CORPORATIONS_0": {
-        "message": "Sirius",
-        "description": ""
-    },
-    "CORPORATIONS_1": {
-        "message": "ACME",
-        "description": ""
-    },
-    "FLAVOUR_DANGER_8": {
-        "message": "Non.",
-        "description": ""
-    },
-    "FLAVOUR_DANGER_9": {
-        "message": "La police peut essayer de vous arrêter.",
-        "description": ""
-    },
-    "FLAVOUR_DANGER_2": {
-        "message": "Non.",
-        "description": ""
-    },
-    "FLAVOUR_DANGER_3": {
-        "message": "Je pense qu'un tueur à gages est à mes trousses, et il peut s'en prendre à vous.",
-        "description": ""
-    },
-    "FLAVOUR_DANGER_0": {
-        "message": "Non.",
-        "description": ""
-    },
-    "FLAVOUR_DANGER_1": {
-        "message": "Non.",
-        "description": ""
-    },
-    "FLAVOUR_DANGER_6": {
-        "message": "Non.",
-        "description": ""
-    },
-    "FLAVOUR_DANGER_7": {
-        "message": "La mafia n'apprécie guère les gens qui aident leurs ennemis.",
-        "description": ""
-    },
-    "FLAVOUR_DANGER_4": {
-        "message": "Non.",
-        "description": ""
-    },
-    "FLAVOUR_DANGER_5": {
-        "message": "Vous pouvez attirer l'attention de journalistes. Ignorez-les juste.",
-        "description": ""
-    },
-    "WILL_I_BE_IN_ANY_DANGER": {
-        "message": "Serait-je en danger?",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_1": {
-        "message": "Salut, mon nom est {name} et j'ai besoin de transporter un petit groupe dans le système {system} ({sectorx}, {sectory}, {sectorz}), éloigné de {dist} al. Je paie {cash}.",
-        "description": ""
-    },
-    "CORPORATIONS_10": {
-        "message": "Vaisseaux en Vrac",
-        "description": ""
-    },
-    "CORPORATIONS_11": {
-        "message": "Arment Aérodynamique",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCH_11": {
-        "message": "Je suis un inspecteur d'usine qui fait sa tournée.",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCH_10": {
-        "message": "Je préférerais rester à l'abri d'une certaine personne.",
-        "description": ""
-    },
-    "HANG_UP": {
-        "message": "Raccrochez.",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_12": {
-        "message": "Merci pour le voyage. Vous avez été payé en intégralité.",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_11": {
-        "message": "Merci pour le voyage rapide. Vous avez été payé en intégralité.",
-        "description": ""
-    },
-    "FLAVOUR_SUCCESSMSG_10": {
-        "message": "Merci pour le voyage rapide. Vous avez été payé en intégralité.",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_4": {
-        "message": "Ne demandez même pas à être payé. Je vous dénonce aux autorités.",
-        "description": ""
-    },
-    "HOW_MANY_OF_YOU_ARE_THERE": {
-        "message": "Combien êtes-vous?",
-        "description": ""
-    },
-    "DANGER": {
-        "message": "Danger:",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_5": {
-        "message": "VAISSEAU RECHERCHÉ: voyage pour le système {system}. Je paie {cash}.",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_5": {
-        "message": "Qu'avez-vous fait! Ma tournée est entièrement gâchée et j'ai perdu la moitié de mes admirateurs.",
-        "description": ""
-    },
-    "DEADLINE": {
-        "message": "Délai:",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_6": {
-        "message": "Inacceptable! Vous avez mis une éternité. Je ne suis pas prêt à vous payer.",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCH_9": {
-        "message": "La police veut que je les aide sur leurs enquêtes.",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCH_8": {
-        "message": "Je rends visite à un proche qui est malade.",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCH_3": {
-        "message": "Un concurrent de longue date essaie de m'éliminer.",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCH_2": {
-        "message": "C'est un voyage d'affaires usuel.",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCH_1": {
-        "message": "Nous travaillons pour {corp} qui règle les frais.",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCH_0": {
-        "message": "Nous rendons visite à un ami.",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCH_7": {
-        "message": "La mafia veut ma mort.",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCH_6": {
-        "message": "Je suis journaliste indépendant.",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCH_5": {
-        "message": "Ne le saviez-vous pas? Je suis une vedette très connue.",
-        "description": ""
-    },
-    "FLAVOUR_WHYSOMUCH_4": {
-        "message": "Je suis un voyageur de commerce.",
-        "description": ""
-    },
-    "TO": {
-        "message": "A:",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_6": {
-        "message": "Salut, mon nom est {name} et j'ai besoin de me rendre au système {system} ({sectorx}, {sectory}, {sectorz}), éloigné de {dist} al. Je paie {cash}.",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_7": {
-        "message": "VAISSEAU RECHERCHÉ: voyage en toute sécurité pour le système {system}. Je paie {cash}.",
-        "description": ""
-    },
-    "LY": {
-        "message": "al",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_6": {
-        "message": "VAISSEAU RECHERCHÉ: voyage pour le système {system}. Je paie {cash}.",
-        "description": ""
-    },
-    "OK_AGREED": {
-        "message": "Oui, d'accord.",
-        "description": ""
-    },
-    "FLAVOUR_INTROTEXT_3": {
-        "message": "Salut, mon nom est {name} et j'ai besoin de me rendre au système {system} ({sectorx}, {sectory}, {sectorz}), éloigné de {dist} al. Je paie {cash}.",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_9": {
-        "message": "Inutile! Vous avez mis une éternité. Je ne suis pas prêt à vous payer.",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_0": {
-        "message": "RECHERCHÉ: transport d'un petit groupe pour le système {system}. Payons {cash}.",
-        "description": ""
-    },
-    "FLAVOUR_HOWMANY_5": {
-        "message": "Il n'y a que moi.",
-        "description": ""
-    },
-    "FLAVOUR_HOWMANY_4": {
-        "message": "Seulement moi.",
-        "description": ""
-    },
-    "FLAVOUR_HOWMANY_7": {
-        "message": "Moi et personne d'autre.",
-        "description": ""
-    },
-    "FLAVOUR_HOWMANY_6": {
-        "message": "Il n'y a que moi.",
-        "description": ""
-    },
-    "FLAVOUR_HOWMANY_1": {
-        "message": "Nous sommes {group}.",
-        "description": ""
-    },
-    "FLAVOUR_HOWMANY_0": {
-        "message": "Nous sommes {group}.",
-        "description": ""
-    },
-    "FLAVOUR_HOWMANY_3": {
-        "message": "Il n'y a que moi.",
-        "description": ""
-    },
-    "FLAVOUR_WHEREAREWE_3": {
-        "message": "Où sommes-nous? J'ai attendu assez longtemps, conduisez-moi à la plus proche station, immédiatement!",
-        "description": ""
-    },
-    "FLAVOUR_ADTEXT_2": {
-        "message": "RECHERCHÉ: transport d'un petit groupe pour le système {system}. Payons {cash}.",
-        "description": ""
-    },
-    "FLAVOUR_HOWMANY_9": {
-        "message": "Que moi.",
-        "description": ""
-    },
-    "FLAVOUR_HOWMANY_8": {
-        "message": "Que moi.",
-        "description": ""
-    },
-    "FLAVOUR_WHEREAREWE_1": {
-        "message": "Où sommes-nous? Nous avons attendu assez longtemps, conduisez-nous à la plus proche station, immédiatement!",
-        "description": ""
-    },
-    "FROM": {
-        "message": "De:",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_2": {
-        "message": "Inacceptable! Vous avez mis une éternité. Nous ne sommes pas prêts de vous payer.",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_3": {
-        "message": "Inacceptable! Vous avez mis une éternité. Je ne suis pas prêt à vous payer.",
-        "description": ""
-    },
-    "HOW_SOON_YOU_MUST_BE_THERE": {
-        "message": "Quand devez-vous être à destination?",
-        "description": ""
-    },
-    "FLAVOUR_WHEREAREWE_8": {
-        "message": "Où sommes-nous? J'ai attendu assez longtemps, conduisez-moi à la plus proche station, immédiatement!",
-        "description": ""
-    },
-    "FLAVOUR_WHEREAREWE_9": {
-        "message": "Où sommes-nous? J'ai attendu assez longtemps, conduisez-moi à la plus proche station, immédiatement!",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_0": {
-        "message": "Inacceptable! Vous avez mis une éternité. Nous ne sommes pas prêts de vous payer.",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_8": {
-        "message": "Inacceptable! Vous avez mis une éternité. Je ne suis pas prêt à vous payer.",
-        "description": ""
-    },
-    "FLAVOUR_WHEREAREWE_11": {
-        "message": "Où sommes-nous? J'ai attendu assez longtemps, conduisez-moi à la plus proche station, immédiatement!",
-        "description": ""
-    },
-    "FLAVOUR_WHEREAREWE_2": {
-        "message": "Où sommes-nous? Nous avons attendu assez longtemps, conduisez-nous à la plus proche station, immédiatement!",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_7": {
-        "message": "Inacceptable! Vous avez mis une éternité. Je ne suis pas prêt à vous payer.",
-        "description": ""
-    },
-    "FLAVOUR_WHEREAREWE_0": {
-        "message": "Où sommes-nous? Nous avons attendu assez longtemps, conduisez-nous à la plus proche station, immédiatement!",
-        "description": ""
-    },
-    "FLAVOUR_FAILUREMSG_1": {
-        "message": "Inacceptable! Vous avez mis une éternité. Nous ne sommes pas prêts de vous payer.",
-        "description": ""
-    },
-    "FLAVOUR_WHEREAREWE_6": {
-        "message": "Où sommes-nous? J'ai attendu assez longtemps, conduisez-moi à la plus proche station, immédiatement!",
-        "description": ""
-    },
-    "FLAVOUR_WHEREAREWE_7": {
-        "message": "Où sommes-nous? J'ai attendu assez longtemps, conduisez-moi à la plus proche station, immédiatement!",
-        "description": ""
-    },
-    "FLAVOUR_WHEREAREWE_4": {
-        "message": "Où sommes-nous? J'ai attendu assez longtemps, conduisez-moi à la plus proche station, immédiatement!",
-        "description": ""
-    },
-    "FLAVOUR_WHEREAREWE_5": {
-        "message": "Où sommes-nous? J'ai attendu assez longtemps, conduisez-moi à la plus proche station, immédiatement!",
-        "description": ""
-    }
+   "CORPORATIONS_0" : {
+      "description" : "",
+      "message" : "Sirius"
+   },
+   "CORPORATIONS_1" : {
+      "description" : "",
+      "message" : "ACME"
+   },
+   "CORPORATIONS_10" : {
+      "description" : "",
+      "message" : "Vaisseaux en Vrac"
+   },
+   "CORPORATIONS_11" : {
+      "description" : "",
+      "message" : "Arment Aérodynamique"
+   },
+   "CORPORATIONS_2" : {
+      "description" : "",
+      "message" : "Cool Cola"
+   },
+   "CORPORATIONS_3" : {
+      "description" : "",
+      "message" : "Taranis"
+   },
+   "CORPORATIONS_4" : {
+      "description" : "",
+      "message" : "Aquarian Construction"
+   },
+   "CORPORATIONS_5" : {
+      "description" : "",
+      "message" : "Rockforth"
+   },
+   "CORPORATIONS_6" : {
+      "description" : "",
+      "message" : "Amaliel"
+   },
+   "CORPORATIONS_7" : {
+      "description" : "",
+      "message" : "Marett Espace"
+   },
+   "CORPORATIONS_8" : {
+      "description" : "",
+      "message" : "Vega Voyages"
+   },
+   "CORPORATIONS_9" : {
+      "description" : "",
+      "message" : "Digital"
+   },
+   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
+      "description" : "",
+      "message" : "Pouvez-vous répéter la demande initiale?"
+   },
+   "DANGER" : {
+      "description" : "",
+      "message" : "Danger:"
+   },
+   "DEADLINE" : {
+      "description" : "",
+      "message" : "Délai:"
+   },
+   "DISTANCE" : {
+      "description" : "",
+      "message" : "Distance:"
+   },
+   "EXCELLENT" : {
+      "description" : "",
+      "message" : "Excellent."
+   },
+   "FLAVOUR_0_ADTEXT" : {
+      "description" : "",
+      "message" : "RECHERCHÉ: transport d'un petit groupe pour le système {system}. Payons {cash}."
+   },
+   "FLAVOUR_0_DANGER" : {
+      "description" : "",
+      "message" : "Non."
+   },
+   "FLAVOUR_0_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Inacceptable! Vous avez mis une éternité. Nous ne sommes pas prêts de vous payer."
+   },
+   "FLAVOUR_0_HOWMANY" : {
+      "description" : "",
+      "message" : "Nous sommes {group}."
+   },
+   "FLAVOUR_0_INTROTEXT" : {
+      "description" : "",
+      "message" : "Salut, mon nom est {name} et j'ai besoin de transporter un petit groupe dans le système {system} ({sectorx}, {sectory}, {sectorz}), éloigné de {dist} al. Je paie {cash}."
+   },
+   "FLAVOUR_0_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Merci pour l'agréable voyage. Vous avez été payé en intégralité."
+   },
+   "FLAVOUR_0_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Où sommes-nous? Nous avons attendu assez longtemps, conduisez-nous à la plus proche station, immédiatement!"
+   },
+   "FLAVOUR_0_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Nous rendons visite à un ami."
+   },
+   "FLAVOUR_10_ADTEXT" : {
+      "description" : "",
+      "message" : "VAISSEAU RECHERCHÉ: voyage en vaisseau rapide pour le système {system}."
+   },
+   "FLAVOUR_10_DANGER" : {
+      "description" : "",
+      "message" : "Je pense que quelqu'un me suit."
+   },
+   "FLAVOUR_10_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Vous êtes un pilote extrêmement inexpérimenté. N'espérez pas être payé pour ceci."
+   },
+   "FLAVOUR_10_HOWMANY" : {
+      "description" : "",
+      "message" : "Une seule."
+   },
+   "FLAVOUR_10_INTROTEXT" : {
+      "description" : "",
+      "message" : "Mon nom est {name}. J'ai besoin de me rendre rapidement au système {system} ({sectorx}, {sectory}, {sectorz}), éloigné de {dist} al. Je paie {cash}."
+   },
+   "FLAVOUR_10_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Merci pour le voyage rapide. Vous avez été payé en intégralité."
+   },
+   "FLAVOUR_10_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Où sommes-nous? J'ai attendu assez longtemps, conduisez-moi à la plus proche station, immédiatement!"
+   },
+   "FLAVOUR_10_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Je préférerais rester à l'abri d'une certaine personne."
+   },
+   "FLAVOUR_11_ADTEXT" : {
+      "description" : "",
+      "message" : "VAISSEAU RAPIDE: voyage en vaisseau rapide pour le système {system}."
+   },
+   "FLAVOUR_11_DANGER" : {
+      "description" : "",
+      "message" : "Les gens ne désirent parfois pas être contrôlés."
+   },
+   "FLAVOUR_11_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Je ne veux pas perdre mon emploi à cause de votre incompétence. J'ai donc plus besoin que vous de l'argent du prix du transport."
+   },
+   "FLAVOUR_11_HOWMANY" : {
+      "description" : "",
+      "message" : "Une seule."
+   },
+   "FLAVOUR_11_INTROTEXT" : {
+      "description" : "",
+      "message" : "Mon nom est {name}. J'ai besoin de me rendre rapidement au système {system} ({sectorx}, {sectory}, {sectorz}), éloigné de {dist} al. Je paie {cash}."
+   },
+   "FLAVOUR_11_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Merci pour le voyage rapide. Vous avez été payé en intégralité."
+   },
+   "FLAVOUR_11_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Où sommes-nous? J'ai attendu assez longtemps, conduisez-moi à la plus proche station, immédiatement!"
+   },
+   "FLAVOUR_11_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Je suis un inspecteur d'usine qui fait sa tournée."
+   },
+   "FLAVOUR_12_ADTEXT" : {
+      "description" : "",
+      "message" : "VAISSEAU REQUIS: voyage pour le système {system}."
+   },
+   "FLAVOUR_12_DANGER" : {
+      "description" : "",
+      "message" : "Quelqu'un me pourchasse."
+   },
+   "FLAVOUR_12_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Je n'ai pas assez d'argent pour vous payer. Désolé."
+   },
+   "FLAVOUR_12_HOWMANY" : {
+      "description" : "",
+      "message" : "Une seule."
+   },
+   "FLAVOUR_12_INTROTEXT" : {
+      "description" : "",
+      "message" : "Mon nom est {name}. J'ai besoin de me rendre au système {system} ({sectorx}, {sectory}, {sectorz}), éloigné de {dist} al. Je paie {cash}."
+   },
+   "FLAVOUR_12_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Merci pour le voyage. Vous avez été payé en intégralité."
+   },
+   "FLAVOUR_12_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Où sommes-nous? J'ai attendu assez longtemps, conduisez-moi à la plus proche station, immédiatement!"
+   },
+   "FLAVOUR_12_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Je dois de l'argent à quelqu'un, et ils me poursuivent."
+   },
+   "FLAVOUR_1_ADTEXT" : {
+      "description" : "",
+      "message" : "RECHERCHÉ: transport d'un petit groupe pour le système {system}. Payons {cash}."
+   },
+   "FLAVOUR_1_DANGER" : {
+      "description" : "",
+      "message" : "Non."
+   },
+   "FLAVOUR_1_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Inacceptable! Vous avez mis une éternité. Nous ne sommes pas prêts de vous payer."
+   },
+   "FLAVOUR_1_HOWMANY" : {
+      "description" : "",
+      "message" : "Nous sommes {group}."
+   },
+   "FLAVOUR_1_INTROTEXT" : {
+      "description" : "",
+      "message" : "Salut, mon nom est {name} et j'ai besoin de transporter un petit groupe dans le système {system} ({sectorx}, {sectory}, {sectorz}), éloigné de {dist} al. Je paie {cash}."
+   },
+   "FLAVOUR_1_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Merci pour l'agréable voyage. Vous avez été payé en intégralité."
+   },
+   "FLAVOUR_1_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Où sommes-nous? Nous avons attendu assez longtemps, conduisez-nous à la plus proche station, immédiatement!"
+   },
+   "FLAVOUR_1_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Nous travaillons pour {corp} qui règle les frais."
+   },
+   "FLAVOUR_2_ADTEXT" : {
+      "description" : "",
+      "message" : "RECHERCHÉ: transport d'un petit groupe pour le système {system}. Payons {cash}."
+   },
+   "FLAVOUR_2_DANGER" : {
+      "description" : "",
+      "message" : "Non."
+   },
+   "FLAVOUR_2_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Inacceptable! Vous avez mis une éternité. Nous ne sommes pas prêts de vous payer."
+   },
+   "FLAVOUR_2_HOWMANY" : {
+      "description" : "",
+      "message" : "Nous sommes {group}."
+   },
+   "FLAVOUR_2_INTROTEXT" : {
+      "description" : "",
+      "message" : "Salut, mon nom est {name} et j'ai besoin de transporter un petit groupe dans le système {system} ({sectorx}, {sectory}, {sectorz}), éloigné de {dist} al. Je paie {cash}."
+   },
+   "FLAVOUR_2_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Merci de nous avoir amené ici. Nous vous avons maintenant payé en intégralité. Bonne chance!"
+   },
+   "FLAVOUR_2_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Où sommes-nous? Nous avons attendu assez longtemps, conduisez-nous à la plus proche station, immédiatement!"
+   },
+   "FLAVOUR_2_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "C'est un voyage d'affaires usuel."
+   },
+   "FLAVOUR_3_ADTEXT" : {
+      "description" : "",
+      "message" : "VAISSEAU REQUIS: voyage pour le système {system}. Je paie {cash}."
+   },
+   "FLAVOUR_3_DANGER" : {
+      "description" : "",
+      "message" : "Je pense qu'un tueur à gages est à mes trousses, et il peut s'en prendre à vous."
+   },
+   "FLAVOUR_3_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Inacceptable! Vous avez mis une éternité. Je ne suis pas prêt à vous payer."
+   },
+   "FLAVOUR_3_HOWMANY" : {
+      "description" : "",
+      "message" : "Il n'y a que moi."
+   },
+   "FLAVOUR_3_INTROTEXT" : {
+      "description" : "",
+      "message" : "Salut, mon nom est {name} et j'ai besoin de me rendre au système {system} ({sectorx}, {sectory}, {sectorz}), éloigné de {dist} al. Je paie {cash}."
+   },
+   "FLAVOUR_3_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Merci pour l'agréable voyage. Vous avez été payé en intégralité."
+   },
+   "FLAVOUR_3_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Où sommes-nous? J'ai attendu assez longtemps, conduisez-moi à la plus proche station, immédiatement!"
+   },
+   "FLAVOUR_3_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Un concurrent de longue date essaie de m'éliminer."
+   },
+   "FLAVOUR_4_ADTEXT" : {
+      "description" : "",
+      "message" : "VAISSEAU RECHERCHÉ: voyage pour le système {system}. Je paie {cash}."
+   },
+   "FLAVOUR_4_DANGER" : {
+      "description" : "",
+      "message" : "Non."
+   },
+   "FLAVOUR_4_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Ne demandez même pas à être payé. Je vous dénonce aux autorités."
+   },
+   "FLAVOUR_4_HOWMANY" : {
+      "description" : "",
+      "message" : "Seulement moi."
+   },
+   "FLAVOUR_4_INTROTEXT" : {
+      "description" : "",
+      "message" : "Salut, mon nom est {name} et j'ai besoin de me rendre au système {system} ({sectorx}, {sectory}, {sectorz}), éloigné de {dist} al. Je paie {cash}."
+   },
+   "FLAVOUR_4_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Merci de m'avoir amené ici. Je vous ai payé en intégralité. Bonne chance!"
+   },
+   "FLAVOUR_4_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Où sommes-nous? J'ai attendu assez longtemps, conduisez-moi à la plus proche station, immédiatement!"
+   },
+   "FLAVOUR_4_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Je suis un voyageur de commerce."
+   },
+   "FLAVOUR_5_ADTEXT" : {
+      "description" : "",
+      "message" : "VAISSEAU RECHERCHÉ: voyage pour le système {system}. Je paie {cash}."
+   },
+   "FLAVOUR_5_DANGER" : {
+      "description" : "",
+      "message" : "Vous pouvez attirer l'attention de journalistes. Ignorez-les juste."
+   },
+   "FLAVOUR_5_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Qu'avez-vous fait! Ma tournée est entièrement gâchée et j'ai perdu la moitié de mes admirateurs."
+   },
+   "FLAVOUR_5_HOWMANY" : {
+      "description" : "",
+      "message" : "Il n'y a que moi."
+   },
+   "FLAVOUR_5_INTROTEXT" : {
+      "description" : "",
+      "message" : "Salut, mon nom est {name} et j'ai besoin de me rendre au système {system} ({sectorx}, {sectory}, {sectorz}), éloigné de {dist} al. Je paie {cash}."
+   },
+   "FLAVOUR_5_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Merci pour l'agréable voyage. Vous avez été payé en intégralité."
+   },
+   "FLAVOUR_5_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Où sommes-nous? J'ai attendu assez longtemps, conduisez-moi à la plus proche station, immédiatement!"
+   },
+   "FLAVOUR_5_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Ne le saviez-vous pas? Je suis une vedette très connue."
+   },
+   "FLAVOUR_6_ADTEXT" : {
+      "description" : "",
+      "message" : "VAISSEAU RECHERCHÉ: voyage pour le système {system}. Je paie {cash}."
+   },
+   "FLAVOUR_6_DANGER" : {
+      "description" : "",
+      "message" : "Non."
+   },
+   "FLAVOUR_6_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Inacceptable! Vous avez mis une éternité. Je ne suis pas prêt à vous payer."
+   },
+   "FLAVOUR_6_HOWMANY" : {
+      "description" : "",
+      "message" : "Il n'y a que moi."
+   },
+   "FLAVOUR_6_INTROTEXT" : {
+      "description" : "",
+      "message" : "Salut, mon nom est {name} et j'ai besoin de me rendre au système {system} ({sectorx}, {sectory}, {sectorz}), éloigné de {dist} al. Je paie {cash}."
+   },
+   "FLAVOUR_6_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Merci pour l'agréable voyage. Vous avez été payé en intégralité."
+   },
+   "FLAVOUR_6_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Où sommes-nous? J'ai attendu assez longtemps, conduisez-moi à la plus proche station, immédiatement!"
+   },
+   "FLAVOUR_6_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Je suis journaliste indépendant."
+   },
+   "FLAVOUR_7_ADTEXT" : {
+      "description" : "",
+      "message" : "VAISSEAU RECHERCHÉ: voyage en toute sécurité pour le système {system}. Je paie {cash}."
+   },
+   "FLAVOUR_7_DANGER" : {
+      "description" : "",
+      "message" : "La mafia n'apprécie guère les gens qui aident leurs ennemis."
+   },
+   "FLAVOUR_7_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Inacceptable! Vous avez mis une éternité. Je ne suis pas prêt à vous payer."
+   },
+   "FLAVOUR_7_HOWMANY" : {
+      "description" : "",
+      "message" : "Moi et personne d'autre."
+   },
+   "FLAVOUR_7_INTROTEXT" : {
+      "description" : "",
+      "message" : "Salut, mon nom est {name} et j'ai besoin de me rendre en toute sécurité au système {system} ({sectorx}, {sectory}, {sectorz}), éloigné de {dist} al. Je paie {cash}."
+   },
+   "FLAVOUR_7_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Merci de m'avoir amené ici en toute sécurité. Je vous ai payé en intégralité. Bonne chance!"
+   },
+   "FLAVOUR_7_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Où sommes-nous? J'ai attendu assez longtemps, conduisez-moi à la plus proche station, immédiatement!"
+   },
+   "FLAVOUR_7_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "La mafia veut ma mort."
+   },
+   "FLAVOUR_8_ADTEXT" : {
+      "description" : "",
+      "message" : "VAISSEAU RECHERCHÉ: voyage en vaisseau rapide pour le système {system}."
+   },
+   "FLAVOUR_8_DANGER" : {
+      "description" : "",
+      "message" : "Non."
+   },
+   "FLAVOUR_8_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Inacceptable! Vous avez mis une éternité. Je ne suis pas prêt à vous payer."
+   },
+   "FLAVOUR_8_HOWMANY" : {
+      "description" : "",
+      "message" : "Que moi."
+   },
+   "FLAVOUR_8_INTROTEXT" : {
+      "description" : "",
+      "message" : "Mon nom est {name}. J'ai besoin de me rendre rapidement au système {system} ({sectorx}, {sectory}, {sectorz}), éloigné de {dist} al. Je paie {cash}."
+   },
+   "FLAVOUR_8_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Merci pour le voyage rapide. Vous avez été payé en intégralité."
+   },
+   "FLAVOUR_8_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Où sommes-nous? J'ai attendu assez longtemps, conduisez-moi à la plus proche station, immédiatement!"
+   },
+   "FLAVOUR_8_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Je rends visite à un proche qui est malade."
+   },
+   "FLAVOUR_9_ADTEXT" : {
+      "description" : "",
+      "message" : "VAISSEAU RECHERCHÉ: voyage en vaisseau rapide pour le système {system}."
+   },
+   "FLAVOUR_9_DANGER" : {
+      "description" : "",
+      "message" : "La police peut essayer de vous arrêter."
+   },
+   "FLAVOUR_9_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Inutile! Vous avez mis une éternité. Je ne suis pas prêt à vous payer."
+   },
+   "FLAVOUR_9_HOWMANY" : {
+      "description" : "",
+      "message" : "Que moi."
+   },
+   "FLAVOUR_9_INTROTEXT" : {
+      "description" : "",
+      "message" : "Mon nom est {name}. J'ai besoin de me rendre rapidement au système {system} ({sectorx}, {sectory}, {sectorz}), éloigné de {dist} al. Je paie {cash}."
+   },
+   "FLAVOUR_9_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Merci pour le voyage rapide. Vous avez été payé en intégralité."
+   },
+   "FLAVOUR_9_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Où sommes-nous? J'ai attendu assez longtemps, conduisez-moi à la plus proche station, immédiatement!"
+   },
+   "FLAVOUR_9_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "La police veut que je les aide sur leurs enquêtes."
+   },
+   "FROM" : {
+      "description" : "",
+      "message" : "De:"
+   },
+   "GROUP_DETAILS" : {
+      "description" : "",
+      "message" : "Détail du groupe:"
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Raccrochez."
+   },
+   "HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS" : {
+      "description" : "",
+      "message" : "Hé!?! Vous allez payer pour cela!!!"
+   },
+   "HOW_MANY_OF_YOU_ARE_THERE" : {
+      "description" : "",
+      "message" : "Combien êtes-vous?"
+   },
+   "HOW_SOON_YOU_MUST_BE_THERE" : {
+      "description" : "",
+      "message" : "Quand devez-vous être à destination?"
+   },
+   "I_MUST_BE_THERE_BEFORE" : {
+      "description" : "",
+      "message" : "Je dois être arrivé avant"
+   },
+   "LY" : {
+      "description" : "",
+      "message" : "al"
+   },
+   "OK_AGREED" : {
+      "description" : "",
+      "message" : "Oui, d'accord."
+   },
+   "PIRATE_TAUNTS_0" : {
+      "description" : "",
+      "message" : "Vous allez regretter d'être entré en affaires avec {client}."
+   },
+   "PIRATE_TAUNTS_1" : {
+      "description" : "",
+      "message" : "Est-ce que {client} voyage avec vous? C'était une mauvaise idée."
+   },
+   "PIRATE_TAUNTS_2" : {
+      "description" : "",
+      "message" : "Ce n'est pas votre jour de chance. Préparez-vous à mourir!"
+   },
+   "PIRATE_TAUNTS_3" : {
+      "description" : "",
+      "message" : "Vou n'êtes pas prêt de vous arrimer aujourd'hui!"
+   },
+   "TAXI" : {
+      "description" : "",
+      "message" : "Taxi"
+   },
+   "TO" : {
+      "description" : "",
+      "message" : "A:"
+   },
+   "WE_WANT_TO_BE_THERE_BEFORE" : {
+      "description" : "",
+      "message" : "Nous voulons être arrivés avant"
+   },
+   "WHY_SO_MUCH_MONEY" : {
+      "description" : "",
+      "message" : "Pourquoi autant d'argent?"
+   },
+   "WILL_I_BE_IN_ANY_DANGER" : {
+      "description" : "",
+      "message" : "Serait-je en danger?"
+   },
+   "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP" : {
+      "description" : "",
+      "message" : "Vous n'avez pas assez de cabines voyageur à bord de votre vaisseau."
+   }
 }

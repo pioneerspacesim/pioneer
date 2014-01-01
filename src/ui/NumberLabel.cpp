@@ -3,6 +3,8 @@
 
 #include "NumberLabel.h"
 #include "StringF.h"
+#include "Lang.h"
+#include "utils.h"
 
 namespace UI {
 
@@ -36,6 +38,14 @@ NumberLabel *NumberLabel::SetValue(double v)
 			SetText(stringf("%0{u}%%", Uint32(v*100.0+0.5)));
 			break;
 
+		case FORMAT_MASS_TONNES:
+			SetText(stringf(Lang::NUMBER_TONNES, formatarg("mass", v)));
+			break;
+
+		case FORMAT_MONEY:
+			SetText(format_money(Sint64(v*100)));
+			break;
+
 		default:
 		case FORMAT_NUMBER:
 			SetText(to_string(v, "f"));
@@ -49,7 +59,7 @@ void NumberLabel::BindValue(PropertyMap &p, const std::string &k)
 {
 	double v = 0.0;
 	p.Get(k, v);
-	SetValue(Clamp(v, 0.0, 1.0));
+	SetValue(v);
 }
 
 void NumberLabel::BindValuePercent(PropertyMap &p, const std::string &k)

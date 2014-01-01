@@ -1,70 +1,70 @@
 {
-    "FLAVOUR_CLUBNAME_0": {
-        "message": "Interstellar Pilots' Fuel Co-operative",
-        "description": ""
-    },
-    "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED": {
-        "message": "Your membership application has been declined.",
-        "description": ""
-    },
-    "YOU_MUST_BUY": {
-        "message": "You must buy our {military_fuel} before we will take your {radioactives}",
-        "description": ""
-    },
-    "WE_WILL_ONLY_DISPOSE_OF": {
-        "message": "We will only dispose of as many tonnes of {radioactives} as you have bought tonnes of {military_fuel} from us.",
-        "description": ""
-    },
-    "FLAVOUR_WELCOME_0": {
-        "message": "Welcome to {clubname}",
-        "description": ""
-    },
-    "WHAT_CONDITIONS_APPLY": {
-        "message": "What conditions apply to {radioactives} disposal?",
-        "description": ""
-    },
-    "YOU_ARE_NOW_A_MEMBER": {
-        "message": "You are now a member. Your membership will expire on {expiry_date}.",
-        "description": ""
-    },
-    "BEGIN_TRADE": {
-        "message": "Begin trade",
-        "description": ""
-    },
-    "WATER": {
-        "message": "Apă",
-        "description": ""
-    },
-    "APPLY_FOR_MEMBERSHIP": {
-        "message": "Apply for membership",
-        "description": ""
-    },
-    "RADIOACTIVES": {
-        "message": "Deşeuri radioactive",
-        "description": ""
-    },
-    "GO_BACK": {
-        "message": "Înapoi",
-        "description": ""
-    },
-    "MILITARY_FUEL": {
-        "message": "Combustibil militar",
-        "description": ""
-    },
-    "HANG_UP": {
-        "message": "Închide.",
-        "description": ""
-    },
-    "FLAVOUR_MEMBER_INTRO_0": {
-        "message": "You may purhase fuel and dispose of {radioactives} here.",
-        "description": ""
-    },
-    "HYDROGEN": {
-        "message": "Hidrogen",
-        "description": ""
-    },
-    "FLAVOUR_NONMEMBER_INTRO_0": {
-        "message": "{clubname} is an independent organisation dedicated to providing discounted starship fuel to its members. Branches can be found throughout the galaxy. Benefits of membership include:\n\n\t* Our own stocks of fuel, independent of the general market\n\t* {hydrogen} at discount prices\n\t* {military_fuel} at discount prices\n\t* {water} at discount prices\n\t* {radioactives}, free disposal (conditions apply)\n\t* Fuel tank refilling, where necessary\n\nJoin now! Annual membership costs only {membership_fee}",
-        "description": ""
-    }
+   "APPLY_FOR_MEMBERSHIP" : {
+      "description" : "",
+      "message" : "Apply for membership"
+   },
+   "BEGIN_TRADE" : {
+      "description" : "",
+      "message" : "Begin trade"
+   },
+   "FLAVOUR_0_CLUBNAME" : {
+      "description" : "",
+      "message" : "Interstellar Pilots' Fuel Co-operative"
+   },
+   "FLAVOUR_0_MEMBER_INTRO" : {
+      "description" : "",
+      "message" : "You may purhase fuel and dispose of {radioactives} here."
+   },
+   "FLAVOUR_0_NONMEMBER_INTRO" : {
+      "description" : "",
+      "message" : "{clubname} is an independent organisation dedicated to providing discounted starship fuel to its members. Branches can be found throughout the galaxy. Benefits of membership include:\n\n\t* Our own stocks of fuel, independent of the general market\n\t* {hydrogen} at discount prices\n\t* {military_fuel} at discount prices\n\t* {water} at discount prices\n\t* {radioactives}, free disposal (conditions apply)\n\t* Fuel tank refilling, where necessary\n\nJoin now! Annual membership costs only {membership_fee}"
+   },
+   "FLAVOUR_0_WELCOME" : {
+      "description" : "",
+      "message" : "Welcome to {clubname}"
+   },
+   "GO_BACK" : {
+      "description" : "",
+      "message" : "Înapoi"
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Închide."
+   },
+   "HYDROGEN" : {
+      "description" : "",
+      "message" : "Hidrogen"
+   },
+   "MILITARY_FUEL" : {
+      "description" : "",
+      "message" : "Combustibil militar"
+   },
+   "RADIOACTIVES" : {
+      "description" : "",
+      "message" : "Deşeuri radioactive"
+   },
+   "WATER" : {
+      "description" : "",
+      "message" : "Apă"
+   },
+   "WE_WILL_ONLY_DISPOSE_OF" : {
+      "description" : "",
+      "message" : "We will only dispose of as many tonnes of {radioactives} as you have bought tonnes of {military_fuel} from us."
+   },
+   "WHAT_CONDITIONS_APPLY" : {
+      "description" : "",
+      "message" : "What conditions apply to {radioactives} disposal?"
+   },
+   "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED" : {
+      "description" : "",
+      "message" : "Your membership application has been declined."
+   },
+   "YOU_ARE_NOW_A_MEMBER" : {
+      "description" : "",
+      "message" : "You are now a member. Your membership will expire on {expiry_date}."
+   },
+   "YOU_MUST_BUY" : {
+      "description" : "",
+      "message" : "You must buy our {military_fuel} before we will take your {radioactives}"
+   }
 }

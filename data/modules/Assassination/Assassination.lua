@@ -16,6 +16,7 @@ local Format = import("Format")
 local Serializer = import("Serializer")
 local EquipDef = import("EquipDef")
 local ShipDef = import("ShipDef")
+local Ship = import("Ship")
 local utils = import("utils")
 
 local InfoFace = import("ui/InfoFace")
@@ -31,11 +32,11 @@ local max_ass_dist = 30
 local flavours = {}
 for i = 0,5 do
 	table.insert(flavours, {
-		adtext      = l["FLAVOUR_ADTEXT_"..i],
-		introtext   = l["FLAVOUR_INTROTEXT_"..i],
-		successmsg  = l["FLAVOUR_SUCCESSMSG_"..i],
-		failuremsg  = l["FLAVOUR_FAILUREMSG_"..i],
-		failuremsg2 = l["FLAVOUR_FAILUREMSG2_"..i],
+		adtext      = l["FLAVOUR_" .. i .. "_ADTEXT"],
+		introtext   = l["FLAVOUR_" .. i .. "_INTROTEXT"],
+		successmsg  = l["FLAVOUR_" .. i .. "_SUCCESSMSG"],
+		failuremsg  = l["FLAVOUR_" .. i .. "_FAILUREMSG"],
+		failuremsg2 = l["FLAVOUR_" .. i .. "_FAILUREMSG2"],
 	})
 end
 local num_titles = 25
@@ -120,7 +121,6 @@ local onChat = function (form, ref, option)
 		table.insert(missions,Mission.New(mission))
 
 		form:SetMessage(l.EXCELLENT)
-		form:AddOption(l.HANG_UP, -1)
 
 		return
 	elseif option == 4 then
@@ -131,14 +131,6 @@ local onChat = function (form, ref, option)
 	form:AddOption(l.HOW_SOON_MUST_IT_BE_DONE, 2);
 	form:AddOption(l.HOW_WILL_I_BE_PAID, 4);
 	form:AddOption(l.OK_AGREED, 3);
-	form:AddOption(l.HANG_UP, -1);
-end
-
-local RandomShipRegId = function ()
-	local letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-	local a = Engine.rand:Integer(1, #letters)
-	local b = Engine.rand:Integer(1, #letters)
-	return string.format("%s%s-%04d", letters:sub(a,a), letters:sub(b,b), Engine.rand:Integer(0, 9999))
 end
 
 local nearbysystems
@@ -179,7 +171,7 @@ local makeAdvert = function (station)
 		reward = reward,
 		shipid = shipid,
 		shipname = shipname,
-		shipregid = RandomShipRegId(),
+		shipregid = Ship.MakeRandomLabel(),
 		station = station,
 		target = target,
 	}
@@ -366,8 +358,7 @@ local onAICompleted = function (ship, ai_error)
 		if mission.status == 'ACTIVE' and
 		   mission.ship == ship then
 			if mission.shipstate == 'outbound' then
-				local stats = ship:GetStats()
-				local systems = Game.system:GetNearbySystems(stats.hyperspaceRange, function (s) return #s:GetStationPaths() > 0 end)
+				local systems = Game.system:GetNearbySystems(ship.hyperspaceRange, function (s) return #s:GetStationPaths() > 0 end)
 				if #systems == 0 then return end
 				local system = systems[Engine.rand:Integer(1,#systems)]
 

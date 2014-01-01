@@ -30,6 +30,7 @@ private:
 	void OnTextChanged();
 	void UpdateCompletion(const std::string & statement);
 	void ExecOrContinue();
+	void RunAutoexec();
 
 	std::deque<std::string> m_statementHistory;
 	std::string m_stashedStatement;

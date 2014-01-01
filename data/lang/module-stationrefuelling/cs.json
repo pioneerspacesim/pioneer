@@ -1,10 +1,10 @@
 {
-    "WELCOME_ABOARD_STATION_FEE_DEDUCTED": {
-        "message": "Vítejte na palubě stanice {station}. Poplatek {fee} za přistání a tankování, byl odečten z tvého účtu.",
-        "description": ""
-    },
-    "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH": {
-        "message": "Tady stanice {station}. Nemáš dostatek peněz na poplatek ve výši {fee}. Tvé palivo bylo zadrženo.",
-        "description": ""
-    }
+   "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH" : {
+      "description" : "",
+      "message" : "Tady stanice {station}. Nemáš dostatek peněz na poplatek ve výši {fee}. Tvé palivo bylo zadrženo."
+   },
+   "WELCOME_ABOARD_STATION_FEE_DEDUCTED" : {
+      "description" : "",
+      "message" : "Vítejte na palubě stanice {station}. Poplatek {fee} za přistání a tankování, byl odečten z tvého účtu."
+   }
 }

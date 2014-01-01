@@ -1,70 +1,70 @@
 {
-    "FLAVOUR_CLUBNAME_0": {
-        "message": "Csillagközi Pilóták Üzemanyag Szövetsége",
-        "description": ""
-    },
-    "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED": {
-        "message": "A belépési igényedet visszautasítottuk.",
-        "description": ""
-    },
-    "YOU_MUST_BUY": {
-        "message": "Csak a nálunk vásárolt {military_fuel}-ból keletkezett {radioactives}ot vesszük át.",
-        "description": ""
-    },
-    "WE_WILL_ONLY_DISPOSE_OF": {
-        "message": "Annyi tonna {radioactives} semlegesítését vállaljuk, amennyi {military_fuel} vásárolsz tőlünk.",
-        "description": ""
-    },
-    "FLAVOUR_WELCOME_0": {
-        "message": "Üdvözlünk a {clubname}ben.",
-        "description": ""
-    },
-    "WHAT_CONDITIONS_APPLY": {
-        "message": "Mik a feltételei a {radioactives} kezelésének?",
-        "description": ""
-    },
-    "YOU_ARE_NOW_A_MEMBER": {
-        "message": "Immáron tag vagy. A tagságod {expiry_date} napján jár le.",
-        "description": ""
-    },
-    "BEGIN_TRADE": {
-        "message": "Üzlet megkezdése",
-        "description": ""
-    },
-    "WATER": {
-        "message": "Víz",
-        "description": ""
-    },
-    "APPLY_FOR_MEMBERSHIP": {
-        "message": "Tagság igénylése",
-        "description": ""
-    },
-    "RADIOACTIVES": {
-        "message": "Radioaktív hulladék",
-        "description": ""
-    },
-    "GO_BACK": {
-        "message": "Vissza",
-        "description": ""
-    },
-    "MILITARY_FUEL": {
-        "message": "Katonai üzemanyag",
-        "description": ""
-    },
-    "HANG_UP": {
-        "message": "Kapcsolat megszakítása.",
-        "description": ""
-    },
-    "FLAVOUR_MEMBER_INTRO_0": {
-        "message": "Továbbá vehetsz üzemanyagot és a {radioactives} megsemmisítését is vállaljuk.",
-        "description": ""
-    },
-    "HYDROGEN": {
-        "message": "Hidrogén",
-        "description": ""
-    },
-    "FLAVOUR_NONMEMBER_INTRO_0": {
-        "message": "{clubname} egy független szervezet, amely olcsón kínál hiperhajtómű üzemanyagot tagjainak. Galaxis-szerte megtalálhatóak fiókjaink. A tagság előnyei a következők:\n\n\t* Saját üzemanyagraktárunk árai függetlenek a piactól\n\t* {hydrogen} kedvezményes áron kapható\n\t* {military_fuel} a piaci ár alatt\n\t* {radioactives} megsemmisítése ingyen (feltételekkel)\n\nCsatlakozz most! Az éves tagsági díj csak {membership_fee}",
-        "description": ""
-    }
+   "APPLY_FOR_MEMBERSHIP" : {
+      "description" : "",
+      "message" : "Tagság igénylése"
+   },
+   "BEGIN_TRADE" : {
+      "description" : "",
+      "message" : "Üzlet megkezdése"
+   },
+   "FLAVOUR_0_CLUBNAME" : {
+      "description" : "",
+      "message" : "Csillagközi Pilóták Üzemanyag Szövetsége"
+   },
+   "FLAVOUR_0_MEMBER_INTRO" : {
+      "description" : "",
+      "message" : "Továbbá vehetsz üzemanyagot és a {radioactives} megsemmisítését is vállaljuk."
+   },
+   "FLAVOUR_0_NONMEMBER_INTRO" : {
+      "description" : "",
+      "message" : "{clubname} egy független szervezet, amely olcsón kínál hiperhajtómű üzemanyagot tagjainak. Galaxis-szerte megtalálhatóak fiókjaink. A tagság előnyei a következők:\n\n\t* Saját üzemanyagraktárunk árai függetlenek a piactól\n\t* {hydrogen} kedvezményes áron kapható\n\t* {military_fuel} a piaci ár alatt\n\t* {radioactives} megsemmisítése ingyen (feltételekkel)\n\nCsatlakozz most! Az éves tagsági díj csak {membership_fee}"
+   },
+   "FLAVOUR_0_WELCOME" : {
+      "description" : "",
+      "message" : "Üdvözlünk a {clubname}ben."
+   },
+   "GO_BACK" : {
+      "description" : "",
+      "message" : "Vissza"
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Kapcsolat megszakítása."
+   },
+   "HYDROGEN" : {
+      "description" : "",
+      "message" : "Hidrogén"
+   },
+   "MILITARY_FUEL" : {
+      "description" : "",
+      "message" : "Katonai üzemanyag"
+   },
+   "RADIOACTIVES" : {
+      "description" : "",
+      "message" : "Radioaktív hulladék"
+   },
+   "WATER" : {
+      "description" : "",
+      "message" : "Víz"
+   },
+   "WE_WILL_ONLY_DISPOSE_OF" : {
+      "description" : "",
+      "message" : "Annyi tonna {radioactives} semlegesítését vállaljuk, amennyi {military_fuel} vásárolsz tőlünk."
+   },
+   "WHAT_CONDITIONS_APPLY" : {
+      "description" : "",
+      "message" : "Mik a feltételei a {radioactives} kezelésének?"
+   },
+   "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED" : {
+      "description" : "",
+      "message" : "A belépési igényedet visszautasítottuk."
+   },
+   "YOU_ARE_NOW_A_MEMBER" : {
+      "description" : "",
+      "message" : "Immáron tag vagy. A tagságod {expiry_date} napján jár le."
+   },
+   "YOU_MUST_BUY" : {
+      "description" : "",
+      "message" : "Csak a nálunk vásárolt {military_fuel}-ból keletkezett {radioactives}ot vesszük át."
+   }
 }

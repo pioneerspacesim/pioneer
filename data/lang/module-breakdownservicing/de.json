@@ -1,130 +1,130 @@
 {
-    "FLAVOUR_INTRO_4": {
-        "message": "Wilkommen bei Zeit und Raum.\n\nWir sind Spezialisten für Interstellare Antriebe. Alle Instandhaltungsarbeiten haben eine Garantie von 2 Jahren.\n{lasttime}\nServicing your {drive} will cost {price}.  Would you like to proceed?",
-        "description": ""
-    },
-    "FLAVOUR_INTRO_5": {
-        "message": "Vermeiden Sie die Unannehmlichkeiten eines kaputten Hyperraum-Antriebs.  Lassen Sie Ihres heute noch überholen, von der offiziell zugelassenen {name} Triebwerksservice-Firma.\n\nEngine: {drive}\nService: {price}\nGuarantee: 18 months\n{lasttime}",
-        "description": ""
-    },
-    "FLAVOUR_INTRO_2": {
-        "message": "Hallo.  Wir bei {proprietor} & Co stehen mit unserem guten Namen für unsere Arbeit.\n\n{lasttime}\nWir können den {drive} ihres Schiffes so abstimmen, dass 12 Monate Problemloses Laufen möglich ist. Das alles gibt es für nur {price}.  Ich werde die Arbeit persönlich überwachen, Sie können also auf eine gut ausgeführte Arbeit zählen.",
-        "description": ""
-    },
-    "FLAVOUR_INTRO_3": {
-        "message": "Wilkommen SuperFix Instandhaltung.\n\n{lasttime}\nZeit für Ihren halbjährlichen Check? Lassen Sie uns von uns Ihren Hyperraum-Antrieb SuperFix-en!\nWir können Ihr {drive} für nur {price}.  Nur wir haben den besten Preis!",
-        "description": ""
-    },
-    "FLAVOUR_INTRO_0": {
-        "message": "Vermeiden Sie die Unannehmlichkeiten eines kaputten Hyperraum-Antriebs.  Lassen Sie Ihres heute noch überholen, von der offiziell zugelassenen {name} Triebwerksservice-Firma.\n\nEngine: {drive}\nService: {price}\nGuarantee: 18 months\n{lasttime}",
-        "description": ""
-    },
-    "FLAVOUR_INTRO_1": {
-        "message": "Ich bin {proprietor}.  Ich kann Ihr {drive} überholen und garantiere mindestens ein Jahr problemloses Laufen.  Die Kosen für diesen Service liegen bei {price}.\n{lasttime}",
-        "description": ""
-    },
-    "I_DONT_HAVE_ENOUGH_MONEY": {
-        "message": "Ich habe nichzt genug Geld",
-        "description": ""
-    },
-    "THE_SHIPS_HYPERDRIVE_HAS_BEEN_DESTROYED_BY_A_MALFUNCTION": {
-        "message": "Der Hyperraumantrieb des Schiffes wurde durch eine Fehlfunktion zerstört",
-        "description": ""
-    },
-    "YOUR_DRIVE_WAS_LAST_SERVICED_ON": {
-        "message": "Der Antrieb wurde zuletzt am {date} von {company} überholt",
-        "description": ""
-    },
-    "FLAVOUR_RESPONSE_4": {
-        "message": "We have completed the work on your hyperdrive.",
-        "description": ""
-    },
-    "FLAVOUR_RESPONSE_5": {
-        "message": "Ihr Antrieb wurde überholt.",
-        "description": ""
-    },
-    "FLAVOUR_RESPONSE_0": {
-        "message": "Ihr Antrieb wurde überholt.",
-        "description": ""
-    },
-    "FLAVOUR_RESPONSE_1": {
-        "message": "Ihr Hyperraum-Antrieb wurde in Stand gesetzt.",
-        "description": ""
-    },
-    "FLAVOUR_RESPONSE_2": {
-        "message": "Die Arbeiten sind vollendet.  Danke, dass Sie sich für uns entschieden haben.",
-        "description": ""
-    },
-    "FLAVOUR_RESPONSE_3": {
-        "message": "Ihr SuperFix Service ist fertiggestellt mit SuperFix Garantie!",
-        "description": ""
-    },
-    "YOU_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN": {
-        "message": "Du hast das Hyperdrive repariert bevor es kaputt ging",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_4": {
-        "message": "Zeit und Raum Triebwerke, Inc.",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_5": {
-        "message": "{name} Triebwerk Service GmbH ",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_2": {
-        "message": "{proprietor} & Co HyperMechanik",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_3": {
-        "message": "SuperFix Instandhaltung ({name} Ableger)",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_0": {
-        "message": "{name} Triebwerk Service GmbH ",
-        "description": ""
-    },
-    "FLAVOUR_TITLE_1": {
-        "message": "{proprietor}: Hyperdrive Instandhaltungs-Spezialist",
-        "description": ""
-    },
-    "YOU_DO_NOT_HAVE_A_DRIVE_TO_SERVICE": {
-        "message": "Es ist kein Antrieb vorhanden, der überholt werden könnte!",
-        "description": ""
-    },
-    "YOUR_DRIVE_HAS_NOT_BEEN_SERVICED": {
-        "message": "Der Antrieb wurde noch nicht überholt, da er erst am {date} eingebaut wurde.",
-        "description": ""
-    },
-    "FLAVOUR_YESPLEASE_5": {
-        "message": "Überhole Hyperraum-Antrieb",
-        "description": ""
-    },
-    "FLAVOUR_YESPLEASE_4": {
-        "message": "Yes, please proceed",
-        "description": ""
-    },
-    "FLAVOUR_YESPLEASE_3": {
-        "message": "SuperFix-en Sie mich!",
-        "description": ""
-    },
-    "FLAVOUR_YESPLEASE_2": {
-        "message": "Bitte stimmen sie meinen Antrieb für den genannten Preis ab.",
-        "description": ""
-    },
-    "FLAVOUR_YESPLEASE_1": {
-        "message": "Überhole Antrieb",
-        "description": ""
-    },
-    "FLAVOUR_YESPLEASE_0": {
-        "message": "Überhole Hyperraum-Antrieb",
-        "description": ""
-    },
-    "I_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN": {
-        "message": "Ich habe das Hyperdrive repariert bevor es kaputt ging.",
-        "description": ""
-    },
-    "HANG_UP": {
-        "message": "Auflegen.",
-        "description": ""
-    }
+   "FLAVOUR_0_INTRO" : {
+      "description" : "",
+      "message" : "Vermeiden Sie die Unannehmlichkeiten eines kaputten Hyperraum-Antriebs.  Lassen Sie Ihres heute noch überholen, von der offiziell zugelassenen {name} Triebwerksservice-Firma.\n\nEngine: {drive}\nService: {price}\nGuarantee: 18 months\n{lasttime}"
+   },
+   "FLAVOUR_0_RESPONSE" : {
+      "description" : "",
+      "message" : "Ihr Antrieb wurde überholt."
+   },
+   "FLAVOUR_0_TITLE" : {
+      "description" : "",
+      "message" : "{name} Triebwerk Service GmbH "
+   },
+   "FLAVOUR_0_YESPLEASE" : {
+      "description" : "",
+      "message" : "Überhole Hyperraum-Antrieb"
+   },
+   "FLAVOUR_1_INTRO" : {
+      "description" : "",
+      "message" : "Ich bin {proprietor}.  Ich kann Ihr {drive} überholen und garantiere mindestens ein Jahr problemloses Laufen.  Die Kosen für diesen Service liegen bei {price}.\n{lasttime}"
+   },
+   "FLAVOUR_1_RESPONSE" : {
+      "description" : "",
+      "message" : "Ihr Hyperraum-Antrieb wurde in Stand gesetzt."
+   },
+   "FLAVOUR_1_TITLE" : {
+      "description" : "",
+      "message" : "{proprietor}: Hyperdrive Instandhaltungs-Spezialist"
+   },
+   "FLAVOUR_1_YESPLEASE" : {
+      "description" : "",
+      "message" : "Überhole Antrieb"
+   },
+   "FLAVOUR_2_INTRO" : {
+      "description" : "",
+      "message" : "Hallo.  Wir bei {proprietor} & Co stehen mit unserem guten Namen für unsere Arbeit.\n\n{lasttime}\nWir können den {drive} ihres Schiffes so abstimmen, dass 12 Monate Problemloses Laufen möglich ist. Das alles gibt es für nur {price}.  Ich werde die Arbeit persönlich überwachen, Sie können also auf eine gut ausgeführte Arbeit zählen."
+   },
+   "FLAVOUR_2_RESPONSE" : {
+      "description" : "",
+      "message" : "Die Arbeiten sind vollendet.  Danke, dass Sie sich für uns entschieden haben."
+   },
+   "FLAVOUR_2_TITLE" : {
+      "description" : "",
+      "message" : "{proprietor} & Co HyperMechanik"
+   },
+   "FLAVOUR_2_YESPLEASE" : {
+      "description" : "",
+      "message" : "Bitte stimmen sie meinen Antrieb für den genannten Preis ab."
+   },
+   "FLAVOUR_3_INTRO" : {
+      "description" : "",
+      "message" : "Wilkommen SuperFix Instandhaltung.\n\n{lasttime}\nZeit für Ihren halbjährlichen Check? Lassen Sie uns von uns Ihren Hyperraum-Antrieb SuperFix-en!\nWir können Ihr {drive} für nur {price}.  Nur wir haben den besten Preis!"
+   },
+   "FLAVOUR_3_RESPONSE" : {
+      "description" : "",
+      "message" : "Ihr SuperFix Service ist fertiggestellt mit SuperFix Garantie!"
+   },
+   "FLAVOUR_3_TITLE" : {
+      "description" : "",
+      "message" : "SuperFix Instandhaltung ({name} Ableger)"
+   },
+   "FLAVOUR_3_YESPLEASE" : {
+      "description" : "",
+      "message" : "SuperFix-en Sie mich!"
+   },
+   "FLAVOUR_4_INTRO" : {
+      "description" : "",
+      "message" : "Wilkommen bei Zeit und Raum.\n\nWir sind Spezialisten für Interstellare Antriebe. Alle Instandhaltungsarbeiten haben eine Garantie von 2 Jahren.\n{lasttime}\nServicing your {drive} will cost {price}.  Would you like to proceed?"
+   },
+   "FLAVOUR_4_RESPONSE" : {
+      "description" : "",
+      "message" : "We have completed the work on your hyperdrive."
+   },
+   "FLAVOUR_4_TITLE" : {
+      "description" : "",
+      "message" : "Zeit und Raum Triebwerke, Inc."
+   },
+   "FLAVOUR_4_YESPLEASE" : {
+      "description" : "",
+      "message" : "Yes, please proceed"
+   },
+   "FLAVOUR_5_INTRO" : {
+      "description" : "",
+      "message" : "Vermeiden Sie die Unannehmlichkeiten eines kaputten Hyperraum-Antriebs.  Lassen Sie Ihres heute noch überholen, von der offiziell zugelassenen {name} Triebwerksservice-Firma.\n\nEngine: {drive}\nService: {price}\nGuarantee: 18 months\n{lasttime}"
+   },
+   "FLAVOUR_5_RESPONSE" : {
+      "description" : "",
+      "message" : "Ihr Antrieb wurde überholt."
+   },
+   "FLAVOUR_5_TITLE" : {
+      "description" : "",
+      "message" : "{name} Triebwerk Service GmbH "
+   },
+   "FLAVOUR_5_YESPLEASE" : {
+      "description" : "",
+      "message" : "Überhole Hyperraum-Antrieb"
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Auflegen."
+   },
+   "I_DONT_HAVE_ENOUGH_MONEY" : {
+      "description" : "",
+      "message" : "Ich habe nichzt genug Geld"
+   },
+   "I_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN" : {
+      "description" : "",
+      "message" : "Ich habe das Hyperdrive repariert bevor es kaputt ging."
+   },
+   "THE_SHIPS_HYPERDRIVE_HAS_BEEN_DESTROYED_BY_A_MALFUNCTION" : {
+      "description" : "",
+      "message" : "Der Hyperraumantrieb des Schiffes wurde durch eine Fehlfunktion zerstört"
+   },
+   "YOUR_DRIVE_HAS_NOT_BEEN_SERVICED" : {
+      "description" : "",
+      "message" : "Der Antrieb wurde noch nicht überholt, da er erst am {date} eingebaut wurde."
+   },
+   "YOUR_DRIVE_WAS_LAST_SERVICED_ON" : {
+      "description" : "",
+      "message" : "Der Antrieb wurde zuletzt am {date} von {company} überholt"
+   },
+   "YOU_DO_NOT_HAVE_A_DRIVE_TO_SERVICE" : {
+      "description" : "",
+      "message" : "Es ist kein Antrieb vorhanden, der überholt werden könnte!"
+   },
+   "YOU_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN" : {
+      "description" : "",
+      "message" : "Du hast das Hyperdrive repariert bevor es kaputt ging"
+   }
 }

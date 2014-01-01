@@ -315,7 +315,7 @@ double Ship::AIFaceDirection(const vector3d &dir, double av)
 vector3d Ship::AIGetLeadDir(const Body *target, const vector3d& targaccel, int gunindex)
 {
 	assert(target);
-	if (m_equipment.Get(Equip::SLOT_LASER) != Equip::NONE)
+	if (m_equipment.Get(Equip::SLOT_LASER) == Equip::NONE)
 		return target->GetPositionRelTo(this).Normalized();
 
 	const vector3d targpos = target->GetPositionRelTo(this);

@@ -1,2146 +1,1870 @@
 {
-    "VID_CONNECTING": {
-        "message": "Conectare...",
-        "description": ""
-    },
-    "LANDED": {
-        "message": "Aterizat",
-        "description": ""
-    },
-    "DOCKING_CLEARANCE_EXPIRED": {
-        "message": "Permisia de andocare a expirat. Dacă doriţi sa andocaţi trebuie să repetaţi cererea.",
-        "description": ""
-    },
-    "HYPERSPACE_TARGET": {
-        "message": "Ţintă hiperspaţiu",
-        "description": ""
-    },
-    "MONTH_AUG": {
-        "message": "Aug",
-        "description": ""
-    },
-    "COMPUTER_SPEED_CONTROL": {
-        "message": "Viteză controlată de calculator",
-        "description": ""
-    },
-    "ALT": {
-        "message": "\"alt \"",
-        "description": ""
-    },
-    "HYPERSPACE_ARRIVAL_CLOUD": {
-        "message": "Nor de sosire din hiperspaţiu",
-        "description": ""
-    },
-    "DIRECTION": {
-        "message": "\" Dir \"",
-        "description": ""
-    },
-    "CARBON_ORE_DESCRIPTION": {
-        "message": "Minereurile din cărbune (cărbuni şi petrol) sunt necesare pentru sintetizarea multor chimicale folositoare, inclusiv plastice, mâncare sintetică, doctorii şi textile",
-        "description": ""
-    },
-    "CAMERA_TOP_VIEW": {
-        "message": "Top camera",
-        "description": ""
-    },
-    "TINY": {
-        "message": "Micuţ(ă)",
-        "description": ""
-    },
-    "CONSUMER_GOODS": {
-        "message": "Bunuri de consum",
-        "description": ""
-    },
-    "BODY": {
-        "message": "corp",
-        "description": ""
-    },
-    "WITH_A": {
-        "message": "\" cu o \"",
-        "description": ""
-    },
-    "FIT": {
-        "message": "Instalare",
-        "description": ""
-    },
-    "EXTENSIVE_MINING": {
-        "message": "Extensive mining operations.",
-        "description": ""
-    },
-    "REVERSE_ACCEL_LADEN": {
-        "message": "Acceleraţie înapoi (încărcată)",
-        "description": ""
-    },
-    "LEGAL_STATUS": {
-        "message": "Starea legală",
-        "description": ""
-    },
-    "WHEELS_ARE_DOWN": {
-        "message": "Terenul de aterizare coborât",
-        "description": ""
-    },
-    "INDUSTRIAL_MACHINERY": {
-        "message": "Utilaje industriale",
-        "description": ""
-    },
-    "HULL_AUTOREPAIR": {
-        "message": "Sistem de Autoreparare Fuzelaj",
-        "description": ""
-    },
-    "TOGGLE_LUA_CONSOLE": {
-        "message": "Toggle Lua console",
-        "description": ""
-    },
-    "SOCIAL_DEMOCRACY": {
-        "message": "Democraţie socială",
-        "description": ""
-    },
-    "WATER": {
-        "message": "Apă",
-        "description": ""
-    },
-    "HULL_INTEGRITY": {
-        "message": "Consistenţă fuzelaj",
-        "description": ""
-    },
-    "EARTH_FEDERATION_DEMOCRACY": {
-        "message": "Democraţie Federală a Pământului",
-        "description": ""
-    },
-    "VIEW": {
-        "message": "Vizionare",
-        "description": ""
-    },
-    "HIGHLY_VOLCANIC": {
-        "message": "Majoritar vulcanic",
-        "description": ""
-    },
-    "USED": {
-        "message": "Folosit",
-        "description": ""
-    },
-    "GAME_LOAD_WRONG_VERSION": {
-        "message": "This saved game cannot be loaded because it was created by a different version of Pioneer.",
-        "description": ""
-    },
-    "ECM_ADVANCED_DESCRIPTION": {
-        "message": "Un sistem de contramăsuri electronice defensive împotriva rachetelor, capabile să distrugă câteva tipuri mai avansate de rachete autoghidate.",
-        "description": ""
-    },
-    "DRIVE_MIL4": {
-        "message": "Motor Militar Clasa 4",
-        "description": ""
-    },
-    "DRIVE_MIL3": {
-        "message": "Motor Militar Clasa 3",
-        "description": ""
-    },
-    "LIQUID_OXYGEN_DESCRIPTION": {
-        "message": "Oxigenul este necesar sistemelor de menţinere a vieţii şi câtorva procesări industriale",
-        "description": ""
-    },
-    "DRIVE_MIL1": {
-        "message": "Motor Militar Clasa 1",
-        "description": ""
-    },
-    "CORPORATE_SYSTEM": {
-        "message": "Sistem corporativ",
-        "description": ""
-    },
-    "HYDROGEN": {
-        "message": "Hidrogen",
-        "description": ""
-    },
-    "REVERSE_ACCEL_EMPTY": {
-        "message": "Acceleraţie înapoi (golită)",
-        "description": ""
-    },
-    "MONTH_JAN": {
-        "message": "Jan",
-        "description": ""
-    },
-    "PRICE_TO_REMOVE": {
-        "message": "$ per înlăturare",
-        "description": ""
-    },
-    "IMPERIAL_RULE": {
-        "message": "Conducere Imperială",
-        "description": ""
-    },
-    "BINARY_SYSTEM": {
-        "message": "Sistem binar",
-        "description": ""
-    },
-    "ALT_IN_METRES": {
-        "message": "Alt: %altitude{f.0}m",
-        "description": ""
-    },
-    "SHIELD_GENERATOR": {
-        "message": "Generator de scut",
-        "description": ""
-    },
-    "SOMEWHERE_COMMODITIES_MARKET": {
-        "message": "Piaţa de produse %station",
-        "description": ""
-    },
-    "NARCOTICS": {
-        "message": "Narcotice",
-        "description": ""
-    },
-    "THRUSTER_VENTRAL": {
-        "message": "Propulsare în sus",
-        "description": ""
-    },
-    "STAR_K_HYPER_GIANT": {
-        "message": "Stea hipergigantică portocalie - Instabilă",
-        "description": ""
-    },
-    "NEW_AND_RECONDITIONED_SHIPS": {
-        "message": "Nave noi şi recondiţionate",
-        "description": ""
-    },
-    "STAR_AF_GIANT": {
-        "message": "Stea gigantică albă",
-        "description": ""
-    },
-    "CLASS_NUMBER": {
-        "message": "Clasa %class",
-        "description": ""
-    },
-    "SOME_ESTABLISHED_MINING": {
-        "message": "Câtva minerit stabilit.",
-        "description": ""
-    },
-    "CONTROLS": {
-        "message": "Controale",
-        "description": ""
-    },
-    "CARGO_N": {
-        "message": "Depozit: %{mass}t",
-        "description": ""
-    },
-    "HAND_WEAPONS": {
-        "message": "Arme de mână",
-        "description": ""
-    },
-    "TIME_POINT": {
-        "message": "Punctul în timp:",
-        "description": ""
-    },
-    "MINING_MACHINERY": {
-        "message": "Utilaje de minerit",
-        "description": ""
-    },
-    "MININGCANNON_17MW": {
-        "message": "Tun forjare 17MW",
-        "description": ""
-    },
-    "CARGO_BAY_LIFE_SUPPORT_LOST": {
-        "message": "Senzorii raportează condiţii critice la sistemele de susţinere a vieţii in depozit.",
-        "description": ""
-    },
-    "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE": {
-        "message": "Analizator hipernor: Setează ţinta hiperspaţiului să urmărească plecarea aceasta",
-        "description": ""
-    },
-    "ALLEGIANCE": {
-        "message": "Alegianţă:",
-        "description": ""
-    },
-    "WEIGHT_EMPTY": {
-        "message": "Greutate goală",
-        "description": ""
-    },
-    "N_DEGREES": {
-        "message": "%angle{f.1} grade",
-        "description": ""
-    },
-    "IN_TRANSIT_TO_N_X_X_X": {
-        "message": "În tranzit către %system [%x,%y,%z]",
-        "description": ""
-    },
-    "REAR": {
-        "message": "Spate",
-        "description": ""
-    },
-    "STAR_B_SUPER_GIANT": {
-        "message": "Stea supergigantică albastră",
-        "description": ""
-    },
-    "DISTANCE_FROM_SHIP_TO_NAV_TARGET": {
-        "message": "Distanţa de la navă la ţinta navigaţiei",
-        "description": ""
-    },
-    "CAPACITY": {
-        "message": "Capacitate",
-        "description": ""
-    },
-    "COMPUTER_HEADING_CONTROL": {
-        "message": "Computer heading control",
-        "description": ""
-    },
-    "SURFACE_GRAVITY": {
-        "message": "Surface gravity",
-        "description": ""
-    },
-    "DOCKED": {
-        "message": "Andocat",
-        "description": ""
-    },
-    "COMMA_HIGHLY_VOLCANIC": {
-        "message": ", majoritar vulcanic",
-        "description": ""
-    },
-    "UNEXPLORED_SYSTEM_STAR_INFO_ONLY": {
-        "message": "Sistem Neexplorat. Informaţii despre stea au fost adunate prin intermediul telescopului, dar nu sunt disponibile informaţii despre planete.",
-        "description": ""
-    },
-    "DECREASE_SET_SPEED": {
-        "message": "Scade viteza setată",
-        "description": ""
-    },
-    "ROCKY_PLANET_CONTAINING_COME_LIQUIDS": {
-        "message": "\" planetă stâncoasă ce conţine câteva lichide,\"",
-        "description": ""
-    },
-    "REMOVE_FROM_WHICH_MOUNT": {
-        "message": "Din ce montură de armă să se înlăture laserul?",
-        "description": ""
-    },
-    "BODIES": {
-        "message": "corpuri",
-        "description": ""
-    },
-    "SCREENSHOT_FILENAME_TEMPLATE": {
-        "message": "captura%index{d08}.png",
-        "description": ""
-    },
-    "STAR_K_GIANT": {
-        "message": "Stea gigantă portocalie - Instabilă",
-        "description": ""
-    },
-    "SHIELD_STRENGTH_N": {
-        "message": "Rezistenţa scutului: %shields{f.2}",
-        "description": ""
-    },
-    "N_YEARS": {
-        "message": "%years{f.1} ani",
-        "description": ""
-    },
-    "SMALL_PLASMA_ACCEL": {
-        "message": "Accelerator plasmă mic",
-        "description": ""
-    },
-    "THRUSTER_PORT": {
-        "message": "Propulsare la stânga",
-        "description": ""
-    },
-    "TOGGLE_ROTATION_DAMPING": {
-        "message": "Toggle rotation damping",
-        "description": ""
-    },
-    "LANG_NAME": {
-        "message": "Română",
-        "description": "The name that native speakers use for this language. This will be used in the language selection screen. For obscure reasons this currently must only use Latin-1 characters."
-    },
-    "CAMERA_BOTTOM_VIEW": {
-        "message": "Bottom camera",
-        "description": ""
-    },
-    "DAY_LENGTH": {
-        "message": "Durata unei zile",
-        "description": ""
-    },
-    "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND": {
-        "message": "Autopilot: Intră în orbita medie în jurul %target",
-        "description": ""
-    },
-    "INCREASE_SET_SPEED": {
-        "message": "Creşte viteza setată",
-        "description": ""
-    },
-    "CARGO_SCOOP_DESCRIPTION": {
-        "message": "Permits scooping cargo pods from space.",
-        "description": ""
-    },
-    "MONTH_MAY": {
-        "message": "May",
-        "description": ""
-    },
-    "ASTEROID": {
-        "message": "Asteroid",
-        "description": ""
-    },
-    "NUMBER_G": {
-        "message": "%acceleration{f.1} G",
-        "description": ""
-    },
-    "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
-        "message": "Se simulează evoluţia universului: %age{f.1} mii de milioane de ani ;-)",
-        "description": ""
-    },
-    "MININGCANNON_17MW_DESCRIPTION": {
-        "message": "Folosit pentru a forja asteroizi bogaţi în minerale.",
-        "description": ""
-    },
-    "MONTH_MAR": {
-        "message": "Mar",
-        "description": ""
-    },
-    "PAY_THE_FINE_NOW": {
-        "message": "Plătiţi amenda acum.",
-        "description": ""
-    },
-    "CO2_ATMOSPHERE": {
-        "message": "\" Atmosferă de Dioxid de Carbon\"",
-        "description": ""
-    },
-    "MILITARY_DICTATORSHIP": {
-        "message": "Dictatură militară",
-        "description": ""
-    },
-    "SCUTUM_CENTAURUS_ARM": {
-        "message": "Braţul Scutum-Centaurus",
-        "description": ""
-    },
-    "REMOVE": {
-        "message": "Înlăturare",
-        "description": ""
-    },
-    "LAUNCH_PERMISSION_DENIED_BUSY": {
-        "message": "Nu vi se acordă permisiunea de a decola: staţiile sunt aglomerate.",
-        "description": ""
-    },
-    "CH4_ATMOSPHERE": {
-        "message": "\" Atmosferă de Metan\"",
-        "description": ""
-    },
-    "HEADING_LOCK_BACKWARD": {
-        "message": "Heading Lock (aft)",
-        "description": ""
-    },
-    "HULL_AUTOREPAIR_DESCRIPTION": {
-        "message": "Repară automat fuzelajul navei în caz de avarii.",
-        "description": ""
-    },
-    "SHIELD_ENERGY_BOOSTER_DESCRIPTION": {
-        "message": "Creşte rata reîncărcării scuturilor.",
-        "description": ""
-    },
-    "ENABLED_AUTOMATIC_SYSTEM_SELECTION": {
-        "message": "S-a activat selecţia automată a sistemelor.",
-        "description": ""
-    },
-    "CAMERA_FRONT_VIEW": {
-        "message": "Vedere frontală",
-        "description": ""
-    },
-    "ROBOTS": {
-        "message": "Roboţi",
-        "description": ""
-    },
-    "PASSENGER_CABIN": {
-        "message": "Occupied Passenger Cabin",
-        "description": ""
-    },
-    "INDUSTRIAL_COLONY": {
-        "message": "Colonie industrială.",
-        "description": ""
-    },
-    "UNEXPLORED_SYSTEM_NO_DATA": {
-        "message": "Sistem neexporat. Nicio altă informaţie valabilăd.",
-        "description": ""
-    },
-    "SCANNER": {
-        "message": "Scaner",
-        "description": ""
-    },
-    "THRUSTER_MAIN": {
-        "message": "Propulsare înainte",
-        "description": ""
-    },
-    "HARD_CAPITALIST": {
-        "message": "Complet Capitalist - nici o dispoziţie pentru prosperitatea guvernului",
-        "description": ""
-    },
-    "SELECT_A_TARGET": {
-        "message": "Selectaţi o ţintă",
-        "description": ""
-    },
-    "SHIP_IS_FULLY_LADEN": {
-        "message": "Nava dumneavoastră e încărcată la maxim.",
-        "description": ""
-    },
-    "MONTH_FEB": {
-        "message": "Feb",
-        "description": ""
-    },
-    "PLANETARY_INFO": {
-        "message": "Informaţii despre planetă",
-        "description": ""
-    },
-    "METAL_ALLOYS": {
-        "message": "Aliaje din metal",
-        "description": ""
-    },
-    "RESET": {
-        "message": "Reset",
-        "description": ""
-    },
-    "CARGO": {
-        "message": "Depozit",
-        "description": ""
-    },
-    "JOY_AXIS": {
-        "message": "%{sign}Joy%joynum %axis Axis",
-        "description": ""
-    },
-    "STAR_G_SUPER_GIANT": {
-        "message": "Stea supergigantică galbenă",
-        "description": ""
-    },
-    "COMPUTERS": {
-        "message": "Calculatoare",
-        "description": ""
-    },
-    "LARGE_GAS_GIANT": {
-        "message": "Gigantică gazoasa mare",
-        "description": ""
-    },
-    "SOMEWHERE_SHIP_REPAIRS": {
-        "message": "Reparaţii nave %station",
-        "description": ""
-    },
-    "JOY": {
-        "message": "Joy",
-        "description": ""
-    },
-    "MAJOR_EXPORTS": {
-        "message": "Exporturi Majore:",
-        "description": ""
-    },
-    "CAMERA_RIGHT_VIEW": {
-        "message": "Right camera",
-        "description": ""
-    },
-    "NUMBER_LY": {
-        "message": "%distance{f.2} a.l.",
-        "description": ""
-    },
-    "ECM_ADVANCED": {
-        "message": "Sistem avansat ECM",
-        "description": ""
-    },
-    "NO_HYPERDRIVE": {
-        "message": "Niciun motor superluminic",
-        "description": ""
-    },
-    "SOURCE": {
-        "message": "Origine",
-        "description": ""
-    },
-    "EARTH_FEDERATION_COLONIAL_RULE": {
-        "message": "Conducere Colonială a Federaţiei Pământului",
-        "description": ""
-    },
-    "GALACTIC_VIEW": {
-        "message": "Vizualizare galaxie",
-        "description": ""
-    },
-    "THRUSTER_DORSAL": {
-        "message": "Propulsare în jos",
-        "description": ""
-    },
-    "THANKS_AND_REMEMBER_TO_BUY_FUEL": {
-        "message": "Vă mulţumim pentru achiziţia dumneavoastră. Nu uitaţi să instalaţi echipament şi să cumparaţi combustibil înainte de a pleca.",
-        "description": ""
-    },
-    "STAR_B_WF": {
-        "message": "Stea Wolf-Rayet - Risc de colaps",
-        "description": ""
-    },
-    "BROWN_DWARF": {
-        "message": "Obiect sub-stelar pitică cenuşie",
-        "description": ""
-    },
-    "HIGH_POPULATION_OUTDOOR_WORLD": {
-        "message": "High population outdoor world.",
-        "description": ""
-    },
-    "ROTATE_LEFT": {
-        "message": "Rotate Left",
-        "description": ""
-    },
-    "TRADING_ILLEGAL_GOODS": {
-        "message": "Se negociază bunurile ilegale",
-        "description": ""
-    },
-    "STAR_G_GIANT": {
-        "message": "Stea gigantică galbenă - Instabilă",
-        "description": ""
-    },
-    "SCANNER_DESCRIPTION": {
-        "message": "Oferă o hartă 3D a navelor apropiate.",
-        "description": ""
-    },
-    "MONTH_NOV": {
-        "message": "Nov",
-        "description": ""
-    },
-    "EXACT_MATCH_X": {
-        "message": "Potrivire exactă: %system",
-        "description": ""
-    },
-    "SOLD_1T_OF": {
-        "message": "Aţi vândut 1t de %commodity.",
-        "description": ""
-    },
-    "SURFACE_TEMPERATURE": {
-        "message": "Temperatura la suprafaţă",
-        "description": ""
-    },
-    "GAME_SAVED_TO": {
-        "message": "\"Jocul salvat drept \"",
-        "description": ""
-    },
-    "STOCK": {
-        "message": "Stoc",
-        "description": ""
-    },
-    "YOUNG_FARMING_COLONY": {
-        "message": "Colonie proaspătă de agricultură.",
-        "description": ""
-    },
-    "NUMBER_TONNES": {
-        "message": "%{mass}t",
-        "description": ""
-    },
-    "LARGE_PLASMA_ACCEL": {
-        "message": "Accelerator plasmă mare",
-        "description": ""
-    },
-    "PAY_FINE_REMOTELY": {
-        "message": "Plătiţi amenda de (%amount) prin transfer de la distanţă",
-        "description": ""
-    },
-    "MISSILE": {
-        "message": "rachetă",
-        "description": ""
-    },
-    "DRAW_OUT_RANGE_LABELS": {
-        "message": "Label out-of-range systems",
-        "description": ""
-    },
-    "VIOLENT_ANARCHY": {
-        "message": "Fără ordine interioară - Guvernamântul general contestat de facţiuni înarmate",
-        "description": ""
-    },
-    "SHIP_DETECTED_NEARBY": {
-        "message": "Navă detectată în apropiere.",
-        "description": ""
-    },
-    "N_DISTANCE_TO_TARGET": {
-        "message": "%distance până la ţintă",
-        "description": ""
-    },
-    "APOAPSIS_DISTANCE": {
-        "message": "Distanţa apocentrică",
-        "description": ""
-    },
-    "PLANET_WITH_SOME_ICE": {
-        "message": "\" planetă cu ceva gheaţă\"",
-        "description": ""
-    },
-    "FUEL_WEIGHT": {
-        "message": "Fuel weight",
-        "description": ""
-    },
-    "SMALL_INDUSTRIAL_OUTPOST": {
-        "message": "Mic avanpost industrial.",
-        "description": ""
-    },
-    "SELECT_LOW_THRUST_POWER_LEVEL": {
-        "message": "Select low thrust power level",
-        "description": ""
-    },
-    "N_WHATEVER_RADII": {
-        "message": "%radius{f.3} %units radii (%radkm{f.0} km)",
-        "description": ""
-    },
-    "AXIAL_TILT": {
-        "message": "Înclinaţie axială",
-        "description": ""
-    },
-    "ECCENTRICITY": {
-        "message": "Excentritate",
-        "description": ""
-    },
-    "SHIP_NEARBY": {
-        "message": "Navă în apropiere",
-        "description": ""
-    },
-    "POPULATION": {
-        "message": "Populaţie:",
-        "description": ""
-    },
-    "STAR_B_GIANT": {
-        "message": "Stea gigantică albastră",
-        "description": ""
-    },
-    "SPACESTATION_LONG_WELCOME_MESSAGE": {
-        "message": "Bine aţi venit pe această staţie spaţială. Avem rapoarte de vandalism şi grafitti pe avizier. Daca observaţi ca vreun mesaj vă induce în eroare, este scris greşit sau pur şi simplu lipseşte, vă rugăm să anunţaţi un membru al personalului.\\nOxigenul este momentan gratuit.",
-        "description": ""
-    },
-    "NO_CENTRAL_GOVERNANCE": {
-        "message": "Fără guvernământ central",
-        "description": ""
-    },
-    "RUBBISH": {
-        "message": "Gunoi",
-        "description": ""
-    },
-    "TOGGLE_SCAN_MODE": {
-        "message": "Toggle scanner mode",
-        "description": ""
-    },
-    "HYDROGEN_DESCRIPTION": {
-        "message": "Hidrogenul este folosit în principal drept combustibil de fuziune",
-        "description": ""
-    },
-    "CO_ATMOSPHERE": {
-        "message": "\" Atmosferă de Monoxid de Carbon\"",
-        "description": ""
-    },
-    "CABINS": {
-        "message": "Cabins",
-        "description": ""
-    },
-    "INCREASE_SCAN_RANGE": {
-        "message": "Increase scanner range",
-        "description": ""
-    },
-    "MONTH_OCT": {
-        "message": "Oct",
-        "description": ""
-    },
-    "SMALL_GAS_GIANT": {
-        "message": "Gigantică gazoasa mică",
-        "description": ""
-    },
-    "MISSILE_GUIDED": {
-        "message": "Rachetă Teleghidată",
-        "description": ""
-    },
-    "ZOOM_OUT": {
-        "message": "Măreste distanţa focala",
-        "description": ""
-    },
-    "SECTOR_COORDINATES": {
-        "message": "Coordonate sector:",
-        "description": ""
-    },
-    "PULSECANNON_10MW": {
-        "message": "Tun intermitent 10MW",
-        "description": ""
-    },
-    "WHITE_DWARF": {
-        "message": "Ramăşiţa stelară a unei pitice albe",
-        "description": ""
-    },
-    "HULL_TEMP": {
-        "message": "Temperatura fuzelaj",
-        "description": ""
-    },
-    "N_ATMOSPHERE": {
-        "message": "\" Atmosferă de Nitrogen\"",
-        "description": ""
-    },
-    "AND_HIGHLY_COMPLEX_ECOSYSTEM": {
-        "message": "\" şi un ecosistem foarte complex.\"",
-        "description": ""
-    },
-    "UNKNOWN": {
-        "message": "<necunoscut>",
-        "description": ""
-    },
-    "SHIELD_ENERGY_BOOSTER": {
-        "message": "Amplificator Energie Scut",
-        "description": ""
-    },
-    "NO_ESTABLISHED_ORDER": {
-        "message": "Nicio formă de guvenare stabilită",
-        "description": ""
-    },
-    "SMALL": {
-        "message": "Mic(ă)",
-        "description": ""
-    },
-    "AIR_PROCESSORS": {
-        "message": "Filtre de aer",
-        "description": ""
-    },
-    "DECREASE_SCAN_RANGE": {
-        "message": "Decrease scanner range",
-        "description": ""
-    },
-    "SET_HYPERSPACE_DESTINATION_TO": {
-        "message": "Setaţi destinaţia hiperspaţiului către %system",
-        "description": ""
-    },
-    "WEIGHT_FULLY_LADEN": {
-        "message": "Greutate incărcată la maxim",
-        "description": ""
-    },
-    "UNOCCUPIED_CABIN_DESCRIPTION": {
-        "message": "Required for transport of a single passenger",
-        "description": ""
-    },
-    "MASS": {
-        "message": "Masă",
-        "description": ""
-    },
-    "THRIVING_OUTDOOR_WORLD": {
-        "message": "Thriving outdoor world.",
-        "description": ""
-    },
-    "COMMODITIES_MARKET": {
-        "message": "Piaţa de produse",
-        "description": ""
-    },
-    "FARM_MACHINERY": {
-        "message": "Utilaje fermiere",
-        "description": ""
-    },
-    "MURDER": {
-        "message": "Crimă",
-        "description": ""
-    },
-    "YAW": {
-        "message": "Girare",
-        "description": ""
-    },
-    "HYPERCLOUD_ANALYZER": {
-        "message": "Analizator Hipernor",
-        "description": ""
-    },
-    "X_CANNOT_BE_TOLERATED_HERE": {
-        "message": "Nu este tolerat(ă) %crime aici.",
-        "description": ""
-    },
-    "PAUSED": {
-        "message": "PAUSED",
-        "description": ""
-    },
-    "MISSILE_SMART": {
-        "message": "Rachetă Inteligentă",
-        "description": ""
-    },
-    "NOT_FOUND_BEST_MATCH_X": {
-        "message": "Nu a fost găsit, cel mai potrivit: %system",
-        "description": ""
-    },
-    "SECTOR_X_Y_Z": {
-        "message": "Sector: %x,%y,%z",
-        "description": ""
-    },
-    "RADIOACTIVES": {
-        "message": "Deşeuri radioactive",
-        "description": ""
-    },
-    "PLANNED_ECONOMY": {
-        "message": "Economie planificată central",
-        "description": ""
-    },
-    "SOLAR": {
-        "message": "Solar",
-        "description": ""
-    },
-    "DRIVE_MIL2": {
-        "message": "Motor Militar Clasa 2",
-        "description": ""
-    },
-    "BATTLE_WEAPONS": {
-        "message": "Arme de luptă",
-        "description": ""
-    },
-    "HYPERSPACE_DEPARTURE_CLOUD": {
-        "message": "Nor de plecare în hiperspaţiu",
-        "description": ""
-    },
-    "SHIFT": {
-        "message": "\"shift \"",
-        "description": ""
-    },
-    "DESTINATION": {
-        "message": "Destinaţie",
-        "description": ""
-    },
-    "REQUEST_DOCKING_CLEARANCE": {
-        "message": "Cereţi permisiunea de a andoca",
-        "description": ""
-    },
-    "SHIP_TYPE": {
-        "message": "Tipul navei",
-        "description": ""
-    },
-    "FINE_PAID_N_BUT_N_REMAINING": {
-        "message": "Aţi plătit %paid dar v-a mai rămas de platit din amendă %fine.",
-        "description": ""
-    },
-    "HYPERSPACING_IN_N_SECONDS": {
-        "message": "Hiperspaţiu în %countdown{f.0} secunde",
-        "description": ""
-    },
-    "STAR_G_HYPER_GIANT": {
-        "message": "Stea hipergigantică galbenă - Instabilă",
-        "description": ""
-    },
-    "COMMS": {
-        "message": "Comunicaţii",
-        "description": ""
-    },
-    "PIRACY": {
-        "message": "Piraterie",
-        "description": ""
-    },
-    "ATMOSPHERIC_SHIELDING": {
-        "message": "Scut Atmosferic",
-        "description": ""
-    },
-    "COUNT_ON_SURFACE": {
-        "message": "\" (%surfacecount on surface)\"",
-        "description": ""
-    },
-    "YOU_NO_MONEY": {
-        "message": "Nu aveţi niciun ban.",
-        "description": ""
-    },
-    "PLASTICS": {
-        "message": "Plastice",
-        "description": ""
-    },
-    "HYPERSPACE_JUMP": {
-        "message": "Salt în hiperstaţiu",
-        "description": ""
-    },
-    "A_FEW_THOUSAND": {
-        "message": "Doar câteva mii",
-        "description": ""
-    },
-    "NONE": {
-        "message": "Nimic",
-        "description": ""
-    },
-    "RADAR_MAPPER": {
-        "message": "Cartograf Radar",
-        "description": ""
-    },
-    "PERSEUS_ARM": {
-        "message": "Braţul Perseus",
-        "description": ""
-    },
-    "NOT_FOUND": {
-        "message": "Nu a fost găsit",
-        "description": ""
-    },
-    "SHIELD_GENERATOR_DESCRIPTION": {
-        "message": "Oferă apărare adiţională fuzelajului navei per unitate instalată.",
-        "description": ""
-    },
-    "HYPERCLOUD_ANALYZER_DESCRIPTION": {
-        "message": "Analizează norii unui salt în hiperspaţiu pentru a determina destinaţia si timpul sosirii sau plecării.",
-        "description": ""
-    },
-    "YOU_DO_NOT_HAVE_ANY_X": {
-        "message": "Nu aveţi %item.",
-        "description": ""
-    },
-    "VERY_DENSE": {
-        "message": "foarte dens",
-        "description": ""
-    },
-    "FUEL": {
-        "message": "Fuel",
-        "description": ""
-    },
-    "ROLL": {
-        "message": "Rostogolire",
-        "description": ""
-    },
-    "FORWARD_ACCEL_EMPTY": {
-        "message": "Viteza de acceleraţie (golită)",
-        "description": ""
-    },
-    "HYPERDRIVE_FITTED": {
-        "message": "Motor superluminic instalat:",
-        "description": ""
-    },
-    "GAME_LOAD_CANNOT_OPEN": {
-        "message": "Fişierul acestui joc salvat nu poate fi deschis din cauza lipsei permisiunilor sau ceva asemănător...",
-        "description": ""
-    },
-    "WT": {
-        "message": "Greutate",
-        "description": ""
-    },
-    "ROCKY_PLANET": {
-        "message": "\" planetă stâncoasă\"",
-        "description": ""
-    },
-    "SOMEWHERE_SERVICES": {
-        "message": "Servicii %station",
-        "description": ""
-    },
-    "AUTOPILOT": {
-        "message": "Autopilot",
-        "description": ""
-    },
-    "AUTOPILOT_ENTER_LOW_ORBIT_AROUND": {
-        "message": "Autopilot: Intră în orbita inferioară în jurul %target",
-        "description": ""
-    },
-    "SHIP": {
-        "message": "Nava",
-        "description": ""
-    },
-    "BULLETIN_BOARD": {
-        "message": "Avizier",
-        "description": ""
-    },
-    "WE_HAVE_NO_BUSINESS_WITH_YOU": {
-        "message": "Nu avem nici o treabă cu dumneavoastră pentru moment.",
-        "description": ""
-    },
-    "DRIVE_CLASS8": {
-        "message": "Motor Superluminic Clasa 8",
-        "description": ""
-    },
-    "LIBERAL_DEMOCRACY": {
-        "message": "Democraţie liberală",
-        "description": ""
-    },
-    "CTRL": {
-        "message": "\"ctrl \"",
-        "description": ""
-    },
-    "REPAIRS_AND_SERVICING": {
-        "message": "Reparaţii şi servicii",
-        "description": ""
-    },
-    "SET_SPEED_KM_S": {
-        "message": "Viteza setată: %speed{f.2} km/s",
-        "description": ""
-    },
-    "HYPERSPACE_ARRIVAL_CLOUD_REMNANT": {
-        "message": "Rămăşiţa unui nor de sosire din hiperspaţiu",
-        "description": ""
-    },
-    "SHIP_EQUIPMENT": {
-        "message": "Echipament navă",
-        "description": ""
-    },
-    "THICK": {
-        "message": "gros",
-        "description": ""
-    },
-    "HEAVY_INDUSTRY": {
-        "message": "Heavy industry.",
-        "description": ""
-    },
-    "STAR_K_SUPER_GIANT": {
-        "message": "Stea supergigantică portocalie",
-        "description": ""
-    },
-    "ITEM_IS_OUT_OF_STOCK": {
-        "message": "Nu mai există acest obiect în stoc.",
-        "description": ""
-    },
-    "YAW_RIGHT": {
-        "message": "Girare la dreapta",
-        "description": ""
-    },
-    "OVER_N_MILLION": {
-        "message": "Peste %population milioane",
-        "description": ""
-    },
-    "ICE_WORLD": {
-        "message": "\" planetă de gheaţă\"",
-        "description": ""
-    },
-    "N_CELSIUS": {
-        "message": "%temperature C",
-        "description": ""
-    },
-    "COMMS_LINK": {
-        "message": "Conexiune comunicaţii",
-        "description": ""
-    },
-    "X": {
-        "message": "X",
-        "description": ""
-    },
-    "HAT": {
-        "message": "\" Hat\"",
-        "description": ""
-    },
-    "TRIPLE_SYSTEM": {
-        "message": "Sistem terţiar",
-        "description": ""
-    },
-    "ROTATIONAL_PERIOD": {
-        "message": "\" (perioada de revoluţie)\"",
-        "description": ""
-    },
-    "VERY_LARGE_GAS_GIANT": {
-        "message": "Gigantică gazoasă foarte mare",
-        "description": ""
-    },
-    "OUTDOOR_AGRICULTURAL_WORLD": {
-        "message": "Outdoor agricultural world.",
-        "description": ""
-    },
-    "ITEM": {
-        "message": "Obiect",
-        "description": ""
-    },
-    "THIN": {
-        "message": "subţire",
-        "description": ""
-    },
-    "SLAVES": {
-        "message": "Sclavi",
-        "description": ""
-    },
-    "PITCH": {
-        "message": "Înclinare",
-        "description": ""
-    },
-    "PRICE_TO_FIT": {
-        "message": "$ per instalare",
-        "description": ""
-    },
-    "SHIP_IS_ALREADY_FULLY_REPAIRED": {
-        "message": "Nava dumneavoastră este în condiţie perfectă de funcţionare.",
-        "description": ""
-    },
-    "STAR_S_BH": {
-        "message": "O gaură neagră stelară",
-        "description": ""
-    },
-    "SEMI_MAJOR_AXIS": {
-        "message": "Axă semi-majoră",
-        "description": ""
-    },
-    "LARGE": {
-        "message": "Mare",
-        "description": ""
-    },
-    "GRAIN": {
-        "message": "Grâne",
-        "description": ""
-    },
-    "AUTOPILOT_DOCK_WITH_STATION": {
-        "message": "Autopilot: Andochează în staţia spaţială",
-        "description": ""
-    },
-    "ROLL_LEFT": {
-        "message": "Rostogolire stânga",
-        "description": ""
-    },
-    "CONTACT_LOCAL_POLICE": {
-        "message": "Contactaţi politia locală",
-        "description": ""
-    },
-    "MONTH_DEC": {
-        "message": "Dec",
-        "description": ""
-    },
-    "PRESSURE_N_ATMOSPHERES": {
-        "message": "P: %pressure{f.2} atm",
-        "description": ""
-    },
-    "NUMBER_DAYS": {
-        "message": "%days{f.0} days",
-        "description": ""
-    },
-    "SYSTEM_NUMBER": {
-        "message": "Număr sistem:",
-        "description": ""
-    },
-    "SEARCH": {
-        "message": "Caută",
-        "description": ""
-    },
-    "BUY": {
-        "message": "Cumpără",
-        "description": ""
-    },
-    "GAME_SAVE_CANNOT_WRITE": {
-        "message": "This saved game file could not be written because of a system error.",
-        "description": ""
-    },
-    "THRUSTER_STARBOARD": {
-        "message": "Propulsare la dreapta",
-        "description": ""
-    },
-    "MINOR_IMPORTS": {
-        "message": "Importuri Minore:",
-        "description": ""
-    },
-    "SHIP_MASS_N_TONNES": {
-        "message": "Masa navei: %{mass}t",
-        "description": ""
-    },
-    "AUTOPILOT_DESCRIPTION": {
-        "message": "Un calculator de zbor de bord.",
-        "description": ""
-    },
-    "O2_ATMOSPHERE": {
-        "message": "\" Atmosferă de oxigen\"",
-        "description": ""
-    },
-    "AUTOPILOT_FLY_TO_VICINITY_OF": {
-        "message": "Autopilot: Zboară în apropierea %target",
-        "description": ""
-    },
-    "CARGO_LIFE_SUPPORT": {
-        "message": "Sistem de Susţinere a Vieţii Hală",
-        "description": ""
-    },
-    "HE_ATMOSPHERE": {
-        "message": "\" Atmosferă de Heliu\"",
-        "description": ""
-    },
-    "CLEARANCE_ALREADY_GRANTED_BAY_N": {
-        "message": "Autorizaţia v-a fost deja acordată. Continuaţi către staţia de andocare %bay.",
-        "description": ""
-    },
-    "PLUTOCRATIC_DICTATORSHIP": {
-        "message": "Dictatură plutocratică",
-        "description": ""
-    },
-    "BUY_THIS_SHIP": {
-        "message": "Cumpără nava asta",
-        "description": ""
-    },
-    "ROTATE_UP": {
-        "message": "Rotate Up",
-        "description": ""
-    },
-    "NO_REGISTERED_INHABITANTS": {
-        "message": "Niciun inhabitant inregistrat",
-        "description": ""
-    },
-    "GOVERNMENT_TYPE": {
-        "message": "Tipul de guvernare:",
-        "description": ""
-    },
-    "METAL_ORE": {
-        "message": "Minereu din metal",
-        "description": ""
-    },
-    "PROBABILITY_OF_ARRIVAL_X_PERCENT": {
-        "message": "Probability of arrival: %probability%%",
-        "description": ""
-    },
-    "MESSAGE_FROM_X": {
-        "message": "Mesaj de la %sender:",
-        "description": ""
-    },
-    "LOCKED": {
-        "message": "blocat",
-        "description": ""
-    },
-    "STAR_B_HYPER_GIANT": {
-        "message": "Stea hipergigantică albastră",
-        "description": ""
-    },
-    "BUTTON": {
-        "message": "\" Buton \"",
-        "description": ""
-    },
-    "FORWARD_ACCEL_LADEN": {
-        "message": "Acceleraţie inainte (încărcată)",
-        "description": ""
-    },
-    "USE_LOW_THRUST": {
-        "message": "Use low thrust",
-        "description": ""
-    },
-    "REPAIR_1_PERCENT_HULL": {
-        "message": "Repară 1.0% din avarii fuzelaj",
-        "description": ""
-    },
-    "LASER_COOLING_BOOSTER": {
-        "message": "Amplificator Sistem de Răcire Laser",
-        "description": ""
-    },
-    "REQUEST_LAUNCH": {
-        "message": "Solicitare lansare",
-        "description": ""
-    },
-    "IN_TRANSIT": {
-        "message": "In transit",
-        "description": ""
-    },
-    "SPEED_CONTROL_MODE": {
-        "message": "Mod de control al vitezei",
-        "description": ""
-    },
-    "PULSECANNON_1MW": {
-        "message": "Tun intermitent 1MW",
-        "description": ""
-    },
-    "MINING_COLONY": {
-        "message": "Colonie minieră.",
-        "description": ""
-    },
-    "STAR_K": {
-        "message": "Stea portocalie tipul 'K'",
-        "description": ""
-    },
-    "STAR_O": {
-        "message": "Stea fuerbinte, masivă de tip 'O'",
-        "description": ""
-    },
-    "ANIMAL_MEAT": {
-        "message": "Carne Animală",
-        "description": ""
-    },
-    "STAR_M": {
-        "message": "Stea roşie tipul 'M'",
-        "description": ""
-    },
-    "TRADER_NOT_ENOUGH_MONEY": {
-        "message": "Comerciantul nu are destui bani",
-        "description": ""
-    },
-    "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS": {
-        "message": "Prospectare la scară redusă. Nicio aşezare înregistrată.",
-        "description": ""
-    },
-    "STAR_B": {
-        "message": "Stea luminoasă albastră de tip 'B'",
-        "description": ""
-    },
-    "STAR_A": {
-        "message": "Stea albă fierbinte de tip 'A'",
-        "description": ""
-    },
-    "KM_S_RELATIVE_TO": {
-        "message": "%speed{f.2} km/s relativ la %frame",
-        "description": ""
-    },
-    "STAR_G": {
-        "message": "Stea galbenă tipul 'G'",
-        "description": ""
-    },
-    "STAR_F": {
-        "message": "Stea albă tipul 'F'",
-        "description": ""
-    },
-    "FIT_TO_WHICH_MOUNT": {
-        "message": "În ce montură de armă să se instaleze laserul?",
-        "description": ""
-    },
-    "CASH": {
-        "message": "Monetar",
-        "description": ""
-    },
-    "FIRE_MISSILE": {
-        "message": "Fire missile",
-        "description": ""
-    },
-    "PULSECANNON_20MW": {
-        "message": "Tun intermitent 20MW",
-        "description": ""
-    },
-    "PULSECANNON_DUAL_1MW": {
-        "message": "Tun dual intermitent 1MW",
-        "description": ""
-    },
-    "UNLAWFUL_WEAPONS_DISCHARGE": {
-        "message": "Foc de armă nepermis",
-        "description": ""
-    },
-    "COUNT_STARPORTS": {
-        "message": "porturi stelare",
-        "description": ""
-    },
-    "FOLLOWING_SELECTION": {
-        "message": "selecţia următoare",
-        "description": ""
-    },
-    "FREE": {
-        "message": "Liber",
-        "description": ""
-    },
-    "FRONT": {
-        "message": "Faţă",
-        "description": ""
-    },
-    "FITTING": {
-        "message": "\"Se instalează \"",
-        "description": ""
-    },
-    "NO_FREE_SPACE_FOR_ITEM": {
-        "message": "Nu aveţi destul spaţiu pentru acest obiect.",
-        "description": ""
-    },
-    "RADIUS": {
-        "message": "Rază",
-        "description": ""
-    },
-    "SELECTED_SYSTEM": {
-        "message": "Sistemul selectat",
-        "description": ""
-    },
-    "HANG_UP": {
-        "message": "Închide.",
-        "description": ""
-    },
-    "COULD_NOT_OPEN_FILENAME": {
-        "message": "Nu am putut deschide %path",
-        "description": ""
-    },
-    "TEXTILES": {
-        "message": "Textile",
-        "description": ""
-    },
-    "NAME": {
-        "message": "Nume",
-        "description": ""
-    },
-    "MONTH_SEP": {
-        "message": "Sep",
-        "description": ""
-    },
-    "PITCH_DOWN": {
-        "message": "Înclinare în jos",
-        "description": ""
-    },
-    "SIDEREAL_VIEW": {
-        "message": "Sidereal view",
-        "description": ""
-    },
-    "PITCH_UP": {
-        "message": "Înclinare în sus",
-        "description": ""
-    },
-    "VID_LINK_ESTABLISHED": {
-        "message": "Legătura video stabilită",
-        "description": ""
-    },
-    "PERIAPSIS_DISTANCE": {
-        "message": "Distanţa pericentrică",
-        "description": ""
-    },
-    "CAPITALIST": {
-        "message": "Capitalist",
-        "description": ""
-    },
-    "SET_SPEED_M_S": {
-        "message": "Viteza setată: %speed{f.0} m/s",
-        "description": ""
-    },
-    "STAR_SYSTEM_INFORMATION": {
-        "message": "Informaţii sistem stelar",
-        "description": ""
-    },
-    "STAR_O_HYPER_GIANT": {
-        "message": "Stea hipergigantică albastră fierbinte",
-        "description": ""
-    },
-    "INDUSTRIAL_HUB_SYSTEM": {
-        "message": "Industrial hub system.",
-        "description": ""
-    },
-    "HEADING_LOCK_FORWARD": {
-        "message": "Heading Lock (fore)",
-        "description": ""
-    },
-    "CANT_SAVE_IN_HYPERSPACE": {
-        "message": "Can't save game while in hyperspace",
-        "description": ""
-    },
-    "MANUAL_CONTROL_MODE": {
-        "message": "Mod control manual",
-        "description": ""
-    },
-    "MONTH_JUN": {
-        "message": "Jun",
-        "description": ""
-    },
-    "GAME_LOAD_CORRUPT": {
-        "message": "Acest joc salvat nu poate fi încărcat deoarece conţine erori.",
-        "description": ""
-    },
-    "MONTH_JUL": {
-        "message": "Jul",
-        "description": ""
-    },
-    "M_S_RELATIVE_TO": {
-        "message": "%speed{f.0} m/s relativ la %frame",
-        "description": ""
-    },
-    "N_DAYS": {
-        "message": "%days{f.1} zile",
-        "description": ""
-    },
-    "POLICE_SHIP_REGISTRATION": {
-        "message": "POLIŢIA",
-        "description": ""
-    },
-    "SCANNER_CONTROL": {
-        "message": "Scanner control",
-        "description": ""
-    },
-    "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS": {
-        "message": "Sistem stabil cu %bodycount %{body(s)} majore şi %portcount %{starport(s)}.",
-        "description": ""
-    },
-    "LASER_FIRE_DETECTED": {
-        "message": "Foc laser detectat.",
-        "description": ""
-    },
-    "ZOOM_IN": {
-        "message": "Focalizează",
-        "description": ""
-    },
-    "CARGO_SPACE": {
-        "message": "Spaţiu depozit",
-        "description": ""
-    },
-    "AND_INDIGENOUS_MICROBIAL_LIFE": {
-        "message": "\" şi viaţă microbiană indigenă.\"",
-        "description": ""
-    },
-    "NO_ALERT": {
-        "message": "Nicio alertă",
-        "description": ""
-    },
-    "PULSECANNON_2MW": {
-        "message": "Tun intermitent 2MW",
-        "description": ""
-    },
-    "AR_ATMOSPHERE": {
-        "message": "\" Atmosferă de Argon\"",
-        "description": ""
-    },
-    "AND_INDIGENOUS_PLANT_LIFE": {
-        "message": "\" şi viaţă vegetală indigenă.\"",
-        "description": ""
-    },
-    "LIVE_ANIMALS": {
-        "message": "Animale Vii",
-        "description": ""
-    },
-    "STARPORTS": {
-        "message": "Porturi stelare",
-        "description": ""
-    },
-    "Y": {
-        "message": "Y",
-        "description": ""
-    },
-    "SOMEWHERE_SHIPYARD": {
-        "message": "Port %station",
-        "description": ""
-    },
-    "RADAR_MAPPER_DESCRIPTION": {
-        "message": "Folosit pentru a inspecta de la distanţă echipamentul, încărcătura şi starea altor nave.",
-        "description": ""
-    },
-    "TOMBSTONE_EPITAPH": {
-        "message": "ETERNE REGRETE",
-        "description": ""
-    },
-    "MINOR_EXPORTS": {
-        "message": "Exporturi Minore:",
-        "description": ""
-    },
-    "MASS_N_TONNES": {
-        "message": "Masă: %{mass}t",
-        "description": ""
-    },
-    "MISSILE_UNGUIDED": {
-        "message": "Racheta nedirijată R40",
-        "description": ""
-    },
-    "MANUAL_CONTROL": {
-        "message": "Control manual",
-        "description": ""
-    },
-    "ECONOMY_TYPE": {
-        "message": "Tipul economiei:",
-        "description": ""
-    },
-    "SHIP_ALTITUDE_ABOVE_TERRAIN": {
-        "message": "Altitudinea navei faţă de pământ",
-        "description": ""
-    },
-    "QUADRUPLE_SYSTEM": {
-        "message": "Sistem cuadruplu",
-        "description": ""
-    },
-    "NUMBER_HOURS": {
-        "message": "%hours{f.1} ore",
-        "description": ""
-    },
-    "YOU_MUST_PAY_FINE_OF_N_CREDITS": {
-        "message": "Noi nu tolerăm infracţionalitatea. Va trebui să plătiţi o amendă de %fine.",
-        "description": ""
-    },
-    "SHIP_INFORMATION": {
-        "message": "Informaţii navă",
-        "description": ""
-    },
-    "ROTATION_DAMPING_OFF": {
-        "message": "Rotation damping off",
-        "description": ""
-    },
-    "LASER_COOLING_BOOSTER_DESCRIPTION": {
-        "message": "Un sistem îmbunătăţit de răcire pentru armele dumneavoastră.",
-        "description": ""
-    },
-    "ECM_BASIC": {
-        "message": "Sistem ECM",
-        "description": ""
-    },
-    "COMMUNIST": {
-        "message": "Comunism",
-        "description": ""
-    },
-    "NAVIGATION_STAR_MAPS": {
-        "message": "Navigare şi hărţi stelare",
-        "description": ""
-    },
-    "FUEL_SCOOP": {
-        "message": "Colector Combustibil",
-        "description": ""
-    },
-    "HYPERSPACE_JUMP_ABORTED": {
-        "message": "Salt în hiperspaţiu anulat.",
-        "description": ""
-    },
-    "REPAIR_ENTIRE_HULL": {
-        "message": "Repară toate avariile fuzelajului (%repairpercent{f.1}%%)",
-        "description": ""
-    },
-    "MISCELLANEOUS": {
-        "message": "Miscellaneous",
-        "description": ""
-    },
-    "SOMEWHERE_SHIP_EQUIPMENT": {
-        "message": "Echipament navă %station",
-        "description": ""
-    },
-    "SAGITTARIUS_ARM": {
-        "message": "Braţul Sagittarius",
-        "description": ""
-    },
-    "FUEL_SCOOP_DESCRIPTION": {
-        "message": "Permite colectarea combustibilului de hidrogen de pe planetele gigantice de gaz.",
-        "description": ""
-    },
-    "STAR_O_SUPER_GIANT": {
-        "message": "Stea supergigantică albastră fierbinte",
-        "description": ""
-    },
-    "STAR_O_WF": {
-        "message": "Stea Wolf-Rayet - Colaps iminent",
-        "description": ""
-    },
-    "ALERT_CANCELLED": {
-        "message": "Alertă anulată.",
-        "description": ""
-    },
-    "SHIPYARD": {
-        "message": "Port",
-        "description": ""
-    },
-    "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED": {
-        "message": "Colector combustibil activ. Acum aveţi %quantity tone de hidrogen.",
-        "description": ""
-    },
-    "MASSIVE": {
-        "message": "Masiv(ă)",
-        "description": ""
-    },
-    "CLEAN": {
-        "message": "Curat",
-        "description": ""
-    },
-    "STAR_M_GIANT": {
-        "message": "Stea gigantă roşie",
-        "description": ""
-    },
-    "NORMA_ARM": {
-        "message": "Braţul Norma",
-        "description": ""
-    },
-    "WEAPON_TEMP": {
-        "message": "Temperatura armei",
-        "description": ""
-    },
-    "AUTOPILOT_ON": {
-        "message": "Autopilot activ",
-        "description": ""
-    },
-    "CARGO_LIFE_SUPPORT_DESCRIPTION": {
-        "message": "Permite transportul de marfă vie.",
-        "description": ""
-    },
-    "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT": {
-        "message": "Set low thrust power level to %power%%",
-        "description": ""
-    },
-    "REMOVING": {
-        "message": "\"Se înlătură \"",
-        "description": ""
-    },
-    "SHIELD_INTEGRITY": {
-        "message": "Consistenţă scut",
-        "description": ""
-    },
-    "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED": {
-        "message": "Cargo scoop active. Collected 1 tonne of %item.",
-        "description": ""
-    },
-    "MIXED_ECONOMY": {
-        "message": "Economie mixtă",
-        "description": ""
-    },
-    "CLEARANCE_DENIED_NO_BAYS": {
-        "message": "Autorizaţie respinsă. Nu există staţii de andocare libere.",
-        "description": ""
-    },
-    "STAR_AF_HYPER_GIANT": {
-        "message": "Stea hipergigantică albă",
-        "description": ""
-    },
-    "OUTER_ARM": {
-        "message": "Braţul exterior",
-        "description": ""
-    },
-    "WHEELS_ARE_UP": {
-        "message": "Terenul de aterizare retras",
-        "description": ""
-    },
-    "LIQUOR": {
-        "message": "Lichior",
-        "description": ""
-    },
-    "NO_SPACE_ON_SHIP": {
-        "message": "Nu este spaţiu pe nava dumneavoastră",
-        "description": ""
-    },
-    "ROLL_RIGHT": {
-        "message": "Rostogolire dreapta",
-        "description": ""
-    },
-    "GO_BACK": {
-        "message": "Înapoi",
-        "description": ""
-    },
-    "DOCKING": {
-        "message": "Se andochează",
-        "description": ""
-    },
-    "TOGGLE_HUD_MODE": {
-        "message": "Toggle HUD mode",
-        "description": ""
-    },
-    "EXTERNAL_VIEW": {
-        "message": "Vedere exterioară",
-        "description": ""
-    },
-    "ECM_BASIC_DESCRIPTION": {
-        "message": "Un sistem de contramăsuri electronice defensive împotriva rachetelor, capabile să distrugă câteva rachete autoghidate.",
-        "description": ""
-    },
-    "VAST_STRIP_MINE": {
-        "message": "Vast strip-mining colony.",
-        "description": ""
-    },
-    "HYPERSPACE": {
-        "message": "Hiperspaţiu",
-        "description": ""
-    },
-    "FINE_PAID_N": {
-        "message": "Aţi plătit amenda de %fine.",
-        "description": ""
-    },
-    "EXTERNAL_ATMOSPHERIC_PRESSURE": {
-        "message": "Presiune atmosferică externă",
-        "description": ""
-    },
-    "THRUSTER_RETRO": {
-        "message": "Propulsare înapoi",
-        "description": ""
-    },
-    "MEDICINES": {
-        "message": "Doctorii",
-        "description": ""
-    },
-    "YOU_NOT_ENOUGH_MONEY": {
-        "message": "Nu aveţi destui bani",
-        "description": ""
-    },
-    "ILLEGAL_GOODS": {
-        "message": "Bunuri Ilegale:",
-        "description": ""
-    },
-    "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND": {
-        "message": "Autopilot: Intră în orbita superioară în jurul %target",
-        "description": ""
-    },
-    "ORBITAL_STARPORT": {
-        "message": "Port stelar orbital",
-        "description": ""
-    },
-    "UNOCCUPIED_CABIN": {
-        "message": "Extra Passenger Cabin",
-        "description": ""
-    },
-    "SHIP_ORIENTATION": {
-        "message": "Orientare navă",
-        "description": ""
-    },
-    "MILITARY_FUEL": {
-        "message": "Combustibil militar",
-        "description": ""
-    },
-    "FIRE_LASER": {
-        "message": "Trage cu laser-ul",
-        "description": ""
-    },
-    "MEDIUM_GAS_GIANT": {
-        "message": "Gigantică gazoasa medie",
-        "description": ""
-    },
-    "DRAW_VERTICAL_LINES": {
-        "message": "Draw vertical lines",
-        "description": ""
-    },
-    "SOMEWHERE_POLICE": {
-        "message": "Poliţia %station",
-        "description": ""
-    },
-    "SYSTEM_ORBIT_VIEW": {
-        "message": "Vizualizare orbită sistem",
-        "description": ""
-    },
-    "CURRENT_SYSTEM": {
-        "message": "Sistemul curent",
-        "description": ""
-    },
-    "CARGO_SCOOP": {
-        "message": "Cargo Scoop",
-        "description": ""
-    },
-    "ROTATE_DOWN": {
-        "message": "Rotate Down",
-        "description": ""
-    },
-    "SOMEWHERE_SHIP_MARKET": {
-        "message": "Piaţa de nave %station",
-        "description": ""
-    },
-    "DISABLED_AUTOMATIC_SYSTEM_SELECTION": {
-        "message": "S-a dezactivat selecţia automată a sistemelor.",
-        "description": ""
-    },
-    "STARPORT": {
-        "message": "Port stelar",
-        "description": ""
-    },
-    "SYSTEM_TYPE": {
-        "message": "Tipul sistemului:",
-        "description": ""
-    },
-    "N_WHATEVER_MASSES": {
-        "message": "%mass{f.3} %units mase",
-        "description": ""
-    },
-    "PRECIOUS_METALS": {
-        "message": "Metale preţioase",
-        "description": ""
-    },
-    "WITH_NO_SIGNIFICANT_ATMOSPHERE": {
-        "message": "\" fără atmosferă semnificativă\"",
-        "description": ""
-    },
-    "INTERNAL_VIEW": {
-        "message": "Internal view",
-        "description": ""
-    },
-    "INT_LY": {
-        "message": "%scale a.l.",
-        "description": ""
-    },
-    "ROTATION_DAMPING_ON": {
-        "message": "Rotation damping on",
-        "description": ""
-    },
-    "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW": {
-        "message": "Sistem neexplorat. Vizualizarea sistemului indisponibilă.",
-        "description": ""
-    },
-    "TENUOUS": {
-        "message": "diluat",
-        "description": ""
-    },
-    "TAKEOFF": {
-        "message": "Decolare",
-        "description": ""
-    },
-    "EARTH": {
-        "message": "Pământ",
-        "description": ""
-    },
-    "STAR_M_HYPER_GIANT": {
-        "message": "Stea hipergigantică roşie",
-        "description": ""
-    },
-    "STAR_AF_SUPER_GIANT": {
-        "message": "Stea supergigantică albă",
-        "description": ""
-    },
-    "ALT_IN_KM": {
-        "message": "Alt: %altitude{f.0}km (%vspeed{f.1}km/s)",
-        "description": ""
-    },
-    "REGISTRATION_ID": {
-        "message": "Id de înregistrare",
-        "description": ""
-    },
-    "DRIVE_CLASS3": {
-        "message": "Motor Superluminic Clasa 3",
-        "description": ""
-    },
-    "DRIVE_CLASS2": {
-        "message": "Motor Superluminic Clasa 2",
-        "description": ""
-    },
-    "DRIVE_CLASS1": {
-        "message": "Motor Superluminic Clasa 1",
-        "description": ""
-    },
-    "DRIVE_CLASS7": {
-        "message": "Motor Superluminic Clasa 7",
-        "description": ""
-    },
-    "DRIVE_CLASS6": {
-        "message": "Motor Superluminic Clasa 6",
-        "description": ""
-    },
-    "DRIVE_CLASS5": {
-        "message": "Motor Superluminic Clasa 5",
-        "description": ""
-    },
-    "DRIVE_CLASS4": {
-        "message": "Motor Superluminic Clasa 4",
-        "description": ""
-    },
-    "DOWNGRADING_ALERT_STATUS": {
-        "message": "Nici un foc detectat timp de 60 de secunde, se retrogradează nivelul alertei.",
-        "description": ""
-    },
-    "DRIVE_CLASS9": {
-        "message": "Motor Superluminic Clasa 9",
-        "description": ""
-    },
-    "Z": {
-        "message": "Z",
-        "description": ""
-    },
-    "FRUIT_AND_VEG": {
-        "message": "Fructe şi Vegetale",
-        "description": ""
-    },
-    "PIONEER": {
-        "message": "PIONEER",
-        "description": ""
-    },
-    "GALAXY_SECTOR_VIEW": {
-        "message": "Vizualizare sector de galaxie",
-        "description": ""
-    },
-    "PLANET_CONTAINING_LIQUID_WATER": {
-        "message": "\" planetă ce conţine apă lichidă\"",
-        "description": ""
-    },
-    "N_EARTH_DAYS": {
-        "message": "%days{f.1} zile pământene",
-        "description": ""
-    },
-    "META": {
-        "message": "\"meta \"",
-        "description": ""
-    },
-    "STAR_SM_BH": {
-        "message": "Ancora noastră galactică",
-        "description": ""
-    },
-    "MONTH_APR": {
-        "message": "Apr",
-        "description": ""
-    },
-    "BOUGHT_1T_OF": {
-        "message": "Aţi cumpărat 1t de %commodity.",
-        "description": ""
-    },
-    "SHIP_VELOCITY_BY_REFERENCE_OBJECT": {
-        "message": "Viteza navei relativ la obiect",
-        "description": ""
-    },
-    "NERVE_GAS": {
-        "message": "Gaz Paralizant",
-        "description": ""
-    },
-    "MAJOR_IMPORTS": {
-        "message": "Importuri Majore:",
-        "description": ""
-    },
-    "JOYSTICK_INPUT": {
-        "message": "Intrare joystick",
-        "description": ""
-    },
-    "ECONOMIC_INFO": {
-        "message": "Informaţii economice",
-        "description": ""
-    },
-    "ORBITAL_PERIOD": {
-        "message": "Perioada orbitală",
-        "description": ""
-    },
-    "CARBON_ORE": {
-        "message": "Minereu din cărbune",
-        "description": ""
-    },
-    "OVER_N_BILLION": {
-        "message": "Peste %population mii de milioane",
-        "description": ""
-    },
-    "DATE_DUE_N": {
-        "message": "Data scadentă: %date",
-        "description": ""
-    },
-    "PULSECANNON_4MW": {
-        "message": "Tun intermitent 4MW",
-        "description": ""
-    },
-    "TARGET_OBJECT_IN_SIGHTS": {
-        "message": "Ţinteşte obiectul din vizor",
-        "description": ""
-    },
-    "STAR_IM_BH": {
-        "message": "O gaură neagră cu masă intermediară",
-        "description": ""
-    },
-    "DISTANCE_LY": {
-        "message": "Distanţa: %distance{f.2} al",
-        "description": ""
-    },
-    "S_ATMOSPHERE": {
-        "message": "\" Atmosferă Sulfuroasă\"",
-        "description": ""
-    },
-    "MISSILE_NAVAL": {
-        "message": "Rachetă Navală",
-        "description": ""
-    },
-    "SUGGESTED_RESPONSES": {
-        "message": "Răspunsuri sugerate:",
-        "description": ""
-    },
-    "STAR_M_WF": {
-        "message": "Stea Wolf-Rayet - Instabilă",
-        "description": ""
-    },
-    "H_ATMOSPHERE": {
-        "message": "\" Atmosferă de Hidrogen\"",
-        "description": ""
-    },
-    "PULSECANNON_RAPID_2MW": {
-        "message": "Tun intermitent cu foc rapid 2MW",
-        "description": ""
-    },
-    "YAW_LEFT": {
-        "message": "Girare la stânga",
-        "description": ""
-    },
-    "ATMOSPHERIC_SHIELDING_DESCRIPTION": {
-        "message": "Protejează nava de căldura intrării în atmosferă.",
-        "description": ""
-    },
-    "DEMOGRAPHICS": {
-        "message": "Demografice",
-        "description": ""
-    },
-    "CLEARANCE_GRANTED_BAY_N": {
-        "message": "Autorizaţie acordată. Continuaţi către staţia de andocare %bay.",
-        "description": ""
-    },
-    "WEAPONS": {
-        "message": "Arme",
-        "description": ""
-    },
-    "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO": {
-        "message": "Equatorial to polar radius ratio",
-        "description": ""
-    },
-    "STAR_M_SUPER_GIANT": {
-        "message": "Stea supergigantică roşie",
-        "description": ""
-    },
-    "FERTILIZER": {
-        "message": "Îngrăşământ",
-        "description": ""
-    },
-    "NO_TARGET_SELECTED": {
-        "message": "Computer navă: Nicio ţintă selectată",
-        "description": ""
-    },
-    "STAR_O_GIANT": {
-        "message": "Stea gigantică albastră fierbinte",
-        "description": ""
-    },
-    "NAVIGATION_TARGETS_IN_THIS_SYSTEM": {
-        "message": "Ţinte navigaţie în acest sistem",
-        "description": ""
-    },
-    "LIQUID_OXYGEN": {
-        "message": "Oxigen Lichid",
-        "description": ""
-    },
-    "SELL": {
-        "message": "Vinde",
-        "description": ""
-    },
-    "CAMERA_REAR_VIEW": {
-        "message": "Vedere posterioară",
-        "description": ""
-    },
-    "OCEANICWORLD": {
-        "message": "\" lume oceanică\"",
-        "description": ""
-    },
-    "PRICE": {
-        "message": "Preţ",
-        "description": ""
-    },
-    "SYSTEM": {
-        "message": "System",
-        "description": ""
-    },
-    "CAMERA_LEFT_VIEW": {
-        "message": "Left camera",
-        "description": ""
-    },
-    "ROTATE_RIGHT": {
-        "message": "Rotate Right",
-        "description": ""
-    }
+   "AIR_PROCESSORS" : {
+      "description" : "",
+      "message" : "Filtre de aer"
+   },
+   "ALERT_CANCELLED" : {
+      "description" : "",
+      "message" : "Alertă anulată."
+   },
+   "ALLEGIANCE" : {
+      "description" : "",
+      "message" : "Alegianţă:"
+   },
+   "ALT" : {
+      "description" : "",
+      "message" : "\"alt \""
+   },
+   "ALT_IN_KM" : {
+      "description" : "",
+      "message" : "Alt: %altitude{f.0}km (%vspeed{f.1}km/s)"
+   },
+   "ALT_IN_METRES" : {
+      "description" : "",
+      "message" : "Alt: %altitude{f.0}m"
+   },
+   "AND_HIGHLY_COMPLEX_ECOSYSTEM" : {
+      "description" : "",
+      "message" : "\" şi un ecosistem foarte complex.\""
+   },
+   "AND_INDIGENOUS_MICROBIAL_LIFE" : {
+      "description" : "",
+      "message" : "\" şi viaţă microbiană indigenă.\""
+   },
+   "AND_INDIGENOUS_PLANT_LIFE" : {
+      "description" : "",
+      "message" : "\" şi viaţă vegetală indigenă.\""
+   },
+   "ANIMAL_MEAT" : {
+      "description" : "",
+      "message" : "Carne Animală"
+   },
+   "APOAPSIS_DISTANCE" : {
+      "description" : "",
+      "message" : "Distanţa apocentrică"
+   },
+   "AR_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" Atmosferă de Argon\""
+   },
+   "ASTEROID" : {
+      "description" : "",
+      "message" : "Asteroid"
+   },
+   "ATMOSPHERIC_SHIELDING" : {
+      "description" : "",
+      "message" : "Scut Atmosferic"
+   },
+   "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Protejează nava de căldura intrării în atmosferă."
+   },
+   "AUTOPILOT" : {
+      "description" : "",
+      "message" : "Autopilot"
+   },
+   "AUTOPILOT_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Un calculator de zbor de bord."
+   },
+   "AUTOPILOT_DOCK_WITH_STATION" : {
+      "description" : "",
+      "message" : "Autopilot: Andochează în staţia spaţială"
+   },
+   "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND" : {
+      "description" : "",
+      "message" : "Autopilot: Intră în orbita superioară în jurul %target"
+   },
+   "AUTOPILOT_ENTER_LOW_ORBIT_AROUND" : {
+      "description" : "",
+      "message" : "Autopilot: Intră în orbita inferioară în jurul %target"
+   },
+   "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND" : {
+      "description" : "",
+      "message" : "Autopilot: Intră în orbita medie în jurul %target"
+   },
+   "AUTOPILOT_FLY_TO_VICINITY_OF" : {
+      "description" : "",
+      "message" : "Autopilot: Zboară în apropierea %target"
+   },
+   "AUTOPILOT_ON" : {
+      "description" : "",
+      "message" : "Autopilot activ"
+   },
+   "AXIAL_TILT" : {
+      "description" : "",
+      "message" : "Înclinaţie axială"
+   },
+   "A_FEW_THOUSAND" : {
+      "description" : "",
+      "message" : "Doar câteva mii"
+   },
+   "BATTLE_WEAPONS" : {
+      "description" : "",
+      "message" : "Arme de luptă"
+   },
+   "BINARY_SYSTEM" : {
+      "description" : "",
+      "message" : "Sistem binar"
+   },
+   "BODIES" : {
+      "description" : "",
+      "message" : "corpuri"
+   },
+   "BODY" : {
+      "description" : "",
+      "message" : "corp"
+   },
+   "BROWN_DWARF" : {
+      "description" : "",
+      "message" : "Obiect sub-stelar pitică cenuşie"
+   },
+   "BUTTON" : {
+      "description" : "",
+      "message" : "\" Buton \""
+   },
+   "CAMERA_BOTTOM_VIEW" : {
+      "description" : "",
+      "message" : "Bottom camera"
+   },
+   "CAMERA_FRONT_VIEW" : {
+      "description" : "",
+      "message" : "Vedere frontală"
+   },
+   "CAMERA_LEFT_VIEW" : {
+      "description" : "",
+      "message" : "Left camera"
+   },
+   "CAMERA_REAR_VIEW" : {
+      "description" : "",
+      "message" : "Vedere posterioară"
+   },
+   "CAMERA_RIGHT_VIEW" : {
+      "description" : "",
+      "message" : "Right camera"
+   },
+   "CAMERA_TOP_VIEW" : {
+      "description" : "",
+      "message" : "Top camera"
+   },
+   "CANT_SAVE_IN_HYPERSPACE" : {
+      "description" : "",
+      "message" : "Can't save game while in hyperspace"
+   },
+   "CAPITALIST" : {
+      "description" : "",
+      "message" : "Capitalist"
+   },
+   "CARBON_ORE" : {
+      "description" : "",
+      "message" : "Minereu din cărbune"
+   },
+   "CARBON_ORE_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Minereurile din cărbune (cărbuni şi petrol) sunt necesare pentru sintetizarea multor chimicale folositoare, inclusiv plastice, mâncare sintetică, doctorii şi textile"
+   },
+   "CARGO" : {
+      "description" : "",
+      "message" : "Depozit"
+   },
+   "CARGO_BAY_LIFE_SUPPORT_LOST" : {
+      "description" : "",
+      "message" : "Senzorii raportează condiţii critice la sistemele de susţinere a vieţii in depozit."
+   },
+   "CARGO_LIFE_SUPPORT" : {
+      "description" : "",
+      "message" : "Sistem de Susţinere a Vieţii Hală"
+   },
+   "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Permite transportul de marfă vie."
+   },
+   "CARGO_N" : {
+      "description" : "",
+      "message" : "Depozit: %{mass}t"
+   },
+   "CARGO_SCOOP" : {
+      "description" : "",
+      "message" : "Cargo Scoop"
+   },
+   "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED" : {
+      "description" : "",
+      "message" : "Cargo scoop active. Collected 1 tonne of %item."
+   },
+   "CARGO_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Permits scooping cargo pods from space."
+   },
+   "CH4_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" Atmosferă de Metan\""
+   },
+   "CLEARANCE_ALREADY_GRANTED_BAY_N" : {
+      "description" : "",
+      "message" : "Autorizaţia v-a fost deja acordată. Continuaţi către staţia de andocare %bay."
+   },
+   "CLEARANCE_DENIED_NO_BAYS" : {
+      "description" : "",
+      "message" : "Autorizaţie respinsă. Nu există staţii de andocare libere."
+   },
+   "CLEARANCE_GRANTED_BAY_N" : {
+      "description" : "",
+      "message" : "Autorizaţie acordată. Continuaţi către staţia de andocare %bay."
+   },
+   "CO2_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" Atmosferă de Dioxid de Carbon\""
+   },
+   "COMMA_HIGHLY_VOLCANIC" : {
+      "description" : "",
+      "message" : ", majoritar vulcanic"
+   },
+   "COMMS" : {
+      "description" : "",
+      "message" : "Comunicaţii"
+   },
+   "COMMUNIST" : {
+      "description" : "",
+      "message" : "Comunism"
+   },
+   "COMPUTERS" : {
+      "description" : "",
+      "message" : "Calculatoare"
+   },
+   "COMPUTER_HEADING_CONTROL" : {
+      "description" : "",
+      "message" : "Computer heading control"
+   },
+   "COMPUTER_SPEED_CONTROL" : {
+      "description" : "",
+      "message" : "Viteză controlată de calculator"
+   },
+   "CONSUMER_GOODS" : {
+      "description" : "",
+      "message" : "Bunuri de consum"
+   },
+   "CONTROLS" : {
+      "description" : "",
+      "message" : "Controale"
+   },
+   "CORPORATE_SYSTEM" : {
+      "description" : "",
+      "message" : "Sistem corporativ"
+   },
+   "COULD_NOT_OPEN_FILENAME" : {
+      "description" : "",
+      "message" : "Nu am putut deschide %path"
+   },
+   "COUNT_ON_SURFACE" : {
+      "description" : "",
+      "message" : "\" (%surfacecount on surface)\""
+   },
+   "COUNT_STARPORTS" : {
+      "description" : "",
+      "message" : "porturi stelare"
+   },
+   "CO_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" Atmosferă de Monoxid de Carbon\""
+   },
+   "CTRL" : {
+      "description" : "",
+      "message" : "\"ctrl \""
+   },
+   "CURRENT_SYSTEM" : {
+      "description" : "",
+      "message" : "Sistemul curent"
+   },
+   "DATE_DUE_N" : {
+      "description" : "",
+      "message" : "Data scadentă: %date"
+   },
+   "DAY_LENGTH" : {
+      "description" : "",
+      "message" : "Durata unei zile"
+   },
+   "DECREASE_SCAN_RANGE" : {
+      "description" : "",
+      "message" : "Decrease scanner range"
+   },
+   "DECREASE_SET_SPEED" : {
+      "description" : "",
+      "message" : "Scade viteza setată"
+   },
+   "DEMOGRAPHICS" : {
+      "description" : "",
+      "message" : "Demografice"
+   },
+   "DESTINATION" : {
+      "description" : "",
+      "message" : "Destinaţie"
+   },
+   "DIRECTION" : {
+      "description" : "",
+      "message" : "\" Dir \""
+   },
+   "DISABLED_AUTOMATIC_SYSTEM_SELECTION" : {
+      "description" : "",
+      "message" : "S-a dezactivat selecţia automată a sistemelor."
+   },
+   "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
+      "description" : "",
+      "message" : "Distanţa de la navă la ţinta navigaţiei"
+   },
+   "DISTANCE_LY" : {
+      "description" : "",
+      "message" : "Distanţa: %distance{f.2} al"
+   },
+   "DOCKED" : {
+      "description" : "",
+      "message" : "Andocat"
+   },
+   "DOCKING" : {
+      "description" : "",
+      "message" : "Se andochează"
+   },
+   "DOCKING_CLEARANCE_EXPIRED" : {
+      "description" : "",
+      "message" : "Permisia de andocare a expirat. Dacă doriţi sa andocaţi trebuie să repetaţi cererea."
+   },
+   "DOWNGRADING_ALERT_STATUS" : {
+      "description" : "",
+      "message" : "Nici un foc detectat timp de 60 de secunde, se retrogradează nivelul alertei."
+   },
+   "DRAW_OUT_RANGE_LABELS" : {
+      "description" : "",
+      "message" : "Label out-of-range systems"
+   },
+   "DRAW_VERTICAL_LINES" : {
+      "description" : "",
+      "message" : "Draw vertical lines"
+   },
+   "DRIVE_CLASS1" : {
+      "description" : "",
+      "message" : "Motor Superluminic Clasa 1"
+   },
+   "DRIVE_CLASS2" : {
+      "description" : "",
+      "message" : "Motor Superluminic Clasa 2"
+   },
+   "DRIVE_CLASS3" : {
+      "description" : "",
+      "message" : "Motor Superluminic Clasa 3"
+   },
+   "DRIVE_CLASS4" : {
+      "description" : "",
+      "message" : "Motor Superluminic Clasa 4"
+   },
+   "DRIVE_CLASS5" : {
+      "description" : "",
+      "message" : "Motor Superluminic Clasa 5"
+   },
+   "DRIVE_CLASS6" : {
+      "description" : "",
+      "message" : "Motor Superluminic Clasa 6"
+   },
+   "DRIVE_CLASS7" : {
+      "description" : "",
+      "message" : "Motor Superluminic Clasa 7"
+   },
+   "DRIVE_CLASS8" : {
+      "description" : "",
+      "message" : "Motor Superluminic Clasa 8"
+   },
+   "DRIVE_CLASS9" : {
+      "description" : "",
+      "message" : "Motor Superluminic Clasa 9"
+   },
+   "DRIVE_MIL1" : {
+      "description" : "",
+      "message" : "Motor Militar Clasa 1"
+   },
+   "DRIVE_MIL2" : {
+      "description" : "",
+      "message" : "Motor Militar Clasa 2"
+   },
+   "DRIVE_MIL3" : {
+      "description" : "",
+      "message" : "Motor Militar Clasa 3"
+   },
+   "DRIVE_MIL4" : {
+      "description" : "",
+      "message" : "Motor Militar Clasa 4"
+   },
+   "EARTH" : {
+      "description" : "",
+      "message" : "Pământ"
+   },
+   "EARTH_FEDERATION_COLONIAL_RULE" : {
+      "description" : "",
+      "message" : "Conducere Colonială a Federaţiei Pământului"
+   },
+   "EARTH_FEDERATION_DEMOCRACY" : {
+      "description" : "",
+      "message" : "Democraţie Federală a Pământului"
+   },
+   "ECCENTRICITY" : {
+      "description" : "",
+      "message" : "Excentritate"
+   },
+   "ECM_ADVANCED" : {
+      "description" : "",
+      "message" : "Sistem avansat ECM"
+   },
+   "ECM_ADVANCED_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Un sistem de contramăsuri electronice defensive împotriva rachetelor, capabile să distrugă câteva tipuri mai avansate de rachete autoghidate."
+   },
+   "ECM_BASIC" : {
+      "description" : "",
+      "message" : "Sistem ECM"
+   },
+   "ECM_BASIC_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Un sistem de contramăsuri electronice defensive împotriva rachetelor, capabile să distrugă câteva rachete autoghidate."
+   },
+   "ECONOMIC_INFO" : {
+      "description" : "",
+      "message" : "Informaţii economice"
+   },
+   "ECONOMY_TYPE" : {
+      "description" : "",
+      "message" : "Tipul economiei:"
+   },
+   "ENABLED_AUTOMATIC_SYSTEM_SELECTION" : {
+      "description" : "",
+      "message" : "S-a activat selecţia automată a sistemelor."
+   },
+   "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
+      "description" : "",
+      "message" : "Equatorial to polar radius ratio"
+   },
+   "EXACT_MATCH_X" : {
+      "description" : "",
+      "message" : "Potrivire exactă: %system"
+   },
+   "EXTENSIVE_MINING" : {
+      "description" : "",
+      "message" : "Extensive mining operations."
+   },
+   "EXTERNAL_ATMOSPHERIC_PRESSURE" : {
+      "description" : "",
+      "message" : "Presiune atmosferică externă"
+   },
+   "EXTERNAL_VIEW" : {
+      "description" : "",
+      "message" : "Vedere exterioară"
+   },
+   "FARM_MACHINERY" : {
+      "description" : "",
+      "message" : "Utilaje fermiere"
+   },
+   "FERTILIZER" : {
+      "description" : "",
+      "message" : "Îngrăşământ"
+   },
+   "FINE_PAID_N" : {
+      "description" : "",
+      "message" : "Aţi plătit amenda de %fine."
+   },
+   "FINE_PAID_N_BUT_N_REMAINING" : {
+      "description" : "",
+      "message" : "Aţi plătit %paid dar v-a mai rămas de platit din amendă %fine."
+   },
+   "FIRE_LASER" : {
+      "description" : "",
+      "message" : "Trage cu laser-ul"
+   },
+   "FIRE_MISSILE" : {
+      "description" : "",
+      "message" : "Fire missile"
+   },
+   "FOLLOWING_SELECTION" : {
+      "description" : "",
+      "message" : "selecţia următoare"
+   },
+   "FRONT" : {
+      "description" : "",
+      "message" : "Faţă"
+   },
+   "FRUIT_AND_VEG" : {
+      "description" : "",
+      "message" : "Fructe şi Vegetale"
+   },
+   "FUEL" : {
+      "description" : "",
+      "message" : "Fuel"
+   },
+   "FUEL_SCOOP" : {
+      "description" : "",
+      "message" : "Colector Combustibil"
+   },
+   "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED" : {
+      "description" : "",
+      "message" : "Colector combustibil activ. Acum aveţi %quantity tone de hidrogen."
+   },
+   "FUEL_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Permite colectarea combustibilului de hidrogen de pe planetele gigantice de gaz."
+   },
+   "GALACTIC_VIEW" : {
+      "description" : "",
+      "message" : "Vizualizare galaxie"
+   },
+   "GALAXY_SECTOR_VIEW" : {
+      "description" : "",
+      "message" : "Vizualizare sector de galaxie"
+   },
+   "GAME_LOAD_CANNOT_OPEN" : {
+      "description" : "",
+      "message" : "Fişierul acestui joc salvat nu poate fi deschis din cauza lipsei permisiunilor sau ceva asemănător..."
+   },
+   "GAME_LOAD_CORRUPT" : {
+      "description" : "",
+      "message" : "Acest joc salvat nu poate fi încărcat deoarece conţine erori."
+   },
+   "GAME_LOAD_WRONG_VERSION" : {
+      "description" : "",
+      "message" : "This saved game cannot be loaded because it was created by a different version of Pioneer."
+   },
+   "GAME_SAVED_TO" : {
+      "description" : "",
+      "message" : "\"Jocul salvat drept \""
+   },
+   "GAME_SAVE_CANNOT_WRITE" : {
+      "description" : "",
+      "message" : "This saved game file could not be written because of a system error."
+   },
+   "GOVERNMENT_TYPE" : {
+      "description" : "",
+      "message" : "Tipul de guvernare:"
+   },
+   "GRAIN" : {
+      "description" : "",
+      "message" : "Grâne"
+   },
+   "HAND_WEAPONS" : {
+      "description" : "",
+      "message" : "Arme de mână"
+   },
+   "HARD_CAPITALIST" : {
+      "description" : "",
+      "message" : "Complet Capitalist - nici o dispoziţie pentru prosperitatea guvernului"
+   },
+   "HAT" : {
+      "description" : "",
+      "message" : "\" Hat\""
+   },
+   "HEADING_LOCK_BACKWARD" : {
+      "description" : "",
+      "message" : "Heading Lock (aft)"
+   },
+   "HEADING_LOCK_FORWARD" : {
+      "description" : "",
+      "message" : "Heading Lock (fore)"
+   },
+   "HEAVY_INDUSTRY" : {
+      "description" : "",
+      "message" : "Heavy industry."
+   },
+   "HE_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" Atmosferă de Heliu\""
+   },
+   "HIGHLY_VOLCANIC" : {
+      "description" : "",
+      "message" : "Majoritar vulcanic"
+   },
+   "HIGH_POPULATION_OUTDOOR_WORLD" : {
+      "description" : "",
+      "message" : "High population outdoor world."
+   },
+   "HULL_AUTOREPAIR" : {
+      "description" : "",
+      "message" : "Sistem de Autoreparare Fuzelaj"
+   },
+   "HULL_AUTOREPAIR_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Repară automat fuzelajul navei în caz de avarii."
+   },
+   "HULL_INTEGRITY" : {
+      "description" : "",
+      "message" : "Consistenţă fuzelaj"
+   },
+   "HULL_TEMP" : {
+      "description" : "",
+      "message" : "Temperatura fuzelaj"
+   },
+   "HYDROGEN" : {
+      "description" : "",
+      "message" : "Hidrogen"
+   },
+   "HYDROGEN_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Hidrogenul este folosit în principal drept combustibil de fuziune"
+   },
+   "HYPERCLOUD_ANALYZER" : {
+      "description" : "",
+      "message" : "Analizator Hipernor"
+   },
+   "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Analizează norii unui salt în hiperspaţiu pentru a determina destinaţia si timpul sosirii sau plecării."
+   },
+   "HYPERSPACE" : {
+      "description" : "",
+      "message" : "Hiperspaţiu"
+   },
+   "HYPERSPACE_ARRIVAL_CLOUD" : {
+      "description" : "",
+      "message" : "Nor de sosire din hiperspaţiu"
+   },
+   "HYPERSPACE_ARRIVAL_CLOUD_REMNANT" : {
+      "description" : "",
+      "message" : "Rămăşiţa unui nor de sosire din hiperspaţiu"
+   },
+   "HYPERSPACE_DEPARTURE_CLOUD" : {
+      "description" : "",
+      "message" : "Nor de plecare în hiperspaţiu"
+   },
+   "HYPERSPACE_JUMP" : {
+      "description" : "",
+      "message" : "Salt în hiperstaţiu"
+   },
+   "HYPERSPACE_JUMP_ABORTED" : {
+      "description" : "",
+      "message" : "Salt în hiperspaţiu anulat."
+   },
+   "HYPERSPACE_TARGET" : {
+      "description" : "",
+      "message" : "Ţintă hiperspaţiu"
+   },
+   "HYPERSPACING_IN_N_SECONDS" : {
+      "description" : "",
+      "message" : "Hiperspaţiu în %countdown{f.0} secunde"
+   },
+   "H_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" Atmosferă de Hidrogen\""
+   },
+   "ICE_WORLD" : {
+      "description" : "",
+      "message" : "\" planetă de gheaţă\""
+   },
+   "ILLEGAL_GOODS" : {
+      "description" : "",
+      "message" : "Bunuri Ilegale:"
+   },
+   "IMPERIAL_RULE" : {
+      "description" : "",
+      "message" : "Conducere Imperială"
+   },
+   "INCREASE_SCAN_RANGE" : {
+      "description" : "",
+      "message" : "Increase scanner range"
+   },
+   "INCREASE_SET_SPEED" : {
+      "description" : "",
+      "message" : "Creşte viteza setată"
+   },
+   "INDUSTRIAL_COLONY" : {
+      "description" : "",
+      "message" : "Colonie industrială."
+   },
+   "INDUSTRIAL_HUB_SYSTEM" : {
+      "description" : "",
+      "message" : "Industrial hub system."
+   },
+   "INDUSTRIAL_MACHINERY" : {
+      "description" : "",
+      "message" : "Utilaje industriale"
+   },
+   "INTERNAL_VIEW" : {
+      "description" : "",
+      "message" : "Internal view"
+   },
+   "INT_LY" : {
+      "description" : "",
+      "message" : "%scale a.l."
+   },
+   "IN_TRANSIT" : {
+      "description" : "",
+      "message" : "In transit"
+   },
+   "IN_TRANSIT_TO_N_X_X_X" : {
+      "description" : "",
+      "message" : "În tranzit către %system [%x,%y,%z]"
+   },
+   "JOY" : {
+      "description" : "",
+      "message" : "Joy"
+   },
+   "JOYSTICK_INPUT" : {
+      "description" : "",
+      "message" : "Intrare joystick"
+   },
+   "JOY_AXIS" : {
+      "description" : "",
+      "message" : "%{sign}Joy%joynum %axis Axis"
+   },
+   "KM_S_RELATIVE_TO" : {
+      "description" : "",
+      "message" : "%speed{f.2} km/s relativ la %frame"
+   },
+   "LANDED" : {
+      "description" : "",
+      "message" : "Aterizat"
+   },
+   "LANG_NAME" : {
+      "description" : "The name that native speakers use for this language. This will be used in the language selection screen. For obscure reasons this currently must only use Latin-1 characters.",
+      "message" : "Română"
+   },
+   "LARGE" : {
+      "description" : "",
+      "message" : "Mare"
+   },
+   "LARGE_GAS_GIANT" : {
+      "description" : "",
+      "message" : "Gigantică gazoasa mare"
+   },
+   "LARGE_PLASMA_ACCEL" : {
+      "description" : "",
+      "message" : "Accelerator plasmă mare"
+   },
+   "LASER_COOLING_BOOSTER" : {
+      "description" : "",
+      "message" : "Amplificator Sistem de Răcire Laser"
+   },
+   "LASER_COOLING_BOOSTER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Un sistem îmbunătăţit de răcire pentru armele dumneavoastră."
+   },
+   "LASER_FIRE_DETECTED" : {
+      "description" : "",
+      "message" : "Foc laser detectat."
+   },
+   "LAUNCH_PERMISSION_DENIED_BUSY" : {
+      "description" : "",
+      "message" : "Nu vi se acordă permisiunea de a decola: staţiile sunt aglomerate."
+   },
+   "LIBERAL_DEMOCRACY" : {
+      "description" : "",
+      "message" : "Democraţie liberală"
+   },
+   "LIQUID_OXYGEN" : {
+      "description" : "",
+      "message" : "Oxigen Lichid"
+   },
+   "LIQUID_OXYGEN_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Oxigenul este necesar sistemelor de menţinere a vieţii şi câtorva procesări industriale"
+   },
+   "LIQUOR" : {
+      "description" : "",
+      "message" : "Lichior"
+   },
+   "LIVE_ANIMALS" : {
+      "description" : "",
+      "message" : "Animale Vii"
+   },
+   "LOCKED" : {
+      "description" : "",
+      "message" : "blocat"
+   },
+   "MAJOR_EXPORTS" : {
+      "description" : "",
+      "message" : "Exporturi Majore:"
+   },
+   "MAJOR_IMPORTS" : {
+      "description" : "",
+      "message" : "Importuri Majore:"
+   },
+   "MANUAL_CONTROL" : {
+      "description" : "",
+      "message" : "Control manual"
+   },
+   "MANUAL_CONTROL_MODE" : {
+      "description" : "",
+      "message" : "Mod control manual"
+   },
+   "MASS" : {
+      "description" : "",
+      "message" : "Masă"
+   },
+   "MASSIVE" : {
+      "description" : "",
+      "message" : "Masiv(ă)"
+   },
+   "MASS_N_TONNES" : {
+      "description" : "",
+      "message" : "Masă: %{mass}t"
+   },
+   "MEDICINES" : {
+      "description" : "",
+      "message" : "Doctorii"
+   },
+   "MEDIUM_GAS_GIANT" : {
+      "description" : "",
+      "message" : "Gigantică gazoasa medie"
+   },
+   "MESSAGE_FROM_X" : {
+      "description" : "",
+      "message" : "Mesaj de la %sender:"
+   },
+   "META" : {
+      "description" : "",
+      "message" : "\"meta \""
+   },
+   "METAL_ALLOYS" : {
+      "description" : "",
+      "message" : "Aliaje din metal"
+   },
+   "METAL_ORE" : {
+      "description" : "",
+      "message" : "Minereu din metal"
+   },
+   "MILITARY_DICTATORSHIP" : {
+      "description" : "",
+      "message" : "Dictatură militară"
+   },
+   "MILITARY_FUEL" : {
+      "description" : "",
+      "message" : "Combustibil militar"
+   },
+   "MININGCANNON_17MW" : {
+      "description" : "",
+      "message" : "Tun forjare 17MW"
+   },
+   "MININGCANNON_17MW_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Folosit pentru a forja asteroizi bogaţi în minerale."
+   },
+   "MINING_COLONY" : {
+      "description" : "",
+      "message" : "Colonie minieră."
+   },
+   "MINING_MACHINERY" : {
+      "description" : "",
+      "message" : "Utilaje de minerit"
+   },
+   "MINOR_EXPORTS" : {
+      "description" : "",
+      "message" : "Exporturi Minore:"
+   },
+   "MINOR_IMPORTS" : {
+      "description" : "",
+      "message" : "Importuri Minore:"
+   },
+   "MISCELLANEOUS" : {
+      "description" : "",
+      "message" : "Miscellaneous"
+   },
+   "MISSILE" : {
+      "description" : "",
+      "message" : "rachetă"
+   },
+   "MISSILE_GUIDED" : {
+      "description" : "",
+      "message" : "Rachetă Teleghidată"
+   },
+   "MISSILE_NAVAL" : {
+      "description" : "",
+      "message" : "Rachetă Navală"
+   },
+   "MISSILE_SMART" : {
+      "description" : "",
+      "message" : "Rachetă Inteligentă"
+   },
+   "MISSILE_UNGUIDED" : {
+      "description" : "",
+      "message" : "Racheta nedirijată R40"
+   },
+   "MIXED_ECONOMY" : {
+      "description" : "",
+      "message" : "Economie mixtă"
+   },
+   "MONTH_APR" : {
+      "description" : "",
+      "message" : "Apr"
+   },
+   "MONTH_AUG" : {
+      "description" : "",
+      "message" : "Aug"
+   },
+   "MONTH_DEC" : {
+      "description" : "",
+      "message" : "Dec"
+   },
+   "MONTH_FEB" : {
+      "description" : "",
+      "message" : "Feb"
+   },
+   "MONTH_JAN" : {
+      "description" : "",
+      "message" : "Jan"
+   },
+   "MONTH_JUL" : {
+      "description" : "",
+      "message" : "Jul"
+   },
+   "MONTH_JUN" : {
+      "description" : "",
+      "message" : "Jun"
+   },
+   "MONTH_MAR" : {
+      "description" : "",
+      "message" : "Mar"
+   },
+   "MONTH_MAY" : {
+      "description" : "",
+      "message" : "May"
+   },
+   "MONTH_NOV" : {
+      "description" : "",
+      "message" : "Nov"
+   },
+   "MONTH_OCT" : {
+      "description" : "",
+      "message" : "Oct"
+   },
+   "MONTH_SEP" : {
+      "description" : "",
+      "message" : "Sep"
+   },
+   "MURDER" : {
+      "description" : "",
+      "message" : "Crimă"
+   },
+   "M_S_RELATIVE_TO" : {
+      "description" : "",
+      "message" : "%speed{f.0} m/s relativ la %frame"
+   },
+   "NAME" : {
+      "description" : "",
+      "message" : "Nume"
+   },
+   "NARCOTICS" : {
+      "description" : "",
+      "message" : "Narcotice"
+   },
+   "NAVIGATION_STAR_MAPS" : {
+      "description" : "",
+      "message" : "Navigare şi hărţi stelare"
+   },
+   "NAVIGATION_TARGETS_IN_THIS_SYSTEM" : {
+      "description" : "",
+      "message" : "Ţinte navigaţie în acest sistem"
+   },
+   "NERVE_GAS" : {
+      "description" : "",
+      "message" : "Gaz Paralizant"
+   },
+   "NONE" : {
+      "description" : "",
+      "message" : "Nimic"
+   },
+   "NORMA_ARM" : {
+      "description" : "",
+      "message" : "Braţul Norma"
+   },
+   "NOT_FOUND" : {
+      "description" : "",
+      "message" : "Nu a fost găsit"
+   },
+   "NOT_FOUND_BEST_MATCH_X" : {
+      "description" : "",
+      "message" : "Nu a fost găsit, cel mai potrivit: %system"
+   },
+   "NO_ALERT" : {
+      "description" : "",
+      "message" : "Nicio alertă"
+   },
+   "NO_CENTRAL_GOVERNANCE" : {
+      "description" : "",
+      "message" : "Fără guvernământ central"
+   },
+   "NO_ESTABLISHED_ORDER" : {
+      "description" : "",
+      "message" : "Nicio formă de guvenare stabilită"
+   },
+   "NO_HYPERDRIVE" : {
+      "description" : "",
+      "message" : "Niciun motor superluminic"
+   },
+   "NO_REGISTERED_INHABITANTS" : {
+      "description" : "",
+      "message" : "Niciun inhabitant inregistrat"
+   },
+   "NO_TARGET_SELECTED" : {
+      "description" : "",
+      "message" : "Computer navă: Nicio ţintă selectată"
+   },
+   "NUMBER_DAYS" : {
+      "description" : "",
+      "message" : "%days{f.0} days"
+   },
+   "NUMBER_G" : {
+      "description" : "",
+      "message" : "%acceleration{f.1} G"
+   },
+   "NUMBER_HOURS" : {
+      "description" : "",
+      "message" : "%hours{f.1} ore"
+   },
+   "NUMBER_LY" : {
+      "description" : "",
+      "message" : "%distance{f.2} a.l."
+   },
+   "NUMBER_TONNES" : {
+      "description" : "",
+      "message" : "%{mass}t"
+   },
+   "N_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" Atmosferă de Nitrogen\""
+   },
+   "N_CELSIUS" : {
+      "description" : "",
+      "message" : "%temperature C"
+   },
+   "N_DAYS" : {
+      "description" : "",
+      "message" : "%days{f.1} zile"
+   },
+   "N_DEGREES" : {
+      "description" : "",
+      "message" : "%angle{f.1} grade"
+   },
+   "N_DISTANCE_TO_TARGET" : {
+      "description" : "",
+      "message" : "%distance până la ţintă"
+   },
+   "N_EARTH_DAYS" : {
+      "description" : "",
+      "message" : "%days{f.1} zile pământene"
+   },
+   "N_WHATEVER_MASSES" : {
+      "description" : "",
+      "message" : "%mass{f.3} %units mase"
+   },
+   "N_WHATEVER_RADII" : {
+      "description" : "",
+      "message" : "%radius{f.3} %units radii (%radkm{f.0} km)"
+   },
+   "N_YEARS" : {
+      "description" : "",
+      "message" : "%years{f.1} ani"
+   },
+   "O2_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" Atmosferă de oxigen\""
+   },
+   "OCEANICWORLD" : {
+      "description" : "",
+      "message" : "\" lume oceanică\""
+   },
+   "ORBITAL_PERIOD" : {
+      "description" : "",
+      "message" : "Perioada orbitală"
+   },
+   "ORBITAL_STARPORT" : {
+      "description" : "",
+      "message" : "Port stelar orbital"
+   },
+   "OUTDOOR_AGRICULTURAL_WORLD" : {
+      "description" : "",
+      "message" : "Outdoor agricultural world."
+   },
+   "OUTER_ARM" : {
+      "description" : "",
+      "message" : "Braţul exterior"
+   },
+   "OVER_N_BILLION" : {
+      "description" : "",
+      "message" : "Peste %population mii de milioane"
+   },
+   "OVER_N_MILLION" : {
+      "description" : "",
+      "message" : "Peste %population milioane"
+   },
+   "PASSENGER_CABIN" : {
+      "description" : "",
+      "message" : "Occupied Passenger Cabin"
+   },
+   "PAUSED" : {
+      "description" : "",
+      "message" : "PAUSED"
+   },
+   "PAY_FINE_REMOTELY" : {
+      "description" : "",
+      "message" : "Plătiţi amenda de (%amount) prin transfer de la distanţă"
+   },
+   "PERIAPSIS_DISTANCE" : {
+      "description" : "",
+      "message" : "Distanţa pericentrică"
+   },
+   "PERSEUS_ARM" : {
+      "description" : "",
+      "message" : "Braţul Perseus"
+   },
+   "PIONEER" : {
+      "description" : "",
+      "message" : "PIONEER"
+   },
+   "PIRACY" : {
+      "description" : "",
+      "message" : "Piraterie"
+   },
+   "PITCH" : {
+      "description" : "",
+      "message" : "Înclinare"
+   },
+   "PITCH_DOWN" : {
+      "description" : "",
+      "message" : "Înclinare în jos"
+   },
+   "PITCH_UP" : {
+      "description" : "",
+      "message" : "Înclinare în sus"
+   },
+   "PLANETARY_INFO" : {
+      "description" : "",
+      "message" : "Informaţii despre planetă"
+   },
+   "PLANET_CONTAINING_LIQUID_WATER" : {
+      "description" : "",
+      "message" : "\" planetă ce conţine apă lichidă\""
+   },
+   "PLANET_WITH_SOME_ICE" : {
+      "description" : "",
+      "message" : "\" planetă cu ceva gheaţă\""
+   },
+   "PLANNED_ECONOMY" : {
+      "description" : "",
+      "message" : "Economie planificată central"
+   },
+   "PLASTICS" : {
+      "description" : "",
+      "message" : "Plastice"
+   },
+   "PLUTOCRATIC_DICTATORSHIP" : {
+      "description" : "",
+      "message" : "Dictatură plutocratică"
+   },
+   "POLICE_SHIP_REGISTRATION" : {
+      "description" : "",
+      "message" : "POLIŢIA"
+   },
+   "POPULATION" : {
+      "description" : "",
+      "message" : "Populaţie:"
+   },
+   "PRECIOUS_METALS" : {
+      "description" : "",
+      "message" : "Metale preţioase"
+   },
+   "PRESSURE_N_ATMOSPHERES" : {
+      "description" : "",
+      "message" : "P: %pressure{f.2} atm"
+   },
+   "PROBABILITY_OF_ARRIVAL_X_PERCENT" : {
+      "description" : "",
+      "message" : "Probability of arrival: %probability%%"
+   },
+   "PULSECANNON_10MW" : {
+      "description" : "",
+      "message" : "Tun intermitent 10MW"
+   },
+   "PULSECANNON_1MW" : {
+      "description" : "",
+      "message" : "Tun intermitent 1MW"
+   },
+   "PULSECANNON_20MW" : {
+      "description" : "",
+      "message" : "Tun intermitent 20MW"
+   },
+   "PULSECANNON_2MW" : {
+      "description" : "",
+      "message" : "Tun intermitent 2MW"
+   },
+   "PULSECANNON_4MW" : {
+      "description" : "",
+      "message" : "Tun intermitent 4MW"
+   },
+   "PULSECANNON_DUAL_1MW" : {
+      "description" : "",
+      "message" : "Tun dual intermitent 1MW"
+   },
+   "PULSECANNON_RAPID_2MW" : {
+      "description" : "",
+      "message" : "Tun intermitent cu foc rapid 2MW"
+   },
+   "QUADRUPLE_SYSTEM" : {
+      "description" : "",
+      "message" : "Sistem cuadruplu"
+   },
+   "RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "Cartograf Radar"
+   },
+   "RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Folosit pentru a inspecta de la distanţă echipamentul, încărcătura şi starea altor nave."
+   },
+   "RADIOACTIVES" : {
+      "description" : "",
+      "message" : "Deşeuri radioactive"
+   },
+   "RADIUS" : {
+      "description" : "",
+      "message" : "Rază"
+   },
+   "REAR" : {
+      "description" : "",
+      "message" : "Spate"
+   },
+   "REQUEST_DOCKING_CLEARANCE" : {
+      "description" : "",
+      "message" : "Cereţi permisiunea de a andoca"
+   },
+   "RESET" : {
+      "description" : "",
+      "message" : "Reset"
+   },
+   "ROBOTS" : {
+      "description" : "",
+      "message" : "Roboţi"
+   },
+   "ROCKY_PLANET" : {
+      "description" : "",
+      "message" : "\" planetă stâncoasă\""
+   },
+   "ROCKY_PLANET_CONTAINING_COME_LIQUIDS" : {
+      "description" : "",
+      "message" : "\" planetă stâncoasă ce conţine câteva lichide,\""
+   },
+   "ROLL" : {
+      "description" : "",
+      "message" : "Rostogolire"
+   },
+   "ROLL_LEFT" : {
+      "description" : "",
+      "message" : "Rostogolire stânga"
+   },
+   "ROLL_RIGHT" : {
+      "description" : "",
+      "message" : "Rostogolire dreapta"
+   },
+   "ROTATE_DOWN" : {
+      "description" : "",
+      "message" : "Rotate Down"
+   },
+   "ROTATE_LEFT" : {
+      "description" : "",
+      "message" : "Rotate Left"
+   },
+   "ROTATE_RIGHT" : {
+      "description" : "",
+      "message" : "Rotate Right"
+   },
+   "ROTATE_UP" : {
+      "description" : "",
+      "message" : "Rotate Up"
+   },
+   "ROTATIONAL_PERIOD" : {
+      "description" : "",
+      "message" : "\" (perioada de revoluţie)\""
+   },
+   "ROTATION_DAMPING_OFF" : {
+      "description" : "",
+      "message" : "Rotation damping off"
+   },
+   "ROTATION_DAMPING_ON" : {
+      "description" : "",
+      "message" : "Rotation damping on"
+   },
+   "RUBBISH" : {
+      "description" : "",
+      "message" : "Gunoi"
+   },
+   "SAGITTARIUS_ARM" : {
+      "description" : "",
+      "message" : "Braţul Sagittarius"
+   },
+   "SCANNER" : {
+      "description" : "",
+      "message" : "Scaner"
+   },
+   "SCANNER_CONTROL" : {
+      "description" : "",
+      "message" : "Scanner control"
+   },
+   "SCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Oferă o hartă 3D a navelor apropiate."
+   },
+   "SCREENSHOT_FILENAME_TEMPLATE" : {
+      "description" : "",
+      "message" : "captura%index{d08}.png"
+   },
+   "SCUTUM_CENTAURUS_ARM" : {
+      "description" : "",
+      "message" : "Braţul Scutum-Centaurus"
+   },
+   "SEARCH" : {
+      "description" : "",
+      "message" : "Caută"
+   },
+   "SECTOR_COORDINATES" : {
+      "description" : "",
+      "message" : "Coordonate sector:"
+   },
+   "SECTOR_X_Y_Z" : {
+      "description" : "",
+      "message" : "Sector: %x,%y,%z"
+   },
+   "SELECTED_SYSTEM" : {
+      "description" : "",
+      "message" : "Sistemul selectat"
+   },
+   "SELECT_A_TARGET" : {
+      "description" : "",
+      "message" : "Selectaţi o ţintă"
+   },
+   "SELECT_LOW_THRUST_POWER_LEVEL" : {
+      "description" : "",
+      "message" : "Select low thrust power level"
+   },
+   "SEMI_MAJOR_AXIS" : {
+      "description" : "",
+      "message" : "Axă semi-majoră"
+   },
+   "SET_HYPERSPACE_DESTINATION_TO" : {
+      "description" : "",
+      "message" : "Setaţi destinaţia hiperspaţiului către %system"
+   },
+   "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE" : {
+      "description" : "",
+      "message" : "Analizator hipernor: Setează ţinta hiperspaţiului să urmărească plecarea aceasta"
+   },
+   "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT" : {
+      "description" : "",
+      "message" : "Set low thrust power level to %power%%"
+   },
+   "SET_SPEED_KM_S" : {
+      "description" : "",
+      "message" : "Viteza setată: %speed{f.2} km/s"
+   },
+   "SET_SPEED_M_S" : {
+      "description" : "",
+      "message" : "Viteza setată: %speed{f.0} m/s"
+   },
+   "SHIELD_ENERGY_BOOSTER" : {
+      "description" : "",
+      "message" : "Amplificator Energie Scut"
+   },
+   "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Creşte rata reîncărcării scuturilor."
+   },
+   "SHIELD_GENERATOR" : {
+      "description" : "",
+      "message" : "Generator de scut"
+   },
+   "SHIELD_GENERATOR_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Oferă apărare adiţională fuzelajului navei per unitate instalată."
+   },
+   "SHIELD_INTEGRITY" : {
+      "description" : "",
+      "message" : "Consistenţă scut"
+   },
+   "SHIELD_STRENGTH_N" : {
+      "description" : "",
+      "message" : "Rezistenţa scutului: %shields{f.2}"
+   },
+   "SHIFT" : {
+      "description" : "",
+      "message" : "\"shift \""
+   },
+   "SHIP" : {
+      "description" : "",
+      "message" : "Nava"
+   },
+   "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
+      "description" : "",
+      "message" : "Altitudinea navei faţă de pământ"
+   },
+   "SHIP_DETECTED_NEARBY" : {
+      "description" : "",
+      "message" : "Navă detectată în apropiere."
+   },
+   "SHIP_INFORMATION" : {
+      "description" : "",
+      "message" : "Informaţii navă"
+   },
+   "SHIP_MASS_N_TONNES" : {
+      "description" : "",
+      "message" : "Masa navei: %{mass}t"
+   },
+   "SHIP_NEARBY" : {
+      "description" : "",
+      "message" : "Navă în apropiere"
+   },
+   "SHIP_ORIENTATION" : {
+      "description" : "",
+      "message" : "Orientare navă"
+   },
+   "SHIP_VELOCITY_BY_REFERENCE_OBJECT" : {
+      "description" : "",
+      "message" : "Viteza navei relativ la obiect"
+   },
+   "SIDEREAL_VIEW" : {
+      "description" : "",
+      "message" : "Sidereal view"
+   },
+   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
+      "description" : "",
+      "message" : "Se simulează evoluţia universului: %age{f.1} mii de milioane de ani ;-)"
+   },
+   "SLAVES" : {
+      "description" : "",
+      "message" : "Sclavi"
+   },
+   "SMALL" : {
+      "description" : "",
+      "message" : "Mic(ă)"
+   },
+   "SMALL_GAS_GIANT" : {
+      "description" : "",
+      "message" : "Gigantică gazoasa mică"
+   },
+   "SMALL_INDUSTRIAL_OUTPOST" : {
+      "description" : "",
+      "message" : "Mic avanpost industrial."
+   },
+   "SMALL_PLASMA_ACCEL" : {
+      "description" : "",
+      "message" : "Accelerator plasmă mic"
+   },
+   "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS" : {
+      "description" : "",
+      "message" : "Prospectare la scară redusă. Nicio aşezare înregistrată."
+   },
+   "SOCIAL_DEMOCRACY" : {
+      "description" : "",
+      "message" : "Democraţie socială"
+   },
+   "SOLAR" : {
+      "description" : "",
+      "message" : "Solar"
+   },
+   "SOME_ESTABLISHED_MINING" : {
+      "description" : "",
+      "message" : "Câtva minerit stabilit."
+   },
+   "SOURCE" : {
+      "description" : "",
+      "message" : "Origine"
+   },
+   "SPEED_CONTROL_MODE" : {
+      "description" : "",
+      "message" : "Mod de control al vitezei"
+   },
+   "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS" : {
+      "description" : "",
+      "message" : "Sistem stabil cu %bodycount %{body(s)} majore şi %portcount %{starport(s)}."
+   },
+   "STARPORT" : {
+      "description" : "",
+      "message" : "Port stelar"
+   },
+   "STARPORTS" : {
+      "description" : "",
+      "message" : "Porturi stelare"
+   },
+   "STAR_A" : {
+      "description" : "",
+      "message" : "Stea albă fierbinte de tip 'A'"
+   },
+   "STAR_AF_GIANT" : {
+      "description" : "",
+      "message" : "Stea gigantică albă"
+   },
+   "STAR_AF_HYPER_GIANT" : {
+      "description" : "",
+      "message" : "Stea hipergigantică albă"
+   },
+   "STAR_AF_SUPER_GIANT" : {
+      "description" : "",
+      "message" : "Stea supergigantică albă"
+   },
+   "STAR_B" : {
+      "description" : "",
+      "message" : "Stea luminoasă albastră de tip 'B'"
+   },
+   "STAR_B_GIANT" : {
+      "description" : "",
+      "message" : "Stea gigantică albastră"
+   },
+   "STAR_B_HYPER_GIANT" : {
+      "description" : "",
+      "message" : "Stea hipergigantică albastră"
+   },
+   "STAR_B_SUPER_GIANT" : {
+      "description" : "",
+      "message" : "Stea supergigantică albastră"
+   },
+   "STAR_B_WF" : {
+      "description" : "",
+      "message" : "Stea Wolf-Rayet - Risc de colaps"
+   },
+   "STAR_F" : {
+      "description" : "",
+      "message" : "Stea albă tipul 'F'"
+   },
+   "STAR_G" : {
+      "description" : "",
+      "message" : "Stea galbenă tipul 'G'"
+   },
+   "STAR_G_GIANT" : {
+      "description" : "",
+      "message" : "Stea gigantică galbenă - Instabilă"
+   },
+   "STAR_G_HYPER_GIANT" : {
+      "description" : "",
+      "message" : "Stea hipergigantică galbenă - Instabilă"
+   },
+   "STAR_G_SUPER_GIANT" : {
+      "description" : "",
+      "message" : "Stea supergigantică galbenă"
+   },
+   "STAR_IM_BH" : {
+      "description" : "",
+      "message" : "O gaură neagră cu masă intermediară"
+   },
+   "STAR_K" : {
+      "description" : "",
+      "message" : "Stea portocalie tipul 'K'"
+   },
+   "STAR_K_GIANT" : {
+      "description" : "",
+      "message" : "Stea gigantă portocalie - Instabilă"
+   },
+   "STAR_K_HYPER_GIANT" : {
+      "description" : "",
+      "message" : "Stea hipergigantică portocalie - Instabilă"
+   },
+   "STAR_K_SUPER_GIANT" : {
+      "description" : "",
+      "message" : "Stea supergigantică portocalie"
+   },
+   "STAR_M" : {
+      "description" : "",
+      "message" : "Stea roşie tipul 'M'"
+   },
+   "STAR_M_GIANT" : {
+      "description" : "",
+      "message" : "Stea gigantă roşie"
+   },
+   "STAR_M_HYPER_GIANT" : {
+      "description" : "",
+      "message" : "Stea hipergigantică roşie"
+   },
+   "STAR_M_SUPER_GIANT" : {
+      "description" : "",
+      "message" : "Stea supergigantică roşie"
+   },
+   "STAR_M_WF" : {
+      "description" : "",
+      "message" : "Stea Wolf-Rayet - Instabilă"
+   },
+   "STAR_O" : {
+      "description" : "",
+      "message" : "Stea fuerbinte, masivă de tip 'O'"
+   },
+   "STAR_O_GIANT" : {
+      "description" : "",
+      "message" : "Stea gigantică albastră fierbinte"
+   },
+   "STAR_O_HYPER_GIANT" : {
+      "description" : "",
+      "message" : "Stea hipergigantică albastră fierbinte"
+   },
+   "STAR_O_SUPER_GIANT" : {
+      "description" : "",
+      "message" : "Stea supergigantică albastră fierbinte"
+   },
+   "STAR_O_WF" : {
+      "description" : "",
+      "message" : "Stea Wolf-Rayet - Colaps iminent"
+   },
+   "STAR_SM_BH" : {
+      "description" : "",
+      "message" : "Ancora noastră galactică"
+   },
+   "STAR_SYSTEM_INFORMATION" : {
+      "description" : "",
+      "message" : "Informaţii sistem stelar"
+   },
+   "STAR_S_BH" : {
+      "description" : "",
+      "message" : "O gaură neagră stelară"
+   },
+   "SUGGESTED_RESPONSES" : {
+      "description" : "",
+      "message" : "Răspunsuri sugerate:"
+   },
+   "SURFACE_GRAVITY" : {
+      "description" : "",
+      "message" : "Surface gravity"
+   },
+   "SURFACE_TEMPERATURE" : {
+      "description" : "",
+      "message" : "Temperatura la suprafaţă"
+   },
+   "SYSTEM" : {
+      "description" : "",
+      "message" : "System"
+   },
+   "SYSTEM_NUMBER" : {
+      "description" : "",
+      "message" : "Număr sistem:"
+   },
+   "SYSTEM_ORBIT_VIEW" : {
+      "description" : "",
+      "message" : "Vizualizare orbită sistem"
+   },
+   "SYSTEM_TYPE" : {
+      "description" : "",
+      "message" : "Tipul sistemului:"
+   },
+   "S_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" Atmosferă Sulfuroasă\""
+   },
+   "TAKEOFF" : {
+      "description" : "",
+      "message" : "Decolare"
+   },
+   "TARGET_OBJECT_IN_SIGHTS" : {
+      "description" : "",
+      "message" : "Ţinteşte obiectul din vizor"
+   },
+   "TENUOUS" : {
+      "description" : "",
+      "message" : "diluat"
+   },
+   "TEXTILES" : {
+      "description" : "",
+      "message" : "Textile"
+   },
+   "THICK" : {
+      "description" : "",
+      "message" : "gros"
+   },
+   "THIN" : {
+      "description" : "",
+      "message" : "subţire"
+   },
+   "THRIVING_OUTDOOR_WORLD" : {
+      "description" : "",
+      "message" : "Thriving outdoor world."
+   },
+   "THRUSTER_DORSAL" : {
+      "description" : "",
+      "message" : "Propulsare în jos"
+   },
+   "THRUSTER_MAIN" : {
+      "description" : "",
+      "message" : "Propulsare înainte"
+   },
+   "THRUSTER_PORT" : {
+      "description" : "",
+      "message" : "Propulsare la stânga"
+   },
+   "THRUSTER_RETRO" : {
+      "description" : "",
+      "message" : "Propulsare înapoi"
+   },
+   "THRUSTER_STARBOARD" : {
+      "description" : "",
+      "message" : "Propulsare la dreapta"
+   },
+   "THRUSTER_VENTRAL" : {
+      "description" : "",
+      "message" : "Propulsare în sus"
+   },
+   "TIME_POINT" : {
+      "description" : "",
+      "message" : "Punctul în timp:"
+   },
+   "TINY" : {
+      "description" : "",
+      "message" : "Micuţ(ă)"
+   },
+   "TOGGLE_HUD_MODE" : {
+      "description" : "",
+      "message" : "Toggle HUD mode"
+   },
+   "TOGGLE_LUA_CONSOLE" : {
+      "description" : "",
+      "message" : "Toggle Lua console"
+   },
+   "TOGGLE_ROTATION_DAMPING" : {
+      "description" : "",
+      "message" : "Toggle rotation damping"
+   },
+   "TOGGLE_SCAN_MODE" : {
+      "description" : "",
+      "message" : "Toggle scanner mode"
+   },
+   "TOMBSTONE_EPITAPH" : {
+      "description" : "",
+      "message" : "ETERNE REGRETE"
+   },
+   "TRADING_ILLEGAL_GOODS" : {
+      "description" : "",
+      "message" : "Se negociază bunurile ilegale"
+   },
+   "TRIPLE_SYSTEM" : {
+      "description" : "",
+      "message" : "Sistem terţiar"
+   },
+   "UNEXPLORED_SYSTEM_NO_DATA" : {
+      "description" : "",
+      "message" : "Sistem neexporat. Nicio altă informaţie valabilăd."
+   },
+   "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW" : {
+      "description" : "",
+      "message" : "Sistem neexplorat. Vizualizarea sistemului indisponibilă."
+   },
+   "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
+      "description" : "",
+      "message" : "Sistem Neexplorat. Informaţii despre stea au fost adunate prin intermediul telescopului, dar nu sunt disponibile informaţii despre planete."
+   },
+   "UNKNOWN" : {
+      "description" : "",
+      "message" : "<necunoscut>"
+   },
+   "UNLAWFUL_WEAPONS_DISCHARGE" : {
+      "description" : "",
+      "message" : "Foc de armă nepermis"
+   },
+   "UNOCCUPIED_CABIN" : {
+      "description" : "",
+      "message" : "Extra Passenger Cabin"
+   },
+   "UNOCCUPIED_CABIN_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Required for transport of a single passenger"
+   },
+   "USE_LOW_THRUST" : {
+      "description" : "",
+      "message" : "Use low thrust"
+   },
+   "VAST_STRIP_MINE" : {
+      "description" : "",
+      "message" : "Vast strip-mining colony."
+   },
+   "VERY_DENSE" : {
+      "description" : "",
+      "message" : "foarte dens"
+   },
+   "VERY_LARGE_GAS_GIANT" : {
+      "description" : "",
+      "message" : "Gigantică gazoasă foarte mare"
+   },
+   "VID_CONNECTING" : {
+      "description" : "",
+      "message" : "Conectare..."
+   },
+   "VID_LINK_ESTABLISHED" : {
+      "description" : "",
+      "message" : "Legătura video stabilită"
+   },
+   "VIEW" : {
+      "description" : "",
+      "message" : "Vizionare"
+   },
+   "VIOLENT_ANARCHY" : {
+      "description" : "",
+      "message" : "Fără ordine interioară - Guvernamântul general contestat de facţiuni înarmate"
+   },
+   "WATER" : {
+      "description" : "",
+      "message" : "Apă"
+   },
+   "WEAPONS" : {
+      "description" : "",
+      "message" : "Arme"
+   },
+   "WEAPON_TEMP" : {
+      "description" : "",
+      "message" : "Temperatura armei"
+   },
+   "WHEELS_ARE_DOWN" : {
+      "description" : "",
+      "message" : "Terenul de aterizare coborât"
+   },
+   "WHEELS_ARE_UP" : {
+      "description" : "",
+      "message" : "Terenul de aterizare retras"
+   },
+   "WHITE_DWARF" : {
+      "description" : "",
+      "message" : "Ramăşiţa stelară a unei pitice albe"
+   },
+   "WITH_A" : {
+      "description" : "",
+      "message" : "\" cu o \""
+   },
+   "WITH_NO_SIGNIFICANT_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" fără atmosferă semnificativă\""
+   },
+   "X" : {
+      "description" : "",
+      "message" : "X"
+   },
+   "X_CANNOT_BE_TOLERATED_HERE" : {
+      "description" : "",
+      "message" : "Nu este tolerat(ă) %crime aici."
+   },
+   "Y" : {
+      "description" : "",
+      "message" : "Y"
+   },
+   "YAW" : {
+      "description" : "",
+      "message" : "Girare"
+   },
+   "YAW_LEFT" : {
+      "description" : "",
+      "message" : "Girare la stânga"
+   },
+   "YAW_RIGHT" : {
+      "description" : "",
+      "message" : "Girare la dreapta"
+   },
+   "YOUNG_FARMING_COLONY" : {
+      "description" : "",
+      "message" : "Colonie proaspătă de agricultură."
+   },
+   "YOU_NO_MONEY" : {
+      "description" : "",
+      "message" : "Nu aveţi niciun ban."
+   },
+   "Z" : {
+      "description" : "",
+      "message" : "Z"
+   },
+   "ZOOM_IN" : {
+      "description" : "",
+      "message" : "Focalizează"
+   },
+   "ZOOM_OUT" : {
+      "description" : "",
+      "message" : "Măreste distanţa focala"
+   }
 }

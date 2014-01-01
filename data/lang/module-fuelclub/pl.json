@@ -1,70 +1,70 @@
 {
-    "FLAVOUR_CLUBNAME_0": {
-        "message": "Spółdzielnia Paliwowa Pilotów Międzygwiezdnych",
-        "description": ""
-    },
-    "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED": {
-        "message": "Twój wniosek o członkostwo został odrzucony.",
-        "description": ""
-    },
-    "YOU_MUST_BUY": {
-        "message": "Musisz zakupić u nas {military_fuel} zanim zutylizujemy twoje {radioactives}",
-        "description": ""
-    },
-    "WE_WILL_ONLY_DISPOSE_OF": {
-        "message": "Zutylizujemy tylko tyle odpadów radioaktywnych, ile zakupisz od nas paliwa wojskowego.",
-        "description": ""
-    },
-    "FLAVOUR_WELCOME_0": {
-        "message": "Witamy w Spółdzielni Paliwowej Pilotów Międzygwiezdnych",
-        "description": ""
-    },
-    "WHAT_CONDITIONS_APPLY": {
-        "message": "Jakie ograniczenia obowiązują przy utylizacji odpadów radioaktywnych?",
-        "description": ""
-    },
-    "YOU_ARE_NOW_A_MEMBER": {
-        "message": "Wniosek został przyjęty. Twoje członkostwo wygasa {expiry_date}.",
-        "description": ""
-    },
-    "BEGIN_TRADE": {
-        "message": "Pohandlujmy",
-        "description": ""
-    },
-    "WATER": {
-        "message": "Woda",
-        "description": ""
-    },
-    "APPLY_FOR_MEMBERSHIP": {
-        "message": "Wystąp o członkostwo",
-        "description": ""
-    },
-    "RADIOACTIVES": {
-        "message": "Odpady radioaktywne",
-        "description": ""
-    },
-    "GO_BACK": {
-        "message": "Powrót",
-        "description": ""
-    },
-    "MILITARY_FUEL": {
-        "message": "Paliwo wojskowe",
-        "description": ""
-    },
-    "HANG_UP": {
-        "message": "Rozłącz się.",
-        "description": ""
-    },
-    "FLAVOUR_MEMBER_INTRO_0": {
-        "message": "Zakup paliwa i utylizacja odpadów radioaktywnych.",
-        "description": ""
-    },
-    "HYDROGEN": {
-        "message": "Wodór",
-        "description": ""
-    },
-    "FLAVOUR_NONMEMBER_INTRO_0": {
-        "message": "{clubname} jest niezależną organizacją, udostępniającą swoim członkom własne zapasy paliwa, posiadamy filie w całej galaktyce. Korzyści płynące z członkostwa:\n\n\t* Posiadamy własne zapasy paliwa, niezależne od zapasów na wolnym rynku.\n\t* {hydrogen} w atrakcyjnej cenie.\n\t* {military_fuel} w atrakcyjnej cenie.\n\t* {water} w atrakcyjnej cenie.\n\t* {radioactives} - darmowa utylizacja (pod pewnymi warunkami).\n\t* Uzupełnienie zbiornika z paliwem, kiedy to konieczne.\n\nPrzyłącz się! Członkostwo kosztuje tylko {membership_fee} rocznie",
-        "description": ""
-    }
+   "APPLY_FOR_MEMBERSHIP" : {
+      "description" : "",
+      "message" : "Wystąp o członkostwo"
+   },
+   "BEGIN_TRADE" : {
+      "description" : "",
+      "message" : "Pohandlujmy"
+   },
+   "FLAVOUR_0_CLUBNAME" : {
+      "description" : "",
+      "message" : "Spółdzielnia Paliwowa Pilotów Międzygwiezdnych"
+   },
+   "FLAVOUR_0_MEMBER_INTRO" : {
+      "description" : "",
+      "message" : "Zakup paliwa i utylizacja odpadów radioaktywnych."
+   },
+   "FLAVOUR_0_NONMEMBER_INTRO" : {
+      "description" : "",
+      "message" : "{clubname} jest niezależną organizacją, udostępniającą swoim członkom własne zapasy paliwa, posiadamy filie w całej galaktyce. Korzyści płynące z członkostwa:\n\n\t* Posiadamy własne zapasy paliwa, niezależne od zapasów na wolnym rynku.\n\t* {hydrogen} w atrakcyjnej cenie.\n\t* {military_fuel} w atrakcyjnej cenie.\n\t* {water} w atrakcyjnej cenie.\n\t* {radioactives} - darmowa utylizacja (pod pewnymi warunkami).\n\t* Uzupełnienie zbiornika z paliwem, kiedy to konieczne.\n\nPrzyłącz się! Członkostwo kosztuje tylko {membership_fee} rocznie"
+   },
+   "FLAVOUR_0_WELCOME" : {
+      "description" : "",
+      "message" : "Witamy w Spółdzielni Paliwowej Pilotów Międzygwiezdnych"
+   },
+   "GO_BACK" : {
+      "description" : "",
+      "message" : "Powrót"
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Rozłącz się."
+   },
+   "HYDROGEN" : {
+      "description" : "",
+      "message" : "Wodór"
+   },
+   "MILITARY_FUEL" : {
+      "description" : "",
+      "message" : "Paliwo wojskowe"
+   },
+   "RADIOACTIVES" : {
+      "description" : "",
+      "message" : "Odpady radioaktywne"
+   },
+   "WATER" : {
+      "description" : "",
+      "message" : "Woda"
+   },
+   "WE_WILL_ONLY_DISPOSE_OF" : {
+      "description" : "",
+      "message" : "Zutylizujemy tylko tyle odpadów radioaktywnych, ile zakupisz od nas paliwa wojskowego."
+   },
+   "WHAT_CONDITIONS_APPLY" : {
+      "description" : "",
+      "message" : "Jakie ograniczenia obowiązują przy utylizacji odpadów radioaktywnych?"
+   },
+   "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED" : {
+      "description" : "",
+      "message" : "Twój wniosek o członkostwo został odrzucony."
+   },
+   "YOU_ARE_NOW_A_MEMBER" : {
+      "description" : "",
+      "message" : "Wniosek został przyjęty. Twoje członkostwo wygasa {expiry_date}."
+   },
+   "YOU_MUST_BUY" : {
+      "description" : "",
+      "message" : "Musisz zakupić u nas {military_fuel} zanim zutylizujemy twoje {radioactives}"
+   }
 }

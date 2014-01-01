@@ -1,10 +1,10 @@
 {
-    "WELCOME_ABOARD_STATION_FEE_DEDUCTED": {
-        "message": "Bienvenido a bordo de la {station}. Su tarifa de acoplamiento y de abasteciomiento de fuel de {fee} se ha deducido.",
-        "description": ""
-    },
-    "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH": {
-        "message": "Esta es la {station}. No dispone de suficiente para su tarifa de acoplamiento de {fee}. Su abastecimiento ha sido denegado.",
-        "description": ""
-    }
+   "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH" : {
+      "description" : "",
+      "message" : "Necesita {fee} para servicios completos de {station}.\\nLa recarga de propelente no se realizará."
+   },
+   "WELCOME_ABOARD_STATION_FEE_DEDUCTED" : {
+      "description" : "",
+      "message" : "Bienvenido a {station}\\nSe han deducido {fee} por tasa de puerto y recarga de propelente."
+   }
 }

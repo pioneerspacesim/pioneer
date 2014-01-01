@@ -9,6 +9,7 @@
 
 #include "GuiWidget.h"
 #include <list>
+#include <SDL_stdinc.h>
 
 namespace Gui {
 	class Container: public Widget {
@@ -30,7 +31,6 @@ namespace Gui {
 		virtual void HideAll();
 		virtual void OnChildResizeRequest(Widget *) = 0;
 		void SetBgColor(const Color &col);
-		void SetBgColor(float r, float g, float b, float a);
 		void SetTransparency(bool a) { m_transparent = a; }
 		virtual void UpdateAllChildSizes() = 0;
 		void RemoveChild(Widget *w);

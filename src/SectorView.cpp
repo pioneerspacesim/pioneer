@@ -14,6 +14,7 @@
 #include "StringF.h"
 #include "SystemInfoView.h"
 #include "galaxy/Sector.h"
+#include "galaxy/SectorCache.h"
 #include "galaxy/StarSystem.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
@@ -21,6 +22,7 @@
 #include "gui/Gui.h"
 #include <algorithm>
 #include <sstream>
+#include <SDL_stdinc.h>
 
 using namespace Graphics;
 
@@ -62,6 +64,7 @@ SectorView::SectorView()
 
 	GotoSystem(m_current);
 	m_pos = m_posMovingTo;
+	Sector::cache.SetPosition(m_pos);
 
 	m_matchTargetToSelection   = true;
 	m_selectionFollowsMovement = true;
@@ -78,6 +81,7 @@ SectorView::SectorView(Serializer::Reader &rd)
 	m_pos.x = m_posMovingTo.x = rd.Float();
 	m_pos.y = m_posMovingTo.y = rd.Float();
 	m_pos.z = m_posMovingTo.z = rd.Float();
+	Sector::cache.SetPosition(m_pos);
 	m_rotX = m_rotXMovingTo = rd.Float();
 	m_rotZ = m_rotZMovingTo = rd.Float();
 	m_zoom = m_zoomMovingTo = rd.Float();
@@ -106,12 +110,6 @@ void SectorView::InitDefaults()
 
 	m_secPosFar = vector3f(INT_MAX, INT_MAX, INT_MAX);
 	m_radiusFar = 0;
-	m_cacheXMin = 0;
-	m_cacheXMax = 0;
-	m_cacheYMin = 0;
-	m_cacheYMax = 0;
-	m_cacheYMin = 0;
-	m_cacheYMax = 0;
 }
 
 void SectorView::InitObject()
@@ -123,7 +121,7 @@ void SectorView::InitObject()
 
 	Gui::Screen::PushFont("OverlayFont");
 	m_clickableLabels = new Gui::LabelSet();
-	m_clickableLabels->SetLabelColor(Color(.7f,.7f,.7f,0.75f));
+	m_clickableLabels->SetLabelColor(Color(178,178,178,191));
 	Add(m_clickableLabels, 0, 0);
 	Gui::Screen::PopFont();
 
@@ -137,7 +135,7 @@ void SectorView::InitObject()
 	m_zoomInButton->SetRenderDimensions(30, 22);
 	Add(m_zoomInButton, 700, 5);
 
-	m_zoomLevelLabel = (new Gui::Label(""))->Color(0.27f, 0.86f, 0.92f);
+	m_zoomLevelLabel = (new Gui::Label(""))->Color(69, 219, 235);
 	Add(m_zoomLevelLabel, 640, 5);
 
 	m_zoomOutButton = new Gui::ImageButton("icons/zoom_out.png");
@@ -154,7 +152,7 @@ void SectorView::InitObject()
 
 	m_infoBox = new Gui::VBox();
 	m_infoBox->SetTransparency(false);
-	m_infoBox->SetBgColor(0.05f, 0.05f, 0.12f, 0.5f);
+	m_infoBox->SetBgColor(Color(16,16,32,128));
 	m_infoBox->SetSpacing(10.0f);
 	Add(m_infoBox, 5, 5);
 
@@ -168,17 +166,17 @@ void SectorView::InitObject()
 	Gui::Button *b = new Gui::SolidButton();
 	b->onClick.connect(sigc::mem_fun(this, &SectorView::GotoCurrentSystem));
 	hbox->PackEnd(b);
-	hbox->PackEnd((new Gui::Label(Lang::CURRENT_SYSTEM))->Color(1.0f, 1.0f, 1.0f));
+	hbox->PackEnd((new Gui::Label(Lang::CURRENT_SYSTEM))->Color(255, 255, 255));
 	systemBox->PackEnd(hbox);
 	hbox = new Gui::HBox();
 	hbox->SetSpacing(5.0f);
-	m_currentSystemLabels.systemName = (new Gui::Label(""))->Color(1.0f, 1.0f, 0.0f);
-	m_currentSystemLabels.distance = (new Gui::Label(""))->Color(1.0f, 0.0f, 0.0f);
+	m_currentSystemLabels.systemName = (new Gui::Label(""))->Color(255, 255, 0);
+	m_currentSystemLabels.distance = (new Gui::Label(""))->Color(255, 0, 0);
 	hbox->PackEnd(m_currentSystemLabels.systemName);
 	hbox->PackEnd(m_currentSystemLabels.distance);
 	systemBox->PackEnd(hbox);
-	m_currentSystemLabels.starType = (new Gui::Label(""))->Color(1.0f, 0.0f, 1.0f);
-	m_currentSystemLabels.shortDesc = (new Gui::Label(""))->Color(1.0f, 0.0f, 1.0f);
+	m_currentSystemLabels.starType = (new Gui::Label(""))->Color(255, 0, 255);
+	m_currentSystemLabels.shortDesc = (new Gui::Label(""))->Color(255, 0, 255);
 	systemBox->PackEnd(m_currentSystemLabels.starType);
 	systemBox->PackEnd(m_currentSystemLabels.shortDesc);
 	locationsBox->PackEnd(systemBox);
@@ -189,17 +187,17 @@ void SectorView::InitObject()
 	b = new Gui::SolidButton();
 	b->onClick.connect(sigc::mem_fun(this, &SectorView::GotoSelectedSystem));
 	hbox->PackEnd(b);
-	hbox->PackEnd((new Gui::Label(Lang::SELECTED_SYSTEM))->Color(1.0f, 1.0f, 1.0f));
+	hbox->PackEnd((new Gui::Label(Lang::SELECTED_SYSTEM))->Color(255, 255, 255));
 	systemBox->PackEnd(hbox);
 	hbox = new Gui::HBox();
 	hbox->SetSpacing(5.0f);
-	m_selectedSystemLabels.systemName = (new Gui::Label(""))->Color(1.0f, 1.0f, 0.0f);
-	m_selectedSystemLabels.distance = (new Gui::Label(""))->Color(1.0f, 0.0f, 0.0f);
+	m_selectedSystemLabels.systemName = (new Gui::Label(""))->Color(255, 255, 0);
+	m_selectedSystemLabels.distance = (new Gui::Label(""))->Color(255, 0, 0);
 	hbox->PackEnd(m_selectedSystemLabels.systemName);
 	hbox->PackEnd(m_selectedSystemLabels.distance);
 	systemBox->PackEnd(hbox);
-	m_selectedSystemLabels.starType = (new Gui::Label(""))->Color(1.0f, 0.0f, 1.0f);
-	m_selectedSystemLabels.shortDesc = (new Gui::Label(""))->Color(1.0f, 0.0f, 1.0f);
+	m_selectedSystemLabels.starType = (new Gui::Label(""))->Color(255, 0, 255);
+	m_selectedSystemLabels.shortDesc = (new Gui::Label(""))->Color(255, 0, 255);
 	systemBox->PackEnd(m_selectedSystemLabels.starType);
 	systemBox->PackEnd(m_selectedSystemLabels.shortDesc);
 	locationsBox->PackEnd(systemBox);
@@ -210,19 +208,19 @@ void SectorView::InitObject()
 	b = new Gui::SolidButton();
 	b->onClick.connect(sigc::mem_fun(this, &SectorView::GotoHyperspaceTarget));
 	hbox->PackEnd(b);
-	hbox->PackEnd((new Gui::Label(Lang::HYPERSPACE_TARGET))->Color(1.0f, 1.0f, 1.0f));
-    m_hyperspaceLockLabel = (new Gui::Label(""))->Color(1.0f, 1.0f, 1.0f);
+	hbox->PackEnd((new Gui::Label(Lang::HYPERSPACE_TARGET))->Color(255, 255, 255));
+    m_hyperspaceLockLabel = (new Gui::Label(""))->Color(255, 255, 255);
     hbox->PackEnd(m_hyperspaceLockLabel);
 	systemBox->PackEnd(hbox);
 	hbox = new Gui::HBox();
 	hbox->SetSpacing(5.0f);
-	m_targetSystemLabels.systemName = (new Gui::Label(""))->Color(1.0f, 1.0f, 0.0f);
-	m_targetSystemLabels.distance = (new Gui::Label(""))->Color(1.0f, 0.0f, 0.0f);
+	m_targetSystemLabels.systemName = (new Gui::Label(""))->Color(255, 255, 0);
+	m_targetSystemLabels.distance = (new Gui::Label(""))->Color(255, 0, 0);
 	hbox->PackEnd(m_targetSystemLabels.systemName);
 	hbox->PackEnd(m_targetSystemLabels.distance);
 	systemBox->PackEnd(hbox);
-	m_targetSystemLabels.starType = (new Gui::Label(""))->Color(1.0f, 0.0f, 1.0f);
-	m_targetSystemLabels.shortDesc = (new Gui::Label(""))->Color(1.0f, 0.0f, 1.0f);
+	m_targetSystemLabels.starType = (new Gui::Label(""))->Color(255, 0, 255);
+	m_targetSystemLabels.shortDesc = (new Gui::Label(""))->Color(255, 0, 255);
 	systemBox->PackEnd(m_targetSystemLabels.starType);
 	systemBox->PackEnd(m_targetSystemLabels.shortDesc);
 	locationsBox->PackEnd(systemBox);
@@ -236,7 +234,7 @@ void SectorView::InitObject()
 	m_drawSystemLegButton = (new Gui::ToggleButton());
 	m_drawSystemLegButton->SetPressed(false); // TODO: replace with var
 	hbox->PackEnd(m_drawSystemLegButton);
-	Gui::Label *label = (new Gui::Label(Lang::DRAW_VERTICAL_LINES))->Color(1.0f, 1.0f, 1.0f);
+	Gui::Label *label = (new Gui::Label(Lang::DRAW_VERTICAL_LINES))->Color(255, 255, 255);
 	hbox->PackEnd(label);
 	filterBox->PackEnd(hbox);
 	// 2.2 Draw planet labels
@@ -245,7 +243,7 @@ void SectorView::InitObject()
 	m_drawOutRangeLabelButton = new Gui::ToggleButton();
 	m_drawOutRangeLabelButton->SetPressed(false); // TODO: replace with var
 	hbox->PackEnd(m_drawOutRangeLabelButton);
-	label = (new Gui::Label(Lang::DRAW_OUT_RANGE_LABELS))->Color(1.0f, 1.0f, 1.0f);
+	label = (new Gui::Label(Lang::DRAW_OUT_RANGE_LABELS))->Color(255, 255, 255);
 	hbox->PackEnd(label);
 	filterBox->PackEnd(hbox);
 
@@ -262,7 +260,7 @@ void SectorView::InitObject()
 
 	m_factionBox = new Gui::VBox();
 	m_factionBox->SetTransparency(false);
-	m_factionBox->SetBgColor(0.05f, 0.05f, 0.12f, 0.5f);
+	m_factionBox->SetBgColor(Color(16,16,32,128));
 	m_factionBox->SetSpacing(5.0f);
 	m_factionBox->HideAll();
 	Add(m_factionBox, 5, 5);
@@ -317,7 +315,7 @@ void SectorView::OnSearchBoxKeyPress(const SDL_Keysym *keysym)
 	SystemPath bestMatch;
 	const std::string *bestMatchName = 0;
 
-	for (std::map<SystemPath,Sector*>::iterator i = m_sectorCache.begin(); i != m_sectorCache.end(); ++i)
+	for (auto i = Sector::cache.Begin(); i != Sector::cache.End(); ++i)
 
 		for (unsigned int systemIndex = 0; systemIndex < (*i).second->m_systems.size(); systemIndex++) {
 			const Sector::System *ss = &((*i).second->m_systems[systemIndex]);
@@ -378,6 +376,8 @@ void SectorView::OnSearchBoxKeyPress(const SDL_Keysym *keysym)
 
 void SectorView::Draw3D()
 {
+	PROFILE_SCOPED()
+
 	m_lineVerts->Clear();
 	m_secLineVerts->Clear();
 	m_clickableLabels->Clear();
@@ -386,6 +386,7 @@ void SectorView::Draw3D()
 	else                                m_renderer->SetPerspectiveProjection(40.f, m_renderer->GetDisplayAspect(), 1.f, 600.f);
 
 	matrix4x4f modelview = matrix4x4f::Identity();
+	m_renderer->SetDepthWrite(true);
 	m_renderer->ClearScreen();
 
 	m_sectorLabel->SetText(stringf(Lang::SECTOR_X_Y_Z,
@@ -402,6 +403,8 @@ void SectorView::Draw3D()
 	else {
 		m_distanceLabel->SetText("");
 	}
+
+	Graphics::Renderer::MatrixTicket ticket(m_renderer, Graphics::MatrixMode::MODELVIEW);
 
 	// units are lightyears, my friend
 	modelview.Translate(0.f, 0.f, -10.f-10.f*m_zoom);    // not zoomClamped, let us zoom out a bit beyond what we're drawing
@@ -469,19 +472,25 @@ void SectorView::GotoSector(const SystemPath &path)
 	m_posMovingTo = vector3f(path.sectorX, path.sectorY, path.sectorZ);
 
 	// for performance don't animate the travel if we're Far Zoomed
-	if (m_zoomClamped > FAR_THRESHOLD) m_pos = m_posMovingTo;
+	if (m_zoomClamped > FAR_THRESHOLD) {
+		m_pos = m_posMovingTo;
+		Sector::cache.SetPosition(m_pos);
+	}
 }
 
 void SectorView::GotoSystem(const SystemPath &path)
 {
-	Sector* ps = GetCached(path.sectorX, path.sectorY, path.sectorZ);
+	Sector* ps = Sector::cache.GetCached(path);
 	const vector3f &p = ps->m_systems[path.systemIndex].p;
 	m_posMovingTo.x = path.sectorX + p.x/Sector::SIZE;
 	m_posMovingTo.y = path.sectorY + p.y/Sector::SIZE;
 	m_posMovingTo.z = path.sectorZ + p.z/Sector::SIZE;
 
 	// for performance don't animate the travel if we're Far Zoomed
-	if (m_zoomClamped > FAR_THRESHOLD) m_pos = m_posMovingTo;
+	if (m_zoomClamped > FAR_THRESHOLD) {
+		m_pos = m_posMovingTo;
+		Sector::cache.SetPosition(m_pos);
+	}
 }
 
 void SectorView::SetSelectedSystem(const SystemPath &path)
@@ -507,6 +516,7 @@ void SectorView::OnClickSystem(const SystemPath &path)
 
 void SectorView::PutSystemLabels(Sector *sec, const vector3f &origin, int drawRadius)
 {
+	PROFILE_SCOPED()
 	Uint32 sysIdx = 0;
 	for (std::vector<Sector::System>::iterator sys = sec->m_systems.begin(); sys !=sec->m_systems.end(); ++sys, ++sysIdx) {
 		// skip the system if it doesn't fall within the sphere we're viewing.
@@ -521,7 +531,7 @@ void SectorView::PutSystemLabels(Sector *sec, const vector3f &origin, int drawRa
 		if (m_hiddenFactions.find((*sys).faction) != m_hiddenFactions.end() && can_skip) continue;
 
 		// determine if system in hyperjump range or not
-		Sector *playerSec = GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
+		Sector *playerSec = Sector::cache.GetCached(m_current);
 		float dist = Sector::DistanceBetween(sec, sysIdx, playerSec, m_current.systemIndex);
 		bool inRange = dist <= m_playerHyperspaceRange;
 
@@ -532,7 +542,7 @@ void SectorView::PutSystemLabels(Sector *sec, const vector3f &origin, int drawRa
 			// reject back-projected labels
 			if(screenPos.z > 1.0f)
 				continue;
-			
+
 			// work out the colour
 			Color labelColor = (*sys).faction->AdjustedColour((*sys).population, inRange);
 
@@ -552,12 +562,13 @@ void SectorView::PutSystemLabels(Sector *sec, const vector3f &origin, int drawRa
 
 void SectorView::PutFactionLabels(const vector3f &origin)
 {
+	PROFILE_SCOPED()
 	glDepthRange(0,1);
 	Gui::Screen::EnterOrtho();
 	for (std::set<Faction*>::iterator it = m_visibleFactions.begin(); it != m_visibleFactions.end(); ++it) {
 		if ((*it)->hasHomeworld && m_hiddenFactions.find((*it)) == m_hiddenFactions.end()) {
 
-			Sector::System sys = GetCached((*it)->homeworld)->m_systems[(*it)->homeworld.systemIndex];
+			Sector::System sys = Sector::cache.GetCached((*it)->homeworld)->m_systems[(*it)->homeworld.systemIndex];
 			if ((m_pos*Sector::SIZE - sys.FullPosition()).Length() > (m_zoomClamped/FAR_THRESHOLD )*OUTER_RADIUS) continue;
 
 			vector3d pos;
@@ -578,7 +589,7 @@ void SectorView::PutFactionLabels(const vector3f &origin)
 					va.Add(vector3f(pos.x - 5.f,              pos.y - 5.f + labelHeight, 0));
 					va.Add(vector3f(pos.x + labelWidth + 5.f, pos.y - 5.f,               0));
 					va.Add(vector3f(pos.x + labelWidth + 5.f, pos.y - 5.f + labelHeight, 0));
-					m_material->diffuse = Color(0.05f, 0.05f, 0.12f, 0.65f);
+					m_material->diffuse = Color(13, 13, 31, 166);
 					m_renderer->DrawTriangles(&va, m_material.Get(), Graphics::TRIANGLE_STRIP);
 				}
 
@@ -592,7 +603,7 @@ void SectorView::PutFactionLabels(const vector3f &origin)
 					m_renderer->DrawTriangles(&va, m_material.Get(), Graphics::TRIANGLE_STRIP);
 				}
 
-				if (labelColor.GetLuminance() > 0.75f) labelColor.a = 0.8f;    // luminance is sometimes a bit overly
+				if (labelColor.GetLuminance() > 191) labelColor.a = 204;    // luminance is sometimes a bit overly
 				m_clickableLabels->Add(labelText, sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), (*it)->homeworld), pos.x, pos.y, labelColor);
 			}
 		}
@@ -602,8 +613,9 @@ void SectorView::PutFactionLabels(const vector3f &origin)
 
 void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path)
 {
-	Sector *sec = GetCached(path.sectorX, path.sectorY, path.sectorZ);
-	Sector *playerSec = GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
+	PROFILE_SCOPED()
+	Sector *sec = Sector::cache.GetCached(path);
+	Sector *playerSec = Sector::cache.GetCached(m_current);
 
 	char format[256];
 
@@ -622,22 +634,22 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 				snprintf(format, sizeof(format), "[ %s | %s | %s, %s ]", Lang::NUMBER_LY, Lang::NUMBER_TONNES, Lang::NUMBER_DAYS, Lang::NUMBER_HOURS);
 				labels.distance->SetText(stringf(format,
 					formatarg("distance", dist), formatarg("mass", fuelRequired), formatarg("days", floor(DaysNeeded)), formatarg("hours", HoursNeeded)));
-				labels.distance->Color(0.0f, 1.0f, 0.2f);
-				m_jumpLine.SetColor(Color(0.f, 1.f, 0.2f, 1.f));
+				labels.distance->Color(0, 255, 51);
+				m_jumpLine.SetColor(Color(0, 255, 51, 255));
 				break;
 			case Ship::HYPERJUMP_INSUFFICIENT_FUEL:
 				snprintf(format, sizeof(format), "[ %s | %s ]", Lang::NUMBER_LY, Lang::NUMBER_TONNES);
 				labels.distance->SetText(stringf(format,
 					formatarg("distance", dist), formatarg("mass", fuelRequired)));
-				labels.distance->Color(1.0f, 1.0f, 0.0f);
-				m_jumpLine.SetColor(Color(1.f, 1.f, 0.f, 1.f));
+				labels.distance->Color(255, 255, 0);
+				m_jumpLine.SetColor(Color::YELLOW);
 				break;
 			case Ship::HYPERJUMP_OUT_OF_RANGE:
 				snprintf(format, sizeof(format), "[ %s ]", Lang::NUMBER_LY);
 				labels.distance->SetText(stringf(format,
 					formatarg("distance", dist)));
-				labels.distance->Color(1.0f, 0.0f, 0.0f);
-				m_jumpLine.SetColor(Color(1.f, 0.f, 0.f, 1.f));
+				labels.distance->Color(255, 0, 0);
+				m_jumpLine.SetColor(Color::RED);
 				break;
 			default:
 				labels.distance->SetText("");
@@ -648,7 +660,7 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 	else if (path.IsSameSystem(Pi::player->GetHyperspaceDest())) {
 		snprintf(format, sizeof(format), "[ %s ]", Lang::IN_TRANSIT);
 		labels.distance->SetText(format);
-		labels.distance->Color(0.4f, 0.4f, 1.0f);
+		labels.distance->Color(102, 102, 255);
 	}
 
 	else
@@ -685,6 +697,7 @@ void SectorView::OnToggleFaction(Gui::ToggleButton* button, bool pressed, Factio
 
 void SectorView::UpdateFactionToggles()
 {
+	PROFILE_SCOPED()
 	// make sure we have enough row in the ui
 	while (m_visibleFactionLabels.size() < m_visibleFactions.size()) {
 		Gui::HBox*         row    = new Gui::HBox();
@@ -727,9 +740,10 @@ void SectorView::UpdateFactionToggles()
 
 void SectorView::DrawNearSectors(const matrix4x4f& modelview)
 {
+	PROFILE_SCOPED()
 	m_visibleFactions.clear();
 
-	const Sector *playerSec = GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
+	const Sector *playerSec = Sector::cache.GetCached(m_current);
 	const vector3f playerPos = Sector::SIZE * vector3f(float(m_current.sectorX), float(m_current.sectorY), float(m_current.sectorZ)) + playerSec->m_systems[m_current.systemIndex].p;
 
 	for (int sx = -DRAW_RAD; sx <= DRAW_RAD; sx++) {
@@ -750,7 +764,7 @@ void SectorView::DrawNearSectors(const matrix4x4f& modelview)
 	for (int sx = -DRAW_RAD; sx <= DRAW_RAD; sx++) {
 		for (int sy = -DRAW_RAD; sy <= DRAW_RAD; sy++) {
 			for (int sz = -DRAW_RAD; sz <= DRAW_RAD; sz++) {
-				PutSystemLabels(GetCached(sx + secOrigin.x, sy + secOrigin.y, sz + secOrigin.z), Sector::SIZE * secOrigin, Sector::SIZE * DRAW_RAD);
+				PutSystemLabels(Sector::cache.GetCached(SystemPath(sx + secOrigin.x, sy + secOrigin.y, sz + secOrigin.z)), Sector::SIZE * secOrigin, Sector::SIZE * DRAW_RAD);
 			}
 		}
 	}
@@ -759,13 +773,14 @@ void SectorView::DrawNearSectors(const matrix4x4f& modelview)
 
 void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const vector3f &playerAbsPos,const matrix4x4f &trans)
 {
+	PROFILE_SCOPED()
 	m_renderer->SetTransform(trans);
-	Sector* ps = GetCached(sx, sy, sz);
+	Sector* ps = Sector::cache.GetCached(SystemPath(sx, sy, sz));
 
 	int cz = int(floor(m_pos.z+0.5f));
 
 	if (cz == sz) {
-		const Color darkgreen(0.f, 0.2f, 0.f, 1.f);
+		const Color darkgreen(0, 51, 0, 255);
 		const vector3f vts[] = {
 			trans * vector3f(0.f, 0.f, 0.f),
 			trans * vector3f(0.f, Sector::SIZE, 0.f),
@@ -805,7 +820,7 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 		if (m_hiddenFactions.find(i->faction) != m_hiddenFactions.end() && can_skip) continue;
 
 		// determine if system in hyperjump range or not
-		Sector *playerSec = GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
+		Sector *playerSec = Sector::cache.GetCached(m_current);
 		float dist = Sector::DistanceBetween(ps, sysIdx, playerSec, m_current.systemIndex);
 		bool inRange = dist <= m_playerHyperspaceRange;
 
@@ -835,8 +850,8 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 		// for out-of-range systems draw leg only if we draw label
 		if ((m_drawSystemLegButton->GetPressed() && (inRange || m_drawOutRangeLabelButton->GetPressed())) || !can_skip) {
 
-			const Color light(0.5f);
-			const Color dark(0.2f);
+			const Color light(128);
+			const Color dark(51);
 
 			// draw system "leg"
 			float z = -(*i).p.z;
@@ -868,28 +883,28 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 		systrans.Scale((StarSystem::starScale[(*i).starType[0]]));
 		m_renderer->SetTransform(systrans);
 
-		float *col = StarSystem::starColors[(*i).starType[0]];
+		Uint8 *col = StarSystem::starColors[(*i).starType[0]];
 		m_disk->SetColor(Color(col[0], col[1], col[2]));
 		m_disk->Draw(m_renderer);
 
 		// player location indicator
 		if (m_inSystem && bIsCurrentSystem) {
 			glDepthRange(0.2,1.0);
-			m_disk->SetColor(Color(0.f, 0.f, 0.8f));
+			m_disk->SetColor(Color(0, 0, 204));
 			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(3.f));
 			m_disk->Draw(m_renderer);
 		}
 		// selected indicator
 		if (bIsCurrentSystem) {
 			glDepthRange(0.1,1.0);
-			m_disk->SetColor(Color(0.f, 0.8f, 0.f));
+			m_disk->SetColor(Color(0, 204, 0));
 			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(2.f));
 			m_disk->Draw(m_renderer);
 		}
 		// hyperspace target indicator (if different from selection)
 		if (i->IsSameSystem(m_hyperspaceTarget) && m_hyperspaceTarget != m_selected && (!m_inSystem || m_hyperspaceTarget != m_current)) {
 			glDepthRange(0.1,1.0);
-			m_disk->SetColor(Color(0.3f));
+			m_disk->SetColor(Color(77));
 			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(2.f));
 			m_disk->Draw(m_renderer);
 		}
@@ -913,6 +928,7 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 
 void SectorView::DrawFarSectors(const matrix4x4f& modelview)
 {
+	PROFILE_SCOPED()
 	int buildRadius = ceilf((m_zoomClamped/FAR_THRESHOLD) * 3);
 	if (buildRadius <= DRAW_RAD) buildRadius = DRAW_RAD;
 
@@ -928,7 +944,7 @@ void SectorView::DrawFarSectors(const matrix4x4f& modelview)
 			for (int sy = secOrigin.y-buildRadius; sy <= secOrigin.y+buildRadius; sy++) {
 				for (int sz = secOrigin.z-buildRadius; sz <= secOrigin.z+buildRadius; sz++) {
 						if ((vector3f(sx,sy,sz) - secOrigin).Length() <= buildRadius){
-							BuildFarSector(GetCached(sx, sy, sz), Sector::SIZE * secOrigin, m_farstars, m_farstarsColor);
+							BuildFarSector(Sector::cache.GetCached(SystemPath(sx, sy, sz)), Sector::SIZE * secOrigin, m_farstars, m_farstarsColor);
 						}
 					}
 				}
@@ -949,6 +965,7 @@ void SectorView::DrawFarSectors(const matrix4x4f& modelview)
 
 void SectorView::BuildFarSector(Sector* sec, const vector3f &origin, std::vector<vector3f> &points, std::vector<Color> &colors)
 {
+	PROFILE_SCOPED()
 	Color starColor;
 	for (std::vector<Sector::System>::iterator i = sec->m_systems.begin(); i != sec->m_systems.end(); ++i) {
 		// skip the system if it doesn't fall within the sphere we're viewing.
@@ -962,14 +979,17 @@ void SectorView::BuildFarSector(Sector* sec, const vector3f &origin, std::vector
 		// otherwise add the system's position (origin must be m_pos's *sector* or we get judder)
 		// and faction color to the list to draw
 		starColor = (*i).faction->colour;
-		starColor.a = .75f;
+		starColor.a = 191;
 
 		points.push_back((*i).FullPosition() - origin);
 		colors.push_back(starColor);
 	}
 }
 
-void SectorView::OnSwitchTo() {
+void SectorView::OnSwitchTo()
+{
+	m_renderer->SetViewport(0, 0, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
+
 	if (!m_onKeyPressConnection.connected())
 		m_onKeyPressConnection =
 			Pi::onKeyPress.connect(sigc::mem_fun(this, &SectorView::OnKeyPressed));
@@ -1071,6 +1091,7 @@ void SectorView::OnKeyPressed(SDL_Keysym *keysym)
 
 void SectorView::Update()
 {
+	PROFILE_SCOPED()
 	SystemPath last_current = m_current;
 	bool last_inSystem = m_inSystem;
 
@@ -1135,6 +1156,8 @@ void SectorView::Update()
 		if (travelPos.Length() > diffPos.Length()) m_pos = m_posMovingTo;
 		else m_pos = m_pos + travelPos;
 
+		Sector::cache.SetPosition(m_pos);
+
 		float diffX = m_rotXMovingTo - m_rotX;
 		float travelX = diffX * 10.0f*frameTime;
 		if (fabs(travelX) > fabs(diffX)) m_rotX = m_rotXMovingTo;
@@ -1166,7 +1189,7 @@ void SectorView::Update()
 	if (m_selectionFollowsMovement) {
 		SystemPath new_selected = SystemPath(int(floor(m_pos.x)), int(floor(m_pos.y)), int(floor(m_pos.z)), 0);
 
-		Sector* ps = GetCached(new_selected.sectorX, new_selected.sectorY, new_selected.sectorZ);
+		Sector* ps = Sector::cache.GetCached(new_selected);
 		if (ps->m_systems.size()) {
 			float px = FFRAC(m_pos.x)*Sector::SIZE;
 			float py = FFRAC(m_pos.y)*Sector::SIZE;
@@ -1190,11 +1213,11 @@ void SectorView::Update()
 		}
 	}
 
-	ShrinkCache();
+	Sector::cache.ShrinkCache();
 
 	m_playerHyperspaceRange = Pi::player->GetStats().hyperspace_range;
 
-	if(Graphics::AreShadersEnabled() && !m_jumpSphere)
+	if(!m_jumpSphere)
 	{
 		Graphics::MaterialDescriptor matdesc;
 		matdesc.effect = EFFECT_FRESNEL_SPHERE;
@@ -1218,64 +1241,5 @@ void SectorView::MouseWheel(bool up)
 			m_zoomMovingTo += ZOOM_SPEED * WHEEL_SENSITIVITY * Pi::GetMoveSpeedShiftModifier();
 		else
 			m_zoomMovingTo -= ZOOM_SPEED * WHEEL_SENSITIVITY * Pi::GetMoveSpeedShiftModifier();
-	}
-}
-
-Sector* SectorView::GetCached(const SystemPath& loc)
-{
-	Sector *s = 0;
-
-	std::map<SystemPath,Sector*>::iterator i = m_sectorCache.find(loc);
-	if (i != m_sectorCache.end())
-		return (*i).second;
-
-	s = new Sector(loc.sectorX, loc.sectorY, loc.sectorZ);
-	m_sectorCache.insert( std::pair<SystemPath,Sector*>(loc, s) );
-	s->AssignFactions();
-
-	return s;
-}
-
-Sector* SectorView::GetCached(const int sectorX, const int sectorY, const int sectorZ)
-{
-	const SystemPath loc(sectorX, sectorY, sectorZ);
-	return GetCached(loc);
-}
-
-void SectorView::ShrinkCache()
-{
-	// we're going to use these to determine if our sectors are within the range that we'll ever render
-	const int drawRadius = (m_zoomClamped <= FAR_THRESHOLD) ? DRAW_RAD : ceilf((m_zoomClamped/FAR_THRESHOLD) * DRAW_RAD);
-
-	const int xmin = int(floorf(m_pos.x))-drawRadius;
-	const int xmax = int(floorf(m_pos.x))+drawRadius;
-	const int ymin = int(floorf(m_pos.y))-drawRadius;
-	const int ymax = int(floorf(m_pos.y))+drawRadius;
-	const int zmin = int(floorf(m_pos.z))-drawRadius;
-	const int zmax = int(floorf(m_pos.z))+drawRadius;
-
-	// XXX don't clear the current/selected/target sectors
-
-	if  (xmin != m_cacheXMin || xmax != m_cacheXMax
-	  || ymin != m_cacheYMin || ymax != m_cacheYMax
-	  || zmin != m_cacheZMin || zmax != m_cacheZMax) {
-		std::map<SystemPath,Sector*>::iterator iter = m_sectorCache.begin();
-		while (iter != m_sectorCache.end())	{
-			Sector *s = (*iter).second;
-			//check_point_in_box
-			if (s && !s->WithinBox( xmin, xmax, ymin, ymax, zmin, zmax )) {
-				delete s;
-				m_sectorCache.erase( iter++ );
-			} else {
-				iter++;
-			}
-		}
-
-		m_cacheXMin = xmin;
-		m_cacheXMax = xmax;
-		m_cacheYMin = ymin;
-		m_cacheYMax = ymax;
-		m_cacheZMin = zmin;
-		m_cacheZMax = zmax;
 	}
 }

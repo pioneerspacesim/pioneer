@@ -5,14 +5,11 @@
 #include "FileSystem.h"
 #include "Material.h"
 #include "RendererGL2.h"
-#include "RendererLegacy.h"
 #include "OS.h"
 
 namespace Graphics {
 
 static bool initted = false;
-bool shadersAvailable = false;
-bool shadersEnabled = false;
 Material *vtxColorMaterial;
 static int width, height;
 static float g_fov = 85.f;
@@ -69,13 +66,10 @@ Renderer* Init(Settings vs)
 
 	Renderer *renderer = 0;
 
-	shadersAvailable = glewIsSupported("GL_VERSION_2_0");
-	shadersEnabled = vs.shaders && shadersAvailable;
-
-	if (shadersEnabled)
-		renderer = new RendererGL2(window, vs);
-	else
-		renderer = new RendererLegacy(window, vs);
+	if (!glewIsSupported("GL_VERSION_2_0") )
+		OS::Error("OpenGL Version 2.0 is not supported. Pioneer cannot run on your graphics card.");
+	
+	renderer = new RendererGL2(window, vs);
 
 	printf("Initialized %s\n", renderer->GetName());
 
@@ -92,11 +86,6 @@ Renderer* Init(Settings vs)
 void Uninit()
 {
 	delete vtxColorMaterial;
-}
-
-bool AreShadersEnabled()
-{
-	return shadersEnabled;
 }
 
 static bool operator==(const VideoMode &a, const VideoMode &b) {

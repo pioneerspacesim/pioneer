@@ -1,30 +1,30 @@
 {
-    "WELCOME_TO": {
-        "message": "Wilkommen in ",
-        "description": ""
-    },
-    "GOODS_TRADER_2": {
-        "message": "{name}'s Makazin",
-        "description": ""
-    },
-    "GOODS_TRADER_3": {
-        "message": "{name}'s Warenbörse",
-        "description": ""
-    },
-    "GOODS_TRADER_0": {
-        "message": "Honest {name}'s Handelsplatz",
-        "description": ""
-    },
-    "GOODS_TRADER_1": {
-        "message": "{name}'s Kaufladen",
-        "description": ""
-    },
-    "GOODS_TRADER_4": {
-        "message": "{name} Aktiengesellschaft",
-        "description": ""
-    },
-    "GOODS_TRADER_5": {
-        "message": "{name} & Söhne",
-        "description": ""
-    }
+   "GOODS_TRADER_0" : {
+      "description" : "",
+      "message" : "Honest {name}'s Handelsplatz"
+   },
+   "GOODS_TRADER_1" : {
+      "description" : "",
+      "message" : "{name}'s Kaufladen"
+   },
+   "GOODS_TRADER_2" : {
+      "description" : "",
+      "message" : "{name}'s Makazin"
+   },
+   "GOODS_TRADER_3" : {
+      "description" : "",
+      "message" : "{name}'s Warenbörse"
+   },
+   "GOODS_TRADER_4" : {
+      "description" : "",
+      "message" : "{name} Aktiengesellschaft"
+   },
+   "GOODS_TRADER_5" : {
+      "description" : "",
+      "message" : "{name} & Söhne"
+   },
+   "WELCOME_TO" : {
+      "description" : "",
+      "message" : "Wilkommen in "
+   }
 }

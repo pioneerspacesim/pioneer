@@ -20,21 +20,24 @@ MeterBar::MeterBar(float width, const char *label, const ::Color &graphCol)
 
 void MeterBar::Draw()
 {
+	PROFILE_SCOPED()
 	float size[2];
 	GetSize(size);
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glColor4f(1.0f,1.0f,1.0f,.125f);
+	glColor4ub(255,255,255,32);
 	Gui::Theme::DrawRoundEdgedRect(size, 5.0);
 
-	glPushMatrix();
-	glColor4fv(m_barColor);
-	glTranslatef(METERBAR_PADDING, METERBAR_PADDING, 0.0f);
+	Graphics::Renderer *r = Gui::Screen::GetRenderer();
+	Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
+
+	glColor4ubv(m_barColor);
+	r->Translate(METERBAR_PADDING, METERBAR_PADDING, 0.0f);
 	size[0] = m_barValue * (size[0] - 2.0f*METERBAR_PADDING);
 	size[1] = METERBAR_BAR_HEIGHT;
 	Gui::Theme::DrawRoundEdgedRect(size, 3.0f);
-	glPopMatrix();
+
 	glBlendFunc(GL_ONE, GL_ZERO);
 	glDisable(GL_BLEND);
 

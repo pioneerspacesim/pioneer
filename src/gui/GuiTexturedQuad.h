@@ -12,6 +12,7 @@
 namespace Graphics {
 	class Renderer;
 	class Material;
+	class VertexArray;
 }
 
 namespace Gui {
@@ -32,6 +33,7 @@ public:
 private:
 	RefCountedPtr<Graphics::Texture> m_texture;
 	std::unique_ptr<Graphics::Material> m_material;
+	std::unique_ptr<Graphics::VertexArray> m_va;
 };
 
 }

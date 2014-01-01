@@ -1,70 +1,70 @@
 {
-    "FLAVOUR_CLUBNAME_0": {
-        "message": "Palivová-Kooperativa mezihvězdných pilotů",
-        "description": ""
-    },
-    "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED": {
-        "message": "Vaše žádost o členství byla zamítnuta.",
-        "description": ""
-    },
-    "YOU_MUST_BUY": {
-        "message": "Nejdřív musíš koupit naše {military_fuel} než převezmeme tvůj {radioactives}",
-        "description": ""
-    },
-    "WE_WILL_ONLY_DISPOSE_OF": {
-        "message": "Pro {radioactives} platí následující pravidlo: zlikvidujeme ho tolik tun, kolik {military_fuel} jsi u nás koupil.",
-        "description": ""
-    },
-    "FLAVOUR_WELCOME_0": {
-        "message": "Vítej v {clubname}",
-        "description": ""
-    },
-    "WHAT_CONDITIONS_APPLY": {
-        "message": "Za jakých podmínek lze zlikvidovat {radioactives}?",
-        "description": ""
-    },
-    "YOU_ARE_NOW_A_MEMBER": {
-        "message": "Nyní jste členem. Vaše členství vyprší {expiry_date}.",
-        "description": ""
-    },
-    "BEGIN_TRADE": {
-        "message": "Provést výměnu",
-        "description": ""
-    },
-    "WATER": {
-        "message": "Voda",
-        "description": ""
-    },
-    "APPLY_FOR_MEMBERSHIP": {
-        "message": "Pouze pro členy",
-        "description": ""
-    },
-    "RADIOACTIVES": {
-        "message": "Radioaktivní odpad",
-        "description": ""
-    },
-    "GO_BACK": {
-        "message": "Zpět",
-        "description": ""
-    },
-    "MILITARY_FUEL": {
-        "message": "Vojenské palivo",
-        "description": ""
-    },
-    "HANG_UP": {
-        "message": "Konec",
-        "description": ""
-    },
-    "FLAVOUR_MEMBER_INTRO_0": {
-        "message": "Zde si můžeš zakoupit palivo a zlikvidovat {radioactives}.",
-        "description": ""
-    },
-    "HYDROGEN": {
-        "message": "Vodík",
-        "description": ""
-    },
-    "FLAVOUR_NONMEMBER_INTRO_0": {
-        "message": "{clubname} je nezávislá organizace, která si klade za cíl poskytovat svým členům cenově zvýhodněné palivo pro jejich lodě. Její pobočky lze nalézt po celé galaxii. Členské výhody zahrnují:\n\n\t* Naše vlastní, na trhu nezávislé, zásoby paliva\n\t* {hydrogen} za slevněné ceny\n\t* {military_fuel} za slevněné ceny\n\t* {water} za slevněné ceny\n\t* {radioactives}, likvidace zdarma (viz podmínky)\n\t* Fuel tank refilling, where necessary\n\t* Doplnění paliva, kde je potřeba\n\nPřidej se k nám! Roční členství stojí pouhých {membership_fee}",
-        "description": ""
-    }
+   "APPLY_FOR_MEMBERSHIP" : {
+      "description" : "",
+      "message" : "Pouze pro členy"
+   },
+   "BEGIN_TRADE" : {
+      "description" : "",
+      "message" : "Provést výměnu"
+   },
+   "FLAVOUR_0_CLUBNAME" : {
+      "description" : "",
+      "message" : "Palivová-Kooperativa mezihvězdných pilotů"
+   },
+   "FLAVOUR_0_MEMBER_INTRO" : {
+      "description" : "",
+      "message" : "Zde si můžeš zakoupit palivo a zlikvidovat {radioactives}."
+   },
+   "FLAVOUR_0_NONMEMBER_INTRO" : {
+      "description" : "",
+      "message" : "{clubname} je nezávislá organizace, která si klade za cíl poskytovat svým členům cenově zvýhodněné palivo pro jejich lodě. Její pobočky lze nalézt po celé galaxii. Členské výhody zahrnují:\n\n\t* Naše vlastní, na trhu nezávislé, zásoby paliva\n\t* {hydrogen} za slevněné ceny\n\t* {military_fuel} za slevněné ceny\n\t* {water} za slevněné ceny\n\t* {radioactives}, likvidace zdarma (viz podmínky)\n\t* Fuel tank refilling, where necessary\n\t* Doplnění paliva, kde je potřeba\n\nPřidej se k nám! Roční členství stojí pouhých {membership_fee}"
+   },
+   "FLAVOUR_0_WELCOME" : {
+      "description" : "",
+      "message" : "Vítej v {clubname}"
+   },
+   "GO_BACK" : {
+      "description" : "",
+      "message" : "Zpět"
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Konec"
+   },
+   "HYDROGEN" : {
+      "description" : "",
+      "message" : "Vodík"
+   },
+   "MILITARY_FUEL" : {
+      "description" : "",
+      "message" : "Vojenské palivo"
+   },
+   "RADIOACTIVES" : {
+      "description" : "",
+      "message" : "Radioaktivní odpad"
+   },
+   "WATER" : {
+      "description" : "",
+      "message" : "Voda"
+   },
+   "WE_WILL_ONLY_DISPOSE_OF" : {
+      "description" : "",
+      "message" : "Pro {radioactives} platí následující pravidlo: zlikvidujeme ho tolik tun, kolik {military_fuel} jsi u nás koupil."
+   },
+   "WHAT_CONDITIONS_APPLY" : {
+      "description" : "",
+      "message" : "Za jakých podmínek lze zlikvidovat {radioactives}?"
+   },
+   "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED" : {
+      "description" : "",
+      "message" : "Vaše žádost o členství byla zamítnuta."
+   },
+   "YOU_ARE_NOW_A_MEMBER" : {
+      "description" : "",
+      "message" : "Nyní jste členem. Vaše členství vyprší {expiry_date}."
+   },
+   "YOU_MUST_BUY" : {
+      "description" : "",
+      "message" : "Nejdřív musíš koupit naše {military_fuel} než převezmeme tvůj {radioactives}"
+   }
 }
