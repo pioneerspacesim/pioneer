@@ -179,33 +179,30 @@ void Pi::CreateRenderTarget(const Uint16 width, const Uint16 height) {
 //static
 void Pi::DrawRenderTarget() {
 	Pi::renderer->BeginFrame();
+	Pi::renderer->SetViewport(0, 0, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());	
 	Pi::renderer->SetTransform(matrix4x4f::Identity());
 
-	// This section is very similar to Gui::Screen::EnterOrtho() but it syncs the opengl matrices which I want to avoid
+	//Gui::Screen::EnterOrtho();
 	{
-		glDisable(GL_DEPTH_TEST);
-		glDisable(GL_LIGHTING);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glMatrixMode(GL_PROJECTION);
-		glPushMatrix();
-		glLoadIdentity();
-		glOrtho(0, 800, 600, 0, -1, 1);
-		glMatrixMode(GL_MODELVIEW);
-		glPushMatrix();
-		glLoadIdentity();
+		Pi::renderer->SetDepthTest(false);
+		Pi::renderer->SetLights(false);
+		Pi::renderer->SetBlendMode(Graphics::BLEND_ALPHA);
+		Pi::renderer->SetMatrixMode(Graphics::MatrixMode::PROJECTION);
+		Pi::renderer->SetOrthographicProjection(0, 800, 600, 0, -1, 1);
+		Pi::renderer->SetMatrixMode(Graphics::MatrixMode::MODELVIEW);
+		Pi::renderer->LoadIdentity();
 	}
-
-	// draw the FB to the screen
+	
 	Pi::m_quad->Draw( Pi::renderer );
 
-	// This section is very similar to Gui::Screen::LeaveOrtho()
+	//Gui::Screen::LeaveOrtho();
 	{
-		glMatrixMode(GL_PROJECTION);
-		glPopMatrix();
-		glMatrixMode(GL_MODELVIEW);
-		glPopMatrix();
-		glEnable(GL_LIGHTING);
-		glEnable(GL_DEPTH_TEST);
+		Pi::renderer->SetMatrixMode(Graphics::MatrixMode::PROJECTION);
+		Pi::renderer->PopMatrix();
+		Pi::renderer->SetMatrixMode(Graphics::MatrixMode::MODELVIEW);
+		Pi::renderer->PopMatrix();
+		Pi::renderer->SetLights(true);
+		Pi::renderer->SetDepthTest(true);
 	}
 
 	Pi::renderer->EndFrame();
