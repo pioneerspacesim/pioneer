@@ -32,11 +32,11 @@ void CargoBody::Init()
 	SetLabel(Equip::types[m_type].name);
 	SetMassDistributionFromModel();
 
-	std::vector<Color4ub> colors;
+	std::vector<Color> colors;
 	//metallic blue-orangeish color scheme
-	colors.push_back(Color4ub(255, 198, 64));
-	colors.push_back(Color4ub(0, 222, 255));
-	colors.push_back(Color4ub(255, 255, 255));
+	colors.push_back(Color(255, 198, 64));
+	colors.push_back(Color(0, 222, 255));
+	colors.push_back(Color(255, 255, 255));
 	GetModel()->SetColors(colors);
 
 	Properties().Set("type", EnumStrings::GetString("EquipType", m_type));

@@ -56,7 +56,7 @@ public:
 	RingStatus ringStatus;
 	fixed ringInnerRadius;
 	fixed ringOuterRadius;
-	Color4ub ringColor;
+	Color ringColor;
 
 	Uint32 seed;
 	bool   want_rand_seed;

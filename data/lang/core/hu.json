@@ -115,33 +115,13 @@
       "description" : "",
       "message" : "égitesttel"
    },
-   "BOUGHT_1T_OF" : {
-      "description" : "",
-      "message" : "Vettél 1t %commodity árut."
-   },
    "BROWN_DWARF" : {
       "description" : "",
       "message" : "Barna törpe objektum"
    },
-   "BULLETIN_BOARD" : {
-      "description" : "",
-      "message" : "Hirdetőtábla"
-   },
    "BUTTON" : {
       "description" : "",
       "message" : "\" Gomb \""
-   },
-   "BUY" : {
-      "description" : "",
-      "message" : "Vesz"
-   },
-   "BUY_THIS_SHIP" : {
-      "description" : "",
-      "message" : "Megvásárlás"
-   },
-   "CABINS" : {
-      "description" : "",
-      "message" : "Utaskabin"
    },
    "CAMERA_BOTTOM_VIEW" : {
       "description" : "",
@@ -170,10 +150,6 @@
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
       "message" : "Nem lehet hiperűrugrás alatt menteni"
-   },
-   "CAPACITY" : {
-      "description" : "",
-      "message" : "Kapacitás"
    },
    "CAPITALIST" : {
       "description" : "",
@@ -219,25 +195,9 @@
       "description" : "",
       "message" : "Lehetővé teszi rakománytartály felszedését az űrből."
    },
-   "CARGO_SPACE" : {
-      "description" : "",
-      "message" : "Raktér méret"
-   },
-   "CASH" : {
-      "description" : "",
-      "message" : "Pénz"
-   },
    "CH4_ATMOSPHERE" : {
       "description" : "",
       "message" : "\" metán\""
-   },
-   "CLASS_NUMBER" : {
-      "description" : "",
-      "message" : "%class osztály"
-   },
-   "CLEAN" : {
-      "description" : "",
-      "message" : "Tiszta"
    },
    "CLEARANCE_ALREADY_GRANTED_BAY_N" : {
       "description" : "",
@@ -259,17 +219,9 @@
       "description" : "",
       "message" : ", erősen vulkanikus"
    },
-   "COMMODITIES_MARKET" : {
-      "description" : "",
-      "message" : "Árupiac"
-   },
    "COMMS" : {
       "description" : "",
       "message" : "Kommunikáció"
-   },
-   "COMMS_LINK" : {
-      "description" : "",
-      "message" : "Komm-kapcsolat"
    },
    "COMMUNIST" : {
       "description" : "",
@@ -290,10 +242,6 @@
    "CONSUMER_GOODS" : {
       "description" : "",
       "message" : "Fogyasztási cikkek"
-   },
-   "CONTACT_LOCAL_POLICE" : {
-      "description" : "",
-      "message" : "Helyi rendőrség"
    },
    "CONTROLS" : {
       "description" : "",
@@ -531,33 +479,9 @@
       "description" : "",
       "message" : "Rakétakilövés"
    },
-   "FIT" : {
-      "description" : "",
-      "message" : "Fel"
-   },
-   "FITTING" : {
-      "description" : "",
-      "message" : "\"Felszerel \""
-   },
-   "FIT_TO_WHICH_MOUNT" : {
-      "description" : "",
-      "message" : "Melyik ágyúpilonra helyezzük?"
-   },
    "FOLLOWING_SELECTION" : {
       "description" : "",
       "message" : "kiválasztás követése"
-   },
-   "FORWARD_ACCEL_EMPTY" : {
-      "description" : "",
-      "message" : "Gyorsulás előre (üresen)"
-   },
-   "FORWARD_ACCEL_LADEN" : {
-      "description" : "",
-      "message" : "Gyorsulás előre (tele)"
-   },
-   "FREE" : {
-      "description" : "",
-      "message" : "Üres"
    },
    "FRONT" : {
       "description" : "",
@@ -582,10 +506,6 @@
    "FUEL_SCOOP_DESCRIPTION" : {
       "description" : "",
       "message" : "Lehetővé teszi hidrogén üzemanyag felvételét gázóriás bolygókból."
-   },
-   "FUEL_WEIGHT" : {
-      "description" : "",
-      "message" : "Hajtóanyag tömeg"
    },
    "GALACTIC_VIEW" : {
       "description" : "",
@@ -619,10 +539,6 @@
       "description" : "",
       "message" : "Kormányzat:"
    },
-   "GO_BACK" : {
-      "description" : "",
-      "message" : "Vissza"
-   },
    "GRAIN" : {
       "description" : "",
       "message" : "Búza"
@@ -630,10 +546,6 @@
    "HAND_WEAPONS" : {
       "description" : "",
       "message" : "Kézifegyverek"
-   },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Kapcsolat megszakítása."
    },
    "HARD_CAPITALIST" : {
       "description" : "",
@@ -698,10 +610,6 @@
    "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
       "description" : "",
       "message" : "A hiperugrás-felhőket analizálja, megállapítva a célállomást és az érkezés vagy indulás időpontját."
-   },
-   "HYPERDRIVE_FITTED" : {
-      "description" : "",
-      "message" : "Felszerelt hipermotor:"
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -787,14 +695,6 @@
       "description" : "",
       "message" : "Utazás %system rendszerbe [%x,%y,%z]"
    },
-   "ITEM" : {
-      "description" : "",
-      "message" : "Tárgy"
-   },
-   "ITEM_IS_OUT_OF_STOCK" : {
-      "description" : "",
-      "message" : "Ez az áru most nincs raktáron."
-   },
    "JOY" : {
       "description" : "",
       "message" : "Joy"
@@ -846,10 +746,6 @@
    "LAUNCH_PERMISSION_DENIED_BUSY" : {
       "description" : "",
       "message" : "Leszállási engedély megtagadva: leszállóöböl foglalt."
-   },
-   "LEGAL_STATUS" : {
-      "description" : "",
-      "message" : "Törvényesség"
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
@@ -1063,10 +959,6 @@
       "description" : "",
       "message" : "Ideggáz"
    },
-   "NEW_AND_RECONDITIONED_SHIPS" : {
-      "description" : "",
-      "message" : "Új és felújított hajók"
-   },
    "NONE" : {
       "description" : "",
       "message" : "Nincs"
@@ -1095,10 +987,6 @@
       "description" : "",
       "message" : "Fennálló rend nélküli"
    },
-   "NO_FREE_SPACE_FOR_ITEM" : {
-      "description" : "",
-      "message" : "Nincs elég hely a hajódon."
-   },
    "NO_HYPERDRIVE" : {
       "description" : "",
       "message" : "Nincs hipermotor"
@@ -1106,10 +994,6 @@
    "NO_REGISTERED_INHABITANTS" : {
       "description" : "",
       "message" : "Nincs lakosság"
-   },
-   "NO_SPACE_ON_SHIP" : {
-      "description" : "",
-      "message" : "Nincs elég hely a hajódon"
    },
    "NO_TARGET_SELECTED" : {
       "description" : "",
@@ -1215,10 +1099,6 @@
       "description" : "",
       "message" : "Büntetés kifizetése távolból (%amount)"
    },
-   "PAY_THE_FINE_NOW" : {
-      "description" : "",
-      "message" : "Bírság megfizetése."
-   },
    "PERIAPSIS_DISTANCE" : {
       "description" : "",
       "message" : "Periaptikus távolság"
@@ -1287,18 +1167,6 @@
       "description" : "",
       "message" : "LNy: %pressure{f.2} atm"
    },
-   "PRICE" : {
-      "description" : "",
-      "message" : "Ár"
-   },
-   "PRICE_TO_FIT" : {
-      "description" : "",
-      "message" : "$ a felszerelés"
-   },
-   "PRICE_TO_REMOVE" : {
-      "description" : "",
-      "message" : "$ a leszerelés"
-   },
    "PROBABILITY_OF_ARRIVAL_X_PERCENT" : {
       "description" : "",
       "message" : "Az érkezés valószínűsége: %probability%%"
@@ -1355,53 +1223,13 @@
       "description" : "",
       "message" : "Hátsó"
    },
-   "REGISTRATION_ID" : {
-      "description" : "",
-      "message" : "Regisztrációs szám"
-   },
-   "REMOVE" : {
-      "description" : "",
-      "message" : "Le"
-   },
-   "REMOVE_FROM_WHICH_MOUNT" : {
-      "description" : "",
-      "message" : "Melyik ágyúpilonról távolítsuk el?"
-   },
-   "REMOVING" : {
-      "description" : "",
-      "message" : "\"Leszerel \""
-   },
-   "REPAIRS_AND_SERVICING" : {
-      "description" : "",
-      "message" : "Javítás és szervíz"
-   },
-   "REPAIR_1_PERCENT_HULL" : {
-      "description" : "",
-      "message" : "1.0% hajótest sérülés javítása"
-   },
-   "REPAIR_ENTIRE_HULL" : {
-      "description" : "",
-      "message" : "Hajótest teljes javítása (%repairpercent{f.1}%%)"
-   },
    "REQUEST_DOCKING_CLEARANCE" : {
       "description" : "",
       "message" : "Dokkolási engedély kérése"
    },
-   "REQUEST_LAUNCH" : {
-      "description" : "",
-      "message" : "Felszállási engedély kérése"
-   },
    "RESET" : {
       "description" : "",
       "message" : "Alaphelyzet"
-   },
-   "REVERSE_ACCEL_EMPTY" : {
-      "description" : "",
-      "message" : "Gyorsulás hátra (üresen)"
-   },
-   "REVERSE_ACCEL_LADEN" : {
-      "description" : "",
-      "message" : "Gyorsulás hátra (tele)"
    },
    "ROBOTS" : {
       "description" : "",
@@ -1507,10 +1335,6 @@
       "description" : "",
       "message" : "Tolóerő korlátozás"
    },
-   "SELL" : {
-      "description" : "",
-      "message" : "Elad"
-   },
    "SEMI_MAJOR_AXIS" : {
       "description" : "",
       "message" : "Félnagytengely"
@@ -1567,10 +1391,6 @@
       "description" : "",
       "message" : "Hajó"
    },
-   "SHIPYARD" : {
-      "description" : "",
-      "message" : "Hajóudvar"
-   },
    "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
       "description" : "",
       "message" : "Hajó talajfeletti magasság"
@@ -1579,21 +1399,9 @@
       "description" : "",
       "message" : "Hajó észlelve a közelben."
    },
-   "SHIP_EQUIPMENT" : {
-      "description" : "",
-      "message" : "Hajófelszerelés"
-   },
    "SHIP_INFORMATION" : {
       "description" : "",
       "message" : "Hajóinformáció"
-   },
-   "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
-      "description" : "",
-      "message" : "A hajó tökéletes állapotban van."
-   },
-   "SHIP_IS_FULLY_LADEN" : {
-      "description" : "",
-      "message" : "A hajód teljesen tele van."
    },
    "SHIP_MASS_N_TONNES" : {
       "description" : "",
@@ -1606,10 +1414,6 @@
    "SHIP_ORIENTATION" : {
       "description" : "",
       "message" : "Hajó irányultság"
-   },
-   "SHIP_TYPE" : {
-      "description" : "",
-      "message" : "Hajótípus"
    },
    "SHIP_VELOCITY_BY_REFERENCE_OBJECT" : {
       "description" : "",
@@ -1655,38 +1459,6 @@
       "description" : "",
       "message" : "Nap"
    },
-   "SOLD_1T_OF" : {
-      "description" : "",
-      "message" : "Eladtál 1t %commodity árut."
-   },
-   "SOMEWHERE_COMMODITIES_MARKET" : {
-      "description" : "",
-      "message" : "%station árupiac"
-   },
-   "SOMEWHERE_POLICE" : {
-      "description" : "",
-      "message" : "%station rendőrség"
-   },
-   "SOMEWHERE_SERVICES" : {
-      "description" : "",
-      "message" : "%station szolgáltatások"
-   },
-   "SOMEWHERE_SHIPYARD" : {
-      "description" : "",
-      "message" : "%station hajóudvar"
-   },
-   "SOMEWHERE_SHIP_EQUIPMENT" : {
-      "description" : "",
-      "message" : "%station hajófelszerelések"
-   },
-   "SOMEWHERE_SHIP_MARKET" : {
-      "description" : "",
-      "message" : "%station hajópiac"
-   },
-   "SOMEWHERE_SHIP_REPAIRS" : {
-      "description" : "",
-      "message" : "%station hajójavító"
-   },
    "SOME_ESTABLISHED_MINING" : {
       "description" : "",
       "message" : "Némi bányászat"
@@ -1694,10 +1466,6 @@
    "SOURCE" : {
       "description" : "",
       "message" : "Indulópont"
-   },
-   "SPACESTATION_LONG_WELCOME_MESSAGE" : {
-      "description" : "",
-      "message" : "Helló, utazó. Üdvözöllek a kikötőnkben, ahol a felsorolt lehetőségek közül választhatsz, vagyis hajót, felszerelést vásárolhatsz, árukkal kereskedhetsz, vagy munkát vállalhatsz. Reméljük, gyümölcsöző lesz az ittléted."
    },
    "SPEED_CONTROL_MODE" : {
       "description" : "",
@@ -1843,10 +1611,6 @@
       "description" : "",
       "message" : "Csillagközi feketeluyk"
    },
-   "STOCK" : {
-      "description" : "",
-      "message" : "Raktár"
-   },
    "SUGGESTED_RESPONSES" : {
       "description" : "",
       "message" : "Javasolt válaszok:"
@@ -1894,10 +1658,6 @@
    "TEXTILES" : {
       "description" : "",
       "message" : "Textília"
-   },
-   "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
-      "description" : "",
-      "message" : "Köszönjük a vásárlást. Ne felejtsd el felszerelni, és megtankolni távozás előtt."
    },
    "THICK" : {
       "description" : "",
@@ -1963,10 +1723,6 @@
       "description" : "",
       "message" : "Ég veled barátom!"
    },
-   "TRADER_NOT_ENOUGH_MONEY" : {
-      "description" : "",
-      "message" : "A kereskedőnek nincs ennyi pénze"
-   },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
       "message" : "Illegális termékek kereskedelme"
@@ -2002,10 +1758,6 @@
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",
       "message" : "Szükséges egy személy szállításához"
-   },
-   "USED" : {
-      "description" : "",
-      "message" : "Használt"
    },
    "USE_LOW_THRUST" : {
       "description" : "",
@@ -2051,18 +1803,6 @@
       "description" : "",
       "message" : "Fegyverhőmérséklet"
    },
-   "WEIGHT_EMPTY" : {
-      "description" : "",
-      "message" : "Üres súly"
-   },
-   "WEIGHT_FULLY_LADEN" : {
-      "description" : "",
-      "message" : "Súlya teljes terhelésnél"
-   },
-   "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
-      "description" : "",
-      "message" : "Jelenleg nincs veled semmi dolgunk."
-   },
    "WHEELS_ARE_DOWN" : {
       "description" : "",
       "message" : "Futómű leengedve"
@@ -2082,10 +1822,6 @@
    "WITH_NO_SIGNIFICANT_ATMOSPHERE" : {
       "description" : "",
       "message" : "\" számottevő atmoszféra nélkül\""
-   },
-   "WT" : {
-      "description" : "",
-      "message" : "Súly"
    },
    "X" : {
       "description" : "",
@@ -2114,18 +1850,6 @@
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
       "message" : "Fiatal farmkolónia"
-   },
-   "YOU_DO_NOT_HAVE_ANY_X" : {
-      "description" : "",
-      "message" : "Nincs ilyen árud: %item."
-   },
-   "YOU_MUST_PAY_FINE_OF_N_CREDITS" : {
-      "description" : "",
-      "message" : "Nem toleráljuk a bűntényeket. Fizetned kell %fine bírságot."
-   },
-   "YOU_NOT_ENOUGH_MONEY" : {
-      "description" : "",
-      "message" : "Nincs elég pénzed"
    },
    "YOU_NO_MONEY" : {
       "description" : "",

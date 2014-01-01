@@ -1,10 +1,47 @@
 December 2013
 
+   * New features
+     * StationView (F4) rewrite (#2589, #2593)
+
    * Minor changes and tweaks
      * Make file type (file extension) checks case insensitive (#2328, #2563)
+     * Optimise GL matrix operations (improves FPS) (#2541, #2572)
+     * Rewrote UI.Box layout to constrain children to the allocated area (#2575)
+     * Table widget now positions its scroll bar on its far-right edge (#2601)
+
+   * Fixes
+     * Fix GL color depth selection (forces alpha channel, which fixes
+       progress bars) (#2573)
+     * ARMOUR flag to InfoFace now works (#2589)
+     * Fix depth bug in System and Sector views  (#2595, #2551)
+
+   * Script and UI API changes
+     * Money is now handled entirely in Lua (#2589)
+     * SceneGraph.ModelSkin is serializable (#2589)
+     * Ship.hullPercent is now bindable (#2589, #2600, #2598)
+     * New format functions: Format.AccelG and Format.MassTonnes (#2589)
+     * New ship properties: totalCargo, usedCabins, totalCabins (#2589)
+
+   * UI API changes
+     * Add table row alignment, Table:SetRowAlignment (#2579)
+     * TabGroup can now have a common footer shared between tabs (#2589)
+     * New method GameUI.Face:SetHeightLines to help set face height against a
+       chunk of text (#2589)
+
+   * Model changes
+     * Gun and camera positions for Amphiesma, Mola Mola, Natrix, Pumpkinseed
+       and Wave now set in model files (#2587)
+     * New decals for ship manufacturers; old decals removed (#2578)
+     * Ships definitions now have "manufacturer" and "ship_class" fields (#2589)
 
    * Internal changes
      * Remove legacy (non-shader) renderer (#2568)
+     * Single frame profiler (#2541, #2569)
+     * Avoid some unnecessary string copies (#2541)
+     * Replace most uses of Color4f with Color4ub (#2574, #2327, #2581, #2580
+       #2583, #2584, #2585)
+     * Separate sector cache from sector view and use it in more places (#2582)
+     * General cleanup and warning fixes (#2596)
 
 November 2013
 

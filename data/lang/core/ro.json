@@ -115,33 +115,13 @@
       "description" : "",
       "message" : "corp"
    },
-   "BOUGHT_1T_OF" : {
-      "description" : "",
-      "message" : "Aţi cumpărat 1t de %commodity."
-   },
    "BROWN_DWARF" : {
       "description" : "",
       "message" : "Obiect sub-stelar pitică cenuşie"
    },
-   "BULLETIN_BOARD" : {
-      "description" : "",
-      "message" : "Avizier"
-   },
    "BUTTON" : {
       "description" : "",
       "message" : "\" Buton \""
-   },
-   "BUY" : {
-      "description" : "",
-      "message" : "Cumpără"
-   },
-   "BUY_THIS_SHIP" : {
-      "description" : "",
-      "message" : "Cumpără nava asta"
-   },
-   "CABINS" : {
-      "description" : "",
-      "message" : "Cabins"
    },
    "CAMERA_BOTTOM_VIEW" : {
       "description" : "",
@@ -170,10 +150,6 @@
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
       "message" : "Can't save game while in hyperspace"
-   },
-   "CAPACITY" : {
-      "description" : "",
-      "message" : "Capacitate"
    },
    "CAPITALIST" : {
       "description" : "",
@@ -219,25 +195,9 @@
       "description" : "",
       "message" : "Permits scooping cargo pods from space."
    },
-   "CARGO_SPACE" : {
-      "description" : "",
-      "message" : "Spaţiu depozit"
-   },
-   "CASH" : {
-      "description" : "",
-      "message" : "Monetar"
-   },
    "CH4_ATMOSPHERE" : {
       "description" : "",
       "message" : "\" Atmosferă de Metan\""
-   },
-   "CLASS_NUMBER" : {
-      "description" : "",
-      "message" : "Clasa %class"
-   },
-   "CLEAN" : {
-      "description" : "",
-      "message" : "Curat"
    },
    "CLEARANCE_ALREADY_GRANTED_BAY_N" : {
       "description" : "",
@@ -259,17 +219,9 @@
       "description" : "",
       "message" : ", majoritar vulcanic"
    },
-   "COMMODITIES_MARKET" : {
-      "description" : "",
-      "message" : "Piaţa de produse"
-   },
    "COMMS" : {
       "description" : "",
       "message" : "Comunicaţii"
-   },
-   "COMMS_LINK" : {
-      "description" : "",
-      "message" : "Conexiune comunicaţii"
    },
    "COMMUNIST" : {
       "description" : "",
@@ -290,10 +242,6 @@
    "CONSUMER_GOODS" : {
       "description" : "",
       "message" : "Bunuri de consum"
-   },
-   "CONTACT_LOCAL_POLICE" : {
-      "description" : "",
-      "message" : "Contactaţi politia locală"
    },
    "CONTROLS" : {
       "description" : "",
@@ -531,33 +479,9 @@
       "description" : "",
       "message" : "Fire missile"
    },
-   "FIT" : {
-      "description" : "",
-      "message" : "Instalare"
-   },
-   "FITTING" : {
-      "description" : "",
-      "message" : "\"Se instalează \""
-   },
-   "FIT_TO_WHICH_MOUNT" : {
-      "description" : "",
-      "message" : "În ce montură de armă să se instaleze laserul?"
-   },
    "FOLLOWING_SELECTION" : {
       "description" : "",
       "message" : "selecţia următoare"
-   },
-   "FORWARD_ACCEL_EMPTY" : {
-      "description" : "",
-      "message" : "Viteza de acceleraţie (golită)"
-   },
-   "FORWARD_ACCEL_LADEN" : {
-      "description" : "",
-      "message" : "Acceleraţie inainte (încărcată)"
-   },
-   "FREE" : {
-      "description" : "",
-      "message" : "Liber"
    },
    "FRONT" : {
       "description" : "",
@@ -582,10 +506,6 @@
    "FUEL_SCOOP_DESCRIPTION" : {
       "description" : "",
       "message" : "Permite colectarea combustibilului de hidrogen de pe planetele gigantice de gaz."
-   },
-   "FUEL_WEIGHT" : {
-      "description" : "",
-      "message" : "Fuel weight"
    },
    "GALACTIC_VIEW" : {
       "description" : "",
@@ -619,10 +539,6 @@
       "description" : "",
       "message" : "Tipul de guvernare:"
    },
-   "GO_BACK" : {
-      "description" : "",
-      "message" : "Înapoi"
-   },
    "GRAIN" : {
       "description" : "",
       "message" : "Grâne"
@@ -630,10 +546,6 @@
    "HAND_WEAPONS" : {
       "description" : "",
       "message" : "Arme de mână"
-   },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Închide."
    },
    "HARD_CAPITALIST" : {
       "description" : "",
@@ -698,10 +610,6 @@
    "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
       "description" : "",
       "message" : "Analizează norii unui salt în hiperspaţiu pentru a determina destinaţia si timpul sosirii sau plecării."
-   },
-   "HYPERDRIVE_FITTED" : {
-      "description" : "",
-      "message" : "Motor superluminic instalat:"
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -787,14 +695,6 @@
       "description" : "",
       "message" : "În tranzit către %system [%x,%y,%z]"
    },
-   "ITEM" : {
-      "description" : "",
-      "message" : "Obiect"
-   },
-   "ITEM_IS_OUT_OF_STOCK" : {
-      "description" : "",
-      "message" : "Nu mai există acest obiect în stoc."
-   },
    "JOY" : {
       "description" : "",
       "message" : "Joy"
@@ -846,10 +746,6 @@
    "LAUNCH_PERMISSION_DENIED_BUSY" : {
       "description" : "",
       "message" : "Nu vi se acordă permisiunea de a decola: staţiile sunt aglomerate."
-   },
-   "LEGAL_STATUS" : {
-      "description" : "",
-      "message" : "Starea legală"
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
@@ -1063,10 +959,6 @@
       "description" : "",
       "message" : "Gaz Paralizant"
    },
-   "NEW_AND_RECONDITIONED_SHIPS" : {
-      "description" : "",
-      "message" : "Nave noi şi recondiţionate"
-   },
    "NONE" : {
       "description" : "",
       "message" : "Nimic"
@@ -1095,10 +987,6 @@
       "description" : "",
       "message" : "Nicio formă de guvenare stabilită"
    },
-   "NO_FREE_SPACE_FOR_ITEM" : {
-      "description" : "",
-      "message" : "Nu aveţi destul spaţiu pentru acest obiect."
-   },
    "NO_HYPERDRIVE" : {
       "description" : "",
       "message" : "Niciun motor superluminic"
@@ -1106,10 +994,6 @@
    "NO_REGISTERED_INHABITANTS" : {
       "description" : "",
       "message" : "Niciun inhabitant inregistrat"
-   },
-   "NO_SPACE_ON_SHIP" : {
-      "description" : "",
-      "message" : "Nu este spaţiu pe nava dumneavoastră"
    },
    "NO_TARGET_SELECTED" : {
       "description" : "",
@@ -1215,10 +1099,6 @@
       "description" : "",
       "message" : "Plătiţi amenda de (%amount) prin transfer de la distanţă"
    },
-   "PAY_THE_FINE_NOW" : {
-      "description" : "",
-      "message" : "Plătiţi amenda acum."
-   },
    "PERIAPSIS_DISTANCE" : {
       "description" : "",
       "message" : "Distanţa pericentrică"
@@ -1287,18 +1167,6 @@
       "description" : "",
       "message" : "P: %pressure{f.2} atm"
    },
-   "PRICE" : {
-      "description" : "",
-      "message" : "Preţ"
-   },
-   "PRICE_TO_FIT" : {
-      "description" : "",
-      "message" : "$ per instalare"
-   },
-   "PRICE_TO_REMOVE" : {
-      "description" : "",
-      "message" : "$ per înlăturare"
-   },
    "PROBABILITY_OF_ARRIVAL_X_PERCENT" : {
       "description" : "",
       "message" : "Probability of arrival: %probability%%"
@@ -1355,53 +1223,13 @@
       "description" : "",
       "message" : "Spate"
    },
-   "REGISTRATION_ID" : {
-      "description" : "",
-      "message" : "Id de înregistrare"
-   },
-   "REMOVE" : {
-      "description" : "",
-      "message" : "Înlăturare"
-   },
-   "REMOVE_FROM_WHICH_MOUNT" : {
-      "description" : "",
-      "message" : "Din ce montură de armă să se înlăture laserul?"
-   },
-   "REMOVING" : {
-      "description" : "",
-      "message" : "\"Se înlătură \""
-   },
-   "REPAIRS_AND_SERVICING" : {
-      "description" : "",
-      "message" : "Reparaţii şi servicii"
-   },
-   "REPAIR_1_PERCENT_HULL" : {
-      "description" : "",
-      "message" : "Repară 1.0% din avarii fuzelaj"
-   },
-   "REPAIR_ENTIRE_HULL" : {
-      "description" : "",
-      "message" : "Repară toate avariile fuzelajului (%repairpercent{f.1}%%)"
-   },
    "REQUEST_DOCKING_CLEARANCE" : {
       "description" : "",
       "message" : "Cereţi permisiunea de a andoca"
    },
-   "REQUEST_LAUNCH" : {
-      "description" : "",
-      "message" : "Solicitare lansare"
-   },
    "RESET" : {
       "description" : "",
       "message" : "Reset"
-   },
-   "REVERSE_ACCEL_EMPTY" : {
-      "description" : "",
-      "message" : "Acceleraţie înapoi (golită)"
-   },
-   "REVERSE_ACCEL_LADEN" : {
-      "description" : "",
-      "message" : "Acceleraţie înapoi (încărcată)"
    },
    "ROBOTS" : {
       "description" : "",
@@ -1507,10 +1335,6 @@
       "description" : "",
       "message" : "Select low thrust power level"
    },
-   "SELL" : {
-      "description" : "",
-      "message" : "Vinde"
-   },
    "SEMI_MAJOR_AXIS" : {
       "description" : "",
       "message" : "Axă semi-majoră"
@@ -1567,10 +1391,6 @@
       "description" : "",
       "message" : "Nava"
    },
-   "SHIPYARD" : {
-      "description" : "",
-      "message" : "Port"
-   },
    "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
       "description" : "",
       "message" : "Altitudinea navei faţă de pământ"
@@ -1579,21 +1399,9 @@
       "description" : "",
       "message" : "Navă detectată în apropiere."
    },
-   "SHIP_EQUIPMENT" : {
-      "description" : "",
-      "message" : "Echipament navă"
-   },
    "SHIP_INFORMATION" : {
       "description" : "",
       "message" : "Informaţii navă"
-   },
-   "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
-      "description" : "",
-      "message" : "Nava dumneavoastră este în condiţie perfectă de funcţionare."
-   },
-   "SHIP_IS_FULLY_LADEN" : {
-      "description" : "",
-      "message" : "Nava dumneavoastră e încărcată la maxim."
    },
    "SHIP_MASS_N_TONNES" : {
       "description" : "",
@@ -1606,10 +1414,6 @@
    "SHIP_ORIENTATION" : {
       "description" : "",
       "message" : "Orientare navă"
-   },
-   "SHIP_TYPE" : {
-      "description" : "",
-      "message" : "Tipul navei"
    },
    "SHIP_VELOCITY_BY_REFERENCE_OBJECT" : {
       "description" : "",
@@ -1655,38 +1459,6 @@
       "description" : "",
       "message" : "Solar"
    },
-   "SOLD_1T_OF" : {
-      "description" : "",
-      "message" : "Aţi vândut 1t de %commodity."
-   },
-   "SOMEWHERE_COMMODITIES_MARKET" : {
-      "description" : "",
-      "message" : "Piaţa de produse %station"
-   },
-   "SOMEWHERE_POLICE" : {
-      "description" : "",
-      "message" : "Poliţia %station"
-   },
-   "SOMEWHERE_SERVICES" : {
-      "description" : "",
-      "message" : "Servicii %station"
-   },
-   "SOMEWHERE_SHIPYARD" : {
-      "description" : "",
-      "message" : "Port %station"
-   },
-   "SOMEWHERE_SHIP_EQUIPMENT" : {
-      "description" : "",
-      "message" : "Echipament navă %station"
-   },
-   "SOMEWHERE_SHIP_MARKET" : {
-      "description" : "",
-      "message" : "Piaţa de nave %station"
-   },
-   "SOMEWHERE_SHIP_REPAIRS" : {
-      "description" : "",
-      "message" : "Reparaţii nave %station"
-   },
    "SOME_ESTABLISHED_MINING" : {
       "description" : "",
       "message" : "Câtva minerit stabilit."
@@ -1694,10 +1466,6 @@
    "SOURCE" : {
       "description" : "",
       "message" : "Origine"
-   },
-   "SPACESTATION_LONG_WELCOME_MESSAGE" : {
-      "description" : "",
-      "message" : "Bine aţi venit pe această staţie spaţială. Avem rapoarte de vandalism şi grafitti pe avizier. Daca observaţi ca vreun mesaj vă induce în eroare, este scris greşit sau pur şi simplu lipseşte, vă rugăm să anunţaţi un membru al personalului.\\nOxigenul este momentan gratuit."
    },
    "SPEED_CONTROL_MODE" : {
       "description" : "",
@@ -1843,10 +1611,6 @@
       "description" : "",
       "message" : "O gaură neagră stelară"
    },
-   "STOCK" : {
-      "description" : "",
-      "message" : "Stoc"
-   },
    "SUGGESTED_RESPONSES" : {
       "description" : "",
       "message" : "Răspunsuri sugerate:"
@@ -1894,10 +1658,6 @@
    "TEXTILES" : {
       "description" : "",
       "message" : "Textile"
-   },
-   "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
-      "description" : "",
-      "message" : "Vă mulţumim pentru achiziţia dumneavoastră. Nu uitaţi să instalaţi echipament şi să cumparaţi combustibil înainte de a pleca."
    },
    "THICK" : {
       "description" : "",
@@ -1963,10 +1723,6 @@
       "description" : "",
       "message" : "ETERNE REGRETE"
    },
-   "TRADER_NOT_ENOUGH_MONEY" : {
-      "description" : "",
-      "message" : "Comerciantul nu are destui bani"
-   },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
       "message" : "Se negociază bunurile ilegale"
@@ -2002,10 +1758,6 @@
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",
       "message" : "Required for transport of a single passenger"
-   },
-   "USED" : {
-      "description" : "",
-      "message" : "Folosit"
    },
    "USE_LOW_THRUST" : {
       "description" : "",
@@ -2051,18 +1803,6 @@
       "description" : "",
       "message" : "Temperatura armei"
    },
-   "WEIGHT_EMPTY" : {
-      "description" : "",
-      "message" : "Greutate goală"
-   },
-   "WEIGHT_FULLY_LADEN" : {
-      "description" : "",
-      "message" : "Greutate incărcată la maxim"
-   },
-   "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
-      "description" : "",
-      "message" : "Nu avem nici o treabă cu dumneavoastră pentru moment."
-   },
    "WHEELS_ARE_DOWN" : {
       "description" : "",
       "message" : "Terenul de aterizare coborât"
@@ -2082,10 +1822,6 @@
    "WITH_NO_SIGNIFICANT_ATMOSPHERE" : {
       "description" : "",
       "message" : "\" fără atmosferă semnificativă\""
-   },
-   "WT" : {
-      "description" : "",
-      "message" : "Greutate"
    },
    "X" : {
       "description" : "",
@@ -2114,18 +1850,6 @@
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
       "message" : "Colonie proaspătă de agricultură."
-   },
-   "YOU_DO_NOT_HAVE_ANY_X" : {
-      "description" : "",
-      "message" : "Nu aveţi %item."
-   },
-   "YOU_MUST_PAY_FINE_OF_N_CREDITS" : {
-      "description" : "",
-      "message" : "Noi nu tolerăm infracţionalitatea. Va trebui să plătiţi o amendă de %fine."
-   },
-   "YOU_NOT_ENOUGH_MONEY" : {
-      "description" : "",
-      "message" : "Nu aveţi destui bani"
    },
    "YOU_NO_MONEY" : {
       "description" : "",

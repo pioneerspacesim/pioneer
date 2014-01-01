@@ -33,14 +33,14 @@ static const unsigned int SCANNER_STEPS = 100;
 enum ScannerBlobWeight { WEIGHT_LIGHT, WEIGHT_HEAVY };
 
 // XXX target colours should be unified throughout the game
-static const Color scannerNavTargetColour     = Color( 0,      1.0f,   0      );
-static const Color scannerCombatTargetColour  = Color( 1.0f,   0,      0      );
-static const Color scannerStationColour       = Color( 1.0f,   1.0f,   1.0f   );
-static const Color scannerShipColour          = Color( 0.953f, 0.929f, 0.114f );
-static const Color scannerMissileColour       = Color( 0.941f, 0.149f, 0.196f );
-static const Color scannerPlayerMissileColour = Color( 0.953f, 0.929f, 0.114f );
-static const Color scannerCargoColour         = Color( 0.65f,  0.65f,  0.65f  );
-static const Color scannerCloudColour         = Color( 0.5f,   0.5f,   1.0f   );
+static const Color scannerNavTargetColour     = Color( 0,   255, 0   );
+static const Color scannerCombatTargetColour  = Color( 255, 0,   0   );
+static const Color scannerStationColour       = Color( 255, 255, 255 );
+static const Color scannerShipColour          = Color( 243, 237, 29  );
+static const Color scannerMissileColour       = Color( 240, 38,  50  );
+static const Color scannerPlayerMissileColour = Color( 243, 237, 29  );
+static const Color scannerCargoColour         = Color( 166, 166, 166 );
+static const Color scannerCloudColour         = Color( 128, 128, 255 );
 
 MsgLogWidget::MsgLogWidget()
 {
@@ -183,7 +183,7 @@ void ScannerWidget::Draw()
 
 	// disc
 	m_renderer->SetBlendMode(BLEND_ALPHA);
-	Color green(0.f, 1.f, 0.f, 0.1f);
+	Color green(0, 255, 0, 26);
 
 	// XXX 2d vertices
 	VertexArray va(ATTRIB_POSITION | ATTRIB_DIFFUSE, 128); //reserve some space for positions & colors
@@ -195,11 +195,12 @@ void ScannerWidget::Draw()
 	m_renderer->DrawTriangles(&va, Graphics::vtxColorMaterial, TRIANGLE_FAN);
 
 	// circles and spokes
-	glPushMatrix();
-	glTranslatef(m_x, m_y, 0);
-	glScalef(m_x, m_y, 1.0f);
-	DrawRingsAndSpokes(false);
-	glPopMatrix();
+	{
+		Graphics::Renderer::MatrixTicket ticket(m_renderer, Graphics::MatrixMode::MODELVIEW);
+		m_renderer->Translate(m_x, m_y, 0);
+		m_renderer->Scale(m_x, m_y, 1.0f);
+		DrawRingsAndSpokes(false);
+	}
 
 	// objects above
 	if (!m_contacts.empty()) DrawBlobs(false);
@@ -461,10 +462,10 @@ void ScannerWidget::GenerateRingsAndSpokes()
 	vector3f vn(sin(a), SCANNER_YSHRINK * cos(a), 0.0f);
 
 	// bright part
-	Color col = Color(0.7f, 0.7f, 0.f, 0.5f);
+	Color col = Color(178, 178, 0, 128);
 	if (m_mode == SCANNER_MODE_AUTO) {
 		// green like the scanner to indicate that the scanner is controlling the range
-		col = Color(0.f, 0.7f, 0.f, 0.5f);
+		col = Color(0, 178, 0, 128);
 	}
 	for (int i=0; i<=dimstart; i++) {
 		if (i == csize) return;			// whole circle bright case
@@ -474,7 +475,7 @@ void ScannerWidget::GenerateRingsAndSpokes()
 	m_edgeVts.push_back(vn); m_edgeCols.push_back(col);
 
 	// dim part
-	col = Color(0.2f, 0.3f, 0.2f, 0.5f);
+	col = Color(51, 77, 51, 128);
 	m_edgeVts.push_back(vn); m_edgeCols.push_back(col);
 	for (int i=dimstart+1; i<csize; i++) {
 		m_edgeVts.push_back(vector3f(m_circle[i].x, m_circle[i].y, 0.0f));
@@ -484,13 +485,14 @@ void ScannerWidget::GenerateRingsAndSpokes()
 
 void ScannerWidget::DrawRingsAndSpokes(bool blend)
 {
-	Color col(0.f, 0.4f, 0.f, 0.5f);
+	Color col(0, 102, 0, 128);
 	m_renderer->DrawLines2D(m_vts.size(), &m_vts[0], col);
 	m_renderer->DrawLines(m_edgeVts.size(), &m_edgeVts[0], &m_edgeCols[0]);
 }
 
 void ScannerWidget::TimeStepUpdate(float step)
 {
+	PROFILE_SCOPED()
 	if (m_targetRange < m_currentRange)
 		m_currentRange = Clamp(m_currentRange - (m_currentRange*step), m_targetRange, SCANNER_RANGE_MAX);
 	else if (m_targetRange > m_currentRange)

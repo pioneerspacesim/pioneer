@@ -112,7 +112,7 @@ local econTrade = function ()
 	refuelButton.button.onClick:Connect(refuel)
 
 	return ui:Expand():SetInnerWidget(
-		ui:Grid(2,1)
+		ui:Grid({48,4,48},1)
 			:SetColumn(0, {
 				ui:Margin(5, "HORIZONTAL",
 					ui:VBox(20):PackEnd({
@@ -147,7 +147,7 @@ local econTrade = function ()
 					})
 				)
 			})
-			:SetColumn(1, {
+			:SetColumn(2, {
 				cargoListWidget
 			})
 	)

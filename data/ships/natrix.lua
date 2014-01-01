@@ -3,6 +3,8 @@
 
 define_ship {
 	name='Natrix',
+	ship_class='light_freighter',
+	manufacturer='opli',
 	model='natrix',
 	forward_thrust = 124e5,
 	reverse_thrust = 21e5,
@@ -11,10 +13,6 @@ define_ship {
 	left_thrust = 21e5,
 	right_thrust = 21e5,
 	angular_thrust = 195e5,
-	camera_offset = v(4,4,-12.5),
-	gun_mounts = {
-		{ v(0.000, 0.000, -9.342), v(0.000, 0.000, -1.000), 5, 'HORIZONTAL' },
-	},
 	max_atmoshield = 0,
 	max_cargo = 40,
 	max_laser = 1,

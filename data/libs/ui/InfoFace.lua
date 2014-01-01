@@ -36,8 +36,8 @@ function InfoFace.New (character)
 
 	local faceFlags = {
 		character.female and "FEMALE" or "MALE",
-		character.armor and "ARMOUR",
 	}
+	if character.armour then table.insert(faceFlags, "ARMOUR") end
 
 	local self = {
 		widget = Face.New(ui, faceFlags, character.seed)

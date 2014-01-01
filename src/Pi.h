@@ -29,7 +29,6 @@ class SectorView;
 class Ship;
 class ShipCpanel;
 class SpaceStation;
-class SpaceStationView;
 class StarSystem;
 class SystemInfoView;
 class SystemView;
@@ -140,6 +139,12 @@ public:
 #if WITH_DEVKEYS
 	static bool showDebugInfo;
 #endif
+#if PIONEER_PROFILER
+	static std::string profilerPath;
+	static bool doProfileSlow;
+	static bool doProfileOne;
+#endif
+
 	static Player *player;
 	static SectorView *sectorView;
 	static GalacticView *galacticView;
@@ -148,7 +153,7 @@ public:
 	static SystemView *systemView;
 	static WorldView *worldView;
 	static DeathView *deathView;
-	static SpaceStationView *spaceStationView;
+	static UIView *spaceStationView;
 	static UIView *infoView;
 	static LuaConsole *luaConsole;
 	static ShipCpanel *cpan;

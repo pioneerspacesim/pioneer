@@ -131,7 +131,6 @@ local onChat = function (form, ref, option)
 		else
 			form:AddOption(ad.yesplease, 1)
 		end
-		form:AddOption(l.HANG_UP, -1)
 		print(('DEBUG: %.2f years / %.2f price = %.2f'):format(ad.strength, ad.baseprice, ad.strength/ad.baseprice))
 	end
 
@@ -142,7 +141,6 @@ local onChat = function (form, ref, option)
 		if Game.player:GetMoney() >= price then -- We did check earlier, but...
 			-- Say thanks
 			form:SetMessage(ad.response)
-			form:AddOption(l.HANG_UP, -1)
 			Game.player:AddMoney(-price)
 			service_history.lastdate = Game.time
 			service_history.service_period = ad.strength * oneyear

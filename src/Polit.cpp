@@ -6,6 +6,7 @@
 #include "Polit.h"
 #include "galaxy/StarSystem.h"
 #include "galaxy/Sector.h"
+#include "galaxy/SectorCache.h"
 #include "Factions.h"
 #include "Space.h"
 #include "Ship.h"
@@ -191,13 +192,13 @@ void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, 
 	const Uint32 _init[5] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), path.systemIndex, POLIT_SEED };
 	Random rand(_init, 5);
 
-	Sector sec(path.sectorX, path.sectorY, path.sectorZ);
+	const Sector* sec = Sector::cache.GetCached(path);
 
 	GovType a = GOV_INVALID;
 
 	/* from custom system definition */
-	if (sec.m_systems[path.systemIndex].customSys) {
-		Polit::GovType t = sec.m_systems[path.systemIndex].customSys->govType;
+	if (sec->m_systems[path.systemIndex].customSys) {
+		Polit::GovType t = sec->m_systems[path.systemIndex].customSys->govType;
 		a = t;
 	}
 	if (a == GOV_INVALID) {

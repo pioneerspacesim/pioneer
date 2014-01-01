@@ -115,33 +115,13 @@
       "description" : "",
       "message" : "lichaam"
    },
-   "BOUGHT_1T_OF" : {
-      "description" : "",
-      "message" : "U heeft 1t %commodity gekocht."
-   },
    "BROWN_DWARF" : {
       "description" : "",
       "message" : "Bruine dwerg, sub-stellair object"
    },
-   "BULLETIN_BOARD" : {
-      "description" : "",
-      "message" : "Bekijk prikbord"
-   },
    "BUTTON" : {
       "description" : "",
       "message" : "\" Knop \""
-   },
-   "BUY" : {
-      "description" : "",
-      "message" : "Koop"
-   },
-   "BUY_THIS_SHIP" : {
-      "description" : "",
-      "message" : "Koop schip"
-   },
-   "CABINS" : {
-      "description" : "",
-      "message" : "Cabins"
    },
    "CAMERA_BOTTOM_VIEW" : {
       "description" : "",
@@ -170,10 +150,6 @@
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
       "message" : "Can't save game while in hyperspace"
-   },
-   "CAPACITY" : {
-      "description" : "",
-      "message" : "Capaciteit"
    },
    "CAPITALIST" : {
       "description" : "",
@@ -219,25 +195,9 @@
       "description" : "",
       "message" : "Permits scooping cargo pods from space."
    },
-   "CARGO_SPACE" : {
-      "description" : "",
-      "message" : "Vrachtruimte"
-   },
-   "CASH" : {
-      "description" : "",
-      "message" : "Geld"
-   },
    "CH4_ATMOSPHERE" : {
       "description" : "",
       "message" : "\" methaan atmosfeer\""
-   },
-   "CLASS_NUMBER" : {
-      "description" : "",
-      "message" : "Klasse %class"
-   },
-   "CLEAN" : {
-      "description" : "",
-      "message" : "Geen strafblad"
    },
    "CLEARANCE_ALREADY_GRANTED_BAY_N" : {
       "description" : "",
@@ -259,17 +219,9 @@
       "description" : "",
       "message" : ", hoog vulcanisch"
    },
-   "COMMODITIES_MARKET" : {
-      "description" : "",
-      "message" : "Bezoek goederenmarkt"
-   },
    "COMMS" : {
       "description" : "",
       "message" : "Communicatie"
-   },
-   "COMMS_LINK" : {
-      "description" : "",
-      "message" : "Communicatie link"
    },
    "COMMUNIST" : {
       "description" : "",
@@ -290,10 +242,6 @@
    "CONSUMER_GOODS" : {
       "description" : "",
       "message" : "Consumptiegoederen"
-   },
-   "CONTACT_LOCAL_POLICE" : {
-      "description" : "",
-      "message" : "Bezoek plaatselijke politie"
    },
    "CONTROLS" : {
       "description" : "",
@@ -531,33 +479,9 @@
       "description" : "",
       "message" : "Fire missile"
    },
-   "FIT" : {
-      "description" : "",
-      "message" : "[+]"
-   },
-   "FITTING" : {
-      "description" : "",
-      "message" : "\"Bezig met installeren \""
-   },
-   "FIT_TO_WHICH_MOUNT" : {
-      "description" : "",
-      "message" : "Installeer laser op welk aanknooppunt?"
-   },
    "FOLLOWING_SELECTION" : {
       "description" : "",
       "message" : "Volgende selectie"
-   },
-   "FORWARD_ACCEL_EMPTY" : {
-      "description" : "",
-      "message" : "Voorwaartse acceleratie (leeg)"
-   },
-   "FORWARD_ACCEL_LADEN" : {
-      "description" : "",
-      "message" : "Voorwaartse acceleratie (beladen)"
-   },
-   "FREE" : {
-      "description" : "",
-      "message" : "Vrij"
    },
    "FRONT" : {
       "description" : "",
@@ -582,10 +506,6 @@
    "FUEL_SCOOP_DESCRIPTION" : {
       "description" : "",
       "message" : "Maakt het mogelijk om waterstof te scheppen van gas giganten."
-   },
-   "FUEL_WEIGHT" : {
-      "description" : "",
-      "message" : "Fuel weight"
    },
    "GALACTIC_VIEW" : {
       "description" : "",
@@ -619,10 +539,6 @@
       "description" : "",
       "message" : "Type regering:"
    },
-   "GO_BACK" : {
-      "description" : "",
-      "message" : "Ga terug"
-   },
    "GRAIN" : {
       "description" : "",
       "message" : "Graan"
@@ -630,10 +546,6 @@
    "HAND_WEAPONS" : {
       "description" : "",
       "message" : "Handwapens"
-   },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Hang op."
    },
    "HARD_CAPITALIST" : {
       "description" : "",
@@ -698,10 +610,6 @@
    "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
       "description" : "",
       "message" : "Analyseert hyperspace-wolken om bestemming en aankomst- of vertrektijd te bepalen."
-   },
-   "HYPERDRIVE_FITTED" : {
-      "description" : "",
-      "message" : "Hyperaandrijving geinstalleerd:"
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -787,14 +695,6 @@
       "description" : "",
       "message" : "Onderweg naar %system [%x,%y,%z]"
    },
-   "ITEM" : {
-      "description" : "",
-      "message" : "Artikel"
-   },
-   "ITEM_IS_OUT_OF_STOCK" : {
-      "description" : "",
-      "message" : "Dit artikel is niet op voorraad."
-   },
    "JOY" : {
       "description" : "",
       "message" : "Joy"
@@ -846,10 +746,6 @@
    "LAUNCH_PERMISSION_DENIED_BUSY" : {
       "description" : "",
       "message" : "Permissie om op te stijgen geweigerd: drukte in baai."
-   },
-   "LEGAL_STATUS" : {
-      "description" : "",
-      "message" : "Juridische status"
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
@@ -1063,10 +959,6 @@
       "description" : "",
       "message" : "Zenuwgas"
    },
-   "NEW_AND_RECONDITIONED_SHIPS" : {
-      "description" : "",
-      "message" : "Nieuwe en gereviseerde schepen"
-   },
    "NONE" : {
       "description" : "",
       "message" : "Geen"
@@ -1095,10 +987,6 @@
       "description" : "",
       "message" : "Geen gevestigde orde"
    },
-   "NO_FREE_SPACE_FOR_ITEM" : {
-      "description" : "",
-      "message" : "U heeft geen ruimte beschikbaar voor dit onderdeel."
-   },
    "NO_HYPERDRIVE" : {
       "description" : "",
       "message" : "Geen hyperaandrijving"
@@ -1106,10 +994,6 @@
    "NO_REGISTERED_INHABITANTS" : {
       "description" : "",
       "message" : "Geen geregistreerde inwoners"
-   },
-   "NO_SPACE_ON_SHIP" : {
-      "description" : "",
-      "message" : "Er is niet genoeg plaats op uw schip"
    },
    "NO_TARGET_SELECTED" : {
       "description" : "",
@@ -1215,10 +1099,6 @@
       "description" : "",
       "message" : "Betaal boete via overschrijving op afstand (%amount)"
    },
-   "PAY_THE_FINE_NOW" : {
-      "description" : "",
-      "message" : "Betaal de boete nu."
-   },
    "PERIAPSIS_DISTANCE" : {
       "description" : "",
       "message" : "Periapsis afstand"
@@ -1287,18 +1167,6 @@
       "description" : "",
       "message" : "P: %pressure{f.2} atm"
    },
-   "PRICE" : {
-      "description" : "",
-      "message" : "Prijs"
-   },
-   "PRICE_TO_FIT" : {
-      "description" : "",
-      "message" : "$ installatie"
-   },
-   "PRICE_TO_REMOVE" : {
-      "description" : "",
-      "message" : "$ verwijderen"
-   },
    "PROBABILITY_OF_ARRIVAL_X_PERCENT" : {
       "description" : "",
       "message" : "Probability of arrival: %probability%%"
@@ -1355,53 +1223,13 @@
       "description" : "",
       "message" : "Achterkant"
    },
-   "REGISTRATION_ID" : {
-      "description" : "",
-      "message" : "Registratie nr."
-   },
-   "REMOVE" : {
-      "description" : "",
-      "message" : "[-]"
-   },
-   "REMOVE_FROM_WHICH_MOUNT" : {
-      "description" : "",
-      "message" : "Verwijder laser van welk aanknooppunt?"
-   },
-   "REMOVING" : {
-      "description" : "",
-      "message" : "\"Bezig met verwijderen \""
-   },
-   "REPAIRS_AND_SERVICING" : {
-      "description" : "",
-      "message" : "Reparaties en diensten"
-   },
-   "REPAIR_1_PERCENT_HULL" : {
-      "description" : "",
-      "message" : "Repareer 1.0% van schade aan de scheepsromp"
-   },
-   "REPAIR_ENTIRE_HULL" : {
-      "description" : "",
-      "message" : "Repareer alle schade aan de scheepsromp (%repairpercent{f.1}%%)"
-   },
    "REQUEST_DOCKING_CLEARANCE" : {
       "description" : "",
       "message" : "Vraag permissie om aan te meren"
    },
-   "REQUEST_LAUNCH" : {
-      "description" : "",
-      "message" : "Verzoek om toestemming om te vertrekken"
-   },
    "RESET" : {
       "description" : "",
       "message" : "Reset"
-   },
-   "REVERSE_ACCEL_EMPTY" : {
-      "description" : "",
-      "message" : "Achterwaartse acceleratie (leeg)"
-   },
-   "REVERSE_ACCEL_LADEN" : {
-      "description" : "",
-      "message" : "Achterwaartse acceleratie (beladen)"
    },
    "ROBOTS" : {
       "description" : "",
@@ -1507,10 +1335,6 @@
       "description" : "",
       "message" : "Select low thrust power level"
    },
-   "SELL" : {
-      "description" : "",
-      "message" : "Verkoop"
-   },
    "SEMI_MAJOR_AXIS" : {
       "description" : "",
       "message" : "Semi-majore as"
@@ -1567,10 +1391,6 @@
       "description" : "",
       "message" : "Schip"
    },
-   "SHIPYARD" : {
-      "description" : "",
-      "message" : "Bezoek scheepswerf"
-   },
    "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
       "description" : "",
       "message" : "Hoogte van schip t.o.v. terrein"
@@ -1579,21 +1399,9 @@
       "description" : "",
       "message" : "Nabij schip gedetecteerd."
    },
-   "SHIP_EQUIPMENT" : {
-      "description" : "",
-      "message" : "Scheepsuitrusting"
-   },
    "SHIP_INFORMATION" : {
       "description" : "",
       "message" : "Scheepsinformatie"
-   },
-   "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
-      "description" : "",
-      "message" : "Uw schip is in een perfecte staat van dienst."
-   },
-   "SHIP_IS_FULLY_LADEN" : {
-      "description" : "",
-      "message" : "Uw schip is volledig beladen."
    },
    "SHIP_MASS_N_TONNES" : {
       "description" : "",
@@ -1606,10 +1414,6 @@
    "SHIP_ORIENTATION" : {
       "description" : "",
       "message" : "Oriënteer Schip"
-   },
-   "SHIP_TYPE" : {
-      "description" : "",
-      "message" : "Schip type"
    },
    "SHIP_VELOCITY_BY_REFERENCE_OBJECT" : {
       "description" : "",
@@ -1655,38 +1459,6 @@
       "description" : "",
       "message" : "Zonne-"
    },
-   "SOLD_1T_OF" : {
-      "description" : "",
-      "message" : "U heeft 1t %commodity verkocht."
-   },
-   "SOMEWHERE_COMMODITIES_MARKET" : {
-      "description" : "",
-      "message" : "goederenmarkt van %station"
-   },
-   "SOMEWHERE_POLICE" : {
-      "description" : "",
-      "message" : "%station Politie"
-   },
-   "SOMEWHERE_SERVICES" : {
-      "description" : "",
-      "message" : "%station diensten"
-   },
-   "SOMEWHERE_SHIPYARD" : {
-      "description" : "",
-      "message" : "%station scheepswerf"
-   },
-   "SOMEWHERE_SHIP_EQUIPMENT" : {
-      "description" : "",
-      "message" : "%station scheepsuitrusting"
-   },
-   "SOMEWHERE_SHIP_MARKET" : {
-      "description" : "",
-      "message" : "scheepswerf van %station"
-   },
-   "SOMEWHERE_SHIP_REPAIRS" : {
-      "description" : "",
-      "message" : "%station scheepsreparaties"
-   },
    "SOME_ESTABLISHED_MINING" : {
       "description" : "",
       "message" : "Enige mijnbouw."
@@ -1694,10 +1466,6 @@
    "SOURCE" : {
       "description" : "",
       "message" : "Oorsprong"
-   },
-   "SPACESTATION_LONG_WELCOME_MESSAGE" : {
-      "description" : "",
-      "message" : "Hallo reiziger, welkom op dit station. We hebben berichten over vandalisme en graffiti ontvangen. Als u in de bewegwijzering fouten of omissies ontdekt, informeert u dan alstublieft een medewerker.\\nZuurstof is momenteel gratis."
    },
    "SPEED_CONTROL_MODE" : {
       "description" : "",
@@ -1843,10 +1611,6 @@
       "description" : "",
       "message" : "Een stellair zwart gat"
    },
-   "STOCK" : {
-      "description" : "",
-      "message" : "Voorraad"
-   },
    "SUGGESTED_RESPONSES" : {
       "description" : "",
       "message" : "Aanbevolen reacties:"
@@ -1894,10 +1658,6 @@
    "TEXTILES" : {
       "description" : "",
       "message" : "Textiel"
-   },
-   "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
-      "description" : "",
-      "message" : "Dank u voor uw aankoop. Denk aan de installatie van uitrusting en het kopen van brandstof voor u vertrekt."
    },
    "THICK" : {
       "description" : "",
@@ -1963,10 +1723,6 @@
       "description" : "",
       "message" : "RIP OUDE KNAR"
    },
-   "TRADER_NOT_ENOUGH_MONEY" : {
-      "description" : "",
-      "message" : "Handelaar heeft niet genoeg geld"
-   },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
       "message" : "Handel in illegale goederen"
@@ -2002,10 +1758,6 @@
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",
       "message" : "Required for transport of a single passenger"
-   },
-   "USED" : {
-      "description" : "",
-      "message" : "Gebruikt"
    },
    "USE_LOW_THRUST" : {
       "description" : "",
@@ -2051,18 +1803,6 @@
       "description" : "",
       "message" : "Wapen temp"
    },
-   "WEIGHT_EMPTY" : {
-      "description" : "",
-      "message" : "Gewicht onbeladen"
-   },
-   "WEIGHT_FULLY_LADEN" : {
-      "description" : "",
-      "message" : "Gewicht volledig beladen"
-   },
-   "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
-      "description" : "",
-      "message" : "We hebben op dit moment geen zaken met u af te handelen."
-   },
    "WHEELS_ARE_DOWN" : {
       "description" : "",
       "message" : "Landingsgestel is omlaag"
@@ -2082,10 +1822,6 @@
    "WITH_NO_SIGNIFICANT_ATMOSPHERE" : {
       "description" : "",
       "message" : "\" zonder significante atmosfeer\""
-   },
-   "WT" : {
-      "description" : "",
-      "message" : "Gt"
    },
    "X" : {
       "description" : "",
@@ -2114,18 +1850,6 @@
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
       "message" : "Jonge agrarische kolonie."
-   },
-   "YOU_DO_NOT_HAVE_ANY_X" : {
-      "description" : "",
-      "message" : "U heeft geen %item."
-   },
-   "YOU_MUST_PAY_FINE_OF_N_CREDITS" : {
-      "description" : "",
-      "message" : "Criminaliteit wordt niet gewaardeerd. U moet een boete betalen van  %fine."
-   },
-   "YOU_NOT_ENOUGH_MONEY" : {
-      "description" : "",
-      "message" : "U heeft niet genoeg geld"
    },
    "YOU_NO_MONEY" : {
       "description" : "",

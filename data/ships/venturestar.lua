@@ -3,6 +3,8 @@
 
 define_ship {
 	name='Venturestar',
+	ship_class='medium_freighter',
+	manufacturer='albr',
 	model='venturestar',
 	forward_thrust = 35e6,
 	reverse_thrust = 10e6,

@@ -128,12 +128,26 @@ int main(int argc, char **argv)
 
 	RefCountedPtr<UI::Context> c(new UI::Context(Lua::manager, r, WIDTH, HEIGHT, "en"));
 
+	UI::VBox *box = c->VBox();
+	for (int i = 0; i < 2; i++) {
+		box->PackEnd(UI::WidgetSet(
+			c->ColorBackground(Color4ub(rand()%256,rand()%256,rand()%256,255).ToColor4f())
+				->SetInnerWidget(c->Image("icons/object_star_m.png", UI::Widget::PRESERVE_ASPECT | UI::Widget::EXPAND_HEIGHT)),
+			c->ColorBackground(Color4ub(rand()%256,rand()%256,rand()%256,255).ToColor4f())
+				->SetInnerWidget(c->Label("foo"))
+			)
+		);
+	}
+	c->GetTopLayer()->SetInnerWidget(box);
+
+#if 0
 	UI::Gauge *gauge;
 	c->GetTopLayer()->SetInnerWidget(c->HBox()->PackEnd(gauge = c->Gauge()));
 	gauge->SetWarningLevel(0.4f);
 	gauge->SetCriticalLevel(0.2f);
 	gauge->SetLevelAscending(false);
 	gauge->SetUpperValue(14.0f);
+#endif
 
 #if 0
 	Thing thing(Lua::manager);
@@ -611,7 +625,7 @@ int main(int argc, char **argv)
 //		thing.Update();
 
 //		slider->SetValue(slider->GetValue() + 0.01);
-		gauge->SetValue(gauge->GetValue() + 0.1);
+//		gauge->SetValue(gauge->GetValue() + 0.1);
 
 #if 0
 		if (++count == 400) {

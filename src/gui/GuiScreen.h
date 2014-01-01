@@ -78,8 +78,8 @@ namespace Gui {
 		static Gui::Fixed *baseContainer;
 		static Gui::Widget *focusedWidget;
 		static void OnDeleteFocusedWidget();
-		static GLdouble modelMatrix[16];
-		static GLdouble projMatrix[16];
+		static matrix4x4f modelMatrix;
+		static matrix4x4f projMatrix;
 		static GLint viewport[4];
 
 		static FontCache s_fontCache;

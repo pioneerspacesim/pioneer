@@ -128,6 +128,8 @@ protected:
     // get a pointer to the underlying object
 	virtual LuaWrappable *GetObject() const = 0;
 
+	const char *GetType() const { return m_type; }
+
 private:
 	LuaObjectBase() {}
 	LuaObjectBase(const LuaObjectBase &) {}
