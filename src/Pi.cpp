@@ -191,8 +191,10 @@ void Pi::DrawRenderTarget() {
 		Pi::renderer->SetLights(false);
 		Pi::renderer->SetBlendMode(Graphics::BLEND_ALPHA);
 		Pi::renderer->SetMatrixMode(Graphics::MatrixMode::PROJECTION);
+		Pi::renderer->PushMatrix();
 		Pi::renderer->SetOrthographicProjection(0, 800, 600, 0, -1, 1);
 		Pi::renderer->SetMatrixMode(Graphics::MatrixMode::MODELVIEW);
+		Pi::renderer->PushMatrix();
 		Pi::renderer->LoadIdentity();
 	}
 	
