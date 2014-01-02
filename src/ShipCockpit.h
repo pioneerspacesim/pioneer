@@ -31,7 +31,7 @@ public:
 	virtual ~ShipCockpit();
 
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;
-	
+
 	void Update(float timeStep);
 	void RenderCockpit(Graphics::Renderer* renderer, const Camera* camera, const Frame* frame);
 	void OnActivated();
@@ -45,21 +45,21 @@ protected:
 private:
 	ShipCockpit(const ShipCockpit&);
 	ShipCockpit& operator=(const ShipCockpit&);
-	
+
 	ShipType m_type;
 
-	vector3d vShipDir;		// current ship direction
-	vector3d vShipYaw;		// current ship yaw vector
-	vector3d vdDir;			// cockpit direction
-	vector3d vdYaw;			// cockpit yaw vector
-	float fRInterp;			// for rotation interpolation
-	float fTInterp;			// for translation interpolation
-	float fGForce;			// current ship gforce
-	float fOffset;			// current ship offset due to acceleration effect
-	float fShipVel;			// current ship velocity
-	CockpitLagEasing eEasing; // Easing function for lag recover
-	vector3d vTranslate;    // cockpit translation
-	matrix4x4d matTransform;// cockpit transformation
+	vector3d m_shipDir;        // current ship direction
+	vector3d m_shipYaw;        // current ship yaw vector
+	vector3d m_dir;            // cockpit direction
+	vector3d m_yaw;            // cockpit yaw vector
+	float m_rotInterp;         // for rotation interpolation
+	float m_transInterp;       // for translation interpolation
+	float m_gForce;            // current ship gforce
+	float m_offset;            // current ship offset due to acceleration effect
+	float m_shipVel;           // current ship velocity
+	CockpitLagEasing m_easing; // Easing function for lag recover
+	vector3d m_translate;      // cockpit translation
+	matrix4x4d m_transform;    // cockpit transformation
 };
 
 #endif

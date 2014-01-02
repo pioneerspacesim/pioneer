@@ -11,7 +11,6 @@
 #include "Background.h"
 #include "Body.h"
 
-// forward declarations
 class Frame;
 class ModelBody;
 namespace Graphics { class Renderer; }

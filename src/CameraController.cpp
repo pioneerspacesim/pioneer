@@ -7,7 +7,6 @@
 #include "Pi.h"
 #include "Game.h"
 
-//----------------------------------------------------------- Camera Controller
 CameraController::CameraController(Camera *camera, const Ship *ship) :
 	m_camera(camera),
 	m_ship(ship),
@@ -33,7 +32,7 @@ void CameraController::Update()
 	m_camera->SetPosition(m * m_pos + m_ship->GetInterpPosition());
 }
 
-//----------------------------------------------------------- Internal Camera Controller
+
 InternalCameraController::InternalCameraController(Camera *camera, const Ship *ship) :
 	CameraController(camera, ship),
 	m_mode(MODE_FRONT)
@@ -137,7 +136,7 @@ void InternalCameraController::Load(Serializer::Reader &rd)
 	SetMode(static_cast<Mode>(rd.Int32()));
 }
 
-//----------------------------------------------------------- Cockpit Camera Controller
+
 CockpitCameraController::CockpitCameraController(Camera* camera, const Ship* ship) :
 	CameraController(camera, ship)
 {
@@ -175,7 +174,7 @@ void CockpitCameraController::Load(Serializer::Reader &rd)
 	// Load stuff here
 }
 
-//----------------------------------------------------------- External Camera Controller
+
 ExternalCameraController::ExternalCameraController(Camera *camera, const Ship *ship) :
 	MoveableCameraController(camera, ship),
 	m_dist(200), m_distTo(m_dist),
@@ -274,7 +273,7 @@ void ExternalCameraController::Load(Serializer::Reader &rd)
 	m_distTo = m_dist;
 }
 
-//----------------------------------------------------------- Sidereal Camera Controller
+
 SiderealCameraController::SiderealCameraController(Camera *camera, const Ship *ship) :
 	MoveableCameraController(camera, ship),
 	m_dist(200), m_distTo(m_dist),
