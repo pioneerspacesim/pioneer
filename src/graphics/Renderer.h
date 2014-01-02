@@ -123,6 +123,7 @@ public:
 	virtual bool SetDepthWrite(bool enabled) { return false; }
 	virtual bool SetWireFrameMode(bool enabled) { return false; }
 
+	virtual bool SetLightsEnabled(const bool enabled) { return false; }
 	virtual bool SetLights(int numlights, const Light *l) { return false; }
 	virtual bool SetAmbientColor(const Color &c) { return false; }
 	const Color &GetAmbientColor() const { return m_ambient; }

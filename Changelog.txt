@@ -42,6 +42,7 @@ December 2013
        #2583, #2584, #2585)
      * Separate sector cache from sector view and use it in more places (#2582)
      * General cleanup and warning fixes (#2596)
+     * Render screen to texture in preparation for post-processing effects (#2525)
 
 November 2013
 
