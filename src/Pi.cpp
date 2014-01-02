@@ -164,7 +164,7 @@ void Pi::CreateRenderTarget(const Uint16 width, const Uint16 height) {
 		vector2f(width, height),
 		Graphics::LINEAR_CLAMP, false, false, 0);
 	Pi::renderTexture.Reset(Pi::renderer->CreateTexture(texDesc));
-	Pi::renderQuad.reset(new Graphics::Drawables::TexturedQuad(Pi::renderer, Pi::renderTexture.Get(), vector2f(0.0f,0.0f), vector2f(800.0f, 600.0f)));
+	Pi::renderQuad.reset(new Graphics::Drawables::TexturedQuad(Pi::renderer, Pi::renderTexture.Get(), vector2f(0.0f,0.0f), vector2f(float(Graphics::GetScreenWidth()), float(Graphics::GetScreenHeight()))));
 
 	// Complete the RT description so we can request a buffer.
 	// NB: we don't want it to create use a texture because we share it with the textured quad created above.
@@ -192,7 +192,7 @@ void Pi::DrawRenderTarget() {
 		Pi::renderer->SetBlendMode(Graphics::BLEND_ALPHA);
 		Pi::renderer->SetMatrixMode(Graphics::MatrixMode::PROJECTION);
 		Pi::renderer->PushMatrix();
-		Pi::renderer->SetOrthographicProjection(0, 800, 600, 0, -1, 1);
+		Pi::renderer->SetOrthographicProjection(0, Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), 0, -1, 1);
 		Pi::renderer->SetMatrixMode(Graphics::MatrixMode::MODELVIEW);
 		Pi::renderer->PushMatrix();
 		Pi::renderer->LoadIdentity();
