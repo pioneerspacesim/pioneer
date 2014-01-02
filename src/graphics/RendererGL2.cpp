@@ -341,6 +341,14 @@ bool RendererGL2::SetWireFrameMode(bool enabled)
 	return true;
 }
 
+void RendererGL2::SetLights(const bool enabled) { 
+	if( enabled ) {
+		glEnable(GL_LIGHTING);
+	} else {
+		glDisable(GL_LIGHTING);
+	}
+}
+
 bool RendererGL2::SetLights(int numlights, const Light *lights)
 {
 	if (numlights < 1) return false;
