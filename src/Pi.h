@@ -220,9 +220,9 @@ private:
 
 	static Gui::Fixed *menu;
 
-	static Graphics::RenderTarget *pRTarget;
-	static RefCountedPtr<Graphics::Texture> m_texture;
-	static std::unique_ptr<Graphics::Drawables::TexturedQuad> m_quad;
+	static Graphics::RenderTarget *renderTarget;
+	static RefCountedPtr<Graphics::Texture> renderTexture;
+	static std::unique_ptr<Graphics::Drawables::TexturedQuad> renderQuad;
 };
 
 #endif /* _PI_H */

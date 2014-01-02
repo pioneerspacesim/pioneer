@@ -137,9 +137,9 @@ RefCountedPtr<UI::Context> Pi::ui;
 ModelCache *Pi::modelCache;
 Intro *Pi::intro;
 SDLGraphics *Pi::sdl;
-Graphics::RenderTarget *Pi::pRTarget;
-RefCountedPtr<Graphics::Texture> Pi::m_texture;
-std::unique_ptr<Graphics::Drawables::TexturedQuad> Pi::m_quad;
+Graphics::RenderTarget *Pi::renderTarget;
+RefCountedPtr<Graphics::Texture> Pi::renderTexture;
+std::unique_ptr<Graphics::Drawables::TexturedQuad> Pi::renderQuad;
 
 #if WITH_OBJECTVIEWER
 ObjectViewerView *Pi::objectViewerView;
@@ -163,8 +163,8 @@ void Pi::CreateRenderTarget(const Uint16 width, const Uint16 height) {
 		Graphics::TEXTURE_RGB_888,
 		vector2f(width, height),
 		Graphics::LINEAR_CLAMP, false, false, 0);
-	Pi::m_texture.Reset(Pi::renderer->CreateTexture(texDesc));
-	Pi::m_quad.reset(new Graphics::Drawables::TexturedQuad(Pi::renderer, m_texture.Get(), vector2f(0.0f,0.0f), vector2f(800.0f, 600.0f)));
+	Pi::renderTexture.Reset(Pi::renderer->CreateTexture(texDesc));
+	Pi::renderQuad.reset(new Graphics::Drawables::TexturedQuad(Pi::renderer, Pi::renderTexture.Get(), vector2f(0.0f,0.0f), vector2f(800.0f, 600.0f)));
 
 	// Complete the RT description so we can request a buffer.
 	// NB: we don't want it to create use a texture because we share it with the textured quad created above.
@@ -174,9 +174,9 @@ void Pi::CreateRenderTarget(const Uint16 width, const Uint16 height) {
 		Graphics::TEXTURE_NONE,		// don't create a texture
 		Graphics::TEXTURE_DEPTH,
 		false);
-	Pi::pRTarget = Pi::renderer->CreateRenderTarget(rtDesc);
+	Pi::renderTarget = Pi::renderer->CreateRenderTarget(rtDesc);
 
-	pRTarget->SetColorTexture(Pi::m_texture.Get());
+	Pi::renderTarget->SetColorTexture(Pi::renderTexture.Get());
 }
 
 //static
@@ -198,7 +198,7 @@ void Pi::DrawRenderTarget() {
 		Pi::renderer->LoadIdentity();
 	}
 	
-	Pi::m_quad->Draw( Pi::renderer );
+	Pi::renderQuad->Draw( Pi::renderer );
 
 	//Gui::Screen::LeaveOrtho();
 	{
@@ -215,12 +215,12 @@ void Pi::DrawRenderTarget() {
 
 //static
 void Pi::BeginRenderTarget() {
-	const bool bTargetSet = Pi::renderer->SetRenderTarget(Pi::pRTarget);
+	Pi::renderer->SetRenderTarget(Pi::renderTarget);
 }
 
 //static
 void Pi::EndRenderTarget() {
-	Pi::renderer->SetRenderTarget(NULL);
+	Pi::renderer->SetRenderTarget(nullptr);
 }
 
 static void draw_progress(UI::Gauge *gauge, UI::Label *label, float progress)
