@@ -195,6 +195,10 @@
       "description" : "",
       "message" : "Display speed lines"
    },
+   "DISPLAY_HUD_TRAILS" : {
+      "description" : "",
+      "message" : "Display hud trails"
+   },
    "DOCK_AT_CURRENT_TARGET" : {
       "description" : "",
       "message" : "Dock at current target"
