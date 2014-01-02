@@ -188,7 +188,7 @@ void Pi::DrawRenderTarget() {
 	//Gui::Screen::EnterOrtho();
 	{
 		Pi::renderer->SetDepthTest(false);
-		Pi::renderer->SetLights(false);
+		Pi::renderer->SetLightsEnabled(false);
 		Pi::renderer->SetBlendMode(Graphics::BLEND_ALPHA);
 		Pi::renderer->SetMatrixMode(Graphics::MatrixMode::PROJECTION);
 		Pi::renderer->PushMatrix();
@@ -206,7 +206,7 @@ void Pi::DrawRenderTarget() {
 		Pi::renderer->PopMatrix();
 		Pi::renderer->SetMatrixMode(Graphics::MatrixMode::MODELVIEW);
 		Pi::renderer->PopMatrix();
-		Pi::renderer->SetLights(true);
+		Pi::renderer->SetLightsEnabled(true);
 		Pi::renderer->SetDepthTest(true);
 	}
 
