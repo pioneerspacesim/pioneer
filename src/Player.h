@@ -17,7 +17,7 @@ class Player: public Ship {
 public:
 	OBJDEF(Player, Ship, PLAYER);
 	Player(ShipType::Id shipId);
-	Player() { }; //default constructor used before Load
+	Player(); //default constructor used before Load
 	virtual void SetDockedWith(SpaceStation *, int port);
 	virtual bool OnDamage(Object *attacker, float kgDamage);
 	virtual bool SetWheelState(bool down); // returns success of state change, NOT state itself
@@ -35,6 +35,8 @@ public:
 
 	virtual Ship::HyperjumpStatus StartHyperspaceCountdown(const SystemPath &dest);
 	virtual void ResetHyperspaceCountdown();
+
+	void OnCockpitActivated();
 
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
