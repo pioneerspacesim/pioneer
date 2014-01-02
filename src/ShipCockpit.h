@@ -6,6 +6,7 @@
 
 #include "libs.h"
 #include "ModelBody.h"
+#include "ShipType.h"
 
 struct ShipType;
 

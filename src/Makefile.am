@@ -115,6 +115,7 @@ noinst_HEADERS = \
 	Sfx.h \
 	Ship.h \
 	ShipAICmd.h \
+	ShipCockpit.h \
 	ShipController.h \
 	ShipCpanel.h \
 	ShipCpanelMultiFuncDisplays.h \
@@ -247,6 +248,7 @@ pioneer_SOURCES	= \
 	Ship-AI.cpp \
 	Ship.cpp \
 	ShipAICmd.cpp \
+	ShipCockpit.cpp \
 	ShipController.cpp \
 	ShipCpanel.cpp \
 	ShipCpanelMultiFuncDisplays.cpp \

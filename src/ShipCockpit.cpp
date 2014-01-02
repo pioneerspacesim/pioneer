@@ -8,8 +8,10 @@
 #include "MathUtil.h"
 
 ShipCockpit::ShipCockpit(const ShipType& ship_type) :
-	m_type(ship_type), matTransform(matrix4x4d::Identity()), vTranslate(vector3d(0.0, 0.0, 0.0)),
-	fRInterp(0.0f), fTInterp(0.0f), fGForce(0.0f), fOffset(0.0f), eEasing(CLE_QUAD_EASING)
+	m_type(ship_type),
+	fRInterp(0.0f), fTInterp(0.0f), fGForce(0.0f), fOffset(0.0f), eEasing(CLE_QUAD_EASING),
+	vTranslate(vector3d(0.0, 0.0, 0.0)),
+	matTransform(matrix4x4d::Identity())
 {
 	Init();
 }
