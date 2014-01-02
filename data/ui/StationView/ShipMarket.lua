@@ -1,4 +1,4 @@
--- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -190,9 +190,9 @@ local shipMarket = function (args)
 	updateStation(station, station:GetShipsOnSale())
 
 	return
-		ui:Grid(2,1)
+		ui:Grid({48,4,48},1)
 			:SetColumn(0, {shipTable})
-			:SetColumn(1, {shipInfo})
+			:SetColumn(2, {shipInfo})
 end
 
 return shipMarket

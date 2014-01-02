@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ShipCpanelMultiFuncDisplays.h"
@@ -195,10 +195,12 @@ void ScannerWidget::Draw()
 	m_renderer->DrawTriangles(&va, Graphics::vtxColorMaterial, TRIANGLE_FAN);
 
 	// circles and spokes
-	Graphics::Renderer::MatrixTicket ticket(m_renderer, Graphics::MatrixMode::MODELVIEW);
-	m_renderer->Translate(m_x, m_y, 0);
-	m_renderer->Scale(m_x, m_y, 1.0f);
-	DrawRingsAndSpokes(false);
+	{
+		Graphics::Renderer::MatrixTicket ticket(m_renderer, Graphics::MatrixMode::MODELVIEW);
+		m_renderer->Translate(m_x, m_y, 0);
+		m_renderer->Scale(m_x, m_y, 1.0f);
+		DrawRingsAndSpokes(false);
+	}
 
 	// objects above
 	if (!m_contacts.empty()) DrawBlobs(false);

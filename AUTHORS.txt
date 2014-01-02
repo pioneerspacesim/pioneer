@@ -82,7 +82,7 @@ The Pioneer Developers are:
 Licensing
 =========
 
-Copyright © 2008-2013 Pioneer Developers
+Copyright © 2008-2014 Pioneer Developers
 
 Pioneer's core code and extension modules are licensed under the terms of the
 GNU General Public License version 3. See licenses/GPL-3.txt for details.

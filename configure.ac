@@ -1,4 +1,4 @@
-dnl Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+dnl Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 dnl Licensed under the terms of the GPL v3. See COPYING.txt for details
 
 dnl Process this file with autoconf to create configure.

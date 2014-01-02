@@ -1,4 +1,4 @@
--- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -33,7 +33,7 @@ local lobby = function (tab)
 	end)
 
 	return
-		ui:Grid(2,1)
+		ui:Grid({48,4,48},1)
 			:SetColumn(0, {
 				ui:VBox(10):PackEnd({
 					ui:Label(station.label):SetFont("HEADING_LARGE"),
@@ -41,7 +41,7 @@ local lobby = function (tab)
 					ui:Align("MIDDLE", launchButton),
 				})
 			})
-			:SetColumn(1, {
+			:SetColumn(2, {
 				face.widget
 			})
 end

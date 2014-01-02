@@ -1,3 +1,11 @@
+January 2014
+
+   * New features
+     * New ships "Malabar" and "Vatakara" (#2599)
+
+   * Internal changes
+     * Render screen to texture in preparation for post-processing effects (#2525)
+
 December 2013
 
    * New features
@@ -7,16 +15,18 @@ December 2013
      * Make file type (file extension) checks case insensitive (#2328, #2563)
      * Optimise GL matrix operations (improves FPS) (#2541, #2572)
      * Rewrote UI.Box layout to constrain children to the allocated area (#2575)
+     * Table widget now positions its scroll bar on its far-right edge (#2601)
 
    * Fixes
      * Fix GL color depth selection (forces alpha channel, which fixes
        progress bars) (#2573)
      * ARMOUR flag to InfoFace now works (#2589)
+     * Fix depth bug in System and Sector views  (#2595, #2551)
 
    * Script and UI API changes
      * Money is now handled entirely in Lua (#2589)
      * SceneGraph.ModelSkin is serializable (#2589)
-     * Ship.hullPercent is now bindable (#2589)
+     * Ship.hullPercent is now bindable (#2589, #2600, #2598)
      * New format functions: Format.AccelG and Format.MassTonnes (#2589)
      * New ship properties: totalCargo, usedCabins, totalCabins (#2589)
 
@@ -39,6 +49,7 @@ December 2013
      * Replace most uses of Color4f with Color4ub (#2574, #2327, #2581, #2580
        #2583, #2584, #2585)
      * Separate sector cache from sector view and use it in more places (#2582)
+     * General cleanup and warning fixes (#2596)
 
 November 2013
 
