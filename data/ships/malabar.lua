@@ -2,7 +2,7 @@
 -- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
 
 define_ship {
-	name='Malabar transport',
+	name='Malabar',
 	ship_class='medium_passenger_transport',
 	manufacturer='mandarava_csepel',
 	model='malabar',
