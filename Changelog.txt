@@ -1,3 +1,8 @@
+January 2014
+
+   * New features
+     * New ships "Malabar" and "Vatakara" (#2599)
+
 December 2013
 
    * New features
