@@ -183,9 +183,9 @@ void Ship::Init()
 {
 	m_invulnerable = false;
 
-	if(m_type->cockpitName.length() > 0) {
+	m_cockpit.release();
+	if (!m_type->cockpitName.empty())
 		m_cockpit.reset(new ShipCockpit(*m_type));
-	}
 
 	m_navLights.reset(new NavLights(GetModel()));
 	m_navLights->SetEnabled(true);
