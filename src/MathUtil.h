@@ -16,42 +16,6 @@ vector3d RandomPointInCircle(double minRadius, double maxRadius);
 inline vector3d RandomPointInCircle(double radius) { return RandomPointInCircle(0.0, radius); }
 inline vector3d RandomPointOnCircle(double radius) { return RandomPointInCircle(radius, radius); }
 
-template <typename T>
-inline T LinearInterp(T a, T b, T delta) {
-	return a + ((b - a) * delta);
-}
-
-template <typename T>
-inline T QuadInterpIn(T a, T b, T delta) {
-	return ((b - a) * delta * delta) + a;
-}
-
-template <typename T>
-inline T QuadInterpOut(T a, T b, T delta) {
-	return -(b - a) * delta * (delta - 2) + a;
-}
-
-template <typename T>
-inline T ExpInterpIn(T a, T b, T delta) {
-	return (b - a) * pow(2, 10 * (delta - 1)) + a;
-}
-
-template <typename T>
-inline T ExpInterpOut(T a, T b, T delta) {
-	return (b - a) * (-pow(2, -10 * delta) + 1) + a;
-}
-
-template <typename T>
-inline T CubicInterpIn(T a, T b, T delta) {
-	return ((b - a) * delta * delta * delta) + a;
-}
-
-template <typename T>
-inline T CubicInterpOut(T a, T b, T delta) {
-	delta--;
-	return (b - a) * (delta * delta * delta + 1) + a;
-}
-
 }
 
 #endif

@@ -5,7 +5,7 @@
 #include "ShipType.h"
 #include "Pi.h"
 #include "Player.h"
-#include "MathUtil.h"
+#include "Easing.h"
 
 ShipCockpit::ShipCockpit(const std::string &modelName) :
 	m_shipDir(0.0),
@@ -187,19 +187,16 @@ float ShipCockpit::EaseOut(float a, float b, float delta)
 {
 	switch(m_easing) {
 		case CLE_CUBIC_EASING:
-			return MathUtil::CubicInterpOut<float>(a, b, delta);
-			break;
+			return Easing::Cubic::EaseOut(delta, a, b-a, 1.0f);
 
 		case CLE_QUAD_EASING:
-			return MathUtil::QuadInterpOut<float>(a, b, delta);
-			break;
+			return Easing::Quad::EaseOut(delta, a, b-a, 1.0f);
 
 		case CLE_EXP_EASING:
-			return MathUtil::ExpInterpOut<float>(a, b, delta);
-			break;
+			return Easing::Expo::EaseOut(delta, a, b-a, 1.0f);
 
 		default:
-			return MathUtil::LinearInterp<float>(a, b, delta);
+			return Easing::Linear::EaseOut(delta, a, b-a, 1.0f);
 	}
 }
 
@@ -207,18 +204,15 @@ float ShipCockpit::EaseIn(float a, float b, float delta)
 {
 	switch(m_easing) {
 		case CLE_CUBIC_EASING:
-			return MathUtil::CubicInterpIn<float>(a, b, delta);
-			break;
+			return Easing::Cubic::EaseIn(delta, a, b-a, 1.0f);
 
 		case CLE_QUAD_EASING:
-			return MathUtil::QuadInterpIn<float>(a, b, delta);
-			break;
+			return Easing::Quad::EaseIn(delta, a, b-a, 1.0f);
 
 		case CLE_EXP_EASING:
-			return MathUtil::ExpInterpIn<float>(a, b, delta);
-			break;
+			return Easing::Expo::EaseIn(delta, a, b-a, 1.0f);
 
 		default:
-			return MathUtil::LinearInterp<float>(a, b, delta);
+			return Easing::Linear::EaseIn(delta, a, b-a, 1.0f);
 	}
 }
