@@ -11,7 +11,7 @@ local Serializer = import("Serializer")
 local l = Lang.GetResource("module-donatetocranks")
 
 local flavours = {}
-for i = 0,4 do
+for i = 0,5 do
 	table.insert(flavours, {
 		title     = l["FLAVOUR_" .. i .. "_TITLE"],
 		message   = l["FLAVOUR_" .. i .. "_MESSAGE"],
