@@ -39,6 +39,14 @@
       "description" : "",
       "message" : "ADAKOZZ! Mentsük meg a fajokat. Állítsuk meg az újonnan betelepült világok kifosztását."
    },
+   "FLAVOUR_5_MESSAGE" : {
+      "description" : "",
+      "message" : "Szabadságot az űrhajóknak! Mennyit szeretnél felajánlani? Jó bütykölést!"
+   },
+   "FLAVOUR_5_TITLE" : {
+      "description" : "",
+      "message" : "TÁMOGATSD A SZABADSÁGOT! Vess véget a hajódat vezérlő zárt szoftverek igazságtalan elnyomásának!"
+   },
    "HANG_UP" : {
       "description" : "",
       "message" : "Kapcsolat megszakítása."

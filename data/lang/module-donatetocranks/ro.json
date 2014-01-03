@@ -39,6 +39,14 @@
       "description" : "",
       "message" : "DONATE! Save our species. Stop the carnage of newly settled worlds."
    },
+   "FLAVOUR_5_MESSAGE" : {
+      "description" : "",
+      "message" : "Liberate your ship! Please choose amount to donate. Happy hacking."
+   },
+   "FLAVOUR_5_TITLE" : {
+      "description" : "",
+      "message" : "SUPPORT FREEDOM! Stop the great injustice of proprietary software controlling your ship."
+   },
    "HANG_UP" : {
       "description" : "",
       "message" : "Închide."
