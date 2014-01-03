@@ -183,9 +183,25 @@ void Ship::Init()
 {
 	m_invulnerable = false;
 
+	// XXX select a cockpit model. this is all quite skanky because we want a
+	// fallback if the name is not found, which means having to actually try to
+	// load the model. but ModelBody (on which ShipCockpit is currently based)
+	// requires a model name, not a model object. it won't hurt much because it
+	// all stays in the model cache anyway, its just awkward. the fix is to fix
+	// ShipCockpit so its not a ModelBody and thus does its model work
+	// directly, but we're not there yet
 	m_cockpit.release();
-	if (!m_type->cockpitName.empty())
-		m_cockpit.reset(new ShipCockpit(*m_type));
+	std::string cockpitModelName;
+	if (!m_type->cockpitName.empty()) {
+		if (Pi::FindModel(m_type->cockpitName, false))
+			cockpitModelName = m_type->cockpitName;
+	}
+	if (cockpitModelName.empty()) {
+		if (Pi::FindModel("default_cockpit", false))
+			cockpitModelName = "default_cockpit";
+	}
+	if (!cockpitModelName.empty())
+		m_cockpit.reset(new ShipCockpit(cockpitModelName));
 
 	m_navLights.reset(new NavLights(GetModel()));
 	m_navLights->SetEnabled(true);

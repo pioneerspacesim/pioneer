@@ -6,9 +6,7 @@
 
 #include "libs.h"
 #include "ModelBody.h"
-#include "ShipType.h"
-
-struct ShipType;
+#include "scenegraph/Model.h"
 
 static const float COCKPIT_LAG_MAX_ANGLE = 7.5f;
 static const float COCKPIT_ROTATION_INTERP_MULTIPLIER = 5.0f;
@@ -27,7 +25,7 @@ enum CockpitLagEasing
 class ShipCockpit : public ModelBody
 {
 public:
-	explicit ShipCockpit(const ShipType& ship_type);
+	explicit ShipCockpit(const std::string &modelName);
 	virtual ~ShipCockpit();
 
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;
@@ -37,7 +35,6 @@ public:
 	void OnActivated();
 
 protected:
-	void Init();
 	float CalculateSignedForwardVelocity(vector3d forward, vector3d velocity);
 	float EaseOut(float a, float b, float delta);
 	float EaseIn(float a, float b, float delta);
@@ -45,8 +42,6 @@ protected:
 private:
 	ShipCockpit(const ShipCockpit&);
 	ShipCockpit& operator=(const ShipCockpit&);
-
-	ShipType m_type;
 
 	vector3d m_shipDir;        // current ship direction
 	vector3d m_shipYaw;        // current ship yaw vector

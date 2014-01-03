@@ -7,8 +7,7 @@
 #include "Player.h"
 #include "MathUtil.h"
 
-ShipCockpit::ShipCockpit(const ShipType& ship_type) :
-	m_type(ship_type),
+ShipCockpit::ShipCockpit(const std::string &modelName) :
 	m_shipDir(0.0),
 	m_shipYaw(0.0),
 	m_dir(0.0),
@@ -22,20 +21,15 @@ ShipCockpit::ShipCockpit(const ShipType& ship_type) :
 	m_translate(0.0),
 	m_transform(matrix4x4d::Identity())
 {
-	Init();
+	assert(!modelName.empty());
+	SetModel(modelName.c_str());
+	assert(GetModel());
+	SetColliding(false);
 }
 
 ShipCockpit::~ShipCockpit()
 {
 
-}
-
-void ShipCockpit::Init()
-{
-	assert(!m_type.cockpitName.empty());
-	SetModel(m_type.cockpitName.c_str());
-	SetColliding(false);
-	assert(GetModel());
 }
 
 void ShipCockpit::Render(Graphics::Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
