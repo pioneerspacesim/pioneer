@@ -22,6 +22,7 @@ static Sound::Event s_soundHyperdrive;
 Player::Player(ShipType::Id shipId): Ship(shipId)
 {
 	SetController(new PlayerShipController());
+	InitCockpit();
 }
 
 void Player::Save(Serializer::Writer &wr, Space *space)
@@ -33,6 +34,33 @@ void Player::Load(Serializer::Reader &rd, Space *space)
 {
 	Pi::player = this;
 	Ship::Load(rd, space);
+	InitCockpit();
+}
+
+void Player::InitCockpit()
+{
+	m_cockpit.release();
+	if (!Pi::config->Int("EnableCockpit"))
+		return;
+
+	// XXX select a cockpit model. this is all quite skanky because we want a
+	// fallback if the name is not found, which means having to actually try to
+	// load the model. but ModelBody (on which ShipCockpit is currently based)
+	// requires a model name, not a model object. it won't hurt much because it
+	// all stays in the model cache anyway, its just awkward. the fix is to fix
+	// ShipCockpit so its not a ModelBody and thus does its model work
+	// directly, but we're not there yet
+	std::string cockpitModelName;
+	if (!GetShipType()->cockpitName.empty()) {
+		if (Pi::FindModel(GetShipType()->cockpitName, false))
+			cockpitModelName = GetShipType()->cockpitName;
+	}
+	if (cockpitModelName.empty()) {
+		if (Pi::FindModel("default_cockpit", false))
+			cockpitModelName = "default_cockpit";
+	}
+	if (!cockpitModelName.empty())
+		m_cockpit.reset(new ShipCockpit(cockpitModelName));
 }
 
 //XXX perhaps remove this, the sound is very annoying
@@ -183,4 +211,20 @@ void Player::ResetHyperspaceCountdown()
 {
 	s_soundHyperdrive.Play("Hyperdrive_Abort");
 	Ship::ResetHyperspaceCountdown();
+}
+
+void Player::OnCockpitActivated()
+{
+	if (m_cockpit)
+		m_cockpit->OnActivated();
+}
+
+void Player::StaticUpdate(const float timeStep)
+{
+	Ship::StaticUpdate(timeStep);
+
+	// XXX even when not on screen. hacky, but really cockpit shouldn't be here
+	// anyway so this will do for now
+	if (m_cockpit)
+		m_cockpit->Update(timeStep);
 }

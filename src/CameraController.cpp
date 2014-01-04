@@ -32,6 +32,7 @@ void CameraController::Update()
 	m_camera->SetPosition(m * m_pos + m_ship->GetInterpPosition());
 }
 
+
 InternalCameraController::InternalCameraController(Camera *camera, const Ship *ship) :
 	CameraController(camera, ship),
 	m_mode(MODE_FRONT)
