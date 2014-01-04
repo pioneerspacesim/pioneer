@@ -2,7 +2,7 @@ January 2014
 
    * New features
      * New ships "Malabar" and "Vatakara" (#2599)
-     * Initial cockpit support (experimental) (#2603)
+     * Initial cockpit support (experimental) (#2603, #2614)
 
    * Minor changes and tweaks
      * New "free software" charity on the bulletin board (#2611)
