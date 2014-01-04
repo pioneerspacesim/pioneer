@@ -45,6 +45,7 @@ struct ShipType {
 	std::string shipClass;
 	std::string manufacturer;
 	std::string modelName;
+	std::string cockpitName;
 	float linThrust[THRUSTER_MAX];
 	float angThrust;
 	struct GunMount {

@@ -51,6 +51,7 @@ private:
 	matrix3x3d m_orient;
 };
 
+
 class InternalCameraController : public CameraController {
 public:
 	enum Mode {
@@ -84,6 +85,24 @@ private:
 	vector3d m_bottomPos; matrix3x3d m_bottomOrient;
 };
 
+
+class CockpitCameraController : public CameraController {
+public:
+	CockpitCameraController(Camera *camera, const Ship *ship);
+	virtual void Reset();
+
+	Type GetType() const { return INTERNAL; }
+	const char *GetName() const { return m_name; }
+	void Save(Serializer::Writer &wr);
+	void Load(Serializer::Reader &rd);
+
+private:
+	const char *m_name;
+
+	vector3d m_frontPos;  matrix3x3d m_frontOrient;
+};
+
+
 class MoveableCameraController : public CameraController {
 public:
 	MoveableCameraController(Camera *camera, const Ship *ship) :
@@ -106,6 +125,7 @@ public:
 	/// Animated zoom update (on each frame), primarily designed for mouse wheel.
 	virtual void ZoomEventUpdate(float frameTime) { }
 };
+
 
 // Zoomable, rotatable orbit camera, always looks at the ship
 class ExternalCameraController : public MoveableCameraController {
@@ -141,6 +161,7 @@ private:
 	double m_rotY; //horizontal rot
 	matrix3x3d m_extOrient;
 };
+
 
 // Much like external camera, but does not turn when the ship turns
 class SiderealCameraController : public MoveableCameraController {

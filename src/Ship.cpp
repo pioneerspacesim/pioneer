@@ -183,6 +183,26 @@ void Ship::Init()
 {
 	m_invulnerable = false;
 
+	// XXX select a cockpit model. this is all quite skanky because we want a
+	// fallback if the name is not found, which means having to actually try to
+	// load the model. but ModelBody (on which ShipCockpit is currently based)
+	// requires a model name, not a model object. it won't hurt much because it
+	// all stays in the model cache anyway, its just awkward. the fix is to fix
+	// ShipCockpit so its not a ModelBody and thus does its model work
+	// directly, but we're not there yet
+	m_cockpit.release();
+	std::string cockpitModelName;
+	if (!m_type->cockpitName.empty()) {
+		if (Pi::FindModel(m_type->cockpitName, false))
+			cockpitModelName = m_type->cockpitName;
+	}
+	if (cockpitModelName.empty()) {
+		if (Pi::FindModel("default_cockpit", false))
+			cockpitModelName = "default_cockpit";
+	}
+	if (!cockpitModelName.empty())
+		m_cockpit.reset(new ShipCockpit(cockpitModelName));
+
 	m_navLights.reset(new NavLights(GetModel()));
 	m_navLights->SetEnabled(true);
 
@@ -1129,6 +1149,11 @@ void Ship::StaticUpdate(const float timeStep)
 	if (m_type->tag == ShipType::TAG_MISSILE && m_thrusters.z < 0.0 && 0.1*Pi::rng.Double() < timeStep) {
 		vector3d pos = GetOrient() * vector3d(0, 0 , 5);
 		Sfx::AddThrustSmoke(this, Sfx::TYPE_SMOKE, std::min(10.0*GetVelocity().Length()*abs(m_thrusters.z),100.0),pos);
+	}
+	
+	// Cockpit
+	if(GetCockpit() && Pi::worldView && Pi::worldView->GetCamType() == WorldView::CAM_COCKPIT) {
+		m_cockpit->Update(timeStep);
 	}
 }
 

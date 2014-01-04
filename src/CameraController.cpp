@@ -32,6 +32,7 @@ void CameraController::Update()
 	m_camera->SetPosition(m * m_pos + m_ship->GetInterpPosition());
 }
 
+
 InternalCameraController::InternalCameraController(Camera *camera, const Ship *ship) :
 	CameraController(camera, ship),
 	m_mode(MODE_FRONT)
@@ -133,6 +134,44 @@ void InternalCameraController::Save(Serializer::Writer &wr)
 void InternalCameraController::Load(Serializer::Reader &rd)
 {
 	SetMode(static_cast<Mode>(rd.Int32()));
+}
+
+
+CockpitCameraController::CockpitCameraController(Camera* camera, const Ship* ship) :
+	CameraController(camera, ship)
+{
+	Reset();
+}
+
+void CockpitCameraController::Reset()
+{
+	CameraController::Reset();
+
+	const SceneGraph::Model *m = GetShip()->GetModel();
+
+	matrix4x4f fallbackTransform = matrix4x4f::Translation(vector3f(0.0f));
+	const SceneGraph::MatrixTransform *fallback = m->FindTagByName("tag_camera");
+	if(fallback) {
+		fallbackTransform = fallback->GetTransform() * matrix4x4f::RotateYMatrix(M_PI);
+	} else {
+		fallbackTransform = matrix4x4f::Translation(vector3f(GetShip()->GetShipType()->cameraOffset));
+	}
+
+	FillCameraPosOrient(m, "tag_camera_front", m_frontPos, m_frontOrient, fallbackTransform, matrix3x3d::Identity());
+
+	m_name = Lang::CAMERA_COCKPIT_VIEW;
+	SetPosition(m_frontPos);
+	SetOrient(m_frontOrient);
+}
+ 
+void CockpitCameraController::Save(Serializer::Writer &wr)
+{
+	// Save stuff here
+}
+
+void CockpitCameraController::Load(Serializer::Reader &rd)
+{
+	// Load stuff here
 }
 
 

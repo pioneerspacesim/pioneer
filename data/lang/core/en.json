@@ -147,6 +147,10 @@
       "description" : "",
       "message" : "Top camera"
    },
+   "CAMERA_COCKPIT_VIEW" : {
+      "description" : "",
+      "message" : "Cockpit camera"
+   },
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
       "message" : "Can't save game while in hyperspace"
@@ -214,6 +218,10 @@
    "CO2_ATMOSPHERE" : {
       "description" : "",
       "message" : "\" Carbon Dioxide atmosphere\""
+   },
+   "COCKPIT_VIEW" : {
+      "description" : "",
+      "message" : "Cockpit View"
    },
    "COMMA_HIGHLY_VOLCANIC" : {
       "description" : "",
