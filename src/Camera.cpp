@@ -74,7 +74,7 @@ void Camera::Update()
 	m_camFrame = new Frame(m_frame, "camera", Frame::FLAG_ROTATING);
 
 	// move and orient it to the camera position
-	m_camFrame->SetOrient(m_orient);
+	m_camFrame->SetOrient(m_orient, Pi::game ? Pi::game->GetTime() : 0.0);
 	m_camFrame->SetPosition(m_pos);
 
 	// make sure old orient and interpolated orient (rendering orient) are not rubbish
