@@ -6,6 +6,7 @@ January 2014
 
    * Minor changes and tweaks
      * New "free software" charity on the bulletin board (#2611)
+     * Change start ship to Xylophis
 
    * Internal changes
      * Render screen to texture in preparation for post-processing effects (#2525)
