@@ -99,6 +99,10 @@ ui.templates.Settings = function (args)
 			Engine.GetDisplaySpeedLines, Engine.SetDisplaySpeedLines,
 			l.DISPLAY_SPEED_LINES)
 
+		local cockpitCheckBox = optionCheckBox(
+			Engine.GetCockpitEnabled, Engine.SetCockpitEnabled,
+			l.ENABLE_COCKPIT)
+
 		local fullScreenCheckBox = optionCheckBox(
 			Engine.GetFullscreen, Engine.SetFullscreen,
 			l.FULL_SCREEN)
@@ -121,6 +125,7 @@ ui.templates.Settings = function (args)
 				cityDetailDropDown,
 				navTunnelsCheckBox,
 				speedLinesCheckBox,
+				cockpitCheckBox,
 			})))
 	end
 
