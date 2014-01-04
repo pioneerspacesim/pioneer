@@ -14,14 +14,6 @@ static const float COCKPIT_ACCEL_INTERP_MULTIPLIER = 0.5f;
 static const float COCKPIT_MAX_GFORCE = 10000.0f;
 static const float COCKPIT_ACCEL_OFFSET = 0.075f;
 
-enum CockpitLagEasing
-{
-	CLE_LINEAR_EASING,
-	CLE_CUBIC_EASING,
-	CLE_QUAD_EASING,
-	CLE_EXP_EASING,
-};
-
 class ShipCockpit : public ModelBody
 {
 public:
@@ -36,8 +28,6 @@ public:
 
 protected:
 	float CalculateSignedForwardVelocity(vector3d forward, vector3d velocity);
-	float EaseOut(float a, float b, float delta);
-	float EaseIn(float a, float b, float delta);
 
 private:
 	ShipCockpit(const ShipCockpit&);
@@ -52,7 +42,6 @@ private:
 	float m_gForce;            // current ship gforce
 	float m_offset;            // current ship offset due to acceleration effect
 	float m_shipVel;           // current ship velocity
-	CockpitLagEasing m_easing; // Easing function for lag recover
 	vector3d m_translate;      // cockpit translation
 	matrix4x4d m_transform;    // cockpit transformation
 };

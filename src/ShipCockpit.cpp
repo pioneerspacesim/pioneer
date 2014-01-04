@@ -17,7 +17,6 @@ ShipCockpit::ShipCockpit(const std::string &modelName) :
 	m_gForce(0.f),
 	m_offset(0.f),
 	m_shipVel(0.f),
-	m_easing(CLE_QUAD_EASING),
 	m_translate(0.0),
 	m_transform(matrix4x4d::Identity())
 {
@@ -65,7 +64,7 @@ void ShipCockpit::Update(float timeStep)
 		m_transInterp = 1.0f;	
 		m_translate.z = offset;
 	}
-	m_translate.z = EaseIn(m_translate.z, offset, m_transInterp);
+	m_translate.z = Easing::Quad::EaseIn(double(m_transInterp), m_translate.z, offset-m_translate.z, 1.0);
 	m_gForce = gforce;
 	m_offset = offset;
 	m_shipVel = cur_vel;
@@ -98,7 +97,7 @@ void ShipCockpit::Update(float timeStep)
 			if(angle > DEG2RAD(COCKPIT_LAG_MAX_ANGLE)) {
 				angle = DEG2RAD(COCKPIT_LAG_MAX_ANGLE);
 			}
-			angle = EaseOut(angle, 0.0, m_rotInterp);
+			angle = Easing::Quad::EaseOut(m_rotInterp, angle, -angle, 1.0f);
 			m_dir = cur_dir;
 			if(angle >= 0.0f) {
 				m_dir.ArbRotate(rot_axis, angle);
@@ -135,7 +134,7 @@ void ShipCockpit::Update(float timeStep)
 				angle_yaw = DEG2RAD(COCKPIT_LAG_MAX_ANGLE);
 			}
 			if(dot_yaw < 1.0f) {
-				angle_yaw = EaseOut(angle_yaw, 0.0, m_rotInterp);
+				angle_yaw = Easing::Quad::EaseOut(m_rotInterp, angle_yaw, -angle_yaw, 1.0f);
 			}
 			m_yaw = yaw_axis;
 			if(angle_yaw >= 0.0f) {
@@ -181,38 +180,4 @@ void ShipCockpit::OnActivated()
 float ShipCockpit::CalculateSignedForwardVelocity(vector3d normalized_forward, vector3d velocity) {
 	float velz_cos = velocity.Dot(normalized_forward);
 	return (velz_cos * normalized_forward).Length() * (velz_cos < 0.0? -1.0 : 1.0);
-}
-
-float ShipCockpit::EaseOut(float a, float b, float delta)
-{
-	switch(m_easing) {
-		case CLE_CUBIC_EASING:
-			return Easing::Cubic::EaseOut(delta, a, b-a, 1.0f);
-
-		case CLE_QUAD_EASING:
-			return Easing::Quad::EaseOut(delta, a, b-a, 1.0f);
-
-		case CLE_EXP_EASING:
-			return Easing::Expo::EaseOut(delta, a, b-a, 1.0f);
-
-		default:
-			return Easing::Linear::EaseOut(delta, a, b-a, 1.0f);
-	}
-}
-
-float ShipCockpit::EaseIn(float a, float b, float delta)
-{
-	switch(m_easing) {
-		case CLE_CUBIC_EASING:
-			return Easing::Cubic::EaseIn(delta, a, b-a, 1.0f);
-
-		case CLE_QUAD_EASING:
-			return Easing::Quad::EaseIn(delta, a, b-a, 1.0f);
-
-		case CLE_EXP_EASING:
-			return Easing::Expo::EaseIn(delta, a, b-a, 1.0f);
-
-		default:
-			return Easing::Linear::EaseIn(delta, a, b-a, 1.0f);
-	}
 }
