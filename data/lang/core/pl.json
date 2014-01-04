@@ -149,7 +149,7 @@
    },
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
-      "message" : "Nie można zapisać gry w czasie skoku"
+      "message" : "Nie można zapisać gry będąc w nadprzestrzeni"
    },
    "CAPITALIST" : {
       "description" : "",
@@ -613,7 +613,7 @@
    },
    "HYPERSPACE" : {
       "description" : "",
-      "message" : "Skok w nadprzestrzeń"
+      "message" : "Nadprzestrzeń"
    },
    "HYPERSPACE_ARRIVAL_CLOUD" : {
       "description" : "",
@@ -1341,7 +1341,7 @@
    },
    "SET_HYPERSPACE_DESTINATION_TO" : {
       "description" : "",
-      "message" : "Ustawiono cel skoku na %system"
+      "message" : "Ustawiono cel nadprzestrzenny na %system"
    },
    "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE" : {
       "description" : "",
@@ -1725,7 +1725,7 @@
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
-      "message" : "Przemyt"
+      "message" : "Obrót nielegalnymi towarami"
    },
    "TRIPLE_SYSTEM" : {
       "description" : "",

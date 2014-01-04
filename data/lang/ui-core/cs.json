@@ -45,7 +45,7 @@
    },
    "BULLETIN_BOARD" : {
       "description" : "",
-      "message" : "Bulletin Board"
+      "message" : "Bulletin: Zprávy / Mise"
    },
    "BUY_SHIP" : {
       "description" : "",
@@ -61,7 +61,7 @@
    },
    "CAPACITY" : {
       "description" : "",
-      "message" : "Capacity"
+      "message" : "Kapacita"
    },
    "CAPACITY_USED" : {
       "description" : "",
@@ -101,7 +101,7 @@
    },
    "CLEAN" : {
       "description" : "",
-      "message" : "Clean"
+      "message" : "Čistý"
    },
    "CLEAR" : {
       "description" : "",
@@ -269,7 +269,7 @@
    },
    "FORWARD_ACCEL_EMPTY" : {
       "description" : "",
-      "message" : "Forward accel (empty)"
+      "message" : "Zrychlení vpřed (prázdná)"
    },
    "FORWARD_ACCEL_FULL" : {
       "description" : "",
@@ -317,7 +317,7 @@
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Hang up."
+      "message" : "Konec"
    },
    "HARMLESS" : {
       "description" : "",
@@ -357,7 +357,7 @@
    },
    "HULL_INTEGRITY" : {
       "description" : "",
-      "message" : "Hull integrity"
+      "message" : "Integrita trupu"
    },
    "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT" : {
       "description" : "",
@@ -373,7 +373,7 @@
    },
    "HYPERDRIVE_FITTED" : {
       "description" : "",
-      "message" : "Hyperdrive fitted:"
+      "message" : "Hypermotor:"
    },
    "HYPERSPACE_RANGE" : {
       "description" : "",
@@ -401,7 +401,7 @@
    },
    "ITEM_IS_OUT_OF_STOCK" : {
       "description" : "",
-      "message" : "This item is out of stock."
+      "message" : "Tato položka není skladem."
    },
    "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE" : {
       "description" : "",
@@ -425,7 +425,7 @@
    },
    "LEGAL_STATUS" : {
       "description" : "",
-      "message" : "Legal status"
+      "message" : "Právní status"
    },
    "LIGHT_CARGO_SHUTTLE" : {
       "description" : "",
@@ -489,7 +489,7 @@
    },
    "MASS" : {
       "description" : "",
-      "message" : "Mass"
+      "message" : "Hmotnost"
    },
    "MASTER" : {
       "description" : "",
@@ -561,7 +561,7 @@
    },
    "MURDER" : {
       "description" : "",
-      "message" : "Murder"
+      "message" : "Vražda"
    },
    "MUSIC" : {
       "description" : "",
@@ -665,7 +665,7 @@
    },
    "PIRACY" : {
       "description" : "",
-      "message" : "Piracy"
+      "message" : "Pirátství"
    },
    "PLANET_DETAIL_DISTANCE" : {
       "description" : "",
@@ -693,7 +693,7 @@
    },
    "PRICE" : {
       "description" : "",
-      "message" : "Price"
+      "message" : "Cena"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
@@ -725,7 +725,7 @@
    },
    "REQUEST_LAUNCH" : {
       "description" : "",
-      "message" : "Request Launch"
+      "message" : "Požádat o povolení k odletu"
    },
    "RETURN_TO_MENU" : {
       "description" : "",
@@ -733,7 +733,7 @@
    },
    "REVERSE_ACCEL_EMPTY" : {
       "description" : "",
-      "message" : "Reverse accel (empty)"
+      "message" : "Zrychlení vzad (prázdná)"
    },
    "REVERSE_ACCEL_FULL" : {
       "description" : "",
@@ -769,7 +769,7 @@
    },
    "SHIP" : {
       "description" : "",
-      "message" : "Ship"
+      "message" : "Loď"
    },
    "SHIP_INFORMATION" : {
       "description" : "",
@@ -777,11 +777,11 @@
    },
    "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
       "description" : "",
-      "message" : "Your ship is in perfect working condition."
+      "message" : "Vaše loď je již zcela opravena."
    },
    "SHIP_IS_FULLY_LADEN" : {
       "description" : "",
-      "message" : "Your ship is fully laden."
+      "message" : "Vaše loď je plně naložena."
    },
    "SHIP_MARKET" : {
       "description" : "",
@@ -821,7 +821,7 @@
    },
    "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
       "description" : "",
-      "message" : "Thank you for your purchase. Remember to fit equipment and buy fuel before you depart."
+      "message" : "Děkujeme za nákup. Nezapomeňte před odletem nakoupit palivo a vybavení."
    },
    "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP" : {
       "description" : "",
@@ -845,7 +845,7 @@
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
-      "message" : "Trading illegal goods"
+      "message" : "Obchod s nelegálním zbožím"
    },
    "TYPE" : {
       "description" : "",
@@ -853,7 +853,7 @@
    },
    "UNLAWFUL_WEAPONS_DISCHARGE" : {
       "description" : "",
-      "message" : "Unlawful weapons discharge"
+      "message" : "Nezákonnou střelbu"
    },
    "UP_ACCEL" : {
       "description" : "",
@@ -893,7 +893,7 @@
    },
    "WEIGHT_FULLY_LOADED" : {
       "description" : "",
-      "message" : "Weight fully loaded"
+      "message" : "Plná váha"
    },
    "WE_ARE_IN_HYPERSPACE_COMMANDER" : {
       "description" : "",
@@ -901,7 +901,7 @@
    },
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
       "description" : "",
-      "message" : "We have no business with you at the moment."
+      "message" : "Momentálně s tebou nemáme uzavřen žádný obchod."
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",
@@ -933,6 +933,6 @@
    },
    "YOU_NOT_ENOUGH_MONEY" : {
       "description" : "",
-      "message" : "You do not have enough money"
+      "message" : "Nemáš dostatek peněz"
    }
 }
