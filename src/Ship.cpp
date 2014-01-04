@@ -1152,9 +1152,10 @@ void Ship::StaticUpdate(const float timeStep)
 	}
 	
 	// Cockpit
-	if(GetCockpit() && Pi::worldView && Pi::worldView->GetCamType() == WorldView::CAM_COCKPIT) {
+	// XXX even when not on screen. hacky, but really cockpit shouldn't be here
+	// anyway so this will do for now
+	if (m_cockpit)
 		m_cockpit->Update(timeStep);
-	}
 }
 
 void Ship::NotifyRemoved(const Body* const removedBody)

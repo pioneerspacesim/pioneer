@@ -36,8 +36,7 @@ public:
 	enum CamType {
 		CAM_INTERNAL,
 		CAM_EXTERNAL,
-		CAM_SIDEREAL,
-		CAM_COCKPIT
+		CAM_SIDEREAL
 	};
 	void SetCamType(enum CamType);
 	enum CamType GetCamType() const { return m_camType; }
@@ -157,7 +156,6 @@ private:
 	std::unique_ptr<InternalCameraController> m_internalCameraController;
 	std::unique_ptr<ExternalCameraController> m_externalCameraController;
 	std::unique_ptr<SiderealCameraController> m_siderealCameraController;
-	std::unique_ptr<CockpitCameraController> m_cockpitCameraController;
 	CameraController *m_activeCameraController; //one of the above
 
 	Indicator m_velIndicator;

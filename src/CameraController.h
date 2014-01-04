@@ -86,23 +86,6 @@ private:
 };
 
 
-class CockpitCameraController : public CameraController {
-public:
-	CockpitCameraController(Camera *camera, const Ship *ship);
-	virtual void Reset();
-
-	Type GetType() const { return INTERNAL; }
-	const char *GetName() const { return m_name; }
-	void Save(Serializer::Writer &wr);
-	void Load(Serializer::Reader &rd);
-
-private:
-	const char *m_name;
-
-	vector3d m_frontPos;  matrix3x3d m_frontOrient;
-};
-
-
 class MoveableCameraController : public CameraController {
 public:
 	MoveableCameraController(Camera *camera, const Ship *ship) :

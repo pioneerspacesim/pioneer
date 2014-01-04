@@ -53,7 +53,6 @@ WorldView::WorldView(Serializer::Reader &rd): View()
 	m_internalCameraController->Load(rd);
 	m_externalCameraController->Load(rd);
 	m_siderealCameraController->Load(rd);
-	m_cockpitCameraController->Load(rd);
 }
 
 static const float LOW_THRUST_LEVELS[] = { 0.75, 0.5, 0.25, 0.1, 0.05, 0.01 };
@@ -231,7 +230,6 @@ void WorldView::InitObject()
 	m_internalCameraController.reset(new InternalCameraController(m_camera.get(), Pi::player));
 	m_externalCameraController.reset(new ExternalCameraController(m_camera.get(), Pi::player));
 	m_siderealCameraController.reset(new SiderealCameraController(m_camera.get(), Pi::player));
-	m_cockpitCameraController.reset(new CockpitCameraController(m_camera.get(), Pi::player));
 	SetCamType(m_camType); //set the active camera
 
 	m_onHyperspaceTargetChangedCon =
@@ -262,7 +260,6 @@ void WorldView::Save(Serializer::Writer &wr)
 	m_internalCameraController->Save(wr);
 	m_externalCameraController->Save(wr);
 	m_siderealCameraController->Save(wr);
-	m_cockpitCameraController->Save(wr);
 }
 
 void WorldView::SetCamType(enum CamType c)
@@ -274,24 +271,18 @@ void WorldView::SetCamType(enum CamType c)
 	if (Pi::player->GetFlightState() == Ship::DOCKED && !Pi::player->GetDockedWith()->IsGroundStation())
 		c = CAM_INTERNAL;
 
-	if (CAM_COCKPIT == c && Pi::player->GetCockpit() == nullptr)
-		c = CAM_INTERNAL;
-
 	m_camType = c;
 
 	switch(m_camType) {
 		case CAM_INTERNAL:
 			m_activeCameraController = m_internalCameraController.get();
+			Pi::player->OnCockpitActivated();
 			break;
 		case CAM_EXTERNAL:
 			m_activeCameraController = m_externalCameraController.get();
 			break;
 		case CAM_SIDEREAL:
 			m_activeCameraController = m_siderealCameraController.get();
-			break;
-		case CAM_COCKPIT:
-			Pi::player->OnCockpitActivated();
-			m_activeCameraController = m_cockpitCameraController.get();
 			break;
 	}
 
@@ -404,15 +395,13 @@ void WorldView::Draw3D()
 	assert(Pi::player);
 	assert(!Pi::player->IsDead());
 
-	ModelBody* excludeBody = nullptr;
+	Body* excludeBody = nullptr;
 	ShipCockpit* cockpit = nullptr;
-	if(GetCamType() == CAM_COCKPIT && Pi::player) {
-		cockpit = Pi::player->GetCockpit();
+	if(GetCamType() == CAM_INTERNAL) {
 		excludeBody = Pi::player;
-	} else if (GetCamType() == CAM_INTERNAL) {
-		excludeBody = Pi::player;
+		if (m_internalCameraController->GetMode() == InternalCameraController::MODE_FRONT)
+			cockpit = Pi::player->GetCockpit();
 	}
-
 	m_camera->Draw(m_renderer, excludeBody, cockpit);
 
 	// Draw 3D HUD
@@ -871,9 +860,8 @@ void WorldView::Update()
 			else if (KeyBindings::rightCamera.IsActive())  ChangeInternalCameraMode(InternalCameraController::MODE_RIGHT);
 			else if (KeyBindings::topCamera.IsActive())    ChangeInternalCameraMode(InternalCameraController::MODE_TOP);
 			else if (KeyBindings::bottomCamera.IsActive()) ChangeInternalCameraMode(InternalCameraController::MODE_BOTTOM);
-		} else if(GetCamType() == CAM_COCKPIT) {
-			// Cockpit controls here
-		} else {
+		}
+		else {
 			MoveableCameraController *cam = static_cast<MoveableCameraController*>(m_activeCameraController);
 			if (KeyBindings::cameraRotateUp.IsActive()) cam->RotateUp(frameTime);
 			if (KeyBindings::cameraRotateDown.IsActive()) cam->RotateDown(frameTime);
@@ -1272,7 +1260,6 @@ int WorldView::GetActiveWeapon() const
 
 		case CAM_EXTERNAL:
 		case CAM_SIDEREAL:
-		case CAM_COCKPIT:
 		default:
 			return 0;
 	}
@@ -1393,8 +1380,6 @@ void WorldView::UpdateProjectedObjects()
 				case InternalCameraController::MODE_REAR:  laser = 1; break;
 				default: break;
 			}
-		} else if(GetCamType() == CAM_COCKPIT) {
-			laser = 0;
 		}
 
 		if (laser >= 0) {
@@ -1671,8 +1656,6 @@ void WorldView::Draw()
 			default:
 				break;
 		}
-	} else if(GetCamType() == CAM_COCKPIT) {
-		DrawCrosshair(Gui::Screen::GetWidth() / 2.0f, Gui::Screen::GetHeight() / 2.0f, HUD_CROSSHAIR_SIZE, white);
 	}
 
 	glPopAttrib();
