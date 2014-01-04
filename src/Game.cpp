@@ -27,14 +27,16 @@ static const int  s_saveVersion   = 69;
 static const char s_saveStart[]   = "PIONEER";
 static const char s_saveEnd[]     = "END";
 
-Game::Game(const SystemPath &path) :
-	m_time(0),
+Game::Game(const SystemPath &path, double time) :
+	m_time(time),
 	m_state(STATE_NORMAL),
 	m_wantHyperspace(false),
 	m_timeAccel(TIMEACCEL_1X),
 	m_requestedTimeAccel(TIMEACCEL_1X),
 	m_forceTimeAccel(false)
 {
+	if (!Pi::game)
+		Pi::game = this;
 	m_space.reset(new Space(this, path));
 	SpaceStation *station = static_cast<SpaceStation*>(m_space->FindBodyForPath(&path));
 	assert(station);
@@ -51,14 +53,16 @@ Game::Game(const SystemPath &path) :
 	CreateViews();
 }
 
-Game::Game(const SystemPath &path, const vector3d &pos) :
-	m_time(0),
+Game::Game(const SystemPath &path, const vector3d &pos, double time) :
+	m_time(time),
 	m_state(STATE_NORMAL),
 	m_wantHyperspace(false),
 	m_timeAccel(TIMEACCEL_1X),
 	m_requestedTimeAccel(TIMEACCEL_1X),
 	m_forceTimeAccel(false)
 {
+	if (!Pi::game)
+		Pi::game = this;
 	m_space.reset(new Space(this, path));
 	Body *b = m_space->FindBodyForPath(&path);
 	assert(b);

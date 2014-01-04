@@ -25,13 +25,16 @@
  *
  * Start a new game.
  *
- * > Game.StartGame(system_path)
+ * > Game.StartGame(system_path, start_time)
  *
  * Parameters:
  *
  *   system_path - A SystemBody to start at. If this is a starport, the player
  *                 will begin docked here; otherwise the player will begin in
  *                 orbit around the specified body.
+ *
+ *   start_time - optional, default 0. Time to start at in seconds from the
+ *                Pioneer epoch (i.e. from 3200-01-01 00:00 UTC).
  *
  * Availability:
  *
@@ -52,11 +55,11 @@ static int l_game_start_game(lua_State *l)
 
 	RefCountedPtr<StarSystem> system(StarSystem::GetCached(*path));
 	SystemBody *sbody = system->GetBodyByPath(path);
-
+	double time = lua_isnoneornil(l, 2) ? 0.0 : lua_tonumber(l, 2);
 	if (sbody->GetSuperType() == SystemBody::SUPERTYPE_STARPORT)
-		Pi::game = new Game(*path);
+		Pi::game = new Game(*path, time);
 	else
-		Pi::game = new Game(*path, vector3d(0, 1.5*sbody->GetRadius(), 0));
+		Pi::game = new Game(*path, vector3d(0, 1.5*sbody->GetRadius(), 0), time);
 
 	return 0;
 }
