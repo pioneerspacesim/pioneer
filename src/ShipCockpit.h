@@ -23,7 +23,7 @@ public:
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;
 
 	void Update(float timeStep);
-	void RenderCockpit(Graphics::Renderer* renderer, const Camera* camera, const Frame* frame);
+	void RenderCockpit(Graphics::Renderer* renderer, const Camera* camera, Frame* frame);
 	void OnActivated();
 
 protected:

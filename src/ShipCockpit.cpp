@@ -159,10 +159,10 @@ void ShipCockpit::Update(float timeStep)
 	}
 }
 
-void ShipCockpit::RenderCockpit(Graphics::Renderer* renderer, const Camera* camera, const Frame* frame)
+void ShipCockpit::RenderCockpit(Graphics::Renderer* renderer, const Camera* camera, Frame* frame)
 {
 	renderer->ClearDepthBuffer();
-	SetFrame(const_cast<Frame*>(frame));
+	SetFrame(frame);
 	Render(renderer, camera, m_translate, m_transform);
 	SetFrame(nullptr);
 }

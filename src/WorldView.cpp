@@ -407,7 +407,7 @@ void WorldView::Draw3D()
 	ModelBody* excludeBody = nullptr;
 	ShipCockpit* cockpit = nullptr;
 	if(GetCamType() == CAM_COCKPIT && Pi::player) {
-		cockpit = const_cast<ShipCockpit*>(Pi::player->GetCockpit());
+		cockpit = Pi::player->GetCockpit();
 		excludeBody = Pi::player;
 	} else if (GetCamType() == CAM_INTERNAL) {
 		excludeBody = Pi::player;
