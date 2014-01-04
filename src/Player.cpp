@@ -39,6 +39,10 @@ void Player::Load(Serializer::Reader &rd, Space *space)
 
 void Player::InitCockpit()
 {
+	m_cockpit.release();
+	if (!Pi::config->Int("EnableCockpit"))
+		return;
+
 	// XXX select a cockpit model. this is all quite skanky because we want a
 	// fallback if the name is not found, which means having to actually try to
 	// load the model. but ModelBody (on which ShipCockpit is currently based)
@@ -46,7 +50,6 @@ void Player::InitCockpit()
 	// all stays in the model cache anyway, its just awkward. the fix is to fix
 	// ShipCockpit so its not a ModelBody and thus does its model work
 	// directly, but we're not there yet
-	m_cockpit.release();
 	std::string cockpitModelName;
 	if (!GetShipType()->cockpitName.empty()) {
 		if (Pi::FindModel(GetShipType()->cockpitName, false))

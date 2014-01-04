@@ -38,6 +38,7 @@ public:
 	virtual void ResetHyperspaceCountdown();
 
 	// XXX cockpit is here for now because it has a physics component
+	void InitCockpit();
 	ShipCockpit* GetCockpit() const {return m_cockpit.get();}
 	void OnCockpitActivated();
 
@@ -51,8 +52,6 @@ protected:
 	virtual void OnEnterHyperspace();
 
 private:
-	void InitCockpit();
-
 	std::unique_ptr<ShipCockpit> m_cockpit;
 };
 
