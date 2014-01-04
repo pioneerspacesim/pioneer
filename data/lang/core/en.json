@@ -939,7 +939,11 @@
       "description" : "",
       "message" : "%speed{f.0} m/s rel-to %frame"
    },
-   "NAME" : {
+   "NAME_OBJECT" : {
+      "description" : "",
+      "message" : "Name"
+   },
+   "NAME_PERSON" : {
       "description" : "",
       "message" : "Name"
    },

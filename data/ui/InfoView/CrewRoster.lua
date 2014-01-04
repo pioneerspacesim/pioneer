@@ -160,7 +160,7 @@ local crewRoster = function ()
 		headergrid:SetRow(0,
 		{
 			-- Headers
-			ui:Label(l.NAME):SetFont("HEADING_NORMAL"),
+			ui:Label(l.NAME_PERSON):SetFont("HEADING_NORMAL"),
 			ui:Label(l.POSITION):SetFont("HEADING_NORMAL"),
 			ui:Label(l.WAGE):SetFont("HEADING_NORMAL"),
 			ui:Label(l.OWED):SetFont("HEADING_NORMAL"),
