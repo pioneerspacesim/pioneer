@@ -2586,7 +2586,7 @@ void StarSystemCache::ShrinkCache(const SystemPath &here, const bool clear/*=fal
 {
 	PROFILE_SCOPED()
 	// we're going to use these to determine if our StarSystems are within a range that we'll keep for later use
-	static const int survivorRadius = 28;
+	static const int survivorRadius = 30;	// 3 times the distance used by the SectorCache population method.
 
 	// min/max box limits
 	const int xmin = here.sectorX-survivorRadius;
