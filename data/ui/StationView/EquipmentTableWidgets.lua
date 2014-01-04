@@ -91,14 +91,14 @@ local defaultFuncs = {
 
 local stationColumnHeading = {
 	icon  = "",
-	name  = l.NAME,
+	name  = l.NAME_OBJECT,
 	price = l.PRICE,
 	stock = l.IN_STOCK,
 	mass  = l.MASS,
 }
 local shipColumnHeading = {
 	icon      = "",
-	name      = l.NAME,
+	name      = l.NAME_OBJECT,
 	amount    = l.AMOUNT,
 	mass      = l.MASS,
 	massTotal = l.TOTAL_MASS,

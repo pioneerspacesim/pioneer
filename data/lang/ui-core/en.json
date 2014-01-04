@@ -575,7 +575,11 @@
       "description" : "",
       "message" : "Mute"
    },
-   "NAME" : {
+   "NAME_OBJECT" : {
+      "description" : "",
+      "message" : "Name"
+   },
+   "NAME_PERSON" : {
       "description" : "",
       "message" : "Name"
    },
