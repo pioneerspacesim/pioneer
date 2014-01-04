@@ -86,7 +86,7 @@ Space::Space(Game *game, const SystemPath &path)
 	, m_processingFinalizationQueue(false)
 #endif
 {
-	m_starSystem = StarSystem::GetCached(path);
+	m_starSystem = StarSystemCache::GetCached(path);
 	m_background.Refresh(m_starSystem->GetSeed());
 
 	CityOnPlanet::SetCityModelPatterns(m_starSystem->GetPath());

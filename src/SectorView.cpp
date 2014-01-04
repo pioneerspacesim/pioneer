@@ -705,7 +705,7 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 {
 	UpdateDistanceLabelAndLine(labels.distance, m_current, path);
 
-	RefCountedPtr<StarSystem> sys = StarSystem::GetCached(path);
+	RefCountedPtr<StarSystem> sys = StarSystemCache::GetCached(path);
 
 	std::string desc;
 	if (sys->GetNumStars() == 4) {
@@ -881,7 +881,7 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 			// Ideally, since this takes so f'ing long, it wants to be done as a threaded job but haven't written that yet.
 			if( (diff.x < 0.001f && diff.y < 0.001f && diff.z < 0.001f) ) {
 				SystemPath current = SystemPath(sx, sy, sz, sysIdx);
-				RefCountedPtr<StarSystem> pSS = StarSystem::GetCached(current);
+				RefCountedPtr<StarSystem> pSS = StarSystemCache::GetCached(current);
 				(*i).population = pSS->GetTotalPop();
 			}
 
