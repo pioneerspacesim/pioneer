@@ -9,6 +9,7 @@
 #include "HyperspaceCloud.h"
 #include "Ship.h"
 #include "ShipController.h"
+#include "ShipCockpit.h"
 #include "galaxy/StarSystem.h"
 
 namespace Graphics { class Renderer; }
@@ -36,7 +37,11 @@ public:
 	virtual Ship::HyperjumpStatus StartHyperspaceCountdown(const SystemPath &dest);
 	virtual void ResetHyperspaceCountdown();
 
+	// XXX cockpit is here for now because it has a physics component
+	ShipCockpit* GetCockpit() const {return m_cockpit.get();}
 	void OnCockpitActivated();
+
+	virtual void StaticUpdate(const float timeStep);
 
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
@@ -44,6 +49,11 @@ protected:
 
 	virtual void OnEnterSystem();
 	virtual void OnEnterHyperspace();
+
+private:
+	void InitCockpit();
+
+	std::unique_ptr<ShipCockpit> m_cockpit;
 };
 
 #endif /* _PLAYER_H */
