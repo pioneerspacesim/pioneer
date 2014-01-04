@@ -223,6 +223,10 @@
       "description" : "",
       "message" : "Employment"
    },
+   "ENABLE_COCKPIT" : {
+      "description" : "",
+      "message" : "Enable cockpit (EXPERIMENTAL)"
+   },
    "ENABLE_JOYSTICK" : {
       "description" : "",
       "message" : "Oyun kumandası aktif"

@@ -223,6 +223,10 @@
       "description" : "",
       "message" : "Zatrudnienie"
    },
+   "ENABLE_COCKPIT" : {
+      "description" : "",
+      "message" : "Enable cockpit (EXPERIMENTAL)"
+   },
    "ENABLE_JOYSTICK" : {
       "description" : "",
       "message" : "Włącz sterowanie joystickiem"

@@ -223,6 +223,10 @@
       "description" : "",
       "message" : "Impiego"
    },
+   "ENABLE_COCKPIT" : {
+      "description" : "",
+      "message" : "Abilita abitacolo (SPERIMENTALE)"
+   },
    "ENABLE_JOYSTICK" : {
       "description" : "",
       "message" : "Abilita Joystick"
