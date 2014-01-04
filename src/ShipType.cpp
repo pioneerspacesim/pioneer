@@ -61,8 +61,8 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 	LuaTable t(L, -1);
 
 	s.name = t.Get("name", "");
-	s.shipClass = t.Get("ship_class", "");
-	s.manufacturer = t.Get("manufacturer", "");
+	s.shipClass = t.Get("ship_class", "unknown");
+	s.manufacturer = t.Get("manufacturer", "unknown");
 	s.modelName = t.Get("model", "");
 
 	s.cockpitName = t.Get("cockpit", "");
