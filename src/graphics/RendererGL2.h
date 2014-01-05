@@ -90,7 +90,7 @@ public:
 	virtual const matrix4x4f& GetCurrentProjection() const { return m_projectionStack.top(); }
 	virtual void GetCurrentViewport(Sint32 *vp) const {
 		for(int i=0; i<4; i++)
-			vp[i] = m_currentViewport[i];
+			vp[i] = m_viewportStack.top().viewport[i];
 	}
 
 	virtual void SetMatrixMode(MatrixMode mm);
@@ -134,7 +134,28 @@ protected:
 
 	std::stack<matrix4x4f> m_modelViewStack;
 	std::stack<matrix4x4f> m_projectionStack;
-	Sint32 m_currentViewport[4];
+
+	typedef struct TViewport {
+		TViewport() {
+			for(Uint32 i = 0; i < 4; i++) {
+				viewport[i] = 0;
+			}
+		}
+		TViewport(const Sint32 x, const Sint32 y, const Sint32 width, const Sint32 height) {
+			viewport[0] = x;
+			viewport[1] = y;
+			viewport[2] = width;
+			viewport[3] = height;
+		}
+		void Set(const Sint32 x, const Sint32 y, const Sint32 width, const Sint32 height) {
+			viewport[0] = x;
+			viewport[1] = y;
+			viewport[2] = width;
+			viewport[3] = height;
+		}
+		Sint32 viewport[4];
+	};
+	std::stack<TViewport> m_viewportStack;
 	MatrixMode m_matrixMode;
 };
 
