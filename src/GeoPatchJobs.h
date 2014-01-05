@@ -209,30 +209,12 @@ protected:
 class BasePatchJob : public Job
 {
 public:
-	BasePatchJob()
-	{
-	}
+	BasePatchJob() {}
+	virtual ~BasePatchJob() {}
 
-	virtual ~BasePatchJob()
-	{
-	}
-
-	virtual void OnRun()    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
-    {
-        ++s_numActivePatchJobs;
-    }
-	virtual void OnFinish()  // runs in primary thread of the context
-	{
-		--s_numActivePatchJobs;
-	}
-	virtual void OnCancel()   // runs in primary thread of the context
-	{
-		--s_numActivePatchJobs;
-	}
-
-	static uint32_t GetNumActivePatchJobs() { return s_numActivePatchJobs; };
-	static void CancelAllPatchJobs() { s_abort = true; }
-	static void ResetPatchJobCancel() { s_abort = false; }
+	virtual void OnRun() {}    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
+	virtual void OnFinish() {}  // runs in primary thread of the context
+	virtual void OnCancel() {}   // runs in primary thread of the context
 
 protected:
 	// in patch surface coords, [0,1]
@@ -244,9 +226,6 @@ protected:
 	void GenerateMesh(double *heights, vector3f *normals, Color3ub *colors, double *borderHeights, vector3d *borderVertexs,
 		const vector3d &v0, const vector3d &v1, const vector3d &v2, const vector3d &v3,
 		const int edgeLen, const double fracStep, const Terrain *pTerrain) const;
-
-	static uint32_t s_numActivePatchJobs;
-	static bool s_abort;
 };
 
 // ********************************************************************************
