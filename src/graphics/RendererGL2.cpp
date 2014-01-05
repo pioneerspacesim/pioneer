@@ -73,7 +73,7 @@ RendererGL2::RendererGL2(WindowSDL *window, const Graphics::Settings &vs)
 , m_activeRenderTarget(0)
 , m_matrixMode(MatrixMode::MODELVIEW)
 {
-	m_viewportStack.push(TViewport());
+	m_viewportStack.push(Viewport());
 
 	const bool useDXTnTextures = vs.useTextureCompression && glewIsSupported("GL_EXT_texture_compression_s3tc");
 	m_useCompressedTextures = useDXTnTextures;
@@ -216,11 +216,11 @@ bool RendererGL2::SetClearColor(const Color &c)
 bool RendererGL2::SetViewport(int x, int y, int width, int height)
 {
 	assert(!m_viewportStack.empty());
-	TViewport& currentViewport = m_viewportStack.top();
-	currentViewport.viewport[0] = x;
-	currentViewport.viewport[1] = y;
-	currentViewport.viewport[2] = width;
-	currentViewport.viewport[3] = height;
+	Viewport& currentViewport = m_viewportStack.top();
+	currentViewport.x = x;
+	currentViewport.y = y;
+	currentViewport.w = width;
+	currentViewport.h = height;
 	glViewport(x, y, width, height);
 	return true;
 }
