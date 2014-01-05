@@ -11,7 +11,6 @@
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
 #include "graphics/VertexArray.h"
-#include "graphics/gl2/GeoSphereMaterial.h"
 #include "vcacheopt/vcacheopt.h"
 #include <deque>
 #include <algorithm>

@@ -60,6 +60,18 @@ void Uniform::Set(const float m[9])
 		glUniformMatrix3fv(m_location, 1, false, m);
 }
 
+void Uniform::Set(const matrix3x3f &m)
+{
+	if (m_location != -1)
+		glUniformMatrix3fv(m_location, 1, false, &m[0]);
+}
+
+void Uniform::Set(const matrix4x4f &m)
+{
+	if (m_location != -1)
+		glUniformMatrix4fv(m_location, 1, false, &m[0]);
+}
+
 void Uniform::Set(Texture *tex, unsigned int unit)
 {
 	if (m_location != -1 && tex) {

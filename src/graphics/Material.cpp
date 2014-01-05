@@ -11,6 +11,7 @@ Material::Material() :
 	texture2(0),
 	texture3(0),
 	texture4(0),
+	heatGradient(0),
 	diffuse(Color::WHITE),
 	specular(Color::BLACK),
 	emissive(Color::BLACK),

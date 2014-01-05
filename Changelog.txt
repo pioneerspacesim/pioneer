@@ -2,6 +2,7 @@ January 2014
 
    * New features
      * New ships "Malabar" and "Vatakara" (#2599)
+     * Show hull heating effect in atmosphere (#2550)
      * Initial cockpit support (experimental) (#2603, #2614)
 
    * Minor changes and tweaks
