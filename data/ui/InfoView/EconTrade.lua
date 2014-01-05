@@ -138,7 +138,7 @@ local econTrade = function ()
 						ui:Grid({50,10,40},1)
 							:SetRow(0, {
 								ui:HBox(5):PackEnd({
-									ui:Label("Fuel:"),
+									ui:Label(l.FUEL..":"),
 									fuelGauge,
 								}),
 								nil,
