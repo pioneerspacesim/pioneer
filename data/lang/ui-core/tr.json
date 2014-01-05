@@ -575,8 +575,12 @@
       "description" : "",
       "message" : "Sessiz"
    },
-   "NAME" : {
-      "description" : "",
+   "NAME_OBJECT" : {
+      "description" : "For an item or object",
+      "message" : "İsim"
+   },
+   "NAME_PERSON" : {
+      "description" : "For a person",
       "message" : "İsim"
    },
    "NAVIGATION" : {

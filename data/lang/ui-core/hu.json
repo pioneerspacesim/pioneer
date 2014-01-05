@@ -225,7 +225,7 @@
    },
    "ENABLE_COCKPIT" : {
       "description" : "",
-      "message" : "Enable cockpit (EXPERIMENTAL)"
+      "message" : "Kabin bekapcsolása (KISÉRLETI)"
    },
    "ENABLE_JOYSTICK" : {
       "description" : "",
@@ -575,8 +575,12 @@
       "description" : "",
       "message" : "Némít"
    },
-   "NAME" : {
-      "description" : "",
+   "NAME_OBJECT" : {
+      "description" : "For an item or object",
+      "message" : "Név"
+   },
+   "NAME_PERSON" : {
+      "description" : "For a person",
       "message" : "Név"
    },
    "NAVIGATION" : {

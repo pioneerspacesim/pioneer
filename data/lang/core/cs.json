@@ -257,7 +257,7 @@
    },
    "COUNT_ON_SURFACE" : {
       "description" : "",
-      "message" : "\" (%surfacecount on surface)\""
+      "message" : "\" (%surfacecount na povrchu)\""
    },
    "COUNT_STARPORTS" : {
       "description" : "",
@@ -939,9 +939,13 @@
       "description" : "",
       "message" : "%speed{f.0} m/s relativně k %frame"
    },
-   "NAME" : {
-      "description" : "",
-      "message" : "Název"
+   "NAME_OBJECT" : {
+      "description" : "For an item or object",
+      "message" : "Jméno"
+   },
+   "NAME_PERSON" : {
+      "description" : "For a person",
+      "message" : "Jméno"
    },
    "NARCOTICS" : {
       "description" : "",

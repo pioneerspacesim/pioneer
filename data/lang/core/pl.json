@@ -939,9 +939,13 @@
       "description" : "",
       "message" : "%speed{f.0} m/s względem: %frame"
    },
-   "NAME" : {
-      "description" : "",
-      "message" : "Nazwa"
+   "NAME_OBJECT" : {
+      "description" : "For an item or object",
+      "message" : "Nazwisko"
+   },
+   "NAME_PERSON" : {
+      "description" : "For a person",
+      "message" : "Nazwisko"
    },
    "NARCOTICS" : {
       "description" : "",
@@ -1721,7 +1725,7 @@
    },
    "TOMBSTONE_EPITAPH" : {
       "description" : "",
-      "message" : "SPOCZYWAJ W POKOJU"
+      "message" : "SPOCZYWAJ W POKOJU STARY PIERNIKU"
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",

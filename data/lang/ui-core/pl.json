@@ -225,7 +225,7 @@
    },
    "ENABLE_COCKPIT" : {
       "description" : "",
-      "message" : "Enable cockpit (EXPERIMENTAL)"
+      "message" : "Pokaż kokpit (EKSPERYMENTALNE)"
    },
    "ENABLE_JOYSTICK" : {
       "description" : "",
@@ -401,7 +401,7 @@
    },
    "IN_STOCK" : {
       "description" : "",
-      "message" : "Na stanie"
+      "message" : "Stan"
    },
    "ITEM_IS_OUT_OF_STOCK" : {
       "description" : "",
@@ -429,7 +429,7 @@
    },
    "LEGAL_STATUS" : {
       "description" : "",
-      "message" : "Status prawny"
+      "message" : "Stan prawny"
    },
    "LIGHT_CARGO_SHUTTLE" : {
       "description" : "",
@@ -575,8 +575,12 @@
       "description" : "",
       "message" : "Wycisz"
    },
-   "NAME" : {
-      "description" : "",
+   "NAME_OBJECT" : {
+      "description" : "For an item or object",
+      "message" : "Nazwisko"
+   },
+   "NAME_PERSON" : {
+      "description" : "For a person",
       "message" : "Nazwisko"
    },
    "NAVIGATION" : {
@@ -785,7 +789,7 @@
    },
    "SHIP_IS_FULLY_LADEN" : {
       "description" : "",
-      "message" : "Ładownia jest pełna."
+      "message" : "Twój statek jest w pełni załadowany"
    },
    "SHIP_MARKET" : {
       "description" : "",
@@ -845,7 +849,7 @@
    },
    "TOTAL_MASS" : {
       "description" : "",
-      "message" : "Masa całkowita"
+      "message" : "Masa łączna"
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
@@ -897,7 +901,7 @@
    },
    "WEIGHT_FULLY_LOADED" : {
       "description" : "",
-      "message" : "Masa całkowita"
+      "message" : "W pełni załadowany"
    },
    "WE_ARE_IN_HYPERSPACE_COMMANDER" : {
       "description" : "",

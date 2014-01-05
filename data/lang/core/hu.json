@@ -939,8 +939,12 @@
       "description" : "",
       "message" : "Relatív sebesség (%frame): %speed{f.0} m/s"
    },
-   "NAME" : {
-      "description" : "",
+   "NAME_OBJECT" : {
+      "description" : "For an item or object",
+      "message" : "Név"
+   },
+   "NAME_PERSON" : {
+      "description" : "For a person",
       "message" : "Név"
    },
    "NARCOTICS" : {

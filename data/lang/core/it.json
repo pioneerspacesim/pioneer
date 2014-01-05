@@ -939,8 +939,12 @@
       "description" : "",
       "message" : "%speed{f.0} m/s relativa a %frame"
    },
-   "NAME" : {
-      "description" : "",
+   "NAME_OBJECT" : {
+      "description" : "For an item or object",
+      "message" : "Nome"
+   },
+   "NAME_PERSON" : {
+      "description" : "For a person",
       "message" : "Nome"
    },
    "NARCOTICS" : {
