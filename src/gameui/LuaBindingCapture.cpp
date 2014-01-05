@@ -7,10 +7,10 @@
 #include "LuaPushPull.h"
 
 inline void pi_lua_generic_push(lua_State * l, const KeyBindings::KeyBinding &value) {
-	if (value.type == KeyBindings::BINDING_DISABLED) {
-		lua_pushnil(l);
-	} else {
+	if (value.Enabled()) {
 		pi_lua_generic_push(l, value.ToString());
+	} else {
+		lua_pushnil(l);
 	}
 }
 
@@ -40,10 +40,10 @@ public:
 	{
 		KeyBindingCapture *kbc = LuaObject<GameUI::KeyBindingCapture>::CheckFromLua(1);
 		const KeyBindings::KeyBinding &kb = kbc->GetBinding();
-		if (kb.type == KeyBindings::BINDING_DISABLED) {
-			lua_pushnil(l);
-		} else {
+		if (kb.Enabled()) {
 			pi_lua_generic_push(l, kb.Description());
+		} else {
+			lua_pushnil(l);
 		}
 		return 1;
 	}
