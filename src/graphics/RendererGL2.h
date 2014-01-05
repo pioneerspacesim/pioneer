@@ -89,8 +89,8 @@ public:
 	virtual const matrix4x4f& GetCurrentModelView() const { return m_modelViewStack.top(); }
 	virtual const matrix4x4f& GetCurrentProjection() const { return m_projectionStack.top(); }
 	virtual void GetCurrentViewport(Sint32 *vp) const {
-		for(int i=0; i<4; i++)
-			vp[i] = m_currentViewport[i];
+		const Viewport &cur = m_viewportStack.top();
+		vp[0] = cur.x; vp[1] = cur.y; vp[2] = cur.w; vp[3] = cur.h;
 	}
 
 	virtual void SetMatrixMode(MatrixMode mm);
@@ -132,10 +132,15 @@ protected:
 	float m_invLogZfarPlus1;
 	GL2::RenderTarget *m_activeRenderTarget;
 
+	MatrixMode m_matrixMode;
 	std::stack<matrix4x4f> m_modelViewStack;
 	std::stack<matrix4x4f> m_projectionStack;
-	Sint32 m_currentViewport[4];
-	MatrixMode m_matrixMode;
+
+	struct Viewport {
+		Viewport() : x(0), y(0), w(0), h(0) {}
+		Sint32 x, y, w, h;
+	};
+	std::stack<Viewport> m_viewportStack;
 };
 
 }
