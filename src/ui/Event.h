@@ -74,9 +74,10 @@ public:
 		KEY_DOWN,
 		KEY_UP,
 	};
-	KeyboardEvent(Action _action, const KeySym &_keysym) : Event(Event::KEYBOARD), action(_action), keysym(_keysym) {}
+	KeyboardEvent(Action _action, const KeySym &_keysym, bool _repeat) : Event(Event::KEYBOARD), action(_action), keysym(_keysym), repeat(_repeat) {}
 	const Action action;
 	const KeySym keysym;
+	const bool repeat;
 
 	void ToLuaTable(lua_State *l) const;
 };

@@ -173,8 +173,8 @@ void KeyboardEvent::ToLuaTable(lua_State *l) const
 {
 	lua_newtable(l);
 	pi_lua_settable(l, "type", EnumStrings::GetString("UIEventType", type));
-
 	pi_lua_settable(l, "action", EnumStrings::GetString("UIKeyboardAction", action));
+	pi_lua_settable(l, "repeat", repeat);
 
 	// XXX expose sym and mod constants
 }

@@ -514,14 +514,14 @@ static void push_bindings(lua_State *l, const KeyBindings::BindingPrototype *pro
 			lua_setfield(l, -2, "label");
 			if (proto->kb) {
 				const KeyBindings::KeyBinding kb1 = proto->kb->binding1;
-				if (kb1.type != KeyBindings::BINDING_DISABLED) {
+				if (kb1.Enabled()) {
 					lua_pushstring(l, kb1.ToString().c_str());
 					lua_setfield(l, -2, "binding1");
 					lua_pushstring(l, kb1.Description().c_str());
 					lua_setfield(l, -2, "bindingDescription1");
 				}
 				const KeyBindings::KeyBinding kb2 = proto->kb->binding2;
-				if (kb2.type != KeyBindings::BINDING_DISABLED) {
+				if (kb2.Enabled()) {
 					lua_pushstring(l, kb2.ToString().c_str());
 					lua_setfield(l, -2, "binding2");
 					lua_pushstring(l, kb2.Description().c_str());
