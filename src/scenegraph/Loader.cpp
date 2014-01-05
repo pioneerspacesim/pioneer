@@ -212,6 +212,7 @@ Model *Loader::CreateModel(ModelDefinition &def)
 		matDesc.textures = 1;
 		matDesc.specularMap = !specTex.empty();
 		matDesc.glowMap = !glowTex.empty();
+		matDesc.quality = Graphics::HAS_HEAT_GRADIENT;
 
 		//Create material and set parameters
 		RefCountedPtr<Material> mat(m_renderer->CreateMaterial(matDesc));

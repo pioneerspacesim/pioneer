@@ -25,6 +25,12 @@ class CargoBody;
 class Missile;
 namespace Graphics { class Renderer; }
 
+struct HeatGradientParameters_t {
+	matrix3x3f heatingMatrix;
+	vector3f heatingNormal; // normalised
+	float heatingAmount; // 0.0 to 1.0 used for `u` component of heatGradient texture
+};
+
 struct shipstats_t {
 	int used_capacity;
 	int used_cargo;
@@ -290,6 +296,7 @@ private:
 	void OnEquipmentChange(Equip::Type e);
 	void EnterHyperspace();
 	void InitGun(const char *tag, int num);
+	void InitMaterials();
 
 	bool m_invulnerable;
 
@@ -329,6 +336,8 @@ private:
 
 	SceneGraph::Animation *m_landingGearAnimation;
 	std::unique_ptr<NavLights> m_navLights;
+
+	static HeatGradientParameters_t s_heatGradientParams;
 };
 
 

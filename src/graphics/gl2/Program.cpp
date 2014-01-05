@@ -185,6 +185,10 @@ void Program::InitUniforms()
 	texture2.Init("texture2", m_program);
 	texture3.Init("texture3", m_program);
 	texture4.Init("texture4", m_program);
+	heatGradient.Init("heatGradient", m_program);
+	heatingMatrix.Init("heatingMatrix", m_program);
+	heatingNormal.Init("heatingNormal", m_program);
+	heatingAmount.Init("heatingAmount", m_program);
 	sceneAmbient.Init("scene.ambient", m_program);
 }
 

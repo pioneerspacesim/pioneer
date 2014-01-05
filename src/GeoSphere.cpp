@@ -14,7 +14,6 @@
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
 #include "graphics/VertexArray.h"
-#include "graphics/gl2/GeoSphereMaterial.h"
 #include "vcacheopt/vcacheopt.h"
 #include <deque>
 #include <algorithm>
@@ -551,26 +550,26 @@ void GeoSphere::SetUpMaterials()
 		(m_sbody->type == SystemBody::TYPE_STAR_M)) {
 		//dim star (emits and receives light)
 		surfDesc.lighting = true;
-		surfDesc.quality &= ~Graphics::GL2::HAS_ATMOSPHERE;
+		surfDesc.quality &= ~Graphics::HAS_ATMOSPHERE;
 	}
 	else if (m_sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
 		//normal star
 		surfDesc.lighting = false;
-		surfDesc.quality &= ~Graphics::GL2::HAS_ATMOSPHERE;
+		surfDesc.quality &= ~Graphics::HAS_ATMOSPHERE;
 	} else {
 		//planetoid with or without atmosphere
 		const SystemBody::AtmosphereParameters ap(m_sbody->CalcAtmosphereParams());
 		surfDesc.lighting = true;
 		if(ap.atmosDensity > 0.0) {
-			surfDesc.quality |= Graphics::GL2::HAS_ATMOSPHERE;
+			surfDesc.quality |= Graphics::HAS_ATMOSPHERE;
 		} else {
-			surfDesc.quality &= ~Graphics::GL2::HAS_ATMOSPHERE;
+			surfDesc.quality &= ~Graphics::HAS_ATMOSPHERE;
 		}
 	}
 
 	const bool bEnableEclipse = (Pi::config->Int("DisableEclipse") == 0);
 	if (bEnableEclipse) {
-		surfDesc.quality |= Graphics::GL2::HAS_ECLIPSES;
+		surfDesc.quality |= Graphics::HAS_ECLIPSES;
 	}
 	m_surfaceMaterial.reset(Pi::renderer->CreateMaterial(surfDesc));
 
@@ -580,7 +579,7 @@ void GeoSphere::SetUpMaterials()
 		skyDesc.effect = Graphics::EFFECT_GEOSPHERE_SKY;
 		skyDesc.lighting = true;
 		if (bEnableEclipse) {
-			skyDesc.quality |= Graphics::GL2::HAS_ECLIPSES;
+			skyDesc.quality |= Graphics::HAS_ECLIPSES;
 		}
 		m_atmosphereMaterial.reset(Pi::renderer->CreateMaterial(skyDesc));
 	}
