@@ -39,7 +39,7 @@ local num_pirate_taunts = 4
 
 local flavours = {
 	{
-		single = 0,
+		single = false,  -- flavour 0-2 are for groups
 		urgency = 0,
 		risk = 0.001,
 	}, {
@@ -51,7 +51,7 @@ local flavours = {
 		urgency = 0,
 		risk = 0,
 	}, {
-		single = true,
+		single = true,  -- flavour 3- are for single persons
 		urgency = 0.13,
 		risk = 0.73,
 	}, {
@@ -225,7 +225,7 @@ local makeAdvert = function (station)
 	local urgency = flavours[flavour].urgency
 	local risk = flavours[flavour].risk
 	local group = 1
-	if flavours[flavour].single == 0 then
+	if not flavours[flavour].single then
 		group = Engine.rand:Integer(2,max_group)
 	end
 
