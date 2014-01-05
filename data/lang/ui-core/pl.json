@@ -233,7 +233,7 @@
    },
    "ENGINEERING" : {
       "description" : "",
-      "message" : "Naprawa"
+      "message" : "Naprawa:"
    },
    "EQUIPMENT" : {
       "description" : "",
@@ -577,7 +577,7 @@
    },
    "NAME_OBJECT" : {
       "description" : "For an item or object",
-      "message" : "Nazwisko"
+      "message" : "Nazwa"
    },
    "NAME_PERSON" : {
       "description" : "For a person",

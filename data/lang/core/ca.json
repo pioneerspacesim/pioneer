@@ -12,8 +12,8 @@
       "message" : "Aliances:"
    },
    "ALT" : {
-      "description" : "",
-      "message" : "\"alt \""
+      "description" : "Alt key on keyboard",
+      "message" : "Alt"
    },
    "ALT_IN_KM" : {
       "description" : "",
@@ -268,8 +268,8 @@
       "message" : "\" atmosfera de monòxid de carboni\""
    },
    "CTRL" : {
-      "description" : "",
-      "message" : "\"ctrl \""
+      "description" : "Ctrl key on keyboard",
+      "message" : "Ctrl"
    },
    "CURRENT_SYSTEM" : {
       "description" : "",
@@ -812,8 +812,8 @@
       "message" : "Missatge de %sender:"
    },
    "META" : {
-      "description" : "",
-      "message" : "\"meta \""
+      "description" : "'Meta' key on keyboard",
+      "message" : "Meta"
    },
    "METAL_ALLOYS" : {
       "description" : "",
@@ -1388,8 +1388,8 @@
       "message" : "Força de l'escut: %shields{f.2}"
    },
    "SHIFT" : {
-      "description" : "",
-      "message" : "\"maj \""
+      "description" : "Shift key on keyboard",
+      "message" : "Shift"
    },
    "SHIP" : {
       "description" : "",
