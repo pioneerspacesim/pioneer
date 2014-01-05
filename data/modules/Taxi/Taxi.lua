@@ -286,7 +286,8 @@ local onEnterSystem = function (player)
 	local syspath = Game.system.path
 
 	for ref,mission in pairs(missions) do
-		if not mission.status and mission.location:IsSameSystem(syspath) then
+		if mission.status == "ACTIVE" and mission.location:IsSameSystem(syspath) then
+
 			local risk = flavours[mission.flavour].risk
 			local ships = 0
 
@@ -339,7 +340,7 @@ local onEnterSystem = function (player)
 			end
 		end
 
-		if not mission.status and Game.time > mission.due then
+		if mission.status == "ACTIVE" and Game.time > mission.due then
 			mission.status = 'FAILED'
 			Comms.ImportantMessage(flavours[mission.flavour].wherearewe, mission.client.name)
 		end
