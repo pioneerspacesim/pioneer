@@ -24,7 +24,10 @@ namespace KeyBindings {
 			static KeyBinding FromJoystickButton(Uint8 joystick, Uint8 button);
 			static KeyBinding FromJoystickHat(Uint8 joystick, Uint8 hat, Uint8 direction);
 
-			KeyBinding(): type(BINDING_DISABLED), u{{SDLK_UNKNOWN, KMOD_NONE}} {}
+			KeyBinding(): type(BINDING_DISABLED) {
+				u.keyboard.key = SDLK_UNKNOWN;
+				u.keyboard.mod = KMOD_NONE;
+			}
 
 			std::string ToString() const; // for serialisation
 			std::string Description() const; // for display to the user
