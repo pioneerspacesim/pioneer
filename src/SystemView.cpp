@@ -161,7 +161,7 @@ void SystemView::OnClickObject(const SystemBody *b)
 	std::string desc;
 	std::string data;
 
-	desc += std::string(Lang::NAME);
+	desc += std::string(Lang::NAME_OBJECT);
 	desc += ":\n";
 	data += b->name+"\n";
 
