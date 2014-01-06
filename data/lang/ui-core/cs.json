@@ -175,6 +175,18 @@
       "description" : "",
       "message" : "Delta-v"
    },
+   "DELTA_V_EMPTY" : {
+      "description" : "Delta-v capacity of a ship with no cargo or upgrades",
+      "message" : "Delta-v (empty)"
+   },
+   "DELTA_V_FULL" : {
+      "description" : "Delta-v capacity of a ship with maximum cargo",
+      "message" : "Delta-v (full)"
+   },
+   "DELTA_V_MAX" : {
+      "description" : "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
+      "message" : "Delta-v (max)"
+   },
    "DESCENT_TO_GROUND_SPEED" : {
       "description" : "",
       "message" : "Přistávací rychlost:"
@@ -233,7 +245,7 @@
    },
    "ENGINEERING" : {
       "description" : "",
-      "message" : "Údržba:"
+      "message" : "Engineering:"
    },
    "EQUIPMENT" : {
       "description" : "",
