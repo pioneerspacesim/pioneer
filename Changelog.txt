@@ -15,6 +15,7 @@ January 2014
      * Various fixes for keybinding modifiers and repeats (#2524, #2523)
      * Fix Taxi "group of one" mission (#2623)
      * Fix Taxi and Delivery assassins never spawning (#2622, #2624)
+     * Reset table scroll position when it goes off screen (#2629)
 
    * Internal changes
      * Render screen to texture in preparation for post-processing effects (#2525)

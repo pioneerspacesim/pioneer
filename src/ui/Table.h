@@ -40,6 +40,9 @@ public:
 
 	sigc::signal<void,unsigned int> onRowClicked;
 
+protected:
+	virtual void HandleInvisible();
+
 private:
 
 	class LayoutAccumulator {

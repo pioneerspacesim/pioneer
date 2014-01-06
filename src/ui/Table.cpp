@@ -277,6 +277,7 @@ void Table::Layout()
 	preferredSize = m_body->PreferredSize();
 	if (preferredSize.y <= size.y) {
 		if (m_slider->GetContainer()) {
+			m_slider->SetValue(0);
 			m_onMouseWheelConn.disconnect();
 			RemoveWidget(m_slider.Get());
 		}
@@ -296,6 +297,11 @@ void Table::Layout()
 	SetWidgetDimensions(m_body.Get(), Point(0, top), size);
 
 	LayoutChildren();
+}
+
+void Table::HandleInvisible()
+{
+	m_slider->SetValue(0);
 }
 
 Table *Table::SetHeadingRow(const WidgetSet &set)
