@@ -15,7 +15,7 @@ January 2014
      * Fix label positioning in orbit and galaxy views (#2608, #2576)
      * Various fixes for keybinding modifiers and repeats (#2524, #2523, #2618,
        #2630)
-     * Fix Taxi "group of one" mission (#2623)
+     * Fix Taxi "group of one" mission (#2623, #2628)
      * Fix Taxi and Delivery assassins never spawning (#2622, #2624)
      * Reset table scroll position when it goes off screen (#2629)
 
