@@ -195,7 +195,7 @@ local onChat = function (form, ref, option)
 
 		return
 	elseif option == 4 then
-		if flavours[ad.flavour].single == 1 then
+		if flavours[ad.flavour].single then
 			form:SetMessage(l.I_MUST_BE_THERE_BEFORE..Format.Date(ad.due))
 		else
 			form:SetMessage(l.WE_WANT_TO_BE_THERE_BEFORE..Format.Date(ad.due))
