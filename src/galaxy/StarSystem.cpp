@@ -2409,7 +2409,7 @@ void StarSystem::ShrinkCache()
 		StarSystem *s = (*i).second;
 		assert(s->GetRefCount() >= 1); // sanity check
 		// if the cache is the only owner, then delete it
-		if (s && s->GetRefCount() == 1) {
+		if (s->GetRefCount() == 1) {
 			delete s;
 			s_cachedSystems.erase(i++);
 		} else {
