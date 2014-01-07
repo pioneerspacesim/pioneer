@@ -223,15 +223,15 @@ Uint32 JobQueue::FinishJobs()
 		m_finished[i].pop_front();
 		SDL_UnlockMutex(m_finishedLock[i]);
 
-		// if its already been cancelled then its taken care of, so we just forget about it
-		if (job) {
-			if(!job->cancelled) {
-				job->OnFinish();
-				finished++;
-			}
+		assert(job);
 
-			delete job;
+		// if its already been cancelled then its taken care of, so we just forget about it
+		if(!job->cancelled) {
+			job->OnFinish();
+			finished++;
 		}
+
+		delete job;
 	}
 
 	return finished;

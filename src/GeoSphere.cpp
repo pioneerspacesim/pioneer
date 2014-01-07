@@ -133,6 +133,7 @@ void GeoSphere::Reset()
 		{
 			// finally pass SplitResults
 			SSingleSplitResult *psr = (*iter);
+			assert(psr);
 
 			psr->OnCancel();
 
@@ -151,6 +152,7 @@ void GeoSphere::Reset()
 		{
 			// finally pass SplitResults
 			SQuadSplitResult *psr = (*iter);
+			assert(psr);
 
 			psr->OnCancel();
 
@@ -195,6 +197,7 @@ GeoSphere::~GeoSphere()
 bool GeoSphere::AddQuadSplitResult(SQuadSplitResult *res)
 {
 	bool result = false;
+	assert(res);
 	assert(mQuadSplitResults.size()<MAX_SPLIT_OPERATIONS);
 	if(mQuadSplitResults.size()<MAX_SPLIT_OPERATIONS) {
 		mQuadSplitResults.push_back(res);
@@ -206,6 +209,7 @@ bool GeoSphere::AddQuadSplitResult(SQuadSplitResult *res)
 bool GeoSphere::AddSingleSplitResult(SSingleSplitResult *res)
 {
 	bool result = false;
+	assert(res);
 	assert(mSingleSplitResults.size()<MAX_SPLIT_OPERATIONS);
 	if(mSingleSplitResults.size()<MAX_SPLIT_OPERATIONS) {
 		mSingleSplitResults.push_back(res);
@@ -223,6 +227,7 @@ void GeoSphere::ProcessSplitResults()
 		{
 			// finally pass SplitResults
 			SSingleSplitResult *psr = (*iter);
+			assert(psr);
 
 			const int32_t faceIdx = psr->face();
 			if( m_patches[faceIdx] ) {
@@ -247,12 +252,7 @@ void GeoSphere::ProcessSplitResults()
 		{
 			// finally pass SplitResults
 			SQuadSplitResult *psr = (*iter);
-
-			// safety first!
-			if(!psr) {
-				++iter;
-				continue;
-			}
+			assert(psr);
 
 			const int32_t faceIdx = psr->face();
 			if( m_patches[faceIdx] ) {
