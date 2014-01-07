@@ -114,6 +114,8 @@ TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompress
 
 	GLenum magFilter, minFilter, wrapS, wrapT;
 	switch (descriptor.sampleMode) {
+		default:	// safe default will fall through to LINEAR_CLAMP when run in release builds without assert
+			assert(0);
 		case LINEAR_CLAMP:
 			magFilter = GL_LINEAR;
 			minFilter = descriptor.generateMipmaps ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR;
@@ -137,9 +139,6 @@ TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompress
 			minFilter = descriptor.generateMipmaps ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST;
 			wrapS = wrapT = GL_REPEAT;
 			break;
-
-		default:
-			assert(0);
 	}
 
 	glTexParameteri(m_target, GL_TEXTURE_WRAP_S, wrapS);
@@ -205,6 +204,8 @@ void TextureGL::SetSampleMode(TextureSampleMode mode)
 	GLenum magFilter, minFilter;
 	const bool mipmaps = GetDescriptor().generateMipmaps;
 	switch (mode) {
+		default:	// safe default will fall through to LINEAR_CLAMP when run in release builds without assert
+			assert(0);
 		case LINEAR_CLAMP:
 			magFilter = GL_LINEAR;
 			minFilter = mipmaps ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR;
@@ -224,9 +225,6 @@ void TextureGL::SetSampleMode(TextureSampleMode mode)
 			magFilter = GL_NEAREST;
 			minFilter =mipmaps ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST;
 			break;
-
-		default:
-			assert(0);
 	}
 	glBindTexture(m_target, m_texture);
 	glTexParameteri(m_target, GL_TEXTURE_MAG_FILTER, magFilter);
