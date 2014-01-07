@@ -177,11 +177,11 @@
    },
    "DELTA_V_EMPTY" : {
       "description" : "Delta-v capacity of a ship with no cargo or upgrades",
-      "message" : "Delta-v (empty)"
+      "message" : "Delta-v (vuoto)"
    },
    "DELTA_V_FULL" : {
       "description" : "Delta-v capacity of a ship with maximum cargo",
-      "message" : "Delta-v (full)"
+      "message" : "Delta-v (pieno)"
    },
    "DELTA_V_MAX" : {
       "description" : "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
@@ -245,7 +245,7 @@
    },
    "ENGINEERING" : {
       "description" : "",
-      "message" : "Engineering:"
+      "message" : "Ingegneria:"
    },
    "EQUIPMENT" : {
       "description" : "",
