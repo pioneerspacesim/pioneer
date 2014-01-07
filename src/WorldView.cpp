@@ -231,10 +231,11 @@ void WorldView::InitObject()
 
 	const float fovY = Pi::config->Float("FOVVertical");
 
-	m_camera.reset(new Camera(Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), fovY, znear, zfar));
-	m_internalCameraController.reset(new InternalCameraController(m_camera.get(), Pi::player));
-	m_externalCameraController.reset(new ExternalCameraController(m_camera.get(), Pi::player));
-	m_siderealCameraController.reset(new SiderealCameraController(m_camera.get(), Pi::player));
+	m_cameraContext.Reset(new CameraContext(Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), fovY, znear, zfar));
+	m_camera.reset(new Camera(m_cameraContext));
+	m_internalCameraController.reset(new InternalCameraController(m_cameraContext, Pi::player));
+	m_externalCameraController.reset(new ExternalCameraController(m_cameraContext, Pi::player));
+	m_siderealCameraController.reset(new SiderealCameraController(m_cameraContext, Pi::player));
 	SetCamType(m_camType); //set the active camera
 
 	m_onHyperspaceTargetChangedCon =
@@ -419,6 +420,8 @@ void WorldView::Draw3D()
 		for (auto it = Pi::player->GetSensors()->GetContacts().begin(); it != Pi::player->GetSensors()->GetContacts().end(); ++it)
 			it->trail->Render(m_renderer);
 	}
+
+	m_cameraContext->EndFrame();
 }
 
 void WorldView::OnToggleLabels()
@@ -900,18 +903,22 @@ void WorldView::Update()
 	}
 
 	m_activeCameraController->Update();
+
+	m_cameraContext->BeginFrame();
 	m_camera->Update();
 
 	UpdateProjectedObjects();
 
-	//speedlines and contact trails need cam_frame for transform, so they
-	//must be updated here (or don't delete cam_frame so early...)
+	const Frame *playerFrame = Pi::player->GetFrame();
+	const Frame *camFrame = m_cameraContext->GetCamFrame();
+
+	//speedlines and contact trails need camFrame for transform, so they
+	//must be updated here
 	if (Pi::AreSpeedLinesDisplayed()) {
 		m_speedLines->Update(Pi::game->GetTimeStep());
 
-		const Frame *cam_frame = m_camera->GetCamFrame();
 		matrix4x4d trans;
-		Frame::GetFrameRenderTransform(Pi::player->GetFrame(), cam_frame, trans);
+		Frame::GetFrameRenderTransform(playerFrame, camFrame, trans);
 
 		if ( m_speedLines.get() && Pi::AreSpeedLinesDisplayed() ) {
 			m_speedLines->Update(Pi::game->GetTimeStep());
@@ -924,15 +931,14 @@ void WorldView::Update()
 
 	if( Pi::AreHudTrailsDisplayed() )
 	{
-		const Frame *cam_frame = m_camera->GetCamFrame();
 		matrix4x4d trans;
-		Frame::GetFrameRenderTransform(Pi::player->GetFrame(), cam_frame, trans);
+		Frame::GetFrameRenderTransform(playerFrame, camFrame, trans);
 
 		for (auto it = Pi::player->GetSensors()->GetContacts().begin(); it != Pi::player->GetSensors()->GetContacts().end(); ++it)
 			it->trail->SetTransform(trans);
 	} else {
 		for (auto it = Pi::player->GetSensors()->GetContacts().begin(); it != Pi::player->GetSensors()->GetContacts().end(); ++it)
-			it->trail->Reset(Pi::player->GetFrame());
+			it->trail->Reset(playerFrame);
 	}
 
 	// target object under the crosshairs. must be done after
@@ -1305,9 +1311,9 @@ static inline bool project_to_screen(const vector3d &in, vector3d &out, const Gr
 void WorldView::UpdateProjectedObjects()
 {
 	const int guiSize[2] = { Gui::Screen::GetWidth(), Gui::Screen::GetHeight() };
-	const Graphics::Frustum frustum = m_camera->GetFrustum();
+	const Graphics::Frustum frustum = m_cameraContext->GetFrustum();
 
-	const Frame *cam_frame = m_camera->GetCamFrame();
+	const Frame *cam_frame = m_cameraContext->GetCamFrame();
 	matrix3x3d cam_rot = cam_frame->GetOrient();
 
 	// determine projected positions and update labels
@@ -1460,7 +1466,7 @@ void WorldView::UpdateProjectedObjects()
 void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpacePos)
 {
 	const int guiSize[2] = { Gui::Screen::GetWidth(), Gui::Screen::GetHeight() };
-	const Graphics::Frustum frustum = m_camera->GetFrustum();
+	const Graphics::Frustum frustum = m_cameraContext->GetFrustum();
 
 	const float BORDER = 10.0;
 	const float BORDER_BOTTOM = 90.0;

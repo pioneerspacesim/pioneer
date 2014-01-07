@@ -7,6 +7,7 @@
 #include "libs.h"
 #include "View.h"
 #include "Camera.h"
+#include "RefCounted.h"
 
 class DeathView : public View {
 public:
@@ -22,7 +23,8 @@ protected:
 	virtual void OnSwitchTo();
 
 private:
-	std::unique_ptr<Camera> m_cam;
+	RefCountedPtr<CameraContext> m_cameraContext;
+	std::unique_ptr<Camera> m_camera;
 	float m_cameraDist;
 };
 

@@ -19,27 +19,58 @@
 
 using namespace Graphics;
 
-Camera::Camera(float width, float height, float fovY, float znear, float zfar) :
+CameraContext::CameraContext(float width, float height, float fovAng, float zNear, float zFar) :
 	m_width(width),
 	m_height(height),
-	m_fovAng(fovY),
-	m_zNear(znear),
-	m_zFar(zfar),
-	m_frustum(m_width, m_height, m_fovAng, znear, zfar),
+	m_fovAng(fovAng),
+	m_zNear(zNear),
+	m_zFar(zFar),
+	m_frustum(m_width, m_height, m_fovAng, m_zNear, m_zFar),
+	m_frame(nullptr),
 	m_pos(0.0),
 	m_orient(matrix3x3d::Identity()),
-	m_frame(0),
-	m_camFrame(0),
-	m_renderer(0)
+	m_camFrame(nullptr)
 {
 }
 
-Camera::~Camera()
+CameraContext::~CameraContext()
 {
-	if (m_camFrame) {
-		m_frame->RemoveChild(m_camFrame);
-		delete m_camFrame;
-	}
+	if (m_camFrame)
+		EndFrame();
+}
+
+void CameraContext::BeginFrame()
+{
+	assert(m_frame);
+	assert(!m_camFrame);
+
+	// make temporary camera frame
+	m_camFrame = new Frame(m_frame, "camera", Frame::FLAG_ROTATING);
+
+	// move and orient it to the camera position
+	m_camFrame->SetOrient(m_orient, Pi::game ? Pi::game->GetTime() : 0.0);
+	m_camFrame->SetPosition(m_pos);
+
+	// make sure old orient and interpolated orient (rendering orient) are not rubbish
+	m_camFrame->ClearMovement();
+	m_camFrame->UpdateInterpTransform(1.0);			// update root-relative pos/orient
+}
+
+void CameraContext::EndFrame()
+{
+	assert(m_frame);
+	assert(m_camFrame);
+
+	m_frame->RemoveChild(m_camFrame);
+	delete m_camFrame;
+	m_camFrame = nullptr;
+}
+
+
+Camera::Camera(RefCountedPtr<CameraContext> context) :
+	m_context(context),
+	m_renderer(0)
+{
 }
 
 static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Camera::LightSource> &lights)
@@ -68,18 +99,7 @@ static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Ca
 
 void Camera::Update()
 {
-	if (!m_frame) return;
-
-	// make temporary camera frame
-	m_camFrame = new Frame(m_frame, "camera", Frame::FLAG_ROTATING);
-
-	// move and orient it to the camera position
-	m_camFrame->SetOrient(m_orient, Pi::game ? Pi::game->GetTime() : 0.0);
-	m_camFrame->SetPosition(m_pos);
-
-	// make sure old orient and interpolated orient (rendering orient) are not rubbish
-	m_camFrame->ClearMovement();
-	m_camFrame->UpdateInterpTransform(1.0);			// update root-relative pos/orient
+	Frame *camFrame = m_context->GetCamFrame();
 
 	// evaluate each body and determine if/where/how to draw it
 	m_sortedBodies.clear();
@@ -89,7 +109,7 @@ void Camera::Update()
 		// prepare attrs for sorting and drawing
 		BodyAttrs attrs;
 		attrs.body = b;
-		Frame::GetFrameRenderTransform(b->GetFrame(), m_camFrame, attrs.viewTransform);
+		Frame::GetFrameRenderTransform(b->GetFrame(), camFrame, attrs.viewTransform);
 		attrs.viewCoords = attrs.viewTransform * b->GetInterpPosition();
 		attrs.camDist = attrs.viewCoords.Length();
 		attrs.bodyFlags = b->GetFlags();
@@ -103,25 +123,27 @@ void Camera::Update()
 void Camera::Draw(Graphics::Renderer *renderer, const Body *excludeBody, ShipCockpit* cockpit)
 {
 	PROFILE_SCOPED()
-	if (!m_camFrame) return;
-	if (!renderer) return;
+	
+	assert(renderer);
+
+	Frame *camFrame = m_context->GetCamFrame();
 
 	m_renderer = renderer;
 
 	glPushAttrib(GL_ALL_ATTRIB_BITS & (~GL_POINT_BIT));
 
-	m_renderer->SetPerspectiveProjection(m_fovAng, m_width/m_height, m_zNear, m_zFar);
+	m_renderer->SetPerspectiveProjection(m_context->GetFovAng(), m_context->GetWidth()/m_context->GetHeight(), m_context->GetZNear(), m_context->GetZFar());
 	m_renderer->SetTransform(matrix4x4f::Identity());
 	m_renderer->ClearScreen();
 
 	matrix4x4d trans2bg;
-	Frame::GetFrameRenderTransform(Pi::game->GetSpace()->GetRootFrame(), m_camFrame, trans2bg);
+	Frame::GetFrameRenderTransform(Pi::game->GetSpace()->GetRootFrame(), camFrame, trans2bg);
 	trans2bg.ClearToRotOnly();
 
 	// Pick up to four suitable system light sources (stars)
 	m_lightSources.clear();
 	m_lightSources.reserve(4);
-	position_system_lights(m_camFrame, Pi::game->GetSpace()->GetRootFrame(), m_lightSources);
+	position_system_lights(camFrame, Pi::game->GetSpace()->GetRootFrame(), m_lightSources);
 
 	if (m_lightSources.empty()) {
 		// no lights means we're somewhere weird (eg hyperspace). fake one
@@ -131,12 +153,12 @@ void Camera::Draw(Graphics::Renderer *renderer, const Body *excludeBody, ShipCoc
 
 	//fade space background based on atmosphere thickness and light angle
 	float bgIntensity = 1.f;
-	if (m_camFrame->GetParent() && m_camFrame->GetParent()->IsRotFrame()) {
+	if (camFrame->GetParent() && camFrame->GetParent()->IsRotFrame()) {
 		//check if camera is near a planet
-		Body *camParentBody = m_camFrame->GetParent()->GetBody();
+		Body *camParentBody = camFrame->GetParent()->GetBody();
 		if (camParentBody && camParentBody->IsType(Object::PLANET)) {
 			Planet *planet = static_cast<Planet*>(camParentBody);
-			const vector3f relpos(planet->GetInterpPositionRelTo(m_camFrame));
+			const vector3f relpos(planet->GetInterpPositionRelTo(camFrame));
 			double altitude(relpos.Length());
 			double pressure, density;
 			planet->GetAtmosphericState(altitude, &pressure, &density);
@@ -174,7 +196,7 @@ void Camera::Draw(Graphics::Renderer *renderer, const Body *excludeBody, ShipCoc
 			continue;
 
 		double rad = attrs->body->GetClipRadius();
-		if (!m_frustum.TestPointInfinite((*i).viewCoords, rad))
+		if (!m_context->GetFrustum().TestPointInfinite((*i).viewCoords, rad))
 			continue;
 
 		// draw spikes for far objects
@@ -189,7 +211,7 @@ void Camera::Draw(Graphics::Renderer *renderer, const Body *excludeBody, ShipCoc
 			attrs->body->Render(renderer, this, attrs->viewCoords, attrs->viewTransform);
 	}
 
-	Sfx::RenderAll(renderer, Pi::game->GetSpace()->GetRootFrame(), m_camFrame);
+	Sfx::RenderAll(renderer, Pi::game->GetSpace()->GetRootFrame(), camFrame);
 
 	// NB: Do any screen space rendering after here:
 	// Things like the cockpit and AR features like hudtrails, space dust etc.
@@ -198,12 +220,8 @@ void Camera::Draw(Graphics::Renderer *renderer, const Body *excludeBody, ShipCoc
 	// XXX only here because it needs a frame for lighting calc
 	// should really be in WorldView, immediately after camera draw
 	if(cockpit)
-		cockpit->RenderCockpit(renderer, this, m_camFrame);
+		cockpit->RenderCockpit(renderer, this, camFrame);
 
-
-	m_frame->RemoveChild(m_camFrame);
-	delete m_camFrame;
-	m_camFrame = 0;
 
 	glPopAttrib();
 }
@@ -216,7 +234,7 @@ void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d 
 	// "face the camera dammit" bits can be skipped
 	if (!m_renderer) return;
 
-	const double newdist = m_zNear + 0.5f * (m_zFar - m_zNear);
+	const double newdist = m_context->GetZNear() + 0.5f * (m_context->GetZFar() - m_context->GetZNear());
 	const double scale = newdist / viewCoords.Length();
 
 	matrix4x4d trans = matrix4x4d::Identity();
