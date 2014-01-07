@@ -24,10 +24,12 @@ public:
 	double GetTerrainHeight(const vector3d &pos) const;
 	bool IsSuperType(SystemBody::BodySuperType t) const;
 	virtual const SystemBody *GetSystemBody() const { return m_sbody; }
-	GeoSphere *GetGeoSphere() const { return m_geosphere; }
 
 	// returns value in metres
 	double GetMaxFeatureRadius() const { return m_maxFeatureHeight; }
+
+	// implements calls to all relevant terrain management sub-systems
+	static void OnChangeDetailLevel();
 
 protected:
 	TerrainBody(SystemBody*);

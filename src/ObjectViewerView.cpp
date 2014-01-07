@@ -190,7 +190,7 @@ void ObjectViewerView::OnChangeTerrain()
 	sbody->m_life = life;
 
 	// force reload
-	static_cast<TerrainBody*>(body)->GetGeoSphere()->OnChangeDetailLevel();
+	TerrainBody::OnChangeDetailLevel();
 }
 
 void ObjectViewerView::OnRandomSeed()
