@@ -12,34 +12,32 @@
 
 TerrainBody::TerrainBody(SystemBody *sbody) :
 	Body(),
-	m_sbody(0),
-	m_mass(0),
-	m_geosphere(0)
+	m_sbody(sbody),
+	m_mass(0)
 {
-	InitTerrainBody(sbody);
+	InitTerrainBody();
 }
 
 TerrainBody::TerrainBody() :
 	Body(),
 	m_sbody(0),
-	m_mass(0),
-	m_geosphere(0)
+	m_mass(0)
 {
 }
 
 TerrainBody::~TerrainBody()
 {
-	if (m_geosphere)
-		delete m_geosphere;
+	m_geosphere.reset();
 }
 
-void TerrainBody::InitTerrainBody(SystemBody *sbody)
+void TerrainBody::InitTerrainBody()
 {
-	assert(!m_sbody);
-	m_sbody = sbody;
+	assert(m_sbody);
 	m_mass = m_sbody->GetMass();
+	if ( SystemBody::SUPERTYPE_GAS_GIANT==m_sbody->GetSuperType() ) {
+	}
 	if (!m_geosphere)
-		m_geosphere = new GeoSphere(sbody);
+		m_geosphere.reset(new GeoSphere(m_sbody));
 	m_maxFeatureHeight = (m_geosphere->GetMaxFeatureHeight() + 1.0) * m_sbody->GetRadius();
 }
 
@@ -52,8 +50,8 @@ void TerrainBody::Save(Serializer::Writer &wr, Space *space)
 void TerrainBody::Load(Serializer::Reader &rd, Space *space)
 {
 	Body::Load(rd, space);
-	SystemBody *sbody = space->GetSystemBodyByIndex(rd.Int32());
-	InitTerrainBody(sbody);
+	m_sbody = space->GetSystemBodyByIndex(rd.Int32());
+	InitTerrainBody();
 }
 
 void TerrainBody::Render(Graphics::Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
