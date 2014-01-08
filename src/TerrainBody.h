@@ -36,15 +36,15 @@ protected:
 	TerrainBody();
 	virtual ~TerrainBody();
 
-	void InitTerrainBody(SystemBody *);
+	void InitTerrainBody();
 
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
 
 private:
-	SystemBody *m_sbody;
+	const SystemBody *m_sbody;
 	double m_mass;
-	GeoSphere *m_geosphere;
+	std::unique_ptr<GeoSphere> m_geosphere;
 	double m_maxFeatureHeight;
 };
 

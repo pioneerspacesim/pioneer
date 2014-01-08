@@ -402,9 +402,12 @@
     <ClCompile Include="..\..\src\ShipCockpit.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\LuaModelBody.cpp">
+    <ClCompile Include="..\..\src\GasSphere.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\LuaModelBody.cpp">
+      <Filter>src</Filter>
+    </ClCompile>    
     <ClCompile Include="..\..\src\HudTrail.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -822,6 +825,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\ShipCockpit.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GasSphere.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\HudTrail.h">
