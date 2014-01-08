@@ -1,15 +1,15 @@
 {
    "AIR_PROCESSORS" : {
       "description" : "",
-      "message" : "Luchtverwerkinginstallaties"
+      "message" : "Air processors"
    },
    "ALERT_CANCELLED" : {
       "description" : "",
-      "message" : "Alarm geannuleerd."
+      "message" : "Alert cancelled."
    },
    "ALLEGIANCE" : {
       "description" : "",
-      "message" : "Trouw aan:"
+      "message" : "Allegiance:"
    },
    "ALT" : {
       "description" : "Alt key on keyboard",
@@ -21,107 +21,107 @@
    },
    "ALT_IN_METRES" : {
       "description" : "",
-      "message" : "Alt: %altitude{f.0}m"
+      "message" : "Alt: %altitude{f.0}m (%vspeed{f.1}m/s)"
    },
    "AND_HIGHLY_COMPLEX_ECOSYSTEM" : {
       "description" : "",
-      "message" : "\" en een hoog-complex ecosysteem.\""
+      "message" : "\" and a highly complex ecosystem.\""
    },
    "AND_INDIGENOUS_MICROBIAL_LIFE" : {
       "description" : "",
-      "message" : "\" en inheems microbacteriëel leven.\""
+      "message" : "\" and indigenous microbial life.\""
    },
    "AND_INDIGENOUS_PLANT_LIFE" : {
       "description" : "",
-      "message" : "\" en inheemse fauna.\""
+      "message" : "\" and indigenous plant life.\""
    },
    "ANIMAL_MEAT" : {
       "description" : "",
-      "message" : "Vlees"
+      "message" : "Animal Meat"
    },
    "APOAPSIS_DISTANCE" : {
       "description" : "",
-      "message" : "Apoapsis afstand"
+      "message" : "Apoapsis distance"
    },
    "AR_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" argon atmosfeer\""
+      "message" : "\" Argon atmosphere\""
    },
    "ASTEROID" : {
       "description" : "",
-      "message" : "Astroïde"
+      "message" : "Asteroid"
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
-      "message" : "Atmosferisch schild"
+      "message" : "Atmospheric Shielding"
    },
    "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
       "description" : "",
-      "message" : "Beschermt schip tegen de hitte bij terugkeer in atmosfeer."
+      "message" : "Shields your spaceship from the heat of atmospheric re-entry."
    },
    "AUTOPILOT" : {
       "description" : "",
-      "message" : "Automatische piloot"
+      "message" : "Autopilot"
    },
    "AUTOPILOT_DESCRIPTION" : {
       "description" : "",
-      "message" : "Een ingebouwde stuurcomputer."
+      "message" : "An on-board flight computer."
    },
    "AUTOPILOT_DOCK_WITH_STATION" : {
       "description" : "",
-      "message" : "Autopiloot: Meer aan bij ruimtestation"
+      "message" : "Autopilot: Dock with space station"
    },
    "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND" : {
       "description" : "",
-      "message" : "Autopiloot: Kies hoge omloopbaan rond %target"
+      "message" : "Autopilot: Enter high orbit around %target"
    },
    "AUTOPILOT_ENTER_LOW_ORBIT_AROUND" : {
       "description" : "",
-      "message" : "Autopiloot: Kies lage omloopbaan rond %target"
+      "message" : "Autopilot: Enter low orbit around %target"
    },
    "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND" : {
       "description" : "",
-      "message" : "Autopiloot: Kies gemiddelde omloopbaan rond %target"
+      "message" : "Autopilot: Enter medium orbit around %target"
    },
    "AUTOPILOT_FLY_TO_VICINITY_OF" : {
       "description" : "",
-      "message" : "Autopiloot: Vlieg naar nabijheid van %target"
+      "message" : "Autopilot: Fly to vicinity of %target"
    },
    "AUTOPILOT_ON" : {
       "description" : "",
-      "message" : "Autopiloot aan"
+      "message" : "Autopilot on"
    },
    "AXIAL_TILT" : {
       "description" : "",
-      "message" : "Axiale tilt"
+      "message" : "Axial tilt"
    },
    "A_FEW_THOUSAND" : {
       "description" : "",
-      "message" : "Slechts enkele duizenden"
+      "message" : "Only a few thousand"
    },
    "BATTLE_WEAPONS" : {
       "description" : "",
-      "message" : "Strijdwapens"
+      "message" : "Battle weapons"
    },
    "BINARY_SYSTEM" : {
       "description" : "",
-      "message" : "Binair systeem"
+      "message" : "Binary system"
    },
    "BODIES" : {
       "description" : "",
-      "message" : "lichamen"
+      "message" : "bodies"
    },
    "BODY" : {
       "description" : "",
-      "message" : "lichaam"
+      "message" : "body"
    },
    "BROWN_DWARF" : {
       "description" : "",
-      "message" : "Bruine dwerg, sub-stellair object"
+      "message" : "Brown dwarf sub-stellar object"
    },
    "BUTTON" : {
       "description" : "",
-      "message" : "\" Knop \""
+      "message" : "\" Button \""
    },
    "CAMERA_BOTTOM_VIEW" : {
       "description" : "",
@@ -129,7 +129,7 @@
    },
    "CAMERA_FRONT_VIEW" : {
       "description" : "",
-      "message" : "Zicht voorzijde"
+      "message" : "Front camera"
    },
    "CAMERA_LEFT_VIEW" : {
       "description" : "",
@@ -137,7 +137,7 @@
    },
    "CAMERA_REAR_VIEW" : {
       "description" : "",
-      "message" : "Zicht achterzijde"
+      "message" : "Rear camera"
    },
    "CAMERA_RIGHT_VIEW" : {
       "description" : "",
@@ -153,35 +153,35 @@
    },
    "CAPITALIST" : {
       "description" : "",
-      "message" : "Kapitalistisch"
+      "message" : "Capitalist"
    },
    "CARBON_ORE" : {
       "description" : "",
-      "message" : "Koolstof"
+      "message" : "Carbon ore"
    },
    "CARBON_ORE_DESCRIPTION" : {
       "description" : "",
-      "message" : "Fossiele brandstoffen (kolen en olie) zijn nodig voor de synthese van veel nuttige chemicaliën, zoals: kunststoffen, synthetisch voedsel, medicijnen en textiel"
+      "message" : "Carbon ores (coal and oil) are required for the synthesis of many useful chemicals, including plastics, synthetic foodstuffs, medicines and textiles"
    },
    "CARGO" : {
       "description" : "",
-      "message" : "Lading"
+      "message" : "Cargo"
    },
    "CARGO_BAY_LIFE_SUPPORT_LOST" : {
       "description" : "",
-      "message" : "Sensoren rapporteren kritische condities m.b.t. levenssignalen in vrachtruimte."
+      "message" : "Sensors report critical cargo bay life-support conditions."
    },
    "CARGO_LIFE_SUPPORT" : {
       "description" : "",
-      "message" : "Vrachtruimte levens-systeem"
+      "message" : "Cargo Bay Life Support"
    },
    "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
       "description" : "",
-      "message" : "Maakt vervoer van levende vracht mogelijk."
+      "message" : "Allows the transport of live cargo."
    },
    "CARGO_N" : {
       "description" : "",
-      "message" : "Lading: %{mass}t"
+      "message" : "Cargo: %{mass}t"
    },
    "CARGO_SCOOP" : {
       "description" : "",
@@ -197,35 +197,35 @@
    },
    "CH4_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" methaan atmosfeer\""
+      "message" : "\" Methane atmosphere\""
    },
    "CLEARANCE_ALREADY_GRANTED_BAY_N" : {
       "description" : "",
-      "message" : "Permissie al gegeven. Vervolg naar baai %bay."
+      "message" : "Clearance already granted. Proceed to docking bay %bay."
    },
    "CLEARANCE_DENIED_NO_BAYS" : {
       "description" : "",
-      "message" : "Permissie geweigerd. Er zijn geen vrije baaien beschikbaar."
+      "message" : "Clearance denied. There are no free docking bays."
    },
    "CLEARANCE_GRANTED_BAY_N" : {
       "description" : "",
-      "message" : "Permissie gegeven. Vervolg naar baai %bay."
+      "message" : "Clearance granted. Proceed to docking bay %bay."
    },
    "CO2_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" koolstofdioxide atmosfeer\""
+      "message" : "\" Carbon Dioxide atmosphere\""
    },
    "COMMA_HIGHLY_VOLCANIC" : {
       "description" : "",
-      "message" : ", hoog vulcanisch"
+      "message" : ", highly volcanic"
    },
    "COMMS" : {
       "description" : "",
-      "message" : "Communicatie"
+      "message" : "Comms"
    },
    "COMMUNIST" : {
       "description" : "",
-      "message" : "Communistisch"
+      "message" : "Communist"
    },
    "COMPUTERS" : {
       "description" : "",
@@ -237,23 +237,23 @@
    },
    "COMPUTER_SPEED_CONTROL" : {
       "description" : "",
-      "message" : "Cruise-control"
+      "message" : "Computer speed control"
    },
    "CONSUMER_GOODS" : {
       "description" : "",
-      "message" : "Consumptiegoederen"
+      "message" : "Consumer goods"
    },
    "CONTROLS" : {
       "description" : "",
-      "message" : "Besturing"
+      "message" : "Controls"
    },
    "CORPORATE_SYSTEM" : {
       "description" : "",
-      "message" : "Corporate systeem"
+      "message" : "Corporate system"
    },
    "COULD_NOT_OPEN_FILENAME" : {
       "description" : "",
-      "message" : "Kon %path niet openen"
+      "message" : "Could not open %path"
    },
    "COUNT_ON_SURFACE" : {
       "description" : "",
@@ -261,11 +261,11 @@
    },
    "COUNT_STARPORTS" : {
       "description" : "",
-      "message" : "sterrehavens"
+      "message" : "starports"
    },
    "CO_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" koolstofmonoxide atmosfeer\""
+      "message" : "\" Carbon Monoxide atmosphere\""
    },
    "CTRL" : {
       "description" : "Ctrl key on keyboard",
@@ -273,15 +273,15 @@
    },
    "CURRENT_SYSTEM" : {
       "description" : "",
-      "message" : "Huidig systeem"
+      "message" : "Current system"
    },
    "DATE_DUE_N" : {
       "description" : "",
-      "message" : "Datum verwacht: %date"
+      "message" : "Date due: %date"
    },
    "DAY_LENGTH" : {
       "description" : "",
-      "message" : "Daglengte"
+      "message" : "Day length"
    },
    "DECREASE_SCAN_RANGE" : {
       "description" : "",
@@ -289,47 +289,47 @@
    },
    "DECREASE_SET_SPEED" : {
       "description" : "",
-      "message" : "Decelereer snelheid"
+      "message" : "Decrease set speed"
    },
    "DEMOGRAPHICS" : {
       "description" : "",
-      "message" : "Demografie"
+      "message" : "Demographics"
    },
    "DESTINATION" : {
       "description" : "",
-      "message" : "Bestemming"
+      "message" : "Destination"
    },
    "DIRECTION" : {
       "description" : "",
-      "message" : "\" Richting \""
+      "message" : "\" Dir \""
    },
    "DISABLED_AUTOMATIC_SYSTEM_SELECTION" : {
       "description" : "",
-      "message" : "Automatische systeem selectie uitgeschakeld."
+      "message" : "Disabled automatic system selection."
    },
    "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
       "description" : "",
-      "message" : "Afstand van schip t.o.v. navigatie-doelwit"
+      "message" : "Distance from ship to navigation target"
    },
    "DISTANCE_LY" : {
       "description" : "",
-      "message" : "Afstand: %distance{f.2} lj"
+      "message" : "Distance: %distance{f.2} ly"
    },
    "DOCKED" : {
       "description" : "",
-      "message" : "Aangemeerd"
+      "message" : "Docked"
    },
    "DOCKING" : {
       "description" : "",
-      "message" : "Aanmerend"
+      "message" : "Docking"
    },
    "DOCKING_CLEARANCE_EXPIRED" : {
       "description" : "",
-      "message" : "Aanmeer-permissie verlopen. Als u wil aanmeren moet u uw verzoek opnieuw indienen."
+      "message" : "Docking clearance expired. If you wish to dock you must repeat your request."
    },
    "DOWNGRADING_ALERT_STATUS" : {
       "description" : "",
-      "message" : "Geen schoten gedetecteerd gedurende 60 seconden. Alarm-status wordt verlaagd."
+      "message" : "No fire detected for 60 seconds, downgrading alert status."
    },
    "DRAW_OUT_RANGE_LABELS" : {
       "description" : "",
@@ -341,99 +341,99 @@
    },
    "DRIVE_CLASS1" : {
       "description" : "",
-      "message" : "Klasse 1 Hyperaandrijving"
+      "message" : "Class 1 Hyperdrive"
    },
    "DRIVE_CLASS2" : {
       "description" : "",
-      "message" : "Klasse 2 Hyperaandrijving"
+      "message" : "Class 2 Hyperdrive"
    },
    "DRIVE_CLASS3" : {
       "description" : "",
-      "message" : "Klasse 3 Hyperaandrijving"
+      "message" : "Class 3 Hyperdrive"
    },
    "DRIVE_CLASS4" : {
       "description" : "",
-      "message" : "Klasse 4 Hyperaandrijving"
+      "message" : "Class 4 Hyperdrive"
    },
    "DRIVE_CLASS5" : {
       "description" : "",
-      "message" : "Klasse 5 Hyperaandrijving"
+      "message" : "Class 5 Hyperdrive"
    },
    "DRIVE_CLASS6" : {
       "description" : "",
-      "message" : "Klasse 6 Hyperaandrijving"
+      "message" : "Class 6 Hyperdrive"
    },
    "DRIVE_CLASS7" : {
       "description" : "",
-      "message" : "Klasse 7 Hyperaandrijving"
+      "message" : "Class 7 Hyperdrive"
    },
    "DRIVE_CLASS8" : {
       "description" : "",
-      "message" : "Klasse 8 Hyperaandrijving"
+      "message" : "Class 8 Hyperdrive"
    },
    "DRIVE_CLASS9" : {
       "description" : "",
-      "message" : "Klasse 9 Hyperaandrijving"
+      "message" : "Class 9 Hyperdrive"
    },
    "DRIVE_MIL1" : {
       "description" : "",
-      "message" : "Klasse 1 Militaire aandrijving"
+      "message" : "Class 1 Military drive"
    },
    "DRIVE_MIL2" : {
       "description" : "",
-      "message" : "Klasse 2 Militaire aandrijving"
+      "message" : "Class 2 Military drive"
    },
    "DRIVE_MIL3" : {
       "description" : "",
-      "message" : "Klasse 3 Militaire aandrijving"
+      "message" : "Class 3 Military drive"
    },
    "DRIVE_MIL4" : {
       "description" : "",
-      "message" : "Klasse 4 Militaire aandrijving"
+      "message" : "Class 4 Military drive"
    },
    "EARTH" : {
       "description" : "",
-      "message" : "Aardse"
+      "message" : "Earth"
    },
    "EARTH_FEDERATION_COLONIAL_RULE" : {
       "description" : "",
-      "message" : "Coloniaal bewind onder Aardse Federatie"
+      "message" : "Earth Federation Colonial Rule"
    },
    "EARTH_FEDERATION_DEMOCRACY" : {
       "description" : "",
-      "message" : "Democratie onder Aardse Federatie"
+      "message" : "Earth Federation Democracy"
    },
    "ECCENTRICITY" : {
       "description" : "",
-      "message" : "Afwijking"
+      "message" : "Eccentricity"
    },
    "ECM_ADVANCED" : {
       "description" : "",
-      "message" : "Geavanceerd ECM systeem"
+      "message" : "Advanced ECM system"
    },
    "ECM_ADVANCED_DESCRIPTION" : {
       "description" : "",
-      "message" : "'Electronic Countermeasure Missile'-verdedigingssysteem. In staat om geavanceerde varianten van doelzoekende raketten te vernietigen."
+      "message" : "An electronic countermeasure missile defence system, capable of destroying more advanced types of homing missiles."
    },
    "ECM_BASIC" : {
       "description" : "",
-      "message" : "ECM systeem"
+      "message" : "ECM system"
    },
    "ECM_BASIC_DESCRIPTION" : {
       "description" : "",
-      "message" : "'Electronic Countermeasure Missile'-verdedigingssysteem. In staat om doelzoekende raketten te vernietigen."
+      "message" : "An electronic countermeasure missile defence system, capable of destroying some homing missiles."
    },
    "ECONOMIC_INFO" : {
       "description" : "",
-      "message" : "Economische info"
+      "message" : "Economic info"
    },
    "ECONOMY_TYPE" : {
       "description" : "",
-      "message" : "Type economie:"
+      "message" : "Economy type:"
    },
    "ENABLED_AUTOMATIC_SYSTEM_SELECTION" : {
       "description" : "",
-      "message" : "Automatische systeem selectie ingeschakeld."
+      "message" : "Enabled automatic system selection."
    },
    "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
       "description" : "",
@@ -441,119 +441,119 @@
    },
    "EXACT_MATCH_X" : {
       "description" : "",
-      "message" : "Exacte match: %system"
+      "message" : "Exact match: %system"
    },
    "EXTENSIVE_MINING" : {
       "description" : "",
-      "message" : "Extensieve mijnbouw."
+      "message" : "Extensive mining operations."
    },
    "EXTERNAL_ATMOSPHERIC_PRESSURE" : {
       "description" : "",
-      "message" : "Externe atmosferische druk"
+      "message" : "External atmospheric pressure"
    },
    "EXTERNAL_VIEW" : {
       "description" : "",
-      "message" : "Extern zicht"
+      "message" : "External view"
    },
    "FARM_MACHINERY" : {
       "description" : "",
-      "message" : "Landbouw apparatuur"
+      "message" : "Farm machinery"
    },
    "FERTILIZER" : {
       "description" : "",
-      "message" : "Kunstmest"
+      "message" : "Fertilizer"
    },
    "FINE_PAID_N" : {
       "description" : "",
-      "message" : "U heeft een boete betaald van %fine."
+      "message" : "You have paid the fine of %fine."
    },
    "FINE_PAID_N_BUT_N_REMAINING" : {
       "description" : "",
-      "message" : "U heeft %paid betaald, maar hebt nog steeds een boete uitstaan van %fine."
+      "message" : "You have paid %paid but still have an outstanding fine of %fine."
    },
    "FIRE_LASER" : {
       "description" : "",
-      "message" : "Vuur laser"
+      "message" : "Fire laser"
    },
    "FIRE_MISSILE" : {
       "description" : "",
-      "message" : "Raket afvuren"
+      "message" : "Fire missile"
    },
    "FOLLOWING_SELECTION" : {
       "description" : "",
-      "message" : "Volgende selectie"
+      "message" : "following selection"
    },
    "FRONT" : {
       "description" : "",
-      "message" : "Voorkant"
+      "message" : "Front"
    },
    "FRUIT_AND_VEG" : {
       "description" : "",
-      "message" : "Fruit en groente"
+      "message" : "Fruit and Veg"
    },
    "FUEL" : {
       "description" : "",
-      "message" : "Brandstof"
+      "message" : "Fuel"
    },
    "FUEL_SCOOP" : {
       "description" : "",
-      "message" : "Brandstofschep"
+      "message" : "Fuel Scoop"
    },
    "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED" : {
       "description" : "",
-      "message" : "Brandstofschep actief. U heeft nu %quantity ton waterstof."
+      "message" : "Fuel scoop active. You now have %quantity tonnes of hydrogen."
    },
    "FUEL_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Maakt het mogelijk om waterstof te scheppen van gas giganten."
+      "message" : "Permits scooping hydrogen fuel from gas giant planets."
    },
    "GALACTIC_VIEW" : {
       "description" : "",
-      "message" : "Galactisch overzicht"
+      "message" : "Galactic view"
    },
    "GALAXY_SECTOR_VIEW" : {
       "description" : "",
-      "message" : "Sector-overzicht (melkwegstelsels)"
+      "message" : "Galaxy sector view"
    },
    "GAME_LOAD_CANNOT_OPEN" : {
       "description" : "",
-      "message" : "Dit bestand kon niet worden geladen vanwege foutief toegewezen bestandspermissies."
+      "message" : "This saved game file could not be opened due to permissions or something..."
    },
    "GAME_LOAD_CORRUPT" : {
       "description" : "",
-      "message" : "Dit bestand kon niet worden geladen. Het bevat mogelijk fouten of is corrupt."
+      "message" : "This saved game cannot be loaded because it contains errors."
    },
    "GAME_LOAD_WRONG_VERSION" : {
       "description" : "",
-      "message" : "Dit opgeslagen spel kan niet geladen worden omdat het was gecreëerd door een andere versie van Pioneer."
+      "message" : "This saved game cannot be loaded because it was created by a different version of Pioneer."
    },
    "GAME_SAVED_TO" : {
       "description" : "",
-      "message" : "\"Spel opgeslagen in \""
+      "message" : "\"Game saved to \""
    },
    "GAME_SAVE_CANNOT_WRITE" : {
       "description" : "",
-      "message" : "Dit opgeslagen spelbestand kon niet beschreven worden vanwege een systeemfout."
+      "message" : "This saved game file could not be written because of a system error."
    },
    "GOVERNMENT_TYPE" : {
       "description" : "",
-      "message" : "Type regering:"
+      "message" : "Government type:"
    },
    "GRAIN" : {
       "description" : "",
-      "message" : "Graan"
+      "message" : "Grain"
    },
    "HAND_WEAPONS" : {
       "description" : "",
-      "message" : "Handwapens"
+      "message" : "Hand weapons"
    },
    "HARD_CAPITALIST" : {
       "description" : "",
-      "message" : "Volkomen kapitalistisch - geen overheids-gesubsidieerde welzijnsvoorzieningen"
+      "message" : "Entirely Capitalist - no government welfare provision"
    },
    "HAT" : {
       "description" : "",
-      "message" : "\" Hoed\""
+      "message" : "\" Hat\""
    },
    "HEADING_LOCK_BACKWARD" : {
       "description" : "",
@@ -565,51 +565,51 @@
    },
    "HEAVY_INDUSTRY" : {
       "description" : "",
-      "message" : "Zware industrie."
+      "message" : "Heavy industry."
    },
    "HE_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" helium atmosfeer\""
+      "message" : "\" Helium atmosphere\""
    },
    "HIGHLY_VOLCANIC" : {
       "description" : "",
-      "message" : "Hoog vulcanisch"
+      "message" : "Highly volcanic"
    },
    "HIGH_POPULATION_OUTDOOR_WORLD" : {
       "description" : "",
-      "message" : "Openlucht-wereld met hoge populatie."
+      "message" : "High population outdoor world."
    },
    "HULL_AUTOREPAIR" : {
       "description" : "",
-      "message" : "Romp Auto-reparatie systeem"
+      "message" : "Hull Auto-Repair System"
    },
    "HULL_AUTOREPAIR_DESCRIPTION" : {
       "description" : "",
-      "message" : "Repareert automatisch de scheepsromp in het geval van schade."
+      "message" : "Automatically repairs the ship's hull in the event of damage."
    },
    "HULL_INTEGRITY" : {
       "description" : "",
-      "message" : "Romp integriteit"
+      "message" : "Hull integrity"
    },
    "HULL_TEMP" : {
       "description" : "",
-      "message" : "Romp temp"
+      "message" : "Hull temp"
    },
    "HYDROGEN" : {
       "description" : "",
-      "message" : "Waterstof"
+      "message" : "Hydrogen"
    },
    "HYDROGEN_DESCRIPTION" : {
       "description" : "",
-      "message" : "Waterstof wordt voornamelijk gebruikt als brandstof voor fusie"
+      "message" : "Hydrogen is primarily used as a fusion fuel"
    },
    "HYPERCLOUD_ANALYZER" : {
       "description" : "",
-      "message" : "Hyperspace-wolk Analysator"
+      "message" : "Hypercloud Analyzer"
    },
    "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Analyseert hyperspace-wolken om bestemming en aankomst- of vertrektijd te bepalen."
+      "message" : "Analyze hyperspace clouds to determine destination and time of arrival or departure."
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -617,47 +617,47 @@
    },
    "HYPERSPACE_ARRIVAL_CLOUD" : {
       "description" : "",
-      "message" : "Hyperspace aankomst-wolk"
+      "message" : "Hyperspace arrival cloud"
    },
    "HYPERSPACE_ARRIVAL_CLOUD_REMNANT" : {
       "description" : "",
-      "message" : "Hyperspace aankomst-wolk overblijfsel"
+      "message" : "Hyperspace arrival cloud remnant"
    },
    "HYPERSPACE_DEPARTURE_CLOUD" : {
       "description" : "",
-      "message" : "Hyperspace vertrek-wolk"
+      "message" : "Hyperspace departure cloud"
    },
    "HYPERSPACE_JUMP" : {
       "description" : "",
-      "message" : "Hyperspace-sprong"
+      "message" : "Hyperspace Jump"
    },
    "HYPERSPACE_JUMP_ABORTED" : {
       "description" : "",
-      "message" : "Hyperspace-sprong afgebroken."
+      "message" : "Hyperspace jump aborted."
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Hyperspace doel"
+      "message" : "Hyperspace target"
    },
    "HYPERSPACING_IN_N_SECONDS" : {
       "description" : "",
-      "message" : "Hyperspace-sprong in %countdown{f.0} seconden"
+      "message" : "Hyperspacing in %countdown{f.0} seconds"
    },
    "H_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" waterstof atmosfeer\""
+      "message" : "\" Hydrogen atmosphere\""
    },
    "ICE_WORLD" : {
       "description" : "",
-      "message" : "\" ijswereld\""
+      "message" : "\" ice world\""
    },
    "ILLEGAL_GOODS" : {
       "description" : "",
-      "message" : "Illegale Goederen:"
+      "message" : "Illegal Goods:"
    },
    "IMPERIAL_RULE" : {
       "description" : "",
-      "message" : "Imperiaal regime"
+      "message" : "Imperial Rule"
    },
    "INCREASE_SCAN_RANGE" : {
       "description" : "",
@@ -665,19 +665,19 @@
    },
    "INCREASE_SET_SPEED" : {
       "description" : "",
-      "message" : "Accelereer snelheid"
+      "message" : "Increase set speed"
    },
    "INDUSTRIAL_COLONY" : {
       "description" : "",
-      "message" : "Industriële kolonie."
+      "message" : "Industrial colony."
    },
    "INDUSTRIAL_HUB_SYSTEM" : {
       "description" : "",
-      "message" : "Industrieël knooppunt-systeem."
+      "message" : "Industrial hub system."
    },
    "INDUSTRIAL_MACHINERY" : {
       "description" : "",
-      "message" : "Industriële apparatuur"
+      "message" : "Industrial machinery"
    },
    "INTERNAL_VIEW" : {
       "description" : "",
@@ -685,7 +685,7 @@
    },
    "INT_LY" : {
       "description" : "",
-      "message" : "%scale lj"
+      "message" : "%scale ly"
    },
    "IN_TRANSIT" : {
       "description" : "",
@@ -693,7 +693,7 @@
    },
    "IN_TRANSIT_TO_N_X_X_X" : {
       "description" : "",
-      "message" : "Onderweg naar %system [%x,%y,%z]"
+      "message" : "In transit to %system [%x,%y,%z]"
    },
    "JOY" : {
       "description" : "",
@@ -701,7 +701,7 @@
    },
    "JOYSTICK_INPUT" : {
       "description" : "",
-      "message" : "Joystick invoer"
+      "message" : "Joystick input"
    },
    "JOY_AXIS" : {
       "description" : "",
@@ -709,107 +709,107 @@
    },
    "KM_S_RELATIVE_TO" : {
       "description" : "",
-      "message" : "%speed{f.2} km/s relatief tot %frame"
+      "message" : "%speed{f.2} km/s rel-to %frame"
    },
    "LANDED" : {
       "description" : "",
-      "message" : "Geland"
+      "message" : "Landed"
    },
    "LANG_NAME" : {
       "description" : "The name that native speakers use for this language. This will be used in the language selection screen. For obscure reasons this currently must only use Latin-1 characters.",
-      "message" : "Nederlands"
+      "message" : "Bokmål"
    },
    "LARGE" : {
       "description" : "",
-      "message" : "Grote"
+      "message" : "Large"
    },
    "LARGE_GAS_GIANT" : {
       "description" : "",
-      "message" : "Grote gas gigant"
+      "message" : "Large gas giant"
    },
    "LARGE_PLASMA_ACCEL" : {
       "description" : "",
-      "message" : "Grote plasma accelerator"
+      "message" : "Large plasma accelerator"
    },
    "LASER_COOLING_BOOSTER" : {
       "description" : "",
-      "message" : "Laser koelsysteem"
+      "message" : "Laser Cooling Booster"
    },
    "LASER_COOLING_BOOSTER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Een verbeterd koelsysteem voor uw wapens."
+      "message" : "An improved cooling system for your weapons."
    },
    "LASER_FIRE_DETECTED" : {
       "description" : "",
-      "message" : "Laser-schoten gedetecteerd."
+      "message" : "Laser fire detected."
    },
    "LAUNCH_PERMISSION_DENIED_BUSY" : {
       "description" : "",
-      "message" : "Permissie om op te stijgen geweigerd: drukte in baai."
+      "message" : "Permission to launch denied: docking bay busy."
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
-      "message" : "Liberale democratie"
+      "message" : "Liberal democracy"
    },
    "LIQUID_OXYGEN" : {
       "description" : "",
-      "message" : "Vloeibare Zuurstof"
+      "message" : "Liquid Oxygen"
    },
    "LIQUID_OXYGEN_DESCRIPTION" : {
       "description" : "",
-      "message" : "Zuurstof wordt gebruikt voor levensinstandhoudingssystemen en een aantal industriële processen"
+      "message" : "Oxygen is required for life support systems and some industrial processes"
    },
    "LIQUOR" : {
       "description" : "",
-      "message" : "Drank"
+      "message" : "Liquor"
    },
    "LIVE_ANIMALS" : {
       "description" : "",
-      "message" : "Levende dieren"
+      "message" : "Live Animals"
    },
    "LOCKED" : {
       "description" : "",
-      "message" : "gesloten"
+      "message" : "locked"
    },
    "MAJOR_EXPORTS" : {
       "description" : "",
-      "message" : "Voornaamste export:"
+      "message" : "Major Exports:"
    },
    "MAJOR_IMPORTS" : {
       "description" : "",
-      "message" : "Voornaamste import:"
+      "message" : "Major Imports:"
    },
    "MANUAL_CONTROL" : {
       "description" : "",
-      "message" : "Handmatige besturing"
+      "message" : "Manual control"
    },
    "MANUAL_CONTROL_MODE" : {
       "description" : "",
-      "message" : "Handmatige besturingsmode"
+      "message" : "Manual control mode"
    },
    "MASS" : {
       "description" : "",
-      "message" : "Massa"
+      "message" : "Mass"
    },
    "MASSIVE" : {
       "description" : "",
-      "message" : "Massieve"
+      "message" : "Massive"
    },
    "MASS_N_TONNES" : {
       "description" : "",
-      "message" : "Massa: %{mass}t"
+      "message" : "Mass: %{mass}t"
    },
    "MEDICINES" : {
       "description" : "",
-      "message" : "Medicijnen"
+      "message" : "Medicines"
    },
    "MEDIUM_GAS_GIANT" : {
       "description" : "",
-      "message" : "Middelgrote gas gigant"
+      "message" : "Medium gas giant"
    },
    "MESSAGE_FROM_X" : {
       "description" : "",
-      "message" : "Boodschap van %sender:"
+      "message" : "Message from %sender:"
    },
    "META" : {
       "description" : "'Meta' key on keyboard",
@@ -817,43 +817,43 @@
    },
    "METAL_ALLOYS" : {
       "description" : "",
-      "message" : "Metaal legeringen"
+      "message" : "Metal alloys"
    },
    "METAL_ORE" : {
       "description" : "",
-      "message" : "Erts"
+      "message" : "Metal ore"
    },
    "MILITARY_DICTATORSHIP" : {
       "description" : "",
-      "message" : "Militair dictatorschap"
+      "message" : "Military dictatorship"
    },
    "MILITARY_FUEL" : {
       "description" : "",
-      "message" : "Militaire brandstof"
+      "message" : "Military fuel"
    },
    "MININGCANNON_17MW" : {
       "description" : "",
-      "message" : "17MW mijnbouw kanon"
+      "message" : "17MW blast-mining cannon"
    },
    "MININGCANNON_17MW_DESCRIPTION" : {
       "description" : "",
-      "message" : "Wordt gebruikt om mineraal-rijke asteroïden te mijnen."
+      "message" : "Used to blast-mine mineral rich asteroids."
    },
    "MINING_COLONY" : {
       "description" : "",
-      "message" : "Mijnbouw kolonie."
+      "message" : "Mining colony."
    },
    "MINING_MACHINERY" : {
       "description" : "",
-      "message" : "Mijnbouw apparatuur"
+      "message" : "Mining machinery"
    },
    "MINOR_EXPORTS" : {
       "description" : "",
-      "message" : "Secundaire export:"
+      "message" : "Minor Exports:"
    },
    "MINOR_IMPORTS" : {
       "description" : "",
-      "message" : "Secundaire import:"
+      "message" : "Minor Imports:"
    },
    "MISCELLANEOUS" : {
       "description" : "",
@@ -861,27 +861,27 @@
    },
    "MISSILE" : {
       "description" : "",
-      "message" : "raket"
+      "message" : "missile"
    },
    "MISSILE_GUIDED" : {
       "description" : "",
-      "message" : "Geleide Raket"
+      "message" : "Guided Missile"
    },
    "MISSILE_NAVAL" : {
       "description" : "",
-      "message" : "Marine Raket"
+      "message" : "Naval Missile"
    },
    "MISSILE_SMART" : {
       "description" : "",
-      "message" : "Intelligente Raket"
+      "message" : "Smart Missile"
    },
    "MISSILE_UNGUIDED" : {
       "description" : "",
-      "message" : "R40 Ongeleide Raket"
+      "message" : "R40 Unguided Rocket"
    },
    "MIXED_ECONOMY" : {
       "description" : "",
-      "message" : "Gemixte economie"
+      "message" : "Mixed economy"
    },
    "MONTH_APR" : {
       "description" : "",
@@ -913,11 +913,11 @@
    },
    "MONTH_MAR" : {
       "description" : "",
-      "message" : "Mrt"
+      "message" : "Mar"
    },
    "MONTH_MAY" : {
       "description" : "",
-      "message" : "Mei"
+      "message" : "May"
    },
    "MONTH_NOV" : {
       "description" : "",
@@ -925,7 +925,7 @@
    },
    "MONTH_OCT" : {
       "description" : "",
-      "message" : "Okt"
+      "message" : "Oct"
    },
    "MONTH_SEP" : {
       "description" : "",
@@ -933,39 +933,39 @@
    },
    "MURDER" : {
       "description" : "",
-      "message" : "Moord"
+      "message" : "Murder"
    },
    "M_S_RELATIVE_TO" : {
       "description" : "",
-      "message" : "%speed{f.0} m/s relatief tot %frame"
+      "message" : "%speed{f.0} m/s rel-to %frame"
    },
    "NAME_OBJECT" : {
       "description" : "For an item or object",
-      "message" : "Naam"
+      "message" : "Name"
    },
    "NAME_PERSON" : {
       "description" : "For a person",
-      "message" : "Naam"
+      "message" : "Name"
    },
    "NARCOTICS" : {
       "description" : "",
-      "message" : "Narcotica"
+      "message" : "Narcotics"
    },
    "NAVIGATION_STAR_MAPS" : {
       "description" : "",
-      "message" : "Navigatie- en sterrekaarten"
+      "message" : "Navigation and star maps"
    },
    "NAVIGATION_TARGETS_IN_THIS_SYSTEM" : {
       "description" : "",
-      "message" : "Navigatiedoelen in dit systeem"
+      "message" : "Navigation targets in this system"
    },
    "NERVE_GAS" : {
       "description" : "",
-      "message" : "Zenuwgas"
+      "message" : "Nerve Gas"
    },
    "NONE" : {
       "description" : "",
-      "message" : "Geen"
+      "message" : "None"
    },
    "NORMA_ARM" : {
       "description" : "",
@@ -973,39 +973,39 @@
    },
    "NOT_FOUND" : {
       "description" : "",
-      "message" : "Niet gevonden"
+      "message" : "Not found"
    },
    "NOT_FOUND_BEST_MATCH_X" : {
       "description" : "",
-      "message" : "Niet gevonden, beste match: %system"
+      "message" : "Not found, best match: %system"
    },
    "NO_ALERT" : {
       "description" : "",
-      "message" : "Geen alarm"
+      "message" : "No alert"
    },
    "NO_CENTRAL_GOVERNANCE" : {
       "description" : "",
-      "message" : "Geen centrale regering"
+      "message" : "No central governance"
    },
    "NO_ESTABLISHED_ORDER" : {
       "description" : "",
-      "message" : "Geen gevestigde orde"
+      "message" : "No established order"
    },
    "NO_HYPERDRIVE" : {
       "description" : "",
-      "message" : "Geen hyperaandrijving"
+      "message" : "No hyperdrive"
    },
    "NO_REGISTERED_INHABITANTS" : {
       "description" : "",
-      "message" : "Geen geregistreerde inwoners"
+      "message" : "No registered inhabitants"
    },
    "NO_TARGET_SELECTED" : {
       "description" : "",
-      "message" : "Scheepscomputer: geen doelwit geselecteerd"
+      "message" : "Ship Computer: No target selected"
    },
    "NUMBER_DAYS" : {
       "description" : "",
-      "message" : "%days{f.0} dagen"
+      "message" : "%days{f.0} days"
    },
    "NUMBER_G" : {
       "description" : "",
@@ -1013,11 +1013,11 @@
    },
    "NUMBER_HOURS" : {
       "description" : "",
-      "message" : "%hours{f.1} uur"
+      "message" : "%hours{f.1} hrs"
    },
    "NUMBER_LY" : {
       "description" : "",
-      "message" : "%distance{f.2} lj"
+      "message" : "%distance{f.2} ly"
    },
    "NUMBER_TONNES" : {
       "description" : "",
@@ -1025,7 +1025,7 @@
    },
    "N_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" stikstof atmosfeer\""
+      "message" : "\" Nitrogen atmosphere\""
    },
    "N_CELSIUS" : {
       "description" : "",
@@ -1033,23 +1033,23 @@
    },
    "N_DAYS" : {
       "description" : "",
-      "message" : "%days{f.1} dagen"
+      "message" : "%days{f.1} days"
    },
    "N_DEGREES" : {
       "description" : "",
-      "message" : "%angle{f.1} graden"
+      "message" : "%angle{f.1} degrees"
    },
    "N_DISTANCE_TO_TARGET" : {
       "description" : "",
-      "message" : "%distance tot doelwit"
+      "message" : "%distance to target"
    },
    "N_EARTH_DAYS" : {
       "description" : "",
-      "message" : "%days{f.1} aardse dagen"
+      "message" : "%days{f.1} earth days"
    },
    "N_WHATEVER_MASSES" : {
       "description" : "",
-      "message" : "%mass{f.3} %units massa"
+      "message" : "%mass{f.3} %units masses"
    },
    "N_WHATEVER_RADII" : {
       "description" : "",
@@ -1057,39 +1057,39 @@
    },
    "N_YEARS" : {
       "description" : "",
-      "message" : "%years{f.1} jaren"
+      "message" : "%years{f.1} years"
    },
    "O2_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" zuurstof atmosfeer\""
+      "message" : "\" Oxygen atmosphere\""
    },
    "OCEANICWORLD" : {
       "description" : "",
-      "message" : "\" oceanische wereld\""
+      "message" : "\" oceanic world\""
    },
    "ORBITAL_PERIOD" : {
       "description" : "",
-      "message" : "Omloopbaan"
+      "message" : "Orbital period"
    },
    "ORBITAL_STARPORT" : {
       "description" : "",
-      "message" : "Sterrehaven in omloopbaan"
+      "message" : "Orbital starport"
    },
    "OUTDOOR_AGRICULTURAL_WORLD" : {
       "description" : "",
-      "message" : "Openlucht-agriculturele wereld."
+      "message" : "Outdoor agricultural world."
    },
    "OUTER_ARM" : {
       "description" : "",
-      "message" : "Buitenste arm"
+      "message" : "Outer arm"
    },
    "OVER_N_BILLION" : {
       "description" : "",
-      "message" : "Groter dan %population biljoen"
+      "message" : "Over %population billion"
    },
    "OVER_N_MILLION" : {
       "description" : "",
-      "message" : "Groter dan %population miljoen"
+      "message" : "Over %population million"
    },
    "PASSENGER_CABIN" : {
       "description" : "",
@@ -1101,11 +1101,11 @@
    },
    "PAY_FINE_REMOTELY" : {
       "description" : "",
-      "message" : "Betaal boete via overschrijving op afstand (%amount)"
+      "message" : "Pay fine by remote transfer (%amount)"
    },
    "PERIAPSIS_DISTANCE" : {
       "description" : "",
-      "message" : "Periapsis afstand"
+      "message" : "Periapsis distance"
    },
    "PERSEUS_ARM" : {
       "description" : "",
@@ -1117,55 +1117,55 @@
    },
    "PIRACY" : {
       "description" : "",
-      "message" : "Piraterij"
+      "message" : "Piracy"
    },
    "PITCH" : {
       "description" : "",
-      "message" : "Hel"
+      "message" : "Pitch"
    },
    "PITCH_DOWN" : {
       "description" : "",
-      "message" : "Beweeg neus omlaag"
+      "message" : "Pitch down"
    },
    "PITCH_UP" : {
       "description" : "",
-      "message" : "Beweeg neus omhoog"
+      "message" : "Pitch up"
    },
    "PLANETARY_INFO" : {
       "description" : "",
-      "message" : "Planetaire info"
+      "message" : "Planetary info"
    },
    "PLANET_CONTAINING_LIQUID_WATER" : {
       "description" : "",
-      "message" : "\" planeet met enig vloeibaar water\""
+      "message" : "\" planet containing liquid water\""
    },
    "PLANET_WITH_SOME_ICE" : {
       "description" : "",
-      "message" : "\" planeet met enig ijs\""
+      "message" : "\" planet with some ice\""
    },
    "PLANNED_ECONOMY" : {
       "description" : "",
-      "message" : "Centraal geplande economie"
+      "message" : "Centrally planned economy"
    },
    "PLASTICS" : {
       "description" : "",
-      "message" : "Kunststoffen"
+      "message" : "Plastics"
    },
    "PLUTOCRATIC_DICTATORSHIP" : {
       "description" : "",
-      "message" : "Plutocratisch dictatorshap"
+      "message" : "Plutocratic dictatorship"
    },
    "POLICE_SHIP_REGISTRATION" : {
       "description" : "",
-      "message" : "POLITIE"
+      "message" : "POLICE"
    },
    "POPULATION" : {
       "description" : "",
-      "message" : "Populatie:"
+      "message" : "Population:"
    },
    "PRECIOUS_METALS" : {
       "description" : "",
-      "message" : "Edelmetalen"
+      "message" : "Precious metals"
    },
    "PRESSURE_N_ATMOSPHERES" : {
       "description" : "",
@@ -1177,35 +1177,35 @@
    },
    "PULSECANNON_10MW" : {
       "description" : "",
-      "message" : "10MW puls kanon"
+      "message" : "10MW pulse cannon"
    },
    "PULSECANNON_1MW" : {
       "description" : "",
-      "message" : "1MW puls kanon"
+      "message" : "1MW pulse cannon"
    },
    "PULSECANNON_20MW" : {
       "description" : "",
-      "message" : "20MW puls kanon"
+      "message" : "20MW pulse cannon"
    },
    "PULSECANNON_2MW" : {
       "description" : "",
-      "message" : "2MW puls kanon"
+      "message" : "2MW pulse cannon"
    },
    "PULSECANNON_4MW" : {
       "description" : "",
-      "message" : "4MW puls kanon"
+      "message" : "4MW pulse cannon"
    },
    "PULSECANNON_DUAL_1MW" : {
       "description" : "",
-      "message" : "1MW dubbelloops puls kanon"
+      "message" : "1MW dual-fire pulse cannon"
    },
    "PULSECANNON_RAPID_2MW" : {
       "description" : "",
-      "message" : "2MW snelvuur puls kanon"
+      "message" : "2MW rapid-fire pulse cannon"
    },
    "QUADRUPLE_SYSTEM" : {
       "description" : "",
-      "message" : "Viervoudig systeem"
+      "message" : "Quadruple system"
    },
    "RADAR_MAPPER" : {
       "description" : "",
@@ -1213,11 +1213,11 @@
    },
    "RADAR_MAPPER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Maakt het mogelijk om de uitrusting, lading of status van andere schepen van een afstand te bekijken."
+      "message" : "Used to remotely inspect the equipment, cargo and state of other ships."
    },
    "RADIOACTIVES" : {
       "description" : "",
-      "message" : "Radioactief afval"
+      "message" : "Radioactive waste"
    },
    "RADIUS" : {
       "description" : "",
@@ -1225,11 +1225,11 @@
    },
    "REAR" : {
       "description" : "",
-      "message" : "Achterkant"
+      "message" : "Rear"
    },
    "REQUEST_DOCKING_CLEARANCE" : {
       "description" : "",
-      "message" : "Vraag permissie om aan te meren"
+      "message" : "Request docking clearance"
    },
    "RESET" : {
       "description" : "",
@@ -1241,23 +1241,23 @@
    },
    "ROCKY_PLANET" : {
       "description" : "",
-      "message" : "\" terrestrische planeet\""
+      "message" : "\" rocky planet\""
    },
    "ROCKY_PLANET_CONTAINING_COME_LIQUIDS" : {
       "description" : "",
-      "message" : "\" terrestrische planeet met enige vloeistoffen,\""
+      "message" : "\" rocky planet containing some liquids,\""
    },
    "ROLL" : {
       "description" : "",
-      "message" : "Rol"
+      "message" : "Roll"
    },
    "ROLL_LEFT" : {
       "description" : "",
-      "message" : "Rol links"
+      "message" : "Roll left"
    },
    "ROLL_RIGHT" : {
       "description" : "",
-      "message" : "Rol rechts"
+      "message" : "Roll right"
    },
    "ROTATE_DOWN" : {
       "description" : "",
@@ -1265,19 +1265,19 @@
    },
    "ROTATE_LEFT" : {
       "description" : "",
-      "message" : "Roteer Linksom"
+      "message" : "Rotate Left"
    },
    "ROTATE_RIGHT" : {
       "description" : "",
-      "message" : "Roteer Rechtsom"
+      "message" : "Rotate Right"
    },
    "ROTATE_UP" : {
       "description" : "",
-      "message" : "Roteer Omhoog"
+      "message" : "Rotate Up"
    },
    "ROTATIONAL_PERIOD" : {
       "description" : "",
-      "message" : "\" (rotatie-periode)\""
+      "message" : "\" (rotational period)\""
    },
    "ROTATION_DAMPING_OFF" : {
       "description" : "",
@@ -1289,7 +1289,7 @@
    },
    "RUBBISH" : {
       "description" : "",
-      "message" : "Afval"
+      "message" : "Rubbish"
    },
    "SAGITTARIUS_ARM" : {
       "description" : "",
@@ -1305,11 +1305,11 @@
    },
    "SCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Projecteert een 3D-kaart van nabije schepen."
+      "message" : "Provides a 3D map of nearby ships."
    },
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
-      "message" : "schermdump%index{d08}.png"
+      "message" : "screenshot%index{d08}.png"
    },
    "SCUTUM_CENTAURUS_ARM" : {
       "description" : "",
@@ -1317,11 +1317,11 @@
    },
    "SEARCH" : {
       "description" : "",
-      "message" : "Zoek"
+      "message" : "Search"
    },
    "SECTOR_COORDINATES" : {
       "description" : "",
-      "message" : "Sector coördinaten:"
+      "message" : "Sector coordinates:"
    },
    "SECTOR_X_Y_Z" : {
       "description" : "",
@@ -1329,11 +1329,11 @@
    },
    "SELECTED_SYSTEM" : {
       "description" : "",
-      "message" : "Geselecteerd systeem"
+      "message" : "Selected system"
    },
    "SELECT_A_TARGET" : {
       "description" : "",
-      "message" : "Selecteer doelwit"
+      "message" : "Select a target"
    },
    "SELECT_LOW_THRUST_POWER_LEVEL" : {
       "description" : "",
@@ -1341,15 +1341,15 @@
    },
    "SEMI_MAJOR_AXIS" : {
       "description" : "",
-      "message" : "Semi-majore as"
+      "message" : "Semi-major axis"
    },
    "SET_HYPERSPACE_DESTINATION_TO" : {
       "description" : "",
-      "message" : "Kies hyperspace-bestemming naar %system"
+      "message" : "Set hyperspace destination to %system"
    },
    "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE" : {
       "description" : "",
-      "message" : "Hyperspace-wolk Analysator: Kies hyperspace-doelwit om dit vertrek te volgen"
+      "message" : "Hyperspace cloud analyzer: Set hyperspace target to follow this departure"
    },
    "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT" : {
       "description" : "",
@@ -1357,35 +1357,35 @@
    },
    "SET_SPEED_KM_S" : {
       "description" : "",
-      "message" : "Gezette snelheid: %speed{f.2} km/s"
+      "message" : "Set speed: %speed{f.2} km/s"
    },
    "SET_SPEED_M_S" : {
       "description" : "",
-      "message" : "Gezette snelheid: %speed{f.0} m/s"
+      "message" : "Set speed: %speed{f.0} m/s"
    },
    "SHIELD_ENERGY_BOOSTER" : {
       "description" : "",
-      "message" : "Schild-energie Aanjager"
+      "message" : "Shield Energy Booster"
    },
    "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Verhoogt de ratio waarmee schilden opladen."
+      "message" : "Increases the rate at which shields recharge."
    },
    "SHIELD_GENERATOR" : {
       "description" : "",
-      "message" : "Schild Generator"
+      "message" : "Shield Generator"
    },
    "SHIELD_GENERATOR_DESCRIPTION" : {
       "description" : "",
-      "message" : "Biedt per geïnstalleerde eenheid aanvullende bescherming van de scheepsromp."
+      "message" : "Provides additional hull defences with each unit fitted."
    },
    "SHIELD_INTEGRITY" : {
       "description" : "",
-      "message" : "Schild integrteit"
+      "message" : "Shield integrity"
    },
    "SHIELD_STRENGTH_N" : {
       "description" : "",
-      "message" : "Schild kracht: %shields{f.2}"
+      "message" : "Shield strength: %shields{f.2}"
    },
    "SHIFT" : {
       "description" : "Shift key on keyboard",
@@ -1393,35 +1393,35 @@
    },
    "SHIP" : {
       "description" : "",
-      "message" : "Schip"
+      "message" : "Ship"
    },
    "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
       "description" : "",
-      "message" : "Hoogte van schip t.o.v. terrein"
+      "message" : "Ship altitude above terrain"
    },
    "SHIP_DETECTED_NEARBY" : {
       "description" : "",
-      "message" : "Nabij schip gedetecteerd."
+      "message" : "Ship detected nearby."
    },
    "SHIP_INFORMATION" : {
       "description" : "",
-      "message" : "Scheepsinformatie"
+      "message" : "Ship information"
    },
    "SHIP_MASS_N_TONNES" : {
       "description" : "",
-      "message" : "Scheepsmassa: %{mass}t"
+      "message" : "Ship mass: %{mass}t"
    },
    "SHIP_NEARBY" : {
       "description" : "",
-      "message" : "Schip nabij"
+      "message" : "Ship nearby"
    },
    "SHIP_ORIENTATION" : {
       "description" : "",
-      "message" : "Oriënteer Schip"
+      "message" : "Ship orientation"
    },
    "SHIP_VELOCITY_BY_REFERENCE_OBJECT" : {
       "description" : "",
-      "message" : "Snelheid van schip t.o.v. referentieobject"
+      "message" : "Ship velocity by reference object"
    },
    "SIDEREAL_VIEW" : {
       "description" : "",
@@ -1429,283 +1429,283 @@
    },
    "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
       "description" : "",
-      "message" : "Bezig met simuleren: evolutie van het universum - %age{f.1} biljoen jaar ;-)"
+      "message" : "Simulating evolution of the universe: %age{f.1} billion years ;-)"
    },
    "SLAVES" : {
       "description" : "",
-      "message" : "Slaven"
+      "message" : "Slaves"
    },
    "SMALL" : {
       "description" : "",
-      "message" : "Kleine"
+      "message" : "Small"
    },
    "SMALL_GAS_GIANT" : {
       "description" : "",
-      "message" : "Kleine gas gigant"
+      "message" : "Small gas giant"
    },
    "SMALL_INDUSTRIAL_OUTPOST" : {
       "description" : "",
-      "message" : "Kleine industriële buitenpost."
+      "message" : "Small industrial outpost."
    },
    "SMALL_PLASMA_ACCEL" : {
       "description" : "",
-      "message" : "Kleine plasma accelerator"
+      "message" : "Small plasma accelerator"
    },
    "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS" : {
       "description" : "",
-      "message" : "Grondstofwinning op kleine schaal. Geen geregistreerde nederzettingen."
+      "message" : "Small-scale prospecting. No registered settlements."
    },
    "SOCIAL_DEMOCRACY" : {
       "description" : "",
-      "message" : "Sociale democratie"
+      "message" : "Social democracy"
    },
    "SOLAR" : {
       "description" : "",
-      "message" : "Zonne-"
+      "message" : "Solar"
    },
    "SOME_ESTABLISHED_MINING" : {
       "description" : "",
-      "message" : "Enige mijnbouw."
+      "message" : "Some established mining."
    },
    "SOURCE" : {
       "description" : "",
-      "message" : "Oorsprong"
+      "message" : "Origin"
    },
    "SPEED_CONTROL_MODE" : {
       "description" : "",
-      "message" : "Snelheid-bedieningsmodus"
+      "message" : "Speed control mode"
    },
    "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS" : {
       "description" : "",
-      "message" : "Stabiel systeem met %bodycount grote %{body(s)} en %portcount %{starport(s)}."
+      "message" : "Stable system with %bodycount major %{body(s)} and %portcount %{starport(s)}"
    },
    "STARPORT" : {
       "description" : "",
-      "message" : "Sterrehaven"
+      "message" : "Starport"
    },
    "STARPORTS" : {
       "description" : "",
-      "message" : "Sterrehavens"
+      "message" : "Starports"
    },
    "STAR_A" : {
       "description" : "",
-      "message" : "Type 'A' hete witte ster"
+      "message" : "Type 'A' hot white star"
    },
    "STAR_AF_GIANT" : {
       "description" : "",
-      "message" : "Witte reus"
+      "message" : "White giant star"
    },
    "STAR_AF_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Witte reus, hyper gigant"
+      "message" : "White hyper giant star"
    },
    "STAR_AF_SUPER_GIANT" : {
       "description" : "",
-      "message" : "Witte reus, super gigant"
+      "message" : "White super giant star"
    },
    "STAR_B" : {
       "description" : "",
-      "message" : "Helder type 'B' blauwe ster"
+      "message" : "Bright type 'B' blue star"
    },
    "STAR_B_GIANT" : {
       "description" : "",
-      "message" : "Blauwe reus"
+      "message" : "Blue giant star"
    },
    "STAR_B_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Blauwe reus, hyper gigant"
+      "message" : "Blue hyper giant star"
    },
    "STAR_B_SUPER_GIANT" : {
       "description" : "",
-      "message" : "Blauwe reus, super gigant"
+      "message" : "Blue super giant star"
    },
    "STAR_B_WF" : {
       "description" : "",
-      "message" : "Wolf-Rayet ster - Risico op ineenstorting"
+      "message" : "Wolf-Rayet star - Risk of collapse"
    },
    "STAR_F" : {
       "description" : "",
-      "message" : "Type 'F' witte ster"
+      "message" : "Type 'F' white star"
    },
    "STAR_G" : {
       "description" : "",
-      "message" : "Type 'G' gele ster"
+      "message" : "Type 'G' yellow star"
    },
    "STAR_G_GIANT" : {
       "description" : "",
-      "message" : "Gele reus - onstabiel"
+      "message" : "Yellow giant star - Unstable"
    },
    "STAR_G_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Gele reus, hyper gigant - Onstabiel"
+      "message" : "Yellow hyper giant star - Unstable"
    },
    "STAR_G_SUPER_GIANT" : {
       "description" : "",
-      "message" : "Gele reus, super gigant"
+      "message" : "Yellow super giant star"
    },
    "STAR_IM_BH" : {
       "description" : "",
-      "message" : "Een middelzwaar zwart gat"
+      "message" : "An intermediate-mass black hole"
    },
    "STAR_K" : {
       "description" : "",
-      "message" : "Type 'K' oranje ster"
+      "message" : "Type 'K' orange star"
    },
    "STAR_K_GIANT" : {
       "description" : "",
-      "message" : "Oranje reus - onstabiel"
+      "message" : "Orange giant star - Unstable"
    },
    "STAR_K_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Oranje reus, hyper gigant - Onstabiel"
+      "message" : "Orange hyper giant star - Unstable"
    },
    "STAR_K_SUPER_GIANT" : {
       "description" : "",
-      "message" : "Oranje reus, super gigant"
+      "message" : "Orange super giant star"
    },
    "STAR_M" : {
       "description" : "",
-      "message" : "Type 'M' rode ster"
+      "message" : "Type 'M' red star"
    },
    "STAR_M_GIANT" : {
       "description" : "",
-      "message" : "Rode reus"
+      "message" : "Red giant star"
    },
    "STAR_M_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Rode reus, hyper gigant"
+      "message" : "Red hyper giant star"
    },
    "STAR_M_SUPER_GIANT" : {
       "description" : "",
-      "message" : "Rode reus, super gigant"
+      "message" : "Red super giant star"
    },
    "STAR_M_WF" : {
       "description" : "",
-      "message" : "Wolf-Rayet ster - Onstabiel"
+      "message" : "Wolf-Rayet star - Unstable"
    },
    "STAR_O" : {
       "description" : "",
-      "message" : "Heet, massief type 'O' ster"
+      "message" : "Hot, massive type 'O' star"
    },
    "STAR_O_GIANT" : {
       "description" : "",
-      "message" : "Hete Blauwe reus"
+      "message" : "Hot Blue giant star"
    },
    "STAR_O_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Hete Blauwe reus, hyper gigant"
+      "message" : "Hot Blue hyper giant star"
    },
    "STAR_O_SUPER_GIANT" : {
       "description" : "",
-      "message" : "Hete Blauwe reus, super gigant"
+      "message" : "Hot Blue super giant star"
    },
    "STAR_O_WF" : {
       "description" : "",
-      "message" : "Wolf-Rayet ster - Ineenstorting op handen"
+      "message" : "Wolf-Rayet star - Imminent collapse"
    },
    "STAR_SM_BH" : {
       "description" : "",
-      "message" : "Ons galactische anker"
+      "message" : "Our galactic anchor"
    },
    "STAR_SYSTEM_INFORMATION" : {
       "description" : "",
-      "message" : "Sterrenstelsel-overzicht"
+      "message" : "Star system information"
    },
    "STAR_S_BH" : {
       "description" : "",
-      "message" : "Een stellair zwart gat"
+      "message" : "A stellar black hole"
    },
    "SUGGESTED_RESPONSES" : {
       "description" : "",
-      "message" : "Aanbevolen reacties:"
+      "message" : "Suggested responses:"
    },
    "SURFACE_GRAVITY" : {
       "description" : "",
-      "message" : "Oppervlakte zwaartekracht"
+      "message" : "Surface gravity"
    },
    "SURFACE_TEMPERATURE" : {
       "description" : "",
-      "message" : "Oppervlakte temperatuur"
+      "message" : "Surface temperature"
    },
    "SYSTEM" : {
       "description" : "",
-      "message" : "Systeem"
+      "message" : "System"
    },
    "SYSTEM_NUMBER" : {
       "description" : "",
-      "message" : "Systeem nummer:"
+      "message" : "System number:"
    },
    "SYSTEM_ORBIT_VIEW" : {
       "description" : "",
-      "message" : "Systeem-overzicht (omloopbanen)"
+      "message" : "System orbit view"
    },
    "SYSTEM_TYPE" : {
       "description" : "",
-      "message" : "Type systeem:"
+      "message" : "System type:"
    },
    "S_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" zwavelzuur atmosfeer\""
+      "message" : "\" Sulfuric atmosphere\""
    },
    "TAKEOFF" : {
       "description" : "",
-      "message" : "Stijg op"
+      "message" : "Takeoff"
    },
    "TARGET_OBJECT_IN_SIGHTS" : {
       "description" : "",
-      "message" : "Maak object in vizier tot doelwit"
+      "message" : "Target object in cross-hairs"
    },
    "TENUOUS" : {
       "description" : "",
-      "message" : "onbeduidende"
+      "message" : "tenuous"
    },
    "TEXTILES" : {
       "description" : "",
-      "message" : "Textiel"
+      "message" : "Textiles"
    },
    "THICK" : {
       "description" : "",
-      "message" : "dikke"
+      "message" : "thick"
    },
    "THIN" : {
       "description" : "",
-      "message" : "dunne"
+      "message" : "thin"
    },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",
-      "message" : "Bloeiende openluchtwereld."
+      "message" : "Thriving outdoor world."
    },
    "THRUSTER_DORSAL" : {
       "description" : "",
-      "message" : "Stuw omlaag"
+      "message" : "Thrust down"
    },
    "THRUSTER_MAIN" : {
       "description" : "",
-      "message" : "Stuw voorwaarts"
+      "message" : "Thrust forward"
    },
    "THRUSTER_PORT" : {
       "description" : "",
-      "message" : "Stuw links"
+      "message" : "Thrust left"
    },
    "THRUSTER_RETRO" : {
       "description" : "",
-      "message" : "Stuw achterwaarts"
+      "message" : "Thrust backwards"
    },
    "THRUSTER_STARBOARD" : {
       "description" : "",
-      "message" : "Stuw rechts"
+      "message" : "Thrust right"
    },
    "THRUSTER_VENTRAL" : {
       "description" : "",
-      "message" : "Stuw omhoog"
+      "message" : "Thrust up"
    },
    "TIME_POINT" : {
       "description" : "",
-      "message" : "Tijdspoint:"
+      "message" : "Time point:"
    },
    "TINY" : {
       "description" : "",
-      "message" : "Miniscule"
+      "message" : "Tiny"
    },
    "TOGGLE_HUD_MODE" : {
       "description" : "",
@@ -1713,7 +1713,7 @@
    },
    "TOGGLE_LUA_CONSOLE" : {
       "description" : "",
-      "message" : "Schakel Lua console"
+      "message" : "Toggle Lua console"
    },
    "TOGGLE_ROTATION_DAMPING" : {
       "description" : "",
@@ -1725,43 +1725,43 @@
    },
    "TOMBSTONE_EPITAPH" : {
       "description" : "",
-      "message" : "RIP OUDE KNAR"
+      "message" : "RIP OLD BEAN"
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
-      "message" : "Handel in illegale goederen"
+      "message" : "Trading illegal goods"
    },
    "TRIPLE_SYSTEM" : {
       "description" : "",
-      "message" : "Drietallig systeem"
+      "message" : "Triple system"
    },
    "UNEXPLORED_SYSTEM_NO_DATA" : {
       "description" : "",
-      "message" : "Onverkend systeem. Geen gegevens beschikbaar."
+      "message" : "Unexplored system. No more data available."
    },
    "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW" : {
       "description" : "",
-      "message" : "Onverkend systeem. Systeem-overzicht niet beschikbaar."
+      "message" : "Unexplored system. System view unavailable."
    },
    "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
       "description" : "",
-      "message" : "Onverkend systeem. Sterre-informatie vergaard via telescopie, maar geen planetaire informatie aanwezig."
+      "message" : "Unexplored System. Star information has been gathered by remote telescope, but no planetary information is available."
    },
    "UNKNOWN" : {
       "description" : "",
-      "message" : "<onbekend>"
+      "message" : "<unknown>"
    },
    "UNLAWFUL_WEAPONS_DISCHARGE" : {
       "description" : "",
-      "message" : "Ongeoorloofd gebruik van wapens"
+      "message" : "Unlawful weapons discharge"
    },
    "UNOCCUPIED_CABIN" : {
       "description" : "",
-      "message" : "Extra Passagierscabine"
+      "message" : "Extra Passenger Cabin"
    },
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",
-      "message" : "Benodigd voor transport van een enkele passagier"
+      "message" : "Required for transport of a single passenger"
    },
    "USE_LOW_THRUST" : {
       "description" : "",
@@ -1769,31 +1769,31 @@
    },
    "VAST_STRIP_MINE" : {
       "description" : "",
-      "message" : "Enorme mijnbouw-kolonie (dagbouw)."
+      "message" : "Vast strip-mining colony."
    },
    "VERY_DENSE" : {
       "description" : "",
-      "message" : "zeer dikke"
+      "message" : "very dense"
    },
    "VERY_LARGE_GAS_GIANT" : {
       "description" : "",
-      "message" : "Zeer grote gas gigant"
+      "message" : "Very large gas giant"
    },
    "VID_CONNECTING" : {
       "description" : "",
-      "message" : "Verbinden..."
+      "message" : "Connecting..."
    },
    "VID_LINK_ESTABLISHED" : {
       "description" : "",
-      "message" : "Video link geïnitialiseerd"
+      "message" : "Video link established"
    },
    "VIEW" : {
       "description" : "",
-      "message" : "Bekijk"
+      "message" : "View"
    },
    "VIOLENT_ANARCHY" : {
       "description" : "",
-      "message" : "Wanorde - Heerschappij betwist door gewapende fracties"
+      "message" : "Disorder - Overall governance contested by armed factions"
    },
    "WATER" : {
       "description" : "",
@@ -1801,31 +1801,31 @@
    },
    "WEAPONS" : {
       "description" : "",
-      "message" : "Wapens"
+      "message" : "Weapons"
    },
    "WEAPON_TEMP" : {
       "description" : "",
-      "message" : "Wapen temp"
+      "message" : "Weapon temp"
    },
    "WHEELS_ARE_DOWN" : {
       "description" : "",
-      "message" : "Landingsgestel is omlaag"
+      "message" : "Wheels are down"
    },
    "WHEELS_ARE_UP" : {
       "description" : "",
-      "message" : "Landingsgestel is omhoog"
+      "message" : "Wheels are up"
    },
    "WHITE_DWARF" : {
       "description" : "",
-      "message" : "Witte dwerg, stellair overblijfsel"
+      "message" : "White dwarf stellar remnant"
    },
    "WITH_A" : {
       "description" : "",
-      "message" : "\" met een \""
+      "message" : "\" with a \""
    },
    "WITH_NO_SIGNIFICANT_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" zonder significante atmosfeer\""
+      "message" : "\" with no significant atmosphere\""
    },
    "X" : {
       "description" : "",
@@ -1833,7 +1833,7 @@
    },
    "X_CANNOT_BE_TOLERATED_HERE" : {
       "description" : "",
-      "message" : "%crime wordt hier niet getolereerd."
+      "message" : "%crime cannot be tolerated here."
    },
    "Y" : {
       "description" : "",
@@ -1841,23 +1841,23 @@
    },
    "YAW" : {
       "description" : "",
-      "message" : "Gier"
+      "message" : "Yaw"
    },
    "YAW_LEFT" : {
       "description" : "",
-      "message" : "Gier links"
+      "message" : "Yaw left"
    },
    "YAW_RIGHT" : {
       "description" : "",
-      "message" : "Gier rechts"
+      "message" : "Yaw right"
    },
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
-      "message" : "Jonge agrarische kolonie."
+      "message" : "Young farming colony."
    },
    "YOU_NO_MONEY" : {
       "description" : "",
-      "message" : "U heeft geen geld."
+      "message" : "You do not have any money."
    },
    "Z" : {
       "description" : "",
@@ -1869,6 +1869,6 @@
    },
    "ZOOM_OUT" : {
       "description" : "",
-      "message" : "Zoom uit"
+      "message" : "Zoom out"
    }
 }
