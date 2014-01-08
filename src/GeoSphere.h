@@ -13,6 +13,7 @@
 #include "graphics/Material.h"
 #include "terrain/Terrain.h"
 #include "GeoPatchID.h"
+#include "BaseSphere.h"
 
 #include <deque>
 
@@ -27,17 +28,17 @@ class SSingleSplitResult;
 
 #define NUM_PATCHES 6
 
-class GeoSphere {
+class GeoSphere : public BaseSphere {
 public:
 	GeoSphere(const SystemBody *body);
-	~GeoSphere();
+	virtual ~GeoSphere();
 
-	void Update();
-	void Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const float scale, const std::vector<Camera::Shadow> &shadows);
+	virtual void Update();
+	virtual void Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const float scale, const std::vector<Camera::Shadow> &shadows);
 
-	inline double GetHeight(const vector3d &p) const {
+	virtual double GetHeight(const vector3d &p) const {
 		const double h = m_terrain->GetHeight(p);
-		s_vtxGenCount++;
+		++s_vtxGenCount;
 #ifdef DEBUG
 		// XXX don't remove this. Fix your fractals instead
 		// Fractals absolutely MUST return heights >= 0.0 (one planet radius)
@@ -58,7 +59,7 @@ public:
 	static bool OnAddQuadSplitResult(const SystemPath &path, SQuadSplitResult *res);
 	static bool OnAddSingleSplitResult(const SystemPath &path, SSingleSplitResult *res);
 	// in sbody radii
-	double GetMaxFeatureHeight() const { return m_terrain->GetMaxHeight(); }
+	virtual double GetMaxFeatureHeight() const { return m_terrain->GetMaxHeight(); }
 	static int GetVtxGenCount() { return s_vtxGenCount; }
 	static void ClearVtxGenCount() { s_vtxGenCount = 0; }
 
@@ -71,12 +72,11 @@ public:
 	bool AddSingleSplitResult(SSingleSplitResult *res);
 	void ProcessSplitResults();
 
-	void Reset();
+	virtual void Reset();
 
 private:
 	void BuildFirstPatches();
 	std::unique_ptr<GeoPatch> m_patches[6];
-	const SystemBody *m_sbody;
 
 	// all variables for GetHeight(), GetColor()
 	RefCountedPtr<Terrain> m_terrain;
@@ -99,7 +99,7 @@ private:
 
 	static RefCountedPtr<GeoPatchContext> s_patchContext;
 
-	void SetUpMaterials();
+	virtual void SetUpMaterials();
 	std::unique_ptr<Graphics::Material> m_surfaceMaterial;
 	std::unique_ptr<Graphics::Material> m_atmosphereMaterial;
 	//special parameters for shaders

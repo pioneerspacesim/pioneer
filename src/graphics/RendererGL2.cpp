@@ -755,6 +755,9 @@ Material *RendererGL2::CreateMaterial(const MaterialDescriptor &d)
 	case EFFECT_FRESNEL_SPHERE:
 		mat = new GL2::FresnelColourMaterial();
 		break;
+	case EFFECT_GASSPHERE_TERRAIN:
+		mat = new GL2::GasSphereSurfaceMaterial();
+		break;
 	default:
 		if (desc.lighting)
 			mat = new GL2::LitMultiMaterial();

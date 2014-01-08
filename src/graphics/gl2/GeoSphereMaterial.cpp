@@ -12,6 +12,7 @@
 namespace Graphics {
 namespace GL2 {
 
+// GeoSphereProgram -------------------------------------------
 GeoSphereProgram::GeoSphereProgram(const std::string &filename, const std::string &defines)
 {
 	m_name = filename;
@@ -41,6 +42,7 @@ void GeoSphereProgram::InitUniforms()
 	sdivlrad.Init("sdivlrad", m_program);
 }
 
+// GeoSphereSurfaceMaterial -----------------------------------
 Program *GeoSphereSurfaceMaterial::CreateProgram(const MaterialDescriptor &desc)
 {
 	assert((desc.effect == EFFECT_GEOSPHERE_TERRAIN) || 
@@ -118,6 +120,79 @@ void GeoSphereSurfaceMaterial::SetGSUniforms()
 	p->sdivlrad.Set(sdivlrad);
 }
 
+// GasSphereSurfaceMaterial -----------------------------------
+Program *GasSphereSurfaceMaterial::CreateProgram(const MaterialDescriptor &desc)
+{
+	assert(desc.effect == EFFECT_GASSPHERE_TERRAIN);
+	assert(desc.dirLights < 5);
+	std::stringstream ss;
+	ss << stringf("#define NUM_LIGHTS %0{u}\n", desc.dirLights);
+	if(desc.dirLights>0) {
+		const float invNumLights = 1.0f / float(desc.dirLights);
+		ss << stringf("#define INV_NUM_LIGHTS %0{f}\n", invNumLights);
+	}
+	if (desc.quality & HAS_ATMOSPHERE)
+		ss << "#define ATMOSPHERE\n";
+	if (desc.quality & HAS_ECLIPSES)
+		ss << "#define ECLIPSE\n";
+	return new Graphics::GL2::GeoSphereProgram("gassphere_base", ss.str());
+}
+
+void GasSphereSurfaceMaterial::Apply()
+{
+	SetGSUniforms();
+}
+
+void GasSphereSurfaceMaterial::SetGSUniforms()
+{
+	GeoSphereProgram *p = static_cast<GeoSphereProgram*>(m_program);
+	const GeoSphere::MaterialParameters params = *static_cast<GeoSphere::MaterialParameters*>(this->specialParameter0);
+	const SystemBody::AtmosphereParameters ap = params.atmosphere;
+
+	p->Use();
+	p->invLogZfarPlus1.Set(m_renderer->m_invLogZfarPlus1);
+	p->emission.Set(this->emissive);
+	p->sceneAmbient.Set(m_renderer->GetAmbientColor());
+	p->atmosColor.Set(ap.atmosCol);
+	p->geosphereAtmosFogDensity.Set(ap.atmosDensity);
+	p->geosphereAtmosInvScaleHeight.Set(ap.atmosInvScaleHeight);
+	p->geosphereAtmosTopRad.Set(ap.atmosRadius);
+	p->geosphereCenter.Set(ap.center);
+	p->geosphereScaledRadius.Set(ap.planetRadius / ap.scale);
+	p->geosphereScale.Set(ap.scale);
+
+	// we handle up to three shadows at a time
+	int occultedLight[3] = {-1,-1,-1};
+	vector3f shadowCentreX;
+	vector3f shadowCentreY;
+	vector3f shadowCentreZ;
+	vector3f srad;
+	vector3f lrad;
+	vector3f sdivlrad;
+	std::vector<Camera::Shadow>::const_iterator it = params.shadows.begin(), itEnd = params.shadows.end();
+	int j = 0;
+	while (j<3 && it != itEnd) {
+		occultedLight[j] = it->occultedLight;
+		shadowCentreX[j] = it->centre[0];
+		shadowCentreY[j] = it->centre[1];
+		shadowCentreZ[j] = it->centre[2];
+		srad[j] = it->srad;
+		lrad[j] = it->lrad;
+		sdivlrad[j] = it->srad / it->lrad;
+		it++;
+		j++;
+	}
+	p->shadows.Set(j);
+	p->occultedLight.Set(occultedLight);
+	p->shadowCentreX.Set(shadowCentreX);
+	p->shadowCentreY.Set(shadowCentreY);
+	p->shadowCentreZ.Set(shadowCentreZ);
+	p->srad.Set(srad);
+	p->lrad.Set(lrad);
+	p->sdivlrad.Set(sdivlrad);
+}
+
+// GeoSphereSkyMaterial ---------------------------------------
 Program *GeoSphereSkyMaterial::CreateProgram(const MaterialDescriptor &desc)
 {
 	assert(desc.effect == EFFECT_GEOSPHERE_SKY);
