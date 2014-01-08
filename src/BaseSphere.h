@@ -1,34 +1,36 @@
 // Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef _GASSPHERE_H
-#define _GASSPHERE_H
+#ifndef _BASESPHERE_H
+#define _BASESPHERE_H
 
 #include <SDL_stdinc.h>
 
 #include "vector3.h"
-#include "Random.h"
 #include "Camera.h"
-#include "graphics/Drawables.h"
+#include "galaxy/StarSystem.h"
 #include "graphics/Material.h"
 #include "terrain/Terrain.h"
-#include "BaseSphere.h"
 
 #include <deque>
 
 namespace Graphics { class Renderer; }
 class SystemBody;
-class GasSphere;
 
-class GasSphere : public BaseSphere {
+class BaseSphere {
 public:
-	GasSphere(const SystemBody *body);
-	virtual ~GasSphere();
+	BaseSphere(const SystemBody *body) : m_sbody(body) {};
+	virtual ~BaseSphere() {};
 
-	virtual void Update() {};
-	virtual void Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const float scale, const std::vector<Camera::Shadow> &shadows);
+	virtual void Update()=0;
+	virtual void Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const float scale, const std::vector<Camera::Shadow> &shadows)=0;
 
 	virtual double GetHeight(const vector3d &p) const { return 0.0; }
+
+	static void Init();
+	static void Uninit();
+	static void UpdateAllGasSpheres();
+	static void OnChangeDetailLevel();
 
 	// in sbody radii
 	virtual double GetMaxFeatureHeight() const { return 0.0; }
@@ -38,15 +40,14 @@ public:
 		std::vector<Camera::Shadow> shadows;
 	};
 
-	virtual void Reset() {};
+	virtual void Reset()=0;
+
+	const SystemBody *GetSystemBody() const { return m_sbody; }
 
 private:
-	std::unique_ptr<Graphics::Drawables::Sphere3D> m_baseCloudSurface;
+	const SystemBody *m_sbody;
 
-	bool m_hasTempCampos;
-	vector3d m_tempCampos;
-
-	virtual void SetUpMaterials();
+	virtual void SetUpMaterials()=0;
 	RefCountedPtr<Graphics::Material> m_surfaceMaterial;
 	std::unique_ptr<Graphics::Material> m_atmosphereMaterial;
 	//special parameters for shaders

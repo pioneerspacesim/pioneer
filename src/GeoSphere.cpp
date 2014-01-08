@@ -84,8 +84,8 @@ void GeoSphere::OnChangeDetailLevel()
 		(*i)->Reset();
 
 		// reinit the terrain with the new settings
-		(*i)->m_terrain.Reset(Terrain::InstanceTerrain((*i)->m_sbody));
-		print_info((*i)->m_sbody, (*i)->m_terrain.Get());
+		(*i)->m_terrain.Reset(Terrain::InstanceTerrain((*i)->GetSystemBody()));
+		print_info((*i)->GetSystemBody(), (*i)->m_terrain.Get());
 	}
 }
 
@@ -94,7 +94,7 @@ bool GeoSphere::OnAddQuadSplitResult(const SystemPath &path, SQuadSplitResult *r
 {
 	// Find the correct GeoSphere via it's system path, and give it the split result
 	for(std::vector<GeoSphere*>::iterator i=s_allGeospheres.begin(), iEnd=s_allGeospheres.end(); i!=iEnd; ++i) {
-		if( path == (*i)->m_sbody->GetPath() ) {
+		if( path == (*i)->GetSystemBody()->GetPath() ) {
 			(*i)->AddQuadSplitResult(res);
 			return true;
 		}
@@ -112,7 +112,7 @@ bool GeoSphere::OnAddSingleSplitResult(const SystemPath &path, SSingleSplitResul
 {
 	// Find the correct GeoSphere via it's system path, and give it the split result
 	for(std::vector<GeoSphere*>::iterator i=s_allGeospheres.begin(), iEnd=s_allGeospheres.end(); i!=iEnd; ++i) {
-		if( path == (*i)->m_sbody->GetPath() ) {
+		if( path == (*i)->GetSystemBody()->GetPath() ) {
 			(*i)->AddSingleSplitResult(res);
 			return true;
 		}
@@ -175,9 +175,9 @@ void GeoSphere::Reset()
 	m_initStage = eBuildFirstPatches;
 }
 
-#define GEOSPHERE_TYPE	(m_sbody->type)
+#define GEOSPHERE_TYPE	(GetSystemBody()->type)
 
-GeoSphere::GeoSphere(const SystemBody *body) : m_sbody(body), m_terrain(Terrain::InstanceTerrain(body)),
+GeoSphere::GeoSphere(const SystemBody *body) : BaseSphere(body), m_terrain(Terrain::InstanceTerrain(body)),
 	m_hasTempCampos(false), m_tempCampos(0.0), mCurrentNumPatches(0), mCurrentMemAllocatedToPatches(0), m_initStage(eBuildFirstPatches)
 {
 	print_info(body, m_terrain.Get());
@@ -428,7 +428,7 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 	{
 		//Update material parameters
 		//XXX no need to calculate AP every frame
-		m_materialParameters.atmosphere = m_sbody->CalcAtmosphereParams();
+		m_materialParameters.atmosphere = GetSystemBody()->CalcAtmosphereParams();
 		m_materialParameters.atmosphere.center = trans * vector3d(0.0, 0.0, 0.0);
 		m_materialParameters.atmosphere.planetRadius = radius;
 		m_materialParameters.atmosphere.scale = scale;
@@ -455,13 +455,13 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 	// save old global ambient
 	const Color oldAmbient = renderer->GetAmbientColor();
 
-	if ((m_sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR) || (m_sbody->GetType() == SystemBody::TYPE_BROWN_DWARF)) {
+	if ((GetSystemBody()->GetSuperType() == SystemBody::SUPERTYPE_STAR) || (GetSystemBody()->GetType() == SystemBody::TYPE_BROWN_DWARF)) {
 		// stars should emit light and terrain should be visible from distance
 		ambient.r = ambient.g = ambient.b = 51;
 		ambient.a = 255;
-		emission.r = StarSystem::starRealColors[m_sbody->GetType()][0];
-		emission.g = StarSystem::starRealColors[m_sbody->GetType()][1];
-		emission.b = StarSystem::starRealColors[m_sbody->GetType()][2];
+		emission.r = StarSystem::starRealColors[GetSystemBody()->GetType()][0];
+		emission.g = StarSystem::starRealColors[GetSystemBody()->GetType()][1];
+		emission.b = StarSystem::starRealColors[GetSystemBody()->GetType()][2];
 		emission.a = 255;
 	}
 
@@ -509,19 +509,19 @@ void GeoSphere::SetUpMaterials()
 	else
 		surfDesc.effect = Graphics::EFFECT_GEOSPHERE_TERRAIN;
 
-	if ((m_sbody->GetType() == SystemBody::TYPE_BROWN_DWARF) ||
-		(m_sbody->GetType() == SystemBody::TYPE_STAR_M)) {
+	if ((GetSystemBody()->GetType() == SystemBody::TYPE_BROWN_DWARF) ||
+		(GetSystemBody()->GetType() == SystemBody::TYPE_STAR_M)) {
 		//dim star (emits and receives light)
 		surfDesc.lighting = true;
 		surfDesc.quality &= ~Graphics::HAS_ATMOSPHERE;
 	}
-	else if (m_sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
+	else if (GetSystemBody()->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
 		//normal star
 		surfDesc.lighting = false;
 		surfDesc.quality &= ~Graphics::HAS_ATMOSPHERE;
 	} else {
 		//planetoid with or without atmosphere
-		const SystemBody::AtmosphereParameters ap(m_sbody->CalcAtmosphereParams());
+		const SystemBody::AtmosphereParameters ap(GetSystemBody()->CalcAtmosphereParams());
 		surfDesc.lighting = true;
 		if(ap.atmosDensity > 0.0) {
 			surfDesc.quality |= Graphics::HAS_ATMOSPHERE;

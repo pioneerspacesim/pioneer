@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "TerrainBody.h"
+#include "GasSphere.h"
 #include "GeoSphere.h"
 #include "Pi.h"
 #include "WorldView.h"
@@ -27,18 +28,21 @@ TerrainBody::TerrainBody() :
 
 TerrainBody::~TerrainBody()
 {
-	m_geosphere.reset();
+	m_baseSphere.reset();
 }
 
 void TerrainBody::InitTerrainBody()
 {
 	assert(m_sbody);
 	m_mass = m_sbody->GetMass();
-	if ( SystemBody::SUPERTYPE_GAS_GIANT==m_sbody->GetSuperType() ) {
+	if (!m_baseSphere) {
+		if ( SystemBody::SUPERTYPE_GAS_GIANT==m_sbody->GetSuperType() ) {
+			m_baseSphere.reset(new GasSphere(m_sbody));
+		} else {
+			m_baseSphere.reset(new GeoSphere(m_sbody));
+		}
 	}
-	if (!m_geosphere)
-		m_geosphere.reset(new GeoSphere(m_sbody));
-	m_maxFeatureHeight = (m_geosphere->GetMaxFeatureHeight() + 1.0) * m_sbody->GetRadius();
+	m_maxFeatureHeight = (m_baseSphere->GetMaxFeatureHeight() + 1.0) * m_sbody->GetRadius();
 }
 
 void TerrainBody::Save(Serializer::Writer &wr, Space *space)
@@ -100,7 +104,7 @@ void TerrainBody::Render(Graphics::Renderer *renderer, const Camera *camera, con
 	ftran.Scale(rad, rad, rad);
 
 	// translation not applied until patch render to fix jitter
-	m_geosphere->Render(renderer, ftran, -campos, m_sbody->GetRadius(), scale, shadows);
+	m_baseSphere->Render(renderer, ftran, -campos, m_sbody->GetRadius(), scale, shadows);
 
 	ftran.Translate(campos.x, campos.y, campos.z);
 	SubRender(renderer, ftran, campos);
@@ -125,8 +129,8 @@ void TerrainBody::SetFrame(Frame *f)
 double TerrainBody::GetTerrainHeight(const vector3d &pos_) const
 {
 	double radius = m_sbody->GetRadius();
-	if (m_geosphere) {
-		return radius * (1.0 + m_geosphere->GetHeight(pos_));
+	if (m_baseSphere) {
+		return radius * (1.0 + m_baseSphere->GetHeight(pos_));
 	} else {
 		assert(0);
 		return radius;

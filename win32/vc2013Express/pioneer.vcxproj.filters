@@ -836,6 +836,9 @@
     <ClInclude Include="..\..\src\Sensors.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\BaseSphere.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\src\win32\pioneer.rc">

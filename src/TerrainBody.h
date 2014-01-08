@@ -6,7 +6,7 @@
 
 #include "Body.h"
 #include "galaxy/StarSystem.h"
-#include "GeoSphere.h"
+#include "BaseSphere.h"
 #include "Camera.h"
 
 class Frame;
@@ -44,7 +44,7 @@ protected:
 private:
 	const SystemBody *m_sbody;
 	double m_mass;
-	std::unique_ptr<GeoSphere> m_geosphere;
+	std::unique_ptr<BaseSphere> m_baseSphere;
 	double m_maxFeatureHeight;
 };
 

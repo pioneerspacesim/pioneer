@@ -46,6 +46,14 @@ namespace Graphics {
 			void SetGSUniforms();
 		};
 
+		class GasSphereSurfaceMaterial : public Material {
+			virtual Program *CreateProgram(const MaterialDescriptor &);
+			virtual void Apply();
+
+		protected:
+			void SetGSUniforms();
+		};
+
 		class GeoSphereSkyMaterial : public GeoSphereSurfaceMaterial {
 		public:
 			virtual Program *CreateProgram(const MaterialDescriptor &);

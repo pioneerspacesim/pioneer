@@ -18,30 +18,6 @@
 #include <deque>
 #include <algorithm>
 
-// must be odd numbers
-static const int detail_edgeLen[5] = {
-	7, 15, 25, 35, 55
-};
-
-static const int geo_sphere_edge_friends[NUM_PATCHES][4] = {
-	{ 3, 4, 1, 2 },
-	{ 0, 4, 5, 2 },
-	{ 0, 1, 5, 3 },
-	{ 0, 2, 5, 4 },
-	{ 0, 3, 5, 1 },
-	{ 1, 4, 3, 2 }
-};
-
-static std::vector<GasSphere*> s_allGeospheres;
-
-void GasSphere::Init()
-{
-}
-
-void GasSphere::Uninit()
-{
-}
-
 static void print_info(const SystemBody *sbody, const Terrain *terrain)
 {
 	printf(
@@ -52,53 +28,16 @@ static void print_info(const SystemBody *sbody, const Terrain *terrain)
 		sbody->GetName().c_str(), terrain->GetHeightFractalName(), terrain->GetColorFractalName(), sbody->GetSeed());
 }
 
-// static
-void GasSphere::UpdateAllGasSpheres()
-{
-	PROFILE_SCOPED()
-	for(std::vector<GasSphere*>::iterator i = s_allGeospheres.begin(); i != s_allGeospheres.end(); ++i)
-	{
-		(*i)->Update();
-	}
-}
+#define GEOSPHERE_TYPE	(GetSystemBody()->type)
 
-// static
-void GasSphere::OnChangeDetailLevel()
-{
-
-	// reinit the geosphere terrain data
-	for(std::vector<GasSphere*>::iterator i = s_allGeospheres.begin(); i != s_allGeospheres.end(); ++i)
-	{
-		// clearout anything we don't need
-		(*i)->Reset();
-
-		// reinit the terrain with the new settings
-		(*i)->m_terrain.Reset(Terrain::InstanceTerrain((*i)->m_sbody));
-		print_info((*i)->m_sbody, (*i)->m_terrain.Get());
-	}
-}
-
-void GasSphere::Reset()
-{
-}
-
-#define GEOSPHERE_TYPE	(m_sbody->type)
-
-GasSphere::GasSphere(const SystemBody *body) : m_sbody(body), m_terrain(Terrain::InstanceTerrain(body)),
+GasSphere::GasSphere(const SystemBody *body) : BaseSphere(body),
 	m_hasTempCampos(false), m_tempCampos(0.0)
 {
-	print_info(body, m_terrain.Get());
-
-	s_allGeospheres.push_back(this);
-
 	//SetUpMaterials is not called until first Render since light count is zero :)
 }
 
 GasSphere::~GasSphere()
 {
-	// update thread should not be able to access us now, so we can safely continue to delete
-	assert(std::count(s_allGeospheres.begin(), s_allGeospheres.end(), this) == 1);
-	s_allGeospheres.erase(std::find(s_allGeospheres.begin(), s_allGeospheres.end(), this));
 }
 
 static const float g_ambient[4] = { 0, 0, 0, 1.0 };
@@ -156,10 +95,6 @@ static void DrawAtmosphereSurface(Graphics::Renderer *renderer,
 	}
 }
 
-void GasSphere::Update()
-{
-}
-
 void GasSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const float scale, const std::vector<Camera::Shadow> &shadows)
 {
 	// store this for later usage in the update method.
@@ -185,7 +120,7 @@ void GasSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 	{
 		//Update material parameters
 		//XXX no need to calculate AP every frame
-		m_materialParameters.atmosphere = m_sbody->CalcAtmosphereParams();
+		m_materialParameters.atmosphere = GetSystemBody()->CalcAtmosphereParams();
 		m_materialParameters.atmosphere.center = trans * vector3d(0.0, 0.0, 0.0);
 		m_materialParameters.atmosphere.planetRadius = radius;
 		m_materialParameters.atmosphere.scale = scale;
@@ -214,13 +149,13 @@ void GasSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 	// save old global ambient
 	const Color oldAmbient = renderer->GetAmbientColor();
 
-	if ((m_sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR) || (m_sbody->type == SystemBody::TYPE_BROWN_DWARF)) {
+	if ((GetSystemBody()->GetSuperType() == SystemBody::SUPERTYPE_STAR) || (GetSystemBody()->type == SystemBody::TYPE_BROWN_DWARF)) {
 		// stars should emit light and terrain should be visible from distance
 		ambient.r = ambient.g = ambient.b = 51;
 		ambient.a = 255;
-		emission.r = StarSystem::starRealColors[m_sbody->type][0];
-		emission.g = StarSystem::starRealColors[m_sbody->type][1];
-		emission.b = StarSystem::starRealColors[m_sbody->type][2];
+		emission.r = StarSystem::starRealColors[GetSystemBody()->type][0];
+		emission.g = StarSystem::starRealColors[GetSystemBody()->type][1];
+		emission.b = StarSystem::starRealColors[GetSystemBody()->type][2];
 		emission.a = 255;
 	}
 
@@ -261,27 +196,21 @@ void GasSphere::SetUpMaterials()
 	// Request material for this star or planet, with or without
 	// atmosphere. Separate material for surface and sky.
 	Graphics::MaterialDescriptor surfDesc;
-	const Uint32 effect_flags = m_terrain->GetSurfaceEffects();
-	if (effect_flags & Terrain::EFFECT_LAVA)
-		surfDesc.effect = Graphics::EFFECT_GEOSPHERE_TERRAIN_WITH_LAVA;
-	else if (effect_flags & Terrain::EFFECT_WATER)
-		surfDesc.effect = Graphics::EFFECT_GEOSPHERE_TERRAIN_WITH_WATER;
-	else
-		surfDesc.effect = Graphics::EFFECT_GEOSPHERE_TERRAIN;
+	surfDesc.effect = Graphics::EFFECT_GASSPHERE_TERRAIN;
 
-	if ((m_sbody->type == SystemBody::TYPE_BROWN_DWARF) ||
-		(m_sbody->type == SystemBody::TYPE_STAR_M)) {
+	if ((GetSystemBody()->type == SystemBody::TYPE_BROWN_DWARF) ||
+		(GetSystemBody()->type == SystemBody::TYPE_STAR_M)) {
 		//dim star (emits and receives light)
 		surfDesc.lighting = true;
 		surfDesc.quality &= ~Graphics::HAS_ATMOSPHERE;
 	}
-	else if (m_sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
+	else if (GetSystemBody()->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
 		//normal star
 		surfDesc.lighting = false;
 		surfDesc.quality &= ~Graphics::HAS_ATMOSPHERE;
 	} else {
 		//planetoid with or without atmosphere
-		const SystemBody::AtmosphereParameters ap(m_sbody->CalcAtmosphereParams());
+		const SystemBody::AtmosphereParameters ap(GetSystemBody()->CalcAtmosphereParams());
 		surfDesc.lighting = true;
 		if(ap.atmosDensity > 0.0) {
 			surfDesc.quality |= Graphics::HAS_ATMOSPHERE;
