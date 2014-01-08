@@ -109,7 +109,7 @@ void Camera::Update()
 		// prepare attrs for sorting and drawing
 		BodyAttrs attrs;
 		attrs.body = b;
-		Frame::GetFrameRenderTransform(b->GetFrame(), camFrame, attrs.viewTransform);
+		Frame::GetFrameTransform(b->GetFrame(), camFrame, attrs.viewTransform);
 		attrs.viewCoords = attrs.viewTransform * b->GetInterpPosition();
 		attrs.camDist = attrs.viewCoords.Length();
 		attrs.bodyFlags = b->GetFlags();
@@ -133,7 +133,7 @@ void Camera::Draw(const Body *excludeBody, ShipCockpit* cockpit)
 	m_renderer->ClearScreen();
 
 	matrix4x4d trans2bg;
-	Frame::GetFrameRenderTransform(Pi::game->GetSpace()->GetRootFrame(), camFrame, trans2bg);
+	Frame::GetFrameTransform(Pi::game->GetSpace()->GetRootFrame(), camFrame, trans2bg);
 	trans2bg.ClearToRotOnly();
 
 	// Pick up to four suitable system light sources (stars)

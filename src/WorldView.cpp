@@ -918,7 +918,7 @@ void WorldView::Update()
 		m_speedLines->Update(Pi::game->GetTimeStep());
 
 		matrix4x4d trans;
-		Frame::GetFrameRenderTransform(playerFrame, camFrame, trans);
+		Frame::GetFrameTransform(playerFrame, camFrame, trans);
 
 		if ( m_speedLines.get() && Pi::AreSpeedLinesDisplayed() ) {
 			m_speedLines->Update(Pi::game->GetTimeStep());
@@ -932,7 +932,7 @@ void WorldView::Update()
 	if( Pi::AreHudTrailsDisplayed() )
 	{
 		matrix4x4d trans;
-		Frame::GetFrameRenderTransform(playerFrame, camFrame, trans);
+		Frame::GetFrameTransform(playerFrame, camFrame, trans);
 
 		for (auto it = Pi::player->GetSensors()->GetContacts().begin(); it != Pi::player->GetSensors()->GetContacts().end(); ++it)
 			it->trail->SetTransform(trans);

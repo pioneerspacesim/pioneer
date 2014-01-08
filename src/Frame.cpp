@@ -201,13 +201,6 @@ void Frame::GetFrameTransform(const Frame *fFrom, const Frame *fTo, matrix4x4d &
 	m = forient; m.SetTranslate(fpos);
 }
 
-void Frame::GetFrameRenderTransform(const Frame *fFrom, const Frame *fTo, matrix4x4d &m)
-{
-	matrix3x3d forient = fFrom->GetInterpOrientRelTo(fTo);
-	vector3d fpos = fFrom->GetInterpPositionRelTo(fTo);
-	m = forient; m.SetTranslate(fpos);
-}
-
 void Frame::ClearMovement()
 {
 	UpdateRootRelativeVars();
