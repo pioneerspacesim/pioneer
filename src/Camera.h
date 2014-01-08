@@ -66,12 +66,12 @@ private:
 
 class Camera {
 public:
-	Camera(RefCountedPtr<CameraContext> context);
+	Camera(RefCountedPtr<CameraContext> context, Graphics::Renderer *renderer);
 
 	const CameraContext *GetContext() const { return m_context.Get(); }
 
 	void Update();
-	void Draw(Graphics::Renderer *r, const Body *excludeBody = nullptr, ShipCockpit* cockpit = nullptr);
+	void Draw(const Body *excludeBody = nullptr, ShipCockpit* cockpit = nullptr);
 
 	// camera-specific light with attached source body
 	class LightSource {

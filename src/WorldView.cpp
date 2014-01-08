@@ -232,7 +232,7 @@ void WorldView::InitObject()
 	const float fovY = Pi::config->Float("FOVVertical");
 
 	m_cameraContext.Reset(new CameraContext(Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), fovY, znear, zfar));
-	m_camera.reset(new Camera(m_cameraContext));
+	m_camera.reset(new Camera(m_cameraContext, Pi::renderer));
 	m_internalCameraController.reset(new InternalCameraController(m_cameraContext, Pi::player));
 	m_externalCameraController.reset(new ExternalCameraController(m_cameraContext, Pi::player));
 	m_siderealCameraController.reset(new SiderealCameraController(m_cameraContext, Pi::player));
@@ -408,7 +408,7 @@ void WorldView::Draw3D()
 		if (m_internalCameraController->GetMode() == InternalCameraController::MODE_FRONT)
 			cockpit = Pi::player->GetCockpit();
 	}
-	m_camera->Draw(m_renderer, excludeBody, cockpit);
+	m_camera->Draw(excludeBody, cockpit);
 
 	// Draw 3D HUD
 	// Speed lines

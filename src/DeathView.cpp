@@ -20,7 +20,7 @@ DeathView::DeathView(): View()
 
 	const float fovY = Pi::config->Float("FOVVertical");
     m_cameraContext.Reset(new CameraContext(Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), fovY, znear, zfar));
-    m_camera.reset(new Camera(m_cameraContext));
+    m_camera.reset(new Camera(m_cameraContext, Pi::renderer));
 }
 
 DeathView::~DeathView() {}
@@ -51,6 +51,6 @@ void DeathView::Update()
 void DeathView::Draw3D()
 {
 	PROFILE_SCOPED()
-	m_camera->Draw(m_renderer);
+	m_camera->Draw();
 	m_cameraContext->EndFrame();
 }

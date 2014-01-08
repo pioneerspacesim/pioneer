@@ -67,9 +67,9 @@ void CameraContext::EndFrame()
 }
 
 
-Camera::Camera(RefCountedPtr<CameraContext> context) :
+Camera::Camera(RefCountedPtr<CameraContext> context, Graphics::Renderer *renderer) :
 	m_context(context),
-	m_renderer(0)
+	m_renderer(renderer)
 {
 }
 
@@ -120,15 +120,11 @@ void Camera::Update()
 	m_sortedBodies.sort();
 }
 
-void Camera::Draw(Graphics::Renderer *renderer, const Body *excludeBody, ShipCockpit* cockpit)
+void Camera::Draw(const Body *excludeBody, ShipCockpit* cockpit)
 {
 	PROFILE_SCOPED()
-	
-	assert(renderer);
 
 	Frame *camFrame = m_context->GetCamFrame();
-
-	m_renderer = renderer;
 
 	glPushAttrib(GL_ALL_ATTRIB_BITS & (~GL_POINT_BIT));
 
@@ -185,7 +181,7 @@ void Camera::Draw(Graphics::Renderer *renderer, const Body *excludeBody, ShipCoc
 		rendererLights.reserve(m_lightSources.size());
 		for (size_t i = 0; i < m_lightSources.size(); i++)
 			rendererLights.push_back(m_lightSources[i].GetLight());
-		renderer->SetLights(rendererLights.size(), &rendererLights[0]);
+		m_renderer->SetLights(rendererLights.size(), &rendererLights[0]);
 	}
 
 	for (std::list<BodyAttrs>::iterator i = m_sortedBodies.begin(); i != m_sortedBodies.end(); ++i) {
@@ -208,10 +204,10 @@ void Camera::Draw(Graphics::Renderer *renderer, const Body *excludeBody, ShipCoc
 		}
 		else if (screenrad >= 2 || attrs->body->IsType(Object::STAR) ||
 					(attrs->body->IsType(Object::PROJECTILE) && screenrad > 0.25))
-			attrs->body->Render(renderer, this, attrs->viewCoords, attrs->viewTransform);
+			attrs->body->Render(m_renderer, this, attrs->viewCoords, attrs->viewTransform);
 	}
 
-	Sfx::RenderAll(renderer, Pi::game->GetSpace()->GetRootFrame(), camFrame);
+	Sfx::RenderAll(m_renderer, Pi::game->GetSpace()->GetRootFrame(), camFrame);
 
 	// NB: Do any screen space rendering after here:
 	// Things like the cockpit and AR features like hudtrails, space dust etc.
@@ -220,7 +216,7 @@ void Camera::Draw(Graphics::Renderer *renderer, const Body *excludeBody, ShipCoc
 	// XXX only here because it needs a frame for lighting calc
 	// should really be in WorldView, immediately after camera draw
 	if(cockpit)
-		cockpit->RenderCockpit(renderer, this, camFrame);
+		cockpit->RenderCockpit(m_renderer, this, camFrame);
 
 
 	glPopAttrib();
@@ -232,7 +228,6 @@ void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d 
 	// draw twinkly star-thing on faraway objects
 	// XXX this seems like a good case for drawing in 2D - use projected position, then the
 	// "face the camera dammit" bits can be skipped
-	if (!m_renderer) return;
 
 	const double newdist = m_context->GetZNear() + 0.5f * (m_context->GetZFar() - m_context->GetZNear());
 	const double scale = newdist / viewCoords.Length();
