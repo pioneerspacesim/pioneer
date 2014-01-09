@@ -231,7 +231,6 @@ bool RendererGL2::SetTransform(const matrix4x4d &m)
 	matrix4x4f mf;
 	matrix4x4dtof(m, mf);
 	return SetTransform(mf);
-	return true;
 }
 
 bool RendererGL2::SetTransform(const matrix4x4f &m)
