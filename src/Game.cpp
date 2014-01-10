@@ -27,8 +27,8 @@ static const int  s_saveVersion   = 69;
 static const char s_saveStart[]   = "PIONEER";
 static const char s_saveEnd[]     = "END";
 
-Game::Game(const SystemPath &path) :
-	m_time(0),
+Game::Game(const SystemPath &path, double time) :
+	m_time(time),
 	m_state(STATE_NORMAL),
 	m_wantHyperspace(false),
 	m_timeAccel(TIMEACCEL_1X),
@@ -51,8 +51,8 @@ Game::Game(const SystemPath &path) :
 	CreateViews();
 }
 
-Game::Game(const SystemPath &path, const vector3d &pos) :
-	m_time(0),
+Game::Game(const SystemPath &path, const vector3d &pos, double time) :
+	m_time(time),
 	m_state(STATE_NORMAL),
 	m_wantHyperspace(false),
 	m_timeAccel(TIMEACCEL_1X),

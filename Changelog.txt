@@ -10,6 +10,10 @@ January 2014
      * New "free software" charity on the bulletin board (#2611)
      * Change start ship to Xylophis
      * Add delta-v data to ship market (#2616)
+     * Earth start position now starts at 13:00 (Pioneer time) (#2615)
+
+   * Script and UI API changes
+     * Game.StartGame now takes an optional start_time argument (#2615)
 
    * Fixes
      * Fix label positioning in orbit and galaxy views (#2608, #2576)

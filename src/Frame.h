@@ -34,7 +34,8 @@ public:
 
 	void SetPosition(const vector3d &pos) { m_pos = pos; }
 	vector3d GetPosition() const { return m_pos; }
-	void SetOrient(const matrix3x3d &m) { m_orient = m; }
+	void SetInitialOrient(const matrix3x3d &m, double time);
+	void SetOrient(const matrix3x3d &m, double time);
 	const matrix3x3d &GetOrient() const { return m_orient; }
 	const matrix3x3d &GetInterpOrient() const { return m_interpOrient; }
 	void SetVelocity(const vector3d &vel) { m_vel = vel; }
@@ -104,6 +105,7 @@ private:
 	vector3d m_pos;
 	vector3d m_oldPos;
 	vector3d m_interpPos;
+	matrix3x3d m_initialOrient;
 	matrix3x3d m_orient;
 	matrix3x3d m_interpOrient;
 	vector3d m_vel; // note we don't use this to move frame. rather,
