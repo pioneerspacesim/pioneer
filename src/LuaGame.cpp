@@ -52,14 +52,14 @@ static int l_game_start_game(lua_State *l)
 	}
 
 	SystemPath *path = LuaObject<SystemPath>::CheckFromLua(1);
+	const double start_time = luaL_optnumber(l, 2, 0.0);
 
 	RefCountedPtr<StarSystem> system(StarSystem::GetCached(*path));
 	SystemBody *sbody = system->GetBodyByPath(path);
-	double time = lua_isnoneornil(l, 2) ? 0.0 : lua_tonumber(l, 2);
 	if (sbody->GetSuperType() == SystemBody::SUPERTYPE_STARPORT)
-		Pi::game = new Game(*path, time);
+		Pi::game = new Game(*path, start_time);
 	else
-		Pi::game = new Game(*path, vector3d(0, 1.5*sbody->GetRadius(), 0), time);
+		Pi::game = new Game(*path, vector3d(0, 1.5*sbody->GetRadius(), 0), start_time);
 
 	return 0;
 }
