@@ -24,6 +24,7 @@ uniform Scene scene;
 
 varying vec3 varyingEyepos;
 varying vec3 varyingNormal;
+varying vec4 vertexColor;
 
 #ifdef ECLIPSE
 #define PI 3.141592653589793
@@ -111,8 +112,6 @@ void main(void)
 	//calculate sunset tone red when passing through more atmosphere, clamp everything.
 	float atmpower = (diff.r+diff.g+diff.b)/3.0;
 	vec4 sunset = vec4(0.8,clamp(pow(atmpower,0.8),0.0,1.0),clamp(pow(atmpower,1.2),0.0,1.0),1.0);
-	
-	vec4 vertexColor(0.5, 0.5, 1.0, 1.0);
 
 	gl_FragColor =
 		material.emission +

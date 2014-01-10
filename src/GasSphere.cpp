@@ -3,9 +3,6 @@
 
 #include "libs.h"
 #include "GasSphere.h"
-#include "GeoPatchContext.h"
-#include "GeoPatch.h"
-#include "GeoPatchJobs.h"
 #include "perlin.h"
 #include "Pi.h"
 #include "RefCounted.h"
@@ -18,6 +15,9 @@
 #include <deque>
 #include <algorithm>
 
+
+RefCountedPtr<GasPatchContext> GasSphere::s_patchContext;
+
 static void print_info(const SystemBody *sbody, const Terrain *terrain)
 {
 	printf(
@@ -28,12 +28,438 @@ static void print_info(const SystemBody *sbody, const Terrain *terrain)
 		sbody->name.c_str(), terrain->GetHeightFractalName(), terrain->GetColorFractalName(), sbody->seed);
 }
 
-#define GEOSPHERE_TYPE	(GetSystemBody()->type)
+#pragma pack(4)
+struct VBOVertex
+{
+	float x,y,z;
+	float nx,ny,nz;
+	unsigned char col[4];
+	float padding;
+};
+#pragma pack()
+
+static const int INDEX_LISTS = 16;
+
+class GasPatchContext : public RefCounted {
+public:
+	int edgeLen;
+
+	inline int VBO_COUNT_LO_EDGE() const { return 3*(edgeLen/2); }
+	inline int VBO_COUNT_HI_EDGE() const { return 3*(edgeLen-1); }
+	inline int VBO_COUNT_MID_IDX() const { return (4*3*(edgeLen-3))    + 2*(edgeLen-3)*(edgeLen-3)*3; }
+	//                                            ^^ serrated teeth bit  ^^^ square inner bit
+
+	inline int IDX_VBO_LO_OFFSET(int i) const { return i*sizeof(unsigned short)*3*(edgeLen/2); }
+	inline int IDX_VBO_HI_OFFSET(int i) const { return (i*sizeof(unsigned short)*VBO_COUNT_HI_EDGE())+IDX_VBO_LO_OFFSET(4); }
+	inline int IDX_VBO_MAIN_OFFSET()    const { return IDX_VBO_HI_OFFSET(4); }
+	inline int IDX_VBO_COUNT_ALL_IDX()	const { return ((edgeLen-1)*(edgeLen-1))*2*3; }
+
+	inline int NUMVERTICES() const { return edgeLen*edgeLen; }
+
+	double frac;
+
+	std::unique_ptr<unsigned short[]> midIndices;
+	std::unique_ptr<unsigned short[]> loEdgeIndices[4];
+	std::unique_ptr<unsigned short[]> hiEdgeIndices[4];
+	GLuint indices_vbo;
+	GLuint indices_list[INDEX_LISTS];
+	GLuint indices_tri_count;
+	GLuint indices_tri_counts[INDEX_LISTS];
+	VBOVertex *vbotemp;
+
+	GasPatchContext(const int _edgeLen) : edgeLen(_edgeLen) {
+		Init();
+	}
+
+	~GasPatchContext() {
+		Cleanup();
+	}
+
+	void Refresh() {
+		Cleanup();
+		Init();
+	}
+
+	void Cleanup() {
+		midIndices.reset();
+		for (int i=0; i<4; i++) {
+			loEdgeIndices[i].reset();
+			hiEdgeIndices[i].reset();
+		}
+		if (indices_vbo) {
+			indices_vbo = 0;
+		}
+		for (int i=0; i<INDEX_LISTS; i++) {
+			if (indices_list[i]) {
+				glDeleteBuffersARB(1, &indices_list[i]);
+			}
+		}
+		delete [] vbotemp;
+	}
+
+	void updateIndexBufferId(const GLuint edge_hi_flags) {
+		assert(edge_hi_flags < GLuint(INDEX_LISTS));
+		indices_vbo = indices_list[edge_hi_flags];
+		indices_tri_count = indices_tri_counts[edge_hi_flags];
+	}
+
+	int getIndices(std::vector<unsigned short> &pl, const unsigned int edge_hi_flags)
+	{
+		// calculate how many tri's there are
+		int tri_count = (VBO_COUNT_MID_IDX() / 3);
+		for( int i=0; i<4; ++i ) {
+			if( edge_hi_flags & (1 << i) ) {
+				tri_count += (VBO_COUNT_HI_EDGE() / 3);
+			} else {
+				tri_count += (VBO_COUNT_LO_EDGE() / 3);
+			}
+		}
+
+		// pre-allocate enough space
+		pl.reserve(tri_count);
+
+		// add all of the middle indices
+		for(int i=0; i<VBO_COUNT_MID_IDX(); ++i) {
+			pl.push_back(midIndices[i]);
+		}
+		// selectively add the HI or LO detail indices
+		for (int i=0; i<4; i++) {
+			if( edge_hi_flags & (1 << i) ) {
+				for(int j=0; j<VBO_COUNT_HI_EDGE(); ++j) {
+					pl.push_back(hiEdgeIndices[i][j]);
+				}
+			} else {
+				for(int j=0; j<VBO_COUNT_LO_EDGE(); ++j) {
+					pl.push_back(loEdgeIndices[i][j]);
+				}
+			}
+		}
+
+		return tri_count;
+	}
+
+	void Init() {
+		frac = 1.0 / double(edgeLen-1);
+
+		vbotemp = new VBOVertex[NUMVERTICES()];
+
+		unsigned short *idx;
+		midIndices.reset(new unsigned short[VBO_COUNT_MID_IDX()]);
+		for (int i=0; i<4; i++) {
+			loEdgeIndices[i].reset(new unsigned short[VBO_COUNT_LO_EDGE()]);
+			hiEdgeIndices[i].reset(new unsigned short[VBO_COUNT_HI_EDGE()]);
+		}
+		/* also want vtx indices for tris not touching edge of patch */
+		idx = midIndices.get();
+		for (int x=1; x<edgeLen-2; x++) {
+			for (int y=1; y<edgeLen-2; y++) {
+				idx[0] = x + edgeLen*y;
+				idx[1] = x+1 + edgeLen*y;
+				idx[2] = x + edgeLen*(y+1);
+				idx+=3;
+
+				idx[0] = x+1 + edgeLen*y;
+				idx[1] = x+1 + edgeLen*(y+1);
+				idx[2] = x + edgeLen*(y+1);
+				idx+=3;
+			}
+		}
+		{
+			for (int x=1; x<edgeLen-3; x+=2) {
+				// razor teeth near edge 0
+				idx[0] = x + edgeLen;
+				idx[1] = x+1;
+				idx[2] = x+1 + edgeLen;
+				idx+=3;
+				idx[0] = x+1;
+				idx[1] = x+2 + edgeLen;
+				idx[2] = x+1 + edgeLen;
+				idx+=3;
+			}
+			for (int x=1; x<edgeLen-3; x+=2) {
+				// near edge 2
+				idx[0] = x + edgeLen*(edgeLen-2);
+				idx[1] = x+1 + edgeLen*(edgeLen-2);
+				idx[2] = x+1 + edgeLen*(edgeLen-1);
+				idx+=3;
+				idx[0] = x+1 + edgeLen*(edgeLen-2);
+				idx[1] = x+2 + edgeLen*(edgeLen-2);
+				idx[2] = x+1 + edgeLen*(edgeLen-1);
+				idx+=3;
+			}
+			for (int y=1; y<edgeLen-3; y+=2) {
+				// near edge 1
+				idx[0] = edgeLen-2 + y*edgeLen;
+				idx[1] = edgeLen-1 + (y+1)*edgeLen;
+				idx[2] = edgeLen-2 + (y+1)*edgeLen;
+				idx+=3;
+				idx[0] = edgeLen-2 + (y+1)*edgeLen;
+				idx[1] = edgeLen-1 + (y+1)*edgeLen;
+				idx[2] = edgeLen-2 + (y+2)*edgeLen;
+				idx+=3;
+			}
+			for (int y=1; y<edgeLen-3; y+=2) {
+				// near edge 3
+				idx[0] = 1 + y*edgeLen;
+				idx[1] = 1 + (y+1)*edgeLen;
+				idx[2] = (y+1)*edgeLen;
+				idx+=3;
+				idx[0] = 1 + (y+1)*edgeLen;
+				idx[1] = 1 + (y+2)*edgeLen;
+				idx[2] = (y+1)*edgeLen;
+				idx+=3;
+			}
+		}
+		// full detail edge triangles
+		{
+			idx = hiEdgeIndices[0].get();
+			for (int x=0; x<edgeLen-1; x+=2) {
+				idx[0] = x; idx[1] = x+1; idx[2] = x+1 + edgeLen;
+				idx+=3;
+				idx[0] = x+1; idx[1] = x+2; idx[2] = x+1 + edgeLen;
+				idx+=3;
+			}
+			idx = hiEdgeIndices[1].get();
+			for (int y=0; y<edgeLen-1; y+=2) {
+				idx[0] = edgeLen-1 + y*edgeLen;
+				idx[1] = edgeLen-1 + (y+1)*edgeLen;
+				idx[2] = edgeLen-2 + (y+1)*edgeLen;
+				idx+=3;
+				idx[0] = edgeLen-1 + (y+1)*edgeLen;
+				idx[1] = edgeLen-1 + (y+2)*edgeLen;
+				idx[2] = edgeLen-2 + (y+1)*edgeLen;
+				idx+=3;
+			}
+			idx = hiEdgeIndices[2].get();
+			for (int x=0; x<edgeLen-1; x+=2) {
+				idx[0] = x + (edgeLen-1)*edgeLen;
+				idx[1] = x+1 + (edgeLen-2)*edgeLen;
+				idx[2] = x+1 + (edgeLen-1)*edgeLen;
+				idx+=3;
+				idx[0] = x+1 + (edgeLen-2)*edgeLen;
+				idx[1] = x+2 + (edgeLen-1)*edgeLen;
+				idx[2] = x+1 + (edgeLen-1)*edgeLen;
+				idx+=3;
+			}
+			idx = hiEdgeIndices[3].get();
+			for (int y=0; y<edgeLen-1; y+=2) {
+				idx[0] = y*edgeLen;
+				idx[1] = 1 + (y+1)*edgeLen;
+				idx[2] = (y+1)*edgeLen;
+				idx+=3;
+				idx[0] = (y+1)*edgeLen;
+				idx[1] = 1 + (y+1)*edgeLen;
+				idx[2] = (y+2)*edgeLen;
+				idx+=3;
+			}
+		}
+		// these edge indices are for patches with no
+		// neighbour of equal or greater detail -- they reduce
+		// their edge complexity by 1 division
+		{
+			idx = loEdgeIndices[0].get();
+			for (int x=0; x<edgeLen-2; x+=2) {
+				idx[0] = x;
+				idx[1] = x+2;
+				idx[2] = x+1+edgeLen;
+				idx += 3;
+			}
+			idx = loEdgeIndices[1].get();
+			for (int y=0; y<edgeLen-2; y+=2) {
+				idx[0] = (edgeLen-1) + y*edgeLen;
+				idx[1] = (edgeLen-1) + (y+2)*edgeLen;
+				idx[2] = (edgeLen-2) + (y+1)*edgeLen;
+				idx += 3;
+			}
+			idx = loEdgeIndices[2].get();
+			for (int x=0; x<edgeLen-2; x+=2) {
+				idx[0] = x+edgeLen*(edgeLen-1);
+				idx[2] = x+2+edgeLen*(edgeLen-1);
+				idx[1] = x+1+edgeLen*(edgeLen-2);
+				idx += 3;
+			}
+			idx = loEdgeIndices[3].get();
+			for (int y=0; y<edgeLen-2; y+=2) {
+				idx[0] = y*edgeLen;
+				idx[2] = (y+2)*edgeLen;
+				idx[1] = 1 + (y+1)*edgeLen;
+				idx += 3;
+			}
+		}
+
+		// these will hold the optimised indices
+		std::vector<unsigned short> pl_short[INDEX_LISTS];
+		// populate the N indices lists from the arrays built during InitTerrainIndices()
+		for( int i=0; i<INDEX_LISTS; ++i ) {
+			const unsigned int edge_hi_flags = i;
+			indices_tri_counts[i] = getIndices(pl_short[i], edge_hi_flags);
+		}
+
+		// iterate over each index list and optimize it
+		for( int i=0; i<INDEX_LISTS; ++i ) {
+			int tri_count = indices_tri_counts[i];
+			VertexCacheOptimizerUShort vco;
+			VertexCacheOptimizerUShort::Result res = vco.Optimize(&pl_short[i][0], tri_count);
+			assert(0 == res);
+		}
+
+		// everything should be hunky-dory for setting up as OpenGL index buffers now.
+		for( int i=0; i<INDEX_LISTS; ++i ) {
+			glGenBuffersARB(1, &indices_list[i]);
+			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_list[i]);
+			glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned short)*indices_tri_counts[i]*3, &(pl_short[i][0]), GL_STATIC_DRAW);
+			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
+		}
+
+		// default it to the last entry which uses the hi-res borders
+		indices_vbo			= indices_list[INDEX_LISTS-1];
+		indices_tri_count	= indices_tri_counts[INDEX_LISTS-1];
+
+		if (midIndices) {
+			midIndices.reset();
+			for (int i=0; i<4; i++) {
+				loEdgeIndices[i].reset();
+				hiEdgeIndices[i].reset();
+			}
+		}
+	}
+};
+
+
+class GasPatch {
+public:
+	RefCountedPtr<GasPatchContext> ctx;
+	vector3d v[4];
+	vector3d *vertices;
+	vector3d *normals;
+	vector3d *colors;
+	GLuint m_vbo;
+	GasSphere *gasSphere;
+	double m_roughLength;
+	vector3d clipCentroid, centroid;
+	double clipRadius;
+
+	GasPatch(const RefCountedPtr<GasPatchContext> &_ctx, GasSphere *gs, vector3d v0, vector3d v1, vector3d v2, vector3d v3) {
+		memset(this, 0, sizeof(GasPatch));
+
+		ctx = _ctx;
+
+		gasSphere = gs;
+
+		v[0] = v0; v[1] = v1; v[2] = v2; v[3] = v3;
+		clipCentroid = (v0+v1+v2+v3) * 0.25;
+		clipRadius = 0;
+		for (int i=0; i<4; i++) {
+			clipRadius = std::max(clipRadius, (v[i]-clipCentroid).Length());
+		}
+		normals = new vector3d[ctx->NUMVERTICES()];
+		vertices = new vector3d[ctx->NUMVERTICES()];
+		colors = new vector3d[ctx->NUMVERTICES()];
+
+		GenerateMesh();
+		UpdateVBOs();
+	}
+
+	~GasPatch() {
+		delete[] vertices;
+		delete[] normals;
+		delete[] colors;
+		glDeleteBuffersARB(1, &m_vbo);
+	}
+
+	void UpdateVBOs() {
+		if (!m_vbo) 
+			glGenBuffersARB(1, &m_vbo);
+		
+		glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
+		glBufferDataARB(GL_ARRAY_BUFFER, sizeof(VBOVertex)*ctx->NUMVERTICES(), 0, GL_DYNAMIC_DRAW);
+		for (int i=0; i<ctx->NUMVERTICES(); i++)
+		{
+			clipRadius = std::max(clipRadius, (vertices[i]-clipCentroid).Length());
+			VBOVertex *pData = ctx->vbotemp + i;
+			pData->x = float(vertices[i].x - clipCentroid.x);
+			pData->y = float(vertices[i].y - clipCentroid.y);
+			pData->z = float(vertices[i].z - clipCentroid.z);
+			pData->nx = float(normals[i].x);
+			pData->ny = float(normals[i].y);
+			pData->nz = float(normals[i].z);
+			pData->col[0] = static_cast<unsigned char>(Clamp(colors[i].x*255.0, 0.0, 255.0));
+			pData->col[1] = static_cast<unsigned char>(Clamp(colors[i].y*255.0, 0.0, 255.0));
+			pData->col[2] = static_cast<unsigned char>(Clamp(colors[i].z*255.0, 0.0, 255.0));
+			pData->col[3] = 255;
+		}
+		glBufferDataARB(GL_ARRAY_BUFFER, sizeof(VBOVertex)*ctx->NUMVERTICES(), ctx->vbotemp, GL_DYNAMIC_DRAW);
+		glBindBufferARB(GL_ARRAY_BUFFER, 0);
+	}
+
+	/* in patch surface coords, [0,1] */
+	vector3d GetSpherePoint(const double x, const double y) const {
+		return (v[0] + x*(1.0-y)*(v[1]-v[0]) +
+			    x*y*(v[2]-v[0]) +
+			    (1.0-x)*y*(v[3]-v[0])).Normalized();
+	}
+
+	/** Generates full-detail vertices, and also non-edge normals and colors */
+	void GenerateMesh() {
+		centroid = clipCentroid.Normalized();
+		centroid = (1.0 + gasSphere->GetHeight(centroid)) * centroid;
+		vector3d *vts = vertices;
+		vector3d *nrm = normals;
+		vector3d *col = colors;
+		for (int y=0; y<ctx->edgeLen; y++) {
+			for (int x=0; x<ctx->edgeLen; x++) {
+				// get the position on the surface of the sphere
+				const vector3d p = GetSpherePoint(x*ctx->frac, y*ctx->frac);
+				// store it
+				*(vts++) = p;
+				*(nrm++) = p;
+				*(col++) = vector3d();
+			}
+		}
+	}
+
+	GLuint determineIndexbuffer() const {
+		return 1u | 2u | 4u | 8u;
+	}
+
+	void Render(Graphics::Renderer *renderer, const vector3d &campos, const matrix4x4d &modelView, const Graphics::Frustum &frustum) {
+		if (!frustum.TestPoint(clipCentroid, clipRadius))
+			return;
+
+		vector3d relpos = clipCentroid - campos;
+		glPushMatrix();
+		glTranslated(relpos.x, relpos.y, relpos.z);
+
+		Pi::statSceneTris += 2*(ctx->edgeLen-1)*(ctx->edgeLen-1);
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glEnableClientState(GL_NORMAL_ARRAY);
+		glEnableClientState(GL_COLOR_ARRAY);
+
+		// update the indices used for rendering
+		ctx->updateIndexBufferId(determineIndexbuffer());
+
+		glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
+		glVertexPointer(3, GL_FLOAT, sizeof(VBOVertex), 0);
+		glNormalPointer(GL_FLOAT, sizeof(VBOVertex), reinterpret_cast<void *>(3*sizeof(float)));
+		glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(VBOVertex), reinterpret_cast<void *>(6*sizeof(float)));
+		glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, ctx->indices_vbo);
+		glDrawElements(GL_TRIANGLES, ctx->indices_tri_count*3, GL_UNSIGNED_SHORT, 0);
+		glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
+		glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_NORMAL_ARRAY);
+		glDisableClientState(GL_COLOR_ARRAY);
+		glPopMatrix();
+	}
+};
 
 GasSphere::GasSphere(const SystemBody *body) : BaseSphere(body),
 	m_hasTempCampos(false), m_tempCampos(0.0)
 {
 	//SetUpMaterials is not called until first Render since light count is zero :)
+
+	BuildFirstPatches();
 }
 
 GasSphere::~GasSphere()
@@ -110,7 +536,7 @@ void GasSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 	matrix4x4ftod(renderer->GetCurrentProjection(), proj);
 	Graphics::Frustum frustum( modv, proj );
 
-	// no frustum test of entire geosphere, since Space::Render does this
+	// no frustum test of entire gasSphere, since Space::Render does this
 	// for each body using its GetBoundingRadius() value
 
 	//First draw - create materials (they do not change afterwards)
@@ -181,7 +607,17 @@ void GasSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 
 	renderer->SetTransform(modelView);
 
-	m_baseCloudSurface->Draw(renderer);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_NORMAL_ARRAY);
+	glEnableClientState(GL_COLOR_ARRAY);
+
+	for (int i=0; i<NUM_PATCHES; i++) {
+		m_patches[i]->Render(renderer, campos, modelView, frustum);
+	}
+
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_NORMAL_ARRAY);
+	glDisableClientState(GL_COLOR_ARRAY);
 
 	m_surfaceMaterial->Unapply();
 
@@ -225,8 +661,6 @@ void GasSphere::SetUpMaterials()
 	}
 	m_surfaceMaterial.Reset(Pi::renderer->CreateMaterial(surfDesc));
 
-	m_baseCloudSurface.reset( new Graphics::Drawables::Sphere3D(m_surfaceMaterial, 4, 1.0f) );
-
 	//Shader-less atmosphere is drawn in Planet
 	{
 		Graphics::MaterialDescriptor skyDesc;
@@ -237,4 +671,28 @@ void GasSphere::SetUpMaterials()
 		}
 		m_atmosphereMaterial.reset(Pi::renderer->CreateMaterial(skyDesc));
 	}
+}
+
+void GasSphere::BuildFirstPatches()
+{
+	if( s_patchContext.Get() == nullptr ) {
+		s_patchContext.Reset(new GasPatchContext(55));
+	}
+
+	// generate root face patches of the cube/sphere
+	static const vector3d p1 = (vector3d( 1, 1, 1)).Normalized();
+	static const vector3d p2 = (vector3d(-1, 1, 1)).Normalized();
+	static const vector3d p3 = (vector3d(-1,-1, 1)).Normalized();
+	static const vector3d p4 = (vector3d( 1,-1, 1)).Normalized();
+	static const vector3d p5 = (vector3d( 1, 1,-1)).Normalized();
+	static const vector3d p6 = (vector3d(-1, 1,-1)).Normalized();
+	static const vector3d p7 = (vector3d(-1,-1,-1)).Normalized();
+	static const vector3d p8 = (vector3d( 1,-1,-1)).Normalized();
+
+	m_patches[0].reset(new GasPatch(s_patchContext, this, p1, p2, p3, p4));
+	m_patches[1].reset(new GasPatch(s_patchContext, this, p4, p3, p7, p8));
+	m_patches[2].reset(new GasPatch(s_patchContext, this, p1, p4, p8, p5));
+	m_patches[3].reset(new GasPatch(s_patchContext, this, p2, p1, p5, p6));
+	m_patches[4].reset(new GasPatch(s_patchContext, this, p3, p2, p6, p7));
+	m_patches[5].reset(new GasPatch(s_patchContext, this, p8, p7, p6, p5));
 }
