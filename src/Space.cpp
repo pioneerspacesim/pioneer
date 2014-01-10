@@ -528,7 +528,7 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 
 		if (sbody->rotationalPhaseAtStart != fixed(0))
 			rotMatrix = rotMatrix * matrix3x3d::RotateY(sbody->rotationalPhaseAtStart.ToDouble());
-		rotFrame->SetOrient(rotMatrix);
+		rotFrame->SetInitialOrient(rotMatrix, Pi::game ? Pi::game->GetTime() : 0.0);
 
 		b->SetFrame(rotFrame);
 		return orbFrame;
