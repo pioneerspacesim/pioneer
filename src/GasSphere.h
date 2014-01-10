@@ -19,6 +19,10 @@
 namespace Graphics { class Renderer; }
 class SystemBody;
 class GasSphere;
+class GasPatch;
+class GasPatchContext;
+
+#define NUM_PATCHES 6
 
 class GasSphere : public BaseSphere {
 public:
@@ -41,7 +45,12 @@ public:
 	virtual void Reset() {};
 
 private:
-	std::unique_ptr<Graphics::Drawables::Sphere3D> m_baseCloudSurface;
+	void BuildFirstPatches();
+
+	static RefCountedPtr<GasPatchContext> GasSphere::s_patchContext;
+
+	//std::unique_ptr<Graphics::Drawables::Sphere3D> m_baseCloudSurface;
+	std::unique_ptr<GasPatch> m_patches[NUM_PATCHES];
 
 	bool m_hasTempCampos;
 	vector3d m_tempCampos;
