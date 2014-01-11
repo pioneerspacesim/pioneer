@@ -133,7 +133,7 @@ private:
 	std::string m_previousSearch;
 
 	float m_playerHyperspaceRange;
-	Graphics::Drawables::Line3D m_jumpLine;
+	Graphics::Drawables::Line3D m_selectedLine;
 
 	RefCountedPtr<Graphics::Material> m_material;
 

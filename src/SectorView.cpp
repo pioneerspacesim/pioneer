@@ -635,21 +635,21 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 				labels.distance->SetText(stringf(format,
 					formatarg("distance", dist), formatarg("mass", fuelRequired), formatarg("days", floor(DaysNeeded)), formatarg("hours", HoursNeeded)));
 				labels.distance->Color(0, 255, 51);
-				m_jumpLine.SetColor(Color(0, 255, 51, 255));
+				m_selectedLine.SetColor(Color(0, 255, 51, 255));
 				break;
 			case Ship::HYPERJUMP_INSUFFICIENT_FUEL:
 				snprintf(format, sizeof(format), "[ %s | %s ]", Lang::NUMBER_LY, Lang::NUMBER_TONNES);
 				labels.distance->SetText(stringf(format,
 					formatarg("distance", dist), formatarg("mass", fuelRequired)));
 				labels.distance->Color(255, 255, 0);
-				m_jumpLine.SetColor(Color::YELLOW);
+				m_selectedLine.SetColor(Color::YELLOW);
 				break;
 			case Ship::HYPERJUMP_OUT_OF_RANGE:
 				snprintf(format, sizeof(format), "[ %s ]", Lang::NUMBER_LY);
 				labels.distance->SetText(stringf(format,
 					formatarg("distance", dist)));
 				labels.distance->Color(255, 0, 0);
-				m_jumpLine.SetColor(Color::RED);
+				m_selectedLine.SetColor(Color::RED);
 				break;
 			default:
 				labels.distance->SetText("");
@@ -872,9 +872,9 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 		}
 
 		if (i->IsSameSystem(m_selected)) {
-			m_jumpLine.SetStart(vector3f(0.f, 0.f, 0.f));
-			m_jumpLine.SetEnd(playerAbsPos - sysAbsPos);
-			m_jumpLine.Draw(m_renderer);
+			m_selectedLine.SetStart(vector3f(0.f, 0.f, 0.f));
+			m_selectedLine.SetEnd(playerAbsPos - sysAbsPos);
+			m_selectedLine.Draw(m_renderer);
 		}
 
 		// draw star blob itself
