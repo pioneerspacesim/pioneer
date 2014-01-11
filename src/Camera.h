@@ -107,10 +107,10 @@ public:
 	const int GetNumLightSources() const { return m_lightSources.size(); }
 
 private:
-	void DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d &viewTransform);
-
 	RefCountedPtr<CameraContext> m_context;
 	Graphics::Renderer *m_renderer;
+
+	std::unique_ptr<Graphics::Material> m_billboardMaterial;
 
 	// temp attrs for sorting and drawing
 	struct BodyAttrs {
@@ -125,6 +125,12 @@ private:
 
 		// body flags. DRAW_LAST is the interesting one
 		Uint32 bodyFlags;
+
+		// if true, draw object as billboard of billboardSize at billboardPos
+		bool billboard;
+		vector3f billboardPos;
+		float billboardSize;
+		Color billboardColor;
 
 		// for sorting. "should a be drawn before b?"
 		friend bool operator<(const BodyAttrs &a, const BodyAttrs &b) {
