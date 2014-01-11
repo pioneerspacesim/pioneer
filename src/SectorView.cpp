@@ -156,7 +156,7 @@ void SectorView::InitObject()
 	m_infoBox->SetSpacing(10.0f);
 	Add(m_infoBox, 5, 5);
 
-	// 1. holds info about current, selected, targeted systems
+	// 1. holds info about current, targeted, selected systems
 	Gui::VBox *locationsBox = new Gui::VBox();
 	locationsBox->SetSpacing(5.f);
 	// 1.1 current system
@@ -184,32 +184,7 @@ void SectorView::InitObject()
 	systemBox->PackEnd(m_currentSystemLabels.starType);
 	systemBox->PackEnd(m_currentSystemLabels.shortDesc);
 	locationsBox->PackEnd(systemBox);
-	// 1.2 selected system
-	systemBox = new Gui::VBox();
-	hbox = new Gui::HBox();
-	hbox->SetSpacing(5.0f);
-	b = new Gui::SolidButton();
-	b->onClick.connect(sigc::mem_fun(this, &SectorView::GotoSelectedSystem));
-	hbox->PackEnd(b);
-	hbox->PackEnd((new Gui::Label(Lang::SELECTED_SYSTEM))->Color(255, 255, 255));
-	systemBox->PackEnd(hbox);
-	hbox = new Gui::HBox();
-	hbox->SetSpacing(5.0f);
-	m_selectedSystemLabels.systemName = (new Gui::Label(""))->Color(255, 255, 0);
-	m_selectedSystemLabels.distance.label = (new Gui::Label(""))->Color(255, 0, 0);
-	m_selectedSystemLabels.distance.line = &m_selectedLine;
-	m_selectedSystemLabels.distance.okayColor = ::Color(0, 255, 0);
-	m_selectedSystemLabels.distance.unsuffFuelColor = ::Color(255, 255, 0);
-	m_selectedSystemLabels.distance.outOfRangeColor = ::Color(255, 0, 0);
-	hbox->PackEnd(m_selectedSystemLabels.systemName);
-	hbox->PackEnd(m_selectedSystemLabels.distance.label);
-	systemBox->PackEnd(hbox);
-	m_selectedSystemLabels.starType = (new Gui::Label(""))->Color(255, 0, 255);
-	m_selectedSystemLabels.shortDesc = (new Gui::Label(""))->Color(255, 0, 255);
-	systemBox->PackEnd(m_selectedSystemLabels.starType);
-	systemBox->PackEnd(m_selectedSystemLabels.shortDesc);
-	locationsBox->PackEnd(systemBox);
-	// 1.3 targeted system
+	// 1.2 targeted system
 	systemBox = new Gui::VBox();
 	hbox = new Gui::HBox();
 	hbox->SetSpacing(5.0f);
@@ -235,6 +210,31 @@ void SectorView::InitObject()
 	m_targetSystemLabels.shortDesc = (new Gui::Label(""))->Color(255, 0, 255);
 	systemBox->PackEnd(m_targetSystemLabels.starType);
 	systemBox->PackEnd(m_targetSystemLabels.shortDesc);
+	locationsBox->PackEnd(systemBox);
+	// 1.3 selected system
+	systemBox = new Gui::VBox();
+	hbox = new Gui::HBox();
+	hbox->SetSpacing(5.0f);
+	b = new Gui::SolidButton();
+	b->onClick.connect(sigc::mem_fun(this, &SectorView::GotoSelectedSystem));
+	hbox->PackEnd(b);
+	hbox->PackEnd((new Gui::Label(Lang::SELECTED_SYSTEM))->Color(255, 255, 255));
+	systemBox->PackEnd(hbox);
+	hbox = new Gui::HBox();
+	hbox->SetSpacing(5.0f);
+	m_selectedSystemLabels.systemName = (new Gui::Label(""))->Color(255, 255, 0);
+	m_selectedSystemLabels.distance.label = (new Gui::Label(""))->Color(255, 0, 0);
+	m_selectedSystemLabels.distance.line = &m_selectedLine;
+	m_selectedSystemLabels.distance.okayColor = ::Color(0, 255, 0);
+	m_selectedSystemLabels.distance.unsuffFuelColor = ::Color(255, 255, 0);
+	m_selectedSystemLabels.distance.outOfRangeColor = ::Color(255, 0, 0);
+	hbox->PackEnd(m_selectedSystemLabels.systemName);
+	hbox->PackEnd(m_selectedSystemLabels.distance.label);
+	systemBox->PackEnd(hbox);
+	m_selectedSystemLabels.starType = (new Gui::Label(""))->Color(255, 0, 255);
+	m_selectedSystemLabels.shortDesc = (new Gui::Label(""))->Color(255, 0, 255);
+	systemBox->PackEnd(m_selectedSystemLabels.starType);
+	systemBox->PackEnd(m_selectedSystemLabels.shortDesc);
 	locationsBox->PackEnd(systemBox);
 	m_infoBox->PackEnd(locationsBox);
 
