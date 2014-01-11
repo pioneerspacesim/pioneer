@@ -123,6 +123,7 @@ private:
 	SystemLabels m_currentSystemLabels;
 	SystemLabels m_selectedSystemLabels;
 	SystemLabels m_targetSystemLabels;
+	DistanceIndicator m_secondDistance;
 	Gui::Label *m_hyperspaceLockLabel;
 
 	Gui::VBox *m_factionBox;
@@ -143,6 +144,8 @@ private:
 
 	float m_playerHyperspaceRange;
 	Graphics::Drawables::Line3D m_selectedLine;
+	Graphics::Drawables::Line3D m_secondLine;
+	Graphics::Drawables::Line3D m_jumpLine;
 
 	RefCountedPtr<Graphics::Material> m_material;
 

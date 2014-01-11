@@ -199,7 +199,7 @@ void SectorView::InitObject()
 	hbox->SetSpacing(5.0f);
 	m_targetSystemLabels.systemName = (new Gui::Label(""))->Color(255, 255, 0);
 	m_targetSystemLabels.distance.label = (new Gui::Label(""))->Color(255, 0, 0);
-	m_targetSystemLabels.distance.line = NULL;
+	m_targetSystemLabels.distance.line = &m_jumpLine;
 	m_targetSystemLabels.distance.okayColor = ::Color(0, 255, 0);
 	m_targetSystemLabels.distance.unsuffFuelColor = ::Color(255, 255, 0);
 	m_targetSystemLabels.distance.outOfRangeColor = ::Color(255, 0, 0);
@@ -210,6 +210,12 @@ void SectorView::InitObject()
 	m_targetSystemLabels.shortDesc = (new Gui::Label(""))->Color(255, 0, 255);
 	systemBox->PackEnd(m_targetSystemLabels.starType);
 	systemBox->PackEnd(m_targetSystemLabels.shortDesc);
+	m_secondDistance.label = (new Gui::Label(""))->Color(0, 128, 255);
+	m_secondDistance.line = &m_secondLine;
+	m_secondDistance.okayColor = ::Color(51, 153, 128);
+	m_secondDistance.unsuffFuelColor = ::Color(153, 128, 51);
+	m_secondDistance.outOfRangeColor = ::Color(191, 89, 0);
+	systemBox->PackEnd(m_secondDistance.label);
 	locationsBox->PackEnd(systemBox);
 	// 1.3 selected system
 	systemBox = new Gui::VBox();
@@ -267,7 +273,7 @@ void SectorView::InitObject()
 	UpdateSystemLabels(m_currentSystemLabels, m_current);
 	UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
 	UpdateSystemLabels(m_selectedSystemLabels, m_selected);
-
+	UpdateDistanceLabelAndLine(m_secondDistance, m_selected, m_hyperspaceTarget);
 	UpdateHyperspaceLockLabel();
 
 	m_factionBox = new Gui::VBox();
@@ -451,9 +457,9 @@ void SectorView::SetHyperspaceTarget(const SystemPath &path)
 	m_matchTargetToSelection = false;
 	onHyperspaceTargetChanged.emit();
 
-	UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
-
+	UpdateDistanceLabelAndLine(m_secondDistance, m_selected, m_hyperspaceTarget);
 	UpdateHyperspaceLockLabel();
+	UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
 }
 
 void SectorView::FloatHyperspaceTarget()
@@ -475,7 +481,10 @@ void SectorView::ResetHyperspaceTarget()
 
 	if (old != m_hyperspaceTarget) {
 		onHyperspaceTargetChanged.emit();
+		UpdateDistanceLabelAndLine(m_secondDistance, m_selected, m_hyperspaceTarget);
 		UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
+	} else {
+		if (m_detailBoxVisible == DETAILBOX_INFO) m_infoBox->ShowAll();
 	}
 }
 
@@ -515,6 +524,7 @@ void SectorView::SetSelectedSystem(const SystemPath &path)
 		UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
 	}
 
+	UpdateDistanceLabelAndLine(m_secondDistance, m_selected, m_hyperspaceTarget);
 	UpdateSystemLabels(m_selectedSystemLabels, m_selected);
 }
 
@@ -892,9 +902,33 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 		}
 
 		if (i->IsSameSystem(m_selected)) {
-			m_selectedLine.SetStart(vector3f(0.f, 0.f, 0.f));
-			m_selectedLine.SetEnd(playerAbsPos - sysAbsPos);
-			m_selectedLine.Draw(m_renderer);
+			if (m_selected != m_current) {
+			    m_selectedLine.SetStart(vector3f(0.f, 0.f, 0.f));
+			    m_selectedLine.SetEnd(playerAbsPos - sysAbsPos);
+			    m_selectedLine.Draw(m_renderer);
+			} else {
+			    m_secondDistance.label->SetText("");
+			}
+			if (m_selected != m_hyperspaceTarget) {
+				Sector *hyperSec = Sector::cache.GetCached(m_hyperspaceTarget);
+				const vector3f hyperAbsPos =
+					Sector::SIZE*vector3f(m_hyperspaceTarget.sectorX, m_hyperspaceTarget.sectorY, m_hyperspaceTarget.sectorZ)
+					+ hyperSec->m_systems[m_hyperspaceTarget.systemIndex].p;
+				if (m_selected != m_current) {
+				    m_secondLine.SetStart(vector3f(0.f, 0.f, 0.f));
+				    m_secondLine.SetEnd(hyperAbsPos - sysAbsPos);
+				    m_secondLine.Draw(m_renderer);
+				}
+
+				if (m_hyperspaceTarget != m_current) {
+				    // FIXME: Draw when drawing hyperjump target or current system
+				    m_jumpLine.SetStart(hyperAbsPos - sysAbsPos);
+				    m_jumpLine.SetEnd(playerAbsPos - sysAbsPos);
+				    m_jumpLine.Draw(m_renderer);
+				}
+			} else {
+			    m_secondDistance.label->SetText("");
+			}
 		}
 
 		// draw star blob itself
@@ -1018,6 +1052,7 @@ void SectorView::OnSwitchTo()
 
 	UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
 	UpdateSystemLabels(m_selectedSystemLabels, m_selected);
+	UpdateDistanceLabelAndLine(m_secondDistance, m_selected, m_hyperspaceTarget);
 }
 
 void SectorView::RefreshDetailBoxVisibility()
@@ -1128,6 +1163,7 @@ void SectorView::Update()
 		UpdateSystemLabels(m_currentSystemLabels, m_current);
 		UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
 		UpdateSystemLabels(m_selectedSystemLabels, m_selected);
+		UpdateDistanceLabelAndLine(m_secondDistance, m_selected, m_hyperspaceTarget);
 	}
 
 	const float frameTime = Pi::GetFrameTime();
