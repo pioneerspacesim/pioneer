@@ -171,14 +171,16 @@ void SectorView::InitObject()
 	hbox = new Gui::HBox();
 	hbox->SetSpacing(5.0f);
 	m_currentSystemLabels.systemName = (new Gui::Label(""))->Color(255, 255, 0);
+	m_currentSystemLabels.sector = (new Gui::Label(""))->Color(255, 255, 0);
 	m_currentSystemLabels.distance.label = (new Gui::Label(""))->Color(255, 0, 0);
 	m_currentSystemLabels.distance.line = NULL;
 	m_currentSystemLabels.distance.okayColor = ::Color(0, 255, 0);
 	m_currentSystemLabels.distance.unsuffFuelColor = ::Color(255, 255, 0);
 	m_currentSystemLabels.distance.outOfRangeColor = ::Color(255, 0, 0);
 	hbox->PackEnd(m_currentSystemLabels.systemName);
-	hbox->PackEnd(m_currentSystemLabels.distance.label);
+	hbox->PackEnd(m_currentSystemLabels.sector);
 	systemBox->PackEnd(hbox);
+	systemBox->PackEnd(m_currentSystemLabels.distance.label);
 	m_currentSystemLabels.starType = (new Gui::Label(""))->Color(255, 0, 255);
 	m_currentSystemLabels.shortDesc = (new Gui::Label(""))->Color(255, 0, 255);
 	systemBox->PackEnd(m_currentSystemLabels.starType);
@@ -198,14 +200,16 @@ void SectorView::InitObject()
 	hbox = new Gui::HBox();
 	hbox->SetSpacing(5.0f);
 	m_targetSystemLabels.systemName = (new Gui::Label(""))->Color(255, 255, 0);
+	m_targetSystemLabels.sector = (new Gui::Label(""))->Color(255, 255, 0);
 	m_targetSystemLabels.distance.label = (new Gui::Label(""))->Color(255, 0, 0);
 	m_targetSystemLabels.distance.line = &m_jumpLine;
 	m_targetSystemLabels.distance.okayColor = ::Color(0, 255, 0);
 	m_targetSystemLabels.distance.unsuffFuelColor = ::Color(255, 255, 0);
 	m_targetSystemLabels.distance.outOfRangeColor = ::Color(255, 0, 0);
 	hbox->PackEnd(m_targetSystemLabels.systemName);
-	hbox->PackEnd(m_targetSystemLabels.distance.label);
+	hbox->PackEnd(m_targetSystemLabels.sector);
 	systemBox->PackEnd(hbox);
+	systemBox->PackEnd(m_targetSystemLabels.distance.label);
 	m_targetSystemLabels.starType = (new Gui::Label(""))->Color(255, 0, 255);
 	m_targetSystemLabels.shortDesc = (new Gui::Label(""))->Color(255, 0, 255);
 	systemBox->PackEnd(m_targetSystemLabels.starType);
@@ -229,14 +233,16 @@ void SectorView::InitObject()
 	hbox = new Gui::HBox();
 	hbox->SetSpacing(5.0f);
 	m_selectedSystemLabels.systemName = (new Gui::Label(""))->Color(255, 255, 0);
+	m_selectedSystemLabels.sector = (new Gui::Label(""))->Color(255, 255, 0);
 	m_selectedSystemLabels.distance.label = (new Gui::Label(""))->Color(255, 0, 0);
 	m_selectedSystemLabels.distance.line = &m_selectedLine;
 	m_selectedSystemLabels.distance.okayColor = ::Color(0, 255, 0);
 	m_selectedSystemLabels.distance.unsuffFuelColor = ::Color(255, 255, 0);
 	m_selectedSystemLabels.distance.outOfRangeColor = ::Color(255, 0, 0);
 	hbox->PackEnd(m_selectedSystemLabels.systemName);
-	hbox->PackEnd(m_selectedSystemLabels.distance.label);
+	hbox->PackEnd(m_selectedSystemLabels.sector);
 	systemBox->PackEnd(hbox);
+	systemBox->PackEnd(m_selectedSystemLabels.distance.label);
 	m_selectedSystemLabels.starType = (new Gui::Label(""))->Color(255, 0, 255);
 	m_selectedSystemLabels.shortDesc = (new Gui::Label(""))->Color(255, 0, 255);
 	systemBox->PackEnd(m_selectedSystemLabels.starType);
@@ -711,6 +717,10 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 	labels.starType->SetText(desc);
 
 	labels.systemName->SetText(sys->GetName());
+	labels.sector->SetText(stringf("(%x,%y,%z)",
+		formatarg("x", int(path.sectorX)),
+		formatarg("y", int(path.sectorY)),
+		formatarg("z", int(path.sectorZ))));
 	labels.shortDesc->SetText(sys->GetShortDescription());
 
 	if (m_detailBoxVisible == DETAILBOX_INFO) m_infoBox->ShowAll();

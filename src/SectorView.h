@@ -55,6 +55,7 @@ private:
 
 	struct SystemLabels {
 		Gui::Label *systemName;
+		Gui::Label *sector;
 		DistanceIndicator distance;
 		Gui::Label *starType;
 		Gui::Label *shortDesc;
