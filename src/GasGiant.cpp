@@ -330,9 +330,6 @@ class GasPatch {
 public:
 	RefCountedPtr<GasPatchContext> ctx;
 	vector3d v[4];
-	vector3d *vertices;
-	vector3d *normals;
-	vector3d *colors;
 	GLuint m_vbo;
 	GasGiant *gasSphere;
 	double m_roughLength;
@@ -347,49 +344,17 @@ public:
 		gasSphere = gs;
 
 		v[0] = v0; v[1] = v1; v[2] = v2; v[3] = v3;
-		clipCentroid = (v0+v1+v2+v3) * 0.25;
+		clipCentroid = ((v0+v1+v2+v3) * 0.25).Normalized();
 		clipRadius = 0;
 		for (int i=0; i<4; i++) {
 			clipRadius = std::max(clipRadius, (v[i]-clipCentroid).Length());
 		}
-		normals = new vector3d[ctx->NUMVERTICES()];
-		vertices = new vector3d[ctx->NUMVERTICES()];
-		colors = new vector3d[ctx->NUMVERTICES()];
 
-		GenerateMesh();
 		UpdateVBOs();
 	}
 
 	~GasPatch() {
-		delete[] vertices;
-		delete[] normals;
-		delete[] colors;
 		glDeleteBuffersARB(1, &m_vbo);
-	}
-
-	void UpdateVBOs() {
-		if (!m_vbo) 
-			glGenBuffersARB(1, &m_vbo);
-		
-		glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
-		glBufferDataARB(GL_ARRAY_BUFFER, sizeof(VBOVertex)*ctx->NUMVERTICES(), 0, GL_DYNAMIC_DRAW);
-		for (int i=0; i<ctx->NUMVERTICES(); i++)
-		{
-			clipRadius = std::max(clipRadius, (vertices[i]-clipCentroid).Length());
-			VBOVertex *pData = ctx->vbotemp + i;
-			pData->x = float(vertices[i].x - clipCentroid.x);
-			pData->y = float(vertices[i].y - clipCentroid.y);
-			pData->z = float(vertices[i].z - clipCentroid.z);
-			pData->nx = float(normals[i].x);
-			pData->ny = float(normals[i].y);
-			pData->nz = float(normals[i].z);
-			pData->col[0] = static_cast<unsigned char>(Clamp(colors[i].x*255.0, 0.0, 255.0));
-			pData->col[1] = static_cast<unsigned char>(Clamp(colors[i].y*255.0, 0.0, 255.0));
-			pData->col[2] = static_cast<unsigned char>(Clamp(colors[i].z*255.0, 0.0, 255.0));
-			pData->col[3] = 255;
-		}
-		glBufferDataARB(GL_ARRAY_BUFFER, sizeof(VBOVertex)*ctx->NUMVERTICES(), ctx->vbotemp, GL_DYNAMIC_DRAW);
-		glBindBufferARB(GL_ARRAY_BUFFER, 0);
 	}
 
 	/* in patch surface coords, [0,1] */
@@ -399,23 +364,39 @@ public:
 			    (1.0-x)*y*(v[3]-v[0])).Normalized();
 	}
 
-	/** Generates full-detail vertices, and also non-edge normals and colors */
-	void GenerateMesh() {
-		centroid = clipCentroid.Normalized();
-		centroid = (1.0 + gasSphere->GetHeight(centroid)) * centroid;
-		vector3d *vts = vertices;
-		vector3d *nrm = normals;
-		vector3d *col = colors;
+	void UpdateVBOs() {
+		if (!m_vbo) 
+			glGenBuffersARB(1, &m_vbo);
+		
+		glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
+		glBufferDataARB(GL_ARRAY_BUFFER, sizeof(VBOVertex)*ctx->NUMVERTICES(), 0, GL_DYNAMIC_DRAW);
+		VBOVertex *pData = ctx->vbotemp;
 		for (int y=0; y<ctx->edgeLen; y++) {
 			for (int x=0; x<ctx->edgeLen; x++) {
-				// get the position on the surface of the sphere
 				const vector3d p = GetSpherePoint(x*ctx->frac, y*ctx->frac);
-				// store it
-				*(vts++) = p;
-				*(nrm++) = p;
-				*(col++) = vector3d();
+				const vector3d pSubCentroid = p - clipCentroid;
+				clipRadius = std::max(clipRadius, p.Length());
+				pData->x = float(pSubCentroid.x);
+				pData->y = float(pSubCentroid.y);
+				pData->z = float(pSubCentroid.z);
+
+				pData->nx = float(p.x);
+				pData->ny = float(p.y);
+				pData->nz = float(p.z);
+
+				//http://www.mvps.org/directx/articles/spheremap.htm
+				//m_surface->GetVertices()->uv0.push_back(
+				//vector2f(asinf(p.x)/M_PI+0.5f, asinf(p.y)/M_PI+0.5f);
+				pData->col[0] = (asinf(p.x)/M_PI+0.5f) * 255.0;
+				pData->col[1] = 96;
+				pData->col[2] = (asinf(p.y)/M_PI+0.5f) * 255.0;
+				pData->col[3] = 255;
+
+				++pData; // next vertex
 			}
 		}
+		glBufferDataARB(GL_ARRAY_BUFFER, sizeof(VBOVertex)*ctx->NUMVERTICES(), ctx->vbotemp, GL_DYNAMIC_DRAW);
+		glBindBufferARB(GL_ARRAY_BUFFER, 0);
 	}
 
 	GLuint determineIndexbuffer() const {
