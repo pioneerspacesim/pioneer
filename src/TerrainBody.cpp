@@ -2,7 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "TerrainBody.h"
-#include "GasSphere.h"
+#include "GasGiant.h"
 #include "GeoSphere.h"
 #include "Pi.h"
 #include "WorldView.h"
@@ -37,7 +37,7 @@ void TerrainBody::InitTerrainBody()
 	m_mass = m_sbody->GetMass();
 	if (!m_baseSphere) {
 		if ( SystemBody::SUPERTYPE_GAS_GIANT==m_sbody->GetSuperType() ) {
-			m_baseSphere.reset(new GasSphere(m_sbody));
+			m_baseSphere.reset(new GasGiant(m_sbody));
 		} else {
 			m_baseSphere.reset(new GeoSphere(m_sbody));
 		}

@@ -2,7 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
-#include "GasSphere.h"
+#include "GasGiant.h"
 #include "perlin.h"
 #include "Pi.h"
 #include "RefCounted.h"
@@ -16,7 +16,7 @@
 #include <algorithm>
 
 
-RefCountedPtr<GasPatchContext> GasSphere::s_patchContext;
+RefCountedPtr<GasPatchContext> GasGiant::s_patchContext;
 
 static void print_info(const SystemBody *sbody, const Terrain *terrain)
 {
@@ -334,12 +334,12 @@ public:
 	vector3d *normals;
 	vector3d *colors;
 	GLuint m_vbo;
-	GasSphere *gasSphere;
+	GasGiant *gasSphere;
 	double m_roughLength;
 	vector3d clipCentroid, centroid;
 	double clipRadius;
 
-	GasPatch(const RefCountedPtr<GasPatchContext> &_ctx, GasSphere *gs, vector3d v0, vector3d v1, vector3d v2, vector3d v3) {
+	GasPatch(const RefCountedPtr<GasPatchContext> &_ctx, GasGiant *gs, vector3d v0, vector3d v1, vector3d v2, vector3d v3) {
 		memset(this, 0, sizeof(GasPatch));
 
 		ctx = _ctx;
@@ -454,7 +454,7 @@ public:
 	}
 };
 
-GasSphere::GasSphere(const SystemBody *body) : BaseSphere(body),
+GasGiant::GasGiant(const SystemBody *body) : BaseSphere(body),
 	m_hasTempCampos(false), m_tempCampos(0.0)
 {
 	//SetUpMaterials is not called until first Render since light count is zero :)
@@ -462,7 +462,7 @@ GasSphere::GasSphere(const SystemBody *body) : BaseSphere(body),
 	BuildFirstPatches();
 }
 
-GasSphere::~GasSphere()
+GasGiant::~GasGiant()
 {
 }
 
@@ -521,7 +521,7 @@ static void DrawAtmosphereSurface(Graphics::Renderer *renderer,
 	}
 }
 
-void GasSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const float scale, const std::vector<Camera::Shadow> &shadows)
+void GasGiant::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const float scale, const std::vector<Camera::Shadow> &shadows)
 {
 	// store this for later usage in the update method.
 	m_tempCampos = campos;
@@ -627,7 +627,7 @@ void GasSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 #endif
 }
 
-void GasSphere::SetUpMaterials()
+void GasGiant::SetUpMaterials()
 {
 	// Request material for this star or planet, with or without
 	// atmosphere. Separate material for surface and sky.
@@ -673,7 +673,7 @@ void GasSphere::SetUpMaterials()
 	}
 }
 
-void GasSphere::BuildFirstPatches()
+void GasGiant::BuildFirstPatches()
 {
 	if( s_patchContext.Get() == nullptr ) {
 		s_patchContext.Reset(new GasPatchContext(55));

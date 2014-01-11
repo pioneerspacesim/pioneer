@@ -408,7 +408,7 @@
     <ClCompile Include="..\..\src\ShipCockpit.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\GasSphere.cpp">
+    <ClCompile Include="..\..\src\GasGiant.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -830,10 +830,10 @@
     <ClInclude Include="..\..\src\ShipCockpit.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\GasSphere.h">
+    <ClInclude Include="..\..\src\BaseSphere.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\BaseSphere.h">
+    <ClInclude Include="..\..\src\GasGiant.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
