@@ -358,10 +358,6 @@ end
 local loaded_data
 
 Event.Register("onGameStart", function ()
-	nextRef = 0
-	equipmentStock = {}
-	shipsOnSale = {}
-
 	if (loaded_data) then
 		equipmentStock = loaded_data.equipmentStock
 		for station,list in pairs(loaded_data.shipsOnSale) do
@@ -392,7 +388,14 @@ Event.Register("onLeaveSystem", function (ship)
 	if ship ~= Game.player then return end
 	destroySystem()
 end)
-Event.Register("onGameEnd", destroySystem)
+Event.Register("onGameEnd", function ()
+	destroySystem()
+
+	-- XXX clean up for next game
+	nextRef = 0
+	equipmentStock = {}
+	shipsOnSale = {}
+end)
 
 
 Serializer:Register("SpaceStation",

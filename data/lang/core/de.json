@@ -269,7 +269,7 @@
    },
    "CTRL" : {
       "description" : "Ctrl key on keyboard",
-      "message" : "Ctrl"
+      "message" : "Strg"
    },
    "CURRENT_SYSTEM" : {
       "description" : "",

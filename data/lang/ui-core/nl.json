@@ -305,7 +305,7 @@
    },
    "FUEL" : {
       "description" : "",
-      "message" : "Fuel"
+      "message" : "Brandstof"
    },
    "FUEL_TANK_FULL" : {
       "description" : "",
@@ -385,7 +385,7 @@
    },
    "HYPERDRIVE" : {
       "description" : "",
-      "message" : "Hyperdrive"
+      "message" : "Hyperaandrijving"
    },
    "HYPERDRIVE_FITTED" : {
       "description" : "",
@@ -401,7 +401,7 @@
    },
    "INACTIVE" : {
       "description" : "",
-      "message" : "Inactive"
+      "message" : "Inactief"
    },
    "INVERT_MOUSE_Y" : {
       "description" : "",

@@ -458,7 +458,7 @@ static int l_starsystem_attr_population(lua_State *l)
 /*
  * Attribute: faction
  *
- * The faction that controls this system
+ * The <Faction> that controls this system
  *
  * Availability:
  *

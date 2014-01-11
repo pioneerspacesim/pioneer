@@ -1,111 +1,111 @@
 {
    "ABOVE_AVERAGE" : {
       "description" : "",
-      "message" : "Au-dessus de la moyenne"
+      "message" : "Above Average"
    },
    "ACTIVE" : {
       "description" : "",
-      "message" : "Actif"
+      "message" : "Active"
    },
    "AFTER_TRADE_IN" : {
       "description" : "",
-      "message" : "Après échange"
+      "message" : "After trade-in"
    },
    "ALLEGIANCE" : {
       "description" : "",
-      "message" : "Allégeance :"
+      "message" : "Allegiance:"
    },
    "ALL_UP_WEIGHT" : {
       "description" : "",
-      "message" : "Poids maxi."
+      "message" : "All-up weight"
    },
    "AMOUNT" : {
       "description" : "",
-      "message" : "Montant"
+      "message" : "Amount"
    },
    "AN_ERROR_HAS_OCCURRED" : {
       "description" : "",
-      "message" : "Une erreur est survenue"
+      "message" : "An error has occurred"
    },
    "ATTEMPT_TO_REPAIR_HULL" : {
       "description" : "",
-      "message" : "Tentative de réparation de la coque."
+      "message" : "Attempt to repair hull"
    },
    "AVAILABLE_FOR_PURCHASE" : {
       "description" : "",
-      "message" : "Disponible à l'achat"
+      "message" : "Available for purchase"
    },
    "AVERAGE" : {
       "description" : "",
-      "message" : "Moyen"
+      "message" : "Average"
    },
    "BACKWARD_ACCEL" : {
       "description" : "",
-      "message" : "Déccélération"
+      "message" : "Backward acceleration"
    },
    "BULLETIN_BOARD" : {
       "description" : "",
-      "message" : "Tableau d'affichage"
+      "message" : "Bulletin Board"
    },
    "BUY_SHIP" : {
       "description" : "",
-      "message" : "Acheter vaisseau"
+      "message" : "Buy Ship"
    },
    "CABINS" : {
       "description" : "",
-      "message" : "Cabines"
+      "message" : "Cabins"
    },
    "CANCEL" : {
       "description" : "",
-      "message" : "Annuler"
+      "message" : "Cancel"
    },
    "CAPACITY" : {
       "description" : "",
-      "message" : "Capacité"
+      "message" : "Capacity"
    },
    "CAPACITY_USED" : {
       "description" : "",
-      "message" : "Capacité utilisée"
+      "message" : "Capacity used"
    },
    "CARGO" : {
       "description" : "",
-      "message" : "Cargaison"
+      "message" : "Cargo"
    },
    "CARGO_SPACE" : {
       "description" : "",
-      "message" : "Espace cargo"
+      "message" : "Cargo space"
    },
    "CASH" : {
       "description" : "",
-      "message" : "Argent"
+      "message" : "Cash"
    },
    "CASH_N" : {
       "description" : "",
-      "message" : "Argent:{money}"
+      "message" : "Cash: {money}"
    },
    "CHANGE_BINDING" : {
       "description" : "",
-      "message" : "Change"
+      "message" : "Change Binding"
    },
    "CHIEF_MECHANIC" : {
       "description" : "",
-      "message" : "Chef mécanicien"
+      "message" : "Chief Mechanic"
    },
    "CIRCULAR_ORBIT_SPEED" : {
       "description" : "",
-      "message" : "Vitesse Orbitale"
+      "message" : "Circular orbit speed"
    },
    "CITY_DETAIL_LEVEL" : {
       "description" : "",
-      "message" : "Détails des villes"
+      "message" : "City detail level"
    },
    "CLEAN" : {
       "description" : "",
-      "message" : "Vierge"
+      "message" : "Clean"
    },
    "CLEAR" : {
       "description" : "",
-      "message" : "Vide"
+      "message" : "Clear"
    },
    "CLIENT" : {
       "description" : "",
@@ -117,63 +117,63 @@
    },
    "COMMANDER" : {
       "description" : "",
-      "message" : "Commandant"
+      "message" : "Commander"
    },
    "COMMODITY_MARKET" : {
       "description" : "",
-      "message" : "Bourse d'échange"
+      "message" : "Commodity Market"
    },
    "COMPETENT" : {
       "description" : "",
-      "message" : "Compétant"
+      "message" : "Competent"
    },
    "COMPLETED" : {
       "description" : "",
-      "message" : "Accompli"
+      "message" : "Completed"
    },
    "COMPRESS_TEXTURES" : {
       "description" : "",
-      "message" : "Compresser les textures"
+      "message" : "Compress Textures"
    },
    "CONSTABLE" : {
       "description" : "",
-      "message" : "Agent de police"
+      "message" : "Constable"
    },
    "CONTROLS" : {
       "description" : "",
-      "message" : "Controles"
+      "message" : "Controls"
    },
    "CONTROL_OPTIONS" : {
       "description" : "",
-      "message" : "Options de controle"
+      "message" : "Control Options"
    },
    "COULD_NOT_LOAD_GAME" : {
       "description" : "",
-      "message" : "Impossible de charger la partie:"
+      "message" : "Could not load game: "
    },
    "CREW_CABINS" : {
       "description" : "",
-      "message" : "Cabines d'équipage"
+      "message" : "Crew cabins"
    },
    "CREW_ROSTER" : {
       "description" : "",
-      "message" : "Liste d'équipage"
+      "message" : "Crew Roster"
    },
    "CRIMINAL_RECORD" : {
       "description" : "",
-      "message" : "Casier judiciaire"
+      "message" : "Criminal record"
    },
    "DANGEROUS" : {
       "description" : "",
-      "message" : "Dangereux"
+      "message" : "Dangerous"
    },
    "DEADLY" : {
       "description" : "",
-      "message" : "Mortel"
+      "message" : "Deadly"
    },
    "DELTA_V" : {
       "description" : "",
-      "message" : "V_delta"
+      "message" : "Delta-v"
    },
    "DELTA_V_EMPTY" : {
       "description" : "Delta-v capacity of a ship with no cargo or upgrades",
@@ -189,43 +189,43 @@
    },
    "DESCENT_TO_GROUND_SPEED" : {
       "description" : "",
-      "message" : "Vitesse de descente"
+      "message" : "Descent-to-ground speed:"
    },
    "DESTROY_ENEMY_SHIP" : {
       "description" : "",
-      "message" : "Detruire le vaisseau ennemi"
+      "message" : "Destroy enemy ship"
    },
    "DISMISS" : {
       "description" : "",
-      "message" : "Renvoyer"
+      "message" : "Dismiss"
    },
    "DISPLAY_NAV_TUNNELS" : {
       "description" : "",
-      "message" : "Afficher tunnels de nav."
+      "message" : "Display nav tunnels"
    },
    "DISPLAY_SPEED_LINES" : {
       "description" : "",
-      "message" : "Montrer effets de vitesse"
+      "message" : "Display speed lines"
    },
    "DOCK_AT_CURRENT_TARGET" : {
       "description" : "",
-      "message" : "S'arrimer a la cible actuelle"
+      "message" : "Dock at current target"
    },
    "DUE" : {
       "description" : "",
-      "message" : "Dois"
+      "message" : "Due"
    },
    "D_DAYS_LEFT" : {
       "description" : "",
-      "message" : "Jours restants: %d"
+      "message" : "Days left: %d"
    },
    "ECONOMY_TRADE" : {
       "description" : "",
-      "message" : "Economies & Commerce"
+      "message" : "Economy & Trade"
    },
    "EFFECTS" : {
       "description" : "",
-      "message" : "Effets:"
+      "message" : "Effects:"
    },
    "ELITE" : {
       "description" : "",
@@ -233,7 +233,7 @@
    },
    "EMPLOYMENT" : {
       "description" : "",
-      "message" : "Fonction"
+      "message" : "Employment"
    },
    "ENABLE_COCKPIT" : {
       "description" : "",
@@ -241,7 +241,7 @@
    },
    "ENABLE_JOYSTICK" : {
       "description" : "",
-      "message" : "Activer  joystick"
+      "message" : "Enable joystick"
    },
    "ENGINEERING" : {
       "description" : "",
@@ -249,7 +249,7 @@
    },
    "EQUIPMENT" : {
       "description" : "",
-      "message" : "Equipement"
+      "message" : "Equipment"
    },
    "EQUIPMENT_MARKET" : {
       "description" : "",
@@ -261,31 +261,31 @@
    },
    "ERROR" : {
       "description" : "",
-      "message" : "Erreur"
+      "message" : "Error"
    },
    "ESCAPE_SPEED" : {
       "description" : "",
-      "message" : "Vitesse de libération:"
+      "message" : "Escape speed:"
    },
    "EXIT_THIS_GAME" : {
       "description" : "",
-      "message" : "Quitter le jeu"
+      "message" : "Exit this game"
    },
    "FAILED" : {
       "description" : "",
-      "message" : "Loupé"
+      "message" : "Failed"
    },
    "FEMALE" : {
       "description" : "",
-      "message" : "Femelle"
+      "message" : "Female"
    },
    "FORWARD_ACCEL" : {
       "description" : "",
-      "message" : "Accélération"
+      "message" : "Forward acceleration"
    },
    "FORWARD_ACCEL_EMPTY" : {
       "description" : "",
-      "message" : "Poussée (à vide)"
+      "message" : "Forward accel (empty)"
    },
    "FORWARD_ACCEL_FULL" : {
       "description" : "",
@@ -293,51 +293,51 @@
    },
    "FRACTAL_DETAIL" : {
       "description" : "",
-      "message" : "Details fractals"
+      "message" : "Fractal detail"
    },
    "FREE" : {
       "description" : "",
-      "message" : "libre"
+      "message" : "free"
    },
    "FRONT_WEAPON" : {
       "description" : "",
-      "message" : "Arme Avant"
+      "message" : "Front weapon"
    },
    "FUEL" : {
       "description" : "",
-      "message" : "Carburant"
+      "message" : "Fuel"
    },
    "FUEL_TANK_FULL" : {
       "description" : "",
-      "message" : "Revervoirs Pleins"
+      "message" : "Fuel tank full."
    },
    "FUEL_WEIGHT" : {
       "description" : "",
-      "message" : " Poid Carb. "
+      "message" : "Fuel weight"
    },
    "FULL_SCREEN" : {
       "description" : "",
-      "message" : "Plein Ecran"
+      "message" : "Full screen"
    },
    "GENERAL_CREW" : {
       "description" : "",
-      "message" : "Equipage général"
+      "message" : "General crew"
    },
    "GIVE_ORDERS_TO_CREW" : {
       "description" : "",
-      "message" : "Donner des ordres a l'équipage"
+      "message" : "Give orders to crew"
    },
    "GOOD_RIDDANCE_TO_YOU_TOO" : {
       "description" : "",
-      "message" : "Bon vent a toi, aussi."
+      "message" : "Good riddance to you, too."
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Raccrochez."
+      "message" : "Hang up."
    },
    "HARMLESS" : {
       "description" : "",
-      "message" : "Inoffensif"
+      "message" : "Harmless"
    },
    "HEAVY_CARGO_SHUTTLE" : {
       "description" : "",
@@ -365,67 +365,67 @@
    },
    "HIGH" : {
       "description" : "",
-      "message" : "Haut"
+      "message" : "High"
    },
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
       "description" : "",
-      "message" : "La coque est intacte"
+      "message" : "Hull does not require repair."
    },
    "HULL_INTEGRITY" : {
       "description" : "",
-      "message" : "Intégrité coque"
+      "message" : "Hull integrity"
    },
    "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT" : {
       "description" : "",
-      "message" : "Coque Réparée par {name}, actuellement a {repairPercent}%"
+      "message" : "Hull repaired by {name}, now at {repairPercent}%"
    },
    "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE" : {
       "description" : "",
-      "message" : "Réparation échouée. La coque a reçu des dégâts mineurs."
+      "message" : "Hull repair attempt failed. Hull suffered minor damage."
    },
    "HYPERDRIVE" : {
       "description" : "",
-      "message" : "Hyperpropulsion"
+      "message" : "Hyperdrive"
    },
    "HYPERDRIVE_FITTED" : {
       "description" : "",
-      "message" : "Hyperpropulsion installée :"
+      "message" : "Hyperdrive fitted:"
    },
    "HYPERSPACE_RANGE" : {
       "description" : "",
-      "message" : "Portée Hyperspaciale"
+      "message" : "Hyperspace range"
    },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
-      "message" : "Je suis fatigué de bosser pour rien. Vous savez ce que c'est qu'un contrat de travail ? "
+      "message" : "I'm tired of working for nothing. Don't you know what a contract is?"
    },
    "INACTIVE" : {
       "description" : "",
-      "message" : "Inactif"
+      "message" : "Inactive"
    },
    "INVERT_MOUSE_Y" : {
       "description" : "",
-      "message" : "Inverser souris Y"
+      "message" : "Invert Mouse Y"
    },
    "IN_CARGO_HOLD" : {
       "description" : "",
-      "message" : "En soute"
+      "message" : "In cargo hold"
    },
    "IN_STOCK" : {
       "description" : "",
-      "message" : "En stock"
+      "message" : "In stock"
    },
    "ITEM_IS_OUT_OF_STOCK" : {
       "description" : "",
-      "message" : "Nous n'avons pas cet objet en stock."
+      "message" : "This item is out of stock."
    },
    "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE" : {
       "description" : "",
-      "message" : "J'ai apprécié de travailler pour vous. Si un jour vous avez besoin de moi, je serais a votre service."
+      "message" : "It's been great working for you. If you need me again, I'll be here a while."
    },
    "JETTISON" : {
       "description" : "",
-      "message" : "Ejecter"
+      "message" : "Jettison"
    },
    "KILLS" : {
       "description" : "",
@@ -433,15 +433,15 @@
    },
    "LANGUAGE" : {
       "description" : "",
-      "message" : "Langue"
+      "message" : "Language"
    },
    "LANGUAGE_RESTART_GAME_TO_APPLY" : {
       "description" : "",
-      "message" : "Langue (relancer pour appliquer)"
+      "message" : "Language (restart game to apply)"
    },
    "LEGAL_STATUS" : {
       "description" : "",
-      "message" : "Casier judiciaire"
+      "message" : "Legal status"
    },
    "LIGHT_CARGO_SHUTTLE" : {
       "description" : "",
@@ -469,11 +469,11 @@
    },
    "LOAD" : {
       "description" : "",
-      "message" : "Charger"
+      "message" : "Load"
    },
    "LOAD_GAME" : {
       "description" : "",
-      "message" : "Charger Partie"
+      "message" : "Load game"
    },
    "LOBBY" : {
       "description" : "",
@@ -481,43 +481,43 @@
    },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
-      "message" : "Localisation {distance}km du centre de {name}:"
+      "message" : "Located {distance}km from the centre of {name}:"
    },
    "LOCATION" : {
       "description" : "",
-      "message" : "Localisation"
+      "message" : "Location"
    },
    "LOW" : {
       "description" : "",
-      "message" : "Bas"
+      "message" : "Low"
    },
    "LY" : {
       "description" : "",
-      "message" : "al"
+      "message" : "ly"
    },
    "MAKE_NEW_FACE" : {
       "description" : "",
-      "message" : "Choisir un autre visage"
+      "message" : "Make new face"
    },
    "MALE" : {
       "description" : "",
-      "message" : "Mâle"
+      "message" : "Male"
    },
    "MASS" : {
       "description" : "",
-      "message" : "Masse"
+      "message" : "Mass"
    },
    "MASTER" : {
       "description" : "",
-      "message" : "Maitre:"
+      "message" : "Master:"
    },
    "MAX" : {
       "description" : "",
-      "message" : "Max"
+      "message" : "max"
    },
    "MEDIUM" : {
       "description" : "",
-      "message" : "Moyen"
+      "message" : "Medium"
    },
    "MEDIUM_CARGO_SHUTTLE" : {
       "description" : "",
@@ -545,15 +545,15 @@
    },
    "METAL_ALLOYS" : {
       "description" : "",
-      "message" : "Alliages Mettaliques"
+      "message" : "Metal alloys"
    },
    "MILITARY" : {
       "description" : "",
-      "message" : "Militaire"
+      "message" : "Military"
    },
    "MINIMUM_CREW" : {
       "description" : "",
-      "message" : "Equipage mini."
+      "message" : "Minimum crew"
    },
    "MISSIONS" : {
       "description" : "",
@@ -561,39 +561,39 @@
    },
    "MISSION_DETAILS" : {
       "description" : "",
-      "message" : "Détails de mission"
+      "message" : "Mission Details"
    },
    "MORE_INFO" : {
       "description" : "",
-      "message" : "Plus d'infos..."
+      "message" : "More info..."
    },
    "MOSTLY_HARMLESS" : {
       "description" : "",
-      "message" : "Quasi inoffensif"
+      "message" : "Mostly Harmless"
    },
    "MULTISAMPLING" : {
       "description" : "",
-      "message" : "Multi-sampling"
+      "message" : "Multisampling"
    },
    "MURDER" : {
       "description" : "",
-      "message" : "Meurtre"
+      "message" : "Murder"
    },
    "MUSIC" : {
       "description" : "",
-      "message" : "Musique:"
+      "message" : "Music:"
    },
    "MUTE" : {
       "description" : "",
-      "message" : "Bloquer"
+      "message" : "Mute"
    },
    "NAME_OBJECT" : {
       "description" : "For an item or object",
-      "message" : "Nom"
+      "message" : "Name"
    },
    "NAME_PERSON" : {
       "description" : "For a person",
-      "message" : "Nom"
+      "message" : "Name"
    },
    "NAVIGATION" : {
       "description" : "",
@@ -601,15 +601,15 @@
    },
    "NEGOTIATE" : {
       "description" : "",
-      "message" : "Négocier"
+      "message" : "Negotiate"
    },
    "NEXT_PAID" : {
       "description" : "",
-      "message" : "Prochaine paye"
+      "message" : "Next paid"
    },
    "NONE" : {
       "description" : "",
-      "message" : "Aucun"
+      "message" : "None"
    },
    "NOTES" : {
       "description" : "",
@@ -617,27 +617,27 @@
    },
    "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR" : {
       "description" : "",
-      "message" : "Pas assez de {alloy} pour réparer"
+      "message" : "Not enough {alloy} to attempt a repair"
    },
    "NO_MISSIONS" : {
       "description" : "",
-      "message" : "Pas de missions."
+      "message" : "No missions."
    },
    "N_LIGHT_YEARS_N_MAX" : {
       "description" : "",
-      "message" : "{range} années lum. ({maxRange} max)"
+      "message" : "{range} light years ({maxRange} max)"
    },
    "N_OCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
-      "message" : "{quantity} cabines pass. occupées"
+      "message" : "{quantity} Occupied Passenger Cabins"
    },
    "N_SHIELD_GENERATORS" : {
       "description" : "",
-      "message" : "{quantity} Generateurs de Bouclier"
+      "message" : "{quantity} Shield Generators"
    },
    "N_UNOCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
-      "message" : "{quantity} cabines passager vides"
+      "message" : "{quantity} Unoccupied Passenger Cabins"
    },
    "OFF" : {
       "description" : "",
@@ -653,19 +653,19 @@
    },
    "ORBIT" : {
       "description" : "",
-      "message" : "Orbite"
+      "message" : "Orbit"
    },
    "ORBITAL_ANALYSIS" : {
       "description" : "",
-      "message" : "Analyse Orbitale"
+      "message" : "Orbital Analysis"
    },
    "ORBITAL_ANALYSIS_NOTES" : {
       "description" : "",
-      "message" : "La vitesse orbitale est donnée pour un vecteur tangenciel : La trajectoire doit etre de 90° par rapport a l'axe  vaisseau/{name}.\n\nLa vitesse de descente est un minimum absolu, et c'est aussi la vitesse tangencielle : Une vitesse plus base ou un angle plus bas donneront a coup sur une collision avec {name}.\n\nLa vitesse de libération fonctionne en théorie dans toute les directions, tant que le vaisseau n'entre pas en collision avec {name}."
+      "message" : "Circular orbit speed is given for a tangential velocity. The ship should be moving in a direction at 90° to the ship/{name} axis.\n\nDescent speed is an absolute minimum, and is also tangential. A slower speed or a lower angle will result in a course which intersects with the surface of {name}.\n\nEscape speed will in theory work in any direction, as long as the ship does not collide with {name} on the way.\n\t\t"
    },
    "OWED" : {
       "description" : "",
-      "message" : "Dû"
+      "message" : "Owed"
    },
    "PAY_FINE_OF_N" : {
       "description" : "",
@@ -673,27 +673,27 @@
    },
    "PERSONAL_INFORMATION" : {
       "description" : "",
-      "message" : "Info. Perso."
+      "message" : "Personal Information"
    },
    "PILOTING" : {
       "description" : "",
-      "message" : "Pilotage:"
+      "message" : "Piloting:"
    },
    "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME" : {
       "description" : "",
-      "message" : " {name} a pris les commandes du vaisseau."
+      "message" : "Pilot seat is now occupied by {name}"
    },
    "PIRACY" : {
       "description" : "",
-      "message" : "Piraterie"
+      "message" : "Piracy"
    },
    "PLANET_DETAIL_DISTANCE" : {
       "description" : "",
-      "message" : "Distance d'affichage  planetes"
+      "message" : "Planet detail distance"
    },
    "PLANET_TEXTURES" : {
       "description" : "",
-      "message" : "Textures de planète"
+      "message" : "Planet textures"
    },
    "POLICE" : {
       "description" : "",
@@ -701,7 +701,7 @@
    },
    "POOR" : {
       "description" : "",
-      "message" : "Debutant"
+      "message" : "Poor"
    },
    "POSITION" : {
       "description" : "",
@@ -709,51 +709,51 @@
    },
    "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
       "description" : "",
-      "message" : "Appuyez sur une touche ou un bouton du controleur"
+      "message" : "Press a key or controller button"
    },
    "PRICE" : {
       "description" : "",
-      "message" : "Prix"
+      "message" : "Price"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
-      "message" : "Qualification"
+      "message" : "Qualification scores"
    },
    "QUIT" : {
       "description" : "",
-      "message" : "Quitter"
+      "message" : "Quit"
    },
    "RANK" : {
       "description" : "",
-      "message" : "Rang:"
+      "message" : "Rank:"
    },
    "RATING" : {
       "description" : "",
-      "message" : "Rang:"
+      "message" : "Rating:"
    },
    "REAR_WEAPON" : {
       "description" : "",
-      "message" : "Arme arrière"
+      "message" : "Rear weapon"
    },
    "REFUEL" : {
       "description" : "",
-      "message" : "Faire le plein"
+      "message" : "Refuel"
    },
    "REPAIR_X_HULL_DAMAGE_FOR_X" : {
       "description" : "",
-      "message" : "Réparer {damage}% de dégâts de la coque pour {price}"
+      "message" : "Repair {damage}% hull damage for {price}"
    },
    "REQUEST_LAUNCH" : {
       "description" : "",
-      "message" : "Requête de lancement"
+      "message" : "Request Launch"
    },
    "RETURN_TO_MENU" : {
       "description" : "",
-      "message" : "Retour au menu"
+      "message" : "Return to menu"
    },
    "REVERSE_ACCEL_EMPTY" : {
       "description" : "",
-      "message" : "Décélération (à vide)"
+      "message" : "Reverse accel (empty)"
    },
    "REVERSE_ACCEL_FULL" : {
       "description" : "",
@@ -761,47 +761,47 @@
    },
    "REWARD" : {
       "description" : "",
-      "message" : "Récompense"
+      "message" : "Reward"
    },
    "SAVE" : {
       "description" : "",
-      "message" : "Sauvegarder"
+      "message" : "Save"
    },
    "SELECT" : {
       "description" : "",
-      "message" : "Selectionner"
+      "message" : "Select"
    },
    "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME" : {
       "description" : "",
-      "message" : "Sélectionnez un fichier à sauvegarder ou entrez un nouveau nom de fichier"
+      "message" : "Select a file to save to or enter a new filename"
    },
    "SELECT_FILE" : {
       "description" : "",
-      "message" : "Selectionnez un fichier..."
+      "message" : "Select file..."
    },
    "SELECT_GAME_TO_LOAD" : {
       "description" : "",
-      "message" : "Selectionnez la partie a charger..."
+      "message" : "Select game to load..."
    },
    "SENSORS" : {
       "description" : "",
-      "message" : "Senseurs:"
+      "message" : "Sensors:"
    },
    "SHIP" : {
       "description" : "",
-      "message" : "Vaisseau"
+      "message" : "Ship"
    },
    "SHIP_INFORMATION" : {
       "description" : "",
-      "message" : "Informations sur le vaisseau"
+      "message" : "Ship Information"
    },
    "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
       "description" : "",
-      "message" : "Votre vaisseau est en parfait état."
+      "message" : "Your ship is in perfect working condition."
    },
    "SHIP_IS_FULLY_LADEN" : {
       "description" : "",
-      "message" : "Votre vaisseau est rempli."
+      "message" : "Your ship is fully laden."
    },
    "SHIP_MARKET" : {
       "description" : "",
@@ -813,23 +813,23 @@
    },
    "SHIP_VIEWING_WAS_SOLD" : {
       "description" : "",
-      "message" : "Le vaisseau que vous observiez a été vendu"
+      "message" : "The ship you were viewing has been sold"
    },
    "SOUND" : {
       "description" : "",
-      "message" : "Son"
+      "message" : "Sound"
    },
    "START_AT_BARNARDS_STAR" : {
       "description" : "",
-      "message" : "Commencer sur Barnard's Star"
+      "message" : "Start at Barnard's Star"
    },
    "START_AT_EARTH" : {
       "description" : "",
-      "message" : "Commencer sur Terre"
+      "message" : "Start at Earth"
    },
    "START_AT_NEW_HOPE" : {
       "description" : "",
-      "message" : "Commencer sur New Hope"
+      "message" : "Start at New Hope"
    },
    "STATION_MANAGER" : {
       "description" : "",
@@ -841,31 +841,31 @@
    },
    "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
       "description" : "",
-      "message" : "Merci pour votre achat. Souvenez vous d'installer l'équipement et de faire le plein."
+      "message" : "Thank you for your purchase. Remember to fit equipment and buy fuel before you depart."
    },
    "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP" : {
       "description" : "",
-      "message" : "Il n'y a personne d'autre a bord pour piloter"
+      "message" : "There is nobody else on board able to fly this ship."
    },
    "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
       "description" : "",
-      "message" : "Le vaisseau est sous le contrôle de la station, Commandant."
+      "message" : "The ship is under station control, Commander."
    },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "",
-      "message" : "basculer mâle/femelle"
+      "message" : "Toggle male/female"
    },
    "TOTAL" : {
       "description" : "",
-      "message" : "Total:"
+      "message" : "Total: "
    },
    "TOTAL_MASS" : {
       "description" : "",
-      "message" : "Masse totale"
+      "message" : "Total mass"
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
-      "message" : "Contrebande de produits illégaux"
+      "message" : "Trading illegal goods"
    },
    "TYPE" : {
       "description" : "",
@@ -873,59 +873,59 @@
    },
    "UNLAWFUL_WEAPONS_DISCHARGE" : {
       "description" : "",
-      "message" : "Utilisation illégale d'armes"
+      "message" : "Unlawful weapons discharge"
    },
    "UP_ACCEL" : {
       "description" : "",
-      "message" : "Accélération verticale"
+      "message" : "Up acceleration"
    },
    "USED" : {
       "description" : "",
-      "message" : "Utilisé"
+      "message" : "Used"
    },
    "VERY_HIGH" : {
       "description" : "",
-      "message" : "Très haut"
+      "message" : "Very high"
    },
    "VERY_LOW" : {
       "description" : "",
-      "message" : "Très lent"
+      "message" : "Very low"
    },
    "VIDEO" : {
       "description" : "",
-      "message" : "Vidéo"
+      "message" : "Video"
    },
    "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY" : {
       "description" : "",
-      "message" : "Config. vidéo (relancer pour appliquer)"
+      "message" : "Video configuration (restart game to apply)"
    },
    "VIDEO_RESOLUTION" : {
       "description" : "",
-      "message" : "Résolution Vidéo"
+      "message" : "Video resolution"
    },
    "WAGE" : {
       "description" : "",
-      "message" : "Salaire"
+      "message" : "Wage"
    },
    "WEIGHT_EMPTY" : {
       "description" : "",
-      "message" : "Poids a vide"
+      "message" : "Weight empty:"
    },
    "WEIGHT_FULLY_LOADED" : {
       "description" : "",
-      "message" : "Poids à pleine charge"
+      "message" : "Weight fully loaded"
    },
    "WE_ARE_IN_HYPERSPACE_COMMANDER" : {
       "description" : "",
-      "message" : "Nous sommes dans l'hyperespace, commandant."
+      "message" : "We are in hyperspace, Commander."
    },
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
       "description" : "",
-      "message" : "Nous n'avons rien à vous reprocher pour le moment."
+      "message" : "We have no business with you at the moment."
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",
-      "message" : "Vous allez regretter de m'avoir virer!"
+      "message" : "You're going to regret sacking me!"
    },
    "YOUR_HULL_IS_AT_X_INTEGRITY" : {
       "description" : "",
@@ -937,22 +937,22 @@
    },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",
-      "message" : "Vous devez d'abord sélectionner une cible pour le combat, Commandant."
+      "message" : "You must first select a combat target, Commander."
    },
    "YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER" : {
       "description" : "",
-      "message" : "Vous devez d'abord choisir une cible valide, Commandant."
+      "message" : "You must first select a suitable navigation target, Commander."
    },
    "YOU_MUST_LAUNCH_FIRST_COMMANDER" : {
       "description" : "",
-      "message" : "Vous devez d'abord décoller, Commandant."
+      "message" : "You must launch first, Commander."
    },
    "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER" : {
       "description" : "",
-      "message" : "Vous devez d'abord demander une autorisation de décollage, Commandant."
+      "message" : "You must request launch clearance first, Commander."
    },
    "YOU_NOT_ENOUGH_MONEY" : {
       "description" : "",
-      "message" : "Vous n'avez pas assez d'argent"
+      "message" : "You do not have enough money"
    }
 }

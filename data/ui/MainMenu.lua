@@ -54,7 +54,7 @@ local doSettingsScreen = function()
 end
 
 local buttonDefs = {
-	{ l.START_AT_EARTH,         function () Game.StartGame(SystemPath.New(0,0,0,0,9))   setupPlayerShip() end },
+	{ l.START_AT_EARTH,         function () Game.StartGame(SystemPath.New(0,0,0,0,9),48600)   setupPlayerShip() end },
 	{ l.START_AT_NEW_HOPE,      function () Game.StartGame(SystemPath.New(1,-1,-1,0,4)) setupPlayerShip() end },
 	{ l.START_AT_BARNARDS_STAR, function () Game.StartGame(SystemPath.New(-1,0,0,0,1))  setupPlayerShip() end },
 	{ l.LOAD_GAME,              doLoadDialog },
