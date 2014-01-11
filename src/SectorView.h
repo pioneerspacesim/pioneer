@@ -113,6 +113,7 @@ private:
 	Gui::ImageButton *m_galaxyButton;
 	Gui::TextEntry *m_searchBox;
 	Gui::ToggleButton *m_drawOutRangeLabelButton;
+	Gui::ToggleButton *m_drawUninhabitedLabelButton;
 	Gui::ToggleButton *m_drawSystemLegButton;
 
 	std::unique_ptr<Graphics::Drawables::Disk> m_disk;

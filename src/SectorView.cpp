@@ -261,13 +261,22 @@ void SectorView::InitObject()
 	Gui::Label *label = (new Gui::Label(Lang::DRAW_VERTICAL_LINES))->Color(255, 255, 255);
 	hbox->PackEnd(label);
 	filterBox->PackEnd(hbox);
-	// 2.2 Draw planet labels
+	// 2.2 Draw planet labels out of range
 	hbox = new Gui::HBox();
 	hbox->SetSpacing(5.0f);
 	m_drawOutRangeLabelButton = new Gui::ToggleButton();
 	m_drawOutRangeLabelButton->SetPressed(false); // TODO: replace with var
 	hbox->PackEnd(m_drawOutRangeLabelButton);
 	label = (new Gui::Label(Lang::DRAW_OUT_RANGE_LABELS))->Color(255, 255, 255);
+	hbox->PackEnd(label);
+	filterBox->PackEnd(hbox);
+	// 2.3 Draw planet labels uninhabited
+	hbox = new Gui::HBox();
+	hbox->SetSpacing(5.0f);
+	m_drawUninhabitedLabelButton = (new Gui::ToggleButton());
+	m_drawUninhabitedLabelButton->SetPressed(true); // TODO: replace with var
+	hbox->PackEnd(m_drawUninhabitedLabelButton);
+	label = (new Gui::Label(Lang::DRAW_UNINHABITED_LABELS))->Color(255, 255, 255);
 	hbox->PackEnd(label);
 	filterBox->PackEnd(hbox);
 
@@ -579,7 +588,7 @@ void SectorView::PutSystemLabels(Sector *sec, const vector3f &origin, int drawRa
 
 			// label text
 			std::string text = "";
-			if(inRange || m_drawOutRangeLabelButton->GetPressed() || !can_skip)
+			if(((inRange || m_drawOutRangeLabelButton->GetPressed()) && ((*sys).population > 0 || m_drawUninhabitedLabelButton->GetPressed())) || !can_skip)
 				text = (*sys).name;
 
 			// setup the label;
@@ -888,7 +897,7 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 		m_renderer->SetTransform(systrans);
 
 		// for out-of-range systems draw leg only if we draw label
-		if ((m_drawSystemLegButton->GetPressed() && (inRange || m_drawOutRangeLabelButton->GetPressed())) || !can_skip) {
+		if ((m_drawSystemLegButton->GetPressed() && (inRange || m_drawOutRangeLabelButton->GetPressed()) && ((*i).population > 0 || m_drawUninhabitedLabelButton->GetPressed())) || !can_skip) {
 
 			const Color light(128);
 			const Color dark(51);
