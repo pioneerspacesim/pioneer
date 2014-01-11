@@ -1,8 +1,8 @@
 // Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef _GASSPHERE_H
-#define _GASSPHERE_H
+#ifndef _GASGIANT_H
+#define _GASGIANT_H
 
 #include <SDL_stdinc.h>
 
@@ -18,16 +18,16 @@
 
 namespace Graphics { class Renderer; }
 class SystemBody;
-class GasSphere;
+class GasGiant;
 class GasPatch;
 class GasPatchContext;
 
 #define NUM_PATCHES 6
 
-class GasSphere : public BaseSphere {
+class GasGiant : public BaseSphere {
 public:
-	GasSphere(const SystemBody *body);
-	virtual ~GasSphere();
+	GasGiant(const SystemBody *body);
+	virtual ~GasGiant();
 
 	virtual void Update() {};
 	virtual void Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const float scale, const std::vector<Camera::Shadow> &shadows);
@@ -47,7 +47,7 @@ public:
 private:
 	void BuildFirstPatches();
 
-	static RefCountedPtr<GasPatchContext> GasSphere::s_patchContext;
+	static RefCountedPtr<GasPatchContext> GasGiant::s_patchContext;
 
 	//std::unique_ptr<Graphics::Drawables::Sphere3D> m_baseCloudSurface;
 	std::unique_ptr<GasPatch> m_patches[NUM_PATCHES];
@@ -62,4 +62,4 @@ private:
 	MaterialParameters m_materialParameters;
 };
 
-#endif /* _GEOSPHERE_H */
+#endif /* _GASGIANT_H */
