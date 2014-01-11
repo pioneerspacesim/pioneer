@@ -212,7 +212,7 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 				break;
 			}
 
-			Error("Lua serializer '%s' tried to serialize unsupported userdata value", key);
+			Error("Lua serializer '%s' tried to serialize unsupported '%s' userdata value", key, lo->GetType());
 			break;
 		}
 
