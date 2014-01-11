@@ -45,9 +45,17 @@ private:
 	void InitDefaults();
 	void InitObject();
 
+	struct DistanceIndicator {
+		Gui::Label *label;
+		Graphics::Drawables::Line3D *line;
+		Color okayColor;
+		Color unsuffFuelColor;
+		Color outOfRangeColor;
+	};
+
 	struct SystemLabels {
 		Gui::Label *systemName;
-		Gui::Label *distance;
+		DistanceIndicator distance;
 		Gui::Label *starType;
 		Gui::Label *shortDesc;
 	};
@@ -63,6 +71,7 @@ private:
 	void SetSelectedSystem(const SystemPath &path);
 	void OnClickSystem(const SystemPath &path);
 
+	void UpdateDistanceLabelAndLine(DistanceIndicator &distance, const SystemPath &src, const SystemPath &dest);
 	void UpdateSystemLabels(SystemLabels &labels, const SystemPath &path);
 	void UpdateFactionToggles();
 	void RefreshDetailBoxVisibility();
