@@ -129,7 +129,7 @@
    },
    "FLAVOUR_5_INTROTEXT" : {
       "description" : "",
-      "message" : "Chcemy by {target} zakończył karierę w systemie {system}.Płacimy {cash}"
+      "message" : "Chcemy by {target} zakończył karierę w systemie {system}. Płacimy {cash}"
    },
    "FLAVOUR_5_SUCCESSMSG" : {
       "description" : "",
