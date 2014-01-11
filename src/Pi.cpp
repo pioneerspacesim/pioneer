@@ -1018,7 +1018,7 @@ void Pi::Start()
 		last_time = SDL_GetTicks();
 	}
 
-	ui->GetTopLayer()->RemoveInnerWidget();
+	ui->DropAllLayers();
 	ui->Layout(); // UI does important things on layout, like updating keyboard shortcuts
 
 	delete Pi::intro; Pi::intro = 0;
