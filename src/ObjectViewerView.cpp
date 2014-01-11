@@ -7,7 +7,6 @@
 #include "Frame.h"
 #include "Player.h"
 #include "Space.h"
-#include "GeoSphere.h"
 #include "terrain/Terrain.h"
 #include "Planet.h"
 #include "graphics/Light.h"
