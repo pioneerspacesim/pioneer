@@ -9,6 +9,13 @@ namespace SceneGraph {
 class LuaModel {
 public:
 
+	static int l_attr_name(lua_State *l) {
+		SceneGraph::Model *model = LuaObject<SceneGraph::Model>::CheckFromLua(1);
+		const std::string &name = model->GetName();
+		lua_pushlstring(l, name.c_str(), name.size());
+		return 1;
+	}
+
 	static int l_set_pattern(lua_State *l) {
 		SceneGraph::Model *model = LuaObject<SceneGraph::Model>::CheckFromLua(1);
 		if (!model->SupportsPatterns())
@@ -54,6 +61,7 @@ template <> void LuaObject<SceneGraph::Model>::RegisterClass()
 	};
 
 	static const luaL_Reg l_attrs[] = {
+		{ "name",        LuaModel::l_attr_name         },
 		{ "pattern",     LuaModel::l_attr_pattern      },
 		{ "numPatterns", LuaModel::l_attr_num_patterns },
 		{ 0, 0 }
