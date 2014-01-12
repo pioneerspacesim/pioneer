@@ -68,6 +68,7 @@
 #include "CollMesh.h"
 #include "graphics/Material.h"
 #include "Serializer.h"
+#include "DeleteEmitter.h"
 #include <stdexcept>
 
 namespace Graphics { class Renderer; }
@@ -83,7 +84,7 @@ typedef std::vector<std::pair<std::string, RefCountedPtr<Graphics::Material> > >
 typedef std::vector<Animation*> AnimationContainer;
 typedef std::vector<MatrixTransform *> TagContainer;
 
-class Model
+class Model : public DeleteEmitter
 {
 public:
 	friend class Loader;

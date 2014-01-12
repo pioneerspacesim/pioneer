@@ -3,6 +3,7 @@
 
 #include "Lua.h"
 #include "LuaObject.h"
+#include "Model.h"
 #include "ModelSkin.h"
 
 namespace SceneGraph {
@@ -10,6 +11,7 @@ namespace Lua {
 
 void Init()
 {
+    LuaObject<SceneGraph::Model>::RegisterClass();
     LuaObject<SceneGraph::ModelSkin>::RegisterClass();
 }
 
