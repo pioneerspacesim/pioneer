@@ -268,8 +268,8 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	SetModel(m_type->modelName.c_str());
 	SetLabel("UNLABELED_SHIP");
 	m_skin.SetRandomColors(Pi::rng);
-	m_skin.SetPattern(Pi::rng.Int32(0, GetModel()->GetNumPatterns()));
 	m_skin.Apply(GetModel());
+	GetModel()->SetPattern(Pi::rng.Int32(0, GetModel()->GetNumPatterns()));
 
 	Init();
 	SetController(new ShipController());
