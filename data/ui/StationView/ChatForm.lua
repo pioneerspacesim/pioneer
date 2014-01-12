@@ -34,7 +34,7 @@ function ChatForm.New (chatFunc, removeFunc, ref, tabGroup)
 end
 
 function ChatForm:BuildWidget ()
-	local box = ui:VBox(10)
+	local box = ui:VBox()
 	local hbox = ui:HBox(5)
 
 	if self.title then
