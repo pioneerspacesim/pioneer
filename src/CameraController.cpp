@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CameraController.h"
@@ -31,6 +31,7 @@ void CameraController::Update()
 	m_camera->SetOrient(m * m_orient);
 	m_camera->SetPosition(m * m_pos + m_ship->GetInterpPosition());
 }
+
 
 InternalCameraController::InternalCameraController(Camera *camera, const Ship *ship) :
 	CameraController(camera, ship),

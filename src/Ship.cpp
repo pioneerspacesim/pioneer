@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Ship.h"
@@ -26,6 +26,7 @@
 
 static const float TONS_HULL_PER_SHIELD = 10.f;
 static const double KINETIC_ENERGY_MULT	= 0.01;
+HeatGradientParameters_t Ship::s_heatGradientParams;
 
 void SerializableEquipSet::Save(Serializer::Writer &wr)
 {
@@ -179,6 +180,20 @@ void Ship::InitGun(const char *tag, int num)
 	}
 }
 
+void Ship::InitMaterials()
+{
+	SceneGraph::Model *pModel = GetModel();
+	assert(pModel);
+	const Uint32 numMats = pModel->GetNumMaterials();
+	for( Uint32 m=0; m<numMats; m++ ) {
+		RefCountedPtr<Graphics::Material> mat = pModel->GetMaterialByIndex(m);
+		mat->heatGradient = Graphics::TextureBuilder::Decal("textures/heat_gradient.png").GetOrCreateTexture(Pi::renderer, "model");
+		mat->specialParameter0 = &s_heatGradientParams;
+	}
+	s_heatGradientParams.heatingAmount = 0.0f;
+	s_heatGradientParams.heatingNormal = vector3f(0.0f, -1.0f, 0.0f);
+}
+
 void Ship::Init()
 {
 	m_invulnerable = false;
@@ -204,6 +219,8 @@ void Ship::Init()
 
 	InitGun("tag_gunmount_0", 0);
 	InitGun("tag_gunmount_1", 1);
+
+	InitMaterials();
 }
 
 void Ship::PostLoadFixup(Space *space)
@@ -331,6 +348,7 @@ bool Ship::OnDamage(Object *attacker, float kgDamage)
 
 		m_stats.hull_mass_left -= dam;
 		Properties().Set("hullMassLeft", m_stats.hull_mass_left);
+		Properties().Set("hullPercent", 100.0f * (m_stats.hull_mass_left / float(m_type->hullMass)));
 		if (m_stats.hull_mass_left < 0) {
 			if (attacker) {
 				if (attacker->IsType(Object::BODY))
@@ -1104,6 +1122,7 @@ void Ship::StaticUpdate(const float timeStep)
 	if (m_equipment.Get(Equip::SLOT_HULLAUTOREPAIR) == Equip::HULL_AUTOREPAIR) {
 		m_stats.hull_mass_left = std::min(m_stats.hull_mass_left + 0.1f*timeStep, float(m_type->hullMass));
 		Properties().Set("hullMassLeft", m_stats.hull_mass_left);
+		Properties().Set("hullPercent", 100.0f * (m_stats.hull_mass_left / float(m_type->hullMass)));
 	}
 
 	// After calling StartHyperspaceTo this Ship must not spawn objects
@@ -1178,6 +1197,12 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 
 	//angthrust negated, for some reason
 	GetModel()->SetThrust(vector3f(m_thrusters), -vector3f(m_angThrusters));
+
+	matrix3x3f mt;
+	matrix3x3dtof(viewTransform.InverseOf().GetOrient(), mt);
+	s_heatGradientParams.heatingMatrix = mt;
+	s_heatGradientParams.heatingNormal = vector3f(GetVelocity().Normalized());
+	s_heatGradientParams.heatingAmount = Clamp(GetHullTemperature(),0.0,1.0);
 
 	//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
 	RenderModel(renderer, camera, viewCoords, viewTransform);

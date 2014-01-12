@@ -1,4 +1,4 @@
--- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -12,6 +12,8 @@ local ShipDef = import("ShipDef")
 
 local ModelSpinner = import("UI.Game.ModelSpinner")
 local ModelSkin = import("SceneGraph.ModelSkin")
+
+local SmallLabeledButton = import("ui/SmallLabeledButton")
 
 local ui = Engine.ui
 
@@ -39,6 +41,8 @@ local shipClassString = {
 	heavy_freighter            = l.HEAVY_FREIGHTER,
 	heavy_passenger_shuttle    = l.HEAVY_PASSENGER_SHUTTLE,
 	heavy_passenger_transport  = l.HEAVY_PASSENGER_TRANSPORT,
+
+	unknown                    = "",
 }
 
 local shipTable =
@@ -54,13 +58,13 @@ local shipInfo =
 	ui:Expand("VERTICAL")
 
 local function shipClassIcon (shipClass)
-	return shipClass ~= ""
+	return shipClass ~= "unknown"
 		and ui:Image("icons/shipclass/"..shipClass..".png", { "PRESERVE_ASPECT" })
 		or ui:Margin(32)
 end
 
 local function manufacturerIcon (manufacturer)
-	return manufacturer ~= ""
+	return manufacturer ~= "unknown"
 		and ui:Image("icons/manufacturer/"..manufacturer..".png", { "PRESERVE_ASPECT" })
 		or ui:Margin(32)
 end
@@ -110,9 +114,12 @@ shipTable.onRowClicked:Connect(function (row)
 	local forwardAccelFull  =  def.linearThrust.FORWARD / (-9.81*1000*(def.hullMass+def.capacity+def.fuelTankMass))
 	local reverseAccelEmpty = -def.linearThrust.REVERSE / (-9.81*1000*(def.hullMass+def.fuelTankMass))
 	local reverseAccelFull  = -def.linearThrust.REVERSE / (-9.81*1000*(def.hullMass+def.capacity+def.fuelTankMass))
+	local deltav = def.effectiveExhaustVelocity * math.log((def.hullMass + def.fuelTankMass) / def.hullMass)
+	local deltav_f = def.effectiveExhaustVelocity * math.log((def.hullMass + def.fuelTankMass + def.capacity) / (def.hullMass + def.capacity))
+	local deltav_m = def.effectiveExhaustVelocity * math.log((def.hullMass + def.fuelTankMass + def.capacity) / def.hullMass)
 
-	local buyButton = ui:Button(l.BUY_SHIP):SetFont("HEADING_LARGE")
-	buyButton.onClick:Connect(function () buyShip(currentShipOnSale) end)
+	local buyButton = SmallLabeledButton.New(l.BUY_SHIP)
+	buyButton.button.onClick:Connect(function () buyShip(currentShipOnSale) end)
 
 	shipInfo:SetInnerWidget(
 		ui:VBox():PackEnd({
@@ -125,9 +132,10 @@ shipTable.onRowClicked:Connect(function (row)
 				),
 				ui:Expand("HORIZONTAL", ui:Align("RIGHT", manufacturerIcon(def.manufacturer))),
 			}),
-			ui:Grid(2,1):SetRow(0, {
+			ui:HBox(20):PackEnd({
 				l.PRICE..": "..Format.Money(def.basePrice),
-                l.AFTER_TRADE_IN..": "..Format.Money(def.basePrice - tradeInValue(ShipDef[Game.player.shipId])),
+				l.AFTER_TRADE_IN..": "..Format.Money(def.basePrice - tradeInValue(ShipDef[Game.player.shipId])),
+				ui:Expand("HORIZONTAL", ui:Align("RIGHT", buyButton)),
 			}),
 			ModelSpinner.New(ui, def.modelName, currentShipOnSale.skin),
 			ui:Label(l.HYPERDRIVE_FITTED.." "..lcore[def.defaultHyperdrive]):SetFont("SMALL"),
@@ -140,16 +148,18 @@ shipTable.onRowClicked:Connect(function (row)
 							:AddRow({l.FORWARD_ACCEL_EMPTY, Format.AccelG(forwardAccelEmpty)})
 							:AddRow({l.FORWARD_ACCEL_FULL,  Format.AccelG(forwardAccelFull)})
 							:AddRow({l.REVERSE_ACCEL_EMPTY, Format.AccelG(reverseAccelEmpty)})
-							:AddRow({l.REVERSE_ACCEL_FULL,  Format.AccelG(reverseAccelFull)}),
+							:AddRow({l.REVERSE_ACCEL_FULL,  Format.AccelG(reverseAccelFull)})
+							:AddRow({l.DELTA_V_EMPTY, string.format("%d km/s", deltav / 1000)})
+							:AddRow({l.DELTA_V_FULL, string.format("%d km/s", deltav_f / 1000)}),
 						ui:Table()
 							:SetColumnSpacing(5)
 							:AddRow({l.WEIGHT_EMPTY,        Format.MassTonnes(def.hullMass)})
 							:AddRow({l.CAPACITY,            Format.MassTonnes(def.capacity)})
-							:AddRow({l.FUEL_WEIGHT,         Format.MassTonnes(def.fuelTankMass)})
 							:AddRow({l.WEIGHT_FULLY_LOADED, Format.MassTonnes(def.hullMass+def.capacity+def.fuelTankMass)})
+							:AddRow({l.FUEL_WEIGHT,         Format.MassTonnes(def.fuelTankMass)})
+							:AddRow({l.DELTA_V_MAX, string.format("%d km/s", deltav_m / 1000)})
 					})
 			),
-			ui:Align("MIDDLE", buyButton),
 		})
 	)
 end)
@@ -190,9 +200,9 @@ local shipMarket = function (args)
 	updateStation(station, station:GetShipsOnSale())
 
 	return
-		ui:Grid(2,1)
+		ui:Grid({48,4,48},1)
 			:SetColumn(0, {shipTable})
-			:SetColumn(1, {shipInfo})
+			:SetColumn(2, {shipInfo})
 end
 
 return shipMarket

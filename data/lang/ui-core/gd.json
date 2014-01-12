@@ -45,7 +45,7 @@
    },
    "BULLETIN_BOARD" : {
       "description" : "",
-      "message" : "Bulletin Board"
+      "message" : "Bòrd-brath"
    },
    "BUY_SHIP" : {
       "description" : "",
@@ -61,7 +61,7 @@
    },
    "CAPACITY" : {
       "description" : "",
-      "message" : "Capacity"
+      "message" : "Tomhas-lìonaidh"
    },
    "CAPACITY_USED" : {
       "description" : "",
@@ -175,6 +175,18 @@
       "description" : "",
       "message" : "Delta-v"
    },
+   "DELTA_V_EMPTY" : {
+      "description" : "Delta-v capacity of a ship with no cargo or upgrades",
+      "message" : "Delta-v (empty)"
+   },
+   "DELTA_V_FULL" : {
+      "description" : "Delta-v capacity of a ship with maximum cargo",
+      "message" : "Delta-v (full)"
+   },
+   "DELTA_V_MAX" : {
+      "description" : "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
+      "message" : "Delta-v (max)"
+   },
    "DESCENT_TO_GROUND_SPEED" : {
       "description" : "",
       "message" : "Luaths teàrnadh dhan làr:"
@@ -223,13 +235,17 @@
       "description" : "",
       "message" : "Obair"
    },
+   "ENABLE_COCKPIT" : {
+      "description" : "",
+      "message" : "Enable cockpit (EXPERIMENTAL)"
+   },
    "ENABLE_JOYSTICK" : {
       "description" : "",
       "message" : "Cuir joystick an comas"
    },
    "ENGINEERING" : {
       "description" : "",
-      "message" : "Einnseanaireachd"
+      "message" : "Engineering:"
    },
    "EQUIPMENT" : {
       "description" : "",
@@ -425,7 +441,7 @@
    },
    "LEGAL_STATUS" : {
       "description" : "",
-      "message" : "Legal status"
+      "message" : "Staid laghail"
    },
    "LIGHT_CARGO_SHUTTLE" : {
       "description" : "",
@@ -489,7 +505,7 @@
    },
    "MASS" : {
       "description" : "",
-      "message" : "Mass"
+      "message" : "Tomad"
    },
    "MASTER" : {
       "description" : "",
@@ -561,7 +577,7 @@
    },
    "MURDER" : {
       "description" : "",
-      "message" : "Murder"
+      "message" : "Murt"
    },
    "MUSIC" : {
       "description" : "",
@@ -571,8 +587,12 @@
       "description" : "",
       "message" : "Mùch"
    },
-   "NAME" : {
-      "description" : "",
+   "NAME_OBJECT" : {
+      "description" : "For an item or object",
+      "message" : "Ainm"
+   },
+   "NAME_PERSON" : {
+      "description" : "For a person",
       "message" : "Ainm"
    },
    "NAVIGATION" : {
@@ -665,7 +685,7 @@
    },
    "PIRACY" : {
       "description" : "",
-      "message" : "Piracy"
+      "message" : "Spùinneadaireachd"
    },
    "PLANET_DETAIL_DISTANCE" : {
       "description" : "",
@@ -725,7 +745,7 @@
    },
    "REQUEST_LAUNCH" : {
       "description" : "",
-      "message" : "Request Launch"
+      "message" : "Iarr cead losgaidh"
    },
    "RETURN_TO_MENU" : {
       "description" : "",
@@ -769,7 +789,7 @@
    },
    "SHIP" : {
       "description" : "",
-      "message" : "Ship"
+      "message" : "Soitheach"
    },
    "SHIP_INFORMATION" : {
       "description" : "",
@@ -781,7 +801,7 @@
    },
    "SHIP_IS_FULLY_LADEN" : {
       "description" : "",
-      "message" : "Your ship is fully laden."
+      "message" : "Tha an soitheach agad làn."
    },
    "SHIP_MARKET" : {
       "description" : "",
@@ -893,7 +913,7 @@
    },
    "WEIGHT_FULLY_LOADED" : {
       "description" : "",
-      "message" : "Weight fully loaded"
+      "message" : "Cuideam làn"
    },
    "WE_ARE_IN_HYPERSPACE_COMMANDER" : {
       "description" : "",

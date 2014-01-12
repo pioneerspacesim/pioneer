@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef UI_EVENT_H
@@ -74,9 +74,10 @@ public:
 		KEY_DOWN,
 		KEY_UP,
 	};
-	KeyboardEvent(Action _action, const KeySym &_keysym) : Event(Event::KEYBOARD), action(_action), keysym(_keysym) {}
+	KeyboardEvent(Action _action, const KeySym &_keysym, bool _repeat) : Event(Event::KEYBOARD), action(_action), keysym(_keysym), repeat(_repeat) {}
 	const Action action;
 	const KeySym keysym;
+	const bool repeat;
 
 	void ToLuaTable(lua_State *l) const;
 };

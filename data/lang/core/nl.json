@@ -12,8 +12,8 @@
       "message" : "Trouw aan:"
    },
    "ALT" : {
-      "description" : "",
-      "message" : "\"alt \""
+      "description" : "Alt key on keyboard",
+      "message" : "Alt"
    },
    "ALT_IN_KM" : {
       "description" : "",
@@ -125,7 +125,7 @@
    },
    "CAMERA_BOTTOM_VIEW" : {
       "description" : "",
-      "message" : "Bottom camera"
+      "message" : "Onderste camera"
    },
    "CAMERA_FRONT_VIEW" : {
       "description" : "",
@@ -145,7 +145,7 @@
    },
    "CAMERA_TOP_VIEW" : {
       "description" : "",
-      "message" : "Top camera"
+      "message" : "Bovenaanzicht"
    },
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
@@ -193,7 +193,7 @@
    },
    "CARGO_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Permits scooping cargo pods from space."
+      "message" : "Laat toe om vrachtmodules op te scheppen uit de ruimte."
    },
    "CH4_ATMOSPHERE" : {
       "description" : "",
@@ -233,7 +233,7 @@
    },
    "COMPUTER_HEADING_CONTROL" : {
       "description" : "",
-      "message" : "Computer heading control"
+      "message" : "Computer richting besturing"
    },
    "COMPUTER_SPEED_CONTROL" : {
       "description" : "",
@@ -268,8 +268,8 @@
       "message" : "\" koolstofmonoxide atmosfeer\""
    },
    "CTRL" : {
-      "description" : "",
-      "message" : "\"ctrl \""
+      "description" : "Ctrl key on keyboard",
+      "message" : "Ctrl"
    },
    "CURRENT_SYSTEM" : {
       "description" : "",
@@ -477,7 +477,7 @@
    },
    "FIRE_MISSILE" : {
       "description" : "",
-      "message" : "Fire missile"
+      "message" : "Raket afvuren"
    },
    "FOLLOWING_SELECTION" : {
       "description" : "",
@@ -493,7 +493,7 @@
    },
    "FUEL" : {
       "description" : "",
-      "message" : "Fuel"
+      "message" : "Brandstof"
    },
    "FUEL_SCOOP" : {
       "description" : "",
@@ -517,7 +517,7 @@
    },
    "GAME_LOAD_CANNOT_OPEN" : {
       "description" : "",
-      "message" : "Dit bestand kon niet worden geladen vanwege foutief toegwezen bestandspermissies."
+      "message" : "Dit bestand kon niet worden geladen vanwege foutief toegewezen bestandspermissies."
    },
    "GAME_LOAD_CORRUPT" : {
       "description" : "",
@@ -525,7 +525,7 @@
    },
    "GAME_LOAD_WRONG_VERSION" : {
       "description" : "",
-      "message" : "This saved game cannot be loaded because it was created by a different version of Pioneer."
+      "message" : "Dit opgeslagen spel kan niet geladen worden omdat het was gecreëerd door een andere versie van Pioneer."
    },
    "GAME_SAVED_TO" : {
       "description" : "",
@@ -533,7 +533,7 @@
    },
    "GAME_SAVE_CANNOT_WRITE" : {
       "description" : "",
-      "message" : "This saved game file could not be written because of a system error."
+      "message" : "Dit opgeslagen spelbestand kon niet beschreven worden vanwege een systeemfout."
    },
    "GOVERNMENT_TYPE" : {
       "description" : "",
@@ -557,7 +557,7 @@
    },
    "HEADING_LOCK_BACKWARD" : {
       "description" : "",
-      "message" : "Heading Lock (aft)"
+      "message" : "Richtingslot (achter)"
    },
    "HEADING_LOCK_FORWARD" : {
       "description" : "",
@@ -812,8 +812,8 @@
       "message" : "Boodschap van %sender:"
    },
    "META" : {
-      "description" : "",
-      "message" : "\"meta \""
+      "description" : "'Meta' key on keyboard",
+      "message" : "Meta"
    },
    "METAL_ALLOYS" : {
       "description" : "",
@@ -913,11 +913,11 @@
    },
    "MONTH_MAR" : {
       "description" : "",
-      "message" : "Mar"
+      "message" : "Mrt"
    },
    "MONTH_MAY" : {
       "description" : "",
-      "message" : "May"
+      "message" : "Mei"
    },
    "MONTH_NOV" : {
       "description" : "",
@@ -925,7 +925,7 @@
    },
    "MONTH_OCT" : {
       "description" : "",
-      "message" : "Oct"
+      "message" : "Okt"
    },
    "MONTH_SEP" : {
       "description" : "",
@@ -939,8 +939,12 @@
       "description" : "",
       "message" : "%speed{f.0} m/s relatief tot %frame"
    },
-   "NAME" : {
-      "description" : "",
+   "NAME_OBJECT" : {
+      "description" : "For an item or object",
+      "message" : "Naam"
+   },
+   "NAME_PERSON" : {
+      "description" : "For a person",
       "message" : "Naam"
    },
    "NARCOTICS" : {
@@ -1001,11 +1005,11 @@
    },
    "NUMBER_DAYS" : {
       "description" : "",
-      "message" : "%days{f.0} days"
+      "message" : "%days{f.0} dagen"
    },
    "NUMBER_G" : {
       "description" : "",
-      "message" : "%acceleration{f.1} G"
+      "message" : "%versnelling{f.1} G"
    },
    "NUMBER_HOURS" : {
       "description" : "",
@@ -1089,7 +1093,7 @@
    },
    "PASSENGER_CABIN" : {
       "description" : "",
-      "message" : "Occupied Passenger Cabin"
+      "message" : "Bezette Passagiers Cabine"
    },
    "PAUSED" : {
       "description" : "",
@@ -1261,15 +1265,15 @@
    },
    "ROTATE_LEFT" : {
       "description" : "",
-      "message" : "Rotate Left"
+      "message" : "Roteer Linksom"
    },
    "ROTATE_RIGHT" : {
       "description" : "",
-      "message" : "Rotate Right"
+      "message" : "Roteer Rechtsom"
    },
    "ROTATE_UP" : {
       "description" : "",
-      "message" : "Rotate Up"
+      "message" : "Roteer Omhoog"
    },
    "ROTATIONAL_PERIOD" : {
       "description" : "",
@@ -1305,7 +1309,7 @@
    },
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
-      "message" : "screenshot%index{d08}.png"
+      "message" : "schermdump%index{d08}.png"
    },
    "SCUTUM_CENTAURUS_ARM" : {
       "description" : "",
@@ -1384,8 +1388,8 @@
       "message" : "Schild kracht: %shields{f.2}"
    },
    "SHIFT" : {
-      "description" : "",
-      "message" : "\"shift \""
+      "description" : "Shift key on keyboard",
+      "message" : "Shift"
    },
    "SHIP" : {
       "description" : "",
@@ -1625,7 +1629,7 @@
    },
    "SYSTEM" : {
       "description" : "",
-      "message" : "System"
+      "message" : "Systeem"
    },
    "SYSTEM_NUMBER" : {
       "description" : "",
@@ -1713,7 +1717,7 @@
    },
    "TOGGLE_ROTATION_DAMPING" : {
       "description" : "",
-      "message" : "Toggle rotation damping"
+      "message" : "Schakel rotatie demping"
    },
    "TOGGLE_SCAN_MODE" : {
       "description" : "",
@@ -1753,11 +1757,11 @@
    },
    "UNOCCUPIED_CABIN" : {
       "description" : "",
-      "message" : "Extra Passenger Cabin"
+      "message" : "Extra Passagierscabine"
    },
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",
-      "message" : "Required for transport of a single passenger"
+      "message" : "Benodigd voor transport van een enkele passagier"
    },
    "USE_LOW_THRUST" : {
       "description" : "",

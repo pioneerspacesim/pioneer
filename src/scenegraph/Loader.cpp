@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Loader.h"
@@ -212,6 +212,7 @@ Model *Loader::CreateModel(ModelDefinition &def)
 		matDesc.textures = 1;
 		matDesc.specularMap = !specTex.empty();
 		matDesc.glowMap = !glowTex.empty();
+		matDesc.quality = Graphics::HAS_HEAT_GRADIENT;
 
 		//Create material and set parameters
 		RefCountedPtr<Material> mat(m_renderer->CreateMaterial(matDesc));
@@ -322,6 +323,9 @@ Model *Loader::CreateModel(ModelDefinition &def)
 	// Run CollisionVisitor to create the initial CM and its GeomTree.
 	// If no collision mesh is defined, a simple bounding box will be generated
 	m_model->CreateCollisionMesh();
+
+	// Do an initial animation update to get all the animation transforms correct
+	m_model->UpdateAnimations();
 
 	//find usable pattern textures from the model directory
 	if (patternsUsed) {

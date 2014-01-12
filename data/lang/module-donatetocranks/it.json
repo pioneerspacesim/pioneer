@@ -39,6 +39,14 @@
       "description" : "",
       "message" : "DONA! Salva le nostre specie. Ferma la carneficina dei nuovi insediamenti planetari."
    },
+   "FLAVOUR_5_MESSAGE" : {
+      "description" : "",
+      "message" : "Libera la tua nave! Prego, seleziona l'ammontare da donare. Felice hacking."
+   },
+   "FLAVOUR_5_TITLE" : {
+      "description" : "",
+      "message" : "SOSTIENI LA LIBERTÀ! Non permettere al software proprietario di controllare ingiustamente la tua nave."
+   },
    "HANG_UP" : {
       "description" : "",
       "message" : "Riaggancia."

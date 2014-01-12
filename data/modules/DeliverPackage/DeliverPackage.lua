@@ -1,4 +1,4 @@
--- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -257,7 +257,7 @@ local onEnterSystem = function (player)
 	local syspath = Game.system.path
 
 	for ref,mission in pairs(missions) do
-		if not mission.status and mission.location:IsSameSystem(syspath) then
+		if mission.status == "ACTIVE" and mission.location:IsSameSystem(syspath) then
 			local risk = flavours[mission.flavour].risk
 			local ships = 0
 
@@ -305,7 +305,7 @@ local onEnterSystem = function (player)
 			end
 		end
 
-		if not mission.status and Game.time > mission.due then
+		if mission.status == "ACTIVE" and Game.time > mission.due then
 			mission.status = 'FAILED'
 		end
 	end
@@ -334,7 +334,7 @@ local onShipDocked = function (player, station)
 			mission:Remove()
 			missions[ref] = nil
 
-		elseif not mission.status and Game.time > mission.due then
+		elseif mission.status == "ACTIVE" and Game.time > mission.due then
 			mission.status = 'FAILED'
 		end
 

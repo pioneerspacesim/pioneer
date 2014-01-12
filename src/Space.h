@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SPACE_H
@@ -76,7 +76,7 @@ public:
 
 
 private:
-	void GenBody(SystemBody *b, Frame *f);
+	void GenBody(double at_time, SystemBody *b, Frame *f);
 	// make sure SystemBody* is in Pi::currentSystem
 	Frame *GetFrameWithSystemBody(const SystemBody *b) const;
 

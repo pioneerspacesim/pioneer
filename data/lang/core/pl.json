@@ -12,8 +12,8 @@
       "message" : "Przynależność:"
    },
    "ALT" : {
-      "description" : "",
-      "message" : "\"Alt \""
+      "description" : "Alt key on keyboard",
+      "message" : "Alt"
    },
    "ALT_IN_KM" : {
       "description" : "",
@@ -149,7 +149,7 @@
    },
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
-      "message" : "Nie można zapisać gry w czasie skoku"
+      "message" : "Nie można zapisać gry będąc w nadprzestrzeni"
    },
    "CAPITALIST" : {
       "description" : "",
@@ -268,8 +268,8 @@
       "message" : "\" atmosfera oparta na tlenku węgla\""
    },
    "CTRL" : {
-      "description" : "",
-      "message" : "\"Ctrl \""
+      "description" : "Ctrl key on keyboard",
+      "message" : "Ctrl"
    },
    "CURRENT_SYSTEM" : {
       "description" : "",
@@ -613,7 +613,7 @@
    },
    "HYPERSPACE" : {
       "description" : "",
-      "message" : "Skok w nadprzestrzeń"
+      "message" : "Nadprzestrzeń"
    },
    "HYPERSPACE_ARRIVAL_CLOUD" : {
       "description" : "",
@@ -812,8 +812,8 @@
       "message" : "Wiadomość od %sender:"
    },
    "META" : {
-      "description" : "",
-      "message" : "\"meta \""
+      "description" : "'Meta' key on keyboard",
+      "message" : "Meta"
    },
    "METAL_ALLOYS" : {
       "description" : "",
@@ -939,9 +939,13 @@
       "description" : "",
       "message" : "%speed{f.0} m/s względem: %frame"
    },
-   "NAME" : {
-      "description" : "",
+   "NAME_OBJECT" : {
+      "description" : "For an item or object",
       "message" : "Nazwa"
+   },
+   "NAME_PERSON" : {
+      "description" : "For a person",
+      "message" : "Nazwisko"
    },
    "NARCOTICS" : {
       "description" : "",
@@ -1341,7 +1345,7 @@
    },
    "SET_HYPERSPACE_DESTINATION_TO" : {
       "description" : "",
-      "message" : "Ustawiono cel skoku na %system"
+      "message" : "Ustawiono cel nadprzestrzenny na %system"
    },
    "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE" : {
       "description" : "",
@@ -1384,8 +1388,8 @@
       "message" : "Siła osłon: %shields{f.2}"
    },
    "SHIFT" : {
-      "description" : "",
-      "message" : "\"Shift \""
+      "description" : "Shift key on keyboard",
+      "message" : "Shift"
    },
    "SHIP" : {
       "description" : "",
@@ -1721,11 +1725,11 @@
    },
    "TOMBSTONE_EPITAPH" : {
       "description" : "",
-      "message" : "SPOCZYWAJ W POKOJU"
+      "message" : "SPOCZYWAJ W POKOJU STARY PIERNIKU"
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
-      "message" : "Przemyt"
+      "message" : "Obrót nielegalnymi towarami"
    },
    "TRIPLE_SYSTEM" : {
       "description" : "",

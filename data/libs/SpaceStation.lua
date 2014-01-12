@@ -1,4 +1,4 @@
--- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local SpaceStation = import_core("SpaceStation")
@@ -358,10 +358,6 @@ end
 local loaded_data
 
 Event.Register("onGameStart", function ()
-	nextRef = 0
-	equipmentStock = {}
-	shipsOnSale = {}
-
 	if (loaded_data) then
 		equipmentStock = loaded_data.equipmentStock
 		for station,list in pairs(loaded_data.shipsOnSale) do
@@ -392,7 +388,14 @@ Event.Register("onLeaveSystem", function (ship)
 	if ship ~= Game.player then return end
 	destroySystem()
 end)
-Event.Register("onGameEnd", destroySystem)
+Event.Register("onGameEnd", function ()
+	destroySystem()
+
+	-- XXX clean up for next game
+	nextRef = 0
+	equipmentStock = {}
+	shipsOnSale = {}
+end)
 
 
 Serializer:Register("SpaceStation",

@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaObject.h"
@@ -62,8 +62,8 @@ static int l_player_get_crime(lua_State *l)
 	Polit::GetCrime(&crimeBitset, &fine);
 
 	lua_newtable(l);
-	for (int i = 0; i < 4; i++) { // hardcoding 4 possible Polit::Crime flags
-		if (crimeBitset & (1<<i)) {
+	for (Sint64 i = 0; i < 4; i++) { // hardcoding 4 possible Polit::Crime flags
+		if (crimeBitset & (Sint64(1)<<i)) {
 			lua_pushstring(l, EnumStrings::GetString("PolitCrime", 1<<i));
 			lua_rawseti(l, -2, lua_rawlen(l, -2)+1);
 		}

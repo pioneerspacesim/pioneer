@@ -1,4 +1,4 @@
--- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -160,7 +160,7 @@ local crewRoster = function ()
 		headergrid:SetRow(0,
 		{
 			-- Headers
-			ui:Label(l.NAME):SetFont("HEADING_NORMAL"),
+			ui:Label(l.NAME_PERSON):SetFont("HEADING_NORMAL"),
 			ui:Label(l.POSITION):SetFont("HEADING_NORMAL"),
 			ui:Label(l.WAGE):SetFont("HEADING_NORMAL"),
 			ui:Label(l.OWED):SetFont("HEADING_NORMAL"),
@@ -233,7 +233,7 @@ local crewRoster = function ()
 			end
 		end)
 
-		CrewScreen:SetInnerWidget(ui:Grid(2,1)
+		CrewScreen:SetInnerWidget(ui:Grid({48,4,48},1)
 		-- Set left hand side of page: General information about the Character
 		:SetColumn(0, {
 			ui:VBox(20):PackEnd({
@@ -275,7 +275,7 @@ local crewRoster = function ()
 			})
 		})
 		-- Set Right hand side of page: Character's face
-		:SetColumn(1, { InfoFace.New(crewMember) }))
+		:SetColumn(2, { InfoFace.New(crewMember) }))
 	end
 
 	CrewScreen:SetInnerWidget(makeCrewList())

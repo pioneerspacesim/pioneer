@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Material.h"
@@ -11,6 +11,7 @@ Material::Material() :
 	texture2(0),
 	texture3(0),
 	texture4(0),
+	heatGradient(0),
 	diffuse(Color::WHITE),
 	specular(Color::BLACK),
 	emissive(Color::BLACK),

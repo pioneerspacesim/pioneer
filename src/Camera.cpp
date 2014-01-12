@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Camera.h"
@@ -74,7 +74,7 @@ void Camera::Update()
 	m_camFrame = new Frame(m_frame, "camera", Frame::FLAG_ROTATING);
 
 	// move and orient it to the camera position
-	m_camFrame->SetOrient(m_orient);
+	m_camFrame->SetOrient(m_orient, Pi::game ? Pi::game->GetTime() : 0.0);
 	m_camFrame->SetPosition(m_pos);
 
 	// make sure old orient and interpolated orient (rendering orient) are not rubbish
@@ -100,7 +100,7 @@ void Camera::Update()
 	m_sortedBodies.sort();
 }
 
-void Camera::Draw(Renderer *renderer, const Body *excludeBody)
+void Camera::Draw(Graphics::Renderer *renderer, const Body *excludeBody, ShipCockpit* cockpit)
 {
 	PROFILE_SCOPED()
 	if (!m_camFrame) return;
@@ -193,6 +193,16 @@ void Camera::Draw(Renderer *renderer, const Body *excludeBody)
 	}
 
 	Sfx::RenderAll(renderer, Pi::game->GetSpace()->GetRootFrame(), m_camFrame);
+
+	// NB: Do any screen space rendering after here:
+	// Things like the cockpit and AR features like hudtrails, space dust etc.
+
+	// Render cockpit
+	// XXX only here because it needs a frame for lighting calc
+	// should really be in WorldView, immediately after camera draw
+	if(cockpit)
+		cockpit->RenderCockpit(renderer, this, m_camFrame);
+
 
 	m_frame->RemoveChild(m_camFrame);
 	delete m_camFrame;

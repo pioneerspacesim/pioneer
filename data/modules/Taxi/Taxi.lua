@@ -1,4 +1,4 @@
--- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -39,7 +39,7 @@ local num_pirate_taunts = 4
 
 local flavours = {
 	{
-		single = 0,
+		single = false,  -- flavour 0-2 are for groups
 		urgency = 0,
 		risk = 0.001,
 	}, {
@@ -51,7 +51,7 @@ local flavours = {
 		urgency = 0,
 		risk = 0,
 	}, {
-		single = true,
+		single = true,  -- flavour 3- are for single persons
 		urgency = 0.13,
 		risk = 0.73,
 	}, {
@@ -195,7 +195,7 @@ local onChat = function (form, ref, option)
 
 		return
 	elseif option == 4 then
-		if flavours[ad.flavour].single == 1 then
+		if flavours[ad.flavour].single then
 			form:SetMessage(l.I_MUST_BE_THERE_BEFORE..Format.Date(ad.due))
 		else
 			form:SetMessage(l.WE_WANT_TO_BE_THERE_BEFORE..Format.Date(ad.due))
@@ -225,7 +225,7 @@ local makeAdvert = function (station)
 	local urgency = flavours[flavour].urgency
 	local risk = flavours[flavour].risk
 	local group = 1
-	if flavours[flavour].single == 0 then
+	if not flavours[flavour].single then
 		group = Engine.rand:Integer(2,max_group)
 	end
 
@@ -286,7 +286,8 @@ local onEnterSystem = function (player)
 	local syspath = Game.system.path
 
 	for ref,mission in pairs(missions) do
-		if not mission.status and mission.location:IsSameSystem(syspath) then
+		if mission.status == "ACTIVE" and mission.location:IsSameSystem(syspath) then
+
 			local risk = flavours[mission.flavour].risk
 			local ships = 0
 
@@ -339,7 +340,7 @@ local onEnterSystem = function (player)
 			end
 		end
 
-		if not mission.status and Game.time > mission.due then
+		if mission.status == "ACTIVE" and Game.time > mission.due then
 			mission.status = 'FAILED'
 			Comms.ImportantMessage(flavours[mission.flavour].wherearewe, mission.client.name)
 		end

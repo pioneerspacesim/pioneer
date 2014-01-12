@@ -1,4 +1,4 @@
--- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -64,7 +64,7 @@ local shipInfo = function (args)
 	end
 
 	return
-		ui:Grid(2,1)
+		ui:Grid({48,4,48},1)
 			:SetColumn(0, {
 				ui:Table():AddRows({
 					ui:Table():SetColumnSpacing(10):AddRows({
@@ -101,7 +101,7 @@ local shipInfo = function (args)
 					ui:Table():AddRows(equipItems),
 				})
 			})
-			:SetColumn(1, {
+			:SetColumn(2, {
 				ui:VBox(10)
 					:PackEnd(ui:Label(shipDef.name):SetFont("HEADING_LARGE"))
 					:PackEnd(ModelSpinner.New(ui, shipDef.modelName, Game.player:GetSkin()))

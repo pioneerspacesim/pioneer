@@ -1,4 +1,4 @@
--- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -12,14 +12,13 @@ local ErrorScreen = import("ErrorScreen")
 local ui = Engine.ui
 local l = Lang.GetResource("ui-core");
 
-local setupPlayerWave = function ()
-	Game.player:SetShipType("wave")
+local setupPlayerShip = function ()
+	Game.player:SetShipType("xylophis")
 	Game.player:SetLabel(Ship.MakeRandomLabel())
 	Game.player:AddEquip("PULSECANNON_1MW")
 	Game.player:AddEquip("ATMOSPHERIC_SHIELDING")
 	Game.player:AddEquip("AUTOPILOT")
 	Game.player:AddEquip("SCANNER")
-	Game.player:AddEquip("MISSILE_GUIDED", 2)
 	Game.player:AddEquip("HYDROGEN", 2)
 	Game.player:SetMoney(100)
 end
@@ -55,12 +54,12 @@ local doSettingsScreen = function()
 end
 
 local buttonDefs = {
-	{ l.START_AT_EARTH,    function () Game.StartGame(SystemPath.New(0,0,0,0,9))   setupPlayerWave() end },
-	{ l.START_AT_NEW_HOPE, function () Game.StartGame(SystemPath.New(1,-1,-1,0,4)) setupPlayerWave() end },
-	{ l.START_AT_BARNARDS_STAR, function () Game.StartGame(SystemPath.New(-1,0,0,0,1)) setupPlayerWave() end },
-	{ l.LOAD_GAME,         doLoadDialog },
-	{ l.OPTIONS,           doSettingsScreen },
-	{ l.QUIT,              function () Engine.Quit() end },
+	{ l.START_AT_EARTH,         function () Game.StartGame(SystemPath.New(0,0,0,0,9),48600)   setupPlayerShip() end },
+	{ l.START_AT_NEW_HOPE,      function () Game.StartGame(SystemPath.New(1,-1,-1,0,4)) setupPlayerShip() end },
+	{ l.START_AT_BARNARDS_STAR, function () Game.StartGame(SystemPath.New(-1,0,0,0,1))  setupPlayerShip() end },
+	{ l.LOAD_GAME,              doLoadDialog },
+	{ l.OPTIONS,                doSettingsScreen },
+	{ l.QUIT,                   function () Engine.Quit() end },
 }
 
 

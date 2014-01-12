@@ -45,7 +45,7 @@
    },
    "BULLETIN_BOARD" : {
       "description" : "",
-      "message" : "Bulletin Board"
+      "message" : "Bekijk prikbord"
    },
    "BUY_SHIP" : {
       "description" : "",
@@ -61,7 +61,7 @@
    },
    "CAPACITY" : {
       "description" : "",
-      "message" : "Capacity"
+      "message" : "Capaciteit"
    },
    "CAPACITY_USED" : {
       "description" : "",
@@ -101,7 +101,7 @@
    },
    "CLEAN" : {
       "description" : "",
-      "message" : "Clean"
+      "message" : "Geen strafblad"
    },
    "CLEAR" : {
       "description" : "",
@@ -175,6 +175,18 @@
       "description" : "",
       "message" : "Delta-v"
    },
+   "DELTA_V_EMPTY" : {
+      "description" : "Delta-v capacity of a ship with no cargo or upgrades",
+      "message" : "Delta-v (empty)"
+   },
+   "DELTA_V_FULL" : {
+      "description" : "Delta-v capacity of a ship with maximum cargo",
+      "message" : "Delta-v (full)"
+   },
+   "DELTA_V_MAX" : {
+      "description" : "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
+      "message" : "Delta-v (max)"
+   },
    "DESCENT_TO_GROUND_SPEED" : {
       "description" : "",
       "message" : "Descent-to-ground speed:"
@@ -223,13 +235,17 @@
       "description" : "",
       "message" : "Employment"
    },
+   "ENABLE_COCKPIT" : {
+      "description" : "",
+      "message" : "Enable cockpit (EXPERIMENTAL)"
+   },
    "ENABLE_JOYSTICK" : {
       "description" : "",
       "message" : "Enable joystick"
    },
    "ENGINEERING" : {
       "description" : "",
-      "message" : "Engineering"
+      "message" : "Engineering:"
    },
    "EQUIPMENT" : {
       "description" : "",
@@ -269,7 +285,7 @@
    },
    "FORWARD_ACCEL_EMPTY" : {
       "description" : "",
-      "message" : "Forward accel (empty)"
+      "message" : "Voorwaartse acceleratie (leeg)"
    },
    "FORWARD_ACCEL_FULL" : {
       "description" : "",
@@ -289,7 +305,7 @@
    },
    "FUEL" : {
       "description" : "",
-      "message" : "Fuel"
+      "message" : "Brandstof"
    },
    "FUEL_TANK_FULL" : {
       "description" : "",
@@ -317,7 +333,7 @@
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Hang up."
+      "message" : "Hang op."
    },
    "HARMLESS" : {
       "description" : "",
@@ -357,7 +373,7 @@
    },
    "HULL_INTEGRITY" : {
       "description" : "",
-      "message" : "Hull integrity"
+      "message" : "Romp integriteit"
    },
    "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT" : {
       "description" : "",
@@ -369,11 +385,11 @@
    },
    "HYPERDRIVE" : {
       "description" : "",
-      "message" : "Hyperdrive"
+      "message" : "Hyperaandrijving"
    },
    "HYPERDRIVE_FITTED" : {
       "description" : "",
-      "message" : "Hyperdrive fitted:"
+      "message" : "Hyperaandrijving geinstalleerd:"
    },
    "HYPERSPACE_RANGE" : {
       "description" : "",
@@ -385,7 +401,7 @@
    },
    "INACTIVE" : {
       "description" : "",
-      "message" : "Inactive"
+      "message" : "Inactief"
    },
    "INVERT_MOUSE_Y" : {
       "description" : "",
@@ -401,7 +417,7 @@
    },
    "ITEM_IS_OUT_OF_STOCK" : {
       "description" : "",
-      "message" : "This item is out of stock."
+      "message" : "Dit artikel is niet op voorraad."
    },
    "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE" : {
       "description" : "",
@@ -425,7 +441,7 @@
    },
    "LEGAL_STATUS" : {
       "description" : "",
-      "message" : "Legal status"
+      "message" : "Juridische status"
    },
    "LIGHT_CARGO_SHUTTLE" : {
       "description" : "",
@@ -489,7 +505,7 @@
    },
    "MASS" : {
       "description" : "",
-      "message" : "Mass"
+      "message" : "Massa"
    },
    "MASTER" : {
       "description" : "",
@@ -561,7 +577,7 @@
    },
    "MURDER" : {
       "description" : "",
-      "message" : "Murder"
+      "message" : "Moord"
    },
    "MUSIC" : {
       "description" : "",
@@ -571,8 +587,12 @@
       "description" : "",
       "message" : "Mute"
    },
-   "NAME" : {
-      "description" : "",
+   "NAME_OBJECT" : {
+      "description" : "For an item or object",
+      "message" : "Naam"
+   },
+   "NAME_PERSON" : {
+      "description" : "For a person",
       "message" : "Naam"
    },
    "NAVIGATION" : {
@@ -665,7 +685,7 @@
    },
    "PIRACY" : {
       "description" : "",
-      "message" : "Piracy"
+      "message" : "Piraterij"
    },
    "PLANET_DETAIL_DISTANCE" : {
       "description" : "",
@@ -693,7 +713,7 @@
    },
    "PRICE" : {
       "description" : "",
-      "message" : "Price"
+      "message" : "Prijs"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
@@ -725,7 +745,7 @@
    },
    "REQUEST_LAUNCH" : {
       "description" : "",
-      "message" : "Request Launch"
+      "message" : "Verzoek om toestemming om te vertrekken"
    },
    "RETURN_TO_MENU" : {
       "description" : "",
@@ -733,7 +753,7 @@
    },
    "REVERSE_ACCEL_EMPTY" : {
       "description" : "",
-      "message" : "Reverse accel (empty)"
+      "message" : "Achterwaartse acceleratie (leeg)"
    },
    "REVERSE_ACCEL_FULL" : {
       "description" : "",
@@ -769,7 +789,7 @@
    },
    "SHIP" : {
       "description" : "",
-      "message" : "Ship"
+      "message" : "Schip"
    },
    "SHIP_INFORMATION" : {
       "description" : "",
@@ -777,11 +797,11 @@
    },
    "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
       "description" : "",
-      "message" : "Your ship is in perfect working condition."
+      "message" : "Uw schip is in een perfecte staat van dienst."
    },
    "SHIP_IS_FULLY_LADEN" : {
       "description" : "",
-      "message" : "Your ship is fully laden."
+      "message" : "Uw schip is volledig beladen."
    },
    "SHIP_MARKET" : {
       "description" : "",
@@ -821,7 +841,7 @@
    },
    "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
       "description" : "",
-      "message" : "Thank you for your purchase. Remember to fit equipment and buy fuel before you depart."
+      "message" : "Dank u voor uw aankoop. Denk aan de installatie van uitrusting en het kopen van brandstof voor u vertrekt."
    },
    "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP" : {
       "description" : "",
@@ -845,7 +865,7 @@
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
-      "message" : "Trading illegal goods"
+      "message" : "Handel in illegale goederen"
    },
    "TYPE" : {
       "description" : "",
@@ -853,7 +873,7 @@
    },
    "UNLAWFUL_WEAPONS_DISCHARGE" : {
       "description" : "",
-      "message" : "Unlawful weapons discharge"
+      "message" : "Ongeoorloofd gebruik van wapens"
    },
    "UP_ACCEL" : {
       "description" : "",
@@ -893,7 +913,7 @@
    },
    "WEIGHT_FULLY_LOADED" : {
       "description" : "",
-      "message" : "Weight fully loaded"
+      "message" : "Gewicht volledig beladen"
    },
    "WE_ARE_IN_HYPERSPACE_COMMANDER" : {
       "description" : "",
@@ -901,7 +921,7 @@
    },
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
       "description" : "",
-      "message" : "We have no business with you at the moment."
+      "message" : "We hebben op dit moment geen zaken met u af te handelen."
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",
@@ -933,6 +953,6 @@
    },
    "YOU_NOT_ENOUGH_MONEY" : {
       "description" : "",
-      "message" : "You do not have enough money"
+      "message" : "U heeft niet genoeg geld"
    }
 }

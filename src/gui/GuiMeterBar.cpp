@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Gui.h"
@@ -26,7 +26,7 @@ void MeterBar::Draw()
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glColor4b(255,255,255,32);
+	glColor4ub(255,255,255,32);
 	Gui::Theme::DrawRoundEdgedRect(size, 5.0);
 
 	Graphics::Renderer *r = Gui::Screen::GetRenderer();

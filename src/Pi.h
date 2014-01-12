@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _PI_H
@@ -105,6 +105,11 @@ public:
 	static void Message(const std::string &message, const std::string &from = "", enum MsgLevel level = MSG_NORMAL);
 	static std::string GetSaveDir();
 	static SceneGraph::Model *FindModel(const std::string&, bool allowPlaceholder = true);
+
+	static void CreateRenderTarget(const Uint16 width, const Uint16 height);
+	static void DrawRenderTarget();
+	static void BeginRenderTarget();
+	static void EndRenderTarget();
 
 	static const char SAVE_DIR_NAME[];
 
@@ -214,6 +219,10 @@ private:
 	static bool speedLinesDisplayed;
 
 	static Gui::Fixed *menu;
+
+	static Graphics::RenderTarget *renderTarget;
+	static RefCountedPtr<Graphics::Texture> renderTexture;
+	static std::unique_ptr<Graphics::Drawables::TexturedQuad> renderQuad;
 };
 
 #endif /* _PI_H */

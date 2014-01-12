@@ -38,6 +38,7 @@ The Pioneer Developers are:
 * jmf
 * John Bartholomew
 * John Jordan
+* Karl Fogelmark
 * Kimmo Kotajärvi
 * Konrad Mruk
 * Krzysztof Niedźwiecki
@@ -82,7 +83,8 @@ The Pioneer Developers are:
 Licensing
 =========
 
-Copyright © 2008-2013 Pioneer Developers
+Copyright © 2008-2014 Pioneer Developers
+Portions copyright © 2013-2014 Meteoric Games Ltd.
 
 Pioneer's core code and extension modules are licensed under the terms of the
 GNU General Public License version 3. See licenses/GPL-3.txt for details.

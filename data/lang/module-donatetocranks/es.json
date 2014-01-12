@@ -39,6 +39,14 @@
       "description" : "",
       "message" : "¡CONTRIBUYA! Protejamos nuestras especies. Acabemos con la matanza en los nuevos mundos colonizados."
    },
+   "FLAVOUR_5_MESSAGE" : {
+      "description" : "",
+      "message" : "Liberate your ship! Please choose amount to donate. Happy hacking."
+   },
+   "FLAVOUR_5_TITLE" : {
+      "description" : "",
+      "message" : "SUPPORT FREEDOM! Stop the great injustice of proprietary software controlling your ship."
+   },
    "HANG_UP" : {
       "description" : "",
       "message" : "Colgar."

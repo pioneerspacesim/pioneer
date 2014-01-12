@@ -1,10 +1,11 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GRAPHICS_H
 #define _GRAPHICS_H
 
 #include "libs.h"
+#include "RenderTarget.h"
 
 /*
  * bunch of reused 3d drawy routines.

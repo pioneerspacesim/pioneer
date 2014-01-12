@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "BindingCapture.h"
@@ -9,9 +9,6 @@ namespace GameUI {
 
 KeyBindingCapture::KeyBindingCapture(UI::Context *context): Single(context)
 {
-	m_binding.type = KeyBindings::KEYBOARD_KEY;
-	m_binding.u.keyboard.key = SDLK_UNKNOWN;
-	m_binding.u.keyboard.mod = KMOD_NONE;
 }
 
 KeyBindingCapture::~KeyBindingCapture()
@@ -31,11 +28,14 @@ void KeyBindingCapture::HandleInvisible()
 
 void KeyBindingCapture::HandleKeyDown(const UI::KeyboardEvent &event)
 {
-	m_binding.type = KeyBindings::KEYBOARD_KEY;
-	m_binding.u.keyboard.key = event.keysym.sym;
-	m_binding.u.keyboard.mod = event.keysym.mod;
-	Disconnect();
-	onCapture.emit(m_binding);
+	if (!event.repeat) { // ignore repeated key events
+		const SDL_Keycode key = event.keysym.sym;
+		// ignore modifiers on modifiers
+		// (keycodes for modifier keys are contiguous between SDLK_LCTRL and SDLK_RGUI)
+		const SDL_Keymod mod = ((key >= SDLK_LCTRL && key <= SDLK_RGUI) ? KMOD_NONE : event.keysym.mod);
+		m_binding = KeyBindings::KeyBinding::FromKeyMod(key, mod);
+		onCapture.emit(m_binding);
+	}
 }
 
 void KeyBindingCapture::Connect()
@@ -54,21 +54,14 @@ void KeyBindingCapture::Disconnect()
 
 bool KeyBindingCapture::OnJoystickHatMove(const UI::JoystickHatMotionEvent &event)
 {
-	m_binding.type = KeyBindings::JOYSTICK_HAT;
-	m_binding.u.joystickHat.joystick = event.joystick;
-	m_binding.u.joystickHat.hat = event.hat;
-	m_binding.u.joystickHat.direction = static_cast<int>(event.direction);
-	Disconnect();
+	m_binding = KeyBindings::KeyBinding::FromJoystickHat(event.joystick, event.hat, static_cast<Uint8>(event.direction));
 	onCapture.emit(m_binding);
 	return true;
 }
 
 bool KeyBindingCapture::OnJoystickButtonDown(const UI::JoystickButtonEvent &event)
 {
-	m_binding.type = KeyBindings::JOYSTICK_BUTTON;
-	m_binding.u.joystickButton.joystick = event.joystick;
-	m_binding.u.joystickButton.button = event.button;
-	Disconnect();
+	m_binding = KeyBindings::KeyBinding::FromJoystickButton(event.joystick, event.button);
 	onCapture.emit(m_binding);
 	return true;
 }
@@ -113,7 +106,6 @@ bool AxisBindingCapture::OnJoystickAxisMove(const UI::JoystickAxisMotionEvent &e
 		m_binding.joystick = event.joystick;
 		m_binding.axis = event.axis;
 		m_binding.direction = (event.value > 0 ? KeyBindings::POSITIVE : KeyBindings::NEGATIVE);
-		Disconnect();
 		onCapture.emit(m_binding);
 		return true;
 	}

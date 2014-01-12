@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "SystemView.h"
@@ -161,7 +161,7 @@ void SystemView::OnClickObject(const SystemBody *b)
 	std::string desc;
 	std::string data;
 
-	desc += std::string(Lang::NAME);
+	desc += std::string(Lang::NAME_OBJECT);
 	desc += ":\n";
 	data += b->name+"\n";
 
@@ -318,6 +318,7 @@ void SystemView::Draw3D()
 {
 	PROFILE_SCOPED()
 	m_renderer->SetPerspectiveProjection(50.f, m_renderer->GetDisplayAspect(), 1.f, 1000.f);
+	m_renderer->SetDepthWrite(true);
 	m_renderer->ClearScreen();
 
 	SystemPath path = Pi::sectorView->GetSelectedSystem();

@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "WorldView.h"
@@ -276,6 +276,7 @@ void WorldView::SetCamType(enum CamType c)
 	switch(m_camType) {
 		case CAM_INTERNAL:
 			m_activeCameraController = m_internalCameraController.get();
+			Pi::player->OnCockpitActivated();
 			break;
 		case CAM_EXTERNAL:
 			m_activeCameraController = m_externalCameraController.get();
@@ -393,9 +394,15 @@ void WorldView::Draw3D()
 	assert(Pi::game);
 	assert(Pi::player);
 	assert(!Pi::player->IsDead());
-	m_camera->Draw(m_renderer, GetCamType() == CAM_INTERNAL ? Pi::player : 0);
 
-	if (!Pi::DrawGUI) return;
+	Body* excludeBody = nullptr;
+	ShipCockpit* cockpit = nullptr;
+	if(GetCamType() == CAM_INTERNAL) {
+		excludeBody = Pi::player;
+		if (m_internalCameraController->GetMode() == InternalCameraController::MODE_FRONT)
+			cockpit = Pi::player->GetCockpit();
+	}
+	m_camera->Draw(m_renderer, excludeBody, cockpit);
 
 	// Draw 3D HUD
 	// Speed lines
@@ -853,7 +860,8 @@ void WorldView::Update()
 			else if (KeyBindings::rightCamera.IsActive())  ChangeInternalCameraMode(InternalCameraController::MODE_RIGHT);
 			else if (KeyBindings::topCamera.IsActive())    ChangeInternalCameraMode(InternalCameraController::MODE_TOP);
 			else if (KeyBindings::bottomCamera.IsActive()) ChangeInternalCameraMode(InternalCameraController::MODE_BOTTOM);
-		} else {
+		}
+		else {
 			MoveableCameraController *cam = static_cast<MoveableCameraController*>(m_activeCameraController);
 			if (KeyBindings::cameraRotateUp.IsActive()) cam->RotateUp(frameTime);
 			if (KeyBindings::cameraRotateDown.IsActive()) cam->RotateDown(frameTime);
@@ -1373,6 +1381,7 @@ void WorldView::UpdateProjectedObjects()
 				default: break;
 			}
 		}
+
 		if (laser >= 0) {
 			laser = Pi::player->m_equipment.Get(Equip::SLOT_LASER, laser);
 			laser = Equip::types[laser].tableIndex;

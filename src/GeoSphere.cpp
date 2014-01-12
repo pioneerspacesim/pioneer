@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -14,7 +14,6 @@
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
 #include "graphics/VertexArray.h"
-#include "graphics/gl2/GeoSphereMaterial.h"
 #include "vcacheopt/vcacheopt.h"
 #include <deque>
 #include <algorithm>
@@ -75,20 +74,6 @@ void GeoSphere::UpdateAllGeoSpheres()
 // static
 void GeoSphere::OnChangeDetailLevel()
 {
-//#warning "cancel jobs"
-#if 0
-	// Cancel all of the pending patch jobs
-	BasePatchJob::CancelAllPatchJobs();
-
-	// wait for all jobs to be finished
-	while(BasePatchJob::GetNumActivePatchJobs()>0) {
-		// re-issue the cancel call
-		BasePatchJob::CancelAllPatchJobs();
-		THREAD_CONFIG::tc_sleep(0);
-	}
-	BasePatchJob::ResetPatchJobCancel();
-#endif
-
 	s_patchContext.Reset(new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]));
 	assert(s_patchContext->edgeLen <= GEOPATCH_MAX_EDGELEN);
 
@@ -148,6 +133,7 @@ void GeoSphere::Reset()
 		{
 			// finally pass SplitResults
 			SSingleSplitResult *psr = (*iter);
+			assert(psr);
 
 			psr->OnCancel();
 
@@ -166,6 +152,7 @@ void GeoSphere::Reset()
 		{
 			// finally pass SplitResults
 			SQuadSplitResult *psr = (*iter);
+			assert(psr);
 
 			psr->OnCancel();
 
@@ -202,20 +189,6 @@ GeoSphere::GeoSphere(const SystemBody *body) : m_sbody(body), m_terrain(Terrain:
 
 GeoSphere::~GeoSphere()
 {
-//#warning "cancel jobs"
-#if 0
-	// Cancel all of the pending patch jobs
-	BasePatchJob::CancelAllPatchJobs();
-	//Pi::jobs().CancelAllPendingJobs();
-
-	// wait for all jobs to be finished
-	while(BasePatchJob::GetNumActivePatchJobs()>0) {
-		Pi::jobs().Update();
-		THREAD_CONFIG::tc_sleep(0);
-	}
-	BasePatchJob::ResetPatchJobCancel();
-#endif
-
 	// update thread should not be able to access us now, so we can safely continue to delete
 	assert(std::count(s_allGeospheres.begin(), s_allGeospheres.end(), this) == 1);
 	s_allGeospheres.erase(std::find(s_allGeospheres.begin(), s_allGeospheres.end(), this));
@@ -224,6 +197,7 @@ GeoSphere::~GeoSphere()
 bool GeoSphere::AddQuadSplitResult(SQuadSplitResult *res)
 {
 	bool result = false;
+	assert(res);
 	assert(mQuadSplitResults.size()<MAX_SPLIT_OPERATIONS);
 	if(mQuadSplitResults.size()<MAX_SPLIT_OPERATIONS) {
 		mQuadSplitResults.push_back(res);
@@ -235,6 +209,7 @@ bool GeoSphere::AddQuadSplitResult(SQuadSplitResult *res)
 bool GeoSphere::AddSingleSplitResult(SSingleSplitResult *res)
 {
 	bool result = false;
+	assert(res);
 	assert(mSingleSplitResults.size()<MAX_SPLIT_OPERATIONS);
 	if(mSingleSplitResults.size()<MAX_SPLIT_OPERATIONS) {
 		mSingleSplitResults.push_back(res);
@@ -252,6 +227,7 @@ void GeoSphere::ProcessSplitResults()
 		{
 			// finally pass SplitResults
 			SSingleSplitResult *psr = (*iter);
+			assert(psr);
 
 			const int32_t faceIdx = psr->face();
 			if( m_patches[faceIdx] ) {
@@ -276,6 +252,7 @@ void GeoSphere::ProcessSplitResults()
 		{
 			// finally pass SplitResults
 			SQuadSplitResult *psr = (*iter);
+			assert(psr);
 
 			const int32_t faceIdx = psr->face();
 			if( m_patches[faceIdx] ) {
@@ -551,26 +528,26 @@ void GeoSphere::SetUpMaterials()
 		(m_sbody->type == SystemBody::TYPE_STAR_M)) {
 		//dim star (emits and receives light)
 		surfDesc.lighting = true;
-		surfDesc.quality &= ~Graphics::GL2::HAS_ATMOSPHERE;
+		surfDesc.quality &= ~Graphics::HAS_ATMOSPHERE;
 	}
 	else if (m_sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
 		//normal star
 		surfDesc.lighting = false;
-		surfDesc.quality &= ~Graphics::GL2::HAS_ATMOSPHERE;
+		surfDesc.quality &= ~Graphics::HAS_ATMOSPHERE;
 	} else {
 		//planetoid with or without atmosphere
 		const SystemBody::AtmosphereParameters ap(m_sbody->CalcAtmosphereParams());
 		surfDesc.lighting = true;
 		if(ap.atmosDensity > 0.0) {
-			surfDesc.quality |= Graphics::GL2::HAS_ATMOSPHERE;
+			surfDesc.quality |= Graphics::HAS_ATMOSPHERE;
 		} else {
-			surfDesc.quality &= ~Graphics::GL2::HAS_ATMOSPHERE;
+			surfDesc.quality &= ~Graphics::HAS_ATMOSPHERE;
 		}
 	}
 
 	const bool bEnableEclipse = (Pi::config->Int("DisableEclipse") == 0);
 	if (bEnableEclipse) {
-		surfDesc.quality |= Graphics::GL2::HAS_ECLIPSES;
+		surfDesc.quality |= Graphics::HAS_ECLIPSES;
 	}
 	m_surfaceMaterial.reset(Pi::renderer->CreateMaterial(surfDesc));
 
@@ -580,7 +557,7 @@ void GeoSphere::SetUpMaterials()
 		skyDesc.effect = Graphics::EFFECT_GEOSPHERE_SKY;
 		skyDesc.lighting = true;
 		if (bEnableEclipse) {
-			skyDesc.quality |= Graphics::GL2::HAS_ECLIPSES;
+			skyDesc.quality |= Graphics::HAS_ECLIPSES;
 		}
 		m_atmosphereMaterial.reset(Pi::renderer->CreateMaterial(skyDesc));
 	}

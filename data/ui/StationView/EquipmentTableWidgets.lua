@@ -1,4 +1,4 @@
--- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -52,7 +52,7 @@ local equipIcon = {
 local defaultFuncs = {
 	-- can we trade in this item
 	canTrade = function (e)
-		return EquipDef[e].purchasable and EquipDef[e].slot == "CARGO"
+		return EquipDef[e].purchasable and EquipDef[e].slot == "CARGO" and Game.system:IsCommodityLegal(e)
 	end,
 
 	-- how much of this item do we have in stock?
@@ -91,14 +91,14 @@ local defaultFuncs = {
 
 local stationColumnHeading = {
 	icon  = "",
-	name  = l.NAME,
+	name  = l.NAME_OBJECT,
 	price = l.PRICE,
 	stock = l.IN_STOCK,
 	mass  = l.MASS,
 }
 local shipColumnHeading = {
 	icon      = "",
-	name      = l.NAME,
+	name      = l.NAME_OBJECT,
 	amount    = l.AMOUNT,
 	mass      = l.MASS,
 	massTotal = l.TOTAL_MASS,

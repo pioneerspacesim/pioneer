@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _RENDERER_GL2_H
@@ -63,6 +63,7 @@ public:
 	virtual bool SetDepthWrite(bool enabled);
 	virtual bool SetWireFrameMode(bool enabled);
 
+	virtual bool SetLightsEnabled(const bool enabled);
 	virtual bool SetLights(int numlights, const Light *l);
 	virtual bool SetAmbientColor(const Color &c);
 
@@ -88,8 +89,8 @@ public:
 	virtual const matrix4x4f& GetCurrentModelView() const { return m_modelViewStack.top(); }
 	virtual const matrix4x4f& GetCurrentProjection() const { return m_projectionStack.top(); }
 	virtual void GetCurrentViewport(Sint32 *vp) const {
-		for(int i=0; i<4; i++)
-			vp[i] = m_currentViewport[i];
+		const Viewport &cur = m_viewportStack.top();
+		vp[0] = cur.x; vp[1] = cur.y; vp[2] = cur.w; vp[3] = cur.h;
 	}
 
 	virtual void SetMatrixMode(MatrixMode mm);
@@ -131,10 +132,15 @@ protected:
 	float m_invLogZfarPlus1;
 	GL2::RenderTarget *m_activeRenderTarget;
 
+	MatrixMode m_matrixMode;
 	std::stack<matrix4x4f> m_modelViewStack;
 	std::stack<matrix4x4f> m_projectionStack;
-	Sint32 m_currentViewport[4];
-	MatrixMode m_matrixMode;
+
+	struct Viewport {
+		Viewport() : x(0), y(0), w(0), h(0) {}
+		Sint32 x, y, w, h;
+	};
+	std::stack<Viewport> m_viewportStack;
 };
 
 }
