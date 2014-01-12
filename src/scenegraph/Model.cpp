@@ -300,6 +300,8 @@ void Model::Save(Serializer::Writer &wr) const
 
 	for (AnimationContainer::const_iterator i = m_animations.begin(); i != m_animations.end(); ++i)
 		wr.Double((*i)->GetProgress());
+
+	wr.Int32(m_curPatternIndex);
 }
 
 class LoadVisitor : public NodeVisitor {
@@ -325,6 +327,8 @@ void Model::Load(Serializer::Reader &rd)
 	for (AnimationContainer::const_iterator i = m_animations.begin(); i != m_animations.end(); ++i)
 		(*i)->SetProgress(rd.Double());
 	UpdateAnimations();
+
+	SetPattern(rd.Int32());
 }
 
 }
