@@ -18,6 +18,7 @@
 #include "KeyBindings.h"
 #include "Lang.h"
 #include "Player.h"
+#include "scenegraph/Model.h"
 
 /*
  * Interface: Engine
@@ -690,6 +691,14 @@ static int l_engine_set_joystick_enabled(lua_State *l)
 	return 0;
 }
 
+static int l_engine_get_model(lua_State *l)
+{
+	const std::string name(luaL_checkstring(l, 1));
+	SceneGraph::Model *model = Pi::FindModel(name);
+	LuaObject<SceneGraph::Model>::PushToLua(model);
+	return 1;
+}
+
 void LuaEngine::Register()
 {
 	lua_State *l = Lua::manager->GetLuaState();
@@ -748,6 +757,8 @@ void LuaEngine::Register()
 		{ "SetMouseYInverted", l_engine_set_mouse_y_inverted },
 		{ "GetJoystickEnabled", l_engine_get_joystick_enabled },
 		{ "SetJoystickEnabled", l_engine_set_joystick_enabled },
+
+		{ "GetModel", l_engine_get_model },
 
 		{ 0, 0 }
 	};
