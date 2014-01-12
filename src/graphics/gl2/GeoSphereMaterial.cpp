@@ -131,6 +131,8 @@ Program *GasSphereSurfaceMaterial::CreateProgram(const MaterialDescriptor &desc)
 		const float invNumLights = 1.0f / float(desc.dirLights);
 		ss << stringf("#define INV_NUM_LIGHTS %0{f}\n", invNumLights);
 	}
+	if (desc.textures > 0)
+		ss << "#define TEXTURE0\n";
 	if (desc.quality & HAS_ATMOSPHERE)
 		ss << "#define ATMOSPHERE\n";
 	if (desc.quality & HAS_ECLIPSES)
@@ -160,6 +162,9 @@ void GasSphereSurfaceMaterial::SetGSUniforms()
 	p->geosphereCenter.Set(ap.center);
 	p->geosphereScaledRadius.Set(ap.planetRadius / ap.scale);
 	p->geosphereScale.Set(ap.scale);
+
+	p->diffuse.Set(this->diffuse);
+	p->texture0.Set(this->texture0, 0);
 
 	// we handle up to three shadows at a time
 	int occultedLight[3] = {-1,-1,-1};

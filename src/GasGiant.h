@@ -46,8 +46,12 @@ public:
 
 private:
 	void BuildFirstPatches();
+	void GenerateTexture();
 
 	static RefCountedPtr<GasPatchContext> GasGiant::s_patchContext;
+
+	// all variables for GetHeight(), GetColor()
+	RefCountedPtr<Terrain> m_terrain;
 
 	//std::unique_ptr<Graphics::Drawables::Sphere3D> m_baseCloudSurface;
 	std::unique_ptr<GasPatch> m_patches[NUM_PATCHES];
@@ -56,6 +60,7 @@ private:
 	vector3d m_tempCampos;
 
 	virtual void SetUpMaterials();
+	RefCountedPtr<Graphics::Texture> m_surfaceTexture;
 	RefCountedPtr<Graphics::Material> m_surfaceMaterial;
 	std::unique_ptr<Graphics::Material> m_atmosphereMaterial;
 	//special parameters for shaders

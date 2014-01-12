@@ -1,6 +1,6 @@
 varying vec3 varyingEyepos;
 varying vec3 varyingNormal;
-varying vec4 vertexColor;
+varying vec3 varyingTexCoord0;
 
 uniform vec3 geosphereCenter;
 uniform float geosphereScaledRadius;
@@ -8,7 +8,7 @@ uniform float geosphereScaledRadius;
 void main(void)
 {
 	gl_Position = logarithmicTransform();
-	vertexColor = gl_Color;
 	varyingEyepos = vec3(gl_ModelViewMatrix * gl_Vertex);
 	varyingNormal = gl_NormalMatrix * gl_Normal;
+	varyingTexCoord0 = gl_Vertex.xyz;
 }

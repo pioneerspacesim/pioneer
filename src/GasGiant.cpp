@@ -33,39 +33,25 @@ struct VBOVertex
 {
 	float x,y,z;
 	float nx,ny,nz;
-	unsigned char col[4];
-	float padding;
+	float u, v;
 };
 #pragma pack()
-
-static const int INDEX_LISTS = 16;
 
 class GasPatchContext : public RefCounted {
 public:
 	int edgeLen;
 
-	inline int VBO_COUNT_LO_EDGE() const { return 3*(edgeLen/2); }
-	inline int VBO_COUNT_HI_EDGE() const { return 3*(edgeLen-1); }
-	inline int VBO_COUNT_MID_IDX() const { return (4*3*(edgeLen-3))    + 2*(edgeLen-3)*(edgeLen-3)*3; }
-	//                                            ^^ serrated teeth bit  ^^^ square inner bit
-
-	inline int IDX_VBO_LO_OFFSET(int i) const { return i*sizeof(unsigned short)*3*(edgeLen/2); }
-	inline int IDX_VBO_HI_OFFSET(int i) const { return (i*sizeof(unsigned short)*VBO_COUNT_HI_EDGE())+IDX_VBO_LO_OFFSET(4); }
-	inline int IDX_VBO_MAIN_OFFSET()    const { return IDX_VBO_HI_OFFSET(4); }
+	inline int VBO_COUNT_IDX() const { return (edgeLen-1) * (edgeLen-1); }
 	inline int IDX_VBO_COUNT_ALL_IDX()	const { return ((edgeLen-1)*(edgeLen-1))*2*3; }
 
 	inline int NUMVERTICES() const { return edgeLen*edgeLen; }
 
 	double frac;
 
-	std::unique_ptr<unsigned short[]> midIndices;
-	std::unique_ptr<unsigned short[]> loEdgeIndices[4];
-	std::unique_ptr<unsigned short[]> hiEdgeIndices[4];
+	std::unique_ptr<unsigned short[]> indices;
+	std::unique_ptr<VBOVertex> vbotemp;
 	GLuint indices_vbo;
-	GLuint indices_list[INDEX_LISTS];
 	GLuint indices_tri_count;
-	GLuint indices_tri_counts[INDEX_LISTS];
-	VBOVertex *vbotemp;
 
 	GasPatchContext(const int _edgeLen) : edgeLen(_edgeLen) {
 		Init();
@@ -81,78 +67,37 @@ public:
 	}
 
 	void Cleanup() {
-		midIndices.reset();
-		for (int i=0; i<4; i++) {
-			loEdgeIndices[i].reset();
-			hiEdgeIndices[i].reset();
-		}
 		if (indices_vbo) {
-			indices_vbo = 0;
+			glDeleteBuffersARB(1, &indices_vbo);
 		}
-		for (int i=0; i<INDEX_LISTS; i++) {
-			if (indices_list[i]) {
-				glDeleteBuffersARB(1, &indices_list[i]);
-			}
-		}
-		delete [] vbotemp;
 	}
 
-	void updateIndexBufferId(const GLuint edge_hi_flags) {
-		assert(edge_hi_flags < GLuint(INDEX_LISTS));
-		indices_vbo = indices_list[edge_hi_flags];
-		indices_tri_count = indices_tri_counts[edge_hi_flags];
-	}
-
-	int getIndices(std::vector<unsigned short> &pl, const unsigned int edge_hi_flags)
+	int getIndices(std::vector<unsigned short> &pl)
 	{
 		// calculate how many tri's there are
-		int tri_count = (VBO_COUNT_MID_IDX() / 3);
-		for( int i=0; i<4; ++i ) {
-			if( edge_hi_flags & (1 << i) ) {
-				tri_count += (VBO_COUNT_HI_EDGE() / 3);
-			} else {
-				tri_count += (VBO_COUNT_LO_EDGE() / 3);
-			}
-		}
+		const int tri_count = IDX_VBO_COUNT_ALL_IDX()/3;
 
 		// pre-allocate enough space
-		pl.reserve(tri_count);
+		pl.reserve(IDX_VBO_COUNT_ALL_IDX());
 
 		// add all of the middle indices
-		for(int i=0; i<VBO_COUNT_MID_IDX(); ++i) {
-			pl.push_back(midIndices[i]);
-		}
-		// selectively add the HI or LO detail indices
-		for (int i=0; i<4; i++) {
-			if( edge_hi_flags & (1 << i) ) {
-				for(int j=0; j<VBO_COUNT_HI_EDGE(); ++j) {
-					pl.push_back(hiEdgeIndices[i][j]);
-				}
-			} else {
-				for(int j=0; j<VBO_COUNT_LO_EDGE(); ++j) {
-					pl.push_back(loEdgeIndices[i][j]);
-				}
-			}
+		for(int i=0; i<IDX_VBO_COUNT_ALL_IDX(); ++i) {
+			pl.push_back(indices[i]);
 		}
 
 		return tri_count;
 	}
-
+	
 	void Init() {
 		frac = 1.0 / double(edgeLen-1);
 
-		vbotemp = new VBOVertex[NUMVERTICES()];
+		vbotemp.reset( new VBOVertex[NUMVERTICES()] );
 
-		unsigned short *idx;
-		midIndices.reset(new unsigned short[VBO_COUNT_MID_IDX()]);
-		for (int i=0; i<4; i++) {
-			loEdgeIndices[i].reset(new unsigned short[VBO_COUNT_LO_EDGE()]);
-			hiEdgeIndices[i].reset(new unsigned short[VBO_COUNT_HI_EDGE()]);
-		}
-		/* also want vtx indices for tris not touching edge of patch */
-		idx = midIndices.get();
-		for (int x=1; x<edgeLen-2; x++) {
-			for (int y=1; y<edgeLen-2; y++) {
+		// also want vtx indices for tris not touching edge of patch 
+		indices.reset(new unsigned short[IDX_VBO_COUNT_ALL_IDX()]);
+		unsigned short *idx = indices.get();
+		for (int x=0; x<edgeLen-1; x++) {
+			for (int y=0; y<edgeLen-1; y++) {
 				idx[0] = x + edgeLen*y;
 				idx[1] = x+1 + edgeLen*y;
 				idx[2] = x + edgeLen*(y+1);
@@ -164,163 +109,25 @@ public:
 				idx+=3;
 			}
 		}
-		{
-			for (int x=1; x<edgeLen-3; x+=2) {
-				// razor teeth near edge 0
-				idx[0] = x + edgeLen;
-				idx[1] = x+1;
-				idx[2] = x+1 + edgeLen;
-				idx+=3;
-				idx[0] = x+1;
-				idx[1] = x+2 + edgeLen;
-				idx[2] = x+1 + edgeLen;
-				idx+=3;
-			}
-			for (int x=1; x<edgeLen-3; x+=2) {
-				// near edge 2
-				idx[0] = x + edgeLen*(edgeLen-2);
-				idx[1] = x+1 + edgeLen*(edgeLen-2);
-				idx[2] = x+1 + edgeLen*(edgeLen-1);
-				idx+=3;
-				idx[0] = x+1 + edgeLen*(edgeLen-2);
-				idx[1] = x+2 + edgeLen*(edgeLen-2);
-				idx[2] = x+1 + edgeLen*(edgeLen-1);
-				idx+=3;
-			}
-			for (int y=1; y<edgeLen-3; y+=2) {
-				// near edge 1
-				idx[0] = edgeLen-2 + y*edgeLen;
-				idx[1] = edgeLen-1 + (y+1)*edgeLen;
-				idx[2] = edgeLen-2 + (y+1)*edgeLen;
-				idx+=3;
-				idx[0] = edgeLen-2 + (y+1)*edgeLen;
-				idx[1] = edgeLen-1 + (y+1)*edgeLen;
-				idx[2] = edgeLen-2 + (y+2)*edgeLen;
-				idx+=3;
-			}
-			for (int y=1; y<edgeLen-3; y+=2) {
-				// near edge 3
-				idx[0] = 1 + y*edgeLen;
-				idx[1] = 1 + (y+1)*edgeLen;
-				idx[2] = (y+1)*edgeLen;
-				idx+=3;
-				idx[0] = 1 + (y+1)*edgeLen;
-				idx[1] = 1 + (y+2)*edgeLen;
-				idx[2] = (y+1)*edgeLen;
-				idx+=3;
-			}
-		}
-		// full detail edge triangles
-		{
-			idx = hiEdgeIndices[0].get();
-			for (int x=0; x<edgeLen-1; x+=2) {
-				idx[0] = x; idx[1] = x+1; idx[2] = x+1 + edgeLen;
-				idx+=3;
-				idx[0] = x+1; idx[1] = x+2; idx[2] = x+1 + edgeLen;
-				idx+=3;
-			}
-			idx = hiEdgeIndices[1].get();
-			for (int y=0; y<edgeLen-1; y+=2) {
-				idx[0] = edgeLen-1 + y*edgeLen;
-				idx[1] = edgeLen-1 + (y+1)*edgeLen;
-				idx[2] = edgeLen-2 + (y+1)*edgeLen;
-				idx+=3;
-				idx[0] = edgeLen-1 + (y+1)*edgeLen;
-				idx[1] = edgeLen-1 + (y+2)*edgeLen;
-				idx[2] = edgeLen-2 + (y+1)*edgeLen;
-				idx+=3;
-			}
-			idx = hiEdgeIndices[2].get();
-			for (int x=0; x<edgeLen-1; x+=2) {
-				idx[0] = x + (edgeLen-1)*edgeLen;
-				idx[1] = x+1 + (edgeLen-2)*edgeLen;
-				idx[2] = x+1 + (edgeLen-1)*edgeLen;
-				idx+=3;
-				idx[0] = x+1 + (edgeLen-2)*edgeLen;
-				idx[1] = x+2 + (edgeLen-1)*edgeLen;
-				idx[2] = x+1 + (edgeLen-1)*edgeLen;
-				idx+=3;
-			}
-			idx = hiEdgeIndices[3].get();
-			for (int y=0; y<edgeLen-1; y+=2) {
-				idx[0] = y*edgeLen;
-				idx[1] = 1 + (y+1)*edgeLen;
-				idx[2] = (y+1)*edgeLen;
-				idx+=3;
-				idx[0] = (y+1)*edgeLen;
-				idx[1] = 1 + (y+1)*edgeLen;
-				idx[2] = (y+2)*edgeLen;
-				idx+=3;
-			}
-		}
-		// these edge indices are for patches with no
-		// neighbour of equal or greater detail -- they reduce
-		// their edge complexity by 1 division
-		{
-			idx = loEdgeIndices[0].get();
-			for (int x=0; x<edgeLen-2; x+=2) {
-				idx[0] = x;
-				idx[1] = x+2;
-				idx[2] = x+1+edgeLen;
-				idx += 3;
-			}
-			idx = loEdgeIndices[1].get();
-			for (int y=0; y<edgeLen-2; y+=2) {
-				idx[0] = (edgeLen-1) + y*edgeLen;
-				idx[1] = (edgeLen-1) + (y+2)*edgeLen;
-				idx[2] = (edgeLen-2) + (y+1)*edgeLen;
-				idx += 3;
-			}
-			idx = loEdgeIndices[2].get();
-			for (int x=0; x<edgeLen-2; x+=2) {
-				idx[0] = x+edgeLen*(edgeLen-1);
-				idx[2] = x+2+edgeLen*(edgeLen-1);
-				idx[1] = x+1+edgeLen*(edgeLen-2);
-				idx += 3;
-			}
-			idx = loEdgeIndices[3].get();
-			for (int y=0; y<edgeLen-2; y+=2) {
-				idx[0] = y*edgeLen;
-				idx[2] = (y+2)*edgeLen;
-				idx[1] = 1 + (y+1)*edgeLen;
-				idx += 3;
-			}
-		}
 
 		// these will hold the optimised indices
-		std::vector<unsigned short> pl_short[INDEX_LISTS];
-		// populate the N indices lists from the arrays built during InitTerrainIndices()
-		for( int i=0; i<INDEX_LISTS; ++i ) {
-			const unsigned int edge_hi_flags = i;
-			indices_tri_counts[i] = getIndices(pl_short[i], edge_hi_flags);
-		}
+		std::vector<unsigned short> pl_short;
 
+		// populate the N indices lists from the arrays built during InitTerrainIndices()
 		// iterate over each index list and optimize it
-		for( int i=0; i<INDEX_LISTS; ++i ) {
-			int tri_count = indices_tri_counts[i];
-			VertexCacheOptimizerUShort vco;
-			VertexCacheOptimizerUShort::Result res = vco.Optimize(&pl_short[i][0], tri_count);
-			assert(0 == res);
-		}
+		indices_tri_count = getIndices(pl_short);
+		VertexCacheOptimizerUShort vco;
+		VertexCacheOptimizerUShort::Result res = vco.Optimize(&pl_short[0], indices_tri_count);
+		assert(0 == res);
 
 		// everything should be hunky-dory for setting up as OpenGL index buffers now.
-		for( int i=0; i<INDEX_LISTS; ++i ) {
-			glGenBuffersARB(1, &indices_list[i]);
-			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_list[i]);
-			glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned short)*indices_tri_counts[i]*3, &(pl_short[i][0]), GL_STATIC_DRAW);
-			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
-		}
+		glGenBuffersARB(1, &indices_vbo);
+		glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo);
+		glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned short)*indices_tri_count*3, &(pl_short[0]), GL_STATIC_DRAW);
+		glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-		// default it to the last entry which uses the hi-res borders
-		indices_vbo			= indices_list[INDEX_LISTS-1];
-		indices_tri_count	= indices_tri_counts[INDEX_LISTS-1];
-
-		if (midIndices) {
-			midIndices.reset();
-			for (int i=0; i<4; i++) {
-				loEdgeIndices[i].reset();
-				hiEdgeIndices[i].reset();
-			}
+		if (indices) {
+			indices.reset();
 		}
 	}
 };
@@ -359,9 +166,7 @@ public:
 
 	/* in patch surface coords, [0,1] */
 	vector3d GetSpherePoint(const double x, const double y) const {
-		return (v[0] + x*(1.0-y)*(v[1]-v[0]) +
-			    x*y*(v[2]-v[0]) +
-			    (1.0-x)*y*(v[3]-v[0])).Normalized();
+		return (v[0] + x*(1.0-y)*(v[1]-v[0]) + x*y*(v[2]-v[0]) + (1.0-x)*y*(v[3]-v[0])).Normalized();
 	}
 
 	void UpdateVBOs() {
@@ -370,7 +175,7 @@ public:
 		
 		glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
 		glBufferDataARB(GL_ARRAY_BUFFER, sizeof(VBOVertex)*ctx->NUMVERTICES(), 0, GL_DYNAMIC_DRAW);
-		VBOVertex *pData = ctx->vbotemp;
+		VBOVertex *pData = ctx->vbotemp.get();
 		for (int y=0; y<ctx->edgeLen; y++) {
 			for (int x=0; x<ctx->edgeLen; x++) {
 				const vector3d p = GetSpherePoint(x*ctx->frac, y*ctx->frac);
@@ -385,22 +190,17 @@ public:
 				pData->nz = float(p.z);
 
 				//http://www.mvps.org/directx/articles/spheremap.htm
-				//m_surface->GetVertices()->uv0.push_back(
-				//vector2f(asinf(p.x)/M_PI+0.5f, asinf(p.y)/M_PI+0.5f);
-				pData->col[0] = (asinf(p.x)/M_PI+0.5f) * 255.0;
-				pData->col[1] = 96;
-				pData->col[2] = (asinf(p.y)/M_PI+0.5f) * 255.0;
-				pData->col[3] = 255;
+				//pData->u = asinf(p.x)/M_PI+0.5f;
+				//pData->v = asinf(p.y)/M_PI+0.5f;
+
+				pData->u = float(0.5 + atan2(p.z,p.x)/(2.0*M_PI));
+				pData->v = 0.5 - asin(p.y)/M_PI;
 
 				++pData; // next vertex
 			}
 		}
-		glBufferDataARB(GL_ARRAY_BUFFER, sizeof(VBOVertex)*ctx->NUMVERTICES(), ctx->vbotemp, GL_DYNAMIC_DRAW);
+		glBufferDataARB(GL_ARRAY_BUFFER, sizeof(VBOVertex)*ctx->NUMVERTICES(), ctx->vbotemp.get(), GL_DYNAMIC_DRAW);
 		glBindBufferARB(GL_ARRAY_BUFFER, 0);
-	}
-
-	GLuint determineIndexbuffer() const {
-		return 1u | 2u | 4u | 8u;
 	}
 
 	void Render(Graphics::Renderer *renderer, const vector3d &campos, const matrix4x4d &modelView, const Graphics::Frustum &frustum) {
@@ -414,15 +214,13 @@ public:
 		Pi::statSceneTris += 2*(ctx->edgeLen-1)*(ctx->edgeLen-1);
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glEnableClientState(GL_NORMAL_ARRAY);
-		glEnableClientState(GL_COLOR_ARRAY);
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
 		// update the indices used for rendering
-		ctx->updateIndexBufferId(determineIndexbuffer());
-
 		glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
 		glVertexPointer(3, GL_FLOAT, sizeof(VBOVertex), 0);
 		glNormalPointer(GL_FLOAT, sizeof(VBOVertex), reinterpret_cast<void *>(3*sizeof(float)));
-		glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(VBOVertex), reinterpret_cast<void *>(6*sizeof(float)));
+		glTexCoordPointer(2, GL_FLOAT, sizeof(VBOVertex), reinterpret_cast<void *>(6*sizeof(float)));
 		glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, ctx->indices_vbo);
 		glDrawElements(GL_TRIANGLES, ctx->indices_tri_count*3, GL_UNSIGNED_SHORT, 0);
 		glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
@@ -430,21 +228,100 @@ public:
 
 		glDisableClientState(GL_VERTEX_ARRAY);
 		glDisableClientState(GL_NORMAL_ARRAY);
-		glDisableClientState(GL_COLOR_ARRAY);
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 		glPopMatrix();
 	}
 };
 
-GasGiant::GasGiant(const SystemBody *body) : BaseSphere(body),
+GasGiant::GasGiant(const SystemBody *body) : BaseSphere(body), m_terrain(Terrain::InstanceTerrain(body)),
 	m_hasTempCampos(false), m_tempCampos(0.0)
 {
 	//SetUpMaterials is not called until first Render since light count is zero :)
 
 	BuildFirstPatches();
+	GenerateTexture();
 }
 
 GasGiant::~GasGiant()
 {
+}
+
+#include "FileSystem.h"
+#include "PngWriter.h"
+void textureDump(const char* destFile, const int width, const int height, const Color* buf)
+{
+	const std::string dir = "generated_textures";
+	FileSystem::userFiles.MakeDirectory(dir);
+	const std::string fname = FileSystem::JoinPathBelow(dir, destFile);
+
+	// pad rows to 4 bytes, which is the default row alignment for OpenGL
+	//const int stride = (3*width + 3) & ~3;
+	const int stride = width * 4;
+
+	write_png(FileSystem::userFiles, fname, &buf[0].r, width, height, stride, 4);
+
+	printf("texture %s saved\n", fname.c_str());
+}
+
+#include "graphics/Material.h"
+#include "graphics/Renderer.h"
+#include "graphics/TextureBuilder.h"
+void GasGiant::GenerateTexture()
+{
+#if 1
+	// Load new one
+	Graphics::TextureBuilder texture_builder = Graphics::TextureBuilder::Cube("textures/jupiter.dds");
+	m_surfaceTexture.Reset(texture_builder.CreateTexture(Gui::Screen::GetRenderer()));
+#else
+	static const Uint32 U_WIDE = 512;
+	static const Uint32 V_HIGH = 256;
+
+	std::unique_ptr<Color, FreeDeleter> buf(static_cast<Color*>(malloc(U_WIDE * V_HIGH * 4)));
+
+	for( Uint32 v=0; v<V_HIGH; v++ ) {
+		for( Uint32 u=0; u<U_WIDE; u++ ) {
+			// from 2d to 3d
+			const double q = DEG2RAD((double(u) / double(U_WIDE)) * 180.0);
+			const double f = DEG2RAD((double(v) / double(V_HIGH)) * 180.0);
+#if 1
+			const double x = cos(q) * cos(f);
+			const double y = cos(q) * sin(f);
+			const double z = sin(q);
+#else
+			const double x = sin(q) * cos(f);
+			const double y = sin(q) * sin(f);
+			const double z = cos(q);
+
+			/*x = sin(q) * cos(f)
+			y = cos(q)
+			z = sin(q) * sin(f)*/
+#endif
+			const vector3d p(vector3d(x,y,z).Normalized());
+
+			// get colour using `p`
+			const vector3d colour = m_terrain->GetColor(p, 0.0, p);
+
+			// convert to ubyte and store
+			Color* col = buf.get() + (u + (v * U_WIDE));
+			col[0].r = Uint8(colour.x * 255);
+			col[0].g = Uint8(colour.y * 255);
+			col[0].b = Uint8(colour.z * 255);
+			col[0].a = 255;
+		}
+	}
+
+	char filename[1024];
+	snprintf(filename, 1024, "%s.png", GetSystemBody()->name.c_str());
+	textureDump(filename, U_WIDE, V_HIGH, buf.get());
+
+	// create texture
+	const vector2f texSize(U_WIDE, V_HIGH);
+	const Graphics::TextureDescriptor texDesc(Graphics::TEXTURE_RGBA_8888, texSize, Graphics::LINEAR_REPEAT, false, false);
+	m_surfaceTexture.Reset(Pi::renderer->CreateTexture(texDesc));
+
+	// update with buffer from above
+	m_surfaceTexture->Update(static_cast<void*>(buf.get()), texSize, Graphics::TEXTURE_RGBA_8888);
+#endif
 }
 
 static const float g_ambient[4] = { 0, 0, 0, 1.0 };
@@ -590,7 +467,7 @@ void GasGiant::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView,
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_NORMAL_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
 	for (int i=0; i<NUM_PATCHES; i++) {
 		m_patches[i]->Render(renderer, campos, modelView, frustum);
@@ -598,7 +475,7 @@ void GasGiant::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView,
 
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_NORMAL_ARRAY);
-	glDisableClientState(GL_COLOR_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
 	m_surfaceMaterial->Unapply();
 
@@ -640,7 +517,9 @@ void GasGiant::SetUpMaterials()
 	if (bEnableEclipse) {
 		surfDesc.quality |= Graphics::HAS_ECLIPSES;
 	}
+	surfDesc.textures = 1;
 	m_surfaceMaterial.Reset(Pi::renderer->CreateMaterial(surfDesc));
+	m_surfaceMaterial->texture0 = m_surfaceTexture.Get();
 
 	//Shader-less atmosphere is drawn in Planet
 	{
@@ -657,7 +536,7 @@ void GasGiant::SetUpMaterials()
 void GasGiant::BuildFirstPatches()
 {
 	if( s_patchContext.Get() == nullptr ) {
-		s_patchContext.Reset(new GasPatchContext(55));
+		s_patchContext.Reset(new GasPatchContext(127));
 	}
 
 	// generate root face patches of the cube/sphere
