@@ -9,7 +9,7 @@
 /*
  * Class: SpaceStation
  *
- * Class representing a space station. Inherits from <Body>
+ * Class representing a space station. Inherits from <ModelBody>
  */
 
 /*
@@ -98,7 +98,7 @@ template <> const char *LuaObject<SpaceStation>::s_type = "SpaceStation";
 
 template <> void LuaObject<SpaceStation>::RegisterClass()
 {
-	const char *l_parent = "Body";
+	const char *l_parent = "ModelBody";
 
 	static const luaL_Reg l_methods[] = {
 		{ "GetGroundPosition",  l_spacestation_get_ground_position },

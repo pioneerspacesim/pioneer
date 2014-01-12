@@ -205,6 +205,7 @@ pioneer_SOURCES	= \
 	LuaFixed.cpp \
 	LuaManager.cpp \
 	LuaMissile.cpp \
+	LuaModelBody.cpp \
 	LuaMusic.cpp \
 	LuaNameGen.cpp \
 	LuaObject.cpp \
