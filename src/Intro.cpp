@@ -122,8 +122,7 @@ void Intro::Draw(float _time)
 
 	matrix4x4f trans =
 		matrix4x4f::Translation(0, 0, m_dist) *
-		matrix4x4f::RotateYMatrix(_time) *
-		matrix4x4f::RotateZMatrix(0.6f*_time) *
-		matrix4x4f::RotateXMatrix(_time*0.7f);
+		matrix4x4f::RotateXMatrix(DEG2RAD(-15.0f)) *
+		matrix4x4f::RotateYMatrix(_time);
 	m_model->Render(trans);
 }
