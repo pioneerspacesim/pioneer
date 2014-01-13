@@ -7,6 +7,7 @@
 #include "Cutscene.h"
 #include "Background.h"
 #include "ShipType.h"
+#include "scenegraph/ModelSkin.h"
 
 class Intro : public Cutscene {
 public:
@@ -16,6 +17,7 @@ public:
 
 private:
 	std::vector<SceneGraph::Model*> m_models;
+	SceneGraph::ModelSkin m_skin;
 
 	enum State {
 		STATE_SELECT,
