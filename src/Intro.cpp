@@ -98,15 +98,14 @@ void Intro::Draw(float _time)
 			break;
 	}
 
+	Graphics::Renderer::StateTicket ticket(m_renderer);
+
 	m_renderer->SetPerspectiveProjection(75, m_aspectRatio, 1.f, 10000.f);
 	m_renderer->SetTransform(matrix4x4f::Identity());
 
 	m_renderer->SetDepthTest(true);
 	m_renderer->SetDepthWrite(true);
 
-	glPushAttrib(GL_ALL_ATTRIB_BITS & (~GL_POINT_BIT));
-
-	const Color oldSceneAmbientColor = m_renderer->GetAmbientColor();
 	m_renderer->SetAmbientColor(m_ambientColor);
 	m_renderer->SetLights(m_lights.size(), &m_lights[0]);
 
@@ -127,10 +126,4 @@ void Intro::Draw(float _time)
 		matrix4x4f::RotateZMatrix(0.6f*_time) *
 		matrix4x4f::RotateXMatrix(_time*0.7f);
 	m_model->Render(trans);
-
-	m_renderer->SetAmbientColor(oldSceneAmbientColor);
-
-	m_renderer->SetViewport(0, 0, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
-
-	glPopAttrib();
 }
