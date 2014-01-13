@@ -707,11 +707,11 @@ void Game::DestroyViews()
 Game *Game::LoadGame(const std::string &filename)
 {
 	printf("Game::LoadGame('%s')\n", filename.c_str());
-	FILE *f = FileSystem::userFiles.OpenReadStream(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
-	if (!f) throw CouldNotOpenFileException();
-	Serializer::Reader rd(f);
-	fclose(f);
+	auto file = FileSystem::userFiles.ReadFile(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
+	if (!file) throw CouldNotOpenFileException();
+	Serializer::Reader rd(file->AsByteRange());
 	return new Game(rd);
+	// file data is freed here
 }
 
 void Game::SaveGame(const std::string &filename, Game *game)
