@@ -11,6 +11,7 @@ local Timer = import("Timer")
 local Game = import("Game")
 local Ship = import("Ship")
 local EquipDef = import("EquipDef")
+local Model = import("SceneGraph.Model")
 local ModelSkin = import("SceneGraph.ModelSkin")
 local Serializer = import("Serializer")
 
@@ -133,9 +134,10 @@ function SpaceStation:AddShipOnSale (entry)
 	assert(entry.skin)
 	assert(entry.label)
 	addShipOnSale(self, {
-		def   = entry.def,
-		skin  = entry.skin,
-		label = entry.label
+		def     = entry.def,
+		skin    = entry.skin,
+		pattern = entry.pattern,
+		label   = entry.label
 	})
 	Event.Queue("onShipMarketUpdate", self, shipsOnSale[self])
 end
@@ -174,9 +176,10 @@ function SpaceStation:ReplaceShipOnSale (old, new)
 		self:AddShipOnSale(new)
 	else
 		shipsOnSale[self][num] = {
-			def   = new.def,
-			skin  = new.skin,
-			label = new.label,
+			def     = new.def,
+			skin    = new.skin,
+			pattern = new.pattern,
+			label   = new.label,
 		}
 	end
 	Event.Queue("onShipMarketUpdate", self, shipsOnSale[self])
@@ -205,10 +208,14 @@ local function updateShipsOnSale (station)
 	if toAdd > 0 then
 		local avail = station.type == "STARPORT_SURFACE" and groundShips or spaceShips
 		for i=1,toAdd do
+			local def = avail[Engine.rand:Integer(1,#avail)]
+			local model = Engine.GetModel(def.modelName)
+			local pattern = model.numPatterns ~= 0 and Engine.rand:Integer(1,model.numPatterns) or nil
 			addShipOnSale(station, {
-				def   = avail[Engine.rand:Integer(1,#avail)],
-				skin  = ModelSkin.New():SetRandomColors(Engine.rand),
-				label = Ship.MakeRandomLabel(),
+				def     = def,
+				skin    = ModelSkin.New():SetRandomColors(Engine.rand),
+				pattern = pattern,
+				label   = Ship.MakeRandomLabel(),
 			})
 		end
 	end
@@ -366,9 +373,10 @@ Event.Register("onGameStart", function ()
 				local def = ShipDef[entry.id]
 				if (def) then
 					shipsOnSale[station][i] = {
-						def   = def,
-						skin  = entry.skin,
-						label = entry.label,
+						def     = def,
+						skin    = entry.skin,
+						pattern = entry.pattern,
+						label   = entry.label,
 					}
 				end
 			end
@@ -408,9 +416,10 @@ Serializer:Register("SpaceStation",
 			data.shipsOnSale[station] = {}
 			for i,entry in pairs(shipsOnSale[station]) do
 				data.shipsOnSale[station][i] = {
-					id    = entry.def.id,
-					skin  = entry.skin,
-					label = entry.label,
+					id      = entry.def.id,
+					skin    = entry.skin,
+					pattern = entry.pattern,
+					label   = entry.label,
 				}
 			end
 		end
