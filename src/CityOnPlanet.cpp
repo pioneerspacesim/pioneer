@@ -250,8 +250,8 @@ void CityOnPlanet::SetCityModelPatterns(const SystemPath &path)
 		SceneGraph::Model *m = (*it);
 		if (!m->SupportsPatterns()) continue;
 		skin.SetRandomColors(rand);
-		skin.SetPattern(rand.Int32(0, m->GetNumPatterns()));
 		skin.Apply(m);
+		m->SetPattern(rand.Int32(0, m->GetNumPatterns()));
 	}
 }
 

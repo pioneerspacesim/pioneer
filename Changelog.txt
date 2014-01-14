@@ -25,11 +25,13 @@ January 2014
      * Clean up station state correctly between games (#2631)
      * Fix TradeShips crash when trying to launch after failing to add fuel or
        cargo (#2634)
+     * Fix ship pattern selection (#2645)
 
    * Internal changes
      * Render screen to texture in preparation for post-processing effects (#2525)
      * Various code cleanups (#2621)
      * Serializer Reader class can now load data from any file source (#2646)
+     * Expose models to Lua, move pattern methods from ModelSkin to Model (2645)
 
 December 2013
 

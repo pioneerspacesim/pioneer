@@ -59,6 +59,7 @@ libscenegraph_a_SOURCES = \
 	StaticGeometry.cpp \
 	Thruster.cpp \
 	Lua.cpp \
+	LuaModel.cpp \
 	LuaModelSkin.cpp
 
 INCLUDES += -isystem @top_srcdir@/contrib

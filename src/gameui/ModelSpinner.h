@@ -14,7 +14,7 @@ namespace GameUI {
 
 class ModelSpinner : public UI::Widget {
 public:
-	ModelSpinner(UI::Context *context, SceneGraph::Model *model, const SceneGraph::ModelSkin &skin);
+	ModelSpinner(UI::Context *context, SceneGraph::Model *model, const SceneGraph::ModelSkin &skin, unsigned int pattern);
 
 	virtual UI::Point PreferredSize() { return UI::Point(INT_MAX); }
 	virtual void Layout();
