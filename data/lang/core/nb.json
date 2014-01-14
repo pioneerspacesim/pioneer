@@ -25,7 +25,7 @@
    },
    "AND_HIGHLY_COMPLEX_ECOSYSTEM" : {
       "description" : "",
-      "message" : "\" and a highly complex ecosystem.\""
+      "message" : "\" og ett komplekst økosystem.\""
    },
    "AND_INDIGENOUS_MICROBIAL_LIFE" : {
       "description" : "",
@@ -49,7 +49,7 @@
    },
    "ASTEROID" : {
       "description" : "",
-      "message" : "Asteroid"
+      "message" : "Asteroide"
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
@@ -81,7 +81,7 @@
    },
    "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND" : {
       "description" : "",
-      "message" : "Autopilot: Enter medium orbit around %target"
+      "message" : "Autopilot: Innta mellomhøyde bane rundt %target"
    },
    "AUTOPILOT_FLY_TO_VICINITY_OF" : {
       "description" : "",
@@ -165,7 +165,7 @@
    },
    "CARGO" : {
       "description" : "",
-      "message" : "Cargo"
+      "message" : "Last"
    },
    "CARGO_BAY_LIFE_SUPPORT_LOST" : {
       "description" : "",
@@ -193,11 +193,11 @@
    },
    "CARGO_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Permits scooping cargo pods from space."
+      "message" : "Tilgjengeligjør fanging av lastepods fra rommet."
    },
    "CH4_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Methane atmosphere\""
+      "message" : "\" Metanbasert atmosfære\""
    },
    "CLEARANCE_ALREADY_GRANTED_BAY_N" : {
       "description" : "",
@@ -213,7 +213,7 @@
    },
    "CO2_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Carbon Dioxide atmosphere\""
+      "message" : "\" Carbondioksid basert atmosfære\""
    },
    "COMMA_HIGHLY_VOLCANIC" : {
       "description" : "",
@@ -229,7 +229,7 @@
    },
    "COMPUTERS" : {
       "description" : "",
-      "message" : "Computers"
+      "message" : "Datamaskiner"
    },
    "COMPUTER_HEADING_CONTROL" : {
       "description" : "",
@@ -281,7 +281,7 @@
    },
    "DAY_LENGTH" : {
       "description" : "",
-      "message" : "Day length"
+      "message" : "Lengde på dag"
    },
    "DECREASE_SCAN_RANGE" : {
       "description" : "",
@@ -309,7 +309,7 @@
    },
    "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
       "description" : "",
-      "message" : "Distance from ship to navigation target"
+      "message" : "Avstad fra skip til navigasjonsmål"
    },
    "DISTANCE_LY" : {
       "description" : "",
@@ -317,7 +317,7 @@
    },
    "DOCKED" : {
       "description" : "",
-      "message" : "Docked"
+      "message" : "Landet"
    },
    "DOCKING" : {
       "description" : "",
@@ -485,7 +485,7 @@
    },
    "FRONT" : {
       "description" : "",
-      "message" : "Front"
+      "message" : "Baug"
    },
    "FRUIT_AND_VEG" : {
       "description" : "",
@@ -529,7 +529,7 @@
    },
    "GAME_SAVED_TO" : {
       "description" : "",
-      "message" : "\"Game saved to \""
+      "message" : "\"Spill lagret til \""
    },
    "GAME_SAVE_CANNOT_WRITE" : {
       "description" : "",
@@ -585,7 +585,7 @@
    },
    "HULL_AUTOREPAIR_DESCRIPTION" : {
       "description" : "",
-      "message" : "Automatically repairs the ship's hull in the event of damage."
+      "message" : "Reparerer automatisk skipets skrog ved skade."
    },
    "HULL_INTEGRITY" : {
       "description" : "",
@@ -645,7 +645,7 @@
    },
    "H_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Hydrogen atmosphere\""
+      "message" : "\" Hydrogen atmosfære\""
    },
    "ICE_WORLD" : {
       "description" : "",
@@ -665,11 +665,11 @@
    },
    "INCREASE_SET_SPEED" : {
       "description" : "",
-      "message" : "Increase set speed"
+      "message" : "Øk satt hastighet"
    },
    "INDUSTRIAL_COLONY" : {
       "description" : "",
-      "message" : "Industrial colony."
+      "message" : "Industriell koloni."
    },
    "INDUSTRIAL_HUB_SYSTEM" : {
       "description" : "",
@@ -725,7 +725,7 @@
    },
    "LARGE_GAS_GIANT" : {
       "description" : "",
-      "message" : "Large gas giant"
+      "message" : "Stor gasskjempe"
    },
    "LARGE_PLASMA_ACCEL" : {
       "description" : "",
@@ -741,7 +741,7 @@
    },
    "LASER_FIRE_DETECTED" : {
       "description" : "",
-      "message" : "Laser fire detected."
+      "message" : "Laserild oppdaget."
    },
    "LAUNCH_PERMISSION_DENIED_BUSY" : {
       "description" : "",
@@ -817,7 +817,7 @@
    },
    "METAL_ALLOYS" : {
       "description" : "",
-      "message" : "Metal alloys"
+      "message" : "Metallegeringer"
    },
    "METAL_ORE" : {
       "description" : "",
@@ -825,7 +825,7 @@
    },
    "MILITARY_DICTATORSHIP" : {
       "description" : "",
-      "message" : "Military dictatorship"
+      "message" : "Millitært diktatur"
    },
    "MILITARY_FUEL" : {
       "description" : "",
@@ -861,7 +861,7 @@
    },
    "MISSILE" : {
       "description" : "",
-      "message" : "missile"
+      "message" : "missil"
    },
    "MISSILE_GUIDED" : {
       "description" : "",
@@ -917,7 +917,7 @@
    },
    "MONTH_MAY" : {
       "description" : "",
-      "message" : "May"
+      "message" : "Mai"
    },
    "MONTH_NOV" : {
       "description" : "",
@@ -1017,7 +1017,7 @@
    },
    "NUMBER_LY" : {
       "description" : "",
-      "message" : "%distance{f.2} ly"
+      "message" : "%distance{f.2} lysår"
    },
    "NUMBER_TONNES" : {
       "description" : "",
@@ -1057,7 +1057,7 @@
    },
    "N_YEARS" : {
       "description" : "",
-      "message" : "%years{f.1} years"
+      "message" : "%years{f.1} år"
    },
    "O2_ATMOSPHERE" : {
       "description" : "",
@@ -1133,7 +1133,7 @@
    },
    "PLANETARY_INFO" : {
       "description" : "",
-      "message" : "Planetary info"
+      "message" : "Planetinformasjon"
    },
    "PLANET_CONTAINING_LIQUID_WATER" : {
       "description" : "",
@@ -1141,7 +1141,7 @@
    },
    "PLANET_WITH_SOME_ICE" : {
       "description" : "",
-      "message" : "\" planet with some ice\""
+      "message" : "\" planet med noe is\""
    },
    "PLANNED_ECONOMY" : {
       "description" : "",
@@ -1225,7 +1225,7 @@
    },
    "REAR" : {
       "description" : "",
-      "message" : "Rear"
+      "message" : "Akter"
    },
    "REQUEST_DOCKING_CLEARANCE" : {
       "description" : "",
@@ -1237,7 +1237,7 @@
    },
    "ROBOTS" : {
       "description" : "",
-      "message" : "Robots"
+      "message" : "Roboter"
    },
    "ROCKY_PLANET" : {
       "description" : "",
@@ -1245,7 +1245,7 @@
    },
    "ROCKY_PLANET_CONTAINING_COME_LIQUIDS" : {
       "description" : "",
-      "message" : "\" rocky planet containing some liquids,\""
+      "message" : "\" steinete planet med noen væsker,\""
    },
    "ROLL" : {
       "description" : "",
@@ -1265,7 +1265,7 @@
    },
    "ROTATE_LEFT" : {
       "description" : "",
-      "message" : "Rotate Left"
+      "message" : "Roter venstre"
    },
    "ROTATE_RIGHT" : {
       "description" : "",
@@ -1297,7 +1297,7 @@
    },
    "SCANNER" : {
       "description" : "",
-      "message" : "Scanner"
+      "message" : "Skanner"
    },
    "SCANNER_CONTROL" : {
       "description" : "",
@@ -1333,7 +1333,7 @@
    },
    "SELECT_A_TARGET" : {
       "description" : "",
-      "message" : "Select a target"
+      "message" : "Velg mål"
    },
    "SELECT_LOW_THRUST_POWER_LEVEL" : {
       "description" : "",
@@ -1369,7 +1369,7 @@
    },
    "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Increases the rate at which shields recharge."
+      "message" : "Øker hastigheten på lading av skjold."
    },
    "SHIELD_GENERATOR" : {
       "description" : "",
@@ -1401,7 +1401,7 @@
    },
    "SHIP_DETECTED_NEARBY" : {
       "description" : "",
-      "message" : "Ship detected nearby."
+      "message" : "Skip oppdaget i nærheten."
    },
    "SHIP_INFORMATION" : {
       "description" : "",
@@ -1449,7 +1449,7 @@
    },
    "SMALL_PLASMA_ACCEL" : {
       "description" : "",
-      "message" : "Small plasma accelerator"
+      "message" : "Liten plasmaakselerator"
    },
    "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS" : {
       "description" : "",
@@ -1493,7 +1493,7 @@
    },
    "STAR_AF_GIANT" : {
       "description" : "",
-      "message" : "White giant star"
+      "message" : "Hvit kjempe"
    },
    "STAR_AF_HYPER_GIANT" : {
       "description" : "",
@@ -1509,7 +1509,7 @@
    },
    "STAR_B_GIANT" : {
       "description" : "",
-      "message" : "Blue giant star"
+      "message" : "Blå kjempe"
    },
    "STAR_B_HYPER_GIANT" : {
       "description" : "",
@@ -1517,7 +1517,7 @@
    },
    "STAR_B_SUPER_GIANT" : {
       "description" : "",
-      "message" : "Blue super giant star"
+      "message" : "Blå superkjempe"
    },
    "STAR_B_WF" : {
       "description" : "",
@@ -1533,7 +1533,7 @@
    },
    "STAR_G_GIANT" : {
       "description" : "",
-      "message" : "Yellow giant star - Unstable"
+      "message" : "Gul kjempe - Ustabil"
    },
    "STAR_G_HYPER_GIANT" : {
       "description" : "",
@@ -1541,7 +1541,7 @@
    },
    "STAR_G_SUPER_GIANT" : {
       "description" : "",
-      "message" : "Yellow super giant star"
+      "message" : "Gul superkjempe"
    },
    "STAR_IM_BH" : {
       "description" : "",
@@ -1553,7 +1553,7 @@
    },
    "STAR_K_GIANT" : {
       "description" : "",
-      "message" : "Orange giant star - Unstable"
+      "message" : "Oransje kjempe - Ustabil"
    },
    "STAR_K_HYPER_GIANT" : {
       "description" : "",
@@ -1625,7 +1625,7 @@
    },
    "SURFACE_TEMPERATURE" : {
       "description" : "",
-      "message" : "Surface temperature"
+      "message" : "Overflatetemperatur"
    },
    "SYSTEM" : {
       "description" : "",
@@ -1729,7 +1729,7 @@
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
-      "message" : "Trading illegal goods"
+      "message" : "Handler med ulovlige varer"
    },
    "TRIPLE_SYSTEM" : {
       "description" : "",
@@ -1777,7 +1777,7 @@
    },
    "VERY_LARGE_GAS_GIANT" : {
       "description" : "",
-      "message" : "Very large gas giant"
+      "message" : "Veldig stor gasskjempe"
    },
    "VID_CONNECTING" : {
       "description" : "",

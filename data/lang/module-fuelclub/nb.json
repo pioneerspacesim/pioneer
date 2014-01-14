@@ -1,11 +1,11 @@
 {
    "APPLY_FOR_MEMBERSHIP" : {
       "description" : "",
-      "message" : "Apply for membership"
+      "message" : "Søk om medlemskap"
    },
    "BEGIN_TRADE" : {
       "description" : "",
-      "message" : "Begin trade"
+      "message" : "Begynn handel"
    },
    "FLAVOUR_0_CLUBNAME" : {
       "description" : "",
@@ -21,15 +21,15 @@
    },
    "FLAVOUR_0_WELCOME" : {
       "description" : "",
-      "message" : "Welcome to {clubname}"
+      "message" : "Velkomen til {clubname}"
    },
    "GO_BACK" : {
       "description" : "",
-      "message" : "Go back"
+      "message" : "Gå tilbake"
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Hang up."
+      "message" : "Legg på."
    },
    "HYDROGEN" : {
       "description" : "",
@@ -37,15 +37,15 @@
    },
    "MILITARY_FUEL" : {
       "description" : "",
-      "message" : "Military fuel"
+      "message" : "Millitært drivstoff"
    },
    "RADIOACTIVES" : {
       "description" : "",
-      "message" : "Radioactive waste"
+      "message" : "Radioaktivt avfall"
    },
    "WATER" : {
       "description" : "",
-      "message" : "Water"
+      "message" : "Vann"
    },
    "WE_WILL_ONLY_DISPOSE_OF" : {
       "description" : "",
@@ -57,7 +57,7 @@
    },
    "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED" : {
       "description" : "",
-      "message" : "Your membership application has been declined."
+      "message" : "Din søknad om medlemskap har blitt avslått."
    },
    "YOU_ARE_NOW_A_MEMBER" : {
       "description" : "",
@@ -65,6 +65,6 @@
    },
    "YOU_MUST_BUY" : {
       "description" : "",
-      "message" : "You must buy our {military_fuel} before we will take your {radioactives}"
+      "message" : "Du må kjøpe vår {military_fuel} før vi vil ta imot {radioactives} fra deg."
    }
 }
