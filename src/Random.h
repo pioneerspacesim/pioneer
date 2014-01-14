@@ -11,6 +11,7 @@
 #define RAND_H
 
 #include <assert.h>
+#include <cmath>
 
 #include "fixed.h"
 #include "RefCounted.h"
@@ -163,6 +164,48 @@ public:
 		while (--p > 0)
 			o *= Double(1.0);
 		return o;
+	}
+
+	// Normal distribution with zero mean, and unit variance
+	double Normal()
+	{
+		return Normal(0.0,1.0);
+	}
+
+	// Normal distribution with unit variance
+	double Normal(double mean)
+	{
+		return Normal(mean, 1.0);
+	}
+
+	//Normal (Gauss) distribution
+	double Normal(double mean, double stddev)
+	{
+		//https://en.wikipedia.org/wiki/Box-Muller_transform#Polar_form
+		double u, v, s, z0;
+		static double z1;
+		static bool cached = false;
+
+		if (cached)
+		{
+			z0 = z1;
+			cached = false;
+		}
+		else
+		{
+			do{
+				u = Double_closed(-1, 1);
+				v = Double_closed(-1, 1);
+				s = pow(u, 2) + pow(v, 2);
+			}while (s >= 1.0);
+
+			s = sqrt((-2.0 * log(s))/s);
+			z0 = u * s;
+			z1 = v * s;
+			cached = true;
+		}
+
+		return  mean + z0 * stddev;
 	}
 
 	// Pick a fixed-point integer half open interval [0,1)
