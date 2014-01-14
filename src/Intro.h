@@ -16,16 +16,12 @@ public:
 	virtual void Draw(float time);
 
 private:
+	void Reset(float time);
+	bool m_needReset;
+
 	std::vector<SceneGraph::Model*> m_models;
 	SceneGraph::ModelSkin m_skin;
 
-	enum State {
-		STATE_SELECT,
-		STATE_ZOOM_IN,
-		STATE_WAIT,
-		STATE_ZOOM_OUT
-	};
-	State m_state;
 	float m_startTime;
 
 	unsigned int m_modelIndex;
