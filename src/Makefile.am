@@ -113,6 +113,7 @@ noinst_HEADERS = \
 	StringF.h \
 	StringRange.h \
 	Sfx.h \
+	Shields.h \
 	Ship.h \
 	ShipAICmd.h \
 	ShipCockpit.h \
@@ -246,6 +247,7 @@ pioneer_SOURCES	= \
 	Serializer.cpp \
 	StringF.cpp \
 	Sfx.cpp \
+	Shields.cpp \
 	Ship-AI.cpp \
 	Ship.cpp \
 	ShipAICmd.cpp \

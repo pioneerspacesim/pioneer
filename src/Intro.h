@@ -7,6 +7,7 @@
 #include "Cutscene.h"
 #include "Background.h"
 #include "ShipType.h"
+#include "Shields.h"
 
 class Intro : public Cutscene {
 public:
@@ -15,7 +16,9 @@ public:
 	virtual void Draw(float time);
 
 private:
-	std::vector<SceneGraph::Model*> m_models;
+	typedef std::pair<SceneGraph::Model *, Shields *> TModelShields;
+	std::vector<TModelShields> m_models;
+	typedef std::vector<TModelShields>::iterator TModelShieldsIter;
 
 	enum State {
 		STATE_SELECT,

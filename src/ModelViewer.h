@@ -9,6 +9,7 @@
 #include "libs.h"
 #include "LuaManager.h"
 #include "NavLights.h"
+#include "Shields.h"
 #include "graphics/Renderer.h"
 #include "graphics/Texture.h"
 #include "graphics/Drawables.h"
@@ -27,8 +28,12 @@ private:
 	bool OnQuit();
 	bool OnReloadModel(UI::Widget*);
 	bool OnToggleCollMesh(UI::CheckBox*);
+	bool OnToggleShowShields(UI::CheckBox*);
 	bool OnToggleGrid(UI::Widget*);
 	bool OnToggleGuns(UI::CheckBox*);
+	void UpdateShield();
+	bool OnHitIt(UI::Widget*);
+	void HitImpl();
 	void AddLog(const std::string &line);
 	void ChangeCameraPreset(SDL_Keycode, SDL_Keymod);
 	void ToggleViewControlMode();
@@ -69,6 +74,7 @@ private:
 		bool showTags;
 		bool showDockingLocators;
 		bool showCollMesh;
+		bool showShields;
 		bool showGrid;
 		bool showLandingPad;
 		bool showUI;
@@ -81,6 +87,8 @@ private:
 	};
 	bool m_done;
 	bool m_screenshotQueued;
+	bool m_shieldIsHit;
+	float m_shieldHitPan;
 	double m_frameTime;
 	Graphics::Renderer *m_renderer;
 	Graphics::Texture *m_decalTexture;
@@ -93,6 +101,7 @@ private:
 	SceneGraph::Model *m_model;
 	Options m_options;
 	std::unique_ptr<NavLights> m_navLights;
+	std::unique_ptr<Shields> m_shields;
 	std::unique_ptr<SceneGraph::Model> m_gunModel;
 	std::unique_ptr<SceneGraph::Model> m_scaleModel;
 	std::string m_modelName;

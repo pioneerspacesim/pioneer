@@ -31,6 +31,15 @@ struct HeatGradientParameters_t {
 	float heatingAmount; // 0.0 to 1.0 used for `u` component of heatGradient texture
 };
 
+struct ShieldRenderParameters {
+	static const Uint32 MAX_SHIELD_HITS = 5; // Also defined in ShieldMaterial.h
+	float strength;
+	float coolDown;
+	vector3f hitPos[MAX_SHIELD_HITS];
+	float radii[MAX_SHIELD_HITS];
+	Sint32 numHits;
+};
+
 struct shipstats_t {
 	int used_capacity;
 	int used_cargo;
@@ -109,7 +118,7 @@ public:
 
 	virtual void NotifyRemoved(const Body* const removedBody);
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel);
-	virtual bool OnDamage(Object *attacker, float kgDamage);
+	virtual bool OnDamage(Object *attacker, float kgDamage, const CollisionContact& contactData);
 
 	enum FlightState { // <enum scope='Ship' name=ShipFlightState public>
 		FLYING,     // open flight (includes autopilot)
@@ -300,6 +309,8 @@ private:
 
 	bool m_invulnerable;
 
+	static const float DEFAULT_SHIELD_COOLDOWN_TIME;
+	float m_shieldCooldown;
 	shipstats_t m_stats;
 	const ShipType *m_type;
 	SceneGraph::ModelSkin m_skin;

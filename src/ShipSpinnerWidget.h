@@ -11,6 +11,9 @@
 #include "scenegraph/SceneGraph.h"
 #include "scenegraph/ModelSkin.h"
 #include "SmartPtr.h"
+#include "Shields.h"
+
+class Shields;
 
 class ShipSpinnerWidget : public Gui::Widget {
 public:
@@ -27,6 +30,7 @@ private:
 	SceneGraph::ModelSkin m_skin;
 
 	Graphics::Light m_light;
+	std::unique_ptr<Shields> m_shields;
 };
 
 #endif
