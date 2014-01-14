@@ -33,6 +33,10 @@ private:
 	float m_dist;
 
 	std::unique_ptr<Background::Container> m_background;
+
+	int m_spinnerLeft;
+	int m_spinnerWidth;
+	float m_spinnerRatio;
 };
 
 #endif

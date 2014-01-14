@@ -50,6 +50,15 @@ Intro::Intro(Graphics::Renderer *r, int width, int height)
 
 	m_state = STATE_SELECT;
 	m_modelIndex = 0;
+
+	const int w = Graphics::GetScreenWidth();
+	const int h = Graphics::GetScreenHeight();
+
+	// double-width viewport, centred, then offset 1/6th to centre on the left
+	// 2/3rds of the screen, to the left of the menu
+	m_spinnerLeft = int(float(w)*-.5f - float(w)/6.f);
+	m_spinnerWidth = w*2;
+	m_spinnerRatio = w*2.f/h;
 }
 
 Intro::~Intro()
@@ -114,11 +123,8 @@ void Intro::Draw(float _time)
 	matrix4x4d brot = matrix4x4d::RotateXMatrix(-0.25*_time) * matrix4x4d::RotateZMatrix(0.6);
 	m_background->Draw(m_renderer, brot);
 
-	const float w = Graphics::GetScreenWidth()*(2.0/3.0);
-	const float h = Graphics::GetScreenHeight();
-	const float ratio = w/h;
-	m_renderer->SetViewport(0, 0, w, h);
-	m_renderer->SetPerspectiveProjection(75, ratio, 1.f, 10000.f);
+	m_renderer->SetViewport(m_spinnerLeft, 0, m_spinnerWidth, Graphics::GetScreenHeight());
+	m_renderer->SetPerspectiveProjection(75, m_spinnerRatio, 1.f, 10000.f);
 
 	matrix4x4f trans =
 		matrix4x4f::Translation(0, 0, m_dist) *
