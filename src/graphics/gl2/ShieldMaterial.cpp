@@ -8,7 +8,7 @@
 #include "graphics/RendererGL2.h"
 #include <sstream>
 #include "StringF.h"
-#include "Ship.h"
+#include "Shields.h"
 
 namespace Graphics {
 namespace GL2 {

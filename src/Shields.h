@@ -13,6 +13,15 @@
 namespace Graphics { class Renderer; }
 namespace SceneGraph { class Model; class StaticGeometry; }
 
+struct ShieldRenderParameters {
+	static const Uint32 MAX_SHIELD_HITS = 5; // Also defined in ShieldMaterial.h
+	float strength;
+	float coolDown;
+	vector3f hitPos[MAX_SHIELD_HITS];
+	float radii[MAX_SHIELD_HITS];
+	Sint32 numHits;
+};
+
 class Shields
 {
 public:

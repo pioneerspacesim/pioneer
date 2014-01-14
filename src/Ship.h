@@ -31,15 +31,6 @@ struct HeatGradientParameters_t {
 	float heatingAmount; // 0.0 to 1.0 used for `u` component of heatGradient texture
 };
 
-struct ShieldRenderParameters {
-	static const Uint32 MAX_SHIELD_HITS = 5; // Also defined in ShieldMaterial.h
-	float strength;
-	float coolDown;
-	vector3f hitPos[MAX_SHIELD_HITS];
-	float radii[MAX_SHIELD_HITS];
-	Sint32 numHits;
-};
-
 struct shipstats_t {
 	int used_capacity;
 	int used_cargo;
