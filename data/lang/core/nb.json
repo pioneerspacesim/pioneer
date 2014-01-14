@@ -97,7 +97,7 @@
    },
    "A_FEW_THOUSAND" : {
       "description" : "",
-      "message" : "Only a few thousand"
+      "message" : "Bare noen få tusen"
    },
    "BATTLE_WEAPONS" : {
       "description" : "",
@@ -141,7 +141,7 @@
    },
    "CAMERA_RIGHT_VIEW" : {
       "description" : "",
-      "message" : "Right camera"
+      "message" : "Høyre kamera"
    },
    "CAMERA_TOP_VIEW" : {
       "description" : "",
@@ -493,7 +493,7 @@
    },
    "FUEL" : {
       "description" : "",
-      "message" : "Fuel"
+      "message" : "Drivstoff"
    },
    "FUEL_SCOOP" : {
       "description" : "",
@@ -573,7 +573,7 @@
    },
    "HIGHLY_VOLCANIC" : {
       "description" : "",
-      "message" : "Highly volcanic"
+      "message" : "Meget vulkansk"
    },
    "HIGH_POPULATION_OUTDOOR_WORLD" : {
       "description" : "",
@@ -593,7 +593,7 @@
    },
    "HULL_TEMP" : {
       "description" : "",
-      "message" : "Hull temp"
+      "message" : "Skrog temp"
    },
    "HYDROGEN" : {
       "description" : "",
@@ -721,7 +721,7 @@
    },
    "LARGE" : {
       "description" : "",
-      "message" : "Large"
+      "message" : "Stor"
    },
    "LARGE_GAS_GIANT" : {
       "description" : "",
@@ -789,7 +789,7 @@
    },
    "MASS" : {
       "description" : "",
-      "message" : "Mass"
+      "message" : "Masse"
    },
    "MASSIVE" : {
       "description" : "",
@@ -893,7 +893,7 @@
    },
    "MONTH_DEC" : {
       "description" : "",
-      "message" : "Dec"
+      "message" : "Des"
    },
    "MONTH_FEB" : {
       "description" : "",
@@ -925,7 +925,7 @@
    },
    "MONTH_OCT" : {
       "description" : "",
-      "message" : "Oct"
+      "message" : "Okt"
    },
    "MONTH_SEP" : {
       "description" : "",
@@ -933,7 +933,7 @@
    },
    "MURDER" : {
       "description" : "",
-      "message" : "Murder"
+      "message" : "Mord"
    },
    "M_S_RELATIVE_TO" : {
       "description" : "",
@@ -965,7 +965,7 @@
    },
    "NONE" : {
       "description" : "",
-      "message" : "None"
+      "message" : "Ingen"
    },
    "NORMA_ARM" : {
       "description" : "",
@@ -973,7 +973,7 @@
    },
    "NOT_FOUND" : {
       "description" : "",
-      "message" : "Not found"
+      "message" : "Ikke funnet"
    },
    "NOT_FOUND_BEST_MATCH_X" : {
       "description" : "",
@@ -1005,7 +1005,7 @@
    },
    "NUMBER_DAYS" : {
       "description" : "",
-      "message" : "%days{f.0} days"
+      "message" : "%days{f.0} dager"
    },
    "NUMBER_G" : {
       "description" : "",
@@ -1025,7 +1025,7 @@
    },
    "N_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Nitrogen atmosphere\""
+      "message" : "\" Nitrogenbasert atmosfære\""
    },
    "N_CELSIUS" : {
       "description" : "",
@@ -1097,7 +1097,7 @@
    },
    "PAUSED" : {
       "description" : "",
-      "message" : "PAUSED"
+      "message" : "PAUSE"
    },
    "PAY_FINE_REMOTELY" : {
       "description" : "",
@@ -1161,7 +1161,7 @@
    },
    "POPULATION" : {
       "description" : "",
-      "message" : "Population:"
+      "message" : "Befolkning:"
    },
    "PRECIOUS_METALS" : {
       "description" : "",
@@ -1177,7 +1177,7 @@
    },
    "PULSECANNON_10MW" : {
       "description" : "",
-      "message" : "10MW pulse cannon"
+      "message" : "10MW pulskanon"
    },
    "PULSECANNON_1MW" : {
       "description" : "",
@@ -1217,7 +1217,7 @@
    },
    "RADIOACTIVES" : {
       "description" : "",
-      "message" : "Radioactive waste"
+      "message" : "Radioaktivt avfall"
    },
    "RADIUS" : {
       "description" : "",
@@ -1249,7 +1249,7 @@
    },
    "ROLL" : {
       "description" : "",
-      "message" : "Roll"
+      "message" : "Rull"
    },
    "ROLL_LEFT" : {
       "description" : "",
@@ -1289,7 +1289,7 @@
    },
    "RUBBISH" : {
       "description" : "",
-      "message" : "Rubbish"
+      "message" : "Søppel"
    },
    "SAGITTARIUS_ARM" : {
       "description" : "",
@@ -1305,7 +1305,7 @@
    },
    "SCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Provides a 3D map of nearby ships."
+      "message" : "Viser ett 3D kart over skip i nærheten."
    },
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
@@ -1317,11 +1317,11 @@
    },
    "SEARCH" : {
       "description" : "",
-      "message" : "Search"
+      "message" : "Søk"
    },
    "SECTOR_COORDINATES" : {
       "description" : "",
-      "message" : "Sector coordinates:"
+      "message" : "Sektor koordinater:"
    },
    "SECTOR_X_Y_Z" : {
       "description" : "",
@@ -1345,7 +1345,7 @@
    },
    "SET_HYPERSPACE_DESTINATION_TO" : {
       "description" : "",
-      "message" : "Set hyperspace destination to %system"
+      "message" : "Sett hyperspace destinasjon til %system"
    },
    "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE" : {
       "description" : "",
@@ -1393,7 +1393,7 @@
    },
    "SHIP" : {
       "description" : "",
-      "message" : "Ship"
+      "message" : "Skip"
    },
    "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
       "description" : "",
@@ -1413,7 +1413,7 @@
    },
    "SHIP_NEARBY" : {
       "description" : "",
-      "message" : "Ship nearby"
+      "message" : "Skip i nærheten"
    },
    "SHIP_ORIENTATION" : {
       "description" : "",
@@ -1433,15 +1433,15 @@
    },
    "SLAVES" : {
       "description" : "",
-      "message" : "Slaves"
+      "message" : "Slaver"
    },
    "SMALL" : {
       "description" : "",
-      "message" : "Small"
+      "message" : "Liten"
    },
    "SMALL_GAS_GIANT" : {
       "description" : "",
-      "message" : "Small gas giant"
+      "message" : "Liten gasskjempe"
    },
    "SMALL_INDUSTRIAL_OUTPOST" : {
       "description" : "",
@@ -1621,7 +1621,7 @@
    },
    "SURFACE_GRAVITY" : {
       "description" : "",
-      "message" : "Surface gravity"
+      "message" : "Overflategravitasjon"
    },
    "SURFACE_TEMPERATURE" : {
       "description" : "",
@@ -1633,7 +1633,7 @@
    },
    "SYSTEM_NUMBER" : {
       "description" : "",
-      "message" : "System number:"
+      "message" : "System nummer:"
    },
    "SYSTEM_ORBIT_VIEW" : {
       "description" : "",
@@ -1665,11 +1665,11 @@
    },
    "THICK" : {
       "description" : "",
-      "message" : "thick"
+      "message" : "tykk"
    },
    "THIN" : {
       "description" : "",
-      "message" : "thin"
+      "message" : "tynn"
    },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",
@@ -1733,11 +1733,11 @@
    },
    "TRIPLE_SYSTEM" : {
       "description" : "",
-      "message" : "Triple system"
+      "message" : "Trippelsystem"
    },
    "UNEXPLORED_SYSTEM_NO_DATA" : {
       "description" : "",
-      "message" : "Unexplored system. No more data available."
+      "message" : "Uutforsket system. Ingen data tilgjengelig."
    },
    "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW" : {
       "description" : "",
@@ -1773,7 +1773,7 @@
    },
    "VERY_DENSE" : {
       "description" : "",
-      "message" : "very dense"
+      "message" : "veldig massiv"
    },
    "VERY_LARGE_GAS_GIANT" : {
       "description" : "",
@@ -1857,7 +1857,7 @@
    },
    "YOU_NO_MONEY" : {
       "description" : "",
-      "message" : "You do not have any money."
+      "message" : "Du har ikke noen penger."
    },
    "Z" : {
       "description" : "",
@@ -1869,6 +1869,6 @@
    },
    "ZOOM_OUT" : {
       "description" : "",
-      "message" : "Zoom out"
+      "message" : "Zoom ut"
    }
 }
