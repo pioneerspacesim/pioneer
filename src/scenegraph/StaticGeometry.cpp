@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "StaticGeometry.h"
@@ -70,6 +70,7 @@ void StaticGeometry::AddMesh(RefCountedPtr<Graphics::StaticMesh> mesh)
 
 void StaticGeometry::DrawBoundingBox(const Aabb &bb)
 {
+	// TODO check entire function, because Color is now Color4ub
 	vector3f min(bb.min.x, bb.min.y, bb.min.z);
 	vector3f max(bb.max.x, bb.max.y, bb.max.z);
 	vector3f fbl(min.x, min.y, min.z); //front bottom left

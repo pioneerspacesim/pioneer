@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Lua.h"
@@ -28,11 +28,12 @@ void LuaEquipDef::Register()
 
 		lua_newtable(l);
 
-		pi_lua_settable(l, "id",        id);
-		pi_lua_settable(l, "name",      et->name);
-		pi_lua_settable(l, "slot",      EnumStrings::GetString("EquipSlot", et->slot));
-		pi_lua_settable(l, "basePrice", double(et->basePrice)*0.01);
-		pi_lua_settable(l, "mass",      et->mass);
+		pi_lua_settable(l, "id",          id);
+		pi_lua_settable(l, "name",        et->name);
+		pi_lua_settable(l, "slot",        EnumStrings::GetString("EquipSlot", et->slot));
+		pi_lua_settable(l, "basePrice",   double(et->basePrice)*0.01);
+		pi_lua_settable(l, "mass",        et->mass);
+		pi_lua_settable(l, "purchasable", et->purchasable);
 
 		pi_lua_readonly_table_proxy(l, -1);
 		lua_setfield(l, -3, id);

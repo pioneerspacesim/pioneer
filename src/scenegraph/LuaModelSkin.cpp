@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ModelSkin.h"
@@ -9,12 +9,10 @@ namespace SceneGraph {
 class LuaModelSkin {
 public:
 
-	static int l_set_pattern(lua_State *l)
+	static int l_new(lua_State *l)
 	{
-		ModelSkin *skin = LuaObject<ModelSkin>::CheckFromLua(1);
-		unsigned int index = luaL_checkinteger(l, 2);
-		skin->SetPattern(index);
-		lua_pushvalue(l, 1);
+		ModelSkin skin;
+		LuaObject<ModelSkin>::PushToLua(skin);
 		return 1;
 	}
 
@@ -26,15 +24,15 @@ public:
 
 		lua_getfield(l, 2, "primary");
 		if (lua_istable(l, -1))
-			skin->SetPrimaryColor(Color4ub(Color4f::FromLuaTable(l, -1)));
+			skin->SetPrimaryColor(Color(Color4f::FromLuaTable(l, -1)));
 
 		lua_getfield(l, 2, "secondary");
 		if (lua_istable(l, -1))
-			skin->SetSecondaryColor(Color4ub(Color4f::FromLuaTable(l, -1)));
+			skin->SetSecondaryColor(Color(Color4f::FromLuaTable(l, -1)));
 
 		lua_getfield(l, 2, "trim");
 		if (lua_istable(l, -1))
-			skin->SetTrimColor(Color4ub(Color4f::FromLuaTable(l, -1)));
+			skin->SetTrimColor(Color(Color4f::FromLuaTable(l, -1)));
 
 		lua_pop(l, 3);
 
@@ -102,7 +100,7 @@ template <> const char *LuaObject<SceneGraph::ModelSkin>::s_type = "SceneGraph.M
 template <> void LuaObject<SceneGraph::ModelSkin>::RegisterClass()
 {
 	static const luaL_Reg l_methods[] = {
-		{ "SetPattern",      LuaModelSkin::l_set_pattern       },
+		{ "New",             LuaModelSkin::l_new               },
 		{ "SetColors",       LuaModelSkin::l_set_colors        },
 		{ "SetRandomColors", LuaModelSkin::l_set_random_colors },
 		{ "SetDecal",        LuaModelSkin::l_set_decal         },

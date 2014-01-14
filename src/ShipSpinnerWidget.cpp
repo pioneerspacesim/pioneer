@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ShipSpinnerWidget.h"
@@ -19,7 +19,7 @@ ShipSpinnerWidget::ShipSpinnerWidget(SceneGraph::Model *model, const SceneGraph:
 	m_skin.Apply(m_model.get());
 	m_shields.reset(new Shields(model));
 
-	Color lc(1.f);
+	Color lc(255);
 	m_light.SetDiffuse(lc);
 	m_light.SetSpecular(lc);
 	m_light.SetPosition(vector3f(1.f, 1.f, 0.f));

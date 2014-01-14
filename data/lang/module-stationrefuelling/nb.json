@@ -1,0 +1,10 @@
+{
+   "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH" : {
+      "description" : "",
+      "message" : "Dette er {station}. Du har ikke  {fee} til utgiftene for landing. Drivstoff har blitt holdt tilbake."
+   },
+   "WELCOME_ABOARD_STATION_FEE_DEDUCTED" : {
+      "description" : "",
+      "message" : "Velkommen ombord på {station}. {fee} har blitt trukket fra din konto for landing og fylling av drivstoff."
+   }
+}

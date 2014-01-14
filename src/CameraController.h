@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef CAMERACONTROLLER_H
@@ -51,6 +51,7 @@ private:
 	matrix3x3d m_orient;
 };
 
+
 class InternalCameraController : public CameraController {
 public:
 	enum Mode {
@@ -84,6 +85,7 @@ private:
 	vector3d m_bottomPos; matrix3x3d m_bottomOrient;
 };
 
+
 class MoveableCameraController : public CameraController {
 public:
 	MoveableCameraController(Camera *camera, const Ship *ship) :
@@ -106,6 +108,7 @@ public:
 	/// Animated zoom update (on each frame), primarily designed for mouse wheel.
 	virtual void ZoomEventUpdate(float frameTime) { }
 };
+
 
 // Zoomable, rotatable orbit camera, always looks at the ship
 class ExternalCameraController : public MoveableCameraController {
@@ -141,6 +144,7 @@ private:
 	double m_rotY; //horizontal rot
 	matrix3x3d m_extOrient;
 };
+
 
 // Much like external camera, but does not turn when the ship turns
 class SiderealCameraController : public MoveableCameraController {

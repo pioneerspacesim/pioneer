@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "HyperspaceCloud.h"
@@ -155,9 +155,9 @@ void HyperspaceCloud::Render(Renderer *renderer, const Camera *camera, const vec
 	// XXX could just alter the scale instead of recreating the model
 	const float radius = 1000.0f + 200.0f*float(noise(10.0*preciseTime, 0, 0));
 	m_graphic.vertices->Clear();
-	Color4f outerColor = m_isArrival ? Color::BLUE : Color::RED;
-	outerColor.a = 0.f;
-	make_circle_thing(*m_graphic.vertices.get(), radius, Color(1.0,1.0,1.0,1.0), outerColor);
+	Color outerColor = m_isArrival ? Color::BLUE : Color::RED;
+	outerColor.a = 0;
+	make_circle_thing(*m_graphic.vertices.get(), radius, Color::WHITE, outerColor);
 	renderer->DrawTriangles(m_graphic.vertices.get(), m_graphic.material.get(), TRIANGLE_FAN);
 	renderer->SetBlendMode(BLEND_SOLID);
 }

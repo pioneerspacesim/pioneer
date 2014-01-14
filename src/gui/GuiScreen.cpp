@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Gui.h"
@@ -95,7 +95,7 @@ void Screen::ShowBadError(const char *msg)
 	Gui::Fixed *f = new Gui::Fixed(6*GetWidth()/8.0f, 6*GetHeight()/8.0f);
 	Gui::Screen::AddBaseWidget(f, GetWidth()/8, GetHeight()/8);
 	f->SetTransparency(false);
-	f->SetBgColor(0.4f,0,0,1.0f);
+	f->SetBgColor(Color(96,0,0,255));
 	f->Add(new Gui::Label(msg, TextLayout::ColourMarkupNone), 10, 10);
 
 	Gui::Button *okButton = new Gui::LabelButton(new Gui::Label("Ok"));

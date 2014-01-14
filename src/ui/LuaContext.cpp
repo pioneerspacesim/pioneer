@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Context.h"
@@ -123,7 +123,7 @@ public:
 			a = luaL_checknumber(l, 5);
 			implicit = 6;
 		}
-		UI::ColorBackground *cb = c->ColorBackground(Color(r,g,b,a));
+		UI::ColorBackground *cb = c->ColorBackground(Color(r*255,g*255,b*255,a*255));
 		_implicit_set_inner_widget(l, cb, implicit);
 		LuaObject<UI::ColorBackground>::PushToLua(cb);
 		return 1;

@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Table.h"
@@ -47,6 +47,7 @@ void Table::LayoutAccumulator::SetColumnSpacing(int spacing) {
 Table::Inner::Inner(Context *context, LayoutAccumulator &layout) : Container(context),
 	m_layout(layout),
 	m_rowSpacing(0),
+	m_rowAlignment(TOP),
 	m_dirty(false),
 	m_mouseEnabled(false)
 {
@@ -93,7 +94,8 @@ void Table::Inner::Layout()
 	if (m_dirty)
 		PreferredSize();
 
-	Point pos;
+	int rowTop = 0;
+
 	const std::vector<int> &colWidth = m_layout.ColumnWidth();
 	const std::vector<int> &colLeft = m_layout.ColumnLeft();
 
@@ -102,10 +104,29 @@ void Table::Inner::Layout()
 		for (std::size_t j = 0; j < row.size(); j++) {
 			Widget *w = row[j];
 			if (!w) continue;
-			pos.x = colLeft[j];
-			SetWidgetDimensions(w, pos, Point(colWidth[j], m_rowHeight[i]));
+
+			const Point preferredSize(w->PreferredSize());
+			int height = std::min(preferredSize.y, m_rowHeight[i]);
+
+			int off = 0;
+			if (height != m_rowHeight[i]) {
+				switch (m_rowAlignment) {
+					case CENTER:
+						off = (m_rowHeight[i] - height) / 2;
+						break;
+					case BOTTOM:
+						off = m_rowHeight[i] - height;
+						break;
+					default:
+						off = 0;
+						break;
+				}
+			}
+
+			SetWidgetDimensions(w, Point(colLeft[j], rowTop+off), Point(colWidth[j], height));
 		}
-		pos.y += m_rowHeight[i] + m_rowSpacing;
+
+		rowTop += m_rowHeight[i] + m_rowSpacing;
 	}
 
 	LayoutChildren();
@@ -160,6 +181,12 @@ void Table::Inner::AccumulateLayout()
 void Table::Inner::SetRowSpacing(int spacing)
 {
 	m_rowSpacing = spacing;
+	m_dirty = true;
+}
+
+void Table::Inner::SetRowAlignment(RowAlignDirection dir)
+{
+	m_rowAlignment = dir;
 	m_dirty = true;
 }
 
@@ -247,23 +274,21 @@ void Table::Layout()
 	int top = preferredSize.y;
 	size.y -= top;
 
-	int sliderLeft = preferredSize.x;
-
 	preferredSize = m_body->PreferredSize();
 	if (preferredSize.y <= size.y) {
 		if (m_slider->GetContainer()) {
+			m_slider->SetValue(0);
 			m_onMouseWheelConn.disconnect();
 			RemoveWidget(m_slider.Get());
 		}
 	}
 	else {
 		AddWidget(m_slider.Get());
-		m_onMouseWheelConn = onMouseWheel.connect(sigc::mem_fun(this, &Table::OnMouseWheel));
-
-		sliderLeft = std::max(sliderLeft, preferredSize.x);
+		if (!m_onMouseWheelConn.connected())
+			m_onMouseWheelConn = onMouseWheel.connect(sigc::mem_fun(this, &Table::OnMouseWheel));
 
 		const Point sliderSize(m_slider->PreferredSize().x, size.y);
-		const Point sliderPos(std::min(sliderLeft,size.x-sliderSize.x), top);
+		const Point sliderPos(size.x-sliderSize.x, top);
 		SetWidgetDimensions(m_slider.Get(), sliderPos, sliderSize);
 
 		size.x = sliderPos.x;
@@ -272,6 +297,11 @@ void Table::Layout()
 	SetWidgetDimensions(m_body.Get(), Point(0, top), size);
 
 	LayoutChildren();
+}
+
+void Table::HandleInvisible()
+{
+	m_slider->SetValue(0);
 }
 
 Table *Table::SetHeadingRow(const WidgetSet &set)
@@ -314,6 +344,13 @@ Table *Table::SetColumnSpacing(int spacing)
 	return this;
 }
 
+Table *Table::SetRowAlignment(RowAlignDirection dir)
+{
+	m_body->SetRowAlignment(dir);
+	m_dirty = true;
+	GetContext()->RequestLayout();
+	return this;
+}
 
 Table *Table::SetHeadingFont(Font font)
 {

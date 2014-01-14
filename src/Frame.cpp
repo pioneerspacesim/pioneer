@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Frame.h"
@@ -84,6 +84,7 @@ void Frame::Init(Frame *parent, const char *label, unsigned int flags)
 	m_vel = vector3d(0.0);
 	m_angSpeed = 0.0;
 	m_orient = matrix3x3d::Identity();
+	m_initialOrient = matrix3x3d::Identity();
 	ClearMovement();
 	m_collisionSpace = new CollisionSpace();
 	if (m_parent) m_parent->AddChild(this);
@@ -232,15 +233,37 @@ void Frame::UpdateOrbitRails(double time, double timestep)
 	else m_pos = m_pos + m_vel * timestep;
 	
 	// update frame rotation
-	double ang = m_angSpeed * timestep;		// hmm. cumulative inaccuracy? worse!
+	double ang = fmod(m_angSpeed * time, 2.0 * M_PI);
 	if (!is_zero_exact(ang)) {			// frequently used with e^-10 etc
 		matrix3x3d rot = matrix3x3d::RotateY(-ang);		// RotateY is backwards
-		m_orient = m_orient * rot;		// angvel always +y
+		m_orient = m_initialOrient * rot;		// angvel always +y
 	}
 	UpdateRootRelativeVars();			// update root-relative pos/vel/orient
 
 	for (ChildIterator it = m_children.begin(); it != m_children.end(); ++it)
 		(*it)->UpdateOrbitRails(time, timestep);
+}
+
+void Frame::SetInitialOrient(const matrix3x3d &m, double time) {
+	m_initialOrient = m;
+	double ang = fmod(m_angSpeed * time, 2.0 * M_PI);
+	if (!is_zero_exact(ang)) {			// frequently used with e^-10 etc
+		matrix3x3d rot = matrix3x3d::RotateY(-ang);		// RotateY is backwards
+		m_orient = m_initialOrient * rot;		// angvel always +y
+	} else {
+		m_orient = m_initialOrient;
+	}
+}
+
+void Frame::SetOrient(const matrix3x3d &m, double time) {
+	m_orient = m;
+	double ang = fmod(m_angSpeed * time, 2.0 * M_PI);
+	if (!is_zero_exact(ang)) {			// frequently used with e^-10 etc
+		matrix3x3d rot = matrix3x3d::RotateY(ang);		// RotateY is backwards
+		m_initialOrient = m_orient * rot;		// angvel always +y
+	} else {
+		m_initialOrient = m_orient;
+	}
 }
 
 void Frame::UpdateRootRelativeVars()

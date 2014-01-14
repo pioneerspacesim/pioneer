@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Model.h"
@@ -22,6 +22,7 @@ Model::Model(Graphics::Renderer *r, const std::string &name)
 : m_boundingRadius(10.f)
 , m_renderer(r)
 , m_name(name)
+, m_curPatternIndex(0)
 , m_curPattern(0)
 {
 	m_root.Reset(new Group(m_renderer));
@@ -36,6 +37,7 @@ Model::Model(const Model &model)
 , m_collMesh(model.m_collMesh) //might have to make this per-instance at some point
 , m_renderer(model.m_renderer)
 , m_name(model.m_name)
+, m_curPatternIndex(model.m_curPatternIndex)
 , m_curPattern(model.m_curPattern)
 {
 	//selective copying of node structure
@@ -50,10 +52,10 @@ Model::Model(const Model &model)
 	//create unique color texture, if used
 	//patterns are shared
 	if (SupportsPatterns()) {
-		std::vector<Color4ub> colors;
-		colors.push_back(Color4ub::RED);
-		colors.push_back(Color4ub::GREEN);
-		colors.push_back(Color4ub::BLUE);
+		std::vector<Color> colors;
+		colors.push_back(Color::RED);
+		colors.push_back(Color::GREEN);
+		colors.push_back(Color::BLUE);
 		SetColors(colors);
 		SetPattern(0);
 	}
@@ -191,10 +193,11 @@ void Model::SetPattern(unsigned int index)
 	if (m_patterns.empty() || index > m_patterns.size() - 1) return;
 	const Pattern &pat = m_patterns.at(index);
 	m_colorMap.SetSmooth(pat.smoothColor);
+	m_curPatternIndex = index;
 	m_curPattern = pat.texture.Get();
 }
 
-void Model::SetColors(const std::vector<Color4ub> &colors)
+void Model::SetColors(const std::vector<Color> &colors)
 {
 	assert(colors.size() == 3); //primary, seconday, trim
 	m_colorMap.Generate(GetRenderer(), colors.at(0), colors.at(1), colors.at(2));
@@ -297,6 +300,8 @@ void Model::Save(Serializer::Writer &wr) const
 
 	for (AnimationContainer::const_iterator i = m_animations.begin(); i != m_animations.end(); ++i)
 		wr.Double((*i)->GetProgress());
+
+	wr.Int32(m_curPatternIndex);
 }
 
 class LoadVisitor : public NodeVisitor {
@@ -322,6 +327,8 @@ void Model::Load(Serializer::Reader &rd)
 	for (AnimationContainer::const_iterator i = m_animations.begin(); i != m_animations.end(); ++i)
 		(*i)->SetProgress(rd.Double());
 	UpdateAnimations();
+
+	SetPattern(rd.Int32());
 }
 
 }

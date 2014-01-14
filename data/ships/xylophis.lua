@@ -1,8 +1,10 @@
--- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
 
 define_ship {
-	name='Xylophis Short Range Shuttle',
+	name='Xylophis',
+	ship_class='light_cargo_shuttle',
+	manufacturer='opli',
 	model='xylophis',
 	forward_thrust = 27e5,
 	reverse_thrust = 9e5,

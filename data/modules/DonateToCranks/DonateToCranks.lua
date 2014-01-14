@@ -1,4 +1,4 @@
--- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -11,7 +11,7 @@ local Serializer = import("Serializer")
 local l = Lang.GetResource("module-donatetocranks")
 
 local flavours = {}
-for i = 0,4 do
+for i = 0,5 do
 	table.insert(flavours, {
 		title     = l["FLAVOUR_" .. i .. "_TITLE"],
 		message   = l["FLAVOUR_" .. i .. "_MESSAGE"],
@@ -36,7 +36,6 @@ local onChat = function (form, ref, option)
 		form:AddOption("$1000", 1000)
 		form:AddOption("$10000", 10000)
 		form:AddOption("$100000", 100000)
-		form:AddOption(l.HANG_UP, -1)
 
 		return
 	end

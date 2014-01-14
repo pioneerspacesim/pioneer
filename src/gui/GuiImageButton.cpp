@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -52,7 +52,7 @@ void ImageButton::Draw()
 	if (GetEnabled())
 		img->SetModulateColor(Color::WHITE);
 	else
-		img->SetModulateColor(Color(0.5f,0.5f,0.5f,1.0f));
+		img->SetModulateColor(Color(128,128,128,255));
 	img->SetSize(size[0], size[1]);
 	img->Draw();
 }

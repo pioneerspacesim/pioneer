@@ -1,8 +1,10 @@
--- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
 
 define_ship {
 	name='Kanara Interceptor',
+	ship_class='light_fighter',
+	manufacturer='mandarava_csepel',
 	model='kanara_civ',
 	forward_thrust = 8980000,
 	reverse_thrust = 1800000,

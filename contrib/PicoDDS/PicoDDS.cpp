@@ -423,13 +423,16 @@ size_t DDSLoad(const char* filename, DDSImage& dds)
 
 	// allocate space for the data and read the whole file in
 	char* pData = (char*)malloc(sizeof(char)*size);
-	const size_t sizeRead = fread(pData, sizeof(char), size, file);
-	assert(sizeRead == size);
+	if( pData ) {
+		const size_t sizeRead = fread(pData, sizeof(char), size, file);
+		assert(sizeRead == size);
 
-	// read the dds file
-	const size_t sizeDDSRead = dds.Read(pData, sizeRead);
-	free(pData);
-	return sizeDDSRead;
+		// read the dds file
+		const size_t sizeDDSRead = dds.Read(pData, sizeRead);
+		free(pData);
+		return sizeDDSRead;
+	}
+	return 0;
 }
 
 }	// namespace PicoDDS

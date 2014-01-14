@@ -1,8 +1,10 @@
--- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
 
 define_ship {
 	name='Lunar Shuttle',
+	ship_class='light_passenger_shuttle',
+	manufacturer='haber',
 	model='lunarshuttle',
 	forward_thrust = 52e5,
 	reverse_thrust = 16e5,

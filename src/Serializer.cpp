@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "galaxy/StarSystem.h"
@@ -108,29 +108,31 @@ void Writer::WrQuaternionf(const Quaternionf &q)
 }
 
 
-Reader::Reader(): m_data(""), m_pos(0) {
-}
-Reader::Reader(const std::string &data):
+Reader::Reader(const ByteRange &data):
 	m_data(data),
-	m_pos(0) {
+	m_at(data.begin)
+{}
 
+bool Reader::AtEnd() { return (m_at == m_data.end); }
+void Reader::Seek(int pos)
+{
+	assert(pos >= 0 && size_t(pos) <= m_data.Size());
+	m_at = m_data.begin + pos;
 }
-Reader::Reader(FILE *fptr): m_pos(0) {
-	m_data = "";
-	while (!feof(fptr)) m_data.push_back(fgetc(fptr));
-	printf(SIZET_FMT " characters in savefile\n", m_data.size());
-}
-bool Reader::AtEnd() { return m_pos >= m_data.size(); }
-void Reader::Seek(int pos) { m_pos = pos; }
-Uint8 Reader::Byte() {
+
+Uint8 Reader::Byte()
+{
 #ifdef DEBUG
-	assert(m_pos < m_data.size());
+	assert(!AtEnd());
 #endif /* DEBUG */
-	return Uint8(m_data[m_pos++]);
+	return Uint8(*m_at++);
 }
-bool Reader::Bool() {
+
+bool Reader::Bool()
+{
 	return Byte() != 0;
 }
+
 Uint16 Reader::Int16()
 {
 	int t1, t2;
@@ -189,19 +191,29 @@ double Reader::Double ()
 	return p.f;
 }
 
-std::string Reader::String()
+ByteRange Reader::Blob()
 {
 	int size = Int32();
-	if (size == 0) return "";
+	if (size == 0) return ByteRange();
 
-	std::string buf;
-	buf.reserve(size-1);
-
-	for (int i=0; i<size-1; i++) {
-		buf.push_back(char(Byte()));
+	if (size > (m_data.end - m_at)) {
+		// XXX error condition -- exception? some kind of error state on the Reader?
+		assert(0 && "Serializer:Reader stream is truncated");
+		size = (m_data.end - m_at);
 	}
-	Byte();// discard null terminator
-	return buf;
+
+	assert(size > 0);
+	assert(size <= (m_data.end - m_at));
+	ByteRange range = ByteRange(m_at, m_at + (size - 1)); // -1 to exclude the null terminator
+	m_at += size;
+	assert(m_at <= m_data.end);
+	return range;
+}
+
+std::string Reader::String()
+{
+	ByteRange range = Blob();
+	return std::string(range.begin, range.Size());
 }
 
 vector3d Reader::Vector3d()

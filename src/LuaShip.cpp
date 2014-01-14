@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaObject.h"
@@ -21,7 +21,7 @@
 /*
  * Class: Ship
  *
- * Class representing a ship. Inherits from <Body>.
+ * Class representing a ship. Inherits from <ModelBody>.
  */
 
 /*
@@ -1191,7 +1191,7 @@ template <> const char *LuaObject<Ship>::s_type = "Ship";
 
 template <> void LuaObject<Ship>::RegisterClass()
 {
-	static const char *l_parent = "Body";
+	static const char *l_parent = "ModelBody";
 
 	static const luaL_Reg l_methods[] = {
 		{ "IsPlayer", l_ship_is_player },

@@ -1,7 +1,8 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Drawables.h"
+#include "Texture.h"
 
 namespace Graphics {
 
@@ -41,7 +42,7 @@ void Disk::Draw(Renderer *r)
 	r->DrawTriangles(m_vertices.get(), m_material.Get(), TRIANGLE_FAN);
 }
 
-void Disk::SetColor(const Color4f &c)
+void Disk::SetColor(const Color &c)
 {
 	m_material->diffuse = c;
 }
@@ -50,8 +51,8 @@ Line3D::Line3D()
 {
 	m_points[0] = vector3f(0.f);
 	m_points[1] = vector3f(0.f);
-	m_colors[0] = Color(0.f);
-	m_colors[1] = Color(1.f);
+	m_colors[0] = Color(0);
+	m_colors[1] = Color(255);
 	m_width     = 2.f; // XXX bug in Radeon drivers will cause crash in glLineWidth if width >= 3
 }
 
@@ -165,6 +166,25 @@ void Sphere3D::Subdivide(const matrix4x4f &trans, const vector3f &v1, const vect
 	Subdivide(trans, v2, v23, v12, i2, i23, i12, depth-1);
 	Subdivide(trans, v3, v31, v23, i3, i31, i23, depth-1);
 	Subdivide(trans, v12, v23, v31, i12, i23, i31, depth-1);
+}
+
+// a textured quad with reversed winding
+TexturedQuad::TexturedQuad(Graphics::Renderer *r, Graphics::Texture *texture, const vector2f &pos, const vector2f &size) : m_texture(RefCountedPtr<Graphics::Texture>(texture)) 
+{
+	m_vertices.reset(new VertexArray(ATTRIB_POSITION | ATTRIB_UV0));
+	Graphics::MaterialDescriptor desc;
+	desc.textures = 1;
+	m_material.reset(r->CreateMaterial(desc));
+	m_material->texture0 = m_texture.Get();
+
+	// these might need to be reversed
+	const vector2f texPos = vector2f(0.0f);
+	const vector2f texSize = m_texture->GetDescriptor().texSize;
+
+	m_vertices->Add(vector3f(pos.x,        pos.y,        0.0f), vector2f(texPos.x,           texPos.y+texSize.y));
+	m_vertices->Add(vector3f(pos.x,        pos.y+size.y, 0.0f), vector2f(texPos.x,           texPos.y));
+	m_vertices->Add(vector3f(pos.x+size.x, pos.y,        0.0f), vector2f(texPos.x+texSize.x, texPos.y+texSize.y));
+	m_vertices->Add(vector3f(pos.x+size.x, pos.y+size.y, 0.0f), vector2f(texPos.x+texSize.x, texPos.y));
 }
 
 }

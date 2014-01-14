@@ -39,6 +39,14 @@
       "description" : "",
       "message" : "PŘISPĚJTE! Zachraňte náš druh. Zastavte masakr na nově obydlených světech."
    },
+   "FLAVOUR_5_MESSAGE" : {
+      "description" : "",
+      "message" : "Osvoboďte svou loď! Prosím zvolte výši daru. Šťastné hackování."
+   },
+   "FLAVOUR_5_TITLE" : {
+      "description" : "",
+      "message" : "PODPORUJTE SVOBODU! Zastavte nespravedlnost proprietárního softwaru ovládajícího vaši loď."
+   },
    "HANG_UP" : {
       "description" : "",
       "message" : "Konec"

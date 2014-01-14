@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaEngine.h"
@@ -17,6 +17,8 @@
 #include "SoundMusic.h"
 #include "KeyBindings.h"
 #include "Lang.h"
+#include "Player.h"
+#include "scenegraph/Model.h"
 
 /*
  * Interface: Engine
@@ -340,6 +342,26 @@ static int l_engine_set_display_speed_lines(lua_State *l)
 	return 0;
 }
 
+static int l_engine_get_cockpit_enabled(lua_State *l)
+{
+	lua_pushboolean(l, Pi::config->Int("EnableCockpit") != 0);
+	return 1;
+}
+
+static int l_engine_set_cockpit_enabled(lua_State *l)
+{
+	if (lua_isnone(l, 1))
+		return luaL_error(l, "SetCockpitEnabled takes one boolean argument");
+	const bool enabled = lua_toboolean(l, 1);
+	Pi::config->SetInt("EnableCockpit", (enabled ? 1 : 0));
+	Pi::config->Save();
+	if (Pi::player) {
+		Pi::player->InitCockpit();
+		if (enabled) Pi::player->OnCockpitActivated();
+	}
+	return 0;
+}
+
 static void set_master_volume(const bool muted, const float volume)
 {
 	Sound::Pause(muted || is_zero_exact(volume));
@@ -493,14 +515,14 @@ static void push_bindings(lua_State *l, const KeyBindings::BindingPrototype *pro
 			lua_setfield(l, -2, "label");
 			if (proto->kb) {
 				const KeyBindings::KeyBinding kb1 = proto->kb->binding1;
-				if (kb1.type != KeyBindings::BINDING_DISABLED) {
+				if (kb1.Enabled()) {
 					lua_pushstring(l, kb1.ToString().c_str());
 					lua_setfield(l, -2, "binding1");
 					lua_pushstring(l, kb1.Description().c_str());
 					lua_setfield(l, -2, "bindingDescription1");
 				}
 				const KeyBindings::KeyBinding kb2 = proto->kb->binding2;
-				if (kb2.type != KeyBindings::BINDING_DISABLED) {
+				if (kb2.Enabled()) {
 					lua_pushstring(l, kb2.ToString().c_str());
 					lua_setfield(l, -2, "binding2");
 					lua_pushstring(l, kb2.Description().c_str());
@@ -669,6 +691,14 @@ static int l_engine_set_joystick_enabled(lua_State *l)
 	return 0;
 }
 
+static int l_engine_get_model(lua_State *l)
+{
+	const std::string name(luaL_checkstring(l, 1));
+	SceneGraph::Model *model = Pi::FindModel(name);
+	LuaObject<SceneGraph::Model>::PushToLua(model);
+	return 1;
+}
+
 void LuaEngine::Register()
 {
 	lua_State *l = Lua::manager->GetLuaState();
@@ -705,6 +735,9 @@ void LuaEngine::Register()
 		{ "GetDisplaySpeedLines", l_engine_get_display_speed_lines },
 		{ "SetDisplaySpeedLines", l_engine_set_display_speed_lines },
 
+		{ "GetCockpitEnabled", l_engine_get_cockpit_enabled },
+		{ "SetCockpitEnabled", l_engine_set_cockpit_enabled },
+
 		{ "GetMasterMuted", l_engine_get_master_muted },
 		{ "SetMasterMuted", l_engine_set_master_muted },
 		{ "GetMasterVolume", l_engine_get_master_volume },
@@ -724,6 +757,8 @@ void LuaEngine::Register()
 		{ "SetMouseYInverted", l_engine_set_mouse_y_inverted },
 		{ "GetJoystickEnabled", l_engine_get_joystick_enabled },
 		{ "SetJoystickEnabled", l_engine_set_joystick_enabled },
+
+		{ "GetModel", l_engine_get_model },
 
 		{ 0, 0 }
 	};

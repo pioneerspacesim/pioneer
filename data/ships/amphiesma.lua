@@ -1,8 +1,10 @@
--- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
 
 define_ship {
-	name='Amphiesma Courier',
+	name='Amphiesma',
+	ship_class='medium_courier',
+	manufacturer='opli',
 	model='amphiesma',
 	forward_thrust = 8e6,
 	reverse_thrust = 2e6,
@@ -11,11 +13,6 @@ define_ship {
 	left_thrust = 5e5,
 	right_thrust = 5e5,
 	angular_thrust = 4e6,
-	camera_offset = v(0,2.14,1.24),
-	gun_mounts =
-	{
-		{ v(0,-0.5,-10.7), v(0,0,-1), 5, 'HORIZONTAL' },
-	},
 	max_cargo = 38,
 	max_laser = 1,
 	max_missile = 4,

@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ModelViewer.h"
@@ -47,8 +47,8 @@ namespace {
 	}
 
 	//extract color from RGB sliders
-	Color4ub get_slider_color(UI::Slider *r, UI::Slider *g, UI::Slider *b) {
-		return Color4ub(r->GetValue() * 255.f, g->GetValue() * 255.f, b->GetValue() * 255.f);
+	Color get_slider_color(UI::Slider *r, UI::Slider *g, UI::Slider *b) {
+		return Color(r->GetValue() * 255.f, g->GetValue() * 255.f, b->GetValue() * 255.f);
 	}
 
 	float get_thrust(const UI::Slider *s) {
@@ -386,8 +386,8 @@ void ModelViewer::DrawBackground()
 
 	static Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE);
 	va.Clear();
-	const Color4f top = Color::BLACK;
-	const Color4f bottom = Color4f(0.3f);
+	const Color top = Color::BLACK;
+	const Color bottom = Color(77);
 	va.Add(vector3f(0.f, 0.f, 0.f), bottom);
 	va.Add(vector3f(1.f, 0.f, 0.f), bottom);
 	va.Add(vector3f(1.f, 1.f, 0.f), top);
@@ -501,7 +501,7 @@ void ModelViewer::DrawGrid(const matrix4x4f &trans, float radius)
 	}
 
 	m_renderer->SetTransform(trans);
-	m_renderer->DrawLines(points.size(), &points[0], Color(0.5f));//Color(0.0f,0.2f,0.0f,1.0f));
+	m_renderer->DrawLines(points.size(), &points[0], Color(128));//Color(0.0f,0.2f,0.0f,1.0f));
 
 	//industry-standard red/green/blue XYZ axis indiactor
 	const int numAxVerts = 6;
@@ -519,14 +519,14 @@ void ModelViewer::DrawGrid(const matrix4x4f &trans, float radius)
 		vector3f(0.f, 0.f, radius),
 	};
 	const Color col[numAxVerts] = {
-		Color(1.f, 0.f, 0.f),
-		Color(1.f, 0.f, 0.f),
+		Color(255, 0, 0),
+		Color(255, 0, 0),
 
-		Color(0.f, 0.f, 1.f),
-		Color(0.f, 0.f, 1.f),
+		Color(0, 0, 255),
+		Color(0, 0, 255),
 
-		Color(0.f, 1.f, 0.f),
-		Color(0.f, 1.f, 0.f)
+		Color(0, 255, 0),
+		Color(0, 255, 0)
 	};
 
 	m_renderer->SetDepthTest(true);
@@ -679,7 +679,7 @@ void ModelViewer::OnModelColorsChanged(float)
 {
 	if (!m_model) return;
 	//don't care about the float. Fetch values from all sliders.
-	std::vector<Color4ub> colors;
+	std::vector<Color> colors;
 	colors.push_back(get_slider_color(colorSliders[0], colorSliders[1], colorSliders[2]));
 	colors.push_back(get_slider_color(colorSliders[3], colorSliders[4], colorSliders[5]));
 	colors.push_back(get_slider_color(colorSliders[6], colorSliders[7], colorSliders[8]));
@@ -862,7 +862,7 @@ void ModelViewer::SetModel(const std::string &filename, bool resetCamera /* true
 
 		//set decal textures, max 4 supported.
 		//Identical texture at the moment
-		OnDecalChanged(0, "01_Badge");
+		OnDecalChanged(0, "pioneer");
 
 		//dump warnings
 		for (std::vector<std::string>::const_iterator it = loader.GetLogMessages().begin();
@@ -1082,6 +1082,8 @@ void ModelViewer::SetupUI()
 		for (std::vector<std::string>::const_iterator it = decals.begin(); it != decals.end(); ++it) {
 			decalSelector->AddOption(*it);
 		}
+		if (decals.size() > 0)
+			decalSelector->SetSelectedOption("pioneer");
 	}
 
 	//light dropdown
@@ -1094,6 +1096,7 @@ void ModelViewer::SetupUI()
 			->AddOption("3  Backlight")
 			//->AddOption("4  Nuts")
 	);
+	lightSelector->SetSelectedOption("1  Front white");
 	m_options.lightPreset = 0;
 
 	add_pair(c, mainBox, gunsCheck = c->CheckBox(), "Attach guns");
@@ -1174,6 +1177,8 @@ void ModelViewer::UpdateAnimList()
 		for(unsigned int i=0; i<anims.size(); i++) {
 			animSelector->AddOption(anims[i]->GetName());
 		}
+		if (anims.size())
+			animSelector->SetSelectedOption(anims[0]->GetName());
 	}
 	animSelector->Layout();
 	OnAnimChanged(0, animSelector->GetSelectedOption());
@@ -1255,25 +1260,25 @@ void ModelViewer::UpdateLights()
 	switch(m_options.lightPreset) {
 	case 0:
 		//Front white
-		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(90,0), Color(1.0f, 1.0f, 1.0f), Color(1.f)));
-		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(0,-90), Color(0.05, 0.05f, 0.1f), Color(1.f)));
+		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(90,0), Color(255), Color(255)));
+		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(0,-90), Color(13, 13, 26), Color(255)));
 		break;
 	case 1:
 		//Two-point
-		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(120,0), Color(0.9f, 0.8f, 0.8f), Color(1.f)));
-		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(-30,-90), Color(0.7f, 0.5f, 0.0f), Color(1.f)));
+		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(120,0), Color(230, 204, 204), Color(255)));
+		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(-30,-90), Color(178, 128, 0), Color(255)));
 		break;
 	case 2:
 		//Backlight
-		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(-75,20), Color(1.f), Color(1.f)));
-		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(0,-90), Color(0.05, 0.05f, 0.1f), Color(1.f)));
+		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(-75,20), Color(255), Color(255)));
+		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(0,-90), Color(13, 13, 26), Color(255)));
 		break;
 	case 3:
 		//4 lights
-		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(0, 90), Color::YELLOW, Color(1.f)));
-		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(0, -90), Color::GREEN, Color(1.f)));
-		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(0, 45), Color::BLUE, Color(1.f)));
-		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(0, -45), Color::WHITE, Color(1.f)));
+		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(0, 90), Color::YELLOW, Color(255)));
+		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(0, -90), Color::GREEN, Color(255)));
+		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(0, 45), Color::BLUE, Color(255)));
+		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(0, -45), Color::WHITE, Color(255)));
 		break;
 	};
 
@@ -1289,6 +1294,8 @@ void ModelViewer::UpdatePatternList()
 		for(unsigned int i=0; i<pats.size(); i++) {
 			patternSelector->AddOption(pats[i].name);
 		}
+		if (pats.size() > 0)
+			patternSelector->SetSelectedOption(pats[0].name);
 	}
 
 	m_ui->Layout();

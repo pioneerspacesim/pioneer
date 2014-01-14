@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Uniform.h"
@@ -41,10 +41,11 @@ void Uniform::Set(const vector3d &v)
 		glUniform3f(m_location, v.x, v.y, v.z); //yes, 3f
 }
 
-void Uniform::Set(const Color4f &c)
+void Uniform::Set(const Color &c)
 {
+	Color4f c4f = c.ToColor4f();
 	if (m_location != -1)
-		glUniform4f(m_location, c.r, c.g, c.b, c.a);
+		glUniform4f(m_location, c4f.r, c4f.g, c4f.b, c4f.a);
 }
 
 void Uniform::Set(const int v[3])
@@ -57,6 +58,18 @@ void Uniform::Set(const float m[9])
 {
 	if (m_location != -1)
 		glUniformMatrix3fv(m_location, 1, false, m);
+}
+
+void Uniform::Set(const matrix3x3f &m)
+{
+	if (m_location != -1)
+		glUniformMatrix3fv(m_location, 1, false, &m[0]);
+}
+
+void Uniform::Set(const matrix4x4f &m)
+{
+	if (m_location != -1)
+		glUniformMatrix4fv(m_location, 1, false, &m[0]);
 }
 
 void Uniform::Set(Texture *tex, unsigned int unit)

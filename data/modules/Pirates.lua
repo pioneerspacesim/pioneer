@@ -1,4 +1,4 @@
--- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -7,6 +7,7 @@ local Space = import("Space")
 local Event = import("Event")
 local EquipDef = import("EquipDef")
 local ShipDef = import("ShipDef")
+local Ship = import("Ship")
 local utils = import("utils")
 
 local onEnterSystem = function (player)
@@ -36,6 +37,7 @@ local onEnterSystem = function (player)
 		local laserdef = laserdefs[Engine.rand:Integer(1,#laserdefs)]
 
 		local ship = Space.SpawnShip(shipdef.id, 8, 12)
+		ship:SetLabel(Ship.MakeRandomLabel())
 		ship:AddEquip(default_drive)
 		ship:AddEquip(laserdef.id)
 

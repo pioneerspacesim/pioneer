@@ -1,8 +1,10 @@
--- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
 
 define_ship {
 	name='Venturestar',
+	ship_class='medium_freighter',
+	manufacturer='albr',
 	model='venturestar',
 	forward_thrust = 35e6,
 	reverse_thrust = 10e6,

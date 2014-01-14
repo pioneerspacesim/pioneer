@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "RendererGL2.h"
@@ -74,9 +74,7 @@ RendererGL2::RendererGL2(WindowSDL *window, const Graphics::Settings &vs)
 , m_activeRenderTarget(0)
 , m_matrixMode(MatrixMode::MODELVIEW)
 {
-	for(Uint32 i = 0; i < 4; i++) {
-		m_currentViewport[i] = 0;
-	}
+	m_viewportStack.push(Viewport());
 
 	const bool useDXTnTextures = vs.useTextureCompression && glewIsSupported("GL_EXT_texture_compression_s3tc");
 	m_useCompressedTextures = useDXTnTextures;
@@ -218,10 +216,12 @@ bool RendererGL2::SetClearColor(const Color &c)
 
 bool RendererGL2::SetViewport(int x, int y, int width, int height)
 {
-	m_currentViewport[0] = x;
-	m_currentViewport[1] = y;
-	m_currentViewport[2] = width;
-	m_currentViewport[3] = height;
+	assert(!m_viewportStack.empty());
+	Viewport& currentViewport = m_viewportStack.top();
+	currentViewport.x = x;
+	currentViewport.y = y;
+	currentViewport.w = width;
+	currentViewport.h = height;
 	glViewport(x, y, width, height);
 	return true;
 }
@@ -232,7 +232,6 @@ bool RendererGL2::SetTransform(const matrix4x4d &m)
 	matrix4x4f mf;
 	matrix4x4dtof(m, mf);
 	return SetTransform(mf);
-	return true;
 }
 
 bool RendererGL2::SetTransform(const matrix4x4f &m)
@@ -342,6 +341,16 @@ bool RendererGL2::SetWireFrameMode(bool enabled)
 	return true;
 }
 
+bool RendererGL2::SetLightsEnabled(const bool enabled) {
+	// XXX move lighting out to shaders
+	if( enabled ) {
+		glEnable(GL_LIGHTING);
+	} else {
+		glDisable(GL_LIGHTING);
+	}
+	return true;
+}
+
 bool RendererGL2::SetLights(int numlights, const Light *lights)
 {
 	if (numlights < 1) return false;
@@ -366,8 +375,8 @@ bool RendererGL2::SetLights(int numlights, const Light *lights)
 			l.GetType() == Light::LIGHT_DIRECTIONAL ? 0.f : 1.f
 		};
 		glLightfv(GL_LIGHT0+i, GL_POSITION, pos);
-		glLightfv(GL_LIGHT0+i, GL_DIFFUSE, l.GetDiffuse());
-		glLightfv(GL_LIGHT0+i, GL_SPECULAR, l.GetSpecular());
+		glLightfv(GL_LIGHT0+i, GL_DIFFUSE, l.GetDiffuse().ToColor4f());
+		glLightfv(GL_LIGHT0+i, GL_SPECULAR, l.GetSpecular().ToColor4f());
 		glEnable(GL_LIGHT0+i);
 
 		if (l.GetType() == Light::LIGHT_DIRECTIONAL)
@@ -406,7 +415,7 @@ bool RendererGL2::DrawLines(int count, const vector3f *v, const Color *c, LineTy
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
 	glVertexPointer(3, GL_FLOAT, sizeof(vector3f), v);
-	glColorPointer(4, GL_FLOAT, sizeof(Color), c);
+	glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(Color), c);
 	glDrawArrays(t, 0, count);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
@@ -439,12 +448,12 @@ bool RendererGL2::DrawLines2D(int count, const vector2f *v, const Color &c, Line
 	glPushAttrib(GL_LIGHTING_BIT);
 	glDisable(GL_LIGHTING);
 
-	glColor4f(c.r, c.g, c.b, c.a);
+	glColor4ub(c.r, c.g, c.b, c.a);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(2, GL_FLOAT, sizeof(vector2f), v);
 	glDrawArrays(t, 0, count);
 	glDisableClientState(GL_VERTEX_ARRAY);
-	glColor4f(1.f, 1.f, 1.f, 1.f);
+	glColor4ub(1.f, 1.f, 1.f, 1.f);
 
 	glPopAttrib();
 
@@ -462,7 +471,7 @@ bool RendererGL2::DrawPoints(int count, const vector3f *points, const Color *col
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
 	glVertexPointer(3, GL_FLOAT, 0, points);
-	glColorPointer(4, GL_FLOAT, 0, colors);
+	glColorPointer(4, GL_UNSIGNED_BYTE, 0, colors);
 	glDrawArrays(GL_POINTS, 0, count);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
@@ -602,7 +611,7 @@ void RendererGL2::EnableClientStates(const VertexArray *v)
 		assert(! v->diffuse.empty());
 		m_clientStates.push_back(GL_COLOR_ARRAY);
 		glEnableClientState(GL_COLOR_ARRAY);
-		glColorPointer(4, GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->diffuse[0]));
+		glColorPointer(4, GL_UNSIGNED_BYTE, 0, reinterpret_cast<const GLvoid *>(&v->diffuse[0]));
 	}
 	if (v->HasAttrib(ATTRIB_NORMAL)) {
 		assert(! v->normal.empty());
@@ -848,12 +857,15 @@ void RendererGL2::PushState()
 	PushMatrix();
 	SetMatrixMode(MatrixMode::MODELVIEW);
 	PushMatrix();
+	m_viewportStack.push( m_viewportStack.top() );
 	glPushAttrib(GL_ALL_ATTRIB_BITS & (~GL_POINT_BIT));
 }
 
 void RendererGL2::PopState()
 {
 	glPopAttrib();
+	m_viewportStack.pop();
+	assert(!m_viewportStack.empty());
 	SetMatrixMode(MatrixMode::PROJECTION);
 	PopMatrix();
 	SetMatrixMode(MatrixMode::MODELVIEW);

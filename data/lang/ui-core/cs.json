@@ -7,6 +7,10 @@
       "description" : "",
       "message" : "Probíhá"
    },
+   "AFTER_TRADE_IN" : {
+      "description" : "",
+      "message" : "Po koupi na protiúčet"
+   },
    "ALLEGIANCE" : {
       "description" : "",
       "message" : "Příslušnost:"
@@ -15,13 +19,21 @@
       "description" : "",
       "message" : "Celková hmotnost"
    },
+   "AMOUNT" : {
+      "description" : "",
+      "message" : "Množství"
+   },
    "AN_ERROR_HAS_OCCURRED" : {
       "description" : "",
-      "message" : "An error has occurred"
+      "message" : "Vyskytla se chyba"
    },
    "ATTEMPT_TO_REPAIR_HULL" : {
       "description" : "",
       "message" : "Zkus opravit trup"
+   },
+   "AVAILABLE_FOR_PURCHASE" : {
+      "description" : "",
+      "message" : "Skladem"
    },
    "AVERAGE" : {
       "description" : "",
@@ -29,7 +41,15 @@
    },
    "BACKWARD_ACCEL" : {
       "description" : "",
-      "message" : "Backward acceleration"
+      "message" : "Zrychlení vzad"
+   },
+   "BULLETIN_BOARD" : {
+      "description" : "",
+      "message" : "Bulletin: Zprávy / Mise"
+   },
+   "BUY_SHIP" : {
+      "description" : "",
+      "message" : "Koupit loď"
    },
    "CABINS" : {
       "description" : "",
@@ -38,6 +58,10 @@
    "CANCEL" : {
       "description" : "",
       "message" : "Zrušit"
+   },
+   "CAPACITY" : {
+      "description" : "",
+      "message" : "Kapacita"
    },
    "CAPACITY_USED" : {
       "description" : "",
@@ -55,9 +79,17 @@
       "description" : "",
       "message" : "Hotovost"
    },
+   "CASH_N" : {
+      "description" : "",
+      "message" : "Peníze: {money}"
+   },
    "CHANGE_BINDING" : {
       "description" : "",
-      "message" : "Change Binding"
+      "message" : "Změnit kl."
+   },
+   "CHIEF_MECHANIC" : {
+      "description" : "",
+      "message" : "Hlavní mechanik"
    },
    "CIRCULAR_ORBIT_SPEED" : {
       "description" : "",
@@ -67,9 +99,13 @@
       "description" : "",
       "message" : "Detaily měst"
    },
+   "CLEAN" : {
+      "description" : "",
+      "message" : "Čistý"
+   },
    "CLEAR" : {
       "description" : "",
-      "message" : "Clear"
+      "message" : "Smazat"
    },
    "CLIENT" : {
       "description" : "",
@@ -83,6 +119,10 @@
       "description" : "",
       "message" : "Velitel"
    },
+   "COMMODITY_MARKET" : {
+      "description" : "",
+      "message" : "Obchod s komoditami"
+   },
    "COMPETENT" : {
       "description" : "",
       "message" : "Schopný"
@@ -95,17 +135,21 @@
       "description" : "",
       "message" : "Komprimovat textury"
    },
+   "CONSTABLE" : {
+      "description" : "",
+      "message" : "Policista"
+   },
    "CONTROLS" : {
       "description" : "",
       "message" : "Ovládání"
    },
    "CONTROL_OPTIONS" : {
       "description" : "",
-      "message" : "Control Options"
+      "message" : "Možnosti ovládání"
    },
    "COULD_NOT_LOAD_GAME" : {
       "description" : "",
-      "message" : "Could not load game: "
+      "message" : "Nelze načíst pozici:"
    },
    "CREW_CABINS" : {
       "description" : "",
@@ -114,6 +158,10 @@
    "CREW_ROSTER" : {
       "description" : "",
       "message" : "Seznam posádky"
+   },
+   "CRIMINAL_RECORD" : {
+      "description" : "",
+      "message" : "Trestní rejstřík"
    },
    "DANGEROUS" : {
       "description" : "",
@@ -126,6 +174,18 @@
    "DELTA_V" : {
       "description" : "",
       "message" : "Delta-v"
+   },
+   "DELTA_V_EMPTY" : {
+      "description" : "Delta-v capacity of a ship with no cargo or upgrades",
+      "message" : "Delta-v (empty)"
+   },
+   "DELTA_V_FULL" : {
+      "description" : "Delta-v capacity of a ship with maximum cargo",
+      "message" : "Delta-v (full)"
+   },
+   "DELTA_V_MAX" : {
+      "description" : "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
+      "message" : "Delta-v (max)"
    },
    "DESCENT_TO_GROUND_SPEED" : {
       "description" : "",
@@ -145,7 +205,7 @@
    },
    "DISPLAY_SPEED_LINES" : {
       "description" : "",
-      "message" : "Display speed lines"
+      "message" : "Zobrazit rychlostní linky"
    },
    "DOCK_AT_CURRENT_TARGET" : {
       "description" : "",
@@ -175,21 +235,33 @@
       "description" : "",
       "message" : "Zaměstnanost"
    },
+   "ENABLE_COCKPIT" : {
+      "description" : "",
+      "message" : "Zapnout 3D kokpit (EXPERIMENTALNÍ)"
+   },
    "ENABLE_JOYSTICK" : {
       "description" : "",
       "message" : "Zapnout ovládání joystickem"
    },
    "ENGINEERING" : {
       "description" : "",
-      "message" : "Údržba:"
+      "message" : "Engineering:"
    },
    "EQUIPMENT" : {
       "description" : "",
       "message" : "Vybavení"
    },
+   "EQUIPMENT_MARKET" : {
+      "description" : "",
+      "message" : "Obchod s vybavením"
+   },
+   "EQUIPPED" : {
+      "description" : "",
+      "message" : "Vybaveno"
+   },
    "ERROR" : {
       "description" : "",
-      "message" : "Error"
+      "message" : "Chyba"
    },
    "ESCAPE_SPEED" : {
       "description" : "",
@@ -209,7 +281,15 @@
    },
    "FORWARD_ACCEL" : {
       "description" : "",
-      "message" : "Forward acceleration"
+      "message" : "Zrychlení vpřed"
+   },
+   "FORWARD_ACCEL_EMPTY" : {
+      "description" : "",
+      "message" : "Zrychlení vpřed (prázdná)"
+   },
+   "FORWARD_ACCEL_FULL" : {
+      "description" : "",
+      "message" : "Zrychlení vpřed (plná)"
    },
    "FRACTAL_DETAIL" : {
       "description" : "",
@@ -251,9 +331,37 @@
       "description" : "",
       "message" : "Spánembohem i tobě."
    },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Konec"
+   },
    "HARMLESS" : {
       "description" : "",
       "message" : "Neškodný"
+   },
+   "HEAVY_CARGO_SHUTTLE" : {
+      "description" : "",
+      "message" : "Těžký nákladní raketoplán"
+   },
+   "HEAVY_COURIER" : {
+      "description" : "",
+      "message" : "Těžký kurýr"
+   },
+   "HEAVY_FIGHTER" : {
+      "description" : "",
+      "message" : "Těžký stíhač"
+   },
+   "HEAVY_FREIGHTER" : {
+      "description" : "",
+      "message" : "Těžká nákladní loď"
+   },
+   "HEAVY_PASSENGER_SHUTTLE" : {
+      "description" : "",
+      "message" : "Těžký přepravní raketoplán"
+   },
+   "HEAVY_PASSENGER_TRANSPORT" : {
+      "description" : "",
+      "message" : "Těžký přepravní transportér"
    },
    "HIGH" : {
       "description" : "",
@@ -262,6 +370,10 @@
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
       "description" : "",
       "message" : "Trup nepotřebuje opravu."
+   },
+   "HULL_INTEGRITY" : {
+      "description" : "",
+      "message" : "Integrita trupu"
    },
    "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT" : {
       "description" : "",
@@ -274,6 +386,10 @@
    "HYPERDRIVE" : {
       "description" : "",
       "message" : "Hypermotor"
+   },
+   "HYPERDRIVE_FITTED" : {
+      "description" : "",
+      "message" : "Hypermotor:"
    },
    "HYPERSPACE_RANGE" : {
       "description" : "",
@@ -291,6 +407,18 @@
       "description" : "",
       "message" : "Invertovat osu Y"
    },
+   "IN_CARGO_HOLD" : {
+      "description" : "",
+      "message" : "V nákladovém prostoru"
+   },
+   "IN_STOCK" : {
+      "description" : "",
+      "message" : "Skladem"
+   },
+   "ITEM_IS_OUT_OF_STOCK" : {
+      "description" : "",
+      "message" : "Tato položka není skladem."
+   },
    "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE" : {
       "description" : "",
       "message" : "Dobře se mi s tebou pracovalo. Pokud mě budeš zase potřebovat, jsem tu v cukuletu."
@@ -305,19 +433,51 @@
    },
    "LANGUAGE" : {
       "description" : "",
-      "message" : "Language"
+      "message" : "Jazyk"
    },
    "LANGUAGE_RESTART_GAME_TO_APPLY" : {
       "description" : "",
       "message" : "Jazyk (nutný restart hry)"
    },
+   "LEGAL_STATUS" : {
+      "description" : "",
+      "message" : "Právní status"
+   },
+   "LIGHT_CARGO_SHUTTLE" : {
+      "description" : "",
+      "message" : "Lehký nákladní raketoplán"
+   },
+   "LIGHT_COURIER" : {
+      "description" : "",
+      "message" : "Lehký kurýr"
+   },
+   "LIGHT_FIGHTER" : {
+      "description" : "",
+      "message" : "Lehký stíhač"
+   },
+   "LIGHT_FREIGHTER" : {
+      "description" : "",
+      "message" : "Lehká nákladní loď"
+   },
+   "LIGHT_PASSENGER_SHUTTLE" : {
+      "description" : "",
+      "message" : "Lehký přepravní raketoplán"
+   },
+   "LIGHT_PASSENGER_TRANSPORT" : {
+      "description" : "",
+      "message" : "Lehký přepravní transportér"
+   },
    "LOAD" : {
       "description" : "",
-      "message" : "Load"
+      "message" : "Načíst"
    },
    "LOAD_GAME" : {
       "description" : "",
       "message" : "Načíst hru"
+   },
+   "LOBBY" : {
+      "description" : "",
+      "message" : "Lobby"
    },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
@@ -343,6 +503,10 @@
       "description" : "",
       "message" : "Muž"
    },
+   "MASS" : {
+      "description" : "",
+      "message" : "Hmotnost"
+   },
    "MASTER" : {
       "description" : "",
       "message" : "Hlavní:"
@@ -354,6 +518,30 @@
    "MEDIUM" : {
       "description" : "",
       "message" : "Střední"
+   },
+   "MEDIUM_CARGO_SHUTTLE" : {
+      "description" : "",
+      "message" : "Střední nákladní raketoplán"
+   },
+   "MEDIUM_COURIER" : {
+      "description" : "",
+      "message" : "Střední kurýr"
+   },
+   "MEDIUM_FIGHTER" : {
+      "description" : "",
+      "message" : "Střední stíhač"
+   },
+   "MEDIUM_FREIGHTER" : {
+      "description" : "",
+      "message" : "Středí nákladní loď"
+   },
+   "MEDIUM_PASSENGER_SHUTTLE" : {
+      "description" : "",
+      "message" : "Střední přepravní raketoplán"
+   },
+   "MEDIUM_PASSENGER_TRANSPORT" : {
+      "description" : "",
+      "message" : "Střední přepravní transportér"
    },
    "METAL_ALLOYS" : {
       "description" : "",
@@ -387,16 +575,24 @@
       "description" : "",
       "message" : "Multisampling"
    },
+   "MURDER" : {
+      "description" : "",
+      "message" : "Vražda"
+   },
    "MUSIC" : {
       "description" : "",
       "message" : "Hudba:"
    },
    "MUTE" : {
       "description" : "",
-      "message" : "Mute"
+      "message" : "Ztlumit"
    },
-   "NAME" : {
-      "description" : "",
+   "NAME_OBJECT" : {
+      "description" : "For an item or object",
+      "message" : "Jméno"
+   },
+   "NAME_PERSON" : {
+      "description" : "For a person",
       "message" : "Jméno"
    },
    "NAVIGATION" : {
@@ -417,7 +613,7 @@
    },
    "NOTES" : {
       "description" : "",
-      "message" : "Notes:"
+      "message" : "Poznámky:"
    },
    "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR" : {
       "description" : "",
@@ -471,6 +667,10 @@
       "description" : "",
       "message" : "Dluh"
    },
+   "PAY_FINE_OF_N" : {
+      "description" : "",
+      "message" : "Zaplať pokutu {amount}"
+   },
    "PERSONAL_INFORMATION" : {
       "description" : "",
       "message" : "Osobní informace"
@@ -483,6 +683,10 @@
       "description" : "",
       "message" : "Nyní pilotuje {name}"
    },
+   "PIRACY" : {
+      "description" : "",
+      "message" : "Pirátství"
+   },
    "PLANET_DETAIL_DISTANCE" : {
       "description" : "",
       "message" : "Detaily planet"
@@ -490,6 +694,10 @@
    "PLANET_TEXTURES" : {
       "description" : "",
       "message" : "Textury planet"
+   },
+   "POLICE" : {
+      "description" : "",
+      "message" : "Policie"
    },
    "POOR" : {
       "description" : "",
@@ -501,7 +709,11 @@
    },
    "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
       "description" : "",
-      "message" : "Press a key or controller button"
+      "message" : "Stiskni klávesu nebo tlačítko"
+   },
+   "PRICE" : {
+      "description" : "",
+      "message" : "Cena"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
@@ -527,9 +739,25 @@
       "description" : "",
       "message" : "Natankovat"
    },
+   "REPAIR_X_HULL_DAMAGE_FOR_X" : {
+      "description" : "",
+      "message" : "Opravit {damage}% poškození trupu za {price}"
+   },
+   "REQUEST_LAUNCH" : {
+      "description" : "",
+      "message" : "Požádat o povolení k odletu"
+   },
    "RETURN_TO_MENU" : {
       "description" : "",
-      "message" : "Return to menu"
+      "message" : "Návrat do menu"
+   },
+   "REVERSE_ACCEL_EMPTY" : {
+      "description" : "",
+      "message" : "Zrychlení vzad (prázdná)"
+   },
+   "REVERSE_ACCEL_FULL" : {
+      "description" : "",
+      "message" : "Zrychlení vzad (plné)"
    },
    "REWARD" : {
       "description" : "",
@@ -559,13 +787,37 @@
       "description" : "",
       "message" : "Senzory:"
    },
+   "SHIP" : {
+      "description" : "",
+      "message" : "Loď"
+   },
    "SHIP_INFORMATION" : {
       "description" : "",
       "message" : "Informace o lodi"
    },
+   "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
+      "description" : "",
+      "message" : "Vaše loď je již zcela opravena."
+   },
+   "SHIP_IS_FULLY_LADEN" : {
+      "description" : "",
+      "message" : "Vaše loď je plně naložena."
+   },
+   "SHIP_MARKET" : {
+      "description" : "",
+      "message" : "Obchod s loděmi"
+   },
+   "SHIP_REPAIRS" : {
+      "description" : "",
+      "message" : "Opravy lodí"
+   },
+   "SHIP_VIEWING_WAS_SOLD" : {
+      "description" : "",
+      "message" : "Loď, kterou si prohlížíte, byla prodána"
+   },
    "SOUND" : {
       "description" : "",
-      "message" : "Sound"
+      "message" : "Zvuk"
    },
    "START_AT_BARNARDS_STAR" : {
       "description" : "",
@@ -579,9 +831,17 @@
       "description" : "",
       "message" : "Start: New Hope"
    },
+   "STATION_MANAGER" : {
+      "description" : "",
+      "message" : "Správce stanice"
+   },
    "STATUS" : {
       "description" : "",
       "message" : "Status"
+   },
+   "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
+      "description" : "",
+      "message" : "Děkujeme za nákup. Nezapomeňte před odletem nakoupit palivo a vybavení."
    },
    "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP" : {
       "description" : "",
@@ -599,13 +859,25 @@
       "description" : "",
       "message" : "Celkem: "
    },
+   "TOTAL_MASS" : {
+      "description" : "",
+      "message" : "Celková hmotnost"
+   },
+   "TRADING_ILLEGAL_GOODS" : {
+      "description" : "",
+      "message" : "Obchod s nelegálním zbožím"
+   },
    "TYPE" : {
       "description" : "",
       "message" : "Typ"
    },
+   "UNLAWFUL_WEAPONS_DISCHARGE" : {
+      "description" : "",
+      "message" : "Nezákonnou střelbu"
+   },
    "UP_ACCEL" : {
       "description" : "",
-      "message" : "Up acceleration"
+      "message" : "Zrychlení nahoru"
    },
    "USED" : {
       "description" : "",
@@ -621,11 +893,11 @@
    },
    "VIDEO" : {
       "description" : "",
-      "message" : "Video"
+      "message" : "Grafika"
    },
    "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY" : {
       "description" : "",
-      "message" : "Video configuration (restart game to apply)"
+      "message" : "Nastavení grafiky (nutný restart hry)"
    },
    "VIDEO_RESOLUTION" : {
       "description" : "",
@@ -639,21 +911,37 @@
       "description" : "",
       "message" : "Prázdná váha:"
    },
+   "WEIGHT_FULLY_LOADED" : {
+      "description" : "",
+      "message" : "Plná váha"
+   },
    "WE_ARE_IN_HYPERSPACE_COMMANDER" : {
       "description" : "",
       "message" : "Jsme v hyperprostoru, veliteli."
+   },
+   "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
+      "description" : "",
+      "message" : "Momentálně s tebou nemáme uzavřen žádný obchod."
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",
       "message" : "Toho budeš litovat, naštvat mě!"
    },
+   "YOUR_HULL_IS_AT_X_INTEGRITY" : {
+      "description" : "",
+      "message" : "Integrita trupu je {value}%."
+   },
+   "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION" : {
+      "description" : "",
+      "message" : "Nemáš dostatek peněz."
+   },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",
-      "message" : "You must first select a combat target, Commander."
+      "message" : "Nejdříve je nutné označit cíl, veliteli."
    },
    "YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER" : {
       "description" : "",
-      "message" : "You must first select a suitable navigation target, Commander."
+      "message" : "Nejdříve je nutné vyžádat povolení k odletu, veliteli."
    },
    "YOU_MUST_LAUNCH_FIRST_COMMANDER" : {
       "description" : "",
@@ -662,5 +950,9 @@
    "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER" : {
       "description" : "",
       "message" : "Nejdříve je nutné vyžádat povolení k odletu, veliteli."
+   },
+   "YOU_NOT_ENOUGH_MONEY" : {
+      "description" : "",
+      "message" : "Nemáš dostatek peněz"
    }
 }

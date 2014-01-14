@@ -1,8 +1,10 @@
-﻿-- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
 
 define_ship {
-	name='Sinonatrix Courier',
+	name='Sinonatrix',
+	ship_class='light_courier',
+	manufacturer='opli',
 	model='sinonatrix',
 	forward_thrust = 55e5,
 	reverse_thrust = 12e5,

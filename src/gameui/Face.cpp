@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Face.h"
@@ -16,7 +16,7 @@ static const Uint32 FACE_HEIGHT = 285;
 
 RefCountedPtr<Graphics::Material> Face::s_material;
 
-Face::Face(Context *context, Uint32 flags, Uint32 seed) : Single(context)
+Face::Face(Context *context, Uint32 flags, Uint32 seed) : Single(context), m_preferredSize(INT_MAX)
 {
 	if (!seed) seed = time(0);
 
@@ -35,6 +35,13 @@ Face::Face(Context *context, Uint32 flags, Uint32 seed) : Single(context)
 		matDesc.textures = 1;
 		s_material.Reset(GetContext()->GetRenderer()->CreateMaterial(matDesc));
 	}
+
+	m_preferredSize = UI::Point(FACE_WIDTH, FACE_HEIGHT);
+	SetSizeControlFlags(UI::Widget::PRESERVE_ASPECT);
+}
+
+UI::Point Face::PreferredSize() {
+	return m_preferredSize;
 }
 
 void Face::Layout()
@@ -73,6 +80,15 @@ void Face::Draw()
 	r->DrawTriangles(&va, s_material.Get(), Graphics::TRIANGLE_STRIP);
 
 	Single::Draw();
+}
+
+Face *Face::SetHeightLines(Uint32 lines)
+{
+	const Text::TextureFont *font = GetContext()->GetFont(GetFont()).Get();
+	const float height = font->GetHeight() * lines;
+	m_preferredSize = UI::Point(height * float(FACE_WIDTH) / float(FACE_HEIGHT), height);
+	GetContext()->RequestLayout();
+	return this;
 }
 
 }

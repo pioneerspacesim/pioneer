@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Planet.h"
@@ -46,20 +46,27 @@ void Planet::Load(Serializer::Reader &rd, Space *space)
 
 void Planet::InitParams(const SystemBody *sbody)
 {
-	const double SPECIFIC_HEAT_AIR_CP=1000.5;// constant pressure specific heat, for the combination of gasses that make up air
-	// XXX using earth's molar mass of air...
-	const double GAS_MOLAR_MASS = 0.02897;
+	double specificHeatCp;
+	double gasMolarMass;
+	if (sbody->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT) {
+		specificHeatCp=12950.0; // constant pressure specific heat, for a combination of hydrogen and helium
+		gasMolarMass = 0.0023139903;
+	} else {
+		specificHeatCp=1000.5;// constant pressure specific heat, for the combination of gasses that make up air
+		// XXX using earth's molar mass of air...
+		gasMolarMass = 0.02897;
+	}
 	const double GAS_CONSTANT = 8.3144621;
 	const double PA_2_ATMOS = 1.0 / 101325.0;
 
 	// surface gravity = -G*M/planet radius^2
 	m_surfaceGravity_g = -G*sbody->GetMass()/(sbody->GetRadius()*sbody->GetRadius());
-	const double lapseRate_L = -m_surfaceGravity_g/SPECIFIC_HEAT_AIR_CP; // negative deg/m
+	const double lapseRate_L = -m_surfaceGravity_g/specificHeatCp; // negative deg/m
 	const double surfaceTemperature_T0 = sbody->averageTemp; //K
 
 	double surfaceDensity, h; Color c;
 	sbody->GetAtmosphereFlavor(&c, &surfaceDensity);// kg / m^3
-	surfaceDensity/=GAS_MOLAR_MASS;			// convert to moles/m^3
+	surfaceDensity/=gasMolarMass;			// convert to moles/m^3
 
 	//P = density*R*T=(n/V)*R*T
 	const double surfaceP_p0 = PA_2_ATMOS*((surfaceDensity)*GAS_CONSTANT*surfaceTemperature_T0); // in atmospheres
@@ -68,7 +75,7 @@ void Planet::InitParams(const SystemBody *sbody)
 		//*outPressure = p0*(1-l*h/T0)^(g*M/(R*L);
 		// want height for pressure 0.001 atm:
 		// h = (1 - exp(RL/gM * log(P/p0))) * T0 / l
-		double RLdivgM = (GAS_CONSTANT*lapseRate_L)/(-m_surfaceGravity_g*GAS_MOLAR_MASS);
+		double RLdivgM = (GAS_CONSTANT*lapseRate_L)/(-m_surfaceGravity_g*gasMolarMass);
 		h = (1.0 - exp(RLdivgM * log(0.001/surfaceP_p0))) * surfaceTemperature_T0 / lapseRate_L;
 //		double h2 = (1.0 - pow(0.001/surfaceP_p0, RLdivgM)) * surfaceTemperature_T0 / lapseRate_L;
 //		double P = surfaceP_p0*pow((1.0-lapseRate_L*h/surfaceTemperature_T0),1/RLdivgM);
@@ -96,10 +103,10 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 	static bool atmosphereTableShown = false;
 	if (!atmosphereTableShown) {
 		atmosphereTableShown = true;
-		for (double h = -1000; h <= 50000; h = h+1000.0) {
+		for (double h = -1000; h <= 100000; h = h+1000.0) {
 			double p = 0.0, d = 0.0;
 			GetAtmosphericState(h+this->GetSystemBody()->GetRadius(),&p,&d);
-			printf("height(m): %f, pressure(kpa): %f, density: %f\n", h, p*101325.0/1000.0, d);
+			printf("height(m): %f, pressure(hpa): %f, density: %f\n", h, p*101325.0/100.0, d);
 		}
 	}
 #endif
@@ -109,39 +116,46 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 	if (dist >= m_atmosphereRadius) {*outDensity = 0.0; *outPressure = 0.0; return;}
 
 	double surfaceDensity;
-	const double SPECIFIC_HEAT_AIR_CP=1000.5;// constant pressure specific heat, for the combination of gasses that make up air
-	// XXX using earth's molar mass of air...
-	const double GAS_MOLAR_MASS = 0.02897;
+	double specificHeatCp;
+	double gasMolarMass;
+	const SystemBody *sbody = this->GetSystemBody();
+	if (sbody->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT) {
+		specificHeatCp=12950.0; // constant pressure specific heat, for a combination of hydrogen and helium
+		gasMolarMass = 0.0023139903;
+	} else {
+		specificHeatCp=1000.5;// constant pressure specific heat, for the combination of gasses that make up air
+		// XXX using earth's molar mass of air...
+		gasMolarMass = 0.02897;
+	}
 	const double GAS_CONSTANT = 8.3144621;
 	const double PA_2_ATMOS = 1.0 / 101325.0;
 
 	// lapse rate http://en.wikipedia.org/wiki/Adiabatic_lapse_rate#Dry_adiabatic_lapse_rate
 	// the wet adiabatic rate can be used when cloud layers are incorporated
 	// fairly accurate in the troposphere
-	const double lapseRate_L = -m_surfaceGravity_g/SPECIFIC_HEAT_AIR_CP; // negative deg/m
+	const double lapseRate_L = -m_surfaceGravity_g/specificHeatCp; // negative deg/m
 
-	const SystemBody *sbody = this->GetSystemBody();
 	const double height_h = (dist-sbody->GetRadius()); // height in m
 	const double surfaceTemperature_T0 = sbody->averageTemp; //K
 
 	Color c;
 	sbody->GetAtmosphereFlavor(&c, &surfaceDensity);// kg / m^3
 	// convert to moles/m^3
-	surfaceDensity/=GAS_MOLAR_MASS;
+	surfaceDensity/=gasMolarMass;
 
 	//P = density*R*T=(n/V)*R*T
 	const double surfaceP_p0 = PA_2_ATMOS*((surfaceDensity)*GAS_CONSTANT*surfaceTemperature_T0); // in atmospheres
 
 	// height below zero should not occur
-	if (height_h < 0.0) { *outPressure = surfaceP_p0; *outDensity = surfaceDensity*GAS_MOLAR_MASS; return; }
+	if (height_h < 0.0) { *outPressure = surfaceP_p0; *outDensity = surfaceDensity*gasMolarMass; return; }
 
 	//*outPressure = p0*(1-l*h/T0)^(g*M/(R*L);
-	*outPressure = surfaceP_p0*pow((1-lapseRate_L*height_h/surfaceTemperature_T0),(-m_surfaceGravity_g*GAS_MOLAR_MASS/(GAS_CONSTANT*lapseRate_L)));// in ATM since p0 was in ATM
+	*outPressure = surfaceP_p0*pow((1-lapseRate_L*height_h/surfaceTemperature_T0),(-m_surfaceGravity_g*gasMolarMass/(GAS_CONSTANT*lapseRate_L)));// in ATM since p0 was in ATM
 	//                                                                               ^^g used is abs(g)
 	// temperature at height
 	double temp = surfaceTemperature_T0+lapseRate_L*height_h;
 
-	*outDensity = (*outPressure/(PA_2_ATMOS*GAS_CONSTANT*temp))*GAS_MOLAR_MASS;
+	*outDensity = (*outPressure/(PA_2_ATMOS*GAS_CONSTANT*temp))*gasMolarMass;
 }
 
 void Planet::GenerateRings(Graphics::Renderer *renderer)
@@ -168,13 +182,13 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 	//       (if the texture is generated without mipmaps then a 1xN texture works)
 	const int RING_TEXTURE_WIDTH = 4;
 	const int RING_TEXTURE_LENGTH = 256;
-	std::unique_ptr<Color4ub, FreeDeleter> buf(
-			static_cast<Color4ub*>(malloc(RING_TEXTURE_WIDTH * RING_TEXTURE_LENGTH * 4)));
+	std::unique_ptr<Color, FreeDeleter> buf(
+			static_cast<Color*>(malloc(RING_TEXTURE_WIDTH * RING_TEXTURE_LENGTH * 4)));
 
 	const float ringScale = (outer-inner)*sbody->GetRadius() / 1.5e7f;
 
 	Random rng(GetSystemBody()->seed+4609837);
-	Color4f baseCol = sbody->m_rings.baseColor.ToColor4f();
+	Color baseCol = sbody->m_rings.baseColor;
 	double noiseOffset = 2048.0 * rng.Double();
 	for (int i = 0; i < RING_TEXTURE_LENGTH; ++i) {
 		const float alpha = (float(i) / float(RING_TEXTURE_LENGTH)) * ringScale;
@@ -185,13 +199,13 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 		const float LOG_SCALE = 1.0f/sqrtf(sqrtf(log1pf(1.0f)));
 		const float v = LOG_SCALE*sqrtf(sqrtf(log1pf(n)));
 
-		Color4ub color;
-		color.r = (v*baseCol.r)*255.0f;
-		color.g = (v*baseCol.g)*255.0f;
-		color.b = (v*baseCol.b)*255.0f;
-		color.a = (((v*0.25f)+0.75f)*baseCol.a)*255.0f;
+		Color color;
+		color.r = v*baseCol.r;
+		color.g = v*baseCol.g;
+		color.b = v*baseCol.b;
+		color.a = ((v*0.25f)+0.75f)*baseCol.a;
 
-		Color4ub *row = buf.get() + i * RING_TEXTURE_WIDTH;
+		Color *row = buf.get() + i * RING_TEXTURE_WIDTH;
 		for (int j = 0; j < RING_TEXTURE_WIDTH; ++j) {
 			row[j] = color;
 		}
@@ -199,7 +213,7 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 
 	// first and last pixel are forced to zero, to give a slightly smoother ring edge
 	{
-		Color4ub* row;
+		Color *row;
 		row = buf.get();
 		memset(row, 0, RING_TEXTURE_WIDTH * 4);
 		row = buf.get() + (RING_TEXTURE_LENGTH - 1) * RING_TEXTURE_WIDTH;
@@ -315,7 +329,7 @@ void Planet::DrawAtmosphere(Renderer *renderer, const matrix4x4d &modelView, con
 		for (int i=0; i<3; i++) _col[i] = _col[i] * col[i];
 		_col[3] = col[3];
 		vts.Add(vector3f(r1.x, r1.y, r1.z), Color(_col[0], _col[1], _col[2], _col[3]), n);
-		vts.Add(vector3f(r2.x, r2.y, r2.z), Color(0.f), n);
+		vts.Add(vector3f(r2.x, r2.y, r2.z), Color(0), n);
 		r1 = rot * r1;
 		r2 = rot * r2;
 	}

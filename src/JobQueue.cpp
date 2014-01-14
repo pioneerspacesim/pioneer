@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "JobQueue.h"
@@ -223,8 +223,10 @@ Uint32 JobQueue::FinishJobs()
 		m_finished[i].pop_front();
 		SDL_UnlockMutex(m_finishedLock[i]);
 
+		assert(job);
+
 		// if its already been cancelled then its taken care of, so we just forget about it
-		if (!job->cancelled) {
+		if(!job->cancelled) {
 			job->OnFinish();
 			finished++;
 		}

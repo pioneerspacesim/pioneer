@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Intro.h"
@@ -24,15 +24,15 @@ Intro::Intro(Graphics::Renderer *r, int width, int height)
 	using Graphics::Light;
 
 	m_background.reset(new Background::Container(r, UNIVERSE_SEED));
-	m_ambientColor = Color(0.f);
+	m_ambientColor = Color(0);
 
 	const Color one = Color::WHITE;
-	const Color two = Color(0.3f, 0.3f, 0.8f, 0.f);
+	const Color two = Color(77, 77, 204, 0);
 	m_lights.push_back(Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, 0.3f, 1.f), one, one));
 	m_lights.push_back(Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, -1.f, 0.f), two, Color::BLACK));
 
 	SceneGraph::ModelSkin skin;
-	skin.SetDecal("01_Badge");
+	skin.SetDecal("pioneer");
 	skin.SetLabel(Lang::PIONEER);
 
 	for (std::vector<ShipType::Id>::const_iterator i = ShipType::player_ships.begin(); i != ShipType::player_ships.end(); ++i) {
@@ -40,6 +40,11 @@ Intro::Intro(Graphics::Renderer *r, int width, int height)
 		skin.SetRandomColors(Pi::rng);
 		skin.Apply(model);
 		model->SetThrust(vector3f(0.f, 0.f, -0.6f), vector3f(0.f));
+		const Uint32 numMats = model->GetNumMaterials();
+		for( Uint32 m=0; m<numMats; m++ ) {
+			RefCountedPtr<Graphics::Material> mat = model->GetMaterialByIndex(m);
+			mat->specialParameter0 = nullptr;
+		}
 		
 		Shields *pShield = new Shields(model);
 		pShield->SetEnabled(false);

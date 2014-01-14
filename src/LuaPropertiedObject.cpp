@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaObject.h"
@@ -17,7 +17,7 @@
  */
 
 
-class PropertyConnection final : public LuaWrappable {
+class PropertyConnection : public LuaWrappable {
 public:
 	PropertyConnection(const sigc::connection &conn) : m_connection(conn) {}
 	void Disconnect() { m_connection.disconnect(); }

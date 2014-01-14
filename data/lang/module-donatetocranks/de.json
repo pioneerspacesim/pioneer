@@ -39,6 +39,14 @@
       "description" : "",
       "message" : "SPENDE! Rette unsere Spezies. Stoppe das Massensterben auf neu besiedelten Welten."
    },
+   "FLAVOUR_5_MESSAGE" : {
+      "description" : "",
+      "message" : "Befreie dein Schiff! Wähle deinen Spendenbetrag. Fröhliches Hacken!"
+   },
+   "FLAVOUR_5_TITLE" : {
+      "description" : "",
+      "message" : "UNTERSTÜTZE FREIHEIT! Nieder mit der proprietären Software, die dein Schiff kontrolliert."
+   },
    "HANG_UP" : {
       "description" : "",
       "message" : "Auflegen."

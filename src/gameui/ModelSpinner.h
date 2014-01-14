@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef GAMEUI_MODELSPINNER_H
@@ -15,7 +15,7 @@ namespace GameUI {
 
 class ModelSpinner : public UI::Widget {
 public:
-	ModelSpinner(UI::Context *context, SceneGraph::Model *model, const SceneGraph::ModelSkin &skin);
+	ModelSpinner(UI::Context *context, SceneGraph::Model *model, const SceneGraph::ModelSkin &skin, unsigned int pattern);
 
 	virtual UI::Point PreferredSize() { return UI::Point(INT_MAX); }
 	virtual void Layout();

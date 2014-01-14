@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Game.h"
@@ -17,19 +17,18 @@
 #include "GalacticView.h"
 #include "SystemView.h"
 #include "SystemInfoView.h"
-#include "SpaceStationView.h"
 #include "UIView.h"
 #include "LuaEvent.h"
 #include "ObjectViewerView.h"
 #include "FileSystem.h"
 #include "graphics/Renderer.h"
 
-static const int  s_saveVersion   = 68;
+static const int  s_saveVersion   = 70;
 static const char s_saveStart[]   = "PIONEER";
 static const char s_saveEnd[]     = "END";
 
-Game::Game(const SystemPath &path) :
-	m_time(0),
+Game::Game(const SystemPath &path, double time) :
+	m_time(time),
 	m_state(STATE_NORMAL),
 	m_wantHyperspace(false),
 	m_timeAccel(TIMEACCEL_1X),
@@ -52,8 +51,8 @@ Game::Game(const SystemPath &path) :
 	CreateViews();
 }
 
-Game::Game(const SystemPath &path, const vector3d &pos) :
-	m_time(0),
+Game::Game(const SystemPath &path, const vector3d &pos, double time) :
+	m_time(time),
 	m_state(STATE_NORMAL),
 	m_wantHyperspace(false),
 	m_timeAccel(TIMEACCEL_1X),
@@ -613,7 +612,7 @@ void Game::CreateViews()
 	Pi::galacticView = new GalacticView();
 	Pi::systemView = new SystemView();
 	Pi::systemInfoView = new SystemInfoView();
-	Pi::spaceStationView = new SpaceStationView();
+	Pi::spaceStationView = new UIView("StationView");
 	Pi::infoView = new UIView("InfoView");
 	Pi::deathView = new DeathView();
 	Pi::settingsView = new UIView("SettingsInGame");
@@ -654,7 +653,7 @@ void Game::LoadViews(Serializer::Reader &rd)
 	Pi::galacticView = new GalacticView();
 	Pi::systemView = new SystemView();
 	Pi::systemInfoView = new SystemInfoView();
-	Pi::spaceStationView = new SpaceStationView();
+	Pi::spaceStationView = new UIView("StationView");
 	Pi::infoView = new UIView("InfoView");
 	Pi::deathView = new DeathView();
 	Pi::settingsView = new UIView("SettingsInGame");
@@ -708,11 +707,11 @@ void Game::DestroyViews()
 Game *Game::LoadGame(const std::string &filename)
 {
 	printf("Game::LoadGame('%s')\n", filename.c_str());
-	FILE *f = FileSystem::userFiles.OpenReadStream(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
-	if (!f) throw CouldNotOpenFileException();
-	Serializer::Reader rd(f);
-	fclose(f);
+	auto file = FileSystem::userFiles.ReadFile(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
+	if (!file) throw CouldNotOpenFileException();
+	Serializer::Reader rd(file->AsByteRange());
 	return new Game(rd);
+	// file data is freed here
 }
 
 void Game::SaveGame(const std::string &filename, Game *game)

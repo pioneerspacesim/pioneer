@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _DRAWABLES_H
@@ -96,6 +96,22 @@ private:
 	void AddTriangle(int i1, int i2, int i3);
 	void Subdivide(const matrix4x4f &trans, const vector3f &v1, const vector3f &v2, const vector3f &v3,
 		int i1, int i2, int i3, int depth);
+};
+
+// a textured quad with reversed winding
+class TexturedQuad : public Graphics::Drawables::Drawable {
+public:
+	TexturedQuad(Graphics::Renderer *r, Graphics::Texture *texture, const vector2f &pos, const vector2f &size);
+	virtual ~TexturedQuad() {}
+	virtual void Draw(Graphics::Renderer *r) { 
+		r->DrawTriangles(m_vertices.get(), m_material.get(), TRIANGLE_STRIP);
+	}
+
+	const Graphics::Texture* GetTexture() const { return m_texture.Get(); }
+private:
+	RefCountedPtr<Graphics::Texture> m_texture;
+	std::unique_ptr<Graphics::Material> m_material;
+	std::unique_ptr<Graphics::VertexArray> m_vertices;
 };
 
 }

@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _LUAUTILS_H
@@ -9,6 +9,13 @@
 #include "utils.h"
 
 namespace FileSystem { class FileData; }
+
+inline void pi_lua_settable(lua_State *l, const char *key, bool value)
+{
+	lua_pushstring(l, key);
+	lua_pushboolean(l, value);
+	lua_rawset(l, -3);
+}
 
 inline void pi_lua_settable(lua_State *l, const char *key, int value)
 {

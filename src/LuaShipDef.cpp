@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Lua.h"
@@ -207,7 +207,10 @@ void LuaShipDef::Register()
 
 		pi_lua_settable(l, "id",                (*i).first.c_str());
 		pi_lua_settable(l, "name",              st.name.c_str());
+		pi_lua_settable(l, "shipClass",         st.shipClass.c_str());
+		pi_lua_settable(l, "manufacturer",      st.manufacturer.c_str());
 		pi_lua_settable(l, "modelName",         st.modelName.c_str());
+		pi_lua_settable(l, "cockpitName",		st.cockpitName.c_str());
 		pi_lua_settable(l, "tag",               EnumStrings::GetString("ShipTypeTag", st.tag));
 		pi_lua_settable(l, "angularThrust",     st.angThrust);
 		pi_lua_settable(l, "capacity",          st.capacity);

@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GL2_GEOSPHEREMATERIAL_H
@@ -13,13 +13,6 @@
 
 namespace Graphics {
 	namespace GL2 {
-
-		// Atmosphere rendering customisation flags
-		enum AtmosphereQuality {
-			HAS_ATMOSPHERE = 1 << 0,
-			HAS_ECLIPSES   = 1 << 1
-		};
-
 		class GeoSphereProgram : public Program {
 		public:
 			GeoSphereProgram(const std::string &filename, const std::string &defines);

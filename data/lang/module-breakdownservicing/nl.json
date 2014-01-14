@@ -1,7 +1,7 @@
 {
    "FLAVOUR_0_INTRO" : {
       "description" : "",
-      "message" : "Vermijdt het ongemak van een kapotte hyperaandrijving!  Laat de uwe vandaag nog onderhouden door de officieël erkende {name} Motor-service B.V.\n\nHyperaandrijving: {drive}\nServicebeurt: {price}\nGarantie: 18 maanden\n{lasttime}"
+      "message" : "Vermijd het ongemak van een kapotte hyperaandrijving!  Laat de uwe vandaag nog onderhouden door de officieel erkende {name} Motor-service B.V.\n\nHyperaandrijving: {drive}\nServicebeurt: {price}\nGarantie: 18 maanden\n{lasttime}"
    },
    "FLAVOUR_0_RESPONSE" : {
       "description" : "",
@@ -37,7 +37,7 @@
    },
    "FLAVOUR_2_RESPONSE" : {
       "description" : "",
-      "message" : "Service voltooid.  Bedankt voor uw klanditie."
+      "message" : "Onderhoud voltooid. Bedankt voor uw klandizie."
    },
    "FLAVOUR_2_TITLE" : {
       "description" : "",
@@ -81,7 +81,7 @@
    },
    "FLAVOUR_5_INTRO" : {
       "description" : "",
-      "message" : "Vermijdt het ongemak van een kapotte hyperaandrijving!  Laat de uwe vandaag nog nalopen!\n\nHyperaandrijving: {drive}\nServicebeurt: {price}\n{lasttime}"
+      "message" : "Vermijd het ongemak van een kapotte hyperaandrijving!  Laat de uwe vandaag nog nalopen!\n\nHyperaandrijving: {drive}\nServicebeurt: {price}\n{lasttime}"
    },
    "FLAVOUR_5_RESPONSE" : {
       "description" : "",
@@ -105,7 +105,7 @@
    },
    "I_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN" : {
       "description" : "",
-      "message" : "I fixed the hyperdrive before it broke down."
+      "message" : "Ik heb de hyperaandrijving gerepareerd voordat die het begaf."
    },
    "THE_SHIPS_HYPERDRIVE_HAS_BEEN_DESTROYED_BY_A_MALFUNCTION" : {
       "description" : "",
@@ -121,10 +121,10 @@
    },
    "YOU_DO_NOT_HAVE_A_DRIVE_TO_SERVICE" : {
       "description" : "",
-      "message" : "Uw heeft geen aandrijving om onderhoud op te plegen!"
+      "message" : "U heeft geen aandrijving om onderhoud op te plegen!"
    },
    "YOU_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN" : {
       "description" : "",
-      "message" : "You fixed the hyperdrive before it broke down."
+      "message" : "U heeft de hyperaandrijving gerepareerd voordat die het begaf."
    }
 }

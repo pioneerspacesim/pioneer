@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Gui.h"
@@ -26,13 +26,13 @@ void MeterBar::Draw()
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glColor4f(1.0f,1.0f,1.0f,.125f);
+	glColor4ub(255,255,255,32);
 	Gui::Theme::DrawRoundEdgedRect(size, 5.0);
 
 	Graphics::Renderer *r = Gui::Screen::GetRenderer();
 	Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
 
-	glColor4fv(m_barColor);
+	glColor4ubv(m_barColor);
 	r->Translate(METERBAR_PADDING, METERBAR_PADDING, 0.0f);
 	size[0] = m_barValue * (size[0] - 2.0f*METERBAR_PADDING);
 	size[1] = METERBAR_BAR_HEIGHT;

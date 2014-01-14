@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -280,9 +280,9 @@ void Projectile::Render(Graphics::Renderer *renderer, const Camera *camera, cons
 	const float base_alpha = sqrt(1.0f - m_age/Equip::lasers[m_type].lifespan);
 	// fade out side quads when viewing nearly edge on
 	vector3f view_dir = vector3f(viewCoords).Normalized();
-	color.a = base_alpha * (1.f - powf(fabs(dir.Dot(view_dir)), length));
+	color.a = (base_alpha * (1.f - powf(fabs(dir.Dot(view_dir)), length))) * 255;
 
-	if (color.a > 0.01f) {
+	if (color.a > 3) {
 		s_sideMat->diffuse = color;
 		renderer->DrawTriangles(s_sideVerts.get(), s_sideMat.get());
 	}
@@ -290,9 +290,9 @@ void Projectile::Render(Graphics::Renderer *renderer, const Camera *camera, cons
 	// fade out glow quads when viewing nearly edge on
 	// these and the side quads fade at different rates
 	// so that they aren't both at the same alpha as that looks strange
-	color.a = base_alpha * powf(fabs(dir.Dot(view_dir)), width);
+	color.a = (base_alpha * powf(fabs(dir.Dot(view_dir)), width)) * 255;
 
-	if (color.a > 0.01f) {
+	if (color.a > 3) {
 		s_glowMat->diffuse = color;
 		renderer->DrawTriangles(s_glowVerts.get(), s_glowMat.get());
 	}

@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Box.h"
@@ -26,7 +26,6 @@ Point Box::PreferredSize()
 	GetComponentsForOrient(m_orient == BOX_HORIZONTAL, vc, fc);
 
 	m_preferredSize = Point(0);
-	m_minAllocation = 0;
 	m_numVariable = 0;
 
 	for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
@@ -56,9 +55,6 @@ Point Box::PreferredSize()
 			if (m_preferredSize[vc] != SIZE_EXPAND)
 				// need a bit more
 			    m_preferredSize[vc] += contribSize[vc];
-
-			// track minimum known size so we can avoid recounting in Layout()
-			m_minAllocation += contribSize[vc];
 		}
 
 		// fixed axis should just be as large as our largest
@@ -87,7 +83,6 @@ Point Box::PreferredSize()
 		else {
 			if (m_preferredSize[vc] != SIZE_EXPAND)
 			    m_preferredSize[vc] += contribSize[vc];
-			m_minAllocation += contribSize[vc];
 		}
 		m_preferredSize[fc] = std::max(m_preferredSize[fc], contribSize[fc]);
 	}
@@ -114,35 +109,90 @@ void Box::Layout()
 	// fast path. we know the exact size that everything wants, so just
 	// loop and hand it out
 	if (m_numVariable == 0) {
-		Point childPos(0), childSize(0);
-		for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
-			childSize[fc] = boxSize[fc];
-			childSize[vc] = (*i).contribSize[vc];
-			const Point actualSize((*i).widget->CalcSize(childSize));
-			SetWidgetDimensions((*i).widget, childPos, actualSize);
-			childPos[vc] += actualSize[vc] + m_spacing;
+
+		// we got what we asked for so everyone can have what they want
+		if (boxSize[vc] >= m_preferredSize[vc]) {
+			for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
+				(*i).size[fc] = boxSize[fc];
+				(*i).size[vc] = (*i).contribSize[vc];
+			}
+		}
+
+		// didn't get enough, so we have share it around
+		else {
+			// we can certainly afford to give everyone this much
+			int availSize = boxSize[vc] - (m_spacing * (m_children.size()-1));
+			int minSize = availSize / m_children.size();
+			int remaining = availSize;
+			int wantMore = 0;
+
+			// loop and hand it out
+			for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
+				(*i).size[fc] = boxSize[fc];
+				(*i).size[vc] = std::min(minSize, (*i).contribSize[vc]);
+				remaining -= (*i).size[vc];
+
+				// if this one didn't get us much as it wanted then count it
+				// if we have any left over we can give it some more
+				if ((*i).size[vc] < (*i).contribSize[vc])
+					wantMore++;
+			}
+
+			// if there's some remaining and not everyone got what they wanted, hand it out
+			assert(remaining >= 0);
+			if (remaining && wantMore) {
+				int extra = remaining / wantMore;
+				for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
+					if ((*i).size[vc] < (*i).contribSize[vc])
+						(*i).size[vc] += extra;
+				}
+			}
 		}
 	}
 
-	// we have one or more children that have requested the maximum size
-	// possible. each with a known size gets it, and any remaining space is
-	// distributed evenly among the max-sized children. if there is no
-	// remaining space, then we're already outside the bounds, so just give
-	// them something
+	// we have one or more children that have requested the maximum size possible
 	else {
-		const int sizeAvail = boxSize[vc];
-		const int sizeMin = sizeAvail/10; // 10%, as good as anything
 
-		const int amount = m_minAllocation < sizeAvail ? std::max((sizeAvail-m_minAllocation-m_spacing*(int(m_children.size())-1))/m_numVariable, sizeMin) : sizeMin;
+		int availSize = boxSize[vc] - (m_spacing * (m_children.size()-1));
+		int remaining = availSize;
 
-		Point childPos(0), childSize(0);
-		for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
-			childSize[fc] = boxSize[fc];
-			childSize[vc] = (*i).contribSize[vc] == SIZE_EXPAND ? amount : (*i).contribSize[vc];
-			const Point actualSize((*i).widget->CalcSize(childSize));
-			SetWidgetDimensions((*i).widget, childPos, actualSize);
-			childPos[vc] += actualSize[vc] + m_spacing;
+		// fixed ones first
+		if (m_children.size() > m_numVariable) {
+			// distribute evenly among the fixed ones
+			int minSize = availSize / (m_children.size() - m_numVariable);
+
+			// loop and hand it out
+			for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
+				// don't give any to expanding ones yet
+				if ((*i).contribSize[vc] == SIZE_EXPAND)
+					continue;
+
+				(*i).size[fc] = boxSize[fc];
+				(*i).size[vc] = std::min(minSize, (*i).contribSize[vc]);
+				remaining -= (*i).size[vc];
+			}
 		}
+
+		// if there's any space remaining, distribute it among the expanding widgets
+		assert(remaining >= 0);
+		if (remaining) {
+			int extra = remaining / m_numVariable;
+			for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
+				if ((*i).contribSize[vc] != SIZE_EXPAND)
+					continue;
+
+				(*i).size[fc] = boxSize[fc];
+				(*i).size[vc] = extra;
+			}
+		}
+	}
+
+	// now loop over them again and position
+	Point childPos(0);
+	for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
+		const Point actualSize((*i).widget->CalcSize((*i).size));
+		SetWidgetDimensions((*i).widget, childPos, actualSize);
+		childPos[vc] += actualSize[vc] + m_spacing;
 	}
 
 	LayoutChildren();

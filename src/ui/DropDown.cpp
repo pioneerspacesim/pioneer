@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "DropDown.h"
@@ -9,9 +9,9 @@
 namespace UI {
 
 // XXX move to config, share with TabGroup
-static const Color normalColor(0.5f, 0.5f, 0.5f, 1.0f);
-static const Color hoverColor(0.8f, 0.8f, 0.8f, 1.0f);
-static const Color activeColor(1.0f, 1.0f, 1.0f, 1.0f);
+static const Color normalColor(128, 128, 128, 255);
+static const Color hoverColor(204, 204, 204, 255);
+static const Color activeColor(255, 255, 255, 255);
 
 DropDown::DropDown(Context *context) : Container(context), m_popupWantToggle(false), m_popupActive(false)
 {

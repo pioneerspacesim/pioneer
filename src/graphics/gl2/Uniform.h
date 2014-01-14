@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GL2_UNIFORM_H
@@ -20,9 +20,11 @@ namespace Graphics {
 			void Set(float);
 			void Set(const vector3f&);
 			void Set(const vector3d&);
-			void Set(const Color4f&);
+			void Set(const Color&);
 			void Set(const int v[3]);
 			void Set(const float m[9]);
+			void Set(const matrix3x3f&);
+			void Set(const matrix4x4f&);
 			void Set(Texture *t, unsigned int unit);
 
 		//private:

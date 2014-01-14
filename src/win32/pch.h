@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -47,7 +47,6 @@
 #include "gui/GuiVScrollBar.h"
 #include "gui/GuiVScrollPortal.h"
 #include "gui/GuiWidget.h"
-#include "MarketAgent.h"
 #include "Random.h"
 #include "Object.h"
 #include "ObjectViewerView.h"
@@ -64,7 +63,6 @@
 #include "SmartPtr.h"
 #include "Space.h"
 #include "SpaceStation.h"
-#include "SpaceStationView.h"
 #include "Star.h"
 #include "SystemInfoView.h"
 #include "SystemView.h"

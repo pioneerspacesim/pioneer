@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _LUAOBJECT_H
@@ -127,6 +127,8 @@ protected:
 
     // get a pointer to the underlying object
 	virtual LuaWrappable *GetObject() const = 0;
+
+	const char *GetType() const { return m_type; }
 
 private:
 	LuaObjectBase() {}

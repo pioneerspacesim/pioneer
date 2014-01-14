@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -400,7 +400,7 @@ void ModelBody::SetLighting(Graphics::Renderer *r, const Camera *camera, std::ve
 	}
 
 	oldAmbient = r->GetAmbientColor();
-	r->SetAmbientColor(Color(ambient));
+	r->SetAmbientColor(Color(ambient*255));
 	r->SetLights(newLights.size(), &newLights[0]);
 }
 

@@ -1,4 +1,4 @@
--- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -112,7 +112,7 @@ local econTrade = function ()
 	refuelButton.button.onClick:Connect(refuel)
 
 	return ui:Expand():SetInnerWidget(
-		ui:Grid(2,1)
+		ui:Grid({48,4,48},1)
 			:SetColumn(0, {
 				ui:Margin(5, "HORIZONTAL",
 					ui:VBox(20):PackEnd({
@@ -138,7 +138,7 @@ local econTrade = function ()
 						ui:Grid({50,10,40},1)
 							:SetRow(0, {
 								ui:HBox(5):PackEnd({
-									ui:Label("Fuel:"),
+									ui:Label(l.FUEL..":"),
 									fuelGauge,
 								}),
 								nil,
@@ -147,7 +147,7 @@ local econTrade = function ()
 					})
 				)
 			})
-			:SetColumn(1, {
+			:SetColumn(2, {
 				cargoListWidget
 			})
 	)

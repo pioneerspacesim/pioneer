@@ -1,4 +1,4 @@
-/* Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details */
+/* Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details */
 /* Licensed under the terms of the GPL v3. See licenses/GPL-3.txt        */
 
 #ifndef HX_GEN_ENUM_TABLES
@@ -41,6 +41,7 @@ extern const struct EnumItem ENUM_UIExpandDirection[];
 extern const struct EnumItem ENUM_UIGradientDirection[];
 extern const struct EnumItem ENUM_UIMarginDirection[];
 extern const struct EnumItem ENUM_UINumberLabelFormat[];
+extern const struct EnumItem ENUM_UITableRowAlignDirection[];
 extern const struct EnumItem ENUM_UISizeControl[];
 extern const struct EnumItem ENUM_UIFont[];
 

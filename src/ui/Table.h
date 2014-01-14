@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef UI_TABLE_H
@@ -26,11 +26,22 @@ public:
 	Table *SetRowSpacing(int spacing);
 	Table *SetColumnSpacing(int spacing);
 
+	enum RowAlignDirection { // <enum scope='UI::Table' name=UITableRowAlignDirection public>
+		TOP,
+		CENTER,
+		BOTTOM
+	};
+
+	Table *SetRowAlignment(RowAlignDirection dir);
+
 	Table *SetHeadingFont(Font font);
 
 	Table *SetMouseEnabled(bool enabled);
 
 	sigc::signal<void,unsigned int> onRowClicked;
+
+protected:
+	virtual void HandleInvisible();
 
 private:
 
@@ -71,6 +82,8 @@ private:
 		void SetRowSpacing(int spacing);
 		void SetColumnSpacing(int spacing);
 
+		void SetRowAlignment(RowAlignDirection dir);
+
 		void SetMouseEnabled(bool enabled) { m_mouseEnabled = enabled; }
 
 		sigc::signal<void,unsigned int> onRowClicked;
@@ -86,6 +99,7 @@ private:
 		std::vector<int> m_rowHeight;
 		Point m_preferredSize;
 		int m_rowSpacing;
+		RowAlignDirection m_rowAlignment;
 		bool m_dirty;
 
 		bool m_mouseEnabled;

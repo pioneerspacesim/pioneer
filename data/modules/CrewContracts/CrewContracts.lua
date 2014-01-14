@@ -209,9 +209,7 @@ local onChat = function (form,ref,option)
 		form:SetMessage(l.POTENTIAL_CREW_MEMBERS:interp({station=station.label}))
 		for k,c in ipairs(crewInThisStation) do
 			form:AddOption(l.CREWMEMBER_WAGE_PER_WEEK:interp({potentialCrewMember = c.name,wage = c.estimatedWage}),k)
-			if k > 12 then break end -- XXX They just won't all fit on screen. New UI can scroll.
 		end
-		form:AddOption(l.HANG_UP, -1)
 	end
 
 	local showCandidateDetails = function (response)
@@ -240,7 +238,6 @@ local onChat = function (form,ref,option)
 		form:AddOption(l.SUGGEST_NEW_WEEKLY_WAGE_OF_N:interp({newAmount=Format.Money(checkOffer(math.floor(offer/2)))}),5)
 		form:AddOption(l.ASK_CANDIDATE_TO_SIT_A_TEST,6)
 		form:AddOption(l.GO_BACK, 0)
-		form:AddOption(l.HANG_UP, -1)
 	end
 	
 	if option > 0 then
@@ -267,7 +264,6 @@ local onChat = function (form,ref,option)
 					}
 					form:SetMessage(l.THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY)
 					form:AddOption(l.GO_BACK, 0)
-					form:AddOption(l.HANG_UP, -1)
 					for k,v in ipairs(crewInThisStation) do
 						-- Take them off the available list in the ad
 						if v == candidate then table.remove(nonPersistentCharactersForCrew[station],k) end
@@ -275,7 +271,6 @@ local onChat = function (form,ref,option)
 				else
 					form:SetMessage(l.THERE_DOESNT_SEEM_TO_BE_SPACE_FOR_ME_ON_BOARD)
 					form:AddOption(l.GO_BACK, 0)
-					form:AddOption(l.HANG_UP, -1)
 				end
 			else
 				form:SetMessage(l.IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME)
@@ -347,7 +342,6 @@ local onChat = function (form,ref,option)
 				overall = math.ceil((general+general+engineering+piloting+navigation+sensors)/6),
 			})
 			form:AddOption(l.GO_BACK, 7)
-			form:AddOption(l.HANG_UP, -1)
 		end
 
 		if option == 7 then
@@ -406,6 +400,7 @@ Event.Register("onGameStart", function()
 		for k,station in ipairs(loaded_data.stationsWithAdverts) do
 			stationsWithAdverts[station:AddAdvert(l.CREW_FOR_HIRE, onChat)] = station
 		end
+		loaded_data = nil
 	end
 end)
 

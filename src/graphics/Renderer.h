@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _RENDERER_H
@@ -123,6 +123,7 @@ public:
 	virtual bool SetDepthWrite(bool enabled) { return false; }
 	virtual bool SetWireFrameMode(bool enabled) { return false; }
 
+	virtual bool SetLightsEnabled(const bool enabled) { return false; }
 	virtual bool SetLights(int numlights, const Light *l) { return false; }
 	virtual bool SetAmbientColor(const Color &c) { return false; }
 	const Color &GetAmbientColor() const { return m_ambient; }

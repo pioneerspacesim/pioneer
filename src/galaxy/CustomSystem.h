@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _CUSTOMSYSTEM_H
@@ -56,7 +56,7 @@ public:
 	RingStatus ringStatus;
 	fixed ringInnerRadius;
 	fixed ringOuterRadius;
-	Color4ub ringColor;
+	Color ringColor;
 
 	Uint32 seed;
 	bool   want_rand_seed;

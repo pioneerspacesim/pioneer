@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "EquipType.h"
@@ -327,36 +327,36 @@ const EquipType Equip::types[Equip::TYPE_MAX] = {
 const LaserType Equip::lasers[] = {
 	{
 		0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0, 0,
-		Color(0.0f, 0.0f, 0.0f, 0.0f),
+		Color(0, 0, 0, 0),
 	},{		// 1mw pulse
 		8.0f, 1000.0f, 1000.0f, 0.25f, 30.0f, 5.0f, 0,
-		Color(1.0f, 0.2f, 0.2f, 1.0f),
+		Color(255, 51, 51, 255),
 	},{		// 1mw df pulse
 		8.0f, 1000.0f, 1000.0f, 0.25f, 30.0f, 5.0f, Equip::LASER_DUAL,
-		Color(1.0f, 0.2f, 0.2f, 1.0f),
+		Color(255, 51, 51, 255),
 	},{	// 2mw pulse
 		8.0f, 1000.0f, 2000.0f, 0.25f, 30.0f, 5.0f, 0,
-		Color(1.0f, 0.5f, 0.2f, 1.0f),
+		Color(255, 128, 51, 255),
 	},{	// 2mw rf pulse
 		8.0f, 1000.0f, 2000.0f, 0.13f, 30.0f, 5.0f, 0,
-		Color(1.0f, 0.5f, 0.2f, 1.0f),
+		Color(255, 128, 51, 255),
 	},{		// 4mw pulse
 		8.0f, 1000.0f, 4000.0f, 0.25f, 30.0f, 5.0f, 0,
-		Color(1.0f, 1.0f, 0.2f, 1.0f),
+		Color(255, 255, 51, 255),
 	},{		// 10mw pulse
 		8.0f, 1000.0f, 10000.0f, 0.25f, 30.0f, 5.0f, 0,
-		Color(0.2f, 1.0f, 0.2f, 1.0f),
+		Color(51, 255, 51, 255),
 	},{		// 20mw pulse
 		8.0f, 1000.0f, 20000.0f, 0.25f, 30.0f, 5.0f, 0,
-		Color(0.1f, 0.2f, 1.0f, 1.0f),
+		Color(0.1f, 51, 255, 255),
 	},{		// 17mw mining
 		8.0f, 1000.0f, 17000.0f, 2.0f, 30.0f, 5.0f, Equip::LASER_MINING,
-		Color(0.2f, 0.5f, 1.0f, 1.0f),
+		Color(51, 128, 255, 255),
 	},{		// small plasma accel
 		8.0f, 1000.0f, 50000.0f, 0.3f, 42.0f, 7.0f, 0,
-		Color(0.2f, 1.0f, 1.0f, 1.0f),
+		Color(51, 255, 255, 255),
 	},{		// large plasma accel
 		8.0f, 1000.0f, 100000.0f, 0.3f, 54.0f, 9.0f, 0,
-		Color(0.5f, 1.0f, 1.0f, 1.0f),
+		Color(128, 255, 255, 255),
 	}
 };

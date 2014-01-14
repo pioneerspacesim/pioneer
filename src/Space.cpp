@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -20,6 +20,7 @@
 #include "HyperspaceCloud.h"
 #include "graphics/Graphics.h"
 #include "WorldView.h"
+#include "galaxy/SectorCache.h"
 #include "SectorView.h"
 #include "Lang.h"
 #include "Game.h"
@@ -91,7 +92,7 @@ Space::Space(Game *game, const SystemPath &path)
 	m_rootFrame.reset(new Frame(0, Lang::SYSTEM));
 	m_rootFrame->SetRadius(FLT_MAX);
 
-	GenBody(m_starSystem->rootBody.Get(), m_rootFrame.get());
+	GenBody(m_game->GetTime(), m_starSystem->rootBody.Get(), m_rootFrame.get());
 	m_rootFrame->UpdateOrbitRails(m_game->GetTime(), m_game->GetTimeStep());
 
 	//DebugDumpFrames();
@@ -297,11 +298,11 @@ vector3d Space::GetHyperspaceExitPoint(const SystemPath &source) const
 
 	const SystemPath &dest = m_starSystem->GetPath();
 
-	Sector source_sec(source.sectorX, source.sectorY, source.sectorZ);
-	Sector dest_sec(dest.sectorX, dest.sectorY, dest.sectorZ);
+	const Sector* source_sec = Sector::cache.GetCached(source);
+	const Sector* dest_sec = Sector::cache.GetCached(dest);
 
-	Sector::System source_sys = source_sec.m_systems[source.systemIndex];
-	Sector::System dest_sys = dest_sec.m_systems[dest.systemIndex];
+	Sector::System source_sys = source_sec->m_systems[source.systemIndex];
+	Sector::System dest_sys = dest_sec->m_systems[dest.systemIndex];
 
 	const vector3d sourcePos = vector3d(source_sys.p) + vector3d(source.sectorX, source.sectorY, source.sectorZ);
 	const vector3d destPos = vector3d(dest_sys.p) + vector3d(dest.sectorX, dest.sectorY, dest.sectorZ);
@@ -485,7 +486,7 @@ static void RelocateStarportIfUnderwaterOrBuried(SystemBody *sbody, Frame *frame
 	}
 }
 
-static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
+static Frame *MakeFrameFor(double at_time, SystemBody *sbody, Body *b, Frame *f)
 {
 	if (!sbody->parent) {
 		if (b) b->SetFrame(f);
@@ -527,7 +528,7 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 
 		if (sbody->rotationalPhaseAtStart != fixed(0))
 			rotMatrix = rotMatrix * matrix3x3d::RotateY(sbody->rotationalPhaseAtStart.ToDouble());
-		rotFrame->SetOrient(rotMatrix);
+		rotFrame->SetInitialOrient(rotMatrix, at_time);
 
 		b->SetFrame(rotFrame);
 		return orbFrame;
@@ -586,7 +587,7 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 	return 0;
 }
 
-void Space::GenBody(SystemBody *sbody, Frame *f)
+void Space::GenBody(double at_time, SystemBody *sbody, Frame *f)
 {
 	Body *b = 0;
 
@@ -606,10 +607,10 @@ void Space::GenBody(SystemBody *sbody, Frame *f)
 		b->SetPosition(vector3d(0,0,0));
 		AddBody(b);
 	}
-	f = MakeFrameFor(sbody, b, f);
+	f = MakeFrameFor(at_time, sbody, b, f);
 
 	for (std::vector<SystemBody*>::iterator i = sbody->children.begin(); i != sbody->children.end(); ++i) {
-		GenBody(*i, f);
+		GenBody(at_time, *i, f);
 	}
 }
 

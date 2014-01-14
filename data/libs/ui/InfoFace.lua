@@ -1,4 +1,4 @@
--- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -36,8 +36,8 @@ function InfoFace.New (character)
 
 	local faceFlags = {
 		character.female and "FEMALE" or "MALE",
-		character.armor and "ARMOUR",
 	}
+	if character.armour then table.insert(faceFlags, "ARMOUR") end
 
 	local self = {
 		widget = Face.New(ui, faceFlags, character.seed)
