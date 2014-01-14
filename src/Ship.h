@@ -37,7 +37,7 @@ struct ShieldRenderParameters {
 	float coolDown;
 	vector3f hitPos[MAX_SHIELD_HITS];
 	float radii[MAX_SHIELD_HITS];
-	Sint32 numHits;
+	Uint32 numHits;
 };
 
 struct shipstats_t {

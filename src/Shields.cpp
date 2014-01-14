@@ -113,7 +113,6 @@ void Shields::ReparentShieldNodes(SceneGraph::Model* model)
 					// find the accumulated transform from the root to our node
 					matrix4x4f accum(matrix4x4f::Identity());
 					matrix4x4f outMat(matrix4x4f::Identity());
-					const Node* foundNode = model->GetRoot()->GatherTransforms(mt->GetName(), accum, outMat);
 
 					// set our nodes transformation to be the accumulated transform
 					MatrixTransform *sg_transform_parent = new MatrixTransform(renderer, outMat);
@@ -253,7 +252,7 @@ void Shields::Update(const float coolDown, const float shieldStrength)
 
 			s_renderParams.radii[i] = dif;
 		}
-		s_renderParams.numHits = Sint32(m_hits.size());
+		s_renderParams.numHits = m_hits.size();
 	}
 
 	// update the shield visibility
