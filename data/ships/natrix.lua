@@ -6,9 +6,9 @@ define_ship {
 	ship_class='light_freighter',
 	manufacturer='opli',
 	model='natrix',
-	forward_thrust = 31e5,
+	forward_thrust = 61e5,
 	reverse_thrust = 18e5,
-	up_thrust = 23e5,
+	up_thrust = 38e5,
 	down_thrust = 18e5,
 	left_thrust = 18e5,
 	right_thrust = 18e5,
@@ -27,7 +27,7 @@ define_ship {
 	max_crew = 3,
 	-- Exhaust velocity Vc [m/s] is equivalent of engine efficiency and depend on used technology. Higher Vc means lower fuel consumption.
 	-- Smaller ships built for speed often mount engines with higher Vc. Another way to make faster ship is to increase fuel_tank_mass.
-	effective_exhaust_velocity = 158e5,
-	price = 624000,
+	effective_exhaust_velocity = 14e6,
+	price = 241e3,
 	hyperdrive_class = 2,
 }
