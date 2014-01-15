@@ -31,6 +31,6 @@ define_ship {
 	max_crew = 5,
 	
 	effective_exhaust_velocity = 196e5,
-	price = 1181000,
+	price = 1346e3,
 	hyperdrive_class = 4,
 }
