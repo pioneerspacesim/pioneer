@@ -22,11 +22,13 @@
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
+#include "collider/collider.h"
 #include "StringF.h"
 
 static const float TONS_HULL_PER_SHIELD = 10.f;
 static const double KINETIC_ENERGY_MULT	= 0.01;
 HeatGradientParameters_t Ship::s_heatGradientParams;
+const float Ship::DEFAULT_SHIELD_COOLDOWN_TIME = 1.0f;
 
 void SerializableEquipSet::Save(Serializer::Writer &wr)
 {
@@ -91,6 +93,7 @@ void Ship::Save(Serializer::Writer &wr, Space *space)
 	m_equipment.Save(wr);
 	wr.Float(m_stats.hull_mass_left);
 	wr.Float(m_stats.shield_mass_left);
+	wr.Float(m_shieldCooldown);
 	if(m_curAICmd) { wr.Int32(1); m_curAICmd->Save(wr); }
 	else wr.Int32(0);
 	wr.Int32(int(m_aiMessage));
@@ -138,6 +141,7 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 	Init();
 	m_stats.hull_mass_left = rd.Float(); // must be after Init()...
 	m_stats.shield_mass_left = rd.Float();
+	m_shieldCooldown = rd.Float();
 	if(rd.Int32()) m_curAICmd = AICommand::Load(rd);
 	else m_curAICmd = 0;
 	m_aiMessage = AIError(rd.Int32());
@@ -234,7 +238,8 @@ void Ship::PostLoadFixup(Space *space)
 Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	m_controller(0),
 	m_thrusterFuel(1.0),
-	m_reserveFuel(0.0)
+	m_reserveFuel(0.0),
+	m_landingGearAnimation(nullptr)
 {
 	m_flightState = FLYING;
 	m_alertState = ALERT_NONE;
@@ -260,6 +265,7 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 		m_gun[i].temperature = 0;
 	}
 	m_ecmRecharge = 0;
+	m_shieldCooldown = 0.0f;
 	m_curAICmd = 0;
 	m_aiMessage = AIERROR_NONE;
 	m_decelerating = false;
@@ -326,7 +332,7 @@ double Ship::GetSpeedReachedWithFuel() const
 	return GetShipType()->effectiveExhaustVelocity * log(GetMass()/(GetMass()-fuelmass));
 }
 
-bool Ship::OnDamage(Object *attacker, float kgDamage)
+bool Ship::OnDamage(Object *attacker, float kgDamage, const CollisionContact& contactData)
 {
 	if (m_invulnerable) {
 		Sound::BodyMakeNoise(this, "Hull_hit_Small", 0.5f);
@@ -346,6 +352,14 @@ bool Ship::OnDamage(Object *attacker, float kgDamage)
 			Properties().Set("shieldMassLeft", m_stats.shield_mass_left);
 		}
 
+		m_shieldCooldown = DEFAULT_SHIELD_COOLDOWN_TIME;
+		// transform the collision location into the models local space (from world space) and add it as a hit.
+		matrix4x4d mtx = GetOrient();
+		mtx.SetTranslate( GetPosition() );
+		const matrix4x4d invmtx = mtx.InverseOf();
+		const vector3d localPos = invmtx * contactData.pos;
+		GetShields()->AddHit(localPos);
+
 		m_stats.hull_mass_left -= dam;
 		Properties().Set("hullMassLeft", m_stats.hull_mass_left);
 		Properties().Set("hullPercent", 100.0f * (m_stats.hull_mass_left / float(m_type->hullMass)));
@@ -359,9 +373,7 @@ bool Ship::OnDamage(Object *attacker, float kgDamage)
 			}
 
 			Explode();
-		}
-
-		else {
+		} else {
 			if (attacker && attacker->IsType(Object::SHIP))
 				Polit::NotifyOfCrime(static_cast<Ship*>(attacker), Polit::CRIME_PIRACY);
 
@@ -714,12 +726,12 @@ void Ship::SetFlightState(Ship::FlightState newState)
 
 	switch (m_flightState)
 	{
-		case FLYING: SetMoving(true); SetColliding(true); SetStatic(false); break;
-		case DOCKING: SetMoving(false); SetColliding(false); SetStatic(false); break;
+		case FLYING:		SetMoving(true);	SetColliding(true);		SetStatic(false);	break;
+		case DOCKING:		SetMoving(false);	SetColliding(false);	SetStatic(false);	break;
 // TODO: set collision index? dynamic stations... use landed for open-air?
-		case DOCKED: SetMoving(false); SetColliding(false); SetStatic(false); break;
-		case LANDED: SetMoving(false); SetColliding(true); SetStatic(true); break;
-		case HYPERSPACE: SetMoving(false); SetColliding(false); SetStatic(false); break;
+		case DOCKED:		SetMoving(false);	SetColliding(false);	SetStatic(false);	break;
+		case LANDED:		SetMoving(false);	SetColliding(true);		SetStatic(true);	break;
+		case HYPERSPACE:	SetMoving(false);	SetColliding(false);	SetStatic(false);	break;
 	}
 }
 
@@ -1100,6 +1112,10 @@ void Ship::StaticUpdate(const float timeStep)
 		m_ecmRecharge = std::max(0.0f, m_ecmRecharge - timeStep);
 	}
 
+	if (m_shieldCooldown > 0.0f) {
+		m_shieldCooldown = std::max(0.0f, m_shieldCooldown - timeStep);
+	}
+
 	if (m_stats.shield_mass_left < m_stats.shield_mass) {
 		// 250 second recharge
 		float recharge_rate = 0.004f;
@@ -1204,26 +1220,13 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	s_heatGradientParams.heatingNormal = vector3f(GetVelocity().Normalized());
 	s_heatGradientParams.heatingAmount = Clamp(GetHullTemperature(),0.0,1.0);
 
+	// This has to be done per-model with a shield and just before it's rendered
+	const bool shieldsVisible = m_shieldCooldown > 0.01f && m_stats.shield_mass_left > (m_stats.shield_mass / 100.0f);
+	GetShields()->SetEnabled(shieldsVisible);
+	GetShields()->Update(m_shieldCooldown, 0.01f*GetPercentShields());
+
 	//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
 	RenderModel(renderer, camera, viewCoords, viewTransform);
-
-	// draw shield recharge bubble
-	if (m_stats.shield_mass_left < m_stats.shield_mass) {
-		const float shield = 0.01f*GetPercentShields();
-		renderer->SetBlendMode(Graphics::BLEND_ADDITIVE);
-
-		matrix4x4f trans = matrix4x4f::Identity();
-		trans.Translate(viewCoords.x, viewCoords.y, viewCoords.z);
-		trans.Scale(GetPhysRadius());
-		renderer->SetTransform(trans);
-
-		//fade based on strength
-		Sfx::shieldEffect->GetMaterial()->diffuse =
-			Color((1.0f-shield)*255,shield*255,0,0.33f*(1.0f-shield)*255);
-		Sfx::shieldEffect->Draw(renderer);
-
-		renderer->SetBlendMode(Graphics::BLEND_SOLID);
-	}
 
 	if (m_ecmRecharge > 0.0f) {
 		// ECM effect: a cloud of particles for a sparkly effect

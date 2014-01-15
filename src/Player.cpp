@@ -64,9 +64,9 @@ void Player::InitCockpit()
 }
 
 //XXX perhaps remove this, the sound is very annoying
-bool Player::OnDamage(Object *attacker, float kgDamage)
+bool Player::OnDamage(Object *attacker, float kgDamage, const CollisionContact& contactData)
 {
-	bool r = Ship::OnDamage(attacker, kgDamage);
+	bool r = Ship::OnDamage(attacker, kgDamage, contactData);
 	if (!IsDead() && (GetPercentHull() < 25.0f)) {
 		Sound::BodyMakeNoise(this, "warning", .5f);
 	}
