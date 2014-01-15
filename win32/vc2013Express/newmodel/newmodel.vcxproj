@@ -103,6 +103,7 @@
     <ClCompile Include="..\..\..\src\scenegraph\Loader.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\LOD.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\Lua.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\LuaModel.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\LuaModelSkin.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\MatrixTransform.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\Model.cpp" />

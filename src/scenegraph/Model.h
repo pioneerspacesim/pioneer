@@ -68,6 +68,7 @@
 #include "CollMesh.h"
 #include "graphics/Material.h"
 #include "Serializer.h"
+#include "DeleteEmitter.h"
 #include <stdexcept>
 
 namespace Graphics { class Renderer; }
@@ -83,7 +84,7 @@ typedef std::vector<std::pair<std::string, RefCountedPtr<Graphics::Material> > >
 typedef std::vector<Animation*> AnimationContainer;
 typedef std::vector<MatrixTransform *> TagContainer;
 
-class Model
+class Model : public DeleteEmitter
 {
 public:
 	friend class Loader;
@@ -114,6 +115,7 @@ public:
 	const PatternContainer &GetPatterns() const { return m_patterns; }
 	unsigned int GetNumPatterns() const { return m_patterns.size(); }
 	void SetPattern(unsigned int index);
+	unsigned int GetPattern() const { return m_curPatternIndex; }
 	void SetColors(const std::vector<Color> &colors);
 	void SetDecalTexture(Graphics::Texture *t, unsigned int index = 0);
 	void ClearDecal(unsigned int index = 0);
@@ -154,6 +156,7 @@ private:
 	RenderData m_renderData;
 
 	//per-instance flavour data
+	unsigned int m_curPatternIndex;
 	Graphics::Texture *m_curPattern;
 	Graphics::Texture *m_curDecals[MAX_DECAL_MATERIALS];
 };

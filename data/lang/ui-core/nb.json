@@ -69,7 +69,7 @@
    },
    "CARGO" : {
       "description" : "",
-      "message" : "Cargo"
+      "message" : "Last"
    },
    "CARGO_SPACE" : {
       "description" : "",
@@ -305,7 +305,7 @@
    },
    "FUEL" : {
       "description" : "",
-      "message" : "Fuel"
+      "message" : "Drivstoff"
    },
    "FUEL_TANK_FULL" : {
       "description" : "",
@@ -333,7 +333,7 @@
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Hang up."
+      "message" : "Legg på."
    },
    "HARMLESS" : {
       "description" : "",
@@ -505,7 +505,7 @@
    },
    "MASS" : {
       "description" : "",
-      "message" : "Mass"
+      "message" : "Masse"
    },
    "MASTER" : {
       "description" : "",
@@ -545,7 +545,7 @@
    },
    "METAL_ALLOYS" : {
       "description" : "",
-      "message" : "Metal alloys"
+      "message" : "Metallegeringer"
    },
    "MILITARY" : {
       "description" : "",
@@ -577,7 +577,7 @@
    },
    "MURDER" : {
       "description" : "",
-      "message" : "Murder"
+      "message" : "Mord"
    },
    "MUSIC" : {
       "description" : "",
@@ -609,7 +609,7 @@
    },
    "NONE" : {
       "description" : "",
-      "message" : "None"
+      "message" : "Ingen"
    },
    "NOTES" : {
       "description" : "",
@@ -789,7 +789,7 @@
    },
    "SHIP" : {
       "description" : "",
-      "message" : "Ship"
+      "message" : "Skip"
    },
    "SHIP_INFORMATION" : {
       "description" : "",
@@ -865,7 +865,7 @@
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
-      "message" : "Trading illegal goods"
+      "message" : "Handler med ulovlige varer"
    },
    "TYPE" : {
       "description" : "",

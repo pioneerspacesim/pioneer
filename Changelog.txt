@@ -6,14 +6,18 @@ January 2014
      * Initial cockpit support (experimental) (#2603, #2614)
 
    * Minor changes and tweaks
+     * Ship stat balancing (#2620)
      * Atmospheres in gas giants are much deeper (#2609, #1395)
      * New "free software" charity on the bulletin board (#2611)
      * Change start ship to Xylophis
      * Add delta-v data to ship market (#2616)
      * Earth start position now starts at 13:00 (Pioneer time) (#2615)
+     * Misc. tweaks for the intro animation (#2649)
 
    * Script and UI API changes
      * Game.StartGame now takes an optional start_time argument (#2615)
+     * New method, Random:Normal gives a random number with normal
+       distribution (#2651)
 
    * Fixes
      * Fix label positioning in orbit and galaxy views (#2608, #2576)
@@ -25,10 +29,14 @@ January 2014
      * Clean up station state correctly between games (#2631)
      * Fix TradeShips crash when trying to launch after failing to add fuel or
        cargo (#2634)
+     * Fix ship pattern selection (#2645)
+     * Fix shipyard adding ships faster than it sells them (#2653, #2650)
 
    * Internal changes
      * Render screen to texture in preparation for post-processing effects (#2525)
      * Various code cleanups (#2621)
+     * Serializer Reader class can now load data from any file source (#2646)
+     * Expose models to Lua, move pattern methods from ModelSkin to Model (2645)
 
 December 2013
 

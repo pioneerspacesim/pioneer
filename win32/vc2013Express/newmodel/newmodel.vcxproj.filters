@@ -32,6 +32,7 @@
     <ClCompile Include="..\..\..\src\scenegraph\Lua.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\LuaModelSkin.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\ModelSkin.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\LuaModel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\scenegraph\Thruster.h" />

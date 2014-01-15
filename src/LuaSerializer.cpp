@@ -373,7 +373,8 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 				pos = end+1; // skip newline
 
 				std::string buf(pos, serlen);
-				Serializer::Reader rd(buf);
+				const char *bufp = buf.c_str();
+				Serializer::Reader rd(ByteRange(bufp, bufp + buf.size()));
 				SceneGraph::ModelSkin skin;
 				skin.Load(rd);
 

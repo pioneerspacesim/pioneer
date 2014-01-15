@@ -41,7 +41,6 @@ class GasPatchContext : public RefCounted {
 public:
 	int edgeLen;
 
-	inline int VBO_COUNT_IDX() const { return (edgeLen-1) * (edgeLen-1); }
 	inline int IDX_VBO_COUNT_ALL_IDX()	const { return ((edgeLen-1)*(edgeLen-1))*2*3; }
 
 	inline int NUMVERTICES() const { return edgeLen*edgeLen; }
