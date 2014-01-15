@@ -25,6 +25,10 @@ class Random : public RefCounted
 {
     Uint32 current;
 
+	// For storing second rand from Normal
+	bool cached;
+	double z1;
+
 public:
 
 	//
@@ -58,6 +62,8 @@ public:
 	void seed(const Uint32* const seeds, size_t length)
 	{
 		current = lookup3_hashword(seeds, length, 0);
+
+		cached = false
 	}
 
 	// Seed using an array of 64-bit integers
@@ -183,8 +189,6 @@ public:
 	{
 		//https://en.wikipedia.org/wiki/Box-Muller_transform#Polar_form
 		double u, v, s, z0;
-		static double z1;
-		static bool cached = false;
 
 		if (cached)
 		{

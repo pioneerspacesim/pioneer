@@ -107,9 +107,9 @@ static int l_rand_number(lua_State *l)
  *
  * Generates a random number drawn from a Gaussian distribution.
  *
- * > number = rand:Number()
- * > number = rand:Number(mean)
- * > number = rand:Number(mean, stddev)
+ * > number = rand:Normal()
+ * > number = rand:Normal(mean)
+ * > number = rand:Normal(mean, stddev)
  *
  * Parameters:
  *
@@ -124,7 +124,7 @@ static int l_rand_number(lua_State *l)
  *
  * Availability:
  *
- *   alpha 201401
+ *   January 2014
  *
  * Status:
  *
@@ -136,12 +136,12 @@ static int l_rand_normal(lua_State *l)
 
 	double mean, stddev;
 	if (lua_isnumber(l, 2) && lua_isnumber(l, 3)) {
-		mean = lua_tointeger(l, 2);
-		stddev = lua_tointeger(l, 3);
+		mean = lua_tonumber(l, 2);
+		stddev = lua_tonumber(l, 3);
 	}
 	else if (lua_isnumber(l, 2)) {
-		mean = 0;
-		stddev = lua_tointeger(l, 2);
+		mean = lua_tonumber(l, 2);
+		stddev = 1;
 	}
 	else {
         lua_pushnumber(l, rand->Normal());
