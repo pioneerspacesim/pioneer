@@ -266,11 +266,14 @@ bool ModelViewer::OnHitIt(UI::Widget*)
 void ModelViewer::HitImpl()
 {
 	if(m_model) {
+		assert(m_shields.get());
 		// pick a point on the shield to serve as the point of impact.
 		SceneGraph::StaticGeometry* sg = m_shields->GetFirstShieldMesh();
-		Graphics::VertexArray *verts = sg->GetMesh(0)->GetSurface(0)->GetVertices();
-		vector3f pos = verts->position[ m_rng.Int32() % (sg->GetMesh(0)->GetNumVerts()-1) ];
-		m_shields->AddHit(vector3d(pos.x, pos.y, pos.z));
+		if(sg) {
+			Graphics::VertexArray *verts = sg->GetMesh(0)->GetSurface(0)->GetVertices();
+			vector3f pos = verts->position[ m_rng.Int32() % (sg->GetMesh(0)->GetNumVerts()-1) ];
+			m_shields->AddHit(vector3d(pos.x, pos.y, pos.z));
+		}
 	}
 	m_shieldHitPan = -1.48f;
 	m_shieldIsHit = true;
