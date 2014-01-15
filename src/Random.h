@@ -62,8 +62,7 @@ public:
 	void seed(const Uint32* const seeds, size_t length)
 	{
 		current = lookup3_hashword(seeds, length, 0);
-
-		cached = false
+		cached = false;
 	}
 
 	// Seed using an array of 64-bit integers
