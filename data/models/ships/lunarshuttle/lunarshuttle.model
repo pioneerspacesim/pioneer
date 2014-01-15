@@ -29,11 +29,13 @@ specular 0.15 0.15 0.15
 material VisualMaterial4
 tex_diff shuttle_deck.png
 
+
 lod 1000
 mesh lunarshuttle_thrusters_lights_labels.dae
 mesh lunarshuttle_gear.dae
 anim gear_down 0 115
 mesh lunarshuttle_poly.dae
+mesh lunarshuttle_shield.dae
 
 collision lunarshuttle_collision.obj
 

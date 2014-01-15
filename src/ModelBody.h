@@ -7,6 +7,7 @@
 #include "libs.h"
 #include "Body.h"
 #include "CollMesh.h"
+#include "Shields.h"
 
 class Geom;
 class Camera;
@@ -45,12 +46,15 @@ protected:
 	void SetLighting(Graphics::Renderer *r, const Camera *camera, std::vector<Graphics::Light> &oldLights, Color &oldAmbient);
 	void ResetLighting(Graphics::Renderer *r, const std::vector<Graphics::Light> &oldLights, const Color &oldAmbient);
 
+	Shields* GetShields() const { return m_shields.get(); }
+
 private:
 	void RebuildCollisionMesh();
 	void DeleteGeoms();
 	void AddGeomsToFrame(Frame*);
 	void RemoveGeomsFromFrame(Frame*);
 	void MoveGeoms(const matrix4x4d&, const vector3d&);
+
 	void CalcLighting(double &ambient, double &direct, const Camera *camera);
 
 	bool m_isStatic;
@@ -61,6 +65,7 @@ private:
 	SceneGraph::Model *m_model;
 	std::vector<Geom*> m_dynGeoms;
 	SceneGraph::Animation *m_idleAnimation;
+	std::unique_ptr<Shields> m_shields;
 };
 
 #endif /* _MODELBODY_H */

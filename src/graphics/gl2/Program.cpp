@@ -75,6 +75,22 @@ struct Shader {
 		AppendSource(logzCode->AsStringRange().StripUTF8BOM());
 		AppendSource(libsCode->AsStringRange().StripUTF8BOM());
 		AppendSource(code->AsStringRange().StripUTF8BOM());
+#if 0
+		static bool s_bDumpShaderSource = true;
+		if (s_bDumpShaderSource) {
+			const char SHADER_OUT_DIR_NAME[] = "shaders";
+			const char SHADER_GL2_OUT_DIR_NAME[] = "shaders/gl2";
+			FileSystem::userFiles.MakeDirectory(SHADER_OUT_DIR_NAME);
+			FileSystem::userFiles.MakeDirectory(SHADER_GL2_OUT_DIR_NAME);
+			const std::string outFilename(FileSystem::GetUserDir() + "/" + filename);
+			FILE *tmp = fopen(outFilename.c_str(), "w+");
+			fprintf(stderr, "%s", filename);
+			for( Uint32 i=0; i<blocks.size(); i++ ) {
+				fprintf(tmp, "%.*s", block_sizes[i], blocks[i]);
+			}
+			fclose(tmp);
+		}
+#endif
 		shader = glCreateShader(type);
 		Compile(shader);
 

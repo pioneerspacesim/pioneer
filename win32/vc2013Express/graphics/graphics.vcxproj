@@ -103,6 +103,7 @@
     <ClCompile Include="..\..\..\src\graphics\gl2\MultiMaterial.cpp" />
     <ClCompile Include="..\..\..\src\graphics\gl2\Program.cpp" />
     <ClCompile Include="..\..\..\src\graphics\gl2\RingMaterial.cpp" />
+    <ClCompile Include="..\..\..\src\graphics\gl2\ShieldMaterial.cpp" />
     <ClCompile Include="..\..\..\src\graphics\gl2\Uniform.cpp" />
     <ClCompile Include="..\..\..\src\graphics\Graphics.cpp" />
     <ClCompile Include="..\..\..\src\graphics\Light.cpp" />
@@ -131,6 +132,7 @@
     <ClInclude Include="..\..\..\src\graphics\gl2\MultiMaterial.h" />
     <ClInclude Include="..\..\..\src\graphics\gl2\Program.h" />
     <ClInclude Include="..\..\..\src\graphics\gl2\RingMaterial.h" />
+    <ClInclude Include="..\..\..\src\graphics\gl2\ShieldMaterial.h" />
     <ClInclude Include="..\..\..\src\graphics\gl2\StarfieldMaterial.h" />
     <ClInclude Include="..\..\..\src\graphics\gl2\Uniform.h" />
     <ClInclude Include="..\..\..\src\graphics\Graphics.h" />

@@ -238,6 +238,7 @@
     <ClCompile Include="..\..\src\SectorView.cpp" />
     <ClCompile Include="..\..\src\Serializer.cpp" />
     <ClCompile Include="..\..\src\Sfx.cpp" />
+    <ClCompile Include="..\..\src\Shields.cpp" />
     <ClCompile Include="..\..\src\Ship-AI.cpp" />
     <ClCompile Include="..\..\src\Ship.cpp" />
     <ClCompile Include="..\..\src\ShipAICmd.cpp" />
@@ -377,6 +378,7 @@
     <ClInclude Include="..\..\src\SectorView.h" />
     <ClInclude Include="..\..\src\Serializer.h" />
     <ClInclude Include="..\..\src\Sfx.h" />
+    <ClInclude Include="..\..\src\Shields.h" />
     <ClInclude Include="..\..\src\Ship.h" />
     <ClInclude Include="..\..\src\ShipAICmd.h" />
     <ClInclude Include="..\..\src\ShipCockpit.h" />

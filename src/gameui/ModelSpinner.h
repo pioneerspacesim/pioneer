@@ -9,6 +9,7 @@
 #include "scenegraph/SceneGraph.h"
 #include "scenegraph/ModelSkin.h"
 #include "SmartPtr.h"
+#include "Shields.h"
 
 namespace GameUI {
 
@@ -28,6 +29,7 @@ protected:
 private:
 	std::unique_ptr<SceneGraph::Model> m_model;
 	SceneGraph::ModelSkin m_skin;
+	std::unique_ptr<Shields> m_shields;
 
 	float m_rotX, m_rotY;
 
