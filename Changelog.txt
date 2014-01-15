@@ -28,6 +28,7 @@ January 2014
      * Fix TradeShips crash when trying to launch after failing to add fuel or
        cargo (#2634)
      * Fix ship pattern selection (#2645)
+     * Fix shipyard adding ships faster than it sells them (#2653, #2650)
 
    * Internal changes
      * Render screen to texture in preparation for post-processing effects (#2525)

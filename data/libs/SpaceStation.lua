@@ -197,7 +197,7 @@ local function updateShipsOnSale (station)
 	local toAdd, toRemove = 0, 0
 	if #shipsOnSale == 0 then
 		toAdd = Engine.rand:Integer(20)
-	elseif Engine.rand:Integer(2) > 0 then
+	elseif Engine.rand:Integer(1) > 0 then
 		toAdd = 1
 	elseif #shipsOnSale > 0 then
 		toRemove = 1
