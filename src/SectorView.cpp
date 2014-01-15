@@ -651,12 +651,15 @@ void SectorView::PutFactionLabels(const vector3f &origin)
 void SectorView::UpdateDistanceLabelAndLine(DistanceIndicator &distance, const SystemPath &src, const SystemPath &dest)
 {
 	PROFILE_SCOPED()
-	Sector *sec = Sector::cache.GetCached(dest);
-	Sector *srcSec = Sector::cache.GetCached(src);
 
-	char format[256];
+	if (src.IsSameSystem(dest)) {
+		distance.label->SetText("");
+	} else {
+		Sector *sec = Sector::cache.GetCached(dest);
+		Sector *srcSec = Sector::cache.GetCached(src);
 
-	if (m_inSystem) {
+		char format[256];
+
 		const float dist = Sector::DistanceBetween(sec, dest.systemIndex, srcSec, src.systemIndex);
 
 		int fuelRequired;
@@ -695,16 +698,6 @@ void SectorView::UpdateDistanceLabelAndLine(DistanceIndicator &distance, const S
 				break;
 		}
 	}
-
-	else if (dest.IsSameSystem(Pi::player->GetHyperspaceDest())) {
-		snprintf(format, sizeof(format), "[ %s ]", Lang::IN_TRANSIT);
-		distance.label->SetText(format);
-		distance.label->Color(102, 102, 255);
-	}
-
-	else
-		distance.label->SetText("");
-
 }
 
 void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path)
