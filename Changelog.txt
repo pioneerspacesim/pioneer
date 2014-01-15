@@ -14,6 +14,7 @@ January 2014
      * Add delta-v data to ship market (#2616)
      * Earth start position now starts at 13:00 (Pioneer time) (#2615)
      * Misc. tweaks for the intro animation (#2649)
+     * Improve the sector view map, giving more navigation info (#2640)
 
    * Script and UI API changes
      * Game.StartGame now takes an optional start_time argument (#2615)
