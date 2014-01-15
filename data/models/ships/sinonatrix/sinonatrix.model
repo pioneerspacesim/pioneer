@@ -9,7 +9,6 @@ mesh sinonatrix.dae
 
 anim gear_down 1 100
 
-
 collision sinonatrix_col.obj
 
 lod 75
