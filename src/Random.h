@@ -199,7 +199,7 @@ public:
 			do{
 				u = Double_closed(-1, 1);
 				v = Double_closed(-1, 1);
-				s = pow(u, 2) + pow(v, 2);
+				s = u*u + v*v;
 			}while (s >= 1.0);
 
 			s = sqrt((-2.0 * log(s))/s);
