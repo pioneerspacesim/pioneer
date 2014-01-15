@@ -17,7 +17,7 @@ public:
 		if (lua_gettop(l) > 2)
 			skin = LuaObject<SceneGraph::ModelSkin>::CheckFromLua(3);
 		unsigned int pattern = 0;
-		if (lua_gettop(l) > 3)
+		if (lua_gettop(l) > 3 && !lua_isnoneornil(l, 4))
 			pattern = luaL_checkinteger(l, 4) - 1; // Lua counts from 1
 		SceneGraph::Model *model = Pi::FindModel(name);
 		LuaObject<ModelSpinner>::PushToLua(new ModelSpinner(c, model, *skin, pattern));
