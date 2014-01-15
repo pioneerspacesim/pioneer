@@ -1023,9 +1023,12 @@ void ModelViewer::SetupUI()
 
 	add_pair(c, mainBox, toggleGridButton = c->SmallButton(), "Grid mode");
 	add_pair(c, mainBox, collMeshCheck = c->CheckBox(), "Collision mesh");
-	add_pair(c, mainBox, showShieldsCheck = c->CheckBox(), "Show Shields");
-	add_pair(c, mainBox, hitItButton = c->SmallButton(), "Hit it!");
-	hitItButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnHitIt), hitItButton));
+	// not everything has a shield
+	if( m_shields.get() && m_shields->GetFirstShieldMesh() ) {
+		add_pair(c, mainBox, showShieldsCheck = c->CheckBox(), "Show Shields");
+		add_pair(c, mainBox, hitItButton = c->SmallButton(), "Hit it!");
+		hitItButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnHitIt), hitItButton));
+	}
 
 	//pattern selector
 	if (m_model->SupportsPatterns()) {
