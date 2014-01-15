@@ -572,9 +572,6 @@ Ship::HyperjumpStatus Ship::GetHyperspaceDetails(const SystemPath &src, const Sy
 
 	UpdateStats();
 
-	if (GetFlightState() == HYPERSPACE)
-		return HYPERJUMP_DRIVE_ACTIVE;
-
 	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
 	Equip::Type fuelType = GetHyperdriveFuelType();
 	int hyperclass = Equip::types[t].pval;
