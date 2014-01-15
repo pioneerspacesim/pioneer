@@ -564,19 +564,18 @@ void Ship::UpdateStats()
 	UpdateFuelStats();
 }
 
-static float distance_to_system(const SystemPath &dest)
+static float distance_to_system(const SystemPath &src, const SystemPath &dest)
 {
-	SystemPath here = Pi::game->GetSpace()->GetStarSystem()->GetPath();
-	assert(here.HasValidSystem());
+	assert(src.HasValidSystem());
 	assert(dest.HasValidSystem());
 
-	const Sector* sec1 = Sector::cache.GetCached(here);
+	const Sector* sec1 = Sector::cache.GetCached(src);
 	const Sector* sec2 = Sector::cache.GetCached(dest);
 
-	return Sector::DistanceBetween(sec1, here.systemIndex, sec2, dest.systemIndex);
+	return Sector::DistanceBetween(sec1, src.systemIndex, sec2, dest.systemIndex);
 }
 
-Ship::HyperjumpStatus Ship::GetHyperspaceDetails(const SystemPath &dest, int &outFuelRequired, double &outDurationSecs)
+Ship::HyperjumpStatus Ship::GetHyperspaceDetails(const SystemPath &src, const SystemPath &dest, int &outFuelRequired, double &outDurationSecs)
 {
 	assert(dest.HasValidSystem());
 
@@ -585,9 +584,6 @@ Ship::HyperjumpStatus Ship::GetHyperspaceDetails(const SystemPath &dest, int &ou
 
 	UpdateStats();
 
-	if (GetFlightState() == HYPERSPACE)
-		return HYPERJUMP_DRIVE_ACTIVE;
-
 	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
 	Equip::Type fuelType = GetHyperdriveFuelType();
 	int hyperclass = Equip::types[t].pval;
@@ -595,11 +591,10 @@ Ship::HyperjumpStatus Ship::GetHyperspaceDetails(const SystemPath &dest, int &ou
 	if (hyperclass == 0)
 		return HYPERJUMP_NO_DRIVE;
 
-	StarSystem *s = Pi::game->GetSpace()->GetStarSystem().Get();
-	if (s && s->GetPath().IsSameSystem(dest))
+	if (src.IsSameSystem(dest))
 		return HYPERJUMP_CURRENT_SYSTEM;
 
-	float dist = distance_to_system(dest);
+	float dist = distance_to_system(src, dest);
 
 	outFuelRequired = Pi::CalcHyperspaceFuelOut(hyperclass, dist, m_stats.hyperspace_range_max);
 	double m_totalmass = GetMass()/1000;
@@ -617,6 +612,16 @@ Ship::HyperjumpStatus Ship::GetHyperspaceDetails(const SystemPath &dest, int &ou
 			return HYPERJUMP_INSUFFICIENT_FUEL;
 		}
 	}
+}
+
+Ship::HyperjumpStatus Ship::GetHyperspaceDetails(const SystemPath &dest, int &outFuelRequired, double &outDurationSecs)
+{
+	if (GetFlightState() == HYPERSPACE) {
+		outFuelRequired = 0;
+		outDurationSecs = 0.0;
+		return HYPERJUMP_DRIVE_ACTIVE;
+	}
+	return GetHyperspaceDetails(Pi::game->GetSpace()->GetStarSystem()->GetPath(), dest, outFuelRequired, outDurationSecs);
 }
 
 Ship::HyperjumpStatus Ship::CheckHyperspaceTo(const SystemPath &dest, int &outFuelRequired, double &outDurationSecs)
