@@ -21,11 +21,11 @@
    },
    "GO_BACK" : {
       "description" : "",
-      "message" : "Go back"
+      "message" : "Gå tilbake"
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Hang up."
+      "message" : "Legg på."
    },
    "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER" : {
       "description" : "",

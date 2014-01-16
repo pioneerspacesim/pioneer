@@ -59,7 +59,8 @@ AC_PROG_STRIP
 
 #AC_PROG_LIBTOOL
 
-m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES])
+dnl Silent compilation by default
+AM_SILENT_RULES([yes])
 
 dnl ###########################################################################
 dnl Flags and options

@@ -10,8 +10,9 @@ local Lang = import("Lang")
 local Comms = import("Comms")
 local ShipDef = import("ShipDef")
 
-local ModelSpinner = import("UI.Game.ModelSpinner")
+local Model = import("SceneGraph.Model")
 local ModelSkin = import("SceneGraph.ModelSkin")
+local ModelSpinner = import("UI.Game.ModelSpinner")
 
 local SmallLabeledButton = import("ui/SmallLabeledButton")
 
@@ -86,13 +87,15 @@ local function buyShip (sos)
 	player:AddMoney(-cost)
 
 	station:ReplaceShipOnSale(sos, {
-		def   = ShipDef[player.shipId],
-		skin  = player:GetSkin(),
-		label = player.label,
+		def     = ShipDef[player.shipId],
+		skin    = player:GetSkin(),
+		pattern = player.model.pattern,
+		label   = player.label,
 	})
 
 	player:SetShipType(def.id)
 	player:SetSkin(sos.skin)
+	if sos.pattern then player.model:SetPattern(sos.pattern) end
 	player:SetLabel(sos.label)
 	player:AddEquip(def.defaultHyperdrive)
 	player:SetFuelPercent(100)
@@ -137,7 +140,7 @@ shipTable.onRowClicked:Connect(function (row)
 				l.AFTER_TRADE_IN..": "..Format.Money(def.basePrice - tradeInValue(ShipDef[Game.player.shipId])),
 				ui:Expand("HORIZONTAL", ui:Align("RIGHT", buyButton)),
 			}),
-			ModelSpinner.New(ui, def.modelName, currentShipOnSale.skin),
+			ModelSpinner.New(ui, def.modelName, currentShipOnSale.skin, currentShipOnSale.pattern),
 			ui:Label(l.HYPERDRIVE_FITTED.." "..lcore[def.defaultHyperdrive]):SetFont("SMALL"),
 			ui:Margin(10, "VERTICAL",
 				ui:Grid(2,1)

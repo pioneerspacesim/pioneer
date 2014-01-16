@@ -45,9 +45,18 @@ private:
 	void InitDefaults();
 	void InitObject();
 
+	struct DistanceIndicator {
+		Gui::Label *label;
+		Graphics::Drawables::Line3D *line;
+		Color okayColor;
+		Color unsuffFuelColor;
+		Color outOfRangeColor;
+	};
+
 	struct SystemLabels {
 		Gui::Label *systemName;
-		Gui::Label *distance;
+		Gui::Label *sector;
+		DistanceIndicator distance;
 		Gui::Label *starType;
 		Gui::Label *shortDesc;
 	};
@@ -63,6 +72,7 @@ private:
 	void SetSelectedSystem(const SystemPath &path);
 	void OnClickSystem(const SystemPath &path);
 
+	void UpdateDistanceLabelAndLine(DistanceIndicator &distance, const SystemPath &src, const SystemPath &dest);
 	void UpdateSystemLabels(SystemLabels &labels, const SystemPath &path);
 	void UpdateFactionToggles();
 	void RefreshDetailBoxVisibility();
@@ -103,6 +113,7 @@ private:
 	Gui::ImageButton *m_galaxyButton;
 	Gui::TextEntry *m_searchBox;
 	Gui::ToggleButton *m_drawOutRangeLabelButton;
+	Gui::ToggleButton *m_drawUninhabitedLabelButton;
 	Gui::ToggleButton *m_drawSystemLegButton;
 
 	std::unique_ptr<Graphics::Drawables::Disk> m_disk;
@@ -114,6 +125,7 @@ private:
 	SystemLabels m_currentSystemLabels;
 	SystemLabels m_selectedSystemLabels;
 	SystemLabels m_targetSystemLabels;
+	DistanceIndicator m_secondDistance;
 	Gui::Label *m_hyperspaceLockLabel;
 
 	Gui::VBox *m_factionBox;
@@ -133,6 +145,8 @@ private:
 	std::string m_previousSearch;
 
 	float m_playerHyperspaceRange;
+	Graphics::Drawables::Line3D m_selectedLine;
+	Graphics::Drawables::Line3D m_secondLine;
 	Graphics::Drawables::Line3D m_jumpLine;
 
 	RefCountedPtr<Graphics::Material> m_material;

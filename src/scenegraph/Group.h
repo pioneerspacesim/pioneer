@@ -24,7 +24,8 @@ public:
 	virtual void Accept(NodeVisitor &v);
 	virtual void Traverse(NodeVisitor &v);
 	virtual void Render(const matrix4x4f &trans, const RenderData *rd);
-	virtual Node* FindNode(const std::string &);
+	virtual Node* FindNode(const std::string &); 
+	virtual Node* GatherTransforms(const std::string &, const matrix4x4f &, matrix4x4f &);
 
 protected:
 	virtual ~Group();

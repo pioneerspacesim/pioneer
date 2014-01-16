@@ -18,7 +18,10 @@ define_ship {
 	{
 		{ v(0,-0.5,-10.7), v(0,0,-1), 5, 'HORIZONTAL' },
 	},
-	max_cargo = 500,
+	hull_mass = 200,
+	fuel_tank_mass = 200,
+	capacity = 500,
+	max_cargo = 500,	
 	max_laser = 1,
 	max_missile = 16,
 	max_cargoscoop = 1,
@@ -26,10 +29,8 @@ define_ship {
 	min_atmoshield = 1,
 	min_crew = 3,
 	max_crew = 5,
-	capacity = 500,
-	hull_mass = 200,
-	fuel_tank_mass = 200,
-	effective_exhaust_velocity = 51784e3,
-	price = 930000,
+	
+	effective_exhaust_velocity = 196e5,
+	price = 1346e3,
 	hyperdrive_class = 4,
 }

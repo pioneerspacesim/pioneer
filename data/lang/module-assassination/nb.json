@@ -9,7 +9,7 @@
    },
    "DISTANCE" : {
       "description" : "",
-      "message" : "Distance:"
+      "message" : "Distanse:"
    },
    "EXCELLENT" : {
       "description" : "",
@@ -137,7 +137,7 @@
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Hang up."
+      "message" : "Legg på."
    },
    "HOW_SOON_MUST_IT_BE_DONE" : {
       "description" : "",
@@ -153,11 +153,11 @@
    },
    "LY" : {
       "description" : "",
-      "message" : "ly"
+      "message" : "lysår"
    },
    "OK_AGREED" : {
       "description" : "",
-      "message" : "Ok, agreed."
+      "message" : "Ok, enig."
    },
    "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID" : {
       "description" : "",
@@ -173,7 +173,7 @@
    },
    "SPACEPORT" : {
       "description" : "",
-      "message" : "Spaceport:"
+      "message" : "Romstasjon:"
    },
    "SYSTEM" : {
       "description" : "",

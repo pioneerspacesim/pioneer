@@ -39,6 +39,7 @@
 #include "ModelCache.h"
 #include "ModManager.h"
 #include "NavLights.h"
+#include "Shields.h"
 #include "ObjectViewerView.h"
 #include "OS.h"
 #include "Planet.h"
@@ -246,6 +247,7 @@ static void LuaInit()
 	LuaObject<Player>::RegisterClass();
 	LuaObject<Missile>::RegisterClass();
 	LuaObject<CargoBody>::RegisterClass();
+	LuaObject<ModelBody>::RegisterClass();
 
 	LuaObject<StarSystem>::RegisterClass();
 	LuaObject<SystemPath>::RegisterClass();
@@ -459,6 +461,7 @@ void Pi::Init()
 	draw_progress(gauge, label, 0.4f);
 
 	modelCache = new ModelCache(Pi::renderer);
+	Shields::Init(Pi::renderer);
 	draw_progress(gauge, label, 0.5f);
 
 //unsigned int control_word;
@@ -638,6 +641,7 @@ void Pi::Quit()
 	delete Pi::intro;
 	delete Pi::luaConsole;
 	NavLights::Uninit();
+	Shields::Uninit();
 	Sfx::Uninit();
 	Sound::Uninit();
 	SpaceStation::Uninit();

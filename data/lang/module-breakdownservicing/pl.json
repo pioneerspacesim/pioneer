@@ -5,7 +5,7 @@
    },
    "FLAVOUR_0_RESPONSE" : {
       "description" : "",
-      "message" : "Twój silnik został wyremontowany."
+      "message" : "Twój silnik przeszedł przegląd."
    },
    "FLAVOUR_0_TITLE" : {
       "description" : "",
@@ -85,7 +85,7 @@
    },
    "FLAVOUR_5_RESPONSE" : {
       "description" : "",
-      "message" : "Twój napęd został wyremontowany."
+      "message" : "Twój napęd przeszedł przegląd."
    },
    "FLAVOUR_5_TITLE" : {
       "description" : "",

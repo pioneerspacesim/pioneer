@@ -5,7 +5,7 @@
    },
    "ACTIVE" : {
       "description" : "",
-      "message" : "Active"
+      "message" : "Aktiv"
    },
    "AFTER_TRADE_IN" : {
       "description" : "",
@@ -25,7 +25,7 @@
    },
    "AN_ERROR_HAS_OCCURRED" : {
       "description" : "",
-      "message" : "An error has occurred"
+      "message" : "En feil har oppstått"
    },
    "ATTEMPT_TO_REPAIR_HULL" : {
       "description" : "",
@@ -69,7 +69,7 @@
    },
    "CARGO" : {
       "description" : "",
-      "message" : "Cargo"
+      "message" : "Last"
    },
    "CARGO_SPACE" : {
       "description" : "",
@@ -77,7 +77,7 @@
    },
    "CASH" : {
       "description" : "",
-      "message" : "Cash"
+      "message" : "Kontanter"
    },
    "CASH_N" : {
       "description" : "",
@@ -109,7 +109,7 @@
    },
    "CLIENT" : {
       "description" : "",
-      "message" : "Client"
+      "message" : "Klient"
    },
    "COMBAT" : {
       "description" : "",
@@ -125,7 +125,7 @@
    },
    "COMPETENT" : {
       "description" : "",
-      "message" : "Competent"
+      "message" : "Komptetent"
    },
    "COMPLETED" : {
       "description" : "",
@@ -149,7 +149,7 @@
    },
    "COULD_NOT_LOAD_GAME" : {
       "description" : "",
-      "message" : "Could not load game: "
+      "message" : "Kunne ikke laste spill:"
    },
    "CREW_CABINS" : {
       "description" : "",
@@ -169,7 +169,7 @@
    },
    "DEADLY" : {
       "description" : "",
-      "message" : "Deadly"
+      "message" : "Dødelig"
    },
    "DELTA_V" : {
       "description" : "",
@@ -305,15 +305,15 @@
    },
    "FUEL" : {
       "description" : "",
-      "message" : "Fuel"
+      "message" : "Drivstoff"
    },
    "FUEL_TANK_FULL" : {
       "description" : "",
-      "message" : "Fuel tank full."
+      "message" : "Drivstofftank full"
    },
    "FUEL_WEIGHT" : {
       "description" : "",
-      "message" : "Fuel weight"
+      "message" : "Drivstoff vekt"
    },
    "FULL_SCREEN" : {
       "description" : "",
@@ -333,7 +333,7 @@
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Hang up."
+      "message" : "Legg på."
    },
    "HARMLESS" : {
       "description" : "",
@@ -365,7 +365,7 @@
    },
    "HIGH" : {
       "description" : "",
-      "message" : "High"
+      "message" : "Høy"
    },
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
       "description" : "",
@@ -393,7 +393,7 @@
    },
    "HYPERSPACE_RANGE" : {
       "description" : "",
-      "message" : "Hyperspace range"
+      "message" : "Hyperspace rekkevidde"
    },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
@@ -433,7 +433,7 @@
    },
    "LANGUAGE" : {
       "description" : "",
-      "message" : "Language"
+      "message" : "Språk"
    },
    "LANGUAGE_RESTART_GAME_TO_APPLY" : {
       "description" : "",
@@ -473,7 +473,7 @@
    },
    "LOAD_GAME" : {
       "description" : "",
-      "message" : "Load game"
+      "message" : "Last spill"
    },
    "LOBBY" : {
       "description" : "",
@@ -485,7 +485,7 @@
    },
    "LOCATION" : {
       "description" : "",
-      "message" : "Location"
+      "message" : "Lokasjon"
    },
    "LOW" : {
       "description" : "",
@@ -493,7 +493,7 @@
    },
    "LY" : {
       "description" : "",
-      "message" : "ly"
+      "message" : "lysår"
    },
    "MAKE_NEW_FACE" : {
       "description" : "",
@@ -505,7 +505,7 @@
    },
    "MASS" : {
       "description" : "",
-      "message" : "Mass"
+      "message" : "Masse"
    },
    "MASTER" : {
       "description" : "",
@@ -513,7 +513,7 @@
    },
    "MAX" : {
       "description" : "",
-      "message" : "max"
+      "message" : "maks"
    },
    "MEDIUM" : {
       "description" : "",
@@ -545,11 +545,11 @@
    },
    "METAL_ALLOYS" : {
       "description" : "",
-      "message" : "Metal alloys"
+      "message" : "Metallegeringer"
    },
    "MILITARY" : {
       "description" : "",
-      "message" : "Military"
+      "message" : "Millitær"
    },
    "MINIMUM_CREW" : {
       "description" : "",
@@ -561,11 +561,11 @@
    },
    "MISSION_DETAILS" : {
       "description" : "",
-      "message" : "Mission Details"
+      "message" : "Oppdragsbeskrivelse"
    },
    "MORE_INFO" : {
       "description" : "",
-      "message" : "More info..."
+      "message" : "Mer info..."
    },
    "MOSTLY_HARMLESS" : {
       "description" : "",
@@ -577,7 +577,7 @@
    },
    "MURDER" : {
       "description" : "",
-      "message" : "Murder"
+      "message" : "Mord"
    },
    "MUSIC" : {
       "description" : "",
@@ -609,11 +609,11 @@
    },
    "NONE" : {
       "description" : "",
-      "message" : "None"
+      "message" : "Ingen"
    },
    "NOTES" : {
       "description" : "",
-      "message" : "Notes:"
+      "message" : "Notater:"
    },
    "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR" : {
       "description" : "",
@@ -625,7 +625,7 @@
    },
    "N_LIGHT_YEARS_N_MAX" : {
       "description" : "",
-      "message" : "{range} light years ({maxRange} max)"
+      "message" : "{range} lysår ({maxRange} maks)"
    },
    "N_OCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
@@ -641,11 +641,11 @@
    },
    "OFF" : {
       "description" : "",
-      "message" : "Off"
+      "message" : "Av"
    },
    "OK" : {
       "description" : "",
-      "message" : "Ok"
+      "message" : "OK"
    },
    "OPTIONS" : {
       "description" : "",
@@ -653,7 +653,7 @@
    },
    "ORBIT" : {
       "description" : "",
-      "message" : "Orbit"
+      "message" : "Bane"
    },
    "ORBITAL_ANALYSIS" : {
       "description" : "",
@@ -673,7 +673,7 @@
    },
    "PERSONAL_INFORMATION" : {
       "description" : "",
-      "message" : "Personal Information"
+      "message" : "Personlig informasjon"
    },
    "PILOTING" : {
       "description" : "",
@@ -705,7 +705,7 @@
    },
    "POSITION" : {
       "description" : "",
-      "message" : "Position"
+      "message" : "Posisjon"
    },
    "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
       "description" : "",
@@ -749,7 +749,7 @@
    },
    "RETURN_TO_MENU" : {
       "description" : "",
-      "message" : "Return to menu"
+      "message" : "Tilbake til meny"
    },
    "REVERSE_ACCEL_EMPTY" : {
       "description" : "",
@@ -761,15 +761,15 @@
    },
    "REWARD" : {
       "description" : "",
-      "message" : "Reward"
+      "message" : "Belønning"
    },
    "SAVE" : {
       "description" : "",
-      "message" : "Save"
+      "message" : "Lagre"
    },
    "SELECT" : {
       "description" : "",
-      "message" : "Select"
+      "message" : "Velg"
    },
    "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME" : {
       "description" : "",
@@ -785,15 +785,15 @@
    },
    "SENSORS" : {
       "description" : "",
-      "message" : "Sensors:"
+      "message" : "Sensorer:"
    },
    "SHIP" : {
       "description" : "",
-      "message" : "Ship"
+      "message" : "Skip"
    },
    "SHIP_INFORMATION" : {
       "description" : "",
-      "message" : "Ship Information"
+      "message" : "Skipsinformasjon"
    },
    "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
       "description" : "",
@@ -817,7 +817,7 @@
    },
    "SOUND" : {
       "description" : "",
-      "message" : "Sound"
+      "message" : "Lyd"
    },
    "START_AT_BARNARDS_STAR" : {
       "description" : "",
@@ -829,7 +829,7 @@
    },
    "START_AT_NEW_HOPE" : {
       "description" : "",
-      "message" : "Start at New Hope"
+      "message" : "Start på New Hope"
    },
    "STATION_MANAGER" : {
       "description" : "",
@@ -857,7 +857,7 @@
    },
    "TOTAL" : {
       "description" : "",
-      "message" : "Total: "
+      "message" : "Total:"
    },
    "TOTAL_MASS" : {
       "description" : "",
@@ -865,7 +865,7 @@
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
-      "message" : "Trading illegal goods"
+      "message" : "Handler med ulovlige varer"
    },
    "TYPE" : {
       "description" : "",
@@ -889,7 +889,7 @@
    },
    "VERY_LOW" : {
       "description" : "",
-      "message" : "Very low"
+      "message" : "Veldig lav"
    },
    "VIDEO" : {
       "description" : "",
@@ -901,11 +901,11 @@
    },
    "VIDEO_RESOLUTION" : {
       "description" : "",
-      "message" : "Video resolution"
+      "message" : "Skjermoppløsning"
    },
    "WAGE" : {
       "description" : "",
-      "message" : "Wage"
+      "message" : "Lønn"
    },
    "WEIGHT_EMPTY" : {
       "description" : "",

@@ -405,7 +405,13 @@
     <ClCompile Include="..\..\src\SpeedLines.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Shields.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\ShipCockpit.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaModelBody.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -816,6 +822,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\FaceGenManager.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Shields.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\EquipSet.h">

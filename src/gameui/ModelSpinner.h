@@ -9,12 +9,13 @@
 #include "scenegraph/SceneGraph.h"
 #include "scenegraph/ModelSkin.h"
 #include "SmartPtr.h"
+#include "Shields.h"
 
 namespace GameUI {
 
 class ModelSpinner : public UI::Widget {
 public:
-	ModelSpinner(UI::Context *context, SceneGraph::Model *model, const SceneGraph::ModelSkin &skin);
+	ModelSpinner(UI::Context *context, SceneGraph::Model *model, const SceneGraph::ModelSkin &skin, unsigned int pattern);
 
 	virtual UI::Point PreferredSize() { return UI::Point(INT_MAX); }
 	virtual void Layout();
@@ -28,6 +29,7 @@ protected:
 private:
 	std::unique_ptr<SceneGraph::Model> m_model;
 	SceneGraph::ModelSkin m_skin;
+	std::unique_ptr<Shields> m_shields;
 
 	float m_rotX, m_rotY;
 
