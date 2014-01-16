@@ -161,7 +161,7 @@ void Pi::CreateRenderTarget(const Uint16 width, const Uint16 height) {
 		In that case, leave the color format to NONE so the initial texture is not created, then use SetColorTexture to attach your own.
 	*/
 	Graphics::TextureDescriptor texDesc(
-		Graphics::TEXTURE_RGB_888,
+		Graphics::TEXTURE_RGBA_8888,
 		vector2f(width, height),
 		Graphics::LINEAR_CLAMP, false, false, 0);
 	Pi::renderTexture.Reset(Pi::renderer->CreateTexture(texDesc));
