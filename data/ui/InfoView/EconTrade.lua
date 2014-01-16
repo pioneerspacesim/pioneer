@@ -78,7 +78,7 @@ local econTrade = function ()
 			return string.format("%d/%dt", player.usedCargo, player.freeCapacity)
 		end
 	})
-	cargoGauge:SetValue(player.usedCargo/player.freeCapacity)
+	cargoGauge:SetValue(player.usedCargo/(player.freeCapacity+player.usedCargo))
 
 	local fuelGauge = InfoGauge.New({
 		label          = ui:NumberLabel("PERCENT"),
@@ -104,7 +104,7 @@ local econTrade = function ()
 		-- ...then we update the cargo list widget...
 		cargoListWidget:SetInnerWidget(updateCargoListWidget())
 		-- ...and the gauge.
-		cargoGauge:SetValue(player.usedCargo/player.freeCapacity)
+		cargoGauge:SetValue(player.usedCargo/(player.freeCapacity+player.usedCargo))
 
 		refuelButtonRefresh()
 	end
