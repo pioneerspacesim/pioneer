@@ -11,8 +11,10 @@ tex_diff gear_diff.png
 diffuse 0.8 0.8 0.8
 specular 1.0 1.0 1.0
 
+
 lod 100
 mesh natrix.dae
+mesh natrix_shield.dae
 
 lod 10
 mesh natrix_low.dae

@@ -15,7 +15,8 @@ class FindNodeVisitor : public NodeVisitor {
 public:
 	enum Criteria { //or criterion. whatever.
 		MATCH_NAME_FULL,
-		MATCH_NAME_STARTSWITH
+		MATCH_NAME_STARTSWITH,
+		MATCH_NAME_ENDSWITH
 		//match type etc.
 	};
 	FindNodeVisitor(Criteria crit, const std::string &searchstring);

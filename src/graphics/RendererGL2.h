@@ -30,6 +30,7 @@ namespace GL2 {
 	class RenderTarget;
 	class RingMaterial;
 	class FresnelColourMaterial;
+	class ShieldMaterial;
 }
 
 class RendererGL2 : public Renderer
@@ -130,6 +131,7 @@ protected:
 	friend class GL2::LitMultiMaterial;
 	friend class GL2::RingMaterial;
 	friend class GL2::FresnelColourMaterial;
+	friend class GL2::ShieldMaterial;
 	std::vector<std::pair<MaterialDescriptor, GL2::Program*> > m_programs;
 	float m_invLogZfarPlus1;
 	GL2::RenderTarget *m_activeRenderTarget;

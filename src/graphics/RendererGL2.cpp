@@ -22,6 +22,7 @@
 #include "gl2/RingMaterial.h"
 #include "gl2/StarfieldMaterial.h"
 #include "gl2/FresnelColourMaterial.h"
+#include "gl2/ShieldMaterial.h"
 #include "gl2/SkyboxMaterial.h"
 
 #include <stddef.h> //for offsetof
@@ -759,6 +760,9 @@ Material *RendererGL2::CreateMaterial(const MaterialDescriptor &d)
 		break;
 	case EFFECT_FRESNEL_SPHERE:
 		mat = new GL2::FresnelColourMaterial();
+		break;
+	case EFFECT_SHIELD:
+		mat = new GL2::ShieldMaterial();
 		break;
 	case EFFECT_SKYBOX:
 		mat = new GL2::SkyboxMaterial();

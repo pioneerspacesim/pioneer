@@ -7,8 +7,10 @@ tex_diff amphiesma_diff.png
 tex_glow amphiesma_glow.png
 tex_spec amphiesma_spec.png
 
+
 lod 300
 mesh amphiesma_hi.dae
+mesh amphiesma_shield.dae
 
 lod 100
 mesh amphiesma_med.dae

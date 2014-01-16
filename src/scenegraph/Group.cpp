@@ -88,6 +88,23 @@ Node* Group::FindNode(const std::string &name)
 	return result;
 }
 
+Node* Group::GatherTransforms(const std::string &name, const matrix4x4f &accum, matrix4x4f &outMat)
+{
+	if (m_name == name) {
+		outMat = accum;
+		return this;
+	}
+
+	Node* result = 0;
+	for (std::vector<Node*>::iterator itr = m_children.begin(), itEnd = m_children.end(); itr != itEnd; ++itr)
+	{
+		result = (*itr)->GatherTransforms(name, accum, outMat);
+		if (result) break;
+	}
+
+	return result;
+}
+
 void Group::Accept(NodeVisitor &nv)
 {
 	nv.ApplyGroup(*this);
