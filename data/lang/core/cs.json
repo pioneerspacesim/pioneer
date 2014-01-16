@@ -335,6 +335,10 @@
       "description" : "",
       "message" : "Zobrazit systémy mimo dosah"
    },
+   "DRAW_UNINHABITED_LABELS" : {
+      "description" : "",
+      "message" : "Label uninhabited systems"
+   },
    "DRAW_VERTICAL_LINES" : {
       "description" : "",
       "message" : "Zobrazit svislé čáry"

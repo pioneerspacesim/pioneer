@@ -9,15 +9,15 @@
    },
    "FLAVOUR_0_CLUBNAME" : {
       "description" : "",
-      "message" : "Interstellar Pilots' Fuel Co-operative"
+      "message" : "Interplanetariske Piloters Drivstoffsamarbeid"
    },
    "FLAVOUR_0_MEMBER_INTRO" : {
       "description" : "",
-      "message" : "You may purhase fuel and dispose of {radioactives} here."
+      "message" : "Du kan kjøpe drivstoff og kvitte deg med {radioactives} her."
    },
    "FLAVOUR_0_NONMEMBER_INTRO" : {
       "description" : "",
-      "message" : "{clubname} is an independent organisation dedicated to providing discounted starship fuel to its members. Branches can be found throughout the galaxy. Benefits of membership include:\n\n\t* Our own stocks of fuel, independent of the general market\n\t* {hydrogen} at discount prices\n\t* {military_fuel} at discount prices\n\t* {water} at discount prices\n\t* {radioactives}, free disposal (conditions apply)\n\t* Fuel tank refilling, where necessary\n\nJoin now! Annual membership costs only {membership_fee}"
+      "message" : "{clubname} en en uavhengig organisasjon som jobber for å skaffe rabbatert drivstoff til sine medlemmer. Deler av organisasjonen finnes over hele galaksen.\nFordelene med medlemskap inkluderer:\n\n⇥* Vår egen forsyning av drivstoff, uavhengig av det offentlige markedet\n⇥* {hydrogen} til rabbaterte priser\n⇥ {military_fuel} til rabbaterte priser\n⇥*{water} til rabbaterte priser\n⇥* {radioactives}, gratis avheding (noen vilkår gjelder)\n⇥* Fylling av drivstoff, når nødvendig\n\nBli medlem nå! Årlig medlemskap koster kun  {membership_fee}"
    },
    "FLAVOUR_0_WELCOME" : {
       "description" : "",
@@ -49,11 +49,11 @@
    },
    "WE_WILL_ONLY_DISPOSE_OF" : {
       "description" : "",
-      "message" : "We will only dispose of as many tonnes of {radioactives} as you have bought tonnes of {military_fuel} from us."
+      "message" : "Vi vil bare ta imot like mange tonn av {radioactives} som du har kjøpt av {military_fuel} fra oss."
    },
    "WHAT_CONDITIONS_APPLY" : {
       "description" : "",
-      "message" : "What conditions apply to {radioactives} disposal?"
+      "message" : "Hvilke muligheter er det for å bli kvitt {radioactives}?"
    },
    "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED" : {
       "description" : "",
@@ -61,7 +61,7 @@
    },
    "YOU_ARE_NOW_A_MEMBER" : {
       "description" : "",
-      "message" : "You are now a member. Your membership will expire on {expiry_date}."
+      "message" : "Du har nå blitt medlem. Ditt medlemskap er gyldig til {expiry_date}."
    },
    "YOU_MUST_BUY" : {
       "description" : "",

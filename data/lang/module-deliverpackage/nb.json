@@ -17,7 +17,7 @@
    },
    "DISTANCE" : {
       "description" : "",
-      "message" : "Distance:"
+      "message" : "Distanse:"
    },
    "EXCELLENT_I_WILL_LET_THE_RECIPIENT_KNOW_YOU_ARE_ON_YOUR_WAY" : {
       "description" : "",
@@ -245,7 +245,7 @@
    },
    "LY" : {
       "description" : "",
-      "message" : "ly"
+      "message" : "lysår"
    },
    "NOT_ANY_MORE_THAN_USUAL" : {
       "description" : "",
