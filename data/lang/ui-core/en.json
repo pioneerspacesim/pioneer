@@ -75,6 +75,14 @@
       "description" : "",
       "message" : "Cargo space"
    },
+   "CARGO_T_FREE" : {
+      "description" : "",
+      "message" : "{amount}t free"
+   },
+   "CARGO_T_USED" : {
+      "description" : "",
+      "message" : "{amount}t used"
+   },
    "CASH" : {
       "description" : "",
       "message" : "Cash"
