@@ -121,7 +121,7 @@ local econTrade = function ()
 								ui:VBox():PackEnd({
 									ui:Label(l.CASH..":"),
 									ui:Margin(10),
-									ui:Label(l.CARGO_FREE_SPACE..":"),
+									ui:Label(l.CARGO_SPACE..":"),
 									ui:Label(l.CABINS..":"),
 									ui:Margin(10),
 								})

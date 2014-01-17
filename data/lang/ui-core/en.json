@@ -71,10 +71,6 @@
       "description" : "",
       "message" : "Cargo"
    },
-   "CARGO_FREE_SPACE" : {
-      "description" : "",
-      "message" : "Cargo/Free space"
-   },
    "CARGO_SPACE" : {
       "description" : "",
       "message" : "Cargo space"
