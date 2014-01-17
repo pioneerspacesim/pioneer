@@ -135,7 +135,7 @@ local econTrade = function ()
 								ui:VBox():PackEnd({
 									ui:Label(string.format("$%.2f", cash)),
 									ui:Margin(10),
-									ui:Margin(10, "HORIZONTAL",
+									ui:Margin(0, "HORIZONTAL",
 										ui:HBox(10):PackEnd({
 											ui:Align("MIDDLE",
 												ui:HBox(10):PackEnd({
