@@ -38,26 +38,26 @@ ui.templates.StationView = function (args)
 	cashLabel:Bind("value", player, "cash")
 
 	local cargoGauge = ui:Gauge()
-	local cargoUsedLabel = ui:NumberLabel("INTEGER")
-	local cargoTotalLabel = ui:NumberLabel("MASS_TONNES")
+	local cargoUsedLabel = ui:Label("")
+	local cargoFreeLabel = ui:Label("")
 	local function cargoUpdate ()
 		cargoGauge:SetUpperValue(player.totalCargo)
 		cargoGauge:SetValue(player.usedCargo)
-		cargoUsedLabel:SetValue(player.usedCargo)
-		cargoTotalLabel:SetValue(player.totalCargo)
+		cargoUsedLabel:SetText(string.interp(l.CARGO_T_USED, { amount = player.usedCargo }))
+		cargoFreeLabel:SetText(string.interp(l.CARGO_T_FREE, { amount = player.totalCargo-player.usedCargo }))
 	end
 	player:Connect("usedCargo", cargoUpdate)
 	player:Connect("totalCargo", cargoUpdate)
 	cargoUpdate()
 
 	local cabinGauge = ui:Gauge()
-	local cabinUsedLabel = ui:NumberLabel("INTEGER")
-	local cabinTotalLabel = ui:NumberLabel("INTEGER")
+	local cabinUsedLabel = ui:Label("")
+	local cabinFreeLabel = ui:Label("")
 	local function cabinUpdate ()
 		cabinGauge:SetUpperValue(player.totalCabins)
 		cabinGauge:SetValue(player.usedCabins)
-		cabinUsedLabel:SetValue(player.usedCabins)
-		cabinTotalLabel:SetValue(player.totalCabins)
+		cabinUsedLabel:SetText(string.interp(l.CABIN_USED, { amount = player.usedCabins }))
+		cabinFreeLabel:SetText(string.interp(l.CABIN_FREE, { amount = player.totalCabins-player.usedCabins }))
 	end
 	player:Connect("usedCabins", cabinUpdate)
 	player:Connect("totalCabins", cabinUpdate)
@@ -75,24 +75,30 @@ ui.templates.StationView = function (args)
 					),
 					ui:Margin(10, "HORIZONTAL",
 						ui:HBox(10):PackEnd({
-							l.CARGO..":",
-							cargoGauge,
-							ui:HBox():PackEnd({
+							ui:Align("MIDDLE",
+								ui:HBox(10):PackEnd({
+									l.CARGO..":",
+									cargoGauge,
+								})
+							),
+							ui:VBox():PackEnd({
 								cargoUsedLabel,
-								"/",
-								cargoTotalLabel,
-							}),
+								cargoFreeLabel,
+							}):SetFont("XSMALL"),
 						})
 					),
 					ui:Margin(10, "HORIZONTAL",
 						ui:HBox(10):PackEnd({
-							l.CABINS..":",
-							cabinGauge,
-							ui:HBox():PackEnd({
+							ui:Align("MIDDLE",
+								ui:HBox(10):PackEnd({
+									l.CABINS..":",
+									cabinGauge,
+								})
+							),
+							ui:VBox():PackEnd({
 								cabinUsedLabel,
-								"/",
-								cabinTotalLabel,
-							}),
+								cabinFreeLabel,
+							}):SetFont("XSMALL"),
 						})
 					),
 					ui:Margin(10, "HORIZONTAL",
