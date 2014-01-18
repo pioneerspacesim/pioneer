@@ -1733,7 +1733,7 @@
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
-      "message" : "Trading illegal goods"
+      "message" : "Malart bathar mì-laghail"
    },
    "TRIPLE_SYSTEM" : {
       "description" : "",
@@ -1757,7 +1757,7 @@
    },
    "UNLAWFUL_WEAPONS_DISCHARGE" : {
       "description" : "",
-      "message" : "Unlawful weapons discharge"
+      "message" : "Losgadh airm mì-laghail"
    },
    "UNOCCUPIED_CABIN" : {
       "description" : "",

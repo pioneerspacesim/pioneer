@@ -337,7 +337,7 @@
    },
    "DRAW_UNINHABITED_LABELS" : {
       "description" : "",
-      "message" : "Label uninhabited systems"
+      "message" : "Lakatlan rendszerek mutatása"
    },
    "DRAW_VERTICAL_LINES" : {
       "description" : "",

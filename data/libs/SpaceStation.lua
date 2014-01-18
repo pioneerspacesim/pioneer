@@ -34,6 +34,8 @@ local function updateEquipmentStock (station)
 	end
 end
 
+local equipmentPrice = {}
+
 --
 -- Method: GetEquipmentPrice
 --
@@ -57,10 +59,20 @@ end
 --
 --   experimental
 --
+
 function SpaceStation:GetEquipmentPrice (e)
+	if not equipmentPrice[self] then equipmentPrice[self] = {} end
+	if equipmentPrice[self][e] then
+		return equipmentPrice[self][e]
+	end
 	local def = EquipDef[e]
 	local mul = def.slot == "CARGO" and ((100 + Game.system:GetCommodityBasePriceAlterations()[e]) / 100) or 1
 	return mul * EquipDef[e].basePrice
+end
+
+function SpaceStation:SetEquipmentPrice (e, v)
+	if not equipmentPrice[self] then equipmentPrice[self] = {} end
+	equipmentPrice[self][e] = v
 end
 
 --
@@ -350,6 +362,7 @@ local function updateSystem ()
 end
 local function destroySystem ()
 	equipmentStock = {}
+	equipmentPrice = {}
 
 	shipsOnSale = {}
 
@@ -367,6 +380,7 @@ local loaded_data
 Event.Register("onGameStart", function ()
 	if (loaded_data) then
 		equipmentStock = loaded_data.equipmentStock
+		equipmentPrice = loaded_data.equipmentPrice or {} -- handle missing in old saves
 		for station,list in pairs(loaded_data.shipsOnSale) do
 			shipsOnSale[station] = {}
 			for i,entry in pairs(loaded_data.shipsOnSale[station]) do
@@ -402,6 +416,7 @@ Event.Register("onGameEnd", function ()
 	-- XXX clean up for next game
 	nextRef = 0
 	equipmentStock = {}
+	equipmentPrice = {}
 	shipsOnSale = {}
 end)
 
@@ -410,6 +425,7 @@ Serializer:Register("SpaceStation",
 	function ()
 		local data = {
 			equipmentStock = equipmentStock,
+			equipmentPrice = equipmentPrice,
 			shipsOnSale = {},
 		}
 		for station,list in pairs(shipsOnSale) do

@@ -33,7 +33,7 @@
    },
    "AVAILABLE_FOR_PURCHASE" : {
       "description" : "",
-      "message" : "Available for purchase"
+      "message" : "Ri cheannach"
    },
    "AVERAGE" : {
       "description" : "",
@@ -49,11 +49,19 @@
    },
    "BUY_SHIP" : {
       "description" : "",
-      "message" : "Buy Ship"
+      "message" : "Ceannaich soitheach"
    },
    "CABINS" : {
       "description" : "",
       "message" : "Cèibinnean"
+   },
+   "CABIN_FREE" : {
+      "description" : "",
+      "message" : "{amount} free"
+   },
+   "CABIN_USED" : {
+      "description" : "",
+      "message" : "{amount} used"
    },
    "CANCEL" : {
       "description" : "",
@@ -75,13 +83,21 @@
       "description" : "",
       "message" : "Rum airson carago"
    },
+   "CARGO_T_FREE" : {
+      "description" : "",
+      "message" : "{amount}t free"
+   },
+   "CARGO_T_USED" : {
+      "description" : "",
+      "message" : "{amount}t used"
+   },
    "CASH" : {
       "description" : "",
       "message" : "Airgead"
    },
    "CASH_N" : {
       "description" : "",
-      "message" : "Cash: {money}"
+      "message" : "Airgead: {money}"
    },
    "CHANGE_BINDING" : {
       "description" : "",
@@ -89,7 +105,7 @@
    },
    "CHIEF_MECHANIC" : {
       "description" : "",
-      "message" : "Chief Mechanic"
+      "message" : "Prìomh innleadair"
    },
    "CIRCULAR_ORBIT_SPEED" : {
       "description" : "",
@@ -121,7 +137,7 @@
    },
    "COMMODITY_MARKET" : {
       "description" : "",
-      "message" : "Commodity Market"
+      "message" : "Margaid bathair-àmh"
    },
    "COMPETENT" : {
       "description" : "",
@@ -137,7 +153,7 @@
    },
    "CONSTABLE" : {
       "description" : "",
-      "message" : "Constable"
+      "message" : "Constabal"
    },
    "CONTROLS" : {
       "description" : "",
@@ -161,7 +177,7 @@
    },
    "CRIMINAL_RECORD" : {
       "description" : "",
-      "message" : "Criminal record"
+      "message" : "Clàr nan eucoir"
    },
    "DANGEROUS" : {
       "description" : "",
@@ -177,15 +193,15 @@
    },
    "DELTA_V_EMPTY" : {
       "description" : "Delta-v capacity of a ship with no cargo or upgrades",
-      "message" : "Delta-v (empty)"
+      "message" : "Delta-v (falamh)"
    },
    "DELTA_V_FULL" : {
       "description" : "Delta-v capacity of a ship with maximum cargo",
-      "message" : "Delta-v (full)"
+      "message" : "Delta-v (làn)"
    },
    "DELTA_V_MAX" : {
       "description" : "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
-      "message" : "Delta-v (max)"
+      "message" : "Delta-v (as motha)"
    },
    "DESCENT_TO_GROUND_SPEED" : {
       "description" : "",
@@ -198,6 +214,10 @@
    "DISMISS" : {
       "description" : "",
       "message" : "Leig seachad"
+   },
+   "DISPLAY_HUD_TRAILS" : {
+      "description" : "",
+      "message" : "Display hud trails"
    },
    "DISPLAY_NAV_TUNNELS" : {
       "description" : "",
@@ -245,7 +265,7 @@
    },
    "ENGINEERING" : {
       "description" : "",
-      "message" : "Engineering:"
+      "message" : "Innleadaireachd:"
    },
    "EQUIPMENT" : {
       "description" : "",
@@ -253,11 +273,11 @@
    },
    "EQUIPMENT_MARKET" : {
       "description" : "",
-      "message" : "Equipment Market"
+      "message" : "Margaid uidheamachd"
    },
    "EQUIPPED" : {
       "description" : "",
-      "message" : "Equipped"
+      "message" : "Uidheamaichte"
    },
    "ERROR" : {
       "description" : "",
@@ -265,7 +285,7 @@
    },
    "ESCAPE_SPEED" : {
       "description" : "",
-      "message" : "Escape speed:"
+      "message" : "Luaths teichidh:"
    },
    "EXIT_THIS_GAME" : {
       "description" : "",
@@ -385,15 +405,15 @@
    },
    "HYPERDRIVE" : {
       "description" : "",
-      "message" : "Hyperdrive"
+      "message" : "Os-dhraibh"
    },
    "HYPERDRIVE_FITTED" : {
       "description" : "",
-      "message" : "Hyperdrive fitted:"
+      "message" : "Os-dhraibh suidhichte:"
    },
    "HYPERSPACE_RANGE" : {
       "description" : "",
-      "message" : "Hyperspace range"
+      "message" : "Rainse os-fhànais"
    },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
@@ -477,7 +497,7 @@
    },
    "LOBBY" : {
       "description" : "",
-      "message" : "Lobby"
+      "message" : "Lobaidh"
    },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
@@ -605,7 +625,7 @@
    },
    "NEXT_PAID" : {
       "description" : "",
-      "message" : "Next paid"
+      "message" : "An t-ath phàigheadh"
    },
    "NONE" : {
       "description" : "",
@@ -713,11 +733,11 @@
    },
    "PRICE" : {
       "description" : "",
-      "message" : "Price"
+      "message" : "Prìs"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
-      "message" : "Qualification scores"
+      "message" : "Sgòran teisteanais"
    },
    "QUIT" : {
       "description" : "",
@@ -805,15 +825,15 @@
    },
    "SHIP_MARKET" : {
       "description" : "",
-      "message" : "Ship Market"
+      "message" : "Margaidh shoithichean"
    },
    "SHIP_REPAIRS" : {
       "description" : "",
-      "message" : "Ship Repairs"
+      "message" : "Càradh shoithich"
    },
    "SHIP_VIEWING_WAS_SOLD" : {
       "description" : "",
-      "message" : "The ship you were viewing has been sold"
+      "message" : "Tha an soitheach a bha thu a' coimhead air rèic"
    },
    "SOUND" : {
       "description" : "",
@@ -833,7 +853,7 @@
    },
    "STATION_MANAGER" : {
       "description" : "",
-      "message" : "Station manager"
+      "message" : "Stiùiriche an stèisein"
    },
    "STATUS" : {
       "description" : "",
@@ -841,7 +861,7 @@
    },
    "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
       "description" : "",
-      "message" : "Thank you for your purchase. Remember to fit equipment and buy fuel before you depart."
+      "message" : "Mòran taing airson ur ceannach. Na dìochnaichibh uidheamachd a shuidheachadh agus connadh a cheannach mus fhalbh sibh."
    },
    "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP" : {
       "description" : "",
@@ -861,11 +881,11 @@
    },
    "TOTAL_MASS" : {
       "description" : "",
-      "message" : "Total mass"
+      "message" : "Tomad iomlan"
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
-      "message" : "Trading illegal goods"
+      "message" : "Malart bathar mì-laghail"
    },
    "TYPE" : {
       "description" : "",
@@ -873,7 +893,7 @@
    },
    "UNLAWFUL_WEAPONS_DISCHARGE" : {
       "description" : "",
-      "message" : "Unlawful weapons discharge"
+      "message" : "Losgadh airm mì-laghail"
    },
    "UP_ACCEL" : {
       "description" : "",
@@ -917,11 +937,11 @@
    },
    "WE_ARE_IN_HYPERSPACE_COMMANDER" : {
       "description" : "",
-      "message" : "We are in hyperspace, Commander."
+      "message" : "Tha sinn san os-fhànais, a Chomandair."
    },
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
       "description" : "",
-      "message" : "We have no business with you at the moment."
+      "message" : "Chan eil gnothach againn ruibh aig an àm seo."
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",
@@ -933,7 +953,7 @@
    },
    "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION" : {
       "description" : "",
-      "message" : "You don't have enough money for that option."
+      "message" : "Chan eil airgead gu leòr agad airson na roghainn seo."
    },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",
@@ -953,6 +973,6 @@
    },
    "YOU_NOT_ENOUGH_MONEY" : {
       "description" : "",
-      "message" : "You do not have enough money"
+      "message" : "Chan eil airgead gu leòr agad"
    }
 }

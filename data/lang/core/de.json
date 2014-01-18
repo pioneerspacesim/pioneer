@@ -337,7 +337,7 @@
    },
    "DRAW_UNINHABITED_LABELS" : {
       "description" : "",
-      "message" : "Label uninhabited systems"
+      "message" : "Unbewohntes System"
    },
    "DRAW_VERTICAL_LINES" : {
       "description" : "",
