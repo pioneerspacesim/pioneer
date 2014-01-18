@@ -57,8 +57,11 @@ bool Sector::Contains(const SystemPath &sysPath) const
 
 void Sector::System::SetExplored(StarSystem::ExplorationState e, double time)
 {
-	m_explored = e;
-	m_exploredTime = time;
+	if (e != m_explored) {
+		m_sector->onSetExplorationState.emit(this, e, time);
+		m_explored = e;
+		m_exploredTime = time;
+	}
 }
 
 void Sector::Dump(FILE* file, const char* indent) const

@@ -7,7 +7,7 @@
 #include "SectorGenerator.h"
 #include "galaxy/StarSystemGenerator.h"
 
-static const GalaxyGenerator::Version LAST_VERSION_LEGACY = 0;
+static const GalaxyGenerator::Version LAST_VERSION_LEGACY = 1;
 
 std::string GalaxyGenerator::s_defaultGenerator = "legacy";
 GalaxyGenerator::Version GalaxyGenerator::s_defaultVersion = LAST_VERSION_LEGACY;
@@ -46,10 +46,11 @@ RefCountedPtr<Galaxy> GalaxyGenerator::Create(const std::string& name, Version v
 	RefCountedPtr<GalaxyGenerator> galgen;
 	if (name == "legacy") {
 		Output("Creating new galaxy generator '%s' version %d\n", name.c_str(), version);
-		if (version == 0) {
+		if (version == 0 || version == 1) {
 			galgen.Reset((new GalaxyGenerator(name, version))
 				->AddSectorStage(new SectorCustomSystemsGenerator(CustomSystem::CUSTOM_ONLY_RADIUS))
 				->AddSectorStage(new SectorRandomSystemsGenerator)
+				->AddSectorStage(new SectorPersistenceGenerator(version))
 				->AddStarSystemStage(new StarSystemFromSectorGenerator)
 				->AddStarSystemStage(new StarSystemCustomGenerator)
 				->AddStarSystemStage(new StarSystemRandomGenerator)
@@ -92,7 +93,10 @@ RefCountedPtr<Galaxy> GalaxyGenerator::Create(Serializer::Reader& rd)
 void GalaxyGenerator::Serialize(Serializer::Writer &wr, RefCountedPtr<Galaxy> galaxy)
 {
 	wr.String(m_name);
-	wr.Int32(m_version);
+	if (m_name == "legacy" && m_version == 0)
+		wr.Int32(1); // Promote savegame
+	else
+		wr.Int32(m_version);
 	for (SectorGeneratorStage* secgen : m_sectorStage)
 		secgen->Serialize(wr, galaxy);
 	for (StarSystemGeneratorStage* sysgen : m_starSystemStage)

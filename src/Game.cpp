@@ -230,7 +230,6 @@ void Game::Serialize(Serializer::Writer &wr)
 
 	wr.WrSection("HyperspaceClouds", section.GetData());
 
-
 	// system political data (crime etc)
 	section = Serializer::Writer();
 	Polit::Serialize(section);

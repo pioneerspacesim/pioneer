@@ -26,7 +26,6 @@ public:
 	~Sector();
 
 	static float DistanceBetween(RefCountedPtr<const Sector> a, int sysIdxA, RefCountedPtr<const Sector> b, int sysIdxB);
-	static void Init();
 
 	// Sector is within a bounding rectangle - used for SectorView m_sectorCache pruning.
 	bool WithinBox(const int Xmin, const int Xmax, const int Ymin, const int Ymax, const int Zmin, const int Zmax) const;
@@ -74,6 +73,7 @@ public:
 		friend class Sector;
 		friend class SectorCustomSystemsGenerator;
 		friend class SectorRandomSystemsGenerator;
+		friend class SectorPersistenceGenerator;
 
 		void AssignFaction() const;
 
@@ -93,6 +93,8 @@ public:
 	const int sx, sy, sz;
 
 	void Dump(FILE* file, const char* indent = "") const;
+
+	sigc::signal<void, Sector::System*, StarSystem::ExplorationState, double> onSetExplorationState;
 
 private:
 	Sector(const Sector&); // non-copyable

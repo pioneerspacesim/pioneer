@@ -48,8 +48,6 @@ protected:
 };
 
 std::string string_join(std::vector<std::string> &v, std::string sep);
-namespace Time { class DateTime; }
-double datetime_to_game_time(const Time::DateTime &datetime);
 std::string format_date(double time);
 std::string format_date_only(double time);
 std::string format_distance(double dist, int precision = 2);

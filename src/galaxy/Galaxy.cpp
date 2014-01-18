@@ -12,7 +12,7 @@
 Galaxy::Galaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerator, float radius, float sol_offset_x, float sol_offset_y,
 	const std::string& factionsDir, const std::string& customSysDir)
 	: GALAXY_RADIUS(radius), SOL_OFFSET_X(sol_offset_x), SOL_OFFSET_Y(sol_offset_y),
-	m_galaxyGenerator(galaxyGenerator), m_sectorCache(this),
+	m_initialized(false), m_galaxyGenerator(galaxyGenerator), m_sectorCache(this),
 	m_starSystemCache(this), m_factions(this, factionsDir), m_customSystems(this, customSysDir)
 {
 }
@@ -43,7 +43,7 @@ void Galaxy::Init()
 {
 	m_customSystems.Init();
 	m_factions.Init();
-
+	m_initialized = true;
 #if 0
 	{
 		Profiler::Timer timer;

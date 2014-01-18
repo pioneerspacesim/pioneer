@@ -33,6 +33,7 @@ public:
 
 	~Galaxy();
 
+	bool IsInitialized() const { return m_initialized; }
 	/* 0 - 255 */
 	virtual Uint8 GetSectorDensity(const int sx, const int sy, const int sz) const = 0;
 	FactionsDatabase* GetFactions() { return &m_factions; } // XXX const correctness
@@ -53,6 +54,7 @@ public:
 	int GetGeneratorVersion() const;
 
 private:
+	bool m_initialized;
 	RefCountedPtr<GalaxyGenerator> m_galaxyGenerator;
 	SectorCache m_sectorCache;
 	StarSystemCache m_starSystemCache;
