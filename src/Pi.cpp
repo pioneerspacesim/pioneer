@@ -131,6 +131,7 @@ bool Pi::mouseYInvert;
 std::map<SDL_JoystickID,Pi::JoystickState> Pi::joysticks;
 bool Pi::navTunnelDisplayed;
 bool Pi::speedLinesDisplayed = false;
+bool Pi::hudTrailsDisplayed = false;
 Gui::Fixed *Pi::menu;
 bool Pi::DrawGUI = true;
 Graphics::Renderer *Pi::renderer;
@@ -403,6 +404,7 @@ void Pi::Init()
 
 	navTunnelDisplayed = (config->Int("DisplayNavTunnel")) ? true : false;
 	speedLinesDisplayed = (config->Int("SpeedLines")) ? true : false;
+	hudTrailsDisplayed = (config->Int("HudTrails")) ? true : false;
 
 	EnumStrings::Init();
 
@@ -792,7 +794,10 @@ void Pi::HandleEvents()
 									}
 								} else {
 									Ship *ship = new Ship(ShipType::POLICE);
-									ship->AIKill(Pi::player);
+									if( KeyState(SDLK_LCTRL) )
+										ship->AIFlyTo(Pi::player);	// a less lethal option
+									else
+										ship->AIKill(Pi::player);	// a really lethal option!
 									ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_DUAL_1MW);
 									ship->m_equipment.Add(Equip::LASER_COOLING_BOOSTER);
 									ship->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);

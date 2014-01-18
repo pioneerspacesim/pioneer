@@ -4,6 +4,7 @@ January 2014
      * New ships "Malabar" and "Vatakara" (#2599)
      * Show hull heating effect in atmosphere (#2550)
      * Shield meshes with hit effects (#2491)
+     * Show trails behind ships (#2529)
      * Initial cockpit support (experimental) (#2603, #2614)
 
    * Minor changes and tweaks
