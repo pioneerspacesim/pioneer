@@ -101,11 +101,9 @@ ui.templates.StationView = function (args)
 							}):SetFont("XSMALL"),
 						})
 					),
-					ui:Margin(0, "HORIZONTAL",
-						ui:Align("RIGHT",
-							l.LEGAL_STATUS..": "..l.CLEAN.." "
-						)
-					),
+					ui:Align("RIGHT",
+						l.LEGAL_STATUS..": "..l.CLEAN.." "
+					)
 				})
 			)
 		)
