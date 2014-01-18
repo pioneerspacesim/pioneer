@@ -42,7 +42,7 @@ January 2014
        cargo (#2634)
      * Fix ship pattern selection (#2645)
      * Fix shipyard adding ships faster than it sells them (#2653, #2650)
-     * Fix that fuel was not displayed as percentage after load (#2659, ##2660)
+     * Fix that fuel was not displayed as percentage after load (#2659, #2660)
      * Clear chat form face when showing crew candidate list (#2663, #2647)
 
    * Internal changes
