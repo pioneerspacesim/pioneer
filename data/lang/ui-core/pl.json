@@ -217,7 +217,7 @@
    },
    "DISPLAY_HUD_TRAILS" : {
       "description" : "",
-      "message" : "Display hud trails"
+      "message" : "Wyświetl ścieżki HUD"
    },
    "DISPLAY_NAV_TUNNELS" : {
       "description" : "",
