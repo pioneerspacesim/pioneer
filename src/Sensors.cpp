@@ -66,7 +66,7 @@ bool Sensors::ChooseTarget(TargetingCriteria crit)
 			//should move the target to ship after all (from PlayerShipController)
 			//targeting inputs stay in PSC
 			static_cast<Player*>(m_owner)->SetCombatTarget(it->body);
-			bool found = true;
+			found = true;
 			break;
 		}
 	}
@@ -78,7 +78,6 @@ Sensors::IFF Sensors::CheckIFF(Body* other)
 {
 	//complicated relationship check goes here
 	if (other->IsType(Object::SHIP)) {
-		Ship *s = static_cast<Ship*>(other);
 		Uint8 rel = m_owner->GetRelations(other);
 		if (rel == 0) return IFF_HOSTILE;
 		else if (rel == 100) return IFF_ALLY;
