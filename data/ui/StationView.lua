@@ -66,10 +66,10 @@ ui.templates.StationView = function (args)
 	local footer =
 		ui:Margin(15, "TOP",
 			ui:Margin(5, "VERTICAL",
-				ui:Grid({15,30,30,15},1):SetRow(0, {
-					ui:Margin(10, "HORIZONTAL",
+				ui:Grid({17,28,28,17},1):SetRow(0, {
+					ui:Align("LEFT",
 						ui:HBox():PackEnd({
-							l.CASH..": ",
+							" "..l.CASH..": ",
 							cashLabel,
 						})
 					),
@@ -101,11 +101,9 @@ ui.templates.StationView = function (args)
 							}):SetFont("XSMALL"),
 						})
 					),
-					ui:Margin(10, "HORIZONTAL",
-						ui:Align("RIGHT",
-							l.LEGAL_STATUS..": "..l.CLEAN
-						)
-					),
+					ui:Align("RIGHT",
+						l.LEGAL_STATUS..": "..l.CLEAN.." "
+					)
 				})
 			)
 		)

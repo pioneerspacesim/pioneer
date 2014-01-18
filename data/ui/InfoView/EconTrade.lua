@@ -135,19 +135,17 @@ local econTrade = function ()
 								ui:VBox():PackEnd({
 									ui:Label(string.format("$%.2f", cash)),
 									ui:Margin(10),
-									ui:Margin(0, "HORIZONTAL",
-										ui:HBox(10):PackEnd({
-											ui:Align("MIDDLE",
-												ui:HBox(10):PackEnd({
-													cargoGauge,
-												})
-											),
-											ui:VBox():PackEnd({
-												cargoUsedLabel,
-												cargoFreeLabel,
-											}):SetFont("XSMALL"),
-										})
-									),
+									ui:HBox(10):PackEnd({
+										ui:Align("MIDDLE",
+											ui:HBox(10):PackEnd({
+												cargoGauge,
+											})
+										),
+										ui:VBox():PackEnd({
+											cargoUsedLabel,
+											cargoFreeLabel,
+										}):SetFont("XSMALL"),
+									}),
 									ui:Grid(2,1):SetRow(0, { ui:Label(l.TOTAL..totalCabins), ui:Label(l.USED..": "..usedCabins) }),
 									ui:Margin(10),
 								})
