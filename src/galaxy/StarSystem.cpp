@@ -10,6 +10,7 @@
 
 #include "Serializer.h"
 #include "Pi.h"
+#include "LuaEvent.h"
 #include "enum_table.h"
 #include <map>
 #include <string>
@@ -765,6 +766,7 @@ void StarSystem::ExploreSystem(double time)
 	Sector::System& secsys = sec->m_systems[m_path.systemIndex];
 	secsys.SetExplored(m_explored, m_exploredTime);
 	MakeShortDescription();
+	LuaEvent::Queue("onSystemExplored", this);
 }
 
 void SystemBody::Dump(FILE* file, const char* indent) const
