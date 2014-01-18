@@ -312,7 +312,6 @@ public:
 private:
 	typedef std::map<SystemPath,StarSystem*> SystemCacheMap;
 	static SystemCacheMap s_cachedSystems;
-	static SystemPath s_pos;
 };
 
 #endif /* _STARSYSTEM_H */

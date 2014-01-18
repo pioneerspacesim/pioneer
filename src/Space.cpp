@@ -26,7 +26,6 @@
 #include "Game.h"
 #include "MathUtil.h"
 #include "LuaEvent.h"
-#include "OS.h"
 
 void Space::BodyNearFinder::Prepare()
 {

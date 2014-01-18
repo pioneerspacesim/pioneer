@@ -21,7 +21,6 @@
 
 static StarSystemCache s_starSystemCache;
 StarSystemCache::SystemCacheMap StarSystemCache::s_cachedSystems;
-SystemPath StarSystemCache::s_pos;
 
 static const double CELSIUS	= 273.15;
 //#define DEBUG_DUMP
