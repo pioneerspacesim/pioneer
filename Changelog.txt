@@ -25,6 +25,9 @@ January 2014
      * New method, SpaceStation:SetEquipmentPrice to override equip/cargo
        price at station (#2654)
 
+   * Model changes
+     * Modelviewer: Show bounding box when showing collision mesh (#2664)
+
    * Fixes
      * Fix label positioning in orbit and galaxy views (#2608, #2576)
      * Various fixes for keybinding modifiers and repeats (#2524, #2523, #2618,
