@@ -23,6 +23,7 @@ ModelViewer::Options::Options()
 , showTags(false)
 , showDockingLocators(false)
 , showCollMesh(false)
+, showAabb(false)
 , showShields(false)
 , showGrid(false)
 , showLandingPad(false)
@@ -189,6 +190,7 @@ bool ModelViewer::OnToggleCollMesh(UI::CheckBox *w)
 {
 	m_options.showDockingLocators = !m_options.showDockingLocators;
 	m_options.showCollMesh = !m_options.showCollMesh;
+	m_options.showAabb = m_options.showCollMesh;
 	return m_options.showCollMesh;
 }
 
@@ -474,6 +476,39 @@ void ModelViewer::DrawCollisionMesh()
 	m_renderer->SetWireFrameMode(false);
 }
 
+void ModelViewer::DrawAabb()
+{
+	assert(m_options.showAabb);
+
+	RefCountedPtr<CollMesh> mesh = m_model->GetCollisionMesh();
+	if (!mesh) return;
+
+	Aabb aabb = mesh->GetAabb();
+
+	const vector3f verts[16] = {
+		vector3f(aabb.min.x, aabb.min.y, aabb.min.z),
+		vector3f(aabb.max.x, aabb.min.y, aabb.min.z),
+		vector3f(aabb.max.x, aabb.max.y, aabb.min.z),
+		vector3f(aabb.min.x, aabb.max.y, aabb.min.z),
+		vector3f(aabb.min.x, aabb.min.y, aabb.min.z),
+		vector3f(aabb.min.x, aabb.min.y, aabb.max.z),
+		vector3f(aabb.max.x, aabb.min.y, aabb.max.z),
+		vector3f(aabb.max.x, aabb.min.y, aabb.min.z),
+
+		vector3f(aabb.max.x, aabb.max.y, aabb.max.z),
+		vector3f(aabb.min.x, aabb.max.y, aabb.max.z),
+		vector3f(aabb.min.x, aabb.min.y, aabb.max.z),
+		vector3f(aabb.max.x, aabb.min.y, aabb.max.z),
+		vector3f(aabb.max.x, aabb.max.y, aabb.max.z),
+		vector3f(aabb.max.x, aabb.max.y, aabb.min.z),
+		vector3f(aabb.min.x, aabb.max.y, aabb.min.z),
+		vector3f(aabb.min.x, aabb.max.y, aabb.max.z),
+	};
+
+	m_renderer->DrawLines(8, verts + 0, Color::GREEN, Graphics::LINE_STRIP);
+	m_renderer->DrawLines(8, verts + 8, Color::GREEN, Graphics::LINE_STRIP);
+}
+
 //Draw grid and axes
 void ModelViewer::DrawGrid(const matrix4x4f &trans, float radius)
 {
@@ -578,6 +613,11 @@ void ModelViewer::DrawModel()
 	if (m_options.showCollMesh) {
 		m_renderer->SetTransform(mv);
 		DrawCollisionMesh();
+	}
+
+	if (m_options.showAabb) {
+		m_renderer->SetTransform(mv);
+		DrawAabb();
 	}
 
 	if (m_options.showDockingLocators) {
