@@ -1919,6 +1919,10 @@
       "description" : "",
       "message" : "Unexplored System. Star information has been gathered by remote telescope, but no planetary information is available."
    },
+   "RECENTLY_EXPLORED_SYSTEM" : {
+      "description" : "",
+      "message" : "This system was explored on %date."
+   },
    "UNKNOWN" : {
       "description" : "",
       "message" : "<unknown>"

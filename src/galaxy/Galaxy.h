@@ -39,6 +39,7 @@ public:
 	CustomSystemsDatabase* GetCustomSystems() { return &m_customSystems; } // XXX const correctness
 
 	RefCountedPtr<const Sector> GetSector(const SystemPath& path) { return m_sectorCache.GetCached(path); }
+	RefCountedPtr<Sector> GetMutableSector(const SystemPath& path) { return m_sectorCache.GetCached(path); }
 	RefCountedPtr<SectorCache::Slave> NewSectorSlaveCache() { return m_sectorCache.NewSlaveCache(); }
 
 	RefCountedPtr<StarSystem> GetStarSystem(const SystemPath& path) { return m_starSystemCache.GetCached(path); }

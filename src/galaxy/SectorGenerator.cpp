@@ -48,9 +48,15 @@ bool SectorCustomSystemsGenerator::Apply(Random& rng, RefCountedPtr<Galaxy> gala
 			 * ~700ly+: unexplored
 			 */
 			int dist = isqrt(1 + sx*sx + sy*sy + sz*sz);
-			s.m_explored = ((dist <= 90) && ( dist <= 65 || rng.Int32(dist) <= 40)) || galaxy->GetFactions()->IsHomeSystem(SystemPath(sx, sy, sz, sysIdx));
+			if (((dist <= 90) && ( dist <= 65 || rng.Int32(dist) <= 40)) || galaxy->GetFactions()->IsHomeSystem(SystemPath(sx, sy, sz, sysIdx)))
+				s.m_explored = StarSystem::eEXPLORED_AT_START;
+			else
+				s.m_explored = StarSystem::eUNEXPLORED;
 		} else {
-			s.m_explored = cs->explored;
+			if (cs->explored)
+				s.m_explored = StarSystem::eEXPLORED_AT_START;
+			else
+				s.m_explored = StarSystem::eUNEXPLORED;
 		}
 		sector->m_systems.push_back(s);
 	}
@@ -162,7 +168,10 @@ bool SectorRandomSystemsGenerator::Apply(Random& rng, RefCountedPtr<Galaxy> gala
 		 * ~700ly+: unexplored
 		 */
 		int dist = isqrt(1 + sx*sx + sy*sy + sz*sz);
-		s.m_explored = ((dist <= 90) && ( dist <= 65 || rng.Int32(dist) <= 40)) || galaxy->GetFactions()->IsHomeSystem(SystemPath(sx, sy, sz, customCount + i));
+		if (((dist <= 90) && ( dist <= 65 || rng.Int32(dist) <= 40)) || galaxy->GetFactions()->IsHomeSystem(SystemPath(sx, sy, sz, customCount + i)))
+			s.m_explored = StarSystem::eEXPLORED_AT_START;
+		else
+			s.m_explored = StarSystem::eUNEXPLORED;
 
 		Uint32 weight = rng.Int32(1000000);
 

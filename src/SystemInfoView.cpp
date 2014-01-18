@@ -23,6 +23,7 @@ SystemInfoView::SystemInfoView(Game* game) : UIView(), m_game(game)
 {
 	SetTransparency(true);
 	m_refresh = REFRESH_NONE;
+	m_unexplored = true;
 }
 
 void SystemInfoView::OnBodySelected(SystemBody *b)
@@ -336,7 +337,7 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 		return;
 
 	m_system = m_game->GetGalaxy()->GetStarSystem(path);
-
+	m_unexplored = m_system->GetUnexplored();
 	m_sbodyInfoTab = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()-100));
 
 	if (m_system->GetUnexplored()) {
@@ -508,6 +509,9 @@ static bool IsShownInInfoView(const SystemBody* sb)
 SystemInfoView::RefreshType SystemInfoView::NeedsRefresh()
 {
 	if (!m_system || !m_game->GetSectorView()->GetSelected().IsSameSystem(m_system->GetPath()))
+		return REFRESH_ALL;
+
+	if (m_system->GetUnexplored() != m_unexplored)
 		return REFRESH_ALL;
 
 	if (m_system->GetUnexplored())

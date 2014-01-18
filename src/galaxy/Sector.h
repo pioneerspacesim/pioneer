@@ -38,7 +38,8 @@ public:
 	class System {
 	public:
 		System(Sector* sector, int x, int y, int z, Uint32 si) : sx(x), sy(y), sz(z), idx(si), m_sector(sector),
-			m_numStars(0), m_seed(0), m_customSys(nullptr), m_faction(nullptr), m_population(-1),	m_explored(false) {}
+			m_numStars(0), m_seed(0), m_customSys(nullptr), m_faction(nullptr), m_population(-1),
+			m_explored(StarSystem::eUNEXPLORED), m_exploredTime(0.0) {}
 
 		static float DistanceBetween(const System* a, const System* b);
 
@@ -54,7 +55,10 @@ public:
 		const Faction* GetFaction() const { if (!m_faction) AssignFaction(); return m_faction; }
 		fixed GetPopulation() const { return m_population; }
 		void SetPopulation(fixed pop) { m_population = pop; }
-		bool IsExplored() const { return m_explored; }
+		StarSystem::ExplorationState GetExplored() const { return m_explored; }
+		double GetExploredTime() const { return m_exploredTime; }
+		bool IsExplored() const { return m_explored != StarSystem::eUNEXPLORED; }
+		void SetExplored(StarSystem::ExplorationState e, double time);
 
 		bool IsSameSystem(const SystemPath &b) const {
 			return sx == b.sectorX && sy == b.sectorY && sz == b.sectorZ && idx == b.systemIndex;
@@ -82,7 +86,8 @@ public:
 		const CustomSystem* m_customSys;
 		mutable const Faction* m_faction; // mutable because we only calculate on demand
 		fixed m_population;
-		bool m_explored;
+		StarSystem::ExplorationState m_explored;
+		double m_exploredTime;
 	};
 	std::vector<System> m_systems;
 	const int sx, sy, sz;
