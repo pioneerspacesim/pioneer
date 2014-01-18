@@ -27,7 +27,6 @@ noinst_HEADERS = \
 	ChatForm.h \
 	CityOnPlanet.h \
 	Color.h \
-	Colors.h \
 	Cutscene.h \
 	CRC32.h \
 	DeathView.h \
@@ -48,6 +47,7 @@ noinst_HEADERS = \
 	GalacticView.h \
 	Game.h \
 	GeoSphere.h \
+	HudColors.h \
 	HudTrail.h \
 	HyperspaceCloud.h \
 	IniConfig.h \
@@ -160,7 +160,6 @@ pioneer_SOURCES	= \
 	CameraController.cpp \
 	CargoBody.cpp \
 	Color.cpp \
-	Colors.cpp \
 	ChatForm.cpp \
 	CityOnPlanet.cpp \
 	CRC32.cpp \
@@ -183,6 +182,7 @@ pioneer_SOURCES	= \
 	GeoPatchID.cpp \
 	GeoPatchJobs.cpp \
 	GeoSphere.cpp \
+	HudColors.cpp \
 	HudTrail.cpp \
 	HyperspaceCloud.cpp \
 	IniConfig.cpp \

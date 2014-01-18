@@ -1,11 +1,14 @@
-#pragma once
+#ifndef HUDCOLORS_H
+#define HUDCOLORS_H
+
 /*
  * The place for colors and possibly bitmaps.
+ * XXX move to Lua or skins
  */
 
 #include "Color.h"
 
-namespace Colors {
+namespace HudColors {
 	extern const Color HUD_MESSAGE;
 	extern const Color HUD_TARGET_INFO;
 	extern const Color HUD_TEXT;
@@ -16,3 +19,5 @@ namespace Colors {
 	extern const Color IFF_ALLY;
 	extern const Color IFF_HOSTILE;
 }
+
+#endif

@@ -1,6 +1,6 @@
 #include "Sensors.h"
 #include "Body.h"
-#include "Colors.h"
+#include "HudColors.h"
 #include "Game.h"
 #include "Pi.h"
 #include "Ship.h"
@@ -33,12 +33,12 @@ Color Sensors::IFFColor(IFF iff)
 {
 	switch (iff)
 	{
-		case IFF_NEUTRAL: return Colors::IFF_NEUTRAL;
-		case IFF_ALLY:    return Colors::IFF_ALLY;
-		case IFF_HOSTILE: return Colors::IFF_HOSTILE;
+		case IFF_NEUTRAL: return HudColors::IFF_NEUTRAL;
+		case IFF_ALLY:    return HudColors::IFF_ALLY;
+		case IFF_HOSTILE: return HudColors::IFF_HOSTILE;
 		case IFF_UNKNOWN:
 		default:
-			return Colors::IFF_UNKNOWN;
+			return HudColors::IFF_UNKNOWN;
 	}
 }
 
