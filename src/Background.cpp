@@ -68,8 +68,10 @@ UniverseBox::~UniverseBox()
 void UniverseBox::Init(Graphics::Renderer *r)
 {
 	// Load default cubemap
-	TextureBuilder texture_builder = TextureBuilder::Cube("textures/skybox/default.dds");
-	s_defaultCubeMap.reset( texture_builder.CreateTexture(r) );
+	if(!s_defaultCubeMap.get()) {
+		TextureBuilder texture_builder = TextureBuilder::Cube("textures/skybox/default.dds");
+		s_defaultCubeMap.reset( texture_builder.CreateTexture(r) );
+	}
 
 	// Create skybox geometry
 	VertexArray *box = new VertexArray(ATTRIB_POSITION | ATTRIB_UV0, 36);
