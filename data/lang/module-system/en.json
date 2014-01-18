@@ -6,5 +6,29 @@
    "YOUR_FUEL_TANK_IS_EMPTY" : {
       "description" : "",
       "message" : "Your fuel tank is empty."
+   },
+   "BODY" : {
+      "description" : "",
+      "message" : "body"
+   },
+   "BODIES" : {
+      "description" : "",
+      "message" : "bodies"
+   },
+   "BASE" : {
+      "description" : "",
+      "message" : "base"
+   },
+   "BASES" : {
+      "description" : "",
+      "message" : "bases"
+   },
+   "EXPLORING_SYSTEM" : {
+      "description" : "",
+      "message" : "Exploring system with {bodycount} major {bodies}."
+   },
+   "DISCOVERED_HIDDEN_BASES" : {
+      "description" : "",
+      "message" : "You have discovered {portcount} hidden {bases}!"
    }
 }
