@@ -17,6 +17,7 @@ January 2014
      * Misc. tweaks for the intro animation (#2649)
      * Improve the sector view map, giving more navigation info (#2640)
      * Improve cargo and cabin use gauges, easier to understand (#2657, #2648)
+     * Key bindings of sector view are now configurable (#2542)
 
    * Script and UI API changes
      * Game.StartGame now takes an optional start_time argument (#2615)
