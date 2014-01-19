@@ -358,7 +358,9 @@ local onCreateBB = function (station)
 	nonPersistentCharactersForCrew[station] = {}
 
 	-- Only one crew hiring thingy per station
-	stationsWithAdverts[station:AddAdvert(l.CREW_FOR_HIRE, onChat)] = station
+	stationsWithAdverts[station:AddAdvert({
+		description = l.CREW_FOR_HIRE,
+		onChat      = onChat})] = station
 
 	-- Number is based on population, nicked from Assassinations.lua and tweaked
 	for i = 1, Engine.rand:Integer(0, math.ceil(Game.system.population) * 2 + 1) do
@@ -399,7 +401,9 @@ Event.Register("onGameStart", function()
 	if loaded_data then
 		nonPersistentCharactersForCrew = loaded_data.nonPersistentCharactersForCrew
 		for k,station in ipairs(loaded_data.stationsWithAdverts) do
-			stationsWithAdverts[station:AddAdvert(l.CREW_FOR_HIRE, onChat)] = station
+		stationsWithAdverts[station:AddAdvert({
+			description = l.CREW_FOR_HIRE,
+			onChat      = onChat})] = station
 		end
 		loaded_data = nil
 	end

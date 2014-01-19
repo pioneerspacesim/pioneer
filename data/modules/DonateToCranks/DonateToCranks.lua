@@ -71,7 +71,10 @@ local onCreateBB = function (station)
 		faceseed = Engine.rand:Integer()
 	}
 
-	local ref = station:AddAdvert(ad.title, onChat, onDelete)
+	local ref = station:AddAdvert({
+		description = ad.title,
+		onChat      = onChat,
+		onDelete    = onDelete})
 	ads[ref] = ad
 end
 
@@ -83,7 +86,10 @@ local onGameStart = function ()
 	if not loaded_data then return end
 
 	for k,ad in pairs(loaded_data.ads) do
-		local ref = ad.station:AddAdvert(ad.title, onChat, onDelete)
+		local ref = station:AddAdvert({
+			description = ad.title,
+			onChat      = onChat,
+			onDelete    = onDelete})
 		ads[ref] = ad
 	end
 

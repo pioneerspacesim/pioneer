@@ -17,13 +17,11 @@ local rowRef = {}
 local bbTable = ui:Table():SetMouseEnabled(true)
 bbTable.onRowClicked:Connect(function (row)
 	local station = Game.player:GetDockedWith()
-
 	local ref = rowRef[station][row+1]
-
-	local onChat = SpaceStation.adverts[station][ref][2]
+	local ad = SpaceStation.adverts[station][ref]
 
 	local chatFunc = function (form, option)
-		return onChat(form, ref, option)
+		return ad.onChat(form, ref, option)
 	end
 	local removeFunc = function ()
 		station:RemoveAdvert(ref)
@@ -43,7 +41,7 @@ local updateTable = function (station)
 
 	local rows = {}
 	for ref,ad in pairs(adverts) do
-		table.insert(rows, ad[1])
+		table.insert(rows, ad.description)
 	end
 
 	bbTable:AddRows(rows)
