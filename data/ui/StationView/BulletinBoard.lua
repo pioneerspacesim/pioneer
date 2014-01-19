@@ -21,14 +21,13 @@ bbTable.onRowClicked:Connect(function (row)
 	local ref = rowRef[station][row+1]
 
 	local onChat = SpaceStation.adverts[station][ref][2]
-	local onDelete = SpaceStation.adverts[station][ref][3]
 
 	local chatFunc = function (form, option)
 		return onChat(form, ref, option)
 	end
-	local removeFunc = onDelete and function ()
+	local removeFunc = function ()
 		station:RemoveAdvert(ref)
-	end or nil
+	end
 
 	local form = ChatForm.New(chatFunc, removeFunc, ref, tabGroup)
 	ui:NewLayer(form:BuildWidget())
