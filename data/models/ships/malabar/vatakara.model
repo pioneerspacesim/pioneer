@@ -9,6 +9,7 @@ tex_spec vatakara_spec.png
 
 lod 300
 mesh vatakara_hi.dae
+mesh malabar_shield.dae
 
 lod 100
 mesh malabar_med.dae

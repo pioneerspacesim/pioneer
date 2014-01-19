@@ -125,7 +125,7 @@
    },
    "CAMERA_BOTTOM_VIEW" : {
       "description" : "",
-      "message" : "Bottom camera"
+      "message" : "Onderste camera"
    },
    "CAMERA_FRONT_VIEW" : {
       "description" : "",
@@ -145,7 +145,7 @@
    },
    "CAMERA_TOP_VIEW" : {
       "description" : "",
-      "message" : "Top camera"
+      "message" : "Bovenaanzicht"
    },
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
@@ -193,7 +193,7 @@
    },
    "CARGO_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Permits scooping cargo pods from space."
+      "message" : "Laat toe om vrachtmodules op te scheppen uit de ruimte."
    },
    "CH4_ATMOSPHERE" : {
       "description" : "",
@@ -233,7 +233,7 @@
    },
    "COMPUTER_HEADING_CONTROL" : {
       "description" : "",
-      "message" : "Computer heading control"
+      "message" : "Computer richting besturing"
    },
    "COMPUTER_SPEED_CONTROL" : {
       "description" : "",
@@ -334,6 +334,10 @@
    "DRAW_OUT_RANGE_LABELS" : {
       "description" : "",
       "message" : "Label out-of-range systems"
+   },
+   "DRAW_UNINHABITED_LABELS" : {
+      "description" : "",
+      "message" : "Label uninhabited systems"
    },
    "DRAW_VERTICAL_LINES" : {
       "description" : "",
@@ -557,7 +561,7 @@
    },
    "HEADING_LOCK_BACKWARD" : {
       "description" : "",
-      "message" : "Heading Lock (aft)"
+      "message" : "Richtingslot (achter)"
    },
    "HEADING_LOCK_FORWARD" : {
       "description" : "",
@@ -1009,7 +1013,7 @@
    },
    "NUMBER_G" : {
       "description" : "",
-      "message" : "%acceleration{f.1} G"
+      "message" : "%versnelling{f.1} G"
    },
    "NUMBER_HOURS" : {
       "description" : "",
@@ -1093,7 +1097,7 @@
    },
    "PASSENGER_CABIN" : {
       "description" : "",
-      "message" : "Occupied Passenger Cabin"
+      "message" : "Bezette Passagiers Cabine"
    },
    "PAUSED" : {
       "description" : "",
@@ -1717,7 +1721,7 @@
    },
    "TOGGLE_ROTATION_DAMPING" : {
       "description" : "",
-      "message" : "Toggle rotation damping"
+      "message" : "Schakel rotatie demping"
    },
    "TOGGLE_SCAN_MODE" : {
       "description" : "",

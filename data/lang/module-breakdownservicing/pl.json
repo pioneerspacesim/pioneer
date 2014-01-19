@@ -5,7 +5,7 @@
    },
    "FLAVOUR_0_RESPONSE" : {
       "description" : "",
-      "message" : "Silnik przeszedł przegląd."
+      "message" : "Twój silnik przeszedł przegląd."
    },
    "FLAVOUR_0_TITLE" : {
       "description" : "",
@@ -85,7 +85,7 @@
    },
    "FLAVOUR_5_RESPONSE" : {
       "description" : "",
-      "message" : "Napęd przeszedł przegląd."
+      "message" : "Twój napęd przeszedł przegląd."
    },
    "FLAVOUR_5_TITLE" : {
       "description" : "",
@@ -113,7 +113,7 @@
    },
    "YOUR_DRIVE_HAS_NOT_BEEN_SERVICED" : {
       "description" : "",
-      "message" : "Twój napęd nie przechodził przeglądu od czasu instalacji - dnia {date}"
+      "message" : "Twój napęd nie przechodził przeglądu od momentu\ninstalacji - {date}"
    },
    "YOUR_DRIVE_WAS_LAST_SERVICED_ON" : {
       "description" : "",

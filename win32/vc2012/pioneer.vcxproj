@@ -160,6 +160,8 @@
     <ClCompile Include="..\..\src\GeoPatchID.cpp" />
     <ClCompile Include="..\..\src\GeoPatchJobs.cpp" />
     <ClCompile Include="..\..\src\GeoSphere.cpp" />
+    <ClCompile Include="..\..\src\HudColors.cpp" />
+    <ClCompile Include="..\..\src\HudTrail.cpp" />
     <ClCompile Include="..\..\src\HyperspaceCloud.cpp" />
     <ClCompile Include="..\..\src\IniConfig.cpp" />
     <ClCompile Include="..\..\src\Intro.cpp" />
@@ -185,6 +187,7 @@
     <ClCompile Include="..\..\src\LuaManager.cpp" />
     <ClCompile Include="..\..\src\LuaMatrix.cpp" />
     <ClCompile Include="..\..\src\LuaMissile.cpp" />
+    <ClCompile Include="..\..\src\LuaModelBody.cpp" />
     <ClCompile Include="..\..\src\LuaMusic.cpp" />
     <ClCompile Include="..\..\src\LuaNameGen.cpp" />
     <ClCompile Include="..\..\src\LuaObject.cpp" />
@@ -235,8 +238,10 @@
     <ClCompile Include="..\..\src\PropertyMap.cpp" />
     <ClCompile Include="..\..\src\SDLWrappers.cpp" />
     <ClCompile Include="..\..\src\SectorView.cpp" />
+    <ClCompile Include="..\..\src\Sensors.cpp" />
     <ClCompile Include="..\..\src\Serializer.cpp" />
     <ClCompile Include="..\..\src\Sfx.cpp" />
+    <ClCompile Include="..\..\src\Shields.cpp" />
     <ClCompile Include="..\..\src\Ship-AI.cpp" />
     <ClCompile Include="..\..\src\Ship.cpp" />
     <ClCompile Include="..\..\src\ShipAICmd.cpp" />
@@ -312,6 +317,8 @@
     <ClInclude Include="..\..\src\GeoPatchID.h" />
     <ClInclude Include="..\..\src\GeoPatchJobs.h" />
     <ClInclude Include="..\..\src\GeoSphere.h" />
+    <ClInclude Include="..\..\src\HudColors.h" />
+    <ClInclude Include="..\..\src\HudTrail.h" />
     <ClInclude Include="..\..\src\HyperspaceCloud.h" />
     <ClInclude Include="..\..\src\IniConfig.h" />
     <ClInclude Include="..\..\src\Intro.h" />
@@ -374,8 +381,10 @@
     <ClInclude Include="..\..\src\RefCounted.h" />
     <ClInclude Include="..\..\src\SDLWrappers.h" />
     <ClInclude Include="..\..\src\SectorView.h" />
+    <ClInclude Include="..\..\src\Sensors.h" />
     <ClInclude Include="..\..\src\Serializer.h" />
     <ClInclude Include="..\..\src\Sfx.h" />
+    <ClInclude Include="..\..\src\Shields.h" />
     <ClInclude Include="..\..\src\Ship.h" />
     <ClInclude Include="..\..\src\ShipAICmd.h" />
     <ClInclude Include="..\..\src\ShipCockpit.h" />

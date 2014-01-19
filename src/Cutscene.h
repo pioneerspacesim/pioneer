@@ -9,6 +9,7 @@
 #include "graphics/Light.h"
 
 namespace SceneGraph { class Model; }
+class Shields;
 
 class Cutscene {
 public:
@@ -26,6 +27,7 @@ protected:
 	float m_aspectRatio;
 	Graphics::Renderer *m_renderer;
 	SceneGraph::Model *m_model;
+	Shields *m_shield;
 	std::vector<Graphics::Light> m_lights;
 };
 

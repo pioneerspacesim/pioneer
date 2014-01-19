@@ -39,6 +39,7 @@ GameConfig::GameConfig()
 	map["WorkerThreads"] = "0";
 	map["SpeedLines"] = "0";
 	map["EnableCockpit"] = "0";
+	map["HudTrails"] = "0";
 
 #ifdef _WIN32
 	map["RedirectStdio"] = "1";

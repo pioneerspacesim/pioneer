@@ -461,7 +461,11 @@ local spawnInitialShips = function (game_start)
 		if trader.status == 'docked' then
 			local delay = fuel_added + addShipCargo(ship, 'export')
 			-- have ship wait 30-45 seconds per unit of cargo
-			trader['delay'] = Game.time + (delay * Engine.rand:Number(30, 45))
+			if delay > 0 then
+				trader['delay'] = Game.time + (delay * Engine.rand:Number(30, 45))
+			else
+				trader['delay'] = Game.time + Engine.rand:Number(600, 3600)
+			end
 			Timer:CallAt(trader.delay, function () doUndock(ship) end)
 		else
 			addShipCargo(ship, 'import')

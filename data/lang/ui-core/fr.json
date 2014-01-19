@@ -55,6 +55,14 @@
       "description" : "",
       "message" : "Cabines"
    },
+   "CABIN_FREE" : {
+      "description" : "",
+      "message" : "{amount} free"
+   },
+   "CABIN_USED" : {
+      "description" : "",
+      "message" : "{amount} used"
+   },
    "CANCEL" : {
       "description" : "",
       "message" : "Annuler"
@@ -74,6 +82,14 @@
    "CARGO_SPACE" : {
       "description" : "",
       "message" : "Espace cargo"
+   },
+   "CARGO_T_FREE" : {
+      "description" : "",
+      "message" : "{amount}t free"
+   },
+   "CARGO_T_USED" : {
+      "description" : "",
+      "message" : "{amount}t used"
    },
    "CASH" : {
       "description" : "",
@@ -198,6 +214,10 @@
    "DISMISS" : {
       "description" : "",
       "message" : "Renvoyer"
+   },
+   "DISPLAY_HUD_TRAILS" : {
+      "description" : "",
+      "message" : "Display HUD trails"
    },
    "DISPLAY_NAV_TUNNELS" : {
       "description" : "",
@@ -381,7 +401,7 @@
    },
    "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE" : {
       "description" : "",
-      "message" : "Reparation coque annulée. Degats trop mineurs"
+      "message" : "Réparation échouée. La coque a reçu des dégâts mineurs."
    },
    "HYPERDRIVE" : {
       "description" : "",
@@ -409,11 +429,11 @@
    },
    "IN_CARGO_HOLD" : {
       "description" : "",
-      "message" : "In cargo hold"
+      "message" : "En soute"
    },
    "IN_STOCK" : {
       "description" : "",
-      "message" : "In stock"
+      "message" : "En stock"
    },
    "ITEM_IS_OUT_OF_STOCK" : {
       "description" : "",
@@ -741,7 +761,7 @@
    },
    "REPAIR_X_HULL_DAMAGE_FOR_X" : {
       "description" : "",
-      "message" : "Repair {damage}% hull damage for {price}"
+      "message" : "Réparer {damage}% de dégâts de la coque pour {price}"
    },
    "REQUEST_LAUNCH" : {
       "description" : "",
@@ -813,7 +833,7 @@
    },
    "SHIP_VIEWING_WAS_SOLD" : {
       "description" : "",
-      "message" : "The ship you were viewing has been sold"
+      "message" : "Le vaisseau que vous observiez a été vendu"
    },
    "SOUND" : {
       "description" : "",
@@ -849,7 +869,7 @@
    },
    "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
       "description" : "",
-      "message" : "Le vaisseaux est sous le controle de la station, Commandant."
+      "message" : "Le vaisseau est sous le contrôle de la station, Commandant."
    },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "",
@@ -861,7 +881,7 @@
    },
    "TOTAL_MASS" : {
       "description" : "",
-      "message" : "Total mass"
+      "message" : "Masse totale"
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",

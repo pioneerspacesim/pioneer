@@ -23,12 +23,12 @@
 #include "FileSystem.h"
 #include "graphics/Renderer.h"
 
-static const int  s_saveVersion   = 69;
+static const int  s_saveVersion   = 71;
 static const char s_saveStart[]   = "PIONEER";
 static const char s_saveEnd[]     = "END";
 
-Game::Game(const SystemPath &path) :
-	m_time(0),
+Game::Game(const SystemPath &path, double time) :
+	m_time(time),
 	m_state(STATE_NORMAL),
 	m_wantHyperspace(false),
 	m_timeAccel(TIMEACCEL_1X),
@@ -51,8 +51,8 @@ Game::Game(const SystemPath &path) :
 	CreateViews();
 }
 
-Game::Game(const SystemPath &path, const vector3d &pos) :
-	m_time(0),
+Game::Game(const SystemPath &path, const vector3d &pos, double time) :
+	m_time(time),
 	m_state(STATE_NORMAL),
 	m_wantHyperspace(false),
 	m_timeAccel(TIMEACCEL_1X),
@@ -707,11 +707,11 @@ void Game::DestroyViews()
 Game *Game::LoadGame(const std::string &filename)
 {
 	printf("Game::LoadGame('%s')\n", filename.c_str());
-	FILE *f = FileSystem::userFiles.OpenReadStream(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
-	if (!f) throw CouldNotOpenFileException();
-	Serializer::Reader rd(f);
-	fclose(f);
+	auto file = FileSystem::userFiles.ReadFile(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
+	if (!file) throw CouldNotOpenFileException();
+	Serializer::Reader rd(file->AsByteRange());
 	return new Game(rd);
+	// file data is freed here
 }
 
 void Game::SaveGame(const std::string &filename, Game *game)

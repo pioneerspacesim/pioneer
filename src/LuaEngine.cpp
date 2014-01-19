@@ -18,6 +18,7 @@
 #include "KeyBindings.h"
 #include "Lang.h"
 #include "Player.h"
+#include "scenegraph/Model.h"
 
 /*
  * Interface: Engine
@@ -361,6 +362,23 @@ static int l_engine_set_cockpit_enabled(lua_State *l)
 	return 0;
 }
 
+static int l_engine_get_display_hud_trails(lua_State *l)
+{
+	lua_pushboolean(l, Pi::config->Int("HudTrails") != 0);
+	return 1;
+}
+
+static int l_engine_set_display_hud_trails(lua_State *l)
+{
+	if (lua_isnone(l, 1))
+		return luaL_error(l, "SetDisplayHudTrails takes one boolean argument");
+	const bool enabled = lua_toboolean(l, 1);
+	Pi::config->SetInt("HudTrails", (enabled ? 1 : 0));
+	Pi::config->Save();
+	Pi::SetHudTrailsDisplayed(enabled);
+	return 0;
+}
+
 static void set_master_volume(const bool muted, const float volume)
 {
 	Sound::Pause(muted || is_zero_exact(volume));
@@ -690,6 +708,14 @@ static int l_engine_set_joystick_enabled(lua_State *l)
 	return 0;
 }
 
+static int l_engine_get_model(lua_State *l)
+{
+	const std::string name(luaL_checkstring(l, 1));
+	SceneGraph::Model *model = Pi::FindModel(name);
+	LuaObject<SceneGraph::Model>::PushToLua(model);
+	return 1;
+}
+
 void LuaEngine::Register()
 {
 	lua_State *l = Lua::manager->GetLuaState();
@@ -729,6 +755,9 @@ void LuaEngine::Register()
 		{ "GetCockpitEnabled", l_engine_get_cockpit_enabled },
 		{ "SetCockpitEnabled", l_engine_set_cockpit_enabled },
 
+		{ "GetDisplayHudTrails", l_engine_get_display_hud_trails },
+		{ "SetDisplayHudTrails", l_engine_set_display_hud_trails },
+
 		{ "GetMasterMuted", l_engine_get_master_muted },
 		{ "SetMasterMuted", l_engine_set_master_muted },
 		{ "GetMasterVolume", l_engine_get_master_volume },
@@ -748,6 +777,8 @@ void LuaEngine::Register()
 		{ "SetMouseYInverted", l_engine_set_mouse_y_inverted },
 		{ "GetJoystickEnabled", l_engine_get_joystick_enabled },
 		{ "SetJoystickEnabled", l_engine_set_joystick_enabled },
+
+		{ "GetModel", l_engine_get_model },
 
 		{ 0, 0 }
 	};

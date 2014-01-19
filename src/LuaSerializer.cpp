@@ -212,7 +212,7 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 				break;
 			}
 
-			Error("Lua serializer '%s' tried to serialize unsupported userdata value", key);
+			Error("Lua serializer '%s' tried to serialize unsupported '%s' userdata value", key, lo->GetType());
 			break;
 		}
 
@@ -373,7 +373,8 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 				pos = end+1; // skip newline
 
 				std::string buf(pos, serlen);
-				Serializer::Reader rd(buf);
+				const char *bufp = buf.c_str();
+				Serializer::Reader rd(ByteRange(bufp, bufp + buf.size()));
 				SceneGraph::ModelSkin skin;
 				skin.Load(rd);
 

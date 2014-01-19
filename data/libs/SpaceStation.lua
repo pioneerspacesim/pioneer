@@ -11,6 +11,7 @@ local Timer = import("Timer")
 local Game = import("Game")
 local Ship = import("Ship")
 local EquipDef = import("EquipDef")
+local Model = import("SceneGraph.Model")
 local ModelSkin = import("SceneGraph.ModelSkin")
 local Serializer = import("Serializer")
 
@@ -32,6 +33,8 @@ local function updateEquipmentStock (station)
 		end
 	end
 end
+
+local equipmentPrice = {}
 
 --
 -- Method: GetEquipmentPrice
@@ -56,10 +59,20 @@ end
 --
 --   experimental
 --
+
 function SpaceStation:GetEquipmentPrice (e)
+	if not equipmentPrice[self] then equipmentPrice[self] = {} end
+	if equipmentPrice[self][e] then
+		return equipmentPrice[self][e]
+	end
 	local def = EquipDef[e]
 	local mul = def.slot == "CARGO" and ((100 + Game.system:GetCommodityBasePriceAlterations()[e]) / 100) or 1
 	return mul * EquipDef[e].basePrice
+end
+
+function SpaceStation:SetEquipmentPrice (e, v)
+	if not equipmentPrice[self] then equipmentPrice[self] = {} end
+	equipmentPrice[self][e] = v
 end
 
 --
@@ -133,9 +146,10 @@ function SpaceStation:AddShipOnSale (entry)
 	assert(entry.skin)
 	assert(entry.label)
 	addShipOnSale(self, {
-		def   = entry.def,
-		skin  = entry.skin,
-		label = entry.label
+		def     = entry.def,
+		skin    = entry.skin,
+		pattern = entry.pattern,
+		label   = entry.label
 	})
 	Event.Queue("onShipMarketUpdate", self, shipsOnSale[self])
 end
@@ -174,9 +188,10 @@ function SpaceStation:ReplaceShipOnSale (old, new)
 		self:AddShipOnSale(new)
 	else
 		shipsOnSale[self][num] = {
-			def   = new.def,
-			skin  = new.skin,
-			label = new.label,
+			def     = new.def,
+			skin    = new.skin,
+			pattern = new.pattern,
+			label   = new.label,
 		}
 	end
 	Event.Queue("onShipMarketUpdate", self, shipsOnSale[self])
@@ -194,7 +209,7 @@ local function updateShipsOnSale (station)
 	local toAdd, toRemove = 0, 0
 	if #shipsOnSale == 0 then
 		toAdd = Engine.rand:Integer(20)
-	elseif Engine.rand:Integer(2) > 0 then
+	elseif Engine.rand:Integer(1) > 0 then
 		toAdd = 1
 	elseif #shipsOnSale > 0 then
 		toRemove = 1
@@ -205,10 +220,14 @@ local function updateShipsOnSale (station)
 	if toAdd > 0 then
 		local avail = station.type == "STARPORT_SURFACE" and groundShips or spaceShips
 		for i=1,toAdd do
+			local def = avail[Engine.rand:Integer(1,#avail)]
+			local model = Engine.GetModel(def.modelName)
+			local pattern = model.numPatterns ~= 0 and Engine.rand:Integer(1,model.numPatterns) or nil
 			addShipOnSale(station, {
-				def   = avail[Engine.rand:Integer(1,#avail)],
-				skin  = ModelSkin.New():SetRandomColors(Engine.rand),
-				label = Ship.MakeRandomLabel(),
+				def     = def,
+				skin    = ModelSkin.New():SetRandomColors(Engine.rand),
+				pattern = pattern,
+				label   = Ship.MakeRandomLabel(),
 			})
 		end
 	end
@@ -343,6 +362,7 @@ local function updateSystem ()
 end
 local function destroySystem ()
 	equipmentStock = {}
+	equipmentPrice = {}
 
 	shipsOnSale = {}
 
@@ -358,21 +378,19 @@ end
 local loaded_data
 
 Event.Register("onGameStart", function ()
-	nextRef = 0
-	equipmentStock = {}
-	shipsOnSale = {}
-
 	if (loaded_data) then
 		equipmentStock = loaded_data.equipmentStock
+		equipmentPrice = loaded_data.equipmentPrice or {} -- handle missing in old saves
 		for station,list in pairs(loaded_data.shipsOnSale) do
 			shipsOnSale[station] = {}
 			for i,entry in pairs(loaded_data.shipsOnSale[station]) do
 				local def = ShipDef[entry.id]
 				if (def) then
 					shipsOnSale[station][i] = {
-						def   = def,
-						skin  = entry.skin,
-						label = entry.label,
+						def     = def,
+						skin    = entry.skin,
+						pattern = entry.pattern,
+						label   = entry.label,
 					}
 				end
 			end
@@ -392,22 +410,32 @@ Event.Register("onLeaveSystem", function (ship)
 	if ship ~= Game.player then return end
 	destroySystem()
 end)
-Event.Register("onGameEnd", destroySystem)
+Event.Register("onGameEnd", function ()
+	destroySystem()
+
+	-- XXX clean up for next game
+	nextRef = 0
+	equipmentStock = {}
+	equipmentPrice = {}
+	shipsOnSale = {}
+end)
 
 
 Serializer:Register("SpaceStation",
 	function ()
 		local data = {
 			equipmentStock = equipmentStock,
+			equipmentPrice = equipmentPrice,
 			shipsOnSale = {},
 		}
 		for station,list in pairs(shipsOnSale) do
 			data.shipsOnSale[station] = {}
 			for i,entry in pairs(shipsOnSale[station]) do
 				data.shipsOnSale[station][i] = {
-					id    = entry.def.id,
-					skin  = entry.skin,
-					label = entry.label,
+					id      = entry.def.id,
+					skin    = entry.skin,
+					pattern = entry.pattern,
+					label   = entry.label,
 				}
 			end
 		end

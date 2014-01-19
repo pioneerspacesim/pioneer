@@ -335,6 +335,10 @@
       "description" : "",
       "message" : "Label out-of-range systems"
    },
+   "DRAW_UNINHABITED_LABELS" : {
+      "description" : "",
+      "message" : "Label uninhabited systems"
+   },
    "DRAW_VERTICAL_LINES" : {
       "description" : "",
       "message" : "Draw vertical lines"
@@ -1729,7 +1733,7 @@
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
-      "message" : "Trading illegal goods"
+      "message" : "Malart bathar mì-laghail"
    },
    "TRIPLE_SYSTEM" : {
       "description" : "",
@@ -1753,7 +1757,7 @@
    },
    "UNLAWFUL_WEAPONS_DISCHARGE" : {
       "description" : "",
-      "message" : "Unlawful weapons discharge"
+      "message" : "Losgadh airm mì-laghail"
    },
    "UNOCCUPIED_CABIN" : {
       "description" : "",

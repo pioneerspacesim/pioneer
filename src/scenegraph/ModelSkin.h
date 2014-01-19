@@ -20,8 +20,6 @@ public:
 
 	void Apply(Model *model) const;
 
-	void SetPattern(unsigned int index);
-
 	void SetColors(const std::vector<Color> &colors);
 	void SetPrimaryColor(const Color &color);
 	void SetSecondaryColor(const Color &color);
@@ -40,7 +38,6 @@ public:
 private:
 	static const unsigned int MAX_DECAL_MATERIALS = 4;
 
-	unsigned int m_patternIndex;
 	std::vector<Color> m_colors;
 	std::string m_decals[MAX_DECAL_MATERIALS];
 	std::string m_label;

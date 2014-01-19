@@ -269,7 +269,7 @@
    },
    "CTRL" : {
       "description" : "Ctrl key on keyboard",
-      "message" : "Ctrl"
+      "message" : "Strg"
    },
    "CURRENT_SYSTEM" : {
       "description" : "",
@@ -334,6 +334,10 @@
    "DRAW_OUT_RANGE_LABELS" : {
       "description" : "",
       "message" : "Out-of-range System"
+   },
+   "DRAW_UNINHABITED_LABELS" : {
+      "description" : "",
+      "message" : "Unbewohntes System"
    },
    "DRAW_VERTICAL_LINES" : {
       "description" : "",

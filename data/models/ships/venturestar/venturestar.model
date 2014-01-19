@@ -11,6 +11,7 @@ collision venturestar_collision.obj
 #LOD
 lod 1000
 mesh venturestar.dae
+mesh venturestar_shield.dae
 
 lod 50
 mesh venturestar_med.dae

@@ -7,6 +7,8 @@
 #include "graphics/Light.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/Drawables.h"
+#include "graphics/Surface.h"
+#include "graphics/VertexArray.h"
 #include "scenegraph/DumpVisitor.h"
 #include "scenegraph/FindNodeVisitor.h"
 #include "OS.h"
@@ -21,6 +23,8 @@ ModelViewer::Options::Options()
 , showTags(false)
 , showDockingLocators(false)
 , showCollMesh(false)
+, showAabb(false)
+, showShields(false)
 , showGrid(false)
 , showLandingPad(false)
 , showUI(true)
@@ -82,7 +86,9 @@ namespace {
 ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm)
 : m_done(false)
 , m_screenshotQueued(false)
-, m_frameTime(0.f)
+, m_shieldIsHit(false)
+, m_shieldHitPan(-1.48f)
+, m_frameTime(0.0)
 , m_renderer(r)
 , m_decalTexture(0)
 , m_rotX(0), m_rotY(0), m_zoom(0)
@@ -142,6 +148,7 @@ void ModelViewer::Run(const std::string &modelName)
 	renderer = Graphics::Init(videoSettings);
 
 	NavLights::Init(renderer);
+	Shields::Init(renderer);
 
 	//run main loop until quit
 	viewer = new ModelViewer(renderer, Lua::manager);
@@ -152,6 +159,7 @@ void ModelViewer::Run(const std::string &modelName)
 	delete viewer;
 	Lua::Uninit();
 	delete renderer;
+	Shields::Uninit();
 	NavLights::Uninit();
 	Graphics::Uninit();
 	FileSystem::Uninit();
@@ -182,7 +190,14 @@ bool ModelViewer::OnToggleCollMesh(UI::CheckBox *w)
 {
 	m_options.showDockingLocators = !m_options.showDockingLocators;
 	m_options.showCollMesh = !m_options.showCollMesh;
+	m_options.showAabb = m_options.showCollMesh;
 	return m_options.showCollMesh;
+}
+
+bool ModelViewer::OnToggleShowShields(UI::CheckBox *w)
+{
+	m_options.showShields = !m_options.showShields;
+	return m_options.showShields;
 }
 
 bool ModelViewer::OnToggleGrid(UI::Widget *)
@@ -231,6 +246,39 @@ bool ModelViewer::OnToggleGuns(UI::CheckBox *w)
 		tagR->RemoveChildAt(0);
 	}
 	return true;
+}
+
+void ModelViewer::UpdateShield() 
+{
+	if (m_shieldIsHit) {
+		m_shieldHitPan += 0.05f;
+	}
+	if (m_shieldHitPan > 0.34f) {
+		m_shieldHitPan = -1.48f;
+		m_shieldIsHit = false;
+	}
+}
+
+bool ModelViewer::OnHitIt(UI::Widget*)
+{
+	HitImpl();
+	return true;
+}
+
+void ModelViewer::HitImpl()
+{
+	if(m_model) {
+		assert(m_shields.get());
+		// pick a point on the shield to serve as the point of impact.
+		SceneGraph::StaticGeometry* sg = m_shields->GetFirstShieldMesh();
+		if(sg) {
+			Graphics::VertexArray *verts = sg->GetMesh(0)->GetSurface(0)->GetVertices();
+			vector3f pos = verts->position[ m_rng.Int32() % (sg->GetMesh(0)->GetNumVerts()-1) ];
+			m_shields->AddHit(vector3d(pos.x, pos.y, pos.z));
+		}
+	}
+	m_shieldHitPan = -1.48f;
+	m_shieldIsHit = true;
 }
 
 void ModelViewer::AddLog(const std::string &line)
@@ -428,6 +476,39 @@ void ModelViewer::DrawCollisionMesh()
 	m_renderer->SetWireFrameMode(false);
 }
 
+void ModelViewer::DrawAabb()
+{
+	assert(m_options.showAabb);
+
+	RefCountedPtr<CollMesh> mesh = m_model->GetCollisionMesh();
+	if (!mesh) return;
+
+	Aabb aabb = mesh->GetAabb();
+
+	const vector3f verts[16] = {
+		vector3f(aabb.min.x, aabb.min.y, aabb.min.z),
+		vector3f(aabb.max.x, aabb.min.y, aabb.min.z),
+		vector3f(aabb.max.x, aabb.max.y, aabb.min.z),
+		vector3f(aabb.min.x, aabb.max.y, aabb.min.z),
+		vector3f(aabb.min.x, aabb.min.y, aabb.min.z),
+		vector3f(aabb.min.x, aabb.min.y, aabb.max.z),
+		vector3f(aabb.max.x, aabb.min.y, aabb.max.z),
+		vector3f(aabb.max.x, aabb.min.y, aabb.min.z),
+
+		vector3f(aabb.max.x, aabb.max.y, aabb.max.z),
+		vector3f(aabb.min.x, aabb.max.y, aabb.max.z),
+		vector3f(aabb.min.x, aabb.min.y, aabb.max.z),
+		vector3f(aabb.max.x, aabb.min.y, aabb.max.z),
+		vector3f(aabb.max.x, aabb.max.y, aabb.max.z),
+		vector3f(aabb.max.x, aabb.max.y, aabb.min.z),
+		vector3f(aabb.min.x, aabb.max.y, aabb.min.z),
+		vector3f(aabb.min.x, aabb.max.y, aabb.max.z),
+	};
+
+	m_renderer->DrawLines(8, verts + 0, Color::GREEN, Graphics::LINE_STRIP);
+	m_renderer->DrawLines(8, verts + 8, Color::GREEN, Graphics::LINE_STRIP);
+}
+
 //Draw grid and axes
 void ModelViewer::DrawGrid(const matrix4x4f &trans, float radius)
 {
@@ -534,6 +615,11 @@ void ModelViewer::DrawModel()
 		DrawCollisionMesh();
 	}
 
+	if (m_options.showAabb) {
+		m_renderer->SetTransform(mv);
+		DrawAabb();
+	}
+
 	if (m_options.showDockingLocators) {
 		m_renderer->SetTransform(mv);
 		DrawDockingLocators();
@@ -558,12 +644,22 @@ void ModelViewer::MainLoop()
 
 		PollEvents();
 		UpdateCamera();
+		UpdateShield();
 
 		DrawBackground();
 
 		//update animations, draw model etc.
 		if (m_model) {
 			m_navLights->Update(m_frameTime);
+			m_shields->SetEnabled(m_options.showShields || m_shieldIsHit);
+
+			//Calculate the impact's radius dependant on time
+			float dif1 = 0.34 - (-1.48f);
+			float dif2 = m_shieldHitPan - (-1.48f);
+			//Range from start (0.0) to end (1.0)
+			float dif = dif2 / (dif1 * 1.0f);
+
+			m_shields->Update(m_options.showShields ? 1.0f : (1.0f - dif), 1.0f);
 			DrawModel();
 		}
 
@@ -805,6 +901,7 @@ void ModelViewer::SetModel(const std::string &filename, bool resetCamera /* true
 		m_modelName = filename;
 		SceneGraph::Loader loader(m_renderer, true);
 		m_model = loader.LoadModel(filename);
+		Shields::ReparentShieldNodes(m_model);
 
 		//set decal textures, max 4 supported.
 		//Identical texture at the moment
@@ -824,6 +921,8 @@ void ModelViewer::SetModel(const std::string &filename, bool resetCamera /* true
 		//note: stations won't demonstrate full docking light logic in MV
 		m_navLights.reset(new NavLights(m_model));
 		m_navLights->SetEnabled(true);
+
+		m_shields.reset(new Shields(m_model));
 
 		{
 			SceneGraph::Model::TVecMT mts;
@@ -928,7 +1027,9 @@ void ModelViewer::SetupUI()
 
 	UI::SmallButton *reloadButton;
 	UI::SmallButton *toggleGridButton;
+	UI::SmallButton *hitItButton;
 	UI::CheckBox *collMeshCheck;
+	UI::CheckBox *showShieldsCheck;
 	UI::CheckBox *gunsCheck;
 
 	UI::VBox* outerBox = c->VBox();
@@ -962,6 +1063,12 @@ void ModelViewer::SetupUI()
 
 	add_pair(c, mainBox, toggleGridButton = c->SmallButton(), "Grid mode");
 	add_pair(c, mainBox, collMeshCheck = c->CheckBox(), "Collision mesh");
+	// not everything has a shield
+	if( m_shields.get() && m_shields->GetFirstShieldMesh() ) {
+		add_pair(c, mainBox, showShieldsCheck = c->CheckBox(), "Show Shields");
+		add_pair(c, mainBox, hitItButton = c->SmallButton(), "Hit it!");
+		hitItButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnHitIt), hitItButton));
+	}
 
 	//pattern selector
 	if (m_model->SupportsPatterns()) {
@@ -1102,6 +1209,7 @@ void ModelViewer::SetupUI()
 
 	//event handlers
 	collMeshCheck->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnToggleCollMesh), collMeshCheck));
+	if( m_shields.get() && showShieldsCheck ) { showShieldsCheck->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnToggleShowShields), showShieldsCheck)); }
 	gunsCheck->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnToggleGuns), gunsCheck));
 	lightSelector->onOptionSelected.connect(sigc::mem_fun(*this, &ModelViewer::OnLightPresetChanged));
 	toggleGridButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnToggleGrid), toggleGridButton));

@@ -73,12 +73,18 @@ local econTrade = function ()
 
 	cargoListWidget:SetInnerWidget(updateCargoListWidget())
 
-	local cargoGauge = InfoGauge.New({
-		formatter = function (v)
-			return string.format("%d/%dt", player.usedCargo, player.freeCapacity)
-		end
-	})
-	cargoGauge:SetValue(player.usedCargo/player.freeCapacity)
+	local cargoGauge = ui:Gauge()
+	local cargoUsedLabel = ui:Label("")
+	local cargoFreeLabel = ui:Label("")
+	local function cargoUpdate ()
+		cargoGauge:SetUpperValue(player.totalCargo)
+		cargoGauge:SetValue(player.usedCargo)
+		cargoUsedLabel:SetText(string.interp(l.CARGO_T_USED, { amount = player.usedCargo }))
+		cargoFreeLabel:SetText(string.interp(l.CARGO_T_FREE, { amount = player.totalCargo-player.usedCargo }))
+	end
+	player:Connect("usedCargo", cargoUpdate)
+	player:Connect("totalCargo", cargoUpdate)
+	cargoUpdate()
 
 	local fuelGauge = InfoGauge.New({
 		label          = ui:NumberLabel("PERCENT"),
@@ -94,7 +100,9 @@ local econTrade = function ()
 
 	local refuelButtonRefresh = function ()
 		if Game.player.fuel == 100 or Game.player:GetEquipCount('CARGO', 'WATER') == 0 then refuelButton.widget:Disable() end
-		fuelGauge:SetValue(Game.player.fuel/100)
+		local fuel_percent = Game.player.fuel/100
+		fuelGauge.gauge:SetValue(fuel_percent)
+		fuelGauge.label:SetValue(fuel_percent)
 	end
 	refuelButtonRefresh()
 
@@ -103,8 +111,6 @@ local econTrade = function ()
 		Game.player:Refuel(1)
 		-- ...then we update the cargo list widget...
 		cargoListWidget:SetInnerWidget(updateCargoListWidget())
-		-- ...and the gauge.
-		cargoGauge:SetValue(player.usedCargo/player.freeCapacity)
 
 		refuelButtonRefresh()
 	end
@@ -122,6 +128,7 @@ local econTrade = function ()
 									ui:Label(l.CASH..":"),
 									ui:Margin(10),
 									ui:Label(l.CARGO_SPACE..":"),
+									ui:Margin(5),
 									ui:Label(l.CABINS..":"),
 									ui:Margin(10),
 								})
@@ -130,7 +137,19 @@ local econTrade = function ()
 								ui:VBox():PackEnd({
 									ui:Label(string.format("$%.2f", cash)),
 									ui:Margin(10),
-									cargoGauge.widget,
+									ui:Margin(0, "HORIZONTAL",
+										ui:HBox(10):PackEnd({
+											ui:Align("MIDDLE",
+												ui:HBox(10):PackEnd({
+													cargoGauge,
+												})
+											),
+											ui:VBox():PackEnd({
+												cargoUsedLabel,
+												cargoFreeLabel,
+											}):SetFont("XSMALL"),
+										})
+									),
 									ui:Grid(2,1):SetRow(0, { ui:Label(l.TOTAL..totalCabins), ui:Label(l.USED..": "..usedCabins) }),
 									ui:Margin(10),
 								})

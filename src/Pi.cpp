@@ -39,6 +39,7 @@
 #include "ModelCache.h"
 #include "ModManager.h"
 #include "NavLights.h"
+#include "Shields.h"
 #include "ObjectViewerView.h"
 #include "OS.h"
 #include "Planet.h"
@@ -130,6 +131,7 @@ bool Pi::mouseYInvert;
 std::map<SDL_JoystickID,Pi::JoystickState> Pi::joysticks;
 bool Pi::navTunnelDisplayed;
 bool Pi::speedLinesDisplayed = false;
+bool Pi::hudTrailsDisplayed = false;
 Gui::Fixed *Pi::menu;
 bool Pi::DrawGUI = true;
 Graphics::Renderer *Pi::renderer;
@@ -246,6 +248,7 @@ static void LuaInit()
 	LuaObject<Player>::RegisterClass();
 	LuaObject<Missile>::RegisterClass();
 	LuaObject<CargoBody>::RegisterClass();
+	LuaObject<ModelBody>::RegisterClass();
 
 	LuaObject<StarSystem>::RegisterClass();
 	LuaObject<SystemPath>::RegisterClass();
@@ -401,6 +404,7 @@ void Pi::Init()
 
 	navTunnelDisplayed = (config->Int("DisplayNavTunnel")) ? true : false;
 	speedLinesDisplayed = (config->Int("SpeedLines")) ? true : false;
+	hudTrailsDisplayed = (config->Int("HudTrails")) ? true : false;
 
 	EnumStrings::Init();
 
@@ -459,6 +463,7 @@ void Pi::Init()
 	draw_progress(gauge, label, 0.4f);
 
 	modelCache = new ModelCache(Pi::renderer);
+	Shields::Init(Pi::renderer);
 	draw_progress(gauge, label, 0.5f);
 
 //unsigned int control_word;
@@ -638,6 +643,7 @@ void Pi::Quit()
 	delete Pi::intro;
 	delete Pi::luaConsole;
 	NavLights::Uninit();
+	Shields::Uninit();
 	Sfx::Uninit();
 	Sound::Uninit();
 	SpaceStation::Uninit();
@@ -788,7 +794,10 @@ void Pi::HandleEvents()
 									}
 								} else {
 									Ship *ship = new Ship(ShipType::POLICE);
-									ship->AIKill(Pi::player);
+									if( KeyState(SDLK_LCTRL) )
+										ship->AIFlyTo(Pi::player);	// a less lethal option
+									else
+										ship->AIKill(Pi::player);	// a really lethal option!
 									ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_DUAL_1MW);
 									ship->m_equipment.Add(Equip::LASER_COOLING_BOOSTER);
 									ship->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
@@ -1018,7 +1027,7 @@ void Pi::Start()
 		last_time = SDL_GetTicks();
 	}
 
-	ui->GetTopLayer()->RemoveInnerWidget();
+	ui->DropAllLayers();
 	ui->Layout(); // UI does important things on layout, like updating keyboard shortcuts
 
 	delete Pi::intro; Pi::intro = 0;
