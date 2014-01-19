@@ -330,9 +330,11 @@ local onShipDocked = function (player, station)
 
 			if Game.time > mission.due then
 				Comms.ImportantMessage(flavours[mission.flavour].failuremsg, mission.client.name)
+				Character.persistent.player.reputation = Character.persistent.player.reputation - 1
 			else
 				Comms.ImportantMessage(flavours[mission.flavour].successmsg, mission.client.name)
 				player:AddMoney(mission.reward)
+				Character.persistent.player.reputation = Character.persistent.player.reputation + 1
 			end
 
 			mission:Remove()
