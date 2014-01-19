@@ -1125,7 +1125,7 @@ Character = {
 			return('PROFESSIONAL')
 		elseif self.reputation < 512 then
 			return('EXPERT')
-		elseif self.reputation < 1024 then
+		else
 			return('MASTER')                     --todo ui/Settings.lua
 		end
 	end,
