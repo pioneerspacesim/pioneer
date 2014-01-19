@@ -167,6 +167,10 @@
       "description" : "",
       "message" : "Could not load game: "
    },
+   "CREDIBLE" : {
+      "description" : "",
+      "message" : "Credible"
+   },
    "CREW_CABINS" : {
       "description" : "",
       "message" : "Crew cabins"
@@ -286,6 +290,10 @@
    "EXIT_THIS_GAME" : {
       "description" : "",
       "message" : "Exit this game"
+   },
+   "EXPERT" : {
+      "description" : "",
+      "message" : "Expert"
    },
    "FAILED" : {
       "description" : "",
@@ -419,6 +427,14 @@
       "description" : "",
       "message" : "Inactive"
    },
+   "INCOMPETENT" : {
+      "description" : "",
+      "message" : "Incompetent"
+   },
+   "INEXPERIENCED" : {
+      "description" : "",
+      "message" : "Inexperienced"
+   },
    "INVERT_MOUSE_Y" : {
       "description" : "",
       "message" : "Invert Mouse Y"
@@ -527,6 +543,10 @@
       "description" : "",
       "message" : "Master:"
    },
+   "MASTER" : {
+      "description" : "",
+      "message" : "Master"
+   },
    "MAX" : {
       "description" : "",
       "message" : "max"
@@ -622,6 +642,10 @@
    "NEXT_PAID" : {
       "description" : "",
       "message" : "Next paid"
+   },
+   "NOBODY" : {
+      "description" : "",
+      "message" : "Nobody"
    },
    "NONE" : {
       "description" : "",
@@ -731,6 +755,10 @@
       "description" : "",
       "message" : "Price"
    },
+   "PROFESSIONAL" : {
+      "description" : "",
+      "message" : "Professional"
+   },
    "QUALIFICATION_SCORES" : {
       "description" : "",
       "message" : "Qualification scores"
@@ -754,6 +782,10 @@
    "REFUEL" : {
       "description" : "",
       "message" : "Refuel"
+   },
+   "RELIABLE" : {
+      "description" : "",
+      "message" : "Reliable"
    },
    "REPAIR_X_HULL_DAMAGE_FOR_X" : {
       "description" : "",
@@ -883,6 +915,10 @@
       "description" : "",
       "message" : "Trading illegal goods"
    },
+   "TRUSTWORTHY" : {
+      "description" : "",
+      "message" : "Trustworthy"
+   },
    "TYPE" : {
       "description" : "",
       "message" : "Type"
@@ -890,6 +926,10 @@
    "UNLAWFUL_WEAPONS_DISCHARGE" : {
       "description" : "",
       "message" : "Unlawful weapons discharge"
+   },
+   "UNRELIABLE" : {
+      "description" : "",
+      "message" : "Unreliable"
    },
    "UP_ACCEL" : {
       "description" : "",
