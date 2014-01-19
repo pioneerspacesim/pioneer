@@ -44,6 +44,7 @@ private:
 	void DrawTags();
 	void DrawDockingLocators();
 	void DrawCollisionMesh();
+	void DrawAabb();
 	void DrawGrid(const matrix4x4f &trans, float radius);
 	void DrawLog();
 	void DrawModel();
@@ -74,6 +75,7 @@ private:
 		bool showTags;
 		bool showDockingLocators;
 		bool showCollMesh;
+		bool showAabb;
 		bool showShields;
 		bool showGrid;
 		bool showLandingPad;

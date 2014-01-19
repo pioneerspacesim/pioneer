@@ -205,6 +205,7 @@ local onChat = function (form,ref,option)
 		end
 
 		form:SetTitle(l.CREW_FOR_HIRE)
+		form:ClearFace()
 		form:Clear()
 		form:SetMessage(l.POTENTIAL_CREW_MEMBERS:interp({station=station.label}))
 		for k,c in ipairs(crewInThisStation) do
