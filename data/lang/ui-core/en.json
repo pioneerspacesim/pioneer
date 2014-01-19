@@ -791,6 +791,10 @@
       "description" : "",
       "message" : "Repair {damage}% hull damage for {price}"
    },
+   "REPUTATION" : {
+      "description" : "",
+      "message" : "Reputation"
+   },
    "REQUEST_LAUNCH" : {
       "description" : "",
       "message" : "Request Launch"

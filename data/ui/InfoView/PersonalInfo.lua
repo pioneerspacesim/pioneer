@@ -50,6 +50,11 @@ local personalInfo = function ()
 						{ l.KILLS,  string.format('%d',player.killcount) },
 					}),
 					"",
+					ui:Label(l.REPUTATION):SetFont("HEADING_LARGE"),
+					ui:Table():SetColumnSpacing(10):AddRows({
+						{ "Status:", l[player:GetReputationRating()] },
+					}),
+					"",
 					ui:Label(l.MILITARY):SetFont("HEADING_LARGE"),
 					ui:Table():SetColumnSpacing(10):AddRows({
 						{ l.ALLEGIANCE, l.NONE }, -- XXX
