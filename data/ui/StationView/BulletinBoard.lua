@@ -14,7 +14,12 @@ local tabGroup
 
 local rowRef = {}
 
-local bbTable = ui:Table():SetMouseEnabled(true)
+local bbTable = ui:Table()
+	:SetRowSpacing(5)
+	:SetColumnSpacing(10)
+	:SetRowAlignment("CENTER")
+	:SetMouseEnabled(true)
+
 bbTable.onRowClicked:Connect(function (row)
 	local station = Game.player:GetDockedWith()
 	local ref = rowRef[station][row+1]
@@ -41,7 +46,10 @@ local updateTable = function (station)
 
 	local rows = {}
 	for ref,ad in pairs(adverts) do
-		table.insert(rows, ad.description)
+		table.insert(rows, {
+			ad.icon and ui:Image("icons/bbs/"..ad.icon..".png", { "PRESERVE_ASPECT" }) or "",
+			ad.description,
+		})
 	end
 
 	bbTable:AddRows(rows)

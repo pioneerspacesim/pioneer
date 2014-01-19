@@ -227,6 +227,7 @@ local makeAdvert = function (station)
 
 	local ref = station:AddAdvert({
 		description = ad.desc, 
+		icon        = ad.urgency >=  0.8 and "delivery_urgent" or "delivery",
 		onChat      = onChat, 
 		onDelete    = onDelete})
 	ads[ref] = ad
@@ -355,6 +356,7 @@ local onGameStart = function ()
 	for k,ad in pairs(loaded_data.ads) do
 		local ref = station:AddAdvert({
 			description = ad.desc, 
+            icon        = ad.urgency >=  0.8 and "delivery_urgent" or "delivery",
 			onChat      = onChat, 
 			onDelete    = onDelete})
 		ads[ref] = ad

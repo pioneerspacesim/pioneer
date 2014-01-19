@@ -360,6 +360,7 @@ local onCreateBB = function (station)
 	-- Only one crew hiring thingy per station
 	stationsWithAdverts[station:AddAdvert({
 		description = l.CREW_FOR_HIRE,
+		icon        = "crew_contracts",
 		onChat      = onChat})] = station
 
 	-- Number is based on population, nicked from Assassinations.lua and tweaked
@@ -403,6 +404,7 @@ Event.Register("onGameStart", function()
 		for k,station in ipairs(loaded_data.stationsWithAdverts) do
 		stationsWithAdverts[station:AddAdvert({
 			description = l.CREW_FOR_HIRE,
+			icon        = "crew_contracts",
 			onChat      = onChat})] = station
 		end
 		loaded_data = nil

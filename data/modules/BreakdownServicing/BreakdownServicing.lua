@@ -198,6 +198,7 @@ local onCreateBB = function (station)
 
 	local ref = station:AddAdvert({
 		description = ad.title,
+		icon        = "breakdown_servicing",
 		onChat      = onChat,
 		onDelete    = onDelete})
 	ads[ref] = ad
@@ -219,6 +220,7 @@ local onGameStart = function ()
 		for k,ad in pairs(loaded_data.ads) do
 		local ref = station:AddAdvert({
 			description = ad.title,
+			icon        = "breakdown_servicing",
 			onChat      = onChat,
 			onDelete    = onDelete})
 			ads[ref] = ad

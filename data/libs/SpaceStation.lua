@@ -254,6 +254,7 @@ SpaceStation.adverts = {}
 --
 -- > ref = station:AddAdvert({
 -- >     description = description,
+-- >     icon        = icon,
 -- >     onChat      = onChat,
 -- >     onDelete    = onDelete,
 -- > })
@@ -264,6 +265,8 @@ SpaceStation.adverts = {}
 -- Parameters:
 --
 --   description - text to display in the bulletin board
+--
+--   icon - (option) filename of an icon to display alongside the advert
 --
 --   onChat - function to call when the ad is activated. The function is
 --            passed three parameters: a <ChatForm> object for the ad
@@ -322,6 +325,7 @@ function SpaceStation:AddAdvert (description, onChat, onDelete)
 	nextRef = nextRef+1
 	adverts[nextRef] = {
 		description = args.description,
+		icon        = args.icon,
 		onChat      = args.onChat,
 		onDelete    = args.onDelete,
 	}
