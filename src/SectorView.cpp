@@ -20,6 +20,7 @@
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "gui/Gui.h"
+#include "KeyBindings.h"
 #include <algorithm>
 #include <sstream>
 #include <SDL_stdinc.h>
@@ -1093,14 +1094,14 @@ void SectorView::OnKeyPressed(SDL_Keysym *keysym)
 	}
 
 	// '/' focuses the search box
-	if (keysym->sym == SDLK_KP_DIVIDE || keysym->sym == SDLK_SLASH) {
+	if (KeyBindings::mapStartSearch.Matches(keysym)) {
 		m_searchBox->SetText("");
 		m_searchBox->GrabFocus();
 		return;
 	}
 
 	// space "locks" (or unlocks) the hyperspace target to the selected system
-	if (keysym->sym == SDLK_SPACE) {
+	if (KeyBindings::mapLockHyperspaceTarget.Matches(keysym)) {
 		if ((m_matchTargetToSelection || m_hyperspaceTarget != m_selected) && !m_selected.IsSameSystem(m_current))
 			SetHyperspaceTarget(m_selected);
 		else
@@ -1109,7 +1110,7 @@ void SectorView::OnKeyPressed(SDL_Keysym *keysym)
 	}
 
 	// cycle through the info box, the faction box, and nothing
-	if (keysym->sym == SDLK_TAB) {
+	if (KeyBindings::mapToggleInfoPanel.Matches(keysym)) {
 		if (m_detailBoxVisible == DETAILBOX_FACTION) m_detailBoxVisible = DETAILBOX_NONE;
 		else                                         m_detailBoxVisible++;
 		RefreshDetailBoxVisibility();
@@ -1117,7 +1118,7 @@ void SectorView::OnKeyPressed(SDL_Keysym *keysym)
 	}
 
 	// toggle selection mode
-		if (keysym->sym == SDLK_KP_ENTER || keysym->sym == SDLK_RETURN) {
+	if (KeyBindings::mapToggleSelectionFollowView.Matches(keysym)) {
 		m_selectionFollowsMovement = !m_selectionFollowsMovement;
 		if (m_selectionFollowsMovement)
 			Pi::cpan->MsgLog()->Message("", Lang::ENABLED_AUTOMATIC_SYSTEM_SELECTION);
@@ -1126,33 +1127,28 @@ void SectorView::OnKeyPressed(SDL_Keysym *keysym)
 		return;
 	}
 
-	// fast move selection to current player system or hyperspace target
-	if (keysym->sym == SDLK_c || keysym->sym == SDLK_g || keysym->sym == SDLK_h) {
-		if (keysym->sym == SDLK_c)
-			GotoSystem(m_current);
-		else if (keysym->sym == SDLK_g)
-			GotoSystem(m_selected);
-		else
-			GotoSystem(m_hyperspaceTarget);
+	bool reset_view = false;
 
-		if (Pi::KeyState(SDLK_LSHIFT) || Pi::KeyState(SDLK_RSHIFT)) {
-			while (m_rotZ < -180.0f) m_rotZ += 360.0f;
-			while (m_rotZ > 180.0f)  m_rotZ -= 360.0f;
-			m_rotXMovingTo = m_rotXDefault;
-			m_rotZMovingTo = m_rotZDefault;
-			m_zoomMovingTo = m_zoomDefault;
-		}
-		return;
+	// fast move selection to current player system or hyperspace target
+	const bool shifted = (Pi::KeyState(SDLK_LSHIFT) || Pi::KeyState(SDLK_RSHIFT));
+	if (KeyBindings::mapWarpToCurrent.Matches(keysym)) {
+		GotoSystem(m_current);
+		reset_view = shifted;
+	} else if (KeyBindings::mapWarpToSelected.Matches(keysym)) {
+		GotoSystem(m_selected);
+		reset_view = shifted;
+	} else if (KeyBindings::mapWarpToHyperspaceTarget.Matches(keysym)) {
+		GotoSystem(m_hyperspaceTarget);
+		reset_view = shifted;
 	}
 
 	// reset rotation and zoom
-	if (keysym->sym == SDLK_r) {
+	if (reset_view || KeyBindings::mapViewReset.Matches(keysym)) {
 		while (m_rotZ < -180.0f) m_rotZ += 360.0f;
 		while (m_rotZ > 180.0f)  m_rotZ -= 360.0f;
 		m_rotXMovingTo = m_rotXDefault;
 		m_rotZMovingTo = m_rotZDefault;
 		m_zoomMovingTo = m_zoomDefault;
-		return;
 	}
 }
 
@@ -1189,23 +1185,25 @@ void SectorView::Update()
 	if (!m_searchBox->IsFocused() && !Pi::IsConsoleActive()) {
 		const float moveSpeed = Pi::GetMoveSpeedShiftModifier();
 		float move = moveSpeed*frameTime;
-		if (Pi::KeyState(SDLK_LEFT) || Pi::KeyState(SDLK_RIGHT))
-			m_posMovingTo += vector3f(Pi::KeyState(SDLK_LEFT) ? -move : move, 0,0) * rot;
-		if (Pi::KeyState(SDLK_UP) || Pi::KeyState(SDLK_DOWN))
-			m_posMovingTo += vector3f(0, Pi::KeyState(SDLK_DOWN) ? -move : move, 0) * rot;
-		if (Pi::KeyState(SDLK_PAGEUP) || Pi::KeyState(SDLK_PAGEDOWN))
-			m_posMovingTo += vector3f(0,0, Pi::KeyState(SDLK_PAGEUP) ? -move : move) * rot;
+		vector3f shift(0.0f);
+		if (KeyBindings::mapViewShiftLeft.IsActive()) shift.x -= move;
+		if (KeyBindings::mapViewShiftRight.IsActive()) shift.x += move;
+		if (KeyBindings::mapViewShiftUp.IsActive()) shift.y += move;
+		if (KeyBindings::mapViewShiftDown.IsActive()) shift.y -= move;
+		if (KeyBindings::mapViewShiftForward.IsActive()) shift.z -= move;
+		if (KeyBindings::mapViewShiftBackward.IsActive()) shift.z += move;
+		m_posMovingTo += shift * rot;
 
-		if (Pi::KeyState(SDLK_EQUALS)) m_zoomMovingTo -= move;
-		if (Pi::KeyState(SDLK_MINUS)) m_zoomMovingTo += move;
-		if (m_zoomInButton->IsPressed()) m_zoomMovingTo -= move;
-		if (m_zoomOutButton->IsPressed()) m_zoomMovingTo += move;
+		if (KeyBindings::viewZoomIn.IsActive() || m_zoomInButton->IsPressed())
+			m_zoomMovingTo -= move;
+		if (KeyBindings::viewZoomOut.IsActive() || m_zoomOutButton->IsPressed())
+			m_zoomMovingTo += move;
 		m_zoomMovingTo = Clamp(m_zoomMovingTo, 0.1f, FAR_MAX);
 
-		if (Pi::KeyState(SDLK_a) || Pi::KeyState(SDLK_d))
-			m_rotZMovingTo += (Pi::KeyState(SDLK_a) ? -0.5f : 0.5f) * moveSpeed;
-		if (Pi::KeyState(SDLK_w) || Pi::KeyState(SDLK_s))
-			m_rotXMovingTo += (Pi::KeyState(SDLK_w) ? -0.5f : 0.5f) * moveSpeed;
+		if (KeyBindings::mapViewRotateLeft.IsActive()) m_rotZMovingTo -= 0.5f * moveSpeed;
+		if (KeyBindings::mapViewRotateRight.IsActive()) m_rotZMovingTo += 0.5f * moveSpeed;
+		if (KeyBindings::mapViewRotateUp.IsActive()) m_rotXMovingTo -= 0.5f * moveSpeed;
+		if (KeyBindings::mapViewRotateDown.IsActive()) m_rotXMovingTo += 0.5f * moveSpeed;
 	}
 
 	if (Pi::MouseButtonState(SDL_BUTTON_RIGHT)) {
