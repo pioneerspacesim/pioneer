@@ -91,13 +91,17 @@ void EnableFPE()
 {
 	// clear any outstanding exceptions before enabling, otherwise they'll
 	// trip immediately
+#ifdef _MCW_EM
 	_clearfp();
 	_controlfp(_EM_INEXACT | _EM_UNDERFLOW, _MCW_EM);
+#endif
 }
 
 void DisableFPE()
 {
+#ifdef _MCW_EM
 	_controlfp(_MCW_EM, _MCW_EM);
+#endif
 }
 
 Uint64 HFTimerFreq()
