@@ -218,7 +218,7 @@ local onGameStart = function ()
 		}
 	else
 		for k,ad in pairs(loaded_data.ads) do
-		local ref = station:AddAdvert({
+		local ref = ad.station:AddAdvert({
 			description = ad.title,
 			icon        = "breakdown_servicing",
 			onChat      = onChat,

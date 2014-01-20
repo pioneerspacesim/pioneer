@@ -210,7 +210,7 @@ local onGameStart = function ()
 	if loaded_data then
 		-- rebuild saved adverts
 		for k,ad in pairs(loaded_data.ads) do
-			ads[station:AddAdvert({
+			ads[ad.station:AddAdvert({
 				description = ad.flavour.clubname,
 				icon        = "fuel_club",
 				onChat      = onChat,

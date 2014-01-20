@@ -401,7 +401,7 @@ local onGameStart = function ()
 	if not loaded_data then return end
 
 	for k,ad in pairs(loaded_data.ads) do
-		local ref = station:AddAdvert({
+		local ref = ad.station:AddAdvert({
 			description = ad.desc,
 			icon        = ad.urgency >=  0.8 and "taxi_urgent" or "taxi",
 			onChat      = onChat,

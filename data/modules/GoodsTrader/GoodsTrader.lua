@@ -117,7 +117,7 @@ local onCreateBB = function (station)
 			end
 		end
 
-		local ref = station:AddAdvert({
+		local ref = ad.station:AddAdvert({
 			description = ad.flavour,
 			icon        = "goods_trader",
 			onChat      = onChat,
