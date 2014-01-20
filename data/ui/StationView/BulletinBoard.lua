@@ -46,8 +46,9 @@ local updateTable = function (station)
 
 	local rows = {}
 	for ref,ad in pairs(adverts) do
+		local icon = ad.icon or "default"
 		table.insert(rows, {
-			ad.icon and ui:Image("icons/bbs/"..ad.icon..".png", { "PRESERVE_ASPECT" }) or "",
+			ui:Image("icons/bbs/"..icon..".png", { "PRESERVE_ASPECT" }),
 			ad.description,
 		})
 	end
