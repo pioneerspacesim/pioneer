@@ -125,7 +125,7 @@ void Intro::Draw(float _time)
 	// XXX all this stuff will be gone when intro uses a Camera
 	// rotate background by time, and a bit extra Z so it's not so flat
 	matrix4x4d brot = matrix4x4d::RotateXMatrix(-0.25*_time) * matrix4x4d::RotateZMatrix(0.6);
-	m_background->Draw(m_renderer, brot);
+	m_background->Draw(brot);
 
 	m_renderer->SetViewport(m_spinnerLeft, 0, m_spinnerWidth, Graphics::GetScreenHeight());
 	m_renderer->SetPerspectiveProjection(75, m_spinnerRatio, 1.f, 10000.f);

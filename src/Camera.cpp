@@ -159,7 +159,7 @@ void Camera::Draw(Graphics::Renderer *renderer, const Body *excludeBody, ShipCoc
 	}
 
 	Pi::game->GetSpace()->GetBackground().SetIntensity(bgIntensity);
-	Pi::game->GetSpace()->GetBackground().Draw(renderer, trans2bg);
+	Pi::game->GetSpace()->GetBackground().Draw(trans2bg);
 
 	{
 		std::vector<Graphics::Light> rendererLights;

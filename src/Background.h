@@ -26,6 +26,7 @@ namespace Background
 		void SetIntensity(float intensity);
 
 	protected:
+		Graphics::Renderer *m_renderer;
 		RefCountedPtr<Graphics::Material> m_material;
 	};
 
@@ -35,11 +36,11 @@ namespace Background
 		UniverseBox(Graphics::Renderer *r);
 		~UniverseBox();
 
-		void Draw(Graphics::Renderer *r);
-		void LoadCubeMap(Graphics::Renderer *r, Random* randomizer = nullptr);
+		void Draw();
+		void LoadCubeMap(Random* randomizer = nullptr);
 
 	private:
-		void Init(Graphics::Renderer *);
+		void Init();
 		Random createRandom(Uint32 seed);
 		Random createRandom(const SystemPath& system_path);
 
@@ -56,12 +57,12 @@ namespace Background
 		Starfield(Graphics::Renderer *r);
 		Starfield(Graphics::Renderer *r, Uint32 seed);
 		~Starfield();
-		void Draw(Graphics::Renderer *r);
+		void Draw();
 		//create or recreate the starfield
 		void Fill(Uint32 seed);
 
 	private:
-		void Init(Graphics::Renderer *);
+		void Init();
 		static const int BG_STAR_MAX = 10000;
 		Graphics::StaticMesh *m_model;
 
@@ -77,7 +78,7 @@ namespace Background
 	public:
 		MilkyWay(Graphics::Renderer*);
 		~MilkyWay();
-		void Draw(Graphics::Renderer *r);
+		void Draw();
 
 	private:
 		Graphics::StaticMesh *m_model;
@@ -99,13 +100,14 @@ namespace Background
 		// default constructor, needs Refresh with proper seed to show starfield
 		Container(Graphics::Renderer*);
 		Container(Graphics::Renderer*, Uint32 seed);
-		void Draw(Graphics::Renderer *r, const matrix4x4d &transform);
+		void Draw(const matrix4x4d &transform);
 		void Refresh(Uint32 seed);
 
 		void SetIntensity(float intensity);
 		void SetDrawFlags(const Uint32 flags);
 
 	private:
+		Graphics::Renderer *m_renderer;
 		MilkyWay m_milkyWay;
 		Starfield m_starField;
 		UniverseBox m_universeBox;
