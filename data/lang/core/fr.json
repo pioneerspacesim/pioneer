@@ -269,7 +269,7 @@
    },
    "CTRL" : {
       "description" : "Ctrl key on keyboard",
-      "message" : "Ctrl"
+      "message" : "Ctrl\n\n"
    },
    "CURRENT_SYSTEM" : {
       "description" : "",

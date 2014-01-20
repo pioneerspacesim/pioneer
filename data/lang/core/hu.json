@@ -541,7 +541,7 @@
    },
    "GENERAL_VIEW_CONTROLS" : {
       "description" : "",
-      "message" : "General View Controls"
+      "message" : "Általános nézet vezérlők"
    },
    "GOVERNMENT_TYPE" : {
       "description" : "",
@@ -797,67 +797,67 @@
    },
    "MAP_LOCK_HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Lock Hyperspace Target"
+      "message" : "Hiperűr cél rögzítése"
    },
    "MAP_TOGGLE_INFO_PANEL" : {
       "description" : "",
-      "message" : "Toggle Info Panel"
+      "message" : "Info panel "
    },
    "MAP_TOGGLE_SELECTION_FOLLOW_VIEW" : {
       "description" : "",
-      "message" : "Toggle Selection Following View"
+      "message" : "Kijelölés követi a nézetet"
    },
    "MAP_VIEW_ROTATE_DOWN" : {
       "description" : "",
-      "message" : "Rotate View Down"
+      "message" : "Nézet forgatása le"
    },
    "MAP_VIEW_ROTATE_LEFT" : {
       "description" : "",
-      "message" : "Rotate View Left"
+      "message" : "Nézet forgatása balra"
    },
    "MAP_VIEW_ROTATE_RIGHT" : {
       "description" : "",
-      "message" : "Rotate View Right"
+      "message" : "Nézet forgatása jobbra"
    },
    "MAP_VIEW_ROTATE_UP" : {
       "description" : "",
-      "message" : "Rotate View Up"
+      "message" : "Nézet forgatása fel"
    },
    "MAP_VIEW_SHIFT_BACKWARD" : {
       "description" : "",
-      "message" : "Shift View Backwards"
+      "message" : "Hátsó nézet"
    },
    "MAP_VIEW_SHIFT_DOWN" : {
       "description" : "",
-      "message" : "Shift View Down"
+      "message" : "Le nézet"
    },
    "MAP_VIEW_SHIFT_FORWARD" : {
       "description" : "",
-      "message" : "Shift View Forwards"
+      "message" : "Előre nézet"
    },
    "MAP_VIEW_SHIFT_LEFT" : {
       "description" : "",
-      "message" : "Shift View Left"
+      "message" : "Bal nézet"
    },
    "MAP_VIEW_SHIFT_RIGHT" : {
       "description" : "",
-      "message" : "Shift View Right"
+      "message" : "Jobb nézet"
    },
    "MAP_VIEW_SHIFT_UP" : {
       "description" : "",
-      "message" : "Shift View Up"
+      "message" : "Fel nézet"
    },
    "MAP_WARP_TO_CURRENT_SYSTEM" : {
       "description" : "",
-      "message" : "Warp to Current System"
+      "message" : "Ugrás a jelenlegi rendszerbe"
    },
    "MAP_WARP_TO_HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Warp to Hyperspace Target"
+      "message" : "Ugrás hiperűr célponthoz"
    },
    "MAP_WARP_TO_SELECTED_SYSTEM" : {
       "description" : "",
-      "message" : "Warp to Selected System"
+      "message" : "Ugrás a kiválasztott rendszerbe"
    },
    "MASS" : {
       "description" : "",
@@ -1309,7 +1309,7 @@
    },
    "RESET_ORIENTATION_AND_ZOOM" : {
       "description" : "",
-      "message" : "Reset Orientation and Zoom"
+      "message" : "Nézet alaphelyzetbe"
    },
    "ROBOTS" : {
       "description" : "",
@@ -1397,7 +1397,7 @@
    },
    "SEARCH_MAP" : {
       "description" : "",
-      "message" : "Search Map"
+      "message" : "Keresés"
    },
    "SECTOR_COORDINATES" : {
       "description" : "",
@@ -1405,7 +1405,7 @@
    },
    "SECTOR_MAP_VIEW" : {
       "description" : "",
-      "message" : "Sector Map View"
+      "message" : "Szektor térkép"
    },
    "SECTOR_X_Y_Z" : {
       "description" : "",
