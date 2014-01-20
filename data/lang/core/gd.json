@@ -145,7 +145,7 @@
    },
    "CAMERA_TOP_VIEW" : {
       "description" : "",
-      "message" : "Top camera"
+      "message" : "Camara barra"
    },
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
@@ -241,7 +241,7 @@
    },
    "CONSUMER_GOODS" : {
       "description" : "",
-      "message" : "Consumer goods"
+      "message" : "Bathar caitheimh"
    },
    "CONTROLS" : {
       "description" : "",
@@ -301,7 +301,7 @@
    },
    "DIRECTION" : {
       "description" : "",
-      "message" : "\" Dir \""
+      "message" : "\"Comhair\""
    },
    "DISABLED_AUTOMATIC_SYSTEM_SELECTION" : {
       "description" : "",
@@ -539,6 +539,10 @@
       "description" : "",
       "message" : "Cha b' urrainn dhuinn faidhle sàbhaladh a' gheama a sgrìobhadh air sàilleibh mearachd an t-siostaim."
    },
+   "GENERAL_VIEW_CONTROLS" : {
+      "description" : "",
+      "message" : "General View Controls"
+   },
    "GOVERNMENT_TYPE" : {
       "description" : "",
       "message" : "Seòrsa an riaghaltais:"
@@ -593,7 +597,7 @@
    },
    "HULL_INTEGRITY" : {
       "description" : "",
-      "message" : "Hull integrity"
+      "message" : "Iomlanachd na slige"
    },
    "HULL_TEMP" : {
       "description" : "",
@@ -621,7 +625,7 @@
    },
    "HYPERSPACE_ARRIVAL_CLOUD" : {
       "description" : "",
-      "message" : "Hyperspace arrival cloud"
+      "message" : "Neul ruigsinn os-fhànais"
    },
    "HYPERSPACE_ARRIVAL_CLOUD_REMNANT" : {
       "description" : "",
@@ -641,7 +645,7 @@
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Hyperspace target"
+      "message" : "Amas os-fhànais"
    },
    "HYPERSPACING_IN_N_SECONDS" : {
       "description" : "",
@@ -790,6 +794,70 @@
    "MANUAL_CONTROL_MODE" : {
       "description" : "",
       "message" : "Manual control mode"
+   },
+   "MAP_LOCK_HYPERSPACE_TARGET" : {
+      "description" : "",
+      "message" : "Lock Hyperspace Target"
+   },
+   "MAP_TOGGLE_INFO_PANEL" : {
+      "description" : "",
+      "message" : "Toggle Info Panel"
+   },
+   "MAP_TOGGLE_SELECTION_FOLLOW_VIEW" : {
+      "description" : "",
+      "message" : "Toggle Selection Following View"
+   },
+   "MAP_VIEW_ROTATE_DOWN" : {
+      "description" : "",
+      "message" : "Rotate View Down"
+   },
+   "MAP_VIEW_ROTATE_LEFT" : {
+      "description" : "",
+      "message" : "Rotate View Left"
+   },
+   "MAP_VIEW_ROTATE_RIGHT" : {
+      "description" : "",
+      "message" : "Rotate View Right"
+   },
+   "MAP_VIEW_ROTATE_UP" : {
+      "description" : "",
+      "message" : "Rotate View Up"
+   },
+   "MAP_VIEW_SHIFT_BACKWARD" : {
+      "description" : "",
+      "message" : "Shift View Backwards"
+   },
+   "MAP_VIEW_SHIFT_DOWN" : {
+      "description" : "",
+      "message" : "Shift View Down"
+   },
+   "MAP_VIEW_SHIFT_FORWARD" : {
+      "description" : "",
+      "message" : "Shift View Forwards"
+   },
+   "MAP_VIEW_SHIFT_LEFT" : {
+      "description" : "",
+      "message" : "Shift View Left"
+   },
+   "MAP_VIEW_SHIFT_RIGHT" : {
+      "description" : "",
+      "message" : "Shift View Right"
+   },
+   "MAP_VIEW_SHIFT_UP" : {
+      "description" : "",
+      "message" : "Shift View Up"
+   },
+   "MAP_WARP_TO_CURRENT_SYSTEM" : {
+      "description" : "",
+      "message" : "Warp to Current System"
+   },
+   "MAP_WARP_TO_HYPERSPACE_TARGET" : {
+      "description" : "",
+      "message" : "Warp to Hyperspace Target"
+   },
+   "MAP_WARP_TO_SELECTED_SYSTEM" : {
+      "description" : "",
+      "message" : "Warp to Selected System"
    },
    "MASS" : {
       "description" : "",
@@ -1239,6 +1307,10 @@
       "description" : "",
       "message" : "Ath-shuidhich"
    },
+   "RESET_ORIENTATION_AND_ZOOM" : {
+      "description" : "",
+      "message" : "Reset Orientation and Zoom"
+   },
    "ROBOTS" : {
       "description" : "",
       "message" : "Robotairean"
@@ -1323,9 +1395,17 @@
       "description" : "",
       "message" : "Search"
    },
+   "SEARCH_MAP" : {
+      "description" : "",
+      "message" : "Search Map"
+   },
    "SECTOR_COORDINATES" : {
       "description" : "",
       "message" : "Sector coordinates:"
+   },
+   "SECTOR_MAP_VIEW" : {
+      "description" : "",
+      "message" : "Sector Map View"
    },
    "SECTOR_X_Y_Z" : {
       "description" : "",
@@ -1733,7 +1813,7 @@
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
-      "message" : "Trading illegal goods"
+      "message" : "Malart bathar mì-laghail"
    },
    "TRIPLE_SYSTEM" : {
       "description" : "",
@@ -1757,7 +1837,7 @@
    },
    "UNLAWFUL_WEAPONS_DISCHARGE" : {
       "description" : "",
-      "message" : "Unlawful weapons discharge"
+      "message" : "Losgadh airm mì-laghail"
    },
    "UNOCCUPIED_CABIN" : {
       "description" : "",

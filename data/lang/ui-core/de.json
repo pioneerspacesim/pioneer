@@ -55,6 +55,14 @@
       "description" : "",
       "message" : "Kabinen"
    },
+   "CABIN_FREE" : {
+      "description" : "",
+      "message" : "{amount} frei"
+   },
+   "CABIN_USED" : {
+      "description" : "",
+      "message" : "{amount} benutzt"
+   },
    "CANCEL" : {
       "description" : "",
       "message" : "Abbrechen"
@@ -74,6 +82,14 @@
    "CARGO_SPACE" : {
       "description" : "",
       "message" : "Laderaum"
+   },
+   "CARGO_T_FREE" : {
+      "description" : "",
+      "message" : "{amount}t frei"
+   },
+   "CARGO_T_USED" : {
+      "description" : "",
+      "message" : "{amount}t benutzt"
    },
    "CASH" : {
       "description" : "",
@@ -198,6 +214,10 @@
    "DISMISS" : {
       "description" : "",
       "message" : "Entlassen"
+   },
+   "DISPLAY_HUD_TRAILS" : {
+      "description" : "",
+      "message" : "Display HUD trails"
    },
    "DISPLAY_NAV_TUNNELS" : {
       "description" : "",

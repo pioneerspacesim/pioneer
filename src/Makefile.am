@@ -47,6 +47,8 @@ noinst_HEADERS = \
 	GalacticView.h \
 	Game.h \
 	GeoSphere.h \
+	HudColors.h \
+	HudTrail.h \
 	HyperspaceCloud.h \
 	IniConfig.h \
 	Intro.h \
@@ -109,6 +111,7 @@ noinst_HEADERS = \
 	RefCounted.h \
 	SDLWrappers.h \
 	SectorView.h \
+	Sensors.h \
 	Serializer.h \
 	StringF.h \
 	StringRange.h \
@@ -179,6 +182,8 @@ pioneer_SOURCES	= \
 	GeoPatchID.cpp \
 	GeoPatchJobs.cpp \
 	GeoSphere.cpp \
+	HudColors.cpp \
+	HudTrail.cpp \
 	HyperspaceCloud.cpp \
 	IniConfig.cpp \
 	Intro.cpp \
@@ -244,6 +249,7 @@ pioneer_SOURCES	= \
 	PropertyMap.cpp \
 	SDLWrappers.cpp \
 	SectorView.cpp \
+	Sensors.cpp \
 	Serializer.cpp \
 	StringF.cpp \
 	Sfx.cpp \

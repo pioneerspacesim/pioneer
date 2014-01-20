@@ -408,6 +408,12 @@ void WorldView::Draw3D()
 	// Speed lines
 	if (Pi::AreSpeedLinesDisplayed())
 		m_speedLines->Render(m_renderer);
+
+	// Contact trails
+	if( Pi::AreHudTrailsDisplayed() ) {
+		for (auto it = Pi::player->GetSensors()->GetContacts().begin(); it != Pi::player->GetSensors()->GetContacts().end(); ++it)
+			it->trail->Render(m_renderer);
+	}
 }
 
 void WorldView::OnToggleLabels()
@@ -867,8 +873,8 @@ void WorldView::Update()
 			if (KeyBindings::cameraRotateDown.IsActive()) cam->RotateDown(frameTime);
 			if (KeyBindings::cameraRotateLeft.IsActive()) cam->RotateLeft(frameTime);
 			if (KeyBindings::cameraRotateRight.IsActive()) cam->RotateRight(frameTime);
-			if (KeyBindings::cameraZoomOut.IsActive()) cam->ZoomEvent(ZOOM_SPEED*frameTime);		// Zoom out
-			if (KeyBindings::cameraZoomIn.IsActive()) cam->ZoomEvent(-ZOOM_SPEED*frameTime);
+			if (KeyBindings::viewZoomOut.IsActive()) cam->ZoomEvent(ZOOM_SPEED*frameTime);		// Zoom out
+			if (KeyBindings::viewZoomIn.IsActive()) cam->ZoomEvent(-ZOOM_SPEED*frameTime);
 			if (KeyBindings::cameraRollLeft.IsActive()) cam->RollLeft(frameTime);
 			if (KeyBindings::cameraRollRight.IsActive()) cam->RollRight(frameTime);
 			if (KeyBindings::resetCamera.IsActive()) cam->Reset();
@@ -893,17 +899,35 @@ void WorldView::Update()
 
 	UpdateProjectedObjects();
 
-	//speedlines need cam_frame for transform, so they
+	//speedlines and contact trails need cam_frame for transform, so they
 	//must be updated here (or don't delete cam_frame so early...)
 	if (Pi::AreSpeedLinesDisplayed()) {
 		m_speedLines->Update(Pi::game->GetTimeStep());
+
 		const Frame *cam_frame = m_camera->GetCamFrame();
 		matrix4x4d trans;
 		Frame::GetFrameRenderTransform(Pi::player->GetFrame(), cam_frame, trans);
 
-		trans[12] = trans[13] = trans[14] = 0.0;
-		trans[15] = 1.0;
-		m_speedLines->SetTransform(trans);
+		if ( m_speedLines.get() && Pi::AreSpeedLinesDisplayed() ) {
+			m_speedLines->Update(Pi::game->GetTimeStep());
+
+			trans[12] = trans[13] = trans[14] = 0.0;
+			trans[15] = 1.0;
+			m_speedLines->SetTransform(trans);
+		}
+	}
+
+	if( Pi::AreHudTrailsDisplayed() )
+	{
+		const Frame *cam_frame = m_camera->GetCamFrame();
+		matrix4x4d trans;
+		Frame::GetFrameRenderTransform(Pi::player->GetFrame(), cam_frame, trans);
+
+		for (auto it = Pi::player->GetSensors()->GetContacts().begin(); it != Pi::player->GetSensors()->GetContacts().end(); ++it)
+			it->trail->SetTransform(trans);
+	} else {
+		for (auto it = Pi::player->GetSensors()->GetContacts().begin(); it != Pi::player->GetSensors()->GetContacts().end(); ++it)
+			it->trail->Reset(Pi::player->GetFrame());
 	}
 
 	// target object under the crosshairs. must be done after

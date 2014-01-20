@@ -125,6 +125,10 @@ function ChatForm:SetFace (character)
 	self.face = Face.New(ui, faceFlags, character.seed):SetHeightLines(5)
 end
 
+function ChatForm:ClearFace()
+	self.face = nil
+end
+
 function ChatForm:SetMessage (message)
 	self.message = message
 end

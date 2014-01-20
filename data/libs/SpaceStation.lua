@@ -34,6 +34,8 @@ local function updateEquipmentStock (station)
 	end
 end
 
+local equipmentPrice = {}
+
 --
 -- Method: GetEquipmentPrice
 --
@@ -57,10 +59,20 @@ end
 --
 --   experimental
 --
+
 function SpaceStation:GetEquipmentPrice (e)
+	if not equipmentPrice[self] then equipmentPrice[self] = {} end
+	if equipmentPrice[self][e] then
+		return equipmentPrice[self][e]
+	end
 	local def = EquipDef[e]
 	local mul = def.slot == "CARGO" and ((100 + Game.system:GetCommodityBasePriceAlterations()[e]) / 100) or 1
 	return mul * EquipDef[e].basePrice
+end
+
+function SpaceStation:SetEquipmentPrice (e, v)
+	if not equipmentPrice[self] then equipmentPrice[self] = {} end
+	equipmentPrice[self][e] = v
 end
 
 --
@@ -240,27 +252,37 @@ SpaceStation.adverts = {}
 --
 -- Add an advertisement to the station's bulletin board
 --
--- > ref = station:AddAdvert(description, chatfunc, deletefunc)
+-- > ref = station:AddAdvert({
+-- >     description = description,
+-- >     icon        = icon,
+-- >     onChat      = onChat,
+-- >     onDelete    = onDelete,
+-- > })
+-- >
+-- > -- Legacy form
+-- > ref = station:AddAdvert(description, onChat, onDelete)
 --
 -- Parameters:
 --
 --   description - text to display in the bulletin board
 --
---   chatfunc - function to call when the ad is activated. The function is
---              passed three parameters: a <ChatForm> object for the ad
---              conversation display, the ad reference returned by <AddAdvert>
---              when the ad was created, and an integer value corresponding to
---              the action that caused the activation. When the ad is initially
---              selected from the bulletin board, this value is 0. Additional
---              actions (and thus values) are defined by the script via
---              <ChatForm.AddAction>.
+--   icon - (option) filename of an icon to display alongside the advert
 --
---   deletefunc - optional. function to call when the ad is removed from the
---                bulletin board. This happens when <RemoveAdvert> is called,
---                when the ad is cleaned up after
---                <ChatForm.RemoveAdvertOnClose> is called, and when the
---                <SpaceStation> itself is destroyed (eg the player leaves the
---                system).
+--   onChat - function to call when the ad is activated. The function is
+--            passed three parameters: a <ChatForm> object for the ad
+--            conversation display, the ad reference returned by <AddAdvert>
+--            when the ad was created, and an integer value corresponding to
+--            the action that caused the activation. When the ad is initially
+--            selected from the bulletin board, this value is 0. Additional
+--            actions (and thus values) are defined by the script via
+--            <ChatForm.AddAction>.
+--
+--   onDelete - optional. function to call when the ad is removed from the
+--              bulletin board. This happens when <RemoveAdvert> is called,
+--              when the ad is cleaned up after
+--              <ChatForm.RemoveAdvertOnClose> is called, and when the
+--              <SpaceStation> itself is destroyed (eg the player leaves the
+--              system).
 --
 -- Return:
 --
@@ -285,11 +307,28 @@ SpaceStation.adverts = {}
 --   stable
 --
 local nextRef = 0
-function SpaceStation:AddAdvert (description, chatFunc, deleteFunc)
+function SpaceStation:AddAdvert (description, onChat, onDelete)
+	-- XXX legacy arg unpacking
+	local args
+	if (type(description) == "table") then
+		args = description
+	else
+		args = {
+			description = description,
+			onChat      = onChat,
+			onDelete    = onDelete,
+		}
+	end
+
 	if not SpaceStation.adverts[self] then SpaceStation.adverts[self] = {} end
 	local adverts = SpaceStation.adverts[self]
 	nextRef = nextRef+1
-	adverts[nextRef] = { description, chatFunc, deleteFunc };
+	adverts[nextRef] = {
+		description = args.description,
+		icon        = args.icon,
+		onChat      = args.onChat,
+		onDelete    = args.onDelete,
+	}
 	Event.Queue("onAdvertAdded", self, nextRef)
 	return nextRef
 end
@@ -319,9 +358,9 @@ end
 
 function SpaceStation:RemoveAdvert (ref)
 	if not SpaceStation.adverts[self] then return end
-	local deleteFunc = SpaceStation.adverts[self][ref][3]
-	if deleteFunc then
-		deleteFunc(ref)
+	local onDelete = SpaceStation.adverts[self][ref].onDelete
+	if onDelete then
+		onDelete(ref)
 	end
 	SpaceStation.adverts[self][ref] = nil
 	Event.Queue("onAdvertRemoved", self, ref)
@@ -350,6 +389,7 @@ local function updateSystem ()
 end
 local function destroySystem ()
 	equipmentStock = {}
+	equipmentPrice = {}
 
 	shipsOnSale = {}
 
@@ -367,6 +407,7 @@ local loaded_data
 Event.Register("onGameStart", function ()
 	if (loaded_data) then
 		equipmentStock = loaded_data.equipmentStock
+		equipmentPrice = loaded_data.equipmentPrice or {} -- handle missing in old saves
 		for station,list in pairs(loaded_data.shipsOnSale) do
 			shipsOnSale[station] = {}
 			for i,entry in pairs(loaded_data.shipsOnSale[station]) do
@@ -402,6 +443,7 @@ Event.Register("onGameEnd", function ()
 	-- XXX clean up for next game
 	nextRef = 0
 	equipmentStock = {}
+	equipmentPrice = {}
 	shipsOnSale = {}
 end)
 
@@ -410,6 +452,7 @@ Serializer:Register("SpaceStation",
 	function ()
 		local data = {
 			equipmentStock = equipmentStock,
+			equipmentPrice = equipmentPrice,
 			shipsOnSale = {},
 		}
 		for station,list in pairs(shipsOnSale) do
