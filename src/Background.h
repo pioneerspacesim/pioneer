@@ -101,7 +101,7 @@ namespace Background
 		Container(Graphics::Renderer*);
 		Container(Graphics::Renderer*, Uint32 seed);
 		void Draw(const matrix4x4d &transform);
-		void Refresh(Uint32 seed);
+		void Refresh(Uint32 seed, bool force = false);
 
 		void SetIntensity(float intensity);
 		void SetDrawFlags(const Uint32 flags);
@@ -113,7 +113,6 @@ namespace Background
 		UniverseBox m_universeBox;
 		Uint32 m_seed;
 		Uint32 m_drawFlags;
-		bool m_loadCubeMap;
 	};
 
 } //namespace Background

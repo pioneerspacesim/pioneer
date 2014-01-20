@@ -327,10 +327,9 @@ Container::Container(Graphics::Renderer *renderer)
 , m_milkyWay(renderer)
 , m_starField(renderer)
 , m_universeBox(renderer)
-, m_seed(0)
 , m_drawFlags( DRAW_SKYBOX )
-, m_loadCubeMap(true)
 {
+	Refresh(0, true);
 }
 
 Container::Container(Graphics::Renderer *renderer, Uint32 seed)
@@ -338,29 +337,22 @@ Container::Container(Graphics::Renderer *renderer, Uint32 seed)
 , m_milkyWay(renderer)
 , m_starField(renderer)
 , m_universeBox(renderer)
-, m_seed(seed)
 , m_drawFlags( DRAW_SKYBOX )
-, m_loadCubeMap(true)
 {
-	Refresh(seed);
+	Refresh(seed, true);
 };
 
-void Container::Refresh(Uint32 seed)
+void Container::Refresh(Uint32 seed, bool force)
 {
-	// redo starfield, milkyway stays normal for now
-	m_starField.Fill(seed);
-	if(m_seed != seed) {
-		m_loadCubeMap = true;
+	if (m_seed != seed) {
+		force = true;
+		m_seed = seed;
 	}
-	m_seed = seed;
-}
 
-void Container::Draw(const matrix4x4d &transform)
-{
-	PROFILE_SCOPED()
-	if( m_loadCubeMap )
-	{
-		m_loadCubeMap = false;
+	// always redo starfield, milkyway stays normal for now
+	m_starField.Fill(seed);
+
+	if (force) {
 		if(Pi::player == nullptr || Pi::player->GetFlightState() != Ship::HYPERSPACE) {
 			if(Pi::player && Pi::game->GetSpace()->GetStarSystem()) {
 				Uint32 seeds [5];
@@ -380,6 +372,11 @@ void Container::Draw(const matrix4x4d &transform)
 			m_universeBox.LoadCubeMap();
 		}
 	}
+}
+
+void Container::Draw(const matrix4x4d &transform)
+{
+	PROFILE_SCOPED()
 	m_renderer->SetBlendMode(BLEND_SOLID);
 	m_renderer->SetDepthTest(false);
 	m_renderer->SetTransform(transform);
