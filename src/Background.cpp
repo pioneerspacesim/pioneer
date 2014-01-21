@@ -176,8 +176,6 @@ Starfield::Starfield(Graphics::Renderer *renderer, Uint32 seed)
 Starfield::~Starfield()
 {
 	delete m_model;
-	delete[] m_hyperVtx;
-	delete[] m_hyperCol;
 }
 
 void Starfield::Init()
@@ -191,9 +189,6 @@ void Starfield::Init()
 	m_material.Reset(m_renderer->CreateMaterial(desc));
 	m_material->emissive = Color::WHITE;
 	m_model->AddSurface(RefCountedPtr<Surface>(new Surface(POINTS, stars, m_material)));
-
-	m_hyperVtx = new vector3f[BG_STAR_MAX * 2];
-	m_hyperCol = new Color[BG_STAR_MAX * 2];
 }
 
 void Starfield::Fill(Uint32 seed)
@@ -233,7 +228,6 @@ void Starfield::Draw()
 
 		double hyperspaceProgress = Pi::game->GetHyperspaceProgress();
 
-		assert(m_hyperVtx);
 		VertexArray *va = m_model->GetSurface(0)->GetVertices();
 		const vector3d pz = Pi::player->GetOrient().VectorZ();	//back vector
 		for (int i=0; i<BG_STAR_MAX; i++) {

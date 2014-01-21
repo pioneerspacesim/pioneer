@@ -67,10 +67,8 @@ namespace Background
 		Graphics::StaticMesh *m_model;
 
 		//hyperspace animation vertex data
-		//allocated when animation starts and thrown away
-		//when starfield is destroyed (on exiting hyperspace)
-		vector3f *m_hyperVtx;
-		Color *m_hyperCol;
+		vector3f m_hyperVtx[BG_STAR_MAX*2];
+		Color m_hyperCol[BG_STAR_MAX*2];
 	};
 
 	class MilkyWay : public BackgroundElement
