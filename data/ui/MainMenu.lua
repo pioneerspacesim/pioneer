@@ -15,10 +15,10 @@ local l = Lang.GetResource("ui-core");
 local setupPlayerShip = function ()
 	Game.player:SetShipType("xylophis")
 	Game.player:SetLabel(Ship.MakeRandomLabel())
-	Game.player:AddEquip("PULSECANNON_1MW")
+	--Game.player:AddEquip("PULSECANNON_1MW")
 	Game.player:AddEquip("ATMOSPHERIC_SHIELDING")
 	Game.player:AddEquip("AUTOPILOT")
-	Game.player:AddEquip("SCANNER")
+	--Game.player:AddEquip("SCANNER")
 	Game.player:AddEquip("HYDROGEN", 2)
 	Game.player:SetMoney(100)
 end
