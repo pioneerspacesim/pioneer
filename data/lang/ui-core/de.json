@@ -217,7 +217,7 @@
    },
    "DISPLAY_HUD_TRAILS" : {
       "description" : "",
-      "message" : "Display hud trails"
+      "message" : "Zeige Schiffsspuren"
    },
    "DISPLAY_NAV_TUNNELS" : {
       "description" : "",
