@@ -19,7 +19,6 @@
 #include "StringF.h"
 #include <SDL_stdinc.h>
 
-static StarSystemCache s_starSystemCache;
 StarSystemCache::SystemCacheMap StarSystemCache::s_cachedSystems;
 
 static const double CELSIUS	= 273.15;

@@ -607,7 +607,6 @@ void Space::GenSectorCache()
 	// used to define a cube centred on your current location
 	const int diff_sec = 10;
 	const int sec_spread = (diff_sec*2)+1; // including the current sector you're in
-	const int total_num_sectors = sec_spread * sec_spread * sec_spread; // a cube of sectors
 
 	typedef std::vector<SystemPath> TVecPaths;
 	TVecPaths paths;
