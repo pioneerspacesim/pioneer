@@ -797,15 +797,15 @@
    },
    "MAP_LOCK_HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Lock Hyperspace Target"
+      "message" : "Auf Hyperraumsprungziel einstellen"
    },
    "MAP_TOGGLE_INFO_PANEL" : {
       "description" : "",
-      "message" : "Toggle Info Panel"
+      "message" : "Umschalten Infoansicht"
    },
    "MAP_TOGGLE_SELECTION_FOLLOW_VIEW" : {
       "description" : "",
-      "message" : "Toggle Selection Following View"
+      "message" : "Umschalten Verfolgungsansicht"
    },
    "MAP_VIEW_ROTATE_DOWN" : {
       "description" : "",
@@ -849,15 +849,15 @@
    },
    "MAP_WARP_TO_CURRENT_SYSTEM" : {
       "description" : "",
-      "message" : "Warp to Current System"
+      "message" : "Springe ins aktuelle System"
    },
    "MAP_WARP_TO_HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Warp to Hyperspace Target"
+      "message" : "Springe zum Hyperraumziel"
    },
    "MAP_WARP_TO_SELECTED_SYSTEM" : {
       "description" : "",
-      "message" : "Warp to Selected System"
+      "message" : "Springe zum ausgewählten System"
    },
    "MASS" : {
       "description" : "",
@@ -1309,7 +1309,7 @@
    },
    "RESET_ORIENTATION_AND_ZOOM" : {
       "description" : "",
-      "message" : "Reset Orientation and Zoom"
+      "message" : "Ansicht und Zoom zurücksetzen"
    },
    "ROBOTS" : {
       "description" : "",
@@ -1397,7 +1397,7 @@
    },
    "SEARCH_MAP" : {
       "description" : "",
-      "message" : "Search Map"
+      "message" : "Suche in Karte"
    },
    "SECTOR_COORDINATES" : {
       "description" : "",
@@ -1405,7 +1405,7 @@
    },
    "SECTOR_MAP_VIEW" : {
       "description" : "",
-      "message" : "Sector Map View"
+      "message" : "Kartenansicht"
    },
    "SECTOR_X_Y_Z" : {
       "description" : "",
