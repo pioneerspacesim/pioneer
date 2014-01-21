@@ -8,7 +8,7 @@ January 2014
      * Initial cockpit support (experimental) (#2603, #2614)
 
    * Minor changes and tweaks
-     * Ship stat balancing (#2620)
+     * Ship stat balancing (#2620, #2673)
      * Atmospheres in gas giants are much deeper (#2609, #1395)
      * New "free software" charity on the bulletin board (#2611)
      * Change start ship to Xylophis

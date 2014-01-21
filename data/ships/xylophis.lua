@@ -7,8 +7,8 @@ define_ship {
 	manufacturer='opli',
 	model='xylophis',
 	forward_thrust = 405e3,
-	reverse_thrust = 144e3,
-	up_thrust = 218e3,
+	reverse_thrust = 245e3,
+	up_thrust = 245e3,
 	down_thrust = 144e3,
 	left_thrust = 144e3,
 	right_thrust = 144e3,
@@ -28,5 +28,5 @@ define_ship {
 	-- Smaller ships built for speed often mount engines with higher Vc. Another way to make faster ship is to increase fuel_tank_mass.
 	effective_exhaust_velocity = 128e5,
 	price = 64e3,
-	hyperdrive_class = 1,
+	hyperdrive_class = 0,
 }
