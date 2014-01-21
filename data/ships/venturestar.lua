@@ -7,7 +7,7 @@ define_ship {
 	manufacturer='albr',
 	model='venturestar',
 	forward_thrust = 35e6,
-	reverse_thrust = 10e6,
+	reverse_thrust = 115e5,
 	up_thrust = 15e6,
 	down_thrust = 8e6,
 	left_thrust = 8e6,
