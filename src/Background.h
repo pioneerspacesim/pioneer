@@ -56,7 +56,6 @@ namespace Background
 		//does not Fill the starfield
 		Starfield(Graphics::Renderer *r);
 		Starfield(Graphics::Renderer *r, Uint32 seed);
-		~Starfield();
 		void Draw();
 		//create or recreate the starfield
 		void Fill(Uint32 seed);
@@ -64,7 +63,7 @@ namespace Background
 	private:
 		void Init();
 		static const int BG_STAR_MAX = 10000;
-		Graphics::StaticMesh *m_model;
+		std::unique_ptr<Graphics::StaticMesh> m_model;
 
 		//hyperspace animation vertex data
 		vector3f m_hyperVtx[BG_STAR_MAX*2];
@@ -75,11 +74,10 @@ namespace Background
 	{
 	public:
 		MilkyWay(Graphics::Renderer*);
-		~MilkyWay();
 		void Draw();
 
 	private:
-		Graphics::StaticMesh *m_model;
+		std::unique_ptr<Graphics::StaticMesh> m_model;
 	};
 
 	

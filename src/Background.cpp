@@ -173,16 +173,11 @@ Starfield::Starfield(Graphics::Renderer *renderer, Uint32 seed)
 	Fill(seed);
 }
 
-Starfield::~Starfield()
-{
-	delete m_model;
-}
-
 void Starfield::Init()
 {
 	// reserve some space for positions, colours
 	VertexArray *stars = new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE, BG_STAR_MAX);
-	m_model = new StaticMesh(POINTS);
+	m_model.reset(new StaticMesh(POINTS));
 	Graphics::MaterialDescriptor desc;
 	desc.effect = Graphics::EFFECT_STARFIELD;
 	desc.vertexColors = true;
@@ -219,7 +214,7 @@ void Starfield::Draw()
 {
 	// XXX would be nice to get rid of the Pi:: stuff here
 	if (!Pi::game || Pi::player->GetFlightState() != Ship::HYPERSPACE) {
-		m_renderer->DrawStaticMesh(m_model);
+		m_renderer->DrawStaticMesh(m_model.get());
 	} else {
 		// roughly, the multiplier gets smaller as the duration gets larger.
 		// the time-looking bits in this are completely arbitrary - I figured
@@ -248,7 +243,7 @@ MilkyWay::MilkyWay(Graphics::Renderer *renderer)
 {
 	m_renderer = renderer;
 
-	m_model = new StaticMesh(TRIANGLE_STRIP);
+	m_model.reset(new StaticMesh(TRIANGLE_STRIP));
 
 	//build milky way model in two strips (about 256 verts)
 	//The model is built as a generic vertex array first. The renderer
@@ -305,15 +300,10 @@ MilkyWay::MilkyWay(Graphics::Renderer *renderer)
 	m_model->AddSurface(RefCountedPtr<Surface>(new Surface(TRIANGLE_STRIP, top, m_material)));
 }
 
-MilkyWay::~MilkyWay()
-{
-	delete m_model;
-}
-
 void MilkyWay::Draw()
 {
 	assert(m_model != 0);
-	m_renderer->DrawStaticMesh(m_model);
+	m_renderer->DrawStaticMesh(m_model.get());
 }
 
 Container::Container(Graphics::Renderer *renderer)
