@@ -217,7 +217,7 @@
    },
    "DISPLAY_HUD_TRAILS" : {
       "description" : "",
-      "message" : "Mostra Scie"
+      "message" : "Mostra scie nel HUD"
    },
    "DISPLAY_NAV_TUNNELS" : {
       "description" : "",
