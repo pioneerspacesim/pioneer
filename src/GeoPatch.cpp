@@ -73,16 +73,14 @@ void GeoPatch::_UpdateVBOs() {
 		if (!m_vbo) glGenBuffersARB(1, &m_vbo);
 		glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
 		glBufferDataARB(GL_ARRAY_BUFFER, sizeof(GeoPatchContext::VBOVertex)*ctx->NUMVERTICES(), 0, GL_DYNAMIC_DRAW);
-		double xfrac=0.0, yfrac=0.0;
 		double *pHts = heights.get();
 		const vector3f *pNorm = normals.get();
 		const Color3ub *pColr = colors.get();
 		GeoPatchContext::VBOVertex *pData = ctx->vbotemp;
 		for (int y=0; y<ctx->edgeLen; y++) {
-			xfrac = 0.0;
 			for (int x=0; x<ctx->edgeLen; x++) {
 				const double height = *pHts;
-				const vector3d p = (GetSpherePoint(xfrac, yfrac) * (height + 1.0)) - clipCentroid;
+				const vector3d p = (GetSpherePoint(x*ctx->frac, y*ctx->frac) * (height + 1.0)) - clipCentroid;
 				clipRadius = std::max(clipRadius, p.Length());
 				pData->x = float(p.x);
 				pData->y = float(p.y);
@@ -101,10 +99,7 @@ void GeoPatch::_UpdateVBOs() {
 				++pColr; // next colour
 
 				++pData; // next vertex
-
-				xfrac += ctx->frac;
 			}
-			yfrac += ctx->frac;
 		}
 		glBufferDataARB(GL_ARRAY_BUFFER, sizeof(GeoPatchContext::VBOVertex)*ctx->NUMVERTICES(), ctx->vbotemp, GL_DYNAMIC_DRAW);
 		glBindBufferARB(GL_ARRAY_BUFFER, 0);
