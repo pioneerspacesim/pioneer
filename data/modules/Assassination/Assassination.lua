@@ -22,7 +22,6 @@ local utils = import("utils")
 local InfoFace = import("ui/InfoFace")
 
 local l = Lang.GetResource("module-assassination")
-local l2 = Lang.GetResource("module-denymission")
 
 -- Get the UI class
 local ui = Engine.ui
@@ -68,10 +67,6 @@ local onChat = function (form, ref, option)
 		 kills >=  4 and ad.danger <= 1 or
 		 kills >=  8 and ad.danger <  4 or
 		 false)
-
-	print("")
-	print("DANGER:", ad.danger)
-	print("QUAL", qualified)
 
 	form:SetFace(ad.client)
 

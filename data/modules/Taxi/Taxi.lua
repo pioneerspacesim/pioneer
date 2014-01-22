@@ -143,11 +143,6 @@ local onChat = function (form, ref, option)
 		(ad.risk <= 0.6   and ad.urgency < 0.6 and reputation >= 8) or
 		false
 
-	print("")
-	print("RISK:", ad.risk)
-	print("URGENCY:", ad.urgency)
-	print("QUAL", qualified)
-
 	form:SetFace(ad.client)
 
 	if not qualified then

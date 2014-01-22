@@ -552,7 +552,7 @@
       "message" : "Master"
    },
    "MASTER_VOL" : {
-      "description" : "Master volue in settings option",
+      "description" : "Master sound in settings option",
       "message" : "Master:"
    },
    "MAX" : {
