@@ -8,7 +8,7 @@ January 2014
      * Initial cockpit support (experimental) (#2603, #2614)
 
    * Minor changes and tweaks
-     * Ship stat balancing (#2620)
+     * Ship stat balancing (#2620, #2673)
      * Atmospheres in gas giants are much deeper (#2609, #1395)
      * New "free software" charity on the bulletin board (#2611)
      * Change start ship to Xylophis
@@ -18,6 +18,7 @@ January 2014
      * Improve the sector view map, giving more navigation info (#2640)
      * Improve cargo and cabin use gauges, easier to understand (#2657, #2648)
      * Key bindings of sector view are now configurable (#2542)
+     * Advert type icons in the bulletin board (#2668)
 
    * Script and UI API changes
      * Game.StartGame now takes an optional start_time argument (#2615)
@@ -45,6 +46,7 @@ January 2014
      * Fix shipyard adding ships faster than it sells them (#2653, #2650)
      * Fix that fuel was not displayed as percentage after load (#2659, #2660)
      * Clear chat form face when showing crew candidate list (#2663, #2647)
+     * Calculate a sane mousewheel scroll step for scrollable regions
 
    * Internal changes
      * Render screen to texture in preparation for post-processing effects (#2525)

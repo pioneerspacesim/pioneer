@@ -142,7 +142,7 @@ shipTable.onRowClicked:Connect(function (row)
 			}),
 			ModelSpinner.New(ui, def.modelName, currentShipOnSale.skin, currentShipOnSale.pattern),
 			ui:Label(l.HYPERDRIVE_FITTED.." "..lcore[def.defaultHyperdrive]):SetFont("SMALL"),
-			ui:Margin(10, "VERTICAL",
+			ui:Margin(10, "TOP",
 				ui:Grid(2,1)
 					:SetFont("SMALL")
 					:SetRow(0, {

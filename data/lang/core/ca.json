@@ -539,6 +539,10 @@
       "description" : "",
       "message" : "Aquesta partida no es pot desar degut a un problema del sistema"
    },
+   "GENERAL_VIEW_CONTROLS" : {
+      "description" : "",
+      "message" : "General View Controls"
+   },
    "GOVERNMENT_TYPE" : {
       "description" : "",
       "message" : "Tipus de govern:"
@@ -790,6 +794,70 @@
    "MANUAL_CONTROL_MODE" : {
       "description" : "",
       "message" : "Control manual"
+   },
+   "MAP_LOCK_HYPERSPACE_TARGET" : {
+      "description" : "",
+      "message" : "Lock Hyperspace Target"
+   },
+   "MAP_TOGGLE_INFO_PANEL" : {
+      "description" : "",
+      "message" : "Toggle Info Panel"
+   },
+   "MAP_TOGGLE_SELECTION_FOLLOW_VIEW" : {
+      "description" : "",
+      "message" : "Toggle Selection Following View"
+   },
+   "MAP_VIEW_ROTATE_DOWN" : {
+      "description" : "",
+      "message" : "Rotate View Down"
+   },
+   "MAP_VIEW_ROTATE_LEFT" : {
+      "description" : "",
+      "message" : "Rotate View Left"
+   },
+   "MAP_VIEW_ROTATE_RIGHT" : {
+      "description" : "",
+      "message" : "Rotate View Right"
+   },
+   "MAP_VIEW_ROTATE_UP" : {
+      "description" : "",
+      "message" : "Rotate View Up"
+   },
+   "MAP_VIEW_SHIFT_BACKWARD" : {
+      "description" : "",
+      "message" : "Shift View Backwards"
+   },
+   "MAP_VIEW_SHIFT_DOWN" : {
+      "description" : "",
+      "message" : "Shift View Down"
+   },
+   "MAP_VIEW_SHIFT_FORWARD" : {
+      "description" : "",
+      "message" : "Shift View Forwards"
+   },
+   "MAP_VIEW_SHIFT_LEFT" : {
+      "description" : "",
+      "message" : "Shift View Left"
+   },
+   "MAP_VIEW_SHIFT_RIGHT" : {
+      "description" : "",
+      "message" : "Shift View Right"
+   },
+   "MAP_VIEW_SHIFT_UP" : {
+      "description" : "",
+      "message" : "Shift View Up"
+   },
+   "MAP_WARP_TO_CURRENT_SYSTEM" : {
+      "description" : "",
+      "message" : "Warp to Current System"
+   },
+   "MAP_WARP_TO_HYPERSPACE_TARGET" : {
+      "description" : "",
+      "message" : "Warp to Hyperspace Target"
+   },
+   "MAP_WARP_TO_SELECTED_SYSTEM" : {
+      "description" : "",
+      "message" : "Warp to Selected System"
    },
    "MASS" : {
       "description" : "",
@@ -1239,6 +1307,10 @@
       "description" : "",
       "message" : "Reset"
    },
+   "RESET_ORIENTATION_AND_ZOOM" : {
+      "description" : "",
+      "message" : "Reset Orientation and Zoom"
+   },
    "ROBOTS" : {
       "description" : "",
       "message" : "Robots"
@@ -1323,9 +1395,17 @@
       "description" : "",
       "message" : "Cerca"
    },
+   "SEARCH_MAP" : {
+      "description" : "",
+      "message" : "Search Map"
+   },
    "SECTOR_COORDINATES" : {
       "description" : "",
       "message" : "Coordenades del sector"
+   },
+   "SECTOR_MAP_VIEW" : {
+      "description" : "",
+      "message" : "Sector Map View"
    },
    "SECTOR_X_Y_Z" : {
       "description" : "",

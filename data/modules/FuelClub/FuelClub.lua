@@ -197,7 +197,11 @@ local onCreateBB = function (station)
 			title = ad.flavour.clubname,
 			armour = false,
 		})
-		ads[station:AddAdvert(ad.flavour.clubname,onChat,onDelete)] = ad
+		ads[station:AddAdvert({
+			description = ad.flavour.clubname,
+			icon        = "fuel_club",
+			onChat      = onChat,
+			onDelete    = onDelete})] = ad
 	end
 end
 
@@ -206,7 +210,11 @@ local onGameStart = function ()
 	if loaded_data then
 		-- rebuild saved adverts
 		for k,ad in pairs(loaded_data.ads) do
-			ads[ad.station:AddAdvert(ad.flavour.clubname, onChat, onDelete)] = ad
+			ads[ad.station:AddAdvert({
+				description = ad.flavour.clubname,
+				icon        = "fuel_club",
+				onChat      = onChat,
+				onDelete    = onDelete})] = ad
 		end
 		-- load membership info
 		memberships = loaded_data.memberships

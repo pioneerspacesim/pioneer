@@ -7,7 +7,7 @@ define_ship {
 	manufacturer='opli',
 	model='amphiesma',
 	forward_thrust = 4e6,
-	reverse_thrust = 8e5,
+	reverse_thrust = 1e6,
 	up_thrust = 1e6,
 	down_thrust = 5e5,
 	left_thrust = 5e5,

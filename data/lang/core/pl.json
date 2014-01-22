@@ -539,6 +539,10 @@
       "description" : "",
       "message" : "Nie można zapisać gry z powodu błędu systemu."
    },
+   "GENERAL_VIEW_CONTROLS" : {
+      "description" : "",
+      "message" : "Sterowanie w widoku ogólnym"
+   },
    "GOVERNMENT_TYPE" : {
       "description" : "",
       "message" : "Rząd:"
@@ -790,6 +794,70 @@
    "MANUAL_CONTROL_MODE" : {
       "description" : "",
       "message" : "Tryb sterowania ręcznego"
+   },
+   "MAP_LOCK_HYPERSPACE_TARGET" : {
+      "description" : "",
+      "message" : "Zablokuj cel nadprzestrzenny"
+   },
+   "MAP_TOGGLE_INFO_PANEL" : {
+      "description" : "",
+      "message" : "Widok panelu informacyjnego"
+   },
+   "MAP_TOGGLE_SELECTION_FOLLOW_VIEW" : {
+      "description" : "",
+      "message" : "Centrowanie na wskazywany system"
+   },
+   "MAP_VIEW_ROTATE_DOWN" : {
+      "description" : "",
+      "message" : "Obrót widoku w dół"
+   },
+   "MAP_VIEW_ROTATE_LEFT" : {
+      "description" : "",
+      "message" : "Obrót widoku w lewo"
+   },
+   "MAP_VIEW_ROTATE_RIGHT" : {
+      "description" : "",
+      "message" : "Obrót widoku w prawo"
+   },
+   "MAP_VIEW_ROTATE_UP" : {
+      "description" : "",
+      "message" : "Obrót widoku w górę"
+   },
+   "MAP_VIEW_SHIFT_BACKWARD" : {
+      "description" : "",
+      "message" : "Przesunięcie widoku w tył"
+   },
+   "MAP_VIEW_SHIFT_DOWN" : {
+      "description" : "",
+      "message" : "Przesunięcie widoku w dół"
+   },
+   "MAP_VIEW_SHIFT_FORWARD" : {
+      "description" : "",
+      "message" : "Przesunięcie widoku w przód"
+   },
+   "MAP_VIEW_SHIFT_LEFT" : {
+      "description" : "",
+      "message" : "Przesunięcie widoku w lewo"
+   },
+   "MAP_VIEW_SHIFT_RIGHT" : {
+      "description" : "",
+      "message" : "Przesunięcie widoku w prawo"
+   },
+   "MAP_VIEW_SHIFT_UP" : {
+      "description" : "",
+      "message" : "Przesunięcie widoku w górę"
+   },
+   "MAP_WARP_TO_CURRENT_SYSTEM" : {
+      "description" : "",
+      "message" : "Warp do aktualnego systemu"
+   },
+   "MAP_WARP_TO_HYPERSPACE_TARGET" : {
+      "description" : "",
+      "message" : "Warp do celu nadprzestrzennego"
+   },
+   "MAP_WARP_TO_SELECTED_SYSTEM" : {
+      "description" : "",
+      "message" : "Warp do wskazanego systemu"
    },
    "MASS" : {
       "description" : "",
@@ -1239,6 +1307,10 @@
       "description" : "",
       "message" : "Reset"
    },
+   "RESET_ORIENTATION_AND_ZOOM" : {
+      "description" : "",
+      "message" : "Reset orientacji i zbliżenia"
+   },
    "ROBOTS" : {
       "description" : "",
       "message" : "Roboty"
@@ -1323,9 +1395,17 @@
       "description" : "",
       "message" : "Szukaj"
    },
+   "SEARCH_MAP" : {
+      "description" : "",
+      "message" : "Szukaj na mapie"
+   },
    "SECTOR_COORDINATES" : {
       "description" : "",
       "message" : "Koordynaty sektora:"
+   },
+   "SECTOR_MAP_VIEW" : {
+      "description" : "",
+      "message" : "Widok mapy sektorowej"
    },
    "SECTOR_X_Y_Z" : {
       "description" : "",
