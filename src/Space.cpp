@@ -62,12 +62,13 @@ Space::Space(Game *game)
 	, m_frameIndexValid(false)
 	, m_bodyIndexValid(false)
 	, m_sbodyIndexValid(false)
-	, m_background(Pi::renderer, UNIVERSE_SEED)
 	, m_bodyNearFinder(this)
 #ifndef NDEBUG
 	, m_processingFinalizationQueue(false)
 #endif
 {
+	m_background.reset(new Background::Container(Pi::renderer, Pi::rng));
+
 	m_rootFrame.reset(new Frame(0, Lang::SYSTEM));
 	m_rootFrame->SetRadius(FLT_MAX);
 }
@@ -77,14 +78,16 @@ Space::Space(Game *game, const SystemPath &path)
 	, m_frameIndexValid(false)
 	, m_bodyIndexValid(false)
 	, m_sbodyIndexValid(false)
-	, m_background(Pi::renderer)
 	, m_bodyNearFinder(this)
 #ifndef NDEBUG
 	, m_processingFinalizationQueue(false)
 #endif
 {
 	m_starSystem = StarSystem::GetCached(path);
-	m_background.Refresh(m_starSystem->GetSeed());
+
+	Uint32 _init[5] = { path.systemIndex, Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
+	Random rand(_init, 5);
+	m_background.reset(new Background::Container(Pi::renderer, rand));
 
 	CityOnPlanet::SetCityModelPatterns(m_starSystem->GetPath());
 
@@ -103,14 +106,18 @@ Space::Space(Game *game, Serializer::Reader &rd)
 	, m_frameIndexValid(false)
 	, m_bodyIndexValid(false)
 	, m_sbodyIndexValid(false)
-	, m_background(Pi::renderer)
 	, m_bodyNearFinder(this)
 #ifndef NDEBUG
 	, m_processingFinalizationQueue(false)
 #endif
 {
 	m_starSystem = StarSystem::Unserialize(rd);
-	m_background.Refresh(m_starSystem->GetSeed());
+
+	const SystemPath &path = m_starSystem->GetPath();
+	Uint32 _init[5] = { path.systemIndex, Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
+	Random rand(_init, 5);
+	m_background.reset(new Background::Container(Pi::renderer, rand));
+
 	RebuildSystemBodyIndex();
 
 	CityOnPlanet::SetCityModelPatterns(m_starSystem->GetPath());

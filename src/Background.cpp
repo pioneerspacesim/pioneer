@@ -125,9 +125,6 @@ void UniverseBox::Init()
 	m_material.Reset(m_renderer->CreateMaterial(desc));
 	m_material->texture0 = nullptr;
 
-	// safe to load the default cube map now
-	LoadCubeMap();
-
 	m_model->AddSurface(RefCountedPtr<Surface>(new Surface(TRIANGLES, box, m_material)));
 	SetIntensity(1.0f);
 
@@ -141,10 +138,10 @@ void UniverseBox::Draw()
 	}
 }
 
-void UniverseBox::LoadCubeMap(Random* randomizer)
+void UniverseBox::LoadCubeMap(Random &rand)
 {
-	if(randomizer && m_numCubemaps>0) {
-		const int new_ubox_index = randomizer->Int32(1, m_numCubemaps);
+	if(m_numCubemaps>0) {
+		const int new_ubox_index = rand.Int32(1, m_numCubemaps);
 		if(new_ubox_index > 0) {
 			// Load new one
 			const std::string os = stringf("textures/skybox/ub%0{d}.dds", (new_ubox_index - 1));
@@ -159,18 +156,11 @@ void UniverseBox::LoadCubeMap(Random* randomizer)
 	}
 }
 
-Starfield::Starfield(Graphics::Renderer *renderer)
+Starfield::Starfield(Graphics::Renderer *renderer, Random &rand)
 {
 	m_renderer = renderer;
 	Init();
-	//starfield is not filled without a seed
-}
-
-Starfield::Starfield(Graphics::Renderer *renderer, Uint32 seed)
-{
-	m_renderer = renderer;
-	Init();
-	Fill(seed);
+	Fill(rand);
 }
 
 void Starfield::Init()
@@ -186,12 +176,10 @@ void Starfield::Init()
 	m_model->AddSurface(RefCountedPtr<Surface>(new Surface(POINTS, stars, m_material)));
 }
 
-void Starfield::Fill(Uint32 seed)
+void Starfield::Fill(Random &rand)
 {
 	VertexArray *va = m_model->GetSurface(0)->GetVertices();
 	va->Clear(); // clear if previously filled
-	// Slight colour variation to stars based on seed
-	Random rand(seed);
 
 	//fill the array
 	for (int i=0; i<BG_STAR_MAX; i++) {
@@ -306,56 +294,21 @@ void MilkyWay::Draw()
 	m_renderer->DrawStaticMesh(m_model.get());
 }
 
-Container::Container(Graphics::Renderer *renderer)
+Container::Container(Graphics::Renderer *renderer, Random &rand)
 : m_renderer(renderer)
 , m_milkyWay(renderer)
-, m_starField(renderer)
+, m_starField(renderer, rand)
 , m_universeBox(renderer)
 , m_drawFlags( DRAW_SKYBOX )
 {
-	Refresh(0, true);
-}
-
-Container::Container(Graphics::Renderer *renderer, Uint32 seed)
-: m_renderer(renderer)
-, m_milkyWay(renderer)
-, m_starField(renderer)
-, m_universeBox(renderer)
-, m_drawFlags( DRAW_SKYBOX )
-{
-	Refresh(seed, true);
+	Refresh(rand);
 };
 
-void Container::Refresh(Uint32 seed, bool force)
+void Container::Refresh(Random &rand)
 {
-	if (m_seed != seed) {
-		force = true;
-		m_seed = seed;
-	}
-
 	// always redo starfield, milkyway stays normal for now
-	m_starField.Fill(seed);
-
-	if (force) {
-		if(Pi::player == nullptr || Pi::player->GetFlightState() != Ship::HYPERSPACE) {
-			if(Pi::player && Pi::game->GetSpace()->GetStarSystem()) {
-				Uint32 seeds [5];
-				const SystemPath& system_path = Pi::game->GetSpace()->GetStarSystem()->GetPath();
-				seeds[0] = system_path.systemIndex + 41;
-				seeds[1] = system_path.sectorX;
-				seeds[2] = system_path.sectorY;
-				seeds[3] = system_path.sectorZ;
-				seeds[4] = UNIVERSE_SEED;
-				Random rand(seeds, 5);
-				m_universeBox.LoadCubeMap(&rand);
-			} else {
-				Random rand(m_seed);
-				m_universeBox.LoadCubeMap(&rand);
-			}
-		} else {
-			m_universeBox.LoadCubeMap();
-		}
-	}
+	m_starField.Fill(rand);
+	m_universeBox.LoadCubeMap(rand);
 }
 
 void Container::Draw(const matrix4x4d &transform)
