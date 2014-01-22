@@ -21,7 +21,6 @@ local InfoFace = import("ui/InfoFace")
 
 -- Get the language resource
 local l = Lang.GetResource("module-taxi")
-local l2 = Lang.GetResource("module-denymission")
 
 -- Get the UI class
 local ui = Engine.ui
