@@ -22,6 +22,7 @@ local utils = import("utils")
 local InfoFace = import("ui/InfoFace")
 
 local l = Lang.GetResource("module-assassination")
+local l2 = Lang.GetResource("module-denymission")
 
 -- Get the UI class
 local ui = Engine.ui
@@ -40,6 +41,7 @@ for i = 0,5 do
 	})
 end
 local num_titles = 25
+local num_deny = 8
 
 local ads = {}
 local missions = {}
@@ -56,8 +58,30 @@ local onChat = function (form, ref, option)
 	if option == -1 then
 		form:Close()
 		return
-	elseif option == 0 then
-		form:SetFace(ad.client)
+	end
+
+	local reputation = Character.persistent.player.reputation
+	local kills = Character.persistent.player.killcount
+
+	local qualified = reputation >= 16 and
+		(kills >= 16 or
+		 kills >=  4 and ad.danger <= 1 or
+		 kills >=  8 and ad.danger <  4 or
+		 false)
+
+	print("")
+	print("DANGER:", ad.danger)
+	print("QUAL", qualified)
+
+	form:SetFace(ad.client)
+
+	if not qualified then
+		local introtext = l["DENY_"..Engine.rand:Integer(1,num_deny)-1]
+		form:SetMessage(introtext)
+		return
+	end
+
+	if option == 0 then
 		local sys = ad.location:GetStarSystem()
 
 		local introtext = string.interp(flavours[ad.flavour].introtext, {
@@ -304,6 +328,7 @@ local onShipDocked = function (ship, station)
 				})
 				Comms.ImportantMessage(text, mission.client.name)
 				ship:AddMoney(mission.reward)
+				Character.persistent.player.reputation = Character.persistent.player.reputation + 8
 				mission:Remove()
 				missions[ref] = nil
 			elseif mission.status == 'FAILED' then
@@ -318,6 +343,7 @@ local onShipDocked = function (ship, station)
 					})
 				end
 				Comms.ImportantMessage(text, mission.client.name)
+				Character.persistent.player.reputation = Character.persistent.player.reputation - 8
 				mission:Remove()
 				missions[ref] = nil
 			end

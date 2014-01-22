@@ -168,7 +168,7 @@
       "message" : "Could not load game: "
    },
    "CREDIBLE" : {
-      "description" : "",
+      "description" : "For player reputation",
       "message" : "Credible"
    },
    "CREW_CABINS" : {
@@ -295,8 +295,12 @@
       "description" : "",
       "message" : "Exit this game"
    },
+   "EXPERIENCED" : {
+      "description" : "For player reputation",
+      "message" : "Experienced"
+   },
    "EXPERT" : {
-      "description" : "",
+      "description" : "For player reputation",
       "message" : "Expert"
    },
    "FAILED" : {
@@ -432,11 +436,11 @@
       "message" : "Inactive"
    },
    "INCOMPETENT" : {
-      "description" : "",
+      "description" : "For player reputation",
       "message" : "Incompetent"
    },
    "INEXPERIENCED" : {
-      "description" : "",
+      "description" : "For player reputation",
       "message" : "Inexperienced"
    },
    "INVERT_MOUSE_Y" : {
@@ -544,12 +548,12 @@
       "message" : "Mass"
    },
    "MASTER" : {
-      "description" : "",
-      "message" : "Master:"
-   },
-   "MASTER" : {
-      "description" : "",
+      "description" : "For player reputation",
       "message" : "Master"
+   },
+   "MASTER_VOL" : {
+      "description" : "Master volue in settings option",
+      "message" : "Master:"
    },
    "MAX" : {
       "description" : "",
@@ -648,7 +652,7 @@
       "message" : "Next paid"
    },
    "NOBODY" : {
-      "description" : "",
+      "description" : "For player reputation",
       "message" : "Nobody"
    },
    "NONE" : {
@@ -760,7 +764,7 @@
       "message" : "Price"
    },
    "PROFESSIONAL" : {
-      "description" : "",
+      "description" : "For player reputation",
       "message" : "Professional"
    },
    "QUALIFICATION_SCORES" : {
@@ -788,7 +792,7 @@
       "message" : "Refuel"
    },
    "RELIABLE" : {
-      "description" : "",
+      "description" : "For player reputation",
       "message" : "Reliable"
    },
    "REPAIR_X_HULL_DAMAGE_FOR_X" : {
@@ -924,7 +928,7 @@
       "message" : "Trading illegal goods"
    },
    "TRUSTWORTHY" : {
-      "description" : "",
+      "description" : "For player reputation",
       "message" : "Trustworthy"
    },
    "TYPE" : {
