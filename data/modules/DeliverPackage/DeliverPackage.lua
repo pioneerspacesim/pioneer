@@ -111,11 +111,6 @@ local onChat = function (form, ref, option)
 		(ad.risk <  0.5 and ad.urgency <= 0.5 and reputation >= 4) or
 		false
 
-	print("")
-	print("RISK:", ad.risk)
-	print("URGENCY:", ad.urgency)
-	print("QUAL", qualified)
-
 	form:SetFace(ad.client)
 
 	if not qualified then
@@ -230,6 +225,7 @@ local makeAdvert = function (station)
 		flavour		= flavour,
 		client		= client,
 		location	= location,
+		localdelivery = flavours[flavour].localdelivery,
 		dist            = dist,
 		due		= due,
 		risk		= risk,
@@ -248,9 +244,9 @@ local makeAdvert = function (station)
 	})
 
 	local ref = station:AddAdvert({
-		description = ad.desc, 
+		description = ad.desc,
 		icon        = ad.urgency >=  0.8 and "delivery_urgent" or "delivery",
-		onChat      = onChat, 
+		onChat      = onChat,
 		onDelete    = onDelete})
 	ads[ref] = ad
 end
@@ -379,9 +375,9 @@ local onGameStart = function ()
 
 	for k,ad in pairs(loaded_data.ads) do
 		local ref = ad.station:AddAdvert({
-			description = ad.desc, 
+			description = ad.desc,
             icon        = ad.urgency >=  0.8 and "delivery_urgent" or "delivery",
-			onChat      = onChat, 
+			onChat      = onChat,
 			onDelete    = onDelete})
 		ads[ref] = ad
 	end
