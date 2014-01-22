@@ -7,6 +7,7 @@
 #include "libs.h"
 #include "galaxy/SystemPath.h"
 #include "graphics/Texture.h"
+#include "Random.h"
 
 namespace Graphics {
 	class Renderer;
@@ -26,6 +27,7 @@ namespace Background
 		void SetIntensity(float intensity);
 
 	protected:
+		Graphics::Renderer *m_renderer;
 		RefCountedPtr<Graphics::Material> m_material;
 	};
 
@@ -35,13 +37,11 @@ namespace Background
 		UniverseBox(Graphics::Renderer *r);
 		~UniverseBox();
 
-		void Draw(Graphics::Renderer *r);
-		void LoadCubeMap(Graphics::Renderer *r, Random* randomizer = nullptr);
+		void Draw();
+		void LoadCubeMap(Random &rand);
 
 	private:
-		void Init(Graphics::Renderer *);
-		Random createRandom(Uint32 seed);
-		Random createRandom(const SystemPath& system_path);
+		void Init();
 
 		std::unique_ptr<Graphics::StaticMesh> m_model;
 		std::unique_ptr<Graphics::Texture> m_cubemap;
@@ -53,34 +53,29 @@ namespace Background
 	{
 	public:
 		//does not Fill the starfield
-		Starfield(Graphics::Renderer *r);
-		Starfield(Graphics::Renderer *r, Uint32 seed);
-		~Starfield();
-		void Draw(Graphics::Renderer *r);
+		Starfield(Graphics::Renderer *r, Random &rand);
+		void Draw();
 		//create or recreate the starfield
-		void Fill(Uint32 seed);
+		void Fill(Random &rand);
 
 	private:
-		void Init(Graphics::Renderer *);
+		void Init();
 		static const int BG_STAR_MAX = 10000;
-		Graphics::StaticMesh *m_model;
+		std::unique_ptr<Graphics::StaticMesh> m_model;
 
 		//hyperspace animation vertex data
-		//allocated when animation starts and thrown away
-		//when starfield is destroyed (on exiting hyperspace)
-		vector3f *m_hyperVtx;
-		Color *m_hyperCol;
+		vector3f m_hyperVtx[BG_STAR_MAX*2];
+		Color m_hyperCol[BG_STAR_MAX*2];
 	};
 
 	class MilkyWay : public BackgroundElement
 	{
 	public:
 		MilkyWay(Graphics::Renderer*);
-		~MilkyWay();
-		void Draw(Graphics::Renderer *r);
+		void Draw();
 
 	private:
-		Graphics::StaticMesh *m_model;
+		std::unique_ptr<Graphics::StaticMesh> m_model;
 	};
 
 	
@@ -96,22 +91,19 @@ namespace Background
 			DRAW_SKYBOX = 1<<2
 		};
 
-		// default constructor, needs Refresh with proper seed to show starfield
-		Container(Graphics::Renderer*);
-		Container(Graphics::Renderer*, Uint32 seed);
-		void Draw(Graphics::Renderer *r, const matrix4x4d &transform);
-		void Refresh(Uint32 seed);
+		Container(Graphics::Renderer*, Random &rand);
+		void Draw(const matrix4x4d &transform);
+		void Refresh(Random &rand);
 
 		void SetIntensity(float intensity);
 		void SetDrawFlags(const Uint32 flags);
 
 	private:
+		Graphics::Renderer *m_renderer;
 		MilkyWay m_milkyWay;
 		Starfield m_starField;
 		UniverseBox m_universeBox;
-		Uint32 m_seed;
 		Uint32 m_drawFlags;
-		bool m_loadCubeMap;
 	};
 
 } //namespace Background

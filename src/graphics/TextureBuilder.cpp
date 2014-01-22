@@ -210,11 +210,11 @@ void TextureBuilder::LoadSurface()
 			s = LoadSurfaceFromFile("textures/unknown.png"); 
 		}
 	} else if(m_textureType == TEXTURE_CUBE_MAP) {
-		assert(false);
 		fprintf(stderr, "LoadSurface: %s: cannot load non-DDS cubemaps\n", m_filename.c_str());
 	}
 
 	// XXX if we can't load the fallback texture, then what?
+	assert(s);
 	m_surface = s;
 }
 

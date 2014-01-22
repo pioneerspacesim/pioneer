@@ -805,7 +805,7 @@
    },
    "MAP_TOGGLE_SELECTION_FOLLOW_VIEW" : {
       "description" : "",
-      "message" : "Przełącznik centrowania na wskazywany system"
+      "message" : "Centrowanie na wskazywany system"
    },
    "MAP_VIEW_ROTATE_DOWN" : {
       "description" : "",

@@ -56,20 +56,23 @@ void BackgroundElement::SetIntensity(float intensity)
 	m_material->emissive = Color(intensity*255);
 }
 
-UniverseBox::UniverseBox(Graphics::Renderer *r)
+UniverseBox::UniverseBox(Graphics::Renderer *renderer)
 {
-	Init(r);
+	m_renderer = renderer;
+	Init();
 }
 
 UniverseBox::~UniverseBox()
 {
 }
 
-void UniverseBox::Init(Graphics::Renderer *r)
+void UniverseBox::Init()
 {
 	// Load default cubemap
-	TextureBuilder texture_builder = TextureBuilder::Cube("textures/skybox/default.dds");
-	s_defaultCubeMap.reset( texture_builder.CreateTexture(r) );
+	if(!s_defaultCubeMap.get()) {
+		TextureBuilder texture_builder = TextureBuilder::Cube("textures/skybox/default.dds");
+		s_defaultCubeMap.reset( texture_builder.CreateTexture(m_renderer) );
+	}
 
 	// Create skybox geometry
 	VertexArray *box = new VertexArray(ATTRIB_POSITION | ATTRIB_UV0, 36);
@@ -119,11 +122,8 @@ void UniverseBox::Init(Graphics::Renderer *r)
 	m_model.reset( new StaticMesh(TRIANGLES) );
 	Graphics::MaterialDescriptor desc;
 	desc.effect = EFFECT_SKYBOX;
-	m_material.Reset(r->CreateMaterial(desc));
+	m_material.Reset(m_renderer->CreateMaterial(desc));
 	m_material->texture0 = nullptr;
-
-	// safe to load the default cube map now
-	LoadCubeMap(r);
 
 	m_model->AddSurface(RefCountedPtr<Surface>(new Surface(TRIANGLES, box, m_material)));
 	SetIntensity(1.0f);
@@ -131,22 +131,22 @@ void UniverseBox::Init(Graphics::Renderer *r)
 	m_numCubemaps = GetNumSkyboxes();
 }
 
-void UniverseBox::Draw(Graphics::Renderer *r)
+void UniverseBox::Draw()
 {
 	if(m_material->texture0) {
-		r->DrawStaticMesh(m_model.get());
+		m_renderer->DrawStaticMesh(m_model.get());
 	}
 }
 
-void UniverseBox::LoadCubeMap(Graphics::Renderer *r, Random* randomizer)
+void UniverseBox::LoadCubeMap(Random &rand)
 {
-	if(randomizer && m_numCubemaps>0) {
-		const int new_ubox_index = randomizer->Int32(1, m_numCubemaps);
+	if(m_numCubemaps>0) {
+		const int new_ubox_index = rand.Int32(1, m_numCubemaps);
 		if(new_ubox_index > 0) {
 			// Load new one
 			const std::string os = stringf("textures/skybox/ub%0{d}.dds", (new_ubox_index - 1));
 			TextureBuilder texture_builder = TextureBuilder::Cube(os.c_str());
-			m_cubemap.reset( texture_builder.CreateTexture(r) );
+			m_cubemap.reset( texture_builder.CreateTexture(m_renderer) );
 			m_material->texture0 = m_cubemap.get();
 		}
 	} else {
@@ -156,47 +156,30 @@ void UniverseBox::LoadCubeMap(Graphics::Renderer *r, Random* randomizer)
 	}
 }
 
-Starfield::Starfield(Graphics::Renderer *r)
+Starfield::Starfield(Graphics::Renderer *renderer, Random &rand)
 {
-	Init(r);
-	//starfield is not filled without a seed
+	m_renderer = renderer;
+	Init();
+	Fill(rand);
 }
 
-Starfield::Starfield(Graphics::Renderer *r, Uint32 seed)
-{
-	Init(r);
-	Fill(seed);
-}
-
-Starfield::~Starfield()
-{
-	delete m_model;
-	delete[] m_hyperVtx;
-	delete[] m_hyperCol;
-}
-
-void Starfield::Init(Graphics::Renderer *r)
+void Starfield::Init()
 {
 	// reserve some space for positions, colours
 	VertexArray *stars = new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE, BG_STAR_MAX);
-	m_model = new StaticMesh(POINTS);
+	m_model.reset(new StaticMesh(POINTS));
 	Graphics::MaterialDescriptor desc;
 	desc.effect = Graphics::EFFECT_STARFIELD;
 	desc.vertexColors = true;
-	m_material.Reset(r->CreateMaterial(desc));
+	m_material.Reset(m_renderer->CreateMaterial(desc));
 	m_material->emissive = Color::WHITE;
 	m_model->AddSurface(RefCountedPtr<Surface>(new Surface(POINTS, stars, m_material)));
-
-	m_hyperVtx = new vector3f[BG_STAR_MAX * 2];
-	m_hyperCol = new Color[BG_STAR_MAX * 2];
 }
 
-void Starfield::Fill(Uint32 seed)
+void Starfield::Fill(Random &rand)
 {
 	VertexArray *va = m_model->GetSurface(0)->GetVertices();
 	va->Clear(); // clear if previously filled
-	// Slight colour variation to stars based on seed
-	Random rand(seed);
 
 	//fill the array
 	for (int i=0; i<BG_STAR_MAX; i++) {
@@ -215,11 +198,11 @@ void Starfield::Fill(Uint32 seed)
 	}
 }
 
-void Starfield::Draw(Graphics::Renderer *renderer)
+void Starfield::Draw()
 {
 	// XXX would be nice to get rid of the Pi:: stuff here
 	if (!Pi::game || Pi::player->GetFlightState() != Ship::HYPERSPACE) {
-		renderer->DrawStaticMesh(m_model);
+		m_renderer->DrawStaticMesh(m_model.get());
 	} else {
 		// roughly, the multiplier gets smaller as the duration gets larger.
 		// the time-looking bits in this are completely arbitrary - I figured
@@ -228,7 +211,6 @@ void Starfield::Draw(Graphics::Renderer *renderer)
 
 		double hyperspaceProgress = Pi::game->GetHyperspaceProgress();
 
-		assert(m_hyperVtx);
 		VertexArray *va = m_model->GetSurface(0)->GetVertices();
 		const vector3d pz = Pi::player->GetOrient().VectorZ();	//back vector
 		for (int i=0; i<BG_STAR_MAX; i++) {
@@ -241,13 +223,15 @@ void Starfield::Draw(Graphics::Renderer *renderer)
 			m_hyperVtx[i*2+1] = v;
 			m_hyperCol[i*2+1] = va->diffuse[i];
 		}
-		renderer->DrawLines(BG_STAR_MAX*2, m_hyperVtx, m_hyperCol);
+		m_renderer->DrawLines(BG_STAR_MAX*2, m_hyperVtx, m_hyperCol);
 	}
 }
 
-MilkyWay::MilkyWay(Graphics::Renderer *r)
+MilkyWay::MilkyWay(Graphics::Renderer *renderer)
 {
-	m_model = new StaticMesh(TRIANGLE_STRIP);
+	m_renderer = renderer;
+
+	m_model.reset(new StaticMesh(TRIANGLE_STRIP));
 
 	//build milky way model in two strips (about 256 verts)
 	//The model is built as a generic vertex array first. The renderer
@@ -297,96 +281,55 @@ MilkyWay::MilkyWay(Graphics::Renderer *r)
 	Graphics::MaterialDescriptor desc;
 	desc.effect = Graphics::EFFECT_STARFIELD;
 	desc.vertexColors = true;
-	m_material.Reset(r->CreateMaterial(desc));
+	m_material.Reset(m_renderer->CreateMaterial(desc));
 	m_material->emissive = Color::WHITE;
 	//This doesn't fade. Could add a generic opacity/intensity value.
 	m_model->AddSurface(RefCountedPtr<Surface>(new Surface(TRIANGLE_STRIP, bottom, m_material)));
 	m_model->AddSurface(RefCountedPtr<Surface>(new Surface(TRIANGLE_STRIP, top, m_material)));
 }
 
-MilkyWay::~MilkyWay()
-{
-	delete m_model;
-}
-
-void MilkyWay::Draw(Graphics::Renderer *renderer)
+void MilkyWay::Draw()
 {
 	assert(m_model != 0);
-	renderer->DrawStaticMesh(m_model);
+	m_renderer->DrawStaticMesh(m_model.get());
 }
 
-Container::Container(Graphics::Renderer *r)
-: m_milkyWay(r)
-, m_starField(r)
-, m_universeBox(r)
-, m_seed(0)
+Container::Container(Graphics::Renderer *renderer, Random &rand)
+: m_renderer(renderer)
+, m_milkyWay(renderer)
+, m_starField(renderer, rand)
+, m_universeBox(renderer)
 , m_drawFlags( DRAW_SKYBOX )
-, m_loadCubeMap(true)
 {
-}
-
-Container::Container(Graphics::Renderer *r, Uint32 seed)
-: m_milkyWay(r)
-, m_starField(r)
-, m_universeBox(r)
-, m_seed(seed)
-, m_drawFlags( DRAW_SKYBOX )
-, m_loadCubeMap(true)
-{
-	Refresh(seed);
+	Refresh(rand);
 };
 
-void Container::Refresh(Uint32 seed)
+void Container::Refresh(Random &rand)
 {
-	// redo starfield, milkyway stays normal for now
-	m_starField.Fill(seed);
-	if(m_seed != seed) {
-		m_loadCubeMap = true;
-	}
-	m_seed = seed;
+	// always redo starfield, milkyway stays normal for now
+	m_starField.Fill(rand);
+	m_universeBox.LoadCubeMap(rand);
 }
 
-void Container::Draw(Graphics::Renderer *renderer, const matrix4x4d &transform)
+void Container::Draw(const matrix4x4d &transform)
 {
 	PROFILE_SCOPED()
-	if( m_loadCubeMap )
-	{
-		m_loadCubeMap = false;
-		if(Pi::player == nullptr || Pi::player->GetFlightState() != Ship::HYPERSPACE) {
-			if(Pi::player && Pi::game->GetSpace()->GetStarSystem()) {
-				Uint32 seeds [5];
-				const SystemPath& system_path = Pi::game->GetSpace()->GetStarSystem()->GetPath();
-				seeds[0] = system_path.systemIndex + 41;
-				seeds[1] = system_path.sectorX;
-				seeds[2] = system_path.sectorY;
-				seeds[3] = system_path.sectorZ;
-				seeds[4] = UNIVERSE_SEED;
-				Random rand(seeds, 5);
-				m_universeBox.LoadCubeMap(renderer, &rand);
-			} else {
-				Random rand(m_seed);
-				m_universeBox.LoadCubeMap(renderer, &rand);
-			}
-		} else {
-			m_universeBox.LoadCubeMap(renderer);
-		}
-	}
-	renderer->SetBlendMode(BLEND_SOLID);
-	renderer->SetDepthTest(false);
-	renderer->SetTransform(transform);
+	m_renderer->SetBlendMode(BLEND_SOLID);
+	m_renderer->SetDepthTest(false);
+	m_renderer->SetTransform(transform);
 	if( DRAW_SKYBOX & m_drawFlags ) {
-		m_universeBox.Draw(renderer);
+		m_universeBox.Draw();
 	}
 	if( DRAW_MILKY & m_drawFlags ) {
-		m_milkyWay.Draw(renderer);
+		m_milkyWay.Draw();
 	}
 	if( DRAW_STARS & m_drawFlags ) {
 		// squeeze the starfield a bit to get more density near horizon
 		matrix4x4d starTrans = transform * matrix4x4d::ScaleMatrix(1.0, 0.4, 1.0);
-		renderer->SetTransform(starTrans);
-		const_cast<Starfield&>(m_starField).Draw(renderer);
+		m_renderer->SetTransform(starTrans);
+		const_cast<Starfield&>(m_starField).Draw();
 	}
-	renderer->SetDepthTest(true);
+	m_renderer->SetDepthTest(true);
 }
 
 void Container::SetIntensity(float intensity)

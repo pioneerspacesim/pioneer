@@ -5,6 +5,7 @@ January 2014
      * Show hull heating effect in atmosphere (#2550)
      * Shield meshes with hit effects (#2491)
      * Show trails behind ships (#2529)
+     * Skybox support (#2570)
      * Initial cockpit support (experimental) (#2603, #2614)
 
    * Minor changes and tweaks
