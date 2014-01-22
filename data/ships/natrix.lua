@@ -7,7 +7,7 @@ define_ship {
 	manufacturer='opli',
 	model='natrix',
 	forward_thrust = 61e5,
-	reverse_thrust = 18e5,
+	reverse_thrust = 38e5,
 	up_thrust = 38e5,
 	down_thrust = 18e5,
 	left_thrust = 18e5,

@@ -292,6 +292,9 @@ void Table::Layout()
 		SetWidgetDimensions(m_slider.Get(), sliderPos, sliderSize);
 
 		size.x = sliderPos.x;
+
+		const float step = float(sliderSize.y) * 0.5f / float(preferredSize.y);
+		m_slider->SetStep(step);
 	}
 
 	SetWidgetDimensions(m_body.Get(), Point(0, top), size);
@@ -374,7 +377,10 @@ void Table::OnScroll(float value)
 
 bool Table::OnMouseWheel(const MouseWheelEvent &event)
 {
-	m_slider->SetValue(m_slider->GetValue() + (event.direction == MouseWheelEvent::WHEEL_UP ? -0.01f : 0.01f));
+	if (event.direction == MouseWheelEvent::WHEEL_UP)
+		m_slider->StepUp();
+	else
+		m_slider->StepDown();
 	return true;
 }
 

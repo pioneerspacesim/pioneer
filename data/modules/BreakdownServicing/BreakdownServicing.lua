@@ -196,7 +196,11 @@ local onCreateBB = function (station)
 		baseprice = flavours[n].baseprice *rand:Number(0.8,1.2), -- A little per-station flavouring
 	}
 
-	local ref = station:AddAdvert(ad.title, onChat, onDelete)
+	local ref = station:AddAdvert({
+		description = ad.title,
+		icon        = "breakdown_servicing",
+		onChat      = onChat,
+		onDelete    = onDelete})
 	ads[ref] = ad
 end
 
@@ -214,7 +218,11 @@ local onGameStart = function ()
 		}
 	else
 		for k,ad in pairs(loaded_data.ads) do
-			local ref = ad.station:AddAdvert(ad.title, onChat, onDelete)
+		local ref = ad.station:AddAdvert({
+			description = ad.title,
+			icon        = "breakdown_servicing",
+			onChat      = onChat,
+			onDelete    = onDelete})
 			ads[ref] = ad
 		end
 

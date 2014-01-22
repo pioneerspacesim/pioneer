@@ -7,7 +7,7 @@ define_ship {
 	manufacturer='albr',
 	model='deneb',
 	forward_thrust = 10e6,
-	reverse_thrust = 35e5,
+	reverse_thrust = 6e6,
 	up_thrust = 6e6,
 	down_thrust = 3e6,
 	left_thrust = 3e6,

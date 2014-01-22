@@ -14,21 +14,23 @@ local tabGroup
 
 local rowRef = {}
 
-local bbTable = ui:Table():SetMouseEnabled(true)
+local bbTable = ui:Table()
+	:SetRowSpacing(5)
+	:SetColumnSpacing(10)
+	:SetRowAlignment("CENTER")
+	:SetMouseEnabled(true)
+
 bbTable.onRowClicked:Connect(function (row)
 	local station = Game.player:GetDockedWith()
-
 	local ref = rowRef[station][row+1]
-
-	local onChat = SpaceStation.adverts[station][ref][2]
-	local onDelete = SpaceStation.adverts[station][ref][3]
+	local ad = SpaceStation.adverts[station][ref]
 
 	local chatFunc = function (form, option)
-		return onChat(form, ref, option)
+		return ad.onChat(form, ref, option)
 	end
-	local removeFunc = onDelete and function ()
+	local removeFunc = function ()
 		station:RemoveAdvert(ref)
-	end or nil
+	end
 
 	local form = ChatForm.New(chatFunc, removeFunc, ref, tabGroup)
 	ui:NewLayer(form:BuildWidget())
@@ -44,7 +46,11 @@ local updateTable = function (station)
 
 	local rows = {}
 	for ref,ad in pairs(adverts) do
-		table.insert(rows, ad[1])
+		local icon = ad.icon or "default"
+		table.insert(rows, {
+			ui:Image("icons/bbs/"..icon..".png", { "PRESERVE_ASPECT" }),
+			ad.description,
+		})
 	end
 
 	bbTable:AddRows(rows)

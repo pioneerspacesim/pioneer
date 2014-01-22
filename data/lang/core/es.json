@@ -337,7 +337,7 @@
    },
    "DRAW_UNINHABITED_LABELS" : {
       "description" : "",
-      "message" : "Label uninhabited systems"
+      "message" : "Etiquetar sistemas deshabitados"
    },
    "DRAW_VERTICAL_LINES" : {
       "description" : "",
@@ -538,6 +538,10 @@
    "GAME_SAVE_CANNOT_WRITE" : {
       "description" : "",
       "message" : "No se puede escribir en este juego salvado por un error del sistema."
+   },
+   "GENERAL_VIEW_CONTROLS" : {
+      "description" : "",
+      "message" : "Vista General de los Controles"
    },
    "GOVERNMENT_TYPE" : {
       "description" : "",
@@ -790,6 +794,70 @@
    "MANUAL_CONTROL_MODE" : {
       "description" : "",
       "message" : "Control manual"
+   },
+   "MAP_LOCK_HYPERSPACE_TARGET" : {
+      "description" : "",
+      "message" : "Bloquear Objetivo Hiperespacial"
+   },
+   "MAP_TOGGLE_INFO_PANEL" : {
+      "description" : "",
+      "message" : "Alternar Panel de Información"
+   },
+   "MAP_TOGGLE_SELECTION_FOLLOW_VIEW" : {
+      "description" : "",
+      "message" : "Alternar Vista de Seguimiento"
+   },
+   "MAP_VIEW_ROTATE_DOWN" : {
+      "description" : "",
+      "message" : "Rotar Vista abajo"
+   },
+   "MAP_VIEW_ROTATE_LEFT" : {
+      "description" : "",
+      "message" : "Rotar Vista izquierda"
+   },
+   "MAP_VIEW_ROTATE_RIGHT" : {
+      "description" : "",
+      "message" : "Rotar Vista derecha"
+   },
+   "MAP_VIEW_ROTATE_UP" : {
+      "description" : "",
+      "message" : "Rotar Vista arriba"
+   },
+   "MAP_VIEW_SHIFT_BACKWARD" : {
+      "description" : "",
+      "message" : "Desplazar la Vista hacia atrás"
+   },
+   "MAP_VIEW_SHIFT_DOWN" : {
+      "description" : "",
+      "message" : "Desplazar la Vista hacia abajo"
+   },
+   "MAP_VIEW_SHIFT_FORWARD" : {
+      "description" : "",
+      "message" : "Desplazar la Vista hacia adelante"
+   },
+   "MAP_VIEW_SHIFT_LEFT" : {
+      "description" : "",
+      "message" : "Desplazar la Vista hacia la izquierda"
+   },
+   "MAP_VIEW_SHIFT_RIGHT" : {
+      "description" : "",
+      "message" : "Desplazar la vista hacia la derecha"
+   },
+   "MAP_VIEW_SHIFT_UP" : {
+      "description" : "",
+      "message" : "Desplazar la Vista arriba"
+   },
+   "MAP_WARP_TO_CURRENT_SYSTEM" : {
+      "description" : "",
+      "message" : "Viajar al sistema actual"
+   },
+   "MAP_WARP_TO_HYPERSPACE_TARGET" : {
+      "description" : "",
+      "message" : "Viajar al objetivo hiperespacial"
+   },
+   "MAP_WARP_TO_SELECTED_SYSTEM" : {
+      "description" : "",
+      "message" : "Viajar al sistema seleccionado"
    },
    "MASS" : {
       "description" : "",
@@ -1239,6 +1307,10 @@
       "description" : "",
       "message" : "Reset"
    },
+   "RESET_ORIENTATION_AND_ZOOM" : {
+      "description" : "",
+      "message" : "Reiniciar orientación y zoom"
+   },
    "ROBOTS" : {
       "description" : "",
       "message" : "Robots"
@@ -1323,9 +1395,17 @@
       "description" : "",
       "message" : "Buscar"
    },
+   "SEARCH_MAP" : {
+      "description" : "",
+      "message" : "Mapa de Búsqueda"
+   },
    "SECTOR_COORDINATES" : {
       "description" : "",
       "message" : "Coordenadas de sector:"
+   },
+   "SECTOR_MAP_VIEW" : {
+      "description" : "",
+      "message" : "Vista Mapa de Sector"
    },
    "SECTOR_X_Y_Z" : {
       "description" : "",

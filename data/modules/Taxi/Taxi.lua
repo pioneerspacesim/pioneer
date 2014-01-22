@@ -258,7 +258,11 @@ local makeAdvert = function (station)
 		cash	= Format.Money(ad.reward),
 	})
 
-	local ref = station:AddAdvert(ad.desc, onChat, onDelete)
+	local ref = station:AddAdvert({
+		description = ad.desc,
+		icon        = ad.urgency >=  0.8 and "taxi_urgent" or "taxi",
+		onChat      = onChat,
+		onDelete    = onDelete})
 	ads[ref] = ad
 end
 
@@ -397,7 +401,11 @@ local onGameStart = function ()
 	if not loaded_data then return end
 
 	for k,ad in pairs(loaded_data.ads) do
-		local ref = ad.station:AddAdvert(ad.desc, onChat, onDelete)
+		local ref = ad.station:AddAdvert({
+			description = ad.desc,
+			icon        = ad.urgency >=  0.8 and "taxi_urgent" or "taxi",
+			onChat      = onChat,
+			onDelete    = onDelete})
 		ads[ref] = ad
 	end
 

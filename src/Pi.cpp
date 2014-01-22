@@ -150,6 +150,8 @@ ObjectViewerView *Pi::objectViewerView;
 Sound::MusicPlayer Pi::musicPlayer;
 std::unique_ptr<JobQueue> Pi::jobQueue;
 
+#define USE_RTT 0
+
 //static
 void Pi::CreateRenderTarget(const Uint16 width, const Uint16 height) {
 	/*	@fluffyfreak here's a rendertarget implementation you can use for oculusing and other things. It's pretty simple:
@@ -161,6 +163,7 @@ void Pi::CreateRenderTarget(const Uint16 width, const Uint16 height) {
 		You can reuse the same target with multiple textures.
 		In that case, leave the color format to NONE so the initial texture is not created, then use SetColorTexture to attach your own.
 	*/
+#if USE_RTT
 	Graphics::TextureDescriptor texDesc(
 		Graphics::TEXTURE_RGBA_8888,
 		vector2f(width, height),
@@ -179,10 +182,12 @@ void Pi::CreateRenderTarget(const Uint16 width, const Uint16 height) {
 	Pi::renderTarget = Pi::renderer->CreateRenderTarget(rtDesc);
 
 	Pi::renderTarget->SetColorTexture(Pi::renderTexture.Get());
+#endif
 }
 
 //static
 void Pi::DrawRenderTarget() {
+#if USE_RTT
 	Pi::renderer->BeginFrame();
 	Pi::renderer->SetViewport(0, 0, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());	
 	Pi::renderer->SetTransform(matrix4x4f::Identity());
@@ -213,16 +218,21 @@ void Pi::DrawRenderTarget() {
 	}
 
 	Pi::renderer->EndFrame();
+#endif
 }
 
 //static
 void Pi::BeginRenderTarget() {
+#if USE_RTT
 	Pi::renderer->SetRenderTarget(Pi::renderTarget);
+#endif
 }
 
 //static
 void Pi::EndRenderTarget() {
+#if USE_RTT
 	Pi::renderer->SetRenderTarget(nullptr);
+#endif
 }
 
 static void draw_progress(UI::Gauge *gauge, UI::Label *label, float progress)

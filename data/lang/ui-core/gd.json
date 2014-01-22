@@ -21,7 +21,7 @@
    },
    "AMOUNT" : {
       "description" : "",
-      "message" : "Amount"
+      "message" : "Uiread"
    },
    "AN_ERROR_HAS_OCCURRED" : {
       "description" : "",
@@ -57,11 +57,11 @@
    },
    "CABIN_FREE" : {
       "description" : "",
-      "message" : "{amount} free"
+      "message" : "{amount} saor"
    },
    "CABIN_USED" : {
       "description" : "",
-      "message" : "{amount} used"
+      "message" : "{amount} 'ga chleachdadh"
    },
    "CANCEL" : {
       "description" : "",
@@ -85,11 +85,11 @@
    },
    "CARGO_T_FREE" : {
       "description" : "",
-      "message" : "{amount}t free"
+      "message" : "{amount}t saor"
    },
    "CARGO_T_USED" : {
       "description" : "",
-      "message" : "{amount}t used"
+      "message" : "{amount}t 'ga chleachdadh"
    },
    "CASH" : {
       "description" : "",
@@ -117,7 +117,7 @@
    },
    "CLEAN" : {
       "description" : "",
-      "message" : "Clean"
+      "message" : "Glan"
    },
    "CLEAR" : {
       "description" : "",
@@ -125,7 +125,7 @@
    },
    "CLIENT" : {
       "description" : "",
-      "message" : "Client"
+      "message" : "Ceannaiche"
    },
    "COMBAT" : {
       "description" : "",
@@ -217,7 +217,7 @@
    },
    "DISPLAY_HUD_TRAILS" : {
       "description" : "",
-      "message" : "Display hud trails"
+      "message" : "Display HUD trails"
    },
    "DISPLAY_NAV_TUNNELS" : {
       "description" : "",
@@ -233,7 +233,7 @@
    },
    "DUE" : {
       "description" : "",
-      "message" : "Due"
+      "message" : "Ceann-latha pàighidh"
    },
    "D_DAYS_LEFT" : {
       "description" : "",
@@ -257,7 +257,7 @@
    },
    "ENABLE_COCKPIT" : {
       "description" : "",
-      "message" : "Enable cockpit (EXPERIMENTAL)"
+      "message" : "Cuir cockpit an comas (DEUCHAINNEACH)"
    },
    "ENABLE_JOYSTICK" : {
       "description" : "",
@@ -305,11 +305,11 @@
    },
    "FORWARD_ACCEL_EMPTY" : {
       "description" : "",
-      "message" : "Forward accel (empty)"
+      "message" : "Luathachadh air adhart (falamh)"
    },
    "FORWARD_ACCEL_FULL" : {
       "description" : "",
-      "message" : "Forward accel (full)"
+      "message" : "Luathachadh air adhart (làn)"
    },
    "FRACTAL_DETAIL" : {
       "description" : "",
@@ -361,27 +361,27 @@
    },
    "HEAVY_CARGO_SHUTTLE" : {
       "description" : "",
-      "message" : "Heavy cargo shuttle"
+      "message" : "Aiseag carago trom"
    },
    "HEAVY_COURIER" : {
       "description" : "",
-      "message" : "Heavy courier"
+      "message" : "Teachdaire trom"
    },
    "HEAVY_FIGHTER" : {
       "description" : "",
-      "message" : "Heavy fighter"
+      "message" : "Soitheach-cogaidh trom"
    },
    "HEAVY_FREIGHTER" : {
       "description" : "",
-      "message" : "Heavy freighter"
+      "message" : "Soitheach-carago trom"
    },
    "HEAVY_PASSENGER_SHUTTLE" : {
       "description" : "",
-      "message" : "Heavy passenger shuttle"
+      "message" : "Aiseag thaistealach trom"
    },
    "HEAVY_PASSENGER_TRANSPORT" : {
       "description" : "",
-      "message" : "Heavy passenger transport"
+      "message" : "Soitheach thaistealach trom"
    },
    "HIGH" : {
       "description" : "",
@@ -393,7 +393,7 @@
    },
    "HULL_INTEGRITY" : {
       "description" : "",
-      "message" : "Hull integrity"
+      "message" : "Iomlanachd na slige"
    },
    "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT" : {
       "description" : "",
@@ -429,15 +429,15 @@
    },
    "IN_CARGO_HOLD" : {
       "description" : "",
-      "message" : "In cargo hold"
+      "message" : "San roinn carago"
    },
    "IN_STOCK" : {
       "description" : "",
-      "message" : "In stock"
+      "message" : "San sealbh"
    },
    "ITEM_IS_OUT_OF_STOCK" : {
       "description" : "",
-      "message" : "This item is out of stock."
+      "message" : "Chan eil an nì seo san t-sealbh tuilleadh."
    },
    "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE" : {
       "description" : "",
@@ -465,27 +465,27 @@
    },
    "LIGHT_CARGO_SHUTTLE" : {
       "description" : "",
-      "message" : "Light cargo shuttle"
+      "message" : "Aiseag carago aotrom"
    },
    "LIGHT_COURIER" : {
       "description" : "",
-      "message" : "Light courier"
+      "message" : "Teachdaire aotrom"
    },
    "LIGHT_FIGHTER" : {
       "description" : "",
-      "message" : "Light fighter"
+      "message" : "Soitheach-cogaidh aotrom"
    },
    "LIGHT_FREIGHTER" : {
       "description" : "",
-      "message" : "Light freighter"
+      "message" : "Soitheach-carago aotrom"
    },
    "LIGHT_PASSENGER_SHUTTLE" : {
       "description" : "",
-      "message" : "Light passenger shuttle"
+      "message" : "Aiseag thaistealach aotrom"
    },
    "LIGHT_PASSENGER_TRANSPORT" : {
       "description" : "",
-      "message" : "Light passenger transport"
+      "message" : "Soitheach thaistealach aotrom"
    },
    "LOAD" : {
       "description" : "",
@@ -513,7 +513,7 @@
    },
    "LY" : {
       "description" : "",
-      "message" : "ly"
+      "message" : "bl-sol"
    },
    "MAKE_NEW_FACE" : {
       "description" : "",
@@ -541,27 +541,27 @@
    },
    "MEDIUM_CARGO_SHUTTLE" : {
       "description" : "",
-      "message" : "Medium cargo shuttle"
+      "message" : "Aiseag carago meadhanach"
    },
    "MEDIUM_COURIER" : {
       "description" : "",
-      "message" : "Medium courier"
+      "message" : "Teachdaire meadhanach"
    },
    "MEDIUM_FIGHTER" : {
       "description" : "",
-      "message" : "Medium fighter"
+      "message" : "Soitheach-cogaidh meadhanach"
    },
    "MEDIUM_FREIGHTER" : {
       "description" : "",
-      "message" : "Medium freighter"
+      "message" : "Soitheach-carago meadhanach"
    },
    "MEDIUM_PASSENGER_SHUTTLE" : {
       "description" : "",
-      "message" : "Medium passenger shuttle"
+      "message" : "Aiseag thaistealach meadhanach"
    },
    "MEDIUM_PASSENGER_TRANSPORT" : {
       "description" : "",
-      "message" : "Medium passenger transport"
+      "message" : "Soitheach thaistealach meadhanach"
    },
    "METAL_ALLOYS" : {
       "description" : "",
@@ -685,11 +685,11 @@
    },
    "OWED" : {
       "description" : "",
-      "message" : "Owed"
+      "message" : "Na thathar ort"
    },
    "PAY_FINE_OF_N" : {
       "description" : "",
-      "message" : "Pay fine of {amount}"
+      "message" : "Pàigh càin de {amount}"
    },
    "PERSONAL_INFORMATION" : {
       "description" : "",
@@ -717,7 +717,7 @@
    },
    "POLICE" : {
       "description" : "",
-      "message" : "Police"
+      "message" : "A' phoileas"
    },
    "POOR" : {
       "description" : "",
@@ -761,7 +761,7 @@
    },
    "REPAIR_X_HULL_DAMAGE_FOR_X" : {
       "description" : "",
-      "message" : "Repair {damage}% hull damage for {price}"
+      "message" : "Càraich {damage}% dhen dochann air an t-slige le {price}"
    },
    "REQUEST_LAUNCH" : {
       "description" : "",
@@ -773,11 +773,11 @@
    },
    "REVERSE_ACCEL_EMPTY" : {
       "description" : "",
-      "message" : "Reverse accel (empty)"
+      "message" : "Luathachadh air ais (falamh)"
    },
    "REVERSE_ACCEL_FULL" : {
       "description" : "",
-      "message" : "Reverse accel (full)"
+      "message" : "Luathachadh air ais (làn)"
    },
    "REWARD" : {
       "description" : "",
@@ -817,7 +817,7 @@
    },
    "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
       "description" : "",
-      "message" : "Your ship is in perfect working condition."
+      "message" : "Tha cor do shoitheach foirfe."
    },
    "SHIP_IS_FULLY_LADEN" : {
       "description" : "",
@@ -949,7 +949,7 @@
    },
    "YOUR_HULL_IS_AT_X_INTEGRITY" : {
       "description" : "",
-      "message" : "Your hull is at {value}% integrity."
+      "message" : "Tha {value}% a dh'iomlanachd aig an t-slige agad."
    },
    "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION" : {
       "description" : "",

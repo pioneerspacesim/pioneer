@@ -539,6 +539,10 @@
       "description" : "",
       "message" : "Questo salvataggio non può essere scritto per via di un errore di sistema."
    },
+   "GENERAL_VIEW_CONTROLS" : {
+      "description" : "",
+      "message" : "Controlli Generali della Visuale"
+   },
    "GOVERNMENT_TYPE" : {
       "description" : "",
       "message" : "Forma di governo:"
@@ -790,6 +794,70 @@
    "MANUAL_CONTROL_MODE" : {
       "description" : "",
       "message" : "Modalità controllo manuale"
+   },
+   "MAP_LOCK_HYPERSPACE_TARGET" : {
+      "description" : "",
+      "message" : "Blocca Destinazione Iperspaziale"
+   },
+   "MAP_TOGGLE_INFO_PANEL" : {
+      "description" : "",
+      "message" : "Mostra/nascondi Pannello Informazioni"
+   },
+   "MAP_TOGGLE_SELECTION_FOLLOW_VIEW" : {
+      "description" : "",
+      "message" : "Attiva/disattiva Visuale Centrata sulla Selezione"
+   },
+   "MAP_VIEW_ROTATE_DOWN" : {
+      "description" : "",
+      "message" : "Ruota Visuale in Giù"
+   },
+   "MAP_VIEW_ROTATE_LEFT" : {
+      "description" : "",
+      "message" : "Ruota Visuale a Sinistra"
+   },
+   "MAP_VIEW_ROTATE_RIGHT" : {
+      "description" : "",
+      "message" : "Ruota Visuale a Destra"
+   },
+   "MAP_VIEW_ROTATE_UP" : {
+      "description" : "",
+      "message" : "Ruota Visuale in Su"
+   },
+   "MAP_VIEW_SHIFT_BACKWARD" : {
+      "description" : "",
+      "message" : "Scorri Visuale Indietro"
+   },
+   "MAP_VIEW_SHIFT_DOWN" : {
+      "description" : "",
+      "message" : "Scorri Visuale in Giù"
+   },
+   "MAP_VIEW_SHIFT_FORWARD" : {
+      "description" : "",
+      "message" : "Scorri Visuale in Avanti"
+   },
+   "MAP_VIEW_SHIFT_LEFT" : {
+      "description" : "",
+      "message" : "Scorri Visuale a Sinistra"
+   },
+   "MAP_VIEW_SHIFT_RIGHT" : {
+      "description" : "",
+      "message" : "Scorri Visuale a Destra"
+   },
+   "MAP_VIEW_SHIFT_UP" : {
+      "description" : "",
+      "message" : "Scorri Visuale in Su"
+   },
+   "MAP_WARP_TO_CURRENT_SYSTEM" : {
+      "description" : "",
+      "message" : "Salta al Sistema Corrente"
+   },
+   "MAP_WARP_TO_HYPERSPACE_TARGET" : {
+      "description" : "",
+      "message" : "Salta alla Destinazione Iperspaziale"
+   },
+   "MAP_WARP_TO_SELECTED_SYSTEM" : {
+      "description" : "",
+      "message" : "Salta al Sistema Selezionato"
    },
    "MASS" : {
       "description" : "",
@@ -1239,6 +1307,10 @@
       "description" : "",
       "message" : "Azzera Zoom"
    },
+   "RESET_ORIENTATION_AND_ZOOM" : {
+      "description" : "",
+      "message" : "Reimposta Orientamento e Zoom"
+   },
    "ROBOTS" : {
       "description" : "",
       "message" : "Robot"
@@ -1323,9 +1395,17 @@
       "description" : "",
       "message" : "Cerca"
    },
+   "SEARCH_MAP" : {
+      "description" : "",
+      "message" : "Cerca nella Mappa"
+   },
    "SECTOR_COORDINATES" : {
       "description" : "",
       "message" : "Coordinate settore:"
+   },
+   "SECTOR_MAP_VIEW" : {
+      "description" : "",
+      "message" : "Visuale Mappa Settore"
    },
    "SECTOR_X_Y_Z" : {
       "description" : "",
