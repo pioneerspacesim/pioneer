@@ -182,7 +182,6 @@ local onChat = function (form, ref, option)
 	form:AddOption(l.WILL_I_BE_IN_ANY_DANGER, 4)
 	form:AddOption(l.COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST, 0)
 	form:AddOption(l.OK_AGREED, 3)
-
 end
 
 local onDelete = function (ref)
