@@ -1111,10 +1111,12 @@ Character = {
 			return('INCOMPETENT')
 		elseif self.reputation < 0 then
 			return('UNRELIABLE')
-		elseif self.reputation < 8 then
+		elseif self.reputation < 4 then
 			return('NOBODY')
-		elseif self.reputation < 16 then
+		elseif self.reputation < 8 then
 			return('INEXPERIENCED')
+		elseif self.reputation < 16 then
+			return('EXPERIENCED')
 		elseif self.reputation < 32 then
 			return('CREDIBLE')
 		elseif self.reputation < 64 then
@@ -1126,7 +1128,7 @@ Character = {
 		elseif self.reputation < 512 then
 			return('EXPERT')
 		else
-			return('MASTER')                     --todo ui/Settings.lua
+			return('MASTER')
 		end
 	end,
 

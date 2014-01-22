@@ -21,6 +21,8 @@ local InfoFace = import("ui/InfoFace")
 
 -- Get the language resource
 local l = Lang.GetResource("module-taxi")
+local l2 = Lang.GetResource("module-denymission")
+
 -- Get the UI class
 local ui = Engine.ui
 
@@ -36,6 +38,7 @@ local max_group = 10
 
 local num_corporations = 12
 local num_pirate_taunts = 4
+local num_deny = 8
 
 local flavours = {
 	{
@@ -132,9 +135,28 @@ local onChat = function (form, ref, option)
 		return
 	end
 
-	if option == 0 then
-		form:SetFace(ad.client)
+	local reputation = Character.persistent.player.reputation
+	local qualified =
+		reputation >= 16 or
+		(ad.risk <  0.002 and ad.urgency < 0.3 and reputation >= 0) or
+		(ad.risk <  0.2   and ad.urgency < 0.5 and reputation >= 4) or
+		(ad.risk <= 0.6   and ad.urgency < 0.6 and reputation >= 8) or
+		false
 
+	print("")
+	print("RISK:", ad.risk)
+	print("URGENCY:", ad.urgency)
+	print("QUAL", qualified)
+
+	form:SetFace(ad.client)
+
+	if not qualified then
+		local introtext = l["DENY_"..Engine.rand:Integer(1,num_deny)-1]
+		form:SetMessage(introtext)
+		return
+	end
+
+	if option == 0 then
 		local sys   = ad.location:GetStarSystem()
 
 		local introtext = string.interp(flavours[ad.flavour].introtext, {
@@ -364,9 +386,11 @@ local onShipDocked = function (player, station)
 		if mission.location == Game.system.path or Game.time > mission.due then
 			if Game.time > mission.due then
 				Comms.ImportantMessage(flavours[mission.flavour].failuremsg, mission.client.name)
+				Character.persistent.player.reputation = Character.persistent.player.reputation - 2
 			else
 				Comms.ImportantMessage(flavours[mission.flavour].successmsg, mission.client.name)
 				player:AddMoney(mission.reward)
+				Character.persistent.player.reputation = Character.persistent.player.reputation + 2
 			end
 
 			remove_passengers(mission.group)

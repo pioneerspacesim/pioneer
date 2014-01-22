@@ -33,48 +33,50 @@ local typical_travel_time = (1.6 * max_delivery_dist + 4) * 24 * 60 * 60
 local typical_reward = 25 * max_delivery_dist
 
 local num_pirate_taunts = 10
+local num_deny = 8
+
 
 local flavours = {
 	{
 		urgency = 0,
 		risk = 0,
-		localdelivery = 0,
+		localdelivery = false,
 	}, {
 		urgency = 0.1,
 		risk = 0,
-		localdelivery = 0,
+		localdelivery = false,
 	}, {
 		urgency = 0.6,
 		risk = 0,
-		localdelivery = 0,
+		localdelivery = false,
 	}, {
 		urgency = 0.4,
 		risk = 0.75,
-		localdelivery = 0,
+		localdelivery = false,
 	}, {
 		urgency = 0.1,
 		risk = 0.1,
-		localdelivery = 0,
+		localdelivery = false,
 	}, {
 		urgency = 0.1,
 		risk = 0,
-		localdelivery = 1,
+		localdelivery = true,
 	}, {
 		urgency = 0.2,
 		risk = 0,
-		localdelivery = 1,
+		localdelivery = true,
 	}, {
 		urgency = 0.4,
 		risk = 0,
-		localdelivery = 1,
+		localdelivery = true,
 	}, {
 		urgency = 0.6,
 		risk = 0,
-		localdelivery = 1,
+		localdelivery = true,
 	}, {
 		urgency = 0.8,
 		risk = 0,
-		localdelivery = 1,
+		localdelivery = true,
 	}
 }
 
@@ -101,25 +103,44 @@ local onChat = function (form, ref, option)
 		return
 	end
 
+	local reputation = Character.persistent.player.reputation
+	local qualified =
+		reputation >= 8 or
+		ad.localdelivery or
+		(ad.risk <  0.1 and ad.urgency <= 0.1) or
+		(ad.risk <  0.5 and ad.urgency <= 0.5 and reputation >= 4) or
+		false
+
+	print("")
+	print("RISK:", ad.risk)
+	print("URGENCY:", ad.urgency)
+	print("QUAL", qualified)
+
+	form:SetFace(ad.client)
+
+	if not qualified then
+		local introtext = l["DENY_"..Engine.rand:Integer(1,num_deny)-1]
+		form:SetMessage(introtext)
+		return
+	end
+
 	if option == 0 then
-		form:SetFace(ad.client)
 
 		local sys   = ad.location:GetStarSystem()
 		local sbody = ad.location:GetSystemBody()
 
 		local introtext = string.interp(flavours[ad.flavour].introtext, {
-			name     = ad.client.name,
-			cash     = Format.Money(ad.reward),
-			starport = sbody.name,
-			system   = sys.name,
-			sectorx  = ad.location.sectorX,
-			sectory  = ad.location.sectorY,
-			sectorz  = ad.location.sectorZ,
-			dist     = string.format("%.2f", ad.dist),
+									  name     = ad.client.name,
+									  cash     = Format.Money(ad.reward),
+									  starport = sbody.name,
+									  system   = sys.name,
+									  sectorx  = ad.location.sectorX,
+									  sectory  = ad.location.sectorY,
+									  sectorz  = ad.location.sectorZ,
+									  dist     = string.format("%.2f", ad.dist),
 		})
 
 		form:SetMessage(introtext)
-
 	elseif option == 1 then
 		form:SetMessage(flavours[ad.flavour].whysomuchtext)
 
@@ -161,11 +182,12 @@ local onChat = function (form, ref, option)
 		return
 	end
 
-	form:AddOption(l.WHY_SO_MUCH_MONEY, 1)
-	form:AddOption(l.HOW_SOON_MUST_IT_BE_DELIVERED, 2)
-	form:AddOption(l.WILL_I_BE_IN_ANY_DANGER, 4)
-	form:AddOption(l.COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST, 0)
-	form:AddOption(l.OK_AGREED, 3)
+		form:AddOption(l.WHY_SO_MUCH_MONEY, 1)
+		form:AddOption(l.HOW_SOON_MUST_IT_BE_DELIVERED, 2)
+		form:AddOption(l.WILL_I_BE_IN_ANY_DANGER, 4)
+		form:AddOption(l.COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST, 0)
+		form:AddOption(l.OK_AGREED, 3)
+
 end
 
 local onDelete = function (ref)
@@ -180,7 +202,7 @@ local makeAdvert = function (station)
 	local urgency = flavours[flavour].urgency
 	local risk = flavours[flavour].risk
 
-	if flavours[flavour].localdelivery == 1 then
+	if flavours[flavour].localdelivery then
 		nearbysystem = Game.system
 		local nearbystations = Game.system:GetStationPaths()
 		location = nearbystations[Engine.rand:Integer(1,#nearbystations)]
@@ -242,10 +264,10 @@ end
 
 local onUpdateBB = function (station)
 	for ref,ad in pairs(ads) do
-		if flavours[ad.flavour].localdelivery == 0
+		if not flavours[ad.flavour].localdelivery
 			and ad.due < Game.time + 5*60*60*24 then -- five day timeout for inter-system
 			ad.station:RemoveAdvert(ref)
-		elseif flavours[ad.flavour].localdelivery == 1
+		elseif flavours[ad.flavour].localdelivery
 			and ad.due < Game.time + 2*60*60*24 then -- two day timeout for locals
 			ad.station:RemoveAdvert(ref)
 		end
