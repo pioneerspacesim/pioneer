@@ -125,17 +125,17 @@ local onChat = function (form, ref, option)
 		local sbody = ad.location:GetSystemBody()
 
 		local introtext = string.interp(flavours[ad.flavour].introtext, {
-									  name     = ad.client.name,
-									  cash     = Format.Money(ad.reward),
-									  starport = sbody.name,
-									  system   = sys.name,
-									  sectorx  = ad.location.sectorX,
-									  sectory  = ad.location.sectorY,
-									  sectorz  = ad.location.sectorZ,
-									  dist     = string.format("%.2f", ad.dist),
+			name     = ad.client.name,
+			cash     = Format.Money(ad.reward),
+			starport = sbody.name,
+			system   = sys.name,
+			sectorx  = ad.location.sectorX,
+			sectory  = ad.location.sectorY,
+			sectorz  = ad.location.sectorZ,
+			dist     = string.format("%.2f", ad.dist),
 		})
-
 		form:SetMessage(introtext)
+
 	elseif option == 1 then
 		form:SetMessage(flavours[ad.flavour].whysomuchtext)
 
@@ -177,11 +177,11 @@ local onChat = function (form, ref, option)
 		return
 	end
 
-		form:AddOption(l.WHY_SO_MUCH_MONEY, 1)
-		form:AddOption(l.HOW_SOON_MUST_IT_BE_DELIVERED, 2)
-		form:AddOption(l.WILL_I_BE_IN_ANY_DANGER, 4)
-		form:AddOption(l.COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST, 0)
-		form:AddOption(l.OK_AGREED, 3)
+	form:AddOption(l.WHY_SO_MUCH_MONEY, 1)
+	form:AddOption(l.HOW_SOON_MUST_IT_BE_DELIVERED, 2)
+	form:AddOption(l.WILL_I_BE_IN_ANY_DANGER, 4)
+	form:AddOption(l.COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST, 0)
+	form:AddOption(l.OK_AGREED, 3)
 
 end
 
