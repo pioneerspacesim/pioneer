@@ -4,7 +4,7 @@ AM_CFLAGS += $(WARN_CFLAGS)
 AM_CPPFLAGS += $(WARN_CPPFLAGS)
 AM_CXXFLAGS += $(STD_CXXFLAGS) $(WARN_CXXFLAGS)
 
-INCLUDES = -I$(srcdir)/..
+AM_CPPFLAGS += -I$(srcdir)/..
 
 noinst_LIBRARIES = libterrain.a
 noinst_HEADERS = \
@@ -69,7 +69,7 @@ libterrain_a_SOURCES = \
 	TerrainColorTFPoor.cpp \
 	TerrainColorVolcanic.cpp
 
-INCLUDES += -isystem @top_srcdir@/contrib
+AM_CPPFLAGS += -isystem @top_srcdir@/contrib
 if !HAVE_LUA
-INCLUDES += -isystem @top_srcdir@/contrib/lua
+AM_CPPFLAGS += -isystem @top_srcdir@/contrib/lua
 endif
