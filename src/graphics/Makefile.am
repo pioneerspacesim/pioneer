@@ -33,6 +33,7 @@ noinst_HEADERS = \
 	gl2/RingMaterial.h \
 	gl2/ShieldMaterial.h \
 	gl2/StarfieldMaterial.h \
+	gl2/SkyboxMaterial.h \
 	gl2/Uniform.h
 
 libgraphics_a_SOURCES = \

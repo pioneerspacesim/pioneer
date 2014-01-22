@@ -13,12 +13,12 @@
 namespace Graphics {
 
 TextureBuilder::TextureBuilder(const SDLSurfacePtr &surface, TextureSampleMode sampleMode, bool generateMipmaps, bool potExtend, bool forceRGBA, bool compressTextures) :
-    m_surface(surface), m_sampleMode(sampleMode), m_generateMipmaps(generateMipmaps), m_potExtend(potExtend), m_forceRGBA(forceRGBA), m_compressTextures(compressTextures), m_prepared(false)
+    m_surface(surface), m_sampleMode(sampleMode), m_generateMipmaps(generateMipmaps), m_potExtend(potExtend), m_forceRGBA(forceRGBA), m_compressTextures(compressTextures), m_textureType(TEXTURE_2D), m_prepared(false)
 {
 }
 
-TextureBuilder::TextureBuilder(const std::string &filename, TextureSampleMode sampleMode, bool generateMipmaps, bool potExtend, bool forceRGBA, bool compressTextures) :
-    m_filename(filename), m_sampleMode(sampleMode), m_generateMipmaps(generateMipmaps), m_potExtend(potExtend), m_forceRGBA(forceRGBA), m_compressTextures(compressTextures), m_prepared(false)
+TextureBuilder::TextureBuilder(const std::string &filename, TextureSampleMode sampleMode, bool generateMipmaps, bool potExtend, bool forceRGBA, bool compressTextures, TextureType textureType) :
+    m_filename(filename), m_sampleMode(sampleMode), m_generateMipmaps(generateMipmaps), m_potExtend(potExtend), m_forceRGBA(forceRGBA), m_compressTextures(compressTextures), m_textureType(textureType), m_prepared(false)
 {
 }
 
@@ -99,14 +99,25 @@ void TextureBuilder::PrepareSurface()
 	}
 
 	TextureFormat targetTextureFormat;
-	unsigned int virtualWidth, actualWidth, virtualHeight, actualHeight, numberOfMipMaps = 0;
+	unsigned int virtualWidth, actualWidth, virtualHeight, actualHeight, numberOfMipMaps = 0, numberOfImages = 1;
 	if( m_surface ) {
 		SDL_PixelFormat *targetPixelFormat;
 		bool needConvert = !GetTargetFormat(m_surface->format, &targetTextureFormat, &targetPixelFormat, m_forceRGBA);
 
 		if (needConvert) {
-			SDL_Surface *s = SDL_ConvertSurface(m_surface.Get(), targetPixelFormat, SDL_SWSURFACE);
-			m_surface = SDLSurfacePtr::WrapNew(s);
+			if(m_textureType == TEXTURE_2D) {
+				SDL_Surface *s = SDL_ConvertSurface(m_surface.Get(), targetPixelFormat, SDL_SWSURFACE);
+				m_surface = SDLSurfacePtr::WrapNew(s);
+			} else if(m_textureType == TEXTURE_CUBE_MAP) {
+				assert(m_cubemap.size() == 6);
+				for(unsigned int i = 0; i < 6; ++i) {
+					SDL_Surface *s = SDL_ConvertSurface(m_cubemap[i].Get(), targetPixelFormat, SDL_SWSURFACE);
+					m_cubemap[i] = SDLSurfacePtr::WrapNew(s);
+				}
+			} else {
+				// Unknown texture type
+				assert(0);
+			}
 		}
 
 		virtualWidth = actualWidth = m_surface->w;
@@ -117,12 +128,25 @@ void TextureBuilder::PrepareSurface()
 			actualWidth = ceil_pow2(m_surface->w);
 			actualHeight = ceil_pow2(m_surface->h);
 			if (actualWidth != virtualWidth || actualHeight != virtualHeight) {
-				SDL_Surface *s = SDL_CreateRGBSurface(SDL_SWSURFACE, actualWidth, actualHeight, targetPixelFormat->BitsPerPixel,
-					targetPixelFormat->Rmask, targetPixelFormat->Gmask, targetPixelFormat->Bmask, targetPixelFormat->Amask);
-				SDL_SetSurfaceBlendMode(m_surface.Get(), SDL_BLENDMODE_NONE);
-				SDL_BlitSurface(m_surface.Get(), 0, s, 0);
+				if(m_textureType == TEXTURE_2D) {
+					SDL_Surface *s = SDL_CreateRGBSurface(SDL_SWSURFACE, actualWidth, actualHeight, targetPixelFormat->BitsPerPixel,
+						targetPixelFormat->Rmask, targetPixelFormat->Gmask, targetPixelFormat->Bmask, targetPixelFormat->Amask);
+					SDL_SetSurfaceBlendMode(m_surface.Get(), SDL_BLENDMODE_NONE);
+					SDL_BlitSurface(m_surface.Get(), 0, s, 0);
 
-				m_surface = SDLSurfacePtr::WrapNew(s);
+					m_surface = SDLSurfacePtr::WrapNew(s);
+				} else if(m_textureType == TEXTURE_CUBE_MAP) {
+					assert(m_cubemap.size() == 6);
+					for(unsigned int i = 0; i < 6; ++i) {
+						SDL_Surface *s = SDL_CreateRGBSurface(SDL_SWSURFACE, actualWidth, actualHeight, targetPixelFormat->BitsPerPixel,
+							targetPixelFormat->Rmask, targetPixelFormat->Gmask, targetPixelFormat->Bmask, targetPixelFormat->Amask);
+						SDL_SetSurfaceBlendMode(m_cubemap[i].Get(), SDL_BLENDMODE_NONE);
+						SDL_BlitSurface(m_cubemap[i].Get(), 0, s, 0);
+						m_cubemap[i] = SDLSurfacePtr::WrapNew(s);
+					}
+				} else {
+					assert(0);
+				}
 			}
 		}
 		else if (! m_filename.empty()) {
@@ -146,13 +170,18 @@ void TextureBuilder::PrepareSurface()
 		virtualWidth = actualWidth = m_dds.imgdata_.width;
 		virtualHeight = actualHeight = m_dds.imgdata_.height;
 		numberOfMipMaps = m_dds.imgdata_.numMipMaps;
+		numberOfImages = m_dds.imgdata_.numImages;
+		if(m_textureType == TEXTURE_CUBE_MAP) {
+			// Cube map must be fully defined (6 images) to be used correctly
+			assert(numberOfImages == 6);
+		}
 	}
 
 	m_descriptor = TextureDescriptor(
 		targetTextureFormat,
 		vector2f(actualWidth,actualHeight),
 		vector2f(float(virtualWidth)/float(actualWidth),float(virtualHeight)/float(actualHeight)),
-		m_sampleMode, m_generateMipmaps, m_compressTextures, numberOfMipMaps);
+		m_sampleMode, m_generateMipmaps, m_compressTextures, numberOfMipMaps, m_textureType);
 
 	m_prepared = true;
 }
@@ -174,10 +203,18 @@ void TextureBuilder::LoadSurface()
 {
 	assert(!m_surface);
 
-	SDLSurfacePtr s = LoadSurfaceFromFile(m_filename);
-	if (! s) { s = LoadSurfaceFromFile("textures/unknown.png"); }
+	SDLSurfacePtr s;
+	if(m_textureType == TEXTURE_2D) {
+		s = LoadSurfaceFromFile(m_filename);
+		if (! s) { 
+			s = LoadSurfaceFromFile("textures/unknown.png"); 
+		}
+	} else if(m_textureType == TEXTURE_CUBE_MAP) {
+		fprintf(stderr, "LoadSurface: %s: cannot load non-DDS cubemaps\n", m_filename.c_str());
+	}
 
 	// XXX if we can't load the fallback texture, then what?
+	assert(s);
 	m_surface = s;
 }
 
@@ -195,11 +232,44 @@ void TextureBuilder::LoadDDS()
 void TextureBuilder::UpdateTexture(Texture *texture)
 {
 	if( m_surface ) {
-		texture->Update(m_surface->pixels, vector2f(m_surface->w,m_surface->h), m_descriptor.format, 0);
+		if(texture->GetDescriptor().type == TEXTURE_2D && m_textureType == TEXTURE_2D) {
+			texture->Update(m_surface->pixels, vector2f(m_surface->w,m_surface->h), m_descriptor.format, 0);
+		} else if(texture->GetDescriptor().type == TEXTURE_CUBE_MAP && m_textureType == TEXTURE_CUBE_MAP) {
+			assert(m_cubemap.size() == 6);
+			TextureCubeData tcd;
+			// Sequence of cube map face storage: +X -X +Y -Y -Z +Z
+			tcd.posX = m_cubemap[0]->pixels;
+			tcd.negX = m_cubemap[1]->pixels;
+			tcd.posY = m_cubemap[2]->pixels;
+			tcd.negY = m_cubemap[3]->pixels;
+			tcd.posZ = m_cubemap[4]->pixels;
+			tcd.negZ = m_cubemap[5]->pixels;
+			texture->Update(tcd, vector2f(m_cubemap[0]->w, m_cubemap[0]->h), m_descriptor.format, 0);
+		} else {
+			// Given texture and current texture don't have the same type!
+			assert(0);
+		}
 	} else {
 		assert(m_dds.headerdone_);
 		assert(m_descriptor.format == TEXTURE_DXT1 || m_descriptor.format == TEXTURE_DXT5);
-		texture->Update(m_dds.imgdata_.imgData, vector2f(m_dds.imgdata_.width,m_dds.imgdata_.height), m_descriptor.format, m_dds.imgdata_.numMipMaps);
+		if(texture->GetDescriptor().type == TEXTURE_2D && m_textureType == TEXTURE_2D) {
+			texture->Update(m_dds.imgdata_.imgData, vector2f(m_dds.imgdata_.width,m_dds.imgdata_.height), m_descriptor.format, m_dds.imgdata_.numMipMaps);
+		} else if(texture->GetDescriptor().type == TEXTURE_CUBE_MAP && m_textureType == TEXTURE_CUBE_MAP) {
+			TextureCubeData tcd;
+			// Size in bytes of each cube map face
+			size_t face_size = m_dds.imgdata_.size / m_dds.imgdata_.numImages;
+			// Sequence of cube map face storage: +X -X +Y -Y +Z -Z
+			tcd.posX = static_cast<void*>(m_dds.imgdata_.imgData + (0 * face_size));
+			tcd.negX = static_cast<void*>(m_dds.imgdata_.imgData + (1 * face_size));
+			tcd.posY = static_cast<void*>(m_dds.imgdata_.imgData + (2 * face_size));
+			tcd.negY = static_cast<void*>(m_dds.imgdata_.imgData + (3 * face_size));
+			tcd.posZ = static_cast<void*>(m_dds.imgdata_.imgData + (4 * face_size));
+			tcd.negZ = static_cast<void*>(m_dds.imgdata_.imgData + (5 * face_size));
+			texture->Update(tcd, vector2f(m_dds.imgdata_.width, m_dds.imgdata_.height), m_descriptor.format, m_dds.imgdata_.numMipMaps);
+		} else {
+			// Given texture and current texture don't have the same type!
+			assert(0);
+		}
 	}
 }
 
