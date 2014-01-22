@@ -33,7 +33,7 @@ struct VBOVertex
 {
 	float x,y,z;
 	float nx,ny,nz;
-	float u, v;
+	float padding[2];
 };
 #pragma pack()
 
@@ -138,20 +138,13 @@ public:
 	vector3d v[4];
 	GLuint m_vbo;
 	GasGiant *gasSphere;
-	double m_roughLength;
-	vector3d clipCentroid, centroid;
+	vector3d clipCentroid;
 	double clipRadius;
 
-	GasPatch(const RefCountedPtr<GasPatchContext> &_ctx, GasGiant *gs, vector3d v0, vector3d v1, vector3d v2, vector3d v3) {
-		memset(this, 0, sizeof(GasPatch));
-
-		ctx = _ctx;
-
-		gasSphere = gs;
-
+	GasPatch(const RefCountedPtr<GasPatchContext> &_ctx, GasGiant *gs, vector3d v0, vector3d v1, vector3d v2, vector3d v3) 
+		: ctx(_ctx), m_vbo(0), gasSphere(gs), clipCentroid(((v0+v1+v2+v3) * 0.25).Normalized()), clipRadius(0.0)
+	{
 		v[0] = v0; v[1] = v1; v[2] = v2; v[3] = v3;
-		clipCentroid = ((v0+v1+v2+v3) * 0.25).Normalized();
-		clipRadius = 0;
 		for (int i=0; i<4; i++) {
 			clipRadius = std::max(clipRadius, (v[i]-clipCentroid).Length());
 		}
@@ -187,13 +180,6 @@ public:
 				pData->nx = float(p.x);
 				pData->ny = float(p.y);
 				pData->nz = float(p.z);
-
-				//http://www.mvps.org/directx/articles/spheremap.htm
-				//pData->u = asinf(p.x)/M_PI+0.5f;
-				//pData->v = asinf(p.y)/M_PI+0.5f;
-
-				pData->u = float(0.5 + atan2(p.z,p.x)/(2.0*M_PI));
-				pData->v = 0.5 - asin(p.y)/M_PI;
 
 				++pData; // next vertex
 			}
