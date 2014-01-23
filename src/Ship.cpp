@@ -533,7 +533,6 @@ void Ship::UpdateEquipStats()
 	m_stats.shield_mass = TONS_HULL_PER_SHIELD * float(m_equipment.Count(Equip::SLOT_SHIELD, Equip::SHIELD_GENERATOR));
 	p.Set("shieldMass", m_stats.shield_mass);
 
-	UpdateMass();
 	UpdateFuelStats();
 
 	Equip::Type fuelType = GetHyperdriveFuelType();
@@ -563,7 +562,6 @@ void Ship::UpdateFuelStats()
 void Ship::UpdateStats()
 {
 	UpdateEquipStats();
-	UpdateFuelStats();
 }
 
 static float distance_to_system(const SystemPath &src, const SystemPath &dest)
