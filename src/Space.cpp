@@ -20,7 +20,7 @@
 #include "HyperspaceCloud.h"
 #include "graphics/Graphics.h"
 #include "WorldView.h"
-#include "galaxy/SectorCache.h"
+#include "galaxy/Sector.h"
 #include "SectorView.h"
 #include "Lang.h"
 #include "Game.h"
@@ -72,7 +72,7 @@ Space::Space(Game *game)
 	m_rootFrame.reset(new Frame(0, Lang::SYSTEM));
 	m_rootFrame->SetRadius(FLT_MAX);
 
-	GenSectorCache();
+	Sector::cache.GenSectorCache();
 }
 
 Space::Space(Game *game, const SystemPath &path)
@@ -100,7 +100,7 @@ Space::Space(Game *game, const SystemPath &path)
 	GenBody(m_game->GetTime(), m_starSystem->rootBody.Get(), m_rootFrame.get());
 	m_rootFrame->UpdateOrbitRails(m_game->GetTime(), m_game->GetTimeStep());
 
-	GenSectorCache();
+	Sector::cache.GenSectorCache();
 
 	//DebugDumpFrames();
 }
@@ -139,7 +139,7 @@ Space::Space(Game *game, Serializer::Reader &rd)
 	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
 		(*i)->PostLoadFixup(this);
 
-	GenSectorCache();
+	Sector::cache.GenSectorCache();
 }
 
 Space::~Space()
@@ -608,61 +608,6 @@ static Frame *MakeFrameFor(double at_time, SystemBody *sbody, Body *b, Frame *f)
 		assert(0);
 	}
 	return 0;
-}
-
-void Space::GenSectorCache()
-{
-	if (!m_starSystem.Valid())
-		return;
-
-	// current location
-	const SystemPath& here = m_starSystem->GetPath();
-	const int here_x = here.sectorX;
-	const int here_y = here.sectorY;
-	const int here_z = here.sectorZ;
-
-	// used to define a cube centred on your current location
-	const int diff_sec = 10;
-	const int sec_spread = (diff_sec*2)+1; // including the current sector you're in
-
-	typedef std::vector<SystemPath> TVecPaths;
-	TVecPaths paths;
-	// build all of the possible paths we'll need to build sectors for
-	for (int x = here_x-diff_sec; x <= here_x+diff_sec; x++) {
-		for (int y = here_y-diff_sec; y <= here_y+diff_sec; y++) {
-			for (int z = here_z-diff_sec; z <= here_z+diff_sec; z++) {
-				// ignore sectors we've already cached
-				if(!Sector::cache.HasCached(SystemPath(x, y, z))) {
-					paths.push_back(SystemPath(x, y, z));
-				}
-			}
-		}
-	}
-
-	// allocate some space for what we're about to chunk up
-	std::vector<TVecPaths> vec_paths;
-	vec_paths.reserve(sec_spread * sec_spread);
-	TVecPaths current_paths;
-	current_paths.reserve(sec_spread);
-
-	// chop the paths into groups equivalent to a spread width of the cube
-	for (auto it = paths.begin(), itEnd = paths.end(); it != itEnd; ++it) {
-		current_paths.push_back(*it);
-		if( current_paths.size() >= sec_spread ) {
-			vec_paths.push_back( current_paths );
-			current_paths.clear();
-		}
-	}
-	// catch the last loop in case it's got some entries (could be less than the spread width)
-	if( !current_paths.empty() ) {
-		vec_paths.push_back( current_paths );
-		current_paths.clear();
-	}
-
-	// now add the batched jobs
-	for (auto it = vec_paths.begin(), itEnd = vec_paths.end(); it != itEnd; ++it) {
-		Pi::Jobs()->Queue(new SectorCacheJob(*it));
-	}
 }
 
 void Space::GenBody(double at_time, SystemBody *sbody, Frame *f)

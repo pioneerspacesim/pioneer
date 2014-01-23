@@ -16,9 +16,8 @@ public:
 	SectorCache();
 	~SectorCache();
 
-	void AddToCache(const std::vector<Sector>& secIn);
 	Sector* GetCached(const SystemPath& loc);
-	bool HasCached(const SystemPath& loc) const;
+	void GenSectorCache();
 	void ShrinkCache();
 
 	void SetZoomClamp(const float zoomClamp) { m_zoomClamped = zoomClamp; }
@@ -31,6 +30,27 @@ public:
 	SectorCacheMapConstIterator End() { return m_sectorCache.end(); }
 
 private:
+	void AddToCache(const std::vector<Sector>& secIn);
+	bool HasCached(const SystemPath& loc) const;
+
+	// ********************************************************************************
+	// Overloaded Job class to handle generating a collection of sectors
+	// ********************************************************************************
+	class SectorCacheJob : public Job
+	{
+	public:
+		SectorCacheJob(const std::vector<SystemPath>& path);
+		virtual ~SectorCacheJob() {}
+
+		virtual void OnRun();    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
+		virtual void OnFinish();  // runs in primary thread of the context
+		virtual void OnCancel() {}   // runs in primary thread of the context
+
+	protected:
+		std::vector<SystemPath> m_paths;
+		std::vector<Sector> m_sectors;
+	};
+
 	SectorCacheMap m_sectorCache;
 
 	int m_cacheXMin;
@@ -41,24 +61,6 @@ private:
 	int m_cacheZMax;
 	float m_zoomClamped;
 	vector3f m_pos;
-};
-
-// ********************************************************************************
-// Overloaded Job class to handle generating a collection of sectors
-// ********************************************************************************
-class SectorCacheJob : public Job
-{
-public:
-	SectorCacheJob(const std::vector<SystemPath>& path);
-	virtual ~SectorCacheJob() {}
-
-	virtual void OnRun();    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
-	virtual void OnFinish();  // runs in primary thread of the context
-	virtual void OnCancel() {}   // runs in primary thread of the context
-
-protected:
-	std::vector<SystemPath> m_paths;
-	std::vector<Sector> m_sectors;
 };
 
 #endif
