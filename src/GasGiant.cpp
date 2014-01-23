@@ -10,6 +10,7 @@
 #include "graphics/Renderer.h"
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
+#include "graphics/TextureBuilder.h"
 #include "graphics/VertexArray.h"
 #include "vcacheopt/vcacheopt.h"
 #include <deque>
@@ -231,6 +232,9 @@ GasGiant::~GasGiant()
 {
 }
 
+#define DUMP_TO_TEXTURE 0
+
+#if DUMP_TO_TEXTURE
 #include "FileSystem.h"
 #include "PngWriter.h"
 void textureDump(const char* destFile, const int width, const int height, const Color* buf)
@@ -247,98 +251,83 @@ void textureDump(const char* destFile, const int width, const int height, const 
 
 	printf("texture %s saved\n", fname.c_str());
 }
+#endif
 
 /* in patch surface coords, [0,1] */
 vector3d GetSpherePoint(const double x, const double y, const vector3d *v) {
 	return (v[0] + x*(1.0-y)*(v[1]-v[0]) + x*y*(v[2]-v[0]) + (1.0-x)*y*(v[3]-v[0])).Normalized();
 }
 
-#include "graphics/Material.h"
-#include "graphics/Renderer.h"
-#include "graphics/TextureBuilder.h"
-#pragma optimize("",off)
+static const Uint32 UV_DIMS = 1024;
+static const double FRACSTEP = 1.0 / double(UV_DIMS-1);
+
+// generate root face patches of the cube/sphere
+static const vector3d p1 = (vector3d( 1, 1, 1)).Normalized();
+static const vector3d p2 = (vector3d(-1, 1, 1)).Normalized();
+static const vector3d p3 = (vector3d(-1,-1, 1)).Normalized();
+static const vector3d p4 = (vector3d( 1,-1, 1)).Normalized();
+static const vector3d p5 = (vector3d( 1, 1,-1)).Normalized();
+static const vector3d p6 = (vector3d(-1, 1,-1)).Normalized();
+static const vector3d p7 = (vector3d(-1,-1,-1)).Normalized();
+static const vector3d p8 = (vector3d( 1,-1,-1)).Normalized();
+
+static const vector3d s_patchFaces[NUM_PATCHES][4] = 
+{ 
+	{p4, p8, p5, p1}, // +x
+	{p7, p3, p2, p6}, // -x
+	
+	{p7, p8, p4, p3}, // +y
+	{p2, p1, p5, p6}, // -y
+
+	{p3, p4, p1, p2}, // +z
+	{p8, p7, p6, p5}  // -z
+};
+
 void GasGiant::GenerateTexture()
 {
-#if 0
-	// Load new one
-	Graphics::TextureBuilder texture_builder = Graphics::TextureBuilder::Cube("textures/jupiter.dds");
-	m_surfaceTexture.Reset(texture_builder.CreateTexture(Gui::Screen::GetRenderer()));
-#else
-	static const Uint32 UV_DIMS = 128;
-	static const double FRACSTEP = 1.0 / double(UV_DIMS-1);
-
 	std::unique_ptr<Color, FreeDeleter> buf[NUM_PATCHES];
 	for(int i=0; i<NUM_PATCHES; i++) {
 		buf[i].reset(static_cast<Color*>(malloc(UV_DIMS * UV_DIMS * 4)));
 	}
 
-	// generate root face patches of the cube/sphere
-	static const vector3d p1 = (vector3d( 1, 1, 1)).Normalized();
-	static const vector3d p2 = (vector3d(-1, 1, 1)).Normalized();
-	static const vector3d p3 = (vector3d(-1,-1, 1)).Normalized();
-	static const vector3d p4 = (vector3d( 1,-1, 1)).Normalized();
-	static const vector3d p5 = (vector3d( 1, 1,-1)).Normalized();
-	static const vector3d p6 = (vector3d(-1, 1,-1)).Normalized();
-	static const vector3d p7 = (vector3d(-1,-1,-1)).Normalized();
-	static const vector3d p8 = (vector3d( 1,-1,-1)).Normalized();
-
-	static const vector3d patchFaces[NUM_PATCHES][4] = 
-	{ 
-		{p1, p4, p8, p5}, // +x
-		{p3, p2, p6, p7}, // -x
-		
-		{p2, p1, p5, p6}, // +y
-		{p4, p3, p7, p8}, // -y
-
-		{p1, p2, p3, p4}, // +z
-		{p8, p7, p6, p5}  // -z
-	};
-
-	static const Color patchColours[NUM_PATCHES] = 
-	{
-		Color(255, 0, 0, 255), // +x
-		Color(0, 128, 128, 255), // -x
-
-		Color(0, 255, 0, 255), // +y
-		Color(128, 0, 128, 255), // -y
-
-		Color(0, 0, 255, 255), // +z
-		Color(128, 128, 0, 255)  // -z
-	};
-
 	for(int i=0; i<NUM_PATCHES; i++) {
-		const Color tempCol = patchColours[i];
 		Color* const pBuf = buf[i].get();
 		for( Uint32 v=0; v<UV_DIMS; v++ ) {
 			for( Uint32 u=0; u<UV_DIMS; u++ ) {
+				// where in this row & colum are we now.
 				const double ustep = double(u) * FRACSTEP;
 				const double vstep = double(v) * FRACSTEP;
-				const vector3d p = GetSpherePoint(ustep, vstep, &patchFaces[i][0]);
 
+				// get point on the surface of the sphere
+				const vector3d p = GetSpherePoint(ustep, vstep, &s_patchFaces[i][0]);
+#if 1
 				// get colour using `p`
 				const vector3d colour = m_terrain->GetColor(p, 0.0, p);
 
 				// convert to ubyte and store
 				Color* col = pBuf + (u + (v * UV_DIMS));
-#if 0
-				col[0].r = tempCol.r;
-				col[0].g = tempCol.g;
-				col[0].b = tempCol.b;
-#else
 				col[0].r = Uint8(colour.x * 255.0);
 				col[0].g = Uint8(colour.y * 255.0);
 				col[0].b = Uint8(colour.z * 255.0);
+#else
+				// convert to ubyte and store
+				Color* col = pBuf + (u + (v * UV_DIMS));
+				col[0].r = Uint8(((p1.x + p.x) / p1.x*2.0) * 255.0);
+				col[0].g = Uint8(((p1.x + p.y) / p1.x*2.0) * 255.0);
+				col[0].b = Uint8(((p1.x + p.z) / p1.x*2.0) * 255.0);
 #endif
 				col[0].a = 255;
 			}
 		}
 	}
 
+#if DUMP_TO_TEXTURE
 	char filename[1024];
 	for(int i=0; i<NUM_PATCHES; i++) {
 		snprintf(filename, 1024, "%s%d.png", GetSystemBody()->name.c_str(), i);
 		textureDump(filename, UV_DIMS, UV_DIMS, buf[i].get());
 	}
+#endif
 
 	// create texture
 	const vector2f texSize(1.0f, 1.0f);
@@ -358,7 +347,6 @@ void GasGiant::GenerateTexture()
 	tcd.posZ = buf[4].get();
 	tcd.negZ = buf[5].get();
 	m_surfaceTexture->Update(tcd, dataSize, Graphics::TEXTURE_RGBA_8888);
-#endif
 }
 
 static const float g_ambient[4] = { 0, 0, 0, 1.0 };
