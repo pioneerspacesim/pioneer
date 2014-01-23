@@ -189,10 +189,17 @@ local onDelete = function (ref)
 end
 
 local nearbysystems
-local makeAdvert = function (station)
+local makeAdvert = function (station, manualFlavour)
 	local reward, due, location, nearbysystem, dist
 	local client = Character.New()
-	local flavour = Engine.rand:Integer(1,#flavours)
+
+	-- set flavour manually if a second arg is given
+	local flavour = manualFlavour or Engine.rand:Integer(1,#flavours)
+
+	if manualFlavour then
+		print("Flavour", manualFlavour)
+	end
+
 	local urgency = flavours[flavour].urgency
 	local risk = flavours[flavour].risk
 
@@ -200,17 +207,17 @@ local makeAdvert = function (station)
 		nearbysystem = Game.system
 		local nearbystations = Game.system:GetStationPaths()
 		location = nearbystations[Engine.rand:Integer(1,#nearbystations)]
-		if location ==  station.path then return end
+		if location ==  station.path then return nil end
 		local locdist = Space.GetBody(location.bodyIndex)
 		dist = station:DistanceTo(locdist)
-		if dist < 1000 then return end
+		if dist < 1000 then return nil end
 		reward = 25 + (math.sqrt(dist) / 15000) * (1+urgency)
 		due = Game.time + ((4*24*60*60) * (Engine.rand:Number(1.5,3.5) - urgency))
 	else
 		if nearbysystems == nil then
 			nearbysystems = Game.system:GetNearbySystems(max_delivery_dist, function (s) return #s:GetStationPaths() > 0 end)
 		end
-		if #nearbysystems == 0 then return end
+		if #nearbysystems == 0 then return nil end
 		nearbysystem = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
 		dist = nearbysystem:DistanceTo(Game.system)
 		local nearbystations = nearbysystem:GetStationPaths()
@@ -248,12 +255,32 @@ local makeAdvert = function (station)
 		onChat      = onChat,
 		onDelete    = onDelete})
 	ads[ref] = ad
+
+	-- successfully created an advert, return non-nil
+	return flavours[flavour].localdelivery
 end
 
 local onCreateBB = function (station)
 	local num = Engine.rand:Integer(0, math.ceil(Game.system.population))
+
 	for i = 1,num do
 		makeAdvert(station)
+	end
+
+	-- make sure a player with low reputation will have at least one
+	-- local delivery (flavour [6,10]) on the BBS
+	if Character.persistent.player.reputation < 8 then
+		local created, i = false, 0
+		repeat
+			i = 1 + i
+			created = makeAdvert(station, Engine.rand:Integer(6,10))
+		until created or i > 5
+
+		if created then
+			print("CREATED LOCAL DELIVERY!", station.label)
+		else
+			print("FAIL!", station.label)
+		end
 	end
 end
 
