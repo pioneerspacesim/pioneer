@@ -196,10 +196,6 @@ local makeAdvert = function (station, manualFlavour)
 	-- set flavour manually if a second arg is given
 	local flavour = manualFlavour or Engine.rand:Integer(1,#flavours)
 
-	if manualFlavour then
-		print("Flavour", manualFlavour)
-	end
-
 	local urgency = flavours[flavour].urgency
 	local risk = flavours[flavour].risk
 
@@ -275,12 +271,6 @@ local onCreateBB = function (station)
 			i = 1 + i
 			created = makeAdvert(station, Engine.rand:Integer(6,10))
 		until created or i > 5
-
-		if created then
-			print("CREATED LOCAL DELIVERY!", station.label)
-		else
-			print("FAIL!", station.label)
-		end
 	end
 end
 
