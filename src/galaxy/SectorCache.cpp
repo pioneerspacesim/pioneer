@@ -4,6 +4,7 @@
 #include "libs.h"
 #include "Factions.h"
 #include "Pi.h"
+#include "Game.h"
 #include "SectorCache.h"
 #include "galaxy/Sector.h"
 #include "galaxy/StarSystem.h"
@@ -68,6 +69,63 @@ bool SectorCache::HasCached(const SystemPath& loc) const
 	return false;
 }
 
+void SectorCache::GenSectorCache()
+{
+	PROFILE_SCOPED()
+
+	if (!Pi::game || !Pi::game->GetSpace() || !Pi::game->GetSpace()->GetStarSystem().Valid())
+		return;
+
+	// current location
+	const SystemPath& here = Pi::game->GetSpace()->GetStarSystem()->GetPath();
+	const int here_x = here.sectorX;
+	const int here_y = here.sectorY;
+	const int here_z = here.sectorZ;
+
+	// used to define a cube centred on your current location
+	const int diff_sec = 10;
+	const int sec_spread = (diff_sec*2)+1; // including the current sector you're in
+
+	typedef std::vector<SystemPath> TVecPaths;
+	TVecPaths paths;
+	// build all of the possible paths we'll need to build sectors for
+	for (int x = here_x-diff_sec; x <= here_x+diff_sec; x++) {
+		for (int y = here_y-diff_sec; y <= here_y+diff_sec; y++) {
+			for (int z = here_z-diff_sec; z <= here_z+diff_sec; z++) {
+				// ignore sectors we've already cached
+				if(!HasCached(SystemPath(x, y, z))) {
+					paths.push_back(SystemPath(x, y, z));
+				}
+			}
+		}
+	}
+
+	// allocate some space for what we're about to chunk up
+	std::vector<TVecPaths> vec_paths;
+	vec_paths.reserve(sec_spread * sec_spread);
+	TVecPaths current_paths;
+	current_paths.reserve(sec_spread);
+
+	// chop the paths into groups equivalent to a spread width of the cube
+	for (auto it = paths.begin(), itEnd = paths.end(); it != itEnd; ++it) {
+		current_paths.push_back(*it);
+		if( current_paths.size() >= sec_spread ) {
+			vec_paths.push_back( current_paths );
+			current_paths.clear();
+		}
+	}
+	// catch the last loop in case it's got some entries (could be less than the spread width)
+	if( !current_paths.empty() ) {
+		vec_paths.push_back( current_paths );
+		current_paths.clear();
+	}
+
+	// now add the batched jobs
+	for (auto it = vec_paths.begin(), itEnd = vec_paths.end(); it != itEnd; ++it) {
+		Pi::Jobs()->Queue(new SectorCacheJob(*it));
+	}
+}
+
 void SectorCache::ShrinkCache()
 {
 	PROFILE_SCOPED()
@@ -107,13 +165,13 @@ void SectorCache::ShrinkCache()
 	}
 }
 
-SectorCacheJob::SectorCacheJob(const std::vector<SystemPath>& path) : Job(), m_paths(path)
+SectorCache::SectorCacheJob::SectorCacheJob(const std::vector<SystemPath>& path) : Job(), m_paths(path)
 {
 	m_sectors.reserve(m_paths.size());
 }
 
 //virtual
-void SectorCacheJob::OnRun()    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
+void SectorCache::SectorCacheJob::OnRun()    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
 {
 	for (auto it = m_paths.begin(), itEnd = m_paths.end(); it != itEnd; ++it) {
 		Sector newSec(*it);
@@ -122,7 +180,7 @@ void SectorCacheJob::OnRun()    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
 	}
 }
 //virtual
-void SectorCacheJob::OnFinish()  // runs in primary thread of the context
+void SectorCache::SectorCacheJob::OnFinish()  // runs in primary thread of the context
 {
 	Sector::cache.AddToCache( m_sectors );
 }
