@@ -249,7 +249,7 @@ void textureDump(const char* destFile, const int width, const int height, const 
 }
 
 /* in patch surface coords, [0,1] */
-vector3d GetSpherePoint(const double x, const double y, const vector3d v[6]) {
+vector3d GetSpherePoint(const double x, const double y, const vector3d *v) {
 	return (v[0] + x*(1.0-y)*(v[1]-v[0]) + x*y*(v[2]-v[0]) + (1.0-x)*y*(v[3]-v[0])).Normalized();
 }
 
@@ -267,8 +267,8 @@ void GasGiant::GenerateTexture()
 	static const Uint32 UV_DIMS = 128;
 	static const double FRACSTEP = 1.0 / double(UV_DIMS-1);
 
-	std::unique_ptr<Color, FreeDeleter> buf[6];
-	for(int i=0; i<6; i++) {
+	std::unique_ptr<Color, FreeDeleter> buf[NUM_PATCHES];
+	for(int i=0; i<NUM_PATCHES; i++) {
 		buf[i].reset(static_cast<Color*>(malloc(UV_DIMS * UV_DIMS * 4)));
 	}
 
@@ -282,7 +282,7 @@ void GasGiant::GenerateTexture()
 	static const vector3d p7 = (vector3d(-1,-1,-1)).Normalized();
 	static const vector3d p8 = (vector3d( 1,-1,-1)).Normalized();
 
-	static const vector3d patchFaces[6][4] = 
+	static const vector3d patchFaces[NUM_PATCHES][4] = 
 	{ 
 		{p1, p4, p8, p5}, // +x
 		{p3, p2, p6, p7}, // -x
@@ -294,33 +294,55 @@ void GasGiant::GenerateTexture()
 		{p8, p7, p6, p5}  // -z
 	};
 
-	for(int i=0; i<6; i++) {
+	static const Color patchColours[NUM_PATCHES] = 
+	{
+		Color(255, 0, 0, 255), // +x
+		Color(0, 128, 128, 255), // -x
+
+		Color(0, 255, 0, 255), // +y
+		Color(128, 0, 128, 255), // -y
+
+		Color(0, 0, 255, 255), // +z
+		Color(128, 128, 0, 255)  // -z
+	};
+
+	for(int i=0; i<NUM_PATCHES; i++) {
+		const Color tempCol = patchColours[i];
+		Color* const pBuf = buf[i].get();
 		for( Uint32 v=0; v<UV_DIMS; v++ ) {
 			for( Uint32 u=0; u<UV_DIMS; u++ ) {
-				const vector3d colour = GetSpherePoint(u*FRACSTEP, v*FRACSTEP, patchFaces[i]);
+				const double ustep = double(u) * FRACSTEP;
+				const double vstep = double(v) * FRACSTEP;
+				const vector3d p = GetSpherePoint(ustep, vstep, &patchFaces[i][0]);
 
 				// get colour using `p`
-				//const vector3d colour = m_terrain->GetColor(p, 0.0, p);
+				const vector3d colour = m_terrain->GetColor(p, 0.0, p);
 
 				// convert to ubyte and store
-				Color* col = buf[i].get() + (u + (v * UV_DIMS));
-				col[0].r = Uint8(((1.0 + colour.x) * 0.5) * 255);
-				col[0].g = Uint8(((1.0 + colour.y) * 0.5) * 255);
-				col[0].b = Uint8(((1.0 + colour.z) * 0.5) * 255);
+				Color* col = pBuf + (u + (v * UV_DIMS));
+#if 0
+				col[0].r = tempCol.r;
+				col[0].g = tempCol.g;
+				col[0].b = tempCol.b;
+#else
+				col[0].r = Uint8(colour.x * 255.0);
+				col[0].g = Uint8(colour.y * 255.0);
+				col[0].b = Uint8(colour.z * 255.0);
+#endif
 				col[0].a = 255;
 			}
 		}
 	}
 
 	char filename[1024];
-	for(int i=0; i<6; i++) {
+	for(int i=0; i<NUM_PATCHES; i++) {
 		snprintf(filename, 1024, "%s%d.png", GetSystemBody()->name.c_str(), i);
 		textureDump(filename, UV_DIMS, UV_DIMS, buf[i].get());
 	}
 
 	// create texture
-	const vector2f texSize(UV_DIMS, UV_DIMS);
-	const vector2f dataSize(1.0f, 1.0f);
+	const vector2f texSize(1.0f, 1.0f);
+	const vector2f dataSize(UV_DIMS, UV_DIMS);
 	const Graphics::TextureDescriptor texDesc(
 		Graphics::TEXTURE_RGBA_8888, 
 		dataSize, texSize, Graphics::LINEAR_CLAMP, 
@@ -335,7 +357,7 @@ void GasGiant::GenerateTexture()
 	tcd.negY = buf[3].get();
 	tcd.posZ = buf[4].get();
 	tcd.negZ = buf[5].get();
-	m_surfaceTexture->Update(tcd, texSize, Graphics::TEXTURE_RGBA_8888);
+	m_surfaceTexture->Update(tcd, dataSize, Graphics::TEXTURE_RGBA_8888);
 #endif
 }
 
@@ -436,7 +458,7 @@ void GasGiant::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView,
 			// make atmosphere sphere slightly bigger than required so
 			// that the edges of the pixel shader atmosphere jizz doesn't
 			// show ugly polygonal angles
-			//DrawAtmosphereSurface(renderer, trans, campos, m_materialParameters.atmosphere.atmosRadius*1.01, m_atmosphereMaterial.get());
+			DrawAtmosphereSurface(renderer, trans, campos, m_materialParameters.atmosphere.atmosRadius*1.01, m_atmosphereMaterial.get());
 			renderer->SetDepthWrite(true);
 			renderer->SetBlendMode(Graphics::BLEND_SOLID);
 		}
