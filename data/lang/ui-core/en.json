@@ -929,7 +929,7 @@
    },
    "WEIGHT_EMPTY" : {
       "description" : "",
-      "message" : "Weight empty:"
+      "message" : "Weight empty"
    },
    "WEIGHT_FULLY_LOADED" : {
       "description" : "",
