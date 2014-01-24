@@ -535,6 +535,10 @@
       "description" : "",
       "message" : "max"
    },
+   "MAXIMUM_CREW" : {
+      "description" : "",
+      "message" : "Maximum crew"
+   },
    "MEDIUM" : {
       "description" : "",
       "message" : "Medium"
