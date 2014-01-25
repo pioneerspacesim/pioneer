@@ -1,6 +1,7 @@
 // Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+#include <utility>
 #include "libs.h"
 #include "Factions.h"
 #include "Pi.h"
@@ -25,35 +26,31 @@ SectorCache::SectorCache() :
 {
 }
 
-SectorCache::~SectorCache()
-{
-	SectorCacheMap::iterator iter = m_sectorCache.begin();
-	while (iter != m_sectorCache.end())	{
-		Sector *s = (*iter).second;
-		delete s;
-		iter++;
-	}
-}
-
-void SectorCache::AddToCache(const std::vector<Sector>& secIn)
+void SectorCache::AddToCache(const std::vector<RefCountedPtr<Sector> >& secIn)
 {
 	for (auto it = secIn.begin(), itEnd = secIn.end(); it != itEnd; ++it) {
-		m_sectorCache.insert( std::pair<SystemPath,Sector*>((*it).GetSystemPath(), new Sector((*it))) );
+		m_sectorCache.insert( std::make_pair(it->Get()->GetSystemPath(), *it) );
 	}
 }
 
-Sector* SectorCache::GetCached(const SystemPath& loc)
+RefCountedPtr<Sector> SectorCache::GetCached(const SystemPath& loc)
 {
 	PROFILE_SCOPED()
 	SystemPath secPath = loc.SectorOnly();
-	Sector *s = 0;
 
 	SectorCacheMap::iterator i = m_sectorCache.find(secPath);
 	if (i != m_sectorCache.end())
 		return (*i).second;
 
-	s = new Sector(secPath);
-	m_sectorCache.insert( std::pair<SystemPath,Sector*>(secPath, s) );
+	RefCountedPtr<Sector> s;
+	SectorAtticMap::iterator j = m_sectorAttic.find(secPath);
+	if (j != m_sectorAttic.end()) {
+		s = RefCountedPtr<Sector>(j->second);
+		m_sectorAttic.erase(j);
+	} else {
+		s = RefCountedPtr<Sector>(new Sector(secPath));
+	}
+	m_sectorCache.insert( std::make_pair(secPath, s) );
 	s->AssignFactions();
 
 	return s;
@@ -67,7 +64,28 @@ bool SectorCache::HasCached(const SystemPath& loc) const
 	const SectorCacheMap::const_iterator i = m_sectorCache.find(loc);
 	if (i != m_sectorCache.end())
 		return true;
+	const SectorAtticMap::const_iterator j = m_sectorAttic.find(loc);
+	if (j != m_sectorAttic.end())
+		return true;
+	return false;
+}
 
+bool SectorCache::HasCached(const SystemPath& loc, bool revive)
+{
+	PROFILE_SCOPED()
+
+	assert(loc.IsSectorPath());
+	const SectorCacheMap::const_iterator i = m_sectorCache.find(loc);
+	if (i != m_sectorCache.end())
+		return true;
+	const SectorAtticMap::const_iterator j = m_sectorAttic.find(loc);
+	if (j != m_sectorAttic.end()) {
+		if (revive) {
+			m_sectorCache.insert(std::make_pair(loc, RefCountedPtr<Sector>(j->second)));
+			m_sectorAttic.erase(j);
+		}
+		return true;
+	}
 	return false;
 }
 
@@ -94,37 +112,39 @@ void SectorCache::GenSectorCache()
 	for (int x = here_x-diff_sec; x <= here_x+diff_sec; x++) {
 		for (int y = here_y-diff_sec; y <= here_y+diff_sec; y++) {
 			for (int z = here_z-diff_sec; z <= here_z+diff_sec; z++) {
+				SystemPath path(x, y, z);
 				// ignore sectors we've already cached
-				if(!HasCached(SystemPath(x, y, z))) {
-					paths.push_back(SystemPath(x, y, z));
+				if(!HasCached(path, true)) {
+					paths.push_back(path);
 				}
 			}
 		}
 	}
 
 	// allocate some space for what we're about to chunk up
-	std::vector<TVecPaths> vec_paths;
+	std::vector<std::unique_ptr<TVecPaths> > vec_paths;
 	vec_paths.reserve(sec_spread * sec_spread);
-	TVecPaths current_paths;
-	current_paths.reserve(sec_spread);
+	std::unique_ptr<TVecPaths> current_paths;
 
 	// chop the paths into groups equivalent to a spread width of the cube
 	for (auto it = paths.begin(), itEnd = paths.end(); it != itEnd; ++it) {
-		current_paths.push_back(*it);
-		if( current_paths.size() >= sec_spread ) {
-			vec_paths.push_back( current_paths );
-			current_paths.clear();
+		if (!current_paths) {
+			current_paths.reset(new TVecPaths);
+			current_paths->reserve(sec_spread);
+		}
+		current_paths->push_back(*it);
+		if( current_paths->size() >= sec_spread ) {
+			vec_paths.push_back( std::move(current_paths) );
 		}
 	}
 	// catch the last loop in case it's got some entries (could be less than the spread width)
-	if( !current_paths.empty() ) {
-		vec_paths.push_back( current_paths );
-		current_paths.clear();
+	if(current_paths) {
+		vec_paths.push_back( std::move(current_paths) );
 	}
 
 	// now add the batched jobs
 	for (auto it = vec_paths.begin(), itEnd = vec_paths.end(); it != itEnd; ++it) {
-		Pi::Jobs()->Queue(new SectorCacheJob(*it));
+		Pi::Jobs()->Queue(new SectorCacheJob(std::move(*it)));
 	}
 }
 
@@ -148,11 +168,11 @@ void SectorCache::ShrinkCache()
 	  || zmin != m_cacheZMin || zmax != m_cacheZMax) {
 		SectorCacheMap::iterator iter = m_sectorCache.begin();
 		while (iter != m_sectorCache.end())	{
-			Sector *s = (*iter).second;
+			RefCountedPtr<Sector> s = (*iter).second;
 			//check_point_in_box
-			if (s && !s->WithinBox( xmin, xmax, ymin, ymax, zmin, zmax )) {
-				delete s;
+			if (!s->WithinBox( xmin, xmax, ymin, ymax, zmin, zmax )) {
 				m_sectorCache.erase( iter++ );
+				m_sectorAttic[SystemPath(s->sx, s->sy, s->sz)] = s.Get();
 			} else {
 				iter++;
 			}
@@ -167,17 +187,22 @@ void SectorCache::ShrinkCache()
 	}
 }
 
-SectorCache::SectorCacheJob::SectorCacheJob(const std::vector<SystemPath>& path) : Job(), m_paths(path)
+void SectorCache::RemoveFromAttic(const SystemPath& path)
 {
-	m_sectors.reserve(m_paths.size());
+	m_sectorAttic.erase(path);
+}
+
+SectorCache::SectorCacheJob::SectorCacheJob(std::unique_ptr<std::vector<SystemPath> > path) : Job(), m_paths(std::move(path))
+{
+	m_sectors.reserve(m_paths->size());
 }
 
 //virtual
 void SectorCache::SectorCacheJob::OnRun()    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
 {
-	for (auto it = m_paths.begin(), itEnd = m_paths.end(); it != itEnd; ++it) {
-		Sector newSec(*it);
-		newSec.AssignFactions();
+	for (auto it = m_paths->begin(), itEnd = m_paths->end(); it != itEnd; ++it) {
+		RefCountedPtr<Sector> newSec(new Sector(*it));
+		newSec->AssignFactions();
 		m_sectors.push_back( newSec );
 	}
 }

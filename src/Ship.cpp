@@ -578,8 +578,8 @@ static float distance_to_system(const SystemPath &src, const SystemPath &dest)
 	assert(src.HasValidSystem());
 	assert(dest.HasValidSystem());
 
-	const Sector* sec1 = Sector::cache.GetCached(src);
-	const Sector* sec2 = Sector::cache.GetCached(dest);
+	RefCountedPtr<const Sector> sec1 = Sector::cache.GetCached(src);
+	RefCountedPtr<const Sector> sec2 = Sector::cache.GetCached(dest);
 
 	return Sector::DistanceBetween(sec1, src.systemIndex, sec2, dest.systemIndex);
 }

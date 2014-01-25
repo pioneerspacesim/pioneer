@@ -311,8 +311,8 @@ vector3d Space::GetHyperspaceExitPoint(const SystemPath &source, const SystemPat
 
 	assert(dest.IsSameSystem(m_starSystem->GetPath()));
 
-	const Sector* source_sec = Sector::cache.GetCached(source);
-	const Sector* dest_sec = Sector::cache.GetCached(dest);
+	RefCountedPtr<const Sector> source_sec = Sector::cache.GetCached(source);
+	RefCountedPtr<const Sector> dest_sec = Sector::cache.GetCached(dest);
 
 	Sector::System source_sys = source_sec->m_systems[source.systemIndex];
 	Sector::System dest_sys = dest_sec->m_systems[dest.systemIndex];
