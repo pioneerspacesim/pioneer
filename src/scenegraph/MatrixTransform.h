@@ -20,7 +20,6 @@ public:
 	virtual void Accept(NodeVisitor &v);
 	virtual void Save(NodeDatabase&) override;
 	static MatrixTransform *Load(NodeDatabase&);
-	virtual Node* GatherTransforms(const std::string &, const matrix4x4f &, matrix4x4f &);
 	void Render(const matrix4x4f &trans, const RenderData *rd);
 	const matrix4x4f &GetTransform() const { return m_transform; }
 	void SetTransform(const matrix4x4f &m) { m_transform = m; }
