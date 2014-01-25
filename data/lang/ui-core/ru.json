@@ -933,7 +933,7 @@
    },
    "WEIGHT_EMPTY" : {
       "description" : "",
-      "message" : "Weight empty"
+      "message" : "Собственный вес корабля"
    },
    "WEIGHT_FULLY_LOADED" : {
       "description" : "",

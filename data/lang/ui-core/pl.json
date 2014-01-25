@@ -537,7 +537,7 @@
    },
    "MAXIMUM_CREW" : {
       "description" : "",
-      "message" : "Maximum crew"
+      "message" : "Maksymalna ilość załogi"
    },
    "MEDIUM" : {
       "description" : "",
@@ -933,7 +933,7 @@
    },
    "WEIGHT_EMPTY" : {
       "description" : "",
-      "message" : "Weight empty"
+      "message" : "Masa własna"
    },
    "WEIGHT_FULLY_LOADED" : {
       "description" : "",

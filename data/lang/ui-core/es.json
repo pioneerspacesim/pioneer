@@ -933,7 +933,7 @@
    },
    "WEIGHT_EMPTY" : {
       "description" : "",
-      "message" : "Weight empty"
+      "message" : "Peso en vacío"
    },
    "WEIGHT_FULLY_LOADED" : {
       "description" : "",

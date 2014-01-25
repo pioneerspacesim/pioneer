@@ -537,7 +537,7 @@
    },
    "MAXIMUM_CREW" : {
       "description" : "",
-      "message" : "Maximum crew"
+      "message" : "Maximum legénység"
    },
    "MEDIUM" : {
       "description" : "",
@@ -933,7 +933,7 @@
    },
    "WEIGHT_EMPTY" : {
       "description" : "",
-      "message" : "Weight empty"
+      "message" : "Üres súly"
    },
    "WEIGHT_FULLY_LOADED" : {
       "description" : "",

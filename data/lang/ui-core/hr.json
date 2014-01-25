@@ -933,7 +933,7 @@
    },
    "WEIGHT_EMPTY" : {
       "description" : "",
-      "message" : "Weight empty"
+      "message" : "Masa kad je prazan"
    },
    "WEIGHT_FULLY_LOADED" : {
       "description" : "",
