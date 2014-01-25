@@ -4,34 +4,40 @@
 #ifndef SECTORCACHE_H
 #define SECTORCACHE_H
 
+#include <memory>
 #include "libs.h"
 #include "galaxy/SystemPath.h"
 #include "graphics/Drawables.h"
 #include "JobQueue.h"
+#include "RefCounted.h"
 
 class Sector;
 
 class SectorCache {
+	friend class Sector;
+
 public:
 	SectorCache();
-	~SectorCache();
 
-	Sector* GetCached(const SystemPath& loc);
+	RefCountedPtr<Sector> GetCached(const SystemPath& loc);
 	void GenSectorCache();
 	void ShrinkCache();
 
 	void SetZoomClamp(const float zoomClamp) { m_zoomClamped = zoomClamp; }
 	void SetPosition(const vector3f& pos) { m_pos = pos; }
 
-	typedef std::map<SystemPath,Sector*> SectorCacheMap;
+	typedef std::map<SystemPath,RefCountedPtr<Sector> > SectorCacheMap;
+	typedef std::map<SystemPath,Sector*> SectorAtticMap;
 	typedef SectorCacheMap::const_iterator SectorCacheMapConstIterator;
 
 	SectorCacheMapConstIterator Begin() { return m_sectorCache.begin(); }
 	SectorCacheMapConstIterator End() { return m_sectorCache.end(); }
 
 private:
-	void AddToCache(const std::vector<Sector>& secIn);
+	void AddToCache(const std::vector<RefCountedPtr<Sector> >& secIn);
 	bool HasCached(const SystemPath& loc) const;
+	bool HasCached(const SystemPath& loc, bool revive);
+	void RemoveFromAttic(const SystemPath& path);
 
 	// ********************************************************************************
 	// Overloaded Job class to handle generating a collection of sectors
@@ -39,7 +45,7 @@ private:
 	class SectorCacheJob : public Job
 	{
 	public:
-		SectorCacheJob(const std::vector<SystemPath>& path);
+		SectorCacheJob(std::unique_ptr<std::vector<SystemPath> > path);
 		virtual ~SectorCacheJob() {}
 
 		virtual void OnRun();    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
@@ -47,11 +53,15 @@ private:
 		virtual void OnCancel() {}   // runs in primary thread of the context
 
 	protected:
-		std::vector<SystemPath> m_paths;
-		std::vector<Sector> m_sectors;
+		std::unique_ptr<std::vector<SystemPath> > m_paths;
+		std::vector<RefCountedPtr<Sector> > m_sectors;
 	};
 
 	SectorCacheMap m_sectorCache;
+	SectorAtticMap m_sectorAttic; // Those contains non-refcounted pointers to the Sectors the cache
+								  // is no longer interested in, but still exist due to another attachement.
+								  // This ensures, that there is only ever one object for each Sector.
+								  // The Sector destructor ensures that it is removed from attic.
 
 	int m_cacheXMin;
 	int m_cacheXMax;

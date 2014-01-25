@@ -1402,11 +1402,11 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path)
 	assert(path.IsSystemPath());
 	memset(m_tradeLevel, 0, sizeof(m_tradeLevel));
 
-	const Sector &s = *Sector::cache.GetCached(m_path);
-	assert(m_path.systemIndex >= 0 && m_path.systemIndex < s.m_systems.size());
+	RefCountedPtr<const Sector> s = Sector::cache.GetCached(m_path);
+	assert(m_path.systemIndex >= 0 && m_path.systemIndex < s->m_systems.size());
 
-	m_seed    = s.m_systems[m_path.systemIndex].seed;
-	m_name    = s.m_systems[m_path.systemIndex].name;
+	m_seed    = s->m_systems[m_path.systemIndex].seed;
+	m_name    = s->m_systems[m_path.systemIndex].name;
 	m_faction = Faction::GetNearestFaction(s, m_path.systemIndex);
 
 	Uint32 _init[6] = { m_path.systemIndex, Uint32(m_path.sectorX), Uint32(m_path.sectorY), Uint32(m_path.sectorZ), UNIVERSE_SEED, Uint32(m_seed) };
@@ -1421,16 +1421,16 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path)
 	m_unexplored = !(((dist <= 90) && ( dist <= 65 || rand.Int32(dist) <= 40)) || Faction::IsHomeSystem(path));
 
 	m_isCustom = m_hasCustomBodies = false;
-	if (s.m_systems[m_path.systemIndex].customSys) {
+	if (s->m_systems[m_path.systemIndex].customSys) {
 		m_isCustom = true;
-		const CustomSystem *custom = s.m_systems[m_path.systemIndex].customSys;
+		const CustomSystem *custom = s->m_systems[m_path.systemIndex].customSys;
 		m_numStars = custom->numStars;
 		if (custom->shortDesc.length() > 0) m_shortDesc = custom->shortDesc;
 		if (custom->longDesc.length() > 0) m_longDesc = custom->longDesc;
 		if (!custom->want_rand_explored) m_unexplored = !custom->explored;
 		if (!custom->IsRandom()) {
 			m_hasCustomBodies = true;
-			GenerateFromCustom(s.m_systems[m_path.systemIndex].customSys, rand);
+			GenerateFromCustom(s->m_systems[m_path.systemIndex].customSys, rand);
 			return;
 		}
 	}
@@ -1438,14 +1438,14 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path)
 	SystemBody *star[4];
 	SystemBody *centGrav1(0), *centGrav2(0);
 
-	const int numStars = s.m_systems[m_path.systemIndex].numStars;
+	const int numStars = s->m_systems[m_path.systemIndex].numStars;
 	assert((numStars >= 1) && (numStars <= 4));
 
 	if (numStars == 1) {
-		SystemBody::BodyType type = s.m_systems[m_path.systemIndex].starType[0];
+		SystemBody::BodyType type = s->m_systems[m_path.systemIndex].starType[0];
 		star[0] = NewBody();
 		star[0]->parent = 0;
-		star[0]->name = s.m_systems[m_path.systemIndex].name;
+		star[0]->name = s->m_systems[m_path.systemIndex].name;
 		star[0]->orbMin = fixed(0);
 		star[0]->orbMax = fixed(0);
 
@@ -1456,19 +1456,19 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path)
 		centGrav1 = NewBody();
 		centGrav1->type = SystemBody::TYPE_GRAVPOINT;
 		centGrav1->parent = 0;
-		centGrav1->name = s.m_systems[m_path.systemIndex].name+" A,B";
+		centGrav1->name = s->m_systems[m_path.systemIndex].name+" A,B";
 		rootBody.Reset(centGrav1);
 
-		SystemBody::BodyType type = s.m_systems[m_path.systemIndex].starType[0];
+		SystemBody::BodyType type = s->m_systems[m_path.systemIndex].starType[0];
 		star[0] = NewBody();
-		star[0]->name = s.m_systems[m_path.systemIndex].name+" A";
+		star[0]->name = s->m_systems[m_path.systemIndex].name+" A";
 		star[0]->parent = centGrav1;
 		MakeStarOfType(star[0], type, rand);
 
 		star[1] = NewBody();
-		star[1]->name = s.m_systems[m_path.systemIndex].name+" B";
+		star[1]->name = s->m_systems[m_path.systemIndex].name+" B";
 		star[1]->parent = centGrav1;
-		MakeStarOfTypeLighterThan(star[1], s.m_systems[m_path.systemIndex].starType[1],
+		MakeStarOfTypeLighterThan(star[1], s->m_systems[m_path.systemIndex].starType[1],
 				star[0]->mass, rand);
 
 		centGrav1->mass = star[0]->mass + star[1]->mass;
@@ -1489,29 +1489,29 @@ try_that_again_guvnah:
 			// 3rd and maybe 4th star
 			if (numStars == 3) {
 				star[2] = NewBody();
-				star[2]->name = s.m_systems[m_path.systemIndex].name+" C";
+				star[2]->name = s->m_systems[m_path.systemIndex].name+" C";
 				star[2]->orbMin = 0;
 				star[2]->orbMax = 0;
-				MakeStarOfTypeLighterThan(star[2], s.m_systems[m_path.systemIndex].starType[2],
+				MakeStarOfTypeLighterThan(star[2], s->m_systems[m_path.systemIndex].starType[2],
 					star[0]->mass, rand);
 				centGrav2 = star[2];
 				m_numStars = 3;
 			} else {
 				centGrav2 = NewBody();
 				centGrav2->type = SystemBody::TYPE_GRAVPOINT;
-				centGrav2->name = s.m_systems[m_path.systemIndex].name+" C,D";
+				centGrav2->name = s->m_systems[m_path.systemIndex].name+" C,D";
 				centGrav2->orbMax = 0;
 
 				star[2] = NewBody();
-				star[2]->name = s.m_systems[m_path.systemIndex].name+" C";
+				star[2]->name = s->m_systems[m_path.systemIndex].name+" C";
 				star[2]->parent = centGrav2;
-				MakeStarOfTypeLighterThan(star[2], s.m_systems[m_path.systemIndex].starType[2],
+				MakeStarOfTypeLighterThan(star[2], s->m_systems[m_path.systemIndex].starType[2],
 					star[0]->mass, rand);
 
 				star[3] = NewBody();
-				star[3]->name = s.m_systems[m_path.systemIndex].name+" D";
+				star[3]->name = s->m_systems[m_path.systemIndex].name+" D";
 				star[3]->parent = centGrav2;
-				MakeStarOfTypeLighterThan(star[3], s.m_systems[m_path.systemIndex].starType[3],
+				MakeStarOfTypeLighterThan(star[3], s->m_systems[m_path.systemIndex].starType[3],
 					star[2]->mass, rand);
 
 				// Separate stars by 0.2 radii for each, so that their planets don't bump into the other star
@@ -1525,7 +1525,7 @@ try_that_again_guvnah:
 			SystemBody *superCentGrav = NewBody();
 			superCentGrav->type = SystemBody::TYPE_GRAVPOINT;
 			superCentGrav->parent = 0;
-			superCentGrav->name = s.m_systems[m_path.systemIndex].name;
+			superCentGrav->name = s->m_systems[m_path.systemIndex].name;
 			centGrav1->parent = superCentGrav;
 			centGrav2->parent = superCentGrav;
 			rootBody.Reset(superCentGrav);
@@ -2516,14 +2516,14 @@ void StarSystem::ExportToLua(const char *filename) {
 
 	fprintf(f, "system:bodies(%s)\n\n", ExportBodyToLua(f, rootBody.Get()).c_str());
 
-	const Sector &sec = *Sector::cache.GetCached(GetPath());
+	RefCountedPtr<const Sector> sec = Sector::cache.GetCached(GetPath());
 	SystemPath pa = GetPath();
 
 	fprintf(f, "system:add_to_sector(%d,%d,%d,v(%.4f,%.4f,%.4f))\n",
 			pa.sectorX, pa.sectorY, pa.sectorZ,
-			sec.m_systems[pa.systemIndex].p.x/Sector::SIZE,
-			sec.m_systems[pa.systemIndex].p.y/Sector::SIZE,
-			sec.m_systems[pa.systemIndex].p.z/Sector::SIZE);
+			sec->m_systems[pa.systemIndex].p.x/Sector::SIZE,
+			sec->m_systems[pa.systemIndex].p.y/Sector::SIZE,
+			sec->m_systems[pa.systemIndex].p.z/Sector::SIZE);
 
 	fclose(f);
 }
