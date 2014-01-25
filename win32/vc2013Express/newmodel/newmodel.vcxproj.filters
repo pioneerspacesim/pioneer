@@ -33,6 +33,8 @@
     <ClCompile Include="..\..\..\src\scenegraph\LuaModelSkin.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\ModelSkin.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\LuaModel.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\BinaryConverter.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\BaseLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\scenegraph\Thruster.h" />
@@ -65,5 +67,7 @@
     <ClInclude Include="..\..\..\src\scenegraph\Lua.h" />
     <ClInclude Include="..\..\..\src\scenegraph\ModelSkin.h" />
     <ClInclude Include="..\..\..\src\scenegraph\NodeCopyCache.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\BinaryConverter.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\BaseLoader.h" />
   </ItemGroup>
 </Project>

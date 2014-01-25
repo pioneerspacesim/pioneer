@@ -56,6 +56,7 @@ January 2014
      * Various code cleanups (#2621)
      * Serializer Reader class can now load data from any file source (#2646)
      * Expose models to Lua, move pattern methods from ModelSkin to Model (2645)
+     * Add initial model binary converter/loader (#2643)
 
 December 2013
 

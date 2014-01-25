@@ -25,6 +25,8 @@ public:
 	virtual Node *Clone(NodeCopyCache *cache = 0);
 	virtual const char *GetTypeName() const { return "CollisionGeometry"; }
 	virtual void Accept(NodeVisitor &nv);
+	virtual void Save(NodeDatabase&) override;
+	static CollisionGeometry *Load(NodeDatabase&);
 
 	const std::vector<vector3f> &GetVertices() const { return m_vertices; }
 	const std::vector<Uint16> &GetIndices() const { return m_indices; }

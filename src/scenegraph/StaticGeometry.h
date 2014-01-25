@@ -26,6 +26,9 @@ public:
 	virtual void Accept(NodeVisitor &nv);
 	virtual void Render(const matrix4x4f &trans, const RenderData *rd);
 
+	virtual void Save(NodeDatabase&) override;
+	static StaticGeometry *Load(NodeDatabase&);
+
 	void AddMesh(RefCountedPtr<Graphics::StaticMesh>);
 	unsigned int GetNumMeshes() const { return m_meshes.size(); }
 	RefCountedPtr<Graphics::StaticMesh> GetMesh(unsigned int i) { return m_meshes.at(i); }

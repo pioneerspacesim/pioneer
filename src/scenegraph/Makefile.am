@@ -11,7 +11,9 @@ noinst_HEADERS = \
 	AnimationChannel.h \
 	Animation.h \
 	AnimationKey.h \
+	BaseLoader.h \
 	Billboard.h \
+	BinaryConverter.h \
 	CollisionGeometry.h \
 	CollisionVisitor.h \
 	ColorMap.h \
@@ -38,7 +40,9 @@ noinst_HEADERS = \
 
 libscenegraph_a_SOURCES = \
 	Animation.cpp \
+	BaseLoader.cpp \
 	Billboard.cpp \
+	BinaryConverter.cpp \
 	CollisionGeometry.cpp \
 	CollisionVisitor.cpp \
 	ColorMap.cpp \

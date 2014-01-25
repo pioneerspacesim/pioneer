@@ -10,6 +10,7 @@ namespace SceneGraph {
 Node::Node(Graphics::Renderer *r)
 : m_name("")
 , m_nodeMask(NODE_SOLID)
+, m_nodeFlags(0)
 , m_renderer(r)
 {
 }
@@ -17,6 +18,7 @@ Node::Node(Graphics::Renderer *r)
 Node::Node(Graphics::Renderer *r, unsigned int nodemask)
 : m_name("")
 , m_nodeMask(nodemask)
+, m_nodeFlags(0)
 , m_renderer(r)
 {
 }
@@ -24,7 +26,12 @@ Node::Node(Graphics::Renderer *r, unsigned int nodemask)
 Node::Node(const Node &node, NodeCopyCache *cache)
 : m_name(node.m_name)
 , m_nodeMask(node.m_nodeMask)
+, m_nodeFlags(node.m_nodeFlags)
 , m_renderer(node.m_renderer)
+{
+}
+
+Node::~Node()
 {
 }
 
@@ -77,6 +84,14 @@ void Node::DrawAxes()
 
 	m_renderer->SetBlendMode(Graphics::BLEND_SOLID);
 	m_renderer->DrawLines(6, vtsXYZ, colors);
+}
+
+void Node::Save(NodeDatabase &db)
+{
+    db.wr->String(GetTypeName());
+	db.wr->String(m_name.c_str());
+    db.wr->Int32(m_nodeMask);
+    db.wr->Int32(m_nodeFlags);
 }
 
 }
