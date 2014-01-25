@@ -1025,12 +1025,12 @@ void ModelViewer::SetupUI()
 
 	const int spacing = 5;
 
-	UI::SmallButton *reloadButton;
-	UI::SmallButton *toggleGridButton;
-	UI::SmallButton *hitItButton;
-	UI::CheckBox *collMeshCheck;
-	UI::CheckBox *showShieldsCheck;
-	UI::CheckBox *gunsCheck;
+	UI::SmallButton *reloadButton = nullptr;
+	UI::SmallButton *toggleGridButton = nullptr;
+	UI::SmallButton *hitItButton = nullptr;
+	UI::CheckBox *collMeshCheck = nullptr;
+	UI::CheckBox *showShieldsCheck = nullptr;
+	UI::CheckBox *gunsCheck = nullptr;
 
 	UI::VBox* outerBox = c->VBox();
 
