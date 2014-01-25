@@ -170,6 +170,24 @@ Shields::Shields(SceneGraph::Model *model)
 				RefCountedPtr<StaticGeometry> sg(dynamic_cast<StaticGeometry*>(node));
 				assert(sg.Valid());
 				sg->SetNodeMask(SceneGraph::NODE_TRANSPARENT);
+
+				sg->DisableDepthWrite();
+
+				// force the blend mode
+				sg->m_blendMode = Graphics::BLEND_ALPHA;
+
+				// set the material
+				for (Uint32 iMesh = 0; iMesh < sg->GetNumMeshes(); ++iMesh) {
+					RefCountedPtr<Graphics::StaticMesh> rMesh = sg->GetMesh(iMesh);
+
+					for (Sint32 surfIdx = 0, endSurf = rMesh->GetNumSurfaces(); surfIdx < endSurf; surfIdx++) {
+						RefCountedPtr<Graphics::Surface> surf = rMesh->GetSurface(surfIdx);
+						if (surf.Valid()) {
+							surf->SetMaterial(GetGlobalShieldMaterial());
+						}
+					}
+				}
+
 				m_shields.push_back(Shield(Color3ub(255), mt->GetTransform(), sg.Get()));
 			}
 		}

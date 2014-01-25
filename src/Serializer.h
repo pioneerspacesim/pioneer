@@ -34,8 +34,10 @@ namespace Serializer {
 		void Double(double f);
 		void String(const char* s);
 		void String(const std::string &s);
+		void Vector3f(vector3f vec);
 		void Vector3d(vector3d vec);
 		void WrQuaternionf(const Quaternionf &q);
+		void Color4UB(const Color&);
 		void WrSection(const std::string &section_label, const std::string &section_data) {
 			String(section_label);
 			String(section_data);
@@ -65,8 +67,10 @@ namespace Serializer {
 		double Double ();
 		std::string String();
 		ByteRange Blob();
+		vector3f Vector3f();
 		vector3d Vector3d();
 		Quaternionf RdQuaternionf();
+		Color Color4UB();
 		Reader RdSection(const std::string &section_label_expected) {
 			if (section_label_expected != String()) {
 				throw SavedGameCorruptException();

@@ -4,6 +4,7 @@
 #include "Group.h"
 #include "NodeVisitor.h"
 #include "NodeCopyCache.h"
+#include "BaseLoader.h"
 
 namespace SceneGraph {
 
@@ -35,6 +36,18 @@ Group::Group(const Group &group, NodeCopyCache *cache)
 Node* Group::Clone(NodeCopyCache *cache)
 {
 	return cache->Copy<Group>(this);
+}
+
+void Group::Save(NodeDatabase &db)
+{
+    Node::Save(db);
+    //for all groups, children are saved by Loader
+}
+
+Group *Group::Load(NodeDatabase &db)
+{
+	return new Group(db.loader->GetRenderer());
+	//children are loaded by Loader
 }
 
 void Group::AddChild(Node *child)

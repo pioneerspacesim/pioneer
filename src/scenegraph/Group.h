@@ -16,6 +16,9 @@ public:
 	Group(const Group&, NodeCopyCache *cache = 0);
 	virtual Node *Clone(NodeCopyCache *cache = 0);
 	virtual const char *GetTypeName() const { return "Group"; }
+	virtual void Save(NodeDatabase&) override;
+	static Group *Load(NodeDatabase&);
+
 	virtual void AddChild(Node *child);
 	virtual bool RemoveChild(Node *node); //true on success
 	virtual bool RemoveChildAt(unsigned int position); //true on success

@@ -75,6 +75,9 @@ namespace Graphics { class Renderer; }
 
 namespace SceneGraph
 {
+class BaseLoader;
+class ModelBinarizer;
+class BinaryConverter;
 
 struct LoadingError : public std::runtime_error {
 	LoadingError(const std::string &str) : std::runtime_error(str.c_str()) { }
@@ -87,7 +90,10 @@ typedef std::vector<MatrixTransform *> TagContainer;
 class Model : public DeleteEmitter
 {
 public:
+	friend class BaseLoader;
 	friend class Loader;
+	friend class ModelBinarizer;
+	friend class BinaryConverter;
 	Model(Graphics::Renderer *r, const std::string &name);
 	~Model();
 
@@ -137,6 +143,9 @@ public:
 
 	void Save(Serializer::Writer &wr) const;
 	void Load(Serializer::Reader &rd);
+
+	//serialization aid
+	std::string GetNameForMaterial(Graphics::Material*) const;
 
 private:
 	Model(const Model&);
