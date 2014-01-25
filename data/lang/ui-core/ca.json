@@ -535,6 +535,10 @@
       "description" : "",
       "message" : "máx."
    },
+   "MAXIMUM_CREW" : {
+      "description" : "",
+      "message" : "Maximum crew"
+   },
    "MEDIUM" : {
       "description" : "",
       "message" : "Mitjà"
@@ -929,7 +933,7 @@
    },
    "WEIGHT_EMPTY" : {
       "description" : "",
-      "message" : "Pes en buit:"
+      "message" : "Weight empty"
    },
    "WEIGHT_FULLY_LOADED" : {
       "description" : "",

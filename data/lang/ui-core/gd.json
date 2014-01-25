@@ -535,6 +535,10 @@
       "description" : "",
       "message" : "as motha"
    },
+   "MAXIMUM_CREW" : {
+      "description" : "",
+      "message" : "Maximum crew"
+   },
    "MEDIUM" : {
       "description" : "",
       "message" : "Meadhanach"
@@ -929,7 +933,7 @@
    },
    "WEIGHT_EMPTY" : {
       "description" : "",
-      "message" : "Cuideam falamh:"
+      "message" : "Weight empty"
    },
    "WEIGHT_FULLY_LOADED" : {
       "description" : "",
