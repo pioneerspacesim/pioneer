@@ -13,6 +13,7 @@
 namespace SceneGraph {
 
 class Loader;
+class BinaryConverter;
 class Node;
 
 class Animation {
@@ -25,9 +26,11 @@ public:
 	double GetProgress();
 	void SetProgress(double); //0.0 -- 1.0, overrides m_time
 	void Interpolate(); //update transforms according to m_time;
+	const std::vector<AnimationChannel>& GetChannels() const { return m_channels; }
 
 private:
 	friend class Loader;
+	friend class BinaryConverter;
 	double m_duration;
 	double m_time;
 	std::string m_name;

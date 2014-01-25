@@ -6,6 +6,7 @@
 #include "NodeCopyCache.h"
 #include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
+#include "StringF.h"
 
 namespace SceneGraph {
 
@@ -184,6 +185,7 @@ void Model::AddTag(const std::string &name, MatrixTransform *node)
 {
 	if (FindTagByName(name)) return;
 	node->SetName(name);
+	node->SetNodeFlags(node->GetNodeFlags() | NODE_TAG);
 	m_root->AddChild(node);
 	m_tags.push_back(node);
 }
@@ -234,7 +236,7 @@ void Model::ClearDecal(unsigned int index)
 bool Model::SupportsDecals()
 {
 	for (unsigned int i=0; i<MAX_DECAL_MATERIALS; i++)
-		if (m_decalMaterials[i]) return true;
+		if (m_decalMaterials[i].Valid()) return true;
 
 	return false;
 }
@@ -329,6 +331,22 @@ void Model::Load(Serializer::Reader &rd)
 	UpdateAnimations();
 
 	SetPattern(rd.Int32());
+}
+
+std::string Model::GetNameForMaterial(Graphics::Material *mat) const
+{
+	for (auto it : m_materials) {
+		Graphics::Material* modelMat = it.second.Get();
+		if (modelMat == mat) return it.first;
+	}
+
+	//check decal materials
+	for (Uint32 i = 0; i < MAX_DECAL_MATERIALS; i++) {
+		if (m_decalMaterials[i].Valid() && m_decalMaterials[i].Get() == mat)
+			return stringf("decal_%0{u}", i + 1);
+	}
+
+	return "unknown";
 }
 
 }
