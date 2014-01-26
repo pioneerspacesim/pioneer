@@ -45,6 +45,8 @@ public:
 	virtual void PostLoadFixup(Space *space);
 	virtual void NotifyRemoved(const Body* const removedBody);
 
+	virtual void SetLabel(const std::string &label);
+
 	// should call Ship::Undock and Ship::SetDockedWith instead
 	// Returns true on success, false if permission denied
 	bool LaunchShip(Ship *ship, int port);
