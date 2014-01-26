@@ -112,6 +112,11 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm)
 	animSlider = 0;
 
 	onModelChanged.connect(sigc::mem_fun(*this, &ModelViewer::SetupUI));
+
+	//for grid, background
+	Graphics::RenderStateDesc rsd;
+	rsd.depthWrite = false;
+	m_bgState = m_renderer->CreateRenderState(rsd);
 }
 
 ModelViewer::~ModelViewer()
@@ -248,7 +253,7 @@ bool ModelViewer::OnToggleGuns(UI::CheckBox *w)
 	return true;
 }
 
-void ModelViewer::UpdateShield() 
+void ModelViewer::UpdateShield()
 {
 	if (m_shieldIsHit) {
 		m_shieldHitPan += 0.05f;
@@ -384,8 +389,7 @@ void ModelViewer::CreateTestResources()
 
 void ModelViewer::DrawBackground()
 {
-	m_renderer->SetDepthWrite(false);
-	m_renderer->SetBlendMode(Graphics::BLEND_SOLID);
+	m_renderer->SetRenderState(m_bgState);
 	m_renderer->SetOrthographicProjection(0.f, 1.f, 0.f, 1.f, -1.f, 1.f);
 	m_renderer->SetTransform(matrix4x4f::Identity());
 
@@ -505,6 +509,7 @@ void ModelViewer::DrawAabb()
 		vector3f(aabb.min.x, aabb.max.y, aabb.max.z),
 	};
 
+	m_renderer->SetRenderState(m_bgState);
 	m_renderer->DrawLines(8, verts + 0, Color::GREEN, Graphics::LINE_STRIP);
 	m_renderer->DrawLines(8, verts + 8, Color::GREEN, Graphics::LINE_STRIP);
 }
@@ -539,6 +544,7 @@ void ModelViewer::DrawGrid(const matrix4x4f &trans, float radius)
 	}
 
 	m_renderer->SetTransform(trans);
+	m_renderer->SetRenderState(m_bgState);
 	m_renderer->DrawLines(points.size(), &points[0], Color(128));//Color(0.0f,0.2f,0.0f,1.0f));
 
 	//industry-standard red/green/blue XYZ axis indiactor
@@ -567,15 +573,13 @@ void ModelViewer::DrawGrid(const matrix4x4f &trans, float radius)
 		Color(0, 255, 0)
 	};
 
-	m_renderer->SetDepthTest(true);
-	m_renderer->SetDepthWrite(true);
+	m_renderer->SetRenderState(m_bgState);
 	m_renderer->DrawLines(numAxVerts, &vts[0], &col[0]);
 }
 
 void ModelViewer::DrawModel()
 {
 	assert(m_model);
-	m_renderer->SetBlendMode(Graphics::BLEND_SOLID);
 
 	m_renderer->SetPerspectiveProjection(85, Graphics::GetScreenWidth()/float(Graphics::GetScreenHeight()), 0.1f, 10000.f);
 	m_renderer->SetTransform(matrix4x4f::Identity());
@@ -592,21 +596,21 @@ void ModelViewer::DrawModel()
 		mv = matrix4x4f::Translation(0.0f, 0.0f, -zoom_distance(m_baseDistance, m_zoom)) * rot;
 	}
 
-	if (m_options.showGrid)
-		DrawGrid(mv, m_model->GetDrawClipRadius());
-
-	m_renderer->SetDepthTest(true);
-	m_renderer->SetDepthWrite(true);
-
 	m_model->UpdateAnimations();
+
 	if (m_options.wireframe)
 		m_renderer->SetWireFrameMode(true);
+
 	m_model->Render(mv);
 	if (m_options.showLandingPad) {
 		if (!m_scaleModel) CreateTestResources();
 		const float landingPadOffset = m_model->GetCollisionMesh()->GetAabb().min.y;
 		m_scaleModel->Render(mv * matrix4x4f::Translation(0.f, landingPadOffset, 0.f));
 	}
+
+	if (m_options.showGrid)
+		DrawGrid(mv, m_model->GetDrawClipRadius());
+
 	if (m_options.wireframe)
 		m_renderer->SetWireFrameMode(false);
 
