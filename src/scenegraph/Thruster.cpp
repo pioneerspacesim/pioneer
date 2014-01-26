@@ -4,6 +4,7 @@
 #include "Easing.h"
 #include "Thruster.h"
 #include "NodeVisitor.h"
+#include "BaseLoader.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
 #include "graphics/Material.h"
@@ -104,6 +105,23 @@ void Thruster::Render(const matrix4x4f &trans, const RenderData *rd)
 
 	r->SetBlendMode(Graphics::BLEND_SOLID);
 	r->SetDepthWrite(true);
+}
+
+void Thruster::Save(NodeDatabase &db)
+{
+	Node::Save(db);
+	db.wr->Bool(linearOnly);
+	db.wr->Vector3f(dir);
+	db.wr->Vector3f(pos);
+}
+
+Thruster *Thruster::Load(NodeDatabase &db)
+{
+	const bool linear = db.rd->Bool();
+	const vector3f dir = db.rd->Vector3f();
+	const vector3f pos = db.rd->Vector3f();
+	Thruster *t = new Thruster(db.loader->GetRenderer(), linear, pos, dir);
+	return t;
 }
 
 Graphics::VertexArray *Thruster::CreateThrusterGeometry()

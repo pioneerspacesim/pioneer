@@ -45,7 +45,7 @@ AC_DEFUN([MXE_SETUP], [
 
 MXE_SETUP
 
-AM_INIT_AUTOMAKE([1.9 foreign dist-bzip2 dist-xz dist-zip])
+AM_INIT_AUTOMAKE([1.9 foreign dist-bzip2 dist-xz dist-zip subdir-objects])
 
 AC_CANONICAL_HOST
 

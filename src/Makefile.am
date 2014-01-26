@@ -412,9 +412,9 @@ if !HAVE_LUA
 textstress_LDADD += ../contrib/lua/liblua.a
 endif
 
-INCLUDES = -isystem @top_srcdir@/contrib
+AM_CPPFLAGS += -isystem @top_srcdir@/contrib
 if !HAVE_LUA
-INCLUDES += -isystem @top_srcdir@/contrib/lua
+AM_CPPFLAGS += -isystem @top_srcdir@/contrib/lua
 endif
 
 if BUILD_WIN32

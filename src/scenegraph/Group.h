@@ -16,6 +16,9 @@ public:
 	Group(const Group&, NodeCopyCache *cache = 0);
 	virtual Node *Clone(NodeCopyCache *cache = 0);
 	virtual const char *GetTypeName() const { return "Group"; }
+	virtual void Save(NodeDatabase&) override;
+	static Group *Load(NodeDatabase&);
+
 	virtual void AddChild(Node *child);
 	virtual bool RemoveChild(Node *node); //true on success
 	virtual bool RemoveChildAt(unsigned int position); //true on success
@@ -24,8 +27,7 @@ public:
 	virtual void Accept(NodeVisitor &v);
 	virtual void Traverse(NodeVisitor &v);
 	virtual void Render(const matrix4x4f &trans, const RenderData *rd);
-	virtual Node* FindNode(const std::string &); 
-	virtual Node* GatherTransforms(const std::string &, const matrix4x4f &, matrix4x4f &);
+	virtual Node* FindNode(const std::string &);
 
 protected:
 	virtual ~Group();

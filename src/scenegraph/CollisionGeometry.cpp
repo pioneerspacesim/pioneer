@@ -3,8 +3,9 @@
 
 #include "CollisionGeometry.h"
 #include "NodeVisitor.h"
-#include "graphics/Surface.h"
 #include "NodeCopyCache.h"
+#include "BaseLoader.h"
+#include "graphics/Surface.h"
 
 namespace SceneGraph {
 CollisionGeometry::CollisionGeometry(Graphics::Renderer *r, Graphics::Surface *s, unsigned int geomflag)
@@ -56,6 +57,44 @@ Node* CollisionGeometry::Clone(NodeCopyCache *cache)
 void CollisionGeometry::Accept(NodeVisitor &nv)
 {
 	nv.ApplyCollisionGeometry(*this);
+}
+
+void CollisionGeometry::Save(NodeDatabase &db)
+{
+	Node::Save(db);
+    db.wr->Int32(m_vertices.size());
+    for (const auto& pos : m_vertices)
+		db.wr->Vector3f(pos);
+    db.wr->Int32(m_indices.size());
+    for (const auto idx : m_indices)
+		db.wr->Int16(idx);
+    db.wr->Int32(m_triFlag);
+    db.wr->Bool(m_dynamic);
+}
+
+CollisionGeometry *CollisionGeometry::Load(NodeDatabase &db)
+{
+	std::vector<vector3f> pos;
+	std::vector<unsigned short> idx;
+	Serializer::Reader &rd = *db.rd;
+
+	Uint32 n = rd.Int32();
+	pos.reserve(n);
+	for (Uint32 i = 0; i < n; i++)
+		pos.push_back(rd.Vector3f());
+
+	n = rd.Int32();
+	idx.reserve(n);
+	for (Uint32 i = 0; i < n; i++)
+		idx.push_back(rd.Int16());
+
+	const Uint32 flag  = rd.Int32();
+	const bool dynamic = rd.Bool();
+
+	CollisionGeometry *cg = new CollisionGeometry(db.loader->GetRenderer(), pos, idx, flag);
+	cg->SetDynamic(dynamic);
+
+	return cg;
 }
 
 void CollisionGeometry::CopyData(const std::vector<vector3f> &vts, const std::vector<unsigned short> &idx)

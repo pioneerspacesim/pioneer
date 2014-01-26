@@ -18,7 +18,8 @@ public:
 	virtual Node *Clone(NodeCopyCache *cache = 0);
 	virtual const char *GetTypeName() const { return "MatrixTransform"; }
 	virtual void Accept(NodeVisitor &v);
-	virtual Node* GatherTransforms(const std::string &, const matrix4x4f &, matrix4x4f &);
+	virtual void Save(NodeDatabase&) override;
+	static MatrixTransform *Load(NodeDatabase&);
 	void Render(const matrix4x4f &trans, const RenderData *rd);
 	const matrix4x4f &GetTransform() const { return m_transform; }
 	void SetTransform(const matrix4x4f &m) { m_transform = m; }

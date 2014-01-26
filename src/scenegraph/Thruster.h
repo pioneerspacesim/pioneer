@@ -25,6 +25,8 @@ public:
 	virtual void Accept(NodeVisitor &v);
 	virtual const char *GetTypeName() const { return "Thruster"; }
 	virtual void Render(const matrix4x4f &trans, const RenderData *rd);
+	virtual void Save(NodeDatabase&) override;
+	static Thruster *Load(NodeDatabase&);
 
 private:
 	static Graphics::VertexArray* CreateThrusterGeometry();

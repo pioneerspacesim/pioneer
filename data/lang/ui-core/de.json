@@ -535,6 +535,10 @@
       "description" : "",
       "message" : "Maximum"
    },
+   "MAXIMUM_CREW" : {
+      "description" : "",
+      "message" : "Maximalbesatzung"
+   },
    "MEDIUM" : {
       "description" : "",
       "message" : "Mittel"
@@ -573,7 +577,7 @@
    },
    "MINIMUM_CREW" : {
       "description" : "",
-      "message" : "Kleinste Crew"
+      "message" : "Minimalbesatzung"
    },
    "MISSIONS" : {
       "description" : "",
@@ -929,7 +933,7 @@
    },
    "WEIGHT_EMPTY" : {
       "description" : "",
-      "message" : "Leergewicht:"
+      "message" : "Leergewicht"
    },
    "WEIGHT_FULLY_LOADED" : {
       "description" : "",

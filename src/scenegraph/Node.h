@@ -8,19 +8,31 @@
  */
 #include "libs.h"
 #include "RefCounted.h"
+#include "Serializer.h"
+#include "graphics/Material.h"
 
 namespace Graphics { class Renderer; }
 
 namespace SceneGraph
 {
 
+class BaseLoader;
 class NodeVisitor;
 class NodeCopyCache;
+class Model;
 
+//Node traversal mask - for other
+//purposes, use NodeFlags
 enum NodeMask {
 	NODE_SOLID = 0x1,
 	NODE_TRANSPARENT = 0x2,
 	MASK_IGNORE = 0x4
+};
+
+//misc flags to identify features
+enum NodeFlags {
+	NODE_TAG = 0x1,
+	NODE_DECAL = 0x2
 };
 
 //Small structure used internally to pass rendering data
@@ -41,6 +53,17 @@ struct RenderData
 	}
 };
 
+//Collection of stuff nodes need for serialization -
+//makes maintaining function signatures easier
+struct NodeDatabase {
+	Serializer::Writer *wr;
+	Serializer::Reader *rd;
+	Graphics::Renderer *renderer;
+	Model *model;
+	std::vector<std::pair<std::string, RefCountedPtr<Graphics::Material> > > *materials;
+	BaseLoader *loader;
+};
+
 class Node : public RefCounted
 {
 public:
@@ -49,6 +72,8 @@ public:
 	Node(const Node&, NodeCopyCache*);
 	virtual Node *Clone(NodeCopyCache*) = 0; //implement clone to return shallow or deep copy
 	virtual const char *GetTypeName() const { return "Node"; }
+	virtual void Save(NodeDatabase&);
+
 	virtual void Accept(NodeVisitor &v);
 	virtual void Traverse(NodeVisitor &v);
 	virtual void Render(const matrix4x4f &trans, const RenderData *rd) { }
@@ -57,18 +82,21 @@ public:
 	const std::string &GetName() const { return m_name; }
 
 	virtual Node* FindNode(const std::string &);
-	virtual Node* GatherTransforms(const std::string &, const matrix4x4f &, matrix4x4f &);
 
 	unsigned int GetNodeMask() const { return m_nodeMask; }
 	void SetNodeMask(unsigned int m) { m_nodeMask = m; }
+
+	unsigned int GetNodeFlags() const { return m_nodeFlags; }
+	void SetNodeFlags(unsigned int m) { m_nodeFlags = m; }
 
 	Graphics::Renderer *GetRenderer() const { return m_renderer; }
 
 protected:
 	//can only to be deleted using DecRefCount
-	virtual ~Node() { }
+	virtual ~Node();
 	std::string m_name;
 	unsigned int m_nodeMask;
+	unsigned int m_nodeFlags;
 	Graphics::Renderer *m_renderer;
 };
 

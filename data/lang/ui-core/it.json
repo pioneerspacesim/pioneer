@@ -535,6 +535,10 @@
       "description" : "",
       "message" : "massimo"
    },
+   "MAXIMUM_CREW" : {
+      "description" : "",
+      "message" : "Maximum crew"
+   },
    "MEDIUM" : {
       "description" : "",
       "message" : "Medio"
@@ -929,7 +933,7 @@
    },
    "WEIGHT_EMPTY" : {
       "description" : "",
-      "message" : "Peso a vuoto:"
+      "message" : "Peso a vuoto"
    },
    "WEIGHT_FULLY_LOADED" : {
       "description" : "",
