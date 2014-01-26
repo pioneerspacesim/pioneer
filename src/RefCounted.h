@@ -10,8 +10,8 @@
 
 class RefCounted : public LuaWrappable {
 public:
-	RefCounted() : m_refCount(0) {}
-	RefCounted(const RefCounted& other) : LuaWrappable(static_cast<const LuaWrappable&>(other)), m_refCount(0) { }
+	RefCounted() {}
+	RefCounted(const RefCounted& other) : LuaWrappable(static_cast<const LuaWrappable&>(other)) { }
 	virtual ~RefCounted() {}
 
 	RefCounted& operator=(const RefCounted& other) {
@@ -20,7 +20,7 @@ public:
 		return *this;
 	}
 
-	inline void IncRefCount() const { m_refCount++; }
+	inline void IncRefCount() const { ++m_refCount; }
 	inline void DecRefCount() const { assert(m_refCount > 0); if (! --m_refCount) delete this; }
 	inline int GetRefCount() const { return m_refCount; }
 
