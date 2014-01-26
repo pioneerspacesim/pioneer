@@ -11,14 +11,12 @@
 class RefCounted : public LuaWrappable {
 public:
 	RefCounted() : m_refCount(0) {}
-	RefCounted(const RefCounted& other) : LuaWrappable(static_cast<const LuaWrappable&>(other)), m_refCount(0) { }
 	virtual ~RefCounted() {}
 
-	RefCounted& operator=(const RefCounted& other) {
-		LuaWrappable::operator=(static_cast<const LuaWrappable&>(other));
-		 // Do *not* assign reference counter
-		return *this;
-	}
+	RefCounted(const RefCounted&) = delete;
+	RefCounted(const RefCounted&&) = delete;
+	RefCounted& operator=(const RefCounted&) = delete;
+	RefCounted& operator=(const RefCounted&&) = delete;
 
 	inline void IncRefCount() const { m_refCount++; }
 	inline void DecRefCount() const { assert(m_refCount > 0); if (! --m_refCount) delete this; }
