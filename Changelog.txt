@@ -21,7 +21,8 @@ January 2014
      * Key bindings of sector view are now configurable (#2542)
      * Advert type icons in the bulletin board (#2668)
      * Remove unnecessary colon from ship empty weight description (#2682)
-     * show min/max crew in shipmarket (#2681)
+     * Show min/max crew in shipmarket (#2681)
+     * Replace GatherTransforms with a visitor (#2686)
 
    * Script and UI API changes
      * Game.StartGame now takes an optional start_time argument (#2615)
