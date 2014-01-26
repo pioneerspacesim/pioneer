@@ -13,6 +13,7 @@
  */
 #include "Renderer.h"
 #include <stack>
+#include <unordered_map>
 
 namespace Graphics {
 
@@ -26,6 +27,7 @@ namespace GL2 {
 	class MultiMaterial;
 	class LitMultiMaterial;
 	class Program;
+	class RenderState;
 	class RenderTarget;
 	class RingMaterial;
 	class FresnelColourMaterial;
@@ -45,7 +47,8 @@ public:
 	virtual bool EndFrame();
 	virtual bool SwapBuffers();
 
-	virtual bool SetRenderTarget(RenderTarget*);
+	virtual bool SetRenderState(RenderState*) override;
+	virtual bool SetRenderTarget(RenderTarget*) override;
 
 	virtual bool ClearScreen();
 	virtual bool ClearDepthBuffer();
@@ -79,9 +82,10 @@ public:
 	virtual bool DrawPointSprites(int count, const vector3f *positions, Material *material, float size);
 	virtual bool DrawStaticMesh(StaticMesh *thing);
 
-	virtual Material *CreateMaterial(const MaterialDescriptor &descriptor);
-	virtual Texture *CreateTexture(const TextureDescriptor &descriptor);
-	virtual RenderTarget *CreateRenderTarget(const RenderTargetDesc &);
+	virtual Material *CreateMaterial(const MaterialDescriptor &descriptor) override;
+	virtual Texture *CreateTexture(const TextureDescriptor &descriptor) override;
+	virtual RenderState *CreateRenderState(const RenderStateDesc &) override;
+	virtual RenderTarget *CreateRenderTarget(const RenderTargetDesc &) override;
 
 	virtual bool ReloadShaders();
 
@@ -131,6 +135,7 @@ protected:
 	friend class GL2::FresnelColourMaterial;
 	friend class GL2::ShieldMaterial;
 	std::vector<std::pair<MaterialDescriptor, GL2::Program*> > m_programs;
+	std::unordered_map<Uint32, GL2::RenderState*> m_renderStates;
 	float m_invLogZfarPlus1;
 	GL2::RenderTarget *m_activeRenderTarget;
 

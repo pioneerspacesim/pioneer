@@ -16,6 +16,7 @@
 #include "GLDebug.h"
 #include "gl2/GeoSphereMaterial.h"
 #include "gl2/GL2Material.h"
+#include "gl2/GL2RenderState.h"
 #include "gl2/GL2RenderTarget.h"
 #include "gl2/MultiMaterial.h"
 #include "gl2/Program.h"
@@ -81,6 +82,7 @@ RendererGL2::RendererGL2(WindowSDL *window, const Graphics::Settings &vs)
 	const bool useDXTnTextures = vs.useTextureCompression && glewIsSupported("GL_EXT_texture_compression_s3tc");
 	m_useCompressedTextures = useDXTnTextures;
 
+	//XXX bunch of fixed function states here!
 	glShadeModel(GL_SMOOTH);
 	glCullFace(GL_BACK);
 	glFrontFace(GL_CCW);
@@ -114,6 +116,8 @@ RendererGL2::RendererGL2(WindowSDL *window, const Graphics::Settings &vs)
 RendererGL2::~RendererGL2()
 {
 	while (!m_programs.empty()) delete m_programs.back().second, m_programs.pop_back();
+	for (auto state : m_renderStates)
+		delete state.second;
 }
 
 bool RendererGL2::GetNearFarRange(float &near, float &far) const
@@ -180,6 +184,12 @@ bool RendererGL2::SwapBuffers()
 #endif
 
 	GetWindow()->SwapBuffers();
+	return true;
+}
+
+bool RendererGL2::SetRenderState(RenderState *rs)
+{
+	static_cast<GL2::RenderState*>(rs)->Apply();
 	return true;
 }
 
@@ -820,6 +830,19 @@ GL2::Program* RendererGL2::GetOrCreateProgram(GL2::Material *mat)
 Texture *RendererGL2::CreateTexture(const TextureDescriptor &descriptor)
 {
 	return new TextureGL(descriptor, m_useCompressedTextures);
+}
+
+RenderState *RendererGL2::CreateRenderState(const RenderStateDesc &desc)
+{
+	const uint32_t hash = lookup3_hashlittle(&desc, sizeof(RenderStateDesc), 0);
+	auto it = m_renderStates.find(hash);
+	if (it != m_renderStates.end())
+		return it->second;
+	else {
+		auto *rs = new GL2::RenderState(desc);
+		m_renderStates[hash] = rs;
+		return rs;
+	}
 }
 
 RenderTarget *RendererGL2::CreateRenderTarget(const RenderTargetDesc &desc)

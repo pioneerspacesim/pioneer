@@ -37,12 +37,14 @@ namespace Graphics {
 class Light;
 class Material;
 class MaterialDescriptor;
+class RenderState;
 class RenderTarget;
 class StaticMesh;
 class Surface;
 class Texture;
 class TextureDescriptor;
 class VertexArray;
+struct RenderStateDesc;
 struct RenderTargetDesc;
 
 // first some enums
@@ -68,6 +70,12 @@ enum BlendMode {
 	BLEND_ALPHA_PREMULT,
 	BLEND_SET_ALPHA, // copy alpha channel
 	BLEND_DEST_ALPHA // XXX maybe crappy name
+};
+
+enum FaceCullMode {
+	CULL_BACK,
+	CULL_FRONT,
+	CULL_NONE
 };
 
 enum class MatrixMode {
@@ -116,6 +124,8 @@ public:
 	virtual bool SetOrthographicProjection(float xmin, float xmax, float ymin, float ymax, float zmin, float zmax) { return false; }
 	virtual bool SetProjection(const matrix4x4f &m) { return false; }
 
+	virtual bool SetRenderState(RenderState*) { return false; }
+
 	//render state functions
 	virtual bool SetBlendMode(BlendMode type) { return false; }
 	virtual bool SetDepthTest(bool enabled) { return false; }
@@ -150,6 +160,7 @@ public:
 	//creates a unique material based on the descriptor. It will not be deleted automatically.
 	virtual Material *CreateMaterial(const MaterialDescriptor &descriptor) = 0;
 	virtual Texture *CreateTexture(const TextureDescriptor &descriptor) = 0;
+	virtual RenderState *CreateRenderState(const RenderStateDesc &) = 0;
 	//returns 0 if unsupported
 	virtual RenderTarget *CreateRenderTarget(const RenderTargetDesc &) { return 0; }
 
