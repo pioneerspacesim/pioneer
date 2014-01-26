@@ -22,7 +22,7 @@ January 2014
      * Advert type icons in the bulletin board (#2668)
      * Remove unnecessary colon from ship empty weight description (#2682)
      * Show min/max crew in shipmarket (#2681)
-     * Replace GatherTransforms with a visitor (#2686)
+     * Show labels on stations and cargo models
 
    * Script and UI API changes
      * Game.StartGame now takes an optional start_time argument (#2615)
@@ -58,6 +58,7 @@ January 2014
      * Serializer Reader class can now load data from any file source (#2646)
      * Expose models to Lua, move pattern methods from ModelSkin to Model (2645)
      * Add initial model binary converter/loader (#2643)
+     * Replace GatherTransforms with a visitor (#2686)
 
 December 2013
 
