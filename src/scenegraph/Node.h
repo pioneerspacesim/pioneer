@@ -82,7 +82,6 @@ public:
 	const std::string &GetName() const { return m_name; }
 
 	virtual Node* FindNode(const std::string &);
-	virtual Node* GatherTransforms(const std::string &, const matrix4x4f &, matrix4x4f &);
 
 	unsigned int GetNodeMask() const { return m_nodeMask; }
 	void SetNodeMask(unsigned int m) { m_nodeMask = m; }
