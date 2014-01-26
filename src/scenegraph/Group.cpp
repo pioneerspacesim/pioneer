@@ -4,6 +4,7 @@
 #include "Group.h"
 #include "NodeVisitor.h"
 #include "NodeCopyCache.h"
+#include "BaseLoader.h"
 
 namespace SceneGraph {
 
@@ -35,6 +36,18 @@ Group::Group(const Group &group, NodeCopyCache *cache)
 Node* Group::Clone(NodeCopyCache *cache)
 {
 	return cache->Copy<Group>(this);
+}
+
+void Group::Save(NodeDatabase &db)
+{
+    Node::Save(db);
+    //for all groups, children are saved by Loader
+}
+
+Group *Group::Load(NodeDatabase &db)
+{
+	return new Group(db.loader->GetRenderer());
+	//children are loaded by Loader
 }
 
 void Group::AddChild(Node *child)
@@ -82,23 +95,6 @@ Node* Group::FindNode(const std::string &name)
 	for(std::vector<Node*>::iterator itr = m_children.begin(), itEnd = m_children.end(); itr != itEnd; ++itr)
 	{
 		result = (*itr)->FindNode(name);
-		if (result) break;
-	}
-
-	return result;
-}
-
-Node* Group::GatherTransforms(const std::string &name, const matrix4x4f &accum, matrix4x4f &outMat)
-{
-	if (m_name == name) {
-		outMat = accum;
-		return this;
-	}
-
-	Node* result = 0;
-	for (std::vector<Node*>::iterator itr = m_children.begin(), itEnd = m_children.end(); itr != itEnd; ++itr)
-	{
-		result = (*itr)->GatherTransforms(name, accum, outMat);
 		if (result) break;
 	}
 

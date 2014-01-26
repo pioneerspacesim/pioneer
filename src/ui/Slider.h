@@ -20,6 +20,10 @@ public:
 	void GetRange(float &out_min, float &out_max) { out_min = m_rangeMin; out_max = m_rangeMax; }
 	Slider *SetRange(float min, float max);
 
+	Slider *SetStep(float step) { m_step = step; return this; }
+	void StepUp() { SetValue(m_value - m_step); }
+	void StepDown() { SetValue(m_value + m_step); }
+
 	sigc::signal<void,float> onValueChanged;
 
 protected:
@@ -30,7 +34,7 @@ protected:
 
 	Slider(Context *context, SliderOrientation orient) :
 		Widget(context), m_orient(orient),
-		m_rangeMin(0.0f), m_rangeMax(1.0f), m_value(0.0f),
+		m_rangeMin(0.0f), m_rangeMax(1.0f), m_step(0.1f), m_value(0.0f),
 		m_buttonDown(false), m_mouseOverButton(false) {}
 
 	virtual void HandleMouseDown(const MouseButtonEvent &event);
@@ -45,6 +49,7 @@ private:
 	SliderOrientation m_orient;
 	float m_rangeMin;
 	float m_rangeMax;
+	float m_step;
 	float m_value;
 	Point m_gutterPos, m_gutterSize;
 	Point m_buttonPos, m_buttonSize;

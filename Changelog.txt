@@ -5,6 +5,7 @@ January 2014
      * Show hull heating effect in atmosphere (#2550)
      * Shield meshes with hit effects (#2491)
      * Show trails behind ships (#2529)
+     * Skybox support (#2570)
      * Initial cockpit support (experimental) (#2603, #2614)
 
    * Minor changes and tweaks
@@ -19,6 +20,9 @@ January 2014
      * Improve cargo and cabin use gauges, easier to understand (#2657, #2648)
      * Key bindings of sector view are now configurable (#2542)
      * Advert type icons in the bulletin board (#2668)
+     * Remove unnecessary colon from ship empty weight description (#2682)
+     * Show min/max crew in shipmarket (#2681)
+     * Replace GatherTransforms with a visitor (#2686)
 
    * Script and UI API changes
      * Game.StartGame now takes an optional start_time argument (#2615)
@@ -46,12 +50,14 @@ January 2014
      * Fix shipyard adding ships faster than it sells them (#2653, #2650)
      * Fix that fuel was not displayed as percentage after load (#2659, #2660)
      * Clear chat form face when showing crew candidate list (#2663, #2647)
+     * Calculate a sane mousewheel scroll step for scrollable regions
 
    * Internal changes
      * Render screen to texture in preparation for post-processing effects (#2525)
      * Various code cleanups (#2621)
      * Serializer Reader class can now load data from any file source (#2646)
      * Expose models to Lua, move pattern methods from ModelSkin to Model (2645)
+     * Add initial model binary converter/loader (#2643)
 
 December 2013
 

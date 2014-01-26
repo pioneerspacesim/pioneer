@@ -26,7 +26,7 @@ public:
 
 	void AddSurface(RefCountedPtr<Surface>);
 	RefCountedPtr<Surface> GetSurface(int idx) const { return m_surfaces.at(idx); }
-	int GetNumSurfaces() const { return m_surfaces.size();  }
+	unsigned int GetNumSurfaces() const { return m_surfaces.size(); }
 
 	//useful to know for buffers
 	int GetNumVerts() const;

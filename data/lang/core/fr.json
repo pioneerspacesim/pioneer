@@ -113,7 +113,7 @@
    },
    "BODY" : {
       "description" : "",
-      "message" : "corps majeur"
+      "message" : "Corps"
    },
    "BROWN_DWARF" : {
       "description" : "",
@@ -145,7 +145,7 @@
    },
    "CAMERA_TOP_VIEW" : {
       "description" : "",
-      "message" : "Vue supérieure"
+      "message" : "Vue de dessus"
    },
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
@@ -161,7 +161,7 @@
    },
    "CARBON_ORE_DESCRIPTION" : {
       "description" : "",
-      "message" : "Carbone (charbon, huile) est requis pour la synthèse de nombreux composés chimiques, plastiques, aliments synthétiques, médicaments et tissus"
+      "message" : "Les hydrocarbures (charbon, huile) sont requis pour synthétiser de nombreux composés chimiques, plastiques, aliments synthétiques, médicaments et tissus"
    },
    "CARGO" : {
       "description" : "",
@@ -337,7 +337,7 @@
    },
    "DRAW_UNINHABITED_LABELS" : {
       "description" : "",
-      "message" : "Label uninhabited systems"
+      "message" : "Label des systèmes inhabités"
    },
    "DRAW_VERTICAL_LINES" : {
       "description" : "",
@@ -541,7 +541,7 @@
    },
    "GENERAL_VIEW_CONTROLS" : {
       "description" : "",
-      "message" : "General View Controls"
+      "message" : "Contrôles de vue généraux"
    },
    "GOVERNMENT_TYPE" : {
       "description" : "",
@@ -797,67 +797,67 @@
    },
    "MAP_LOCK_HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Lock Hyperspace Target"
+      "message" : "Verrouille  la cible d'hyperespace"
    },
    "MAP_TOGGLE_INFO_PANEL" : {
       "description" : "",
-      "message" : "Toggle Info Panel"
+      "message" : "Bascule vers le panneau d'information"
    },
    "MAP_TOGGLE_SELECTION_FOLLOW_VIEW" : {
       "description" : "",
-      "message" : "Toggle Selection Following View"
+      "message" : "Bascule vers la vue de sélection"
    },
    "MAP_VIEW_ROTATE_DOWN" : {
       "description" : "",
-      "message" : "Rotate View Down"
+      "message" : "Rotation vue vers le bas"
    },
    "MAP_VIEW_ROTATE_LEFT" : {
       "description" : "",
-      "message" : "Rotate View Left"
+      "message" : "Rotation vue vers la gauche"
    },
    "MAP_VIEW_ROTATE_RIGHT" : {
       "description" : "",
-      "message" : "Rotate View Right"
+      "message" : "Rotation vue vers la droite"
    },
    "MAP_VIEW_ROTATE_UP" : {
       "description" : "",
-      "message" : "Rotate View Up"
+      "message" : "Rotation vue vers le haut"
    },
    "MAP_VIEW_SHIFT_BACKWARD" : {
       "description" : "",
-      "message" : "Shift View Backwards"
+      "message" : "Change la vue vers l'arrière"
    },
    "MAP_VIEW_SHIFT_DOWN" : {
       "description" : "",
-      "message" : "Shift View Down"
+      "message" : "Change la vue vers le bas"
    },
    "MAP_VIEW_SHIFT_FORWARD" : {
       "description" : "",
-      "message" : "Shift View Forwards"
+      "message" : "Change la vue vers l'avant"
    },
    "MAP_VIEW_SHIFT_LEFT" : {
       "description" : "",
-      "message" : "Shift View Left"
+      "message" : "Change la vue à gauche"
    },
    "MAP_VIEW_SHIFT_RIGHT" : {
       "description" : "",
-      "message" : "Shift View Right"
+      "message" : "Change la vue à droite"
    },
    "MAP_VIEW_SHIFT_UP" : {
       "description" : "",
-      "message" : "Shift View Up"
+      "message" : "Change la vue en haut"
    },
    "MAP_WARP_TO_CURRENT_SYSTEM" : {
       "description" : "",
-      "message" : "Warp to Current System"
+      "message" : "Saute au système en cours"
    },
    "MAP_WARP_TO_HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Warp to Hyperspace Target"
+      "message" : "Saute vers la cible d'hyperespace"
    },
    "MAP_WARP_TO_SELECTED_SYSTEM" : {
       "description" : "",
-      "message" : "Warp to Selected System"
+      "message" : "Saute vers le système sélectionné"
    },
    "MASS" : {
       "description" : "",
@@ -1309,7 +1309,7 @@
    },
    "RESET_ORIENTATION_AND_ZOOM" : {
       "description" : "",
-      "message" : "Reset Orientation and Zoom"
+      "message" : "Réinitialise l'orientation et le zoom"
    },
    "ROBOTS" : {
       "description" : "",
@@ -1397,7 +1397,7 @@
    },
    "SEARCH_MAP" : {
       "description" : "",
-      "message" : "Search Map"
+      "message" : "Cherche sur la carte"
    },
    "SECTOR_COORDINATES" : {
       "description" : "",
@@ -1405,7 +1405,7 @@
    },
    "SECTOR_MAP_VIEW" : {
       "description" : "",
-      "message" : "Sector Map View"
+      "message" : "Vue de la carte du secteur"
    },
    "SECTOR_X_Y_Z" : {
       "description" : "",
@@ -1893,7 +1893,7 @@
    },
    "WHEELS_ARE_DOWN" : {
       "description" : "",
-      "message" : "Train d'atterrissage sorti"
+      "message" : "Trains d'atterrissage sorti"
    },
    "WHEELS_ARE_UP" : {
       "description" : "",

@@ -51,6 +51,9 @@ void Scroller::Layout()
 
 		SetWidgetDimensions(m_innerWidget, Point(), Point(size.x-sliderSize.x, std::max(size.y, m_innerWidget->PreferredSize().y)));
 		m_innerWidget->Layout();
+
+		const float step = float(sliderSize.y) * 0.5f / float(childPreferredSize.y);
+		m_slider->SetStep(step);
 	}
 }
 
@@ -73,7 +76,10 @@ void Scroller::OnScroll(float value)
 bool Scroller::OnMouseWheel(const MouseWheelEvent &event)
 {
 	if (!m_slider) return false;
-	m_slider->SetValue(m_slider->GetValue() + (event.direction == MouseWheelEvent::WHEEL_UP ? -0.01f : 0.01f));
+	if (event.direction == MouseWheelEvent::WHEEL_UP)
+		m_slider->StepUp();
+	else
+		m_slider->StepDown();
 	return true;
 }
 

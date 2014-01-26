@@ -535,6 +535,10 @@
       "description" : "",
       "message" : "max"
    },
+   "MAXIMUM_CREW" : {
+      "description" : "",
+      "message" : "Maximum legénység"
+   },
    "MEDIUM" : {
       "description" : "",
       "message" : "Közepes"
@@ -929,7 +933,7 @@
    },
    "WEIGHT_EMPTY" : {
       "description" : "",
-      "message" : "Üres tömeg:"
+      "message" : "Üres súly"
    },
    "WEIGHT_FULLY_LOADED" : {
       "description" : "",

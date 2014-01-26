@@ -73,6 +73,12 @@ bool CargoBody::OnCollision(Object *b, Uint32 flags, double relVel)
 
 void CargoBody::Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
-	GetModel()->SetLabel(Equip::types[m_type].name);
 	RenderModel(r, camera, viewCoords, viewTransform);
+}
+
+void CargoBody::SetLabel(const std::string &label)
+{
+	assert(GetModel());
+	GetModel()->SetLabel(label);
+	Body::SetLabel(label);
 }

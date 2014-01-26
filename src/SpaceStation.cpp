@@ -565,6 +565,13 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 	}
 }
 
+void SpaceStation::SetLabel(const std::string &label)
+{
+	assert(GetModel());
+	GetModel()->SetLabel(label);
+	Body::SetLabel(label);
+}
+
 // find an empty position for a static ship and mark it as used. these aren't
 // saved and are only needed to help modules place bulk ships. this isn't a
 // great place for this, but its gotta be tracked somewhere

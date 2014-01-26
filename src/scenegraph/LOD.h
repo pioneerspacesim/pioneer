@@ -17,8 +17,10 @@ public:
 	virtual Node *Clone(NodeCopyCache *cache = 0);
 	virtual const char *GetTypeName() const { return "LOD"; }
 	virtual void Accept(NodeVisitor &v);
-	void AddLevel(float pixelRadius, Node *child);
 	virtual void Render(const matrix4x4f &trans, const RenderData *rd);
+	void AddLevel(float pixelRadius, Node *child);
+	virtual void Save(NodeDatabase&) override;
+	static LOD* Load(NodeDatabase&);
 
 protected:
 	virtual ~LOD() { }

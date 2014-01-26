@@ -92,6 +92,13 @@ void Writer::String(const std::string &s)
 	Byte(0);
 }
 
+void Writer::Vector3f(vector3f vec)
+{
+	Float(vec.x);
+	Float(vec.y);
+	Float(vec.z);
+}
+
 void Writer::Vector3d(vector3d vec)
 {
 	Double(vec.x);
@@ -107,6 +114,13 @@ void Writer::WrQuaternionf(const Quaternionf &q)
 	Float(q.z);
 }
 
+void Writer::Color4UB(const Color &c)
+{
+	Byte(c.r);
+	Byte(c.g);
+	Byte(c.b);
+	Byte(c.a);
+}
 
 Reader::Reader(const ByteRange &data):
 	m_data(data),
@@ -216,6 +230,15 @@ std::string Reader::String()
 	return std::string(range.begin, range.Size());
 }
 
+vector3f Reader::Vector3f()
+{
+	vector3f v;
+	v.x = Float();
+	v.y = Float();
+	v.z = Float();
+	return v;
+}
+
 vector3d Reader::Vector3d()
 {
 	vector3d v;
@@ -233,6 +256,16 @@ Quaternionf Reader::RdQuaternionf()
 	q.y = Float();
 	q.z = Float();
 	return q;
+}
+
+Color Reader::Color4UB()
+{
+	Color c;
+	c.r = Byte();
+	c.g = Byte();
+	c.b = Byte();
+	c.a = Byte();
+	return c;
 }
 
 } /* end namespace Serializer */

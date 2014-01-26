@@ -217,7 +217,7 @@
    },
    "DISPLAY_HUD_TRAILS" : {
       "description" : "",
-      "message" : "Mostra Scie"
+      "message" : "Mostra scie nel HUD"
    },
    "DISPLAY_NAV_TUNNELS" : {
       "description" : "",
@@ -534,6 +534,10 @@
    "MAX" : {
       "description" : "",
       "message" : "massimo"
+   },
+   "MAXIMUM_CREW" : {
+      "description" : "",
+      "message" : "Maximum crew"
    },
    "MEDIUM" : {
       "description" : "",
@@ -929,7 +933,7 @@
    },
    "WEIGHT_EMPTY" : {
       "description" : "",
-      "message" : "Peso a vuoto:"
+      "message" : "Peso a vuoto"
    },
    "WEIGHT_FULLY_LOADED" : {
       "description" : "",
