@@ -4,10 +4,11 @@
 #ifndef _PROJECTILE_H
 #define _PROJECTILE_H
 
+#include "libs.h"
 #include "Body.h"
 #include "EquipType.h"
 #include "graphics/Material.h"
-#include "SmartPtr.h"
+#include "graphics/RenderState.h"
 
 class Frame;
 namespace Graphics {
@@ -52,6 +53,7 @@ private:
 	static std::unique_ptr<Graphics::VertexArray> s_glowVerts;
 	static std::unique_ptr<Graphics::Material> s_sideMat;
 	static std::unique_ptr<Graphics::Material> s_glowMat;
+	static Graphics::RenderState *s_renderState;
 };
 
 #endif /* _PROJECTILE_H */

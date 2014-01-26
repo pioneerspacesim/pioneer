@@ -23,6 +23,8 @@ Graphics::Drawables::Sphere3D *Sfx::explosionEffect = 0;
 Graphics::Material *Sfx::damageParticle = 0;
 Graphics::Material *Sfx::ecmParticle = 0;
 Graphics::Material *Sfx::smokeParticle = 0;
+Graphics::RenderState *Sfx::alphaState = nullptr;
+Graphics::RenderState *Sfx::additiveAlphaState = nullptr;
 
 Sfx::Sfx()
 {
@@ -112,10 +114,10 @@ void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
 			//Explosion effect: A quick flash of three concentric coloured spheres. A bit retro.
 			const matrix4x4f trans = matrix4x4f::Translation(fpos.x, fpos.y, fpos.z);
 			RefCountedPtr<Material> exmat = Sfx::explosionEffect->GetMaterial();
+			renderer->SetRenderState(alphaState);
 			exmat->diffuse = Color(255, 255, 128, 255);
 			renderer->SetTransform(trans * matrix4x4f::ScaleMatrix(500*m_age));
 			Sfx::explosionEffect->Draw(renderer);
-			renderer->SetBlendMode(BLEND_ALPHA);
 			exmat->diffuse = Color(255, 128, 0, 168);
 			renderer->SetTransform(trans * matrix4x4f::ScaleMatrix(750*m_age));
 			Sfx::explosionEffect->Draw(renderer);
@@ -126,7 +128,7 @@ void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
 		} case TYPE_DAMAGE: {
 			renderer->SetTransform(matrix4x4d::Translation(fpos));
 			damageParticle->diffuse = Color(255, 255, 0, (1.0f-(m_age/2.0f))*255);
-			renderer->SetBlendMode(BLEND_ALPHA_ONE);
+			renderer->SetRenderState(additiveAlphaState);
 			renderer->DrawPointSprites(1, &pos, damageParticle, 20.f);
 			break;
 		} case TYPE_SMOKE: {
@@ -143,7 +145,7 @@ void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
 			renderer->SetTransform(matrix4x4d::Translation(fpos));
 
 			damageParticle->diffuse*=0.05;
-			renderer->SetBlendMode(Graphics::BLEND_ALPHA);
+			renderer->SetRenderState(alphaState);
 			renderer->DrawPointSprites(1, &pos, smokeParticle, (m_speed*m_age));
 			break;
 		}
@@ -241,6 +243,14 @@ void Sfx::Init(Graphics::Renderer *r)
 	ecmParticle->texture0 = Graphics::TextureBuilder::Billboard("textures/ecm.png").GetOrCreateTexture(r, "billboard");
 	smokeParticle = r->CreateMaterial(desc);
 	smokeParticle->texture0 = Graphics::TextureBuilder::Billboard("textures/smoke.png").GetOrCreateTexture(r, "billboard");
+
+	//shared render states
+	Graphics::RenderStateDesc rsd;
+	rsd.blendMode = Graphics::BLEND_ALPHA;
+	rsd.depthWrite = false;
+	alphaState = r->CreateRenderState(rsd);
+	rsd.blendMode = Graphics::BLEND_ALPHA_ONE;
+	additiveAlphaState = r->CreateRenderState(rsd);
 }
 
 void Sfx::Uninit()

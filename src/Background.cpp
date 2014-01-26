@@ -28,7 +28,7 @@ using namespace Graphics;
 namespace
 {
 	static std::unique_ptr<Graphics::Texture> s_defaultCubeMap;
-	
+
 	static Uint32 GetNumSkyboxes()
 	{
 		char filename[1024];
@@ -301,6 +301,10 @@ Container::Container(Graphics::Renderer *renderer, Random &rand)
 , m_universeBox(renderer)
 , m_drawFlags( DRAW_SKYBOX )
 {
+	Graphics::RenderStateDesc rsd;
+	rsd.depthTest  = false;
+	rsd.depthWrite = false;
+	m_renderState = renderer->CreateRenderState(rsd);
 	Refresh(rand);
 };
 
@@ -314,8 +318,7 @@ void Container::Refresh(Random &rand)
 void Container::Draw(const matrix4x4d &transform)
 {
 	PROFILE_SCOPED()
-	m_renderer->SetBlendMode(BLEND_SOLID);
-	m_renderer->SetDepthTest(false);
+	m_renderer->SetRenderState(m_renderState);
 	m_renderer->SetTransform(transform);
 	if( DRAW_SKYBOX & m_drawFlags ) {
 		m_universeBox.Draw();
@@ -329,7 +332,6 @@ void Container::Draw(const matrix4x4d &transform)
 		m_renderer->SetTransform(starTrans);
 		const_cast<Starfield&>(m_starField).Draw();
 	}
-	m_renderer->SetDepthTest(true);
 }
 
 void Container::SetIntensity(float intensity)

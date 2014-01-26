@@ -420,7 +420,7 @@ void SectorView::Draw3D()
 	else                                m_renderer->SetPerspectiveProjection(40.f, m_renderer->GetDisplayAspect(), 1.f, 600.f);
 
 	matrix4x4f modelview = matrix4x4f::Identity();
-	m_renderer->SetDepthWrite(true);
+
 	m_renderer->ClearScreen();
 
 	m_sectorLabel->SetText(stringf(Lang::SECTOR_X_Y_Z,
@@ -800,7 +800,7 @@ void SectorView::DrawNearSectors(const matrix4x4f& modelview)
 
 	// ...then switch and do all the labels
 	const vector3f secOrigin = vector3f(int(floorf(m_pos.x)), int(floorf(m_pos.y)), int(floorf(m_pos.z)));
-	
+
 	m_renderer->SetTransform(modelview);
 	glDepthRange(0,1);
 	Gui::Screen::EnterOrtho();
@@ -980,7 +980,7 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 			m_renderer->SetDepthWrite(false);
 			m_renderer->SetDepthTest(false);
 			m_renderer->SetBlendMode(BLEND_ALPHA);
-			
+
 			const matrix4x4f sphTrans = trans * matrix4x4f::Translation((*i).p.x, (*i).p.y, (*i).p.z);
 			m_renderer->SetTransform(sphTrans * matrix4x4f::ScaleMatrix(m_playerHyperspaceRange));
 			m_jumpSphere->Draw(m_renderer);

@@ -7,6 +7,7 @@
 #include "libs.h"
 #include "galaxy/SystemPath.h"
 #include "graphics/Texture.h"
+#include "graphics/RenderState.h"
 #include "Random.h"
 
 namespace Graphics {
@@ -78,7 +79,7 @@ namespace Background
 		std::unique_ptr<Graphics::StaticMesh> m_model;
 	};
 
-	
+
 
 	// contains starfield, milkyway, possibly other Background elements
 	class Container
@@ -104,6 +105,7 @@ namespace Background
 		Starfield m_starField;
 		UniverseBox m_universeBox;
 		Uint32 m_drawFlags;
+		Graphics::RenderState *m_renderState;
 	};
 
 } //namespace Background

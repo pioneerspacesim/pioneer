@@ -6,11 +6,12 @@
 
 #include "Body.h"
 #include "Serializer.h"
+#include "graphics/Material.h"
+#include "graphics/RenderState.h"
 
 class Frame;
 namespace Graphics {
 	class Renderer;
-	class Material;
 	namespace Drawables {
 		class Sphere3D;
 	}
@@ -39,6 +40,8 @@ public:
 	static Graphics::Material *damageParticle;
 	static Graphics::Material *ecmParticle;
 	static Graphics::Material *smokeParticle;
+	static Graphics::RenderState *alphaState;
+	static Graphics::RenderState *additiveAlphaState;
 
 private:
 	static Sfx *AllocSfxInFrame(Frame *f);

@@ -533,7 +533,6 @@ bool RendererGL2::DrawPointSprites(int count, const vector3f *positions, Materia
 {
 	if (count < 1 || !material || !material->texture0) return false;
 
-	SetDepthWrite(false);
 	VertexArray va(ATTRIB_POSITION | ATTRIB_UV0, count * 6);
 
 	matrix4x4f rot(GetCurrentModelView());
@@ -561,8 +560,6 @@ bool RendererGL2::DrawPointSprites(int count, const vector3f *positions, Materia
 		va.Add(pos+rotv2, vector2f(1.f, 1.f)); //bottom right
 	}
 	DrawTriangles(&va, material);
-	SetBlendMode(BLEND_SOLID);
-	SetDepthWrite(true);
 
 	return true;
 }
