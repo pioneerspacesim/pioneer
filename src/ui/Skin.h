@@ -8,6 +8,7 @@
 #include "SmartPtr.h"
 #include "graphics/Renderer.h"
 #include "graphics/Material.h"
+#include "graphics/RenderState.h"
 #include "Point.h"
 
 #include <SDL_stdinc.h>
@@ -199,6 +200,9 @@ public:
 	Uint8 AlphaSelect_ub() const { return m_alphaSelect * 255; }
 	Uint8 AlphaHover_ub()  const { return m_alphaHover * 255; }
 
+	Graphics::RenderState *GetAlphaBlendState() const { return m_alphaBlendState; }
+	Graphics::RenderState *GetRenderState(Graphics::BlendMode) const;
+
 private:
 	Graphics::Renderer *m_renderer;
 
@@ -207,6 +211,10 @@ private:
 	RefCountedPtr<Graphics::Texture> m_texture;
 	RefCountedPtr<Graphics::Material> m_textureMaterial;
 	RefCountedPtr<Graphics::Material> m_colorMaterial;
+
+	Graphics::RenderState *m_alphaBlendState;
+	Graphics::RenderState *m_alphaSetState;
+	Graphics::RenderState *m_alphaMaskState;
 
 	void DrawRectElement(const RectElement &element, const Point &pos, const Point &size, Graphics::BlendMode blendMode = Graphics::BLEND_ALPHA) const;
 	void DrawBorderedRectElement(const BorderedRectElement &element, const Point &pos, const Point &size, Graphics::BlendMode blendMode = Graphics::BLEND_ALPHA) const;

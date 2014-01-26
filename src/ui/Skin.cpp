@@ -35,6 +35,18 @@ Skin::Skin(const std::string &filename, Graphics::Renderer *renderer, float scal
 	desc.textures = 0;
 	m_colorMaterial.Reset(m_renderer->CreateMaterial(desc));
 
+	Graphics::RenderStateDesc rsd;
+	rsd.blendMode = Graphics::BLEND_ALPHA;
+	rsd.depthWrite = false;
+	rsd.depthTest = false;
+	m_alphaBlendState = m_renderer->CreateRenderState(rsd);
+
+	rsd.blendMode = Graphics::BLEND_SET_ALPHA;
+	m_alphaSetState = m_renderer->CreateRenderState(rsd);
+
+	rsd.blendMode = Graphics::BLEND_DEST_ALPHA;
+	m_alphaMaskState = m_renderer->CreateRenderState(rsd);
+
 	m_backgroundNormal        = LoadBorderedRectElement(cfg.String("BackgroundNormal"));
 	m_backgroundActive        = LoadBorderedRectElement(cfg.String("BackgroundActive"));
 
@@ -79,6 +91,16 @@ Skin::Skin(const std::string &filename, Graphics::Renderer *renderer, float scal
 	m_alphaHover  = cfg.Float("AlphaHover");
 }
 
+Graphics::RenderState *Skin::GetRenderState(Graphics::BlendMode mode) const
+{
+	if (mode == Graphics::BLEND_SET_ALPHA)
+		return m_alphaSetState;
+	else if (mode == Graphics::BLEND_DEST_ALPHA)
+		return m_alphaMaskState;
+	else
+		return m_alphaBlendState;
+}
+
 static inline vector2f scaled(const vector2f &v)
 {
 	return v * (1.0f / SKIN_SIZE);
@@ -93,7 +115,7 @@ void Skin::DrawRectElement(const RectElement &element, const Point &pos, const P
 	va.Add(vector3f(pos.x+size.x, pos.y,        0.0f), scaled(vector2f(element.pos.x+element.size.x, element.pos.y)));
 	va.Add(vector3f(pos.x+size.x, pos.y+size.y, 0.0f), scaled(vector2f(element.pos.x+element.size.x, element.pos.y+element.size.y)));
 
-	m_renderer->SetBlendMode(blendMode);
+	m_renderer->SetRenderState(GetRenderState(blendMode));
 	m_renderer->DrawTriangles(&va, m_textureMaterial.Get(), Graphics::TRIANGLE_STRIP);
 }
 
@@ -138,7 +160,7 @@ void Skin::DrawBorderedRectElement(const BorderedRectElement &element, const Poi
 	va.Add(vector3f(pos.x+size.x,       pos.y+size.y-width, 0.0f), scaled(vector2f(element.pos.x+element.size.x,       element.pos.y+element.size.y-width)));
 	va.Add(vector3f(pos.x+size.x,       pos.y+size.y,       0.0f), scaled(vector2f(element.pos.x+element.size.x,       element.pos.y+element.size.y)));
 
-	m_renderer->SetBlendMode(blendMode);
+	m_renderer->SetRenderState(GetRenderState(blendMode));
 	m_renderer->DrawTriangles(&va, m_textureMaterial.Get(), Graphics::TRIANGLE_STRIP);
 }
 
@@ -157,7 +179,7 @@ void Skin::DrawVerticalEdgedRectElement(const EdgedRectElement &element, const P
 	va.Add(vector3f(pos.x+size.x, pos.y+size.y,        0.0f), scaled(vector2f(element.pos.x+element.size.x, element.pos.y+element.size.y)));
 	va.Add(vector3f(pos.x,        pos.y+size.y,        0.0f), scaled(vector2f(element.pos.x,                element.pos.y+element.size.y)));
 
-	m_renderer->SetBlendMode(blendMode);
+	m_renderer->SetRenderState(GetRenderState(blendMode));
 	m_renderer->DrawTriangles(&va, m_textureMaterial.Get(), Graphics::TRIANGLE_STRIP);
 }
 
@@ -176,7 +198,7 @@ void Skin::DrawHorizontalEdgedRectElement(const EdgedRectElement &element, const
 	va.Add(vector3f(pos.x+size.x,       pos.y,        0.0f), scaled(vector2f(element.pos.x+element.size.x,       element.pos.y)));
 	va.Add(vector3f(pos.x+size.x,       pos.y+size.y, 0.0f), scaled(vector2f(element.pos.x+element.size.x,       element.pos.y+element.size.y)));
 
-	m_renderer->SetBlendMode(blendMode);
+	m_renderer->SetRenderState(GetRenderState(blendMode));
 	m_renderer->DrawTriangles(&va, m_textureMaterial.Get(), Graphics::TRIANGLE_STRIP);
 }
 
@@ -190,6 +212,7 @@ void Skin::DrawRectColor(const Color &col, const Point &pos, const Point &size) 
 	va.Add(vector3f(pos.x+size.x, pos.y+size.y, 0.0f));
 
 	m_colorMaterial->diffuse = col;
+	m_renderer->SetRenderState(GetAlphaBlendState());
 	m_renderer->DrawTriangles(&va, m_colorMaterial.Get(), Graphics::TRIANGLE_STRIP);
 }
 
