@@ -21,6 +21,7 @@
 #include "StringF.h"
 #include "galaxy/StarSystem.h"
 #include "graphics/Graphics.h"
+#include "scenegraph/ModelSkin.h"
 #include <algorithm>
 
 void SpaceStation::Init()
@@ -170,6 +171,10 @@ void SpaceStation::InitStation()
 	if (ground) SetClipRadius(CITY_ON_PLANET_RADIUS);		// overrides setmodel
 
 	m_doorAnimation = model->FindAnimation("doors");
+
+	SceneGraph::ModelSkin skin;
+	skin.SetDecal("pioneer");
+	skin.Apply(model);
 }
 
 SpaceStation::~SpaceStation()

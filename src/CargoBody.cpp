@@ -10,6 +10,7 @@
 #include "EnumStrings.h"
 #include "collider/collider.h"
 #include "scenegraph/SceneGraph.h"
+#include "scenegraph/ModelSkin.h"
 
 void CargoBody::Save(Serializer::Writer &wr, Space *space)
 {
@@ -37,6 +38,11 @@ void CargoBody::Init()
 	colors.push_back(Color(255, 198, 64));
 	colors.push_back(Color(0, 222, 255));
 	colors.push_back(Color(255, 255, 255));
+
+	SceneGraph::ModelSkin skin;
+	skin.SetColors(colors);
+	skin.SetDecal("pioneer");
+	skin.Apply(GetModel());
 	GetModel()->SetColors(colors);
 
 	Properties().Set("type", EnumStrings::GetString("EquipType", m_type));
