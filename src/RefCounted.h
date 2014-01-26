@@ -4,6 +4,7 @@
 #ifndef _REFCOUNTED_H
 #define _REFCOUNTED_H
 
+#include <atomic>
 #include "SmartPtr.h"
 #include "LuaWrappable.h"
 
@@ -24,7 +25,7 @@ public:
 	inline int GetRefCount() const { return m_refCount; }
 
 private:
-	mutable int m_refCount; // We model logical constness, so refcount is changeable even for const objects
+	mutable std::atomic_int m_refCount; // We model logical constness, so refcount is changeable even for const objects
 };
 
 template <typename T>
