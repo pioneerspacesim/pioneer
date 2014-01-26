@@ -258,7 +258,7 @@ vector3d GetSpherePoint(const double x, const double y, const vector3d *v) {
 	return (v[0] + x*(1.0-y)*(v[1]-v[0]) + x*y*(v[2]-v[0]) + (1.0-x)*y*(v[3]-v[0])).Normalized();
 }
 
-static const Uint32 UV_DIMS = 1024;
+static const Uint32 UV_DIMS = 512;
 static const double FRACSTEP = 1.0 / double(UV_DIMS-1);
 
 // generate root face patches of the cube/sphere
@@ -273,15 +273,30 @@ static const vector3d p8 = (vector3d( 1,-1,-1)).Normalized();
 
 static const vector3d s_patchFaces[NUM_PATCHES][4] = 
 { 
-	{p4, p8, p5, p1}, // +x
-	{p7, p3, p2, p6}, // -x
+	{p5, p1, p4, p8}, // +x
+	{p2, p6, p7, p3}, // -x
 	
-	{p7, p8, p4, p3}, // +y
-	{p2, p1, p5, p6}, // -y
+	{p2, p1, p5, p6}, // +y
+	{p7, p8, p4, p3}, // -y
 
-	{p3, p4, p1, p2}, // +z
-	{p8, p7, p6, p5}  // -z
+	{p6, p5, p8, p7}, // +z - NB: these are actually reversed!
+	{p1, p2, p3, p4}  // -z
 };
+
+#define USE_PATCH_COLOUR_MARKERS 0
+#if USE_PATCH_COLOUR_MARKERS
+static const Color4f s_patchColours[NUM_PATCHES] = 
+{
+	Color4f(1.0f, 0.0f, 0.0f, 1.0f), // +x
+	Color4f(0.0f, 0.5f, 0.5f, 1.0f), // -x
+
+	Color4f(0.0f, 1.0f, 0.0f, 1.0f), // +y
+	Color4f(0.5f, 0.0f, 0.5f, 1.0f), // -y
+
+	Color4f(0.0f, 0.0f, 1.0f, 1.0f), // +z
+	Color4f(0.5f, 0.5f, 0.0f, 1.0f)  // -z
+};
+#endif
 
 void GasGiant::GenerateTexture()
 {
@@ -291,6 +306,9 @@ void GasGiant::GenerateTexture()
 	}
 
 	for(int i=0; i<NUM_PATCHES; i++) {
+#if USE_PATCH_COLOUR_MARKERS
+		const Color4f tempCol = s_patchColours[i];
+#endif
 		Color* const pBuf = buf[i].get();
 		for( Uint32 v=0; v<UV_DIMS; v++ ) {
 			for( Uint32 u=0; u<UV_DIMS; u++ ) {
@@ -301,8 +319,14 @@ void GasGiant::GenerateTexture()
 				// get point on the surface of the sphere
 				const vector3d p = GetSpherePoint(ustep, vstep, &s_patchFaces[i][0]);
 #if 1
+#if USE_PATCH_COLOUR_MARKERS
+				const bool bSolidColour = (ustep > 0.4 && ustep < 0.6) && (vstep > 0.4 && vstep < 0.6);
+				// get colour using `p`
+				const vector3d colour = bSolidColour ? vector3d(tempCol.r, tempCol.g, tempCol.b) : m_terrain->GetColor(p, 0.0, p);
+#else
 				// get colour using `p`
 				const vector3d colour = m_terrain->GetColor(p, 0.0, p);
+#endif
 
 				// convert to ubyte and store
 				Color* col = pBuf + (u + (v * UV_DIMS));
