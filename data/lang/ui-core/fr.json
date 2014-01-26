@@ -57,11 +57,11 @@
    },
    "CABIN_FREE" : {
       "description" : "",
-      "message" : "{amount} free"
+      "message" : "{amount} libre"
    },
    "CABIN_USED" : {
       "description" : "",
-      "message" : "{amount} used"
+      "message" : "{amount} utilisé"
    },
    "CANCEL" : {
       "description" : "",
@@ -85,11 +85,11 @@
    },
    "CARGO_T_FREE" : {
       "description" : "",
-      "message" : "{amount}t free"
+      "message" : "{amount}t libre"
    },
    "CARGO_T_USED" : {
       "description" : "",
-      "message" : "{amount}t used"
+      "message" : "{amount}t utilisé"
    },
    "CASH" : {
       "description" : "",
@@ -193,11 +193,11 @@
    },
    "DELTA_V_EMPTY" : {
       "description" : "Delta-v capacity of a ship with no cargo or upgrades",
-      "message" : "Delta-v (empty)"
+      "message" : "Delta-v (vide)"
    },
    "DELTA_V_FULL" : {
       "description" : "Delta-v capacity of a ship with maximum cargo",
-      "message" : "Delta-v (full)"
+      "message" : "Delta-v (plein)"
    },
    "DELTA_V_MAX" : {
       "description" : "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
@@ -217,7 +217,7 @@
    },
    "DISPLAY_HUD_TRAILS" : {
       "description" : "",
-      "message" : "Display HUD trails"
+      "message" : "Afficher les trainées HUD"
    },
    "DISPLAY_NAV_TUNNELS" : {
       "description" : "",
@@ -257,7 +257,7 @@
    },
    "ENABLE_COCKPIT" : {
       "description" : "",
-      "message" : "Enable cockpit (EXPERIMENTAL)"
+      "message" : "Activer cockpit (EXPERIMENTAL)"
    },
    "ENABLE_JOYSTICK" : {
       "description" : "",
@@ -265,7 +265,7 @@
    },
    "ENGINEERING" : {
       "description" : "",
-      "message" : "Engineering:"
+      "message" : "Ingénierie:"
    },
    "EQUIPMENT" : {
       "description" : "",
@@ -273,11 +273,11 @@
    },
    "EQUIPMENT_MARKET" : {
       "description" : "",
-      "message" : "Equipment Market"
+      "message" : "Marché d'équipement"
    },
    "EQUIPPED" : {
       "description" : "",
-      "message" : "Equipped"
+      "message" : "Equipé"
    },
    "ERROR" : {
       "description" : "",
@@ -309,7 +309,7 @@
    },
    "FORWARD_ACCEL_FULL" : {
       "description" : "",
-      "message" : "Forward accel (full)"
+      "message" : "Accélération (totale)"
    },
    "FRACTAL_DETAIL" : {
       "description" : "",
@@ -361,27 +361,27 @@
    },
    "HEAVY_CARGO_SHUTTLE" : {
       "description" : "",
-      "message" : "Heavy cargo shuttle"
+      "message" : "Navette cargo lourde"
    },
    "HEAVY_COURIER" : {
       "description" : "",
-      "message" : "Heavy courier"
+      "message" : "Courrier lourd"
    },
    "HEAVY_FIGHTER" : {
       "description" : "",
-      "message" : "Heavy fighter"
+      "message" : "Chasseur lourd"
    },
    "HEAVY_FREIGHTER" : {
       "description" : "",
-      "message" : "Heavy freighter"
+      "message" : "Transporteur lourd"
    },
    "HEAVY_PASSENGER_SHUTTLE" : {
       "description" : "",
-      "message" : "Heavy passenger shuttle"
+      "message" : "Navette de passager lourd"
    },
    "HEAVY_PASSENGER_TRANSPORT" : {
       "description" : "",
-      "message" : "Heavy passenger transport"
+      "message" : "Transport de passagers lourd"
    },
    "HIGH" : {
       "description" : "",
@@ -465,27 +465,27 @@
    },
    "LIGHT_CARGO_SHUTTLE" : {
       "description" : "",
-      "message" : "Light cargo shuttle"
+      "message" : "Navette cargo légère"
    },
    "LIGHT_COURIER" : {
       "description" : "",
-      "message" : "Light courier"
+      "message" : "Courrier léger"
    },
    "LIGHT_FIGHTER" : {
       "description" : "",
-      "message" : "Light fighter"
+      "message" : "Chasseur léger"
    },
    "LIGHT_FREIGHTER" : {
       "description" : "",
-      "message" : "Light freighter"
+      "message" : "Transporteur léger"
    },
    "LIGHT_PASSENGER_SHUTTLE" : {
       "description" : "",
-      "message" : "Light passenger shuttle"
+      "message" : "Navette de passagers léger"
    },
    "LIGHT_PASSENGER_TRANSPORT" : {
       "description" : "",
-      "message" : "Light passenger transport"
+      "message" : "Transport de passager léger"
    },
    "LOAD" : {
       "description" : "",
@@ -497,7 +497,7 @@
    },
    "LOBBY" : {
       "description" : "",
-      "message" : "Lobby"
+      "message" : "Hall"
    },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
@@ -537,7 +537,7 @@
    },
    "MAXIMUM_CREW" : {
       "description" : "",
-      "message" : "Maximum crew"
+      "message" : "Equipage maximum"
    },
    "MEDIUM" : {
       "description" : "",
@@ -545,27 +545,27 @@
    },
    "MEDIUM_CARGO_SHUTTLE" : {
       "description" : "",
-      "message" : "Medium cargo shuttle"
+      "message" : "Navette cargo intermédiaire"
    },
    "MEDIUM_COURIER" : {
       "description" : "",
-      "message" : "Medium courier"
+      "message" : "Courrier intermédiaire"
    },
    "MEDIUM_FIGHTER" : {
       "description" : "",
-      "message" : "Medium fighter"
+      "message" : "Chasseur intermédiaire"
    },
    "MEDIUM_FREIGHTER" : {
       "description" : "",
-      "message" : "Medium freighter"
+      "message" : "Transporteur intermédiaire"
    },
    "MEDIUM_PASSENGER_SHUTTLE" : {
       "description" : "",
-      "message" : "Medium passenger shuttle"
+      "message" : "Navette de passager intermédiaire"
    },
    "MEDIUM_PASSENGER_TRANSPORT" : {
       "description" : "",
-      "message" : "Medium passenger transport"
+      "message" : "Transport de passager intermédiaire"
    },
    "METAL_ALLOYS" : {
       "description" : "",
@@ -693,7 +693,7 @@
    },
    "PAY_FINE_OF_N" : {
       "description" : "",
-      "message" : "Pay fine of {amount}"
+      "message" : "Payer l'amende de {amount}"
    },
    "PERSONAL_INFORMATION" : {
       "description" : "",
@@ -781,7 +781,7 @@
    },
    "REVERSE_ACCEL_FULL" : {
       "description" : "",
-      "message" : "Reverse accel (full)"
+      "message" : "Décélération (Complète)"
    },
    "REWARD" : {
       "description" : "",
@@ -829,11 +829,11 @@
    },
    "SHIP_MARKET" : {
       "description" : "",
-      "message" : "Ship Market"
+      "message" : "Marché de vaisseaux"
    },
    "SHIP_REPAIRS" : {
       "description" : "",
-      "message" : "Ship Repairs"
+      "message" : "Réparation de vaisseaux"
    },
    "SHIP_VIEWING_WAS_SOLD" : {
       "description" : "",
@@ -857,7 +857,7 @@
    },
    "STATION_MANAGER" : {
       "description" : "",
-      "message" : "Station manager"
+      "message" : "Gestionnaire de station"
    },
    "STATUS" : {
       "description" : "",
@@ -953,11 +953,11 @@
    },
    "YOUR_HULL_IS_AT_X_INTEGRITY" : {
       "description" : "",
-      "message" : "Your hull is at {value}% integrity."
+      "message" : "Vote coque est à {value}% d'intégrité"
    },
    "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION" : {
       "description" : "",
-      "message" : "You don't have enough money for that option."
+      "message" : "Vous n'avez pas assez d'argent pour cette option"
    },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",
