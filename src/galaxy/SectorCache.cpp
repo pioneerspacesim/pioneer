@@ -45,14 +45,15 @@ void SectorCache::AddToCache(const std::vector<Sector>& secIn)
 Sector* SectorCache::GetCached(const SystemPath& loc)
 {
 	PROFILE_SCOPED()
+	SystemPath secPath = loc.SectorOnly();
 	Sector *s = 0;
 
-	SectorCacheMap::iterator i = m_sectorCache.find(loc);
+	SectorCacheMap::iterator i = m_sectorCache.find(secPath);
 	if (i != m_sectorCache.end())
 		return (*i).second;
 
-	s = new Sector(loc.sectorX, loc.sectorY, loc.sectorZ);
-	m_sectorCache.insert( std::pair<SystemPath,Sector*>(loc, s) );
+	s = new Sector(secPath);
+	m_sectorCache.insert( std::pair<SystemPath,Sector*>(secPath, s) );
 	s->AssignFactions();
 
 	return s;
@@ -62,6 +63,7 @@ bool SectorCache::HasCached(const SystemPath& loc) const
 {
 	PROFILE_SCOPED()
 
+	assert(loc.IsSectorPath());
 	const SectorCacheMap::const_iterator i = m_sectorCache.find(loc);
 	if (i != m_sectorCache.end())
 		return true;
