@@ -6,7 +6,7 @@ January 2014
      * Shield meshes with hit effects (#2491)
      * Show trails behind ships (#2529)
      * Skybox support (#2570)
-     * Initial cockpit support (experimental) (#2603, #2614)
+     * Initial cockpit support (experimental) (#2603, #2614, #2679)
 
    * Minor changes and tweaks
      * Ship stat balancing (#2620, #2673)
