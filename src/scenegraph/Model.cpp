@@ -107,7 +107,6 @@ void Model::Render(const matrix4x4f &trans, const RenderData *rd)
 	//Override renderdata if this model is called from ModelNode
 	RenderData params = (rd != 0) ? (*rd) : m_renderData;
 
-	m_renderer->SetBlendMode(Graphics::BLEND_SOLID);
 	m_renderer->SetTransform(trans);
 	//using the entire model bounding radius for all nodes at the moment.
 	//BR could also be a property of Node.

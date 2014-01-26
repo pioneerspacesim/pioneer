@@ -9,6 +9,7 @@
 #include "graphics/VertexArray.h"
 #include "graphics/Material.h"
 #include "graphics/TextureBuilder.h"
+#include "graphics/RenderState.h"
 
 namespace SceneGraph {
 
@@ -37,6 +38,12 @@ Thruster::Thruster(Graphics::Renderer *r, bool _linear, const vector3f &_pos, co
 	m_glowMat.Reset(r->CreateMaterial(desc));
 	m_glowMat->texture0 = Graphics::TextureBuilder::Billboard(thrusterGlowTextureFilename).GetOrCreateTexture(r, "billboard");
 	m_glowMat->diffuse = baseColor;
+
+	Graphics::RenderStateDesc rsd;
+	rsd.blendMode = Graphics::BLEND_ALPHA_ONE;
+	rsd.depthWrite = false;
+	rsd.cullMode = Graphics::CULL_NONE;
+	m_renderState = r->CreateRenderState(rsd);
 }
 
 Thruster::Thruster(const Thruster &thruster, NodeCopyCache *cache)
@@ -45,6 +52,7 @@ Thruster::Thruster(const Thruster &thruster, NodeCopyCache *cache)
 , linearOnly(thruster.linearOnly)
 , dir(thruster.dir)
 , pos(thruster.pos)
+, m_renderState(thruster.m_renderState)
 {
 	m_tVerts.reset(CreateThrusterGeometry());
 	m_glowVerts.reset(CreateGlowGeometry());
@@ -87,9 +95,7 @@ void Thruster::Render(const matrix4x4f &trans, const RenderData *rd)
 
 	Graphics::Renderer *r = GetRenderer();
 	r->SetTransform(trans);
-
-	r->SetBlendMode(Graphics::BLEND_ALPHA_ONE);
-	r->SetDepthWrite(false);
+	r->SetRenderState(m_renderState);
 
 	m_tMat->diffuse = m_glowMat->diffuse = baseColor * power;
 
@@ -102,9 +108,6 @@ void Thruster::Render(const matrix4x4f &trans, const RenderData *rd)
 
 	r->DrawTriangles(m_tVerts.get(), m_tMat.Get());
 	r->DrawTriangles(m_glowVerts.get(), m_glowMat.Get());
-
-	r->SetBlendMode(Graphics::BLEND_SOLID);
-	r->SetDepthWrite(true);
 }
 
 void Thruster::Save(NodeDatabase &db)

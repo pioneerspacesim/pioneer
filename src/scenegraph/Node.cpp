@@ -72,7 +72,8 @@ void Node::DrawAxes()
 		Color::GREEN,
 	};
 
-	m_renderer->SetBlendMode(Graphics::BLEND_SOLID);
+	Graphics::RenderStateDesc rsd;
+	m_renderer->SetRenderState(m_renderer->CreateRenderState(rsd));
 	m_renderer->DrawLines(6, vtsXYZ, colors);
 }
 

@@ -10,6 +10,7 @@
 #include "RefCounted.h"
 #include "Serializer.h"
 #include "graphics/Material.h"
+#include "graphics/RenderState.h"
 
 namespace Graphics { class Renderer; }
 
