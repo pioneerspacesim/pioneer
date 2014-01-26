@@ -472,6 +472,9 @@ void Pi::Init()
 	CustomSystem::Init();
 	draw_progress(gauge, label, 0.4f);
 
+	Faction::RefreshHomeSectors();
+	draw_progress(gauge, label, 0.45f);
+
 	modelCache = new ModelCache(Pi::renderer);
 	Shields::Init(Pi::renderer);
 	draw_progress(gauge, label, 0.5f);

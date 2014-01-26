@@ -192,6 +192,15 @@ void SectorCache::RemoveFromAttic(const SystemPath& path)
 	m_sectorAttic.erase(path);
 }
 
+void SectorCache::ClearCache()
+{
+	for (auto it = m_sectorCache.begin(); it != m_sectorCache.end();) {
+		auto inserted = m_sectorAttic.insert(std::make_pair(it->first, it->second.Get()));
+		assert(inserted.second); // Should not have been in the attic before.
+		m_sectorCache.erase(it++);
+	}
+}
+
 SectorCache::SectorCacheJob::SectorCacheJob(std::unique_ptr<std::vector<SystemPath> > path) : Job(), m_paths(std::move(path))
 {
 	m_sectors.reserve(m_paths->size());

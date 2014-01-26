@@ -21,7 +21,9 @@ public:
 
 	RefCountedPtr<Sector> GetCached(const SystemPath& loc);
 	void GenSectorCache();
-	void ShrinkCache();
+	void ShrinkCache();	// shrink cache to the surrounding of the player (putting still referenced Sectors to attic).
+	void ClearCache(); 	// Completely clear cache, putting everything to attic.
+	bool IsCompletelyEmpty() { return m_sectorCache.empty() && m_sectorAttic.empty(); }
 
 	void SetZoomClamp(const float zoomClamp) { m_zoomClamped = zoomClamp; }
 	void SetPosition(const vector3f& pos) { m_pos = pos; }

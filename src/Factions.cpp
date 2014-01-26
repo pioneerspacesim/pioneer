@@ -342,6 +342,16 @@ void Faction::Init()
 
 	Output("Number of factions added: " SIZET_FMT "\n", s_factions.size());
 	StarSystemCache::ShrinkCache(SystemPath(), true);    // clear the star system cache of anything we used for faction generation
+	Sector::cache.ClearCache();
+	assert(Sector::cache.IsCompletelyEmpty()); // Nobody else should hold references from the cache.
+}
+
+//static
+void Faction::RefreshHomeSectors()
+{
+	for (auto it = s_factions.begin(); it != s_factions.end(); ++it)
+		if ((*it)->hasHomeworld)
+			(*it)->m_homesector = Sector::cache.GetCached((*it)->homeworld);
 }
 
 void Faction::Uninit()
@@ -404,7 +414,7 @@ const bool Faction::IsCloserAndContains(double& closestFactionDist, RefCountedPt
 		/* ...otherwise we need to calculate whether the world is inside the
 		   the faction border, and how far away it is. */
 		else {
-			if (!m_homesector)
+			if (!m_homesector) // This will later be replaced by a Sector from the cache
 				m_homesector = RefCountedPtr<const Sector>(new Sector(homeworld));
 			distance = Sector::DistanceBetween(m_homesector, homeworld.systemIndex, sec, sysIndex);
 			inside   = distance < Radius();
