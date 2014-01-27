@@ -47,8 +47,7 @@ local econTrade = function ()
 						table.insert(cargoQuantityColumn, ui:Label(count.."t"))
 
 						-- Don't jettison if DOCKED/DOCKING or in HYPERSPACE
-						if Game.player.flightState == "FLYING" or
-						Game.player.flightState == "LANDED"  then
+						if Game.player.flightState == "FLYING" then
 							local jettisonButton = SmallLabeledButton.New(l.JETTISON)
 							jettisonButton.button.onClick:Connect(function ()
 								Game.player:Jettison(type)
