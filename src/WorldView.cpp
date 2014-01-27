@@ -1683,8 +1683,6 @@ void WorldView::Draw()
 	}
 
 	glPopAttrib();
-
-	m_renderer->SetBlendMode(Graphics::BLEND_SOLID);
 }
 
 void WorldView::DrawCrosshair(float px, float py, float sz, const Color &c)

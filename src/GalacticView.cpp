@@ -51,6 +51,11 @@ GalacticView::GalacticView() :
 
 	m_onMouseWheelCon =
 		Pi::onMouseWheel.connect(sigc::mem_fun(this, &GalacticView::MouseWheel));
+
+	Graphics::RenderStateDesc rsd;
+	rsd.depthTest  = false;
+	rsd.depthWrite = false;
+	m_renderState = Gui::Screen::GetRenderer()->CreateRenderState(rsd);
 }
 
 GalacticView::~GalacticView()
@@ -108,8 +113,7 @@ void GalacticView::Draw3D()
 	const float aspect = m_renderer->GetDisplayAspect();
 	m_renderer->SetOrthographicProjection(-aspect, aspect, 1.f, -1.f, -1.f, 1.f);
 	m_renderer->ClearScreen();
-	m_renderer->SetDepthTest(false);
-	m_renderer->SetBlendMode(BLEND_SOLID);
+	m_renderer->SetRenderState(m_renderState);
 
 	//apply zoom
 	m_renderer->SetTransform(
@@ -138,8 +142,6 @@ void GalacticView::Draw3D()
 
 	m_labels->Clear();
 	PutLabels(-vector3d(offset_x, offset_y, 0.0));
-
-	m_renderer->SetDepthTest(true);
 }
 
 void GalacticView::Update()

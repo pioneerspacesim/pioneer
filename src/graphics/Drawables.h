@@ -8,6 +8,7 @@
 #include "graphics/Renderer.h"
 #include "graphics/Surface.h"
 #include "graphics/VertexArray.h"
+#include "graphics/RenderState.h"
 
 namespace Graphics {
 
@@ -18,6 +19,7 @@ namespace Drawables {
 class Drawable {
 protected:
 	virtual void Draw(Renderer *r) = 0;
+	virtual ~Drawable() { }
 };
 
 class Circle : public Drawable {
@@ -37,7 +39,6 @@ public:
 			m_verts.push_back(vector3f(radius*sin(theta) + center.x, radius*cos(theta) + center.y, center.z));
 		}
 	}
-	virtual ~Circle() {}
 	virtual void Draw(Renderer *renderer) {
 		renderer->DrawLines(m_verts.size(), &m_verts[0], m_color, LINE_LOOP);
 	}
@@ -50,9 +51,8 @@ private:
 // Two-dimensional filled circle
 class Disk : public Drawable {
 public:
-	Disk(Graphics::Renderer *r, const Color &c, float radius);
-	Disk(RefCountedPtr<Material> material, const int numEdges=72, const float radius=1.0f);
-	virtual ~Disk() { }
+	Disk(Graphics::Renderer *r, Graphics::RenderState*, const Color &c, float radius);
+	Disk(RefCountedPtr<Material> material, Graphics::RenderState*, const int numEdges=72, const float radius=1.0f);
 	virtual void Draw(Graphics::Renderer *r);
 
 	void SetColor(const Color&);
@@ -60,13 +60,13 @@ public:
 private:
 	std::unique_ptr<Graphics::VertexArray> m_vertices;
 	RefCountedPtr<Material> m_material;
+	Graphics::RenderState *m_renderState;
 };
 
 //A three dimensional line between two points
 class Line3D : public Drawable {
 public:
 	Line3D();
-	virtual ~Line3D() {}
 	void SetStart(const vector3f &);
 	void SetEnd(const vector3f &);
 	void SetColor(const Color &);
@@ -83,7 +83,6 @@ class Sphere3D : public Drawable {
 public:
 	//subdivisions must be 0-4
 	Sphere3D(RefCountedPtr<Material> material, int subdivisions=0, float scale=1.f);
-	virtual ~Sphere3D() {}
 	virtual void Draw(Renderer *r);
 
 	RefCountedPtr<Material> GetMaterial() const { return m_surface->GetMaterial(); }
@@ -99,11 +98,10 @@ private:
 };
 
 // a textured quad with reversed winding
-class TexturedQuad : public Graphics::Drawables::Drawable {
+class TexturedQuad : public Drawable {
 public:
 	TexturedQuad(Graphics::Renderer *r, Graphics::Texture *texture, const vector2f &pos, const vector2f &size);
-	virtual ~TexturedQuad() {}
-	virtual void Draw(Graphics::Renderer *r) { 
+	virtual void Draw(Graphics::Renderer *r) {
 		r->DrawTriangles(m_vertices.get(), m_material.get(), TRIANGLE_STRIP);
 	}
 

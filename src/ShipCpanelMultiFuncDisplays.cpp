@@ -205,8 +205,6 @@ void ScannerWidget::Draw()
 	// objects above
 	if (!m_contacts.empty()) DrawBlobs(false);
 
-	m_renderer->SetBlendMode(BLEND_SOLID);
-
 	SetScissor(false);
 }
 

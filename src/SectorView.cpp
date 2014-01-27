@@ -149,7 +149,14 @@ void SectorView::InitObject()
 	m_searchBox->onKeyPress.connect(sigc::mem_fun(this, &SectorView::OnSearchBoxKeyPress));
 	Add(m_searchBox, 700, 500);
 
-	m_disk.reset(new Graphics::Drawables::Disk(Pi::renderer, Color::WHITE, 0.2f));
+	Graphics::RenderStateDesc rsd;
+	m_solidState = Pi::renderer->CreateRenderState(rsd);
+
+	rsd.blendMode = Graphics::BLEND_ALPHA;
+	rsd.depthWrite = false;
+	m_alphaBlendState = Pi::renderer->CreateRenderState(rsd);
+
+	m_disk.reset(new Graphics::Drawables::Disk(Pi::renderer, m_solidState, Color::WHITE, 0.2f));
 
 	m_infoBox = new Gui::VBox();
 	m_infoBox->SetTransparency(false);
@@ -447,14 +454,13 @@ void SectorView::Draw3D()
 	modelview.Translate(-FFRAC(m_pos.x)*Sector::SIZE, -FFRAC(m_pos.y)*Sector::SIZE, -FFRAC(m_pos.z)*Sector::SIZE);
 	m_renderer->SetTransform(modelview);
 
-	m_renderer->SetBlendMode(BLEND_ALPHA);
-
 	if (m_zoomClamped <= FAR_THRESHOLD)
 		DrawNearSectors(modelview);
 	else
 		DrawFarSectors(modelview);
 
 	//draw sector legs in one go
+	m_renderer->SetRenderState(m_alphaBlendState);
 	m_renderer->SetTransform(matrix4x4f::Identity());
 	if (m_lineVerts->GetNumVerts() > 2)
 		m_renderer->DrawLines(m_lineVerts->GetNumVerts(), &m_lineVerts->position[0], &m_lineVerts->diffuse[0]);
@@ -463,8 +469,6 @@ void SectorView::Draw3D()
 		m_renderer->DrawLines(m_secLineVerts->GetNumVerts(), &m_secLineVerts->position[0], &m_secLineVerts->diffuse[0]);
 
 	UpdateFactionToggles();
-
-	m_renderer->SetBlendMode(BLEND_SOLID);
 }
 
 void SectorView::SetHyperspaceTarget(const SystemPath &path)
@@ -976,19 +980,11 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 			m_disk->Draw(m_renderer);
 		}
 		if(bIsCurrentSystem && m_jumpSphere && m_playerHyperspaceRange>0.0f) {
-			// not sure I should do these here on when applying the material?
-			m_renderer->SetDepthWrite(false);
-			m_renderer->SetDepthTest(false);
-			m_renderer->SetBlendMode(BLEND_ALPHA);
-
+			m_renderer->SetRenderState(m_jumpSphereState);
 			const matrix4x4f sphTrans = trans * matrix4x4f::Translation((*i).p.x, (*i).p.y, (*i).p.z);
 			m_renderer->SetTransform(sphTrans * matrix4x4f::ScaleMatrix(m_playerHyperspaceRange));
 			m_jumpSphere->Draw(m_renderer);
 			m_jumpDisk->Draw(m_renderer);
-
-			m_renderer->SetDepthWrite(true);
-			m_renderer->SetBlendMode(BLEND_SOLID);
-			m_renderer->SetDepthTest(true);
 		}
 	}
 }
@@ -1285,11 +1281,17 @@ void SectorView::Update()
 
 	if(!m_jumpSphere)
 	{
+		Graphics::RenderStateDesc rsd;
+		rsd.blendMode = Graphics::BLEND_ALPHA;
+		rsd.depthTest = false;
+		rsd.depthWrite = false;
+		m_jumpSphereState = m_renderer->CreateRenderState(rsd);
+
 		Graphics::MaterialDescriptor matdesc;
 		matdesc.effect = EFFECT_FRESNEL_SPHERE;
-		RefCountedPtr<Graphics::Material> fresnelMat(Pi::renderer->CreateMaterial(matdesc));
+		RefCountedPtr<Graphics::Material> fresnelMat(m_renderer->CreateMaterial(matdesc));
 		m_jumpSphere.reset( new Graphics::Drawables::Sphere3D(fresnelMat, 3, 1.0f) );
-		m_jumpDisk.reset( new Graphics::Drawables::Disk(fresnelMat, 72, 1.0f) );
+		m_jumpDisk.reset( new Graphics::Drawables::Disk(fresnelMat, m_jumpSphereState, 72, 1.0f) );
 	}
 }
 

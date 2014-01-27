@@ -216,7 +216,9 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 	if (b->type != SystemBody::TYPE_GRAVPOINT) {
 
 		if (!m_bodyIcon) {
-			m_bodyIcon.reset(new Graphics::Drawables::Disk(m_renderer, Color::WHITE, 1.0f));
+			Graphics::RenderStateDesc rsd;
+			auto solidState = m_renderer->CreateRenderState(rsd);
+			m_bodyIcon.reset(new Graphics::Drawables::Disk(m_renderer, solidState, Color::WHITE, 1.0f));
 		}
 
 		const double radius = b->GetRadius() * m_zoom;

@@ -58,7 +58,6 @@ void ModelSpinner::Draw()
 	r->SetPerspectiveProjection(fov, 1.f, 1.f, 10000.f);
 	r->SetTransform(matrix4x4f::Identity());
 
-	r->SetDepthTest(true);
 	r->ClearDepthBuffer();
 
 	r->SetLights(1, &m_light);

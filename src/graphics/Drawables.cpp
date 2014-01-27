@@ -8,7 +8,8 @@ namespace Graphics {
 
 namespace Drawables {
 
-Disk::Disk(Graphics::Renderer *r, const Color &c, float rad)
+Disk::Disk(Graphics::Renderer *r, Graphics::RenderState *state, const Color &c, float rad)
+	: m_renderState(state)
 {
 	m_vertices.reset(new VertexArray(ATTRIB_POSITION));
 	m_material.Reset(r->CreateMaterial(MaterialDescriptor()));
@@ -23,7 +24,9 @@ Disk::Disk(Graphics::Renderer *r, const Color &c, float rad)
 	}
 }
 
-Disk::Disk(RefCountedPtr<Material> material, const int numEdges/*=72*/, const float radius/*=1.0f*/) : m_material(material)
+Disk::Disk(RefCountedPtr<Material> material, Graphics::RenderState *state, const int numEdges/*=72*/, const float radius/*=1.0f*/)
+	: m_material(material)
+	, m_renderState(state)
 {
 	m_vertices.reset(new VertexArray(ATTRIB_POSITION));
 
@@ -39,6 +42,7 @@ Disk::Disk(RefCountedPtr<Material> material, const int numEdges/*=72*/, const fl
 
 void Disk::Draw(Renderer *r)
 {
+	r->SetRenderState(m_renderState);
 	r->DrawTriangles(m_vertices.get(), m_material.Get(), TRIANGLE_FAN);
 }
 
@@ -169,7 +173,7 @@ void Sphere3D::Subdivide(const matrix4x4f &trans, const vector3f &v1, const vect
 }
 
 // a textured quad with reversed winding
-TexturedQuad::TexturedQuad(Graphics::Renderer *r, Graphics::Texture *texture, const vector2f &pos, const vector2f &size) : m_texture(RefCountedPtr<Graphics::Texture>(texture)) 
+TexturedQuad::TexturedQuad(Graphics::Renderer *r, Graphics::Texture *texture, const vector2f &pos, const vector2f &size) : m_texture(RefCountedPtr<Graphics::Texture>(texture))
 {
 	m_vertices.reset(new VertexArray(ATTRIB_POSITION | ATTRIB_UV0));
 	Graphics::MaterialDescriptor desc;

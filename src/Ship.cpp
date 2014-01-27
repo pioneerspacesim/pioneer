@@ -1259,7 +1259,7 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 		}
 
 		Sfx::ecmParticle->diffuse = c;
-		renderer->SetBlendMode(Graphics::BLEND_ALPHA_ONE);
+		renderer->SetRenderState(Sfx::additiveAlphaState);
 		renderer->DrawPointSprites(100, v, Sfx::ecmParticle, 50.f);
 	}
 }
