@@ -283,8 +283,6 @@ void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d 
 
 	m_renderer->SetTransform(trans);
 	m_renderer->DrawTriangles(&va, Graphics::vtxColorMaterial, TRIANGLE_FAN);
-	m_renderer->SetBlendMode(BLEND_SOLID);
-	m_renderer->SetDepthTest(true);
 }
 
 void Camera::CalcShadows(const int lightNum, const Body *b, std::vector<Shadow> &shadowsOut) const {

@@ -10,6 +10,7 @@
 
 namespace Graphics {
 	class Renderer;
+	class RenderState;
 	class Texture;
 	class Material;
 }
@@ -19,7 +20,6 @@ public:
 	OBJDEF(Planet, TerrainBody, PLANET);
 	Planet(SystemBody*);
 	Planet();
-	virtual ~Planet();
 
 	virtual void SubRender(Graphics::Renderer *r, const matrix4x4d &viewTran, const vector3d &camPos);
 
@@ -37,13 +37,13 @@ private:
 	void InitParams(const SystemBody*);
 	void GenerateRings(Graphics::Renderer *renderer);
 	void DrawGasGiantRings(Graphics::Renderer *r, const matrix4x4d &modelView);
-	void DrawAtmosphere(Graphics::Renderer *r, const matrix4x4d &modelView, const vector3d &camPos);
 
 	double m_atmosphereRadius;
 	double m_surfaceGravity_g;
 	RefCountedPtr<Graphics::Texture> m_ringTexture;
 	Graphics::VertexArray m_ringVertices;
 	std::unique_ptr<Graphics::Material> m_ringMaterial;
+	Graphics::RenderState *m_ringState;
 
 	// Legacy renderer visuals
 	std::unique_ptr<Graphics::VertexArray> m_atmosphereVertices;

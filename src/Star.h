@@ -5,6 +5,7 @@
 #define _STAR_H
 
 #include "TerrainBody.h"
+#include "graphics/RenderState.h"
 
 namespace Graphics { class Renderer; }
 
@@ -19,6 +20,8 @@ public:
 protected:
 	void InitStar();
 	virtual void Load(Serializer::Reader &rd, Space *space);
+
+	Graphics::RenderState *m_haloState;
 };
 
 #endif /* _STAR_H */
