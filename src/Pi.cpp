@@ -472,6 +472,9 @@ void Pi::Init()
 	CustomSystem::Init();
 	draw_progress(gauge, label, 0.4f);
 
+	Faction::RefreshHomeSectors();
+	draw_progress(gauge, label, 0.45f);
+
 	modelCache = new ModelCache(Pi::renderer);
 	Shields::Init(Pi::renderer);
 	draw_progress(gauge, label, 0.5f);
@@ -670,7 +673,7 @@ void Pi::Quit()
 	delete Pi::modelCache;
 	delete Pi::renderer;
 	delete Pi::config;
-	StarSystem::ShrinkCache();
+	StarSystemCache::ShrinkCache(SystemPath(), true);
 	SDL_Quit();
 	FileSystem::Uninit();
 	jobQueue.reset();
@@ -1066,7 +1069,7 @@ void Pi::EndGame()
 	game = 0;
 	player = 0;
 
-	StarSystem::ShrinkCache();
+	StarSystemCache::ShrinkCache(SystemPath(), true);
 }
 
 void Pi::MainLoop()
@@ -1224,7 +1227,9 @@ void Pi::MainLoop()
 			// XXX should this really be limited to while the player is alive?
 			// this is something we need not do every turn...
 			if (!config->Int("DisableSound")) AmbientSounds::Update();
-			StarSystem::ShrinkCache();
+			if( !Pi::game->IsHyperspace() ) {
+				StarSystemCache::ShrinkCache( Pi::game->GetSpace()->GetStarSystem()->GetPath() );
+			}
 		}
 		cpan->Update();
 		musicPlayer.Update();

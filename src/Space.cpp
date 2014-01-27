@@ -20,7 +20,7 @@
 #include "HyperspaceCloud.h"
 #include "graphics/Graphics.h"
 #include "WorldView.h"
-#include "galaxy/SectorCache.h"
+#include "galaxy/Sector.h"
 #include "SectorView.h"
 #include "Lang.h"
 #include "Game.h"
@@ -71,6 +71,8 @@ Space::Space(Game *game)
 
 	m_rootFrame.reset(new Frame(0, Lang::SYSTEM));
 	m_rootFrame->SetRadius(FLT_MAX);
+
+	Sector::cache.GenSectorCache();
 }
 
 Space::Space(Game *game, const SystemPath &path)
@@ -83,7 +85,7 @@ Space::Space(Game *game, const SystemPath &path)
 	, m_processingFinalizationQueue(false)
 #endif
 {
-	m_starSystem = StarSystem::GetCached(path);
+	m_starSystem = StarSystemCache::GetCached(path);
 
 	Uint32 _init[5] = { path.systemIndex, Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
 	Random rand(_init, 5);
@@ -97,6 +99,8 @@ Space::Space(Game *game, const SystemPath &path)
 
 	GenBody(m_game->GetTime(), m_starSystem->rootBody.Get(), m_rootFrame.get());
 	m_rootFrame->UpdateOrbitRails(m_game->GetTime(), m_game->GetTimeStep());
+
+	Sector::cache.GenSectorCache();
 
 	//DebugDumpFrames();
 }
@@ -134,6 +138,8 @@ Space::Space(Game *game, Serializer::Reader &rd)
 	Frame::PostUnserializeFixup(m_rootFrame.get(), this);
 	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
 		(*i)->PostLoadFixup(this);
+
+	Sector::cache.GenSectorCache();
 }
 
 Space::~Space()
@@ -305,8 +311,8 @@ vector3d Space::GetHyperspaceExitPoint(const SystemPath &source) const
 
 	const SystemPath &dest = m_starSystem->GetPath();
 
-	const Sector* source_sec = Sector::cache.GetCached(source);
-	const Sector* dest_sec = Sector::cache.GetCached(dest);
+	RefCountedPtr<const Sector> source_sec = Sector::cache.GetCached(source);
+	RefCountedPtr<const Sector> dest_sec = Sector::cache.GetCached(dest);
 
 	Sector::System source_sys = source_sec->m_systems[source.systemIndex];
 	Sector::System dest_sys = dest_sec->m_systems[dest.systemIndex];

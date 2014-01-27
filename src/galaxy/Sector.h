@@ -9,17 +9,27 @@
 #include "galaxy/StarSystem.h"
 #include "galaxy/CustomSystem.h"
 #include "SectorCache.h"
+#include "RefCounted.h"
 #include <string>
 #include <vector>
 
 class Faction;
 
-class Sector {
+class Sector : public RefCounted {
+	friend class SectorCache;
+	friend class SectorCacheJob;
+
 public:
 	// lightyears
 	static const float SIZE;
 	Sector(int x, int y, int z);
-	static float DistanceBetween(const Sector *a, int sysIdxA, const Sector *b, int sysIdxB);
+	Sector(const SystemPath& path);
+	~Sector();
+
+	Sector(const Sector&) = delete;
+	Sector& operator=(const Sector&) = delete;
+
+	static float DistanceBetween(RefCountedPtr<const Sector> a, int sysIdxA, RefCountedPtr<const Sector> b, int sysIdxB);
 	static void Init();
 
 	static SectorCache cache;
@@ -28,8 +38,8 @@ public:
 	bool WithinBox(const int Xmin, const int Xmax, const int Ymin, const int Ymax, const int Zmin, const int Zmax) const;
 	bool Contains(const SystemPath sysPath) const;
 
-	// sets appropriate factions for all systems in the sector
-	void AssignFactions();
+	// get the SystemPath for this sector
+	SystemPath GetSystemPath() const { return SystemPath(sx, sy, sz); }
 
 	class System {
 	public:
@@ -49,7 +59,7 @@ public:
 		fixed population;
 
 		vector3f FullPosition() { return Sector::SIZE*vector3f(float(sx), float(sy), float(sz)) + p; };
-		bool IsSameSystem(const SystemPath &b) const { 
+		bool IsSameSystem(const SystemPath &b) const {
 			return sx == b.sectorX && sy == b.sectorY && sz == b.sectorZ && idx == b.systemIndex;
 		}
 
@@ -62,6 +72,8 @@ private:
 	int sx, sy, sz;
 	void GetCustomSystems();
 	const std::string GenName(System &sys, int si, Random &rand);
+	// sets appropriate factions for all systems in the sector
+	void AssignFactions();
 };
 
 #endif /* _SECTOR_H */

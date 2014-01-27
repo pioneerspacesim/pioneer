@@ -234,7 +234,16 @@ Sector::Sector(int x, int y, int z)
 	}
 }
 
-float Sector::DistanceBetween(const Sector *a, int sysIdxA, const Sector *b, int sysIdxB)
+Sector::Sector(const SystemPath& path) : Sector(path.sectorX, path.sectorY, path.sectorZ)
+{
+}
+
+Sector::~Sector()
+{
+	cache.RemoveFromAttic(SystemPath(sx, sy, sz));
+}
+
+float Sector::DistanceBetween(RefCountedPtr<const Sector> a, int sysIdxA, RefCountedPtr<const Sector> b, int sysIdxB)
 {
 	PROFILE_SCOPED()
 	vector3f dv = a->m_systems[sysIdxA].p - b->m_systems[sysIdxB].p;
@@ -321,7 +330,7 @@ void Sector::AssignFactions()
 	PROFILE_SCOPED()
 	Uint32 index = 0;
 	for (std::vector<Sector::System>::iterator system = m_systems.begin(); system != m_systems.end(); ++system, ++index ) {
-		(*system).faction = Faction::GetNearestFaction(*this, index);
+		(*system).faction = Faction::GetNearestFaction(RefCountedPtr<const Sector>(this), index);
 	}
 }
 

@@ -54,7 +54,7 @@ static int l_game_start_game(lua_State *l)
 	SystemPath *path = LuaObject<SystemPath>::CheckFromLua(1);
 	const double start_time = luaL_optnumber(l, 2, 0.0);
 
-	RefCountedPtr<StarSystem> system(StarSystem::GetCached(*path));
+	RefCountedPtr<StarSystem> system(StarSystemCache::GetCached(*path));
 	SystemBody *sbody = system->GetBodyByPath(path);
 	if (sbody->GetSuperType() == SystemBody::SUPERTYPE_STARPORT)
 		Pi::game = new Game(*path, start_time);
