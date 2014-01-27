@@ -13,17 +13,18 @@ public:
 	RefCounted() : m_refCount(0) {}
 	virtual ~RefCounted() {}
 
-	RefCounted(const RefCounted&) = delete;
-	RefCounted(const RefCounted&&) = delete;
-	RefCounted& operator=(const RefCounted&) = delete;
-	RefCounted& operator=(const RefCounted&&) = delete;
-
-	inline void IncRefCount() const { m_refCount++; }
+	inline void IncRefCount() const { ++m_refCount; }
 	inline void DecRefCount() const { assert(m_refCount > 0); if (! --m_refCount) delete this; }
 	inline int GetRefCount() const { return m_refCount; }
 
 private:
-	mutable std::atomic_int m_refCount; // We model logical constness, so refcount is changeable even for const objects
+	// vs2012 doesn't support the `= delete` syntax
+	RefCounted(const RefCounted&);
+	RefCounted(const RefCounted&&);
+	RefCounted& operator=(const RefCounted&);
+	RefCounted& operator=(const RefCounted&&);
+
+	mutable std::atomic<int> m_refCount; // We model logical constness, so refcount is changeable even for const objects
 };
 
 template <typename T>
