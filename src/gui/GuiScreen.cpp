@@ -27,6 +27,7 @@ std::stack< RefCountedPtr<Text::TextureFont> > Screen::s_fontStack;
 RefCountedPtr<Text::TextureFont>Screen::s_defaultFont;
 
 Graphics::Renderer *Screen::s_renderer;
+Graphics::RenderState *Screen::alphaBlendState = nullptr;
 
 void Screen::Init(Graphics::Renderer *renderer, int real_width, int real_height, int ui_width, int ui_height)
 {
@@ -49,6 +50,11 @@ void Screen::Init(Graphics::Renderer *renderer, int real_width, int real_height,
 	Screen::baseContainer = new Gui::Fixed();
 	Screen::baseContainer->SetSize(float(Screen::width), float(Screen::height));
 	Screen::baseContainer->Show();
+
+	Graphics::RenderStateDesc rsd;
+	rsd.blendMode = Graphics::BLEND_ALPHA;
+	rsd.depthWrite = false;
+	alphaBlendState = renderer->CreateRenderState(rsd);
 }
 
 void Screen::Uninit()
