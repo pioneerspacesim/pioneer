@@ -166,11 +166,11 @@ Model *BinaryConverter::CreateModel(Serializer::Reader &rd)
 	return m_model;
 }
 
-void BinaryConverter::SaveMaterials(Serializer::Writer& wr, Model* m)
+void BinaryConverter::SaveMaterials(Serializer::Writer& wr, Model* model)
 {
 	//Look for the .model definition and parse it
 	//for material definitions
-	const ModelDefinition &modelDef = FindModelDefinition(m->GetName());
+	const ModelDefinition &modelDef = FindModelDefinition(model->GetName());
 
 	wr.Int32(modelDef.matDefs.size());
 

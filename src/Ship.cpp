@@ -276,6 +276,7 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	SetModel(m_type->modelName.c_str());
 	SetLabel("UNLABELED_SHIP");
 	m_skin.SetRandomColors(Pi::rng);
+	m_skin.SetDecal(m_type->manufacturer);
 	m_skin.Apply(GetModel());
 	GetModel()->SetPattern(Pi::rng.Int32(0, GetModel()->GetNumPatterns()));
 
@@ -1348,6 +1349,7 @@ void Ship::SetShipType(const ShipType::Id &shipId)
 	SetShipId(shipId);
 	m_equipment.InitSlotSizes(shipId);
 	SetModel(m_type->modelName.c_str());
+	m_skin.SetDecal(m_type->manufacturer);
 	m_skin.Apply(GetModel());
 	Init();
 	onFlavourChanged.emit();

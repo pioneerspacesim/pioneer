@@ -1,0 +1,94 @@
+material cockpit-material
+diffuse 1.0 1.0 1.0
+specular 0.3 0.3 0.3
+shininess 23
+#two_sided
+tex_diff default_cockpit_diff.png
+tex_glow default_cockpit_diff.png
+
+material glass-material
+diffuse 1.0 1.0 1.0
+specular 0.3 0.3 0.3
+shininess 21
+opacity 30
+tex_diff bigscreen.png
+tex_glow bigscreen.png
+
+material screen_speed-material
+diffuse 1.0 1.0 1.0
+specular 0.3 0.3 0.3
+shininess 69
+tex_diff speedstuff.png
+tex_glow speedstuff.png
+
+
+material screen-material
+diffuse 1.0 1.0 1.0
+specular 0.3 0.3 0.3
+shininess 69
+tex_diff orbit_big.png
+tex_glow orbit_big.png
+
+material screen_navball-material
+diffuse 1.0 1.0 1.0
+specular 0.3 0.3 0.3
+shininess 69
+tex_diff navball.png
+tex_glow navball.png
+
+material screen_scanner-material
+diffuse 1.0 1.0 1.0
+specular 0.3 0.3 0.3
+shininess 69
+tex_diff scanner.png
+tex_glow scanner.png
+
+
+material screen_contactlist-material
+diffuse 1.0 1.0 1.0
+specular 0.3 0.3 0.3
+shininess 69
+tex_diff contactlist.png
+tex_glow contactlist.png
+
+material screen_nav-material
+diffuse 1.0 1.0 1.0
+specular 0.3 0.3 0.3
+shininess 69
+tex_diff orbit_big.png
+tex_glow orbit_big.png
+
+material screen_status-material
+diffuse 1.0 1.0 1.0
+specular 0.3 0.3 0.3
+shininess 69
+tex_diff status.png
+tex_glow status.png
+
+material screen_circ-material
+diffuse 1.0 1.0 1.0
+specular 0.3 0.3 0.3
+shininess 69
+tex_diff circular_small.png
+tex_glow circular_small.png
+
+material screen_circ_001-material
+diffuse 1.0 1.0 1.0
+specular 0.3 0.3 0.3
+shininess 69
+tex_diff circular_small2.png
+tex_glow circular_small2.png
+
+material screen_circ_002-material
+diffuse 1.0 1.0 1.0
+specular 0.3 0.3 0.3
+shininess 69
+tex_diff circular_small3.png
+tex_glow circular_small3.png
+
+
+
+mesh default_cockpit.dae
+mesh default_cockpit_bigscreen.dae
+
+

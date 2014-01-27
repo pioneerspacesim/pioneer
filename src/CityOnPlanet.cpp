@@ -15,6 +15,7 @@
 #include "graphics/Graphics.h"
 #include "scenegraph/Model.h"
 #include "scenegraph/SceneGraph.h"
+#include "scenegraph/ModelSkin.h"
 #include <set>
 
 static const unsigned int DEFAULT_NUM_BUILDINGS = 1000;
