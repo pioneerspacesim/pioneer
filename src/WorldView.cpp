@@ -69,7 +69,12 @@ void WorldView::InitObject()
 	m_labelsOn = true;
 	SetTransparency(true);
 
-	m_navTunnel = new NavTunnelWidget(this);
+	Graphics::RenderStateDesc rsd;
+	rsd.blendMode = Graphics::BLEND_ALPHA;
+	rsd.depthWrite = false;
+	rsd.depthTest = false;
+	m_blendState = Pi::renderer->CreateRenderState(rsd); //XXX m_renderer not set yet
+	m_navTunnel = new NavTunnelWidget(this, m_blendState);
 	Add(m_navTunnel, 0, 0);
 
 	m_commsOptions = new Fixed(size[0], size[1]/2);
@@ -1635,12 +1640,15 @@ void WorldView::Draw()
 	assert(Pi::game);
 	assert(Pi::player);
 	assert(!Pi::player->IsDead());
+
+	m_renderer->ClearDepthBuffer();
+
 	View::Draw();
 
 	// don't draw crosshairs etc in hyperspace
 	if (Pi::player->GetFlightState() == Ship::HYPERSPACE) return;
 
-	m_renderer->SetBlendMode(Graphics::BLEND_ALPHA);
+	m_renderer->SetRenderState(m_blendState);
 
 	glPushAttrib(GL_CURRENT_BIT | GL_LINE_BIT);
 	glLineWidth(2.0f);
@@ -1836,9 +1844,10 @@ void WorldView::MouseWheel(bool up)
 		}
 	}
 }
-NavTunnelWidget::NavTunnelWidget(WorldView *worldview) :
-	Widget(),
-	m_worldView(worldview)
+NavTunnelWidget::NavTunnelWidget(WorldView *worldview, Graphics::RenderState *rs)
+	: Widget()
+	, m_worldView(worldview)
+	, m_renderState(rs)
 {
 }
 
@@ -1880,7 +1889,7 @@ void NavTunnelWidget::Draw() {
 
 void NavTunnelWidget::DrawTargetGuideSquare(const vector2f &pos, const float size, const Color &c)
 {
-	m_worldView->m_renderer->SetBlendMode(Graphics::BLEND_ALPHA);
+	m_worldView->m_renderer->SetRenderState(m_renderState);
 
 	const float x1 = pos.x - size;
 	const float x2 = pos.x + size;

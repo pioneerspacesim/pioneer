@@ -144,6 +144,7 @@ void ScannerWidget::InitObject()
 	Graphics::RenderStateDesc rsd;
 	rsd.blendMode = Graphics::BLEND_ALPHA;
 	rsd.depthWrite = false;
+	rsd.depthTest = false;
 	m_renderState = m_renderer->CreateRenderState(rsd);
 }
 
@@ -187,7 +188,6 @@ void ScannerWidget::Draw()
 	if (!m_contacts.empty()) DrawBlobs(true);
 
 	// disc
-	m_renderer->SetBlendMode(BLEND_ALPHA);
 	Color green(0, 255, 0, 26);
 
 	// XXX 2d vertices
