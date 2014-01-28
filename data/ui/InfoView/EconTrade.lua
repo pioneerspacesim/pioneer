@@ -29,50 +29,6 @@ local econTrade = function ()
 	-- Make a cargo list widget that we can revisit and update
 	local cargoListWidget = ui:Margin(0)
 
-	function updateCargoListWidget ()
-
-		local cargoNameColumn = {}
-		local cargoQuantityColumn = {}
-		local cargoJettisonColumn = {}
-
-		for i = 1,#Constants.EquipType do
-			local type = Constants.EquipType[i]
-			if type ~= "NONE" then
-				local et = EquipDef[type]
-				local slot = et.slot
-				if slot == "CARGO" then
-					local count = Game.player:GetEquipCount(slot, type)
-					if count > 0 then
-						table.insert(cargoNameColumn, ui:Label(et.name))
-						table.insert(cargoQuantityColumn, ui:Label(count.."t"))
-
-						local jettisonButton = SmallLabeledButton.New(l.JETTISON)
-						jettisonButton.button.onClick:Connect(function ()
-							Game.player:Jettison(type)
-							updateCargoListWidget()
-							cargoListWidget:SetInnerWidget(updateCargoListWidget())
-						end)
-						table.insert(cargoJettisonColumn, jettisonButton.widget)
-					end
-				end
-			end
-		end
-
-		-- Function returns a UI with which to populate the cargo list widget
-		return
-			ui:VBox(10):PackEnd({
-				ui:Label(l.CARGO):SetFont("HEADING_LARGE"),
-				ui:Scroller():SetInnerWidget(
-					ui:Grid(3,1)
-						:SetColumn(0, { ui:VBox():PackEnd(cargoNameColumn) })
-						:SetColumn(1, { ui:VBox():PackEnd(cargoQuantityColumn) })
-						:SetColumn(2, { ui:VBox():PackEnd(cargoJettisonColumn) })
-				)
-			})
-	end
-
-	cargoListWidget:SetInnerWidget(updateCargoListWidget())
-
 	local cargoGauge = ui:Gauge()
 	local cargoUsedLabel = ui:Label("")
 	local cargoFreeLabel = ui:Label("")
@@ -85,6 +41,108 @@ local econTrade = function ()
 	player:Connect("usedCargo", cargoUpdate)
 	player:Connect("totalCargo", cargoUpdate)
 	cargoUpdate()
+
+	local cabinGauge = ui:Gauge()
+	local cabinUsedLabel = ui:Label("")
+	local cabinFreeLabel = ui:Label("")
+	local function cabinUpdate ()
+		cabinGauge:SetUpperValue(player.totalCabins)
+		cabinGauge:SetValue(player.usedCabins)
+		cabinUsedLabel:SetText(string.interp(l.CABIN_USED, { amount = player.usedCabins }))
+		cabinFreeLabel:SetText(string.interp(l.CABIN_FREE, { amount = player.totalCabins-player.usedCabins }))
+	end
+	player:Connect("usedCabins", cabinUpdate)
+	player:Connect("totalCabins", cabinUpdate)
+	cabinUpdate()
+
+	local equipIcon = {
+		HYDROGEN =              "Hydrogen",
+		LIQUID_OXYGEN =         "Liquid_Oxygen",
+		METAL_ORE =             "Metal_ore",
+		CARBON_ORE =            "Carbon_ore",
+		METAL_ALLOYS =          "Metal_alloys",
+		PLASTICS =              "Plastics",
+		FRUIT_AND_VEG =         "Fruit_and_Veg",
+		ANIMAL_MEAT =           "Animal_Meat",
+		LIVE_ANIMALS =          "Live_Animals",
+		LIQUOR =                "Liquor",
+		GRAIN =                 "Grain",
+		TEXTILES =              "Textiles",
+		FERTILIZER =            "Fertilizer",
+		WATER =                 "Water",
+		MEDICINES =             "Medicines",
+		CONSUMER_GOODS =        "Consumer_goods",
+		COMPUTERS =             "Computers",
+		ROBOTS =                "Robots",
+		PRECIOUS_METALS =       "Precious_metals",
+		INDUSTRIAL_MACHINERY =  "Industrial_machinery",
+		FARM_MACHINERY =        "Farm_machinery",
+		MINING_MACHINERY =      "Mining_machinery",
+		AIR_PROCESSORS =        "Air_processors",
+		SLAVES =                "Slaves",
+		HAND_WEAPONS =          "Hand_weapons",
+		BATTLE_WEAPONS =        "Battle_weapons",
+		NERVE_GAS =             "Nerve_Gas",
+		NARCOTICS =             "Narcotics",
+		MILITARY_FUEL =         "Military_fuel",
+		RUBBISH =               "Rubbish",
+		RADIOACTIVES =          "Radioactive_waste",
+	}
+
+	function updateCargoListWidget ()
+
+		local cargolistbox = ui:VBox(10)
+		local rowspec = {2,10,3,6}
+
+		for i = 1,#Constants.EquipType do
+			local type = Constants.EquipType[i]
+			if type ~= "NONE" then
+				local et = EquipDef[type]
+				local slot = et.slot
+				if slot == "CARGO" then
+					local count = Game.player:GetEquipCount(slot, type)
+					if count > 0 then
+						local jettisonButton = SmallLabeledButton.New(l.JETTISON)
+						jettisonButton.button.onClick:Connect(function ()
+							Game.player:Jettison(type)
+							updateCargoListWidget()
+							cargoListWidget:SetInnerWidget(updateCargoListWidget())
+						end)
+						cargolistbox:PackEnd(ui:Grid(rowspec,1):SetRow(0, {
+							ui:Align("LEFT", ui:Image("icons/goods/"..equipIcon[type]..".png") or ""),
+							ui:Label(et.name),
+							ui:Label(count.."t"),
+							jettisonButton.widget,
+						}))
+					end
+				end
+			end
+		end
+
+		-- Function returns a UI with which to populate the cargo list widget
+		return
+			ui:VBox(10):PackEnd({
+				ui:Label(l.CARGO):SetFont("HEADING_LARGE"):SetColor({ r = 1.0, g = 1.0, b = 0.0 }),
+				ui:HBox(5):PackEnd({
+					ui:Align("LEFT", l.CARGO_SPACE..":"),
+					ui:HBox(10):PackEnd({
+						ui:Align("MIDDLE",
+							ui:HBox(10):PackEnd({
+								cargoGauge,
+							})
+						),
+						ui:VBox():PackEnd({
+							cargoUsedLabel,
+							cargoFreeLabel,
+						}):SetFont("XSMALL"),
+					}),
+					ui:Margin(10),
+				}),
+			ui:Expand():SetInnerWidget(ui:Scroller():SetInnerWidget(cargolistbox))
+			})
+	end
+
+	cargoListWidget:SetInnerWidget(updateCargoListWidget())
 
 	local fuelGauge = InfoGauge.New({
 		label          = ui:NumberLabel("PERCENT"),
@@ -118,55 +176,45 @@ local econTrade = function ()
 	refuelButton.button.onClick:Connect(refuel)
 
 	return ui:Expand():SetInnerWidget(
-		ui:Grid({48,4,48},1)
+		ui:Grid(2,1)
 			:SetColumn(0, {
 				ui:Margin(5, "HORIZONTAL",
-					ui:VBox(20):PackEnd({
-						ui:Grid(2,1)
-							:SetColumn(0, {
-								ui:VBox():PackEnd({
-									ui:Label(l.CASH..":"),
-									ui:Margin(10),
-									ui:Label(l.CARGO_SPACE..":"),
-									ui:Margin(5),
-									ui:Label(l.CABINS..":"),
-									ui:Margin(10),
-								})
-							})
-							:SetColumn(1, {
-								ui:VBox():PackEnd({
-									ui:Label(string.format("$%.2f", cash)),
-									ui:Margin(10),
-									ui:Margin(0, "HORIZONTAL",
+					ui:VBox(10):PackEnd({
+						ui:HBox():PackEnd({
+							ui:Label(l.CASH..": "):SetFont("HEADING_LARGE"):SetColor({ r = 1.0, g = 1.0, b = 0.0 }),
+							ui:Label(string.format("$%.2f", cash)):SetFont("HEADING_LARGE")
+						}),
+						ui:Grid({50,50},1):SetRow(0, {
+							ui:HBox(5):PackEnd({
+								ui:Align("LEFT", l.CABINS..":"),
+							}),
+							ui:HBox(5):PackEnd({
+								ui:HBox(10):PackEnd({
+									ui:Align("MIDDLE",
 										ui:HBox(10):PackEnd({
-											ui:Align("MIDDLE",
-												ui:HBox(10):PackEnd({
-													cargoGauge,
-												})
-											),
-											ui:VBox():PackEnd({
-												cargoUsedLabel,
-												cargoFreeLabel,
-											}):SetFont("XSMALL"),
+											cabinGauge,
 										})
 									),
-									ui:Grid(2,1):SetRow(0, { ui:Label(l.TOTAL..totalCabins), ui:Label(l.USED..": "..usedCabins) }),
-									ui:Margin(10),
-								})
-							}),
-						ui:Grid({50,10,40},1)
-							:SetRow(0, {
-								ui:HBox(5):PackEnd({
-									ui:Label(l.FUEL..":"),
-									fuelGauge,
+									ui:VBox():PackEnd({
+										cabinUsedLabel,
+										cabinFreeLabel,
+									}):SetFont("XSMALL"),
 								}),
-								nil,
-								refuelButton.widget,
-							})
+								ui:Margin(10),
+							}),
+						}),
+						ui:Grid({50,10,40},1):SetRow(0, {
+							ui:HBox(5):PackEnd({
+								ui:Label(l.FUEL..":"),
+								fuelGauge,
+							}),
+							nil,
+							refuelButton.widget,
+						})
 					})
 				)
 			})
-			:SetColumn(2, {
+			:SetColumn(1, {
 				cargoListWidget
 			})
 	)
