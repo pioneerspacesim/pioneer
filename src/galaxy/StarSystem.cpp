@@ -2298,10 +2298,24 @@ void SystemBody::PopulateAddStations(StarSystem *system)
 		pop -= rand.Fixed();
 		if (pop > 0) {
 			SystemBody *sp2 = system->NewBody();
-			SystemPath path2 = sp2->path;
-			*sp2 = *sp;
-			sp2->path = path2;
+			sp2->type = sp->type;
+			sp2->seed = sp->seed;
+			sp2->tmp = sp->tmp;
+			sp2->parent = sp->parent;
+			sp2->rotationPeriod = sp->rotationPeriod;
+			sp2->averageTemp = sp->averageTemp;
+			sp2->mass = sp->mass;
+			sp2->semiMajorAxis = sp->semiMajorAxis;
+			sp2->eccentricity = sp->eccentricity;
+			sp2->axialTilt = sp->axialTilt;
+
+			sp2->orbit = sp->orbit;
 			sp2->orbit.SetPlane(matrix3x3d::RotateZ(M_PI));
+
+			sp2->inclination = sp->inclination;
+			sp2->orbMin = sp->orbMin;
+			sp2->orbMax = sp->orbMax;
+
 			sp2->name = gen_unique_station_name(sp, system, namerand);
 			children.insert(children.begin(), sp2);
 			system->m_spaceStations.push_back(sp2);

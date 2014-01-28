@@ -61,6 +61,7 @@ January 2014
      * Expose models to Lua, move pattern methods from ModelSkin to Model (2645)
      * Add initial model binary converter/loader (#2643)
      * Replace GatherTransforms with a visitor (#2686)
+     * RefCounted(Ptr) with atomic counter and allowing const correctness (#2688)
 
 December 2013
 
