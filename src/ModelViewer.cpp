@@ -447,68 +447,6 @@ void ModelViewer::DrawTags()
 		(*i).Draw(m_renderer);
 }
 
-// Draw collision mesh as a wireframe overlay
-void ModelViewer::DrawCollisionMesh()
-{
-	RefCountedPtr<CollMesh> mesh = m_model->GetCollisionMesh();
-	if (!mesh) return;
-
-	const vector3f *vertices = reinterpret_cast<const vector3f*>(mesh->GetGeomTree()->GetVertices());
-	const Uint16 *indices = mesh->GetGeomTree()->GetIndices();
-	const unsigned int *triFlags = mesh->GetGeomTree()->GetTriFlags();
-	const unsigned int numIndices = mesh->GetGeomTree()->GetNumTris() * 3;
-
-	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE, numIndices * 3);
-	int trindex = -1;
-	for(unsigned int i = 0; i < numIndices; i++) {
-		if (i % 3 == 0)
-			trindex++;
-		const unsigned int flag = triFlags[trindex];
-		//show special geomflags in red
-		va.Add(vertices[indices[i]], flag > 0 ? Color::RED : Color::WHITE);
-	}
-
-	//might want to add some offset
-	m_renderer->SetWireFrameMode(true);
-	Graphics::vtxColorMaterial->twoSided = true;
-	m_renderer->DrawTriangles(&va, Graphics::vtxColorMaterial);
-	Graphics::vtxColorMaterial->twoSided = false;
-	m_renderer->SetWireFrameMode(false);
-}
-
-void ModelViewer::DrawAabb()
-{
-	assert(m_options.showAabb);
-
-	RefCountedPtr<CollMesh> mesh = m_model->GetCollisionMesh();
-	if (!mesh) return;
-
-	Aabb aabb = mesh->GetAabb();
-
-	const vector3f verts[16] = {
-		vector3f(aabb.min.x, aabb.min.y, aabb.min.z),
-		vector3f(aabb.max.x, aabb.min.y, aabb.min.z),
-		vector3f(aabb.max.x, aabb.max.y, aabb.min.z),
-		vector3f(aabb.min.x, aabb.max.y, aabb.min.z),
-		vector3f(aabb.min.x, aabb.min.y, aabb.min.z),
-		vector3f(aabb.min.x, aabb.min.y, aabb.max.z),
-		vector3f(aabb.max.x, aabb.min.y, aabb.max.z),
-		vector3f(aabb.max.x, aabb.min.y, aabb.min.z),
-
-		vector3f(aabb.max.x, aabb.max.y, aabb.max.z),
-		vector3f(aabb.min.x, aabb.max.y, aabb.max.z),
-		vector3f(aabb.min.x, aabb.min.y, aabb.max.z),
-		vector3f(aabb.max.x, aabb.min.y, aabb.max.z),
-		vector3f(aabb.max.x, aabb.max.y, aabb.max.z),
-		vector3f(aabb.max.x, aabb.max.y, aabb.min.z),
-		vector3f(aabb.min.x, aabb.max.y, aabb.min.z),
-		vector3f(aabb.min.x, aabb.max.y, aabb.max.z),
-	};
-
-	m_renderer->DrawLines(8, verts + 0, Color::GREEN, Graphics::LINE_STRIP);
-	m_renderer->DrawLines(8, verts + 8, Color::GREEN, Graphics::LINE_STRIP);
-}
-
 //Draw grid and axes
 void ModelViewer::DrawGrid(const matrix4x4f &trans, float radius)
 {
@@ -599,24 +537,18 @@ void ModelViewer::DrawModel()
 	m_renderer->SetDepthWrite(true);
 
 	m_model->UpdateAnimations();
-	if (m_options.wireframe)
-		m_renderer->SetWireFrameMode(true);
+
+	m_model->SetDebugFlags(
+		(m_options.showAabb     ? SceneGraph::Model::DEBUG_BBOX      : 0x0) |
+		(m_options.showCollMesh ? SceneGraph::Model::DEBUG_COLLMESH  : 0x0) |
+		(m_options.wireframe    ? SceneGraph::Model::DEBUG_WIREFRAME : 0x0)
+	);
+
 	m_model->Render(mv);
+
 	if (m_options.showLandingPad) {
 		if (!m_scaleModel) CreateTestResources();
 		m_scaleModel->Render(mv * matrix4x4f::Translation(0.f, m_landingMinOffset, 0.f));
-	}
-	if (m_options.wireframe)
-		m_renderer->SetWireFrameMode(false);
-
-	if (m_options.showCollMesh) {
-		m_renderer->SetTransform(mv);
-		DrawCollisionMesh();
-	}
-
-	if (m_options.showAabb) {
-		m_renderer->SetTransform(mv);
-		DrawAabb();
 	}
 
 	if (m_options.showDockingLocators) {

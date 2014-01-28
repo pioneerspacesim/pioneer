@@ -147,8 +147,19 @@ public:
 	//serialization aid
 	std::string GetNameForMaterial(Graphics::Material*) const;
 
+	enum {
+		DEBUG_NONE      = 0x0,
+		DEBUG_BBOX      = 0x1,
+		DEBUG_COLLMESH  = 0x2,
+		DEBUG_WIREFRAME = 0x4
+	};
+	void SetDebugFlags(Uint32 flags) { m_debugFlags = flags; }
+
 private:
 	Model(const Model&);
+
+	void DrawAabb();
+	void DrawCollisionMesh();
 
 	static const unsigned int MAX_DECAL_MATERIALS = 4;
 	ColorMap m_colorMap;
@@ -168,6 +179,8 @@ private:
 	unsigned int m_curPatternIndex;
 	Graphics::Texture *m_curPattern;
 	Graphics::Texture *m_curDecals[MAX_DECAL_MATERIALS];
+
+	Uint32 m_debugFlags;
 };
 
 }

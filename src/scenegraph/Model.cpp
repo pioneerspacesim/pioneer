@@ -6,6 +6,7 @@
 #include "NodeCopyCache.h"
 #include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
+#include "graphics/VertexArray.h"
 #include "StringF.h"
 
 namespace SceneGraph {
@@ -25,6 +26,7 @@ Model::Model(Graphics::Renderer *r, const std::string &name)
 , m_name(name)
 , m_curPatternIndex(0)
 , m_curPattern(0)
+, m_debugFlags(0)
 {
 	m_root.Reset(new Group(m_renderer));
 	m_root->SetName(name);
@@ -40,6 +42,7 @@ Model::Model(const Model &model)
 , m_name(model.m_name)
 , m_curPatternIndex(model.m_curPatternIndex)
 , m_curPattern(model.m_curPattern)
+, m_debugFlags(0)
 {
 	//selective copying of node structure
 	NodeCopyCache cache;
@@ -114,6 +117,9 @@ void Model::Render(const matrix4x4f &trans, const RenderData *rd)
 	params.boundingRadius = GetDrawClipRadius();
 
 	//render in two passes, if this is the top-level model
+	if (m_debugFlags & DEBUG_WIREFRAME)
+		m_renderer->SetWireFrameMode(true);
+
 	if (params.nodemask & MASK_IGNORE) {
 		m_root->Render(trans, &params);
 	} else {
@@ -122,6 +128,80 @@ void Model::Render(const matrix4x4f &trans, const RenderData *rd)
 		params.nodemask = NODE_TRANSPARENT;
 		m_root->Render(trans, &params);
 	}
+
+	if (m_debugFlags == DEBUG_NONE)
+		return;
+
+	if (m_debugFlags & DEBUG_WIREFRAME)
+		m_renderer->SetWireFrameMode(false);
+
+	if (m_debugFlags & DEBUG_BBOX) {
+		m_renderer->SetTransform(trans);
+		DrawAabb();
+	}
+
+	if (m_debugFlags & DEBUG_COLLMESH) {
+		m_renderer->SetTransform(trans);
+		DrawCollisionMesh();
+	}
+}
+
+void Model::DrawAabb()
+{
+	if (!m_collMesh) return;
+
+	Aabb aabb = m_collMesh->GetAabb();
+
+	const vector3f verts[16] = {
+		vector3f(aabb.min.x, aabb.min.y, aabb.min.z),
+		vector3f(aabb.max.x, aabb.min.y, aabb.min.z),
+		vector3f(aabb.max.x, aabb.max.y, aabb.min.z),
+		vector3f(aabb.min.x, aabb.max.y, aabb.min.z),
+		vector3f(aabb.min.x, aabb.min.y, aabb.min.z),
+		vector3f(aabb.min.x, aabb.min.y, aabb.max.z),
+		vector3f(aabb.max.x, aabb.min.y, aabb.max.z),
+		vector3f(aabb.max.x, aabb.min.y, aabb.min.z),
+
+		vector3f(aabb.max.x, aabb.max.y, aabb.max.z),
+		vector3f(aabb.min.x, aabb.max.y, aabb.max.z),
+		vector3f(aabb.min.x, aabb.min.y, aabb.max.z),
+		vector3f(aabb.max.x, aabb.min.y, aabb.max.z),
+		vector3f(aabb.max.x, aabb.max.y, aabb.max.z),
+		vector3f(aabb.max.x, aabb.max.y, aabb.min.z),
+		vector3f(aabb.min.x, aabb.max.y, aabb.min.z),
+		vector3f(aabb.min.x, aabb.max.y, aabb.max.z),
+	};
+
+	m_renderer->DrawLines(8, verts + 0, Color::GREEN, Graphics::LINE_STRIP);
+	m_renderer->DrawLines(8, verts + 8, Color::GREEN, Graphics::LINE_STRIP);
+}
+
+// Draw collision mesh as a wireframe overlay
+void Model::DrawCollisionMesh()
+{
+	if (!m_collMesh) return;
+
+	const vector3f *vertices = reinterpret_cast<const vector3f*>(m_collMesh->GetGeomTree()->GetVertices());
+	const Uint16 *indices = m_collMesh->GetGeomTree()->GetIndices();
+	const unsigned int *triFlags = m_collMesh->GetGeomTree()->GetTriFlags();
+	const unsigned int numIndices = m_collMesh->GetGeomTree()->GetNumTris() * 3;
+
+	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE, numIndices * 3);
+	int trindex = -1;
+	for(unsigned int i = 0; i < numIndices; i++) {
+		if (i % 3 == 0)
+			trindex++;
+		const unsigned int flag = triFlags[trindex];
+		//show special geomflags in red
+		va.Add(vertices[indices[i]], flag > 0 ? Color::RED : Color::WHITE);
+	}
+
+	//might want to add some offset
+	m_renderer->SetWireFrameMode(true);
+	Graphics::vtxColorMaterial->twoSided = true;
+	m_renderer->DrawTriangles(&va, Graphics::vtxColorMaterial);
+	Graphics::vtxColorMaterial->twoSided = false;
+	m_renderer->SetWireFrameMode(false);
 }
 
 RefCountedPtr<CollMesh> Model::CreateCollisionMesh()
