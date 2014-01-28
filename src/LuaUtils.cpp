@@ -174,7 +174,7 @@ static bool _import_core(lua_State *L, const std::string &importName)
 
 #undef DEBUG_IMPORT
 #ifdef DEBUG_IMPORT
-#define DEBUG_PRINTF printf
+#define DEBUG_PRINTF Output
 #else
 #define DEBUG_PRINTF(...)
 #endif
@@ -305,7 +305,7 @@ static int l_base_import(lua_State *L)
 bool pi_lua_import(lua_State *L, const std::string &importName)
 {
 	if (!_import(L, importName)) {
-		fprintf(stderr, "%s\n", lua_tostring(L, -1));
+		Output("%s\n", lua_tostring(L, -1));
 		lua_pop(L, 1);
 		return false;
 	}
@@ -559,18 +559,18 @@ static void pi_lua_dofile(lua_State *l, const FileSystem::FileData &code, int nr
 	int ret = lua_pcall(l, 0, nret, panicidx);
 	if (ret) {
 		const char *emsg = lua_tostring(l, -1);
-		if (emsg) { fprintf(stderr, "lua error: %s\n", emsg); }
+		if (emsg) { Output("lua error: %s\n", emsg); }
 		switch (ret) {
 			case LUA_ERRRUN:
-				fprintf(stderr, "Lua runtime error in pi_lua_dofile('%s')\n",
+				Output("Lua runtime error in pi_lua_dofile('%s')\n",
 						code.GetInfo().GetAbsolutePath().c_str());
 				break;
 			case LUA_ERRMEM:
-				fprintf(stderr, "Memory allocation error in Lua pi_lua_dofile('%s')\n",
+				Output("Memory allocation error in Lua pi_lua_dofile('%s')\n",
 						code.GetInfo().GetAbsolutePath().c_str());
 				break;
 			case LUA_ERRERR:
-				fprintf(stderr, "Error running error handler in pi_lua_dofile('%s')\n",
+				Output("Error running error handler in pi_lua_dofile('%s')\n",
 						code.GetInfo().GetAbsolutePath().c_str());
 				break;
 			default: abort();
@@ -589,7 +589,7 @@ void pi_lua_dofile(lua_State *l, const std::string &path)
 
 	RefCountedPtr<FileSystem::FileData> code = FileSystem::gameDataFiles.ReadFile(path);
 	if (!code) {
-		fprintf(stderr, "could not read Lua file '%s'\n", path.c_str());
+		Output("could not read Lua file '%s'\n", path.c_str());
 		return;
 	}
 
@@ -628,13 +628,13 @@ void pi_lua_warn(lua_State *l, const char *format, ...)
 	va_start(ap, format);
 	vsnprintf(buf, sizeof(buf), format, ap);
 	va_end(ap);
-	fprintf(stderr, "Lua Warning: %s\n", buf);
+	Output("Lua Warning: %s\n", buf);
 
 	lua_Debug info;
 	int level = 0;
 	while (lua_getstack(l, level, &info)) {
 		lua_getinfo(l, "nSl", &info);
-		fprintf(stderr, "  [%d] %s:%d -- %s [%s]\n",
+		Output("  [%d] %s:%d -- %s [%s]\n",
 			level, info.short_src, info.currentline,
 			(info.name ? info.name : "<unknown>"), info.what);
 		++level;

@@ -156,7 +156,7 @@ Model *Loader::LoadModel(const std::string &shortname, const std::string &basepa
 					Parser p(fileSource, fpath, m_curPath);
 					p.Parse(&modelDefinition);
 				} catch (ParseError &err) {
-					fprintf(stderr, "%s\n", err.what());
+					Output("%s\n", err.what());
 					throw LoadingError(err.what());
 				}
 				modelDefinition.name = shortname;
@@ -187,7 +187,7 @@ Model *Loader::CreateModel(ModelDefinition &def)
 		if (it->use_pattern) patternsUsed = true;
 		ConvertMaterialDefinition(*it);
 	}
-	//printf("Loaded %d materials\n", int(model->m_materials.size()));
+	//Output("Loaded %d materials\n", int(model->m_materials.size()));
 
 	//load meshes
 	//"mesh" here refers to a "mesh xxx.yyy"
@@ -237,7 +237,7 @@ Model *Loader::CreateModel(ModelDefinition &def)
 					model->GetRoot()->AddChild(mesh.Get());
 			} catch (LoadingError &err) {
 				delete model;
-				fprintf(stderr, "%s\n", err.what());
+				Output("%s\n", err.what());
 				throw;
 			}
 		}
@@ -473,7 +473,7 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 	//This is very limited, and all animdefs are processed for all
 	//meshes, potentially leading to duplicate and wrongly split animations
 	if (animDefs.empty() || scene->mNumAnimations == 0) return;
-	if (scene->mNumAnimations > 1) printf("File has %d animations, treating as one animation\n", scene->mNumAnimations);
+	if (scene->mNumAnimations > 1) Output("File has %d animations, treating as one animation\n", scene->mNumAnimations);
 
 	std::vector<Animation*> &animations = m_model->m_animations;
 

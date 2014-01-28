@@ -308,14 +308,14 @@ static void fill_audio_1stream(float *buffer, int len, int stream_num)
 				ev.oggv = new OggVorbis_File;
 				RefCountedPtr<FileSystem::FileData> oggdata = FileSystem::gameDataFiles.ReadFile(ev.sample->path);
 				if (!oggdata) {
-					fprintf(stderr, "Could not open '%s'", ev.sample->path.c_str());
+					Output("Could not open '%s'", ev.sample->path.c_str());
 					ev.sample = 0;
 					return;
 				}
 				ev.ogg_data_stream.Reset(oggdata);
 				oggdata.Reset();
 				if (ov_open_callbacks(&ev.ogg_data_stream, ev.oggv, 0, 0, OggFileDataStream::CALLBACKS) < 0) {
-					fprintf(stderr, "Vorbis could not understand '%s'", ev.sample->path.c_str());
+					Output("Vorbis could not understand '%s'", ev.sample->path.c_str());
 					ev.sample = 0;
 					return;
 				}
@@ -480,7 +480,7 @@ static void load_sound(const std::string &basename, const std::string &path, boo
 	sample.path = path;
 
 	const float seconds = num_samples/float(info->rate);
-	//printf("%f seconds\n", seconds);
+	//Output("%f seconds\n", seconds);
 
 	// immediately decode and store as raw sample if short enough
 	if (seconds < STREAM_IF_LONGER_THAN) {
@@ -518,7 +518,7 @@ bool Init ()
 		SDL_AudioSpec wanted;
 
 		if (SDL_Init (SDL_INIT_AUDIO) == -1) {
-			fprintf (stderr, "Count not initialise SDL: %s.\n", SDL_GetError ());
+			Output("Count not initialise SDL: %s.\n", SDL_GetError ());
 			return false;
 		}
 
@@ -530,7 +530,7 @@ bool Init ()
 		wanted.userdata = 0;
 
 		if (SDL_OpenAudio (&wanted, 0) < 0) {
-			fprintf (stderr, "Could not open audio: %s\n", SDL_GetError ());
+			Output("Could not open audio: %s\n", SDL_GetError ());
 			return false;
 		}
 

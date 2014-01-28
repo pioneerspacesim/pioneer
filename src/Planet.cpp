@@ -106,7 +106,7 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 		for (double h = -1000; h <= 100000; h = h+1000.0) {
 			double p = 0.0, d = 0.0;
 			GetAtmosphericState(h+this->GetSystemBody()->GetRadius(),&p,&d);
-			printf("height(m): %f, pressure(hpa): %f, density: %f\n", h, p*101325.0/100.0, d);
+			Output("height(m): %f, pressure(hpa): %f, density: %f\n", h, p*101325.0/100.0, d);
 		}
 	}
 #endif

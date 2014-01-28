@@ -239,7 +239,7 @@ void KeyAction::SetFromString(const char *str)
 	const size_t len = strlen(str);
 	char buf[BUF_SIZE];
 	if (len >= BUF_SIZE) {
-		fprintf(stderr, "invalid KeyAction string\n");
+		Output("invalid KeyAction string\n");
 		binding1 = KeyBinding::FromString(str);
 		binding2.Clear();
 	} else {
@@ -444,7 +444,7 @@ void InitAxisBinding(AxisBinding &ab, const std::string &bindName, const std::st
 
 	// set the binding from the configured or default value
 	if (!AxisBinding::FromString(axisName.c_str(), ab)) {
-		fprintf(stderr, "invalid axis binding '%s' in config file for %s\n", axisName.c_str(), bindName.c_str());
+		Output("invalid axis binding '%s' in config file for %s\n", axisName.c_str(), bindName.c_str());
 		ab.Clear();
 	}
 }

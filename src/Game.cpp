@@ -113,9 +113,9 @@ Game::Game(Serializer::Reader &rd) :
 
 	// version check
 	rd.SetStreamVersion(rd.Int32());
-	fprintf(stderr, "savefile version: %d\n", rd.StreamVersion());
+	Output("savefile version: %d\n", rd.StreamVersion());
 	if (rd.StreamVersion() != s_saveVersion) {
-		fprintf(stderr, "can't load savefile, expected version: %d\n", s_saveVersion);
+		Output("can't load savefile, expected version: %d\n", s_saveVersion);
 		throw SavedGameWrongVersionException();
 	}
 
@@ -395,7 +395,7 @@ void Game::SwitchToHyperspace()
 		m_hyperspaceClouds.push_back(cloud);
 	}
 
-	printf(SIZET_FMT " clouds brought over\n", m_hyperspaceClouds.size());
+	Output(SIZET_FMT " clouds brought over\n", m_hyperspaceClouds.size());
 
 	// remove the player from space
 	m_space->RemoveBody(m_player.get());
@@ -423,7 +423,7 @@ void Game::SwitchToHyperspace()
 	m_state = STATE_HYPERSPACE;
 	m_wantHyperspace = false;
 
-	printf("Started hyperspacing...\n");
+	Output("Started hyperspacing...\n");
 }
 
 void Game::SwitchToNormalSpace()
@@ -710,7 +710,7 @@ void Game::DestroyViews()
 
 Game *Game::LoadGame(const std::string &filename)
 {
-	printf("Game::LoadGame('%s')\n", filename.c_str());
+	Output("Game::LoadGame('%s')\n", filename.c_str());
 	auto file = FileSystem::userFiles.ReadFile(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
 	if (!file) throw CouldNotOpenFileException();
 	Serializer::Reader rd(file->AsByteRange());

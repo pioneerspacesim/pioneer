@@ -46,7 +46,7 @@ static bool check_glsl_errors(const char *filename, GLuint obj)
 #ifndef NDEBUG
 	if (infologLength > 0) {
 		if (pi_strcasestr("infoLog", "warning"))
-			fprintf(stderr, "%s: %s", filename, infoLog);
+			Output("%s: %s", filename, infoLog);
 	}
 #endif
 
@@ -84,7 +84,7 @@ struct Shader {
 			FileSystem::userFiles.MakeDirectory(SHADER_GL2_OUT_DIR_NAME);
 			const std::string outFilename(FileSystem::GetUserDir() + "/" + filename);
 			FILE *tmp = fopen(outFilename.c_str(), "w+");
-			fprintf(stderr, "%s", filename);
+			Output("%s", filename);
 			for( Uint32 i=0; i<blocks.size(); i++ ) {
 				fprintf(tmp, "%.*s", block_sizes[i], blocks[i]);
 			}

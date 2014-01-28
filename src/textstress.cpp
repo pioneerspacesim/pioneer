@@ -15,7 +15,7 @@ int main(int argc, char **argv)
 	FileSystem::Init();
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-		fprintf(stderr, "sdl init failed: %s\n", SDL_GetError());
+		Output("sdl init failed: %s\n", SDL_GetError());
 		exit(-1);
 	}
 

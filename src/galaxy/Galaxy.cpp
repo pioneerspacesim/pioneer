@@ -22,14 +22,14 @@ void Init()
 
 	RefCountedPtr<FileSystem::FileData> filedata = FileSystem::gameDataFiles.ReadFile(filename);
 	if (!filedata) {
-		fprintf(stderr, "Galaxy: couldn't load '%s'\n", filename.c_str());
+		Output("Galaxy: couldn't load '%s'\n", filename.c_str());
 		Pi::Quit();
 	}
 
 	SDL_RWops *datastream = SDL_RWFromConstMem(filedata->GetData(), filedata->GetSize());
 	s_galaxybmp = SDL_LoadBMP_RW(datastream, 1);
 	if (!s_galaxybmp) {
-		fprintf(stderr, "Galaxy: couldn't load: %s (%s)\n", filename.c_str(), SDL_GetError());
+		Output("Galaxy: couldn't load: %s (%s)\n", filename.c_str(), SDL_GetError());
 		Pi::Quit();
 	}
 }

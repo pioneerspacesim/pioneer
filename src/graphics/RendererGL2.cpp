@@ -786,11 +786,11 @@ Material *RendererGL2::CreateMaterial(const MaterialDescriptor &d)
 
 bool RendererGL2::ReloadShaders()
 {
-	printf("Reloading " SIZET_FMT " programs...\n", m_programs.size());
+	Output("Reloading " SIZET_FMT " programs...\n", m_programs.size());
 	for (ProgramIterator it = m_programs.begin(); it != m_programs.end(); ++it) {
 		it->second->Reload();
 	}
-	printf("Done.\n");
+	Output("Done.\n");
 
 	return true;
 }

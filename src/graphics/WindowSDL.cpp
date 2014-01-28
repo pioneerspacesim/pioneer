@@ -47,20 +47,20 @@ WindowSDL::WindowSDL(const Graphics::Settings &vs, const std::string &name)
 	// 2- requested mode with no anti-aliasing (skipped if no AA was requested anyway)
 	//    (skipped if no AA was requested anyway)
 	if (!ok && vs.requestedSamples) {
-		fprintf(stderr, "Failed to set video mode. (%s). Re-trying without multisampling.\n", SDL_GetError());
+		Output("Failed to set video mode. (%s). Re-trying without multisampling.\n", SDL_GetError());
 		ok = CreateWindowAndContext(name.c_str(), vs.width, vs.height, vs.fullscreen, 0, 24);
 	}
 
 	// 3- requested mode with 16 bit depth buffer
 	if (!ok) {
-		fprintf(stderr, "Failed to set video mode. (%s). Re-trying with 16-bit depth buffer\n", SDL_GetError());
+		Output("Failed to set video mode. (%s). Re-trying with 16-bit depth buffer\n", SDL_GetError());
 		ok = CreateWindowAndContext(name.c_str(), vs.width, vs.height, vs.fullscreen, vs.requestedSamples, 16);
 	}
 
 	// 4- requested mode with 16-bit depth buffer and no anti-aliasing
 	//    (skipped if no AA was requested anyway)
 	if (!ok && vs.requestedSamples) {
-		fprintf(stderr, "Failed to set video mode. (%s). Re-trying with 16-bit depth buffer and no multisampling\n", SDL_GetError());
+		Output("Failed to set video mode. (%s). Re-trying with 16-bit depth buffer and no multisampling\n", SDL_GetError());
 		ok = CreateWindowAndContext(name.c_str(), vs.width, vs.height, vs.fullscreen, 0, 16);
 	}
 

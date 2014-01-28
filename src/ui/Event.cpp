@@ -144,13 +144,13 @@ KeySym KeySym::FromString(const std::string &spec)
 
 		else {
 			if (sym != SDLK_UNKNOWN)
-				fprintf(stderr, "key spec '%s' has multiple keys, ignoring '%s'\n", spec.c_str(), token.c_str());
+				Output("key spec '%s' has multiple keys, ignoring '%s'\n", spec.c_str(), token.c_str());
 			else {
 				for (const KeyMap *map = keymap; map->name; map++)
 					if (token == map->name)
 						sym = map->sym;
 				if (sym == SDLK_UNKNOWN)
-					fprintf(stderr, "key spec '%s' has unkown token '%s', ignoring it\n", spec.c_str(), token.c_str());
+					Output("key spec '%s' has unkown token '%s', ignoring it\n", spec.c_str(), token.c_str());
 			}
 		}
 	}

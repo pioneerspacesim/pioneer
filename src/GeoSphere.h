@@ -43,7 +43,7 @@ public:
 		// Fractals absolutely MUST return heights >= 0.0 (one planet radius)
 		// otherwise atmosphere and other things break.
 		if (h < 0.0) {
-			fprintf(stderr, "GetHeight({ %f, %f, %f }) returned %f\n", p.x, p.y, p.z, h);
+			Output("GetHeight({ %f, %f, %f }) returned %f\n", p.x, p.y, p.z, h);
 			m_terrain->DebugDump();
 			assert(h >= 0.0);
 		}

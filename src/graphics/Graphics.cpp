@@ -71,7 +71,7 @@ Renderer* Init(Settings vs)
 	
 	renderer = new RendererGL2(window, vs);
 
-	printf("Initialized %s\n", renderer->GetName());
+	Output("Initialized %s\n", renderer->GetName());
 
 	initted = true;
 
