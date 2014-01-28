@@ -130,7 +130,7 @@ void ModelViewer::Run(const std::string &modelName)
 	FileSystem::Init();
 	FileSystem::userFiles.MakeDirectory(""); // ensure the config directory exists
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
-		OS::Error("SDL initialization failed: %s\n", SDL_GetError());
+		Error("SDL initialization failed: %s\n", SDL_GetError());
 	Lua::Init();
 
 	ModManager::Init();
@@ -285,7 +285,7 @@ void ModelViewer::AddLog(const std::string &line)
 {
 	m_log->AppendText(line+"\n");
 	m_logScroller->SetScrollPosition(1.0f);
-	printf("%s\n", line.c_str());
+	Output("%s\n", line.c_str());
 }
 
 void ModelViewer::ChangeCameraPreset(SDL_Keycode key, SDL_Keymod mod)

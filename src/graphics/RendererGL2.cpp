@@ -175,7 +175,7 @@ bool RendererGL2::SwapBuffers()
 			ss << glerr_to_string(err) << '\n';
 			err = glGetError();
 		}
-		OS::Error("%s", ss.str().c_str());
+		Error("%s", ss.str().c_str());
 	}
 #endif
 
@@ -786,11 +786,11 @@ Material *RendererGL2::CreateMaterial(const MaterialDescriptor &d)
 
 bool RendererGL2::ReloadShaders()
 {
-	printf("Reloading " SIZET_FMT " programs...\n", m_programs.size());
+	Output("Reloading " SIZET_FMT " programs...\n", m_programs.size());
 	for (ProgramIterator it = m_programs.begin(); it != m_programs.end(); ++it) {
 		it->second->Reload();
 	}
-	printf("Done.\n");
+	Output("Done.\n");
 
 	return true;
 }

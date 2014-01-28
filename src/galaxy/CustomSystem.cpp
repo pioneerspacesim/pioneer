@@ -389,11 +389,11 @@ static void _add_children_to_sbody(lua_State *L, CustomSystemBody *sbody)
 		lua_pop(L, 1);
 		LUA_DEBUG_CHECK(L, 0);
 
-		//printf("add-children-to-body adding %s to %s\n", kid->name.c_str(), sbody->name.c_str());
+		//Output("add-children-to-body adding %s to %s\n", kid->name.c_str(), sbody->name.c_str());
 
 		sbody->children.push_back(kid);
 	}
-	//printf("add-children-to-body done for %s\n", sbody->name.c_str());
+	//Output("add-children-to-body done for %s\n", sbody->name.c_str());
 	LUA_DEBUG_END(L, 0);
 }
 
@@ -435,7 +435,7 @@ static int l_csys_add_to_sector(lua_State *L)
 	(*csptr)->sectorZ = z;
 	(*csptr)->pos = vector3f(*v);
 
-	//printf("l_csys_add_to_sector: %s added to %d, %d, %d\n", (*csptr)->name.c_str(), x, y, z);
+	//Output("l_csys_add_to_sector: %s added to %d, %d, %d\n", (*csptr)->name.c_str(), x, y, z);
 
 	s_sectorMap[SystemPath(x, y, z)].push_back(*csptr);
 	*csptr = 0;

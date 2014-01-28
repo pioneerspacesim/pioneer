@@ -120,7 +120,7 @@ void LabelButton::Draw()
 	PROFILE_SCOPED()
 	float size[2];
 	GetSize(size);
-	//printf("%f,%f\n", size[0], size[1]);
+	//Output("%f,%f\n", size[0], size[1]);
 	glColor3f(1,1,1);
 	//Theme::DrawHollowRect(size);
 	if (IsPressed()) {

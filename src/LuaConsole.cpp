@@ -86,7 +86,7 @@ void LuaConsole::RunAutoexec() {
 	if (ret != LUA_OK) {
 		if (ret == LUA_ERRSYNTAX) {
 			const char *msg = lua_tostring(L, -1);
-			fprintf(stderr, "console.lua: %s\n", msg);
+			Output("console.lua: %s\n", msg);
 			lua_pop(L, 1);
 		}
 		AddOutput("Failed to run console.lua");
@@ -103,7 +103,7 @@ void LuaConsole::RunAutoexec() {
 	ret = lua_pcall(L, 0, 0, -2);
 	if (ret != LUA_OK) {
 		const char *msg = lua_tostring(L, -1);
-		fprintf(stderr, "console.lua:\n%s\n", msg);
+		Output("console.lua:\n%s\n", msg);
 		AddOutput("Failed to run console.lua");
 		lua_pop(L, 1);
 	}
@@ -452,7 +452,7 @@ static int l_console_print(lua_State *L) {
 		lua_pop(L, 1);
 	}
 	lua_pop(L, 1);
-	printf("%s\n", line.c_str());
+	Output("%s\n", line.c_str());
 	if (Pi::luaConsole) {
 		Pi::luaConsole->AddOutput(line);
 	}

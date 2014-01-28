@@ -354,7 +354,7 @@ static size_t bufread_or_die(void *ptr, size_t size, size_t nmemb, ByteRange &bu
 {
 	size_t read_count = buf.read(static_cast<char*>(ptr), size, nmemb);
 	if (read_count < nmemb) {
-		fprintf(stderr, "Error: failed to read file (truncated)\n");
+		Output("Error: failed to read file (truncated)\n");
 		abort();
 	}
 	return read_count;
@@ -377,7 +377,7 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 	if (m_body->heightMapFilename) {
 		RefCountedPtr<FileSystem::FileData> fdata = FileSystem::gameDataFiles.ReadFile(m_body->heightMapFilename);
 		if (!fdata) {
-			fprintf(stderr, "Error: could not open file '%s'\n", m_body->heightMapFilename);
+			Output("Error: could not open file '%s'\n", m_body->heightMapFilename);
 			abort();
 		}
 
@@ -407,7 +407,7 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 					++pHeightMap;
 				}
 				assert(is_equal_general(*pHeightMap, m_heightMap[heightmapPixelArea]));
-				//printf("minHMap = (%hd), maxHMap = (%hd)\n", minHMap, maxHMap);
+				//Output("minHMap = (%hd), maxHMap = (%hd)\n", minHMap, maxHMap);
 				break;
 			}
 
@@ -438,7 +438,7 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 					++pHeightMap;
 				}
 				assert(is_equal_general(*pHeightMap, m_heightMap[heightmapPixelArea]));
-				//printf("minHMapScld = (%hu), maxHMapScld = (%hu)\n", minHMapScld, maxHMapScld);
+				//Output("minHMapScld = (%hu), maxHMapScld = (%hu)\n", minHMapScld, maxHMapScld);
 				break;
 			}
 
@@ -482,7 +482,7 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 		// and then in sphere normalized jizz
 	}
 	m_maxHeight = std::min(1.0, m_maxHeightInMeters / rad);
-	//printf("%s: max terrain height: %fm [%f]\n", m_body->name.c_str(), m_maxHeightInMeters, m_maxHeight);
+	//Output("%s: max terrain height: %fm [%f]\n", m_body->name.c_str(), m_maxHeightInMeters, m_maxHeight);
 	m_invMaxHeight = 1.0 / m_maxHeight;
 	m_planetRadius = rad;
 	m_planetEarthRadii = rad / EARTH_RADIUS;
@@ -628,21 +628,21 @@ void Terrain::SetFracDef(const unsigned int index, const double featureHeightMet
 	m_fracdef[index].frequency = m_planetRadius / featureWidthMeters;
 	m_fracdef[index].octaves = std::max(1, int(ceil(log(featureWidthMeters / smallestOctaveMeters) / log(2.0))));
 	m_fracdef[index].lacunarity = 2.0;
-	//printf("%d octaves\n", m_fracdef[index].octaves); //print
+	//Output("%d octaves\n", m_fracdef[index].octaves); //print
 }
 
 void Terrain::DebugDump() const
 {
-	fprintf(stderr, "Terrain state dump:\n");
-	fprintf(stderr, "  Height fractal: %s\n", GetHeightFractalName());
-	fprintf(stderr, "  Color fractal: %s\n", GetColorFractalName());
-	fprintf(stderr, "  Detail: fracnum %d  fracmult %f  textures %s\n", m_fracnum, m_fracmult, textures ? "true" : "false");
-	fprintf(stderr, "  Config: DetailPlanets %d   FractalMultiple %d  Textures  %d\n", Pi::config->Int("DetailPlanets"), Pi::config->Int("FractalMultiple"), Pi::config->Int("Textures"));
-	fprintf(stderr, "  Seed: %d\n", m_seed);
-	fprintf(stderr, "  Body: %s [%d,%d,%d,%u,%u]\n", m_body->name.c_str(), m_body->path.sectorX, m_body->path.sectorY, m_body->path.sectorZ, m_body->path.systemIndex, m_body->path.bodyIndex);
-	fprintf(stderr, "  Aspect Ratio: %g\n", m_body->aspectRatio.ToDouble());
-	fprintf(stderr, "  Fracdefs:\n");
+	Output("Terrain state dump:\n");
+	Output("  Height fractal: %s\n", GetHeightFractalName());
+	Output("  Color fractal: %s\n", GetColorFractalName());
+	Output("  Detail: fracnum %d  fracmult %f  textures %s\n", m_fracnum, m_fracmult, textures ? "true" : "false");
+	Output("  Config: DetailPlanets %d   FractalMultiple %d  Textures  %d\n", Pi::config->Int("DetailPlanets"), Pi::config->Int("FractalMultiple"), Pi::config->Int("Textures"));
+	Output("  Seed: %d\n", m_seed);
+	Output("  Body: %s [%d,%d,%d,%u,%u]\n", m_body->name.c_str(), m_body->path.sectorX, m_body->path.sectorY, m_body->path.sectorZ, m_body->path.systemIndex, m_body->path.bodyIndex);
+	Output("  Aspect Ratio: %g\n", m_body->aspectRatio.ToDouble());
+	Output("  Fracdefs:\n");
 	for (int i = 0; i < 10; i++) {
-		fprintf(stderr, "    %d: amp %f  freq %f  lac %f  oct %d\n", i, m_fracdef[i].amplitude, m_fracdef[i].frequency, m_fracdef[i].lacunarity, m_fracdef[i].octaves);
+		Output("    %d: amp %f  freq %f  lac %f  oct %d\n", i, m_fracdef[i].amplitude, m_fracdef[i].frequency, m_fracdef[i].lacunarity, m_fracdef[i].octaves);
 	}
 }

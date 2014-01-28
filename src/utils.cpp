@@ -126,9 +126,34 @@ void Error(const char *format, ...)
 	va_start(ap, format);
 	vsnprintf(buf, sizeof(buf), format, ap);
 	va_end(ap);
-	fprintf(stderr, "Error: %s\n", buf);
-	Gui::Screen::ShowBadError((std::string("Error: ") + buf).c_str());
-	abort();
+
+	Output("error: %s\n", buf);
+	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Pioneer error", buf, 0);
+
+	exit(1);
+}
+
+void Warning(const char *format, ...)
+{
+	char buf[1024];
+	va_list ap;
+	va_start(ap, format);
+	vsnprintf(buf, sizeof(buf), format, ap);
+	va_end(ap);
+
+	Output("warning: %s\n", buf);
+	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, "Pioneer warning", buf, 0);
+}
+
+void Output(const char *format, ...)
+{
+	char buf[1024];
+	va_list ap;
+	va_start(ap, format);
+	vsnprintf(buf, sizeof(buf), format, ap);
+	va_end(ap);
+
+	fputs(buf, stderr);
 }
 
 std::string format_distance(double dist, int precision)
@@ -167,7 +192,7 @@ void Screendump(const char* destFile, const int width, const int height)
 
 	write_png(FileSystem::userFiles, fname, &pixel_data[0], width, height, stride, 3);
 
-	printf("Screenshot %s saved\n", fname.c_str());
+	Output("Screenshot %s saved\n", fname.c_str());
 }
 
 // strcasestr() adapted from gnulib
@@ -212,25 +237,25 @@ void hexdump(const unsigned char *buf, int len)
 	int count;
 
 	for (int i = 0; i < len; i += HEXDUMP_CHUNK) {
-		fprintf(stderr, "0x%06x  ", i);
+		Output("0x%06x  ", i);
 
 		count = ((len-i) > HEXDUMP_CHUNK ? HEXDUMP_CHUNK : len-i);
 
 		for (int j = 0; j < count; j++) {
-			if (j == HEXDUMP_CHUNK/2) fputc(' ', stderr);
-			fprintf(stderr, "%02x ", buf[i+j]);
+			if (j == HEXDUMP_CHUNK/2) Output(" ");
+			Output("%02x ", buf[i+j]);
 		}
 
 		for (int j = count; j < HEXDUMP_CHUNK; j++) {
-			if (j == HEXDUMP_CHUNK/2) fputc(' ', stderr);
-			fprintf(stderr, "   ");
+			if (j == HEXDUMP_CHUNK/2) Output(" ");
+			Output("   ");
 		}
 
-		fputc(' ', stderr);
+		Output(" ");
 
 		for (int j = 0; j < count; j++)
-			fprintf(stderr, "%c", isprint(buf[i+j]) ? buf[i+j] : '.');
+			Output("%c", isprint(buf[i+j]) ? buf[i+j] : '.');
 
-		fputc('\n', stderr);
+		Output("\n");
 	}
 }

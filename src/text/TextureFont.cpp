@@ -350,7 +350,7 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 	FT_Stroker stroker(0);
 	if (outline) {
 		if (FT_Stroker_New(GetFreeTypeLibrary(), &stroker)) {
-			fprintf(stderr, "Freetype stroker init error\n");
+			Output("Freetype stroker init error\n");
 			abort();
 		}
 
@@ -373,14 +373,14 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 
 			err = FT_Load_Char(m_face, chr, FT_LOAD_FORCE_AUTOHINT);
 			if (err) {
-				fprintf(stderr, "Error %d loading glyph\n", err);
+				Output("Error %d loading glyph\n", err);
 				continue;
 			}
 
 			// get base glyph again
 			err = FT_Get_Glyph(m_face->glyph, &glyph);
 			if (err) {
-				fprintf(stderr, "Glyph get error %d\n", err);
+				Output("Glyph get error %d\n", err);
 				continue;
 			}
 
@@ -388,7 +388,7 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 			if (glyph->format != FT_GLYPH_FORMAT_BITMAP) {
 				err = FT_Glyph_To_Bitmap(&glyph, FT_RENDER_MODE_NORMAL, 0, 1);
 				if (err) {
-					fprintf(stderr, "Couldn't convert glyph to bitmap, error %d\n", err);
+					Output("Couldn't convert glyph to bitmap, error %d\n", err);
 					continue;
 				}
 			}
@@ -400,13 +400,13 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 
 				err = FT_Get_Glyph(m_face->glyph, &strokeGlyph);
 				if (err) {
-					fprintf(stderr, "Glyph get error %d\n", err);
+					Output("Glyph get error %d\n", err);
 					continue;
 				}
 
 				err = FT_Glyph_Stroke(&strokeGlyph, stroker, 1);
 				if (err) {
-					fprintf(stderr, "Glyph stroke error %d\n", err);
+					Output("Glyph stroke error %d\n", err);
 					FT_Done_Glyph(strokeGlyph);
 					continue;
 				}
@@ -415,7 +415,7 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 				if (strokeGlyph->format != FT_GLYPH_FORMAT_BITMAP) {
 					err = FT_Glyph_To_Bitmap(&strokeGlyph, FT_RENDER_MODE_NORMAL, 0, 1);
 					if (err) {
-						fprintf(stderr, "Couldn't convert glyph to bitmap, error %d\n", err);
+						Output("Couldn't convert glyph to bitmap, error %d\n", err);
 						FT_Done_Glyph(strokeGlyph);
 						continue;
 					}
@@ -434,7 +434,7 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 					char utf8buf[8];
 					int len = utf8_encode_char(chr, utf8buf);
 					utf8buf[len] = '\0';
-					fprintf(stderr, "glyph doesn't fit in atlas (U+%04X; height = %d; char: %s; atlasV = %d)\n", chr, bmStrokeGlyph->bitmap.rows, utf8buf, atlasV);
+					Output("glyph doesn't fit in atlas (U+%04X; height = %d; char: %s; atlasV = %d)\n", chr, bmStrokeGlyph->bitmap.rows, utf8buf, atlasV);
 					FT_Done_Glyph(strokeGlyph);
 					continue;
 				}
@@ -491,7 +491,7 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 					char utf8buf[8];
 					int len = utf8_encode_char(chr, utf8buf);
 					utf8buf[len] = '\0';
-					fprintf(stderr, "glyph doesn't fit in atlas (U+%04X; height = %d; char: %s)\n", chr, bmGlyph->bitmap.rows, utf8buf);
+					Output("glyph doesn't fit in atlas (U+%04X; height = %d; char: %s)\n", chr, bmGlyph->bitmap.rows, utf8buf);
 					continue;
 				}
 
@@ -577,7 +577,7 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 	const std::string name = atlas_image_name(GetDescriptor());
 	write_png(FileSystem::userFiles, name.c_str(),
 			&pixBuf[0], FONT_TEXTURE_WIDTH, tex_height, FONT_TEXTURE_WIDTH*tex_bpp, tex_bpp);
-	printf("Font atlas written to '%s'\n", name.c_str());
+	Output("Font atlas written to '%s'\n", name.c_str());
 #endif
 
 	//upload atlas

@@ -9,7 +9,7 @@ bool instantiated = false;
 
 LuaManager::LuaManager() : m_lua(0) {
 	if (instantiated) {
-		fprintf(stderr, "Can't instantiate more than one LuaManager");
+		Output("Can't instantiate more than one LuaManager");
 		abort();
 	}
 

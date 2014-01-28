@@ -155,14 +155,14 @@ void TextureBuilder::PrepareSurface()
 			unsigned long height = ceil_pow2(m_surface->h);
 
 			if (width != virtualWidth || height != virtualHeight)
-				fprintf(stderr, "WARNING: texture '%s' is not power-of-two and may not display correctly\n", m_filename.c_str());
+				Output("WARNING: texture '%s' is not power-of-two and may not display correctly\n", m_filename.c_str());
 		}
 	} else {
 		switch(m_dds.GetTextureFormat()) {
 		case PicoDDS::FORMAT_DXT1: targetTextureFormat = TEXTURE_DXT1; break;
 		case PicoDDS::FORMAT_DXT5: targetTextureFormat = TEXTURE_DXT5; break;
 		default:
-			fprintf(stderr, "ERROR: DDS texture with invalid format '%s' (only DXT1 and DXT5 are supported)\n", m_filename.c_str());
+			Output("ERROR: DDS texture with invalid format '%s' (only DXT1 and DXT5 are supported)\n", m_filename.c_str());
 			assert(false);
 			return;
 		}
@@ -190,7 +190,7 @@ static size_t LoadDDSFromFile(const std::string &filename, PicoDDS::DDSImage& dd
 {
 	RefCountedPtr<FileSystem::FileData> filedata = FileSystem::gameDataFiles.ReadFile(filename);
 	if (!filedata) {
-		fprintf(stderr, "LoadDDSFromFile: %s: could not read file\n", filename.c_str());
+		Output("LoadDDSFromFile: %s: could not read file\n", filename.c_str());
 		return 0;
 	}
 
@@ -210,7 +210,7 @@ void TextureBuilder::LoadSurface()
 			s = LoadSurfaceFromFile("textures/unknown.png"); 
 		}
 	} else if(m_textureType == TEXTURE_CUBE_MAP) {
-		fprintf(stderr, "LoadSurface: %s: cannot load non-DDS cubemaps\n", m_filename.c_str());
+		Output("LoadSurface: %s: cannot load non-DDS cubemaps\n", m_filename.c_str());
 	}
 
 	// XXX if we can't load the fallback texture, then what?
