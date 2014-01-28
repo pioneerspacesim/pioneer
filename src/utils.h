@@ -24,6 +24,7 @@
 #endif
 
 void Error(const char *format, ...) __attribute((format(printf,1,2))) __attribute((noreturn));
+void Warning(const char *format, ...)  __attribute((format(printf,1,2)));
 
 std::string string_join(std::vector<std::string> &v, std::string sep);
 std::string format_date(double time);

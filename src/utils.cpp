@@ -126,9 +126,23 @@ void Error(const char *format, ...)
 	va_start(ap, format);
 	vsnprintf(buf, sizeof(buf), format, ap);
 	va_end(ap);
-	fprintf(stderr, "Error: %s\n", buf);
-	Gui::Screen::ShowBadError((std::string("Error: ") + buf).c_str());
-	abort();
+
+	fprintf(stderr, "error: %s\n", buf);
+	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Pioneer error", buf, 0);
+
+	exit(1);
+}
+
+void Warning(const char *format, ...)
+{
+	char buf[1024];
+	va_list ap;
+	va_start(ap, format);
+	vsnprintf(buf, sizeof(buf), format, ap);
+	va_end(ap);
+
+	fprintf(stderr, "warning: %s\n", buf);
+	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, "Pioneer warning", buf, 0);
 }
 
 std::string format_distance(double dist, int precision)

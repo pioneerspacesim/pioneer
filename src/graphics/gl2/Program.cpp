@@ -35,7 +35,7 @@ static bool check_glsl_errors(const char *filename, GLuint obj)
 		glGetProgramiv(obj, GL_LINK_STATUS, &status);
 
 	if (status == GL_FALSE) {
-		OS::Error("Error compiling shader: %s:\n%sOpenGL vendor: %s\nOpenGL renderer string: %s",
+		Error("Error compiling shader: %s:\n%sOpenGL vendor: %s\nOpenGL renderer string: %s",
 			filename, infoLog, glGetString(GL_VENDOR), glGetString(GL_RENDERER));
 		return false;
 	}
@@ -58,7 +58,7 @@ struct Shader {
 		RefCountedPtr<FileSystem::FileData> code = FileSystem::gameDataFiles.ReadFile(filename);
 
 		if (!code)
-			OS::Error("Could not load %s", filename.c_str());
+			Error("Could not load %s", filename.c_str());
 
 		// Load some common code
 		RefCountedPtr<FileSystem::FileData> logzCode = FileSystem::gameDataFiles.ReadFile("shaders/gl2/logz.glsl");
@@ -94,7 +94,7 @@ struct Shader {
 		shader = glCreateShader(type);
 		Compile(shader);
 
-		// CheckGLSL may use OS::Warning instead of OS::Error so the game may still (attempt to) run
+		// CheckGLSL may use OS::Warning instead of Error so the game may still (attempt to) run
 		if (!check_glsl_errors(filename.c_str(), shader))
 			throw ShaderException();
 	};

@@ -66,7 +66,7 @@ WindowSDL::WindowSDL(const Graphics::Settings &vs, const std::string &name)
 
 	// 5- abort!
 	if (!ok) {
-		OS::Error("Failed to set video mode: %s", SDL_GetError());
+		Error("Failed to set video mode: %s", SDL_GetError());
 	}
 
 	SDLSurfacePtr surface = LoadSurfaceFromFile(vs.iconFile);

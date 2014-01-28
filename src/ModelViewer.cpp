@@ -130,7 +130,7 @@ void ModelViewer::Run(const std::string &modelName)
 	FileSystem::Init();
 	FileSystem::userFiles.MakeDirectory(""); // ensure the config directory exists
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
-		OS::Error("SDL initialization failed: %s\n", SDL_GetError());
+		Error("SDL initialization failed: %s\n", SDL_GetError());
 	Lua::Init();
 
 	ModManager::Init();

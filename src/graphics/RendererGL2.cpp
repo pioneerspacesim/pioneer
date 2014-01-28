@@ -175,7 +175,7 @@ bool RendererGL2::SwapBuffers()
 			ss << glerr_to_string(err) << '\n';
 			err = glGetError();
 		}
-		OS::Error("%s", ss.str().c_str());
+		Error("%s", ss.str().c_str());
 	}
 #endif
 

@@ -376,7 +376,7 @@ void Pi::Init()
 	sdlInitFlags |= SDL_INIT_NOPARACHUTE;
 #endif
 	if (SDL_Init(sdlInitFlags) < 0) {
-		OS::Error("SDL initialization failed: %s\n", SDL_GetError());
+		Error("SDL initialization failed: %s\n", SDL_GetError());
 	}
 
 	// Do rest of SDL video initialization and create Renderer
