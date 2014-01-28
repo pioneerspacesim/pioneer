@@ -276,8 +276,7 @@ void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d 
 	}
 
 	m_renderer->SetTransform(trans);
-	m_renderer->SetRenderState(Sfx::additiveAlphaState);
-	m_renderer->DrawTriangles(&va, Graphics::vtxColorMaterial, TRIANGLE_FAN);
+	m_renderer->DrawTriangles(&va, Sfx::additiveAlphaState, Graphics::vtxColorMaterial, TRIANGLE_FAN);
 }
 
 void Camera::CalcShadows(const int lightNum, const Body *b, std::vector<Shadow> &shadowsOut) const {

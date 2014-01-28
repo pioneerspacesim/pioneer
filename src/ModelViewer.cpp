@@ -389,7 +389,6 @@ void ModelViewer::CreateTestResources()
 
 void ModelViewer::DrawBackground()
 {
-	m_renderer->SetRenderState(m_bgState);
 	m_renderer->SetOrthographicProjection(0.f, 1.f, 0.f, 1.f, -1.f, 1.f);
 	m_renderer->SetTransform(matrix4x4f::Identity());
 
@@ -405,7 +404,7 @@ void ModelViewer::DrawBackground()
 	va.Add(vector3f(1.f, 1.f, 0.f), top);
 	va.Add(vector3f(0.f, 1.f, 0.f), top);
 
-	m_renderer->DrawTriangles(&va, Graphics::vtxColorMaterial);
+	m_renderer->DrawTriangles(&va, m_bgState, Graphics::vtxColorMaterial);
 }
 
 void AddAxisIndicators(const SceneGraph::Model::TVecMT &mts, std::vector<Graphics::Drawables::Line3D> &lines)
@@ -475,7 +474,7 @@ void ModelViewer::DrawCollisionMesh()
 	//might want to add some offset
 	m_renderer->SetWireFrameMode(true);
 	Graphics::vtxColorMaterial->twoSided = true;
-	m_renderer->DrawTriangles(&va, Graphics::vtxColorMaterial);
+	m_renderer->DrawTriangles(&va, m_bgState, Graphics::vtxColorMaterial);
 	Graphics::vtxColorMaterial->twoSided = false;
 	m_renderer->SetWireFrameMode(false);
 }

@@ -140,6 +140,11 @@ void ScannerWidget::InitObject()
 	m_toggleScanModeConnection = KeyBindings::toggleScanMode.onPress.connect(sigc::mem_fun(this, &ScannerWidget::ToggleMode));
 	m_lastRange = SCANNER_RANGE_MAX * 100.0f;		// force regen
 	GenerateBaseGeometry();
+
+	Graphics::RenderStateDesc rsd;
+	rsd.blendMode = Graphics::BLEND_ALPHA;
+	rsd.depthWrite = false;
+	m_renderState = m_renderer->CreateRenderState(rsd);
 }
 
 ScannerWidget::~ScannerWidget()
@@ -192,7 +197,7 @@ void ScannerWidget::Draw()
 		va.Add(vector3f(m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a), 0.f), green);
 	}
 	va.Add(vector3f(m_x, m_y + SCANNER_YSHRINK * m_y, 0.f), green);
-	m_renderer->DrawTriangles(&va, Graphics::vtxColorMaterial, TRIANGLE_FAN);
+	m_renderer->DrawTriangles(&va, m_renderState, Graphics::vtxColorMaterial, TRIANGLE_FAN);
 
 	// circles and spokes
 	{

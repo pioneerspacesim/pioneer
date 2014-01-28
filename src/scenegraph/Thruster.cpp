@@ -93,10 +93,6 @@ void Thruster::Render(const matrix4x4f &trans, const RenderData *rd)
 	}
 	if (power < 0.001f) return;
 
-	Graphics::Renderer *r = GetRenderer();
-	r->SetTransform(trans);
-	r->SetRenderState(m_renderState);
-
 	m_tMat->diffuse = m_glowMat->diffuse = baseColor * power;
 
 	//directional fade
@@ -106,8 +102,10 @@ void Thruster::Render(const matrix4x4f &trans, const RenderData *rd)
 	m_glowMat->diffuse.a = Easing::Circ::EaseIn(Clamp(vdir.Dot(cdir), 0.f, 1.f), 0.f, 1.f, 1.f) * 255;
 	m_tMat->diffuse.a = 255 - m_glowMat->diffuse.a;
 
-	r->DrawTriangles(m_tVerts.get(), m_tMat.Get());
-	r->DrawTriangles(m_glowVerts.get(), m_glowMat.Get());
+	Graphics::Renderer *r = GetRenderer();
+	r->SetTransform(trans);
+	r->DrawTriangles(m_tVerts.get(), m_renderState, m_tMat.Get());
+	r->DrawTriangles(m_glowVerts.get(), m_renderState, m_glowMat.Get());
 }
 
 void Thruster::Save(NodeDatabase &db)

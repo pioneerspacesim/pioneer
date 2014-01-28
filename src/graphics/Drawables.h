@@ -20,6 +20,7 @@ class Drawable {
 protected:
 	virtual void Draw(Renderer *r) = 0;
 	virtual ~Drawable() { }
+	Graphics::RenderState *m_renderState;
 };
 
 class Circle : public Drawable {
@@ -60,7 +61,6 @@ public:
 private:
 	std::unique_ptr<Graphics::VertexArray> m_vertices;
 	RefCountedPtr<Material> m_material;
-	Graphics::RenderState *m_renderState;
 };
 
 //A three dimensional line between two points
@@ -102,7 +102,7 @@ class TexturedQuad : public Drawable {
 public:
 	TexturedQuad(Graphics::Renderer *r, Graphics::Texture *texture, const vector2f &pos, const vector2f &size);
 	virtual void Draw(Graphics::Renderer *r) {
-		r->DrawTriangles(m_vertices.get(), m_material.get(), TRIANGLE_STRIP);
+		r->DrawTriangles(m_vertices.get(), m_renderState, m_material.get(), TRIANGLE_STRIP);
 	}
 
 	const Graphics::Texture* GetTexture() const { return m_texture.Get(); }

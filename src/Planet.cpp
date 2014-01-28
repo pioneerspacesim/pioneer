@@ -255,8 +255,7 @@ void Planet::DrawGasGiantRings(Renderer *renderer, const matrix4x4d &modelView)
 		GenerateRings(renderer);
 
 	renderer->SetTransform(modelView);
-	renderer->SetRenderState(m_ringState);
-	renderer->DrawTriangles(&m_ringVertices, m_ringMaterial.get(), TRIANGLE_STRIP);
+	renderer->DrawTriangles(&m_ringVertices, m_ringState, m_ringMaterial.get(), TRIANGLE_STRIP);
 }
 
 void Planet::SubRender(Renderer *r, const matrix4x4d &viewTran, const vector3d &camPos)

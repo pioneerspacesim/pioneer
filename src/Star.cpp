@@ -83,8 +83,7 @@ void Star::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	}
 	va.Add(vector3f(0.f, rad, 0.f), dark);
 
-	renderer->SetRenderState(m_haloState);
-	renderer->DrawTriangles(&va, Graphics::vtxColorMaterial, TRIANGLE_FAN);
+	renderer->DrawTriangles(&va, m_haloState, Graphics::vtxColorMaterial, TRIANGLE_FAN);
 
 	TerrainBody::Render(renderer, camera, viewCoords, viewTransform);
 }

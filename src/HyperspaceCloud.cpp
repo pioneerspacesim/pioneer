@@ -163,6 +163,5 @@ void HyperspaceCloud::Render(Renderer *renderer, const Camera *camera, const vec
 	Color outerColor = m_isArrival ? Color::BLUE : Color::RED;
 	outerColor.a = 0;
 	make_circle_thing(*m_graphic.vertices.get(), radius, Color::WHITE, outerColor);
-	renderer->SetRenderState(m_graphic.renderState);
-	renderer->DrawTriangles(m_graphic.vertices.get(), m_graphic.material.get(), TRIANGLE_FAN);
+	renderer->DrawTriangles(m_graphic.vertices.get(), m_graphic.renderState, m_graphic.material.get(), TRIANGLE_FAN);
 }

@@ -311,7 +311,8 @@ void GeoSphere::BuildFirstPatches()
 static const float g_ambient[4] = { 0, 0, 0, 1.0 };
 
 static void DrawAtmosphereSurface(Graphics::Renderer *renderer,
-	const matrix4x4d &modelView, const vector3d &campos, float rad, Graphics::Material *mat)
+	const matrix4x4d &modelView, const vector3d &campos, float rad,
+	Graphics::RenderState *rs, Graphics::Material *mat)
 {
 	const int LAT_SEGS = 20;
 	const int LONG_SEGS = 20;
@@ -345,7 +346,7 @@ static void DrawAtmosphereSurface(Graphics::Renderer *renderer,
 			cos(latDiff),
 			-sin(latDiff)*sinCosTable[i][1]));
 	}
-	renderer->DrawTriangles(&va, mat, Graphics::TRIANGLE_FAN);
+	renderer->DrawTriangles(&va, rs, mat, Graphics::TRIANGLE_FAN);
 
 	/* and wound latitudinal strips */
 	double lat = latDiff;
@@ -359,7 +360,7 @@ static void DrawAtmosphereSurface(Graphics::Renderer *renderer,
 			v.Add(vector3f(sinLat*sinCosTable[i][0], cosLat, -sinLat*sinCosTable[i][1]));
 			v.Add(vector3f(sinLat2*sinCosTable[i][0], cosLat2, -sinLat2*sinCosTable[i][1]));
 		}
-		renderer->DrawTriangles(&v, mat, Graphics::TRIANGLE_STRIP);
+		renderer->DrawTriangles(&v, rs, mat, Graphics::TRIANGLE_STRIP);
 	}
 }
 
@@ -442,8 +443,9 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 			// make atmosphere sphere slightly bigger than required so
 			// that the edges of the pixel shader atmosphere jizz doesn't
 			// show ugly polygonal angles
-			renderer->SetRenderState(m_atmosRenderState);
-			DrawAtmosphereSurface(renderer, trans, campos, m_materialParameters.atmosphere.atmosRadius*1.01, m_atmosphereMaterial.get());
+			DrawAtmosphereSurface(renderer, trans, campos,
+				m_materialParameters.atmosphere.atmosRadius*1.01,
+				m_atmosRenderState, m_atmosphereMaterial.get());
 		}
 	}
 

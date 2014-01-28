@@ -63,8 +63,7 @@ void Billboard::Render(const matrix4x4f &trans, const RenderData *rd)
 	va.Add(m_offset+rotv1, vector2f(1.f, 1.f)); //bottom right
 
 	r->SetTransform(trans);
-	r->SetRenderState(m_renderState);
-	r->DrawTriangles(&va, m_material.Get());
+	r->DrawTriangles(&va, m_renderState, m_material.Get());
 }
 
 }

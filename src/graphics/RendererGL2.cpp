@@ -496,9 +496,11 @@ bool RendererGL2::DrawPoints(int count, const vector3f *points, const Color *col
 	return true;
 }
 
-bool RendererGL2::DrawTriangles(const VertexArray *v, Material *m, PrimitiveType t)
+bool RendererGL2::DrawTriangles(const VertexArray *v, RenderState *rs, Material *m, PrimitiveType t)
 {
 	if (!v || v->position.size() < 3) return false;
+
+	SetRenderState(rs);
 
 	m->Apply();
 	EnableClientStates(v);
@@ -529,7 +531,7 @@ bool RendererGL2::DrawSurface(const Surface *s)
 	return true;
 }
 
-bool RendererGL2::DrawPointSprites(int count, const vector3f *positions, Material *material, float size)
+bool RendererGL2::DrawPointSprites(int count, const vector3f *positions, RenderState *rs, Material *material, float size)
 {
 	if (count < 1 || !material || !material->texture0) return false;
 
@@ -559,7 +561,7 @@ bool RendererGL2::DrawPointSprites(int count, const vector3f *positions, Materia
 		va.Add(pos+rotv3, vector2f(0.f, 1.f)); //bottom left
 		va.Add(pos+rotv2, vector2f(1.f, 1.f)); //bottom right
 	}
-	DrawTriangles(&va, material);
+	DrawTriangles(&va, rs, material);
 
 	return true;
 }

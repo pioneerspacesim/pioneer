@@ -625,6 +625,7 @@ void SectorView::PutFactionLabels(const vector3f &origin)
 
 				if (!m_material) m_material.Reset(m_renderer->CreateMaterial(Graphics::MaterialDescriptor()));
 
+				auto renderState = Gui::Screen::alphaBlendState;
 				{
 					Graphics::VertexArray va(Graphics::ATTRIB_POSITION);
 					va.Add(vector3f(pos.x - 5.f,              pos.y - 5.f,               0));
@@ -632,7 +633,7 @@ void SectorView::PutFactionLabels(const vector3f &origin)
 					va.Add(vector3f(pos.x + labelWidth + 5.f, pos.y - 5.f,               0));
 					va.Add(vector3f(pos.x + labelWidth + 5.f, pos.y - 5.f + labelHeight, 0));
 					m_material->diffuse = Color(13, 13, 31, 166);
-					m_renderer->DrawTriangles(&va, m_material.Get(), Graphics::TRIANGLE_STRIP);
+					m_renderer->DrawTriangles(&va, renderState, m_material.Get(), Graphics::TRIANGLE_STRIP);
 				}
 
 				{
@@ -642,7 +643,7 @@ void SectorView::PutFactionLabels(const vector3f &origin)
 					va.Add(vector3f(pos.x,       pos.y - 8.f, 0));
 					va.Add(vector3f(pos.x + 8.f, pos.y,       0));
 					m_material->diffuse = labelColor;
-					m_renderer->DrawTriangles(&va, m_material.Get(), Graphics::TRIANGLE_STRIP);
+					m_renderer->DrawTriangles(&va, renderState, m_material.Get(), Graphics::TRIANGLE_STRIP);
 				}
 
 				if (labelColor.GetLuminance() > 191) labelColor.a = 204;    // luminance is sometimes a bit overly

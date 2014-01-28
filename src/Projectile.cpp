@@ -269,8 +269,6 @@ void Projectile::Render(Graphics::Renderer *renderer, const Camera *camera, cons
 	m[13] = from.y;
 	m[14] = from.z;
 
-	renderer->SetRenderState(s_renderState);
-
 	// increase visible size based on distance from camera, z is always negative
 	// allows them to be smaller while maintaining visibility for game play
 	const float dist_scale = float(viewCoords.z / -500);
@@ -289,7 +287,7 @@ void Projectile::Render(Graphics::Renderer *renderer, const Camera *camera, cons
 
 	if (color.a > 3) {
 		s_sideMat->diffuse = color;
-		renderer->DrawTriangles(s_sideVerts.get(), s_sideMat.get());
+		renderer->DrawTriangles(s_sideVerts.get(), s_renderState, s_sideMat.get());
 	}
 
 	// fade out glow quads when viewing nearly edge on
@@ -299,7 +297,7 @@ void Projectile::Render(Graphics::Renderer *renderer, const Camera *camera, cons
 
 	if (color.a > 3) {
 		s_glowMat->diffuse = color;
-		renderer->DrawTriangles(s_glowVerts.get(), s_glowMat.get());
+		renderer->DrawTriangles(s_glowVerts.get(), s_renderState, s_glowMat.get());
 	}
 }
 

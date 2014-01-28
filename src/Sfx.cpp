@@ -128,8 +128,7 @@ void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
 		} case TYPE_DAMAGE: {
 			renderer->SetTransform(matrix4x4d::Translation(fpos));
 			damageParticle->diffuse = Color(255, 255, 0, (1.0f-(m_age/2.0f))*255);
-			renderer->SetRenderState(additiveAlphaState);
-			renderer->DrawPointSprites(1, &pos, damageParticle, 20.f);
+			renderer->DrawPointSprites(1, &pos, additiveAlphaState, damageParticle, 20.f);
 			break;
 		} case TYPE_SMOKE: {
 			float var = Pi::rng.Double()*0.05f; //slightly variation to trail color
@@ -145,8 +144,7 @@ void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
 			renderer->SetTransform(matrix4x4d::Translation(fpos));
 
 			damageParticle->diffuse*=0.05;
-			renderer->SetRenderState(alphaState);
-			renderer->DrawPointSprites(1, &pos, smokeParticle, (m_speed*m_age));
+			renderer->DrawPointSprites(1, &pos, alphaState, smokeParticle, (m_speed*m_age));
 			break;
 		}
 	}

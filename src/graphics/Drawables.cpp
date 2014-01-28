@@ -9,8 +9,9 @@ namespace Graphics {
 namespace Drawables {
 
 Disk::Disk(Graphics::Renderer *r, Graphics::RenderState *state, const Color &c, float rad)
-	: m_renderState(state)
 {
+	m_renderState = state;
+
 	m_vertices.reset(new VertexArray(ATTRIB_POSITION));
 	m_material.Reset(r->CreateMaterial(MaterialDescriptor()));
 	m_material->diffuse = c;
@@ -26,8 +27,9 @@ Disk::Disk(Graphics::Renderer *r, Graphics::RenderState *state, const Color &c, 
 
 Disk::Disk(RefCountedPtr<Material> material, Graphics::RenderState *state, const int numEdges/*=72*/, const float radius/*=1.0f*/)
 	: m_material(material)
-	, m_renderState(state)
 {
+	m_renderState = state;
+
 	m_vertices.reset(new VertexArray(ATTRIB_POSITION));
 
 	m_vertices->Add(vector3f(0.f, 0.f, 0.f));
@@ -42,8 +44,7 @@ Disk::Disk(RefCountedPtr<Material> material, Graphics::RenderState *state, const
 
 void Disk::Draw(Renderer *r)
 {
-	r->SetRenderState(m_renderState);
-	r->DrawTriangles(m_vertices.get(), m_material.Get(), TRIANGLE_FAN);
+	r->DrawTriangles(m_vertices.get(), m_renderState, m_material.Get(), TRIANGLE_FAN);
 }
 
 void Disk::SetColor(const Color &c)

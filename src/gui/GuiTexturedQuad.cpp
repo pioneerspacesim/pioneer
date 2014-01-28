@@ -5,6 +5,7 @@
 #include "graphics/Renderer.h"
 #include "graphics/Material.h"
 #include "graphics/VertexArray.h"
+#include "GuiScreen.h"
 
 using namespace Graphics;
 
@@ -37,7 +38,7 @@ void TexturedQuad::Draw(Graphics::Renderer *renderer, const vector2f &pos, const
 		m_material->texture0 = m_texture.Get();
 	}
 	m_material->diffuse = tint;
-	renderer->DrawTriangles(m_va.get(), m_material.get(), TRIANGLE_STRIP);
+	renderer->DrawTriangles(m_va.get(), Gui::Screen::alphaBlendState, m_material.get(), TRIANGLE_STRIP);
 }
 
 }
