@@ -226,6 +226,14 @@ void Ship::Init()
 	InitGun("tag_gunmount_0", 0);
 	InitGun("tag_gunmount_1", 1);
 
+	// If we've got the tag_landing set then use it for an offset otherwise grab the AABB
+	const SceneGraph::MatrixTransform *mt = GetModel()->FindTagByName("tag_landing");
+	if( mt ) {
+		m_landingMinOffset = mt->GetTransform().GetTranslate().y;
+	} else {
+		m_landingMinOffset = GetAabb().min.y;
+	}
+
 	InitMaterials();
 }
 
