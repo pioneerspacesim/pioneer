@@ -12,13 +12,35 @@ local ErrorScreen = import("ErrorScreen")
 local ui = Engine.ui
 local l = Lang.GetResource("ui-core");
 
-local setupPlayerShip = function ()
+local setupPlayerSol = function ()
+	Game.player:SetShipType("sinonatrix")
+	Game.player:SetLabel(Ship.MakeRandomLabel())
+	Game.player:AddEquip("PULSECANNON_1MW")
+	Game.player:AddEquip("ATMOSPHERIC_SHIELDING")
+	Game.player:AddEquip("AUTOPILOT")
+	Game.player:AddEquip("SCANNER")
+	Game.player:AddEquip("HYDROGEN", 2)
+	Game.player:SetMoney(100)
+end
+
+local setupPlayerEridani = function ()
+	Game.player:SetShipType("pumpkinseed")
+	Game.player:SetLabel(Ship.MakeRandomLabel())
+	Game.player:AddEquip("PULSECANNON_1MW")
+	Game.player:AddEquip("ATMOSPHERIC_SHIELDING")
+	Game.player:AddEquip("AUTOPILOT")
+	Game.player:AddEquip("SCANNER")
+	Game.player:AddEquip("HYDROGEN", 2)
+	Game.player:SetMoney(100)
+end
+
+local setupPlayerBarnard = function ()
 	Game.player:SetShipType("xylophis")
 	Game.player:SetLabel(Ship.MakeRandomLabel())
 	--Game.player:AddEquip("PULSECANNON_1MW")
 	Game.player:AddEquip("ATMOSPHERIC_SHIELDING")
 	Game.player:AddEquip("AUTOPILOT")
-	--Game.player:AddEquip("SCANNER")
+	Game.player:AddEquip("SCANNER")
 	Game.player:AddEquip("HYDROGEN", 2)
 	Game.player:SetMoney(100)
 end
@@ -54,9 +76,9 @@ local doSettingsScreen = function()
 end
 
 local buttonDefs = {
-	{ l.START_AT_EARTH,         function () Game.StartGame(SystemPath.New(0,0,0,0,9),48600)   setupPlayerShip() end },
-	{ l.START_AT_NEW_HOPE,      function () Game.StartGame(SystemPath.New(1,-1,-1,0,4)) setupPlayerShip() end },
-	{ l.START_AT_BARNARDS_STAR, function () Game.StartGame(SystemPath.New(-1,0,0,0,1))  setupPlayerShip() end },
+	{ l.START_AT_EARTH,         function () Game.StartGame(SystemPath.New(0,0,0,0,9),48600)   setupPlayerSol() end },
+	{ l.START_AT_NEW_HOPE,      function () Game.StartGame(SystemPath.New(1,-1,-1,0,4)) setupPlayerEridani() end },
+	{ l.START_AT_BARNARDS_STAR, function () Game.StartGame(SystemPath.New(-1,0,0,0,1))  setupPlayerBarnard() end },
 	{ l.LOAD_GAME,              doLoadDialog },
 	{ l.OPTIONS,                doSettingsScreen },
 	{ l.QUIT,                   function () Engine.Quit() end },
