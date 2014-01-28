@@ -24,6 +24,7 @@ January 2014
      * Show min/max crew in shipmarket (#2681)
      * Show labels on stations and cargo models (#2680)
      * Show decals on models (#2680)
+     * Improve error reporting (#2694)
 
    * Script and UI API changes
      * Game.StartGame now takes an optional start_time argument (#2615)

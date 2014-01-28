@@ -95,14 +95,14 @@ void DumpVisitor::ApplyStaticGeometry(StaticGeometry &g)
 void DumpVisitor::PutIndent() const
 {
 	for (unsigned int i = 0; i < m_level; i++)
-		std::cout << "  ";
+		Output("  ");
 }
 
 void DumpVisitor::PutNodeName(const Node &g) const
 {
 	if (g.GetName().empty())
-		std::cout << g.GetTypeName() << std::endl;
+		Output("%s\n", g.GetTypeName());
 	else
-		std::cout << g.GetTypeName() << " - " << g.GetName() << std::endl;
+		Output("%s - %s\n", g.GetTypeName(), g.GetName().c_str());
 }
 }

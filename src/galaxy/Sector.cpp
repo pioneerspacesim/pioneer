@@ -179,7 +179,7 @@ Sector::Sector(int x, int y, int z)
 					s.starType[0] = SystemBody::TYPE_BROWN_DWARF;
 				}
 			}
-			//printf("%d: %d%\n", sx, sy);
+			//Output("%d: %d%\n", sx, sy);
 
 			if (s.numStars > 1) {
 				s.starType[1] = SystemBody::BodyType(rng.Int32(SystemBody::TYPE_STAR_MIN, s.starType[0]));
@@ -223,11 +223,11 @@ Sector::Sector(int x, int y, int z)
 				} else if (isqrt(1+sx*sx+sy*sy) > 5) s.starType[0] = SystemBody::TYPE_STAR_M_GIANT;
 				else s.starType[0] = SystemBody::TYPE_STAR_M;
 
-				//printf("%d: %d%\n", sx, sy);
+				//Output("%d: %d%\n", sx, sy);
 			}
 
 			s.name = GenName(s, customCount + i,  rng);
-			//printf("%s: \n", s.name.c_str());
+			//Output("%s: \n", s.name.c_str());
 
 			m_systems.push_back(s);
 		}

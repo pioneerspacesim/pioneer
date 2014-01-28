@@ -90,7 +90,7 @@ void Geom::Collide(Geom *b, void (*callback)(CollisionContact*))
 
 //	t = SDL_GetTicks() - t;
 //	int numEdges = GetGeomTree()->GetNumEdges() + b->GetGeomTree()->GetNumEdges();
-//	printf("%d 'rays' in %dms (%f rps)\n", numEdges, t, 1000.0*numEdges / (double)t);
+//	Output("%d 'rays' in %dms (%f rps)\n", numEdges, t, 1000.0*numEdges / (double)t);
 }
 
 static bool rotatedAabbIsectsNormalOne(Aabb &a, const matrix4x4d &transA, Aabb &b)

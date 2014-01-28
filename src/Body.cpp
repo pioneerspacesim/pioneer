@@ -194,7 +194,7 @@ void Body::UpdateFrame()
 	if (m_frame->GetRadius() < GetPosition().Length()) {
 		Frame *newFrame = GetFrame()->GetParent();
 		if (newFrame) { 						// don't fall out of root frame
-			printf("%s leaves frame %s\n", GetLabel().c_str(), GetFrame()->GetLabel().c_str());
+			Output("%s leaves frame %s\n", GetLabel().c_str(), GetFrame()->GetLabel().c_str());
 			SwitchToFrame(newFrame);
 			return;
 		}
@@ -205,7 +205,7 @@ void Body::UpdateFrame()
 		vector3d pos = GetPositionRelTo(*it);
 		if (pos.Length() >= (*it)->GetRadius()) continue;
 		SwitchToFrame(*it);
-		printf("%s enters frame %s\n", GetLabel().c_str(), (*it)->GetLabel().c_str());
+		Output("%s enters frame %s\n", GetLabel().c_str(), (*it)->GetLabel().c_str());
 		break;
 	}
 }

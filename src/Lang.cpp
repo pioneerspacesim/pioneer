@@ -43,12 +43,12 @@ bool Resource::Load()
 	std::string filename = "lang/" + m_name + "/" + m_langCode + ".json";
 	RefCountedPtr<FileSystem::FileData> fd = FileSystem::gameDataFiles.ReadFile(filename);
 	if (!fd) {
-		fprintf(stderr, "couldn't open language file '%s'\n", filename.c_str());
+		Output("couldn't open language file '%s'\n", filename.c_str());
 		return false;
 	}
 
 	if (!reader.parse(fd->GetData(), fd->GetData()+fd->GetSize(), data)) {
-		fprintf(stderr, "couldn't read language file '%s': %s\n", filename.c_str(), reader.getFormattedErrorMessages().c_str());
+		Output("couldn't read language file '%s': %s\n", filename.c_str(), reader.getFormattedErrorMessages().c_str());
 		return false;
 	}
 
@@ -57,28 +57,28 @@ bool Resource::Load()
 	for (Json::Value::iterator i = data.begin(); i != data.end(); ++i) {
 		const std::string token(i.key().asString());
 		if (token.empty()) {
-			fprintf(stderr, "%s: found empty token, skipping it\n", filename.c_str());
+			Output("%s: found empty token, skipping it\n", filename.c_str());
 			continue;
 		}
 		if (!valid_token(token)) {
-			fprintf(stderr, "%s: invalid token '%s', skipping it\n", filename.c_str(), token.c_str());
+			Output("%s: invalid token '%s', skipping it\n", filename.c_str(), token.c_str());
 			continue;
 		}
 
 		Json::Value message((*i).get("message", Json::nullValue));
 		if (message.isNull()) {
-			fprintf(stderr, "%s: no 'message' key for token '%s', skipping it\n", filename.c_str(), token.c_str());
+			Output("%s: no 'message' key for token '%s', skipping it\n", filename.c_str(), token.c_str());
 			continue;
 		}
 
 		if (!message.isString()) {
-			fprintf(stderr, "%s: value for token '%s' is not a string, skipping it\n", filename.c_str(), token.c_str());
+			Output("%s: value for token '%s' is not a string, skipping it\n", filename.c_str(), token.c_str());
 			continue;
 		}
 
 		std::string text(message.asString());
 		if (text.empty()) {
-			fprintf(stderr, "%s: empty value for token '%s', skipping it\n", filename.c_str(), token.c_str());
+			Output("%s: empty value for token '%s', skipping it\n", filename.c_str(), token.c_str());
 			continue;
 		}
 
@@ -187,12 +187,12 @@ void MakeCore(Resource &res)
 		std::string text = res.Get(token);
 
 		if (text.empty()) {
-			fprintf(stderr, "%s/%s: token '%s' not found\n", res.GetName().c_str(), res.GetLangCode().c_str(), token.c_str());
+			Output("%s/%s: token '%s' not found\n", res.GetName().c_str(), res.GetLangCode().c_str(), token.c_str());
 			text = token;
 		}
 
 		if (text.size() > size_t(STRING_RECORD_SIZE)) {
-			fprintf(stderr, "%s/%s: text for token '%s' is too long and will be truncated\n", res.GetName().c_str(), res.GetLangCode().c_str(), token.c_str());
+			Output("%s/%s: text for token '%s' is too long and will be truncated\n", res.GetName().c_str(), res.GetLangCode().c_str(), token.c_str());
 			text.resize(STRING_RECORD_SIZE);
 		}
 
@@ -223,13 +223,13 @@ Resource GetResource(const std::string &name, const std::string &langCode)
 	bool loaded = res.Load();
 	if (!loaded) {
 		if (langCode != "en") {
-			fprintf(stderr, "couldn't load language resource %s/%s, trying %s/en\n", name.c_str(), langCode.c_str(), name.c_str());
+			Output("couldn't load language resource %s/%s, trying %s/en\n", name.c_str(), langCode.c_str(), name.c_str());
 			res = Lang::Resource(name, "en");
 			loaded = res.Load();
 			key = name + ":" + "en";
 		}
 		if (!loaded)
-			fprintf(stderr, "couldn't load language resource %s/en\n", name.c_str());
+			Output("couldn't load language resource %s/en\n", name.c_str());
 	}
 
 	if (loaded)

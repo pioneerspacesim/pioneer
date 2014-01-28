@@ -120,7 +120,7 @@ double TerrainHeightFractal<TerrainHeightMapped>::GetHeight(const vector3d &p) c
 			//v = v;
 		} else if (v <60.0){
 			v += (v-40.0)*billow_octavenoise(GetFracDef(5-m_fracnum), 0.5, p);
-			//printf("V/height: %f\n", Clamp(v-20.0, 0.0, 1.0));
+			//Output("V/height: %f\n", Clamp(v-20.0, 0.0, 1.0));
 		} else {
 			v += (30.0/v)*(30.0/v)*(30.0/v)*20.0*billow_octavenoise(GetFracDef(5-m_fracnum), 0.5, p);
 		}

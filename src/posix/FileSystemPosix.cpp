@@ -3,6 +3,7 @@
 
 #include "libs.h"
 #include "FileSystem.h"
+#include "utils.h"
 #include <cassert>
 #include <algorithm>
 #include <cerrno>
@@ -30,7 +31,7 @@ namespace FileSystem {
 			std::unique_ptr<char, FreeDeleter> buf(static_cast<char*>(std::malloc(bufsize)));
 			char *cwd = getcwd(buf.get(), bufsize);
 			if (!cwd) {
-				fprintf(stderr, "failed to get current working directory\n");
+				Output("failed to get current working directory\n");
 				abort();
 			}
 
@@ -131,13 +132,13 @@ namespace FileSystem {
 			char *data = static_cast<char*>(std::malloc(sz));
 			if (!data) {
 				// XXX handling memory allocation failure gracefully is too hard right now
-				fprintf(stderr, "failed when allocating buffer for '%s'\n", fullpath.c_str());
+				Output("failed when allocating buffer for '%s'\n", fullpath.c_str());
 				fclose(fl);
 				abort();
 			}
 			size_t read_size = fread(data, 1, sz, fl);
 			if (read_size != size_t(sz)) {
-				fprintf(stderr, "file '%s' truncated!\n", fullpath.c_str());
+				Output("file '%s' truncated!\n", fullpath.c_str());
 				memset(data + read_size, 0xee, sz - read_size);
 			}
 			fclose(fl);
