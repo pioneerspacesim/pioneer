@@ -6,6 +6,7 @@
 #include "libs.h"
 #include "FileSystem.h"
 #include "TextUtils.h"
+#include "utils.h"
 #include <cassert>
 #include <algorithm>
 #include <cerrno>
