@@ -295,60 +295,6 @@ bool RendererGL2::SetProjection(const matrix4x4f &m)
 	return true;
 }
 
-bool RendererGL2::SetBlendMode(BlendMode m)
-{
-	switch (m) {
-	case BLEND_SOLID:
-		glDisable(GL_BLEND);
-		glBlendFunc(GL_ONE, GL_ZERO);
-		break;
-	case BLEND_ADDITIVE:
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_ONE, GL_ONE);
-		break;
-	case BLEND_ALPHA:
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		break;
-	case BLEND_ALPHA_ONE:
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-		break;
-	case BLEND_ALPHA_PREMULT:
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-		break;
-	case BLEND_SET_ALPHA:
-		glEnable(GL_BLEND);
-		glBlendFuncSeparate(GL_ZERO, GL_ONE, GL_SRC_COLOR, GL_ZERO);
-		break;
-	case BLEND_DEST_ALPHA:
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_DST_ALPHA, GL_ONE_MINUS_DST_ALPHA);
-	default:
-		return false;
-	}
-	return true;
-}
-
-bool RendererGL2::SetDepthTest(bool enabled)
-{
-	if (enabled)
-		glEnable(GL_DEPTH_TEST);
-	else
-		glDisable(GL_DEPTH_TEST);
-	return true;
-}
-
-bool RendererGL2::SetDepthWrite(bool enabled)
-{
-	if (enabled)
-		glDepthMask(GL_TRUE);
-	else
-		glDepthMask(GL_FALSE);
-	return true;
-}
-
 bool RendererGL2::SetWireFrameMode(bool enabled)
 {
 	glPolygonMode(GL_FRONT_AND_BACK, enabled ? GL_LINE : GL_FILL);

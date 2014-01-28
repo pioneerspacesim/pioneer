@@ -126,11 +126,6 @@ public:
 
 	virtual bool SetRenderState(RenderState*) { return false; }
 
-	//render state functions
-	virtual bool SetBlendMode(BlendMode type) { return false; }
-	virtual bool SetDepthTest(bool enabled) { return false; }
-	//enable/disable writing to z buffer
-	virtual bool SetDepthWrite(bool enabled) { return false; }
 	virtual bool SetWireFrameMode(bool enabled) { return false; }
 
 	virtual bool SetLightsEnabled(const bool enabled) { return false; }
