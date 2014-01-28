@@ -33,7 +33,6 @@ void Projectile::BuildModel()
 	//set up materials
 	Graphics::MaterialDescriptor desc;
 	desc.textures = 1;
-	desc.twoSided = true;
 	s_sideMat.reset(Pi::renderer->CreateMaterial(desc));
 	s_glowMat.reset(Pi::renderer->CreateMaterial(desc));
 	s_sideMat->texture0 = Graphics::TextureBuilder::Billboard("textures/projectile_l.png").GetOrCreateTexture(Pi::renderer, "billboard");
@@ -95,6 +94,7 @@ void Projectile::BuildModel()
 	Graphics::RenderStateDesc rsd;
 	rsd.blendMode = Graphics::BLEND_ALPHA_ONE;
 	rsd.depthWrite = false;
+	rsd.cullMode = Graphics::CULL_NONE;
 	s_renderState = Pi::renderer->CreateRenderState(rsd);
 }
 

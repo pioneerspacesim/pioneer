@@ -729,7 +729,6 @@ Material *RendererGL2::CreateMaterial(const MaterialDescriptor &d)
 			mat = new GL2::LitMultiMaterial();
 		else
 			mat = new GL2::MultiMaterial();
-		mat->twoSided = desc.twoSided; //other mats don't care about this
 	}
 
 	mat->m_renderer = this;

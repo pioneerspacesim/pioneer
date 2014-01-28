@@ -71,7 +71,6 @@ void Shields::Init(Graphics::Renderer *renderer)
 	Graphics::MaterialDescriptor desc;
 	desc.textures = 0;
 	desc.lighting = true;
-	desc.twoSided = false;
 	desc.alphaTest = false;
 	desc.effect = Graphics::EffectType::EFFECT_SHIELD;
 	s_matShield.Reset(renderer->CreateMaterial(desc));

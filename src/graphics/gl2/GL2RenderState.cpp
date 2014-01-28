@@ -1,6 +1,9 @@
 #include "graphics/gl2/GL2RenderState.h"
 
-namespace Graphics { namespace GL2 {
+namespace Graphics
+{
+namespace GL2
+{
 
 RenderState::RenderState(const RenderStateDesc &d)
 	: Graphics::RenderState(d)
@@ -41,7 +44,16 @@ void RenderState::Apply()
 		break;
 	}
 
-	//TODO cull mode (move from material)
+	if (m_desc.cullMode == CULL_BACK) {
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
+	} else if (m_desc.cullMode == CULL_FRONT) {
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_FRONT);
+	} else {
+		glDisable(GL_CULL_FACE);
+	}
+
 
 	if (m_desc.depthTest)
 		glEnable(GL_DEPTH_TEST);

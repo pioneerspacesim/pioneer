@@ -237,13 +237,13 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 	Graphics::MaterialDescriptor desc;
 	desc.effect = Graphics::EFFECT_PLANETRING;
 	desc.lighting = true;
-	desc.twoSided = true;
 	desc.textures = 1;
 	m_ringMaterial.reset(renderer->CreateMaterial(desc));
 	m_ringMaterial->texture0 = m_ringTexture.Get();
 
 	Graphics::RenderStateDesc rsd;
 	rsd.blendMode = Graphics::BLEND_ALPHA_PREMULT;
+	rsd.cullMode = Graphics::CULL_NONE;
 	m_ringState = renderer->CreateRenderState(rsd);
 }
 

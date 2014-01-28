@@ -116,6 +116,7 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm)
 	//for grid, background
 	Graphics::RenderStateDesc rsd;
 	rsd.depthWrite = false;
+	rsd.cullMode = Graphics::CULL_NONE;
 	m_bgState = m_renderer->CreateRenderState(rsd);
 }
 
@@ -473,9 +474,7 @@ void ModelViewer::DrawCollisionMesh()
 
 	//might want to add some offset
 	m_renderer->SetWireFrameMode(true);
-	Graphics::vtxColorMaterial->twoSided = true;
 	m_renderer->DrawTriangles(&va, m_bgState, Graphics::vtxColorMaterial);
-	Graphics::vtxColorMaterial->twoSided = false;
 	m_renderer->SetWireFrameMode(false);
 }
 

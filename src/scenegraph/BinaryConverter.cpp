@@ -186,7 +186,6 @@ void BinaryConverter::SaveMaterials(Serializer::Writer& wr, Model* model)
 		wr.Int16(m.shininess);
 		wr.Int16(m.opacity);
 		wr.Bool(m.alpha_test);
-		wr.Bool(m.two_sided);
 		wr.Bool(m.unlit);
 		wr.Bool(m.use_pattern);
 	}
@@ -207,7 +206,6 @@ void BinaryConverter::LoadMaterials(Serializer::Reader &rd)
 		m.shininess = rd.Int16();
 		m.opacity = rd.Int16();
 		m.alpha_test = rd.Bool();
-		m.two_sided = rd.Bool();
 		m.unlit = rd.Bool();
 		m.use_pattern = rd.Bool();
 

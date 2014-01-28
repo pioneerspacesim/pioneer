@@ -54,7 +54,6 @@ public:
 	bool glowMap;
 	bool lighting;
 	bool specularMap;
-	bool twoSided;
 	bool usePatterns; //pattern/color system
 	bool vertexColors;
 	Sint32 textures; //texture count
@@ -86,9 +85,6 @@ public:
 
 	virtual void Apply() { }
 	virtual void Unapply() { }
-
-	//in practice disables backface culling
-	bool twoSided;
 
 	void *specialParameter0; //this can be whatever. Bit of a hack.
 
