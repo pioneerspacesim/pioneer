@@ -21,6 +21,7 @@
 #include "StringF.h"
 #include "galaxy/StarSystem.h"
 #include "graphics/Graphics.h"
+#include "scenegraph/ModelSkin.h"
 #include <algorithm>
 
 void SpaceStation::Init()
@@ -162,12 +163,18 @@ void SpaceStation::InitStation()
 	if (!GetModel())
 		SetModel(m_type->modelName.c_str());
 
-	m_navLights.reset(new NavLights(GetModel(), 2.2f));
+	SceneGraph::Model *model = GetModel();
+
+	m_navLights.reset(new NavLights(model, 2.2f));
 	m_navLights->SetEnabled(true);
 
 	if (ground) SetClipRadius(CITY_ON_PLANET_RADIUS);		// overrides setmodel
 
-	m_doorAnimation = GetModel()->FindAnimation("doors");
+	m_doorAnimation = model->FindAnimation("doors");
+
+	SceneGraph::ModelSkin skin;
+	skin.SetDecal("pioneer");
+	skin.Apply(model);
 }
 
 SpaceStation::~SpaceStation()

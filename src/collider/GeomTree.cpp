@@ -98,7 +98,7 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, Uint16 *indices, 
 	//int t = SDL_GetTicks();
 	m_triTree = new BVHTree(activeTris.size(), &activeTris[0], aabbs);
 	delete [] aabbs;
-	//printf("Tri tree of %d tris build in %dms\n", activeTris.size(), SDL_GetTicks() - t);
+	//Output("Tri tree of %d tris build in %dms\n", activeTris.size(), SDL_GetTicks() - t);
 
 	m_numEdges = edges.size();
 	m_edges = new Edge[m_numEdges];
@@ -132,7 +132,7 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, Uint16 *indices, 
 	m_edgeTree = new BVHTree(m_numEdges, edgeIdxs, aabbs);
 	delete [] aabbs;
 	delete [] edgeIdxs;
-	//printf("Edge tree of %d edges build in %dms\n", m_numEdges, SDL_GetTicks() - t);
+	//Output("Edge tree of %d edges build in %dms\n", m_numEdges, SDL_GetTicks() - t);
 }
 
 static bool SlabsRayAabbTest(const BVHNode *n, const vector3f &start, const vector3f &invDir, isect_t *isect)

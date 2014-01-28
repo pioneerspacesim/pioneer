@@ -4,6 +4,7 @@
 #include "libs.h"
 #include "Pi.h"
 #include "ModelViewer.h"
+#include "utils.h"
 #include <cstdio>
 
 enum RunMode {
@@ -73,16 +74,16 @@ start:
 		case MODE_VERSION: {
 			std::string version(PIONEER_VERSION);
 			if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
-			fprintf(stderr, "pioneer %s\n", version.c_str());
+			Output("pioneer %s\n", version.c_str());
 			break;
 		}
 
 		case MODE_USAGE_ERROR:
-			fprintf(stderr, "pioneer: unknown mode %s\n", argv[1]);
+			Output("pioneer: unknown mode %s\n", argv[1]);
 			// fall through
 
 		case MODE_USAGE:
-			fprintf(stderr,
+			Output(
 				"usage: pioneer [mode] [options...]\n"
 				"available modes:\n"
 				"    -game        [-g]     game (default)\n"

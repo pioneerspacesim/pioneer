@@ -15,6 +15,7 @@
 #include "graphics/Graphics.h"
 #include "scenegraph/Model.h"
 #include "scenegraph/SceneGraph.h"
+#include "scenegraph/ModelSkin.h"
 #include <set>
 
 static const unsigned int DEFAULT_NUM_BUILDINGS = 1000;
@@ -185,7 +186,7 @@ static void lookupBuildingListModels(citybuildinglist_t *list)
 		}
 	}
 	assert(!models.empty());
-	//printf("Got %d buildings of tag %s\n", models.size(), list->modelTagName);
+	//Output("Got %d buildings of tag %s\n", models.size(), list->modelTagName);
 	list->buildings = new citybuilding_t[models.size()];
 	list->numBuildings = models.size();
 
@@ -197,7 +198,7 @@ static void lookupBuildingListModels(citybuildinglist_t *list)
 		const double maxx = std::max(fabs(aabb.max.x), fabs(aabb.min.x));
 		const double maxy = std::max(fabs(aabb.max.z), fabs(aabb.min.z));
 		list->buildings[i].xzradius = sqrt(maxx*maxx + maxy*maxy);
-		//printf("%s: %f\n", list->buildings[i].modelname, list->buildings[i].xzradius);
+		//Output("%s: %f\n", list->buildings[i].modelname, list->buildings[i].xzradius);
 	}
 }
 

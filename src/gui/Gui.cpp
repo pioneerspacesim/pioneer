@@ -124,35 +124,6 @@ void Uninit()
 	Screen::Uninit();
 }
 
-void MainLoopIteration()
-{
-	PROFILE_SCOPED()
-
-	Graphics::Renderer *r = Gui::Screen::GetRenderer();
-
-	r->SetMatrixMode(Graphics::MatrixMode::PROJECTION);
-	r->LoadIdentity();
-	r->SetMatrixMode(Graphics::MatrixMode::MODELVIEW);
-	r->LoadIdentity();
-
-	glClearColor(0,0,0,0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	// handle events
-	SDL_Event event;
-	while (SDL_PollEvent(&event)) {
-		Gui::HandleSDLEvent(&event);
-		if (event.type == SDL_QUIT) {
-			SDL_Quit();
-			exit(0);
-		}
-	}
-
-	SDL_ShowCursor(1);
-	r->GetWindow()->SetGrab(false);
-	Gui::Draw();
-	r->GetWindow()->SwapBuffers();
-}
-
 namespace Theme {
 	namespace Colors {
 		const Color bg(64, 94, 161);

@@ -166,11 +166,11 @@ Model *BinaryConverter::CreateModel(Serializer::Reader &rd)
 	return m_model;
 }
 
-void BinaryConverter::SaveMaterials(Serializer::Writer& wr, Model* m)
+void BinaryConverter::SaveMaterials(Serializer::Writer& wr, Model* model)
 {
 	//Look for the .model definition and parse it
 	//for material definitions
-	const ModelDefinition &modelDef = FindModelDefinition(m->GetName());
+	const ModelDefinition &modelDef = FindModelDefinition(model->GetName());
 
 	wr.Int32(modelDef.matDefs.size());
 
@@ -310,7 +310,7 @@ ModelDefinition BinaryConverter::FindModelDefinition(const std::string &shortnam
 					p.Parse(&modelDefinition);
 					return modelDefinition;
 				} catch (ParseError &err) {
-					fprintf(stderr, "%s\n", err.what());
+					Output("%s\n", err.what());
 					throw LoadingError(err.what());
 				}
 			}
@@ -323,7 +323,7 @@ Node* BinaryConverter::LoadNode(Serializer::Reader &rd)
 {
 	const std::string ntype = rd.String();
 	const std::string nname = rd.String();
-	//printf("Loading: %s %s\n", ntype.c_str(), nname.c_str());
+	//Output("Loading: %s %s\n", ntype.c_str(), nname.c_str());
 	const Uint32 nmask = rd.Int32();
 	const Uint32 nflags = rd.Int32();
 	Node* node = nullptr;
@@ -335,7 +335,7 @@ Node* BinaryConverter::LoadNode(Serializer::Reader &rd)
 
 	auto loadFuncIt = m_loaders.find(ntype);
 	if (loadFuncIt == m_loaders.end()) {
-		printf("No loader for: %s\n", ntype.c_str());
+		Output("No loader for: %s\n", ntype.c_str());
 		return new Group(m_renderer);
 	}
 

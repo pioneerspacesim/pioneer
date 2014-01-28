@@ -6,6 +6,7 @@
 #include "libs.h"
 #include "FileSystem.h"
 #include "TextUtils.h"
+#include "utils.h"
 #include <cassert>
 #include <algorithm>
 #include <cerrno>
@@ -32,7 +33,7 @@ namespace FileSystem {
 	{
 		wchar_t appdata_path[MAX_PATH];
 		if (SHGetFolderPathW(0, CSIDL_PERSONAL, 0, SHGFP_TYPE_CURRENT, appdata_path) != S_OK) {
-			fprintf(stderr, "Couldn't get user documents folder path\n");
+			Output("Couldn't get user documents folder path\n");
 			exit(-1);
 		}
 
@@ -42,7 +43,7 @@ namespace FileSystem {
 		if (!PathFileExistsW(path.c_str())) {
 			if (SHCreateDirectoryExW(0, path.c_str(), 0) != ERROR_SUCCESS) {
 				std::string utf8path = transcode_utf16_to_utf8(path);
-				fprintf(stderr, "Couldn't create user game folder '%s'", utf8path.c_str());
+				Output("Couldn't create user game folder '%s'", utf8path.c_str());
 				exit(-1);
 			}
 		}
@@ -117,7 +118,7 @@ namespace FileSystem {
 		else {
 			LARGE_INTEGER large_size;
 			if (!GetFileSizeEx(filehandle, &large_size)) {
-				fprintf(stderr, "failed to get file size for '%s'\n", fullpath.c_str());
+				Output("failed to get file size for '%s'\n", fullpath.c_str());
 				CloseHandle(filehandle);
 				abort();
 			}
@@ -126,13 +127,13 @@ namespace FileSystem {
 			char *data = static_cast<char*>(std::malloc(size));
 			if (!data) {
 				// XXX handling memory allocation failure gracefully is too hard right now
-				fprintf(stderr, "failed when allocating buffer for '%s'\n", fullpath.c_str());
+				Output("failed when allocating buffer for '%s'\n", fullpath.c_str());
 				CloseHandle(filehandle);
 				abort();
 			}
 
 			if (size > 0x7FFFFFFFull) {
-				fprintf(stderr, "file '%s' is too large (can't currently cope with files > 2GB)\n", fullpath.c_str());
+				Output("file '%s' is too large (can't currently cope with files > 2GB)\n", fullpath.c_str());
 				CloseHandle(filehandle);
 				abort();
 			}
@@ -140,12 +141,12 @@ namespace FileSystem {
 			DWORD read_size;
 			BOOL ret = ::ReadFile(filehandle, static_cast<LPVOID>(data), (DWORD)size, &read_size, 0);
 			if (!ret) {
-				fprintf(stderr, "error while reading file '%s'\n", fullpath.c_str());
+				Output("error while reading file '%s'\n", fullpath.c_str());
 				CloseHandle(filehandle);
 				abort();
 			}
 			if (size_t(read_size) != size) {
-				fprintf(stderr, "file '%s' truncated\n", fullpath.c_str());
+				Output("file '%s' truncated\n", fullpath.c_str());
 				memset(data + read_size, 0xee, size - read_size);
 			}
 
@@ -209,7 +210,7 @@ namespace FileSystem {
 						return false;
 					}
 				} else {
-					fprintf(stderr, "error while attempting to create directory '%s'\n", transcode_utf16_to_utf8(path).c_str());
+					Output("error while attempting to create directory '%s'\n", transcode_utf16_to_utf8(path).c_str());
 					return false;
 				}
 			}

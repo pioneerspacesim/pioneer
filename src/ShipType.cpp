@@ -83,7 +83,7 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 	lua_pushstring(L, "camera_offset");
 	lua_gettable(L, -2);
 	if (!lua_isnil(L, -1))
-		fprintf(stderr, "ship definition for '%s' has deprecated 'camera_offset' field\n", s.id.c_str());
+		Output("ship definition for '%s' has deprecated 'camera_offset' field\n", s.id.c_str());
 	lua_pop(L, 1);
 	s.cameraOffset = t.Get("camera_offset", vector3d(0.0));
 
@@ -123,7 +123,7 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 		s.effectiveExhaustVelocity = GetEffectiveExhaustVelocity(s.fuelTankMass, thruster_fuel_use, s.linThrust[ShipType::THRUSTER_FORWARD]);
 	} else {
 		if(thruster_fuel_use >= 0)
-			printf("Warning: Both thruster_fuel_use and effective_exhaust_velocity defined for %s, using effective_exhaust_velocity.\n", s.modelName.c_str());
+			Output("Warning: Both thruster_fuel_use and effective_exhaust_velocity defined for %s, using effective_exhaust_velocity.\n", s.modelName.c_str());
 	}
 
 	s.baseprice = t.Get("price", 0);
@@ -154,7 +154,7 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 	lua_pushstring(L, "gun_mounts");
 	lua_gettable(L, -2);
 	if (lua_istable(L, -1)) {
-		fprintf(stderr, "ship definition for '%s' has deprecated 'gun_mounts' field\n", s.id.c_str());
+		Output("ship definition for '%s' has deprecated 'gun_mounts' field\n", s.id.c_str());
 		for (unsigned int i=0; i<lua_rawlen(L,-1); i++) {
 			lua_pushinteger(L, i+1);
 			lua_gettable(L, -2);

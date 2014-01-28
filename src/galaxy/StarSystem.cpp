@@ -514,7 +514,7 @@ SystemBody::BodySuperType SystemBody::GetSuperType() const
 		case TYPE_GRAVPOINT:
              return SUPERTYPE_NONE;
         default:
-             fprintf( stderr, "Warning: Invalid SuperBody Type found.\n");
+             Output("Warning: Invalid SuperBody Type found.\n");
              return SUPERTYPE_NONE;
 	}
 }
@@ -650,7 +650,7 @@ std::string SystemBody::GetAstroDescription() const
 		return Lang::STARPORT;
 	case TYPE_GRAVPOINT:
     default:
-        fprintf( stderr, "Warning: Invalid Astro Body Description found.\n");
+        Output("Warning: Invalid Astro Body Description found.\n");
         return Lang::UNKNOWN;
 	}
 }
@@ -778,7 +778,7 @@ const char *SystemBody::GetIcon() const
 	case TYPE_GRAVPOINT:
 	case TYPE_STARPORT_SURFACE:
     default:
-        fprintf( stderr, "Warning: Invalid body icon.\n");
+        Output("Warning: Invalid body icon.\n");
 		return 0;
 	}
 }
@@ -1263,8 +1263,8 @@ void SystemBody::PickAtmosphere()
 				m_atmosColor = Color(0);
 			}
 			m_atmosDensity = m_volatileGas.ToDouble();
-			//printf("| Atmosphere :\n|      red   : [%f] \n|      green : [%f] \n|      blue  : [%f] \n", r, g, b);
-			//printf("-------------------------------\n");
+			//Output("| Atmosphere :\n|      red   : [%f] \n|      green : [%f] \n|      blue  : [%f] \n", r, g, b);
+			//Output("-------------------------------\n");
 			break;
 		/*default:
 			m_atmosColor = Color(0.6f, 0.6f, 0.6f, 1.0f);
@@ -1610,7 +1610,7 @@ void StarSystem::Dump()
 				1.0, 1.0, 1.0);
 	}
 	fclose(f);
-	printf("Junk dumped to starsystem.dump\n");
+	Output("Junk dumped to starsystem.dump\n");
 }
 #endif /* DEBUG_DUMP */
 
@@ -1728,7 +1728,7 @@ void StarSystem::MakePlanetsAround(SystemBody *primary, Random &rand)
 
 	//fixed discDensity = 20*rand.NFixed(4);
 
-	//printf("Around %s: Range %f -> %f AU\n", primary->name.c_str(), discMin.ToDouble(), discMax.ToDouble());
+	//Output("Around %s: Range %f -> %f AU\n", primary->name.c_str(), discMin.ToDouble(), discMax.ToDouble());
 
 	fixed initialJump = rand.NFixed(5);
 	fixed pos = (fixed(1,1) - initialJump)*discMin + (initialJump*discMax);
@@ -1749,7 +1749,7 @@ void StarSystem::MakePlanetsAround(SystemBody *primary, Random &rand)
 			mass *= rand.Fixed() * discDensity;
 		}
 		if (mass < 0) {// hack around overflow
-			fprintf(stderr, "WARNING: planetary mass has overflowed! (child of %s)\n", primary->name.c_str());
+			Output("WARNING: planetary mass has overflowed! (child of %s)\n", primary->name.c_str());
 			mass = fixed(Sint64(0x7fFFffFFffFFffFFull));
 		}
 		assert(mass >= 0);
@@ -1880,7 +1880,7 @@ void SystemBody::PickPlanetType(Random &rand)
 		invTidalLockTime /= radius;
 		invTidalLockTime /= (semiMajorAxis * semiMajorAxis)*MOON_TIDAL_LOCK;
 	}
-	//printf("tidal lock of %s: %.5f, a %.5f R %.4f mp %.3f ms %.3f\n", name.c_str(),
+	//Output("tidal lock of %s: %.5f, a %.5f R %.4f mp %.3f ms %.3f\n", name.c_str(),
 	//		invTidalLockTime.ToFloat(), semiMajorAxis.ToFloat(), radius.ToFloat(), parent->mass.ToFloat(), mass.ToFloat());
 
 	if(invTidalLockTime > 10) { // 10x faster than Moon, no chance not to be tidal-locked
@@ -1934,7 +1934,7 @@ void SystemBody::PickPlanetType(Random &rand)
 		// total atmosphere loss
 		if (rand.Fixed() > mass) amount_volatiles = fixed(0);
 
-		//printf("Amount volatiles: %f\n", amount_volatiles.ToFloat());
+		//Output("Amount volatiles: %f\n", amount_volatiles.ToFloat());
 		// fudge how much of the volatiles are in which state
 		greenhouse = fixed(0);
 		albedo = fixed(0);
@@ -1964,7 +1964,7 @@ void SystemBody::PickPlanetType(Random &rand)
 		const fixed proportion_ices = fixed(1,1) - (proportion_gas + proportion_liquid);
 		m_volatileIces = proportion_ices * amount_volatiles;
 
-		//printf("temp %dK, gas:liquid:ices %f:%f:%f\n", averageTemp, proportion_gas.ToFloat(),
+		//Output("temp %dK, gas:liquid:ices %f:%f:%f\n", averageTemp, proportion_gas.ToFloat(),
 		//		proportion_liquid.ToFloat(), proportion_ices.ToFloat());
 
 		if ((m_volatileLiquid > fixed(0)) &&
@@ -2058,7 +2058,7 @@ void StarSystem::Populate(bool addSpaceStations)
 	m_totalPop = fixed(0);
 	rootBody->PopulateStage1(this, m_totalPop);
 
-//	printf("Trading rates:\n");
+//	Output("Trading rates:\n");
 	// So now we have balances of trade of various commodities.
 	// Lets use black magic to turn these into percentage base price
 	// alterations
@@ -2075,9 +2075,9 @@ void StarSystem::Populate(bool addSpaceStations)
 //	for (int i=(int)Equip::FIRST_COMMODITY; i<=(int)Equip::LAST_COMMODITY; i++) {
 //		Equip::Type t = (Equip::Type)i;
 //		const EquipType &type = Equip::types[t];
-//		printf("%s: %d%%\n", type.name, m_tradeLevel[t]);
+//		Output("%s: %d%%\n", type.name, m_tradeLevel[t]);
 //	}
-//	printf("System total population %.3f billion\n", m_totalPop.ToFloat());
+//	Output("System total population %.3f billion\n", m_totalPop.ToFloat());
 	Polit::GetSysPolitStarSystem(this, m_totalPop, m_polit);
 
 	if (addSpaceStations) {
@@ -2218,7 +2218,7 @@ void SystemBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 	// well, outdoor worlds should have way more people
 	m_population = fixed(1,10)*m_population + m_population*m_agricultural;
 
-//	printf("%s: pop %.3f billion\n", name.c_str(), m_population.ToFloat());
+//	Output("%s: pop %.3f billion\n", name.c_str(), m_population.ToFloat());
 
 	outTotalPop += m_population;
 }
@@ -2298,10 +2298,24 @@ void SystemBody::PopulateAddStations(StarSystem *system)
 		pop -= rand.Fixed();
 		if (pop > 0) {
 			SystemBody *sp2 = system->NewBody();
-			SystemPath path2 = sp2->path;
-			*sp2 = *sp;
-			sp2->path = path2;
+			sp2->type = sp->type;
+			sp2->seed = sp->seed;
+			sp2->tmp = sp->tmp;
+			sp2->parent = sp->parent;
+			sp2->rotationPeriod = sp->rotationPeriod;
+			sp2->averageTemp = sp->averageTemp;
+			sp2->mass = sp->mass;
+			sp2->semiMajorAxis = sp->semiMajorAxis;
+			sp2->eccentricity = sp->eccentricity;
+			sp2->axialTilt = sp->axialTilt;
+
+			sp2->orbit = sp->orbit;
 			sp2->orbit.SetPlane(matrix3x3d::RotateZ(M_PI));
+
+			sp2->inclination = sp->inclination;
+			sp2->orbMin = sp->orbMin;
+			sp2->orbMax = sp->orbMax;
+
 			sp2->name = gen_unique_station_name(sp, system, namerand);
 			children.insert(children.begin(), sp2);
 			system->m_spaceStations.push_back(sp2);

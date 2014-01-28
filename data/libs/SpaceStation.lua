@@ -225,7 +225,7 @@ local function updateShipsOnSale (station)
 			local pattern = model.numPatterns ~= 0 and Engine.rand:Integer(1,model.numPatterns) or nil
 			addShipOnSale(station, {
 				def     = def,
-				skin    = ModelSkin.New():SetRandomColors(Engine.rand),
+				skin    = ModelSkin.New():SetRandomColors(Engine.rand):SetDecal(def.manufacturer),
 				pattern = pattern,
 				label   = Ship.MakeRandomLabel(),
 			})

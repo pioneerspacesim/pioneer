@@ -14,7 +14,7 @@ namespace
 	void LoadImage(const std::string &filename, std::vector<SDLSurfacePtr> &vec) {
 		SDLSurfacePtr pSurf = LoadSurfaceFromFile(filename);
 		if(!pSurf)
-			printf("Failed to load image %s\n", filename.c_str());
+			Output("Failed to load image %s\n", filename.c_str());
 		vec.push_back(pSurf);
 	}
 
@@ -318,7 +318,7 @@ void FaceGenManager::Init()
 		m_species.push_back(new Species(index));
 	}
 
-	printf("Face Generation source images loaded.\n");
+	Output("Face Generation source images loaded.\n");
 }
 
 //static
