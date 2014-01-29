@@ -64,8 +64,7 @@ void RenderState::Apply()
 		glDepthMask(GL_TRUE);
 	else
 		glDepthMask(GL_FALSE);
-
-	glPolygonMode(GL_FRONT_AND_BACK, m_desc.wireFrame ? GL_LINE : GL_FILL);
 }
 
-} }
+}
+}

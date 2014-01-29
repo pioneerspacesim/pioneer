@@ -11,7 +11,6 @@ struct RenderStateDesc {
 		, cullMode(CULL_BACK)
 		, depthTest(true)
 		, depthWrite(true)
-		, wireFrame(false)
 	{
 	}
 
@@ -19,7 +18,6 @@ struct RenderStateDesc {
 	FaceCullMode cullMode;
 	bool depthTest;
 	bool depthWrite;
-	bool wireFrame;
 };
 
 class RenderState
