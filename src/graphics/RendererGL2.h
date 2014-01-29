@@ -75,7 +75,7 @@ public:
 	virtual bool DrawLines2D(int vertCount, const vector2f *vertices, const Color &color, LineType type=LINE_SINGLE);
 	virtual bool DrawPoints(int count, const vector3f *points, const Color *colors, float pointSize=1.f);
 	virtual bool DrawTriangles(const VertexArray *vertices, RenderState *state, Material *material, PrimitiveType type=TRIANGLES) override;
-	virtual bool DrawSurface(const Surface *surface);
+	virtual bool DrawSurface(const Surface *surface, RenderState *rs) override;
 	virtual bool DrawPointSprites(int count, const vector3f *positions, RenderState *rs, Material *material, float size) override;
 	virtual bool DrawStaticMesh(StaticMesh *thing);
 

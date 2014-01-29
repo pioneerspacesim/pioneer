@@ -82,7 +82,7 @@ private:
 class Sphere3D : public Drawable {
 public:
 	//subdivisions must be 0-4
-	Sphere3D(RefCountedPtr<Material> material, int subdivisions=0, float scale=1.f);
+	Sphere3D(RefCountedPtr<Material> material, Graphics::RenderState*, int subdivisions=0, float scale=1.f);
 	virtual void Draw(Renderer *r);
 
 	RefCountedPtr<Material> GetMaterial() const { return m_surface->GetMaterial(); }

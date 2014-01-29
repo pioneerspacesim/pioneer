@@ -459,12 +459,14 @@ bool RendererGL2::DrawTriangles(const VertexArray *v, RenderState *rs, Material 
 	return true;
 }
 
-bool RendererGL2::DrawSurface(const Surface *s)
+bool RendererGL2::DrawSurface(const Surface *s, RenderState *rs)
 {
 	if (!s || !s->GetVertices() || s->GetNumIndices() < 3) return false;
 
 	const Material *m = s->GetMaterial().Get();
 	const VertexArray *v = s->GetVertices();
+
+	SetRenderState(rs);
 
 	const_cast<Material*>(m)->Apply();
 	EnableClientStates(v);
@@ -507,6 +509,7 @@ bool RendererGL2::DrawPointSprites(int count, const vector3f *positions, RenderS
 		va.Add(pos+rotv3, vector2f(0.f, 1.f)); //bottom left
 		va.Add(pos+rotv2, vector2f(1.f, 1.f)); //bottom right
 	}
+
 	DrawTriangles(&va, rs, material);
 
 	return true;

@@ -113,7 +113,6 @@ void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
 			//Explosion effect: A quick flash of three concentric coloured spheres. A bit retro.
 			const matrix4x4f trans = matrix4x4f::Translation(fpos.x, fpos.y, fpos.z);
 			RefCountedPtr<Material> exmat = Sfx::explosionEffect->GetMaterial();
-			renderer->SetRenderState(alphaState);
 			exmat->diffuse = Color(255, 255, 128, 255);
 			renderer->SetTransform(trans * matrix4x4f::ScaleMatrix(500*m_age));
 			Sfx::explosionEffect->Draw(renderer);
@@ -227,9 +226,18 @@ void Sfx::RenderAll(Renderer *renderer, Frame *f, const Frame *camFrame)
 
 void Sfx::Init(Graphics::Renderer *r)
 {
+	//shared render states
+	Graphics::RenderStateDesc rsd;
+	rsd.blendMode = Graphics::BLEND_ALPHA;
+	rsd.depthWrite = false;
+	alphaState = r->CreateRenderState(rsd);
+	rsd.blendMode = Graphics::BLEND_ALPHA_ONE;
+	additiveAlphaState = r->CreateRenderState(rsd);
+
 	Graphics::MaterialDescriptor desc;
 	RefCountedPtr<Graphics::Material> explosionMat(r->CreateMaterial(desc));
-	explosionEffect = new Graphics::Drawables::Sphere3D(explosionMat, 2);
+
+	explosionEffect = new Graphics::Drawables::Sphere3D(explosionMat, alphaState, 2);
 
 	desc.textures = 1;
 	damageParticle = r->CreateMaterial(desc);
@@ -238,14 +246,6 @@ void Sfx::Init(Graphics::Renderer *r)
 	ecmParticle->texture0 = Graphics::TextureBuilder::Billboard("textures/ecm.png").GetOrCreateTexture(r, "billboard");
 	smokeParticle = r->CreateMaterial(desc);
 	smokeParticle->texture0 = Graphics::TextureBuilder::Billboard("textures/smoke.png").GetOrCreateTexture(r, "billboard");
-
-	//shared render states
-	Graphics::RenderStateDesc rsd;
-	rsd.blendMode = Graphics::BLEND_ALPHA;
-	rsd.depthWrite = false;
-	alphaState = r->CreateRenderState(rsd);
-	rsd.blendMode = Graphics::BLEND_ALPHA_ONE;
-	additiveAlphaState = r->CreateRenderState(rsd);
 }
 
 void Sfx::Uninit()

@@ -981,7 +981,6 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 			m_disk->Draw(m_renderer);
 		}
 		if(bIsCurrentSystem && m_jumpSphere && m_playerHyperspaceRange>0.0f) {
-			m_renderer->SetRenderState(m_jumpSphereState);
 			const matrix4x4f sphTrans = trans * matrix4x4f::Translation((*i).p.x, (*i).p.y, (*i).p.z);
 			m_renderer->SetTransform(sphTrans * matrix4x4f::ScaleMatrix(m_playerHyperspaceRange));
 			m_jumpSphere->Draw(m_renderer);
@@ -1291,7 +1290,7 @@ void SectorView::Update()
 		Graphics::MaterialDescriptor matdesc;
 		matdesc.effect = EFFECT_FRESNEL_SPHERE;
 		RefCountedPtr<Graphics::Material> fresnelMat(m_renderer->CreateMaterial(matdesc));
-		m_jumpSphere.reset( new Graphics::Drawables::Sphere3D(fresnelMat, 3, 1.0f) );
+		m_jumpSphere.reset( new Graphics::Drawables::Sphere3D(fresnelMat, m_jumpSphereState, 3, 1.0f) );
 		m_jumpDisk.reset( new Graphics::Drawables::Disk(fresnelMat, m_jumpSphereState, 72, 1.0f) );
 	}
 }

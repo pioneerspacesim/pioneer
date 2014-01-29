@@ -252,8 +252,7 @@ void StaticGeometry::DrawBoundingBox(const Aabb &bb)
 	Graphics::RenderStateDesc rsd;
 	rsd.wireFrame = true;
 	rsd.cullMode = Graphics::CULL_NONE;
-	r->SetRenderState(r->CreateRenderState(rsd));
-	r->DrawSurface(&surf);
+	r->DrawSurface(&surf, r->CreateRenderState(rsd));
 }
 
 }
