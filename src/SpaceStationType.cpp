@@ -177,7 +177,7 @@ vector3d vlerp(const double t, const vector3d& v1, const vector3d& v2)
 }
 
 static bool GetPosOrient(const SpaceStationType::TMapBayIDMat &bayMap, const int stage, const double t, const vector3d &from,
-				  SpaceStationType::positionOrient_t &outPosOrient, const Ship *ship)
+				  SpaceStationType::positionOrient_t &outPosOrient)
 {
 	bool gotOrient = false;
 
@@ -210,6 +210,7 @@ static bool GetPosOrient(const SpaceStationType::TMapBayIDMat &bayMap, const int
  * ship has been released and is under player control again */
 bool SpaceStationType::GetDockAnimPositionOrient(const unsigned int port, int stage, double t, const vector3d &from, positionOrient_t &outPosOrient, const Ship *ship) const
 {
+	assert(ship);
 	if (stage < -shipLaunchStage) { stage = -shipLaunchStage; t = 1.0; }
 	if (stage > numDockingStages || !stage) { stage = numDockingStages; t = 1.0; }
 	// note case for stageless launch (shipLaunchStage==0)
@@ -218,15 +219,14 @@ bool SpaceStationType::GetDockAnimPositionOrient(const unsigned int port, int st
 
 	assert(port<=m_ports.size());
 	const Port &rPort = m_ports.at(port+1);
-	const Aabb &aabb = ship->GetAabb();
 	if (stage<0) {
 		const int leavingStage = (-1*stage);
-		gotOrient = GetPosOrient(rPort.m_leaving, leavingStage, t, from, outPosOrient, ship);
-		const vector3d up = outPosOrient.yaxis.Normalized() * aabb.min.y;
+		gotOrient = GetPosOrient(rPort.m_leaving, leavingStage, t, from, outPosOrient);
+		const vector3d up = outPosOrient.yaxis.Normalized() * ship->GetLandingPosOffset();
 		outPosOrient.pos = outPosOrient.pos - up;
 	} else if (stage>0) {
-		gotOrient = GetPosOrient(rPort.m_docking, stage, t, from, outPosOrient, ship);
-		const vector3d up = outPosOrient.yaxis.Normalized() * aabb.min.y;
+		gotOrient = GetPosOrient(rPort.m_docking, stage, t, from, outPosOrient);
+		const vector3d up = outPosOrient.yaxis.Normalized() * ship->GetLandingPosOffset();
 		outPosOrient.pos = outPosOrient.pos - up;
 	}
 

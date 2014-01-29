@@ -12,7 +12,7 @@ January 2014
      * Ship stat balancing (#2620, #2673)
      * Atmospheres in gas giants are much deeper (#2609, #1395)
      * New "free software" charity on the bulletin board (#2611)
-     * Change start ship to Xylophis
+     * Change start ships and initial equipment (#2696)
      * Add delta-v data to ship market (#2616)
      * Earth start position now starts at 13:00 (Pioneer time) (#2615)
      * Misc. tweaks for the intro animation (#2649)
@@ -37,6 +37,8 @@ January 2014
 
    * Model changes
      * Modelviewer: Show bounding box when showing collision mesh (#2664)
+     * "Landing" tag-point to define where the bottom of the ship is for the
+       landing collision test (#2695, #2656)
 
    * Fixes
      * Fix label positioning in orbit and galaxy views (#2608, #2576)
