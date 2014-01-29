@@ -37,6 +37,8 @@ January 2014
 
    * Model changes
      * Modelviewer: Show bounding box when showing collision mesh (#2664)
+     * "Landing" tag-point to define where the bottom of the ship is for the
+       landing collision test (#2695, #2656)
 
    * Fixes
      * Fix label positioning in orbit and galaxy views (#2608, #2576)

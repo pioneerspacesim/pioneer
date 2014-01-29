@@ -266,6 +266,8 @@ public:
 	Uint8 GetRelations(Body *other) const; //0=hostile, 50=neutral, 100=ally
 	void SetRelations(Body *other, Uint8 percent);
 
+	double GetLandingPosOffset() const { return m_landingMinOffset; }
+
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
@@ -344,6 +346,8 @@ private:
 
 	double m_thrusterFuel; 	// remaining fuel 0.0-1.0
 	double m_reserveFuel;	// 0-1, fuel not to touch for the current AI program
+
+	double m_landingMinOffset;	// offset from the centre of the ship used during docking
 
 	int m_dockedWithIndex; // deserialisation
 
