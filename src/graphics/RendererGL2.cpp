@@ -75,6 +75,7 @@ RendererGL2::RendererGL2(WindowSDL *window, const Graphics::Settings &vs)
 , m_useCompressedTextures(false)
 , m_invLogZfarPlus1(0.f)
 , m_activeRenderTarget(0)
+, m_activeRenderState(nullptr)
 , m_matrixMode(MatrixMode::MODELVIEW)
 {
 	m_viewportStack.push(Viewport());
@@ -189,7 +190,10 @@ bool RendererGL2::SwapBuffers()
 
 bool RendererGL2::SetRenderState(RenderState *rs)
 {
-	static_cast<GL2::RenderState*>(rs)->Apply();
+	if (m_activeRenderState != rs) {
+		static_cast<GL2::RenderState*>(rs)->Apply();
+		m_activeRenderState = rs;
+	}
 	return true;
 }
 

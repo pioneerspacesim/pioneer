@@ -135,6 +135,7 @@ protected:
 	std::unordered_map<Uint32, GL2::RenderState*> m_renderStates;
 	float m_invLogZfarPlus1;
 	GL2::RenderTarget *m_activeRenderTarget;
+	RenderState *m_activeRenderState;
 
 	MatrixMode m_matrixMode;
 	std::stack<matrix4x4f> m_modelViewStack;
