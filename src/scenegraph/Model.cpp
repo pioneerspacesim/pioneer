@@ -129,7 +129,7 @@ void Model::Render(const matrix4x4f &trans, const RenderData *rd)
 		m_root->Render(trans, &params);
 	}
 
-	if (m_debugFlags == DEBUG_NONE)
+	if (!m_debugFlags)
 		return;
 
 	if (m_debugFlags & DEBUG_WIREFRAME)

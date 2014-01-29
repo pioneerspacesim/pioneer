@@ -147,7 +147,7 @@ public:
 	//serialization aid
 	std::string GetNameForMaterial(Graphics::Material*) const;
 
-	enum {
+	enum DebugFlags { // <enum scope='SceneGraph::Model' name=ModelDebugFlags prefix=DEBUG_ public>
 		DEBUG_NONE      = 0x0,
 		DEBUG_BBOX      = 0x1,
 		DEBUG_COLLMESH  = 0x2,
