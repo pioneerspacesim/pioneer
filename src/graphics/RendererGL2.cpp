@@ -383,7 +383,6 @@ bool RendererGL2::DrawLines(int count, const vector3f *v, const Color *c, LineTy
 	glDrawArrays(t, 0, count);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
-	vtxColorProg->Unuse();
 
 	return true;
 }
@@ -400,7 +399,6 @@ bool RendererGL2::DrawLines(int count, const vector3f *v, const Color &c, LineTy
 	glVertexPointer(3, GL_FLOAT, sizeof(vector3f), v);
 	glDrawArrays(t, 0, count);
 	glDisableClientState(GL_VERTEX_ARRAY);
-	flatColorProg->Unuse();
 
 	return true;
 }
@@ -409,17 +407,14 @@ bool RendererGL2::DrawLines2D(int count, const vector2f *v, const Color &c, Line
 {
 	if (count < 2 || !v) return false;
 
-	glPushAttrib(GL_LIGHTING_BIT);
-	glDisable(GL_LIGHTING);
+	flatColorProg->Use();
+	flatColorProg->diffuse.Set(c);
+	flatColorProg->invLogZfarPlus1.Set(m_invLogZfarPlus1);
 
-	glColor4ub(c.r, c.g, c.b, c.a);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(2, GL_FLOAT, sizeof(vector2f), v);
 	glDrawArrays(t, 0, count);
 	glDisableClientState(GL_VERTEX_ARRAY);
-	glColor4ub(1.f, 1.f, 1.f, 1.f);
-
-	glPopAttrib();
 
 	return true;
 }
@@ -428,8 +423,8 @@ bool RendererGL2::DrawPoints(int count, const vector3f *points, const Color *col
 {
 	if (count < 1 || !points || !colors) return false;
 
-	glPushAttrib(GL_LIGHTING_BIT);
-	glDisable(GL_LIGHTING);
+	vtxColorProg->Use();
+	vtxColorProg->invLogZfarPlus1.Set(m_invLogZfarPlus1);
 
 	glPointSize(size);
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -440,8 +435,6 @@ bool RendererGL2::DrawPoints(int count, const vector3f *points, const Color *col
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
 	glPointSize(1.f); // XXX wont't be necessary
-
-	glPopAttrib();
 
 	return true;
 }
