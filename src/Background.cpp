@@ -131,11 +131,10 @@ void UniverseBox::Init()
 	m_numCubemaps = GetNumSkyboxes();
 }
 
-void UniverseBox::Draw()
+void UniverseBox::Draw(Graphics::RenderState *rs)
 {
-	if(m_material->texture0) {
-		m_renderer->DrawStaticMesh(m_model.get());
-	}
+	if(m_material->texture0)
+		m_renderer->DrawStaticMesh(m_model.get(), rs);
 }
 
 void UniverseBox::LoadCubeMap(Random &rand)
@@ -198,11 +197,11 @@ void Starfield::Fill(Random &rand)
 	}
 }
 
-void Starfield::Draw()
+void Starfield::Draw(Graphics::RenderState *rs)
 {
 	// XXX would be nice to get rid of the Pi:: stuff here
 	if (!Pi::game || Pi::player->GetFlightState() != Ship::HYPERSPACE) {
-		m_renderer->DrawStaticMesh(m_model.get());
+		m_renderer->DrawStaticMesh(m_model.get(), rs);
 	} else {
 		// roughly, the multiplier gets smaller as the duration gets larger.
 		// the time-looking bits in this are completely arbitrary - I figured
@@ -288,10 +287,10 @@ MilkyWay::MilkyWay(Graphics::Renderer *renderer)
 	m_model->AddSurface(RefCountedPtr<Surface>(new Surface(TRIANGLE_STRIP, top, m_material)));
 }
 
-void MilkyWay::Draw()
+void MilkyWay::Draw(Graphics::RenderState *rs)
 {
 	assert(m_model != 0);
-	m_renderer->DrawStaticMesh(m_model.get());
+	m_renderer->DrawStaticMesh(m_model.get(), rs);
 }
 
 Container::Container(Graphics::Renderer *renderer, Random &rand)
@@ -318,19 +317,18 @@ void Container::Refresh(Random &rand)
 void Container::Draw(const matrix4x4d &transform)
 {
 	PROFILE_SCOPED()
-	m_renderer->SetRenderState(m_renderState);
 	m_renderer->SetTransform(transform);
 	if( DRAW_SKYBOX & m_drawFlags ) {
-		m_universeBox.Draw();
+		m_universeBox.Draw(m_renderState);
 	}
 	if( DRAW_MILKY & m_drawFlags ) {
-		m_milkyWay.Draw();
+		m_milkyWay.Draw(m_renderState);
 	}
 	if( DRAW_STARS & m_drawFlags ) {
 		// squeeze the starfield a bit to get more density near horizon
 		matrix4x4d starTrans = transform * matrix4x4d::ScaleMatrix(1.0, 0.4, 1.0);
 		m_renderer->SetTransform(starTrans);
-		const_cast<Starfield&>(m_starField).Draw();
+		m_starField.Draw(m_renderState);
 	}
 }
 

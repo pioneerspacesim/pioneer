@@ -47,9 +47,8 @@ void StaticGeometry::Render(const matrix4x4f &trans, const RenderData *rd)
 	SDL_assert(m_renderState);
 	Graphics::Renderer *r = GetRenderer();
 	r->SetTransform(trans);
-	r->SetRenderState(m_renderState);
 	for (auto& it : m_meshes)
-		r->DrawStaticMesh(it.Get());
+		r->DrawStaticMesh(it.Get(), m_renderState);
 
 	//DrawBoundingBox(m_boundingBox);
 }

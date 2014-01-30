@@ -514,9 +514,11 @@ bool RendererGL2::DrawPointSprites(int count, const vector3f *positions, RenderS
 	return true;
 }
 
-bool RendererGL2::DrawStaticMesh(StaticMesh *t)
+bool RendererGL2::DrawStaticMesh(StaticMesh *t, RenderState *rs)
 {
 	if (!t) return false;
+
+	SetRenderState(rs);
 
 	//Approach:
 	//on first render, buffer vertices from all surfaces to a vbo

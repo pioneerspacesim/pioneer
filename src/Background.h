@@ -38,7 +38,7 @@ namespace Background
 		UniverseBox(Graphics::Renderer *r);
 		~UniverseBox();
 
-		void Draw();
+		void Draw(Graphics::RenderState*);
 		void LoadCubeMap(Random &rand);
 
 	private:
@@ -55,7 +55,7 @@ namespace Background
 	public:
 		//does not Fill the starfield
 		Starfield(Graphics::Renderer *r, Random &rand);
-		void Draw();
+		void Draw(Graphics::RenderState*);
 		//create or recreate the starfield
 		void Fill(Random &rand);
 
@@ -73,7 +73,7 @@ namespace Background
 	{
 	public:
 		MilkyWay(Graphics::Renderer*);
-		void Draw();
+		void Draw(Graphics::RenderState*);
 
 	private:
 		std::unique_ptr<Graphics::StaticMesh> m_model;

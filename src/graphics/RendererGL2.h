@@ -77,7 +77,7 @@ public:
 	virtual bool DrawTriangles(const VertexArray *vertices, RenderState *state, Material *material, PrimitiveType type=TRIANGLES) override;
 	virtual bool DrawSurface(const Surface *surface, RenderState *rs) override;
 	virtual bool DrawPointSprites(int count, const vector3f *positions, RenderState *rs, Material *material, float size) override;
-	virtual bool DrawStaticMesh(StaticMesh *thing);
+	virtual bool DrawStaticMesh(StaticMesh*, RenderState*) override;
 
 	virtual Material *CreateMaterial(const MaterialDescriptor &descriptor) override;
 	virtual Texture *CreateTexture(const TextureDescriptor &descriptor) override;
