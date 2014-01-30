@@ -410,7 +410,7 @@ void ScannerWidget::DrawBlobs(bool below)
 		m_renderer->DrawLines(2, &verts[0], *color);
 
 		vector3f blob(x, y_blob, 0.f);
-		m_renderer->DrawPoints(1, &blob, color, pointSize);
+		m_renderer->DrawPoints(1, &blob, color, m_renderState, pointSize);
 	}
 }
 

@@ -127,7 +127,7 @@ void GalacticView::Draw3D()
 	// "you are here" dot
 	//Color green(0, 255, 0, 255);
 	vector3f offs(offset_x, offset_y, 0.f);
-	m_renderer->DrawPoints(1, &offs, &Color::GREEN, 3.f);
+	m_renderer->DrawPoints(1, &offs, &Color::GREEN, m_renderState, 3.f);
 
 	// scale at the top
 	m_renderer->SetTransform(matrix4x4f::Identity());

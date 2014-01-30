@@ -419,12 +419,14 @@ bool RendererGL2::DrawLines2D(int count, const vector2f *v, const Color &c, Line
 	return true;
 }
 
-bool RendererGL2::DrawPoints(int count, const vector3f *points, const Color *colors, float size)
+bool RendererGL2::DrawPoints(int count, const vector3f *points, const Color *colors, Graphics::RenderState *state, float size)
 {
 	if (count < 1 || !points || !colors) return false;
 
 	vtxColorProg->Use();
 	vtxColorProg->invLogZfarPlus1.Set(m_invLogZfarPlus1);
+
+	SetRenderState(state);
 
 	glPointSize(size);
 	glEnableClientState(GL_VERTEX_ARRAY);
