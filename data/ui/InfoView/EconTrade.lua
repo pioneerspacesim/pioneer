@@ -46,13 +46,16 @@ local econTrade = function ()
 						table.insert(cargoNameColumn, ui:Label(et.name))
 						table.insert(cargoQuantityColumn, ui:Label(count.."t"))
 
-						local jettisonButton = SmallLabeledButton.New(l.JETTISON)
-						jettisonButton.button.onClick:Connect(function ()
-							Game.player:Jettison(type)
-							updateCargoListWidget()
-							cargoListWidget:SetInnerWidget(updateCargoListWidget())
-						end)
-						table.insert(cargoJettisonColumn, jettisonButton.widget)
+						-- Don't jettison if DOCKED/DOCKING or in HYPERSPACE
+						if Game.player.flightState == "FLYING" then
+							local jettisonButton = SmallLabeledButton.New(l.JETTISON)
+							jettisonButton.button.onClick:Connect(function ()
+								Game.player:Jettison(type)
+								updateCargoListWidget()
+								cargoListWidget:SetInnerWidget(updateCargoListWidget())
+							end)
+							table.insert(cargoJettisonColumn, jettisonButton.widget)
+						end
 					end
 				end
 			end
