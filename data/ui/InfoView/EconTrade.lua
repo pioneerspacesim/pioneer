@@ -52,6 +52,9 @@ local econTrade = function ()
 							updateCargoListWidget()
 							cargoListWidget:SetInnerWidget(updateCargoListWidget())
 						end)
+						if Game.player.flightState ~= "FLYING" then
+							jettisonButton.widget:Disable()
+						end
 						table.insert(cargoJettisonColumn, jettisonButton.widget)
 					end
 				end
