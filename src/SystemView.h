@@ -51,6 +51,7 @@ private:
 	sigc::connection m_onMouseWheelCon;
 
 	std::unique_ptr<Graphics::Drawables::Disk> m_bodyIcon;
+	Graphics::RenderState *m_lineState;
 };
 
 #endif /* _SYSTEMVIEW_H */

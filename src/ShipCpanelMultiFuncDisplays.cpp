@@ -407,7 +407,7 @@ void ScannerWidget::DrawBlobs(bool below)
 		const float y_blob = y_base - m_y * SCANNER_YSHRINK * float(pos.y) * m_scale;
 
 		const vector3f verts[] = { vector3f(x, y_base, 0.f), vector3f(x, y_blob, 0.f) };
-		m_renderer->DrawLines(2, &verts[0], *color);
+		m_renderer->DrawLines(2, &verts[0], *color, m_renderState);
 
 		vector3f blob(x, y_blob, 0.f);
 		m_renderer->DrawPoints(1, &blob, color, m_renderState, pointSize);

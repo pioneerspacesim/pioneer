@@ -507,9 +507,8 @@ void ModelViewer::DrawAabb()
 		vector3f(aabb.min.x, aabb.max.y, aabb.max.z),
 	};
 
-	m_renderer->SetRenderState(m_bgState);
-	m_renderer->DrawLines(8, verts + 0, Color::GREEN, Graphics::LINE_STRIP);
-	m_renderer->DrawLines(8, verts + 8, Color::GREEN, Graphics::LINE_STRIP);
+	m_renderer->DrawLines(8, verts + 0, Color::GREEN, m_bgState, Graphics::LINE_STRIP);
+	m_renderer->DrawLines(8, verts + 8, Color::GREEN, m_bgState, Graphics::LINE_STRIP);
 }
 
 //Draw grid and axes
@@ -542,8 +541,7 @@ void ModelViewer::DrawGrid(const matrix4x4f &trans, float radius)
 	}
 
 	m_renderer->SetTransform(trans);
-	m_renderer->SetRenderState(m_bgState);
-	m_renderer->DrawLines(points.size(), &points[0], Color(128));//Color(0.0f,0.2f,0.0f,1.0f));
+	m_renderer->DrawLines(points.size(), &points[0], Color(128), m_bgState);//Color(0.0f,0.2f,0.0f,1.0f));
 
 	//industry-standard red/green/blue XYZ axis indiactor
 	const int numAxVerts = 6;

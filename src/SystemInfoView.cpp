@@ -483,7 +483,9 @@ void SystemInfoView::BodyIcon::Draw()
 	    Color portColor = Color(64, 128, 128, 255);
 	    // The -0.1f offset seems to be the best compromise to make the circles closed (e.g. around Mars), symmetric, fitting with selection
 	    // and not overlapping to much with asteroids
-	    Graphics::Drawables::Circle circle = Graphics::Drawables::Circle(size[0]*0.5f, size[0]*0.5f-0.1f, size[1]*0.5f, 0.f, portColor);
+	    Graphics::Drawables::Circle circle =
+			Graphics::Drawables::Circle(size[0]*0.5f, size[0]*0.5f-0.1f, size[1]*0.5f, 0.f,
+			portColor, m_renderState);
 	    circle.Draw(m_renderer);
 	}
 	if (GetSelected()) {
