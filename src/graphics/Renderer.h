@@ -141,7 +141,7 @@ public:
 	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color *colors, LineType type=LINE_SINGLE) { return false; }
 	//flat colour lines
 	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color &color, LineType type=LINE_SINGLE) { return false; }
-	virtual bool DrawLines2D(int vertCount, const vector2f *vertices, const Color &color, LineType type=LINE_SINGLE) { return false; }
+	virtual bool DrawLines2D(int vertCount, const vector2f *vertices, const Color &color, Graphics::RenderState*, LineType type=LINE_SINGLE) { return false; }
 	virtual bool DrawPoints(int count, const vector3f *points, const Color *colors, Graphics::RenderState*, float pointSize=1.f) { return false; }
 	//unindexed triangle draw
 	virtual bool DrawTriangles(const VertexArray *vertices, RenderState *state, Material *material, PrimitiveType type=TRIANGLES)  { return false; }

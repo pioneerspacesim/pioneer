@@ -1705,7 +1705,7 @@ void WorldView::DrawCrosshair(float px, float py, float sz, const Color &c)
 		vector2f(px, py+sz),
 		vector2f(px, py+0.5f*sz)
 	};
-	m_renderer->DrawLines2D(COUNTOF(vts), vts, c);
+	m_renderer->DrawLines2D(COUNTOF(vts), vts, c, m_blendState);
 }
 
 void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead, const Color &c)
@@ -1752,9 +1752,9 @@ void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicat
 			vector2f(x2-10*xd, y2-10*yd)
 		};
 		if (lead.side == INDICATOR_ONSCREEN)
-			m_renderer->DrawLines2D(14, vts, c); //draw all
+			m_renderer->DrawLines2D(14, vts, c, m_blendState); //draw all
 		else
-			m_renderer->DrawLines2D(8, vts, c); //only crosshair
+			m_renderer->DrawLines2D(8, vts, c, m_blendState); //only crosshair
 	} else
 		DrawEdgeMarker(target, c);
 }
@@ -1780,7 +1780,7 @@ void WorldView::DrawTargetSquare(const Indicator &marker, const Color &c)
 		vector2f(x2, y2),
 		vector2f(x1, y2)
 	};
-	m_renderer->DrawLines2D(COUNTOF(vts), vts, c, Graphics::LINE_LOOP);
+	m_renderer->DrawLines2D(COUNTOF(vts), vts, c, m_blendState, Graphics::LINE_LOOP);
 }
 
 void WorldView::DrawVelocityIndicator(const Indicator &marker, const Color &c)
@@ -1801,7 +1801,7 @@ void WorldView::DrawVelocityIndicator(const Indicator &marker, const Color &c)
 			vector2f(posx-sz, posy+sz),
 			vector2f(posx-0.5f*sz, posy+0.5f*sz)
 		};
-		m_renderer->DrawLines2D(COUNTOF(vts), vts, c);
+		m_renderer->DrawLines2D(COUNTOF(vts), vts, c, m_blendState);
 	} else
 		DrawEdgeMarker(marker, c);
 
@@ -1827,7 +1827,7 @@ void WorldView::DrawEdgeMarker(const Indicator &marker, const Color &c)
 	float len = dir.Length();
 	dir *= sz/len;
 	const vector2f vts[] = { marker.pos, marker.pos + dir };
-	m_renderer->DrawLines2D(2, vts, c);
+	m_renderer->DrawLines2D(2, vts, c, m_blendState);
 }
 
 void WorldView::MouseWheel(bool up)

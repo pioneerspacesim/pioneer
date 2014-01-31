@@ -138,7 +138,7 @@ void GalacticView::Draw3D()
 		vector2f(0.25f,-0.94f),
 		vector2f(0.25f,-0.93f)
 	};
-	m_renderer->DrawLines2D(4, vts, Color::WHITE, LINE_STRIP);
+	m_renderer->DrawLines2D(4, vts, Color::WHITE, m_renderState, LINE_STRIP);
 
 	m_labels->Clear();
 	PutLabels(-vector3d(offset_x, offset_y, 0.0));

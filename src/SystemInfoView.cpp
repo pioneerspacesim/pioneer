@@ -214,8 +214,7 @@ void SystemInfoView::PutBodies(SystemBody *body, Gui::Fixed *container, int dir,
 		return;
 	}
 	if (body->type != SystemBody::TYPE_GRAVPOINT) {
-		BodyIcon *ib = new BodyIcon(body->GetIcon());
-		ib->SetRenderer(m_renderer);
+		BodyIcon *ib = new BodyIcon(body->GetIcon(), m_renderer);
 		if (body->GetSuperType() == SystemBody::SUPERTYPE_ROCKY_PLANET) {
 			for (std::vector<SystemBody*>::iterator i = body->children.begin(); i != body->children.end(); ++i) {
 				if ((*i)->type == SystemBody::TYPE_STARPORT_SURFACE) {
@@ -464,9 +463,14 @@ void SystemInfoView::UpdateIconSelections()
 	}
 }
 
-SystemInfoView::BodyIcon::BodyIcon(const char *img) :
-	Gui::ImageRadioButton(0, img, img), m_hasStarport(false)
+SystemInfoView::BodyIcon::BodyIcon(const char *img, Graphics::Renderer *r)
+	: Gui::ImageRadioButton(0, img, img)
+	, m_hasStarport(false)
+	, m_renderer(r)
 {
+	//no blending
+	Graphics::RenderStateDesc rsd;
+	m_renderState = r->CreateRenderState(rsd);
 }
 
 void SystemInfoView::BodyIcon::Draw()
@@ -490,7 +494,7 @@ void SystemInfoView::BodyIcon::Draw()
 		    vector2f(size[0], size[1]),
 		    vector2f(0.f, size[1]),
 	    };
-	    m_renderer->DrawLines2D(COUNTOF(vts), vts, selectColor, Graphics::LINE_LOOP);
+	    m_renderer->DrawLines2D(COUNTOF(vts), vts, selectColor, m_renderState, Graphics::LINE_LOOP);
 	}
 }
 

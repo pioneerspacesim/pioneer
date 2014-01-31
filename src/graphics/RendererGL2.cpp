@@ -403,9 +403,11 @@ bool RendererGL2::DrawLines(int count, const vector3f *v, const Color &c, LineTy
 	return true;
 }
 
-bool RendererGL2::DrawLines2D(int count, const vector2f *v, const Color &c, LineType t)
+bool RendererGL2::DrawLines2D(int count, const vector2f *v, const Color &c, Graphics::RenderState* state, LineType t)
 {
 	if (count < 2 || !v) return false;
+
+	SetRenderState(state);
 
 	flatColorProg->Use();
 	flatColorProg->diffuse.Set(c);
