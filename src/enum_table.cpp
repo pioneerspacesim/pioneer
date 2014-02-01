@@ -313,7 +313,8 @@ const struct EnumItem ENUM_GameUIFaceFlags[] = {
 };
 
 const struct EnumItem ENUM_ModelDebugFlags[] = {
-	{ "AABB", SceneGraph::Model::DEBUG_AABB },
+	{ "NONE", SceneGraph::Model::DEBUG_NONE },
+	{ "BBOX", SceneGraph::Model::DEBUG_BBOX },
 	{ "COLLMESH", SceneGraph::Model::DEBUG_COLLMESH },
 	{ "WIREFRAME", SceneGraph::Model::DEBUG_WIREFRAME },
 	{ "TAGS", SceneGraph::Model::DEBUG_TAGS },
