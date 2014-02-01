@@ -316,6 +316,8 @@ const struct EnumItem ENUM_ModelDebugFlags[] = {
 	{ "AABB", SceneGraph::Model::DEBUG_AABB },
 	{ "COLLMESH", SceneGraph::Model::DEBUG_COLLMESH },
 	{ "WIREFRAME", SceneGraph::Model::DEBUG_WIREFRAME },
+	{ "TAGS", SceneGraph::Model::DEBUG_TAGS },
+	{ "DOCKING", SceneGraph::Model::DEBUG_DOCKING },
 	{ 0, 0 },
 };
 

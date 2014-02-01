@@ -41,8 +41,6 @@ private:
 	void ClearModel();
 	void CreateTestResources();
 	void DrawBackground();
-	void DrawTags();
-	void DrawDockingLocators();
 	void DrawGrid(const matrix4x4f &trans, float radius);
 	void DrawLog();
 	void DrawModel();
@@ -129,9 +127,6 @@ private:
 	UI::Slider *thrustSliders[2*3]; //thruster sliders 2*xyz (linear & angular)
 
 	sigc::signal<void> onModelChanged;
-
-	std::vector<Graphics::Drawables::Line3D> m_dockingPoints;
-	std::vector<Graphics::Drawables::Line3D> m_tagPoints;
 };
 
 #endif

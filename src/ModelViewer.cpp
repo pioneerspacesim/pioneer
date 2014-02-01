@@ -404,49 +404,6 @@ void ModelViewer::DrawBackground()
 	m_renderer->DrawTriangles(&va, Graphics::vtxColorMaterial);
 }
 
-void AddAxisIndicators(const SceneGraph::Model::TVecMT &mts, std::vector<Graphics::Drawables::Line3D> &lines)
-{
-	for (SceneGraph::Model::TVecMT::const_iterator i = mts.begin(); i != mts.end(); ++i) {
-		const matrix4x4f &trans = (*i)->GetTransform();
-		const vector3f pos = trans.GetTranslate();
-		const matrix3x3f &orient = trans.GetOrient();
-		const vector3f x = orient.VectorX().Normalized();
-		const vector3f y = orient.VectorY().Normalized();
-		const vector3f z = orient.VectorZ().Normalized();
-
-		Graphics::Drawables::Line3D lineX;
-		lineX.SetStart(pos);
-		lineX.SetEnd(pos+x);
-		lineX.SetColor(Color::RED);
-
-		Graphics::Drawables::Line3D lineY;
-		lineY.SetStart(pos);
-		lineY.SetEnd(pos+y);
-		lineY.SetColor(Color::GREEN);
-
-		Graphics::Drawables::Line3D lineZ;
-		lineZ.SetStart(pos);
-		lineZ.SetEnd(pos+z);
-		lineZ.SetColor(Color::BLUE);
-
-		lines.push_back(lineX);
-		lines.push_back(lineY);
-		lines.push_back(lineZ);
-	}
-}
-
-void ModelViewer::DrawDockingLocators()
-{
-	for(std::vector<Graphics::Drawables::Line3D>::iterator i = m_dockingPoints.begin(); i != m_dockingPoints.end(); ++i)
-		(*i).Draw(m_renderer);
-}
-
-void ModelViewer::DrawTags()
-{
-	for(std::vector<Graphics::Drawables::Line3D>::iterator i = m_tagPoints.begin(); i != m_tagPoints.end(); ++i)
-		(*i).Draw(m_renderer);
-}
-
 //Draw grid and axes
 void ModelViewer::DrawGrid(const matrix4x4f &trans, float radius)
 {
@@ -539,9 +496,11 @@ void ModelViewer::DrawModel()
 	m_model->UpdateAnimations();
 
 	m_model->SetDebugFlags(
-		(m_options.showAabb     ? SceneGraph::Model::DEBUG_BBOX      : 0x0) |
-		(m_options.showCollMesh ? SceneGraph::Model::DEBUG_COLLMESH  : 0x0) |
-		(m_options.wireframe    ? SceneGraph::Model::DEBUG_WIREFRAME : 0x0)
+		(m_options.showAabb            ? SceneGraph::Model::DEBUG_BBOX      : 0x0) |
+		(m_options.showCollMesh        ? SceneGraph::Model::DEBUG_COLLMESH  : 0x0) |
+		(m_options.showTags            ? SceneGraph::Model::DEBUG_TAGS      : 0x0) |
+		(m_options.showDockingLocators ? SceneGraph::Model::DEBUG_DOCKING   : 0x0) |
+		(m_options.wireframe           ? SceneGraph::Model::DEBUG_WIREFRAME : 0x0)
 	);
 
 	m_model->Render(mv);
@@ -549,16 +508,6 @@ void ModelViewer::DrawModel()
 	if (m_options.showLandingPad) {
 		if (!m_scaleModel) CreateTestResources();
 		m_scaleModel->Render(mv * matrix4x4f::Translation(0.f, m_landingMinOffset, 0.f));
-	}
-
-	if (m_options.showDockingLocators) {
-		m_renderer->SetTransform(mv);
-		DrawDockingLocators();
-	}
-
-	if (m_options.showTags) {
-		m_renderer->SetTransform(mv);
-		DrawTags();
 	}
 }
 
@@ -863,22 +812,6 @@ void ModelViewer::SetModel(const std::string &filename, bool resetCamera /* true
 		m_navLights->SetEnabled(true);
 
 		m_shields.reset(new Shields(m_model));
-
-		{
-			SceneGraph::Model::TVecMT mts;
-
-			m_dockingPoints.clear();
-			m_model->FindTagsByStartOfName("approach_", mts);
-			AddAxisIndicators(mts, m_dockingPoints);
-			m_model->FindTagsByStartOfName("docking_", mts);
-			AddAxisIndicators(mts, m_dockingPoints);
-			m_model->FindTagsByStartOfName("leaving_", mts);
-			AddAxisIndicators(mts, m_dockingPoints);
-
-			m_tagPoints.clear();
-			m_model->FindTagsByStartOfName("tag_", mts);
-			AddAxisIndicators(mts, m_tagPoints);
-		}
 	} catch (SceneGraph::LoadingError &err) {
 		// report the error and show model picker.
 		m_model = 0;

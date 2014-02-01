@@ -144,6 +144,16 @@ void Model::Render(const matrix4x4f &trans, const RenderData *rd)
 		m_renderer->SetTransform(trans);
 		DrawCollisionMesh();
 	}
+
+	if (m_debugFlags & DEBUG_TAGS) {
+		m_renderer->SetTransform(trans);
+		DrawAxisIndicators(m_tagPoints);
+	}
+
+	if (m_debugFlags & DEBUG_DOCKING) {
+		m_renderer->SetTransform(trans);
+		DrawAxisIndicators(m_dockingPoints);
+	}
 }
 
 void Model::DrawAabb()
@@ -202,6 +212,12 @@ void Model::DrawCollisionMesh()
 	m_renderer->DrawTriangles(&va, Graphics::vtxColorMaterial);
 	Graphics::vtxColorMaterial->twoSided = false;
 	m_renderer->SetWireFrameMode(false);
+}
+
+void Model::DrawAxisIndicators(std::vector<Graphics::Drawables::Line3D> &lines)
+{
+	for(auto i = lines.begin(); i != lines.end(); ++i)
+		(*i).Draw(m_renderer);
 }
 
 RefCountedPtr<CollMesh> Model::CreateCollisionMesh()
@@ -427,6 +443,57 @@ std::string Model::GetNameForMaterial(Graphics::Material *mat) const
 	}
 
 	return "unknown";
+}
+
+void Model::AddAxisIndicators(const std::vector<MatrixTransform*> &mts, std::vector<Graphics::Drawables::Line3D> &lines)
+{
+	for (std::vector<MatrixTransform*>::const_iterator i = mts.begin(); i != mts.end(); ++i) {
+		const matrix4x4f &trans = (*i)->GetTransform();
+		const vector3f pos = trans.GetTranslate();
+		const matrix3x3f &orient = trans.GetOrient();
+		const vector3f x = orient.VectorX().Normalized();
+		const vector3f y = orient.VectorY().Normalized();
+		const vector3f z = orient.VectorZ().Normalized();
+
+		Graphics::Drawables::Line3D lineX;
+		lineX.SetStart(pos);
+		lineX.SetEnd(pos+x);
+		lineX.SetColor(Color::RED);
+
+		Graphics::Drawables::Line3D lineY;
+		lineY.SetStart(pos);
+		lineY.SetEnd(pos+y);
+		lineY.SetColor(Color::GREEN);
+
+		Graphics::Drawables::Line3D lineZ;
+		lineZ.SetStart(pos);
+		lineZ.SetEnd(pos+z);
+		lineZ.SetColor(Color::BLUE);
+
+		lines.push_back(lineX);
+		lines.push_back(lineY);
+		lines.push_back(lineZ);
+	}
+}
+
+void Model::SetDebugFlags(Uint32 flags) {
+    m_debugFlags = flags;
+
+    if (m_debugFlags & SceneGraph::Model::DEBUG_TAGS && m_tagPoints.empty()) {
+		std::vector<MatrixTransform*> mts;
+		FindTagsByStartOfName("tag_", mts);
+		AddAxisIndicators(mts, m_tagPoints);
+	}
+
+	if (m_debugFlags & SceneGraph::Model::DEBUG_DOCKING && m_dockingPoints.empty()) {
+		std::vector<MatrixTransform*> mts;
+		FindTagsByStartOfName("approach_", mts);
+		AddAxisIndicators(mts, m_dockingPoints);
+		FindTagsByStartOfName("docking_", mts);
+		AddAxisIndicators(mts, m_dockingPoints);
+		FindTagsByStartOfName("leaving_", mts);
+		AddAxisIndicators(mts, m_dockingPoints);
+    }
 }
 
 }
