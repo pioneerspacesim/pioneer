@@ -22,6 +22,8 @@ public:
 	virtual void Update();
 	virtual void Draw();
 
+	SceneGraph::Model *GetModel() const { return m_model.get(); }
+
 protected:
 	virtual void HandleMouseDown(const UI::MouseButtonEvent &event);
 	virtual void HandleMouseMove(const UI::MouseMotionEvent &event);

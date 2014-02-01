@@ -3,6 +3,15 @@ February 2014
    * Minor changes and tweaks
      * Added landing tag points to all ships (#2703)
 
+   * Script API changes
+     * Model.SetDebugFlags for adding debug effects to model drawing
+     * ModelSpinner.model to get the spinner model
+
+   * Internal changes
+     * Moved model debug effects (wireframe, collision mesh) out of
+       ModelViewer and onto Model, and exposed via SetDebugFlags
+
+
 January 2014
 
    * New features

@@ -13,6 +13,7 @@
 #include "ShipType.h"
 #include "galaxy/StarSystem.h"
 #include "gameui/Face.h"
+#include "scenegraph/Model.h"
 #include "ui/Align.h"
 #include "ui/Event.h"
 #include "ui/Expand.h"
@@ -311,6 +312,15 @@ const struct EnumItem ENUM_GameUIFaceFlags[] = {
 	{ 0, 0 },
 };
 
+const struct EnumItem ENUM_ModelDebugFlags[] = {
+	{ "AABB", SceneGraph::Model::DEBUG_AABB },
+	{ "COLLMESH", SceneGraph::Model::DEBUG_COLLMESH },
+	{ "WIREFRAME", SceneGraph::Model::DEBUG_WIREFRAME },
+	{ "TAGS", SceneGraph::Model::DEBUG_TAGS },
+	{ "DOCKING", SceneGraph::Model::DEBUG_DOCKING },
+	{ 0, 0 },
+};
+
 const struct EnumItem ENUM_UIAlignDirection[] = {
 	{ "TOP_LEFT", UI::Align::TOP_LEFT },
 	{ "TOP", UI::Align::TOP },
@@ -466,6 +476,7 @@ const struct EnumTable ENUM_TABLES[] = {
 	{ "BodyType", ENUM_BodyType },
 	{ "BodySuperType", ENUM_BodySuperType },
 	{ "GameUIFaceFlags", ENUM_GameUIFaceFlags },
+	{ "ModelDebugFlags", ENUM_ModelDebugFlags },
 	{ "UIAlignDirection", ENUM_UIAlignDirection },
 	{ "UIEventType", ENUM_UIEventType },
 	{ "UIKeyboardAction", ENUM_UIKeyboardAction },
@@ -504,6 +515,7 @@ const struct EnumTable ENUM_TABLES_PUBLIC[] = {
 	{ "BodyType", ENUM_BodyType },
 	{ "BodySuperType", ENUM_BodySuperType },
 	{ "GameUIFaceFlags", ENUM_GameUIFaceFlags },
+	{ "ModelDebugFlags", ENUM_ModelDebugFlags },
 	{ "UIAlignDirection", ENUM_UIAlignDirection },
 	{ "UIEventType", ENUM_UIEventType },
 	{ "UIKeyboardAction", ENUM_UIKeyboardAction },
