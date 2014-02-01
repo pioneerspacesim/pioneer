@@ -64,7 +64,6 @@ public:
 
 	virtual bool SetWireFrameMode(bool enabled);
 
-	virtual bool SetLightsEnabled(const bool enabled);
 	virtual bool SetLights(int numlights, const Light *l);
 	virtual bool SetAmbientColor(const Color &c);
 

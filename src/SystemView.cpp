@@ -343,14 +343,6 @@ void SystemView::Draw3D()
 
 	if (!m_system) m_system = StarSystem::GetCached(path);
 
-	// XXX fog is not going to be supported in renderer likely -
-	// fade the circles some other way
-	glEnable(GL_FOG);
-	glFogi(GL_FOG_MODE, GL_EXP2);
-	glFogfv(GL_FOG_COLOR, fogColor);
-	glFogf(GL_FOG_DENSITY, fogDensity);
-	glHint(GL_FOG_HINT, GL_NICEST);
-
 	matrix4x4f trans = matrix4x4f::Identity();
 	trans.Translate(0,0,-ROUGH_SIZE_OF_TURD);
 	trans.Rotate(DEG2RAD(m_rot_x), 1, 0, 0);
@@ -372,8 +364,6 @@ void SystemView::Draw3D()
 				PutSelectionBox(navTargetSystemBody, pos, Color::GREEN);
 		}
 	}
-
-	glDisable(GL_FOG);
 }
 
 void SystemView::Update()

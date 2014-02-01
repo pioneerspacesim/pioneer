@@ -84,12 +84,10 @@ RendererGL2::RendererGL2(WindowSDL *window, const Graphics::Settings &vs)
 	m_useCompressedTextures = useDXTnTextures;
 
 	//XXX bunch of fixed function states here!
-	glShadeModel(GL_SMOOTH);
 	glCullFace(GL_BACK);
 	glFrontFace(GL_CCW);
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
@@ -302,16 +300,6 @@ bool RendererGL2::SetProjection(const matrix4x4f &m)
 bool RendererGL2::SetWireFrameMode(bool enabled)
 {
 	glPolygonMode(GL_FRONT_AND_BACK, enabled ? GL_LINE : GL_FILL);
-	return true;
-}
-
-bool RendererGL2::SetLightsEnabled(const bool enabled) {
-	// XXX move lighting out to shaders
-	if( enabled ) {
-		glEnable(GL_LIGHTING);
-	} else {
-		glDisable(GL_LIGHTING);
-	}
 	return true;
 }
 

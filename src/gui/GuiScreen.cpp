@@ -142,8 +142,6 @@ void Screen::EnterOrtho()
 	r->GetCurrentViewport(&viewport[0]);
 	r->SetOrthographicProjection(0, width, height, 0, -1, 1);
 	r->SetTransform(matrix4x4f::Identity());
-
-	glDisable(GL_LIGHTING);
 }
 
 void Screen::LeaveOrtho()

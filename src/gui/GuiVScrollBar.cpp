@@ -74,16 +74,15 @@ void ScrollBar::Draw()
 	float size[2]; GetSize(size);
 	Theme::DrawIndent(size, Screen::alphaBlendState);
 	float pos = m_adjustment->GetValue();
-	glColor3f(1,1,1);
-	glBegin(GL_LINES);
-		if (m_isHoriz) {
-			glVertex2f(BORDER+(size[0]-2*BORDER)*pos, BORDER);
-			glVertex2f(BORDER+(size[0]-2*BORDER)*pos, size[1]-BORDER);
-		} else {
-			glVertex2f(BORDER, BORDER+(size[1]-2*BORDER)*pos);
-			glVertex2f(size[0]-BORDER, BORDER+(size[1]-2*BORDER)*pos);
-		}
-	glEnd();
+	vector3f lines[2];
+	if (m_isHoriz) {
+		lines[0] = vector3f(BORDER+(size[0]-2*BORDER)*pos, BORDER, 0.f);
+		lines[1] = vector3f(BORDER+(size[0]-2*BORDER)*pos, size[1]-BORDER, 0.f);
+	} else {
+		lines[0] = vector3f(BORDER, BORDER+(size[1]-2*BORDER)*pos, 0.f);
+		lines[1] = vector3f(size[0]-BORDER, BORDER+(size[1]-2*BORDER)*pos, 0.f);
+	}
+	Screen::GetRenderer()->DrawLines(2, &lines[0], Color::WHITE, Screen::alphaBlendState);
 }
 
 void ScrollBar::GetSizeRequested(float size[2])

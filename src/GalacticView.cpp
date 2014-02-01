@@ -89,7 +89,6 @@ static void dummy() {}
 void GalacticView::PutLabels(vector3d offset)
 {
 	Gui::Screen::EnterOrtho();
-	glColor3f(1,1,1);
 
 	for (int i=0; s_labels[i].label; i++) {
 		vector3d p = m_zoom * (s_labels[i].pos + offset);
