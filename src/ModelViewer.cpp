@@ -488,10 +488,6 @@ void ModelViewer::DrawModel()
 		mv = matrix4x4f::Translation(0.0f, 0.0f, -zoom_distance(m_baseDistance, m_zoom)) * rot;
 	}
 
-	if (m_options.showGrid)
-		DrawGrid(mv, m_model->GetDrawClipRadius());
-
-
 	m_model->UpdateAnimations();
 
 	m_model->SetDebugFlags(
@@ -508,6 +504,9 @@ void ModelViewer::DrawModel()
 		if (!m_scaleModel) CreateTestResources();
 		m_scaleModel->Render(mv * matrix4x4f::Translation(0.f, m_landingMinOffset, 0.f));
 	}
+
+	if (m_options.showGrid)
+		DrawGrid(mv, m_model->GetDrawClipRadius());
 }
 
 void ModelViewer::MainLoop()
