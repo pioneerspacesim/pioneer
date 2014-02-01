@@ -498,7 +498,7 @@ void SectorView::ResetHyperspaceTarget()
 	m_hyperspaceTarget = m_selected;
 	FloatHyperspaceTarget();
 
-	if (old != m_hyperspaceTarget) {
+	if (!old.IsSameSystem(m_hyperspaceTarget)) {
 		onHyperspaceTargetChanged.emit();
 		UpdateDistanceLabelAndLine(m_secondDistance, m_selected, m_hyperspaceTarget);
 		UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
@@ -537,7 +537,7 @@ void SectorView::SetSelectedSystem(const SystemPath &path)
 {
     m_selected = path;
 
-	if (m_matchTargetToSelection && m_selected != m_current) {
+	if (m_matchTargetToSelection && !m_selected.IsSameSystem(m_current)) {
 		m_hyperspaceTarget = m_selected;
 		onHyperspaceTargetChanged.emit();
 		UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
@@ -723,7 +723,11 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 	}
 	labels.starType->SetText(desc);
 
-	labels.systemName->SetText(sys->GetName());
+	if (path.IsBodyPath()) {
+		labels.systemName->SetText(sys->GetBodyByPath(path)->name);
+	} else {
+		labels.systemName->SetText(sys->GetName());
+	}
 	labels.sector->SetText(stringf("(%x,%y,%z)",
 		formatarg("x", int(path.sectorX)),
 		formatarg("y", int(path.sectorY)),
