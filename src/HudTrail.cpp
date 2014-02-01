@@ -64,8 +64,7 @@ void HudTrail::Render(Graphics::Renderer *r)
 		}
 
 		r->SetTransform(m_transform);
-		r->SetRenderState(m_renderState);
-		r->DrawLines(tvts.size(), &tvts[0], &colors[0], Graphics::LINE_STRIP);
+		r->DrawLines(tvts.size(), &tvts[0], &colors[0], m_renderState, Graphics::LINE_STRIP);
 	}
 }
 

@@ -111,6 +111,5 @@ void SpeedLines::Render(Graphics::Renderer *r)
 	}
 
 	r->SetTransform(m_transform);
-	r->SetRenderState(m_renderState);
-	r->DrawLines(m_vertices.size(), &m_vertices[0], &m_vtxColors[0]);
+	r->DrawLines(m_vertices.size(), &m_vertices[0], &m_vtxColors[0], m_renderState);
 }

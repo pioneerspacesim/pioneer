@@ -73,8 +73,7 @@ void Node::DrawAxes()
 	};
 
 	Graphics::RenderStateDesc rsd;
-	m_renderer->SetRenderState(m_renderer->CreateRenderState(rsd));
-	m_renderer->DrawLines(6, vtsXYZ, colors);
+	m_renderer->DrawLines(6, vtsXYZ, colors, m_renderer->CreateRenderState(rsd));
 }
 
 void Node::Save(NodeDatabase &db)

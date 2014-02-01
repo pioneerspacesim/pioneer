@@ -460,13 +460,12 @@ void SectorView::Draw3D()
 		DrawFarSectors(modelview);
 
 	//draw sector legs in one go
-	m_renderer->SetRenderState(m_alphaBlendState);
 	m_renderer->SetTransform(matrix4x4f::Identity());
 	if (m_lineVerts->GetNumVerts() > 2)
-		m_renderer->DrawLines(m_lineVerts->GetNumVerts(), &m_lineVerts->position[0], &m_lineVerts->diffuse[0]);
+		m_renderer->DrawLines(m_lineVerts->GetNumVerts(), &m_lineVerts->position[0], &m_lineVerts->diffuse[0], m_alphaBlendState);
 
 	if (m_secLineVerts->GetNumVerts() > 2)
-		m_renderer->DrawLines(m_secLineVerts->GetNumVerts(), &m_secLineVerts->position[0], &m_secLineVerts->diffuse[0]);
+		m_renderer->DrawLines(m_secLineVerts->GetNumVerts(), &m_secLineVerts->position[0], &m_secLineVerts->diffuse[0], m_alphaBlendState);
 
 	UpdateFactionToggles();
 }
@@ -923,7 +922,7 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 			if (m_selected != m_current) {
 			    m_selectedLine.SetStart(vector3f(0.f, 0.f, 0.f));
 			    m_selectedLine.SetEnd(playerAbsPos - sysAbsPos);
-			    m_selectedLine.Draw(m_renderer);
+			    m_selectedLine.Draw(m_renderer, m_solidState);
 			} else {
 			    m_secondDistance.label->SetText("");
 			}
@@ -935,14 +934,14 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 				if (m_selected != m_current) {
 				    m_secondLine.SetStart(vector3f(0.f, 0.f, 0.f));
 				    m_secondLine.SetEnd(hyperAbsPos - sysAbsPos);
-				    m_secondLine.Draw(m_renderer);
+				    m_secondLine.Draw(m_renderer, m_solidState);
 				}
 
 				if (m_hyperspaceTarget != m_current) {
 				    // FIXME: Draw when drawing hyperjump target or current system
 				    m_jumpLine.SetStart(hyperAbsPos - sysAbsPos);
 				    m_jumpLine.SetEnd(playerAbsPos - sysAbsPos);
-				    m_jumpLine.Draw(m_renderer);
+				    m_jumpLine.Draw(m_renderer, m_solidState);
 				}
 			} else {
 			    m_secondDistance.label->SetText("");

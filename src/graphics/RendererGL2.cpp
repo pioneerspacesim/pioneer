@@ -369,10 +369,12 @@ bool RendererGL2::SetScissor(bool enabled, const vector2f &pos, const vector2f &
 	return true;
 }
 
-bool RendererGL2::DrawLines(int count, const vector3f *v, const Color *c, LineType t)
+bool RendererGL2::DrawLines(int count, const vector3f *v, const Color *c, RenderState* state, LineType t)
 {
 	PROFILE_SCOPED()
 	if (count < 2 || !v) return false;
+
+	SetRenderState(state);
 
 	vtxColorProg->Use();
 	vtxColorProg->invLogZfarPlus1.Set(m_invLogZfarPlus1);

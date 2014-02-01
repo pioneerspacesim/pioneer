@@ -442,13 +442,13 @@ void AddAxisIndicators(const SceneGraph::Model::TVecMT &mts, std::vector<Graphic
 void ModelViewer::DrawDockingLocators()
 {
 	for(std::vector<Graphics::Drawables::Line3D>::iterator i = m_dockingPoints.begin(); i != m_dockingPoints.end(); ++i)
-		(*i).Draw(m_renderer);
+		(*i).Draw(m_renderer, m_bgState);
 }
 
 void ModelViewer::DrawTags()
 {
 	for(std::vector<Graphics::Drawables::Line3D>::iterator i = m_tagPoints.begin(); i != m_tagPoints.end(); ++i)
-		(*i).Draw(m_renderer);
+		(*i).Draw(m_renderer, m_bgState);
 }
 
 // Draw collision mesh as a wireframe overlay
@@ -569,8 +569,7 @@ void ModelViewer::DrawGrid(const matrix4x4f &trans, float radius)
 		Color(0, 255, 0)
 	};
 
-	m_renderer->SetRenderState(m_bgState);
-	m_renderer->DrawLines(numAxVerts, &vts[0], &col[0]);
+	m_renderer->DrawLines(numAxVerts, &vts[0], &col[0], m_bgState);
 }
 
 void ModelViewer::DrawModel()

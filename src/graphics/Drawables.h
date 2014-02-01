@@ -18,7 +18,7 @@ namespace Drawables {
 // (circles, disks, polylines etc)
 class Drawable {
 protected:
-	virtual void Draw(Renderer *r) = 0;
+	virtual void Draw(Renderer *r) { };
 	virtual ~Drawable() { }
 	Graphics::RenderState *m_renderState;
 };
@@ -73,7 +73,7 @@ public:
 	void SetStart(const vector3f &);
 	void SetEnd(const vector3f &);
 	void SetColor(const Color &);
-	virtual void Draw(Renderer *r);
+	virtual void Draw(Renderer*, RenderState*);
 private:
 	vector3f m_points[2];
 	Color m_colors[2];

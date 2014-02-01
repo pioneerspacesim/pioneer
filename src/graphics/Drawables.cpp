@@ -78,12 +78,12 @@ void Line3D::SetColor(const Color &c)
 	m_colors[1]  *= 0.5; //XXX hardcoded appearance
 }
 
-void Line3D::Draw(Renderer *renderer)
+void Line3D::Draw(Renderer *renderer, RenderState *rs)
 {
 	// XXX would be nicer to draw this as a textured triangle strip
 	// can't guarantee linewidth support
 	glLineWidth(m_width);
-	renderer->DrawLines(2, m_points, m_colors);
+	renderer->DrawLines(2, m_points, m_colors, rs);
 	glLineWidth(1.f);
 }
 

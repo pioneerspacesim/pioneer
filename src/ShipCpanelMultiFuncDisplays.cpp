@@ -490,7 +490,7 @@ void ScannerWidget::DrawRingsAndSpokes(bool blend)
 {
 	Color col(0, 102, 0, 128);
 	m_renderer->DrawLines2D(m_vts.size(), &m_vts[0], col, m_renderState);
-	m_renderer->DrawLines(m_edgeVts.size(), &m_edgeVts[0], &m_edgeCols[0]);
+	m_renderer->DrawLines(m_edgeVts.size(), &m_edgeVts[0], &m_edgeCols[0], m_renderState);
 }
 
 void ScannerWidget::TimeStepUpdate(float step)
