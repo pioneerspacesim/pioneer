@@ -17,9 +17,9 @@ namespace Gui {
 
 	namespace Theme {
 		void DrawRoundEdgedRect(const float size[2], float rad, const Color&, Graphics::RenderState*);
-		void DrawIndent(const float size[2]);
-		void DrawOutdent(const float size[2]);
-		void DrawHollowRect(const float size[2]);
+		void DrawIndent(const float size[2], Graphics::RenderState*);
+		void DrawOutdent(const float size[2], Graphics::RenderState*);
+		void DrawHollowRect(const float size[2], const Color&, Graphics::RenderState*);
 		namespace Colors {
 			extern const Color bg;
 			extern const Color bgShadow;

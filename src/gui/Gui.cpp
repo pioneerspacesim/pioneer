@@ -167,8 +167,12 @@ namespace Theme {
 		Screen::GetRenderer()->DrawTriangles(&vts, state, Screen::flatColorMaterial, Graphics::TRIANGLE_FAN);
 	}
 
-	void DrawHollowRect(const float size[2])
+	void DrawHollowRect(const float size[2], const Color &color, Graphics::RenderState *state)
 	{
+		Screen::flatColorMaterial->diffuse = color;
+		Screen::GetRenderer()->SetRenderState(state);
+		Screen::flatColorMaterial->Apply();
+
 		GLfloat vertices[] = { 0,0,
 			0,size[1],
 			size[0],size[1],
@@ -184,10 +188,14 @@ namespace Theme {
 		glVertexPointer(2, GL_FLOAT, 0, vertices);
 		glDrawElements(GL_QUADS, 16, GL_UNSIGNED_BYTE, indices);
 		glDisableClientState(GL_VERTEX_ARRAY);
+
+		Screen::flatColorMaterial->Unapply();
 	}
 
-	void DrawIndent(const float size[2])
+	void DrawIndent(const float size[2], Graphics::RenderState *state)
 	{
+		Screen::GetRenderer()->SetRenderState(state);
+
 		GLfloat vertices[] = { 0,0,
 			0,size[1],
 			size[0],size[1],
@@ -202,17 +210,27 @@ namespace Theme {
 			4,5,6,7 };
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glVertexPointer(2, GL_FLOAT, 0, vertices);
-		glColor3ub(Colors::bgShadow.r, Colors::bgShadow.g, Colors::bgShadow.b);
+
+		Screen::flatColorMaterial->diffuse = Colors::bgShadow;
+		Screen::flatColorMaterial->Apply();
 		glDrawElements(GL_QUADS, 8, GL_UNSIGNED_BYTE, indices);
-		glColor3ub(153,153,153);
+
+		Screen::flatColorMaterial->diffuse = Color(153,153,153,255);
+		Screen::flatColorMaterial->Apply();
 		glDrawElements(GL_QUADS, 8, GL_UNSIGNED_BYTE, indices+8);
-		glColor3ub(Colors::bg.r, Colors::bg.g, Colors::bg.b);
+
+		Screen::flatColorMaterial->diffuse = Colors::bg;
+		Screen::flatColorMaterial->Apply();
 		glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, indices+16);
 		glDisableClientState(GL_VERTEX_ARRAY);
+
+		Screen::flatColorMaterial->Unapply();
 	}
 
-	void DrawOutdent(const float size[2])
+	void DrawOutdent(const float size[2], Graphics::RenderState *state)
 	{
+		Screen::GetRenderer()->SetRenderState(state);
+
 		GLfloat vertices[] = { 0,0,
 			0,size[1],
 			size[0],size[1],
@@ -227,13 +245,21 @@ namespace Theme {
 			4,5,6,7 };
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glVertexPointer(2, GL_FLOAT, 0, vertices);
-		glColor3ub(153,153,153);
+
+		Screen::flatColorMaterial->diffuse = Color(153,153,153,255);
+		Screen::flatColorMaterial->Apply();
 		glDrawElements(GL_QUADS, 8, GL_UNSIGNED_BYTE, indices);
-		glColor3ub(Colors::bgShadow.r, Colors::bgShadow.g, Colors::bgShadow.b);
+
+		Screen::flatColorMaterial->diffuse = Colors::bgShadow;
+		Screen::flatColorMaterial->Apply();
 		glDrawElements(GL_QUADS, 8, GL_UNSIGNED_BYTE, indices+8);
-		glColor3ub(Colors::bg.r, Colors::bg.g, Colors::bg.b);
+
+		Screen::flatColorMaterial->diffuse = Colors::bg;
+		Screen::flatColorMaterial->Apply();
 		glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, indices+16);
 		glDisableClientState(GL_VERTEX_ARRAY);
+
+		Screen::flatColorMaterial->Unapply();
 	}
 }
 

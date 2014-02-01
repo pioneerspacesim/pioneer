@@ -72,7 +72,7 @@ void ScrollBar::Draw()
 {
 	PROFILE_SCOPED()
 	float size[2]; GetSize(size);
-	Theme::DrawIndent(size);
+	Theme::DrawIndent(size, Screen::alphaBlendState);
 	float pos = m_adjustment->GetValue();
 	glColor3f(1,1,1);
 	glBegin(GL_LINES);
@@ -105,26 +105,4 @@ void ScrollBar::GetMinimumSize(float size[2])
 	size[0] = size[1] = SCROLLBAR_SIZE;
 }
 
-void HScale::Draw()
-{
-	PROFILE_SCOPED()
-	float size[2]; GetSize(size);
-	float pos = m_adjustment->GetValue();
-
-	glBegin(GL_QUADS);
-		glColor3f(1.0f, 0.8f, 0.0f);
-		glVertex2f(0.0f, 0.0f);
-		glVertex2f(0.0f, size[1]);
-		glVertex2d(size[0]*pos, size[1]);
-		glVertex2d(size[0]*pos, 0.0f);
-
-		glColor3f(0.0f, 0.0f, 0.2f);
-		glVertex2f(size[0]*pos, 0.0f);
-		glVertex2f(size[0]*pos, size[1]);
-		glVertex2d(size[0], size[1]);
-		glVertex2d(size[0], 0.0f);
-	glEnd();
 }
-
-}
-
