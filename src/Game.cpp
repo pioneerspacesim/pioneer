@@ -36,7 +36,7 @@ Game::Game(const SystemPath &path, double time) :
 	m_requestedTimeAccel(TIMEACCEL_1X),
 	m_forceTimeAccel(false)
 {
-	assert(Sector::cache.IsEmpty());
+	Pi::FlushCaches();
 	Faction::SetHomeSectors();
 
 	m_space.reset(new Space(this, path));
@@ -63,7 +63,7 @@ Game::Game(const SystemPath &path, const vector3d &pos, double time) :
 	m_requestedTimeAccel(TIMEACCEL_1X),
 	m_forceTimeAccel(false)
 {
-	assert(Sector::cache.IsEmpty());
+	Pi::FlushCaches();
 	Faction::SetHomeSectors();
 
 	m_space.reset(new Space(this, path));
@@ -127,7 +127,7 @@ Game::Game(Serializer::Reader &rd) :
 	}
 
 	// XXX This must be done after loading sectors once we can change them in game
-	assert(Sector::cache.IsEmpty());
+	Pi::FlushCaches();
 	Faction::SetHomeSectors();
 
 	Serializer::Reader section;

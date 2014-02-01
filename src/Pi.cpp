@@ -472,8 +472,9 @@ void Pi::Init()
 	CustomSystem::Init();
 	draw_progress(gauge, label, 0.4f);
 
-	// Sectors might be changed in game, re-create them once we have a Game.
-	Faction::ClearHomeSectors();
+	// Reload home sector, they might have changed, due to custom systems
+	// Sectors might be changed in game, so have to re-create them again once we have a Game.
+	Faction::SetHomeSectors();
 	draw_progress(gauge, label, 0.45f);
 
 	modelCache = new ModelCache(Pi::renderer);
@@ -679,6 +680,14 @@ void Pi::Quit()
 	FileSystem::Uninit();
 	jobQueue.reset();
 	exit(0);
+}
+
+void Pi::FlushCaches()
+{
+	Faction::ClearHomeSectors();
+	StarSystemCache::ShrinkCache(SystemPath(), true);
+	Sector::cache.ClearCache();
+	assert(Sector::cache.IsEmpty());
 }
 
 void Pi::BoinkNoise()
@@ -1070,10 +1079,8 @@ void Pi::EndGame()
 	game = 0;
 	player = 0;
 
-	Faction::ClearHomeSectors();
-	StarSystemCache::ShrinkCache(SystemPath(), true);
-	Sector::cache.ClearCache();
-	assert(Sector::cache.IsEmpty());
+	FlushCaches();
+	Faction::SetHomeSectors(); // We might need them to start a new game
 }
 
 void Pi::MainLoop()

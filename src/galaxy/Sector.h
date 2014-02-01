@@ -21,8 +21,6 @@ class Sector : public RefCounted {
 public:
 	// lightyears
 	static const float SIZE;
-	Sector(int x, int y, int z);
-	Sector(const SystemPath& path);
 	~Sector();
 
 	Sector(const Sector&) = delete;
@@ -69,6 +67,9 @@ public:
 
 private:
 	int sx, sy, sz;
+	bool m_factionsAssigned;
+
+	Sector(const SystemPath& path); // Only SectorCache(Job) are allowed to create sectors
 	void GetCustomSystems();
 	const std::string GenName(System &sys, int si, Random &rand);
 	// sets appropriate factions for all systems in the sector

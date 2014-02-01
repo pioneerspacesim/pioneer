@@ -12,6 +12,7 @@
 #include "Polit.h"
 #include "FileSystem.h"
 #include "Lang.h"
+#include "Pi.h"
 #include <set>
 #include <algorithm>
 
@@ -34,6 +35,7 @@ static FactionList       s_factions;
 static FactionMap        s_factions_byName;
 static HomeSystemSet     s_homesystems;
 static FactionOctsapling s_spatial_index;
+static bool             s_may_assign_factions;
 
 // ------- Lua Faction Builder --------
 
@@ -341,9 +343,8 @@ void Faction::Init()
 	lua_close(L);
 
 	Output("Number of factions added: " SIZET_FMT "\n", s_factions.size());
-	StarSystemCache::ShrinkCache(SystemPath(), true);    // clear the star system cache of anything we used for faction generation
-	Sector::cache.ClearCache();
-	assert(Sector::cache.IsEmpty()); // Nobody else should hold references from the cache.
+	Pi::FlushCaches();    // clear caches of anything we used for faction generation
+	s_may_assign_factions = true;
 }
 
 //static
@@ -356,9 +357,12 @@ void Faction::ClearHomeSectors()
 //static
 void Faction::SetHomeSectors()
 {
+	s_may_assign_factions = false;
 	for (auto it = s_factions.begin(); it != s_factions.end(); ++it)
 		if ((*it)->hasHomeworld)
 			(*it)->m_homesector = Sector::cache.GetCached((*it)->homeworld);
+	s_may_assign_factions = true;
+	Sector::cache.AssignFactions();
 }
 
 void Faction::Uninit()
@@ -395,6 +399,12 @@ const Uint32 Faction::GetNumFactions()
 	return s_factions.size();
 }
 
+bool Faction::MayAssignFactions()
+{
+	PROFILE_SCOPED()
+	return s_may_assign_factions;
+}
+
 /*	Answer whether the faction both contains the sysPath, and has a homeworld
 	closer than the passed distance.
 
@@ -421,9 +431,7 @@ const bool Faction::IsCloserAndContains(double& closestFactionDist, RefCountedPt
 		/* ...otherwise we need to calculate whether the world is inside the
 		   the faction border, and how far away it is. */
 		else {
-			if (!m_homesector) // This will later be replaced by a Sector from the cache
-				m_homesector = RefCountedPtr<const Sector>(new Sector(homeworld));
-			distance = Sector::DistanceBetween(m_homesector, homeworld.systemIndex, sec, sysIndex);
+			distance = Sector::DistanceBetween(GetHomeSector(), homeworld.systemIndex, sec, sysIndex);
 			inside   = distance < Radius();
 		}
 	}
@@ -512,13 +520,16 @@ void Faction::SetBestFitHomeworld(Sint32 x, Sint32 y, Sint32 z, Sint32 si, Uint3
 	while (si < 0 && (abs(x) != 90 && abs(y) != 90 && abs(z) != 90)
 		          && (    x  != 0  &&     y  !=  0 &&     z  != 0 )) {
 
+		SystemPath path(x, y, z);
 		// search for a suitable homeworld in the current sector
-		Sector sec(x,y,z);
-		Uint32 candidateSi = 0;
-		while (candidateSi < sec.m_systems.size()) {
-			sys = StarSystemCache::GetCached(SystemPath(x,y,z,candidateSi));
+		assert(!s_may_assign_factions);
+		RefCountedPtr<const Sector> sec = Sector::cache.GetCached(path);
+		Sint32 candidateSi = 0;
+		while (Uint32(candidateSi) < sec->m_systems.size()) {
+			path.systemIndex = candidateSi;
+			sys = StarSystemCache::GetCached(path);
 			if (sys->m_spaceStations.size() > 0) {
-				si = Sint32(candidateSi);
+				si = candidateSi;
 				break;
 			}
 			candidateSi++;
@@ -531,6 +542,12 @@ void Faction::SetBestFitHomeworld(Sint32 x, Sint32 y, Sint32 z, Sint32 si, Uint3
 		i++;
 	}
 	homeworld = SystemPath(x, y, z, si);
+}
+
+RefCountedPtr<const Sector> Faction::GetHomeSector() {
+	if (!m_homesector) // This will later be replaced by a Sector from the cache
+		m_homesector = Sector::cache.GetCached(homeworld);
+	return m_homesector;
 }
 
 Faction::Faction() :
@@ -566,15 +583,15 @@ void FactionOctsapling::Add(Faction* faction)
 		This part happens at faction generation time so shouldn't be too performance
 		critical
 	*/
-	Sector sec(faction->homeworld);
+	RefCountedPtr<const Sector> sec = faction->GetHomeSector();
 
 	/* only factions with homeworlds that are available at faction generation time can
 	   be added to specific cells...
 	*/
-	if (faction->hasHomeworld && (faction->homeworld.systemIndex < sec.m_systems.size())) {
+	if (faction->hasHomeworld && (faction->homeworld.systemIndex < sec->m_systems.size())) {
 		/* calculate potential indexes for the octbox cells the faction needs to go into
 		*/
-		Sector::System sys = sec.m_systems[faction->homeworld.systemIndex];
+		Sector::System sys = sec->m_systems[faction->homeworld.systemIndex];
 
 		int xmin = BoxIndex(Sint32(sys.FullPosition().x - float((faction->Radius()))));
 		int xmax = BoxIndex(Sint32(sys.FullPosition().x + float((faction->Radius()))));

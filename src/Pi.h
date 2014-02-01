@@ -99,6 +99,7 @@ public:
 		memcpy(motion, mouseMotion, sizeof(int)*2);
 	}
 	static void SetMouseGrab(bool on);
+	static void FlushCaches();
 	static void BoinkNoise();
 	static float CalcHyperspaceRangeMax(int hyperclass, int total_mass_in_tonnes);
 	static float CalcHyperspaceRange(int hyperclass, float total_mass_in_tonnes, int fuel);
