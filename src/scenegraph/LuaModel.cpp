@@ -3,6 +3,7 @@
 
 #include "Model.h"
 #include "LuaObject.h"
+#include "LuaConstants.h"
 
 namespace SceneGraph {
 
@@ -45,6 +46,34 @@ public:
 		return 1;
 	}
 
+	static inline Uint32 _unpack_flags(lua_State *l, int idx, const char *constants) {
+		int table = lua_absindex(l, idx);
+
+		if (!lua_istable(l, table))
+			return 0;
+
+		LUA_DEBUG_START(l);
+
+		Uint32 flags = 0;
+
+		lua_pushnil(l);
+		while (lua_next(l, table)) {
+			flags |= static_cast<Uint32>(LuaConstants::GetConstantFromArg(l, constants, -1));
+			lua_pop(l, 1);
+		}
+
+		LUA_DEBUG_END(l, 0);
+
+		return flags;
+	}
+
+	static int l_set_debug_flags(lua_State *l) {
+		SceneGraph::Model *model = LuaObject<SceneGraph::Model>::CheckFromLua(1);
+		Uint32 debugFlags = _unpack_flags(l, 2, "ModelDebugFlags");
+		model->SetDebugFlags(debugFlags);
+		return 0;
+	}
+
 };
 
 }
@@ -56,7 +85,8 @@ template <> const char *LuaObject<SceneGraph::Model>::s_type = "SceneGraph.Model
 template <> void LuaObject<SceneGraph::Model>::RegisterClass()
 {
 	static const luaL_Reg l_methods[] = {
-		{ "SetPattern", LuaModel::l_set_pattern },
+		{ "SetPattern",    LuaModel::l_set_pattern },
+		{ "SetDebugFlags", LuaModel::l_set_debug_flags },
 		{ 0, 0 }
 	};
 
