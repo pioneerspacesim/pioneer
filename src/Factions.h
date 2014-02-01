@@ -17,7 +17,8 @@
 class Faction : public DeleteEmitter {
 public:
 	static void Init();
-	static void RefreshHomeSectors();
+	static void ClearHomeSectors();
+	static void SetHomeSectors();
 	static void Uninit();
 
 	// XXX this is not as const-safe as it should be

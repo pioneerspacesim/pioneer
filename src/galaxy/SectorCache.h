@@ -5,6 +5,9 @@
 #define SECTORCACHE_H
 
 #include <memory>
+#include <map>
+#include <set>
+#include <vector>
 #include "libs.h"
 #include "galaxy/SystemPath.h"
 #include "graphics/Drawables.h"
@@ -17,28 +20,44 @@ class SectorCache {
 	friend class Sector;
 
 public:
-	SectorCache();
-
 	RefCountedPtr<Sector> GetCached(const SystemPath& loc);
-	void GenSectorCache();
-	void ShrinkCache();	// shrink cache to the surrounding of the player (putting still referenced Sectors to attic).
-	void ClearCache(); 	// Completely clear cache, putting everything to attic.
-	bool IsCompletelyEmpty() { return m_sectorCache.empty() && m_sectorAttic.empty(); }
+	RefCountedPtr<Sector> GetIfCached(const SystemPath& loc);
+	void ClearCache(); 	// Completely clear slave caches
+	bool IsEmpty() { return m_sectorAttic.empty(); }
 
-	void SetZoomClamp(const float zoomClamp) { m_zoomClamped = zoomClamp; }
-	void SetPosition(const vector3f& pos) { m_pos = pos; }
-
+	typedef std::vector<SystemPath> PathVector;
 	typedef std::map<SystemPath,RefCountedPtr<Sector> > SectorCacheMap;
 	typedef std::map<SystemPath,Sector*> SectorAtticMap;
-	typedef SectorCacheMap::const_iterator SectorCacheMapConstIterator;
 
-	SectorCacheMapConstIterator Begin() { return m_sectorCache.begin(); }
-	SectorCacheMapConstIterator End() { return m_sectorCache.end(); }
+	class Slave : public RefCounted {
+		friend class SectorCache;
+	public:
+		RefCountedPtr<Sector> GetCached(const SystemPath& loc);
+		RefCountedPtr<Sector> GetIfCached(const SystemPath& loc);
+		SectorCacheMap::const_iterator Begin() const { return m_sectorCache.begin(); }
+		SectorCacheMap::const_iterator End() const { return m_sectorCache.end(); }
+		//void Insert(RefCountedPtr<Sector> sec);
+		void FillCache(const PathVector& paths);
+		void Erase(const SystemPath& loc);
+		void Erase(const SectorCacheMap::const_iterator& it);
+		void ClearCache();
+		bool IsEmpty() { return m_sectorCache.empty(); }
+		~Slave();
+
+	private:
+		SectorCacheMap m_sectorCache;
+
+		Slave();
+		void AddToCache(const std::vector<RefCountedPtr<Sector> >& secIn);
+	};
+
+	RefCountedPtr<Slave> NewSlaveCache();
 
 private:
-	void AddToCache(const std::vector<RefCountedPtr<Sector> >& secIn);
+	static const unsigned CACHE_JOB_SIZE = 100;
+
+	void AddToCache(std::vector<RefCountedPtr<Sector> >& sec);
 	bool HasCached(const SystemPath& loc) const;
-	bool HasCached(const SystemPath& loc, bool revive);
 	void RemoveFromAttic(const SystemPath& path);
 
 	// ********************************************************************************
@@ -47,32 +66,23 @@ private:
 	class SectorCacheJob : public Job
 	{
 	public:
-		SectorCacheJob(std::unique_ptr<std::vector<SystemPath> > path);
-		virtual ~SectorCacheJob() {}
+		SectorCacheJob(std::unique_ptr<std::vector<SystemPath> > path, Slave* slaveCache);
+		virtual ~SectorCacheJob();
 
 		virtual void OnRun();    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
 		virtual void OnFinish();  // runs in primary thread of the context
 		virtual void OnCancel() {}   // runs in primary thread of the context
 
-	protected:
+	private:
 		std::unique_ptr<std::vector<SystemPath> > m_paths;
 		std::vector<RefCountedPtr<Sector> > m_sectors;
+		Slave* m_slaveCache;
 	};
 
-	SectorCacheMap m_sectorCache;
-	SectorAtticMap m_sectorAttic; // Those contains non-refcounted pointers to the Sectors the cache
-								  // is no longer interested in, but still exist due to another attachement.
-								  // This ensures, that there is only ever one object for each Sector.
-								  // The Sector destructor ensures that it is removed from attic.
-
-	int m_cacheXMin;
-	int m_cacheXMax;
-	int m_cacheYMin;
-	int m_cacheYMax;
-	int m_cacheZMin;
-	int m_cacheZMax;
-	float m_zoomClamped;
-	vector3f m_pos;
+	std::set<Slave*> m_slaves;
+	SectorAtticMap m_sectorAttic;	// Those contains non-refcounted pointers which are kept alive by RefCountedPtrs in slave caches
+									// or elsewhere. The Sector destructor ensures that it is removed from here.
+									// This ensures, that there is only ever one object for each Sector.
 };
 
 #endif

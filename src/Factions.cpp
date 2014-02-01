@@ -343,11 +343,18 @@ void Faction::Init()
 	Output("Number of factions added: " SIZET_FMT "\n", s_factions.size());
 	StarSystemCache::ShrinkCache(SystemPath(), true);    // clear the star system cache of anything we used for faction generation
 	Sector::cache.ClearCache();
-	assert(Sector::cache.IsCompletelyEmpty()); // Nobody else should hold references from the cache.
+	assert(Sector::cache.IsEmpty()); // Nobody else should hold references from the cache.
 }
 
 //static
-void Faction::RefreshHomeSectors()
+void Faction::ClearHomeSectors()
+{
+	for (auto it = s_factions.begin(); it != s_factions.end(); ++it)
+		(*it)->m_homesector.Reset();
+}
+
+//static
+void Faction::SetHomeSectors()
 {
 	for (auto it = s_factions.begin(); it != s_factions.end(); ++it)
 		if ((*it)->hasHomeworld)

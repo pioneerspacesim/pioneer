@@ -20,7 +20,6 @@
 #include "HyperspaceCloud.h"
 #include "graphics/Graphics.h"
 #include "WorldView.h"
-#include "galaxy/Sector.h"
 #include "SectorView.h"
 #include "Lang.h"
 #include "Game.h"
@@ -72,7 +71,7 @@ Space::Space(Game *game)
 	m_rootFrame.reset(new Frame(0, Lang::SYSTEM));
 	m_rootFrame->SetRadius(FLT_MAX);
 
-	Sector::cache.GenSectorCache();
+	GenSectorCache(&game->GetHyperspaceDest());
 }
 
 Space::Space(Game *game, const SystemPath &path)
@@ -100,7 +99,7 @@ Space::Space(Game *game, const SystemPath &path)
 	GenBody(m_game->GetTime(), m_starSystem->rootBody.Get(), m_rootFrame.get());
 	m_rootFrame->UpdateOrbitRails(m_game->GetTime(), m_game->GetTimeStep());
 
-	Sector::cache.GenSectorCache();
+	GenSectorCache(&path);
 
 	//DebugDumpFrames();
 }
@@ -139,7 +138,7 @@ Space::Space(Game *game, Serializer::Reader &rd)
 	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
 		(*i)->PostLoadFixup(this);
 
-	Sector::cache.GenSectorCache();
+	GenSectorCache(&path);
 }
 
 Space::~Space()
@@ -311,8 +310,8 @@ vector3d Space::GetHyperspaceExitPoint(const SystemPath &source, const SystemPat
 
 	assert(dest.IsSameSystem(m_starSystem->GetPath()));
 
-	RefCountedPtr<const Sector> source_sec = Sector::cache.GetCached(source);
-	RefCountedPtr<const Sector> dest_sec = Sector::cache.GetCached(dest);
+	RefCountedPtr<const Sector> source_sec = m_sectorCache->GetCached(source);
+	RefCountedPtr<const Sector> dest_sec = m_sectorCache->GetCached(dest);
 
 	Sector::System source_sys = source_sec->m_systems[source.systemIndex];
 	Sector::System dest_sys = dest_sec->m_systems[dest.systemIndex];
@@ -608,6 +607,37 @@ static Frame *MakeFrameFor(double at_time, SystemBody *sbody, Body *b, Frame *f)
 		assert(0);
 	}
 	return 0;
+}
+
+void Space::GenSectorCache(const SystemPath* here)
+{
+	PROFILE_SCOPED()
+
+	// current location
+	if (!here) {
+		if (!m_starSystem.Valid())
+			return;
+		here = &m_starSystem->GetPath();
+	}
+	const int here_x = here->sectorX;
+	const int here_y = here->sectorY;
+	const int here_z = here->sectorZ;
+
+	// used to define a cube centred on your current location
+	const int diff_sec = 10;
+
+	SectorCache::PathVector paths;
+	// build all of the possible paths we'll need to build sectors for
+	for (int x = here_x-diff_sec; x <= here_x+diff_sec; x++) {
+		for (int y = here_y-diff_sec; y <= here_y+diff_sec; y++) {
+			for (int z = here_z-diff_sec; z <= here_z+diff_sec; z++) {
+				SystemPath path(x, y, z);
+				paths.push_back(path);
+			}
+		}
+	}
+	m_sectorCache = Sector::cache.NewSlaveCache();
+	m_sectorCache->FillCache(paths);
 }
 
 void Space::GenBody(double at_time, SystemBody *sbody, Frame *f)

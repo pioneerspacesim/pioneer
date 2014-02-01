@@ -17,7 +17,6 @@ class Faction;
 
 class Sector : public RefCounted {
 	friend class SectorCache;
-	friend class SectorCacheJob;
 
 public:
 	// lightyears

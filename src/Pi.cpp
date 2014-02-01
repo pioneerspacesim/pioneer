@@ -472,7 +472,8 @@ void Pi::Init()
 	CustomSystem::Init();
 	draw_progress(gauge, label, 0.4f);
 
-	Faction::RefreshHomeSectors();
+	// Sectors might be changed in game, re-create them once we have a Game.
+	Faction::ClearHomeSectors();
 	draw_progress(gauge, label, 0.45f);
 
 	modelCache = new ModelCache(Pi::renderer);
@@ -1069,7 +1070,10 @@ void Pi::EndGame()
 	game = 0;
 	player = 0;
 
+	Faction::ClearHomeSectors();
 	StarSystemCache::ShrinkCache(SystemPath(), true);
+	Sector::cache.ClearCache();
+	assert(Sector::cache.IsEmpty());
 }
 
 void Pi::MainLoop()
