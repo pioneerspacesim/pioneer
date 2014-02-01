@@ -341,7 +341,7 @@ void Faction::Init()
 	lua_close(L);
 
 	Output("Number of factions added: " SIZET_FMT "\n", s_factions.size());
-	StarSystem::ShrinkCache();    // clear the star system cache of anything we used for faction generation
+	StarSystemCache::ShrinkCache(SystemPath(), true);    // clear the star system cache of anything we used for faction generation
 }
 
 void Faction::Uninit()
@@ -498,7 +498,7 @@ void Faction::SetBestFitHomeworld(Sint32 x, Sint32 y, Sint32 z, Sint32 si, Uint3
 		Sector sec(x,y,z);
 		Uint32 candidateSi = 0;
 		while (candidateSi < sec.m_systems.size()) {
-			sys = StarSystem::GetCached(SystemPath(x,y,z,candidateSi));
+			sys = StarSystemCache::GetCached(SystemPath(x,y,z,candidateSi));
 			if (sys->m_spaceStations.size() > 0) { 
 				si = Sint32(candidateSi); 
 				break;

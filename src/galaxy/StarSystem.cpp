@@ -19,6 +19,8 @@
 #include "StringF.h"
 #include <SDL_stdinc.h>
 
+StarSystemCache::SystemCacheMap StarSystemCache::s_cachedSystems;
+
 static const double CELSIUS	= 273.15;
 //#define DEBUG_DUMP
 
@@ -2390,47 +2392,9 @@ RefCountedPtr<StarSystem> StarSystem::Unserialize(Serializer::Reader &rd)
 		int sec_y = rd.Int32();
 		int sec_z = rd.Int32();
 		int sys_idx = rd.Int32();
-		return StarSystem::GetCached(SystemPath(sec_x, sec_y, sec_z, sys_idx));
+		return StarSystemCache::GetCached(SystemPath(sec_x, sec_y, sec_z, sys_idx));
 	} else {
 		return RefCountedPtr<StarSystem>(0);
-	}
-}
-
-typedef std::map<SystemPath,StarSystem*> SystemCacheMap;
-static SystemCacheMap s_cachedSystems;
-
-RefCountedPtr<StarSystem> StarSystem::GetCached(const SystemPath &path)
-{
-	PROFILE_SCOPED()
-	SystemPath sysPath(path.SystemOnly());
-
-	StarSystem *s = 0;
-	std::pair<SystemCacheMap::iterator, bool>
-		ret = s_cachedSystems.insert(SystemCacheMap::value_type(sysPath, static_cast<StarSystem*>(0)));
-	if (ret.second) {
-		s = new StarSystem(sysPath);
-		ret.first->second = s;
-		s->IncRefCount(); // the cache owns one reference
-	} else {
-		s = ret.first->second;
-	}
-	return RefCountedPtr<StarSystem>(s);
-}
-
-void StarSystem::ShrinkCache()
-{
-	PROFILE_SCOPED()
-	std::map<SystemPath,StarSystem*>::iterator i = s_cachedSystems.begin();
-	while (i != s_cachedSystems.end()) {
-		StarSystem *s = (*i).second;
-		assert(s->GetRefCount() >= 1); // sanity check
-		// if the cache is the only owner, then delete it
-		if (s->GetRefCount() == 1) {
-			delete s;
-			s_cachedSystems.erase(i++);
-		} else {
-			i++;
-		}
 	}
 }
 
@@ -2586,4 +2550,65 @@ void StarSystem::ExportToLua(const char *filename) {
 			sec.m_systems[pa.systemIndex].p.z/Sector::SIZE);
 
 	fclose(f);
+}
+
+RefCountedPtr<StarSystem> StarSystemCache::GetCached(const SystemPath &path)
+{
+	PROFILE_SCOPED()
+	SystemPath sysPath(path.SystemOnly());
+
+	StarSystem *s = 0;
+	std::pair<SystemCacheMap::iterator, bool>
+		ret = s_cachedSystems.insert(SystemCacheMap::value_type(sysPath, static_cast<StarSystem*>(0)));
+	if (ret.second) {
+		s = new StarSystem(sysPath);
+		ret.first->second = s;
+		s->IncRefCount(); // the cache owns one reference
+	} else {
+		s = ret.first->second;
+	}
+	return RefCountedPtr<StarSystem>(s);
+}
+
+static bool WithinBox(const SystemPath &here, const int Xmin, const int Xmax, const int Ymin, const int Ymax, const int Zmin, const int Zmax) {
+	PROFILE_SCOPED()
+	if(here.sectorX >= Xmin && here.sectorX <= Xmax) {
+		if(here.sectorY >= Ymin && here.sectorY <= Ymax) {
+			if(here.sectorZ >= Zmin && here.sectorZ <= Zmax) {
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+void StarSystemCache::ShrinkCache(const SystemPath &here, const bool clear/*=false*/)
+{
+	PROFILE_SCOPED()
+	// we're going to use these to determine if our StarSystems are within a range that we'll keep for later use
+	static const int survivorRadius = 28;
+
+	// min/max box limits
+	const int xmin = here.sectorX-survivorRadius;
+	const int xmax = here.sectorX+survivorRadius;
+	const int ymin = here.sectorY-survivorRadius;
+	const int ymax = here.sectorY+survivorRadius;
+	const int zmin = here.sectorZ-survivorRadius;
+	const int zmax = here.sectorZ+survivorRadius;
+
+	std::map<SystemPath,StarSystem*>::iterator i = s_cachedSystems.begin();
+	while (i != s_cachedSystems.end()) {
+		StarSystem *s = (*i).second;
+
+		const bool outsideVolume = clear || !WithinBox(s->GetPath(), xmin, xmax, ymin, ymax, zmin, zmax);
+
+		assert(s->GetRefCount() >= 1); // sanity check
+		// if the cache is the only owner, then delete it
+		if (outsideVolume && s->GetRefCount() == 1) {
+			delete s;
+			s_cachedSystems.erase(i++);
+		} else {
+			i++;
+		}
+	}
 }
