@@ -604,8 +604,7 @@ void ModelViewer::DrawModel()
 	m_model->Render(mv);
 	if (m_options.showLandingPad) {
 		if (!m_scaleModel) CreateTestResources();
-		const float landingPadOffset = m_model->GetCollisionMesh()->GetAabb().min.y;
-		m_scaleModel->Render(mv * matrix4x4f::Translation(0.f, landingPadOffset, 0.f));
+		m_scaleModel->Render(mv * matrix4x4f::Translation(0.f, m_landingMinOffset, 0.f));
 	}
 	if (m_options.wireframe)
 		m_renderer->SetWireFrameMode(false);
@@ -917,6 +916,15 @@ void ModelViewer::SetModel(const std::string &filename, bool resetCamera /* true
 		SceneGraph::DumpVisitor d(m_model);
 		m_model->GetRoot()->Accept(d);
 		AddLog(d.GetModelStatistics());
+
+		// If we've got the tag_landing set then use it for an offset otherwise grab the AABB
+		const SceneGraph::MatrixTransform *mt = m_model->FindTagByName("tag_landing");
+		if (mt)
+			m_landingMinOffset = mt->GetTransform().GetTranslate().y;
+		else if (m_model->GetCollisionMesh())
+			m_landingMinOffset = m_model->GetCollisionMesh()->GetAabb().min.y;
+		else
+			m_landingMinOffset = 0.0f;
 
 		//note: stations won't demonstrate full docking light logic in MV
 		m_navLights.reset(new NavLights(m_model));
