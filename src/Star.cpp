@@ -6,6 +6,7 @@
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
 #include "gui/Gui.h"
+#include "Pi.h"
 #include <SDL_stdinc.h>
 
 using namespace Graphics;
@@ -35,12 +36,15 @@ void Star::InitStar()
 	const SystemBody *sbody = GetSystemBody();
 	const float wf = (sbody->type < SystemBody::TYPE_STAR_S_BH && sbody->type > SystemBody::TYPE_STAR_O_HYPER_GIANT) ? 100.0f : 1.0f;
 	SetClipRadius(sbody->GetRadius() * 8 * wf);
+
+	Graphics::RenderStateDesc rsd;
+	rsd.blendMode = BLEND_ALPHA;
+	rsd.depthWrite = false;
+	m_haloState = Pi::renderer->CreateRenderState(rsd);
 }
 
 void Star::Render(Graphics::Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
-	renderer->SetDepthTest(false);
-
 	double radius = GetClipRadius();
 
 	double rad = radius;
@@ -68,8 +72,6 @@ void Star::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 
 	Random(rand);
 
-	renderer->SetBlendMode(BLEND_ALPHA);
-
 	//render star halo
 	VertexArray va(ATTRIB_POSITION | ATTRIB_DIFFUSE);
 	const Color bright(col[0], col[1], col[2], 255);
@@ -81,10 +83,7 @@ void Star::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	}
 	va.Add(vector3f(0.f, rad, 0.f), dark);
 
-	renderer->DrawTriangles(&va, Graphics::vtxColorMaterial, TRIANGLE_FAN);
-	renderer->SetBlendMode(BLEND_SOLID);
-
-	renderer->SetDepthTest(true);
+	renderer->DrawTriangles(&va, m_haloState, Graphics::vtxColorMaterial, TRIANGLE_FAN);
 
 	TerrainBody::Render(renderer, camera, viewCoords, viewTransform);
 }

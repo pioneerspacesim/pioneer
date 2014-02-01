@@ -8,8 +8,10 @@ namespace Graphics {
 
 namespace Drawables {
 
-Disk::Disk(Graphics::Renderer *r, const Color &c, float rad)
+Disk::Disk(Graphics::Renderer *r, Graphics::RenderState *state, const Color &c, float rad)
 {
+	m_renderState = state;
+
 	m_vertices.reset(new VertexArray(ATTRIB_POSITION));
 	m_material.Reset(r->CreateMaterial(MaterialDescriptor()));
 	m_material->diffuse = c;
@@ -23,8 +25,11 @@ Disk::Disk(Graphics::Renderer *r, const Color &c, float rad)
 	}
 }
 
-Disk::Disk(RefCountedPtr<Material> material, const int numEdges/*=72*/, const float radius/*=1.0f*/) : m_material(material)
+Disk::Disk(RefCountedPtr<Material> material, Graphics::RenderState *state, const int numEdges/*=72*/, const float radius/*=1.0f*/)
+	: m_material(material)
 {
+	m_renderState = state;
+
 	m_vertices.reset(new VertexArray(ATTRIB_POSITION));
 
 	m_vertices->Add(vector3f(0.f, 0.f, 0.f));
@@ -39,7 +44,7 @@ Disk::Disk(RefCountedPtr<Material> material, const int numEdges/*=72*/, const fl
 
 void Disk::Draw(Renderer *r)
 {
-	r->DrawTriangles(m_vertices.get(), m_material.Get(), TRIANGLE_FAN);
+	r->DrawTriangles(m_vertices.get(), m_renderState, m_material.Get(), TRIANGLE_FAN);
 }
 
 void Disk::SetColor(const Color &c)
@@ -73,12 +78,12 @@ void Line3D::SetColor(const Color &c)
 	m_colors[1]  *= 0.5; //XXX hardcoded appearance
 }
 
-void Line3D::Draw(Renderer *renderer)
+void Line3D::Draw(Renderer *renderer, RenderState *rs)
 {
 	// XXX would be nicer to draw this as a textured triangle strip
 	// can't guarantee linewidth support
 	glLineWidth(m_width);
-	renderer->DrawLines(2, m_points, m_colors);
+	renderer->DrawLines(2, m_points, m_colors, rs);
 	glLineWidth(1.f);
 }
 
@@ -98,8 +103,10 @@ static const int icosahedron_faces[20][3] = {
 	{6,1,10}, {9,0,11}, {9,11,2}, {9,2,5}, {7,2,11}
 };
 
-Sphere3D::Sphere3D(RefCountedPtr<Material> mat, int subdivs, float scale)
+Sphere3D::Sphere3D(RefCountedPtr<Material> mat, Graphics::RenderState *state, int subdivs, float scale)
 {
+	m_renderState = state;
+
 	subdivs = Clamp(subdivs, 0, 4);
 	scale = fabs(scale);
 	matrix4x4f trans = matrix4x4f::Identity();
@@ -128,7 +135,7 @@ Sphere3D::Sphere3D(RefCountedPtr<Material> mat, int subdivs, float scale)
 
 void Sphere3D::Draw(Renderer *r)
 {
-	r->DrawSurface(m_surface.get());
+	r->DrawSurface(m_surface.get(), m_renderState);
 }
 
 int Sphere3D::AddVertex(const vector3f &v, const vector3f &n)
@@ -169,7 +176,7 @@ void Sphere3D::Subdivide(const matrix4x4f &trans, const vector3f &v1, const vect
 }
 
 // a textured quad with reversed winding
-TexturedQuad::TexturedQuad(Graphics::Renderer *r, Graphics::Texture *texture, const vector2f &pos, const vector2f &size) : m_texture(RefCountedPtr<Graphics::Texture>(texture)) 
+TexturedQuad::TexturedQuad(Graphics::Renderer *r, Graphics::Texture *texture, const vector2f &pos, const vector2f &size) : m_texture(RefCountedPtr<Graphics::Texture>(texture))
 {
 	m_vertices.reset(new VertexArray(ATTRIB_POSITION | ATTRIB_UV0));
 	Graphics::MaterialDescriptor desc;

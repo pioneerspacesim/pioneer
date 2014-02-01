@@ -4,6 +4,7 @@
 #include "libs.h"
 #include "Gui.h"
 #include "graphics/Graphics.h"
+#include "graphics/RenderState.h"
 
 namespace Gui {
 
@@ -132,38 +133,57 @@ namespace Theme {
 	}
 	static const float BORDER_WIDTH = 2.0;
 
-	void DrawRoundEdgedRect(const float size[2], float rad)
+	void DrawRect(const vector2f &pos, const vector2f &size, const Color &c, Graphics::RenderState *state)
 	{
+		Graphics::VertexArray bgArr(Graphics::ATTRIB_POSITION, 4);
+		bgArr.Add(vector3f(pos.x,size.y,0));
+		bgArr.Add(vector3f(size.x,size.y,0));
+		bgArr.Add(vector3f(size.x,pos.y,0));
+		bgArr.Add(vector3f(pos.x,pos.y,0));
+		Screen::flatColorMaterial->diffuse = c;
+		Screen::GetRenderer()->DrawTriangles(&bgArr, state, Screen::flatColorMaterial, Graphics::TRIANGLE_FAN);
+	}
+
+	void DrawRoundEdgedRect(const float size[2], float rad, const Color &color, Graphics::RenderState *state)
+	{
+		static Graphics::VertexArray vts(Graphics::ATTRIB_POSITION);
+		vts.Clear();
+
 		const int STEPS = 6;
 		if (rad > 0.5f*std::min(size[0], size[1])) rad = 0.5f*std::min(size[0], size[1]);
-		glBegin(GL_TRIANGLE_FAN);
 			// top left
 			// bottom left
 			for (int i=0; i<=STEPS; i++) {
 				float ang = M_PI*0.5f*i/float(STEPS);
-				glVertex2f(rad - rad*cos(ang), (size[1] - rad) + rad*sin(ang));
+				vts.Add(vector3f(rad - rad*cos(ang), (size[1] - rad) + rad*sin(ang), 0.f));
 			}
 			// bottom right
 			for (int i=0; i<=STEPS; i++) {
 				float ang = M_PI*0.5 + M_PI*0.5f*i/float(STEPS);
-				glVertex2f(size[0] - rad - rad*cos(ang), (size[1] - rad) + rad*sin(ang));
+				vts.Add(vector3f(size[0] - rad - rad*cos(ang), (size[1] - rad) + rad*sin(ang), 0.f));
 			}
 			// top right
 			for (int i=0; i<=STEPS; i++) {
 				float ang = M_PI + M_PI*0.5f*i/float(STEPS);
-				glVertex2f((size[0] - rad) - rad*cos(ang), rad + rad*sin(ang));
+				vts.Add(vector3f((size[0] - rad) - rad*cos(ang), rad + rad*sin(ang), 0.f));
 			}
 
 			// top right
 			for (int i=0; i<=STEPS; i++) {
 				float ang = M_PI*1.5 + M_PI*0.5f*i/float(STEPS);
-				glVertex2f(rad - rad*cos(ang), rad + rad*sin(ang));
+				vts.Add(vector3f(rad - rad*cos(ang), rad + rad*sin(ang), 0.f));
 			}
-		glEnd();
+
+		Screen::flatColorMaterial->diffuse = color;
+		Screen::GetRenderer()->DrawTriangles(&vts, state, Screen::flatColorMaterial, Graphics::TRIANGLE_FAN);
 	}
 
-	void DrawHollowRect(const float size[2])
+	void DrawHollowRect(const float size[2], const Color &color, Graphics::RenderState *state)
 	{
+		Screen::flatColorMaterial->diffuse = color;
+		Screen::GetRenderer()->SetRenderState(state);
+		Screen::flatColorMaterial->Apply();
+
 		GLfloat vertices[] = { 0,0,
 			0,size[1],
 			size[0],size[1],
@@ -179,10 +199,14 @@ namespace Theme {
 		glVertexPointer(2, GL_FLOAT, 0, vertices);
 		glDrawElements(GL_QUADS, 16, GL_UNSIGNED_BYTE, indices);
 		glDisableClientState(GL_VERTEX_ARRAY);
+
+		Screen::flatColorMaterial->Unapply();
 	}
 
-	void DrawIndent(const float size[2])
+	void DrawIndent(const float size[2], Graphics::RenderState *state)
 	{
+		Screen::GetRenderer()->SetRenderState(state);
+
 		GLfloat vertices[] = { 0,0,
 			0,size[1],
 			size[0],size[1],
@@ -197,17 +221,27 @@ namespace Theme {
 			4,5,6,7 };
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glVertexPointer(2, GL_FLOAT, 0, vertices);
-		glColor3ub(Colors::bgShadow.r, Colors::bgShadow.g, Colors::bgShadow.b);
+
+		Screen::flatColorMaterial->diffuse = Colors::bgShadow;
+		Screen::flatColorMaterial->Apply();
 		glDrawElements(GL_QUADS, 8, GL_UNSIGNED_BYTE, indices);
-		glColor3ub(153,153,153);
+
+		Screen::flatColorMaterial->diffuse = Color(153,153,153,255);
+		Screen::flatColorMaterial->Apply();
 		glDrawElements(GL_QUADS, 8, GL_UNSIGNED_BYTE, indices+8);
-		glColor3ub(Colors::bg.r, Colors::bg.g, Colors::bg.b);
+
+		Screen::flatColorMaterial->diffuse = Colors::bg;
+		Screen::flatColorMaterial->Apply();
 		glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, indices+16);
 		glDisableClientState(GL_VERTEX_ARRAY);
+
+		Screen::flatColorMaterial->Unapply();
 	}
 
-	void DrawOutdent(const float size[2])
+	void DrawOutdent(const float size[2], Graphics::RenderState *state)
 	{
+		Screen::GetRenderer()->SetRenderState(state);
+
 		GLfloat vertices[] = { 0,0,
 			0,size[1],
 			size[0],size[1],
@@ -222,13 +256,21 @@ namespace Theme {
 			4,5,6,7 };
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glVertexPointer(2, GL_FLOAT, 0, vertices);
-		glColor3ub(153,153,153);
+
+		Screen::flatColorMaterial->diffuse = Color(153,153,153,255);
+		Screen::flatColorMaterial->Apply();
 		glDrawElements(GL_QUADS, 8, GL_UNSIGNED_BYTE, indices);
-		glColor3ub(Colors::bgShadow.r, Colors::bgShadow.g, Colors::bgShadow.b);
+
+		Screen::flatColorMaterial->diffuse = Colors::bgShadow;
+		Screen::flatColorMaterial->Apply();
 		glDrawElements(GL_QUADS, 8, GL_UNSIGNED_BYTE, indices+8);
-		glColor3ub(Colors::bg.r, Colors::bg.g, Colors::bg.b);
+
+		Screen::flatColorMaterial->diffuse = Colors::bg;
+		Screen::flatColorMaterial->Apply();
 		glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, indices+16);
 		glDisableClientState(GL_VERTEX_ARRAY);
+
+		Screen::flatColorMaterial->Unapply();
 	}
 }
 

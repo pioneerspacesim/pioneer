@@ -10,6 +10,7 @@
 #include "Random.h"
 #include "Camera.h"
 #include "galaxy/StarSystem.h"
+#include "graphics/RenderState.h"
 #include "graphics/Material.h"
 #include "terrain/Terrain.h"
 #include "GeoPatchID.h"
@@ -100,6 +101,8 @@ private:
 	static RefCountedPtr<GeoPatchContext> s_patchContext;
 
 	void SetUpMaterials();
+	Graphics::RenderState *m_surfRenderState;
+	Graphics::RenderState *m_atmosRenderState;
 	std::unique_ptr<Graphics::Material> m_surfaceMaterial;
 	std::unique_ptr<Graphics::Material> m_atmosphereMaterial;
 	//special parameters for shaders

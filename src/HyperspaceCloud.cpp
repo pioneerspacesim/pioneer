@@ -15,6 +15,7 @@
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
+#include "graphics/RenderState.h"
 
 using namespace Graphics;
 
@@ -43,9 +44,15 @@ HyperspaceCloud::HyperspaceCloud()
 void HyperspaceCloud::InitGraphics()
 {
 	m_graphic.vertices.reset(new Graphics::VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE));
+
 	Graphics::MaterialDescriptor desc;
 	desc.vertexColors = true;
 	m_graphic.material.reset(Pi::renderer->CreateMaterial(desc));
+
+	Graphics::RenderStateDesc rsd;
+	rsd.blendMode  = BLEND_ALPHA_ONE;
+	rsd.depthWrite = false;
+	m_graphic.renderState = Pi::renderer->CreateRenderState(rsd);
 }
 
 HyperspaceCloud::~HyperspaceCloud()
@@ -136,8 +143,6 @@ void HyperspaceCloud::UpdateInterpTransform(double alpha)
 
 void HyperspaceCloud::Render(Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
-	renderer->SetBlendMode(BLEND_ALPHA_ONE);
-
 	matrix4x4d trans = matrix4x4d::Identity();
 	trans.Translate(float(viewCoords.x), float(viewCoords.y), float(viewCoords.z));
 
@@ -158,6 +163,5 @@ void HyperspaceCloud::Render(Renderer *renderer, const Camera *camera, const vec
 	Color outerColor = m_isArrival ? Color::BLUE : Color::RED;
 	outerColor.a = 0;
 	make_circle_thing(*m_graphic.vertices.get(), radius, Color::WHITE, outerColor);
-	renderer->DrawTriangles(m_graphic.vertices.get(), m_graphic.material.get(), TRIANGLE_FAN);
-	renderer->SetBlendMode(BLEND_SOLID);
+	renderer->DrawTriangles(m_graphic.vertices.get(), m_graphic.renderState, m_graphic.material.get(), TRIANGLE_FAN);
 }

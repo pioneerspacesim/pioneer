@@ -66,6 +66,8 @@ void TerrainBody::Render(Graphics::Renderer *renderer, const Camera *camera, con
 	renderer->GetNearFarRange(znear, zfar);
 
 	double len = fpos.Length();
+	//objects very far away are downscaled, because they cannot be
+	//accurately drawn using actual distances
 	int shrink = 0;
 	double scale = 1.0f;
 
@@ -105,8 +107,8 @@ void TerrainBody::Render(Graphics::Renderer *renderer, const Camera *camera, con
 	ftran.Translate(campos.x, campos.y, campos.z);
 	SubRender(renderer, ftran, campos);
 
-	// if not using shader then z-buffer precision is hopeless and
-	// we can't place objects on the terrain without awful z artifacts
+	//clear depth buffer, shrunk objects should not interact
+	//with foreground
 	if (shrink)
 		renderer->ClearDepthBuffer();
 }

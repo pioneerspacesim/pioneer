@@ -110,7 +110,6 @@ void Model::Render(const matrix4x4f &trans, const RenderData *rd)
 	//Override renderdata if this model is called from ModelNode
 	RenderData params = (rd != 0) ? (*rd) : m_renderData;
 
-	m_renderer->SetBlendMode(Graphics::BLEND_SOLID);
 	m_renderer->SetTransform(trans);
 	//using the entire model bounding radius for all nodes at the moment.
 	//BR could also be a property of Node.
@@ -182,8 +181,9 @@ void Model::DrawAabb()
 		vector3f(aabb.min.x, aabb.max.y, aabb.max.z),
 	};
 
-	m_renderer->DrawLines(8, verts + 0, Color::GREEN, Graphics::LINE_STRIP);
-	m_renderer->DrawLines(8, verts + 8, Color::GREEN, Graphics::LINE_STRIP);
+	auto state = m_renderer->CreateRenderState(Graphics::RenderStateDesc());
+	m_renderer->DrawLines(8, verts + 0, Color::GREEN, state, Graphics::LINE_STRIP);
+	m_renderer->DrawLines(8, verts + 8, Color::GREEN, state, Graphics::LINE_STRIP);
 }
 
 // Draw collision mesh as a wireframe overlay
@@ -208,16 +208,16 @@ void Model::DrawCollisionMesh()
 
 	//might want to add some offset
 	m_renderer->SetWireFrameMode(true);
-	Graphics::vtxColorMaterial->twoSided = true;
-	m_renderer->DrawTriangles(&va, Graphics::vtxColorMaterial);
-	Graphics::vtxColorMaterial->twoSided = false;
+	Graphics::RenderStateDesc rsd;
+	rsd.cullMode = Graphics::CULL_NONE;
+	m_renderer->DrawTriangles(&va, m_renderer->CreateRenderState(rsd), Graphics::vtxColorMaterial);
 	m_renderer->SetWireFrameMode(false);
 }
 
 void Model::DrawAxisIndicators(std::vector<Graphics::Drawables::Line3D> &lines)
 {
 	for(auto i = lines.begin(); i != lines.end(); ++i)
-		(*i).Draw(m_renderer);
+		(*i).Draw(m_renderer, m_renderer->CreateRenderState(Graphics::RenderStateDesc()));
 }
 
 RefCountedPtr<CollMesh> Model::CreateCollisionMesh()

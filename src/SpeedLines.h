@@ -27,6 +27,7 @@ private:
 
 	std::vector<vector3f> m_vertices;
 	std::vector<Color> m_vtxColors;
+	Graphics::RenderState *m_renderState;
 
 	matrix4x4d m_transform;
 

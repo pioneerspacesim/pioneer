@@ -28,6 +28,7 @@ private:
 	Color m_color;
 	matrix4x4d m_transform;
 	std::deque<vector3d> m_trailPoints;
+	Graphics::RenderState *m_renderState;
 };
 
 #endif

@@ -15,7 +15,7 @@ namespace SceneGraph {
 StaticGeometry::StaticGeometry(Graphics::Renderer *r)
 : Node(r, NODE_SOLID)
 , m_blendMode(Graphics::BLEND_SOLID)
-, m_bDisableDepthWrite(false)
+, m_renderState(nullptr)
 {
 }
 
@@ -28,7 +28,7 @@ StaticGeometry::StaticGeometry(const StaticGeometry &sg, NodeCopyCache *cache)
 , m_boundingBox(sg.m_boundingBox)
 , m_blendMode(sg.m_blendMode)
 , m_meshes(sg.m_meshes)
-, m_bDisableDepthWrite(sg.m_bDisableDepthWrite)
+, m_renderState(sg.m_renderState)
 {
 }
 
@@ -44,25 +44,13 @@ void StaticGeometry::Accept(NodeVisitor &nv)
 
 void StaticGeometry::Render(const matrix4x4f &trans, const RenderData *rd)
 {
-	assert(rd);
+	SDL_assert(m_renderState);
 	Graphics::Renderer *r = GetRenderer();
 	r->SetTransform(trans);
-	if (m_blendMode != Graphics::BLEND_SOLID)
-		r->SetBlendMode(m_blendMode);
+	for (auto& it : m_meshes)
+		r->DrawStaticMesh(it.Get(), m_renderState);
 
-	if (m_bDisableDepthWrite) {
-		m_renderer->SetDepthWrite(false);
-		for (MeshContainer::iterator it = m_meshes.begin(), itEnd=m_meshes.end(); it != itEnd; ++it) {
-			r->DrawStaticMesh(it->Get());
-		}
-		m_renderer->SetDepthWrite(true);
-	} else {
-		for (MeshContainer::iterator it = m_meshes.begin(), itEnd = m_meshes.end(); it != itEnd; ++it) {
-			r->DrawStaticMesh(it->Get());
-		}
-	}
-
-	//DrawBoundingBox(r, m_boundingBox);
+	//DrawBoundingBox(m_boundingBox);
 }
 
 
@@ -114,6 +102,11 @@ StaticGeometry *StaticGeometry::Load(NodeDatabase &db)
 	sg->m_blendMode = static_cast<Graphics::BlendMode>(rd.Int32());
 	sg->m_boundingBox.min = rd.Vector3d();
 	sg->m_boundingBox.max = rd.Vector3d();
+
+	Graphics::RenderStateDesc rsd;
+	rsd.blendMode = sg->m_blendMode;
+	rsd.depthWrite = rsd.blendMode == Graphics::BLEND_SOLID;
+	sg->SetRenderState(sg->GetRenderer()->CreateRenderState(rsd));
 
 	const Uint32 numMeshes = rd.Int32();
 	for (Uint32 mesh = 0; mesh < numMeshes; mesh++) {
@@ -254,9 +247,10 @@ void StaticGeometry::DrawBoundingBox(const Aabb &bb)
 	ind.push_back(5);
 
 	Graphics::Renderer *r = GetRenderer();
-	r->SetWireFrameMode(true);
-	r->DrawSurface(&surf);
-	r->SetWireFrameMode(false);
+
+	Graphics::RenderStateDesc rsd;
+	rsd.cullMode = Graphics::CULL_NONE;
+	r->DrawSurface(&surf, r->CreateRenderState(rsd));
 }
 
 }

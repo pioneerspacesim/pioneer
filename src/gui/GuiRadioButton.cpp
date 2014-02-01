@@ -44,9 +44,9 @@ void RadioButton::Draw()
 	float size[2];
 	GetSize(size);
 	if (m_pressed) {
-		Theme::DrawIndent(size);
+		Theme::DrawIndent(size, Screen::alphaBlendState);
 	} else {
-		Theme::DrawOutdent(size);
+		Theme::DrawOutdent(size, Screen::alphaBlendState);
 	}
 }
 }

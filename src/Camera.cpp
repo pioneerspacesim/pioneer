@@ -108,9 +108,6 @@ void Camera::Draw(Graphics::Renderer *renderer, const Body *excludeBody, ShipCoc
 
 	m_renderer = renderer;
 
-	m_renderer->SetDepthWrite(true);
-	m_renderer->SetDepthTest(true);
-
 	glPushAttrib(GL_ALL_ATTRIB_BITS & (~GL_POINT_BIT));
 
 	m_renderer->SetPerspectiveProjection(m_fovAng, m_width/m_height, m_zNear, m_zFar);
@@ -232,9 +229,6 @@ void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d 
 	matrix4x4d rot = matrix4x4d::MakeInvRotMatrix(xaxis, yaxis, zaxis);
 	trans = trans * rot;
 
-	m_renderer->SetDepthTest(false);
-	m_renderer->SetBlendMode(BLEND_ALPHA_ONE);
-
 	// XXX this is supposed to pick a correct light colour for the object twinkle.
 	// Not quite correct, since it always uses the first light
 	GLfloat col[4];
@@ -282,9 +276,7 @@ void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d 
 	}
 
 	m_renderer->SetTransform(trans);
-	m_renderer->DrawTriangles(&va, Graphics::vtxColorMaterial, TRIANGLE_FAN);
-	m_renderer->SetBlendMode(BLEND_SOLID);
-	m_renderer->SetDepthTest(true);
+	m_renderer->DrawTriangles(&va, Sfx::additiveAlphaState, Graphics::vtxColorMaterial, TRIANGLE_FAN);
 }
 
 void Camera::CalcShadows(const int lightNum, const Body *b, std::vector<Shadow> &shadowsOut) const {

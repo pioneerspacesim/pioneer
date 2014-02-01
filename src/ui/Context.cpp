@@ -135,8 +135,6 @@ void Context::Draw()
 		r->SetOrthographicProjection(0, m_width, m_height, 0, -1, 1);
 		r->SetTransform(matrix4x4f::Identity());
 		r->SetClearColor(Color::BLACK);
-		r->SetBlendMode(Graphics::BLEND_ALPHA);
-		r->SetDepthTest(false);
 
 		(*i)->Draw();
 

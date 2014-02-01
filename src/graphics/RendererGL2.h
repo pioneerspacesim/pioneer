@@ -13,6 +13,7 @@
  */
 #include "Renderer.h"
 #include <stack>
+#include <unordered_map>
 
 namespace Graphics {
 
@@ -26,6 +27,7 @@ namespace GL2 {
 	class MultiMaterial;
 	class LitMultiMaterial;
 	class Program;
+	class RenderState;
 	class RenderTarget;
 	class RingMaterial;
 	class FresnelColourMaterial;
@@ -45,7 +47,8 @@ public:
 	virtual bool EndFrame();
 	virtual bool SwapBuffers();
 
-	virtual bool SetRenderTarget(RenderTarget*);
+	virtual bool SetRenderState(RenderState*) override;
+	virtual bool SetRenderTarget(RenderTarget*) override;
 
 	virtual bool ClearScreen();
 	virtual bool ClearDepthBuffer();
@@ -59,29 +62,26 @@ public:
 	virtual bool SetOrthographicProjection(float xmin, float xmax, float ymin, float ymax, float zmin, float zmax);
 	virtual bool SetProjection(const matrix4x4f &m);
 
-	virtual bool SetBlendMode(BlendMode mode);
-	virtual bool SetDepthTest(bool enabled);
-	virtual bool SetDepthWrite(bool enabled);
 	virtual bool SetWireFrameMode(bool enabled);
 
-	virtual bool SetLightsEnabled(const bool enabled);
 	virtual bool SetLights(int numlights, const Light *l);
 	virtual bool SetAmbientColor(const Color &c);
 
 	virtual bool SetScissor(bool enabled, const vector2f &pos = vector2f(0.0f), const vector2f &size = vector2f(0.0f));
 
-	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color *colors, LineType type=LINE_SINGLE);
-	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color &color, LineType type=LINE_SINGLE);
-	virtual bool DrawLines2D(int vertCount, const vector2f *vertices, const Color &color, LineType type=LINE_SINGLE);
-	virtual bool DrawPoints(int count, const vector3f *points, const Color *colors, float pointSize=1.f);
-	virtual bool DrawTriangles(const VertexArray *vertices, Material *material, PrimitiveType type=TRIANGLES);
-	virtual bool DrawSurface(const Surface *surface);
-	virtual bool DrawPointSprites(int count, const vector3f *positions, Material *material, float size);
-	virtual bool DrawStaticMesh(StaticMesh *thing);
+	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color *colors, RenderState*, LineType type=LINE_SINGLE) override;
+	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color &color, RenderState*, LineType type=LINE_SINGLE) override;
+	virtual bool DrawLines2D(int vertCount, const vector2f *vertices, const Color &color, RenderState*, LineType type=LINE_SINGLE) override;
+	virtual bool DrawPoints(int count, const vector3f *points, const Color *colors, RenderState*, float pointSize=1.f) override;
+	virtual bool DrawTriangles(const VertexArray *vertices, RenderState *state, Material *material, PrimitiveType type=TRIANGLES) override;
+	virtual bool DrawSurface(const Surface *surface, RenderState *rs) override;
+	virtual bool DrawPointSprites(int count, const vector3f *positions, RenderState *rs, Material *material, float size) override;
+	virtual bool DrawStaticMesh(StaticMesh*, RenderState*) override;
 
-	virtual Material *CreateMaterial(const MaterialDescriptor &descriptor);
-	virtual Texture *CreateTexture(const TextureDescriptor &descriptor);
-	virtual RenderTarget *CreateRenderTarget(const RenderTargetDesc &);
+	virtual Material *CreateMaterial(const MaterialDescriptor &descriptor) override;
+	virtual Texture *CreateTexture(const TextureDescriptor &descriptor) override;
+	virtual RenderState *CreateRenderState(const RenderStateDesc &) override;
+	virtual RenderTarget *CreateRenderTarget(const RenderTargetDesc &) override;
 
 	virtual bool ReloadShaders();
 
@@ -131,8 +131,10 @@ protected:
 	friend class GL2::FresnelColourMaterial;
 	friend class GL2::ShieldMaterial;
 	std::vector<std::pair<MaterialDescriptor, GL2::Program*> > m_programs;
+	std::unordered_map<Uint32, GL2::RenderState*> m_renderStates;
 	float m_invLogZfarPlus1;
 	GL2::RenderTarget *m_activeRenderTarget;
+	RenderState *m_activeRenderState;
 
 	MatrixMode m_matrixMode;
 	std::stack<matrix4x4f> m_modelViewStack;

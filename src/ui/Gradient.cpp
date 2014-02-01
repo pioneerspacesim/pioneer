@@ -34,8 +34,8 @@ void Gradient::Draw()
 	va.Add(vector3f(x+sx, y+sy, 0.0f), m_endColor);
 
 	Graphics::Renderer *r = GetContext()->GetRenderer();
-	r->SetBlendMode(Graphics::BLEND_ALPHA);
-	r->DrawTriangles(&va, m_material.get(), Graphics::TRIANGLE_STRIP);
+	auto renderState = GetContext()->GetSkin().GetAlphaBlendState();
+	r->DrawTriangles(&va, renderState, m_material.get(), Graphics::TRIANGLE_STRIP);
 
 	Container::Draw();
 }

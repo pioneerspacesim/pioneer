@@ -26,13 +26,13 @@ std::unique_ptr<Graphics::VertexArray> Projectile::s_sideVerts;
 std::unique_ptr<Graphics::VertexArray> Projectile::s_glowVerts;
 std::unique_ptr<Graphics::Material> Projectile::s_sideMat;
 std::unique_ptr<Graphics::Material> Projectile::s_glowMat;
+Graphics::RenderState *Projectile::s_renderState = nullptr;
 
 void Projectile::BuildModel()
 {
 	//set up materials
 	Graphics::MaterialDescriptor desc;
 	desc.textures = 1;
-	desc.twoSided = true;
 	s_sideMat.reset(Pi::renderer->CreateMaterial(desc));
 	s_glowMat.reset(Pi::renderer->CreateMaterial(desc));
 	s_sideMat->texture0 = Graphics::TextureBuilder::Billboard("textures/projectile_l.png").GetOrCreateTexture(Pi::renderer, "billboard");
@@ -90,6 +90,12 @@ void Projectile::BuildModel()
 		gw -= 0.1f; // they get smaller
 		gz -= 0.2f; // as they move back
 	}
+
+	Graphics::RenderStateDesc rsd;
+	rsd.blendMode = Graphics::BLEND_ALPHA_ONE;
+	rsd.depthWrite = false;
+	rsd.cullMode = Graphics::CULL_NONE;
+	s_renderState = Pi::renderer->CreateRenderState(rsd);
 }
 
 void Projectile::FreeModel()
@@ -263,9 +269,6 @@ void Projectile::Render(Graphics::Renderer *renderer, const Camera *camera, cons
 	m[13] = from.y;
 	m[14] = from.z;
 
-	renderer->SetBlendMode(Graphics::BLEND_ALPHA_ONE);
-	renderer->SetDepthWrite(false);
-
 	// increase visible size based on distance from camera, z is always negative
 	// allows them to be smaller while maintaining visibility for game play
 	const float dist_scale = float(viewCoords.z / -500);
@@ -284,7 +287,7 @@ void Projectile::Render(Graphics::Renderer *renderer, const Camera *camera, cons
 
 	if (color.a > 3) {
 		s_sideMat->diffuse = color;
-		renderer->DrawTriangles(s_sideVerts.get(), s_sideMat.get());
+		renderer->DrawTriangles(s_sideVerts.get(), s_renderState, s_sideMat.get());
 	}
 
 	// fade out glow quads when viewing nearly edge on
@@ -294,11 +297,8 @@ void Projectile::Render(Graphics::Renderer *renderer, const Camera *camera, cons
 
 	if (color.a > 3) {
 		s_glowMat->diffuse = color;
-		renderer->DrawTriangles(s_glowVerts.get(), s_glowMat.get());
+		renderer->DrawTriangles(s_glowVerts.get(), s_renderState, s_glowMat.get());
 	}
-
-	renderer->SetBlendMode(Graphics::BLEND_SOLID);
-	renderer->SetDepthWrite(true);
 }
 
 void Projectile::Add(Body *parent, Equip::Type type, const vector3d &pos, const vector3d &baseVel, const vector3d &dirVel)

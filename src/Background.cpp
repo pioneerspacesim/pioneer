@@ -28,7 +28,7 @@ using namespace Graphics;
 namespace
 {
 	static std::unique_ptr<Graphics::Texture> s_defaultCubeMap;
-	
+
 	static Uint32 GetNumSkyboxes()
 	{
 		char filename[1024];
@@ -131,11 +131,10 @@ void UniverseBox::Init()
 	m_numCubemaps = GetNumSkyboxes();
 }
 
-void UniverseBox::Draw()
+void UniverseBox::Draw(Graphics::RenderState *rs)
 {
-	if(m_material->texture0) {
-		m_renderer->DrawStaticMesh(m_model.get());
-	}
+	if(m_material->texture0)
+		m_renderer->DrawStaticMesh(m_model.get(), rs);
 }
 
 void UniverseBox::LoadCubeMap(Random &rand)
@@ -198,11 +197,11 @@ void Starfield::Fill(Random &rand)
 	}
 }
 
-void Starfield::Draw()
+void Starfield::Draw(Graphics::RenderState *rs)
 {
 	// XXX would be nice to get rid of the Pi:: stuff here
 	if (!Pi::game || Pi::player->GetFlightState() != Ship::HYPERSPACE) {
-		m_renderer->DrawStaticMesh(m_model.get());
+		m_renderer->DrawStaticMesh(m_model.get(), rs);
 	} else {
 		// roughly, the multiplier gets smaller as the duration gets larger.
 		// the time-looking bits in this are completely arbitrary - I figured
@@ -223,7 +222,7 @@ void Starfield::Draw()
 			m_hyperVtx[i*2+1] = v;
 			m_hyperCol[i*2+1] = va->diffuse[i];
 		}
-		m_renderer->DrawLines(BG_STAR_MAX*2, m_hyperVtx, m_hyperCol);
+		m_renderer->DrawLines(BG_STAR_MAX*2, m_hyperVtx, m_hyperCol, rs);
 	}
 }
 
@@ -288,10 +287,10 @@ MilkyWay::MilkyWay(Graphics::Renderer *renderer)
 	m_model->AddSurface(RefCountedPtr<Surface>(new Surface(TRIANGLE_STRIP, top, m_material)));
 }
 
-void MilkyWay::Draw()
+void MilkyWay::Draw(Graphics::RenderState *rs)
 {
 	assert(m_model != 0);
-	m_renderer->DrawStaticMesh(m_model.get());
+	m_renderer->DrawStaticMesh(m_model.get(), rs);
 }
 
 Container::Container(Graphics::Renderer *renderer, Random &rand)
@@ -301,6 +300,10 @@ Container::Container(Graphics::Renderer *renderer, Random &rand)
 , m_universeBox(renderer)
 , m_drawFlags( DRAW_SKYBOX )
 {
+	Graphics::RenderStateDesc rsd;
+	rsd.depthTest  = false;
+	rsd.depthWrite = false;
+	m_renderState = renderer->CreateRenderState(rsd);
 	Refresh(rand);
 };
 
@@ -314,22 +317,19 @@ void Container::Refresh(Random &rand)
 void Container::Draw(const matrix4x4d &transform)
 {
 	PROFILE_SCOPED()
-	m_renderer->SetBlendMode(BLEND_SOLID);
-	m_renderer->SetDepthTest(false);
 	m_renderer->SetTransform(transform);
 	if( DRAW_SKYBOX & m_drawFlags ) {
-		m_universeBox.Draw();
+		m_universeBox.Draw(m_renderState);
 	}
 	if( DRAW_MILKY & m_drawFlags ) {
-		m_milkyWay.Draw();
+		m_milkyWay.Draw(m_renderState);
 	}
 	if( DRAW_STARS & m_drawFlags ) {
 		// squeeze the starfield a bit to get more density near horizon
 		matrix4x4d starTrans = transform * matrix4x4d::ScaleMatrix(1.0, 0.4, 1.0);
 		m_renderer->SetTransform(starTrans);
-		const_cast<Starfield&>(m_starField).Draw();
+		m_starField.Draw(m_renderState);
 	}
-	m_renderer->SetDepthTest(true);
 }
 
 void Container::SetIntensity(float intensity)

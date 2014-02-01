@@ -106,6 +106,7 @@ private:
 	std::vector<Color> m_edgeCols;
 
 	Graphics::Renderer *m_renderer;
+	Graphics::RenderState *m_renderState;
 };
 
 class UseEquipWidget: public IMultiFunc, public Gui::Fixed {

@@ -23,7 +23,6 @@ void BaseLoader::ConvertMaterialDefinition(const MaterialDefinition &mdef)
 	Graphics::MaterialDescriptor matDesc;
 	matDesc.lighting = !mdef.unlit;
 	matDesc.alphaTest = mdef.alpha_test;
-	matDesc.twoSided = mdef.two_sided;
 
 	matDesc.usePatterns = mdef.use_pattern;
 

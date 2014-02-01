@@ -37,12 +37,14 @@ namespace Graphics {
 class Light;
 class Material;
 class MaterialDescriptor;
+class RenderState;
 class RenderTarget;
 class StaticMesh;
 class Surface;
 class Texture;
 class TextureDescriptor;
 class VertexArray;
+struct RenderStateDesc;
 struct RenderTargetDesc;
 
 // first some enums
@@ -68,6 +70,12 @@ enum BlendMode {
 	BLEND_ALPHA_PREMULT,
 	BLEND_SET_ALPHA, // copy alpha channel
 	BLEND_DEST_ALPHA // XXX maybe crappy name
+};
+
+enum FaceCullMode {
+	CULL_BACK,
+	CULL_FRONT,
+	CULL_NONE
 };
 
 enum class MatrixMode {
@@ -116,14 +124,10 @@ public:
 	virtual bool SetOrthographicProjection(float xmin, float xmax, float ymin, float ymax, float zmin, float zmax) { return false; }
 	virtual bool SetProjection(const matrix4x4f &m) { return false; }
 
-	//render state functions
-	virtual bool SetBlendMode(BlendMode type) { return false; }
-	virtual bool SetDepthTest(bool enabled) { return false; }
-	//enable/disable writing to z buffer
-	virtual bool SetDepthWrite(bool enabled) { return false; }
+	virtual bool SetRenderState(RenderState*) { return false; }
+
 	virtual bool SetWireFrameMode(bool enabled) { return false; }
 
-	virtual bool SetLightsEnabled(const bool enabled) { return false; }
 	virtual bool SetLights(int numlights, const Light *l) { return false; }
 	virtual bool SetAmbientColor(const Color &c) { return false; }
 	const Color &GetAmbientColor() const { return m_ambient; }
@@ -133,23 +137,24 @@ public:
 	//drawing functions
 	//2d drawing is generally understood to be for gui use (unlit, ortho projection)
 	//per-vertex colour lines
-	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color *colors, LineType type=LINE_SINGLE) { return false; }
+	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color *colors, RenderState*, LineType type=LINE_SINGLE) { return false; }
 	//flat colour lines
-	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color &color, LineType type=LINE_SINGLE) { return false; }
-	virtual bool DrawLines2D(int vertCount, const vector2f *vertices, const Color &color, LineType type=LINE_SINGLE) { return false; }
-	virtual bool DrawPoints(int count, const vector3f *points, const Color *colors, float pointSize=1.f) { return false; }
+	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color &color, RenderState*, LineType type=LINE_SINGLE) { return false; }
+	virtual bool DrawLines2D(int vertCount, const vector2f *vertices, const Color &color, RenderState*, LineType type=LINE_SINGLE) { return false; }
+	virtual bool DrawPoints(int count, const vector3f *points, const Color *colors, RenderState*, float pointSize=1.f) { return false; }
 	//unindexed triangle draw
-	virtual bool DrawTriangles(const VertexArray *vertices, Material *material, PrimitiveType type=TRIANGLES)  { return false; }
+	virtual bool DrawTriangles(const VertexArray *vertices, RenderState *state, Material *material, PrimitiveType type=TRIANGLES)  { return false; }
 	//indexed triangle draw
-	virtual bool DrawSurface(const Surface *surface) { return false; }
+	virtual bool DrawSurface(const Surface *surface, RenderState *rs) { return false; }
 	//high amount of textured quads for particles etc
-	virtual bool DrawPointSprites(int count, const vector3f *positions, Material *material, float size) { return false; }
+	virtual bool DrawPointSprites(int count, const vector3f *positions, RenderState *rs, Material *material, float size) { return false; }
 	//complex unchanging geometry that is worthwhile to store in VBOs etc.
-	virtual bool DrawStaticMesh(StaticMesh *thing) { return false; }
+	virtual bool DrawStaticMesh(StaticMesh*, RenderState*) { return false; }
 
 	//creates a unique material based on the descriptor. It will not be deleted automatically.
 	virtual Material *CreateMaterial(const MaterialDescriptor &descriptor) = 0;
 	virtual Texture *CreateTexture(const TextureDescriptor &descriptor) = 0;
+	virtual RenderState *CreateRenderState(const RenderStateDesc &) = 0;
 	//returns 0 if unsupported
 	virtual RenderTarget *CreateRenderTarget(const RenderTargetDesc &) { return 0; }
 

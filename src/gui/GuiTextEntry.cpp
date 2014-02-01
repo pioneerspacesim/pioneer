@@ -220,37 +220,30 @@ void TextEntry::Draw()
 		if (m_scroll < 0) m_scroll = 0;
 	}
 
-	glColor3f(0,0,0);
-	glBegin(GL_TRIANGLE_FAN);
-		glVertex2f(0,size[1]);
-		glVertex2f(size[0],size[1]);
-		glVertex2f(size[0],0);
-		glVertex2f(0,0);
-	glEnd();
+	//background
+	Theme::DrawRect(vector2f(0.f), vector2f(size[0], size[1]), Color(0,0,0,192), Screen::alphaBlendState);
 
-	Color c = IsFocused() ? Color::WHITE : Color(192, 192, 192, 255);
+	//outline
+	const Color c = IsFocused() ? Color::WHITE : Color(192, 192, 192, 255);
+	const vector3f boxVts[] = {
+		vector3f(0.f, 0.f, 0.f),
+		vector3f(size[0],0.f, 0.f),
+		vector3f(size[0],size[1], 0.f),
+		vector3f(0,size[1], 0.f)
+	};
+	Screen::GetRenderer()->DrawLines(4, &boxVts[0], c, Screen::alphaBlendState, Graphics::LINE_LOOP);
 
-	glColor4ubv(c);
-	glBegin(GL_LINE_LOOP);
-		glVertex2f(0,0);
-		glVertex2f(size[0],0);
-		glVertex2f(size[0],size[1]);
-		glVertex2f(0,size[1]);
-	glEnd();
-
-
+	//text
 	SetScissor(true);
-
 	Gui::Screen::RenderString(m_text, 1.0f - m_scroll, 0.0f, c, m_font.Get());
-
-	/* Cursor */
-	glColor3f(0.5f,0.5f,0.5f);
-	glBegin(GL_LINES);
-		glVertex2f(curs_x + 1.0f - m_scroll, curs_y + Gui::Screen::GetFontDescender(m_font.Get()) - Gui::Screen::GetFontHeight(m_font.Get()));
-		glVertex2f(curs_x + 1.0f - m_scroll, curs_y + Gui::Screen::GetFontDescender(m_font.Get()));
-	glEnd();
-
 	SetScissor(false);
+
+	//cursor
+	const vector3f cursorVts[] = {
+		vector3f(curs_x + 1.0f - m_scroll, curs_y + Gui::Screen::GetFontDescender(m_font.Get()) - Gui::Screen::GetFontHeight(m_font.Get()), 0.f),
+		vector3f(curs_x + 1.0f - m_scroll, curs_y + Gui::Screen::GetFontDescender(m_font.Get()), 0.f),
+	};
+	Screen::GetRenderer()->DrawLines(2, &cursorVts[0], Color(128), Screen::alphaBlendState);
 }
 
 } /* namespace Gui */

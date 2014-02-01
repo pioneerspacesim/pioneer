@@ -167,17 +167,20 @@ private:
 
 	std::unique_ptr<Gui::TexturedQuad> m_indicatorMousedir;
 	vector2f m_indicatorMousedirSize;
+
+	Graphics::RenderState *m_blendState;
 };
 
 class NavTunnelWidget: public Gui::Widget {
 public:
-	NavTunnelWidget(WorldView *worldView);
+	NavTunnelWidget(WorldView *worldView, Graphics::RenderState*);
 	virtual void Draw();
 	virtual void GetSizeRequested(float size[2]);
 	void DrawTargetGuideSquare(const vector2f &pos, const float size, const Color &c);
 
 private:
 	WorldView *m_worldView;
+	Graphics::RenderState *m_renderState;
 };
 
 #endif /* _WORLDVIEW_H */

@@ -75,15 +75,10 @@ void ShieldMaterial::Apply()
 		p->shieldCooldown.Set(0.0f);
 		p->numHits.Set( 0 );
 	}
-
-	glPushAttrib(GL_ENABLE_BIT);
-	if (this->twoSided)
-		glDisable(GL_CULL_FACE);
 }
 
 void ShieldMaterial::Unapply()
 {
-	glPopAttrib();
 	m_program->Unuse();
 }
 
