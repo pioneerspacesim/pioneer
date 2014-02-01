@@ -26,7 +26,7 @@ static const int detail_edgeLen[5] = {
 	7, 15, 25, 35, 55
 };
 
-#define PRINT_VECTOR(_v) printf("%f,%f,%f\n", (_v).x, (_v).y, (_v).z);
+#define PRINT_VECTOR(_v) Output("%f,%f,%f\n", (_v).x, (_v).y, (_v).z);
 
 static const int geo_sphere_edge_friends[NUM_PATCHES][4] = {
 	{ 3, 4, 1, 2 },
@@ -53,7 +53,7 @@ void GeoSphere::Uninit()
 
 static void print_info(const SystemBody *sbody, const Terrain *terrain)
 {
-	printf(
+	Output(
 		"%s:\n"
 		"    height fractal: %s\n"
 		"    colour fractal: %s\n"

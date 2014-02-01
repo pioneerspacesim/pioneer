@@ -79,15 +79,13 @@ void pi_lua_warn(lua_State *l, const char *format, ...) __attribute((format(prin
 bool pi_lua_split_table_path(lua_State *l, const std::string &path);
 
 #ifdef DEBUG
-#include <stdlib.h> // for abort()
 # define LUA_DEBUG_START(luaptr) const int __luaStartStackDepth = lua_gettop(luaptr)
 # define LUA_DEBUG_END(luaptr, expectedStackDiff) \
 	do { \
 		const int __luaEndStackDepth = lua_gettop(luaptr); \
 		if ( __luaEndStackDepth-expectedStackDiff != __luaStartStackDepth) { \
-			fprintf(stderr, "%s:%d: lua stack difference is %d, expected %d\n", \
+			Error("%s:%d: lua stack difference is %d, expected %d", \
 				__FILE__, __LINE__, __luaEndStackDepth-__luaStartStackDepth, expectedStackDiff); \
-			abort(); \
 		} \
 	} while (0)
 # define LUA_DEBUG_CHECK(luaptr, expectedStackDiff) LUA_DEBUG_END(luaptr, expectedStackDiff)

@@ -90,8 +90,6 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\pioneer\src\ui\Layer.cpp" />
-    <ClCompile Include="..\..\..\..\pioneer\src\ui\LuaLayer.cpp" />
     <ClCompile Include="..\..\..\src\ui\Align.cpp" />
     <ClCompile Include="..\..\..\src\ui\Background.cpp" />
     <ClCompile Include="..\..\..\src\ui\Box.cpp" />
@@ -161,7 +159,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\pioneer\src\ui\Layer.h" />
     <ClInclude Include="..\..\..\src\ui\Align.h" />
     <ClInclude Include="..\..\..\src\ui\Background.h" />
     <ClInclude Include="..\..\..\src\ui\Box.h" />

@@ -35,7 +35,7 @@ static bool check_glsl_errors(const char *filename, GLuint obj)
 		glGetProgramiv(obj, GL_LINK_STATUS, &status);
 
 	if (status == GL_FALSE) {
-		OS::Error("Error compiling shader: %s:\n%sOpenGL vendor: %s\nOpenGL renderer string: %s",
+		Error("Error compiling shader: %s:\n%sOpenGL vendor: %s\nOpenGL renderer string: %s",
 			filename, infoLog, glGetString(GL_VENDOR), glGetString(GL_RENDERER));
 		return false;
 	}
@@ -46,7 +46,7 @@ static bool check_glsl_errors(const char *filename, GLuint obj)
 #ifndef NDEBUG
 	if (infologLength > 0) {
 		if (pi_strcasestr("infoLog", "warning"))
-			fprintf(stderr, "%s: %s", filename, infoLog);
+			Output("%s: %s", filename, infoLog);
 	}
 #endif
 
@@ -58,7 +58,7 @@ struct Shader {
 		RefCountedPtr<FileSystem::FileData> code = FileSystem::gameDataFiles.ReadFile(filename);
 
 		if (!code)
-			OS::Error("Could not load %s", filename.c_str());
+			Error("Could not load %s", filename.c_str());
 
 		// Load some common code
 		RefCountedPtr<FileSystem::FileData> logzCode = FileSystem::gameDataFiles.ReadFile("shaders/gl2/logz.glsl");
@@ -84,7 +84,7 @@ struct Shader {
 			FileSystem::userFiles.MakeDirectory(SHADER_GL2_OUT_DIR_NAME);
 			const std::string outFilename(FileSystem::GetUserDir() + "/" + filename);
 			FILE *tmp = fopen(outFilename.c_str(), "w+");
-			fprintf(stderr, "%s", filename);
+			Output("%s", filename);
 			for( Uint32 i=0; i<blocks.size(); i++ ) {
 				fprintf(tmp, "%.*s", block_sizes[i], blocks[i]);
 			}
@@ -94,7 +94,7 @@ struct Shader {
 		shader = glCreateShader(type);
 		Compile(shader);
 
-		// CheckGLSL may use OS::Warning instead of OS::Error so the game may still (attempt to) run
+		// CheckGLSL may use OS::Warning instead of Error so the game may still (attempt to) run
 		if (!check_glsl_errors(filename.c_str(), shader))
 			throw ShaderException();
 	};

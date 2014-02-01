@@ -241,11 +241,11 @@ static int l_fac_add_to_factions(lua_State *L)
 	if (!facbld->registered && !facbld->skip) {
 		/* XXX maybe useful for debugging, leaving for now
 		if (facbld->fac->hasHomeworld) {
-			printf("l_fac_add_to_factions: added (%3d,%3d,%3d) f=%4.0f e=%2.2f '%s' [%s]\n"
+			Output("l_fac_add_to_factions: added (%3d,%3d,%3d) f=%4.0f e=%2.2f '%s' [%s]\n"
 				, fac->homeworld.sectorX, fac->homeworld.sectorY, fac->homeworld.sectorZ, fac->foundingDate, fac->expansionRate, fac->name.c_str(), factionName.c_str());
 		}
 		else {
-			printf("l_fac_add_to_factions: added '%s' [%s]\n", fac->name.c_str(), factionName.c_str());
+			Output("l_fac_add_to_factions: added '%s' [%s]\n", fac->name.c_str(), factionName.c_str());
 		}
 		*/
 
@@ -261,7 +261,7 @@ static int l_fac_add_to_factions(lua_State *L)
 		return 0;
 	} else if (facbld->skip) {
 		/* XXX maybe useful for debugging, leaving for now
-		printf("l_fac_add_to_factions: invalid homeworld, skipped (%3d,%3d,%3d) f=%4.0f e=%2.2f '%s' [%s]\n"
+		Output("l_fac_add_to_factions: invalid homeworld, skipped (%3d,%3d,%3d) f=%4.0f e=%2.2f '%s' [%s]\n"
 				, fac->homeworld.sectorX, fac->homeworld.sectorY, fac->homeworld.sectorZ, fac->foundingDate, fac->expansionRate, fac->name.c_str(), factionName.c_str());
 		*/
 		return 0;
@@ -340,7 +340,7 @@ void Faction::Init()
 	LUA_DEBUG_END(L, 0);
 	lua_close(L);
 
-	printf("Number of factions added: " SIZET_FMT "\n", s_factions.size());
+	Output("Number of factions added: " SIZET_FMT "\n", s_factions.size());
 	StarSystem::ShrinkCache();    // clear the star system cache of anything we used for faction generation
 }
 

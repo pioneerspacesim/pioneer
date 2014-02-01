@@ -28,31 +28,31 @@ public:
 static bool toggle_disabled_handler(UI::Widget *w)
 {
 	w->IsDisabled() ? w->Enable() : w->Disable();
-	printf("toggle disabled: %p %s now %s\n", w, typeid(*w).name(), w->IsDisabled() ? "DISABLED" : "ENABLED");
+	Output("toggle disabled: %p %s now %s\n", w, typeid(*w).name(), w->IsDisabled() ? "DISABLED" : "ENABLED");
 	return true;
 }
 
 static bool click_handler(UI::Widget *w)
 {
-	printf("click: %p %s\n", w, typeid(*w).name());
+	Output("click: %p %s\n", w, typeid(*w).name());
 	return true;
 }
 
 static bool move_handler(const UI::MouseMotionEvent &event, UI::Widget *w)
 {
-	printf("move: %p %s %d,%d\n", w, typeid(*w).name(), event.pos.x, event.pos.y);
+	Output("move: %p %s %d,%d\n", w, typeid(*w).name(), event.pos.x, event.pos.y);
 	return true;
 }
 
 static bool over_handler(UI::Widget *w)
 {
-	printf("over: %p %s\n", w, typeid(*w).name());
+	Output("over: %p %s\n", w, typeid(*w).name());
 	return true;
 }
 
 static bool out_handler(UI::Widget *w)
 {
-	printf("out: %p %s\n", w, typeid(*w).name());
+	Output("out: %p %s\n", w, typeid(*w).name());
 	return true;
 }
 
@@ -63,7 +63,7 @@ static void colour_change(float v, UI::ColorBackground *back, UI::Slider *r, UI:
 
 static void option_selected(unsigned int index, const std::string &option)
 {
-	printf("option selected: %d %s\n", index, option.c_str());
+	Output("option selected: %d %s\n", index, option.c_str());
 }
 
 static void fill_label(float v, UI::Label *label)
@@ -107,7 +107,7 @@ int main(int argc, char **argv)
 	FileSystem::Init();
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-		fprintf(stderr, "sdl init failed: %s\n", SDL_GetError());
+		Output("sdl init failed: %s\n", SDL_GetError());
 		exit(-1);
 	}
 
@@ -636,7 +636,7 @@ int main(int argc, char **argv)
 			c->Layout();
 		}
 		else if (count < 400 && count % 10 == 0)
-			printf("%d\n", count);
+			Output("%d\n", count);
 #endif
 
 #if 0

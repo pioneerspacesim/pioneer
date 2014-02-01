@@ -226,6 +226,14 @@ void Ship::Init()
 	InitGun("tag_gunmount_0", 0);
 	InitGun("tag_gunmount_1", 1);
 
+	// If we've got the tag_landing set then use it for an offset otherwise grab the AABB
+	const SceneGraph::MatrixTransform *mt = GetModel()->FindTagByName("tag_landing");
+	if( mt ) {
+		m_landingMinOffset = mt->GetTransform().GetTranslate().y;
+	} else {
+		m_landingMinOffset = GetAabb().min.y;
+	}
+
 	InitMaterials();
 }
 
@@ -390,7 +398,7 @@ bool Ship::OnDamage(Object *attacker, float kgDamage, const CollisionContact& co
 		}
 	}
 
-	//printf("Ouch! %s took %.1f kilos of damage from %s! (%.1f t hull left)\n", GetLabel().c_str(), kgDamage, attacker->GetLabel().c_str(), m_stats.hull_mass_left);
+	//Output("Ouch! %s took %.1f kilos of damage from %s! (%.1f t hull left)\n", GetLabel().c_str(), kgDamage, attacker->GetLabel().c_str(), m_stats.hull_mass_left);
 	return true;
 }
 
@@ -878,7 +886,7 @@ void Ship::TimeAccelAdjust(const float timeStep)
 	if (!AIIsActive()) return;
 #ifdef DEBUG_AUTOPILOT
 	if (this->IsType(Object::PLAYER))
-		printf("Time accel adjustment, step = %.1f, decel = %s\n", double(timeStep),
+		Output("Time accel adjustment, step = %.1f, decel = %s\n", double(timeStep),
 			m_decelerating ? "true" : "false");
 #endif
 	vector3d vdiff = double(timeStep) * GetLastForce() * (1.0 / GetMass());

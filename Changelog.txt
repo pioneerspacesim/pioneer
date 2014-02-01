@@ -12,7 +12,7 @@ January 2014
      * Ship stat balancing (#2620, #2673)
      * Atmospheres in gas giants are much deeper (#2609, #1395)
      * New "free software" charity on the bulletin board (#2611)
-     * Change start ship to Xylophis
+     * Change start ships and initial equipment (#2696)
      * Add delta-v data to ship market (#2616)
      * Earth start position now starts at 13:00 (Pioneer time) (#2615)
      * Misc. tweaks for the intro animation (#2649)
@@ -24,6 +24,9 @@ January 2014
      * Show min/max crew in shipmarket (#2681)
      * Show labels on stations and cargo models (#2680)
      * Show decals on models (#2680)
+     * Improve error reporting (#2694)
+     * Xylophis textures updated (#2700)
+     * Don't allow cargo to be jettisoned wile docked (#2699)
 
    * Script and UI API changes
      * Game.StartGame now takes an optional start_time argument (#2615)
@@ -36,6 +39,8 @@ January 2014
 
    * Model changes
      * Modelviewer: Show bounding box when showing collision mesh (#2664)
+     * "Landing" tag-point to define where the bottom of the ship is for the
+       landing collision test (#2695, #2656)
 
    * Fixes
      * Fix label positioning in orbit and galaxy views (#2608, #2576)
@@ -60,6 +65,7 @@ January 2014
      * Expose models to Lua, move pattern methods from ModelSkin to Model (2645)
      * Add initial model binary converter/loader (#2643)
      * Replace GatherTransforms with a visitor (#2686)
+     * RefCounted(Ptr) with atomic counter and allowing const correctness (#2688)
 
 December 2013
 
