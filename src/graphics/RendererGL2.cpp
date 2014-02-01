@@ -188,10 +188,10 @@ bool RendererGL2::SwapBuffers()
 
 bool RendererGL2::SetRenderState(RenderState *rs)
 {
-	//if (m_activeRenderState != rs) {
+	if (m_activeRenderState != rs) {
 		static_cast<GL2::RenderState*>(rs)->Apply();
 		m_activeRenderState = rs;
-	//}
+	}
 	return true;
 }
 
