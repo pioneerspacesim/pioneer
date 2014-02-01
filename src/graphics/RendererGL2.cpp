@@ -92,7 +92,6 @@ RendererGL2::RendererGL2(WindowSDL *window, const Graphics::Settings &vs)
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
 	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-	glAlphaFunc(GL_GREATER, 0.5f);
 
 	glMatrixMode(GL_MODELVIEW);
 	m_modelViewStack.push(matrix4x4f::Identity());
@@ -210,6 +209,7 @@ bool RendererGL2::SetRenderTarget(RenderTarget *rt)
 
 bool RendererGL2::ClearScreen()
 {
+	m_activeRenderState = nullptr;
 	glDepthMask(GL_TRUE);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -218,6 +218,7 @@ bool RendererGL2::ClearScreen()
 
 bool RendererGL2::ClearDepthBuffer()
 {
+	m_activeRenderState = nullptr;
 	glDepthMask(GL_TRUE);
 	glClear(GL_DEPTH_BUFFER_BIT);
 
