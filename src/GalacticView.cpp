@@ -113,7 +113,6 @@ void GalacticView::Draw3D()
 	const float aspect = m_renderer->GetDisplayAspect();
 	m_renderer->SetOrthographicProjection(-aspect, aspect, 1.f, -1.f, -1.f, 1.f);
 	m_renderer->ClearScreen();
-	m_renderer->SetRenderState(m_renderState);
 
 	//apply zoom
 	m_renderer->SetTransform(
