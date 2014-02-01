@@ -465,8 +465,8 @@ void SystemInfoView::UpdateIconSelections()
 
 SystemInfoView::BodyIcon::BodyIcon(const char *img, Graphics::Renderer *r)
 	: Gui::ImageRadioButton(0, img, img)
-	, m_hasStarport(false)
 	, m_renderer(r)
+	, m_hasStarport(false)
 {
 	//no blending
 	Graphics::RenderStateDesc rsd;

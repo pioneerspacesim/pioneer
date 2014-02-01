@@ -48,10 +48,10 @@ Thruster::Thruster(Graphics::Renderer *r, bool _linear, const vector3f &_pos, co
 Thruster::Thruster(const Thruster &thruster, NodeCopyCache *cache)
 : Node(thruster, cache)
 , m_tMat(thruster.m_tMat)
+, m_renderState(thruster.m_renderState)
 , linearOnly(thruster.linearOnly)
 , dir(thruster.dir)
 , pos(thruster.pos)
-, m_renderState(thruster.m_renderState)
 {
 	m_tVerts.reset(CreateThrusterGeometry());
 	m_glowVerts.reset(CreateGlowGeometry());
