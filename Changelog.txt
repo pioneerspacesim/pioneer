@@ -1,3 +1,8 @@
+February 2014
+
+   * Minor changes and tweaks
+     * Added landing tag points to all ships (#2703)
+
 January 2014
 
    * New features
