@@ -133,6 +133,17 @@ namespace Theme {
 	}
 	static const float BORDER_WIDTH = 2.0;
 
+	void DrawRect(const vector2f &pos, const vector2f &size, const Color &c, Graphics::RenderState *state)
+	{
+		Graphics::VertexArray bgArr(Graphics::ATTRIB_POSITION, 4);
+		bgArr.Add(vector3f(pos.x,size.y,0));
+		bgArr.Add(vector3f(size.x,size.y,0));
+		bgArr.Add(vector3f(size.x,pos.y,0));
+		bgArr.Add(vector3f(pos.x,pos.y,0));
+		Screen::flatColorMaterial->diffuse = c;
+		Screen::GetRenderer()->DrawTriangles(&bgArr, state, Screen::flatColorMaterial, Graphics::TRIANGLE_FAN);
+	}
+
 	void DrawRoundEdgedRect(const float size[2], float rad, const Color &color, Graphics::RenderState *state)
 	{
 		static Graphics::VertexArray vts(Graphics::ATTRIB_POSITION);

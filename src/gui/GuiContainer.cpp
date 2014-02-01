@@ -195,13 +195,7 @@ void Container::Draw()
 	GetSize(size);
 	if (!m_transparent) {
 		PROFILE_SCOPED_RAW("Container::Draw - !m_transparent")
-		glBegin(GL_QUADS);
-			glColor4ubv(m_bgcol);
-			glVertex2f(0, size[1]);
-			glVertex2f(size[0], size[1]);
-			glVertex2f(size[0], 0);
-			glVertex2f(0, 0);
-		glEnd();
+		Theme::DrawRect(vector2f(0.f), vector2f(size[0], size[1]), m_bgcol, Screen::alphaBlendState);
 	}
 
 	for (WidgetList::iterator i = m_children.begin(), itEnd = m_children.end(); i != itEnd; ++i) {
