@@ -210,7 +210,6 @@ void SystemView::PutLabel(const SystemBody *b, const vector3d &offset)
 	}
 
 	Gui::Screen::LeaveOrtho();
-	glDisable(GL_LIGHTING);
 }
 
 void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matrix4x4f &trans)

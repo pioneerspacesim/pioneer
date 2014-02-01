@@ -59,8 +59,10 @@ void ToolTip::Draw()
 	float size[2];
 	int age = SDL_GetTicks() - m_createdTime;
 	float alpha = std::min(age / FADE_TIME_MS, 0.75f);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	Graphics::Renderer *r = Gui::Screen::GetRenderer();
+	r->SetRenderState(Gui::Screen::alphaBlendState);
+
 	GetSize(size);
 	glColor4f(.2f,.2f,.6f,alpha);
 	glBegin(GL_QUADS);
@@ -77,15 +79,11 @@ void ToolTip::Draw()
 		glVertex2f(0, 0);
 	glEnd();
 
-	Graphics::Renderer *r = Gui::Screen::GetRenderer();
 	Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
 
 	r->Translate(TOOLTIP_PADDING,0,0);
 	glColor4f(1,1,1,alpha);
 	m_layout->Render(size[0]-2*TOOLTIP_PADDING);
-
-	glBlendFunc(GL_ONE, GL_ZERO);
-	glDisable(GL_BLEND);
 }
 
 void ToolTip::GetSizeRequested(float size[2])

@@ -29,16 +29,12 @@ namespace Graphics {
 				}
 				const float em = (float(emissive.r) * 0.003921568627451f);
 				m_program->shininess.Set(fSkyboxFactor * em);
-				glPushAttrib(GL_DEPTH_BUFFER_BIT);
-				glEnable(GL_DEPTH_TEST);
-				glDepthMask(GL_FALSE);
 			}
 
 			virtual void Unapply() {
-				glPopAttrib();
 				m_program->Unuse();
 			}
-			
+
 			// Skybox multiplier
 			float fSkyboxFactor;
 		};

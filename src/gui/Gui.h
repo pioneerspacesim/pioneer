@@ -10,12 +10,13 @@
 namespace Graphics {
 	class Renderer;
 	class WindowSDL;
+	class RenderState;
 }
 
 namespace Gui {
 
 	namespace Theme {
-		void DrawRoundEdgedRect(const float size[2], float rad);
+		void DrawRoundEdgedRect(const float size[2], float rad, const Color&, Graphics::RenderState*);
 		void DrawIndent(const float size[2]);
 		void DrawOutdent(const float size[2]);
 		void DrawHollowRect(const float size[2]);

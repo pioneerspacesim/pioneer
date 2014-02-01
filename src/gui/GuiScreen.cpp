@@ -28,6 +28,7 @@ RefCountedPtr<Text::TextureFont>Screen::s_defaultFont;
 
 Graphics::Renderer *Screen::s_renderer;
 Graphics::RenderState *Screen::alphaBlendState = nullptr;
+Graphics::Material *Screen::flatColorMaterial = nullptr;
 
 void Screen::Init(Graphics::Renderer *renderer, int real_width, int real_height, int ui_width, int ui_height)
 {
@@ -55,12 +56,16 @@ void Screen::Init(Graphics::Renderer *renderer, int real_width, int real_height,
 	rsd.blendMode = Graphics::BLEND_ALPHA;
 	rsd.depthWrite = false;
 	alphaBlendState = renderer->CreateRenderState(rsd);
+
+	Graphics::MaterialDescriptor mdesc;
+	flatColorMaterial = renderer->CreateMaterial(mdesc);
 }
 
 void Screen::Uninit()
 {
 	Screen::baseContainer->RemoveAllChildren();		// children deleted elsewhere?
 	delete Screen::baseContainer;
+	delete flatColorMaterial;
 }
 
 static sigc::connection _focusedWidgetOnDelete;
@@ -138,10 +143,7 @@ void Screen::EnterOrtho()
 	r->SetOrthographicProjection(0, width, height, 0, -1, 1);
 	r->SetTransform(matrix4x4f::Identity());
 
-	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 }
 
 void Screen::LeaveOrtho()
@@ -152,9 +154,6 @@ void Screen::LeaveOrtho()
 
 	r->SetProjection(projMatrix);
 	r->SetTransform(modelMatrix);
-
-	glEnable(GL_LIGHTING);
-	glEnable(GL_DEPTH_TEST);
 }
 
 void Screen::Draw()

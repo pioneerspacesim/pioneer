@@ -4,6 +4,7 @@
 #include "libs.h"
 #include "Gui.h"
 #include "graphics/Graphics.h"
+#include "graphics/RenderState.h"
 
 namespace Gui {
 
@@ -132,34 +133,38 @@ namespace Theme {
 	}
 	static const float BORDER_WIDTH = 2.0;
 
-	void DrawRoundEdgedRect(const float size[2], float rad)
+	void DrawRoundEdgedRect(const float size[2], float rad, const Color &color, Graphics::RenderState *state)
 	{
+		static Graphics::VertexArray vts(Graphics::ATTRIB_POSITION);
+		vts.Clear();
+
 		const int STEPS = 6;
 		if (rad > 0.5f*std::min(size[0], size[1])) rad = 0.5f*std::min(size[0], size[1]);
-		glBegin(GL_TRIANGLE_FAN);
 			// top left
 			// bottom left
 			for (int i=0; i<=STEPS; i++) {
 				float ang = M_PI*0.5f*i/float(STEPS);
-				glVertex2f(rad - rad*cos(ang), (size[1] - rad) + rad*sin(ang));
+				vts.Add(vector3f(rad - rad*cos(ang), (size[1] - rad) + rad*sin(ang), 0.f));
 			}
 			// bottom right
 			for (int i=0; i<=STEPS; i++) {
 				float ang = M_PI*0.5 + M_PI*0.5f*i/float(STEPS);
-				glVertex2f(size[0] - rad - rad*cos(ang), (size[1] - rad) + rad*sin(ang));
+				vts.Add(vector3f(size[0] - rad - rad*cos(ang), (size[1] - rad) + rad*sin(ang), 0.f));
 			}
 			// top right
 			for (int i=0; i<=STEPS; i++) {
 				float ang = M_PI + M_PI*0.5f*i/float(STEPS);
-				glVertex2f((size[0] - rad) - rad*cos(ang), rad + rad*sin(ang));
+				vts.Add(vector3f((size[0] - rad) - rad*cos(ang), rad + rad*sin(ang), 0.f));
 			}
 
 			// top right
 			for (int i=0; i<=STEPS; i++) {
 				float ang = M_PI*1.5 + M_PI*0.5f*i/float(STEPS);
-				glVertex2f(rad - rad*cos(ang), rad + rad*sin(ang));
+				vts.Add(vector3f(rad - rad*cos(ang), rad + rad*sin(ang), 0.f));
 			}
-		glEnd();
+
+		Screen::flatColorMaterial->diffuse = color;
+		Screen::GetRenderer()->DrawTriangles(&vts, state, Screen::flatColorMaterial, Graphics::TRIANGLE_FAN);
 	}
 
 	void DrawHollowRect(const float size[2])

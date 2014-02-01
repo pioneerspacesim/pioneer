@@ -64,6 +64,7 @@ namespace Gui {
 		static Graphics::Renderer *GetRenderer() { return s_renderer; }
 
 		static Graphics::RenderState *alphaBlendState;
+		static Graphics::Material* flatColorMaterial;
 
 	private:
 		static void AddShortcutWidget(Widget *w);
