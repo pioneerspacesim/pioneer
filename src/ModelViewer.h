@@ -102,6 +102,7 @@ private:
 	SceneGraph::Animation *m_currentAnimation;
 	SceneGraph::Model *m_model;
 	Options m_options;
+	float m_landingMinOffset;
 	std::unique_ptr<NavLights> m_navLights;
 	std::unique_ptr<Shields> m_shields;
 	std::unique_ptr<SceneGraph::Model> m_gunModel;

@@ -1,3 +1,8 @@
+February 2014
+
+   * Minor changes and tweaks
+     * Added landing tag points to all ships (#2703)
+
 January 2014
 
    * New features
@@ -25,6 +30,8 @@ January 2014
      * Show labels on stations and cargo models (#2680)
      * Show decals on models (#2680)
      * Improve error reporting (#2694)
+     * Xylophis textures updated (#2700)
+     * Don't allow cargo to be jettisoned wile docked (#2699)
 
    * Script and UI API changes
      * Game.StartGame now takes an optional start_time argument (#2615)

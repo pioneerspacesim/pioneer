@@ -233,7 +233,7 @@
    },
    "COMPUTER_HEADING_CONTROL" : {
       "description" : "",
-      "message" : "Computer heading control"
+      "message" : "Datastyrt retningskontroll"
    },
    "COMPUTER_SPEED_CONTROL" : {
       "description" : "",
@@ -1797,7 +1797,7 @@
    },
    "TOGGLE_LUA_CONSOLE" : {
       "description" : "",
-      "message" : "Toggle Lua console"
+      "message" : "Veksle Luakonsoll"
    },
    "TOGGLE_ROTATION_DAMPING" : {
       "description" : "",
