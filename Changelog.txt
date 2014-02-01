@@ -10,10 +10,13 @@ February 2014
      * Model.SetDebugFlags for adding debug effects to model drawing
      * ModelSpinner.model to get the spinner model
 
+   * Model changes
+     * Removed two_sided material property, it didn't handle lighting correctly (#2697)
+
    * Internal changes
      * Moved model debug effects (wireframe, collision mesh) out of
        ModelViewer and onto Model, and exposed via SetDebugFlags
-
+     * Handle blend/depth/cull render states as stateset objects (#2697)
 
 January 2014
 

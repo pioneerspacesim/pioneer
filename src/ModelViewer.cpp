@@ -112,6 +112,12 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm)
 	animSlider = 0;
 
 	onModelChanged.connect(sigc::mem_fun(*this, &ModelViewer::SetupUI));
+
+	//for grid, background
+	Graphics::RenderStateDesc rsd;
+	rsd.depthWrite = false;
+	rsd.cullMode = Graphics::CULL_NONE;
+	m_bgState = m_renderer->CreateRenderState(rsd);
 }
 
 ModelViewer::~ModelViewer()
@@ -248,7 +254,7 @@ bool ModelViewer::OnToggleGuns(UI::CheckBox *w)
 	return true;
 }
 
-void ModelViewer::UpdateShield() 
+void ModelViewer::UpdateShield()
 {
 	if (m_shieldIsHit) {
 		m_shieldHitPan += 0.05f;
@@ -384,8 +390,6 @@ void ModelViewer::CreateTestResources()
 
 void ModelViewer::DrawBackground()
 {
-	m_renderer->SetDepthWrite(false);
-	m_renderer->SetBlendMode(Graphics::BLEND_SOLID);
 	m_renderer->SetOrthographicProjection(0.f, 1.f, 0.f, 1.f, -1.f, 1.f);
 	m_renderer->SetTransform(matrix4x4f::Identity());
 
@@ -401,7 +405,7 @@ void ModelViewer::DrawBackground()
 	va.Add(vector3f(1.f, 1.f, 0.f), top);
 	va.Add(vector3f(0.f, 1.f, 0.f), top);
 
-	m_renderer->DrawTriangles(&va, Graphics::vtxColorMaterial);
+	m_renderer->DrawTriangles(&va, m_bgState, Graphics::vtxColorMaterial);
 }
 
 //Draw grid and axes
@@ -434,7 +438,7 @@ void ModelViewer::DrawGrid(const matrix4x4f &trans, float radius)
 	}
 
 	m_renderer->SetTransform(trans);
-	m_renderer->DrawLines(points.size(), &points[0], Color(128));//Color(0.0f,0.2f,0.0f,1.0f));
+	m_renderer->DrawLines(points.size(), &points[0], Color(128), m_bgState);//Color(0.0f,0.2f,0.0f,1.0f));
 
 	//industry-standard red/green/blue XYZ axis indiactor
 	const int numAxVerts = 6;
@@ -462,15 +466,12 @@ void ModelViewer::DrawGrid(const matrix4x4f &trans, float radius)
 		Color(0, 255, 0)
 	};
 
-	m_renderer->SetDepthTest(true);
-	m_renderer->SetDepthWrite(true);
-	m_renderer->DrawLines(numAxVerts, &vts[0], &col[0]);
+	m_renderer->DrawLines(numAxVerts, &vts[0], &col[0], m_bgState);
 }
 
 void ModelViewer::DrawModel()
 {
 	assert(m_model);
-	m_renderer->SetBlendMode(Graphics::BLEND_SOLID);
 
 	m_renderer->SetPerspectiveProjection(85, Graphics::GetScreenWidth()/float(Graphics::GetScreenHeight()), 0.1f, 10000.f);
 	m_renderer->SetTransform(matrix4x4f::Identity());
@@ -486,12 +487,6 @@ void ModelViewer::DrawModel()
 		rot.RotateY(DEG2RAD(-m_rotY));
 		mv = matrix4x4f::Translation(0.0f, 0.0f, -zoom_distance(m_baseDistance, m_zoom)) * rot;
 	}
-
-	if (m_options.showGrid)
-		DrawGrid(mv, m_model->GetDrawClipRadius());
-
-	m_renderer->SetDepthTest(true);
-	m_renderer->SetDepthWrite(true);
 
 	m_model->UpdateAnimations();
 
@@ -509,6 +504,9 @@ void ModelViewer::DrawModel()
 		if (!m_scaleModel) CreateTestResources();
 		m_scaleModel->Render(mv * matrix4x4f::Translation(0.f, m_landingMinOffset, 0.f));
 	}
+
+	if (m_options.showGrid)
+		DrawGrid(mv, m_model->GetDrawClipRadius());
 }
 
 void ModelViewer::MainLoop()

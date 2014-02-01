@@ -59,33 +59,27 @@ void ToolTip::Draw()
 	float size[2];
 	int age = SDL_GetTicks() - m_createdTime;
 	float alpha = std::min(age / FADE_TIME_MS, 0.75f);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	GetSize(size);
-	glColor4f(.2f,.2f,.6f,alpha);
-	glBegin(GL_QUADS);
-		glVertex2f(0, 0);
-		glVertex2f(0, size[1]);
-		glVertex2f(size[0], size[1]);
-		glVertex2f(size[0], 0);
-	glEnd();
-	glColor4f(0,0,.8f,alpha);
-	glBegin(GL_LINE_LOOP);
-		glVertex2f(size[0], 0);
-		glVertex2f(size[0], size[1]);
-		glVertex2f(0, size[1]);
-		glVertex2f(0, 0);
-	glEnd();
 
 	Graphics::Renderer *r = Gui::Screen::GetRenderer();
+	r->SetRenderState(Gui::Screen::alphaBlendState);
+
+	GetSize(size);
+	const Color color(Color4f(0.2f, 0.2f, 0.6f, alpha));
+	Theme::DrawRect(vector2f(0.f), vector2f(size[0], size[1]), color, Screen::alphaBlendState);
+
+	const vector3f outlineVts[] = {
+		vector3f(size[0], 0, 0),
+		vector3f(size[0], size[1], 0),
+		vector3f(0, size[1], 0),
+		vector3f(0, 0, 0)
+	};
+	const Color outlineColor(Color4f(0,0,.8f,alpha));
+	r->DrawLines(4, &outlineVts[0], outlineColor, Screen::alphaBlendState, Graphics::LINE_LOOP);
+
 	Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
 
 	r->Translate(TOOLTIP_PADDING,0,0);
-	glColor4f(1,1,1,alpha);
 	m_layout->Render(size[0]-2*TOOLTIP_PADDING);
-
-	glBlendFunc(GL_ONE, GL_ZERO);
-	glDisable(GL_BLEND);
 }
 
 void ToolTip::GetSizeRequested(float size[2])

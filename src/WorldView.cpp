@@ -69,7 +69,12 @@ void WorldView::InitObject()
 	m_labelsOn = true;
 	SetTransparency(true);
 
-	m_navTunnel = new NavTunnelWidget(this);
+	Graphics::RenderStateDesc rsd;
+	rsd.blendMode = Graphics::BLEND_ALPHA;
+	rsd.depthWrite = false;
+	rsd.depthTest = false;
+	m_blendState = Pi::renderer->CreateRenderState(rsd); //XXX m_renderer not set yet
+	m_navTunnel = new NavTunnelWidget(this, m_blendState);
 	Add(m_navTunnel, 0, 0);
 
 	m_commsOptions = new Fixed(size[0], size[1]/2);
@@ -1635,12 +1640,13 @@ void WorldView::Draw()
 	assert(Pi::game);
 	assert(Pi::player);
 	assert(!Pi::player->IsDead());
+
+	m_renderer->ClearDepthBuffer();
+
 	View::Draw();
 
 	// don't draw crosshairs etc in hyperspace
 	if (Pi::player->GetFlightState() == Ship::HYPERSPACE) return;
-
-	m_renderer->SetBlendMode(Graphics::BLEND_ALPHA);
 
 	glPushAttrib(GL_CURRENT_BIT | GL_LINE_BIT);
 	glLineWidth(2.0f);
@@ -1683,8 +1689,6 @@ void WorldView::Draw()
 	}
 
 	glPopAttrib();
-
-	m_renderer->SetBlendMode(Graphics::BLEND_SOLID);
 }
 
 void WorldView::DrawCrosshair(float px, float py, float sz, const Color &c)
@@ -1699,7 +1703,7 @@ void WorldView::DrawCrosshair(float px, float py, float sz, const Color &c)
 		vector2f(px, py+sz),
 		vector2f(px, py+0.5f*sz)
 	};
-	m_renderer->DrawLines2D(COUNTOF(vts), vts, c);
+	m_renderer->DrawLines2D(COUNTOF(vts), vts, c, m_blendState);
 }
 
 void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead, const Color &c)
@@ -1746,9 +1750,9 @@ void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicat
 			vector2f(x2-10*xd, y2-10*yd)
 		};
 		if (lead.side == INDICATOR_ONSCREEN)
-			m_renderer->DrawLines2D(14, vts, c); //draw all
+			m_renderer->DrawLines2D(14, vts, c, m_blendState); //draw all
 		else
-			m_renderer->DrawLines2D(8, vts, c); //only crosshair
+			m_renderer->DrawLines2D(8, vts, c, m_blendState); //only crosshair
 	} else
 		DrawEdgeMarker(target, c);
 }
@@ -1774,7 +1778,7 @@ void WorldView::DrawTargetSquare(const Indicator &marker, const Color &c)
 		vector2f(x2, y2),
 		vector2f(x1, y2)
 	};
-	m_renderer->DrawLines2D(COUNTOF(vts), vts, c, Graphics::LINE_LOOP);
+	m_renderer->DrawLines2D(COUNTOF(vts), vts, c, m_blendState, Graphics::LINE_LOOP);
 }
 
 void WorldView::DrawVelocityIndicator(const Indicator &marker, const Color &c)
@@ -1795,7 +1799,7 @@ void WorldView::DrawVelocityIndicator(const Indicator &marker, const Color &c)
 			vector2f(posx-sz, posy+sz),
 			vector2f(posx-0.5f*sz, posy+0.5f*sz)
 		};
-		m_renderer->DrawLines2D(COUNTOF(vts), vts, c);
+		m_renderer->DrawLines2D(COUNTOF(vts), vts, c, m_blendState);
 	} else
 		DrawEdgeMarker(marker, c);
 
@@ -1821,7 +1825,7 @@ void WorldView::DrawEdgeMarker(const Indicator &marker, const Color &c)
 	float len = dir.Length();
 	dir *= sz/len;
 	const vector2f vts[] = { marker.pos, marker.pos + dir };
-	m_renderer->DrawLines2D(2, vts, c);
+	m_renderer->DrawLines2D(2, vts, c, m_blendState);
 }
 
 void WorldView::MouseWheel(bool up)
@@ -1838,9 +1842,10 @@ void WorldView::MouseWheel(bool up)
 		}
 	}
 }
-NavTunnelWidget::NavTunnelWidget(WorldView *worldview) :
-	Widget(),
-	m_worldView(worldview)
+NavTunnelWidget::NavTunnelWidget(WorldView *worldview, Graphics::RenderState *rs)
+	: Widget()
+	, m_worldView(worldview)
+	, m_renderState(rs)
 {
 }
 
@@ -1882,8 +1887,6 @@ void NavTunnelWidget::Draw() {
 
 void NavTunnelWidget::DrawTargetGuideSquare(const vector2f &pos, const float size, const Color &c)
 {
-	m_worldView->m_renderer->SetBlendMode(Graphics::BLEND_ALPHA);
-
 	const float x1 = pos.x - size;
 	const float x2 = pos.x + size;
 	const float y1 = pos.y - size;
@@ -1912,7 +1915,7 @@ void NavTunnelWidget::DrawTargetGuideSquare(const vector2f &pos, const float siz
 		black
 	};
 	assert(COUNTOF(col) == COUNTOF(vts));
-	m_worldView->m_renderer->DrawLines(COUNTOF(vts), vts, col, Graphics::LINE_LOOP);
+	m_worldView->m_renderer->DrawLines(COUNTOF(vts), vts, col, m_renderState, Graphics::LINE_LOOP);
 }
 
 void NavTunnelWidget::GetSizeRequested(float size[2]) {

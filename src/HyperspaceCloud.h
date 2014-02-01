@@ -12,6 +12,7 @@ namespace Graphics {
 	class Material;
 	class Renderer;
 	class VertexArray;
+	class RenderState;
 }
 
 /** XXX TODO XXX Not applied to yet... */
@@ -50,6 +51,7 @@ private:
 	struct Graphic {
 		std::unique_ptr<Graphics::VertexArray> vertices;
 		std::unique_ptr<Graphics::Material> material;
+		Graphics::RenderState *renderState;
 	};
 	Graphic m_graphic;
 };

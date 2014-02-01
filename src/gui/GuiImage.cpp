@@ -54,7 +54,6 @@ void Image::Draw()
 	GetSize(allocSize);
 
 	Graphics::Renderer *r = Gui::Screen::GetRenderer();
-	r->SetBlendMode(Graphics::BLEND_ALPHA);
 	m_quad->Draw(r, vector2f(0.0f), vector2f(allocSize[0],allocSize[1]), m_color);
 }
 

@@ -24,14 +24,14 @@ protected:
 private:
 	class BodyIcon : public Gui::ImageRadioButton {
 	public:
-		BodyIcon(const char* img);
+		BodyIcon(const char* img, Graphics::Renderer*);
 		virtual void Draw();
 		virtual void OnActivate();
-		void SetRenderer(Graphics::Renderer *r) { m_renderer = r; }
 		bool HasStarport() { return m_hasStarport; }
 		void SetHasStarport() { m_hasStarport = true; }
 	private:
 		Graphics::Renderer *m_renderer;
+		Graphics::RenderState *m_renderState;
 		bool m_hasStarport;
 	};
 	void SystemChanged(const SystemPath &path);
@@ -52,6 +52,7 @@ private:
 	bool m_refresh;
 	//map is not enough to associate icons as each tab has their own
 	std::vector<std::pair<std::string, BodyIcon*> > m_bodyIcons;
+	Graphics::RenderState *m_solidState;
 };
 
 #endif /* _SYSTEMINFOVIEW_H */

@@ -26,18 +26,16 @@ Tombstone::Tombstone(Graphics::Renderer *r, int width, int height)
 
 void Tombstone::Draw(float _time)
 {
+	m_renderer->SetClearColor(Color::BLACK);
+	m_renderer->ClearScreen();
+
 	m_renderer->SetPerspectiveProjection(75, m_aspectRatio, 1.f, 10000.f);
 	m_renderer->SetTransform(matrix4x4f::Identity());
 
-	glPushAttrib(GL_ALL_ATTRIB_BITS & (~GL_POINT_BIT));
-
-	const Color oldSceneAmbientColor = m_renderer->GetAmbientColor();
 	m_renderer->SetAmbientColor(m_ambientColor);
 	m_renderer->SetLights(m_lights.size(), &m_lights[0]);
 
 	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time*2);
 	rot[14] = -std::max(150.0f - 30.0f*_time, 30.0f);
 	m_model->Render(rot);
-	glPopAttrib();
-	m_renderer->SetAmbientColor(oldSceneAmbientColor);
 }

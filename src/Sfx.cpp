@@ -18,11 +18,12 @@ using namespace Graphics;
 
 static const int MAX_SFX_PER_FRAME = 1024;
 
-Graphics::Drawables::Sphere3D *Sfx::shieldEffect = 0;
 Graphics::Drawables::Sphere3D *Sfx::explosionEffect = 0;
 Graphics::Material *Sfx::damageParticle = 0;
 Graphics::Material *Sfx::ecmParticle = 0;
 Graphics::Material *Sfx::smokeParticle = 0;
+Graphics::RenderState *Sfx::alphaState = nullptr;
+Graphics::RenderState *Sfx::additiveAlphaState = nullptr;
 
 Sfx::Sfx()
 {
@@ -115,7 +116,6 @@ void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
 			exmat->diffuse = Color(255, 255, 128, 255);
 			renderer->SetTransform(trans * matrix4x4f::ScaleMatrix(500*m_age));
 			Sfx::explosionEffect->Draw(renderer);
-			renderer->SetBlendMode(BLEND_ALPHA);
 			exmat->diffuse = Color(255, 128, 0, 168);
 			renderer->SetTransform(trans * matrix4x4f::ScaleMatrix(750*m_age));
 			Sfx::explosionEffect->Draw(renderer);
@@ -126,8 +126,7 @@ void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
 		} case TYPE_DAMAGE: {
 			renderer->SetTransform(matrix4x4d::Translation(fpos));
 			damageParticle->diffuse = Color(255, 255, 0, (1.0f-(m_age/2.0f))*255);
-			renderer->SetBlendMode(BLEND_ALPHA_ONE);
-			renderer->DrawPointSprites(1, &pos, damageParticle, 20.f);
+			renderer->DrawPointSprites(1, &pos, additiveAlphaState, damageParticle, 20.f);
 			break;
 		} case TYPE_SMOKE: {
 			float var = Pi::rng.Double()*0.05f; //slightly variation to trail color
@@ -143,8 +142,7 @@ void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
 			renderer->SetTransform(matrix4x4d::Translation(fpos));
 
 			damageParticle->diffuse*=0.05;
-			renderer->SetBlendMode(Graphics::BLEND_ALPHA);
-			renderer->DrawPointSprites(1, &pos, smokeParticle, (m_speed*m_age));
+			renderer->DrawPointSprites(1, &pos, alphaState, smokeParticle, (m_speed*m_age));
 			break;
 		}
 	}
@@ -228,11 +226,18 @@ void Sfx::RenderAll(Renderer *renderer, Frame *f, const Frame *camFrame)
 
 void Sfx::Init(Graphics::Renderer *r)
 {
+	//shared render states
+	Graphics::RenderStateDesc rsd;
+	rsd.blendMode = Graphics::BLEND_ALPHA;
+	rsd.depthWrite = false;
+	alphaState = r->CreateRenderState(rsd);
+	rsd.blendMode = Graphics::BLEND_ALPHA_ONE;
+	additiveAlphaState = r->CreateRenderState(rsd);
+
 	Graphics::MaterialDescriptor desc;
-	RefCountedPtr<Graphics::Material> shieldMat(r->CreateMaterial(desc));
 	RefCountedPtr<Graphics::Material> explosionMat(r->CreateMaterial(desc));
-	shieldEffect = new Graphics::Drawables::Sphere3D(shieldMat, 2);
-	explosionEffect = new Graphics::Drawables::Sphere3D(explosionMat, 2);
+
+	explosionEffect = new Graphics::Drawables::Sphere3D(explosionMat, alphaState, 2);
 
 	desc.textures = 1;
 	damageParticle = r->CreateMaterial(desc);
@@ -245,7 +250,6 @@ void Sfx::Init(Graphics::Renderer *r)
 
 void Sfx::Uninit()
 {
-	delete shieldEffect; shieldEffect = 0;
 	delete explosionEffect; explosionEffect = 0;
 	delete damageParticle; damageParticle = 0;
 	delete ecmParticle; ecmParticle = 0;

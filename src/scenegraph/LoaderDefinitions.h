@@ -22,7 +22,6 @@ struct MaterialDefinition {
 		shininess(100),
 		opacity(100),
 		alpha_test(false),
-		two_sided(false),
 		unlit(false),
 		use_pattern(false)
 	{ }
@@ -37,7 +36,6 @@ struct MaterialDefinition {
 	unsigned int shininess; //specular power, 0-128
 	unsigned int opacity; //0-100
 	bool alpha_test;
-	bool two_sided;
 	bool unlit;
 	bool use_pattern;
 };

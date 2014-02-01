@@ -9,6 +9,7 @@
 #include "Node.h"
 #include "text/DistanceFieldFont.h"
 #include "graphics/Material.h"
+#include "graphics/RenderState.h"
 
 namespace Graphics {
 	class Renderer;
@@ -30,6 +31,7 @@ private:
 	RefCountedPtr<Graphics::Material> m_material;
 	std::unique_ptr<Graphics::VertexArray> m_geometry;
 	RefCountedPtr<Text::DistanceFieldFont> m_font;
+	Graphics::RenderState *m_renderState;
 };
 
 }

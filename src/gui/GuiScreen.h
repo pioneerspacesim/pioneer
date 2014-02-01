@@ -7,6 +7,7 @@
 #include "Gui.h"
 #include "FontCache.h"
 #include "text/TextureFont.h"
+#include "graphics/RenderState.h"
 #include <list>
 #include <stack>
 
@@ -61,6 +62,9 @@ namespace Gui {
 		static void RenderMarkup(const std::string &s, const Color &color = Color::WHITE, Text::TextureFont *font = 0);
 
 		static Graphics::Renderer *GetRenderer() { return s_renderer; }
+
+		static Graphics::RenderState *alphaBlendState;
+		static Graphics::Material* flatColorMaterial;
 
 	private:
 		static void AddShortcutWidget(Widget *w);

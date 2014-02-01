@@ -4,17 +4,12 @@
 #ifndef _TEXT_TEXTUREFONT_H
 #define _TEXT_TEXTUREFONT_H
 
+#include "libs.h"
 #include "Font.h"
-#include "Color.h"
 #include "graphics/Texture.h"
 #include "graphics/Material.h"
 #include "graphics/VertexArray.h"
-#include <map>
-
-namespace Graphics {
-	class Material;
-	class Renderer;
-}
+#include "graphics/RenderState.h"
 
 namespace Text {
 
@@ -62,6 +57,7 @@ private:
 	RefCountedPtr<Graphics::Texture> m_texture;
 	std::unique_ptr<Graphics::Material> m_mat;
 	Graphics::VertexArray m_vertices;
+	Graphics::RenderState *m_renderState;
 
 	static int s_glyphCount;
 

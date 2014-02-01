@@ -89,9 +89,9 @@ void Icon::Draw()
 	va.Add(vector3f(x+sx, y+sy, 0.0f), vector2f(s_texScale.x*(m_texPos.x+48), s_texScale.y*(m_texPos.y+48)));
 
 	Graphics::Renderer *r = GetContext()->GetRenderer();
-	r->SetBlendMode(Graphics::BLEND_ALPHA);
 	s_material->diffuse = m_color;
-	r->DrawTriangles(&va, s_material.Get(), Graphics::TRIANGLE_STRIP);
+	auto renderState = GetContext()->GetSkin().GetAlphaBlendState();
+	r->DrawTriangles(&va, renderState, s_material.Get(), Graphics::TRIANGLE_STRIP);
 }
 
 }

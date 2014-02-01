@@ -74,8 +74,10 @@ void TextEntry::Draw()
 
 	Container::Draw();
 
-	if (IsSelected())
-		GetContext()->GetRenderer()->DrawLines(2, m_cursorVertices, Color::WHITE);
+	if (IsSelected()) {
+		GetContext()->GetRenderer()->DrawLines(2, m_cursorVertices,
+			Color::WHITE, GetContext()->GetSkin().GetAlphaBlendState());
+	}
 }
 
 TextEntry *TextEntry::SetText(const std::string &text)

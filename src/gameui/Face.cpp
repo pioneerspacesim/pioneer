@@ -77,7 +77,8 @@ void Face::Draw()
 
 	Graphics::Renderer *r = GetContext()->GetRenderer();
 	s_material->texture0 = m_texture.get();
-	r->DrawTriangles(&va, s_material.Get(), Graphics::TRIANGLE_STRIP);
+	auto state = GetContext()->GetSkin().GetAlphaBlendState();
+	r->DrawTriangles(&va, state, s_material.Get(), Graphics::TRIANGLE_STRIP);
 
 	Single::Draw();
 }

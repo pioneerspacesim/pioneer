@@ -8,6 +8,7 @@
  */
 #include "Node.h"
 #include "graphics/Material.h"
+#include "graphics/RenderState.h"
 
 namespace SceneGraph {
 
@@ -24,6 +25,7 @@ public:
 private:
 	float m_size;
 	RefCountedPtr<Graphics::Material> m_material;
+	Graphics::RenderState *m_renderState;
 	vector3f m_offset;
 };
 

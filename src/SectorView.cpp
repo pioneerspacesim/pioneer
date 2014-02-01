@@ -149,7 +149,14 @@ void SectorView::InitObject()
 	m_searchBox->onKeyPress.connect(sigc::mem_fun(this, &SectorView::OnSearchBoxKeyPress));
 	Add(m_searchBox, 700, 500);
 
-	m_disk.reset(new Graphics::Drawables::Disk(Pi::renderer, Color::WHITE, 0.2f));
+	Graphics::RenderStateDesc rsd;
+	m_solidState = Pi::renderer->CreateRenderState(rsd);
+
+	rsd.blendMode = Graphics::BLEND_ALPHA;
+	rsd.depthWrite = false;
+	m_alphaBlendState = Pi::renderer->CreateRenderState(rsd);
+
+	m_disk.reset(new Graphics::Drawables::Disk(Pi::renderer, m_solidState, Color::WHITE, 0.2f));
 
 	m_infoBox = new Gui::VBox();
 	m_infoBox->SetTransparency(false);
@@ -420,7 +427,7 @@ void SectorView::Draw3D()
 	else                                m_renderer->SetPerspectiveProjection(40.f, m_renderer->GetDisplayAspect(), 1.f, 600.f);
 
 	matrix4x4f modelview = matrix4x4f::Identity();
-	m_renderer->SetDepthWrite(true);
+
 	m_renderer->ClearScreen();
 
 	m_sectorLabel->SetText(stringf(Lang::SECTOR_X_Y_Z,
@@ -447,8 +454,6 @@ void SectorView::Draw3D()
 	modelview.Translate(-FFRAC(m_pos.x)*Sector::SIZE, -FFRAC(m_pos.y)*Sector::SIZE, -FFRAC(m_pos.z)*Sector::SIZE);
 	m_renderer->SetTransform(modelview);
 
-	m_renderer->SetBlendMode(BLEND_ALPHA);
-
 	if (m_zoomClamped <= FAR_THRESHOLD)
 		DrawNearSectors(modelview);
 	else
@@ -457,14 +462,12 @@ void SectorView::Draw3D()
 	//draw sector legs in one go
 	m_renderer->SetTransform(matrix4x4f::Identity());
 	if (m_lineVerts->GetNumVerts() > 2)
-		m_renderer->DrawLines(m_lineVerts->GetNumVerts(), &m_lineVerts->position[0], &m_lineVerts->diffuse[0]);
+		m_renderer->DrawLines(m_lineVerts->GetNumVerts(), &m_lineVerts->position[0], &m_lineVerts->diffuse[0], m_alphaBlendState);
 
 	if (m_secLineVerts->GetNumVerts() > 2)
-		m_renderer->DrawLines(m_secLineVerts->GetNumVerts(), &m_secLineVerts->position[0], &m_secLineVerts->diffuse[0]);
+		m_renderer->DrawLines(m_secLineVerts->GetNumVerts(), &m_secLineVerts->position[0], &m_secLineVerts->diffuse[0], m_alphaBlendState);
 
 	UpdateFactionToggles();
-
-	m_renderer->SetBlendMode(BLEND_SOLID);
 }
 
 void SectorView::SetHyperspaceTarget(const SystemPath &path)
@@ -621,6 +624,7 @@ void SectorView::PutFactionLabels(const vector3f &origin)
 
 				if (!m_material) m_material.Reset(m_renderer->CreateMaterial(Graphics::MaterialDescriptor()));
 
+				auto renderState = Gui::Screen::alphaBlendState;
 				{
 					Graphics::VertexArray va(Graphics::ATTRIB_POSITION);
 					va.Add(vector3f(pos.x - 5.f,              pos.y - 5.f,               0));
@@ -628,7 +632,7 @@ void SectorView::PutFactionLabels(const vector3f &origin)
 					va.Add(vector3f(pos.x + labelWidth + 5.f, pos.y - 5.f,               0));
 					va.Add(vector3f(pos.x + labelWidth + 5.f, pos.y - 5.f + labelHeight, 0));
 					m_material->diffuse = Color(13, 13, 31, 166);
-					m_renderer->DrawTriangles(&va, m_material.Get(), Graphics::TRIANGLE_STRIP);
+					m_renderer->DrawTriangles(&va, renderState, m_material.Get(), Graphics::TRIANGLE_STRIP);
 				}
 
 				{
@@ -638,7 +642,7 @@ void SectorView::PutFactionLabels(const vector3f &origin)
 					va.Add(vector3f(pos.x,       pos.y - 8.f, 0));
 					va.Add(vector3f(pos.x + 8.f, pos.y,       0));
 					m_material->diffuse = labelColor;
-					m_renderer->DrawTriangles(&va, m_material.Get(), Graphics::TRIANGLE_STRIP);
+					m_renderer->DrawTriangles(&va, renderState, m_material.Get(), Graphics::TRIANGLE_STRIP);
 				}
 
 				if (labelColor.GetLuminance() > 191) labelColor.a = 204;    // luminance is sometimes a bit overly
@@ -800,7 +804,7 @@ void SectorView::DrawNearSectors(const matrix4x4f& modelview)
 
 	// ...then switch and do all the labels
 	const vector3f secOrigin = vector3f(int(floorf(m_pos.x)), int(floorf(m_pos.y)), int(floorf(m_pos.z)));
-	
+
 	m_renderer->SetTransform(modelview);
 	glDepthRange(0,1);
 	Gui::Screen::EnterOrtho();
@@ -918,7 +922,7 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 			if (m_selected != m_current) {
 			    m_selectedLine.SetStart(vector3f(0.f, 0.f, 0.f));
 			    m_selectedLine.SetEnd(playerAbsPos - sysAbsPos);
-			    m_selectedLine.Draw(m_renderer);
+			    m_selectedLine.Draw(m_renderer, m_solidState);
 			} else {
 			    m_secondDistance.label->SetText("");
 			}
@@ -930,14 +934,14 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 				if (m_selected != m_current) {
 				    m_secondLine.SetStart(vector3f(0.f, 0.f, 0.f));
 				    m_secondLine.SetEnd(hyperAbsPos - sysAbsPos);
-				    m_secondLine.Draw(m_renderer);
+				    m_secondLine.Draw(m_renderer, m_solidState);
 				}
 
 				if (m_hyperspaceTarget != m_current) {
 				    // FIXME: Draw when drawing hyperjump target or current system
 				    m_jumpLine.SetStart(hyperAbsPos - sysAbsPos);
 				    m_jumpLine.SetEnd(playerAbsPos - sysAbsPos);
-				    m_jumpLine.Draw(m_renderer);
+				    m_jumpLine.Draw(m_renderer, m_solidState);
 				}
 			} else {
 			    m_secondDistance.label->SetText("");
@@ -976,19 +980,10 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 			m_disk->Draw(m_renderer);
 		}
 		if(bIsCurrentSystem && m_jumpSphere && m_playerHyperspaceRange>0.0f) {
-			// not sure I should do these here on when applying the material?
-			m_renderer->SetDepthWrite(false);
-			m_renderer->SetDepthTest(false);
-			m_renderer->SetBlendMode(BLEND_ALPHA);
-			
 			const matrix4x4f sphTrans = trans * matrix4x4f::Translation((*i).p.x, (*i).p.y, (*i).p.z);
 			m_renderer->SetTransform(sphTrans * matrix4x4f::ScaleMatrix(m_playerHyperspaceRange));
 			m_jumpSphere->Draw(m_renderer);
 			m_jumpDisk->Draw(m_renderer);
-
-			m_renderer->SetDepthWrite(true);
-			m_renderer->SetBlendMode(BLEND_SOLID);
-			m_renderer->SetDepthTest(true);
 		}
 	}
 }
@@ -1023,8 +1018,10 @@ void SectorView::DrawFarSectors(const matrix4x4f& modelview)
 	}
 
 	// always draw the stars, slightly altering their size for different different resolutions, so they still look okay
-	if (m_farstars.size() > 0)
-		m_renderer->DrawPoints(m_farstars.size(), &m_farstars[0], &m_farstarsColor[0], 1.f + (Graphics::GetScreenHeight() / 720.f));
+	if (m_farstars.size() > 0) {
+		m_renderer->DrawPoints(m_farstars.size(), &m_farstars[0], &m_farstarsColor[0],
+			m_alphaBlendState, 1.f + (Graphics::GetScreenHeight() / 720.f));
+	}
 
 	// also add labels for any faction homeworlds among the systems we've drawn
 	PutFactionLabels(Sector::SIZE * secOrigin);
@@ -1285,11 +1282,17 @@ void SectorView::Update()
 
 	if(!m_jumpSphere)
 	{
+		Graphics::RenderStateDesc rsd;
+		rsd.blendMode = Graphics::BLEND_ALPHA;
+		rsd.depthTest = false;
+		rsd.depthWrite = false;
+		m_jumpSphereState = m_renderer->CreateRenderState(rsd);
+
 		Graphics::MaterialDescriptor matdesc;
 		matdesc.effect = EFFECT_FRESNEL_SPHERE;
-		RefCountedPtr<Graphics::Material> fresnelMat(Pi::renderer->CreateMaterial(matdesc));
-		m_jumpSphere.reset( new Graphics::Drawables::Sphere3D(fresnelMat, 3, 1.0f) );
-		m_jumpDisk.reset( new Graphics::Drawables::Disk(fresnelMat, 72, 1.0f) );
+		RefCountedPtr<Graphics::Material> fresnelMat(m_renderer->CreateMaterial(matdesc));
+		m_jumpSphere.reset( new Graphics::Drawables::Sphere3D(fresnelMat, m_jumpSphereState, 3, 1.0f) );
+		m_jumpDisk.reset( new Graphics::Drawables::Disk(fresnelMat, m_jumpSphereState, 72, 1.0f) );
 	}
 }
 

@@ -7,13 +7,11 @@
 #include "libs.h"
 #include "gui/Gui.h"
 #include "View.h"
-#include <vector>
-#include <set>
-#include <string>
-#include "View.h"
 #include "galaxy/Sector.h"
 #include "galaxy/SystemPath.h"
 #include "graphics/Drawables.h"
+#include "graphics/RenderState.h"
+#include <set>
 
 class SectorView: public View {
 public:
@@ -149,6 +147,9 @@ private:
 	Graphics::Drawables::Line3D m_secondLine;
 	Graphics::Drawables::Line3D m_jumpLine;
 
+	Graphics::RenderState *m_solidState;
+	Graphics::RenderState *m_alphaBlendState;
+	Graphics::RenderState *m_jumpSphereState;
 	RefCountedPtr<Graphics::Material> m_material;
 
 	std::vector<vector3f> m_farstars;
