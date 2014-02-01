@@ -1,0 +1,36 @@
+material Starport-material
+diffuse 1.0 1.0 1.0
+specular 0.3 0.3 0.3
+shininess 40
+use_patterns
+tex_diff station_diff.dds
+tex_glow station_glow.dds
+tex_spec station_spec.dds
+
+material Pipes-material
+diffuse 0.7 0.7 0.7
+specular 0.0 0.0 0.0
+shininess 10
+tex_diff station_diff.dds
+tex_glow station_glow.dds
+tex_spec station_spec.dds
+
+material Tanks-material
+diffuse 1.0 1.0 1.0
+specular 0.1 0.1 0.1
+shininess 40
+tex_diff station_diff.dds
+tex_glow station_glow.dds
+tex_spec station_spec.dds
+
+lod 1000
+mesh starport_docking.dae
+mesh starport.dae
+
+lod 300
+mesh starport_med.dae
+
+lod 100
+mesh starport_lo.dae
+
+collision starport_col.dae
