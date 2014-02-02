@@ -498,7 +498,7 @@ void SectorView::ResetHyperspaceTarget()
 	m_hyperspaceTarget = m_selected;
 	FloatHyperspaceTarget();
 
-	if (old != m_hyperspaceTarget) {
+	if (!old.IsSameSystem(m_hyperspaceTarget)) {
 		onHyperspaceTargetChanged.emit();
 		UpdateDistanceLabelAndLine(m_secondDistance, m_selected, m_hyperspaceTarget);
 		UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
@@ -533,7 +533,7 @@ void SectorView::GotoSystem(const SystemPath &path)
 	}
 }
 
-void SectorView::SetSelectedSystem(const SystemPath &path)
+void SectorView::SetSelected(const SystemPath &path)
 {
     m_selected = path;
 
@@ -549,10 +549,27 @@ void SectorView::SetSelectedSystem(const SystemPath &path)
 
 void SectorView::OnClickSystem(const SystemPath &path)
 {
-	if (m_selectionFollowsMovement)
-		GotoSystem(path);
-	else
-		SetSelectedSystem(path);
+	if (path.IsSameSystem(m_selected)) {
+		RefCountedPtr<StarSystem> system = StarSystem::GetCached(path);
+		if (system->GetNumStars() > 1 && m_selected.IsBodyPath()) {
+			int i;
+			for (i = 0; i < system->GetNumStars(); ++i)
+				if (system->m_stars[i]->path == m_selected) break;
+			if (i >= system->GetNumStars() - 1)
+				SetSelected(system->m_stars[0]->path);
+			else
+				SetSelected(system->m_stars[i+1]->path);
+		} else {
+			SetSelected(system->m_stars[0]->path);
+		}
+	} else {
+		if (m_selectionFollowsMovement) {
+			GotoSystem(path);
+		} else {
+			RefCountedPtr<StarSystem> system = StarSystem::GetCached(path);
+			SetSelected(system->m_stars[0]->path);
+		}
+	}
 }
 
 void SectorView::PutSystemLabels(Sector *sec, const vector3f &origin, int drawRadius)
@@ -723,7 +740,11 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 	}
 	labels.starType->SetText(desc);
 
-	labels.systemName->SetText(sys->GetName());
+	if (path.IsBodyPath()) {
+		labels.systemName->SetText(sys->GetBodyByPath(path)->name);
+	} else {
+		labels.systemName->SetText(sys->GetName());
+	}
 	labels.sector->SetText(stringf("(%x,%y,%z)",
 		formatarg("x", int(path.sectorX)),
 		formatarg("y", int(path.sectorY)),
@@ -1271,8 +1292,10 @@ void SectorView::Update()
 				}
 			}
 
-			if (m_selected != new_selected)
-				SetSelectedSystem(new_selected);
+			if (!m_selected.IsSameSystem(new_selected)) {
+				RefCountedPtr<StarSystem> system = StarSystem::GetCached(new_selected);
+				SetSelected(system->m_stars[0]->path);
+			}
 		}
 	}
 

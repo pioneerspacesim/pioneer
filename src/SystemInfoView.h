@@ -29,10 +29,13 @@ private:
 		virtual void OnActivate();
 		bool HasStarport() { return m_hasStarport; }
 		void SetHasStarport() { m_hasStarport = true; }
+		void SetSelectColor(const Color& color) { m_selectColor = color; }
 	private:
 		Graphics::Renderer *m_renderer;
 		Graphics::RenderState *m_renderState;
 		bool m_hasStarport;
+		Color m_selectColor;
+
 	};
 	void SystemChanged(const SystemPath &path);
 	void UpdateEconomyTab();
@@ -49,6 +52,7 @@ private:
 	Gui::Fixed *m_sbodyInfoTab, *m_econInfoTab;
 	Gui::Tabbed *m_tabs;
 	RefCountedPtr<StarSystem> m_system;
+	SystemPath m_selectedBodyPath;
 	bool m_refresh;
 	//map is not enough to associate icons as each tab has their own
 	std::vector<std::pair<std::string, BodyIcon*> > m_bodyIcons;

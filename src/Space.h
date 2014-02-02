@@ -53,7 +53,10 @@ public:
 
 	void TimeStep(float step);
 
-	vector3d GetHyperspaceExitPoint(const SystemPath &source) const;
+	vector3d GetHyperspaceExitPoint(const SystemPath &source, const SystemPath &dest) const;
+	vector3d GetHyperspaceExitPoint(const SystemPath &source) const {
+		return GetHyperspaceExitPoint(source, m_starSystem->GetPath());
+	}
 
 	Body *FindNearestTo(const Body *b, Object::Type t) const;
 	Body *FindBodyForPath(const SystemPath *path) const;
