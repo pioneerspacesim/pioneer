@@ -66,8 +66,6 @@ protected:
 	int m_fracnum;
 	double m_fracmult;
 
-	const SystemBody *m_body;
-
 	Uint32 m_seed;
 	Random m_rand;
 
@@ -113,6 +111,20 @@ protected:
 	   using more than 10 then things will be slow as hell */
 	static const Uint32 MAX_FRACDEFS = 10;
 	fracdef_t m_fracdef[MAX_FRACDEFS];
+
+	struct MinBodyData {
+		MinBodyData(const SystemBody* body) {
+			m_radius = body->GetRadius();
+			m_aspectRatio = body->aspectRatio.ToDouble();
+			m_path = body->path;
+			m_name = body->name;
+		}
+		double m_radius;
+		double m_aspectRatio;
+		SystemPath m_path;
+		std::string m_name;
+	};
+	MinBodyData m_minBody;
 };
 
 
