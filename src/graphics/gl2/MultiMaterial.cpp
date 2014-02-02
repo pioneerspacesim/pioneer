@@ -144,7 +144,6 @@ void MultiMaterial::Unapply()
 	if (texture0) {
 		static_cast<TextureGL*>(texture0)->Unbind();
 	}
-	m_program->Unuse();
 }
 
 }

@@ -15,7 +15,6 @@ void Material::Apply()
 
 void Material::Unapply()
 {
-	m_program->Unuse();
 }
 
 }

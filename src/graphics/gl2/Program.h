@@ -45,6 +45,8 @@ namespace Graphics {
 			Uniform sceneAmbient;
 
 		protected:
+			static GLuint s_curProgram;
+
 			void LoadShaders(const std::string&, const std::string &defines);
 			virtual void InitUniforms();
 			std::string m_name;

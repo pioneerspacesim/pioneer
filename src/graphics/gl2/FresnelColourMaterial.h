@@ -23,7 +23,6 @@ namespace Graphics {
 		public:
 			virtual Program *CreateProgram(const MaterialDescriptor &);
 			virtual void Apply();
-			virtual void Unapply();
 		};
 	}
 }
