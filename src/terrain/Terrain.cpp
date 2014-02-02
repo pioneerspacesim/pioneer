@@ -406,7 +406,7 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 					(*pHeightMap) = val;
 					++pHeightMap;
 				}
-				assert(is_equal_general(*pHeightMap, m_heightMap[heightmapPixelArea]));
+				assert(pHeightMap == &m_heightMap[heightmapPixelArea]);
 				//Output("minHMap = (%hd), maxHMap = (%hd)\n", minHMap, maxHMap);
 				break;
 			}
@@ -437,7 +437,7 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 					(*pHeightMap) = val;
 					++pHeightMap;
 				}
-				assert(is_equal_general(*pHeightMap, m_heightMap[heightmapPixelArea]));
+				assert(pHeightMap == &m_heightMap[heightmapPixelArea]);
 				//Output("minHMapScld = (%hu), maxHMapScld = (%hu)\n", minHMapScld, maxHMapScld);
 				break;
 			}
