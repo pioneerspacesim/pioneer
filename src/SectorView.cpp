@@ -119,6 +119,8 @@ void SectorView::InitObject()
 
 	m_lineVerts.reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION, 500));
 	m_secLineVerts.reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION, 500));
+	m_starVerts.reset(new Graphics::VertexArray(
+		Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0, 500));
 
 	Gui::Screen::PushFont("OverlayFont");
 	m_clickableLabels = new Gui::LabelSet();
@@ -149,14 +151,20 @@ void SectorView::InitObject()
 	m_searchBox->onKeyPress.connect(sigc::mem_fun(this, &SectorView::OnSearchBoxKeyPress));
 	Add(m_searchBox, 700, 500);
 
+	m_renderer = Pi::renderer; //XXX pass cleanly to all views constructors!
+
 	Graphics::RenderStateDesc rsd;
-	m_solidState = Pi::renderer->CreateRenderState(rsd);
+	m_solidState = m_renderer->CreateRenderState(rsd);
 
 	rsd.blendMode = Graphics::BLEND_ALPHA;
 	rsd.depthWrite = false;
-	m_alphaBlendState = Pi::renderer->CreateRenderState(rsd);
+	m_alphaBlendState = m_renderer->CreateRenderState(rsd);
 
-	m_disk.reset(new Graphics::Drawables::Disk(Pi::renderer, m_solidState, Color::WHITE, 0.2f));
+	Graphics::MaterialDescriptor bbMatDesc;
+	bbMatDesc.effect = Graphics::EFFECT_SPHEREIMPOSTOR;
+	m_starMaterial.Reset(m_renderer->CreateMaterial(bbMatDesc));
+
+	m_disk.reset(new Graphics::Drawables::Disk(m_renderer, m_solidState, Color::WHITE, 0.2f));
 
 	m_infoBox = new Gui::VBox();
 	m_infoBox->SetTransparency(false);
@@ -422,6 +430,7 @@ void SectorView::Draw3D()
 	m_lineVerts->Clear();
 	m_secLineVerts->Clear();
 	m_clickableLabels->Clear();
+	m_starVerts->Clear();
 
 	if (m_zoomClamped <= FAR_THRESHOLD) m_renderer->SetPerspectiveProjection(40.f, m_renderer->GetDisplayAspect(), 1.f, 300.f);
 	else                                m_renderer->SetPerspectiveProjection(40.f, m_renderer->GetDisplayAspect(), 1.f, 600.f);
@@ -459,8 +468,12 @@ void SectorView::Draw3D()
 	else
 		DrawFarSectors(modelview);
 
-	//draw sector legs in one go
 	m_renderer->SetTransform(matrix4x4f::Identity());
+
+	//draw star billboards in one go
+	m_renderer->DrawTriangles(m_starVerts.get(), m_solidState, m_starMaterial.Get());
+
+	//draw sector legs in one go
 	if (m_lineVerts->GetNumVerts() > 2)
 		m_renderer->DrawLines(m_lineVerts->GetNumVerts(), &m_lineVerts->position[0], &m_lineVerts->diffuse[0], m_alphaBlendState);
 
@@ -651,6 +664,25 @@ void SectorView::PutFactionLabels(const vector3f &origin)
 		}
 	}
 	Gui::Screen::LeaveOrtho();
+}
+
+void SectorView::AddStarBillboard(const matrix4x4f &trans, const vector3f &pos, const Color &col, float size)
+{
+	const matrix3x3f rot = trans.GetOrient().Transpose();
+
+	const vector3f offset = trans * pos;
+
+	const vector3f rotv1 = rot * vector3f(size/2.f, -size/2.f, 0.0f);
+	const vector3f rotv2 = rot * vector3f(size/2.f, size/2.f, 0.0f);
+
+	Graphics::VertexArray &va = *m_starVerts;
+	va.Add(offset-rotv1, col, vector2f(0.f, 0.f)); //top left
+	va.Add(offset-rotv2, col, vector2f(0.f, 1.f)); //bottom left
+	va.Add(offset+rotv2, col, vector2f(1.f, 0.f)); //top right
+
+	va.Add(offset+rotv2, col, vector2f(1.f, 0.f)); //top right
+	va.Add(offset-rotv2, col, vector2f(0.f, 1.f)); //bottom left
+	va.Add(offset+rotv1, col, vector2f(1.f, 1.f)); //bottom right
 }
 
 void SectorView::UpdateDistanceLabelAndLine(DistanceIndicator &distance, const SystemPath &src, const SystemPath &dest)
@@ -955,8 +987,7 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 		m_renderer->SetTransform(systrans);
 
 		Uint8 *col = StarSystem::starColors[(*i).starType[0]];
-		m_disk->SetColor(Color(col[0], col[1], col[2]));
-		m_disk->Draw(m_renderer);
+		AddStarBillboard(systrans, vector3f(0.f), Color(col[0], col[1], col[2], 255), 0.5f);
 
 		// player location indicator
 		if (m_inSystem && bIsCurrentSystem) {
