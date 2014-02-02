@@ -77,10 +77,5 @@ void ShieldMaterial::Apply()
 	}
 }
 
-void ShieldMaterial::Unapply()
-{
-	m_program->Unuse();
-}
-
 }
 }

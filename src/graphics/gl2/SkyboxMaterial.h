@@ -31,10 +31,6 @@ namespace Graphics {
 				m_program->shininess.Set(fSkyboxFactor * em);
 			}
 
-			virtual void Unapply() {
-				m_program->Unuse();
-			}
-
 			// Skybox multiplier
 			float fSkyboxFactor;
 		};

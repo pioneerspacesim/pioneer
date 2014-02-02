@@ -1286,6 +1286,7 @@ void SectorView::Update()
 		rsd.blendMode = Graphics::BLEND_ALPHA;
 		rsd.depthTest = false;
 		rsd.depthWrite = false;
+		rsd.cullMode = Graphics::CULL_NONE;
 		m_jumpSphereState = m_renderer->CreateRenderState(rsd);
 
 		Graphics::MaterialDescriptor matdesc;

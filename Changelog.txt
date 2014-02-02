@@ -17,6 +17,7 @@ February 2014
      * Moved model debug effects (wireframe, collision mesh) out of
        ModelViewer and onto Model, and exposed via SetDebugFlags
      * Handle blend/depth/cull render states as stateset objects (#2697)
+     * Removed redundant shader cleanup (#2708)
 
 January 2014
 
