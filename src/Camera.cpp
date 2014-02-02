@@ -126,8 +126,6 @@ void Camera::Draw(const Body *excludeBody, ShipCockpit* cockpit)
 
 	Frame *camFrame = m_context->GetCamFrame();
 
-	glPushAttrib(GL_ALL_ATTRIB_BITS & (~GL_POINT_BIT));
-
 	m_renderer->SetPerspectiveProjection(m_context->GetFovAng(), m_context->GetWidth()/m_context->GetHeight(), m_context->GetZNear(), m_context->GetZFar());
 	m_renderer->SetTransform(matrix4x4f::Identity());
 	m_renderer->ClearScreen();
@@ -217,9 +215,6 @@ void Camera::Draw(const Body *excludeBody, ShipCockpit* cockpit)
 	// should really be in WorldView, immediately after camera draw
 	if(cockpit)
 		cockpit->RenderCockpit(m_renderer, this, camFrame);
-
-
-	glPopAttrib();
 }
 
 void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d &viewTransform)
