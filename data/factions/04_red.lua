@@ -1,3 +1,6 @@
+-- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 local f = Faction:new('Red')
 	:description_short('Not Blue')
 	:description('The RED team are not Blue')

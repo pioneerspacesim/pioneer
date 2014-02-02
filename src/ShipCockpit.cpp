@@ -1,4 +1,4 @@
-// Copyright © 2013-14 Meteoric Games Ltd
+// Copyright Â© 2013-14 Meteoric Games Ltd
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ShipCockpit.h"

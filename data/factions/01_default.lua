@@ -1,3 +1,6 @@
+-- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 local f = Faction:new('Independent')
 	:description_short('Worlds without a group allegience')
 	:description('Free and independent worlds, self governing and either self reliant or striving for it.')
