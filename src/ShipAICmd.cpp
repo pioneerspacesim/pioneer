@@ -522,7 +522,7 @@ static double MaxEffectRad(Body *body, Ship *ship)
 		if (!body->IsType(Object::SPACESTATION)) return body->GetPhysRadius() + 1000.0;
 		return static_cast<SpaceStation*>(body)->GetStationType()->parkingDistance + 1000.0;
 	}
-	return std::max(body->GetPhysRadius(), sqrt(G * body->GetMass() / ship->GetAccelUp()));
+	return FastMax(body->GetPhysRadius(), sqrt(G * body->GetMass() / ship->GetAccelUp()));
 }
 
 // returns acceleration due to gravity at that point
@@ -781,11 +781,11 @@ Output("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 		relvel += targaccel * timestep;
 		maxdecel += targaccel.Dot(reldir);
 		// if we have margin lower than 10%, fly as if 10% anyway
-		maxdecel = std::max(maxdecel, 0.1*m_ship->GetAccelFwd());
+		maxdecel = FastMax(maxdecel, 0.1*m_ship->GetAccelFwd());
 	}
 
 	const double curspeed = -relvel.Dot(reldir);
-	const double tt = (bZeroDecel) ? timestep : std::max( sqrt(2.0*targdist / maxdecel), timestep );
+	const double tt = (bZeroDecel) ? timestep : FastMax( sqrt(2.0*targdist / maxdecel), timestep );
 	const vector3d perpvel = relvel + reldir * curspeed;
 	double perpspeed = perpvel.Length();
 	const vector3d perpdir = (perpspeed > 1e-30) ? perpvel / perpspeed : vector3d(0,0,1);
@@ -815,13 +815,13 @@ Output("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 //	if (m_frame->GetParent() && ispeed > maxframespeed) ispeed = maxframespeed;
 
 	// cap perpspeed according to what's needed now
-	perpspeed = std::min(perpspeed, 2.0*sidefactor*timestep);
+	perpspeed = FastMin(perpspeed, 2.0*sidefactor*timestep);
 	
 	// cap sdiff by thrust...
 	double sdiff = ispeed - curspeed;
 	double linaccel = sdiff < 0 ?
-		std::max(sdiff, -m_ship->GetAccelFwd()*timestep) :
-		std::min(sdiff, m_ship->GetAccelFwd()*timestep);
+		FastMax(sdiff, -m_ship->GetAccelFwd()*timestep) :
+		FastMin(sdiff, m_ship->GetAccelFwd()*timestep);
 
 	// linear thrust application, decel check
 	vector3d vdiff = linaccel*reldir + perpspeed*perpdir;
@@ -1014,9 +1014,9 @@ double AICmdFlyAround::MaxVel(double targdist, double targalt)
 	if (targalt > m_alt) return m_vel;
 	double t = sqrt(2.0 * targdist / m_ship->GetAccelFwd());
 	double vmaxprox = m_ship->GetAccelMin()*t;			// limit by target proximity
-	double vmaxstep = std::max(m_alt*0.05, m_alt-targalt);
+	double vmaxstep = FastMax(m_alt*0.05, m_alt-targalt);
 	vmaxstep /= Pi::game->GetTimeStep();			// limit by distance covered per timestep
-	return std::min(m_vel, std::min(vmaxprox, vmaxstep));
+	return FastMin(m_vel, FastMin(vmaxprox, vmaxstep));
 }
 
 bool AICmdFlyAround::TimeStepUpdate()

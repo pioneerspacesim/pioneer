@@ -492,8 +492,8 @@ vector3d Ship::GetMaxThrust(const vector3d &dir) const
 double Ship::GetAccelMin() const
 {
 	float val = m_type->linThrust[ShipType::THRUSTER_UP];
-	val = std::min(val, m_type->linThrust[ShipType::THRUSTER_RIGHT]);
-	val = std::min(val, -m_type->linThrust[ShipType::THRUSTER_LEFT]);
+	val = FastMin(val, m_type->linThrust[ShipType::THRUSTER_RIGHT]);
+	val = FastMin(val, -m_type->linThrust[ShipType::THRUSTER_LEFT]);
 	return val / GetMass();
 }
 
@@ -1130,11 +1130,11 @@ void Ship::StaticUpdate(const float timeStep)
 	}
 
 	if (m_ecmRecharge > 0.0f) {
-		m_ecmRecharge = std::max(0.0f, m_ecmRecharge - timeStep);
+		m_ecmRecharge = FastMax(0.0f, m_ecmRecharge - timeStep);
 	}
 
 	if (m_shieldCooldown > 0.0f) {
-		m_shieldCooldown = std::max(0.0f, m_shieldCooldown - timeStep);
+		m_shieldCooldown = FastMax(0.0f, m_shieldCooldown - timeStep);
 	}
 
 	if (m_stats.shield_mass_left < m_stats.shield_mass) {
@@ -1157,7 +1157,7 @@ void Ship::StaticUpdate(const float timeStep)
 	if (m_testLanded) TestLanded();
 
 	if (m_equipment.Get(Equip::SLOT_HULLAUTOREPAIR) == Equip::HULL_AUTOREPAIR) {
-		m_stats.hull_mass_left = std::min(m_stats.hull_mass_left + 0.1f*timeStep, float(m_type->hullMass));
+		m_stats.hull_mass_left = FastMin(m_stats.hull_mass_left + 0.1f*timeStep, float(m_type->hullMass));
 		Properties().Set("hullMassLeft", m_stats.hull_mass_left);
 		Properties().Set("hullPercent", 100.0f * (m_stats.hull_mass_left / float(m_type->hullMass)));
 	}
@@ -1182,7 +1182,7 @@ void Ship::StaticUpdate(const float timeStep)
 	//Add smoke trails for missiles on thruster state
 	if (m_type->tag == ShipType::TAG_MISSILE && m_thrusters.z < 0.0 && 0.1*Pi::rng.Double() < timeStep) {
 		vector3d pos = GetOrient() * vector3d(0, 0 , 5);
-		Sfx::AddThrustSmoke(this, Sfx::TYPE_SMOKE, std::min(10.0*GetVelocity().Length()*abs(m_thrusters.z),100.0),pos);
+		Sfx::AddThrustSmoke(this, Sfx::TYPE_SMOKE, FastMin(10.0*GetVelocity().Length()*abs(m_thrusters.z),100.0),pos);
 	}
 }
 

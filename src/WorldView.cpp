@@ -1863,7 +1863,7 @@ void NavTunnelWidget::Draw() {
 
 		const double distToDest = Pi::player->GetPositionRelTo(navtarget).Length();
 
-		const int maxSquareHeight = std::max(Gui::Screen::GetWidth(), Gui::Screen::GetHeight()) / 2;
+		const int maxSquareHeight = FastMax(Gui::Screen::GetWidth(), Gui::Screen::GetHeight()) / 2;
 		const double angle = atan(maxSquareHeight / distToDest);
 		const vector2f tpos(m_worldView->m_navTargetIndicator.realpos);
 		const vector2f distDiff(tpos - vector2f(Gui::Screen::GetWidth() / 2.0f, Gui::Screen::GetHeight() / 2.0f));

@@ -32,8 +32,8 @@ ModelSpinner::ModelSpinner(Context *context, SceneGraph::Model *model, const Sce
 void ModelSpinner::Layout()
 {
 	Point size(GetSize());
-	Point activeArea(std::min(size.x, size.y));
-	Point activeOffset(std::max(0, (size.x-activeArea.x)/2), std::max(0, (size.y-activeArea.y)/2));
+	Point activeArea(FastMin(size.x, size.y));
+	Point activeOffset(FastMax(0, (size.x-activeArea.x)/2), FastMax(0, (size.y-activeArea.y)/2));
 	SetActiveArea(activeArea, activeOffset);
 }
 

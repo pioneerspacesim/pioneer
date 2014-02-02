@@ -400,8 +400,8 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 				double *pHeightMap = m_heightMap.get();
 				for(Uint32 i=0; i<heightmapPixelArea; i++) {
 					const Sint16 val = heightMap.get()[i];
-					minHMap = std::min(minHMap, val);
-					maxHMap = std::max(maxHMap, val);
+					minHMap = FastMin(minHMap, val);
+					maxHMap = FastMax(maxHMap, val);
 					// store then increment pointer
 					(*pHeightMap) = val;
 					++pHeightMap;
@@ -431,8 +431,8 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 				double *pHeightMap = m_heightMap.get();
 				for(Uint32 i=0; i<heightmapPixelArea; i++) {
 					const Uint16 val = heightMapScaled[i];
-					minHMapScld = std::min(minHMapScld, val);
-					maxHMapScld = std::max(maxHMapScld, val);
+					minHMapScld = FastMin(minHMapScld, val);
+					maxHMapScld = FastMax(maxHMapScld, val);
 					// store then increment pointer
 					(*pHeightMap) = val;
 					++pHeightMap;
@@ -476,12 +476,12 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 	if ((m_body->heightMapFilename) && m_body->heightMapFractal > 1){ // if scaled heightmap
 		m_maxHeightInMeters = 1.1*pow(2.0, 16.0)*m_heightScaling; // no min height required as it's added to radius in lua
 	}else {
-		m_maxHeightInMeters = std::max(100.0, (9000.0*rad*rad*(m_volcanic+0.5)) / (m_body->GetMass() * 6.64e-12));
+		m_maxHeightInMeters = FastMax(100.0, (9000.0*rad*rad*(m_volcanic+0.5)) / (m_body->GetMass() * 6.64e-12));
 		if (!is_finite(m_maxHeightInMeters)) m_maxHeightInMeters = rad * 0.5;
 		//             ^^^^ max mountain height for earth-like planet (same mass, radius)
 		// and then in sphere normalized jizz
 	}
-	m_maxHeight = std::min(1.0, m_maxHeightInMeters / rad);
+	m_maxHeight = FastMin(1.0, m_maxHeightInMeters / rad);
 	//Output("%s: max terrain height: %fm [%f]\n", m_body->name.c_str(), m_maxHeightInMeters, m_maxHeight);
 	m_invMaxHeight = 1.0 / m_maxHeight;
 	m_planetRadius = rad;
@@ -494,8 +494,8 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 		r = m_rand.Double(0.3, 1.0);
 		g = m_rand.Double(0.3, r);
 		b = m_rand.Double(0.3, g);
-		r = std::max(b, r * m_body->m_metallicity.ToFloat());
-		g = std::max(b, g * m_body->m_metallicity.ToFloat());
+		r = FastMax(b, r * m_body->m_metallicity.ToFloat());
+		g = FastMax(b, g * m_body->m_metallicity.ToFloat());
 		m_rockColor[i] = vector3d(r, g, b);
 	}
 
@@ -506,8 +506,8 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 		r = m_rand.Double(0.05, 0.3);
 		g = m_rand.Double(0.05, r);
 		b = m_rand.Double(0.05, g);
-		r = std::max(b, r * m_body->m_metallicity.ToFloat());
-		g = std::max(b, g * m_body->m_metallicity.ToFloat());
+		r = FastMax(b, r * m_body->m_metallicity.ToFloat());
+		g = FastMax(b, g * m_body->m_metallicity.ToFloat());
 		m_darkrockColor[i] = vector3d(r, g, b);
 	}
 
@@ -527,7 +527,7 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 		g = m_rand.Double(0.3, 1.0);
 		r = m_rand.Double(0.3, g);
 		b = m_rand.Double(0.2, r);
-		g = std::max(r, g * m_body->m_life.ToFloat());
+		g = FastMax(r, g * m_body->m_life.ToFloat());
 		b *= (1.0-m_body->m_life.ToFloat());
 		m_plantColor[i] = vector3d(r, g, b);
 	}
@@ -540,7 +540,7 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 		g = m_rand.Double(0.05, 0.3);
 		r = m_rand.Double(0.00, g);
 		b = m_rand.Double(0.00, r);
-		g = std::max(r, g * m_body->m_life.ToFloat());
+		g = FastMax(r, g * m_body->m_life.ToFloat());
 		b *= (1.0-m_body->m_life.ToFloat());
 		m_darkplantColor[i] = vector3d(r, g, b);
 	}
@@ -606,7 +606,7 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 		double r,g,b;
 		r = m_rand.Double(0.0, 0.3);
 		g = m_rand.Double(0.0, r);
-		b = m_rand.Double(0.0, std::min(r, g));
+		b = m_rand.Double(0.0, FastMin(r, g));
 		m_ggdarkColor[i] = vector3d(r, g, b);
 	}
 }
@@ -626,7 +626,7 @@ void Terrain::SetFracDef(const unsigned int index, const double featureHeightMet
 	// feature
 	m_fracdef[index].amplitude = featureHeightMeters / (m_maxHeight * m_planetRadius);
 	m_fracdef[index].frequency = m_planetRadius / featureWidthMeters;
-	m_fracdef[index].octaves = std::max(1, int(ceil(log(featureWidthMeters / smallestOctaveMeters) / log(2.0))));
+	m_fracdef[index].octaves = FastMax(1, int(ceil(log(featureWidthMeters / smallestOctaveMeters) / log(2.0))));
 	m_fracdef[index].lacunarity = 2.0;
 	//Output("%d octaves\n", m_fracdef[index].octaves); //print
 }

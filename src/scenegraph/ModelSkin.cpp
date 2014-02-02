@@ -57,9 +57,9 @@ void ModelSkin::SetRandomColors(Random &rand)
 
 	// trim is a darker version of the primary
 	m_colors[2] = Color(
-		std::max(m_colors[0].r,static_cast<Uint8>(32))-32,
-		std::max(m_colors[0].g,static_cast<Uint8>(32))-32,
-		std::max(m_colors[0].b,static_cast<Uint8>(32))-32
+		FastMax(m_colors[0].r,static_cast<Uint8>(32))-32,
+		FastMax(m_colors[0].g,static_cast<Uint8>(32))-32,
+		FastMax(m_colors[0].b,static_cast<Uint8>(32))-32
 	);
 }
 

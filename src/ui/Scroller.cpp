@@ -49,7 +49,7 @@ void Scroller::Layout()
 		SetWidgetDimensions(m_slider, Point(size.x-sliderSize.x, 0), Point(sliderSize.x, size.y));
 		m_slider->Layout();
 
-		SetWidgetDimensions(m_innerWidget, Point(), Point(size.x-sliderSize.x, std::max(size.y, m_innerWidget->PreferredSize().y)));
+		SetWidgetDimensions(m_innerWidget, Point(), Point(size.x-sliderSize.x, FastMax(size.y, m_innerWidget->PreferredSize().y)));
 		m_innerWidget->Layout();
 
 		const float step = float(sliderSize.y) * 0.5f / float(childPreferredSize.y);

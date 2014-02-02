@@ -10,7 +10,7 @@ namespace UI {
 static inline void growToMinimum(Point &v, const int min)
 {
 	if (v.x < min || v.y < min)
-		v = Point(std::max(v.x,min),std::max(v.y,min));
+		v = Point(FastMax(v.x,min),FastMax(v.y,min));
 }
 
 Point Button::PreferredSize()

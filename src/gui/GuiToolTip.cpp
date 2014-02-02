@@ -58,7 +58,7 @@ void ToolTip::Draw()
 
 	float size[2];
 	int age = SDL_GetTicks() - m_createdTime;
-	float alpha = std::min(age / FADE_TIME_MS, 0.75f);
+	float alpha = FastMin(age / FADE_TIME_MS, 0.75f);
 
 	Graphics::Renderer *r = Gui::Screen::GetRenderer();
 	r->SetRenderState(Gui::Screen::alphaBlendState);

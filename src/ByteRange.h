@@ -39,7 +39,7 @@ struct ByteRange
 inline size_t ByteRange::read(char *to, size_t sz, size_t count)
 {
 	size_t avail = Size() / sz;
-	count = std::min(count, avail);
+	count = FastMin(count, avail);
 	size_t fullsize = sz * count;
 	assert(fullsize <= Size());
 	memcpy(to, begin, fullsize);

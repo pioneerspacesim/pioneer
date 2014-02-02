@@ -183,7 +183,7 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 			vector3d objDir = m_mouseDir * rot;
 
 			const double radiansPerPixel = 0.00002 * m_fovY;
-			const int maxMotion = std::max(abs(mouseMotion[0]), abs(mouseMotion[1]));
+			const int maxMotion = FastMax(abs(mouseMotion[0]), abs(mouseMotion[1]));
 			const double accel = Clamp(maxMotion / 4.0, 0.0, 90.0 / m_fovY);
 
 			m_mouseX += mouseMotion[0] * accel * radiansPerPixel;
@@ -213,9 +213,9 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 
 			if (!stickySpeedKey) {
 				if (KeyBindings::increaseSpeed.IsActive())
-					m_setSpeed += std::max(fabs(m_setSpeed)*0.05, 1.0);
+					m_setSpeed += FastMax(fabs(m_setSpeed)*0.05, 1.0);
 				if (KeyBindings::decreaseSpeed.IsActive())
-					m_setSpeed -= std::max(fabs(m_setSpeed)*0.05, 1.0);
+					m_setSpeed -= FastMax(fabs(m_setSpeed)*0.05, 1.0);
 				if ( ((oldSpeed < 0.0) && (m_setSpeed >= 0.0)) ||
 						((oldSpeed > 0.0) && (m_setSpeed <= 0.0)) ) {
 					// flipped from going forward to backwards. make the speed 'stick' at zero
@@ -317,7 +317,7 @@ void PlayerShipController::SetFlightControlState(FlightControlState s)
 				m_ship->GetVelocity();
 
 			// A change from Manual to Set Speed never sets a negative speed.
-			m_setSpeed = std::max(shipVel.Dot(-m_ship->GetOrient().VectorZ()), 0.0);
+			m_setSpeed = FastMax(shipVel.Dot(-m_ship->GetOrient().VectorZ()), 0.0);
 		}
 		//XXX global stuff
 		Pi::onPlayerChangeFlightControlState.emit();

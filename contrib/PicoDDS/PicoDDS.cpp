@@ -128,9 +128,9 @@ int DDSImage::CalculateStoreageSize() const
 		for (int m=0; m<imgdata_.numMipMaps; ++m)
 		{
 			size+=GetMipLevelSize(width, height, depth, imgdata_.format);
-			width = std::max(width>>1, 1);
-			height = std::max(height>>1, 1);
-			depth = std::max(depth>>1, 1);
+			width = FastMax(width>>1, 1);
+			height = FastMax(height>>1, 1);
+			depth = FastMax(depth>>1, 1);
 		}
 	}
 
