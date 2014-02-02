@@ -401,6 +401,8 @@ void WorldView::Draw3D()
 	assert(Pi::player);
 	assert(!Pi::player->IsDead());
 
+	m_cameraContext->ApplyDrawTransforms(m_renderer);
+
 	Body* excludeBody = nullptr;
 	ShipCockpit* cockpit = nullptr;
 	if(GetCamType() == CAM_INTERNAL) {

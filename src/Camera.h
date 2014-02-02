@@ -47,6 +47,9 @@ public:
 	// valid between BeginFrame and EndFrame
 	Frame *GetCamFrame() const { assert(m_camFrame); return m_camFrame; }
 
+	// apply projection and modelview transforms to the renderer
+	void ApplyDrawTransforms(Graphics::Renderer *r);
+
 private:
 	float m_width;
 	float m_height;

@@ -66,6 +66,12 @@ void CameraContext::EndFrame()
 	m_camFrame = nullptr;
 }
 
+void CameraContext::ApplyDrawTransforms(Graphics::Renderer *r)
+{
+	r->SetPerspectiveProjection(m_fovAng, m_width/m_height, m_zNear, m_zFar);
+	r->SetTransform(matrix4x4f::Identity());
+}
+
 
 Camera::Camera(RefCountedPtr<CameraContext> context, Graphics::Renderer *renderer) :
 	m_context(context),
@@ -126,8 +132,6 @@ void Camera::Draw(const Body *excludeBody, ShipCockpit* cockpit)
 
 	Frame *camFrame = m_context->GetCamFrame();
 
-	m_renderer->SetPerspectiveProjection(m_context->GetFovAng(), m_context->GetWidth()/m_context->GetHeight(), m_context->GetZNear(), m_context->GetZFar());
-	m_renderer->SetTransform(matrix4x4f::Identity());
 	m_renderer->ClearScreen();
 
 	matrix4x4d trans2bg;
