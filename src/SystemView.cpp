@@ -324,7 +324,7 @@ void SystemView::Draw3D()
 	m_renderer->SetPerspectiveProjection(50.f, m_renderer->GetDisplayAspect(), 1.f, 1000.f);
 	m_renderer->ClearScreen();
 
-	SystemPath path = Pi::sectorView->GetSelectedSystem();
+	SystemPath path = Pi::sectorView->GetSelected().SystemOnly();
 	if (m_system) {
 		if (!m_system->GetPath().IsSameSystem(path)) {
 			m_system.Reset();
