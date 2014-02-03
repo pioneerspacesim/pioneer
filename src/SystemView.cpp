@@ -26,7 +26,7 @@ static const float WHEEL_SENSITIVITY = .1f;		// Should be a variable in user set
 // i don't know how to name it
 static const double ROUGH_SIZE_OF_TURD = 10.0;
 
-SystemView::SystemView()
+SystemView::SystemView() : UIView()
 {
 	SetTransparency(true);
 
@@ -364,6 +364,8 @@ void SystemView::Draw3D()
 				PutSelectionBox(navTargetSystemBody, pos, Color::GREEN);
 		}
 	}
+
+	UIView::Draw3D();
 }
 
 void SystemView::Update()
@@ -389,6 +391,8 @@ void SystemView::Update()
 		m_rot_x += motion[1]*20*ft;
 		m_rot_z += motion[0]*20*ft;
 	}
+
+	UIView::Update();
 }
 
 void SystemView::MouseWheel(bool up)

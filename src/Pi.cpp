@@ -1199,6 +1199,9 @@ void Pi::MainLoop()
 			}
 		}
 
+		Pi::ui->Update();
+		Pi::ui->Draw();
+
 #if WITH_DEVKEYS
 		if (Pi::showDebugInfo) {
 			Gui::Screen::EnterOrtho();

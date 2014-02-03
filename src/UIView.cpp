@@ -6,25 +6,15 @@
 #include "ui/Context.h"
 #include "gameui/Panel.h"
 
-void UIView::Update()
-{
-	Pi::ui->Update();
-}
-
-void UIView::Draw3D()
-{
-	PROFILE_SCOPED()
-	Pi::ui->Draw();
-}
-
 void UIView::OnSwitchTo()
 {
+	UI::VBox *box = Pi::ui->VBox();
+	if (m_templateName)
+		box->PackEnd(Pi::ui->CallTemplate(m_templateName));
+	box->PackEnd(new GameUI::Panel(Pi::ui.Get()));
+
 	Pi::ui->DropAllLayers();
-	Pi::ui->GetTopLayer()->SetInnerWidget(
-		Pi::ui->VBox()
-			->PackEnd(Pi::ui->CallTemplate(m_templateName))
-			->PackEnd(new GameUI::Panel(Pi::ui.Get()))
-	);
+	Pi::ui->GetTopLayer()->SetInnerWidget(box);
 }
 
 void UIView::OnSwitchFrom()

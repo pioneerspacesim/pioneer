@@ -23,7 +23,7 @@ static const float ZOOM_IN_SPEED = 2;
 static const float ZOOM_OUT_SPEED = 1.f/ZOOM_IN_SPEED;
 static const float WHEEL_SENSITIVITY = .2f;		// Should be a variable in user settings.
 
-GalacticView::GalacticView() :
+GalacticView::GalacticView() : UIView(),
 	m_quad(Graphics::TextureBuilder::UI("galaxy.bmp").CreateTexture(Gui::Screen::GetRenderer()))
 {
 
@@ -140,6 +140,8 @@ void GalacticView::Draw3D()
 
 	m_labels->Clear();
 	PutLabels(-vector3d(offset_x, offset_y, 0.0));
+
+	UIView::Draw3D();
 }
 
 void GalacticView::Update()
@@ -158,6 +160,8 @@ void GalacticView::Update()
 	AnimationCurves::Approach(m_zoom, m_zoomTo, frameTime);
 
 	m_scaleReadout->SetText(stringf(Lang::INT_LY, formatarg("scale", int(0.5*Galaxy::GALAXY_RADIUS/m_zoom))));
+
+	UIView::Update();
 }
 
 void GalacticView::MouseWheel(bool up)
