@@ -17,6 +17,11 @@ namespace Graphics {
 			Program *CreateProgram(const MaterialDescriptor &) {
 				return new Program("billboard_sphereimpostor", "");
 			}
+
+			virtual void Apply() override {
+				GL2::Material::Apply();
+				m_program->sceneAmbient.Set(m_renderer->GetAmbientColor());
+			}
 		};
 	}
 }

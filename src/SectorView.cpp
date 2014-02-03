@@ -471,6 +471,7 @@ void SectorView::Draw3D()
 	m_renderer->SetTransform(matrix4x4f::Identity());
 
 	//draw star billboards in one go
+	m_renderer->SetAmbientColor(Color(30));
 	m_renderer->DrawTriangles(m_starVerts.get(), m_solidState, m_starMaterial.Get());
 
 	//draw sector legs in one go
