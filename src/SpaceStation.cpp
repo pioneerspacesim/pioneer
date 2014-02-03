@@ -564,7 +564,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 		if (!m_adjacentCity) {
 			m_adjacentCity = new CityOnPlanet(planet, this, m_sbody->seed);
 		}
-		m_adjacentCity->Render(r, camera, this, viewCoords, viewTransform);
+		m_adjacentCity->Render(r, camera->GetContext()->GetFrustum(), this, viewCoords, viewTransform);
 
 		RenderModel(r, camera, viewCoords, viewTransform, false);
 

@@ -352,11 +352,10 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 s
 	AddStaticGeomsToCollisionSpace();
 }
 
-void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const SpaceStation *station, const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void CityOnPlanet::Render(Graphics::Renderer *r, const Graphics::Frustum &frustum, const SpaceStation *station, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	// Early frustum test of whole city.
 	const vector3d stationPos = viewTransform * (station->GetPosition() + m_realCentre);
-	const Graphics::Frustum frustum = camera->GetFrustum();
 	//modelview seems to be always identity
 	if (!frustum.TestPoint(stationPos, m_clipRadius))
 		return;
