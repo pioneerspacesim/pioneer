@@ -441,7 +441,7 @@ void Game::SwitchToNormalSpace()
 	m_space->AddBody(m_player.get());
 
 	// place it
-	m_player->SetPosition(m_space->GetHyperspaceExitPoint(m_hyperspaceSource));
+	m_player->SetPosition(m_space->GetHyperspaceExitPoint(m_hyperspaceSource, dest));
 	m_player->SetVelocity(vector3d(0,0,-100.0));
 	m_player->SetOrient(matrix3x3d::Identity());
 
@@ -455,7 +455,7 @@ void Game::SwitchToNormalSpace()
 		cloud = *i;
 
 		cloud->SetFrame(m_space->GetRootFrame());
-		cloud->SetPosition(m_space->GetHyperspaceExitPoint(m_hyperspaceSource));
+		cloud->SetPosition(m_space->GetHyperspaceExitPoint(m_hyperspaceSource, dest));
 
 		m_space->AddBody(cloud);
 

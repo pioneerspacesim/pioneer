@@ -23,7 +23,8 @@ public:
 	virtual void ShowAll();
 	virtual void Draw3D();
 	vector3f GetPosition() const { return m_pos; }
-	SystemPath GetSelectedSystem() const { return m_selected; }
+	SystemPath GetSelected() const { return m_selected; }
+	void SetSelected(const SystemPath &path);
 	SystemPath GetHyperspaceTarget() const { return m_hyperspaceTarget; }
 	void SetHyperspaceTarget(const SystemPath &path);
 	void FloatHyperspaceTarget();
@@ -67,7 +68,6 @@ private:
 	void BuildFarSector(Sector *sec, const vector3f &origin, std::vector<vector3f> &points, std::vector<Color> &colors);
 	void PutFactionLabels(const vector3f &secPos);
 
-	void SetSelectedSystem(const SystemPath &path);
 	void OnClickSystem(const SystemPath &path);
 
 	void UpdateDistanceLabelAndLine(DistanceIndicator &distance, const SystemPath &src, const SystemPath &dest);

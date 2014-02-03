@@ -610,7 +610,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 		RefCountedPtr<StarSystem> s = StarSystem::GetCached(dest);
 
 		Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_TOP_LEFT, stringf(Lang::IN_TRANSIT_TO_N_X_X_X,
-			formatarg("system", s->GetName()),
+			formatarg("system", dest.IsBodyPath() ? s->GetBodyByPath(dest)->name : s->GetName()),
 			formatarg("x", dest.sectorX),
 			formatarg("y", dest.sectorY),
 			formatarg("z", dest.sectorZ)));
@@ -1107,7 +1107,8 @@ void WorldView::OnHyperspaceTargetChanged()
 	const SystemPath path = Pi::sectorView->GetHyperspaceTarget();
 
 	RefCountedPtr<StarSystem> system = StarSystem::GetCached(path);
-	Pi::cpan->MsgLog()->Message("", stringf(Lang::SET_HYPERSPACE_DESTINATION_TO, formatarg("system", system->GetName())));
+	const std::string& name = path.IsBodyPath() ? system->GetBodyByPath(path)->name : system->GetName() ;
+	Pi::cpan->MsgLog()->Message("", stringf(Lang::SET_HYPERSPACE_DESTINATION_TO, formatarg("system", name)));
 }
 
 void WorldView::OnPlayerChangeTarget()
@@ -1116,7 +1117,7 @@ void WorldView::OnPlayerChangeTarget()
 	if (b) {
 		Sound::PlaySfx("OK");
 		Ship *s = b->IsType(Object::HYPERSPACECLOUD) ? static_cast<HyperspaceCloud*>(b)->GetShip() : 0;
-		if (!s || Pi::sectorView->GetHyperspaceTarget() != s->GetHyperspaceDest())
+		if (!s || !Pi::sectorView->GetHyperspaceTarget().IsSameSystem(s->GetHyperspaceDest()))
 			Pi::sectorView->FloatHyperspaceTarget();
 	}
 

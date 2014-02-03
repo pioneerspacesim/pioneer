@@ -2,6 +2,7 @@ February 2014
 
    * New features
      * New "Octagon" ground station (#2704)
+     * Now any star in a multiple system can be the hyperjump target (#2712)
 
    * Minor changes and tweaks
      * Added landing tag points to all ships (#2703)
