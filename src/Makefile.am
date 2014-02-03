@@ -46,7 +46,6 @@ noinst_HEADERS = \
 	GalacticView.h \
 	Game.h \
 	GeoSphere.h \
-	HudColors.h \
 	HudTrail.h \
 	HyperspaceCloud.h \
 	IniConfig.h \
@@ -179,7 +178,6 @@ pioneer_SOURCES	= \
 	GeoPatchID.cpp \
 	GeoPatchJobs.cpp \
 	GeoSphere.cpp \
-	HudColors.cpp \
 	HudTrail.cpp \
 	HyperspaceCloud.cpp \
 	IniConfig.cpp \
