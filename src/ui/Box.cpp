@@ -58,7 +58,7 @@ Point Box::PreferredSize()
 		}
 
 		// fixed axis should just be as large as our largest
-		m_preferredSize[fc] = FastMax(m_preferredSize[fc], contribSize[fc]);
+		m_preferredSize[fc] = Max(m_preferredSize[fc], contribSize[fc]);
 	}
 
 	// we have fixed size, so we can do the deferred ones now
@@ -84,7 +84,7 @@ Point Box::PreferredSize()
 			if (m_preferredSize[vc] != SIZE_EXPAND)
 			    m_preferredSize[vc] += contribSize[vc];
 		}
-		m_preferredSize[fc] = FastMax(m_preferredSize[fc], contribSize[fc]);
+		m_preferredSize[fc] = Max(m_preferredSize[fc], contribSize[fc]);
 	}
 
 	// if there was no variable ones, and thus we're asking for a specific
@@ -129,7 +129,7 @@ void Box::Layout()
 			// loop and hand it out
 			for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
 				(*i).size[fc] = boxSize[fc];
-				(*i).size[vc] = FastMin(minSize, (*i).contribSize[vc]);
+				(*i).size[vc] = Min(minSize, (*i).contribSize[vc]);
 				remaining -= (*i).size[vc];
 
 				// if this one didn't get us much as it wanted then count it
@@ -168,7 +168,7 @@ void Box::Layout()
 					continue;
 
 				(*i).size[fc] = boxSize[fc];
-				(*i).size[vc] = FastMin(minSize, (*i).contribSize[vc]);
+				(*i).size[vc] = Min(minSize, (*i).contribSize[vc]);
 				remaining -= (*i).size[vc];
 			}
 		}

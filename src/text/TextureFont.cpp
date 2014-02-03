@@ -422,7 +422,7 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 				const FT_BitmapGlyph bmStrokeGlyph = FT_BitmapGlyph(strokeGlyph);
 
 				//don't run off atlas borders
-				atlasVIncrement = FastMax(atlasVIncrement, bmStrokeGlyph->bitmap.rows);
+				atlasVIncrement = Max(atlasVIncrement, bmStrokeGlyph->bitmap.rows);
 				if (atlasU + bmStrokeGlyph->bitmap.width > FONT_TEXTURE_WIDTH) {
 					atlasU = 0;
 					atlasV += atlasVIncrement;
@@ -479,7 +479,7 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 
 			else {
 				//don't run off atlas borders
-				atlasVIncrement = FastMax(atlasVIncrement, bmGlyph->bitmap.rows);
+				atlasVIncrement = Max(atlasVIncrement, bmGlyph->bitmap.rows);
 				if (atlasU + bmGlyph->bitmap.width >= FONT_TEXTURE_WIDTH) {
 					atlasU = 0;
 					atlasV += atlasVIncrement;

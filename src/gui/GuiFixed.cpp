@@ -51,8 +51,8 @@ void Fixed::GetSizeRequested(float size[2])
 			(*i).w->GetSizeRequested(rsize);
 			if ((*i).pos[0] + rsize[0] > size[0]) rsize[0] = size[0] - (*i).pos[0];
 			if ((*i).pos[1] + rsize[1] > size[1]) rsize[1] = size[1] - (*i).pos[1];
-			wanted[0] = FastMax(wanted[0], rsize[0] + (*i).pos[0]);
-			wanted[1] = FastMax(wanted[1], rsize[1] + (*i).pos[1]);
+			wanted[0] = Max(wanted[0], rsize[0] + (*i).pos[0]);
+			wanted[1] = Max(wanted[1], rsize[1] + (*i).pos[1]);
 		}
 		size[0] = wanted[0];
 		size[1] = wanted[1];

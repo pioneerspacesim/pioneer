@@ -280,7 +280,7 @@ bool Game::UpdateTimeAccel()
 
 	// force down to timeaccel 1 during the docking sequence
 	else if (m_player->GetFlightState() == Ship::DOCKING) {
-		newTimeAccel = FastMin(newTimeAccel, Game::TIMEACCEL_10X);
+		newTimeAccel = Min(newTimeAccel, Game::TIMEACCEL_10X);
 		RequestTimeAccel(newTimeAccel);
 	}
 
@@ -289,9 +289,9 @@ bool Game::UpdateTimeAccel()
 
 		// special timeaccel lock rules while in alert
 		if (m_player->GetAlertState() == Ship::ALERT_SHIP_NEARBY)
-			newTimeAccel = FastMin(newTimeAccel, Game::TIMEACCEL_10X);
+			newTimeAccel = Min(newTimeAccel, Game::TIMEACCEL_10X);
 		else if (m_player->GetAlertState() == Ship::ALERT_SHIP_FIRING)
-			newTimeAccel = FastMin(newTimeAccel, Game::TIMEACCEL_1X);
+			newTimeAccel = Min(newTimeAccel, Game::TIMEACCEL_1X);
 
 		else if (!m_forceTimeAccel) {
 			// check we aren't too near to objects for timeaccel //
@@ -304,15 +304,15 @@ bool Game::UpdateTimeAccel()
 				double rad = (*i)->GetPhysRadius();
 
 				if (dist < 1000.0) {
-					newTimeAccel = FastMin(newTimeAccel, Game::TIMEACCEL_1X);
-				} else if (dist < FastMin(rad+0.0001*AU, rad*1.1)) {
-					newTimeAccel = FastMin(newTimeAccel, Game::TIMEACCEL_10X);
-				} else if (dist < FastMin(rad+0.001*AU, rad*5.0)) {
-					newTimeAccel = FastMin(newTimeAccel, Game::TIMEACCEL_100X);
-				} else if (dist < FastMin(rad+0.01*AU,rad*10.0)) {
-					newTimeAccel = FastMin(newTimeAccel, Game::TIMEACCEL_1000X);
-				} else if (dist < FastMin(rad+0.1*AU, rad*1000.0)) {
-					newTimeAccel = FastMin(newTimeAccel, Game::TIMEACCEL_10000X);
+					newTimeAccel = Min(newTimeAccel, Game::TIMEACCEL_1X);
+				} else if (dist < Min(rad+0.0001*AU, rad*1.1)) {
+					newTimeAccel = Min(newTimeAccel, Game::TIMEACCEL_10X);
+				} else if (dist < Min(rad+0.001*AU, rad*5.0)) {
+					newTimeAccel = Min(newTimeAccel, Game::TIMEACCEL_100X);
+				} else if (dist < Min(rad+0.01*AU,rad*10.0)) {
+					newTimeAccel = Min(newTimeAccel, Game::TIMEACCEL_1000X);
+				} else if (dist < Min(rad+0.1*AU, rad*1000.0)) {
+					newTimeAccel = Min(newTimeAccel, Game::TIMEACCEL_10000X);
 				}
 			}
 
@@ -320,13 +320,13 @@ bool Game::UpdateTimeAccel()
 				const double locVel = m_player->GetAngVelocity().Length();
 				const double strictness = 20.0;
 				if(locVel > strictness / Game::s_timeAccelRates[TIMEACCEL_10X]) {
-					newTimeAccel = FastMin(newTimeAccel, Game::TIMEACCEL_1X);
+					newTimeAccel = Min(newTimeAccel, Game::TIMEACCEL_1X);
 				} else if(locVel > strictness / Game::s_timeAccelRates[TIMEACCEL_100X]) {
-					newTimeAccel = FastMin(newTimeAccel, Game::TIMEACCEL_10X);
+					newTimeAccel = Min(newTimeAccel, Game::TIMEACCEL_10X);
 				} else if(locVel > strictness / Game::s_timeAccelRates[TIMEACCEL_1000X]) {
-					newTimeAccel = FastMin(newTimeAccel, Game::TIMEACCEL_100X);
+					newTimeAccel = Min(newTimeAccel, Game::TIMEACCEL_100X);
 				} else if(locVel > strictness / Game::s_timeAccelRates[TIMEACCEL_10000X]) {
-					newTimeAccel = FastMin(newTimeAccel, Game::TIMEACCEL_1000X);
+					newTimeAccel = Min(newTimeAccel, Game::TIMEACCEL_1000X);
 				}
 			}
 		}

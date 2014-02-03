@@ -415,7 +415,7 @@ void ModelViewer::DrawGrid(const matrix4x4f &trans, float radius)
 
 	const float dist = zoom_distance(m_baseDistance, m_zoom);
 
-	const float max = FastMin(powf(10, ceilf(log10f(dist))), ceilf(radius/m_options.gridInterval)*m_options.gridInterval);
+	const float max = Min(powf(10, ceilf(log10f(dist))), ceilf(radius/m_options.gridInterval)*m_options.gridInterval);
 
 	static std::vector<vector3f> points;
 	points.clear();
@@ -593,7 +593,7 @@ void ModelViewer::OnDecalChanged(unsigned int index, const std::string &texname)
 
 void ModelViewer::OnLightPresetChanged(unsigned int index, const std::string&)
 {
-	m_options.lightPreset = FastMin<unsigned int>(index, 3);
+	m_options.lightPreset = Min<unsigned int>(index, 3);
 }
 
 void ModelViewer::OnModelColorsChanged(float)

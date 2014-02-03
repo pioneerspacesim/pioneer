@@ -465,7 +465,7 @@ static int l_ship_add_equip(lua_State *l)
 
 	const shipstats_t &stats = s->GetStats();
 	if (Equip::types[e].mass != 0)
-		num = FastMin(stats.free_capacity / (Equip::types[e].mass), num);
+		num = Min(stats.free_capacity / (Equip::types[e].mass), num);
 
 	lua_pushinteger(l, s->m_equipment.Add(e, num));
 	s->UpdateEquipStats();

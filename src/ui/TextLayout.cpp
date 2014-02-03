@@ -65,7 +65,7 @@ Point TextLayout::ComputeSize(const Point &layoutSize)
 
 		// newline. move to start of next line
 		if (!(*i).text.size()) {
-			pos = Point(0, FastMax(bounds.y,pos.y+lineHeight));
+			pos = Point(0, Max(bounds.y,pos.y+lineHeight));
 			continue;
 		}
 
@@ -83,14 +83,14 @@ Point TextLayout::ComputeSize(const Point &layoutSize)
 
 				// move to the end of the word
 				pos.x += wordSize.x;
-				bounds = Point(FastMax(bounds.x,pos.x), FastMax(bounds.y,pos.y+wordSize.y));
+				bounds = Point(Max(bounds.x,pos.x), Max(bounds.y,pos.y+wordSize.y));
 
 				wordAdded = true;
 			}
 
 			else
 				// retry at start of new line
-				pos = Point(0,FastMax(bounds.y,pos.y+lineHeight));
+				pos = Point(0,Max(bounds.y,pos.y+lineHeight));
 		}
 
 		// add a space at the end of each word. its only used to set the start

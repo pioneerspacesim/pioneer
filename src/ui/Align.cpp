@@ -30,13 +30,13 @@ void Align::Layout()
 		case TOP:
 		case MIDDLE:
 		case BOTTOM:
-			pos.x = FastMax(0, (size.x-preferred.x)/2);
+			pos.x = Max(0, (size.x-preferred.x)/2);
 			break;
 
 		case TOP_RIGHT:
 		case RIGHT:
 		case BOTTOM_RIGHT:
-			pos.x = FastMax(0, size.x-preferred.x);
+			pos.x = Max(0, size.x-preferred.x);
 			break;
 	}
 
@@ -50,17 +50,17 @@ void Align::Layout()
 		case LEFT:
 		case MIDDLE:
 		case RIGHT:
-			pos.y = FastMax(0, (size.y-preferred.y)/2);
+			pos.y = Max(0, (size.y-preferred.y)/2);
 			break;
 
 		case BOTTOM_LEFT:
 		case BOTTOM:
 		case BOTTOM_RIGHT:
-			pos.y = FastMax(0, size.y-preferred.y);
+			pos.y = Max(0, size.y-preferred.y);
 			break;
 	}
 
-	SetWidgetDimensions(GetInnerWidget(), pos, Point(FastMin(size.x, preferred.x), FastMin(size.y, preferred.y)));
+	SetWidgetDimensions(GetInnerWidget(), pos, Point(Min(size.x, preferred.x), Min(size.y, preferred.y)));
 	GetInnerWidget()->Layout();
 }
 

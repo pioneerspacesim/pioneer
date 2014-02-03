@@ -36,6 +36,6 @@ void Tombstone::Draw(float _time)
 	m_renderer->SetLights(m_lights.size(), &m_lights[0]);
 
 	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time*2);
-	rot[14] = -FastMax(150.0f - 30.0f*_time, 30.0f);
+	rot[14] = -Max(150.0f - 30.0f*_time, 30.0f);
 	m_model->Render(rot);
 }

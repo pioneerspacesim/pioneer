@@ -52,11 +52,11 @@ void Box::GetSizeRequestedOrMinimum(float size[2], bool minimum)
 			else
 				(*i).w->GetMinimumSize(rsize);
 			if (m_orient == BOX_VERTICAL) {
-				want[0] = FastMax(want[0], rsize[0]);
+				want[0] = Max(want[0], rsize[0]);
 				want[1] += rsize[1];
 			} else {
 				want[0] += rsize[0];
-				want[1] = FastMax(want[1], rsize[1]);
+				want[1] = Max(want[1], rsize[1]);
 			}
 		}
 		if (num_kids) want[m_orient] += (num_kids-1)*m_spacing;

@@ -292,7 +292,7 @@ void ModelBody::CalcLighting(double &ambient, double &direct, const Camera *came
 	// position relative to the rotating frame of the planet
 	vector3d upDir = GetInterpPositionRelTo(planet->GetFrame());
 	const double planetRadius = planet->GetSystemBody()->GetRadius();
-	const double dist = FastMax(planetRadius, upDir.Length());
+	const double dist = Max(planetRadius, upDir.Length());
 	upDir = upDir.Normalized();
 
 	double pressure, density;
@@ -307,7 +307,7 @@ void ModelBody::CalcLighting(double &ambient, double &direct, const Camera *came
 	// tweak optical thickness curve - lower exponent ==> higher altitude before ambient level drops
 	// Commenting this out, since it leads to a sharp transition at
 	// atmosphereRadius, where density is suddenly 0
-	//opticalThicknessFraction = pow(FastMax(0.00001,opticalThicknessFraction),0.15); //max needed to avoid 0^power
+	//opticalThicknessFraction = pow(Max(0.00001,opticalThicknessFraction),0.15); //max needed to avoid 0^power
 
 	if (opticalThicknessFraction < 0.0001)
 		return;
@@ -340,8 +340,8 @@ void ModelBody::CalcLighting(double &ambient, double &direct, const Camera *came
 		// angle at which sun set completes, which should be after sun has dipped below the horizon on Earth
 		const double surfaceEndAngle = -0.18;
 
-		const double start = FastMin((surfaceStartAngle*opticalThicknessFraction),1.0);
-		const double end = FastMax((surfaceEndAngle*opticalThicknessFraction),-0.2);
+		const double start = Min((surfaceStartAngle*opticalThicknessFraction),1.0);
+		const double end = Max((surfaceEndAngle*opticalThicknessFraction),-0.2);
 
 		sunAngle = (Clamp(sunAngle-critAngle, end, start)-end)/(start-end);
 
@@ -365,7 +365,7 @@ void ModelBody::CalcLighting(double &ambient, double &direct, const Camera *came
 	// scale ambient by amount of light
 	ambient = fraction*(Clamp((light),0.0,1.0))*0.25;
 
-	ambient = FastMax(minAmbient, ambient);
+	ambient = Max(minAmbient, ambient);
 }
 
 // setLighting: set renderer lights according to current position and sun

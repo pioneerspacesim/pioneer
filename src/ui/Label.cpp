@@ -26,7 +26,7 @@ void Label::Layout()
 		PreferredSize();
 
 	const Point &size = GetSize();
-	SetActiveArea(Point(FastMin(m_preferredSize.x,size.x), FastMin(m_preferredSize.y,size.y)));
+	SetActiveArea(Point(Min(m_preferredSize.x,size.x), Min(m_preferredSize.y,size.y)));
 }
 
 void Label::Draw()

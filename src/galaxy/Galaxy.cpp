@@ -60,7 +60,7 @@ Uint8 GetSectorDensity(int sx, int sy, int sz)
 	int val = static_cast<unsigned char*>(s_galaxybmp->pixels)[x + y*s_galaxybmp->pitch];
 	SDL_UnlockSurface(s_galaxybmp);
 	// crappy unrealistic but currently adequate density dropoff with sector z
-	val = val * (256 - FastMin(abs(sz),256)) / 256;
+	val = val * (256 - Min(abs(sz),256)) / 256;
 	// reduce density somewhat to match real (gliese) density
 	val /= 2;
 	return Uint8(val);

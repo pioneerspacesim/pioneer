@@ -38,7 +38,7 @@ namespace {
 			const char * const data_end = m_data->GetData() + m_data->GetSize();
 			const size_t remaining = (data_end - m_cursor);
 			const size_t requested = size * count;
-			const size_t len = FastMin(remaining, requested);
+			const size_t len = Min(remaining, requested);
 			memcpy(static_cast<char*>(buf), m_cursor, len);
 			m_cursor += len;
 			return len;
@@ -536,8 +536,8 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 					if (in_range(aikey.mTime, defStart, defEnd)) {
 						const double t = aikey.mTime * secondsPerTick;
 						chan.positionKeys.push_back(PositionKey(t, vector3f(aipos.x, aipos.y, aipos.z)));
-						start = FastMin(start, t);
-						end = FastMax(end, t);
+						start = Min(start, t);
+						end = Max(end, t);
 					}
 				}
 
@@ -551,8 +551,8 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 					if (in_range(aikey.mTime, defStart, defEnd)) {
 						const double t = aikey.mTime * secondsPerTick;
 						chan.rotationKeys.push_back(RotationKey(t, Quaternionf(airot.w, airot.x, airot.y, airot.z)));
-						start = FastMin(start, t);
-						end = FastMax(end, t);
+						start = Min(start, t);
+						end = Max(end, t);
 					}
 				}
 
@@ -562,8 +562,8 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 					if (in_range(aikey.mTime, defStart, defEnd)) {
 						const double t = aikey.mTime * secondsPerTick;
 						chan.scaleKeys.push_back(ScaleKey(t, vector3f(aipos.x, aipos.y, aipos.z)));
-						start = FastMin(start, t);
-						end = FastMax(end, t);
+						start = Min(start, t);
+						end = Max(end, t);
 					}
 				}
 			}
@@ -588,7 +588,7 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 
 		// set actual duration
 		const double dur = end - start;
-		animation->m_duration = newAnim ? dur : FastMax(animation->m_duration, dur);
+		animation->m_duration = newAnim ? dur : Max(animation->m_duration, dur);
 
 		//do final sanity checking before adding
 		try {
