@@ -25,6 +25,7 @@
 #include "gl2/FresnelColourMaterial.h"
 #include "gl2/ShieldMaterial.h"
 #include "gl2/SkyboxMaterial.h"
+#include "gl2/SphereImpostorMaterial.h"
 
 #include <stddef.h> //for offsetof
 #include <ostream>
@@ -724,6 +725,9 @@ Material *RendererGL2::CreateMaterial(const MaterialDescriptor &d)
 		break;
 	case EFFECT_SKYBOX:
 		mat = new GL2::SkyboxMaterial();
+		break;
+	case EFFECT_SPHEREIMPOSTOR:
+		mat = new GL2::SphereImpostorMaterial();
 		break;
 	default:
 		if (desc.lighting)

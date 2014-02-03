@@ -40,6 +40,7 @@ public:
 
 protected:
 	virtual void OnSwitchTo();
+
 private:
 	void InitDefaults();
 	void InitObject();
@@ -67,6 +68,7 @@ private:
 	void DrawFarSectors(const matrix4x4f& modelview);
 	void BuildFarSector(Sector *sec, const vector3f &origin, std::vector<vector3f> &points, std::vector<Color> &colors);
 	void PutFactionLabels(const vector3f &secPos);
+	void AddStarBillboard(const matrix4x4f &modelview, const vector3f &pos, const Color &col, float size);
 
 	void OnClickSystem(const SystemPath &path);
 
@@ -150,7 +152,8 @@ private:
 	Graphics::RenderState *m_solidState;
 	Graphics::RenderState *m_alphaBlendState;
 	Graphics::RenderState *m_jumpSphereState;
-	RefCountedPtr<Graphics::Material> m_material;
+	RefCountedPtr<Graphics::Material> m_material; //flat colour
+	RefCountedPtr<Graphics::Material> m_starMaterial;
 
 	std::vector<vector3f> m_farstars;
 	std::vector<Color>    m_farstarsColor;
@@ -163,6 +166,7 @@ private:
 	std::unique_ptr<Graphics::VertexArray> m_secLineVerts;
 	std::unique_ptr<Graphics::Drawables::Sphere3D> m_jumpSphere;
 	std::unique_ptr<Graphics::Drawables::Disk> m_jumpDisk;
+	std::unique_ptr<Graphics::VertexArray> m_starVerts;
 };
 
 #endif /* _SECTORVIEW_H */
