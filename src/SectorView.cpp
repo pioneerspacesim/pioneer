@@ -43,7 +43,7 @@ enum DetailSelection {
 static const float ZOOM_SPEED = 15;
 static const float WHEEL_SENSITIVITY = .03f;		// Should be a variable in user settings.
 
-SectorView::SectorView()
+SectorView::SectorView() : UIView()
 {
 	InitDefaults();
 
@@ -75,7 +75,7 @@ SectorView::SectorView()
 	InitObject();
 }
 
-SectorView::SectorView(Serializer::Reader &rd)
+SectorView::SectorView(Serializer::Reader &rd) : UIView()
 {
 	InitDefaults();
 
@@ -482,6 +482,8 @@ void SectorView::Draw3D()
 		m_renderer->DrawLines(m_secLineVerts->GetNumVerts(), &m_secLineVerts->position[0], &m_secLineVerts->diffuse[0], m_alphaBlendState);
 
 	UpdateFactionToggles();
+
+	UIView::Draw3D();
 }
 
 void SectorView::SetHyperspaceTarget(const SystemPath &path)
@@ -1111,6 +1113,8 @@ void SectorView::OnSwitchTo()
 		m_onKeyPressConnection =
 			Pi::onKeyPress.connect(sigc::mem_fun(this, &SectorView::OnKeyPressed));
 
+	UIView::OnSwitchTo();
+
 	Update();
 
 	UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
@@ -1350,6 +1354,8 @@ void SectorView::Update()
 		m_jumpSphere.reset( new Graphics::Drawables::Sphere3D(fresnelMat, m_jumpSphereState, 3, 1.0f) );
 		m_jumpDisk.reset( new Graphics::Drawables::Disk(fresnelMat, m_jumpSphereState, 72, 1.0f) );
 	}
+
+	UIView::Update();
 }
 
 void SectorView::ShowAll()

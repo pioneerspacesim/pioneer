@@ -7,6 +7,7 @@ February 2014
    * Minor changes and tweaks
      * Added landing tag points to all ships (#2703)
      * Draw sectorview stars with sphere imposters (#2713)
+     * New UI now available as an overlay in all views (#2716)
 
    * Script API changes
      * Model.SetDebugFlags for adding debug effects to model drawing

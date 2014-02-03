@@ -6,14 +6,14 @@
 
 #include "libs.h"
 #include "gui/Gui.h"
-#include "View.h"
+#include "UIView.h"
 #include <vector>
 
 class StarSystem;
 class SystemBody;
 namespace Graphics { class Renderer; }
 
-class SystemInfoView: public View {
+class SystemInfoView: public UIView {
 public:
 	SystemInfoView();
 	virtual void Update();

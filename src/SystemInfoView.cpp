@@ -17,7 +17,7 @@
 #include "graphics/Drawables.h"
 #include "Factions.h"
 
-SystemInfoView::SystemInfoView()
+SystemInfoView::SystemInfoView() : UIView()
 {
 	SetTransparency(true);
 	m_refresh = false;
@@ -425,6 +425,7 @@ void SystemInfoView::Draw3D()
 	PROFILE_SCOPED()
 	m_renderer->SetTransform(matrix4x4f::Identity());
 	m_renderer->ClearScreen();
+	UIView::Draw3D();
 }
 
 void SystemInfoView::Update()
@@ -434,6 +435,7 @@ void SystemInfoView::Update()
 		m_refresh = false;
 		assert((OnSwitchTo(), !m_refresh));
 	}
+    UIView::Update();
 }
 
 void SystemInfoView::OnSwitchTo()
@@ -445,6 +447,7 @@ void SystemInfoView::OnSwitchTo()
 	RefCountedPtr<StarSystem> currentSys = Pi::game->GetSpace()->GetStarSystem();
 	if ((!currentSys || currentSys->GetPath() != m_system->GetPath()) && Pi::sectorView->GetSelected() != m_selectedBodyPath)
 		m_refresh = true;
+    UIView::OnSwitchTo();
 }
 
 void SystemInfoView::NextPage()
