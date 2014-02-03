@@ -14,32 +14,81 @@
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
 #include "graphics/Material.h"
+#include "graphics/TextureBuilder.h"
 
 #include <SDL_stdinc.h>
 
 using namespace Graphics;
 
-Camera::Camera(float width, float height, float fovY, float znear, float zfar) :
+// if a body would render smaller than this many pixels, just ignore it
+static const float OBJECT_HIDDEN_PIXEL_THRESHOLD = 2.0f;
+
+// if a terrain object would render smaller than this many pixels, draw a billboard instead
+static const float BILLBOARD_PIXEL_THRESHOLD = 15.0f;
+
+CameraContext::CameraContext(float width, float height, float fovAng, float zNear, float zFar) :
 	m_width(width),
 	m_height(height),
-	m_fovAng(fovY),
-	m_zNear(znear),
-	m_zFar(zfar),
-	m_frustum(m_width, m_height, m_fovAng, znear, zfar),
+	m_fovAng(fovAng),
+	m_zNear(zNear),
+	m_zFar(zFar),
+	m_frustum(m_width, m_height, m_fovAng, m_zNear, m_zFar),
+	m_frame(nullptr),
 	m_pos(0.0),
 	m_orient(matrix3x3d::Identity()),
-	m_frame(0),
-	m_camFrame(0),
-	m_renderer(0)
+	m_camFrame(nullptr)
 {
 }
 
-Camera::~Camera()
+CameraContext::~CameraContext()
 {
-	if (m_camFrame) {
-		m_frame->RemoveChild(m_camFrame);
-		delete m_camFrame;
-	}
+	if (m_camFrame)
+		EndFrame();
+}
+
+void CameraContext::BeginFrame()
+{
+	assert(m_frame);
+	assert(!m_camFrame);
+
+	// make temporary camera frame
+	m_camFrame = new Frame(m_frame, "camera", Frame::FLAG_ROTATING);
+
+	// move and orient it to the camera position
+	m_camFrame->SetOrient(m_orient, Pi::game ? Pi::game->GetTime() : 0.0);
+	m_camFrame->SetPosition(m_pos);
+
+	// make sure old orient and interpolated orient (rendering orient) are not rubbish
+	m_camFrame->ClearMovement();
+	m_camFrame->UpdateInterpTransform(1.0);			// update root-relative pos/orient
+}
+
+void CameraContext::EndFrame()
+{
+	assert(m_frame);
+	assert(m_camFrame);
+
+	m_frame->RemoveChild(m_camFrame);
+	delete m_camFrame;
+	m_camFrame = nullptr;
+}
+
+void CameraContext::ApplyDrawTransforms(Graphics::Renderer *r)
+{
+	r->SetPerspectiveProjection(m_fovAng, m_width/m_height, m_zNear, m_zFar);
+	r->SetTransform(matrix4x4f::Identity());
+}
+
+
+Camera::Camera(RefCountedPtr<CameraContext> context, Graphics::Renderer *renderer) :
+	m_context(context),
+	m_renderer(renderer)
+{
+	Graphics::MaterialDescriptor desc;
+	desc.textures = 1;
+
+	m_billboardMaterial.reset(m_renderer->CreateMaterial(desc));
+	m_billboardMaterial->texture0 = Graphics::TextureBuilder::Billboard("textures/planet_billboard.png").GetOrCreateTexture(m_renderer, "billboard");
 }
 
 static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Camera::LightSource> &lights)
@@ -68,31 +117,59 @@ static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Ca
 
 void Camera::Update()
 {
-	if (!m_frame) return;
-
-	// make temporary camera frame
-	m_camFrame = new Frame(m_frame, "camera", Frame::FLAG_ROTATING);
-
-	// move and orient it to the camera position
-	m_camFrame->SetOrient(m_orient, Pi::game ? Pi::game->GetTime() : 0.0);
-	m_camFrame->SetPosition(m_pos);
-
-	// make sure old orient and interpolated orient (rendering orient) are not rubbish
-	m_camFrame->ClearMovement();
-	m_camFrame->UpdateInterpTransform(1.0);			// update root-relative pos/orient
+	Frame *camFrame = m_context->GetCamFrame();
 
 	// evaluate each body and determine if/where/how to draw it
 	m_sortedBodies.clear();
 	for (Space::BodyIterator i = Pi::game->GetSpace()->BodiesBegin(); i != Pi::game->GetSpace()->BodiesEnd(); ++i) {
 		Body *b = *i;
 
-		// prepare attrs for sorting and drawing
 		BodyAttrs attrs;
 		attrs.body = b;
-		Frame::GetFrameRenderTransform(b->GetFrame(), m_camFrame, attrs.viewTransform);
+
+		// determine position and transform for draw
+		Frame::GetFrameTransform(b->GetFrame(), camFrame, attrs.viewTransform);
 		attrs.viewCoords = attrs.viewTransform * b->GetInterpPosition();
+
+		// cull off-screen objects
+		double rad = b->GetClipRadius();
+		if (!m_context->GetFrustum().TestPointInfinite(attrs.viewCoords, rad))
+			continue;
+
 		attrs.camDist = attrs.viewCoords.Length();
 		attrs.bodyFlags = b->GetFlags();
+
+		// approximate pixel width (disc diameter) of body on screen
+		float pixSize = (Graphics::GetScreenWidth() * rad / attrs.camDist);
+		if (pixSize < OBJECT_HIDDEN_PIXEL_THRESHOLD)
+			continue;
+
+		// terrain objects are visible from distance but might not have any discernable features
+		attrs.billboard = false;
+		if (b->IsType(Object::TERRAINBODY)) {
+			if (pixSize < BILLBOARD_PIXEL_THRESHOLD) {
+				attrs.billboard = true;
+				vector3d pos;
+				double size = rad * 2.0 * m_context->GetFrustum().TranslatePoint(attrs.viewCoords, pos);
+				attrs.billboardPos = vector3f(&pos.x);
+				attrs.billboardSize = float(size);
+				if (b->IsType(Object::STAR)) {
+					Uint8 *col = StarSystem::starRealColors[b->GetSystemBody()->type];
+					attrs.billboardColor = Color(col[0], col[1], col[2], 255);
+				}
+				else if (b->IsType(Object::PLANET)) {
+					double surfaceDensity; // unused
+					// XXX this is pretty crap because its not always right
+					// (gas giants are always white) and because it should have
+					// some star colour mixed in to simulate lighting
+					b->GetSystemBody()->GetAtmosphereFlavor(&attrs.billboardColor, &surfaceDensity);
+					attrs.billboardColor.a = 255; // no alpha, these things are hard enough to see as it is
+				}
+				else
+					attrs.billboardColor = Color::WHITE;
+			}
+		}
+
 		m_sortedBodies.push_back(attrs);
 	}
 
@@ -100,28 +177,22 @@ void Camera::Update()
 	m_sortedBodies.sort();
 }
 
-void Camera::Draw(Graphics::Renderer *renderer, const Body *excludeBody, ShipCockpit* cockpit)
+void Camera::Draw(const Body *excludeBody, ShipCockpit* cockpit)
 {
 	PROFILE_SCOPED()
-	if (!m_camFrame) return;
-	if (!renderer) return;
 
-	m_renderer = renderer;
+	Frame *camFrame = m_context->GetCamFrame();
 
-	glPushAttrib(GL_ALL_ATTRIB_BITS & (~GL_POINT_BIT));
-
-	m_renderer->SetPerspectiveProjection(m_fovAng, m_width/m_height, m_zNear, m_zFar);
-	m_renderer->SetTransform(matrix4x4f::Identity());
 	m_renderer->ClearScreen();
 
 	matrix4x4d trans2bg;
-	Frame::GetFrameRenderTransform(Pi::game->GetSpace()->GetRootFrame(), m_camFrame, trans2bg);
+	Frame::GetFrameTransform(Pi::game->GetSpace()->GetRootFrame(), camFrame, trans2bg);
 	trans2bg.ClearToRotOnly();
 
 	// Pick up to four suitable system light sources (stars)
 	m_lightSources.clear();
 	m_lightSources.reserve(4);
-	position_system_lights(m_camFrame, Pi::game->GetSpace()->GetRootFrame(), m_lightSources);
+	position_system_lights(camFrame, Pi::game->GetSpace()->GetRootFrame(), m_lightSources);
 
 	if (m_lightSources.empty()) {
 		// no lights means we're somewhere weird (eg hyperspace). fake one
@@ -131,12 +202,12 @@ void Camera::Draw(Graphics::Renderer *renderer, const Body *excludeBody, ShipCoc
 
 	//fade space background based on atmosphere thickness and light angle
 	float bgIntensity = 1.f;
-	if (m_camFrame->GetParent() && m_camFrame->GetParent()->IsRotFrame()) {
+	if (camFrame->GetParent() && camFrame->GetParent()->IsRotFrame()) {
 		//check if camera is near a planet
-		Body *camParentBody = m_camFrame->GetParent()->GetBody();
+		Body *camParentBody = camFrame->GetParent()->GetBody();
 		if (camParentBody && camParentBody->IsType(Object::PLANET)) {
 			Planet *planet = static_cast<Planet*>(camParentBody);
-			const vector3f relpos(planet->GetInterpPositionRelTo(m_camFrame));
+			const vector3f relpos(planet->GetInterpPositionRelTo(camFrame));
 			double altitude(relpos.Length());
 			double pressure, density;
 			planet->GetAtmosphericState(altitude, &pressure, &density);
@@ -163,7 +234,7 @@ void Camera::Draw(Graphics::Renderer *renderer, const Body *excludeBody, ShipCoc
 		rendererLights.reserve(m_lightSources.size());
 		for (size_t i = 0; i < m_lightSources.size(); i++)
 			rendererLights.push_back(m_lightSources[i].GetLight());
-		renderer->SetLights(rendererLights.size(), &rendererLights[0]);
+		m_renderer->SetLights(rendererLights.size(), &rendererLights[0]);
 	}
 
 	for (std::list<BodyAttrs>::iterator i = m_sortedBodies.begin(); i != m_sortedBodies.end(); ++i) {
@@ -173,23 +244,18 @@ void Camera::Draw(Graphics::Renderer *renderer, const Body *excludeBody, ShipCoc
 		if (attrs->body == excludeBody)
 			continue;
 
-		double rad = attrs->body->GetClipRadius();
-		if (!m_frustum.TestPointInfinite((*i).viewCoords, rad))
-			continue;
-
-		// draw spikes for far objects
-		double screenrad = 500 * rad / attrs->camDist;      // approximate pixel size
-		if (attrs->body->IsType(Object::PLANET) && screenrad < 2) {
-			// absolute bullshit
-			double spikerad = (7 + 1.5*log10(screenrad)) * rad / screenrad;
-			DrawSpike(spikerad, attrs->viewCoords, attrs->viewTransform);
+		// draw something!
+		if (attrs->billboard) {
+			Graphics::Renderer::MatrixTicket mt(m_renderer, Graphics::MatrixMode::MODELVIEW);
+			m_renderer->SetTransform(matrix4x4d::Identity());
+			m_billboardMaterial->diffuse = attrs->billboardColor;
+			m_renderer->DrawPointSprites(1, &attrs->billboardPos, Sfx::additiveAlphaState, m_billboardMaterial.get(), attrs->billboardSize);
 		}
-		else if (screenrad >= 2 || attrs->body->IsType(Object::STAR) ||
-					(attrs->body->IsType(Object::PROJECTILE) && screenrad > 0.25))
-			attrs->body->Render(renderer, this, attrs->viewCoords, attrs->viewTransform);
+		else
+			attrs->body->Render(m_renderer, this, attrs->viewCoords, attrs->viewTransform);
 	}
 
-	Sfx::RenderAll(renderer, Pi::game->GetSpace()->GetRootFrame(), m_camFrame);
+	Sfx::RenderAll(m_renderer, Pi::game->GetSpace()->GetRootFrame(), camFrame);
 
 	// NB: Do any screen space rendering after here:
 	// Things like the cockpit and AR features like hudtrails, space dust etc.
@@ -198,85 +264,7 @@ void Camera::Draw(Graphics::Renderer *renderer, const Body *excludeBody, ShipCoc
 	// XXX only here because it needs a frame for lighting calc
 	// should really be in WorldView, immediately after camera draw
 	if(cockpit)
-		cockpit->RenderCockpit(renderer, this, m_camFrame);
-
-
-	m_frame->RemoveChild(m_camFrame);
-	delete m_camFrame;
-	m_camFrame = 0;
-
-	glPopAttrib();
-}
-
-void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d &viewTransform)
-{
-	PROFILE_SCOPED()
-	// draw twinkly star-thing on faraway objects
-	// XXX this seems like a good case for drawing in 2D - use projected position, then the
-	// "face the camera dammit" bits can be skipped
-	if (!m_renderer) return;
-
-	const double newdist = m_zNear + 0.5f * (m_zFar - m_zNear);
-	const double scale = newdist / viewCoords.Length();
-
-	matrix4x4d trans = matrix4x4d::Identity();
-	trans.Translate(scale*viewCoords.x, scale*viewCoords.y, scale*viewCoords.z);
-
-	// face the camera dammit
-	vector3d zaxis = viewCoords.Normalized();
-	vector3d xaxis = vector3d(0,1,0).Cross(zaxis).Normalized();
-	vector3d yaxis = zaxis.Cross(xaxis);
-	matrix4x4d rot = matrix4x4d::MakeInvRotMatrix(xaxis, yaxis, zaxis);
-	trans = trans * rot;
-
-	// XXX this is supposed to pick a correct light colour for the object twinkle.
-	// Not quite correct, since it always uses the first light
-	GLfloat col[4];
-	glGetLightfv(GL_LIGHT0, GL_DIFFUSE, col);
-
-	static VertexArray va(ATTRIB_POSITION | ATTRIB_DIFFUSE);
-	va.Clear();
-
-	const Color center(col[0]*255, col[1]*255, col[2]*255, 255);
-	const Color edges(col[0]*255, col[1]*255, col[2]*255, 0);
-
-	//center
-	va.Add(vector3f(0.f), center);
-
-	const float spikerad = float(scale*rad);
-
-	// bezier with (0,0,0) control points
-	{
-		const vector3f p0(0,spikerad,0), p1(spikerad,0,0);
-		float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
-			const vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
-			va.Add(p, edges);
-		}
-	}
-	{
-		const vector3f p0(spikerad,0,0), p1(0,-spikerad,0);
-		float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
-			const vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
-			va.Add(p, edges);
-		}
-	}
-	{
-		const vector3f p0(0,-spikerad,0), p1(-spikerad,0,0);
-		float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
-			const vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
-			va.Add(p, edges);
-		}
-	}
-	{
-		const vector3f p0(-spikerad,0,0), p1(0,spikerad,0);
-		float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
-			const vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
-			va.Add(p, edges);
-		}
-	}
-
-	m_renderer->SetTransform(trans);
-	m_renderer->DrawTriangles(&va, Sfx::additiveAlphaState, Graphics::vtxColorMaterial, TRIANGLE_FAN);
+		cockpit->RenderCockpit(m_renderer, this, camFrame);
 }
 
 void Camera::CalcShadows(const int lightNum, const Body *b, std::vector<Shadow> &shadowsOut) const {

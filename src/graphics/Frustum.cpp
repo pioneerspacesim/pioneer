@@ -10,6 +10,9 @@ namespace Graphics {
 static const float FOV_MAX = 170.0f;
 static const float FOV_MIN = 20.0f;
 
+// step for translating to frustum space
+static const double TRANSLATE_STEP = 0.25;
+
 Frustum::Frustum() {}
 
 Frustum::Frustum(float width, float height, float fovAng, float znear, float zfar)
@@ -26,6 +29,8 @@ Frustum::Frustum(float width, float height, float fovAng, float znear, float zfa
 	m_projMatrix = matrix4x4d::FrustumMatrix(left, right, bottom, top, znear, zfar);
 	m_modelMatrix = matrix4x4d::Identity();
 	InitFromMatrix(m_projMatrix);
+
+	m_translateThresholdSqr = zfar*zfar*TRANSLATE_STEP;
 }
 
 Frustum::Frustum(const matrix4x4d &modelview, const matrix4x4d &projection) : m_projMatrix(projection), m_modelMatrix(modelview)
@@ -125,6 +130,17 @@ bool Frustum::ProjectPoint(const vector3d &in, vector3d &out) const
 	out.z = (vclip[2] / w) * 0.5 + 0.5;
 
 	return true;
+}
+
+double Frustum::TranslatePoint(const vector3d &in, vector3d &out) const
+{
+	out = in;
+	double scale = 1.0;
+	while (out.LengthSqr() > m_translateThresholdSqr) {
+		out *= TRANSLATE_STEP;
+		scale *= TRANSLATE_STEP;
+	}
+	return scale;
 }
 
 }

@@ -12,6 +12,7 @@
 #include "SpeedLines.h"
 #include "Background.h"
 #include "EquipType.h"
+#include "Camera.h"
 #include "CameraController.h"
 
 class Body;
@@ -152,6 +153,7 @@ private:
 	Gui::LabelSet *m_bodyLabels;
 	std::map<Body*,vector3d> m_projectedPos;
 
+	RefCountedPtr<CameraContext> m_cameraContext;
 	std::unique_ptr<Camera> m_camera;
 	std::unique_ptr<InternalCameraController> m_internalCameraController;
 	std::unique_ptr<ExternalCameraController> m_externalCameraController;

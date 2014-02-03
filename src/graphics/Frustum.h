@@ -33,6 +33,10 @@ public:
 	// project a point onto the near plane (typically the screen)
 	bool ProjectPoint(const vector3d &in, vector3d &out) const;
 
+	// translate the given point outside the frustum to a point inside
+	// returns scale factor to make object at that point appear correctly
+	double TranslatePoint(const vector3d &in, vector3d &out) const;
+
 private:
 	// create from current gl state
 	Frustum();
@@ -49,6 +53,7 @@ private:
 	matrix4x4d m_projMatrix;
 	matrix4x4d m_modelMatrix;
 	Plane m_planes[6];
+	double m_translateThresholdSqr;
 };
 
 }
