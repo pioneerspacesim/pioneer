@@ -371,7 +371,7 @@ static size_t bufread_or_die(void *ptr, size_t size, size_t nmemb, ByteRange &bu
 # define UINT16_MAX  (65535)
 #endif
 
-Terrain::Terrain(const SystemBody *body) : m_minBody(body), m_seed(body->seed), m_rand(body->seed), m_heightScaling(0), m_minh(0) {
+Terrain::Terrain(const SystemBody *body) : m_seed(body->seed), m_rand(body->seed), m_heightScaling(0), m_minh(0), m_minBody(body) {
 
 	// load the heightmap
 	if (body->heightMapFilename) {
