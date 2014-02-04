@@ -4,6 +4,7 @@
 #include "libs.h"
 #include "GeoPatchJobs.h"
 #include "GeoSphere.h"
+#include "GeoPatch.h"
 #include "perlin.h"
 #include "Pi.h"
 #include "RefCounted.h"
@@ -17,6 +18,27 @@ inline void setColour(Color3ub &r, const vector3d &v) {
 // ********************************************************************************
 // Overloaded PureJob class to handle generating the mesh for each patch
 // ********************************************************************************
+
+BasePatchJob::~BasePatchJob()
+{
+	if (m_patch) {
+		assert(m_patch->m_job == this);
+		m_patch->m_job = nullptr;
+	}
+}
+
+void BasePatchJob::OnFinish()  // runs in primary thread of the context
+{
+	assert(m_patch);
+	assert(m_patch->m_job == this);
+	m_patch->m_job = nullptr;
+	m_patch = nullptr;
+}
+
+void BasePatchJob::OnCancel()   // runs in primary thread of the context
+{
+	m_patch = nullptr;
+}
 
 // Generates full-detail vertices, and also non-edge normals and colors 
 void BasePatchJob::GenerateMesh(double *heights, vector3f *normals, Color3ub *colors, 
@@ -87,17 +109,8 @@ void BasePatchJob::GenerateMesh(double *heights, vector3f *normals, Color3ub *co
 void SinglePatchJob::OnFinish()  // runs in primary thread of the context
 {
 	GeoSphere::OnAddSingleSplitResult( mData->sysPath, mpResults );
+	mpResults = nullptr;
 	BasePatchJob::OnFinish();
-}
-
-void SinglePatchJob::OnCancel()   // runs in primary thread of the context
-{
-	if(mpResults) {
-		mpResults->OnCancel();
-		delete mpResults;
-		mpResults = NULL;
-	}
-	BasePatchJob::OnCancel();
 }
 
 void SinglePatchJob::OnRun()    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
@@ -119,23 +132,23 @@ void SinglePatchJob::OnRun()    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
 	mpResults = sr;
 }
 
+SinglePatchJob::~SinglePatchJob()
+{
+	if(mpResults) {
+		mpResults->OnCancel();
+		delete mpResults;
+		mpResults = nullptr;
+	}
+}
+
 // ********************************************************************************
 // Overloaded PureJob class to handle generating the mesh for each patch
 // ********************************************************************************
 void QuadPatchJob::OnFinish()  // runs in primary thread of the context
 {
 	GeoSphere::OnAddQuadSplitResult( mData->sysPath, mpResults );
+	mpResults = nullptr;
 	BasePatchJob::OnFinish();
-}
-
-void QuadPatchJob::OnCancel()   // runs in primary thread of the context
-{
-	if(mpResults) {
-		mpResults->OnCancel();
-		delete mpResults;
-		mpResults = NULL;
-	}
-	BasePatchJob::OnCancel();
 }
 
 void QuadPatchJob::OnRun()    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
@@ -169,4 +182,13 @@ void QuadPatchJob::OnRun()    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
 			srd.patchID.NextPatchID(srd.depth+1, i));
 	}
 	mpResults = sr;
+}
+
+QuadPatchJob::~QuadPatchJob()
+{
+	if(mpResults) {
+		mpResults->OnCancel();
+		delete mpResults;
+		mpResults = NULL;
+	}
 }
