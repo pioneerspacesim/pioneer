@@ -51,6 +51,7 @@ void DeathView::Update()
 void DeathView::Draw3D()
 {
 	PROFILE_SCOPED()
+	m_cameraContext->ApplyDrawTransforms(Pi::renderer);
 	m_camera->Draw();
 	m_cameraContext->EndFrame();
 }
