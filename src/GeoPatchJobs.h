@@ -203,20 +203,23 @@ protected:
 	SSplitResultData mData;
 };
 
+class GeoPatch;
+
 // ********************************************************************************
 // Overloaded PureJob class to handle generating the mesh for each patch
 // ********************************************************************************
 class BasePatchJob : public Job
 {
 public:
-	BasePatchJob() {}
-	virtual ~BasePatchJob() {}
-
+	BasePatchJob(GeoPatch* patch) : m_patch(patch) {}
+	virtual ~BasePatchJob();
 	virtual void OnRun() {}    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
-	virtual void OnFinish() {}  // runs in primary thread of the context
-	virtual void OnCancel() {}   // runs in primary thread of the context
+	virtual void OnFinish();
+	virtual void OnCancel();
 
 protected:
+	GeoPatch* m_patch; // THIS MAY ONLY BE ACCESSED IN THE MAIN THREAD (OnCancel/OnFinish/destructor)
+
 	// in patch surface coords, [0,1]
 	inline vector3d GetSpherePoint(const vector3d &v0, const vector3d &v1, const vector3d &v2, const vector3d &v3, const double x, const double y) const {
 		return (v0 + x*(1.0-y)*(v1-v0) + x*y*(v2-v0) + (1.0-x)*y*(v3-v0)).Normalized();
@@ -234,11 +237,11 @@ protected:
 class SinglePatchJob : public BasePatchJob
 {
 public:
-	SinglePatchJob(SSingleSplitRequest *data) : BasePatchJob(), mData(data), mpResults(NULL)	{ /* empty */ }
+	SinglePatchJob(GeoPatch* patch, SSingleSplitRequest *data) : BasePatchJob(patch), mData(data), mpResults(NULL)	{ /* empty */ }
+	~SinglePatchJob();
 
 	virtual void OnRun();      // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
 	virtual void OnFinish();   // runs in primary thread of the context
-	virtual void OnCancel();   // runs in primary thread of the context
 
 private:
 	std::unique_ptr<SSingleSplitRequest> mData;
@@ -251,11 +254,11 @@ private:
 class QuadPatchJob : public BasePatchJob
 {
 public:
-	QuadPatchJob(SQuadSplitRequest *data) : BasePatchJob(), mData(data), mpResults(NULL) { /* empty */ }
+	QuadPatchJob(GeoPatch* patch, SQuadSplitRequest *data) : BasePatchJob(patch), mData(data), mpResults(NULL) { /* empty */ }
+	~QuadPatchJob();
 
 	virtual void OnRun();      // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
 	virtual void OnFinish();   // runs in primary thread of the context
-	virtual void OnCancel();   // runs in primary thread of the context
 
 private:
 	std::unique_ptr<SQuadSplitRequest> mData;
