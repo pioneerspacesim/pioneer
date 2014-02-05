@@ -10,15 +10,17 @@
 namespace Graphics {
 	class Renderer;
 	class WindowSDL;
+	class RenderState;
 }
 
 namespace Gui {
 
 	namespace Theme {
-		void DrawRoundEdgedRect(const float size[2], float rad);
-		void DrawIndent(const float size[2]);
-		void DrawOutdent(const float size[2]);
-		void DrawHollowRect(const float size[2]);
+		void DrawRect(const vector2f&, const vector2f &size, const Color&, Graphics::RenderState*);
+		void DrawRoundEdgedRect(const float size[2], float rad, const Color&, Graphics::RenderState*);
+		void DrawIndent(const float size[2], Graphics::RenderState*);
+		void DrawOutdent(const float size[2], Graphics::RenderState*);
+		void DrawHollowRect(const float size[2], const Color&, Graphics::RenderState*);
 		namespace Colors {
 			extern const Color bg;
 			extern const Color bgShadow;
@@ -54,7 +56,6 @@ namespace Gui {
 #include "GuiAdjustment.h"
 #include "GuiImage.h"
 #include "GuiButton.h"
-#include "GuiRepeaterButton.h"
 #include "GuiToggleButton.h"
 #include "GuiMultiStateImageButton.h"
 #include "GuiImageButton.h"
@@ -75,7 +76,6 @@ namespace Gui {
 #include "GuiLabelSet.h"
 #include "GuiScreen.h"
 #include "GuiStack.h"
-#include "GuiGradient.h"
 #include "GuiTexturedQuad.h"
 
 #endif /* _GUI_H */

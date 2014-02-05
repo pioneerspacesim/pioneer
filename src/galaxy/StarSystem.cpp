@@ -1033,6 +1033,13 @@ void StarSystem::GenerateFromCustom(const CustomSystem *customSys, Random &rand)
 
 	int humanInfestedness = 0;
 	CustomGetKidsOf(rootBody.Get(), csbody->children, &humanInfestedness, rand);
+	int i = 0;
+	m_stars.resize(m_numStars);
+	for (RefCountedPtr<SystemBody> b : m_bodies) {
+		if (b->GetSuperType() == SystemBody::SUPERTYPE_STAR)
+			m_stars[i++] = b.Get();
+	}
+	assert(i == m_numStars);
 	Populate(false);
 
 	// an example re-export of custom system, can be removed during the merge
@@ -1438,7 +1445,6 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path)
 
 	const int numStars = s.m_systems[m_path.systemIndex].numStars;
 	assert((numStars >= 1) && (numStars <= 4));
-
 	if (numStars == 1) {
 		SystemBody::BodyType type = s.m_systems[m_path.systemIndex].starType[0];
 		star[0] = NewBody();
@@ -1539,7 +1545,11 @@ try_that_again_guvnah:
 	// XXX except this does not reflect the actual mining happening in this system
 	m_metallicity = starMetallicities[rootBody->type];
 
-	for (int i=0; i<m_numStars; i++) MakePlanetsAround(star[i], rand);
+	m_stars.resize(m_numStars);
+	for (int i=0; i<m_numStars; i++) {
+		m_stars[i] = star[i];
+		MakePlanetsAround(star[i], rand);
+	}
 
 	if (m_numStars > 1) MakePlanetsAround(centGrav1, rand);
 	if (m_numStars == 4) MakePlanetsAround(centGrav2, rand);

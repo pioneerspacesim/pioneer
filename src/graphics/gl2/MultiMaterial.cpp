@@ -95,10 +95,6 @@ void MultiMaterial::Apply()
 		p->heatingNormal.Set(vector3f(0.0f, -1.0f, 0.0f));
 		p->heatingAmount.Set(0.0f);
 	}
-
-	glPushAttrib(GL_ENABLE_BIT);
-	if (this->twoSided)
-		glDisable(GL_CULL_FACE);
 }
 
 void LitMultiMaterial::Apply()
@@ -124,7 +120,6 @@ void LitMultiMaterial::Apply()
 
 void MultiMaterial::Unapply()
 {
-	glPopAttrib();
 	// Might not be necessary to unbind textures, but let's not old graphics code (eg, old-UI)
 	if (heatGradient) {
 		static_cast<TextureGL*>(heatGradient)->Unbind();
@@ -149,7 +144,6 @@ void MultiMaterial::Unapply()
 	if (texture0) {
 		static_cast<TextureGL*>(texture0)->Unbind();
 	}
-	m_program->Unuse();
 }
 
 }

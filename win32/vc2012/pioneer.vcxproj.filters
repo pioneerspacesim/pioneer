@@ -30,9 +30,6 @@
     <ClCompile Include="..\..\src\EquipType.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\FaceVideoLink.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Frame.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -205,9 +202,6 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\LuaSystemPath.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ShipSpinnerWidget.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\ChatForm.cpp">
@@ -417,9 +411,6 @@
     <ClCompile Include="..\..\src\Sensors.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\HudColors.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\HudTrail.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -456,9 +447,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\EquipType.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\FaceVideoLink.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\fixed.h">
@@ -633,9 +621,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaMusic.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\ShipSpinnerWidget.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\ChatForm.h">
@@ -846,9 +831,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Sensors.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\HudColors.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\HudTrail.h">

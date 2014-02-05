@@ -89,7 +89,6 @@ public:
 	matrix3x3d GetInterpOrientRelTo(const Frame *relTo) const;
 
 	static void GetFrameTransform(const Frame *fFrom, const Frame *fTo, matrix4x4d &m);
-	static void GetFrameRenderTransform(const Frame *fFrom, const Frame *fTo, matrix4x4d &m);
 
 	Sfx *m_sfx;			// the last survivor. actually m_children is pretty grim too.
 

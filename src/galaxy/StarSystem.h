@@ -239,6 +239,7 @@ public:
 
 	RefCountedPtr<SystemBody> rootBody;
 	std::vector<SystemBody*> m_spaceStations;
+	std::vector<SystemBody*> m_stars;
 	// index into this will be the SystemBody ID used by SystemPath
 	std::vector< RefCountedPtr<SystemBody> > m_bodies;
 

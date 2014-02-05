@@ -1,7 +1,32 @@
 February 2014
 
+   * New features
+     * New "Octagon" ground station (#2704)
+     * Now any star in a multiple system can be the hyperjump target (#2712)
+
    * Minor changes and tweaks
      * Added landing tag points to all ships (#2703)
+     * Draw sectorview stars with sphere imposters (#2713)
+     * New UI now available as an overlay in all views (#2716)
+
+   * Script API changes
+     * Model.SetDebugFlags for adding debug effects to model drawing
+     * ModelSpinner.model to get the spinner model
+
+   * Model changes
+     * Removed two_sided material property, it didn't handle lighting correctly (#2697)
+
+   * Fixes
+     * Complain about custom systems with wrong number of stars (#2718,#2720)
+     * Fixing thruster tags (#2721)
+     * Fix run-away terrain threads when ending the game (#2707,#2722)
+
+   * Internal changes
+     * Moved model debug effects (wireframe, collision mesh) out of
+       ModelViewer and onto Model, and exposed via SetDebugFlags
+     * Handle blend/depth/cull render states as stateset objects (#2697)
+     * Removed redundant shader cleanup (#2708)
+     * Split camera state into a separate class (#2714)
 
 January 2014
 

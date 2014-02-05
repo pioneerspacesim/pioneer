@@ -6,7 +6,6 @@
     <ClCompile Include="..\..\..\src\gui\GuiButton.cpp" />
     <ClCompile Include="..\..\..\src\gui\GuiContainer.cpp" />
     <ClCompile Include="..\..\..\src\gui\GuiFixed.cpp" />
-    <ClCompile Include="..\..\..\src\gui\GuiGradient.cpp" />
     <ClCompile Include="..\..\..\src\gui\GuiImage.cpp" />
     <ClCompile Include="..\..\..\src\gui\GuiImageButton.cpp" />
     <ClCompile Include="..\..\..\src\gui\GuiImageRadioButton.cpp" />
@@ -16,7 +15,6 @@
     <ClCompile Include="..\..\..\src\gui\GuiMultiStateImageButton.cpp" />
     <ClCompile Include="..\..\..\src\gui\GuiRadioButton.cpp" />
     <ClCompile Include="..\..\..\src\gui\GuiRadioGroup.cpp" />
-    <ClCompile Include="..\..\..\src\gui\GuiRepeaterButton.cpp" />
     <ClCompile Include="..\..\..\src\gui\GuiScreen.cpp" />
     <ClCompile Include="..\..\..\src\gui\GuiStack.cpp" />
     <ClCompile Include="..\..\..\src\gui\GuiTabbed.cpp" />
@@ -40,7 +38,6 @@
     <ClInclude Include="..\..\..\src\gui\GuiContainer.h" />
     <ClInclude Include="..\..\..\src\gui\GuiEvents.h" />
     <ClInclude Include="..\..\..\src\gui\GuiFixed.h" />
-    <ClInclude Include="..\..\..\src\gui\GuiGradient.h" />
     <ClInclude Include="..\..\..\src\gui\GuiImage.h" />
     <ClInclude Include="..\..\..\src\gui\GuiImageButton.h" />
     <ClInclude Include="..\..\..\src\gui\GuiImageRadioButton.h" />
@@ -51,7 +48,6 @@
     <ClInclude Include="..\..\..\src\gui\GuiMultiStateImageButton.h" />
     <ClInclude Include="..\..\..\src\gui\GuiRadioButton.h" />
     <ClInclude Include="..\..\..\src\gui\GuiRadioGroup.h" />
-    <ClInclude Include="..\..\..\src\gui\GuiRepeaterButton.h" />
     <ClInclude Include="..\..\..\src\gui\GuiScreen.h" />
     <ClInclude Include="..\..\..\src\gui\GuiStack.h" />
     <ClInclude Include="..\..\..\src\gui\GuiTabbed.h" />

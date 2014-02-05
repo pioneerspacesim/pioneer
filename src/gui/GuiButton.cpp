@@ -85,9 +85,9 @@ void SolidButton::Draw()
 	float size[2];
 	GetSize(size);
 	if (IsPressed()) {
-		Theme::DrawIndent(size);
+		Theme::DrawIndent(size, Screen::alphaBlendState);
 	} else {
-		Theme::DrawOutdent(size);
+		Theme::DrawOutdent(size, Screen::alphaBlendState);
 	}
 }
 void TransparentButton::Draw()
@@ -95,8 +95,7 @@ void TransparentButton::Draw()
 	PROFILE_SCOPED()
 	float size[2];
 	GetSize(size);
-	glColor3f(1,1,1);
-	Theme::DrawHollowRect(size);
+	Theme::DrawHollowRect(size, Color::WHITE, Screen::alphaBlendState);
 }
 
 LabelButton::LabelButton(Label *label): Button()
@@ -120,13 +119,11 @@ void LabelButton::Draw()
 	PROFILE_SCOPED()
 	float size[2];
 	GetSize(size);
-	//Output("%f,%f\n", size[0], size[1]);
-	glColor3f(1,1,1);
-	//Theme::DrawHollowRect(size);
+
 	if (IsPressed()) {
-		Theme::DrawIndent(size);
+		Theme::DrawIndent(size, Screen::alphaBlendState);
 	} else {
-		Theme::DrawOutdent(size);
+		Theme::DrawOutdent(size, Screen::alphaBlendState);
 	}
 
 	Graphics::Renderer *r = Gui::Screen::GetRenderer();

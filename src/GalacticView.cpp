@@ -23,7 +23,7 @@ static const float ZOOM_IN_SPEED = 2;
 static const float ZOOM_OUT_SPEED = 1.f/ZOOM_IN_SPEED;
 static const float WHEEL_SENSITIVITY = .2f;		// Should be a variable in user settings.
 
-GalacticView::GalacticView() :
+GalacticView::GalacticView() : UIView(),
 	m_quad(Graphics::TextureBuilder::UI("galaxy.bmp").CreateTexture(Gui::Screen::GetRenderer()))
 {
 
@@ -51,6 +51,11 @@ GalacticView::GalacticView() :
 
 	m_onMouseWheelCon =
 		Pi::onMouseWheel.connect(sigc::mem_fun(this, &GalacticView::MouseWheel));
+
+	Graphics::RenderStateDesc rsd;
+	rsd.depthTest  = false;
+	rsd.depthWrite = false;
+	m_renderState = Gui::Screen::GetRenderer()->CreateRenderState(rsd);
 }
 
 GalacticView::~GalacticView()
@@ -84,7 +89,6 @@ static void dummy() {}
 void GalacticView::PutLabels(vector3d offset)
 {
 	Gui::Screen::EnterOrtho();
-	glColor3f(1,1,1);
 
 	for (int i=0; s_labels[i].label; i++) {
 		vector3d p = m_zoom * (s_labels[i].pos + offset);
@@ -108,8 +112,6 @@ void GalacticView::Draw3D()
 	const float aspect = m_renderer->GetDisplayAspect();
 	m_renderer->SetOrthographicProjection(-aspect, aspect, 1.f, -1.f, -1.f, 1.f);
 	m_renderer->ClearScreen();
-	m_renderer->SetDepthTest(false);
-	m_renderer->SetBlendMode(BLEND_SOLID);
 
 	//apply zoom
 	m_renderer->SetTransform(
@@ -123,7 +125,7 @@ void GalacticView::Draw3D()
 	// "you are here" dot
 	//Color green(0, 255, 0, 255);
 	vector3f offs(offset_x, offset_y, 0.f);
-	m_renderer->DrawPoints(1, &offs, &Color::GREEN, 3.f);
+	m_renderer->DrawPoints(1, &offs, &Color::GREEN, m_renderState, 3.f);
 
 	// scale at the top
 	m_renderer->SetTransform(matrix4x4f::Identity());
@@ -134,12 +136,12 @@ void GalacticView::Draw3D()
 		vector2f(0.25f,-0.94f),
 		vector2f(0.25f,-0.93f)
 	};
-	m_renderer->DrawLines2D(4, vts, Color::WHITE, LINE_STRIP);
+	m_renderer->DrawLines2D(4, vts, Color::WHITE, m_renderState, LINE_STRIP);
 
 	m_labels->Clear();
 	PutLabels(-vector3d(offset_x, offset_y, 0.0));
 
-	m_renderer->SetDepthTest(true);
+	UIView::Draw3D();
 }
 
 void GalacticView::Update()
@@ -158,6 +160,8 @@ void GalacticView::Update()
 	AnimationCurves::Approach(m_zoom, m_zoomTo, frameTime);
 
 	m_scaleReadout->SetText(stringf(Lang::INT_LY, formatarg("scale", int(0.5*Galaxy::GALAXY_RADIUS/m_zoom))));
+
+	UIView::Update();
 }
 
 void GalacticView::MouseWheel(bool up)

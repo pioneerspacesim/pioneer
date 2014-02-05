@@ -9,6 +9,7 @@
 #include "graphics/VertexArray.h"
 #include "graphics/Material.h"
 #include "graphics/TextureBuilder.h"
+#include "graphics/RenderState.h"
 
 namespace SceneGraph {
 
@@ -28,7 +29,6 @@ Thruster::Thruster(Graphics::Renderer *r, bool _linear, const vector3f &_pos, co
 	//set up materials
 	Graphics::MaterialDescriptor desc;
 	desc.textures = 1;
-	desc.twoSided = true;
 
 	m_tMat.Reset(r->CreateMaterial(desc));
 	m_tMat->texture0 = Graphics::TextureBuilder::Billboard(thrusterTextureFilename).GetOrCreateTexture(r, "billboard");
@@ -37,11 +37,18 @@ Thruster::Thruster(Graphics::Renderer *r, bool _linear, const vector3f &_pos, co
 	m_glowMat.Reset(r->CreateMaterial(desc));
 	m_glowMat->texture0 = Graphics::TextureBuilder::Billboard(thrusterGlowTextureFilename).GetOrCreateTexture(r, "billboard");
 	m_glowMat->diffuse = baseColor;
+
+	Graphics::RenderStateDesc rsd;
+	rsd.blendMode = Graphics::BLEND_ALPHA_ONE;
+	rsd.depthWrite = false;
+	rsd.cullMode = Graphics::CULL_NONE;
+	m_renderState = r->CreateRenderState(rsd);
 }
 
 Thruster::Thruster(const Thruster &thruster, NodeCopyCache *cache)
 : Node(thruster, cache)
 , m_tMat(thruster.m_tMat)
+, m_renderState(thruster.m_renderState)
 , linearOnly(thruster.linearOnly)
 , dir(thruster.dir)
 , pos(thruster.pos)
@@ -85,12 +92,6 @@ void Thruster::Render(const matrix4x4f &trans, const RenderData *rd)
 	}
 	if (power < 0.001f) return;
 
-	Graphics::Renderer *r = GetRenderer();
-	r->SetTransform(trans);
-
-	r->SetBlendMode(Graphics::BLEND_ALPHA_ONE);
-	r->SetDepthWrite(false);
-
 	m_tMat->diffuse = m_glowMat->diffuse = baseColor * power;
 
 	//directional fade
@@ -100,11 +101,10 @@ void Thruster::Render(const matrix4x4f &trans, const RenderData *rd)
 	m_glowMat->diffuse.a = Easing::Circ::EaseIn(Clamp(vdir.Dot(cdir), 0.f, 1.f), 0.f, 1.f, 1.f) * 255;
 	m_tMat->diffuse.a = 255 - m_glowMat->diffuse.a;
 
-	r->DrawTriangles(m_tVerts.get(), m_tMat.Get());
-	r->DrawTriangles(m_glowVerts.get(), m_glowMat.Get());
-
-	r->SetBlendMode(Graphics::BLEND_SOLID);
-	r->SetDepthWrite(true);
+	Graphics::Renderer *r = GetRenderer();
+	r->SetTransform(trans);
+	r->DrawTriangles(m_tVerts.get(), m_renderState, m_tMat.Get());
+	r->DrawTriangles(m_glowVerts.get(), m_renderState, m_glowMat.Get());
 }
 
 void Thruster::Save(NodeDatabase &db)

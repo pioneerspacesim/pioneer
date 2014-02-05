@@ -67,6 +67,7 @@
 #include "Pattern.h"
 #include "CollMesh.h"
 #include "graphics/Material.h"
+#include "graphics/Drawables.h"
 #include "Serializer.h"
 #include "DeleteEmitter.h"
 #include <stdexcept>
@@ -147,6 +148,16 @@ public:
 	//serialization aid
 	std::string GetNameForMaterial(Graphics::Material*) const;
 
+	enum DebugFlags { // <enum scope='SceneGraph::Model' name=ModelDebugFlags prefix=DEBUG_ public>
+		DEBUG_NONE      = 0x0,
+		DEBUG_BBOX      = 0x1,
+		DEBUG_COLLMESH  = 0x2,
+		DEBUG_WIREFRAME = 0x4,
+		DEBUG_TAGS      = 0x8,
+		DEBUG_DOCKING   = 0x10
+	};
+	void SetDebugFlags(Uint32 flags);
+
 private:
 	Model(const Model&);
 
@@ -168,6 +179,16 @@ private:
 	unsigned int m_curPatternIndex;
 	Graphics::Texture *m_curPattern;
 	Graphics::Texture *m_curDecals[MAX_DECAL_MATERIALS];
+
+	// debug support
+	void DrawAabb();
+	void DrawCollisionMesh();
+	void DrawAxisIndicators(std::vector<Graphics::Drawables::Line3D> &lines);
+	void AddAxisIndicators(const std::vector<MatrixTransform*> &mts, std::vector<Graphics::Drawables::Line3D> &lines);
+
+	Uint32 m_debugFlags;
+	std::vector<Graphics::Drawables::Line3D> m_tagPoints;
+	std::vector<Graphics::Drawables::Line3D> m_dockingPoints;
 };
 
 }

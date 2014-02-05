@@ -37,7 +37,6 @@ noinst_HEADERS = \
 	EquipSet.h \
 	EquipType.h \
 	FaceGenManager.h \
-	FaceVideoLink.h \
 	Factions.h \
 	FileSystem.h \
 	FontCache.h \
@@ -47,7 +46,6 @@ noinst_HEADERS = \
 	GalacticView.h \
 	Game.h \
 	GeoSphere.h \
-	HudColors.h \
 	HudTrail.h \
 	HyperspaceCloud.h \
 	IniConfig.h \
@@ -123,7 +121,6 @@ noinst_HEADERS = \
 	ShipController.h \
 	ShipCpanel.h \
 	ShipCpanelMultiFuncDisplays.h \
-	ShipSpinnerWidget.h \
 	ShipType.h \
 	Sound.h \
 	SoundMusic.h \
@@ -168,7 +165,6 @@ pioneer_SOURCES	= \
 	EnumStrings.cpp \
 	EquipType.cpp \
 	FaceGenManager.cpp \
-	FaceVideoLink.cpp \
 	Factions.cpp \
 	FileSourceZip.cpp \
 	FileSystem.cpp \
@@ -182,7 +178,6 @@ pioneer_SOURCES	= \
 	GeoPatchID.cpp \
 	GeoPatchJobs.cpp \
 	GeoSphere.cpp \
-	HudColors.cpp \
 	HudTrail.cpp \
 	HyperspaceCloud.cpp \
 	IniConfig.cpp \
@@ -261,7 +256,6 @@ pioneer_SOURCES	= \
 	ShipController.cpp \
 	ShipCpanel.cpp \
 	ShipCpanelMultiFuncDisplays.cpp \
-	ShipSpinnerWidget.cpp \
 	ShipType.cpp \
 	Sound.cpp \
 	SoundMusic.cpp \

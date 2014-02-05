@@ -46,6 +46,9 @@
     <ClCompile Include="..\..\..\src\graphics\gl2\ShieldMaterial.cpp">
       <Filter>gl2</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\graphics\gl2\GL2RenderState.cpp">
+      <Filter>gl2</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\graphics\Drawables.h" />
@@ -97,6 +100,10 @@
     <ClInclude Include="..\..\..\src\graphics\gl2\ShieldMaterial.h">
       <Filter>gl2</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\gl2\GL2RenderState.h">
+      <Filter>gl2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\RenderState.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="win32">

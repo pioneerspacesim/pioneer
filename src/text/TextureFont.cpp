@@ -211,7 +211,6 @@ int TextureFont::PickCharacter(const char *str, float mouseX, float mouseY) cons
 void TextureFont::RenderString(const char *str, float x, float y, const Color &color)
 {
 	PROFILE_SCOPED()
-	m_renderer->SetBlendMode(Graphics::BLEND_ALPHA_PREMULT);
 	m_vertices.Clear();
 
 	float alpha_f = color.a / 255.0f;
@@ -251,13 +250,12 @@ void TextureFont::RenderString(const char *str, float x, float y, const Color &c
 		}
 	}
 
-	m_renderer->DrawTriangles(&m_vertices, m_mat.get());
+	m_renderer->DrawTriangles(&m_vertices, m_renderState, m_mat.get());
 }
 
 Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &color)
 {
 	PROFILE_SCOPED()
-	m_renderer->SetBlendMode(Graphics::BLEND_ALPHA_PREMULT);
 	m_vertices.Clear();
 
 	float px = x;
@@ -314,7 +312,7 @@ Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &
 		}
 	}
 
-	m_renderer->DrawTriangles(&m_vertices, m_mat.get());
+	m_renderer->DrawTriangles(&m_vertices, m_renderState, m_mat.get());
 	return c;
 }
 
@@ -564,6 +562,11 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 			metrics.offV *= inv_height;
 		}
 	}
+
+	Graphics::RenderStateDesc rsd;
+	rsd.blendMode = Graphics::BLEND_ALPHA_PREMULT;
+	rsd.depthWrite = false;
+	m_renderState = m_renderer->CreateRenderState(rsd);
 
 	Graphics::MaterialDescriptor desc;
 	desc.vertexColors = true; //to allow per-character colors

@@ -13,6 +13,7 @@ namespace Graphics {
 namespace GL2 {
 
 static const char *s_glslVersion = "#version 110\n";
+GLuint Program::s_curProgram = 0;
 
 // Check and warn about compile & link errors
 static bool check_glsl_errors(const char *filename, GLuint obj)
@@ -160,12 +161,15 @@ void Program::Reload()
 
 void Program::Use()
 {
-	glUseProgram(m_program);
+	if (s_curProgram != m_program)
+		glUseProgram(m_program);
+	s_curProgram = m_program;
 }
 
 void Program::Unuse()
 {
 	glUseProgram(0);
+	s_curProgram = 0;
 }
 
 //load, compile and link

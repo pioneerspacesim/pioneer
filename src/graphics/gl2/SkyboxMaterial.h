@@ -1,3 +1,6 @@
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _GL2_SKYBOX_MATERIAL_H_
 #define _GL2_SKYBOX_MATERIAL_H_
 
@@ -29,16 +32,8 @@ namespace Graphics {
 				}
 				const float em = (float(emissive.r) * 0.003921568627451f);
 				m_program->shininess.Set(fSkyboxFactor * em);
-				glPushAttrib(GL_DEPTH_BUFFER_BIT);
-				glEnable(GL_DEPTH_TEST);
-				glDepthMask(GL_FALSE);
 			}
 
-			virtual void Unapply() {
-				glPopAttrib();
-				m_program->Unuse();
-			}
-			
 			// Skybox multiplier
 			float fSkyboxFactor;
 		};

@@ -6,8 +6,6 @@
 
 #include <SDL_stdinc.h>
 
-//#define GUI_DEBUG_CONTAINER
-
 namespace Gui {
 
 Container::Container()
@@ -189,36 +187,17 @@ Container::WidgetList::iterator Container::FindChild(const Widget *w)
 void Container::Draw()
 {
 	PROFILE_SCOPED()
+
+	Graphics::Renderer *r = Gui::Screen::GetRenderer();
+	r->SetRenderState(Gui::Screen::alphaBlendState);
+
 	float size[2];
 	GetSize(size);
 	if (!m_transparent) {
 		PROFILE_SCOPED_RAW("Container::Draw - !m_transparent")
-		if (m_bgcol[3] < 255) {
-			glEnable(GL_BLEND);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		}
-		glBegin(GL_QUADS);
-			glColor4ubv(m_bgcol);
-			glVertex2f(0, size[1]);
-			glVertex2f(size[0], size[1]);
-			glVertex2f(size[0], 0);
-			glVertex2f(0, 0);
-		glEnd();
-		if (m_bgcol[3] < 255) {
-			glBlendFunc(GL_ONE, GL_ZERO);
-			glDisable(GL_BLEND);
-		}
+		Theme::DrawRect(vector2f(0.f), vector2f(size[0], size[1]), m_bgcol, Screen::alphaBlendState);
 	}
-#ifdef GUI_DEBUG_CONTAINER
-	glBegin(GL_LINE_LOOP);
-		glColor3f(1,1,1);
-		glVertex2f(0, size[1]);
-		glVertex2f(size[0], size[1]);
-		glVertex2f(size[0], 0);
-		glVertex2f(0, 0);
-	glEnd();
-#endif /* GUI_DEBUG_CONTAINER */
-	Graphics::Renderer *r = Gui::Screen::GetRenderer();
+
 	for (WidgetList::iterator i = m_children.begin(), itEnd = m_children.end(); i != itEnd; ++i) {
 		if (!(*i).w->IsVisible()) continue;
 
@@ -226,18 +205,6 @@ void Container::Draw()
 
 		Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
 		r->Translate((*i).pos[0], (*i).pos[1], 0);
-#ifdef GUI_DEBUG_CONTAINER
-		float csize[2];
-		(*i).w->GetSize(csize);
-
-		glBegin(GL_LINE_LOOP);
-			glColor3f(0,0,1);
-			glVertex2f(0, csize[1]);
-			glVertex2f(csize[0], csize[1]);
-			glVertex2f(csize[0], 0);
-			glVertex2f(0, 0);
-		glEnd();
-#endif /* GUI_DEBUG_CONTAINER */
 		(*i).w->Draw();
 	}
 }

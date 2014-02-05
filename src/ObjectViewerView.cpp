@@ -15,7 +15,7 @@
 
 #if WITH_OBJECTVIEWER
 
-ObjectViewerView::ObjectViewerView(): View()
+ObjectViewerView::ObjectViewerView(): UIView()
 {
 	SetTransparency(true);
 	viewingDist = 1000.0f;
@@ -114,11 +114,14 @@ void ObjectViewerView::Draw3D()
 
 		body->Render(m_renderer, 0, vector3d(0,0,-viewingDist), m_camRot);
 	}
+
+	UIView::Draw3D();
 }
 
 void ObjectViewerView::OnSwitchTo()
 {
 	m_camRot = matrix4x4d::Identity();
+	UIView::OnSwitchTo();
 }
 
 void ObjectViewerView::Update()
@@ -153,6 +156,8 @@ void ObjectViewerView::Update()
 
 	if (body && body->IsType(Object::TERRAINBODY)) m_vbox->ShowAll();
 	else m_vbox->HideAll();
+
+	UIView::Update();
 }
 
 void ObjectViewerView::OnChangeTerrain()

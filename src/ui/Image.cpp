@@ -47,8 +47,8 @@ void Image::Draw()
 	va.Add(vector3f(x+sx, y+sy, 0.0f), vector2f(texSize.x, texSize.y));
 
 	Graphics::Renderer *r = GetContext()->GetRenderer();
-	r->SetBlendMode(Graphics::BLEND_ALPHA);
-	r->DrawTriangles(&va, m_material.Get(), Graphics::TRIANGLE_STRIP);
+	auto renderState = GetContext()->GetSkin().GetAlphaBlendState();
+	r->DrawTriangles(&va, renderState, m_material.Get(), Graphics::TRIANGLE_STRIP);
 }
 
 }

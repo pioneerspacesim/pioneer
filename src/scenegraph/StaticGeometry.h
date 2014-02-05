@@ -33,7 +33,7 @@ public:
 	unsigned int GetNumMeshes() const { return m_meshes.size(); }
 	RefCountedPtr<Graphics::StaticMesh> GetMesh(unsigned int i) { return m_meshes.at(i); }
 
-	void DisableDepthWrite() { m_bDisableDepthWrite = true; }
+	void SetRenderState(Graphics::RenderState *s) { m_renderState = s; }
 
 	Aabb m_boundingBox;
 	Graphics::BlendMode m_blendMode;
@@ -43,7 +43,7 @@ protected:
 	void DrawBoundingBox(const Aabb &bb);
 	std::vector<RefCountedPtr<Graphics::StaticMesh> > m_meshes;
 	typedef std::vector<RefCountedPtr<Graphics::StaticMesh> > MeshContainer;
-	bool m_bDisableDepthWrite;
+	Graphics::RenderState *m_renderState; //XXX should potentially be per surface
 };
 
 }

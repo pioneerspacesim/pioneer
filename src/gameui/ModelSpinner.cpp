@@ -58,12 +58,10 @@ void ModelSpinner::Draw()
 	r->SetPerspectiveProjection(fov, 1.f, 1.f, 10000.f);
 	r->SetTransform(matrix4x4f::Identity());
 
-	r->SetDepthWrite(true);
-	r->SetDepthTest(true);
 	r->ClearDepthBuffer();
 
 	r->SetLights(1, &m_light);
-	
+
 	Point pos(GetAbsolutePosition() + GetActiveOffset());
 	Point size(GetActiveArea());
 

@@ -298,12 +298,12 @@ void Space::KillBody(Body* b)
 	}
 }
 
-vector3d Space::GetHyperspaceExitPoint(const SystemPath &source) const
+vector3d Space::GetHyperspaceExitPoint(const SystemPath &source, const SystemPath &dest) const
 {
 	assert(m_starSystem);
 	assert(source.IsSystemPath());
 
-	const SystemPath &dest = m_starSystem->GetPath();
+	assert(dest.IsSameSystem(m_starSystem->GetPath()));
 
 	const Sector* source_sec = Sector::cache.GetCached(source);
 	const Sector* dest_sec = Sector::cache.GetCached(dest);
@@ -314,13 +314,23 @@ vector3d Space::GetHyperspaceExitPoint(const SystemPath &source) const
 	const vector3d sourcePos = vector3d(source_sys.p) + vector3d(source.sectorX, source.sectorY, source.sectorZ);
 	const vector3d destPos = vector3d(dest_sys.p) + vector3d(dest.sectorX, dest.sectorY, dest.sectorZ);
 
-	// find the first non-gravpoint. should be the primary star
 	Body *primary = 0;
-	for (BodyIterator i = BodiesBegin(); i != BodiesEnd(); ++i)
-		if ((*i)->GetSystemBody()->type != SystemBody::TYPE_GRAVPOINT) {
-			primary = *i;
-			break;
+	if (dest.IsBodyPath()) {
+		assert(size_t(dest.bodyIndex) < m_starSystem->m_bodies.size());
+		primary = FindBodyForPath(&dest);
+		while (primary && primary->GetSystemBody()->GetSuperType() != SystemBody::SUPERTYPE_STAR) {
+			SystemBody* parent = primary->GetSystemBody()->parent;
+			primary = parent ? FindBodyForPath(&parent->path) : 0;
 		}
+	}
+	if (!primary) {
+		// find the first non-gravpoint. should be the primary star
+		for (BodyIterator i = BodiesBegin(); i != BodiesEnd(); ++i)
+			if ((*i)->GetSystemBody()->type != SystemBody::TYPE_GRAVPOINT) {
+				primary = *i;
+				break;
+			}
+	}
 	assert(primary);
 
 	// point along the line between source and dest, a reasonable distance

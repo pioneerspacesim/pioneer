@@ -16,7 +16,6 @@ Material::Material() :
 	specular(Color::BLACK),
 	emissive(Color::BLACK),
 	shininess(100), //somewhat sharp
-	twoSided(false),
 	specialParameter0(0)
 {
 }
@@ -27,7 +26,6 @@ MaterialDescriptor::MaterialDescriptor()
 , glowMap(false)
 , lighting(false)
 , specularMap(false)
-, twoSided(false)
 , usePatterns(false)
 , vertexColors(false)
 , textures(0)
@@ -44,7 +42,6 @@ bool operator==(const MaterialDescriptor &a, const MaterialDescriptor &b)
 		a.glowMap == b.glowMap &&
 		a.lighting == b.lighting &&
 		a.specularMap == b.specularMap &&
-		a.twoSided == b.twoSided &&
 		a.usePatterns == b.usePatterns &&
 		a.vertexColors == b.vertexColors &&
 		a.textures == b.textures &&

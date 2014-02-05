@@ -1089,8 +1089,6 @@ void Pi::MainLoop()
 	if (MAX_PHYSICS_TICKS <= 0)
 		MAX_PHYSICS_TICKS = 4;
 
-	ui->DropAllLayers();
-
 	double currentTime = 0.001 * double(SDL_GetTicks());
 	double accumulator = Pi::game->GetTimeStep();
 	Pi::gameTickAlpha = 0;
@@ -1198,6 +1196,9 @@ void Pi::MainLoop()
 				Gui::Screen::LeaveOrtho();
 			}
 		}
+
+		Pi::ui->Update();
+		Pi::ui->Draw();
 
 #if WITH_DEVKEYS
 		if (Pi::showDebugInfo) {

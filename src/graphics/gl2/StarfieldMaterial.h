@@ -28,7 +28,6 @@ namespace Graphics {
 
 			virtual void Unapply() {
 				glDisable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
-				m_program->Unuse();
 			}
 		};
 	}

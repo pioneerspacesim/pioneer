@@ -371,13 +371,13 @@ static size_t bufread_or_die(void *ptr, size_t size, size_t nmemb, ByteRange &bu
 # define UINT16_MAX  (65535)
 #endif
 
-Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_rand(body->seed), m_heightScaling(0), m_minh(0) {
+Terrain::Terrain(const SystemBody *body) : m_seed(body->seed), m_rand(body->seed), m_heightScaling(0), m_minh(0), m_minBody(body) {
 
 	// load the heightmap
-	if (m_body->heightMapFilename) {
-		RefCountedPtr<FileSystem::FileData> fdata = FileSystem::gameDataFiles.ReadFile(m_body->heightMapFilename);
+	if (body->heightMapFilename) {
+		RefCountedPtr<FileSystem::FileData> fdata = FileSystem::gameDataFiles.ReadFile(body->heightMapFilename);
 		if (!fdata) {
-			Output("Error: could not open file '%s'\n", m_body->heightMapFilename);
+			Output("Error: could not open file '%s'\n", body->heightMapFilename);
 			abort();
 		}
 
@@ -387,7 +387,7 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 		Uint16 minHMapScld = UINT16_MAX, maxHMapScld = 0;
 
 		// XXX unify heightmap types
-		switch (m_body->heightMapFractal) {
+		switch (body->heightMapFractal) {
 			case 0: {
 				Uint16 v;
 				bufread_or_die(&v, 2, 1, databuf); m_heightMapSizeX = v;
@@ -406,7 +406,7 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 					(*pHeightMap) = val;
 					++pHeightMap;
 				}
-				assert(is_equal_general(*pHeightMap, m_heightMap[heightmapPixelArea]));
+				assert(pHeightMap == &m_heightMap[heightmapPixelArea]);
 				//Output("minHMap = (%hd), maxHMap = (%hd)\n", minHMap, maxHMap);
 				break;
 			}
@@ -437,7 +437,7 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 					(*pHeightMap) = val;
 					++pHeightMap;
 				}
-				assert(is_equal_general(*pHeightMap, m_heightMap[heightmapPixelArea]));
+				assert(pHeightMap == &m_heightMap[heightmapPixelArea]);
 				//Output("minHMapScld = (%hu), maxHMapScld = (%hu)\n", minHMapScld, maxHMapScld);
 				break;
 			}
@@ -465,24 +465,24 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 		case 4: m_fracmult = 0.1;break;
 	}
 
-	m_sealevel = Clamp(m_body->m_volatileLiquid.ToDouble(), 0.0, 1.0);
-	m_icyness = Clamp(m_body->m_volatileIces.ToDouble(), 0.0, 1.0);
-	m_volcanic = Clamp(m_body->m_volcanicity.ToDouble(), 0.0, 1.0); // height scales with volcanicity as well
+	m_sealevel = Clamp(body->m_volatileLiquid.ToDouble(), 0.0, 1.0);
+	m_icyness  = Clamp(body->m_volatileIces.ToDouble(), 0.0, 1.0);
+	m_volcanic = Clamp(body->m_volcanicity.ToDouble(), 0.0, 1.0); // height scales with volcanicity as well
 	m_surfaceEffects = 0;
 
-	const double rad = m_body->GetRadius();
+	const double rad = m_minBody.m_radius;
 
 	// calculate max height
-	if ((m_body->heightMapFilename) && m_body->heightMapFractal > 1){ // if scaled heightmap
+	if ((body->heightMapFilename) && body->heightMapFractal > 1){ // if scaled heightmap
 		m_maxHeightInMeters = 1.1*pow(2.0, 16.0)*m_heightScaling; // no min height required as it's added to radius in lua
 	}else {
-		m_maxHeightInMeters = std::max(100.0, (9000.0*rad*rad*(m_volcanic+0.5)) / (m_body->GetMass() * 6.64e-12));
+		m_maxHeightInMeters = std::max(100.0, (9000.0*rad*rad*(m_volcanic+0.5)) / (body->GetMass() * 6.64e-12));
 		if (!is_finite(m_maxHeightInMeters)) m_maxHeightInMeters = rad * 0.5;
 		//             ^^^^ max mountain height for earth-like planet (same mass, radius)
 		// and then in sphere normalized jizz
 	}
 	m_maxHeight = std::min(1.0, m_maxHeightInMeters / rad);
-	//Output("%s: max terrain height: %fm [%f]\n", m_body->name.c_str(), m_maxHeightInMeters, m_maxHeight);
+	//Output("%s: max terrain height: %fm [%f]\n", m_minBody.name.c_str(), m_maxHeightInMeters, m_maxHeight);
 	m_invMaxHeight = 1.0 / m_maxHeight;
 	m_planetRadius = rad;
 	m_planetEarthRadii = rad / EARTH_RADIUS;
@@ -494,8 +494,8 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 		r = m_rand.Double(0.3, 1.0);
 		g = m_rand.Double(0.3, r);
 		b = m_rand.Double(0.3, g);
-		r = std::max(b, r * m_body->m_metallicity.ToFloat());
-		g = std::max(b, g * m_body->m_metallicity.ToFloat());
+		r = std::max(b, r * body->m_metallicity.ToFloat());
+		g = std::max(b, g * body->m_metallicity.ToFloat());
 		m_rockColor[i] = vector3d(r, g, b);
 	}
 
@@ -506,8 +506,8 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 		r = m_rand.Double(0.05, 0.3);
 		g = m_rand.Double(0.05, r);
 		b = m_rand.Double(0.05, g);
-		r = std::max(b, r * m_body->m_metallicity.ToFloat());
-		g = std::max(b, g * m_body->m_metallicity.ToFloat());
+		r = std::max(b, r * body->m_metallicity.ToFloat());
+		g = std::max(b, g * body->m_metallicity.ToFloat());
 		m_darkrockColor[i] = vector3d(r, g, b);
 	}
 
@@ -527,8 +527,8 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 		g = m_rand.Double(0.3, 1.0);
 		r = m_rand.Double(0.3, g);
 		b = m_rand.Double(0.2, r);
-		g = std::max(r, g * m_body->m_life.ToFloat());
-		b *= (1.0-m_body->m_life.ToFloat());
+		g = std::max(r, g * body->m_life.ToFloat());
+		b *= (1.0-body->m_life.ToFloat());
 		m_plantColor[i] = vector3d(r, g, b);
 	}
 
@@ -540,8 +540,8 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 		g = m_rand.Double(0.05, 0.3);
 		r = m_rand.Double(0.00, g);
 		b = m_rand.Double(0.00, r);
-		g = std::max(r, g * m_body->m_life.ToFloat());
-		b *= (1.0-m_body->m_life.ToFloat());
+		g = std::max(r, g * body->m_life.ToFloat());
+		b *= (1.0-body->m_life.ToFloat());
 		m_darkplantColor[i] = vector3d(r, g, b);
 	}
 
@@ -639,8 +639,8 @@ void Terrain::DebugDump() const
 	Output("  Detail: fracnum %d  fracmult %f  textures %s\n", m_fracnum, m_fracmult, textures ? "true" : "false");
 	Output("  Config: DetailPlanets %d   FractalMultiple %d  Textures  %d\n", Pi::config->Int("DetailPlanets"), Pi::config->Int("FractalMultiple"), Pi::config->Int("Textures"));
 	Output("  Seed: %d\n", m_seed);
-	Output("  Body: %s [%d,%d,%d,%u,%u]\n", m_body->name.c_str(), m_body->path.sectorX, m_body->path.sectorY, m_body->path.sectorZ, m_body->path.systemIndex, m_body->path.bodyIndex);
-	Output("  Aspect Ratio: %g\n", m_body->aspectRatio.ToDouble());
+	Output("  Body: %s [%d,%d,%d,%u,%u]\n", m_minBody.m_name.c_str(), m_minBody.m_path.sectorX, m_minBody.m_path.sectorY, m_minBody.m_path.sectorZ, m_minBody.m_path.systemIndex, m_minBody.m_path.bodyIndex);
+	Output("  Aspect Ratio: %g\n", m_minBody.m_aspectRatio);
 	Output("  Fracdefs:\n");
 	for (int i = 0; i < 10; i++) {
 		Output("    %d: amp %f  freq %f  lac %f  oct %d\n", i, m_fracdef[i].amplitude, m_fracdef[i].frequency, m_fracdef[i].lacunarity, m_fracdef[i].octaves);

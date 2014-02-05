@@ -1,3 +1,6 @@
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "BaseLoader.h"
 #include "FileSystem.h"
 #include "graphics/TextureBuilder.h"
@@ -23,7 +26,6 @@ void BaseLoader::ConvertMaterialDefinition(const MaterialDefinition &mdef)
 	Graphics::MaterialDescriptor matDesc;
 	matDesc.lighting = !mdef.unlit;
 	matDesc.alphaTest = mdef.alpha_test;
-	matDesc.twoSided = mdef.two_sided;
 
 	matDesc.usePatterns = mdef.use_pattern;
 

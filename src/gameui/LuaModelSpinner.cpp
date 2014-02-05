@@ -24,6 +24,12 @@ public:
 		return 1;
 	}
 
+	static int l_attr_model(lua_State *l) {
+		ModelSpinner *ms = LuaObject<ModelSpinner>::CheckFromLua(1);
+		LuaObject<SceneGraph::Model>::PushToLua(ms->GetModel());
+		return 1;
+	}
+
 };
 
 }
@@ -41,6 +47,11 @@ template <> void LuaObject<GameUI::ModelSpinner>::RegisterClass()
         { 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, 0, 0);
+	static const luaL_Reg l_attrs[] = {
+		{ "model", LuaModelSpinner::l_attr_model },
+        { 0, 0 }
+	};
+
+	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, l_attrs, 0);
 	LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<GameUI::ModelSpinner>::DynamicCastPromotionTest);
 }

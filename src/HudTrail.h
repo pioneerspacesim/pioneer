@@ -16,18 +16,19 @@ public:
 	HudTrail(Body *b, const Color&);
 	void Update(float time);
 	void Render(Graphics::Renderer *r);
-	void Reset(Frame *newFrame);
+	void Reset(const Frame *newFrame);
 
 	void SetColor(const Color &c) { m_color = c; }
 	void SetTransform(const matrix4x4d &t) { m_transform = t; }
 
 private:
 	Body *m_body;
-	Frame *m_currentFrame;
+	const Frame *m_currentFrame;
 	float m_updateTime;
 	Color m_color;
 	matrix4x4d m_transform;
 	std::deque<vector3d> m_trailPoints;
+	Graphics::RenderState *m_renderState;
 };
 
 #endif

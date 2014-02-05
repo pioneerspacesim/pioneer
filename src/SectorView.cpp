@@ -43,7 +43,7 @@ enum DetailSelection {
 static const float ZOOM_SPEED = 15;
 static const float WHEEL_SENSITIVITY = .03f;		// Should be a variable in user settings.
 
-SectorView::SectorView()
+SectorView::SectorView() : UIView()
 {
 	InitDefaults();
 
@@ -75,7 +75,7 @@ SectorView::SectorView()
 	InitObject();
 }
 
-SectorView::SectorView(Serializer::Reader &rd)
+SectorView::SectorView(Serializer::Reader &rd) : UIView()
 {
 	InitDefaults();
 
@@ -119,6 +119,8 @@ void SectorView::InitObject()
 
 	m_lineVerts.reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION, 500));
 	m_secLineVerts.reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION, 500));
+	m_starVerts.reset(new Graphics::VertexArray(
+		Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0, 500));
 
 	Gui::Screen::PushFont("OverlayFont");
 	m_clickableLabels = new Gui::LabelSet();
@@ -149,7 +151,20 @@ void SectorView::InitObject()
 	m_searchBox->onKeyPress.connect(sigc::mem_fun(this, &SectorView::OnSearchBoxKeyPress));
 	Add(m_searchBox, 700, 500);
 
-	m_disk.reset(new Graphics::Drawables::Disk(Pi::renderer, Color::WHITE, 0.2f));
+	m_renderer = Pi::renderer; //XXX pass cleanly to all views constructors!
+
+	Graphics::RenderStateDesc rsd;
+	m_solidState = m_renderer->CreateRenderState(rsd);
+
+	rsd.blendMode = Graphics::BLEND_ALPHA;
+	rsd.depthWrite = false;
+	m_alphaBlendState = m_renderer->CreateRenderState(rsd);
+
+	Graphics::MaterialDescriptor bbMatDesc;
+	bbMatDesc.effect = Graphics::EFFECT_SPHEREIMPOSTOR;
+	m_starMaterial.Reset(m_renderer->CreateMaterial(bbMatDesc));
+
+	m_disk.reset(new Graphics::Drawables::Disk(m_renderer, m_solidState, Color::WHITE, 0.2f));
 
 	m_infoBox = new Gui::VBox();
 	m_infoBox->SetTransparency(false);
@@ -415,12 +430,13 @@ void SectorView::Draw3D()
 	m_lineVerts->Clear();
 	m_secLineVerts->Clear();
 	m_clickableLabels->Clear();
+	m_starVerts->Clear();
 
 	if (m_zoomClamped <= FAR_THRESHOLD) m_renderer->SetPerspectiveProjection(40.f, m_renderer->GetDisplayAspect(), 1.f, 300.f);
 	else                                m_renderer->SetPerspectiveProjection(40.f, m_renderer->GetDisplayAspect(), 1.f, 600.f);
 
 	matrix4x4f modelview = matrix4x4f::Identity();
-	m_renderer->SetDepthWrite(true);
+
 	m_renderer->ClearScreen();
 
 	m_sectorLabel->SetText(stringf(Lang::SECTOR_X_Y_Z,
@@ -447,24 +463,27 @@ void SectorView::Draw3D()
 	modelview.Translate(-FFRAC(m_pos.x)*Sector::SIZE, -FFRAC(m_pos.y)*Sector::SIZE, -FFRAC(m_pos.z)*Sector::SIZE);
 	m_renderer->SetTransform(modelview);
 
-	m_renderer->SetBlendMode(BLEND_ALPHA);
-
 	if (m_zoomClamped <= FAR_THRESHOLD)
 		DrawNearSectors(modelview);
 	else
 		DrawFarSectors(modelview);
 
-	//draw sector legs in one go
 	m_renderer->SetTransform(matrix4x4f::Identity());
+
+	//draw star billboards in one go
+	m_renderer->SetAmbientColor(Color(30));
+	m_renderer->DrawTriangles(m_starVerts.get(), m_solidState, m_starMaterial.Get());
+
+	//draw sector legs in one go
 	if (m_lineVerts->GetNumVerts() > 2)
-		m_renderer->DrawLines(m_lineVerts->GetNumVerts(), &m_lineVerts->position[0], &m_lineVerts->diffuse[0]);
+		m_renderer->DrawLines(m_lineVerts->GetNumVerts(), &m_lineVerts->position[0], &m_lineVerts->diffuse[0], m_alphaBlendState);
 
 	if (m_secLineVerts->GetNumVerts() > 2)
-		m_renderer->DrawLines(m_secLineVerts->GetNumVerts(), &m_secLineVerts->position[0], &m_secLineVerts->diffuse[0]);
+		m_renderer->DrawLines(m_secLineVerts->GetNumVerts(), &m_secLineVerts->position[0], &m_secLineVerts->diffuse[0], m_alphaBlendState);
 
 	UpdateFactionToggles();
 
-	m_renderer->SetBlendMode(BLEND_SOLID);
+	UIView::Draw3D();
 }
 
 void SectorView::SetHyperspaceTarget(const SystemPath &path)
@@ -495,7 +514,7 @@ void SectorView::ResetHyperspaceTarget()
 	m_hyperspaceTarget = m_selected;
 	FloatHyperspaceTarget();
 
-	if (old != m_hyperspaceTarget) {
+	if (!old.IsSameSystem(m_hyperspaceTarget)) {
 		onHyperspaceTargetChanged.emit();
 		UpdateDistanceLabelAndLine(m_secondDistance, m_selected, m_hyperspaceTarget);
 		UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
@@ -530,7 +549,7 @@ void SectorView::GotoSystem(const SystemPath &path)
 	}
 }
 
-void SectorView::SetSelectedSystem(const SystemPath &path)
+void SectorView::SetSelected(const SystemPath &path)
 {
     m_selected = path;
 
@@ -546,10 +565,27 @@ void SectorView::SetSelectedSystem(const SystemPath &path)
 
 void SectorView::OnClickSystem(const SystemPath &path)
 {
-	if (m_selectionFollowsMovement)
-		GotoSystem(path);
-	else
-		SetSelectedSystem(path);
+	if (path.IsSameSystem(m_selected)) {
+		RefCountedPtr<StarSystem> system = StarSystem::GetCached(path);
+		if (system->GetNumStars() > 1 && m_selected.IsBodyPath()) {
+			int i;
+			for (i = 0; i < system->GetNumStars(); ++i)
+				if (system->m_stars[i]->path == m_selected) break;
+			if (i >= system->GetNumStars() - 1)
+				SetSelected(system->m_stars[0]->path);
+			else
+				SetSelected(system->m_stars[i+1]->path);
+		} else {
+			SetSelected(system->m_stars[0]->path);
+		}
+	} else {
+		if (m_selectionFollowsMovement) {
+			GotoSystem(path);
+		} else {
+			RefCountedPtr<StarSystem> system = StarSystem::GetCached(path);
+			SetSelected(system->m_stars[0]->path);
+		}
+	}
 }
 
 void SectorView::PutSystemLabels(Sector *sec, const vector3f &origin, int drawRadius)
@@ -621,6 +657,7 @@ void SectorView::PutFactionLabels(const vector3f &origin)
 
 				if (!m_material) m_material.Reset(m_renderer->CreateMaterial(Graphics::MaterialDescriptor()));
 
+				auto renderState = Gui::Screen::alphaBlendState;
 				{
 					Graphics::VertexArray va(Graphics::ATTRIB_POSITION);
 					va.Add(vector3f(pos.x - 5.f,              pos.y - 5.f,               0));
@@ -628,7 +665,7 @@ void SectorView::PutFactionLabels(const vector3f &origin)
 					va.Add(vector3f(pos.x + labelWidth + 5.f, pos.y - 5.f,               0));
 					va.Add(vector3f(pos.x + labelWidth + 5.f, pos.y - 5.f + labelHeight, 0));
 					m_material->diffuse = Color(13, 13, 31, 166);
-					m_renderer->DrawTriangles(&va, m_material.Get(), Graphics::TRIANGLE_STRIP);
+					m_renderer->DrawTriangles(&va, renderState, m_material.Get(), Graphics::TRIANGLE_STRIP);
 				}
 
 				{
@@ -638,7 +675,7 @@ void SectorView::PutFactionLabels(const vector3f &origin)
 					va.Add(vector3f(pos.x,       pos.y - 8.f, 0));
 					va.Add(vector3f(pos.x + 8.f, pos.y,       0));
 					m_material->diffuse = labelColor;
-					m_renderer->DrawTriangles(&va, m_material.Get(), Graphics::TRIANGLE_STRIP);
+					m_renderer->DrawTriangles(&va, renderState, m_material.Get(), Graphics::TRIANGLE_STRIP);
 				}
 
 				if (labelColor.GetLuminance() > 191) labelColor.a = 204;    // luminance is sometimes a bit overly
@@ -647,6 +684,25 @@ void SectorView::PutFactionLabels(const vector3f &origin)
 		}
 	}
 	Gui::Screen::LeaveOrtho();
+}
+
+void SectorView::AddStarBillboard(const matrix4x4f &trans, const vector3f &pos, const Color &col, float size)
+{
+	const matrix3x3f rot = trans.GetOrient().Transpose();
+
+	const vector3f offset = trans * pos;
+
+	const vector3f rotv1 = rot * vector3f(size/2.f, -size/2.f, 0.0f);
+	const vector3f rotv2 = rot * vector3f(size/2.f, size/2.f, 0.0f);
+
+	Graphics::VertexArray &va = *m_starVerts;
+	va.Add(offset-rotv1, col, vector2f(0.f, 0.f)); //top left
+	va.Add(offset-rotv2, col, vector2f(0.f, 1.f)); //bottom left
+	va.Add(offset+rotv2, col, vector2f(1.f, 0.f)); //top right
+
+	va.Add(offset+rotv2, col, vector2f(1.f, 0.f)); //top right
+	va.Add(offset-rotv2, col, vector2f(0.f, 1.f)); //bottom left
+	va.Add(offset+rotv1, col, vector2f(1.f, 1.f)); //bottom right
 }
 
 void SectorView::UpdateDistanceLabelAndLine(DistanceIndicator &distance, const SystemPath &src, const SystemPath &dest)
@@ -719,7 +775,11 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 	}
 	labels.starType->SetText(desc);
 
-	labels.systemName->SetText(sys->GetName());
+	if (path.IsBodyPath()) {
+		labels.systemName->SetText(sys->GetBodyByPath(path)->name);
+	} else {
+		labels.systemName->SetText(sys->GetName());
+	}
 	labels.sector->SetText(stringf("(%x,%y,%z)",
 		formatarg("x", int(path.sectorX)),
 		formatarg("y", int(path.sectorY)),
@@ -800,7 +860,7 @@ void SectorView::DrawNearSectors(const matrix4x4f& modelview)
 
 	// ...then switch and do all the labels
 	const vector3f secOrigin = vector3f(int(floorf(m_pos.x)), int(floorf(m_pos.y)), int(floorf(m_pos.z)));
-	
+
 	m_renderer->SetTransform(modelview);
 	glDepthRange(0,1);
 	Gui::Screen::EnterOrtho();
@@ -918,7 +978,7 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 			if (m_selected != m_current) {
 			    m_selectedLine.SetStart(vector3f(0.f, 0.f, 0.f));
 			    m_selectedLine.SetEnd(playerAbsPos - sysAbsPos);
-			    m_selectedLine.Draw(m_renderer);
+			    m_selectedLine.Draw(m_renderer, m_solidState);
 			} else {
 			    m_secondDistance.label->SetText("");
 			}
@@ -930,14 +990,14 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 				if (m_selected != m_current) {
 				    m_secondLine.SetStart(vector3f(0.f, 0.f, 0.f));
 				    m_secondLine.SetEnd(hyperAbsPos - sysAbsPos);
-				    m_secondLine.Draw(m_renderer);
+				    m_secondLine.Draw(m_renderer, m_solidState);
 				}
 
 				if (m_hyperspaceTarget != m_current) {
 				    // FIXME: Draw when drawing hyperjump target or current system
 				    m_jumpLine.SetStart(hyperAbsPos - sysAbsPos);
 				    m_jumpLine.SetEnd(playerAbsPos - sysAbsPos);
-				    m_jumpLine.Draw(m_renderer);
+				    m_jumpLine.Draw(m_renderer, m_solidState);
 				}
 			} else {
 			    m_secondDistance.label->SetText("");
@@ -951,8 +1011,7 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 		m_renderer->SetTransform(systrans);
 
 		Uint8 *col = StarSystem::starColors[(*i).starType[0]];
-		m_disk->SetColor(Color(col[0], col[1], col[2]));
-		m_disk->Draw(m_renderer);
+		AddStarBillboard(systrans, vector3f(0.f), Color(col[0], col[1], col[2], 255), 0.5f);
 
 		// player location indicator
 		if (m_inSystem && bIsCurrentSystem) {
@@ -976,19 +1035,10 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 			m_disk->Draw(m_renderer);
 		}
 		if(bIsCurrentSystem && m_jumpSphere && m_playerHyperspaceRange>0.0f) {
-			// not sure I should do these here on when applying the material?
-			m_renderer->SetDepthWrite(false);
-			m_renderer->SetDepthTest(false);
-			m_renderer->SetBlendMode(BLEND_ALPHA);
-			
 			const matrix4x4f sphTrans = trans * matrix4x4f::Translation((*i).p.x, (*i).p.y, (*i).p.z);
 			m_renderer->SetTransform(sphTrans * matrix4x4f::ScaleMatrix(m_playerHyperspaceRange));
 			m_jumpSphere->Draw(m_renderer);
 			m_jumpDisk->Draw(m_renderer);
-
-			m_renderer->SetDepthWrite(true);
-			m_renderer->SetBlendMode(BLEND_SOLID);
-			m_renderer->SetDepthTest(true);
 		}
 	}
 }
@@ -1023,8 +1073,10 @@ void SectorView::DrawFarSectors(const matrix4x4f& modelview)
 	}
 
 	// always draw the stars, slightly altering their size for different different resolutions, so they still look okay
-	if (m_farstars.size() > 0)
-		m_renderer->DrawPoints(m_farstars.size(), &m_farstars[0], &m_farstarsColor[0], 1.f + (Graphics::GetScreenHeight() / 720.f));
+	if (m_farstars.size() > 0) {
+		m_renderer->DrawPoints(m_farstars.size(), &m_farstars[0], &m_farstarsColor[0],
+			m_alphaBlendState, 1.f + (Graphics::GetScreenHeight() / 720.f));
+	}
 
 	// also add labels for any faction homeworlds among the systems we've drawn
 	PutFactionLabels(Sector::SIZE * secOrigin);
@@ -1060,6 +1112,8 @@ void SectorView::OnSwitchTo()
 	if (!m_onKeyPressConnection.connected())
 		m_onKeyPressConnection =
 			Pi::onKeyPress.connect(sigc::mem_fun(this, &SectorView::OnKeyPressed));
+
+	UIView::OnSwitchTo();
 
 	Update();
 
@@ -1274,8 +1328,10 @@ void SectorView::Update()
 				}
 			}
 
-			if (m_selected != new_selected)
-				SetSelectedSystem(new_selected);
+			if (!m_selected.IsSameSystem(new_selected)) {
+				RefCountedPtr<StarSystem> system = StarSystem::GetCached(new_selected);
+				SetSelected(system->m_stars[0]->path);
+			}
 		}
 	}
 
@@ -1285,12 +1341,21 @@ void SectorView::Update()
 
 	if(!m_jumpSphere)
 	{
+		Graphics::RenderStateDesc rsd;
+		rsd.blendMode = Graphics::BLEND_ALPHA;
+		rsd.depthTest = false;
+		rsd.depthWrite = false;
+		rsd.cullMode = Graphics::CULL_NONE;
+		m_jumpSphereState = m_renderer->CreateRenderState(rsd);
+
 		Graphics::MaterialDescriptor matdesc;
 		matdesc.effect = EFFECT_FRESNEL_SPHERE;
-		RefCountedPtr<Graphics::Material> fresnelMat(Pi::renderer->CreateMaterial(matdesc));
-		m_jumpSphere.reset( new Graphics::Drawables::Sphere3D(fresnelMat, 3, 1.0f) );
-		m_jumpDisk.reset( new Graphics::Drawables::Disk(fresnelMat, 72, 1.0f) );
+		RefCountedPtr<Graphics::Material> fresnelMat(m_renderer->CreateMaterial(matdesc));
+		m_jumpSphere.reset( new Graphics::Drawables::Sphere3D(fresnelMat, m_jumpSphereState, 3, 1.0f) );
+		m_jumpDisk.reset( new Graphics::Drawables::Disk(fresnelMat, m_jumpSphereState, 72, 1.0f) );
 	}
+
+	UIView::Update();
 }
 
 void SectorView::ShowAll()

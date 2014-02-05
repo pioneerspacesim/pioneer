@@ -418,12 +418,17 @@ void Loader::ConvertAiMeshes(std::vector<RefCountedPtr<StaticGeometry> > &geoms,
 		}
 		assert(mat.Valid());
 
+		Graphics::RenderStateDesc rsd;
 		//turn on alpha blending and mark entire node as transparent
 		//(all importers split by material so far)
 		if (mat->diffuse.a < 255) {
 			geom->SetNodeMask(NODE_TRANSPARENT);
 			geom->m_blendMode = Graphics::BLEND_ALPHA;
+			rsd.blendMode = Graphics::BLEND_ALPHA;
+			rsd.depthWrite = false;
 		}
+
+		geom->SetRenderState(m_renderer->CreateRenderState(rsd));
 
 		const Graphics::AttributeSet vtxAttribs =
 			Graphics::ATTRIB_POSITION |
@@ -739,6 +744,11 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPt
 				geom->m_blendMode = Graphics::BLEND_ALPHA;
 				geom->GetMesh(0)->GetSurface(0)->SetMaterial(GetDecalMaterial(numDecal));
 				geom->SetNodeFlags(geom->GetNodeFlags() | NODE_DECAL);
+				Graphics::RenderStateDesc rsd;
+				rsd.blendMode = Graphics::BLEND_ALPHA;
+				rsd.depthWrite = false;
+				//XXX add polygon offset to decal state
+				geom->SetRenderState(m_renderer->CreateRenderState(rsd));
 			}
 
 			parent->AddChild(geom.Get());

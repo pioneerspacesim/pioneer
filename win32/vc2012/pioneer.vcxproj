@@ -145,7 +145,6 @@
     <ClCompile Include="..\..\src\enum_table.cpp" />
     <ClCompile Include="..\..\src\EquipType.cpp" />
     <ClCompile Include="..\..\src\FaceGenManager.cpp" />
-    <ClCompile Include="..\..\src\FaceVideoLink.cpp" />
     <ClCompile Include="..\..\src\Factions.cpp" />
     <ClCompile Include="..\..\src\FileSourceZip.cpp" />
     <ClCompile Include="..\..\src\FileSystem.cpp" />
@@ -160,7 +159,6 @@
     <ClCompile Include="..\..\src\GeoPatchID.cpp" />
     <ClCompile Include="..\..\src\GeoPatchJobs.cpp" />
     <ClCompile Include="..\..\src\GeoSphere.cpp" />
-    <ClCompile Include="..\..\src\HudColors.cpp" />
     <ClCompile Include="..\..\src\HudTrail.cpp" />
     <ClCompile Include="..\..\src\HyperspaceCloud.cpp" />
     <ClCompile Include="..\..\src\IniConfig.cpp" />
@@ -249,7 +247,6 @@
     <ClCompile Include="..\..\src\ShipController.cpp" />
     <ClCompile Include="..\..\src\ShipCpanel.cpp" />
     <ClCompile Include="..\..\src\ShipCpanelMultiFuncDisplays.cpp" />
-    <ClCompile Include="..\..\src\ShipSpinnerWidget.cpp" />
     <ClCompile Include="..\..\src\ShipType.cpp" />
     <ClCompile Include="..\..\src\Sound.cpp" />
     <ClCompile Include="..\..\src\SoundMusic.cpp" />
@@ -300,7 +297,6 @@
     <ClInclude Include="..\..\src\EquipSet.h" />
     <ClInclude Include="..\..\src\EquipType.h" />
     <ClInclude Include="..\..\src\FaceGenManager.h" />
-    <ClInclude Include="..\..\src\FaceVideoLink.h" />
     <ClInclude Include="..\..\src\Factions.h" />
     <ClInclude Include="..\..\src\FileSourceZip.h" />
     <ClInclude Include="..\..\src\FileSystem.h" />
@@ -317,7 +313,6 @@
     <ClInclude Include="..\..\src\GeoPatchID.h" />
     <ClInclude Include="..\..\src\GeoPatchJobs.h" />
     <ClInclude Include="..\..\src\GeoSphere.h" />
-    <ClInclude Include="..\..\src\HudColors.h" />
     <ClInclude Include="..\..\src\HudTrail.h" />
     <ClInclude Include="..\..\src\HyperspaceCloud.h" />
     <ClInclude Include="..\..\src\IniConfig.h" />
@@ -391,7 +386,6 @@
     <ClInclude Include="..\..\src\ShipController.h" />
     <ClInclude Include="..\..\src\ShipCpanel.h" />
     <ClInclude Include="..\..\src\ShipCpanelMultiFuncDisplays.h" />
-    <ClInclude Include="..\..\src\ShipSpinnerWidget.h" />
     <ClInclude Include="..\..\src\ShipType.h" />
     <ClInclude Include="..\..\src\SmartPtr.h" />
     <ClInclude Include="..\..\src\Sound.h" />

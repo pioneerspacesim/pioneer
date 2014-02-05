@@ -6,21 +6,19 @@
 
 #include "libs.h"
 #include "gui/Gui.h"
-#include "View.h"
+#include "UIView.h"
 #include "graphics/Drawables.h"
 
 class StarSystem;
 class SystemBody;
 class Orbit;
 
-class SystemView: public View {
+class SystemView: public UIView {
 public:
 	SystemView();
 	virtual ~SystemView();
 	virtual void Update();
 	virtual void Draw3D();
-protected:
-	virtual void OnSwitchTo() {}
 private:
 	static const double PICK_OBJECT_RECT_SIZE;
 	void PutOrbit(const Orbit *orb, const vector3d &offset, const Color &color, double planetRadius = 0.0);
@@ -51,6 +49,7 @@ private:
 	sigc::connection m_onMouseWheelCon;
 
 	std::unique_ptr<Graphics::Drawables::Disk> m_bodyIcon;
+	Graphics::RenderState *m_lineState;
 };
 
 #endif /* _SYSTEMVIEW_H */

@@ -17,6 +17,7 @@ noinst_HEADERS = \
 	Frustum.h \
 	Light.h \
 	Material.h \
+	RenderState.h \
 	StaticMesh.h \
 	Surface.h \
 	VertexArray.h \
@@ -25,6 +26,7 @@ noinst_HEADERS = \
 	TextureBuilder.h \
 	Drawables.h \
 	gl2/GL2Material.h \
+	gl2/GL2RenderState.h \
 	gl2/GL2RenderTarget.h \
 	gl2/FresnelColourMaterial.h \
 	gl2/GeoSphereMaterial.h \
@@ -50,6 +52,7 @@ libgraphics_a_SOURCES = \
 	TextureBuilder.cpp \
 	Drawables.cpp \
 	gl2/GL2Material.cpp \
+	gl2/GL2RenderState.cpp \
 	gl2/GL2RenderTarget.cpp \
 	gl2/FresnelColourMaterial.cpp \
 	gl2/GeoSphereMaterial.cpp \

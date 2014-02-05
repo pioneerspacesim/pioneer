@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Shields.h"
@@ -71,7 +71,6 @@ void Shields::Init(Graphics::Renderer *renderer)
 	Graphics::MaterialDescriptor desc;
 	desc.textures = 0;
 	desc.lighting = true;
-	desc.twoSided = false;
 	desc.alphaTest = false;
 	desc.effect = Graphics::EffectType::EFFECT_SHIELD;
 	s_matShield.Reset(renderer->CreateMaterial(desc));
@@ -117,7 +116,6 @@ void Shields::ReparentShieldNodes(SceneGraph::Model* model)
 					RefCountedPtr<StaticGeometry> sg(dynamic_cast<StaticGeometry*>(node));
 					assert(sg.Valid());
 					sg->SetNodeMask(SceneGraph::NODE_TRANSPARENT);
-					sg->DisableDepthWrite();
 
 					// We can early-out if we've already processed this models scenegraph.
 					if (Graphics::BLEND_ALPHA == sg->m_blendMode) {
@@ -126,6 +124,11 @@ void Shields::ReparentShieldNodes(SceneGraph::Model* model)
 
 					// force the blend mode
 					sg->m_blendMode = Graphics::BLEND_ALPHA;
+
+					Graphics::RenderStateDesc rsd;
+					rsd.blendMode = Graphics::BLEND_ALPHA;
+					rsd.depthWrite = false;
+					sg->SetRenderState(renderer->CreateRenderState(rsd));
 
 					for (Uint32 iMesh = 0; iMesh < sg->GetNumMeshes(); ++iMesh) {
 						RefCountedPtr<Graphics::StaticMesh> rMesh = sg->GetMesh(iMesh);
@@ -198,10 +201,10 @@ Shields::Shields(SceneGraph::Model *model)
 				assert(sg.Valid());
 				sg->SetNodeMask(SceneGraph::NODE_TRANSPARENT);
 
-				sg->DisableDepthWrite();
-
-				// force the blend mode
-				sg->m_blendMode = Graphics::BLEND_ALPHA;
+				Graphics::RenderStateDesc rsd;
+				rsd.blendMode = Graphics::BLEND_ALPHA;
+				rsd.depthWrite = false;
+				sg->SetRenderState(sg->GetRenderer()->CreateRenderState(rsd));
 
 				// set the material
 				for (Uint32 iMesh = 0; iMesh < sg->GetNumMeshes(); ++iMesh) {
@@ -305,7 +308,6 @@ void Shields::Update(const float coolDown, const float shieldStrength)
 	for (ShieldIterator it = m_shields.begin(); it != m_shields.end(); ++it) {
 		if (shieldStrength>0.0f) {
 			it->m_mesh->SetNodeMask(SceneGraph::NODE_TRANSPARENT);
-			it->m_mesh->DisableDepthWrite();
 
 			GetGlobalShieldMaterial()->specialParameter0 = &s_renderParams;
 		} else {

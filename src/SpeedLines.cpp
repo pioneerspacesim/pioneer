@@ -1,5 +1,10 @@
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "SpeedLines.h"
 #include "Ship.h"
+#include "graphics/RenderState.h"
+#include "Pi.h"
 
 const float BOUNDS     = 2000.f;
 const int   DEPTH      = 8;
@@ -22,6 +27,11 @@ SpeedLines::SpeedLines(Ship *s)
 
 	m_vertices.resize(m_points.size() * 2);
 	m_vtxColors.resize(m_vertices.size());
+
+	Graphics::RenderStateDesc rsd;
+	rsd.blendMode = Graphics::BLEND_ALPHA_ONE;
+	rsd.depthWrite = false;
+	m_renderState = Pi::renderer->CreateRenderState(rsd);
 }
 
 void SpeedLines::Update(float time)
@@ -104,8 +114,5 @@ void SpeedLines::Render(Graphics::Renderer *r)
 	}
 
 	r->SetTransform(m_transform);
-	r->SetBlendMode(Graphics::BLEND_ALPHA_ONE);
-	r->SetDepthWrite(false);
-	r->SetDepthTest(true);
-	r->DrawLines(m_vertices.size(), &m_vertices[0], &m_vtxColors[0]);
+	r->DrawLines(m_vertices.size(), &m_vertices[0], &m_vtxColors[0], m_renderState);
 }

@@ -26,9 +26,12 @@ static const float WHEEL_SENSITIVITY = .1f;		// Should be a variable in user set
 // i don't know how to name it
 static const double ROUGH_SIZE_OF_TURD = 10.0;
 
-SystemView::SystemView()
+SystemView::SystemView() : UIView()
 {
 	SetTransparency(true);
+
+	Graphics::RenderStateDesc rsd;
+	m_lineState = Pi::renderer->CreateRenderState(rsd); //m_renderer not set yet
 
 	m_realtime = true;
 
@@ -149,9 +152,9 @@ void SystemView::PutOrbit(const Orbit *orbit, const vector3d &offset, const Colo
 	if (num_vertices > 1) {
 		// don't close the loop for hyperbolas and parabolas and crashed ellipses
 		if ((orbit->GetEccentricity() > 1.0) || (num_vertices < int(COUNTOF(vts))))
-			m_renderer->DrawLines(num_vertices, vts, color, LINE_STRIP);
+			m_renderer->DrawLines(num_vertices, vts, color, m_lineState, LINE_STRIP);
 		else
-			m_renderer->DrawLines(num_vertices, vts, color, LINE_LOOP);
+			m_renderer->DrawLines(num_vertices, vts, color, m_lineState, LINE_LOOP);
 	}
 }
 
@@ -207,7 +210,6 @@ void SystemView::PutLabel(const SystemBody *b, const vector3d &offset)
 	}
 
 	Gui::Screen::LeaveOrtho();
-	glDisable(GL_LIGHTING);
 }
 
 void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matrix4x4f &trans)
@@ -216,7 +218,9 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 	if (b->type != SystemBody::TYPE_GRAVPOINT) {
 
 		if (!m_bodyIcon) {
-			m_bodyIcon.reset(new Graphics::Drawables::Disk(m_renderer, Color::WHITE, 1.0f));
+			Graphics::RenderStateDesc rsd;
+			auto solidState = m_renderer->CreateRenderState(rsd);
+			m_bodyIcon.reset(new Graphics::Drawables::Disk(m_renderer, solidState, Color::WHITE, 1.0f));
 		}
 
 		const double radius = b->GetRadius() * m_zoom;
@@ -297,7 +301,7 @@ void SystemView::PutSelectionBox(const vector3d &worldPos, const Color &col)
                 vector3f(x2, y2, 0.f),
                 vector3f(x1, y2, 0.f)
         };
-		m_renderer->DrawLines(4, &verts[0], col, Graphics::LINE_LOOP);
+		m_renderer->DrawLines(4, &verts[0], col, m_lineState, Graphics::LINE_LOOP);
 	}
 
 	Gui::Screen::LeaveOrtho();
@@ -318,10 +322,9 @@ void SystemView::Draw3D()
 {
 	PROFILE_SCOPED()
 	m_renderer->SetPerspectiveProjection(50.f, m_renderer->GetDisplayAspect(), 1.f, 1000.f);
-	m_renderer->SetDepthWrite(true);
 	m_renderer->ClearScreen();
 
-	SystemPath path = Pi::sectorView->GetSelectedSystem();
+	SystemPath path = Pi::sectorView->GetSelected().SystemOnly();
 	if (m_system) {
 		if (!m_system->GetPath().IsSameSystem(path)) {
 			m_system.Reset();
@@ -339,14 +342,6 @@ void SystemView::Draw3D()
 	m_timePoint->SetText(t);
 
 	if (!m_system) m_system = StarSystem::GetCached(path);
-
-	// XXX fog is not going to be supported in renderer likely -
-	// fade the circles some other way
-	glEnable(GL_FOG);
-	glFogi(GL_FOG_MODE, GL_EXP2);
-	glFogfv(GL_FOG_COLOR, fogColor);
-	glFogf(GL_FOG_DENSITY, fogDensity);
-	glHint(GL_FOG_HINT, GL_NICEST);
 
 	matrix4x4f trans = matrix4x4f::Identity();
 	trans.Translate(0,0,-ROUGH_SIZE_OF_TURD);
@@ -370,7 +365,7 @@ void SystemView::Draw3D()
 		}
 	}
 
-	glDisable(GL_FOG);
+	UIView::Draw3D();
 }
 
 void SystemView::Update()
@@ -396,6 +391,8 @@ void SystemView::Update()
 		m_rot_x += motion[1]*20*ft;
 		m_rot_z += motion[0]*20*ft;
 	}
+
+	UIView::Update();
 }
 
 void SystemView::MouseWheel(bool up)

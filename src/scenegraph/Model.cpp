@@ -6,6 +6,7 @@
 #include "NodeCopyCache.h"
 #include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
+#include "graphics/VertexArray.h"
 #include "StringF.h"
 
 namespace SceneGraph {
@@ -25,6 +26,7 @@ Model::Model(Graphics::Renderer *r, const std::string &name)
 , m_name(name)
 , m_curPatternIndex(0)
 , m_curPattern(0)
+, m_debugFlags(0)
 {
 	m_root.Reset(new Group(m_renderer));
 	m_root->SetName(name);
@@ -40,6 +42,7 @@ Model::Model(const Model &model)
 , m_name(model.m_name)
 , m_curPatternIndex(model.m_curPatternIndex)
 , m_curPattern(model.m_curPattern)
+, m_debugFlags(0)
 {
 	//selective copying of node structure
 	NodeCopyCache cache;
@@ -107,13 +110,15 @@ void Model::Render(const matrix4x4f &trans, const RenderData *rd)
 	//Override renderdata if this model is called from ModelNode
 	RenderData params = (rd != 0) ? (*rd) : m_renderData;
 
-	m_renderer->SetBlendMode(Graphics::BLEND_SOLID);
 	m_renderer->SetTransform(trans);
 	//using the entire model bounding radius for all nodes at the moment.
 	//BR could also be a property of Node.
 	params.boundingRadius = GetDrawClipRadius();
 
 	//render in two passes, if this is the top-level model
+	if (m_debugFlags & DEBUG_WIREFRAME)
+		m_renderer->SetWireFrameMode(true);
+
 	if (params.nodemask & MASK_IGNORE) {
 		m_root->Render(trans, &params);
 	} else {
@@ -122,6 +127,97 @@ void Model::Render(const matrix4x4f &trans, const RenderData *rd)
 		params.nodemask = NODE_TRANSPARENT;
 		m_root->Render(trans, &params);
 	}
+
+	if (!m_debugFlags)
+		return;
+
+	if (m_debugFlags & DEBUG_WIREFRAME)
+		m_renderer->SetWireFrameMode(false);
+
+	if (m_debugFlags & DEBUG_BBOX) {
+		m_renderer->SetTransform(trans);
+		DrawAabb();
+	}
+
+	if (m_debugFlags & DEBUG_COLLMESH) {
+		m_renderer->SetTransform(trans);
+		DrawCollisionMesh();
+	}
+
+	if (m_debugFlags & DEBUG_TAGS) {
+		m_renderer->SetTransform(trans);
+		DrawAxisIndicators(m_tagPoints);
+	}
+
+	if (m_debugFlags & DEBUG_DOCKING) {
+		m_renderer->SetTransform(trans);
+		DrawAxisIndicators(m_dockingPoints);
+	}
+}
+
+void Model::DrawAabb()
+{
+	if (!m_collMesh) return;
+
+	Aabb aabb = m_collMesh->GetAabb();
+
+	const vector3f verts[16] = {
+		vector3f(aabb.min.x, aabb.min.y, aabb.min.z),
+		vector3f(aabb.max.x, aabb.min.y, aabb.min.z),
+		vector3f(aabb.max.x, aabb.max.y, aabb.min.z),
+		vector3f(aabb.min.x, aabb.max.y, aabb.min.z),
+		vector3f(aabb.min.x, aabb.min.y, aabb.min.z),
+		vector3f(aabb.min.x, aabb.min.y, aabb.max.z),
+		vector3f(aabb.max.x, aabb.min.y, aabb.max.z),
+		vector3f(aabb.max.x, aabb.min.y, aabb.min.z),
+
+		vector3f(aabb.max.x, aabb.max.y, aabb.max.z),
+		vector3f(aabb.min.x, aabb.max.y, aabb.max.z),
+		vector3f(aabb.min.x, aabb.min.y, aabb.max.z),
+		vector3f(aabb.max.x, aabb.min.y, aabb.max.z),
+		vector3f(aabb.max.x, aabb.max.y, aabb.max.z),
+		vector3f(aabb.max.x, aabb.max.y, aabb.min.z),
+		vector3f(aabb.min.x, aabb.max.y, aabb.min.z),
+		vector3f(aabb.min.x, aabb.max.y, aabb.max.z),
+	};
+
+	auto state = m_renderer->CreateRenderState(Graphics::RenderStateDesc());
+	m_renderer->DrawLines(8, verts + 0, Color::GREEN, state, Graphics::LINE_STRIP);
+	m_renderer->DrawLines(8, verts + 8, Color::GREEN, state, Graphics::LINE_STRIP);
+}
+
+// Draw collision mesh as a wireframe overlay
+void Model::DrawCollisionMesh()
+{
+	if (!m_collMesh) return;
+
+	const vector3f *vertices = reinterpret_cast<const vector3f*>(m_collMesh->GetGeomTree()->GetVertices());
+	const Uint16 *indices = m_collMesh->GetGeomTree()->GetIndices();
+	const unsigned int *triFlags = m_collMesh->GetGeomTree()->GetTriFlags();
+	const unsigned int numIndices = m_collMesh->GetGeomTree()->GetNumTris() * 3;
+
+	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE, numIndices * 3);
+	int trindex = -1;
+	for(unsigned int i = 0; i < numIndices; i++) {
+		if (i % 3 == 0)
+			trindex++;
+		const unsigned int flag = triFlags[trindex];
+		//show special geomflags in red
+		va.Add(vertices[indices[i]], flag > 0 ? Color::RED : Color::WHITE);
+	}
+
+	//might want to add some offset
+	m_renderer->SetWireFrameMode(true);
+	Graphics::RenderStateDesc rsd;
+	rsd.cullMode = Graphics::CULL_NONE;
+	m_renderer->DrawTriangles(&va, m_renderer->CreateRenderState(rsd), Graphics::vtxColorMaterial);
+	m_renderer->SetWireFrameMode(false);
+}
+
+void Model::DrawAxisIndicators(std::vector<Graphics::Drawables::Line3D> &lines)
+{
+	for(auto i = lines.begin(); i != lines.end(); ++i)
+		(*i).Draw(m_renderer, m_renderer->CreateRenderState(Graphics::RenderStateDesc()));
 }
 
 RefCountedPtr<CollMesh> Model::CreateCollisionMesh()
@@ -347,6 +443,57 @@ std::string Model::GetNameForMaterial(Graphics::Material *mat) const
 	}
 
 	return "unknown";
+}
+
+void Model::AddAxisIndicators(const std::vector<MatrixTransform*> &mts, std::vector<Graphics::Drawables::Line3D> &lines)
+{
+	for (std::vector<MatrixTransform*>::const_iterator i = mts.begin(); i != mts.end(); ++i) {
+		const matrix4x4f &trans = (*i)->GetTransform();
+		const vector3f pos = trans.GetTranslate();
+		const matrix3x3f &orient = trans.GetOrient();
+		const vector3f x = orient.VectorX().Normalized();
+		const vector3f y = orient.VectorY().Normalized();
+		const vector3f z = orient.VectorZ().Normalized();
+
+		Graphics::Drawables::Line3D lineX;
+		lineX.SetStart(pos);
+		lineX.SetEnd(pos+x);
+		lineX.SetColor(Color::RED);
+
+		Graphics::Drawables::Line3D lineY;
+		lineY.SetStart(pos);
+		lineY.SetEnd(pos+y);
+		lineY.SetColor(Color::GREEN);
+
+		Graphics::Drawables::Line3D lineZ;
+		lineZ.SetStart(pos);
+		lineZ.SetEnd(pos+z);
+		lineZ.SetColor(Color::BLUE);
+
+		lines.push_back(lineX);
+		lines.push_back(lineY);
+		lines.push_back(lineZ);
+	}
+}
+
+void Model::SetDebugFlags(Uint32 flags) {
+    m_debugFlags = flags;
+
+    if (m_debugFlags & SceneGraph::Model::DEBUG_TAGS && m_tagPoints.empty()) {
+		std::vector<MatrixTransform*> mts;
+		FindTagsByStartOfName("tag_", mts);
+		AddAxisIndicators(mts, m_tagPoints);
+	}
+
+	if (m_debugFlags & SceneGraph::Model::DEBUG_DOCKING && m_dockingPoints.empty()) {
+		std::vector<MatrixTransform*> mts;
+		FindTagsByStartOfName("approach_", mts);
+		AddAxisIndicators(mts, m_dockingPoints);
+		FindTagsByStartOfName("docking_", mts);
+		AddAxisIndicators(mts, m_dockingPoints);
+		FindTagsByStartOfName("leaving_", mts);
+		AddAxisIndicators(mts, m_dockingPoints);
+    }
 }
 
 }
