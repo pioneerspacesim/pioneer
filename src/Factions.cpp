@@ -343,6 +343,7 @@ void Faction::Init()
 	lua_close(L);
 
 	Output("Number of factions added: " SIZET_FMT "\n", s_factions.size());
+	Faction::ClearHomeSectors();
 	Pi::FlushCaches();    // clear caches of anything we used for faction generation
 	s_may_assign_factions = true;
 }

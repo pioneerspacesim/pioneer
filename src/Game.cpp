@@ -37,7 +37,6 @@ Game::Game(const SystemPath &path, double time) :
 	m_forceTimeAccel(false)
 {
 	Pi::FlushCaches();
-	Faction::SetHomeSectors();
 
 	m_space.reset(new Space(this, path));
 	SpaceStation *station = static_cast<SpaceStation*>(m_space->FindBodyForPath(&path));
@@ -64,7 +63,6 @@ Game::Game(const SystemPath &path, const vector3d &pos, double time) :
 	m_forceTimeAccel(false)
 {
 	Pi::FlushCaches();
-	Faction::SetHomeSectors();
 
 	m_space.reset(new Space(this, path));
 	Body *b = m_space->FindBodyForPath(&path);
@@ -128,7 +126,6 @@ Game::Game(Serializer::Reader &rd) :
 
 	// XXX This must be done after loading sectors once we can change them in game
 	Pi::FlushCaches();
-	Faction::SetHomeSectors();
 
 	Serializer::Reader section;
 

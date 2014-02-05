@@ -684,10 +684,10 @@ void Pi::Quit()
 
 void Pi::FlushCaches()
 {
-	Faction::ClearHomeSectors();
 	StarSystemCache::ShrinkCache(SystemPath(), true);
 	Sector::cache.ClearCache();
-	assert(Sector::cache.IsEmpty());
+	// XXX Ideally the cache would now be empty, but we still have Faction::m_homesector :(
+	// assert(Sector::cache.IsEmpty());
 }
 
 void Pi::BoinkNoise()
@@ -1080,7 +1080,7 @@ void Pi::EndGame()
 	player = 0;
 
 	FlushCaches();
-	Faction::SetHomeSectors(); // We might need them to start a new game
+	//Faction::SetHomeSectors(); // We might need them to start a new game
 }
 
 void Pi::MainLoop()

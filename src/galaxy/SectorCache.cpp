@@ -133,6 +133,8 @@ SectorCache::Slave::~Slave()
 				unique++;
 		Output("SectorCache: Discarding slave cache with %zu entries (%u to be removed)\n", m_sectorCache.size(), unique);
 #	endif
+	while (!m_jobs.empty()) // Canceling the job will always remove it from the set (through OnCancel or destructor).
+		Pi::Jobs()->Cancel(*m_jobs.begin());
 	Sector::cache.m_slaves.erase(this);
 }
 
@@ -146,6 +148,11 @@ void SectorCache::Slave::AddToCache(const std::vector<RefCountedPtr<Sector> >& s
 	for (auto it = secIn.begin(), itEnd = secIn.end(); it != itEnd; ++it) {
 		m_sectorCache.insert( std::make_pair(it->Get()->GetSystemPath(), *it) );
 	}
+}
+
+void SectorCache::Slave::JobSignOff(Job* job)
+{
+	m_jobs.erase(job);
 }
 
 void SectorCache::Slave::FillCache(const SectorCache::PathVector& paths)
@@ -194,7 +201,9 @@ void SectorCache::Slave::FillCache(const SectorCache::PathVector& paths)
 
 	// now add the batched jobs
 	for (auto it = vec_paths.begin(), itEnd = vec_paths.end(); it != itEnd; ++it) {
-		Pi::Jobs()->Queue(new SectorCacheJob(std::move(*it), this));
+		Job* job = new SectorCacheJob(std::move(*it), this);
+		m_jobs.insert(job);
+		Pi::Jobs()->Queue(job);
 	}
 }
 
@@ -220,7 +229,20 @@ void SectorCache::SectorCacheJob::OnFinish()  // runs in primary thread of the c
 {
 	Sector::cache.AddToCache(m_sectors); // This modifies the vector to the sectors already in the master cache
 	m_slaveCache->AddToCache(m_sectors);
+	m_slaveCache->JobSignOff(this);
+	m_slaveCache = nullptr;
+}
+
+// virtual
+void SectorCache::SectorCacheJob::OnCancel()  // runs in primary thread of the context
+{
+	m_slaveCache->JobSignOff(this);
+	m_slaveCache = nullptr;
 }
 
 //virtual
-SectorCache::SectorCacheJob::~SectorCacheJob() {}
+SectorCache::SectorCacheJob::~SectorCacheJob()
+{
+	if (m_slaveCache)
+		m_slaveCache->JobSignOff(this);
+}

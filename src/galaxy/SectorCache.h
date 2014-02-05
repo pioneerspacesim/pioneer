@@ -47,9 +47,11 @@ public:
 
 	private:
 		SectorCacheMap m_sectorCache;
+		std::set<Job*> m_jobs;
 
 		Slave();
 		void AddToCache(const std::vector<RefCountedPtr<Sector> >& secIn);
+		void JobSignOff(Job* job);
 	};
 
 	RefCountedPtr<Slave> NewSlaveCache();
@@ -72,7 +74,7 @@ private:
 
 		virtual void OnRun();    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
 		virtual void OnFinish();  // runs in primary thread of the context
-		virtual void OnCancel() {}   // runs in primary thread of the context
+		virtual void OnCancel();  // runs in primary thread of the context
 
 	private:
 		std::unique_ptr<std::vector<SystemPath> > m_paths;
