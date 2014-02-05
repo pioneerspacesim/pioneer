@@ -60,6 +60,8 @@ private:
 	vector3d m_tempCampos;
 
 	virtual void SetUpMaterials();
+	Graphics::RenderState *m_surfRenderState;
+	Graphics::RenderState *m_atmosRenderState;
 	RefCountedPtr<Graphics::Texture> m_surfaceTexture;
 	RefCountedPtr<Graphics::Material> m_surfaceMaterial;
 	std::unique_ptr<Graphics::Material> m_atmosphereMaterial;
