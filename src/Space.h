@@ -9,6 +9,7 @@
 #include "vector3.h"
 #include "Serializer.h"
 #include "RefCounted.h"
+#include "galaxy/SectorCache.h"
 #include "galaxy/StarSystem.h"
 #include "Background.h"
 
@@ -79,6 +80,7 @@ public:
 
 
 private:
+	void GenSectorCache(const SystemPath* here);
 	void GenBody(double at_time, SystemBody *b, Frame *f);
 	// make sure SystemBody* is in Pi::currentSystem
 	Frame *GetFrameWithSystemBody(const SystemBody *b) const;
@@ -88,6 +90,8 @@ private:
 	void CollideFrame(Frame *f);
 
 	std::unique_ptr<Frame> m_rootFrame;
+
+	RefCountedPtr<SectorCache::Slave> m_sectorCache;
 
 	RefCountedPtr<StarSystem> m_starSystem;
 

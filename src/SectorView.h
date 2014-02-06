@@ -67,10 +67,10 @@ private:
 
 	void DrawNearSectors(const matrix4x4f& modelview);
 	void DrawNearSector(const int sx, const int sy, const int sz, const vector3f &playerAbsPos, const matrix4x4f &trans);
-	void PutSystemLabels(Sector *sec, const vector3f &origin, int drawRadius);
+	void PutSystemLabels(RefCountedPtr<Sector> sec, const vector3f &origin, int drawRadius);
 
 	void DrawFarSectors(const matrix4x4f& modelview);
-	void BuildFarSector(Sector *sec, const vector3f &origin, std::vector<vector3f> &points, std::vector<Color> &colors);
+	void BuildFarSector(RefCountedPtr<Sector> sec, const vector3f &origin, std::vector<vector3f> &points, std::vector<Color> &colors);
 	void PutFactionLabels(const vector3f &secPos);
 	void AddStarBillboard(const matrix4x4f &modelview, const vector3f &pos, const Color &col, float size);
 
@@ -82,6 +82,9 @@ private:
 	void RefreshDetailBoxVisibility();
 
 	void UpdateHyperspaceLockLabel();
+
+	RefCountedPtr<Sector> GetCached(const SystemPath& loc) { return m_sectorCache->GetCached(loc); }
+	void ShrinkCache();
 
 	void MouseWheel(bool up);
 	void OnKeyPressed(SDL_Keysym *keysym);
@@ -146,6 +149,7 @@ private:
 	sigc::connection m_onMouseWheelCon;
 	sigc::connection m_onKeyPressConnection;
 
+	RefCountedPtr<SectorCache::Slave> m_sectorCache;
 	std::string m_previousSearch;
 
 	float m_playerHyperspaceRange;
@@ -165,6 +169,13 @@ private:
 	vector3f m_secPosFar;
 	int      m_radiusFar;
 	bool     m_toggledFaction;
+
+	int m_cacheXMin;
+	int m_cacheXMax;
+	int m_cacheYMin;
+	int m_cacheYMax;
+	int m_cacheZMin;
+	int m_cacheZMax;
 
 	std::unique_ptr<Graphics::VertexArray> m_lineVerts;
 	std::unique_ptr<Graphics::VertexArray> m_secLineVerts;

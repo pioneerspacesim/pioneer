@@ -267,7 +267,7 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 		DeleteAllChildren();
 		m_tabs = 0;
 
-		m_system = StarSystem::GetCached(path);
+		m_system = StarSystemCache::GetCached(path);
 
 		m_sbodyInfoTab = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()-100));
 

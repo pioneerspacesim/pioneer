@@ -44,22 +44,22 @@ void Sector::GetCustomSystems()
 static const int CUSTOM_ONLY_RADIUS	= 4;
 
 //////////////////////// Sector
-Sector::Sector(int x, int y, int z)
+Sector::Sector(const SystemPath& path) : m_factionsAssigned(false)
 {
 	PROFILE_SCOPED()
-	Uint32 _init[4] = { Uint32(x), Uint32(y), Uint32(z), UNIVERSE_SEED };
+	Uint32 _init[4] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
 	Random rng(_init, 4);
 
-	sx = x; sy = y; sz = z;
+	sx = path.sectorX; sy = path.sectorY; sz = path.sectorZ;
 
 	GetCustomSystems();
 	int customCount = m_systems.size();
 
 	/* Always place random systems outside the core custom-only region */
-	if ((x < -CUSTOM_ONLY_RADIUS) || (x > CUSTOM_ONLY_RADIUS-1) ||
-	    (y < -CUSTOM_ONLY_RADIUS) || (y > CUSTOM_ONLY_RADIUS-1) ||
-	    (z < -CUSTOM_ONLY_RADIUS) || (z > CUSTOM_ONLY_RADIUS-1)) {
-		int numSystems = (rng.Int32(4,20) * Galaxy::GetSectorDensity(x, y, z)) >> 8;
+	if ((path.sectorX < -CUSTOM_ONLY_RADIUS) || (path.sectorX > CUSTOM_ONLY_RADIUS-1) ||
+	    (path.sectorY < -CUSTOM_ONLY_RADIUS) || (path.sectorY > CUSTOM_ONLY_RADIUS-1) ||
+	    (path.sectorZ < -CUSTOM_ONLY_RADIUS) || (path.sectorZ > CUSTOM_ONLY_RADIUS-1)) {
+		int numSystems = (rng.Int32(4,20) * Galaxy::GetSectorDensity(path.sectorX, path.sectorY, path.sectorZ)) >> 8;
 
 		for (int i=0; i<numSystems; i++) {
 			System s(sx, sy, sz, customCount + i);
@@ -234,7 +234,12 @@ Sector::Sector(int x, int y, int z)
 	}
 }
 
-float Sector::DistanceBetween(const Sector *a, int sysIdxA, const Sector *b, int sysIdxB)
+Sector::~Sector()
+{
+	cache.RemoveFromAttic(SystemPath(sx, sy, sz));
+}
+
+float Sector::DistanceBetween(RefCountedPtr<const Sector> a, int sysIdxA, RefCountedPtr<const Sector> b, int sysIdxB)
 {
 	PROFILE_SCOPED()
 	vector3f dv = a->m_systems[sysIdxA].p - b->m_systems[sysIdxB].p;
@@ -319,10 +324,14 @@ bool Sector::WithinBox(const int Xmin, const int Xmax, const int Ymin, const int
 void Sector::AssignFactions()
 {
 	PROFILE_SCOPED()
+
+	assert(!m_factionsAssigned);
+
 	Uint32 index = 0;
 	for (std::vector<Sector::System>::iterator system = m_systems.begin(); system != m_systems.end(); ++system, ++index ) {
-		(*system).faction = Faction::GetNearestFaction(*this, index);
+		(*system).faction = Faction::GetNearestFaction(RefCountedPtr<const Sector>(this), index);
 	}
+	m_factionsAssigned = true;
 }
 
 /*	answer whether the system path is in this sector

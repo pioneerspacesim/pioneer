@@ -17,22 +17,25 @@
 class Faction : public DeleteEmitter {
 public:
 	static void Init();
+	static void ClearHomeSectors();
+	static void SetHomeSectors();
 	static void Uninit();
 
 	// XXX this is not as const-safe as it should be
 	static Faction *GetFaction       (const Uint32 index);
 	static Faction *GetFaction       (const std::string& factionName);
-	static Faction *GetNearestFaction(const Sector& sec, Uint32 sysIndex);
+	static Faction *GetNearestFaction(RefCountedPtr<const Sector> sec, Uint32 sysIndex);
 	static bool     IsHomeSystem     (const SystemPath& sysPath);
 
 	static const Uint32 GetNumFactions();
+
+	static bool MayAssignFactions();
 
 	static const Uint32 BAD_FACTION_IDX;        // used by the no faction object to denote it's not a proper faction
 	static const Color  BAD_FACTION_COLOUR;     // factionColour to use on failing to find an appropriate faction
 	static const float  FACTION_BASE_ALPHA;     // Alpha to use on factionColour of systems with unknown population
 
 	Faction();
-	~Faction();
 
 	Uint32             idx;                 // faction index
 	std::string	       name;                // Formal name "Federation", "Empire", "Bob's Rib-shack consortium of delicious worlds (tm)", etc.
@@ -72,12 +75,13 @@ public:
 
 	// set the homeworld to one near the supplied co-ordinates
 	void SetBestFitHomeworld(Sint32 x, Sint32 y, Sint32 z, Sint32 si, Uint32 bi, Sint32 axisChange);
+	RefCountedPtr<const Sector> GetHomeSector();
 
 private:
 	static const double FACTION_CURRENT_YEAR;	// used to calculate faction radius
 
-	Sector* m_homesector;						// cache of home sector to use in distance calculations
-	const bool IsCloserAndContains(double& closestFactionDist, const Sector& sec, Uint32 sysIndex);
+	RefCountedPtr<const Sector> m_homesector;	// cache of home sector to use in distance calculations
+	const bool IsCloserAndContains(double& closestFactionDist, RefCountedPtr<const Sector> sec, Uint32 sysIndex);
 };
 
 /* One day it might grow up to become a full tree, on the  other hand it might be
@@ -88,7 +92,7 @@ private:
 class FactionOctsapling {
 public:
 	void Add(Faction* faction);
-	const std::vector<Faction*>& CandidateFactions(const Sector& sec, Uint32 sysIndex);
+	const std::vector<Faction*>& CandidateFactions(RefCountedPtr<const Sector> sec, Uint32 sysIndex);
 
 private:
 	std::vector<Faction*> octbox[2][2][2];

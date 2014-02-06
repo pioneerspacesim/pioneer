@@ -214,9 +214,8 @@ private:
 class StarSystem : public RefCounted {
 public:
 	friend class SystemBody;
+	friend class StarSystemCache;
 
-	static RefCountedPtr<StarSystem> GetCached(const SystemPath &path);
-	static void ShrinkCache();
 	void ExportToLua(const char *filename);
 
 	const std::string &GetName() const { return m_name; }
@@ -303,6 +302,17 @@ private:
 	fixed m_agricultural;
 	fixed m_humanProx;
 	fixed m_totalPop;
+};
+
+class StarSystemCache
+{
+public:
+	static RefCountedPtr<StarSystem> GetCached(const SystemPath &path);
+	static void ShrinkCache(const SystemPath &path, const bool clear=false);
+
+private:
+	typedef std::map<SystemPath,StarSystem*> SystemCacheMap;
+	static SystemCacheMap s_cachedSystems;
 };
 
 #endif /* _STARSYSTEM_H */
