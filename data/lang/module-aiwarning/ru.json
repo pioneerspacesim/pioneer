@@ -13,6 +13,6 @@
    },
    "STARPORT_REFUSED_DOCKING_PERMISSION" : {
       "description" : "",
-      "message" : "База отказала в разрешении на стыковку"
+      "message" : "Космопорт отказал в разрешении на стыковку"
    }
 }
