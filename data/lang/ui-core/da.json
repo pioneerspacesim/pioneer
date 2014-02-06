@@ -1,103 +1,103 @@
 {
    "ABOVE_AVERAGE" : {
       "description" : "",
-      "message" : "Выше среднего"
+      "message" : "Above Average"
    },
    "ACTIVE" : {
       "description" : "",
-      "message" : "Активно"
+      "message" : "Active"
    },
    "AFTER_TRADE_IN" : {
       "description" : "",
-      "message" : "С учётом старого"
+      "message" : "After trade-in"
    },
    "ALLEGIANCE" : {
       "description" : "",
-      "message" : "Лояльность:"
+      "message" : "Allegiance:"
    },
    "ALL_UP_WEIGHT" : {
       "description" : "",
-      "message" : "Общий вес корабля и груза"
+      "message" : "All-up weight"
    },
    "AMOUNT" : {
       "description" : "",
-      "message" : "Кол-во"
+      "message" : "Amount"
    },
    "AN_ERROR_HAS_OCCURRED" : {
       "description" : "",
-      "message" : "Произошла ошибка"
+      "message" : "An error has occurred"
    },
    "ATTEMPT_TO_REPAIR_HULL" : {
       "description" : "",
-      "message" : "Попытка починки корпуса"
+      "message" : "Attempt to repair hull"
    },
    "AVAILABLE_FOR_PURCHASE" : {
       "description" : "",
-      "message" : "Доступно для покупки"
+      "message" : "Available for purchase"
    },
    "AVERAGE" : {
       "description" : "",
-      "message" : "Средний"
+      "message" : "Average"
    },
    "BACKWARD_ACCEL" : {
       "description" : "",
-      "message" : "Ускорение назад"
+      "message" : "Backward acceleration"
    },
    "BULLETIN_BOARD" : {
       "description" : "",
-      "message" : "Служба объявлений"
+      "message" : "Bulletin Board"
    },
    "BUY_SHIP" : {
       "description" : "",
-      "message" : "Купить"
+      "message" : "Buy Ship"
    },
    "CABINS" : {
       "description" : "",
-      "message" : "Каюты"
+      "message" : "Cabins"
    },
    "CABIN_FREE" : {
       "description" : "",
-      "message" : "свободно"
+      "message" : "{amount} free"
    },
    "CABIN_USED" : {
       "description" : "",
-      "message" : "используется"
+      "message" : "{amount} used"
    },
    "CANCEL" : {
       "description" : "",
-      "message" : "Отмена"
+      "message" : "Cancel"
    },
    "CAPACITY" : {
       "description" : "",
-      "message" : "Трюм"
+      "message" : "Capacity"
    },
    "CAPACITY_USED" : {
       "description" : "",
-      "message" : "Используемый объём"
+      "message" : "Capacity used"
    },
    "CARGO" : {
       "description" : "",
-      "message" : "Трюм"
+      "message" : "Cargo"
    },
    "CARGO_SPACE" : {
       "description" : "",
-      "message" : "Грузовой отсек"
+      "message" : "Cargo space"
    },
    "CARGO_T_FREE" : {
       "description" : "",
-      "message" : "{amount}т свободно"
+      "message" : "{amount}t free"
    },
    "CARGO_T_USED" : {
       "description" : "",
-      "message" : "{amount}т загружено"
+      "message" : "{amount}t used"
    },
    "CASH" : {
       "description" : "",
-      "message" : "Денежный счёт"
+      "message" : "Cash"
    },
    "CASH_N" : {
       "description" : "",
-      "message" : "Счёт: {money}"
+      "message" : "Cash: {money}"
    },
    "CHANGE_BINDING" : {
       "description" : "",
@@ -105,19 +105,19 @@
    },
    "CHIEF_MECHANIC" : {
       "description" : "",
-      "message" : "Главный механик"
+      "message" : "Chief Mechanic"
    },
    "CIRCULAR_ORBIT_SPEED" : {
       "description" : "",
-      "message" : "Скорость круговой орбиты"
+      "message" : "Circular orbit speed"
    },
    "CITY_DETAIL_LEVEL" : {
       "description" : "",
-      "message" : "Уровень детализации городов"
+      "message" : "City detail level"
    },
    "CLEAN" : {
       "description" : "",
-      "message" : "Чистый"
+      "message" : "Clean"
    },
    "CLEAR" : {
       "description" : "",
@@ -125,95 +125,95 @@
    },
    "CLIENT" : {
       "description" : "",
-      "message" : "Заказчик"
+      "message" : "Client"
    },
    "COMBAT" : {
       "description" : "",
-      "message" : "Боевой статистика"
+      "message" : "Combat"
    },
    "COMMANDER" : {
       "description" : "",
-      "message" : "Командир"
+      "message" : "Commander"
    },
    "COMMODITY_MARKET" : {
       "description" : "",
-      "message" : "Торговый центр"
+      "message" : "Commodity Market"
    },
    "COMPETENT" : {
       "description" : "",
-      "message" : "Квалифицированный"
+      "message" : "Competent"
    },
    "COMPLETED" : {
       "description" : "",
-      "message" : "Завершено"
+      "message" : "Completed"
    },
    "COMPRESS_TEXTURES" : {
       "description" : "",
-      "message" : "Сжатие текстур"
+      "message" : "Compress Textures"
    },
    "CONSTABLE" : {
       "description" : "",
-      "message" : "Полицейский"
+      "message" : "Constable"
    },
    "CONTROLS" : {
       "description" : "",
-      "message" : "Управление"
+      "message" : "Controls"
    },
    "CONTROL_OPTIONS" : {
       "description" : "",
-      "message" : "Настройки управления"
+      "message" : "Control Options"
    },
    "COULD_NOT_LOAD_GAME" : {
       "description" : "",
-      "message" : "Не удалось загрузить игру:"
+      "message" : "Could not load game: "
    },
    "CREW_CABINS" : {
       "description" : "",
-      "message" : "Каюты экипажа"
+      "message" : "Crew cabins"
    },
    "CREW_ROSTER" : {
       "description" : "",
-      "message" : "Список экипажа"
+      "message" : "Crew Roster"
    },
    "CRIMINAL_RECORD" : {
       "description" : "",
-      "message" : "Досье"
+      "message" : "Criminal record"
    },
    "DANGEROUS" : {
       "description" : "",
-      "message" : "Опасный"
+      "message" : "Dangerous"
    },
    "DEADLY" : {
       "description" : "",
-      "message" : "Смертельный"
+      "message" : "Deadly"
    },
    "DELTA_V" : {
       "description" : "",
-      "message" : "Дельта v"
+      "message" : "Delta-v"
    },
    "DELTA_V_EMPTY" : {
       "description" : "Delta-v capacity of a ship with no cargo or upgrades",
-      "message" : "Дельта v (пустой)"
+      "message" : "Delta-v (empty)"
    },
    "DELTA_V_FULL" : {
       "description" : "Delta-v capacity of a ship with maximum cargo",
-      "message" : "Дельта v (полный)"
+      "message" : "Delta-v (full)"
    },
    "DELTA_V_MAX" : {
       "description" : "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
-      "message" : "Дельта v (макс.)"
+      "message" : "Delta-v (max)"
    },
    "DESCENT_TO_GROUND_SPEED" : {
       "description" : "",
-      "message" : "Скорость снижения:"
+      "message" : "Descent-to-ground speed:"
    },
    "DESTROY_ENEMY_SHIP" : {
       "description" : "",
-      "message" : "Уничтожить корабль противника"
+      "message" : "Destroy enemy ship"
    },
    "DISMISS" : {
       "description" : "",
-      "message" : "Уволить"
+      "message" : "Dismiss"
    },
    "DISPLAY_HUD_TRAILS" : {
       "description" : "",
@@ -221,147 +221,147 @@
    },
    "DISPLAY_NAV_TUNNELS" : {
       "description" : "",
-      "message" : "Отображать навигационный тоннель"
+      "message" : "Display nav tunnels"
    },
    "DISPLAY_SPEED_LINES" : {
       "description" : "",
-      "message" : "Отображать линии скорости"
+      "message" : "Display speed lines"
    },
    "DOCK_AT_CURRENT_TARGET" : {
       "description" : "",
-      "message" : "Стыковка с выбранной целью"
+      "message" : "Dock at current target"
    },
    "DUE" : {
       "description" : "",
-      "message" : "Сроки"
+      "message" : "Due"
    },
    "D_DAYS_LEFT" : {
       "description" : "",
-      "message" : "Осталось дней: %d"
+      "message" : "Days left: %d"
    },
    "ECONOMY_TRADE" : {
       "description" : "",
-      "message" : "Экономика и торговля"
+      "message" : "Economy & Trade"
    },
    "EFFECTS" : {
       "description" : "",
-      "message" : "Эффекты:"
+      "message" : "Effects:"
    },
    "ELITE" : {
       "description" : "",
-      "message" : "ЭЛИТА"
+      "message" : "ELITE"
    },
    "EMPLOYMENT" : {
       "description" : "",
-      "message" : "Занятость"
+      "message" : "Employment"
    },
    "ENABLE_COCKPIT" : {
       "description" : "",
-      "message" : "Включить кабину (ЭКСПЕРИМЕНТАЛЬНО)"
+      "message" : "Enable cockpit (EXPERIMENTAL)"
    },
    "ENABLE_JOYSTICK" : {
       "description" : "",
-      "message" : "Включить джойстик"
+      "message" : "Enable joystick"
    },
    "ENGINEERING" : {
       "description" : "",
-      "message" : "Инжиниринг:"
+      "message" : "Engineering:"
    },
    "EQUIPMENT" : {
       "description" : "",
-      "message" : "Оборудование"
+      "message" : "Equipment"
    },
    "EQUIPMENT_MARKET" : {
       "description" : "",
-      "message" : "Магазин оборудования"
+      "message" : "Equipment Market"
    },
    "EQUIPPED" : {
       "description" : "",
-      "message" : "Оборудовано"
+      "message" : "Equipped"
    },
    "ERROR" : {
       "description" : "",
-      "message" : "Ошибка"
+      "message" : "Error"
    },
    "ESCAPE_SPEED" : {
       "description" : "",
-      "message" : "Скорость отдаления:"
+      "message" : "Escape speed:"
    },
    "EXIT_THIS_GAME" : {
       "description" : "",
-      "message" : "Выйти из игры"
+      "message" : "Exit this game"
    },
    "FAILED" : {
       "description" : "",
-      "message" : "Провалено"
+      "message" : "Failed"
    },
    "FEMALE" : {
       "description" : "",
-      "message" : "Женщина"
+      "message" : "Female"
    },
    "FORWARD_ACCEL" : {
       "description" : "",
-      "message" : "Ускорение вперёд"
+      "message" : "Forward acceleration"
    },
    "FORWARD_ACCEL_EMPTY" : {
       "description" : "",
-      "message" : "Ускорение вперёд (пустой)"
+      "message" : "Forward accel (empty)"
    },
    "FORWARD_ACCEL_FULL" : {
       "description" : "",
-      "message" : "Ускорение вперёд (полный)"
+      "message" : "Forward accel (full)"
    },
    "FRACTAL_DETAIL" : {
       "description" : "",
-      "message" : "Детализация частиц"
+      "message" : "Fractal detail"
    },
    "FREE" : {
       "description" : "",
-      "message" : "свободно"
+      "message" : "free"
    },
    "FRONT_WEAPON" : {
       "description" : "",
-      "message" : "Носовая турель"
+      "message" : "Front weapon"
    },
    "FUEL" : {
       "description" : "",
-      "message" : "Топливо"
+      "message" : "Fuel"
    },
    "FUEL_TANK_FULL" : {
       "description" : "",
-      "message" : "Топливный бак полон."
+      "message" : "Fuel tank full."
    },
    "FUEL_WEIGHT" : {
       "description" : "",
-      "message" : "Вес топлива"
+      "message" : "Fuel weight"
    },
    "FULL_SCREEN" : {
       "description" : "",
-      "message" : "Полноэкранный режим"
+      "message" : "Full screen"
    },
    "GENERAL_CREW" : {
       "description" : "",
-      "message" : "Основной экипаж"
+      "message" : "General crew"
    },
    "GIVE_ORDERS_TO_CREW" : {
       "description" : "",
-      "message" : "Отдать приказы экипажу"
+      "message" : "Give orders to crew"
    },
    "GOOD_RIDDANCE_TO_YOU_TOO" : {
       "description" : "",
-      "message" : "Скатертью дорожка!"
+      "message" : "Good riddance to you, too."
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Спасибо за информацию, конец связи."
+      "message" : "Hang up."
    },
    "HARMLESS" : {
       "description" : "",
-      "message" : "Безобидный"
+      "message" : "Harmless"
    },
    "HEAVY_CARGO_SHUTTLE" : {
       "description" : "",
-      "message" : "Тяжёлый грузовой шаттл"
+      "message" : "Heavy cargo shuttle"
    },
    "HEAVY_COURIER" : {
       "description" : "",
@@ -369,103 +369,103 @@
    },
    "HEAVY_FIGHTER" : {
       "description" : "",
-      "message" : "Тяжёлый истребитель"
+      "message" : "Heavy fighter"
    },
    "HEAVY_FREIGHTER" : {
       "description" : "",
-      "message" : "Тяжёлый грузовой транспорт"
+      "message" : "Heavy freighter"
    },
    "HEAVY_PASSENGER_SHUTTLE" : {
       "description" : "",
-      "message" : "Тяжёлый пассажирский шаттл"
+      "message" : "Heavy passenger shuttle"
    },
    "HEAVY_PASSENGER_TRANSPORT" : {
       "description" : "",
-      "message" : "Тяжёлый пассажирский транспорт"
+      "message" : "Heavy passenger transport"
    },
    "HIGH" : {
       "description" : "",
-      "message" : "Высокая"
+      "message" : "High"
    },
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
       "description" : "",
-      "message" : "Корпус не требует ремонта."
+      "message" : "Hull does not require repair."
    },
    "HULL_INTEGRITY" : {
       "description" : "",
-      "message" : "Корпус"
+      "message" : "Hull integrity"
    },
    "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT" : {
       "description" : "",
-      "message" : "{name} отремонтировал корпус до {repairPercent}%"
+      "message" : "Hull repaired by {name}, now at {repairPercent}%"
    },
    "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE" : {
       "description" : "",
-      "message" : "Попытка ремонта не удалась. Корпус получил незначительные повреждения."
+      "message" : "Hull repair attempt failed. Hull suffered minor damage."
    },
    "HYPERDRIVE" : {
       "description" : "",
-      "message" : "Установленный двигатель"
+      "message" : "Hyperdrive"
    },
    "HYPERDRIVE_FITTED" : {
       "description" : "",
-      "message" : "Гипердвигатель:"
+      "message" : "Hyperdrive fitted:"
    },
    "HYPERSPACE_RANGE" : {
       "description" : "",
-      "message" : "Возможный радиус прыжка"
+      "message" : "Hyperspace range"
    },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
-      "message" : "Я устал работать даром. Разве вы не знаете, что такое контракт?"
+      "message" : "I'm tired of working for nothing. Don't you know what a contract is?"
    },
    "INACTIVE" : {
       "description" : "",
-      "message" : "Неактивно"
+      "message" : "Inactive"
    },
    "INVERT_MOUSE_Y" : {
       "description" : "",
-      "message" : "Инвертировать мышь по оси Y"
+      "message" : "Invert Mouse Y"
    },
    "IN_CARGO_HOLD" : {
       "description" : "",
-      "message" : "В грузовом отсеке"
+      "message" : "In cargo hold"
    },
    "IN_STOCK" : {
       "description" : "",
-      "message" : "На складе"
+      "message" : "In stock"
    },
    "ITEM_IS_OUT_OF_STOCK" : {
       "description" : "",
-      "message" : "Этого товара нет на складе."
+      "message" : "This item is out of stock."
    },
    "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE" : {
       "description" : "",
-      "message" : "Работать на вас было одним удовольствием. Если вновь захотите меня нанять - некоторое время я буду здесь."
+      "message" : "It's been great working for you. If you need me again, I'll be here a while."
    },
    "JETTISON" : {
       "description" : "",
-      "message" : "Сброс груза"
+      "message" : "Jettison"
    },
    "KILLS" : {
       "description" : "",
-      "message" : "Побед:"
+      "message" : "Kills:"
    },
    "LANGUAGE" : {
       "description" : "",
-      "message" : "Язык игры"
+      "message" : "Language"
    },
    "LANGUAGE_RESTART_GAME_TO_APPLY" : {
       "description" : "",
-      "message" : "Язык игры (требуется перезапуск игры)"
+      "message" : "Language (restart game to apply)"
    },
    "LEGAL_STATUS" : {
       "description" : "",
-      "message" : "Правовой статус"
+      "message" : "Legal status"
    },
    "LIGHT_CARGO_SHUTTLE" : {
       "description" : "",
-      "message" : "Лёгкий грузовой шаттл"
+      "message" : "Light cargo shuttle"
    },
    "LIGHT_COURIER" : {
       "description" : "",
@@ -473,27 +473,27 @@
    },
    "LIGHT_FIGHTER" : {
       "description" : "",
-      "message" : "Лёгкий истребитель"
+      "message" : "Light fighter"
    },
    "LIGHT_FREIGHTER" : {
       "description" : "",
-      "message" : "Лёгкий грузовой транспорт"
+      "message" : "Light freighter"
    },
    "LIGHT_PASSENGER_SHUTTLE" : {
       "description" : "",
-      "message" : "Лёгкий пассажирский шаттл"
+      "message" : "Light passenger shuttle"
    },
    "LIGHT_PASSENGER_TRANSPORT" : {
       "description" : "",
-      "message" : "Лёгкий пассажирский транспорт"
+      "message" : "Light passenger transport"
    },
    "LOAD" : {
       "description" : "",
-      "message" : "Загрузка игры"
+      "message" : "Load"
    },
    "LOAD_GAME" : {
       "description" : "",
-      "message" : "Загрузить игру"
+      "message" : "Load game"
    },
    "LOBBY" : {
       "description" : "",
@@ -501,51 +501,51 @@
    },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
-      "message" : "Положение: {distance}км от центра {name}:"
+      "message" : "Located {distance}km from the centre of {name}:"
    },
    "LOCATION" : {
       "description" : "",
-      "message" : "Система"
+      "message" : "Location"
    },
    "LOW" : {
       "description" : "",
-      "message" : "Низкая"
+      "message" : "Low"
    },
    "LY" : {
       "description" : "",
-      "message" : "св. лет"
+      "message" : "ly"
    },
    "MAKE_NEW_FACE" : {
       "description" : "",
-      "message" : "Новое лицо"
+      "message" : "Make new face"
    },
    "MALE" : {
       "description" : "",
-      "message" : "Мужчина"
+      "message" : "Male"
    },
    "MASS" : {
       "description" : "",
-      "message" : "Масса"
+      "message" : "Mass"
    },
    "MASTER" : {
       "description" : "",
-      "message" : "Общая:"
+      "message" : "Master:"
    },
    "MAX" : {
       "description" : "",
-      "message" : "макс."
+      "message" : "max"
    },
    "MAXIMUM_CREW" : {
       "description" : "",
-      "message" : "Максимум экипажа"
+      "message" : "Maximum crew"
    },
    "MEDIUM" : {
       "description" : "",
-      "message" : "Средняя"
+      "message" : "Medium"
    },
    "MEDIUM_CARGO_SHUTTLE" : {
       "description" : "",
-      "message" : "Средний грузовой шаттл"
+      "message" : "Medium cargo shuttle"
    },
    "MEDIUM_COURIER" : {
       "description" : "",
@@ -553,59 +553,59 @@
    },
    "MEDIUM_FIGHTER" : {
       "description" : "",
-      "message" : "Средний истребитель"
+      "message" : "Medium fighter"
    },
    "MEDIUM_FREIGHTER" : {
       "description" : "",
-      "message" : "Средний грузовой транспорт"
+      "message" : "Medium freighter"
    },
    "MEDIUM_PASSENGER_SHUTTLE" : {
       "description" : "",
-      "message" : "Средний пассажирский шаттл"
+      "message" : "Medium passenger shuttle"
    },
    "MEDIUM_PASSENGER_TRANSPORT" : {
       "description" : "",
-      "message" : "Средний пассажирский транспорт"
+      "message" : "Medium passenger transport"
    },
    "METAL_ALLOYS" : {
       "description" : "",
-      "message" : "Металлические сплавы"
+      "message" : "Metal alloys"
    },
    "MILITARY" : {
       "description" : "",
-      "message" : "Военная статистика"
+      "message" : "Military"
    },
    "MINIMUM_CREW" : {
       "description" : "",
-      "message" : "Минимальный экипаж"
+      "message" : "Minimum crew"
    },
    "MISSIONS" : {
       "description" : "",
-      "message" : "Список заданий"
+      "message" : "Missions"
    },
    "MISSION_DETAILS" : {
       "description" : "",
-      "message" : "Детали миссии"
+      "message" : "Mission Details"
    },
    "MORE_INFO" : {
       "description" : "",
-      "message" : "Доп.информация..."
+      "message" : "More info..."
    },
    "MOSTLY_HARMLESS" : {
       "description" : "",
-      "message" : "Почти безобидный"
+      "message" : "Mostly Harmless"
    },
    "MULTISAMPLING" : {
       "description" : "",
-      "message" : "Сглаживание "
+      "message" : "Multisampling"
    },
    "MURDER" : {
       "description" : "",
-      "message" : "Убийство"
+      "message" : "Murder"
    },
    "MUSIC" : {
       "description" : "",
-      "message" : "Музыка:"
+      "message" : "Music:"
    },
    "MUTE" : {
       "description" : "",
@@ -613,59 +613,59 @@
    },
    "NAME_OBJECT" : {
       "description" : "For an item or object",
-      "message" : "Имя"
+      "message" : "Name"
    },
    "NAME_PERSON" : {
       "description" : "For a person",
-      "message" : "Имя"
+      "message" : "Name"
    },
    "NAVIGATION" : {
       "description" : "",
-      "message" : "Навигация:"
+      "message" : "Navigation:"
    },
    "NEGOTIATE" : {
       "description" : "",
-      "message" : "Условия"
+      "message" : "Negotiate"
    },
    "NEXT_PAID" : {
       "description" : "",
-      "message" : "День платежа"
+      "message" : "Next paid"
    },
    "NONE" : {
       "description" : "",
-      "message" : "< отсутствует >"
+      "message" : "None"
    },
    "NOTES" : {
       "description" : "",
-      "message" : "Примечание:"
+      "message" : "Notes:"
    },
    "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR" : {
       "description" : "",
-      "message" : "Недостаточно {alloy} для проведения ремонта"
+      "message" : "Not enough {alloy} to attempt a repair"
    },
    "NO_MISSIONS" : {
       "description" : "",
-      "message" : "Нет заданий."
+      "message" : "No missions."
    },
    "N_LIGHT_YEARS_N_MAX" : {
       "description" : "",
-      "message" : "{range} св. лет (из {maxRange} макс.)"
+      "message" : "{range} light years ({maxRange} max)"
    },
    "N_OCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
-      "message" : "Занятых пассажирских кают {quantity}"
+      "message" : "{quantity} Occupied Passenger Cabins"
    },
    "N_SHIELD_GENERATORS" : {
       "description" : "",
-      "message" : "Генераторы защитного поля {quantity}"
+      "message" : "{quantity} Shield Generators"
    },
    "N_UNOCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
-      "message" : "Свободных пассажирских кают {quantity}"
+      "message" : "{quantity} Unoccupied Passenger Cabins"
    },
    "OFF" : {
       "description" : "",
-      "message" : "Выкл."
+      "message" : "Off"
    },
    "OK" : {
       "description" : "",
@@ -673,310 +673,310 @@
    },
    "OPTIONS" : {
       "description" : "",
-      "message" : "Настройки"
+      "message" : "Options"
    },
    "ORBIT" : {
       "description" : "",
-      "message" : "Орбита"
+      "message" : "Orbit"
    },
    "ORBITAL_ANALYSIS" : {
       "description" : "",
-      "message" : "Анализ орбиты"
+      "message" : "Orbital Analysis"
    },
    "ORBITAL_ANALYSIS_NOTES" : {
       "description" : "",
-      "message" : "Круговая орбитальная скорость дана для тангенциальной скорости. Корабль должен двигаться под 90В° к оси корабля/{name}.\n\nСкорость снижения - минимальная и тангенциальная. Наиболее низка скорость или минимальный угол, которые приведут к пересечению с поверхностью {name}.\n\nСкорость отдаления - теоретическая для любого направления, на котором корабль не пересечется с поверхностью {name}.\n\t\t"
+      "message" : "Circular orbit speed is given for a tangential velocity. The ship should be moving in a direction at 90° to the ship/{name} axis.\n\nDescent speed is an absolute minimum, and is also tangential. A slower speed or a lower angle will result in a course which intersects with the surface of {name}.\n\nEscape speed will in theory work in any direction, as long as the ship does not collide with {name} on the way.\n\t\t"
    },
    "OWED" : {
       "description" : "",
-      "message" : "Долг"
+      "message" : "Owed"
    },
    "PAY_FINE_OF_N" : {
       "description" : "",
-      "message" : "Оплатить штраф в размере {amount}"
+      "message" : "Pay fine of {amount}"
    },
    "PERSONAL_INFORMATION" : {
       "description" : "",
-      "message" : "Персональная информация"
+      "message" : "Personal Information"
    },
    "PILOTING" : {
       "description" : "",
-      "message" : "Пилотирование:"
+      "message" : "Piloting:"
    },
    "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME" : {
       "description" : "",
-      "message" : "Обязанности пилота сейчас выполняет {name}."
+      "message" : "Pilot seat is now occupied by {name}"
    },
    "PIRACY" : {
       "description" : "",
-      "message" : "Пиратство"
+      "message" : "Piracy"
    },
    "PLANET_DETAIL_DISTANCE" : {
       "description" : "",
-      "message" : "Детализация планет на расстоянии"
+      "message" : "Planet detail distance"
    },
    "PLANET_TEXTURES" : {
       "description" : "",
-      "message" : "Текстуры планет"
+      "message" : "Planet textures"
    },
    "POLICE" : {
       "description" : "",
-      "message" : "Полиция"
+      "message" : "Police"
    },
    "POOR" : {
       "description" : "",
-      "message" : "Слабый"
+      "message" : "Poor"
    },
    "POSITION" : {
       "description" : "",
-      "message" : "Должность"
+      "message" : "Position"
    },
    "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
       "description" : "",
-      "message" : "Нажмите любую клавишу или кнопку контроллера."
+      "message" : "Press a key or controller button"
    },
    "PRICE" : {
       "description" : "",
-      "message" : "Цена"
+      "message" : "Price"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
-      "message" : "Оценка квалификации"
+      "message" : "Qualification scores"
    },
    "QUIT" : {
       "description" : "",
-      "message" : "Выход"
+      "message" : "Quit"
    },
    "RANK" : {
       "description" : "",
-      "message" : "Ранг:"
+      "message" : "Rank:"
    },
    "RATING" : {
       "description" : "",
-      "message" : "Рейтинг:"
+      "message" : "Rating:"
    },
    "REAR_WEAPON" : {
       "description" : "",
-      "message" : "Кормовая турель"
+      "message" : "Rear weapon"
    },
    "REFUEL" : {
       "description" : "",
-      "message" : "Дозаправить"
+      "message" : "Refuel"
    },
    "REPAIR_X_HULL_DAMAGE_FOR_X" : {
       "description" : "",
-      "message" : "Ремонт {damage}% повреждённого корпуса за {price}"
+      "message" : "Repair {damage}% hull damage for {price}"
    },
    "REQUEST_LAUNCH" : {
       "description" : "",
-      "message" : "Запрос на взлёт"
+      "message" : "Request Launch"
    },
    "RETURN_TO_MENU" : {
       "description" : "",
-      "message" : "Вернуться к меню"
+      "message" : "Return to menu"
    },
    "REVERSE_ACCEL_EMPTY" : {
       "description" : "",
-      "message" : "Ускорение назад (пустой)"
+      "message" : "Reverse accel (empty)"
    },
    "REVERSE_ACCEL_FULL" : {
       "description" : "",
-      "message" : "Ускорение назад (полный)"
+      "message" : "Reverse accel (full)"
    },
    "REWARD" : {
       "description" : "",
-      "message" : "Награда"
+      "message" : "Reward"
    },
    "SAVE" : {
       "description" : "",
-      "message" : "Сохранить игру"
+      "message" : "Save"
    },
    "SELECT" : {
       "description" : "",
-      "message" : "Выбрать"
+      "message" : "Select"
    },
    "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME" : {
       "description" : "",
-      "message" : "Выберите файл для сохранения или введите новое имя"
+      "message" : "Select a file to save to or enter a new filename"
    },
    "SELECT_FILE" : {
       "description" : "",
-      "message" : "Выберите файл..."
+      "message" : "Select file..."
    },
    "SELECT_GAME_TO_LOAD" : {
       "description" : "",
-      "message" : "Выберите файл для загрузки..."
+      "message" : "Select game to load..."
    },
    "SENSORS" : {
       "description" : "",
-      "message" : "Сенсоры:"
+      "message" : "Sensors:"
    },
    "SHIP" : {
       "description" : "",
-      "message" : "Корабль"
+      "message" : "Ship"
    },
    "SHIP_INFORMATION" : {
       "description" : "",
-      "message" : "Информация о корабле"
+      "message" : "Ship Information"
    },
    "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
       "description" : "",
-      "message" : "Ваш корабль находится в отличном состоянии.\n"
+      "message" : "Your ship is in perfect working condition."
    },
    "SHIP_IS_FULLY_LADEN" : {
       "description" : "",
-      "message" : "Ваш корабль полностью загружен."
+      "message" : "Your ship is fully laden."
    },
    "SHIP_MARKET" : {
       "description" : "",
-      "message" : "Покупка кораблей"
+      "message" : "Ship Market"
    },
    "SHIP_REPAIRS" : {
       "description" : "",
-      "message" : "Ремонт кораблей"
+      "message" : "Ship Repairs"
    },
    "SHIP_VIEWING_WAS_SOLD" : {
       "description" : "",
-      "message" : "Корабль, который вы смотрели был продан"
+      "message" : "The ship you were viewing has been sold"
    },
    "SOUND" : {
       "description" : "",
-      "message" : "Звук"
+      "message" : "Sound"
    },
    "START_AT_BARNARDS_STAR" : {
       "description" : "",
-      "message" : "Новый старт: Barnard's Star"
+      "message" : "Start at Barnard's Star"
    },
    "START_AT_EARTH" : {
       "description" : "",
-      "message" : "Новый старт: Earth"
+      "message" : "Start at Earth"
    },
    "START_AT_NEW_HOPE" : {
       "description" : "",
-      "message" : "Новый старт: New Hope"
+      "message" : "Start at New Hope"
    },
    "STATION_MANAGER" : {
       "description" : "",
-      "message" : "Управляющий станцией"
+      "message" : "Station manager"
    },
    "STATUS" : {
       "description" : "",
-      "message" : "Статус"
+      "message" : "Status"
    },
    "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
       "description" : "",
-      "message" : "Спасибо за покупку. Не забудьте заправить баки."
+      "message" : "Thank you for your purchase. Remember to fit equipment and buy fuel before you depart."
    },
    "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP" : {
       "description" : "",
-      "message" : "Больше никто на борту не умеет управлять этим кораблем."
+      "message" : "There is nobody else on board able to fly this ship."
    },
    "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
       "description" : "",
-      "message" : "Корабль под контролем станции, Командир."
+      "message" : "The ship is under station control, Commander."
    },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "",
-      "message" : "Пол муж./жен."
+      "message" : "Toggle male/female"
    },
    "TOTAL" : {
       "description" : "",
-      "message" : "Всего: "
+      "message" : "Total: "
    },
    "TOTAL_MASS" : {
       "description" : "",
-      "message" : "Общая"
+      "message" : "Total mass"
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
-      "message" : "Торговля нелегальным товаром"
+      "message" : "Trading illegal goods"
    },
    "TYPE" : {
       "description" : "",
-      "message" : "Тип"
+      "message" : "Type"
    },
    "UNLAWFUL_WEAPONS_DISCHARGE" : {
       "description" : "",
-      "message" : "Стрельба в зоне станции"
+      "message" : "Unlawful weapons discharge"
    },
    "UP_ACCEL" : {
       "description" : "",
-      "message" : "Ускорение вверх"
+      "message" : "Up acceleration"
    },
    "USED" : {
       "description" : "",
-      "message" : "Занято"
+      "message" : "Used"
    },
    "VERY_HIGH" : {
       "description" : "",
-      "message" : "Очень высокая"
+      "message" : "Very high"
    },
    "VERY_LOW" : {
       "description" : "",
-      "message" : "Очень низкая"
+      "message" : "Very low"
    },
    "VIDEO" : {
       "description" : "",
-      "message" : "Видео"
+      "message" : "Video"
    },
    "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY" : {
       "description" : "",
-      "message" : "Настройки видео (требуется перезапуск игры)"
+      "message" : "Video configuration (restart game to apply)"
    },
    "VIDEO_RESOLUTION" : {
       "description" : "",
-      "message" : "Разрешение экрана"
+      "message" : "Video resolution"
    },
    "WAGE" : {
       "description" : "",
-      "message" : "Оклад"
+      "message" : "Wage"
    },
    "WEIGHT_EMPTY" : {
       "description" : "",
-      "message" : "Собственный вес корабля"
+      "message" : "Weight empty"
    },
    "WEIGHT_FULLY_LOADED" : {
       "description" : "",
-      "message" : "Вес при полной загрузке"
+      "message" : "Weight fully loaded"
    },
    "WE_ARE_IN_HYPERSPACE_COMMANDER" : {
       "description" : "",
-      "message" : "Мы в гиперпространстве, Командир."
+      "message" : "We are in hyperspace, Commander."
    },
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
       "description" : "",
-      "message" : "Ваш правовой статус чист. Всего доброго, Командир!"
+      "message" : "We have no business with you at the moment."
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",
-      "message" : "Вы пожалеете о том, что уволили меня!"
+      "message" : "You're going to regret sacking me!"
    },
    "YOUR_HULL_IS_AT_X_INTEGRITY" : {
       "description" : "",
-      "message" : "Ваш корпус цел на {value}%"
+      "message" : "Your hull is at {value}% integrity."
    },
    "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION" : {
       "description" : "",
-      "message" : "У вас недостаточно средств для этой операции."
+      "message" : "You don't have enough money for that option."
    },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",
-      "message" : "Вы должны указать боевую цель, Командир."
+      "message" : "You must first select a combat target, Commander."
    },
    "YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER" : {
       "description" : "",
-      "message" : "Сначала вы должны указать навигационную цель, Командир."
+      "message" : "You must first select a suitable navigation target, Commander."
    },
    "YOU_MUST_LAUNCH_FIRST_COMMANDER" : {
       "description" : "",
-      "message" : "Сначала мы должны взлететь, Командир."
+      "message" : "You must launch first, Commander."
    },
    "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER" : {
       "description" : "",
-      "message" : "Сначала мы должны запросить разрешение на взлет, капитан!"
+      "message" : "You must request launch clearance first, Commander."
    },
    "YOU_NOT_ENOUGH_MONEY" : {
       "description" : "",
-      "message" : "Недостаточно средств для покупки."
+      "message" : "You do not have enough money"
    }
 }

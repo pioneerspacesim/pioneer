@@ -21,7 +21,7 @@
    },
    "ALT_IN_METRES" : {
       "description" : "",
-      "message" : "Выс.: %altitude{f.0} м"
+      "message" : "Выс: %altitude{f.0}м (%vspeed{f.1}м/с)"
    },
    "AND_HIGHLY_COMPLEX_ECOSYSTEM" : {
       "description" : "",
@@ -73,15 +73,15 @@
    },
    "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND" : {
       "description" : "",
-      "message" : "Автопилот: Встать на высокую орбиту %target"
+      "message" : "Автопилот: встать на высокую орбиту %target"
    },
    "AUTOPILOT_ENTER_LOW_ORBIT_AROUND" : {
       "description" : "",
-      "message" : "Автопилот: Встать на низкую орбиту %target"
+      "message" : "Автопилот: встать на низкую орбиту %target"
    },
    "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND" : {
       "description" : "",
-      "message" : "Автопилот: Встать на среднюю орбиту %target"
+      "message" : "Автопилот: встать на среднюю орбиту %target"
    },
    "AUTOPILOT_FLY_TO_VICINITY_OF" : {
       "description" : "",
@@ -101,7 +101,7 @@
    },
    "BATTLE_WEAPONS" : {
       "description" : "",
-      "message" : "Тяжелое вооружение"
+      "message" : "Тяжёлое вооружение"
    },
    "BINARY_SYSTEM" : {
       "description" : "",
@@ -205,11 +205,11 @@
    },
    "CLEARANCE_DENIED_NO_BAYS" : {
       "description" : "",
-      "message" : "Разрешение отклонено. Нет свободных стыковочных площадок."
+      "message" : "Посадка запрещена. Нет свободных стыковочных площадок."
    },
    "CLEARANCE_GRANTED_BAY_N" : {
       "description" : "",
-      "message" : "Разрешение предоставлено. Стыковочная площадка номер %bay."
+      "message" : "Разрешение на посадку предоставлено. Стыковочная площадка номер %bay."
    },
    "CO2_ATMOSPHERE" : {
       "description" : "",
@@ -241,7 +241,7 @@
    },
    "CONSUMER_GOODS" : {
       "description" : "",
-      "message" : "Потребительские товары"
+      "message" : "Бытовые товары"
    },
    "CONTROLS" : {
       "description" : "",
@@ -313,7 +313,7 @@
    },
    "DISTANCE_LY" : {
       "description" : "",
-      "message" : "Расстояние: %distance{f.2} сл"
+      "message" : "Расстояние: %distance{f.2} СвЛ"
    },
    "DOCKED" : {
       "description" : "",
@@ -321,11 +321,11 @@
    },
    "DOCKING" : {
       "description" : "",
-      "message" : "Стыковочная зона."
+      "message" : "Стыковочная зона"
    },
    "DOCKING_CLEARANCE_EXPIRED" : {
       "description" : "",
-      "message" : "Разрешение на стыковку истекло. Если вы хотите состыковаться, вы должны повторить свой запрос."
+      "message" : "Время разрешения на стыковку истекло. Повторите запрос."
    },
    "DOWNGRADING_ALERT_STATUS" : {
       "description" : "",
@@ -429,15 +429,15 @@
    },
    "ECONOMIC_INFO" : {
       "description" : "",
-      "message" : "Экономическая информация"
+      "message" : "Информация об экономике"
    },
    "ECONOMY_TYPE" : {
       "description" : "",
-      "message" : "Экономика:"
+      "message" : "Тип экономики:"
    },
    "ENABLED_AUTOMATIC_SYSTEM_SELECTION" : {
       "description" : "",
-      "message" : "Включен автоматический выбор системы."
+      "message" : "Включён автоматический выбор системы."
    },
    "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
       "description" : "",
@@ -505,7 +505,7 @@
    },
    "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED" : {
       "description" : "",
-      "message" : "Топливозаборник работает. Тонн собрано: %quantity."
+      "message" : "Топливозаборник работает. Вы собрали %quantit т водорода."
    },
    "FUEL_SCOOP_DESCRIPTION" : {
       "description" : "",
@@ -573,19 +573,19 @@
    },
    "HEAVY_INDUSTRY" : {
       "description" : "",
-      "message" : "Тяжелая промышленность."
+      "message" : "Тяжёлая промышленность."
    },
    "HE_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" с гелиевой атмосферой\""
+      "message" : "\" гелиевой атмосферой\""
    },
    "HIGHLY_VOLCANIC" : {
       "description" : "",
-      "message" : "Вулканическая активность."
+      "message" : "Вулканическая активность"
    },
    "HIGH_POPULATION_OUTDOOR_WORLD" : {
       "description" : "",
-      "message" : "Сильно заселенный открытый мир."
+      "message" : "Сильно заселённый открытый мир."
    },
    "HULL_AUTOREPAIR" : {
       "description" : "",
@@ -593,7 +593,7 @@
    },
    "HULL_AUTOREPAIR_DESCRIPTION" : {
       "description" : "",
-      "message" : "Автоматически ремонтирует корпус корабля в случае повреждения."
+      "message" : "Система предназначена для обеспечения автоматического ремонта корабля во время полета."
    },
    "HULL_INTEGRITY" : {
       "description" : "",
@@ -621,7 +621,7 @@
    },
    "HYPERSPACE" : {
       "description" : "",
-      "message" : "В гиперкосмосе."
+      "message" : "Гиперкосмос"
    },
    "HYPERSPACE_ARRIVAL_CLOUD" : {
       "description" : "",
@@ -653,7 +653,7 @@
    },
    "H_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Основной элемент в атмосфере: водород.\""
+      "message" : "\" водородом в атмосфере\""
    },
    "ICE_WORLD" : {
       "description" : "",
@@ -697,7 +697,7 @@
    },
    "IN_TRANSIT" : {
       "description" : "",
-      "message" : "Проход через гипертоннель."
+      "message" : "Проход через гипертоннель"
    },
    "IN_TRANSIT_TO_N_X_X_X" : {
       "description" : "",
@@ -749,11 +749,11 @@
    },
    "LASER_FIRE_DETECTED" : {
       "description" : "",
-      "message" : "Обнаружен лазерный огонь."
+      "message" : "Внимание! Ваш корабль под атакой!"
    },
    "LAUNCH_PERMISSION_DENIED_BUSY" : {
       "description" : "",
-      "message" : "Вылет запрещен. Стыковочная зона занята. Разрешение на взлет запрещен: стыковочная зона занята."
+      "message" : "Разрешение на взлёт запрещён: стыковочная зона занята."
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
@@ -913,7 +913,7 @@
    },
    "MINING_COLONY" : {
       "description" : "",
-      "message" : "Шахтерская колония."
+      "message" : "Шахтёрская колония."
    },
    "MINING_MACHINERY" : {
       "description" : "",
@@ -1009,7 +1009,7 @@
    },
    "M_S_RELATIVE_TO" : {
       "description" : "",
-      "message" : "Скорость: %speed{f.0} м/с относительно %frame"
+      "message" : "%speed{f.0} м/с относительно %frame"
    },
    "NAME_OBJECT" : {
       "description" : "For an item or object",
@@ -1025,11 +1025,11 @@
    },
    "NAVIGATION_STAR_MAPS" : {
       "description" : "",
-      "message" : "Навигационные и звездные карты"
+      "message" : "Навигационные и звёздные карты"
    },
    "NAVIGATION_TARGETS_IN_THIS_SYSTEM" : {
       "description" : "",
-      "message" : "Навигационные цели в этой системе"
+      "message" : "Цель системы навигации"
    },
    "NERVE_GAS" : {
       "description" : "",
@@ -1053,7 +1053,7 @@
    },
    "NO_ALERT" : {
       "description" : "",
-      "message" : "Нет тревоги"
+      "message" : "Угроза отсутствует"
    },
    "NO_CENTRAL_GOVERNANCE" : {
       "description" : "",
@@ -1101,7 +1101,7 @@
    },
    "N_CELSIUS" : {
       "description" : "",
-      "message" : "%temperature С"
+      "message" : "%temperature °C"
    },
    "N_DAYS" : {
       "description" : "",
@@ -1117,7 +1117,7 @@
    },
    "N_EARTH_DAYS" : {
       "description" : "",
-      "message" : "%days{f.1} земн.дн."
+      "message" : "%days{f.1} земн. дн."
    },
    "N_WHATEVER_MASSES" : {
       "description" : "",
@@ -1125,7 +1125,7 @@
    },
    "N_WHATEVER_RADII" : {
       "description" : "",
-      "message" : "%radius{f.3} %units радиусы (%radkm{f.0} км)"
+      "message" : "%radius{f.3} %units радиуса (%radkm{f.0} км)"
    },
    "N_YEARS" : {
       "description" : "",
@@ -1157,11 +1157,11 @@
    },
    "OVER_N_BILLION" : {
       "description" : "",
-      "message" : "Свыше %population миллиардов"
+      "message" : "Свыше %population млрд."
    },
    "OVER_N_MILLION" : {
       "description" : "",
-      "message" : "Свыше %population миллионов"
+      "message" : "Свыше %population млн."
    },
    "PASSENGER_CABIN" : {
       "description" : "",
@@ -1205,7 +1205,7 @@
    },
    "PLANETARY_INFO" : {
       "description" : "",
-      "message" : "Планетарная информация"
+      "message" : "Информация о планетах"
    },
    "PLANET_CONTAINING_LIQUID_WATER" : {
       "description" : "",
@@ -1305,7 +1305,7 @@
    },
    "RESET" : {
       "description" : "",
-      "message" : "Сброс"
+      "message" : "Расстояние по умолчанию"
    },
    "RESET_ORIENTATION_AND_ZOOM" : {
       "description" : "",
@@ -1417,7 +1417,7 @@
    },
    "SELECT_A_TARGET" : {
       "description" : "",
-      "message" : "Выберите цель"
+      "message" : "Установите маркер на цель"
    },
    "SELECT_LOW_THRUST_POWER_LEVEL" : {
       "description" : "",
@@ -1453,7 +1453,7 @@
    },
    "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Увеличивают скорость перезарядки щитов."
+      "message" : "Энергоблок сокращает время, необходимое на перезарядку щитов. Полезен на крупных кораблях с мощными системами поддержания силового поля."
    },
    "SHIELD_GENERATOR" : {
       "description" : "",
@@ -1485,7 +1485,7 @@
    },
    "SHIP_DETECTED_NEARBY" : {
       "description" : "",
-      "message" : "Поблизости обнаружен корабль."
+      "message" : "Внимание! Приближается чужой корабль!"
    },
    "SHIP_INFORMATION" : {
       "description" : "",
@@ -1513,7 +1513,7 @@
    },
    "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
       "description" : "",
-      "message" : "Моделирование развития вселенной: %age{f.1} миллиардов лет ;-)"
+      "message" : "Моделирование развития вселенной: %age{f.1} млрд. лет ;-)"
    },
    "SLAVES" : {
       "description" : "",
@@ -1529,7 +1529,7 @@
    },
    "SMALL_INDUSTRIAL_OUTPOST" : {
       "description" : "",
-      "message" : "Малое промышленное  представительство."
+      "message" : "Малое промышленное представительство."
    },
    "SMALL_PLASMA_ACCEL" : {
       "description" : "",
@@ -1545,11 +1545,11 @@
    },
    "SOLAR" : {
       "description" : "",
-      "message" : " Солнечной"
+      "message" : "солнечн."
    },
    "SOME_ESTABLISHED_MINING" : {
       "description" : "",
-      "message" : "Шахтерское поселение."
+      "message" : "Шахтёрское поселение."
    },
    "SOURCE" : {
       "description" : "",
@@ -1589,7 +1589,7 @@
    },
    "STAR_B" : {
       "description" : "",
-      "message" : "Голубая звезда, класс 'B'"
+      "message" : "Голубая звезда спектрального класса \"B\""
    },
    "STAR_B_GIANT" : {
       "description" : "",
@@ -1605,7 +1605,7 @@
    },
    "STAR_B_WF" : {
       "description" : "",
-      "message" : "Звезда Вольфа - Райе - Риск коллапса"
+      "message" : "Риск распада звезды Вольфа-Райе"
    },
    "STAR_F" : {
       "description" : "",
@@ -1613,23 +1613,23 @@
    },
    "STAR_G" : {
       "description" : "",
-      "message" : "Желтая звезда спектрального класса \"G\""
+      "message" : "Жёлтая звезда спектрального класса \"G\""
    },
    "STAR_G_GIANT" : {
       "description" : "",
-      "message" : "Нестабильный желтый гигант"
+      "message" : "Нестабильный жёлтый гигант"
    },
    "STAR_G_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Нестабильный желтый сверхгигант"
+      "message" : "Нестабильный жёлтый сверхгигант"
    },
    "STAR_G_SUPER_GIANT" : {
       "description" : "",
-      "message" : "Желтый сверхгигант "
+      "message" : "Жёлтый сверхгигант "
    },
    "STAR_IM_BH" : {
       "description" : "",
-      "message" : "Черная дыра средней массы"
+      "message" : "Чёрная дыра средней массы"
    },
    "STAR_K" : {
       "description" : "",
@@ -1641,7 +1641,7 @@
    },
    "STAR_K_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Нестабильный оранжевый гипергигант"
+      "message" : "Нестабильный оранжевый сверхгигант"
    },
    "STAR_K_SUPER_GIANT" : {
       "description" : "",
@@ -1649,7 +1649,7 @@
    },
    "STAR_M" : {
       "description" : "",
-      "message" : "красная звезда спектрального класса \"M\""
+      "message" : "Красная звезда спектрального класса \"M\""
    },
    "STAR_M_GIANT" : {
       "description" : "",
@@ -1685,7 +1685,7 @@
    },
    "STAR_O_WF" : {
       "description" : "",
-      "message" : "Звезда Вольфа-Райе - Неизбежный коллапс"
+      "message" : "Неизбежный распад звезды Вольфа-Райе"
    },
    "STAR_SM_BH" : {
       "description" : "",
@@ -1693,23 +1693,23 @@
    },
    "STAR_SYSTEM_INFORMATION" : {
       "description" : "",
-      "message" : "Информация о звездной системе"
+      "message" : "Информация о звёздной системе"
    },
    "STAR_S_BH" : {
       "description" : "",
-      "message" : "Черная дыра"
+      "message" : "Чёрная дыра"
    },
    "SUGGESTED_RESPONSES" : {
       "description" : "",
-      "message" : "Варианты ответов:"
+      "message" : "[Используйте интерфейс терминала для ответа или завершения связи]:"
    },
    "SURFACE_GRAVITY" : {
       "description" : "",
-      "message" : "Уровень гравитации"
+      "message" : "Гравитация на поверхности"
    },
    "SURFACE_TEMPERATURE" : {
       "description" : "",
-      "message" : "Температура поверхности"
+      "message" : "Температура на поверхности"
    },
    "SYSTEM" : {
       "description" : "",
@@ -1733,7 +1733,7 @@
    },
    "TAKEOFF" : {
       "description" : "",
-      "message" : "Взлет"
+      "message" : "Взлёт"
    },
    "TARGET_OBJECT_IN_SIGHTS" : {
       "description" : "",
@@ -1741,7 +1741,7 @@
    },
    "TENUOUS" : {
       "description" : "",
-      "message" : "разреженная"
+      "message" : "разрежённая"
    },
    "TEXTILES" : {
       "description" : "",
@@ -1793,7 +1793,7 @@
    },
    "TOGGLE_HUD_MODE" : {
       "description" : "",
-      "message" : "Включить HUD"
+      "message" : "Переключение в режим HUD"
    },
    "TOGGLE_LUA_CONSOLE" : {
       "description" : "",
@@ -1829,11 +1829,11 @@
    },
    "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
       "description" : "",
-      "message" : "Неизведанная система. Информация о звезде была собрана с удаленного телескопа, по этому информация о планетах не доступна."
+      "message" : "Неизведанная система. Информация о звезде была собрана с удалённого телескопа, по этому информация о планетах не доступна."
    },
    "UNKNOWN" : {
       "description" : "",
-      "message" : "<Неизвестно>"
+      "message" : "<неизвестно>"
    },
    "UNLAWFUL_WEAPONS_DISCHARGE" : {
       "description" : "",
@@ -1845,7 +1845,7 @@
    },
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",
-      "message" : "Необходимо для перевозки одного пассажира"
+      "message" : "Для перевозки каждого дополнительного пассажира требуется отдельная каюта."
    },
    "USE_LOW_THRUST" : {
       "description" : "",
@@ -1901,7 +1901,7 @@
    },
    "WHITE_DWARF" : {
       "description" : "",
-      "message" : "звездный остаток белого карлика"
+      "message" : "Звёздный остаток белого карлика"
    },
    "WITH_A" : {
       "description" : "",
@@ -1909,7 +1909,7 @@
    },
    "WITH_NO_SIGNIFICANT_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" с разреженной атмосферой\""
+      "message" : "\" с разрежённой атмосферой\""
    },
    "X" : {
       "description" : "",
@@ -1941,7 +1941,7 @@
    },
    "YOU_NO_MONEY" : {
       "description" : "",
-      "message" : "У вас нет денег на счёте."
+      "message" : "На вашем счёте нет денег."
    },
    "Z" : {
       "description" : "",
