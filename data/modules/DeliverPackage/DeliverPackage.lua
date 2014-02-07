@@ -93,6 +93,15 @@ end
 local ads = {}
 local missions = {}
 
+local isQualifiedFor = function(reputation, ad)
+	return
+		reputation >= 8 or
+		ad.localdelivery or
+		(ad.risk <  0.1 and ad.urgency <= 0.1) or
+		(ad.risk <  0.5 and ad.urgency <= 0.5 and reputation >= 4) or
+		false
+end
+
 local onChat = function (form, ref, option)
 	local ad = ads[ref]
 
@@ -103,13 +112,7 @@ local onChat = function (form, ref, option)
 		return
 	end
 
-	local reputation = Character.persistent.player.reputation
-	local qualified =
-		reputation >= 8 or
-		ad.localdelivery or
-		(ad.risk <  0.1 and ad.urgency <= 0.1) or
-		(ad.risk <  0.5 and ad.urgency <= 0.5 and reputation >= 4) or
-		false
+	local qualified = isQualifiedFor(Character.persistent.player.reputation, ad)
 
 	form:SetFace(ad.client)
 
@@ -188,6 +191,10 @@ local onDelete = function (ref)
 	ads[ref] = nil
 end
 
+local isEnabled = function (ref)
+	return isQualifiedFor(Character.persistent.player.reputation, ads[ref])
+end
+
 local nearbysystems
 
 -- return statement is nil if no advert was created, else it is bool:
@@ -252,7 +259,8 @@ local makeAdvert = function (station, manualFlavour)
 		description = ad.desc,
 		icon        = ad.urgency >=  0.8 and "delivery_urgent" or "delivery",
 		onChat      = onChat,
-		onDelete    = onDelete})
+		onDelete    = onDelete,
+		isEnabled   = isEnabled })
 	ads[ref] = ad
 
 	-- successfully created an advert, return non-nil
@@ -373,6 +381,7 @@ local onShipDocked = function (player, station)
 				reward = 1
 			end
 
+			local oldReputation = Character.persistent.player.reputation
 			if Game.time > mission.due then
 				Comms.ImportantMessage(flavours[mission.flavour].failuremsg, mission.client.name)
 				Character.persistent.player.reputation = Character.persistent.player.reputation - reward
@@ -381,6 +390,8 @@ local onShipDocked = function (player, station)
 				player:AddMoney(mission.reward)
 				Character.persistent.player.reputation = Character.persistent.player.reputation + reward
 			end
+			Event.Queue("onReputationChanged", oldReputation, Character.persistent.player.killcount,
+				Character.persistent.player.reputation, Character.persistent.player.killcount)
 
 			mission:Remove()
 			missions[ref] = nil
@@ -389,6 +400,15 @@ local onShipDocked = function (player, station)
 			mission.status = 'FAILED'
 		end
 
+	end
+end
+
+local onReputationChanged = function (oldRep, oldKills, newRep, newKills)
+	for ref,ad in pairs(ads) do
+		local oldQualified = isQualifiedFor(oldRep, ad)
+		if isQualifiedFor(newRep, ad) ~= oldQualified then
+			Event.Queue("onAdvertChanged", ad.station, ref);
+		end
 	end
 end
 
@@ -405,7 +425,8 @@ local onGameStart = function ()
 			description = ad.desc,
             icon        = ad.urgency >=  0.8 and "delivery_urgent" or "delivery",
 			onChat      = onChat,
-			onDelete    = onDelete})
+			onDelete    = onDelete,
+			isEnabled   = isEnabled })
 		ads[ref] = ad
 	end
 
@@ -522,6 +543,7 @@ Event.Register("onLeaveSystem", onLeaveSystem)
 Event.Register("onShipDocked", onShipDocked)
 Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
+Event.Register("onReputationChanged", onReputationChanged)
 
 Mission.RegisterType('Delivery',l.DELIVERY,onClick)
 

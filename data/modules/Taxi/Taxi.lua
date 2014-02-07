@@ -124,6 +124,14 @@ local remove_passengers = function (group)
 	passengers = passengers - group
 end
 
+local isQualifiedFor = function(reputation, ad)
+	return reputation >= 16 or
+		(ad.risk <  0.002 and ad.urgency < 0.3 and reputation >= 0) or
+		(ad.risk <  0.2   and ad.urgency < 0.5 and reputation >= 4) or
+		(ad.risk <= 0.6   and ad.urgency < 0.6 and reputation >= 8) or
+		false
+end
+
 local onChat = function (form, ref, option)
 	local ad = ads[ref]
 
@@ -134,13 +142,7 @@ local onChat = function (form, ref, option)
 		return
 	end
 
-	local reputation = Character.persistent.player.reputation
-	local qualified =
-		reputation >= 16 or
-		(ad.risk <  0.002 and ad.urgency < 0.3 and reputation >= 0) or
-		(ad.risk <  0.2   and ad.urgency < 0.5 and reputation >= 4) or
-		(ad.risk <= 0.6   and ad.urgency < 0.6 and reputation >= 8) or
-		false
+	local qualified = isQualifiedFor(Character.persistent.player.reputation, ad)
 
 	form:SetFace(ad.client)
 
@@ -233,6 +235,10 @@ local onDelete = function (ref)
 	ads[ref] = nil
 end
 
+local isEnabled = function (ref)
+	return isQualifiedFor(Character.persistent.player.reputation, ads[ref])
+end
+
 local nearbysystems
 local makeAdvert = function (station)
 	local reward, due, location
@@ -278,7 +284,8 @@ local makeAdvert = function (station)
 		description = ad.desc,
 		icon        = ad.urgency >=  0.8 and "taxi_urgent" or "taxi",
 		onChat      = onChat,
-		onDelete    = onDelete})
+		onDelete    = onDelete,
+		isEnabled   = isEnabled})
 	ads[ref] = ad
 end
 
@@ -378,6 +385,7 @@ local onShipDocked = function (player, station)
 
 	for ref,mission in pairs(missions) do
 		if mission.location == Game.system.path or Game.time > mission.due then
+			local oldReputation = Character.persistent.player.reputation
 			if Game.time > mission.due then
 				Comms.ImportantMessage(flavours[mission.flavour].failuremsg, mission.client.name)
 				Character.persistent.player.reputation = Character.persistent.player.reputation - 2
@@ -386,6 +394,8 @@ local onShipDocked = function (player, station)
 				player:AddMoney(mission.reward)
 				Character.persistent.player.reputation = Character.persistent.player.reputation + 2
 			end
+			Event.Queue("onReputationChanged", oldReputation, Character.persistent.player.killcount,
+				Character.persistent.player.reputation, Character.persistent.player.killcount)
 
 			remove_passengers(mission.group)
 
@@ -409,6 +419,15 @@ local onShipUndocked = function (player, station)
 	end
 end
 
+local onReputationChanged = function (oldRep, oldKills, newRep, newKills)
+	for ref,ad in pairs(ads) do
+		local oldQualified = isQualifiedFor(oldRep, ad)
+		if isQualifiedFor(newRep, ad) ~= oldQualified then
+			Event.Queue("onAdvertChanged", ad.station, ref);
+		end
+	end
+end
+
 local loaded_data
 
 local onGameStart = function ()
@@ -423,7 +442,8 @@ local onGameStart = function ()
 			description = ad.desc,
 			icon        = ad.urgency >=  0.8 and "taxi_urgent" or "taxi",
 			onChat      = onChat,
-			onDelete    = onDelete})
+			onDelete    = onDelete,
+			isEnabled   = isEnabled})
 		ads[ref] = ad
 	end
 
@@ -539,6 +559,7 @@ Event.Register("onShipUndocked", onShipUndocked)
 Event.Register("onShipDocked", onShipDocked)
 Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
+Event.Register("onReputationChanged", onReputationChanged)
 
 Mission.RegisterType('Taxi',l.TAXI,onClick)
 

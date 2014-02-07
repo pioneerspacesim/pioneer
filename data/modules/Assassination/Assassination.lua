@@ -45,8 +45,20 @@ local num_deny = 8
 local ads = {}
 local missions = {}
 
+local isQualifiedFor = function(reputation, kills, ad)
+	return reputation >= 16 and
+		(kills >= 16 or
+		 kills >=  4 and ad.danger <= 1 or
+		 kills >=  8 and ad.danger <  4 or
+		 false)
+end
+
 local onDelete = function (ref)
 	ads[ref] = nil
+end
+
+local isEnabled = function (ref)
+	return isQualifiedFor(Character.persistent.player.reputation, Character.persistent.player.killcount, ads[ref])
 end
 
 local onChat = function (form, ref, option)
@@ -59,14 +71,7 @@ local onChat = function (form, ref, option)
 		return
 	end
 
-	local reputation = Character.persistent.player.reputation
-	local kills = Character.persistent.player.killcount
-
-	local qualified = reputation >= 16 and
-		(kills >= 16 or
-		 kills >=  4 and ad.danger <= 1 or
-		 kills >=  8 and ad.danger <  4 or
-		 false)
+	local qualified = isQualifiedFor(Character.persistent.player.reputation, Character.persistent.player.killcount, ad)
 
 	form:SetFace(ad.client)
 
@@ -203,7 +208,8 @@ local makeAdvert = function (station)
 		description = ad.desc,
 		icon        = "assassination",
 		onChat      = onChat,
-		onDelete    = onDelete})
+		onDelete    = onDelete,
+		isEnabled   = isEnabled})
 	ads[ref] = ad
 end
 
@@ -319,6 +325,7 @@ end
 local onShipDocked = function (ship, station)
 	for ref,mission in pairs(missions) do
 		if ship:IsPlayer() then
+			local oldReputation = Character.persistent.player.reputation
 			if mission.status == 'COMPLETED' and
 			   mission.backstation == station.path then
 				local text = string.interp(flavours[mission.flavour].successmsg, {
@@ -346,6 +353,8 @@ local onShipDocked = function (ship, station)
 				mission:Remove()
 				missions[ref] = nil
 			end
+			Event.Queue("onReputationChanged", oldReputation, Character.persistent.player.killcount,
+				Character.persistent.player.reputation, Character.persistent.player.killcount)
 		else
 			if mission.ship == ship then
 				mission.status = 'FAILED'
@@ -427,6 +436,15 @@ local onUpdateBB = function (station)
 	end
 end
 
+local onReputationChanged = function (oldRep, oldKills, newRep, newKills)
+	for ref,ad in pairs(ads) do
+		local oldQualified = isQualifiedFor(oldRep, oldKills, ad)
+		if isQualifiedFor(newRep, newKills, ad) ~= oldQualified then
+			Event.Queue("onAdvertChanged", ad.station, ref);
+		end
+	end
+end
+
 local loaded_data
 
 local onGameStart = function ()
@@ -440,7 +458,8 @@ local onGameStart = function ()
 			description = ad.desc,
 		    icon        = "assassination",
 			onChat      = onChat,
-			onDelete    = onDelete})
+			onDelete    = onDelete,
+			isEnabled   = isEnabled})
 		ads[ref] = ad
 	end
 
@@ -575,6 +594,7 @@ Event.Register("onShipDocked", onShipDocked)
 Event.Register("onShipHit", onShipHit)
 Event.Register("onUpdateBB", onUpdateBB)
 Event.Register("onGameEnd", onGameEnd)
+Event.Register("onReputationChanged", onReputationChanged)
 
 Mission.RegisterType('Assassination',l.ASSASSINATION,onClick)
 
