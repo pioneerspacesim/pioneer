@@ -614,7 +614,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 #endif
 	if (Pi::player->GetFlightState() == Ship::HYPERSPACE) {
 		const SystemPath dest = Pi::player->GetHyperspaceDest();
-		RefCountedPtr<StarSystem> s = StarSystem::GetCached(dest);
+		RefCountedPtr<StarSystem> s = StarSystemCache::GetCached(dest);
 
 		Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_TOP_LEFT, stringf(Lang::IN_TRANSIT_TO_N_X_X_X,
 			formatarg("system", dest.IsBodyPath() ? s->GetBodyByPath(dest)->name : s->GetName()),
@@ -805,7 +805,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			}
 			else {
 				const SystemPath dest = ship->GetHyperspaceDest();
-				const Sector* s = Sector::cache.GetCached(dest);
+				RefCountedPtr<const Sector> s = Sector::cache.GetCached(dest);
 				text += (cloud->IsArrival() ? Lang::HYPERSPACE_ARRIVAL_CLOUD : Lang::HYPERSPACE_DEPARTURE_CLOUD);
 				text += "\n";
 				text += stringf(Lang::SHIP_MASS_N_TONNES, formatarg("mass", ship->GetStats().total_mass));
@@ -1119,7 +1119,7 @@ void WorldView::OnHyperspaceTargetChanged()
 
 	const SystemPath path = Pi::sectorView->GetHyperspaceTarget();
 
-	RefCountedPtr<StarSystem> system = StarSystem::GetCached(path);
+	RefCountedPtr<StarSystem> system = StarSystemCache::GetCached(path);
 	const std::string& name = path.IsBodyPath() ? system->GetBodyByPath(path)->name : system->GetName() ;
 	Pi::cpan->MsgLog()->Message("", stringf(Lang::SET_HYPERSPACE_DESTINATION_TO, formatarg("system", name)));
 }

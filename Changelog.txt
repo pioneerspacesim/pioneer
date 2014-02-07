@@ -27,6 +27,7 @@ February 2014
      * Handle blend/depth/cull render states as stateset objects (#2697)
      * Removed redundant shader cleanup (#2708)
      * Split camera state into a separate class (#2714)
+     * Sector and star system cache improvements (#2706)
 
 January 2014
 

@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Game.h"
+#include "Factions.h"
 #include "Space.h"
 #include "Player.h"
 #include "Body.h"
@@ -35,6 +36,8 @@ Game::Game(const SystemPath &path, double time) :
 	m_requestedTimeAccel(TIMEACCEL_1X),
 	m_forceTimeAccel(false)
 {
+	Pi::FlushCaches();
+
 	m_space.reset(new Space(this, path));
 	SpaceStation *station = static_cast<SpaceStation*>(m_space->FindBodyForPath(&path));
 	assert(station);
@@ -59,6 +62,8 @@ Game::Game(const SystemPath &path, const vector3d &pos, double time) :
 	m_requestedTimeAccel(TIMEACCEL_1X),
 	m_forceTimeAccel(false)
 {
+	Pi::FlushCaches();
+
 	m_space.reset(new Space(this, path));
 	Body *b = m_space->FindBodyForPath(&path);
 	assert(b);
@@ -118,6 +123,9 @@ Game::Game(Serializer::Reader &rd) :
 		Output("can't load savefile, expected version: %d\n", s_saveVersion);
 		throw SavedGameWrongVersionException();
 	}
+
+	// XXX This must be done after loading sectors once we can change them in game
+	Pi::FlushCaches();
 
 	Serializer::Reader section;
 
@@ -359,8 +367,7 @@ void Game::SwitchToHyperspace()
 	PROFILE_SCOPED()
 	// remember where we came from so we can properly place the player on exit
 	m_hyperspaceSource = m_space->GetStarSystem()->GetPath();
-
-	const SystemPath &dest = m_player->GetHyperspaceDest();
+	m_hyperspaceDest =  m_player->GetHyperspaceDest();
 
 	// find all the departure clouds, convert them to arrival clouds and store
 	// them for the next system
@@ -375,7 +382,7 @@ void Game::SwitchToHyperspace()
 			continue;
 
 		// make sure they're going to the same place as us
-		if (!dest.IsSameSystem(cloud->GetShip()->GetHyperspaceDest()))
+		if (!m_hyperspaceDest.IsSameSystem(cloud->GetShip()->GetHyperspaceDest()))
 			continue;
 
 		// remove it from space
@@ -433,15 +440,14 @@ void Game::SwitchToNormalSpace()
 	m_space->RemoveBody(m_player.get());
 
 	// create a new space for the system
-	const SystemPath &dest = m_player->GetHyperspaceDest();
-	m_space.reset(new Space(this, dest));
+	m_space.reset(new Space(this, m_hyperspaceDest));
 
 	// put the player in it
 	m_player->SetFrame(m_space->GetRootFrame());
 	m_space->AddBody(m_player.get());
 
 	// place it
-	m_player->SetPosition(m_space->GetHyperspaceExitPoint(m_hyperspaceSource, dest));
+	m_player->SetPosition(m_space->GetHyperspaceExitPoint(m_hyperspaceSource, m_hyperspaceDest));
 	m_player->SetVelocity(vector3d(0,0,-100.0));
 	m_player->SetOrient(matrix3x3d::Identity());
 
@@ -455,7 +461,7 @@ void Game::SwitchToNormalSpace()
 		cloud = *i;
 
 		cloud->SetFrame(m_space->GetRootFrame());
-		cloud->SetPosition(m_space->GetHyperspaceExitPoint(m_hyperspaceSource, dest));
+		cloud->SetPosition(m_space->GetHyperspaceExitPoint(m_hyperspaceSource, m_hyperspaceDest));
 
 		m_space->AddBody(cloud);
 
