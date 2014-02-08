@@ -228,7 +228,8 @@ void LuaConsole::OnChange(const std::string &text) {
 }
 
 void LuaConsole::OnEnter(const std::string &text) {
-	ExecOrContinue(text);
+	if (!text.empty())
+		ExecOrContinue(text);
 	m_completionList.clear();
 	Pi::ui->SelectWidget(m_entry);
 }
