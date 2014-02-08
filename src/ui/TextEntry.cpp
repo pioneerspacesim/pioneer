@@ -82,8 +82,9 @@ void TextEntry::Draw()
 
 TextEntry *TextEntry::SetText(const std::string &text)
 {
+	bool atEnd = m_label->GetText().size() == m_cursor;
 	m_label->SetText(text);
-	m_cursor = Clamp(m_cursor, Uint32(0), Uint32(text.size()));
+	m_cursor = atEnd ? Uint32(text.size()) : Clamp(m_cursor, Uint32(0), Uint32(text.size()));
 	GetContext()->RequestLayout();
 	return this;
 }

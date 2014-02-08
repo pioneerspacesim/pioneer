@@ -6,9 +6,17 @@
 
 namespace UI {
 
+Scroller::Scroller(Context *context) : Container(context),
+	m_innerWidget(0)
+{
+    m_slider = GetContext()->VSlider();
+    m_slider->onValueChanged.connect(sigc::mem_fun(this, &Scroller::OnSliderScroll));
+    m_slider->onMouseWheel.connect(sigc::mem_fun(this, &Scroller::OnSliderMouseWheel));
+}
+
 Point Scroller::PreferredSize()
 {
-	const Point sliderSize = m_slider ? m_slider->PreferredSize() : Point(0);
+	const Point sliderSize = m_slider->GetContainer() ? m_slider->PreferredSize() : Point(0);
 	if (!m_innerWidget)
 		return sliderSize;
 
@@ -27,22 +35,16 @@ void Scroller::Layout()
 
 	// if the child can fit then we don't need the slider
 	if (childPreferredSize.y <= size.y) {
-		if (m_slider) {
-			Container::RemoveWidget(m_slider);
-			m_slider = 0;
-		}
+		if (m_slider->GetContainer())
+			RemoveWidget(m_slider);
 
 		SetWidgetDimensions(m_innerWidget, Point(), size);
 		m_innerWidget->Layout();
 	}
 
 	else {
-		if (!m_slider) {
-			m_slider = GetContext()->VSlider();
-			m_slider->onValueChanged.connect(sigc::mem_fun(this, &Scroller::OnScroll));
-			m_slider->onMouseWheel.connect(sigc::mem_fun(this, &Scroller::OnMouseWheel));
+		if (!m_slider->GetContainer())
 			AddWidget(m_slider);
-		}
 
 		const Point sliderSize = m_slider->PreferredSize();
 
@@ -54,48 +56,51 @@ void Scroller::Layout()
 
 		const float step = float(sliderSize.y) * 0.5f / float(childPreferredSize.y);
 		m_slider->SetStep(step);
+
+		// reset the draw offset for new content
+		OnSliderScroll(m_slider->GetValue());
 	}
 }
 
 float Scroller::GetScrollPosition() const
 {
-	return m_slider ? m_slider->GetValue() : 0.0f;
+	return m_slider->GetValue();
 }
 
 void Scroller::SetScrollPosition(float v)
 {
-	if (m_slider) m_slider->SetValue(v);
+	m_slider->SetValue(v);
 }
 
-void Scroller::OnScroll(float value)
+void Scroller::HandleMouseWheel(const MouseWheelEvent &event)
+{
+	if (event.direction == MouseWheelEvent::WHEEL_UP)
+		m_slider->StepUp();
+	else
+		m_slider->StepDown();
+}
+
+void Scroller::OnSliderScroll(float value)
 {
 	if (!m_innerWidget) return;
 	m_innerWidget->SetDrawOffset(Point(0, -float(m_innerWidget->GetActiveArea().y-GetSize().y)*value));
 }
 
-bool Scroller::OnMouseWheel(const MouseWheelEvent &event)
+bool Scroller::OnSliderMouseWheel(const MouseWheelEvent &event)
 {
-	if (!m_slider) return false;
-	if (event.direction == MouseWheelEvent::WHEEL_UP)
-		m_slider->StepUp();
-	else
-		m_slider->StepDown();
-	return true;
+    HandleMouseWheel(event);
+    return true;
 }
 
 Scroller *Scroller::SetInnerWidget(Widget *widget)
 {
 	assert(widget);
 
-	if (m_innerWidget) {
-		m_onMouseWheelConn.disconnect();
+	if (m_innerWidget)
 		RemoveWidget(m_innerWidget);
-	}
 
 	AddWidget(widget);
 	m_innerWidget = widget;
-
-	m_onMouseWheelConn = m_innerWidget->onMouseWheel.connect(sigc::mem_fun(this, &Scroller::OnMouseWheel));
 
 	return this;
 }

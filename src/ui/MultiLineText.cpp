@@ -42,6 +42,7 @@ void MultiLineText::Draw()
 Widget *MultiLineText::SetFont(Font font) {
 	Widget::SetFont(font);
 	m_layout.reset(new TextLayout(GetContext()->GetFont(GetFont()), m_text));
+	m_preferredSize = Point();
 	return this;
 }
 
@@ -49,6 +50,7 @@ MultiLineText *MultiLineText::SetText(const std::string &text)
 {
 	m_text = text;
 	m_layout.reset(new TextLayout(GetContext()->GetFont(GetFont()), m_text));
+	m_preferredSize = Point();
 	GetContext()->RequestLayout();
 	return this;
 }
