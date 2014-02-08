@@ -181,6 +181,7 @@ const struct EnumItem ENUM_ShipFlightState[] = {
 	{ "DOCKING", Ship::DOCKING },
 	{ "DOCKED", Ship::DOCKED },
 	{ "LANDED", Ship::LANDED },
+	{ "JUMPING", Ship::JUMPING },
 	{ "HYPERSPACE", Ship::HYPERSPACE },
 	{ 0, 0 },
 };
