@@ -30,15 +30,13 @@ LuaConsole::LuaConsole():
 	m_output = Pi::ui->MultiLineText("");
 	m_entry = Pi::ui->TextEntry();
 
-	UI::Scroller *scroller = Pi::ui->Scroller()->SetInnerWidget(
-		Pi::ui->Expand()->SetInnerWidget(m_output)
-	);
+	m_scroller = Pi::ui->Scroller()->SetInnerWidget(m_output);
 
 	m_container.Reset(Pi::ui->Margin(10)->SetInnerWidget(
 		Pi::ui->ColorBackground(Color(0,0,0,0x80))->SetInnerWidget(
 			Pi::ui->VBox()->PackEnd(UI::WidgetSet(
 				Pi::ui->Expand()->SetInnerWidget(
-					scroller
+					m_scroller
 				),
 				m_entry
 			))
@@ -212,6 +210,7 @@ void LuaConsole::OnEnter(const std::string &text) {
 		ExecOrContinue(text);
 	m_completionList.clear();
 	Pi::ui->SelectWidget(m_entry);
+	m_scroller->SetScrollPosition(1.0f);
 }
 
 void LuaConsole::UpdateCompletion(const std::string & statement) {

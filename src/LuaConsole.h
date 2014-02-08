@@ -6,10 +6,14 @@
 
 #include "LuaManager.h"
 #include "ui/Widget.h"
-#include "ui/TextEntry.h"
-#include "ui/MultiLineText.h"
 #include "RefCounted.h"
 #include <deque>
+
+namespace UI {
+	class TextEntry;
+	class MultiLineText;
+	class Scroller;
+}
 
 class LuaConsole {
 public:
@@ -36,12 +40,14 @@ private:
 
 	bool m_active;
 
-	std::deque<std::string> m_statementHistory;
-	std::string m_stashedStatement;
-	int m_historyPosition;
 	RefCountedPtr<UI::Widget> m_container;
 	UI::MultiLineText *m_output;
 	UI::TextEntry *m_entry;
+	UI::Scroller *m_scroller;
+
+	std::deque<std::string> m_statementHistory;
+	std::string m_stashedStatement;
+	int m_historyPosition;
 	int m_nextOutputLine;
 
 	std::string m_precompletionStatement;
