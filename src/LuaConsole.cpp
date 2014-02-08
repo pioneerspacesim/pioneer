@@ -4,10 +4,7 @@
 #include "LuaConsole.h"
 #include "LuaManager.h"
 #include "Pi.h"
-#include "gui/Gui.h"
-#include "gui/GuiScreen.h"
-#include "gui/GuiTextEntry.h"
-#include "gui/GuiLabel.h"
+#include "ui/Context.h"
 #include "text/TextureFont.h"
 #include "text/TextSupport.h"
 #include "KeyBindings.h"
@@ -26,12 +23,30 @@ static const char CONSOLE_CHUNK_NAME[] = "console";
 #endif
 
 LuaConsole::LuaConsole(int displayedOutputLines):
+	m_active(false),
 	m_maxOutputLines(displayedOutputLines),
 	m_precompletionStatement(),
 	m_completionList() {
 
+	m_output = Pi::ui->MultiLineText("");
+	m_entry = Pi::ui->TextEntry();
+
+	m_container.Reset(Pi::ui->Margin(10)->SetInnerWidget(
+		Pi::ui->ColorBackground(Color(0,0,0,0x80))->SetInnerWidget(
+			Pi::ui->VBox()->PackEnd(UI::WidgetSet(
+				Pi::ui->Expand()->SetInnerWidget(
+					m_output
+				),
+				m_entry
+			))
+		)
+	));
+
+	m_entry->onEnter.connect(sigc::mem_fun(this, &LuaConsole::ExecOrContinue));
+
 	m_historyPosition = -1;
 
+#if 0
 	SetTransparency(false);
 	SetBgColor(Color(160,32,0,160));
 
@@ -48,6 +63,7 @@ LuaConsole::LuaConsole(int displayedOutputLines):
 	m_entryField->onValueChanged.connect(sigc::mem_fun(this, &LuaConsole::OnTextChanged));
 
 	PackEnd(m_entryField);
+#endif
 
 	// prepare the global table
 	lua_State *l = Lua::manager->GetLuaState();
@@ -65,6 +81,17 @@ LuaConsole::LuaConsole(int displayedOutputLines):
 	LUA_DEBUG_END(l, 0);
 
 	RunAutoexec();
+}
+
+void LuaConsole::Toggle()
+{
+	if (m_active)
+		Pi::ui->DropLayer();
+	else {
+		Pi::ui->NewLayer()->SetInnerWidget(m_container.Get());
+		Pi::ui->SelectWidget(m_entry);
+	}
+	m_active = !m_active;
 }
 
 static int capture_traceback(lua_State *L) {
@@ -115,11 +142,8 @@ void LuaConsole::RunAutoexec() {
 
 LuaConsole::~LuaConsole() {}
 
-bool LuaConsole::IsActive() const {
-	return IsVisible() && m_entryField->IsFocused();
-}
-
 void LuaConsole::OnKeyPressed(const SDL_Keysym *sym) {
+#if 0
 	// XXX totally horrible doing this on every key press
 	ResizeRequest();
 
@@ -185,10 +209,13 @@ void LuaConsole::OnKeyPressed(const SDL_Keysym *sym) {
 	if (sym->sym == SDLK_RETURN && !(sym->mod & KMOD_CTRL)) {
 		ExecOrContinue();
 	}
+#endif
 }
 
 void LuaConsole::OnTextChanged() {
+#if 0
 	m_completionList.clear();
+#endif
 }
 
 void LuaConsole::UpdateCompletion(const std::string & statement) {
@@ -252,6 +279,9 @@ void LuaConsole::UpdateCompletion(const std::string & statement) {
 }
 
 void LuaConsole::AddOutput(const std::string &line) {
+	m_output->AppendText(line + "\n");
+
+#if 0
 	Gui::Label *label = 0;
 	if (int(m_outputLines.size()) > m_nextOutputLine) {
 		label = m_outputLines[m_nextOutputLine];
@@ -273,10 +303,10 @@ void LuaConsole::AddOutput(const std::string &line) {
 	Remove(m_entryField);
 	PackEnd(label);
 	PackEnd(m_entryField);
+#endif
 }
 
-void LuaConsole::ExecOrContinue() {
-	const std::string stmt = m_entryField->GetText();
+void LuaConsole::ExecOrContinue(const std::string &stmt) {
 	int result;
 	lua_State *L = Lua::manager->GetLuaState();
 
@@ -295,9 +325,11 @@ void LuaConsole::ExecOrContinue() {
 			const char *tail = msg + msglen - (sizeof(eofstring) - 1);
 			if (strcmp(tail, eofstring) == 0) {
 				// statement is incomplete -- allow the user to continue on the next line
-				m_entryField->SetText(stmt + "\n");
+				m_entry->SetText(stmt + "\n");
+#if 0
 				m_entryField->ResizeRequest();
 				ResizeRequest();
+#endif
 				lua_pop(L, 1);
 				return;
 			}
@@ -392,8 +424,7 @@ void LuaConsole::ExecOrContinue() {
 			m_statementHistory.push_back(stmt);
 
 		// clear the entry box
-		m_entryField->SetText("");
-		ResizeRequest();
+		m_entry->SetText("");
 	}
 
 	// always forget the history position and clear the stashed command

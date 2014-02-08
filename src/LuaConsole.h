@@ -5,38 +5,39 @@
 #define _LUACONSOLE_H
 
 #include "LuaManager.h"
-#include "gui/GuiBox.h"
+#include "ui/Widget.h"
+#include "ui/TextEntry.h"
+#include "ui/MultiLineText.h"
+#include "RefCounted.h"
 #include <deque>
 
-namespace Gui {
-	class Label;
-	class TextEntry;
-}
-
-class TextureFont;
-
-class LuaConsole : public Gui::VBox {
+class LuaConsole {
 public:
 	explicit LuaConsole(int displayedOutputLines);
 	virtual ~LuaConsole();
 
-	bool IsActive() const;
-	Gui::TextEntry *GetTextEntryField() const { return m_entryField; }
+	void Toggle();
+
+	bool IsActive() const { return m_active; }
 	void AddOutput(const std::string &line);
 
 	static void Register();
 private:
+	void ExecOrContinue(const std::string &stmt);
+
 	void OnKeyPressed(const SDL_Keysym*);
 	void OnTextChanged();
 	void UpdateCompletion(const std::string & statement);
-	void ExecOrContinue();
 	void RunAutoexec();
+
+	bool m_active;
 
 	std::deque<std::string> m_statementHistory;
 	std::string m_stashedStatement;
 	int m_historyPosition;
-	Gui::TextEntry *m_entryField;
-	std::vector<Gui::Label*> m_outputLines;
+	RefCountedPtr<UI::Widget> m_container;
+	UI::MultiLineText *m_output;
+	UI::TextEntry *m_entry;
 	int m_nextOutputLine;
 	const int m_maxOutputLines;
 
