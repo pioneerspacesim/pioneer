@@ -145,6 +145,9 @@ private:
 	// lua method to set a property on a propertied object
 	static int l_setprop(lua_State *l);
 
+	// lua method to check the existence of a specific property on an object
+	static int l_hasprop(lua_State *l);
+
 	// the lua object "destructor" that gets called by the garbage collector.
 	static int l_gc(lua_State *l);
 
