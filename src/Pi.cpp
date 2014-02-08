@@ -750,6 +750,9 @@ void Pi::HandleEvents()
 			continue;
 		}
 
+		if (Pi::IsConsoleActive())
+			continue;
+
 		Gui::HandleSDLEvent(&event);
 
 		switch (event.type) {
