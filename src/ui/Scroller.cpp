@@ -6,9 +6,17 @@
 
 namespace UI {
 
+Scroller::Scroller(Context *context) : Container(context),
+	m_innerWidget(0)
+{
+    m_slider = GetContext()->VSlider();
+    m_slider->onValueChanged.connect(sigc::mem_fun(this, &Scroller::OnSliderScroll));
+    m_slider->onMouseWheel.connect(sigc::mem_fun(this, &Scroller::OnSliderMouseWheel));
+}
+
 Point Scroller::PreferredSize()
 {
-	const Point sliderSize = m_slider ? m_slider->PreferredSize() : Point(0);
+	const Point sliderSize = m_slider->GetContainer() ? m_slider->PreferredSize() : Point(0);
 	if (!m_innerWidget)
 		return sliderSize;
 
@@ -27,22 +35,16 @@ void Scroller::Layout()
 
 	// if the child can fit then we don't need the slider
 	if (childPreferredSize.y <= size.y) {
-		if (m_slider) {
-			Container::RemoveWidget(m_slider);
-			m_slider = 0;
-		}
+		if (m_slider->GetContainer())
+			RemoveWidget(m_slider);
 
 		SetWidgetDimensions(m_innerWidget, Point(), size);
 		m_innerWidget->Layout();
 	}
 
 	else {
-		if (!m_slider) {
-			m_slider = GetContext()->VSlider();
-			m_slider->onValueChanged.connect(sigc::mem_fun(this, &Scroller::OnSliderScroll));
-			m_slider->onMouseWheel.connect(sigc::mem_fun(this, &Scroller::OnSliderMouseWheel));
+		if (!m_slider->GetContainer())
 			AddWidget(m_slider);
-		}
 
 		const Point sliderSize = m_slider->PreferredSize();
 
@@ -62,17 +64,16 @@ void Scroller::Layout()
 
 float Scroller::GetScrollPosition() const
 {
-	return m_slider ? m_slider->GetValue() : 0.0f;
+	return m_slider->GetValue();
 }
 
 void Scroller::SetScrollPosition(float v)
 {
-	if (m_slider) m_slider->SetValue(v);
+	m_slider->SetValue(v);
 }
 
 void Scroller::HandleMouseWheel(const MouseWheelEvent &event)
 {
-	if (!m_slider) return;
 	if (event.direction == MouseWheelEvent::WHEEL_UP)
 		m_slider->StepUp();
 	else
@@ -87,7 +88,6 @@ void Scroller::OnSliderScroll(float value)
 
 bool Scroller::OnSliderMouseWheel(const MouseWheelEvent &event)
 {
-    if (!m_slider) return false;
     HandleMouseWheel(event);
     return true;
 }
