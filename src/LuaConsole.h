@@ -13,7 +13,7 @@
 
 class LuaConsole {
 public:
-	explicit LuaConsole(int displayedOutputLines);
+	LuaConsole();
 	virtual ~LuaConsole();
 
 	void Toggle();
@@ -43,7 +43,6 @@ private:
 	UI::MultiLineText *m_output;
 	UI::TextEntry *m_entry;
 	int m_nextOutputLine;
-	const int m_maxOutputLines;
 
 	std::string m_precompletionStatement;
 	std::vector<std::string> m_completionList;

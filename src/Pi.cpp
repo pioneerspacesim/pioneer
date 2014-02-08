@@ -626,7 +626,7 @@ void Pi::Init()
 	}
 #endif
 
-	luaConsole = new LuaConsole(10);
+	luaConsole = new LuaConsole();
 	KeyBindings::toggleLuaConsole.onPress.connect(sigc::mem_fun(Pi::luaConsole, &LuaConsole::Toggle));
 }
 

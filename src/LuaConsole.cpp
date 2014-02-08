@@ -22,9 +22,8 @@ static const char CONSOLE_CHUNK_NAME[] = "[T] console";
 static const char CONSOLE_CHUNK_NAME[] = "console";
 #endif
 
-LuaConsole::LuaConsole(int displayedOutputLines):
+LuaConsole::LuaConsole():
 	m_active(false),
-	m_maxOutputLines(displayedOutputLines),
 	m_precompletionStatement(),
 	m_completionList() {
 
