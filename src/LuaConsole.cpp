@@ -194,6 +194,13 @@ bool LuaConsole::OnKeyDown(const UI::KeyboardEvent &event) {
 			}
 			break;
 
+		case SDLK_l:
+			if (event.keysym.mod & KMOD_CTRL) {
+				m_output->SetText("");
+				return true;
+			}
+			break;
+
 		case SDLK_TAB:
 			if (m_completionList.empty()) {
 				UpdateCompletion(m_entry->GetText());
