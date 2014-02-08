@@ -33,7 +33,7 @@ LuaConsole::LuaConsole():
 	m_scroller = Pi::ui->Scroller()->SetInnerWidget(m_output);
 
 	m_container.Reset(Pi::ui->Margin(10)->SetInnerWidget(
-		Pi::ui->ColorBackground(Color(0,0,0,0x80))->SetInnerWidget(
+		Pi::ui->ColorBackground(Color(0,0,0,0xc0))->SetInnerWidget(
 			Pi::ui->VBox()->PackEnd(UI::WidgetSet(
 				Pi::ui->Expand()->SetInnerWidget(
 					m_scroller
