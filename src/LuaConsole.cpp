@@ -44,7 +44,9 @@ LuaConsole::LuaConsole(int displayedOutputLines):
 
 	m_container->SetFont(UI::Widget::FONT_MONO_NORMAL);
 
-	m_entry->onEnter.connect(sigc::mem_fun(this, &LuaConsole::ExecOrContinue));
+	m_entry->onKeyDown.connect(sigc::mem_fun(this, &LuaConsole::OnKeyDown));
+	m_entry->onChange.connect(sigc::mem_fun(this, &LuaConsole::OnChange));
+	m_entry->onEnter.connect(sigc::mem_fun(this, &LuaConsole::OnEnter));
 
 	m_historyPosition = -1;
 
@@ -144,80 +146,79 @@ void LuaConsole::RunAutoexec() {
 
 LuaConsole::~LuaConsole() {}
 
-void LuaConsole::OnKeyPressed(const SDL_Keysym *sym) {
-#if 0
-	// XXX totally horrible doing this on every key press
-	ResizeRequest();
+bool LuaConsole::OnKeyDown(const UI::KeyboardEvent &event) {
 
-	if ((sym->sym == SDLK_UP) || (sym->sym == SDLK_DOWN)) {
-		if (m_historyPosition == -1) {
-			if (sym->sym == SDLK_UP) {
-				m_historyPosition = (m_statementHistory.size() - 1);
-				if (m_historyPosition != -1) {
-					m_stashedStatement = m_entryField->GetText();
-					m_entryField->SetText(m_statementHistory[m_historyPosition]);
-					ResizeRequest();
+	switch (event.keysym.sym) {
+		case SDLK_UP:
+		case SDLK_DOWN: {
+			if (m_historyPosition == -1) {
+				if (event.keysym.sym == SDLK_UP) {
+					m_historyPosition = (m_statementHistory.size() - 1);
+					if (m_historyPosition != -1) {
+						m_stashedStatement = m_entry->GetText();
+						m_entry->SetText(m_statementHistory[m_historyPosition]);
+					}
 				}
-			}
-		} else {
-			if (sym->sym == SDLK_DOWN) {
-				++m_historyPosition;
-				if (m_historyPosition >= int(m_statementHistory.size())) {
-					m_historyPosition = -1;
-					m_entryField->SetText(m_stashedStatement);
-					m_stashedStatement.clear();
-					ResizeRequest();
+			} else {
+				if (event.keysym.sym == SDLK_DOWN) {
+					++m_historyPosition;
+					if (m_historyPosition >= int(m_statementHistory.size())) {
+						m_historyPosition = -1;
+						m_entry->SetText(m_stashedStatement);
+						m_stashedStatement.clear();
+					} else {
+						m_entry->SetText(m_statementHistory[m_historyPosition]);
+					}
 				} else {
-					m_entryField->SetText(m_statementHistory[m_historyPosition]);
-					ResizeRequest();
-				}
-			} else {
-				if (m_historyPosition > 0) {
-					--m_historyPosition;
-					m_entryField->SetText(m_statementHistory[m_historyPosition]);
-					ResizeRequest();
+					if (m_historyPosition > 0) {
+						--m_historyPosition;
+						m_entry->SetText(m_statementHistory[m_historyPosition]);
+					}
 				}
 			}
-		}
-	}
 
-	// CTRL+U clears the current command
-	if ((sym->sym == SDLK_u) && (sym->mod & KMOD_CTRL)) {
-		m_stashedStatement.clear();
-		m_entryField->SetText("");
-		m_historyPosition = -1;
-		ResizeRequest();
-	}
-
-	if (sym->sym == SDLK_TAB) {
-		if (m_completionList.empty()) {
-			UpdateCompletion(m_entryField->GetText());
+			return true;
 		}
-		if (!m_completionList.empty()) { // We still need to test whether it failed or not.
-			if (sym->mod & KMOD_SHIFT) {
-				if (m_currentCompletion == 0)
-					m_currentCompletion = m_completionList.size();
-				m_currentCompletion--;
-			} else {
-				m_currentCompletion++;
-				if (m_currentCompletion == m_completionList.size())
-					m_currentCompletion = 0;
+
+		case SDLK_u:
+		case SDLK_w:
+			if (event.keysym.mod & KMOD_CTRL) {
+				// TextEntry already cleared the input, we must cleanup the history
+				m_stashedStatement.clear();
+				m_historyPosition = -1;
+				return true;
 			}
-			m_entryField->SetText(m_precompletionStatement + m_completionList[m_currentCompletion]);
-			ResizeRequest();
-		}
+			break;
+
+		case SDLK_TAB:
+			if (m_completionList.empty()) {
+				UpdateCompletion(m_entry->GetText());
+			}
+			if (!m_completionList.empty()) { // We still need to test whether it failed or not.
+				if (event.keysym.mod & KMOD_SHIFT) {
+					if (m_currentCompletion == 0)
+						m_currentCompletion = m_completionList.size();
+					m_currentCompletion--;
+				} else {
+					m_currentCompletion++;
+					if (m_currentCompletion == m_completionList.size())
+						m_currentCompletion = 0;
+				}
+				m_entry->SetText(m_precompletionStatement + m_completionList[m_currentCompletion]);
+			}
+			return true;
 	}
 
-	if (sym->sym == SDLK_RETURN && !(sym->mod & KMOD_CTRL)) {
-		ExecOrContinue();
-	}
-#endif
+	return false;
 }
 
-void LuaConsole::OnTextChanged() {
-#if 0
+void LuaConsole::OnChange(const std::string &text) {
 	m_completionList.clear();
-#endif
+}
+
+void LuaConsole::OnEnter(const std::string &text) {
+	ExecOrContinue(text);
+	m_completionList.clear();
 }
 
 void LuaConsole::UpdateCompletion(const std::string & statement) {

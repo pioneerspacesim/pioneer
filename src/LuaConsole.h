@@ -23,6 +23,10 @@ public:
 
 	static void Register();
 private:
+	bool OnKeyDown(const UI::KeyboardEvent &event);
+	void OnChange(const std::string &text);
+	void OnEnter(const std::string &text);
+
 	void ExecOrContinue(const std::string &stmt);
 
 	void OnKeyPressed(const SDL_Keysym*);
