@@ -189,6 +189,9 @@ local onDelete = function (ref)
 end
 
 local nearbysystems
+
+-- return statement is nil if no advert was created, else it is bool:
+-- true if a localdelivery, false for non-local
 local makeAdvert = function (station, manualFlavour)
 	local reward, due, location, nearbysystem, dist
 	local client = Character.New()
@@ -276,12 +279,14 @@ end
 
 local onUpdateBB = function (station)
 	for ref,ad in pairs(ads) do
-		if not flavours[ad.flavour].localdelivery
-			and ad.due < Game.time + 5*60*60*24 then -- five day timeout for inter-system
-			ad.station:RemoveAdvert(ref)
-		elseif flavours[ad.flavour].localdelivery
-			and ad.due < Game.time + 2*60*60*24 then -- two day timeout for locals
-			ad.station:RemoveAdvert(ref)
+		if flavours[ad.flavour].localdelivery then
+			if ad.due < Game.time + 2*60*60*24 then -- two day timeout for locals
+				ad.station:RemoveAdvert(ref)
+			end
+		else
+			if ad.due < Game.time + 5*60*60*24 then -- five day timeout for inter-system
+				ad.station:RemoveAdvert(ref)
+			end
 		end
 	end
 	if Engine.rand:Integer(12*60*60) < 60*60 then -- roughly once every twelve hours
@@ -361,14 +366,20 @@ local onShipDocked = function (player, station)
 	for ref,mission in pairs(missions) do
 
 		if mission.location == station.path then
+			local reward
+			if flavours[mission.flavour].localdelivery then
+				reward = 0.5
+			else
+				reward = 1
+			end
 
 			if Game.time > mission.due then
 				Comms.ImportantMessage(flavours[mission.flavour].failuremsg, mission.client.name)
-				Character.persistent.player.reputation = Character.persistent.player.reputation - 1
+				Character.persistent.player.reputation = Character.persistent.player.reputation - reward
 			else
 				Comms.ImportantMessage(flavours[mission.flavour].successmsg, mission.client.name)
 				player:AddMoney(mission.reward)
-				Character.persistent.player.reputation = Character.persistent.player.reputation + 1
+				Character.persistent.player.reputation = Character.persistent.player.reputation + reward
 			end
 
 			mission:Remove()
