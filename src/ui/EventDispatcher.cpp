@@ -319,6 +319,9 @@ void EventDispatcher::EnableWidget(Widget *target)
 
 void EventDispatcher::LayoutUpdated()
 {
+	if (m_selected && !m_selected->IsVisible())
+		m_selected.Reset();
+
 	m_shortcuts.clear();
 	m_baseContainer->CollectShortcuts(m_shortcuts);
 

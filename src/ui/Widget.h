@@ -182,6 +182,12 @@ public:
 		FONT_HEADING_LARGE,
 		FONT_HEADING_XLARGE,
 
+		FONT_MONO_XSMALL,
+		FONT_MONO_SMALL,
+		FONT_MONO_NORMAL,
+		FONT_MONO_LARGE,
+		FONT_MONO_XLARGE,
+
 		FONT_MAX,                 // <enum skip>
 
 		FONT_INHERIT,
@@ -190,6 +196,8 @@ public:
 		FONT_LARGEST          = FONT_XLARGE,         // <enum skip>
 		FONT_HEADING_SMALLEST = FONT_HEADING_XSMALL, // <enum skip>
 		FONT_HEADING_LARGEST  = FONT_HEADING_XLARGE, // <enum skip>
+		FONT_MONO_SMALLEST    = FONT_MONO_XSMALL,    // <enum skip>
+		FONT_MONO_LARGEST     = FONT_MONO_XLARGE,    // <enum skip>
 	};
 
 	virtual Widget *SetFont(Font font);

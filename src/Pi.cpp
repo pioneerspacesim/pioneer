@@ -626,30 +626,13 @@ void Pi::Init()
 	}
 #endif
 
-	luaConsole = new LuaConsole(10);
-	KeyBindings::toggleLuaConsole.onPress.connect(sigc::ptr_fun(&Pi::ToggleLuaConsole));
+	luaConsole = new LuaConsole();
+	KeyBindings::toggleLuaConsole.onPress.connect(sigc::mem_fun(Pi::luaConsole, &LuaConsole::Toggle));
 }
 
 bool Pi::IsConsoleActive()
 {
 	return luaConsole && luaConsole->IsActive();
-}
-
-void Pi::ToggleLuaConsole()
-{
-	if (luaConsole->IsVisible()) {
-		luaConsole->Hide();
-		if (luaConsole->GetTextEntryField()->IsFocused())
-			Gui::Screen::ClearFocus();
-		Gui::Screen::RemoveBaseWidget(luaConsole);
-	} else {
-		// luaConsole is added and removed from the base widget set
-		// (rather than just using Show()/Hide())
-		// so that it's forced in front of any other base widgets when it opens
-		Gui::Screen::AddBaseWidget(luaConsole, 0, 0);
-		luaConsole->Show();
-		luaConsole->GetTextEntryField()->Show();
-	}
 }
 
 void Pi::Quit()
@@ -712,6 +695,16 @@ void Pi::HandleEvents()
 	PROFILE_SCOPED()
 	SDL_Event event;
 
+	// XXX for most keypresses SDL will generate KEYUP/KEYDOWN and TEXTINPUT
+	// events. keybindings run off KEYUP/KEYDOWN. the console is opened/closed
+	// via keybinding. the console TextInput widget uses TEXTINPUT events. thus
+	// after switching the console, the stray TEXTINPUT event causes the
+	// console key (backtick) to appear in the text entry field. we hack around
+	// this by setting this flag if the console was switched. if its set, we
+	// swallow the TEXTINPUT event this hack must remain until we have a
+	// unified input system
+	bool skipTextInput = false;
+
 	Pi::mouseMotion[0] = Pi::mouseMotion[1] = 0;
 	while (SDL_PollEvent(&event)) {
 		if (event.type == SDL_QUIT) {
@@ -719,14 +712,28 @@ void Pi::HandleEvents()
 				Pi::EndGame();
 			Pi::Quit();
 		}
-		else if (ui->DispatchSDLEvent(event))
+
+		if (skipTextInput && event.type == SDL_TEXTINPUT) {
+			skipTextInput = false;
+			continue;
+		}
+		if (ui->DispatchSDLEvent(event))
 			continue;
 
-		Gui::HandleSDLEvent(&event);
-		if (!Pi::IsConsoleActive())
+		bool consoleActive = Pi::IsConsoleActive();
+		if (!consoleActive)
 			KeyBindings::DispatchSDLEvent(&event);
 		else
 			KeyBindings::toggleLuaConsole.CheckSDLEventAndDispatch(&event);
+		if (consoleActive != Pi::IsConsoleActive()) {
+			skipTextInput = true;
+			continue;
+		}
+
+		if (Pi::IsConsoleActive())
+			continue;
+
+		Gui::HandleSDLEvent(&event);
 
 		switch (event.type) {
 			case SDL_KEYDOWN:
