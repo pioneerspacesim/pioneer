@@ -42,6 +42,8 @@ LuaConsole::LuaConsole(int displayedOutputLines):
 		)
 	));
 
+	m_container->SetFont(UI::Widget::FONT_MONO_NORMAL);
+
 	m_entry->onEnter.connect(sigc::mem_fun(this, &LuaConsole::ExecOrContinue));
 
 	m_historyPosition = -1;
