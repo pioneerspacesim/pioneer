@@ -54,6 +54,9 @@ void Scroller::Layout()
 
 		const float step = float(sliderSize.y) * 0.5f / float(childPreferredSize.y);
 		m_slider->SetStep(step);
+
+		// reset the draw offset for new content
+		OnSliderScroll(m_slider->GetValue());
 	}
 }
 
