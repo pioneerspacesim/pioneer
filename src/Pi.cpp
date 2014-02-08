@@ -627,32 +627,12 @@ void Pi::Init()
 #endif
 
 	luaConsole = new LuaConsole(10);
-	KeyBindings::toggleLuaConsole.onPress.connect(sigc::ptr_fun(&Pi::ToggleLuaConsole));
+	KeyBindings::toggleLuaConsole.onPress.connect(sigc::mem_fun(Pi::luaConsole, &LuaConsole::Toggle));
 }
 
 bool Pi::IsConsoleActive()
 {
 	return luaConsole && luaConsole->IsActive();
-}
-
-void Pi::ToggleLuaConsole()
-{
-	luaConsole->Toggle();
-#if 0
-	if (luaConsole->IsVisible()) {
-		luaConsole->Hide();
-		if (luaConsole->GetTextEntryField()->IsFocused())
-			Gui::Screen::ClearFocus();
-		Gui::Screen::RemoveBaseWidget(luaConsole);
-	} else {
-		// luaConsole is added and removed from the base widget set
-		// (rather than just using Show()/Hide())
-		// so that it's forced in front of any other base widgets when it opens
-		Gui::Screen::AddBaseWidget(luaConsole, 0, 0);
-		luaConsole->Show();
-		luaConsole->GetTextEntryField()->Show();
-	}
-#endif
 }
 
 void Pi::Quit()

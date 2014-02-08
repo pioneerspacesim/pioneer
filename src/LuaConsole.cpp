@@ -54,25 +54,6 @@ LuaConsole::LuaConsole(int displayedOutputLines):
 
 	m_historyPosition = -1;
 
-#if 0
-	SetTransparency(false);
-	SetBgColor(Color(160,32,0,160));
-
-	Gui::Screen::PushFont("ConsoleFont");
-	m_entryField = new Gui::TextEntry();
-	Gui::Screen::PopFont();
-	m_entryField->SetNewlineMode(Gui::TextEntry::AcceptCtrlNewline);
-	m_outputLines.reserve(displayedOutputLines);
-	m_nextOutputLine = 0;
-
-	// XXX HACK: bypassing TextEntry::Show, because it grabs focus
-	m_entryField->Gui::Widget::Show();
-	m_entryField->onKeyPress.connect(sigc::mem_fun(this, &LuaConsole::OnKeyPressed));
-	m_entryField->onValueChanged.connect(sigc::mem_fun(this, &LuaConsole::OnTextChanged));
-
-	PackEnd(m_entryField);
-#endif
-
 	// prepare the global table
 	lua_State *l = Lua::manager->GetLuaState();
 
@@ -296,30 +277,6 @@ void LuaConsole::UpdateCompletion(const std::string & statement) {
 
 void LuaConsole::AddOutput(const std::string &line) {
 	m_output->AppendText(line + "\n");
-
-#if 0
-	Gui::Label *label = 0;
-	if (int(m_outputLines.size()) > m_nextOutputLine) {
-		label = m_outputLines[m_nextOutputLine];
-		Remove(label);
-	} else {
-		Gui::Screen::PushFont("ConsoleFont");
-		label = new Gui::Label("", Gui::TextLayout::ColourMarkupNone);
-		Gui::Screen::PopFont();
-		m_outputLines.push_back(label);
-	}
-	m_nextOutputLine = (m_nextOutputLine + 1) % m_maxOutputLines;
-
-	label->SetText(line);
-	float size[2];
-	label->GetSizeRequested(size);
-	label->SetSize(float(Gui::Screen::GetWidth()), size[1]);
-	label->Show();
-
-	Remove(m_entryField);
-	PackEnd(label);
-	PackEnd(m_entryField);
-#endif
 }
 
 void LuaConsole::ExecOrContinue(const std::string &stmt) {
@@ -342,10 +299,6 @@ void LuaConsole::ExecOrContinue(const std::string &stmt) {
 			if (strcmp(tail, eofstring) == 0) {
 				// statement is incomplete -- allow the user to continue on the next line
 				m_entry->SetText(stmt + "\n");
-#if 0
-				m_entryField->ResizeRequest();
-				ResizeRequest();
-#endif
 				lua_pop(L, 1);
 				return;
 			}
