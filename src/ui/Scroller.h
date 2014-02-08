@@ -29,14 +29,14 @@ protected:
 
 	virtual void RemoveWidget(Widget *widget);
 
+	virtual void HandleMouseWheel(const MouseWheelEvent &event);
+
 private:
 	Widget *m_innerWidget;
 	VSlider *m_slider;
 
-	sigc::connection m_onMouseWheelConn;
-
-	void OnScroll(float value);
-	bool OnMouseWheel(const MouseWheelEvent &event);
+	void OnSliderScroll(float value);
+	bool OnSliderMouseWheel(const MouseWheelEvent &event);
 };
 
 }

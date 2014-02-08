@@ -39,8 +39,8 @@ void Scroller::Layout()
 	else {
 		if (!m_slider) {
 			m_slider = GetContext()->VSlider();
-			m_slider->onValueChanged.connect(sigc::mem_fun(this, &Scroller::OnScroll));
-			m_slider->onMouseWheel.connect(sigc::mem_fun(this, &Scroller::OnMouseWheel));
+			m_slider->onValueChanged.connect(sigc::mem_fun(this, &Scroller::OnSliderScroll));
+			m_slider->onMouseWheel.connect(sigc::mem_fun(this, &Scroller::OnSliderMouseWheel));
 			AddWidget(m_slider);
 		}
 
@@ -67,35 +67,37 @@ void Scroller::SetScrollPosition(float v)
 	if (m_slider) m_slider->SetValue(v);
 }
 
-void Scroller::OnScroll(float value)
+void Scroller::HandleMouseWheel(const MouseWheelEvent &event)
+{
+	if (!m_slider) return;
+	if (event.direction == MouseWheelEvent::WHEEL_UP)
+		m_slider->StepUp();
+	else
+		m_slider->StepDown();
+}
+
+void Scroller::OnSliderScroll(float value)
 {
 	if (!m_innerWidget) return;
 	m_innerWidget->SetDrawOffset(Point(0, -float(m_innerWidget->GetActiveArea().y-GetSize().y)*value));
 }
 
-bool Scroller::OnMouseWheel(const MouseWheelEvent &event)
+bool Scroller::OnSliderMouseWheel(const MouseWheelEvent &event)
 {
-	if (!m_slider) return false;
-	if (event.direction == MouseWheelEvent::WHEEL_UP)
-		m_slider->StepUp();
-	else
-		m_slider->StepDown();
-	return true;
+    if (!m_slider) return false;
+    HandleMouseWheel(event);
+    return true;
 }
 
 Scroller *Scroller::SetInnerWidget(Widget *widget)
 {
 	assert(widget);
 
-	if (m_innerWidget) {
-		m_onMouseWheelConn.disconnect();
+	if (m_innerWidget)
 		RemoveWidget(m_innerWidget);
-	}
 
 	AddWidget(widget);
 	m_innerWidget = widget;
-
-	m_onMouseWheelConn = m_innerWidget->onMouseWheel.connect(sigc::mem_fun(this, &Scroller::OnMouseWheel));
 
 	return this;
 }
