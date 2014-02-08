@@ -31,11 +31,15 @@ LuaConsole::LuaConsole(int displayedOutputLines):
 	m_output = Pi::ui->MultiLineText("");
 	m_entry = Pi::ui->TextEntry();
 
+	UI::Scroller *scroller = Pi::ui->Scroller()->SetInnerWidget(
+		Pi::ui->Expand()->SetInnerWidget(m_output)
+	);
+
 	m_container.Reset(Pi::ui->Margin(10)->SetInnerWidget(
 		Pi::ui->ColorBackground(Color(0,0,0,0x80))->SetInnerWidget(
 			Pi::ui->VBox()->PackEnd(UI::WidgetSet(
 				Pi::ui->Expand()->SetInnerWidget(
-					m_output
+					scroller
 				),
 				m_entry
 			))
