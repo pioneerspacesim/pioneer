@@ -211,15 +211,12 @@ class GeoPatch;
 class BasePatchJob : public Job
 {
 public:
-	BasePatchJob(GeoPatch* patch) : m_patch(patch) {}
-	virtual ~BasePatchJob();
+	BasePatchJob() {}
 	virtual void OnRun() {}    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
-	virtual void OnFinish();
-	virtual void OnCancel();
+	virtual void OnFinish() {}
+	virtual void OnCancel() {}
 
 protected:
-	GeoPatch* m_patch; // THIS MAY ONLY BE ACCESSED IN THE MAIN THREAD (OnCancel/OnFinish/destructor)
-
 	// in patch surface coords, [0,1]
 	inline vector3d GetSpherePoint(const vector3d &v0, const vector3d &v1, const vector3d &v2, const vector3d &v3, const double x, const double y) const {
 		return (v0 + x*(1.0-y)*(v1-v0) + x*y*(v2-v0) + (1.0-x)*y*(v3-v0)).Normalized();
@@ -237,7 +234,7 @@ protected:
 class SinglePatchJob : public BasePatchJob
 {
 public:
-	SinglePatchJob(GeoPatch* patch, SSingleSplitRequest *data) : BasePatchJob(patch), mData(data), mpResults(NULL)	{ /* empty */ }
+	SinglePatchJob(SSingleSplitRequest *data) : mData(data), mpResults(NULL) { /* empty */ }
 	~SinglePatchJob();
 
 	virtual void OnRun();      // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
@@ -254,7 +251,7 @@ private:
 class QuadPatchJob : public BasePatchJob
 {
 public:
-	QuadPatchJob(GeoPatch* patch, SQuadSplitRequest *data) : BasePatchJob(patch), mData(data), mpResults(NULL) { /* empty */ }
+	QuadPatchJob(SQuadSplitRequest *data) : mData(data), mpResults(NULL) { /* empty */ }
 	~QuadPatchJob();
 
 	virtual void OnRun();      // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!

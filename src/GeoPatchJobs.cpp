@@ -19,27 +19,6 @@ inline void setColour(Color3ub &r, const vector3d &v) {
 // Overloaded PureJob class to handle generating the mesh for each patch
 // ********************************************************************************
 
-BasePatchJob::~BasePatchJob()
-{
-	if (m_patch) {
-		assert(m_patch->m_job == this);
-		m_patch->m_job = nullptr;
-	}
-}
-
-void BasePatchJob::OnFinish()  // runs in primary thread of the context
-{
-	assert(m_patch);
-	assert(m_patch->m_job == this);
-	m_patch->m_job = nullptr;
-	m_patch = nullptr;
-}
-
-void BasePatchJob::OnCancel()   // runs in primary thread of the context
-{
-	m_patch = nullptr;
-}
-
 // Generates full-detail vertices, and also non-edge normals and colors 
 void BasePatchJob::GenerateMesh(double *heights, vector3f *normals, Color3ub *colors, 
 								double *borderHeights, vector3d *borderVertexs,
