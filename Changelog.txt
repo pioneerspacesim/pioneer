@@ -13,6 +13,7 @@ February 2014
    * Script API changes
      * Model.SetDebugFlags for adding debug effects to model drawing
      * ModelSpinner.model to get the spinner model
+     * hasprop method to see if the named property exists (#2734)
 
    * Model changes
      * Removed two_sided material property, it didn't handle lighting correctly (#2697)
