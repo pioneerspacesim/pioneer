@@ -219,6 +219,7 @@ void LuaConsole::OnChange(const std::string &text) {
 void LuaConsole::OnEnter(const std::string &text) {
 	ExecOrContinue(text);
 	m_completionList.clear();
+	Pi::ui->SelectWidget(m_entry);
 }
 
 void LuaConsole::UpdateCompletion(const std::string & statement) {
