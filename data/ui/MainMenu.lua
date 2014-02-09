@@ -76,6 +76,7 @@ local doSettingsScreen = function()
 end
 
 local buttonDefs = {
+	{ l.QUICKLOAD,              function () loadGame("_quicksave") end },
 	{ l.START_AT_EARTH,         function () Game.StartGame(SystemPath.New(0,0,0,0,6),48600)   setupPlayerSol() end },
 	{ l.START_AT_NEW_HOPE,      function () Game.StartGame(SystemPath.New(1,-1,-1,0,4)) setupPlayerEridani() end },
 	{ l.START_AT_BARNARDS_STAR, function () Game.StartGame(SystemPath.New(-1,0,0,0,1))  setupPlayerBarnard() end },
