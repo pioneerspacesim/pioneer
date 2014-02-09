@@ -11,7 +11,8 @@ Scroller::Scroller(Context *context) : Container(context),
 {
     m_slider.Reset(GetContext()->VSlider());
     m_slider->onValueChanged.connect(sigc::mem_fun(this, &Scroller::OnSliderScroll));
-    m_slider->onMouseWheel.connect(sigc::mem_fun(this, &Scroller::OnSliderMouseWheel));
+    m_slider->onMouseWheel.connect(sigc::mem_fun(this, &Scroller::OnMouseWheel));
+	onMouseWheel.connect(sigc::mem_fun(this, &Scroller::OnMouseWheel));
 }
 
 Point Scroller::PreferredSize()
@@ -72,14 +73,6 @@ void Scroller::SetScrollPosition(float v)
 	m_slider->SetValue(v);
 }
 
-void Scroller::HandleMouseWheel(const MouseWheelEvent &event)
-{
-	if (event.direction == MouseWheelEvent::WHEEL_UP)
-		m_slider->StepUp();
-	else
-		m_slider->StepDown();
-}
-
 void Scroller::OnSliderScroll(float value)
 {
 	if (!m_innerWidget) return;
@@ -89,10 +82,13 @@ void Scroller::OnSliderScroll(float value)
 		m_innerWidget->SetDrawOffset(Point());
 }
 
-bool Scroller::OnSliderMouseWheel(const MouseWheelEvent &event)
+bool Scroller::OnMouseWheel(const MouseWheelEvent &event)
 {
-    HandleMouseWheel(event);
-    return true;
+	if (event.direction == MouseWheelEvent::WHEEL_UP)
+		m_slider->StepUp();
+	else
+		m_slider->StepDown();
+	return true;
 }
 
 Scroller *Scroller::SetInnerWidget(Widget *widget)
