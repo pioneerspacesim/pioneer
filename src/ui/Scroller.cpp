@@ -83,7 +83,10 @@ void Scroller::HandleMouseWheel(const MouseWheelEvent &event)
 void Scroller::OnSliderScroll(float value)
 {
 	if (!m_innerWidget) return;
-	m_innerWidget->SetDrawOffset(Point(0, -float(m_innerWidget->GetActiveArea().y-GetSize().y)*value));
+	if (m_slider->GetContainer())
+		m_innerWidget->SetDrawOffset(Point(0, -float(m_innerWidget->GetActiveArea().y-GetSize().y)*value));
+	else
+		m_innerWidget->SetDrawOffset(Point());
 }
 
 bool Scroller::OnSliderMouseWheel(const MouseWheelEvent &event)
