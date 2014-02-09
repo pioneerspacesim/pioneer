@@ -1137,7 +1137,9 @@ void Ship::StaticUpdate(const float timeStep)
 	UpdateAlertState();
 
 	/* FUEL SCOOPING!!!!!!!!! */
-	if ((m_flightState == FLYING) && (m_equipment.Get(Equip::SLOT_FUELSCOOP) != Equip::NONE)) {
+	int fuel_scoop_cap = 0;
+	Properties().Get("fuel_scoop_cap", fuel_scoop_cap);
+	if (m_flightState == FLYING && fuel_scoop_cap > 0) {
 		Body *astro = GetFrame()->GetBody();
 		if (astro && astro->IsType(Object::PLANET)) {
 			Planet *p = static_cast<Planet*>(astro);
