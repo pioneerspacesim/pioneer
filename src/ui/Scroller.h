@@ -33,7 +33,7 @@ protected:
 
 private:
 	Widget *m_innerWidget;
-	VSlider *m_slider;
+	RefCountedPtr<VSlider> m_slider;
 
 	void OnSliderScroll(float value);
 	bool OnSliderMouseWheel(const MouseWheelEvent &event);
