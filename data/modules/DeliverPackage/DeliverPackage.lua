@@ -102,6 +102,21 @@ local isQualifiedFor = function(reputation, ad)
 		false
 end
 
+-- Those are the jobs that can be done without reputation
+local easyJobs = {}
+local easyLocalJobs = {}
+local easyNonLocalJobs = {}
+for i = 1,#flavours do
+	if isQualifiedFor(-1000, flavours[i]) then
+		table.insert(easyJobs, i)
+		if flavours[i].localdelivery then
+			table.insert(easyLocalJobs, i)
+		else
+			table.insert(easyNonLocalJobs, i)
+		end
+	end
+end
+
 local onChat = function (form, ref, option)
 	local ad = ads[ref]
 
@@ -197,9 +212,22 @@ end
 
 local nearbysystems
 
+local findNearbyStations = function (station, minDist)
+	local nearbystations = {}
+	for _,s in ipairs(Game.system:GetStationPaths()) do
+		if s ~= station.path then
+			local dist = station:DistanceTo(Space.GetBody(s.bodyIndex))
+			if dist >= minDist then
+				table.insert(nearbystations, { s, dist })
+			end
+		end
+	end
+	return nearbystations
+end
+
 -- return statement is nil if no advert was created, else it is bool:
 -- true if a localdelivery, false for non-local
-local makeAdvert = function (station, manualFlavour)
+local makeAdvert = function (station, manualFlavour, nearbystations)
 	local reward, due, location, nearbysystem, dist
 	local client = Character.New()
 
@@ -211,12 +239,11 @@ local makeAdvert = function (station, manualFlavour)
 
 	if flavours[flavour].localdelivery then
 		nearbysystem = Game.system
-		local nearbystations = Game.system:GetStationPaths()
-		location = nearbystations[Engine.rand:Integer(1,#nearbystations)]
-		if location ==  station.path then return nil end
-		local locdist = Space.GetBody(location.bodyIndex)
-		dist = station:DistanceTo(locdist)
-		if dist < 1000 then return nil end
+		if nearbystations == nil then
+			nearbystations = findNearbyStations(station, 1000)
+		end
+		if #nearbystations == 0 then return nil end
+		location, dist = table.unpack(nearbystations[Engine.rand:Integer(1,#nearbystations)])
 		reward = 25 + (math.sqrt(dist) / 15000) * (1+urgency)
 		due = Game.time + ((4*24*60*60) * (Engine.rand:Number(1.5,3.5) - urgency))
 	else
@@ -264,24 +291,37 @@ local makeAdvert = function (station, manualFlavour)
 	ads[ref] = ad
 
 	-- successfully created an advert, return non-nil
-	return flavours[flavour].localdelivery
+	return ad
 end
 
 local onCreateBB = function (station)
+	if nearbysystems == nil then
+		nearbysystems = Game.system:GetNearbySystems(max_delivery_dist, function (s) return #s:GetStationPaths() > 0 end)
+	end
+	local nearbystations = findNearbyStations(station, 1000)
 	local num = Engine.rand:Integer(0, math.ceil(Game.system.population))
+	local numAchievableJobs = 0
+	local reputation = Character.persistent.player.reputation
 
 	for i = 1,num do
-		makeAdvert(station)
+		local ad = makeAdvert(station, nil, nearbystations)
+		if ad and isQualifiedFor(reputation, ad) then
+			numAchievableJobs = numAchievableJobs + 1
+		end
 	end
 
 	-- make sure a player with low reputation will have at least one
-	-- local delivery (flavour [6,10]) on the BBS
-	if Character.persistent.player.reputation < 8 then
-		local created, i = false, 0
-		repeat
-			i = 1 + i
-			created = makeAdvert(station, Engine.rand:Integer(6,10))
-		until created or i > 5
+	-- job that does not require reputation on the BBS
+	if numAchievableJobs < 1 and (#nearbystations > 0 or #nearbysystems > 0) then
+		local ad
+		if #nearbystations > 0 and #nearbysystems > 0 then
+			ad = makeAdvert(station, easyJobs[Engine.rand:Integer(1,#easyJobs)], nearbystations)
+		elseif #nearbystations > 0 then
+			ad = makeAdvert(station, easyLocalJobs[Engine.rand:Integer(1,#easyLocalJobs)], nearbystations)
+		else
+			ad = makeAdvert(station, easyNonLocalJobs[Engine.rand:Integer(1,#easyNonLocalJobs)], nearbystations)
+		end
+		assert(ad, "Could not create easy job")   -- We checked preconditions, so we should have a job now
 	end
 end
 
