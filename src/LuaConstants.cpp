@@ -510,6 +510,7 @@ void LuaConstants::Register(lua_State *l)
 	 * DOCKING    - in docking animation
 	 * DOCKED     - docked with station
 	 * LANDED     - rough landed (not docked)
+	 * JUMPING    - just initiating hyperjump (as of February 2014)
 	 * HYPERSPACE - in hyperspace
 	 *
 	 * Availability:

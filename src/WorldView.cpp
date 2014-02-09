@@ -509,6 +509,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			m_flightControlButton->Hide();
 			break;
 
+		case Ship::JUMPING:
 		case Ship::HYPERSPACE:
 			m_flightStatus->SetText(Lang::HYPERSPACE);
 			m_launchButton->Hide();

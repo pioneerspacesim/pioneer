@@ -22,6 +22,7 @@ February 2014
      * Complain about custom systems with wrong number of stars (#2718,#2720)
      * Fixing thruster tags (#2721)
      * Fix run-away terrain threads when ending the game (#2707,#2722)
+     * Fix Lua error from TradeShips when colliding and hyperjumping (#2701,#2731)
 
    * Internal changes
      * Moved model debug effects (wireframe, collision mesh) out of

@@ -616,7 +616,7 @@ Ship::HyperjumpStatus Ship::GetHyperspaceDetails(const SystemPath &src, const Sy
 		outDurationSecs = Pi::CalcHyperspaceDuration(hyperclass, m_totalmass, dist);
 
 		if (outFuelRequired <= fuel) {
-			return HYPERJUMP_OK;
+			return GetFlightState() == JUMPING ? HYPERJUMP_INITIATED : HYPERJUMP_OK;
 		} else {
 			return HYPERJUMP_INSUFFICIENT_FUEL;
 		}
@@ -640,7 +640,7 @@ Ship::HyperjumpStatus Ship::CheckHyperspaceTo(const SystemPath &dest, int &outFu
 	outFuelRequired = 0;
 	outDurationSecs = 0.0;
 
-	if (GetFlightState() != FLYING)
+	if (GetFlightState() != FLYING && GetFlightState() != JUMPING)
 		return HYPERJUMP_SAFETY_LOCKOUT;
 
 	return GetHyperspaceDetails(dest, outFuelRequired, outDurationSecs);
@@ -745,6 +745,7 @@ void Ship::SetFlightState(Ship::FlightState newState)
 // TODO: set collision index? dynamic stations... use landed for open-air?
 		case DOCKED:		SetMoving(false);	SetColliding(false);	SetStatic(false);	break;
 		case LANDED:		SetMoving(false);	SetColliding(true);		SetStatic(true);	break;
+		case JUMPING:		SetMoving(true);	SetColliding(false);	SetStatic(false);	break;
 		case HYPERSPACE:	SetMoving(false);	SetColliding(false);	SetStatic(false);	break;
 	}
 }
@@ -1110,6 +1111,8 @@ void Ship::StaticUpdate(const float timeStep)
 	if (m_flightState == FLYING)
 		m_launchLockTimeout -= timeStep;
 	if (m_launchLockTimeout < 0) m_launchLockTimeout = 0;
+	if (m_flightState == JUMPING || m_flightState == HYPERSPACE)
+		m_launchLockTimeout = 0;
 
 	// lasers
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
@@ -1166,17 +1169,20 @@ void Ship::StaticUpdate(const float timeStep)
 	// holding references to it (eg missiles), as StartHyperspaceTo
 	// removes the ship from Space::bodies and so the missile will not
 	// have references to this cleared by NotifyRemoved()
-	if (m_hyperspace.countdown > 0.0f) {
-		m_hyperspace.countdown = m_hyperspace.countdown - timeStep;
-		if (m_hyperspace.countdown <= 0.0f) {
-			m_hyperspace.countdown = 0;
-			m_hyperspace.now = true;
-		}
-	}
-
 	if (m_hyperspace.now) {
 		m_hyperspace.now = false;
 		EnterHyperspace();
+	}
+
+	if (m_hyperspace.countdown > 0.0f) {
+		m_hyperspace.countdown = m_hyperspace.countdown - timeStep;
+		if (m_hyperspace.countdown <= 0.0f) {
+			// Initiate hyperjump in the next frame. We don't do it now, as there might be events queued
+			// that need to be delivered before entering hyperspace
+			m_hyperspace.countdown = 0;
+			m_hyperspace.now = true;
+			SetFlightState(JUMPING);
+		}
 	}
 
 	//Add smoke trails for missiles on thruster state
@@ -1295,10 +1301,12 @@ void Ship::EnterHyperspace() {
 
 	int fuel_cost;
 	Ship::HyperjumpStatus status = CheckHyperspaceTo(dest, fuel_cost, m_hyperspace.duration);
-	if (status != HYPERJUMP_OK) {
+	if (status != HYPERJUMP_OK && status != HYPERJUMP_INITIATED) {
 		// XXX something has changed (fuel loss, mass change, whatever).
 		// could report it to the player but better would be to cancel the
 		// countdown before this is reached. either way do something
+		if (m_flightState == JUMPING)
+			SetFlightState(FLYING);
 		return;
 	}
 
