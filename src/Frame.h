@@ -28,7 +28,7 @@ public:
 	~Frame();
 	static void Serialize(Serializer::Writer &wr, Frame *f, Space *space);
 	static void PostUnserializeFixup(Frame *f, Space *space);
-	static Frame *Unserialize(Serializer::Reader &rd, Space *space, Frame *parent);
+	static Frame *Unserialize(Serializer::Reader &rd, Space *space, Frame *parent, double at_time);
 	const std::string &GetLabel() const { return m_label; }
 	void SetLabel(const char *label) { m_label = label; }
 
