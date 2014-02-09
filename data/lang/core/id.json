@@ -17,11 +17,11 @@
    },
    "ALT_IN_KM" : {
       "description" : "",
-      "message" : "Alt: %altitude{f.0}km (%vspeed{f.1}km/s)"
+      "message" : "ketinggian: %altitude{f.0}km (%vspeed{f.1}km/s)"
    },
    "ALT_IN_METRES" : {
       "description" : "",
-      "message" : "Alt: %altitude{f.0}m (%vspeed{f.1}m/s)"
+      "message" : "Ketinggian: %altitude{f.0}m (%vspeed{f.1}m/s)"
    },
    "AND_HIGHLY_COMPLEX_ECOSYSTEM" : {
       "description" : "",
@@ -45,7 +45,7 @@
    },
    "AR_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Argon atmosphere\""
+      "message" : "\" atmosfer Argon\""
    },
    "ASTEROID" : {
       "description" : "",
@@ -61,7 +61,7 @@
    },
    "AUTOPILOT" : {
       "description" : "",
-      "message" : "Autopilot"
+      "message" : "Pilot otomatis"
    },
    "AUTOPILOT_DESCRIPTION" : {
       "description" : "",
@@ -89,7 +89,7 @@
    },
    "AUTOPILOT_ON" : {
       "description" : "",
-      "message" : "Autopilot on"
+      "message" : "Pilot otomatis aktif"
    },
    "AXIAL_TILT" : {
       "description" : "",
@@ -97,15 +97,15 @@
    },
    "A_FEW_THOUSAND" : {
       "description" : "",
-      "message" : "Only a few thousand"
+      "message" : "Hanya beberapa ribu"
    },
    "BATTLE_WEAPONS" : {
       "description" : "",
-      "message" : "Battle weapons"
+      "message" : "Senjata perang"
    },
    "BINARY_SYSTEM" : {
       "description" : "",
-      "message" : "Binary system"
+      "message" : "Sistem biner"
    },
    "BODIES" : {
       "description" : "",
@@ -125,11 +125,11 @@
    },
    "CAMERA_BOTTOM_VIEW" : {
       "description" : "",
-      "message" : "Bottom camera"
+      "message" : "Kamera bawah"
    },
    "CAMERA_FRONT_VIEW" : {
       "description" : "",
-      "message" : "Front camera"
+      "message" : "Kamera depan"
    },
    "CAMERA_LEFT_VIEW" : {
       "description" : "",
@@ -137,19 +137,19 @@
    },
    "CAMERA_REAR_VIEW" : {
       "description" : "",
-      "message" : "Rear camera"
+      "message" : "Kamera belakang"
    },
    "CAMERA_RIGHT_VIEW" : {
       "description" : "",
-      "message" : "Right camera"
+      "message" : "Kamera kanan"
    },
    "CAMERA_TOP_VIEW" : {
       "description" : "",
-      "message" : "Top camera"
+      "message" : "Kamera atas"
    },
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
-      "message" : "Can't save game while in hyperspace"
+      "message" : "Tidak dapat menyimpan permainan saat berada di hyperspace"
    },
    "CAPITALIST" : {
       "description" : "",
@@ -181,7 +181,7 @@
    },
    "CARGO_N" : {
       "description" : "",
-      "message" : "Cargo: %{mass}t"
+      "message" : "Kargo: %{mass}t"
    },
    "CARGO_SCOOP" : {
       "description" : "",
@@ -197,7 +197,7 @@
    },
    "CH4_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Methane atmosphere\""
+      "message" : "\" atmosfer Metana\""
    },
    "CLEARANCE_ALREADY_GRANTED_BAY_N" : {
       "description" : "",
@@ -213,7 +213,7 @@
    },
    "CO2_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Carbon Dioxide atmosphere\""
+      "message" : "\" atmosfer Karbon Dioksida\""
    },
    "COMMA_HIGHLY_VOLCANIC" : {
       "description" : "",
@@ -225,7 +225,7 @@
    },
    "COMMUNIST" : {
       "description" : "",
-      "message" : "Communist"
+      "message" : "Komunis"
    },
    "COMPUTERS" : {
       "description" : "",
@@ -245,19 +245,19 @@
    },
    "CONTROLS" : {
       "description" : "",
-      "message" : "Controls"
+      "message" : "Kontrol"
    },
    "CORPORATE_SYSTEM" : {
       "description" : "",
-      "message" : "Corporate system"
+      "message" : "Sistem Korporasi"
    },
    "COULD_NOT_OPEN_FILENAME" : {
       "description" : "",
-      "message" : "Could not open %path"
+      "message" : "Tidak dapat membuka %path"
    },
    "COUNT_ON_SURFACE" : {
       "description" : "",
-      "message" : "\" (%surfacecount on surface)\""
+      "message" : "\" (%surfacecount di permukaan)\""
    },
    "COUNT_STARPORTS" : {
       "description" : "",
@@ -265,7 +265,7 @@
    },
    "CO_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Carbon Monoxide atmosphere\""
+      "message" : "\" atmosfer Karbon Monoksida\""
    },
    "CTRL" : {
       "description" : "Ctrl key on keyboard",
@@ -281,7 +281,7 @@
    },
    "DAY_LENGTH" : {
       "description" : "",
-      "message" : "Day length"
+      "message" : "Lama hari"
    },
    "DECREASE_SCAN_RANGE" : {
       "description" : "",
@@ -297,11 +297,11 @@
    },
    "DESTINATION" : {
       "description" : "",
-      "message" : "Destination"
+      "message" : "Tujuan"
    },
    "DIRECTION" : {
       "description" : "",
-      "message" : "\" Dir \""
+      "message" : "\" Arah \""
    },
    "DISABLED_AUTOMATIC_SYSTEM_SELECTION" : {
       "description" : "",
@@ -309,7 +309,7 @@
    },
    "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
       "description" : "",
-      "message" : "Distance from ship to navigation target"
+      "message" : "Jarak dari kapal ke target navigasi"
    },
    "DISTANCE_LY" : {
       "description" : "",
@@ -345,39 +345,39 @@
    },
    "DRIVE_CLASS1" : {
       "description" : "",
-      "message" : "Class 1 Hyperdrive"
+      "message" : "Hyperdrive kelas 1"
    },
    "DRIVE_CLASS2" : {
       "description" : "",
-      "message" : "Class 2 Hyperdrive"
+      "message" : "Hyperdrive kelas 2"
    },
    "DRIVE_CLASS3" : {
       "description" : "",
-      "message" : "Class 3 Hyperdrive"
+      "message" : "Hyperdrive kelas 3"
    },
    "DRIVE_CLASS4" : {
       "description" : "",
-      "message" : "Class 4 Hyperdrive"
+      "message" : "Hyperdrive kelas 4"
    },
    "DRIVE_CLASS5" : {
       "description" : "",
-      "message" : "Class 5 Hyperdrive"
+      "message" : "Hyperdrive kelas 5"
    },
    "DRIVE_CLASS6" : {
       "description" : "",
-      "message" : "Class 6 Hyperdrive"
+      "message" : "Hyperdrive kelas 6"
    },
    "DRIVE_CLASS7" : {
       "description" : "",
-      "message" : "Class 7 Hyperdrive"
+      "message" : "Hyperdrive kelas 7"
    },
    "DRIVE_CLASS8" : {
       "description" : "",
-      "message" : "Class 8 Hyperdrive"
+      "message" : "Hyperdrive kelas 8"
    },
    "DRIVE_CLASS9" : {
       "description" : "",
-      "message" : "Class 9 Hyperdrive"
+      "message" : "Hyperdrive kelas 9"
    },
    "DRIVE_MIL1" : {
       "description" : "",
@@ -397,7 +397,7 @@
    },
    "EARTH" : {
       "description" : "",
-      "message" : "Earth"
+      "message" : "Bumi"
    },
    "EARTH_FEDERATION_COLONIAL_RULE" : {
       "description" : "",
@@ -429,15 +429,15 @@
    },
    "ECONOMIC_INFO" : {
       "description" : "",
-      "message" : "Economic info"
+      "message" : "Info ekonomi"
    },
    "ECONOMY_TYPE" : {
       "description" : "",
-      "message" : "Economy type:"
+      "message" : "Tipe ekonomi:"
    },
    "ENABLED_AUTOMATIC_SYSTEM_SELECTION" : {
       "description" : "",
-      "message" : "Enabled automatic system selection."
+      "message" : "Aktifkan sistem seleksi otomatis."
    },
    "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
       "description" : "",
@@ -453,15 +453,15 @@
    },
    "EXTERNAL_ATMOSPHERIC_PRESSURE" : {
       "description" : "",
-      "message" : "External atmospheric pressure"
+      "message" : "Tekanan atmosfer eksternal"
    },
    "EXTERNAL_VIEW" : {
       "description" : "",
-      "message" : "External view"
+      "message" : "Tampilan luar"
    },
    "FARM_MACHINERY" : {
       "description" : "",
-      "message" : "Farm machinery"
+      "message" : "Mesin pertanian"
    },
    "FERTILIZER" : {
       "description" : "",
@@ -473,7 +473,7 @@
    },
    "FINE_PAID_N_BUT_N_REMAINING" : {
       "description" : "",
-      "message" : "You have paid %paid but still have an outstanding fine of %fine."
+      "message" : "Anda telah membayar %paid tapi masih punya denda sebesar %fine."
    },
    "FIRE_LASER" : {
       "description" : "",
@@ -497,7 +497,7 @@
    },
    "FUEL" : {
       "description" : "",
-      "message" : "Fuel"
+      "message" : "Bahan bakar"
    },
    "FUEL_SCOOP" : {
       "description" : "",
@@ -521,23 +521,23 @@
    },
    "GAME_LOAD_CANNOT_OPEN" : {
       "description" : "",
-      "message" : "This saved game file could not be opened due to permissions or something..."
+      "message" : "Simpanan permainan ini tidak dapat dibuka karena masalah ijin atau yang lainnya..."
    },
    "GAME_LOAD_CORRUPT" : {
       "description" : "",
-      "message" : "This saved game cannot be loaded because it contains errors."
+      "message" : "Simpanan permainan ini tidak dapat dibuka karena mengandung kesalahan."
    },
    "GAME_LOAD_WRONG_VERSION" : {
       "description" : "",
-      "message" : "This saved game cannot be loaded because it was created by a different version of Pioneer."
+      "message" : "Simpanan permainan ini tidak dapat dibuka karena dibuat oleh versi Pioneer lain."
    },
    "GAME_SAVED_TO" : {
       "description" : "",
-      "message" : "\"Game saved to \""
+      "message" : "\"Permainan disimpan ke \""
    },
    "GAME_SAVE_CANNOT_WRITE" : {
       "description" : "",
-      "message" : "This saved game file could not be written because of a system error."
+      "message" : "Permainan ini tidak dapat disimpan karena masalah sistem."
    },
    "GENERAL_VIEW_CONTROLS" : {
       "description" : "",
@@ -545,7 +545,7 @@
    },
    "GOVERNMENT_TYPE" : {
       "description" : "",
-      "message" : "Government type:"
+      "message" : "Tipe pemerintahan:"
    },
    "GRAIN" : {
       "description" : "",
@@ -553,7 +553,7 @@
    },
    "HAND_WEAPONS" : {
       "description" : "",
-      "message" : "Hand weapons"
+      "message" : "Senjata tangan"
    },
    "HARD_CAPITALIST" : {
       "description" : "",
@@ -573,11 +573,11 @@
    },
    "HEAVY_INDUSTRY" : {
       "description" : "",
-      "message" : "Heavy industry."
+      "message" : "Industri berat."
    },
    "HE_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Helium atmosphere\""
+      "message" : "\" atmosfer Helium\""
    },
    "HIGHLY_VOLCANIC" : {
       "description" : "",
@@ -589,7 +589,7 @@
    },
    "HULL_AUTOREPAIR" : {
       "description" : "",
-      "message" : "Hull Auto-Repair System"
+      "message" : "SIstem Perbaikan Otomatis Lambung Kapal"
    },
    "HULL_AUTOREPAIR_DESCRIPTION" : {
       "description" : "",
@@ -597,15 +597,15 @@
    },
    "HULL_INTEGRITY" : {
       "description" : "",
-      "message" : "Hull integrity"
+      "message" : "Integritas lambung kapal"
    },
    "HULL_TEMP" : {
       "description" : "",
-      "message" : "Hull temp"
+      "message" : "Suhu lambung kapal"
    },
    "HYDROGEN" : {
       "description" : "",
-      "message" : "Hydrogen"
+      "message" : "Hidrogen"
    },
    "HYDROGEN_DESCRIPTION" : {
       "description" : "",
@@ -637,15 +637,15 @@
    },
    "HYPERSPACE_JUMP" : {
       "description" : "",
-      "message" : "Hyperspace Jump"
+      "message" : "Lompatan Hyperspace"
    },
    "HYPERSPACE_JUMP_ABORTED" : {
       "description" : "",
-      "message" : "Hyperspace jump aborted."
+      "message" : "Lompatan hyperspace dibatalkan."
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Hyperspace target"
+      "message" : "Target hyperspace"
    },
    "HYPERSPACING_IN_N_SECONDS" : {
       "description" : "",
@@ -653,7 +653,7 @@
    },
    "H_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Hydrogen atmosphere\""
+      "message" : "\" atmosfer Hidrogen\""
    },
    "ICE_WORLD" : {
       "description" : "",
@@ -661,7 +661,7 @@
    },
    "ILLEGAL_GOODS" : {
       "description" : "",
-      "message" : "Illegal Goods:"
+      "message" : "Barang ilegal:"
    },
    "IMPERIAL_RULE" : {
       "description" : "",
@@ -685,11 +685,11 @@
    },
    "INDUSTRIAL_MACHINERY" : {
       "description" : "",
-      "message" : "Industrial machinery"
+      "message" : "Mesin industri"
    },
    "INTERNAL_VIEW" : {
       "description" : "",
-      "message" : "Internal view"
+      "message" : "Tampilan internal"
    },
    "INT_LY" : {
       "description" : "",
@@ -721,7 +721,7 @@
    },
    "LANDED" : {
       "description" : "",
-      "message" : "Landed"
+      "message" : "Mendarat"
    },
    "LANG_NAME" : {
       "description" : "The name that native speakers use for this language. This will be used in the language selection screen. For obscure reasons this currently must only use Latin-1 characters.",
@@ -737,7 +737,7 @@
    },
    "LARGE_PLASMA_ACCEL" : {
       "description" : "",
-      "message" : "Large plasma accelerator"
+      "message" : "Akselerator plasma besar"
    },
    "LASER_COOLING_BOOSTER" : {
       "description" : "",
@@ -745,7 +745,7 @@
    },
    "LASER_COOLING_BOOSTER_DESCRIPTION" : {
       "description" : "",
-      "message" : "An improved cooling system for your weapons."
+      "message" : "Sistem pendingin yang lebih baik untuk senjata anda."
    },
    "LASER_FIRE_DETECTED" : {
       "description" : "",
@@ -757,7 +757,7 @@
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
-      "message" : "Liberal democracy"
+      "message" : "Demokrasi liberal"
    },
    "LIQUID_OXYGEN" : {
       "description" : "",
@@ -765,7 +765,7 @@
    },
    "LIQUID_OXYGEN_DESCRIPTION" : {
       "description" : "",
-      "message" : "Oxygen is required for life support systems and some industrial processes"
+      "message" : "Oksigen dibutuhkan untuk sistem penopang kehidupan dan beberapa proses industri"
    },
    "LIQUOR" : {
       "description" : "",
@@ -773,7 +773,7 @@
    },
    "LIVE_ANIMALS" : {
       "description" : "",
-      "message" : "Live Animals"
+      "message" : "Binatang Hidup"
    },
    "LOCKED" : {
       "description" : "",
@@ -789,7 +789,7 @@
    },
    "MANUAL_CONTROL" : {
       "description" : "",
-      "message" : "Manual control"
+      "message" : "Kontrol manual"
    },
    "MANUAL_CONTROL_MODE" : {
       "description" : "",
@@ -901,7 +901,7 @@
    },
    "MILITARY_FUEL" : {
       "description" : "",
-      "message" : "Military fuel"
+      "message" : "Bahan bakar militer"
    },
    "MININGCANNON_17MW" : {
       "description" : "",
@@ -917,7 +917,7 @@
    },
    "MINING_MACHINERY" : {
       "description" : "",
-      "message" : "Mining machinery"
+      "message" : "Mesin menambang"
    },
    "MINOR_EXPORTS" : {
       "description" : "",
@@ -929,11 +929,11 @@
    },
    "MISCELLANEOUS" : {
       "description" : "",
-      "message" : "Miscellaneous"
+      "message" : "Lain-lain"
    },
    "MISSILE" : {
       "description" : "",
-      "message" : "missile"
+      "message" : "misil"
    },
    "MISSILE_GUIDED" : {
       "description" : "",
@@ -945,7 +945,7 @@
    },
    "MISSILE_SMART" : {
       "description" : "",
-      "message" : "Smart Missile"
+      "message" : "Misil Pintar"
    },
    "MISSILE_UNGUIDED" : {
       "description" : "",
@@ -953,7 +953,7 @@
    },
    "MIXED_ECONOMY" : {
       "description" : "",
-      "message" : "Mixed economy"
+      "message" : "Ekonomi campuran"
    },
    "MONTH_APR" : {
       "description" : "",
@@ -961,11 +961,11 @@
    },
    "MONTH_AUG" : {
       "description" : "",
-      "message" : "Aug"
+      "message" : "Ags"
    },
    "MONTH_DEC" : {
       "description" : "",
-      "message" : "Dec"
+      "message" : "Des"
    },
    "MONTH_FEB" : {
       "description" : "",
@@ -989,7 +989,7 @@
    },
    "MONTH_MAY" : {
       "description" : "",
-      "message" : "May"
+      "message" : "Mei"
    },
    "MONTH_NOV" : {
       "description" : "",
@@ -1013,11 +1013,11 @@
    },
    "NAME_OBJECT" : {
       "description" : "For an item or object",
-      "message" : "Name"
+      "message" : "Nama"
    },
    "NAME_PERSON" : {
       "description" : "For a person",
-      "message" : "Name"
+      "message" : "Nama"
    },
    "NARCOTICS" : {
       "description" : "",
@@ -1025,7 +1025,7 @@
    },
    "NAVIGATION_STAR_MAPS" : {
       "description" : "",
-      "message" : "Navigation and star maps"
+      "message" : "Navigasi dan peta bintang"
    },
    "NAVIGATION_TARGETS_IN_THIS_SYSTEM" : {
       "description" : "",
@@ -1045,7 +1045,7 @@
    },
    "NOT_FOUND" : {
       "description" : "",
-      "message" : "Not found"
+      "message" : "Tidak ditemukan"
    },
    "NOT_FOUND_BEST_MATCH_X" : {
       "description" : "",
@@ -1077,7 +1077,7 @@
    },
    "NUMBER_DAYS" : {
       "description" : "",
-      "message" : "%days{f.0} days"
+      "message" : "%days{f.0} hari"
    },
    "NUMBER_G" : {
       "description" : "",
@@ -1085,7 +1085,7 @@
    },
    "NUMBER_HOURS" : {
       "description" : "",
-      "message" : "%hours{f.1} hrs"
+      "message" : "%hours{f.1} jam"
    },
    "NUMBER_LY" : {
       "description" : "",
@@ -1097,7 +1097,7 @@
    },
    "N_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Nitrogen atmosphere\""
+      "message" : "\" atmosfer Nitrogen\""
    },
    "N_CELSIUS" : {
       "description" : "",
@@ -1105,15 +1105,15 @@
    },
    "N_DAYS" : {
       "description" : "",
-      "message" : "%days{f.1} days"
+      "message" : "%days{f.1} hari"
    },
    "N_DEGREES" : {
       "description" : "",
-      "message" : "%angle{f.1} degrees"
+      "message" : "%angle{f.1} derajat"
    },
    "N_DISTANCE_TO_TARGET" : {
       "description" : "",
-      "message" : "%distance to target"
+      "message" : "%distance ke target"
    },
    "N_EARTH_DAYS" : {
       "description" : "",
@@ -1129,11 +1129,11 @@
    },
    "N_YEARS" : {
       "description" : "",
-      "message" : "%years{f.1} years"
+      "message" : "%years{f.1} tahun"
    },
    "O2_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Oxygen atmosphere\""
+      "message" : "\" atmosfer Oksigen\""
    },
    "OCEANICWORLD" : {
       "description" : "",
@@ -1161,7 +1161,7 @@
    },
    "OVER_N_MILLION" : {
       "description" : "",
-      "message" : "Over %population million"
+      "message" : "Diatas %population juta"
    },
    "PASSENGER_CABIN" : {
       "description" : "",
@@ -1173,7 +1173,7 @@
    },
    "PAY_FINE_REMOTELY" : {
       "description" : "",
-      "message" : "Pay fine by remote transfer (%amount)"
+      "message" : "Bayar denda dengan transfer (%amount)"
    },
    "PERIAPSIS_DISTANCE" : {
       "description" : "",
@@ -1221,7 +1221,7 @@
    },
    "PLASTICS" : {
       "description" : "",
-      "message" : "Plastics"
+      "message" : "Plastik"
    },
    "PLUTOCRATIC_DICTATORSHIP" : {
       "description" : "",
@@ -1229,15 +1229,15 @@
    },
    "POLICE_SHIP_REGISTRATION" : {
       "description" : "",
-      "message" : "POLICE"
+      "message" : "POLISI"
    },
    "POPULATION" : {
       "description" : "",
-      "message" : "Population:"
+      "message" : "Populasi:"
    },
    "PRECIOUS_METALS" : {
       "description" : "",
-      "message" : "Precious metals"
+      "message" : "Metal berharga"
    },
    "PRESSURE_N_ATMOSPHERES" : {
       "description" : "",
@@ -1289,7 +1289,7 @@
    },
    "RADIOACTIVES" : {
       "description" : "",
-      "message" : "Radioactive waste"
+      "message" : "Limbah radioaktif"
    },
    "RADIUS" : {
       "description" : "",
@@ -1317,11 +1317,11 @@
    },
    "ROCKY_PLANET" : {
       "description" : "",
-      "message" : "\" rocky planet\""
+      "message" : "\" planet berbatu-batu\""
    },
    "ROCKY_PLANET_CONTAINING_COME_LIQUIDS" : {
       "description" : "",
-      "message" : "\" rocky planet containing some liquids,\""
+      "message" : "\" planet berbatu mengandung sedikit cairan, \""
    },
    "ROLL" : {
       "description" : "",
@@ -1345,7 +1345,7 @@
    },
    "ROTATE_RIGHT" : {
       "description" : "",
-      "message" : "Rotate Right"
+      "message" : "Putar Kanan"
    },
    "ROTATE_UP" : {
       "description" : "",
@@ -1353,7 +1353,7 @@
    },
    "ROTATIONAL_PERIOD" : {
       "description" : "",
-      "message" : "\" (rotational period)\""
+      "message" : "\" (periode rotasi)\""
    },
    "ROTATION_DAMPING_OFF" : {
       "description" : "",
@@ -1393,11 +1393,11 @@
    },
    "SEARCH" : {
       "description" : "",
-      "message" : "Search"
+      "message" : "Cari"
    },
    "SEARCH_MAP" : {
       "description" : "",
-      "message" : "Search Map"
+      "message" : "Cari Peta"
    },
    "SECTOR_COORDINATES" : {
       "description" : "",
@@ -1409,7 +1409,7 @@
    },
    "SECTOR_X_Y_Z" : {
       "description" : "",
-      "message" : "Sector: %x,%y,%z"
+      "message" : "Sektor: %x,%y,%z"
    },
    "SELECTED_SYSTEM" : {
       "description" : "",
@@ -1429,7 +1429,7 @@
    },
    "SET_HYPERSPACE_DESTINATION_TO" : {
       "description" : "",
-      "message" : "Set hyperspace destination to %system"
+      "message" : "Tetapkan tujuan hyperspace ke %system"
    },
    "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE" : {
       "description" : "",
@@ -1441,7 +1441,7 @@
    },
    "SET_SPEED_KM_S" : {
       "description" : "",
-      "message" : "Set speed: %speed{f.2} km/s"
+      "message" : "Atur kecepatan: %speed{f.2} km/s"
    },
    "SET_SPEED_M_S" : {
       "description" : "",
@@ -1457,15 +1457,15 @@
    },
    "SHIELD_GENERATOR" : {
       "description" : "",
-      "message" : "Shield Generator"
+      "message" : "Generator Perisai"
    },
    "SHIELD_GENERATOR_DESCRIPTION" : {
       "description" : "",
-      "message" : "Provides additional hull defences with each unit fitted."
+      "message" : "Memberikan perlindungan lambung kapal tambahan dengan setiap unit yang terpasang."
    },
    "SHIELD_INTEGRITY" : {
       "description" : "",
-      "message" : "Shield integrity"
+      "message" : "Integritas perisai"
    },
    "SHIELD_STRENGTH_N" : {
       "description" : "",
@@ -1477,7 +1477,7 @@
    },
    "SHIP" : {
       "description" : "",
-      "message" : "Ship"
+      "message" : "Kapal"
    },
    "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
       "description" : "",
@@ -1489,7 +1489,7 @@
    },
    "SHIP_INFORMATION" : {
       "description" : "",
-      "message" : "Ship information"
+      "message" : "Informasi kapal"
    },
    "SHIP_MASS_N_TONNES" : {
       "description" : "",
@@ -1513,15 +1513,15 @@
    },
    "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
       "description" : "",
-      "message" : "Simulating evolution of the universe: %age{f.1} billion years ;-)"
+      "message" : "Menyimulasikan evolusi alam semesta: %age{f.1} milyar tahun ;-)"
    },
    "SLAVES" : {
       "description" : "",
-      "message" : "Slaves"
+      "message" : "Budak"
    },
    "SMALL" : {
       "description" : "",
-      "message" : "Small"
+      "message" : "Kecil"
    },
    "SMALL_GAS_GIANT" : {
       "description" : "",
@@ -1533,7 +1533,7 @@
    },
    "SMALL_PLASMA_ACCEL" : {
       "description" : "",
-      "message" : "Small plasma accelerator"
+      "message" : "Akselerator plasma kecil"
    },
    "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS" : {
       "description" : "",
@@ -1541,7 +1541,7 @@
    },
    "SOCIAL_DEMOCRACY" : {
       "description" : "",
-      "message" : "Social democracy"
+      "message" : "Demokrasi sosial"
    },
    "SOLAR" : {
       "description" : "",
@@ -1569,7 +1569,7 @@
    },
    "STARPORTS" : {
       "description" : "",
-      "message" : "Starports"
+      "message" : "Stasiun luar angkasa"
    },
    "STAR_A" : {
       "description" : "",
@@ -1577,15 +1577,15 @@
    },
    "STAR_AF_GIANT" : {
       "description" : "",
-      "message" : "White giant star"
+      "message" : "Bintang putih raksasa"
    },
    "STAR_AF_HYPER_GIANT" : {
       "description" : "",
-      "message" : "White hyper giant star"
+      "message" : "Bintang putih hiper raksasa"
    },
    "STAR_AF_SUPER_GIANT" : {
       "description" : "",
-      "message" : "White super giant star"
+      "message" : "Bintang putih super raksasa"
    },
    "STAR_B" : {
       "description" : "",
@@ -1593,15 +1593,15 @@
    },
    "STAR_B_GIANT" : {
       "description" : "",
-      "message" : "Blue giant star"
+      "message" : "Bintang biru raksasa"
    },
    "STAR_B_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Blue hyper giant star"
+      "message" : "Bintang biru hiper raksasa"
    },
    "STAR_B_SUPER_GIANT" : {
       "description" : "",
-      "message" : "Blue super giant star"
+      "message" : "Bintang biru super raksasa"
    },
    "STAR_B_WF" : {
       "description" : "",
@@ -1609,7 +1609,7 @@
    },
    "STAR_F" : {
       "description" : "",
-      "message" : "Type 'F' white star"
+      "message" : "Bintang putih tipe 'F'"
    },
    "STAR_G" : {
       "description" : "",
@@ -1617,15 +1617,15 @@
    },
    "STAR_G_GIANT" : {
       "description" : "",
-      "message" : "Yellow giant star - Unstable"
+      "message" : "Bintang kuning raksasa - Tidak stabil"
    },
    "STAR_G_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Yellow hyper giant star - Unstable"
+      "message" : "Bintang kuning hiper raksasa - Tidak stabil"
    },
    "STAR_G_SUPER_GIANT" : {
       "description" : "",
-      "message" : "Yellow super giant star"
+      "message" : "Bintang kuning super raksasa"
    },
    "STAR_IM_BH" : {
       "description" : "",
@@ -1637,15 +1637,15 @@
    },
    "STAR_K_GIANT" : {
       "description" : "",
-      "message" : "Orange giant star - Unstable"
+      "message" : "Bintang oranye raksasa - Tidak stabil"
    },
    "STAR_K_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Orange hyper giant star - Unstable"
+      "message" : "Bintang oranye hiper raksasa - Tidak stabil"
    },
    "STAR_K_SUPER_GIANT" : {
       "description" : "",
-      "message" : "Orange super giant star"
+      "message" : "Bintang oranye super raksasa"
    },
    "STAR_M" : {
       "description" : "",
@@ -1653,15 +1653,15 @@
    },
    "STAR_M_GIANT" : {
       "description" : "",
-      "message" : "Red giant star"
+      "message" : "Bintang merah raksasa"
    },
    "STAR_M_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Red hyper giant star"
+      "message" : "Bintang merah hiper raksasa"
    },
    "STAR_M_SUPER_GIANT" : {
       "description" : "",
-      "message" : "Red super giant star"
+      "message" : "Bintang merah super raksasa"
    },
    "STAR_M_WF" : {
       "description" : "",
@@ -1673,15 +1673,15 @@
    },
    "STAR_O_GIANT" : {
       "description" : "",
-      "message" : "Hot Blue giant star"
+      "message" : "Bintang biru panas raksasa"
    },
    "STAR_O_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Hot Blue hyper giant star"
+      "message" : "Bintang biru panas hiper raksasa"
    },
    "STAR_O_SUPER_GIANT" : {
       "description" : "",
-      "message" : "Hot Blue super giant star"
+      "message" : "Bintang biru panas super raksasa"
    },
    "STAR_O_WF" : {
       "description" : "",
@@ -1705,11 +1705,11 @@
    },
    "SURFACE_GRAVITY" : {
       "description" : "",
-      "message" : "Surface gravity"
+      "message" : "Gravitasi permukaan"
    },
    "SURFACE_TEMPERATURE" : {
       "description" : "",
-      "message" : "Surface temperature"
+      "message" : "Suhu permukaan"
    },
    "SYSTEM" : {
       "description" : "",
@@ -1725,11 +1725,11 @@
    },
    "SYSTEM_TYPE" : {
       "description" : "",
-      "message" : "System type:"
+      "message" : "Tipe sistem:"
    },
    "S_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Sulfuric atmosphere\""
+      "message" : "\" atmosfer Sulfur\""
    },
    "TAKEOFF" : {
       "description" : "",
@@ -1789,7 +1789,7 @@
    },
    "TINY" : {
       "description" : "",
-      "message" : "Tiny"
+      "message" : "Sangat kecil"
    },
    "TOGGLE_HUD_MODE" : {
       "description" : "",
@@ -1841,7 +1841,7 @@
    },
    "UNOCCUPIED_CABIN" : {
       "description" : "",
-      "message" : "Extra Passenger Cabin"
+      "message" : "Kabin Penumpang Tambahan"
    },
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",
@@ -1865,7 +1865,7 @@
    },
    "VID_CONNECTING" : {
       "description" : "",
-      "message" : "Connecting..."
+      "message" : "Menyambungkan..."
    },
    "VID_LINK_ESTABLISHED" : {
       "description" : "",
@@ -1873,7 +1873,7 @@
    },
    "VIEW" : {
       "description" : "",
-      "message" : "View"
+      "message" : "Tampilan"
    },
    "VIOLENT_ANARCHY" : {
       "description" : "",
@@ -1881,15 +1881,15 @@
    },
    "WATER" : {
       "description" : "",
-      "message" : "Water"
+      "message" : "Air"
    },
    "WEAPONS" : {
       "description" : "",
-      "message" : "Weapons"
+      "message" : "Senjata"
    },
    "WEAPON_TEMP" : {
       "description" : "",
-      "message" : "Weapon temp"
+      "message" : "Suhu senjata"
    },
    "WHEELS_ARE_DOWN" : {
       "description" : "",
@@ -1905,11 +1905,11 @@
    },
    "WITH_A" : {
       "description" : "",
-      "message" : "\" with a \""
+      "message" : "\" dengan \""
    },
    "WITH_NO_SIGNIFICANT_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" with no significant atmosphere\""
+      "message" : "\" tanpa atmosfer signifikan\""
    },
    "X" : {
       "description" : "",
@@ -1917,7 +1917,7 @@
    },
    "X_CANNOT_BE_TOLERATED_HERE" : {
       "description" : "",
-      "message" : "%crime cannot be tolerated here."
+      "message" : "%crime tidak bisa ditoleransi disini."
    },
    "Y" : {
       "description" : "",
@@ -1941,7 +1941,7 @@
    },
    "YOU_NO_MONEY" : {
       "description" : "",
-      "message" : "You do not have any money."
+      "message" : "Anda tidak punya uang."
    },
    "Z" : {
       "description" : "",

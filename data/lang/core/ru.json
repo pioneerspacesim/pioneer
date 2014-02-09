@@ -25,7 +25,7 @@
    },
    "AND_HIGHLY_COMPLEX_ECOSYSTEM" : {
       "description" : "",
-      "message" : "\" и очень сложная экосистема.\""
+      "message" : "\" и с очень сложной экосистемой.\""
    },
    "AND_INDIGENOUS_MICROBIAL_LIFE" : {
       "description" : "",
@@ -281,7 +281,7 @@
    },
    "DAY_LENGTH" : {
       "description" : "",
-      "message" : "Световой день"
+      "message" : "Длина дня"
    },
    "DECREASE_SCAN_RANGE" : {
       "description" : "",
@@ -581,7 +581,7 @@
    },
    "HIGHLY_VOLCANIC" : {
       "description" : "",
-      "message" : "Вулканическая активность"
+      "message" : "Вулканическая"
    },
    "HIGH_POPULATION_OUTDOOR_WORLD" : {
       "description" : "",
@@ -1821,7 +1821,7 @@
    },
    "UNEXPLORED_SYSTEM_NO_DATA" : {
       "description" : "",
-      "message" : "Неизведанная система. Больше нет доступных данных."
+      "message" : "Неизведанная система. Данные отсутствуют."
    },
    "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW" : {
       "description" : "",
@@ -1905,7 +1905,7 @@
    },
    "WITH_A" : {
       "description" : "",
-      "message" : "с"
+      "message" : "\" c \""
    },
    "WITH_NO_SIGNIFICANT_ATMOSPHERE" : {
       "description" : "",

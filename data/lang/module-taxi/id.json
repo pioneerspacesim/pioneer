@@ -61,11 +61,11 @@
    },
    "DISTANCE" : {
       "description" : "",
-      "message" : "Distance:"
+      "message" : "Jarak:"
    },
    "EXCELLENT" : {
       "description" : "",
-      "message" : "Excellent."
+      "message" : "Sempurna."
    },
    "FLAVOUR_0_ADTEXT" : {
       "description" : "",
@@ -517,7 +517,7 @@
    },
    "OK_AGREED" : {
       "description" : "",
-      "message" : "Ok, agreed."
+      "message" : "Ok, setuju."
    },
    "PIRATE_TAUNTS_0" : {
       "description" : "",

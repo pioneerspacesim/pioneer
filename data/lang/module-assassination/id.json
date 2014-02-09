@@ -1,7 +1,7 @@
 {
    "ASSASSINATION" : {
       "description" : "",
-      "message" : "Assassination"
+      "message" : "Pembunuhan"
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
@@ -9,11 +9,11 @@
    },
    "DISTANCE" : {
       "description" : "",
-      "message" : "Distance:"
+      "message" : "Jarak:"
    },
    "EXCELLENT" : {
       "description" : "",
-      "message" : "Excellent."
+      "message" : "Sempurna."
    },
    "FLAVOUR_0_ADTEXT" : {
       "description" : "",
@@ -21,7 +21,7 @@
    },
    "FLAVOUR_0_FAILUREMSG" : {
       "description" : "",
-      "message" : "I am most displeased to find that {target} is still alive. Needless to say you will receive no payment."
+      "message" : "Saya sangat kecewa mengetahui bahwa {target} masih hidup. Karena itu kau tidak akan menerima bayaran."
    },
    "FLAVOUR_0_FAILUREMSG2" : {
       "description" : "",
@@ -41,7 +41,7 @@
    },
    "FLAVOUR_1_FAILUREMSG" : {
       "description" : "",
-      "message" : "I hear that {target} is in good health. This pains me."
+      "message" : "Saya mendengar {target} dalam kondisi sehat. Ini membuat saya sebal."
    },
    "FLAVOUR_1_FAILUREMSG2" : {
       "description" : "",
@@ -65,7 +65,7 @@
    },
    "FLAVOUR_2_FAILUREMSG2" : {
       "description" : "",
-      "message" : "Contract was completed by someone else. Be faster next time!"
+      "message" : "Kontrak diselesaikan oleh orang lain. Lain kali lebih cepat!"
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
@@ -89,11 +89,11 @@
    },
    "FLAVOUR_3_INTROTEXT" : {
       "description" : "",
-      "message" : "The {target} must be reduced to space dust. I'll award you {cash} to do this."
+      "message" : "{target} harus diubah menjadi debu angkasa. Saya akan membayar {cash} untuk pekerjaan ini."
    },
    "FLAVOUR_3_SUCCESSMSG" : {
       "description" : "",
-      "message" : "{target} is dead. Here is your award."
+      "message" : "{target} telah mati. Ini hadiahmu."
    },
    "FLAVOUR_4_ADTEXT" : {
       "description" : "",
@@ -101,7 +101,7 @@
    },
    "FLAVOUR_4_FAILUREMSG" : {
       "description" : "",
-      "message" : "{target} is still breathing and I'm not giving money to you."
+      "message" : "{target} masih bernafas karena itu saya tidak akan membayar kamu."
    },
    "FLAVOUR_4_FAILUREMSG2" : {
       "description" : "",
@@ -157,7 +157,7 @@
    },
    "OK_AGREED" : {
       "description" : "",
-      "message" : "Ok, agreed."
+      "message" : "Ok, setuju."
    },
    "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID" : {
       "description" : "",
@@ -177,11 +177,11 @@
    },
    "SYSTEM" : {
       "description" : "",
-      "message" : "System:"
+      "message" : "Sistem:"
    },
    "TARGET_NAME" : {
       "description" : "",
-      "message" : "Target name:"
+      "message" : "Nama Target:"
    },
    "TARGET_WILL_BE_LEAVING_SPACEPORT_AT" : {
       "description" : "",
@@ -201,7 +201,7 @@
    },
    "TITLE_11" : {
       "description" : "",
-      "message" : "General"
+      "message" : "Jenderal"
    },
    "TITLE_12" : {
       "description" : "",
@@ -209,7 +209,7 @@
    },
    "TITLE_13" : {
       "description" : "",
-      "message" : "Lawyer"
+      "message" : "Pengacara"
    },
    "TITLE_14" : {
       "description" : "",
@@ -221,7 +221,7 @@
    },
    "TITLE_16" : {
       "description" : "",
-      "message" : "Merchant"
+      "message" : "Pedagang"
    },
    "TITLE_17" : {
       "description" : "",
@@ -233,11 +233,11 @@
    },
    "TITLE_19" : {
       "description" : "",
-      "message" : "Professor"
+      "message" : "Profesor"
    },
    "TITLE_2" : {
       "description" : "",
-      "message" : "Brigadier"
+      "message" : "Brigadir"
    },
    "TITLE_20" : {
       "description" : "",
@@ -265,7 +265,7 @@
    },
    "TITLE_4" : {
       "description" : "",
-      "message" : "Captain"
+      "message" : "Kapten"
    },
    "TITLE_5" : {
       "description" : "",
@@ -273,7 +273,7 @@
    },
    "TITLE_6" : {
       "description" : "",
-      "message" : "Colonel"
+      "message" : "Kolonel"
    },
    "TITLE_7" : {
       "description" : "",
@@ -281,7 +281,7 @@
    },
    "TITLE_8" : {
       "description" : "",
-      "message" : "Commodore"
+      "message" : "Komodor"
    },
    "TITLE_9" : {
       "description" : "",

@@ -33,19 +33,19 @@
    },
    "HYDROGEN" : {
       "description" : "",
-      "message" : "Hydrogen"
+      "message" : "Hidrogen"
    },
    "MILITARY_FUEL" : {
       "description" : "",
-      "message" : "Military fuel"
+      "message" : "Bahan bakar militer"
    },
    "RADIOACTIVES" : {
       "description" : "",
-      "message" : "Radioactive waste"
+      "message" : "Limbah radioaktif"
    },
    "WATER" : {
       "description" : "",
-      "message" : "Water"
+      "message" : "Air"
    },
    "WE_WILL_ONLY_DISPOSE_OF" : {
       "description" : "",

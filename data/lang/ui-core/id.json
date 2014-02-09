@@ -157,7 +157,7 @@
    },
    "CONTROLS" : {
       "description" : "",
-      "message" : "Controls"
+      "message" : "Kontrol"
    },
    "CONTROL_OPTIONS" : {
       "description" : "",
@@ -325,7 +325,7 @@
    },
    "FUEL" : {
       "description" : "",
-      "message" : "Fuel"
+      "message" : "Bahan bakar"
    },
    "FUEL_TANK_FULL" : {
       "description" : "",
@@ -393,7 +393,7 @@
    },
    "HULL_INTEGRITY" : {
       "description" : "",
-      "message" : "Hull integrity"
+      "message" : "Integritas lambung kapal"
    },
    "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT" : {
       "description" : "",
@@ -613,11 +613,11 @@
    },
    "NAME_OBJECT" : {
       "description" : "For an item or object",
-      "message" : "Name"
+      "message" : "Nama"
    },
    "NAME_PERSON" : {
       "description" : "For a person",
-      "message" : "Name"
+      "message" : "Nama"
    },
    "NAVIGATION" : {
       "description" : "",
@@ -813,7 +813,7 @@
    },
    "SHIP" : {
       "description" : "",
-      "message" : "Ship"
+      "message" : "Kapal"
    },
    "SHIP_INFORMATION" : {
       "description" : "",
