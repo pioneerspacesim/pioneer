@@ -302,19 +302,20 @@ local onCreateBB = function (station)
 	local num = Engine.rand:Integer(0, math.ceil(Game.system.population))
 	local numAchievableJobs = 0
 	local reputation = Character.persistent.player.reputation
+	local canHyperspace = Game.player.maxHyperspaceRange > 0
 
 	for i = 1,num do
 		local ad = makeAdvert(station, nil, nearbystations)
-		if ad and isQualifiedFor(reputation, ad) then
+		if ad and isQualifiedFor(reputation, ad) and (ad.localdelivery or canHyperspace) then
 			numAchievableJobs = numAchievableJobs + 1
 		end
 	end
 
 	-- make sure a player with low reputation will have at least one
 	-- job that does not require reputation on the BBS
-	if numAchievableJobs < 1 and (#nearbystations > 0 or #nearbysystems > 0) then
+	if numAchievableJobs < 1 and (#nearbystations > 0 or (#nearbysystems > 0 and canHyperspace)) then
 		local ad
-		if #nearbystations > 0 and #nearbysystems > 0 then
+		if #nearbystations > 0 and #nearbysystems > 0 and canHyperspace then
 			ad = makeAdvert(station, easyJobs[Engine.rand:Integer(1,#easyJobs)], nearbystations)
 		elseif #nearbystations > 0 then
 			ad = makeAdvert(station, easyLocalJobs[Engine.rand:Integer(1,#easyLocalJobs)], nearbystations)
