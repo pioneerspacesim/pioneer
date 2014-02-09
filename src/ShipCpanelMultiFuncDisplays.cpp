@@ -169,7 +169,9 @@ void ScannerWidget::ToggleMode()
 
 void ScannerWidget::Draw()
 {
-	if (Pi::player->m_equipment.Get(Equip::SLOT_SCANNER) != Equip::SCANNER) return;
+	int scanner_cap = 0;
+	Pi::player->Properties().Get("scanner_cap", scanner_cap);
+	if (scanner_cap <= 0) return;
 
 	float size[2];
 	GetSize(size);
@@ -217,7 +219,9 @@ void ScannerWidget::Update()
 {
 	m_contacts.clear();
 
-	if (Pi::player->m_equipment.Get(Equip::SLOT_SCANNER) != Equip::SCANNER) {
+	int scanner_cap = 0;
+	Pi::player->Properties().Get("scanner_cap", scanner_cap);
+	if (scanner_cap <= 0) {
 		m_mode = SCANNER_MODE_AUTO;
 		m_currentRange = m_manualRange = m_targetRange = SCANNER_RANGE_MIN;
 		return;

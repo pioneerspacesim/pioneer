@@ -1020,7 +1020,9 @@ void Ship::SetAlertState(AlertState as)
 void Ship::UpdateAlertState()
 {
 	// no alerts if no scanner
-	if (m_equipment.Get(Equip::SLOT_SCANNER) == Equip::NONE) {
+	int scanner_cap = 0;
+	Properties().Get("scanner_cap", scanner_cap);
+	if (scanner_cap <= 0) {
 		// clear existing alert state if there was one
 		if (GetAlertState() != ALERT_NONE) {
 			SetAlertState(ALERT_NONE);
