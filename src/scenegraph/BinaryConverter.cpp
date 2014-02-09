@@ -10,7 +10,7 @@ using namespace SceneGraph;
 
 const Uint32 SGM_VERSION = 1;
 const std::string SGM_EXTENSION = ".sgm";
-const std::string SAVE_TARGET_DIR = "ModelBinTest";
+const std::string SAVE_TARGET_DIR = "binarymodels";
 
 class SaveHelperVisitor : public NodeVisitor
 {

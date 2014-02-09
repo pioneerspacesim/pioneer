@@ -3,9 +3,6 @@
 
 #ifndef MODELVIEWER_H
 #define MODELVIEWER_H
-
-// viewer for sgmodels
-
 #include "libs.h"
 #include "LuaManager.h"
 #include "NavLights.h"
@@ -53,10 +50,12 @@ private:
 	void OnPatternChanged(unsigned int, const std::string&);
 	void OnThrustChanged(float);
 	void PollEvents();
+	void PopulateFilePicker();
 	void ResetCamera();
 	void ResetThrusters();
 	void Screenshot();
-	void SetModel(const std::string& name, bool resetCamera = true);
+	void SaveModelToBinary();
+	void SetModel(const std::string& name);
 	void SetupFilePicker();
 	void SetupUI();
 	void UpdateAnimList();
@@ -118,6 +117,7 @@ private:
 	UI::MultiLineText *m_log;
 	RefCountedPtr<UI::Scroller> m_logScroller;
 
+	UI::List *m_fileList;
 	UI::DropDown *animSelector;
 	UI::DropDown *patternSelector;
 	UI::DropDown *decalSelector;
