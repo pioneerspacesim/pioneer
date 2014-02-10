@@ -654,7 +654,7 @@ void ModelViewer::PollEvents()
 	SDL_Event event;
 	while (SDL_PollEvent(&event)) {
 		//ui gets all events
-		if (m_ui->DispatchSDLEvent(event))
+		if (m_options.showUI && m_ui->DispatchSDLEvent(event))
 			continue;
 
 		switch (event.type)
