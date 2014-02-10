@@ -1161,6 +1161,7 @@ void Pi::MainLoop()
 		if (Pi::player->IsDead()) {
 			if (time_player_died > 0.0) {
 				if (Pi::game->GetTime() - time_player_died > 8.0) {
+					Pi::SetMouseGrab(false);
 					Pi::SetView(0);
 					Pi::TombStoneLoop();
 					Pi::EndGame();
