@@ -743,6 +743,10 @@
       "description" : "",
       "message" : "Calificación"
    },
+   "QUICKLOAD" : {
+      "description" : "",
+      "message" : "Quickload"
+   },
    "QUIT" : {
       "description" : "",
       "message" : "Salir"

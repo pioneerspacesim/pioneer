@@ -743,6 +743,10 @@
       "description" : "",
       "message" : "Qualifizierungspunkte"
    },
+   "QUICKLOAD" : {
+      "description" : "",
+      "message" : "Quickload"
+   },
    "QUIT" : {
       "description" : "",
       "message" : "Beenden"

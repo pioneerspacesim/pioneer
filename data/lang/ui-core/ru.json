@@ -9,7 +9,7 @@
    },
    "AFTER_TRADE_IN" : {
       "description" : "",
-      "message" : "С учётом старого"
+      "message" : "+ стоимость вашего корпуса"
    },
    "ALLEGIANCE" : {
       "description" : "",
@@ -17,7 +17,7 @@
    },
    "ALL_UP_WEIGHT" : {
       "description" : "",
-      "message" : "Общий вес корабля и груза"
+      "message" : "Общая масса"
    },
    "AMOUNT" : {
       "description" : "",
@@ -69,7 +69,7 @@
    },
    "CAPACITY" : {
       "description" : "",
-      "message" : "Трюм"
+      "message" : "Вместимость"
    },
    "CAPACITY_USED" : {
       "description" : "",
@@ -93,7 +93,7 @@
    },
    "CASH" : {
       "description" : "",
-      "message" : "Денежный счёт"
+      "message" : "Счёт"
    },
    "CASH_N" : {
       "description" : "",
@@ -129,7 +129,7 @@
    },
    "COMBAT" : {
       "description" : "",
-      "message" : "Боевой статистика"
+      "message" : "Боевая статистика"
    },
    "COMMANDER" : {
       "description" : "",
@@ -169,7 +169,7 @@
    },
    "CREW_CABINS" : {
       "description" : "",
-      "message" : "Каюты экипажа"
+      "message" : "Каюты для экипажа"
    },
    "CREW_ROSTER" : {
       "description" : "",
@@ -265,7 +265,7 @@
    },
    "ENGINEERING" : {
       "description" : "",
-      "message" : "Инжиниринг:"
+      "message" : "Инженерное дело"
    },
    "EQUIPMENT" : {
       "description" : "",
@@ -333,7 +333,7 @@
    },
    "FUEL_WEIGHT" : {
       "description" : "",
-      "message" : "Вес топлива"
+      "message" : "Количество топлива"
    },
    "FULL_SCREEN" : {
       "description" : "",
@@ -445,7 +445,7 @@
    },
    "JETTISON" : {
       "description" : "",
-      "message" : "Сброс груза"
+      "message" : "Выбросить груз"
    },
    "KILLS" : {
       "description" : "",
@@ -577,7 +577,7 @@
    },
    "MINIMUM_CREW" : {
       "description" : "",
-      "message" : "Минимальный экипаж"
+      "message" : "Минимум экипажа"
    },
    "MISSIONS" : {
       "description" : "",
@@ -609,7 +609,7 @@
    },
    "MUTE" : {
       "description" : "",
-      "message" : "Mute"
+      "message" : "Отключить"
    },
    "NAME_OBJECT" : {
       "description" : "For an item or object",
@@ -633,7 +633,7 @@
    },
    "NONE" : {
       "description" : "",
-      "message" : "< отсутствует >"
+      "message" : "<отсутствует>"
    },
    "NOTES" : {
       "description" : "",
@@ -742,6 +742,10 @@
    "QUALIFICATION_SCORES" : {
       "description" : "",
       "message" : "Оценка квалификации"
+   },
+   "QUICKLOAD" : {
+      "description" : "",
+      "message" : "Quickload"
    },
    "QUIT" : {
       "description" : "",
@@ -933,11 +937,11 @@
    },
    "WEIGHT_EMPTY" : {
       "description" : "",
-      "message" : "Собственный вес корабля"
+      "message" : "Масса корпуса"
    },
    "WEIGHT_FULLY_LOADED" : {
       "description" : "",
-      "message" : "Вес при полной загрузке"
+      "message" : "Масса при полной загрузке"
    },
    "WE_ARE_IN_HYPERSPACE_COMMANDER" : {
       "description" : "",

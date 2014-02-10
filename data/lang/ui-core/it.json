@@ -743,6 +743,10 @@
       "description" : "",
       "message" : "Punteggi qualifiche"
    },
+   "QUICKLOAD" : {
+      "description" : "",
+      "message" : "Quickload"
+   },
    "QUIT" : {
       "description" : "",
       "message" : "Esci"

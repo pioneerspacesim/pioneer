@@ -29,11 +29,11 @@
    },
    "AND_INDIGENOUS_MICROBIAL_LIFE" : {
       "description" : "",
-      "message" : "\" и местная микробная жизнь.\""
+      "message" : "\" и с местной жизнью микроорганизмов.\""
    },
    "AND_INDIGENOUS_PLANT_LIFE" : {
       "description" : "",
-      "message" : "\" и местная растительная жизнь.\""
+      "message" : "\" и с местной растительной жизнью.\""
    },
    "ANIMAL_MEAT" : {
       "description" : "",
@@ -45,7 +45,7 @@
    },
    "AR_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" аргоном в атмосфере\""
+      "message" : "\" аргоновой атмосферой\""
    },
    "ASTEROID" : {
       "description" : "",
@@ -197,7 +197,7 @@
    },
    "CH4_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" метаном в атмосфере\""
+      "message" : "\" метановой атмосферой\""
    },
    "CLEARANCE_ALREADY_GRANTED_BAY_N" : {
       "description" : "",
@@ -213,7 +213,7 @@
    },
    "CO2_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" углекислым газом в атмосфере\""
+      "message" : "\" углекислотной атмосферой\""
    },
    "COMMA_HIGHLY_VOLCANIC" : {
       "description" : "",
@@ -265,7 +265,7 @@
    },
    "CO_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" угарным газом в атмосфере\""
+      "message" : "\" окись углеродной атмосферой\""
    },
    "CTRL" : {
       "description" : "Ctrl key on keyboard",
@@ -441,7 +441,7 @@
    },
    "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
       "description" : "",
-      "message" : "Соотношение экваториального к полярному радиусу"
+      "message" : "Соотн. экваториального к полярному радиусу"
    },
    "EXACT_MATCH_X" : {
       "description" : "",
@@ -653,7 +653,7 @@
    },
    "H_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" водородом в атмосфере\""
+      "message" : "\" водородной атмосферой\""
    },
    "ICE_WORLD" : {
       "description" : "",
@@ -773,7 +773,7 @@
    },
    "LIVE_ANIMALS" : {
       "description" : "",
-      "message" : "Живые животные"
+      "message" : "Животные"
    },
    "LOCKED" : {
       "description" : "",
@@ -941,7 +941,7 @@
    },
    "MISSILE_NAVAL" : {
       "description" : "",
-      "message" : "Армейская ракета"
+      "message" : "Военная ракета"
    },
    "MISSILE_SMART" : {
       "description" : "",
@@ -1037,7 +1037,7 @@
    },
    "NONE" : {
       "description" : "",
-      "message" : "Нет"
+      "message" : "<отсутствует>"
    },
    "NORMA_ARM" : {
       "description" : "",
@@ -1097,7 +1097,7 @@
    },
    "N_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" азотом в атмосфере\""
+      "message" : "\" азотной атмосферой\""
    },
    "N_CELSIUS" : {
       "description" : "",
@@ -1133,11 +1133,11 @@
    },
    "O2_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" кислородом в атмосфере\""
+      "message" : "\" кислородной атмосферой\""
    },
    "OCEANICWORLD" : {
       "description" : "",
-      "message" : "\" океаническим миром\""
+      "message" : "\" с океаническим миром\""
    },
    "ORBITAL_PERIOD" : {
       "description" : "",
@@ -1741,7 +1741,7 @@
    },
    "TENUOUS" : {
       "description" : "",
-      "message" : "разрежённая"
+      "message" : "разрежённой"
    },
    "TEXTILES" : {
       "description" : "",
@@ -1749,11 +1749,11 @@
    },
    "THICK" : {
       "description" : "",
-      "message" : "толстая"
+      "message" : "толстой"
    },
    "THIN" : {
       "description" : "",
-      "message" : "тонкая"
+      "message" : "тонкой"
    },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",
@@ -1785,7 +1785,7 @@
    },
    "TIME_POINT" : {
       "description" : "",
-      "message" : "Уст.:"
+      "message" : "М.В.:"
    },
    "TINY" : {
       "description" : "",
@@ -1857,7 +1857,7 @@
    },
    "VERY_DENSE" : {
       "description" : "",
-      "message" : "очень плотная"
+      "message" : "очень плотной"
    },
    "VERY_LARGE_GAS_GIANT" : {
       "description" : "",

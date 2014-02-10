@@ -743,6 +743,10 @@
       "description" : "",
       "message" : "Posiadane kwalifikacje"
    },
+   "QUICKLOAD" : {
+      "description" : "",
+      "message" : "Quickload"
+   },
    "QUIT" : {
       "description" : "",
       "message" : "Wyjdź"

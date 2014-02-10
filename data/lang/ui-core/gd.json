@@ -743,6 +743,10 @@
       "description" : "",
       "message" : "Sgòran teisteanais"
    },
+   "QUICKLOAD" : {
+      "description" : "",
+      "message" : "Quickload"
+   },
    "QUIT" : {
       "description" : "",
       "message" : "Fàg an-seo"

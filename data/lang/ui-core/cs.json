@@ -743,6 +743,10 @@
       "description" : "",
       "message" : "Kvalifikační hodnocení"
    },
+   "QUICKLOAD" : {
+      "description" : "",
+      "message" : "Quickload"
+   },
    "QUIT" : {
       "description" : "",
       "message" : "Ukončit"

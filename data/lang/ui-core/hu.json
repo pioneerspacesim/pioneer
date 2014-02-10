@@ -743,6 +743,10 @@
       "description" : "",
       "message" : "Képzettség pont:"
    },
+   "QUICKLOAD" : {
+      "description" : "",
+      "message" : "Quickload"
+   },
    "QUIT" : {
       "description" : "",
       "message" : "Kilépés"

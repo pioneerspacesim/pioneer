@@ -743,6 +743,10 @@
       "description" : "",
       "message" : "Qualification scores"
    },
+   "QUICKLOAD" : {
+      "description" : "",
+      "message" : "Quickload"
+   },
    "QUIT" : {
       "description" : "",
       "message" : "Quit"
