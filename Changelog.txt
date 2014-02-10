@@ -26,7 +26,7 @@ February 2014
      * Fixing thruster tags (#2721)
      * Fix run-away terrain threads when ending the game (#2707,#2722)
      * Fix Lua error from TradeShips when colliding and hyperjumping (#2701,#2731)
-     * Reset mouse grab state on player death (#2739)
+     * Reset mouse grab state on game exit (#2739)
 	 * Fix a potent bug when destroying copies of invalid LuaRefs (#2745)
 
    * Internal changes
