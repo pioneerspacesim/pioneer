@@ -161,6 +161,17 @@ void TextEntry::HandleKeyDown(const KeyboardEvent &event)
 						break;
 					}
 
+					case SDLK_v: { // XXX SDLK_PASTE?
+						if (SDL_HasClipboardText()) {
+							char *paste = SDL_GetClipboardText();
+							int len = strlen(paste); // XXX strlen not utf8-aware
+							text.insert(m_cursor, paste, len);
+							m_label->SetText(text);
+							m_cursor += len;
+							SDL_free(paste);
+						}
+					}
+
 					default:
 						break;
 				}

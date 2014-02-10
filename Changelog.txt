@@ -10,6 +10,7 @@ February 2014
      * Draw sectorview stars with sphere imposters (#2713)
      * New UI now available as an overlay in all views (#2716)
      * Quicksave can now be loaded directly from main menu
+     * Paste support for text entry widgets (ie console)
 
    * Script API changes
      * Model.SetDebugFlags for adding debug effects to model drawing
