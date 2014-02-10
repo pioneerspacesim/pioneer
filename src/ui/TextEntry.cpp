@@ -35,8 +35,8 @@ void TextEntry::Layout()
 
 	// XXX see ::Draw. after Container::Draw we're still translated to the
 	// label origin so we calculate the cursor from there
-	const float cursorTop    = 0.0f;
 	const float cursorBottom = m_label->GetSize().y;
+	const float cursorTop    = cursorBottom - GetContext()->GetFont(GetFont())->GetHeight();
 
 	m_cursorVertices[0] = vector3f(0.0f, cursorTop,    0.0f);
 	m_cursorVertices[1] = vector3f(0.0f, cursorBottom, 0.0f);
