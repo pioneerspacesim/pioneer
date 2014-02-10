@@ -104,7 +104,7 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm)
 	m_log = m_ui->MultiLineText("");
 	m_log->SetFont(UI::Widget::FONT_SMALLEST);
 	m_logScroller.Reset(m_ui->Scroller());
-	m_logScroller->SetInnerWidget(m_log);
+	m_logScroller->SetInnerWidget(m_ui->ColorBackground(Color(0x0,0x0,0x0,0x40))->SetInnerWidget(m_log));
 
 	std::fill(m_mouseButton, m_mouseButton + COUNTOF(m_mouseButton), false);
 	std::fill(m_mouseMotion, m_mouseMotion + 2, 0);
