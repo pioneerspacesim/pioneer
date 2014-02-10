@@ -109,11 +109,11 @@
    },
    "BODIES" : {
       "description" : "",
-      "message" : "тел"
+      "message" : "объектами"
    },
    "BODY" : {
       "description" : "",
-      "message" : "тело"
+      "message" : "объектом"
    },
    "BROWN_DWARF" : {
       "description" : "",
@@ -261,7 +261,7 @@
    },
    "COUNT_STARPORTS" : {
       "description" : "",
-      "message" : "космопорт(ов)"
+      "message" : "космопортом(-ами)"
    },
    "CO_ATMOSPHERE" : {
       "description" : "",
@@ -717,7 +717,7 @@
    },
    "KM_S_RELATIVE_TO" : {
       "description" : "",
-      "message" : "Скорость %speed{f.2} км/с относительно %frame"
+      "message" : "%speed{f.2} км/с относительно %frame"
    },
    "LANDED" : {
       "description" : "",
@@ -1073,7 +1073,7 @@
    },
    "NO_TARGET_SELECTED" : {
       "description" : "",
-      "message" : "Компьютер корабля: цель не выбрана"
+      "message" : "Бортовой компьютер: цель не выбрана"
    },
    "NUMBER_DAYS" : {
       "description" : "",
@@ -1561,7 +1561,7 @@
    },
    "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS" : {
       "description" : "",
-      "message" : "Стабильная система с %bodycount основным %{body(s)} и %portcount %{starport(s)}"
+      "message" : "Стабильная планетная система с %bodycount космическими %{body(s)} и %portcount %{starport(s)}"
    },
    "STARPORT" : {
       "description" : "",

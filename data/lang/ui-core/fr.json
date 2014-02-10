@@ -745,7 +745,7 @@
    },
    "QUICKLOAD" : {
       "description" : "",
-      "message" : "Quickload"
+      "message" : "Chargement rapide"
    },
    "QUIT" : {
       "description" : "",

@@ -365,7 +365,7 @@
    },
    "HEAVY_COURIER" : {
       "description" : "",
-      "message" : "Heavy courier"
+      "message" : "Тяжёлый курьер"
    },
    "HEAVY_FIGHTER" : {
       "description" : "",
@@ -469,7 +469,7 @@
    },
    "LIGHT_COURIER" : {
       "description" : "",
-      "message" : "Light courier"
+      "message" : "Лёгкий курьер"
    },
    "LIGHT_FIGHTER" : {
       "description" : "",
@@ -549,7 +549,7 @@
    },
    "MEDIUM_COURIER" : {
       "description" : "",
-      "message" : "Medium courier"
+      "message" : "Средний курьер"
    },
    "MEDIUM_FIGHTER" : {
       "description" : "",

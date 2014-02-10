@@ -5,7 +5,7 @@
    },
    "CREWDETAILSHEETBB" : {
       "description" : "",
-      "message" : "Найм экипажа\n\nИмя: {name}\nОпыт: {experience}\nЖелаемая з\\п: {wage} в неделю\n\n{response}\n"
+      "message" : "Найм экипажа\n\nИмя: {name}\nОпыт: {experience}\nЖелаемая з/п: {wage} в неделю\n\n{response}\n"
    },
    "CREWMEMBER_WAGE_PER_WEEK" : {
       "description" : "",
@@ -13,7 +13,7 @@
    },
    "CREWTESTRESULTSBB" : {
       "description" : "",
-      "message" : "Экзаменационные результаты:\n\nОбщая компетенция экипажа: {general}%\nИнженерия и ремонт: {engineering}%\nПилотирование и перелеты: {piloting}%\nНавигация и картография: {navigation}%\nСенсоры и защита: {sensors}%\nОбщая экзаменационная оценка: {overall}%"
+      "message" : "Результаты экзаменов:\n\nОбщая компетенция экипажа: {general}%\nИнженерное дело и ремонт: {engineering}%\nПилотирование и космические полеты: {piloting}%\nНавигация и прокладка курса: {navigation}%\nСенсоры и защита: {sensors}%\nОбщая экзаменационная оценка: {overall}%"
    },
    "CREW_FOR_HIRE" : {
       "description" : "",
@@ -53,7 +53,7 @@
    },
    "OK_I_SUPPOSE_THATS_ALL_RIGHT" : {
       "description" : "",
-      "message" : "ОК, мне кажется, что всё в порядке."
+      "message" : "Ладно, я полагаю, что всё в порядке."
    },
    "PILOT" : {
       "description" : "",
@@ -81,7 +81,7 @@
    },
    "SUGGEST_NEW_WEEKLY_WAGE_OF_N" : {
       "description" : "",
-      "message" : "Предложить уровень зарплаты в {newAmount}"
+      "message" : "Предложить заработную плату в {newAmount}"
    },
    "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY" : {
       "description" : "",
