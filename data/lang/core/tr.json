@@ -605,7 +605,7 @@
    },
    "HYDROGEN" : {
       "description" : "",
-      "message" : "Hydrogen"
+      "message" : "Hidrojen"
    },
    "HYDROGEN_DESCRIPTION" : {
       "description" : "",
@@ -901,7 +901,7 @@
    },
    "MILITARY_FUEL" : {
       "description" : "",
-      "message" : "Military fuel"
+      "message" : "Askeri yakıt"
    },
    "MININGCANNON_17MW" : {
       "description" : "",
@@ -1289,7 +1289,7 @@
    },
    "RADIOACTIVES" : {
       "description" : "",
-      "message" : "Radioactive waste"
+      "message" : "Radyoaktif Çöp"
    },
    "RADIUS" : {
       "description" : "",

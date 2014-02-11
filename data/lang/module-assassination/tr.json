@@ -29,7 +29,7 @@
    },
    "FLAVOUR_0_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi, I'm {name}. I'll pay you {cash} to get rid of {target}."
+      "message" : "Merhaba, ben {name}.  Sana {target}dan kurtulman için {cash} ödeyecegim."
    },
    "FLAVOUR_0_SUCCESSMSG" : {
       "description" : "",
@@ -81,7 +81,7 @@
    },
    "FLAVOUR_3_FAILUREMSG" : {
       "description" : "",
-      "message" : "You will pay for not eliminating {target}!"
+      "message" : "{target}'ı yok etmemenin bedelini ödeyeceksin!"
    },
    "FLAVOUR_3_FAILUREMSG2" : {
       "description" : "",
@@ -113,11 +113,11 @@
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
-      "message" : "News of {target}'s retirement delightfully obtained. Here is your money."
+      "message" : "{target} hakkında çıkan emeklilik haberi zevkle alındı. Buyrun paranız."
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
-      "message" : "BIOGRAPHICAL: Some admirers wish {target} dead."
+      "message" : "BİYOGRAFİK: Bazı hayranları {target}ın ölü olmasını diliyor. "
    },
    "FLAVOUR_5_FAILUREMSG" : {
       "description" : "",
@@ -289,7 +289,7 @@
    },
    "WHERE_CAN_I_FIND_X" : {
       "description" : "",
-      "message" : "Where can I find {target}?"
+      "message" : "{target} nerede bulunabilir?"
    },
    "X_WILL_BE_LEAVING" : {
       "description" : "",
