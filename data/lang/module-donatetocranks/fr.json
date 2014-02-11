@@ -1,66 +1,66 @@
 {
-    "YOU_DO_NOT_HAVE_ENOUGH_MONEY": {
-        "message": "Vous n'avez pas assez d'argent.",
-        "description": ""
-    },
-    "FLAVOUR_3_TITLE": {
-        "message": "CONTRIBUEZ. Les Amis de la Galaxie et sa campagne 'Banissons la propulsion militaire' on besoin de votre argent.",
-        "description": ""
-    },
-    "FLAVOUR_4_TITLE": {
-        "message": "DONNEZ ! Sauvez nos especes. Stop au carnage des nouveaux mondes colonisés.",
-        "description": ""
-    },
-    "FLAVOUR_2_MESSAGE": {
-        "message": "Svp choisissez le montant de votre don pour L'Aide aux Orphelins de Guerre, et mettez fin a la souffrance des enfants a traver la galaxie.",
-        "description": ""
-    },
-    "WOW_THAT_WAS_VERY_GENEROUS": {
-        "message": "Wow ! C'est vraiment très généreux .",
-        "description": ""
-    },
-    "FLAVOUR_0_MESSAGE": {
-        "message": "Svp  choisissez le montant de votre don pour l'Eglise Celeste du Monstrueux Spaghetti Volant.",
-        "description": ""
-    },
-    "FLAVOUR_3_MESSAGE": {
-        "message": "Svp choisissez le montant de votre don pour l'oeil vert, et mettez fin a la pollution de notre galaxie.",
-        "description": ""
-    },
-    "FLAVOUR_1_TITLE": {
-        "message": "DONNEZ. Les  Gardiens de l'Esprit Libre vous demandent la charité pour aider leurs monastères.",
-        "description": ""
-    },
-    "FLAVOUR_5_MESSAGE": {
-        "message": "Libérez vote vaisseau ! S'il vous plait, choisissez la somme à donner. Joyeux piratage !",
-        "description": ""
-    },
-    "FLAVOUR_1_MESSAGE": {
-        "message": "Que la paix soit avec toi, mon frère, Choisit le montant de ton don aux Gardiens de l'Esprit Libre.",
-        "description": ""
-    },
-    "FLAVOUR_2_TITLE": {
-        "message": "ENVIE DE DONNER ?  L'Aide aux Orphelins de Guerre a besoin de votre aide to continuer son action.",
-        "description": ""
-    },
-    "HANG_UP": {
-        "message": "Raccrochez.",
-        "description": ""
-    },
-    "FLAVOUR_0_TITLE": {
-        "message": "DONNEZ !  l'Eglise Celeste du Monstrueux Spaghetti Volant a besoinde VOTRE argent pour apporter la parole de Dieu.",
-        "description": ""
-    },
-    "FLAVOUR_4_MESSAGE": {
-        "message": "Svp selectionnez le montant de votre don.",
-        "description": ""
-    },
-    "FLAVOUR_5_TITLE": {
-        "message": "SOUTENEZ LA LIBERTE! Stoppez la grande injustice des logiciels propriétaires contrôlant votre vaisseau.",
-        "description": ""
-    },
-    "THANK_YOU_ALL_DONATIONS_ARE_WELCOME": {
-        "message": "Merci, touts les dons sont importants",
-        "description": ""
-    }
+   "FLAVOUR_0_MESSAGE" : {
+      "description" : "",
+      "message" : "Svp  choisissez le montant de votre don pour l'Eglise Celeste du Monstrueux Spaghetti Volant."
+   },
+   "FLAVOUR_0_TITLE" : {
+      "description" : "",
+      "message" : "DONNEZ !  l'Eglise Celeste du Monstrueux Spaghetti Volant a besoinde VOTRE argent pour apporter la parole de Dieu."
+   },
+   "FLAVOUR_1_MESSAGE" : {
+      "description" : "",
+      "message" : "Que la paix soit avec toi, mon frère, Choisit le montant de ton don aux Gardiens de l'Esprit Libre."
+   },
+   "FLAVOUR_1_TITLE" : {
+      "description" : "",
+      "message" : "DONNEZ. Les  Gardiens de l'Esprit Libre vous demandent la charité pour aider leurs monastères."
+   },
+   "FLAVOUR_2_MESSAGE" : {
+      "description" : "",
+      "message" : "Svp choisissez le montant de votre don pour L'Aide aux Orphelins de Guerre, et mettez fin a la souffrance des enfants a traver la galaxie."
+   },
+   "FLAVOUR_2_TITLE" : {
+      "description" : "",
+      "message" : "ENVIE DE DONNER ?  L'Aide aux Orphelins de Guerre a besoin de votre aide to continuer son action."
+   },
+   "FLAVOUR_3_MESSAGE" : {
+      "description" : "",
+      "message" : "Svp choisissez le montant de votre don pour l'oeil vert, et mettez fin a la pollution de notre galaxie."
+   },
+   "FLAVOUR_3_TITLE" : {
+      "description" : "",
+      "message" : "CONTRIBUEZ. Les Amis de la Galaxie et sa campagne 'Banissons la propulsion militaire' on besoin de votre argent."
+   },
+   "FLAVOUR_4_MESSAGE" : {
+      "description" : "",
+      "message" : "Svp selectionnez le montant de votre don."
+   },
+   "FLAVOUR_4_TITLE" : {
+      "description" : "",
+      "message" : "DONNEZ ! Sauvez nos especes. Stop au carnage des nouveaux mondes colonisés."
+   },
+   "FLAVOUR_5_MESSAGE" : {
+      "description" : "",
+      "message" : "Libérez vote vaisseau ! S'il vous plait, choisissez la somme à donner. Joyeux piratage !"
+   },
+   "FLAVOUR_5_TITLE" : {
+      "description" : "",
+      "message" : "SOUTENEZ LA LIBERTE! Stoppez la grande injustice des logiciels propriétaires contrôlant votre vaisseau."
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Raccrochez."
+   },
+   "THANK_YOU_ALL_DONATIONS_ARE_WELCOME" : {
+      "description" : "",
+      "message" : "Merci, touts les dons sont importants"
+   },
+   "WOW_THAT_WAS_VERY_GENEROUS" : {
+      "description" : "",
+      "message" : "Wow ! C'est vraiment très généreux ."
+   },
+   "YOU_DO_NOT_HAVE_ENOUGH_MONEY" : {
+      "description" : "",
+      "message" : "Vous n'avez pas assez d'argent."
+   }
 }

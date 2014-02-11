@@ -1,1958 +1,1958 @@
 {
-    "CAMERA_REAR_VIEW": {
-        "message": "Hátsó nézet",
-        "description": ""
-    },
-    "SCANNER_DESCRIPTION": {
-        "message": "Egy 3D térképet jelenít meg a közeli hajókról.",
-        "description": ""
-    },
-    "MAP_TOGGLE_INFO_PANEL": {
-        "message": "Info panel ",
-        "description": ""
-    },
-    "POPULATION": {
-        "message": "Népesség:",
-        "description": ""
-    },
-    "SYSTEM_TYPE": {
-        "message": "Rendszer típusa:",
-        "description": ""
-    },
-    "STAR_G_GIANT": {
-        "message": "Instabil sárga óriáscsillag",
-        "description": ""
-    },
-    "TRADING_ILLEGAL_GOODS": {
-        "message": "Illegális termékek kereskedelme",
-        "description": ""
-    },
-    "ROBOTS": {
-        "message": "Robotok",
-        "description": ""
-    },
-    "CARGO_BAY_LIFE_SUPPORT_LOST": {
-        "message": "A szenzorok a raktér életfenntartóinak meghibásodását mutatják.",
-        "description": ""
-    },
-    "MILITARY_FUEL": {
-        "message": "Katonai üzemanyag",
-        "description": ""
-    },
-    "CLEARANCE_GRANTED_BAY_N": {
-        "message": "Engedély megadva. Haladj a(z) %bay leszállóöböl felé.",
-        "description": ""
-    },
-    "FARM_MACHINERY": {
-        "message": "Mezőgazdasági gépek",
-        "description": ""
-    },
-    "YAW_LEFT": {
-        "message": "Kitérés balra",
-        "description": ""
-    },
-    "DOWNGRADING_ALERT_STATUS": {
-        "message": "1 perce nincs tüzelés, riasztási szint csökkent.",
-        "description": ""
-    },
-    "GAME_SAVE_CANNOT_WRITE": {
-        "message": "Ez a mentés nem hajtható végre valamilyen rendszerhiba miatt.",
-        "description": ""
-    },
-    "MAP_WARP_TO_CURRENT_SYSTEM": {
-        "message": "Ugrás a jelenlegi rendszerbe",
-        "description": ""
-    },
-    "ECONOMY_TYPE": {
-        "message": "Gazdaság:",
-        "description": ""
-    },
-    "METAL_ALLOYS": {
-        "message": "Fémötvözetek",
-        "description": ""
-    },
-    "MONTH_OCT": {
-        "message": "Okt",
-        "description": ""
-    },
-    "THRUSTER_DORSAL": {
-        "message": "Fúvókák le",
-        "description": ""
-    },
-    "ECM_ADVANCED_DESCRIPTION": {
-        "message": "Egy hatékonyabb elektronikus rakétazavaró rendszer,  fejlettebb követőrakéták ellen is hatásos.",
-        "description": ""
-    },
-    "SAGITTARIUS_ARM": {
-        "message": "Sagittarius kar",
-        "description": ""
-    },
-    "MISSILE_NAVAL": {
-        "message": "Flottarakéta",
-        "description": ""
-    },
-    "DIRECTION": {
-        "message": "\" Irány \"",
-        "description": ""
-    },
-    "ECM_BASIC": {
-        "message": "Rakétazavaró",
-        "description": ""
-    },
-    "HAT": {
-        "message": "\" Hat\"",
-        "description": ""
-    },
-    "CURRENT_SYSTEM": {
-        "message": "Jelenlegi rendszer",
-        "description": ""
-    },
-    "ROTATION_DAMPING_OFF": {
-        "message": "Forgásfékezés ki",
-        "description": ""
-    },
-    "DOCKING_CLEARANCE_EXPIRED": {
-        "message": "Dokkolási engedély lejárt. Ha dokkolni akarsz, újra engedélyt kell kérned.",
-        "description": ""
-    },
-    "SMALL": {
-        "message": "Kicsi",
-        "description": ""
-    },
-    "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE": {
-        "message": "Hiperűrugrás-felhő analizáló: Állítsd az ugrás célpontját a felhő kimenetéhez",
-        "description": ""
-    },
-    "STAR_M_HYPER_GIANT": {
-        "message": "Vörös hiperóriás csillag",
-        "description": ""
-    },
-    "COMPUTERS": {
-        "message": "Számítógépek",
-        "description": ""
-    },
-    "JOYSTICK_INPUT": {
-        "message": "Joystick bevitel",
-        "description": ""
-    },
-    "INTERNAL_VIEW": {
-        "message": "Belső nézet",
-        "description": ""
-    },
-    "STARPORTS": {
-        "message": "Űrkikötők",
-        "description": ""
-    },
-    "CONSUMER_GOODS": {
-        "message": "Fogyasztási cikkek",
-        "description": ""
-    },
-    "HYPERCLOUD_ANALYZER": {
-        "message": "Hiperugrás analizátor",
-        "description": ""
-    },
-    "MONTH_SEP": {
-        "message": "Szep",
-        "description": ""
-    },
-    "AUTOPILOT_DOCK_WITH_STATION": {
-        "message": "Auto-pilóta: Dokkolás az űrállomással",
-        "description": ""
-    },
-    "MAP_VIEW_SHIFT_FORWARD": {
-        "message": "Előre nézet",
-        "description": ""
-    },
-    "STAR_M_WF": {
-        "message": "Wolf-Rayet csillag- Instabil",
-        "description": ""
-    },
-    "MAP_VIEW_SHIFT_DOWN": {
-        "message": "Le nézet",
-        "description": ""
-    },
-    "NAME_PERSON": {
-        "message": "Név",
-        "description": "For a person"
-    },
-    "MAJOR_EXPORTS": {
-        "message": "Főbb export:",
-        "description": ""
-    },
-    "MAP_VIEW_SHIFT_LEFT": {
-        "message": "Bal nézet",
-        "description": ""
-    },
-    "LASER_COOLING_BOOSTER_DESCRIPTION": {
-        "message": "Egy fejlettebb hűtőrendszer a fegyvereidhez.",
-        "description": ""
-    },
-    "DRIVE_CLASS4": {
-        "message": "4. szintű hipermotor",
-        "description": ""
-    },
-    "STAR_M": {
-        "message": "M típusú vörös csillag",
-        "description": ""
-    },
-    "PLANNED_ECONOMY": {
-        "message": "Központi tervgazdálkodás",
-        "description": ""
-    },
-    "MONTH_MAR": {
-        "message": "Már",
-        "description": ""
-    },
-    "SCREENSHOT_FILENAME_TEMPLATE": {
-        "message": "screenshot%index{d08}.png",
-        "description": ""
-    },
-    "ICE_WORLD": {
-        "message": "\" jégvilág\"",
-        "description": ""
-    },
-    "THRIVING_OUTDOOR_WORLD": {
-        "message": "Virágzó világ",
-        "description": ""
-    },
-    "THRUSTER_MAIN": {
-        "message": "Fúvókák előre",
-        "description": ""
-    },
-    "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
-        "message": "Az univerzum evolúciószimulálása:  %age{f.1} milliárd év ;-)",
-        "description": ""
-    },
-    "ORBITAL_PERIOD": {
-        "message": "Keringési idő",
-        "description": ""
-    },
-    "DISABLED_AUTOMATIC_SYSTEM_SELECTION": {
-        "message": "Automata rendszerválasztás kikapcsolva.",
-        "description": ""
-    },
-    "SHIP_VELOCITY_BY_REFERENCE_OBJECT": {
-        "message": "Hajósebesség a referenciához mérten",
-        "description": ""
-    },
-    "MILITARY_DICTATORSHIP": {
-        "message": "Katonai diktatúra",
-        "description": ""
-    },
-    "HEADING_LOCK_BACKWARD": {
-        "message": "Iránykövetés (retrográd)",
-        "description": ""
-    },
-    "HIGHLY_VOLCANIC": {
-        "message": "Erősen vulkanikus",
-        "description": ""
-    },
-    "CAMERA_TOP_VIEW": {
-        "message": "Felső kamera",
-        "description": ""
-    },
-    "ZOOM_IN": {
-        "message": "Közelítés",
-        "description": ""
-    },
-    "SELECT_A_TARGET": {
-        "message": "Válassz célpontot",
-        "description": ""
-    },
-    "MAP_VIEW_SHIFT_BACKWARD": {
-        "message": "Hátsó nézet",
-        "description": ""
-    },
-    "O2_ATMOSPHERE": {
-        "message": "\" oxigén\"",
-        "description": ""
-    },
-    "FOLLOWING_SELECTION": {
-        "message": "kiválasztás követése",
-        "description": ""
-    },
-    "MAP_WARP_TO_HYPERSPACE_TARGET": {
-        "message": "Ugrás hiperűr célponthoz",
-        "description": ""
-    },
-    "MESSAGE_FROM_X": {
-        "message": "%sender üzenete:",
-        "description": ""
-    },
-    "AUTOPILOT_ON": {
-        "message": "Auto-pilóta",
-        "description": ""
-    },
-    "STAR_SM_BH": {
-        "message": "Galaktikus horgonyunk",
-        "description": ""
-    },
-    "DOCKING": {
-        "message": "Dokkol",
-        "description": ""
-    },
-    "SYSTEM_NUMBER": {
-        "message": "Rendszer száma:",
-        "description": ""
-    },
-    "ROTATIONAL_PERIOD": {
-        "message": "\" (forgási ciklus)\"",
-        "description": ""
-    },
-    "TRIPLE_SYSTEM": {
-        "message": "Hármas rendszer",
-        "description": ""
-    },
-    "VERY_LARGE_GAS_GIANT": {
-        "message": "Nagyon nagy gázóriás",
-        "description": ""
-    },
-    "OCEANICWORLD": {
-        "message": "\" óceánvilág\"",
-        "description": ""
-    },
-    "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT": {
-        "message": "Tolóerő korlátozása %power%%-ra.",
-        "description": ""
-    },
-    "MAP_VIEW_SHIFT_UP": {
-        "message": "Fel nézet",
-        "description": ""
-    },
-    "NO_ALERT": {
-        "message": "Nincs riasztás",
-        "description": ""
-    },
-    "A_FEW_THOUSAND": {
-        "message": "Csak pár ezer",
-        "description": ""
-    },
-    "CARGO_SCOOP": {
-        "message": "Rakományszívó",
-        "description": ""
-    },
-    "HYPERSPACE_DEPARTURE_CLOUD": {
-        "message": "Hiperugrás indulási oldal",
-        "description": ""
-    },
-    "EARTH_FEDERATION_COLONIAL_RULE": {
-        "message": "Földi szövetség gyarmat",
-        "description": ""
-    },
-    "SHIP_ORIENTATION": {
-        "message": "Hajó irányultság",
-        "description": ""
-    },
-    "LIBERAL_DEMOCRACY": {
-        "message": "Liberális demokrácia",
-        "description": ""
-    },
-    "RADIUS": {
-        "message": "Sugár",
-        "description": ""
-    },
-    "MAP_VIEW_ROTATE_RIGHT": {
-        "message": "Nézet forgatása jobbra",
-        "description": ""
-    },
-    "DRAW_OUT_RANGE_LABELS": {
-        "message": "Hatótávon túli rendszerek címkézése",
-        "description": ""
-    },
-    "SHIP_INFORMATION": {
-        "message": "Hajóinformáció",
-        "description": ""
-    },
-    "HYPERSPACE_JUMP_ABORTED": {
-        "message": "Hiperűr-ugrás megszakítva.",
-        "description": ""
-    },
-    "CO2_ATMOSPHERE": {
-        "message": "\" szén-dioxid\"",
-        "description": ""
-    },
-    "MANUAL_CONTROL_MODE": {
-        "message": "Manuális irányítás",
-        "description": ""
-    },
-    "EXACT_MATCH_X": {
-        "message": "Pontos egyezés: %system",
-        "description": ""
-    },
-    "CLEARANCE_ALREADY_GRANTED_BAY_N": {
-        "message": "Engedély már megadva. Haladj a(z) %bay leszállóöböl felé.",
-        "description": ""
-    },
-    "MININGCANNON_17MW": {
-        "message": "17MW robbantó bányászágyú",
-        "description": ""
-    },
-    "CONTROLS": {
-        "message": "Irányítás",
-        "description": ""
-    },
-    "VID_LINK_ESTABLISHED": {
-        "message": "Videokapcsolat létrejött",
-        "description": ""
-    },
-    "TOGGLE_LUA_CONSOLE": {
-        "message": "Lua konzol",
-        "description": ""
-    },
-    "DECREASE_SCAN_RANGE": {
-        "message": "Szkennertáv csökkentése",
-        "description": ""
-    },
-    "DRIVE_CLASS9": {
-        "message": "9. szintű hipermotor",
-        "description": ""
-    },
-    "MAP_VIEW_ROTATE_LEFT": {
-        "message": "Nézet forgatása balra",
-        "description": ""
-    },
-    "SEARCH": {
-        "message": "Keresés",
-        "description": ""
-    },
-    "SYSTEM": {
-        "message": "Rendszer",
-        "description": ""
-    },
-    "ROTATION_DAMPING_ON": {
-        "message": "Forgásfékezés be",
-        "description": ""
-    },
-    "MONTH_FEB": {
-        "message": "Feb",
-        "description": ""
-    },
-    "X_CANNOT_BE_TOLERATED_HERE": {
-        "message": "A(z) %crime bűntény itt nem elfogadott.",
-        "description": ""
-    },
-    "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS": {
-        "message": "Kisméretű kutatások. Nincs regisztrált település.",
-        "description": ""
-    },
-    "DRIVE_CLASS5": {
-        "message": "5. szintű hipermotor",
-        "description": ""
-    },
-    "GAME_LOAD_CORRUPT": {
-        "message": "A mentésfile nem tölthető be, mert hibákat tartalmaz.",
-        "description": ""
-    },
-    "WHEELS_ARE_UP": {
-        "message": "Kerekek felhúzva",
-        "description": ""
-    },
-    "SMALL_GAS_GIANT": {
-        "message": "Kicsi gázóriás",
-        "description": ""
-    },
-    "HIGH_POPULATION_OUTDOOR_WORLD": {
-        "message": "Nagy népességü külső világ",
-        "description": ""
-    },
-    "INT_LY": {
-        "message": "%scale fényév",
-        "description": ""
-    },
-    "ENABLED_AUTOMATIC_SYSTEM_SELECTION": {
-        "message": "Automata rendszerválasztás engedélyezve.",
-        "description": ""
-    },
-    "SLAVES": {
-        "message": "Rabszolgák",
-        "description": ""
-    },
-    "EARTH": {
-        "message": "Föld",
-        "description": ""
-    },
-    "METAL_ORE": {
-        "message": "Fémérc",
-        "description": ""
-    },
-    "LAUNCH_PERMISSION_DENIED_BUSY": {
-        "message": "Leszállási engedély megtagadva: leszállóöböl foglalt.",
-        "description": ""
-    },
-    "COMMUNIST": {
-        "message": "Kommunista",
-        "description": ""
-    },
-    "CAMERA_LEFT_VIEW": {
-        "message": "Bal kamera",
-        "description": ""
-    },
-    "GAME_LOAD_CANNOT_OPEN": {
-        "message": "Ez a fájl nem nyitható meg, talán jogosultági okokból, vagy ilyesmi...",
-        "description": ""
-    },
-    "MISSILE_GUIDED": {
-        "message": "Irányított rakéta",
-        "description": ""
-    },
-    "UNEXPLORED_SYSTEM_NO_DATA": {
-        "message": "Felfedezetlen rendszer, nincs elérhető adat.",
-        "description": ""
-    },
-    "CARGO_N": {
-        "message": "Rakomány: %{mass}t",
-        "description": ""
-    },
-    "SHIELD_STRENGTH_N": {
-        "message": "Pajzserősség: %shields{f.2}",
-        "description": ""
-    },
-    "NUMBER_G": {
-        "message": "%acceleration{f.1} G",
-        "description": ""
-    },
-    "NUMBER_DAYS": {
-        "message": "%days{f.0} nap",
-        "description": ""
-    },
-    "TINY": {
-        "message": "Apró",
-        "description": ""
-    },
-    "AND_HIGHLY_COMPLEX_ECOSYSTEM": {
-        "message": ", valamint fejlett ökoszisztémával rendelkezik.",
-        "description": ""
-    },
-    "HULL_INTEGRITY": {
-        "message": "Hajóintegritás",
-        "description": ""
-    },
-    "MAP_TOGGLE_SELECTION_FOLLOW_VIEW": {
-        "message": "Kijelölés követi a nézetet",
-        "description": ""
-    },
-    "BINARY_SYSTEM": {
-        "message": "Bináris rendszer",
-        "description": ""
-    },
-    "N_ATMOSPHERE": {
-        "message": "\" nitrogén\"",
-        "description": ""
-    },
-    "STAR_K_GIANT": {
-        "message": "Instabil narancs óriáscsillag",
-        "description": ""
-    },
-    "STAR_G": {
-        "message": "G típusú sárga csillag",
-        "description": ""
-    },
-    "CO_ATMOSPHERE": {
-        "message": "\" szén-monoxid\"",
-        "description": ""
-    },
-    "STAR_B_GIANT": {
-        "message": "Kék óriáscsillag",
-        "description": ""
-    },
-    "LIQUOR": {
-        "message": "Alkohol",
-        "description": ""
-    },
-    "DEMOGRAPHICS": {
-        "message": "Demográfia",
-        "description": ""
-    },
-    "RUBBISH": {
-        "message": "Hulladék",
-        "description": ""
-    },
-    "STAR_AF_GIANT": {
-        "message": "Fehér óriáscsillag",
-        "description": ""
-    },
-    "MISSILE": {
-        "message": "rakéta",
-        "description": ""
-    },
-    "NORMA_ARM": {
-        "message": "Norma kar",
-        "description": ""
-    },
-    "MONTH_JUL": {
-        "message": "Júl",
-        "description": ""
-    },
-    "FUEL_SCOOP": {
-        "message": "Üzemanyagszívó",
-        "description": ""
-    },
-    "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED": {
-        "message": "Üzemanyagszívó aktív. Jelenleg már %quantity tonna hidrogéned van.",
-        "description": ""
-    },
-    "SHIFT": {
-        "message": "Shift",
-        "description": "Shift key on keyboard"
-    },
-    "SIDEREAL_VIEW": {
-        "message": "Sziderikus nézet",
-        "description": ""
-    },
-    "SURFACE_TEMPERATURE": {
-        "message": "Felszíni hőmérséklet",
-        "description": ""
-    },
-    "APOAPSIS_DISTANCE": {
-        "message": "Apoapszis",
-        "description": ""
-    },
-    "LARGE_GAS_GIANT": {
-        "message": "Nagy gázóriás",
-        "description": ""
-    },
-    "STAR_M_SUPER_GIANT": {
-        "message": "Vörös szuperóriás",
-        "description": ""
-    },
-    "HYPERSPACE_TARGET": {
-        "message": "Hiperugrás cél",
-        "description": ""
-    },
-    "SHIP": {
-        "message": "Hajó",
-        "description": ""
-    },
-    "DRIVE_CLASS2": {
-        "message": "2. szintű hipermotor",
-        "description": ""
-    },
-    "CARGO": {
-        "message": "Raktér",
-        "description": ""
-    },
-    "HULL_TEMP": {
-        "message": "Hajóhőmérséklet",
-        "description": ""
-    },
-    "CARBON_ORE_DESCRIPTION": {
-        "message": "A szénércek (szén és olaj) hasznos kémiai anyagok, pl. műanyagok, szintetikus ételek, gyógyszerek és textilanyagok létrehozásához szükségesek",
-        "description": ""
-    },
-    "MURDER": {
-        "message": "Gyilkosság",
-        "description": ""
-    },
-    "AIR_PROCESSORS": {
-        "message": "Levegőfeldolgozók",
-        "description": ""
-    },
-    "Z": {
-        "message": "Z",
-        "description": ""
-    },
-    "SCANNER_CONTROL": {
-        "message": "Szkenner irányítás",
-        "description": ""
-    },
-    "MAP_VIEW_ROTATE_UP": {
-        "message": "Nézet forgatása fel",
-        "description": ""
-    },
-    "ATMOSPHERIC_SHIELDING": {
-        "message": "Atmoszférapajzs",
-        "description": ""
-    },
-    "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS": {
-        "message": "Stabil rendszer %bodycount főbb %{body(s)} és %portcount %{starport(s)}.",
-        "description": ""
-    },
-    "ROCKY_PLANET_CONTAINING_COME_LIQUIDS": {
-        "message": "\" sziklás bolygó némi folyadékkal,\"",
-        "description": ""
-    },
-    "SECTOR_COORDINATES": {
-        "message": "Szektorkoordináták:",
-        "description": ""
-    },
-    "FRONT": {
-        "message": "Első",
-        "description": ""
-    },
-    "HYDROGEN": {
-        "message": "Hidrogén",
-        "description": ""
-    },
-    "LANG_NAME": {
-        "message": "Magyar",
-        "description": "The name that native speakers use for this language. This will be used in the language selection screen. For obscure reasons this currently must only use Latin-1 characters."
-    },
-    "BUTTON": {
-        "message": "\" Gomb \"",
-        "description": ""
-    },
-    "COMPUTER_HEADING_CONTROL": {
-        "message": "Auto irányvezérlés",
-        "description": ""
-    },
-    "GALAXY_SECTOR_VIEW": {
-        "message": "Galaxisszektor nézet",
-        "description": ""
-    },
-    "STAR_B_HYPER_GIANT": {
-        "message": "Kék hiperóriás",
-        "description": ""
-    },
-    "FINE_PAID_N": {
-        "message": "Kifizetted a(z) %fine összegnyi büntetést.",
-        "description": ""
-    },
-    "DRIVE_CLASS3": {
-        "message": "3. szintű hipermotor",
-        "description": ""
-    },
-    "PLANET_WITH_SOME_ICE": {
-        "message": "\" , némi jéggel rendelkező bolygó\"",
-        "description": ""
-    },
-    "NO_HYPERDRIVE": {
-        "message": "Nincs hipermotor",
-        "description": ""
-    },
-    "RESET": {
-        "message": "Alaphelyzet",
-        "description": ""
-    },
-    "MONTH_DEC": {
-        "message": "Dec",
-        "description": ""
-    },
-    "GENERAL_VIEW_CONTROLS": {
-        "message": "Általános nézet vezérlők",
-        "description": ""
-    },
-    "COUNT_STARPORTS": {
-        "message": "űrkikötővel",
-        "description": ""
-    },
-    "NERVE_GAS": {
-        "message": "Ideggáz",
-        "description": ""
-    },
-    "POLICE_SHIP_REGISTRATION": {
-        "message": "RENDŐRSÉG",
-        "description": ""
-    },
-    "THRUSTER_STARBOARD": {
-        "message": "Fúvókák jobbra",
-        "description": ""
-    },
-    "RADIOACTIVES": {
-        "message": "Radioaktív hulladék",
-        "description": ""
-    },
-    "CARGO_SCOOP_DESCRIPTION": {
-        "message": "Lehetővé teszi rakománytartály felszedését az űrből.",
-        "description": ""
-    },
-    "N_EARTH_DAYS": {
-        "message": "%days{f.1} földi nap",
-        "description": ""
-    },
-    "STAR_G_HYPER_GIANT": {
-        "message": "Instabil sárga hiperóriás csillag",
-        "description": ""
-    },
-    "ALLEGIANCE": {
-        "message": "Szövetség:",
-        "description": ""
-    },
-    "DOCKED": {
-        "message": "Dokkolt",
-        "description": ""
-    },
-    "SUGGESTED_RESPONSES": {
-        "message": "Javasolt válaszok:",
-        "description": ""
-    },
-    "VIEW": {
-        "message": "Megnéz",
-        "description": ""
-    },
-    "N_WHATEVER_RADII": {
-        "message": "%radius{f.3} %units sugár (%radkm{f.0} km)",
-        "description": ""
-    },
-    "NUMBER_HOURS": {
-        "message": "%hours{f.2} óra",
-        "description": ""
-    },
-    "CAPITALIST": {
-        "message": "Kapitalista",
-        "description": ""
-    },
-    "NAME_OBJECT": {
-        "message": "Név",
-        "description": "For an item or object"
-    },
-    "MISSILE_UNGUIDED": {
-        "message": "R40 nemirányított rakéta",
-        "description": ""
-    },
-    "WHITE_DWARF": {
-        "message": "Fehértörpe csillagmaradvány",
-        "description": ""
-    },
-    "LANDED": {
-        "message": "Leszállt",
-        "description": ""
-    },
-    "ROTATE_UP": {
-        "message": "Fordulás fel",
-        "description": ""
-    },
-    "LOCKED": {
-        "message": "zárolt",
-        "description": ""
-    },
-    "NO_CENTRAL_GOVERNANCE": {
-        "message": "Központi kormány nélküli",
-        "description": ""
-    },
-    "IN_TRANSIT_TO_N_X_X_X": {
-        "message": "Utazás %system rendszerbe [%x,%y,%z]",
-        "description": ""
-    },
-    "NOT_FOUND_BEST_MATCH_X": {
-        "message": "Nincs, közeli egyezés: %system",
-        "description": ""
-    },
-    "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED": {
-        "message": "Rakományszívó aktív. Begyűjtve 1 tonna %item.",
-        "description": ""
-    },
-    "STAR_O_SUPER_GIANT": {
-        "message": "Forró kék szuperóriás csillag",
-        "description": ""
-    },
-    "SECTOR_MAP_VIEW": {
-        "message": "Szektor térkép",
-        "description": ""
-    },
-    "SMALL_PLASMA_ACCEL": {
-        "message": "Kicsi plazmagyorsító",
-        "description": ""
-    },
-    "PERIAPSIS_DISTANCE": {
-        "message": "Periapszis",
-        "description": ""
-    },
-    "STAR_B_SUPER_GIANT": {
-        "message": "Kék szuperóriás",
-        "description": ""
-    },
-    "ROTATE_LEFT": {
-        "message": "Fordulás balra",
-        "description": ""
-    },
-    "ROLL_LEFT": {
-        "message": "Pörgés balra",
-        "description": ""
-    },
-    "SYSTEM_ORBIT_VIEW": {
-        "message": "Naprendszer nézet",
-        "description": ""
-    },
-    "BODY": {
-        "message": "égitesttel",
-        "description": ""
-    },
-    "STAR_SYSTEM_INFORMATION": {
-        "message": "Naprendszer információ",
-        "description": ""
-    },
-    "IMPERIAL_RULE": {
-        "message": "Birodalmi uradalom",
-        "description": ""
-    },
-    "HYPERSPACING_IN_N_SECONDS": {
-        "message": "Hiperugrás %countdown{f.0} másodperc múlva",
-        "description": ""
-    },
-    "SMALL_INDUSTRIAL_OUTPOST": {
-        "message": "Kisebb ipari előörs",
-        "description": ""
-    },
-    "PERSEUS_ARM": {
-        "message": "Perseus kar",
-        "description": ""
-    },
-    "SOLAR": {
-        "message": "Nap",
-        "description": ""
-    },
-    "MONTH_JAN": {
-        "message": "Jan",
-        "description": ""
-    },
-    "N_DISTANCE_TO_TARGET": {
-        "message": "%distance a célpontig",
-        "description": ""
-    },
-    "DISTANCE_FROM_SHIP_TO_NAV_TARGET": {
-        "message": "Távolság a navigációs célponttól",
-        "description": ""
-    },
-    "MONTH_MAY": {
-        "message": "Máj",
-        "description": ""
-    },
-    "ROLL_RIGHT": {
-        "message": "Pörgés jobbra",
-        "description": ""
-    },
-    "SHIP_DETECTED_NEARBY": {
-        "message": "Hajó észlelve a közelben.",
-        "description": ""
-    },
-    "CTRL": {
-        "message": "Ctrl",
-        "description": "Ctrl key on keyboard"
-    },
-    "SEMI_MAJOR_AXIS": {
-        "message": "Félnagytengely",
-        "description": ""
-    },
-    "STAR_IM_BH": {
-        "message": "Egy közbeeső fekete lyuk",
-        "description": ""
-    },
-    "HYPERCLOUD_ANALYZER_DESCRIPTION": {
-        "message": "A hiperugrás-felhőket analizálja, megállapítva a célállomást és az érkezés vagy indulás időpontját.",
-        "description": ""
-    },
-    "HARD_CAPITALIST": {
-        "message": "Teljesen kapitalista - kormányintézkedések nélkül",
-        "description": ""
-    },
-    "STARPORT": {
-        "message": "Űrállomás",
-        "description": ""
-    },
-    "THRUSTER_RETRO": {
-        "message": "Fúvókák hátra",
-        "description": ""
-    },
-    "CORPORATE_SYSTEM": {
-        "message": "Vállalati rendszer",
-        "description": ""
-    },
-    "SURFACE_GRAVITY": {
-        "message": "Felszíni gravitáció",
-        "description": ""
-    },
-    "MEDIUM_GAS_GIANT": {
-        "message": "Közepes gázóriás",
-        "description": ""
-    },
-    "STAR_O": {
-        "message": "O típusú forró óriás",
-        "description": ""
-    },
-    "NO_TARGET_SELECTED": {
-        "message": "Hajószámítógép: Nincs célpont kiválasztva",
-        "description": ""
-    },
-    "YAW": {
-        "message": "Kitér",
-        "description": ""
-    },
-    "DRAW_VERTICAL_LINES": {
-        "message": "Függőleges vonalak rajzolása",
-        "description": ""
-    },
-    "AUTOPILOT_DESCRIPTION": {
-        "message": "Egy fedélzeti repülésirányító számítógép.",
-        "description": ""
-    },
-    "WITH_A": {
-        "message": "\", amelynek légköre: \"",
-        "description": ""
-    },
-    "TOGGLE_ROTATION_DAMPING": {
-        "message": "Forgásfékezés ki-be",
-        "description": ""
-    },
-    "VID_CONNECTING": {
-        "message": "Kapcsolódás...",
-        "description": ""
-    },
-    "DRIVE_CLASS1": {
-        "message": "1. szintű hipermotor",
-        "description": ""
-    },
-    "SEARCH_MAP": {
-        "message": "Keresés",
-        "description": ""
-    },
-    "HYPERSPACE_ARRIVAL_CLOUD_REMNANT": {
-        "message": "Érkezési hiperűrfelhő maradvány",
-        "description": ""
-    },
-    "WEAPONS": {
-        "message": "Fegyverek",
-        "description": ""
-    },
-    "ROLL": {
-        "message": "Pörög",
-        "description": ""
-    },
-    "AUTOPILOT_ENTER_LOW_ORBIT_AROUND": {
-        "message": "Auto-pilóta: Alacsony %target körüli pálya",
-        "description": ""
-    },
-    "GRAIN": {
-        "message": "Búza",
-        "description": ""
-    },
-    "SECTOR_X_Y_Z": {
-        "message": "Szektor: %x,%y,%z",
-        "description": ""
-    },
-    "OUTDOOR_AGRICULTURAL_WORLD": {
-        "message": "Szabadföldi agrikulturális világ",
-        "description": ""
-    },
-    "MONTH_APR": {
-        "message": "Ápr",
-        "description": ""
-    },
-    "GAME_SAVED_TO": {
-        "message": "\"Játék mentve ide: \"",
-        "description": ""
-    },
-    "ROTATE_DOWN": {
-        "message": "Fordulás le",
-        "description": ""
-    },
-    "VERY_DENSE": {
-        "message": "nagyon sürü",
-        "description": ""
-    },
-    "MAP_VIEW_ROTATE_DOWN": {
-        "message": "Nézet forgatása le",
-        "description": ""
-    },
-    "RADAR_MAPPER_DESCRIPTION": {
-        "message": "Távolsági érzékelő, űrben lebegő felszerelés, rakomány, hajó vizsgálatára.",
-        "description": ""
-    },
-    "HEADING_LOCK_FORWARD": {
-        "message": "Iránykövetés (prográd)",
-        "description": ""
-    },
-    "PLANETARY_INFO": {
-        "message": "Bolygóinformáció",
-        "description": ""
-    },
-    "MISSILE_SMART": {
-        "message": "Követőrakéta",
-        "description": ""
-    },
-    "STAR_O_GIANT": {
-        "message": "Forró kék óriáscsillag",
-        "description": ""
-    },
-    "PLUTOCRATIC_DICTATORSHIP": {
-        "message": "Plutokrata diktatúra",
-        "description": ""
-    },
-    "SHIELD_ENERGY_BOOSTER": {
-        "message": "Pajzsenergia töltő",
-        "description": ""
-    },
-    "SOURCE": {
-        "message": "Indulópont",
-        "description": ""
-    },
-    "MASS": {
-        "message": "Tömeg",
-        "description": ""
-    },
-    "AND_INDIGENOUS_MICROBIAL_LIFE": {
-        "message": ", valamint őshonos mikroszkópikus élettel rendelkezik.",
-        "description": ""
-    },
-    "WEAPON_TEMP": {
-        "message": "Fegyverhőmérséklet",
-        "description": ""
-    },
-    "PRECIOUS_METALS": {
-        "message": "Értékes fémek",
-        "description": ""
-    },
-    "HULL_AUTOREPAIR": {
-        "message": "Hajótest javító rendszer",
-        "description": ""
-    },
-    "NARCOTICS": {
-        "message": "Kábítószer",
-        "description": ""
-    },
-    "COMMS": {
-        "message": "Kommunikáció",
-        "description": ""
-    },
-    "ALT_IN_KM": {
-        "message": "Magas: %altitude{f.0}km (%vspeed{f.1}km/s)",
-        "description": ""
-    },
-    "NO_REGISTERED_INHABITANTS": {
-        "message": "Nincs lakosság",
-        "description": ""
-    },
-    "RADAR_MAPPER": {
-        "message": "Radartérképező",
-        "description": ""
-    },
-    "AND_INDIGENOUS_PLANT_LIFE": {
-        "message": ", valamint őshonos növényi élettel rendelkezik.",
-        "description": ""
-    },
-    "UNKNOWN": {
-        "message": "<ismeretlen>",
-        "description": ""
-    },
-    "MAJOR_IMPORTS": {
-        "message": "Főbb import:",
-        "description": ""
-    },
-    "PITCH": {
-        "message": "Dől",
-        "description": ""
-    },
-    "CAMERA_BOTTOM_VIEW": {
-        "message": "Alsó kamera",
-        "description": ""
-    },
-    "SHIELD_INTEGRITY": {
-        "message": "Pajzsintegritás",
-        "description": ""
-    },
-    "THRUSTER_VENTRAL": {
-        "message": "Fúvókák fel",
-        "description": ""
-    },
-    "KM_S_RELATIVE_TO": {
-        "message": "Relatív sebesség (%frame): %speed{f.2} km/s",
-        "description": ""
-    },
-    "PLANET_CONTAINING_LIQUID_WATER": {
-        "message": "\" bolygó folyékony vízzel\"",
-        "description": ""
-    },
-    "TENUOUS": {
-        "message": "ritkás",
-        "description": ""
-    },
-    "SET_SPEED_KM_S": {
-        "message": "Seb: %speed{f.2} km/s",
-        "description": ""
-    },
-    "PULSECANNON_2MW": {
-        "message": "2MW pulzuságyú",
-        "description": ""
-    },
-    "IN_TRANSIT": {
-        "message": "Utazás",
-        "description": ""
-    },
-    "PAY_FINE_REMOTELY": {
-        "message": "Büntetés kifizetése távolból (%amount)",
-        "description": ""
-    },
-    "PULSECANNON_1MW": {
-        "message": "1MW pulzuságyú",
-        "description": ""
-    },
-    "MINOR_EXPORTS": {
-        "message": "További export:",
-        "description": ""
-    },
-    "THRUSTER_PORT": {
-        "message": "Fűvókák balra",
-        "description": ""
-    },
-    "PIRACY": {
-        "message": "Kalózkodás",
-        "description": ""
-    },
-    "LIVE_ANIMALS": {
-        "message": "Élőállat",
-        "description": ""
-    },
-    "LASER_COOLING_BOOSTER": {
-        "message": "Lézerhűtés javító",
-        "description": ""
-    },
-    "SHIELD_GENERATOR_DESCRIPTION": {
-        "message": "Minden felszerelt egységgel növekszik a hajótest védelme.",
-        "description": ""
-    },
-    "MAP_LOCK_HYPERSPACE_TARGET": {
-        "message": "Hiperűr cél rögzítése",
-        "description": ""
-    },
-    "PLASTICS": {
-        "message": "Müanyagok",
-        "description": ""
-    },
-    "META": {
-        "message": "Meta",
-        "description": "'Meta' key on keyboard"
-    },
-    "YOUNG_FARMING_COLONY": {
-        "message": "Fiatal farmkolónia",
-        "description": ""
-    },
-    "SET_SPEED_M_S": {
-        "message": "Seb: %speed{f.0} m/s",
-        "description": ""
-    },
-    "ORBITAL_STARPORT": {
-        "message": "Űrállomás",
-        "description": ""
-    },
-    "GOVERNMENT_TYPE": {
-        "message": "Kormányzat:",
-        "description": ""
-    },
-    "M_S_RELATIVE_TO": {
-        "message": "Relatív sebesség (%frame): %speed{f.0} m/s",
-        "description": ""
-    },
-    "FUEL_SCOOP_DESCRIPTION": {
-        "message": "Lehetővé teszi hidrogén üzemanyag felvételét gázóriás bolygókból.",
-        "description": ""
-    },
-    "CH4_ATMOSPHERE": {
-        "message": "\" metán\"",
-        "description": ""
-    },
-    "HYPERSPACE_JUMP": {
-        "message": "Hiperűr ugrás",
-        "description": ""
-    },
-    "NAVIGATION_TARGETS_IN_THIS_SYSTEM": {
-        "message": "Navigációs pontok a rendszerben",
-        "description": ""
-    },
-    "STAR_F": {
-        "message": "F típusú fehér csillag",
-        "description": ""
-    },
-    "SCUTUM_CENTAURUS_ARM": {
-        "message": "Scutum-Centaurus kar",
-        "description": ""
-    },
-    "COUNT_ON_SURFACE": {
-        "message": "\" (%surfacecount felszínen)\"",
-        "description": ""
-    },
-    "HAND_WEAPONS": {
-        "message": "Kézifegyverek",
-        "description": ""
-    },
-    "MONTH_JUN": {
-        "message": "Jún",
-        "description": ""
-    },
-    "HULL_AUTOREPAIR_DESCRIPTION": {
-        "message": "Automatikusan javítja a hajótestet sérülés esetén.",
-        "description": ""
-    },
-    "YAW_RIGHT": {
-        "message": "Kitérés jobbra",
-        "description": ""
-    },
-    "DRIVE_CLASS7": {
-        "message": "7. szintű hipermotor",
-        "description": ""
-    },
-    "MINING_COLONY": {
-        "message": "Bányászkolónia",
-        "description": ""
-    },
-    "STAR_B_WF": {
-        "message": "Wolf-Rayet csillag- Összeomlás fenyeget",
-        "description": ""
-    },
-    "YOU_NO_MONEY": {
-        "message": "Nincs pénzed.",
-        "description": ""
-    },
-    "STAR_K": {
-        "message": "K típusú narancs csillag",
-        "description": ""
-    },
-    "MININGCANNON_17MW_DESCRIPTION": {
-        "message": "Ásványokban gazdag aszteroidák bányászatához.",
-        "description": ""
-    },
-    "PRESSURE_N_ATMOSPHERES": {
-        "message": "LNy: %pressure{f.2} atm",
-        "description": ""
-    },
-    "JOY": {
-        "message": "Joy",
-        "description": ""
-    },
-    "DRIVE_MIL1": {
-        "message": "1. szintű katonai hiperhajtómű",
-        "description": ""
-    },
-    "PITCH_DOWN": {
-        "message": "Dőlés lefelé",
-        "description": ""
-    },
-    "ALERT_CANCELLED": {
-        "message": "Riadó visszavonva.",
-        "description": ""
-    },
-    "INDUSTRIAL_HUB_SYSTEM": {
-        "message": "Ipari csomópont",
-        "description": ""
-    },
-    "PASSENGER_CABIN": {
-        "message": "Foglalt utaskabin",
-        "description": ""
-    },
-    "SHIP_NEARBY": {
-        "message": "Közeli hajó",
-        "description": ""
-    },
-    "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND": {
-        "message": "Auto-pilóta: Magas %target körüli pálya",
-        "description": ""
-    },
-    "WATER": {
-        "message": "Víz",
-        "description": ""
-    },
-    "MINOR_IMPORTS": {
-        "message": "További import:",
-        "description": ""
-    },
-    "SELECT_LOW_THRUST_POWER_LEVEL": {
-        "message": "Tolóerő korlátozás",
-        "description": ""
-    },
-    "LARGE": {
-        "message": "Nagy",
-        "description": ""
-    },
-    "MISCELLANEOUS": {
-        "message": "Egyéb",
-        "description": ""
-    },
-    "CLEARANCE_DENIED_NO_BAYS": {
-        "message": "Kérés elutasítva. Nincs szabad leszállóhelyünk.",
-        "description": ""
-    },
-    "STAR_A": {
-        "message": "A típusú forró fehér csillag",
-        "description": ""
-    },
-    "UNEXPLORED_SYSTEM_STAR_INFO_ONLY": {
-        "message": "Felfedezetlen rendszer. Csillaginformációkat ugyan gyűjtött a távolsági teleszkóp, de bolygóinformációk nem érhetőek el.",
-        "description": ""
-    },
-    "MANUAL_CONTROL": {
-        "message": "Kézi irányítás",
-        "description": ""
-    },
-    "UNOCCUPIED_CABIN": {
-        "message": "Személyszállító utaskabin",
-        "description": ""
-    },
-    "SCANNER": {
-        "message": "Szkenner",
-        "description": ""
-    },
-    "DRIVE_MIL4": {
-        "message": "4. szintű katonai hajtómű",
-        "description": ""
-    },
-    "AUTOPILOT_FLY_TO_VICINITY_OF": {
-        "message": "Auto-pilóta:  %target megközelítése",
-        "description": ""
-    },
-    "Y": {
-        "message": "Y",
-        "description": ""
-    },
-    "STAR_B": {
-        "message": "B típusú fényes kék csillag",
-        "description": ""
-    },
-    "SHIELD_GENERATOR": {
-        "message": "Pajzsgenerátor",
-        "description": ""
-    },
-    "FUEL": {
-        "message": "Hajtóanyag",
-        "description": ""
-    },
-    "AR_ATMOSPHERE": {
-        "message": "\" argon\"",
-        "description": ""
-    },
-    "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO": {
-        "message": "Egyenlítői- és sarki sugár arány",
-        "description": ""
-    },
-    "PULSECANNON_4MW": {
-        "message": "4MW pulzuságyú",
-        "description": ""
-    },
-    "EXTENSIVE_MINING": {
-        "message": "Kiterjedt bányászati tevékenység",
-        "description": ""
-    },
-    "SHIELD_ENERGY_BOOSTER_DESCRIPTION": {
-        "message": "Javítja a pajzsok feltöltésének sebességét.",
-        "description": ""
-    },
-    "COULD_NOT_OPEN_FILENAME": {
-        "message": "Nem nyitható meg: %path",
-        "description": ""
-    },
-    "SHIP_ALTITUDE_ABOVE_TERRAIN": {
-        "message": "Hajó talajfeletti magasság",
-        "description": ""
-    },
-    "UNOCCUPIED_CABIN_DESCRIPTION": {
-        "message": "Szükséges egy személy szállításához",
-        "description": ""
-    },
-    "PAUSED": {
-        "message": "SZÜNET",
-        "description": ""
-    },
-    "ASTEROID": {
-        "message": "Aszteroid",
-        "description": ""
-    },
-    "LASER_FIRE_DETECTED": {
-        "message": "Lézerlövés érzékelve.",
-        "description": ""
-    },
-    "BATTLE_WEAPONS": {
-        "message": "Katonai fegyverzet",
-        "description": ""
-    },
-    "DRIVE_CLASS8": {
-        "message": "8. szintű hipermotor",
-        "description": ""
-    },
-    "REQUEST_DOCKING_CLEARANCE": {
-        "message": "Dokkolási engedély kérése",
-        "description": ""
-    },
-    "GAME_LOAD_WRONG_VERSION": {
-        "message": "Ez a mentés nem tölthető be, mert a Pioneer egy régebbi verziójával készült.",
-        "description": ""
-    },
-    "ATMOSPHERIC_SHIELDING_DESCRIPTION": {
-        "message": "Megvédi az űrhajót az atmoszférába lépés alatt a túlmelegedéstől.",
-        "description": ""
-    },
-    "OUTER_ARM": {
-        "message": "Külső kar",
-        "description": ""
-    },
-    "DISTANCE_LY": {
-        "message": "Távolság: %distance{f.2} fényév",
-        "description": ""
-    },
-    "DRIVE_MIL3": {
-        "message": "3. szintű katonai hiperhajtómű",
-        "description": ""
-    },
-    "ILLEGAL_GOODS": {
-        "message": "Illegális áruk:",
-        "description": ""
-    },
-    "DRAW_UNINHABITED_LABELS": {
-        "message": "Lakatlan rendszerek mutatása",
-        "description": ""
-    },
-    "GALACTIC_VIEW": {
-        "message": "Galaktikus nézet",
-        "description": ""
-    },
-    "STAR_O_HYPER_GIANT": {
-        "message": "Forró kék hiperóriás",
-        "description": ""
-    },
-    "HE_ATMOSPHERE": {
-        "message": "\" hélium\"",
-        "description": ""
-    },
-    "N_CELSIUS": {
-        "message": "%temperature C",
-        "description": ""
-    },
-    "INDUSTRIAL_COLONY": {
-        "message": "Ipari kolónia",
-        "description": ""
-    },
-    "DRIVE_CLASS6": {
-        "message": "6. szintű hipermotor",
-        "description": ""
-    },
-    "TEXTILES": {
-        "message": "Textília",
-        "description": ""
-    },
-    "X": {
-        "message": "X",
-        "description": ""
-    },
-    "NONE": {
-        "message": "Nincs",
-        "description": ""
-    },
-    "WITH_NO_SIGNIFICANT_ATMOSPHERE": {
-        "message": "\" számottevő atmoszféra nélkül\"",
-        "description": ""
-    },
-    "MAP_VIEW_SHIFT_RIGHT": {
-        "message": "Jobb nézet",
-        "description": ""
-    },
-    "NO_ESTABLISHED_ORDER": {
-        "message": "Fennálló rend nélküli",
-        "description": ""
-    },
-    "COMPUTER_SPEED_CONTROL": {
-        "message": "Számítógépvezérelt sebesség",
-        "description": ""
-    },
-    "NAVIGATION_STAR_MAPS": {
-        "message": "Navigáció & csillagtérképek",
-        "description": ""
-    },
-    "MIXED_ECONOMY": {
-        "message": "Kevert gazdaság",
-        "description": ""
-    },
-    "PIONEER": {
-        "message": "PIONEER",
-        "description": ""
-    },
-    "OVER_N_MILLION": {
-        "message": "Több, mint %population millió",
-        "description": ""
-    },
-    "NUMBER_TONNES": {
-        "message": "%{mass}t",
-        "description": ""
-    },
-    "N_YEARS": {
-        "message": "%years{f.1} év",
-        "description": ""
-    },
-    "MONTH_AUG": {
-        "message": "Aug",
-        "description": ""
-    },
-    "COMMA_HIGHLY_VOLCANIC": {
-        "message": ", erősen vulkanikus",
-        "description": ""
-    },
-    "FIRE_MISSILE": {
-        "message": "Rakétakilövés",
-        "description": ""
-    },
-    "PULSECANNON_RAPID_2MW": {
-        "message": "2MW gyorstüzelő pulzuságyú",
-        "description": ""
-    },
-    "STAR_G_SUPER_GIANT": {
-        "message": "Sárga szuperóriás",
-        "description": ""
-    },
-    "DESTINATION": {
-        "message": "Célállomás",
-        "description": ""
-    },
-    "EXTERNAL_ATMOSPHERIC_PRESSURE": {
-        "message": "Külső légnyomás",
-        "description": ""
-    },
-    "DATE_DUE_N": {
-        "message": "Érkezési idő: %date",
-        "description": ""
-    },
-    "DAY_LENGTH": {
-        "message": "Napok hossza",
-        "description": ""
-    },
-    "TARGET_OBJECT_IN_SIGHTS": {
-        "message": "Célkeresztobjektum becélzása",
-        "description": ""
-    },
-    "TIME_POINT": {
-        "message": "Időpont:",
-        "description": ""
-    },
-    "FIRE_LASER": {
-        "message": "Tüzelés a lézerrel",
-        "description": ""
-    },
-    "RESET_ORIENTATION_AND_ZOOM": {
-        "message": "Nézet alaphelyzetbe",
-        "description": ""
-    },
-    "MINING_MACHINERY": {
-        "message": "Bányagépek",
-        "description": ""
-    },
-    "CARBON_ORE": {
-        "message": "Szénérc",
-        "description": ""
-    },
-    "SET_HYPERSPACE_DESTINATION_TO": {
-        "message": "Hiperűr célállomás beállítva: %system",
-        "description": ""
-    },
-    "NOT_FOUND": {
-        "message": "Nincs ilyen",
-        "description": ""
-    },
-    "HYDROGEN_DESCRIPTION": {
-        "message": "A hidrogént elsősorban fúziós üzemanyagként használják",
-        "description": ""
-    },
-    "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW": {
-        "message": "Felfedezetlen rendszer. Rendszernézet nem elérhető.",
-        "description": ""
-    },
-    "INDUSTRIAL_MACHINERY": {
-        "message": "Ipari gépek",
-        "description": ""
-    },
-    "CARGO_LIFE_SUPPORT": {
-        "message": "Raktéri életfenntartó",
-        "description": ""
-    },
-    "EARTH_FEDERATION_DEMOCRACY": {
-        "message": "Földszövetségi demokrácia",
-        "description": ""
-    },
-    "MEDICINES": {
-        "message": "Gyógyszerek",
-        "description": ""
-    },
-    "SPEED_CONTROL_MODE": {
-        "message": "Sebességvezérlés",
-        "description": ""
-    },
-    "LARGE_PLASMA_ACCEL": {
-        "message": "Nagy plazmagyorsító",
-        "description": ""
-    },
-    "PITCH_UP": {
-        "message": "Dőlés felfelé",
-        "description": ""
-    },
-    "BROWN_DWARF": {
-        "message": "Barna törpe objektum",
-        "description": ""
-    },
-    "PULSECANNON_20MW": {
-        "message": "20MW pulzuságyú",
-        "description": ""
-    },
-    "STAR_AF_HYPER_GIANT": {
-        "message": "Fehér hiperóriás",
-        "description": ""
-    },
-    "BODIES": {
-        "message": "égitesttel",
-        "description": ""
-    },
-    "N_DEGREES": {
-        "message": "%angle{f.1} fok",
-        "description": ""
-    },
-    "HYPERSPACE_ARRIVAL_CLOUD": {
-        "message": "Hiperugrás érkezési felhő",
-        "description": ""
-    },
-    "PROBABILITY_OF_ARRIVAL_X_PERCENT": {
-        "message": "Az érkezés valószínűsége: %probability%%",
-        "description": ""
-    },
-    "ECM_ADVANCED": {
-        "message": "Fejlett rakétazavaró",
-        "description": ""
-    },
-    "ROTATE_RIGHT": {
-        "message": "Fordulás jobbra",
-        "description": ""
-    },
-    "INCREASE_SET_SPEED": {
-        "message": "Beállított sebesség növelése",
-        "description": ""
-    },
-    "VAST_STRIP_MINE": {
-        "message": "Óriási külszínfejtő bányakolónia",
-        "description": ""
-    },
-    "ALT": {
-        "message": "Alt",
-        "description": "Alt key on keyboard"
-    },
-    "STAR_AF_SUPER_GIANT": {
-        "message": "Fehér szuperóriás",
-        "description": ""
-    },
-    "NUMBER_LY": {
-        "message": "%distance{f.2} fényév",
-        "description": ""
-    },
-    "SHIP_MASS_N_TONNES": {
-        "message": "Hajótömeg: %{mass}t",
-        "description": ""
-    },
-    "JOY_AXIS": {
-        "message": "%{sign}Joy%joynum %axis tengely",
-        "description": ""
-    },
-    "ANIMAL_MEAT": {
-        "message": "Állati hús",
-        "description": ""
-    },
-    "PULSECANNON_10MW": {
-        "message": "10MW pulzuságyú",
-        "description": ""
-    },
-    "REAR": {
-        "message": "Hátsó",
-        "description": ""
-    },
-    "STAR_M_GIANT": {
-        "message": "Vörös óriáscsillag",
-        "description": ""
-    },
-    "AXIAL_TILT": {
-        "message": "Tengelydőlés",
-        "description": ""
-    },
-    "EXTERNAL_VIEW": {
-        "message": "Külső nézet",
-        "description": ""
-    },
-    "AUTOPILOT": {
-        "message": "Auto-pilóta",
-        "description": ""
-    },
-    "DECREASE_SET_SPEED": {
-        "message": "Beállított sebesség csökkentése",
-        "description": ""
-    },
-    "ZOOM_OUT": {
-        "message": "Távolítás",
-        "description": ""
-    },
-    "CAMERA_RIGHT_VIEW": {
-        "message": "Jobb kamera",
-        "description": ""
-    },
-    "ECONOMIC_INFO": {
-        "message": "Gazdasági infó",
-        "description": ""
-    },
-    "THIN": {
-        "message": "vékony",
-        "description": ""
-    },
-    "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND": {
-        "message": "Auto-pilóta: Közepes %target körüli pálya",
-        "description": ""
-    },
-    "TAKEOFF": {
-        "message": "Felszállás",
-        "description": ""
-    },
-    "ECM_BASIC_DESCRIPTION": {
-        "message": "Egy elektronikus rakétazavaró védelmi rendszer, amely bizonyos fajta követőrakéták megsemmisítésére alkalmas.",
-        "description": ""
-    },
-    "MASS_N_TONNES": {
-        "message": "Tömeg: %{mass}t",
-        "description": ""
-    },
-    "INCREASE_SCAN_RANGE": {
-        "message": "Szkennertáv növelése",
-        "description": ""
-    },
-    "ROCKY_PLANET": {
-        "message": "\" sziklás bolygó\"",
-        "description": ""
-    },
-    "TOGGLE_SCAN_MODE": {
-        "message": "Szkennermód kapcsoló",
-        "description": ""
-    },
-    "SOME_ESTABLISHED_MINING": {
-        "message": "Némi bányászat",
-        "description": ""
-    },
-    "N_WHATEVER_MASSES": {
-        "message": "%mass{f.3} %units tömeg",
-        "description": ""
-    },
-    "MASSIVE": {
-        "message": "Óriási",
-        "description": ""
-    },
-    "FRUIT_AND_VEG": {
-        "message": "Gyümölcs-zöldség",
-        "description": ""
-    },
-    "ECCENTRICITY": {
-        "message": "Alakszabályosság",
-        "description": ""
-    },
-    "LIQUID_OXYGEN_DESCRIPTION": {
-        "message": "Az oxigén az életfenntartó rendszerekhez és néhány ipari folyamathoz kell",
-        "description": ""
-    },
-    "N_DAYS": {
-        "message": "%days{f.1} nap",
-        "description": ""
-    },
-    "PULSECANNON_DUAL_1MW": {
-        "message": "1MW dupla pulzuságyú",
-        "description": ""
-    },
-    "WHEELS_ARE_DOWN": {
-        "message": "Futómű leengedve",
-        "description": ""
-    },
-    "FINE_PAID_N_BUT_N_REMAINING": {
-        "message": "Fizettél %paid összeget, de még tartozol %fine összeggel.",
-        "description": ""
-    },
-    "SELECTED_SYSTEM": {
-        "message": "Kiválasztott rendszer",
-        "description": ""
-    },
-    "DRIVE_MIL2": {
-        "message": "2. szintű katonai hiperhajtómű",
-        "description": ""
-    },
-    "FERTILIZER": {
-        "message": "Mütrágya",
-        "description": ""
-    },
-    "CANT_SAVE_IN_HYPERSPACE": {
-        "message": "Nem lehet hiperűrugrás alatt menteni",
-        "description": ""
-    },
-    "STAR_O_WF": {
-        "message": "Wolf-Rayet csillag- Közelgő összeomlás",
-        "description": ""
-    },
-    "UNLAWFUL_WEAPONS_DISCHARGE": {
-        "message": "Törvénytelen fegyverhasználat",
-        "description": ""
-    },
-    "CARGO_LIFE_SUPPORT_DESCRIPTION": {
-        "message": "Lehetővé teszi élőárú szállítását.",
-        "description": ""
-    },
-    "THICK": {
-        "message": "vastag",
-        "description": ""
-    },
-    "USE_LOW_THRUST": {
-        "message": "Tolóerő-korlátozás",
-        "description": ""
-    },
-    "S_ATMOSPHERE": {
-        "message": "\" kén\"",
-        "description": ""
-    },
-    "STAR_S_BH": {
-        "message": "Csillagközi feketeluyk",
-        "description": ""
-    },
-    "TOMBSTONE_EPITAPH": {
-        "message": "Ég veled barátom!",
-        "description": ""
-    },
-    "STAR_K_SUPER_GIANT": {
-        "message": "Narancs szuperóriás",
-        "description": ""
-    },
-    "OVER_N_BILLION": {
-        "message": "Több, mint %population milliárd",
-        "description": ""
-    },
-    "SOCIAL_DEMOCRACY": {
-        "message": "Szociális demokrácia",
-        "description": ""
-    },
-    "H_ATMOSPHERE": {
-        "message": "\" hidrogén\"",
-        "description": ""
-    },
-    "ALT_IN_METRES": {
-        "message": "Magas: %altitude{f.0}m (%vspeed{f.1}m/s)",
-        "description": ""
-    },
-    "VIOLENT_ANARCHY": {
-        "message": "Zűrzavar - Fegyveres testületek általi irányítás",
-        "description": ""
-    },
-    "CAMERA_FRONT_VIEW": {
-        "message": "Első kamera",
-        "description": ""
-    },
-    "TOGGLE_HUD_MODE": {
-        "message": "HUD mód váltás",
-        "description": ""
-    },
-    "STAR_K_HYPER_GIANT": {
-        "message": "Instabil narancs hiperóriás csillag",
-        "description": ""
-    },
-    "MONTH_NOV": {
-        "message": "Nov",
-        "description": ""
-    },
-    "QUADRUPLE_SYSTEM": {
-        "message": "Négyes rendszer",
-        "description": ""
-    },
-    "HEAVY_INDUSTRY": {
-        "message": "Nehézipar",
-        "description": ""
-    },
-    "LIQUID_OXYGEN": {
-        "message": "Folyékony oxigén",
-        "description": ""
-    },
-    "MAP_WARP_TO_SELECTED_SYSTEM": {
-        "message": "Ugrás a kiválasztott rendszerbe",
-        "description": ""
-    },
-    "HYPERSPACE": {
-        "message": "Hiperűr",
-        "description": ""
-    }
+   "AIR_PROCESSORS" : {
+      "description" : "",
+      "message" : "Levegőfeldolgozók"
+   },
+   "ALERT_CANCELLED" : {
+      "description" : "",
+      "message" : "Riadó visszavonva."
+   },
+   "ALLEGIANCE" : {
+      "description" : "",
+      "message" : "Szövetség:"
+   },
+   "ALT" : {
+      "description" : "Alt key on keyboard",
+      "message" : "Alt"
+   },
+   "ALT_IN_KM" : {
+      "description" : "",
+      "message" : "Magas: %altitude{f.0}km (%vspeed{f.1}km/s)"
+   },
+   "ALT_IN_METRES" : {
+      "description" : "",
+      "message" : "Magas: %altitude{f.0}m (%vspeed{f.1}m/s)"
+   },
+   "AND_HIGHLY_COMPLEX_ECOSYSTEM" : {
+      "description" : "",
+      "message" : ", valamint fejlett ökoszisztémával rendelkezik."
+   },
+   "AND_INDIGENOUS_MICROBIAL_LIFE" : {
+      "description" : "",
+      "message" : ", valamint őshonos mikroszkópikus élettel rendelkezik."
+   },
+   "AND_INDIGENOUS_PLANT_LIFE" : {
+      "description" : "",
+      "message" : ", valamint őshonos növényi élettel rendelkezik."
+   },
+   "ANIMAL_MEAT" : {
+      "description" : "",
+      "message" : "Állati hús"
+   },
+   "APOAPSIS_DISTANCE" : {
+      "description" : "",
+      "message" : "Apoapszis"
+   },
+   "AR_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" argon\""
+   },
+   "ASTEROID" : {
+      "description" : "",
+      "message" : "Aszteroid"
+   },
+   "ATMOSPHERIC_SHIELDING" : {
+      "description" : "",
+      "message" : "Atmoszférapajzs"
+   },
+   "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Megvédi az űrhajót az atmoszférába lépés alatt a túlmelegedéstől."
+   },
+   "AUTOPILOT" : {
+      "description" : "",
+      "message" : "Auto-pilóta"
+   },
+   "AUTOPILOT_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Egy fedélzeti repülésirányító számítógép."
+   },
+   "AUTOPILOT_DOCK_WITH_STATION" : {
+      "description" : "",
+      "message" : "Auto-pilóta: Dokkolás az űrállomással"
+   },
+   "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND" : {
+      "description" : "",
+      "message" : "Auto-pilóta: Magas %target körüli pálya"
+   },
+   "AUTOPILOT_ENTER_LOW_ORBIT_AROUND" : {
+      "description" : "",
+      "message" : "Auto-pilóta: Alacsony %target körüli pálya"
+   },
+   "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND" : {
+      "description" : "",
+      "message" : "Auto-pilóta: Közepes %target körüli pálya"
+   },
+   "AUTOPILOT_FLY_TO_VICINITY_OF" : {
+      "description" : "",
+      "message" : "Auto-pilóta:  %target megközelítése"
+   },
+   "AUTOPILOT_ON" : {
+      "description" : "",
+      "message" : "Auto-pilóta"
+   },
+   "AXIAL_TILT" : {
+      "description" : "",
+      "message" : "Tengelydőlés"
+   },
+   "A_FEW_THOUSAND" : {
+      "description" : "",
+      "message" : "Csak pár ezer"
+   },
+   "BATTLE_WEAPONS" : {
+      "description" : "",
+      "message" : "Katonai fegyverzet"
+   },
+   "BINARY_SYSTEM" : {
+      "description" : "",
+      "message" : "Bináris rendszer"
+   },
+   "BODIES" : {
+      "description" : "",
+      "message" : "égitesttel"
+   },
+   "BODY" : {
+      "description" : "",
+      "message" : "égitesttel"
+   },
+   "BROWN_DWARF" : {
+      "description" : "",
+      "message" : "Barna törpe objektum"
+   },
+   "BUTTON" : {
+      "description" : "",
+      "message" : "\" Gomb \""
+   },
+   "CAMERA_BOTTOM_VIEW" : {
+      "description" : "",
+      "message" : "Alsó kamera"
+   },
+   "CAMERA_FRONT_VIEW" : {
+      "description" : "",
+      "message" : "Első kamera"
+   },
+   "CAMERA_LEFT_VIEW" : {
+      "description" : "",
+      "message" : "Bal kamera"
+   },
+   "CAMERA_REAR_VIEW" : {
+      "description" : "",
+      "message" : "Hátsó nézet"
+   },
+   "CAMERA_RIGHT_VIEW" : {
+      "description" : "",
+      "message" : "Jobb kamera"
+   },
+   "CAMERA_TOP_VIEW" : {
+      "description" : "",
+      "message" : "Felső kamera"
+   },
+   "CANT_SAVE_IN_HYPERSPACE" : {
+      "description" : "",
+      "message" : "Nem lehet hiperűrugrás alatt menteni"
+   },
+   "CAPITALIST" : {
+      "description" : "",
+      "message" : "Kapitalista"
+   },
+   "CARBON_ORE" : {
+      "description" : "",
+      "message" : "Szénérc"
+   },
+   "CARBON_ORE_DESCRIPTION" : {
+      "description" : "",
+      "message" : "A szénércek (szén és olaj) hasznos kémiai anyagok, pl. műanyagok, szintetikus ételek, gyógyszerek és textilanyagok létrehozásához szükségesek"
+   },
+   "CARGO" : {
+      "description" : "",
+      "message" : "Raktér"
+   },
+   "CARGO_BAY_LIFE_SUPPORT_LOST" : {
+      "description" : "",
+      "message" : "A szenzorok a raktér életfenntartóinak meghibásodását mutatják."
+   },
+   "CARGO_LIFE_SUPPORT" : {
+      "description" : "",
+      "message" : "Raktéri életfenntartó"
+   },
+   "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Lehetővé teszi élőárú szállítását."
+   },
+   "CARGO_N" : {
+      "description" : "",
+      "message" : "Rakomány: %{mass}t"
+   },
+   "CARGO_SCOOP" : {
+      "description" : "",
+      "message" : "Rakományszívó"
+   },
+   "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED" : {
+      "description" : "",
+      "message" : "Rakományszívó aktív. Begyűjtve 1 tonna %item."
+   },
+   "CARGO_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Lehetővé teszi rakománytartály felszedését az űrből."
+   },
+   "CH4_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" metán\""
+   },
+   "CLEARANCE_ALREADY_GRANTED_BAY_N" : {
+      "description" : "",
+      "message" : "Engedély már megadva. Haladj a(z) %bay leszállóöböl felé."
+   },
+   "CLEARANCE_DENIED_NO_BAYS" : {
+      "description" : "",
+      "message" : "Kérés elutasítva. Nincs szabad leszállóhelyünk."
+   },
+   "CLEARANCE_GRANTED_BAY_N" : {
+      "description" : "",
+      "message" : "Engedély megadva. Haladj a(z) %bay leszállóöböl felé."
+   },
+   "CO2_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" szén-dioxid\""
+   },
+   "COMMA_HIGHLY_VOLCANIC" : {
+      "description" : "",
+      "message" : ", erősen vulkanikus"
+   },
+   "COMMS" : {
+      "description" : "",
+      "message" : "Kommunikáció"
+   },
+   "COMMUNIST" : {
+      "description" : "",
+      "message" : "Kommunista"
+   },
+   "COMPUTERS" : {
+      "description" : "",
+      "message" : "Számítógépek"
+   },
+   "COMPUTER_HEADING_CONTROL" : {
+      "description" : "",
+      "message" : "Auto irányvezérlés"
+   },
+   "COMPUTER_SPEED_CONTROL" : {
+      "description" : "",
+      "message" : "Számítógépvezérelt sebesség"
+   },
+   "CONSUMER_GOODS" : {
+      "description" : "",
+      "message" : "Fogyasztási cikkek"
+   },
+   "CONTROLS" : {
+      "description" : "",
+      "message" : "Irányítás"
+   },
+   "CORPORATE_SYSTEM" : {
+      "description" : "",
+      "message" : "Vállalati rendszer"
+   },
+   "COULD_NOT_OPEN_FILENAME" : {
+      "description" : "",
+      "message" : "Nem nyitható meg: %path"
+   },
+   "COUNT_ON_SURFACE" : {
+      "description" : "",
+      "message" : "\" (%surfacecount felszínen)\""
+   },
+   "COUNT_STARPORTS" : {
+      "description" : "",
+      "message" : "űrkikötővel"
+   },
+   "CO_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" szén-monoxid\""
+   },
+   "CTRL" : {
+      "description" : "Ctrl key on keyboard",
+      "message" : "Ctrl"
+   },
+   "CURRENT_SYSTEM" : {
+      "description" : "",
+      "message" : "Jelenlegi rendszer"
+   },
+   "DATE_DUE_N" : {
+      "description" : "",
+      "message" : "Érkezési idő: %date"
+   },
+   "DAY_LENGTH" : {
+      "description" : "",
+      "message" : "Napok hossza"
+   },
+   "DECREASE_SCAN_RANGE" : {
+      "description" : "",
+      "message" : "Szkennertáv csökkentése"
+   },
+   "DECREASE_SET_SPEED" : {
+      "description" : "",
+      "message" : "Beállított sebesség csökkentése"
+   },
+   "DEMOGRAPHICS" : {
+      "description" : "",
+      "message" : "Demográfia"
+   },
+   "DESTINATION" : {
+      "description" : "",
+      "message" : "Célállomás"
+   },
+   "DIRECTION" : {
+      "description" : "",
+      "message" : "\" Irány \""
+   },
+   "DISABLED_AUTOMATIC_SYSTEM_SELECTION" : {
+      "description" : "",
+      "message" : "Automata rendszerválasztás kikapcsolva."
+   },
+   "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
+      "description" : "",
+      "message" : "Távolság a navigációs célponttól"
+   },
+   "DISTANCE_LY" : {
+      "description" : "",
+      "message" : "Távolság: %distance{f.2} fényév"
+   },
+   "DOCKED" : {
+      "description" : "",
+      "message" : "Dokkolt"
+   },
+   "DOCKING" : {
+      "description" : "",
+      "message" : "Dokkol"
+   },
+   "DOCKING_CLEARANCE_EXPIRED" : {
+      "description" : "",
+      "message" : "Dokkolási engedély lejárt. Ha dokkolni akarsz, újra engedélyt kell kérned."
+   },
+   "DOWNGRADING_ALERT_STATUS" : {
+      "description" : "",
+      "message" : "1 perce nincs tüzelés, riasztási szint csökkent."
+   },
+   "DRAW_OUT_RANGE_LABELS" : {
+      "description" : "",
+      "message" : "Hatótávon túli rendszerek címkézése"
+   },
+   "DRAW_UNINHABITED_LABELS" : {
+      "description" : "",
+      "message" : "Lakatlan rendszerek mutatása"
+   },
+   "DRAW_VERTICAL_LINES" : {
+      "description" : "",
+      "message" : "Függőleges vonalak rajzolása"
+   },
+   "DRIVE_CLASS1" : {
+      "description" : "",
+      "message" : "1. szintű hipermotor"
+   },
+   "DRIVE_CLASS2" : {
+      "description" : "",
+      "message" : "2. szintű hipermotor"
+   },
+   "DRIVE_CLASS3" : {
+      "description" : "",
+      "message" : "3. szintű hipermotor"
+   },
+   "DRIVE_CLASS4" : {
+      "description" : "",
+      "message" : "4. szintű hipermotor"
+   },
+   "DRIVE_CLASS5" : {
+      "description" : "",
+      "message" : "5. szintű hipermotor"
+   },
+   "DRIVE_CLASS6" : {
+      "description" : "",
+      "message" : "6. szintű hipermotor"
+   },
+   "DRIVE_CLASS7" : {
+      "description" : "",
+      "message" : "7. szintű hipermotor"
+   },
+   "DRIVE_CLASS8" : {
+      "description" : "",
+      "message" : "8. szintű hipermotor"
+   },
+   "DRIVE_CLASS9" : {
+      "description" : "",
+      "message" : "9. szintű hipermotor"
+   },
+   "DRIVE_MIL1" : {
+      "description" : "",
+      "message" : "1. szintű katonai hiperhajtómű"
+   },
+   "DRIVE_MIL2" : {
+      "description" : "",
+      "message" : "2. szintű katonai hiperhajtómű"
+   },
+   "DRIVE_MIL3" : {
+      "description" : "",
+      "message" : "3. szintű katonai hiperhajtómű"
+   },
+   "DRIVE_MIL4" : {
+      "description" : "",
+      "message" : "4. szintű katonai hajtómű"
+   },
+   "EARTH" : {
+      "description" : "",
+      "message" : "Föld"
+   },
+   "EARTH_FEDERATION_COLONIAL_RULE" : {
+      "description" : "",
+      "message" : "Földi szövetség gyarmat"
+   },
+   "EARTH_FEDERATION_DEMOCRACY" : {
+      "description" : "",
+      "message" : "Földszövetségi demokrácia"
+   },
+   "ECCENTRICITY" : {
+      "description" : "",
+      "message" : "Alakszabályosság"
+   },
+   "ECM_ADVANCED" : {
+      "description" : "",
+      "message" : "Fejlett rakétazavaró"
+   },
+   "ECM_ADVANCED_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Egy hatékonyabb elektronikus rakétazavaró rendszer,  fejlettebb követőrakéták ellen is hatásos."
+   },
+   "ECM_BASIC" : {
+      "description" : "",
+      "message" : "Rakétazavaró"
+   },
+   "ECM_BASIC_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Egy elektronikus rakétazavaró védelmi rendszer, amely bizonyos fajta követőrakéták megsemmisítésére alkalmas."
+   },
+   "ECONOMIC_INFO" : {
+      "description" : "",
+      "message" : "Gazdasági infó"
+   },
+   "ECONOMY_TYPE" : {
+      "description" : "",
+      "message" : "Gazdaság:"
+   },
+   "ENABLED_AUTOMATIC_SYSTEM_SELECTION" : {
+      "description" : "",
+      "message" : "Automata rendszerválasztás engedélyezve."
+   },
+   "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
+      "description" : "",
+      "message" : "Egyenlítői- és sarki sugár arány"
+   },
+   "EXACT_MATCH_X" : {
+      "description" : "",
+      "message" : "Pontos egyezés: %system"
+   },
+   "EXTENSIVE_MINING" : {
+      "description" : "",
+      "message" : "Kiterjedt bányászati tevékenység"
+   },
+   "EXTERNAL_ATMOSPHERIC_PRESSURE" : {
+      "description" : "",
+      "message" : "Külső légnyomás"
+   },
+   "EXTERNAL_VIEW" : {
+      "description" : "",
+      "message" : "Külső nézet"
+   },
+   "FARM_MACHINERY" : {
+      "description" : "",
+      "message" : "Mezőgazdasági gépek"
+   },
+   "FERTILIZER" : {
+      "description" : "",
+      "message" : "Mütrágya"
+   },
+   "FINE_PAID_N" : {
+      "description" : "",
+      "message" : "Kifizetted a(z) %fine összegnyi büntetést."
+   },
+   "FINE_PAID_N_BUT_N_REMAINING" : {
+      "description" : "",
+      "message" : "Fizettél %paid összeget, de még tartozol %fine összeggel."
+   },
+   "FIRE_LASER" : {
+      "description" : "",
+      "message" : "Tüzelés a lézerrel"
+   },
+   "FIRE_MISSILE" : {
+      "description" : "",
+      "message" : "Rakétakilövés"
+   },
+   "FOLLOWING_SELECTION" : {
+      "description" : "",
+      "message" : "kiválasztás követése"
+   },
+   "FRONT" : {
+      "description" : "",
+      "message" : "Első"
+   },
+   "FRUIT_AND_VEG" : {
+      "description" : "",
+      "message" : "Gyümölcs-zöldség"
+   },
+   "FUEL" : {
+      "description" : "",
+      "message" : "Hajtóanyag"
+   },
+   "FUEL_SCOOP" : {
+      "description" : "",
+      "message" : "Üzemanyagszívó"
+   },
+   "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED" : {
+      "description" : "",
+      "message" : "Üzemanyagszívó aktív. Jelenleg már %quantity tonna hidrogéned van."
+   },
+   "FUEL_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Lehetővé teszi hidrogén üzemanyag felvételét gázóriás bolygókból."
+   },
+   "GALACTIC_VIEW" : {
+      "description" : "",
+      "message" : "Galaktikus nézet"
+   },
+   "GALAXY_SECTOR_VIEW" : {
+      "description" : "",
+      "message" : "Galaxisszektor nézet"
+   },
+   "GAME_LOAD_CANNOT_OPEN" : {
+      "description" : "",
+      "message" : "Ez a fájl nem nyitható meg, talán jogosultági okokból, vagy ilyesmi..."
+   },
+   "GAME_LOAD_CORRUPT" : {
+      "description" : "",
+      "message" : "A mentésfile nem tölthető be, mert hibákat tartalmaz."
+   },
+   "GAME_LOAD_WRONG_VERSION" : {
+      "description" : "",
+      "message" : "Ez a mentés nem tölthető be, mert a Pioneer egy régebbi verziójával készült."
+   },
+   "GAME_SAVED_TO" : {
+      "description" : "",
+      "message" : "\"Játék mentve ide: \""
+   },
+   "GAME_SAVE_CANNOT_WRITE" : {
+      "description" : "",
+      "message" : "Ez a mentés nem hajtható végre valamilyen rendszerhiba miatt."
+   },
+   "GENERAL_VIEW_CONTROLS" : {
+      "description" : "",
+      "message" : "Általános nézet vezérlők"
+   },
+   "GOVERNMENT_TYPE" : {
+      "description" : "",
+      "message" : "Kormányzat:"
+   },
+   "GRAIN" : {
+      "description" : "",
+      "message" : "Búza"
+   },
+   "HAND_WEAPONS" : {
+      "description" : "",
+      "message" : "Kézifegyverek"
+   },
+   "HARD_CAPITALIST" : {
+      "description" : "",
+      "message" : "Teljesen kapitalista - kormányintézkedések nélkül"
+   },
+   "HAT" : {
+      "description" : "",
+      "message" : "\" Hat\""
+   },
+   "HEADING_LOCK_BACKWARD" : {
+      "description" : "",
+      "message" : "Iránykövetés (retrográd)"
+   },
+   "HEADING_LOCK_FORWARD" : {
+      "description" : "",
+      "message" : "Iránykövetés (prográd)"
+   },
+   "HEAVY_INDUSTRY" : {
+      "description" : "",
+      "message" : "Nehézipar"
+   },
+   "HE_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" hélium\""
+   },
+   "HIGHLY_VOLCANIC" : {
+      "description" : "",
+      "message" : "Erősen vulkanikus"
+   },
+   "HIGH_POPULATION_OUTDOOR_WORLD" : {
+      "description" : "",
+      "message" : "Nagy népességü külső világ"
+   },
+   "HULL_AUTOREPAIR" : {
+      "description" : "",
+      "message" : "Hajótest javító rendszer"
+   },
+   "HULL_AUTOREPAIR_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Automatikusan javítja a hajótestet sérülés esetén."
+   },
+   "HULL_INTEGRITY" : {
+      "description" : "",
+      "message" : "Hajóintegritás"
+   },
+   "HULL_TEMP" : {
+      "description" : "",
+      "message" : "Hajóhőmérséklet"
+   },
+   "HYDROGEN" : {
+      "description" : "",
+      "message" : "Hidrogén"
+   },
+   "HYDROGEN_DESCRIPTION" : {
+      "description" : "",
+      "message" : "A hidrogént elsősorban fúziós üzemanyagként használják"
+   },
+   "HYPERCLOUD_ANALYZER" : {
+      "description" : "",
+      "message" : "Hiperugrás analizátor"
+   },
+   "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "A hiperugrás-felhőket analizálja, megállapítva a célállomást és az érkezés vagy indulás időpontját."
+   },
+   "HYPERSPACE" : {
+      "description" : "",
+      "message" : "Hiperűr"
+   },
+   "HYPERSPACE_ARRIVAL_CLOUD" : {
+      "description" : "",
+      "message" : "Hiperugrás érkezési felhő"
+   },
+   "HYPERSPACE_ARRIVAL_CLOUD_REMNANT" : {
+      "description" : "",
+      "message" : "Érkezési hiperűrfelhő maradvány"
+   },
+   "HYPERSPACE_DEPARTURE_CLOUD" : {
+      "description" : "",
+      "message" : "Hiperugrás indulási oldal"
+   },
+   "HYPERSPACE_JUMP" : {
+      "description" : "",
+      "message" : "Hiperűr ugrás"
+   },
+   "HYPERSPACE_JUMP_ABORTED" : {
+      "description" : "",
+      "message" : "Hiperűr-ugrás megszakítva."
+   },
+   "HYPERSPACE_TARGET" : {
+      "description" : "",
+      "message" : "Hiperugrás cél"
+   },
+   "HYPERSPACING_IN_N_SECONDS" : {
+      "description" : "",
+      "message" : "Hiperugrás %countdown{f.0} másodperc múlva"
+   },
+   "H_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" hidrogén\""
+   },
+   "ICE_WORLD" : {
+      "description" : "",
+      "message" : "\" jégvilág\""
+   },
+   "ILLEGAL_GOODS" : {
+      "description" : "",
+      "message" : "Illegális áruk:"
+   },
+   "IMPERIAL_RULE" : {
+      "description" : "",
+      "message" : "Birodalmi uradalom"
+   },
+   "INCREASE_SCAN_RANGE" : {
+      "description" : "",
+      "message" : "Szkennertáv növelése"
+   },
+   "INCREASE_SET_SPEED" : {
+      "description" : "",
+      "message" : "Beállított sebesség növelése"
+   },
+   "INDUSTRIAL_COLONY" : {
+      "description" : "",
+      "message" : "Ipari kolónia"
+   },
+   "INDUSTRIAL_HUB_SYSTEM" : {
+      "description" : "",
+      "message" : "Ipari csomópont"
+   },
+   "INDUSTRIAL_MACHINERY" : {
+      "description" : "",
+      "message" : "Ipari gépek"
+   },
+   "INTERNAL_VIEW" : {
+      "description" : "",
+      "message" : "Belső nézet"
+   },
+   "INT_LY" : {
+      "description" : "",
+      "message" : "%scale fényév"
+   },
+   "IN_TRANSIT" : {
+      "description" : "",
+      "message" : "Utazás"
+   },
+   "IN_TRANSIT_TO_N_X_X_X" : {
+      "description" : "",
+      "message" : "Utazás %system rendszerbe [%x,%y,%z]"
+   },
+   "JOY" : {
+      "description" : "",
+      "message" : "Joy"
+   },
+   "JOYSTICK_INPUT" : {
+      "description" : "",
+      "message" : "Joystick bevitel"
+   },
+   "JOY_AXIS" : {
+      "description" : "",
+      "message" : "%{sign}Joy%joynum %axis tengely"
+   },
+   "KM_S_RELATIVE_TO" : {
+      "description" : "",
+      "message" : "Relatív sebesség (%frame): %speed{f.2} km/s"
+   },
+   "LANDED" : {
+      "description" : "",
+      "message" : "Leszállt"
+   },
+   "LANG_NAME" : {
+      "description" : "The name that native speakers use for this language. This will be used in the language selection screen. For obscure reasons this currently must only use Latin-1 characters.",
+      "message" : "Magyar"
+   },
+   "LARGE" : {
+      "description" : "",
+      "message" : "Nagy"
+   },
+   "LARGE_GAS_GIANT" : {
+      "description" : "",
+      "message" : "Nagy gázóriás"
+   },
+   "LARGE_PLASMA_ACCEL" : {
+      "description" : "",
+      "message" : "Nagy plazmagyorsító"
+   },
+   "LASER_COOLING_BOOSTER" : {
+      "description" : "",
+      "message" : "Lézerhűtés javító"
+   },
+   "LASER_COOLING_BOOSTER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Egy fejlettebb hűtőrendszer a fegyvereidhez."
+   },
+   "LASER_FIRE_DETECTED" : {
+      "description" : "",
+      "message" : "Lézerlövés érzékelve."
+   },
+   "LAUNCH_PERMISSION_DENIED_BUSY" : {
+      "description" : "",
+      "message" : "Leszállási engedély megtagadva: leszállóöböl foglalt."
+   },
+   "LIBERAL_DEMOCRACY" : {
+      "description" : "",
+      "message" : "Liberális demokrácia"
+   },
+   "LIQUID_OXYGEN" : {
+      "description" : "",
+      "message" : "Folyékony oxigén"
+   },
+   "LIQUID_OXYGEN_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Az oxigén az életfenntartó rendszerekhez és néhány ipari folyamathoz kell"
+   },
+   "LIQUOR" : {
+      "description" : "",
+      "message" : "Alkohol"
+   },
+   "LIVE_ANIMALS" : {
+      "description" : "",
+      "message" : "Élőállat"
+   },
+   "LOCKED" : {
+      "description" : "",
+      "message" : "zárolt"
+   },
+   "MAJOR_EXPORTS" : {
+      "description" : "",
+      "message" : "Főbb export:"
+   },
+   "MAJOR_IMPORTS" : {
+      "description" : "",
+      "message" : "Főbb import:"
+   },
+   "MANUAL_CONTROL" : {
+      "description" : "",
+      "message" : "Kézi irányítás"
+   },
+   "MANUAL_CONTROL_MODE" : {
+      "description" : "",
+      "message" : "Manuális irányítás"
+   },
+   "MAP_LOCK_HYPERSPACE_TARGET" : {
+      "description" : "",
+      "message" : "Hiperűr cél rögzítése"
+   },
+   "MAP_TOGGLE_INFO_PANEL" : {
+      "description" : "",
+      "message" : "Info panel "
+   },
+   "MAP_TOGGLE_SELECTION_FOLLOW_VIEW" : {
+      "description" : "",
+      "message" : "Kijelölés követi a nézetet"
+   },
+   "MAP_VIEW_ROTATE_DOWN" : {
+      "description" : "",
+      "message" : "Nézet forgatása le"
+   },
+   "MAP_VIEW_ROTATE_LEFT" : {
+      "description" : "",
+      "message" : "Nézet forgatása balra"
+   },
+   "MAP_VIEW_ROTATE_RIGHT" : {
+      "description" : "",
+      "message" : "Nézet forgatása jobbra"
+   },
+   "MAP_VIEW_ROTATE_UP" : {
+      "description" : "",
+      "message" : "Nézet forgatása fel"
+   },
+   "MAP_VIEW_SHIFT_BACKWARD" : {
+      "description" : "",
+      "message" : "Hátsó nézet"
+   },
+   "MAP_VIEW_SHIFT_DOWN" : {
+      "description" : "",
+      "message" : "Le nézet"
+   },
+   "MAP_VIEW_SHIFT_FORWARD" : {
+      "description" : "",
+      "message" : "Előre nézet"
+   },
+   "MAP_VIEW_SHIFT_LEFT" : {
+      "description" : "",
+      "message" : "Bal nézet"
+   },
+   "MAP_VIEW_SHIFT_RIGHT" : {
+      "description" : "",
+      "message" : "Jobb nézet"
+   },
+   "MAP_VIEW_SHIFT_UP" : {
+      "description" : "",
+      "message" : "Fel nézet"
+   },
+   "MAP_WARP_TO_CURRENT_SYSTEM" : {
+      "description" : "",
+      "message" : "Ugrás a jelenlegi rendszerbe"
+   },
+   "MAP_WARP_TO_HYPERSPACE_TARGET" : {
+      "description" : "",
+      "message" : "Ugrás hiperűr célponthoz"
+   },
+   "MAP_WARP_TO_SELECTED_SYSTEM" : {
+      "description" : "",
+      "message" : "Ugrás a kiválasztott rendszerbe"
+   },
+   "MASS" : {
+      "description" : "",
+      "message" : "Tömeg"
+   },
+   "MASSIVE" : {
+      "description" : "",
+      "message" : "Óriási"
+   },
+   "MASS_N_TONNES" : {
+      "description" : "",
+      "message" : "Tömeg: %{mass}t"
+   },
+   "MEDICINES" : {
+      "description" : "",
+      "message" : "Gyógyszerek"
+   },
+   "MEDIUM_GAS_GIANT" : {
+      "description" : "",
+      "message" : "Közepes gázóriás"
+   },
+   "MESSAGE_FROM_X" : {
+      "description" : "",
+      "message" : "%sender üzenete:"
+   },
+   "META" : {
+      "description" : "'Meta' key on keyboard",
+      "message" : "Meta"
+   },
+   "METAL_ALLOYS" : {
+      "description" : "",
+      "message" : "Fémötvözetek"
+   },
+   "METAL_ORE" : {
+      "description" : "",
+      "message" : "Fémérc"
+   },
+   "MILITARY_DICTATORSHIP" : {
+      "description" : "",
+      "message" : "Katonai diktatúra"
+   },
+   "MILITARY_FUEL" : {
+      "description" : "",
+      "message" : "Katonai üzemanyag"
+   },
+   "MININGCANNON_17MW" : {
+      "description" : "",
+      "message" : "17MW robbantó bányászágyú"
+   },
+   "MININGCANNON_17MW_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Ásványokban gazdag aszteroidák bányászatához."
+   },
+   "MINING_COLONY" : {
+      "description" : "",
+      "message" : "Bányászkolónia"
+   },
+   "MINING_MACHINERY" : {
+      "description" : "",
+      "message" : "Bányagépek"
+   },
+   "MINOR_EXPORTS" : {
+      "description" : "",
+      "message" : "További export:"
+   },
+   "MINOR_IMPORTS" : {
+      "description" : "",
+      "message" : "További import:"
+   },
+   "MISCELLANEOUS" : {
+      "description" : "",
+      "message" : "Egyéb"
+   },
+   "MISSILE" : {
+      "description" : "",
+      "message" : "rakéta"
+   },
+   "MISSILE_GUIDED" : {
+      "description" : "",
+      "message" : "Irányított rakéta"
+   },
+   "MISSILE_NAVAL" : {
+      "description" : "",
+      "message" : "Flottarakéta"
+   },
+   "MISSILE_SMART" : {
+      "description" : "",
+      "message" : "Követőrakéta"
+   },
+   "MISSILE_UNGUIDED" : {
+      "description" : "",
+      "message" : "R40 nemirányított rakéta"
+   },
+   "MIXED_ECONOMY" : {
+      "description" : "",
+      "message" : "Kevert gazdaság"
+   },
+   "MONTH_APR" : {
+      "description" : "",
+      "message" : "Ápr"
+   },
+   "MONTH_AUG" : {
+      "description" : "",
+      "message" : "Aug"
+   },
+   "MONTH_DEC" : {
+      "description" : "",
+      "message" : "Dec"
+   },
+   "MONTH_FEB" : {
+      "description" : "",
+      "message" : "Feb"
+   },
+   "MONTH_JAN" : {
+      "description" : "",
+      "message" : "Jan"
+   },
+   "MONTH_JUL" : {
+      "description" : "",
+      "message" : "Júl"
+   },
+   "MONTH_JUN" : {
+      "description" : "",
+      "message" : "Jún"
+   },
+   "MONTH_MAR" : {
+      "description" : "",
+      "message" : "Már"
+   },
+   "MONTH_MAY" : {
+      "description" : "",
+      "message" : "Máj"
+   },
+   "MONTH_NOV" : {
+      "description" : "",
+      "message" : "Nov"
+   },
+   "MONTH_OCT" : {
+      "description" : "",
+      "message" : "Okt"
+   },
+   "MONTH_SEP" : {
+      "description" : "",
+      "message" : "Szep"
+   },
+   "MURDER" : {
+      "description" : "",
+      "message" : "Gyilkosság"
+   },
+   "M_S_RELATIVE_TO" : {
+      "description" : "",
+      "message" : "Relatív sebesség (%frame): %speed{f.0} m/s"
+   },
+   "NAME_OBJECT" : {
+      "description" : "For an item or object",
+      "message" : "Név"
+   },
+   "NAME_PERSON" : {
+      "description" : "For a person",
+      "message" : "Név"
+   },
+   "NARCOTICS" : {
+      "description" : "",
+      "message" : "Kábítószer"
+   },
+   "NAVIGATION_STAR_MAPS" : {
+      "description" : "",
+      "message" : "Navigáció & csillagtérképek"
+   },
+   "NAVIGATION_TARGETS_IN_THIS_SYSTEM" : {
+      "description" : "",
+      "message" : "Navigációs pontok a rendszerben"
+   },
+   "NERVE_GAS" : {
+      "description" : "",
+      "message" : "Ideggáz"
+   },
+   "NONE" : {
+      "description" : "",
+      "message" : "Nincs"
+   },
+   "NORMA_ARM" : {
+      "description" : "",
+      "message" : "Norma kar"
+   },
+   "NOT_FOUND" : {
+      "description" : "",
+      "message" : "Nincs ilyen"
+   },
+   "NOT_FOUND_BEST_MATCH_X" : {
+      "description" : "",
+      "message" : "Nincs, közeli egyezés: %system"
+   },
+   "NO_ALERT" : {
+      "description" : "",
+      "message" : "Nincs riasztás"
+   },
+   "NO_CENTRAL_GOVERNANCE" : {
+      "description" : "",
+      "message" : "Központi kormány nélküli"
+   },
+   "NO_ESTABLISHED_ORDER" : {
+      "description" : "",
+      "message" : "Fennálló rend nélküli"
+   },
+   "NO_HYPERDRIVE" : {
+      "description" : "",
+      "message" : "Nincs hipermotor"
+   },
+   "NO_REGISTERED_INHABITANTS" : {
+      "description" : "",
+      "message" : "Nincs lakosság"
+   },
+   "NO_TARGET_SELECTED" : {
+      "description" : "",
+      "message" : "Hajószámítógép: Nincs célpont kiválasztva"
+   },
+   "NUMBER_DAYS" : {
+      "description" : "",
+      "message" : "%days{f.0} nap"
+   },
+   "NUMBER_G" : {
+      "description" : "",
+      "message" : "%acceleration{f.1} G"
+   },
+   "NUMBER_HOURS" : {
+      "description" : "",
+      "message" : "%hours{f.2} óra"
+   },
+   "NUMBER_LY" : {
+      "description" : "",
+      "message" : "%distance{f.2} fényév"
+   },
+   "NUMBER_TONNES" : {
+      "description" : "",
+      "message" : "%{mass}t"
+   },
+   "N_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" nitrogén\""
+   },
+   "N_CELSIUS" : {
+      "description" : "",
+      "message" : "%temperature C"
+   },
+   "N_DAYS" : {
+      "description" : "",
+      "message" : "%days{f.1} nap"
+   },
+   "N_DEGREES" : {
+      "description" : "",
+      "message" : "%angle{f.1} fok"
+   },
+   "N_DISTANCE_TO_TARGET" : {
+      "description" : "",
+      "message" : "%distance a célpontig"
+   },
+   "N_EARTH_DAYS" : {
+      "description" : "",
+      "message" : "%days{f.1} földi nap"
+   },
+   "N_WHATEVER_MASSES" : {
+      "description" : "",
+      "message" : "%mass{f.3} %units tömeg"
+   },
+   "N_WHATEVER_RADII" : {
+      "description" : "",
+      "message" : "%radius{f.3} %units sugár (%radkm{f.0} km)"
+   },
+   "N_YEARS" : {
+      "description" : "",
+      "message" : "%years{f.1} év"
+   },
+   "O2_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" oxigén\""
+   },
+   "OCEANICWORLD" : {
+      "description" : "",
+      "message" : "\" óceánvilág\""
+   },
+   "ORBITAL_PERIOD" : {
+      "description" : "",
+      "message" : "Keringési idő"
+   },
+   "ORBITAL_STARPORT" : {
+      "description" : "",
+      "message" : "Űrállomás"
+   },
+   "OUTDOOR_AGRICULTURAL_WORLD" : {
+      "description" : "",
+      "message" : "Szabadföldi agrikulturális világ"
+   },
+   "OUTER_ARM" : {
+      "description" : "",
+      "message" : "Külső kar"
+   },
+   "OVER_N_BILLION" : {
+      "description" : "",
+      "message" : "Több, mint %population milliárd"
+   },
+   "OVER_N_MILLION" : {
+      "description" : "",
+      "message" : "Több, mint %population millió"
+   },
+   "PASSENGER_CABIN" : {
+      "description" : "",
+      "message" : "Foglalt utaskabin"
+   },
+   "PAUSED" : {
+      "description" : "",
+      "message" : "SZÜNET"
+   },
+   "PAY_FINE_REMOTELY" : {
+      "description" : "",
+      "message" : "Büntetés kifizetése távolból (%amount)"
+   },
+   "PERIAPSIS_DISTANCE" : {
+      "description" : "",
+      "message" : "Periapszis"
+   },
+   "PERSEUS_ARM" : {
+      "description" : "",
+      "message" : "Perseus kar"
+   },
+   "PIONEER" : {
+      "description" : "",
+      "message" : "PIONEER"
+   },
+   "PIRACY" : {
+      "description" : "",
+      "message" : "Kalózkodás"
+   },
+   "PITCH" : {
+      "description" : "",
+      "message" : "Dől"
+   },
+   "PITCH_DOWN" : {
+      "description" : "",
+      "message" : "Dőlés lefelé"
+   },
+   "PITCH_UP" : {
+      "description" : "",
+      "message" : "Dőlés felfelé"
+   },
+   "PLANETARY_INFO" : {
+      "description" : "",
+      "message" : "Bolygóinformáció"
+   },
+   "PLANET_CONTAINING_LIQUID_WATER" : {
+      "description" : "",
+      "message" : "\" bolygó folyékony vízzel\""
+   },
+   "PLANET_WITH_SOME_ICE" : {
+      "description" : "",
+      "message" : "\" , némi jéggel rendelkező bolygó\""
+   },
+   "PLANNED_ECONOMY" : {
+      "description" : "",
+      "message" : "Központi tervgazdálkodás"
+   },
+   "PLASTICS" : {
+      "description" : "",
+      "message" : "Müanyagok"
+   },
+   "PLUTOCRATIC_DICTATORSHIP" : {
+      "description" : "",
+      "message" : "Plutokrata diktatúra"
+   },
+   "POLICE_SHIP_REGISTRATION" : {
+      "description" : "",
+      "message" : "RENDŐRSÉG"
+   },
+   "POPULATION" : {
+      "description" : "",
+      "message" : "Népesség:"
+   },
+   "PRECIOUS_METALS" : {
+      "description" : "",
+      "message" : "Értékes fémek"
+   },
+   "PRESSURE_N_ATMOSPHERES" : {
+      "description" : "",
+      "message" : "LNy: %pressure{f.2} atm"
+   },
+   "PROBABILITY_OF_ARRIVAL_X_PERCENT" : {
+      "description" : "",
+      "message" : "Az érkezés valószínűsége: %probability%%"
+   },
+   "PULSECANNON_10MW" : {
+      "description" : "",
+      "message" : "10MW pulzuságyú"
+   },
+   "PULSECANNON_1MW" : {
+      "description" : "",
+      "message" : "1MW pulzuságyú"
+   },
+   "PULSECANNON_20MW" : {
+      "description" : "",
+      "message" : "20MW pulzuságyú"
+   },
+   "PULSECANNON_2MW" : {
+      "description" : "",
+      "message" : "2MW pulzuságyú"
+   },
+   "PULSECANNON_4MW" : {
+      "description" : "",
+      "message" : "4MW pulzuságyú"
+   },
+   "PULSECANNON_DUAL_1MW" : {
+      "description" : "",
+      "message" : "1MW dupla pulzuságyú"
+   },
+   "PULSECANNON_RAPID_2MW" : {
+      "description" : "",
+      "message" : "2MW gyorstüzelő pulzuságyú"
+   },
+   "QUADRUPLE_SYSTEM" : {
+      "description" : "",
+      "message" : "Négyes rendszer"
+   },
+   "RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "Radartérképező"
+   },
+   "RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Távolsági érzékelő, űrben lebegő felszerelés, rakomány, hajó vizsgálatára."
+   },
+   "RADIOACTIVES" : {
+      "description" : "",
+      "message" : "Radioaktív hulladék"
+   },
+   "RADIUS" : {
+      "description" : "",
+      "message" : "Sugár"
+   },
+   "REAR" : {
+      "description" : "",
+      "message" : "Hátsó"
+   },
+   "REQUEST_DOCKING_CLEARANCE" : {
+      "description" : "",
+      "message" : "Dokkolási engedély kérése"
+   },
+   "RESET" : {
+      "description" : "",
+      "message" : "Alaphelyzet"
+   },
+   "RESET_ORIENTATION_AND_ZOOM" : {
+      "description" : "",
+      "message" : "Nézet alaphelyzetbe"
+   },
+   "ROBOTS" : {
+      "description" : "",
+      "message" : "Robotok"
+   },
+   "ROCKY_PLANET" : {
+      "description" : "",
+      "message" : "\" sziklás bolygó\""
+   },
+   "ROCKY_PLANET_CONTAINING_COME_LIQUIDS" : {
+      "description" : "",
+      "message" : "\" sziklás bolygó némi folyadékkal,\""
+   },
+   "ROLL" : {
+      "description" : "",
+      "message" : "Pörög"
+   },
+   "ROLL_LEFT" : {
+      "description" : "",
+      "message" : "Pörgés balra"
+   },
+   "ROLL_RIGHT" : {
+      "description" : "",
+      "message" : "Pörgés jobbra"
+   },
+   "ROTATE_DOWN" : {
+      "description" : "",
+      "message" : "Fordulás le"
+   },
+   "ROTATE_LEFT" : {
+      "description" : "",
+      "message" : "Fordulás balra"
+   },
+   "ROTATE_RIGHT" : {
+      "description" : "",
+      "message" : "Fordulás jobbra"
+   },
+   "ROTATE_UP" : {
+      "description" : "",
+      "message" : "Fordulás fel"
+   },
+   "ROTATIONAL_PERIOD" : {
+      "description" : "",
+      "message" : "\" (forgási ciklus)\""
+   },
+   "ROTATION_DAMPING_OFF" : {
+      "description" : "",
+      "message" : "Forgásfékezés ki"
+   },
+   "ROTATION_DAMPING_ON" : {
+      "description" : "",
+      "message" : "Forgásfékezés be"
+   },
+   "RUBBISH" : {
+      "description" : "",
+      "message" : "Hulladék"
+   },
+   "SAGITTARIUS_ARM" : {
+      "description" : "",
+      "message" : "Sagittarius kar"
+   },
+   "SCANNER" : {
+      "description" : "",
+      "message" : "Szkenner"
+   },
+   "SCANNER_CONTROL" : {
+      "description" : "",
+      "message" : "Szkenner irányítás"
+   },
+   "SCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Egy 3D térképet jelenít meg a közeli hajókról."
+   },
+   "SCREENSHOT_FILENAME_TEMPLATE" : {
+      "description" : "",
+      "message" : "screenshot%index{d08}.png"
+   },
+   "SCUTUM_CENTAURUS_ARM" : {
+      "description" : "",
+      "message" : "Scutum-Centaurus kar"
+   },
+   "SEARCH" : {
+      "description" : "",
+      "message" : "Keresés"
+   },
+   "SEARCH_MAP" : {
+      "description" : "",
+      "message" : "Keresés"
+   },
+   "SECTOR_COORDINATES" : {
+      "description" : "",
+      "message" : "Szektorkoordináták:"
+   },
+   "SECTOR_MAP_VIEW" : {
+      "description" : "",
+      "message" : "Szektor térkép"
+   },
+   "SECTOR_X_Y_Z" : {
+      "description" : "",
+      "message" : "Szektor: %x,%y,%z"
+   },
+   "SELECTED_SYSTEM" : {
+      "description" : "",
+      "message" : "Kiválasztott rendszer"
+   },
+   "SELECT_A_TARGET" : {
+      "description" : "",
+      "message" : "Válassz célpontot"
+   },
+   "SELECT_LOW_THRUST_POWER_LEVEL" : {
+      "description" : "",
+      "message" : "Tolóerő korlátozás"
+   },
+   "SEMI_MAJOR_AXIS" : {
+      "description" : "",
+      "message" : "Félnagytengely"
+   },
+   "SET_HYPERSPACE_DESTINATION_TO" : {
+      "description" : "",
+      "message" : "Hiperűr célállomás beállítva: %system"
+   },
+   "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE" : {
+      "description" : "",
+      "message" : "Hiperűrugrás-felhő analizáló: Állítsd az ugrás célpontját a felhő kimenetéhez"
+   },
+   "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT" : {
+      "description" : "",
+      "message" : "Tolóerő korlátozása %power%%-ra."
+   },
+   "SET_SPEED_KM_S" : {
+      "description" : "",
+      "message" : "Seb: %speed{f.2} km/s"
+   },
+   "SET_SPEED_M_S" : {
+      "description" : "",
+      "message" : "Seb: %speed{f.0} m/s"
+   },
+   "SHIELD_ENERGY_BOOSTER" : {
+      "description" : "",
+      "message" : "Pajzsenergia töltő"
+   },
+   "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Javítja a pajzsok feltöltésének sebességét."
+   },
+   "SHIELD_GENERATOR" : {
+      "description" : "",
+      "message" : "Pajzsgenerátor"
+   },
+   "SHIELD_GENERATOR_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Minden felszerelt egységgel növekszik a hajótest védelme."
+   },
+   "SHIELD_INTEGRITY" : {
+      "description" : "",
+      "message" : "Pajzsintegritás"
+   },
+   "SHIELD_STRENGTH_N" : {
+      "description" : "",
+      "message" : "Pajzserősség: %shields{f.2}"
+   },
+   "SHIFT" : {
+      "description" : "Shift key on keyboard",
+      "message" : "Shift"
+   },
+   "SHIP" : {
+      "description" : "",
+      "message" : "Hajó"
+   },
+   "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
+      "description" : "",
+      "message" : "Hajó talajfeletti magasság"
+   },
+   "SHIP_DETECTED_NEARBY" : {
+      "description" : "",
+      "message" : "Hajó észlelve a közelben."
+   },
+   "SHIP_INFORMATION" : {
+      "description" : "",
+      "message" : "Hajóinformáció"
+   },
+   "SHIP_MASS_N_TONNES" : {
+      "description" : "",
+      "message" : "Hajótömeg: %{mass}t"
+   },
+   "SHIP_NEARBY" : {
+      "description" : "",
+      "message" : "Közeli hajó"
+   },
+   "SHIP_ORIENTATION" : {
+      "description" : "",
+      "message" : "Hajó irányultság"
+   },
+   "SHIP_VELOCITY_BY_REFERENCE_OBJECT" : {
+      "description" : "",
+      "message" : "Hajósebesség a referenciához mérten"
+   },
+   "SIDEREAL_VIEW" : {
+      "description" : "",
+      "message" : "Sziderikus nézet"
+   },
+   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
+      "description" : "",
+      "message" : "Az univerzum evolúciószimulálása:  %age{f.1} milliárd év ;-)"
+   },
+   "SLAVES" : {
+      "description" : "",
+      "message" : "Rabszolgák"
+   },
+   "SMALL" : {
+      "description" : "",
+      "message" : "Kicsi"
+   },
+   "SMALL_GAS_GIANT" : {
+      "description" : "",
+      "message" : "Kicsi gázóriás"
+   },
+   "SMALL_INDUSTRIAL_OUTPOST" : {
+      "description" : "",
+      "message" : "Kisebb ipari előörs"
+   },
+   "SMALL_PLASMA_ACCEL" : {
+      "description" : "",
+      "message" : "Kicsi plazmagyorsító"
+   },
+   "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS" : {
+      "description" : "",
+      "message" : "Kisméretű kutatások. Nincs regisztrált település."
+   },
+   "SOCIAL_DEMOCRACY" : {
+      "description" : "",
+      "message" : "Szociális demokrácia"
+   },
+   "SOLAR" : {
+      "description" : "",
+      "message" : "Nap"
+   },
+   "SOME_ESTABLISHED_MINING" : {
+      "description" : "",
+      "message" : "Némi bányászat"
+   },
+   "SOURCE" : {
+      "description" : "",
+      "message" : "Indulópont"
+   },
+   "SPEED_CONTROL_MODE" : {
+      "description" : "",
+      "message" : "Sebességvezérlés"
+   },
+   "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS" : {
+      "description" : "",
+      "message" : "Stabil rendszer %bodycount főbb %{body(s)} és %portcount %{starport(s)}."
+   },
+   "STARPORT" : {
+      "description" : "",
+      "message" : "Űrállomás"
+   },
+   "STARPORTS" : {
+      "description" : "",
+      "message" : "Űrkikötők"
+   },
+   "STAR_A" : {
+      "description" : "",
+      "message" : "A típusú forró fehér csillag"
+   },
+   "STAR_AF_GIANT" : {
+      "description" : "",
+      "message" : "Fehér óriáscsillag"
+   },
+   "STAR_AF_HYPER_GIANT" : {
+      "description" : "",
+      "message" : "Fehér hiperóriás"
+   },
+   "STAR_AF_SUPER_GIANT" : {
+      "description" : "",
+      "message" : "Fehér szuperóriás"
+   },
+   "STAR_B" : {
+      "description" : "",
+      "message" : "B típusú fényes kék csillag"
+   },
+   "STAR_B_GIANT" : {
+      "description" : "",
+      "message" : "Kék óriáscsillag"
+   },
+   "STAR_B_HYPER_GIANT" : {
+      "description" : "",
+      "message" : "Kék hiperóriás"
+   },
+   "STAR_B_SUPER_GIANT" : {
+      "description" : "",
+      "message" : "Kék szuperóriás"
+   },
+   "STAR_B_WF" : {
+      "description" : "",
+      "message" : "Wolf-Rayet csillag- Összeomlás fenyeget"
+   },
+   "STAR_F" : {
+      "description" : "",
+      "message" : "F típusú fehér csillag"
+   },
+   "STAR_G" : {
+      "description" : "",
+      "message" : "G típusú sárga csillag"
+   },
+   "STAR_G_GIANT" : {
+      "description" : "",
+      "message" : "Instabil sárga óriáscsillag"
+   },
+   "STAR_G_HYPER_GIANT" : {
+      "description" : "",
+      "message" : "Instabil sárga hiperóriás csillag"
+   },
+   "STAR_G_SUPER_GIANT" : {
+      "description" : "",
+      "message" : "Sárga szuperóriás"
+   },
+   "STAR_IM_BH" : {
+      "description" : "",
+      "message" : "Egy közbeeső fekete lyuk"
+   },
+   "STAR_K" : {
+      "description" : "",
+      "message" : "K típusú narancs csillag"
+   },
+   "STAR_K_GIANT" : {
+      "description" : "",
+      "message" : "Instabil narancs óriáscsillag"
+   },
+   "STAR_K_HYPER_GIANT" : {
+      "description" : "",
+      "message" : "Instabil narancs hiperóriás csillag"
+   },
+   "STAR_K_SUPER_GIANT" : {
+      "description" : "",
+      "message" : "Narancs szuperóriás"
+   },
+   "STAR_M" : {
+      "description" : "",
+      "message" : "M típusú vörös csillag"
+   },
+   "STAR_M_GIANT" : {
+      "description" : "",
+      "message" : "Vörös óriáscsillag"
+   },
+   "STAR_M_HYPER_GIANT" : {
+      "description" : "",
+      "message" : "Vörös hiperóriás csillag"
+   },
+   "STAR_M_SUPER_GIANT" : {
+      "description" : "",
+      "message" : "Vörös szuperóriás"
+   },
+   "STAR_M_WF" : {
+      "description" : "",
+      "message" : "Wolf-Rayet csillag- Instabil"
+   },
+   "STAR_O" : {
+      "description" : "",
+      "message" : "O típusú forró óriás"
+   },
+   "STAR_O_GIANT" : {
+      "description" : "",
+      "message" : "Forró kék óriáscsillag"
+   },
+   "STAR_O_HYPER_GIANT" : {
+      "description" : "",
+      "message" : "Forró kék hiperóriás"
+   },
+   "STAR_O_SUPER_GIANT" : {
+      "description" : "",
+      "message" : "Forró kék szuperóriás csillag"
+   },
+   "STAR_O_WF" : {
+      "description" : "",
+      "message" : "Wolf-Rayet csillag- Közelgő összeomlás"
+   },
+   "STAR_SM_BH" : {
+      "description" : "",
+      "message" : "Galaktikus horgonyunk"
+   },
+   "STAR_SYSTEM_INFORMATION" : {
+      "description" : "",
+      "message" : "Naprendszer információ"
+   },
+   "STAR_S_BH" : {
+      "description" : "",
+      "message" : "Csillagközi feketeluyk"
+   },
+   "SUGGESTED_RESPONSES" : {
+      "description" : "",
+      "message" : "Javasolt válaszok:"
+   },
+   "SURFACE_GRAVITY" : {
+      "description" : "",
+      "message" : "Felszíni gravitáció"
+   },
+   "SURFACE_TEMPERATURE" : {
+      "description" : "",
+      "message" : "Felszíni hőmérséklet"
+   },
+   "SYSTEM" : {
+      "description" : "",
+      "message" : "Rendszer"
+   },
+   "SYSTEM_NUMBER" : {
+      "description" : "",
+      "message" : "Rendszer száma:"
+   },
+   "SYSTEM_ORBIT_VIEW" : {
+      "description" : "",
+      "message" : "Naprendszer nézet"
+   },
+   "SYSTEM_TYPE" : {
+      "description" : "",
+      "message" : "Rendszer típusa:"
+   },
+   "S_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" kén\""
+   },
+   "TAKEOFF" : {
+      "description" : "",
+      "message" : "Felszállás"
+   },
+   "TARGET_OBJECT_IN_SIGHTS" : {
+      "description" : "",
+      "message" : "Célkeresztobjektum becélzása"
+   },
+   "TENUOUS" : {
+      "description" : "",
+      "message" : "ritkás"
+   },
+   "TEXTILES" : {
+      "description" : "",
+      "message" : "Textília"
+   },
+   "THICK" : {
+      "description" : "",
+      "message" : "vastag"
+   },
+   "THIN" : {
+      "description" : "",
+      "message" : "vékony"
+   },
+   "THRIVING_OUTDOOR_WORLD" : {
+      "description" : "",
+      "message" : "Virágzó világ"
+   },
+   "THRUSTER_DORSAL" : {
+      "description" : "",
+      "message" : "Fúvókák le"
+   },
+   "THRUSTER_MAIN" : {
+      "description" : "",
+      "message" : "Fúvókák előre"
+   },
+   "THRUSTER_PORT" : {
+      "description" : "",
+      "message" : "Fűvókák balra"
+   },
+   "THRUSTER_RETRO" : {
+      "description" : "",
+      "message" : "Fúvókák hátra"
+   },
+   "THRUSTER_STARBOARD" : {
+      "description" : "",
+      "message" : "Fúvókák jobbra"
+   },
+   "THRUSTER_VENTRAL" : {
+      "description" : "",
+      "message" : "Fúvókák fel"
+   },
+   "TIME_POINT" : {
+      "description" : "",
+      "message" : "Időpont:"
+   },
+   "TINY" : {
+      "description" : "",
+      "message" : "Apró"
+   },
+   "TOGGLE_HUD_MODE" : {
+      "description" : "",
+      "message" : "HUD mód váltás"
+   },
+   "TOGGLE_LUA_CONSOLE" : {
+      "description" : "",
+      "message" : "Lua konzol"
+   },
+   "TOGGLE_ROTATION_DAMPING" : {
+      "description" : "",
+      "message" : "Forgásfékezés ki-be"
+   },
+   "TOGGLE_SCAN_MODE" : {
+      "description" : "",
+      "message" : "Szkennermód kapcsoló"
+   },
+   "TOMBSTONE_EPITAPH" : {
+      "description" : "",
+      "message" : "Ég veled barátom!"
+   },
+   "TRADING_ILLEGAL_GOODS" : {
+      "description" : "",
+      "message" : "Illegális termékek kereskedelme"
+   },
+   "TRIPLE_SYSTEM" : {
+      "description" : "",
+      "message" : "Hármas rendszer"
+   },
+   "UNEXPLORED_SYSTEM_NO_DATA" : {
+      "description" : "",
+      "message" : "Felfedezetlen rendszer, nincs elérhető adat."
+   },
+   "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW" : {
+      "description" : "",
+      "message" : "Felfedezetlen rendszer. Rendszernézet nem elérhető."
+   },
+   "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
+      "description" : "",
+      "message" : "Felfedezetlen rendszer. Csillaginformációkat ugyan gyűjtött a távolsági teleszkóp, de bolygóinformációk nem érhetőek el."
+   },
+   "UNKNOWN" : {
+      "description" : "",
+      "message" : "<ismeretlen>"
+   },
+   "UNLAWFUL_WEAPONS_DISCHARGE" : {
+      "description" : "",
+      "message" : "Törvénytelen fegyverhasználat"
+   },
+   "UNOCCUPIED_CABIN" : {
+      "description" : "",
+      "message" : "Személyszállító utaskabin"
+   },
+   "UNOCCUPIED_CABIN_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Szükséges egy személy szállításához"
+   },
+   "USE_LOW_THRUST" : {
+      "description" : "",
+      "message" : "Tolóerő-korlátozás"
+   },
+   "VAST_STRIP_MINE" : {
+      "description" : "",
+      "message" : "Óriási külszínfejtő bányakolónia"
+   },
+   "VERY_DENSE" : {
+      "description" : "",
+      "message" : "nagyon sürü"
+   },
+   "VERY_LARGE_GAS_GIANT" : {
+      "description" : "",
+      "message" : "Nagyon nagy gázóriás"
+   },
+   "VID_CONNECTING" : {
+      "description" : "",
+      "message" : "Kapcsolódás..."
+   },
+   "VID_LINK_ESTABLISHED" : {
+      "description" : "",
+      "message" : "Videokapcsolat létrejött"
+   },
+   "VIEW" : {
+      "description" : "",
+      "message" : "Megnéz"
+   },
+   "VIOLENT_ANARCHY" : {
+      "description" : "",
+      "message" : "Zűrzavar - Fegyveres testületek általi irányítás"
+   },
+   "WATER" : {
+      "description" : "",
+      "message" : "Víz"
+   },
+   "WEAPONS" : {
+      "description" : "",
+      "message" : "Fegyverek"
+   },
+   "WEAPON_TEMP" : {
+      "description" : "",
+      "message" : "Fegyverhőmérséklet"
+   },
+   "WHEELS_ARE_DOWN" : {
+      "description" : "",
+      "message" : "Futómű leengedve"
+   },
+   "WHEELS_ARE_UP" : {
+      "description" : "",
+      "message" : "Kerekek felhúzva"
+   },
+   "WHITE_DWARF" : {
+      "description" : "",
+      "message" : "Fehértörpe csillagmaradvány"
+   },
+   "WITH_A" : {
+      "description" : "",
+      "message" : "\", amelynek légköre: \""
+   },
+   "WITH_NO_SIGNIFICANT_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" számottevő atmoszféra nélkül\""
+   },
+   "X" : {
+      "description" : "",
+      "message" : "X"
+   },
+   "X_CANNOT_BE_TOLERATED_HERE" : {
+      "description" : "",
+      "message" : "A(z) %crime bűntény itt nem elfogadott."
+   },
+   "Y" : {
+      "description" : "",
+      "message" : "Y"
+   },
+   "YAW" : {
+      "description" : "",
+      "message" : "Kitér"
+   },
+   "YAW_LEFT" : {
+      "description" : "",
+      "message" : "Kitérés balra"
+   },
+   "YAW_RIGHT" : {
+      "description" : "",
+      "message" : "Kitérés jobbra"
+   },
+   "YOUNG_FARMING_COLONY" : {
+      "description" : "",
+      "message" : "Fiatal farmkolónia"
+   },
+   "YOU_NO_MONEY" : {
+      "description" : "",
+      "message" : "Nincs pénzed."
+   },
+   "Z" : {
+      "description" : "",
+      "message" : "Z"
+   },
+   "ZOOM_IN" : {
+      "description" : "",
+      "message" : "Közelítés"
+   },
+   "ZOOM_OUT" : {
+      "description" : "",
+      "message" : "Távolítás"
+   }
 }

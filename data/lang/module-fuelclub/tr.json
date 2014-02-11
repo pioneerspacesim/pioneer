@@ -5,11 +5,11 @@
    },
    "BEGIN_TRADE" : {
       "description" : "",
-      "message" : "Begin trade"
+      "message" : "Ticarete başlayın"
    },
    "FLAVOUR_0_CLUBNAME" : {
       "description" : "",
-      "message" : "Interstellar Pilots' Fuel Co-operative"
+      "message" : "Yıldızlar Arası Pilotların Yakıt Kooperatifi"
    },
    "FLAVOUR_0_MEMBER_INTRO" : {
       "description" : "",
@@ -17,7 +17,7 @@
    },
    "FLAVOUR_0_NONMEMBER_INTRO" : {
       "description" : "",
-      "message" : "{clubname} is an independent organisation dedicated to providing discounted starship fuel to its members. Branches can be found throughout the galaxy. Benefits of membership include:\n\n\t* Our own stocks of fuel, independent of the general market\n\t* {hydrogen} at discount prices\n\t* {military_fuel} at discount prices\n\t* {water} at discount prices\n\t* {radioactives}, free disposal (conditions apply)\n\t* Fuel tank refilling, where necessary\n\nJoin now! Annual membership costs only {membership_fee}"
+      "message" : "{clubname} kendini üyeleri için indirimli yıldız gemisi yakıtı sağlamaya adamış bağımsız bir kuruluştur. Bayiler galaksi boyunca bulunabilir. Üyelik ayrıcalıkları ise:\n"
    },
    "FLAVOUR_0_WELCOME" : {
       "description" : "",
@@ -25,27 +25,27 @@
    },
    "GO_BACK" : {
       "description" : "",
-      "message" : "Anar enrere"
+      "message" : "Geri"
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Acabar la conversa."
+      "message" : "Bekle."
    },
    "HYDROGEN" : {
       "description" : "",
-      "message" : "Hidrogen"
+      "message" : "Hidrojen"
    },
    "MILITARY_FUEL" : {
       "description" : "",
-      "message" : "Combustible militar"
+      "message" : "Askeri yakıt"
    },
    "RADIOACTIVES" : {
       "description" : "",
-      "message" : "Deixalla radioactiva"
+      "message" : "Radioactive waste"
    },
    "WATER" : {
       "description" : "",
-      "message" : "Aigua"
+      "message" : "Su"
    },
    "WE_WILL_ONLY_DISPOSE_OF" : {
       "description" : "",

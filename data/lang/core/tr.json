@@ -1,1958 +1,1958 @@
 {
-    "CAMERA_REAR_VIEW": {
-        "message": "Arka kamera",
-        "description": ""
-    },
-    "SCANNER_DESCRIPTION": {
-        "message": "Provides a 3D map of nearby ships.",
-        "description": ""
-    },
-    "MAP_TOGGLE_INFO_PANEL": {
-        "message": "Bilgi panelini aç/kapa",
-        "description": ""
-    },
-    "POPULATION": {
-        "message": "Population:",
-        "description": ""
-    },
-    "SYSTEM_TYPE": {
-        "message": "System type:",
-        "description": ""
-    },
-    "STAR_G_GIANT": {
-        "message": "Sarı dev yıldız - Kararsız",
-        "description": ""
-    },
-    "TRADING_ILLEGAL_GOODS": {
-        "message": "Kanun dışı mal ticareti",
-        "description": ""
-    },
-    "ROBOTS": {
-        "message": "Robotlar",
-        "description": ""
-    },
-    "CARGO_BAY_LIFE_SUPPORT_LOST": {
-        "message": "Sensors report critical cargo bay life-support conditions.",
-        "description": ""
-    },
-    "MILITARY_FUEL": {
-        "message": "Military fuel",
-        "description": ""
-    },
-    "CLEARANCE_GRANTED_BAY_N": {
-        "message": "Clearance granted. Proceed to docking bay %bay.",
-        "description": ""
-    },
-    "FARM_MACHINERY": {
-        "message": "Çiftlik makineleri",
-        "description": ""
-    },
-    "YAW_LEFT": {
-        "message": "Yaw left",
-        "description": ""
-    },
-    "DOWNGRADING_ALERT_STATUS": {
-        "message": "No fire detected for 60 seconds, downgrading alert status.",
-        "description": ""
-    },
-    "GAME_SAVE_CANNOT_WRITE": {
-        "message": "This saved game file could not be written because of a system error.",
-        "description": ""
-    },
-    "MAP_WARP_TO_CURRENT_SYSTEM": {
-        "message": "Warp to Current System",
-        "description": ""
-    },
-    "ECONOMY_TYPE": {
-        "message": "Economy type:",
-        "description": ""
-    },
-    "METAL_ALLOYS": {
-        "message": "Metal alaşımları",
-        "description": ""
-    },
-    "MONTH_OCT": {
-        "message": "Eki",
-        "description": ""
-    },
-    "THRUSTER_DORSAL": {
-        "message": "Thrust down",
-        "description": ""
-    },
-    "ECM_ADVANCED_DESCRIPTION": {
-        "message": "Elektronik karşı önlem füze savunma sistemi, daha gelişmiş güdümlü füze türlerini yoketme becerisine sahiptir.",
-        "description": ""
-    },
-    "SAGITTARIUS_ARM": {
-        "message": "Sagittarius arm",
-        "description": ""
-    },
-    "MISSILE_NAVAL": {
-        "message": "Donanma füzesi",
-        "description": ""
-    },
-    "DIRECTION": {
-        "message": "\" Dir \"",
-        "description": ""
-    },
-    "ECM_BASIC": {
-        "message": "ECM system",
-        "description": ""
-    },
-    "HAT": {
-        "message": "\" Hat\"",
-        "description": ""
-    },
-    "CURRENT_SYSTEM": {
-        "message": "Current system",
-        "description": ""
-    },
-    "ROTATION_DAMPING_OFF": {
-        "message": "Rotation damping off",
-        "description": ""
-    },
-    "DOCKING_CLEARANCE_EXPIRED": {
-        "message": "Docking clearance expired. If you wish to dock you must repeat your request.",
-        "description": ""
-    },
-    "SMALL": {
-        "message": "Small",
-        "description": ""
-    },
-    "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE": {
-        "message": "Üstuzay bulutu inceleyici: Bu ayrılışı takip için üstuzay hedefini ayarlayın.",
-        "description": ""
-    },
-    "STAR_M_HYPER_GIANT": {
-        "message": "Kırmızı hiper dev yıldız",
-        "description": ""
-    },
-    "COMPUTERS": {
-        "message": "Computers",
-        "description": ""
-    },
-    "JOYSTICK_INPUT": {
-        "message": "Joystick input",
-        "description": ""
-    },
-    "INTERNAL_VIEW": {
-        "message": "İç görünüm",
-        "description": ""
-    },
-    "STARPORTS": {
-        "message": "Yıldız limanları",
-        "description": ""
-    },
-    "CONSUMER_GOODS": {
-        "message": "Tüketim Malları",
-        "description": ""
-    },
-    "HYPERCLOUD_ANALYZER": {
-        "message": "Hiperbulut İnceleyici",
-        "description": ""
-    },
-    "MONTH_SEP": {
-        "message": "Sep",
-        "description": ""
-    },
-    "AUTOPILOT_DOCK_WITH_STATION": {
-        "message": "Autopilot: Dock with space station",
-        "description": ""
-    },
-    "MAP_VIEW_SHIFT_FORWARD": {
-        "message": "Görünümü İleri Kaydır",
-        "description": ""
-    },
-    "STAR_M_WF": {
-        "message": "Wolf-Rayet yıldızı - Kararsız",
-        "description": ""
-    },
-    "MAP_VIEW_SHIFT_DOWN": {
-        "message": "Görünümü Aşağı Kaydır",
-        "description": ""
-    },
-    "NAME_PERSON": {
-        "message": "İsim",
-        "description": "For a person"
-    },
-    "MAJOR_EXPORTS": {
-        "message": "Baş İhracatlar:",
-        "description": ""
-    },
-    "MAP_VIEW_SHIFT_LEFT": {
-        "message": "Görünümü Sola Kaydır",
-        "description": ""
-    },
-    "LASER_COOLING_BOOSTER_DESCRIPTION": {
-        "message": "An improved cooling system for your weapons.",
-        "description": ""
-    },
-    "DRIVE_CLASS4": {
-        "message": "Sınıf 4 Hipersürücü",
-        "description": ""
-    },
-    "STAR_M": {
-        "message": "Tip 'M' kırmızı yıldız",
-        "description": ""
-    },
-    "PLANNED_ECONOMY": {
-        "message": "Centrally planned economy",
-        "description": ""
-    },
-    "MONTH_MAR": {
-        "message": "Mar",
-        "description": ""
-    },
-    "SCREENSHOT_FILENAME_TEMPLATE": {
-        "message": "screenshot%index{d08}.png",
-        "description": ""
-    },
-    "ICE_WORLD": {
-        "message": "\" ice world\"",
-        "description": ""
-    },
-    "THRIVING_OUTDOOR_WORLD": {
-        "message": "Thriving outdoor world.",
-        "description": ""
-    },
-    "THRUSTER_MAIN": {
-        "message": "Thrust forward",
-        "description": ""
-    },
-    "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
-        "message": "Simulating evolution of the universe: %age{f.1} billion years ;-)",
-        "description": ""
-    },
-    "ORBITAL_PERIOD": {
-        "message": "Orbital period",
-        "description": ""
-    },
-    "DISABLED_AUTOMATIC_SYSTEM_SELECTION": {
-        "message": "Disabled automatic system selection.",
-        "description": ""
-    },
-    "SHIP_VELOCITY_BY_REFERENCE_OBJECT": {
-        "message": "Ship velocity by reference object",
-        "description": ""
-    },
-    "MILITARY_DICTATORSHIP": {
-        "message": "Askeri Diktatörlük",
-        "description": ""
-    },
-    "HEADING_LOCK_BACKWARD": {
-        "message": "Heading Lock (aft)",
-        "description": ""
-    },
-    "HIGHLY_VOLCANIC": {
-        "message": "Highly volcanic",
-        "description": ""
-    },
-    "CAMERA_TOP_VIEW": {
-        "message": "Üst kamera",
-        "description": ""
-    },
-    "ZOOM_IN": {
-        "message": "Zoom in",
-        "description": ""
-    },
-    "SELECT_A_TARGET": {
-        "message": "Select a target",
-        "description": ""
-    },
-    "MAP_VIEW_SHIFT_BACKWARD": {
-        "message": "Görünümü Geriye Kaydır",
-        "description": ""
-    },
-    "O2_ATMOSPHERE": {
-        "message": "\" Oxygen atmosphere\"",
-        "description": ""
-    },
-    "FOLLOWING_SELECTION": {
-        "message": "following selection",
-        "description": ""
-    },
-    "MAP_WARP_TO_HYPERSPACE_TARGET": {
-        "message": "Üstuzay Hedefine Sıçra",
-        "description": ""
-    },
-    "MESSAGE_FROM_X": {
-        "message": "Message from %sender:",
-        "description": ""
-    },
-    "AUTOPILOT_ON": {
-        "message": "Autopilot on",
-        "description": ""
-    },
-    "STAR_SM_BH": {
-        "message": "Our galactic anchor",
-        "description": ""
-    },
-    "DOCKING": {
-        "message": "Docking",
-        "description": ""
-    },
-    "SYSTEM_NUMBER": {
-        "message": "System number:",
-        "description": ""
-    },
-    "ROTATIONAL_PERIOD": {
-        "message": "\" (rotational period)\"",
-        "description": ""
-    },
-    "TRIPLE_SYSTEM": {
-        "message": "Triple system",
-        "description": ""
-    },
-    "VERY_LARGE_GAS_GIANT": {
-        "message": "Very large gas giant",
-        "description": ""
-    },
-    "OCEANICWORLD": {
-        "message": "\" oceanic world\"",
-        "description": ""
-    },
-    "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT": {
-        "message": "Set low thrust power level to %power%%",
-        "description": ""
-    },
-    "MAP_VIEW_SHIFT_UP": {
-        "message": "Görünümü Yukarı Kaydır",
-        "description": ""
-    },
-    "NO_ALERT": {
-        "message": "No alert",
-        "description": ""
-    },
-    "A_FEW_THOUSAND": {
-        "message": "Only a few thousand",
-        "description": ""
-    },
-    "CARGO_SCOOP": {
-        "message": "Kargo Toplayıcı",
-        "description": ""
-    },
-    "HYPERSPACE_DEPARTURE_CLOUD": {
-        "message": "Üstuzay ayrılış bulutu",
-        "description": ""
-    },
-    "EARTH_FEDERATION_COLONIAL_RULE": {
-        "message": "Earth Federation Colonial Rule",
-        "description": ""
-    },
-    "SHIP_ORIENTATION": {
-        "message": "Ship orientation",
-        "description": ""
-    },
-    "LIBERAL_DEMOCRACY": {
-        "message": "Liberal democracy",
-        "description": ""
-    },
-    "RADIUS": {
-        "message": "Radius",
-        "description": ""
-    },
-    "MAP_VIEW_ROTATE_RIGHT": {
-        "message": "Görünümü Sağa Döndür",
-        "description": ""
-    },
-    "DRAW_OUT_RANGE_LABELS": {
-        "message": "Label out-of-range systems",
-        "description": ""
-    },
-    "SHIP_INFORMATION": {
-        "message": "Ship information",
-        "description": ""
-    },
-    "HYPERSPACE_JUMP_ABORTED": {
-        "message": "Üstuzay sıçrayışı iptal edildi.",
-        "description": ""
-    },
-    "CO2_ATMOSPHERE": {
-        "message": "\" Carbon Dioxide atmosphere\"",
-        "description": ""
-    },
-    "MANUAL_CONTROL_MODE": {
-        "message": "Elle kontrol",
-        "description": ""
-    },
-    "EXACT_MATCH_X": {
-        "message": "Exact match: %system",
-        "description": ""
-    },
-    "CLEARANCE_ALREADY_GRANTED_BAY_N": {
-        "message": "Clearance already granted. Proceed to docking bay %bay.",
-        "description": ""
-    },
-    "MININGCANNON_17MW": {
-        "message": "17MV madencilik topu",
-        "description": ""
-    },
-    "CONTROLS": {
-        "message": "Kontroller",
-        "description": ""
-    },
-    "VID_LINK_ESTABLISHED": {
-        "message": "Video link established",
-        "description": ""
-    },
-    "TOGGLE_LUA_CONSOLE": {
-        "message": "Lua konsolunu aç/kapa",
-        "description": ""
-    },
-    "DECREASE_SCAN_RANGE": {
-        "message": "Decrease scanner range",
-        "description": ""
-    },
-    "DRIVE_CLASS9": {
-        "message": "Sınıf 9 Hipersürücü",
-        "description": ""
-    },
-    "MAP_VIEW_ROTATE_LEFT": {
-        "message": "Görünümü Sola Döndür",
-        "description": ""
-    },
-    "SEARCH": {
-        "message": "Search",
-        "description": ""
-    },
-    "SYSTEM": {
-        "message": "System",
-        "description": ""
-    },
-    "ROTATION_DAMPING_ON": {
-        "message": "Rotation damping on",
-        "description": ""
-    },
-    "MONTH_FEB": {
-        "message": "Şub",
-        "description": ""
-    },
-    "X_CANNOT_BE_TOLERATED_HERE": {
-        "message": "%crime cannot be tolerated here.",
-        "description": ""
-    },
-    "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS": {
-        "message": "Small-scale prospecting. No registered settlements.",
-        "description": ""
-    },
-    "DRIVE_CLASS5": {
-        "message": "Sınıf 5 Hipersürücü",
-        "description": ""
-    },
-    "GAME_LOAD_CORRUPT": {
-        "message": "This saved game cannot be loaded because it contains errors.",
-        "description": ""
-    },
-    "WHEELS_ARE_UP": {
-        "message": "Wheels are up",
-        "description": ""
-    },
-    "SMALL_GAS_GIANT": {
-        "message": "Small gas giant",
-        "description": ""
-    },
-    "HIGH_POPULATION_OUTDOOR_WORLD": {
-        "message": "High population outdoor world.",
-        "description": ""
-    },
-    "INT_LY": {
-        "message": "%scale ly",
-        "description": ""
-    },
-    "ENABLED_AUTOMATIC_SYSTEM_SELECTION": {
-        "message": "Enabled automatic system selection.",
-        "description": ""
-    },
-    "SLAVES": {
-        "message": "Slaves",
-        "description": ""
-    },
-    "EARTH": {
-        "message": "Earth",
-        "description": ""
-    },
-    "METAL_ORE": {
-        "message": "Metal ore",
-        "description": ""
-    },
-    "LAUNCH_PERMISSION_DENIED_BUSY": {
-        "message": "Permission to launch denied: docking bay busy.",
-        "description": ""
-    },
-    "COMMUNIST": {
-        "message": "Communist",
-        "description": ""
-    },
-    "CAMERA_LEFT_VIEW": {
-        "message": "Sol kamera",
-        "description": ""
-    },
-    "GAME_LOAD_CANNOT_OPEN": {
-        "message": "This saved game file could not be opened due to permissions or something...",
-        "description": ""
-    },
-    "MISSILE_GUIDED": {
-        "message": "Güdümlü füze",
-        "description": ""
-    },
-    "UNEXPLORED_SYSTEM_NO_DATA": {
-        "message": "Unexplored system. No more data available.",
-        "description": ""
-    },
-    "CARGO_N": {
-        "message": "Cargo: %{mass}t",
-        "description": ""
-    },
-    "SHIELD_STRENGTH_N": {
-        "message": "Shield strength: %shields{f.2}",
-        "description": ""
-    },
-    "NUMBER_G": {
-        "message": "%acceleration{f.1} G",
-        "description": ""
-    },
-    "NUMBER_DAYS": {
-        "message": "%days{f.0} days",
-        "description": ""
-    },
-    "TINY": {
-        "message": "Minik",
-        "description": ""
-    },
-    "AND_HIGHLY_COMPLEX_ECOSYSTEM": {
-        "message": "\" and a highly complex ecosystem.\"",
-        "description": ""
-    },
-    "HULL_INTEGRITY": {
-        "message": "Gövde bütünlüğü",
-        "description": ""
-    },
-    "MAP_TOGGLE_SELECTION_FOLLOW_VIEW": {
-        "message": "Seçim Takip Görünümü Aç/Kapa",
-        "description": ""
-    },
-    "BINARY_SYSTEM": {
-        "message": "Binary system",
-        "description": ""
-    },
-    "N_ATMOSPHERE": {
-        "message": "\" Nitrogen atmosphere\"",
-        "description": ""
-    },
-    "STAR_K_GIANT": {
-        "message": "Turuncu dev yıldız - Kararsız",
-        "description": ""
-    },
-    "STAR_G": {
-        "message": "Tip 'G' sarı yıldız",
-        "description": ""
-    },
-    "CO_ATMOSPHERE": {
-        "message": "\" Carbon Monoxide atmosphere\"",
-        "description": ""
-    },
-    "STAR_B_GIANT": {
-        "message": "Mavi dev yıldız",
-        "description": ""
-    },
-    "LIQUOR": {
-        "message": "Liquor",
-        "description": ""
-    },
-    "DEMOGRAPHICS": {
-        "message": "Demographics",
-        "description": ""
-    },
-    "RUBBISH": {
-        "message": "Rubbish",
-        "description": ""
-    },
-    "STAR_AF_GIANT": {
-        "message": "Beyaz dev yıldız",
-        "description": ""
-    },
-    "MISSILE": {
-        "message": "füze",
-        "description": ""
-    },
-    "NORMA_ARM": {
-        "message": "Norma arm",
-        "description": ""
-    },
-    "MONTH_JUL": {
-        "message": "Tem",
-        "description": ""
-    },
-    "FUEL_SCOOP": {
-        "message": "Yakıt Toplayıcı",
-        "description": ""
-    },
-    "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED": {
-        "message": "Yakıt toplama etkin. Şimdi %quantity ton hidrojeniniz var",
-        "description": ""
-    },
-    "SHIFT": {
-        "message": "Shift",
-        "description": "Shift key on keyboard"
-    },
-    "SIDEREAL_VIEW": {
-        "message": "yıldıza göre görünüm",
-        "description": ""
-    },
-    "SURFACE_TEMPERATURE": {
-        "message": "Surface temperature",
-        "description": ""
-    },
-    "APOAPSIS_DISTANCE": {
-        "message": "Apoapsis distance",
-        "description": ""
-    },
-    "LARGE_GAS_GIANT": {
-        "message": "Büyük gaz devi",
-        "description": ""
-    },
-    "STAR_M_SUPER_GIANT": {
-        "message": "Kırmızı süper dev yıldız",
-        "description": ""
-    },
-    "HYPERSPACE_TARGET": {
-        "message": "Üstuzay hedefi",
-        "description": ""
-    },
-    "SHIP": {
-        "message": "Gemi",
-        "description": ""
-    },
-    "DRIVE_CLASS2": {
-        "message": "Sınıf 2 Hipersürücü",
-        "description": ""
-    },
-    "CARGO": {
-        "message": "Kargo",
-        "description": ""
-    },
-    "HULL_TEMP": {
-        "message": "Hull temp",
-        "description": ""
-    },
-    "CARBON_ORE_DESCRIPTION": {
-        "message": "Carbon ores (coal and oil) are required for the synthesis of many useful chemicals, including plastics, synthetic foodstuffs, medicines and textiles",
-        "description": ""
-    },
-    "MURDER": {
-        "message": "Cinayet",
-        "description": ""
-    },
-    "AIR_PROCESSORS": {
-        "message": "Air processors",
-        "description": ""
-    },
-    "Z": {
-        "message": "Z",
-        "description": ""
-    },
-    "SCANNER_CONTROL": {
-        "message": "Tarayıcı kontrolü",
-        "description": ""
-    },
-    "MAP_VIEW_ROTATE_UP": {
-        "message": "Görünümü Yukarı Döndür",
-        "description": ""
-    },
-    "ATMOSPHERIC_SHIELDING": {
-        "message": "Atmospheric Shielding",
-        "description": ""
-    },
-    "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS": {
-        "message": "Stable system with %bodycount major %{body(s)} and %portcount %{starport(s)}",
-        "description": ""
-    },
-    "ROCKY_PLANET_CONTAINING_COME_LIQUIDS": {
-        "message": "\"bazı sıvılar içeren kayalık gezegen,\"",
-        "description": ""
-    },
-    "SECTOR_COORDINATES": {
-        "message": "Sektör kordinatları:",
-        "description": ""
-    },
-    "FRONT": {
-        "message": "Front",
-        "description": ""
-    },
-    "HYDROGEN": {
-        "message": "Hydrogen",
-        "description": ""
-    },
-    "LANG_NAME": {
-        "message": "Türkçe",
-        "description": "The name that native speakers use for this language. This will be used in the language selection screen. For obscure reasons this currently must only use Latin-1 characters."
-    },
-    "BUTTON": {
-        "message": "\" Button \"",
-        "description": ""
-    },
-    "COMPUTER_HEADING_CONTROL": {
-        "message": "Bilgisayar yönelim kontrolü",
-        "description": ""
-    },
-    "GALAXY_SECTOR_VIEW": {
-        "message": "Galaksi sektör görünümü",
-        "description": ""
-    },
-    "STAR_B_HYPER_GIANT": {
-        "message": "Mavi hiper dev yıldız",
-        "description": ""
-    },
-    "FINE_PAID_N": {
-        "message": "You have paid the fine of %fine.",
-        "description": ""
-    },
-    "DRIVE_CLASS3": {
-        "message": "Sınıf 3 Hipersürücü",
-        "description": ""
-    },
-    "PLANET_WITH_SOME_ICE": {
-        "message": "\"biraz buzlu gezegen\"",
-        "description": ""
-    },
-    "NO_HYPERDRIVE": {
-        "message": "Hipersürücü yok",
-        "description": ""
-    },
-    "RESET": {
-        "message": "Reset",
-        "description": ""
-    },
-    "MONTH_DEC": {
-        "message": "Dec",
-        "description": ""
-    },
-    "GENERAL_VIEW_CONTROLS": {
-        "message": "Genel Görünüm Kontrolleri",
-        "description": ""
-    },
-    "COUNT_STARPORTS": {
-        "message": "yıldız limanları",
-        "description": ""
-    },
-    "NERVE_GAS": {
-        "message": "Nerve Gas",
-        "description": ""
-    },
-    "POLICE_SHIP_REGISTRATION": {
-        "message": "POLICE",
-        "description": ""
-    },
-    "THRUSTER_STARBOARD": {
-        "message": "Thrust right",
-        "description": ""
-    },
-    "RADIOACTIVES": {
-        "message": "Radioactive waste",
-        "description": ""
-    },
-    "CARGO_SCOOP_DESCRIPTION": {
-        "message": "Kargo kutularını uzaydan toplamaya izin verir.",
-        "description": ""
-    },
-    "N_EARTH_DAYS": {
-        "message": "%days{f.1} earth days",
-        "description": ""
-    },
-    "STAR_G_HYPER_GIANT": {
-        "message": "Sarı hiper dev yıldız - Kararsız",
-        "description": ""
-    },
-    "ALLEGIANCE": {
-        "message": "Bağlılık:",
-        "description": ""
-    },
-    "DOCKED": {
-        "message": "Demirlendi",
-        "description": ""
-    },
-    "SUGGESTED_RESPONSES": {
-        "message": "Suggested responses:",
-        "description": ""
-    },
-    "VIEW": {
-        "message": "Görünüm",
-        "description": ""
-    },
-    "N_WHATEVER_RADII": {
-        "message": "%radius{f.3} %units radii (%radkm{f.0} km)",
-        "description": ""
-    },
-    "NUMBER_HOURS": {
-        "message": "%hours{f.1} hrs",
-        "description": ""
-    },
-    "CAPITALIST": {
-        "message": "Capitalist",
-        "description": ""
-    },
-    "NAME_OBJECT": {
-        "message": "İsim",
-        "description": "For an item or object"
-    },
-    "MISSILE_UNGUIDED": {
-        "message": "R40 Unguided Rocket",
-        "description": ""
-    },
-    "WHITE_DWARF": {
-        "message": "White dwarf stellar remnant",
-        "description": ""
-    },
-    "LANDED": {
-        "message": "İnildi",
-        "description": ""
-    },
-    "ROTATE_UP": {
-        "message": "Rotate Up",
-        "description": ""
-    },
-    "LOCKED": {
-        "message": "locked",
-        "description": ""
-    },
-    "NO_CENTRAL_GOVERNANCE": {
-        "message": "No central governance",
-        "description": ""
-    },
-    "IN_TRANSIT_TO_N_X_X_X": {
-        "message": "In transit to %system [%x,%y,%z]",
-        "description": ""
-    },
-    "NOT_FOUND_BEST_MATCH_X": {
-        "message": "Not found, best match: %system",
-        "description": ""
-    },
-    "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED": {
-        "message": "Kargo toplama etkin. 1 ton %item toplandı.",
-        "description": ""
-    },
-    "STAR_O_SUPER_GIANT": {
-        "message": "Sıcak mavi süper dev yıldız",
-        "description": ""
-    },
-    "SECTOR_MAP_VIEW": {
-        "message": "Sektör Harita Görünümü",
-        "description": ""
-    },
-    "SMALL_PLASMA_ACCEL": {
-        "message": "Küçük plazma hızlandırıcı",
-        "description": ""
-    },
-    "PERIAPSIS_DISTANCE": {
-        "message": "Periapsis distance",
-        "description": ""
-    },
-    "STAR_B_SUPER_GIANT": {
-        "message": "Mavi süper dev yıldız",
-        "description": ""
-    },
-    "ROTATE_LEFT": {
-        "message": "Rotate Left",
-        "description": ""
-    },
-    "ROLL_LEFT": {
-        "message": "Roll left",
-        "description": ""
-    },
-    "SYSTEM_ORBIT_VIEW": {
-        "message": "Sistem yörünge görünümü",
-        "description": ""
-    },
-    "BODY": {
-        "message": "gövde",
-        "description": ""
-    },
-    "STAR_SYSTEM_INFORMATION": {
-        "message": "Yıldız sistemi bilgisi",
-        "description": ""
-    },
-    "IMPERIAL_RULE": {
-        "message": "Imperial Rule",
-        "description": ""
-    },
-    "HYPERSPACING_IN_N_SECONDS": {
-        "message": "%countdown{f.0} saniye içinde üstuzaya giriliyor",
-        "description": ""
-    },
-    "SMALL_INDUSTRIAL_OUTPOST": {
-        "message": "Small industrial outpost.",
-        "description": ""
-    },
-    "PERSEUS_ARM": {
-        "message": "Perseus arm",
-        "description": ""
-    },
-    "SOLAR": {
-        "message": "Solar",
-        "description": ""
-    },
-    "MONTH_JAN": {
-        "message": "Oca",
-        "description": ""
-    },
-    "N_DISTANCE_TO_TARGET": {
-        "message": "%distance to target",
-        "description": ""
-    },
-    "DISTANCE_FROM_SHIP_TO_NAV_TARGET": {
-        "message": "Distance from ship to navigation target",
-        "description": ""
-    },
-    "MONTH_MAY": {
-        "message": "May",
-        "description": ""
-    },
-    "ROLL_RIGHT": {
-        "message": "Roll right",
-        "description": ""
-    },
-    "SHIP_DETECTED_NEARBY": {
-        "message": "Ship detected nearby.",
-        "description": ""
-    },
-    "CTRL": {
-        "message": "Ctrl",
-        "description": "Ctrl key on keyboard"
-    },
-    "SEMI_MAJOR_AXIS": {
-        "message": "Semi-major axis",
-        "description": ""
-    },
-    "STAR_IM_BH": {
-        "message": "An intermediate-mass black hole",
-        "description": ""
-    },
-    "HYPERCLOUD_ANALYZER_DESCRIPTION": {
-        "message": "Hedefi ve varış veya ayrılış zamanını belirlemek için üstuzay bulutunu inceleyin",
-        "description": ""
-    },
-    "HARD_CAPITALIST": {
-        "message": "Entirely Capitalist - no government welfare provision",
-        "description": ""
-    },
-    "STARPORT": {
-        "message": "Yıldız limanı",
-        "description": ""
-    },
-    "THRUSTER_RETRO": {
-        "message": "Thrust backwards",
-        "description": ""
-    },
-    "CORPORATE_SYSTEM": {
-        "message": "Corporate system",
-        "description": ""
-    },
-    "SURFACE_GRAVITY": {
-        "message": "Surface gravity",
-        "description": ""
-    },
-    "MEDIUM_GAS_GIANT": {
-        "message": "Medium gas giant",
-        "description": ""
-    },
-    "STAR_O": {
-        "message": "Sıcak, devasa tip 'O' yıldız",
-        "description": ""
-    },
-    "NO_TARGET_SELECTED": {
-        "message": "Ship Computer: No target selected",
-        "description": ""
-    },
-    "YAW": {
-        "message": "Yaw",
-        "description": ""
-    },
-    "DRAW_VERTICAL_LINES": {
-        "message": "Draw vertical lines",
-        "description": ""
-    },
-    "AUTOPILOT_DESCRIPTION": {
-        "message": "An on-board flight computer.",
-        "description": ""
-    },
-    "WITH_A": {
-        "message": "\"ile\"",
-        "description": ""
-    },
-    "TOGGLE_ROTATION_DAMPING": {
-        "message": "Dönüş durdurmayı aç/kapa",
-        "description": ""
-    },
-    "VID_CONNECTING": {
-        "message": "Bağlanılıyor...",
-        "description": ""
-    },
-    "DRIVE_CLASS1": {
-        "message": "Sınıf 1 Hipersürücü",
-        "description": ""
-    },
-    "SEARCH_MAP": {
-        "message": "Search Map",
-        "description": ""
-    },
-    "HYPERSPACE_ARRIVAL_CLOUD_REMNANT": {
-        "message": "Üstuzay varış bulutu kalıntısı",
-        "description": ""
-    },
-    "WEAPONS": {
-        "message": "Weapons",
-        "description": ""
-    },
-    "ROLL": {
-        "message": "Roll",
-        "description": ""
-    },
-    "AUTOPILOT_ENTER_LOW_ORBIT_AROUND": {
-        "message": "Autopilot: Enter low orbit around %target",
-        "description": ""
-    },
-    "GRAIN": {
-        "message": "Grain",
-        "description": ""
-    },
-    "SECTOR_X_Y_Z": {
-        "message": "Sector: %x,%y,%z",
-        "description": ""
-    },
-    "OUTDOOR_AGRICULTURAL_WORLD": {
-        "message": "Outdoor agricultural world.",
-        "description": ""
-    },
-    "MONTH_APR": {
-        "message": "Apr",
-        "description": ""
-    },
-    "GAME_SAVED_TO": {
-        "message": "\"Game saved to \"",
-        "description": ""
-    },
-    "ROTATE_DOWN": {
-        "message": "Rotate Down",
-        "description": ""
-    },
-    "VERY_DENSE": {
-        "message": "very dense",
-        "description": ""
-    },
-    "MAP_VIEW_ROTATE_DOWN": {
-        "message": "Görünümü Aşağı Döndür",
-        "description": ""
-    },
-    "RADAR_MAPPER_DESCRIPTION": {
-        "message": "Used to remotely inspect the equipment, cargo and state of other ships.",
-        "description": ""
-    },
-    "HEADING_LOCK_FORWARD": {
-        "message": "Heading Lock (fore)",
-        "description": ""
-    },
-    "PLANETARY_INFO": {
-        "message": "Gezegen bilgisi",
-        "description": ""
-    },
-    "MISSILE_SMART": {
-        "message": "Akıllı füze",
-        "description": ""
-    },
-    "STAR_O_GIANT": {
-        "message": "Sıcak mavi dev yıldız",
-        "description": ""
-    },
-    "PLUTOCRATIC_DICTATORSHIP": {
-        "message": "Plutocratic dictatorship",
-        "description": ""
-    },
-    "SHIELD_ENERGY_BOOSTER": {
-        "message": "Shield Energy Booster",
-        "description": ""
-    },
-    "SOURCE": {
-        "message": "Origin",
-        "description": ""
-    },
-    "MASS": {
-        "message": "Kütle",
-        "description": ""
-    },
-    "AND_INDIGENOUS_MICROBIAL_LIFE": {
-        "message": "\" and indigenous microbial life.\"",
-        "description": ""
-    },
-    "WEAPON_TEMP": {
-        "message": "Weapon temp",
-        "description": ""
-    },
-    "PRECIOUS_METALS": {
-        "message": "Precious metals",
-        "description": ""
-    },
-    "HULL_AUTOREPAIR": {
-        "message": "Gövde Oto-Tamir Sistemi",
-        "description": ""
-    },
-    "NARCOTICS": {
-        "message": "Narcotics",
-        "description": ""
-    },
-    "COMMS": {
-        "message": "Comms",
-        "description": ""
-    },
-    "ALT_IN_KM": {
-        "message": "Alt: %altitude{f.0}km (%vspeed{f.1}km/s)",
-        "description": ""
-    },
-    "NO_REGISTERED_INHABITANTS": {
-        "message": "No registered inhabitants",
-        "description": ""
-    },
-    "RADAR_MAPPER": {
-        "message": "Radar Mapper",
-        "description": ""
-    },
-    "AND_INDIGENOUS_PLANT_LIFE": {
-        "message": "\" and indigenous plant life.\"",
-        "description": ""
-    },
-    "UNKNOWN": {
-        "message": "<unknown>",
-        "description": ""
-    },
-    "MAJOR_IMPORTS": {
-        "message": "Major Imports:",
-        "description": ""
-    },
-    "PITCH": {
-        "message": "Pitch",
-        "description": ""
-    },
-    "CAMERA_BOTTOM_VIEW": {
-        "message": "Alt kamera",
-        "description": ""
-    },
-    "SHIELD_INTEGRITY": {
-        "message": "Shield integrity",
-        "description": ""
-    },
-    "THRUSTER_VENTRAL": {
-        "message": "Thrust up",
-        "description": ""
-    },
-    "KM_S_RELATIVE_TO": {
-        "message": "%speed{f.2} km/s rel-to %frame",
-        "description": ""
-    },
-    "PLANET_CONTAINING_LIQUID_WATER": {
-        "message": "\"su içeren gezegen\"",
-        "description": ""
-    },
-    "TENUOUS": {
-        "message": "tenuous",
-        "description": ""
-    },
-    "SET_SPEED_KM_S": {
-        "message": "Set speed: %speed{f.2} km/s",
-        "description": ""
-    },
-    "PULSECANNON_2MW": {
-        "message": "2MV titreşim topu",
-        "description": ""
-    },
-    "IN_TRANSIT": {
-        "message": "In transit",
-        "description": ""
-    },
-    "PAY_FINE_REMOTELY": {
-        "message": "Pay fine by remote transfer (%amount)",
-        "description": ""
-    },
-    "PULSECANNON_1MW": {
-        "message": "1MV titreşim topu",
-        "description": ""
-    },
-    "MINOR_EXPORTS": {
-        "message": "Minor Exports:",
-        "description": ""
-    },
-    "THRUSTER_PORT": {
-        "message": "Thrust left",
-        "description": ""
-    },
-    "PIRACY": {
-        "message": "Korsanlık",
-        "description": ""
-    },
-    "LIVE_ANIMALS": {
-        "message": "Live Animals",
-        "description": ""
-    },
-    "LASER_COOLING_BOOSTER": {
-        "message": "Laser Soğutma Hızlandırıcısı",
-        "description": ""
-    },
-    "SHIELD_GENERATOR_DESCRIPTION": {
-        "message": "Provides additional hull defences with each unit fitted.",
-        "description": ""
-    },
-    "MAP_LOCK_HYPERSPACE_TARGET": {
-        "message": "Üstuzay Hedefini Kilitle",
-        "description": ""
-    },
-    "PLASTICS": {
-        "message": "Plastics",
-        "description": ""
-    },
-    "META": {
-        "message": "Meta",
-        "description": "'Meta' key on keyboard"
-    },
-    "YOUNG_FARMING_COLONY": {
-        "message": "Young farming colony.",
-        "description": ""
-    },
-    "SET_SPEED_M_S": {
-        "message": "Set speed: %speed{f.0} m/s",
-        "description": ""
-    },
-    "ORBITAL_STARPORT": {
-        "message": "Yörünge yıldız limanı",
-        "description": ""
-    },
-    "GOVERNMENT_TYPE": {
-        "message": "Government type:",
-        "description": ""
-    },
-    "M_S_RELATIVE_TO": {
-        "message": "%speed{f.0} m/s rel-to %frame",
-        "description": ""
-    },
-    "FUEL_SCOOP_DESCRIPTION": {
-        "message": "Hidrojen yakıtını gaz devi gezegenlerden toplamaya izin verir.",
-        "description": ""
-    },
-    "CH4_ATMOSPHERE": {
-        "message": "\" Methane atmosphere\"",
-        "description": ""
-    },
-    "HYPERSPACE_JUMP": {
-        "message": "Üstuzay Sıçrayışı",
-        "description": ""
-    },
-    "NAVIGATION_TARGETS_IN_THIS_SYSTEM": {
-        "message": "Navigation targets in this system",
-        "description": ""
-    },
-    "STAR_F": {
-        "message": "Tip 'F' beyaz yıldız",
-        "description": ""
-    },
-    "SCUTUM_CENTAURUS_ARM": {
-        "message": "Scutum-Centaurus arm",
-        "description": ""
-    },
-    "COUNT_ON_SURFACE": {
-        "message": "\" (%surfacecount on surface)\"",
-        "description": ""
-    },
-    "HAND_WEAPONS": {
-        "message": "El Silahları",
-        "description": ""
-    },
-    "MONTH_JUN": {
-        "message": "Jun",
-        "description": ""
-    },
-    "HULL_AUTOREPAIR_DESCRIPTION": {
-        "message": "Automatically repairs the ship's hull in the event of damage.",
-        "description": ""
-    },
-    "YAW_RIGHT": {
-        "message": "Yaw right",
-        "description": ""
-    },
-    "DRIVE_CLASS7": {
-        "message": "Sınıf 7 Hipersürücü",
-        "description": ""
-    },
-    "MINING_COLONY": {
-        "message": "Mining colony.",
-        "description": ""
-    },
-    "STAR_B_WF": {
-        "message": "Wolf-Rayet yıldızı - Çökme riski",
-        "description": ""
-    },
-    "YOU_NO_MONEY": {
-        "message": "You do not have any money.",
-        "description": ""
-    },
-    "STAR_K": {
-        "message": "Tip 'K' turuncu yıldız",
-        "description": ""
-    },
-    "MININGCANNON_17MW_DESCRIPTION": {
-        "message": "Used to blast-mine mineral rich asteroids.",
-        "description": ""
-    },
-    "PRESSURE_N_ATMOSPHERES": {
-        "message": "P: %pressure{f.2} atm",
-        "description": ""
-    },
-    "JOY": {
-        "message": "Neşe",
-        "description": ""
-    },
-    "DRIVE_MIL1": {
-        "message": "Sınıf 1 Askeri Sürücü",
-        "description": ""
-    },
-    "PITCH_DOWN": {
-        "message": "Pitch down",
-        "description": ""
-    },
-    "ALERT_CANCELLED": {
-        "message": "Alert cancelled.",
-        "description": ""
-    },
-    "INDUSTRIAL_HUB_SYSTEM": {
-        "message": "Industrial hub system.",
-        "description": ""
-    },
-    "PASSENGER_CABIN": {
-        "message": "Dolu Yolcu Kabini",
-        "description": ""
-    },
-    "SHIP_NEARBY": {
-        "message": "Ship nearby",
-        "description": ""
-    },
-    "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND": {
-        "message": "Autopilot: Enter high orbit around %target",
-        "description": ""
-    },
-    "WATER": {
-        "message": "Su",
-        "description": ""
-    },
-    "MINOR_IMPORTS": {
-        "message": "Minor Imports:",
-        "description": ""
-    },
-    "SELECT_LOW_THRUST_POWER_LEVEL": {
-        "message": "Select low thrust power level",
-        "description": ""
-    },
-    "LARGE": {
-        "message": "Large",
-        "description": ""
-    },
-    "MISCELLANEOUS": {
-        "message": "Miscellaneous",
-        "description": ""
-    },
-    "CLEARANCE_DENIED_NO_BAYS": {
-        "message": "Clearance denied. There are no free docking bays.",
-        "description": ""
-    },
-    "STAR_A": {
-        "message": "Tip 'A' sıcak beyaz yıldız",
-        "description": ""
-    },
-    "UNEXPLORED_SYSTEM_STAR_INFO_ONLY": {
-        "message": "Keşfedilmemiş Sistem. Yıldız bilgisi uzak bir teleskop tarafından toplandı, fakat gezegen bilgisi mecut değil.",
-        "description": ""
-    },
-    "MANUAL_CONTROL": {
-        "message": "Elle kontrol",
-        "description": ""
-    },
-    "UNOCCUPIED_CABIN": {
-        "message": "Extra Passenger Cabin",
-        "description": ""
-    },
-    "SCANNER": {
-        "message": "Tarayıcı",
-        "description": ""
-    },
-    "DRIVE_MIL4": {
-        "message": "Sınıf 4 Askeri Sürücü",
-        "description": ""
-    },
-    "AUTOPILOT_FLY_TO_VICINITY_OF": {
-        "message": "Autopilot: Fly to vicinity of %target",
-        "description": ""
-    },
-    "Y": {
-        "message": "Y",
-        "description": ""
-    },
-    "STAR_B": {
-        "message": "Parlak tip 'B' mavi yıldız",
-        "description": ""
-    },
-    "SHIELD_GENERATOR": {
-        "message": "Shield Generator",
-        "description": ""
-    },
-    "FUEL": {
-        "message": "Yakıt",
-        "description": ""
-    },
-    "AR_ATMOSPHERE": {
-        "message": "\" Argon atmosphere\"",
-        "description": ""
-    },
-    "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO": {
-        "message": "Equatorial to polar radius ratio",
-        "description": ""
-    },
-    "PULSECANNON_4MW": {
-        "message": "4MV titreşim topu",
-        "description": ""
-    },
-    "EXTENSIVE_MINING": {
-        "message": "Kapsamlı madencilik operasyonları",
-        "description": ""
-    },
-    "SHIELD_ENERGY_BOOSTER_DESCRIPTION": {
-        "message": "Increases the rate at which shields recharge.",
-        "description": ""
-    },
-    "COULD_NOT_OPEN_FILENAME": {
-        "message": "Could not open %path",
-        "description": ""
-    },
-    "SHIP_ALTITUDE_ABOVE_TERRAIN": {
-        "message": "Ship altitude above terrain",
-        "description": ""
-    },
-    "UNOCCUPIED_CABIN_DESCRIPTION": {
-        "message": "Required for transport of a single passenger",
-        "description": ""
-    },
-    "PAUSED": {
-        "message": "PAUSED",
-        "description": ""
-    },
-    "ASTEROID": {
-        "message": "Asteroid",
-        "description": ""
-    },
-    "LASER_FIRE_DETECTED": {
-        "message": "Lazer atışı algılandı.",
-        "description": ""
-    },
-    "BATTLE_WEAPONS": {
-        "message": "Battle weapons",
-        "description": ""
-    },
-    "DRIVE_CLASS8": {
-        "message": "Sınıf 8 Hipersürücü",
-        "description": ""
-    },
-    "REQUEST_DOCKING_CLEARANCE": {
-        "message": "Request docking clearance",
-        "description": ""
-    },
-    "GAME_LOAD_WRONG_VERSION": {
-        "message": "This saved game cannot be loaded because it was created by a different version of Pioneer.",
-        "description": ""
-    },
-    "ATMOSPHERIC_SHIELDING_DESCRIPTION": {
-        "message": "Shields your spaceship from the heat of atmospheric re-entry.",
-        "description": ""
-    },
-    "OUTER_ARM": {
-        "message": "Outer arm",
-        "description": ""
-    },
-    "DISTANCE_LY": {
-        "message": "Distance: %distance{f.2} ly",
-        "description": ""
-    },
-    "DRIVE_MIL3": {
-        "message": "Sınıf 3 Askeri Sürücü",
-        "description": ""
-    },
-    "ILLEGAL_GOODS": {
-        "message": "Illegal Goods:",
-        "description": ""
-    },
-    "DRAW_UNINHABITED_LABELS": {
-        "message": "Label uninhabited systems",
-        "description": ""
-    },
-    "GALACTIC_VIEW": {
-        "message": "Galaktik görünüm",
-        "description": ""
-    },
-    "STAR_O_HYPER_GIANT": {
-        "message": "Sıcak mavi hiper dev yıldız",
-        "description": ""
-    },
-    "HE_ATMOSPHERE": {
-        "message": "\" Helium atmosphere\"",
-        "description": ""
-    },
-    "N_CELSIUS": {
-        "message": "%temperature C",
-        "description": ""
-    },
-    "INDUSTRIAL_COLONY": {
-        "message": "Endüstriyel Koloni",
-        "description": ""
-    },
-    "DRIVE_CLASS6": {
-        "message": "Sınıf 6 Hipersürücü",
-        "description": ""
-    },
-    "TEXTILES": {
-        "message": "Textiles",
-        "description": ""
-    },
-    "X": {
-        "message": "X",
-        "description": ""
-    },
-    "NONE": {
-        "message": "Yok",
-        "description": ""
-    },
-    "WITH_NO_SIGNIFICANT_ATMOSPHERE": {
-        "message": "\" with no significant atmosphere\"",
-        "description": ""
-    },
-    "MAP_VIEW_SHIFT_RIGHT": {
-        "message": "Görünümü Sağa Kaydır",
-        "description": ""
-    },
-    "NO_ESTABLISHED_ORDER": {
-        "message": "No established order",
-        "description": ""
-    },
-    "COMPUTER_SPEED_CONTROL": {
-        "message": "Bilgisayar hız kontrolü",
-        "description": ""
-    },
-    "NAVIGATION_STAR_MAPS": {
-        "message": "Navigasyon ve yıldız haritaları",
-        "description": ""
-    },
-    "MIXED_ECONOMY": {
-        "message": "Mixed economy",
-        "description": ""
-    },
-    "PIONEER": {
-        "message": "PIONEER",
-        "description": ""
-    },
-    "OVER_N_MILLION": {
-        "message": "Over %population million",
-        "description": ""
-    },
-    "NUMBER_TONNES": {
-        "message": "%{mass}t",
-        "description": ""
-    },
-    "N_YEARS": {
-        "message": "%years{f.1} years",
-        "description": ""
-    },
-    "MONTH_AUG": {
-        "message": "Ağu",
-        "description": ""
-    },
-    "COMMA_HIGHLY_VOLCANIC": {
-        "message": ", oldukça volkanik",
-        "description": ""
-    },
-    "FIRE_MISSILE": {
-        "message": "Füzeyi ateşle",
-        "description": ""
-    },
-    "PULSECANNON_RAPID_2MW": {
-        "message": "2MW hızlı-atış titreşim topu",
-        "description": ""
-    },
-    "STAR_G_SUPER_GIANT": {
-        "message": "Sarı süper dev yıldız",
-        "description": ""
-    },
-    "DESTINATION": {
-        "message": "Destination",
-        "description": ""
-    },
-    "EXTERNAL_ATMOSPHERIC_PRESSURE": {
-        "message": "External atmospheric pressure",
-        "description": ""
-    },
-    "DATE_DUE_N": {
-        "message": "Date due: %date",
-        "description": ""
-    },
-    "DAY_LENGTH": {
-        "message": "Gün uzunluğu",
-        "description": ""
-    },
-    "TARGET_OBJECT_IN_SIGHTS": {
-        "message": "Target object in cross-hairs",
-        "description": ""
-    },
-    "TIME_POINT": {
-        "message": "Time point:",
-        "description": ""
-    },
-    "FIRE_LASER": {
-        "message": "Lazeri ateşle",
-        "description": ""
-    },
-    "RESET_ORIENTATION_AND_ZOOM": {
-        "message": "Reset Orientation and Zoom",
-        "description": ""
-    },
-    "MINING_MACHINERY": {
-        "message": "Maden makineleri",
-        "description": ""
-    },
-    "CARBON_ORE": {
-        "message": "Carbon ore",
-        "description": ""
-    },
-    "SET_HYPERSPACE_DESTINATION_TO": {
-        "message": "Üstuzay hedefini %system olarak ayarlayın",
-        "description": ""
-    },
-    "NOT_FOUND": {
-        "message": "Not found",
-        "description": ""
-    },
-    "HYDROGEN_DESCRIPTION": {
-        "message": "Hydrogen is primarily used as a fusion fuel",
-        "description": ""
-    },
-    "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW": {
-        "message": "Keşfedilmemiş sistem. Sistem görünümü mevcut değil.",
-        "description": ""
-    },
-    "INDUSTRIAL_MACHINERY": {
-        "message": "Endüstriyel makineler",
-        "description": ""
-    },
-    "CARGO_LIFE_SUPPORT": {
-        "message": "Cargo Bay Life Support",
-        "description": ""
-    },
-    "EARTH_FEDERATION_DEMOCRACY": {
-        "message": "Earth Federation Democracy",
-        "description": ""
-    },
-    "MEDICINES": {
-        "message": "Medicines",
-        "description": ""
-    },
-    "SPEED_CONTROL_MODE": {
-        "message": "Hız kontrol",
-        "description": ""
-    },
-    "LARGE_PLASMA_ACCEL": {
-        "message": "Büyük plazma hızlandırıcı",
-        "description": ""
-    },
-    "PITCH_UP": {
-        "message": "Pitch up",
-        "description": ""
-    },
-    "BROWN_DWARF": {
-        "message": "Brown dwarf sub-stellar object",
-        "description": ""
-    },
-    "PULSECANNON_20MW": {
-        "message": "20MV titreşim topu",
-        "description": ""
-    },
-    "STAR_AF_HYPER_GIANT": {
-        "message": "Beyaz hiper dev yıldız",
-        "description": ""
-    },
-    "BODIES": {
-        "message": "bodies",
-        "description": ""
-    },
-    "N_DEGREES": {
-        "message": "%angle{f.1} degrees",
-        "description": ""
-    },
-    "HYPERSPACE_ARRIVAL_CLOUD": {
-        "message": "Üstuzay varış bulutu",
-        "description": ""
-    },
-    "PROBABILITY_OF_ARRIVAL_X_PERCENT": {
-        "message": "Probability of arrival: %probability%%",
-        "description": ""
-    },
-    "ECM_ADVANCED": {
-        "message": "Advanced ECM system",
-        "description": ""
-    },
-    "ROTATE_RIGHT": {
-        "message": "Rotate Right",
-        "description": ""
-    },
-    "INCREASE_SET_SPEED": {
-        "message": "Increase set speed",
-        "description": ""
-    },
-    "VAST_STRIP_MINE": {
-        "message": "Vast strip-mining colony.",
-        "description": ""
-    },
-    "ALT": {
-        "message": "Alt",
-        "description": "Alt key on keyboard"
-    },
-    "STAR_AF_SUPER_GIANT": {
-        "message": "Beyaz süper dev yıldız",
-        "description": ""
-    },
-    "NUMBER_LY": {
-        "message": "%distance{f.2} ly",
-        "description": ""
-    },
-    "SHIP_MASS_N_TONNES": {
-        "message": "Ship mass: %{mass}t",
-        "description": ""
-    },
-    "JOY_AXIS": {
-        "message": "%{sign}Joy%joynum %axis Axis",
-        "description": ""
-    },
-    "ANIMAL_MEAT": {
-        "message": "Animal Meat",
-        "description": ""
-    },
-    "PULSECANNON_10MW": {
-        "message": "10MV titreşim topu",
-        "description": ""
-    },
-    "REAR": {
-        "message": "Rear",
-        "description": ""
-    },
-    "STAR_M_GIANT": {
-        "message": "Kırmızı dev yıldız",
-        "description": ""
-    },
-    "AXIAL_TILT": {
-        "message": "Axial tilt",
-        "description": ""
-    },
-    "EXTERNAL_VIEW": {
-        "message": "Dış görünüm",
-        "description": ""
-    },
-    "AUTOPILOT": {
-        "message": "Otomatik pilot",
-        "description": ""
-    },
-    "DECREASE_SET_SPEED": {
-        "message": "Decrease set speed",
-        "description": ""
-    },
-    "ZOOM_OUT": {
-        "message": "Uzaklaştır",
-        "description": ""
-    },
-    "CAMERA_RIGHT_VIEW": {
-        "message": "Sağ kamera",
-        "description": ""
-    },
-    "ECONOMIC_INFO": {
-        "message": "Economic info",
-        "description": ""
-    },
-    "THIN": {
-        "message": "thin",
-        "description": ""
-    },
-    "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND": {
-        "message": "Autopilot: Enter medium orbit around %target",
-        "description": ""
-    },
-    "TAKEOFF": {
-        "message": "Takeoff",
-        "description": ""
-    },
-    "ECM_BASIC_DESCRIPTION": {
-        "message": "Elektronik karşı önlem füze savunma sistemi, bazı güdümlü füzeleri yoketme becerisine sahiptir.",
-        "description": ""
-    },
-    "MASS_N_TONNES": {
-        "message": "Mass: %{mass}t",
-        "description": ""
-    },
-    "INCREASE_SCAN_RANGE": {
-        "message": "Increase scanner range",
-        "description": ""
-    },
-    "ROCKY_PLANET": {
-        "message": "\"kayalık gezegen\"",
-        "description": ""
-    },
-    "TOGGLE_SCAN_MODE": {
-        "message": "Tarayıcı biçimini değiştir",
-        "description": ""
-    },
-    "SOME_ESTABLISHED_MINING": {
-        "message": "Some established mining.",
-        "description": ""
-    },
-    "N_WHATEVER_MASSES": {
-        "message": "%mass{f.3} %units masses",
-        "description": ""
-    },
-    "MASSIVE": {
-        "message": "Massive",
-        "description": ""
-    },
-    "FRUIT_AND_VEG": {
-        "message": "Fruit and Veg",
-        "description": ""
-    },
-    "ECCENTRICITY": {
-        "message": "Eccentricity",
-        "description": ""
-    },
-    "LIQUID_OXYGEN_DESCRIPTION": {
-        "message": "Oxygen is required for life support systems and some industrial processes",
-        "description": ""
-    },
-    "N_DAYS": {
-        "message": "%days{f.1} days",
-        "description": ""
-    },
-    "PULSECANNON_DUAL_1MW": {
-        "message": "1MV çift-atış titreşim topu",
-        "description": ""
-    },
-    "WHEELS_ARE_DOWN": {
-        "message": "Tekerler indi",
-        "description": ""
-    },
-    "FINE_PAID_N_BUT_N_REMAINING": {
-        "message": "You have paid %paid but still have an outstanding fine of %fine.",
-        "description": ""
-    },
-    "SELECTED_SYSTEM": {
-        "message": "Selected system",
-        "description": ""
-    },
-    "DRIVE_MIL2": {
-        "message": "Sınıf 2 Askeri Sürücü",
-        "description": ""
-    },
-    "FERTILIZER": {
-        "message": "Fertilizer",
-        "description": ""
-    },
-    "CANT_SAVE_IN_HYPERSPACE": {
-        "message": "Üstuzaydayken oyun kaydedilemez",
-        "description": ""
-    },
-    "STAR_O_WF": {
-        "message": "Wolf-Rayet yıldızı - Çökme çok yakın",
-        "description": ""
-    },
-    "UNLAWFUL_WEAPONS_DISCHARGE": {
-        "message": "Kanun dışı silah kullanımı",
-        "description": ""
-    },
-    "CARGO_LIFE_SUPPORT_DESCRIPTION": {
-        "message": "Allows the transport of live cargo.",
-        "description": ""
-    },
-    "THICK": {
-        "message": "thick",
-        "description": ""
-    },
-    "USE_LOW_THRUST": {
-        "message": "Use low thrust",
-        "description": ""
-    },
-    "S_ATMOSPHERE": {
-        "message": "\" Sulfuric atmosphere\"",
-        "description": ""
-    },
-    "STAR_S_BH": {
-        "message": "A stellar black hole",
-        "description": ""
-    },
-    "TOMBSTONE_EPITAPH": {
-        "message": "RIP OLD BEAN",
-        "description": ""
-    },
-    "STAR_K_SUPER_GIANT": {
-        "message": "Turuncu süper dev yıldız",
-        "description": ""
-    },
-    "OVER_N_BILLION": {
-        "message": "Over %population billion",
-        "description": ""
-    },
-    "SOCIAL_DEMOCRACY": {
-        "message": "Sosyal demokrasi",
-        "description": ""
-    },
-    "H_ATMOSPHERE": {
-        "message": "\" Hydrogen atmosphere\"",
-        "description": ""
-    },
-    "ALT_IN_METRES": {
-        "message": "Alt: %altitude{f.0}m (%vspeed{f.1}m/s)",
-        "description": ""
-    },
-    "VIOLENT_ANARCHY": {
-        "message": "Disorder - Overall governance contested by armed factions",
-        "description": ""
-    },
-    "CAMERA_FRONT_VIEW": {
-        "message": "Ön kamera",
-        "description": ""
-    },
-    "TOGGLE_HUD_MODE": {
-        "message": "HUD biçimini değiştir",
-        "description": ""
-    },
-    "STAR_K_HYPER_GIANT": {
-        "message": "Turuncu hiper dev yıldız - Kararsız",
-        "description": ""
-    },
-    "MONTH_NOV": {
-        "message": "Kas",
-        "description": ""
-    },
-    "QUADRUPLE_SYSTEM": {
-        "message": "Quadruple system",
-        "description": ""
-    },
-    "HEAVY_INDUSTRY": {
-        "message": "Heavy industry.",
-        "description": ""
-    },
-    "LIQUID_OXYGEN": {
-        "message": "Liquid Oxygen",
-        "description": ""
-    },
-    "MAP_WARP_TO_SELECTED_SYSTEM": {
-        "message": "Warp to Selected System",
-        "description": ""
-    },
-    "HYPERSPACE": {
-        "message": "Üstuzay",
-        "description": ""
-    }
+   "AIR_PROCESSORS" : {
+      "description" : "",
+      "message" : "Air processors"
+   },
+   "ALERT_CANCELLED" : {
+      "description" : "",
+      "message" : "Alert cancelled."
+   },
+   "ALLEGIANCE" : {
+      "description" : "",
+      "message" : "Bağlılık:"
+   },
+   "ALT" : {
+      "description" : "Alt key on keyboard",
+      "message" : "Alt"
+   },
+   "ALT_IN_KM" : {
+      "description" : "",
+      "message" : "Alt: %altitude{f.0}km (%vspeed{f.1}km/s)"
+   },
+   "ALT_IN_METRES" : {
+      "description" : "",
+      "message" : "Alt: %altitude{f.0}m (%vspeed{f.1}m/s)"
+   },
+   "AND_HIGHLY_COMPLEX_ECOSYSTEM" : {
+      "description" : "",
+      "message" : "\" and a highly complex ecosystem.\""
+   },
+   "AND_INDIGENOUS_MICROBIAL_LIFE" : {
+      "description" : "",
+      "message" : "\" and indigenous microbial life.\""
+   },
+   "AND_INDIGENOUS_PLANT_LIFE" : {
+      "description" : "",
+      "message" : "\" and indigenous plant life.\""
+   },
+   "ANIMAL_MEAT" : {
+      "description" : "",
+      "message" : "Animal Meat"
+   },
+   "APOAPSIS_DISTANCE" : {
+      "description" : "",
+      "message" : "Apoapsis distance"
+   },
+   "AR_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" Argon atmosphere\""
+   },
+   "ASTEROID" : {
+      "description" : "",
+      "message" : "Asteroid"
+   },
+   "ATMOSPHERIC_SHIELDING" : {
+      "description" : "",
+      "message" : "Atmospheric Shielding"
+   },
+   "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Shields your spaceship from the heat of atmospheric re-entry."
+   },
+   "AUTOPILOT" : {
+      "description" : "",
+      "message" : "Otomatik pilot"
+   },
+   "AUTOPILOT_DESCRIPTION" : {
+      "description" : "",
+      "message" : "An on-board flight computer."
+   },
+   "AUTOPILOT_DOCK_WITH_STATION" : {
+      "description" : "",
+      "message" : "Autopilot: Dock with space station"
+   },
+   "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND" : {
+      "description" : "",
+      "message" : "Autopilot: Enter high orbit around %target"
+   },
+   "AUTOPILOT_ENTER_LOW_ORBIT_AROUND" : {
+      "description" : "",
+      "message" : "Autopilot: Enter low orbit around %target"
+   },
+   "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND" : {
+      "description" : "",
+      "message" : "Autopilot: Enter medium orbit around %target"
+   },
+   "AUTOPILOT_FLY_TO_VICINITY_OF" : {
+      "description" : "",
+      "message" : "Autopilot: Fly to vicinity of %target"
+   },
+   "AUTOPILOT_ON" : {
+      "description" : "",
+      "message" : "Autopilot on"
+   },
+   "AXIAL_TILT" : {
+      "description" : "",
+      "message" : "Axial tilt"
+   },
+   "A_FEW_THOUSAND" : {
+      "description" : "",
+      "message" : "Only a few thousand"
+   },
+   "BATTLE_WEAPONS" : {
+      "description" : "",
+      "message" : "Battle weapons"
+   },
+   "BINARY_SYSTEM" : {
+      "description" : "",
+      "message" : "Binary system"
+   },
+   "BODIES" : {
+      "description" : "",
+      "message" : "bodies"
+   },
+   "BODY" : {
+      "description" : "",
+      "message" : "gövde"
+   },
+   "BROWN_DWARF" : {
+      "description" : "",
+      "message" : "Brown dwarf sub-stellar object"
+   },
+   "BUTTON" : {
+      "description" : "",
+      "message" : "\" Button \""
+   },
+   "CAMERA_BOTTOM_VIEW" : {
+      "description" : "",
+      "message" : "Alt kamera"
+   },
+   "CAMERA_FRONT_VIEW" : {
+      "description" : "",
+      "message" : "Ön kamera"
+   },
+   "CAMERA_LEFT_VIEW" : {
+      "description" : "",
+      "message" : "Sol kamera"
+   },
+   "CAMERA_REAR_VIEW" : {
+      "description" : "",
+      "message" : "Arka kamera"
+   },
+   "CAMERA_RIGHT_VIEW" : {
+      "description" : "",
+      "message" : "Sağ kamera"
+   },
+   "CAMERA_TOP_VIEW" : {
+      "description" : "",
+      "message" : "Üst kamera"
+   },
+   "CANT_SAVE_IN_HYPERSPACE" : {
+      "description" : "",
+      "message" : "Üstuzaydayken oyun kaydedilemez"
+   },
+   "CAPITALIST" : {
+      "description" : "",
+      "message" : "Capitalist"
+   },
+   "CARBON_ORE" : {
+      "description" : "",
+      "message" : "Carbon ore"
+   },
+   "CARBON_ORE_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Carbon ores (coal and oil) are required for the synthesis of many useful chemicals, including plastics, synthetic foodstuffs, medicines and textiles"
+   },
+   "CARGO" : {
+      "description" : "",
+      "message" : "Kargo"
+   },
+   "CARGO_BAY_LIFE_SUPPORT_LOST" : {
+      "description" : "",
+      "message" : "Sensors report critical cargo bay life-support conditions."
+   },
+   "CARGO_LIFE_SUPPORT" : {
+      "description" : "",
+      "message" : "Cargo Bay Life Support"
+   },
+   "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Allows the transport of live cargo."
+   },
+   "CARGO_N" : {
+      "description" : "",
+      "message" : "Cargo: %{mass}t"
+   },
+   "CARGO_SCOOP" : {
+      "description" : "",
+      "message" : "Kargo Toplayıcı"
+   },
+   "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED" : {
+      "description" : "",
+      "message" : "Kargo toplama etkin. 1 ton %item toplandı."
+   },
+   "CARGO_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Kargo kutularını uzaydan toplamaya izin verir."
+   },
+   "CH4_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" Methane atmosphere\""
+   },
+   "CLEARANCE_ALREADY_GRANTED_BAY_N" : {
+      "description" : "",
+      "message" : "Clearance already granted. Proceed to docking bay %bay."
+   },
+   "CLEARANCE_DENIED_NO_BAYS" : {
+      "description" : "",
+      "message" : "Clearance denied. There are no free docking bays."
+   },
+   "CLEARANCE_GRANTED_BAY_N" : {
+      "description" : "",
+      "message" : "Clearance granted. Proceed to docking bay %bay."
+   },
+   "CO2_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" Carbon Dioxide atmosphere\""
+   },
+   "COMMA_HIGHLY_VOLCANIC" : {
+      "description" : "",
+      "message" : ", oldukça volkanik"
+   },
+   "COMMS" : {
+      "description" : "",
+      "message" : "Comms"
+   },
+   "COMMUNIST" : {
+      "description" : "",
+      "message" : "Communist"
+   },
+   "COMPUTERS" : {
+      "description" : "",
+      "message" : "Computers"
+   },
+   "COMPUTER_HEADING_CONTROL" : {
+      "description" : "",
+      "message" : "Bilgisayar yönelim kontrolü"
+   },
+   "COMPUTER_SPEED_CONTROL" : {
+      "description" : "",
+      "message" : "Bilgisayar hız kontrolü"
+   },
+   "CONSUMER_GOODS" : {
+      "description" : "",
+      "message" : "Tüketim Malları"
+   },
+   "CONTROLS" : {
+      "description" : "",
+      "message" : "Kontroller"
+   },
+   "CORPORATE_SYSTEM" : {
+      "description" : "",
+      "message" : "Corporate system"
+   },
+   "COULD_NOT_OPEN_FILENAME" : {
+      "description" : "",
+      "message" : "Could not open %path"
+   },
+   "COUNT_ON_SURFACE" : {
+      "description" : "",
+      "message" : "\" (%surfacecount on surface)\""
+   },
+   "COUNT_STARPORTS" : {
+      "description" : "",
+      "message" : "yıldız limanları"
+   },
+   "CO_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" Carbon Monoxide atmosphere\""
+   },
+   "CTRL" : {
+      "description" : "Ctrl key on keyboard",
+      "message" : "Ctrl"
+   },
+   "CURRENT_SYSTEM" : {
+      "description" : "",
+      "message" : "Current system"
+   },
+   "DATE_DUE_N" : {
+      "description" : "",
+      "message" : "Date due: %date"
+   },
+   "DAY_LENGTH" : {
+      "description" : "",
+      "message" : "Gün uzunluğu"
+   },
+   "DECREASE_SCAN_RANGE" : {
+      "description" : "",
+      "message" : "Decrease scanner range"
+   },
+   "DECREASE_SET_SPEED" : {
+      "description" : "",
+      "message" : "Decrease set speed"
+   },
+   "DEMOGRAPHICS" : {
+      "description" : "",
+      "message" : "Demographics"
+   },
+   "DESTINATION" : {
+      "description" : "",
+      "message" : "Destination"
+   },
+   "DIRECTION" : {
+      "description" : "",
+      "message" : "\" Dir \""
+   },
+   "DISABLED_AUTOMATIC_SYSTEM_SELECTION" : {
+      "description" : "",
+      "message" : "Disabled automatic system selection."
+   },
+   "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
+      "description" : "",
+      "message" : "Distance from ship to navigation target"
+   },
+   "DISTANCE_LY" : {
+      "description" : "",
+      "message" : "Distance: %distance{f.2} ly"
+   },
+   "DOCKED" : {
+      "description" : "",
+      "message" : "Demirlendi"
+   },
+   "DOCKING" : {
+      "description" : "",
+      "message" : "Docking"
+   },
+   "DOCKING_CLEARANCE_EXPIRED" : {
+      "description" : "",
+      "message" : "Docking clearance expired. If you wish to dock you must repeat your request."
+   },
+   "DOWNGRADING_ALERT_STATUS" : {
+      "description" : "",
+      "message" : "No fire detected for 60 seconds, downgrading alert status."
+   },
+   "DRAW_OUT_RANGE_LABELS" : {
+      "description" : "",
+      "message" : "Label out-of-range systems"
+   },
+   "DRAW_UNINHABITED_LABELS" : {
+      "description" : "",
+      "message" : "Label uninhabited systems"
+   },
+   "DRAW_VERTICAL_LINES" : {
+      "description" : "",
+      "message" : "Draw vertical lines"
+   },
+   "DRIVE_CLASS1" : {
+      "description" : "",
+      "message" : "Sınıf 1 Hipersürücü"
+   },
+   "DRIVE_CLASS2" : {
+      "description" : "",
+      "message" : "Sınıf 2 Hipersürücü"
+   },
+   "DRIVE_CLASS3" : {
+      "description" : "",
+      "message" : "Sınıf 3 Hipersürücü"
+   },
+   "DRIVE_CLASS4" : {
+      "description" : "",
+      "message" : "Sınıf 4 Hipersürücü"
+   },
+   "DRIVE_CLASS5" : {
+      "description" : "",
+      "message" : "Sınıf 5 Hipersürücü"
+   },
+   "DRIVE_CLASS6" : {
+      "description" : "",
+      "message" : "Sınıf 6 Hipersürücü"
+   },
+   "DRIVE_CLASS7" : {
+      "description" : "",
+      "message" : "Sınıf 7 Hipersürücü"
+   },
+   "DRIVE_CLASS8" : {
+      "description" : "",
+      "message" : "Sınıf 8 Hipersürücü"
+   },
+   "DRIVE_CLASS9" : {
+      "description" : "",
+      "message" : "Sınıf 9 Hipersürücü"
+   },
+   "DRIVE_MIL1" : {
+      "description" : "",
+      "message" : "Sınıf 1 Askeri Sürücü"
+   },
+   "DRIVE_MIL2" : {
+      "description" : "",
+      "message" : "Sınıf 2 Askeri Sürücü"
+   },
+   "DRIVE_MIL3" : {
+      "description" : "",
+      "message" : "Sınıf 3 Askeri Sürücü"
+   },
+   "DRIVE_MIL4" : {
+      "description" : "",
+      "message" : "Sınıf 4 Askeri Sürücü"
+   },
+   "EARTH" : {
+      "description" : "",
+      "message" : "Earth"
+   },
+   "EARTH_FEDERATION_COLONIAL_RULE" : {
+      "description" : "",
+      "message" : "Earth Federation Colonial Rule"
+   },
+   "EARTH_FEDERATION_DEMOCRACY" : {
+      "description" : "",
+      "message" : "Earth Federation Democracy"
+   },
+   "ECCENTRICITY" : {
+      "description" : "",
+      "message" : "Eccentricity"
+   },
+   "ECM_ADVANCED" : {
+      "description" : "",
+      "message" : "Advanced ECM system"
+   },
+   "ECM_ADVANCED_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Elektronik karşı önlem füze savunma sistemi, daha gelişmiş güdümlü füze türlerini yoketme becerisine sahiptir."
+   },
+   "ECM_BASIC" : {
+      "description" : "",
+      "message" : "ECM system"
+   },
+   "ECM_BASIC_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Elektronik karşı önlem füze savunma sistemi, bazı güdümlü füzeleri yoketme becerisine sahiptir."
+   },
+   "ECONOMIC_INFO" : {
+      "description" : "",
+      "message" : "Economic info"
+   },
+   "ECONOMY_TYPE" : {
+      "description" : "",
+      "message" : "Economy type:"
+   },
+   "ENABLED_AUTOMATIC_SYSTEM_SELECTION" : {
+      "description" : "",
+      "message" : "Enabled automatic system selection."
+   },
+   "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
+      "description" : "",
+      "message" : "Equatorial to polar radius ratio"
+   },
+   "EXACT_MATCH_X" : {
+      "description" : "",
+      "message" : "Exact match: %system"
+   },
+   "EXTENSIVE_MINING" : {
+      "description" : "",
+      "message" : "Kapsamlı madencilik operasyonları"
+   },
+   "EXTERNAL_ATMOSPHERIC_PRESSURE" : {
+      "description" : "",
+      "message" : "External atmospheric pressure"
+   },
+   "EXTERNAL_VIEW" : {
+      "description" : "",
+      "message" : "Dış görünüm"
+   },
+   "FARM_MACHINERY" : {
+      "description" : "",
+      "message" : "Çiftlik makineleri"
+   },
+   "FERTILIZER" : {
+      "description" : "",
+      "message" : "Fertilizer"
+   },
+   "FINE_PAID_N" : {
+      "description" : "",
+      "message" : "You have paid the fine of %fine."
+   },
+   "FINE_PAID_N_BUT_N_REMAINING" : {
+      "description" : "",
+      "message" : "You have paid %paid but still have an outstanding fine of %fine."
+   },
+   "FIRE_LASER" : {
+      "description" : "",
+      "message" : "Lazeri ateşle"
+   },
+   "FIRE_MISSILE" : {
+      "description" : "",
+      "message" : "Füzeyi ateşle"
+   },
+   "FOLLOWING_SELECTION" : {
+      "description" : "",
+      "message" : "following selection"
+   },
+   "FRONT" : {
+      "description" : "",
+      "message" : "Front"
+   },
+   "FRUIT_AND_VEG" : {
+      "description" : "",
+      "message" : "Fruit and Veg"
+   },
+   "FUEL" : {
+      "description" : "",
+      "message" : "Yakıt"
+   },
+   "FUEL_SCOOP" : {
+      "description" : "",
+      "message" : "Yakıt Toplayıcı"
+   },
+   "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED" : {
+      "description" : "",
+      "message" : "Yakıt toplama etkin. Şimdi %quantity ton hidrojeniniz var"
+   },
+   "FUEL_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Hidrojen yakıtını gaz devi gezegenlerden toplamaya izin verir."
+   },
+   "GALACTIC_VIEW" : {
+      "description" : "",
+      "message" : "Galaktik görünüm"
+   },
+   "GALAXY_SECTOR_VIEW" : {
+      "description" : "",
+      "message" : "Galaksi sektör görünümü"
+   },
+   "GAME_LOAD_CANNOT_OPEN" : {
+      "description" : "",
+      "message" : "This saved game file could not be opened due to permissions or something..."
+   },
+   "GAME_LOAD_CORRUPT" : {
+      "description" : "",
+      "message" : "This saved game cannot be loaded because it contains errors."
+   },
+   "GAME_LOAD_WRONG_VERSION" : {
+      "description" : "",
+      "message" : "This saved game cannot be loaded because it was created by a different version of Pioneer."
+   },
+   "GAME_SAVED_TO" : {
+      "description" : "",
+      "message" : "\"Game saved to \""
+   },
+   "GAME_SAVE_CANNOT_WRITE" : {
+      "description" : "",
+      "message" : "This saved game file could not be written because of a system error."
+   },
+   "GENERAL_VIEW_CONTROLS" : {
+      "description" : "",
+      "message" : "Genel Görünüm Kontrolleri"
+   },
+   "GOVERNMENT_TYPE" : {
+      "description" : "",
+      "message" : "Government type:"
+   },
+   "GRAIN" : {
+      "description" : "",
+      "message" : "Grain"
+   },
+   "HAND_WEAPONS" : {
+      "description" : "",
+      "message" : "El Silahları"
+   },
+   "HARD_CAPITALIST" : {
+      "description" : "",
+      "message" : "Entirely Capitalist - no government welfare provision"
+   },
+   "HAT" : {
+      "description" : "",
+      "message" : "\" Hat\""
+   },
+   "HEADING_LOCK_BACKWARD" : {
+      "description" : "",
+      "message" : "Heading Lock (aft)"
+   },
+   "HEADING_LOCK_FORWARD" : {
+      "description" : "",
+      "message" : "Heading Lock (fore)"
+   },
+   "HEAVY_INDUSTRY" : {
+      "description" : "",
+      "message" : "Heavy industry."
+   },
+   "HE_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" Helium atmosphere\""
+   },
+   "HIGHLY_VOLCANIC" : {
+      "description" : "",
+      "message" : "Highly volcanic"
+   },
+   "HIGH_POPULATION_OUTDOOR_WORLD" : {
+      "description" : "",
+      "message" : "High population outdoor world."
+   },
+   "HULL_AUTOREPAIR" : {
+      "description" : "",
+      "message" : "Gövde Oto-Tamir Sistemi"
+   },
+   "HULL_AUTOREPAIR_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Automatically repairs the ship's hull in the event of damage."
+   },
+   "HULL_INTEGRITY" : {
+      "description" : "",
+      "message" : "Gövde bütünlüğü"
+   },
+   "HULL_TEMP" : {
+      "description" : "",
+      "message" : "Hull temp"
+   },
+   "HYDROGEN" : {
+      "description" : "",
+      "message" : "Hydrogen"
+   },
+   "HYDROGEN_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Hydrogen is primarily used as a fusion fuel"
+   },
+   "HYPERCLOUD_ANALYZER" : {
+      "description" : "",
+      "message" : "Hiperbulut İnceleyici"
+   },
+   "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Hedefi ve varış veya ayrılış zamanını belirlemek için üstuzay bulutunu inceleyin"
+   },
+   "HYPERSPACE" : {
+      "description" : "",
+      "message" : "Üstuzay"
+   },
+   "HYPERSPACE_ARRIVAL_CLOUD" : {
+      "description" : "",
+      "message" : "Üstuzay varış bulutu"
+   },
+   "HYPERSPACE_ARRIVAL_CLOUD_REMNANT" : {
+      "description" : "",
+      "message" : "Üstuzay varış bulutu kalıntısı"
+   },
+   "HYPERSPACE_DEPARTURE_CLOUD" : {
+      "description" : "",
+      "message" : "Üstuzay ayrılış bulutu"
+   },
+   "HYPERSPACE_JUMP" : {
+      "description" : "",
+      "message" : "Üstuzay Sıçrayışı"
+   },
+   "HYPERSPACE_JUMP_ABORTED" : {
+      "description" : "",
+      "message" : "Üstuzay sıçrayışı iptal edildi."
+   },
+   "HYPERSPACE_TARGET" : {
+      "description" : "",
+      "message" : "Üstuzay hedefi"
+   },
+   "HYPERSPACING_IN_N_SECONDS" : {
+      "description" : "",
+      "message" : "%countdown{f.0} saniye içinde üstuzaya giriliyor"
+   },
+   "H_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" Hydrogen atmosphere\""
+   },
+   "ICE_WORLD" : {
+      "description" : "",
+      "message" : "\" ice world\""
+   },
+   "ILLEGAL_GOODS" : {
+      "description" : "",
+      "message" : "Illegal Goods:"
+   },
+   "IMPERIAL_RULE" : {
+      "description" : "",
+      "message" : "Imperial Rule"
+   },
+   "INCREASE_SCAN_RANGE" : {
+      "description" : "",
+      "message" : "Increase scanner range"
+   },
+   "INCREASE_SET_SPEED" : {
+      "description" : "",
+      "message" : "Increase set speed"
+   },
+   "INDUSTRIAL_COLONY" : {
+      "description" : "",
+      "message" : "Endüstriyel Koloni"
+   },
+   "INDUSTRIAL_HUB_SYSTEM" : {
+      "description" : "",
+      "message" : "Industrial hub system."
+   },
+   "INDUSTRIAL_MACHINERY" : {
+      "description" : "",
+      "message" : "Endüstriyel makineler"
+   },
+   "INTERNAL_VIEW" : {
+      "description" : "",
+      "message" : "İç görünüm"
+   },
+   "INT_LY" : {
+      "description" : "",
+      "message" : "%scale ly"
+   },
+   "IN_TRANSIT" : {
+      "description" : "",
+      "message" : "In transit"
+   },
+   "IN_TRANSIT_TO_N_X_X_X" : {
+      "description" : "",
+      "message" : "In transit to %system [%x,%y,%z]"
+   },
+   "JOY" : {
+      "description" : "",
+      "message" : "Neşe"
+   },
+   "JOYSTICK_INPUT" : {
+      "description" : "",
+      "message" : "Joystick input"
+   },
+   "JOY_AXIS" : {
+      "description" : "",
+      "message" : "%{sign}Joy%joynum %axis Axis"
+   },
+   "KM_S_RELATIVE_TO" : {
+      "description" : "",
+      "message" : "%speed{f.2} km/s rel-to %frame"
+   },
+   "LANDED" : {
+      "description" : "",
+      "message" : "İnildi"
+   },
+   "LANG_NAME" : {
+      "description" : "The name that native speakers use for this language. This will be used in the language selection screen. For obscure reasons this currently must only use Latin-1 characters.",
+      "message" : "Türkçe"
+   },
+   "LARGE" : {
+      "description" : "",
+      "message" : "Large"
+   },
+   "LARGE_GAS_GIANT" : {
+      "description" : "",
+      "message" : "Büyük gaz devi"
+   },
+   "LARGE_PLASMA_ACCEL" : {
+      "description" : "",
+      "message" : "Büyük plazma hızlandırıcı"
+   },
+   "LASER_COOLING_BOOSTER" : {
+      "description" : "",
+      "message" : "Laser Soğutma Hızlandırıcısı"
+   },
+   "LASER_COOLING_BOOSTER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "An improved cooling system for your weapons."
+   },
+   "LASER_FIRE_DETECTED" : {
+      "description" : "",
+      "message" : "Lazer atışı algılandı."
+   },
+   "LAUNCH_PERMISSION_DENIED_BUSY" : {
+      "description" : "",
+      "message" : "Permission to launch denied: docking bay busy."
+   },
+   "LIBERAL_DEMOCRACY" : {
+      "description" : "",
+      "message" : "Liberal democracy"
+   },
+   "LIQUID_OXYGEN" : {
+      "description" : "",
+      "message" : "Liquid Oxygen"
+   },
+   "LIQUID_OXYGEN_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Oxygen is required for life support systems and some industrial processes"
+   },
+   "LIQUOR" : {
+      "description" : "",
+      "message" : "Liquor"
+   },
+   "LIVE_ANIMALS" : {
+      "description" : "",
+      "message" : "Live Animals"
+   },
+   "LOCKED" : {
+      "description" : "",
+      "message" : "locked"
+   },
+   "MAJOR_EXPORTS" : {
+      "description" : "",
+      "message" : "Baş İhracatlar:"
+   },
+   "MAJOR_IMPORTS" : {
+      "description" : "",
+      "message" : "Major Imports:"
+   },
+   "MANUAL_CONTROL" : {
+      "description" : "",
+      "message" : "Elle kontrol"
+   },
+   "MANUAL_CONTROL_MODE" : {
+      "description" : "",
+      "message" : "Elle kontrol"
+   },
+   "MAP_LOCK_HYPERSPACE_TARGET" : {
+      "description" : "",
+      "message" : "Üstuzay Hedefini Kilitle"
+   },
+   "MAP_TOGGLE_INFO_PANEL" : {
+      "description" : "",
+      "message" : "Bilgi panelini aç/kapa"
+   },
+   "MAP_TOGGLE_SELECTION_FOLLOW_VIEW" : {
+      "description" : "",
+      "message" : "Seçim Takip Görünümü Aç/Kapa"
+   },
+   "MAP_VIEW_ROTATE_DOWN" : {
+      "description" : "",
+      "message" : "Görünümü Aşağı Döndür"
+   },
+   "MAP_VIEW_ROTATE_LEFT" : {
+      "description" : "",
+      "message" : "Görünümü Sola Döndür"
+   },
+   "MAP_VIEW_ROTATE_RIGHT" : {
+      "description" : "",
+      "message" : "Görünümü Sağa Döndür"
+   },
+   "MAP_VIEW_ROTATE_UP" : {
+      "description" : "",
+      "message" : "Görünümü Yukarı Döndür"
+   },
+   "MAP_VIEW_SHIFT_BACKWARD" : {
+      "description" : "",
+      "message" : "Görünümü Geriye Kaydır"
+   },
+   "MAP_VIEW_SHIFT_DOWN" : {
+      "description" : "",
+      "message" : "Görünümü Aşağı Kaydır"
+   },
+   "MAP_VIEW_SHIFT_FORWARD" : {
+      "description" : "",
+      "message" : "Görünümü İleri Kaydır"
+   },
+   "MAP_VIEW_SHIFT_LEFT" : {
+      "description" : "",
+      "message" : "Görünümü Sola Kaydır"
+   },
+   "MAP_VIEW_SHIFT_RIGHT" : {
+      "description" : "",
+      "message" : "Görünümü Sağa Kaydır"
+   },
+   "MAP_VIEW_SHIFT_UP" : {
+      "description" : "",
+      "message" : "Görünümü Yukarı Kaydır"
+   },
+   "MAP_WARP_TO_CURRENT_SYSTEM" : {
+      "description" : "",
+      "message" : "Warp to Current System"
+   },
+   "MAP_WARP_TO_HYPERSPACE_TARGET" : {
+      "description" : "",
+      "message" : "Üstuzay Hedefine Sıçra"
+   },
+   "MAP_WARP_TO_SELECTED_SYSTEM" : {
+      "description" : "",
+      "message" : "Warp to Selected System"
+   },
+   "MASS" : {
+      "description" : "",
+      "message" : "Kütle"
+   },
+   "MASSIVE" : {
+      "description" : "",
+      "message" : "Massive"
+   },
+   "MASS_N_TONNES" : {
+      "description" : "",
+      "message" : "Mass: %{mass}t"
+   },
+   "MEDICINES" : {
+      "description" : "",
+      "message" : "Medicines"
+   },
+   "MEDIUM_GAS_GIANT" : {
+      "description" : "",
+      "message" : "Medium gas giant"
+   },
+   "MESSAGE_FROM_X" : {
+      "description" : "",
+      "message" : "Message from %sender:"
+   },
+   "META" : {
+      "description" : "'Meta' key on keyboard",
+      "message" : "Meta"
+   },
+   "METAL_ALLOYS" : {
+      "description" : "",
+      "message" : "Metal alaşımları"
+   },
+   "METAL_ORE" : {
+      "description" : "",
+      "message" : "Metal ore"
+   },
+   "MILITARY_DICTATORSHIP" : {
+      "description" : "",
+      "message" : "Askeri Diktatörlük"
+   },
+   "MILITARY_FUEL" : {
+      "description" : "",
+      "message" : "Military fuel"
+   },
+   "MININGCANNON_17MW" : {
+      "description" : "",
+      "message" : "17MV madencilik topu"
+   },
+   "MININGCANNON_17MW_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Used to blast-mine mineral rich asteroids."
+   },
+   "MINING_COLONY" : {
+      "description" : "",
+      "message" : "Mining colony."
+   },
+   "MINING_MACHINERY" : {
+      "description" : "",
+      "message" : "Maden makineleri"
+   },
+   "MINOR_EXPORTS" : {
+      "description" : "",
+      "message" : "Minor Exports:"
+   },
+   "MINOR_IMPORTS" : {
+      "description" : "",
+      "message" : "Minor Imports:"
+   },
+   "MISCELLANEOUS" : {
+      "description" : "",
+      "message" : "Miscellaneous"
+   },
+   "MISSILE" : {
+      "description" : "",
+      "message" : "füze"
+   },
+   "MISSILE_GUIDED" : {
+      "description" : "",
+      "message" : "Güdümlü füze"
+   },
+   "MISSILE_NAVAL" : {
+      "description" : "",
+      "message" : "Donanma füzesi"
+   },
+   "MISSILE_SMART" : {
+      "description" : "",
+      "message" : "Akıllı füze"
+   },
+   "MISSILE_UNGUIDED" : {
+      "description" : "",
+      "message" : "R40 Unguided Rocket"
+   },
+   "MIXED_ECONOMY" : {
+      "description" : "",
+      "message" : "Mixed economy"
+   },
+   "MONTH_APR" : {
+      "description" : "",
+      "message" : "Apr"
+   },
+   "MONTH_AUG" : {
+      "description" : "",
+      "message" : "Ağu"
+   },
+   "MONTH_DEC" : {
+      "description" : "",
+      "message" : "Dec"
+   },
+   "MONTH_FEB" : {
+      "description" : "",
+      "message" : "Şub"
+   },
+   "MONTH_JAN" : {
+      "description" : "",
+      "message" : "Oca"
+   },
+   "MONTH_JUL" : {
+      "description" : "",
+      "message" : "Tem"
+   },
+   "MONTH_JUN" : {
+      "description" : "",
+      "message" : "Jun"
+   },
+   "MONTH_MAR" : {
+      "description" : "",
+      "message" : "Mar"
+   },
+   "MONTH_MAY" : {
+      "description" : "",
+      "message" : "May"
+   },
+   "MONTH_NOV" : {
+      "description" : "",
+      "message" : "Kas"
+   },
+   "MONTH_OCT" : {
+      "description" : "",
+      "message" : "Eki"
+   },
+   "MONTH_SEP" : {
+      "description" : "",
+      "message" : "Sep"
+   },
+   "MURDER" : {
+      "description" : "",
+      "message" : "Cinayet"
+   },
+   "M_S_RELATIVE_TO" : {
+      "description" : "",
+      "message" : "%speed{f.0} m/s rel-to %frame"
+   },
+   "NAME_OBJECT" : {
+      "description" : "For an item or object",
+      "message" : "İsim"
+   },
+   "NAME_PERSON" : {
+      "description" : "For a person",
+      "message" : "İsim"
+   },
+   "NARCOTICS" : {
+      "description" : "",
+      "message" : "Narcotics"
+   },
+   "NAVIGATION_STAR_MAPS" : {
+      "description" : "",
+      "message" : "Navigasyon ve yıldız haritaları"
+   },
+   "NAVIGATION_TARGETS_IN_THIS_SYSTEM" : {
+      "description" : "",
+      "message" : "Navigation targets in this system"
+   },
+   "NERVE_GAS" : {
+      "description" : "",
+      "message" : "Nerve Gas"
+   },
+   "NONE" : {
+      "description" : "",
+      "message" : "Yok"
+   },
+   "NORMA_ARM" : {
+      "description" : "",
+      "message" : "Norma arm"
+   },
+   "NOT_FOUND" : {
+      "description" : "",
+      "message" : "Not found"
+   },
+   "NOT_FOUND_BEST_MATCH_X" : {
+      "description" : "",
+      "message" : "Not found, best match: %system"
+   },
+   "NO_ALERT" : {
+      "description" : "",
+      "message" : "No alert"
+   },
+   "NO_CENTRAL_GOVERNANCE" : {
+      "description" : "",
+      "message" : "No central governance"
+   },
+   "NO_ESTABLISHED_ORDER" : {
+      "description" : "",
+      "message" : "No established order"
+   },
+   "NO_HYPERDRIVE" : {
+      "description" : "",
+      "message" : "Hipersürücü yok"
+   },
+   "NO_REGISTERED_INHABITANTS" : {
+      "description" : "",
+      "message" : "No registered inhabitants"
+   },
+   "NO_TARGET_SELECTED" : {
+      "description" : "",
+      "message" : "Ship Computer: No target selected"
+   },
+   "NUMBER_DAYS" : {
+      "description" : "",
+      "message" : "%days{f.0} days"
+   },
+   "NUMBER_G" : {
+      "description" : "",
+      "message" : "%acceleration{f.1} G"
+   },
+   "NUMBER_HOURS" : {
+      "description" : "",
+      "message" : "%hours{f.1} hrs"
+   },
+   "NUMBER_LY" : {
+      "description" : "",
+      "message" : "%distance{f.2} ly"
+   },
+   "NUMBER_TONNES" : {
+      "description" : "",
+      "message" : "%{mass}t"
+   },
+   "N_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" Nitrogen atmosphere\""
+   },
+   "N_CELSIUS" : {
+      "description" : "",
+      "message" : "%temperature C"
+   },
+   "N_DAYS" : {
+      "description" : "",
+      "message" : "%days{f.1} days"
+   },
+   "N_DEGREES" : {
+      "description" : "",
+      "message" : "%angle{f.1} degrees"
+   },
+   "N_DISTANCE_TO_TARGET" : {
+      "description" : "",
+      "message" : "%distance to target"
+   },
+   "N_EARTH_DAYS" : {
+      "description" : "",
+      "message" : "%days{f.1} earth days"
+   },
+   "N_WHATEVER_MASSES" : {
+      "description" : "",
+      "message" : "%mass{f.3} %units masses"
+   },
+   "N_WHATEVER_RADII" : {
+      "description" : "",
+      "message" : "%radius{f.3} %units radii (%radkm{f.0} km)"
+   },
+   "N_YEARS" : {
+      "description" : "",
+      "message" : "%years{f.1} years"
+   },
+   "O2_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" Oxygen atmosphere\""
+   },
+   "OCEANICWORLD" : {
+      "description" : "",
+      "message" : "\" oceanic world\""
+   },
+   "ORBITAL_PERIOD" : {
+      "description" : "",
+      "message" : "Orbital period"
+   },
+   "ORBITAL_STARPORT" : {
+      "description" : "",
+      "message" : "Yörünge yıldız limanı"
+   },
+   "OUTDOOR_AGRICULTURAL_WORLD" : {
+      "description" : "",
+      "message" : "Outdoor agricultural world."
+   },
+   "OUTER_ARM" : {
+      "description" : "",
+      "message" : "Outer arm"
+   },
+   "OVER_N_BILLION" : {
+      "description" : "",
+      "message" : "Over %population billion"
+   },
+   "OVER_N_MILLION" : {
+      "description" : "",
+      "message" : "Over %population million"
+   },
+   "PASSENGER_CABIN" : {
+      "description" : "",
+      "message" : "Dolu Yolcu Kabini"
+   },
+   "PAUSED" : {
+      "description" : "",
+      "message" : "PAUSED"
+   },
+   "PAY_FINE_REMOTELY" : {
+      "description" : "",
+      "message" : "Pay fine by remote transfer (%amount)"
+   },
+   "PERIAPSIS_DISTANCE" : {
+      "description" : "",
+      "message" : "Periapsis distance"
+   },
+   "PERSEUS_ARM" : {
+      "description" : "",
+      "message" : "Perseus arm"
+   },
+   "PIONEER" : {
+      "description" : "",
+      "message" : "PIONEER"
+   },
+   "PIRACY" : {
+      "description" : "",
+      "message" : "Korsanlık"
+   },
+   "PITCH" : {
+      "description" : "",
+      "message" : "Pitch"
+   },
+   "PITCH_DOWN" : {
+      "description" : "",
+      "message" : "Pitch down"
+   },
+   "PITCH_UP" : {
+      "description" : "",
+      "message" : "Pitch up"
+   },
+   "PLANETARY_INFO" : {
+      "description" : "",
+      "message" : "Gezegen bilgisi"
+   },
+   "PLANET_CONTAINING_LIQUID_WATER" : {
+      "description" : "",
+      "message" : "\"su içeren gezegen\""
+   },
+   "PLANET_WITH_SOME_ICE" : {
+      "description" : "",
+      "message" : "\"biraz buzlu gezegen\""
+   },
+   "PLANNED_ECONOMY" : {
+      "description" : "",
+      "message" : "Centrally planned economy"
+   },
+   "PLASTICS" : {
+      "description" : "",
+      "message" : "Plastics"
+   },
+   "PLUTOCRATIC_DICTATORSHIP" : {
+      "description" : "",
+      "message" : "Plutocratic dictatorship"
+   },
+   "POLICE_SHIP_REGISTRATION" : {
+      "description" : "",
+      "message" : "POLICE"
+   },
+   "POPULATION" : {
+      "description" : "",
+      "message" : "Population:"
+   },
+   "PRECIOUS_METALS" : {
+      "description" : "",
+      "message" : "Precious metals"
+   },
+   "PRESSURE_N_ATMOSPHERES" : {
+      "description" : "",
+      "message" : "P: %pressure{f.2} atm"
+   },
+   "PROBABILITY_OF_ARRIVAL_X_PERCENT" : {
+      "description" : "",
+      "message" : "Probability of arrival: %probability%%"
+   },
+   "PULSECANNON_10MW" : {
+      "description" : "",
+      "message" : "10MV titreşim topu"
+   },
+   "PULSECANNON_1MW" : {
+      "description" : "",
+      "message" : "1MV titreşim topu"
+   },
+   "PULSECANNON_20MW" : {
+      "description" : "",
+      "message" : "20MV titreşim topu"
+   },
+   "PULSECANNON_2MW" : {
+      "description" : "",
+      "message" : "2MV titreşim topu"
+   },
+   "PULSECANNON_4MW" : {
+      "description" : "",
+      "message" : "4MV titreşim topu"
+   },
+   "PULSECANNON_DUAL_1MW" : {
+      "description" : "",
+      "message" : "1MV çift-atış titreşim topu"
+   },
+   "PULSECANNON_RAPID_2MW" : {
+      "description" : "",
+      "message" : "2MW hızlı-atış titreşim topu"
+   },
+   "QUADRUPLE_SYSTEM" : {
+      "description" : "",
+      "message" : "Quadruple system"
+   },
+   "RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "Radar Mapper"
+   },
+   "RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Used to remotely inspect the equipment, cargo and state of other ships."
+   },
+   "RADIOACTIVES" : {
+      "description" : "",
+      "message" : "Radioactive waste"
+   },
+   "RADIUS" : {
+      "description" : "",
+      "message" : "Radius"
+   },
+   "REAR" : {
+      "description" : "",
+      "message" : "Rear"
+   },
+   "REQUEST_DOCKING_CLEARANCE" : {
+      "description" : "",
+      "message" : "Request docking clearance"
+   },
+   "RESET" : {
+      "description" : "",
+      "message" : "Reset"
+   },
+   "RESET_ORIENTATION_AND_ZOOM" : {
+      "description" : "",
+      "message" : "Reset Orientation and Zoom"
+   },
+   "ROBOTS" : {
+      "description" : "",
+      "message" : "Robotlar"
+   },
+   "ROCKY_PLANET" : {
+      "description" : "",
+      "message" : "\"kayalık gezegen\""
+   },
+   "ROCKY_PLANET_CONTAINING_COME_LIQUIDS" : {
+      "description" : "",
+      "message" : "\"bazı sıvılar içeren kayalık gezegen,\""
+   },
+   "ROLL" : {
+      "description" : "",
+      "message" : "Roll"
+   },
+   "ROLL_LEFT" : {
+      "description" : "",
+      "message" : "Roll left"
+   },
+   "ROLL_RIGHT" : {
+      "description" : "",
+      "message" : "Roll right"
+   },
+   "ROTATE_DOWN" : {
+      "description" : "",
+      "message" : "Rotate Down"
+   },
+   "ROTATE_LEFT" : {
+      "description" : "",
+      "message" : "Rotate Left"
+   },
+   "ROTATE_RIGHT" : {
+      "description" : "",
+      "message" : "Rotate Right"
+   },
+   "ROTATE_UP" : {
+      "description" : "",
+      "message" : "Rotate Up"
+   },
+   "ROTATIONAL_PERIOD" : {
+      "description" : "",
+      "message" : "\" (rotational period)\""
+   },
+   "ROTATION_DAMPING_OFF" : {
+      "description" : "",
+      "message" : "Rotation damping off"
+   },
+   "ROTATION_DAMPING_ON" : {
+      "description" : "",
+      "message" : "Rotation damping on"
+   },
+   "RUBBISH" : {
+      "description" : "",
+      "message" : "Rubbish"
+   },
+   "SAGITTARIUS_ARM" : {
+      "description" : "",
+      "message" : "Sagittarius arm"
+   },
+   "SCANNER" : {
+      "description" : "",
+      "message" : "Tarayıcı"
+   },
+   "SCANNER_CONTROL" : {
+      "description" : "",
+      "message" : "Tarayıcı kontrolü"
+   },
+   "SCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Provides a 3D map of nearby ships."
+   },
+   "SCREENSHOT_FILENAME_TEMPLATE" : {
+      "description" : "",
+      "message" : "screenshot%index{d08}.png"
+   },
+   "SCUTUM_CENTAURUS_ARM" : {
+      "description" : "",
+      "message" : "Scutum-Centaurus arm"
+   },
+   "SEARCH" : {
+      "description" : "",
+      "message" : "Search"
+   },
+   "SEARCH_MAP" : {
+      "description" : "",
+      "message" : "Search Map"
+   },
+   "SECTOR_COORDINATES" : {
+      "description" : "",
+      "message" : "Sektör kordinatları:"
+   },
+   "SECTOR_MAP_VIEW" : {
+      "description" : "",
+      "message" : "Sektör Harita Görünümü"
+   },
+   "SECTOR_X_Y_Z" : {
+      "description" : "",
+      "message" : "Sector: %x,%y,%z"
+   },
+   "SELECTED_SYSTEM" : {
+      "description" : "",
+      "message" : "Selected system"
+   },
+   "SELECT_A_TARGET" : {
+      "description" : "",
+      "message" : "Select a target"
+   },
+   "SELECT_LOW_THRUST_POWER_LEVEL" : {
+      "description" : "",
+      "message" : "Select low thrust power level"
+   },
+   "SEMI_MAJOR_AXIS" : {
+      "description" : "",
+      "message" : "Semi-major axis"
+   },
+   "SET_HYPERSPACE_DESTINATION_TO" : {
+      "description" : "",
+      "message" : "Üstuzay hedefini %system olarak ayarlayın"
+   },
+   "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE" : {
+      "description" : "",
+      "message" : "Üstuzay bulutu inceleyici: Bu ayrılışı takip için üstuzay hedefini ayarlayın."
+   },
+   "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT" : {
+      "description" : "",
+      "message" : "Set low thrust power level to %power%%"
+   },
+   "SET_SPEED_KM_S" : {
+      "description" : "",
+      "message" : "Set speed: %speed{f.2} km/s"
+   },
+   "SET_SPEED_M_S" : {
+      "description" : "",
+      "message" : "Set speed: %speed{f.0} m/s"
+   },
+   "SHIELD_ENERGY_BOOSTER" : {
+      "description" : "",
+      "message" : "Shield Energy Booster"
+   },
+   "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Increases the rate at which shields recharge."
+   },
+   "SHIELD_GENERATOR" : {
+      "description" : "",
+      "message" : "Shield Generator"
+   },
+   "SHIELD_GENERATOR_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Provides additional hull defences with each unit fitted."
+   },
+   "SHIELD_INTEGRITY" : {
+      "description" : "",
+      "message" : "Shield integrity"
+   },
+   "SHIELD_STRENGTH_N" : {
+      "description" : "",
+      "message" : "Shield strength: %shields{f.2}"
+   },
+   "SHIFT" : {
+      "description" : "Shift key on keyboard",
+      "message" : "Shift"
+   },
+   "SHIP" : {
+      "description" : "",
+      "message" : "Gemi"
+   },
+   "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
+      "description" : "",
+      "message" : "Ship altitude above terrain"
+   },
+   "SHIP_DETECTED_NEARBY" : {
+      "description" : "",
+      "message" : "Ship detected nearby."
+   },
+   "SHIP_INFORMATION" : {
+      "description" : "",
+      "message" : "Ship information"
+   },
+   "SHIP_MASS_N_TONNES" : {
+      "description" : "",
+      "message" : "Ship mass: %{mass}t"
+   },
+   "SHIP_NEARBY" : {
+      "description" : "",
+      "message" : "Ship nearby"
+   },
+   "SHIP_ORIENTATION" : {
+      "description" : "",
+      "message" : "Ship orientation"
+   },
+   "SHIP_VELOCITY_BY_REFERENCE_OBJECT" : {
+      "description" : "",
+      "message" : "Ship velocity by reference object"
+   },
+   "SIDEREAL_VIEW" : {
+      "description" : "",
+      "message" : "yıldıza göre görünüm"
+   },
+   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
+      "description" : "",
+      "message" : "Simulating evolution of the universe: %age{f.1} billion years ;-)"
+   },
+   "SLAVES" : {
+      "description" : "",
+      "message" : "Slaves"
+   },
+   "SMALL" : {
+      "description" : "",
+      "message" : "Small"
+   },
+   "SMALL_GAS_GIANT" : {
+      "description" : "",
+      "message" : "Small gas giant"
+   },
+   "SMALL_INDUSTRIAL_OUTPOST" : {
+      "description" : "",
+      "message" : "Small industrial outpost."
+   },
+   "SMALL_PLASMA_ACCEL" : {
+      "description" : "",
+      "message" : "Küçük plazma hızlandırıcı"
+   },
+   "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS" : {
+      "description" : "",
+      "message" : "Small-scale prospecting. No registered settlements."
+   },
+   "SOCIAL_DEMOCRACY" : {
+      "description" : "",
+      "message" : "Sosyal demokrasi"
+   },
+   "SOLAR" : {
+      "description" : "",
+      "message" : "Solar"
+   },
+   "SOME_ESTABLISHED_MINING" : {
+      "description" : "",
+      "message" : "Some established mining."
+   },
+   "SOURCE" : {
+      "description" : "",
+      "message" : "Origin"
+   },
+   "SPEED_CONTROL_MODE" : {
+      "description" : "",
+      "message" : "Hız kontrol"
+   },
+   "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS" : {
+      "description" : "",
+      "message" : "Stable system with %bodycount major %{body(s)} and %portcount %{starport(s)}"
+   },
+   "STARPORT" : {
+      "description" : "",
+      "message" : "Yıldız limanı"
+   },
+   "STARPORTS" : {
+      "description" : "",
+      "message" : "Yıldız limanları"
+   },
+   "STAR_A" : {
+      "description" : "",
+      "message" : "Tip 'A' sıcak beyaz yıldız"
+   },
+   "STAR_AF_GIANT" : {
+      "description" : "",
+      "message" : "Beyaz dev yıldız"
+   },
+   "STAR_AF_HYPER_GIANT" : {
+      "description" : "",
+      "message" : "Beyaz hiper dev yıldız"
+   },
+   "STAR_AF_SUPER_GIANT" : {
+      "description" : "",
+      "message" : "Beyaz süper dev yıldız"
+   },
+   "STAR_B" : {
+      "description" : "",
+      "message" : "Parlak tip 'B' mavi yıldız"
+   },
+   "STAR_B_GIANT" : {
+      "description" : "",
+      "message" : "Mavi dev yıldız"
+   },
+   "STAR_B_HYPER_GIANT" : {
+      "description" : "",
+      "message" : "Mavi hiper dev yıldız"
+   },
+   "STAR_B_SUPER_GIANT" : {
+      "description" : "",
+      "message" : "Mavi süper dev yıldız"
+   },
+   "STAR_B_WF" : {
+      "description" : "",
+      "message" : "Wolf-Rayet yıldızı - Çökme riski"
+   },
+   "STAR_F" : {
+      "description" : "",
+      "message" : "Tip 'F' beyaz yıldız"
+   },
+   "STAR_G" : {
+      "description" : "",
+      "message" : "Tip 'G' sarı yıldız"
+   },
+   "STAR_G_GIANT" : {
+      "description" : "",
+      "message" : "Sarı dev yıldız - Kararsız"
+   },
+   "STAR_G_HYPER_GIANT" : {
+      "description" : "",
+      "message" : "Sarı hiper dev yıldız - Kararsız"
+   },
+   "STAR_G_SUPER_GIANT" : {
+      "description" : "",
+      "message" : "Sarı süper dev yıldız"
+   },
+   "STAR_IM_BH" : {
+      "description" : "",
+      "message" : "An intermediate-mass black hole"
+   },
+   "STAR_K" : {
+      "description" : "",
+      "message" : "Tip 'K' turuncu yıldız"
+   },
+   "STAR_K_GIANT" : {
+      "description" : "",
+      "message" : "Turuncu dev yıldız - Kararsız"
+   },
+   "STAR_K_HYPER_GIANT" : {
+      "description" : "",
+      "message" : "Turuncu hiper dev yıldız - Kararsız"
+   },
+   "STAR_K_SUPER_GIANT" : {
+      "description" : "",
+      "message" : "Turuncu süper dev yıldız"
+   },
+   "STAR_M" : {
+      "description" : "",
+      "message" : "Tip 'M' kırmızı yıldız"
+   },
+   "STAR_M_GIANT" : {
+      "description" : "",
+      "message" : "Kırmızı dev yıldız"
+   },
+   "STAR_M_HYPER_GIANT" : {
+      "description" : "",
+      "message" : "Kırmızı hiper dev yıldız"
+   },
+   "STAR_M_SUPER_GIANT" : {
+      "description" : "",
+      "message" : "Kırmızı süper dev yıldız"
+   },
+   "STAR_M_WF" : {
+      "description" : "",
+      "message" : "Wolf-Rayet yıldızı - Kararsız"
+   },
+   "STAR_O" : {
+      "description" : "",
+      "message" : "Sıcak, devasa tip 'O' yıldız"
+   },
+   "STAR_O_GIANT" : {
+      "description" : "",
+      "message" : "Sıcak mavi dev yıldız"
+   },
+   "STAR_O_HYPER_GIANT" : {
+      "description" : "",
+      "message" : "Sıcak mavi hiper dev yıldız"
+   },
+   "STAR_O_SUPER_GIANT" : {
+      "description" : "",
+      "message" : "Sıcak mavi süper dev yıldız"
+   },
+   "STAR_O_WF" : {
+      "description" : "",
+      "message" : "Wolf-Rayet yıldızı - Çökme çok yakın"
+   },
+   "STAR_SM_BH" : {
+      "description" : "",
+      "message" : "Our galactic anchor"
+   },
+   "STAR_SYSTEM_INFORMATION" : {
+      "description" : "",
+      "message" : "Yıldız sistemi bilgisi"
+   },
+   "STAR_S_BH" : {
+      "description" : "",
+      "message" : "A stellar black hole"
+   },
+   "SUGGESTED_RESPONSES" : {
+      "description" : "",
+      "message" : "Suggested responses:"
+   },
+   "SURFACE_GRAVITY" : {
+      "description" : "",
+      "message" : "Surface gravity"
+   },
+   "SURFACE_TEMPERATURE" : {
+      "description" : "",
+      "message" : "Surface temperature"
+   },
+   "SYSTEM" : {
+      "description" : "",
+      "message" : "System"
+   },
+   "SYSTEM_NUMBER" : {
+      "description" : "",
+      "message" : "System number:"
+   },
+   "SYSTEM_ORBIT_VIEW" : {
+      "description" : "",
+      "message" : "Sistem yörünge görünümü"
+   },
+   "SYSTEM_TYPE" : {
+      "description" : "",
+      "message" : "System type:"
+   },
+   "S_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" Sulfuric atmosphere\""
+   },
+   "TAKEOFF" : {
+      "description" : "",
+      "message" : "Takeoff"
+   },
+   "TARGET_OBJECT_IN_SIGHTS" : {
+      "description" : "",
+      "message" : "Target object in cross-hairs"
+   },
+   "TENUOUS" : {
+      "description" : "",
+      "message" : "tenuous"
+   },
+   "TEXTILES" : {
+      "description" : "",
+      "message" : "Textiles"
+   },
+   "THICK" : {
+      "description" : "",
+      "message" : "thick"
+   },
+   "THIN" : {
+      "description" : "",
+      "message" : "thin"
+   },
+   "THRIVING_OUTDOOR_WORLD" : {
+      "description" : "",
+      "message" : "Thriving outdoor world."
+   },
+   "THRUSTER_DORSAL" : {
+      "description" : "",
+      "message" : "Thrust down"
+   },
+   "THRUSTER_MAIN" : {
+      "description" : "",
+      "message" : "Thrust forward"
+   },
+   "THRUSTER_PORT" : {
+      "description" : "",
+      "message" : "Thrust left"
+   },
+   "THRUSTER_RETRO" : {
+      "description" : "",
+      "message" : "Thrust backwards"
+   },
+   "THRUSTER_STARBOARD" : {
+      "description" : "",
+      "message" : "Thrust right"
+   },
+   "THRUSTER_VENTRAL" : {
+      "description" : "",
+      "message" : "Thrust up"
+   },
+   "TIME_POINT" : {
+      "description" : "",
+      "message" : "Time point:"
+   },
+   "TINY" : {
+      "description" : "",
+      "message" : "Minik"
+   },
+   "TOGGLE_HUD_MODE" : {
+      "description" : "",
+      "message" : "HUD biçimini değiştir"
+   },
+   "TOGGLE_LUA_CONSOLE" : {
+      "description" : "",
+      "message" : "Lua konsolunu aç/kapa"
+   },
+   "TOGGLE_ROTATION_DAMPING" : {
+      "description" : "",
+      "message" : "Dönüş durdurmayı aç/kapa"
+   },
+   "TOGGLE_SCAN_MODE" : {
+      "description" : "",
+      "message" : "Tarayıcı biçimini değiştir"
+   },
+   "TOMBSTONE_EPITAPH" : {
+      "description" : "",
+      "message" : "RIP OLD BEAN"
+   },
+   "TRADING_ILLEGAL_GOODS" : {
+      "description" : "",
+      "message" : "Kanun dışı mal ticareti"
+   },
+   "TRIPLE_SYSTEM" : {
+      "description" : "",
+      "message" : "Triple system"
+   },
+   "UNEXPLORED_SYSTEM_NO_DATA" : {
+      "description" : "",
+      "message" : "Unexplored system. No more data available."
+   },
+   "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW" : {
+      "description" : "",
+      "message" : "Keşfedilmemiş sistem. Sistem görünümü mevcut değil."
+   },
+   "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
+      "description" : "",
+      "message" : "Keşfedilmemiş Sistem. Yıldız bilgisi uzak bir teleskop tarafından toplandı, fakat gezegen bilgisi mecut değil."
+   },
+   "UNKNOWN" : {
+      "description" : "",
+      "message" : "<unknown>"
+   },
+   "UNLAWFUL_WEAPONS_DISCHARGE" : {
+      "description" : "",
+      "message" : "Kanun dışı silah kullanımı"
+   },
+   "UNOCCUPIED_CABIN" : {
+      "description" : "",
+      "message" : "Extra Passenger Cabin"
+   },
+   "UNOCCUPIED_CABIN_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Required for transport of a single passenger"
+   },
+   "USE_LOW_THRUST" : {
+      "description" : "",
+      "message" : "Use low thrust"
+   },
+   "VAST_STRIP_MINE" : {
+      "description" : "",
+      "message" : "Vast strip-mining colony."
+   },
+   "VERY_DENSE" : {
+      "description" : "",
+      "message" : "very dense"
+   },
+   "VERY_LARGE_GAS_GIANT" : {
+      "description" : "",
+      "message" : "Very large gas giant"
+   },
+   "VID_CONNECTING" : {
+      "description" : "",
+      "message" : "Bağlanılıyor..."
+   },
+   "VID_LINK_ESTABLISHED" : {
+      "description" : "",
+      "message" : "Video link established"
+   },
+   "VIEW" : {
+      "description" : "",
+      "message" : "Görünüm"
+   },
+   "VIOLENT_ANARCHY" : {
+      "description" : "",
+      "message" : "Disorder - Overall governance contested by armed factions"
+   },
+   "WATER" : {
+      "description" : "",
+      "message" : "Su"
+   },
+   "WEAPONS" : {
+      "description" : "",
+      "message" : "Weapons"
+   },
+   "WEAPON_TEMP" : {
+      "description" : "",
+      "message" : "Weapon temp"
+   },
+   "WHEELS_ARE_DOWN" : {
+      "description" : "",
+      "message" : "Tekerler indi"
+   },
+   "WHEELS_ARE_UP" : {
+      "description" : "",
+      "message" : "Wheels are up"
+   },
+   "WHITE_DWARF" : {
+      "description" : "",
+      "message" : "White dwarf stellar remnant"
+   },
+   "WITH_A" : {
+      "description" : "",
+      "message" : "\"ile\""
+   },
+   "WITH_NO_SIGNIFICANT_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" with no significant atmosphere\""
+   },
+   "X" : {
+      "description" : "",
+      "message" : "X"
+   },
+   "X_CANNOT_BE_TOLERATED_HERE" : {
+      "description" : "",
+      "message" : "%crime cannot be tolerated here."
+   },
+   "Y" : {
+      "description" : "",
+      "message" : "Y"
+   },
+   "YAW" : {
+      "description" : "",
+      "message" : "Yaw"
+   },
+   "YAW_LEFT" : {
+      "description" : "",
+      "message" : "Yaw left"
+   },
+   "YAW_RIGHT" : {
+      "description" : "",
+      "message" : "Yaw right"
+   },
+   "YOUNG_FARMING_COLONY" : {
+      "description" : "",
+      "message" : "Young farming colony."
+   },
+   "YOU_NO_MONEY" : {
+      "description" : "",
+      "message" : "You do not have any money."
+   },
+   "Z" : {
+      "description" : "",
+      "message" : "Z"
+   },
+   "ZOOM_IN" : {
+      "description" : "",
+      "message" : "Zoom in"
+   },
+   "ZOOM_OUT" : {
+      "description" : "",
+      "message" : "Uzaklaştır"
+   }
 }

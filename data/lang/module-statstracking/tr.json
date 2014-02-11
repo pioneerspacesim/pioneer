@@ -1,10 +1,10 @@
 {
-    "WELL_DONE_COMMANDER_YOUR_COMBAT_RATING_HAS_IMPROVED": {
-        "message": "İyi iş komutanım! Savaş düzeyiniz yükseldi!",
-        "description": ""
-    },
-    "PIONEERING_PILOTS_GUILD": {
-        "message": "Öncü Pilotlar Birliği",
-        "description": ""
-    }
+   "PIONEERING_PILOTS_GUILD" : {
+      "description" : "",
+      "message" : "Öncü Pilotlar Birliği"
+   },
+   "WELL_DONE_COMMANDER_YOUR_COMBAT_RATING_HAS_IMPROVED" : {
+      "description" : "",
+      "message" : "İyi iş komutanım! Savaş düzeyiniz yükseldi!"
+   }
 }
