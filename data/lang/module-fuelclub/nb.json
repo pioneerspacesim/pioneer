@@ -1,70 +1,70 @@
 {
-   "APPLY_FOR_MEMBERSHIP" : {
-      "description" : "",
-      "message" : "Søk om medlemskap"
-   },
-   "BEGIN_TRADE" : {
-      "description" : "",
-      "message" : "Begynn handel"
-   },
-   "FLAVOUR_0_CLUBNAME" : {
-      "description" : "",
-      "message" : "Interplanetariske Piloters Drivstoffsamarbeid"
-   },
-   "FLAVOUR_0_MEMBER_INTRO" : {
-      "description" : "",
-      "message" : "Du kan kjøpe drivstoff og kvitte deg med {radioactives} her."
-   },
-   "FLAVOUR_0_NONMEMBER_INTRO" : {
-      "description" : "",
-      "message" : "{clubname} en en uavhengig organisasjon som jobber for å skaffe rabbatert drivstoff til sine medlemmer. Deler av organisasjonen finnes over hele galaksen.\nFordelene med medlemskap inkluderer:\n\n⇥* Vår egen forsyning av drivstoff, uavhengig av det offentlige markedet\n⇥* {hydrogen} til rabbaterte priser\n⇥ {military_fuel} til rabbaterte priser\n⇥*{water} til rabbaterte priser\n⇥* {radioactives}, gratis avheding (noen vilkår gjelder)\n⇥* Fylling av drivstoff, når nødvendig\n\nBli medlem nå! Årlig medlemskap koster kun  {membership_fee}"
-   },
-   "FLAVOUR_0_WELCOME" : {
-      "description" : "",
-      "message" : "Velkomen til {clubname}"
-   },
-   "GO_BACK" : {
-      "description" : "",
-      "message" : "Gå tilbake"
-   },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Legg på."
-   },
-   "HYDROGEN" : {
-      "description" : "",
-      "message" : "Hydrogen"
-   },
-   "MILITARY_FUEL" : {
-      "description" : "",
-      "message" : "Millitært drivstoff"
-   },
-   "RADIOACTIVES" : {
-      "description" : "",
-      "message" : "Radioaktivt avfall"
-   },
-   "WATER" : {
-      "description" : "",
-      "message" : "Vann"
-   },
-   "WE_WILL_ONLY_DISPOSE_OF" : {
-      "description" : "",
-      "message" : "Vi vil bare ta imot like mange tonn av {radioactives} som du har kjøpt av {military_fuel} fra oss."
-   },
-   "WHAT_CONDITIONS_APPLY" : {
-      "description" : "",
-      "message" : "Hvilke muligheter er det for å bli kvitt {radioactives}?"
-   },
-   "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED" : {
-      "description" : "",
-      "message" : "Din søknad om medlemskap har blitt avslått."
-   },
-   "YOU_ARE_NOW_A_MEMBER" : {
-      "description" : "",
-      "message" : "Du har nå blitt medlem. Ditt medlemskap er gyldig til {expiry_date}."
-   },
-   "YOU_MUST_BUY" : {
-      "description" : "",
-      "message" : "Du må kjøpe vår {military_fuel} før vi vil ta imot {radioactives} fra deg."
-   }
+    "MILITARY_FUEL": {
+        "message": "Millitært drivstoff",
+        "description": ""
+    },
+    "YOU_MUST_BUY": {
+        "message": "Du må kjøpe vår {military_fuel} før vi vil ta imot {radioactives} fra deg.",
+        "description": ""
+    },
+    "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED": {
+        "message": "Din søknad om medlemskap har blitt avslått.",
+        "description": ""
+    },
+    "FLAVOUR_0_WELCOME": {
+        "message": "Velkomen til {clubname}",
+        "description": ""
+    },
+    "GO_BACK": {
+        "message": "Gå tilbake",
+        "description": ""
+    },
+    "YOU_ARE_NOW_A_MEMBER": {
+        "message": "Du har nå blitt medlem. Ditt medlemskap er gyldig til {expiry_date}.",
+        "description": ""
+    },
+    "HYDROGEN": {
+        "message": "Hydrogen",
+        "description": ""
+    },
+    "RADIOACTIVES": {
+        "message": "Radioaktivt avfall",
+        "description": ""
+    },
+    "FLAVOUR_0_CLUBNAME": {
+        "message": "Interplanetariske Piloters Drivstoffsamarbeid",
+        "description": ""
+    },
+    "HANG_UP": {
+        "message": "Legg på.",
+        "description": ""
+    },
+    "WATER": {
+        "message": "Vann",
+        "description": ""
+    },
+    "BEGIN_TRADE": {
+        "message": "Begynn handel",
+        "description": ""
+    },
+    "APPLY_FOR_MEMBERSHIP": {
+        "message": "Søk om medlemskap",
+        "description": ""
+    },
+    "FLAVOUR_0_MEMBER_INTRO": {
+        "message": "Du kan kjøpe drivstoff og kvitte deg med {radioactives} her.",
+        "description": ""
+    },
+    "FLAVOUR_0_NONMEMBER_INTRO": {
+        "message": "{clubname} en en uavhengig organisasjon som jobber for å skaffe rabbatert drivstoff til sine medlemmer. Deler av organisasjonen finnes over hele galaksen.\nFordelene med medlemskap inkluderer:\n\n⇥* Vår egen forsyning av drivstoff, uavhengig av det offentlige markedet\n⇥* {hydrogen} til rabbaterte priser\n⇥ {military_fuel} til rabbaterte priser\n⇥*{water} til rabbaterte priser\n⇥* {radioactives}, gratis avheding (noen vilkår gjelder)\n⇥* Fylling av drivstoff, når nødvendig\n\nBli medlem nå! Årlig medlemskap koster kun  {membership_fee}",
+        "description": ""
+    },
+    "WHAT_CONDITIONS_APPLY": {
+        "message": "Hvilke muligheter er det for å bli kvitt {radioactives}?",
+        "description": ""
+    },
+    "WE_WILL_ONLY_DISPOSE_OF": {
+        "message": "Vi vil bare ta imot like mange tonn av {radioactives} som du har kjøpt av {military_fuel} fra oss.",
+        "description": ""
+    }
 }

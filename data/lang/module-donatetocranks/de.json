@@ -1,66 +1,66 @@
 {
-   "FLAVOUR_0_MESSAGE" : {
-      "description" : "",
-      "message" : "Bitte wähle eine Summe um an die Kirche des Fliegenden Himmel-Spagettimonster zu spenden."
-   },
-   "FLAVOUR_0_TITLE" : {
-      "description" : "",
-      "message" : "SPENDE! Die Kirche des Fliegenden Himmel-Spagettimonster braucht DEIN Geld, um das Wort von Gott zu verbreiten!"
-   },
-   "FLAVOUR_1_MESSAGE" : {
-      "description" : "",
-      "message" : "Friede sei mit dir, Bruder. Bitte wähle die Summe, die du den Wächtern des Freien Geistes spenden möchtest."
-   },
-   "FLAVOUR_1_TITLE" : {
-      "description" : "",
-      "message" : "SPENDE. Die Wächter des Freien Geistes appellieren demütig an Ihre Wohltätigkeit, um unsere Klöster zu unterstützen."
-   },
-   "FLAVOUR_2_MESSAGE" : {
-      "description" : "",
-      "message" : "Bitte wähle die Summe, die du der Kriegswaisen-Unterstützung spenden willst, um damit das Leiden von Kindern aus der ganzen Galaxie zu lindern."
-   },
-   "FLAVOUR_2_TITLE" : {
-      "description" : "",
-      "message" : "IN SPENDENLAUNE? Die Kriegswaisen-Unterstützung braucht deine Hilfe um die Lebenswichtige Arbeit weiterzuführen."
-   },
-   "FLAVOUR_3_MESSAGE" : {
-      "description" : "",
-      "message" : "Bitte wähle eine Summe, die du GreenWatch spenden willst, um die Verschmutzung unserer Galaxie zu beenden."
-   },
-   "FLAVOUR_3_TITLE" : {
-      "description" : "",
-      "message" : "TRAGE BEI. Die Freundde der Galaktischen 'Verbot Militärischer Antriebe' Kampagne braucht dein Geld."
-   },
-   "FLAVOUR_4_MESSAGE" : {
-      "description" : "",
-      "message" : "Bitte wähle aus, wie viel du spenden willst."
-   },
-   "FLAVOUR_4_TITLE" : {
-      "description" : "",
-      "message" : "SPENDE! Rette unsere Spezies. Stoppe das Massensterben auf neu besiedelten Welten."
-   },
-   "FLAVOUR_5_MESSAGE" : {
-      "description" : "",
-      "message" : "Befreie dein Schiff! Wähle deinen Spendenbetrag. Fröhliches Hacken!"
-   },
-   "FLAVOUR_5_TITLE" : {
-      "description" : "",
-      "message" : "UNTERSTÜTZE FREIHEIT! Nieder mit der proprietären Software, die dein Schiff kontrolliert."
-   },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Auflegen."
-   },
-   "THANK_YOU_ALL_DONATIONS_ARE_WELCOME" : {
-      "description" : "",
-      "message" : "Danke. Alle Spenden sind wilkommen."
-   },
-   "WOW_THAT_WAS_VERY_GENEROUS" : {
-      "description" : "",
-      "message" : "Wow! Das war sehr großzügig."
-   },
-   "YOU_DO_NOT_HAVE_ENOUGH_MONEY" : {
-      "description" : "",
-      "message" : "Du hast nicht genug Geld."
-   }
+    "YOU_DO_NOT_HAVE_ENOUGH_MONEY": {
+        "message": "Du hast nicht genug Geld.",
+        "description": ""
+    },
+    "FLAVOUR_3_TITLE": {
+        "message": "TRAGE BEI. Die Freundde der Galaktischen 'Verbot Militärischer Antriebe' Kampagne braucht dein Geld.",
+        "description": ""
+    },
+    "FLAVOUR_4_TITLE": {
+        "message": "SPENDE! Rette unsere Spezies. Stoppe das Massensterben auf neu besiedelten Welten.",
+        "description": ""
+    },
+    "FLAVOUR_2_MESSAGE": {
+        "message": "Bitte wähle die Summe, die du der Kriegswaisen-Unterstützung spenden willst, um damit das Leiden von Kindern aus der ganzen Galaxie zu lindern.",
+        "description": ""
+    },
+    "WOW_THAT_WAS_VERY_GENEROUS": {
+        "message": "Wow! Das war sehr großzügig.",
+        "description": ""
+    },
+    "FLAVOUR_0_MESSAGE": {
+        "message": "Bitte wähle eine Summe um an die Kirche des Fliegenden Himmel-Spagettimonster zu spenden.",
+        "description": ""
+    },
+    "FLAVOUR_3_MESSAGE": {
+        "message": "Bitte wähle eine Summe, die du GreenWatch spenden willst, um die Verschmutzung unserer Galaxie zu beenden.",
+        "description": ""
+    },
+    "FLAVOUR_1_TITLE": {
+        "message": "SPENDE. Die Wächter des Freien Geistes appellieren demütig an Ihre Wohltätigkeit, um unsere Klöster zu unterstützen.",
+        "description": ""
+    },
+    "FLAVOUR_5_MESSAGE": {
+        "message": "Befreie dein Schiff! Wähle deinen Spendenbetrag. Fröhliches Hacken!",
+        "description": ""
+    },
+    "FLAVOUR_1_MESSAGE": {
+        "message": "Friede sei mit dir, Bruder. Bitte wähle die Summe, die du den Wächtern des Freien Geistes spenden möchtest.",
+        "description": ""
+    },
+    "FLAVOUR_2_TITLE": {
+        "message": "IN SPENDENLAUNE? Die Kriegswaisen-Unterstützung braucht deine Hilfe um die Lebenswichtige Arbeit weiterzuführen.",
+        "description": ""
+    },
+    "HANG_UP": {
+        "message": "Auflegen.",
+        "description": ""
+    },
+    "FLAVOUR_0_TITLE": {
+        "message": "SPENDE! Die Kirche des Fliegenden Himmel-Spagettimonster braucht DEIN Geld, um das Wort von Gott zu verbreiten!",
+        "description": ""
+    },
+    "FLAVOUR_4_MESSAGE": {
+        "message": "Bitte wähle aus, wie viel du spenden willst.",
+        "description": ""
+    },
+    "FLAVOUR_5_TITLE": {
+        "message": "UNTERSTÜTZE FREIHEIT! Nieder mit der proprietären Software, die dein Schiff kontrolliert.",
+        "description": ""
+    },
+    "THANK_YOU_ALL_DONATIONS_ARE_WELCOME": {
+        "message": "Danke. Alle Spenden sind wilkommen.",
+        "description": ""
+    }
 }

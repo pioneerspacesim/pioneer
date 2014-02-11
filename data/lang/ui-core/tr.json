@@ -1,986 +1,986 @@
 {
-   "ABOVE_AVERAGE" : {
-      "description" : "",
-      "message" : "Ortalama Üstü"
-   },
-   "ACTIVE" : {
-      "description" : "",
-      "message" : "Aktif"
-   },
-   "AFTER_TRADE_IN" : {
-      "description" : "",
-      "message" : "Takastan sonra"
-   },
-   "ALLEGIANCE" : {
-      "description" : "",
-      "message" : "Bağlılık:"
-   },
-   "ALL_UP_WEIGHT" : {
-      "description" : "",
-      "message" : "Tam yüklü ağırlık"
-   },
-   "AMOUNT" : {
-      "description" : "",
-      "message" : "Miktar"
-   },
-   "AN_ERROR_HAS_OCCURRED" : {
-      "description" : "",
-      "message" : "Bir hata oluştu"
-   },
-   "ATTEMPT_TO_REPAIR_HULL" : {
-      "description" : "",
-      "message" : "Gövdeyi tamir etmeyi dene"
-   },
-   "AVAILABLE_FOR_PURCHASE" : {
-      "description" : "",
-      "message" : "Satın alınabilir"
-   },
-   "AVERAGE" : {
-      "description" : "",
-      "message" : "Ortalama"
-   },
-   "BACKWARD_ACCEL" : {
-      "description" : "",
-      "message" : "Geri ivme"
-   },
-   "BULLETIN_BOARD" : {
-      "description" : "",
-      "message" : "İlan tahtası"
-   },
-   "BUY_SHIP" : {
-      "description" : "",
-      "message" : "Gemi Al"
-   },
-   "CABINS" : {
-      "description" : "",
-      "message" : "Kabinler"
-   },
-   "CABIN_FREE" : {
-      "description" : "",
-      "message" : "{amount} boş"
-   },
-   "CABIN_USED" : {
-      "description" : "",
-      "message" : "{amount} kullanılan"
-   },
-   "CANCEL" : {
-      "description" : "",
-      "message" : "Vazgeç"
-   },
-   "CAPACITY" : {
-      "description" : "",
-      "message" : "Kapasite"
-   },
-   "CAPACITY_USED" : {
-      "description" : "",
-      "message" : "Kapasite kullanımı"
-   },
-   "CARGO" : {
-      "description" : "",
-      "message" : "Kargo"
-   },
-   "CARGO_SPACE" : {
-      "description" : "",
-      "message" : "Kargo boşluğu"
-   },
-   "CARGO_T_FREE" : {
-      "description" : "",
-      "message" : "{amount}t boş"
-   },
-   "CARGO_T_USED" : {
-      "description" : "",
-      "message" : "{amount}t kullanılan"
-   },
-   "CASH" : {
-      "description" : "",
-      "message" : "Nakit"
-   },
-   "CASH_N" : {
-      "description" : "",
-      "message" : "Para: {money}"
-   },
-   "CHANGE_BINDING" : {
-      "description" : "",
-      "message" : "Atamayı Değiştir"
-   },
-   "CHIEF_MECHANIC" : {
-      "description" : "",
-      "message" : "Şef Tamirci"
-   },
-   "CIRCULAR_ORBIT_SPEED" : {
-      "description" : "",
-      "message" : "Dairesel yörünge hızı"
-   },
-   "CITY_DETAIL_LEVEL" : {
-      "description" : "",
-      "message" : "Şehir detay seviyesi"
-   },
-   "CLEAN" : {
-      "description" : "",
-      "message" : "Temiz"
-   },
-   "CLEAR" : {
-      "description" : "",
-      "message" : "Temizle"
-   },
-   "CLIENT" : {
-      "description" : "",
-      "message" : "Müşteri"
-   },
-   "COMBAT" : {
-      "description" : "",
-      "message" : "Savaş"
-   },
-   "COMMANDER" : {
-      "description" : "",
-      "message" : "Komutan"
-   },
-   "COMMODITY_MARKET" : {
-      "description" : "",
-      "message" : "Ticari Mal Pazarı"
-   },
-   "COMPETENT" : {
-      "description" : "",
-      "message" : "Mücadeleci"
-   },
-   "COMPLETED" : {
-      "description" : "",
-      "message" : "Tamamlandı"
-   },
-   "COMPRESS_TEXTURES" : {
-      "description" : "",
-      "message" : "Dokuları Sıkıştır"
-   },
-   "CONSTABLE" : {
-      "description" : "",
-      "message" : "Güvenlik amiri"
-   },
-   "CONTROLS" : {
-      "description" : "",
-      "message" : "Kontroller"
-   },
-   "CONTROL_OPTIONS" : {
-      "description" : "",
-      "message" : "Kontrol Seçenekleri"
-   },
-   "COULD_NOT_LOAD_GAME" : {
-      "description" : "",
-      "message" : "Oyun yüklenemiyor:"
-   },
-   "CREW_CABINS" : {
-      "description" : "",
-      "message" : "Mürettebat kabinleri"
-   },
-   "CREW_ROSTER" : {
-      "description" : "",
-      "message" : "Mürettebat Listesi"
-   },
-   "CRIMINAL_RECORD" : {
-      "description" : "",
-      "message" : "Suç kaydı"
-   },
-   "DANGEROUS" : {
-      "description" : "",
-      "message" : "Tehlikeli"
-   },
-   "DEADLY" : {
-      "description" : "",
-      "message" : "Ölümcül"
-   },
-   "DELTA_V" : {
-      "description" : "",
-      "message" : "Delta-v"
-   },
-   "DELTA_V_EMPTY" : {
-      "description" : "Delta-v capacity of a ship with no cargo or upgrades",
-      "message" : "Delta-v (boş)"
-   },
-   "DELTA_V_FULL" : {
-      "description" : "Delta-v capacity of a ship with maximum cargo",
-      "message" : "Delta-v (dolu)"
-   },
-   "DELTA_V_MAX" : {
-      "description" : "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
-      "message" : "Delta-v (en çok)"
-   },
-   "DESCENT_TO_GROUND_SPEED" : {
-      "description" : "",
-      "message" : "Yere-alçalma hızı"
-   },
-   "DESTROY_ENEMY_SHIP" : {
-      "description" : "",
-      "message" : "Düşman gemisini yoket"
-   },
-   "DISMISS" : {
-      "description" : "",
-      "message" : "Gidebilirsin"
-   },
-   "DISPLAY_HUD_TRAILS" : {
-      "description" : "",
-      "message" : "HUD izlerini görüntüle"
-   },
-   "DISPLAY_NAV_TUNNELS" : {
-      "description" : "",
-      "message" : "Nav tünellerini görüntüle"
-   },
-   "DISPLAY_SPEED_LINES" : {
-      "description" : "",
-      "message" : "Hız çizgilerini görüntüle"
-   },
-   "DOCK_AT_CURRENT_TARGET" : {
-      "description" : "",
-      "message" : "Mevcut hedefe demirle"
-   },
-   "DUE" : {
-      "description" : "",
-      "message" : "Süresi gelen"
-   },
-   "D_DAYS_LEFT" : {
-      "description" : "",
-      "message" : "Kalan gün: %d"
-   },
-   "ECONOMY_TRADE" : {
-      "description" : "",
-      "message" : "Ekonomi ve Ticaret"
-   },
-   "EFFECTS" : {
-      "description" : "",
-      "message" : "Efektler:"
-   },
-   "ELITE" : {
-      "description" : "",
-      "message" : "ELITE"
-   },
-   "EMPLOYMENT" : {
-      "description" : "",
-      "message" : "İş"
-   },
-   "ENABLE_COCKPIT" : {
-      "description" : "",
-      "message" : "Kokpiti etkinleştir (DENEYSEL)"
-   },
-   "ENABLE_JOYSTICK" : {
-      "description" : "",
-      "message" : "Oyun kumandası aktif"
-   },
-   "ENGINEERING" : {
-      "description" : "",
-      "message" : "Mühendislik:"
-   },
-   "EQUIPMENT" : {
-      "description" : "",
-      "message" : "Ekipman"
-   },
-   "EQUIPMENT_MARKET" : {
-      "description" : "",
-      "message" : "Ekipman Pazarı"
-   },
-   "EQUIPPED" : {
-      "description" : "",
-      "message" : "Kullanımda"
-   },
-   "ERROR" : {
-      "description" : "",
-      "message" : "Hata"
-   },
-   "ESCAPE_SPEED" : {
-      "description" : "",
-      "message" : "Kaçış hızı:"
-   },
-   "EXIT_THIS_GAME" : {
-      "description" : "",
-      "message" : "Oyundan çık"
-   },
-   "FAILED" : {
-      "description" : "",
-      "message" : "Başarısız oldu"
-   },
-   "FEMALE" : {
-      "description" : "",
-      "message" : "Kadın"
-   },
-   "FORWARD_ACCEL" : {
-      "description" : "",
-      "message" : "İleri ivme"
-   },
-   "FORWARD_ACCEL_EMPTY" : {
-      "description" : "",
-      "message" : "İleri ivme (boş)"
-   },
-   "FORWARD_ACCEL_FULL" : {
-      "description" : "",
-      "message" : "İleri ivme (dolu)"
-   },
-   "FRACTAL_DETAIL" : {
-      "description" : "",
-      "message" : "Fraktal detay"
-   },
-   "FREE" : {
-      "description" : "",
-      "message" : "boş"
-   },
-   "FRONT_WEAPON" : {
-      "description" : "",
-      "message" : "Ön silah"
-   },
-   "FUEL" : {
-      "description" : "",
-      "message" : "Yakıt"
-   },
-   "FUEL_TANK_FULL" : {
-      "description" : "",
-      "message" : "Yakıt tankı dolu."
-   },
-   "FUEL_WEIGHT" : {
-      "description" : "",
-      "message" : "Yakıt ağırlığı"
-   },
-   "FULL_SCREEN" : {
-      "description" : "",
-      "message" : "Tam ekran"
-   },
-   "GENERAL_CREW" : {
-      "description" : "",
-      "message" : "Genel mürettebat"
-   },
-   "GIVE_ORDERS_TO_CREW" : {
-      "description" : "",
-      "message" : "Mürettebata emirler ver"
-   },
-   "GOOD_RIDDANCE_TO_YOU_TOO" : {
-      "description" : "",
-      "message" : "Sana da iyi şanslar."
-   },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Bekle."
-   },
-   "HARMLESS" : {
-      "description" : "",
-      "message" : "Zararsız"
-   },
-   "HEAVY_CARGO_SHUTTLE" : {
-      "description" : "",
-      "message" : "Ağır kargo gemisi"
-   },
-   "HEAVY_COURIER" : {
-      "description" : "",
-      "message" : "Ağır kurye gemisi"
-   },
-   "HEAVY_FIGHTER" : {
-      "description" : "",
-      "message" : "Ağır savaş gemisi"
-   },
-   "HEAVY_FREIGHTER" : {
-      "description" : "",
-      "message" : "Ağır yük gemisi"
-   },
-   "HEAVY_PASSENGER_SHUTTLE" : {
-      "description" : "",
-      "message" : "Ağır yolcu mekiği"
-   },
-   "HEAVY_PASSENGER_TRANSPORT" : {
-      "description" : "",
-      "message" : "Ağır yolcu gemisi"
-   },
-   "HIGH" : {
-      "description" : "",
-      "message" : "Yüksek"
-   },
-   "HULL_DOES_NOT_REQUIRE_REPAIR" : {
-      "description" : "",
-      "message" : "Gövde tamir gerektirmiyor."
-   },
-   "HULL_INTEGRITY" : {
-      "description" : "",
-      "message" : "Gövde bütünlüğü"
-   },
-   "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT" : {
-      "description" : "",
-      "message" : "Gövde {name} tarafından tamir edildi, şu anda %{repairPercent}"
-   },
-   "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE" : {
-      "description" : "",
-      "message" : "Gövde tamir girişimi başarısız. Gövde düşük hasara uğradı."
-   },
-   "HYPERDRIVE" : {
-      "description" : "",
-      "message" : "Hipersürücü"
-   },
-   "HYPERDRIVE_FITTED" : {
-      "description" : "",
-      "message" : "Mevcut hipersürücü:"
-   },
-   "HYPERSPACE_RANGE" : {
-      "description" : "",
-      "message" : "Üstuzay menzili"
-   },
-   "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
-      "description" : "",
-      "message" : "Bedava çalışmaktan bıktım. Sözleşmenin ne demek olduğunu bilmiyor musun?"
-   },
-   "INACTIVE" : {
-      "description" : "",
-      "message" : "Devre dışı"
-   },
-   "INVERT_MOUSE_Y" : {
-      "description" : "",
-      "message" : "Ters Fare Y"
-   },
-   "IN_CARGO_HOLD" : {
-      "description" : "",
-      "message" : "Kargo bölmesinde"
-   },
-   "IN_STOCK" : {
-      "description" : "",
-      "message" : "Stokta"
-   },
-   "ITEM_IS_OUT_OF_STOCK" : {
-      "description" : "",
-      "message" : "Bu ürün stokta yok."
-   },
-   "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE" : {
-      "description" : "",
-      "message" : "Sizin için çalışmak çok iyiydi. Bana tekrar ihtiyacınız olursa bir süre daha buralardayım"
-   },
-   "JETTISON" : {
-      "description" : "",
-      "message" : "Fırlat"
-   },
-   "KILLS" : {
-      "description" : "",
-      "message" : "Ölenler:"
-   },
-   "LANGUAGE" : {
-      "description" : "",
-      "message" : "Dil"
-   },
-   "LANGUAGE_RESTART_GAME_TO_APPLY" : {
-      "description" : "",
-      "message" : "Dil (uygulamak için yeniden başlatın)"
-   },
-   "LEGAL_STATUS" : {
-      "description" : "",
-      "message" : "Yasal durum"
-   },
-   "LIGHT_CARGO_SHUTTLE" : {
-      "description" : "",
-      "message" : "Hafif kargo mekiği"
-   },
-   "LIGHT_COURIER" : {
-      "description" : "",
-      "message" : "Hafif kurye gemisi"
-   },
-   "LIGHT_FIGHTER" : {
-      "description" : "",
-      "message" : "Hafif savaş gemisi"
-   },
-   "LIGHT_FREIGHTER" : {
-      "description" : "",
-      "message" : "Hafif yük gemisi"
-   },
-   "LIGHT_PASSENGER_SHUTTLE" : {
-      "description" : "",
-      "message" : "Hafif yolcu mekiği"
-   },
-   "LIGHT_PASSENGER_TRANSPORT" : {
-      "description" : "",
-      "message" : "Hafif yolcu gemisi"
-   },
-   "LOAD" : {
-      "description" : "",
-      "message" : "Yükle"
-   },
-   "LOAD_GAME" : {
-      "description" : "",
-      "message" : "Oyun yükle"
-   },
-   "LOBBY" : {
-      "description" : "",
-      "message" : "Lobi"
-   },
-   "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
-      "description" : "",
-      "message" : " {name} merkezinden {distance}km uzaklıkta:"
-   },
-   "LOCATION" : {
-      "description" : "",
-      "message" : "Konum"
-   },
-   "LOW" : {
-      "description" : "",
-      "message" : "Düşük"
-   },
-   "LY" : {
-      "description" : "",
-      "message" : "ly"
-   },
-   "MAKE_NEW_FACE" : {
-      "description" : "",
-      "message" : "Yeni yüz yap"
-   },
-   "MALE" : {
-      "description" : "",
-      "message" : "Erkek"
-   },
-   "MASS" : {
-      "description" : "",
-      "message" : "Kütle"
-   },
-   "MASTER" : {
-      "description" : "",
-      "message" : "Hakimiyet:"
-   },
-   "MAX" : {
-      "description" : "",
-      "message" : "en fazla"
-   },
-   "MAXIMUM_CREW" : {
-      "description" : "",
-      "message" : "En fazla mürettebat"
-   },
-   "MEDIUM" : {
-      "description" : "",
-      "message" : "Orta"
-   },
-   "MEDIUM_CARGO_SHUTTLE" : {
-      "description" : "",
-      "message" : "Orta boy kargo mekiği"
-   },
-   "MEDIUM_COURIER" : {
-      "description" : "",
-      "message" : "Orta boy kurye gemisi"
-   },
-   "MEDIUM_FIGHTER" : {
-      "description" : "",
-      "message" : "Orta boy savaş gemisi"
-   },
-   "MEDIUM_FREIGHTER" : {
-      "description" : "",
-      "message" : "Orta boy yük gemisi"
-   },
-   "MEDIUM_PASSENGER_SHUTTLE" : {
-      "description" : "",
-      "message" : "Orta boy yolcu mekiği"
-   },
-   "MEDIUM_PASSENGER_TRANSPORT" : {
-      "description" : "",
-      "message" : "Orta boy yolcu gemisi"
-   },
-   "METAL_ALLOYS" : {
-      "description" : "",
-      "message" : "Metal alaşımları"
-   },
-   "MILITARY" : {
-      "description" : "",
-      "message" : "Askeri"
-   },
-   "MINIMUM_CREW" : {
-      "description" : "",
-      "message" : "En az mürettebat"
-   },
-   "MISSIONS" : {
-      "description" : "",
-      "message" : "Görevler"
-   },
-   "MISSION_DETAILS" : {
-      "description" : "",
-      "message" : "Görev Detayları"
-   },
-   "MORE_INFO" : {
-      "description" : "",
-      "message" : "Daha fazla bilgi..."
-   },
-   "MOSTLY_HARMLESS" : {
-      "description" : "",
-      "message" : "Çoğunlukla Zararsız"
-   },
-   "MULTISAMPLING" : {
-      "description" : "",
-      "message" : "Çoklu örnekleme"
-   },
-   "MURDER" : {
-      "description" : "",
-      "message" : "Cinayet"
-   },
-   "MUSIC" : {
-      "description" : "",
-      "message" : "Müzik:"
-   },
-   "MUTE" : {
-      "description" : "",
-      "message" : "Sessiz"
-   },
-   "NAME_OBJECT" : {
-      "description" : "For an item or object",
-      "message" : "İsim"
-   },
-   "NAME_PERSON" : {
-      "description" : "For a person",
-      "message" : "İsim"
-   },
-   "NAVIGATION" : {
-      "description" : "",
-      "message" : "Navigasyon:"
-   },
-   "NEGOTIATE" : {
-      "description" : "",
-      "message" : "Uzlaş"
-   },
-   "NEXT_PAID" : {
-      "description" : "",
-      "message" : "Sonraki ödeme"
-   },
-   "NONE" : {
-      "description" : "",
-      "message" : "Yok"
-   },
-   "NOTES" : {
-      "description" : "",
-      "message" : "Notlar:"
-   },
-   "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR" : {
-      "description" : "",
-      "message" : "Tamir denemesi için yeterince {alloy} yok"
-   },
-   "NO_MISSIONS" : {
-      "description" : "",
-      "message" : "Görev yok."
-   },
-   "N_LIGHT_YEARS_N_MAX" : {
-      "description" : "",
-      "message" : "{range} ışık yılı (en çok {maxRange})"
-   },
-   "N_OCCUPIED_PASSENGER_CABINS" : {
-      "description" : "",
-      "message" : "{quantity} Dolu Yolcu Kabini"
-   },
-   "N_SHIELD_GENERATORS" : {
-      "description" : "",
-      "message" : "{quantity} Kalkan Jeneratörü"
-   },
-   "N_UNOCCUPIED_PASSENGER_CABINS" : {
-      "description" : "",
-      "message" : "{quantity} Dolu Yolcu Kabini"
-   },
-   "OFF" : {
-      "description" : "",
-      "message" : "Kapalı"
-   },
-   "OK" : {
-      "description" : "",
-      "message" : "Tamam"
-   },
-   "OPTIONS" : {
-      "description" : "",
-      "message" : "Seçenekler"
-   },
-   "ORBIT" : {
-      "description" : "",
-      "message" : "Yörünge"
-   },
-   "ORBITAL_ANALYSIS" : {
-      "description" : "",
-      "message" : "Yörünge Analizi"
-   },
-   "ORBITAL_ANALYSIS_NOTES" : {
-      "description" : "",
-      "message" : "Dairesel yörünge hızı teğet hız için verilmiştir. Gemi {name} eksenine 90° yönünde hareket ediyor olmalıdır.\n\nAlçalma hızı mutlak en az ve yine teğettir. Daha düşük bir hız veya açı {name} yüzeyiyle kesişen bir rotaya neden olacaktır.\n\nKaçış hızı , gemi {name} ile yol üstünde çarpışmadığı sürece, teorik olarak her hangi bir yönde işleyecektir.\n⇥⇥"
-   },
-   "OWED" : {
-      "description" : "",
-      "message" : "Borç"
-   },
-   "PAY_FINE_OF_N" : {
-      "description" : "",
-      "message" : "{amount} ceza öde"
-   },
-   "PERSONAL_INFORMATION" : {
-      "description" : "",
-      "message" : "Kişisel bilgi"
-   },
-   "PILOTING" : {
-      "description" : "",
-      "message" : "Pilotluk:"
-   },
-   "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME" : {
-      "description" : "",
-      "message" : "Pilot koltuğu şu anda  {name} tarafından kullanılıyor"
-   },
-   "PIRACY" : {
-      "description" : "",
-      "message" : "Korsanlık"
-   },
-   "PLANET_DETAIL_DISTANCE" : {
-      "description" : "",
-      "message" : "Gezegen detay uzaklığı"
-   },
-   "PLANET_TEXTURES" : {
-      "description" : "",
-      "message" : "Gezegen dokuları"
-   },
-   "POLICE" : {
-      "description" : "",
-      "message" : "Polis"
-   },
-   "POOR" : {
-      "description" : "",
-      "message" : "Fakir"
-   },
-   "POSITION" : {
-      "description" : "",
-      "message" : "Pozisyon"
-   },
-   "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
-      "description" : "",
-      "message" : "Bir tuşa veya kontrolcü düğmesine basın"
-   },
-   "PRICE" : {
-      "description" : "",
-      "message" : "Fiyat"
-   },
-   "QUALIFICATION_SCORES" : {
-      "description" : "",
-      "message" : "Test sonuçları"
-   },
-   "QUICKLOAD" : {
-      "description" : "",
-      "message" : "Hızlı yükleme"
-   },
-   "QUIT" : {
-      "description" : "",
-      "message" : "Çıkış"
-   },
-   "RANK" : {
-      "description" : "",
-      "message" : "Rütbe:"
-   },
-   "RATING" : {
-      "description" : "",
-      "message" : "Oran:"
-   },
-   "REAR_WEAPON" : {
-      "description" : "",
-      "message" : "Arka silah"
-   },
-   "REFUEL" : {
-      "description" : "",
-      "message" : "Yakıt al"
-   },
-   "REPAIR_X_HULL_DAMAGE_FOR_X" : {
-      "description" : "",
-      "message" : "%{damage} gövde hasarını {price} için tamir et"
-   },
-   "REQUEST_LAUNCH" : {
-      "description" : "",
-      "message" : "Kalkış Talep Et"
-   },
-   "RETURN_TO_MENU" : {
-      "description" : "",
-      "message" : "Menüye dön"
-   },
-   "REVERSE_ACCEL_EMPTY" : {
-      "description" : "",
-      "message" : "Geri ivme (boş)"
-   },
-   "REVERSE_ACCEL_FULL" : {
-      "description" : "",
-      "message" : "Geri ivme (dolu)"
-   },
-   "REWARD" : {
-      "description" : "",
-      "message" : "Ödül"
-   },
-   "SAVE" : {
-      "description" : "",
-      "message" : "Kaydet"
-   },
-   "SELECT" : {
-      "description" : "",
-      "message" : "Seç"
-   },
-   "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME" : {
-      "description" : "",
-      "message" : "Kayıt için bir dosya seçin veya yeni bir dosya adı girin"
-   },
-   "SELECT_FILE" : {
-      "description" : "",
-      "message" : "Dosya seç..."
-   },
-   "SELECT_GAME_TO_LOAD" : {
-      "description" : "",
-      "message" : "Yüklenecek oyunu seçin..."
-   },
-   "SENSORS" : {
-      "description" : "",
-      "message" : "Algılayıcılar:"
-   },
-   "SHIP" : {
-      "description" : "",
-      "message" : "Gemi"
-   },
-   "SHIP_INFORMATION" : {
-      "description" : "",
-      "message" : "Gemi Bilgisi"
-   },
-   "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
-      "description" : "",
-      "message" : "Geminiz mükemmel durumda."
-   },
-   "SHIP_IS_FULLY_LADEN" : {
-      "description" : "",
-      "message" : "Geminiz tam dolu."
-   },
-   "SHIP_MARKET" : {
-      "description" : "",
-      "message" : "Gemi Pazarı"
-   },
-   "SHIP_REPAIRS" : {
-      "description" : "",
-      "message" : "Gemi Tamiri"
-   },
-   "SHIP_VIEWING_WAS_SOLD" : {
-      "description" : "",
-      "message" : "Bakmakta oldunuz gemi satıldı."
-   },
-   "SOUND" : {
-      "description" : "",
-      "message" : "Ses"
-   },
-   "START_AT_BARNARDS_STAR" : {
-      "description" : "",
-      "message" : "Barnard'ın Yıldızından başla"
-   },
-   "START_AT_EARTH" : {
-      "description" : "",
-      "message" : "Dünyada Başla"
-   },
-   "START_AT_NEW_HOPE" : {
-      "description" : "",
-      "message" : "Yeni Ümide Başla"
-   },
-   "STATION_MANAGER" : {
-      "description" : "",
-      "message" : "İstasyon yöneticisi"
-   },
-   "STATUS" : {
-      "description" : "",
-      "message" : "Durum"
-   },
-   "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
-      "description" : "",
-      "message" : "Satın aldığınız için teşekkürler. Ayrılmadan önce ekipmanlarınızı ekleyip yakıt almayı unutmayınız."
-   },
-   "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP" : {
-      "description" : "",
-      "message" : "Güvertede gemiyi uçurabilecek başka hiç kimse yok."
-   },
-   "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
-      "description" : "",
-      "message" : "Komutanım, gemi istasyon kontrolünde."
-   },
-   "TOGGLE_MALE_FEMALE" : {
-      "description" : "",
-      "message" : "Erkek/kadın geçiş yap"
-   },
-   "TOTAL" : {
-      "description" : "",
-      "message" : "Toplam:"
-   },
-   "TOTAL_MASS" : {
-      "description" : "",
-      "message" : "Toplam kütle"
-   },
-   "TRADING_ILLEGAL_GOODS" : {
-      "description" : "",
-      "message" : "Kanun dışı mal ticareti"
-   },
-   "TYPE" : {
-      "description" : "",
-      "message" : "Tip"
-   },
-   "UNLAWFUL_WEAPONS_DISCHARGE" : {
-      "description" : "",
-      "message" : "Kanun dışı silah kullanımı"
-   },
-   "UP_ACCEL" : {
-      "description" : "",
-      "message" : "Yukarı ivme"
-   },
-   "USED" : {
-      "description" : "",
-      "message" : "Kullanılan"
-   },
-   "VERY_HIGH" : {
-      "description" : "",
-      "message" : "Çok yüksek"
-   },
-   "VERY_LOW" : {
-      "description" : "",
-      "message" : "Çok düşük"
-   },
-   "VIDEO" : {
-      "description" : "",
-      "message" : "Görüntü"
-   },
-   "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY" : {
-      "description" : "",
-      "message" : "Görüntü ayarları (uygulamak için yeniden başlatın)"
-   },
-   "VIDEO_RESOLUTION" : {
-      "description" : "",
-      "message" : "Ekran çözünürlüğü"
-   },
-   "WAGE" : {
-      "description" : "",
-      "message" : "Ücret"
-   },
-   "WEIGHT_EMPTY" : {
-      "description" : "",
-      "message" : "Boş ağırlık"
-   },
-   "WEIGHT_FULLY_LOADED" : {
-      "description" : "",
-      "message" : "Tam yüklü ağırlık"
-   },
-   "WE_ARE_IN_HYPERSPACE_COMMANDER" : {
-      "description" : "",
-      "message" : "Komutanım, üstuzaydayız."
-   },
-   "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
-      "description" : "",
-      "message" : "Şu anda sizinle bir işimiz yok."
-   },
-   "YOURE_GOING_TO_REGRET_SACKING_ME" : {
-      "description" : "",
-      "message" : "Beni kovduğuna pişman olacaksın!"
-   },
-   "YOUR_HULL_IS_AT_X_INTEGRITY" : {
-      "description" : "",
-      "message" : "Gövde %{value} bütünlükte."
-   },
-   "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION" : {
-      "description" : "",
-      "message" : "Bu seçenek için yeterince paranız yok."
-   },
-   "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
-      "description" : "",
-      "message" : "Komutanım, ilk olarak savaşmak için bir hedef seçmelisiniz."
-   },
-   "YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER" : {
-      "description" : "",
-      "message" : "Komutanım, ilk olarak uygun bir navigasyon hedefi seçmelisiniz."
-   },
-   "YOU_MUST_LAUNCH_FIRST_COMMANDER" : {
-      "description" : "",
-      "message" : "Komutanım, önce kalkış yapmalısınız."
-   },
-   "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER" : {
-      "description" : "",
-      "message" : "Komutanım, önce kalkış izni almalısınız."
-   },
-   "YOU_NOT_ENOUGH_MONEY" : {
-      "description" : "",
-      "message" : "Yeterince paranız yok"
-   }
+    "WAGE": {
+        "message": "Ücret",
+        "description": ""
+    },
+    "TRADING_ILLEGAL_GOODS": {
+        "message": "Kanun dışı mal ticareti",
+        "description": ""
+    },
+    "LY": {
+        "message": "ly",
+        "description": ""
+    },
+    "FRONT_WEAPON": {
+        "message": "Ön silah",
+        "description": ""
+    },
+    "METAL_ALLOYS": {
+        "message": "Metal alaşımları",
+        "description": ""
+    },
+    "GENERAL_CREW": {
+        "message": "Genel mürettebat",
+        "description": ""
+    },
+    "SAVE": {
+        "message": "Kaydet",
+        "description": ""
+    },
+    "CARGO_T_FREE": {
+        "message": "{amount}t boş",
+        "description": ""
+    },
+    "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT": {
+        "message": "Gövde {name} tarafından tamir edildi, şu anda %{repairPercent}",
+        "description": ""
+    },
+    "ESCAPE_SPEED": {
+        "message": "Kaçış hızı:",
+        "description": ""
+    },
+    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS": {
+        "message": "Bedava çalışmaktan bıktım. Sözleşmenin ne demek olduğunu bilmiyor musun?",
+        "description": ""
+    },
+    "SHIP_REPAIRS": {
+        "message": "Gemi Tamiri",
+        "description": ""
+    },
+    "UP_ACCEL": {
+        "message": "Yukarı ivme",
+        "description": ""
+    },
+    "ORBITAL_ANALYSIS": {
+        "message": "Yörünge Analizi",
+        "description": ""
+    },
+    "MEDIUM_PASSENGER_TRANSPORT": {
+        "message": "Orta boy yolcu gemisi",
+        "description": ""
+    },
+    "MEDIUM_COURIER": {
+        "message": "Orta boy kurye gemisi",
+        "description": ""
+    },
+    "FRACTAL_DETAIL": {
+        "message": "Fraktal detay",
+        "description": ""
+    },
+    "PERSONAL_INFORMATION": {
+        "message": "Kişisel bilgi",
+        "description": ""
+    },
+    "DESTROY_ENEMY_SHIP": {
+        "message": "Düşman gemisini yoket",
+        "description": ""
+    },
+    "VERY_LOW": {
+        "message": "Çok düşük",
+        "description": ""
+    },
+    "LOAD_GAME": {
+        "message": "Oyun yükle",
+        "description": ""
+    },
+    "EXIT_THIS_GAME": {
+        "message": "Oyundan çık",
+        "description": ""
+    },
+    "NAME_PERSON": {
+        "message": "İsim",
+        "description": "For a person"
+    },
+    "CLIENT": {
+        "message": "Müşteri",
+        "description": ""
+    },
+    "CASH_N": {
+        "message": "Para: {money}",
+        "description": ""
+    },
+    "LANGUAGE": {
+        "message": "Dil",
+        "description": ""
+    },
+    "COMPRESS_TEXTURES": {
+        "message": "Dokuları Sıkıştır",
+        "description": ""
+    },
+    "N_SHIELD_GENERATORS": {
+        "message": "{quantity} Kalkan Jeneratörü",
+        "description": ""
+    },
+    "COMMANDER": {
+        "message": "Komutan",
+        "description": ""
+    },
+    "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE": {
+        "message": "Gövde tamir girişimi başarısız. Gövde düşük hasara uğradı.",
+        "description": ""
+    },
+    "QUICKLOAD": {
+        "message": "Hızlı yükleme",
+        "description": ""
+    },
+    "MEDIUM": {
+        "message": "Orta",
+        "description": ""
+    },
+    "IN_STOCK": {
+        "message": "Stokta",
+        "description": ""
+    },
+    "COMBAT": {
+        "message": "Savaş",
+        "description": ""
+    },
+    "DOCK_AT_CURRENT_TARGET": {
+        "message": "Mevcut hedefe demirle",
+        "description": ""
+    },
+    "SOUND": {
+        "message": "Ses",
+        "description": ""
+    },
+    "N_LIGHT_YEARS_N_MAX": {
+        "message": "{range} ışık yılı (en çok {maxRange})",
+        "description": ""
+    },
+    "WE_ARE_IN_HYPERSPACE_COMMANDER": {
+        "message": "Komutanım, üstuzaydayız.",
+        "description": ""
+    },
+    "AVERAGE": {
+        "message": "Ortalama",
+        "description": ""
+    },
+    "REPAIR_X_HULL_DAMAGE_FOR_X": {
+        "message": "%{damage} gövde hasarını {price} için tamir et",
+        "description": ""
+    },
+    "DISPLAY_HUD_TRAILS": {
+        "message": "HUD izlerini görüntüle",
+        "description": ""
+    },
+    "ATTEMPT_TO_REPAIR_HULL": {
+        "message": "Gövdeyi tamir etmeyi dene",
+        "description": ""
+    },
+    "REWARD": {
+        "message": "Ödül",
+        "description": ""
+    },
+    "HARMLESS": {
+        "message": "Zararsız",
+        "description": ""
+    },
+    "COMPETENT": {
+        "message": "Mücadeleci",
+        "description": ""
+    },
+    "DELTA_V_FULL": {
+        "message": "Delta-v (dolu)",
+        "description": "Delta-v capacity of a ship with maximum cargo"
+    },
+    "NAVIGATION": {
+        "message": "Navigasyon:",
+        "description": ""
+    },
+    "FAILED": {
+        "message": "Başarısız oldu",
+        "description": ""
+    },
+    "MILITARY": {
+        "message": "Askeri",
+        "description": ""
+    },
+    "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE": {
+        "message": "Sizin için çalışmak çok iyiydi. Bana tekrar ihtiyacınız olursa bir süre daha buralardayım",
+        "description": ""
+    },
+    "YOU_NOT_ENOUGH_MONEY": {
+        "message": "Yeterince paranız yok",
+        "description": ""
+    },
+    "INACTIVE": {
+        "message": "Devre dışı",
+        "description": ""
+    },
+    "SHIP_VIEWING_WAS_SOLD": {
+        "message": "Bakmakta oldunuz gemi satıldı.",
+        "description": ""
+    },
+    "GIVE_ORDERS_TO_CREW": {
+        "message": "Mürettebata emirler ver",
+        "description": ""
+    },
+    "SHIP_INFORMATION": {
+        "message": "Gemi Bilgisi",
+        "description": ""
+    },
+    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME": {
+        "message": " {name} merkezinden {distance}km uzaklıkta:",
+        "description": ""
+    },
+    "MORE_INFO": {
+        "message": "Daha fazla bilgi...",
+        "description": ""
+    },
+    "LIGHT_FREIGHTER": {
+        "message": "Hafif yük gemisi",
+        "description": ""
+    },
+    "CONTROLS": {
+        "message": "Kontroller",
+        "description": ""
+    },
+    "FREE": {
+        "message": "boş",
+        "description": ""
+    },
+    "CASH": {
+        "message": "Nakit",
+        "description": ""
+    },
+    "ENGINEERING": {
+        "message": "Mühendislik:",
+        "description": ""
+    },
+    "EFFECTS": {
+        "message": "Efektler:",
+        "description": ""
+    },
+    "MAKE_NEW_FACE": {
+        "message": "Yeni yüz yap",
+        "description": ""
+    },
+    "SHIP_IS_ALREADY_FULLY_REPAIRED": {
+        "message": "Geminiz mükemmel durumda.",
+        "description": ""
+    },
+    "NOTES": {
+        "message": "Notlar:",
+        "description": ""
+    },
+    "EQUIPPED": {
+        "message": "Kullanımda",
+        "description": ""
+    },
+    "FORWARD_ACCEL": {
+        "message": "İleri ivme",
+        "description": ""
+    },
+    "EQUIPMENT": {
+        "message": "Ekipman",
+        "description": ""
+    },
+    "DELTA_V_EMPTY": {
+        "message": "Delta-v (boş)",
+        "description": "Delta-v capacity of a ship with no cargo or upgrades"
+    },
+    "YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER": {
+        "message": "Komutanım, ilk olarak uygun bir navigasyon hedefi seçmelisiniz.",
+        "description": ""
+    },
+    "MAXIMUM_CREW": {
+        "message": "En fazla mürettebat",
+        "description": ""
+    },
+    "RANK": {
+        "message": "Rütbe:",
+        "description": ""
+    },
+    "CAPACITY": {
+        "message": "Kapasite",
+        "description": ""
+    },
+    "ELITE": {
+        "message": "ELITE",
+        "description": ""
+    },
+    "HULL_INTEGRITY": {
+        "message": "Gövde bütünlüğü",
+        "description": ""
+    },
+    "LOBBY": {
+        "message": "Lobi",
+        "description": ""
+    },
+    "FUEL_WEIGHT": {
+        "message": "Yakıt ağırlığı",
+        "description": ""
+    },
+    "RETURN_TO_MENU": {
+        "message": "Menüye dön",
+        "description": ""
+    },
+    "CIRCULAR_ORBIT_SPEED": {
+        "message": "Dairesel yörünge hızı",
+        "description": ""
+    },
+    "VIDEO": {
+        "message": "Görüntü",
+        "description": ""
+    },
+    "MAX": {
+        "message": "en fazla",
+        "description": ""
+    },
+    "VIDEO_RESOLUTION": {
+        "message": "Ekran çözünürlüğü",
+        "description": ""
+    },
+    "WE_HAVE_NO_BUSINESS_WITH_YOU": {
+        "message": "Şu anda sizinle bir işimiz yok.",
+        "description": ""
+    },
+    "SHIP": {
+        "message": "Gemi",
+        "description": ""
+    },
+    "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME": {
+        "message": "Pilot koltuğu şu anda  {name} tarafından kullanılıyor",
+        "description": ""
+    },
+    "CARGO": {
+        "message": "Kargo",
+        "description": ""
+    },
+    "CANCEL": {
+        "message": "Vazgeç",
+        "description": ""
+    },
+    "MURDER": {
+        "message": "Cinayet",
+        "description": ""
+    },
+    "PLANET_TEXTURES": {
+        "message": "Gezegen dokuları",
+        "description": ""
+    },
+    "SELECT_GAME_TO_LOAD": {
+        "message": "Yüklenecek oyunu seçin...",
+        "description": ""
+    },
+    "SHIP_IS_FULLY_LADEN": {
+        "message": "Geminiz tam dolu.",
+        "description": ""
+    },
+    "ITEM_IS_OUT_OF_STOCK": {
+        "message": "Bu ürün stokta yok.",
+        "description": ""
+    },
+    "TYPE": {
+        "message": "Tip",
+        "description": ""
+    },
+    "PAY_FINE_OF_N": {
+        "message": "{amount} ceza öde",
+        "description": ""
+    },
+    "PRICE": {
+        "message": "Fiyat",
+        "description": ""
+    },
+    "MALE": {
+        "message": "Erkek",
+        "description": ""
+    },
+    "OPTIONS": {
+        "message": "Seçenekler",
+        "description": ""
+    },
+    "KILLS": {
+        "message": "Ölenler:",
+        "description": ""
+    },
+    "ABOVE_AVERAGE": {
+        "message": "Ortalama Üstü",
+        "description": ""
+    },
+    "ALLEGIANCE": {
+        "message": "Bağlılık:",
+        "description": ""
+    },
+    "FULL_SCREEN": {
+        "message": "Tam ekran",
+        "description": ""
+    },
+    "NAME_OBJECT": {
+        "message": "İsim",
+        "description": "For an item or object"
+    },
+    "DELTA_V": {
+        "message": "Delta-v",
+        "description": ""
+    },
+    "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME": {
+        "message": "Kayıt için bir dosya seçin veya yeni bir dosya adı girin",
+        "description": ""
+    },
+    "ERROR": {
+        "message": "Hata",
+        "description": ""
+    },
+    "N_OCCUPIED_PASSENGER_CABINS": {
+        "message": "{quantity} Dolu Yolcu Kabini",
+        "description": ""
+    },
+    "CRIMINAL_RECORD": {
+        "message": "Suç kaydı",
+        "description": ""
+    },
+    "MINIMUM_CREW": {
+        "message": "En az mürettebat",
+        "description": ""
+    },
+    "CITY_DETAIL_LEVEL": {
+        "message": "Şehir detay seviyesi",
+        "description": ""
+    },
+    "JETTISON": {
+        "message": "Fırlat",
+        "description": ""
+    },
+    "NEXT_PAID": {
+        "message": "Sonraki ödeme",
+        "description": ""
+    },
+    "POLICE": {
+        "message": "Polis",
+        "description": ""
+    },
+    "MOSTLY_HARMLESS": {
+        "message": "Çoğunlukla Zararsız",
+        "description": ""
+    },
+    "PLANET_DETAIL_DISTANCE": {
+        "message": "Gezegen detay uzaklığı",
+        "description": ""
+    },
+    "COMMODITY_MARKET": {
+        "message": "Ticari Mal Pazarı",
+        "description": ""
+    },
+    "VERY_HIGH": {
+        "message": "Çok yüksek",
+        "description": ""
+    },
+    "DISPLAY_NAV_TUNNELS": {
+        "message": "Nav tünellerini görüntüle",
+        "description": ""
+    },
+    "D_DAYS_LEFT": {
+        "message": "Kalan gün: %d",
+        "description": ""
+    },
+    "AVAILABLE_FOR_PURCHASE": {
+        "message": "Satın alınabilir",
+        "description": ""
+    },
+    "LIGHT_PASSENGER_SHUTTLE": {
+        "message": "Hafif yolcu mekiği",
+        "description": ""
+    },
+    "MASS": {
+        "message": "Kütle",
+        "description": ""
+    },
+    "AN_ERROR_HAS_OCCURRED": {
+        "message": "Bir hata oluştu",
+        "description": ""
+    },
+    "BUY_SHIP": {
+        "message": "Gemi Al",
+        "description": ""
+    },
+    "TOTAL_MASS": {
+        "message": "Toplam kütle",
+        "description": ""
+    },
+    "EQUIPMENT_MARKET": {
+        "message": "Ekipman Pazarı",
+        "description": ""
+    },
+    "DELTA_V_MAX": {
+        "message": "Delta-v (en çok)",
+        "description": "Delta-v capacity of a ship with cargo bay fully loaded with propellant"
+    },
+    "NO_MISSIONS": {
+        "message": "Görev yok.",
+        "description": ""
+    },
+    "LEGAL_STATUS": {
+        "message": "Yasal durum",
+        "description": ""
+    },
+    "MISSION_DETAILS": {
+        "message": "Görev Detayları",
+        "description": ""
+    },
+    "POSITION": {
+        "message": "Pozisyon",
+        "description": ""
+    },
+    "ENABLE_COCKPIT": {
+        "message": "Kokpiti etkinleştir (DENEYSEL)",
+        "description": ""
+    },
+    "YOU_MUST_LAUNCH_FIRST_COMMANDER": {
+        "message": "Komutanım, önce kalkış yapmalısınız.",
+        "description": ""
+    },
+    "LIGHT_CARGO_SHUTTLE": {
+        "message": "Hafif kargo mekiği",
+        "description": ""
+    },
+    "PIRACY": {
+        "message": "Korsanlık",
+        "description": ""
+    },
+    "HYPERDRIVE_FITTED": {
+        "message": "Mevcut hipersürücü:",
+        "description": ""
+    },
+    "RATING": {
+        "message": "Oran:",
+        "description": ""
+    },
+    "FUEL_TANK_FULL": {
+        "message": "Yakıt tankı dolu.",
+        "description": ""
+    },
+    "THANKS_AND_REMEMBER_TO_BUY_FUEL": {
+        "message": "Satın aldığınız için teşekkürler. Ayrılmadan önce ekipmanlarınızı ekleyip yakıt almayı unutmayınız.",
+        "description": ""
+    },
+    "EMPLOYMENT": {
+        "message": "İş",
+        "description": ""
+    },
+    "FORWARD_ACCEL_FULL": {
+        "message": "İleri ivme (dolu)",
+        "description": ""
+    },
+    "CONSTABLE": {
+        "message": "Güvenlik amiri",
+        "description": ""
+    },
+    "QUALIFICATION_SCORES": {
+        "message": "Test sonuçları",
+        "description": ""
+    },
+    "INVERT_MOUSE_Y": {
+        "message": "Ters Fare Y",
+        "description": ""
+    },
+    "STATION_MANAGER": {
+        "message": "İstasyon yöneticisi",
+        "description": ""
+    },
+    "NEGOTIATE": {
+        "message": "Uzlaş",
+        "description": ""
+    },
+    "HANG_UP": {
+        "message": "Bekle.",
+        "description": ""
+    },
+    "CREW_ROSTER": {
+        "message": "Mürettebat Listesi",
+        "description": ""
+    },
+    "POOR": {
+        "message": "Fakir",
+        "description": ""
+    },
+    "BULLETIN_BOARD": {
+        "message": "İlan tahtası",
+        "description": ""
+    },
+    "HIGH": {
+        "message": "Yüksek",
+        "description": ""
+    },
+    "TOGGLE_MALE_FEMALE": {
+        "message": "Erkek/kadın geçiş yap",
+        "description": ""
+    },
+    "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY": {
+        "message": "Görüntü ayarları (uygulamak için yeniden başlatın)",
+        "description": ""
+    },
+    "MASTER": {
+        "message": "Hakimiyet:",
+        "description": ""
+    },
+    "USED": {
+        "message": "Kullanılan",
+        "description": ""
+    },
+    "CARGO_SPACE": {
+        "message": "Kargo boşluğu",
+        "description": ""
+    },
+    "PRESS_A_KEY_OR_CONTROLLER_BUTTON": {
+        "message": "Bir tuşa veya kontrolcü düğmesine basın",
+        "description": ""
+    },
+    "ALL_UP_WEIGHT": {
+        "message": "Tam yüklü ağırlık",
+        "description": ""
+    },
+    "YOURE_GOING_TO_REGRET_SACKING_ME": {
+        "message": "Beni kovduğuna pişman olacaksın!",
+        "description": ""
+    },
+    "SHIP_MARKET": {
+        "message": "Gemi Pazarı",
+        "description": ""
+    },
+    "DESCENT_TO_GROUND_SPEED": {
+        "message": "Yere-alçalma hızı",
+        "description": ""
+    },
+    "HEAVY_FIGHTER": {
+        "message": "Ağır savaş gemisi",
+        "description": ""
+    },
+    "CABINS": {
+        "message": "Kabinler",
+        "description": ""
+    },
+    "CABIN_FREE": {
+        "message": "{amount} boş",
+        "description": ""
+    },
+    "ECONOMY_TRADE": {
+        "message": "Ekonomi ve Ticaret",
+        "description": ""
+    },
+    "CLEAR": {
+        "message": "Temizle",
+        "description": ""
+    },
+    "QUIT": {
+        "message": "Çıkış",
+        "description": ""
+    },
+    "FUEL": {
+        "message": "Yakıt",
+        "description": ""
+    },
+    "DISPLAY_SPEED_LINES": {
+        "message": "Hız çizgilerini görüntüle",
+        "description": ""
+    },
+    "LOW": {
+        "message": "Düşük",
+        "description": ""
+    },
+    "REAR_WEAPON": {
+        "message": "Arka silah",
+        "description": ""
+    },
+    "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER": {
+        "message": "Komutanım, önce kalkış izni almalısınız.",
+        "description": ""
+    },
+    "CARGO_T_USED": {
+        "message": "{amount}t kullanılan",
+        "description": ""
+    },
+    "LOCATION": {
+        "message": "Konum",
+        "description": ""
+    },
+    "MUTE": {
+        "message": "Sessiz",
+        "description": ""
+    },
+    "REQUEST_LAUNCH": {
+        "message": "Kalkış Talep Et",
+        "description": ""
+    },
+    "FEMALE": {
+        "message": "Kadın",
+        "description": ""
+    },
+    "ACTIVE": {
+        "message": "Aktif",
+        "description": ""
+    },
+    "MEDIUM_FIGHTER": {
+        "message": "Orta boy savaş gemisi",
+        "description": ""
+    },
+    "CLEAN": {
+        "message": "Temiz",
+        "description": ""
+    },
+    "CAPACITY_USED": {
+        "message": "Kapasite kullanımı",
+        "description": ""
+    },
+    "ORBIT": {
+        "message": "Yörünge",
+        "description": ""
+    },
+    "COMPLETED": {
+        "message": "Tamamlandı",
+        "description": ""
+    },
+    "HEAVY_CARGO_SHUTTLE": {
+        "message": "Ağır kargo gemisi",
+        "description": ""
+    },
+    "OWED": {
+        "message": "Borç",
+        "description": ""
+    },
+    "LANGUAGE_RESTART_GAME_TO_APPLY": {
+        "message": "Dil (uygulamak için yeniden başlatın)",
+        "description": ""
+    },
+    "WEIGHT_FULLY_LOADED": {
+        "message": "Tam yüklü ağırlık",
+        "description": ""
+    },
+    "FORWARD_ACCEL_EMPTY": {
+        "message": "İleri ivme (boş)",
+        "description": ""
+    },
+    "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION": {
+        "message": "Bu seçenek için yeterince paranız yok.",
+        "description": ""
+    },
+    "GOOD_RIDDANCE_TO_YOU_TOO": {
+        "message": "Sana da iyi şanslar.",
+        "description": ""
+    },
+    "OFF": {
+        "message": "Kapalı",
+        "description": ""
+    },
+    "REVERSE_ACCEL_FULL": {
+        "message": "Geri ivme (dolu)",
+        "description": ""
+    },
+    "NONE": {
+        "message": "Yok",
+        "description": ""
+    },
+    "DEADLY": {
+        "message": "Ölümcül",
+        "description": ""
+    },
+    "MEDIUM_FREIGHTER": {
+        "message": "Orta boy yük gemisi",
+        "description": ""
+    },
+    "REFUEL": {
+        "message": "Yakıt al",
+        "description": ""
+    },
+    "LIGHT_COURIER": {
+        "message": "Hafif kurye gemisi",
+        "description": ""
+    },
+    "MUSIC": {
+        "message": "Müzik:",
+        "description": ""
+    },
+    "MULTISAMPLING": {
+        "message": "Çoklu örnekleme",
+        "description": ""
+    },
+    "HYPERSPACE_RANGE": {
+        "message": "Üstuzay menzili",
+        "description": ""
+    },
+    "CHANGE_BINDING": {
+        "message": "Atamayı Değiştir",
+        "description": ""
+    },
+    "N_UNOCCUPIED_PASSENGER_CABINS": {
+        "message": "{quantity} Dolu Yolcu Kabini",
+        "description": ""
+    },
+    "CABIN_USED": {
+        "message": "{amount} kullanılan",
+        "description": ""
+    },
+    "MISSIONS": {
+        "message": "Görevler",
+        "description": ""
+    },
+    "DUE": {
+        "message": "Süresi gelen",
+        "description": ""
+    },
+    "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP": {
+        "message": "Güvertede gemiyi uçurabilecek başka hiç kimse yok.",
+        "description": ""
+    },
+    "SENSORS": {
+        "message": "Algılayıcılar:",
+        "description": ""
+    },
+    "LIGHT_PASSENGER_TRANSPORT": {
+        "message": "Hafif yolcu gemisi",
+        "description": ""
+    },
+    "SELECT": {
+        "message": "Seç",
+        "description": ""
+    },
+    "REVERSE_ACCEL_EMPTY": {
+        "message": "Geri ivme (boş)",
+        "description": ""
+    },
+    "HEAVY_PASSENGER_SHUTTLE": {
+        "message": "Ağır yolcu mekiği",
+        "description": ""
+    },
+    "LIGHT_FIGHTER": {
+        "message": "Hafif savaş gemisi",
+        "description": ""
+    },
+    "CHIEF_MECHANIC": {
+        "message": "Şef Tamirci",
+        "description": ""
+    },
+    "HEAVY_PASSENGER_TRANSPORT": {
+        "message": "Ağır yolcu gemisi",
+        "description": ""
+    },
+    "AMOUNT": {
+        "message": "Miktar",
+        "description": ""
+    },
+    "MEDIUM_PASSENGER_SHUTTLE": {
+        "message": "Orta boy yolcu mekiği",
+        "description": ""
+    },
+    "START_AT_BARNARDS_STAR": {
+        "message": "Barnard'ın Yıldızından başla",
+        "description": ""
+    },
+    "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
+        "message": "Komutanım, gemi istasyon kontrolünde.",
+        "description": ""
+    },
+    "WEIGHT_EMPTY": {
+        "message": "Boş ağırlık",
+        "description": ""
+    },
+    "START_AT_NEW_HOPE": {
+        "message": "Yeni Ümide Başla",
+        "description": ""
+    },
+    "CREW_CABINS": {
+        "message": "Mürettebat kabinleri",
+        "description": ""
+    },
+    "STATUS": {
+        "message": "Durum",
+        "description": ""
+    },
+    "MEDIUM_CARGO_SHUTTLE": {
+        "message": "Orta boy kargo mekiği",
+        "description": ""
+    },
+    "OK": {
+        "message": "Tamam",
+        "description": ""
+    },
+    "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR": {
+        "message": "Tamir denemesi için yeterince {alloy} yok",
+        "description": ""
+    },
+    "HEAVY_FREIGHTER": {
+        "message": "Ağır yük gemisi",
+        "description": ""
+    },
+    "HEAVY_COURIER": {
+        "message": "Ağır kurye gemisi",
+        "description": ""
+    },
+    "START_AT_EARTH": {
+        "message": "Dünyada Başla",
+        "description": ""
+    },
+    "BACKWARD_ACCEL": {
+        "message": "Geri ivme",
+        "description": ""
+    },
+    "DANGEROUS": {
+        "message": "Tehlikeli",
+        "description": ""
+    },
+    "ORBITAL_ANALYSIS_NOTES": {
+        "message": "Dairesel yörünge hızı teğet hız için verilmiştir. Gemi {name} eksenine 90° yönünde hareket ediyor olmalıdır.\n\nAlçalma hızı mutlak en az ve yine teğettir. Daha düşük bir hız veya açı {name} yüzeyiyle kesişen bir rotaya neden olacaktır.\n\nKaçış hızı , gemi {name} ile yol üstünde çarpışmadığı sürece, teorik olarak her hangi bir yönde işleyecektir.\n⇥⇥",
+        "description": ""
+    },
+    "YOUR_HULL_IS_AT_X_INTEGRITY": {
+        "message": "Gövde %{value} bütünlükte.",
+        "description": ""
+    },
+    "SELECT_FILE": {
+        "message": "Dosya seç...",
+        "description": ""
+    },
+    "HULL_DOES_NOT_REQUIRE_REPAIR": {
+        "message": "Gövde tamir gerektirmiyor.",
+        "description": ""
+    },
+    "UNLAWFUL_WEAPONS_DISCHARGE": {
+        "message": "Kanun dışı silah kullanımı",
+        "description": ""
+    },
+    "LOAD": {
+        "message": "Yükle",
+        "description": ""
+    },
+    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER": {
+        "message": "Komutanım, ilk olarak savaşmak için bir hedef seçmelisiniz.",
+        "description": ""
+    },
+    "ENABLE_JOYSTICK": {
+        "message": "Oyun kumandası aktif",
+        "description": ""
+    },
+    "HYPERDRIVE": {
+        "message": "Hipersürücü",
+        "description": ""
+    },
+    "COULD_NOT_LOAD_GAME": {
+        "message": "Oyun yüklenemiyor:",
+        "description": ""
+    },
+    "PILOTING": {
+        "message": "Pilotluk:",
+        "description": ""
+    },
+    "CONTROL_OPTIONS": {
+        "message": "Kontrol Seçenekleri",
+        "description": ""
+    },
+    "IN_CARGO_HOLD": {
+        "message": "Kargo bölmesinde",
+        "description": ""
+    },
+    "AFTER_TRADE_IN": {
+        "message": "Takastan sonra",
+        "description": ""
+    },
+    "DISMISS": {
+        "message": "Gidebilirsin",
+        "description": ""
+    },
+    "TOTAL": {
+        "message": "Toplam:",
+        "description": ""
+    }
 }
