@@ -9,15 +9,15 @@
    },
    "CORPORATIONS_10" : {
       "description" : "",
-      "message" : "Bulk Ships"
+      "message" : "Toptan Gemi"
    },
    "CORPORATIONS_11" : {
       "description" : "",
-      "message" : "Arment Aerodynamics"
+      "message" : "Arment Aerodinamik"
    },
    "CORPORATIONS_2" : {
       "description" : "",
-      "message" : "Cool Cola"
+      "message" : "Ferah Kola"
    },
    "CORPORATIONS_3" : {
       "description" : "",
@@ -25,7 +25,7 @@
    },
    "CORPORATIONS_4" : {
       "description" : "",
-      "message" : "Aquarian Shipbuilding"
+      "message" : "Kova Tersanesi"
    },
    "CORPORATIONS_5" : {
       "description" : "",
@@ -37,7 +37,7 @@
    },
    "CORPORATIONS_7" : {
       "description" : "",
-      "message" : "Marett Space"
+      "message" : "Marett Uzay"
    },
    "CORPORATIONS_8" : {
       "description" : "",
@@ -45,27 +45,27 @@
    },
    "CORPORATIONS_9" : {
       "description" : "",
-      "message" : "Digital"
+      "message" : "Dijital"
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
-      "message" : "Could you repeat the original request?"
+      "message" : "İlk isteğinizi tekrarlar mısınız?"
    },
    "DANGER" : {
       "description" : "",
-      "message" : "Danger:"
+      "message" : "Tehlike:"
    },
    "DEADLINE" : {
       "description" : "",
-      "message" : "Deadline:"
+      "message" : "Bitiş:"
    },
    "DISTANCE" : {
       "description" : "",
-      "message" : "Distance:"
+      "message" : "Uzaklık:"
    },
    "EXCELLENT" : {
       "description" : "",
-      "message" : "Excellent."
+      "message" : "Mükemmel."
    },
    "FLAVOUR_0_ADTEXT" : {
       "description" : "",
@@ -73,7 +73,7 @@
    },
    "FLAVOUR_0_DANGER" : {
       "description" : "",
-      "message" : "No."
+      "message" : "Hayır."
    },
    "FLAVOUR_0_FAILUREMSG" : {
       "description" : "",
@@ -81,7 +81,7 @@
    },
    "FLAVOUR_0_HOWMANY" : {
       "description" : "",
-      "message" : "There are {group} of us."
+      "message" : "Bizden {group} kişi var."
    },
    "FLAVOUR_0_INTROTEXT" : {
       "description" : "",
@@ -97,7 +97,7 @@
    },
    "FLAVOUR_0_WHYSOMUCH" : {
       "description" : "",
-      "message" : "We are visiting a friend."
+      "message" : "Bir arkadaşı ziyaret ediyoruz."
    },
    "FLAVOUR_10_ADTEXT" : {
       "description" : "",
@@ -113,7 +113,7 @@
    },
    "FLAVOUR_10_HOWMANY" : {
       "description" : "",
-      "message" : "Just one."
+      "message" : "Yalnız bir."
    },
    "FLAVOUR_10_INTROTEXT" : {
       "description" : "",
@@ -121,7 +121,7 @@
    },
    "FLAVOUR_10_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the fast ride. You have been paid in full."
+      "message" : "Hızlı yolculuk için teşekkürler. Ücretin tamamını aldınız."
    },
    "FLAVOUR_10_WHEREAREWE" : {
       "description" : "",
@@ -145,7 +145,7 @@
    },
    "FLAVOUR_11_HOWMANY" : {
       "description" : "",
-      "message" : "Just one."
+      "message" : "Yalnız bir."
    },
    "FLAVOUR_11_INTROTEXT" : {
       "description" : "",
@@ -153,7 +153,7 @@
    },
    "FLAVOUR_11_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the fast ride. You have been paid in full."
+      "message" : "Hızlı yolculuk için teşekkürler. Ücretin tamamını aldınız."
    },
    "FLAVOUR_11_WHEREAREWE" : {
       "description" : "",
@@ -161,7 +161,7 @@
    },
    "FLAVOUR_11_WHYSOMUCH" : {
       "description" : "",
-      "message" : "I'm a factory inspector doing my rounds."
+      "message" : "Turumu yapan bir fabrika müfettişiyim."
    },
    "FLAVOUR_12_ADTEXT" : {
       "description" : "",
@@ -169,7 +169,7 @@
    },
    "FLAVOUR_12_DANGER" : {
       "description" : "",
-      "message" : "Someone is chasing me."
+      "message" : "Biri beni kovalıyor."
    },
    "FLAVOUR_12_FAILUREMSG" : {
       "description" : "",
@@ -177,7 +177,7 @@
    },
    "FLAVOUR_12_HOWMANY" : {
       "description" : "",
-      "message" : "Just one."
+      "message" : "Yalnız bir."
    },
    "FLAVOUR_12_INTROTEXT" : {
       "description" : "",
@@ -201,7 +201,7 @@
    },
    "FLAVOUR_1_DANGER" : {
       "description" : "",
-      "message" : "No."
+      "message" : "Hayır."
    },
    "FLAVOUR_1_FAILUREMSG" : {
       "description" : "",
@@ -209,7 +209,7 @@
    },
    "FLAVOUR_1_HOWMANY" : {
       "description" : "",
-      "message" : "There are {group} of us."
+      "message" : "Bizden {group} kişi var."
    },
    "FLAVOUR_1_INTROTEXT" : {
       "description" : "",
@@ -233,7 +233,7 @@
    },
    "FLAVOUR_2_DANGER" : {
       "description" : "",
-      "message" : "No."
+      "message" : "Hayır."
    },
    "FLAVOUR_2_FAILUREMSG" : {
       "description" : "",
@@ -241,7 +241,7 @@
    },
    "FLAVOUR_2_HOWMANY" : {
       "description" : "",
-      "message" : "There are {group} of us."
+      "message" : "Bizden {group} kişi var."
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
@@ -257,7 +257,7 @@
    },
    "FLAVOUR_2_WHYSOMUCH" : {
       "description" : "",
-      "message" : "It's normal business trip."
+      "message" : "Olağan bir iş gezisi."
    },
    "FLAVOUR_3_ADTEXT" : {
       "description" : "",
@@ -273,7 +273,7 @@
    },
    "FLAVOUR_3_HOWMANY" : {
       "description" : "",
-      "message" : "It's only me."
+      "message" : "Sadece ben varım."
    },
    "FLAVOUR_3_INTROTEXT" : {
       "description" : "",
@@ -289,7 +289,7 @@
    },
    "FLAVOUR_3_WHYSOMUCH" : {
       "description" : "",
-      "message" : "An old rival is trying to kill me."
+      "message" : "Eski bir rakibim beni öldürmek istiyor."
    },
    "FLAVOUR_4_ADTEXT" : {
       "description" : "",
@@ -297,7 +297,7 @@
    },
    "FLAVOUR_4_DANGER" : {
       "description" : "",
-      "message" : "No."
+      "message" : "Hayır."
    },
    "FLAVOUR_4_FAILUREMSG" : {
       "description" : "",
@@ -305,7 +305,7 @@
    },
    "FLAVOUR_4_HOWMANY" : {
       "description" : "",
-      "message" : "Just me."
+      "message" : "Yalnız ben."
    },
    "FLAVOUR_4_INTROTEXT" : {
       "description" : "",
@@ -321,7 +321,7 @@
    },
    "FLAVOUR_4_WHYSOMUCH" : {
       "description" : "",
-      "message" : "I'm traveling salesman."
+      "message" : "Gezgin satıcıyım"
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
@@ -329,7 +329,7 @@
    },
    "FLAVOUR_5_DANGER" : {
       "description" : "",
-      "message" : "You might get some interest from the press. Just ignore them."
+      "message" : "Basının biraz ilgisi ile çekebilirsin. Onları dikkate alma."
    },
    "FLAVOUR_5_FAILUREMSG" : {
       "description" : "",
@@ -337,7 +337,7 @@
    },
    "FLAVOUR_5_HOWMANY" : {
       "description" : "",
-      "message" : "It's only me."
+      "message" : "Sadece ben varım."
    },
    "FLAVOUR_5_INTROTEXT" : {
       "description" : "",
@@ -361,7 +361,7 @@
    },
    "FLAVOUR_6_DANGER" : {
       "description" : "",
-      "message" : "No."
+      "message" : "Hayır."
    },
    "FLAVOUR_6_FAILUREMSG" : {
       "description" : "",
@@ -369,7 +369,7 @@
    },
    "FLAVOUR_6_HOWMANY" : {
       "description" : "",
-      "message" : "It's only me."
+      "message" : "Sadece ben varım."
    },
    "FLAVOUR_6_INTROTEXT" : {
       "description" : "",
@@ -385,7 +385,7 @@
    },
    "FLAVOUR_6_WHYSOMUCH" : {
       "description" : "",
-      "message" : "I'm freelance journalist."
+      "message" : "Serbest gazeteciyim."
    },
    "FLAVOUR_7_ADTEXT" : {
       "description" : "",
@@ -401,7 +401,7 @@
    },
    "FLAVOUR_7_HOWMANY" : {
       "description" : "",
-      "message" : "Me and nobody else."
+      "message" : "Ben ve başka hiç kimse."
    },
    "FLAVOUR_7_INTROTEXT" : {
       "description" : "",
@@ -417,7 +417,7 @@
    },
    "FLAVOUR_7_WHYSOMUCH" : {
       "description" : "",
-      "message" : "The Mafia want me dead."
+      "message" : "Mafya ölmemi istiyor."
    },
    "FLAVOUR_8_ADTEXT" : {
       "description" : "",
@@ -425,7 +425,7 @@
    },
    "FLAVOUR_8_DANGER" : {
       "description" : "",
-      "message" : "No."
+      "message" : "Hayır."
    },
    "FLAVOUR_8_FAILUREMSG" : {
       "description" : "",
@@ -433,7 +433,7 @@
    },
    "FLAVOUR_8_HOWMANY" : {
       "description" : "",
-      "message" : "Only me."
+      "message" : "Sadece ben."
    },
    "FLAVOUR_8_INTROTEXT" : {
       "description" : "",
@@ -441,7 +441,7 @@
    },
    "FLAVOUR_8_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the fast ride. You have been paid in full."
+      "message" : "Hızlı yolculuk için teşekkürler. Ücretin tamamını aldınız."
    },
    "FLAVOUR_8_WHEREAREWE" : {
       "description" : "",
@@ -449,7 +449,7 @@
    },
    "FLAVOUR_8_WHYSOMUCH" : {
       "description" : "",
-      "message" : "I'm visiting a sick relative."
+      "message" : "Hasta bir yakınımı ziyaret ediyorum."
    },
    "FLAVOUR_9_ADTEXT" : {
       "description" : "",
@@ -457,7 +457,7 @@
    },
    "FLAVOUR_9_DANGER" : {
       "description" : "",
-      "message" : "The Police may try to stop you."
+      "message" : "Polis durdurmaya çalışabilir."
    },
    "FLAVOUR_9_FAILUREMSG" : {
       "description" : "",
@@ -465,7 +465,7 @@
    },
    "FLAVOUR_9_HOWMANY" : {
       "description" : "",
-      "message" : "Only me."
+      "message" : "Sadece ben."
    },
    "FLAVOUR_9_INTROTEXT" : {
       "description" : "",
@@ -473,7 +473,7 @@
    },
    "FLAVOUR_9_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the fast ride. You have been paid in full."
+      "message" : "Hızlı yolculuk için teşekkürler. Ücretin tamamını aldınız."
    },
    "FLAVOUR_9_WHEREAREWE" : {
       "description" : "",
@@ -485,31 +485,31 @@
    },
    "FROM" : {
       "description" : "",
-      "message" : "From:"
+      "message" : "Gönderen:"
    },
    "GROUP_DETAILS" : {
       "description" : "",
-      "message" : "Group details:"
+      "message" : "Grup detayı:"
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Hang up."
+      "message" : "Bekle."
    },
    "HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS" : {
       "description" : "",
-      "message" : "Hey!?! You are going to pay for this!!!"
+      "message" : "Hey!?! Bunun bedelini ödeyeceksin!!!"
    },
    "HOW_MANY_OF_YOU_ARE_THERE" : {
       "description" : "",
-      "message" : "How many of you are there?"
+      "message" : "Kaç kişisiniz?"
    },
    "HOW_SOON_YOU_MUST_BE_THERE" : {
       "description" : "",
-      "message" : "How soon you must be there?"
+      "message" : "En yakın ne zaman orada olmanız gerekiyor?"
    },
    "I_MUST_BE_THERE_BEFORE" : {
       "description" : "",
-      "message" : "I must be there before "
+      "message" : "Şu tarihten önce orada olmalıyım:"
    },
    "LY" : {
       "description" : "",
@@ -517,46 +517,46 @@
    },
    "OK_AGREED" : {
       "description" : "",
-      "message" : "Ok, agreed."
+      "message" : "Tamam, anlaştık."
    },
    "PIRATE_TAUNTS_0" : {
       "description" : "",
-      "message" : "You're going to regret dealing with {client}"
+      "message" : " {client} ile anlaştığına pişman olacaksın"
    },
    "PIRATE_TAUNTS_1" : {
       "description" : "",
-      "message" : "You have {client} on board? That was a bad idea."
+      "message" : "Güvertede {client} mi var? Bu kötü bir fikirdi."
    },
    "PIRATE_TAUNTS_2" : {
       "description" : "",
-      "message" : "Today isn't your lucky day! Prepare to die."
+      "message" : "Bugün şanslı günü değil! Ölmeye hazırlan."
    },
    "PIRATE_TAUNTS_3" : {
       "description" : "",
-      "message" : "You're not going to dock today!"
+      "message" : "Bugün inemeyeceksin!"
    },
    "TAXI" : {
       "description" : "",
-      "message" : "Taxi"
+      "message" : "Taksi"
    },
    "TO" : {
       "description" : "",
-      "message" : "To:"
+      "message" : "Alıcı:"
    },
    "WE_WANT_TO_BE_THERE_BEFORE" : {
       "description" : "",
-      "message" : "We want to be there before "
+      "message" : "Şu tarihten önce orada olmak istiyoruz:"
    },
    "WHY_SO_MUCH_MONEY" : {
       "description" : "",
-      "message" : "Why so much money?"
+      "message" : "Neden bu kadar çok para?"
    },
    "WILL_I_BE_IN_ANY_DANGER" : {
       "description" : "",
-      "message" : "Will I be in any danger?"
+      "message" : "Tehlikede olacak mıyım?"
    },
    "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP" : {
       "description" : "",
-      "message" : "You do not have enough cabin space on your ship."
+      "message" : "Geminizde yeterli kabin yeri yok."
    }
 }

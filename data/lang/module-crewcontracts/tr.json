@@ -1,7 +1,7 @@
 {
    "ASK_CANDIDATE_TO_SIT_A_TEST" : {
       "description" : "",
-      "message" : "Ask candidate to sit a test"
+      "message" : "Adaydan bir test almasını iste."
    },
    "CREWDETAILSHEETBB" : {
       "description" : "",
@@ -21,11 +21,11 @@
    },
    "GO_BACK" : {
       "description" : "",
-      "message" : "Go back"
+      "message" : "Geri"
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Hang up."
+      "message" : "Bekle."
    },
    "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER" : {
       "description" : "",
@@ -33,7 +33,7 @@
    },
    "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME" : {
       "description" : "",
-      "message" : "I'm sorry, your offer isn't attractive to me."
+      "message" : "Üzgünüm, teklifiniz bana cazip gelmedi."
    },
    "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT" : {
       "description" : "",
@@ -45,11 +45,11 @@
    },
    "NAVIGATOR" : {
       "description" : "",
-      "message" : "Navigator"
+      "message" : "Dümenci"
    },
    "NO_EXPERIENCE" : {
       "description" : "",
-      "message" : "No experience"
+      "message" : "Deneyimsiz"
    },
    "OK_I_SUPPOSE_THATS_ALL_RIGHT" : {
       "description" : "",
@@ -65,23 +65,23 @@
    },
    "SENSORS_AND_DEFENCE" : {
       "description" : "",
-      "message" : "Sensors and defence"
+      "message" : "Sensörler ve savunma"
    },
    "SHIPS_ENGINEER" : {
       "description" : "",
-      "message" : "Ship's Engineer"
+      "message" : "Gemi Mühendisi"
    },
    "SIMULATOR_TRAINING_ONLY" : {
       "description" : "",
-      "message" : "Simulator training only"
+      "message" : "Sadece simulatör eğitimi"
    },
    "SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS" : {
       "description" : "",
-      "message" : "Some experience in controlled environments"
+      "message" : "Kotrollü ortamda biraz deneyim"
    },
    "SUGGEST_NEW_WEEKLY_WAGE_OF_N" : {
       "description" : "",
-      "message" : "Suggest new weekly wage of {newAmount}"
+      "message" : "Yeni haftalık ücret olarak {newAmount} teklif et."
    },
    "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY" : {
       "description" : "",

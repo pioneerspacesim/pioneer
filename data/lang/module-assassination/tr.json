@@ -5,15 +5,15 @@
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
-      "message" : "Could you repeat the original request?"
+      "message" : "İlk isteğinizi tekrarlar mısınız?"
    },
    "DISTANCE" : {
       "description" : "",
-      "message" : "Distance:"
+      "message" : "Uzaklık:"
    },
    "EXCELLENT" : {
       "description" : "",
-      "message" : "Excellent."
+      "message" : "Mükemmel."
    },
    "FLAVOUR_0_ADTEXT" : {
       "description" : "",
@@ -137,7 +137,7 @@
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Hang up."
+      "message" : "Bekle."
    },
    "HOW_SOON_MUST_IT_BE_DONE" : {
       "description" : "",
@@ -157,7 +157,7 @@
    },
    "OK_AGREED" : {
       "description" : "",
-      "message" : "Ok, agreed."
+      "message" : "Tamam, anlaştık."
    },
    "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID" : {
       "description" : "",
@@ -173,11 +173,11 @@
    },
    "SPACEPORT" : {
       "description" : "",
-      "message" : "Spaceport:"
+      "message" : "Yıldız Limanı:"
    },
    "SYSTEM" : {
       "description" : "",
-      "message" : "System:"
+      "message" : "Sistem:"
    },
    "TARGET_NAME" : {
       "description" : "",

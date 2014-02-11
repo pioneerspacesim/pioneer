@@ -25,11 +25,11 @@
    },
    "GO_BACK" : {
       "description" : "",
-      "message" : "Go back"
+      "message" : "Geri"
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Hang up."
+      "message" : "Bekle."
    },
    "HYDROGEN" : {
       "description" : "",
@@ -45,7 +45,7 @@
    },
    "WATER" : {
       "description" : "",
-      "message" : "Water"
+      "message" : "Su"
    },
    "WE_WILL_ONLY_DISPOSE_OF" : {
       "description" : "",

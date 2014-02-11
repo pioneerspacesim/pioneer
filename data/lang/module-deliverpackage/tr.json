@@ -1,23 +1,23 @@
 {
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
-      "message" : "Could you repeat the original request?"
+      "message" : "İlk isteğinizi tekrarlar mısınız?"
    },
    "DANGER" : {
       "description" : "",
-      "message" : "Danger:"
+      "message" : "Tehlike:"
    },
    "DEADLINE" : {
       "description" : "",
-      "message" : "Deadline:"
+      "message" : "Bitiş:"
    },
    "DELIVERY" : {
       "description" : "",
-      "message" : "Delivery"
+      "message" : "Teslimat"
    },
    "DISTANCE" : {
       "description" : "",
-      "message" : "Distance:"
+      "message" : "Uzaklık:"
    },
    "EXCELLENT_I_WILL_LET_THE_RECIPIENT_KNOW_YOU_ARE_ON_YOUR_WAY" : {
       "description" : "",
@@ -61,7 +61,7 @@
    },
    "FLAVOUR_1_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "It is nothing special."
+      "message" : "Özel birşey değil"
    },
    "FLAVOUR_2_ADTEXT" : {
       "description" : "",
@@ -121,7 +121,7 @@
    },
    "FLAVOUR_4_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "We would be happy to pay you less money."
+      "message" : "Size daha az ödemekten mutluluk duyardık."
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
@@ -201,7 +201,7 @@
    },
    "FLAVOUR_8_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "It's really urgent."
+      "message" : "Gerçekten çok acil."
    },
    "FLAVOUR_9_ADTEXT" : {
       "description" : "",
@@ -221,11 +221,11 @@
    },
    "FLAVOUR_9_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "Our livelyhood depends on it."
+      "message" : "Yaşamımız buna bağlı."
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Hang up."
+      "message" : "Bekle."
    },
    "HOW_SOON_MUST_IT_BE_DELIVERED" : {
       "description" : "",
@@ -237,7 +237,7 @@
    },
    "IT_MUST_BE_DELIVERED_BY" : {
       "description" : "",
-      "message" : "It must be delivered by "
+      "message" : "Şu tarihte teslim edilmeli:"
    },
    "I_HIGHLY_DOUBT_IT" : {
       "description" : "",
@@ -253,15 +253,15 @@
    },
    "OK_AGREED" : {
       "description" : "",
-      "message" : "Ok, agreed."
+      "message" : "Tamam, anlaştık."
    },
    "PIRATE_TAUNTS_0" : {
       "description" : "",
-      "message" : "You're going to regret dealing with {client}"
+      "message" : " {client} ile anlaştığına pişman olacaksın"
    },
    "PIRATE_TAUNTS_1" : {
       "description" : "",
-      "message" : "Looks like my paycheck has arrived!"
+      "message" : "Görünüşe göre maaşım gelmiş!"
    },
    "PIRATE_TAUNTS_2" : {
       "description" : "",
@@ -277,7 +277,7 @@
    },
    "PIRATE_TAUNTS_5" : {
       "description" : "",
-      "message" : "Today isn't your lucky day! Prepare to die."
+      "message" : "Bugün şanslı günü değil! Ölmeye hazırlan."
    },
    "PIRATE_TAUNTS_6" : {
       "description" : "",
@@ -297,11 +297,11 @@
    },
    "SPACEPORT" : {
       "description" : "",
-      "message" : "Spaceport:"
+      "message" : "Yıldız Limanı:"
    },
    "SYSTEM" : {
       "description" : "",
-      "message" : "System:"
+      "message" : "Sistem:"
    },
    "THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN" : {
       "description" : "",
@@ -313,10 +313,10 @@
    },
    "WHY_SO_MUCH_MONEY" : {
       "description" : "",
-      "message" : "Why so much money?"
+      "message" : "Neden bu kadar çok para?"
    },
    "WILL_I_BE_IN_ANY_DANGER" : {
       "description" : "",
-      "message" : "Will I be in any danger?"
+      "message" : "Tehlikede olacak mıyım?"
    }
 }

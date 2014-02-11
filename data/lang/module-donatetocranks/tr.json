@@ -1,66 +1,66 @@
 {
    "FLAVOUR_0_MESSAGE" : {
       "description" : "",
-      "message" : "Please select an amount to donate to the Church of the Celestial Flying Spaghetti Monster."
+      "message" : "Lütfen İlahi Uçan Spagetti Canavarı Kilisesine yapmak istediğiniz bağışın miktarını seçiniz"
    },
    "FLAVOUR_0_TITLE" : {
       "description" : "",
-      "message" : "DONATE! The Church of The Celestial Flying Spaghetti Monster needs YOUR money to spread the word of god."
+      "message" : "BAĞIŞ YAPIN! İlahi Uçan Spagetti Canavarı Kilisesinin tanrının kelimelerini yaymak için SİZİN paranıza ihtiyacı var."
    },
    "FLAVOUR_1_MESSAGE" : {
       "description" : "",
-      "message" : "Peace be with you, brother. Please select an amount to donate to the Guardians of the Free Spirit."
+      "message" : "Barış seninle olsun, kardeşim. Lütfen Özgür Ruhun Koruyucularına yapmak istediğiniz bağış miktarını seçiniz."
    },
    "FLAVOUR_1_TITLE" : {
       "description" : "",
-      "message" : "DONATE. The Guardians of the Free Spirit humbly request your charity to support our monasteries."
+      "message" : "BAĞIŞ YAPIN. Özgür Ruhun Koruyucuları manastırlarımızı korumak için sizin desteğinizi rica ediyor."
    },
    "FLAVOUR_2_MESSAGE" : {
       "description" : "",
-      "message" : "Please select an amount to donate to War Orphan's Support, and end the suffering of children all over the galaxy."
+      "message" : "Lütfen Savaş Yetimleri Vakfına yapmak istediğiniz bağış miktarını seçiniz ve tüm galaksideki çocukların çektikleri acılara son verin."
    },
    "FLAVOUR_2_TITLE" : {
       "description" : "",
-      "message" : "FEELING GENEROUS? War Orphan's Support needs your help to keep up its essential work."
+      "message" : "CÖMERT Mİ HİSSEDİYORSUNUZ? Savaş Yetimleri Vakfı vazgeçilmez görevini yerine getirmek için sizin yardımınıza ihtiyacı var."
    },
    "FLAVOUR_3_MESSAGE" : {
       "description" : "",
-      "message" : "Please select an amount to donate to the GreenWatch, and end the pollution of our galaxy."
+      "message" : "Lütfen YeşilGözleme yapmak istediğiniz bağış miktarını seçiniz ve galaksimizdeki kirliliğe son verin."
    },
    "FLAVOUR_3_TITLE" : {
       "description" : "",
-      "message" : "CONTRIBUTE. The Friends of the Galaxy 'Ban Military Drives' campaign needs your money."
+      "message" : "YARDIM EDİN. Galaksi 'Askeri Sürücüleri Yasaklayın' Dostları kampanyasının sizin paranıza ihtiyacı var."
    },
    "FLAVOUR_4_MESSAGE" : {
       "description" : "",
-      "message" : "Please select an amount to donate."
+      "message" : "Lütfen bağış yapılacak miktarı seçin."
    },
    "FLAVOUR_4_TITLE" : {
       "description" : "",
-      "message" : "DONATE! Save our species. Stop the carnage of newly settled worlds."
+      "message" : "BAĞIŞ YAPIN! Türümüzü kurtarın. Yeni yerleşilen dünyalardaki katliamları durdurun."
    },
    "FLAVOUR_5_MESSAGE" : {
       "description" : "",
-      "message" : "Liberate your ship! Please choose amount to donate. Happy hacking."
+      "message" : "Geminizi özgür kılın! Lütfen bağış yapılacak miktarı seçin. Mutlu kırmalar."
    },
    "FLAVOUR_5_TITLE" : {
       "description" : "",
-      "message" : "SUPPORT FREEDOM! Stop the great injustice of proprietary software controlling your ship."
+      "message" : "ÖZGÜRLÜĞÜ DESTEKLEYİN! Geminizi kontrol eden ticari yazılımların büyük adaletsizliğine son verin."
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Hang up."
+      "message" : "Bekle."
    },
    "THANK_YOU_ALL_DONATIONS_ARE_WELCOME" : {
       "description" : "",
-      "message" : "Thank you. All donations are welcome."
+      "message" : "Teşekkür ederiz. Tüm bağışlar takdir edilir."
    },
    "WOW_THAT_WAS_VERY_GENEROUS" : {
       "description" : "",
-      "message" : "Wow! That was very generous."
+      "message" : "Bu çok cömertçeydi."
    },
    "YOU_DO_NOT_HAVE_ENOUGH_MONEY" : {
       "description" : "",
-      "message" : "You do not have enough money."
+      "message" : "Yeterli paranız yok."
    }
 }
