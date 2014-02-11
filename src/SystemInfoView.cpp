@@ -20,7 +20,7 @@
 SystemInfoView::SystemInfoView() : UIView()
 {
 	SetTransparency(true);
-	m_refresh = false;
+	m_refresh = REFRESH_NONE;
 }
 
 void SystemInfoView::OnBodySelected(SystemBody *b)
@@ -257,7 +257,7 @@ void SystemInfoView::OnClickBackground(Gui::MouseButtonEvent *e)
 	if (e->isdown && e->button == SDL_BUTTON_LEFT) {
 		// XXX reinit view unnecessary - we only want to show
 		// the general system info text...
-		m_refresh = true;
+		m_refresh = REFRESH_ALL;
 	}
 }
 
@@ -265,6 +265,7 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 {
 	DeleteAllChildren();
 	m_tabs = 0;
+	m_bodyIcons.clear();
 
 	if (!path.HasValidSystem())
 		return;
@@ -281,6 +282,7 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 
 		Gui::Label *l = (new Gui::Label(_info))->Color(255,255,0);
 		m_sbodyInfoTab->Add(l, 35, 300);
+		m_selectedBodyPath = SystemPath();
 
 		ShowAll();
 		return;
@@ -297,7 +299,6 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 
 	m_sbodyInfoTab->onMouseButtonEvent.connect(sigc::mem_fun(this, &SystemInfoView::OnClickBackground));
 
-	m_bodyIcons.clear();
 	int majorBodies, starports, onSurface;
 	{
 		float pos[2] = { 0, 0 };
@@ -429,32 +430,61 @@ void SystemInfoView::Draw3D()
 	UIView::Draw3D();
 }
 
-bool SystemInfoView::NeedsRefresh()
+SystemInfoView::RefreshType SystemInfoView::NeedsRefresh()
 {
 	if (!m_system || !Pi::sectorView->GetSelected().IsSameSystem(m_system->GetPath()))
-		return true;
+		return REFRESH_ALL;
+
+	if (m_system->GetUnexplored())
+		return REFRESH_NONE; // Nothing can be selected and we reset in SystemChanged
 
 	RefCountedPtr<StarSystem> currentSys = Pi::game->GetSpace()->GetStarSystem();
-	if ((!currentSys || currentSys->GetPath() != m_system->GetPath()) && Pi::sectorView->GetSelected() != m_selectedBodyPath)
-		return true;
+	if (!currentSys || currentSys->GetPath() != m_system->GetPath()) {
+		// We are not currently in the selected system
+		if (Pi::sectorView->GetSelected() != m_selectedBodyPath)
+			return REFRESH_SELECTED;
+	} else {
+		Body *navTarget = Pi::player->GetNavTarget();
+		if (navTarget && navTarget->GetSystemBody()->type != SystemBody::TYPE_STARPORT_SURFACE) {
+			// Navigation target is something we show in the info view
+			if (navTarget->GetSystemBody()->path != m_selectedBodyPath)
+				return REFRESH_SELECTED; // and wasn't selected, yet
+		} else {
+			// nothing to be selected
+			if (m_selectedBodyPath.IsBodyPath())
+				return REFRESH_SELECTED; // but there was something selected
+		}
+	}
 
-	return false;
+	return REFRESH_NONE;
 }
 
 void SystemInfoView::Update()
 {
-	if (m_refresh) {
-		SystemChanged(Pi::sectorView->GetSelected());
-		m_refresh = false;
-		assert(!NeedsRefresh());
+	switch (m_refresh) {
+		case REFRESH_ALL:
+			SystemChanged(Pi::sectorView->GetSelected());
+			m_refresh = REFRESH_NONE;
+			assert(NeedsRefresh() == REFRESH_NONE);
+			break;
+		case REFRESH_SELECTED:
+			UpdateIconSelections();
+			m_refresh = REFRESH_NONE;
+			assert(NeedsRefresh() == REFRESH_NONE);
+			break;
+		case REFRESH_NONE:
+			break;
 	}
     UIView::Update();
 }
 
 void SystemInfoView::OnSwitchTo()
 {
-	if (NeedsRefresh())
-		m_refresh = true;
+	if (m_refresh != REFRESH_ALL) {
+		RefreshType needsRefresh = NeedsRefresh();
+		if (needsRefresh != REFRESH_NONE)
+			m_refresh = needsRefresh;
+	}
     UIView::OnSwitchTo();
 }
 
@@ -466,7 +496,7 @@ void SystemInfoView::NextPage()
 
 void SystemInfoView::UpdateIconSelections()
 {
-	m_selectedBodyPath = m_system->GetPath();
+	m_selectedBodyPath = SystemPath();
 
 	for (std::vector<std::pair<std::string, BodyIcon*> >::iterator it = m_bodyIcons.begin();
 		 it != m_bodyIcons.end(); ++it) {
@@ -476,11 +506,11 @@ void SystemInfoView::UpdateIconSelections()
 		RefCountedPtr<StarSystem> currentSys = Pi::game->GetSpace()->GetStarSystem();
 		if (currentSys && currentSys->GetPath() == m_system->GetPath()) {
 			//navtarget can be only set in current system
-			if (Pi::player->GetNavTarget() &&
-				(*it).first == Pi::player->GetNavTarget()->GetLabel()) {
-
+			Body *navtarget = Pi::player->GetNavTarget();
+			if (navtarget && (*it).first == navtarget->GetLabel()) {
 			    (*it).second->SetSelectColor(Color(0, 255, 0, 255));
 				(*it).second->SetSelected(true);
+				m_selectedBodyPath = navtarget->GetSystemBody()->path;
 			}
 		} else {
 			SystemPath selected = Pi::sectorView->GetSelected();
