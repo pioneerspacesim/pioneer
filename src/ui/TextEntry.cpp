@@ -18,7 +18,8 @@ TextEntry::TextEntry(Context *context, const std::string &text) : Container(cont
 Point TextEntry::PreferredSize()
 {
 	const Point labelPreferredSize(m_label->PreferredSize());
-	const Point borderSize(GetContext()->GetSkin().BackgroundNormal().borderWidth*2);
+	const Skin::BorderedRectElement &elem(GetContext()->GetSkin().BackgroundNormal());
+	const Point borderSize(elem.borderWidth*2, elem.borderHeight*2);
 	return SizeAdd(labelPreferredSize, borderSize);
 }
 
