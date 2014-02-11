@@ -37,6 +37,7 @@ private:
 		Color m_selectColor;
 
 	};
+	bool NeedsRefresh();
 	void SystemChanged(const SystemPath &path);
 	void UpdateEconomyTab();
 	void OnBodyViewed(SystemBody *b);
