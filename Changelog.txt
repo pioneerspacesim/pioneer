@@ -12,7 +12,7 @@ February 2014
      * Quicksave can now be loaded directly from main menu
      * Paste support for text entry widgets (ie console)
      * Improve skybox, restore star rendering (#2736)
-     * New wheels up/down icon
+     * New wheels up/down icon (#2754)
 
    * Script API changes
      * Model.SetDebugFlags for adding debug effects to model drawing
