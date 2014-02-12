@@ -1,0 +1,10 @@
+{
+   "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH" : {
+      "description" : "",
+      "message" : "这里是 {station}. 你不足以支付你的靠港费用{fee}. 你的燃料被扣留了."
+   },
+   "WELCOME_ABOARD_STATION_FEE_DEDUCTED" : {
+      "description" : "",
+      "message" : "欢迎来到 {station}. 你的靠港和加油费用 {fee} 已经扣除."
+   }
+}

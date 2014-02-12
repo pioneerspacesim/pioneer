@@ -316,7 +316,7 @@
       "message" : "Detalle Fractal"
    },
    "FREE" : {
-      "description" : "",
+      "description" : "Used in Ship Information view as in Capacity: 10t (5t free)",
       "message" : "vacío"
    },
    "FRONT_WEAPON" : {
@@ -745,7 +745,7 @@
    },
    "QUICKLOAD" : {
       "description" : "",
-      "message" : "Quickload"
+      "message" : "Carga rápida"
    },
    "QUIT" : {
       "description" : "",

@@ -109,7 +109,7 @@
    },
    "FLAVOUR_10_FAILUREMSG" : {
       "description" : "",
-      "message" : "Nutzlos! Du hast ewig gebraucht. Für diese Leistung wollen wir dich nicht zahlen."
+      "message" : "You are such an inexperienced pilot. I'm not going to pay for this."
    },
    "FLAVOUR_10_HOWMANY" : {
       "description" : "",
@@ -141,7 +141,7 @@
    },
    "FLAVOUR_11_FAILUREMSG" : {
       "description" : "",
-      "message" : "Wegen deiner Inkompetenz werde ich meinen Job verlieren. Also werde ich dieses Geld dringender brauchen als du."
+      "message" : "I'm going to lose my job because of your incompetence. So I need that money more than you."
    },
    "FLAVOUR_11_HOWMANY" : {
       "description" : "",
