@@ -47,9 +47,13 @@ local updateTable = function (station)
 	local rows = {}
 	for ref,ad in pairs(adverts) do
 		local icon = ad.icon or "default"
+		local label = ui:Label(ad.description)
+		if type(ad.isEnabled) == "function" and not ad.isEnabled(ref) then
+			label:SetColor({ r = 0.4, g = 0.4, b = 0.4 })
+		end
 		table.insert(rows, {
 			ui:Image("icons/bbs/"..icon..".png", { "PRESERVE_ASPECT" }),
-			ad.description,
+			label,
 		})
 	end
 
@@ -72,6 +76,7 @@ end
 
 Event.Register("onAdvertAdded", updateRowRefs)
 Event.Register("onAdvertRemoved", updateRowRefs) -- XXX close form if open
+Event.Register("onAdvertChanged", updateTable)
 
 local bulletinBoard = function (args, tg)
 	tabGroup = tg
