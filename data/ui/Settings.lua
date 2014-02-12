@@ -153,7 +153,7 @@ ui.templates.Settings = function (args)
 
 		return ui:VBox():PackEnd(ui:Grid({1,2,1}, 3)
 			:SetCell(0,0,muteBox(Engine.GetMasterMuted, Engine.SetMasterMuted))
-			:SetCell(1,0,volumeSlider(l.MASTER, Engine.GetMasterVolume, Engine.SetMasterVolume))
+			:SetCell(1,0,volumeSlider(l.MASTER_VOL, Engine.GetMasterVolume, Engine.SetMasterVolume))
 			:SetCell(0,1,muteBox(Engine.GetMusicMuted, Engine.SetMusicMuted))
 			:SetCell(1,1,volumeSlider(l.MUSIC, Engine.GetMusicVolume, Engine.SetMusicVolume))
 			:SetCell(0,2,muteBox(Engine.GetEffectsMuted, Engine.SetEffectsMuted))
