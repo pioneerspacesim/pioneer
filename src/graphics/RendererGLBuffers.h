@@ -75,9 +75,9 @@ private:
 	unsigned int m_maxSize;
 };
 
-class IndexBuffer : public BufferBase {
+class OldIndexBuffer : public BufferBase {
 public:
-	IndexBuffer(unsigned int maxElements) :
+	OldIndexBuffer(unsigned int maxElements) :
 		BufferBase(GL_ELEMENT_ARRAY_BUFFER, maxElements)
 	{
 	}
@@ -87,9 +87,9 @@ public:
 	}
 };
 
-class VertexBuffer : public BufferBase {
+class OldVertexBuffer : public BufferBase {
 public:
-	VertexBuffer(unsigned int maxElements) :
+	OldVertexBuffer(unsigned int maxElements) :
 		BufferBase(GL_ARRAY_BUFFER, maxElements)
 	{
 		m_states[0] = GL_VERTEX_ARRAY;
@@ -152,9 +152,9 @@ protected:
 	int m_numstates;
 };
 
-class UnlitVertexBuffer : public VertexBuffer {
+class UnlitVertexBuffer : public OldVertexBuffer {
 public:
-	UnlitVertexBuffer(unsigned int maxElements) : VertexBuffer(maxElements) {
+	UnlitVertexBuffer(unsigned int maxElements) : OldVertexBuffer(maxElements) {
 		m_states[0] = GL_VERTEX_ARRAY;
 		m_states[1] = GL_COLOR_ARRAY;
 		m_numstates = 2;

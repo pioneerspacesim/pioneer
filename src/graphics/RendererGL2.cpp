@@ -18,6 +18,7 @@
 #include "gl2/GL2Material.h"
 #include "gl2/GL2RenderState.h"
 #include "gl2/GL2RenderTarget.h"
+#include "gl2/GL2VertexBuffer.h"
 #include "gl2/MultiMaterial.h"
 #include "gl2/Program.h"
 #include "gl2/RingMaterial.h"
@@ -47,8 +48,8 @@ struct MeshRenderInfo : public RenderInfo {
 		delete ibuf;
 	}
 	int numIndices;
-	VertexBuffer *vbuf;
-	IndexBuffer *ibuf;
+	OldVertexBuffer *vbuf;
+	OldIndexBuffer *ibuf;
 };
 
 // multiple surfaces can be buffered in one vbo so need to
@@ -556,6 +557,35 @@ bool RendererGL2::DrawStaticMesh(StaticMesh *t, RenderState *rs)
 	return true;
 }
 
+bool RendererGL2::DrawBuffer(VertexBuffer*, RenderState*, Material*, PrimitiveType)
+{
+	return false;
+}
+
+bool RendererGL2::DrawBufferIndexed(VertexBuffer *vb, IndexBuffer *ib, RenderState *state, Material *mat, PrimitiveType pt)
+{
+	SetRenderState(state);
+	mat->Apply();
+
+	auto gvb = static_cast<GL2::VertexBuffer*>(vb);
+	auto gib = static_cast<GL2::IndexBuffer*>(ib);
+
+	glBindBuffer(GL_ARRAY_BUFFER, gvb->GetBuffer());
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gib->GetBuffer());
+
+	gvb->SetAttribPointers();
+
+	glDrawElements(pt, ib->GetIndexCount(), GL_UNSIGNED_SHORT, 0);
+
+	gvb->UnsetAttribPointers();
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+	return true;
+}
+
+
 void RendererGL2::EnableClientStates(const VertexArray *v)
 {
 	PROFILE_SCOPED();
@@ -621,7 +651,7 @@ bool RendererGL2::BufferStaticMesh(StaticMesh *mesh)
 
 	int indexAdjustment = 0;
 
-	VertexBuffer *buf = 0;
+	OldVertexBuffer *buf = 0;
 	for (StaticMesh::SurfaceIterator surface = mesh->SurfacesBegin(); surface != mesh->SurfacesEnd(); ++surface) {
 		const int numsverts = (*surface)->GetNumVerts();
 		const VertexArray *va = (*surface)->GetVertices();
@@ -640,7 +670,7 @@ bool RendererGL2::BufferStaticMesh(StaticMesh *mesh)
 			}
 
 			if (!buf)
-				buf = new VertexBuffer(totalVertices);
+				buf = new OldVertexBuffer(totalVertices);
 			buf->Bind();
 			buf->BufferData<ModelVertex>(numsverts, vts.get());
 		} else if (background) {
@@ -672,7 +702,7 @@ bool RendererGL2::BufferStaticMesh(StaticMesh *mesh)
 				adjustedIndices[i] = originalIndices[i] + indexAdjustment;
 
 			if (!meshInfo->ibuf)
-				meshInfo->ibuf = new IndexBuffer(mesh->GetNumIndices());
+				meshInfo->ibuf = new OldIndexBuffer(mesh->GetNumIndices());
 			meshInfo->ibuf->Bind();
 			const int ioffset = meshInfo->ibuf->BufferIndexData((*surface)->GetNumIndices(), &adjustedIndices[0]);
 			surfaceInfo->glOffset = ioffset;
@@ -829,6 +859,16 @@ RenderTarget *RendererGL2::CreateRenderTarget(const RenderTargetDesc &desc)
 	rt->CheckStatus();
 	rt->Unbind();
 	return rt;
+}
+
+VertexBuffer *RendererGL2::CreateVertexBuffer(const VertexBufferDesc &desc)
+{
+	return new GL2::VertexBuffer(desc);
+}
+
+IndexBuffer *RendererGL2::CreateIndexBuffer(Uint16 size, BufferUsage usage)
+{
+	return new GL2::IndexBuffer(size, usage);
 }
 
 // XXX very heavy. in the future when all GL calls are made through the

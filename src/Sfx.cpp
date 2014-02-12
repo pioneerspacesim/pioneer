@@ -237,7 +237,7 @@ void Sfx::Init(Graphics::Renderer *r)
 	Graphics::MaterialDescriptor desc;
 	RefCountedPtr<Graphics::Material> explosionMat(r->CreateMaterial(desc));
 
-	explosionEffect = new Graphics::Drawables::Sphere3D(explosionMat, alphaState, 2);
+	explosionEffect = new Graphics::Drawables::Sphere3D(r, explosionMat, alphaState, 2);
 
 	desc.textures = 1;
 	damageParticle = r->CreateMaterial(desc);

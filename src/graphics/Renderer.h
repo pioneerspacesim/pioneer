@@ -6,6 +6,7 @@
 
 #include "WindowSDL.h"
 #include "libs.h"
+#include "graphics/Types.h"
 #include <map>
 #include <memory>
 
@@ -44,6 +45,9 @@ class Surface;
 class Texture;
 class TextureDescriptor;
 class VertexArray;
+class VertexBuffer;
+class IndexBuffer;
+struct VertexBufferDesc;
 struct RenderStateDesc;
 struct RenderTargetDesc;
 
@@ -149,7 +153,10 @@ public:
 	//high amount of textured quads for particles etc
 	virtual bool DrawPointSprites(int count, const vector3f *positions, RenderState *rs, Material *material, float size) { return false; }
 	//complex unchanging geometry that is worthwhile to store in VBOs etc.
+	//DEPRECATED, use DrawBuffer/DrawBufferIndexed
 	virtual bool DrawStaticMesh(StaticMesh*, RenderState*) { return false; }
+	virtual bool DrawBuffer(VertexBuffer*, RenderState*, Material*, PrimitiveType type=TRIANGLES) { return false; }
+	virtual bool DrawBufferIndexed(VertexBuffer*, IndexBuffer*, RenderState*, Material*, PrimitiveType=TRIANGLES) { return false; }
 
 	//creates a unique material based on the descriptor. It will not be deleted automatically.
 	virtual Material *CreateMaterial(const MaterialDescriptor &descriptor) = 0;
@@ -157,6 +164,8 @@ public:
 	virtual RenderState *CreateRenderState(const RenderStateDesc &) = 0;
 	//returns 0 if unsupported
 	virtual RenderTarget *CreateRenderTarget(const RenderTargetDesc &) { return 0; }
+	virtual VertexBuffer *CreateVertexBuffer(const VertexBufferDesc&) = 0;
+	virtual IndexBuffer *CreateIndexBuffer(Uint16 size, BufferUsage) = 0;
 
 	Texture *GetCachedTexture(const std::string &type, const std::string &name);
 	void AddCachedTexture(const std::string &type, const std::string &name, Texture *texture);
