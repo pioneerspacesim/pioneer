@@ -316,7 +316,7 @@
       "message" : "Fractal detail"
    },
    "FREE" : {
-      "description" : "",
+      "description" : "Used in Ship Information view as in Capacity: 10t (5t free)",
       "message" : "free"
    },
    "FRONT_WEAPON" : {
