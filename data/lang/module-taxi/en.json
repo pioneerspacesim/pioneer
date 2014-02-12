@@ -109,7 +109,7 @@
    },
    "FLAVOUR_10_FAILUREMSG" : {
       "description" : "",
-      "message" : "You are so inexperienced pilot. Not going to pay for this."
+      "message" : "You are such an inexperienced pilot. I'm not going to pay for this."
    },
    "FLAVOUR_10_HOWMANY" : {
       "description" : "",
@@ -141,7 +141,7 @@
    },
    "FLAVOUR_11_FAILUREMSG" : {
       "description" : "",
-      "message" : "I'm going to lost my job because of your incompetence. So I need that money more than you."
+      "message" : "I'm going to lose my job because of your incompetence. So I need that money more than you."
    },
    "FLAVOUR_11_HOWMANY" : {
       "description" : "",
