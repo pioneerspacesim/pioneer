@@ -13,6 +13,7 @@ February 2014
      * Paste support for text entry widgets (ie console)
      * Improve skybox, restore star rendering (#2736)
      * New wheels up/down icon (#2754)
+     * The `console.lua` script is now run at each game start (#2746)
 
    * Script API changes
      * Model.SetDebugFlags for adding debug effects to model drawing
