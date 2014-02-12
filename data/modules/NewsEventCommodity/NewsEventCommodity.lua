@@ -39,10 +39,10 @@ local l = Lang.GetResource("module-newseventcommodity")
 local ui = Engine.ui
 
 local maxDist  = 50         -- for spawning news (ly)
-local minTime = 31536000 * 0 --tmp for testing  -- no news the first year of a new game (sec)
+local minTime = 31536000    -- no news the first year of a new game (sec)
 
 -- to spawn a new event per hyperjump, provided no other news.
-local eventProbability = 1 -- tmp for testing, should be 1/30
+local eventProbability = 1/30
 
 -- max index of flavoured variants
 local maxIndexOfIndNewspapers = 10
@@ -208,15 +208,12 @@ local createNewsEvent = function (timeInHyper)
 		i = i + 1
 		flavour = Engine.rand:Integer(1, #flavours)
 		cargo = flavours[flavour].cargo
-		print("--ireration:", i, "cargo:", cargo)
 		local candidateSystems = copyTable(nearbySystems)
 		repeat
 			local index = Engine.rand:Integer(1, #candidateSystems)
 			system = candidateSystems[index]
 			if system:IsCommodityLegal(cargo) then
-				print("---1 cargo legal in system:", system.name)
 			else
-				print("---0 cargo illegal in system:", system.name)
 				system = nil
 			end
 			table.remove(candidateSystems, index)
@@ -251,7 +248,7 @@ local createNewsEvent = function (timeInHyper)
 	})
 	table.insert(news, newsEvent)
 
-	print(string.format("--- NEWS created: #news = %s, for system %s, exp: %s", #news, system.name, Format.Date(expires)))
+	print(string.format("NEWS created: #news = %s", #news))
 end
 
 
@@ -259,8 +256,6 @@ end
 local checkOldNews = function ()
 	for i,n in pairs(news) do
 		if n.expires < Game.time then
-			print(string.format("- removed 1 expired NEWS for system %s, exp: %s",
-				n.syspath:GetStarSystem().name, Format.Date(n.expires)))
 			table.remove(news, i)
 		end
 	end
@@ -271,11 +266,7 @@ end
 local checkAdvertsRemove = function(station)
 	for ref,ad in pairs(ads) do
 		local len = tableLength(ads)
-		print(string.format("- checking ads, #ads: %s, for system: %s, station: %s",
-							len, ad.n.syspath:GetStarSystem().name, ad.station.label))
 		if ad.n.expires < Game.time then
-			print(string.format("- removed 1 expired AD for system %s, station: %s",
-								ad.n.syspath:GetStarSystem().name, ad.station.label))
 			ad.station:RemoveAdvert(ref)
 		end
 	end
@@ -284,37 +275,22 @@ end
 -- check if we should add any ads to the BBS of the station
 local checkAdvertsAdd = function(station)
 
-	local stationHasThisNews = function (t,val)
-		for _, value in pairs(t) do
-			if value.n == val and value.station.label == station.label then
-				return true
-			end
-		end
-		return false
-	end
-
 	-- a system path that points to the current star system
 	local currentSystem = Game.system.path
 
 	-- if there are any news, go through them
 	for i,n in pairs(news) do
-		-- don't place ad if the news is already on the BBS of this station
-		-- (e.g. re-docking with space station in same system)
---		if not stationHasThisNews(ads, n) then
-			-- don't place ad if we're in the system of the event
-			if not currentSystem:IsSameSystem(n.syspath) then
-				ref = station:AddAdvert(
-					{description = n.description,
-					 icon = "news",
-					 onChat = onChat,
-					 onDelete = onDelete})
-				ads[ref] = {n=n, station=station}
+		-- don't place ad if we're in the system of the event
+		if not currentSystem:IsSameSystem(n.syspath) then
+			ref = station:AddAdvert(
+				{description = n.description,
+				 icon = "news",
+				 onChat = onChat,
+				 onDelete = onDelete})
+			ads[ref] = {n=n, station=station}
 
-				local length = tableLength(ads)
-				print(string.format("---  placed ad at base: %s, for news from %s, #ads = %s",
-									station.label, n.syspath:GetStarSystem().name, length))
-			end
---		end
+			local length = tableLength(ads)
+		end
 	end
 end
 
@@ -370,11 +346,9 @@ local onShipDocked = function (ship, station)
 
 	-- if there are any news,
 	for i,n in pairs(news) do
-		print(string.format(" --- onShipDocked check news i = %s, cargo = %s", i,n.cargo))
 
 		-- if this is the system of the news
 		if currentSystem:IsSameSystem(n.syspath) then
-			print(" --- onShipDocked modify commodity market")
 
 			-- send a grateful greeting from the station if the player cargo is right
 			if ship:GetEquipCount('CARGO', n.cargo) > 0 and n.demand > 0 then
@@ -383,14 +357,12 @@ local onShipDocked = function (ship, station)
 												   cargo = n.cargo:lower():gsub("_"," ") -- lower case & replace "_", " "
 				})
 
-				print("--GREETING:", greeting)
 				Comms.Message(greeting, ship.label)
 			end
 
 			local price = station:GetEquipmentPrice(n.cargo)
 			local stock = station:GetEquipmentStock(n.cargo)
 
-			print(string.format(" ---- %s normal price = %s, stock = %s", n.cargo, price, stock))
 			local newPrice, newStockChange
 			if n.demand > 0 then
 				newPrice = n.demand * price -- increase price
