@@ -28,6 +28,7 @@ February 2014
      * Fix Lua error from TradeShips when colliding and hyperjumping (#2701,#2731)
      * Reset mouse grab state on game exit (#2739)
      * Fix a potent bug when destroying copies of invalid LuaRefs (#2745)
+     * Fix English in Taxi missions (#2752)
 
    * Internal changes
      * Moved model debug effects (wireframe, collision mesh) out of
