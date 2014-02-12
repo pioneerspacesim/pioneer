@@ -32,12 +32,20 @@ void SystemInfoView::OnBodySelected(SystemBody *b)
 
 	SystemPath path = m_system->GetPathOf(b);
 	RefCountedPtr<StarSystem> currentSys = Pi::game->GetSpace()->GetStarSystem();
-	if (currentSys && currentSys->GetPath() == m_system->GetPath()) {
-		Body* body = Pi::game->GetSpace()->FindBodyForPath(&path);
-		if(body != 0)
-			Pi::player->SetNavTarget(body);
-	} else if (b->GetSuperType() == SystemBody::SUPERTYPE_STAR) { // We allow hyperjump to any star of the system
-		Pi::sectorView->SetSelected(path);
+	bool isCurrentSystem = (currentSys && currentSys->GetPath() == m_system->GetPath());
+
+	if (path == m_selectedBodyPath) {
+		if (isCurrentSystem) {
+			Pi::player->SetNavTarget(0);
+		}
+	} else {
+		if (isCurrentSystem) {
+			Body* body = Pi::game->GetSpace()->FindBodyForPath(&path);
+			if(body != 0)
+				Pi::player->SetNavTarget(body);
+		} else if (b->GetSuperType() == SystemBody::SUPERTYPE_STAR) { // We allow hyperjump to any star of the system
+			Pi::sectorView->SetSelected(path);
+		}
 	}
 
 	UpdateIconSelections();
