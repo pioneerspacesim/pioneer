@@ -217,15 +217,15 @@
    },
    "DISPLAY_HUD_TRAILS" : {
       "description" : "",
-      "message" : "HUD izlerini görüntüle"
+      "message" : "HUD izlerini göster"
    },
    "DISPLAY_NAV_TUNNELS" : {
       "description" : "",
-      "message" : "Nav tünellerini görüntüle"
+      "message" : "Nav tünellerini göster"
    },
    "DISPLAY_SPEED_LINES" : {
       "description" : "",
-      "message" : "Hız çizgilerini görüntüle"
+      "message" : "Hız çizgilerini göster"
    },
    "DOCK_AT_CURRENT_TARGET" : {
       "description" : "",
@@ -513,7 +513,7 @@
    },
    "LY" : {
       "description" : "",
-      "message" : "ly"
+      "message" : "Iy"
    },
    "MAKE_NEW_FACE" : {
       "description" : "",

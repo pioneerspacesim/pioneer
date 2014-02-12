@@ -105,7 +105,7 @@
    },
    "FLAVOUR_4_ADTEXT" : {
       "description" : "",
-      "message" : "POSTAL SERVICE. We require a ship for the delivery run to {system} system."
+      "message" : "POSTA HİZMETİ: {system} sistemine teslimat için bir gemiye ihtiyacımız var."
    },
    "FLAVOUR_4_FAILUREMSG" : {
       "description" : "",
@@ -141,7 +141,7 @@
    },
    "FLAVOUR_5_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "Is it a lot? I should rethink my offer!"
+      "message" : "Çok mu fazla? Teklifimi yeniden düşünmeliyim!"
    },
    "FLAVOUR_6_ADTEXT" : {
       "description" : "",
@@ -161,7 +161,7 @@
    },
    "FLAVOUR_6_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "I don't think it's a lot."
+      "message" : "Çok fazla olduğunu düşünmüyorum."
    },
    "FLAVOUR_7_ADTEXT" : {
       "description" : "",
@@ -181,11 +181,11 @@
    },
    "FLAVOUR_7_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "Standard rates, we work with the market."
+      "message" : "Standart oranlar, marketle çalışıyoruz."
    },
    "FLAVOUR_8_ADTEXT" : {
       "description" : "",
-      "message" : "NEARBY DELIVERY. Require quick delivery of an item to {starport}."
+      "message" : "YAKIN TESLİMAT. {starport} limanına hızlı teslimat gerekiyor."
    },
    "FLAVOUR_8_FAILUREMSG" : {
       "description" : "",
@@ -229,11 +229,11 @@
    },
    "HOW_SOON_MUST_IT_BE_DELIVERED" : {
       "description" : "",
-      "message" : "How soon must it be delivered?"
+      "message" : "En yakın ne zaman teslim edilmesi gerekiyor?"
    },
    "IT_COULD_BE_DANGEROUS_YOU_SHOULD_MAKE_SURE_YOURE_ADEQUATELY_PREPARED" : {
       "description" : "",
-      "message" : "It could be dangerous, you should make sure you're adequately prepared."
+      "message" : "Tehlikeli olabilir, yeterince hazırlandığından emin olmalısın."
    },
    "IT_MUST_BE_DELIVERED_BY" : {
       "description" : "",
@@ -241,7 +241,7 @@
    },
    "I_HIGHLY_DOUBT_IT" : {
       "description" : "",
-      "message" : "I highly doubt it."
+      "message" : "Ciddi şüphelerim var."
    },
    "LY" : {
       "description" : "",
@@ -249,7 +249,7 @@
    },
    "NOT_ANY_MORE_THAN_USUAL" : {
       "description" : "",
-      "message" : "Not any more than usual."
+      "message" : "Olağandan daha fazla değil."
    },
    "OK_AGREED" : {
       "description" : "",
@@ -265,11 +265,11 @@
    },
    "PIRATE_TAUNTS_2" : {
       "description" : "",
-      "message" : "You're working for {client}? That was a bad idea."
+      "message" : "{client} için mi çalışıyorsun? Bu kötü bir fikirdi."
    },
    "PIRATE_TAUNTS_3" : {
       "description" : "",
-      "message" : "Your cargo and your life, pilot!"
+      "message" : "Kargon ve hayatın, sür!"
    },
    "PIRATE_TAUNTS_4" : {
       "description" : "",
@@ -293,7 +293,7 @@
    },
    "PIRATE_TAUNTS_9" : {
       "description" : "",
-      "message" : "You'll pay for that cargo, with your life."
+      "message" : "O kargo için ödeme yapacaksın, hayatınla!"
    },
    "SPACEPORT" : {
       "description" : "",

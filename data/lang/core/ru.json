@@ -261,7 +261,7 @@
    },
    "COUNT_STARPORTS" : {
       "description" : "",
-      "message" : "космопортом(-ами)"
+      "message" : "космопортами"
    },
    "CO_ATMOSPHERE" : {
       "description" : "",
@@ -1565,7 +1565,7 @@
    },
    "STARPORT" : {
       "description" : "",
-      "message" : "Космопорт"
+      "message" : "космопортом"
    },
    "STARPORTS" : {
       "description" : "",
