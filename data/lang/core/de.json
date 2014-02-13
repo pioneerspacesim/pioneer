@@ -809,19 +809,19 @@
    },
    "MAP_VIEW_ROTATE_DOWN" : {
       "description" : "",
-      "message" : "Rotate View Down"
+      "message" : "Rotierende Ansicht nach unten"
    },
    "MAP_VIEW_ROTATE_LEFT" : {
       "description" : "",
-      "message" : "Rotate View Left"
+      "message" : "Rotierende Ansicht nach Links"
    },
    "MAP_VIEW_ROTATE_RIGHT" : {
       "description" : "",
-      "message" : "Rotate View Right"
+      "message" : "Rotierende Ansicht nach Rechts"
    },
    "MAP_VIEW_ROTATE_UP" : {
       "description" : "",
-      "message" : "Rotate View Up"
+      "message" : "Rotierende Ansicht nach Oben"
    },
    "MAP_VIEW_SHIFT_BACKWARD" : {
       "description" : "",

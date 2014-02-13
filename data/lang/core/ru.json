@@ -545,7 +545,7 @@
    },
    "GOVERNMENT_TYPE" : {
       "description" : "",
-      "message" : "Тип правления:"
+      "message" : "Политический строй:"
    },
    "GRAIN" : {
       "description" : "",
@@ -1713,7 +1713,7 @@
    },
    "SYSTEM" : {
       "description" : "",
-      "message" : "системы"
+      "message" : "Система"
    },
    "SYSTEM_NUMBER" : {
       "description" : "",

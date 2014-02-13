@@ -553,7 +553,7 @@
    },
    "MASTER_VOL" : {
       "description" : "Master sound in settings option",
-      "message" : "Master:"
+      "message" : "Fő hangerő:"
    },
    "MAX" : {
       "description" : "",

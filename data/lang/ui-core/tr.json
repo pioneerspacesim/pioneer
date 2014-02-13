@@ -169,7 +169,7 @@
    },
    "CREDIBLE" : {
       "description" : "For player reputation",
-      "message" : "Credible"
+      "message" : "İnanılır"
    },
    "CREW_CABINS" : {
       "description" : "",
@@ -297,11 +297,11 @@
    },
    "EXPERIENCED" : {
       "description" : "For player reputation",
-      "message" : "Experienced"
+      "message" : "Deneyimli"
    },
    "EXPERT" : {
       "description" : "For player reputation",
-      "message" : "Expert"
+      "message" : "Uzman"
    },
    "FAILED" : {
       "description" : "",
@@ -437,11 +437,11 @@
    },
    "INCOMPETENT" : {
       "description" : "For player reputation",
-      "message" : "Incompetent"
+      "message" : "Yetersiz"
    },
    "INEXPERIENCED" : {
       "description" : "For player reputation",
-      "message" : "Inexperienced"
+      "message" : "Deneyimsiz"
    },
    "INVERT_MOUSE_Y" : {
       "description" : "",
@@ -549,11 +549,11 @@
    },
    "MASTER" : {
       "description" : "For player reputation",
-      "message" : "Master"
+      "message" : "Usta"
    },
    "MASTER_VOL" : {
       "description" : "Master sound in settings option",
-      "message" : "Master:"
+      "message" : "Usta:"
    },
    "MAX" : {
       "description" : "",
@@ -657,7 +657,7 @@
    },
    "NOBODY" : {
       "description" : "For player reputation",
-      "message" : "Nobody"
+      "message" : "Hiç kimse"
    },
    "NONE" : {
       "description" : "",
@@ -769,7 +769,7 @@
    },
    "PROFESSIONAL" : {
       "description" : "For player reputation",
-      "message" : "Professional"
+      "message" : "Profesyonel"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
@@ -801,7 +801,7 @@
    },
    "RELIABLE" : {
       "description" : "For player reputation",
-      "message" : "Reliable"
+      "message" : "Güvenilir"
    },
    "REPAIR_X_HULL_DAMAGE_FOR_X" : {
       "description" : "",
@@ -809,7 +809,7 @@
    },
    "REPUTATION" : {
       "description" : "",
-      "message" : "Reputation"
+      "message" : "İtibar"
    },
    "REQUEST_LAUNCH" : {
       "description" : "",
@@ -937,7 +937,7 @@
    },
    "TRUSTWORTHY" : {
       "description" : "For player reputation",
-      "message" : "Trustworthy"
+      "message" : "İtimat edilir"
    },
    "TYPE" : {
       "description" : "",
@@ -949,7 +949,7 @@
    },
    "UNRELIABLE" : {
       "description" : "",
-      "message" : "Unreliable"
+      "message" : "Güvenilmez"
    },
    "UP_ACCEL" : {
       "description" : "",

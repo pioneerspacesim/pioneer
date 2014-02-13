@@ -61,35 +61,35 @@
    },
    "DENY_0" : {
       "description" : "",
-      "message" : "I'm sorry, but I don't think I could trust you with my safety."
+      "message" : "Üzgünüm, fakat güvenliğim konusunda size güvenebileceğimi düşünmüyorum."
    },
    "DENY_1" : {
       "description" : "",
-      "message" : "Come back when you have some qualifications."
+      "message" : "Bazı vasıflar edindikden sonra geri gel."
    },
    "DENY_2" : {
       "description" : "",
-      "message" : "I don't think you're the pilot I'm looking for."
+      "message" : "Aradığım pilotun siz olduğunu düşünmüyorum."
    },
    "DENY_3" : {
       "description" : "",
-      "message" : "You don't look like someone capable of transporting people."
+      "message" : "İnsanları taşıma kabiliyeti olan birine benzemiyorsunuz."
    },
    "DENY_4" : {
       "description" : "",
-      "message" : "You're not the kind of pilot I'm looking for."
+      "message" : "Aradığım türden bir pilot değilsiniz."
    },
    "DENY_5" : {
       "description" : "",
-      "message" : "You seem much too inexperienced to handle a transport of this importance."
+      "message" : "Bu önemde bir taşımayla başa çıkmak için çok deneyimsiz görünüyorsunuz."
    },
    "DENY_6" : {
       "description" : "",
-      "message" : "I have never heard of you. I need someone experienced for this journey."
+      "message" : "Sizi hiç duymadım. Bu yolculuk için deneyimli birine ihtiyacım var."
    },
    "DENY_7" : {
       "description" : "",
-      "message" : "I'm not willing to risk my life on someone without any qualifications like you."
+      "message" : "Sizin gibi hiç bir vasfı olmayan biriyle hayatımı riske atmak istemiyorum."
    },
    "DISTANCE" : {
       "description" : "",

@@ -17,35 +17,35 @@
    },
    "DENY_0" : {
       "description" : "",
-      "message" : "I'm sorry, but I don't think I can trust you with this delivery."
+      "message" : "Сожалею, но я не могу доверить вам эту посылку. "
    },
    "DENY_1" : {
       "description" : "",
-      "message" : "Come back when you have some qualifications."
+      "message" : "Возвращайтесь, когда у вас будет больше опыта."
    },
    "DENY_2" : {
       "description" : "",
-      "message" : "I don't think you're the pilot I'm looking for."
+      "message" : "Я не думаю, что вы тот пилот, которого я ищу."
    },
    "DENY_3" : {
       "description" : "",
-      "message" : "You don't look like someone I can trust with this delivery."
+      "message" : "Вы не похожи на человека, которому можно доверить эту посылку."
    },
    "DENY_4" : {
       "description" : "",
-      "message" : "You're not the kind of pilot I'm looking for."
+      "message" : "Вы не из тех пилотов, которых я ищу."
    },
    "DENY_5" : {
       "description" : "",
-      "message" : "You seem much too inexperienced to handle a task of this importance."
+      "message" : "Вы кажетесь неопытным, чтобы справиться с задачей такой важности."
    },
    "DENY_6" : {
       "description" : "",
-      "message" : "I have never heard of you. I need someone experienced for this delivery."
+      "message" : "Я никогда не слышал о вас. Мне нужен более опытный человек для доставки посылки."
    },
    "DENY_7" : {
       "description" : "",
-      "message" : "I'm not willing to risk this delivery on someone without any qualifications like you."
+      "message" : "Я не готов идти на риск доверяя посылку столь же неопытному человеку, как вы."
    },
    "DISTANCE" : {
       "description" : "",

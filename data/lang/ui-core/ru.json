@@ -73,7 +73,7 @@
    },
    "CAPACITY_USED" : {
       "description" : "",
-      "message" : "Используемый объём"
+      "message" : "Загруженность"
    },
    "CARGO" : {
       "description" : "",
@@ -153,7 +153,7 @@
    },
    "CONSTABLE" : {
       "description" : "",
-      "message" : "Полицейский"
+      "message" : "Начальник охраны"
    },
    "CONTROLS" : {
       "description" : "",
@@ -169,7 +169,7 @@
    },
    "CREDIBLE" : {
       "description" : "For player reputation",
-      "message" : "Credible"
+      "message" : "Значимый"
    },
    "CREW_CABINS" : {
       "description" : "",
@@ -297,11 +297,11 @@
    },
    "EXPERIENCED" : {
       "description" : "For player reputation",
-      "message" : "Experienced"
+      "message" : "Опытный"
    },
    "EXPERT" : {
       "description" : "For player reputation",
-      "message" : "Expert"
+      "message" : "Эксперт"
    },
    "FAILED" : {
       "description" : "",
@@ -437,11 +437,11 @@
    },
    "INCOMPETENT" : {
       "description" : "For player reputation",
-      "message" : "Incompetent"
+      "message" : "Некомпетентный"
    },
    "INEXPERIENCED" : {
       "description" : "For player reputation",
-      "message" : "Inexperienced"
+      "message" : "Неопытный"
    },
    "INVERT_MOUSE_Y" : {
       "description" : "",
@@ -517,7 +517,7 @@
    },
    "LOBBY" : {
       "description" : "",
-      "message" : "Приёмная"
+      "message" : "Информационный центр"
    },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
@@ -545,15 +545,15 @@
    },
    "MASS" : {
       "description" : "",
-      "message" : "Масса"
+      "message" : "Вес"
    },
    "MASTER" : {
       "description" : "For player reputation",
-      "message" : "Master"
+      "message" : "Мастер"
    },
    "MASTER_VOL" : {
       "description" : "Master sound in settings option",
-      "message" : "Master:"
+      "message" : "Общая:"
    },
    "MAX" : {
       "description" : "",
@@ -657,7 +657,7 @@
    },
    "NOBODY" : {
       "description" : "For player reputation",
-      "message" : "Nobody"
+      "message" : " Пустое место"
    },
    "NONE" : {
       "description" : "",
@@ -749,7 +749,7 @@
    },
    "POLICE" : {
       "description" : "",
-      "message" : "Полиция"
+      "message" : "Охрана"
    },
    "POOR" : {
       "description" : "",
@@ -769,7 +769,7 @@
    },
    "PROFESSIONAL" : {
       "description" : "For player reputation",
-      "message" : "Professional"
+      "message" : "Профессионал"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
@@ -801,7 +801,7 @@
    },
    "RELIABLE" : {
       "description" : "For player reputation",
-      "message" : "Reliable"
+      "message" : "Надёжный"
    },
    "REPAIR_X_HULL_DAMAGE_FOR_X" : {
       "description" : "",
@@ -809,7 +809,7 @@
    },
    "REPUTATION" : {
       "description" : "",
-      "message" : "Reputation"
+      "message" : "Репутация"
    },
    "REQUEST_LAUNCH" : {
       "description" : "",
@@ -877,7 +877,7 @@
    },
    "SHIP_REPAIRS" : {
       "description" : "",
-      "message" : "Ремонт кораблей"
+      "message" : "Сервисный центр"
    },
    "SHIP_VIEWING_WAS_SOLD" : {
       "description" : "",
@@ -937,7 +937,7 @@
    },
    "TRUSTWORTHY" : {
       "description" : "For player reputation",
-      "message" : "Trustworthy"
+      "message" : "Достойный доверия"
    },
    "TYPE" : {
       "description" : "",
@@ -949,7 +949,7 @@
    },
    "UNRELIABLE" : {
       "description" : "",
-      "message" : "Unreliable"
+      "message" : "Ненадёжный"
    },
    "UP_ACCEL" : {
       "description" : "",

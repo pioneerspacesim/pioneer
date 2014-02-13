@@ -9,35 +9,35 @@
    },
    "DENY_0" : {
       "description" : "",
-      "message" : "I'm sorry, but I don't trust you."
+      "message" : "Извините, но я вам не доверяю."
    },
    "DENY_1" : {
       "description" : "",
-      "message" : "Come back when you have some qualifications."
+      "message" : "Возвращайтесь, когда у вас будет больше опыта."
    },
    "DENY_2" : {
       "description" : "",
-      "message" : "I don't think you're the one I'm looking for."
+      "message" : "Я не думаю, что вы тот человек, которого я ищу."
    },
    "DENY_3" : {
       "description" : "",
-      "message" : "You don't look like someone capable of doing what needs to be done."
+      "message" : "Вы не похожи на человека, способного сделать то, что поручено."
    },
    "DENY_4" : {
       "description" : "",
-      "message" : "You are clearly not the one for this job."
+      "message" : "Вы явно не созданы для этой работы."
    },
    "DENY_5" : {
       "description" : "",
-      "message" : "You seem much too inexperienced to handle a contract of this importance."
+      "message" : "Вы кажетесь неопытным, чтобы справиться с контрактом такой важности."
    },
    "DENY_6" : {
       "description" : "",
-      "message" : "I have never heard of you. I need someone experienced for this contract."
+      "message" : "Я никогда не слышал о вас. Мне нужен более опытный человек для этого контракта."
    },
    "DENY_7" : {
       "description" : "",
-      "message" : "I'm not willing to risk this contract by giving it to someone as inexperienced as you."
+      "message" : "Я не готов идти на риск подписывая контракт столь же неопытным человеком, как вы."
    },
    "DISTANCE" : {
       "description" : "",

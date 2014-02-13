@@ -9,35 +9,35 @@
    },
    "DENY_0" : {
       "description" : "",
-      "message" : "I'm sorry, but I don't trust you."
+      "message" : "Üzgünüm, fakat size güvenmiyorum."
    },
    "DENY_1" : {
       "description" : "",
-      "message" : "Come back when you have some qualifications."
+      "message" : "Bazı vasıflar edindikden sonra geri gel."
    },
    "DENY_2" : {
       "description" : "",
-      "message" : "I don't think you're the one I'm looking for."
+      "message" : "Aradığım kişinin siz olduğunu düşünmüyorum."
    },
    "DENY_3" : {
       "description" : "",
-      "message" : "You don't look like someone capable of doing what needs to be done."
+      "message" : "Yapılması gerekeni yapacak beceriye sahip biri gibi görünmüyorsunuz."
    },
    "DENY_4" : {
       "description" : "",
-      "message" : "You are clearly not the one for this job."
+      "message" : "Açık olarak bu iş için uygun değilsiniz."
    },
    "DENY_5" : {
       "description" : "",
-      "message" : "You seem much too inexperienced to handle a contract of this importance."
+      "message" : "Bu önemde bir sözleşmeyle baş edebilmek için çok fazla deneyimsiz görünüyorsunuz."
    },
    "DENY_6" : {
       "description" : "",
-      "message" : "I have never heard of you. I need someone experienced for this contract."
+      "message" : "Sizi hiç duymadım. Bu sözleşme için deneyimli birine ihtiyacım var."
    },
    "DENY_7" : {
       "description" : "",
-      "message" : "I'm not willing to risk this contract by giving it to someone as inexperienced as you."
+      "message" : "Bu sözleşmeyi sizin kadar deneyimsiz birine vererek tehlikeye atmak istemiyorum."
    },
    "DISTANCE" : {
       "description" : "",
