@@ -43,11 +43,6 @@ void VertexBuffer::Unmap()
 
 void VertexBuffer::SetAttribPointers()
 {
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_NORMAL_ARRAY);
-	glClientActiveTexture(GL_TEXTURE0);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
 	const Uint32 stride = m_desc.GetVertexSize();
 	GLsizei offset = 0;
 	for (Uint8 i = 0; i < MAX_ATTRIBS; i++) {
@@ -56,6 +51,8 @@ void VertexBuffer::SetAttribPointers()
 			glVertexPointer(3, GL_FLOAT, stride, (GLvoid*)offset);
 		else if (sem == ATTRIB_NORMAL)
 			glNormalPointer(GL_FLOAT, stride, (GLvoid*)offset);
+		else if (sem == ATTRIB_DIFFUSE)
+			glColorPointer(4, GL_UNSIGNED_BYTE, stride, (GLvoid*)offset);
 		else if (sem == ATTRIB_UV0)
 			glTexCoordPointer(2, GL_FLOAT, stride, (GLvoid*)offset);
 		else
@@ -68,9 +65,6 @@ void VertexBuffer::SetAttribPointers()
 
 void VertexBuffer::UnsetAttribPointers()
 {
-    glDisableClientState(GL_VERTEX_ARRAY);
-    glDisableClientState(GL_NORMAL_ARRAY);
-    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
 IndexBuffer::IndexBuffer(Uint16 size, BufferUsage hint)

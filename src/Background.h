@@ -76,7 +76,7 @@ namespace Background
 		void Draw(Graphics::RenderState*);
 
 	private:
-		std::unique_ptr<Graphics::StaticMesh> m_model;
+		std::unique_ptr<Graphics::VertexBuffer> m_vertexBuffer;
 	};
 
 

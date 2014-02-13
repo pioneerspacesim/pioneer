@@ -111,7 +111,8 @@ protected:
 
 	//figure out states from a vertex array and enable them
 	//also sets vertex pointers
-	virtual void EnableClientStates(const VertexArray *v);
+	void EnableClientStates(const VertexArray*);
+	void EnableClientStates(const VertexBuffer*);
 	//disable previously enabled
 	virtual void DisableClientStates();
 	int m_numLights;

@@ -226,19 +226,18 @@ void Starfield::Draw(Graphics::RenderState *rs)
 	}
 }
 
+struct MilkyWayVert {
+	vector3f pos;
+	Color4ub col;
+};
+
 MilkyWay::MilkyWay(Graphics::Renderer *renderer)
 {
 	m_renderer = renderer;
 
-	m_model.reset(new StaticMesh(TRIANGLE_STRIP));
-
 	//build milky way model in two strips (about 256 verts)
-	//The model is built as a generic vertex array first. The renderer
-	//will reprocess this into buffered format as it sees fit. The old data is
-	//kept around as long as StaticMesh is alive (needed if the cache is to be regenerated)
-
-	VertexArray *bottom = new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE);
-	VertexArray *top = new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE);
+	std::unique_ptr<Graphics::VertexArray> bottom(new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE));
+	std::unique_ptr<Graphics::VertexArray> top(new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE));
 
 	const Color dark(0);
 	const Color bright(13, 13, 13, 13);
@@ -282,15 +281,36 @@ MilkyWay::MilkyWay(Graphics::Renderer *renderer)
 	desc.vertexColors = true;
 	m_material.Reset(m_renderer->CreateMaterial(desc));
 	m_material->emissive = Color::WHITE;
-	//This doesn't fade. Could add a generic opacity/intensity value.
-	m_model->AddSurface(RefCountedPtr<Surface>(new Surface(TRIANGLE_STRIP, bottom, m_material)));
-	m_model->AddSurface(RefCountedPtr<Surface>(new Surface(TRIANGLE_STRIP, top, m_material)));
+
+	Graphics::VertexBufferDesc vbd;
+	vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
+	vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
+	vbd.attrib[1].semantic = Graphics::ATTRIB_DIFFUSE;
+	vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_UBYTE4;
+	vbd.numVertices = bottom->GetNumVerts() + top->GetNumVerts();
+	vbd.usage = Graphics::BUFFER_USAGE_STATIC;
+
+	//two strips in one buffer, but seems to work ok without degenerate triangles
+	m_vertexBuffer.reset(renderer->CreateVertexBuffer(vbd));
+	auto vtxPtr = m_vertexBuffer->Map<MilkyWayVert>();
+	for (Uint32 i = 0; i < top->GetNumVerts(); i++) {
+		vtxPtr->pos = top->position[i];
+		vtxPtr->col = top->diffuse[i];
+		vtxPtr++;
+	}
+	for (Uint32 i = 0; i < bottom->GetNumVerts(); i++) {
+		vtxPtr->pos = bottom->position[i];
+		vtxPtr->col = bottom->diffuse[i];
+		vtxPtr++;
+	}
+	m_vertexBuffer->Unmap();
 }
 
 void MilkyWay::Draw(Graphics::RenderState *rs)
 {
-	assert(m_model != 0);
-	m_renderer->DrawStaticMesh(m_model.get(), rs);
+	assert(m_vertexBuffer);
+	assert(m_material);
+	m_renderer->DrawBuffer(m_vertexBuffer.get(), rs, m_material.Get(), Graphics::TRIANGLE_STRIP);
 }
 
 Container::Container(Graphics::Renderer *renderer, Random &rand)

@@ -537,9 +537,26 @@ bool RendererGL2::DrawStaticMesh(StaticMesh *t, RenderState *rs)
 	return true;
 }
 
-bool RendererGL2::DrawBuffer(VertexBuffer*, RenderState*, Material*, PrimitiveType)
+bool RendererGL2::DrawBuffer(VertexBuffer* vb, RenderState* state, Material* mat, PrimitiveType pt)
 {
-	return false;
+	SetRenderState(state);
+	mat->Apply();
+
+	auto gvb = static_cast<GL2::VertexBuffer*>(vb);
+
+	glBindBuffer(GL_ARRAY_BUFFER, gvb->GetBuffer());
+
+	gvb->SetAttribPointers();
+	EnableClientStates(gvb);
+
+	glDrawArrays(pt, 0, gvb->GetVertexCount());
+
+	gvb->UnsetAttribPointers();
+	DisableClientStates();
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	return true;
 }
 
 bool RendererGL2::DrawBufferIndexed(VertexBuffer *vb, IndexBuffer *ib, RenderState *state, Material *mat, PrimitiveType pt)
@@ -554,10 +571,12 @@ bool RendererGL2::DrawBufferIndexed(VertexBuffer *vb, IndexBuffer *ib, RenderSta
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gib->GetBuffer());
 
 	gvb->SetAttribPointers();
+	EnableClientStates(gvb);
 
 	glDrawElements(pt, ib->GetIndexCount(), GL_UNSIGNED_SHORT, 0);
 
 	gvb->UnsetAttribPointers();
+	DisableClientStates();
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -596,6 +615,34 @@ void RendererGL2::EnableClientStates(const VertexArray *v)
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glTexCoordPointer(2, GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->uv0[0]));
 	}
+}
+
+void RendererGL2::EnableClientStates(const VertexBuffer *vb)
+{
+	if (!vb) return;
+	const auto& vbd = vb->GetDesc();
+
+	for (Uint32 i = 0; i < MAX_ATTRIBS; i++) {
+		switch (vbd.attrib[i].semantic) {
+		case ATTRIB_POSITION:
+			m_clientStates.push_back(GL_VERTEX_ARRAY);
+			break;
+		case ATTRIB_DIFFUSE:
+			m_clientStates.push_back(GL_COLOR_ARRAY);
+			break;
+		case ATTRIB_NORMAL:
+			m_clientStates.push_back(GL_NORMAL_ARRAY);
+			break;
+		case ATTRIB_UV0:
+			m_clientStates.push_back(GL_TEXTURE_COORD_ARRAY);
+			break;
+		default:
+			break;
+		}
+	}
+
+	for (auto it : m_clientStates)
+		glEnableClientState(it);
 }
 
 void RendererGL2::DisableClientStates()
