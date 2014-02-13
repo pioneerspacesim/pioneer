@@ -37,6 +37,14 @@ private:
 		Color m_selectColor;
 
 	};
+
+	enum RefreshType {
+		REFRESH_NONE,
+		REFRESH_SELECTED,
+		REFRESH_ALL
+	};
+
+	RefreshType NeedsRefresh();
 	void SystemChanged(const SystemPath &path);
 	void UpdateEconomyTab();
 	void OnBodyViewed(SystemBody *b);
@@ -53,7 +61,7 @@ private:
 	Gui::Tabbed *m_tabs;
 	RefCountedPtr<StarSystem> m_system;
 	SystemPath m_selectedBodyPath;
-	bool m_refresh;
+	RefreshType m_refresh;
 	//map is not enough to associate icons as each tab has their own
 	std::vector<std::pair<std::string, BodyIcon*> > m_bodyIcons;
 	Graphics::RenderState *m_solidState;
