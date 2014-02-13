@@ -70,6 +70,9 @@ void SpaceStation::Save(Serializer::Writer &wr, Space *space)
 void SpaceStation::Load(Serializer::Reader &rd, Space *space)
 {
 	ModelBody::Load(rd, space);
+
+	m_oldAngDisplacement = 0.0;
+
 	int num = rd.Int32();
 	if (num > Equip::TYPE_MAX) throw SavedGameCorruptException();
 	const Uint32 numShipDocking = rd.Int32();
