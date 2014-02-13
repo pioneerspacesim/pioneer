@@ -15,6 +15,38 @@
       "description" : "",
       "message" : "Entrega"
    },
+   "DENY_0" : {
+      "description" : "",
+      "message" : "I'm sorry, but I don't think I can trust you with this delivery."
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "Come back when you have some qualifications."
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "I don't think you're the pilot I'm looking for."
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "You don't look like someone I can trust with this delivery."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "You're not the kind of pilot I'm looking for."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "You seem much too inexperienced to handle a task of this importance."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "I have never heard of you. I need someone experienced for this delivery."
+   },
+   "DENY_7" : {
+      "description" : "",
+      "message" : "I'm not willing to risk this delivery on someone without any qualifications like you."
+   },
    "DISTANCE" : {
       "description" : "",
       "message" : "Distancia:"

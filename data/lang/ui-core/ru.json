@@ -69,7 +69,7 @@
    },
    "CAPACITY" : {
       "description" : "",
-      "message" : "Вместимость"
+      "message" : "Грузоподъёмность"
    },
    "CAPACITY_USED" : {
       "description" : "",
@@ -166,6 +166,10 @@
    "COULD_NOT_LOAD_GAME" : {
       "description" : "",
       "message" : "Не удалось загрузить игру:"
+   },
+   "CREDIBLE" : {
+      "description" : "For player reputation",
+      "message" : "Credible"
    },
    "CREW_CABINS" : {
       "description" : "",
@@ -291,6 +295,14 @@
       "description" : "",
       "message" : "Выйти из игры"
    },
+   "EXPERIENCED" : {
+      "description" : "For player reputation",
+      "message" : "Experienced"
+   },
+   "EXPERT" : {
+      "description" : "For player reputation",
+      "message" : "Expert"
+   },
    "FAILED" : {
       "description" : "",
       "message" : "Провалено"
@@ -316,7 +328,7 @@
       "message" : "Детализация частиц"
    },
    "FREE" : {
-      "description" : "",
+      "description" : "Used in Ship Information view as in Capacity: 10t (5t free)",
       "message" : "свободно"
    },
    "FRONT_WEAPON" : {
@@ -423,6 +435,14 @@
       "description" : "",
       "message" : "Неактивно"
    },
+   "INCOMPETENT" : {
+      "description" : "For player reputation",
+      "message" : "Incompetent"
+   },
+   "INEXPERIENCED" : {
+      "description" : "For player reputation",
+      "message" : "Inexperienced"
+   },
    "INVERT_MOUSE_Y" : {
       "description" : "",
       "message" : "Инвертировать мышь по оси Y"
@@ -528,8 +548,12 @@
       "message" : "Масса"
    },
    "MASTER" : {
-      "description" : "",
-      "message" : "Общая:"
+      "description" : "For player reputation",
+      "message" : "Master"
+   },
+   "MASTER_VOL" : {
+      "description" : "Master sound in settings option",
+      "message" : "Master:"
    },
    "MAX" : {
       "description" : "",
@@ -630,6 +654,10 @@
    "NEXT_PAID" : {
       "description" : "",
       "message" : "День платежа"
+   },
+   "NOBODY" : {
+      "description" : "For player reputation",
+      "message" : "Nobody"
    },
    "NONE" : {
       "description" : "",
@@ -739,6 +767,10 @@
       "description" : "",
       "message" : "Цена"
    },
+   "PROFESSIONAL" : {
+      "description" : "For player reputation",
+      "message" : "Professional"
+   },
    "QUALIFICATION_SCORES" : {
       "description" : "",
       "message" : "Оценка квалификации"
@@ -767,9 +799,17 @@
       "description" : "",
       "message" : "Дозаправить"
    },
+   "RELIABLE" : {
+      "description" : "For player reputation",
+      "message" : "Reliable"
+   },
    "REPAIR_X_HULL_DAMAGE_FOR_X" : {
       "description" : "",
       "message" : "Ремонт {damage}% повреждённого корпуса за {price}"
+   },
+   "REPUTATION" : {
+      "description" : "",
+      "message" : "Reputation"
    },
    "REQUEST_LAUNCH" : {
       "description" : "",
@@ -895,6 +935,10 @@
       "description" : "",
       "message" : "Торговля нелегальным товаром"
    },
+   "TRUSTWORTHY" : {
+      "description" : "For player reputation",
+      "message" : "Trustworthy"
+   },
    "TYPE" : {
       "description" : "",
       "message" : "Тип"
@@ -902,6 +946,10 @@
    "UNLAWFUL_WEAPONS_DISCHARGE" : {
       "description" : "",
       "message" : "Стрельба в зоне станции"
+   },
+   "UNRELIABLE" : {
+      "description" : "",
+      "message" : "Unreliable"
    },
    "UP_ACCEL" : {
       "description" : "",

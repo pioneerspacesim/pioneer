@@ -85,7 +85,7 @@
    },
    "AUTOPILOT_FLY_TO_VICINITY_OF" : {
       "description" : "",
-      "message" : "Otopilot: %target yakınına uçun"
+      "message" : "Otopilot: %target yakınına uç"
    },
    "AUTOPILOT_ON" : {
       "description" : "",

@@ -167,6 +167,10 @@
       "description" : "",
       "message" : "Kann Spiel nicht laden:"
    },
+   "CREDIBLE" : {
+      "description" : "For player reputation",
+      "message" : "Credible"
+   },
    "CREW_CABINS" : {
       "description" : "",
       "message" : "Kabinen der Crew"
@@ -291,6 +295,14 @@
       "description" : "",
       "message" : "Spiel beenden"
    },
+   "EXPERIENCED" : {
+      "description" : "For player reputation",
+      "message" : "Experienced"
+   },
+   "EXPERT" : {
+      "description" : "For player reputation",
+      "message" : "Expert"
+   },
    "FAILED" : {
       "description" : "",
       "message" : "Gescheitert"
@@ -316,7 +328,7 @@
       "message" : "Detailstufe für Fraktale"
    },
    "FREE" : {
-      "description" : "",
+      "description" : "Used in Ship Information view as in Capacity: 10t (5t free)",
       "message" : "Verfügbar"
    },
    "FRONT_WEAPON" : {
@@ -423,6 +435,14 @@
       "description" : "",
       "message" : "Inaktiv"
    },
+   "INCOMPETENT" : {
+      "description" : "For player reputation",
+      "message" : "Incompetent"
+   },
+   "INEXPERIENCED" : {
+      "description" : "For player reputation",
+      "message" : "Inexperienced"
+   },
    "INVERT_MOUSE_Y" : {
       "description" : "",
       "message" : "Maus Y-Achse invertieren"
@@ -528,7 +548,11 @@
       "message" : "Masse"
    },
    "MASTER" : {
-      "description" : "",
+      "description" : "For player reputation",
+      "message" : "Master"
+   },
+   "MASTER_VOL" : {
+      "description" : "Master sound in settings option",
       "message" : "Master:"
    },
    "MAX" : {
@@ -630,6 +654,10 @@
    "NEXT_PAID" : {
       "description" : "",
       "message" : "Nächster Bezahlter"
+   },
+   "NOBODY" : {
+      "description" : "For player reputation",
+      "message" : "Nobody"
    },
    "NONE" : {
       "description" : "",
@@ -739,6 +767,10 @@
       "description" : "",
       "message" : "Preis"
    },
+   "PROFESSIONAL" : {
+      "description" : "For player reputation",
+      "message" : "Professional"
+   },
    "QUALIFICATION_SCORES" : {
       "description" : "",
       "message" : "Qualifizierungspunkte"
@@ -767,9 +799,17 @@
       "description" : "",
       "message" : "Auftanken"
    },
+   "RELIABLE" : {
+      "description" : "For player reputation",
+      "message" : "Reliable"
+   },
    "REPAIR_X_HULL_DAMAGE_FOR_X" : {
       "description" : "",
       "message" : "{damage}% des Rumpfschadens für {price} reparieren"
+   },
+   "REPUTATION" : {
+      "description" : "",
+      "message" : "Reputation"
    },
    "REQUEST_LAUNCH" : {
       "description" : "",
@@ -895,6 +935,10 @@
       "description" : "",
       "message" : "Handel mit illegalen Waren"
    },
+   "TRUSTWORTHY" : {
+      "description" : "For player reputation",
+      "message" : "Trustworthy"
+   },
    "TYPE" : {
       "description" : "",
       "message" : "Typ"
@@ -902,6 +946,10 @@
    "UNLAWFUL_WEAPONS_DISCHARGE" : {
       "description" : "",
       "message" : "Illegales Waffenfeuer"
+   },
+   "UNRELIABLE" : {
+      "description" : "",
+      "message" : "Unreliable"
    },
    "UP_ACCEL" : {
       "description" : "",
