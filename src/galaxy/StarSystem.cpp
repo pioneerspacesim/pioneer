@@ -1419,13 +1419,7 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path)
 	Uint32 _init[6] = { m_path.systemIndex, Uint32(m_path.sectorX), Uint32(m_path.sectorY), Uint32(m_path.sectorZ), UNIVERSE_SEED, Uint32(m_seed) };
 	Random rand(_init, 6);
 
-	/*
-	 * 0 - ~500ly from sol: explored
-	 * ~500ly - ~700ly (65-90 sectors): gradual
-	 * ~700ly+: unexplored
-	 */
-	int dist = isqrt(1 + m_path.sectorX*m_path.sectorX + m_path.sectorY*m_path.sectorY + m_path.sectorZ*m_path.sectorZ);
-	m_unexplored = !(((dist <= 90) && ( dist <= 65 || rand.Int32(dist) <= 40)) || Faction::IsHomeSystem(path));
+	m_unexplored = !s->m_systems[m_path.systemIndex].explored;
 
 	m_isCustom = m_hasCustomBodies = false;
 	if (s->m_systems[m_path.systemIndex].customSys) {
@@ -1434,7 +1428,6 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path)
 		m_numStars = custom->numStars;
 		if (custom->shortDesc.length() > 0) m_shortDesc = custom->shortDesc;
 		if (custom->longDesc.length() > 0) m_longDesc = custom->longDesc;
-		if (!custom->want_rand_explored) m_unexplored = !custom->explored;
 		if (!custom->IsRandom()) {
 			m_hasCustomBodies = true;
 			GenerateFromCustom(s->m_systems[m_path.systemIndex].customSys, rand);

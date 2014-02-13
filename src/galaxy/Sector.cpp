@@ -19,7 +19,7 @@ const float Sector::SIZE = 8.f;
 
 SectorCache Sector::cache;
 
-void Sector::GetCustomSystems()
+void Sector::GetCustomSystems(Random& rng)
 {
 	PROFILE_SCOPED()
 	const std::vector<CustomSystem*> &systems = CustomSystem::GetCustomSystemsForSector(sx, sy, sz);
@@ -37,6 +37,17 @@ void Sector::GetCustomSystems()
 		}
 		s.customSys = cs;
 		s.seed = cs->seed;
+		if (cs->want_rand_explored) {
+			/*
+			 * 0 - ~500ly from sol: explored
+			 * ~500ly - ~700ly (65-90 sectors): gradual
+			 * ~700ly+: unexplored
+			 */
+			int dist = isqrt(1 + sx*sx + sy*sy + sz*sz);
+			s.explored = ((dist <= 90) && ( dist <= 65 || rng.Int32(dist) <= 40)) || Faction::IsHomeSystem(SystemPath(sx, sy, sz, sysIdx));
+		} else {
+			s.explored = cs->explored;
+		}
 		m_systems.push_back(s);
 	}
 }
@@ -52,7 +63,7 @@ Sector::Sector(const SystemPath& path) : m_factionsAssigned(false)
 
 	sx = path.sectorX; sy = path.sectorY; sz = path.sectorZ;
 
-	GetCustomSystems();
+	GetCustomSystems(rng);
 	int customCount = m_systems.size();
 
 	/* Always place random systems outside the core custom-only region */
@@ -81,6 +92,14 @@ Sector::Sector(const SystemPath& path) : m_factionsAssigned(false)
 
 			s.seed = 0;
 			s.customSys = 0;
+
+			/*
+			 * 0 - ~500ly from sol: explored
+			 * ~500ly - ~700ly (65-90 sectors): gradual
+			 * ~700ly+: unexplored
+			 */
+			int dist = isqrt(1 + sx*sx + sy*sy + sz*sz);
+			s.explored = ((dist <= 90) && ( dist <= 65 || rng.Int32(dist) <= 40)) || Faction::IsHomeSystem(SystemPath(sx, sy, sz, customCount + i));
 
 			Uint32 weight = rng.Int32(1000000);
 
