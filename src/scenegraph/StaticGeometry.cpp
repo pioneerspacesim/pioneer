@@ -162,95 +162,83 @@ void StaticGeometry::AddMesh(RefCountedPtr<Graphics::StaticMesh> mesh)
 
 void StaticGeometry::DrawBoundingBox(const Aabb &bb)
 {
-	// TODO check entire function, because Color is now Color4ub
-	vector3f min(bb.min.x, bb.min.y, bb.min.z);
-	vector3f max(bb.max.x, bb.max.y, bb.max.z);
-	vector3f fbl(min.x, min.y, min.z); //front bottom left
-	vector3f fbr(max.x, min.y, min.z); //front bottom right
-	vector3f ftl(min.x, max.y, min.z); //front top left
-	vector3f ftr(max.x, max.y, min.z); //front top right
-	vector3f rtl(min.x, max.y, max.z); //rear top left
-	vector3f rtr(max.x, max.y, max.z); //rear top right
-	vector3f rbl(min.x, min.y, max.z); //rear bottom left
-	vector3f rbr(max.x, min.y, max.z); //rear bottom right
+	const vector3f min(bb.min.x, bb.min.y, bb.min.z);
+	const vector3f max(bb.max.x, bb.max.y, bb.max.z);
+	const vector3f fbl(min.x, min.y, min.z); //front bottom left
+	const vector3f fbr(max.x, min.y, min.z); //front bottom right
+	const vector3f ftl(min.x, max.y, min.z); //front top left
+	const vector3f ftr(max.x, max.y, min.z); //front top right
+	const vector3f rtl(min.x, max.y, max.z); //rear top left
+	const vector3f rtr(max.x, max.y, max.z); //rear top right
+	const vector3f rbl(min.x, min.y, max.z); //rear bottom left
+	const vector3f rbr(max.x, min.y, max.z); //rear bottom right
 
-	Graphics::VertexArray *vts = new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE);
-	Color c(Color::WHITE);
-	//vertices
-	vts->Add(fbl, c); //0
+	const Color c(Color::WHITE);
+
+	std::unique_ptr<Graphics::VertexArray> vts(new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE));
+
+	//Front face
+	vts->Add(ftr, c); //3
 	vts->Add(fbr, c); //1
+	vts->Add(fbl, c); //0
+
+	vts->Add(fbl, c); //0
 	vts->Add(ftl, c); //2
 	vts->Add(ftr, c); //3
 
-	vts->Add(rtl, c); //4
+	//Rear face
+	vts->Add(rbr, c); //7
 	vts->Add(rtr, c); //5
 	vts->Add(rbl, c); //6
-	vts->Add(rbr, c); //7
 
-	RefCountedPtr<Graphics::Material> mat(Graphics::vtxColorMaterial);
-	Graphics::Surface surf(Graphics::TRIANGLES, vts, mat);
-
-	//indices
-	std::vector<unsigned short> &ind = surf.GetIndices();
-	//Front face
-	ind.push_back(3);
-	ind.push_back(1);
-	ind.push_back(0);
-
-	ind.push_back(0);
-	ind.push_back(2);
-	ind.push_back(3);
-
-	//Rear face
-	ind.push_back(7);
-	ind.push_back(5);
-	ind.push_back(6);
-
-	ind.push_back(6);
-	ind.push_back(5);
-	ind.push_back(4);
+	vts->Add(rbl, c); //6
+	vts->Add(rtr, c); //5
+	vts->Add(rtl, c); //4
 
 	//Top face
-	ind.push_back(4);
-	ind.push_back(5);
-	ind.push_back(3);
+	vts->Add(rtl, c); //4
+	vts->Add(rtr, c); //5
+	vts->Add(ftr, c); //3
 
-	ind.push_back(3);
-	ind.push_back(2);
-	ind.push_back(4);
+	vts->Add(ftr, c); //3
+	vts->Add(ftl, c); //2
+	vts->Add(rtl, c); //4
 
 	//bottom face
-	ind.push_back(1);
-	ind.push_back(7);
-	ind.push_back(6);
+	vts->Add(fbr, c); //1
+	vts->Add(rbr, c); //7
+	vts->Add(rbl, c); //6
 
-	ind.push_back(6);
-	ind.push_back(0);
-	ind.push_back(1);
+	vts->Add(rbl, c); //6
+	vts->Add(fbl, c); //0
+	vts->Add(fbr, c); //1
 
 	//left face
-	ind.push_back(0);
-	ind.push_back(6);
-	ind.push_back(4);
+	vts->Add(fbl, c); //0
+	vts->Add(rbl, c); //6
+	vts->Add(rtl, c); //4
 
-	ind.push_back(4);
-	ind.push_back(2);
-	ind.push_back(0);
+	vts->Add(rtl, c); //4
+	vts->Add(ftl, c); //2
+	vts->Add(fbl, c); //0
 
 	//right face
-	ind.push_back(5);
-	ind.push_back(7);
-	ind.push_back(1);
+	vts->Add(rtr, c); //5
+	vts->Add(rbr, c); //7
+	vts->Add(fbr, c); //1
 
-	ind.push_back(1);
-	ind.push_back(3);
-	ind.push_back(5);
+	vts->Add(fbr, c); //1
+	vts->Add(ftr, c); //3
+	vts->Add(rtr, c); //5
 
 	Graphics::Renderer *r = GetRenderer();
 
 	Graphics::RenderStateDesc rsd;
 	rsd.cullMode = Graphics::CULL_NONE;
-	r->DrawSurface(&surf, r->CreateRenderState(rsd));
+
+	r->SetWireFrameMode(true);
+	r->DrawTriangles(vts.get(), r->CreateRenderState(rsd), Graphics::vtxColorMaterial);
+	r->SetWireFrameMode(false);
 }
 
 }

@@ -457,26 +457,6 @@ bool RendererGL2::DrawTriangles(const VertexArray *v, RenderState *rs, Material 
 	return true;
 }
 
-bool RendererGL2::DrawSurface(const Surface *s, RenderState *rs)
-{
-	if (!s || !s->GetVertices() || s->GetNumIndices() < 3) return false;
-
-	const Material *m = s->GetMaterial().Get();
-	const VertexArray *v = s->GetVertices();
-
-	SetRenderState(rs);
-
-	const_cast<Material*>(m)->Apply();
-	EnableClientStates(v);
-
-	glDrawElements(s->GetPrimtiveType(), s->GetNumIndices(), GL_UNSIGNED_SHORT, s->GetIndexPointer());
-
-	const_cast<Material*>(m)->Unapply();
-	DisableClientStates();
-
-	return true;
-}
-
 bool RendererGL2::DrawPointSprites(int count, const vector3f *positions, RenderState *rs, Material *material, float size)
 {
 	if (count < 1 || !material || !material->texture0) return false;
