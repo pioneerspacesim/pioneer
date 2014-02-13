@@ -42,6 +42,7 @@ February 2014
      * Removed redundant shader cleanup (#2708)
      * Split camera state into a separate class (#2714)
      * Sector and star system cache improvements (#2706)
+     * Generation of explored flag moved from StarSystem to Sector (#2744)
 
 January 2014
 
