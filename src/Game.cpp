@@ -24,7 +24,7 @@
 #include "FileSystem.h"
 #include "graphics/Renderer.h"
 
-static const int  s_saveVersion   = 71;
+static const int  s_saveVersion   = 72;
 static const char s_saveStart[]   = "PIONEER";
 static const char s_saveEnd[]     = "END";
 
@@ -129,21 +129,8 @@ Game::Game(Serializer::Reader &rd) :
 
 	Serializer::Reader section;
 
-	// space, all the bodies and things
-	section = rd.RdSection("Space");
-	m_space.reset(new Space(this, section));
-
-
-	// game state and space transition state
+	// game state
 	section = rd.RdSection("Game");
-
-	m_player.reset(static_cast<Player*>(m_space->GetBodyByIndex(section.Int32())));
-
-	// hyperspace clouds being brought over from the previous system
-	Uint32 nclouds = section.Int32();
-	for (Uint32 i = 0; i < nclouds; i++)
-		m_hyperspaceClouds.push_back(static_cast<HyperspaceCloud*>(Body::Unserialize(section, 0)));
-
 	m_time = section.Double();
 	m_state = State(section.Int32());
 
@@ -152,6 +139,18 @@ Game::Game(Serializer::Reader &rd) :
 	m_hyperspaceDuration = section.Double();
 	m_hyperspaceEndTime = section.Double();
 
+	// space, all the bodies and things
+	section = rd.RdSection("Space");
+	m_space.reset(new Space(this, section, m_time));
+	m_player.reset(static_cast<Player*>(m_space->GetBodyByIndex(section.Int32())));
+
+	// space transition state
+	section = rd.RdSection("HyperspaceClouds");
+
+	// hyperspace clouds being brought over from the previous system
+	Uint32 nclouds = section.Int32();
+	for (Uint32 i = 0; i < nclouds; i++)
+		m_hyperspaceClouds.push_back(static_cast<HyperspaceCloud*>(Body::Unserialize(section, 0)));
 
 	// system political stuff
 	section = rd.RdSection("Polit");
@@ -183,21 +182,7 @@ void Game::Serialize(Serializer::Writer &wr)
 
 	Serializer::Writer section;
 
-	// space, all the bodies and things
-	m_space->Serialize(section);
-	wr.WrSection("Space", section.GetData());
-
-
-	// game state and space transition state
-	section = Serializer::Writer();
-
-	section.Int32(m_space->GetIndexForBody(m_player.get()));
-
-	// hyperspace clouds being brought over from the previous system
-	section.Int32(m_hyperspaceClouds.size());
-	for (std::list<HyperspaceCloud*>::const_iterator i = m_hyperspaceClouds.begin(); i != m_hyperspaceClouds.end(); ++i)
-		(*i)->Serialize(section, m_space.get());
-
+	// game state
 	section.Double(m_time);
 	section.Int32(Uint32(m_state));
 
@@ -207,6 +192,24 @@ void Game::Serialize(Serializer::Writer &wr)
 	section.Double(m_hyperspaceEndTime);
 
 	wr.WrSection("Game", section.GetData());
+
+
+	// space, all the bodies and things
+	section = Serializer::Writer();
+	m_space->Serialize(section);
+	section.Int32(m_space->GetIndexForBody(m_player.get()));
+	wr.WrSection("Space", section.GetData());
+
+
+	// space transition state
+	section = Serializer::Writer();
+
+	// hyperspace clouds being brought over from the previous system
+	section.Int32(m_hyperspaceClouds.size());
+	for (std::list<HyperspaceCloud*>::const_iterator i = m_hyperspaceClouds.begin(); i != m_hyperspaceClouds.end(); ++i)
+		(*i)->Serialize(section, m_space.get());
+
+	wr.WrSection("HyperspaceClouds", section.GetData());
 
 
 	// system political data (crime etc)
