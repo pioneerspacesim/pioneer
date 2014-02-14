@@ -5,7 +5,7 @@
    },
    "DANGER" : {
       "description" : "",
-      "message" : "Danger:"
+      "message" : "Dangereux"
    },
    "DEADLINE" : {
       "description" : "",
@@ -17,35 +17,35 @@
    },
    "DENY_0" : {
       "description" : "",
-      "message" : "I'm sorry, but I don't think I can trust you with this delivery."
+      "message" : "Désolé, mais je ne pense pas pouvoir vous faire confiance pour cette livraison."
    },
    "DENY_1" : {
       "description" : "",
-      "message" : "Come back when you have some qualifications."
+      "message" : "Revenez quand vous aurez quelques qualifications."
    },
    "DENY_2" : {
       "description" : "",
-      "message" : "I don't think you're the pilot I'm looking for."
+      "message" : "Je ne pense pas que vous soyez le pilote que je recherche."
    },
    "DENY_3" : {
       "description" : "",
-      "message" : "You don't look like someone I can trust with this delivery."
+      "message" : "Vous n'avez pas l'air de quelqu'un a qui je peux faire confiance pour cette livraison."
    },
    "DENY_4" : {
       "description" : "",
-      "message" : "You're not the kind of pilot I'm looking for."
+      "message" : "Vous n'êtes pas le type de pilote que je recherche."
    },
    "DENY_5" : {
       "description" : "",
-      "message" : "You seem much too inexperienced to handle a task of this importance."
+      "message" : "Vous avez l'air trop peu expérimenté pour une tâche de cette envergure."
    },
    "DENY_6" : {
       "description" : "",
-      "message" : "I have never heard of you. I need someone experienced for this delivery."
+      "message" : "Je n'ai jamais entendu parler de vous. J'ai besoin de quelqu'un expérimenté pour cette livraison."
    },
    "DENY_7" : {
       "description" : "",
-      "message" : "I'm not willing to risk this delivery on someone without any qualifications like you."
+      "message" : "Je ne vais pas risquer cette livraison avec quelqu'un sans qualifications tel que vous."
    },
    "DISTANCE" : {
       "description" : "",

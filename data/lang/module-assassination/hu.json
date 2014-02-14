@@ -9,35 +9,35 @@
    },
    "DENY_0" : {
       "description" : "",
-      "message" : "I'm sorry, but I don't trust you."
+      "message" : "Sajnálom, de nem bízom benned."
    },
    "DENY_1" : {
       "description" : "",
-      "message" : "Come back when you have some qualifications."
+      "message" : "Tanulnod kell még."
    },
    "DENY_2" : {
       "description" : "",
-      "message" : "I don't think you're the one I'm looking for."
+      "message" : "Nem hinném, hogy te vagy az én emberem."
    },
    "DENY_3" : {
       "description" : "",
-      "message" : "You don't look like someone capable of doing what needs to be done."
+      "message" : "Nem úgy festesz, mint aki képes lenne elvégezni amit el kell végezni."
    },
    "DENY_4" : {
       "description" : "",
-      "message" : "You are clearly not the one for this job."
+      "message" : "Egyértelműen alkalmatlan vagy a feladatra."
    },
    "DENY_5" : {
       "description" : "",
-      "message" : "You seem much too inexperienced to handle a contract of this importance."
+      "message" : "Túl tapasztalatlannak tűnsz egy ekkora horderejű megbízás elvégzéséhez."
    },
    "DENY_6" : {
       "description" : "",
-      "message" : "I have never heard of you. I need someone experienced for this contract."
+      "message" : "Még csak nem is hallottam rólad.  Tapasztaltabb embert keresek."
    },
    "DENY_7" : {
       "description" : "",
-      "message" : "I'm not willing to risk this contract by giving it to someone as inexperienced as you."
+      "message" : "Nem vagyok hajlandó kockáztatni azzal, hogy egy olyan zöldfülűt bízok meg, mint te."
    },
    "DISTANCE" : {
       "description" : "",

@@ -17,35 +17,35 @@
    },
    "DENY_0" : {
       "description" : "",
-      "message" : "I'm sorry, but I don't think I can trust you with this delivery."
+      "message" : "Sajnálom, de kétlem hogy rád bízhatom ezt a kézbesítést."
    },
    "DENY_1" : {
       "description" : "",
-      "message" : "Come back when you have some qualifications."
+      "message" : "Fejlődnöd kell még. "
    },
    "DENY_2" : {
       "description" : "",
-      "message" : "I don't think you're the pilot I'm looking for."
+      "message" : "Kétlem, hogy te vagy az én emberem."
    },
    "DENY_3" : {
       "description" : "",
-      "message" : "You don't look like someone I can trust with this delivery."
+      "message" : "Nem úgy nézel ki, mint akire nyugodt szívvel rábíznám ezt a feladatot."
    },
    "DENY_4" : {
       "description" : "",
-      "message" : "You're not the kind of pilot I'm looking for."
+      "message" : "Nem te vagy az én emberem."
    },
    "DENY_5" : {
       "description" : "",
-      "message" : "You seem much too inexperienced to handle a task of this importance."
+      "message" : "Nem tűnsz elég tapasztaltnak ahhoz, hogy rád merjek bízni egy ilyen fontos küldeményt."
    },
    "DENY_6" : {
       "description" : "",
-      "message" : "I have never heard of you. I need someone experienced for this delivery."
+      "message" : "Életemben nem hallottam rólad. Inkább keresek egy tapasztaltabb pilótát."
    },
    "DENY_7" : {
       "description" : "",
-      "message" : "I'm not willing to risk this delivery on someone without any qualifications like you."
+      "message" : "Nem fogom egy olyan zöldfülűre bízni ezt a fontos küldeményt, mint te."
    },
    "DISTANCE" : {
       "description" : "",
