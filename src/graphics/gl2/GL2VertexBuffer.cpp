@@ -62,17 +62,26 @@ VertexBuffer::~VertexBuffer()
 	delete[] m_data;
 }
 
-Uint8 *VertexBuffer::MapInternal(BufferMapMode)
+Uint8 *VertexBuffer::MapInternal(BufferMapMode mode)
 {
+	assert(mode != BUFFER_MAP_NONE); //makes no sense
+	assert(m_mapMode == BUFFER_MAP_NONE); //must not be currently mapped
+	m_mapMode = mode;
 	return m_data;
 }
 
 void VertexBuffer::Unmap()
 {
-	const GLsizei dataSize = m_desc.numVertices * m_desc.GetVertexSize();
-	glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, dataSize, m_data);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	assert(m_mapMode != BUFFER_MAP_NONE); //not currently mapped
+
+	if (m_mapMode == BUFFER_MAP_WRITE) {
+		const GLsizei dataSize = m_desc.numVertices * m_desc.GetVertexSize();
+		glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, dataSize, m_data);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+
+	m_mapMode = BUFFER_MAP_NONE;
 }
 
 void VertexBuffer::SetAttribPointers()
@@ -122,16 +131,25 @@ IndexBuffer::~IndexBuffer()
 	delete[] m_data;
 }
 
-Uint16 *IndexBuffer::Map(BufferMapMode)
+Uint16 *IndexBuffer::Map(BufferMapMode mode)
 {
+	assert(mode != BUFFER_MAP_NONE); //makes no sense
+	assert(m_mapMode == BUFFER_MAP_NONE); //must not be currently mapped
+	m_mapMode = mode;
 	return m_data;
 }
 
 void IndexBuffer::Unmap()
 {
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_buffer);
-	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(Uint16) * m_size, m_data);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	assert(m_mapMode != BUFFER_MAP_NONE); //not currently mapped
+
+	if (m_mapMode == BUFFER_MAP_WRITE) {
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_buffer);
+		glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(Uint16) * m_size, m_data);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	}
+
+	m_mapMode = BUFFER_MAP_NONE;
 }
 
 

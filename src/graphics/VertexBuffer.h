@@ -34,7 +34,17 @@ struct VertexBufferDesc {
 	BufferUsage usage;
 };
 
-class VertexBuffer : public RefCounted {
+class Mappable {
+public:
+	virtual ~Mappable() { }
+	virtual void Unmap() = 0;
+
+protected:
+	Mappable() : m_mapMode(BUFFER_MAP_NONE) { }
+	BufferMapMode m_mapMode; //tracking map state
+};
+
+class VertexBuffer : public RefCounted, public Mappable {
 public:
 	virtual ~VertexBuffer();
 	const VertexBufferDesc &GetDesc() const { return m_desc; }
@@ -42,7 +52,6 @@ public:
 	template <typename T> T *Map(BufferMapMode mode) {
 		return reinterpret_cast<T*>(MapInternal(mode));
 	}
-	virtual void Unmap() = 0;
 
 	//vertex count used for rendering.
 	//by default the maximum set in description
@@ -55,12 +64,11 @@ protected:
 	Uint32 m_numVertices;
 };
 
-class IndexBuffer : public RefCounted {
+class IndexBuffer : public RefCounted, public Mappable {
 public:
 	IndexBuffer(Uint32 size);
 	virtual ~IndexBuffer();
 	virtual Uint16 *Map(BufferMapMode) = 0;
-	virtual void Unmap() = 0;
 
 	Uint32 GetSize() const { return m_size; }
 	Uint32 GetIndexCount() const { return m_indexCount; }

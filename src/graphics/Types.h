@@ -34,6 +34,7 @@ enum BufferUsage {
 };
 
 enum BufferMapMode {
+	BUFFER_MAP_NONE,
 	BUFFER_MAP_WRITE,
 	BUFFER_MAP_READ
 };
