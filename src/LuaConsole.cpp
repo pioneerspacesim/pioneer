@@ -91,14 +91,17 @@ static void init_global_table(lua_State *l) {
 static int console_autoexec(lua_State* l) {
 	LUA_DEBUG_START(l);
 
+	init_global_table(l); // _ENV
+
 	LuaConsole *c = static_cast<LuaConsole *>(lua_touserdata(l, lua_upvalueindex(1)));
 	RefCountedPtr<FileSystem::FileData> code = FileSystem::userFiles.ReadFile("console.lua");
 	if (!code) {
+		lua_pop(l, 1);
 		LUA_DEBUG_END(l, 0);
 		return 0;
 	}
 
-	int ret = pi_lua_loadfile(l, *code);
+	int ret = pi_lua_loadfile(l, *code); // code, _ENV
 	if (ret != LUA_OK) {
 		if (ret == LUA_ERRSYNTAX) {
 			const char *msg = lua_tostring(l, -1);
@@ -106,16 +109,17 @@ static int console_autoexec(lua_State* l) {
 			lua_pop(l, 1);
 		}
 		c->AddOutput("Failed to run console.lua");
+		lua_pop(l, 1); //popping _ENV
 		LUA_DEBUG_END(l, 0);
 		return 0;
 	}
 
 	// set the chunk's _ENV (globals) var
-	init_global_table(l);
-	lua_setupvalue(l, -2, 1);
+	lua_insert(l, -2); // _ENV, code
+	lua_setupvalue(l, -2, 1); // code
 
-	lua_pushcfunction(l, &capture_traceback);
-	lua_insert(l, -2);
+	lua_pushcfunction(l, &capture_traceback); // traceback, code
+	lua_insert(l, -2); // code, traceback
 
 	ret = lua_pcall(l, 0, 0, -2);
 	if (ret != LUA_OK) {
