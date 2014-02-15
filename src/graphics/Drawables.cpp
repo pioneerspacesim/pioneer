@@ -154,7 +154,7 @@ Sphere3D::Sphere3D(Renderer *renderer, RefCountedPtr<Material> mat, Graphics::Re
 	vbd.usage = BUFFER_USAGE_STATIC;
 	m_vertexBuffer.reset(renderer->CreateVertexBuffer(vbd));
 
-	auto vtxPtr = m_vertexBuffer->Map<Sphere3DVertex>();
+	auto vtxPtr = m_vertexBuffer->Map<Sphere3DVertex>(Graphics::BUFFER_MAP_WRITE);
 	for (Uint32 i = 0; i < vts.GetNumVerts(); i++) {
 		vtxPtr->pos = vts.position[i];
 		vtxPtr->nrm = vts.normal[i];
@@ -164,7 +164,7 @@ Sphere3D::Sphere3D(Renderer *renderer, RefCountedPtr<Material> mat, Graphics::Re
 	m_vertexBuffer->Unmap();
 
 	m_indexBuffer.reset(renderer->CreateIndexBuffer(indices.size(), BUFFER_USAGE_STATIC));
-	Uint16 *idxPtr = m_indexBuffer->Map();
+	Uint16 *idxPtr = m_indexBuffer->Map(Graphics::BUFFER_MAP_WRITE);
 	for (auto it : indices) {
 		*idxPtr = it;
 		idxPtr++;

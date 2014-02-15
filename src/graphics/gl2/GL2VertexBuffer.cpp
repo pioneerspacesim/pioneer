@@ -28,7 +28,7 @@ VertexBuffer::~VertexBuffer()
 	delete[] m_data;
 }
 
-Uint8 *VertexBuffer::MapInternal()
+Uint8 *VertexBuffer::MapInternal(BufferMapMode)
 {
 	return m_data;
 }
@@ -84,7 +84,7 @@ IndexBuffer::~IndexBuffer()
 	delete[] m_data;
 }
 
-Uint16 *IndexBuffer::Map()
+Uint16 *IndexBuffer::Map(BufferMapMode)
 {
 	return m_data;
 }

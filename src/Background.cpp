@@ -151,7 +151,7 @@ void UniverseBox::Init()
 
 	m_vertexBuffer.reset(m_renderer->CreateVertexBuffer(vbd));
 
-	SkyboxVert* vtxPtr = m_vertexBuffer->Map<SkyboxVert>();
+	SkyboxVert* vtxPtr = m_vertexBuffer->Map<SkyboxVert>(Graphics::BUFFER_MAP_WRITE);
 	for (Uint32 i = 0; i < box->GetNumVerts(); i++) {
 		vtxPtr[i].pos = box->position[i];
 		vtxPtr[i].uv = box->uv0[i];
@@ -216,7 +216,7 @@ void Starfield::Fill(Random &rand)
 
 	assert(sizeof(StarVert) == 16);
 
-	auto vtxPtr = m_vertexBuffer->Map<StarVert>();
+	auto vtxPtr = m_vertexBuffer->Map<StarVert>(Graphics::BUFFER_MAP_WRITE);
 	//fill the array
 	for (int i=0; i<BG_STAR_MAX; i++) {
 		const Uint8 col = rand.Double(0.2,0.7)*255;
@@ -331,7 +331,7 @@ MilkyWay::MilkyWay(Graphics::Renderer *renderer)
 	assert(sizeof(MilkyWayVert) == 16);
 	assert(vbd.GetVertexSize() == 16);
 	m_vertexBuffer.reset(renderer->CreateVertexBuffer(vbd));
-	auto vtxPtr = m_vertexBuffer->Map<MilkyWayVert>();
+	auto vtxPtr = m_vertexBuffer->Map<MilkyWayVert>(Graphics::BUFFER_MAP_WRITE);
 	for (Uint32 i = 0; i < top->GetNumVerts(); i++) {
 		vtxPtr->pos = top->position[i];
 		vtxPtr->col = top->diffuse[i];

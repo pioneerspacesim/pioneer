@@ -48,7 +48,7 @@ void StaticGeometry::Render(const matrix4x4f &trans, const RenderData *rd)
 	Graphics::Renderer *r = GetRenderer();
 	r->SetTransform(trans);
 	for (auto& it : m_meshes)
-		r->DrawStaticMesh(it.Get(), m_renderState);
+		r->DrawBufferIndexed(it.vertexBuffer.Get(), it.indexBuffer.Get(), m_renderState, it.material.Get());
 
 	//DrawBoundingBox(m_boundingBox);
 }
@@ -65,37 +65,46 @@ void StaticGeometry::Save(NodeDatabase &db)
     db.wr->Int32(m_meshes.size());
 
     for (auto mesh : m_meshes) {
-        db.wr->Int32(mesh->GetNumSurfaces());
-        for (auto surf = mesh->SurfacesBegin(); surf != mesh->SurfacesEnd(); ++surf) {
-			//do ptr to material name mapping
-			const std::string &matname = db.model->GetNameForMaterial((*surf)->GetMaterial().Get());
-			db.wr->String(matname);
+		//do ptr to material name mapping
+		const std::string &matname = db.model->GetNameForMaterial(mesh.material.Get());
+		db.wr->String(matname);
 
-			//save positions, normals and uvs
-			const auto vtxArr = (*surf)->GetVertices();
+		//save vertex attrib description
+		const auto& vbDesc = mesh.vertexBuffer->GetDesc();
+		Uint32 attribCombo = 0;
+		for (Uint32 i = 0; i < Graphics::MAX_ATTRIBS; i++)
+			attribCombo |= vbDesc.attrib[i].semantic;
+		db.wr->Int32(attribCombo);
 
-			db.wr->Int32(vtxArr->GetNumVerts());
+		//save positions, normals and uvs interleaved (only known format now)
+		const Uint32 posOffset = vbDesc.GetOffset(Graphics::ATTRIB_POSITION);
+		const Uint32 nrmOffset = vbDesc.GetOffset(Graphics::ATTRIB_NORMAL);
+		const Uint32 uv0Offset = vbDesc.GetOffset(Graphics::ATTRIB_UV0);
+		const Uint32 stride    = vbDesc.GetVertexSize();
+		db.wr->Int32(vbDesc.numVertices);
+		Uint8 *vtxPtr = mesh.vertexBuffer->Map<Uint8>(Graphics::BUFFER_MAP_READ);
+		for (Uint32 i = 0; i < vbDesc.numVertices; i++) {
+            db.wr->Vector3f(*reinterpret_cast<vector3f*>(vtxPtr + i * stride + posOffset));
+            db.wr->Vector3f(*reinterpret_cast<vector3f*>(vtxPtr + i * stride + nrmOffset));
+            db.wr->Float(reinterpret_cast<vector2f*>(vtxPtr + i * stride + uv0Offset)->x);
+            db.wr->Float(reinterpret_cast<vector2f*>(vtxPtr + i * stride + uv0Offset)->y);
+		}
+		mesh.vertexBuffer->Unmap();
 
-			for (const vector3f& pos : vtxArr->position)
-				db.wr->Vector3f(pos);
-			for (const vector3f& nrm : vtxArr->normal)
-				db.wr->Vector3f(nrm);
-			for (const vector2f& uv : vtxArr->uv0) {
-				db.wr->Float(uv.x);
-				db.wr->Float(uv.y);
-			}
-			//indices
-			const auto& indices = (*surf)->GetIndices();
-			db.wr->Int32(indices.size());
-			for (const auto idx : indices) {
-				db.wr->Int16(idx);
-			}
-        }
+		//indices
+		const Uint16 *indexPtr = mesh.indexBuffer->Map(Graphics::BUFFER_MAP_READ);
+		const Uint16 numIndices = mesh.indexBuffer->GetSize();
+		db.wr->Int16(numIndices);
+		for (Uint16 i = 0; i < numIndices; i++)
+			db.wr->Int16(indexPtr[i]);
+		mesh.indexBuffer->Unmap();
     }
 }
 
 StaticGeometry *StaticGeometry::Load(NodeDatabase &db)
 {
+	using namespace Graphics;
+
 	StaticGeometry *sg = new StaticGeometry(db.loader->GetRenderer());
 	Serializer::Reader &rd = *db.rd;
 
@@ -110,54 +119,81 @@ StaticGeometry *StaticGeometry::Load(NodeDatabase &db)
 
 	const Uint32 numMeshes = rd.Int32();
 	for (Uint32 mesh = 0; mesh < numMeshes; mesh++) {
-		RefCountedPtr<Graphics::StaticMesh> smesh(new Graphics::StaticMesh(Graphics::TRIANGLES));
-		const Uint32 numSurfs = rd.Int32();
-		for (Uint32 surf = 0; surf < numSurfs; surf++) {
+		//material
+		RefCountedPtr<Graphics::Material> material;
+		const std::string matName = rd.String();
+		if (starts_with(matName, "decal_")) {
+			const unsigned int di = atoi(matName.substr(6).c_str());
+			material = db.loader->GetDecalMaterial(di);
+		} else
+			material = db.model->GetMaterialByName(matName);
 
-			RefCountedPtr<Graphics::Material> material;
-			const std::string matName = rd.String();
-			if (starts_with(matName, "decal_")) {
-				const unsigned int di = atoi(matName.substr(6).c_str());
-				material = db.loader->GetDecalMaterial(di);
-			} else
-				material = db.model->GetMaterialByName(matName);
+		//vertex format check
+		const Uint32 vtxFormat = db.rd->Int32();
+		if (vtxFormat != (ATTRIB_POSITION | ATTRIB_NORMAL | ATTRIB_UV0))
+			throw LoadingError("Unsupported vertex format");
 
-			const Graphics::AttributeSet vtxAttribs =
-			    Graphics::ATTRIB_POSITION |
-			    Graphics::ATTRIB_NORMAL |
-			    Graphics::ATTRIB_UV0;
+		//vertex buffer
+		Graphics::VertexBufferDesc vbDesc;
+		vbDesc.attrib[0].semantic = Graphics::ATTRIB_POSITION;
+		vbDesc.attrib[0].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+		vbDesc.attrib[1].semantic = Graphics::ATTRIB_NORMAL;
+		vbDesc.attrib[1].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+		vbDesc.attrib[2].semantic = Graphics::ATTRIB_UV0;
+		vbDesc.attrib[2].format   = Graphics::ATTRIB_FORMAT_FLOAT2;
+		vbDesc.usage = Graphics::BUFFER_USAGE_STATIC;
+		vbDesc.numVertices = db.rd->Int32();
 
-			const Uint32 numVerts = rd.Int32();
-			Graphics::VertexArray *vts = new Graphics::VertexArray(vtxAttribs, numVerts);
-			for (Uint32 i = 0; i < numVerts; i++)
-				vts->position.push_back(rd.Vector3f());
+		const Uint32 posOffset = vbDesc.GetOffset(Graphics::ATTRIB_POSITION);
+		const Uint32 nrmOffset = vbDesc.GetOffset(Graphics::ATTRIB_NORMAL);
+		const Uint32 uv0Offset = vbDesc.GetOffset(Graphics::ATTRIB_UV0);
+		const Uint32 stride    = vbDesc.GetVertexSize();
 
-			for (Uint32 i = 0; i < numVerts; i++)
-				vts->normal.push_back(rd.Vector3f());
-
-			for (Uint32 i = 0; i < numVerts; i++) {
-				const float x = rd.Float();
-				const float y = rd.Float();
-				vts->uv0.push_back(vector2f(x, y));
-			}
-
-			RefCountedPtr<Graphics::Surface> surface(new Graphics::Surface(Graphics::TRIANGLES, vts, material));
-			auto& idxArr = surface->GetIndices();
-			const Uint32 nidx = rd.Int32();
-			idxArr.reserve(nidx);
-			for (Uint32 i = 0; i < nidx; i++)
-				idxArr.push_back(rd.Int16());
-
-			smesh->AddSurface(surface);
+		RefCountedPtr<Graphics::VertexBuffer> vtxBuffer(db.loader->GetRenderer()->CreateVertexBuffer(vbDesc));
+		Uint8 *vtxPtr = vtxBuffer->Map<Uint8>(BUFFER_MAP_WRITE);
+		for (Uint32 i = 0; i < vbDesc.numVertices; i++) {
+			*reinterpret_cast<vector3f*>(vtxPtr + i * stride + posOffset) = db.rd->Vector3f();
+			*reinterpret_cast<vector3f*>(vtxPtr + i * stride + nrmOffset) = db.rd->Vector3f();
+			const float uvx = db.rd->Float();
+			const float uvy = db.rd->Float();
+			*reinterpret_cast<vector2f*>(vtxPtr + i * stride + uv0Offset) = vector2f(uvx, uvy);
 		}
-		sg->AddMesh(smesh);
+		vtxBuffer->Unmap();
+
+		//index buffer
+		const Uint16 numIndices = db.rd->Int16();
+		RefCountedPtr<Graphics::IndexBuffer> idxBuffer(db.loader->GetRenderer()->CreateIndexBuffer(numIndices, Graphics::BUFFER_USAGE_STATIC));
+		Uint16 *idxPtr = idxBuffer->Map(BUFFER_MAP_WRITE);
+		for (Uint16 i = 0; i < numIndices; i++)
+			idxPtr[i] = db.rd->Int16();
+		idxBuffer->Unmap();
+
+		sg->AddMesh(vtxBuffer, idxBuffer, material);
 	}
 	return sg;
 }
 
-void StaticGeometry::AddMesh(RefCountedPtr<Graphics::StaticMesh> mesh)
+void StaticGeometry::AddMesh(
+	RefCountedPtr<Graphics::VertexBuffer> vb,
+	RefCountedPtr<Graphics::IndexBuffer> ib,
+	RefCountedPtr<Graphics::Material> mat)
 {
-	m_meshes.push_back(mesh);
+	Mesh m;
+	m.vertexBuffer = vb;
+	m.indexBuffer = ib;
+	m.material = mat;
+	m_meshes.push_back(m);
+}
+
+StaticGeometry::Mesh &StaticGeometry::GetMeshAt(unsigned int i)
+{
+	return m_meshes.at(i);
+}
+
+RefCountedPtr<Graphics::StaticMesh> StaticGeometry::GetMesh(unsigned int i)
+{
+	RefCountedPtr<Graphics::StaticMesh> moo;
+	return moo;
 }
 
 void StaticGeometry::DrawBoundingBox(const Aabb &bb)

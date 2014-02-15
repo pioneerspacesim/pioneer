@@ -29,6 +29,10 @@ VertexBufferDesc::VertexBufferDesc()
 		attrib[i].semantic = ATTRIB_NONE;
 		attrib[i].format = ATTRIB_FORMAT_NONE;
 	}
+
+	assert(sizeof(vector2f) == 8);
+	assert(sizeof(vector3f) == 12);
+	assert(sizeof(Color4ub) == 4);
 }
 
 Uint32 VertexBufferDesc::GetVertexSize() const
@@ -41,6 +45,19 @@ Uint32 VertexBufferDesc::GetVertexSize() const
 	return size;
 }
 
+Uint32 VertexBufferDesc::GetOffset(VertexAttrib attr) const
+{
+	Uint32 offs = 0;
+	for (Uint32 i = 0; i < MAX_ATTRIBS; i++) {
+		if (attrib[i].semantic == attr)
+			return offs;
+		offs += GetAttribSize(attrib[i].format);
+	}
+
+	//attrib not found
+	assert(false);
+	return 0;
+}
 
 VertexBuffer::~VertexBuffer()
 {

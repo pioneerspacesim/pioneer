@@ -33,6 +33,11 @@ enum BufferUsage {
 	BUFFER_USAGE_DYNAMIC
 };
 
+enum BufferMapMode {
+	BUFFER_MAP_WRITE,
+	BUFFER_MAP_READ
+};
+
 }
 
 #endif // GRAPHICS_TYPES_H

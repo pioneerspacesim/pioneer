@@ -7,6 +7,7 @@
  * Model loader using Assimp
  */
 #include "BaseLoader.h"
+#include "CollisionGeometry.h"
 #include "graphics/Material.h"
 #include "graphics/Surface.h"
 #include <assimp/types.h>
@@ -49,6 +50,7 @@ protected:
 	void CreateLabel(Group *parent, const matrix4x4f&);
 	void CreateThruster(const std::string &name, const matrix4x4f& nodeTrans);
 	void CreateNavlight(const std::string &name, const matrix4x4f& nodeTrans);
+	RefCountedPtr<CollisionGeometry> CreateCollisionGeometry(RefCountedPtr<StaticGeometry>, unsigned int collFlag);
 	void LoadCollision(const std::string &filename);
 
 	unsigned int GetGeomFlagForNodeName(const std::string&);

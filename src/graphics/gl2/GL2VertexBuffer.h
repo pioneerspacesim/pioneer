@@ -19,7 +19,7 @@ public:
 	GLuint GetBuffer() const { return m_buffer; }
 
 protected:
-	virtual Uint8 *MapInternal() override;
+	virtual Uint8 *MapInternal(BufferMapMode) override;
 
 private:
 	GLuint m_buffer;
@@ -31,7 +31,7 @@ public:
 	IndexBuffer(Uint16 size, BufferUsage);
 	~IndexBuffer();
 
-	virtual Uint16 *Map() override;
+	virtual Uint16 *Map(BufferMapMode) override;
 	virtual void Unmap() override;
 
 	GLuint GetBuffer() const { return m_buffer; }

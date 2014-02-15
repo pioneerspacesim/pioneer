@@ -18,7 +18,10 @@ struct VertexAttribDesc {
 
 struct VertexBufferDesc {
 	VertexBufferDesc();
+	//byte size (stride) of one vertex
 	Uint32 GetVertexSize() const;
+	//byte offset of an attribute
+	Uint32 GetOffset(VertexAttrib) const;
 	static Uint32 GetAttribSize(VertexAttribFormat);
 
 	VertexAttribDesc attrib[MAX_ATTRIBS];
@@ -26,13 +29,13 @@ struct VertexBufferDesc {
 	BufferUsage usage;
 };
 
-class VertexBuffer {
+class VertexBuffer : public RefCounted {
 public:
 	virtual ~VertexBuffer();
 	const VertexBufferDesc &GetDesc() const { return m_desc; }
 
-	template <typename T> T *Map() {
-		return reinterpret_cast<T*>(MapInternal());
+	template <typename T> T *Map(BufferMapMode mode) {
+		return reinterpret_cast<T*>(MapInternal(mode));
 	}
 	virtual void Unmap() = 0;
 
@@ -42,16 +45,16 @@ public:
 	void SetVertexCount(Uint32);
 
 protected:
-	virtual Uint8 *MapInternal() = 0;
+	virtual Uint8 *MapInternal(BufferMapMode) = 0;
 	VertexBufferDesc m_desc;
 	Uint32 m_numVertices;
 };
 
-class IndexBuffer {
+class IndexBuffer : public RefCounted {
 public:
 	IndexBuffer(Uint16 size);
 	virtual ~IndexBuffer();
-	virtual Uint16 *Map() = 0;
+	virtual Uint16 *Map(BufferMapMode) = 0;
 	virtual void Unmap() = 0;
 
 	Uint16 GetSize() const { return m_size; }
