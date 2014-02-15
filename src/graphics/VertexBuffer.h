@@ -52,18 +52,18 @@ protected:
 
 class IndexBuffer : public RefCounted {
 public:
-	IndexBuffer(Uint16 size);
+	IndexBuffer(Uint32 size);
 	virtual ~IndexBuffer();
 	virtual Uint16 *Map(BufferMapMode) = 0;
 	virtual void Unmap() = 0;
 
-	Uint16 GetSize() const { return m_size; }
-	Uint16 GetIndexCount() const { return m_indexCount; }
-	void SetIndexCount(Uint16);
+	Uint32 GetSize() const { return m_size; }
+	Uint32 GetIndexCount() const { return m_indexCount; }
+	void SetIndexCount(Uint32);
 
 protected:
-	Uint16 m_size;
-	Uint16 m_indexCount;
+	Uint32 m_size;
+	Uint32 m_indexCount;
 };
 
 }

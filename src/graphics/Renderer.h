@@ -163,7 +163,7 @@ public:
 	//returns 0 if unsupported
 	virtual RenderTarget *CreateRenderTarget(const RenderTargetDesc &) { return 0; }
 	virtual VertexBuffer *CreateVertexBuffer(const VertexBufferDesc&) = 0;
-	virtual IndexBuffer *CreateIndexBuffer(Uint16 size, BufferUsage) = 0;
+	virtual IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage) = 0;
 
 	Texture *GetCachedTexture(const std::string &type, const std::string &name);
 	void AddCachedTexture(const std::string &type, const std::string &name, Texture *texture);

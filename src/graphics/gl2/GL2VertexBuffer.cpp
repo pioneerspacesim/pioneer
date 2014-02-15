@@ -67,7 +67,7 @@ void VertexBuffer::UnsetAttribPointers()
 {
 }
 
-IndexBuffer::IndexBuffer(Uint16 size, BufferUsage hint)
+IndexBuffer::IndexBuffer(Uint32 size, BufferUsage hint)
 	: Graphics::IndexBuffer(size)
 {
 	const GLenum usage = (hint == BUFFER_USAGE_STATIC) ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW;

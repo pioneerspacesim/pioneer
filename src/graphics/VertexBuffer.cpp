@@ -74,7 +74,7 @@ void VertexBuffer::SetVertexCount(Uint32 v)
 	m_numVertices = v;
 }
 
-IndexBuffer::IndexBuffer(Uint16 size)
+IndexBuffer::IndexBuffer(Uint32 size)
 	: m_size(size)
 	, m_indexCount(size)
 {
@@ -84,7 +84,7 @@ IndexBuffer::~IndexBuffer()
 {
 }
 
-void IndexBuffer::SetIndexCount(Uint16 ic)
+void IndexBuffer::SetIndexCount(Uint32 ic)
 {
 	assert(ic <= GetSize());
 	m_indexCount = std::min(ic, GetSize());

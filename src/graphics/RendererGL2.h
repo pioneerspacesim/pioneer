@@ -84,7 +84,7 @@ public:
 	virtual RenderState *CreateRenderState(const RenderStateDesc &) override;
 	virtual RenderTarget *CreateRenderTarget(const RenderTargetDesc &) override;
 	virtual VertexBuffer *CreateVertexBuffer(const VertexBufferDesc&) override;
-	virtual IndexBuffer *CreateIndexBuffer(Uint16 size, BufferUsage) override;
+	virtual IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage) override;
 
 	virtual bool ReloadShaders();
 

@@ -292,7 +292,7 @@ RefCountedPtr<Node> Loader::LoadMesh(const std::string &filename, const AnimList
 
 	//Removing components is suggested to optimize loading. We do not care about vtx colors now.
 	importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS, aiComponent_COLORS);
-	importer.SetPropertyInteger(AI_CONFIG_PP_SLM_VERTEX_LIMIT, Graphics::StaticMesh::MAX_VERTICES);
+	importer.SetPropertyInteger(AI_CONFIG_PP_SLM_VERTEX_LIMIT, 65536);
 
 	//There are several optimizations assimp can do, intentionally skipping them now
 	const aiScene *scene = importer.ReadFile(
@@ -401,6 +401,7 @@ void Loader::ConvertAiMeshes(std::vector<RefCountedPtr<StaticGeometry> > &geoms,
 	for (unsigned int i=0; i<scene->mNumMeshes; i++) {
 		const aiMesh *mesh = scene->mMeshes[i];
 		assert(mesh->HasNormals());
+		assert(mesh->mNumVertices <= 65536);
 
 		RefCountedPtr<StaticGeometry> geom(new StaticGeometry(m_renderer));
 		geom->SetName(stringf("sgMesh%0{u}", i));
@@ -709,7 +710,7 @@ RefCountedPtr<CollisionGeometry> Loader::CreateCollisionGeometry(RefCountedPtr<S
 	const Uint32 posOffs = mesh.vertexBuffer->GetDesc().GetOffset(Graphics::ATTRIB_POSITION);
 	const Uint32 stride  = mesh.vertexBuffer->GetDesc().GetVertexSize();
 	const Uint32 numVtx  = mesh.vertexBuffer->GetDesc().numVertices;
-	const Uint16 numIdx  = mesh.indexBuffer->GetSize();
+	const Uint32 numIdx  = mesh.indexBuffer->GetSize();
 
 	//copy vertex positions from buffer
 	std::vector<vector3f> pos;
@@ -725,7 +726,7 @@ RefCountedPtr<CollisionGeometry> Loader::CreateCollisionGeometry(RefCountedPtr<S
 	idx.reserve(numIdx);
 
 	Uint16 *idxPtr = mesh.indexBuffer->Map(Graphics::BUFFER_MAP_READ);
-	for (Uint16 i = 0; i < numIdx; i++)
+	for (Uint32 i = 0; i < numIdx; i++)
 		idx.push_back(idxPtr[i]);
 	mesh.indexBuffer->Unmap();
 	RefCountedPtr<CollisionGeometry> cgeom(new CollisionGeometry(m_renderer, pos, idx, collFlag));

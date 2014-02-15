@@ -893,7 +893,7 @@ VertexBuffer *RendererGL2::CreateVertexBuffer(const VertexBufferDesc &desc)
 	return new GL2::VertexBuffer(desc);
 }
 
-IndexBuffer *RendererGL2::CreateIndexBuffer(Uint16 size, BufferUsage usage)
+IndexBuffer *RendererGL2::CreateIndexBuffer(Uint32 size, BufferUsage usage)
 {
 	return new GL2::IndexBuffer(size, usage);
 }

@@ -28,7 +28,7 @@ private:
 
 class IndexBuffer : public Graphics::IndexBuffer {
 public:
-	IndexBuffer(Uint16 size, BufferUsage);
+	IndexBuffer(Uint32 size, BufferUsage);
 	~IndexBuffer();
 
 	virtual Uint16 *Map(BufferMapMode) override;
