@@ -44,7 +44,7 @@ namespace Background
 	private:
 		void Init();
 
-		std::unique_ptr<Graphics::StaticMesh> m_model;
+		std::unique_ptr<Graphics::VertexBuffer> m_vertexBuffer;
 		std::unique_ptr<Graphics::Texture> m_cubemap;
 
 		Uint32 m_numCubemaps;

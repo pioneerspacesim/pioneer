@@ -61,6 +61,11 @@ struct StarVert {
 	Color4ub col;
 };
 
+struct SkyboxVert {
+	vector3f pos;
+	vector2f uv;
+};
+
 void BackgroundElement::SetIntensity(float intensity)
 {
 	m_material->emissive = Color(intensity*255);
@@ -85,7 +90,7 @@ void UniverseBox::Init()
 	}
 
 	// Create skybox geometry
-	VertexArray *box = new VertexArray(ATTRIB_POSITION | ATTRIB_UV0, 36);
+	std::unique_ptr<Graphics::VertexArray> box(new VertexArray(ATTRIB_POSITION | ATTRIB_UV0, 36));
 	const float vp = 1000.0f;
 	// Top +Y
 	box->Add(vector3f(-vp,  vp,  vp), vector2f(0.0f, 0.0f));
@@ -129,13 +134,30 @@ void UniverseBox::Init()
 	box->Add(vector3f(-vp,  vp, -vp), vector2f(1.0f, 0.0f));
 	box->Add(vector3f(-vp, -vp,  vp), vector2f(0.0f, 1.0f));
 	box->Add(vector3f(-vp, -vp, -vp), vector2f(1.0f, 1.0f));
-	m_model.reset( new StaticMesh(TRIANGLES) );
+
 	Graphics::MaterialDescriptor desc;
 	desc.effect = EFFECT_SKYBOX;
 	m_material.Reset(m_renderer->CreateMaterial(desc));
 	m_material->texture0 = nullptr;
 
-	m_model->AddSurface(RefCountedPtr<Surface>(new Surface(TRIANGLES, box, m_material)));
+	//create buffer and upload data
+	Graphics::VertexBufferDesc vbd;
+	vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
+	vbd.attrib[0].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+	vbd.attrib[1].semantic = Graphics::ATTRIB_UV0;
+	vbd.attrib[1].format   = Graphics::ATTRIB_FORMAT_FLOAT2;
+	vbd.numVertices = box->GetNumVerts();
+	vbd.usage = Graphics::BUFFER_USAGE_STATIC;
+
+	m_vertexBuffer.reset(m_renderer->CreateVertexBuffer(vbd));
+
+	SkyboxVert* vtxPtr = m_vertexBuffer->Map<SkyboxVert>();
+	for (Uint32 i = 0; i < box->GetNumVerts(); i++) {
+		vtxPtr[i].pos = box->position[i];
+		vtxPtr[i].uv = box->uv0[i];
+	}
+	m_vertexBuffer->Unmap();
+
 	SetIntensity(1.0f);
 
 	m_numCubemaps = GetNumSkyboxes();
@@ -144,7 +166,7 @@ void UniverseBox::Init()
 void UniverseBox::Draw(Graphics::RenderState *rs)
 {
 	if(m_material->texture0)
-		m_renderer->DrawStaticMesh(m_model.get(), rs);
+		m_renderer->DrawBuffer(m_vertexBuffer.get(), rs, m_material.Get());
 }
 
 void UniverseBox::LoadCubeMap(Random &rand)
