@@ -158,10 +158,13 @@ JobHandle& JobHandle::operator=(JobHandle&& other)
 
 JobHandle::~JobHandle()
 {
-	if (m_job && m_queue)
+	if (m_job && m_queue) {
+		m_client = nullptr; // Must not tell client to remove the handle, if it's just being destroyed obviously
 		m_queue->Cancel(m_job);
-	else
+	} else {
+		m_client = nullptr; // Must not tell client to remove the handle, if it's just being destroyed obviously
 		Unlink();
+	}
 }
 
 
