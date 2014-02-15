@@ -75,7 +75,6 @@ public:
 	virtual bool DrawPoints(int count, const vector3f *points, const Color *colors, RenderState*, float pointSize=1.f) override;
 	virtual bool DrawTriangles(const VertexArray *vertices, RenderState *state, Material *material, PrimitiveType type=TRIANGLES) override;
 	virtual bool DrawPointSprites(int count, const vector3f *positions, RenderState *rs, Material *material, float size) override;
-	virtual bool DrawStaticMesh(StaticMesh*, RenderState*) override;
 	virtual bool DrawBuffer(VertexBuffer*, RenderState*, Material*, PrimitiveType) override;
 	virtual bool DrawBufferIndexed(VertexBuffer*, IndexBuffer*, RenderState*, Material*, PrimitiveType) override;
 
@@ -118,7 +117,6 @@ protected:
 	int m_numLights;
 	int m_numDirLights;
 	std::vector<GLenum> m_clientStates;
-	virtual bool BufferStaticMesh(StaticMesh *m);
 	float m_minZNear;
 	float m_maxZFar;
 	bool m_useCompressedTextures;

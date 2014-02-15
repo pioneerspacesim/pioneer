@@ -9,7 +9,6 @@
 #include "BaseLoader.h"
 #include "CollisionGeometry.h"
 #include "graphics/Material.h"
-#include "graphics/Surface.h"
 #include <assimp/types.h>
 
 struct aiNode;

@@ -6,10 +6,10 @@
 
 #include "libs.h"
 #include "graphics/Renderer.h"
-#include "graphics/Surface.h"
 #include "graphics/VertexArray.h"
 #include "graphics/RenderState.h"
 #include "graphics/VertexBuffer.h"
+#include "graphics/Material.h"
 
 namespace Graphics {
 

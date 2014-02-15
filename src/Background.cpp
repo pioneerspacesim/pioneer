@@ -13,8 +13,6 @@
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
-#include "graphics/StaticMesh.h"
-#include "graphics/Surface.h"
 #include "graphics/VertexArray.h"
 #include "graphics/TextureBuilder.h"
 #include "StringF.h"

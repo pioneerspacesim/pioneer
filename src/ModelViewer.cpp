@@ -7,7 +7,6 @@
 #include "graphics/Light.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/Drawables.h"
-#include "graphics/Surface.h"
 #include "graphics/VertexArray.h"
 #include "scenegraph/DumpVisitor.h"
 #include "scenegraph/FindNodeVisitor.h"

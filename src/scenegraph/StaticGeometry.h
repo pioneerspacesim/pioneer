@@ -4,13 +4,12 @@
 #ifndef _STATICGEOMETRY_H
 #define _STATICGEOMETRY_H
 /*
- * Geometry node containing one StaticMesh. Nothing fancy.
+ * Geometry node containing one or more meshes.
  */
 #include "libs.h"
 #include "Node.h"
 #include "Aabb.h"
 #include "graphics/Renderer.h"
-#include "graphics/StaticMesh.h"
 #include "graphics/VertexBuffer.h"
 
 namespace SceneGraph {

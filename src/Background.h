@@ -12,7 +12,6 @@
 
 namespace Graphics {
 	class Renderer;
-	class StaticMesh;
 	class Material;
 }
 

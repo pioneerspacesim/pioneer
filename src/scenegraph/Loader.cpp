@@ -10,7 +10,6 @@
 #include "StringF.h"
 #include "utils.h"
 #include "graphics/Renderer.h"
-#include "graphics/Surface.h"
 #include "graphics/TextureBuilder.h"
 #include "FileSystem.h"
 #include <assimp/Importer.hpp>

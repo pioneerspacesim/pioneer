@@ -7,7 +7,6 @@
 #include "BaseLoader.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
-#include "graphics/Surface.h"
 #include "graphics/Material.h"
 
 namespace SceneGraph {
@@ -93,9 +92,9 @@ void StaticGeometry::Save(NodeDatabase &db)
 
 		//indices
 		const Uint16 *indexPtr = mesh.indexBuffer->Map(Graphics::BUFFER_MAP_READ);
-		const Uint16 numIndices = mesh.indexBuffer->GetSize();
-		db.wr->Int16(numIndices);
-		for (Uint16 i = 0; i < numIndices; i++)
+		const Uint32 numIndices = mesh.indexBuffer->GetSize();
+		db.wr->Int32(numIndices);
+		for (Uint32 i = 0; i < numIndices; i++)
 			db.wr->Int16(indexPtr[i]);
 		mesh.indexBuffer->Unmap();
     }
@@ -161,10 +160,10 @@ StaticGeometry *StaticGeometry::Load(NodeDatabase &db)
 		vtxBuffer->Unmap();
 
 		//index buffer
-		const Uint16 numIndices = db.rd->Int16();
+		const Uint32 numIndices = db.rd->Int32();
 		RefCountedPtr<Graphics::IndexBuffer> idxBuffer(db.loader->GetRenderer()->CreateIndexBuffer(numIndices, Graphics::BUFFER_USAGE_STATIC));
 		Uint16 *idxPtr = idxBuffer->Map(BUFFER_MAP_WRITE);
-		for (Uint16 i = 0; i < numIndices; i++)
+		for (Uint32 i = 0; i < numIndices; i++)
 			idxPtr[i] = db.rd->Int16();
 		idxBuffer->Unmap();
 

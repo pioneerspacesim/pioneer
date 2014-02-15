@@ -18,8 +18,6 @@ noinst_HEADERS = \
 	Light.h \
 	Material.h \
 	RenderState.h \
-	StaticMesh.h \
-	Surface.h \
 	VertexArray.h \
 	Texture.h \
 	TextureGL.h \
@@ -46,7 +44,6 @@ libgraphics_a_SOURCES = \
 	Frustum.cpp \
 	Light.cpp \
 	Material.cpp \
-	StaticMesh.cpp \
 	VertexArray.cpp \
 	TextureGL.cpp \
 	TextureBuilder.cpp \
