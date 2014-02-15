@@ -37,7 +37,7 @@
    },
    "DENY_5" : {
       "description" : "",
-      "message" : "Wydajesz się zbyt niedoświadczoną osobą aby obsłużyć transport o takim znaczeniu."
+      "message" : "Wydajesz się być zbyt niedoświadczoną osobą aby obsłużyć transport o takim znaczeniu."
    },
    "DENY_6" : {
       "description" : "",
