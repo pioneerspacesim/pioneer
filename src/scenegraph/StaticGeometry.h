@@ -39,7 +39,6 @@ public:
 		RefCountedPtr<Graphics::IndexBuffer>,
 		RefCountedPtr<Graphics::Material>);
 	unsigned int GetNumMeshes() const { return m_meshes.size(); }
-	RefCountedPtr<Graphics::StaticMesh> GetMesh(unsigned int i);
 	Mesh &GetMeshAt(unsigned int i);
 
 	void SetRenderState(Graphics::RenderState *s) { m_renderState = s; }

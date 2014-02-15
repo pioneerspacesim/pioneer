@@ -190,12 +190,6 @@ StaticGeometry::Mesh &StaticGeometry::GetMeshAt(unsigned int i)
 	return m_meshes.at(i);
 }
 
-RefCountedPtr<Graphics::StaticMesh> StaticGeometry::GetMesh(unsigned int i)
-{
-	RefCountedPtr<Graphics::StaticMesh> moo;
-	return moo;
-}
-
 void StaticGeometry::DrawBoundingBox(const Aabb &bb)
 {
 	const vector3f min(bb.min.x, bb.min.y, bb.min.z);
