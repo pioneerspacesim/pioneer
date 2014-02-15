@@ -28,6 +28,7 @@ VertexBufferDesc::VertexBufferDesc()
 	for (Uint32 i = 0; i < MAX_ATTRIBS; i++) {
 		attrib[i].semantic = ATTRIB_NONE;
 		attrib[i].format = ATTRIB_FORMAT_NONE;
+		attrib[i].offset = 0;
 	}
 
 	assert(sizeof(vector2f) == 8);

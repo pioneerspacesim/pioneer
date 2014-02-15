@@ -5,9 +5,43 @@
 
 namespace Graphics { namespace GL2 {
 
+GLint get_num_components(VertexAttribFormat fmt)
+{
+	switch (fmt) {
+	case ATTRIB_FORMAT_FLOAT2:
+		return 2;
+	case ATTRIB_FORMAT_FLOAT3:
+		return 3;
+	case ATTRIB_FORMAT_FLOAT4:
+	case ATTRIB_FORMAT_UBYTE4:
+		return 4;
+	default:
+		assert(false);
+		return 0;
+	}
+}
+
+GLenum get_component_type(VertexAttribFormat fmt)
+{
+	switch (fmt) {
+	case ATTRIB_FORMAT_UBYTE4:
+		return GL_UNSIGNED_BYTE;
+	case ATTRIB_FORMAT_FLOAT2:
+	case ATTRIB_FORMAT_FLOAT3:
+	case ATTRIB_FORMAT_FLOAT4:
+	default:
+		return GL_FLOAT;
+	}
+}
+
 VertexBuffer::VertexBuffer(const VertexBufferDesc &desc)
 {
 	m_desc = desc;
+	//update offsets
+	for (Uint32 i = 0; i < MAX_ATTRIBS; i++) {
+		if (m_desc.attrib[i].offset == 0)
+			m_desc.attrib[i].offset = m_desc.GetOffset(m_desc.attrib[i].semantic);
+	}
 	SetVertexCount(m_desc.numVertices);
 
 	glGenBuffers(1, &m_buffer);
@@ -44,22 +78,26 @@ void VertexBuffer::Unmap()
 void VertexBuffer::SetAttribPointers()
 {
 	const Uint32 stride = m_desc.GetVertexSize();
-	GLsizei offset = 0;
 	for (Uint8 i = 0; i < MAX_ATTRIBS; i++) {
-		auto sem = m_desc.attrib[i].semantic;
-		if (sem == ATTRIB_POSITION)
-			glVertexPointer(3, GL_FLOAT, stride, (GLvoid*)offset);
-		else if (sem == ATTRIB_NORMAL)
-			glNormalPointer(GL_FLOAT, stride, (GLvoid*)offset);
-		else if (sem == ATTRIB_DIFFUSE)
-			glColorPointer(4, GL_UNSIGNED_BYTE, stride, (GLvoid*)offset);
-		else if (sem == ATTRIB_UV0)
-			glTexCoordPointer(2, GL_FLOAT, stride, (GLvoid*)offset);
-		else
+		const auto& attr  = m_desc.attrib[i];
+		const auto offset = reinterpret_cast<const GLvoid*>(m_desc.attrib[i].offset);
+		switch (attr.semantic) {
+		case ATTRIB_POSITION:
+			glVertexPointer(get_num_components(attr.format), get_component_type(attr.format), stride, offset);
 			break;
-		//glVertexAttribPointer(i, MapNumComponents(m_desc.attrib[i].format),
-		//	MapType(m_desc.attribs[i].format), GL_TRUE, stride, (GLvoid*)offset);
-		offset += m_desc.GetAttribSize(m_desc.attrib[i].format);
+		case ATTRIB_NORMAL:
+			glNormalPointer(get_component_type(attr.format), stride, offset);
+			break;
+		case ATTRIB_DIFFUSE:
+			glColorPointer(get_num_components(attr.format), get_component_type(attr.format), stride, offset);
+			break;
+		case ATTRIB_UV0:
+			glTexCoordPointer(get_num_components(attr.format), get_component_type(attr.format), stride, offset);
+			break;
+		case ATTRIB_NONE:
+		default:
+			return;
+		}
 	}
 }
 

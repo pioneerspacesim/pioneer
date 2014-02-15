@@ -12,8 +12,13 @@ namespace Graphics {
 const Uint32 MAX_ATTRIBS = 8;
 
 struct VertexAttribDesc {
+	//position, texcoord, normal etc.
 	VertexAttrib semantic;
+	//float3, float2 etc.
 	VertexAttribFormat format;
+	//byte offset of the attribute, if zero this
+	//is automatically filled for created buffers
+	Uint32 offset;
 };
 
 struct VertexBufferDesc {
