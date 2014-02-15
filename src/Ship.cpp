@@ -637,6 +637,16 @@ Ship::HyperjumpStatus Ship::GetHyperspaceDetails(const SystemPath &dest, int &ou
 	return GetHyperspaceDetails(Pi::game->GetSpace()->GetStarSystem()->GetPath(), dest, outFuelRequired, outDurationSecs);
 }
 
+Ship::HyperjumpStatus Ship::CheckHyperjumpCapability() const {
+	if (GetFlightState() == HYPERSPACE)
+		return HYPERJUMP_DRIVE_ACTIVE;
+
+	if (GetFlightState() != FLYING && GetFlightState() != JUMPING)
+		return HYPERJUMP_SAFETY_LOCKOUT;
+
+	return HYPERJUMP_OK;
+}
+
 Ship::HyperjumpStatus Ship::CheckHyperspaceTo(const SystemPath &dest, int &outFuelRequired, double &outDurationSecs)
 {
 	assert(dest.HasValidSystem());
@@ -1341,28 +1351,38 @@ void Ship::OnEquipmentChange(Equip::Type e)
 void Ship::EnterHyperspace() {
 	assert(GetFlightState() != Ship::HYPERSPACE);
 
-	const SystemPath dest = GetHyperspaceDest();
-
-	int fuel_cost;
-	Ship::HyperjumpStatus status = CheckHyperspaceTo(dest, fuel_cost, m_hyperspace.duration);
-	if (status != HYPERJUMP_OK && status != HYPERJUMP_INITIATED) {
-		// XXX something has changed (fuel loss, mass change, whatever).
-		// could report it to the player but better would be to cancel the
-		// countdown before this is reached. either way do something
-		if (m_flightState == JUMPING)
-			SetFlightState(FLYING);
-		return;
-	}
-
+	// Two code paths:
+	// The first one is the traditional "check fuel and destination and whatnut
+	// The second one only checks the bare minimum to insure consistency.
 	if (!m_hyperspace.ignoreFuel) {
+
+		const SystemPath dest = GetHyperspaceDest();
+		int fuel_cost;
+
+		Ship::HyperjumpStatus status = CheckHyperspaceTo(dest, fuel_cost, m_hyperspace.duration);
+		if (status != HYPERJUMP_OK && status != HYPERJUMP_INITIATED) {
+			// XXX something has changed (fuel loss, mass change, whatever).
+			// could report it to the player but better would be to cancel the
+			// countdown before this is reached. either way do something
+			if (m_flightState == JUMPING)
+				SetFlightState(FLYING);
+			return;
+		}
+
 		Equip::Type fuelType = GetHyperdriveFuelType();
 		m_equipment.Remove(fuelType, fuel_cost);
 		if (fuelType == Equip::MILITARY_FUEL) {
 			m_equipment.Add(Equip::RADIOACTIVES, fuel_cost);
 		}
 		UpdateEquipStats();
+	} else {
+		Ship::HyperjumpStatus status = CheckHyperjumpCapability();
+		if (status != HYPERJUMP_OK && status != HYPERJUMP_INITIATED) {
+			if (m_flightState == JUMPING)
+				SetFlightState(FLYING);
+			return;
+		}
 	}
-
 	m_hyperspace.ignoreFuel = false;
 
 	LuaEvent::Queue("onLeaveSystem", this);
