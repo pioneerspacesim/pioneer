@@ -85,11 +85,11 @@
    },
    "CARGO_T_FREE" : {
       "description" : "",
-      "message" : "{amount}t boş"
+      "message" : "{amount}T boş"
    },
    "CARGO_T_USED" : {
       "description" : "",
-      "message" : "{amount}t kullanılan"
+      "message" : "{amount}T kullanılan"
    },
    "CASH" : {
       "description" : "",
@@ -97,7 +97,7 @@
    },
    "CASH_N" : {
       "description" : "",
-      "message" : "Para: {money}"
+      "message" : "Nakit: {money}"
    },
    "CHANGE_BINDING" : {
       "description" : "",
@@ -233,7 +233,7 @@
    },
    "DOCK_AT_CURRENT_TARGET" : {
       "description" : "",
-      "message" : "Mevcut hedefe demirle"
+      "message" : "Mevcut hedefe sabitlen"
    },
    "DUE" : {
       "description" : "",
@@ -265,7 +265,7 @@
    },
    "ENABLE_JOYSTICK" : {
       "description" : "",
-      "message" : "Oyun kumandası aktif"
+      "message" : "Joystick etkin"
    },
    "ENGINEERING" : {
       "description" : "",
@@ -293,7 +293,7 @@
    },
    "EXIT_THIS_GAME" : {
       "description" : "",
-      "message" : "Oyundan çık"
+      "message" : "Bu oyundan çık"
    },
    "EXPERIENCED" : {
       "description" : "For player reputation",
@@ -357,7 +357,7 @@
    },
    "GIVE_ORDERS_TO_CREW" : {
       "description" : "",
-      "message" : "Mürettebata emirler ver"
+      "message" : "Mürettebata emir ver"
    },
    "GOOD_RIDDANCE_TO_YOU_TOO" : {
       "description" : "",
@@ -453,7 +453,7 @@
    },
    "IN_STOCK" : {
       "description" : "",
-      "message" : "Stokta"
+      "message" : "Stok"
    },
    "ITEM_IS_OUT_OF_STOCK" : {
       "description" : "",
@@ -469,7 +469,7 @@
    },
    "KILLS" : {
       "description" : "",
-      "message" : "Ölenler:"
+      "message" : "Öldürülen:"
    },
    "LANGUAGE" : {
       "description" : "",
@@ -537,7 +537,7 @@
    },
    "MAKE_NEW_FACE" : {
       "description" : "",
-      "message" : "Yeni yüz yap"
+      "message" : "Yeni yüz"
    },
    "MALE" : {
       "description" : "",
@@ -549,15 +549,15 @@
    },
    "MASTER" : {
       "description" : "For player reputation",
-      "message" : "Usta"
+      "message" : "Üstad"
    },
    "MASTER_VOL" : {
       "description" : "Master sound in settings option",
-      "message" : "Usta:"
+      "message" : "Genel:"
    },
    "MAX" : {
       "description" : "",
-      "message" : "en fazla"
+      "message" : "en çok"
    },
    "MAXIMUM_CREW" : {
       "description" : "",
@@ -613,7 +613,7 @@
    },
    "MORE_INFO" : {
       "description" : "",
-      "message" : "Daha fazla bilgi..."
+      "message" : "Detay..."
    },
    "MOSTLY_HARMLESS" : {
       "description" : "",
@@ -677,7 +677,7 @@
    },
    "N_LIGHT_YEARS_N_MAX" : {
       "description" : "",
-      "message" : "{range} ışık yılı (en çok {maxRange})"
+      "message" : "{range} ışık yılı ({maxRange} en çok)"
    },
    "N_OCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
@@ -713,7 +713,7 @@
    },
    "ORBITAL_ANALYSIS_NOTES" : {
       "description" : "",
-      "message" : "Dairesel yörünge hızı teğet hız için verilmiştir. Gemi {name} eksenine 90° yönünde hareket ediyor olmalıdır.\n\nAlçalma hızı mutlak en az ve yine teğettir. Daha düşük bir hız veya açı {name} yüzeyiyle kesişen bir rotaya neden olacaktır.\n\nKaçış hızı , gemi {name} ile yol üstünde çarpışmadığı sürece, teorik olarak her hangi bir yönde işleyecektir.\n⇥⇥"
+      "message" : "Dairesel yörünge hızı teğet hız için verilmiştir. Gemi {name} eksenine 90° yönünde hareket ediyor olmalıdır.\n\nAlçalma hızı mutlak en az ve yine teğettir. Daha düşük bir hız veya açı {name} yüzeyiyle kesişen bir rotaya neden olacaktır.\n\nKaçış hızı , gemi {name} ile yol üstünde çarpışmadığı sürece, teorik olarak her hangi bir yönde işleyecektir.\n "
    },
    "OWED" : {
       "description" : "",
@@ -725,7 +725,7 @@
    },
    "PERSONAL_INFORMATION" : {
       "description" : "",
-      "message" : "Kişisel bilgi"
+      "message" : "Kişisel Bilgi"
    },
    "PILOTING" : {
       "description" : "",
@@ -921,7 +921,7 @@
    },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "",
-      "message" : "Erkek/kadın geçiş yap"
+      "message" : "Erkek/kadın"
    },
    "TOTAL" : {
       "description" : "",

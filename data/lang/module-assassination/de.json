@@ -9,35 +9,35 @@
    },
    "DENY_0" : {
       "description" : "",
-      "message" : "I'm sorry, but I don't trust you."
+      "message" : "Sorry, aber ich vertraue dir nicht."
    },
    "DENY_1" : {
       "description" : "",
-      "message" : "Come back when you have some qualifications."
+      "message" : "Komm wieder, wenn du besser qualifiziert bis."
    },
    "DENY_2" : {
       "description" : "",
-      "message" : "I don't think you're the one I'm looking for."
+      "message" : "Ich glaube nicht, dass du der bist nach dem ich gesucht habe."
    },
    "DENY_3" : {
       "description" : "",
-      "message" : "You don't look like someone capable of doing what needs to be done."
+      "message" : "Du siehst nicht aus, als ob du in der Lage bist zu tun was getun werden muss."
    },
    "DENY_4" : {
       "description" : "",
-      "message" : "You are clearly not the one for this job."
+      "message" : "Du bist eindeutig der falsche für den Job."
    },
    "DENY_5" : {
       "description" : "",
-      "message" : "You seem much too inexperienced to handle a contract of this importance."
+      "message" : "Dir fehlt es eindeutig an Erfahrung für einen so wichtigen Vertrag."
    },
    "DENY_6" : {
       "description" : "",
-      "message" : "I have never heard of you. I need someone experienced for this contract."
+      "message" : "Noch nie von dir gehört. Für den Vertrag brauche ich jemanden mit Erfahrung."
    },
    "DENY_7" : {
       "description" : "",
-      "message" : "I'm not willing to risk this contract by giving it to someone as inexperienced as you."
+      "message" : "Der Vertrag ist mir als zu wichtig, als dass ich riskieren würde, dass er von einem Anfänger vermasselt wird."
    },
    "DISTANCE" : {
       "description" : "",

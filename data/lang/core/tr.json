@@ -69,7 +69,7 @@
    },
    "AUTOPILOT_DOCK_WITH_STATION" : {
       "description" : "",
-      "message" : "Otopilot: Uzay istasyonuna demirle"
+      "message" : "Otopilot: Uzay istasyonuna sabitlen"
    },
    "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND" : {
       "description" : "",
@@ -169,7 +169,7 @@
    },
    "CARGO_BAY_LIFE_SUPPORT_LOST" : {
       "description" : "",
-      "message" : "Algılayıcılar tehlikeli kargo bölmesi yaşam destek koşulları gösteriyor"
+      "message" : "Algılayıcılar kargo bölmesinde tehlikeli yaşam destek koşulları gösteriyor"
    },
    "CARGO_LIFE_SUPPORT" : {
       "description" : "",
@@ -201,15 +201,15 @@
    },
    "CLEARANCE_ALREADY_GRANTED_BAY_N" : {
       "description" : "",
-      "message" : "İzin zaten verildi. %bay nolu iniş pistine devam edin."
+      "message" : "İzin zaten verildi. %bay nolu sabitlenme bölmesine devam edin."
    },
    "CLEARANCE_DENIED_NO_BAYS" : {
       "description" : "",
-      "message" : "İzin reddedildi. Boş iniş pisti yok."
+      "message" : "İzin reddedildi. Boş sabitlenme bölmesi yok."
    },
    "CLEARANCE_GRANTED_BAY_N" : {
       "description" : "",
-      "message" : "İzin verildi. %bay nolu iniş pisti ne doğru devam edin."
+      "message" : "İzin verildi. %bay nolu sabitlenme bölmesine ilerleyin."
    },
    "CO2_ATMOSPHERE" : {
       "description" : "",
@@ -317,15 +317,15 @@
    },
    "DOCKED" : {
       "description" : "",
-      "message" : "Demirlendi"
+      "message" : "Sabitlendi"
    },
    "DOCKING" : {
       "description" : "",
-      "message" : "Demirleniyor"
+      "message" : "Sabitleniyor"
    },
    "DOCKING_CLEARANCE_EXPIRED" : {
       "description" : "",
-      "message" : "Demirleme izni doldu. Eğer demirlemek istiyorsanız isteğinizi tekrarlayın."
+      "message" : "Sabitlenme izin süresi doldu. Eğer sabitlenmek istiyorsanız isteğinizi tekrarlayın."
    },
    "DOWNGRADING_ALERT_STATUS" : {
       "description" : "",
@@ -709,7 +709,7 @@
    },
    "JOYSTICK_INPUT" : {
       "description" : "",
-      "message" : "Joystick girdisi"
+      "message" : "Joystick"
    },
    "JOY_AXIS" : {
       "description" : "",
@@ -753,7 +753,7 @@
    },
    "LAUNCH_PERMISSION_DENIED_BUSY" : {
       "description" : "",
-      "message" : "Kalkış izni reddedildi: iniş pisti meşgul."
+      "message" : "Kalkış izni reddedildi: sabitlenme bölmesi meşgul."
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
@@ -1301,7 +1301,7 @@
    },
    "REQUEST_DOCKING_CLEARANCE" : {
       "description" : "",
-      "message" : "Demirleme izni iste"
+      "message" : "Sabitlenme izni iste"
    },
    "RESET" : {
       "description" : "",
@@ -1357,11 +1357,11 @@
    },
    "ROTATION_DAMPING_OFF" : {
       "description" : "",
-      "message" : "Dönüş durdurmayı kapalı"
+      "message" : "Dönüş durdurma kapalı"
    },
    "ROTATION_DAMPING_ON" : {
       "description" : "",
-      "message" : "Dönüş durdurmayı açık"
+      "message" : "Dönüş durdurma açık"
    },
    "RUBBISH" : {
       "description" : "",
@@ -1509,7 +1509,7 @@
    },
    "SIDEREAL_VIEW" : {
       "description" : "",
-      "message" : "yıldıza göre görünüm"
+      "message" : "Yıldızsal görünüm"
    },
    "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
       "description" : "",
@@ -1737,7 +1737,7 @@
    },
    "TARGET_OBJECT_IN_SIGHTS" : {
       "description" : "",
-      "message" : "Artı göstergedeki cismi hedef al"
+      "message" : "Artıdaki cismi hedef al"
    },
    "TENUOUS" : {
       "description" : "",
