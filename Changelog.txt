@@ -25,6 +25,7 @@ February 2014
      * hasprop method to see if the named property exists (#2734)
      * Ship:InitiateHyperjumpTo to jump regardless of range or fuel (#2747)
      * UI.Table.SetColumnAlignment, various ways to position table columns (#2778)
+     * Empty grid cells now expand to the available size to assist with layout
 
    * Model changes
      * Removed two_sided material property, it didn't handle lighting correctly (#2697)
