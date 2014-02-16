@@ -28,7 +28,7 @@ public:
 	Space(Game *game, const SystemPath &path);
 
 	// initialise from save file
-	Space(Game *game, Serializer::Reader &rd);
+	Space(Game *game, Serializer::Reader &rd, double at_time);
 
 	virtual ~Space();
 

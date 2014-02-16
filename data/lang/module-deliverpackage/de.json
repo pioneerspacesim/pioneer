@@ -15,6 +15,38 @@
       "description" : "",
       "message" : "Lieferung"
    },
+   "DENY_0" : {
+      "description" : "",
+      "message" : "Sorry, aber ich glaube nicht, dass ich dir diesen Lieferauftrag anvertrauen kann."
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "Komm wieder, wenn du über ein paar Qualifikation verfügst."
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "Ich glaube nicht, dass du der Pilot bist nach dem ich gesucht habe."
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "Du siehst nicht aus wie jemand, dem ich diese Lieferung anvertrauen kann."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "Du bist nicht die Sorte Pilot nach der ich gesucht habe."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "Dir fehlt es eindeutig an Erfahrung für eine so wichtige Lieferung."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "Noch nie von dir gehört. Für die Lieferung brauche ich jemanden mit Erfahrung."
+   },
+   "DENY_7" : {
+      "description" : "",
+      "message" : "Die Lieferung ist mir als zu wichtig, als dass ich riskieren würde, dass es von einem Anfänger vermasselt wird."
+   },
    "DISTANCE" : {
       "description" : "",
       "message" : "Distanz:"

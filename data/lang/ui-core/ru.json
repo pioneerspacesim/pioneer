@@ -9,7 +9,7 @@
    },
    "AFTER_TRADE_IN" : {
       "description" : "",
-      "message" : "+ стоимость вашего корпуса"
+      "message" : "+ цена вашего корпуса"
    },
    "ALLEGIANCE" : {
       "description" : "",
@@ -69,11 +69,11 @@
    },
    "CAPACITY" : {
       "description" : "",
-      "message" : "Вместимость"
+      "message" : "Грузоподъёмность"
    },
    "CAPACITY_USED" : {
       "description" : "",
-      "message" : "Используемый объём"
+      "message" : "Загруженность"
    },
    "CARGO" : {
       "description" : "",
@@ -153,7 +153,7 @@
    },
    "CONSTABLE" : {
       "description" : "",
-      "message" : "Полицейский"
+      "message" : "Начальник охраны"
    },
    "CONTROLS" : {
       "description" : "",
@@ -166,6 +166,10 @@
    "COULD_NOT_LOAD_GAME" : {
       "description" : "",
       "message" : "Не удалось загрузить игру:"
+   },
+   "CREDIBLE" : {
+      "description" : "For player reputation",
+      "message" : "Значимый"
    },
    "CREW_CABINS" : {
       "description" : "",
@@ -265,7 +269,7 @@
    },
    "ENGINEERING" : {
       "description" : "",
-      "message" : "Инженерное дело"
+      "message" : "Инженерное дело:"
    },
    "EQUIPMENT" : {
       "description" : "",
@@ -290,6 +294,14 @@
    "EXIT_THIS_GAME" : {
       "description" : "",
       "message" : "Выйти из игры"
+   },
+   "EXPERIENCED" : {
+      "description" : "For player reputation",
+      "message" : "Опытный"
+   },
+   "EXPERT" : {
+      "description" : "For player reputation",
+      "message" : "Эксперт"
    },
    "FAILED" : {
       "description" : "",
@@ -316,7 +328,7 @@
       "message" : "Детализация частиц"
    },
    "FREE" : {
-      "description" : "",
+      "description" : "Used in Ship Information view as in Capacity: 10t (5t free)",
       "message" : "свободно"
    },
    "FRONT_WEAPON" : {
@@ -409,7 +421,7 @@
    },
    "HYPERDRIVE_FITTED" : {
       "description" : "",
-      "message" : "Гипердвигатель:"
+      "message" : "Установленный двигатель:"
    },
    "HYPERSPACE_RANGE" : {
       "description" : "",
@@ -422,6 +434,14 @@
    "INACTIVE" : {
       "description" : "",
       "message" : "Неактивно"
+   },
+   "INCOMPETENT" : {
+      "description" : "For player reputation",
+      "message" : "Некомпетентный"
+   },
+   "INEXPERIENCED" : {
+      "description" : "For player reputation",
+      "message" : "Неопытный"
    },
    "INVERT_MOUSE_Y" : {
       "description" : "",
@@ -497,7 +517,7 @@
    },
    "LOBBY" : {
       "description" : "",
-      "message" : "Lobby"
+      "message" : "Информационный центр"
    },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
@@ -525,10 +545,14 @@
    },
    "MASS" : {
       "description" : "",
-      "message" : "Масса"
+      "message" : "Вес"
    },
    "MASTER" : {
-      "description" : "",
+      "description" : "For player reputation",
+      "message" : "Мастер"
+   },
+   "MASTER_VOL" : {
+      "description" : "Master sound in settings option",
       "message" : "Общая:"
    },
    "MAX" : {
@@ -631,6 +655,10 @@
       "description" : "",
       "message" : "День платежа"
    },
+   "NOBODY" : {
+      "description" : "For player reputation",
+      "message" : " Пустое место"
+   },
    "NONE" : {
       "description" : "",
       "message" : "<отсутствует>"
@@ -721,7 +749,7 @@
    },
    "POLICE" : {
       "description" : "",
-      "message" : "Полиция"
+      "message" : "Охрана"
    },
    "POOR" : {
       "description" : "",
@@ -738,6 +766,10 @@
    "PRICE" : {
       "description" : "",
       "message" : "Цена"
+   },
+   "PROFESSIONAL" : {
+      "description" : "For player reputation",
+      "message" : "Профессионал"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
@@ -767,9 +799,17 @@
       "description" : "",
       "message" : "Дозаправить"
    },
+   "RELIABLE" : {
+      "description" : "For player reputation",
+      "message" : "Надёжный"
+   },
    "REPAIR_X_HULL_DAMAGE_FOR_X" : {
       "description" : "",
       "message" : "Ремонт {damage}% повреждённого корпуса за {price}"
+   },
+   "REPUTATION" : {
+      "description" : "",
+      "message" : "Репутация"
    },
    "REQUEST_LAUNCH" : {
       "description" : "",
@@ -837,7 +877,7 @@
    },
    "SHIP_REPAIRS" : {
       "description" : "",
-      "message" : "Ремонт кораблей"
+      "message" : "Сервисный центр"
    },
    "SHIP_VIEWING_WAS_SOLD" : {
       "description" : "",
@@ -895,6 +935,10 @@
       "description" : "",
       "message" : "Торговля нелегальным товаром"
    },
+   "TRUSTWORTHY" : {
+      "description" : "For player reputation",
+      "message" : "Достойный доверия"
+   },
    "TYPE" : {
       "description" : "",
       "message" : "Тип"
@@ -902,6 +946,10 @@
    "UNLAWFUL_WEAPONS_DISCHARGE" : {
       "description" : "",
       "message" : "Стрельба в зоне станции"
+   },
+   "UNRELIABLE" : {
+      "description" : "",
+      "message" : "Ненадёжный"
    },
    "UP_ACCEL" : {
       "description" : "",
@@ -969,7 +1017,7 @@
    },
    "YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER" : {
       "description" : "",
-      "message" : "Сначала вы должны указать навигационную цель, Командир."
+      "message" : "Сначала вы должны указать цель навигации, Командир."
    },
    "YOU_MUST_LAUNCH_FIRST_COMMANDER" : {
       "description" : "",
@@ -977,7 +1025,7 @@
    },
    "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER" : {
       "description" : "",
-      "message" : "Сначала мы должны запросить разрешение на взлет, капитан!"
+      "message" : "Сначала вы должны запросить разрешение на взлёт, Командир."
    },
    "YOU_NOT_ENOUGH_MONEY" : {
       "description" : "",

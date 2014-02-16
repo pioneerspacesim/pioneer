@@ -7,6 +7,38 @@
       "description" : "",
       "message" : "Megismételnéd a hirdetést?"
    },
+   "DENY_0" : {
+      "description" : "",
+      "message" : "Sajnálom, de nem bízom benned."
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "Tanulnod kell még."
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "Nem hinném, hogy te vagy az én emberem."
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "Nem úgy festesz, mint aki képes lenne elvégezni amit el kell végezni."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "Egyértelműen alkalmatlan vagy a feladatra."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "Túl tapasztalatlannak tűnsz egy ekkora horderejű megbízás elvégzéséhez."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "Még csak nem is hallottam rólad.  Tapasztaltabb embert keresek."
+   },
+   "DENY_7" : {
+      "description" : "",
+      "message" : "Nem vagyok hajlandó kockáztatni azzal, hogy egy olyan zöldfülűt bízok meg, mint te."
+   },
    "DISTANCE" : {
       "description" : "",
       "message" : "Távolság:"

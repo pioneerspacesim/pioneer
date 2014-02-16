@@ -257,6 +257,7 @@ SpaceStation.adverts = {}
 -- >     icon        = icon,
 -- >     onChat      = onChat,
 -- >     onDelete    = onDelete,
+-- >     isEnabled   = isEnabled,
 -- > })
 -- >
 -- > -- Legacy form
@@ -283,6 +284,10 @@ SpaceStation.adverts = {}
 --              <ChatForm.RemoveAdvertOnClose> is called, and when the
 --              <SpaceStation> itself is destroyed (eg the player leaves the
 --              system).
+--
+--   isEnabled - optional. function to call to determine whether the advert is
+--               enabled. Disabled adverts are shown in darker tone than enabled
+--               ones. When not given, all adverts are considered enabled.
 --
 -- Return:
 --
@@ -328,6 +333,7 @@ function SpaceStation:AddAdvert (description, onChat, onDelete)
 		icon        = args.icon,
 		onChat      = args.onChat,
 		onDelete    = args.onDelete,
+		isEnabled   = args.isEnabled,
 	}
 	Event.Queue("onAdvertAdded", self, nextRef)
 	return nextRef

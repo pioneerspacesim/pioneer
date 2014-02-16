@@ -51,22 +51,7 @@ LuaConsole::LuaConsole():
 
 	m_historyPosition = -1;
 
-	// prepare the global table
-	lua_State *l = Lua::manager->GetLuaState();
-
-	LUA_DEBUG_START(l);
-
-	lua_newtable(l);
-	lua_newtable(l);
-	lua_pushliteral(l, "__index");
-	lua_getglobal(l, "_G");
-	lua_rawset(l, -3);
-	lua_setmetatable(l, -2);
-	lua_setfield(l, LUA_REGISTRYINDEX, "ConsoleGlobal");
-
-	LUA_DEBUG_END(l, 0);
-
-	RunAutoexec();
+	RegisterAutoexec();
 }
 
 void LuaConsole::Toggle()
@@ -87,42 +72,85 @@ static int capture_traceback(lua_State *L) {
 	return 1;
 }
 
-void LuaConsole::RunAutoexec() {
-	lua_State *L = Lua::manager->GetLuaState();
-	LUA_DEBUG_START(L);
+// Create the table and leave a copy on the stack for further use
+static void init_global_table(lua_State *l) {
+	LUA_DEBUG_START(l);
 
+	lua_newtable(l);
+	lua_newtable(l);
+	lua_pushliteral(l, "__index");
+	lua_getglobal(l, "_G");
+	lua_rawset(l, -3);
+	lua_setmetatable(l, -2);
+	lua_pushvalue(l, -1);
+	lua_setfield(l, LUA_REGISTRYINDEX, "ConsoleGlobal");
+
+	LUA_DEBUG_END(l, 1);
+}
+
+static int console_autoexec(lua_State* l) {
+	LUA_DEBUG_START(l);
+
+	init_global_table(l); // _ENV
+
+	LuaConsole *c = static_cast<LuaConsole *>(lua_touserdata(l, lua_upvalueindex(1)));
 	RefCountedPtr<FileSystem::FileData> code = FileSystem::userFiles.ReadFile("console.lua");
-	if (!code)
-		return;
+	if (!code) {
+		lua_pop(l, 1);
+		LUA_DEBUG_END(l, 0);
+		return 0;
+	}
 
-	int ret = pi_lua_loadfile(L, *code);
+	int ret = pi_lua_loadfile(l, *code); // code, _ENV
 	if (ret != LUA_OK) {
 		if (ret == LUA_ERRSYNTAX) {
-			const char *msg = lua_tostring(L, -1);
+			const char *msg = lua_tostring(l, -1);
 			Output("console.lua: %s\n", msg);
-			lua_pop(L, 1);
+			lua_pop(l, 1);
 		}
-		AddOutput("Failed to run console.lua");
-		return;
+		c->AddOutput("Failed to run console.lua");
+		lua_pop(l, 1); //popping _ENV
+		LUA_DEBUG_END(l, 0);
+		return 0;
 	}
 
 	// set the chunk's _ENV (globals) var
-	lua_getfield(L, LUA_REGISTRYINDEX, "ConsoleGlobal");
-	lua_setupvalue(L, -2, 1);
+	lua_insert(l, -2); // _ENV, code
+	lua_setupvalue(l, -2, 1); // code
 
-	lua_pushcfunction(L, &capture_traceback);
-	lua_insert(L, -2);
+	lua_pushcfunction(l, &capture_traceback); // traceback, code
+	lua_insert(l, -2); // code, traceback
 
-	ret = lua_pcall(L, 0, 0, -2);
+	ret = lua_pcall(l, 0, 0, -2);
 	if (ret != LUA_OK) {
-		const char *msg = lua_tostring(L, -1);
+		const char *msg = lua_tostring(l, -1);
 		Output("console.lua:\n%s\n", msg);
-		AddOutput("Failed to run console.lua");
-		lua_pop(L, 1);
+		c->AddOutput("Failed to run console.lua");
+		lua_pop(l, 1);
 	}
 
 	// pop capture_traceback function
+	lua_pop(l, 1);
+	LUA_DEBUG_END(l, 0);
+
+	return 0;
+
+}
+
+void LuaConsole::RegisterAutoexec() {
+	lua_State *L = Lua::manager->GetLuaState();
+	LUA_DEBUG_START(L);
+	if (!pi_lua_import(L, "Event")) {
+		Output("console.lua:\nProblem when registering the autoexec script.\n");
+		return;
+	}
+	lua_getfield(L, -1, "Register"); // Register, Event
+	lua_pushstring(L, "onGameStart"); // "onGameStart", Register, Event
+	lua_pushlightuserdata(L, this); // console, "onGameStart", Register, Event
+	lua_pushcclosure(L, console_autoexec, 1); // autoexec, "onGameStart", Register, Event
+	lua_call(L, 2, 0); // Event
 	lua_pop(L, 1);
+
 	LUA_DEBUG_END(L, 0);
 }
 

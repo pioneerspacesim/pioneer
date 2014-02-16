@@ -36,7 +36,7 @@ private:
 	void OnKeyPressed(const SDL_Keysym*);
 	void OnTextChanged();
 	void UpdateCompletion(const std::string & statement);
-	void RunAutoexec();
+	void RegisterAutoexec();
 
 	bool m_active;
 

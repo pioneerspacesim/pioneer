@@ -33,48 +33,50 @@ local typical_travel_time = (1.6 * max_delivery_dist + 4) * 24 * 60 * 60
 local typical_reward = 25 * max_delivery_dist
 
 local num_pirate_taunts = 10
+local num_deny = 8
+
 
 local flavours = {
 	{
 		urgency = 0,
 		risk = 0,
-		localdelivery = 0,
+		localdelivery = false,
 	}, {
 		urgency = 0.1,
 		risk = 0,
-		localdelivery = 0,
+		localdelivery = false,
 	}, {
 		urgency = 0.6,
 		risk = 0,
-		localdelivery = 0,
+		localdelivery = false,
 	}, {
 		urgency = 0.4,
 		risk = 0.75,
-		localdelivery = 0,
+		localdelivery = false,
 	}, {
 		urgency = 0.1,
 		risk = 0.1,
-		localdelivery = 0,
+		localdelivery = false,
 	}, {
 		urgency = 0.1,
 		risk = 0,
-		localdelivery = 1,
+		localdelivery = true,
 	}, {
 		urgency = 0.2,
 		risk = 0,
-		localdelivery = 1,
+		localdelivery = true,
 	}, {
 		urgency = 0.4,
 		risk = 0,
-		localdelivery = 1,
+		localdelivery = true,
 	}, {
 		urgency = 0.6,
 		risk = 0,
-		localdelivery = 1,
+		localdelivery = true,
 	}, {
 		urgency = 0.8,
 		risk = 0,
-		localdelivery = 1,
+		localdelivery = true,
 	}
 }
 
@@ -91,6 +93,30 @@ end
 local ads = {}
 local missions = {}
 
+local isQualifiedFor = function(reputation, ad)
+	return
+		reputation >= 8 or
+		ad.localdelivery or
+		(ad.risk <  0.1 and ad.urgency <= 0.1) or
+		(ad.risk <  0.5 and ad.urgency <= 0.5 and reputation >= 4) or
+		false
+end
+
+-- Those are the jobs that can be done without reputation
+local easyJobs = {}
+local easyLocalJobs = {}
+local easyNonLocalJobs = {}
+for i = 1,#flavours do
+	if isQualifiedFor(-1000, flavours[i]) then
+		table.insert(easyJobs, i)
+		if flavours[i].localdelivery then
+			table.insert(easyLocalJobs, i)
+		else
+			table.insert(easyNonLocalJobs, i)
+		end
+	end
+end
+
 local onChat = function (form, ref, option)
 	local ad = ads[ref]
 
@@ -101,8 +127,17 @@ local onChat = function (form, ref, option)
 		return
 	end
 
+	local qualified = isQualifiedFor(Character.persistent.player.reputation, ad)
+
+	form:SetFace(ad.client)
+
+	if not qualified then
+		local introtext = l["DENY_"..Engine.rand:Integer(1,num_deny)-1]
+		form:SetMessage(introtext)
+		return
+	end
+
 	if option == 0 then
-		form:SetFace(ad.client)
 
 		local sys   = ad.location:GetStarSystem()
 		local sbody = ad.location:GetSystemBody()
@@ -117,7 +152,6 @@ local onChat = function (form, ref, option)
 			sectorz  = ad.location.sectorZ,
 			dist     = string.format("%.2f", ad.dist),
 		})
-
 		form:SetMessage(introtext)
 
 	elseif option == 1 then
@@ -172,29 +206,51 @@ local onDelete = function (ref)
 	ads[ref] = nil
 end
 
+local isEnabled = function (ref)
+	return isQualifiedFor(Character.persistent.player.reputation, ads[ref])
+end
+
 local nearbysystems
-local makeAdvert = function (station)
+
+local findNearbyStations = function (station, minDist)
+	local nearbystations = {}
+	for _,s in ipairs(Game.system:GetStationPaths()) do
+		if s ~= station.path then
+			local dist = station:DistanceTo(Space.GetBody(s.bodyIndex))
+			if dist >= minDist then
+				table.insert(nearbystations, { s, dist })
+			end
+		end
+	end
+	return nearbystations
+end
+
+-- return statement is nil if no advert was created, else it is bool:
+-- true if a localdelivery, false for non-local
+local makeAdvert = function (station, manualFlavour, nearbystations)
 	local reward, due, location, nearbysystem, dist
 	local client = Character.New()
-	local flavour = Engine.rand:Integer(1,#flavours)
+
+	-- set flavour manually if a second arg is given
+	local flavour = manualFlavour or Engine.rand:Integer(1,#flavours)
+
 	local urgency = flavours[flavour].urgency
 	local risk = flavours[flavour].risk
 
-	if flavours[flavour].localdelivery == 1 then
+	if flavours[flavour].localdelivery then
 		nearbysystem = Game.system
-		local nearbystations = Game.system:GetStationPaths()
-		location = nearbystations[Engine.rand:Integer(1,#nearbystations)]
-		if location ==  station.path then return end
-		local locdist = Space.GetBody(location.bodyIndex)
-		dist = station:DistanceTo(locdist)
-		if dist < 1000 then return end
+		if nearbystations == nil then
+			nearbystations = findNearbyStations(station, 1000)
+		end
+		if #nearbystations == 0 then return nil end
+		location, dist = table.unpack(nearbystations[Engine.rand:Integer(1,#nearbystations)])
 		reward = 25 + (math.sqrt(dist) / 15000) * (1+urgency)
 		due = Game.time + ((4*24*60*60) * (Engine.rand:Number(1.5,3.5) - urgency))
 	else
 		if nearbysystems == nil then
 			nearbysystems = Game.system:GetNearbySystems(max_delivery_dist, function (s) return #s:GetStationPaths() > 0 end)
 		end
-		if #nearbysystems == 0 then return end
+		if #nearbysystems == 0 then return nil end
 		nearbysystem = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
 		dist = nearbysystem:DistanceTo(Game.system)
 		local nearbystations = nearbysystem:GetStationPaths()
@@ -208,6 +264,7 @@ local makeAdvert = function (station)
 		flavour		= flavour,
 		client		= client,
 		location	= location,
+		localdelivery = flavours[flavour].localdelivery,
 		dist            = dist,
 		due		= due,
 		risk		= risk,
@@ -226,28 +283,59 @@ local makeAdvert = function (station)
 	})
 
 	local ref = station:AddAdvert({
-		description = ad.desc, 
+		description = ad.desc,
 		icon        = ad.urgency >=  0.8 and "delivery_urgent" or "delivery",
-		onChat      = onChat, 
-		onDelete    = onDelete})
+		onChat      = onChat,
+		onDelete    = onDelete,
+		isEnabled   = isEnabled })
 	ads[ref] = ad
+
+	-- successfully created an advert, return non-nil
+	return ad
 end
 
 local onCreateBB = function (station)
+	if nearbysystems == nil then
+		nearbysystems = Game.system:GetNearbySystems(max_delivery_dist, function (s) return #s:GetStationPaths() > 0 end)
+	end
+	local nearbystations = findNearbyStations(station, 1000)
 	local num = Engine.rand:Integer(0, math.ceil(Game.system.population))
+	local numAchievableJobs = 0
+	local reputation = Character.persistent.player.reputation
+	local canHyperspace = Game.player.maxHyperspaceRange > 0
+
 	for i = 1,num do
-		makeAdvert(station)
+		local ad = makeAdvert(station, nil, nearbystations)
+		if ad and isQualifiedFor(reputation, ad) and (ad.localdelivery or canHyperspace) then
+			numAchievableJobs = numAchievableJobs + 1
+		end
+	end
+
+	-- make sure a player with low reputation will have at least one
+	-- job that does not require reputation on the BBS
+	if numAchievableJobs < 1 and (#nearbystations > 0 or (#nearbysystems > 0 and canHyperspace)) then
+		local ad
+		if #nearbystations > 0 and #nearbysystems > 0 and canHyperspace then
+			ad = makeAdvert(station, easyJobs[Engine.rand:Integer(1,#easyJobs)], nearbystations)
+		elseif #nearbystations > 0 then
+			ad = makeAdvert(station, easyLocalJobs[Engine.rand:Integer(1,#easyLocalJobs)], nearbystations)
+		else
+			ad = makeAdvert(station, easyNonLocalJobs[Engine.rand:Integer(1,#easyNonLocalJobs)], nearbystations)
+		end
+		assert(ad, "Could not create easy job")   -- We checked preconditions, so we should have a job now
 	end
 end
 
 local onUpdateBB = function (station)
 	for ref,ad in pairs(ads) do
-		if flavours[ad.flavour].localdelivery == 0
-			and ad.due < Game.time + 5*60*60*24 then -- five day timeout for inter-system
-			ad.station:RemoveAdvert(ref)
-		elseif flavours[ad.flavour].localdelivery == 1
-			and ad.due < Game.time + 2*60*60*24 then -- two day timeout for locals
-			ad.station:RemoveAdvert(ref)
+		if flavours[ad.flavour].localdelivery then
+			if ad.due < Game.time + 2*60*60*24 then -- two day timeout for locals
+				ad.station:RemoveAdvert(ref)
+			end
+		else
+			if ad.due < Game.time + 5*60*60*24 then -- five day timeout for inter-system
+				ad.station:RemoveAdvert(ref)
+			end
 		end
 	end
 	if Engine.rand:Integer(12*60*60) < 60*60 then -- roughly once every twelve hours
@@ -327,13 +415,24 @@ local onShipDocked = function (player, station)
 	for ref,mission in pairs(missions) do
 
 		if mission.location == station.path then
+			local reward
+			if flavours[mission.flavour].localdelivery then
+				reward = 0.5
+			else
+				reward = 1
+			end
 
+			local oldReputation = Character.persistent.player.reputation
 			if Game.time > mission.due then
 				Comms.ImportantMessage(flavours[mission.flavour].failuremsg, mission.client.name)
+				Character.persistent.player.reputation = Character.persistent.player.reputation - reward
 			else
 				Comms.ImportantMessage(flavours[mission.flavour].successmsg, mission.client.name)
 				player:AddMoney(mission.reward)
+				Character.persistent.player.reputation = Character.persistent.player.reputation + reward
 			end
+			Event.Queue("onReputationChanged", oldReputation, Character.persistent.player.killcount,
+				Character.persistent.player.reputation, Character.persistent.player.killcount)
 
 			mission:Remove()
 			missions[ref] = nil
@@ -342,6 +441,15 @@ local onShipDocked = function (player, station)
 			mission.status = 'FAILED'
 		end
 
+	end
+end
+
+local onReputationChanged = function (oldRep, oldKills, newRep, newKills)
+	for ref,ad in pairs(ads) do
+		local oldQualified = isQualifiedFor(oldRep, ad)
+		if isQualifiedFor(newRep, ad) ~= oldQualified then
+			Event.Queue("onAdvertChanged", ad.station, ref);
+		end
 	end
 end
 
@@ -355,10 +463,11 @@ local onGameStart = function ()
 
 	for k,ad in pairs(loaded_data.ads) do
 		local ref = ad.station:AddAdvert({
-			description = ad.desc, 
+			description = ad.desc,
             icon        = ad.urgency >=  0.8 and "delivery_urgent" or "delivery",
-			onChat      = onChat, 
-			onDelete    = onDelete})
+			onChat      = onChat,
+			onDelete    = onDelete,
+			isEnabled   = isEnabled })
 		ads[ref] = ad
 	end
 
@@ -475,6 +584,7 @@ Event.Register("onLeaveSystem", onLeaveSystem)
 Event.Register("onShipDocked", onShipDocked)
 Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
+Event.Register("onReputationChanged", onReputationChanged)
 
 Mission.RegisterType('Delivery',l.DELIVERY,onClick)
 

@@ -104,7 +104,7 @@ Space::Space(Game *game, const SystemPath &path)
 	//DebugDumpFrames();
 }
 
-Space::Space(Game *game, Serializer::Reader &rd)
+Space::Space(Game *game, Serializer::Reader &rd, double at_time)
 	: m_game(game)
 	, m_frameIndexValid(false)
 	, m_bodyIndexValid(false)
@@ -126,7 +126,7 @@ Space::Space(Game *game, Serializer::Reader &rd)
 	CityOnPlanet::SetCityModelPatterns(m_starSystem->GetPath());
 
 	Serializer::Reader section = rd.RdSection("Frames");
-	m_rootFrame.reset(Frame::Unserialize(section, this, 0));
+	m_rootFrame.reset(Frame::Unserialize(section, this, 0, at_time));
 	RebuildFrameIndex();
 
 	Uint32 nbodies = rd.Int32();

@@ -15,6 +15,38 @@
       "description" : "",
       "message" : "Szállítás"
    },
+   "DENY_0" : {
+      "description" : "",
+      "message" : "Sajnálom, de kétlem hogy rád bízhatom ezt a kézbesítést."
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "Fejlődnöd kell még. "
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "Kétlem, hogy te vagy az én emberem."
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "Nem úgy nézel ki, mint akire nyugodt szívvel rábíznám ezt a feladatot."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "Nem te vagy az én emberem."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "Nem tűnsz elég tapasztaltnak ahhoz, hogy rád merjek bízni egy ilyen fontos küldeményt."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "Életemben nem hallottam rólad. Inkább keresek egy tapasztaltabb pilótát."
+   },
+   "DENY_7" : {
+      "description" : "",
+      "message" : "Nem fogom egy olyan zöldfülűre bízni ezt a fontos küldeményt, mint te."
+   },
    "DISTANCE" : {
       "description" : "",
       "message" : "Távolság:"
