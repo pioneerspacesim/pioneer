@@ -151,7 +151,8 @@ ObjectViewerView *Pi::objectViewerView;
 Sound::MusicPlayer Pi::musicPlayer;
 std::unique_ptr<JobQueue> Pi::jobQueue;
 
-#define USE_RTT 1
+// XXX enabling this breaks UI gauge rendering. see #2627
+#define USE_RTT 0
 
 //static
 void Pi::CreateRenderTarget(const Uint16 width, const Uint16 height) {
