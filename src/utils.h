@@ -25,13 +25,13 @@
 
 // after reading this article: http://randomascii.wordpress.com/2013/11/24/stdmin-causing-three-times-slowdown-on-vc/
 template <class T>
-T Max(const T& left, const T& right)
+inline T Max(const T& left, const T& right)
 {
     return left > right ? left : right;
 }
 
 template <class T>
-T Min(const T& left, const T& right)
+inline T Min(const T& left, const T& right)
 {
     return left < right ? left : right;
 }
