@@ -1083,6 +1083,8 @@ void Pi::EndGame()
 	LuaEvent::Queue("onGameEnd");
 	LuaEvent::Emit();
 
+	luaTimer->RemoveAll();
+
 	Lua::manager->CollectGarbage();
 
 	if (!config->Int("DisableSound")) AmbientSounds::Uninit();
