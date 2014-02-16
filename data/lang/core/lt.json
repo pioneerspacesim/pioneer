@@ -1,15 +1,15 @@
 {
    "AIR_PROCESSORS" : {
       "description" : "",
-      "message" : "Procesadores de aire"
+      "message" : "Oro procesoriai"
    },
    "ALERT_CANCELLED" : {
       "description" : "",
-      "message" : "Alerta cancelada."
+      "message" : "Alert cancelled."
    },
    "ALLEGIANCE" : {
       "description" : "",
-      "message" : "Alianza:"
+      "message" : "Priklausomybė:"
    },
    "ALT" : {
       "description" : "Alt key on keyboard",
@@ -21,103 +21,103 @@
    },
    "ALT_IN_METRES" : {
       "description" : "",
-      "message" : "Alt: %altitude{f.0}m (%vspeed{f.1}m/s)"
+      "message" : "Aukštis: %altitude{f.0}m (%vspeed{f.1}m/s)"
    },
    "AND_HIGHLY_COMPLEX_ECOSYSTEM" : {
       "description" : "",
-      "message" : "\" y un complejo ecosistema.\""
+      "message" : "\" ir laibai sudėtinga ekosistema.\""
    },
    "AND_INDIGENOUS_MICROBIAL_LIFE" : {
       "description" : "",
-      "message" : "\" y vida microbiana indígena.\""
+      "message" : "\" and indigenous microbial life.\""
    },
    "AND_INDIGENOUS_PLANT_LIFE" : {
       "description" : "",
-      "message" : "\" y vida vegetal indígena.\""
+      "message" : "\" and indigenous plant life.\""
    },
    "ANIMAL_MEAT" : {
       "description" : "",
-      "message" : "Carne animal"
+      "message" : "Animal Meat"
    },
    "APOAPSIS_DISTANCE" : {
       "description" : "",
-      "message" : "Apoapsis"
+      "message" : "Apoapsis atstumas"
    },
    "AR_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Atmósfera de argón\""
+      "message" : "\" Argon atmosphere\""
    },
    "ASTEROID" : {
       "description" : "",
-      "message" : "Asteroide"
+      "message" : "Asteroidas"
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
-      "message" : "Escudo atmosférico"
+      "message" : "Atmosferinis Skydas"
    },
    "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
       "description" : "",
-      "message" : "Protege su nave de las altas temperaturas durante la reentrada atmosférica."
+      "message" : "Shields your spaceship from the heat of atmospheric re-entry."
    },
    "AUTOPILOT" : {
       "description" : "",
-      "message" : "Piloto automático"
+      "message" : "Autopilotas"
    },
    "AUTOPILOT_DESCRIPTION" : {
       "description" : "",
-      "message" : "Un ordenador de vuelo de a bordo."
+      "message" : "An on-board flight computer."
    },
    "AUTOPILOT_DOCK_WITH_STATION" : {
       "description" : "",
-      "message" : "Piloto automático: Atracar en la estación espacial"
+      "message" : "Autopilotas: Švartuotis kosminėje stotyje"
    },
    "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND" : {
       "description" : "",
-      "message" : "Piloto automático: Establecer órbita alta alrededor de %target"
+      "message" : "Autopilotas: įeiti į aukštą orbitą virš %target"
    },
    "AUTOPILOT_ENTER_LOW_ORBIT_AROUND" : {
       "description" : "",
-      "message" : "Piloto automático: Establecer órbita baja alrededor de %target"
+      "message" : "Autopilotas: įeiti į žemą orbitą virš %target"
    },
    "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND" : {
       "description" : "",
-      "message" : "Piloto automático: Establecer órbita media alrededor de %target"
+      "message" : "Autopilotas: Įeiti į vidutinę orbitą virš %target"
    },
    "AUTOPILOT_FLY_TO_VICINITY_OF" : {
       "description" : "",
-      "message" : "Piloto automático: Aproximación a %target"
+      "message" : "Autopilotas: Skristi šalia %target"
    },
    "AUTOPILOT_ON" : {
       "description" : "",
-      "message" : "Piloto automático ON"
+      "message" : "Autopilot on"
    },
    "AXIAL_TILT" : {
       "description" : "",
-      "message" : "Inclinación"
+      "message" : "Ašinis pakrypimas"
    },
    "A_FEW_THOUSAND" : {
       "description" : "",
-      "message" : "Solo unos pocos miles"
+      "message" : "Tik keli tūkstančiai"
    },
    "BATTLE_WEAPONS" : {
       "description" : "",
-      "message" : "Armas de guerra"
+      "message" : "Koviniai ginklai"
    },
    "BINARY_SYSTEM" : {
       "description" : "",
-      "message" : "Sistema binario"
+      "message" : "Dvinarė sistema"
    },
    "BODIES" : {
       "description" : "",
-      "message" : "Cuerpos"
+      "message" : "kūnai"
    },
    "BODY" : {
       "description" : "",
-      "message" : "cuerpo"
+      "message" : "kūnas"
    },
    "BROWN_DWARF" : {
       "description" : "",
-      "message" : "Enana marrón (objeto subestelar)"
+      "message" : "Rudasis nykštukas - subžvaigždinis objektas"
    },
    "BUTTON" : {
       "description" : "",
@@ -125,147 +125,147 @@
    },
    "CAMERA_BOTTOM_VIEW" : {
       "description" : "",
-      "message" : "Vista inferior"
+      "message" : "Kamera iš apačios"
    },
    "CAMERA_FRONT_VIEW" : {
       "description" : "",
-      "message" : "Vista frontal"
+      "message" : "Front camera"
    },
    "CAMERA_LEFT_VIEW" : {
       "description" : "",
-      "message" : "Vista izquierda"
+      "message" : "Left camera"
    },
    "CAMERA_REAR_VIEW" : {
       "description" : "",
-      "message" : "Vista trasera"
+      "message" : "Rear camera"
    },
    "CAMERA_RIGHT_VIEW" : {
       "description" : "",
-      "message" : "Vista derecha"
+      "message" : "Kamera iš kairės"
    },
    "CAMERA_TOP_VIEW" : {
       "description" : "",
-      "message" : "Vista superior"
+      "message" : "Kamera iš viršaus"
    },
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
-      "message" : "No es posible salvar estando en hiperespacio"
+      "message" : "Can't save game while in hyperspace"
    },
    "CAPITALIST" : {
       "description" : "",
-      "message" : "Capitalismo"
+      "message" : "Capitalist"
    },
    "CARBON_ORE" : {
       "description" : "",
-      "message" : "Carbón mineral (mena)"
+      "message" : "Carbon ore"
    },
    "CARBON_ORE_DESCRIPTION" : {
       "description" : "",
-      "message" : "Los minerales de carbono (carbón y petróleo) se requieren para la síntesis de muchos y muy útiles productos químicos, incluyendo plásticos, productos alimenticios sintéticos, medicamentos y textiles."
+      "message" : "Anglies rūdos (anglis ir nafta) - reikalingos sintezuojant daugelį naudingų chemikalų, įskaitant plastmases, sintetinį maistą, medikamentus bei tekstiles."
    },
    "CARGO" : {
       "description" : "",
-      "message" : "Carga"
+      "message" : "Kroviniai"
    },
    "CARGO_BAY_LIFE_SUPPORT_LOST" : {
       "description" : "",
-      "message" : "Los sensores informan de condiciones críticas en los sistemas de apoyo vital de la bahía de carga."
+      "message" : "Sensoriai praneša kritines krovinių skyriaus gyvybės palaikymo sąlygas."
    },
    "CARGO_LIFE_SUPPORT" : {
       "description" : "",
-      "message" : "Bahía de carga de soporte vital"
+      "message" : "Cargo Bay Life Support"
    },
    "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
       "description" : "",
-      "message" : "Permite el transporte de cargamento vivo."
+      "message" : "Allows the transport of live cargo."
    },
    "CARGO_N" : {
       "description" : "",
-      "message" : "Carga: %{mass}t"
+      "message" : "Kroviniai: %{mass}t"
    },
    "CARGO_SCOOP" : {
       "description" : "",
-      "message" : "Recogedor de carga"
+      "message" : "Cargo Scoop"
    },
    "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED" : {
       "description" : "",
-      "message" : "Recogedor de carga activo. Recogida 1 ton de %item."
+      "message" : "Cargo scoop active. Collected 1 tonne of %item."
    },
    "CARGO_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Permite la recogida de carga en el espacio."
+      "message" : "Leidžia surinkti krovinių talpas iš erdvės."
    },
    "CH4_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Atmósfera de metano\""
+      "message" : "\" Metano atmosfera\""
    },
    "CLEARANCE_ALREADY_GRANTED_BAY_N" : {
       "description" : "",
-      "message" : "Permiso ya concedido. Proceda a la bahía de atraque %bay."
+      "message" : "Clearance already granted. Proceed to docking bay %bay."
    },
    "CLEARANCE_DENIED_NO_BAYS" : {
       "description" : "",
-      "message" : "Permiso denegado. Todas las bahías de atraque ocupadas."
+      "message" : "Clearance denied. There are no free docking bays."
    },
    "CLEARANCE_GRANTED_BAY_N" : {
       "description" : "",
-      "message" : "Luz Libre. Proceda a la bahía de atraque %bay."
+      "message" : "Clearance granted. Proceed to docking bay %bay."
    },
    "CO2_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Atmósfera de dióxido de carbono\""
+      "message" : "\" Anglies Dioksido atmosfera\""
    },
    "COMMA_HIGHLY_VOLCANIC" : {
       "description" : "",
-      "message" : ", altamente volcánico"
+      "message" : ", stipriai vulkaninis"
    },
    "COMMS" : {
       "description" : "",
-      "message" : "Comms"
+      "message" : "Ryšiai"
    },
    "COMMUNIST" : {
       "description" : "",
-      "message" : "Comunismo"
+      "message" : "Communist"
    },
    "COMPUTERS" : {
       "description" : "",
-      "message" : "Ordenadores"
+      "message" : "Kompiuteriai"
    },
    "COMPUTER_HEADING_CONTROL" : {
       "description" : "",
-      "message" : "Asistencia direccional"
+      "message" : "Kompiuterinė krypties kontrolė"
    },
    "COMPUTER_SPEED_CONTROL" : {
       "description" : "",
-      "message" : "Navegación asistida"
+      "message" : "Computer speed control"
    },
    "CONSUMER_GOODS" : {
       "description" : "",
-      "message" : "Bienes de consumo"
+      "message" : "Plataus vartojimo prekės"
    },
    "CONTROLS" : {
       "description" : "",
-      "message" : "Controles"
+      "message" : "Controls"
    },
    "CORPORATE_SYSTEM" : {
       "description" : "",
-      "message" : "Sistema corporativo"
+      "message" : "Korporacinė sistema"
    },
    "COULD_NOT_OPEN_FILENAME" : {
       "description" : "",
-      "message" : "No se pudo abrir %path"
+      "message" : "Could not open %path"
    },
    "COUNT_ON_SURFACE" : {
       "description" : "",
-      "message" : "\" (%surfacecount en superficie)\""
+      "message" : "\" (%surfacecount paviršiuje)\""
    },
    "COUNT_STARPORTS" : {
       "description" : "",
-      "message" : "puertos estelares"
+      "message" : "starports"
    },
    "CO_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Atmósfera de monóxido de carbono\""
+      "message" : "\" Anglies monoksido atmosfera\""
    },
    "CTRL" : {
       "description" : "Ctrl key on keyboard",
@@ -273,291 +273,291 @@
    },
    "CURRENT_SYSTEM" : {
       "description" : "",
-      "message" : "Sistema actual"
+      "message" : "Current system"
    },
    "DATE_DUE_N" : {
       "description" : "",
-      "message" : "Fecha de vencimiento: %date"
+      "message" : "Date due: %date"
    },
    "DAY_LENGTH" : {
       "description" : "",
-      "message" : "Duración del día"
+      "message" : "Dienos ilgumas"
    },
    "DECREASE_SCAN_RANGE" : {
       "description" : "",
-      "message" : "Reducir rango del Scanner"
+      "message" : "Sumažinti skanavimo nuotolį"
    },
    "DECREASE_SET_SPEED" : {
       "description" : "",
-      "message" : "Reducción de velocidad"
+      "message" : "Decrease set speed"
    },
    "DEMOGRAPHICS" : {
       "description" : "",
-      "message" : "Demografía"
+      "message" : "Demographics"
    },
    "DESTINATION" : {
       "description" : "",
-      "message" : "Destino"
+      "message" : "Paskirties vieta"
    },
    "DIRECTION" : {
       "description" : "",
-      "message" : "\" Dir \""
+      "message" : "\" Katalogas \""
    },
    "DISABLED_AUTOMATIC_SYSTEM_SELECTION" : {
       "description" : "",
-      "message" : "Selección automática de sistema desconectado."
+      "message" : "Disabled automatic system selection."
    },
    "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
       "description" : "",
-      "message" : "Distancia desde la nave al objetivo de navegación"
+      "message" : "Atstumas nuo laivo iki navigacinio taikinio"
    },
    "DISTANCE_LY" : {
       "description" : "",
-      "message" : "Distancia: %distance{f.2} ly"
+      "message" : "Distance: %distance{f.2} ly"
    },
    "DOCKED" : {
       "description" : "",
-      "message" : "Atracado"
+      "message" : "Prisišvartuota"
    },
    "DOCKING" : {
       "description" : "",
-      "message" : "Atracando"
+      "message" : "Docking"
    },
    "DOCKING_CLEARANCE_EXPIRED" : {
       "description" : "",
-      "message" : "Su Permiso de atraque ha expirado. Si desea atracar deberá repetir la solicitud."
+      "message" : "Švartavimosi leidimas pasibaigė. Jei norite švartuotis - privalote pakartoti užklausimą."
    },
    "DOWNGRADING_ALERT_STATUS" : {
       "description" : "",
-      "message" : "Sin detección de disparos durante 60 segundos. Bajando el nivel de alerta."
+      "message" : "No fire detected for 60 seconds, downgrading alert status."
    },
    "DRAW_OUT_RANGE_LABELS" : {
       "description" : "",
-      "message" : "Mostrar sistemas fuera de rango"
+      "message" : "Žymėti nepasiekiamas sistemas"
    },
    "DRAW_UNINHABITED_LABELS" : {
       "description" : "",
-      "message" : "Etiquetar sistemas deshabitados"
+      "message" : "Label uninhabited systems"
    },
    "DRAW_VERTICAL_LINES" : {
       "description" : "",
-      "message" : "Mostrar líneas verticales"
+      "message" : "Draw vertical lines"
    },
    "DRIVE_CLASS1" : {
       "description" : "",
-      "message" : "Motor hiperespacial Clase 1"
+      "message" : "Class 1 Hyperdrive"
    },
    "DRIVE_CLASS2" : {
       "description" : "",
-      "message" : "Motor hiperespacial Clase 2"
+      "message" : "Class 2 Hyperdrive"
    },
    "DRIVE_CLASS3" : {
       "description" : "",
-      "message" : "Motor hiperespacial Clase 3"
+      "message" : "Class 3 Hyperdrive"
    },
    "DRIVE_CLASS4" : {
       "description" : "",
-      "message" : "Motor hiperespacial Clase 4"
+      "message" : "Class 4 Hyperdrive"
    },
    "DRIVE_CLASS5" : {
       "description" : "",
-      "message" : "Motor hiperespacial Clase 5"
+      "message" : "Class 5 Hyperdrive"
    },
    "DRIVE_CLASS6" : {
       "description" : "",
-      "message" : "Motor hiperespacial Clase 6"
+      "message" : "Class 6 Hyperdrive"
    },
    "DRIVE_CLASS7" : {
       "description" : "",
-      "message" : "Motor hiperespacial Clase 7"
+      "message" : "Class 7 Hyperdrive"
    },
    "DRIVE_CLASS8" : {
       "description" : "",
-      "message" : "Motor hiperespacial Clase 8"
+      "message" : "Class 8 Hyperdrive"
    },
    "DRIVE_CLASS9" : {
       "description" : "",
-      "message" : "Motor hiperespacial Clase 9"
+      "message" : "Class 9 Hyperdrive"
    },
    "DRIVE_MIL1" : {
       "description" : "",
-      "message" : "Motor hiperespacial militar Clase 1"
+      "message" : "1 klasės sukarintas variklis"
    },
    "DRIVE_MIL2" : {
       "description" : "",
-      "message" : "Motor hiperespacial militar Clase 2"
+      "message" : "2 klasės sukarintas variklis"
    },
    "DRIVE_MIL3" : {
       "description" : "",
-      "message" : "Motor hiperespacial militar Clase 3"
+      "message" : "3 klasės sukarintas variklis"
    },
    "DRIVE_MIL4" : {
       "description" : "",
-      "message" : "Motor hiperespacial militar Clase 4"
+      "message" : "4 klasės sukarintas variklis"
    },
    "EARTH" : {
       "description" : "",
-      "message" : "Tierra"
+      "message" : "Earth"
    },
    "EARTH_FEDERATION_COLONIAL_RULE" : {
       "description" : "",
-      "message" : "Gobierno colonial de la federación terrestre"
+      "message" : "Žemės Federacijos Kolonijinė Vadovybė"
    },
    "EARTH_FEDERATION_DEMOCRACY" : {
       "description" : "",
-      "message" : "Democracia de la federación terrestre"
+      "message" : "Žemės Federacijos Demokratija"
    },
    "ECCENTRICITY" : {
       "description" : "",
-      "message" : "Excentricidad"
+      "message" : "Ekscentricitetas"
    },
    "ECM_ADVANCED" : {
       "description" : "",
-      "message" : "Sistema ECM avanzado"
+      "message" : "Pažangi ECM sistema"
    },
    "ECM_ADVANCED_DESCRIPTION" : {
       "description" : "",
-      "message" : "Un sistema de defensa electrónico de contramedidas, capaz de neutralizar un tipo más avanzado de misiles guiados."
+      "message" : "Elektroninė priešraketinės gynybos sistema, gali sunaikinti pažangesnes nusitaikančias raketas. "
    },
    "ECM_BASIC" : {
       "description" : "",
-      "message" : "Sistema ECM"
+      "message" : "ECM system"
    },
    "ECM_BASIC_DESCRIPTION" : {
       "description" : "",
-      "message" : "Un sistema de defensa electrónico de contramedidas, capaz de neutralizar ciertos tipos de misiles guiados."
+      "message" : "An electronic countermeasure missile defence system, capable of destroying some homing missiles."
    },
    "ECONOMIC_INFO" : {
       "description" : "",
-      "message" : "Info Económica"
+      "message" : "Economic info"
    },
    "ECONOMY_TYPE" : {
       "description" : "",
-      "message" : "Sistema económico:"
+      "message" : "Economy type:"
    },
    "ENABLED_AUTOMATIC_SYSTEM_SELECTION" : {
       "description" : "",
-      "message" : "Selección automática de sistema encendido."
+      "message" : "Įjungtas automatinis sistemos parinkimas."
    },
    "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
       "description" : "",
-      "message" : "Relación ecuador-radio polar"
+      "message" : "Equatorial to polar radius ratio"
    },
    "EXACT_MATCH_X" : {
       "description" : "",
-      "message" : "Correspondencia exacta: %system"
+      "message" : "Tikslus atitikmuo: %system"
    },
    "EXTENSIVE_MINING" : {
       "description" : "",
-      "message" : "Actividad minera extensiva."
+      "message" : "Plačios kasybos operacijos."
    },
    "EXTERNAL_ATMOSPHERIC_PRESSURE" : {
       "description" : "",
-      "message" : "Presión atmosférica externa"
+      "message" : "External atmospheric pressure"
    },
    "EXTERNAL_VIEW" : {
       "description" : "",
-      "message" : "Vista externa"
+      "message" : "External view"
    },
    "FARM_MACHINERY" : {
       "description" : "",
-      "message" : "Maquinaria agrícola"
+      "message" : "Žemės ūkio įranga"
    },
    "FERTILIZER" : {
       "description" : "",
-      "message" : "Fertilizante"
+      "message" : "Fertilizer"
    },
    "FINE_PAID_N" : {
       "description" : "",
-      "message" : "Ha pagado la multa de %fine."
+      "message" : "You have paid the fine of %fine."
    },
    "FINE_PAID_N_BUT_N_REMAINING" : {
       "description" : "",
-      "message" : "Ha pagado %paid pero aún tiene una multa pendiente de %fine."
+      "message" : "Jūs užmokėjote %paid, bet dar liko %fine neapmokėtos baudos."
    },
    "FIRE_LASER" : {
       "description" : "",
-      "message" : "Disparar láser"
+      "message" : "Fire laser"
    },
    "FIRE_MISSILE" : {
       "description" : "",
-      "message" : "Lanzar misil"
+      "message" : "Fire missile"
    },
    "FOLLOWING_SELECTION" : {
       "description" : "",
-      "message" : "siguiente selección"
+      "message" : "following selection"
    },
    "FRONT" : {
       "description" : "",
-      "message" : "Proa"
+      "message" : "Priekis"
    },
    "FRUIT_AND_VEG" : {
       "description" : "",
-      "message" : "Frutas y verd."
+      "message" : "Fruit and Veg"
    },
    "FUEL" : {
       "description" : "",
-      "message" : "Fuel"
+      "message" : "Kuras"
    },
    "FUEL_SCOOP" : {
       "description" : "",
-      "message" : "Recogedor de combustible"
+      "message" : "Fuel Scoop"
    },
    "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED" : {
       "description" : "",
-      "message" : "Recogedor de combustible activo. Dispone de %quantity toneladas de hidrógeno."
+      "message" : "Fuel scoop active. You now have %quantity tonnes of hydrogen."
    },
    "FUEL_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Permite la recogida de combustible de hidrógeno de gigantes gaseosos."
+      "message" : "Permits scooping hydrogen fuel from gas giant planets."
    },
    "GALACTIC_VIEW" : {
       "description" : "",
-      "message" : "Vista galáctica"
+      "message" : "Galaktikos vaizdas"
    },
    "GALAXY_SECTOR_VIEW" : {
       "description" : "",
-      "message" : "Vista del Sector galáctico"
+      "message" : "Galaxy sector view"
    },
    "GAME_LOAD_CANNOT_OPEN" : {
       "description" : "",
-      "message" : "Este juego salvado no se puede abrir debido a permisos o algo..."
+      "message" : "Nepavyko atidaryti šios išsaugoto žaidimo rinkmenos dėl neteisingų leidimų ar ko kita ... "
    },
    "GAME_LOAD_CORRUPT" : {
       "description" : "",
-      "message" : "Este juego salvado no se puede abrir porque contiene errores."
+      "message" : "This saved game cannot be loaded because it contains errors."
    },
    "GAME_LOAD_WRONG_VERSION" : {
       "description" : "",
-      "message" : "Este juego salvado no se puede abrir porque se creó con una versión diferente de Pioneer."
+      "message" : "This saved game cannot be loaded because it was created by a different version of Pioneer."
    },
    "GAME_SAVED_TO" : {
       "description" : "",
-      "message" : "\"Juego guardado en \""
+      "message" : "\"Žaidimas išsaugotas į \""
    },
    "GAME_SAVE_CANNOT_WRITE" : {
       "description" : "",
-      "message" : "No se puede escribir en este juego salvado por un error del sistema."
+      "message" : "This saved game file could not be written because of a system error."
    },
    "GENERAL_VIEW_CONTROLS" : {
       "description" : "",
-      "message" : "Vista General de los Controles"
+      "message" : "General View Controls"
    },
    "GOVERNMENT_TYPE" : {
       "description" : "",
-      "message" : "Sistema de gobierno:"
+      "message" : "Vyriausybės tipas:"
    },
    "GRAIN" : {
       "description" : "",
-      "message" : "Cereales"
+      "message" : "Grūdai"
    },
    "HAND_WEAPONS" : {
       "description" : "",
-      "message" : "Armas de mano"
+      "message" : "Rankiniai ginklai"
    },
    "HARD_CAPITALIST" : {
       "description" : "",
-      "message" : "Enteramente capitalista - sin intervencion del estado"
+      "message" : "Visiškai kapitalistinė - nėra valstybinės socialinės paramos"
    },
    "HAT" : {
       "description" : "",
@@ -565,131 +565,131 @@
    },
    "HEADING_LOCK_BACKWARD" : {
       "description" : "",
-      "message" : "Bloqueo direcc. (retro)"
+      "message" : "Krypties Užrakinimas (atgalinis)"
    },
    "HEADING_LOCK_FORWARD" : {
       "description" : "",
-      "message" : "Bloqueo direcc. (pro)"
+      "message" : "Heading Lock (fore)"
    },
    "HEAVY_INDUSTRY" : {
       "description" : "",
-      "message" : "Industria pesada."
+      "message" : "Sunkioji pramonė."
    },
    "HE_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Atmósfera de Helio\""
+      "message" : "\" Helium atmosphere\""
    },
    "HIGHLY_VOLCANIC" : {
       "description" : "",
-      "message" : "Altamente volcánico"
+      "message" : "Stipriai vulkaninė"
    },
    "HIGH_POPULATION_OUTDOOR_WORLD" : {
       "description" : "",
-      "message" : "Mundo exterior muy poblado."
+      "message" : "Stipriai apgyvendintas lauko pasaulis."
    },
    "HULL_AUTOREPAIR" : {
       "description" : "",
-      "message" : "Sistema de autoreparación del casco"
+      "message" : "Korpuso auto-remonto sistema"
    },
    "HULL_AUTOREPAIR_DESCRIPTION" : {
       "description" : "",
-      "message" : "Repara automáticamente el casco de la nave en caso de daños."
+      "message" : "Automatiškai remontuoja laivo kėbulą jei jis apgadintas."
    },
    "HULL_INTEGRITY" : {
       "description" : "",
-      "message" : "Integr. casco"
+      "message" : "Kėbulo vientisumas"
    },
    "HULL_TEMP" : {
       "description" : "",
-      "message" : "Temp. del casco"
+      "message" : "Kėbulo temperatūra"
    },
    "HYDROGEN" : {
       "description" : "",
-      "message" : "Hidrógeno"
+      "message" : "Vandenilis"
    },
    "HYDROGEN_DESCRIPTION" : {
       "description" : "",
-      "message" : "El Hidrógeno se usa principalmente como combustible de fusión."
+      "message" : "Vandenilis pagrindinai naudojamas kaip atominės sintezės kuras"
    },
    "HYPERCLOUD_ANALYZER" : {
       "description" : "",
-      "message" : "Analizador de la nube hiperespacial"
+      "message" : "Hiperdebesies analizatorius"
    },
    "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Analiza la nube hiperespacial para así determinar el destino y el tiempo de llegada y/o salida."
+      "message" : "Analizuokite hipererdvės debesis kad nustatytumėte paskirties vietą ir atvykimo ar išvykimo laiką."
    },
    "HYPERSPACE" : {
       "description" : "",
-      "message" : "Hiperespacio"
+      "message" : "Hyperspace"
    },
    "HYPERSPACE_ARRIVAL_CLOUD" : {
       "description" : "",
-      "message" : "Nube hiperespacial de llegada"
+      "message" : "Hipererdvės atvykimo debesis"
    },
    "HYPERSPACE_ARRIVAL_CLOUD_REMNANT" : {
       "description" : "",
-      "message" : "Remanente de nube hiperespacial de llegada"
+      "message" : "Hipererdvės atvykimo debesies likutis"
    },
    "HYPERSPACE_DEPARTURE_CLOUD" : {
       "description" : "",
-      "message" : "Nube hiperespacial de partida"
+      "message" : "Hipererdvės išvykimo debesis"
    },
    "HYPERSPACE_JUMP" : {
       "description" : "",
-      "message" : "Salto hiperespacial"
+      "message" : "Hipererdvinis šuolis"
    },
    "HYPERSPACE_JUMP_ABORTED" : {
       "description" : "",
-      "message" : "Salto hiperespacial abortado."
+      "message" : "Hyperspace jump aborted."
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Objetivo hiperespacial"
+      "message" : "Hipererdvės taikinys"
    },
    "HYPERSPACING_IN_N_SECONDS" : {
       "description" : "",
-      "message" : "Hiperespacio en %countdown{f.0} segundos"
+      "message" : "Hiperšuolis už %countdown{f.0} sekundžių"
    },
    "H_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Atmósfera de hidrógeno\""
+      "message" : "\" Vandenilinė atmosfera\""
    },
    "ICE_WORLD" : {
       "description" : "",
-      "message" : "\" Mundo helado\""
+      "message" : "\" ledo planeta\""
    },
    "ILLEGAL_GOODS" : {
       "description" : "",
-      "message" : "Mercancías ilegales:"
+      "message" : "Illegal Goods:"
    },
    "IMPERIAL_RULE" : {
       "description" : "",
-      "message" : "Gobierno Imperial"
+      "message" : "Imperinė vadovybė"
    },
    "INCREASE_SCAN_RANGE" : {
       "description" : "",
-      "message" : "Ampliar distancia de Scanner"
+      "message" : "Padidinti skanavimo nuotolį"
    },
    "INCREASE_SET_SPEED" : {
       "description" : "",
-      "message" : "Aumentar velocidad"
+      "message" : "Padidinti nustatytą greitį"
    },
    "INDUSTRIAL_COLONY" : {
       "description" : "",
-      "message" : "Colonia industrial."
+      "message" : "Industrinė kolonija."
    },
    "INDUSTRIAL_HUB_SYSTEM" : {
       "description" : "",
-      "message" : "Polo industrial."
+      "message" : "Industrial hub system."
    },
    "INDUSTRIAL_MACHINERY" : {
       "description" : "",
-      "message" : "Maquinaria industrial"
+      "message" : "Industrinė mašinerija"
    },
    "INTERNAL_VIEW" : {
       "description" : "",
-      "message" : "Vista interior"
+      "message" : "Internal view"
    },
    "INT_LY" : {
       "description" : "",
@@ -697,11 +697,11 @@
    },
    "IN_TRANSIT" : {
       "description" : "",
-      "message" : "En tránsito"
+      "message" : "In transit"
    },
    "IN_TRANSIT_TO_N_X_X_X" : {
       "description" : "",
-      "message" : "En tránsito a %system [%x,%y,%z]"
+      "message" : "Pakeliui į %system [%x,%y,%z]"
    },
    "JOY" : {
       "description" : "",
@@ -709,179 +709,179 @@
    },
    "JOYSTICK_INPUT" : {
       "description" : "",
-      "message" : "Joystick"
+      "message" : "Joystick input"
    },
    "JOY_AXIS" : {
       "description" : "",
-      "message" : "Eje %sign%axis Joy%joynum"
+      "message" : "%{sign}Joy%joynum %axis Axis"
    },
    "KM_S_RELATIVE_TO" : {
       "description" : "",
-      "message" : "%speed{f.2} km/s relativos a %frame"
+      "message" : "%speed{f.2} km/s palyginus su %frame"
    },
    "LANDED" : {
       "description" : "",
-      "message" : "Posado"
+      "message" : "Nusileido"
    },
    "LANG_NAME" : {
       "description" : "The name that native speakers use for this language. This will be used in the language selection screen. For obscure reasons this currently must only use Latin-1 characters.",
-      "message" : "Español"
+      "message" : "English"
    },
    "LARGE" : {
       "description" : "",
-      "message" : "Grande"
+      "message" : "Didelė(-is)"
    },
    "LARGE_GAS_GIANT" : {
       "description" : "",
-      "message" : "Gigante gaseoso grande"
+      "message" : "Didelis dujų milžinas"
    },
    "LARGE_PLASMA_ACCEL" : {
       "description" : "",
-      "message" : "Acelerador de plasma grande"
+      "message" : "Didelis plazmos greitintuvas"
    },
    "LASER_COOLING_BOOSTER" : {
       "description" : "",
-      "message" : "Refrigeración de refuerzo del láser"
+      "message" : "Laser Cooling Booster"
    },
    "LASER_COOLING_BOOSTER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Un sistema de refrigeración mejorado para sus armas."
+      "message" : "An improved cooling system for your weapons."
    },
    "LASER_FIRE_DETECTED" : {
       "description" : "",
-      "message" : "Descarga de láser detectada."
+      "message" : "Aptiktas Lazerių panaudojimas."
    },
    "LAUNCH_PERMISSION_DENIED_BUSY" : {
       "description" : "",
-      "message" : "Permiso para despegar denegado: Bahía de atraque ocupada."
+      "message" : "Leidimas kilimui neduotas: švartavimosi dokas užimtas."
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
-      "message" : "Democracia liberal"
+      "message" : "Liberali demokratija"
    },
    "LIQUID_OXYGEN" : {
       "description" : "",
-      "message" : "Oxígeno líquido"
+      "message" : "Liquid Oxygen"
    },
    "LIQUID_OXYGEN_DESCRIPTION" : {
       "description" : "",
-      "message" : "El Oxígeno se requiere para los sistemas de apoyo vital y algunos procesos industriales."
+      "message" : "Deguonis reikalingas gyvybės palaikymo sistemoms ir kai kuriems industriniams procesams"
    },
    "LIQUOR" : {
       "description" : "",
-      "message" : "Licor"
+      "message" : "Liquor"
    },
    "LIVE_ANIMALS" : {
       "description" : "",
-      "message" : "Animales vivos"
+      "message" : "Live Animals"
    },
    "LOCKED" : {
       "description" : "",
-      "message" : "Cerrado"
+      "message" : "locked"
    },
    "MAJOR_EXPORTS" : {
       "description" : "",
-      "message" : "Exportaciones principales:"
+      "message" : "Pagr. eksportas:"
    },
    "MAJOR_IMPORTS" : {
       "description" : "",
-      "message" : "Importaciones principales:"
+      "message" : "Major Imports:"
    },
    "MANUAL_CONTROL" : {
       "description" : "",
-      "message" : "Control manual"
+      "message" : "Manual control"
    },
    "MANUAL_CONTROL_MODE" : {
       "description" : "",
-      "message" : "Control manual"
+      "message" : "Manual control mode"
    },
    "MAP_LOCK_HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Bloquear Objetivo Hiperespacial"
+      "message" : "Lock Hyperspace Target"
    },
    "MAP_TOGGLE_INFO_PANEL" : {
       "description" : "",
-      "message" : "Alternar Panel de Información"
+      "message" : "Toggle Info Panel"
    },
    "MAP_TOGGLE_SELECTION_FOLLOW_VIEW" : {
       "description" : "",
-      "message" : "Alternar Vista de Seguimiento"
+      "message" : "Toggle Selection Following View"
    },
    "MAP_VIEW_ROTATE_DOWN" : {
       "description" : "",
-      "message" : "Rotar Vista abajo"
+      "message" : "Rotate View Down"
    },
    "MAP_VIEW_ROTATE_LEFT" : {
       "description" : "",
-      "message" : "Rotar Vista izquierda"
+      "message" : "Rotate View Left"
    },
    "MAP_VIEW_ROTATE_RIGHT" : {
       "description" : "",
-      "message" : "Rotar Vista derecha"
+      "message" : "Rotate View Right"
    },
    "MAP_VIEW_ROTATE_UP" : {
       "description" : "",
-      "message" : "Rotar Vista arriba"
+      "message" : "Rotate View Up"
    },
    "MAP_VIEW_SHIFT_BACKWARD" : {
       "description" : "",
-      "message" : "Desplazar la Vista hacia atrás"
+      "message" : "Shift View Backwards"
    },
    "MAP_VIEW_SHIFT_DOWN" : {
       "description" : "",
-      "message" : "Desplazar la Vista hacia abajo"
+      "message" : "Shift View Down"
    },
    "MAP_VIEW_SHIFT_FORWARD" : {
       "description" : "",
-      "message" : "Desplazar la Vista hacia adelante"
+      "message" : "Shift View Forwards"
    },
    "MAP_VIEW_SHIFT_LEFT" : {
       "description" : "",
-      "message" : "Desplazar la Vista hacia la izquierda"
+      "message" : "Shift View Left"
    },
    "MAP_VIEW_SHIFT_RIGHT" : {
       "description" : "",
-      "message" : "Desplazar la vista hacia la derecha"
+      "message" : "Shift View Right"
    },
    "MAP_VIEW_SHIFT_UP" : {
       "description" : "",
-      "message" : "Desplazar la Vista arriba"
+      "message" : "Shift View Up"
    },
    "MAP_WARP_TO_CURRENT_SYSTEM" : {
       "description" : "",
-      "message" : "Viajar al sistema actual"
+      "message" : "Warp to Current System"
    },
    "MAP_WARP_TO_HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Viajar al objetivo hiperespacial"
+      "message" : "Warp to Hyperspace Target"
    },
    "MAP_WARP_TO_SELECTED_SYSTEM" : {
       "description" : "",
-      "message" : "Viajar al sistema seleccionado"
+      "message" : "Warp to Selected System"
    },
    "MASS" : {
       "description" : "",
-      "message" : "Masa"
+      "message" : "Masė"
    },
    "MASSIVE" : {
       "description" : "",
-      "message" : "Masivo"
+      "message" : "Massive"
    },
    "MASS_N_TONNES" : {
       "description" : "",
-      "message" : "Masa: %{mass}t"
+      "message" : "Mass: %{mass}t"
    },
    "MEDICINES" : {
       "description" : "",
-      "message" : "Medicamentos"
+      "message" : "Medicines"
    },
    "MEDIUM_GAS_GIANT" : {
       "description" : "",
-      "message" : "Gigate gaseoso medio"
+      "message" : "Medium gas giant"
    },
    "MESSAGE_FROM_X" : {
       "description" : "",
-      "message" : "Mensaje de %sender:"
+      "message" : "Message from %sender:"
    },
    "META" : {
       "description" : "'Meta' key on keyboard",
@@ -889,95 +889,95 @@
    },
    "METAL_ALLOYS" : {
       "description" : "",
-      "message" : "Aleación de metales"
+      "message" : "Metalų lydiniai"
    },
    "METAL_ORE" : {
       "description" : "",
-      "message" : "Metales (mena)"
+      "message" : "Metal ore"
    },
    "MILITARY_DICTATORSHIP" : {
       "description" : "",
-      "message" : "Dictadura militar"
+      "message" : "Karinė diktatūra"
    },
    "MILITARY_FUEL" : {
       "description" : "",
-      "message" : "Combustible militar"
+      "message" : "Military fuel"
    },
    "MININGCANNON_17MW" : {
       "description" : "",
-      "message" : "Láser minero de explosión 17MW"
+      "message" : "17MW sprogstamoji kasybos patranka"
    },
    "MININGCANNON_17MW_DESCRIPTION" : {
       "description" : "",
-      "message" : "Se utiliza para la explotación de asteroides ricos en mineral."
+      "message" : "Naudojamas turtingų mineralais asteroidų sprogdyminei kasybai."
    },
    "MINING_COLONY" : {
       "description" : "",
-      "message" : "Colonia minera."
+      "message" : "Mining colony."
    },
    "MINING_MACHINERY" : {
       "description" : "",
-      "message" : "Maquinaria minera"
+      "message" : "Kasybos įranga"
    },
    "MINOR_EXPORTS" : {
       "description" : "",
-      "message" : "Exportaciones secundarias:"
+      "message" : "Minor Exports:"
    },
    "MINOR_IMPORTS" : {
       "description" : "",
-      "message" : "Importaciones secundarias:"
+      "message" : "Minor Imports:"
    },
    "MISCELLANEOUS" : {
       "description" : "",
-      "message" : "Misceláneos"
+      "message" : "Miscellaneous"
    },
    "MISSILE" : {
       "description" : "",
-      "message" : "misil"
+      "message" : "raketa"
    },
    "MISSILE_GUIDED" : {
       "description" : "",
-      "message" : "Misil guiado"
+      "message" : "Valdoma raketa"
    },
    "MISSILE_NAVAL" : {
       "description" : "",
-      "message" : "Misil Naval"
+      "message" : "Naval Missile"
    },
    "MISSILE_SMART" : {
       "description" : "",
-      "message" : "Misil inteligente"
+      "message" : "Gudri raketa"
    },
    "MISSILE_UNGUIDED" : {
       "description" : "",
-      "message" : "Cohete no guiado R40"
+      "message" : "R40 Unguided Rocket"
    },
    "MIXED_ECONOMY" : {
       "description" : "",
-      "message" : "Economía mixta"
+      "message" : "Mixed economy"
    },
    "MONTH_APR" : {
       "description" : "",
-      "message" : "Abr"
+      "message" : "Apr"
    },
    "MONTH_AUG" : {
       "description" : "",
-      "message" : "Ago"
+      "message" : "Rugpj."
    },
    "MONTH_DEC" : {
       "description" : "",
-      "message" : "Dic"
+      "message" : "Dec"
    },
    "MONTH_FEB" : {
       "description" : "",
-      "message" : "Feb"
+      "message" : "Vasaris"
    },
    "MONTH_JAN" : {
       "description" : "",
-      "message" : "Ene"
+      "message" : "Saus."
    },
    "MONTH_JUL" : {
       "description" : "",
-      "message" : "Jul"
+      "message" : "Liepa"
    },
    "MONTH_JUN" : {
       "description" : "",
@@ -985,19 +985,19 @@
    },
    "MONTH_MAR" : {
       "description" : "",
-      "message" : "Mar"
+      "message" : "Kovas"
    },
    "MONTH_MAY" : {
       "description" : "",
-      "message" : "May"
+      "message" : "Gegužė"
    },
    "MONTH_NOV" : {
       "description" : "",
-      "message" : "Nov"
+      "message" : "Lapkritis"
    },
    "MONTH_OCT" : {
       "description" : "",
-      "message" : "Oct"
+      "message" : "Spalis"
    },
    "MONTH_SEP" : {
       "description" : "",
@@ -1005,79 +1005,79 @@
    },
    "MURDER" : {
       "description" : "",
-      "message" : "Asesinato"
+      "message" : "Žmogžudystė"
    },
    "M_S_RELATIVE_TO" : {
       "description" : "",
-      "message" : "%speed{f.0} m/s relativa a %frame"
+      "message" : "%speed{f.0} m/s rel-to %frame"
    },
    "NAME_OBJECT" : {
       "description" : "For an item or object",
-      "message" : "Nombre"
+      "message" : "Name"
    },
    "NAME_PERSON" : {
       "description" : "For a person",
-      "message" : "Nombre"
+      "message" : "Name"
    },
    "NARCOTICS" : {
       "description" : "",
-      "message" : "Narcóticos"
+      "message" : "Narcotics"
    },
    "NAVIGATION_STAR_MAPS" : {
       "description" : "",
-      "message" : "Navegación y mapas estelares"
+      "message" : "Navigation and star maps"
    },
    "NAVIGATION_TARGETS_IN_THIS_SYSTEM" : {
       "description" : "",
-      "message" : "Objetivos de navegación en este sistema"
+      "message" : "Navigation targets in this system"
    },
    "NERVE_GAS" : {
       "description" : "",
-      "message" : "Gas nervioso"
+      "message" : "Nerve Gas"
    },
    "NONE" : {
       "description" : "",
-      "message" : "Nada"
+      "message" : "None"
    },
    "NORMA_ARM" : {
       "description" : "",
-      "message" : "Brazo Norma"
+      "message" : "Norma arm"
    },
    "NOT_FOUND" : {
       "description" : "",
-      "message" : "Sin resultados"
+      "message" : "Nerasta"
    },
    "NOT_FOUND_BEST_MATCH_X" : {
       "description" : "",
-      "message" : "Sin resultados, mejor correspondencia: %system"
+      "message" : "Nerasta, artimiausias atitikmuo: %system"
    },
    "NO_ALERT" : {
       "description" : "",
-      "message" : "Sin alerta"
+      "message" : "No alert"
    },
    "NO_CENTRAL_GOVERNANCE" : {
       "description" : "",
-      "message" : "Sin gobierno central"
+      "message" : "Nėra centrinės valdžios"
    },
    "NO_ESTABLISHED_ORDER" : {
       "description" : "",
-      "message" : "Sin orden establecido"
+      "message" : "Nėra nustatytos tvarkos"
    },
    "NO_HYPERDRIVE" : {
       "description" : "",
-      "message" : "Sin hipermotor"
+      "message" : "No hyperdrive"
    },
    "NO_REGISTERED_INHABITANTS" : {
       "description" : "",
-      "message" : "Sin habitantes registrados"
+      "message" : "No registered inhabitants"
    },
    "NO_TARGET_SELECTED" : {
       "description" : "",
-      "message" : "Ordenador de a bordo: Sin objetivo"
+      "message" : "Ship Computer: No target selected"
    },
    "NUMBER_DAYS" : {
       "description" : "",
-      "message" : "%days{f.0} días"
+      "message" : "%days{f.0} days"
    },
    "NUMBER_G" : {
       "description" : "",
@@ -1085,11 +1085,11 @@
    },
    "NUMBER_HOURS" : {
       "description" : "",
-      "message" : "%hours{f.1} hrs "
+      "message" : "%hours{f.1} val."
    },
    "NUMBER_LY" : {
       "description" : "",
-      "message" : "%distance{f.2} ly"
+      "message" : "%distance{f.2} šviesm."
    },
    "NUMBER_TONNES" : {
       "description" : "",
@@ -1097,91 +1097,91 @@
    },
    "N_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Atmósfera de nitrógeno\""
+      "message" : "\" Azoto atmosfera\""
    },
    "N_CELSIUS" : {
       "description" : "",
-      "message" : "%temperature °C"
+      "message" : "%temperature C"
    },
    "N_DAYS" : {
       "description" : "",
-      "message" : "%days{f.1} días"
+      "message" : "%days{f.1} days"
    },
    "N_DEGREES" : {
       "description" : "",
-      "message" : "%angle{f.1} grados"
+      "message" : "%angle{f.1} laipsnių"
    },
    "N_DISTANCE_TO_TARGET" : {
       "description" : "",
-      "message" : "%distance al objetivo"
+      "message" : "%distance iki taikinio"
    },
    "N_EARTH_DAYS" : {
       "description" : "",
-      "message" : "%days{f.1} días terrestres"
+      "message" : "%days{f.1} earth days"
    },
    "N_WHATEVER_MASSES" : {
       "description" : "",
-      "message" : "%mass{f.3} masa %units"
+      "message" : "%mass{f.3} %units masses"
    },
    "N_WHATEVER_RADII" : {
       "description" : "",
-      "message" : "%radius{f.3} radios %units (%radkm{f.0} km)"
+      "message" : "%radius{f.3} %units spindulys (%radkm{f.0} km)"
    },
    "N_YEARS" : {
       "description" : "",
-      "message" : "%years{f.1} años"
+      "message" : "%years{f.1} metų(-ai)"
    },
    "O2_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Atmósfera de oxígeno\""
+      "message" : "\" Oxygen atmosphere\""
    },
    "OCEANICWORLD" : {
       "description" : "",
-      "message" : "\" Mundo oceánico\""
+      "message" : "\" oceanic world\""
    },
    "ORBITAL_PERIOD" : {
       "description" : "",
-      "message" : "Periodo orbital"
+      "message" : "Orbital period"
    },
    "ORBITAL_STARPORT" : {
       "description" : "",
-      "message" : "Puerto estelar orbital"
+      "message" : "Orbitinė kosminė stotis"
    },
    "OUTDOOR_AGRICULTURAL_WORLD" : {
       "description" : "",
-      "message" : "Mundo exterior agrícola."
+      "message" : "Lauko žemės ūkio pasaulis."
    },
    "OUTER_ARM" : {
       "description" : "",
-      "message" : "Brazo Exterior"
+      "message" : "Outer arm"
    },
    "OVER_N_BILLION" : {
       "description" : "",
-      "message" : "Alrededor de %{population}000 millones"
+      "message" : "Over %population billion"
    },
    "OVER_N_MILLION" : {
       "description" : "",
-      "message" : "Alrededor de %population millones"
+      "message" : "Virš %population milijonų"
    },
    "PASSENGER_CABIN" : {
       "description" : "",
-      "message" : "Cabina de pasajeros ocupada"
+      "message" : "Užimta keleivio kabina"
    },
    "PAUSED" : {
       "description" : "",
-      "message" : "EN PAUSA"
+      "message" : "PAUZĖ"
    },
    "PAY_FINE_REMOTELY" : {
       "description" : "",
-      "message" : "Pagar multa por transferencia remota (%amount)"
+      "message" : "Užmokėti baudą nuotoliniu pervedimu (%amount)"
    },
    "PERIAPSIS_DISTANCE" : {
       "description" : "",
-      "message" : "Periapsis"
+      "message" : "Periapsis distance"
    },
    "PERSEUS_ARM" : {
       "description" : "",
-      "message" : "Brazo Perseus"
+      "message" : "Persėjo ranka"
    },
    "PIONEER" : {
       "description" : "",
@@ -1189,55 +1189,55 @@
    },
    "PIRACY" : {
       "description" : "",
-      "message" : "Piratería"
+      "message" : "Piratavimas"
    },
    "PITCH" : {
       "description" : "",
-      "message" : "Cabecear"
+      "message" : "Nuolydis"
    },
    "PITCH_DOWN" : {
       "description" : "",
-      "message" : "Cabecear abajo"
+      "message" : "Pitch down"
    },
    "PITCH_UP" : {
       "description" : "",
-      "message" : "Cabecear arriba"
+      "message" : "Pitch up"
    },
    "PLANETARY_INFO" : {
       "description" : "",
-      "message" : "Info Planetaria"
+      "message" : "Planetų informacija"
    },
    "PLANET_CONTAINING_LIQUID_WATER" : {
       "description" : "",
-      "message" : "\" Planeta con agua líquida\""
+      "message" : "\" planet containing liquid water\""
    },
    "PLANET_WITH_SOME_ICE" : {
       "description" : "",
-      "message" : "\" Planeta con hielo en superficie\""
+      "message" : "\" planeta su trupučiu ledo\""
    },
    "PLANNED_ECONOMY" : {
       "description" : "",
-      "message" : "Economía centralizada"
+      "message" : "Centralizuota planinė ekonomika"
    },
    "PLASTICS" : {
       "description" : "",
-      "message" : "Plásticos"
+      "message" : "Plastmasės"
    },
    "PLUTOCRATIC_DICTATORSHIP" : {
       "description" : "",
-      "message" : "Plutocracia dictatorial"
+      "message" : "Plutocratic dictatorship"
    },
    "POLICE_SHIP_REGISTRATION" : {
       "description" : "",
-      "message" : "POLICÍA"
+      "message" : "POLICE"
    },
    "POPULATION" : {
       "description" : "",
-      "message" : "Habitantes:"
+      "message" : "Populiacija:"
    },
    "PRECIOUS_METALS" : {
       "description" : "",
-      "message" : "Metales preciosos"
+      "message" : "Precious metals"
    },
    "PRESSURE_N_ATMOSPHERES" : {
       "description" : "",
@@ -1245,231 +1245,231 @@
    },
    "PROBABILITY_OF_ARRIVAL_X_PERCENT" : {
       "description" : "",
-      "message" : "Probabilidad de llegada: %probability%%"
+      "message" : "Probability of arrival: %probability%%"
    },
    "PULSECANNON_10MW" : {
       "description" : "",
-      "message" : "Cañón de impulsos 10MW"
+      "message" : "10MW pulsinė patranka"
    },
    "PULSECANNON_1MW" : {
       "description" : "",
-      "message" : "Cañón de impulsos 1MW"
+      "message" : "1MW pulse cannon"
    },
    "PULSECANNON_20MW" : {
       "description" : "",
-      "message" : "Cañón de impulsos 20MW"
+      "message" : "20MW pulse cannon"
    },
    "PULSECANNON_2MW" : {
       "description" : "",
-      "message" : "Cañón de impulsos 2MW"
+      "message" : "2MW pulse cannon"
    },
    "PULSECANNON_4MW" : {
       "description" : "",
-      "message" : "Cañón de impulsos 4MW"
+      "message" : "4MW pulse cannon"
    },
    "PULSECANNON_DUAL_1MW" : {
       "description" : "",
-      "message" : "Cañón de impulsos doble 1MW"
+      "message" : "1MW dviguba pulsinė patranka"
    },
    "PULSECANNON_RAPID_2MW" : {
       "description" : "",
-      "message" : "Cañón de impulsos rápido 2MW"
+      "message" : "2MW rapid-fire pulse cannon"
    },
    "QUADRUPLE_SYSTEM" : {
       "description" : "",
-      "message" : "Sistema cuaternario"
+      "message" : "Quadruple system"
    },
    "RADAR_MAPPER" : {
       "description" : "",
-      "message" : "Radar Mapeador"
+      "message" : "Radaro Žymiklis"
    },
    "RADAR_MAPPER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Se utiliza para la inspección remota del equipo, carga y estado de otras naves."
+      "message" : "Used to remotely inspect the equipment, cargo and state of other ships."
    },
    "RADIOACTIVES" : {
       "description" : "",
-      "message" : "Residuos radioactivos"
+      "message" : "Radioaktyvios atliekos"
    },
    "RADIUS" : {
       "description" : "",
-      "message" : "Radio"
+      "message" : "Radius"
    },
    "REAR" : {
       "description" : "",
-      "message" : "Popa"
+      "message" : "Užnugaris"
    },
    "REQUEST_DOCKING_CLEARANCE" : {
       "description" : "",
-      "message" : "Solicitar permiso para atracar"
+      "message" : "Pareikalauti švartavimosi leidimo"
    },
    "RESET" : {
       "description" : "",
-      "message" : "Reset"
+      "message" : "Perkrauti"
    },
    "RESET_ORIENTATION_AND_ZOOM" : {
       "description" : "",
-      "message" : "Reiniciar orientación y zoom"
+      "message" : "Reset Orientation and Zoom"
    },
    "ROBOTS" : {
       "description" : "",
-      "message" : "Robots"
+      "message" : "Robotai"
    },
    "ROCKY_PLANET" : {
       "description" : "",
-      "message" : "\" Planeta rocoso\""
+      "message" : "\" uolėta planeta\""
    },
    "ROCKY_PLANET_CONTAINING_COME_LIQUIDS" : {
       "description" : "",
-      "message" : "\" Planeta rocoso con líquido en superficie,\""
+      "message" : "\" akmenuota planeta su trupučiu skysčių \""
    },
    "ROLL" : {
       "description" : "",
-      "message" : "Girar"
+      "message" : "Ristis"
    },
    "ROLL_LEFT" : {
       "description" : "",
-      "message" : "Rodar izquierda"
+      "message" : "Roll left"
    },
    "ROLL_RIGHT" : {
       "description" : "",
-      "message" : "Rodar derecha"
+      "message" : "Roll right"
    },
    "ROTATE_DOWN" : {
       "description" : "",
-      "message" : "Rotar abajo"
+      "message" : "Rotate Down"
    },
    "ROTATE_LEFT" : {
       "description" : "",
-      "message" : "Rotar izquierda"
+      "message" : "Suktis kairėn"
    },
    "ROTATE_RIGHT" : {
       "description" : "",
-      "message" : "Rotar derecha"
+      "message" : "Rotate Right"
    },
    "ROTATE_UP" : {
       "description" : "",
-      "message" : "Rotar arriba"
+      "message" : "Rotate Up"
    },
    "ROTATIONAL_PERIOD" : {
       "description" : "",
-      "message" : "\" (periodo rotacional)\""
+      "message" : "\" (apsisukimo periodas)\""
    },
    "ROTATION_DAMPING_OFF" : {
       "description" : "",
-      "message" : "Rotación amortiguada off"
+      "message" : "Rotation damping off"
    },
    "ROTATION_DAMPING_ON" : {
       "description" : "",
-      "message" : "Rotación amortiguada on"
+      "message" : "Rotation damping on"
    },
    "RUBBISH" : {
       "description" : "",
-      "message" : "Desechos"
+      "message" : "Šiukšlės"
    },
    "SAGITTARIUS_ARM" : {
       "description" : "",
-      "message" : "Brazo Sagittarius"
+      "message" : "Sagittarius arm"
    },
    "SCANNER" : {
       "description" : "",
-      "message" : "Escáner"
+      "message" : "Skaneris"
    },
    "SCANNER_CONTROL" : {
       "description" : "",
-      "message" : "Control de Scanner"
+      "message" : "Scanner control"
    },
    "SCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Proporciona una vista 3D de las naves próximas."
+      "message" : "Parodo artimų laivų 3D žemėlapį."
    },
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
-      "message" : "screenshot%index{d08}.png"
+      "message" : "ekranvaizdis%index{d08}.png"
    },
    "SCUTUM_CENTAURUS_ARM" : {
       "description" : "",
-      "message" : "Brazo Scutum-Centaurus"
+      "message" : "Kentauro žvaigždynas"
    },
    "SEARCH" : {
       "description" : "",
-      "message" : "Buscar"
+      "message" : "Ieškoti"
    },
    "SEARCH_MAP" : {
       "description" : "",
-      "message" : "Mapa de Búsqueda"
+      "message" : "Search Map"
    },
    "SECTOR_COORDINATES" : {
       "description" : "",
-      "message" : "Coordenadas de sector:"
+      "message" : "Sektoriaus koordinatės:"
    },
    "SECTOR_MAP_VIEW" : {
       "description" : "",
-      "message" : "Vista Mapa de Sector"
+      "message" : "Sector Map View"
    },
    "SECTOR_X_Y_Z" : {
       "description" : "",
-      "message" : "Sector: %x,%y,%z"
+      "message" : "Sektorius: %x,%y,%z"
    },
    "SELECTED_SYSTEM" : {
       "description" : "",
-      "message" : "Sistema seleccionado"
+      "message" : "Selected system"
    },
    "SELECT_A_TARGET" : {
       "description" : "",
-      "message" : "Seleccione un objetivo"
+      "message" : "Pasirinkite taikinį"
    },
    "SELECT_LOW_THRUST_POWER_LEVEL" : {
       "description" : "",
-      "message" : "Selecionar impulso de baja potencia"
+      "message" : "Pasirinkti mažą traukos galią."
    },
    "SEMI_MAJOR_AXIS" : {
       "description" : "",
-      "message" : "Semieje mayor"
+      "message" : "Pusiau pagrindinė ašis"
    },
    "SET_HYPERSPACE_DESTINATION_TO" : {
       "description" : "",
-      "message" : "Fijar destino hiperespacial a %system"
+      "message" : "Nustatyti hipererdvės taikiniu %system sistemą"
    },
    "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE" : {
       "description" : "",
-      "message" : "Analizador de nube hiperespacial: Fijar objetivo hiperespacial del viaje"
+      "message" : "Hipererdvės debasies analizatorius: Nustatyti hipererdvės taikinį sekti šį išvykimą. "
    },
    "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT" : {
       "description" : "",
-      "message" : "Nivel de impulso de baja potencia al %power%%"
+      "message" : "Set low thrust power level to %power%%"
    },
    "SET_SPEED_KM_S" : {
       "description" : "",
-      "message" : "Vel: %speed{f.2} km/s"
+      "message" : "Nustatytas greitis: %speed{f.2} km/s"
    },
    "SET_SPEED_M_S" : {
       "description" : "",
-      "message" : "Vel: %speed{f.0} m/s"
+      "message" : "Set speed: %speed{f.0} m/s"
    },
    "SHIELD_ENERGY_BOOSTER" : {
       "description" : "",
-      "message" : "Amplificador del escudo de energía"
+      "message" : "Skydo Energijos Stiprintuvas"
    },
    "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Incrementa la velocidad de recarga de los escudos."
+      "message" : "Padidina skydo atsinaujinimo greitį."
    },
    "SHIELD_GENERATOR" : {
       "description" : "",
-      "message" : "Generador de escudo"
+      "message" : "Skydo Generatorius"
    },
    "SHIELD_GENERATOR_DESCRIPTION" : {
       "description" : "",
-      "message" : "Proporciona una defensa adicional del casco con cada unidad ensamblada."
+      "message" : "Suteikia papildomą kėbulo apsaugą su kiekvienu įrengtu vienetu."
    },
    "SHIELD_INTEGRITY" : {
       "description" : "",
-      "message" : "Integr. escudo"
+      "message" : "Shield integrity"
    },
    "SHIELD_STRENGTH_N" : {
       "description" : "",
-      "message" : "Resistencia del escudo: %shields{f.2}"
+      "message" : "Shield strength: %shields{f.2}"
    },
    "SHIFT" : {
       "description" : "Shift key on keyboard",
@@ -1477,271 +1477,271 @@
    },
    "SHIP" : {
       "description" : "",
-      "message" : "Nave"
+      "message" : "Laivas"
    },
    "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
       "description" : "",
-      "message" : "Altitud de la nave sobre el terreno"
+      "message" : "Ship altitude above terrain"
    },
    "SHIP_DETECTED_NEARBY" : {
       "description" : "",
-      "message" : "Se detecta nave cercana."
+      "message" : "Netoliese aptiktas laivas."
    },
    "SHIP_INFORMATION" : {
       "description" : "",
-      "message" : "Info de la nave"
+      "message" : "Ship information"
    },
    "SHIP_MASS_N_TONNES" : {
       "description" : "",
-      "message" : "Masa de la nave: %{mass}t"
+      "message" : "Ship mass: %{mass}t"
    },
    "SHIP_NEARBY" : {
       "description" : "",
-      "message" : "Nave cercana"
+      "message" : "Laivas netoliese"
    },
    "SHIP_ORIENTATION" : {
       "description" : "",
-      "message" : "Orientación"
+      "message" : "Ship orientation"
    },
    "SHIP_VELOCITY_BY_REFERENCE_OBJECT" : {
       "description" : "",
-      "message" : "Vector de velocidad relativo al objeto"
+      "message" : "Ship velocity by reference object"
    },
    "SIDEREAL_VIEW" : {
       "description" : "",
-      "message" : "Vista sideral"
+      "message" : "Sidereal view"
    },
    "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
       "description" : "",
-      "message" : "Simulando la evolución del universo: %age{f.1}00 millones de años ;-)"
+      "message" : "Simuliuojama visatos evoliucija: %age{f.1} milijardų metų ;-)"
    },
    "SLAVES" : {
       "description" : "",
-      "message" : "Esclavos"
+      "message" : "Vergai"
    },
    "SMALL" : {
       "description" : "",
-      "message" : "Pequeño"
+      "message" : "Mažas"
    },
    "SMALL_GAS_GIANT" : {
       "description" : "",
-      "message" : "Gigante gaseoso pequeño"
+      "message" : "Mažas dujų milžinas"
    },
    "SMALL_INDUSTRIAL_OUTPOST" : {
       "description" : "",
-      "message" : "Pequeño puesto industrial."
+      "message" : "Maža industrinė gyvenvietė."
    },
    "SMALL_PLASMA_ACCEL" : {
       "description" : "",
-      "message" : "Acelerador de plasma pequeño"
+      "message" : "Mažas plazmos greitintuvas"
    },
    "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS" : {
       "description" : "",
-      "message" : "Prospección de baja escala. Sin asentamientos registrados."
+      "message" : "Small-scale prospecting. No registered settlements."
    },
    "SOCIAL_DEMOCRACY" : {
       "description" : "",
-      "message" : "Socialdemocracia"
+      "message" : "Socialinė Demokratija"
    },
    "SOLAR" : {
       "description" : "",
-      "message" : "Solar"
+      "message" : "Saulės"
    },
    "SOME_ESTABLISHED_MINING" : {
       "description" : "",
-      "message" : "Alguna minería establecida."
+      "message" : "Truputis nusistovėjusios kasybos."
    },
    "SOURCE" : {
       "description" : "",
-      "message" : "Origen"
+      "message" : "Šaltinis"
    },
    "SPEED_CONTROL_MODE" : {
       "description" : "",
-      "message" : "Control de velocidad"
+      "message" : "Speed control mode"
    },
    "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS" : {
       "description" : "",
-      "message" : "Sistema estable con %bodycount %{body(s)} principales y %portcount %{starport(s)}"
+      "message" : "Stable system with %bodycount major %{body(s)} and %portcount %{starport(s)}"
    },
    "STARPORT" : {
       "description" : "",
-      "message" : "Puerto estelar"
+      "message" : "Starport"
    },
    "STARPORTS" : {
       "description" : "",
-      "message" : "Puertos estelares"
+      "message" : "Starports"
    },
    "STAR_A" : {
       "description" : "",
-      "message" : "Caliente blanca tipo 'A'"
+      "message" : "Type 'A' hot white star"
    },
    "STAR_AF_GIANT" : {
       "description" : "",
-      "message" : "Gigante blanca"
+      "message" : "Baltoji milžinė žvaigždė"
    },
    "STAR_AF_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Hipergigante blanca"
+      "message" : "White hyper giant star"
    },
    "STAR_AF_SUPER_GIANT" : {
       "description" : "",
-      "message" : "Supergigante blanca"
+      "message" : "White super giant star"
    },
    "STAR_B" : {
       "description" : "",
-      "message" : "Brillante azul tipo 'B'"
+      "message" : "Bright type 'B' blue star"
    },
    "STAR_B_GIANT" : {
       "description" : "",
-      "message" : "Gigante azul"
+      "message" : "Žvaigždė mėlynoji milžinė"
    },
    "STAR_B_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Hipergigante azul"
+      "message" : "Blue hyper giant star"
    },
    "STAR_B_SUPER_GIANT" : {
       "description" : "",
-      "message" : "Supergigante azul"
+      "message" : "Mėlyna super gigantė žvaigždė"
    },
    "STAR_B_WF" : {
       "description" : "",
-      "message" : "Estrella Wolf-Rayet - Riesgo de colapso"
+      "message" : "Wolf-Rayet žvaigždė - kolapso rizika"
    },
    "STAR_F" : {
       "description" : "",
-      "message" : "Estrella Blanca tipo 'F'"
+      "message" : "Type 'F' white star"
    },
    "STAR_G" : {
       "description" : "",
-      "message" : "Estrella Amarilla tipo 'G'"
+      "message" : "Type 'G' yellow star"
    },
    "STAR_G_GIANT" : {
       "description" : "",
-      "message" : "Gigante amarilla - inestable"
+      "message" : "Žvaigždė geltonoji milžinė - Nestabili"
    },
    "STAR_G_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Hipergigante amarilla - Inestable"
+      "message" : "Žvaigždė geltonoji hipermilžinė - Nestabili"
    },
    "STAR_G_SUPER_GIANT" : {
       "description" : "",
-      "message" : "Supergigante amarilla"
+      "message" : "Geltonasis super milžinas žvaigždė"
    },
    "STAR_IM_BH" : {
       "description" : "",
-      "message" : "Un agujero negro de masa intermedia"
+      "message" : "An intermediate-mass black hole"
    },
    "STAR_K" : {
       "description" : "",
-      "message" : "Estrella Naranja tipo 'K'"
+      "message" : "Type 'K' orange star"
    },
    "STAR_K_GIANT" : {
       "description" : "",
-      "message" : "Gigante naranja - Inestable"
+      "message" : "Oranžinė gigantė žvaigždė - Nestabili"
    },
    "STAR_K_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Hipergigante naranja - Inestable"
+      "message" : "Oranžinė hiper milžinė žvaigždė - Nestabili"
    },
    "STAR_K_SUPER_GIANT" : {
       "description" : "",
-      "message" : "Supergigante naranja"
+      "message" : "Žvaigždė oranžinė supermilžinė."
    },
    "STAR_M" : {
       "description" : "",
-      "message" : "Estrella Roja tipo 'M'"
+      "message" : "Type 'M' red star"
    },
    "STAR_M_GIANT" : {
       "description" : "",
-      "message" : "Gigante roja"
+      "message" : "Red giant star"
    },
    "STAR_M_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Hipergigante roja"
+      "message" : "Red hyper giant star"
    },
    "STAR_M_SUPER_GIANT" : {
       "description" : "",
-      "message" : "Supergigante roja"
+      "message" : "Red super giant star"
    },
    "STAR_M_WF" : {
       "description" : "",
-      "message" : "Estrella Wolf-Rayet - Inestable"
+      "message" : "Wolf-Rayet star - Unstable"
    },
    "STAR_O" : {
       "description" : "",
-      "message" : "Caliente masiva tipo 'O'"
+      "message" : "Hot, massive type 'O' star"
    },
    "STAR_O_GIANT" : {
       "description" : "",
-      "message" : "Gigante azul caliente"
+      "message" : "Hot Blue giant star"
    },
    "STAR_O_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Hipergigante azul Caliente"
+      "message" : "Hot Blue hyper giant star"
    },
    "STAR_O_SUPER_GIANT" : {
       "description" : "",
-      "message" : "Supergigante azul caliente"
+      "message" : "Hot Blue super giant star"
    },
    "STAR_O_WF" : {
       "description" : "",
-      "message" : "Estrella Wolf-Rayet - Colapso inminente"
+      "message" : "Wolf-Rayet star - Imminent collapse"
    },
    "STAR_SM_BH" : {
       "description" : "",
-      "message" : "Nuestro Centro de la galaxia"
+      "message" : "Our galactic anchor"
    },
    "STAR_SYSTEM_INFORMATION" : {
       "description" : "",
-      "message" : "Info del Sistema Estelar"
+      "message" : "Žvaigždžių sistemos informacija"
    },
    "STAR_S_BH" : {
       "description" : "",
-      "message" : "Un agujero negro estelar"
+      "message" : "Žvsigždinė juodoji skylė"
    },
    "SUGGESTED_RESPONSES" : {
       "description" : "",
-      "message" : "Posibles respuestas:"
+      "message" : "Suggested responses:"
    },
    "SURFACE_GRAVITY" : {
       "description" : "",
-      "message" : "Gravedad en superficie"
+      "message" : "Paviršiaus gravitacija"
    },
    "SURFACE_TEMPERATURE" : {
       "description" : "",
-      "message" : "Temperatura en superficie"
+      "message" : "Paviršiaus temperatūra"
    },
    "SYSTEM" : {
       "description" : "",
-      "message" : "Sistema"
+      "message" : "System"
    },
    "SYSTEM_NUMBER" : {
       "description" : "",
-      "message" : "Número de Sistema:"
+      "message" : "System number:"
    },
    "SYSTEM_ORBIT_VIEW" : {
       "description" : "",
-      "message" : "Vista orbital del sistema"
+      "message" : "System orbit view"
    },
    "SYSTEM_TYPE" : {
       "description" : "",
-      "message" : "Tipo de sistema:"
+      "message" : "System type:"
    },
    "S_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Atmósfera de azufre\""
+      "message" : "\" Sulfuric atmosphere\""
    },
    "TAKEOFF" : {
       "description" : "",
-      "message" : "Despegue"
+      "message" : "Takeoff"
    },
    "TARGET_OBJECT_IN_SIGHTS" : {
       "description" : "",
-      "message" : "Adquirir blanco en la mira"
+      "message" : "Target object in cross-hairs"
    },
    "TENUOUS" : {
       "description" : "",
-      "message" : "tenue"
+      "message" : "tenuous"
    },
    "TEXTILES" : {
       "description" : "",
@@ -1749,167 +1749,167 @@
    },
    "THICK" : {
       "description" : "",
-      "message" : "densa"
+      "message" : "tiršta(-s)"
    },
    "THIN" : {
       "description" : "",
-      "message" : "delgada"
+      "message" : "plona(-s)"
    },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",
-      "message" : "Mundo exterior floreciente."
+      "message" : "Klestintis lauko pasaulis."
    },
    "THRUSTER_DORSAL" : {
       "description" : "",
-      "message" : "Impulso abajo"
+      "message" : "Thrust down"
    },
    "THRUSTER_MAIN" : {
       "description" : "",
-      "message" : "Impulso adelante"
+      "message" : "Trauka pirmyn"
    },
    "THRUSTER_PORT" : {
       "description" : "",
-      "message" : "Impulso izquierda"
+      "message" : "Trauka kairėn"
    },
    "THRUSTER_RETRO" : {
       "description" : "",
-      "message" : "Retroimpulso"
+      "message" : "Thrust backwards"
    },
    "THRUSTER_STARBOARD" : {
       "description" : "",
-      "message" : "Impulso derecha"
+      "message" : "Thrust right"
    },
    "THRUSTER_VENTRAL" : {
       "description" : "",
-      "message" : "Impulso arriba"
+      "message" : "Trauka aukštyn"
    },
    "TIME_POINT" : {
       "description" : "",
-      "message" : "Eje de tiempo:"
+      "message" : "Laiko riba:"
    },
    "TINY" : {
       "description" : "",
-      "message" : "Enano"
+      "message" : "Mažytis"
    },
    "TOGGLE_HUD_MODE" : {
       "description" : "",
-      "message" : "HUD ON/OFF"
+      "message" : "Toggle HUD mode"
    },
    "TOGGLE_LUA_CONSOLE" : {
       "description" : "",
-      "message" : "Consola Lua SI/NO"
+      "message" : "Įj./Išj. Lua konsolę"
    },
    "TOGGLE_ROTATION_DAMPING" : {
       "description" : "",
-      "message" : "Rotación amortiguada"
+      "message" : "Įj./Išj. sukimosi slopinimą"
    },
    "TOGGLE_SCAN_MODE" : {
       "description" : "",
-      "message" : "Encender modo Scanner"
+      "message" : "Perjungti skanerio režimą"
    },
    "TOMBSTONE_EPITAPH" : {
       "description" : "",
-      "message" : "RIP VIEJO AMIGO"
+      "message" : "RIP OLD BEAN"
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
-      "message" : "Comerciar con productos ilegales"
+      "message" : "Prekiavimas nelegaliomis prekėmis"
    },
    "TRIPLE_SYSTEM" : {
       "description" : "",
-      "message" : "Sistema triario"
+      "message" : "Trinarė sistema"
    },
    "UNEXPLORED_SYSTEM_NO_DATA" : {
       "description" : "",
-      "message" : "Sistema inexplorado. No hay mas información."
+      "message" : "Neištirta sistema. Daugiau duomenų nėra."
    },
    "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW" : {
       "description" : "",
-      "message" : "Sistema inexplorado. Datos no disponibles."
+      "message" : "Unexplored system. System view unavailable."
    },
    "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
       "description" : "",
-      "message" : "Sistema inexplorado. La información estelar ha sido recogida por medio de telescopio remoto, pero no existe información planetaria."
+      "message" : "Neištirta sistema. Žvaigždės informacija surinkta naudojant teleskopą, bet nėra informacijos apie planetas."
    },
    "UNKNOWN" : {
       "description" : "",
-      "message" : "<desconocido>"
+      "message" : "<nežinoma>"
    },
    "UNLAWFUL_WEAPONS_DISCHARGE" : {
       "description" : "",
-      "message" : "Disparo de armas ilegal"
+      "message" : "Unlawful weapons discharge"
    },
    "UNOCCUPIED_CABIN" : {
       "description" : "",
-      "message" : "Cabina extra de pasajeros"
+      "message" : "Extra Passenger Cabin"
    },
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",
-      "message" : "Para el transporte de un pasajero"
+      "message" : "Reikalingas vieno keleivio transportavimui"
    },
    "USE_LOW_THRUST" : {
       "description" : "",
-      "message" : "Usar impulso de baja potencia"
+      "message" : "Use low thrust"
    },
    "VAST_STRIP_MINE" : {
       "description" : "",
-      "message" : "Colonia minera masiva."
+      "message" : "Vast strip-mining colony."
    },
    "VERY_DENSE" : {
       "description" : "",
-      "message" : "muy densa"
+      "message" : "labai tankus"
    },
    "VERY_LARGE_GAS_GIANT" : {
       "description" : "",
-      "message" : "Gigante gaseoso muy grande"
+      "message" : "Labai didelis dujų milžinas"
    },
    "VID_CONNECTING" : {
       "description" : "",
-      "message" : "Conectando..."
+      "message" : "Jungiamasi..."
    },
    "VID_LINK_ESTABLISHED" : {
       "description" : "",
-      "message" : "Videoconexión establecida"
+      "message" : "Video link established"
    },
    "VIEW" : {
       "description" : "",
-      "message" : "Vista"
+      "message" : "Žiūrėti"
    },
    "VIOLENT_ANARCHY" : {
       "description" : "",
-      "message" : "Desorden - Revoluciones armadas contra el gobierno"
+      "message" : "Suirutė - Dėl valdžios varžosi ginkluotos grupuotės"
    },
    "WATER" : {
       "description" : "",
-      "message" : "Agua"
+      "message" : "Vanduo"
    },
    "WEAPONS" : {
       "description" : "",
-      "message" : "Armamento"
+      "message" : "Weapons"
    },
    "WEAPON_TEMP" : {
       "description" : "",
-      "message" : "Temp. armas"
+      "message" : "Weapon temp"
    },
    "WHEELS_ARE_DOWN" : {
       "description" : "",
-      "message" : "Tren de aterrizaje abajo"
+      "message" : "Ratai nuleisti"
    },
    "WHEELS_ARE_UP" : {
       "description" : "",
-      "message" : "Tren de aterrizaje arriba"
+      "message" : "Wheels are up"
    },
    "WHITE_DWARF" : {
       "description" : "",
-      "message" : "Enana blanca (Remanente estelar)"
+      "message" : "Baltasis nykštukas - žvaigždės likutis"
    },
    "WITH_A" : {
       "description" : "",
-      "message" : "\" con una \""
+      "message" : "\" su \""
    },
    "WITH_NO_SIGNIFICANT_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" sin atmósfera significativa\""
+      "message" : "\" neturi reikšmingos atmosferos\""
    },
    "X" : {
       "description" : "",
@@ -1917,7 +1917,7 @@
    },
    "X_CANNOT_BE_TOLERATED_HERE" : {
       "description" : "",
-      "message" : "%crime no tolerado"
+      "message" : "%crime čia nebus toleruojama."
    },
    "Y" : {
       "description" : "",
@@ -1925,23 +1925,23 @@
    },
    "YAW" : {
       "description" : "",
-      "message" : "Guiñada"
+      "message" : "Nuokrypis"
    },
    "YAW_LEFT" : {
       "description" : "",
-      "message" : "Guiñada izquierda"
+      "message" : "Yaw left"
    },
    "YAW_RIGHT" : {
       "description" : "",
-      "message" : "Guiñada derecha"
+      "message" : "Yaw right"
    },
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
-      "message" : "Colonia agrícola joven."
+      "message" : "Jauna žemės ūkio kolonija."
    },
    "YOU_NO_MONEY" : {
       "description" : "",
-      "message" : "Se encuentra sin fondos."
+      "message" : "Jūs visiškai neturite pinigų."
    },
    "Z" : {
       "description" : "",
@@ -1949,10 +1949,10 @@
    },
    "ZOOM_IN" : {
       "description" : "",
-      "message" : "Acercar"
+      "message" : "Zoom in"
    },
    "ZOOM_OUT" : {
       "description" : "",
-      "message" : "Alejar"
+      "message" : "Atitolinti"
    }
 }

@@ -73,7 +73,7 @@
    },
    "CAPACITY_USED" : {
       "description" : "",
-      "message" : "Kapasite kullanımı"
+      "message" : "Kullanılan kapasite"
    },
    "CARGO" : {
       "description" : "",
@@ -213,7 +213,7 @@
    },
    "DESTROY_ENEMY_SHIP" : {
       "description" : "",
-      "message" : "Düşman gemisini yoket"
+      "message" : "Düşman gemisini yok et"
    },
    "DISMISS" : {
       "description" : "",
@@ -789,7 +789,7 @@
    },
    "RATING" : {
       "description" : "",
-      "message" : "Oran:"
+      "message" : "Derece:"
    },
    "REAR_WEAPON" : {
       "description" : "",
@@ -889,7 +889,7 @@
    },
    "START_AT_BARNARDS_STAR" : {
       "description" : "",
-      "message" : "Barnard'ın Yıldızından başla"
+      "message" : "Barnard Yıldızı'nda Başla"
    },
    "START_AT_EARTH" : {
       "description" : "",
@@ -897,7 +897,7 @@
    },
    "START_AT_NEW_HOPE" : {
       "description" : "",
-      "message" : "Yeni Ümide Başla"
+      "message" : "Yeni Ümit'te Başla"
    },
    "STATION_MANAGER" : {
       "description" : "",
@@ -941,7 +941,7 @@
    },
    "TYPE" : {
       "description" : "",
-      "message" : "Tip"
+      "message" : "Tür"
    },
    "UNLAWFUL_WEAPONS_DISCHARGE" : {
       "description" : "",

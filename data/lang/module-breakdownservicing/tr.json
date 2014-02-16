@@ -1,7 +1,7 @@
 {
    "FLAVOUR_0_INTRO" : {
       "description" : "",
-      "message" : "Parçalanmış bir üstuzay motorunun size vereceği rahatsızlığı önleyin. Sizinkine bugün bakım yaptırın, resmi olarak desteklenen {name} Motor Bakım Sirketi tarafından.\n\nMotor: {drive}\nBakım: {price)\nGaranti: 18 Ay\n{lasttime}"
+      "message" : "Parçalanmış bir üstuzay motorunun size vereceği rahatsızlığı önleyin. Sizinkine bugün bakım yaptırın, resmi olarak desteklenen {name} Motor Bakım Şirketi tarafından.\n\nMotor: {drive}\nBakım: {price)\nGaranti: 18 Ay\n{lasttime}"
    },
    "FLAVOUR_0_RESPONSE" : {
       "description" : "",
@@ -33,7 +33,7 @@
    },
    "FLAVOUR_2_INTRO" : {
       "description" : "",
-      "message" : "Merhaba. {proprietor} & Co olarak itibarımızı çalışmalarımız üstünde doğrultuyoruz.\n\n{lasttime}\nGemizin {drive}nü 12 ay sorunsuz çalışma garantisi ile toplam {price} fiyatına ayarlayabiliriz. Çalışmayı bizzat ben gözlemleyeceğim, böylece işin iyi yapıldığından emin olabilirsiniz."
+      "message" : "Merhaba. {proprietor} & Co olarak itibarımızı çalışmalarımız üstünde doğrultuyoruz.\n\n{lasttime}\nGemizin {drive}nü 12 ay sorunsuz çalışma garantisi ile toplam {price} fiyatına ayarlayabiliriz. Çalışmayı bizzat ben gözlemleyeceğim, böylece işin iyi yapılacağından emin olabilirsiniz."
    },
    "FLAVOUR_2_RESPONSE" : {
       "description" : "",
@@ -65,7 +65,7 @@
    },
    "FLAVOUR_4_INTRO" : {
       "description" : "",
-      "message" : "Zaman ve Uzay'a hoşgeldiniz.\nYıldızlar arası motorlar üstün uzmanlaşmış bulunuyoruz.  Tüm bakım işleri iki yıl boyunca güvencededir.\n{lasttime}\n{drive}nüze bakım yaptırmanın maliyeti {price} olacak. Devam etmek istiyor musunuz?"
+      "message" : "Zaman ve Uzay'a hoşgeldiniz.\nYıldızlar arası motorlar üstüne uzmanlaşmış bulunuyoruz.  Tüm bakım işleri iki yıl boyunca güvencededir.\n{lasttime}\n{drive}nüze bakım yaptırmanın maliyeti {price} olacak. Devam etmek istiyor musunuz?"
    },
    "FLAVOUR_4_RESPONSE" : {
       "description" : "",

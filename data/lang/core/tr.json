@@ -169,7 +169,7 @@
    },
    "CARGO_BAY_LIFE_SUPPORT_LOST" : {
       "description" : "",
-      "message" : "Sensörler tehlikeli kargo bölmesi yaşam destek koşulları gösteriyor"
+      "message" : "Algılayıcılar tehlikeli kargo bölmesi yaşam destek koşulları gösteriyor"
    },
    "CARGO_LIFE_SUPPORT" : {
       "description" : "",
@@ -417,7 +417,7 @@
    },
    "ECM_ADVANCED_DESCRIPTION" : {
       "description" : "",
-      "message" : "Elektronik karşı önlem füze savunma sistemi, daha gelişmiş güdümlü füze türlerini yoketme becerisine sahiptir."
+      "message" : "Elektronik karşı önlem füze savunma sistemi, daha gelişmiş güdümlü füze türlerini yok etme becerisine sahiptir."
    },
    "ECM_BASIC" : {
       "description" : "",
@@ -425,7 +425,7 @@
    },
    "ECM_BASIC_DESCRIPTION" : {
       "description" : "",
-      "message" : "Elektronik karşı önlem füze savunma sistemi, bazı güdümlü füzeleri yoketme becerisine sahiptir."
+      "message" : "Elektronik karşı önlem füze savunma sistemi, bazı güdümlü füzeleri yok etme becerisine sahiptir."
    },
    "ECONOMIC_INFO" : {
       "description" : "",
@@ -1453,7 +1453,7 @@
    },
    "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Kalkanların dolum oranını arttırır."
+      "message" : "Kalkanların dolum hızını arttırır."
    },
    "SHIELD_GENERATOR" : {
       "description" : "",
@@ -1573,7 +1573,7 @@
    },
    "STAR_A" : {
       "description" : "",
-      "message" : "Tip 'A' sıcak beyaz yıldız"
+      "message" : "Sınıf 'A' sıcak beyaz yıldız"
    },
    "STAR_AF_GIANT" : {
       "description" : "",
@@ -1589,7 +1589,7 @@
    },
    "STAR_B" : {
       "description" : "",
-      "message" : "Parlak tip 'B' mavi yıldız"
+      "message" : "Parlak sınıf 'B' mavi yıldız"
    },
    "STAR_B_GIANT" : {
       "description" : "",
@@ -1609,11 +1609,11 @@
    },
    "STAR_F" : {
       "description" : "",
-      "message" : "Tip 'F' beyaz yıldız"
+      "message" : "Sınıf 'F' beyaz yıldız"
    },
    "STAR_G" : {
       "description" : "",
-      "message" : "Tip 'G' sarı yıldız"
+      "message" : "Sınıf 'G' sarı yıldız"
    },
    "STAR_G_GIANT" : {
       "description" : "",
@@ -1633,7 +1633,7 @@
    },
    "STAR_K" : {
       "description" : "",
-      "message" : "Tip 'K' turuncu yıldız"
+      "message" : "Sınıf 'K' turuncu yıldız"
    },
    "STAR_K_GIANT" : {
       "description" : "",
@@ -1649,7 +1649,7 @@
    },
    "STAR_M" : {
       "description" : "",
-      "message" : "Tip 'M' kırmızı yıldız"
+      "message" : "Sınıf 'M' kırmızı yıldız"
    },
    "STAR_M_GIANT" : {
       "description" : "",
@@ -1669,7 +1669,7 @@
    },
    "STAR_O" : {
       "description" : "",
-      "message" : "Sıcak, devasa tip 'O' yıldız"
+      "message" : "Sıcak, devasa sınıf 'O' yıldız"
    },
    "STAR_O_GIANT" : {
       "description" : "",

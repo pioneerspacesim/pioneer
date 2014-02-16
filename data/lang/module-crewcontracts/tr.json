@@ -13,7 +13,7 @@
    },
    "CREWTESTRESULTSBB" : {
       "description" : "",
-      "message" : "Sınav sonuçları:\n\nGenel mürettebat yeterliliği: %{general}\nMühendislik ve tamir: %{engineering}\nPilotluk ve uzay uçuşu: %{piloting}\nNavigasyon ve çizim: %{navigation}\nSensörler ve savunma: %{sensors}\nGenel sınav puanı: %{overall}"
+      "message" : "Sınav sonuçları:\n\nGenel mürettebat yeterliliği: %{general}\nMühendislik ve tamir: %{engineering}\nPilotluk ve uzay uçuşu: %{piloting}\nNavigasyon ve çizim: %{navigation}\nAlgılayıcılar ve savunma: %{sensors}\nGenel sınav puanı: %{overall}"
    },
    "CREW_FOR_HIRE" : {
       "description" : "",
@@ -65,7 +65,7 @@
    },
    "SENSORS_AND_DEFENCE" : {
       "description" : "",
-      "message" : "Sensörler ve savunma"
+      "message" : "Algılayıcılar ve savunma"
    },
    "SHIPS_ENGINEER" : {
       "description" : "",
