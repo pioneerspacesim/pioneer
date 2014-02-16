@@ -103,7 +103,7 @@ private:
 // a textured quad with reversed winding
 class TexturedQuad : public Drawable {
 public:
-	TexturedQuad(Graphics::Renderer *r, Graphics::Texture *texture, const vector2f &pos, const vector2f &size);
+	TexturedQuad(Graphics::Renderer *r, Graphics::Texture *texture, const vector2f &pos, const vector2f &size, RenderState *state);
 	virtual void Draw(Graphics::Renderer *r) {
 		r->DrawTriangles(m_vertices.get(), m_renderState, m_material.get(), TRIANGLE_STRIP);
 	}
