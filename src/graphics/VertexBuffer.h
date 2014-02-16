@@ -3,7 +3,21 @@
 
 #ifndef GRAPHICS_VERTEXBUFFER_H
 #define GRAPHICS_VERTEXBUFFER_H
-
+/**
+ * A Vertex Buffer is created by filling out a
+ * description struct with desired vertex attributes
+ * and calling renderer->CreateVertexBuffer.
+ * Can be used in combination with IndexBuffer,
+ * for optimal rendering of complex geometry.
+ * Call Map to write/read from the buffer, and Unmap to
+ * commit the changes.
+ * Buffers come in two usage flavors, static and dynamic.
+ * Use Static buffer, when the geometry never changes.
+ * Avoid mapping a buffer for reading, as it may be slow,
+ * especially with static buffers.
+ *
+ * Expansion possibilities: range-based Map
+ */
 #include "libs.h"
 #include "graphics/Types.h"
 
@@ -53,8 +67,9 @@ public:
 		return reinterpret_cast<T*>(MapInternal(mode));
 	}
 
-	//vertex count used for rendering.
-	//by default the maximum set in description
+	//Vertex count used for rendering.
+	//By default the maximum set in description, but
+	//you may set a smaller count for partial rendering
 	Uint32 GetVertexCount() const;
 	void SetVertexCount(Uint32);
 
@@ -64,6 +79,7 @@ protected:
 	Uint32 m_numVertices;
 };
 
+// Index buffer, limited to Uint16 index format for better portability
 class IndexBuffer : public RefCounted, public Mappable {
 public:
 	IndexBuffer(Uint32 size, BufferUsage);
