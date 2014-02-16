@@ -152,22 +152,13 @@ local crewRoster = function ()
 
 	-- Function that creates the crew list
 	local makeCrewList = function ()
-		local crewlistbox = ui:VBox(10)
-
-		-- One row for each mission, plus a header
-		local rowspec = {8,8,4,4,7,5}
-		local headergrid  = ui:Grid(rowspec,1)
-
-		-- Set up the headings for the Crew Roster list
-		headergrid:SetRow(0,
-		{
-			-- Headers
-			ui:Label(l.NAME_PERSON):SetFont("HEADING_NORMAL"),
-			ui:Label(l.POSITION):SetFont("HEADING_NORMAL"),
-			ui:Label(l.WAGE):SetFont("HEADING_NORMAL"),
-			ui:Label(l.OWED):SetFont("HEADING_NORMAL"),
-			ui:Label(l.NEXT_PAID):SetFont("HEADING_NORMAL"),
-		})
+		local crewTable =
+			ui:Table()
+				:SetHeadingRow({l.NAME_PERSON, l.POSITION, l.WAGE, l.OWED, l.NEXT_PAID})
+				:SetHeadingFont("HEADING_NORMAL")
+				:SetRowSpacing(5)
+				:SetRowAlignment("CENTER")
+				:SetColumnAlignment("JUSTIFY")
 
 		-- Create a row for each crew member
 		local wageTotal = 0
@@ -182,28 +173,27 @@ local crewRoster = function ()
 			wageTotal = wageTotal + crewWage
 			owedTotal = owedTotal + crewOwed
 
-			crewlistbox:PackEnd(ui:Grid(rowspec,1):SetRow(0, {
-				ui:Label(crewMember.name),
-				ui:Label(crewMember.title or l.GENERAL_CREW),
+			crewTable:AddRow({
+				crewMember.name,
+				crewMember.title or l.GENERAL_CREW,
 				ui:Label(Format.Money(crewWage)):SetColor({ r = 0.0, g = 1.0, b = 0.2 }), -- green
 				ui:Label(Format.Money(crewOwed)):SetColor({ r = 1.0, g = 0.0, b = 0.0 }), -- red
-				ui:Label(Format.Date(crewMember.contract and crewMember.contract.payday or 0)),
-				moreButton.widget,
-			}))
+				Format.Date(crewMember.contract and crewMember.contract.payday or 0),
+				moreButton
+			})
 		end
-		crewlistbox:PackEnd(ui:Grid(rowspec,1):SetRow(0, {
-			ui:Label(""), -- first column, empty
+		crewTable:AddRow({
+			"", -- first column, empty
 			ui:Label(l.TOTAL):SetFont("HEADING_NORMAL"):SetColor({ r = 1.0, g = 1.0, b = 0.0 }), -- yellow
 			ui:Label(Format.Money(wageTotal)):SetColor({ r = 0.0, g = 1.0, b = 0.2 }), -- green
 			ui:Label(Format.Money(owedTotal)):SetColor({ r = 1.0, g = 0.0, b = 0.0 }), -- red
-		}))
+		})
 
 		local taskCrewButton = ui:Button():SetInnerWidget(ui:Label(l.GIVE_ORDERS_TO_CREW))
 		taskCrewButton.onClick:Connect(taskCrew)
 
 		return ui:VBox(10):PackEnd({
-			headergrid,
-			ui:Scroller():SetInnerWidget(crewlistbox),
+			crewTable,
 			taskCrewButton,
 		})
 	end
