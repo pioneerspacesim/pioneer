@@ -23,6 +23,8 @@ noinst_HEADERS = \
 	TextureGL.h \
 	TextureBuilder.h \
 	Drawables.h \
+	Types.h \
+	VertexBuffer.h \
 	gl2/GL2Material.h \
 	gl2/GL2RenderState.h \
 	gl2/GL2RenderTarget.h \
@@ -34,7 +36,8 @@ noinst_HEADERS = \
 	gl2/ShieldMaterial.h \
 	gl2/StarfieldMaterial.h \
 	gl2/SkyboxMaterial.h \
-	gl2/Uniform.h
+	gl2/Uniform.h \
+	gl2/VertexBuffer.h
 
 libgraphics_a_SOURCES = \
 	Graphics.cpp \
@@ -48,6 +51,7 @@ libgraphics_a_SOURCES = \
 	TextureGL.cpp \
 	TextureBuilder.cpp \
 	Drawables.cpp \
+	VertexBuffer.cpp \
 	gl2/GL2Material.cpp \
 	gl2/GL2RenderState.cpp \
 	gl2/GL2RenderTarget.cpp \
@@ -57,4 +61,5 @@ libgraphics_a_SOURCES = \
 	gl2/Program.cpp \
 	gl2/ShieldMaterial.cpp \
 	gl2/RingMaterial.cpp \
-	gl2/Uniform.cpp
+	gl2/Uniform.cpp \
+	gl2/VertexBuffer.cpp
