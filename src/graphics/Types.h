@@ -7,7 +7,7 @@
 
 namespace Graphics {
 
-//allowed minimum of GL_MAX_VERTEX_ATTRIBS is 8 on ES2
+//Vertex attribute semantic
 enum VertexAttrib {
 	ATTRIB_NONE      = 0,
 	ATTRIB_POSITION  = (1u << 0),
@@ -16,8 +16,8 @@ enum VertexAttrib {
 	ATTRIB_UV0       = (1u << 3),
 	//ATTRIB_UV1       = (1u << 4),
 	//ATTRIB_TANGENT   = (1u << 5),
-	//ATTRIB_BITANGENT = (1u << 6),
-	//ATTRIB_CUSTOM?
+	//ATTRIB_BITANGENT = (1u << 6)
+	//etc.
 };
 
 enum VertexAttribFormat {
@@ -37,6 +37,35 @@ enum BufferMapMode {
 	BUFFER_MAP_NONE,
 	BUFFER_MAP_WRITE,
 	BUFFER_MAP_READ
+};
+
+enum LineType {
+	LINE_SINGLE = GL_LINES, //draw one line per two vertices
+	LINE_STRIP = GL_LINE_STRIP,  //connect vertices
+	LINE_LOOP = GL_LINE_LOOP    //connect vertices,  connect start & end
+};
+
+enum PrimitiveType {
+	TRIANGLES = GL_TRIANGLES,
+	TRIANGLE_STRIP = GL_TRIANGLE_STRIP,
+	TRIANGLE_FAN = GL_TRIANGLE_FAN,
+	POINTS = GL_POINTS
+};
+
+enum BlendMode {
+	BLEND_SOLID,
+	BLEND_ADDITIVE,
+	BLEND_ALPHA,
+	BLEND_ALPHA_ONE, //"additive alpha"
+	BLEND_ALPHA_PREMULT,
+	BLEND_SET_ALPHA, // copy alpha channel
+	BLEND_DEST_ALPHA // XXX maybe crappy name
+};
+
+enum FaceCullMode {
+	CULL_BACK,
+	CULL_FRONT,
+	CULL_NONE
 };
 
 }
