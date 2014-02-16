@@ -63,6 +63,7 @@
 #include "FloatComparison.h"
 #include "SmartPtr.h"
 #include "RefCounted.h"
+#include "utils.h"
 
 #include "profiler/Profiler.h"
 
