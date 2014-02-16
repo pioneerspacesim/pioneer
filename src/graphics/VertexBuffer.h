@@ -37,14 +37,16 @@ struct VertexAttribDesc {
 
 struct VertexBufferDesc {
 	VertexBufferDesc();
-	//byte size (stride) of one vertex
-	Uint32 GetVertexSize() const;
 	//byte offset of an attribute
 	Uint32 GetOffset(VertexAttrib) const;
 	static Uint32 GetAttribSize(VertexAttribFormat);
 
+	//semantic ATTRIB_NONE ends description (when not using all attribs)
 	VertexAttribDesc attrib[MAX_ATTRIBS];
 	Uint32 numVertices;
+	//byte size of one vertex, if zero this is
+	//automatically calculated for created buffers
+	Uint32 stride;
 	BufferUsage usage;
 };
 

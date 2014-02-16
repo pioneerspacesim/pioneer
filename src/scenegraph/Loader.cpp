@@ -707,7 +707,7 @@ RefCountedPtr<CollisionGeometry> Loader::CreateCollisionGeometry(RefCountedPtr<S
 	StaticGeometry::Mesh mesh = geom->GetMeshAt(0);
 
 	const Uint32 posOffs = mesh.vertexBuffer->GetDesc().GetOffset(Graphics::ATTRIB_POSITION);
-	const Uint32 stride  = mesh.vertexBuffer->GetDesc().GetVertexSize();
+	const Uint32 stride  = mesh.vertexBuffer->GetDesc().stride;
 	const Uint32 numVtx  = mesh.vertexBuffer->GetDesc().numVertices;
 	const Uint32 numIdx  = mesh.indexBuffer->GetSize();
 

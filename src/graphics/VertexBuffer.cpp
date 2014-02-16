@@ -24,6 +24,7 @@ Uint32 VertexBufferDesc::GetAttribSize(VertexAttribFormat f)
 VertexBufferDesc::VertexBufferDesc()
 	: numVertices(0)
 	, usage(BUFFER_USAGE_STATIC)
+	, stride(0)
 {
 	for (Uint32 i = 0; i < MAX_ATTRIBS; i++) {
 		attrib[i].semantic = ATTRIB_NONE;
@@ -34,16 +35,6 @@ VertexBufferDesc::VertexBufferDesc()
 	assert(sizeof(vector2f) == 8);
 	assert(sizeof(vector3f) == 12);
 	assert(sizeof(Color4ub) == 4);
-}
-
-Uint32 VertexBufferDesc::GetVertexSize() const
-{
-	Uint32 size = 0;
-	for (Uint32 i = 0; i < MAX_ATTRIBS; i++) {
-		if (attrib[i].semantic == ATTRIB_NONE) break;
-		size += GetAttribSize(attrib[i].format);
-	}
-	return size;
 }
 
 Uint32 VertexBufferDesc::GetOffset(VertexAttrib attr) const

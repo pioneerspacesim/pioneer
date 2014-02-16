@@ -42,6 +42,20 @@ VertexBuffer::VertexBuffer(const VertexBufferDesc &desc)
 		if (m_desc.attrib[i].offset == 0)
 			m_desc.attrib[i].offset = m_desc.GetOffset(m_desc.attrib[i].semantic);
 	}
+
+	//update stride in desc (respecting offsets)
+	if (m_desc.stride == 0)
+	{
+		Uint32 lastAttrib = 0;
+		while (lastAttrib < MAX_ATTRIBS) {
+			if (m_desc.attrib[lastAttrib].semantic == ATTRIB_NONE)
+				break;
+			lastAttrib++;
+		}
+
+		m_desc.stride = m_desc.attrib[lastAttrib].offset + VertexBufferDesc::GetAttribSize(m_desc.attrib[lastAttrib].format);
+	}
+
 	SetVertexCount(m_desc.numVertices);
 
 	glGenBuffers(1, &m_buffer);
@@ -49,7 +63,7 @@ VertexBuffer::VertexBuffer(const VertexBufferDesc &desc)
 	//Allocate initial data store
 	//Using zeroed m_data is not mandatory, but otherwise contents are undefined
 	glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
-	const Uint32 dataSize = m_desc.numVertices * m_desc.GetVertexSize();
+	const Uint32 dataSize = m_desc.numVertices * m_desc.stride;
 	m_data = new Uint8[dataSize];
 	memset(m_data, 0, dataSize);
 	const GLenum usage = (m_desc.usage == BUFFER_USAGE_STATIC) ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW;
@@ -96,7 +110,7 @@ void VertexBuffer::Unmap()
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	} else {
 		if (m_mapMode == BUFFER_MAP_WRITE) {
-			const GLsizei dataSize = m_desc.numVertices * m_desc.GetVertexSize();
+			const GLsizei dataSize = m_desc.numVertices * m_desc.stride;
 			glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
 			glBufferSubData(GL_ARRAY_BUFFER, 0, dataSize, m_data);
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -108,22 +122,21 @@ void VertexBuffer::Unmap()
 
 void VertexBuffer::SetAttribPointers()
 {
-	const Uint32 stride = m_desc.GetVertexSize();
 	for (Uint8 i = 0; i < MAX_ATTRIBS; i++) {
 		const auto& attr  = m_desc.attrib[i];
 		const auto offset = reinterpret_cast<const GLvoid*>(m_desc.attrib[i].offset);
 		switch (attr.semantic) {
 		case ATTRIB_POSITION:
-			glVertexPointer(get_num_components(attr.format), get_component_type(attr.format), stride, offset);
+			glVertexPointer(get_num_components(attr.format), get_component_type(attr.format), m_desc.stride, offset);
 			break;
 		case ATTRIB_NORMAL:
-			glNormalPointer(get_component_type(attr.format), stride, offset);
+			glNormalPointer(get_component_type(attr.format), m_desc.stride, offset);
 			break;
 		case ATTRIB_DIFFUSE:
-			glColorPointer(get_num_components(attr.format), get_component_type(attr.format), stride, offset);
+			glColorPointer(get_num_components(attr.format), get_component_type(attr.format), m_desc.stride, offset);
 			break;
 		case ATTRIB_UV0:
-			glTexCoordPointer(get_num_components(attr.format), get_component_type(attr.format), stride, offset);
+			glTexCoordPointer(get_num_components(attr.format), get_component_type(attr.format), m_desc.stride, offset);
 			break;
 		case ATTRIB_NONE:
 		default:

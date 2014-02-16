@@ -79,7 +79,7 @@ void StaticGeometry::Save(NodeDatabase &db)
 		const Uint32 posOffset = vbDesc.GetOffset(Graphics::ATTRIB_POSITION);
 		const Uint32 nrmOffset = vbDesc.GetOffset(Graphics::ATTRIB_NORMAL);
 		const Uint32 uv0Offset = vbDesc.GetOffset(Graphics::ATTRIB_UV0);
-		const Uint32 stride    = vbDesc.GetVertexSize();
+		const Uint32 stride    = vbDesc.stride;
 		db.wr->Int32(vbDesc.numVertices);
 		Uint8 *vtxPtr = mesh.vertexBuffer->Map<Uint8>(Graphics::BUFFER_MAP_READ);
 		for (Uint32 i = 0; i < vbDesc.numVertices; i++) {
@@ -143,12 +143,11 @@ StaticGeometry *StaticGeometry::Load(NodeDatabase &db)
 		vbDesc.usage = Graphics::BUFFER_USAGE_STATIC;
 		vbDesc.numVertices = db.rd->Int32();
 
-		const Uint32 posOffset = vbDesc.GetOffset(Graphics::ATTRIB_POSITION);
-		const Uint32 nrmOffset = vbDesc.GetOffset(Graphics::ATTRIB_NORMAL);
-		const Uint32 uv0Offset = vbDesc.GetOffset(Graphics::ATTRIB_UV0);
-		const Uint32 stride    = vbDesc.GetVertexSize();
-
 		RefCountedPtr<Graphics::VertexBuffer> vtxBuffer(db.loader->GetRenderer()->CreateVertexBuffer(vbDesc));
+		const Uint32 posOffset = vtxBuffer->GetDesc().GetOffset(Graphics::ATTRIB_POSITION);
+		const Uint32 nrmOffset = vtxBuffer->GetDesc().GetOffset(Graphics::ATTRIB_NORMAL);
+		const Uint32 uv0Offset = vtxBuffer->GetDesc().GetOffset(Graphics::ATTRIB_UV0);
+		const Uint32 stride = vtxBuffer->GetDesc().stride;
 		Uint8 *vtxPtr = vtxBuffer->Map<Uint8>(BUFFER_MAP_WRITE);
 		for (Uint32 i = 0; i < vbDesc.numVertices; i++) {
 			*reinterpret_cast<vector3f*>(vtxPtr + i * stride + posOffset) = db.rd->Vector3f();
