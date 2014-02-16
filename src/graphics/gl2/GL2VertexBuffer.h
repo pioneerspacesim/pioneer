@@ -7,7 +7,15 @@
 
 namespace Graphics { namespace GL2 {
 
-class VertexBuffer : public Graphics::VertexBuffer {
+class GLBufferBase {
+public:
+	GLuint GetBuffer() const { return m_buffer; }
+
+protected:
+	GLuint m_buffer;
+};
+
+class VertexBuffer : public Graphics::VertexBuffer, public GLBufferBase {
 public:
 	VertexBuffer(const VertexBufferDesc&);
 	~VertexBuffer();
@@ -16,17 +24,14 @@ public:
 	void SetAttribPointers();
 	void UnsetAttribPointers();
 
-	GLuint GetBuffer() const { return m_buffer; }
-
 protected:
 	virtual Uint8 *MapInternal(BufferMapMode) override;
 
 private:
-	GLuint m_buffer;
 	Uint8 *m_data;
 };
 
-class IndexBuffer : public Graphics::IndexBuffer {
+class IndexBuffer : public Graphics::IndexBuffer, public GLBufferBase {
 public:
 	IndexBuffer(Uint32 size, BufferUsage);
 	~IndexBuffer();
@@ -34,10 +39,7 @@ public:
 	virtual Uint16 *Map(BufferMapMode) override;
 	virtual void Unmap() override;
 
-	GLuint GetBuffer() const { return m_buffer; }
-
 private:
-	GLuint m_buffer;
 	Uint16 *m_data;
 };
 

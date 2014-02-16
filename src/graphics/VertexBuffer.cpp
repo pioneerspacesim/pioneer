@@ -75,9 +75,10 @@ void VertexBuffer::SetVertexCount(Uint32 v)
 	m_numVertices = v;
 }
 
-IndexBuffer::IndexBuffer(Uint32 size)
+IndexBuffer::IndexBuffer(Uint32 size, BufferUsage usage)
 	: m_size(size)
 	, m_indexCount(size)
+	, m_usage(usage)
 {
 }
 

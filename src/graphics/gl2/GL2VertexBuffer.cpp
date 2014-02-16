@@ -37,7 +37,7 @@ GLenum get_component_type(VertexAttribFormat fmt)
 VertexBuffer::VertexBuffer(const VertexBufferDesc &desc)
 {
 	m_desc = desc;
-	//update offsets
+	//update offsets in desc
 	for (Uint32 i = 0; i < MAX_ATTRIBS; i++) {
 		if (m_desc.attrib[i].offset == 0)
 			m_desc.attrib[i].offset = m_desc.GetOffset(m_desc.attrib[i].semantic);
@@ -46,7 +46,8 @@ VertexBuffer::VertexBuffer(const VertexBufferDesc &desc)
 
 	glGenBuffers(1, &m_buffer);
 
-	//allocate initial data
+	//Allocate initial data store
+	//Using zeroed m_data is not mandatory, but otherwise contents are undefined
 	glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
 	const Uint32 dataSize = m_desc.numVertices * m_desc.GetVertexSize();
 	m_data = new Uint8[dataSize];
@@ -54,6 +55,14 @@ VertexBuffer::VertexBuffer(const VertexBufferDesc &desc)
 	const GLenum usage = (m_desc.usage == BUFFER_USAGE_STATIC) ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW;
 	glBufferData(GL_ARRAY_BUFFER, dataSize, m_data, usage);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	//Don't keep client data around for static buffers
+	if (GetDesc().usage == BUFFER_USAGE_STATIC) {
+		delete[] m_data;
+		m_data = nullptr;
+	}
+
+	//If we had VAOs could set up the pointers already
 }
 
 VertexBuffer::~VertexBuffer()
@@ -67,18 +76,31 @@ Uint8 *VertexBuffer::MapInternal(BufferMapMode mode)
 	assert(mode != BUFFER_MAP_NONE); //makes no sense
 	assert(m_mapMode == BUFFER_MAP_NONE); //must not be currently mapped
 	m_mapMode = mode;
-	return m_data;
+	if (GetDesc().usage == BUFFER_USAGE_STATIC) {
+		glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
+		if (mode == BUFFER_MAP_READ)
+			return reinterpret_cast<Uint8*>(glMapBuffer(GL_ARRAY_BUFFER, GL_READ_ONLY));
+		else if (mode == BUFFER_MAP_WRITE)
+			return reinterpret_cast<Uint8*>(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY));
+	} else {
+		return m_data;
+	}
 }
 
 void VertexBuffer::Unmap()
 {
 	assert(m_mapMode != BUFFER_MAP_NONE); //not currently mapped
 
-	if (m_mapMode == BUFFER_MAP_WRITE) {
-		const GLsizei dataSize = m_desc.numVertices * m_desc.GetVertexSize();
-		glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, dataSize, m_data);
+	if (GetDesc().usage == BUFFER_USAGE_STATIC) {
+		glUnmapBuffer(GL_ARRAY_BUFFER);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	} else {
+		if (m_mapMode == BUFFER_MAP_WRITE) {
+			const GLsizei dataSize = m_desc.numVertices * m_desc.GetVertexSize();
+			glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
+			glBufferSubData(GL_ARRAY_BUFFER, 0, dataSize, m_data);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+		}
 	}
 
 	m_mapMode = BUFFER_MAP_NONE;
@@ -115,7 +137,7 @@ void VertexBuffer::UnsetAttribPointers()
 }
 
 IndexBuffer::IndexBuffer(Uint32 size, BufferUsage hint)
-	: Graphics::IndexBuffer(size)
+	: Graphics::IndexBuffer(size, hint)
 {
 	const GLenum usage = (hint == BUFFER_USAGE_STATIC) ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW;
 	glGenBuffers(1, &m_buffer);
@@ -123,6 +145,12 @@ IndexBuffer::IndexBuffer(Uint32 size, BufferUsage hint)
 	m_data = new Uint16[size];
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Uint16) * m_size, m_data, usage);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+	//Don't keep client data around for static buffers
+	if (GetUsage() == BUFFER_USAGE_STATIC) {
+		delete[] m_data;
+		m_data = nullptr;
+	}
 }
 
 IndexBuffer::~IndexBuffer()
@@ -136,17 +164,30 @@ Uint16 *IndexBuffer::Map(BufferMapMode mode)
 	assert(mode != BUFFER_MAP_NONE); //makes no sense
 	assert(m_mapMode == BUFFER_MAP_NONE); //must not be currently mapped
 	m_mapMode = mode;
-	return m_data;
+	if (GetUsage() == BUFFER_USAGE_STATIC) {
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_buffer);
+		if (mode == BUFFER_MAP_READ)
+			return reinterpret_cast<Uint16*>(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_READ_ONLY));
+		else if (mode == BUFFER_MAP_WRITE)
+			return reinterpret_cast<Uint16*>(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY));
+	} else {
+		return m_data;
+	}
 }
 
 void IndexBuffer::Unmap()
 {
 	assert(m_mapMode != BUFFER_MAP_NONE); //not currently mapped
 
-	if (m_mapMode == BUFFER_MAP_WRITE) {
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_buffer);
-		glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(Uint16) * m_size, m_data);
+	if (GetUsage() == BUFFER_USAGE_STATIC) {
+		glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	} else {
+		if (m_mapMode == BUFFER_MAP_WRITE) {
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_buffer);
+			glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(Uint16) * m_size, m_data);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		}
 	}
 
 	m_mapMode = BUFFER_MAP_NONE;
