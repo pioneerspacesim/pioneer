@@ -35,6 +35,7 @@ February 2014
      * Fix various glitches and an assertion in system info view (#2741,#2743,#2755)
      * Fix that rotation state of bodies was not saved/loaded properly (#2733,#2738)
      * Fix pattern for Xylophis (#2723,#2759)
+     * Render to texture Skybox alpha fix (#2763)
 
    * Internal changes
      * Moved model debug effects (wireframe, collision mesh) out of
