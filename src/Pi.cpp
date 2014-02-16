@@ -345,7 +345,7 @@ std::string Pi::GetSaveDir()
 	return FileSystem::JoinPath(FileSystem::GetUserDir(), Pi::SAVE_DIR_NAME);
 }
 
-void Pi::Init()
+void Pi::Init(const std::map<std::string,std::string> &options)
 {
 #ifdef PIONEER_PROFILER
 	Profiler::reset();
@@ -360,7 +360,7 @@ void Pi::Init()
 	profilerPath = FileSystem::JoinPathBelow(FileSystem::userFiles.GetRoot(), "profiler");
 #endif
 
-	Pi::config = new GameConfig();
+	Pi::config = new GameConfig(options);
 	KeyBindings::InitBindings();
 
 	if (config->Int("RedirectStdio"))

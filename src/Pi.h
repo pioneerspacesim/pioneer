@@ -62,7 +62,7 @@ class Game;
 
 class Pi {
 public:
-	static void Init();
+	static void Init(const std::map<std::string,std::string> &options);
 	static void InitGame();
 	static void StarportStart(Uint32 starport);
 	static void StartGame();
