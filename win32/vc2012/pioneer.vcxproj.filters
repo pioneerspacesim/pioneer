@@ -411,9 +411,6 @@
     <ClCompile Include="..\..\src\Sensors.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\HudColors.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\HudTrail.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -834,9 +831,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Sensors.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\HudColors.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\HudTrail.h">

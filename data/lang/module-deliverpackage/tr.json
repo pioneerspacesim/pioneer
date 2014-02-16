@@ -1,247 +1,279 @@
 {
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
-      "message" : "Could you repeat the original request?"
+      "message" : "İlk isteğinizi tekrarlar mısınız?"
    },
    "DANGER" : {
       "description" : "",
-      "message" : "Danger:"
+      "message" : "Tehlike:"
    },
    "DEADLINE" : {
       "description" : "",
-      "message" : "Deadline:"
+      "message" : "Bitiş:"
    },
    "DELIVERY" : {
       "description" : "",
-      "message" : "Delivery"
+      "message" : "Teslimat"
+   },
+   "DENY_0" : {
+      "description" : "",
+      "message" : "Üzgünüm, fakat bu teslimat konusunda size güvenebileceğimi düşünmüyorum."
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "Bazı vasıflar edindikden sonra geri gel."
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "Aradığım pilotun siz olduğunu düşünmüyorum."
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "Bu teslimat için güvenebileceğim biri gibi görünmüyorsunuz."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "Aradığım türden bir pilot değilsiniz."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "Bu önemde bir görevle baş edebilmek için çok fazla deneyimsiz görünüyorsunuz."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "Sizi hiç duymadım. Bu teslimat için deneyimli birine ihtiyacım var."
+   },
+   "DENY_7" : {
+      "description" : "",
+      "message" : "Sizin gibi hiç bir vasfı olmayan biri ile bu teslimatı riske atmak istemiyorum."
    },
    "DISTANCE" : {
       "description" : "",
-      "message" : "Distance:"
+      "message" : "Uzaklık:"
    },
    "EXCELLENT_I_WILL_LET_THE_RECIPIENT_KNOW_YOU_ARE_ON_YOUR_WAY" : {
       "description" : "",
-      "message" : "Excellent. I will let the recipient know you are on your way."
+      "message" : "Mükemmel. Alıcıyı sizin yolda olduğunuzu bilmesini sağlayacağım."
    },
    "FLAVOUR_0_ADTEXT" : {
       "description" : "",
-      "message" : "GOING TO the {system} system? Money paid for delivery of a small package."
+      "message" : "{system} sistemine mi GİDİYORSUNUZ? Küçük bir paketin teslimatı için para ödenecek."
    },
    "FLAVOUR_0_FAILUREMSG" : {
       "description" : "",
-      "message" : "Unacceptable! You took forever over that delivery. I'm not willing to pay you."
+      "message" : "Kabul edilemez! Çok oyalandın. Sana ödeme yapmak istemiyorum."
    },
    "FLAVOUR_0_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi, I'm {name}. I'll pay you {cash} if you will deliver a small package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+      "message" : "Merhaba, ben {name}. {dist} Iy uzaklıktaki {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki {starport} limanına küçük bir paket taşırsanız size {cash} ödeyeceğim."
    },
    "FLAVOUR_0_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the delivery. You have been paid in full."
+      "message" : "Teslimat için teşekkürler. Tam ödeme yapıldı."
    },
    "FLAVOUR_0_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "When a friend visited me she left behind some clothes and antique paper books. I'd like to have them returned to her."
+      "message" : "Bir arkadaşım beni ziyaret ettiğinde geride bazı giysiler ve antika kitaplar bıraktı. Bunların ona geri dönmesini istiyorum."
    },
    "FLAVOUR_1_ADTEXT" : {
       "description" : "",
-      "message" : "WANTED. Delivery of a package to the {system} system."
+      "message" : "ARANIYOR. {system} sistemine paket teslimatı."
    },
    "FLAVOUR_1_FAILUREMSG" : {
       "description" : "",
-      "message" : "I'm frustrated by the late delivery of my package, and I refuse to pay you."
+      "message" : "Paketimin geç tesliminden dolayı sinirliyim, ve ödemeyi reddediyorum."
    },
    "FLAVOUR_1_INTROTEXT" : {
       "description" : "",
-      "message" : "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+      "message" : "Merhaba. Ben {name}. {dist} Iy uzaklıktaki {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki {starport} limanına bir paket taşıyacak bir gemiye {cash} ödemeye hazırım."
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
-      "message" : "The package has been received and you have been paid in full."
+      "message" : "Paket alındı ve tam ödeme yapıldı."
    },
    "FLAVOUR_1_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "It is nothing special."
+      "message" : "Özel birşey değil"
    },
    "FLAVOUR_2_ADTEXT" : {
       "description" : "",
-      "message" : "URGENT. Fast ship needed to deliver a package to the {system} system."
+      "message" : "ACİL. {system} sistemine paket teslimatı için hızlı bir gemiye ihtiyaç var."
    },
    "FLAVOUR_2_FAILUREMSG" : {
       "description" : "",
-      "message" : "I was quite clear about the deadline and am very disappointed by the late delivery. You will not be paid."
+      "message" : "Bitiş tarihi konusunda oldukça açıktım ve geç teslimatınız beni hayal kırıklığına uğrattı. Ödeme yapılmayacak."
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
-      "message" : "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+      "message" : "Merhaba. Ben {name}. {dist} Iy uzaklıktaki {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki {starport} limanına bir paket taşımak için bir gemiye {cash} ödemeye hazırım."
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
-      "message" : "You have been paid in full for the delivery. Thank you."
+      "message" : "Teslimat için tam ödeme yapıldı. Teşekkürler"
    },
    "FLAVOUR_2_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "It is a research proposal and must be delivered by the deadline or we may not get funding."
+      "message" : "Bir araştırma teklifi ve bitiş tarihinden önce teslim edilmeli yoksa ödenek alamayız. "
    },
    "FLAVOUR_3_ADTEXT" : {
       "description" : "",
-      "message" : "DELIVERY. Documents to the {system} system. {cash} to an experienced pilot."
+      "message" : "TESLİMAT. {system} sistemine gidecek belgeler. Deneyimli bir pilot için {cash}."
    },
    "FLAVOUR_3_FAILUREMSG" : {
       "description" : "",
-      "message" : "Useless! I will never depend on you again! Needless to say, you will not be paid for this."
+      "message" : "Faydasız! Bir daha sana asla güvenmeyeceğim. Tabii ki bunun için ödeme yapılmayacak."
    },
    "FLAVOUR_3_INTROTEXT" : {
       "description" : "",
-      "message" : "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+      "message" : "Merhaba. Ben {name}. {dist} Iy uzaklıktaki {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki {starport} limanına bir paket taşıyacak bir gemiye {cash} ödemeye hazırım."
    },
    "FLAVOUR_3_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Your timely and discrete service is much appreciated. You have been paid in full."
+      "message" : "Zamanında ve farklı hizmetiniz takdire layık. Tam ödeme yapıldı."
    },
    "FLAVOUR_3_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "Some extremely sensitive documents have fallen into my hands, and I have reason to believe that the leak has been traced to me."
+      "message" : "Çok hassas belgeler benim elime geçti, ve sızıntının bana kadar takip edildiğine inanmak için nedenim var."
    },
    "FLAVOUR_4_ADTEXT" : {
       "description" : "",
-      "message" : "POSTAL SERVICE. We require a ship for the delivery run to {system} system."
+      "message" : "POSTA HİZMETİ: {system} sistemine teslimat için bir gemiye ihtiyacımız var."
    },
    "FLAVOUR_4_FAILUREMSG" : {
       "description" : "",
-      "message" : "Your ship registration has been noted, we will reject all further applications for work from you."
+      "message" : "Gemi kaydınız not edildi, sonraki tüm iş başvurularınızı reddedeceğiz."
    },
    "FLAVOUR_4_INTROTEXT" : {
       "description" : "",
-      "message" : "Greetings. This is an automated message from Bedford and {name} Courier Services. We pay {cash} for the run to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+      "message" : "Selamlar. Bu Bedford ve {name} Kargo Hizmetlerinden otomatik bir mesajdır. {dist} Iy uzaklıktaki {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki {starport} limanına gidiş için {cash} ödüyoruz."
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Your timely and discrete service is much appreciated. You have been paid in full."
+      "message" : "Zamanında ve farklı hizmetiniz takdire layık. Tam ödeme yapıldı."
    },
    "FLAVOUR_4_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "We would be happy to pay you less money."
+      "message" : "Size daha az ödemekten mutluluk duyardık."
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
-      "message" : "MOVING HOME. Move of hardware to {starport} from storage."
+      "message" : "TAŞINMA. {starport} limanına depodan donanım taşıması."
    },
    "FLAVOUR_5_FAILUREMSG" : {
       "description" : "",
-      "message" : "What are these? Oh, you took so long that I forgot I'd even sent this!"
+      "message" : "Nedir bunlar? Oh, o kadar oyalandın ki bunları gönderdiğimi bile unuttum!"
    },
    "FLAVOUR_5_INTROTEXT" : {
       "description" : "",
-      "message" : "Nice to meet you. I am {name} and I'm willing to pay {cash} for someone with a ship to help me move my belongings to {starport}. No rush, they are just some leftovers from moving house."
+      "message" : "Sizinle tanışmak güzel. Ben {name} ve eşyalarımı {starport} limanına taşımama yardım edecek gemisi olan birine {cash} ödemeye hazırım. Acelesi yok, sadece taşındığım evimde kalan bazı eşyalar."
    },
    "FLAVOUR_5_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Oh wonderful. I'll start unloading immediately. Thanks again."
+      "message" : "Oh muhteşem. Boşaltmaya hemen başlayacağım. Tekrar teşekkürler."
    },
    "FLAVOUR_5_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "Is it a lot? I should rethink my offer!"
+      "message" : "Çok mu fazla? Teklifimi yeniden düşünmeliyim!"
    },
    "FLAVOUR_6_ADTEXT" : {
       "description" : "",
-      "message" : "SHORT-RANGE COURIER. Delivery of a small package to {starport}."
+      "message" : "KISA-MESAFE KURYE. {starport} limanına küçük bir paket teslimatı."
    },
    "FLAVOUR_6_FAILUREMSG" : {
       "description" : "",
-      "message" : "I could have delivered it faster myself. I'm not paying you."
+      "message" : "Kendim daha hızılı teslim edebilirdim. Ödeme yapmıyorum."
    },
    "FLAVOUR_6_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi. I'm {name} and I will pay {cash} for a ship to deliver this package to {starport}."
+      "message" : "Merhaba. Ben {name} ve bu paketi {starport} limanına teslim edecek bir gemiye {cash} ödeyeceğim."
    },
    "FLAVOUR_6_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the package, you have been paid in full."
+      "message" : "Paket için teşekkürler, tam ödeme yapıldı."
    },
    "FLAVOUR_6_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "I don't think it's a lot."
+      "message" : "Çok fazla olduğunu düşünmüyorum."
    },
    "FLAVOUR_7_ADTEXT" : {
       "description" : "",
-      "message" : "INTER-PLANETARY CARGO. Freight of local cargo to {starport}."
+      "message" : "GEZEGENLER-ARASI KARGO. {starport} limanına yerel kargo nakliyesi."
    },
    "FLAVOUR_7_FAILUREMSG" : {
       "description" : "",
-      "message" : "Our customers are not going to be happy with this. Do not expect to be paid."
+      "message" : "Müşterilerimiz bundan memnun olmayacaklar. Ödeme yapılmasını beklemeyin."
    },
    "FLAVOUR_7_INTROTEXT" : {
       "description" : "",
-      "message" : "Hello. We need these crates delivered to {starport} as soon as possible. Standard payment for this shipment is {cash}."
+      "message" : "Merhaba. Bu kutuların {starport} limanına en kısa sürede teslim edilmesi gerekiyor. Bu nakliye için standart ödeme {cash}."
    },
    "FLAVOUR_7_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Excellent, we've credited the funds into your account."
+      "message" : "Mükemmel, kaynakları hesabınıza aktardık."
    },
    "FLAVOUR_7_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "Standard rates, we work with the market."
+      "message" : "Standart oranlar, marketle çalışıyoruz."
    },
    "FLAVOUR_8_ADTEXT" : {
       "description" : "",
-      "message" : "NEARBY DELIVERY. Require quick delivery of an item to {starport}."
+      "message" : "YAKIN TESLİMAT. {starport} limanına hızlı teslimat gerekiyor."
    },
    "FLAVOUR_8_FAILUREMSG" : {
       "description" : "",
-      "message" : "You were offered a premium for quick delivery! I refuse to pay for this."
+      "message" : "Size hızlı teslimat için prim teklif edildi! Bunu ödemeyi reddediyorum."
    },
    "FLAVOUR_8_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name} and I need this item delivered to a friend at {starport} pronto, I'll pay you {cash} credits if you get it there in a reasonable time."
+      "message" : "Benim adım {name} ve bunun {starport} limanında bir arkadaşıma teslim edilmesi gerekiyor. Kabul edilebilir bir sürede ulaştırabilirseniz {cash} ödeyeceğim."
    },
    "FLAVOUR_8_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Your prompt delivery is appreciated, I have credited your account accordingly."
+      "message" : "Dakik teslimatınız takdire layık, hesabınıza buna uygun şekilde para aktarıldı."
    },
    "FLAVOUR_8_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "It's really urgent."
+      "message" : "Gerçekten çok acil."
    },
    "FLAVOUR_9_ADTEXT" : {
       "description" : "",
-      "message" : "PACKAGE DROP. Urgent dispatch of perishables to {starport}."
+      "message" : "PAKET BIRAKMA: {starport} limanına kolay bozulan malların acil sevkiyatı."
    },
    "FLAVOUR_9_FAILUREMSG" : {
       "description" : "",
-      "message" : "It's all spoilt, this is of no use to anyone! We cannot and will not pay you."
+      "message" : "Tamamen berbat olmuş, bunlar kimseye yaramaz! Ödeyemeyiz ve ödemeyeceğiz."
    },
    "FLAVOUR_9_INTROTEXT" : {
       "description" : "",
-      "message" : "Greetings, we're behind with our produce shipment and need it delivered to {starport} urgently. We'll pay you {cash} for your troubles."
+      "message" : "Selamlar, ürün sevkiyatında gerideyiz ve bunun {starport} limanına acilen teslim edilmesi gerekiyor. Çabalarınız için size {cash} ödeyeceğiz."
    },
    "FLAVOUR_9_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Grand! We'll start unpacking immediately. I'll have your account updated right away."
+      "message" : "Güzel! Paketleri açmaya hemen başlayacağız. Hesabınızı şimdi güncelleyeceğim."
    },
    "FLAVOUR_9_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "Our livelyhood depends on it."
+      "message" : "Yaşamımız buna bağlı."
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Hang up."
+      "message" : "Bekle."
    },
    "HOW_SOON_MUST_IT_BE_DELIVERED" : {
       "description" : "",
-      "message" : "How soon must it be delivered?"
+      "message" : "En yakın ne zaman teslim edilmesi gerekiyor?"
    },
    "IT_COULD_BE_DANGEROUS_YOU_SHOULD_MAKE_SURE_YOURE_ADEQUATELY_PREPARED" : {
       "description" : "",
-      "message" : "It could be dangerous, you should make sure you're adequately prepared."
+      "message" : "Tehlikeli olabilir, yeterince hazırlandığından emin olmalısın."
    },
    "IT_MUST_BE_DELIVERED_BY" : {
       "description" : "",
-      "message" : "It must be delivered by "
+      "message" : "Şu tarihte teslim edilmeli:"
    },
    "I_HIGHLY_DOUBT_IT" : {
       "description" : "",
-      "message" : "I highly doubt it."
+      "message" : "Ciddi şüphelerim var."
    },
    "LY" : {
       "description" : "",
@@ -249,74 +281,74 @@
    },
    "NOT_ANY_MORE_THAN_USUAL" : {
       "description" : "",
-      "message" : "Not any more than usual."
+      "message" : "Olağandan daha fazla değil."
    },
    "OK_AGREED" : {
       "description" : "",
-      "message" : "Ok, agreed."
+      "message" : "Tamam, anlaştık."
    },
    "PIRATE_TAUNTS_0" : {
       "description" : "",
-      "message" : "You're going to regret dealing with {client}"
+      "message" : " {client} ile anlaştığına pişman olacaksın"
    },
    "PIRATE_TAUNTS_1" : {
       "description" : "",
-      "message" : "Looks like my paycheck has arrived!"
+      "message" : "Görünüşe göre maaşım gelmiş!"
    },
    "PIRATE_TAUNTS_2" : {
       "description" : "",
-      "message" : "You're working for {client}? That was a bad idea."
+      "message" : "{client} için mi çalışıyorsun? Bu kötü bir fikirdi."
    },
    "PIRATE_TAUNTS_3" : {
       "description" : "",
-      "message" : "Your cargo and your life, pilot!"
+      "message" : "Kargon ve hayatın, sür!"
    },
    "PIRATE_TAUNTS_4" : {
       "description" : "",
-      "message" : "I'm sure this will bring a pretty penny on the market"
+      "message" : "Eminim bu markette yüklüce bir para getirecek."
    },
    "PIRATE_TAUNTS_5" : {
       "description" : "",
-      "message" : "Today isn't your lucky day! Prepare to die."
+      "message" : "Bugün şanslı günü değil! Ölmeye hazırlan."
    },
    "PIRATE_TAUNTS_6" : {
       "description" : "",
-      "message" : "Tell my old friend {client} that I'll see them in hell!"
+      "message" : "Eski arkadaşım {client}'e söyle onunla cehennemde görüşeceğim!"
    },
    "PIRATE_TAUNTS_7" : {
       "description" : "",
-      "message" : "That package isn't going to reach it's destination today."
+      "message" : "Paket bugün varış yerine ulaşmayacak."
    },
    "PIRATE_TAUNTS_8" : {
       "description" : "",
-      "message" : "You're not getting to {location} today!"
+      "message" : "Bugün {location}'a ulaşamayacaksınız!"
    },
    "PIRATE_TAUNTS_9" : {
       "description" : "",
-      "message" : "You'll pay for that cargo, with your life."
+      "message" : "O kargo için ödeme yapacaksın, hayatınla!"
    },
    "SPACEPORT" : {
       "description" : "",
-      "message" : "Spaceport:"
+      "message" : "Yıldız Limanı:"
    },
    "SYSTEM" : {
       "description" : "",
-      "message" : "System:"
+      "message" : "Sistem:"
    },
    "THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN" : {
       "description" : "",
-      "message" : "This is a valuable package, you should keep your eyes open."
+      "message" : "Bu değerli bir paket, gözünü açık tutmalısın."
    },
    "THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE" : {
       "description" : "",
-      "message" : "This is very risky, you will almost certainly run into resistance."
+      "message" : "Bu çok riskli, kesinlikle direnişle karşılaşacaksın."
    },
    "WHY_SO_MUCH_MONEY" : {
       "description" : "",
-      "message" : "Why so much money?"
+      "message" : "Neden bu kadar çok para?"
    },
    "WILL_I_BE_IN_ANY_DANGER" : {
       "description" : "",
-      "message" : "Will I be in any danger?"
+      "message" : "Tehlikede olacak mıyım?"
    }
 }

@@ -68,7 +68,7 @@ void HudTrail::Render(Graphics::Renderer *r)
 	}
 }
 
-void HudTrail::Reset(Frame *newFrame)
+void HudTrail::Reset(const Frame *newFrame)
 {
 	m_currentFrame = newFrame;
 	m_trailPoints.clear();

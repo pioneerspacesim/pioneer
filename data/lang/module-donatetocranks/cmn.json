@@ -1,0 +1,66 @@
+{
+   "FLAVOUR_0_MESSAGE" : {
+      "description" : "",
+      "message" : "请选择捐赠给面神教堂的数额."
+   },
+   "FLAVOUR_0_TITLE" : {
+      "description" : "",
+      "message" : "捐赠! 面神教堂需要你的钱来传达上帝的旨意."
+   },
+   "FLAVOUR_1_MESSAGE" : {
+      "description" : "",
+      "message" : "和平与你同在, 兄弟. 请选择捐赠给自由灵魂守护者的数额吧."
+   },
+   "FLAVOUR_1_TITLE" : {
+      "description" : "",
+      "message" : "捐赠. 自由灵魂的守护者恭敬地请求你的关爱来帮助我们的修道院."
+   },
+   "FLAVOUR_2_MESSAGE" : {
+      "description" : "",
+      "message" : "请选择捐赠给战争孤儿救助会的数额, 让银河系里所有的儿童远离痛苦吧."
+   },
+   "FLAVOUR_2_TITLE" : {
+      "description" : "",
+      "message" : "感受慷慨? 战争孤儿救助会需要你的帮助来继续他们的基本工作."
+   },
+   "FLAVOUR_3_MESSAGE" : {
+      "description" : "",
+      "message" : "请选择捐赠给绿色观察协会的数额, 让我们的银河系远离污染."
+   },
+   "FLAVOUR_3_TITLE" : {
+      "description" : "",
+      "message" : "贡献. 银河系 '禁止军事引擎' 活动需要你的钱."
+   },
+   "FLAVOUR_4_MESSAGE" : {
+      "description" : "",
+      "message" : "请选择捐款数额."
+   },
+   "FLAVOUR_4_TITLE" : {
+      "description" : "",
+      "message" : "捐赠! 拯救我们的物种. 停止对新殖民时间的屠杀."
+   },
+   "FLAVOUR_5_MESSAGE" : {
+      "description" : "",
+      "message" : "解放你的飞船! 请选择捐赠的数额. 黑客攻击愉快."
+   },
+   "FLAVOUR_5_TITLE" : {
+      "description" : "",
+      "message" : "支持自由! 停止使用非正义的专用软件控制你的飞船."
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "先等一等."
+   },
+   "THANK_YOU_ALL_DONATIONS_ARE_WELCOME" : {
+      "description" : "",
+      "message" : "谢谢你. 所有的捐赠都是欢迎的."
+   },
+   "WOW_THAT_WAS_VERY_GENEROUS" : {
+      "description" : "",
+      "message" : "喔! 这太慷慨了."
+   },
+   "YOU_DO_NOT_HAVE_ENOUGH_MONEY" : {
+      "description" : "",
+      "message" : "你没有足够的钱."
+   }
+}

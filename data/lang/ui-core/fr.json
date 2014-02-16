@@ -167,6 +167,10 @@
       "description" : "",
       "message" : "Impossible de charger la partie:"
    },
+   "CREDIBLE" : {
+      "description" : "For player reputation",
+      "message" : "Crédible"
+   },
    "CREW_CABINS" : {
       "description" : "",
       "message" : "Cabines d'équipage"
@@ -291,6 +295,14 @@
       "description" : "",
       "message" : "Quitter le jeu"
    },
+   "EXPERIENCED" : {
+      "description" : "For player reputation",
+      "message" : "Expérimenté"
+   },
+   "EXPERT" : {
+      "description" : "For player reputation",
+      "message" : "Expert"
+   },
    "FAILED" : {
       "description" : "",
       "message" : "Loupé"
@@ -316,7 +328,7 @@
       "message" : "Details fractals"
    },
    "FREE" : {
-      "description" : "",
+      "description" : "Used in Ship Information view as in Capacity: 10t (5t free)",
       "message" : "libre"
    },
    "FRONT_WEAPON" : {
@@ -423,6 +435,14 @@
       "description" : "",
       "message" : "Inactif"
    },
+   "INCOMPETENT" : {
+      "description" : "For player reputation",
+      "message" : "Incompétent"
+   },
+   "INEXPERIENCED" : {
+      "description" : "For player reputation",
+      "message" : "Inexpérimenté"
+   },
    "INVERT_MOUSE_Y" : {
       "description" : "",
       "message" : "Inverser souris Y"
@@ -528,7 +548,11 @@
       "message" : "Masse"
    },
    "MASTER" : {
-      "description" : "",
+      "description" : "For player reputation",
+      "message" : "Maitre:"
+   },
+   "MASTER_VOL" : {
+      "description" : "Master sound in settings option",
       "message" : "Maitre:"
    },
    "MAX" : {
@@ -630,6 +654,10 @@
    "NEXT_PAID" : {
       "description" : "",
       "message" : "Prochaine paye"
+   },
+   "NOBODY" : {
+      "description" : "For player reputation",
+      "message" : "Personne"
    },
    "NONE" : {
       "description" : "",
@@ -739,9 +767,17 @@
       "description" : "",
       "message" : "Prix"
    },
+   "PROFESSIONAL" : {
+      "description" : "For player reputation",
+      "message" : "Professionel"
+   },
    "QUALIFICATION_SCORES" : {
       "description" : "",
       "message" : "Qualification"
+   },
+   "QUICKLOAD" : {
+      "description" : "",
+      "message" : "Chargement rapide"
    },
    "QUIT" : {
       "description" : "",
@@ -763,9 +799,17 @@
       "description" : "",
       "message" : "Faire le plein"
    },
+   "RELIABLE" : {
+      "description" : "For player reputation",
+      "message" : "Reliable"
+   },
    "REPAIR_X_HULL_DAMAGE_FOR_X" : {
       "description" : "",
       "message" : "Réparer {damage}% de dégâts de la coque pour {price}"
+   },
+   "REPUTATION" : {
+      "description" : "",
+      "message" : "Réputation"
    },
    "REQUEST_LAUNCH" : {
       "description" : "",
@@ -891,6 +935,10 @@
       "description" : "",
       "message" : "Contrebande de produits illégaux"
    },
+   "TRUSTWORTHY" : {
+      "description" : "For player reputation",
+      "message" : "De confiance"
+   },
    "TYPE" : {
       "description" : "",
       "message" : "Type"
@@ -898,6 +946,10 @@
    "UNLAWFUL_WEAPONS_DISCHARGE" : {
       "description" : "",
       "message" : "Utilisation illégale d'armes"
+   },
+   "UNRELIABLE" : {
+      "description" : "",
+      "message" : "Douteux"
    },
    "UP_ACCEL" : {
       "description" : "",

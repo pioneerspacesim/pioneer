@@ -118,6 +118,23 @@ int LuaObjectBase::l_exists(lua_State *l)
 	return 1;
 }
 
+int LuaObjectBase::l_hasprop(lua_State *l)
+{
+	luaL_checktype(l, 1, LUA_TUSERDATA);
+	luaL_checktype(l, 2, LUA_TSTRING);
+	lua_getuservalue(l, 1);
+
+	if (lua_isnil(l, -1)) { // Doesn't have properties
+		lua_pushboolean(l, false);
+	} else {
+		lua_pushvalue(l, 2);
+		lua_gettable(l, -2);
+		// We consider that a value isn't set if it is nil
+		lua_pushboolean(l, !lua_isnil(l, -1));
+	}
+	return 1;
+}
+
 int LuaObjectBase::l_setprop(lua_State *l)
 {
 	luaL_checktype(l, 1, LUA_TUSERDATA);
@@ -564,9 +581,12 @@ void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL
 	lua_pushcfunction(l, LuaObjectBase::l_isa);
 	lua_rawset(l, -3);
 
-	// add the setprop method
+	// add the setprop and hasprop methods
 	lua_pushstring(l, "setprop");
 	lua_pushcfunction(l, LuaObjectBase::l_setprop);
+	lua_rawset(l, -3);
+	lua_pushstring(l, "hasprop");
+	lua_pushcfunction(l, LuaObjectBase::l_hasprop);
 	lua_rawset(l, -3);
 
 	// publish the method table

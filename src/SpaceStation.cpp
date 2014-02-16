@@ -70,6 +70,9 @@ void SpaceStation::Save(Serializer::Writer &wr, Space *space)
 void SpaceStation::Load(Serializer::Reader &rd, Space *space)
 {
 	ModelBody::Load(rd, space);
+
+	m_oldAngDisplacement = 0.0;
+
 	int num = rd.Int32();
 	if (num > Equip::TYPE_MAX) throw SavedGameCorruptException();
 	const Uint32 numShipDocking = rd.Int32();
@@ -510,7 +513,7 @@ void SpaceStation::TimeStepUpdate(const float timeStep)
 			m_navLights->SetColor(i+1, NavLights::NAVLIGHT_YELLOW);
 			continue;
 		}
-		if (dt.ship->GetFlightState() == Ship::FLYING)
+		if (dt.ship->GetFlightState() != Ship::DOCKED && dt.ship->GetFlightState() != Ship::DOCKING)
 			continue;
 		PositionDockedShip(dt.ship, i);
 		m_navLights->SetColor(i+1, NavLights::NAVLIGHT_RED); //docked
@@ -564,7 +567,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 		if (!m_adjacentCity) {
 			m_adjacentCity = new CityOnPlanet(planet, this, m_sbody->seed);
 		}
-		m_adjacentCity->Render(r, camera, this, viewCoords, viewTransform);
+		m_adjacentCity->Render(r, camera->GetContext()->GetFrustum(), this, viewCoords, viewTransform);
 
 		RenderModel(r, camera, viewCoords, viewTransform, false);
 

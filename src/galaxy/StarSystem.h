@@ -214,9 +214,8 @@ private:
 class StarSystem : public RefCounted {
 public:
 	friend class SystemBody;
+	friend class StarSystemCache;
 
-	static RefCountedPtr<StarSystem> GetCached(const SystemPath &path);
-	static void ShrinkCache();
 	void ExportToLua(const char *filename);
 
 	const std::string &GetName() const { return m_name; }
@@ -239,6 +238,7 @@ public:
 
 	RefCountedPtr<SystemBody> rootBody;
 	std::vector<SystemBody*> m_spaceStations;
+	std::vector<SystemBody*> m_stars;
 	// index into this will be the SystemBody ID used by SystemPath
 	std::vector< RefCountedPtr<SystemBody> > m_bodies;
 
@@ -302,6 +302,17 @@ private:
 	fixed m_agricultural;
 	fixed m_humanProx;
 	fixed m_totalPop;
+};
+
+class StarSystemCache
+{
+public:
+	static RefCountedPtr<StarSystem> GetCached(const SystemPath &path);
+	static void ShrinkCache(const SystemPath &path, const bool clear=false);
+
+private:
+	typedef std::map<SystemPath,StarSystem*> SystemCacheMap;
+	static SystemCacheMap s_cachedSystems;
 };
 
 #endif /* _STARSYSTEM_H */

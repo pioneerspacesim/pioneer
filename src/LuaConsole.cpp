@@ -4,10 +4,7 @@
 #include "LuaConsole.h"
 #include "LuaManager.h"
 #include "Pi.h"
-#include "gui/Gui.h"
-#include "gui/GuiScreen.h"
-#include "gui/GuiTextEntry.h"
-#include "gui/GuiLabel.h"
+#include "ui/Context.h"
 #include "text/TextureFont.h"
 #include "text/TextSupport.h"
 #include "KeyBindings.h"
@@ -25,46 +22,47 @@ static const char CONSOLE_CHUNK_NAME[] = "[T] console";
 static const char CONSOLE_CHUNK_NAME[] = "console";
 #endif
 
-LuaConsole::LuaConsole(int displayedOutputLines):
-	m_maxOutputLines(displayedOutputLines),
+LuaConsole::LuaConsole():
+	m_active(false),
 	m_precompletionStatement(),
 	m_completionList() {
 
+	m_output = Pi::ui->MultiLineText("");
+	m_entry = Pi::ui->TextEntry();
+
+	m_scroller = Pi::ui->Scroller()->SetInnerWidget(m_output);
+
+	m_container.Reset(Pi::ui->Margin(10)->SetInnerWidget(
+		Pi::ui->ColorBackground(Color(0,0,0,0xc0))->SetInnerWidget(
+			Pi::ui->VBox()->PackEnd(UI::WidgetSet(
+				Pi::ui->Expand()->SetInnerWidget(
+					m_scroller
+				),
+				m_entry
+			))
+		)
+	));
+
+	m_container->SetFont(UI::Widget::FONT_MONO_NORMAL);
+
+	m_entry->onKeyDown.connect(sigc::mem_fun(this, &LuaConsole::OnKeyDown));
+	m_entry->onChange.connect(sigc::mem_fun(this, &LuaConsole::OnChange));
+	m_entry->onEnter.connect(sigc::mem_fun(this, &LuaConsole::OnEnter));
+
 	m_historyPosition = -1;
 
-	SetTransparency(false);
-	SetBgColor(Color(160,32,0,160));
+	RegisterAutoexec();
+}
 
-	Gui::Screen::PushFont("ConsoleFont");
-	m_entryField = new Gui::TextEntry();
-	Gui::Screen::PopFont();
-	m_entryField->SetNewlineMode(Gui::TextEntry::AcceptCtrlNewline);
-	m_outputLines.reserve(displayedOutputLines);
-	m_nextOutputLine = 0;
-
-	// XXX HACK: bypassing TextEntry::Show, because it grabs focus
-	m_entryField->Gui::Widget::Show();
-	m_entryField->onKeyPress.connect(sigc::mem_fun(this, &LuaConsole::OnKeyPressed));
-	m_entryField->onValueChanged.connect(sigc::mem_fun(this, &LuaConsole::OnTextChanged));
-
-	PackEnd(m_entryField);
-
-	// prepare the global table
-	lua_State *l = Lua::manager->GetLuaState();
-
-	LUA_DEBUG_START(l);
-
-	lua_newtable(l);
-	lua_newtable(l);
-	lua_pushliteral(l, "__index");
-	lua_getglobal(l, "_G");
-	lua_rawset(l, -3);
-	lua_setmetatable(l, -2);
-	lua_setfield(l, LUA_REGISTRYINDEX, "ConsoleGlobal");
-
-	LUA_DEBUG_END(l, 0);
-
-	RunAutoexec();
+void LuaConsole::Toggle()
+{
+	if (m_active)
+		Pi::ui->DropLayer();
+	else {
+		Pi::ui->NewLayer()->SetInnerWidget(m_container.Get());
+		Pi::ui->SelectWidget(m_entry);
+	}
+	m_active = !m_active;
 }
 
 static int capture_traceback(lua_State *L) {
@@ -74,121 +72,173 @@ static int capture_traceback(lua_State *L) {
 	return 1;
 }
 
-void LuaConsole::RunAutoexec() {
-	lua_State *L = Lua::manager->GetLuaState();
-	LUA_DEBUG_START(L);
+// Create the table and leave a copy on the stack for further use
+static void init_global_table(lua_State *l) {
+	LUA_DEBUG_START(l);
 
+	lua_newtable(l);
+	lua_newtable(l);
+	lua_pushliteral(l, "__index");
+	lua_getglobal(l, "_G");
+	lua_rawset(l, -3);
+	lua_setmetatable(l, -2);
+	lua_pushvalue(l, -1);
+	lua_setfield(l, LUA_REGISTRYINDEX, "ConsoleGlobal");
+
+	LUA_DEBUG_END(l, 1);
+}
+
+static int console_autoexec(lua_State* l) {
+	LUA_DEBUG_START(l);
+
+	init_global_table(l); // _ENV
+
+	LuaConsole *c = static_cast<LuaConsole *>(lua_touserdata(l, lua_upvalueindex(1)));
 	RefCountedPtr<FileSystem::FileData> code = FileSystem::userFiles.ReadFile("console.lua");
-	if (!code)
-		return;
+	if (!code) {
+		lua_pop(l, 1);
+		LUA_DEBUG_END(l, 0);
+		return 0;
+	}
 
-	int ret = pi_lua_loadfile(L, *code);
+	int ret = pi_lua_loadfile(l, *code); // code, _ENV
 	if (ret != LUA_OK) {
 		if (ret == LUA_ERRSYNTAX) {
-			const char *msg = lua_tostring(L, -1);
+			const char *msg = lua_tostring(l, -1);
 			Output("console.lua: %s\n", msg);
-			lua_pop(L, 1);
+			lua_pop(l, 1);
 		}
-		AddOutput("Failed to run console.lua");
-		return;
+		c->AddOutput("Failed to run console.lua");
+		lua_pop(l, 1); //popping _ENV
+		LUA_DEBUG_END(l, 0);
+		return 0;
 	}
 
 	// set the chunk's _ENV (globals) var
-	lua_getfield(L, LUA_REGISTRYINDEX, "ConsoleGlobal");
-	lua_setupvalue(L, -2, 1);
+	lua_insert(l, -2); // _ENV, code
+	lua_setupvalue(l, -2, 1); // code
 
-	lua_pushcfunction(L, &capture_traceback);
-	lua_insert(L, -2);
+	lua_pushcfunction(l, &capture_traceback); // traceback, code
+	lua_insert(l, -2); // code, traceback
 
-	ret = lua_pcall(L, 0, 0, -2);
+	ret = lua_pcall(l, 0, 0, -2);
 	if (ret != LUA_OK) {
-		const char *msg = lua_tostring(L, -1);
+		const char *msg = lua_tostring(l, -1);
 		Output("console.lua:\n%s\n", msg);
-		AddOutput("Failed to run console.lua");
-		lua_pop(L, 1);
+		c->AddOutput("Failed to run console.lua");
+		lua_pop(l, 1);
 	}
 
 	// pop capture_traceback function
+	lua_pop(l, 1);
+	LUA_DEBUG_END(l, 0);
+
+	return 0;
+
+}
+
+void LuaConsole::RegisterAutoexec() {
+	lua_State *L = Lua::manager->GetLuaState();
+	LUA_DEBUG_START(L);
+	if (!pi_lua_import(L, "Event")) {
+		Output("console.lua:\nProblem when registering the autoexec script.\n");
+		return;
+	}
+	lua_getfield(L, -1, "Register"); // Register, Event
+	lua_pushstring(L, "onGameStart"); // "onGameStart", Register, Event
+	lua_pushlightuserdata(L, this); // console, "onGameStart", Register, Event
+	lua_pushcclosure(L, console_autoexec, 1); // autoexec, "onGameStart", Register, Event
+	lua_call(L, 2, 0); // Event
 	lua_pop(L, 1);
+
 	LUA_DEBUG_END(L, 0);
 }
 
 LuaConsole::~LuaConsole() {}
 
-bool LuaConsole::IsActive() const {
-	return IsVisible() && m_entryField->IsFocused();
-}
+bool LuaConsole::OnKeyDown(const UI::KeyboardEvent &event) {
 
-void LuaConsole::OnKeyPressed(const SDL_Keysym *sym) {
-	// XXX totally horrible doing this on every key press
-	ResizeRequest();
-
-	if ((sym->sym == SDLK_UP) || (sym->sym == SDLK_DOWN)) {
-		if (m_historyPosition == -1) {
-			if (sym->sym == SDLK_UP) {
-				m_historyPosition = (m_statementHistory.size() - 1);
-				if (m_historyPosition != -1) {
-					m_stashedStatement = m_entryField->GetText();
-					m_entryField->SetText(m_statementHistory[m_historyPosition]);
-					ResizeRequest();
+	switch (event.keysym.sym) {
+		case SDLK_UP:
+		case SDLK_DOWN: {
+			if (m_historyPosition == -1) {
+				if (event.keysym.sym == SDLK_UP) {
+					m_historyPosition = (m_statementHistory.size() - 1);
+					if (m_historyPosition != -1) {
+						m_stashedStatement = m_entry->GetText();
+						m_entry->SetText(m_statementHistory[m_historyPosition]);
+					}
 				}
-			}
-		} else {
-			if (sym->sym == SDLK_DOWN) {
-				++m_historyPosition;
-				if (m_historyPosition >= int(m_statementHistory.size())) {
-					m_historyPosition = -1;
-					m_entryField->SetText(m_stashedStatement);
-					m_stashedStatement.clear();
-					ResizeRequest();
+			} else {
+				if (event.keysym.sym == SDLK_DOWN) {
+					++m_historyPosition;
+					if (m_historyPosition >= int(m_statementHistory.size())) {
+						m_historyPosition = -1;
+						m_entry->SetText(m_stashedStatement);
+						m_stashedStatement.clear();
+					} else {
+						m_entry->SetText(m_statementHistory[m_historyPosition]);
+					}
 				} else {
-					m_entryField->SetText(m_statementHistory[m_historyPosition]);
-					ResizeRequest();
-				}
-			} else {
-				if (m_historyPosition > 0) {
-					--m_historyPosition;
-					m_entryField->SetText(m_statementHistory[m_historyPosition]);
-					ResizeRequest();
+					if (m_historyPosition > 0) {
+						--m_historyPosition;
+						m_entry->SetText(m_statementHistory[m_historyPosition]);
+					}
 				}
 			}
-		}
-	}
 
-	// CTRL+U clears the current command
-	if ((sym->sym == SDLK_u) && (sym->mod & KMOD_CTRL)) {
-		m_stashedStatement.clear();
-		m_entryField->SetText("");
-		m_historyPosition = -1;
-		ResizeRequest();
-	}
-
-	if (sym->sym == SDLK_TAB) {
-		if (m_completionList.empty()) {
-			UpdateCompletion(m_entryField->GetText());
+			return true;
 		}
-		if (!m_completionList.empty()) { // We still need to test whether it failed or not.
-			if (sym->mod & KMOD_SHIFT) {
-				if (m_currentCompletion == 0)
-					m_currentCompletion = m_completionList.size();
-				m_currentCompletion--;
-			} else {
-				m_currentCompletion++;
-				if (m_currentCompletion == m_completionList.size())
-					m_currentCompletion = 0;
+
+		case SDLK_u:
+		case SDLK_w:
+			if (event.keysym.mod & KMOD_CTRL) {
+				// TextEntry already cleared the input, we must cleanup the history
+				m_stashedStatement.clear();
+				m_historyPosition = -1;
+				return true;
 			}
-			m_entryField->SetText(m_precompletionStatement + m_completionList[m_currentCompletion]);
-			ResizeRequest();
-		}
+			break;
+
+		case SDLK_l:
+			if (event.keysym.mod & KMOD_CTRL) {
+				m_output->SetText("");
+				return true;
+			}
+			break;
+
+		case SDLK_TAB:
+			if (m_completionList.empty()) {
+				UpdateCompletion(m_entry->GetText());
+			}
+			if (!m_completionList.empty()) { // We still need to test whether it failed or not.
+				if (event.keysym.mod & KMOD_SHIFT) {
+					if (m_currentCompletion == 0)
+						m_currentCompletion = m_completionList.size();
+					m_currentCompletion--;
+				} else {
+					m_currentCompletion++;
+					if (m_currentCompletion == m_completionList.size())
+						m_currentCompletion = 0;
+				}
+				m_entry->SetText(m_precompletionStatement + m_completionList[m_currentCompletion]);
+			}
+			return true;
 	}
 
-	if (sym->sym == SDLK_RETURN && !(sym->mod & KMOD_CTRL)) {
-		ExecOrContinue();
-	}
+	return false;
 }
 
-void LuaConsole::OnTextChanged() {
+void LuaConsole::OnChange(const std::string &text) {
 	m_completionList.clear();
+}
+
+void LuaConsole::OnEnter(const std::string &text) {
+	if (!text.empty())
+		ExecOrContinue(text);
+	m_completionList.clear();
+	Pi::ui->SelectWidget(m_entry);
+	m_scroller->SetScrollPosition(1.0f);
 }
 
 void LuaConsole::UpdateCompletion(const std::string & statement) {
@@ -252,31 +302,10 @@ void LuaConsole::UpdateCompletion(const std::string & statement) {
 }
 
 void LuaConsole::AddOutput(const std::string &line) {
-	Gui::Label *label = 0;
-	if (int(m_outputLines.size()) > m_nextOutputLine) {
-		label = m_outputLines[m_nextOutputLine];
-		Remove(label);
-	} else {
-		Gui::Screen::PushFont("ConsoleFont");
-		label = new Gui::Label("", Gui::TextLayout::ColourMarkupNone);
-		Gui::Screen::PopFont();
-		m_outputLines.push_back(label);
-	}
-	m_nextOutputLine = (m_nextOutputLine + 1) % m_maxOutputLines;
-
-	label->SetText(line);
-	float size[2];
-	label->GetSizeRequested(size);
-	label->SetSize(float(Gui::Screen::GetWidth()), size[1]);
-	label->Show();
-
-	Remove(m_entryField);
-	PackEnd(label);
-	PackEnd(m_entryField);
+	m_output->AppendText(line + "\n");
 }
 
-void LuaConsole::ExecOrContinue() {
-	const std::string stmt = m_entryField->GetText();
+void LuaConsole::ExecOrContinue(const std::string &stmt) {
 	int result;
 	lua_State *L = Lua::manager->GetLuaState();
 
@@ -295,9 +324,7 @@ void LuaConsole::ExecOrContinue() {
 			const char *tail = msg + msglen - (sizeof(eofstring) - 1);
 			if (strcmp(tail, eofstring) == 0) {
 				// statement is incomplete -- allow the user to continue on the next line
-				m_entryField->SetText(stmt + "\n");
-				m_entryField->ResizeRequest();
-				ResizeRequest();
+				m_entry->SetText(stmt + "\n");
 				lua_pop(L, 1);
 				return;
 			}
@@ -392,8 +419,7 @@ void LuaConsole::ExecOrContinue() {
 			m_statementHistory.push_back(stmt);
 
 		// clear the entry box
-		m_entryField->SetText("");
-		ResizeRequest();
+		m_entry->SetText("");
 	}
 
 	// always forget the history position and clear the stashed command

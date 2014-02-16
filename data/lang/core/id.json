@@ -1,0 +1,1958 @@
+{
+   "AIR_PROCESSORS" : {
+      "description" : "",
+      "message" : "Air processors"
+   },
+   "ALERT_CANCELLED" : {
+      "description" : "",
+      "message" : "Alert cancelled."
+   },
+   "ALLEGIANCE" : {
+      "description" : "",
+      "message" : "Allegiance:"
+   },
+   "ALT" : {
+      "description" : "Alt key on keyboard",
+      "message" : "Alt"
+   },
+   "ALT_IN_KM" : {
+      "description" : "",
+      "message" : "ketinggian: %altitude{f.0}km (%vspeed{f.1}km/s)"
+   },
+   "ALT_IN_METRES" : {
+      "description" : "",
+      "message" : "Ketinggian: %altitude{f.0}m (%vspeed{f.1}m/s)"
+   },
+   "AND_HIGHLY_COMPLEX_ECOSYSTEM" : {
+      "description" : "",
+      "message" : "\" and a highly complex ecosystem.\""
+   },
+   "AND_INDIGENOUS_MICROBIAL_LIFE" : {
+      "description" : "",
+      "message" : "\" and indigenous microbial life.\""
+   },
+   "AND_INDIGENOUS_PLANT_LIFE" : {
+      "description" : "",
+      "message" : "\" and indigenous plant life.\""
+   },
+   "ANIMAL_MEAT" : {
+      "description" : "",
+      "message" : "Animal Meat"
+   },
+   "APOAPSIS_DISTANCE" : {
+      "description" : "",
+      "message" : "Apoapsis distance"
+   },
+   "AR_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" atmosfer Argon\""
+   },
+   "ASTEROID" : {
+      "description" : "",
+      "message" : "Asteroid"
+   },
+   "ATMOSPHERIC_SHIELDING" : {
+      "description" : "",
+      "message" : "Atmospheric Shielding"
+   },
+   "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Shields your spaceship from the heat of atmospheric re-entry."
+   },
+   "AUTOPILOT" : {
+      "description" : "",
+      "message" : "Pilot otomatis"
+   },
+   "AUTOPILOT_DESCRIPTION" : {
+      "description" : "",
+      "message" : "An on-board flight computer."
+   },
+   "AUTOPILOT_DOCK_WITH_STATION" : {
+      "description" : "",
+      "message" : "Autopilot: Dock with space station"
+   },
+   "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND" : {
+      "description" : "",
+      "message" : "Autopilot: Enter high orbit around %target"
+   },
+   "AUTOPILOT_ENTER_LOW_ORBIT_AROUND" : {
+      "description" : "",
+      "message" : "Autopilot: Enter low orbit around %target"
+   },
+   "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND" : {
+      "description" : "",
+      "message" : "Autopilot: Enter medium orbit around %target"
+   },
+   "AUTOPILOT_FLY_TO_VICINITY_OF" : {
+      "description" : "",
+      "message" : "Autopilot: Fly to vicinity of %target"
+   },
+   "AUTOPILOT_ON" : {
+      "description" : "",
+      "message" : "Pilot otomatis aktif"
+   },
+   "AXIAL_TILT" : {
+      "description" : "",
+      "message" : "Axial tilt"
+   },
+   "A_FEW_THOUSAND" : {
+      "description" : "",
+      "message" : "Hanya beberapa ribu"
+   },
+   "BATTLE_WEAPONS" : {
+      "description" : "",
+      "message" : "Senjata perang"
+   },
+   "BINARY_SYSTEM" : {
+      "description" : "",
+      "message" : "Sistem biner"
+   },
+   "BODIES" : {
+      "description" : "",
+      "message" : "bodies"
+   },
+   "BODY" : {
+      "description" : "",
+      "message" : "body"
+   },
+   "BROWN_DWARF" : {
+      "description" : "",
+      "message" : "Brown dwarf sub-stellar object"
+   },
+   "BUTTON" : {
+      "description" : "",
+      "message" : "\" Button \""
+   },
+   "CAMERA_BOTTOM_VIEW" : {
+      "description" : "",
+      "message" : "Kamera bawah"
+   },
+   "CAMERA_FRONT_VIEW" : {
+      "description" : "",
+      "message" : "Kamera depan"
+   },
+   "CAMERA_LEFT_VIEW" : {
+      "description" : "",
+      "message" : "Left camera"
+   },
+   "CAMERA_REAR_VIEW" : {
+      "description" : "",
+      "message" : "Kamera belakang"
+   },
+   "CAMERA_RIGHT_VIEW" : {
+      "description" : "",
+      "message" : "Kamera kanan"
+   },
+   "CAMERA_TOP_VIEW" : {
+      "description" : "",
+      "message" : "Kamera atas"
+   },
+   "CANT_SAVE_IN_HYPERSPACE" : {
+      "description" : "",
+      "message" : "Tidak dapat menyimpan permainan saat berada di hyperspace"
+   },
+   "CAPITALIST" : {
+      "description" : "",
+      "message" : "Capitalist"
+   },
+   "CARBON_ORE" : {
+      "description" : "",
+      "message" : "Carbon ore"
+   },
+   "CARBON_ORE_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Carbon ores (coal and oil) are required for the synthesis of many useful chemicals, including plastics, synthetic foodstuffs, medicines and textiles"
+   },
+   "CARGO" : {
+      "description" : "",
+      "message" : "Cargo"
+   },
+   "CARGO_BAY_LIFE_SUPPORT_LOST" : {
+      "description" : "",
+      "message" : "Sensors report critical cargo bay life-support conditions."
+   },
+   "CARGO_LIFE_SUPPORT" : {
+      "description" : "",
+      "message" : "Cargo Bay Life Support"
+   },
+   "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Allows the transport of live cargo."
+   },
+   "CARGO_N" : {
+      "description" : "",
+      "message" : "Kargo: %{mass}t"
+   },
+   "CARGO_SCOOP" : {
+      "description" : "",
+      "message" : "Cargo Scoop"
+   },
+   "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED" : {
+      "description" : "",
+      "message" : "Cargo scoop active. Collected 1 tonne of %item."
+   },
+   "CARGO_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Permits scooping cargo pods from space."
+   },
+   "CH4_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" atmosfer Metana\""
+   },
+   "CLEARANCE_ALREADY_GRANTED_BAY_N" : {
+      "description" : "",
+      "message" : "Clearance already granted. Proceed to docking bay %bay."
+   },
+   "CLEARANCE_DENIED_NO_BAYS" : {
+      "description" : "",
+      "message" : "Clearance denied. There are no free docking bays."
+   },
+   "CLEARANCE_GRANTED_BAY_N" : {
+      "description" : "",
+      "message" : "Clearance granted. Proceed to docking bay %bay."
+   },
+   "CO2_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" atmosfer Karbon Dioksida\""
+   },
+   "COMMA_HIGHLY_VOLCANIC" : {
+      "description" : "",
+      "message" : ", highly volcanic"
+   },
+   "COMMS" : {
+      "description" : "",
+      "message" : "Comms"
+   },
+   "COMMUNIST" : {
+      "description" : "",
+      "message" : "Komunis"
+   },
+   "COMPUTERS" : {
+      "description" : "",
+      "message" : "Computers"
+   },
+   "COMPUTER_HEADING_CONTROL" : {
+      "description" : "",
+      "message" : "Computer heading control"
+   },
+   "COMPUTER_SPEED_CONTROL" : {
+      "description" : "",
+      "message" : "Computer speed control"
+   },
+   "CONSUMER_GOODS" : {
+      "description" : "",
+      "message" : "Consumer goods"
+   },
+   "CONTROLS" : {
+      "description" : "",
+      "message" : "Kontrol"
+   },
+   "CORPORATE_SYSTEM" : {
+      "description" : "",
+      "message" : "Sistem Korporasi"
+   },
+   "COULD_NOT_OPEN_FILENAME" : {
+      "description" : "",
+      "message" : "Tidak dapat membuka %path"
+   },
+   "COUNT_ON_SURFACE" : {
+      "description" : "",
+      "message" : "\" (%surfacecount di permukaan)\""
+   },
+   "COUNT_STARPORTS" : {
+      "description" : "",
+      "message" : "starports"
+   },
+   "CO_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" atmosfer Karbon Monoksida\""
+   },
+   "CTRL" : {
+      "description" : "Ctrl key on keyboard",
+      "message" : "Ctrl"
+   },
+   "CURRENT_SYSTEM" : {
+      "description" : "",
+      "message" : "Current system"
+   },
+   "DATE_DUE_N" : {
+      "description" : "",
+      "message" : "Date due: %date"
+   },
+   "DAY_LENGTH" : {
+      "description" : "",
+      "message" : "Lama hari"
+   },
+   "DECREASE_SCAN_RANGE" : {
+      "description" : "",
+      "message" : "Decrease scanner range"
+   },
+   "DECREASE_SET_SPEED" : {
+      "description" : "",
+      "message" : "Decrease set speed"
+   },
+   "DEMOGRAPHICS" : {
+      "description" : "",
+      "message" : "Demographics"
+   },
+   "DESTINATION" : {
+      "description" : "",
+      "message" : "Tujuan"
+   },
+   "DIRECTION" : {
+      "description" : "",
+      "message" : "\" Arah \""
+   },
+   "DISABLED_AUTOMATIC_SYSTEM_SELECTION" : {
+      "description" : "",
+      "message" : "Disabled automatic system selection."
+   },
+   "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
+      "description" : "",
+      "message" : "Jarak dari kapal ke target navigasi"
+   },
+   "DISTANCE_LY" : {
+      "description" : "",
+      "message" : "Distance: %distance{f.2} ly"
+   },
+   "DOCKED" : {
+      "description" : "",
+      "message" : "Docked"
+   },
+   "DOCKING" : {
+      "description" : "",
+      "message" : "Docking"
+   },
+   "DOCKING_CLEARANCE_EXPIRED" : {
+      "description" : "",
+      "message" : "Docking clearance expired. If you wish to dock you must repeat your request."
+   },
+   "DOWNGRADING_ALERT_STATUS" : {
+      "description" : "",
+      "message" : "No fire detected for 60 seconds, downgrading alert status."
+   },
+   "DRAW_OUT_RANGE_LABELS" : {
+      "description" : "",
+      "message" : "Label out-of-range systems"
+   },
+   "DRAW_UNINHABITED_LABELS" : {
+      "description" : "",
+      "message" : "Label uninhabited systems"
+   },
+   "DRAW_VERTICAL_LINES" : {
+      "description" : "",
+      "message" : "Draw vertical lines"
+   },
+   "DRIVE_CLASS1" : {
+      "description" : "",
+      "message" : "Hyperdrive kelas 1"
+   },
+   "DRIVE_CLASS2" : {
+      "description" : "",
+      "message" : "Hyperdrive kelas 2"
+   },
+   "DRIVE_CLASS3" : {
+      "description" : "",
+      "message" : "Hyperdrive kelas 3"
+   },
+   "DRIVE_CLASS4" : {
+      "description" : "",
+      "message" : "Hyperdrive kelas 4"
+   },
+   "DRIVE_CLASS5" : {
+      "description" : "",
+      "message" : "Hyperdrive kelas 5"
+   },
+   "DRIVE_CLASS6" : {
+      "description" : "",
+      "message" : "Hyperdrive kelas 6"
+   },
+   "DRIVE_CLASS7" : {
+      "description" : "",
+      "message" : "Hyperdrive kelas 7"
+   },
+   "DRIVE_CLASS8" : {
+      "description" : "",
+      "message" : "Hyperdrive kelas 8"
+   },
+   "DRIVE_CLASS9" : {
+      "description" : "",
+      "message" : "Hyperdrive kelas 9"
+   },
+   "DRIVE_MIL1" : {
+      "description" : "",
+      "message" : "Class 1 Military drive"
+   },
+   "DRIVE_MIL2" : {
+      "description" : "",
+      "message" : "Class 2 Military drive"
+   },
+   "DRIVE_MIL3" : {
+      "description" : "",
+      "message" : "Class 3 Military drive"
+   },
+   "DRIVE_MIL4" : {
+      "description" : "",
+      "message" : "Class 4 Military drive"
+   },
+   "EARTH" : {
+      "description" : "",
+      "message" : "Bumi"
+   },
+   "EARTH_FEDERATION_COLONIAL_RULE" : {
+      "description" : "",
+      "message" : "Earth Federation Colonial Rule"
+   },
+   "EARTH_FEDERATION_DEMOCRACY" : {
+      "description" : "",
+      "message" : "Earth Federation Democracy"
+   },
+   "ECCENTRICITY" : {
+      "description" : "",
+      "message" : "Eccentricity"
+   },
+   "ECM_ADVANCED" : {
+      "description" : "",
+      "message" : "Advanced ECM system"
+   },
+   "ECM_ADVANCED_DESCRIPTION" : {
+      "description" : "",
+      "message" : "An electronic countermeasure missile defence system, capable of destroying more advanced types of homing missiles."
+   },
+   "ECM_BASIC" : {
+      "description" : "",
+      "message" : "ECM system"
+   },
+   "ECM_BASIC_DESCRIPTION" : {
+      "description" : "",
+      "message" : "An electronic countermeasure missile defence system, capable of destroying some homing missiles."
+   },
+   "ECONOMIC_INFO" : {
+      "description" : "",
+      "message" : "Info ekonomi"
+   },
+   "ECONOMY_TYPE" : {
+      "description" : "",
+      "message" : "Tipe ekonomi:"
+   },
+   "ENABLED_AUTOMATIC_SYSTEM_SELECTION" : {
+      "description" : "",
+      "message" : "Aktifkan sistem seleksi otomatis."
+   },
+   "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
+      "description" : "",
+      "message" : "Equatorial to polar radius ratio"
+   },
+   "EXACT_MATCH_X" : {
+      "description" : "",
+      "message" : "Exact match: %system"
+   },
+   "EXTENSIVE_MINING" : {
+      "description" : "",
+      "message" : "Extensive mining operations."
+   },
+   "EXTERNAL_ATMOSPHERIC_PRESSURE" : {
+      "description" : "",
+      "message" : "Tekanan atmosfer eksternal"
+   },
+   "EXTERNAL_VIEW" : {
+      "description" : "",
+      "message" : "Tampilan luar"
+   },
+   "FARM_MACHINERY" : {
+      "description" : "",
+      "message" : "Mesin pertanian"
+   },
+   "FERTILIZER" : {
+      "description" : "",
+      "message" : "Fertilizer"
+   },
+   "FINE_PAID_N" : {
+      "description" : "",
+      "message" : "You have paid the fine of %fine."
+   },
+   "FINE_PAID_N_BUT_N_REMAINING" : {
+      "description" : "",
+      "message" : "Anda telah membayar %paid tapi masih punya denda sebesar %fine."
+   },
+   "FIRE_LASER" : {
+      "description" : "",
+      "message" : "Fire laser"
+   },
+   "FIRE_MISSILE" : {
+      "description" : "",
+      "message" : "Fire missile"
+   },
+   "FOLLOWING_SELECTION" : {
+      "description" : "",
+      "message" : "following selection"
+   },
+   "FRONT" : {
+      "description" : "",
+      "message" : "Front"
+   },
+   "FRUIT_AND_VEG" : {
+      "description" : "",
+      "message" : "Fruit and Veg"
+   },
+   "FUEL" : {
+      "description" : "",
+      "message" : "Bahan bakar"
+   },
+   "FUEL_SCOOP" : {
+      "description" : "",
+      "message" : "Fuel Scoop"
+   },
+   "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED" : {
+      "description" : "",
+      "message" : "Fuel scoop active. You now have %quantity tonnes of hydrogen."
+   },
+   "FUEL_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Permits scooping hydrogen fuel from gas giant planets."
+   },
+   "GALACTIC_VIEW" : {
+      "description" : "",
+      "message" : "Galactic view"
+   },
+   "GALAXY_SECTOR_VIEW" : {
+      "description" : "",
+      "message" : "Galaxy sector view"
+   },
+   "GAME_LOAD_CANNOT_OPEN" : {
+      "description" : "",
+      "message" : "Simpanan permainan ini tidak dapat dibuka karena masalah ijin atau yang lainnya..."
+   },
+   "GAME_LOAD_CORRUPT" : {
+      "description" : "",
+      "message" : "Simpanan permainan ini tidak dapat dibuka karena mengandung kesalahan."
+   },
+   "GAME_LOAD_WRONG_VERSION" : {
+      "description" : "",
+      "message" : "Simpanan permainan ini tidak dapat dibuka karena dibuat oleh versi Pioneer lain."
+   },
+   "GAME_SAVED_TO" : {
+      "description" : "",
+      "message" : "\"Permainan disimpan ke \""
+   },
+   "GAME_SAVE_CANNOT_WRITE" : {
+      "description" : "",
+      "message" : "Permainan ini tidak dapat disimpan karena masalah sistem."
+   },
+   "GENERAL_VIEW_CONTROLS" : {
+      "description" : "",
+      "message" : "General View Controls"
+   },
+   "GOVERNMENT_TYPE" : {
+      "description" : "",
+      "message" : "Tipe pemerintahan:"
+   },
+   "GRAIN" : {
+      "description" : "",
+      "message" : "Grain"
+   },
+   "HAND_WEAPONS" : {
+      "description" : "",
+      "message" : "Senjata tangan"
+   },
+   "HARD_CAPITALIST" : {
+      "description" : "",
+      "message" : "Entirely Capitalist - no government welfare provision"
+   },
+   "HAT" : {
+      "description" : "",
+      "message" : "\" Hat\""
+   },
+   "HEADING_LOCK_BACKWARD" : {
+      "description" : "",
+      "message" : "Heading Lock (aft)"
+   },
+   "HEADING_LOCK_FORWARD" : {
+      "description" : "",
+      "message" : "Heading Lock (fore)"
+   },
+   "HEAVY_INDUSTRY" : {
+      "description" : "",
+      "message" : "Industri berat."
+   },
+   "HE_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" atmosfer Helium\""
+   },
+   "HIGHLY_VOLCANIC" : {
+      "description" : "",
+      "message" : "Highly volcanic"
+   },
+   "HIGH_POPULATION_OUTDOOR_WORLD" : {
+      "description" : "",
+      "message" : "High population outdoor world."
+   },
+   "HULL_AUTOREPAIR" : {
+      "description" : "",
+      "message" : "SIstem Perbaikan Otomatis Lambung Kapal"
+   },
+   "HULL_AUTOREPAIR_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Automatically repairs the ship's hull in the event of damage."
+   },
+   "HULL_INTEGRITY" : {
+      "description" : "",
+      "message" : "Integritas lambung kapal"
+   },
+   "HULL_TEMP" : {
+      "description" : "",
+      "message" : "Suhu lambung kapal"
+   },
+   "HYDROGEN" : {
+      "description" : "",
+      "message" : "Hidrogen"
+   },
+   "HYDROGEN_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Hydrogen is primarily used as a fusion fuel"
+   },
+   "HYPERCLOUD_ANALYZER" : {
+      "description" : "",
+      "message" : "Hypercloud Analyzer"
+   },
+   "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Analyze hyperspace clouds to determine destination and time of arrival or departure."
+   },
+   "HYPERSPACE" : {
+      "description" : "",
+      "message" : "Hyperspace"
+   },
+   "HYPERSPACE_ARRIVAL_CLOUD" : {
+      "description" : "",
+      "message" : "Hyperspace arrival cloud"
+   },
+   "HYPERSPACE_ARRIVAL_CLOUD_REMNANT" : {
+      "description" : "",
+      "message" : "Hyperspace arrival cloud remnant"
+   },
+   "HYPERSPACE_DEPARTURE_CLOUD" : {
+      "description" : "",
+      "message" : "Hyperspace departure cloud"
+   },
+   "HYPERSPACE_JUMP" : {
+      "description" : "",
+      "message" : "Lompatan Hyperspace"
+   },
+   "HYPERSPACE_JUMP_ABORTED" : {
+      "description" : "",
+      "message" : "Lompatan hyperspace dibatalkan."
+   },
+   "HYPERSPACE_TARGET" : {
+      "description" : "",
+      "message" : "Target hyperspace"
+   },
+   "HYPERSPACING_IN_N_SECONDS" : {
+      "description" : "",
+      "message" : "Hyperspacing in %countdown{f.0} seconds"
+   },
+   "H_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" atmosfer Hidrogen\""
+   },
+   "ICE_WORLD" : {
+      "description" : "",
+      "message" : "\" ice world\""
+   },
+   "ILLEGAL_GOODS" : {
+      "description" : "",
+      "message" : "Barang ilegal:"
+   },
+   "IMPERIAL_RULE" : {
+      "description" : "",
+      "message" : "Imperial Rule"
+   },
+   "INCREASE_SCAN_RANGE" : {
+      "description" : "",
+      "message" : "Increase scanner range"
+   },
+   "INCREASE_SET_SPEED" : {
+      "description" : "",
+      "message" : "Increase set speed"
+   },
+   "INDUSTRIAL_COLONY" : {
+      "description" : "",
+      "message" : "Industrial colony."
+   },
+   "INDUSTRIAL_HUB_SYSTEM" : {
+      "description" : "",
+      "message" : "Industrial hub system."
+   },
+   "INDUSTRIAL_MACHINERY" : {
+      "description" : "",
+      "message" : "Mesin industri"
+   },
+   "INTERNAL_VIEW" : {
+      "description" : "",
+      "message" : "Tampilan internal"
+   },
+   "INT_LY" : {
+      "description" : "",
+      "message" : "%scale ly"
+   },
+   "IN_TRANSIT" : {
+      "description" : "",
+      "message" : "In transit"
+   },
+   "IN_TRANSIT_TO_N_X_X_X" : {
+      "description" : "",
+      "message" : "In transit to %system [%x,%y,%z]"
+   },
+   "JOY" : {
+      "description" : "",
+      "message" : "Joy"
+   },
+   "JOYSTICK_INPUT" : {
+      "description" : "",
+      "message" : "Joystick input"
+   },
+   "JOY_AXIS" : {
+      "description" : "",
+      "message" : "%{sign}Joy%joynum %axis Axis"
+   },
+   "KM_S_RELATIVE_TO" : {
+      "description" : "",
+      "message" : "%speed{f.2} km/s rel-to %frame"
+   },
+   "LANDED" : {
+      "description" : "",
+      "message" : "Mendarat"
+   },
+   "LANG_NAME" : {
+      "description" : "The name that native speakers use for this language. This will be used in the language selection screen. For obscure reasons this currently must only use Latin-1 characters.",
+      "message" : "Bahasa Indonesia"
+   },
+   "LARGE" : {
+      "description" : "",
+      "message" : "Large"
+   },
+   "LARGE_GAS_GIANT" : {
+      "description" : "",
+      "message" : "Large gas giant"
+   },
+   "LARGE_PLASMA_ACCEL" : {
+      "description" : "",
+      "message" : "Akselerator plasma besar"
+   },
+   "LASER_COOLING_BOOSTER" : {
+      "description" : "",
+      "message" : "Laser Cooling Booster"
+   },
+   "LASER_COOLING_BOOSTER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Sistem pendingin yang lebih baik untuk senjata anda."
+   },
+   "LASER_FIRE_DETECTED" : {
+      "description" : "",
+      "message" : "Laser fire detected."
+   },
+   "LAUNCH_PERMISSION_DENIED_BUSY" : {
+      "description" : "",
+      "message" : "Permission to launch denied: docking bay busy."
+   },
+   "LIBERAL_DEMOCRACY" : {
+      "description" : "",
+      "message" : "Demokrasi liberal"
+   },
+   "LIQUID_OXYGEN" : {
+      "description" : "",
+      "message" : "Liquid Oxygen"
+   },
+   "LIQUID_OXYGEN_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Oksigen dibutuhkan untuk sistem penopang kehidupan dan beberapa proses industri"
+   },
+   "LIQUOR" : {
+      "description" : "",
+      "message" : "Liquor"
+   },
+   "LIVE_ANIMALS" : {
+      "description" : "",
+      "message" : "Binatang Hidup"
+   },
+   "LOCKED" : {
+      "description" : "",
+      "message" : "locked"
+   },
+   "MAJOR_EXPORTS" : {
+      "description" : "",
+      "message" : "Major Exports:"
+   },
+   "MAJOR_IMPORTS" : {
+      "description" : "",
+      "message" : "Major Imports:"
+   },
+   "MANUAL_CONTROL" : {
+      "description" : "",
+      "message" : "Kontrol manual"
+   },
+   "MANUAL_CONTROL_MODE" : {
+      "description" : "",
+      "message" : "Manual control mode"
+   },
+   "MAP_LOCK_HYPERSPACE_TARGET" : {
+      "description" : "",
+      "message" : "Lock Hyperspace Target"
+   },
+   "MAP_TOGGLE_INFO_PANEL" : {
+      "description" : "",
+      "message" : "Toggle Info Panel"
+   },
+   "MAP_TOGGLE_SELECTION_FOLLOW_VIEW" : {
+      "description" : "",
+      "message" : "Toggle Selection Following View"
+   },
+   "MAP_VIEW_ROTATE_DOWN" : {
+      "description" : "",
+      "message" : "Rotate View Down"
+   },
+   "MAP_VIEW_ROTATE_LEFT" : {
+      "description" : "",
+      "message" : "Rotate View Left"
+   },
+   "MAP_VIEW_ROTATE_RIGHT" : {
+      "description" : "",
+      "message" : "Rotate View Right"
+   },
+   "MAP_VIEW_ROTATE_UP" : {
+      "description" : "",
+      "message" : "Rotate View Up"
+   },
+   "MAP_VIEW_SHIFT_BACKWARD" : {
+      "description" : "",
+      "message" : "Shift View Backwards"
+   },
+   "MAP_VIEW_SHIFT_DOWN" : {
+      "description" : "",
+      "message" : "Shift View Down"
+   },
+   "MAP_VIEW_SHIFT_FORWARD" : {
+      "description" : "",
+      "message" : "Shift View Forwards"
+   },
+   "MAP_VIEW_SHIFT_LEFT" : {
+      "description" : "",
+      "message" : "Shift View Left"
+   },
+   "MAP_VIEW_SHIFT_RIGHT" : {
+      "description" : "",
+      "message" : "Shift View Right"
+   },
+   "MAP_VIEW_SHIFT_UP" : {
+      "description" : "",
+      "message" : "Shift View Up"
+   },
+   "MAP_WARP_TO_CURRENT_SYSTEM" : {
+      "description" : "",
+      "message" : "Warp to Current System"
+   },
+   "MAP_WARP_TO_HYPERSPACE_TARGET" : {
+      "description" : "",
+      "message" : "Warp to Hyperspace Target"
+   },
+   "MAP_WARP_TO_SELECTED_SYSTEM" : {
+      "description" : "",
+      "message" : "Warp to Selected System"
+   },
+   "MASS" : {
+      "description" : "",
+      "message" : "Mass"
+   },
+   "MASSIVE" : {
+      "description" : "",
+      "message" : "Massive"
+   },
+   "MASS_N_TONNES" : {
+      "description" : "",
+      "message" : "Mass: %{mass}t"
+   },
+   "MEDICINES" : {
+      "description" : "",
+      "message" : "Medicines"
+   },
+   "MEDIUM_GAS_GIANT" : {
+      "description" : "",
+      "message" : "Medium gas giant"
+   },
+   "MESSAGE_FROM_X" : {
+      "description" : "",
+      "message" : "Message from %sender:"
+   },
+   "META" : {
+      "description" : "'Meta' key on keyboard",
+      "message" : "Meta"
+   },
+   "METAL_ALLOYS" : {
+      "description" : "",
+      "message" : "Metal alloys"
+   },
+   "METAL_ORE" : {
+      "description" : "",
+      "message" : "Metal ore"
+   },
+   "MILITARY_DICTATORSHIP" : {
+      "description" : "",
+      "message" : "Military dictatorship"
+   },
+   "MILITARY_FUEL" : {
+      "description" : "",
+      "message" : "Bahan bakar militer"
+   },
+   "MININGCANNON_17MW" : {
+      "description" : "",
+      "message" : "17MW blast-mining cannon"
+   },
+   "MININGCANNON_17MW_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Used to blast-mine mineral rich asteroids."
+   },
+   "MINING_COLONY" : {
+      "description" : "",
+      "message" : "Mining colony."
+   },
+   "MINING_MACHINERY" : {
+      "description" : "",
+      "message" : "Mesin menambang"
+   },
+   "MINOR_EXPORTS" : {
+      "description" : "",
+      "message" : "Minor Exports:"
+   },
+   "MINOR_IMPORTS" : {
+      "description" : "",
+      "message" : "Minor Imports:"
+   },
+   "MISCELLANEOUS" : {
+      "description" : "",
+      "message" : "Lain-lain"
+   },
+   "MISSILE" : {
+      "description" : "",
+      "message" : "misil"
+   },
+   "MISSILE_GUIDED" : {
+      "description" : "",
+      "message" : "Guided Missile"
+   },
+   "MISSILE_NAVAL" : {
+      "description" : "",
+      "message" : "Naval Missile"
+   },
+   "MISSILE_SMART" : {
+      "description" : "",
+      "message" : "Misil Pintar"
+   },
+   "MISSILE_UNGUIDED" : {
+      "description" : "",
+      "message" : "R40 Unguided Rocket"
+   },
+   "MIXED_ECONOMY" : {
+      "description" : "",
+      "message" : "Ekonomi campuran"
+   },
+   "MONTH_APR" : {
+      "description" : "",
+      "message" : "Apr"
+   },
+   "MONTH_AUG" : {
+      "description" : "",
+      "message" : "Ags"
+   },
+   "MONTH_DEC" : {
+      "description" : "",
+      "message" : "Des"
+   },
+   "MONTH_FEB" : {
+      "description" : "",
+      "message" : "Feb"
+   },
+   "MONTH_JAN" : {
+      "description" : "",
+      "message" : "Jan"
+   },
+   "MONTH_JUL" : {
+      "description" : "",
+      "message" : "Jul"
+   },
+   "MONTH_JUN" : {
+      "description" : "",
+      "message" : "Jun"
+   },
+   "MONTH_MAR" : {
+      "description" : "",
+      "message" : "Mar"
+   },
+   "MONTH_MAY" : {
+      "description" : "",
+      "message" : "Mei"
+   },
+   "MONTH_NOV" : {
+      "description" : "",
+      "message" : "Nov"
+   },
+   "MONTH_OCT" : {
+      "description" : "",
+      "message" : "Oct"
+   },
+   "MONTH_SEP" : {
+      "description" : "",
+      "message" : "Sep"
+   },
+   "MURDER" : {
+      "description" : "",
+      "message" : "Murder"
+   },
+   "M_S_RELATIVE_TO" : {
+      "description" : "",
+      "message" : "%speed{f.0} m/s rel-to %frame"
+   },
+   "NAME_OBJECT" : {
+      "description" : "For an item or object",
+      "message" : "Nama"
+   },
+   "NAME_PERSON" : {
+      "description" : "For a person",
+      "message" : "Nama"
+   },
+   "NARCOTICS" : {
+      "description" : "",
+      "message" : "Narcotics"
+   },
+   "NAVIGATION_STAR_MAPS" : {
+      "description" : "",
+      "message" : "Navigasi dan peta bintang"
+   },
+   "NAVIGATION_TARGETS_IN_THIS_SYSTEM" : {
+      "description" : "",
+      "message" : "Navigation targets in this system"
+   },
+   "NERVE_GAS" : {
+      "description" : "",
+      "message" : "Nerve Gas"
+   },
+   "NONE" : {
+      "description" : "",
+      "message" : "None"
+   },
+   "NORMA_ARM" : {
+      "description" : "",
+      "message" : "Norma arm"
+   },
+   "NOT_FOUND" : {
+      "description" : "",
+      "message" : "Tidak ditemukan"
+   },
+   "NOT_FOUND_BEST_MATCH_X" : {
+      "description" : "",
+      "message" : "Not found, best match: %system"
+   },
+   "NO_ALERT" : {
+      "description" : "",
+      "message" : "No alert"
+   },
+   "NO_CENTRAL_GOVERNANCE" : {
+      "description" : "",
+      "message" : "No central governance"
+   },
+   "NO_ESTABLISHED_ORDER" : {
+      "description" : "",
+      "message" : "No established order"
+   },
+   "NO_HYPERDRIVE" : {
+      "description" : "",
+      "message" : "No hyperdrive"
+   },
+   "NO_REGISTERED_INHABITANTS" : {
+      "description" : "",
+      "message" : "No registered inhabitants"
+   },
+   "NO_TARGET_SELECTED" : {
+      "description" : "",
+      "message" : "Ship Computer: No target selected"
+   },
+   "NUMBER_DAYS" : {
+      "description" : "",
+      "message" : "%days{f.0} hari"
+   },
+   "NUMBER_G" : {
+      "description" : "",
+      "message" : "%acceleration{f.1} G"
+   },
+   "NUMBER_HOURS" : {
+      "description" : "",
+      "message" : "%hours{f.1} jam"
+   },
+   "NUMBER_LY" : {
+      "description" : "",
+      "message" : "%distance{f.2} ly"
+   },
+   "NUMBER_TONNES" : {
+      "description" : "",
+      "message" : "%{mass}t"
+   },
+   "N_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" atmosfer Nitrogen\""
+   },
+   "N_CELSIUS" : {
+      "description" : "",
+      "message" : "%temperature C"
+   },
+   "N_DAYS" : {
+      "description" : "",
+      "message" : "%days{f.1} hari"
+   },
+   "N_DEGREES" : {
+      "description" : "",
+      "message" : "%angle{f.1} derajat"
+   },
+   "N_DISTANCE_TO_TARGET" : {
+      "description" : "",
+      "message" : "%distance ke target"
+   },
+   "N_EARTH_DAYS" : {
+      "description" : "",
+      "message" : "%days{f.1} earth days"
+   },
+   "N_WHATEVER_MASSES" : {
+      "description" : "",
+      "message" : "%mass{f.3} %units masses"
+   },
+   "N_WHATEVER_RADII" : {
+      "description" : "",
+      "message" : "%radius{f.3} %units radii (%radkm{f.0} km)"
+   },
+   "N_YEARS" : {
+      "description" : "",
+      "message" : "%years{f.1} tahun"
+   },
+   "O2_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" atmosfer Oksigen\""
+   },
+   "OCEANICWORLD" : {
+      "description" : "",
+      "message" : "\" oceanic world\""
+   },
+   "ORBITAL_PERIOD" : {
+      "description" : "",
+      "message" : "Orbital period"
+   },
+   "ORBITAL_STARPORT" : {
+      "description" : "",
+      "message" : "Orbital starport"
+   },
+   "OUTDOOR_AGRICULTURAL_WORLD" : {
+      "description" : "",
+      "message" : "Outdoor agricultural world."
+   },
+   "OUTER_ARM" : {
+      "description" : "",
+      "message" : "Outer arm"
+   },
+   "OVER_N_BILLION" : {
+      "description" : "",
+      "message" : "Over %population billion"
+   },
+   "OVER_N_MILLION" : {
+      "description" : "",
+      "message" : "Diatas %population juta"
+   },
+   "PASSENGER_CABIN" : {
+      "description" : "",
+      "message" : "Occupied Passenger Cabin"
+   },
+   "PAUSED" : {
+      "description" : "",
+      "message" : "PAUSED"
+   },
+   "PAY_FINE_REMOTELY" : {
+      "description" : "",
+      "message" : "Bayar denda dengan transfer (%amount)"
+   },
+   "PERIAPSIS_DISTANCE" : {
+      "description" : "",
+      "message" : "Periapsis distance"
+   },
+   "PERSEUS_ARM" : {
+      "description" : "",
+      "message" : "Perseus arm"
+   },
+   "PIONEER" : {
+      "description" : "",
+      "message" : "PIONEER"
+   },
+   "PIRACY" : {
+      "description" : "",
+      "message" : "Piracy"
+   },
+   "PITCH" : {
+      "description" : "",
+      "message" : "Pitch"
+   },
+   "PITCH_DOWN" : {
+      "description" : "",
+      "message" : "Pitch down"
+   },
+   "PITCH_UP" : {
+      "description" : "",
+      "message" : "Pitch up"
+   },
+   "PLANETARY_INFO" : {
+      "description" : "",
+      "message" : "Planetary info"
+   },
+   "PLANET_CONTAINING_LIQUID_WATER" : {
+      "description" : "",
+      "message" : "\" planet containing liquid water\""
+   },
+   "PLANET_WITH_SOME_ICE" : {
+      "description" : "",
+      "message" : "\" planet with some ice\""
+   },
+   "PLANNED_ECONOMY" : {
+      "description" : "",
+      "message" : "Centrally planned economy"
+   },
+   "PLASTICS" : {
+      "description" : "",
+      "message" : "Plastik"
+   },
+   "PLUTOCRATIC_DICTATORSHIP" : {
+      "description" : "",
+      "message" : "Plutocratic dictatorship"
+   },
+   "POLICE_SHIP_REGISTRATION" : {
+      "description" : "",
+      "message" : "POLISI"
+   },
+   "POPULATION" : {
+      "description" : "",
+      "message" : "Populasi:"
+   },
+   "PRECIOUS_METALS" : {
+      "description" : "",
+      "message" : "Metal berharga"
+   },
+   "PRESSURE_N_ATMOSPHERES" : {
+      "description" : "",
+      "message" : "P: %pressure{f.2} atm"
+   },
+   "PROBABILITY_OF_ARRIVAL_X_PERCENT" : {
+      "description" : "",
+      "message" : "Probability of arrival: %probability%%"
+   },
+   "PULSECANNON_10MW" : {
+      "description" : "",
+      "message" : "10MW pulse cannon"
+   },
+   "PULSECANNON_1MW" : {
+      "description" : "",
+      "message" : "1MW pulse cannon"
+   },
+   "PULSECANNON_20MW" : {
+      "description" : "",
+      "message" : "20MW pulse cannon"
+   },
+   "PULSECANNON_2MW" : {
+      "description" : "",
+      "message" : "2MW pulse cannon"
+   },
+   "PULSECANNON_4MW" : {
+      "description" : "",
+      "message" : "4MW pulse cannon"
+   },
+   "PULSECANNON_DUAL_1MW" : {
+      "description" : "",
+      "message" : "1MW dual-fire pulse cannon"
+   },
+   "PULSECANNON_RAPID_2MW" : {
+      "description" : "",
+      "message" : "2MW rapid-fire pulse cannon"
+   },
+   "QUADRUPLE_SYSTEM" : {
+      "description" : "",
+      "message" : "Quadruple system"
+   },
+   "RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "Radar Mapper"
+   },
+   "RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Used to remotely inspect the equipment, cargo and state of other ships."
+   },
+   "RADIOACTIVES" : {
+      "description" : "",
+      "message" : "Limbah radioaktif"
+   },
+   "RADIUS" : {
+      "description" : "",
+      "message" : "Radius"
+   },
+   "REAR" : {
+      "description" : "",
+      "message" : "Rear"
+   },
+   "REQUEST_DOCKING_CLEARANCE" : {
+      "description" : "",
+      "message" : "Request docking clearance"
+   },
+   "RESET" : {
+      "description" : "",
+      "message" : "Reset"
+   },
+   "RESET_ORIENTATION_AND_ZOOM" : {
+      "description" : "",
+      "message" : "Reset Orientation and Zoom"
+   },
+   "ROBOTS" : {
+      "description" : "",
+      "message" : "Robots"
+   },
+   "ROCKY_PLANET" : {
+      "description" : "",
+      "message" : "\" planet berbatu-batu\""
+   },
+   "ROCKY_PLANET_CONTAINING_COME_LIQUIDS" : {
+      "description" : "",
+      "message" : "\" planet berbatu mengandung sedikit cairan, \""
+   },
+   "ROLL" : {
+      "description" : "",
+      "message" : "Roll"
+   },
+   "ROLL_LEFT" : {
+      "description" : "",
+      "message" : "Roll left"
+   },
+   "ROLL_RIGHT" : {
+      "description" : "",
+      "message" : "Roll right"
+   },
+   "ROTATE_DOWN" : {
+      "description" : "",
+      "message" : "Rotate Down"
+   },
+   "ROTATE_LEFT" : {
+      "description" : "",
+      "message" : "Rotate Left"
+   },
+   "ROTATE_RIGHT" : {
+      "description" : "",
+      "message" : "Putar Kanan"
+   },
+   "ROTATE_UP" : {
+      "description" : "",
+      "message" : "Rotate Up"
+   },
+   "ROTATIONAL_PERIOD" : {
+      "description" : "",
+      "message" : "\" (periode rotasi)\""
+   },
+   "ROTATION_DAMPING_OFF" : {
+      "description" : "",
+      "message" : "Rotation damping off"
+   },
+   "ROTATION_DAMPING_ON" : {
+      "description" : "",
+      "message" : "Rotation damping on"
+   },
+   "RUBBISH" : {
+      "description" : "",
+      "message" : "Rubbish"
+   },
+   "SAGITTARIUS_ARM" : {
+      "description" : "",
+      "message" : "Sagittarius arm"
+   },
+   "SCANNER" : {
+      "description" : "",
+      "message" : "Scanner"
+   },
+   "SCANNER_CONTROL" : {
+      "description" : "",
+      "message" : "Scanner control"
+   },
+   "SCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Provides a 3D map of nearby ships."
+   },
+   "SCREENSHOT_FILENAME_TEMPLATE" : {
+      "description" : "",
+      "message" : "screenshot%index{d08}.png"
+   },
+   "SCUTUM_CENTAURUS_ARM" : {
+      "description" : "",
+      "message" : "Scutum-Centaurus arm"
+   },
+   "SEARCH" : {
+      "description" : "",
+      "message" : "Cari"
+   },
+   "SEARCH_MAP" : {
+      "description" : "",
+      "message" : "Cari Peta"
+   },
+   "SECTOR_COORDINATES" : {
+      "description" : "",
+      "message" : "Sector coordinates:"
+   },
+   "SECTOR_MAP_VIEW" : {
+      "description" : "",
+      "message" : "Sector Map View"
+   },
+   "SECTOR_X_Y_Z" : {
+      "description" : "",
+      "message" : "Sektor: %x,%y,%z"
+   },
+   "SELECTED_SYSTEM" : {
+      "description" : "",
+      "message" : "Selected system"
+   },
+   "SELECT_A_TARGET" : {
+      "description" : "",
+      "message" : "Select a target"
+   },
+   "SELECT_LOW_THRUST_POWER_LEVEL" : {
+      "description" : "",
+      "message" : "Select low thrust power level"
+   },
+   "SEMI_MAJOR_AXIS" : {
+      "description" : "",
+      "message" : "Semi-major axis"
+   },
+   "SET_HYPERSPACE_DESTINATION_TO" : {
+      "description" : "",
+      "message" : "Tetapkan tujuan hyperspace ke %system"
+   },
+   "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE" : {
+      "description" : "",
+      "message" : "Hyperspace cloud analyzer: Set hyperspace target to follow this departure"
+   },
+   "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT" : {
+      "description" : "",
+      "message" : "Set low thrust power level to %power%%"
+   },
+   "SET_SPEED_KM_S" : {
+      "description" : "",
+      "message" : "Atur kecepatan: %speed{f.2} km/s"
+   },
+   "SET_SPEED_M_S" : {
+      "description" : "",
+      "message" : "Set speed: %speed{f.0} m/s"
+   },
+   "SHIELD_ENERGY_BOOSTER" : {
+      "description" : "",
+      "message" : "Shield Energy Booster"
+   },
+   "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Increases the rate at which shields recharge."
+   },
+   "SHIELD_GENERATOR" : {
+      "description" : "",
+      "message" : "Generator Perisai"
+   },
+   "SHIELD_GENERATOR_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Memberikan perlindungan lambung kapal tambahan dengan setiap unit yang terpasang."
+   },
+   "SHIELD_INTEGRITY" : {
+      "description" : "",
+      "message" : "Integritas perisai"
+   },
+   "SHIELD_STRENGTH_N" : {
+      "description" : "",
+      "message" : "Shield strength: %shields{f.2}"
+   },
+   "SHIFT" : {
+      "description" : "Shift key on keyboard",
+      "message" : "Shift"
+   },
+   "SHIP" : {
+      "description" : "",
+      "message" : "Kapal"
+   },
+   "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
+      "description" : "",
+      "message" : "Ship altitude above terrain"
+   },
+   "SHIP_DETECTED_NEARBY" : {
+      "description" : "",
+      "message" : "Ship detected nearby."
+   },
+   "SHIP_INFORMATION" : {
+      "description" : "",
+      "message" : "Informasi kapal"
+   },
+   "SHIP_MASS_N_TONNES" : {
+      "description" : "",
+      "message" : "Ship mass: %{mass}t"
+   },
+   "SHIP_NEARBY" : {
+      "description" : "",
+      "message" : "Ship nearby"
+   },
+   "SHIP_ORIENTATION" : {
+      "description" : "",
+      "message" : "Ship orientation"
+   },
+   "SHIP_VELOCITY_BY_REFERENCE_OBJECT" : {
+      "description" : "",
+      "message" : "Ship velocity by reference object"
+   },
+   "SIDEREAL_VIEW" : {
+      "description" : "",
+      "message" : "Sidereal view"
+   },
+   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
+      "description" : "",
+      "message" : "Menyimulasikan evolusi alam semesta: %age{f.1} milyar tahun ;-)"
+   },
+   "SLAVES" : {
+      "description" : "",
+      "message" : "Budak"
+   },
+   "SMALL" : {
+      "description" : "",
+      "message" : "Kecil"
+   },
+   "SMALL_GAS_GIANT" : {
+      "description" : "",
+      "message" : "Small gas giant"
+   },
+   "SMALL_INDUSTRIAL_OUTPOST" : {
+      "description" : "",
+      "message" : "Small industrial outpost."
+   },
+   "SMALL_PLASMA_ACCEL" : {
+      "description" : "",
+      "message" : "Akselerator plasma kecil"
+   },
+   "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS" : {
+      "description" : "",
+      "message" : "Small-scale prospecting. No registered settlements."
+   },
+   "SOCIAL_DEMOCRACY" : {
+      "description" : "",
+      "message" : "Demokrasi sosial"
+   },
+   "SOLAR" : {
+      "description" : "",
+      "message" : "Solar"
+   },
+   "SOME_ESTABLISHED_MINING" : {
+      "description" : "",
+      "message" : "Some established mining."
+   },
+   "SOURCE" : {
+      "description" : "",
+      "message" : "Origin"
+   },
+   "SPEED_CONTROL_MODE" : {
+      "description" : "",
+      "message" : "Speed control mode"
+   },
+   "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS" : {
+      "description" : "",
+      "message" : "Stable system with %bodycount major %{body(s)} and %portcount %{starport(s)}"
+   },
+   "STARPORT" : {
+      "description" : "",
+      "message" : "Starport"
+   },
+   "STARPORTS" : {
+      "description" : "",
+      "message" : "Stasiun luar angkasa"
+   },
+   "STAR_A" : {
+      "description" : "",
+      "message" : "Type 'A' hot white star"
+   },
+   "STAR_AF_GIANT" : {
+      "description" : "",
+      "message" : "Bintang putih raksasa"
+   },
+   "STAR_AF_HYPER_GIANT" : {
+      "description" : "",
+      "message" : "Bintang putih hiper raksasa"
+   },
+   "STAR_AF_SUPER_GIANT" : {
+      "description" : "",
+      "message" : "Bintang putih super raksasa"
+   },
+   "STAR_B" : {
+      "description" : "",
+      "message" : "Bright type 'B' blue star"
+   },
+   "STAR_B_GIANT" : {
+      "description" : "",
+      "message" : "Bintang biru raksasa"
+   },
+   "STAR_B_HYPER_GIANT" : {
+      "description" : "",
+      "message" : "Bintang biru hiper raksasa"
+   },
+   "STAR_B_SUPER_GIANT" : {
+      "description" : "",
+      "message" : "Bintang biru super raksasa"
+   },
+   "STAR_B_WF" : {
+      "description" : "",
+      "message" : "Wolf-Rayet star - Risk of collapse"
+   },
+   "STAR_F" : {
+      "description" : "",
+      "message" : "Bintang putih tipe 'F'"
+   },
+   "STAR_G" : {
+      "description" : "",
+      "message" : "Type 'G' yellow star"
+   },
+   "STAR_G_GIANT" : {
+      "description" : "",
+      "message" : "Bintang kuning raksasa - Tidak stabil"
+   },
+   "STAR_G_HYPER_GIANT" : {
+      "description" : "",
+      "message" : "Bintang kuning hiper raksasa - Tidak stabil"
+   },
+   "STAR_G_SUPER_GIANT" : {
+      "description" : "",
+      "message" : "Bintang kuning super raksasa"
+   },
+   "STAR_IM_BH" : {
+      "description" : "",
+      "message" : "An intermediate-mass black hole"
+   },
+   "STAR_K" : {
+      "description" : "",
+      "message" : "Type 'K' orange star"
+   },
+   "STAR_K_GIANT" : {
+      "description" : "",
+      "message" : "Bintang oranye raksasa - Tidak stabil"
+   },
+   "STAR_K_HYPER_GIANT" : {
+      "description" : "",
+      "message" : "Bintang oranye hiper raksasa - Tidak stabil"
+   },
+   "STAR_K_SUPER_GIANT" : {
+      "description" : "",
+      "message" : "Bintang oranye super raksasa"
+   },
+   "STAR_M" : {
+      "description" : "",
+      "message" : "Type 'M' red star"
+   },
+   "STAR_M_GIANT" : {
+      "description" : "",
+      "message" : "Bintang merah raksasa"
+   },
+   "STAR_M_HYPER_GIANT" : {
+      "description" : "",
+      "message" : "Bintang merah hiper raksasa"
+   },
+   "STAR_M_SUPER_GIANT" : {
+      "description" : "",
+      "message" : "Bintang merah super raksasa"
+   },
+   "STAR_M_WF" : {
+      "description" : "",
+      "message" : "Wolf-Rayet star - Unstable"
+   },
+   "STAR_O" : {
+      "description" : "",
+      "message" : "Hot, massive type 'O' star"
+   },
+   "STAR_O_GIANT" : {
+      "description" : "",
+      "message" : "Bintang biru panas raksasa"
+   },
+   "STAR_O_HYPER_GIANT" : {
+      "description" : "",
+      "message" : "Bintang biru panas hiper raksasa"
+   },
+   "STAR_O_SUPER_GIANT" : {
+      "description" : "",
+      "message" : "Bintang biru panas super raksasa"
+   },
+   "STAR_O_WF" : {
+      "description" : "",
+      "message" : "Wolf-Rayet star - Imminent collapse"
+   },
+   "STAR_SM_BH" : {
+      "description" : "",
+      "message" : "Our galactic anchor"
+   },
+   "STAR_SYSTEM_INFORMATION" : {
+      "description" : "",
+      "message" : "Star system information"
+   },
+   "STAR_S_BH" : {
+      "description" : "",
+      "message" : "A stellar black hole"
+   },
+   "SUGGESTED_RESPONSES" : {
+      "description" : "",
+      "message" : "Suggested responses:"
+   },
+   "SURFACE_GRAVITY" : {
+      "description" : "",
+      "message" : "Gravitasi permukaan"
+   },
+   "SURFACE_TEMPERATURE" : {
+      "description" : "",
+      "message" : "Suhu permukaan"
+   },
+   "SYSTEM" : {
+      "description" : "",
+      "message" : "System"
+   },
+   "SYSTEM_NUMBER" : {
+      "description" : "",
+      "message" : "System number:"
+   },
+   "SYSTEM_ORBIT_VIEW" : {
+      "description" : "",
+      "message" : "System orbit view"
+   },
+   "SYSTEM_TYPE" : {
+      "description" : "",
+      "message" : "Tipe sistem:"
+   },
+   "S_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" atmosfer Sulfur\""
+   },
+   "TAKEOFF" : {
+      "description" : "",
+      "message" : "Takeoff"
+   },
+   "TARGET_OBJECT_IN_SIGHTS" : {
+      "description" : "",
+      "message" : "Target object in cross-hairs"
+   },
+   "TENUOUS" : {
+      "description" : "",
+      "message" : "tenuous"
+   },
+   "TEXTILES" : {
+      "description" : "",
+      "message" : "Textiles"
+   },
+   "THICK" : {
+      "description" : "",
+      "message" : "thick"
+   },
+   "THIN" : {
+      "description" : "",
+      "message" : "thin"
+   },
+   "THRIVING_OUTDOOR_WORLD" : {
+      "description" : "",
+      "message" : "Thriving outdoor world."
+   },
+   "THRUSTER_DORSAL" : {
+      "description" : "",
+      "message" : "Thrust down"
+   },
+   "THRUSTER_MAIN" : {
+      "description" : "",
+      "message" : "Thrust forward"
+   },
+   "THRUSTER_PORT" : {
+      "description" : "",
+      "message" : "Thrust left"
+   },
+   "THRUSTER_RETRO" : {
+      "description" : "",
+      "message" : "Thrust backwards"
+   },
+   "THRUSTER_STARBOARD" : {
+      "description" : "",
+      "message" : "Thrust right"
+   },
+   "THRUSTER_VENTRAL" : {
+      "description" : "",
+      "message" : "Thrust up"
+   },
+   "TIME_POINT" : {
+      "description" : "",
+      "message" : "Time point:"
+   },
+   "TINY" : {
+      "description" : "",
+      "message" : "Sangat kecil"
+   },
+   "TOGGLE_HUD_MODE" : {
+      "description" : "",
+      "message" : "Toggle HUD mode"
+   },
+   "TOGGLE_LUA_CONSOLE" : {
+      "description" : "",
+      "message" : "Toggle Lua console"
+   },
+   "TOGGLE_ROTATION_DAMPING" : {
+      "description" : "",
+      "message" : "Toggle rotation damping"
+   },
+   "TOGGLE_SCAN_MODE" : {
+      "description" : "",
+      "message" : "Toggle scanner mode"
+   },
+   "TOMBSTONE_EPITAPH" : {
+      "description" : "",
+      "message" : "RIP OLD BEAN"
+   },
+   "TRADING_ILLEGAL_GOODS" : {
+      "description" : "",
+      "message" : "Trading illegal goods"
+   },
+   "TRIPLE_SYSTEM" : {
+      "description" : "",
+      "message" : "Triple system"
+   },
+   "UNEXPLORED_SYSTEM_NO_DATA" : {
+      "description" : "",
+      "message" : "Unexplored system. No more data available."
+   },
+   "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW" : {
+      "description" : "",
+      "message" : "Unexplored system. System view unavailable."
+   },
+   "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
+      "description" : "",
+      "message" : "Unexplored System. Star information has been gathered by remote telescope, but no planetary information is available."
+   },
+   "UNKNOWN" : {
+      "description" : "",
+      "message" : "<unknown>"
+   },
+   "UNLAWFUL_WEAPONS_DISCHARGE" : {
+      "description" : "",
+      "message" : "Unlawful weapons discharge"
+   },
+   "UNOCCUPIED_CABIN" : {
+      "description" : "",
+      "message" : "Kabin Penumpang Tambahan"
+   },
+   "UNOCCUPIED_CABIN_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Required for transport of a single passenger"
+   },
+   "USE_LOW_THRUST" : {
+      "description" : "",
+      "message" : "Use low thrust"
+   },
+   "VAST_STRIP_MINE" : {
+      "description" : "",
+      "message" : "Vast strip-mining colony."
+   },
+   "VERY_DENSE" : {
+      "description" : "",
+      "message" : "very dense"
+   },
+   "VERY_LARGE_GAS_GIANT" : {
+      "description" : "",
+      "message" : "Very large gas giant"
+   },
+   "VID_CONNECTING" : {
+      "description" : "",
+      "message" : "Menyambungkan..."
+   },
+   "VID_LINK_ESTABLISHED" : {
+      "description" : "",
+      "message" : "Video link established"
+   },
+   "VIEW" : {
+      "description" : "",
+      "message" : "Tampilan"
+   },
+   "VIOLENT_ANARCHY" : {
+      "description" : "",
+      "message" : "Disorder - Overall governance contested by armed factions"
+   },
+   "WATER" : {
+      "description" : "",
+      "message" : "Air"
+   },
+   "WEAPONS" : {
+      "description" : "",
+      "message" : "Senjata"
+   },
+   "WEAPON_TEMP" : {
+      "description" : "",
+      "message" : "Suhu senjata"
+   },
+   "WHEELS_ARE_DOWN" : {
+      "description" : "",
+      "message" : "Wheels are down"
+   },
+   "WHEELS_ARE_UP" : {
+      "description" : "",
+      "message" : "Wheels are up"
+   },
+   "WHITE_DWARF" : {
+      "description" : "",
+      "message" : "White dwarf stellar remnant"
+   },
+   "WITH_A" : {
+      "description" : "",
+      "message" : "\" dengan \""
+   },
+   "WITH_NO_SIGNIFICANT_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" tanpa atmosfer signifikan\""
+   },
+   "X" : {
+      "description" : "",
+      "message" : "X"
+   },
+   "X_CANNOT_BE_TOLERATED_HERE" : {
+      "description" : "",
+      "message" : "%crime tidak bisa ditoleransi disini."
+   },
+   "Y" : {
+      "description" : "",
+      "message" : "Y"
+   },
+   "YAW" : {
+      "description" : "",
+      "message" : "Yaw"
+   },
+   "YAW_LEFT" : {
+      "description" : "",
+      "message" : "Yaw left"
+   },
+   "YAW_RIGHT" : {
+      "description" : "",
+      "message" : "Yaw right"
+   },
+   "YOUNG_FARMING_COLONY" : {
+      "description" : "",
+      "message" : "Young farming colony."
+   },
+   "YOU_NO_MONEY" : {
+      "description" : "",
+      "message" : "Anda tidak punya uang."
+   },
+   "Z" : {
+      "description" : "",
+      "message" : "Z"
+   },
+   "ZOOM_IN" : {
+      "description" : "",
+      "message" : "Zoom in"
+   },
+   "ZOOM_OUT" : {
+      "description" : "",
+      "message" : "Zoom out"
+   }
+}

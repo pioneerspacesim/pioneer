@@ -7,6 +7,38 @@
       "description" : "",
       "message" : "Czy możesz powtórzyć swoją ofertę?"
    },
+   "DENY_0" : {
+      "description" : "",
+      "message" : "Przykro mi, ale ci nie ufam."
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "Wróć gdy zdobędziesz jakieś kwalifikacje."
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "Nie sądzę że jesteś tą osobą której szukam."
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "Nie wyglądasz na kogoś zdolnego zrobić to, co należałoby zrobić."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "Wyraźnie nie nadajesz się do tej roboty."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "Wydajesz się być zbyt niedoświadczoną osobą aby podołać umowie o takim znaczeniu."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "Nikt o tobie nigdy nie słyszał. Do tego kontraktu potrzebuję kogoś doświadczonego."
+   },
+   "DENY_7" : {
+      "description" : "",
+      "message" : "Nie mogę zaryzykować tego kontraktu u kogoś tak niewykwalifikowanego jak ty."
+   },
    "DISTANCE" : {
       "description" : "",
       "message" : "Dystans:"

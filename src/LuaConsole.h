@@ -5,40 +5,50 @@
 #define _LUACONSOLE_H
 
 #include "LuaManager.h"
-#include "gui/GuiBox.h"
+#include "ui/Widget.h"
+#include "RefCounted.h"
 #include <deque>
 
-namespace Gui {
-	class Label;
+namespace UI {
 	class TextEntry;
+	class MultiLineText;
+	class Scroller;
 }
 
-class TextureFont;
-
-class LuaConsole : public Gui::VBox {
+class LuaConsole {
 public:
-	explicit LuaConsole(int displayedOutputLines);
+	LuaConsole();
 	virtual ~LuaConsole();
 
-	bool IsActive() const;
-	Gui::TextEntry *GetTextEntryField() const { return m_entryField; }
+	void Toggle();
+
+	bool IsActive() const { return m_active; }
 	void AddOutput(const std::string &line);
 
 	static void Register();
 private:
+	bool OnKeyDown(const UI::KeyboardEvent &event);
+	void OnChange(const std::string &text);
+	void OnEnter(const std::string &text);
+
+	void ExecOrContinue(const std::string &stmt);
+
 	void OnKeyPressed(const SDL_Keysym*);
 	void OnTextChanged();
 	void UpdateCompletion(const std::string & statement);
-	void ExecOrContinue();
-	void RunAutoexec();
+	void RegisterAutoexec();
+
+	bool m_active;
+
+	RefCountedPtr<UI::Widget> m_container;
+	UI::MultiLineText *m_output;
+	UI::TextEntry *m_entry;
+	UI::Scroller *m_scroller;
 
 	std::deque<std::string> m_statementHistory;
 	std::string m_stashedStatement;
 	int m_historyPosition;
-	Gui::TextEntry *m_entryField;
-	std::vector<Gui::Label*> m_outputLines;
 	int m_nextOutputLine;
-	const int m_maxOutputLines;
 
 	std::string m_precompletionStatement;
 	std::vector<std::string> m_completionList;

@@ -7,6 +7,38 @@
       "description" : "",
       "message" : "Pourriez vous reformuler la demande d'origine ? "
    },
+   "DENY_0" : {
+      "description" : "",
+      "message" : "Je suis désolé, mais je ne vous fais pas confiance."
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "Revenez quand vous serez mieux qualifiés."
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "Je ne pense pas que vous êtes celui/celle que je recherche"
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "Vous n'avez pas l'air de quelqu'un capable de faire ce qui doit être fait."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "Vous n'êtes clairement pas la personne pour ce job."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "Vous avez l'air trop peu expérimenté pour une tâche de cette envergure."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "Je n'ai jamais entendu parler de vous. J'ai besoin de quelqu'un expérimenté pour ce contrat."
+   },
+   "DENY_7" : {
+      "description" : "",
+      "message" : "Je ne vais pas risquer ce contrat en le donnant à quelqu'un aussi inexpérimenté tel que vous."
+   },
    "DISTANCE" : {
       "description" : "",
       "message" : "Distance:"

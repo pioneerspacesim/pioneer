@@ -26,7 +26,7 @@ static const float WHEEL_SENSITIVITY = .1f;		// Should be a variable in user set
 // i don't know how to name it
 static const double ROUGH_SIZE_OF_TURD = 10.0;
 
-SystemView::SystemView()
+SystemView::SystemView() : UIView()
 {
 	SetTransparency(true);
 
@@ -324,7 +324,7 @@ void SystemView::Draw3D()
 	m_renderer->SetPerspectiveProjection(50.f, m_renderer->GetDisplayAspect(), 1.f, 1000.f);
 	m_renderer->ClearScreen();
 
-	SystemPath path = Pi::sectorView->GetSelectedSystem();
+	SystemPath path = Pi::sectorView->GetSelected().SystemOnly();
 	if (m_system) {
 		if (!m_system->GetPath().IsSameSystem(path)) {
 			m_system.Reset();
@@ -341,7 +341,7 @@ void SystemView::Draw3D()
 	std::string t = Lang::TIME_POINT+format_date(m_time);
 	m_timePoint->SetText(t);
 
-	if (!m_system) m_system = StarSystem::GetCached(path);
+	if (!m_system) m_system = StarSystemCache::GetCached(path);
 
 	matrix4x4f trans = matrix4x4f::Identity();
 	trans.Translate(0,0,-ROUGH_SIZE_OF_TURD);
@@ -364,6 +364,8 @@ void SystemView::Draw3D()
 				PutSelectionBox(navTargetSystemBody, pos, Color::GREEN);
 		}
 	}
+
+	UIView::Draw3D();
 }
 
 void SystemView::Update()
@@ -389,6 +391,8 @@ void SystemView::Update()
 		m_rot_x += motion[1]*20*ft;
 		m_rot_z += motion[0]*20*ft;
 	}
+
+	UIView::Update();
 }
 
 void SystemView::MouseWheel(bool up)

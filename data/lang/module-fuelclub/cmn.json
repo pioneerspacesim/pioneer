@@ -1,0 +1,70 @@
+{
+   "APPLY_FOR_MEMBERSHIP" : {
+      "description" : "",
+      "message" : "申请会员资格"
+   },
+   "BEGIN_TRADE" : {
+      "description" : "",
+      "message" : "开始交易"
+   },
+   "FLAVOUR_0_CLUBNAME" : {
+      "description" : "",
+      "message" : "星际飞行员燃料合作社"
+   },
+   "FLAVOUR_0_MEMBER_INTRO" : {
+      "description" : "",
+      "message" : "你也许想要在这儿购买燃料和处理 {radioactives}."
+   },
+   "FLAVOUR_0_NONMEMBER_INTRO" : {
+      "description" : "",
+      "message" : "{clubname} 是一个独立的组织并且它致力于提供打折的星舰燃料给会员. 在银河系中办事处随处可见. 会员权益主要包括:\n\n* 我们拥有自己的燃料库存并且独立于燃料市场\n* {hydrogen} 是打折的\n* {military_fuel} 是打折的\n* {water} 是打折的\n* {radioactives}, 免费处理 (视情况而定)\n* 在必要的地方提供加油服务\n\n现在加入吧! 会员年费只要 {membership_fee}"
+   },
+   "FLAVOUR_0_WELCOME" : {
+      "description" : "",
+      "message" : "欢迎来到 {clubname}"
+   },
+   "GO_BACK" : {
+      "description" : "",
+      "message" : "回去"
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "先等一等."
+   },
+   "HYDROGEN" : {
+      "description" : "",
+      "message" : "氢"
+   },
+   "MILITARY_FUEL" : {
+      "description" : "",
+      "message" : "军用燃料"
+   },
+   "RADIOACTIVES" : {
+      "description" : "",
+      "message" : "放射性废料"
+   },
+   "WATER" : {
+      "description" : "",
+      "message" : "水"
+   },
+   "WE_WILL_ONLY_DISPOSE_OF" : {
+      "description" : "",
+      "message" : "你买了多少吨 {military_fuel} 我们就帮你处理多少吨 {radioactives}."
+   },
+   "WHAT_CONDITIONS_APPLY" : {
+      "description" : "",
+      "message" : "对 {radioactives} 处理有什么条件?"
+   },
+   "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED" : {
+      "description" : "",
+      "message" : "你的会员资格申请已经被拒绝了."
+   },
+   "YOU_ARE_NOW_A_MEMBER" : {
+      "description" : "",
+      "message" : "你现在是会员了. 你的会员资格将过期于 {expiry_date}."
+   },
+   "YOU_MUST_BUY" : {
+      "description" : "",
+      "message" : "在我们帮你处理{radioactives} 前你必须购买我们的 {military_fuel}"
+   }
+}

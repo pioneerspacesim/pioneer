@@ -59,6 +59,38 @@
       "description" : "",
       "message" : "Délai:"
    },
+   "DENY_0" : {
+      "description" : "",
+      "message" : "Désolé, mais je ne pense pas pouvoir vous faire confiance pour ma sécurité."
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "Revenez quand vous aurez quelques qualifications."
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "Je ne pense pas que vous soyez le pilote que je recherche."
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "Vous n'avez pas l'air de quelqu'un capable de transporter des gens."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "Vous n'êtes pas le type de pilote que je recherche."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "Vous avez l'air trop inexpérimenté pour un transport de cette importance."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "Je n'ai jamais entendu parler de vous. J'ai besoin de quelqu'un expérimenté pour ce voyage."
+   },
+   "DENY_7" : {
+      "description" : "",
+      "message" : "Je ne vais pas risquer ma vie avec quelqu'un qui n'a aucune qualifications tel que vous."
+   },
    "DISTANCE" : {
       "description" : "",
       "message" : "Distance:"
@@ -141,7 +173,7 @@
    },
    "FLAVOUR_11_FAILUREMSG" : {
       "description" : "",
-      "message" : "Je ne veux pas perdre mon emploi à cause de votre incompétence. J'ai donc plus besoin que vous de l'argent du prix du transport."
+      "message" : "Je vais perdre mon boulot a cause de votre incompétence. Je vais avoir besoin de cet argent plus que vous !"
    },
    "FLAVOUR_11_HOWMANY" : {
       "description" : "",

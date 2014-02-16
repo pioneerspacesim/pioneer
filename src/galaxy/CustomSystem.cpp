@@ -397,6 +397,18 @@ static void _add_children_to_sbody(lua_State *L, CustomSystemBody *sbody)
 	LUA_DEBUG_END(L, 0);
 }
 
+static int count_stars(CustomSystemBody* csb)
+{
+	if (!csb)
+		return 0;
+	int count = 0;
+	if (csb->type >= SystemBody::TYPE_STAR_MIN && csb->type <= SystemBody::TYPE_STAR_MAX)
+		++count;
+	for (CustomSystemBody* child : csb->children)
+		count += count_stars(child);
+	return count;
+}
+
 static int l_csys_bodies(lua_State *L)
 {
 	CustomSystem *cs = l_csys_check(L, 1);
@@ -416,6 +428,13 @@ static int l_csys_bodies(lua_State *L)
 
 	cs->sBody = *primary_ptr;
 	*primary_ptr = 0;
+	if (cs->sBody) {
+		int star_count = count_stars(cs->sBody);
+		if (star_count != cs->numStars)
+			return luaL_error(L, "expected %d star(s) in system %s, but found %d (did you forget star types in CustomSystem:new?)",
+				cs->numStars, cs->name.c_str(), star_count);
+		// XXX Someday, we should check the other star types as well, but we do not use them anyway now.
+	}
 
 	lua_settop(L, 1);
 	return 1;

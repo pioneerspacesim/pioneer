@@ -121,6 +121,7 @@ public:
 		DOCKING,    // in docking animation
 		DOCKED,     // docked with station
 		LANDED,     // rough landed (not docked)
+		JUMPING,    // between space and hyperspace ;)
 		HYPERSPACE, // in hyperspace
 	};
 
@@ -140,6 +141,7 @@ public:
 		HYPERJUMP_OK,
 		HYPERJUMP_CURRENT_SYSTEM,
 		HYPERJUMP_NO_DRIVE,
+		HYPERJUMP_INITIATED,
 		HYPERJUMP_DRIVE_ACTIVE,
 		HYPERJUMP_OUT_OF_RANGE,
 		HYPERJUMP_INSUFFICIENT_FUEL,

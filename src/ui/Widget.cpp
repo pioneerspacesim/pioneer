@@ -161,138 +161,138 @@ void Widget::Enable()
 	GetContext()->EnableWidget(this);
 }
 
-bool Widget::TriggerKeyDown(const KeyboardEvent &event, bool emit)
+bool Widget::TriggerKeyDown(const KeyboardEvent &event, bool handled)
 {
 	HandleKeyDown(event);
-	if (emit) emit = !onKeyDown.emit(event);
-	if (GetContainer()) GetContainer()->TriggerKeyDown(event, emit);
-	return !emit;
+	if (!handled) handled = onKeyDown.emit(event);
+	if (GetContainer()) handled = GetContainer()->TriggerKeyDown(event, handled);
+	return handled;
 }
 
-bool Widget::TriggerKeyUp(const KeyboardEvent &event, bool emit)
+bool Widget::TriggerKeyUp(const KeyboardEvent &event, bool handled)
 {
 	HandleKeyUp(event);
-	if (emit) emit = !onKeyUp.emit(event);
-	if (GetContainer()) GetContainer()->TriggerKeyUp(event, emit);
-	return !emit;
+	if (!handled) handled = onKeyUp.emit(event);
+	if (GetContainer()) handled = GetContainer()->TriggerKeyUp(event, handled);
+	return handled;
 }
 
-bool Widget::TriggerTextInput(const TextInputEvent &event, bool emit)
+bool Widget::TriggerTextInput(const TextInputEvent &event, bool handled)
 {
 	HandleTextInput(event);
-	if (emit) emit = !onTextInput.emit(event);
-	if (GetContainer()) GetContainer()->TriggerTextInput(event, emit);
-	return !emit;
+	if (!handled) handled = onTextInput.emit(event);
+	if (GetContainer()) handled = GetContainer()->TriggerTextInput(event, handled);
+	return handled;
 }
 
-bool Widget::TriggerMouseDown(const MouseButtonEvent &event, bool emit)
+bool Widget::TriggerMouseDown(const MouseButtonEvent &event, bool handled)
 {
 	HandleMouseDown(event);
-	if (emit) emit = !onMouseDown.emit(event);
+	if (!handled) handled = onMouseDown.emit(event);
 	if (GetContainer()) {
 		MouseButtonEvent translatedEvent = MouseButtonEvent(event.action, event.button, event.pos+GetPosition());
-		GetContainer()->TriggerMouseDown(translatedEvent, emit);
+		handled = GetContainer()->TriggerMouseDown(translatedEvent, handled);
 	}
-	return !emit;
+	return handled;
 }
 
-bool Widget::TriggerMouseUp(const MouseButtonEvent &event, bool emit)
+bool Widget::TriggerMouseUp(const MouseButtonEvent &event, bool handled)
 {
 	HandleMouseUp(event);
-	if (emit) emit = !onMouseUp.emit(event);
+	if (!handled) handled = onMouseUp.emit(event);
 	if (GetContainer()) {
 		MouseButtonEvent translatedEvent = MouseButtonEvent(event.action, event.button, event.pos+GetPosition());
-		GetContainer()->TriggerMouseUp(translatedEvent, emit);
+		handled = GetContainer()->TriggerMouseUp(translatedEvent, handled);
 	}
-	return !emit;
+	return handled;
 }
 
-bool Widget::TriggerMouseMove(const MouseMotionEvent &event, bool emit)
+bool Widget::TriggerMouseMove(const MouseMotionEvent &event, bool handled)
 {
 	HandleMouseMove(event);
-	if (emit) emit = !onMouseMove.emit(event);
+	if (!handled) handled = onMouseMove.emit(event);
 	if (GetContainer()) {
 		MouseMotionEvent translatedEvent = MouseMotionEvent(event.pos+GetPosition(), event.rel);
-		GetContainer()->TriggerMouseMove(translatedEvent, emit);
+		handled = GetContainer()->TriggerMouseMove(translatedEvent, handled);
 	}
-	return !emit;
+	return handled;
 }
 
-bool Widget::TriggerMouseWheel(const MouseWheelEvent &event, bool emit)
+bool Widget::TriggerMouseWheel(const MouseWheelEvent &event, bool handled)
 {
 	HandleMouseWheel(event);
-	if (emit) emit = !onMouseWheel.emit(event);
+	if (!handled) handled = onMouseWheel.emit(event);
 	if (GetContainer()) {
 		MouseWheelEvent translatedEvent = MouseWheelEvent(event.direction, event.pos+GetPosition());
-		GetContainer()->TriggerMouseWheel(translatedEvent, emit);
+		handled = GetContainer()->TriggerMouseWheel(translatedEvent, handled);
 	}
-	return !emit;
+	return handled;
 }
 
-bool Widget::TriggerJoystickButtonDown(const JoystickButtonEvent &event, bool emit)
+bool Widget::TriggerJoystickButtonDown(const JoystickButtonEvent &event, bool handled)
 {
 	HandleJoystickButtonDown(event);
-	if (emit) emit = !onJoystickButtonDown.emit(event);
-	if (GetContainer()) GetContainer()->TriggerJoystickButtonDown(event, emit);
-	return !emit;
+	if (!handled) handled = onJoystickButtonDown.emit(event);
+	if (GetContainer()) handled = GetContainer()->TriggerJoystickButtonDown(event, handled);
+	return handled;
 }
 
-bool Widget::TriggerJoystickButtonUp(const JoystickButtonEvent &event, bool emit)
+bool Widget::TriggerJoystickButtonUp(const JoystickButtonEvent &event, bool handled)
 {
 	HandleJoystickButtonUp(event);
-	if (emit) emit = !onJoystickButtonUp.emit(event);
-	if (GetContainer()) GetContainer()->TriggerJoystickButtonUp(event, emit);
-	return !emit;
+	if (!handled) handled = onJoystickButtonUp.emit(event);
+	if (GetContainer()) handled = GetContainer()->TriggerJoystickButtonUp(event, handled);
+	return handled;
 }
 
-bool Widget::TriggerJoystickAxisMove(const JoystickAxisMotionEvent &event, bool emit)
+bool Widget::TriggerJoystickAxisMove(const JoystickAxisMotionEvent &event, bool handled)
 {
 	HandleJoystickAxisMove(event);
-	if (emit) emit = !onJoystickAxisMove.emit(event);
-	if (GetContainer()) GetContainer()->TriggerJoystickAxisMove(event, emit);
-	return !emit;
+	if (!handled) handled = onJoystickAxisMove.emit(event);
+	if (GetContainer()) handled = GetContainer()->TriggerJoystickAxisMove(event, handled);
+	return handled;
 }
 
-bool Widget::TriggerJoystickHatMove(const JoystickHatMotionEvent &event, bool emit)
+bool Widget::TriggerJoystickHatMove(const JoystickHatMotionEvent &event, bool handled)
 {
 	HandleJoystickHatMove(event);
-	if (emit) emit = !onJoystickHatMove.emit(event);
-	if (GetContainer()) GetContainer()->TriggerJoystickHatMove(event, emit);
-	return !emit;
+	if (!handled) handled = onJoystickHatMove.emit(event);
+	if (GetContainer()) handled = GetContainer()->TriggerJoystickHatMove(event, handled);
+	return handled;
 }
 
-bool Widget::TriggerMouseOver(const Point &pos, bool emit, Widget *stop)
+bool Widget::TriggerMouseOver(const Point &pos, bool handled, Widget *stop)
 {
 	// only send external events on state change
 	if (!m_mouseOver) {
 		m_mouseOver = true;
 		HandleMouseOver();
-		if (emit) emit = !onMouseOver.emit();
+		if (!handled) handled = onMouseOver.emit();
 	}
-	if (stop == this) return !emit;
-	if (GetContainer()) GetContainer()->TriggerMouseOver(pos+GetPosition(), emit, stop);
-	return !emit;
+	if (stop == this) return handled;
+	if (GetContainer()) handled = GetContainer()->TriggerMouseOver(pos+GetPosition(), handled, stop);
+	return handled;
 }
 
-bool Widget::TriggerMouseOut(const Point &pos, bool emit, Widget *stop)
+bool Widget::TriggerMouseOut(const Point &pos, bool handled, Widget *stop)
 {
 	// only send external events on state change
 	if (m_mouseOver) {
 		HandleMouseOut();
-		if (emit) emit = !onMouseOut.emit();
+		if (!handled) handled = onMouseOut.emit();
 		m_mouseOver = false;
 	}
-	if (stop == this) return !emit;
-	if (GetContainer()) GetContainer()->TriggerMouseOut(pos+GetPosition(), emit, stop);
-	return !emit;
+	if (stop == this) return handled;
+	if (GetContainer()) handled = GetContainer()->TriggerMouseOut(pos+GetPosition(), handled, stop);
+	return handled;
 }
 
-bool Widget::TriggerClick(bool emit)
+bool Widget::TriggerClick(bool handled)
 {
 	HandleClick();
-	if (emit) emit = !onClick.emit();
-	if (GetContainer()) GetContainer()->TriggerClick(emit);
-	return !emit;
+	if (!handled) handled = onClick.emit();
+	if (GetContainer()) handled = GetContainer()->TriggerClick(handled);
+	return handled;
 }
 
 void Widget::TriggerMouseActivate()

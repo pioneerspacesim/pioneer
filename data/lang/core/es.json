@@ -1085,7 +1085,7 @@
    },
    "NUMBER_HOURS" : {
       "description" : "",
-      "message" : "%hours{f.1} hrs"
+      "message" : "%hours{f.1} hrs "
    },
    "NUMBER_LY" : {
       "description" : "",

@@ -59,6 +59,38 @@
       "description" : "",
       "message" : "Termin:"
    },
+   "DENY_0" : {
+      "description" : "",
+      "message" : "Przykro mi, ale nie sądzę bym mógł powierzyć ci swoje bezpieczeństwo."
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "Wróć kiedy zdobędziesz jakieś kwalifikacje."
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "Nie sądzę że jesteś tym pilotem którego szukam."
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "Nie wyglądasz na kogoś zdolnego do transportowania ludzi."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "Nie jesteś typem pilota jakiego szukam."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "Wydajesz się być zbyt niedoświadczoną osobą aby obsłużyć transport o takim znaczeniu."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "Nikt o tobie nigdy nie słyszał. Do tej podróży potrzebuję kogoś doświadczonego."
+   },
+   "DENY_7" : {
+      "description" : "",
+      "message" : "Nie zaryzykuję swojego życia z kimś tak niewykwalifikowanym jak ty."
+   },
    "DISTANCE" : {
       "description" : "",
       "message" : "Dystans:"
@@ -109,7 +141,7 @@
    },
    "FLAVOUR_10_FAILUREMSG" : {
       "description" : "",
-      "message" : "Widać że jesteś jeszcze niedoświadczonym pilotem. Nie będę za to płacić."
+      "message" : "Widać że jesteś jeszcze niedoświadczonym pilotem. Nic nie zapłacę."
    },
    "FLAVOUR_10_HOWMANY" : {
       "description" : "",

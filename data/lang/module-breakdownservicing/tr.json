@@ -1,130 +1,130 @@
 {
    "FLAVOUR_0_INTRO" : {
       "description" : "",
-      "message" : "Avoid the inconvenience of a broken-down hyperspace engine.  Get yours serviced today, by the officially endorsed {name} Engine Servicing Company.\n\nEngine: {drive}\nService: {price}\nGuarantee: 18 months\n{lasttime}"
+      "message" : "Parçalanmış bir üstuzay motorunun size vereceği rahatsızlığı önleyin. Sizinkine bugün bakım yaptırın, resmi olarak desteklenen {name} Motor Bakım Şirketi tarafından.\n\nMotor: {drive}\nBakım: {price)\nGaranti: 18 Ay\n{lasttime}"
    },
    "FLAVOUR_0_RESPONSE" : {
       "description" : "",
-      "message" : "Your engine has been serviced."
+      "message" : "Motorunuz bakım gördü."
    },
    "FLAVOUR_0_TITLE" : {
       "description" : "",
-      "message" : "{name} Engine Servicing Company"
+      "message" : "{name} Motor Bakım Şirketi"
    },
    "FLAVOUR_0_YESPLEASE" : {
       "description" : "",
-      "message" : "Service hyperspace engine"
+      "message" : "Hipersürücüye bakım yap"
    },
    "FLAVOUR_1_INTRO" : {
       "description" : "",
-      "message" : "I'm {proprietor}.  I can service your {drive}, guaranteeing at least a year of trouble-free performance.  The cost for this service will be {price}\n{lasttime}"
+      "message" : "Ben {proprietor}. 1 yıl sorunsuz performans güvencesi vererek, {drive}nüze bakım yapabilirim. Bu bakım için ücret {price} olacaktır.\n{lasttime}"
    },
    "FLAVOUR_1_RESPONSE" : {
       "description" : "",
-      "message" : "I have serviced your hyperdrive."
+      "message" : "Hipersürücünüze bakım yaptım."
    },
    "FLAVOUR_1_TITLE" : {
       "description" : "",
-      "message" : "{proprietor}: Hyperdrive maintenance specialist"
+      "message" : "{proprietor}: Hipersürücü bakım uzmanı"
    },
    "FLAVOUR_1_YESPLEASE" : {
       "description" : "",
-      "message" : "Service my drive"
+      "message" : "Sürücüme bakım yapın"
    },
    "FLAVOUR_2_INTRO" : {
       "description" : "",
-      "message" : "Hi there.  We at {proprietor} & Co stake our reputation on our work.\n\n{lasttime}\nWe can tune your ship's {drive}, ensuring 12 months of trouble-free operation, for the sum of {price}.  I'll be supervising the work myself, so you can be sure that a good job will be done."
+      "message" : "Merhaba. {proprietor} ve Ortakları olarak itibarımızı çalışmalarımız üstünde doğrultuyoruz.\n\n{lasttime}\nGeminizin {drive}sünü 12 ay sorunsuz çalışma garantisi ile toplam {price} fiyatına ayarlayabiliriz. Çalışmayı bizzat ben gözlemleyeceğim, böylece işin iyi yapılacağından emin olabilirsiniz."
    },
    "FLAVOUR_2_RESPONSE" : {
       "description" : "",
-      "message" : "Service complete.  Thanks for your custom."
+      "message" : "Bakım tamamlandı. Müşterimiz olduğunuz için teşekkür ederiz."
    },
    "FLAVOUR_2_TITLE" : {
       "description" : "",
-      "message" : "{proprietor} & Co HyperMechanics"
+      "message" : "{proprietor} ve Ortakları HiperMekanik"
    },
    "FLAVOUR_2_YESPLEASE" : {
       "description" : "",
-      "message" : "Please tune my drive at the quoted price"
+      "message" : "Lütfen sürücümü belirtilen fiyattan ayarlayın."
    },
    "FLAVOUR_3_INTRO" : {
       "description" : "",
-      "message" : "Welcome SuperFix Maintenance.\n\n{lasttime}\nTime for your biannual maintenance? Let us SuperFix your hyperdrive!\nWe can tune your {drive} for just {price}.  There's nobody cheaper!"
+      "message" : "SüperTamir Bakıma Hoş Geldiniz.\n\n{lasttime}\nİki yılda bir olan bakım zamanınız mı geldi? Hipersürücünüzü SüperTamir edelim!\n{drive}nüzü sadece {price} için ayarlayabiliriz. Bizden daha ucuzu yok!"
    },
    "FLAVOUR_3_RESPONSE" : {
       "description" : "",
-      "message" : "Your SuperFix service is complete, with SuperFix guarantee!"
+      "message" : "SüperTamir bakımınız tamamlandı, SüperTamir garantisi ile!"
    },
    "FLAVOUR_3_TITLE" : {
       "description" : "",
-      "message" : "SuperFix Maintenance ({name} branch)"
+      "message" : "SüperTamir Bakım ({name} branch)"
    },
    "FLAVOUR_3_YESPLEASE" : {
       "description" : "",
-      "message" : "SuperFix me!"
+      "message" : "Beni SüperTamir et!"
    },
    "FLAVOUR_4_INTRO" : {
       "description" : "",
-      "message" : "Welcome to Time and Space.\n\nWe specialise in interstellar engines. All maintenance work guaranteed for two years.\n{lasttime}\nServicing your {drive} will cost {price}.  Would you like to proceed?"
+      "message" : "Zaman ve Uzay'a hoşgeldiniz.\nYıldızlar arası motorlar üstüne uzmanlaşmış bulunuyoruz.  Tüm bakım işleri iki yıl boyunca güvencededir.\n{lasttime}\n{drive}nüze bakım yaptırmanın maliyeti {price} olacak. Devam etmek istiyor musunuz?"
    },
    "FLAVOUR_4_RESPONSE" : {
       "description" : "",
-      "message" : "We have completed the work on your hyperdrive."
+      "message" : "Hipersürücünüz üstündeki çalışmamızı tamamladık."
    },
    "FLAVOUR_4_TITLE" : {
       "description" : "",
-      "message" : "Time and Space Engines, Inc."
+      "message" : "Zaman ve Uzay Motorları, Inc."
    },
    "FLAVOUR_4_YESPLEASE" : {
       "description" : "",
-      "message" : "Yes, please proceed"
+      "message" : "Evet, lütfen devam et."
    },
    "FLAVOUR_5_INTRO" : {
       "description" : "",
-      "message" : "Avoid the inconvenience of a broken-down hyperspace engine.  Get yours serviced today.\n\nEngine: {drive}\nService: {price}\n{lasttime}"
+      "message" : "Parçalanmış bir üstuzay sürücünün size vereceği rahatsızlığı önleyin. Sizinkine bugün bakım yaptırın.\n\nMotor: {drive}\nBakım: {price)\n{lasttime}"
    },
    "FLAVOUR_5_RESPONSE" : {
       "description" : "",
-      "message" : "Your engine has been serviced."
+      "message" : "Motorunuz bakım gördü."
    },
    "FLAVOUR_5_TITLE" : {
       "description" : "",
-      "message" : "{proprietor} Engine Servicing Company"
+      "message" : "{proprietor} Motor Bakım Şirketi"
    },
    "FLAVOUR_5_YESPLEASE" : {
       "description" : "",
-      "message" : "Service hyperspace engine"
+      "message" : "Hipersürücüye bakım yap"
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Hang up."
+      "message" : "Bekle."
    },
    "I_DONT_HAVE_ENOUGH_MONEY" : {
       "description" : "",
-      "message" : "I don't have enough money"
+      "message" : "Yeteri kadar param yok."
    },
    "I_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN" : {
       "description" : "",
-      "message" : "I fixed the hyperdrive before it broke down."
+      "message" : "Hipersürücüyü parçalanmadan önce tamir ettim"
    },
    "THE_SHIPS_HYPERDRIVE_HAS_BEEN_DESTROYED_BY_A_MALFUNCTION" : {
       "description" : "",
-      "message" : "The ship's hyperdrive has been destroyed by a malfunction"
+      "message" : "Geminin hipersürücüsü bir işleyiş hatası sonucu yok oldu."
    },
    "YOUR_DRIVE_HAS_NOT_BEEN_SERVICED" : {
       "description" : "",
-      "message" : "Your drive has not been serviced since it was installed on {date}"
+      "message" : "Sürücünüz yerleştirildiği {date} tarihinden beri bakım görmedi."
    },
    "YOUR_DRIVE_WAS_LAST_SERVICED_ON" : {
       "description" : "",
-      "message" : "Your drive was last serviced on {date} by {company}"
+      "message" : "Sürücünüz en son {date} tarihinde {company} tarafından bakım gördü"
    },
    "YOU_DO_NOT_HAVE_A_DRIVE_TO_SERVICE" : {
       "description" : "",
-      "message" : "You do not have a drive to service!"
+      "message" : "Bakım gerektiren bir sürücünüz yok!"
    },
    "YOU_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN" : {
       "description" : "",
-      "message" : "You fixed the hyperdrive before it broke down."
+      "message" : "Hipersürücüyü parçalanmadan önce tamir ettiniz"
    }
 }

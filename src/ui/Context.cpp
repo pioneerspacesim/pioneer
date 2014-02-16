@@ -25,7 +25,13 @@ static const float FONT_SCALE[] = {
 	0.85f, // HEADING_SMALL
 	1.0f,  // HEADING_NORMAL
 	1.4f,  // HEADING_LARGE
-	1.8f   // HEADING_XLARGE
+	1.8f,  // HEADING_XLARGE
+
+	0.7f,  // MONO_XSMALL
+	0.85f, // MONO_SMALL
+	1.0f,  // MONO_NORMAL
+	1.4f,  // MONO_LARGE
+	1.8f   // MONO_XLARGE
 };
 
 Context::Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int height, const std::string &lang) : Container(this),
@@ -60,6 +66,14 @@ Context::Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int h
 	{
 		const Text::FontDescriptor baseFontDesc(Text::FontDescriptor::Load(FileSystem::gameDataFiles, "fonts/UIHeadingFont.ini", lang));
 		for (int i = FONT_HEADING_SMALLEST; i <= FONT_HEADING_LARGEST; i++) {
+			const Text::FontDescriptor fontDesc(baseFontDesc.filename, baseFontDesc.pixelWidth*FONT_SCALE[i]*GetScale(), baseFontDesc.pixelHeight*FONT_SCALE[i]*GetScale(), baseFontDesc.outline, baseFontDesc.advanceXAdjustment);
+
+			m_font[i] = RefCountedPtr<Text::TextureFont>(new Text::TextureFont(fontDesc, renderer));
+		}
+	}
+	{
+		const Text::FontDescriptor baseFontDesc(Text::FontDescriptor::Load(FileSystem::gameDataFiles, "fonts/UIMonoFont.ini", lang));
+		for (int i = FONT_MONO_SMALLEST; i <= FONT_MONO_LARGEST; i++) {
 			const Text::FontDescriptor fontDesc(baseFontDesc.filename, baseFontDesc.pixelWidth*FONT_SCALE[i]*GetScale(), baseFontDesc.pixelHeight*FONT_SCALE[i]*GetScale(), baseFontDesc.outline, baseFontDesc.advanceXAdjustment);
 
 			m_font[i] = RefCountedPtr<Text::TextureFont>(new Text::TextureFont(fontDesc, renderer));

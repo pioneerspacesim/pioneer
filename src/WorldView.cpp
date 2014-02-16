@@ -40,13 +40,13 @@ static const float WHEEL_SENSITIVITY = .05f;	// Should be a variable in user set
 static const float HUD_CROSSHAIR_SIZE = 24.0f;
 static const Uint8 HUD_ALPHA          = 87;
 
-WorldView::WorldView(): View()
+WorldView::WorldView(): UIView()
 {
 	m_camType = CAM_INTERNAL;
 	InitObject();
 }
 
-WorldView::WorldView(Serializer::Reader &rd): View()
+WorldView::WorldView(Serializer::Reader &rd): UIView()
 {
 	m_camType = CamType(rd.Int32());
 	InitObject();
@@ -231,10 +231,11 @@ void WorldView::InitObject()
 
 	const float fovY = Pi::config->Float("FOVVertical");
 
-	m_camera.reset(new Camera(Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), fovY, znear, zfar));
-	m_internalCameraController.reset(new InternalCameraController(m_camera.get(), Pi::player));
-	m_externalCameraController.reset(new ExternalCameraController(m_camera.get(), Pi::player));
-	m_siderealCameraController.reset(new SiderealCameraController(m_camera.get(), Pi::player));
+	m_cameraContext.Reset(new CameraContext(Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), fovY, znear, zfar));
+	m_camera.reset(new Camera(m_cameraContext, Pi::renderer));
+	m_internalCameraController.reset(new InternalCameraController(m_cameraContext, Pi::player));
+	m_externalCameraController.reset(new ExternalCameraController(m_cameraContext, Pi::player));
+	m_siderealCameraController.reset(new SiderealCameraController(m_cameraContext, Pi::player));
 	SetCamType(m_camType); //set the active camera
 
 	m_onHyperspaceTargetChangedCon =
@@ -400,6 +401,8 @@ void WorldView::Draw3D()
 	assert(Pi::player);
 	assert(!Pi::player->IsDead());
 
+	m_cameraContext->ApplyDrawTransforms(m_renderer);
+
 	Body* excludeBody = nullptr;
 	ShipCockpit* cockpit = nullptr;
 	if(GetCamType() == CAM_INTERNAL) {
@@ -407,7 +410,7 @@ void WorldView::Draw3D()
 		if (m_internalCameraController->GetMode() == InternalCameraController::MODE_FRONT)
 			cockpit = Pi::player->GetCockpit();
 	}
-	m_camera->Draw(m_renderer, excludeBody, cockpit);
+	m_camera->Draw(excludeBody, cockpit);
 
 	// Draw 3D HUD
 	// Speed lines
@@ -419,6 +422,10 @@ void WorldView::Draw3D()
 		for (auto it = Pi::player->GetSensors()->GetContacts().begin(); it != Pi::player->GetSensors()->GetContacts().end(); ++it)
 			it->trail->Render(m_renderer);
 	}
+
+	m_cameraContext->EndFrame();
+
+	UIView::Draw3D();
 }
 
 void WorldView::OnToggleLabels()
@@ -502,6 +509,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			m_flightControlButton->Hide();
 			break;
 
+		case Ship::JUMPING:
 		case Ship::HYPERSPACE:
 			m_flightStatus->SetText(Lang::HYPERSPACE);
 			m_launchButton->Hide();
@@ -607,10 +615,10 @@ void WorldView::RefreshButtonStateAndVisibility()
 #endif
 	if (Pi::player->GetFlightState() == Ship::HYPERSPACE) {
 		const SystemPath dest = Pi::player->GetHyperspaceDest();
-		RefCountedPtr<StarSystem> s = StarSystem::GetCached(dest);
+		RefCountedPtr<StarSystem> s = StarSystemCache::GetCached(dest);
 
 		Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_TOP_LEFT, stringf(Lang::IN_TRANSIT_TO_N_X_X_X,
-			formatarg("system", s->GetName()),
+			formatarg("system", dest.IsBodyPath() ? s->GetBodyByPath(dest)->name : s->GetName()),
 			formatarg("x", dest.sectorX),
 			formatarg("y", dest.sectorY),
 			formatarg("z", dest.sectorZ)));
@@ -798,7 +806,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			}
 			else {
 				const SystemPath dest = ship->GetHyperspaceDest();
-				const Sector* s = Sector::cache.GetCached(dest);
+				RefCountedPtr<const Sector> s = Sector::cache.GetCached(dest);
 				text += (cloud->IsArrival() ? Lang::HYPERSPACE_ARRIVAL_CLOUD : Lang::HYPERSPACE_DEPARTURE_CLOUD);
 				text += "\n";
 				text += stringf(Lang::SHIP_MASS_N_TONNES, formatarg("mass", ship->GetStats().total_mass));
@@ -900,18 +908,22 @@ void WorldView::Update()
 	}
 
 	m_activeCameraController->Update();
+
+	m_cameraContext->BeginFrame();
 	m_camera->Update();
 
 	UpdateProjectedObjects();
 
-	//speedlines and contact trails need cam_frame for transform, so they
-	//must be updated here (or don't delete cam_frame so early...)
+	const Frame *playerFrame = Pi::player->GetFrame();
+	const Frame *camFrame = m_cameraContext->GetCamFrame();
+
+	//speedlines and contact trails need camFrame for transform, so they
+	//must be updated here
 	if (Pi::AreSpeedLinesDisplayed()) {
 		m_speedLines->Update(Pi::game->GetTimeStep());
 
-		const Frame *cam_frame = m_camera->GetCamFrame();
 		matrix4x4d trans;
-		Frame::GetFrameRenderTransform(Pi::player->GetFrame(), cam_frame, trans);
+		Frame::GetFrameTransform(playerFrame, camFrame, trans);
 
 		if ( m_speedLines.get() && Pi::AreSpeedLinesDisplayed() ) {
 			m_speedLines->Update(Pi::game->GetTimeStep());
@@ -924,15 +936,14 @@ void WorldView::Update()
 
 	if( Pi::AreHudTrailsDisplayed() )
 	{
-		const Frame *cam_frame = m_camera->GetCamFrame();
 		matrix4x4d trans;
-		Frame::GetFrameRenderTransform(Pi::player->GetFrame(), cam_frame, trans);
+		Frame::GetFrameTransform(playerFrame, camFrame, trans);
 
 		for (auto it = Pi::player->GetSensors()->GetContacts().begin(); it != Pi::player->GetSensors()->GetContacts().end(); ++it)
 			it->trail->SetTransform(trans);
 	} else {
 		for (auto it = Pi::player->GetSensors()->GetContacts().begin(); it != Pi::player->GetSensors()->GetContacts().end(); ++it)
-			it->trail->Reset(Pi::player->GetFrame());
+			it->trail->Reset(playerFrame);
 	}
 
 	// target object under the crosshairs. must be done after
@@ -942,10 +953,13 @@ void WorldView::Update()
 		Body* const target = PickBody(double(Gui::Screen::GetWidth())/2.0, double(Gui::Screen::GetHeight())/2.0);
 		SelectBody(target, false);
 	}
+
+	UIView::Update();
 }
 
 void WorldView::OnSwitchTo()
 {
+	UIView::OnSwitchTo();
 	RefreshButtonStateAndVisibility();
 }
 
@@ -1106,8 +1120,9 @@ void WorldView::OnHyperspaceTargetChanged()
 
 	const SystemPath path = Pi::sectorView->GetHyperspaceTarget();
 
-	RefCountedPtr<StarSystem> system = StarSystem::GetCached(path);
-	Pi::cpan->MsgLog()->Message("", stringf(Lang::SET_HYPERSPACE_DESTINATION_TO, formatarg("system", system->GetName())));
+	RefCountedPtr<StarSystem> system = StarSystemCache::GetCached(path);
+	const std::string& name = path.IsBodyPath() ? system->GetBodyByPath(path)->name : system->GetName() ;
+	Pi::cpan->MsgLog()->Message("", stringf(Lang::SET_HYPERSPACE_DESTINATION_TO, formatarg("system", name)));
 }
 
 void WorldView::OnPlayerChangeTarget()
@@ -1116,7 +1131,7 @@ void WorldView::OnPlayerChangeTarget()
 	if (b) {
 		Sound::PlaySfx("OK");
 		Ship *s = b->IsType(Object::HYPERSPACECLOUD) ? static_cast<HyperspaceCloud*>(b)->GetShip() : 0;
-		if (!s || Pi::sectorView->GetHyperspaceTarget() != s->GetHyperspaceDest())
+		if (!s || !Pi::sectorView->GetHyperspaceTarget().IsSameSystem(s->GetHyperspaceDest()))
 			Pi::sectorView->FloatHyperspaceTarget();
 	}
 
@@ -1305,9 +1320,9 @@ static inline bool project_to_screen(const vector3d &in, vector3d &out, const Gr
 void WorldView::UpdateProjectedObjects()
 {
 	const int guiSize[2] = { Gui::Screen::GetWidth(), Gui::Screen::GetHeight() };
-	const Graphics::Frustum frustum = m_camera->GetFrustum();
+	const Graphics::Frustum frustum = m_cameraContext->GetFrustum();
 
-	const Frame *cam_frame = m_camera->GetCamFrame();
+	const Frame *cam_frame = m_cameraContext->GetCamFrame();
 	matrix3x3d cam_rot = cam_frame->GetOrient();
 
 	// determine projected positions and update labels
@@ -1460,7 +1475,7 @@ void WorldView::UpdateProjectedObjects()
 void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpacePos)
 {
 	const int guiSize[2] = { Gui::Screen::GetWidth(), Gui::Screen::GetHeight() };
-	const Graphics::Frustum frustum = m_camera->GetFrustum();
+	const Graphics::Frustum frustum = m_cameraContext->GetFrustum();
 
 	const float BORDER = 10.0;
 	const float BORDER_BOTTOM = 90.0;

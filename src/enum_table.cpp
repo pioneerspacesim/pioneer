@@ -181,6 +181,7 @@ const struct EnumItem ENUM_ShipFlightState[] = {
 	{ "DOCKING", Ship::DOCKING },
 	{ "DOCKED", Ship::DOCKED },
 	{ "LANDED", Ship::LANDED },
+	{ "JUMPING", Ship::JUMPING },
 	{ "HYPERSPACE", Ship::HYPERSPACE },
 	{ 0, 0 },
 };
@@ -453,6 +454,11 @@ const struct EnumItem ENUM_UIFont[] = {
 	{ "HEADING_NORMAL", UI::Widget::FONT_HEADING_NORMAL },
 	{ "HEADING_LARGE", UI::Widget::FONT_HEADING_LARGE },
 	{ "HEADING_XLARGE", UI::Widget::FONT_HEADING_XLARGE },
+	{ "MONO_XSMALL", UI::Widget::FONT_MONO_XSMALL },
+	{ "MONO_SMALL", UI::Widget::FONT_MONO_SMALL },
+	{ "MONO_NORMAL", UI::Widget::FONT_MONO_NORMAL },
+	{ "MONO_LARGE", UI::Widget::FONT_MONO_LARGE },
+	{ "MONO_XLARGE", UI::Widget::FONT_MONO_XLARGE },
 	{ "INHERIT", UI::Widget::FONT_INHERIT },
 	{ 0, 0 },
 };

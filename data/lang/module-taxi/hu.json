@@ -59,6 +59,38 @@
       "description" : "",
       "message" : "Határidő:"
    },
+   "DENY_0" : {
+      "description" : "",
+      "message" : "Sajnálom, de nem hiszem, hogy biztonságban érezném magamat."
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "Fejlődnöd kell még."
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "Kétlem, hogy te vagy az én emberem."
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "Nem úgy tűnik, hogy képes vagy utasszállítót vezetni."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "Nem magadfajta pilótát keresek."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "Kezdőnek látszol még egy ilyen fontos úthoz."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "Sosem hallottam híredet. Inkább utaznék egy tapasztaltabb pilótával."
+   },
+   "DENY_7" : {
+      "description" : "",
+      "message" : "Nem fogom az életemet kockáztatni egy ilyen alul képzett pilótával mint te. "
+   },
    "DISTANCE" : {
       "description" : "",
       "message" : "Távolság:"
@@ -109,7 +141,7 @@
    },
    "FLAVOUR_10_FAILUREMSG" : {
       "description" : "",
-      "message" : "Igen kezdő pilóta vagy. Ilyen útért nem jár fizetséget."
+      "message" : "Ezt a kezdőt! Nem fizetek."
    },
    "FLAVOUR_10_HOWMANY" : {
       "description" : "",
@@ -141,7 +173,7 @@
    },
    "FLAVOUR_11_FAILUREMSG" : {
       "description" : "",
-      "message" : "El fogom veszteni a munkámat a szerencsétlenkedésed miatt. Így pénzt sem várhatsz el, mert nekem nagyobb szükségem van rá."
+      "message" : "El fogom veszíteni az állásomat a szerencsétlenkedésed miatt, úgyhogy nekem nagyobb szükségem lesz erre a pénzre mint neked."
    },
    "FLAVOUR_11_HOWMANY" : {
       "description" : "",

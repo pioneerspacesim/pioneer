@@ -1,0 +1,130 @@
+{
+   "FLAVOUR_0_INTRO" : {
+      "description" : "",
+      "message" : "避免由于超空间引擎故障带来的不便. 今天就维护你的引擎吧, 交给官方认证的 {name} 引擎维护公司.\n\n引擎: {drive}\n维护费: {price}\n有效: 18 个月\n{lasttime}"
+   },
+   "FLAVOUR_0_RESPONSE" : {
+      "description" : "",
+      "message" : "你的引擎已经被维护了."
+   },
+   "FLAVOUR_0_TITLE" : {
+      "description" : "",
+      "message" : "{name} 引擎维护公司"
+   },
+   "FLAVOUR_0_YESPLEASE" : {
+      "description" : "",
+      "message" : "维护超空间引擎"
+   },
+   "FLAVOUR_1_INTRO" : {
+      "description" : "",
+      "message" : "我是 {proprietor}. 我可以维护你的 {drive}, 保证它至少一年没有麻烦. 维护花费将会是 {price}\n{lasttime}"
+   },
+   "FLAVOUR_1_RESPONSE" : {
+      "description" : "",
+      "message" : "我已经维护了你的超光速引擎."
+   },
+   "FLAVOUR_1_TITLE" : {
+      "description" : "",
+      "message" : "{proprietor}: 超光速引擎维护专长"
+   },
+   "FLAVOUR_1_YESPLEASE" : {
+      "description" : "",
+      "message" : "维护我的引擎"
+   },
+   "FLAVOUR_2_INTRO" : {
+      "description" : "",
+      "message" : "你好. 我们是 {proprietor} 股份有限公司 我们的名声体现在我们的服务上.\n\n{lasttime}\n我们可以调整你飞船上的 {drive}, 确保12个月无故障运作, 总价格是 {price}. 我会亲自监工, 因此你可以确保这会是一次极好的维护."
+   },
+   "FLAVOUR_2_RESPONSE" : {
+      "description" : "",
+      "message" : "维护完毕. 谢谢光临."
+   },
+   "FLAVOUR_2_TITLE" : {
+      "description" : "",
+      "message" : "{proprietor} 超级机械有限公司"
+   },
+   "FLAVOUR_2_YESPLEASE" : {
+      "description" : "",
+      "message" : "请按照报价来调整我的引擎"
+   },
+   "FLAVOUR_3_INTRO" : {
+      "description" : "",
+      "message" : "欢迎来到超级修理维护中心.\n\n{lasttime}\n到了半年一次的维护时间? 让我们对你的超光速引擎进行超级维护吧!\n我们对你的 {drive} 才收 {price}. 其他没地方没有这么便宜!"
+   },
+   "FLAVOUR_3_RESPONSE" : {
+      "description" : "",
+      "message" : "超级修理完毕, 保质保量!"
+   },
+   "FLAVOUR_3_TITLE" : {
+      "description" : "",
+      "message" : "超级修理保养 ({name} branch)"
+   },
+   "FLAVOUR_3_YESPLEASE" : {
+      "description" : "",
+      "message" : "给我超级修理吧!"
+   },
+   "FLAVOUR_4_INTRO" : {
+      "description" : "",
+      "message" : "欢迎来到时空.\n\n我们专长于星舰引擎. 所有维护工作保证有效两年.\n{lasttime}\n维护你的引擎 {drive} 将花费 {price}. 你想开始吗?"
+   },
+   "FLAVOUR_4_RESPONSE" : {
+      "description" : "",
+      "message" : "我们已经完成了你超光速引擎的维护工作."
+   },
+   "FLAVOUR_4_TITLE" : {
+      "description" : "",
+      "message" : "时空引擎有限责任公司"
+   },
+   "FLAVOUR_4_YESPLEASE" : {
+      "description" : "",
+      "message" : "是的, 请开始吧"
+   },
+   "FLAVOUR_5_INTRO" : {
+      "description" : "",
+      "message" : "避免由于超空间引擎故障带来的不便. 今天就维护你的引擎吧.\n\n引擎: {drive}\n维护费: {price}\n{lasttime}"
+   },
+   "FLAVOUR_5_RESPONSE" : {
+      "description" : "",
+      "message" : "你的引擎被维护了."
+   },
+   "FLAVOUR_5_TITLE" : {
+      "description" : "",
+      "message" : "{proprietor} 引擎维护公司"
+   },
+   "FLAVOUR_5_YESPLEASE" : {
+      "description" : "",
+      "message" : "维护超空间引擎"
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "先等一等."
+   },
+   "I_DONT_HAVE_ENOUGH_MONEY" : {
+      "description" : "",
+      "message" : "我没有足够的钱"
+   },
+   "I_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN" : {
+      "description" : "",
+      "message" : "我把超光速引擎在毁坏之前修复了."
+   },
+   "THE_SHIPS_HYPERDRIVE_HAS_BEEN_DESTROYED_BY_A_MALFUNCTION" : {
+      "description" : "",
+      "message" : "你飞船的超光速引擎在故障中损坏了"
+   },
+   "YOUR_DRIVE_HAS_NOT_BEEN_SERVICED" : {
+      "description" : "",
+      "message" : "你的引擎自从 {date} 安装后就没有维护过"
+   },
+   "YOUR_DRIVE_WAS_LAST_SERVICED_ON" : {
+      "description" : "",
+      "message" : "你的上一次引擎维护是 {company} 在 {date} 帮你做的"
+   },
+   "YOU_DO_NOT_HAVE_A_DRIVE_TO_SERVICE" : {
+      "description" : "",
+      "message" : "你没有引擎来做维护!"
+   },
+   "YOU_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN" : {
+      "description" : "",
+      "message" : "你把超光速引擎在毁坏之前修复了."
+   }
+}

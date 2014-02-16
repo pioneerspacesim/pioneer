@@ -167,6 +167,10 @@
       "description" : "",
       "message" : "Nelze načíst pozici:"
    },
+   "CREDIBLE" : {
+      "description" : "For player reputation",
+      "message" : "Credible"
+   },
    "CREW_CABINS" : {
       "description" : "",
       "message" : "Kabin pro posádku"
@@ -291,6 +295,14 @@
       "description" : "",
       "message" : "Ukončit hru"
    },
+   "EXPERIENCED" : {
+      "description" : "For player reputation",
+      "message" : "Experienced"
+   },
+   "EXPERT" : {
+      "description" : "For player reputation",
+      "message" : "Expert"
+   },
    "FAILED" : {
       "description" : "",
       "message" : "Neúspěšný"
@@ -316,7 +328,7 @@
       "message" : "Detaily fraktálů"
    },
    "FREE" : {
-      "description" : "",
+      "description" : "Used in Ship Information view as in Capacity: 10t (5t free)",
       "message" : "volných"
    },
    "FRONT_WEAPON" : {
@@ -423,6 +435,14 @@
       "description" : "",
       "message" : "Neprobíhá"
    },
+   "INCOMPETENT" : {
+      "description" : "For player reputation",
+      "message" : "Incompetent"
+   },
+   "INEXPERIENCED" : {
+      "description" : "For player reputation",
+      "message" : "Inexperienced"
+   },
    "INVERT_MOUSE_Y" : {
       "description" : "",
       "message" : "Invertovat osu Y"
@@ -528,7 +548,11 @@
       "message" : "Hmotnost"
    },
    "MASTER" : {
-      "description" : "",
+      "description" : "For player reputation",
+      "message" : "Master"
+   },
+   "MASTER_VOL" : {
+      "description" : "Master sound in settings option",
       "message" : "Hlavní:"
    },
    "MAX" : {
@@ -630,6 +654,10 @@
    "NEXT_PAID" : {
       "description" : "",
       "message" : "Další platba"
+   },
+   "NOBODY" : {
+      "description" : "For player reputation",
+      "message" : "Nobody"
    },
    "NONE" : {
       "description" : "",
@@ -739,9 +767,17 @@
       "description" : "",
       "message" : "Cena"
    },
+   "PROFESSIONAL" : {
+      "description" : "For player reputation",
+      "message" : "Professional"
+   },
    "QUALIFICATION_SCORES" : {
       "description" : "",
       "message" : "Kvalifikační hodnocení"
+   },
+   "QUICKLOAD" : {
+      "description" : "",
+      "message" : "Quickload"
    },
    "QUIT" : {
       "description" : "",
@@ -763,9 +799,17 @@
       "description" : "",
       "message" : "Natankovat"
    },
+   "RELIABLE" : {
+      "description" : "For player reputation",
+      "message" : "Reliable"
+   },
    "REPAIR_X_HULL_DAMAGE_FOR_X" : {
       "description" : "",
       "message" : "Opravit {damage}% poškození trupu za {price}"
+   },
+   "REPUTATION" : {
+      "description" : "",
+      "message" : "Reputation"
    },
    "REQUEST_LAUNCH" : {
       "description" : "",
@@ -891,6 +935,10 @@
       "description" : "",
       "message" : "Obchod s nelegálním zbožím"
    },
+   "TRUSTWORTHY" : {
+      "description" : "For player reputation",
+      "message" : "Trustworthy"
+   },
    "TYPE" : {
       "description" : "",
       "message" : "Typ"
@@ -898,6 +946,10 @@
    "UNLAWFUL_WEAPONS_DISCHARGE" : {
       "description" : "",
       "message" : "Nezákonnou střelbu"
+   },
+   "UNRELIABLE" : {
+      "description" : "",
+      "message" : "Unreliable"
    },
    "UP_ACCEL" : {
       "description" : "",

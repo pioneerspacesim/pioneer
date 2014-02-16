@@ -192,7 +192,7 @@ void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, 
 	const Uint32 _init[5] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), path.systemIndex, POLIT_SEED };
 	Random rand(_init, 5);
 
-	const Sector* sec = Sector::cache.GetCached(path);
+	RefCountedPtr<const Sector> sec = Sector::cache.GetCached(path);
 
 	GovType a = GOV_INVALID;
 

@@ -198,6 +198,7 @@ static void LaunchShip(Ship *ship)
 
 bool AICmdKamikaze::TimeStepUpdate()
 {
+	if (m_ship->GetFlightState() == Ship::JUMPING) return false;
 	if (!m_target || m_target->IsDead()) return true;
 
 	if (m_ship->GetFlightState() == Ship::FLYING) m_ship->SetWheelState(false);
@@ -235,6 +236,7 @@ bool AICmdKamikaze::TimeStepUpdate()
 
 bool AICmdKill::TimeStepUpdate()
 {
+	if (m_ship->GetFlightState() == Ship::JUMPING) return false;
 	if (!ProcessChild()) return false;
 	if (!m_target || m_target->IsDead()) return true;
 
@@ -699,6 +701,7 @@ AICmdFlyTo::AICmdFlyTo(Ship *ship, Frame *targframe, const vector3d &posoff, dou
 
 bool AICmdFlyTo::TimeStepUpdate()
 {
+	if (m_ship->GetFlightState() == Ship::JUMPING) return false;
 	if (!m_target && !m_targframe) return true;			// deleted object
 
 	// sort out gear, launching
@@ -870,6 +873,7 @@ AICmdDock::AICmdDock(Ship *ship, SpaceStation *target) : AICommand(ship, CMD_DOC
 
 bool AICmdDock::TimeStepUpdate()
 {
+	if (m_ship->GetFlightState() == Ship::JUMPING) return false;
 	if (!ProcessChild()) return false;
 	if (!m_target) return true;
 	if (m_state == eDockFlyToStart) IncrementState();				// finished moving into dock start pos
@@ -1021,6 +1025,7 @@ double AICmdFlyAround::MaxVel(double targdist, double targalt)
 
 bool AICmdFlyAround::TimeStepUpdate()
 {
+	if (m_ship->GetFlightState() == Ship::JUMPING) return false;
 	if (!ProcessChild()) return false;
 
 	// Not necessary unless it's a tier 1 AI
@@ -1098,6 +1103,7 @@ AICmdFormation::AICmdFormation(Ship *ship, Ship *target, const vector3d &posoff)
 
 bool AICmdFormation::TimeStepUpdate()
 {
+	if (m_ship->GetFlightState() == Ship::JUMPING) return false;
 	if (!m_target) return true;
 	if (!ProcessChild()) return false;		// In case we're doing an intercept
 

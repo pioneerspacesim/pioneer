@@ -28,7 +28,7 @@ public:
 	~Frame();
 	static void Serialize(Serializer::Writer &wr, Frame *f, Space *space);
 	static void PostUnserializeFixup(Frame *f, Space *space);
-	static Frame *Unserialize(Serializer::Reader &rd, Space *space, Frame *parent);
+	static Frame *Unserialize(Serializer::Reader &rd, Space *space, Frame *parent, double at_time);
 	const std::string &GetLabel() const { return m_label; }
 	void SetLabel(const char *label) { m_label = label; }
 
@@ -89,7 +89,6 @@ public:
 	matrix3x3d GetInterpOrientRelTo(const Frame *relTo) const;
 
 	static void GetFrameTransform(const Frame *fFrom, const Frame *fTo, matrix4x4d &m);
-	static void GetFrameRenderTransform(const Frame *fFrom, const Frame *fTo, matrix4x4d &m);
 
 	Sfx *m_sfx;			// the last survivor. actually m_children is pretty grim too.
 

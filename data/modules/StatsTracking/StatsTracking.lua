@@ -31,6 +31,8 @@ local onShipDestroyed = function (ship, attacker)
 			-- kill thereafter
 			Comms.Message(l.WELL_DONE_COMMANDER_YOUR_COMBAT_RATING_HAS_IMPROVED,l.PIONEERING_PILOTS_GUILD)
 		end
+		Event.Queue("onReputationChanged", Character.persistent.player.reputation, Character.persistent.player.killcount - 1,
+			Character.persistent.player.reputation, Character.persistent.player.killcount)
 	elseif PlayerDamagedShips[ship] then
 		Character.persistent.player.assistcount = Character.persistent.player.assistcount + 1
 	end

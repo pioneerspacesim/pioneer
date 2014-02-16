@@ -20,7 +20,6 @@
 #include "HyperspaceCloud.h"
 #include "graphics/Graphics.h"
 #include "WorldView.h"
-#include "galaxy/SectorCache.h"
 #include "SectorView.h"
 #include "Lang.h"
 #include "Game.h"
@@ -71,6 +70,8 @@ Space::Space(Game *game)
 
 	m_rootFrame.reset(new Frame(0, Lang::SYSTEM));
 	m_rootFrame->SetRadius(FLT_MAX);
+
+	GenSectorCache(&game->GetHyperspaceDest());
 }
 
 Space::Space(Game *game, const SystemPath &path)
@@ -83,7 +84,7 @@ Space::Space(Game *game, const SystemPath &path)
 	, m_processingFinalizationQueue(false)
 #endif
 {
-	m_starSystem = StarSystem::GetCached(path);
+	m_starSystem = StarSystemCache::GetCached(path);
 
 	Uint32 _init[5] = { path.systemIndex, Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
 	Random rand(_init, 5);
@@ -98,10 +99,12 @@ Space::Space(Game *game, const SystemPath &path)
 	GenBody(m_game->GetTime(), m_starSystem->rootBody.Get(), m_rootFrame.get());
 	m_rootFrame->UpdateOrbitRails(m_game->GetTime(), m_game->GetTimeStep());
 
+	GenSectorCache(&path);
+
 	//DebugDumpFrames();
 }
 
-Space::Space(Game *game, Serializer::Reader &rd)
+Space::Space(Game *game, Serializer::Reader &rd, double at_time)
 	: m_game(game)
 	, m_frameIndexValid(false)
 	, m_bodyIndexValid(false)
@@ -123,7 +126,7 @@ Space::Space(Game *game, Serializer::Reader &rd)
 	CityOnPlanet::SetCityModelPatterns(m_starSystem->GetPath());
 
 	Serializer::Reader section = rd.RdSection("Frames");
-	m_rootFrame.reset(Frame::Unserialize(section, this, 0));
+	m_rootFrame.reset(Frame::Unserialize(section, this, 0, at_time));
 	RebuildFrameIndex();
 
 	Uint32 nbodies = rd.Int32();
@@ -134,6 +137,8 @@ Space::Space(Game *game, Serializer::Reader &rd)
 	Frame::PostUnserializeFixup(m_rootFrame.get(), this);
 	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
 		(*i)->PostLoadFixup(this);
+
+	GenSectorCache(&path);
 }
 
 Space::~Space()
@@ -298,15 +303,15 @@ void Space::KillBody(Body* b)
 	}
 }
 
-vector3d Space::GetHyperspaceExitPoint(const SystemPath &source) const
+vector3d Space::GetHyperspaceExitPoint(const SystemPath &source, const SystemPath &dest) const
 {
 	assert(m_starSystem);
 	assert(source.IsSystemPath());
 
-	const SystemPath &dest = m_starSystem->GetPath();
+	assert(dest.IsSameSystem(m_starSystem->GetPath()));
 
-	const Sector* source_sec = Sector::cache.GetCached(source);
-	const Sector* dest_sec = Sector::cache.GetCached(dest);
+	RefCountedPtr<const Sector> source_sec = m_sectorCache->GetCached(source);
+	RefCountedPtr<const Sector> dest_sec = m_sectorCache->GetCached(dest);
 
 	Sector::System source_sys = source_sec->m_systems[source.systemIndex];
 	Sector::System dest_sys = dest_sec->m_systems[dest.systemIndex];
@@ -314,13 +319,23 @@ vector3d Space::GetHyperspaceExitPoint(const SystemPath &source) const
 	const vector3d sourcePos = vector3d(source_sys.p) + vector3d(source.sectorX, source.sectorY, source.sectorZ);
 	const vector3d destPos = vector3d(dest_sys.p) + vector3d(dest.sectorX, dest.sectorY, dest.sectorZ);
 
-	// find the first non-gravpoint. should be the primary star
 	Body *primary = 0;
-	for (BodyIterator i = BodiesBegin(); i != BodiesEnd(); ++i)
-		if ((*i)->GetSystemBody()->type != SystemBody::TYPE_GRAVPOINT) {
-			primary = *i;
-			break;
+	if (dest.IsBodyPath()) {
+		assert(size_t(dest.bodyIndex) < m_starSystem->m_bodies.size());
+		primary = FindBodyForPath(&dest);
+		while (primary && primary->GetSystemBody()->GetSuperType() != SystemBody::SUPERTYPE_STAR) {
+			SystemBody* parent = primary->GetSystemBody()->parent;
+			primary = parent ? FindBodyForPath(&parent->path) : 0;
 		}
+	}
+	if (!primary) {
+		// find the first non-gravpoint. should be the primary star
+		for (BodyIterator i = BodiesBegin(); i != BodiesEnd(); ++i)
+			if ((*i)->GetSystemBody()->type != SystemBody::TYPE_GRAVPOINT) {
+				primary = *i;
+				break;
+			}
+	}
 	assert(primary);
 
 	// point along the line between source and dest, a reasonable distance
@@ -592,6 +607,37 @@ static Frame *MakeFrameFor(double at_time, SystemBody *sbody, Body *b, Frame *f)
 		assert(0);
 	}
 	return 0;
+}
+
+void Space::GenSectorCache(const SystemPath* here)
+{
+	PROFILE_SCOPED()
+
+	// current location
+	if (!here) {
+		if (!m_starSystem.Valid())
+			return;
+		here = &m_starSystem->GetPath();
+	}
+	const int here_x = here->sectorX;
+	const int here_y = here->sectorY;
+	const int here_z = here->sectorZ;
+
+	// used to define a cube centred on your current location
+	const int diff_sec = 10;
+
+	SectorCache::PathVector paths;
+	// build all of the possible paths we'll need to build sectors for
+	for (int x = here_x-diff_sec; x <= here_x+diff_sec; x++) {
+		for (int y = here_y-diff_sec; y <= here_y+diff_sec; y++) {
+			for (int z = here_z-diff_sec; z <= here_z+diff_sec; z++) {
+				SystemPath path(x, y, z);
+				paths.push_back(path);
+			}
+		}
+	}
+	m_sectorCache = Sector::cache.NewSlaveCache();
+	m_sectorCache->FillCache(paths);
 }
 
 void Space::GenBody(double at_time, SystemBody *sbody, Frame *f)

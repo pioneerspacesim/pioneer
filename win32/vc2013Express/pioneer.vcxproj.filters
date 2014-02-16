@@ -414,9 +414,6 @@
     <ClCompile Include="..\..\src\Sensors.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\HudColors.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h">
@@ -837,9 +834,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Sensors.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\HudColors.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

@@ -22,26 +22,29 @@ Point Button::PreferredSize()
 	growToMinimum(preferredSize, GetContext()->GetSkin().ButtonMinInnerSize());
 
 	// add borders
-	return SizeAdd(preferredSize, Point(GetContext()->GetSkin().ButtonNormal().borderWidth*2));
+	const Skin::BorderedRectElement &elem(GetContext()->GetSkin().ButtonNormal());
+	return SizeAdd(preferredSize, Point(elem.borderWidth*2, elem.borderHeight*2));
 }
 
 void Button::Layout()
 {
 	Widget *innerWidget = GetInnerWidget();
 
+	const Skin::BorderedRectElement &elem(GetContext()->GetSkin().ButtonNormal());
+
 	if (!innerWidget) {
-		SetActiveArea(Point(GetContext()->GetSkin().ButtonMinInnerSize()) + Point(GetContext()->GetSkin().ButtonNormal().borderWidth*2));
+		SetActiveArea(Point(GetContext()->GetSkin().ButtonMinInnerSize()) + Point(elem.borderWidth*2, elem.borderHeight*2));
 		return;
 	}
 
-	const Point innerSize = GetSize() - Point(GetContext()->GetSkin().ButtonNormal().borderWidth*2);
-	SetWidgetDimensions(innerWidget, Point(GetContext()->GetSkin().ButtonNormal().borderWidth), innerWidget->CalcSize(innerSize));
+	const Point innerSize = GetSize() - Point(elem.borderWidth*2, elem.borderHeight*2);
+	SetWidgetDimensions(innerWidget, Point(elem.borderWidth, elem.borderHeight), innerWidget->CalcSize(innerSize));
 	innerWidget->Layout();
 
 	Point innerActiveArea(innerWidget->GetActiveArea());
 	growToMinimum(innerActiveArea, GetContext()->GetSkin().ButtonMinInnerSize());
 
-	SetActiveArea(innerActiveArea + Point(GetContext()->GetSkin().ButtonNormal().borderWidth*2));
+	SetActiveArea(innerActiveArea + Point(elem.borderWidth*2, elem.borderHeight*2));
 }
 
 void Button::Draw()
