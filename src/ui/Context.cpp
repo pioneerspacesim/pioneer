@@ -225,13 +225,17 @@ void Context::DrawWidget(Widget *w)
 
 void Context::SetMousePointer(const std::string &filename, const Point &hotspot)
 {
-	if (m_mousePointer)
+	Point pos(0);
+
+	if (m_mousePointer) {
+		pos = m_mousePointer->GetPosition() + m_mousePointer->GetHotspot();
 		RemoveWidget(m_mousePointer);
+	}
 
 	m_mousePointer = new MousePointer(this, filename, hotspot);
 
 	AddWidget(m_mousePointer);
-	SetWidgetDimensions(m_mousePointer, Point(0), m_mousePointer->PreferredSize());
+	SetWidgetDimensions(m_mousePointer, pos - m_mousePointer->GetHotspot(), m_mousePointer->PreferredSize());
 }
 
 }
