@@ -247,6 +247,8 @@ void Game::TimeStep(float step)
 {
 	PROFILE_SCOPED()
 	m_time += step;			// otherwise planets lag time accel changes by a frame
+	if (m_state == STATE_HYPERSPACE && Pi::game->GetTime() >= m_hyperspaceEndTime)
+		m_time = m_hyperspaceEndTime;
 
 	m_space->TimeStep(step);
 
@@ -255,7 +257,7 @@ void Game::TimeStep(float step)
 	Sfx::TimeStepAll(step, m_space->GetRootFrame());
 
 	if (m_state == STATE_HYPERSPACE) {
-		if (Pi::game->GetTime() > m_hyperspaceEndTime) {
+		if (Pi::game->GetTime() >= m_hyperspaceEndTime) {
 			SwitchToNormalSpace();
 			m_player->EnterSystem();
 			RequestTimeAccel(TIMEACCEL_1X);

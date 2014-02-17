@@ -269,6 +269,7 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	m_equipment.InitSlotSizes(shipId);
 	m_hyperspace.countdown = 0;
 	m_hyperspace.now = false;
+	m_hyperspace.ignoreFuel = false;
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
 		m_gun[i].state = 0;
 		m_gun[i].recharge = 0;
@@ -591,36 +592,39 @@ Ship::HyperjumpStatus Ship::GetHyperspaceDetails(const SystemPath &src, const Sy
 	outFuelRequired = 0;
 	outDurationSecs = 0.0;
 
-	UpdateStats();
-
-	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
-	Equip::Type fuelType = GetHyperdriveFuelType();
-	int hyperclass = Equip::types[t].pval;
-	int fuel = m_equipment.Count(Equip::SLOT_CARGO, fuelType);
-	if (hyperclass == 0)
-		return HYPERJUMP_NO_DRIVE;
-
 	if (src.IsSameSystem(dest))
 		return HYPERJUMP_CURRENT_SYSTEM;
 
-	float dist = distance_to_system(src, dest);
+	UpdateStats();
 
-	outFuelRequired = Pi::CalcHyperspaceFuelOut(hyperclass, dist, m_stats.hyperspace_range_max);
-	double m_totalmass = GetMass()/1000;
-	if (dist > m_stats.hyperspace_range_max) {
-		outFuelRequired = 0;
-		return HYPERJUMP_OUT_OF_RANGE;
-	} else if (fuel < outFuelRequired) {
-		return HYPERJUMP_INSUFFICIENT_FUEL;
-	} else {
-		outDurationSecs = Pi::CalcHyperspaceDuration(hyperclass, m_totalmass, dist);
+	if (!m_hyperspace.ignoreFuel) {
+		Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
+		Equip::Type fuelType = GetHyperdriveFuelType();
+		int hyperclass = Equip::types[t].pval;
+		int fuel = m_equipment.Count(Equip::SLOT_CARGO, fuelType);
+		if (hyperclass == 0)
+			return HYPERJUMP_NO_DRIVE;
 
-		if (outFuelRequired <= fuel) {
-			return GetFlightState() == JUMPING ? HYPERJUMP_INITIATED : HYPERJUMP_OK;
-		} else {
+		float dist = distance_to_system(src, dest);
+
+		outFuelRequired = Pi::CalcHyperspaceFuelOut(hyperclass, dist, m_stats.hyperspace_range_max);
+		double m_totalmass = GetMass()/1000;
+		if (dist > m_stats.hyperspace_range_max) {
+			outFuelRequired = 0;
+			return HYPERJUMP_OUT_OF_RANGE;
+		} else if (fuel < outFuelRequired) {
 			return HYPERJUMP_INSUFFICIENT_FUEL;
+		} else {
+			outDurationSecs = Pi::CalcHyperspaceDuration(hyperclass, m_totalmass, dist);
+
+			if (outFuelRequired <= fuel) {
+				return GetFlightState() == JUMPING ? HYPERJUMP_INITIATED : HYPERJUMP_OK;
+			} else {
+				return HYPERJUMP_INSUFFICIENT_FUEL;
+			}
 		}
 	}
+	return GetFlightState() == JUMPING ? HYPERJUMP_INITIATED : HYPERJUMP_OK;
 }
 
 Ship::HyperjumpStatus Ship::GetHyperspaceDetails(const SystemPath &dest, int &outFuelRequired, double &outDurationSecs)
@@ -631,6 +635,16 @@ Ship::HyperjumpStatus Ship::GetHyperspaceDetails(const SystemPath &dest, int &ou
 		return HYPERJUMP_DRIVE_ACTIVE;
 	}
 	return GetHyperspaceDetails(Pi::game->GetSpace()->GetStarSystem()->GetPath(), dest, outFuelRequired, outDurationSecs);
+}
+
+Ship::HyperjumpStatus Ship::CheckHyperjumpCapability() const {
+	if (GetFlightState() == HYPERSPACE)
+		return HYPERJUMP_DRIVE_ACTIVE;
+
+	if (GetFlightState() != FLYING && GetFlightState() != JUMPING)
+		return HYPERJUMP_SAFETY_LOCKOUT;
+
+	return HYPERJUMP_OK;
 }
 
 Ship::HyperjumpStatus Ship::CheckHyperspaceTo(const SystemPath &dest, int &outFuelRequired, double &outDurationSecs)
@@ -646,6 +660,31 @@ Ship::HyperjumpStatus Ship::CheckHyperspaceTo(const SystemPath &dest, int &outFu
 	return GetHyperspaceDetails(dest, outFuelRequired, outDurationSecs);
 }
 
+Ship::HyperjumpStatus Ship::InitiateHyperjumpTo(const SystemPath &dest, int warmup_time, double duration, LuaRef checks) {
+	if (!dest.HasValidSystem() or GetFlightState() != FLYING or warmup_time < 1)
+		return HYPERJUMP_SAFETY_LOCKOUT;
+	StarSystem *s = Pi::game->GetSpace()->GetStarSystem().Get();
+	if (s && s->GetPath().IsSameSystem(dest))
+		return HYPERJUMP_CURRENT_SYSTEM;
+
+	m_hyperspace.dest = dest;
+	m_hyperspace.countdown = warmup_time;
+	m_hyperspace.now = false;
+	m_hyperspace.ignoreFuel = true;
+	m_hyperspace.duration = duration;
+	m_hyperspace.checks = checks;
+
+	return Ship::HYPERJUMP_OK;
+}
+
+void Ship::AbortHyperjump() {
+	m_hyperspace.countdown = 0;
+	m_hyperspace.now = false;
+	m_hyperspace.ignoreFuel = false;
+	m_hyperspace.duration = 0;
+	m_hyperspace.checks = LuaRef();
+}
+
 Ship::HyperjumpStatus Ship::StartHyperspaceCountdown(const SystemPath &dest)
 {
 	HyperjumpStatus status = CheckHyperspaceTo(dest);
@@ -657,6 +696,7 @@ Ship::HyperjumpStatus Ship::StartHyperspaceCountdown(const SystemPath &dest)
 	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
 	m_hyperspace.countdown = 1.0f + Equip::types[t].pval;
 	m_hyperspace.now = false;
+	m_hyperspace.ignoreFuel = false;
 
 	return Ship::HYPERJUMP_OK;
 }
@@ -665,6 +705,7 @@ void Ship::ResetHyperspaceCountdown()
 {
 	m_hyperspace.countdown = 0;
 	m_hyperspace.now = false;
+	m_hyperspace.ignoreFuel = false;
 }
 
 float Ship::GetECMRechargeTime()
@@ -1175,13 +1216,26 @@ void Ship::StaticUpdate(const float timeStep)
 	}
 
 	if (m_hyperspace.countdown > 0.0f) {
-		m_hyperspace.countdown = m_hyperspace.countdown - timeStep;
-		if (m_hyperspace.countdown <= 0.0f) {
-			// Initiate hyperjump in the next frame. We don't do it now, as there might be events queued
-			// that need to be delivered before entering hyperspace
-			m_hyperspace.countdown = 0;
-			m_hyperspace.now = true;
-			SetFlightState(JUMPING);
+		// Check the Lua function
+		bool abort = false;
+		lua_State * l = m_hyperspace.checks.GetLua();
+		if (l) {
+			m_hyperspace.checks.PushCopyToStack();
+			if (lua_isfunction(l, -1)) {
+				lua_call(l, 0, 1);
+				abort = !lua_toboolean(l, -1);
+				lua_pop(l, 1);
+			}
+		}
+		if (abort) {
+			AbortHyperjump();
+		} else {
+			m_hyperspace.countdown = m_hyperspace.countdown - timeStep;
+			if (!abort && m_hyperspace.countdown <= 0.0f) {
+				m_hyperspace.countdown = 0;
+				m_hyperspace.now = true;
+				SetFlightState(JUMPING);
+			}
 		}
 	}
 
@@ -1297,25 +1351,39 @@ void Ship::OnEquipmentChange(Equip::Type e)
 void Ship::EnterHyperspace() {
 	assert(GetFlightState() != Ship::HYPERSPACE);
 
-	const SystemPath dest = GetHyperspaceDest();
+	// Two code paths:
+	// The first one is the traditional "check fuel and destination and whatnut
+	// The second one only checks the bare minimum to insure consistency.
+	if (!m_hyperspace.ignoreFuel) {
 
-	int fuel_cost;
-	Ship::HyperjumpStatus status = CheckHyperspaceTo(dest, fuel_cost, m_hyperspace.duration);
-	if (status != HYPERJUMP_OK && status != HYPERJUMP_INITIATED) {
-		// XXX something has changed (fuel loss, mass change, whatever).
-		// could report it to the player but better would be to cancel the
-		// countdown before this is reached. either way do something
-		if (m_flightState == JUMPING)
-			SetFlightState(FLYING);
-		return;
-	}
+		const SystemPath dest = GetHyperspaceDest();
+		int fuel_cost;
 
-	Equip::Type fuelType = GetHyperdriveFuelType();
-	m_equipment.Remove(fuelType, fuel_cost);
-	if (fuelType == Equip::MILITARY_FUEL) {
-		m_equipment.Add(Equip::RADIOACTIVES, fuel_cost);
+		Ship::HyperjumpStatus status = CheckHyperspaceTo(dest, fuel_cost, m_hyperspace.duration);
+		if (status != HYPERJUMP_OK && status != HYPERJUMP_INITIATED) {
+			// XXX something has changed (fuel loss, mass change, whatever).
+			// could report it to the player but better would be to cancel the
+			// countdown before this is reached. either way do something
+			if (m_flightState == JUMPING)
+				SetFlightState(FLYING);
+			return;
+		}
+
+		Equip::Type fuelType = GetHyperdriveFuelType();
+		m_equipment.Remove(fuelType, fuel_cost);
+		if (fuelType == Equip::MILITARY_FUEL) {
+			m_equipment.Add(Equip::RADIOACTIVES, fuel_cost);
+		}
+		UpdateEquipStats();
+	} else {
+		Ship::HyperjumpStatus status = CheckHyperjumpCapability();
+		if (status != HYPERJUMP_OK && status != HYPERJUMP_INITIATED) {
+			if (m_flightState == JUMPING)
+				SetFlightState(FLYING);
+			return;
+		}
 	}
-	UpdateEquipStats();
+	m_hyperspace.ignoreFuel = false;
 
 	LuaEvent::Queue("onLeaveSystem", this);
 
