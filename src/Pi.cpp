@@ -1228,8 +1228,14 @@ void Pi::MainLoop()
 			}
 		}
 
-		Pi::ui->Update();
-		Pi::ui->Draw();
+		// XXX don't draw the UI during death obviously a hack, and still
+		// wrong, because we shouldn't this when the HUD is disabled, but
+		// probably sure draw it if they switch to eg infoview while the HUD is
+		// disabled so we need much smarter control for all this rubbish
+		if (Pi::GetView() != Pi::deathView) {
+			Pi::ui->Update();
+			Pi::ui->Draw();
+		}
 
 #if WITH_DEVKEYS
 		if (Pi::showDebugInfo) {
