@@ -64,6 +64,8 @@ public:
 	};
 	std::vector<System> m_systems;
 
+	void Dump(FILE* file, const char* indent = "") const;
+
 private:
 	Sector(const Sector&); // non-copyable
 	Sector& operator=(const Sector&); // non-assignable

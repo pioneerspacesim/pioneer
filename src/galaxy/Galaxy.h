@@ -4,6 +4,8 @@
 #ifndef _GALAXY_H
 #define _GALAXY_H
 
+#include <cstdio>
+
 /* Sector density lookup */
 namespace Galaxy {
 	// lightyears
@@ -16,6 +18,8 @@ namespace Galaxy {
 	SDL_Surface *GetGalaxyBitmap();
 	/* 0 - 255 */
 	Uint8 GetSectorDensity(int sx, int sy, int sz);
+
+	void Dump(FILE* file, Sint32 centerX, Sint32 centerY, Sint32 centerZ, Sint32 radius);
 }
 
 #endif /* _GALAXY_H */

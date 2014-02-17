@@ -8,6 +8,7 @@
 
 #include "Factions.h"
 #include "utils.h"
+#include "EnumStrings.h"
 
 static const unsigned int SYS_NAME_FRAGS = 32;
 static const char *sys_names[SYS_NAME_FRAGS] =
@@ -360,4 +361,38 @@ bool Sector::Contains(const SystemPath sysPath) const
 	if (sy != sysPath.sectorY) return false;
 	if (sz != sysPath.sectorZ) return false;
 	return true;
+}
+
+void Sector::Dump(FILE* file, const char* indent) const
+{
+	fprintf(file, "Sector(%d,%d,%d) {\n", sx, sy, sz);
+	fprintf(file, "\t%zu systems\n", m_systems.size());
+	for (const Sector::System& sys : m_systems) {
+		assert(sx == sys.sx && sy == sys.sy && sz == sys.sz);
+		assert(sys.idx >= 0);
+		fprintf(file, "\tSystem(%d,%d,%d,%u) {\n", sys.sx, sys.sy, sys.sz, sys.idx);
+		fprintf(file, "\t\t\"%s\"\n", sys.name.c_str());
+		fprintf(file, "\t\t%sEXPLORED%s\n", sys.explored ? "" : "UN", sys.customSys != nullptr ? ", CUSTOM" : "");
+		fprintf(file, "\t\tfaction %s%s%s\n", sys.faction ? "\"" : "NONE", sys.faction ? sys.faction->name.c_str() : "", sys.faction ? "\"" : "");
+		fprintf(file, "\t\tpos (%f, %f, %f)\n", double(sys.p.x), double(sys.p.y), double(sys.p.z));
+		fprintf(file, "\t\tseed %u\n", sys.seed);
+		fprintf(file, "\t\tpopulation %'.0f\n", sys.population.ToDouble() * 1e9);
+		fprintf(file, "\t\t%d stars%s\n", sys.numStars, sys.numStars > 0 ? " {" : "");
+		for (int i = 0; i < sys.numStars; ++i)
+			fprintf(file, "\t\t\t%s\n", EnumStrings::GetString("BodyType", sys.starType[i]));
+		if (sys.numStars > 0) fprintf(file, "\t\t}\n");
+		RefCountedPtr<StarSystem> ssys = StarSystemCache::GetCached(SystemPath(sys.sx, sys.sy, sys.sz, sys.idx));
+		assert(ssys->GetPath().IsSameSystem(SystemPath(sys.sx, sys.sy, sys.sz, sys.idx)));
+		assert(ssys->GetNumStars() == sys.numStars);
+		assert(ssys->GetName() == sys.name);
+		assert(ssys->GetUnexplored() == !sys.explored);
+		assert(ssys->GetFaction() == sys.faction);
+		assert(unsigned(ssys->GetSeed()) == sys.seed);
+		assert(ssys->GetNumStars() == sys.numStars);
+		for (int i = 0; i < sys.numStars; ++i)
+			assert(sys.starType[i] == ssys->GetStars()[i]->GetType());
+		ssys->Dump(file, "\t\t", true);
+		fprintf(file, "\t}\n");
+	}
+	fprintf(file, "}\n\n");
 }
