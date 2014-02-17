@@ -123,6 +123,7 @@ public:
 	Point GetMousePos() const { return m_eventDispatcher.GetMousePos(); }
 
 	void SetMousePointer(const std::string &filename, const Point &hotspot);
+	void SetMousePointerEnabled(bool enabled) { m_mousePointerEnabled = enabled; }
 
 	// event dispatch delegates
 	bool Dispatch(const Event &event) { return m_eventDispatcher.Dispatch(event); }
@@ -168,6 +169,7 @@ private:
 	std::vector<Layer*> m_layers;
 
 	MousePointer *m_mousePointer;
+	bool m_mousePointerEnabled;
 
 	EventDispatcher m_eventDispatcher;
 	Skin m_skin;
