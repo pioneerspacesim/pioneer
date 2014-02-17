@@ -162,6 +162,9 @@ public:
 	}
 	bool CanHyperspaceTo(const SystemPath &dest) { return (CheckHyperspaceTo(dest) == HYPERJUMP_OK); }
 
+	Ship::HyperjumpStatus CheckHyperjumpCapability() const;
+	virtual Ship::HyperjumpStatus InitiateHyperjumpTo(const SystemPath &dest, int warmup_time, double duration, LuaRef checks);
+	virtual void AbortHyperjump();
 	virtual Ship::HyperjumpStatus StartHyperspaceCountdown(const SystemPath &dest);
 	float GetHyperspaceCountdown() const { return m_hyperspace.countdown; }
 	bool IsHyperspaceActive() const { return (m_hyperspace.countdown > 0.0); }
@@ -338,7 +341,9 @@ private:
 		// > 0 means active
 		float countdown;
 		bool now;
+		bool ignoreFuel; // XXX: To remove once the fuel handling is out of the core
 		double duration;
+		LuaRef checks; // A Lua function to check all the conditions before the jump
 	} m_hyperspace;
 	HyperspaceCloud *m_hyperspaceCloud;
 

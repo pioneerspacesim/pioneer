@@ -221,7 +221,6 @@ static int l_get_hyperspace_target(lua_State *l)
 		target = Pi::sectorView->GetHyperspaceTarget();
 	else
 		target = player->GetHyperspaceDest();
-	assert(target.IsSystemPath());
 	LuaObject<SystemPath>::PushToLua(target);
 	return 1;
 }

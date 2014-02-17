@@ -22,6 +22,7 @@ February 2014
      * ModelSpinner.model to get the spinner model
      * UI.Image:SetHeightLines to help set image height against text
      * hasprop method to see if the named property exists (#2734)
+     * Ship:InitiateHyperjumpTo to jump regardless of range or fuel (#2747)
 
    * Model changes
      * Removed two_sided material property, it didn't handle lighting correctly (#2697)
