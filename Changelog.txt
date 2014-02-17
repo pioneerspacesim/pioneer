@@ -17,9 +17,10 @@ February 2014
      * The `console.lua` script is now run at each game start (#2746)
      * Config values can be overidden on the command line
 
-   * Script API changes
+   * Script and UI API changes
      * Model.SetDebugFlags for adding debug effects to model drawing
      * ModelSpinner.model to get the spinner model
+     * UI.Image:SetHeightLines to help set image height against text
      * hasprop method to see if the named property exists (#2734)
 
    * Model changes
