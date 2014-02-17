@@ -1427,12 +1427,10 @@ float Pi::JoystickAxisState(int joystick, int axis) {
 void Pi::SetMouseGrab(bool on)
 {
 	if (!doingMouseGrab && on) {
-		SDL_ShowCursor(0);
 		Pi::renderer->GetWindow()->SetGrab(true);
 		doingMouseGrab = true;
 	}
 	else if(doingMouseGrab && !on) {
-		SDL_ShowCursor(1);
 		Pi::renderer->GetWindow()->SetGrab(false);
 		doingMouseGrab = false;
 	}
