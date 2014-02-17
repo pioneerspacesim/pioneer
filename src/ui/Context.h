@@ -38,6 +38,8 @@
 #include "Gauge.h"
 #include "Table.h"
 
+#include "MousePointer.h"
+
 #include "Lua.h"
 #include "LuaTable.h"
 
@@ -120,6 +122,8 @@ public:
 
 	Point GetMousePos() const { return m_eventDispatcher.GetMousePos(); }
 
+	void SetMousePointer(const std::string &filename, const Point &hotspot);
+
 	// event dispatch delegates
 	bool Dispatch(const Event &event) { return m_eventDispatcher.Dispatch(event); }
 	bool DispatchSDLEvent(const SDL_Event &event) { return m_eventDispatcher.DispatchSDLEvent(event); }
@@ -162,6 +166,8 @@ private:
 	bool m_needsLayout;
 
 	std::vector<Layer*> m_layers;
+
+	MousePointer *m_mousePointer;
 
 	EventDispatcher m_eventDispatcher;
 	Skin m_skin;

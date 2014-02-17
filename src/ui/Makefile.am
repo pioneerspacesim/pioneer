@@ -35,6 +35,7 @@ noinst_HEADERS = \
 	Lua.h \
 	LuaSignal.h \
 	Margin.h \
+	MousePointer.h \
 	MultiLineText.h \
 	NumberLabel.h \
 	Point.h \
