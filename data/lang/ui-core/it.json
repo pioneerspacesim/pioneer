@@ -169,7 +169,7 @@
    },
    "CREDIBLE" : {
       "description" : "For player reputation",
-      "message" : "Credible"
+      "message" : "Credibile"
    },
    "CREW_CABINS" : {
       "description" : "",
@@ -297,11 +297,11 @@
    },
    "EXPERIENCED" : {
       "description" : "For player reputation",
-      "message" : "Experienced"
+      "message" : "Competente"
    },
    "EXPERT" : {
       "description" : "For player reputation",
-      "message" : "Expert"
+      "message" : "Esperto"
    },
    "FAILED" : {
       "description" : "",
@@ -437,11 +437,11 @@
    },
    "INCOMPETENT" : {
       "description" : "For player reputation",
-      "message" : "Incompetent"
+      "message" : "Incompetente"
    },
    "INEXPERIENCED" : {
       "description" : "For player reputation",
-      "message" : "Inexperienced"
+      "message" : "Inesperto"
    },
    "INVERT_MOUSE_Y" : {
       "description" : "",
@@ -549,7 +549,7 @@
    },
    "MASTER" : {
       "description" : "For player reputation",
-      "message" : "Master"
+      "message" : "Maestro"
    },
    "MASTER_VOL" : {
       "description" : "Master sound in settings option",
@@ -657,7 +657,7 @@
    },
    "NOBODY" : {
       "description" : "For player reputation",
-      "message" : "Nobody"
+      "message" : "Nessuno"
    },
    "NONE" : {
       "description" : "",
@@ -769,7 +769,7 @@
    },
    "PROFESSIONAL" : {
       "description" : "For player reputation",
-      "message" : "Professional"
+      "message" : "Professionista"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
@@ -801,7 +801,7 @@
    },
    "RELIABLE" : {
       "description" : "For player reputation",
-      "message" : "Reliable"
+      "message" : "Affidabile"
    },
    "REPAIR_X_HULL_DAMAGE_FOR_X" : {
       "description" : "",
@@ -809,7 +809,7 @@
    },
    "REPUTATION" : {
       "description" : "",
-      "message" : "Reputation"
+      "message" : "Reputazione"
    },
    "REQUEST_LAUNCH" : {
       "description" : "",
@@ -937,7 +937,7 @@
    },
    "TRUSTWORTHY" : {
       "description" : "For player reputation",
-      "message" : "Trustworthy"
+      "message" : "Fidato"
    },
    "TYPE" : {
       "description" : "",
@@ -949,7 +949,7 @@
    },
    "UNRELIABLE" : {
       "description" : "",
-      "message" : "Unreliable"
+      "message" : "Inaffidabile"
    },
    "UP_ACCEL" : {
       "description" : "",
