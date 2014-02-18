@@ -236,7 +236,7 @@ public:
 	static float starScale[];
 	static fixed starMetallicities[];
 
-	RefCountedPtr<SystemBody> rootBody;
+	RefCountedPtr<SystemBody> m_rootBody;
 	std::vector<SystemBody*> m_spaceStations;
 	std::vector<SystemBody*> m_stars;
 	// index into this will be the SystemBody ID used by SystemPath

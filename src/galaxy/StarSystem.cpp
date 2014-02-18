@@ -1018,23 +1018,23 @@ void StarSystem::GenerateFromCustom(const CustomSystem *customSys, Random &rand)
 	PROFILE_SCOPED()
 	const CustomSystemBody *csbody = customSys->sBody;
 
-	rootBody.Reset(NewBody());
-	rootBody->type = csbody->type;
-	rootBody->parent = 0;
-	rootBody->seed = csbody->want_rand_seed ? rand.Int32() : csbody->seed;
-	rootBody->seed = rand.Int32();
-	rootBody->radius = csbody->radius;
-	rootBody->aspectRatio = csbody->aspectRatio;
-	rootBody->mass = csbody->mass;
-	rootBody->averageTemp = csbody->averageTemp;
-	rootBody->name = csbody->name;
-	rootBody->isCustomBody = true;
+	m_rootBody.Reset(NewBody());
+	m_rootBody->type = csbody->type;
+	m_rootBody->parent = 0;
+	m_rootBody->seed = csbody->want_rand_seed ? rand.Int32() : csbody->seed;
+	m_rootBody->seed = rand.Int32();
+	m_rootBody->radius = csbody->radius;
+	m_rootBody->aspectRatio = csbody->aspectRatio;
+	m_rootBody->mass = csbody->mass;
+	m_rootBody->averageTemp = csbody->averageTemp;
+	m_rootBody->name = csbody->name;
+	m_rootBody->isCustomBody = true;
 
-	rootBody->rotationalPhaseAtStart = csbody->rotationalPhaseAtStart;
-	rootBody->orbitalPhaseAtStart = csbody->orbitalPhaseAtStart;
+	m_rootBody->rotationalPhaseAtStart = csbody->rotationalPhaseAtStart;
+	m_rootBody->orbitalPhaseAtStart = csbody->orbitalPhaseAtStart;
 
 	int humanInfestedness = 0;
-	CustomGetKidsOf(rootBody.Get(), csbody->children, &humanInfestedness, rand);
+	CustomGetKidsOf(m_rootBody.Get(), csbody->children, &humanInfestedness, rand);
 	int i = 0;
 	m_stars.resize(m_numStars);
 	for (RefCountedPtr<SystemBody> b : m_bodies) {
@@ -1449,14 +1449,14 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path)
 		star[0]->orbMax = fixed(0);
 
 		MakeStarOfType(star[0], type, rand);
-		rootBody.Reset(star[0]);
+		m_rootBody.Reset(star[0]);
 		m_numStars = 1;
 	} else {
 		centGrav1 = NewBody();
 		centGrav1->type = SystemBody::TYPE_GRAVPOINT;
 		centGrav1->parent = 0;
 		centGrav1->name = s->m_systems[m_path.systemIndex].name+" A,B";
-		rootBody.Reset(centGrav1);
+		m_rootBody.Reset(centGrav1);
 
 		SystemBody::BodyType type = s->m_systems[m_path.systemIndex].starType[0];
 		star[0] = NewBody();
@@ -1527,7 +1527,7 @@ try_that_again_guvnah:
 			superCentGrav->name = s->m_systems[m_path.systemIndex].name;
 			centGrav1->parent = superCentGrav;
 			centGrav2->parent = superCentGrav;
-			rootBody.Reset(superCentGrav);
+			m_rootBody.Reset(superCentGrav);
 			const fixed minDistSuper = star[0]->orbMax + star[2]->orbMax;
 			MakeBinaryPair(centGrav1, centGrav2, 4*minDistSuper, rand);
 			superCentGrav->children.push_back(centGrav1);
@@ -1538,7 +1538,7 @@ try_that_again_guvnah:
 
 	// used in MakeShortDescription
 	// XXX except this does not reflect the actual mining happening in this system
-	m_metallicity = starMetallicities[rootBody->type];
+	m_metallicity = starMetallicities[m_rootBody->type];
 
 	m_stars.resize(m_numStars);
 	for (int i=0; i<m_numStars; i++) {
@@ -1573,7 +1573,7 @@ void StarSystem::Dump()
 	std::vector<vector3d> pos_stack;
 	std::vector<thing_t> output;
 
-	SystemBody *obj = rootBody;
+	SystemBody *obj = m_rootBody;
 	vector3d pos = vector3d(0.0);
 
 	while (obj) {
@@ -1718,7 +1718,7 @@ void StarSystem::MakePlanetsAround(SystemBody *primary, Random &rand)
 
 		/* in trinary and quaternary systems don't bump into other pair... */
 		if (m_numStars >= 3) {
-			discMax = std::min(discMax, fixed(5,100)*rootBody->children[0]->orbMin);
+			discMax = std::min(discMax, fixed(5,100)*m_rootBody->children[0]->orbMin);
 		}
 	} else {
 		fixed primary_rad = primary->radius * AU_EARTH_RADIUS;
@@ -2061,7 +2061,7 @@ void StarSystem::Populate(bool addSpaceStations)
 
 	/* system attributes */
 	m_totalPop = fixed(0);
-	rootBody->PopulateStage1(this, m_totalPop);
+	m_rootBody->PopulateStage1(this, m_totalPop);
 
 //	Output("Trading rates:\n");
 	// So now we have balances of trade of various commodities.
@@ -2086,7 +2086,7 @@ void StarSystem::Populate(bool addSpaceStations)
 	Polit::GetSysPolitStarSystem(this, m_totalPop, m_polit);
 
 	if (addSpaceStations) {
-		rootBody->PopulateAddStations(this);
+		m_rootBody->PopulateAddStations(this);
 	}
 
 	if (!m_shortDesc.size())
@@ -2362,7 +2362,7 @@ StarSystem::~StarSystem()
 	PROFILE_SCOPED()
 	// clear parent and children pointers. someone (Lua) might still have a
 	// reference to things that are about to be deleted
-	clear_parent_and_child_pointers(rootBody.Get());
+	clear_parent_and_child_pointers(m_rootBody.Get());
 }
 
 void StarSystem::Serialize(Serializer::Writer &wr, StarSystem *s)
@@ -2521,7 +2521,7 @@ void StarSystem::ExportToLua(const char *filename) {
 	fprintf(f,"-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details\n");
 	fprintf(f,"-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt\n\n");
 
-	std::string stars_in_system = GetStarTypes(rootBody.Get());
+	std::string stars_in_system = GetStarTypes(m_rootBody.Get());
 
 	for(j = 0; ENUM_PolitGovType[j].name != 0; j++) {
 		if(ENUM_PolitGovType[j].value == GetSysPolit().govType)
@@ -2531,7 +2531,7 @@ void StarSystem::ExportToLua(const char *filename) {
 	fprintf(f,"local system = CustomSystem:new('%s', { %s })\n\t:govtype('%s')\n\t:short_desc('%s')\n\t:long_desc([[%s]])\n\n",
 			GetName().c_str(), stars_in_system.c_str(), ENUM_PolitGovType[j].name, GetShortDescription(), GetLongDescription());
 
-	fprintf(f, "system:bodies(%s)\n\n", ExportBodyToLua(f, rootBody.Get()).c_str());
+	fprintf(f, "system:bodies(%s)\n\n", ExportBodyToLua(f, m_rootBody.Get()).c_str());
 
 	RefCountedPtr<const Sector> sec = Sector::cache.GetCached(GetPath());
 	SystemPath pa = GetPath();

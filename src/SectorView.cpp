@@ -775,7 +775,7 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 	} else if (sys->GetNumStars() == 2) {
 		desc = Lang::BINARY_SYSTEM;
 	} else {
-		desc = sys->rootBody->GetAstroDescription();
+		desc = sys->m_rootBody->GetAstroDescription();
 	}
 	labels.starType->SetText(desc);
 
