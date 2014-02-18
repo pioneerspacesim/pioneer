@@ -14,6 +14,7 @@
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
 #include "graphics/VertexArray.h"
+#include "MathUtil.h"
 #include "vcacheopt/vcacheopt.h"
 #include <deque>
 #include <algorithm>
@@ -77,16 +78,16 @@ void GeoPatch::_UpdateVBOs() {
 		if (!m_vbo) glGenBuffersARB(1, &m_vbo);
 		glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
 		glBufferDataARB(GL_ARRAY_BUFFER, sizeof(GeoPatchContext::VBOVertex)*ctx->NUMVERTICES(), 0, GL_DYNAMIC_DRAW);
-		double xfrac=0.0, yfrac=0.0;
-		double *pHts = heights.get();
+		const Sint32 edgeLen = ctx->edgeLen;
+		const double frac = ctx->frac;
+		const double *pHts = heights.get();
 		const vector3f *pNorm = normals.get();
 		const Color3ub *pColr = colors.get();
 		GeoPatchContext::VBOVertex *pData = ctx->vbotemp;
-		for (int y=0; y<ctx->edgeLen; y++) {
-			xfrac = 0.0;
-			for (int x=0; x<ctx->edgeLen; x++) {
+		for (Sint32 y=0; y<edgeLen; y++) {
+			for (Sint32 x=0; x<edgeLen; x++) {
 				const double height = *pHts;
-				const vector3d p = (GetSpherePoint(xfrac, yfrac) * (height + 1.0)) - clipCentroid;
+				const vector3d p = (GetSpherePoint(x*frac, y*frac) * (height + 1.0)) - clipCentroid;
 				clipRadius = std::max(clipRadius, p.Length());
 				pData->x = float(p.x);
 				pData->y = float(p.y);
@@ -105,10 +106,7 @@ void GeoPatch::_UpdateVBOs() {
 				++pColr; // next colour
 
 				++pData; // next vertex
-
-				xfrac += ctx->frac;
 			}
-			yfrac += ctx->frac;
 		}
 		glBufferDataARB(GL_ARRAY_BUFFER, sizeof(GeoPatchContext::VBOVertex)*ctx->NUMVERTICES(), ctx->vbotemp, GL_DYNAMIC_DRAW);
 		glBindBufferARB(GL_ARRAY_BUFFER, 0);
@@ -211,7 +209,7 @@ void GeoPatch::ReceiveHeightmaps(SQuadSplitResult *psr)
 	assert(NULL!=psr);
 	if (m_depth<psr->depth()) {
 		// this should work because each depth should have a common history
-		const uint32_t kidIdx = psr->data(0).patchID.GetPatchIdx(m_depth+1);
+		const Uint32 kidIdx = psr->data(0).patchID.GetPatchIdx(m_depth+1);
 		if( kids[kidIdx] ) {
 			kids[kidIdx]->ReceiveHeightmaps(psr);
 		} else {
