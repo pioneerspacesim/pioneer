@@ -142,6 +142,7 @@ SDLGraphics *Pi::sdl;
 Graphics::RenderTarget *Pi::renderTarget;
 RefCountedPtr<Graphics::Texture> Pi::renderTexture;
 std::unique_ptr<Graphics::Drawables::TexturedQuad> Pi::renderQuad;
+Graphics::RenderState *Pi::quadRenderState = nullptr;
 
 #if WITH_OBJECTVIEWER
 ObjectViewerView *Pi::objectViewerView;
@@ -150,6 +151,7 @@ ObjectViewerView *Pi::objectViewerView;
 Sound::MusicPlayer Pi::musicPlayer;
 std::unique_ptr<JobQueue> Pi::jobQueue;
 
+// XXX enabling this breaks UI gauge rendering. see #2627
 #define USE_RTT 0
 
 //static
@@ -164,12 +166,21 @@ void Pi::CreateRenderTarget(const Uint16 width, const Uint16 height) {
 		In that case, leave the color format to NONE so the initial texture is not created, then use SetColorTexture to attach your own.
 	*/
 #if USE_RTT
+	Graphics::RenderStateDesc rsd;
+	rsd.depthTest  = false;
+	rsd.depthWrite = false;
+	rsd.blendMode = Graphics::BLEND_ALPHA;
+	quadRenderState = Pi::renderer->CreateRenderState(rsd);
+
 	Graphics::TextureDescriptor texDesc(
 		Graphics::TEXTURE_RGBA_8888,
 		vector2f(width, height),
 		Graphics::LINEAR_CLAMP, false, false, 0);
 	Pi::renderTexture.Reset(Pi::renderer->CreateTexture(texDesc));
-	Pi::renderQuad.reset(new Graphics::Drawables::TexturedQuad(Pi::renderer, Pi::renderTexture.Get(), vector2f(0.0f,0.0f), vector2f(float(Graphics::GetScreenWidth()), float(Graphics::GetScreenHeight()))));
+	Pi::renderQuad.reset(new Graphics::Drawables::TexturedQuad(
+		Pi::renderer, Pi::renderTexture.Get(), 
+		vector2f(0.0f,0.0f), vector2f(float(Graphics::GetScreenWidth()), float(Graphics::GetScreenHeight())), 
+		quadRenderState));
 
 	// Complete the RT description so we can request a buffer.
 	// NB: we don't want it to create use a texture because we share it with the textured quad created above.
@@ -194,9 +205,6 @@ void Pi::DrawRenderTarget() {
 
 	//Gui::Screen::EnterOrtho();
 	{
-		Pi::renderer->SetDepthTest(false);
-		Pi::renderer->SetLightsEnabled(false);
-		Pi::renderer->SetBlendMode(Graphics::BLEND_ALPHA);
 		Pi::renderer->SetMatrixMode(Graphics::MatrixMode::PROJECTION);
 		Pi::renderer->PushMatrix();
 		Pi::renderer->SetOrthographicProjection(0, Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), 0, -1, 1);
@@ -213,8 +221,6 @@ void Pi::DrawRenderTarget() {
 		Pi::renderer->PopMatrix();
 		Pi::renderer->SetMatrixMode(Graphics::MatrixMode::MODELVIEW);
 		Pi::renderer->PopMatrix();
-		Pi::renderer->SetLightsEnabled(true);
-		Pi::renderer->SetDepthTest(true);
 	}
 
 	Pi::renderer->EndFrame();
@@ -339,7 +345,7 @@ std::string Pi::GetSaveDir()
 	return FileSystem::JoinPath(FileSystem::GetUserDir(), Pi::SAVE_DIR_NAME);
 }
 
-void Pi::Init()
+void Pi::Init(const std::map<std::string,std::string> &options)
 {
 #ifdef PIONEER_PROFILER
 	Profiler::reset();
@@ -354,7 +360,7 @@ void Pi::Init()
 	profilerPath = FileSystem::JoinPathBelow(FileSystem::userFiles.GetRoot(), "profiler");
 #endif
 
-	Pi::config = new GameConfig();
+	Pi::config = new GameConfig(options);
 	KeyBindings::InitBindings();
 
 	if (config->Int("RedirectStdio"))
@@ -1078,6 +1084,8 @@ void Pi::EndGame()
 	LuaEvent::Queue("onGameEnd");
 	LuaEvent::Emit();
 
+	luaTimer->RemoveAll();
+
 	Lua::manager->CollectGarbage();
 
 	if (!config->Int("DisableSound")) AmbientSounds::Uninit();
@@ -1220,8 +1228,14 @@ void Pi::MainLoop()
 			}
 		}
 
-		Pi::ui->Update();
-		Pi::ui->Draw();
+		// XXX don't draw the UI during death obviously a hack, and still
+		// wrong, because we shouldn't this when the HUD is disabled, but
+		// probably sure draw it if they switch to eg infoview while the HUD is
+		// disabled so we need much smarter control for all this rubbish
+		if (Pi::GetView() != Pi::deathView) {
+			Pi::ui->Update();
+			Pi::ui->Draw();
+		}
 
 #if WITH_DEVKEYS
 		if (Pi::showDebugInfo) {

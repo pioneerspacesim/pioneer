@@ -142,11 +142,14 @@ public:
 	};
 
 	struct BorderedRectElement : public RectElement {
-		BorderedRectElement() : borderWidth(0), borderHeight(0) {}
-		BorderedRectElement(unsigned int x, unsigned int y, unsigned int w, unsigned int h, unsigned int _borderWidth, unsigned int _borderHeight) :
-			RectElement(x, y, w, h), borderWidth(_borderWidth), borderHeight(_borderHeight) {}
+		BorderedRectElement() : borderWidth(0), borderHeight(0), paddingX(0), paddingY(0) {}
+		BorderedRectElement(unsigned int x, unsigned int y, unsigned int w, unsigned int h,
+				            unsigned int _borderWidth, unsigned int _borderHeight, unsigned int _paddingX, unsigned int _paddingY) :
+			RectElement(x, y, w, h), borderWidth(_borderWidth), borderHeight(_borderHeight), paddingX(_paddingX), paddingY(_paddingY) {}
 		unsigned int borderWidth;
 		unsigned int borderHeight;
+		unsigned int paddingX;
+		unsigned int paddingY;
 	};
 
 	struct EdgedRectElement : public RectElement {

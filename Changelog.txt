@@ -15,11 +15,14 @@ February 2014
      * Improve skybox, restore star rendering (#2736)
      * New wheels up/down icon (#2754)
      * The `console.lua` script is now run at each game start (#2746)
+     * Config values can be overidden on the command line
 
-   * Script API changes
+   * Script and UI API changes
      * Model.SetDebugFlags for adding debug effects to model drawing
      * ModelSpinner.model to get the spinner model
+     * UI.Image:SetHeightLines to help set image height against text
      * hasprop method to see if the named property exists (#2734)
+     * Ship:InitiateHyperjumpTo to jump regardless of range or fuel (#2747)
 
    * Model changes
      * Removed two_sided material property, it didn't handle lighting correctly (#2697)
@@ -35,6 +38,9 @@ February 2014
      * Fix various glitches and an assertion in system info view (#2741,#2743,#2755)
      * Fix that rotation state of bodies was not saved/loaded properly (#2733,#2738)
      * Fix pattern for Xylophis (#2723,#2759)
+     * Render to texture Skybox alpha fix (#2763)
+     * Remove Lua timers at game exit (#1962)
+	 * Copy n' waste error fixed (#2770)
 
    * Internal changes
      * Moved model debug effects (wireframe, collision mesh) out of

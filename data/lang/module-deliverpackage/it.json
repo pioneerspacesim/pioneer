@@ -17,35 +17,35 @@
    },
    "DENY_0" : {
       "description" : "",
-      "message" : "I'm sorry, but I don't think I can trust you with this delivery."
+      "message" : "Sono spiacente, ma non penso di potermi fidare di lei per questa consegna."
    },
    "DENY_1" : {
       "description" : "",
-      "message" : "Come back when you have some qualifications."
+      "message" : "Ritorni quando avrà qualche qualifica."
    },
    "DENY_2" : {
       "description" : "",
-      "message" : "I don't think you're the pilot I'm looking for."
+      "message" : "Non credo che lei sia il pilota che io sto cercando."
    },
    "DENY_3" : {
       "description" : "",
-      "message" : "You don't look like someone I can trust with this delivery."
+      "message" : "Non sembra essere qualcuno di cui mi possa fidare per questa consegna."
    },
    "DENY_4" : {
       "description" : "",
-      "message" : "You're not the kind of pilot I'm looking for."
+      "message" : "Lei non è il genere di pilota che sto cercando."
    },
    "DENY_5" : {
       "description" : "",
-      "message" : "You seem much too inexperienced to handle a task of this importance."
+      "message" : "Lei sembra troppo inesperto per gestire un compito di questa importanza."
    },
    "DENY_6" : {
       "description" : "",
-      "message" : "I have never heard of you. I need someone experienced for this delivery."
+      "message" : "Non ho mai sentito parlare di lei. Ho bisogno di qualcuno con dell'esperienza per questa consegna."
    },
    "DENY_7" : {
       "description" : "",
-      "message" : "I'm not willing to risk this delivery on someone without any qualifications like you."
+      "message" : "Non ho intenzione di rischiare questa consegna a causa di qualcuno senza qualifiche come lei."
    },
    "DISTANCE" : {
       "description" : "",

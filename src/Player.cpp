@@ -197,6 +197,15 @@ void Player::SetNavTarget(Body* const target, bool setSpeedTo)
 }
 //temporary targeting stuff ends
 
+Ship::HyperjumpStatus Player::InitiateHyperjumpTo(const SystemPath &dest, int warmup_time, double duration, LuaRef checks) {
+	HyperjumpStatus status = Ship::InitiateHyperjumpTo(dest, warmup_time, duration, checks);
+
+	if (status == HYPERJUMP_OK)
+		s_soundHyperdrive.Play("Hyperdrive_Charge");
+
+	return status;
+}
+
 Ship::HyperjumpStatus Player::StartHyperspaceCountdown(const SystemPath &dest)
 {
 	HyperjumpStatus status = Ship::StartHyperspaceCountdown(dest);
@@ -205,6 +214,12 @@ Ship::HyperjumpStatus Player::StartHyperspaceCountdown(const SystemPath &dest)
 		s_soundHyperdrive.Play("Hyperdrive_Charge");
 
 	return status;
+}
+
+void Player::AbortHyperjump()
+{
+	s_soundHyperdrive.Play("Hyperdrive_Abort");
+	Ship::AbortHyperjump();
 }
 
 void Player::ResetHyperspaceCountdown()

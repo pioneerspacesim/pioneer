@@ -215,8 +215,12 @@ void Sphere3D::Subdivide(VertexArray &vts, std::vector<Uint16> &indices,
 }
 
 // a textured quad with reversed winding
-TexturedQuad::TexturedQuad(Graphics::Renderer *r, Graphics::Texture *texture, const vector2f &pos, const vector2f &size) : m_texture(RefCountedPtr<Graphics::Texture>(texture))
+TexturedQuad::TexturedQuad(Graphics::Renderer *r, Graphics::Texture *texture, const vector2f &pos, const vector2f &size, RenderState *state)
+	: m_texture(RefCountedPtr<Graphics::Texture>(texture))
 {
+	assert(state);
+	m_renderState = state;
+
 	m_vertices.reset(new VertexArray(ATTRIB_POSITION | ATTRIB_UV0));
 	Graphics::MaterialDescriptor desc;
 	desc.textures = 1;

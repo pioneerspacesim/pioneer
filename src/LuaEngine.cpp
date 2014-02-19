@@ -280,7 +280,7 @@ static int l_engine_set_fractal_detail_level(lua_State *l)
 {
 	const int level = LuaConstants::GetConstantFromArg(l, "DetailLevel", 1);
 	if (level != Pi::detail.fracmult) {
-		Pi::detail.cities = level;
+		Pi::detail.fracmult = level;
 		Pi::config->SetInt("FractalMultiple", level);
 		Pi::config->Save();
 		Pi::OnChangeDetailLevel();

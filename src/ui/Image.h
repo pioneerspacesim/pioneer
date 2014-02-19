@@ -16,6 +16,8 @@ public:
 	virtual Point PreferredSize();
 	virtual void Draw();
 
+	Image *SetHeightLines(Uint32 lines);
+
 protected:
 	friend class Context;
 	Image(Context *context, const std::string &filename, Uint32 sizeControlFlags);

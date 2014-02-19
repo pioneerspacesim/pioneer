@@ -9,7 +9,7 @@
    },
    "DENY_0" : {
       "description" : "",
-      "message" : "Lo siento, pero no te creo."
+      "message" : "Lo siento, pero no confío en usted."
    },
    "DENY_1" : {
       "description" : "",
@@ -33,7 +33,7 @@
    },
    "DENY_6" : {
       "description" : "",
-      "message" : "Nunca he oido de usted. Necesito a alguien con experiencia para este encargo."
+      "message" : "Nunca he oído de usted. Necesito a alguien con experiencia para este encargo."
    },
    "DENY_7" : {
       "description" : "",
