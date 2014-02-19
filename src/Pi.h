@@ -62,7 +62,7 @@ class Game;
 
 class Pi {
 public:
-	static void Init();
+	static void Init(const std::map<std::string,std::string> &options);
 	static void InitGame();
 	static void StarportStart(Uint32 starport);
 	static void StartGame();
@@ -226,6 +226,7 @@ private:
 	static Graphics::RenderTarget *renderTarget;
 	static RefCountedPtr<Graphics::Texture> renderTexture;
 	static std::unique_ptr<Graphics::Drawables::TexturedQuad> renderQuad;
+	static Graphics::RenderState *quadRenderState;
 };
 
 #endif /* _PI_H */

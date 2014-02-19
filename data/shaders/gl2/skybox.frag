@@ -8,6 +8,5 @@ varying float v_skyboxFactor;
 
 void main( void )
 {
-    gl_FragColor = textureCube( texture0, v_texCoord ) * v_skyboxFactor;
-    
+    gl_FragColor = vec4(textureCube( texture0, v_texCoord ).xyz * v_skyboxFactor, 1.0);
 }

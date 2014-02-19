@@ -245,7 +245,7 @@
    },
    "CONTROLS" : {
       "description" : "",
-      "message" : "Controls"
+      "message" : "Valdymas"
    },
    "CORPORATE_SYSTEM" : {
       "description" : "",
@@ -337,7 +337,7 @@
    },
    "DRAW_UNINHABITED_LABELS" : {
       "description" : "",
-      "message" : "Label uninhabited systems"
+      "message" : "Žymėti neapgyvendintas sistemas"
    },
    "DRAW_VERTICAL_LINES" : {
       "description" : "",
@@ -541,7 +541,7 @@
    },
    "GENERAL_VIEW_CONTROLS" : {
       "description" : "",
-      "message" : "General View Controls"
+      "message" : "Bendras Vaizdo Valdymas"
    },
    "GOVERNMENT_TYPE" : {
       "description" : "",
@@ -797,11 +797,11 @@
    },
    "MAP_LOCK_HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Lock Hyperspace Target"
+      "message" : "Nustatyti hipererdvės taikinį"
    },
    "MAP_TOGGLE_INFO_PANEL" : {
       "description" : "",
-      "message" : "Toggle Info Panel"
+      "message" : "Įj./Išj. Informacinį Skydą"
    },
    "MAP_TOGGLE_SELECTION_FOLLOW_VIEW" : {
       "description" : "",
@@ -809,55 +809,55 @@
    },
    "MAP_VIEW_ROTATE_DOWN" : {
       "description" : "",
-      "message" : "Rotate View Down"
+      "message" : "Pakreipti vaizdą žemyn"
    },
    "MAP_VIEW_ROTATE_LEFT" : {
       "description" : "",
-      "message" : "Rotate View Left"
+      "message" : "Pasukti vaizdą kairėn"
    },
    "MAP_VIEW_ROTATE_RIGHT" : {
       "description" : "",
-      "message" : "Rotate View Right"
+      "message" : "Pasukti vaizdą dešinėn"
    },
    "MAP_VIEW_ROTATE_UP" : {
       "description" : "",
-      "message" : "Rotate View Up"
+      "message" : "Pakreipti vaizdą aukštyn"
    },
    "MAP_VIEW_SHIFT_BACKWARD" : {
       "description" : "",
-      "message" : "Shift View Backwards"
+      "message" : "Paslinkti vaizdą atgal"
    },
    "MAP_VIEW_SHIFT_DOWN" : {
       "description" : "",
-      "message" : "Shift View Down"
+      "message" : "Paslinkti vaizdą žemyn"
    },
    "MAP_VIEW_SHIFT_FORWARD" : {
       "description" : "",
-      "message" : "Shift View Forwards"
+      "message" : "Paslinkti vaizdą pirmyn"
    },
    "MAP_VIEW_SHIFT_LEFT" : {
       "description" : "",
-      "message" : "Shift View Left"
+      "message" : "Paslinkti vaizdą kairėn"
    },
    "MAP_VIEW_SHIFT_RIGHT" : {
       "description" : "",
-      "message" : "Shift View Right"
+      "message" : "Paslinkti vaizdą dešinėn"
    },
    "MAP_VIEW_SHIFT_UP" : {
       "description" : "",
-      "message" : "Shift View Up"
+      "message" : "Paslinkti vaizdą aukštyn"
    },
    "MAP_WARP_TO_CURRENT_SYSTEM" : {
       "description" : "",
-      "message" : "Warp to Current System"
+      "message" : "Persikelti į dabartinę sistemą"
    },
    "MAP_WARP_TO_HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Warp to Hyperspace Target"
+      "message" : "Persikelti į hipererdvės taikinį"
    },
    "MAP_WARP_TO_SELECTED_SYSTEM" : {
       "description" : "",
-      "message" : "Warp to Selected System"
+      "message" : "Persikelti į pasirinktą sistemą"
    },
    "MASS" : {
       "description" : "",
@@ -1013,11 +1013,11 @@
    },
    "NAME_OBJECT" : {
       "description" : "For an item or object",
-      "message" : "Name"
+      "message" : "Vardas"
    },
    "NAME_PERSON" : {
       "description" : "For a person",
-      "message" : "Name"
+      "message" : "Vardas"
    },
    "NARCOTICS" : {
       "description" : "",
@@ -1309,7 +1309,7 @@
    },
    "RESET_ORIENTATION_AND_ZOOM" : {
       "description" : "",
-      "message" : "Reset Orientation and Zoom"
+      "message" : "Atitaisyti kryptį ir priartinimą"
    },
    "ROBOTS" : {
       "description" : "",
@@ -1345,7 +1345,7 @@
    },
    "ROTATE_RIGHT" : {
       "description" : "",
-      "message" : "Rotate Right"
+      "message" : "Suktis dešinėn"
    },
    "ROTATE_UP" : {
       "description" : "",
@@ -1397,7 +1397,7 @@
    },
    "SEARCH_MAP" : {
       "description" : "",
-      "message" : "Search Map"
+      "message" : "Ieškoti žemėlapyje"
    },
    "SECTOR_COORDINATES" : {
       "description" : "",
@@ -1405,7 +1405,7 @@
    },
    "SECTOR_MAP_VIEW" : {
       "description" : "",
-      "message" : "Sector Map View"
+      "message" : "Sektoriaus žemėlapis"
    },
    "SECTOR_X_Y_Z" : {
       "description" : "",

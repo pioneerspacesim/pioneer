@@ -23,7 +23,6 @@ static const int NUM_INDEX_LISTS = 16;
 namespace Graphics { class Renderer; }
 class SystemBody;
 class GeoPatch;
-class GeoPatchContext;
 class GeoSphere;
 
 class GeoPatchContext : public RefCounted {

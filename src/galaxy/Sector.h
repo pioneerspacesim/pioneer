@@ -23,9 +23,6 @@ public:
 	static const float SIZE;
 	~Sector();
 
-	Sector(const Sector&) = delete;
-	Sector& operator=(const Sector&) = delete;
-
 	static float DistanceBetween(RefCountedPtr<const Sector> a, int sysIdxA, RefCountedPtr<const Sector> b, int sysIdxB);
 	static void Init();
 
@@ -67,6 +64,9 @@ public:
 	std::vector<System> m_systems;
 
 private:
+	Sector(const Sector&); // non-copyable
+	Sector& operator=(const Sector&); // non-assignable
+
 	int sx, sy, sz;
 	bool m_factionsAssigned;
 

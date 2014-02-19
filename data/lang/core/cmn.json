@@ -1,11 +1,11 @@
 {
    "AIR_PROCESSORS" : {
       "description" : "",
-      "message" : "Air processors"
+      "message" : "空气处理器"
    },
    "ALERT_CANCELLED" : {
       "description" : "",
-      "message" : "Alert cancelled."
+      "message" : "警报解除."
    },
    "ALLEGIANCE" : {
       "description" : "",
@@ -29,7 +29,7 @@
    },
    "AND_INDIGENOUS_MICROBIAL_LIFE" : {
       "description" : "",
-      "message" : "\" and indigenous microbial life.\""
+      "message" : "\" 和本地微生物.\""
    },
    "AND_INDIGENOUS_PLANT_LIFE" : {
       "description" : "",
@@ -69,7 +69,7 @@
    },
    "AUTOPILOT_DOCK_WITH_STATION" : {
       "description" : "",
-      "message" : "Autopilot: Dock with space station"
+      "message" : "自动导航: 停靠空间站"
    },
    "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND" : {
       "description" : "",
@@ -89,7 +89,7 @@
    },
    "AUTOPILOT_ON" : {
       "description" : "",
-      "message" : "Autopilot on"
+      "message" : "自动导航开启"
    },
    "AXIAL_TILT" : {
       "description" : "",
@@ -129,15 +129,15 @@
    },
    "CAMERA_FRONT_VIEW" : {
       "description" : "",
-      "message" : "Front camera"
+      "message" : "前摄像机"
    },
    "CAMERA_LEFT_VIEW" : {
       "description" : "",
-      "message" : "Left camera"
+      "message" : "左摄像机"
    },
    "CAMERA_REAR_VIEW" : {
       "description" : "",
-      "message" : "Rear camera"
+      "message" : "后摄像机"
    },
    "CAMERA_RIGHT_VIEW" : {
       "description" : "",
@@ -177,7 +177,7 @@
    },
    "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
       "description" : "",
-      "message" : "Allows the transport of live cargo."
+      "message" : "允许活体运输."
    },
    "CARGO_N" : {
       "description" : "",
@@ -185,11 +185,11 @@
    },
    "CARGO_SCOOP" : {
       "description" : "",
-      "message" : "Cargo Scoop"
+      "message" : "货物收集舱"
    },
    "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED" : {
       "description" : "",
-      "message" : "Cargo scoop active. Collected 1 tonne of %item."
+      "message" : "货物收集开启. 得到了1吨 %item."
    },
    "CARGO_SCOOP_DESCRIPTION" : {
       "description" : "",
@@ -201,15 +201,15 @@
    },
    "CLEARANCE_ALREADY_GRANTED_BAY_N" : {
       "description" : "",
-      "message" : "Clearance already granted. Proceed to docking bay %bay."
+      "message" : "许可已经授予. 请停靠在码头 %bay."
    },
    "CLEARANCE_DENIED_NO_BAYS" : {
       "description" : "",
-      "message" : "Clearance denied. There are no free docking bays."
+      "message" : "许可被拒绝. 没有多余的停靠位置."
    },
    "CLEARANCE_GRANTED_BAY_N" : {
       "description" : "",
-      "message" : "Clearance granted. Proceed to docking bay %bay."
+      "message" : "许可授予. 请停靠在码头 %bay."
    },
    "CO2_ATMOSPHERE" : {
       "description" : "",
@@ -229,7 +229,7 @@
    },
    "COMPUTERS" : {
       "description" : "",
-      "message" : "Computers"
+      "message" : "计算机"
    },
    "COMPUTER_HEADING_CONTROL" : {
       "description" : "",
@@ -237,7 +237,7 @@
    },
    "COMPUTER_SPEED_CONTROL" : {
       "description" : "",
-      "message" : "Computer speed control"
+      "message" : "计算机速度控制"
    },
    "CONSUMER_GOODS" : {
       "description" : "",
@@ -261,7 +261,7 @@
    },
    "COUNT_STARPORTS" : {
       "description" : "",
-      "message" : "starports"
+      "message" : "星港"
    },
    "CO_ATMOSPHERE" : {
       "description" : "",
@@ -273,7 +273,7 @@
    },
    "CURRENT_SYSTEM" : {
       "description" : "",
-      "message" : "Current system"
+      "message" : "当前星系"
    },
    "DATE_DUE_N" : {
       "description" : "",
@@ -281,7 +281,7 @@
    },
    "DAY_LENGTH" : {
       "description" : "",
-      "message" : "Day length"
+      "message" : "一天长度"
    },
    "DECREASE_SCAN_RANGE" : {
       "description" : "",
@@ -289,11 +289,11 @@
    },
    "DECREASE_SET_SPEED" : {
       "description" : "",
-      "message" : "Decrease set speed"
+      "message" : "降低速度"
    },
    "DEMOGRAPHICS" : {
       "description" : "",
-      "message" : "Demographics"
+      "message" : "人口统计"
    },
    "DESTINATION" : {
       "description" : "",
@@ -321,15 +321,15 @@
    },
    "DOCKING" : {
       "description" : "",
-      "message" : "Docking"
+      "message" : "正在停靠"
    },
    "DOCKING_CLEARANCE_EXPIRED" : {
       "description" : "",
-      "message" : "靠港通行证已过期。如果你希望停靠，你必须重复靠港请求。"
+      "message" : "靠港通行证已过期. 如果你希望停靠, 你必须重复靠港请求. "
    },
    "DOWNGRADING_ALERT_STATUS" : {
       "description" : "",
-      "message" : "No fire detected for 60 seconds, downgrading alert status."
+      "message" : "60秒未检测到开火, 降低警报等级."
    },
    "DRAW_OUT_RANGE_LABELS" : {
       "description" : "",
@@ -341,7 +341,7 @@
    },
    "DRAW_VERTICAL_LINES" : {
       "description" : "",
-      "message" : "Draw vertical lines"
+      "message" : "绘制垂直线"
    },
    "DRIVE_CLASS1" : {
       "description" : "",
@@ -397,7 +397,7 @@
    },
    "EARTH" : {
       "description" : "",
-      "message" : "Earth"
+      "message" : "地球"
    },
    "EARTH_FEDERATION_COLONIAL_RULE" : {
       "description" : "",
@@ -429,7 +429,7 @@
    },
    "ECONOMIC_INFO" : {
       "description" : "",
-      "message" : "Economic info"
+      "message" : "经济信息"
    },
    "ECONOMY_TYPE" : {
       "description" : "",
@@ -453,19 +453,19 @@
    },
    "EXTERNAL_ATMOSPHERIC_PRESSURE" : {
       "description" : "",
-      "message" : "External atmospheric pressure"
+      "message" : "外部大气压"
    },
    "EXTERNAL_VIEW" : {
       "description" : "",
-      "message" : "External view"
+      "message" : "外部视角"
    },
    "FARM_MACHINERY" : {
       "description" : "",
-      "message" : "农业"
+      "message" : "农业机械"
    },
    "FERTILIZER" : {
       "description" : "",
-      "message" : "Fertilizer"
+      "message" : "化肥"
    },
    "FINE_PAID_N" : {
       "description" : "",
@@ -473,11 +473,11 @@
    },
    "FINE_PAID_N_BUT_N_REMAINING" : {
       "description" : "",
-      "message" : "You have paid %paid but still have an outstanding fine of %fine."
+      "message" : "你已经支付了 %paid 但是还有剩余款项 %fine 需要支付."
    },
    "FIRE_LASER" : {
       "description" : "",
-      "message" : "Fire laser"
+      "message" : "发射激光"
    },
    "FIRE_MISSILE" : {
       "description" : "",
@@ -505,11 +505,11 @@
    },
    "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED" : {
       "description" : "",
-      "message" : "Fuel scoop active. You now have %quantity tonnes of hydrogen."
+      "message" : "燃料收集开启. 你现在已经获得 %quantity 吨氢."
    },
    "FUEL_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Permits scooping hydrogen fuel from gas giant planets."
+      "message" : "允许从气体巨星收集氢燃料."
    },
    "GALACTIC_VIEW" : {
       "description" : "",
@@ -517,19 +517,19 @@
    },
    "GALAXY_SECTOR_VIEW" : {
       "description" : "",
-      "message" : "Galaxy sector view"
+      "message" : "银河区域视角"
    },
    "GAME_LOAD_CANNOT_OPEN" : {
       "description" : "",
-      "message" : "This saved game file could not be opened due to permissions or something..."
+      "message" : "这个存储的游戏文件因为权限问题不能被打开..."
    },
    "GAME_LOAD_CORRUPT" : {
       "description" : "",
-      "message" : "This saved game cannot be loaded because it contains errors."
+      "message" : "这个存储的游戏因为含有错误而不能被读取."
    },
    "GAME_LOAD_WRONG_VERSION" : {
       "description" : "",
-      "message" : "This saved game cannot be loaded because it was created by a different version of Pioneer."
+      "message" : "这个游戏不能被读取是因为它是被一个不同版本的Pioneer创建的."
    },
    "GAME_SAVED_TO" : {
       "description" : "",
@@ -537,7 +537,7 @@
    },
    "GAME_SAVE_CANNOT_WRITE" : {
       "description" : "",
-      "message" : "This saved game file could not be written because of a system error."
+      "message" : "这个存储的游戏因为系统错误而不能被保存."
    },
    "GENERAL_VIEW_CONTROLS" : {
       "description" : "",
@@ -609,7 +609,7 @@
    },
    "HYDROGEN_DESCRIPTION" : {
       "description" : "",
-      "message" : "Hydrogen is primarily used as a fusion fuel"
+      "message" : "氢主要被作为核聚变燃料使用"
    },
    "HYPERCLOUD_ANALYZER" : {
       "description" : "",
@@ -621,7 +621,7 @@
    },
    "HYPERSPACE" : {
       "description" : "",
-      "message" : "Hyperspace"
+      "message" : "跃迁"
    },
    "HYPERSPACE_ARRIVAL_CLOUD" : {
       "description" : "",
@@ -629,7 +629,7 @@
    },
    "HYPERSPACE_ARRIVAL_CLOUD_REMNANT" : {
       "description" : "",
-      "message" : "Hyperspace arrival cloud remnant"
+      "message" : "跃迁云剩余部分"
    },
    "HYPERSPACE_DEPARTURE_CLOUD" : {
       "description" : "",
@@ -661,7 +661,7 @@
    },
    "ILLEGAL_GOODS" : {
       "description" : "",
-      "message" : "Illegal Goods:"
+      "message" : "非法货物:"
    },
    "IMPERIAL_RULE" : {
       "description" : "",
@@ -673,7 +673,7 @@
    },
    "INCREASE_SET_SPEED" : {
       "description" : "",
-      "message" : "Increase set speed"
+      "message" : "增加速度"
    },
    "INDUSTRIAL_COLONY" : {
       "description" : "",
@@ -681,23 +681,23 @@
    },
    "INDUSTRIAL_HUB_SYSTEM" : {
       "description" : "",
-      "message" : "Industrial hub system."
+      "message" : "工业化中心系统"
    },
    "INDUSTRIAL_MACHINERY" : {
       "description" : "",
-      "message" : "机械工业"
+      "message" : "机械工业品"
    },
    "INTERNAL_VIEW" : {
       "description" : "",
-      "message" : "Internal view"
+      "message" : "内部视角"
    },
    "INT_LY" : {
       "description" : "",
-      "message" : "%scale ly"
+      "message" : "%scale 光年"
    },
    "IN_TRANSIT" : {
       "description" : "",
-      "message" : "In transit"
+      "message" : "在途中"
    },
    "IN_TRANSIT_TO_N_X_X_X" : {
       "description" : "",
@@ -709,7 +709,7 @@
    },
    "JOYSTICK_INPUT" : {
       "description" : "",
-      "message" : "Joystick input"
+      "message" : "手柄输入"
    },
    "JOY_AXIS" : {
       "description" : "",
@@ -741,11 +741,11 @@
    },
    "LASER_COOLING_BOOSTER" : {
       "description" : "",
-      "message" : "Laser Cooling Booster"
+      "message" : "激光冷却助推器"
    },
    "LASER_COOLING_BOOSTER_DESCRIPTION" : {
       "description" : "",
-      "message" : "An improved cooling system for your weapons."
+      "message" : "一个改良的武器冷却系统."
    },
    "LASER_FIRE_DETECTED" : {
       "description" : "",
@@ -757,19 +757,19 @@
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
-      "message" : "Liberal democracy"
+      "message" : "自由民主制"
    },
    "LIQUID_OXYGEN" : {
       "description" : "",
-      "message" : "Liquid Oxygen"
+      "message" : "液态氧"
    },
    "LIQUID_OXYGEN_DESCRIPTION" : {
       "description" : "",
-      "message" : "Oxygen is required for life support systems and some industrial processes"
+      "message" : "有生命的星系和一些工业流程需要氧"
    },
    "LIQUOR" : {
       "description" : "",
-      "message" : "Liquor"
+      "message" : "烈酒"
    },
    "LIVE_ANIMALS" : {
       "description" : "",
@@ -865,19 +865,19 @@
    },
    "MASSIVE" : {
       "description" : "",
-      "message" : "Massive"
+      "message" : "大规模的"
    },
    "MASS_N_TONNES" : {
       "description" : "",
-      "message" : "Mass: %{mass}t"
+      "message" : "质量: %{mass}吨"
    },
    "MEDICINES" : {
       "description" : "",
-      "message" : "Medicines"
+      "message" : "药品"
    },
    "MEDIUM_GAS_GIANT" : {
       "description" : "",
-      "message" : "Medium gas giant"
+      "message" : "中型气体巨星"
    },
    "MESSAGE_FROM_X" : {
       "description" : "",
@@ -913,23 +913,23 @@
    },
    "MINING_COLONY" : {
       "description" : "",
-      "message" : "Mining colony."
+      "message" : "矿业殖民地"
    },
    "MINING_MACHINERY" : {
       "description" : "",
-      "message" : "采矿行业"
+      "message" : "采矿机械"
    },
    "MINOR_EXPORTS" : {
       "description" : "",
-      "message" : "Minor Exports:"
+      "message" : "次要出口："
    },
    "MINOR_IMPORTS" : {
       "description" : "",
-      "message" : "Minor Imports:"
+      "message" : "次要进口："
    },
    "MISCELLANEOUS" : {
       "description" : "",
-      "message" : "Miscellaneous"
+      "message" : "混杂的"
    },
    "MISSILE" : {
       "description" : "",
@@ -941,7 +941,7 @@
    },
    "MISSILE_NAVAL" : {
       "description" : "",
-      "message" : "Naval Missile"
+      "message" : "巡航导弹"
    },
    "MISSILE_SMART" : {
       "description" : "",
@@ -949,15 +949,15 @@
    },
    "MISSILE_UNGUIDED" : {
       "description" : "",
-      "message" : "R40 Unguided Rocket"
+      "message" : "R40非制导导弹"
    },
    "MIXED_ECONOMY" : {
       "description" : "",
-      "message" : "Mixed economy"
+      "message" : "混合型经济"
    },
    "MONTH_APR" : {
       "description" : "",
-      "message" : "Apr"
+      "message" : "四月"
    },
    "MONTH_AUG" : {
       "description" : "",
@@ -1009,7 +1009,7 @@
    },
    "M_S_RELATIVE_TO" : {
       "description" : "",
-      "message" : "%speed{f.0} m/s rel-to %frame"
+      "message" : "%speed{f.0} m/s 相对于 %frame"
    },
    "NAME_OBJECT" : {
       "description" : "For an item or object",
@@ -1025,11 +1025,11 @@
    },
    "NAVIGATION_STAR_MAPS" : {
       "description" : "",
-      "message" : "Navigation and star maps"
+      "message" : "航行和星系图"
    },
    "NAVIGATION_TARGETS_IN_THIS_SYSTEM" : {
       "description" : "",
-      "message" : "Navigation targets in this system"
+      "message" : "在这个星系中的航行目标"
    },
    "NERVE_GAS" : {
       "description" : "",
@@ -1041,7 +1041,7 @@
    },
    "NORMA_ARM" : {
       "description" : "",
-      "message" : "Norma arm"
+      "message" : "矩尺座旋臂"
    },
    "NOT_FOUND" : {
       "description" : "",
@@ -1049,7 +1049,7 @@
    },
    "NOT_FOUND_BEST_MATCH_X" : {
       "description" : "",
-      "message" : "Not found, best match: %system"
+      "message" : "没有找到最佳匹配: %system"
    },
    "NO_ALERT" : {
       "description" : "",
@@ -1057,7 +1057,7 @@
    },
    "NO_CENTRAL_GOVERNANCE" : {
       "description" : "",
-      "message" : "No central governance"
+      "message" : "没有中央政府"
    },
    "NO_ESTABLISHED_ORDER" : {
       "description" : "",
@@ -1077,7 +1077,7 @@
    },
    "NUMBER_DAYS" : {
       "description" : "",
-      "message" : "%days{f.0} days"
+      "message" : "%days{f.0} 日"
    },
    "NUMBER_G" : {
       "description" : "",
@@ -1085,7 +1085,7 @@
    },
    "NUMBER_HOURS" : {
       "description" : "",
-      "message" : "%hours{f.1} hrs"
+      "message" : "%hours{f.1} 小时"
    },
    "NUMBER_LY" : {
       "description" : "",
@@ -1137,7 +1137,7 @@
    },
    "OCEANICWORLD" : {
       "description" : "",
-      "message" : "\" oceanic world\""
+      "message" : "\" 海洋世界\""
    },
    "ORBITAL_PERIOD" : {
       "description" : "",
@@ -1153,7 +1153,7 @@
    },
    "OUTER_ARM" : {
       "description" : "",
-      "message" : "Outer arm"
+      "message" : "外层旋臂"
    },
    "OVER_N_BILLION" : {
       "description" : "",
@@ -1177,11 +1177,11 @@
    },
    "PERIAPSIS_DISTANCE" : {
       "description" : "",
-      "message" : "Periapsis distance"
+      "message" : "近拱点距距离"
    },
    "PERSEUS_ARM" : {
       "description" : "",
-      "message" : "Perseus arm"
+      "message" : "英仙座旋臂"
    },
    "PIONEER" : {
       "description" : "",
@@ -1193,15 +1193,15 @@
    },
    "PITCH" : {
       "description" : "",
-      "message" : "沥青"
+      "message" : "定位"
    },
    "PITCH_DOWN" : {
       "description" : "",
-      "message" : "Pitch down"
+      "message" : "向下"
    },
    "PITCH_UP" : {
       "description" : "",
-      "message" : "Pitch up"
+      "message" : "向上"
    },
    "PLANETARY_INFO" : {
       "description" : "",
@@ -1217,7 +1217,7 @@
    },
    "PLANNED_ECONOMY" : {
       "description" : "",
-      "message" : "Centrally planned economy"
+      "message" : "中央计划经济"
    },
    "PLASTICS" : {
       "description" : "",
@@ -1237,7 +1237,7 @@
    },
    "PRECIOUS_METALS" : {
       "description" : "",
-      "message" : "Precious metals"
+      "message" : "贵金属"
    },
    "PRESSURE_N_ATMOSPHERES" : {
       "description" : "",
@@ -1245,7 +1245,7 @@
    },
    "PROBABILITY_OF_ARRIVAL_X_PERCENT" : {
       "description" : "",
-      "message" : "Probability of arrival: %probability%%"
+      "message" : "预计到达: %probability%%"
    },
    "PULSECANNON_10MW" : {
       "description" : "",
@@ -1273,7 +1273,7 @@
    },
    "PULSECANNON_RAPID_2MW" : {
       "description" : "",
-      "message" : "2MW rapid-fire pulse cannon"
+      "message" : "2兆瓦速射脉冲加农炮"
    },
    "QUADRUPLE_SYSTEM" : {
       "description" : "",
@@ -1313,7 +1313,7 @@
    },
    "ROBOTS" : {
       "description" : "",
-      "message" : "Robots"
+      "message" : "机器人"
    },
    "ROCKY_PLANET" : {
       "description" : "",
@@ -1325,31 +1325,31 @@
    },
    "ROLL" : {
       "description" : "",
-      "message" : "Roll"
+      "message" : "翻"
    },
    "ROLL_LEFT" : {
       "description" : "",
-      "message" : "Roll left"
+      "message" : "左翻"
    },
    "ROLL_RIGHT" : {
       "description" : "",
-      "message" : "Roll right"
+      "message" : "右翻"
    },
    "ROTATE_DOWN" : {
       "description" : "",
-      "message" : "Rotate Down"
+      "message" : "下翻"
    },
    "ROTATE_LEFT" : {
       "description" : "",
-      "message" : "Rotate Left"
+      "message" : "左翻"
    },
    "ROTATE_RIGHT" : {
       "description" : "",
-      "message" : "Rotate Right"
+      "message" : "右翻"
    },
    "ROTATE_UP" : {
       "description" : "",
-      "message" : "Rotate Up"
+      "message" : "上翻"
    },
    "ROTATIONAL_PERIOD" : {
       "description" : "",
@@ -1369,7 +1369,7 @@
    },
    "SAGITTARIUS_ARM" : {
       "description" : "",
-      "message" : "Sagittarius arm"
+      "message" : "人马座旋臂"
    },
    "SCANNER" : {
       "description" : "",
@@ -1381,7 +1381,7 @@
    },
    "SCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Provides a 3D map of nearby ships."
+      "message" : "提供附近飞船的3D图."
    },
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
@@ -1401,7 +1401,7 @@
    },
    "SECTOR_COORDINATES" : {
       "description" : "",
-      "message" : "Sector coordinates:"
+      "message" : "区域坐标 :"
    },
    "SECTOR_MAP_VIEW" : {
       "description" : "",
@@ -1409,7 +1409,7 @@
    },
    "SECTOR_X_Y_Z" : {
       "description" : "",
-      "message" : "Sector: %x,%y,%z"
+      "message" : "区域: %x,%y,%z"
    },
    "SELECTED_SYSTEM" : {
       "description" : "",
@@ -1425,15 +1425,15 @@
    },
    "SEMI_MAJOR_AXIS" : {
       "description" : "",
-      "message" : "Semi-major axis"
+      "message" : "长半轴"
    },
    "SET_HYPERSPACE_DESTINATION_TO" : {
       "description" : "",
-      "message" : "Set hyperspace destination to %system"
+      "message" : "设置跃迁目的地到 %system"
    },
    "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE" : {
       "description" : "",
-      "message" : "跃迁云分析仪：设置启程到这里跃迁目标"
+      "message" : "跃迁云分析仪: 设置启程到这里跃迁目标"
    },
    "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT" : {
       "description" : "",
@@ -1441,15 +1441,15 @@
    },
    "SET_SPEED_KM_S" : {
       "description" : "",
-      "message" : "Set speed: %speed{f.2} km/s"
+      "message" : "速度: %speed{f.2} km/s"
    },
    "SET_SPEED_M_S" : {
       "description" : "",
-      "message" : "Set speed: %speed{f.0} m/s"
+      "message" : "速度: %speed{f.0} m/s"
    },
    "SHIELD_ENERGY_BOOSTER" : {
       "description" : "",
-      "message" : "Shield Energy Booster"
+      "message" : "护盾能量推进器"
    },
    "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
       "description" : "",
@@ -1465,11 +1465,11 @@
    },
    "SHIELD_INTEGRITY" : {
       "description" : "",
-      "message" : "Shield integrity"
+      "message" : "护盾完整度"
    },
    "SHIELD_STRENGTH_N" : {
       "description" : "",
-      "message" : "Shield strength: %shields{f.2}"
+      "message" : "护盾强度: %shields{f.2}"
    },
    "SHIFT" : {
       "description" : "Shift key on keyboard",
@@ -1481,7 +1481,7 @@
    },
    "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
       "description" : "",
-      "message" : "Ship altitude above terrain"
+      "message" : "飞船相对地面高度"
    },
    "SHIP_DETECTED_NEARBY" : {
       "description" : "",
@@ -1493,7 +1493,7 @@
    },
    "SHIP_MASS_N_TONNES" : {
       "description" : "",
-      "message" : "Ship mass: %{mass}t"
+      "message" : "飞船质量: %{mass}吨"
    },
    "SHIP_NEARBY" : {
       "description" : "",
@@ -1501,7 +1501,7 @@
    },
    "SHIP_ORIENTATION" : {
       "description" : "",
-      "message" : "Ship orientation"
+      "message" : "飞船方向"
    },
    "SHIP_VELOCITY_BY_REFERENCE_OBJECT" : {
       "description" : "",
@@ -1537,7 +1537,7 @@
    },
    "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS" : {
       "description" : "",
-      "message" : "Small-scale prospecting. No registered settlements."
+      "message" : "小规模前景. 没有记录的定居点."
    },
    "SOCIAL_DEMOCRACY" : {
       "description" : "",
@@ -1557,7 +1557,7 @@
    },
    "SPEED_CONTROL_MODE" : {
       "description" : "",
-      "message" : "Speed control mode"
+      "message" : "速度控制模式"
    },
    "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS" : {
       "description" : "",
@@ -1565,7 +1565,7 @@
    },
    "STARPORT" : {
       "description" : "",
-      "message" : "Starport"
+      "message" : "星港"
    },
    "STARPORTS" : {
       "description" : "",
@@ -1573,7 +1573,7 @@
    },
    "STAR_A" : {
       "description" : "",
-      "message" : "Type 'A' hot white star"
+      "message" : "炽热的A型白色主序星"
    },
    "STAR_AF_GIANT" : {
       "description" : "",
@@ -1581,15 +1581,15 @@
    },
    "STAR_AF_HYPER_GIANT" : {
       "description" : "",
-      "message" : "White hyper giant star"
+      "message" : "白超巨星"
    },
    "STAR_AF_SUPER_GIANT" : {
       "description" : "",
-      "message" : "White super giant star"
+      "message" : "白超巨星"
    },
    "STAR_B" : {
       "description" : "",
-      "message" : "Bright type 'B' blue star"
+      "message" : "明亮的B型蓝色主序星"
    },
    "STAR_B_GIANT" : {
       "description" : "",
@@ -1597,7 +1597,7 @@
    },
    "STAR_B_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Blue hyper giant star"
+      "message" : "蓝超巨星"
    },
    "STAR_B_SUPER_GIANT" : {
       "description" : "",
@@ -1609,11 +1609,11 @@
    },
    "STAR_F" : {
       "description" : "",
-      "message" : "Type 'F' white star"
+      "message" : "F型白色主序星"
    },
    "STAR_G" : {
       "description" : "",
-      "message" : "Type 'G' yellow star"
+      "message" : "G型黄色主序星"
    },
    "STAR_G_GIANT" : {
       "description" : "",
@@ -1629,11 +1629,11 @@
    },
    "STAR_IM_BH" : {
       "description" : "",
-      "message" : "An intermediate-mass black hole"
+      "message" : "一个中等质量的黑洞"
    },
    "STAR_K" : {
       "description" : "",
-      "message" : "Type 'K' orange star"
+      "message" : "K型橙色主序星"
    },
    "STAR_K_GIANT" : {
       "description" : "",
@@ -1649,43 +1649,43 @@
    },
    "STAR_M" : {
       "description" : "",
-      "message" : "Type 'M' red star"
+      "message" : "M型红色主序星"
    },
    "STAR_M_GIANT" : {
       "description" : "",
-      "message" : "Red giant star"
+      "message" : "红巨星"
    },
    "STAR_M_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Red hyper giant star"
+      "message" : "红超巨星"
    },
    "STAR_M_SUPER_GIANT" : {
       "description" : "",
-      "message" : "Red super giant star"
+      "message" : "红超巨星"
    },
    "STAR_M_WF" : {
       "description" : "",
-      "message" : "Wolf-Rayet star - Unstable"
+      "message" : "沃尔夫-拉叶星 - 不稳定"
    },
    "STAR_O" : {
       "description" : "",
-      "message" : "Hot, massive type 'O' star"
+      "message" : "炽热巨大的O型主序星"
    },
    "STAR_O_GIANT" : {
       "description" : "",
-      "message" : "Hot Blue giant star"
+      "message" : "炽热的蓝巨星"
    },
    "STAR_O_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Hot Blue hyper giant star"
+      "message" : "炽热的蓝超巨星"
    },
    "STAR_O_SUPER_GIANT" : {
       "description" : "",
-      "message" : "Hot Blue super giant star"
+      "message" : "炽热的蓝超巨星"
    },
    "STAR_O_WF" : {
       "description" : "",
-      "message" : "Wolf-Rayet star - Imminent collapse"
+      "message" : "沃尔夫-拉叶星 - 即将坍塌"
    },
    "STAR_SM_BH" : {
       "description" : "",
@@ -1721,19 +1721,19 @@
    },
    "SYSTEM_ORBIT_VIEW" : {
       "description" : "",
-      "message" : "System orbit view"
+      "message" : "星系轨道图"
    },
    "SYSTEM_TYPE" : {
       "description" : "",
-      "message" : "System type:"
+      "message" : "星系类型:"
    },
    "S_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Sulfuric atmosphere\""
+      "message" : "\" 硫大气层\""
    },
    "TAKEOFF" : {
       "description" : "",
-      "message" : "Takeoff"
+      "message" : "出发"
    },
    "TARGET_OBJECT_IN_SIGHTS" : {
       "description" : "",
@@ -1741,7 +1741,7 @@
    },
    "TENUOUS" : {
       "description" : "",
-      "message" : "tenuous"
+      "message" : "贫乏的"
    },
    "TEXTILES" : {
       "description" : "",
@@ -1813,7 +1813,7 @@
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
-      "message" : "Trading illegal goods"
+      "message" : "交易非法货物"
    },
    "TRIPLE_SYSTEM" : {
       "description" : "",
@@ -1825,11 +1825,11 @@
    },
    "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW" : {
       "description" : "",
-      "message" : "Unexplored system. System view unavailable."
+      "message" : "未探索的星系. 没有星系图可用."
    },
    "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
       "description" : "",
-      "message" : "未探索的星系。恒星信息已经被远程望远镜收集，但是行星信息不可用"
+      "message" : "未探索的星系. 恒星信息已经被远程望远镜收集, 但是行星信息不可用"
    },
    "UNKNOWN" : {
       "description" : "",
@@ -1841,7 +1841,7 @@
    },
    "UNOCCUPIED_CABIN" : {
       "description" : "",
-      "message" : "Extra Passenger Cabin"
+      "message" : "额外客舱"
    },
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",
@@ -1853,7 +1853,7 @@
    },
    "VAST_STRIP_MINE" : {
       "description" : "",
-      "message" : "Vast strip-mining colony."
+      "message" : "大型露天开采殖民地."
    },
    "VERY_DENSE" : {
       "description" : "",
@@ -1885,7 +1885,7 @@
    },
    "WEAPONS" : {
       "description" : "",
-      "message" : "Weapons"
+      "message" : "武器"
    },
    "WEAPON_TEMP" : {
       "description" : "",
@@ -1897,7 +1897,7 @@
    },
    "WHEELS_ARE_UP" : {
       "description" : "",
-      "message" : "Wheels are up"
+      "message" : "机轮已挂起"
    },
    "WHITE_DWARF" : {
       "description" : "",
@@ -1925,15 +1925,15 @@
    },
    "YAW" : {
       "description" : "",
-      "message" : "偏航"
+      "message" : "舵"
    },
    "YAW_LEFT" : {
       "description" : "",
-      "message" : "Yaw left"
+      "message" : "左舵"
    },
    "YAW_RIGHT" : {
       "description" : "",
-      "message" : "右偏航"
+      "message" : "右舵"
    },
    "YOUNG_FARMING_COLONY" : {
       "description" : "",

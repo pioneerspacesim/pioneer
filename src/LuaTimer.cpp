@@ -6,6 +6,14 @@
 #include "Game.h"
 #include "Pi.h"
 
+void LuaTimer::RemoveAll()
+{
+    lua_State *l = Lua::manager->GetLuaState();
+
+    lua_pushnil(l);
+    lua_setfield(l, LUA_REGISTRYINDEX, "PiTimerCallbacks");
+}
+
 void LuaTimer::Tick()
 {
 	assert(Pi::game);

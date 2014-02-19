@@ -58,10 +58,27 @@ int main(int argc, char** argv)
 start:
 
 	switch (mode) {
-		case MODE_GAME:
-			Pi::Init();
+		case MODE_GAME: {
+			std::map<std::string,std::string> options;
+			if (argc > 2) {
+				static const std::string delim("=");
+				int pos = 2;
+				for (; pos < argc; pos++) {
+					const std::string arg(argv[pos]);
+					size_t mid = arg.find_first_of(delim, 0);
+					if (mid == std::string::npos || mid == 0 || mid == arg.length()-1) {
+						Output("malformed option: %s\n", arg.c_str());
+						return 1;
+					}
+					const std::string key(arg.substr(0, mid));
+					const std::string val(arg.substr(mid+1, arg.length()));
+					options[key] = val;
+				}
+			}
+			Pi::Init(options);
 			for (;;) Pi::Start();
 			break;
+		}
 
 		case MODE_MODELVIEWER: {
 			std::string modelName;
