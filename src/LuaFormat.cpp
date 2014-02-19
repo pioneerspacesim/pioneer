@@ -84,14 +84,24 @@ static int l_format_distance(lua_State *l)
  * Create a string representation of the given money value.
  *
  * > string = Format.Money(money)
+ * > string = Format.Money(money,max)
  *
  * Parameters:
  *
  *   money - a money value, in dollars
  *
+ *   max - threshold value for when fractional part is always printed.
+ *         If omitted, defaults to 10.
+ *
  * Return:
  *
  *   string - the string representation
+ *
+ * Examples:
+ *
+ * > Format.Money(9)      -- returns "$9.00"
+ * > Format.Money(10)     -- returns "$10"
+ * > Format.Money(12.1)   -- returns "$12.10"
  *
  * Availability:
  *
@@ -104,7 +114,14 @@ static int l_format_distance(lua_State *l)
 static int l_format_money(lua_State *l)
 {
 	double t = luaL_checknumber(l, 1);
-	lua_pushstring(l, format_money(Sint64(t*100.0)).c_str());
+	int max;
+	if (lua_isnumber(l, 2)){
+		max = lua_tointeger(l, 2);
+		lua_pushstring(l, format_money(Sint64(t*100.0), max).c_str());
+	}
+	else
+		lua_pushstring(l, format_money(Sint64(t*100.0)).c_str());
+
 	return 1;
 }
 
