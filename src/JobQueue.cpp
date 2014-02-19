@@ -102,7 +102,7 @@ JobQueue::JobQueue(Uint32 numRunners) :
 	m_shutdown(false)
 {
 	// Want to limit this for now to the maximum number of threads defined in the class
-	numRunners = std::min( numRunners, MAX_THREADS );
+	numRunners = Min( numRunners, MAX_THREADS );
 
 	m_queueLock = SDL_CreateMutex();
 	m_queueWaitCond = SDL_CreateCond();

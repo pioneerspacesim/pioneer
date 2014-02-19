@@ -51,7 +51,7 @@ public:
 		assert(n >= 0);
 		ptrdiff_t offset = tell();
 		// clamp to available data
-		n = std::min(n, int((m_data->GetSize() - offset) / sz));
+		n = Min(n, int((m_data->GetSize() - offset) / sz));
 		size_t fullsize = sz * n;
 		assert(offset + fullsize <= m_data->GetSize());
 		memcpy(buf, m_cursor, fullsize);
@@ -340,9 +340,9 @@ static void fill_audio_1stream(float *buffer, int len, int stream_num)
 			/* Volume animations */
 			for (int chan=0; chan<2; chan++) {
 				if (ev.ascend[chan]) {
-					ev.volume[chan] = std::min(ev.volume[chan] + ev.rateOfChange[chan], ev.targetVolume[chan]);
+					ev.volume[chan] = Min(ev.volume[chan] + ev.rateOfChange[chan], ev.targetVolume[chan]);
 				} else {
-					ev.volume[chan] = std::max(ev.volume[chan] - ev.rateOfChange[chan], ev.targetVolume[chan]);
+					ev.volume[chan] = Max(ev.volume[chan] - ev.rateOfChange[chan], ev.targetVolume[chan]);
 				}
 			}
 

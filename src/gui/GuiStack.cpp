@@ -32,8 +32,8 @@ void Stack::OnChildResizeRequest(Widget *w)
 	float widget_size[2];
 	w->GetSizeRequested(widget_size);
 
-	widget_size[0] = std::min(widget_size[0], container_size[0]);
-	widget_size[1] = std::min(widget_size[1], container_size[1]);
+	widget_size[0] = Min(widget_size[0], container_size[0]);
+	widget_size[1] = Min(widget_size[1], container_size[1]);
 
 	w->SetSize(widget_size[0], widget_size[1]);
 }

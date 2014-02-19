@@ -29,10 +29,10 @@ Point Grid::PreferredSize()
 
 			const Point childPreferredSize = w->CalcLayoutContribution();
 			rowSize.x = SizeAdd(childPreferredSize.x, rowSize.x);
-			rowSize.y = std::max(childPreferredSize.y, rowSize.y);
+			rowSize.y = Max(childPreferredSize.y, rowSize.y);
 		}
 
-		preferredSize.x = std::max(preferredSize.x, rowSize.x);
+		preferredSize.x = Max(preferredSize.x, rowSize.x);
 		preferredSize.y = SizeAdd(preferredSize.y, rowSize.y);
 	}
 

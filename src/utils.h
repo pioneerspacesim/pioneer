@@ -23,6 +23,19 @@
 #define RETURN_ZERO_NONGNU_ONLY
 #endif
 
+// after reading this article: http://randomascii.wordpress.com/2013/11/24/stdmin-causing-three-times-slowdown-on-vc/
+template <class T>
+inline T Max(const T& left, const T& right)
+{
+    return left > right ? left : right;
+}
+
+template <class T>
+inline T Min(const T& left, const T& right)
+{
+    return left < right ? left : right;
+}
+
 void Error(const char *format, ...) __attribute((format(printf,1,2))) __attribute((noreturn));
 void Warning(const char *format, ...)  __attribute((format(printf,1,2)));
 void Output(const char *format, ...)  __attribute((format(printf,1,2)));

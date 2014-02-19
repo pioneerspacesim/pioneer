@@ -428,7 +428,7 @@ void Pi::Init(const std::map<std::string,std::string> &options)
 	Uint32 numThreads = config->Int("WorkerThreads");
 	const int numCores = OS::GetNumCores();
 	assert(numCores > 0);
-	if (numThreads == 0) numThreads = std::max(Uint32(numCores) - 1, 1U);
+	if (numThreads == 0) numThreads = Max(Uint32(numCores) - 1, 1U);
 	jobQueue.reset(new JobQueue(numThreads));
 	Output("started %d worker threads\n", numThreads);
 
@@ -1338,7 +1338,7 @@ float Pi::CalcHyperspaceRange(int hyperclass, float total_mass_in_tonnes, int fu
 			range -= 0.05;
 
 		// range is never negative
-		range = std::max(range, 0.0f);
+		range = Max(range, 0.0f);
 		return range;
 	}
 }

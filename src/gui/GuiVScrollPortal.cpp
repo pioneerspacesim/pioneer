@@ -39,7 +39,7 @@ void VScrollPortal::GetMinimumSize(float size[2])
 {
 	if (m_child) {
 		m_child->GetSizeRequested(size);
-		size[1] = std::min(size[1], MINIMUM_HEIGHT);
+		size[1] = Min(size[1], MINIMUM_HEIGHT);
 	}
 	else
 		size[0] = size[1] = 0;
@@ -55,7 +55,7 @@ void VScrollPortal::OnChildResizeRequest(Widget *child)
 	rsize[0] = size[0];
 	rsize[1] = FLT_MAX;
 	child->GetSizeRequested(rsize);
-	rsize[0] = std::min(rsize[0], size[0]);
+	rsize[0] = Min(rsize[0], size[0]);
 	m_childSizeY = rsize[1];
 	child->SetSize(rsize[0], rsize[1]);
 }

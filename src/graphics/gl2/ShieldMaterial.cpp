@@ -69,7 +69,7 @@ void ShieldMaterial::Apply()
 		for (Sint32 i = 0; i < srp.numHits && i < MAX_SHIELD_HITS; i++) {
 			p->radii[i].Set( srp.radii[i] );
 		}
-		p->numHits.Set( int(std::min(srp.numHits, MAX_SHIELD_HITS)) );
+		p->numHits.Set( int(Min(srp.numHits, MAX_SHIELD_HITS)) );
 	} else {
 		p->shieldStrength.Set(0.0f);
 		p->shieldCooldown.Set(0.0f);

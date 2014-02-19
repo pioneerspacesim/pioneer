@@ -158,7 +158,7 @@ void Ship::AIHoldPosition()
 // final frame has too high velocity to correct if timestep is reduced
 // fix is too slow in the terminal stages:
 //	if (endvel <= vel) { endvel = vel; ivel = dist / Pi::game->GetTimeStep(); }	// last frame discrete correction
-//	ivel = std::min(ivel, endvel + 0.5*acc/PHYSICS_HZ);	// unknown next timestep discrete overshoot correction
+//	ivel = Min(ivel, endvel + 0.5*acc/PHYSICS_HZ);	// unknown next timestep discrete overshoot correction
 
 // yeah ok, this doesn't work
 // sometimes endvel is too low to catch moving objects

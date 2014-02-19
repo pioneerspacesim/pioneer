@@ -88,8 +88,8 @@ void DistanceFieldFont::AddGlyph(Graphics::VertexArray &va, const vector2f &pos,
 	va.Add(vector3f(pos.x + w, pos.y, 0.f), norm, vector2f(uv.x+uWidth, uv.y+vHeight));
 	va.Add(vector3f(pos.x + w, pos.y + h, 0.f), norm, vector2f(uv.x+uWidth, uv.y));
 
-	bounds.x = std::max(bounds.x, pos.x + w);
-	bounds.y = std::max(bounds.y, pos.y + h);
+	bounds.x = Max(bounds.x, pos.x + w);
+	bounds.y = Max(bounds.y, pos.y + h);
 }
 
 //split key=value

@@ -303,7 +303,7 @@ void Model::SetColors(const std::vector<Color> &colors)
 
 void Model::SetDecalTexture(Graphics::Texture *t, unsigned int index)
 {
-	index = std::min(index, MAX_DECAL_MATERIALS-1);
+	index = Min(index, MAX_DECAL_MATERIALS-1);
 	if (m_decalMaterials[index])
 		m_curDecals[index] = t;
 }
@@ -324,7 +324,7 @@ void Model::ClearDecals()
 
 void Model::ClearDecal(unsigned int index)
 {
-	index = std::min(index, MAX_DECAL_MATERIALS-1);
+	index = Min(index, MAX_DECAL_MATERIALS-1);
 	if (m_decalMaterials[index])
 		m_curDecals[index] = Graphics::TextureBuilder::GetTransparentTexture(m_renderer);
 }

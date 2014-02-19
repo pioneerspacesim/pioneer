@@ -39,37 +39,37 @@ void Margin::Layout()
 	switch (m_direction) {
 		case ALL:
 			innerPos = Point(m_margin);
-			innerSize = Point(std::max(size.x-m_margin*2,0), std::max(size.y-m_margin*2,0));
+			innerSize = Point(Max(size.x-m_margin*2,0), Max(size.y-m_margin*2,0));
 			break;
 
 		case HORIZONTAL:
 			innerPos = Point(m_margin,0);
-			innerSize = Point(std::max(size.x-m_margin*2,0), size.y);
+			innerSize = Point(Max(size.x-m_margin*2,0), size.y);
 			break;
 
 		case VERTICAL:
 			innerPos = Point(0,m_margin);
-			innerSize = Point(size.x, std::max(size.y-m_margin*2,0));
+			innerSize = Point(size.x, Max(size.y-m_margin*2,0));
 			break;
 
 		case LEFT:
 			innerPos = Point(m_margin,0);
-			innerSize = Point(std::max(size.x-m_margin,0), size.y);
+			innerSize = Point(Max(size.x-m_margin,0), size.y);
 			break;
 
 		case RIGHT:
 			innerPos = Point(0,0);
-			innerSize = Point(std::max(size.x-m_margin,0), size.y);
+			innerSize = Point(Max(size.x-m_margin,0), size.y);
 			break;
 
 		case TOP:
 			innerPos = Point(0,m_margin);
-			innerSize = Point(size.x, std::max(size.y-m_margin,0));
+			innerSize = Point(size.x, Max(size.y-m_margin,0));
 			break;
 
 		case BOTTOM:
 			innerPos = Point(0,0);
-			innerSize = Point(size.x, std::max(size.y-m_margin,0));
+			innerSize = Point(size.x, Max(size.y-m_margin,0));
 			break;
 	}
 

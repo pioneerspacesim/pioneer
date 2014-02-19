@@ -95,7 +95,7 @@ bool TextEntry::OnKeyDown(const SDL_Keysym *sym)
 	}
 
 	if (sym->sym == SDLK_HOME) {
-		size_t pos = m_text.rfind('\n', std::max(m_cursPos-1, 0));
+		size_t pos = m_text.rfind('\n', Max(m_cursPos-1, 0));
 		if (pos == std::string::npos)
 			pos = 0;
 		else

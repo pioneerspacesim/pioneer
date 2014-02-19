@@ -39,10 +39,10 @@ GeoPatch::GeoPatch(const RefCountedPtr<GeoPatchContext> &ctx_, GeoSphere *gs,
 	clipCentroid = (v0+v1+v2+v3) * 0.25;
 	centroid = clipCentroid.Normalized();
 	clipRadius = 0.0;
-	clipRadius = std::max(clipRadius, (v0-clipCentroid).Length());
-	clipRadius = std::max(clipRadius, (v1-clipCentroid).Length());
-	clipRadius = std::max(clipRadius, (v2-clipCentroid).Length());
-	clipRadius = std::max(clipRadius, (v3-clipCentroid).Length());
+	clipRadius = Max(clipRadius, (v0-clipCentroid).Length());
+	clipRadius = Max(clipRadius, (v1-clipCentroid).Length());
+	clipRadius = Max(clipRadius, (v2-clipCentroid).Length());
+	clipRadius = Max(clipRadius, (v3-clipCentroid).Length());
 	double distMult;
 	if (geosphere->m_sbody->type < SystemBody::TYPE_PLANET_ASTEROID) {
  		distMult = 10.0 / Clamp(depth, 1, 10);
@@ -88,7 +88,7 @@ void GeoPatch::_UpdateVBOs() {
 			for (Sint32 x=0; x<edgeLen; x++) {
 				const double height = *pHts;
 				const vector3d p = (GetSpherePoint(x*frac, y*frac) * (height + 1.0)) - clipCentroid;
-				clipRadius = std::max(clipRadius, p.Length());
+				clipRadius = Max(clipRadius, p.Length());
 				pData->x = float(p.x);
 				pData->y = float(p.y);
 				pData->z = float(p.z);

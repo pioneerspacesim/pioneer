@@ -23,7 +23,7 @@ void Table::LayoutAccumulator::AddRow(const std::vector<Widget*> &widgets)
 		if (!w) continue;
 		const Point size(w->CalcLayoutContribution());
 		// XXX handle flags
-		m_columnWidth[i] = std::max(m_columnWidth[i], size.x);
+		m_columnWidth[i] = Max(m_columnWidth[i], size.x);
 		if (i > 0) m_columnLeft[i] = m_columnLeft[i-1] + m_columnWidth[i-1] + m_columnSpacing;
 	}
 }
@@ -77,7 +77,7 @@ Point Table::Inner::PreferredSize()
 			Widget *w = row[j];
 			if (!w) continue;
 			Point size(w->CalcLayoutContribution());
-			m_rowHeight[i] = std::max(m_rowHeight[i], size.y);
+			m_rowHeight[i] = Max(m_rowHeight[i], size.y);
 		}
 		m_preferredSize.y += m_rowHeight[i];
 	}
@@ -106,7 +106,7 @@ void Table::Inner::Layout()
 			if (!w) continue;
 
 			const Point preferredSize(w->PreferredSize());
-			int height = std::min(preferredSize.y, m_rowHeight[i]);
+			int height = Min(preferredSize.y, m_rowHeight[i]);
 
 			int off = 0;
 			if (height != m_rowHeight[i]) {
@@ -259,7 +259,7 @@ Point Table::PreferredSize()
 	const Point headerPreferredSize = m_header->PreferredSize();
 	const Point bodyPreferredSize = m_body->PreferredSize();
 
-	return Point(std::max(headerPreferredSize.x,bodyPreferredSize.x)+sliderSize.x, headerPreferredSize.y+bodyPreferredSize.y);
+	return Point(Max(headerPreferredSize.x,bodyPreferredSize.x)+sliderSize.x, headerPreferredSize.y+bodyPreferredSize.y);
 }
 
 void Table::Layout()

@@ -270,7 +270,7 @@ const std::string Sector::GenName(System &sys, int si, Random &rng)
 {
 	PROFILE_SCOPED()
 	std::string name;
-	const int dist = std::max(std::max(abs(sx),abs(sy)),abs(sz));
+	const int dist = Max(Max(abs(sx),abs(sy)),abs(sz));
 
 	int chance = 100;
 	switch (sys.starType[0]) {

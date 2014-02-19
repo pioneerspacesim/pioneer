@@ -218,10 +218,10 @@ void Camera::Draw(const Body *excludeBody, ShipCockpit* cockpit)
 				for(std::vector<LightSource>::const_iterator it = m_lightSources.begin();
 					it != m_lightSources.end(); ++it) {
 					const vector3f lightDir(it->GetLight().GetPosition().Normalized());
-					angle += std::max(0.f, lightDir.Dot(-relpos.Normalized())) * (it->GetLight().GetDiffuse().GetLuminance() / 255.0f);
+					angle += Max(0.f, lightDir.Dot(-relpos.Normalized())) * (it->GetLight().GetDiffuse().GetLuminance() / 255.0f);
 				}
 				//calculate background intensity with some hand-tweaked fuzz applied
-				bgIntensity = Clamp(1.f - std::min(1.f, powf(density, 0.25f)) * (0.3f + powf(angle, 0.25f)), 0.f, 1.f);
+				bgIntensity = Clamp(1.f - Min(1.f, powf(density, 0.25f)) * (0.3f + powf(angle, 0.25f)), 0.f, 1.f);
 			}
 		}
 	}
@@ -329,9 +329,9 @@ float discCovered(const float dist, const float rad) {
 	// d = vertical distance to an intersection point
 	// The clampings handle the cases where one disc contains the other.
 	const float radsq = rad*rad;
-	const float xl = Clamp((dist*dist + 1.f - radsq) / (2.f*std::max(0.001f,dist)), -1.f, 1.f);
-	const float xs = Clamp((dist - xl)/std::max(0.001f,rad), -1.f, 1.f);
-	const float d = sqrt(std::max(0.f, 1.f - xl*xl));
+	const float xl = Clamp((dist*dist + 1.f - radsq) / (2.f*Max(0.001f,dist)), -1.f, 1.f);
+	const float xs = Clamp((dist - xl)/Max(0.001f,rad), -1.f, 1.f);
+	const float d = sqrt(Max(0.f, 1.f - xl*xl));
 
 	const float th = Clamp(acosf(xl), 0.f, float(M_PI));
 	const float th2 = Clamp(acosf(xs), 0.f, float(M_PI));

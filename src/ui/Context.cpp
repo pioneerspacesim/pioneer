@@ -38,7 +38,7 @@ Context::Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int h
 	m_renderer(renderer),
 	m_width(width),
 	m_height(height),
-	m_scale(std::min(float(m_height)/SCALE_CUTOFF_HEIGHT, 1.0f)),
+	m_scale(Min(float(m_height)/SCALE_CUTOFF_HEIGHT, 1.0f)),
 	m_needsLayout(false),
 	m_eventDispatcher(this),
 	m_skin("ui/Skin.ini", renderer, GetScale()),
@@ -189,11 +189,11 @@ void Context::DrawWidget(Widget *w)
 	const Point &currentScissorPos(currentScissor.first);
 	const Point &currentScissorSize(currentScissor.second);
 
-	const Point newScissorPos(std::max(m_drawWidgetPosition.x, currentScissorPos.x), std::max(m_drawWidgetPosition.y, currentScissorPos.y));
+	const Point newScissorPos(Max(m_drawWidgetPosition.x, currentScissorPos.x), Max(m_drawWidgetPosition.y, currentScissorPos.y));
 
 	const Point newScissorSize(
-		Clamp(std::min(newScissorPos.x + size.x, currentScissorPos.x + currentScissorSize.x) - newScissorPos.x, 0, m_width),
-		Clamp(std::min(newScissorPos.y + size.y, currentScissorPos.y + currentScissorSize.y) - newScissorPos.y, 0, m_height));
+		Clamp(Min(newScissorPos.x + size.x, currentScissorPos.x + currentScissorSize.x) - newScissorPos.x, 0, m_width),
+		Clamp(Min(newScissorPos.y + size.y, currentScissorPos.y + currentScissorSize.y) - newScissorPos.y, 0, m_height));
 
 	m_scissorStack.push(std::make_pair(newScissorPos, newScissorSize));
 

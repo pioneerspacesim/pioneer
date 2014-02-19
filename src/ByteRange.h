@@ -8,6 +8,7 @@
 #include <cassert>
 #include <cctype>
 #include <cstring>
+#include "utils.h"
 
 struct ByteRange
 {
@@ -39,7 +40,7 @@ struct ByteRange
 inline size_t ByteRange::read(char *to, size_t sz, size_t count)
 {
 	size_t avail = Size() / sz;
-	count = std::min(count, avail);
+	count = Min(count, avail);
 	size_t fullsize = sz * count;
 	assert(fullsize <= Size());
 	memcpy(to, begin, fullsize);

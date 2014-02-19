@@ -150,7 +150,7 @@ namespace Theme {
 		vts.Clear();
 
 		const int STEPS = 6;
-		if (rad > 0.5f*std::min(size[0], size[1])) rad = 0.5f*std::min(size[0], size[1]);
+		if (rad > 0.5f*Min(size[0], size[1])) rad = 0.5f*Min(size[0], size[1]);
 			// top left
 			// bottom left
 			for (int i=0; i<=STEPS; i++) {

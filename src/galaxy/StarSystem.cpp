@@ -1387,7 +1387,7 @@ SystemBody::AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 	float atmosScaleHeight = static_cast<float>(GAS_CONSTANT_R*T/(M*g));
 
 	// min of 2.0 corresponds to a scale height of 1/20 of the planet's radius,
-	params.atmosInvScaleHeight = std::max(20.0f, static_cast<float>(GetRadius() / atmosScaleHeight));
+	params.atmosInvScaleHeight = Max(20.0f, static_cast<float>(GetRadius() / atmosScaleHeight));
 	// integrate atmospheric density between surface and this radius. this is 10x the scale
 	// height, which should be a height at which the atmospheric density is negligible
 	params.atmosRadius = 1.0f + static_cast<float>(10.0f * atmosScaleHeight) / GetRadius();
@@ -1673,7 +1673,7 @@ static fixed mass_from_disk_area(fixed a, fixed b, fixed max)
 static fixed get_disc_density(SystemBody *primary, fixed discMin, fixed discMax, fixed percentOfPrimaryMass)
 {
 	PROFILE_SCOPED()
-	discMax = std::max(discMax, discMin);
+	discMax = Max(discMax, discMin);
 	fixed total = mass_from_disk_area(discMin, discMax, discMax);
 	return primary->GetMassInEarths() * percentOfPrimaryMass / total;
 }
@@ -1713,19 +1713,19 @@ void StarSystem::MakePlanetsAround(SystemBody *primary, Random &rand)
 
 		if ((superType == SystemBody::SUPERTYPE_STAR) && (primary->parent)) {
 			// limit planets out to 10% distance to star's binary companion
-			discMax = std::min(discMax, primary->orbMin * fixed(1,10));
+			discMax = Min(discMax, primary->orbMin * fixed(1,10));
 		}
 
 		/* in trinary and quaternary systems don't bump into other pair... */
 		if (m_numStars >= 3) {
-			discMax = std::min(discMax, fixed(5,100)*rootBody->children[0]->orbMin);
+			discMax = Min(discMax, fixed(5,100)*rootBody->children[0]->orbMin);
 		}
 	} else {
 		fixed primary_rad = primary->radius * AU_EARTH_RADIUS;
 		discMin = 4 * primary_rad;
 		/* use hill radius to find max size of moon system. for stars botch it.
 		   And use planets orbit around its primary as a scaler to a moon's orbit*/
-		discMax = std::min(discMax, fixed(1,20)*
+		discMax = Min(discMax, fixed(1,20)*
 			primary->CalcHillRadius()*primary->orbMin*fixed(1,10));
 
 		discDensity = rand.Fixed() * get_disc_density(primary, discMin, discMax, fixed(1,500));
@@ -1858,7 +1858,7 @@ void SystemBody::PickPlanetType(Random &rand)
 	else
 		radius = fixed::CubeRootOf(mass);
 	// enforce minimum size of 10km
-	radius = std::max(radius, fixed(1,630));
+	radius = Max(radius, fixed(1,630));
 
 	// Tidal lock for planets close to their parents:
 	//		http://en.wikipedia.org/wiki/Tidal_locking
@@ -1908,7 +1908,7 @@ void SystemBody::PickPlanetType(Random &rand)
 		// this assumes the parent's parent is a star/gravpoint, which is currently always true
 		m_metallicity = StarSystem::starMetallicities[parent->parent->type] * rand.Fixed();
 	// harder to be volcanic when you are tiny (you cool down)
-	m_volcanicity = std::min(fixed(1,1), mass) * rand.Fixed();
+	m_volcanicity = Min(fixed(1,1), mass) * rand.Fixed();
 	m_atmosOxidizing = rand.Fixed();
 	m_life = fixed(0);
 	m_volatileGas = fixed(0);
@@ -1924,7 +1924,7 @@ void SystemBody::PickPlanetType(Random &rand)
 		// prevent mass exceeding 65 jupiter masses or so, when it becomes a star
 		// XXX since TYPE_BROWN_DWARF is supertype star, mass is now in
 		// solar masses. what a fucking mess
-		mass = std::min(mass, fixed(317*65, 1)) / SUN_MASS_TO_EARTH_MASS;
+		mass = Min(mass, fixed(317*65, 1)) / SUN_MASS_TO_EARTH_MASS;
 		//Radius is too high as it now uses the planetary calculations to work out radius (Cube root of mass)
 		// So tell it to use the star data instead:
 		radius = fixed(rand.Int32(starTypeInfo[type].radius[0],
@@ -2069,7 +2069,7 @@ void StarSystem::Populate(bool addSpaceStations)
 	// alterations
 	int maximum = 0;
 	for (int i=Equip::FIRST_COMMODITY; i<=Equip::LAST_COMMODITY; i++) {
-		maximum = std::max(abs(m_tradeLevel[i]), maximum);
+		maximum = Max(abs(m_tradeLevel[i]), maximum);
 	}
 	if (maximum) for (int i=Equip::FIRST_COMMODITY; i<=Equip::LAST_COMMODITY; i++) {
 		m_tradeLevel[i] = (m_tradeLevel[i] * MAX_COMMODITY_BASE_PRICE_ADJUSTMENT) / maximum;
@@ -2270,7 +2270,7 @@ void SystemBody::PopulateAddStations(StarSystem *system)
 
 	fixed orbMaxS = fixed(1,4)*this->CalcHillRadius();
 	fixed orbMinS = 4 * this->radius * AU_EARTH_RADIUS;
-	if (children.size()) orbMaxS = std::min(orbMaxS, fixed(1,2) * children[0]->orbMin);
+	if (children.size()) orbMaxS = Min(orbMaxS, fixed(1,2) * children[0]->orbMin);
 
 	// starports - orbital
 	pop -= rand.Fixed();

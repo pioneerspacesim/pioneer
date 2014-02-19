@@ -169,7 +169,7 @@ static struct init_string_helper_class {
 
 static void copy_string(char *buf, const char *str, size_t strsize, size_t bufsize)
 {
-	size_t sz = std::min(strsize, bufsize-1);
+	size_t sz = Min(strsize, bufsize-1);
 	memcpy(buf, str, sz);
 	buf[sz] = '\0';
 }
