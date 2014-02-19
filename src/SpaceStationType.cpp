@@ -8,6 +8,7 @@
 #include "LuaVector.h"
 #include "LuaTable.h"
 #include "Pi.h"
+#include "MathUtil.h"
 #include "Ship.h"
 #include "StringF.h"
 #include "scenegraph/Model.h"
@@ -170,12 +171,6 @@ double SpaceStationType::GetUndockAnimStageDuration(const int stage) const
 	return undockAnimStageDuration[stage];
 }
 
-//for station waypoint interpolation
-vector3d vlerp(const double t, const vector3d& v1, const vector3d& v2)
-{
-	return t*v2 + (1.0-t)*v1;
-}
-
 static bool GetPosOrient(const SpaceStationType::TMapBayIDMat &bayMap, const int stage, const double t, const vector3d &from,
 				  SpaceStationType::positionOrient_t &outPosOrient)
 {
@@ -197,7 +192,7 @@ static bool GetPosOrient(const SpaceStationType::TMapBayIDMat &bayMap, const int
 
 	if (gotOrient)
 	{
-		vector3d pos		= vlerp(t, from, toPos);
+		vector3d pos		= MathUtil::mix<vector3d, double>(from, toPos, t);
 		outPosOrient.pos	= pos;
 	}
 
