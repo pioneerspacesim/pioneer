@@ -37,8 +37,11 @@ struct VertexAttribDesc {
 
 struct VertexBufferDesc {
 	VertexBufferDesc();
-	//byte offset of an attribute
+	//byte offset of an existing attribute
 	Uint32 GetOffset(VertexAttrib) const;
+
+	//used internally for calculating offsets
+	static Uint32 CalculateOffset(const VertexBufferDesc&, VertexAttrib);
 	static Uint32 GetAttribSize(VertexAttribFormat);
 
 	//semantic ATTRIB_NONE ends description (when not using all attribs)

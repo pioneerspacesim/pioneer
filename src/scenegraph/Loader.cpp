@@ -383,11 +383,13 @@ void Loader::CheckAnimationConflicts(const Animation* anim, const std::vector<An
 	}
 }
 
+#pragma pack(push, 4)
 struct ModelVtx {
 	vector3f pos;
 	vector3f nrm;
 	vector2f uv0;
 };
+#pragma pack(pop)
 
 void Loader::ConvertAiMeshes(std::vector<RefCountedPtr<StaticGeometry> > &geoms, const aiScene *scene)
 {
@@ -439,10 +441,14 @@ void Loader::ConvertAiMeshes(std::vector<RefCountedPtr<StaticGeometry> > &geoms,
 		Graphics::VertexBufferDesc vbd;
 		vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
 		vbd.attrib[0].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+		vbd.attrib[0].offset   = offsetof(ModelVtx, pos);
 		vbd.attrib[1].semantic = Graphics::ATTRIB_NORMAL;
 		vbd.attrib[1].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+		vbd.attrib[1].offset   = offsetof(ModelVtx, nrm);
 		vbd.attrib[2].semantic = Graphics::ATTRIB_UV0;
 		vbd.attrib[2].format   = Graphics::ATTRIB_FORMAT_FLOAT2;
+		vbd.attrib[2].offset   = offsetof(ModelVtx, uv0);
+		vbd.stride = sizeof(ModelVtx);
 		vbd.numVertices = mesh->mNumVertices;
 		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
 

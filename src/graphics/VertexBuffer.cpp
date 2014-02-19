@@ -39,11 +39,23 @@ VertexBufferDesc::VertexBufferDesc()
 
 Uint32 VertexBufferDesc::GetOffset(VertexAttrib attr) const
 {
-	Uint32 offs = 0;
 	for (Uint32 i = 0; i < MAX_ATTRIBS; i++) {
 		if (attrib[i].semantic == attr)
+			return attrib[i].offset;
+	}
+
+	//attrib not found
+	assert(false);
+	return 0;
+}
+
+Uint32 VertexBufferDesc::CalculateOffset(const VertexBufferDesc &desc, VertexAttrib attr)
+{
+	Uint32 offs = 0;
+	for (Uint32 i = 0; i < MAX_ATTRIBS; i++) {
+		if (desc.attrib[i].semantic == attr)
 			return offs;
-		offs += GetAttribSize(attrib[i].format);
+		offs += GetAttribSize(desc.attrib[i].format);
 	}
 
 	//attrib not found

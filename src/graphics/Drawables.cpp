@@ -146,10 +146,14 @@ Sphere3D::Sphere3D(Renderer *renderer, RefCountedPtr<Material> mat, Graphics::Re
 	VertexBufferDesc vbd;
 	vbd.attrib[0].semantic = ATTRIB_POSITION;
 	vbd.attrib[0].format   = ATTRIB_FORMAT_FLOAT3;
+	vbd.attrib[0].offset   = offsetof(Sphere3DVertex, pos);
 	vbd.attrib[1].semantic = ATTRIB_NORMAL;
 	vbd.attrib[1].format   = ATTRIB_FORMAT_FLOAT3;
+	vbd.attrib[1].offset   = offsetof(Sphere3DVertex, nrm);
 	vbd.attrib[2].semantic = ATTRIB_UV0;
 	vbd.attrib[2].format   = ATTRIB_FORMAT_FLOAT2;
+	vbd.attrib[2].offset   = offsetof(Sphere3DVertex, uv);
+	vbd.stride = sizeof(Sphere3DVertex);
 	vbd.numVertices = vts.GetNumVerts();
 	vbd.usage = BUFFER_USAGE_STATIC;
 	m_vertexBuffer.reset(renderer->CreateVertexBuffer(vbd));

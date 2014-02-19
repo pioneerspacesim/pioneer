@@ -40,7 +40,7 @@ VertexBuffer::VertexBuffer(const VertexBufferDesc &desc)
 	//update offsets in desc
 	for (Uint32 i = 0; i < MAX_ATTRIBS; i++) {
 		if (m_desc.attrib[i].offset == 0)
-			m_desc.attrib[i].offset = m_desc.GetOffset(m_desc.attrib[i].semantic);
+			m_desc.attrib[i].offset = VertexBufferDesc::CalculateOffset(m_desc, m_desc.attrib[i].semantic);
 	}
 
 	//update stride in desc (respecting offsets)

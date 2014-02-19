@@ -49,6 +49,7 @@ namespace
 namespace Background
 {
 
+#pragma pack(push, 4)
 struct MilkyWayVert {
 	vector3f pos;
 	Color4ub col;
@@ -63,6 +64,7 @@ struct SkyboxVert {
 	vector3f pos;
 	vector2f uv;
 };
+#pragma pack(pop)
 
 void BackgroundElement::SetIntensity(float intensity)
 {
