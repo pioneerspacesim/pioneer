@@ -55,6 +55,8 @@ VertexBuffer::VertexBuffer(const VertexBufferDesc &desc)
 
 		m_desc.stride = m_desc.attrib[lastAttrib].offset + VertexBufferDesc::GetAttribSize(m_desc.attrib[lastAttrib].format);
 	}
+	assert(m_desc.stride > 0);
+	assert(m_desc.numVertices > 0);
 
 	SetVertexCount(m_desc.numVertices);
 
@@ -152,10 +154,13 @@ void VertexBuffer::UnsetAttribPointers()
 IndexBuffer::IndexBuffer(Uint32 size, BufferUsage hint)
 	: Graphics::IndexBuffer(size, hint)
 {
+	assert(size > 0);
+
 	const GLenum usage = (hint == BUFFER_USAGE_STATIC) ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW;
 	glGenBuffers(1, &m_buffer);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_buffer);
 	m_data = new Uint16[size];
+	memset(m_data, 0, sizeof(Uint16) * size);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Uint16) * m_size, m_data, usage);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 

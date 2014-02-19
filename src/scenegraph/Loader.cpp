@@ -459,6 +459,7 @@ void Loader::ConvertAiMeshes(std::vector<RefCountedPtr<StaticGeometry> > &geoms,
 				indices.push_back(face->mIndices[j]);
 			}
 		}
+		assert(indices.size() > 0);
 
 		//create buffer & copy
 		RefCountedPtr<Graphics::IndexBuffer> ib(m_renderer->CreateIndexBuffer(indices.size(), Graphics::BUFFER_USAGE_STATIC));
