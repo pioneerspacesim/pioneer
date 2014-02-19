@@ -28,6 +28,7 @@ noinst_HEADERS = \
 	gl2/GL2Material.h \
 	gl2/GL2RenderState.h \
 	gl2/GL2RenderTarget.h \
+	gl2/GL2VertexBuffer.h \
 	gl2/FresnelColourMaterial.h \
 	gl2/GeoSphereMaterial.h \
 	gl2/MultiMaterial.h \
@@ -36,8 +37,7 @@ noinst_HEADERS = \
 	gl2/ShieldMaterial.h \
 	gl2/StarfieldMaterial.h \
 	gl2/SkyboxMaterial.h \
-	gl2/Uniform.h \
-	gl2/VertexBuffer.h
+	gl2/Uniform.h
 
 libgraphics_a_SOURCES = \
 	Graphics.cpp \
@@ -55,11 +55,11 @@ libgraphics_a_SOURCES = \
 	gl2/GL2Material.cpp \
 	gl2/GL2RenderState.cpp \
 	gl2/GL2RenderTarget.cpp \
+	gl2/GL2VertexBuffer.cpp \
 	gl2/FresnelColourMaterial.cpp \
 	gl2/GeoSphereMaterial.cpp \
 	gl2/MultiMaterial.cpp \
 	gl2/Program.cpp \
 	gl2/ShieldMaterial.cpp \
 	gl2/RingMaterial.cpp \
-	gl2/Uniform.cpp \
-	gl2/VertexBuffer.cpp
+	gl2/Uniform.cpp
