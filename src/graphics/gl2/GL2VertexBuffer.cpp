@@ -98,9 +98,9 @@ Uint8 *VertexBuffer::MapInternal(BufferMapMode mode)
 			return reinterpret_cast<Uint8*>(glMapBuffer(GL_ARRAY_BUFFER, GL_READ_ONLY));
 		else if (mode == BUFFER_MAP_WRITE)
 			return reinterpret_cast<Uint8*>(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY));
-	} else {
-		return m_data;
 	}
+
+	return m_data;
 }
 
 void VertexBuffer::Unmap()
@@ -188,9 +188,9 @@ Uint16 *IndexBuffer::Map(BufferMapMode mode)
 			return reinterpret_cast<Uint16*>(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_READ_ONLY));
 		else if (mode == BUFFER_MAP_WRITE)
 			return reinterpret_cast<Uint16*>(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY));
-	} else {
-		return m_data;
 	}
+
+	return m_data;
 }
 
 void IndexBuffer::Unmap()
