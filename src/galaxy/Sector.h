@@ -64,8 +64,8 @@ public:
 	std::vector<System> m_systems;
 
 private:
-	Sector(const Sector&) {};
-	Sector& operator=(const Sector&) {};
+	Sector(const Sector&); // non-copyable
+	Sector& operator=(const Sector&); // non-assignable
 
 	int sx, sy, sz;
 	bool m_factionsAssigned;
