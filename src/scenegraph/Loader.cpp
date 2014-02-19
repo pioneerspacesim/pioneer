@@ -872,7 +872,7 @@ void Loader::LoadCollision(const std::string &filename)
 		}
 	}
 
-	assert(!vertices.empty() && !vertices.empty());
+	assert(!vertices.empty() && !indices.empty());
 
 	//add pre-transformed geometry at the top level
 	m_model->GetRoot()->AddChild(new CollisionGeometry(m_renderer, vertices, indices, 0));
