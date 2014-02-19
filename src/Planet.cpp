@@ -67,7 +67,7 @@ void Planet::InitParams(const SystemBody *sbody)
 	// surface gravity = -G*M/planet radius^2
 	m_surfaceGravity_g = -G*sbody->GetMass()/(sbody->GetRadius()*sbody->GetRadius());
 	const double lapseRate_L = -m_surfaceGravity_g/specificHeatCp; // negative deg/m
-	const double surfaceTemperature_T0 = sbody->averageTemp; //K
+	const double surfaceTemperature_T0 = sbody->m_averageTemp; //K
 
 	double surfaceDensity, h; Color c;
 	sbody->GetAtmosphereFlavor(&c, &surfaceDensity);// kg / m^3
@@ -141,7 +141,7 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 	const double lapseRate_L = -m_surfaceGravity_g/specificHeatCp; // negative deg/m
 
 	const double height_h = (dist-sbody->GetRadius()); // height in m
-	const double surfaceTemperature_T0 = sbody->averageTemp; //K
+	const double surfaceTemperature_T0 = sbody->m_averageTemp; //K
 
 	Color c;
 	sbody->GetAtmosphereFlavor(&c, &surfaceDensity);// kg / m^3
@@ -192,7 +192,7 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 
 	const float ringScale = (outer-inner)*sbody->GetRadius() / 1.5e7f;
 
-	Random rng(GetSystemBody()->seed+4609837);
+	Random rng(GetSystemBody()->m_seed+4609837);
 	Color baseCol = sbody->m_rings.baseColor;
 	double noiseOffset = 2048.0 * rng.Double();
 	for (int i = 0; i < RING_TEXTURE_LENGTH; ++i) {

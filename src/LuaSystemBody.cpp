@@ -34,7 +34,7 @@
 static int l_sbody_attr_index(lua_State *l)
 {
 	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
-	lua_pushinteger(l, sbody->path.bodyIndex);
+	lua_pushinteger(l, sbody->m_path.bodyIndex);
 	return 1;
 }
 
@@ -54,7 +54,7 @@ static int l_sbody_attr_index(lua_State *l)
 static int l_sbody_attr_name(lua_State *l)
 {
 	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
-	lua_pushstring(l, sbody->name.c_str());
+	lua_pushstring(l, sbody->m_name.c_str());
 	return 1;
 }
 
@@ -74,7 +74,7 @@ static int l_sbody_attr_name(lua_State *l)
 static int l_sbody_attr_type(lua_State *l)
 {
 	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
-	lua_pushstring(l, EnumStrings::GetString("BodyType", sbody->type));
+	lua_pushstring(l, EnumStrings::GetString("BodyType", sbody->m_type));
 	return 1;
 }
 
@@ -120,7 +120,7 @@ static int l_sbody_attr_super_type(lua_State *l)
 static int l_sbody_attr_seed(lua_State *l)
 {
 	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
-	lua_pushinteger(l, sbody->seed);
+	lua_pushinteger(l, sbody->m_seed);
 	return 1;
 }
 
@@ -143,13 +143,13 @@ static int l_sbody_attr_parent(lua_State *l)
 
 	// sbody->parent is 0 as it was cleared by the acquirer. we need to go
 	// back to the starsystem proper to get what we need.
-	RefCountedPtr<StarSystem> s = StarSystemCache::GetCached(sbody->path);
-	SystemBody *live_sbody = s->GetBodyByPath(sbody->path);
+	RefCountedPtr<StarSystem> s = StarSystemCache::GetCached(sbody->m_path);
+	SystemBody *live_sbody = s->GetBodyByPath(sbody->m_path);
 
-	if (!live_sbody->parent)
+	if (!live_sbody->m_parent)
 		return 0;
 
-	LuaObject<SystemBody>::PushToLua(live_sbody->parent);
+	LuaObject<SystemBody>::PushToLua(live_sbody->m_parent);
 	return 1;
 }
 
@@ -249,7 +249,7 @@ static int l_sbody_attr_gravity(lua_State *l)
 static int l_sbody_attr_periapsis(lua_State *l)
 {
 	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
-	lua_pushnumber(l, sbody->orbMin.ToDouble()*AU);
+	lua_pushnumber(l, sbody->m_orbMin.ToDouble()*AU);
 	return 1;
 }
 
@@ -269,7 +269,7 @@ static int l_sbody_attr_periapsis(lua_State *l)
 static int l_sbody_attr_apoapsis(lua_State *l)
 {
 	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
-	lua_pushnumber(l, sbody->orbMax.ToDouble()*AU);
+	lua_pushnumber(l, sbody->m_orbMax.ToDouble()*AU);
 	return 1;
 }
 
@@ -289,7 +289,7 @@ static int l_sbody_attr_apoapsis(lua_State *l)
 static int l_sbody_attr_rotation_period(lua_State *l)
 {
 	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
-	lua_pushnumber(l, sbody->rotationPeriod.ToDouble());
+	lua_pushnumber(l, sbody->m_rotationPeriod.ToDouble());
 	return 1;
 }
 
@@ -309,7 +309,7 @@ static int l_sbody_attr_rotation_period(lua_State *l)
 static int l_sbody_attr_semi_major_axis(lua_State *l)
 {
 	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
-	lua_pushnumber(l, sbody->semiMajorAxis.ToDouble()*AU);
+	lua_pushnumber(l, sbody->m_semiMajorAxis.ToDouble()*AU);
 	return 1;
 }
 
@@ -329,7 +329,7 @@ static int l_sbody_attr_semi_major_axis(lua_State *l)
 static int l_sbody_attr_eccentricty(lua_State *l)
 {
 	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
-	lua_pushnumber(l, sbody->eccentricity.ToDouble());
+	lua_pushnumber(l, sbody->m_eccentricity.ToDouble());
 	return 1;
 }
 
@@ -349,7 +349,7 @@ static int l_sbody_attr_eccentricty(lua_State *l)
 static int l_sbody_attr_axial_tilt(lua_State *l)
 {
 	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
-	lua_pushnumber(l, sbody->axialTilt.ToDouble());
+	lua_pushnumber(l, sbody->m_axialTilt.ToDouble());
 	return 1;
 }
 
@@ -369,7 +369,7 @@ static int l_sbody_attr_axial_tilt(lua_State *l)
 static int l_sbody_attr_average_temp(lua_State *l)
 {
 	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
-	lua_pushinteger(l, sbody->averageTemp);
+	lua_pushinteger(l, sbody->m_averageTemp);
 	return 1;
 }
 

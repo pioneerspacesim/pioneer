@@ -115,9 +115,9 @@ protected:
 	struct MinBodyData {
 		MinBodyData(const SystemBody* body) {
 			m_radius = body->GetRadius();
-			m_aspectRatio = body->aspectRatio.ToDouble();
-			m_path = body->path;
-			m_name = body->name;
+			m_aspectRatio = body->m_aspectRatio.ToDouble();
+			m_path = body->m_path;
+			m_name = body->m_name;
 		}
 		double m_radius;
 		double m_aspectRatio;

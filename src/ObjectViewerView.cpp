@@ -147,9 +147,9 @@ void ObjectViewerView::Update()
 			m_sbodyLife->SetText(stringf("%0{f.3}", sbody->m_life.ToFloat()));
 			m_sbodyVolcanicity->SetText(stringf("%0{f.3}", sbody->m_volcanicity.ToFloat()));
 			m_sbodyMetallicity->SetText(stringf("%0{f.3}", sbody->m_metallicity.ToFloat()));
-			m_sbodySeed->SetText(stringf("%0{i}", int(sbody->seed)));
-			m_sbodyMass->SetText(stringf("%0{f}", sbody->mass.ToFloat()));
-			m_sbodyRadius->SetText(stringf("%0{f}", sbody->radius.ToFloat()));
+			m_sbodySeed->SetText(stringf("%0{i}", int(sbody->m_seed)));
+			m_sbodyMass->SetText(stringf("%0{f}", sbody->m_mass.ToFloat()));
+			m_sbodyRadius->SetText(stringf("%0{f}", sbody->m_radius.ToFloat()));
 		}
 	}
 	snprintf(buf, sizeof(buf), "View dist: %s     Object: %s", format_distance(viewingDist).c_str(), (body ? body->GetLabel().c_str() : "<none>"));
@@ -179,9 +179,9 @@ void ObjectViewerView::OnChangeTerrain()
 	Body *body = Pi::player->GetNavTarget();
 	SystemBody *sbody = const_cast<SystemBody*>(body->GetSystemBody());
 
-	sbody->seed = atoi(m_sbodySeed->GetText().c_str());
-	sbody->radius = radius;
-	sbody->mass = mass;
+	sbody->m_seed = atoi(m_sbodySeed->GetText().c_str());
+	sbody->m_radius = radius;
+	sbody->m_mass = mass;
 	sbody->m_metallicity = metallicity;
 	sbody->m_volatileGas = volatileGas;
 	sbody->m_volatileLiquid = volatileLiquid;

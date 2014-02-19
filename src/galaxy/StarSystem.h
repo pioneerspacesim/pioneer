@@ -45,8 +45,8 @@ public:
 	SystemBody();
 	void PickPlanetType(Random &rand);
 	const SystemBody *FindStarAndTrueOrbitalRange(fixed &orbMin, fixed &orbMax);
-	SystemBody *parent;                // these are only valid if the StarSystem
-	std::vector<SystemBody*> children; // that create them still exists
+	SystemBody *m_parent;                // these are only valid if the StarSystem
+	std::vector<SystemBody*> m_children; // that create them still exists
 
 	enum BodyType { // <enum scope='SystemBody' prefix=TYPE_ public>
 		TYPE_GRAVPOINT = 0,
@@ -111,25 +111,25 @@ public:
 	BodySuperType GetSuperType() const;
 	double GetRadius() const { // polar radius
 		if (GetSuperType() <= SUPERTYPE_STAR)
-			return (radius.ToDouble() / aspectRatio.ToDouble()) * SOL_RADIUS;
+			return (m_radius.ToDouble() / m_aspectRatio.ToDouble()) * SOL_RADIUS;
 		else
-			return radius.ToDouble() * EARTH_RADIUS;
+			return m_radius.ToDouble() * EARTH_RADIUS;
 	}
 	double GetMass() const {
 		if (GetSuperType() <= SUPERTYPE_STAR)
-			return mass.ToDouble() * SOL_MASS;
+			return m_mass.ToDouble() * SOL_MASS;
 		else
-			return mass.ToDouble() * EARTH_MASS;
+			return m_mass.ToDouble() * EARTH_MASS;
 	}
 	fixed GetMassInEarths() const {
 		if (GetSuperType() <= SUPERTYPE_STAR)
-			return mass * 332998;
+			return m_mass * 332998;
 		else
-			return mass;
+			return m_mass;
 	}
 	// returned in seconds
 	double GetRotationPeriod() const {
-		return rotationPeriod.ToDouble()*60*60*24;
+		return m_rotationPeriod.ToDouble()*60*60*24;
 	}
 	fixed CalcHillRadius() const;
 	double CalcSurfaceGravity() const;
@@ -166,28 +166,27 @@ public:
 
 	bool IsScoopable() const;
 
-	Uint32 id; // index into starsystem->m_bodies
-	SystemPath path;
-	int tmp;
-	Orbit orbit;
-	Uint32 seed; // Planet.cpp can use to generate terrain
-	std::string name;
-	fixed radius; // in earth radii for planets, sol radii for stars. equatorial radius in case of bodies which are flattened at the poles
-	fixed aspectRatio; // ratio between equatorial and polar radius for bodies with eqatorial bulges
-	fixed mass; // earth masses if planet, solar masses if star
-	fixed orbMin, orbMax; // periapsism, apoapsis in AUs
-	fixed rotationPeriod; // in days
-	fixed rotationalPhaseAtStart; // 0 to 2 pi
-	fixed humanActivity; // 0 - 1
-	fixed semiMajorAxis; // in AUs
-	fixed eccentricity;
-	fixed orbitalOffset;
-	fixed orbitalPhaseAtStart; // 0 to 2 pi
-	fixed axialTilt; // in radians
-	fixed inclination; // in radians, for surface bodies = latitude
-	int averageTemp;
-	BodyType type;
-	bool isCustomBody;
+	Uint32 m_id; // index into starsystem->m_bodies
+	SystemPath m_path;
+	Orbit m_orbit;
+	Uint32 m_seed; // Planet.cpp can use to generate terrain
+	std::string m_name;
+	fixed m_radius; // in earth radii for planets, sol radii for stars. equatorial radius in case of bodies which are flattened at the poles
+	fixed m_aspectRatio; // ratio between equatorial and polar radius for bodies with eqatorial bulges
+	fixed m_mass; // earth masses if planet, solar masses if star
+	fixed m_orbMin, m_orbMax; // periapsism, apoapsis in AUs
+	fixed m_rotationPeriod; // in days
+	fixed m_rotationalPhaseAtStart; // 0 to 2 pi
+	fixed m_humanActivity; // 0 - 1
+	fixed m_semiMajorAxis; // in AUs
+	fixed m_eccentricity;
+	fixed m_orbitalOffset;
+	fixed m_orbitalPhaseAtStart; // 0 to 2 pi
+	fixed m_axialTilt; // in radians
+	fixed m_inclination; // in radians, for surface bodies = latitude
+	int m_averageTemp;
+	BodyType m_type;
+	bool m_isCustomBody;
 
 	/* composition */
 	fixed m_metallicity; // (crust) 0.0 = light (Al, SiO2, etc), 1.0 = heavy (Fe, heavy metals)
@@ -204,8 +203,8 @@ public:
 	fixed m_population;
 	fixed m_agricultural;
 
-	const char *heightMapFilename;
-	unsigned int heightMapFractal;
+	const char *m_heightMapFilename;
+	unsigned int m_heightMapFractal;
 private:
 	Color m_atmosColor;
 	double m_atmosDensity;
@@ -263,8 +262,8 @@ private:
 
 	SystemBody *NewBody() {
 		SystemBody *body = new SystemBody;
-		body->path = m_path;
-		body->path.bodyIndex = m_bodies.size();
+		body->m_path = m_path;
+		body->m_path.bodyIndex = m_bodies.size();
 		m_bodies.push_back(RefCountedPtr<SystemBody>(body));
 		return body;
 	}
