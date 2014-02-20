@@ -1,0 +1,70 @@
+{
+   "APPLY_FOR_MEMBERSHIP" : {
+      "description" : "",
+      "message" : "Ansök om medlemskap"
+   },
+   "BEGIN_TRADE" : {
+      "description" : "",
+      "message" : "Börja handla"
+   },
+   "FLAVOUR_0_CLUBNAME" : {
+      "description" : "",
+      "message" : "Interstellära piloters bränslesamfund"
+   },
+   "FLAVOUR_0_MEMBER_INTRO" : {
+      "description" : "",
+      "message" : "Du får köpa bränsle och göra dig av med {radioactives} här."
+   },
+   "FLAVOUR_0_NONMEMBER_INTRO" : {
+      "description" : "",
+      "message" : "{clubname} är en oberoende organisation dedikerad till att förse rabatterat bränsle till sina medlemmar. Avdelningar kan hittas genom hela galaxen. Fördelar med medlemskapet inkluderar:\n\n\t* Våra egna lager av bränsle som inte är beroende på den generella marknaded\n\t* {hydrogen} till rabattpriser\n\t* {military_fuel} till rabattpriser\n\t* {water} till rabattpriser\n\t* {radioactives}, gratis avyttring (villkor gäller)\n\t* Påfyllning av bränsletank där det är nödvändigt\n\nGå med nu! Årligt medlemskap kostar bara {membership_fee}"
+   },
+   "FLAVOUR_0_WELCOME" : {
+      "description" : "",
+      "message" : "Välkommen till {clubname}"
+   },
+   "GO_BACK" : {
+      "description" : "",
+      "message" : "Tillbaka"
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Lägg på."
+   },
+   "HYDROGEN" : {
+      "description" : "",
+      "message" : "Väte"
+   },
+   "MILITARY_FUEL" : {
+      "description" : "",
+      "message" : "Militärt bränsle"
+   },
+   "RADIOACTIVES" : {
+      "description" : "",
+      "message" : "Radioaktivt avfall"
+   },
+   "WATER" : {
+      "description" : "",
+      "message" : "Vatten"
+   },
+   "WE_WILL_ONLY_DISPOSE_OF" : {
+      "description" : "",
+      "message" : "Vi kommer bara att göra oss av med så många ton {radioactives} som du har köpt {military_fuel} av oss."
+   },
+   "WHAT_CONDITIONS_APPLY" : {
+      "description" : "",
+      "message" : "Vilka förhållanden gäller för avyttring av {radioactives}?"
+   },
+   "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED" : {
+      "description" : "",
+      "message" : "Din medlemsansökan har blivit nekad."
+   },
+   "YOU_ARE_NOW_A_MEMBER" : {
+      "description" : "",
+      "message" : "Du är nu en medlem. Ditt medlemskap går ut {expiry_date}."
+   },
+   "YOU_MUST_BUY" : {
+      "description" : "",
+      "message" : "Du måste köpa vår {military_fuel} innan vi tar dina {radioactives}"
+   }
+}
