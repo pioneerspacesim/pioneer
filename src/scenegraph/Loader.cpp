@@ -478,8 +478,8 @@ void Loader::ConvertAiMeshes(std::vector<RefCountedPtr<StaticGeometry> > &geoms,
 		//create buffer & copy
 		RefCountedPtr<Graphics::IndexBuffer> ib(m_renderer->CreateIndexBuffer(indices.size(), Graphics::BUFFER_USAGE_STATIC));
 		Uint16* idxPtr = ib->Map(Graphics::BUFFER_MAP_WRITE);
-		for (Uint32 i = 0; i < indices.size(); i++)
-			idxPtr[i] = indices[i];
+		for (Uint32 j = 0; j < indices.size(); j++)
+			idxPtr[j] = indices[j];
 		ib->Unmap();
 
 		//copy vertices, always assume normals
