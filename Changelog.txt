@@ -50,6 +50,7 @@ February 2014
      * Split camera state into a separate class (#2714)
      * Sector and star system cache improvements (#2706)
      * Generation of explored flag moved from StarSystem to Sector (#2744)
+     * New Vertex buffer class (#2762)
 
 January 2014
 
