@@ -5,6 +5,8 @@
 #include "Context.h"
 #include "Slider.h"
 
+#include <typeinfo>
+
 namespace UI {
 
 void Table::LayoutAccumulator::AddRow(const std::vector<Widget*> &widgets)
@@ -12,42 +14,76 @@ void Table::LayoutAccumulator::AddRow(const std::vector<Widget*> &widgets)
 	if (m_columnWidth.size() < widgets.size()) {
 		std::size_t i = m_columnWidth.size();
 		m_columnWidth.resize(widgets.size());
-		m_columnLeft.resize(widgets.size());
 		for (; i < widgets.size(); i++)
-			m_columnWidth[i] = m_columnLeft[i] = 0;
+			m_columnWidth[i] = 0;
 	}
 
-	m_columnLeft[0] = 0;
+	m_preferredWidth = 0;
 	for (std::size_t i = 0; i < widgets.size(); i++) {
 		Widget *w = widgets[i];
 		if (!w) continue;
 		const Point size(w->CalcLayoutContribution());
 		// XXX handle flags
 		m_columnWidth[i] = std::max(m_columnWidth[i], size.x);
-		if (i > 0) m_columnLeft[i] = m_columnLeft[i-1] + m_columnWidth[i-1] + m_columnSpacing;
+		m_preferredWidth += m_columnWidth[i] + m_columnSpacing;
 	}
+	m_preferredWidth -= m_columnSpacing;
 }
 
 void Table::LayoutAccumulator::Clear()
 {
 	m_columnWidth.clear();
 	m_columnLeft.clear();
+	m_preferredWidth = 0;
 }
 
-void Table::LayoutAccumulator::SetColumnSpacing(int spacing) {
-	m_columnSpacing = spacing;
+void Table::LayoutAccumulator::ComputeForWidth(int availWidth) {
+	if (m_columnWidth.empty())
+		return;
+
 	m_columnLeft.resize(m_columnWidth.size());
-	if (m_columnLeft.size() > 0) {
-		m_columnLeft[0] = 0;
-		for (std::size_t i = 0; i < m_columnWidth.size(); i++)
-			if (i > 0) m_columnLeft[i] = m_columnLeft[i-1] + m_columnWidth[i-1] + m_columnSpacing;
+
+	switch (m_columnAlignment) {
+		case COLUMN_LEFT: {
+			m_columnLeft[0] = 0;
+			if (m_columnWidth.size() > 1)
+				for (std::size_t i = 1; i < m_columnWidth.size(); i++)
+					m_columnLeft[i] = m_columnLeft[i-1] + m_columnWidth[i-1] + m_columnSpacing;
+			break;
+		}
+
+		case COLUMN_CENTER: {
+			m_columnLeft[0] = (availWidth-m_preferredWidth)/2;
+			if (m_columnWidth.size() > 1)
+				for (std::size_t i = 1; i < m_columnWidth.size(); i++)
+					m_columnLeft[i] = m_columnLeft[i-1] + m_columnWidth[i-1] + m_columnSpacing;
+			break;
+		}
+
+		case COLUMN_RIGHT: {
+			m_columnLeft.back() = availWidth - m_columnWidth.back();
+			if (m_columnWidth.size() > 1)
+				for (int i = m_columnWidth.size()-2; i >= 0; i--)
+					m_columnLeft[i] = m_columnLeft[i+1] - m_columnSpacing - m_columnWidth[i];
+			break;
+		}
+
+		case COLUMN_JUSTIFY: {
+			m_columnLeft[0] = 0;
+			if (m_columnWidth.size() > 1) {
+				int pad = availWidth > m_preferredWidth ? (availWidth-m_preferredWidth) / (m_columnWidth.size()-1) : 0;
+				for (std::size_t i = 1; i < m_columnWidth.size(); i++)
+					m_columnLeft[i] = m_columnLeft[i-1] + m_columnWidth[i-1] + m_columnSpacing + pad;
+			}
+			break;
+		}
 	}
 }
 
 Table::Inner::Inner(Context *context, LayoutAccumulator &layout) : Container(context),
 	m_layout(layout),
 	m_rowSpacing(0),
-	m_rowAlignment(TOP),
+	m_rowAlignment(ROW_TOP),
 	m_dirty(false),
 	m_mouseEnabled(false)
 {
@@ -58,14 +94,12 @@ Point Table::Inner::PreferredSize()
 	if (!m_dirty)
 		return m_preferredSize;
 
-	const std::vector<int> &colWidth = m_layout.ColumnWidth();
-	const std::vector<int> &colLeft = m_layout.ColumnLeft();
-	if (colWidth.size() == 0) {
+	if (m_layout.Empty()) {
 		m_preferredSize = Point();
 		return m_preferredSize;
 	}
 
-	m_preferredSize.x = colLeft.back() + colWidth.back();
+	m_preferredSize.x = m_layout.GetPreferredWidth();
 	m_preferredSize.y = 0;
 
 	m_rowHeight.resize(m_rows.size());
@@ -111,10 +145,10 @@ void Table::Inner::Layout()
 			int off = 0;
 			if (height != m_rowHeight[i]) {
 				switch (m_rowAlignment) {
-					case CENTER:
+					case ROW_CENTER:
 						off = (m_rowHeight[i] - height) / 2;
 						break;
-					case BOTTOM:
+					case ROW_BOTTOM:
 						off = m_rowHeight[i] - height;
 						break;
 					default:
@@ -268,6 +302,7 @@ void Table::Layout()
 		PreferredSize();
 
 	Point size = GetSize();
+	m_layout.ComputeForWidth(size.x);
 
 	Point preferredSize(m_header->PreferredSize());
 	SetWidgetDimensions(m_header.Get(), Point(), Point(size.x, preferredSize.y));
@@ -350,6 +385,14 @@ Table *Table::SetColumnSpacing(int spacing)
 Table *Table::SetRowAlignment(RowAlignDirection dir)
 {
 	m_body->SetRowAlignment(dir);
+	m_dirty = true;
+	GetContext()->RequestLayout();
+	return this;
+}
+
+Table *Table::SetColumnAlignment(ColumnAlignDirection mode)
+{
+	m_layout.SetColumnAlignment(mode);
 	m_dirty = true;
 	GetContext()->RequestLayout();
 	return this;
