@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright ï¿½ 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "graphics/VertexBuffer.h"
@@ -23,8 +23,8 @@ Uint32 VertexBufferDesc::GetAttribSize(VertexAttribFormat f)
 
 VertexBufferDesc::VertexBufferDesc()
 	: numVertices(0)
-	, usage(BUFFER_USAGE_STATIC)
 	, stride(0)
+	, usage(BUFFER_USAGE_STATIC)
 {
 	for (Uint32 i = 0; i < MAX_ATTRIBS; i++) {
 		attrib[i].semantic = ATTRIB_NONE;
