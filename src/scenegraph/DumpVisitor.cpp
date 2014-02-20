@@ -87,7 +87,7 @@ void DumpVisitor::ApplyStaticGeometry(StaticGeometry &g)
 		m_stats.opaqueGeomCount++;
 
 	for (unsigned int i = 0; i < g.GetNumMeshes(); i++)
-		m_stats.triangles += g.GetMesh(i)->GetNumIndices() / 3;
+		m_stats.triangles += g.GetMeshAt(i).indexBuffer->GetSize() / 3;
 
 	ApplyNode(static_cast<Node&>(g));
 }

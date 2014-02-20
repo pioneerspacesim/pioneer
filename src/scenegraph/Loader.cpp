@@ -10,7 +10,6 @@
 #include "StringF.h"
 #include "utils.h"
 #include "graphics/Renderer.h"
-#include "graphics/Surface.h"
 #include "graphics/TextureBuilder.h"
 #include "FileSystem.h"
 #include <assimp/Importer.hpp>
@@ -292,7 +291,7 @@ RefCountedPtr<Node> Loader::LoadMesh(const std::string &filename, const AnimList
 
 	//Removing components is suggested to optimize loading. We do not care about vtx colors now.
 	importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS, aiComponent_COLORS);
-	importer.SetPropertyInteger(AI_CONFIG_PP_SLM_VERTEX_LIMIT, Graphics::StaticMesh::MAX_VERTICES);
+	importer.SetPropertyInteger(AI_CONFIG_PP_SLM_VERTEX_LIMIT, 65536);
 
 	//There are several optimizations assimp can do, intentionally skipping them now
 	const aiScene *scene = importer.ReadFile(
@@ -384,6 +383,14 @@ void Loader::CheckAnimationConflicts(const Animation* anim, const std::vector<An
 	}
 }
 
+#pragma pack(push, 4)
+struct ModelVtx {
+	vector3f pos;
+	vector3f nrm;
+	vector2f uv0;
+};
+#pragma pack(pop)
+
 void Loader::ConvertAiMeshes(std::vector<RefCountedPtr<StaticGeometry> > &geoms, const aiScene *scene)
 {
 	//XXX sigh, workaround for obj loader
@@ -395,6 +402,7 @@ void Loader::ConvertAiMeshes(std::vector<RefCountedPtr<StaticGeometry> > &geoms,
 	for (unsigned int i=0; i<scene->mNumMeshes; i++) {
 		const aiMesh *mesh = scene->mMeshes[i];
 		assert(mesh->HasNormals());
+		assert(mesh->mNumVertices <= 65536);
 
 		RefCountedPtr<StaticGeometry> geom(new StaticGeometry(m_renderer));
 		geom->SetName(stringf("sgMesh%0{u}", i));
@@ -430,43 +438,68 @@ void Loader::ConvertAiMeshes(std::vector<RefCountedPtr<StaticGeometry> > &geoms,
 
 		geom->SetRenderState(m_renderer->CreateRenderState(rsd));
 
-		const Graphics::AttributeSet vtxAttribs =
-			Graphics::ATTRIB_POSITION |
-			Graphics::ATTRIB_NORMAL |
-			Graphics::ATTRIB_UV0;
-		Graphics::VertexArray *vts = new Graphics::VertexArray(vtxAttribs, mesh->mNumVertices);
+		Graphics::VertexBufferDesc vbd;
+		vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
+		vbd.attrib[0].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+		vbd.attrib[0].offset   = offsetof(ModelVtx, pos);
+		vbd.attrib[1].semantic = Graphics::ATTRIB_NORMAL;
+		vbd.attrib[1].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+		vbd.attrib[1].offset   = offsetof(ModelVtx, nrm);
+		vbd.attrib[2].semantic = Graphics::ATTRIB_UV0;
+		vbd.attrib[2].format   = Graphics::ATTRIB_FORMAT_FLOAT2;
+		vbd.attrib[2].offset   = offsetof(ModelVtx, uv0);
+		vbd.stride = sizeof(ModelVtx);
+		vbd.numVertices = mesh->mNumVertices;
+		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
+
+		RefCountedPtr<Graphics::VertexBuffer> vb(m_renderer->CreateVertexBuffer(vbd));
 
 		// huge meshes are split by the importer so this should not exceed 65K indices
-		RefCountedPtr<Graphics::Surface> surface(new Graphics::Surface(Graphics::TRIANGLES, vts, mat));
-		std::vector<unsigned short> &indices = surface->GetIndices();
-		indices.reserve(mesh->mNumFaces * 3);
-
-		//copy indices first
-		for (unsigned int f = 0; f < mesh->mNumFaces; f++) {
-			const aiFace *face = &mesh->mFaces[f];
-			for (unsigned int j = 0; j < face->mNumIndices; j++) {
-				indices.push_back(face->mIndices[j]);
+		std::vector<Uint16> indices;
+		if (mesh->mNumFaces > 0)
+		{
+			indices.reserve(mesh->mNumFaces * 3);
+			for (unsigned int f = 0; f < mesh->mNumFaces; f++) {
+				const aiFace *face = &mesh->mFaces[f];
+				for (unsigned int j = 0; j < face->mNumIndices; j++) {
+					indices.push_back(face->mIndices[j]);
+				}
 			}
+		} else {
+			//generate dummy indices
+			AddLog(stringf("Missing indices in mesh %0{u}", i));
+			indices.reserve(mesh->mNumVertices);
+			for (unsigned int v = 0; v < mesh->mNumVertices; v++)
+				indices.push_back(v);
 		}
+
+		assert(indices.size() > 0);
+
+		//create buffer & copy
+		RefCountedPtr<Graphics::IndexBuffer> ib(m_renderer->CreateIndexBuffer(indices.size(), Graphics::BUFFER_USAGE_STATIC));
+		Uint16* idxPtr = ib->Map(Graphics::BUFFER_MAP_WRITE);
+		for (Uint32 i = 0; i < indices.size(); i++)
+			idxPtr[i] = indices[i];
+		ib->Unmap();
 
 		//copy vertices, always assume normals
 		//replace nonexistent UVs with zeros
+		ModelVtx *vtxPtr = vb->Map<ModelVtx>(Graphics::BUFFER_MAP_WRITE);
 		for (unsigned int v = 0; v < mesh->mNumVertices; v++) {
 			const aiVector3D &vtx = mesh->mVertices[v];
 			const aiVector3D &norm = mesh->mNormals[v];
 			const aiVector3D &uv0 = hasUVs ? mesh->mTextureCoords[0][v] : aiVector3D(0.f);
-			vts->Add(vector3f(vtx.x, vtx.y, vtx.z),
-				vector3f(norm.x, norm.y, norm.z),
-				vector2f(uv0.x, uv0.y));
+			vtxPtr[v].pos = vector3f(vtx.x, vtx.y, vtx.z);
+			vtxPtr[v].nrm = vector3f(norm.x, norm.y, norm.z);
+			vtxPtr[v].uv0 = vector2f(uv0.x, uv0.y);
 
 			//update bounding box
 			//untransformed points, collision visitor will transform
 			geom->m_boundingBox.Update(vtx.x, vtx.y, vtx.z);
 		}
+		vb->Unmap();
 
-		RefCountedPtr<Graphics::StaticMesh> smesh(new Graphics::StaticMesh(Graphics::TRIANGLES));
-		smesh->AddSurface(surface);
-		geom->AddMesh(smesh);
+		geom->AddMesh(vb, ib, mat);
 
 		geoms.push_back(geom);
 	}
@@ -680,6 +713,40 @@ void Loader::CreateNavlight(const std::string &name, const matrix4x4f &m)
 	m_billboardsRoot->AddChild(lightPoint);
 }
 
+RefCountedPtr<CollisionGeometry> Loader::CreateCollisionGeometry(RefCountedPtr<StaticGeometry> geom, unsigned int collFlag)
+{
+	//Convert StaticMesh points & indices into cgeom
+	//note: it's not slow, but the amount of data being copied is just stupid:
+	//assimp to vtxbuffer, vtxbuffer to vector, vector to cgeom, cgeom to geomtree...
+	assert(geom->GetNumMeshes() == 1);
+	StaticGeometry::Mesh mesh = geom->GetMeshAt(0);
+
+	const Uint32 posOffs = mesh.vertexBuffer->GetDesc().GetOffset(Graphics::ATTRIB_POSITION);
+	const Uint32 stride  = mesh.vertexBuffer->GetDesc().stride;
+	const Uint32 numVtx  = mesh.vertexBuffer->GetDesc().numVertices;
+	const Uint32 numIdx  = mesh.indexBuffer->GetSize();
+
+	//copy vertex positions from buffer
+	std::vector<vector3f> pos;
+	pos.reserve(numVtx);
+
+	Uint8 *vtxPtr = mesh.vertexBuffer->Map<Uint8>(Graphics::BUFFER_MAP_READ);
+	for (Uint32 i = 0; i < numVtx; i++)
+		pos.push_back(*reinterpret_cast<vector3f*>(vtxPtr + (i * stride) + posOffs));
+	mesh.vertexBuffer->Unmap();
+
+	//copy indices from buffer
+	std::vector<unsigned short> idx;
+	idx.reserve(numIdx);
+
+	Uint16 *idxPtr = mesh.indexBuffer->Map(Graphics::BUFFER_MAP_READ);
+	for (Uint32 i = 0; i < numIdx; i++)
+		idx.push_back(idxPtr[i]);
+	mesh.indexBuffer->Unmap();
+	RefCountedPtr<CollisionGeometry> cgeom(new CollisionGeometry(m_renderer, pos, idx, collFlag));
+	return cgeom;
+}
+
 void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPtr<StaticGeometry> >& geoms, const matrix4x4f &accum)
 {
 	Group *parent = _parent;
@@ -716,8 +783,7 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPt
 	//nodes named collision_* are not added as renderable geometry
 	if (node->mNumMeshes == 1 && starts_with(nodename, "collision_")) {
 		const unsigned int collflag = GetGeomFlagForNodeName(nodename);
-		RefCountedPtr<Graphics::Surface> surf = geoms.at(node->mMeshes[0])->GetMesh(0)->GetSurface(0);
-		RefCountedPtr<CollisionGeometry> cgeom(new CollisionGeometry(m_renderer, surf.Get(), collflag));
+		RefCountedPtr<CollisionGeometry> cgeom = CreateCollisionGeometry(geoms.at(node->mMeshes[0]), collflag);
 		cgeom->SetName(nodename + "_cgeom");
 		cgeom->SetDynamic(starts_with(nodename, "collision_d"));
 		parent->AddChild(cgeom.Get());
@@ -742,7 +808,7 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPt
 			if (numDecal > 0) {
 				geom->SetNodeMask(NODE_TRANSPARENT);
 				geom->m_blendMode = Graphics::BLEND_ALPHA;
-				geom->GetMesh(0)->GetSurface(0)->SetMaterial(GetDecalMaterial(numDecal));
+				geom->GetMeshAt(0).material = GetDecalMaterial(numDecal);
 				geom->SetNodeFlags(geom->GetNodeFlags() | NODE_DECAL);
 				Graphics::RenderStateDesc rsd;
 				rsd.blendMode = Graphics::BLEND_ALPHA;
@@ -799,6 +865,7 @@ void Loader::LoadCollision(const std::string &filename)
 
 		//copy indices
 		//we assume aiProcess_Triangulate does its job
+		assert(mesh->mNumFaces > 0);
 		for (unsigned int f = 0; f < mesh->mNumFaces; f++) {
 			const aiFace *face = &mesh->mFaces[f];
 			for (unsigned int j = 0; j < face->mNumIndices; j++) {
@@ -814,7 +881,7 @@ void Loader::LoadCollision(const std::string &filename)
 		}
 	}
 
-	assert(!vertices.empty() && !vertices.empty());
+	assert(!vertices.empty() && !indices.empty());
 
 	//add pre-transformed geometry at the top level
 	m_model->GetRoot()->AddChild(new CollisionGeometry(m_renderer, vertices, indices, 0));

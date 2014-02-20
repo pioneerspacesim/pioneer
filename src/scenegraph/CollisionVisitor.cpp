@@ -7,8 +7,6 @@
 #include "Group.h"
 #include "MatrixTransform.h"
 #include "StaticGeometry.h"
-#include "graphics/StaticMesh.h"
-#include "graphics/Surface.h"
 
 namespace SceneGraph {
 CollisionVisitor::CollisionVisitor()
