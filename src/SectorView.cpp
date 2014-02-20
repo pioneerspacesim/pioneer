@@ -574,20 +574,20 @@ void SectorView::OnClickSystem(const SystemPath &path)
 		if (system->GetNumStars() > 1 && m_selected.IsBodyPath()) {
 			int i;
 			for (i = 0; i < system->GetNumStars(); ++i)
-				if (system->m_stars[i]->m_path == m_selected) break;
+				if (system->m_stars[i]->GetPath() == m_selected) break;
 			if (i >= system->GetNumStars() - 1)
-				SetSelected(system->m_stars[0]->m_path);
+				SetSelected(system->m_stars[0]->GetPath());
 			else
-				SetSelected(system->m_stars[i+1]->m_path);
+				SetSelected(system->m_stars[i+1]->GetPath());
 		} else {
-			SetSelected(system->m_stars[0]->m_path);
+			SetSelected(system->m_stars[0]->GetPath());
 		}
 	} else {
 		if (m_selectionFollowsMovement) {
 			GotoSystem(path);
 		} else {
 			RefCountedPtr<StarSystem> system = StarSystemCache::GetCached(path);
-			SetSelected(system->m_stars[0]->m_path);
+			SetSelected(system->m_stars[0]->GetPath());
 		}
 	}
 }
@@ -780,7 +780,7 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 	labels.starType->SetText(desc);
 
 	if (path.IsBodyPath()) {
-		labels.systemName->SetText(sys->GetBodyByPath(path)->m_name);
+		labels.systemName->SetText(sys->GetBodyByPath(path)->GetName());
 	} else {
 		labels.systemName->SetText(sys->GetName());
 	}
@@ -1332,7 +1332,7 @@ void SectorView::Update()
 
 			if (!m_selected.IsSameSystem(new_selected)) {
 				RefCountedPtr<StarSystem> system = StarSystemCache::GetCached(new_selected);
-				SetSelected(system->m_stars[0]->m_path);
+				SetSelected(system->m_stars[0]->GetPath());
 			}
 		}
 	}
