@@ -588,7 +588,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			ss << stringf("Pos: %0{f.2}, %1{f.2}, %2{f.2}\n", pos.x, pos.y, pos.z);
 			ss << stringf("AbsPos: %0{f.2}, %1{f.2}, %2{f.2}\n", abs_pos.x, abs_pos.y, abs_pos.z);
 
-			const SystemPath &path(Pi::player->GetFrame()->GetSystemBody()->path);
+			const SystemPath &path(Pi::player->GetFrame()->GetSystemBody()->GetPath());
 			ss << stringf("Rel-to: %0 [%1{d},%2{d},%3{d},%4{u},%5{u}] ",
 				Pi::player->GetFrame()->GetLabel(),
 				path.sectorX, path.sectorY, path.sectorZ, path.systemIndex, path.bodyIndex);
@@ -618,7 +618,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 		RefCountedPtr<StarSystem> s = StarSystemCache::GetCached(dest);
 
 		Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_TOP_LEFT, stringf(Lang::IN_TRANSIT_TO_N_X_X_X,
-			formatarg("system", dest.IsBodyPath() ? s->GetBodyByPath(dest)->name : s->GetName()),
+			formatarg("system", dest.IsBodyPath() ? s->GetBodyByPath(dest)->GetName() : s->GetName()),
 			formatarg("x", dest.sectorX),
 			formatarg("y", dest.sectorY),
 			formatarg("z", dest.sectorZ)));
@@ -1035,16 +1035,16 @@ void WorldView::BuildCommsNavOptions()
 	for ( std::vector<SystemBody*>::const_iterator i = Pi::game->GetSpace()->GetStarSystem()->m_spaceStations.begin();
 	      i != Pi::game->GetSpace()->GetStarSystem()->m_spaceStations.end(); ++i) {
 
-		groups[(*i)->parent->path.bodyIndex].push_back(*i);
+		groups[(*i)->GetParent()->GetPath().bodyIndex].push_back(*i);
 	}
 
 	for ( std::map< Uint32,std::vector<SystemBody*> >::const_iterator i = groups.begin(); i != groups.end(); ++i ) {
-		m_commsNavOptions->PackEnd(new Gui::Label("#f0f" + Pi::game->GetSpace()->GetStarSystem()->m_bodies[(*i).first]->name));
+		m_commsNavOptions->PackEnd(new Gui::Label("#f0f" + Pi::game->GetSpace()->GetStarSystem()->m_bodies[(*i).first]->GetName()));
 
 		for ( std::vector<SystemBody*>::const_iterator j = (*i).second.begin(); j != (*i).second.end(); ++j) {
 			SystemPath path = Pi::game->GetSpace()->GetStarSystem()->GetPathOf(*j);
 			Body *body = Pi::game->GetSpace()->FindBodyForPath(&path);
-			AddCommsNavOption((*j)->name, body);
+			AddCommsNavOption((*j)->GetName(), body);
 		}
 	}
 }
@@ -1121,7 +1121,7 @@ void WorldView::OnHyperspaceTargetChanged()
 	const SystemPath path = Pi::sectorView->GetHyperspaceTarget();
 
 	RefCountedPtr<StarSystem> system = StarSystemCache::GetCached(path);
-	const std::string& name = path.IsBodyPath() ? system->GetBodyByPath(path)->name : system->GetName() ;
+	const std::string& name = path.IsBodyPath() ? system->GetBodyByPath(path)->GetName() : system->GetName() ;
 	Pi::cpan->MsgLog()->Message("", stringf(Lang::SET_HYPERSPACE_DESTINATION_TO, formatarg("system", name)));
 }
 

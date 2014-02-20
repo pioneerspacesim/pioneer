@@ -103,7 +103,7 @@ static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Ca
 		const double dist = lpos.Length() / AU;
 		lpos *= 1.0/dist; // normalize
 
-		const Uint8 *col = StarSystem::starRealColors[body->type];
+		const Uint8 *col = StarSystem::starRealColors[body->GetType()];
 
 		const Color lightCol(col[0], col[1], col[2], 0);
 		vector3f lightpos(lpos.x, lpos.y, lpos.z);
@@ -154,7 +154,7 @@ void Camera::Update()
 				attrs.billboardPos = vector3f(&pos.x);
 				attrs.billboardSize = float(size);
 				if (b->IsType(Object::STAR)) {
-					Uint8 *col = StarSystem::starRealColors[b->GetSystemBody()->type];
+					Uint8 *col = StarSystem::starRealColors[b->GetSystemBody()->GetType()];
 					attrs.billboardColor = Color(col[0], col[1], col[2], 255);
 				}
 				else if (b->IsType(Object::PLANET)) {
