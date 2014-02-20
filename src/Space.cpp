@@ -96,7 +96,7 @@ Space::Space(Game *game, const SystemPath &path)
 	m_rootFrame.reset(new Frame(0, Lang::SYSTEM));
 	m_rootFrame->SetRadius(FLT_MAX);
 
-	GenBody(m_game->GetTime(), m_starSystem->rootBody.Get(), m_rootFrame.get());
+	GenBody(m_game->GetTime(), m_starSystem->m_rootBody.Get(), m_rootFrame.get());
 	m_rootFrame->UpdateOrbitRails(m_game->GetTime(), m_game->GetTimeStep());
 
 	GenSectorCache(&path);
@@ -226,8 +226,8 @@ void Space::AddSystemBodyToIndex(SystemBody *sbody)
 {
 	assert(sbody);
 	m_sbodyIndex.push_back(sbody);
-	for (Uint32 i = 0; i < sbody->children.size(); i++)
-		AddSystemBodyToIndex(sbody->children[i]);
+	for (Uint32 i = 0; i < sbody->GetNumChildren(); i++)
+		AddSystemBodyToIndex(sbody->GetChild(i));
 }
 
 void Space::RebuildFrameIndex()
@@ -266,7 +266,7 @@ void Space::RebuildSystemBodyIndex()
 	m_sbodyIndex.push_back(0);
 
 	if (m_starSystem)
-		AddSystemBodyToIndex(m_starSystem->rootBody.Get());
+		AddSystemBodyToIndex(m_starSystem->m_rootBody.Get());
 
 	m_sbodyIndexValid = true;
 }
@@ -324,14 +324,14 @@ vector3d Space::GetHyperspaceExitPoint(const SystemPath &source, const SystemPat
 		assert(size_t(dest.bodyIndex) < m_starSystem->m_bodies.size());
 		primary = FindBodyForPath(&dest);
 		while (primary && primary->GetSystemBody()->GetSuperType() != SystemBody::SUPERTYPE_STAR) {
-			SystemBody* parent = primary->GetSystemBody()->parent;
-			primary = parent ? FindBodyForPath(&parent->path) : 0;
+			SystemBody* parent = primary->GetSystemBody()->GetParent();
+			primary = parent ? FindBodyForPath(&parent->GetPath()) : 0;
 		}
 	}
 	if (!primary) {
 		// find the first non-gravpoint. should be the primary star
 		for (BodyIterator i = BodiesBegin(); i != BodiesEnd(); ++i)
-			if ((*i)->GetSystemBody()->type != SystemBody::TYPE_GRAVPOINT) {
+			if ((*i)->GetSystemBody()->GetType() != SystemBody::TYPE_GRAVPOINT) {
 				primary = *i;
 				break;
 			}
@@ -398,7 +398,7 @@ static void RelocateStarportIfUnderwaterOrBuried(SystemBody *sbody, Frame *frame
 	const double radius = planet->GetSystemBody()->GetRadius();
 
 	// suggested position
-	rot = sbody->orbit.GetPlane();
+	rot = sbody->GetOrbit().GetPlane();
 	pos = rot * vector3d(0,1,0);
 
 	// Check if height varies too much around the starport center
@@ -425,15 +425,15 @@ static void RelocateStarportIfUnderwaterOrBuried(SystemBody *sbody, Frame *frame
 	matrix3x3d rot_ = rot;
 	vector3d pos_ = pos;
 
-	bool manualRelocationIsEasy = !(planet->GetSystemBody()->type == SystemBody::TYPE_PLANET_ASTEROID || terrainHeightVariation > heightVariationCheckThreshold);
+	bool manualRelocationIsEasy = !(planet->GetSystemBody()->GetType() == SystemBody::TYPE_PLANET_ASTEROID || terrainHeightVariation > heightVariationCheckThreshold);
 
 	// warn and leave it up to the user to relocate custom starports when it's easy to relocate manually, i.e. not on asteroids and other planets which are likely to have high variation in a lot of places
-	const bool isRelocatableIfBuried = !(sbody->isCustomBody && manualRelocationIsEasy);
+	const bool isRelocatableIfBuried = !(sbody->IsCustomBody() && manualRelocationIsEasy);
 
 	bool isInitiallyUnderwater = false;
 	bool initialVariationTooHigh = false;
 
-	Random r(sbody->seed);
+	Random r(sbody->GetSeed());
 
 	for (int tries = 0; tries < 200; tries++) {
 		variationWithinLimits = true;
@@ -490,34 +490,34 @@ static void RelocateStarportIfUnderwaterOrBuried(SystemBody *sbody, Frame *frame
 		rot = rotNotUnderwaterWithLeastVariation;
 	}
 
-	if (sbody->isCustomBody) {
-		SystemPath &p = sbody->path;
+	if (sbody->IsCustomBody()) {
+		const SystemPath &p = sbody->GetPath();
 		if (initialVariationTooHigh) {
 			if (isRelocatableIfBuried) {
 				Output("Warning: Lua custom Systems definition: Surface starport has been automatically relocated. This is in order to place it on flatter ground to reduce the chance of landing pads being buried. This is not an error as such and you may attempt to move the starport to another location by changing latitude and longitude fields.\n      Surface starport name: %s, Body name: %s, In sector: x = %i, y = %i, z = %i.\n",
-					sbody->name.c_str(), sbody->parent->name.c_str(), p.sectorX, p.sectorY, p.sectorZ);
+					sbody->GetName().c_str(), sbody->GetParent()->GetName().c_str(), p.sectorX, p.sectorY, p.sectorZ);
 			} else {
 				Output("Warning: Lua custom Systems definition: Surface starport may have landing pads buried. The surface starport has not been automatically relocated as the planet appears smooth enough to manually relocate easily. This is not an error as such and you may attempt to move the starport to another location by changing latitude and longitude fields.\n      Surface starport name: %s, Body name: %s, In sector: x = %i, y = %i, z = %i.\n",
-					sbody->name.c_str(), sbody->parent->name.c_str(), p.sectorX, p.sectorY, p.sectorZ);
+					sbody->GetName().c_str(), sbody->GetParent()->GetName().c_str(), p.sectorX, p.sectorY, p.sectorZ);
 			}
 		}
 		if (isInitiallyUnderwater) {
 			Output("Error: Lua custom Systems definition: Surface starport is underwater (height not greater than 0.0) and has been automatically relocated. Please move the starport to another location by changing latitude and longitude fields.\n      Surface starport name: %s, Body name: %s, In sector: x = %i, y = %i, z = %i.\n",
-				sbody->name.c_str(), sbody->parent->name.c_str(), p.sectorX, p.sectorY, p.sectorZ);
+				sbody->GetName().c_str(), sbody->GetParent()->GetName().c_str(), p.sectorX, p.sectorY, p.sectorZ);
 		}
 	}
 }
 
 static Frame *MakeFrameFor(double at_time, SystemBody *sbody, Body *b, Frame *f)
 {
-	if (!sbody->parent) {
+	if (!sbody->GetParent()) {
 		if (b) b->SetFrame(f);
 		f->SetBodies(sbody, b);
 		return f;
 	}
 
-	if (sbody->type == SystemBody::TYPE_GRAVPOINT) {
-		Frame *orbFrame = new Frame(f, sbody->name.c_str());
+	if (sbody->GetType() == SystemBody::TYPE_GRAVPOINT) {
+		Frame *orbFrame = new Frame(f, sbody->GetName().c_str());
 		orbFrame->SetBodies(sbody, b);
 		orbFrame->SetRadius(sbody->GetMaxChildOrbitalDistance()*1.1);
 		return orbFrame;
@@ -530,26 +530,26 @@ static Frame *MakeFrameFor(double at_time, SystemBody *sbody, Body *b, Frame *f)
 		// for planets we want an non-rotating frame for a few radii
 		// and a rotating frame with no radius to contain attached objects
 		double frameRadius = std::max(4.0*sbody->GetRadius(), sbody->GetMaxChildOrbitalDistance()*1.05);
-		Frame *orbFrame = new Frame(f, sbody->name.c_str(), Frame::FLAG_HAS_ROT);
+		Frame *orbFrame = new Frame(f, sbody->GetName().c_str(), Frame::FLAG_HAS_ROT);
 		orbFrame->SetBodies(sbody, b);
 		orbFrame->SetRadius(frameRadius);
 		//Output("\t\t\t%s has frame size %.0fkm, body radius %.0fkm\n", sbody->name.c_str(),
 		//	(frameRadius ? frameRadius : 10*sbody->GetRadius())*0.001f,
 		//	sbody->GetRadius()*0.001f);
 
-		assert(sbody->rotationPeriod != 0);
-		Frame *rotFrame = new Frame(orbFrame, sbody->name.c_str(), Frame::FLAG_ROTATING);
+		assert(sbody->IsRotating() != 0);
+		Frame *rotFrame = new Frame(orbFrame, sbody->GetName().c_str(), Frame::FLAG_ROTATING);
 		rotFrame->SetBodies(sbody, b);
 
 		// rotating frame has atmosphere radius or feature height, whichever is larger
 		rotFrame->SetRadius(b->GetPhysRadius());
 
-		matrix3x3d rotMatrix = matrix3x3d::RotateX(sbody->axialTilt.ToDouble());
+		matrix3x3d rotMatrix = matrix3x3d::RotateX(sbody->GetAxialTilt());
 		double angSpeed = 2.0*M_PI/sbody->GetRotationPeriod();
 		rotFrame->SetAngSpeed(angSpeed);
 
-		if (sbody->rotationalPhaseAtStart != fixed(0))
-			rotMatrix = rotMatrix * matrix3x3d::RotateY(sbody->rotationalPhaseAtStart.ToDouble());
+		if (sbody->HasRotationPhase())
+			rotMatrix = rotMatrix * matrix3x3d::RotateY(sbody->GetRotationPhaseAtStart());
 		rotFrame->SetInitialOrient(rotMatrix, at_time);
 
 		b->SetFrame(rotFrame);
@@ -559,21 +559,21 @@ static Frame *MakeFrameFor(double at_time, SystemBody *sbody, Body *b, Frame *f)
 		// stars want a single small non-rotating frame
 		// bigger than it's furtherest orbiting body.
 		// if there are no orbiting bodies use a frame of several radii.
-		Frame *orbFrame = new Frame(f, sbody->name.c_str());
+		Frame *orbFrame = new Frame(f, sbody->GetName().c_str());
 		orbFrame->SetBodies(sbody, b);
 		double frameRadius = std::max(10.0*sbody->GetRadius(), sbody->GetMaxChildOrbitalDistance()*1.1);
 		// Respect the frame of other stars in the multi-star system. We still make sure that the frame ends outside
 		// the body. For a minimum separation of 1.236 radii, nothing will overlap (see StarSystem::StarSystem()).
-		if (sbody->parent && frameRadius > AU * 0.11 * sbody->orbMin.ToDouble())
-			frameRadius = std::max(1.1*sbody->GetRadius(), AU * 0.11 * sbody->orbMin.ToDouble());
+		if (sbody->GetParent() && frameRadius > AU * 0.11 * sbody->GetOrbMin())
+			frameRadius = std::max(1.1*sbody->GetRadius(), AU * 0.11 * sbody->GetOrbMin());
 		orbFrame->SetRadius(frameRadius);
 		b->SetFrame(orbFrame);
 		return orbFrame;
 	}
-	else if (sbody->type == SystemBody::TYPE_STARPORT_ORBITAL) {
+	else if (sbody->GetType() == SystemBody::TYPE_STARPORT_ORBITAL) {
 		// space stations want non-rotating frame to some distance
 		// and a zero-size rotating frame
-		Frame *orbFrame = new Frame(f, sbody->name.c_str(), Frame::FLAG_HAS_ROT);
+		Frame *orbFrame = new Frame(f, sbody->GetName().c_str(), Frame::FLAG_HAS_ROT);
 		orbFrame->SetBodies(sbody, b);
 //		orbFrame->SetRadius(10*sbody->GetRadius());
 		orbFrame->SetRadius(20000.0);				// 4x standard parking radius
@@ -587,7 +587,7 @@ static Frame *MakeFrameFor(double at_time, SystemBody *sbody, Body *b, Frame *f)
 //		rotFrame->SetAngVelocity(vector3d(0.0,double(static_cast<SpaceStation*>(b)->GetDesiredAngVel()),0.0));
 //		b->SetFrame(rotFrame);
 
-	} else if (sbody->type == SystemBody::TYPE_STARPORT_SURFACE) {
+	} else if (sbody->GetType() == SystemBody::TYPE_STARPORT_SURFACE) {
 		// just put body into rotating frame of planet, not in its own frame
 		// (because collisions only happen between objects in same frame,
 		// and we want collisions on starport and on planet itself)
@@ -599,7 +599,7 @@ static Frame *MakeFrameFor(double at_time, SystemBody *sbody, Body *b, Frame *f)
 		vector3d pos;
 		Planet *planet = static_cast<Planet*>(rotFrame->GetBody());
 		RelocateStarportIfUnderwaterOrBuried(sbody, rotFrame, planet, pos, rot);
-		sbody->orbit.SetPlane(rot);
+		sbody->SetOrbitPlane(rot);
 		b->SetPosition(pos * planet->GetTerrainHeight(pos));
 		b->SetOrient(rot);
 		return rotFrame;
@@ -644,25 +644,25 @@ void Space::GenBody(double at_time, SystemBody *sbody, Frame *f)
 {
 	Body *b = 0;
 
-	if (sbody->type != SystemBody::TYPE_GRAVPOINT) {
+	if (sbody->GetType() != SystemBody::TYPE_GRAVPOINT) {
 		if (sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
 			Star *star = new Star(sbody);
 			b = star;
-		} else if ((sbody->type == SystemBody::TYPE_STARPORT_ORBITAL) ||
-		           (sbody->type == SystemBody::TYPE_STARPORT_SURFACE)) {
+		} else if ((sbody->GetType() == SystemBody::TYPE_STARPORT_ORBITAL) ||
+		           (sbody->GetType() == SystemBody::TYPE_STARPORT_SURFACE)) {
 			SpaceStation *ss = new SpaceStation(sbody);
 			b = ss;
 		} else {
 			Planet *planet = new Planet(sbody);
 			b = planet;
 		}
-		b->SetLabel(sbody->name.c_str());
+		b->SetLabel(sbody->GetName().c_str());
 		b->SetPosition(vector3d(0,0,0));
 		AddBody(b);
 	}
 	f = MakeFrameFor(at_time, sbody, b, f);
 
-	for (std::vector<SystemBody*>::iterator i = sbody->children.begin(); i != sbody->children.end(); ++i) {
+	for (auto i = sbody->ChildrenBegin(); i != sbody->ChildrenEnd(); ++i) {
 		GenBody(at_time, *i, f);
 	}
 }

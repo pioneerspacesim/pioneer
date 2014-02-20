@@ -27,7 +27,7 @@ void SystemInfoView::OnBodySelected(SystemBody *b)
 {
 	{
 		Output("\n");
-		Output("Gas, liquid, ice: %f, %f, %f\n", b->m_volatileGas.ToFloat(), b->m_volatileLiquid.ToFloat(), b->m_volatileIces.ToFloat());
+		Output("Gas, liquid, ice: %f, %f, %f\n", b->GetVolatileGas().ToFloat(), b->GetVolatileLiquid().ToFloat(), b->GetVolatileIces().ToFloat());
 	}
 
 	SystemPath path = m_system->GetPathOf(b);
@@ -72,62 +72,62 @@ void SystemInfoView::OnBodyViewed(SystemBody *b)
 }
 
 	bool multiple = (b->GetSuperType() == SystemBody::SUPERTYPE_STAR &&
-					 b->parent && b->parent->type == SystemBody::TYPE_GRAVPOINT && b->parent->parent);
+					 b->GetParent() && b->GetParent()->GetType() == SystemBody::TYPE_GRAVPOINT && b->GetParent()->GetParent());
 	{
-		Gui::Label *l = new Gui::Label(b->name + ": " + b->GetAstroDescription() +
-			(multiple ? (std::string(" (")+b->parent->name + ")") : ""));
+		Gui::Label *l = new Gui::Label(b->GetName() + ": " + b->GetAstroDescription() +
+			(multiple ? (std::string(" (")+b->GetParent()->GetName() + ")") : ""));
 		l->Color(255,255,0);
 		m_infoBox->PackStart(l);
 	}
 
-	_add_label_and_value(Lang::MASS, stringf(Lang::N_WHATEVER_MASSES, formatarg("mass", b->mass.ToDouble()),
+	_add_label_and_value(Lang::MASS, stringf(Lang::N_WHATEVER_MASSES, formatarg("mass", b->GetMassAsFixed().ToDouble()),
 		formatarg("units", std::string(b->GetSuperType() == SystemBody::SUPERTYPE_STAR ? Lang::SOLAR : Lang::EARTH))));
 
-	_add_label_and_value(Lang::RADIUS, stringf(Lang::N_WHATEVER_RADII, formatarg("radius", b->radius.ToDouble()),
+	_add_label_and_value(Lang::RADIUS, stringf(Lang::N_WHATEVER_RADII, formatarg("radius", b->GetRadiusAsFixed().ToDouble()),
 		formatarg("units", std::string(b->GetSuperType() == SystemBody::SUPERTYPE_STAR ? Lang::SOLAR : Lang::EARTH)),
 		formatarg("radkm", b->GetRadius() / 1000.0)));
 
 	if (b->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
-		_add_label_and_value(Lang::EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO, stringf("%0{f.3}", b->aspectRatio.ToDouble()));
+		_add_label_and_value(Lang::EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO, stringf("%0{f.3}", b->GetAspectRatio()));
 	}
 
-	if (b->type != SystemBody::TYPE_STARPORT_ORBITAL) {
-		_add_label_and_value(Lang::SURFACE_TEMPERATURE, stringf(Lang::N_CELSIUS, formatarg("temperature", b->averageTemp-273)));
+	if (b->GetType() != SystemBody::TYPE_STARPORT_ORBITAL) {
+		_add_label_and_value(Lang::SURFACE_TEMPERATURE, stringf(Lang::N_CELSIUS, formatarg("temperature", b->GetAverageTemp()-273)));
 		_add_label_and_value(Lang::SURFACE_GRAVITY, stringf("%0{f.3} m/s^2", b->CalcSurfaceGravity()));
 	}
 
-	if (b->parent) {
-		float days = float(b->orbit.Period()) / float(60*60*24);
+	if (b->GetParent()) {
+		float days = float(b->GetOrbit().Period()) / float(60*60*24);
 		if (days > 1000) {
 			data = stringf(Lang::N_YEARS, formatarg("years", days/365));
 		} else {
-			data = stringf(Lang::N_DAYS, formatarg("days", b->orbit.Period() / (60*60*24)));
+			data = stringf(Lang::N_DAYS, formatarg("days", b->GetOrbit().Period() / (60*60*24)));
 		}
 		if (multiple) {
-			float pdays = float(b->parent->orbit.Period()) /float(60*60*24);
+			float pdays = float(b->GetParent()->GetOrbit().Period()) /float(60*60*24);
 			data += " (" + (pdays > 1000 ? stringf(Lang::N_YEARS, formatarg("years", pdays/365))
-										 : stringf(Lang::N_DAYS, formatarg("days", b->parent->orbit.Period() / (60*60*24)))) + ")";
+										 : stringf(Lang::N_DAYS, formatarg("days", b->GetParent()->GetOrbit().Period() / (60*60*24)))) + ")";
 		}
 		_add_label_and_value(Lang::ORBITAL_PERIOD, data);
-		_add_label_and_value(Lang::PERIAPSIS_DISTANCE, format_distance(b->orbMin.ToDouble()*AU, 3) +
-			(multiple ? (std::string(" (") + format_distance(b->parent->orbMin.ToDouble()*AU, 3)+ ")") : ""));
-		_add_label_and_value(Lang::APOAPSIS_DISTANCE, format_distance(b->orbMax.ToDouble()*AU, 3) +
-			(multiple ? (std::string(" (") + format_distance(b->parent->orbMax.ToDouble()*AU, 3)+ ")") : ""));
-		_add_label_and_value(Lang::ECCENTRICITY, stringf("%0{f.2}", b->orbit.GetEccentricity()) +
-			(multiple ? (std::string(" (") + stringf("%0{f.2}", b->parent->orbit.GetEccentricity()) + ")") : ""));
-		if (b->type != SystemBody::TYPE_STARPORT_ORBITAL) {
-			_add_label_and_value(Lang::AXIAL_TILT, stringf(Lang::N_DEGREES, formatarg("angle", b->axialTilt.ToDouble() * (180.0/M_PI))));
-			if (b->rotationPeriod != 0) {
+		_add_label_and_value(Lang::PERIAPSIS_DISTANCE, format_distance(b->GetOrbMin()*AU, 3) +
+			(multiple ? (std::string(" (") + format_distance(b->GetParent()->GetOrbMin()*AU, 3)+ ")") : ""));
+		_add_label_and_value(Lang::APOAPSIS_DISTANCE, format_distance(b->GetOrbMax()*AU, 3) +
+			(multiple ? (std::string(" (") + format_distance(b->GetParent()->GetOrbMax()*AU, 3)+ ")") : ""));
+		_add_label_and_value(Lang::ECCENTRICITY, stringf("%0{f.2}", b->GetOrbit().GetEccentricity()) +
+			(multiple ? (std::string(" (") + stringf("%0{f.2}", b->GetParent()->GetOrbit().GetEccentricity()) + ")") : ""));
+		if (b->GetType() != SystemBody::TYPE_STARPORT_ORBITAL) {
+			_add_label_and_value(Lang::AXIAL_TILT, stringf(Lang::N_DEGREES, formatarg("angle", b->GetAxialTilt() * (180.0/M_PI))));
+			if (b->IsRotating()) {
 				_add_label_and_value(
 					std::string(Lang::DAY_LENGTH)+std::string(Lang::ROTATIONAL_PERIOD),
-					stringf(Lang::N_EARTH_DAYS, formatarg("days", b->rotationPeriod.ToDouble())));
+					stringf(Lang::N_EARTH_DAYS, formatarg("days", b->GetRotationPeriodInDays())));
 			}
 		}
 		int numSurfaceStarports = 0;
 		std::string nameList;
-		for (std::vector<SystemBody*>::iterator i = b->children.begin(); i != b->children.end(); ++i) {
-			if ((*i)->type == SystemBody::TYPE_STARPORT_SURFACE) {
-				nameList += (numSurfaceStarports ? ", " : "") + (*i)->name;
+		for (auto i = b->ChildrenBegin(); i != b->ChildrenEnd(); ++i) {
+			if ((*i)->GetType() == SystemBody::TYPE_STARPORT_SURFACE) {
+				nameList += (numSurfaceStarports ? ", " : "") + (*i)->GetName();
 				numSurfaceStarports++;
 			}
 		}
@@ -219,21 +219,21 @@ void SystemInfoView::PutBodies(SystemBody *body, Gui::Fixed *container, int dir,
 	myPos[0] = pos[0];
 	myPos[1] = pos[1];
 	if (body->GetSuperType() == SystemBody::SUPERTYPE_STARPORT) starports++;
-	if (body->type == SystemBody::TYPE_STARPORT_SURFACE) {
+	if (body->GetType() == SystemBody::TYPE_STARPORT_SURFACE) {
 		onSurface++;
 		return;
 	}
-	if (body->type != SystemBody::TYPE_GRAVPOINT) {
+	if (body->GetType() != SystemBody::TYPE_GRAVPOINT) {
 		BodyIcon *ib = new BodyIcon(body->GetIcon(), m_renderer);
 		if (body->GetSuperType() == SystemBody::SUPERTYPE_ROCKY_PLANET) {
-			for (std::vector<SystemBody*>::iterator i = body->children.begin(); i != body->children.end(); ++i) {
-				if ((*i)->type == SystemBody::TYPE_STARPORT_SURFACE) {
+			for (auto i = body->ChildrenBegin(); i != body->ChildrenEnd(); ++i) {
+				if ((*i)->GetType() == SystemBody::TYPE_STARPORT_SURFACE) {
 					ib->SetHasStarport();
 					break;
 				}
 			}
 		}
-		m_bodyIcons.push_back(std::pair<std::string, BodyIcon*>(body->name, ib));
+		m_bodyIcons.push_back(std::pair<std::string, BodyIcon*>(body->GetName(), ib));
 		ib->GetSize(size);
 		if (prevSize < 0) prevSize = size[!dir];
 		ib->onSelect.connect(sigc::bind(sigc::mem_fun(this, &SystemInfoView::OnBodySelected), body));
@@ -254,8 +254,7 @@ void SystemInfoView::PutBodies(SystemBody *body, Gui::Fixed *container, int dir,
 	}
 
 	float prevSizeForKids = size[!dir];
-	for (std::vector<SystemBody*>::iterator i = body->children.begin();
-	     i != body->children.end(); ++i) {
+	for (auto i = body->ChildrenBegin(); i != body->ChildrenEnd(); ++i) {
 		PutBodies(*i, container, dir, myPos, majorBodies, starports, onSurface, prevSizeForKids);
 	}
 }
@@ -312,17 +311,17 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 		float pos[2] = { 0, 0 };
 		float psize = -1;
 		majorBodies = starports = onSurface = 0;
-		PutBodies(m_system->rootBody.Get(), m_econInfoTab, 1, pos, majorBodies, starports, onSurface, psize);
+		PutBodies(m_system->m_rootBody.Get(), m_econInfoTab, 1, pos, majorBodies, starports, onSurface, psize);
 
 		majorBodies = starports = onSurface = 0;
 		pos[0] = pos[1] = 0;
 		psize = -1;
-		PutBodies(m_system->rootBody.Get(), m_sbodyInfoTab, 1, pos, majorBodies, starports, onSurface, psize);
+		PutBodies(m_system->m_rootBody.Get(), m_sbodyInfoTab, 1, pos, majorBodies, starports, onSurface, psize);
 
 		majorBodies = starports = onSurface = 0;
 		pos[0] = pos[1] = 0;
 		psize = -1;
-		PutBodies(m_system->rootBody.Get(), demographicsTab, 1, pos, majorBodies, starports, onSurface, psize);
+		PutBodies(m_system->m_rootBody.Get(), demographicsTab, 1, pos, majorBodies, starports, onSurface, psize);
 	}
 
 	std::string _info = stringf(
@@ -453,9 +452,9 @@ SystemInfoView::RefreshType SystemInfoView::NeedsRefresh()
 			return REFRESH_SELECTED;
 	} else {
 		Body *navTarget = Pi::player->GetNavTarget();
-		if (navTarget && navTarget->GetSystemBody()->type != SystemBody::TYPE_STARPORT_SURFACE) {
+		if (navTarget && navTarget->GetSystemBody()->GetType() != SystemBody::TYPE_STARPORT_SURFACE) {
 			// Navigation target is something we show in the info view
-			if (navTarget->GetSystemBody()->path != m_selectedBodyPath)
+			if (navTarget->GetSystemBody()->GetPath() != m_selectedBodyPath)
 				return REFRESH_SELECTED; // and wasn't selected, yet
 		} else {
 			// nothing to be selected
@@ -518,13 +517,13 @@ void SystemInfoView::UpdateIconSelections()
 			if (navtarget && (*it).first == navtarget->GetLabel()) {
 			    (*it).second->SetSelectColor(Color(0, 255, 0, 255));
 				(*it).second->SetSelected(true);
-				m_selectedBodyPath = navtarget->GetSystemBody()->path;
+				m_selectedBodyPath = navtarget->GetSystemBody()->GetPath();
 			}
 		} else {
 			SystemPath selected = Pi::sectorView->GetSelected();
 			if (selected.IsSameSystem(m_system->GetPath()) && !selected.IsSystemPath()) {
 				SystemBody *sbody = m_system->GetBodyByPath(selected);
-				if ((*it).first == sbody->name) {
+				if ((*it).first == sbody->GetName()) {
 					(*it).second->SetSelectColor(Color(64, 96, 255, 255));
 					(*it).second->SetSelected(true);
 					m_selectedBodyPath = selected;
