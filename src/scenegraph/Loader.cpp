@@ -456,15 +456,23 @@ void Loader::ConvertAiMeshes(std::vector<RefCountedPtr<StaticGeometry> > &geoms,
 
 		// huge meshes are split by the importer so this should not exceed 65K indices
 		std::vector<Uint16> indices;
-		indices.reserve(mesh->mNumFaces * 3);
-
-		//copy indices first
-		for (unsigned int f = 0; f < mesh->mNumFaces; f++) {
-			const aiFace *face = &mesh->mFaces[f];
-			for (unsigned int j = 0; j < face->mNumIndices; j++) {
-				indices.push_back(face->mIndices[j]);
+		if (mesh->mNumFaces > 0)
+		{
+			indices.reserve(mesh->mNumFaces * 3);
+			for (unsigned int f = 0; f < mesh->mNumFaces; f++) {
+				const aiFace *face = &mesh->mFaces[f];
+				for (unsigned int j = 0; j < face->mNumIndices; j++) {
+					indices.push_back(face->mIndices[j]);
+				}
 			}
+		} else {
+			//generate dummy indices
+			AddLog(stringf("Missing indices in mesh %0{u}", i));
+			indices.reserve(mesh->mNumVertices);
+			for (unsigned int v = 0; v < mesh->mNumVertices; v++)
+				indices.push_back(v);
 		}
+
 		assert(indices.size() > 0);
 
 		//create buffer & copy
@@ -857,6 +865,7 @@ void Loader::LoadCollision(const std::string &filename)
 
 		//copy indices
 		//we assume aiProcess_Triangulate does its job
+		assert(mesh->mNumFaces > 0);
 		for (unsigned int f = 0; f < mesh->mNumFaces; f++) {
 			const aiFace *face = &mesh->mFaces[f];
 			for (unsigned int j = 0; j < face->mNumIndices; j++) {
