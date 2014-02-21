@@ -152,7 +152,7 @@ void Camera::Update()
 				attrs.billboardPos = vector3f(&pos.x);
 				attrs.billboardSize = float(size);
 				if (b->IsType(Object::STAR)) {
-					Uint8 *col = StarSystem::starRealColors[b->GetSystemBody()->GetType()];
+					const Uint8 *col = StarSystem::starRealColors[b->GetSystemBody()->GetType()];
 					attrs.billboardColor = Color(col[0], col[1], col[2], 255);
 				}
 				else if (b->IsType(Object::PLANET)) {

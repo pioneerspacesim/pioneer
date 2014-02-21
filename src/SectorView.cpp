@@ -1014,7 +1014,7 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 		systrans.Scale((StarSystem::starScale[(*i).starType[0]]));
 		m_renderer->SetTransform(systrans);
 
-		Uint8 *col = StarSystem::starColors[(*i).starType[0]];
+		const Uint8 *col = StarSystem::starColors[(*i).starType[0]];
 		AddStarBillboard(systrans, vector3f(0.f), Color(col[0], col[1], col[2], 255), 0.5f);
 
 		// player location indicator

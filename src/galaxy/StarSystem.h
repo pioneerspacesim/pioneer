@@ -283,11 +283,11 @@ public:
 	int GetNumStars() const { return m_numStars; }
 	const SysPolit &GetSysPolit() const { return m_polit; }
 
-	static Uint8 starColors[][3];
-	static Uint8 starRealColors[][3];
-	static double starLuminosities[];
-	static float starScale[];
-	static fixed starMetallicities[];
+	static const Uint8 starColors[][3];
+	static const Uint8 starRealColors[][3];
+	static const double starLuminosities[];
+	static const float starScale[];
+	static const fixed starMetallicities[];
 
 	RefCountedPtr<SystemBody> m_rootBody;
 	std::vector<SystemBody*> m_spaceStations;
