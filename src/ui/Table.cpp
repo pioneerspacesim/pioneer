@@ -19,12 +19,15 @@ void Table::LayoutAccumulator::AddRow(const std::vector<Widget*> &widgets)
 	}
 
 	m_preferredWidth = 0;
-	for (std::size_t i = 0; i < widgets.size(); i++) {
-		Widget *w = widgets[i];
-		if (!w) continue;
-		const Point size(w->CalcLayoutContribution());
-		// XXX handle flags
-		m_columnWidth[i] = std::max(m_columnWidth[i], size.x);
+	for (std::size_t i = 0; i < m_columnWidth.size(); i++) {
+		if (i < widgets.size()) {
+			Widget *w = widgets[i];
+			if (w) {
+				const Point size(w->CalcLayoutContribution());
+				// XXX handle flags
+				m_columnWidth[i] = std::max(m_columnWidth[i], size.x);
+			}
+		}
 		m_preferredWidth += m_columnWidth[i] + m_columnSpacing;
 	}
 	m_preferredWidth -= m_columnSpacing;
