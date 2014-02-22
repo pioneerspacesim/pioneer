@@ -301,6 +301,10 @@ def parse_enum(toktype, toktext, tokens, preceding_comment=None):
         tag.append(preceding_comment)
     toktype, toktext = collect_comments(tokens, tag)
 
+    if toktype == 'keyword' and toktext in ['struct', 'class']:
+        # C++11 'enum class' (strongly typed enum) declaration
+        toktype, toktext = collect_comments(tokens, tag)
+
     if toktype == 'identifier':
         identifier = toktext
         toktype, toktext = collect_comments(tokens, tag)
