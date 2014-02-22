@@ -935,7 +935,7 @@ void StarSystem::CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSys
 		kid->m_isCustomBody = true;
 
 		kid->m_mass = csbody->mass;
-		if (kid->GetType() == SystemBody::TYPE_PLANET_ASTEROID) kid->GetMassAsFixed() /= 100000;
+		if (kid->GetType() == SystemBody::TYPE_PLANET_ASTEROID) kid->m_mass /= 100000;
 
 		kid->m_metallicity    = csbody->metallicity;
 		//multiple of Earth's surface density
