@@ -46,9 +46,9 @@ static int l_lang_get_resource(lua_State *l)
 
 	lua_newtable(l);
 
-	for (Lang::Resource::StringIterator i = res.Begin(); i != res.End(); ++i) {
-		const std::string token(i->first);
-		const std::string text(i->second.empty() ? token : i->second);
+	for (auto i : res.GetStrings()) {
+		const std::string token(i.first);
+		const std::string text(i.second.empty() ? token : i.second);
 		lua_pushlstring(l, token.c_str(), token.size());
 		lua_pushlstring(l, text.c_str(), text.size());
 		lua_rawset(l, -3);
