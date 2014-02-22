@@ -125,9 +125,9 @@ void SystemInfoView::OnBodyViewed(SystemBody *b)
 		}
 		int numSurfaceStarports = 0;
 		std::string nameList;
-		for (auto i = b->ChildrenBegin(); i != b->ChildrenEnd(); ++i) {
-			if ((*i)->GetType() == SystemBody::TYPE_STARPORT_SURFACE) {
-				nameList += (numSurfaceStarports ? ", " : "") + (*i)->GetName();
+		for (const SystemBody* kid : b->GetChildren()) {
+			if (kid->GetType() == SystemBody::TYPE_STARPORT_SURFACE) {
+				nameList += (numSurfaceStarports ? ", " : "") + kid->GetName();
 				numSurfaceStarports++;
 			}
 		}
@@ -226,8 +226,8 @@ void SystemInfoView::PutBodies(SystemBody *body, Gui::Fixed *container, int dir,
 	if (body->GetType() != SystemBody::TYPE_GRAVPOINT) {
 		BodyIcon *ib = new BodyIcon(body->GetIcon(), m_renderer);
 		if (body->GetSuperType() == SystemBody::SUPERTYPE_ROCKY_PLANET) {
-			for (auto i = body->ChildrenBegin(); i != body->ChildrenEnd(); ++i) {
-				if ((*i)->GetType() == SystemBody::TYPE_STARPORT_SURFACE) {
+			for (const SystemBody* kid : body->GetChildren()) {
+				if (kid->GetType() == SystemBody::TYPE_STARPORT_SURFACE) {
 					ib->SetHasStarport();
 					break;
 				}
@@ -254,8 +254,8 @@ void SystemInfoView::PutBodies(SystemBody *body, Gui::Fixed *container, int dir,
 	}
 
 	float prevSizeForKids = size[!dir];
-	for (auto i = body->ChildrenBegin(); i != body->ChildrenEnd(); ++i) {
-		PutBodies(*i, container, dir, myPos, majorBodies, starports, onSurface, prevSizeForKids);
+	for (SystemBody* kid : body->GetChildren()) {
+		PutBodies(kid, container, dir, myPos, majorBodies, starports, onSurface, prevSizeForKids);
 	}
 }
 

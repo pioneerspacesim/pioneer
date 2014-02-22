@@ -249,18 +249,18 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 		PutSelectionBox(offset + playerOrbit.OrbitalPosAtTime(m_time - t0)* double(m_zoom), Color::RED);
 	}
 
-	if (b->GetNumChildren() > 0) {
-		for(auto kid = b->ChildrenBegin(); kid != b->ChildrenEnd(); ++kid) {
-			if (is_zero_general((*kid)->GetOrbit().GetSemiMajorAxis())) continue;
-			if ((*kid)->GetOrbit().GetSemiMajorAxis() * m_zoom < ROUGH_SIZE_OF_TURD) {
-				PutOrbit(&((*kid)->GetOrbit()), offset, Color(0, 255, 0, 255));
+	if (b->HasChildren()) {
+		for(const SystemBody* kid : b->GetChildren()) {
+			if (is_zero_general(kid->GetOrbit().GetSemiMajorAxis())) continue;
+			if (kid->GetOrbit().GetSemiMajorAxis() * m_zoom < ROUGH_SIZE_OF_TURD) {
+				PutOrbit(&(kid->GetOrbit()), offset, Color(0, 255, 0, 255));
 			}
 
 			// not using current time yet
-			vector3d pos = (*kid)->GetOrbit().OrbitalPosAtTime(m_time);
+			vector3d pos = kid->GetOrbit().OrbitalPosAtTime(m_time);
 			pos *= double(m_zoom);
 
-			PutBody(*kid, offset + pos, trans);
+			PutBody(kid, offset + pos, trans);
 		}
 	}
 }

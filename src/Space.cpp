@@ -227,7 +227,7 @@ void Space::AddSystemBodyToIndex(SystemBody *sbody)
 	assert(sbody);
 	m_sbodyIndex.push_back(sbody);
 	for (Uint32 i = 0; i < sbody->GetNumChildren(); i++)
-		AddSystemBodyToIndex(sbody->GetChild(i));
+		AddSystemBodyToIndex(sbody->GetChildren()[i]);
 }
 
 void Space::RebuildFrameIndex()
@@ -662,8 +662,8 @@ void Space::GenBody(double at_time, SystemBody *sbody, Frame *f)
 	}
 	f = MakeFrameFor(at_time, sbody, b, f);
 
-	for (auto i = sbody->ChildrenBegin(); i != sbody->ChildrenEnd(); ++i) {
-		GenBody(at_time, *i, f);
+	for (SystemBody* kid : sbody->GetChildren()) {
+		GenBody(at_time, kid, f);
 	}
 }
 

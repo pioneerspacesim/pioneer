@@ -107,14 +107,10 @@ public:
 	const SystemPath& GetPath() const { return m_path; }
 	SystemBody* GetParent() const { return m_parent; }
 
+	bool HasChildren() const { return !m_children.empty(); }
 	unsigned GetNumChildren() const { return m_children.size(); }
-	SystemBody* GetChild(unsigned i) { return m_children[i]; } // XXX Or should we better use m_children.at(i)?
-	typedef std::vector<SystemBody*>::const_iterator ConstChildrenIterator;
-	typedef std::vector<SystemBody*>::iterator ChildrenIterator;
-	ConstChildrenIterator ChildrenBegin() const { return m_children.cbegin(); }
-	ConstChildrenIterator ChildrenEnd() const { return m_children.cend(); }
-	ChildrenIterator ChildrenBegin() { return m_children.begin(); }
-	ChildrenIterator ChildrenEnd() { return m_children.end(); }
+	IterationProxy<std::vector<SystemBody*> > GetChildren() { return MakeIterationProxy(m_children); }
+	const IterationProxy<const std::vector<SystemBody*> > GetChildren() const { return MakeIterationProxy(m_children); }
 
 	std::string GetName() const { return m_name; }
 	std::string GetAstroDescription() const;
