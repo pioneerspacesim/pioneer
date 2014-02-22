@@ -1191,8 +1191,8 @@ void Pi::MainLoop()
 
 		/* Calculate position for this rendered frame (interpolated between two physics ticks */
         // XXX should this be here? what is this anyway?
-		for (Space::BodyIterator i = game->GetSpace()->BodiesBegin(); i != game->GetSpace()->BodiesEnd(); ++i) {
-			(*i)->UpdateInterpTransform(Pi::GetGameTickAlpha());
+		for (Body* b : game->GetSpace()->GetBodies()) {
+			b->UpdateInterpTransform(Pi::GetGameTickAlpha());
 		}
 		game->GetSpace()->GetRootFrame()->UpdateInterpTransform(Pi::GetGameTickAlpha());
 

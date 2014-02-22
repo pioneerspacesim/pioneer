@@ -30,8 +30,8 @@ void Space::BodyNearFinder::Prepare()
 {
 	m_bodyDist.clear();
 
-	for (Space::BodyIterator i = m_space->BodiesBegin(); i != m_space->BodiesEnd(); ++i)
-		m_bodyDist.push_back(BodyDist((*i), (*i)->GetPositionRelTo(m_space->GetRootFrame()).Length()));
+	for (Body* b : m_space->GetBodies())
+		m_bodyDist.push_back(BodyDist(b, b->GetPositionRelTo(m_space->GetRootFrame()).Length()));
 
 	std::sort(m_bodyDist.begin(), m_bodyDist.end());
 }
@@ -135,8 +135,8 @@ Space::Space(Game *game, Serializer::Reader &rd, double at_time)
 	RebuildBodyIndex();
 
 	Frame::PostUnserializeFixup(m_rootFrame.get(), this);
-	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
-		(*i)->PostLoadFixup(this);
+	for (Body* b : m_bodies)
+		b->PostLoadFixup(this);
 
 	GenSectorCache(&path);
 }
@@ -162,8 +162,8 @@ void Space::Serialize(Serializer::Writer &wr)
 	wr.WrSection("Frames", section.GetData());
 
 	wr.Int32(m_bodies.size());
-	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
-		(*i)->Serialize(wr, this);
+	for (Body* b : m_bodies)
+		b->Serialize(wr, this);
 }
 
 Frame *Space::GetFrameByIndex(Uint32 idx) const
@@ -246,13 +246,13 @@ void Space::RebuildBodyIndex()
 	m_bodyIndex.clear();
 	m_bodyIndex.push_back(0);
 
-	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i) {
-		m_bodyIndex.push_back(*i);
+	for (Body* b : m_bodies) {
+		m_bodyIndex.push_back(b);
 		// also index ships inside clouds
 		// XXX we should not have to know about this. move indexing grunt work
 		// down into the bodies?
-		if ((*i)->IsType(Object::HYPERSPACECLOUD)) {
-			Ship *s = static_cast<HyperspaceCloud*>(*i)->GetShip();
+		if (b->IsType(Object::HYPERSPACECLOUD)) {
+			Ship *s = static_cast<HyperspaceCloud*>(b)->GetShip();
 			if (s) m_bodyIndex.push_back(s);
 		}
 	}
@@ -330,9 +330,9 @@ vector3d Space::GetHyperspaceExitPoint(const SystemPath &source, const SystemPat
 	}
 	if (!primary) {
 		// find the first non-gravpoint. should be the primary star
-		for (BodyIterator i = BodiesBegin(); i != BodiesEnd(); ++i)
-			if ((*i)->GetSystemBody()->GetType() != SystemBody::TYPE_GRAVPOINT) {
-				primary = *i;
+		for (Body* b : GetBodies())
+			if (b->GetSystemBody()->GetType() != SystemBody::TYPE_GRAVPOINT) {
+				primary = b;
 				break;
 			}
 	}
@@ -370,8 +370,8 @@ Body *Space::FindBodyForPath(const SystemPath *path) const
 
 	if (!body) return 0;
 
-	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i) {
-		if ((*i)->GetSystemBody() == body) return *i;
+	for (Body* b : m_bodies) {
+		if (b->GetSystemBody() == body) return b;
 	}
 	return 0;
 }
@@ -812,21 +812,21 @@ void Space::TimeStep(float step)
 
 	// XXX does not need to be done this often
 	CollideFrame(m_rootFrame.get());
-	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
-		CollideWithTerrain(*i);
+	for (Body* b : m_bodies)
+		CollideWithTerrain(b);
 
 	// update frames of reference
-	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
-		(*i)->UpdateFrame();
+	for (Body* b : m_bodies)
+		b->UpdateFrame();
 
 	// AI acts here, then move all bodies and frames
-	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
-		(*i)->StaticUpdate(step);
+	for (Body* b : m_bodies)
+		b->StaticUpdate(step);
 
 	m_rootFrame->UpdateOrbitRails(m_game->GetTime(), m_game->GetTimeStep());
 
-	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
-		(*i)->TimeStepUpdate(step);
+	for (Body* b : m_bodies)
+		b->TimeStepUpdate(step);
 
 	// XXX don't emit events in hyperspace. this is mostly to maintain the
 	// status quo. in particular without this onEnterSystem will fire in the
@@ -849,19 +849,19 @@ void Space::UpdateBodies()
 	m_processingFinalizationQueue = true;
 #endif
 
-	for (BodyIterator b = m_removeBodies.begin(); b != m_removeBodies.end(); ++b) {
-		(*b)->SetFrame(0);
-		for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
-			(*i)->NotifyRemoved(*b);
-		m_bodies.remove(*b);
+	for (Body* rmb : m_removeBodies) {
+		rmb->SetFrame(0);
+		for (Body* b : m_bodies)
+			b->NotifyRemoved(rmb);
+		m_bodies.remove(rmb);
 	}
 	m_removeBodies.clear();
 
-	for (BodyIterator b = m_killBodies.begin(); b != m_killBodies.end(); ++b) {
-		for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
-			(*i)->NotifyRemoved(*b);
-		m_bodies.remove(*b);
-		delete *b;
+	for (Body* killb : m_killBodies) {
+		for (Body* b : m_bodies)
+			b->NotifyRemoved(killb);
+		m_bodies.remove(killb);
+		delete killb;
 	}
 	m_killBodies.clear();
 

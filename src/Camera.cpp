@@ -121,9 +121,7 @@ void Camera::Update()
 
 	// evaluate each body and determine if/where/how to draw it
 	m_sortedBodies.clear();
-	for (Space::BodyIterator i = Pi::game->GetSpace()->BodiesBegin(); i != Pi::game->GetSpace()->BodiesEnd(); ++i) {
-		Body *b = *i;
-
+	for (Body* b : Pi::game->GetSpace()->GetBodies()) {
 		BodyAttrs attrs;
 		attrs.body = b;
 
@@ -282,8 +280,7 @@ void Camera::CalcShadows(const int lightNum, const Body *b, std::vector<Shadow> 
 	else bRadius = b->GetPhysRadius();
 
 	// Look for eclipsing third bodies:
-	for (Space::BodyIterator ib2 = Pi::game->GetSpace()->BodiesBegin(); ib2 != Pi::game->GetSpace()->BodiesEnd(); ++ib2) {
-		Body *b2 = *ib2;
+	for (const Body *b2 : Pi::game->GetSpace()->GetBodies()) {
 		if ( b2 == b || b2 == lightBody || !(b2->IsType(Object::PLANET) || b2->IsType(Object::STAR)))
 			continue;
 

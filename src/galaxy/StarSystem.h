@@ -13,6 +13,7 @@
 #include "RefCounted.h"
 #include "galaxy/SystemPath.h"
 #include "Orbit.h"
+#include "IterationProxy.h"
 #include "gameconsts.h"
 #include <SDL_stdinc.h>
 

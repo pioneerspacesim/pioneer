@@ -630,9 +630,7 @@ static int l_space_get_bodies(lua_State *l)
 
 	lua_newtable(l);
 
-	for (Space::BodyIterator i = Pi::game->GetSpace()->BodiesBegin(); i != Pi::game->GetSpace()->BodiesEnd(); ++i) {
-		Body *b = *i;
-
+	for (Body* b : Pi::game->GetSpace()->GetBodies()) {
 		if (filter) {
 			lua_pushvalue(l, 1);
 			LuaObject<Body>::PushToLua(b);
