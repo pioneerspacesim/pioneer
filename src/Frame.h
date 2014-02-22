@@ -6,6 +6,7 @@
 
 #include "libs.h"
 #include "Serializer.h"
+#include "IterationProxy.h"
 #include <string>
 #include <list>
 
@@ -59,10 +60,10 @@ public:
 
 	void AddChild(Frame *f) { m_children.push_back(f); }
 	void RemoveChild(Frame *f);
-
-	typedef std::vector<Frame*>::const_iterator ChildIterator;
-	ChildIterator BeginChildren() const { return m_children.begin(); }
-	ChildIterator EndChildren() const { return m_children.end(); }
+	bool HasChildren() const { return !m_children.empty(); }
+	unsigned GetNumChildren() const { return m_children.size(); }
+	IterationProxy<std::vector<Frame*> > GetChildren() { return MakeIterationProxy(m_children); }
+	const IterationProxy<const std::vector<Frame*> > GetChildren() const { return MakeIterationProxy(m_children); }
 
 	void AddGeom(Geom *);
 	void RemoveGeom(Geom *);

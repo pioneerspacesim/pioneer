@@ -30,8 +30,8 @@ void Space::BodyNearFinder::Prepare()
 {
 	m_bodyDist.clear();
 
-	for (Space::BodyIterator i = m_space->BodiesBegin(); i != m_space->BodiesEnd(); ++i)
-		m_bodyDist.push_back(BodyDist((*i), (*i)->GetPositionRelTo(m_space->GetRootFrame()).Length()));
+	for (Body* b : m_space->GetBodies())
+		m_bodyDist.push_back(BodyDist(b, b->GetPositionRelTo(m_space->GetRootFrame()).Length()));
 
 	std::sort(m_bodyDist.begin(), m_bodyDist.end());
 }
@@ -135,8 +135,8 @@ Space::Space(Game *game, Serializer::Reader &rd, double at_time)
 	RebuildBodyIndex();
 
 	Frame::PostUnserializeFixup(m_rootFrame.get(), this);
-	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
-		(*i)->PostLoadFixup(this);
+	for (Body* b : m_bodies)
+		b->PostLoadFixup(this);
 
 	GenSectorCache(&path);
 }
@@ -162,8 +162,8 @@ void Space::Serialize(Serializer::Writer &wr)
 	wr.WrSection("Frames", section.GetData());
 
 	wr.Int32(m_bodies.size());
-	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
-		(*i)->Serialize(wr, this);
+	for (Body* b : m_bodies)
+		b->Serialize(wr, this);
 }
 
 Frame *Space::GetFrameByIndex(Uint32 idx) const
@@ -218,8 +218,8 @@ void Space::AddFrameToIndex(Frame *frame)
 {
 	assert(frame);
 	m_frameIndex.push_back(frame);
-	for (Frame::ChildIterator it = frame->BeginChildren(); it != frame->EndChildren(); ++it)
-		AddFrameToIndex(*it);
+	for (Frame* kid : frame->GetChildren())
+		AddFrameToIndex(kid);
 }
 
 void Space::AddSystemBodyToIndex(SystemBody *sbody)
@@ -227,7 +227,7 @@ void Space::AddSystemBodyToIndex(SystemBody *sbody)
 	assert(sbody);
 	m_sbodyIndex.push_back(sbody);
 	for (Uint32 i = 0; i < sbody->GetNumChildren(); i++)
-		AddSystemBodyToIndex(sbody->GetChild(i));
+		AddSystemBodyToIndex(sbody->GetChildren()[i]);
 }
 
 void Space::RebuildFrameIndex()
@@ -246,13 +246,13 @@ void Space::RebuildBodyIndex()
 	m_bodyIndex.clear();
 	m_bodyIndex.push_back(0);
 
-	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i) {
-		m_bodyIndex.push_back(*i);
+	for (Body* b : m_bodies) {
+		m_bodyIndex.push_back(b);
 		// also index ships inside clouds
 		// XXX we should not have to know about this. move indexing grunt work
 		// down into the bodies?
-		if ((*i)->IsType(Object::HYPERSPACECLOUD)) {
-			Ship *s = static_cast<HyperspaceCloud*>(*i)->GetShip();
+		if (b->IsType(Object::HYPERSPACECLOUD)) {
+			Ship *s = static_cast<HyperspaceCloud*>(b)->GetShip();
 			if (s) m_bodyIndex.push_back(s);
 		}
 	}
@@ -330,9 +330,9 @@ vector3d Space::GetHyperspaceExitPoint(const SystemPath &source, const SystemPat
 	}
 	if (!primary) {
 		// find the first non-gravpoint. should be the primary star
-		for (BodyIterator i = BodiesBegin(); i != BodiesEnd(); ++i)
-			if ((*i)->GetSystemBody()->GetType() != SystemBody::TYPE_GRAVPOINT) {
-				primary = *i;
+		for (Body* b : GetBodies())
+			if (b->GetSystemBody()->GetType() != SystemBody::TYPE_GRAVPOINT) {
+				primary = b;
 				break;
 			}
 	}
@@ -370,8 +370,8 @@ Body *Space::FindBodyForPath(const SystemPath *path) const
 
 	if (!body) return 0;
 
-	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i) {
-		if ((*i)->GetSystemBody() == body) return *i;
+	for (Body* b : m_bodies) {
+		if (b->GetSystemBody() == body) return b;
 	}
 	return 0;
 }
@@ -380,8 +380,8 @@ static Frame *find_frame_with_sbody(Frame *f, const SystemBody *b)
 {
 	if (f->GetSystemBody() == b) return f;
 	else {
-		for (Frame::ChildIterator it = f->BeginChildren(); it != f->EndChildren(); ++it) {
-			Frame *found = find_frame_with_sbody(*it, b);
+		for (Frame* kid : f->GetChildren()) {
+			Frame *found = find_frame_with_sbody(kid, b);
 			if (found) return found;
 		}
 	}
@@ -662,8 +662,8 @@ void Space::GenBody(double at_time, SystemBody *sbody, Frame *f)
 	}
 	f = MakeFrameFor(at_time, sbody, b, f);
 
-	for (auto i = sbody->ChildrenBegin(); i != sbody->ChildrenEnd(); ++i) {
-		GenBody(at_time, *i, f);
+	for (SystemBody* kid : sbody->GetChildren()) {
+		GenBody(at_time, kid, f);
 	}
 }
 
@@ -801,8 +801,8 @@ static void CollideWithTerrain(Body *body)
 void Space::CollideFrame(Frame *f)
 {
 	f->GetCollisionSpace()->Collide(&hitCallback);
-	for (Frame::ChildIterator it = f->BeginChildren(); it != f->EndChildren(); ++it)
-		CollideFrame(*it);
+	for (Frame* kid : f->GetChildren())
+		CollideFrame(kid);
 }
 
 void Space::TimeStep(float step)
@@ -812,21 +812,21 @@ void Space::TimeStep(float step)
 
 	// XXX does not need to be done this often
 	CollideFrame(m_rootFrame.get());
-	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
-		CollideWithTerrain(*i);
+	for (Body* b : m_bodies)
+		CollideWithTerrain(b);
 
 	// update frames of reference
-	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
-		(*i)->UpdateFrame();
+	for (Body* b : m_bodies)
+		b->UpdateFrame();
 
 	// AI acts here, then move all bodies and frames
-	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
-		(*i)->StaticUpdate(step);
+	for (Body* b : m_bodies)
+		b->StaticUpdate(step);
 
 	m_rootFrame->UpdateOrbitRails(m_game->GetTime(), m_game->GetTimeStep());
 
-	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
-		(*i)->TimeStepUpdate(step);
+	for (Body* b : m_bodies)
+		b->TimeStepUpdate(step);
 
 	// XXX don't emit events in hyperspace. this is mostly to maintain the
 	// status quo. in particular without this onEnterSystem will fire in the
@@ -849,19 +849,19 @@ void Space::UpdateBodies()
 	m_processingFinalizationQueue = true;
 #endif
 
-	for (BodyIterator b = m_removeBodies.begin(); b != m_removeBodies.end(); ++b) {
-		(*b)->SetFrame(0);
-		for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
-			(*i)->NotifyRemoved(*b);
-		m_bodies.remove(*b);
+	for (Body* rmb : m_removeBodies) {
+		rmb->SetFrame(0);
+		for (Body* b : m_bodies)
+			b->NotifyRemoved(rmb);
+		m_bodies.remove(rmb);
 	}
 	m_removeBodies.clear();
 
-	for (BodyIterator b = m_killBodies.begin(); b != m_killBodies.end(); ++b) {
-		for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
-			(*i)->NotifyRemoved(*b);
-		m_bodies.remove(*b);
-		delete *b;
+	for (Body* killb : m_killBodies) {
+		for (Body* b : m_bodies)
+			b->NotifyRemoved(killb);
+		m_bodies.remove(killb);
+		delete killb;
 	}
 	m_killBodies.clear();
 
@@ -884,8 +884,8 @@ static void DebugDumpFrame(Frame *f, unsigned int indent)
 	Output(" distance %f radius %f", f->GetPosition().Length(), f->GetRadius());
 	Output("%s\n", f->IsRotFrame() ? " [rotating]" : "");
 
-	for (Frame::ChildIterator it = f->BeginChildren(); it != f->EndChildren(); ++it)
-		DebugDumpFrame(*it, indent+2);
+	for (Frame* kid : f->GetChildren())
+		DebugDumpFrame(kid, indent+2);
 }
 
 void Space::DebugDumpFrames()

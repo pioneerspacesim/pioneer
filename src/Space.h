@@ -12,6 +12,7 @@
 #include "galaxy/SectorCache.h"
 #include "galaxy/StarSystem.h"
 #include "Background.h"
+#include "IterationProxy.h"
 
 class Body;
 class Frame;
@@ -62,9 +63,9 @@ public:
 	Body *FindNearestTo(const Body *b, Object::Type t) const;
 	Body *FindBodyForPath(const SystemPath *path) const;
 
-	typedef std::list<Body*>::const_iterator BodyIterator;
-	const BodyIterator BodiesBegin() const { return m_bodies.begin(); }
-	const BodyIterator BodiesEnd() const { return m_bodies.end(); }
+	unsigned GetNumBodies() const { return m_bodies.size(); }
+	IterationProxy<std::list<Body*> > GetBodies() { return MakeIterationProxy(m_bodies); }
+	const IterationProxy<const std::list<Body*> > GetBodies() const { return MakeIterationProxy(m_bodies); }
 
 	Background::Container *GetBackground() { return m_background.get(); }
 
