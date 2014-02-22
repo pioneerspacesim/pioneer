@@ -355,8 +355,8 @@ void SystemView::Draw3D()
 	m_objectLabels->Clear();
 	if (m_system->GetUnexplored())
 		m_infoLabel->SetText(Lang::UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW);
-	else if (m_system->m_rootBody) {
-		PutBody(m_system->m_rootBody.Get(), pos, trans);
+	else if (m_system->GetRootBody()) {
+		PutBody(m_system->GetRootBody().Get(), pos, trans);
 		if (Pi::game->GetSpace()->GetStarSystem() == m_system) {
 			const Body *navTarget = Pi::player->GetNavTarget();
 			const SystemBody *navTargetSystemBody = navTarget ? navTarget->GetSystemBody() : 0;

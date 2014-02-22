@@ -2230,8 +2230,8 @@ void SystemBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 static bool check_unique_station_name(const std::string & name, const StarSystem * system) {
 	PROFILE_SCOPED()
 	bool ret = true;
-	for (unsigned int i = 0 ; i < system->m_spaceStations.size() ; ++i)
-		if (system->m_spaceStations[i]->GetName() == name) {
+	for (const SystemBody *station : system->GetSpaceStations())
+		if (station->GetName() == name) {
 			ret = false;
 			break;
 		}
