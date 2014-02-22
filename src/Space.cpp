@@ -218,8 +218,8 @@ void Space::AddFrameToIndex(Frame *frame)
 {
 	assert(frame);
 	m_frameIndex.push_back(frame);
-	for (Frame::ChildIterator it = frame->BeginChildren(); it != frame->EndChildren(); ++it)
-		AddFrameToIndex(*it);
+	for (Frame* kid : frame->GetChildren())
+		AddFrameToIndex(kid);
 }
 
 void Space::AddSystemBodyToIndex(SystemBody *sbody)
@@ -380,8 +380,8 @@ static Frame *find_frame_with_sbody(Frame *f, const SystemBody *b)
 {
 	if (f->GetSystemBody() == b) return f;
 	else {
-		for (Frame::ChildIterator it = f->BeginChildren(); it != f->EndChildren(); ++it) {
-			Frame *found = find_frame_with_sbody(*it, b);
+		for (Frame* kid : f->GetChildren()) {
+			Frame *found = find_frame_with_sbody(kid, b);
 			if (found) return found;
 		}
 	}
@@ -801,8 +801,8 @@ static void CollideWithTerrain(Body *body)
 void Space::CollideFrame(Frame *f)
 {
 	f->GetCollisionSpace()->Collide(&hitCallback);
-	for (Frame::ChildIterator it = f->BeginChildren(); it != f->EndChildren(); ++it)
-		CollideFrame(*it);
+	for (Frame* kid : f->GetChildren())
+		CollideFrame(kid);
 }
 
 void Space::TimeStep(float step)
@@ -884,8 +884,8 @@ static void DebugDumpFrame(Frame *f, unsigned int indent)
 	Output(" distance %f radius %f", f->GetPosition().Length(), f->GetRadius());
 	Output("%s\n", f->IsRotFrame() ? " [rotating]" : "");
 
-	for (Frame::ChildIterator it = f->BeginChildren(); it != f->EndChildren(); ++it)
-		DebugDumpFrame(*it, indent+2);
+	for (Frame* kid : f->GetChildren())
+		DebugDumpFrame(kid, indent+2);
 }
 
 void Space::DebugDumpFrames()
