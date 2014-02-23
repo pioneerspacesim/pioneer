@@ -55,6 +55,7 @@ February 2014
      * Code cleanup in StarSystem and SystemBody (#2777)
      * Removed Visual Studio 2010 and 2012 support (#2772)
      * IterationProxy for save access to embedded containers (#2783)
+     * Automatically manage the cancellation of jobs with RAII (#2758)
 
 January 2014
 
