@@ -91,7 +91,7 @@ RefCountedPtr<SectorCache::Slave> SectorCache::NewSlaveCache()
 	return RefCountedPtr<Slave>(new Slave);
 }
 
-SectorCache::Slave::Slave()
+SectorCache::Slave::Slave() : m_jobs(Pi::Jobs())
 {
 	Sector::cache.m_slaves.insert(this);
 }
@@ -133,8 +133,6 @@ SectorCache::Slave::~Slave()
 				unique++;
 		Output("SectorCache: Discarding slave cache with %zu entries (%u to be removed)\n", m_sectorCache.size(), unique);
 #	endif
-	while (!m_jobs.empty()) // Canceling the job will always remove it from the set (through OnCancel or destructor).
-		Pi::Jobs()->Cancel(*m_jobs.begin());
 	Sector::cache.m_slaves.erase(this);
 }
 
@@ -148,11 +146,6 @@ void SectorCache::Slave::AddToCache(const std::vector<RefCountedPtr<Sector> >& s
 	for (auto it = secIn.begin(), itEnd = secIn.end(); it != itEnd; ++it) {
 		m_sectorCache.insert( std::make_pair(it->Get()->GetSystemPath(), *it) );
 	}
-}
-
-void SectorCache::Slave::JobSignOff(Job* job)
-{
-	m_jobs.erase(job);
 }
 
 void SectorCache::Slave::FillCache(const SectorCache::PathVector& paths)
@@ -200,11 +193,8 @@ void SectorCache::Slave::FillCache(const SectorCache::PathVector& paths)
 #	endif
 
 	// now add the batched jobs
-	for (auto it = vec_paths.begin(), itEnd = vec_paths.end(); it != itEnd; ++it) {
-		Job* job = new SectorCacheJob(std::move(*it), this);
-		m_jobs.insert(job);
-		Pi::Jobs()->Queue(job);
-	}
+	for (auto it = vec_paths.begin(), itEnd = vec_paths.end(); it != itEnd; ++it)
+		m_jobs.Order(new SectorCacheJob(std::move(*it), this));
 }
 
 
@@ -224,25 +214,10 @@ void SectorCache::SectorCacheJob::OnRun()    // RUNS IN ANOTHER THREAD!! MUST BE
 		m_sectors.push_back( newSec );
 	}
 }
+
 //virtual
 void SectorCache::SectorCacheJob::OnFinish()  // runs in primary thread of the context
 {
 	Sector::cache.AddToCache(m_sectors); // This modifies the vector to the sectors already in the master cache
 	m_slaveCache->AddToCache(m_sectors);
-	m_slaveCache->JobSignOff(this);
-	m_slaveCache = nullptr;
-}
-
-// virtual
-void SectorCache::SectorCacheJob::OnCancel()  // runs in primary thread of the context
-{
-	m_slaveCache->JobSignOff(this);
-	m_slaveCache = nullptr;
-}
-
-//virtual
-SectorCache::SectorCacheJob::~SectorCacheJob()
-{
-	if (m_slaveCache)
-		m_slaveCache->JobSignOff(this);
 }

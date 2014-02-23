@@ -30,7 +30,7 @@ GeoPatch::GeoPatch(const RefCountedPtr<GeoPatchContext> &ctx_, GeoSphere *gs,
 	heights(nullptr), normals(nullptr), colors(nullptr),
 	m_vbo(0), parent(nullptr), geosphere(gs),
 	m_depth(depth), mPatchID(ID_),
-	m_job(nullptr), mHasJobRequest(false)
+	mHasJobRequest(false)
 {
 	for (int i=0; i<NUM_KIDS; ++i) {
 		edgeFriend[i]	= NULL;
@@ -55,10 +55,6 @@ GeoPatch::GeoPatch(const RefCountedPtr<GeoPatchContext> &ctx_, GeoSphere *gs,
 
 GeoPatch::~GeoPatch() {
 	mHasJobRequest = false;
-	if (m_job) {
-		Pi::Jobs()->Cancel(m_job);
-		m_job = nullptr;
-	}
 
 	for (int i=0; i<NUM_KIDS; i++) {
 		if (edgeFriend[i]) edgeFriend[i]->NotifyEdgeFriendDeleted(this);
@@ -168,13 +164,13 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 	if (canSplit) {
 		if (!kids[0]) {
             assert(!mHasJobRequest);
-            assert(!m_job);
+            assert(!m_job.HasJob());
 			mHasJobRequest = true;
 
 			SQuadSplitRequest *ssrd = new SQuadSplitRequest(v0, v1, v2, v3, centroid.Normalized(), m_depth,
 						geosphere->m_sbody->GetPath(), mPatchID, ctx->edgeLen,
 						ctx->frac, geosphere->m_terrain.Get());
-			Pi::Jobs()->Queue(m_job = new QuadPatchJob(this, ssrd));
+			m_job = Pi::Jobs()->Queue(new QuadPatchJob(ssrd));
 		} else {
 			for (int i=0; i<NUM_KIDS; i++) {
 				kids[i]->LODUpdate(campos);
@@ -196,11 +192,11 @@ void GeoPatch::RequestSinglePatch()
 {
 	if( !heights ) {
         assert(!mHasJobRequest);
-        assert(!m_job);
+        assert(!m_job.HasJob());
 		mHasJobRequest = true;
 		SSingleSplitRequest *ssrd = new SSingleSplitRequest(v0, v1, v2, v3, centroid.Normalized(), m_depth,
 					geosphere->m_sbody->GetPath(), mPatchID, ctx->edgeLen, ctx->frac, geosphere->m_terrain.Get());
-		Pi::Jobs()->Queue(m_job = new SinglePatchJob(this, ssrd));
+		m_job = Pi::Jobs()->Queue(new SinglePatchJob(ssrd));
 	}
 }
 

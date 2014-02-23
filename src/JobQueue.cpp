@@ -4,6 +4,18 @@
 #include "JobQueue.h"
 #include "StringF.h"
 
+void Job::UnlinkHandle()
+{
+	if (m_handle)
+		m_handle->Unlink();
+}
+
+//virtual
+Job::~Job()
+{
+	UnlinkHandle();
+}
+
 JobRunner::JobRunner(JobQueue *jq, const uint8_t idx) :
 	m_jobQueue(jq),
 	m_job(0),
@@ -21,8 +33,10 @@ JobRunner::~JobRunner()
 	// if we have a job running, cancel it. the worker will return it to the
 	// finish queue, where it will be deleted later, so we don't need to do that
 	SDL_LockMutex(m_jobLock);
-	if (m_job)
+	if (m_job) {
+		m_job->UnlinkHandle();
 		m_job->OnCancel();
+	}
 	SDL_UnlockMutex(m_jobLock);
 
 	// XXX - AndyC(FluffyFreak) - I'd like to find a better answer for this but I can't see what purpose it serves.
@@ -98,6 +112,62 @@ void JobRunner::SetQueueDestroyed()
 }
 
 
+JobHandle::JobHandle(Job* job, JobQueue* queue, JobClient* client) : m_job(job), m_queue(queue), m_client(client)
+{
+	assert(!m_job->GetHandle());
+	m_job->SetHandle(this);
+}
+
+void JobHandle::Unlink()
+{
+	if (m_job) {
+		assert(m_job->GetHandle() == this);
+		m_job->ClearHandle();
+	}
+	JobClient* client = m_client; // This JobHandle may be deleted by the client, so clear it before
+	m_job = nullptr;
+	m_queue = nullptr;
+	m_client = nullptr;
+	if (client)
+		client->RemoveJob(this); // This might delete this JobHandle, so the object must be cleared before
+}
+
+JobHandle::JobHandle(JobHandle&& other) : m_job(other.m_job), m_queue(other.m_queue), m_client(other.m_client)
+{
+	assert(m_job->GetHandle() == &other);
+	m_job->SetHandle(this);
+	other.m_job = nullptr;
+	other.m_queue = nullptr;
+	other.m_client = nullptr;
+}
+
+JobHandle& JobHandle::operator=(JobHandle&& other)
+{
+	if (m_job && m_queue)
+		m_queue->Cancel(m_job);
+	m_job = other.m_job;
+	m_queue = other.m_queue;
+	m_client = other.m_client;
+	assert(m_job->GetHandle() == &other);
+	m_job->SetHandle(this);
+	other.m_job = nullptr;
+	other.m_queue = nullptr;
+	other.m_client = nullptr;
+	return *this;
+}
+
+JobHandle::~JobHandle()
+{
+	if (m_job && m_queue) {
+		m_client = nullptr; // Must not tell client to remove the handle, if it's just being destroyed obviously
+		m_queue->Cancel(m_job);
+	} else {
+		m_client = nullptr; // Must not tell client to remove the handle, if it's just being destroyed obviously
+		Unlink();
+	}
+}
+
+
 JobQueue::JobQueue(Uint32 numRunners) :
 	m_shutdown(false)
 {
@@ -156,8 +226,10 @@ JobQueue::~JobQueue()
 	SDL_DestroyMutex(m_queueLock);
 }
 
-void JobQueue::Queue(Job *job)
+JobHandle JobQueue::Queue(Job *job, JobClient *client)
 {
+	JobHandle handle(job, this, client);
+
 	// push the job onto the queue
 	SDL_LockMutex(m_queueLock);
 	m_queue.push_back(job);
@@ -165,6 +237,7 @@ void JobQueue::Queue(Job *job)
 
 	// and tell a waiting runner that there's one available
 	SDL_CondSignal(m_queueWaitCond);
+	return handle;
 }
 
 // called by the runner to get a new job
@@ -227,6 +300,7 @@ Uint32 JobQueue::FinishJobs()
 
 		// if its already been cancelled then its taken care of, so we just forget about it
 		if(!job->cancelled) {
+			job->UnlinkHandle();
 			job->OnFinish();
 			finished++;
 		}
@@ -268,6 +342,7 @@ void JobQueue::Cancel(Job *job) {
 
 	// its running, so we have to tell it to cancel
 	job->cancelled = true;
+	job->UnlinkHandle();
 	job->OnCancel();
 
 unlock:
