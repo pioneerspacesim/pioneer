@@ -3,6 +3,7 @@ bin/
 lib/
 Debug/
 PreRelease/
+Profile/
 Release/
 ipch/
 src/data
