@@ -42,7 +42,7 @@ February 2014
      * Fix pattern for Xylophis (#2723,#2759)
      * Render to texture Skybox alpha fix (#2763)
      * Remove Lua timers at game exit (#1962)
-     * Copy n' waste error fixed (#2770)
+     * Properly set terrain detail settings (#2770)
      * Always relayout tables and single containers after content change
 
    * Internal changes
