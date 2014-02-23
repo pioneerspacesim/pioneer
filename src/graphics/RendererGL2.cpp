@@ -6,10 +6,7 @@
 #include "Light.h"
 #include "Material.h"
 #include "OS.h"
-#include "RendererGLBuffers.h"
-#include "StaticMesh.h"
 #include "StringF.h"
-#include "Surface.h"
 #include "Texture.h"
 #include "TextureGL.h"
 #include "VertexArray.h"
@@ -18,6 +15,7 @@
 #include "gl2/GL2Material.h"
 #include "gl2/GL2RenderState.h"
 #include "gl2/GL2RenderTarget.h"
+#include "gl2/GL2VertexBuffer.h"
 #include "gl2/MultiMaterial.h"
 #include "gl2/Program.h"
 #include "gl2/RingMaterial.h"
@@ -33,31 +31,6 @@
 #include <iterator>
 
 namespace Graphics {
-
-struct MeshRenderInfo : public RenderInfo {
-	MeshRenderInfo() :
-		numIndices(0),
-		vbuf(0),
-		ibuf(0)
-	{
-	}
-	virtual ~MeshRenderInfo() {
-		//don't delete, if these come from a pool!
-		delete vbuf;
-		delete ibuf;
-	}
-	int numIndices;
-	VertexBuffer *vbuf;
-	IndexBuffer *ibuf;
-};
-
-// multiple surfaces can be buffered in one vbo so need to
-// save starting offset + amount to draw
-struct SurfaceRenderInfo : public RenderInfo {
-	SurfaceRenderInfo() : glOffset(0), glAmount(0) {}
-	int glOffset; //index start OR vertex start
-	int glAmount; //index count OR vertex amount
-};
 
 typedef std::vector<std::pair<MaterialDescriptor, GL2::Program*> >::const_iterator ProgramIterator;
 
@@ -456,26 +429,6 @@ bool RendererGL2::DrawTriangles(const VertexArray *v, RenderState *rs, Material 
 	return true;
 }
 
-bool RendererGL2::DrawSurface(const Surface *s, RenderState *rs)
-{
-	if (!s || !s->GetVertices() || s->GetNumIndices() < 3) return false;
-
-	const Material *m = s->GetMaterial().Get();
-	const VertexArray *v = s->GetVertices();
-
-	SetRenderState(rs);
-
-	const_cast<Material*>(m)->Apply();
-	EnableClientStates(v);
-
-	glDrawElements(s->GetPrimtiveType(), s->GetNumIndices(), GL_UNSIGNED_SHORT, s->GetIndexPointer());
-
-	const_cast<Material*>(m)->Unapply();
-	DisableClientStates();
-
-	return true;
-}
-
 bool RendererGL2::DrawPointSprites(int count, const vector3f *positions, RenderState *rs, Material *material, float size)
 {
 	if (count < 1 || !material || !material->texture0) return false;
@@ -512,49 +465,53 @@ bool RendererGL2::DrawPointSprites(int count, const vector3f *positions, RenderS
 	return true;
 }
 
-bool RendererGL2::DrawStaticMesh(StaticMesh *t, RenderState *rs)
+bool RendererGL2::DrawBuffer(VertexBuffer* vb, RenderState* state, Material* mat, PrimitiveType pt)
 {
-	if (!t) return false;
+	SetRenderState(state);
+	mat->Apply();
 
-	SetRenderState(rs);
+	auto gvb = static_cast<GL2::VertexBuffer*>(vb);
 
-	//Approach:
-	//on first render, buffer vertices from all surfaces to a vbo
-	//since surfaces can have different materials (but they should have the same vertex format?)
-	//bind buffer, set pointers and then draw each surface
-	//(save buffer offsets in surfaces' render info)
+	glBindBuffer(GL_ARRAY_BUFFER, gvb->GetBuffer());
 
-	// prepare the buffer on first run
-	if (!t->cached) {
-		if (!BufferStaticMesh(t))
-			return false;
-	}
-	MeshRenderInfo *meshInfo = static_cast<MeshRenderInfo*>(t->GetRenderInfo());
+	gvb->SetAttribPointers();
+	EnableClientStates(gvb);
 
-	//draw each surface
-	meshInfo->vbuf->Bind();
-	if (meshInfo->ibuf) {
-		meshInfo->ibuf->Bind();
-	}
+	glDrawArrays(pt, 0, gvb->GetVertexCount());
 
-	for (StaticMesh::SurfaceIterator surface = t->SurfacesBegin(); surface != t->SurfacesEnd(); ++surface) {
-		SurfaceRenderInfo *surfaceInfo = static_cast<SurfaceRenderInfo*>((*surface)->GetRenderInfo());
+	gvb->UnsetAttribPointers();
+	DisableClientStates();
 
-		const_cast<Material*>((*surface)->GetMaterial().Get())->Apply();
-		if (meshInfo->ibuf) {
-			meshInfo->vbuf->DrawIndexed(t->GetPrimtiveType(), surfaceInfo->glOffset, surfaceInfo->glAmount);
-		} else {
-			//draw unindexed per surface
-			meshInfo->vbuf->Draw(t->GetPrimtiveType(), surfaceInfo->glOffset, surfaceInfo->glAmount);
-		}
-		const_cast<Material*>((*surface)->GetMaterial().Get())->Unapply();
-	}
-	if (meshInfo->ibuf)
-		meshInfo->ibuf->Unbind();
-	meshInfo->vbuf->Unbind();
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	return true;
 }
+
+bool RendererGL2::DrawBufferIndexed(VertexBuffer *vb, IndexBuffer *ib, RenderState *state, Material *mat, PrimitiveType pt)
+{
+	SetRenderState(state);
+	mat->Apply();
+
+	auto gvb = static_cast<GL2::VertexBuffer*>(vb);
+	auto gib = static_cast<GL2::IndexBuffer*>(ib);
+
+	glBindBuffer(GL_ARRAY_BUFFER, gvb->GetBuffer());
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gib->GetBuffer());
+
+	gvb->SetAttribPointers();
+	EnableClientStates(gvb);
+
+	glDrawElements(pt, ib->GetIndexCount(), GL_UNSIGNED_SHORT, 0);
+
+	gvb->UnsetAttribPointers();
+	DisableClientStates();
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+	return true;
+}
+
 
 void RendererGL2::EnableClientStates(const VertexArray *v)
 {
@@ -588,6 +545,34 @@ void RendererGL2::EnableClientStates(const VertexArray *v)
 	}
 }
 
+void RendererGL2::EnableClientStates(const VertexBuffer *vb)
+{
+	if (!vb) return;
+	const auto& vbd = vb->GetDesc();
+
+	for (Uint32 i = 0; i < MAX_ATTRIBS; i++) {
+		switch (vbd.attrib[i].semantic) {
+		case ATTRIB_POSITION:
+			m_clientStates.push_back(GL_VERTEX_ARRAY);
+			break;
+		case ATTRIB_DIFFUSE:
+			m_clientStates.push_back(GL_COLOR_ARRAY);
+			break;
+		case ATTRIB_NORMAL:
+			m_clientStates.push_back(GL_NORMAL_ARRAY);
+			break;
+		case ATTRIB_UV0:
+			m_clientStates.push_back(GL_TEXTURE_COORD_ARRAY);
+			break;
+		default:
+			break;
+		}
+	}
+
+	for (auto it : m_clientStates)
+		glEnableClientState(it);
+}
+
 void RendererGL2::DisableClientStates()
 {
 	PROFILE_SCOPED();
@@ -595,97 +580,6 @@ void RendererGL2::DisableClientStates()
 	for (std::vector<GLenum>::const_iterator i = m_clientStates.begin(); i != m_clientStates.end(); ++i)
 		glDisableClientState(*i);
 	m_clientStates.clear();
-}
-
-bool RendererGL2::BufferStaticMesh(StaticMesh *mesh)
-{
-	PROFILE_SCOPED();
-
-	const AttributeSet set = mesh->GetAttributeSet();
-	bool background = false;
-	bool model = false;
-	//XXX does this really have to support every case. I don't know.
-	if ((set & ~ATTRIB_NORMAL) == (ATTRIB_POSITION | ATTRIB_UV0))
-		model = true;
-	else if (set == (ATTRIB_POSITION | ATTRIB_DIFFUSE))
-		background = true;
-	else
-		return false;
-
-	MeshRenderInfo *meshInfo = new MeshRenderInfo();
-	mesh->SetRenderInfo(meshInfo);
-
-	const int totalVertices = mesh->GetNumVerts();
-
-	//surfaces should have a matching vertex specification!!
-
-	int indexAdjustment = 0;
-
-	VertexBuffer *buf = 0;
-	for (StaticMesh::SurfaceIterator surface = mesh->SurfacesBegin(); surface != mesh->SurfacesEnd(); ++surface) {
-		const int numsverts = (*surface)->GetNumVerts();
-		const VertexArray *va = (*surface)->GetVertices();
-
-		int offset = 0;
-		if (model) {
-			std::unique_ptr<ModelVertex[]> vts(new ModelVertex[numsverts]);
-			for(int j=0; j<numsverts; j++) {
-				vts[j].position = va->position[j];
-				if(set & ATTRIB_NORMAL) {
-					vts[j].normal = va->normal[j];
-				}
-				if(set & ATTRIB_UV0) {
-					vts[j].uv = va->uv0[j];
-				}
-			}
-
-			if (!buf)
-				buf = new VertexBuffer(totalVertices);
-			buf->Bind();
-			buf->BufferData<ModelVertex>(numsverts, vts.get());
-		} else if (background) {
-			std::unique_ptr<UnlitVertex[]> vts(new UnlitVertex[numsverts]);
-			for(int j=0; j<numsverts; j++) {
-				vts[j].position = va->position[j];
-				vts[j].color = va->diffuse[j];
-			}
-
-			if (!buf)
-				buf= new UnlitVertexBuffer(totalVertices);
-			buf->Bind();
-			offset = buf->BufferData<UnlitVertex>(numsverts, vts.get());
-		}
-
-		SurfaceRenderInfo *surfaceInfo = new SurfaceRenderInfo();
-		surfaceInfo->glOffset = offset;
-		surfaceInfo->glAmount = numsverts;
-		(*surface)->SetRenderInfo(surfaceInfo);
-
-		//buffer indices from each surface, if in use
-		if ((*surface)->IsIndexed()) {
-			assert(background == false);
-
-			//XXX should do this adjustment in RendererGL2Buffers
-			const unsigned short *originalIndices = (*surface)->GetIndexPointer();
-			std::vector<unsigned short> adjustedIndices((*surface)->GetNumIndices());
-			for (int i = 0; i < (*surface)->GetNumIndices(); ++i)
-				adjustedIndices[i] = originalIndices[i] + indexAdjustment;
-
-			if (!meshInfo->ibuf)
-				meshInfo->ibuf = new IndexBuffer(mesh->GetNumIndices());
-			meshInfo->ibuf->Bind();
-			const int ioffset = meshInfo->ibuf->BufferIndexData((*surface)->GetNumIndices(), &adjustedIndices[0]);
-			surfaceInfo->glOffset = ioffset;
-			surfaceInfo->glAmount = (*surface)->GetNumIndices();
-
-			indexAdjustment += (*surface)->GetNumVerts();
-		}
-	}
-	assert(buf);
-	meshInfo->vbuf = buf;
-	mesh->cached = true;
-
-	return true;
 }
 
 Material *RendererGL2::CreateMaterial(const MaterialDescriptor &d)
@@ -829,6 +723,16 @@ RenderTarget *RendererGL2::CreateRenderTarget(const RenderTargetDesc &desc)
 	rt->CheckStatus();
 	rt->Unbind();
 	return rt;
+}
+
+VertexBuffer *RendererGL2::CreateVertexBuffer(const VertexBufferDesc &desc)
+{
+	return new GL2::VertexBuffer(desc);
+}
+
+IndexBuffer *RendererGL2::CreateIndexBuffer(Uint32 size, BufferUsage usage)
+{
+	return new GL2::IndexBuffer(size, usage);
 }
 
 // XXX very heavy. in the future when all GL calls are made through the

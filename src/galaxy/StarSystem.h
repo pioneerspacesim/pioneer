@@ -42,11 +42,9 @@ struct RingStyle {
 
 class SystemBody : public RefCounted {
 public:
-	SystemBody();
+	SystemBody(const SystemPath& path);
 	void PickPlanetType(Random &rand);
 	const SystemBody *FindStarAndTrueOrbitalRange(fixed &orbMin, fixed &orbMax);
-	SystemBody *parent;                // these are only valid if the StarSystem
-	std::vector<SystemBody*> children; // that create them still exists
 
 	enum BodyType { // <enum scope='SystemBody' prefix=TYPE_ public>
 		TYPE_GRAVPOINT = 0,
@@ -106,39 +104,89 @@ public:
 		SUPERTYPE_STARPORT = 4,
 	};
 
+	const SystemPath& GetPath() const { return m_path; }
+	SystemBody* GetParent() const { return m_parent; }
+
+	unsigned GetNumChildren() const { return m_children.size(); }
+	SystemBody* GetChild(unsigned i) { return m_children[i]; } // XXX Or should we better use m_children.at(i)?
+	typedef std::vector<SystemBody*>::const_iterator ConstChildrenIterator;
+	typedef std::vector<SystemBody*>::iterator ChildrenIterator;
+	ConstChildrenIterator ChildrenBegin() const { return m_children.cbegin(); }
+	ConstChildrenIterator ChildrenEnd() const { return m_children.cend(); }
+	ChildrenIterator ChildrenBegin() { return m_children.begin(); }
+	ChildrenIterator ChildrenEnd() { return m_children.end(); }
+
+	std::string GetName() const { return m_name; }
 	std::string GetAstroDescription() const;
 	const char *GetIcon() const;
+	BodyType GetType() const { return m_type; }
 	BodySuperType GetSuperType() const;
+	bool IsCustomBody() const { return m_isCustomBody; }
+	fixed GetRadiusAsFixed() const { return m_radius; }
 	double GetRadius() const { // polar radius
 		if (GetSuperType() <= SUPERTYPE_STAR)
-			return (radius.ToDouble() / aspectRatio.ToDouble()) * SOL_RADIUS;
+			return (m_radius.ToDouble() / m_aspectRatio.ToDouble()) * SOL_RADIUS;
 		else
-			return radius.ToDouble() * EARTH_RADIUS;
+			return m_radius.ToDouble() * EARTH_RADIUS;
 	}
+	double GetAspectRatio() const { return m_aspectRatio.ToDouble(); }
+	fixed GetMassAsFixed() const { return m_mass; }
 	double GetMass() const {
 		if (GetSuperType() <= SUPERTYPE_STAR)
-			return mass.ToDouble() * SOL_MASS;
+			return m_mass.ToDouble() * SOL_MASS;
 		else
-			return mass.ToDouble() * EARTH_MASS;
+			return m_mass.ToDouble() * EARTH_MASS;
 	}
 	fixed GetMassInEarths() const {
 		if (GetSuperType() <= SUPERTYPE_STAR)
-			return mass * 332998;
+			return m_mass * 332998;
 		else
-			return mass;
+			return m_mass;
 	}
+	bool IsRotating() const { return m_rotationPeriod != fixed(0); }
 	// returned in seconds
+	double GetRotationPeriodInDays() const { return m_rotationPeriod.ToDouble(); }
 	double GetRotationPeriod() const {
-		return rotationPeriod.ToDouble()*60*60*24;
+		return m_rotationPeriod.ToDouble()*60*60*24;
 	}
+	bool HasRotationPhase() const { return m_rotationalPhaseAtStart != fixed(0); }
+	double GetRotationPhaseAtStart() const { return m_rotationalPhaseAtStart.ToDouble(); }
+	double GetAxialTilt() const { return m_axialTilt.ToDouble(); }
+
+	const Orbit& GetOrbit() const { return m_orbit; }
+	double GetEccentricity() const { return m_eccentricity.ToDouble(); }
+	double GetOrbMin() const { return m_orbMin.ToDouble(); }
+	double GetOrbMax() const { return m_orbMax.ToDouble(); }
+	double GetSemiMajorAxis() const { return m_semiMajorAxis.ToDouble(); }
+	void SetOrbitPlane(const matrix3x3d &orient) { m_orbit.SetPlane(orient); }
+
+	int GetAverageTemp() const { return m_averageTemp; }
+	std::string GetHeightMapFilename() const { return m_heightMapFilename; }
+	unsigned int GetHeightMapFractal() const { return m_heightMapFractal; }
+
+	Uint32 GetSeed() const { return m_seed; }
+
+	fixed GetMetallicity() const { return m_metallicity; }
+	fixed GetVolatileGas() const { return m_volatileGas; }
+	fixed GetVolatileLiquid() const { return m_volatileLiquid; }
+	fixed GetVolatileIces() const { return m_volatileIces; }
+	fixed GetVolcanicity() const { return m_volcanicity; }
+	fixed GetAtmosOxidizing() const { return m_atmosOxidizing; }
+	fixed GetLife() const { return m_life; }
+
+	double GetPopulation() const { return m_population.ToDouble(); }
+
 	fixed CalcHillRadius() const;
+	static int CalcSurfaceTemp(const SystemBody *primary, fixed distToPrimary, fixed albedo, fixed greenhouse);
 	double CalcSurfaceGravity() const;
 
 	double GetMaxChildOrbitalDistance() const;
+	void PositionSettlementOnPlanet();
 	void PopulateStage1(StarSystem *system, fixed &outTotalPop);
 	void PopulateAddStations(StarSystem *system);
 
 	bool HasRings() const { return bool(m_rings.maxRadius.v); }
+	const RingStyle& GetRings() const { return m_rings; }
 	void PickRings(bool forceRings = false);
 
 
@@ -166,28 +214,36 @@ public:
 
 	bool IsScoopable() const;
 
-	Uint32 id; // index into starsystem->m_bodies
-	SystemPath path;
-	int tmp;
-	Orbit orbit;
-	Uint32 seed; // Planet.cpp can use to generate terrain
-	std::string name;
-	fixed radius; // in earth radii for planets, sol radii for stars. equatorial radius in case of bodies which are flattened at the poles
-	fixed aspectRatio; // ratio between equatorial and polar radius for bodies with eqatorial bulges
-	fixed mass; // earth masses if planet, solar masses if star
-	fixed orbMin, orbMax; // periapsism, apoapsis in AUs
-	fixed rotationPeriod; // in days
-	fixed rotationalPhaseAtStart; // 0 to 2 pi
-	fixed humanActivity; // 0 - 1
-	fixed semiMajorAxis; // in AUs
-	fixed eccentricity;
-	fixed orbitalOffset;
-	fixed orbitalPhaseAtStart; // 0 to 2 pi
-	fixed axialTilt; // in radians
-	fixed inclination; // in radians, for surface bodies = latitude
-	int averageTemp;
-	BodyType type;
-	bool isCustomBody;
+private:
+	friend class StarSystem;
+	friend class ObjectViewerView;
+
+	void ClearParentAndChildPointers();
+
+	SystemBody *m_parent;                // these are only valid if the StarSystem
+	std::vector<SystemBody*> m_children; // that create them still exists
+
+	Uint32 m_id; // index into starsystem->m_bodies
+	SystemPath m_path;
+	Orbit m_orbit;
+	Uint32 m_seed; // Planet.cpp can use to generate terrain
+	std::string m_name;
+	fixed m_radius; // in earth radii for planets, sol radii for stars. equatorial radius in case of bodies which are flattened at the poles
+	fixed m_aspectRatio; // ratio between equatorial and polar radius for bodies with eqatorial bulges
+	fixed m_mass; // earth masses if planet, solar masses if star
+	fixed m_orbMin, m_orbMax; // periapsism, apoapsis in AUs
+	fixed m_rotationPeriod; // in days
+	fixed m_rotationalPhaseAtStart; // 0 to 2 pi
+	fixed m_humanActivity; // 0 - 1
+	fixed m_semiMajorAxis; // in AUs
+	fixed m_eccentricity;
+	fixed m_orbitalOffset;
+	fixed m_orbitalPhaseAtStart; // 0 to 2 pi
+	fixed m_axialTilt; // in radians
+	fixed m_inclination; // in radians, for surface bodies = latitude
+	int m_averageTemp;
+	BodyType m_type;
+	bool m_isCustomBody;
 
 	/* composition */
 	fixed m_metallicity; // (crust) 0.0 = light (Al, SiO2, etc), 1.0 = heavy (Fe, heavy metals)
@@ -204,9 +260,9 @@ public:
 	fixed m_population;
 	fixed m_agricultural;
 
-	const char *heightMapFilename;
-	unsigned int heightMapFractal;
-private:
+	std::string m_heightMapFilename;
+	unsigned int m_heightMapFractal;
+
 	Color m_atmosColor;
 	double m_atmosDensity;
 };
@@ -236,7 +292,7 @@ public:
 	static float starScale[];
 	static fixed starMetallicities[];
 
-	RefCountedPtr<SystemBody> rootBody;
+	RefCountedPtr<SystemBody> m_rootBody;
 	std::vector<SystemBody*> m_spaceStations;
 	std::vector<SystemBody*> m_stars;
 	// index into this will be the SystemBody ID used by SystemPath
@@ -262,9 +318,7 @@ private:
 	~StarSystem();
 
 	SystemBody *NewBody() {
-		SystemBody *body = new SystemBody;
-		body->path = m_path;
-		body->path.bodyIndex = m_bodies.size();
+		SystemBody *body = new SystemBody(SystemPath(m_path.sectorX, m_path.sectorY, m_path.sectorZ, m_path.systemIndex, m_bodies.size()));
 		m_bodies.push_back(RefCountedPtr<SystemBody>(body));
 		return body;
 	}

@@ -81,7 +81,7 @@ namespace Graphics {
 			GLuint id, GLenum severity, GLsizei length,
 			const GLchar* message, void* userParam)
 		{
-			printf("Type: %s, Source: %s, ID: %u, Severity: %s, Message: %s\n",
+			Output("Type: %s, Source: %s, ID: %u, Severity: %s, Message: %s\n",
 				type_to_string(type), source_to_string(source), id,
 				severity_to_string(severity), message);
 		}
@@ -90,7 +90,7 @@ namespace Graphics {
 		//register the callback function, if the extension is available
 		static void Enable() {
 			if (!glewIsSupported("GL_KHR_debug")) {
-				printf("GL_KHR_debug is not supported; GLDebug will not work\n");
+				Output("GL_KHR_debug is not supported; GLDebug will not work\n");
 				return;
 			}
 
@@ -120,7 +120,7 @@ namespace Graphics {
 	class GLDebug {
 	public:
 		static void Enable() {
-			printf("GL Debug support was excluded from this build because the GLEW headers were not recent enough\n");
+			Output("GL Debug support was excluded from this build because the GLEW headers were not recent enough\n");
 		}
 
 		static void Disable() {}

@@ -6,9 +6,10 @@
 
 #include "libs.h"
 #include "graphics/Renderer.h"
-#include "graphics/Surface.h"
 #include "graphics/VertexArray.h"
 #include "graphics/RenderState.h"
+#include "graphics/VertexBuffer.h"
+#include "graphics/Material.h"
 
 namespace Graphics {
 
@@ -85,18 +86,23 @@ private:
 class Sphere3D : public Drawable {
 public:
 	//subdivisions must be 0-4
-	Sphere3D(RefCountedPtr<Material> material, Graphics::RenderState*, int subdivisions=0, float scale=1.f);
+	Sphere3D(Renderer*, RefCountedPtr<Material> material, Graphics::RenderState*, int subdivisions=0, float scale=1.f);
 	virtual void Draw(Renderer *r);
 
-	RefCountedPtr<Material> GetMaterial() const { return m_surface->GetMaterial(); }
+	RefCountedPtr<Material> GetMaterial() const { return m_material; }
 
 private:
-	std::unique_ptr<Surface> m_surface;
+	std::unique_ptr<VertexBuffer> m_vertexBuffer;
+	std::unique_ptr<IndexBuffer> m_indexBuffer;
+	RefCountedPtr<Material> m_material;
+
+	//std::unique_ptr<Surface> m_surface;
 	//add a new vertex, return the index
-	int AddVertex(const vector3f &v, const vector3f &n);
+	int AddVertex(VertexArray&, const vector3f &v, const vector3f &n);
 	//add three vertex indices to form a triangle
-	void AddTriangle(int i1, int i2, int i3);
-	void Subdivide(const matrix4x4f &trans, const vector3f &v1, const vector3f &v2, const vector3f &v3,
+	void AddTriangle(std::vector<Uint16>&, int i1, int i2, int i3);
+	void Subdivide(VertexArray&, std::vector<Uint16>&,
+		const matrix4x4f &trans, const vector3f &v1, const vector3f &v2, const vector3f &v3,
 		int i1, int i2, int i3, int depth);
 };
 

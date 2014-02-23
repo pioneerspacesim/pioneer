@@ -8,7 +8,10 @@
 
 using namespace SceneGraph;
 
-const Uint32 SGM_VERSION = 1;
+// Attempt at version history:
+// 1: prototype
+// 2: converted StaticMesh to VertexBuffer
+const Uint32 SGM_VERSION = 2;
 const std::string SGM_EXTENSION = ".sgm";
 const std::string SAVE_TARGET_DIR = "binarymodels";
 
@@ -143,7 +146,7 @@ Model *BinaryConverter::CreateModel(Serializer::Reader &rd)
 		throw LoadingError("Not a binary model file");
 
 	const Uint32 version = rd.Int32();
-	if (version != SGM_VERSION)
+	if (version != 2)
 		throw LoadingError("Unsupported file version");
 
 	const std::string modelName = rd.String();

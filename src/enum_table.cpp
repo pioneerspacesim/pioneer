@@ -190,6 +190,7 @@ const struct EnumItem ENUM_ShipJumpStatus[] = {
 	{ "OK", Ship::HYPERJUMP_OK },
 	{ "CURRENT_SYSTEM", Ship::HYPERJUMP_CURRENT_SYSTEM },
 	{ "NO_DRIVE", Ship::HYPERJUMP_NO_DRIVE },
+	{ "INITIATED", Ship::HYPERJUMP_INITIATED },
 	{ "DRIVE_ACTIVE", Ship::HYPERJUMP_DRIVE_ACTIVE },
 	{ "OUT_OF_RANGE", Ship::HYPERJUMP_OUT_OF_RANGE },
 	{ "INSUFFICIENT_FUEL", Ship::HYPERJUMP_INSUFFICIENT_FUEL },
@@ -428,9 +429,17 @@ const struct EnumItem ENUM_UINumberLabelFormat[] = {
 };
 
 const struct EnumItem ENUM_UITableRowAlignDirection[] = {
-	{ "TOP", UI::Table::TOP },
-	{ "CENTER", UI::Table::CENTER },
-	{ "BOTTOM", UI::Table::BOTTOM },
+	{ "TOP", UI::Table::ROW_TOP },
+	{ "CENTER", UI::Table::ROW_CENTER },
+	{ "BOTTOM", UI::Table::ROW_BOTTOM },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_UITableColumnAlignDirection[] = {
+	{ "LEFT", UI::Table::COLUMN_LEFT },
+	{ "CENTER", UI::Table::COLUMN_CENTER },
+	{ "RIGHT", UI::Table::COLUMN_RIGHT },
+	{ "JUSTIFY", UI::Table::COLUMN_JUSTIFY },
 	{ 0, 0 },
 };
 
@@ -497,6 +506,7 @@ const struct EnumTable ENUM_TABLES[] = {
 	{ "UIMarginDirection", ENUM_UIMarginDirection },
 	{ "UINumberLabelFormat", ENUM_UINumberLabelFormat },
 	{ "UITableRowAlignDirection", ENUM_UITableRowAlignDirection },
+	{ "UITableColumnAlignDirection", ENUM_UITableColumnAlignDirection },
 	{ "UISizeControl", ENUM_UISizeControl },
 	{ "UIFont", ENUM_UIFont },
 	{ 0, 0 },
@@ -535,6 +545,7 @@ const struct EnumTable ENUM_TABLES_PUBLIC[] = {
 	{ "UIGradientDirection", ENUM_UIGradientDirection },
 	{ "UIMarginDirection", ENUM_UIMarginDirection },
 	{ "UITableRowAlignDirection", ENUM_UITableRowAlignDirection },
+	{ "UITableColumnAlignDirection", ENUM_UITableColumnAlignDirection },
 	{ "UISizeControl", ENUM_UISizeControl },
 	{ "UIFont", ENUM_UIFont },
 	{ 0, 0 },

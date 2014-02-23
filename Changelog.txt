@@ -23,6 +23,7 @@ February 2014
      * UI.Image:SetHeightLines to help set image height against text
      * hasprop method to see if the named property exists (#2734)
      * Ship:InitiateHyperjumpTo to jump regardless of range or fuel (#2747)
+     * UI.Table.SetColumnAlignment, various ways to position table columns (#2778)
 
    * Model changes
      * Removed two_sided material property, it didn't handle lighting correctly (#2697)
@@ -50,6 +51,8 @@ February 2014
      * Split camera state into a separate class (#2714)
      * Sector and star system cache improvements (#2706)
      * Generation of explored flag moved from StarSystem to Sector (#2744)
+     * New Vertex buffer class (#2762)
+     * Code cleanup in StarSystem and SystemBody (#2777)
 
 January 2014
 

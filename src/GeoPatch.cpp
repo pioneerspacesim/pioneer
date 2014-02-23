@@ -44,7 +44,7 @@ GeoPatch::GeoPatch(const RefCountedPtr<GeoPatchContext> &ctx_, GeoSphere *gs,
 	clipRadius = std::max(clipRadius, (v2-clipCentroid).Length());
 	clipRadius = std::max(clipRadius, (v3-clipCentroid).Length());
 	double distMult;
-	if (geosphere->m_sbody->type < SystemBody::TYPE_PLANET_ASTEROID) {
+	if (geosphere->m_sbody->GetType() < SystemBody::TYPE_PLANET_ASTEROID) {
  		distMult = 10.0 / Clamp(depth, 1, 10);
  	} else {
  		distMult = 5.0 / Clamp(depth, 1, 5);
@@ -172,7 +172,7 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 			mHasJobRequest = true;
 
 			SQuadSplitRequest *ssrd = new SQuadSplitRequest(v0, v1, v2, v3, centroid.Normalized(), m_depth,
-						geosphere->m_sbody->path, mPatchID, ctx->edgeLen,
+						geosphere->m_sbody->GetPath(), mPatchID, ctx->edgeLen,
 						ctx->frac, geosphere->m_terrain.Get());
 			Pi::Jobs()->Queue(m_job = new QuadPatchJob(this, ssrd));
 		} else {
@@ -199,7 +199,7 @@ void GeoPatch::RequestSinglePatch()
         assert(!m_job);
 		mHasJobRequest = true;
 		SSingleSplitRequest *ssrd = new SSingleSplitRequest(v0, v1, v2, v3, centroid.Normalized(), m_depth,
-					geosphere->m_sbody->path, mPatchID, ctx->edgeLen, ctx->frac, geosphere->m_terrain.Get());
+					geosphere->m_sbody->GetPath(), mPatchID, ctx->edgeLen, ctx->frac, geosphere->m_terrain.Get());
 		Pi::Jobs()->Queue(m_job = new SinglePatchJob(this, ssrd));
 	}
 }
