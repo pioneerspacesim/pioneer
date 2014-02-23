@@ -50,6 +50,7 @@ noinst_HEADERS = \
 	HyperspaceCloud.h \
 	IniConfig.h \
 	Intro.h \
+	IterationProxy.h \
 	JobQueue.h \
 	GameConfig.h \
 	KeyBindings.h \

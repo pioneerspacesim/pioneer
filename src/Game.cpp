@@ -308,13 +308,13 @@ bool Game::UpdateTimeAccel()
 
 		else if (!m_forceTimeAccel) {
 			// check we aren't too near to objects for timeaccel //
-			for (Space::BodyIterator i = m_space->BodiesBegin(); i != m_space->BodiesEnd(); ++i) {
-				if ((*i) == m_player.get()) continue;
-				if ((*i)->IsType(Object::HYPERSPACECLOUD)) continue;
+			for (const Body* b : m_space->GetBodies()) {
+				if (b == m_player.get()) continue;
+				if (b->IsType(Object::HYPERSPACECLOUD)) continue;
 
-				vector3d toBody = m_player->GetPosition() - (*i)->GetPositionRelTo(m_player->GetFrame());
+				vector3d toBody = m_player->GetPosition() - b->GetPositionRelTo(m_player->GetFrame());
 				double dist = toBody.Length();
-				double rad = (*i)->GetPhysRadius();
+				double rad = b->GetPhysRadius();
 
 				if (dist < 1000.0) {
 					newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_1X);
@@ -377,12 +377,12 @@ void Game::SwitchToHyperspace()
 	// find all the departure clouds, convert them to arrival clouds and store
 	// them for the next system
 	m_hyperspaceClouds.clear();
-	for (Space::BodyIterator i = m_space->BodiesBegin(); i != m_space->BodiesEnd(); ++i) {
+	for (Body* b : m_space->GetBodies()) {
 
-		if (!(*i)->IsType(Object::HYPERSPACECLOUD)) continue;
+		if (!b->IsType(Object::HYPERSPACECLOUD)) continue;
 
 		// only want departure clouds with ships in them
-		HyperspaceCloud *cloud = static_cast<HyperspaceCloud*>(*i);
+		HyperspaceCloud *cloud = static_cast<HyperspaceCloud*>(b);
 		if (cloud->IsArrival() || cloud->GetShip() == 0)
 			continue;
 
@@ -589,9 +589,9 @@ void Game::SetTimeAccel(TimeAccel t)
 
 	// Give all ships a half-step acceleration to stop autopilot overshoot
 	if (t < m_timeAccel)
-		for (Space::BodyIterator i = m_space->BodiesBegin(); i != m_space->BodiesEnd(); ++i)
-			if ((*i)->IsType(Object::SHIP))
-				(static_cast<Ship*>(*i))->TimeAccelAdjust(0.5f * GetTimeStep());
+		for (Body* b : m_space->GetBodies())
+			if (b->IsType(Object::SHIP))
+				(static_cast<Ship*>(b))->TimeAccelAdjust(0.5f * GetTimeStep());
 
 	m_timeAccel = t;
 
