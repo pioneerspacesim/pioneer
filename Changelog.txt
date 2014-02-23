@@ -42,6 +42,7 @@ February 2014
      * Render to texture Skybox alpha fix (#2763)
      * Remove Lua timers at game exit (#1962)
      * Copy n' waste error fixed (#2770)
+     * Always relayout tables after content change
 
    * Internal changes
      * Moved model debug effects (wireframe, collision mesh) out of

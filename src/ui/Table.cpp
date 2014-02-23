@@ -301,8 +301,10 @@ Point Table::PreferredSize()
 
 void Table::Layout()
 {
-	if (m_dirty)
-		PreferredSize();
+	// always dirty because some widget within the table may have requested layout
+	m_dirty = true;
+
+	PreferredSize();
 
 	Point size = GetSize();
 	m_layout.ComputeForWidth(size.x);
