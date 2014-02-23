@@ -16,6 +16,7 @@ February 2014
      * New wheels up/down icon (#2754)
      * The `console.lua` script is now run at each game start (#2746)
      * Config values can be overidden on the command line
+     * Use tables instead of grids for layout
 
    * Script and UI API changes
      * Model.SetDebugFlags for adding debug effects to model drawing
