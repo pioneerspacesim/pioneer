@@ -16,7 +16,7 @@ local l = Lang.GetResource("ui-core")
 
 local commodityMarket = function (args)
 	local stationTable, shipTable = EquipmentTableWidgets.Pair({
-		stationColumns = { "icon", "name", "price", "stock" },
+		stationColumns = { "icon", "name", "buy", "sell", "stock" },
 		shipColumns = { "icon", "name", "amount" },
 	})
 

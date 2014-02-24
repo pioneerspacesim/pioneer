@@ -17,7 +17,7 @@ local ui = Engine.ui
 
 local equipmentMarket = function (args)
 	local stationTable, shipTable = EquipmentTableWidgets.Pair({
-		stationColumns = { "name", "price", "mass", "stock" },
+		stationColumns = { "name", "buy", "sell", "mass", "stock" },
 		shipColumns = { "name", "amount", "mass", "massTotal" },
 
 		canTrade = function (e) return EquipDef[e].purchasable and EquipDef[e].slot ~= "CARGO" end,
