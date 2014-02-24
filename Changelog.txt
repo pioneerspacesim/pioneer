@@ -61,6 +61,7 @@ February 2014
      * Removed Visual Studio 2010 and 2012 support (#2772)
      * IterationProxy for save access to embedded containers (#2783)
      * Automatically manage the cancellation of jobs with RAII (#2758)
+     * Added a Profile Config to VS2013 (#2785)
 
 January 2014
 
