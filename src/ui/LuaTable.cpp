@@ -143,6 +143,18 @@ public:
 		return 1;
 	}
 
+	static int l_scroll_to_top(lua_State *l) {
+		UI::Table *t = LuaObject<UI::Table>::CheckFromLua(1);
+		t->SetScrollPosition(0.0f);
+		return 0;
+	}
+
+	static int l_scroll_to_bottom(lua_State *l) {
+		UI::Table *t = LuaObject<UI::Table>::CheckFromLua(1);
+		t->SetScrollPosition(1.0f);
+		return 0;
+	}
+
 };
 
 }
@@ -166,6 +178,8 @@ template <> void LuaObject<UI::Table>::RegisterClass()
 		{ "SetColumnAlignment", UI::LuaTable::l_set_column_alignment },
 		{ "SetHeadingFont",     UI::LuaTable::l_set_heading_font     },
 		{ "SetMouseEnabled",    UI::LuaTable::l_set_mouse_enabled    },
+		{ "ScrollToTop",        UI::LuaTable::l_scroll_to_top        },
+		{ "ScrollToBottom",     UI::LuaTable::l_scroll_to_bottom     },
 		{ 0, 0 }
 	};
 

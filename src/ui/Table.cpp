@@ -323,18 +323,23 @@ void Table::Layout()
 		}
 	}
 	else {
-		AddWidget(m_slider.Get());
+		if (!m_slider->GetContainer())
+			AddWidget(m_slider.Get());
+
 		if (!m_onMouseWheelConn.connected())
 			m_onMouseWheelConn = onMouseWheel.connect(sigc::mem_fun(this, &Table::OnMouseWheel));
 
 		const Point sliderSize(m_slider->PreferredSize().x, size.y);
 		const Point sliderPos(size.x-sliderSize.x, top);
 		SetWidgetDimensions(m_slider.Get(), sliderPos, sliderSize);
+		m_slider->Layout();
 
 		size.x = sliderPos.x;
 
 		const float step = float(sliderSize.y) * 0.5f / float(preferredSize.y);
 		m_slider->SetStep(step);
+
+		OnScroll(m_slider->GetValue());
 	}
 
 	SetWidgetDimensions(m_body.Get(), Point(0, top), size);
@@ -420,7 +425,10 @@ Table *Table::SetMouseEnabled(bool enabled)
 
 void Table::OnScroll(float value)
 {
-	m_body->SetDrawOffset(Point(0, -float(m_body->PreferredSize().y-(GetSize().y-m_header->PreferredSize().y))*value));
+	if (m_slider->GetContainer())
+		m_body->SetDrawOffset(Point(0, -float(m_body->PreferredSize().y-(GetSize().y-m_header->PreferredSize().y))*value));
+	else
+		m_body->SetDrawOffset(Point());
 }
 
 bool Table::OnMouseWheel(const MouseWheelEvent &event)
@@ -432,5 +440,9 @@ bool Table::OnMouseWheel(const MouseWheelEvent &event)
 	return true;
 }
 
+void Table::SetScrollPosition(float v)
+{
+	m_slider->SetValue(v);
+}
 
 }

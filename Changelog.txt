@@ -26,6 +26,7 @@ February 2014
      * hasprop method to see if the named property exists (#2734)
      * Ship:InitiateHyperjumpTo to jump regardless of range or fuel (#2747)
      * UI.Table.SetColumnAlignment, various ways to position table columns (#2778)
+     * UI.Table.ScrollToTop and ScrollToBottom, basic scroll control
      * Empty grid cells now expand to the available size to assist with layout
 
    * Model changes
