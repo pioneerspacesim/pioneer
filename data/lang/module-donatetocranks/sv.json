@@ -1,0 +1,66 @@
+{
+   "FLAVOUR_0_MESSAGE" : {
+      "description" : "",
+      "message" : "Välj en summa att donera till det himmelska Flygande Spaghettimonstrets samfund."
+   },
+   "FLAVOUR_0_TITLE" : {
+      "description" : "",
+      "message" : "DONERA! Det himmelska Flygande Spaghettimonstrets samfund behöver DINA pengar för att sprida guds ord."
+   },
+   "FLAVOUR_1_MESSAGE" : {
+      "description" : "",
+      "message" : "Peace be with you, brother. Please select an amount to donate to the Guardians of the Free Spirit."
+   },
+   "FLAVOUR_1_TITLE" : {
+      "description" : "",
+      "message" : "DONATE. The Guardians of the Free Spirit humbly request your charity to support our monasteries."
+   },
+   "FLAVOUR_2_MESSAGE" : {
+      "description" : "",
+      "message" : "Please select an amount to donate to War Orphan's Support, and end the suffering of children all over the galaxy."
+   },
+   "FLAVOUR_2_TITLE" : {
+      "description" : "",
+      "message" : "FEELING GENEROUS? War Orphan's Support needs your help to keep up its essential work."
+   },
+   "FLAVOUR_3_MESSAGE" : {
+      "description" : "",
+      "message" : "Please select an amount to donate to the GreenWatch, and end the pollution of our galaxy."
+   },
+   "FLAVOUR_3_TITLE" : {
+      "description" : "",
+      "message" : "CONTRIBUTE. The Friends of the Galaxy 'Ban Military Drives' campaign needs your money."
+   },
+   "FLAVOUR_4_MESSAGE" : {
+      "description" : "",
+      "message" : "Välj en summa att donera."
+   },
+   "FLAVOUR_4_TITLE" : {
+      "description" : "",
+      "message" : "DONERA! Rädda vår art. Stoppa blodbaden på de nyligen bosatta världarna."
+   },
+   "FLAVOUR_5_MESSAGE" : {
+      "description" : "",
+      "message" : "Liberate your ship! Please choose amount to donate. Happy hacking."
+   },
+   "FLAVOUR_5_TITLE" : {
+      "description" : "",
+      "message" : "SUPPORT FREEDOM! Stop the great injustice of proprietary software controlling your ship."
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Lägg på."
+   },
+   "THANK_YOU_ALL_DONATIONS_ARE_WELCOME" : {
+      "description" : "",
+      "message" : "Tack. Alla donationer är välkomna."
+   },
+   "WOW_THAT_WAS_VERY_GENEROUS" : {
+      "description" : "",
+      "message" : "Oj! Det var generöst!"
+   },
+   "YOU_DO_NOT_HAVE_ENOUGH_MONEY" : {
+      "description" : "",
+      "message" : "Du har inte tillräckligt med pengar."
+   }
+}
