@@ -283,17 +283,23 @@ public:
 	int GetNumStars() const { return m_numStars; }
 	const SysPolit &GetSysPolit() const { return m_polit; }
 
-	static Uint8 starColors[][3];
-	static Uint8 starRealColors[][3];
-	static double starLuminosities[];
-	static float starScale[];
-	static fixed starMetallicities[];
+	static const Uint8 starColors[][3];
+	static const Uint8 starRealColors[][3];
+	static const double starLuminosities[];
+	static const float starScale[];
+	static const fixed starMetallicities[];
 
-	RefCountedPtr<SystemBody> m_rootBody;
-	std::vector<SystemBody*> m_spaceStations;
-	std::vector<SystemBody*> m_stars;
-	// index into this will be the SystemBody ID used by SystemPath
-	std::vector< RefCountedPtr<SystemBody> > m_bodies;
+	RefCountedPtr<const SystemBody> GetRootBody() const { return m_rootBody; }
+	RefCountedPtr<SystemBody> GetRootBody() { return m_rootBody; }
+	bool HasSpaceStations() const { return !m_spaceStations.empty(); }
+	unsigned GetNumSpaceStations() const { return m_spaceStations.size(); }
+	IterationProxy<std::vector<SystemBody*> > GetSpaceStations() { return MakeIterationProxy(m_spaceStations); }
+	const IterationProxy<const std::vector<SystemBody*> > GetSpaceStations() const { return MakeIterationProxy(m_spaceStations); }
+	IterationProxy<std::vector<SystemBody*> > GetStars() { return MakeIterationProxy(m_stars); }
+	const IterationProxy<const std::vector<SystemBody*> > GetStars() const { return MakeIterationProxy(m_stars); }
+	unsigned GetNumBodies() const { return m_bodies.size(); }
+	IterationProxy<std::vector<RefCountedPtr<SystemBody> > > GetBodies() { return MakeIterationProxy(m_bodies); }
+	const IterationProxy<const std::vector<RefCountedPtr<SystemBody> > > GetBodies() const { return MakeIterationProxy(m_bodies); }
 
 	int GetCommodityBasePriceModPercent(int t) {
 		return m_tradeLevel[t];
@@ -353,6 +359,12 @@ private:
 	fixed m_agricultural;
 	fixed m_humanProx;
 	fixed m_totalPop;
+
+	RefCountedPtr<SystemBody> m_rootBody;
+	// index into this will be the SystemBody ID used by SystemPath
+	std::vector< RefCountedPtr<SystemBody> > m_bodies;
+	std::vector<SystemBody*> m_spaceStations;
+	std::vector<SystemBody*> m_stars;
 };
 
 class StarSystemCache

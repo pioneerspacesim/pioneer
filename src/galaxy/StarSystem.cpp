@@ -42,7 +42,7 @@ static const fixed SUN_MASS_TO_EARTH_MASS = fixed(332998,1);
 static const fixed FIXED_PI = fixed(103993,33102);
 
 // indexed by enum type turd
-Uint8 StarSystem::starColors[][3] = {
+const Uint8 StarSystem::starColors[][3] = {
 	{ 0, 0, 0 }, // gravpoint
 	{ 128, 0, 0 }, // brown dwarf
 	{ 102, 102, 204 }, // white dwarf
@@ -83,7 +83,7 @@ Uint8 StarSystem::starColors[][3] = {
 };
 
 // indexed by enum type turd
-Uint8 StarSystem::starRealColors[][3] = {
+const Uint8 StarSystem::starRealColors[][3] = {
 	{ 0, 0, 0 }, // gravpoint
 	{ 128, 0, 0 }, // brown dwarf
 	{ 255, 255, 255 }, // white dwarf
@@ -123,7 +123,7 @@ Uint8 StarSystem::starRealColors[][3] = {
 	{ 10, 0, 16 }, // massive BH
 };
 
-double StarSystem::starLuminosities[] = {
+const double StarSystem::starLuminosities[] = {
 	0,
 	0.0003, // brown dwarf
 	0.1, // white dwarf
@@ -163,7 +163,7 @@ double StarSystem::starLuminosities[] = {
 	0.000003, // Supermassive Black hole
 };
 
-float StarSystem::starScale[] = {  // Used in sector view
+const float StarSystem::starScale[] = {  // Used in sector view
 	0,
 	0.6f, // brown dwarf
 	0.5f, // white dwarf
@@ -203,7 +203,7 @@ float StarSystem::starScale[] = {  // Used in sector view
 	4.0f  // Supermassive blackhole
 };
 
-fixed StarSystem::starMetallicities[] = {
+const fixed StarSystem::starMetallicities[] = {
 	fixed(1,1), // GRAVPOINT - for planets that orbit them
 	fixed(9,10), // brown dwarf
 	fixed(5,10), // white dwarf
@@ -2230,8 +2230,8 @@ void SystemBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 static bool check_unique_station_name(const std::string & name, const StarSystem * system) {
 	PROFILE_SCOPED()
 	bool ret = true;
-	for (unsigned int i = 0 ; i < system->m_spaceStations.size() ; ++i)
-		if (system->m_spaceStations[i]->GetName() == name) {
+	for (const SystemBody *station : system->GetSpaceStations())
+		if (station->GetName() == name) {
 			ret = false;
 			break;
 		}

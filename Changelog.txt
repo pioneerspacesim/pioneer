@@ -57,7 +57,7 @@ February 2014
      * Sector and star system cache improvements (#2706)
      * Generation of explored flag moved from StarSystem to Sector (#2744)
      * New Vertex buffer class (#2762)
-     * Code cleanup in StarSystem and SystemBody (#2777)
+     * Code cleanup in StarSystem and SystemBody (#2777,#2788)
      * Removed Visual Studio 2010 and 2012 support (#2772)
      * IterationProxy for save access to embedded containers (#2783)
      * Automatically manage the cancellation of jobs with RAII (#2758)
