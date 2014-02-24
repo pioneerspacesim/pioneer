@@ -27,6 +27,22 @@ void Error(const char *format, ...) __attribute((format(printf,1,2))) __attribut
 void Warning(const char *format, ...)  __attribute((format(printf,1,2)));
 void Output(const char *format, ...)  __attribute((format(printf,1,2)));
 
+// Helper for timing functions with multiple stages
+// Used on a branch to help time loading.
+struct MsgTimer {
+	MsgTimer() { mTimer.Start(); }
+	~MsgTimer() {}
+
+	void Mark(const char *identifier) {
+		mTimer.SoftStop();
+		const double lastTiming = mTimer.millicycles();
+		mTimer.SoftReset();
+		Output("(%lf) millicycles in %s\n", lastTiming, identifier);
+	}
+protected:
+	Profiler::Timer mTimer;
+};
+
 std::string string_join(std::vector<std::string> &v, std::string sep);
 std::string format_date(double time);
 std::string format_date_only(double time);
