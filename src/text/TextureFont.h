@@ -5,18 +5,25 @@
 #define _TEXT_TEXTUREFONT_H
 
 #include "libs.h"
-#include "Font.h"
+#include "FontDescriptor.h"
+#include "RefCounted.h"
 #include "graphics/Texture.h"
 #include "graphics/Material.h"
 #include "graphics/VertexArray.h"
 #include "graphics/RenderState.h"
 
+#include <ft2build.h>
+#include FT_FREETYPE_H
+
+namespace FileSystem { class FileData; }
+
 namespace Text {
 
-class TextureFont : public Font {
+class TextureFont : public RefCounted {
 
 public:
 	TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *renderer);
+	~TextureFont();
 
 	void RenderString(const char *str, float x, float y, const Color &color = Color::WHITE);
 	Color RenderMarkup(const char *str, float x, float y, const Color &color = Color::WHITE);
@@ -49,6 +56,15 @@ public:
 	RefCountedPtr<Graphics::Texture> GetTexture() { return m_texture; }
 
 private:
+	TextureFont(const TextureFont &);
+	TextureFont &operator=(const TextureFont &);
+
+	FT_Library m_freeTypeLibrary;
+	FontDescriptor m_descriptor;
+	FT_Face m_face;
+
+	RefCountedPtr<FileSystem::FileData> m_fontFileData;
+
 	Graphics::Renderer *m_renderer;
 
 	void AddGlyphGeometry(Graphics::VertexArray *va, const glfglyph_t &glyph, float x, float y, const Color &color);

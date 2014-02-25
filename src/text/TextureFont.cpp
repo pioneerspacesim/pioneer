@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "TextureFont.h"
+#include "FileSystem.h"
 #include "libs.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
@@ -317,18 +318,38 @@ Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &
 }
 
 TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *renderer)
-	: Font(descriptor)
+	: m_descriptor(descriptor)
 	, m_renderer(renderer)
 	, m_vertices(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0)
 	, m_glyphsFast(MAX_FAST_GLYPHS)
 {
 	memset(&m_glyphsFast[0], 0, sizeof(glfglyph_t)*MAX_FAST_GLYPHS);
 
-	int err; // used to store freetype error return codes
-	const int a_width = GetDescriptor().pixelWidth;
-	const int a_height = GetDescriptor().pixelHeight;
+	FT_Error err; // used to store freetype error return codes
 
-	const float advx_adjust = GetDescriptor().advanceXAdjustment;
+	err = FT_Init_FreeType(&m_freeTypeLibrary);
+	if (err != 0) {
+		Output("Couldn't create FreeType library context (%d)\n", err);
+		abort();
+	}
+
+	m_fontFileData = FileSystem::gameDataFiles.ReadFile("fonts/" + m_descriptor.filename);
+	if (! m_fontFileData) {
+		Output("Terrible error! Couldn't load '%s'.\n", m_descriptor.filename.c_str());
+		abort();
+	}
+
+	if (0 != (err = FT_New_Memory_Face(m_freeTypeLibrary,
+			reinterpret_cast<const FT_Byte*>(m_fontFileData->GetData()),
+			m_fontFileData->GetSize(), 0, &m_face))) {
+		Output("Terrible error! Couldn't understand '%s'; error %d.\n", m_descriptor.filename.c_str(), err);
+		abort();
+	}
+
+	const int a_width = m_descriptor.pixelWidth;
+	const int a_height = m_descriptor.pixelHeight;
+
+	const float advx_adjust = m_descriptor.advanceXAdjustment;
 
 	FT_Set_Pixel_Sizes(m_face, a_width, a_height);
 
@@ -337,7 +358,7 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 	int atlasV = 0;
 	int atlasVIncrement = 0;
 
-	const bool outline = GetDescriptor().outline;
+	const bool outline = m_descriptor.outline;
 
 	// temporary pixel buffer for the glyph atlas
 	const Graphics::TextureFormat tex_format = outline ? Graphics::TEXTURE_LUMINANCE_ALPHA_88 : Graphics::TEXTURE_INTENSITY_8;
@@ -347,7 +368,7 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 
 	FT_Stroker stroker(0);
 	if (outline) {
-		if (FT_Stroker_New(GetFreeTypeLibrary(), &stroker)) {
+		if (FT_Stroker_New(m_freeTypeLibrary, &stroker)) {
 			Output("Freetype stroker init error\n");
 			abort();
 		}
@@ -577,7 +598,7 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 	m_mat->texture0 = m_texture.Get();
 
 #if DUMP_GLYPH_ATLAS
-	const std::string name = atlas_image_name(GetDescriptor());
+	const std::string name = atlas_image_name(m_descriptor);
 	write_png(FileSystem::userFiles, name.c_str(),
 			&pixBuf[0], FONT_TEXTURE_WIDTH, tex_height, FONT_TEXTURE_WIDTH*tex_bpp, tex_bpp);
 	Output("Font atlas written to '%s'\n", name.c_str());
@@ -591,6 +612,12 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 
 	m_height = float(m_face->height) / 64.f * float(m_face->size->metrics.y_scale) / 65536.f;
 	m_descender = -float(m_face->descender) / 64.f * float(m_face->size->metrics.y_scale) / 65536.f;
+}
+
+TextureFont::~TextureFont()
+{
+	FT_Done_Face(m_face);
+	FT_Done_FreeType(m_freeTypeLibrary);
 }
 
 }
