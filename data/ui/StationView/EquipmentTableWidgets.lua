@@ -63,11 +63,6 @@ local defaultFuncs = {
 		return Game.player:GetDockedWith():GetEquipmentStock(e)
 	end,
 
-	-- what do we charge for this item?
-	getPrice = function (e)
-		return Game.player:GetDockedWith():GetEquipmentPrice(e)
-	end,
-
 	-- what do we charge for this item if we are buying
 	getBuyPrice = function (e)
 		return Game.player:GetDockedWith():GetEquipmentPrice(e)
@@ -121,8 +116,8 @@ local shipColumnHeading = {
 local stationColumnValue = {
 	icon  = function (e, funcs) return equipIcon[e] and ui:Image("icons/goods/"..equipIcon[e]..".png") or "" end,
 	name  = function (e, funcs) return lcore[e] end,
-	buy = function (e, funcs) return string.format("%0.2f", funcs.getBuyPrice(e)) end,
-	sell = function (e, funcs) return string.format("%0.2f", funcs.getSellPrice(e)) end,
+	buy   = function (e, funcs) return string.format("%0.2f", funcs.getBuyPrice(e)) end,
+	sell  = function (e, funcs) return string.format("%0.2f", funcs.getSellPrice(e)) end,
 	stock = function (e, funcs) return funcs.getStock(e) end,
 	mass  = function (e, funcs) return string.format("%dt", EquipDef[e].mass) end,
 }

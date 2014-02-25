@@ -52,9 +52,14 @@ local onChat = function (form, ref, option)
 			return ads[ref].stock[commodity]
 		end,
 
-		-- what do we charge for this commodity?
-		getPrice = function (ref, commodity)
+		-- what do we charge for this item if we are buying
+		getBuyPrice = function (ref, commodity)
 			return ads[ref].price[commodity]
+		end,
+
+		-- what do we get for this item if we are selling
+		getSellPrice = function (ref, commodity)
+			return 0.8 * ads[ref].price[commodity]
 		end,
 
 		-- do something when a "buy" button is clicked
