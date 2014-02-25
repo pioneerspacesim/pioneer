@@ -171,69 +171,53 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 
 		// have to use this function. SDL mouse position event is bugged in windows
 		int mouseMotion[2];
-		SDL_GetRelativeMouseState (mouseMotion+0, mouseMotion+1); // call to flush
-		// if (Pi::MouseButtonState(SDL_BUTTON_RIGHT))
-		if (KeyBindings::FlightFollowMouse.IsActive())
+		SDL_GetRelativeMouseState (mouseMotion+0, mouseMotion+1);	// call to flush
+		if (Pi::MouseButtonState(SDL_BUTTON_RIGHT))
 		{
-			if (Pi::FlightModel==0) Pi::FlightModel=1;
-			else
-				Pi::FlightModel=0;
-		}
-		if (Pi::FlightModel==1)
-		{
-			int x,y;
-			SDL_GetMouseState(&x,&y);
-			x-=Pi::renderer->GetWindow()->GetWidth()/2;
-			y-=Pi::renderer->GetWindow()->GetHeight()/2;
 			const matrix3x3d &rot = m_ship->GetOrient();
-			if (!m_mouseActive)
-			{
-				m_mouseDir = -rot.VectorZ(); // in world space
-				// m_mouseX = m_mouseY = 0;
+			if (!m_mouseActive) {
+				m_mouseDir = -rot.VectorZ();	// in world space
+				m_mouseX = m_mouseY = 0;
 				m_mouseActive = true;
 			}
 			vector3d objDir = m_mouseDir * rot;
 
 			const double radiansPerPixel = 0.00002 * m_fovY;
-			const int maxMotion = std::max(abs(x), abs(y));
-			const double accel = Clamp(maxMotion / 12.0, 0.0, 90.0 / m_fovY/20.0);
+			const int maxMotion = std::max(abs(mouseMotion[0]), abs(mouseMotion[1]));
+			const double accel = Clamp(maxMotion / 4.0, 0.0, 90.0 / m_fovY);
 
-			m_mouseX = x * accel * radiansPerPixel;
-			m_mouseX = clipmouse(objDir.x, m_mouseX);
+			m_mouseX += mouseMotion[0] * accel * radiansPerPixel;
+			double modx = clipmouse(objDir.x, m_mouseX);
+			m_mouseX -= modx;
 
 			const bool invertY = (Pi::IsMouseYInvert() ? !m_invertMouse : m_invertMouse);
 
-			m_mouseY = y * accel * radiansPerPixel * (invertY ? -1 : 1);
-			m_mouseY = clipmouse(objDir.y, m_mouseY);
+			m_mouseY += mouseMotion[1] * accel * radiansPerPixel * (invertY ? -1 : 1);
+			double mody = clipmouse(objDir.y, m_mouseY);
+			m_mouseY -= mody;
 
-			if(!is_zero_general(m_mouseX) || !is_zero_general(m_mouseY))
-			{
-				matrix3x3d mrot = matrix3x3d::RotateY(m_mouseX) * matrix3x3d::RotateX(m_mouseY);
+			if(!is_zero_general(modx) || !is_zero_general(mody)) {
+				matrix3x3d mrot = matrix3x3d::RotateY(modx) * matrix3x3d::RotateX(mody);
 				m_mouseDir = (rot * (mrot * objDir)).Normalized();
 			}
 		}
 		else m_mouseActive = false;
 
-		if (m_flightControlState == CONTROL_FIXSPEED)
-		{
+		if (m_flightControlState == CONTROL_FIXSPEED) {
 			double oldSpeed = m_setSpeed;
-			if (stickySpeedKey)
-			{
-				if (!(KeyBindings::increaseSpeed.IsActive() || KeyBindings::decreaseSpeed.IsActive()))
-				{
+			if (stickySpeedKey) {
+				if (!(KeyBindings::increaseSpeed.IsActive() || KeyBindings::decreaseSpeed.IsActive())) {
 					stickySpeedKey = false;
 				}
 			}
 
-			if (!stickySpeedKey)
-			{
+			if (!stickySpeedKey) {
 				if (KeyBindings::increaseSpeed.IsActive())
 					m_setSpeed += std::max(fabs(m_setSpeed)*0.05, 1.0);
 				if (KeyBindings::decreaseSpeed.IsActive())
 					m_setSpeed -= std::max(fabs(m_setSpeed)*0.05, 1.0);
 				if ( ((oldSpeed < 0.0) && (m_setSpeed >= 0.0)) ||
-					((oldSpeed > 0.0) && (m_setSpeed <= 0.0)) )
-				{
+						((oldSpeed > 0.0) && (m_setSpeed <= 0.0)) ) {
 					// flipped from going forward to backwards. make the speed 'stick' at zero
 					// until the player lets go of the key and presses it again
 					stickySpeedKey = true;
@@ -249,11 +233,9 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 		if (KeyBindings::thrustLeft.IsActive()) m_ship->SetThrusterState(0, -linearThrustPower);
 		if (KeyBindings::thrustRight.IsActive()) m_ship->SetThrusterState(0, linearThrustPower);
 
-		// if (KeyBindings::fireLaser.IsActive() || (Pi::MouseButtonState(SDL_BUTTON_LEFT) && Pi::MouseButtonState(SDL_BUTTON_RIGHT)))
-		if (Pi::MouseButtonState(SDL_BUTTON_RIGHT))
-		{
-			//XXX worldview? madness, ask from ship instead
-			m_ship->SetGunState(Pi::worldView->GetActiveWeapon(), 1);
+		if (KeyBindings::fireLaser.IsActive() || (Pi::MouseButtonState(SDL_BUTTON_LEFT) && Pi::MouseButtonState(SDL_BUTTON_RIGHT))) {
+				//XXX worldview? madness, ask from ship instead
+				m_ship->SetGunState(Pi::worldView->GetActiveWeapon(), 1);
 		}
 
 		if (KeyBindings::yawLeft.IsActive()) wantAngVel.y += 1.0;
@@ -272,12 +254,11 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 		changeVec.z = KeyBindings::rollAxis.GetValue();
 
 		// Deadzone more accurate
-		for (int axis=0; axis<3; axis++)
-		{
-			if (fabs(changeVec[axis]) < m_joystickDeadzone)
-				changeVec[axis]=0.0;
-			else
-				changeVec[axis] = changeVec[axis] * 2.0;
+		for (int axis=0; axis<3; axis++) {
+				if (fabs(changeVec[axis]) < m_joystickDeadzone)
+					changeVec[axis]=0.0;
+				else
+					changeVec[axis] = changeVec[axis] * 2.0;
 		}
 		
 		wantAngVel += changeVec;

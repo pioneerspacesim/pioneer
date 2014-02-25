@@ -177,7 +177,6 @@ public:
 	static JobQueue *Jobs() { return jobQueue.get();}
 
 	static bool DrawGUI;
-	static int FlightModel;
 
 private:
 	static void HandleEvents();
