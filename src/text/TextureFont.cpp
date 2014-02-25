@@ -360,15 +360,13 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 	int atlasV = 0;
 	int atlasVIncrement = 0;
 
-	const bool outline = m_descriptor.outline;
-
 	// temporary pixel buffer for the glyph atlas
-	const Graphics::TextureFormat tex_format = outline ? Graphics::TEXTURE_LUMINANCE_ALPHA_88 : Graphics::TEXTURE_INTENSITY_8;
-	const int tex_bpp = outline ? 2 : 1;
+	const Graphics::TextureFormat tex_format = m_descriptor.outline ? Graphics::TEXTURE_LUMINANCE_ALPHA_88 : Graphics::TEXTURE_INTENSITY_8;
+	const int tex_bpp = m_descriptor.outline ? 2 : 1;
 	std::vector<unsigned char> pixBuf(tex_bpp * FONT_TEXTURE_WIDTH * FONT_TEXTURE_MAX_HEIGHT);
 	std::fill(pixBuf.begin(), pixBuf.end(), 0);
 
-	if (outline) {
+	if (m_descriptor.outline) {
 		if (FT_Stroker_New(m_freeTypeLibrary, &m_stroker)) {
 			Output("Freetype stroker init error\n");
 			abort();
@@ -415,7 +413,7 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 
 			const FT_BitmapGlyph bmGlyph = FT_BitmapGlyph(glyph);
 
-			if (outline) {
+			if (m_descriptor.outline) {
 				FT_Glyph strokeGlyph;
 
 				err = FT_Get_Glyph(m_face->glyph, &strokeGlyph);
