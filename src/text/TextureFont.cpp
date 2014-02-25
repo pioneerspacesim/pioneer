@@ -18,7 +18,6 @@
 #endif
 
 #include FT_GLYPH_H
-#include FT_STROKER_H
 
 static const int FONT_TEXTURE_WIDTH = 1024;
 static const int FONT_TEXTURE_MAX_HEIGHT = 1024;
@@ -320,6 +319,9 @@ Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &
 TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *renderer)
 	: m_descriptor(descriptor)
 	, m_renderer(renderer)
+	, m_freeTypeLibrary(nullptr)
+	, m_face(nullptr)
+	, m_stroker(nullptr)
 	, m_vertices(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0)
 	, m_glyphsFast(MAX_FAST_GLYPHS)
 {
@@ -366,15 +368,14 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 	std::vector<unsigned char> pixBuf(tex_bpp * FONT_TEXTURE_WIDTH * FONT_TEXTURE_MAX_HEIGHT);
 	std::fill(pixBuf.begin(), pixBuf.end(), 0);
 
-	FT_Stroker stroker(0);
 	if (outline) {
-		if (FT_Stroker_New(m_freeTypeLibrary, &stroker)) {
+		if (FT_Stroker_New(m_freeTypeLibrary, &m_stroker)) {
 			Output("Freetype stroker init error\n");
 			abort();
 		}
 
 		//1*64 = stroke width
-		FT_Stroker_Set(stroker, 1*64, FT_STROKER_LINECAP_ROUND, FT_STROKER_LINEJOIN_ROUND, 0);
+		FT_Stroker_Set(m_stroker, 1*64, FT_STROKER_LINECAP_ROUND, FT_STROKER_LINEJOIN_ROUND, 0);
 	}
 
 	// generate and store glyphs for each character in the specified ranges
@@ -423,7 +424,7 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 					continue;
 				}
 
-				err = FT_Glyph_Stroke(&strokeGlyph, stroker, 1);
+				err = FT_Glyph_Stroke(&strokeGlyph, m_stroker, 1);
 				if (err) {
 					Output("Glyph stroke error %d\n", err);
 					FT_Done_Glyph(strokeGlyph);
@@ -607,15 +608,14 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 	//upload atlas
 	m_texture->Update(&pixBuf[0], tex_size, tex_format);
 
-	if (outline)
-		FT_Stroker_Done(stroker);
-
 	m_height = float(m_face->height) / 64.f * float(m_face->size->metrics.y_scale) / 65536.f;
 	m_descender = -float(m_face->descender) / 64.f * float(m_face->size->metrics.y_scale) / 65536.f;
 }
 
 TextureFont::~TextureFont()
 {
+	if (m_stroker)
+		FT_Stroker_Done(m_stroker);
 	FT_Done_Face(m_face);
 	FT_Done_FreeType(m_freeTypeLibrary);
 }

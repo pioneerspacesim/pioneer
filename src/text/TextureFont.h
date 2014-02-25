@@ -14,6 +14,7 @@
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
+#include FT_STROKER_H
 
 namespace FileSystem { class FileData; }
 
@@ -59,13 +60,14 @@ private:
 	TextureFont(const TextureFont &);
 	TextureFont &operator=(const TextureFont &);
 
-	FT_Library m_freeTypeLibrary;
 	FontDescriptor m_descriptor;
+	Graphics::Renderer *m_renderer;
+
+	FT_Library m_freeTypeLibrary;
 	FT_Face m_face;
+	FT_Stroker m_stroker;
 
 	RefCountedPtr<FileSystem::FileData> m_fontFileData;
-
-	Graphics::Renderer *m_renderer;
 
 	void AddGlyphGeometry(Graphics::VertexArray *va, const glfglyph_t &glyph, float x, float y, const Color &color);
 	float m_height;
