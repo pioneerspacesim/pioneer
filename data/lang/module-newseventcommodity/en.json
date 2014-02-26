@@ -4,7 +4,7 @@
       "message" : "NEWS {date}: System wide plague in the {system} system. Death toll rises."
    },
    "FLAVOUR_0_NEWSBODY" : {
-      "description" : "Imply high demand for MEDICINE commodity",
+      "description" : "Imply high demand for MEDICINE commodity.",
       "message" : "Plague harvests lives in the {system} system ({sectorx}, {sectory}, {sectorz}). Officials urge for medical aid."
    },
    "FLAVOUR_1_HEADLINE" : {
@@ -12,7 +12,7 @@
       "message" : "NEWS {date}: Conflict escalates in {system} system."
    },
    "FLAVOUR_1_NEWSBODY" : {
-      "description" : "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important",
+      "description" : "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",
       "message" : "The long standing conflict in the {system} system ({sectorx}, {sectory}, {sectorz}) escalates as the armies engage in full open combat."
    },
    "FLAVOUR_2_HEADLINE" : {
@@ -20,7 +20,7 @@
       "message" : "NEWS {date}: Drought in {system}. Crop ruined."
    },
    "FLAVOUR_2_NEWSBODY" : {
-      "description" : "Hint there will be high demand of GRAIN",
+      "description" : "Hint there will be high demand of GRAIN.",
       "message" : "Severe drought has ruined the crop in the {system} system ({sectorx}, {sectory}, {sectorz}). System wide famine is feared."
    },
    "FLAVOUR_3_HEADLINE" : {
@@ -28,7 +28,7 @@
       "message" : "NEWS {date}: Vegan lifestyle gains followers in the {system} system."
    },
    "FLAVOUR_3_NEWSBODY" : {
-      "description" : "Imply high demand of FRUIT_AND_VEG",
+      "description" : "Imply high demand of FRUIT_AND_VEG.",
       "message" : "Administration in the {system} system ({sectorx}, {sectory}, {sectorz}) seek to increase import to meet the surging demand of all things green ."
    },
    "FLAVOUR_4_HEADLINE" : {
@@ -44,15 +44,15 @@
       "message" : "NEWS {date}: Slaves rebel in the {system} system. Agricultural industry comes to a halt."
    },
    "FLAVOUR_5_NEWSBODY" : {
-      "description" : "Imply high demand of SLAVES",
+      "description" : "Imply high demand of SLAVES.",
       "message" : "Workers in the {system} system ({sectorx}, {sectory}, {sectorz}) have cast off their chains in rebellion as they refuse to work the Lotus fields. Economy comes to a stand still as no cheap workers can be found."
    },
    "FLAVOUR_6_HEADLINE" : {
       "description" : "(Quibble as a derivative of Tribble from Star Trek TOS)",
-      "message" : "NEWS {date}: Joyous Festival of the Qibble in the {system} system."
+      "message" : "NEWS {date}: Joyous Festival of the Quibble in the {system} system."
    },
    "FLAVOUR_6_NEWSBODY" : {
-      "description" : "Stress drunken or intoxicated by alcohol, as this will imply high demand of LIQUOR",
+      "description" : "Stress drunken or intoxicated by alcohol, as this will imply high demand of LIQUOR.",
       "message" : "The drunken celebrations in the {system} system ({sectorx}, {sectory}, {sectorz}) will be ongoing, as they honour the furry little creature."
    },
    "FLAVOUR_7_HEADLINE" : {
@@ -60,7 +60,7 @@
       "message" : "NEWS {date}: Industry screeches to a halt in the {system} system."
    },
    "FLAVOUR_7_NEWSBODY" : {
-      "description" : "Imply demand of INDUSTRIAL_MACHINERY",
+      "description" : "Imply demand of INDUSTRIAL_MACHINERY.",
       "message" : "Long time neglect of machine maintenance causes industrial standstill in the {system} system ({sectorx}, {sectory}, {sectorz})."
    },
    "FLAVOUR_8_HEADLINE" : {
@@ -68,7 +68,7 @@
       "message" : "NEWS {date}: Mining accident reported from the {system} system."
    },
    "FLAVOUR_8_NEWSBODY" : {
-      "description" : "Imply high demand of MINING_MACHINERY",
+      "description" : "Imply high demand of MINING_MACHINERY.",
       "message" : "A mine collapsed in the {system} system ({sectorx}, {sectory}, {sectorz}), killing hundreds of workers and destroying important machinery vital for the economy."
    },
    "FLAVOUR_9_HEADLINE" : {
@@ -76,7 +76,7 @@
       "message" : "NEWS {date}: Fashion craze in the {system} system."
    },
    "FLAVOUR_9_NEWSBODY" : {
-      "description" : "live pets is important, since it implies high demand of LIVE_ANIMALS commodity",
+      "description" : "live pets is important, since it implies high demand of LIVE_ANIMALS commodity.",
       "message" : "The latest trend in the {system} system ({sectorx}, {sectory}, {sectorz}) has it real live pets are the next big thing."
    },
    "FLAVOUR_10_HEADLINE" : {
@@ -84,15 +84,15 @@
       "message" : "NEWS {date}: Company threatening continual survival of {system} system."
    },
    "FLAVOUR_10_NEWSBODY" : {
-      "description" : "(Rekall Inc. is the fictional company from the Schwarzenegger-movie Total Recall (1990)). Imply high demand of AIR_PROCESSORS commodity.",
-      "message" : "Rekall Inc. are seeking to monopolize air itself throughout {system} ({sectorx}, {sectory}, {sectorz}). Take a deep breath, it might be the last one that is free of charge."
+      "description" : "Imply high demand of AIR_PROCESSORS commodity. (Prekall as in Rekall, the fictional company from the Schwarzenegger-movie Total Recall (1990)).",
+      "message" : "Prekall Inc. are seeking to monopolize air itself throughout {system} ({sectorx}, {sectory}, {sectorz}). Take a deep breath, it might be the last one that is free of charge."
    },
    "FLAVOUR_11_HEADLINE" : {
       "description" : "",
       "message" : "NEWS {date}: Mysterious disappearance of cattle in the {system} system."
    },
    "FLAVOUR_11_NEWSBODY" : {
-      "description" : "Imply high demand of ANIMAL_MEAT",
+      "description" : "Imply high demand of ANIMAL_MEAT.",
       "message" : "As if by a stroke of a higher power, the farmers in the {system} system ({sectorx}, {sectory}, {sectorz}) woke up to empty barns. \"It's the cattle theft of the century\", police reports."
    },
    "FLAVOUR_12_HEADLINE" : {
@@ -108,8 +108,8 @@
       "message" : "NEWS {date}: Robot uprising in the {system} system."
    },
    "FLAVOUR_13_NEWSBODY" : {
-      "description" : "Imply that nobody wants to buy ROBOTS anymore",
-      "message" : "It is now man against machine in the {system} system ({sectorx}, {sectory}, {sectorz}), as \"behavioural malfunction\" causes home consumers to loose faith in robot servants. "
+      "description" : "Imply that nobody wants to buy ROBOTS anymore.",
+      "message" : "It is now man against machine in the {system} system ({sectorx}, {sectory}, {sectorz}), as \"behavioural malfunction\" causes home consumers to loose faith in robot servants."
    },
    "FLAVOUR_14_HEADLINE" : {
       "description" : "",
@@ -124,7 +124,7 @@
       "message" : "NEWS {date}: Police raids crime syndicate in the {system} system, key leaders arrested."
    },
    "FLAVOUR_15_NEWSBODY" : {
-      "description" : "imply high demand of NARCOTICS",
+      "description" : "imply high demand of NARCOTICS.",
       "message" : "The administration in the {system} system ({sectorx}, {sectory}, {sectorz}) hopes crime will diminish as drugs are no longer available, since the arrest of several mobsters."
    },
    "FLAVOUR_16_HEADLINE" : {
@@ -132,7 +132,7 @@
       "message" : "NEWS {date}: Serious accident during the annual {system} Great Steam Fair."
    },
    "FLAVOUR_16_NEWSBODY" : {
-      "description" : "Imply high demand of FARM_MACHINERY",
+      "description" : "Imply high demand of FARM_MACHINERY.",
       "message" : "During the Great Steam Fair in the {system} system ({sectorx}, {sectory}, {sectorz}) an attempt for the galactic record in biggest tractor pulling contest ended in mayhem as one of the contestants lost control of his contraption, destroying all other participants' machines. Administration says it could spell doom for the local farmers."
    },
    "FLAVOUR_17_HEADLINE" : {
@@ -140,7 +140,7 @@
       "message" : "NEWS {date}: New found riches in the {system} system."
    },
    "FLAVOUR_17_NEWSBODY" : {
-      "description" : "Imply vast abundance of METAL_ORE",
+      "description" : "Imply vast abundance of METAL_ORE.",
       "message" : "Miners in the {system} system ({sectorx}, {sectory}, {sectorz}) discovered a vast deposit of ore of never before seen proportions."
    },
    "FLAVOUR_18_HEADLINE" : {
@@ -148,7 +148,7 @@
       "message" : "NEWS {date}: Economic reform in the {system} system a great success."
    },
    "FLAVOUR_18_NEWSBODY" : {
-      "description" : "Imply vast demand of CONSUMER_GOODS",
+      "description" : "Imply vast demand of CONSUMER_GOODS.",
       "message" : "The wheels are spinning ever faster in the {system} system ({sectorx}, {sectory}, {sectorz}) as consumers have more money to spend."
    },
    "FLAVOUR_19_HEADLINE" : {
@@ -156,7 +156,7 @@
       "message" : "NEWS {date}: It is raining gold in the {system} system."
    },
    "FLAVOUR_19_NEWSBODY" : {
-      "description" : "Imply vast abundance of PRECIOUS_METALS",
+      "description" : "Imply vast abundance of PRECIOUS_METALS.",
       "message" : "A man in the {system} system ({sectorx}, {sectory}, {sectorz}) has inherited an invention from his late uncle, allowing him to transmute any solid into gold and platinum. Economists expect a destabilization of the economy in the system, unless the machine breaks down soon."
    },
    "FLAVOUR_20_HEADLINE" : {
@@ -164,7 +164,7 @@
       "message" : "NEWS {date}: The harvest of the gas giant algae in the {system} system sets new record."
    },
    "FLAVOUR_20_NEWSBODY" : {
-      "description" : "Imply vast abundance of FERTILIZER. Soylent is a reference to the book/movie Soylent Green",
+      "description" : "Imply vast abundance of FERTILIZER. Soylent is a reference to the book/movie Soylent Green.",
       "message" : "As {system} ({sectorx}, {sectory}, {sectorz}) enters a phase favourable to the yellow algae found in the atmosphere of a local gas giant, the harvest has be exceptionally good for the fertilizer company Soylent Yellow Inc."
    },
    "FLAVOUR_21_HEADLINE" : {
@@ -177,7 +177,7 @@
    },
    "FLAVOUR_22_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Police on strike in the {system} system. Citizens left to fend for themselves"
+      "message" : "NEWS {date}: Police on strike in the {system} system. Citizens left to fend for themselves."
    },
    "FLAVOUR_22_NEWSBODY" : {
       "description" : "Imply high demand of HAND_WEAPONS.",
@@ -188,7 +188,7 @@
       "message" : "NEWS {date}: Grand opening of a new factory in the {system} system."
    },
    "FLAVOUR_23_NEWSBODY" : {
-      "description" : "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox",
+      "description" : "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox.",
       "message" : "The new Amissionox factory in the {system} system ({sectorx}, {sectory}, {sectorz}) is now up and running. It will produce high quality knifes capable of cutting through a space boot; however, due to low supply of resources needed for the blades, they have not yet reached full production potential."
    },
    "GRATEFUL_GREETING_0" : {
