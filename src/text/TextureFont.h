@@ -69,10 +69,11 @@ private:
 
 	RefCountedPtr<FileSystem::FileData> m_fontFileData;
 
+	int BakeGlyph(Uint32 chr);
+
 	void AddGlyphGeometry(Graphics::VertexArray *va, const glfglyph_t &glyph, float x, float y, const Color &color);
 	float m_height;
 	float m_descender;
-	RefCountedPtr<Graphics::Texture> m_texture;
 	std::unique_ptr<Graphics::Material> m_mat;
 	Graphics::VertexArray m_vertices;
 	Graphics::RenderState *m_renderState;
@@ -83,6 +84,18 @@ private:
 	std::map<Uint32,glfglyph_t> m_glyphs;
 
 	static const Uint32 CHARACTER_RANGES[];
+
+	// UV offsets for glyphs
+	int m_atlasU;
+	int m_atlasV;
+	int m_atlasVIncrement;
+
+	RefCountedPtr<Graphics::Texture> m_texture;
+	Graphics::TextureFormat m_texFormat;
+
+	std::vector<unsigned char> m_buf;
+	int m_bufWidth, m_bufHeight;
+	int m_bpp;
 };
 
 }

@@ -23,6 +23,10 @@
 #define RETURN_ZERO_NONGNU_ONLY
 #endif
 
+// align x to a. taken from the Linux kernel
+#define ALIGN(x,a)              __ALIGN_MASK(x,(a-1))
+#define __ALIGN_MASK(x,mask)    (((x)+(mask))&~(mask))
+
 void Error(const char *format, ...) __attribute((format(printf,1,2))) __attribute((noreturn));
 void Warning(const char *format, ...)  __attribute((format(printf,1,2)));
 void Output(const char *format, ...)  __attribute((format(printf,1,2)));
