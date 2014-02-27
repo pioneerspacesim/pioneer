@@ -297,7 +297,7 @@
    },
    "DESTINATION" : {
       "description" : "",
-      "message" : "Destination"
+      "message" : "Destinasjon"
    },
    "DIRECTION" : {
       "description" : "",
@@ -461,7 +461,7 @@
    },
    "FARM_MACHINERY" : {
       "description" : "",
-      "message" : "Farm machinery"
+      "message" : "Landbruksmaskiner"
    },
    "FERTILIZER" : {
       "description" : "",
@@ -1549,7 +1549,7 @@
    },
    "SOME_ESTABLISHED_MINING" : {
       "description" : "",
-      "message" : "Some established mining."
+      "message" : "Noe etablert gruvedrift."
    },
    "SOURCE" : {
       "description" : "",
@@ -1621,7 +1621,7 @@
    },
    "STAR_G_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Yellow hyper giant star - Unstable"
+      "message" : "Gul hyperkjempe - Ustabil"
    },
    "STAR_G_SUPER_GIANT" : {
       "description" : "",
