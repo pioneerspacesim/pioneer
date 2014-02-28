@@ -1,11 +1,11 @@
 {
    "FLAVOUR_0_MESSAGE" : {
       "description" : "",
-      "message" : "Välj en summa att donera till det himmelska Flygande Spaghettimonstrets samfund."
+      "message" : "Var god välj en summa att donera till Det himmelska Flygande Spaghettimonstrets Kyrka."
    },
    "FLAVOUR_0_TITLE" : {
       "description" : "",
-      "message" : "DONERA! Det himmelska Flygande Spaghettimonstrets samfund behöver DINA pengar för att sprida guds ord."
+      "message" : "DONERA! Det himmelska Flygande Spaghettimonstrets Kyrka behöver DINA pengar för att sprida guds ord."
    },
    "FLAVOUR_1_MESSAGE" : {
       "description" : "",
@@ -17,35 +17,35 @@
    },
    "FLAVOUR_2_MESSAGE" : {
       "description" : "",
-      "message" : "Please select an amount to donate to War Orphan's Support, and end the suffering of children all over the galaxy."
+      "message" : " Var god välj en summa att donera till Stöd för Krigets Föräldralösa och ge ett slut på lidande för barn över hela galaxen."
    },
    "FLAVOUR_2_TITLE" : {
       "description" : "",
-      "message" : "FEELING GENEROUS? War Orphan's Support needs your help to keep up its essential work."
+      "message" : "KÄNNER DU DIG GENERÖS? Stöd för Krigets Föräldralösa behöver din hjälp för att fortsätta sitt nödvändiga arbete."
    },
    "FLAVOUR_3_MESSAGE" : {
       "description" : "",
-      "message" : "Välj en summa att donera till GrönVakt, och få slut på miljöförstöringen i vår galax."
+      "message" : "Välj en summa att donera till MiljöVakt, och få slut på miljöförstöringen i vår galax."
    },
    "FLAVOUR_3_TITLE" : {
       "description" : "",
-      "message" : "CONTRIBUTE. The Friends of the Galaxy 'Ban Military Drives' campaign needs your money."
+      "message" : "HJÄLP TILL. Kampanjen Vänner till Galaxen 'Förbjud Militära Motorer' behöver dina pengar."
    },
    "FLAVOUR_4_MESSAGE" : {
       "description" : "",
-      "message" : "Välj en summa att donera."
+      "message" : "Var god välj en summa att donera."
    },
    "FLAVOUR_4_TITLE" : {
       "description" : "",
-      "message" : "DONERA! Rädda vår art. Stoppa blodbaden på de nyligen bosatta världarna."
+      "message" : "DONERA! Rädda vår art. Stoppa blodbadet på nyligen bosatta världar."
    },
    "FLAVOUR_5_MESSAGE" : {
       "description" : "",
-      "message" : "Liberate your ship! Please choose amount to donate. Happy hacking."
+      "message" : "Befria ditt skepp! Var god välj en summa att donera. Hacka lugnt."
    },
    "FLAVOUR_5_TITLE" : {
       "description" : "",
-      "message" : "SUPPORT FREEDOM! Stop the great injustice of proprietary software controlling your ship."
+      "message" : "STÖD FRIHET! Stoppa den stora orättvisan av ägd programvara som kontrollerar ditt skepp."
    },
    "HANG_UP" : {
       "description" : "",
@@ -57,7 +57,7 @@
    },
    "WOW_THAT_WAS_VERY_GENEROUS" : {
       "description" : "",
-      "message" : "Oj! Det var generöst!"
+      "message" : "Wow! Det var mycket generöst!"
    },
    "YOU_DO_NOT_HAVE_ENOUGH_MONEY" : {
       "description" : "",

@@ -1,7 +1,7 @@
 {
    "ABOVE_AVERAGE" : {
       "description" : "",
-      "message" : "Above Average"
+      "message" : "Över medel"
    },
    "ACTIVE" : {
       "description" : "",
@@ -9,7 +9,7 @@
    },
    "AFTER_TRADE_IN" : {
       "description" : "",
-      "message" : "After trade-in"
+      "message" : "Efter inbyte"
    },
    "ALLEGIANCE" : {
       "description" : "",
@@ -17,11 +17,11 @@
    },
    "ALL_UP_WEIGHT" : {
       "description" : "",
-      "message" : "All-up weight"
+      "message" : "Totalvikt"
    },
    "AMOUNT" : {
       "description" : "",
-      "message" : "Amount"
+      "message" : "Belopp"
    },
    "AN_ERROR_HAS_OCCURRED" : {
       "description" : "",
@@ -29,27 +29,27 @@
    },
    "ATTEMPT_TO_REPAIR_HULL" : {
       "description" : "",
-      "message" : "Attempt to repair hull"
+      "message" : "Försök att reparera skrov"
    },
    "AVAILABLE_FOR_PURCHASE" : {
       "description" : "",
-      "message" : "Available for purchase"
+      "message" : "Tillgänglig för köp"
    },
    "AVERAGE" : {
       "description" : "",
-      "message" : "Average"
+      "message" : "Medel"
    },
    "BACKWARD_ACCEL" : {
       "description" : "",
-      "message" : "Backward acceleration"
+      "message" : "Accelerera bakåt"
    },
    "BULLETIN_BOARD" : {
       "description" : "",
-      "message" : "Bulletin Board"
+      "message" : "Anslagstavla"
    },
    "BUY_SHIP" : {
       "description" : "",
-      "message" : "Buy Ship"
+      "message" : "Köp skepp"
    },
    "CABINS" : {
       "description" : "",
@@ -57,23 +57,23 @@
    },
    "CABIN_FREE" : {
       "description" : "",
-      "message" : "{amount} free"
+      "message" : "{amount} ledigt"
    },
    "CABIN_USED" : {
       "description" : "",
-      "message" : "{amount} used"
+      "message" : "{amount} använt"
    },
    "CANCEL" : {
       "description" : "",
-      "message" : "Cancel"
+      "message" : "Avbryt"
    },
    "CAPACITY" : {
       "description" : "",
-      "message" : "Capacity"
+      "message" : "Kapacitet"
    },
    "CAPACITY_USED" : {
       "description" : "",
-      "message" : "Capacity used"
+      "message" : "Använd kapacitet"
    },
    "CARGO" : {
       "description" : "",
@@ -85,11 +85,11 @@
    },
    "CARGO_T_FREE" : {
       "description" : "",
-      "message" : "{amount}t free"
+      "message" : "{amount}t ledigt"
    },
    "CARGO_T_USED" : {
       "description" : "",
-      "message" : "{amount}t used"
+      "message" : "{amount}t använt"
    },
    "CASH" : {
       "description" : "",
@@ -97,35 +97,35 @@
    },
    "CASH_N" : {
       "description" : "",
-      "message" : "Cash: {money}"
+      "message" : "Pengar: {money}"
    },
    "CHANGE_BINDING" : {
       "description" : "",
-      "message" : "Change Binding"
+      "message" : "Ändra bindning"
    },
    "CHIEF_MECHANIC" : {
       "description" : "",
-      "message" : "Chief Mechanic"
+      "message" : "Chefsmekaniker"
    },
    "CIRCULAR_ORBIT_SPEED" : {
       "description" : "",
-      "message" : "Circular orbit speed"
+      "message" : "Cirkulär omloppshastighet"
    },
    "CITY_DETAIL_LEVEL" : {
       "description" : "",
-      "message" : "City detail level"
+      "message" : "Detaljnivå för städer"
    },
    "CLEAN" : {
       "description" : "",
-      "message" : "Clean"
+      "message" : "Rensa"
    },
    "CLEAR" : {
       "description" : "",
-      "message" : "Clear"
+      "message" : "Rensa"
    },
    "CLIENT" : {
       "description" : "",
-      "message" : "Kund"
+      "message" : "Klient"
    },
    "COMBAT" : {
       "description" : "",
@@ -133,11 +133,11 @@
    },
    "COMMANDER" : {
       "description" : "",
-      "message" : "Commander"
+      "message" : "Kapten"
    },
    "COMMODITY_MARKET" : {
       "description" : "",
-      "message" : "Commodity Market"
+      "message" : "Råvarumarknad"
    },
    "COMPETENT" : {
       "description" : "",
@@ -145,15 +145,15 @@
    },
    "COMPLETED" : {
       "description" : "",
-      "message" : "Completed"
+      "message" : "Utförd"
    },
    "COMPRESS_TEXTURES" : {
       "description" : "",
-      "message" : "Compress Textures"
+      "message" : "Komprimera texturer"
    },
    "CONSTABLE" : {
       "description" : "",
-      "message" : "Constable"
+      "message" : "Konstapel"
    },
    "CONTROLS" : {
       "description" : "",
@@ -169,19 +169,19 @@
    },
    "CREDIBLE" : {
       "description" : "For player reputation",
-      "message" : "Credible"
+      "message" : "Trovärdig"
    },
    "CREW_CABINS" : {
       "description" : "",
-      "message" : "Crew cabins"
+      "message" : "Besättningshytter"
    },
    "CREW_ROSTER" : {
       "description" : "",
-      "message" : "Crew Roster"
+      "message" : "Besättningslista"
    },
    "CRIMINAL_RECORD" : {
       "description" : "",
-      "message" : "Criminal record"
+      "message" : "Kriminalregister"
    },
    "DANGEROUS" : {
       "description" : "",
@@ -197,7 +197,7 @@
    },
    "DELTA_V_EMPTY" : {
       "description" : "Delta-v capacity of a ship with no cargo or upgrades",
-      "message" : "Delta-v (empty)"
+      "message" : "Delta-v (tom)"
    },
    "DELTA_V_FULL" : {
       "description" : "Delta-v capacity of a ship with maximum cargo",
@@ -209,35 +209,35 @@
    },
    "DESCENT_TO_GROUND_SPEED" : {
       "description" : "",
-      "message" : "Descent-to-ground speed:"
+      "message" : "Hastighet-mot-marken:"
    },
    "DESTROY_ENEMY_SHIP" : {
       "description" : "",
-      "message" : "Destroy enemy ship"
+      "message" : "Förstör fiendeskepp"
    },
    "DISMISS" : {
       "description" : "",
-      "message" : "Avfärda"
+      "message" : "Avskeda"
    },
    "DISPLAY_HUD_TRAILS" : {
       "description" : "",
-      "message" : "Display HUD trails"
+      "message" : "Visa HUD spår"
    },
    "DISPLAY_NAV_TUNNELS" : {
       "description" : "",
-      "message" : "Display nav tunnels"
+      "message" : "Visa navigationstunnlar"
    },
    "DISPLAY_SPEED_LINES" : {
       "description" : "",
-      "message" : "Display speed lines"
+      "message" : "Visa hastighetslinjer"
    },
    "DOCK_AT_CURRENT_TARGET" : {
       "description" : "",
-      "message" : "Dock at current target"
+      "message" : "Docka vid nuvarande mål"
    },
    "DUE" : {
       "description" : "",
-      "message" : "Due"
+      "message" : "Förfaller"
    },
    "D_DAYS_LEFT" : {
       "description" : "",
@@ -261,15 +261,15 @@
    },
    "ENABLE_COCKPIT" : {
       "description" : "",
-      "message" : "Enable cockpit (EXPERIMENTAL)"
+      "message" : "Aktivera cockpit (EXPERIMENTELLT)"
    },
    "ENABLE_JOYSTICK" : {
       "description" : "",
-      "message" : "Enable joystick"
+      "message" : "Aktivera joystick"
    },
    "ENGINEERING" : {
       "description" : "",
-      "message" : "Engineering:"
+      "message" : "Ingenjör:"
    },
    "EQUIPMENT" : {
       "description" : "",
@@ -277,11 +277,11 @@
    },
    "EQUIPMENT_MARKET" : {
       "description" : "",
-      "message" : "Equipment Market"
+      "message" : "Utrustningsmarknad"
    },
    "EQUIPPED" : {
       "description" : "",
-      "message" : "Equipped"
+      "message" : "Utrustad"
    },
    "ERROR" : {
       "description" : "",
@@ -297,7 +297,7 @@
    },
    "EXPERIENCED" : {
       "description" : "For player reputation",
-      "message" : "Experienced"
+      "message" : "Erfaren"
    },
    "EXPERT" : {
       "description" : "For player reputation",
@@ -309,27 +309,27 @@
    },
    "FEMALE" : {
       "description" : "",
-      "message" : "Female"
+      "message" : "Kvinna"
    },
    "FORWARD_ACCEL" : {
       "description" : "",
-      "message" : "Forward acceleration"
+      "message" : "Accelerera framåt"
    },
    "FORWARD_ACCEL_EMPTY" : {
       "description" : "",
-      "message" : "Forward accel (empty)"
+      "message" : "Acceleration framåt (tom)"
    },
    "FORWARD_ACCEL_FULL" : {
       "description" : "",
-      "message" : "Forward accel (full)"
+      "message" : "Acceleration framåt (full)"
    },
    "FRACTAL_DETAIL" : {
       "description" : "",
-      "message" : "Fractal detail"
+      "message" : "Fraktaldetaljer"
    },
    "FREE" : {
       "description" : "Used in Ship Information view as in Capacity: 10t (5t free)",
-      "message" : "free"
+      "message" : "gratis"
    },
    "FRONT_WEAPON" : {
       "description" : "",
@@ -345,7 +345,7 @@
    },
    "FUEL_WEIGHT" : {
       "description" : "",
-      "message" : "Bränslets vikt"
+      "message" : "Bränslevikt"
    },
    "FULL_SCREEN" : {
       "description" : "",
@@ -353,15 +353,15 @@
    },
    "GENERAL_CREW" : {
       "description" : "",
-      "message" : "General crew"
+      "message" : "Generell besättning"
    },
    "GIVE_ORDERS_TO_CREW" : {
       "description" : "",
-      "message" : "Ge order till besättningen"
+      "message" : "Utfärda order till besättning"
    },
    "GOOD_RIDDANCE_TO_YOU_TOO" : {
       "description" : "",
-      "message" : "Good riddance to you, too."
+      "message" : "Hejdå till dig också."
    },
    "HANG_UP" : {
       "description" : "",
@@ -373,27 +373,27 @@
    },
    "HEAVY_CARGO_SHUTTLE" : {
       "description" : "",
-      "message" : "Heavy cargo shuttle"
+      "message" : "Tung lastskyttel"
    },
    "HEAVY_COURIER" : {
       "description" : "",
-      "message" : "Heavy courier"
+      "message" : "Tung kurir"
    },
    "HEAVY_FIGHTER" : {
       "description" : "",
-      "message" : "Heavy fighter"
+      "message" : "Tungt jaktskepp"
    },
    "HEAVY_FREIGHTER" : {
       "description" : "",
-      "message" : "Heavy freighter"
+      "message" : "Tungt fraktskepp"
    },
    "HEAVY_PASSENGER_SHUTTLE" : {
       "description" : "",
-      "message" : "Heavy passenger shuttle"
+      "message" : "Tung passagerarskyttel"
    },
    "HEAVY_PASSENGER_TRANSPORT" : {
       "description" : "",
-      "message" : "Heavy passenger transport"
+      "message" : "Tung passagerartransport"
    },
    "HIGH" : {
       "description" : "",
@@ -409,27 +409,27 @@
    },
    "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT" : {
       "description" : "",
-      "message" : "Hull repaired by {name}, now at {repairPercent}%"
+      "message" : "Skrovet reparerades av {name}, nu på {repairPercent}%"
    },
    "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE" : {
       "description" : "",
-      "message" : "Försök att reparera skrovet misslyckades. Skrovet skadades något. "
+      "message" : "Försöket att reparera skrovet misslyckades. Skrovet har fått en del små skador. "
    },
    "HYPERDRIVE" : {
       "description" : "",
-      "message" : "Hyperdrive"
+      "message" : "Hypermotor"
    },
    "HYPERDRIVE_FITTED" : {
       "description" : "",
-      "message" : "Hyperdrive fitted:"
+      "message" : "Installerad hypermotor:"
    },
    "HYPERSPACE_RANGE" : {
       "description" : "",
-      "message" : "Hyperspace range"
+      "message" : "Hyperrymdsräckvidd"
    },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
-      "message" : "I'm tired of working for nothing. Don't you know what a contract is?"
+      "message" : "Jag är trött på att arbeta för ingenting. Vet du inte vad ett kontrakt är?"
    },
    "INACTIVE" : {
       "description" : "",
@@ -437,11 +437,11 @@
    },
    "INCOMPETENT" : {
       "description" : "For player reputation",
-      "message" : "Incompetent"
+      "message" : "Inkompetent"
    },
    "INEXPERIENCED" : {
       "description" : "For player reputation",
-      "message" : "Inexperienced"
+      "message" : "Oerfaren"
    },
    "INVERT_MOUSE_Y" : {
       "description" : "",
@@ -449,27 +449,27 @@
    },
    "IN_CARGO_HOLD" : {
       "description" : "",
-      "message" : "In cargo hold"
+      "message" : "I lastutrymme"
    },
    "IN_STOCK" : {
       "description" : "",
-      "message" : "In stock"
+      "message" : "I lager"
    },
    "ITEM_IS_OUT_OF_STOCK" : {
       "description" : "",
-      "message" : "This item is out of stock."
+      "message" : "Den här varan finns inte på lager."
    },
    "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE" : {
       "description" : "",
-      "message" : "It's been great working for you. If you need me again, I'll be here a while."
+      "message" : "Det har varit bra att arbeta för dig. Om du behöver mig igen så kommer jag att vara här ett tag."
    },
    "JETTISON" : {
       "description" : "",
-      "message" : "Jettison"
+      "message" : "Göra av med"
    },
    "KILLS" : {
       "description" : "",
-      "message" : "Kills:"
+      "message" : "Dödade:"
    },
    "LANGUAGE" : {
       "description" : "",
@@ -477,7 +477,7 @@
    },
    "LANGUAGE_RESTART_GAME_TO_APPLY" : {
       "description" : "",
-      "message" : "Language (restart game to apply)"
+      "message" : "Språk (starta om för att tillämpa)"
    },
    "LEGAL_STATUS" : {
       "description" : "",
@@ -485,27 +485,27 @@
    },
    "LIGHT_CARGO_SHUTTLE" : {
       "description" : "",
-      "message" : "Light cargo shuttle"
+      "message" : "Lätt lastskyttel"
    },
    "LIGHT_COURIER" : {
       "description" : "",
-      "message" : "Light courier"
+      "message" : "Lätt kurir"
    },
    "LIGHT_FIGHTER" : {
       "description" : "",
-      "message" : "Light fighter"
+      "message" : "Lätt jaktskepp"
    },
    "LIGHT_FREIGHTER" : {
       "description" : "",
-      "message" : "Light freighter"
+      "message" : "Lätt fraktskepp"
    },
    "LIGHT_PASSENGER_SHUTTLE" : {
       "description" : "",
-      "message" : "Light passenger shuttle"
+      "message" : "Lätt passagerarskyttel"
    },
    "LIGHT_PASSENGER_TRANSPORT" : {
       "description" : "",
-      "message" : "Light passenger transport"
+      "message" : "Lätt passagerartransport"
    },
    "LOAD" : {
       "description" : "",
@@ -549,11 +549,11 @@
    },
    "MASTER" : {
       "description" : "For player reputation",
-      "message" : "Master"
+      "message" : "Mästare"
    },
    "MASTER_VOL" : {
       "description" : "Master sound in settings option",
-      "message" : "Master:"
+      "message" : "Mästare:"
    },
    "MAX" : {
       "description" : "",
@@ -561,7 +561,7 @@
    },
    "MAXIMUM_CREW" : {
       "description" : "",
-      "message" : "Maximum crew"
+      "message" : "Maxbesättning"
    },
    "MEDIUM" : {
       "description" : "",
@@ -569,27 +569,27 @@
    },
    "MEDIUM_CARGO_SHUTTLE" : {
       "description" : "",
-      "message" : "Medium cargo shuttle"
+      "message" : "Medium lastskyttel"
    },
    "MEDIUM_COURIER" : {
       "description" : "",
-      "message" : "Medium courier"
+      "message" : "Medium kurir"
    },
    "MEDIUM_FIGHTER" : {
       "description" : "",
-      "message" : "Medium fighter"
+      "message" : "Medium jaktskepp"
    },
    "MEDIUM_FREIGHTER" : {
       "description" : "",
-      "message" : "Medium freighter"
+      "message" : "Medium fraktskepp"
    },
    "MEDIUM_PASSENGER_SHUTTLE" : {
       "description" : "",
-      "message" : "Medium passenger shuttle"
+      "message" : "Medium passagerarskyttel"
    },
    "MEDIUM_PASSENGER_TRANSPORT" : {
       "description" : "",
-      "message" : "Medium passenger transport"
+      "message" : "Medium passagerartransport"
    },
    "METAL_ALLOYS" : {
       "description" : "",
@@ -601,7 +601,7 @@
    },
    "MINIMUM_CREW" : {
       "description" : "",
-      "message" : "Minimum crew"
+      "message" : "Minimumbesättning"
    },
    "MISSIONS" : {
       "description" : "",
@@ -609,7 +609,7 @@
    },
    "MISSION_DETAILS" : {
       "description" : "",
-      "message" : "Mission Details"
+      "message" : "Uppdragsdetaljer"
    },
    "MORE_INFO" : {
       "description" : "",
@@ -617,7 +617,7 @@
    },
    "MOSTLY_HARMLESS" : {
       "description" : "",
-      "message" : "Mostly Harmless"
+      "message" : "Till största delen ofarlig"
    },
    "MULTISAMPLING" : {
       "description" : "",
@@ -629,11 +629,11 @@
    },
    "MUSIC" : {
       "description" : "",
-      "message" : "Music:"
+      "message" : "Musik:"
    },
    "MUTE" : {
       "description" : "",
-      "message" : "Mute"
+      "message" : "Tyst"
    },
    "NAME_OBJECT" : {
       "description" : "For an item or object",
@@ -649,15 +649,15 @@
    },
    "NEGOTIATE" : {
       "description" : "",
-      "message" : "Negotiate"
+      "message" : "Förhandla"
    },
    "NEXT_PAID" : {
       "description" : "",
-      "message" : "Next paid"
+      "message" : "Nästa betalning"
    },
    "NOBODY" : {
       "description" : "For player reputation",
-      "message" : "Nobody"
+      "message" : "Ingen"
    },
    "NONE" : {
       "description" : "",
@@ -689,7 +689,7 @@
    },
    "N_UNOCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
-      "message" : "{quantity} Unoccupied Passenger Cabins"
+      "message" : "{quantity} tomma passagerarhytter"
    },
    "OFF" : {
       "description" : "",
@@ -705,23 +705,23 @@
    },
    "ORBIT" : {
       "description" : "",
-      "message" : "Bana"
+      "message" : "Omloppsbana"
    },
    "ORBITAL_ANALYSIS" : {
       "description" : "",
-      "message" : "Orbital Analysis"
+      "message" : "Analys av omloppsbana"
    },
    "ORBITAL_ANALYSIS_NOTES" : {
       "description" : "",
-      "message" : "Circular orbit speed is given for a tangential velocity. The ship should be moving in a direction at 90° to the ship/{name} axis.\n\nDescent speed is an absolute minimum, and is also tangential. A slower speed or a lower angle will result in a course which intersects with the surface of {name}.\n\nEscape speed will in theory work in any direction, as long as the ship does not collide with {name} on the way.\n\t\t"
+      "message" : "Cirkulär omloppshastighet är angiven för en tangerande hastighet. Skeppet borde röras i 90° riktning mot skep/{name} axeln.\n\nNedstigningshastighet är ett absolut minimum och är också tangerande. En lägre hastighet eller lägre vinkel kommer att resultera i en kurs som korsar ytan på {name}.\n\nFlykthastighet fungerar i teorin i alla riktningar så länge inte skeppet krockar med {name} på vägen.\n\t\t"
    },
    "OWED" : {
       "description" : "",
-      "message" : "Ägd"
+      "message" : "Skyldig"
    },
    "PAY_FINE_OF_N" : {
       "description" : "",
-      "message" : "Pay fine of {amount}"
+      "message" : "Betala böter på {amount}"
    },
    "PERSONAL_INFORMATION" : {
       "description" : "",
@@ -729,31 +729,31 @@
    },
    "PILOTING" : {
       "description" : "",
-      "message" : "Piloting:"
+      "message" : "Pilot:"
    },
    "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME" : {
       "description" : "",
-      "message" : "Pilot seat is now occupied by {name}"
+      "message" : "Pilotens stol är nu upptagen av {name}"
    },
    "PIRACY" : {
       "description" : "",
-      "message" : "Röveri"
+      "message" : "Ståtröveri"
    },
    "PLANET_DETAIL_DISTANCE" : {
       "description" : "",
-      "message" : "Planet detail distance"
+      "message" : "Detaljavstånd för planeter"
    },
    "PLANET_TEXTURES" : {
       "description" : "",
-      "message" : "Planet textures"
+      "message" : "Planettexturer"
    },
    "POLICE" : {
       "description" : "",
-      "message" : "Police"
+      "message" : "Polis"
    },
    "POOR" : {
       "description" : "",
-      "message" : "Poor"
+      "message" : "Dålig"
    },
    "POSITION" : {
       "description" : "",
@@ -761,23 +761,23 @@
    },
    "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
       "description" : "",
-      "message" : "Press a key or controller button"
+      "message" : "Tryck på en tangent eller kontrollknapp"
    },
    "PRICE" : {
       "description" : "",
-      "message" : "Price"
+      "message" : "Pris"
    },
    "PROFESSIONAL" : {
       "description" : "For player reputation",
-      "message" : "Professional"
+      "message" : "Professionell"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
-      "message" : "Qualification scores"
+      "message" : "Kvalificeringspoäng"
    },
    "QUICKLOAD" : {
       "description" : "",
-      "message" : "Quickload"
+      "message" : "Snabbladdning"
    },
    "QUIT" : {
       "description" : "",
@@ -793,27 +793,27 @@
    },
    "REAR_WEAPON" : {
       "description" : "",
-      "message" : "Rear weapon"
+      "message" : "Bakre vapen"
    },
    "REFUEL" : {
       "description" : "",
-      "message" : "Refuel"
+      "message" : "Tanka"
    },
    "RELIABLE" : {
       "description" : "For player reputation",
-      "message" : "Reliable"
+      "message" : "Pålitlig"
    },
    "REPAIR_X_HULL_DAMAGE_FOR_X" : {
       "description" : "",
-      "message" : "Repair {damage}% hull damage for {price}"
+      "message" : "Reparera {damage}% skrov för {price}"
    },
    "REPUTATION" : {
       "description" : "",
-      "message" : "Reputation"
+      "message" : "Rykte"
    },
    "REQUEST_LAUNCH" : {
       "description" : "",
-      "message" : "Request Launch"
+      "message" : "Begär uppskjutningstillstånd"
    },
    "RETURN_TO_MENU" : {
       "description" : "",
@@ -821,11 +821,11 @@
    },
    "REVERSE_ACCEL_EMPTY" : {
       "description" : "",
-      "message" : "Reverse accel (empty)"
+      "message" : "Accelerera bakåt (tom)"
    },
    "REVERSE_ACCEL_FULL" : {
       "description" : "",
-      "message" : "Reverse accel (full)"
+      "message" : "Accelerera bakåt (full)"
    },
    "REWARD" : {
       "description" : "",
@@ -845,7 +845,7 @@
    },
    "SELECT_FILE" : {
       "description" : "",
-      "message" : "Select file..."
+      "message" : "Välj fil..."
    },
    "SELECT_GAME_TO_LOAD" : {
       "description" : "",
@@ -865,23 +865,23 @@
    },
    "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
       "description" : "",
-      "message" : "Your ship is in perfect working condition."
+      "message" : "Ditt skepp fungerar utmärkt."
    },
    "SHIP_IS_FULLY_LADEN" : {
       "description" : "",
-      "message" : "Your ship is fully laden."
+      "message" : "Ditt skepp är fullastat."
    },
    "SHIP_MARKET" : {
       "description" : "",
-      "message" : "Ship Market"
+      "message" : "Skeppsmarknad"
    },
    "SHIP_REPAIRS" : {
       "description" : "",
-      "message" : "Ship Repairs"
+      "message" : "Skeppsreparationer"
    },
    "SHIP_VIEWING_WAS_SOLD" : {
       "description" : "",
-      "message" : "The ship you were viewing has been sold"
+      "message" : "Skeppet du tittade på har blivit sålt"
    },
    "SOUND" : {
       "description" : "",
@@ -889,19 +889,19 @@
    },
    "START_AT_BARNARDS_STAR" : {
       "description" : "",
-      "message" : "Start at Barnard's Star"
+      "message" : "Starta vid Bernard's Stjärna"
    },
    "START_AT_EARTH" : {
       "description" : "",
-      "message" : "Start at Earth"
+      "message" : "Starta på Jorden"
    },
    "START_AT_NEW_HOPE" : {
       "description" : "",
-      "message" : "Start at New Hope"
+      "message" : "Starta vid Nytt hopp"
    },
    "STATION_MANAGER" : {
       "description" : "",
-      "message" : "Station manager"
+      "message" : "Stationschef"
    },
    "STATUS" : {
       "description" : "",
@@ -909,7 +909,7 @@
    },
    "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
       "description" : "",
-      "message" : "Thank you for your purchase. Remember to fit equipment and buy fuel before you depart."
+      "message" : "Tack för ditt köp. Kom ihåg att utrusta och köpa bränsle innan du åker."
    },
    "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP" : {
       "description" : "",
@@ -917,11 +917,11 @@
    },
    "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
       "description" : "",
-      "message" : "The ship is under station control, Commander."
+      "message" : "Skeppet är under stationens kontroll kapten."
    },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "",
-      "message" : "Toggle male/female"
+      "message" : "Växla mellan manlig/kvinnlig"
    },
    "TOTAL" : {
       "description" : "",
@@ -929,7 +929,7 @@
    },
    "TOTAL_MASS" : {
       "description" : "",
-      "message" : "Total mass"
+      "message" : "Total massa"
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
@@ -937,35 +937,35 @@
    },
    "TRUSTWORTHY" : {
       "description" : "For player reputation",
-      "message" : "Trustworthy"
+      "message" : "Tillförlitlig"
    },
    "TYPE" : {
       "description" : "",
-      "message" : "Type"
+      "message" : "Typ"
    },
    "UNLAWFUL_WEAPONS_DISCHARGE" : {
       "description" : "",
-      "message" : "Olaglig avfyrning av vapen"
+      "message" : "Olaglig vapenavfyring"
    },
    "UNRELIABLE" : {
       "description" : "",
-      "message" : "Unreliable"
+      "message" : "Opålitlig"
    },
    "UP_ACCEL" : {
       "description" : "",
-      "message" : "Up acceleration"
+      "message" : "Accelerera upp"
    },
    "USED" : {
       "description" : "",
-      "message" : "Used"
+      "message" : "Använd"
    },
    "VERY_HIGH" : {
       "description" : "",
-      "message" : "Very high"
+      "message" : "Mycket högt"
    },
    "VERY_LOW" : {
       "description" : "",
-      "message" : "Väldigt låg"
+      "message" : "Väldigt lågt"
    },
    "VIDEO" : {
       "description" : "",
@@ -973,7 +973,7 @@
    },
    "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY" : {
       "description" : "",
-      "message" : "Video configuration (restart game to apply)"
+      "message" : "Videokonfiguration (starta om spelet för att använda)"
    },
    "VIDEO_RESOLUTION" : {
       "description" : "",
@@ -981,23 +981,23 @@
    },
    "WAGE" : {
       "description" : "",
-      "message" : "Wage"
+      "message" : "Lön"
    },
    "WEIGHT_EMPTY" : {
       "description" : "",
-      "message" : "Weight empty"
+      "message" : "Tom vikt"
    },
    "WEIGHT_FULLY_LOADED" : {
       "description" : "",
-      "message" : "Weight fully loaded"
+      "message" : "Vikt full last"
    },
    "WE_ARE_IN_HYPERSPACE_COMMANDER" : {
       "description" : "",
-      "message" : "We are in hyperspace, Commander."
+      "message" : "Vi är i hyperrymden kapten."
    },
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
       "description" : "",
-      "message" : "We have no business with you at the moment."
+      "message" : "Vi har inga affärer med dig för stunden."
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",
@@ -1005,30 +1005,30 @@
    },
    "YOUR_HULL_IS_AT_X_INTEGRITY" : {
       "description" : "",
-      "message" : "Your hull is at {value}% integrity."
+      "message" : "Ditt skrovs integritet är {value}%."
    },
    "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION" : {
       "description" : "",
-      "message" : "You don't have enough money for that option."
+      "message" : "Du har inte tillräckligt med pengar för det valet."
    },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",
-      "message" : "You must first select a combat target, Commander."
+      "message" : "Du måste först välja ett stridsmål kapten."
    },
    "YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER" : {
       "description" : "",
-      "message" : "You must first select a suitable navigation target, Commander."
+      "message" : "Du måste först välja ett passande navigationsmål kapten."
    },
    "YOU_MUST_LAUNCH_FIRST_COMMANDER" : {
       "description" : "",
-      "message" : "You must launch first, Commander."
+      "message" : "Du måste först skjutas upp kapten."
    },
    "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER" : {
       "description" : "",
-      "message" : "You must request launch clearance first, Commander."
+      "message" : "Du måste begära uppskjutningstillstånd först kapten."
    },
    "YOU_NOT_ENOUGH_MONEY" : {
       "description" : "",
-      "message" : "You do not have enough money"
+      "message" : "Du har inte tillräckligt med pengar"
    }
 }
