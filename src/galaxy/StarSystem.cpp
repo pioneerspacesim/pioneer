@@ -1167,22 +1167,9 @@ void StarSystem::MakeBinaryPair(SystemBody *a, SystemBody *b, fixed minDist, Ran
 	b->m_orbMax = orbMax;
 }
 
-SystemBody::SystemBody(const SystemPath& path) : m_path(path)
-{
-	PROFILE_SCOPED()
-	m_heightMapFractal = 0;
-	m_aspectRatio = fixed(1,1);
-	m_rotationalPhaseAtStart = fixed(0);
-	m_orbitalPhaseAtStart = fixed(0);
-	m_orbMin = fixed(0);
-	m_orbMax = fixed(0);
-	m_semiMajorAxis = fixed(0);
-	m_eccentricity = fixed(0);
-	m_orbitalOffset = fixed(0);
-	m_inclination = fixed(0);
-	m_axialTilt = fixed(0);
-	m_isCustomBody = false;
-}
+SystemBody::SystemBody(const SystemPath& path) : m_parent(nullptr), m_path(path), m_seed(0), m_aspectRatio(1,1), m_orbMin(0),
+	m_orbMax(0), m_rotationalPhaseAtStart(0), m_semiMajorAxis(0), m_eccentricity(0), m_orbitalOffset(0), m_axialTilt(0),
+	m_inclination(0), m_averageTemp(0), m_type(TYPE_GRAVPOINT), m_isCustomBody(false), m_heightMapFractal(0), m_atmosDensity(0.0) { }
 
 bool SystemBody::HasAtmosphere() const
 {
@@ -1403,7 +1390,8 @@ SystemBody::AtmosphereParameters SystemBody::CalcAtmosphereParams() const
  *
  * We must be sneaky and avoid floating point in these places.
  */
-StarSystem::StarSystem(const SystemPath &path) : m_path(path)
+StarSystem::StarSystem(const SystemPath &path) : m_path(path), m_numStars(0), m_isCustom(false), m_hasCustomBodies(false),
+	m_faction(nullptr), m_unexplored(false), m_econType(0), m_seed(0)
 {
 	PROFILE_SCOPED()
 	assert(path.IsSystemPath());
@@ -1421,7 +1409,6 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path)
 
 	m_unexplored = !s->m_systems[m_path.systemIndex].explored;
 
-	m_isCustom = m_hasCustomBodies = false;
 	if (s->m_systems[m_path.systemIndex].customSys) {
 		m_isCustom = true;
 		const CustomSystem *custom = s->m_systems[m_path.systemIndex].customSys;

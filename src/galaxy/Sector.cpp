@@ -55,13 +55,11 @@ void Sector::GetCustomSystems(Random& rng)
 static const int CUSTOM_ONLY_RADIUS	= 4;
 
 //////////////////////// Sector
-Sector::Sector(const SystemPath& path) : m_factionsAssigned(false)
+Sector::Sector(const SystemPath& path) : sx(path.sectorX), sy(path.sectorY), sz(path.sectorZ), m_factionsAssigned(false)
 {
 	PROFILE_SCOPED()
 	Uint32 _init[4] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
 	Random rng(_init, 4);
-
-	sx = path.sectorX; sy = path.sectorY; sz = path.sectorZ;
 
 	GetCustomSystems(rng);
 	int customCount = m_systems.size();

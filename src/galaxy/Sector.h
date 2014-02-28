@@ -37,7 +37,8 @@ public:
 
 	class System {
 	public:
-		System(int x, int y, int z, Uint32 si): customSys(0), population(-1), explored(false), sx(x), sy(y), sz(z), idx(si) {};
+		System(int x, int y, int z, Uint32 si): numStars(0), seed(0), customSys(nullptr), faction(nullptr), population(-1),
+			explored(false), sx(x), sy(y), sz(z), idx(si) {};
 		~System() {};
 
 		// Check that we've had our habitation status set
@@ -58,8 +59,8 @@ public:
 			return sx == b.sectorX && sy == b.sectorY && sz == b.sectorZ && idx == b.systemIndex;
 		}
 
-		int sx, sy, sz;
-		Uint32 idx;
+		const int sx, sy, sz;
+		const Uint32 idx;
 	};
 	std::vector<System> m_systems;
 
