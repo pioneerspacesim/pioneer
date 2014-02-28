@@ -5,6 +5,7 @@ February 2014
      * Now any star in a multiple system can be the hyperjump target (#2712)
      * Rewrote console on the new UI (#2726)
      * Characters have reputation, which is required by missions (#2675)
+     * New (rare) "News" event for commodities on the BBS (#2753)
 
    * Minor changes and tweaks
      * Added landing tag points to all ships (#2703)
