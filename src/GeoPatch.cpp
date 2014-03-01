@@ -71,7 +71,6 @@ void GeoPatch::_UpdateVBOs(Graphics::Renderer *renderer)
 {
 	if (m_needUpdateVBOs) {
 		assert(renderer);
-		assert(radius>0.0);
 		m_needUpdateVBOs = false;
 
 		//create buffer and upload data
