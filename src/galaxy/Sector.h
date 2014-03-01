@@ -8,7 +8,7 @@
 #include "galaxy/SystemPath.h"
 #include "galaxy/StarSystem.h"
 #include "galaxy/CustomSystem.h"
-#include "SectorCache.h"
+#include "GalaxyCache.h"
 #include "RefCounted.h"
 #include <string>
 #include <vector>

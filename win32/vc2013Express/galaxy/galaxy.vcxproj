@@ -135,8 +135,8 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\src\galaxy\CustomSystem.h" />
     <ClInclude Include="..\..\..\src\galaxy\Galaxy.h" />
+    <ClInclude Include="..\..\..\src\galaxy\GalaxyObjectCache.h" />
     <ClInclude Include="..\..\..\src\galaxy\Sector.h" />
-    <ClInclude Include="..\..\..\src\galaxy\SectorCache.h" />
     <ClInclude Include="..\..\..\src\galaxy\StarSystem.h" />
     <ClInclude Include="..\..\..\src\galaxy\SystemPath.h" />
     <ClInclude Include="..\..\..\src\win32\pch.h" />

@@ -9,7 +9,7 @@
 #include "vector3.h"
 #include "Serializer.h"
 #include "RefCounted.h"
-#include "galaxy/SectorCache.h"
+#include "galaxy/GalaxyCache.h"
 #include "galaxy/StarSystem.h"
 #include "Background.h"
 #include "IterationProxy.h"

@@ -6,7 +6,7 @@
 #include "Factions.h"
 #include "Pi.h"
 #include "Game.h"
-#include "SectorCache.h"
+#include "GalaxyCache.h"
 #include "galaxy/Sector.h"
 #include "galaxy/StarSystem.h"
 

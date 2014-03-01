@@ -3,7 +3,7 @@
 
 #include "StarSystem.h"
 #include "Sector.h"
-#include "SectorCache.h"
+#include "GalaxyCache.h"
 #include "Factions.h"
 
 #include "Serializer.h"

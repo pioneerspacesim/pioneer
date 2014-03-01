@@ -13,7 +13,7 @@
 #include "Planet.h"
 #include "SpaceStation.h"
 #include "galaxy/Sector.h"
-#include "galaxy/SectorCache.h"
+#include "galaxy/GalaxyCache.h"
 #include "Factions.h"
 #include "FileSystem.h"
 
