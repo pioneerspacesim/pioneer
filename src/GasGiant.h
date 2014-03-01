@@ -37,11 +37,6 @@ public:
 	// in sbody radii
 	virtual double GetMaxFeatureHeight() const { return 0.0; }
 
-	struct MaterialParameters {
-		SystemBody::AtmosphereParameters atmosphere;
-		std::vector<Camera::Shadow> shadows;
-	};
-
 	virtual void Reset() {};
 
 private:
@@ -60,13 +55,7 @@ private:
 	vector3d m_tempCampos;
 
 	virtual void SetUpMaterials();
-	Graphics::RenderState *m_surfRenderState;
-	Graphics::RenderState *m_atmosRenderState;
 	RefCountedPtr<Graphics::Texture> m_surfaceTexture;
-	RefCountedPtr<Graphics::Material> m_surfaceMaterial;
-	std::unique_ptr<Graphics::Material> m_atmosphereMaterial;
-	//special parameters for shaders
-	MaterialParameters m_materialParameters;
 };
 
 #endif /* _GASGIANT_H */

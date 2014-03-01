@@ -22,7 +22,6 @@ namespace Graphics { class Renderer; }
 class SystemBody;
 class GeoPatch;
 class GeoPatchContext;
-class GeoSphere;
 class SQuadSplitRequest;
 class SQuadSplitResult;
 class SSingleSplitResult;
@@ -64,11 +63,6 @@ public:
 	static int GetVtxGenCount() { return s_vtxGenCount; }
 	static void ClearVtxGenCount() { s_vtxGenCount = 0; }
 
-	struct MaterialParameters {
-		SystemBody::AtmosphereParameters atmosphere;
-		std::vector<Camera::Shadow> shadows;
-	};
-
 	bool AddQuadSplitResult(SQuadSplitResult *res);
 	bool AddSingleSplitResult(SSingleSplitResult *res);
 	void ProcessSplitResults();
@@ -101,12 +95,6 @@ private:
 	static RefCountedPtr<GeoPatchContext> s_patchContext;
 
 	virtual void SetUpMaterials();
-	Graphics::RenderState *m_surfRenderState;
-	Graphics::RenderState *m_atmosRenderState;
-	std::unique_ptr<Graphics::Material> m_surfaceMaterial;
-	std::unique_ptr<Graphics::Material> m_atmosphereMaterial;
-	//special parameters for shaders
-	MaterialParameters m_materialParameters;
 
 	enum EGSInitialisationStage {
 		eBuildFirstPatches=0,

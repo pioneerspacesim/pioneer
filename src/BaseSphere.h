@@ -9,12 +9,15 @@
 #include "vector3.h"
 #include "Camera.h"
 #include "galaxy/StarSystem.h"
-#include "graphics/Material.h"
 #include "terrain/Terrain.h"
 
 #include <deque>
 
-namespace Graphics { class Renderer; }
+namespace Graphics { 
+	class Renderer; 
+	class RenderState;
+	class Material;
+}
 class SystemBody;
 
 class BaseSphere {
@@ -31,6 +34,9 @@ public:
 	static void Uninit();
 	static void UpdateAllGasSpheres();
 	static void OnChangeDetailLevel();
+	static void BaseSphere::DrawAtmosphereSurface(Graphics::Renderer *renderer,
+		const matrix4x4d &modelView, const vector3d &campos, float rad,
+		Graphics::RenderState *rs, Graphics::Material *mat);
 
 	// in sbody radii
 	virtual double GetMaxFeatureHeight() const { return 0.0; }
@@ -44,12 +50,19 @@ public:
 
 	const SystemBody *GetSystemBody() const { return m_sbody; }
 
-private:
+	Graphics::RenderState* GetSurfRenderState() const { return m_surfRenderState; }
+	Graphics::Material* GetSurfaceMaterial() const { return m_surfaceMaterial.get(); }
+
+protected:
 	const SystemBody *m_sbody;
 
 	virtual void SetUpMaterials()=0;
-	RefCountedPtr<Graphics::Material> m_surfaceMaterial;
+
+	Graphics::RenderState *m_surfRenderState;
+	Graphics::RenderState *m_atmosRenderState;
+	std::unique_ptr<Graphics::Material> m_surfaceMaterial;
 	std::unique_ptr<Graphics::Material> m_atmosphereMaterial;
+
 	//special parameters for shaders
 	MaterialParameters m_materialParameters;
 };
