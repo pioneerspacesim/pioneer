@@ -178,6 +178,7 @@ public:
 
 	static bool DrawGUI;
 	static int FlightModel;
+	static int MouseWheel;
 
 private:
 	static void HandleEvents();

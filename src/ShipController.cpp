@@ -46,12 +46,18 @@ PlayerShipController::PlayerShipController() :
 	m_fireMissileKey = KeyBindings::fireMissile.onPress.connect(
 			sigc::mem_fun(this, &PlayerShipController::FireMissile));
 
+	m_FlightMouseFollowing = KeyBindings::FlightFollowMouse.onPress.connect(
+		sigc::mem_fun(this, &PlayerShipController::FlightMouseFollowing));
+
+	m_IncreaseSetSpeed =Pi::onMouseWheel.connect(sigc::mem_fun(this, &PlayerShipController::IncreaseSetSpeed));
 }
 
 PlayerShipController::~PlayerShipController()
 {
 	m_connRotationDampingToggleKey.disconnect();
 	m_fireMissileKey.disconnect();
+	m_FlightMouseFollowing.disconnect();
+	m_IncreaseSetSpeed.disconnect();
 }
 
 void PlayerShipController::Save(Serializer::Writer &wr, Space *space)
@@ -173,20 +179,22 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 		int mouseMotion[2];
 		SDL_GetRelativeMouseState (mouseMotion+0, mouseMotion+1); // call to flush
 		// if (Pi::MouseButtonState(SDL_BUTTON_RIGHT))
-		if (KeyBindings::FlightFollowMouse.IsActive())
-		{
-			if (Pi::FlightModel==0) Pi::FlightModel=1;
-			else
-				Pi::FlightModel=0;
-		}
+//		if (KeyBindings::FlightFollowMouse.IsActive())
+//		{
+//			if (Pi::FlightModel==0) Pi::FlightModel=1;
+//			else
+//				Pi::FlightModel=0;
+//		}
 		if (Pi::FlightModel==1)
 		{
 			int x,y;
 			SDL_GetMouseState(&x,&y);
 			x-=Pi::renderer->GetWindow()->GetWidth()/2;
 			y-=Pi::renderer->GetWindow()->GetHeight()/2;
+			if ((x > -5) && (x < 5)) x = 0;
+			if ((y > -5) && (y < 5)) y = 0;
 			const matrix3x3d &rot = m_ship->GetOrient();
-			if (!m_mouseActive)
+//			if (!m_mouseActive)
 			{
 				m_mouseDir = -rot.VectorZ(); // in world space
 				// m_mouseX = m_mouseY = 0;
@@ -279,11 +287,13 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 			else
 				changeVec[axis] = changeVec[axis] * 2.0;
 		}
-		
+
 		wantAngVel += changeVec;
 
-		if (wantAngVel.Length() >= 0.001 || force_rotation_damping || m_rotationDamping) {
-			if (Pi::game->GetTimeAccel()!=Game::TIMEACCEL_1X) {
+		if (wantAngVel.Length() >= 0.001 || force_rotation_damping || m_rotationDamping)
+		{
+			if (Pi::game->GetTimeAccel()!=Game::TIMEACCEL_1X)
+			{
 				for (int axis=0; axis<3; axis++)
 					wantAngVel[axis] = wantAngVel[axis] * Pi::game->GetInvTimeAccelRate();
 			}
@@ -379,6 +389,23 @@ void PlayerShipController::FireMissile()
 	lua_settop(l, pristine_stack);
 }
 
+void PlayerShipController::FlightMouseFollowing()
+{
+	switch (Pi::FlightModel)
+	{
+	case 0:
+		{
+			  Pi::FlightModel = 1;
+			  break;
+		}
+	case 1:
+		{
+			  Pi::FlightModel = 0;
+			  break;
+		}
+	}
+}
+
 Body *PlayerShipController::GetCombatTarget() const
 {
 	return m_combatTarget;
@@ -410,4 +437,19 @@ void PlayerShipController::SetNavTarget(Body* const target, bool setSpeedTo)
 	else if (m_setSpeedTarget == m_navTarget)
 		m_setSpeedTarget = 0;
 	m_navTarget = target;
+}
+
+void PlayerShipController::IncreaseSetSpeed(bool up)
+{
+	if (Pi::MouseWheel == 0)
+	{
+		if (up)
+		{
+			m_setSpeed += std::max(fabs(m_setSpeed)*0.05, 1.0);
+		}
+		else
+		{
+			m_setSpeed -= std::max(fabs(m_setSpeed)*0.05, 1.0);
+		}
+	}
 }

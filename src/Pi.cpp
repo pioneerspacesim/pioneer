@@ -135,6 +135,7 @@ bool Pi::hudTrailsDisplayed = false;
 Gui::Fixed *Pi::menu;
 bool Pi::DrawGUI = true;
 int Pi::FlightModel=0;
+int Pi::MouseWheel = 0;
 Graphics::Renderer *Pi::renderer;
 RefCountedPtr<UI::Context> Pi::ui;
 ModelCache *Pi::modelCache;
