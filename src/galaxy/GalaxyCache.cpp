@@ -12,6 +12,15 @@
 
 //#define DEBUG_SECTOR_CACHE
 
+//virtual
+
+template <typename T, typename CompareT>
+GalaxyObjectCache<T,CompareT>::~GalaxyObjectCache()
+{
+	for (Slave* s : m_slaves)
+		s->MasterDeleted();
+}
+
 template <typename T, typename CompareT>
 void GalaxyObjectCache<T,CompareT>::AddToCache(std::vector<RefCountedPtr<T> >& objects)
 {
@@ -75,13 +84,20 @@ void GalaxyObjectCache<T,CompareT>::ClearCache()
 template <typename T, typename CompareT>
 RefCountedPtr<typename GalaxyObjectCache<T,CompareT>::Slave> GalaxyObjectCache<T,CompareT>::NewSlaveCache()
 {
-	return RefCountedPtr<Slave>(new Slave(Pi::GetAsyncJobQueue()));
+	return RefCountedPtr<Slave>(new Slave(this, Pi::GetAsyncJobQueue()));
 }
 
 template <typename T, typename CompareT>
-GalaxyObjectCache<T,CompareT>::Slave::Slave(JobQueue* jobQueue) : m_jobs(jobQueue)
+GalaxyObjectCache<T,CompareT>::Slave::Slave(GalaxyObjectCache<T,CompareT>* master, JobQueue* jobQueue)
+	: m_master(master), m_jobs(Pi::GetAsyncJobQueue())
 {
-	T::cache.m_slaves.insert(this);
+	m_master->m_slaves.insert(this);
+}
+
+template <typename T, typename CompareT>
+void GalaxyObjectCache<T,CompareT>::Slave::MasterDeleted()
+{
+	m_master = nullptr;
 }
 
 template <typename T, typename CompareT>
@@ -104,8 +120,12 @@ RefCountedPtr<T> GalaxyObjectCache<T,CompareT>::Slave::GetCached(const SystemPat
 	if (i != m_cache.end())
 		return (*i).second;
 
-	auto inserted = m_cache.insert( std::make_pair(path, T::cache.GetCached(path)) );
-	return inserted.first->second;
+	if (m_master) {
+		auto inserted = m_cache.insert( std::make_pair(path, m_master->GetCached(path)) );
+		return inserted.first->second;
+	} else {
+		return RefCountedPtr<T>();
+	}
 }
 
 template <typename T, typename CompareT>
@@ -127,14 +147,18 @@ GalaxyObjectCache<T,CompareT>::Slave::~Slave()
 				unique++;
 		Output("SectorCache: Discarding slave cache with %zu entries (%u to be removed)\n", m_cache.size(), unique);
 #	endif
-	T::cache.m_slaves.erase(this);
+	if (m_master)
+		m_master->m_slaves.erase(this);
 }
 
 template <typename T, typename CompareT>
-void GalaxyObjectCache<T,CompareT>::Slave::AddToCache(const std::vector<RefCountedPtr<T> >& objects)
+void GalaxyObjectCache<T,CompareT>::Slave::AddToCache(std::vector<RefCountedPtr<T> >& objects)
 {
-	for (auto it = objects.begin(), itEnd = objects.end(); it != itEnd; ++it) {
-		m_cache.insert( std::make_pair(it->Get()->GetSystemPath(), *it) );
+	if (m_master) {
+		m_master->AddToCache(objects); // This modifies the vector to the sectors already in the master cache
+		for (auto it = objects.begin(), itEnd = objects.end(); it != itEnd; ++it) {
+			m_cache.insert( std::make_pair(it->Get()->GetSystemPath(), *it) );
+		}
 	}
 }
 
@@ -153,7 +177,7 @@ void GalaxyObjectCache<T,CompareT>::Slave::FillCache(const typename GalaxyObject
 
 	// chop the paths into groups of CACHE_JOB_SIZE
 	for (auto it = paths.begin(), itEnd = paths.end(); it != itEnd; ++it) {
-		RefCountedPtr<T> s = T::cache.GetIfCached(*it);
+		RefCountedPtr<T> s = m_master->GetIfCached(*it);
 		if (s) {
 			m_cache[*it] = s;
 #			ifdef DEBUG_SECTOR_CACHE
@@ -208,7 +232,6 @@ void GalaxyObjectCache<T,CompareT>::CacheJob::OnRun()    // RUNS IN ANOTHER THRE
 template <typename T, typename CompareT>
 void GalaxyObjectCache<T,CompareT>::CacheJob::OnFinish()  // runs in primary thread of the context
 {
-	T::cache.AddToCache(m_objects); // This modifies the vector to the sectors already in the master cache
 	m_slaveCache->AddToCache(m_objects);
 }
 

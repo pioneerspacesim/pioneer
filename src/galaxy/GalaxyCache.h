@@ -18,6 +18,7 @@ template <typename T, typename CompareT>
 class GalaxyObjectCache {
 	friend T;
 public:
+	~GalaxyObjectCache();
 	RefCountedPtr<T> GetCached(const SystemPath& path);
 	RefCountedPtr<T> GetIfCached(const SystemPath& path);
 	void ClearCache(); 	// Completely clear slave caches
@@ -43,11 +44,13 @@ public:
 		~Slave();
 
 	private:
+		GalaxyObjectCache* m_master;
 		CacheMap m_cache;
 		JobSet m_jobs;
 
-		Slave(JobQueue* jobQueue);
-		void AddToCache(const std::vector<RefCountedPtr<T> >& objects);
+		Slave(GalaxyObjectCache* master, JobQueue* jobQueue);
+		void MasterDeleted();
+		void AddToCache(std::vector<RefCountedPtr<T> >& objects);
 	};
 
 	RefCountedPtr<Slave> NewSlaveCache();
