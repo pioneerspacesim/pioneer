@@ -129,8 +129,8 @@ void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, cons
 		if (!frustum.TestPoint(clipCentroid, clipRadius))
 			return;
 
-		Graphics::Material *mat = geosphere->m_surfaceMaterial.get();
-		Graphics::RenderState *rs = geosphere->m_surfRenderState;
+		Graphics::Material *mat = geosphere->GetSurfaceMaterial();
+		Graphics::RenderState *rs = geosphere->GetSurfRenderState();
 
 		const vector3d relpos = clipCentroid - campos;
 		renderer->SetTransform(modelView * matrix4x4d::Translation(relpos));
@@ -175,7 +175,7 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 
 			SQuadSplitRequest *ssrd = new SQuadSplitRequest(v0, v1, v2, v3, centroid.Normalized(), m_depth,
 						geosphere->GetSystemBody()->GetPath(), mPatchID, ctx->edgeLen,
-						ctx->frac, geosphere->m_terrain.Get());
+						ctx->frac, geosphere->GetTerrain());
 			m_job = Pi::Jobs()->Queue(new QuadPatchJob(ssrd));
 		} else {
 			for (int i=0; i<NUM_KIDS; i++) {
@@ -201,7 +201,7 @@ void GeoPatch::RequestSinglePatch()
         assert(!m_job.HasJob());
 		mHasJobRequest = true;
 		SSingleSplitRequest *ssrd = new SSingleSplitRequest(v0, v1, v2, v3, centroid.Normalized(), m_depth,
-					geosphere->GetSystemBody()->GetPath(), mPatchID, ctx->edgeLen, ctx->frac, geosphere->m_terrain.Get());
+					geosphere->GetSystemBody()->GetPath(), mPatchID, ctx->edgeLen, ctx->frac, geosphere->GetTerrain());
 		m_job = Pi::Jobs()->Queue(new SinglePatchJob(ssrd));
 	}
 }

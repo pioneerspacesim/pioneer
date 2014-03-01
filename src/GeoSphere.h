@@ -51,7 +51,7 @@ public:
 #endif /* DEBUG */
 		return h;
 	}
-	friend class GeoPatch;
+	
 	static void Init();
 	static void Uninit();
 	static void UpdateAllGeoSpheres();
@@ -72,9 +72,6 @@ public:
 private:
 	void BuildFirstPatches();
 	std::unique_ptr<GeoPatch> m_patches[6];
-
-	// all variables for GetHeight(), GetColor()
-	RefCountedPtr<Terrain> m_terrain;
 
 	static const uint32_t MAX_SPLIT_OPERATIONS = 128;
 	std::deque<SQuadSplitResult*> mQuadSplitResults;

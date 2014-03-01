@@ -204,7 +204,7 @@ public:
 	}
 };
 
-GasGiant::GasGiant(const SystemBody *body) : BaseSphere(body), m_terrain(Terrain::InstanceTerrain(body)),
+GasGiant::GasGiant(const SystemBody *body) : BaseSphere(body),
 	m_hasTempCampos(false), m_tempCampos(0.0)
 {
 	//SetUpMaterials is not called until first Render since light count is zero :)
