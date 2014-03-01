@@ -45,9 +45,6 @@ private:
 
 	static RefCountedPtr<GasPatchContext> GasGiant::s_patchContext;
 
-	// all variables for GetHeight(), GetColor()
-	RefCountedPtr<Terrain> m_terrain;
-
 	//std::unique_ptr<Graphics::Drawables::Sphere3D> m_baseCloudSurface;
 	std::unique_ptr<GasPatch> m_patches[NUM_PATCHES];
 

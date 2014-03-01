@@ -22,7 +22,7 @@ class SystemBody;
 
 class BaseSphere {
 public:
-	BaseSphere(const SystemBody *body) : m_sbody(body) {};
+	BaseSphere(const SystemBody *body) : m_sbody(body), m_terrain(Terrain::InstanceTerrain(body)) {};
 	virtual ~BaseSphere() {};
 
 	virtual void Update()=0;
@@ -49,12 +49,16 @@ public:
 	virtual void Reset()=0;
 
 	const SystemBody *GetSystemBody() const { return m_sbody; }
+	Terrain* GetTerrain() const { return m_terrain.Get(); }
 
 	Graphics::RenderState* GetSurfRenderState() const { return m_surfRenderState; }
 	Graphics::Material* GetSurfaceMaterial() const { return m_surfaceMaterial.get(); }
 
 protected:
 	const SystemBody *m_sbody;
+
+	// all variables for GetHeight(), GetColor()
+	RefCountedPtr<Terrain> m_terrain;
 
 	virtual void SetUpMaterials()=0;
 
