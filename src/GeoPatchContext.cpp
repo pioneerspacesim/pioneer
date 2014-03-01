@@ -23,21 +23,6 @@ void GeoPatchContext::Cleanup() {
 		loEdgeIndices[i].reset();
 		hiEdgeIndices[i].reset();
 	}
-	if (indices_vbo) {
-		indices_vbo = 0;
-	}
-	for (int i=0; i<NUM_INDEX_LISTS; i++) {
-		if (indices_list[i]) {
-			glDeleteBuffersARB(1, &indices_list[i]);
-		}
-	}
-	delete [] vbotemp;
-}
-
-void GeoPatchContext::updateIndexBufferId(const GLuint edge_hi_flags) {
-	assert(edge_hi_flags < GLuint(NUM_INDEX_LISTS));
-	indices_vbo = indices_list[edge_hi_flags];
-	indices_tri_count = indices_tri_counts[edge_hi_flags];
 }
 
 int GeoPatchContext::getIndices(std::vector<unsigned short> &pl, const unsigned int edge_hi_flags)
@@ -77,8 +62,6 @@ int GeoPatchContext::getIndices(std::vector<unsigned short> &pl, const unsigned 
 
 void GeoPatchContext::Init() {
 	frac = 1.0 / double(edgeLen-1);
-
-	vbotemp = new VBOVertex[NUMVERTICES()];
 
 	unsigned short *idx;
 	midIndices.reset(new unsigned short[VBO_COUNT_MID_IDX()]);
@@ -227,30 +210,20 @@ void GeoPatchContext::Init() {
 	// these will hold the optimised indices
 	std::vector<unsigned short> pl_short[NUM_INDEX_LISTS];
 	// populate the N indices lists from the arrays built during InitTerrainIndices()
-	for( int i=0; i<NUM_INDEX_LISTS; ++i ) {
-		const unsigned int edge_hi_flags = i;
-		indices_tri_counts[i] = getIndices(pl_short[i], edge_hi_flags);
-	}
-
 	// iterate over each index list and optimize it
-	for( int i=0; i<NUM_INDEX_LISTS; ++i ) {
-		int tri_count = indices_tri_counts[i];
+	for( unsigned int i=0; i<NUM_INDEX_LISTS; ++i ) {
+		unsigned int tri_count = getIndices(pl_short[i], i);
 		VertexCacheOptimizerUShort vco;
 		VertexCacheOptimizerUShort::Result res = vco.Optimize(&pl_short[i][0], tri_count);
 		assert(0 == res);
+		//create buffer & copy
+		indices_list[i].Reset(Pi::renderer->CreateIndexBuffer(pl_short[i].size(), Graphics::BUFFER_USAGE_STATIC));
+		Uint16* idxPtr = indices_list[i]->Map(Graphics::BUFFER_MAP_WRITE);
+		for (Uint32 j = 0; j < pl_short[i].size(); j++) {
+			idxPtr[j] = pl_short[i][j];
+		}
+		indices_list[i]->Unmap();
 	}
-
-	// everything should be hunky-dory for setting up as OpenGL index buffers now.
-	for( int i=0; i<NUM_INDEX_LISTS; ++i ) {
-		glGenBuffersARB(1, &indices_list[i]);
-		glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_list[i]);
-		glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned short)*indices_tri_counts[i]*3, &(pl_short[i][0]), GL_STATIC_DRAW);
-		glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
-	}
-
-	// default it to the last entry which uses the hi-res borders
-	indices_vbo			= indices_list[NUM_INDEX_LISTS-1];
-	indices_tri_count	= indices_tri_counts[NUM_INDEX_LISTS-1];
 
 	if (midIndices) {
 		midIndices.reset();
