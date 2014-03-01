@@ -12,145 +12,150 @@
 
 //#define DEBUG_SECTOR_CACHE
 
-void SectorCache::AddToCache(std::vector<RefCountedPtr<Sector> >& sec)
+template <typename T, typename CompareT>
+void GalaxyObjectCache<T,CompareT>::AddToCache(std::vector<RefCountedPtr<T> >& objects)
 {
-	for (auto it = sec.begin(), itEnd = sec.end(); it != itEnd; ++it) {
-		auto inserted = m_sectorAttic.insert( std::make_pair(it->Get()->GetSystemPath(), it->Get()) );
+	for (auto it = objects.begin(), itEnd = objects.end(); it != itEnd; ++it) {
+		auto inserted = m_attic.insert( std::make_pair(it->Get()->GetSystemPath(), it->Get()) );
 		if (!inserted.second) {
 			it->Reset(inserted.first->second);
 		}
 	}
 }
 
-RefCountedPtr<Sector> SectorCache::GetIfCached(const SystemPath& loc)
+template <typename T, typename CompareT>
+RefCountedPtr<T> GalaxyObjectCache<T,CompareT>::GetIfCached(const SystemPath& path)
 {
 	PROFILE_SCOPED()
-	SystemPath secPath = loc.SectorOnly();
 
-	RefCountedPtr<Sector> s;
-	SectorAtticMap::iterator i = m_sectorAttic.find(secPath);
-	if (i != m_sectorAttic.end()) {
+	RefCountedPtr<T> s;
+	typename AtticMap::iterator i = m_attic.find(path);
+	if (i != m_attic.end()) {
 		s.Reset(i->second);
 	}
 
 	return s;
 }
 
-RefCountedPtr<Sector> SectorCache::GetCached(const SystemPath& loc)
+template <typename T, typename CompareT>
+RefCountedPtr<T> GalaxyObjectCache<T,CompareT>::GetCached(const SystemPath& path)
 {
 	PROFILE_SCOPED()
-	SystemPath secPath = loc.SectorOnly();
 
-	RefCountedPtr<Sector> s = GetIfCached(secPath);
+	RefCountedPtr<T> s = this->GetIfCached(path);
 	if (!s) {
-		s.Reset(new Sector(secPath));
-		m_sectorAttic.insert( std::make_pair(secPath, s.Get()));
+		s.Reset(new T(path));
+		m_attic.insert( std::make_pair(path, s.Get()));
 	}
 
 	return s;
 }
 
-bool SectorCache::HasCached(const SystemPath& loc) const
+template <typename T, typename CompareT>
+bool GalaxyObjectCache<T,CompareT>::HasCached(const SystemPath& path) const
 {
 	PROFILE_SCOPED()
 
-	assert(loc.IsSectorPath());
-	return (m_sectorAttic.find(loc) != m_sectorAttic.end());
+	return (m_attic.find(path) != m_attic.end());
 }
 
-void SectorCache::RemoveFromAttic(const SystemPath& path)
+template <typename T, typename CompareT>
+void GalaxyObjectCache<T,CompareT>::RemoveFromAttic(const SystemPath& path)
 {
-	auto it = m_sectorAttic.find(path);
-	if (it != m_sectorAttic.end()) {
-		m_sectorAttic.erase(it);
-	}
+	m_attic.erase(path);
 }
 
-void SectorCache::ClearCache()
+template <typename T, typename CompareT>
+void GalaxyObjectCache<T,CompareT>::ClearCache()
 {
 	for (auto it = m_slaves.begin(), itEnd = m_slaves.end(); it != itEnd; ++it)
 		(*it)->ClearCache();
 }
 
-RefCountedPtr<SectorCache::Slave> SectorCache::NewSlaveCache()
+template <typename T, typename CompareT>
+RefCountedPtr<typename GalaxyObjectCache<T,CompareT>::Slave> GalaxyObjectCache<T,CompareT>::NewSlaveCache()
 {
-	return RefCountedPtr<Slave>(new Slave);
+	return RefCountedPtr<Slave>(new Slave(Pi::GetAsyncJobQueue()));
 }
 
-SectorCache::Slave::Slave() : m_jobs(Pi::GetAsyncJobQueue())
+template <typename T, typename CompareT>
+GalaxyObjectCache<T,CompareT>::Slave::Slave(JobQueue* jobQueue) : m_jobs(jobQueue)
 {
-	Sector::cache.m_slaves.insert(this);
+	T::cache.m_slaves.insert(this);
 }
 
-RefCountedPtr<Sector> SectorCache::Slave::GetIfCached(const SystemPath& loc)
+template <typename T, typename CompareT>
+RefCountedPtr<T> GalaxyObjectCache<T,CompareT>::Slave::GetIfCached(const SystemPath& path)
 {
 	PROFILE_SCOPED()
-	SystemPath secPath = loc.SectorOnly();
 
-	SectorCacheMap::iterator i = m_sectorCache.find(secPath);
-	if (i != m_sectorCache.end())
+	typename CacheMap::iterator i = m_cache.find(path);
+	if (i != m_cache.end())
 		return (*i).second;
-	return RefCountedPtr<Sector>();
+	return RefCountedPtr<T>();
 }
 
-RefCountedPtr<Sector> SectorCache::Slave::GetCached(const SystemPath& loc)
+template <typename T, typename CompareT>
+RefCountedPtr<T> GalaxyObjectCache<T,CompareT>::Slave::GetCached(const SystemPath& path)
 {
 	PROFILE_SCOPED()
-	SystemPath secPath = loc.SectorOnly();
 
-	SectorCacheMap::iterator i = m_sectorCache.find(secPath);
-	if (i != m_sectorCache.end())
+	typename CacheMap::iterator i = m_cache.find(path);
+	if (i != m_cache.end())
 		return (*i).second;
 
-	auto inserted = m_sectorCache.insert( std::make_pair(secPath, Sector::cache.GetCached(secPath)) );
+	auto inserted = m_cache.insert( std::make_pair(path, T::cache.GetCached(path)) );
 	return inserted.first->second;
 }
 
-void SectorCache::Slave::Erase(const SystemPath& loc) { m_sectorCache.erase(loc); }
-void SectorCache::Slave::Erase(const SectorCacheMap::const_iterator& it) { m_sectorCache.erase(it); }
-void SectorCache::Slave::ClearCache() { m_sectorCache.clear(); }
+template <typename T, typename CompareT>
+void GalaxyObjectCache<T,CompareT>::Slave::Erase(const SystemPath& path) { m_cache.erase(path); }
 
-SectorCache::Slave::~Slave()
+template <typename T, typename CompareT>
+void GalaxyObjectCache<T,CompareT>::Slave::Erase(const typename CacheMap::const_iterator& it) { m_cache.erase(it); }
+
+template <typename T, typename CompareT>
+void GalaxyObjectCache<T,CompareT>::Slave::ClearCache() { m_cache.clear(); }
+
+template <typename T, typename CompareT>
+GalaxyObjectCache<T,CompareT>::Slave::~Slave()
 {
 #	ifdef DEBUG_SECTOR_CACHE
 		unsigned unique = 0;
-		for (auto it = m_sectorCache.begin(); it != m_sectorCache.end(); ++it)
+		for (auto it = m_cache.begin(); it != m_cache.end(); ++it)
 			if (it->second->GetRefCount() == 1)
 				unique++;
-		Output("SectorCache: Discarding slave cache with %zu entries (%u to be removed)\n", m_sectorCache.size(), unique);
+		Output("SectorCache: Discarding slave cache with %zu entries (%u to be removed)\n", m_cache.size(), unique);
 #	endif
-	Sector::cache.m_slaves.erase(this);
+	T::cache.m_slaves.erase(this);
 }
 
-//void SectorCache::Slave::Insert(RefCountedPtr<Sector> sec)
-//{
-//	m_sectorCache.insert( std::make_pair(sec->GetSystemPath(), sec) );
-//}
-
-void SectorCache::Slave::AddToCache(const std::vector<RefCountedPtr<Sector> >& secIn)
+template <typename T, typename CompareT>
+void GalaxyObjectCache<T,CompareT>::Slave::AddToCache(const std::vector<RefCountedPtr<T> >& objects)
 {
-	for (auto it = secIn.begin(), itEnd = secIn.end(); it != itEnd; ++it) {
-		m_sectorCache.insert( std::make_pair(it->Get()->GetSystemPath(), *it) );
+	for (auto it = objects.begin(), itEnd = objects.end(); it != itEnd; ++it) {
+		m_cache.insert( std::make_pair(it->Get()->GetSystemPath(), *it) );
 	}
 }
 
-void SectorCache::Slave::FillCache(const SectorCache::PathVector& paths)
+template <typename T, typename CompareT>
+void GalaxyObjectCache<T,CompareT>::Slave::FillCache(const typename GalaxyObjectCache<T,CompareT>::PathVector& paths)
 {
 	// allocate some space for what we're about to chunk up
 	std::vector<std::unique_ptr<PathVector> > vec_paths;
 	vec_paths.reserve(paths.size()/CACHE_JOB_SIZE + 1);
 	std::unique_ptr<PathVector> current_paths;
 #	ifdef DEBUG_SECTOR_CACHE
-		size_t alreadyCached = m_sectorCache.size();
+		size_t alreadyCached = m_cache.size();
 		unsigned masterCached = 0;
 		unsigned toBeCreated = 0;
 #	endif
 
 	// chop the paths into groups of CACHE_JOB_SIZE
 	for (auto it = paths.begin(), itEnd = paths.end(); it != itEnd; ++it) {
-		RefCountedPtr<Sector> s = Sector::cache.GetIfCached(*it);
+		RefCountedPtr<T> s = T::cache.GetIfCached(*it);
 		if (s) {
-			m_sectorCache[*it] = s;
+			m_cache[*it] = s;
 #			ifdef DEBUG_SECTOR_CACHE
 				++masterCached;
 #			endif
@@ -180,26 +185,33 @@ void SectorCache::Slave::FillCache(const SectorCache::PathVector& paths)
 
 	// now add the batched jobs
 	for (auto it = vec_paths.begin(), itEnd = vec_paths.end(); it != itEnd; ++it)
-		m_jobs.Order(new SectorCacheJob(std::move(*it), this));
+		m_jobs.Order(new GalaxyObjectCache<T,CompareT>::CacheJob(std::move(*it), this));
 }
 
 
-SectorCache::SectorCacheJob::SectorCacheJob(std::unique_ptr<std::vector<SystemPath> > path, SectorCache::Slave* slaveCache)
+template <typename T, typename CompareT>
+GalaxyObjectCache<T,CompareT>::CacheJob::CacheJob(std::unique_ptr<std::vector<SystemPath> > path, typename GalaxyObjectCache<T,CompareT>::Slave* slaveCache)
 	: Job(), m_paths(std::move(path)), m_slaveCache(slaveCache)
 {
-	m_sectors.reserve(m_paths->size());
+	m_objects.reserve(m_paths->size());
 }
 
 //virtual
-void SectorCache::SectorCacheJob::OnRun()    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
+template <typename T, typename CompareT>
+void GalaxyObjectCache<T,CompareT>::CacheJob::OnRun()    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
 {
 	for (auto it = m_paths->begin(), itEnd = m_paths->end(); it != itEnd; ++it)
-		m_sectors.push_back(RefCountedPtr<Sector>(new Sector(*it)));
+		m_objects.push_back(RefCountedPtr<T>(new T(*it)));
 }
 
 //virtual
-void SectorCache::SectorCacheJob::OnFinish()  // runs in primary thread of the context
+template <typename T, typename CompareT>
+void GalaxyObjectCache<T,CompareT>::CacheJob::OnFinish()  // runs in primary thread of the context
 {
-	Sector::cache.AddToCache(m_sectors); // This modifies the vector to the sectors already in the master cache
-	m_slaveCache->AddToCache(m_sectors);
+	T::cache.AddToCache(m_objects); // This modifies the vector to the sectors already in the master cache
+	m_slaveCache->AddToCache(m_objects);
 }
+
+/****** SectorCache ******/
+
+template class GalaxyObjectCache<Sector,SystemPath::LessSectorOnly>;

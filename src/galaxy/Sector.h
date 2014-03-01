@@ -16,7 +16,7 @@
 class Faction;
 
 class Sector : public RefCounted {
-	friend class SectorCache;
+	friend class GalaxyObjectCache<Sector, SystemPath::LessSectorOnly>;
 
 public:
 	// lightyears

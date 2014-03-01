@@ -14,75 +14,76 @@
 #include "JobQueue.h"
 #include "RefCounted.h"
 
-class Sector;
-
-class SectorCache {
-	friend class Sector;
-
+template <typename T, typename CompareT>
+class GalaxyObjectCache {
+	friend T;
 public:
-	RefCountedPtr<Sector> GetCached(const SystemPath& loc);
-	RefCountedPtr<Sector> GetIfCached(const SystemPath& loc);
+	RefCountedPtr<T> GetCached(const SystemPath& path);
+	RefCountedPtr<T> GetIfCached(const SystemPath& path);
 	void ClearCache(); 	// Completely clear slave caches
-	bool IsEmpty() { return m_sectorAttic.empty(); }
+	bool IsEmpty() { return m_attic.empty(); }
 
 	typedef std::vector<SystemPath> PathVector;
-	typedef std::map<SystemPath,RefCountedPtr<Sector> > SectorCacheMap;
-	typedef std::map<SystemPath,Sector*> SectorAtticMap;
+	typedef std::map<SystemPath,RefCountedPtr<T>,CompareT> CacheMap;
+	typedef std::map<SystemPath,T*,CompareT> AtticMap;
 
 	class Slave : public RefCounted {
-		friend class SectorCache;
+		friend class GalaxyObjectCache<T,CompareT>;
 	public:
-		RefCountedPtr<Sector> GetCached(const SystemPath& loc);
-		RefCountedPtr<Sector> GetIfCached(const SystemPath& loc);
-		SectorCacheMap::const_iterator Begin() const { return m_sectorCache.begin(); }
-		SectorCacheMap::const_iterator End() const { return m_sectorCache.end(); }
-		//void Insert(RefCountedPtr<Sector> sec);
+		RefCountedPtr<T> GetCached(const SystemPath& path);
+		RefCountedPtr<T> GetIfCached(const SystemPath& path);
+		typename CacheMap::const_iterator Begin() const { return m_cache.begin(); }
+		typename CacheMap::const_iterator End() const { return m_cache.end(); }
+
 		void FillCache(const PathVector& paths);
-		void Erase(const SystemPath& loc);
-		void Erase(const SectorCacheMap::const_iterator& it);
+		void Erase(const SystemPath& path);
+		void Erase(const typename CacheMap::const_iterator& it);
 		void ClearCache();
-		bool IsEmpty() { return m_sectorCache.empty(); }
+		bool IsEmpty() { return m_cache.empty(); }
 		~Slave();
 
 	private:
-		SectorCacheMap m_sectorCache;
+		CacheMap m_cache;
 		JobSet m_jobs;
 
-		Slave();
-		void AddToCache(const std::vector<RefCountedPtr<Sector> >& secIn);
+		Slave(JobQueue* jobQueue);
+		void AddToCache(const std::vector<RefCountedPtr<T> >& objects);
 	};
 
 	RefCountedPtr<Slave> NewSlaveCache();
 
-private:
+protected:
 	static const unsigned CACHE_JOB_SIZE = 100;
 
-	void AddToCache(std::vector<RefCountedPtr<Sector> >& sec);
-	bool HasCached(const SystemPath& loc) const;
+	void AddToCache(std::vector<RefCountedPtr<T> >& objects);
+	bool HasCached(const SystemPath& path) const;
 	void RemoveFromAttic(const SystemPath& path);
 
 	// ********************************************************************************
 	// Overloaded Job class to handle generating a collection of sectors
 	// ********************************************************************************
-	class SectorCacheJob : public Job
+	class CacheJob : public Job
 	{
 	public:
-		SectorCacheJob(std::unique_ptr<std::vector<SystemPath> > path, Slave* slaveCache);
+		CacheJob(std::unique_ptr<std::vector<SystemPath> > path, Slave* slaveCache);
 
 		virtual void OnRun();    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
 		virtual void OnFinish();  // runs in primary thread of the context
 		virtual void OnCancel() {}  // runs in primary thread of the context
 
-	private:
+	protected:
 		std::unique_ptr<std::vector<SystemPath> > m_paths;
-		std::vector<RefCountedPtr<Sector> > m_sectors;
+		std::vector<RefCountedPtr<T> > m_objects;
 		Slave* m_slaveCache;
 	};
 
 	std::set<Slave*> m_slaves;
-	SectorAtticMap m_sectorAttic;	// Those contains non-refcounted pointers which are kept alive by RefCountedPtrs in slave caches
-									// or elsewhere. The Sector destructor ensures that it is removed from here.
-									// This ensures, that there is only ever one object for each Sector.
+	AtticMap m_attic;	// Those contains non-refcounted pointers which are kept alive by RefCountedPtrs in slave caches
+						// or elsewhere. The Sector destructor ensures that it is removed from here.
+						// This ensures, that there is only ever one object for each Sector.
 };
+
+class Sector;
+typedef GalaxyObjectCache<Sector, SystemPath::LessSectorOnly> SectorCache;
 
 #endif
