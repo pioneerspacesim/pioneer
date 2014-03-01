@@ -478,28 +478,11 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 
 	renderer->SetAmbientColor(ambient);
 
-	// this is pretty much the only place where a non-renderer is allowed to call Apply()
-	// to be removed when someone rewrites terrain
-	m_surfaceMaterial->Apply();
-	renderer->SetRenderState(m_surfRenderState);
-
 	renderer->SetTransform(modelView);
 
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_NORMAL_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
-
-	for (int i=0; i<NUM_PATCHES; i++)
+	for (int i=0; i<NUM_PATCHES; i++) {
 		m_patches[i]->Render(renderer, campos, modelView, frustum);
-
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_NORMAL_ARRAY);
-	glDisableClientState(GL_COLOR_ARRAY);
-
-	glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
-	glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-	m_surfaceMaterial->Unapply();
+	}
 
 	renderer->SetAmbientColor(oldAmbient);
 }

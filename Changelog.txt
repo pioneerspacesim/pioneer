@@ -63,6 +63,7 @@ February 2014
      * IterationProxy for save access to embedded containers (#2783)
      * Automatically manage the cancellation of jobs with RAII (#2758)
      * Added a Profile Config to VS2013 (#2785)
+     * Update terrain to use the new VertexBuffer (#2795)
 
 January 2014
 
