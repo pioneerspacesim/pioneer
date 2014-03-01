@@ -68,7 +68,6 @@ void main(void)
 	float nDotVP=0.0;
 	float nnDotVP=0.0;
 
-#if (NUM_LIGHTS > 0)
 	vec3 v = (eyepos - geosphereCenter)/geosphereScaledRadius;
 	float lenInvSq = 1.0/(dot(v,v));
 	for (int i=0; i<NUM_LIGHTS; ++i) {
@@ -96,7 +95,6 @@ void main(void)
 		diff += gl_LightSource[i].diffuse * unshadowed * 0.5*(nDotVP+0.5*clamp(1.0-nnDotVP*4.0,0.0,1.0) * INV_NUM_LIGHTS);
 	}
 
-#ifdef ATMOSPHERE
 	// when does the eye ray intersect atmosphere
 	float atmosStart = findSphereEyeRayEntryDistance(geosphereCenter, eyepos, geosphereScaledRadius * geosphereAtmosTopRad);
 	float ldprod=0.0;
@@ -115,26 +113,16 @@ void main(void)
 	float atmpower = (diff.r+diff.g+diff.b)/3.0;
 	vec4 sunset = vec4(0.8,clamp(pow(atmpower,0.8),0.0,1.0),clamp(pow(atmpower,1.2),0.0,1.0),1.0);
 	
-	vec4 vertexColor = textureCube(texture0, varyingTexCoord0);
+	vec4 texColor = textureCube(texture0, varyingTexCoord0);
 
 	gl_FragColor =
 		material.emission +
 		fogFactor *
-		((scene.ambient * vertexColor) +
-		(diff * vertexColor)) +
+		((scene.ambient * texColor) +
+		(diff * texColor)) +
 		(1.0-fogFactor)*(diff*atmosColor) +
 		  (0.02-clamp(fogFactor,0.0,0.01))*diff*ldprod*sunset +	      //increase fog scatter				
 		  (pow((1.0-pow(fogFactor,0.75)),256.0)*0.4*diff*atmosColor)*sunset;  //distant fog.
-#else // atmosphere-less planetoids and dim stars
-	gl_FragColor =
-		material.emission +
-		(scene.ambient * vertexColor) +
-		(diff * vertexColor * 2.0);
-#endif //ATMOSPHERE
 
-#else // NUM_LIGHTS > 0 -- unlit rendering - stars
-	//emission is used to boost colour of stars, which is a bit odd
-	gl_FragColor = material.emission + vertexColor;
-#endif
 	SetFragDepth();
 }

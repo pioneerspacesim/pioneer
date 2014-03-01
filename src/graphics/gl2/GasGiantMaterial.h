@@ -1,8 +1,8 @@
 // Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef _GL2_GEOSPHEREMATERIAL_H
-#define _GL2_GEOSPHEREMATEIRAL_H
+#ifndef _GL2_GASGIANTMATERIAL_H
+#define _GL2_GASGIANTMATERIAL_H
 /*
  * Programs & Materials used by terrain
  */
@@ -13,9 +13,9 @@
 
 namespace Graphics {
 	namespace GL2 {
-		class GeoSphereProgram : public Program {
+		class GasGiantProgram : public Program {
 		public:
-			GeoSphereProgram(const std::string &filename, const std::string &defines);
+			GasGiantProgram(const std::string &filename, const std::string &defines);
 
 			Uniform atmosColor;
 			Uniform geosphereAtmosFogDensity;
@@ -38,18 +38,12 @@ namespace Graphics {
 			virtual void InitUniforms();
 		};
 
-		class GeoSphereSurfaceMaterial : public Material {
+		class GasGiantSurfaceMaterial : public Material {
 			virtual Program *CreateProgram(const MaterialDescriptor &);
 			virtual void Apply();
 
 		protected:
 			void SetGSUniforms();
-		};
-
-		class GeoSphereSkyMaterial : public GeoSphereSurfaceMaterial {
-		public:
-			virtual Program *CreateProgram(const MaterialDescriptor &);
-			virtual void Apply();
 		};
 	}
 }

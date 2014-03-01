@@ -29,17 +29,18 @@ static void print_info(const SystemBody *sbody, const Terrain *terrain)
 		sbody->GetName().c_str(), terrain->GetHeightFractalName(), terrain->GetColorFractalName(), sbody->GetSeed());
 }
 
-#pragma pack(4)
-struct VBOVertex
-{
-	float x,y,z;
-	float nx,ny,nz;
-	float padding[2];
-};
-#pragma pack()
+	
 
 class GasPatchContext : public RefCounted {
 public:
+	#pragma pack(push, 4)
+	struct VBOVertex
+	{
+		vector3f pos;
+		vector3f norm;
+	};
+	#pragma pack(pop)
+
 	int edgeLen;
 
 	inline int VBO_COUNT_IDX() const { return (edgeLen-1) * (edgeLen-1); }
@@ -50,9 +51,7 @@ public:
 	double frac;
 
 	std::unique_ptr<unsigned short[]> indices;
-	std::unique_ptr<VBOVertex> vbotemp;
-	GLuint indices_vbo;
-	GLuint indices_tri_count;
+	RefCountedPtr<Graphics::IndexBuffer> indexBuffer;
 
 	GasPatchContext(const int _edgeLen) : edgeLen(_edgeLen) {
 		Init();
@@ -68,9 +67,7 @@ public:
 	}
 
 	void Cleanup() {
-		if (indices_vbo) {
-			glDeleteBuffersARB(1, &indices_vbo);
-		}
+		indices.reset();
 	}
 
 	int getIndices(std::vector<unsigned short> &pl)
@@ -91,8 +88,6 @@ public:
 	
 	void Init() {
 		frac = 1.0 / double(edgeLen-1);
-
-		vbotemp.reset( new VBOVertex[NUMVERTICES()] );
 
 		// also want vtx indices for tris not touching edge of patch 
 		indices.reset(new unsigned short[IDX_VBO_COUNT_ALL_IDX()]);
@@ -116,16 +111,18 @@ public:
 
 		// populate the N indices lists from the arrays built during InitTerrainIndices()
 		// iterate over each index list and optimize it
-		indices_tri_count = getIndices(pl_short);
+		unsigned int tri_count = getIndices(pl_short);
 		VertexCacheOptimizerUShort vco;
-		VertexCacheOptimizerUShort::Result res = vco.Optimize(&pl_short[0], indices_tri_count);
+		VertexCacheOptimizerUShort::Result res = vco.Optimize(&pl_short[0], tri_count);
 		assert(0 == res);
 
-		// everything should be hunky-dory for setting up as OpenGL index buffers now.
-		glGenBuffersARB(1, &indices_vbo);
-		glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo);
-		glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned short)*indices_tri_count*3, &(pl_short[0]), GL_STATIC_DRAW);
-		glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
+		//create buffer & copy
+		indexBuffer.Reset(Pi::renderer->CreateIndexBuffer(pl_short.size(), Graphics::BUFFER_USAGE_STATIC));
+		Uint16* idxPtr = indexBuffer->Map(Graphics::BUFFER_MAP_WRITE);
+		for (Uint32 j = 0; j < pl_short.size(); j++) {
+			idxPtr[j] = pl_short[j];
+		}
+		indexBuffer->Unmap();
 
 		if (indices) {
 			indices.reset();
@@ -138,13 +135,13 @@ class GasPatch {
 public:
 	RefCountedPtr<GasPatchContext> ctx;
 	vector3d v[4];
-	GLuint m_vbo;
+	std::unique_ptr<Graphics::VertexBuffer> m_vertexBuffer;
 	GasGiant *gasSphere;
 	vector3d clipCentroid;
 	double clipRadius;
 
 	GasPatch(const RefCountedPtr<GasPatchContext> &_ctx, GasGiant *gs, vector3d v0, vector3d v1, vector3d v2, vector3d v3) 
-		: ctx(_ctx), m_vbo(0), gasSphere(gs), clipCentroid(((v0+v1+v2+v3) * 0.25).Normalized()), clipRadius(0.0)
+		: ctx(_ctx), gasSphere(gs), clipCentroid(((v0+v1+v2+v3) * 0.25).Normalized()), clipRadius(0.0)
 	{
 		v[0] = v0; v[1] = v1; v[2] = v2; v[3] = v3;
 		for (int i=0; i<4; i++) {
@@ -154,9 +151,7 @@ public:
 		UpdateVBOs();
 	}
 
-	~GasPatch() {
-		glDeleteBuffersARB(1, &m_vbo);
-	}
+	~GasPatch() {}
 
 	/* in patch surface coords, [0,1] */
 	vector3d GetSpherePoint(const double x, const double y) const {
@@ -164,59 +159,48 @@ public:
 	}
 
 	void UpdateVBOs() {
-		if (!m_vbo) 
-			glGenBuffersARB(1, &m_vbo);
+		//create buffer and upload data
+		Graphics::VertexBufferDesc vbd;
+		vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
+		vbd.attrib[0].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+		vbd.attrib[1].semantic = Graphics::ATTRIB_NORMAL;
+		vbd.attrib[1].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+		vbd.numVertices = ctx->NUMVERTICES();
+		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
+		m_vertexBuffer.reset(Pi::renderer->CreateVertexBuffer(vbd));
+
+		GasPatchContext::VBOVertex* vtxPtr = m_vertexBuffer->Map<GasPatchContext::VBOVertex>(Graphics::BUFFER_MAP_WRITE);
+		assert(m_vertexBuffer->GetDesc().stride == sizeof(GasPatchContext::VBOVertex));
 		
-		glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
-		glBufferDataARB(GL_ARRAY_BUFFER, sizeof(VBOVertex)*ctx->NUMVERTICES(), 0, GL_DYNAMIC_DRAW);
-		VBOVertex *pData = ctx->vbotemp.get();
-		for (int y=0; y<ctx->edgeLen; y++) {
-			for (int x=0; x<ctx->edgeLen; x++) {
-				const vector3d p = GetSpherePoint(x*ctx->frac, y*ctx->frac);
+		const Sint32 edgeLen = ctx->edgeLen;
+		const double frac = ctx->frac;
+		for (Sint32 y=0; y<edgeLen; y++) {
+			for (Sint32 x=0; x<edgeLen; x++) {
+				const vector3d p = GetSpherePoint(x*frac, y*frac);
 				const vector3d pSubCentroid = p - clipCentroid;
 				clipRadius = std::max(clipRadius, p.Length());
-				pData->x = float(pSubCentroid.x);
-				pData->y = float(pSubCentroid.y);
-				pData->z = float(pSubCentroid.z);
+				vtxPtr->pos = vector3f(pSubCentroid);
+				vtxPtr->norm = vector3f(p);
 
-				pData->nx = float(p.x);
-				pData->ny = float(p.y);
-				pData->nz = float(p.z);
-
-				++pData; // next vertex
+				++vtxPtr; // next vertex
 			}
 		}
-		glBufferDataARB(GL_ARRAY_BUFFER, sizeof(VBOVertex)*ctx->NUMVERTICES(), ctx->vbotemp.get(), GL_DYNAMIC_DRAW);
-		glBindBufferARB(GL_ARRAY_BUFFER, 0);
+		m_vertexBuffer->Unmap();
 	}
 
 	void Render(Graphics::Renderer *renderer, const vector3d &campos, const matrix4x4d &modelView, const Graphics::Frustum &frustum) {
 		if (!frustum.TestPoint(clipCentroid, clipRadius))
 			return;
 
-		vector3d relpos = clipCentroid - campos;
-		glPushMatrix();
-		glTranslated(relpos.x, relpos.y, relpos.z);
+		Graphics::Material *mat = gasSphere->GetSurfaceMaterial();
+		Graphics::RenderState *rs = gasSphere->GetSurfRenderState();
+
+		const vector3d relpos = clipCentroid - campos;
+		renderer->SetTransform(modelView * matrix4x4d::Translation(relpos));
 
 		Pi::statSceneTris += 2*(ctx->edgeLen-1)*(ctx->edgeLen-1);
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glEnableClientState(GL_NORMAL_ARRAY);
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-		// update the indices used for rendering
-		glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
-		glVertexPointer(3, GL_FLOAT, sizeof(VBOVertex), 0);
-		glNormalPointer(GL_FLOAT, sizeof(VBOVertex), reinterpret_cast<void *>(3*sizeof(float)));
-		glTexCoordPointer(2, GL_FLOAT, sizeof(VBOVertex), reinterpret_cast<void *>(6*sizeof(float)));
-		glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, ctx->indices_vbo);
-		glDrawElements(GL_TRIANGLES, ctx->indices_tri_count*3, GL_UNSIGNED_SHORT, 0);
-		glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
-		glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-		glDisableClientState(GL_VERTEX_ARRAY);
-		glDisableClientState(GL_NORMAL_ARRAY);
-		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-		glPopMatrix();
+		renderer->DrawBufferIndexed(m_vertexBuffer.get(), ctx->indexBuffer.Get(), rs, mat);
 	}
 };
 
@@ -232,27 +216,6 @@ GasGiant::GasGiant(const SystemBody *body) : BaseSphere(body), m_terrain(Terrain
 GasGiant::~GasGiant()
 {
 }
-
-#define DUMP_TO_TEXTURE 0
-
-#if DUMP_TO_TEXTURE
-#include "FileSystem.h"
-#include "PngWriter.h"
-void textureDump(const char* destFile, const int width, const int height, const Color* buf)
-{
-	const std::string dir = "generated_textures";
-	FileSystem::userFiles.MakeDirectory(dir);
-	const std::string fname = FileSystem::JoinPathBelow(dir, destFile);
-
-	// pad rows to 4 bytes, which is the default row alignment for OpenGL
-	//const int stride = (3*width + 3) & ~3;
-	const int stride = width * 4;
-
-	write_png(FileSystem::userFiles, fname, &buf[0].r, width, height, stride, 4);
-
-	printf("texture %s saved\n", fname.c_str());
-}
-#endif
 
 /* in patch surface coords, [0,1] */
 vector3d GetSpherePoint(const double x, const double y, const vector3d *v) {
@@ -284,21 +247,6 @@ static const vector3d s_patchFaces[NUM_PATCHES][4] =
 	{p1, p2, p3, p4}  // -z
 };
 
-#define USE_PATCH_COLOUR_MARKERS 0
-#if USE_PATCH_COLOUR_MARKERS
-static const Color4f s_patchColours[NUM_PATCHES] = 
-{
-	Color4f(1.0f, 0.0f, 0.0f, 1.0f), // +x
-	Color4f(0.0f, 0.5f, 0.5f, 1.0f), // -x
-
-	Color4f(0.0f, 1.0f, 0.0f, 1.0f), // +y
-	Color4f(0.5f, 0.0f, 0.5f, 1.0f), // -y
-
-	Color4f(0.0f, 0.0f, 1.0f, 1.0f), // +z
-	Color4f(0.5f, 0.5f, 0.0f, 1.0f)  // -z
-};
-#endif
-
 void GasGiant::GenerateTexture()
 {
 	std::unique_ptr<Color, FreeDeleter> buf[NUM_PATCHES];
@@ -307,9 +255,6 @@ void GasGiant::GenerateTexture()
 	}
 
 	for(int i=0; i<NUM_PATCHES; i++) {
-#if USE_PATCH_COLOUR_MARKERS
-		const Color4f tempCol = s_patchColours[i];
-#endif
 		Color* const pBuf = buf[i].get();
 		for( Uint32 v=0; v<UV_DIMS; v++ ) {
 			for( Uint32 u=0; u<UV_DIMS; u++ ) {
@@ -319,40 +264,18 @@ void GasGiant::GenerateTexture()
 
 				// get point on the surface of the sphere
 				const vector3d p = GetSpherePoint(ustep, vstep, &s_patchFaces[i][0]);
-#if 1
-#if USE_PATCH_COLOUR_MARKERS
-				const bool bSolidColour = (ustep > 0.4 && ustep < 0.6) && (vstep > 0.4 && vstep < 0.6);
-				// get colour using `p`
-				const vector3d colour = bSolidColour ? vector3d(tempCol.r, tempCol.g, tempCol.b) : m_terrain->GetColor(p, 0.0, p);
-#else
 				// get colour using `p`
 				const vector3d colour = m_terrain->GetColor(p, 0.0, p);
-#endif
 
 				// convert to ubyte and store
 				Color* col = pBuf + (u + (v * UV_DIMS));
 				col[0].r = Uint8(colour.x * 255.0);
 				col[0].g = Uint8(colour.y * 255.0);
 				col[0].b = Uint8(colour.z * 255.0);
-#else
-				// convert to ubyte and store
-				Color* col = pBuf + (u + (v * UV_DIMS));
-				col[0].r = Uint8(((p1.x + p.x) / p1.x*2.0) * 255.0);
-				col[0].g = Uint8(((p1.x + p.y) / p1.x*2.0) * 255.0);
-				col[0].b = Uint8(((p1.x + p.z) / p1.x*2.0) * 255.0);
-#endif
 				col[0].a = 255;
 			}
 		}
 	}
-
-#if DUMP_TO_TEXTURE
-	char filename[1024];
-	for(int i=0; i<NUM_PATCHES; i++) {
-		snprintf(filename, 1024, "%s%d.png", GetSystemBody()->name.c_str(), i);
-		textureDump(filename, UV_DIMS, UV_DIMS, buf[i].get());
-	}
-#endif
 
 	// create texture
 	const vector2f texSize(1.0f, 1.0f);
@@ -372,62 +295,6 @@ void GasGiant::GenerateTexture()
 	tcd.posZ = buf[4].get();
 	tcd.negZ = buf[5].get();
 	m_surfaceTexture->Update(tcd, dataSize, Graphics::TEXTURE_RGBA_8888);
-}
-
-static const float g_ambient[4] = { 0, 0, 0, 1.0 };
-
-static void DrawAtmosphereSurface(Graphics::Renderer *renderer,
-	const matrix4x4d &modelView, const vector3d &campos, float rad, 
-	Graphics::RenderState *rs, Graphics::Material *mat)
-{
-	const int LAT_SEGS = 20;
-	const int LONG_SEGS = 20;
-	vector3d yaxis = campos.Normalized();
-	vector3d zaxis = vector3d(1.0,0.0,0.0).Cross(yaxis).Normalized();
-	vector3d xaxis = yaxis.Cross(zaxis);
-	const matrix4x4d invrot = matrix4x4d::MakeRotMatrix(xaxis, yaxis, zaxis).InverseOf();
-
-	renderer->SetTransform(modelView * matrix4x4d::ScaleMatrix(rad, rad, rad) * invrot);
-
-	// what is this? Well, angle to the horizon is:
-	// acos(planetRadius/viewerDistFromSphereCentre)
-	// and angle from this tangent on to atmosphere is:
-	// acos(planetRadius/atmosphereRadius) ie acos(1.0/1.01244blah)
-	double endAng = acos(1.0/campos.Length())+acos(1.0/rad);
-	double latDiff = endAng / double(LAT_SEGS);
-
-	double rot = 0.0;
-	float sinCosTable[LONG_SEGS+1][2];
-	for (int i=0; i<=LONG_SEGS; i++, rot += 2.0*M_PI/double(LONG_SEGS)) {
-		sinCosTable[i][0] = float(sin(rot));
-		sinCosTable[i][1] = float(cos(rot));
-	}
-
-	/* Tri-fan above viewer */
-	Graphics::VertexArray va(Graphics::ATTRIB_POSITION);
-	va.Add(vector3f(0.f, 1.f, 0.f));
-	for (int i=0; i<=LONG_SEGS; i++) {
-		va.Add(vector3f(
-			sin(latDiff)*sinCosTable[i][0],
-			cos(latDiff),
-			-sin(latDiff)*sinCosTable[i][1]));
-	}
-	renderer->DrawTriangles(&va, rs, mat, Graphics::TRIANGLE_FAN);
-
-	/* and wound latitudinal strips */
-	double lat = latDiff;
-	for (int j=1; j<LAT_SEGS; j++, lat += latDiff) {
-		Graphics::VertexArray v(Graphics::ATTRIB_POSITION);
-		float cosLat = cos(lat);
-		float sinLat = sin(lat);
-		float cosLat2 = cos(lat+latDiff);
-		float sinLat2 = sin(lat+latDiff);
-		for (int i=0; i<=LONG_SEGS; i++) {
-			v.Add(vector3f(sinLat*sinCosTable[i][0], cosLat, -sinLat*sinCosTable[i][1]));
-			v.Add(vector3f(sinLat2*sinCosTable[i][0], cosLat2, -sinLat2*sinCosTable[i][1]));
-		}
-		renderer->DrawTriangles(&v, rs, mat, Graphics::TRIANGLE_STRIP);
-	}
 }
 
 void GasGiant::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const float scale, const std::vector<Camera::Shadow> &shadows)
@@ -480,17 +347,7 @@ void GasGiant::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView,
 	// save old global ambient
 	const Color oldAmbient = renderer->GetAmbientColor();
 
-	if ((GetSystemBody()->GetSuperType() == SystemBody::SUPERTYPE_STAR) || (GetSystemBody()->type == SystemBody::TYPE_BROWN_DWARF)) {
-		// stars should emit light and terrain should be visible from distance
-		ambient.r = ambient.g = ambient.b = 51;
-		ambient.a = 255;
-		emission.r = StarSystem::starRealColors[GetSystemBody()->type][0];
-		emission.g = StarSystem::starRealColors[GetSystemBody()->type][1];
-		emission.b = StarSystem::starRealColors[GetSystemBody()->type][2];
-		emission.a = 255;
-	}
-
-	else {
+	{
 		// give planet some ambient lighting if the viewer is close to it
 		double camdist = campos.Length();
 		camdist = 0.1 / (camdist*camdist);
@@ -502,35 +359,16 @@ void GasGiant::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView,
 	}
 
 	renderer->SetAmbientColor(ambient);
-//#define USE_WIREFRAME
-#ifdef USE_WIREFRAME
-	renderer->SetWireFrameMode(true);
-#endif
-	// this is pretty much the only place where a non-renderer is allowed to call Apply()
-	// to be removed when someone rewrites terrain
-	m_surfaceMaterial->Apply();
-	renderer->SetRenderState(m_surfRenderState);
 
 	renderer->SetTransform(modelView);
-
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_NORMAL_ARRAY);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
 	for (int i=0; i<NUM_PATCHES; i++) {
 		m_patches[i]->Render(renderer, campos, modelView, frustum);
 	}
 
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_NORMAL_ARRAY);
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-
 	m_surfaceMaterial->Unapply();
 
 	renderer->SetAmbientColor(oldAmbient);
-#ifdef USE_WIREFRAME
-	renderer->SetWireFrameMode(false);
-#endif
 }
 
 void GasGiant::SetUpMaterials()
@@ -544,41 +382,27 @@ void GasGiant::SetUpMaterials()
 	rsd.depthWrite = false;
 	m_atmosRenderState = Pi::renderer->CreateRenderState(rsd);
 
-	// Request material for this star or planet, with or without
-	// atmosphere. Separate material for surface and sky.
+	// Request material for this planet, with atmosphere. 
+	// Separate materials for surface and sky.
 	Graphics::MaterialDescriptor surfDesc;
 	surfDesc.effect = Graphics::EFFECT_GASSPHERE_TERRAIN;
 
-	if ((GetSystemBody()->type == SystemBody::TYPE_BROWN_DWARF) ||
-		(GetSystemBody()->type == SystemBody::TYPE_STAR_M)) {
-		//dim star (emits and receives light)
-		surfDesc.lighting = true;
-		surfDesc.quality &= ~Graphics::HAS_ATMOSPHERE;
-	}
-	else if (GetSystemBody()->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
-		//normal star
-		surfDesc.lighting = false;
-		surfDesc.quality &= ~Graphics::HAS_ATMOSPHERE;
-	} else {
-		//planetoid with or without atmosphere
-		const SystemBody::AtmosphereParameters ap(GetSystemBody()->CalcAtmosphereParams());
-		surfDesc.lighting = true;
-		if(ap.atmosDensity > 0.0) {
-			surfDesc.quality |= Graphics::HAS_ATMOSPHERE;
-		} else {
-			surfDesc.quality &= ~Graphics::HAS_ATMOSPHERE;
-		}
-	}
+	//planetoid with atmosphere
+	const SystemBody::AtmosphereParameters ap(GetSystemBody()->CalcAtmosphereParams());
+	surfDesc.lighting = true;
+	assert(ap.atmosDensity > 0.0);
+	{
+		surfDesc.quality |= Graphics::HAS_ATMOSPHERE;
+	} 
 
 	const bool bEnableEclipse = (Pi::config->Int("DisableEclipse") == 0);
 	if (bEnableEclipse) {
 		surfDesc.quality |= Graphics::HAS_ECLIPSES;
 	}
 	surfDesc.textures = 1;
-	m_surfaceMaterial.Reset(Pi::renderer->CreateMaterial(surfDesc));
+	m_surfaceMaterial.reset(Pi::renderer->CreateMaterial(surfDesc));
 	m_surfaceMaterial->texture0 = m_surfaceTexture.Get();
 
-	//Shader-less atmosphere is drawn in Planet
 	{
 		Graphics::MaterialDescriptor skyDesc;
 		skyDesc.effect = Graphics::EFFECT_GEOSPHERE_SKY;
