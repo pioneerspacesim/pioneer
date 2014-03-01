@@ -156,10 +156,8 @@ void Sensors::PopulateStaticContacts()
 {
 	m_staticContacts.clear();
 
-	auto start = Pi::game->GetSpace()->BodiesBegin();
-	auto end   = Pi::game->GetSpace()->BodiesEnd();
-	for (auto it = start; it != end; ++it) {
-		switch ((*it)->GetType())
+	for (Body* b : Pi::game->GetSpace()->GetBodies()) {
+		switch (b->GetType())
 		{
 			case Object::STAR:
 			case Object::PLANET:
@@ -169,7 +167,6 @@ void Sensors::PopulateStaticContacts()
 			default:
 				continue;
 		}
-		Body *b = *it;
 		m_staticContacts.push_back(RadarContact(b));
 		RadarContact &rc = m_staticContacts.back();
 		rc.fresh = true;

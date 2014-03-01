@@ -26,7 +26,7 @@ static void print_info(const SystemBody *sbody, const Terrain *terrain)
 		"    height fractal: %s\n"
 		"    colour fractal: %s\n"
 		"    seed: %u\n",
-		sbody->name.c_str(), terrain->GetHeightFractalName(), terrain->GetColorFractalName(), sbody->seed);
+		sbody->GetName().c_str(), terrain->GetHeightFractalName(), terrain->GetColorFractalName(), sbody->GetSeed());
 }
 
 #pragma pack(4)
@@ -479,13 +479,13 @@ void GasGiant::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView,
 	// save old global ambient
 	const Color oldAmbient = renderer->GetAmbientColor();
 
-	if ((GetSystemBody()->GetSuperType() == SystemBody::SUPERTYPE_STAR) || (GetSystemBody()->type == SystemBody::TYPE_BROWN_DWARF)) {
+	if ((GetSystemBody()->GetSuperType() == SystemBody::SUPERTYPE_STAR) || (GetSystemBody()->GetType() == SystemBody::TYPE_BROWN_DWARF)) {
 		// stars should emit light and terrain should be visible from distance
 		ambient.r = ambient.g = ambient.b = 51;
 		ambient.a = 255;
-		emission.r = StarSystem::starRealColors[GetSystemBody()->type][0];
-		emission.g = StarSystem::starRealColors[GetSystemBody()->type][1];
-		emission.b = StarSystem::starRealColors[GetSystemBody()->type][2];
+		emission.r = StarSystem::starRealColors[GetSystemBody()->GetType()][0];
+		emission.g = StarSystem::starRealColors[GetSystemBody()->GetType()][1];
+		emission.b = StarSystem::starRealColors[GetSystemBody()->GetType()][2];
 		emission.a = 255;
 	}
 
@@ -548,8 +548,8 @@ void GasGiant::SetUpMaterials()
 	Graphics::MaterialDescriptor surfDesc;
 	surfDesc.effect = Graphics::EFFECT_GASSPHERE_TERRAIN;
 
-	if ((GetSystemBody()->type == SystemBody::TYPE_BROWN_DWARF) ||
-		(GetSystemBody()->type == SystemBody::TYPE_STAR_M)) {
+	if ((GetSystemBody()->GetType() == SystemBody::TYPE_BROWN_DWARF) ||
+		(GetSystemBody()->GetType() == SystemBody::TYPE_STAR_M)) {
 		//dim star (emits and receives light)
 		surfDesc.lighting = true;
 		surfDesc.quality &= ~Graphics::HAS_ATMOSPHERE;

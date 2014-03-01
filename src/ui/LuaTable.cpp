@@ -113,6 +113,14 @@ public:
 		return 1;
 	}
 
+	static int l_set_column_alignment(lua_State *l) {
+		UI::Table *t = LuaObject<UI::Table>::CheckFromLua(1);
+		UI::Table::ColumnAlignDirection dir = static_cast<UI::Table::ColumnAlignDirection>(LuaConstants::GetConstantFromArg(l, "UITableColumnAlignDirection", 2));
+		t->SetColumnAlignment(dir);
+		lua_pushvalue(l, 1);
+		return 1;
+	}
+
 	static int l_set_heading_font(lua_State *l) {
 		UI::Table *t = LuaObject<UI::Table>::CheckFromLua(1);
 		UI::Widget::Font font = static_cast<UI::Widget::Font>(LuaConstants::GetConstantFromArg(l, "UIFont", 2));
@@ -135,6 +143,18 @@ public:
 		return 1;
 	}
 
+	static int l_scroll_to_top(lua_State *l) {
+		UI::Table *t = LuaObject<UI::Table>::CheckFromLua(1);
+		t->SetScrollPosition(0.0f);
+		return 0;
+	}
+
+	static int l_scroll_to_bottom(lua_State *l) {
+		UI::Table *t = LuaObject<UI::Table>::CheckFromLua(1);
+		t->SetScrollPosition(1.0f);
+		return 0;
+	}
+
 };
 
 }
@@ -148,20 +168,23 @@ template <> void LuaObject<UI::Table>::RegisterClass()
 	static const char *l_parent = "UI.Container";
 
 	static const luaL_Reg l_methods[] = {
-		{ "SetHeadingRow",    UI::LuaTable::l_set_heading_row    },
-		{ "AddRow",           UI::LuaTable::l_add_row            },
-		{ "AddRows",          UI::LuaTable::l_add_rows           },
-		{ "ClearRows",        UI::LuaTable::l_clear_rows         },
-		{ "SetRowSpacing",    UI::LuaTable::l_set_row_spacing    },
-		{ "SetColumnSpacing", UI::LuaTable::l_set_column_spacing },
-		{ "SetRowAlignment",  UI::LuaTable::l_set_row_alignment  },
-		{ "SetHeadingFont",   UI::LuaTable::l_set_heading_font   },
-		{ "SetMouseEnabled",  UI::LuaTable::l_set_mouse_enabled  },
+		{ "SetHeadingRow",      UI::LuaTable::l_set_heading_row      },
+		{ "AddRow",             UI::LuaTable::l_add_row              },
+		{ "AddRows",            UI::LuaTable::l_add_rows             },
+		{ "ClearRows",          UI::LuaTable::l_clear_rows           },
+		{ "SetRowSpacing",      UI::LuaTable::l_set_row_spacing      },
+		{ "SetColumnSpacing",   UI::LuaTable::l_set_column_spacing   },
+		{ "SetRowAlignment",    UI::LuaTable::l_set_row_alignment    },
+		{ "SetColumnAlignment", UI::LuaTable::l_set_column_alignment },
+		{ "SetHeadingFont",     UI::LuaTable::l_set_heading_font     },
+		{ "SetMouseEnabled",    UI::LuaTable::l_set_mouse_enabled    },
+		{ "ScrollToTop",        UI::LuaTable::l_scroll_to_top        },
+		{ "ScrollToBottom",     UI::LuaTable::l_scroll_to_bottom     },
 		{ 0, 0 }
 	};
 
 	static const luaL_Reg l_attrs[] = {
-		{ "onRowClicked",     UI::LuaTable::l_attr_table_on_row_clicked },
+		{ "onRowClicked",       UI::LuaTable::l_attr_table_on_row_clicked },
 		{ 0, 0 }
 	};
 

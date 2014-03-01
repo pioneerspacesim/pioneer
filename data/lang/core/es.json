@@ -121,7 +121,7 @@
    },
    "BUTTON" : {
       "description" : "",
-      "message" : "\" Button \""
+      "message" : "\" Botón \""
    },
    "CAMERA_BOTTOM_VIEW" : {
       "description" : "",
@@ -1085,7 +1085,7 @@
    },
    "NUMBER_HOURS" : {
       "description" : "",
-      "message" : "%hours{f.1} hrs"
+      "message" : "%hours{f.1} hrs "
    },
    "NUMBER_LY" : {
       "description" : "",

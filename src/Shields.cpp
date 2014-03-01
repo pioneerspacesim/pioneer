@@ -131,14 +131,8 @@ void Shields::ReparentShieldNodes(SceneGraph::Model* model)
 					sg->SetRenderState(renderer->CreateRenderState(rsd));
 
 					for (Uint32 iMesh = 0; iMesh < sg->GetNumMeshes(); ++iMesh) {
-						RefCountedPtr<Graphics::StaticMesh> rMesh = sg->GetMesh(iMesh);
-
-						for (Sint32 surfIdx = 0, endSurf = rMesh->GetNumSurfaces(); surfIdx < endSurf; surfIdx++) {
-							RefCountedPtr<Graphics::Surface> surf = rMesh->GetSurface(surfIdx);
-							if (surf.Valid()) {
-								surf->SetMaterial(GetGlobalShieldMaterial());
-							}
-						}
+						StaticGeometry::Mesh &rMesh = sg->GetMeshAt(iMesh);
+						rMesh.material = GetGlobalShieldMaterial();
 					}
 
 					// find the accumulated transform from the root to our node
@@ -208,14 +202,8 @@ Shields::Shields(SceneGraph::Model *model)
 
 				// set the material
 				for (Uint32 iMesh = 0; iMesh < sg->GetNumMeshes(); ++iMesh) {
-					RefCountedPtr<Graphics::StaticMesh> rMesh = sg->GetMesh(iMesh);
-
-					for (Sint32 surfIdx = 0, endSurf = rMesh->GetNumSurfaces(); surfIdx < endSurf; surfIdx++) {
-						RefCountedPtr<Graphics::Surface> surf = rMesh->GetSurface(surfIdx);
-						if (surf.Valid()) {
-							surf->SetMaterial(GetGlobalShieldMaterial());
-						}
-					}
+					StaticGeometry::Mesh &rMesh = sg->GetMeshAt(iMesh);
+					rMesh.material = GetGlobalShieldMaterial();
 				}
 
 				m_shields.push_back(Shield(Color3ub(255), mt->GetTransform(), sg.Get()));

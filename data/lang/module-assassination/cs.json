@@ -7,6 +7,38 @@
       "description" : "",
       "message" : "Můžeš mi zopakovat původní dotaz?"
    },
+   "DENY_0" : {
+      "description" : "",
+      "message" : "I'm sorry, but I don't trust you."
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "Come back when you have some qualifications."
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "I don't think you're the one I'm looking for."
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "You don't look like someone capable of doing what needs to be done."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "You are clearly not the one for this job."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "You seem much too inexperienced to handle a contract of this importance."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "I have never heard of you. I need someone experienced for this contract."
+   },
+   "DENY_7" : {
+      "description" : "",
+      "message" : "I'm not willing to risk this contract by giving it to someone as inexperienced as you."
+   },
    "DISTANCE" : {
       "description" : "",
       "message" : "Vzdálenost:"

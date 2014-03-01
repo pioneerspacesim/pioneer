@@ -62,7 +62,7 @@ class Game;
 
 class Pi {
 public:
-	static void Init();
+	static void Init(const std::map<std::string,std::string> &options);
 	static void InitGame();
 	static void StarportStart(Uint32 starport);
 	static void StartGame();
@@ -71,7 +71,6 @@ public:
 	static void MainLoop();
 	static void TombStoneLoop();
 	static void OnChangeDetailLevel();
-	static void ToggleLuaConsole();
 	static void Quit() __attribute((noreturn));
 	static float GetFrameTime() { return frameTime; }
 	static float GetGameTickAlpha() { return gameTickAlpha; }
@@ -99,6 +98,7 @@ public:
 		memcpy(motion, mouseMotion, sizeof(int)*2);
 	}
 	static void SetMouseGrab(bool on);
+	static void FlushCaches();
 	static void BoinkNoise();
 	static float CalcHyperspaceRangeMax(int hyperclass, int total_mass_in_tonnes);
 	static float CalcHyperspaceRange(int hyperclass, float total_mass_in_tonnes, int fuel);
@@ -226,6 +226,7 @@ private:
 	static Graphics::RenderTarget *renderTarget;
 	static RefCountedPtr<Graphics::Texture> renderTexture;
 	static std::unique_ptr<Graphics::Drawables::TexturedQuad> renderQuad;
+	static Graphics::RenderState *quadRenderState;
 };
 
 #endif /* _PI_H */

@@ -1,30 +1,30 @@
 {
    "GOODS_TRADER_0" : {
       "description" : "",
-      "message" : "Honest {name}'s Goods Emporium"
+      "message" : "Dürüst {name} Ürün Pazarı"
    },
    "GOODS_TRADER_1" : {
       "description" : "",
-      "message" : "{name}'s Trading House"
+      "message" : "{name} Ticaret Evi"
    },
    "GOODS_TRADER_2" : {
       "description" : "",
-      "message" : "{name}'s Warehouse"
+      "message" : "{name} Eşya Deposu"
    },
    "GOODS_TRADER_3" : {
       "description" : "",
-      "message" : "{name}'s Goods Exchange"
+      "message" : "{name} Ürün Borsası"
    },
    "GOODS_TRADER_4" : {
       "description" : "",
-      "message" : "{name} Holdings"
+      "message" : "{name} Holding"
    },
    "GOODS_TRADER_5" : {
       "description" : "",
-      "message" : "{name} & Sons"
+      "message" : "{name} ve Oğulları"
    },
    "WELCOME_TO" : {
       "description" : "",
-      "message" : "Welcome to "
+      "message" : "Hoş geldiniz:"
    }
 }

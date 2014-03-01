@@ -182,6 +182,12 @@ public:
 		FONT_HEADING_LARGE,
 		FONT_HEADING_XLARGE,
 
+		FONT_MONO_XSMALL,
+		FONT_MONO_SMALL,
+		FONT_MONO_NORMAL,
+		FONT_MONO_LARGE,
+		FONT_MONO_XLARGE,
+
 		FONT_MAX,                 // <enum skip>
 
 		FONT_INHERIT,
@@ -190,6 +196,8 @@ public:
 		FONT_LARGEST          = FONT_XLARGE,         // <enum skip>
 		FONT_HEADING_SMALLEST = FONT_HEADING_XSMALL, // <enum skip>
 		FONT_HEADING_LARGEST  = FONT_HEADING_XLARGE, // <enum skip>
+		FONT_MONO_SMALLEST    = FONT_MONO_XSMALL,    // <enum skip>
+		FONT_MONO_LARGEST     = FONT_MONO_XLARGE,    // <enum skip>
 	};
 
 	virtual Widget *SetFont(Font font);
@@ -330,31 +338,31 @@ private:
 
 	// event triggers. when called:
 	//  - calls the corresponding Handle* method on this widget (always)
-	//  - fires the corresponding on* signal on this widget (iff emit is true)
-	//  - calls the container Trigger* method with the new emit value returned
+	//  - fires the corresponding on* signal on this widget (iff handled is false)
+	//  - calls the container Trigger* method with the new handled value returned
 	//    by the on* signal
 	//
 	// what this means in practic is that Handle* will be called for every
 	// widget from here to the root, whereas signals will only be fired as
 	// long as the signals continue to return false (unhandled).
-	bool TriggerKeyDown(const KeyboardEvent &event, bool emit = true);
-	bool TriggerKeyUp(const KeyboardEvent &event, bool emit = true);
-	bool TriggerTextInput(const TextInputEvent &event, bool emit = true);
-	bool TriggerMouseDown(const MouseButtonEvent &event, bool emit = true);
-	bool TriggerMouseUp(const MouseButtonEvent &event, bool emit = true);
-	bool TriggerMouseMove(const MouseMotionEvent &event, bool emit = true);
-	bool TriggerMouseWheel(const MouseWheelEvent &event, bool emit = true);
+	bool TriggerKeyDown(const KeyboardEvent &event, bool handled = false);
+	bool TriggerKeyUp(const KeyboardEvent &event, bool handled = false);
+	bool TriggerTextInput(const TextInputEvent &event, bool handled = false);
+	bool TriggerMouseDown(const MouseButtonEvent &event, bool handled = false);
+	bool TriggerMouseUp(const MouseButtonEvent &event, bool handled = false);
+	bool TriggerMouseMove(const MouseMotionEvent &event, bool handled = false);
+	bool TriggerMouseWheel(const MouseWheelEvent &event, bool handled = false);
 
-	bool TriggerJoystickButtonDown(const JoystickButtonEvent &event, bool emit = true);
-	bool TriggerJoystickButtonUp(const JoystickButtonEvent &event, bool emit = true);
-	bool TriggerJoystickAxisMove(const JoystickAxisMotionEvent &event, bool emit = true);
-	bool TriggerJoystickHatMove(const JoystickHatMotionEvent &event, bool emit = true);
+	bool TriggerJoystickButtonDown(const JoystickButtonEvent &event, bool handled = false);
+	bool TriggerJoystickButtonUp(const JoystickButtonEvent &event, bool handled = false);
+	bool TriggerJoystickAxisMove(const JoystickAxisMotionEvent &event, bool handled = false);
+	bool TriggerJoystickHatMove(const JoystickHatMotionEvent &event, bool handled = false);
 
-	bool TriggerClick(bool emit = true);
+	bool TriggerClick(bool handled = false);
 
 	// stop is used during disable/enable to stop delivery at the given widget
-	bool TriggerMouseOver(const Point &pos, bool emit = true, Widget *stop = 0);
-	bool TriggerMouseOut(const Point &pos, bool emit = true, Widget *stop = 0);
+	bool TriggerMouseOver(const Point &pos, bool handled = false, Widget *stop = 0);
+	bool TriggerMouseOut(const Point &pos, bool handled = false, Widget *stop = 0);
 
 	void TriggerMouseActivate();
 	void TriggerMouseDeactivate();

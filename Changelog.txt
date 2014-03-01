@@ -3,15 +3,32 @@ February 2014
    * New features
      * New "Octagon" ground station (#2704)
      * Now any star in a multiple system can be the hyperjump target (#2712)
+     * Rewrote console on the new UI (#2726)
+     * Characters have reputation, which is required by missions (#2675)
+     * New (rare) "News" event for commodities on the BBS (#2753)
 
    * Minor changes and tweaks
      * Added landing tag points to all ships (#2703)
      * Draw sectorview stars with sphere imposters (#2713)
      * New UI now available as an overlay in all views (#2716)
+     * Quicksave can now be loaded directly from main menu
+     * Paste support for text entry widgets (ie console)
+     * Improve skybox, restore star rendering (#2736)
+     * New wheels up/down icon (#2754)
+     * The `console.lua` script is now run at each game start (#2746)
+     * Config values can be overidden on the command line
+     * Use tables instead of grids for layout
+     * Donating money or not paying wages affects reputation (#2786)
 
-   * Script API changes
+   * Script and UI API changes
      * Model.SetDebugFlags for adding debug effects to model drawing
      * ModelSpinner.model to get the spinner model
+     * UI.Image:SetHeightLines to help set image height against text
+     * hasprop method to see if the named property exists (#2734)
+     * Ship:InitiateHyperjumpTo to jump regardless of range or fuel (#2747)
+     * UI.Table.SetColumnAlignment, various ways to position table columns (#2778)
+     * UI.Table.ScrollToTop and ScrollToBottom, basic scroll control
+     * Empty grid cells now expand to the available size to assist with layout
 
    * Model changes
      * Removed two_sided material property, it didn't handle lighting correctly (#2697)
@@ -20,6 +37,17 @@ February 2014
      * Complain about custom systems with wrong number of stars (#2718,#2720)
      * Fixing thruster tags (#2721)
      * Fix run-away terrain threads when ending the game (#2707,#2722)
+     * Fix Lua error from TradeShips when colliding and hyperjumping (#2701,#2731)
+     * Reset mouse grab state on game exit (#2739)
+     * Fix a potent bug when destroying copies of invalid LuaRefs (#2745)
+     * Fix English in Taxi missions (#2752)
+     * Fix various glitches and an assertion in system info view (#2741,#2743,#2755)
+     * Fix that rotation state of bodies was not saved/loaded properly (#2733,#2738)
+     * Fix pattern for Xylophis (#2723,#2759)
+     * Render to texture Skybox alpha fix (#2763)
+     * Remove Lua timers at game exit (#1962)
+     * Properly set terrain detail settings (#2770)
+     * Always relayout tables and single containers after content change
 
    * Internal changes
      * Moved model debug effects (wireframe, collision mesh) out of
@@ -27,6 +55,15 @@ February 2014
      * Handle blend/depth/cull render states as stateset objects (#2697)
      * Removed redundant shader cleanup (#2708)
      * Split camera state into a separate class (#2714)
+     * Sector and star system cache improvements (#2706)
+     * Generation of explored flag moved from StarSystem to Sector (#2744)
+     * New Vertex buffer class (#2762)
+     * Code cleanup in StarSystem and SystemBody (#2777,#2788)
+     * Removed Visual Studio 2010 and 2012 support (#2772)
+     * IterationProxy for save access to embedded containers (#2783)
+     * Automatically manage the cancellation of jobs with RAII (#2758)
+     * Added a Profile Config to VS2013 (#2785)
+     * Update terrain to use the new VertexBuffer (#2795)
 
 January 2014
 

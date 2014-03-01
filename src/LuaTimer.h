@@ -10,6 +10,7 @@
 class LuaTimer : public DeleteEmitter {
 public:
 	void Tick();
+	void RemoveAll();
 };
 
 #endif

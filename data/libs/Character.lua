@@ -441,6 +441,23 @@ Character = {
 	assistcount = 0,
 
 --
+-- Attribute: reputation
+--
+-- Integer value; reflects the reputation amassed through taking missions.
+-- It should be reduced for failed missions, and increased for successful
+-- missions.
+--
+-- Availability:
+--
+--   January 2014
+--
+-- Status:
+--
+--   experimental
+--
+	reputation = 0,
+
+--
 -- Group: Methods
 --
 
@@ -994,7 +1011,7 @@ Character = {
 			return('DANGEROUS')
 		elseif self.killcount < 6000 then
 			return('DEADLY')
-		else 
+		else
 			return('ELITE')
 		end
 	end,
@@ -1059,6 +1076,60 @@ Character = {
 			end
 		end --for
 		return false
+	end,
+
+--
+-- Method: GetReputationRating
+--
+--   Returns a translatable string giving the character's reputation rating
+--
+-- rating = ch:GetReputationRating()
+--
+-- Return:
+--
+--   rating - Translatable string
+--
+-- Example:
+--
+-- Show player their own reputation rating as a UI message
+--
+-- > l = Lang.GetResource("ui-core")
+-- > UI.Message(('Your reputation is {reputation}'):interp({
+-- >     reputation = l[Character.persistent.player:GetReputationRating(]),
+-- > }))
+--
+-- Availability:
+--
+--   January 2014
+--
+-- Status:
+--
+--   experimental
+--
+	GetReputationRating = function (self)
+		if self.reputation < -8 then
+			return('INCOMPETENT')
+		elseif self.reputation < 0 then
+			return('UNRELIABLE')
+		elseif self.reputation < 4 then
+			return('NOBODY')
+		elseif self.reputation < 8 then
+			return('INEXPERIENCED')
+		elseif self.reputation < 16 then
+			return('EXPERIENCED')
+		elseif self.reputation < 32 then
+			return('CREDIBLE')
+		elseif self.reputation < 64 then
+			return('RELIABLE')
+		elseif self.reputation < 128 then
+			return('TRUSTWORTHY')
+		elseif self.reputation < 256 then
+			return('PROFESSIONAL')
+		elseif self.reputation < 512 then
+			return('EXPERT')
+		else
+			return('MASTER')
+		end
 	end,
 
 	-- Debug function

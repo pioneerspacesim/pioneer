@@ -25,9 +25,13 @@ Point Grid::PreferredSize()
 		for (unsigned int colNum = 0; colNum < m_numCols; colNum++) {
 			const unsigned int n = rowNum*m_numCols+colNum;
 			Widget *w = m_widgets[n];
-			if (!w) continue;
 
-			const Point childPreferredSize = w->CalcLayoutContribution();
+			Point childPreferredSize;
+			if (w)
+				childPreferredSize = w->CalcLayoutContribution();
+			else
+				childPreferredSize = Point(SIZE_EXPAND);
+
 			rowSize.x = SizeAdd(childPreferredSize.x, rowSize.x);
 			rowSize.y = std::max(childPreferredSize.y, rowSize.y);
 		}

@@ -540,8 +540,8 @@
       "message" : "This saved game file could not be written because of a system error."
    },
    "GENERAL_VIEW_CONTROLS" : {
-       "description" : "",
-       "message" : "General View Controls"
+      "description" : "",
+      "message" : "General View Controls"
    },
    "GOVERNMENT_TYPE" : {
       "description" : "",
@@ -796,68 +796,68 @@
       "message" : "Manual control mode"
    },
    "MAP_LOCK_HYPERSPACE_TARGET" : {
-       "description" : "",
-       "message" : "Lock Hyperspace Target"
+      "description" : "",
+      "message" : "Lock Hyperspace Target"
    },
    "MAP_TOGGLE_INFO_PANEL" : {
-       "description" : "",
-       "message" : "Toggle Info Panel"
+      "description" : "",
+      "message" : "Toggle Info Panel"
    },
    "MAP_TOGGLE_SELECTION_FOLLOW_VIEW" : {
-       "description" : "",
-       "message" : "Toggle Selection Following View"
+      "description" : "",
+      "message" : "Toggle Selection Following View"
    },
    "MAP_VIEW_ROTATE_DOWN" : {
-       "description" : "",
-       "message" : "Rotate View Down"
+      "description" : "",
+      "message" : "Rotate View Down"
    },
    "MAP_VIEW_ROTATE_LEFT" : {
-       "description" : "",
-       "message" : "Rotate View Left"
+      "description" : "",
+      "message" : "Rotate View Left"
    },
    "MAP_VIEW_ROTATE_RIGHT" : {
-       "description" : "",
-       "message" : "Rotate View Right"
+      "description" : "",
+      "message" : "Rotate View Right"
    },
    "MAP_VIEW_ROTATE_UP" : {
-       "description" : "",
-       "message" : "Rotate View Up"
+      "description" : "",
+      "message" : "Rotate View Up"
    },
    "MAP_VIEW_SHIFT_BACKWARD" : {
-       "description" : "",
-       "message" : "Shift View Backwards"
+      "description" : "",
+      "message" : "Shift View Backwards"
    },
    "MAP_VIEW_SHIFT_DOWN" : {
-       "description" : "",
-       "message" : "Shift View Down"
+      "description" : "",
+      "message" : "Shift View Down"
    },
    "MAP_VIEW_SHIFT_FORWARD" : {
-       "description" : "",
-       "message" : "Shift View Forwards"
+      "description" : "",
+      "message" : "Shift View Forwards"
    },
    "MAP_VIEW_SHIFT_LEFT" : {
-       "description" : "",
-       "message" : "Shift View Left"
+      "description" : "",
+      "message" : "Shift View Left"
    },
    "MAP_VIEW_SHIFT_RIGHT" : {
-       "description" : "",
-       "message" : "Shift View Right"
+      "description" : "",
+      "message" : "Shift View Right"
    },
    "MAP_VIEW_SHIFT_UP" : {
-       "description" : "",
-       "message" : "Shift View Up"
+      "description" : "",
+      "message" : "Shift View Up"
    },
    "MAP_WARP_TO_CURRENT_SYSTEM" : {
-       "description" : "",
-       "message" : "Warp to Current System"
+      "description" : "",
+      "message" : "Warp to Current System"
    },
    "MAP_WARP_TO_HYPERSPACE_TARGET" : {
-       "description" : "",
-       "message" : "Warp to Hyperspace Target"
+      "description" : "",
+      "message" : "Warp to Hyperspace Target"
    },
    "MAP_WARP_TO_SELECTED_SYSTEM" : {
-       "description" : "",
-       "message" : "Warp to Selected System"
+      "description" : "",
+      "message" : "Warp to Selected System"
    },
    "MASS" : {
       "description" : "",
@@ -1309,7 +1309,7 @@
    },
    "RESET_ORIENTATION_AND_ZOOM" : {
       "description" : "",
-	  "message" : "Reset Orientation and Zoom"
+      "message" : "Reset Orientation and Zoom"
    },
    "ROBOTS" : {
       "description" : "",
@@ -1404,8 +1404,8 @@
       "message" : "Sector coordinates:"
    },
    "SECTOR_MAP_VIEW" : {
-       "description" : "",
-       "message": "Sector Map View"
+      "description" : "",
+      "message" : "Sector Map View"
    },
    "SECTOR_X_Y_Z" : {
       "description" : "",

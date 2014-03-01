@@ -58,7 +58,7 @@ static void print_info(const SystemBody *sbody, const Terrain *terrain)
 		"    height fractal: %s\n"
 		"    colour fractal: %s\n"
 		"    seed: %u\n",
-		sbody->name.c_str(), terrain->GetHeightFractalName(), terrain->GetColorFractalName(), sbody->seed);
+		sbody->GetName().c_str(), terrain->GetHeightFractalName(), terrain->GetColorFractalName(), sbody->GetSeed());
 }
 
 // static
@@ -94,7 +94,7 @@ bool GeoSphere::OnAddQuadSplitResult(const SystemPath &path, SQuadSplitResult *r
 {
 	// Find the correct GeoSphere via it's system path, and give it the split result
 	for(std::vector<GeoSphere*>::iterator i=s_allGeospheres.begin(), iEnd=s_allGeospheres.end(); i!=iEnd; ++i) {
-		if( path == (*i)->GetSystemBody()->path ) {
+		if( path == (*i)->GetSystemBody()->GetPath() ) {
 			(*i)->AddQuadSplitResult(res);
 			return true;
 		}
@@ -112,7 +112,7 @@ bool GeoSphere::OnAddSingleSplitResult(const SystemPath &path, SSingleSplitResul
 {
 	// Find the correct GeoSphere via it's system path, and give it the split result
 	for(std::vector<GeoSphere*>::iterator i=s_allGeospheres.begin(), iEnd=s_allGeospheres.end(); i!=iEnd; ++i) {
-		if( path == (*i)->GetSystemBody()->path ) {
+		if( path == (*i)->GetSystemBody()->GetPath() ) {
 			(*i)->AddSingleSplitResult(res);
 			return true;
 		}
@@ -455,13 +455,13 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 	// save old global ambient
 	const Color oldAmbient = renderer->GetAmbientColor();
 
-	if ((GetSystemBody()->GetSuperType() == SystemBody::SUPERTYPE_STAR) || (GetSystemBody()->type == SystemBody::TYPE_BROWN_DWARF)) {
+	if ((GetSystemBody()->GetSuperType() == SystemBody::SUPERTYPE_STAR) || (GetSystemBody()->GetType() == SystemBody::TYPE_BROWN_DWARF)) {
 		// stars should emit light and terrain should be visible from distance
 		ambient.r = ambient.g = ambient.b = 51;
 		ambient.a = 255;
-		emission.r = StarSystem::starRealColors[GetSystemBody()->type][0];
-		emission.g = StarSystem::starRealColors[GetSystemBody()->type][1];
-		emission.b = StarSystem::starRealColors[GetSystemBody()->type][2];
+		emission.r = StarSystem::starRealColors[GetSystemBody()->GetType()][0];
+		emission.g = StarSystem::starRealColors[GetSystemBody()->GetType()][1];
+		emission.b = StarSystem::starRealColors[GetSystemBody()->GetType()][2];
 		emission.a = 255;
 	}
 
@@ -478,28 +478,11 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 
 	renderer->SetAmbientColor(ambient);
 
-	// this is pretty much the only place where a non-renderer is allowed to call Apply()
-	// to be removed when someone rewrites terrain
-	m_surfaceMaterial->Apply();
-	renderer->SetRenderState(m_surfRenderState);
-
 	renderer->SetTransform(modelView);
 
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_NORMAL_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
-
-	for (int i=0; i<NUM_PATCHES; i++)
+	for (int i=0; i<NUM_PATCHES; i++) {
 		m_patches[i]->Render(renderer, campos, modelView, frustum);
-
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_NORMAL_ARRAY);
-	glDisableClientState(GL_COLOR_ARRAY);
-
-	glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
-	glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-	m_surfaceMaterial->Unapply();
+	}
 
 	renderer->SetAmbientColor(oldAmbient);
 }
@@ -526,8 +509,8 @@ void GeoSphere::SetUpMaterials()
 	else
 		surfDesc.effect = Graphics::EFFECT_GEOSPHERE_TERRAIN;
 
-	if ((GetSystemBody()->type == SystemBody::TYPE_BROWN_DWARF) ||
-		(GetSystemBody()->type == SystemBody::TYPE_STAR_M)) {
+	if ((GetSystemBody()->GetType() == SystemBody::TYPE_BROWN_DWARF) ||
+		(GetSystemBody()->GetType() == SystemBody::TYPE_STAR_M)) {
 		//dim star (emits and receives light)
 		surfDesc.lighting = true;
 		surfDesc.quality &= ~Graphics::HAS_ATMOSPHERE;

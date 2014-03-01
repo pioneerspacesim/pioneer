@@ -5,6 +5,7 @@ local Engine = import("Engine")
 local Lang = import("Lang")
 local Game = import("Game")
 local Comms = import("Comms")
+local Character = import("Character")
 local Event = import("Event")
 local Serializer = import("Serializer")
 
@@ -19,6 +20,21 @@ for i = 0,5 do
 end
 
 local ads = {}
+
+
+local addReputation = function (money)
+	local curRep = Character.persistent.player.reputation
+	local newRep
+
+	if curRep >= 1 then
+		local exp = math.log(money)/math.log(10) - (math.log(curRep)/math.log(2) - 1)
+		newRep = curRep + 2^exp
+	else
+		newRep = curRep + 2^(math.log(money)/math.log(10))
+	end
+	Character.persistent.player.reputation = newRep
+end
+
 
 local onChat = function (form, ref, option)
 	local ad = ads[ref]
@@ -54,6 +70,7 @@ local onChat = function (form, ref, option)
 			Comms.Message(l.THANK_YOU_ALL_DONATIONS_ARE_WELCOME)
 		end
 		Game.player:AddMoney(-option)
+		addReputation(option)
 	end
 end
 

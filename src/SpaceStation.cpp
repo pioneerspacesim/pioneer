@@ -70,6 +70,9 @@ void SpaceStation::Save(Serializer::Writer &wr, Space *space)
 void SpaceStation::Load(Serializer::Reader &rd, Space *space)
 {
 	ModelBody::Load(rd, space);
+
+	m_oldAngDisplacement = 0.0;
+
 	int num = rd.Int32();
 	if (num > Equip::TYPE_MAX) throw SavedGameCorruptException();
 	const Uint32 numShipDocking = rd.Int32();
@@ -135,8 +138,8 @@ void SpaceStation::InitStation()
 {
 	m_adjacentCity = 0;
 	for(int i=0; i<NUM_STATIC_SLOTS; i++) m_staticSlot[i] = false;
-	Random rand(m_sbody->seed);
-	bool ground = m_sbody->type == SystemBody::TYPE_STARPORT_ORBITAL ? false : true;
+	Random rand(m_sbody->GetSeed());
+	bool ground = m_sbody->GetType() == SystemBody::TYPE_STARPORT_ORBITAL ? false : true;
 	if (ground) {
 		m_type = &SpaceStationType::surfaceStationTypes[ rand.Int32(SpaceStationType::surfaceStationTypes.size()) ];
 	} else {
@@ -510,7 +513,7 @@ void SpaceStation::TimeStepUpdate(const float timeStep)
 			m_navLights->SetColor(i+1, NavLights::NAVLIGHT_YELLOW);
 			continue;
 		}
-		if (dt.ship->GetFlightState() == Ship::FLYING)
+		if (dt.ship->GetFlightState() != Ship::DOCKED && dt.ship->GetFlightState() != Ship::DOCKING)
 			continue;
 		PositionDockedShip(dt.ship, i);
 		m_navLights->SetColor(i+1, NavLights::NAVLIGHT_RED); //docked
@@ -562,7 +565,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 		Planet *planet = static_cast<Planet*>(b);
 
 		if (!m_adjacentCity) {
-			m_adjacentCity = new CityOnPlanet(planet, this, m_sbody->seed);
+			m_adjacentCity = new CityOnPlanet(planet, this, m_sbody->GetSeed());
 		}
 		m_adjacentCity->Render(r, camera->GetContext()->GetFrustum(), this, viewCoords, viewTransform);
 

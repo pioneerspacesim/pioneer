@@ -15,6 +15,38 @@
       "description" : "",
       "message" : "Przesyłka"
    },
+   "DENY_0" : {
+      "description" : "",
+      "message" : "Przykro mi, ale nie sądzę by można powierzyć ci tą dostawę."
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "Wróć kiedy zdobędziesz jakieś kwalifikacje."
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "Nie sądzę że jesteś tym pilotem którego szukam."
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "Nie wyglądasz na kogoś komu można zaufać przy tej dostawie."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "Nie jesteś typem pilota jakiego szukam."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "Wydajesz się być zbyt niedoświadczoną osobą aby obsłużyć transport o takim znaczeniu."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "Nikt o tobie nigdy nie słyszał. Przy tej dostawie potrzebuję kogoś doświadczonego."
+   },
+   "DENY_7" : {
+      "description" : "",
+      "message" : "Nie mogę zaryzykować tej dostawy z kimś tak niewykwalifikowanym jak ty."
+   },
    "DISTANCE" : {
       "description" : "",
       "message" : "Dystans:"

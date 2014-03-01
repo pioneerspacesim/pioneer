@@ -5,7 +5,7 @@
    },
    "ACTIVE" : {
       "description" : "",
-      "message" : "Active"
+      "message" : "Ativo"
    },
    "AFTER_TRADE_IN" : {
       "description" : "",
@@ -101,7 +101,7 @@
    },
    "CHANGE_BINDING" : {
       "description" : "",
-      "message" : "Change Binding"
+      "message" : "Mudar Ligação"
    },
    "CHIEF_MECHANIC" : {
       "description" : "",
@@ -113,7 +113,7 @@
    },
    "CITY_DETAIL_LEVEL" : {
       "description" : "",
-      "message" : "City detail level"
+      "message" : "Nível de detalhe da cidade"
    },
    "CLEAN" : {
       "description" : "",
@@ -141,7 +141,7 @@
    },
    "COMPETENT" : {
       "description" : "",
-      "message" : "Competent"
+      "message" : "Competente"
    },
    "COMPLETED" : {
       "description" : "",
@@ -157,23 +157,27 @@
    },
    "CONTROLS" : {
       "description" : "",
-      "message" : "Controlos"
+      "message" : "Controles"
    },
    "CONTROL_OPTIONS" : {
       "description" : "",
-      "message" : "Control Options"
+      "message" : "Opções de controle"
    },
    "COULD_NOT_LOAD_GAME" : {
       "description" : "",
-      "message" : "Could not load game: "
+      "message" : "Não pôde carregar jogo;"
+   },
+   "CREDIBLE" : {
+      "description" : "For player reputation",
+      "message" : "Credible"
    },
    "CREW_CABINS" : {
       "description" : "",
-      "message" : "Crew cabins"
+      "message" : "Cabines de Tripulação"
    },
    "CREW_ROSTER" : {
       "description" : "",
-      "message" : "Crew Roster"
+      "message" : "Lista da Tripulação"
    },
    "CRIMINAL_RECORD" : {
       "description" : "",
@@ -185,7 +189,7 @@
    },
    "DEADLY" : {
       "description" : "",
-      "message" : "Deadly"
+      "message" : "Mortal"
    },
    "DELTA_V" : {
       "description" : "",
@@ -205,11 +209,11 @@
    },
    "DESCENT_TO_GROUND_SPEED" : {
       "description" : "",
-      "message" : "Descent-to-ground speed:"
+      "message" : "Velocidade de Descida ao chão:"
    },
    "DESTROY_ENEMY_SHIP" : {
       "description" : "",
-      "message" : "Destroy enemy ship"
+      "message" : "Destruir nave inimiga"
    },
    "DISMISS" : {
       "description" : "",
@@ -221,7 +225,7 @@
    },
    "DISPLAY_NAV_TUNNELS" : {
       "description" : "",
-      "message" : "Display nav tunnels"
+      "message" : "Mostrar túneis de navegação"
    },
    "DISPLAY_SPEED_LINES" : {
       "description" : "",
@@ -237,15 +241,15 @@
    },
    "D_DAYS_LEFT" : {
       "description" : "",
-      "message" : "Days left: %d"
+      "message" : "Dias restantes: %d"
    },
    "ECONOMY_TRADE" : {
       "description" : "",
-      "message" : "Economy & Trade"
+      "message" : "Economia & Troca"
    },
    "EFFECTS" : {
       "description" : "",
-      "message" : "Effects:"
+      "message" : "Efeitos:"
    },
    "ELITE" : {
       "description" : "",
@@ -261,7 +265,7 @@
    },
    "ENABLE_JOYSTICK" : {
       "description" : "",
-      "message" : "Enable joystick"
+      "message" : "Ativar Joystick"
    },
    "ENGINEERING" : {
       "description" : "",
@@ -281,19 +285,27 @@
    },
    "ERROR" : {
       "description" : "",
-      "message" : "Error"
+      "message" : "Erro"
    },
    "ESCAPE_SPEED" : {
       "description" : "",
-      "message" : "Escape speed:"
+      "message" : "Velocidade de escape:"
    },
    "EXIT_THIS_GAME" : {
       "description" : "",
       "message" : "Exit this game"
    },
+   "EXPERIENCED" : {
+      "description" : "For player reputation",
+      "message" : "Experienced"
+   },
+   "EXPERT" : {
+      "description" : "For player reputation",
+      "message" : "Expert"
+   },
    "FAILED" : {
       "description" : "",
-      "message" : "Failed"
+      "message" : "Falhado"
    },
    "FEMALE" : {
       "description" : "",
@@ -316,12 +328,12 @@
       "message" : "Fractal detail"
    },
    "FREE" : {
-      "description" : "",
+      "description" : "Used in Ship Information view as in Capacity: 10t (5t free)",
       "message" : "free"
    },
    "FRONT_WEAPON" : {
       "description" : "",
-      "message" : "Front weapon"
+      "message" : "Arma frontal"
    },
    "FUEL" : {
       "description" : "",
@@ -329,7 +341,7 @@
    },
    "FUEL_TANK_FULL" : {
       "description" : "",
-      "message" : "Fuel tank full."
+      "message" : "Tanque de combustível cheio."
    },
    "FUEL_WEIGHT" : {
       "description" : "",
@@ -341,7 +353,7 @@
    },
    "GENERAL_CREW" : {
       "description" : "",
-      "message" : "General crew"
+      "message" : "Tripulação geral"
    },
    "GIVE_ORDERS_TO_CREW" : {
       "description" : "",
@@ -385,11 +397,11 @@
    },
    "HIGH" : {
       "description" : "",
-      "message" : "High"
+      "message" : "Alto"
    },
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
       "description" : "",
-      "message" : "Hull does not require repair."
+      "message" : "Casco não precisa de conserto."
    },
    "HULL_INTEGRITY" : {
       "description" : "",
@@ -401,7 +413,7 @@
    },
    "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE" : {
       "description" : "",
-      "message" : "Hull repair attempt failed. Hull suffered minor damage."
+      "message" : "Tentativa de conserto do casco falhada. O casco sofreu danos menores."
    },
    "HYPERDRIVE" : {
       "description" : "",
@@ -413,7 +425,7 @@
    },
    "HYPERSPACE_RANGE" : {
       "description" : "",
-      "message" : "Hyperspace range"
+      "message" : "Alcance Hiperespacial"
    },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
@@ -423,9 +435,17 @@
       "description" : "",
       "message" : "Inactive"
    },
+   "INCOMPETENT" : {
+      "description" : "For player reputation",
+      "message" : "Incompetent"
+   },
+   "INEXPERIENCED" : {
+      "description" : "For player reputation",
+      "message" : "Inexperienced"
+   },
    "INVERT_MOUSE_Y" : {
       "description" : "",
-      "message" : "Invert Mouse Y"
+      "message" : "Inverter Y do Mouse"
    },
    "IN_CARGO_HOLD" : {
       "description" : "",
@@ -449,11 +469,11 @@
    },
    "KILLS" : {
       "description" : "",
-      "message" : "Kills:"
+      "message" : "Mortos:"
    },
    "LANGUAGE" : {
       "description" : "",
-      "message" : "Language"
+      "message" : "Língua"
    },
    "LANGUAGE_RESTART_GAME_TO_APPLY" : {
       "description" : "",
@@ -489,11 +509,11 @@
    },
    "LOAD" : {
       "description" : "",
-      "message" : "Load"
+      "message" : "Carregar"
    },
    "LOAD_GAME" : {
       "description" : "",
-      "message" : "Load game"
+      "message" : "Carregar jogo"
    },
    "LOBBY" : {
       "description" : "",
@@ -501,11 +521,11 @@
    },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
-      "message" : "Located {distance}km from the centre of {name}:"
+      "message" : "Localizado à {distance}km do centro de {name}:"
    },
    "LOCATION" : {
       "description" : "",
-      "message" : "Location"
+      "message" : "Localização"
    },
    "LOW" : {
       "description" : "",
@@ -521,19 +541,23 @@
    },
    "MALE" : {
       "description" : "",
-      "message" : "Male"
+      "message" : "Macho"
    },
    "MASS" : {
       "description" : "",
       "message" : "Massa"
    },
    "MASTER" : {
-      "description" : "",
+      "description" : "For player reputation",
+      "message" : "Master"
+   },
+   "MASTER_VOL" : {
+      "description" : "Master sound in settings option",
       "message" : "Master:"
    },
    "MAX" : {
       "description" : "",
-      "message" : "max"
+      "message" : "máximo"
    },
    "MAXIMUM_CREW" : {
       "description" : "",
@@ -541,7 +565,7 @@
    },
    "MEDIUM" : {
       "description" : "",
-      "message" : "Medium"
+      "message" : "Médio"
    },
    "MEDIUM_CARGO_SHUTTLE" : {
       "description" : "",
@@ -573,7 +597,7 @@
    },
    "MILITARY" : {
       "description" : "",
-      "message" : "Military"
+      "message" : "Militar"
    },
    "MINIMUM_CREW" : {
       "description" : "",
@@ -585,11 +609,11 @@
    },
    "MISSION_DETAILS" : {
       "description" : "",
-      "message" : "Mission Details"
+      "message" : "Detalhes da missão"
    },
    "MORE_INFO" : {
       "description" : "",
-      "message" : "More info..."
+      "message" : "Mais informação..."
    },
    "MOSTLY_HARMLESS" : {
       "description" : "",
@@ -631,13 +655,17 @@
       "description" : "",
       "message" : "Next paid"
    },
+   "NOBODY" : {
+      "description" : "For player reputation",
+      "message" : "Nobody"
+   },
    "NONE" : {
       "description" : "",
       "message" : "Nada"
    },
    "NOTES" : {
       "description" : "",
-      "message" : "Notes:"
+      "message" : "Notas:"
    },
    "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR" : {
       "description" : "",
@@ -649,11 +677,11 @@
    },
    "N_LIGHT_YEARS_N_MAX" : {
       "description" : "",
-      "message" : "{range} light years ({maxRange} max)"
+      "message" : "{alcance} anos-luz ({Alcancemáximo} máximo)"
    },
    "N_OCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
-      "message" : "{quantity} Occupied Passenger Cabins"
+      "message" : "{quantidade} Cabines de Passageiros Ocupadas"
    },
    "N_SHIELD_GENERATORS" : {
       "description" : "",
@@ -665,7 +693,7 @@
    },
    "OFF" : {
       "description" : "",
-      "message" : "Off"
+      "message" : "Desligado"
    },
    "OK" : {
       "description" : "",
@@ -677,7 +705,7 @@
    },
    "ORBIT" : {
       "description" : "",
-      "message" : "Orbit"
+      "message" : "Órbita"
    },
    "ORBITAL_ANALYSIS" : {
       "description" : "",
@@ -697,11 +725,11 @@
    },
    "PERSONAL_INFORMATION" : {
       "description" : "",
-      "message" : "Personal Information"
+      "message" : "Informação pessoal"
    },
    "PILOTING" : {
       "description" : "",
-      "message" : "Piloting:"
+      "message" : "Pilotando:"
    },
    "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME" : {
       "description" : "",
@@ -717,7 +745,7 @@
    },
    "PLANET_TEXTURES" : {
       "description" : "",
-      "message" : "Planet textures"
+      "message" : "Texturas do planeta"
    },
    "POLICE" : {
       "description" : "",
@@ -729,7 +757,7 @@
    },
    "POSITION" : {
       "description" : "",
-      "message" : "Position"
+      "message" : "Posição"
    },
    "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
       "description" : "",
@@ -739,9 +767,17 @@
       "description" : "",
       "message" : "Preço"
    },
+   "PROFESSIONAL" : {
+      "description" : "For player reputation",
+      "message" : "Professional"
+   },
    "QUALIFICATION_SCORES" : {
       "description" : "",
-      "message" : "Qualification scores"
+      "message" : "Pontuações de qualificação"
+   },
+   "QUICKLOAD" : {
+      "description" : "",
+      "message" : "Quickload"
    },
    "QUIT" : {
       "description" : "",
@@ -753,7 +789,7 @@
    },
    "RATING" : {
       "description" : "",
-      "message" : "Rating:"
+      "message" : "Nota:"
    },
    "REAR_WEAPON" : {
       "description" : "",
@@ -761,11 +797,19 @@
    },
    "REFUEL" : {
       "description" : "",
-      "message" : "Refuel"
+      "message" : "Abastecer"
+   },
+   "RELIABLE" : {
+      "description" : "For player reputation",
+      "message" : "Reliable"
    },
    "REPAIR_X_HULL_DAMAGE_FOR_X" : {
       "description" : "",
       "message" : "Repair {damage}% hull damage for {price}"
+   },
+   "REPUTATION" : {
+      "description" : "",
+      "message" : "Reputation"
    },
    "REQUEST_LAUNCH" : {
       "description" : "",
@@ -773,7 +817,7 @@
    },
    "RETURN_TO_MENU" : {
       "description" : "",
-      "message" : "Return to menu"
+      "message" : "Voltar ao menu"
    },
    "REVERSE_ACCEL_EMPTY" : {
       "description" : "",
@@ -785,7 +829,7 @@
    },
    "REWARD" : {
       "description" : "",
-      "message" : "Reward"
+      "message" : "Recompensa"
    },
    "SAVE" : {
       "description" : "",
@@ -793,7 +837,7 @@
    },
    "SELECT" : {
       "description" : "",
-      "message" : "Select"
+      "message" : "Selecionar"
    },
    "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME" : {
       "description" : "",
@@ -805,7 +849,7 @@
    },
    "SELECT_GAME_TO_LOAD" : {
       "description" : "",
-      "message" : "Select game to load..."
+      "message" : "Selecionar jogo para carregar..."
    },
    "SENSORS" : {
       "description" : "",
@@ -817,7 +861,7 @@
    },
    "SHIP_INFORMATION" : {
       "description" : "",
-      "message" : "Ship Information"
+      "message" : "Informação da nave"
    },
    "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
       "description" : "",
@@ -841,7 +885,7 @@
    },
    "SOUND" : {
       "description" : "",
-      "message" : "Sound"
+      "message" : "Som"
    },
    "START_AT_BARNARDS_STAR" : {
       "description" : "",
@@ -853,7 +897,7 @@
    },
    "START_AT_NEW_HOPE" : {
       "description" : "",
-      "message" : "Start at New Hope"
+      "message" : "Começar em Nova Esperança"
    },
    "STATION_MANAGER" : {
       "description" : "",
@@ -869,11 +913,11 @@
    },
    "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP" : {
       "description" : "",
-      "message" : "There is nobody else on board able to fly this ship."
+      "message" : "Não existe ninguém a bordo capaz de voar esta nave."
    },
    "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
       "description" : "",
-      "message" : "The ship is under station control, Commander."
+      "message" : "A nave está sob controle da estação, Comandante."
    },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "",
@@ -881,7 +925,7 @@
    },
    "TOTAL" : {
       "description" : "",
-      "message" : "Total: "
+      "message" : "Total:"
    },
    "TOTAL_MASS" : {
       "description" : "",
@@ -891,6 +935,10 @@
       "description" : "",
       "message" : "Bens de comércio ilegais"
    },
+   "TRUSTWORTHY" : {
+      "description" : "For player reputation",
+      "message" : "Trustworthy"
+   },
    "TYPE" : {
       "description" : "",
       "message" : "Type"
@@ -898,6 +946,10 @@
    "UNLAWFUL_WEAPONS_DISCHARGE" : {
       "description" : "",
       "message" : "Descarga de armas ilegal"
+   },
+   "UNRELIABLE" : {
+      "description" : "",
+      "message" : "Unreliable"
    },
    "UP_ACCEL" : {
       "description" : "",
@@ -913,23 +965,23 @@
    },
    "VERY_LOW" : {
       "description" : "",
-      "message" : "Very low"
+      "message" : "Bem baixo"
    },
    "VIDEO" : {
       "description" : "",
-      "message" : "Video"
+      "message" : "Vídeo"
    },
    "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY" : {
       "description" : "",
-      "message" : "Video configuration (restart game to apply)"
+      "message" : "Configuração de vídeo (reinicie o jogo para aplicar)"
    },
    "VIDEO_RESOLUTION" : {
       "description" : "",
-      "message" : "Video resolution"
+      "message" : "Resolução do vídeo"
    },
    "WAGE" : {
       "description" : "",
-      "message" : "Wage"
+      "message" : "salário"
    },
    "WEIGHT_EMPTY" : {
       "description" : "",

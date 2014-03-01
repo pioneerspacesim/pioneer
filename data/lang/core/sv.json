@@ -1,0 +1,1958 @@
+{
+   "AIR_PROCESSORS" : {
+      "description" : "",
+      "message" : "Luftprocessorer"
+   },
+   "ALERT_CANCELLED" : {
+      "description" : "",
+      "message" : "Alarm avbrutet."
+   },
+   "ALLEGIANCE" : {
+      "description" : "",
+      "message" : "Tillhörighet:"
+   },
+   "ALT" : {
+      "description" : "Alt key on keyboard",
+      "message" : "Alt"
+   },
+   "ALT_IN_KM" : {
+      "description" : "",
+      "message" : "Höjd: %altitude{f.0}m (%vspeed{f.1}km/s)"
+   },
+   "ALT_IN_METRES" : {
+      "description" : "",
+      "message" : "Höjd: %altitude{f.0}m (%vspeed{f.1}m/s)"
+   },
+   "AND_HIGHLY_COMPLEX_ECOSYSTEM" : {
+      "description" : "",
+      "message" : "\" och ett mycket komplext ekosystem.\""
+   },
+   "AND_INDIGENOUS_MICROBIAL_LIFE" : {
+      "description" : "",
+      "message" : "\" och inhemskt mikrobiellt liv.\""
+   },
+   "AND_INDIGENOUS_PLANT_LIFE" : {
+      "description" : "",
+      "message" : "\" och inhemskt växtliv.\""
+   },
+   "ANIMAL_MEAT" : {
+      "description" : "",
+      "message" : "Djurkött"
+   },
+   "APOAPSIS_DISTANCE" : {
+      "description" : "",
+      "message" : "Apoapsisavstånd"
+   },
+   "AR_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" Argonatmosfär\""
+   },
+   "ASTEROID" : {
+      "description" : "",
+      "message" : "Astroid"
+   },
+   "ATMOSPHERIC_SHIELDING" : {
+      "description" : "",
+      "message" : "Atmosfärssköld"
+   },
+   "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Skyddar ditt rymdskepp från hettan vid återinträde i atmosfär."
+   },
+   "AUTOPILOT" : {
+      "description" : "",
+      "message" : "Autopilot"
+   },
+   "AUTOPILOT_DESCRIPTION" : {
+      "description" : "",
+      "message" : "En flygdator ombord."
+   },
+   "AUTOPILOT_DOCK_WITH_STATION" : {
+      "description" : "",
+      "message" : "Autopilot: Docka med rymdstation"
+   },
+   "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND" : {
+      "description" : "",
+      "message" : "Autopilot: Gå in i hög omloppsbana kring %target"
+   },
+   "AUTOPILOT_ENTER_LOW_ORBIT_AROUND" : {
+      "description" : "",
+      "message" : "Autopilot: Go in i låg omloppsbana kring %target"
+   },
+   "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND" : {
+      "description" : "",
+      "message" : "Autopilot: Gå in i medelhög omloppsbana kring %target"
+   },
+   "AUTOPILOT_FLY_TO_VICINITY_OF" : {
+      "description" : "",
+      "message" : "Autopilot: Flyg i närheten av %target"
+   },
+   "AUTOPILOT_ON" : {
+      "description" : "",
+      "message" : "Autopilot på"
+   },
+   "AXIAL_TILT" : {
+      "description" : "",
+      "message" : "Axiallutning"
+   },
+   "A_FEW_THOUSAND" : {
+      "description" : "",
+      "message" : "Bara några tusen"
+   },
+   "BATTLE_WEAPONS" : {
+      "description" : "",
+      "message" : "Stridsvapen"
+   },
+   "BINARY_SYSTEM" : {
+      "description" : "",
+      "message" : "Binärsystem"
+   },
+   "BODIES" : {
+      "description" : "",
+      "message" : "kroppar"
+   },
+   "BODY" : {
+      "description" : "",
+      "message" : "kropp"
+   },
+   "BROWN_DWARF" : {
+      "description" : "",
+      "message" : "Brunt dvärgstjärnobjekt"
+   },
+   "BUTTON" : {
+      "description" : "",
+      "message" : "\" Knapp \""
+   },
+   "CAMERA_BOTTOM_VIEW" : {
+      "description" : "",
+      "message" : "Nedre kamera"
+   },
+   "CAMERA_FRONT_VIEW" : {
+      "description" : "",
+      "message" : "Främre kamera"
+   },
+   "CAMERA_LEFT_VIEW" : {
+      "description" : "",
+      "message" : "Vänster kamera"
+   },
+   "CAMERA_REAR_VIEW" : {
+      "description" : "",
+      "message" : "Bakre kamera"
+   },
+   "CAMERA_RIGHT_VIEW" : {
+      "description" : "",
+      "message" : "Höger kamera"
+   },
+   "CAMERA_TOP_VIEW" : {
+      "description" : "",
+      "message" : "Övre kamera"
+   },
+   "CANT_SAVE_IN_HYPERSPACE" : {
+      "description" : "",
+      "message" : "Kan inte spara spel inne i hyperrymden"
+   },
+   "CAPITALIST" : {
+      "description" : "",
+      "message" : "Kapitalist"
+   },
+   "CARBON_ORE" : {
+      "description" : "",
+      "message" : "Kolmalm"
+   },
+   "CARBON_ORE_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Kolmalm (kol och olja) krävs för att syntisera många användbara kemikalier som plaster, syntetisk mat, mediciner och textiler."
+   },
+   "CARGO" : {
+      "description" : "",
+      "message" : "Last"
+   },
+   "CARGO_BAY_LIFE_SUPPORT_LOST" : {
+      "description" : "",
+      "message" : "Sensorer rapporterar kritiska livsuppehållande förhållanden i lastrummet."
+   },
+   "CARGO_LIFE_SUPPORT" : {
+      "description" : "",
+      "message" : "Livsuppehållande lastrum"
+   },
+   "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Tillåter transport av levande last."
+   },
+   "CARGO_N" : {
+      "description" : "",
+      "message" : "Last: %{mass}t"
+   },
+   "CARGO_SCOOP" : {
+      "description" : "",
+      "message" : "Lastskopa"
+   },
+   "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED" : {
+      "description" : "",
+      "message" : "Lastskopa aktiv. Samlat in 1 ton %item."
+   },
+   "CARGO_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Tillåter upphämtning av lastbehållare från rymden."
+   },
+   "CH4_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" Metanatmosfär\""
+   },
+   "CLEARANCE_ALREADY_GRANTED_BAY_N" : {
+      "description" : "",
+      "message" : "Tillstånd redan medgivet. Fortsätt till landingsplats %bay."
+   },
+   "CLEARANCE_DENIED_NO_BAYS" : {
+      "description" : "",
+      "message" : "Landningstillstånd nekat: Det finns inga lediga landningsplatser."
+   },
+   "CLEARANCE_GRANTED_BAY_N" : {
+      "description" : "",
+      "message" : "Landningstillstånd godkänt. Fortsätt till landningsplats %bay."
+   },
+   "CO2_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" Koldioxidatmosfär\""
+   },
+   "COMMA_HIGHLY_VOLCANIC" : {
+      "description" : "",
+      "message" : ", högvulkanisk"
+   },
+   "COMMS" : {
+      "description" : "",
+      "message" : "Kommunikation"
+   },
+   "COMMUNIST" : {
+      "description" : "",
+      "message" : "Kommunist"
+   },
+   "COMPUTERS" : {
+      "description" : "",
+      "message" : "Datorer"
+   },
+   "COMPUTER_HEADING_CONTROL" : {
+      "description" : "",
+      "message" : "Datoriserad riktningskontroll"
+   },
+   "COMPUTER_SPEED_CONTROL" : {
+      "description" : "",
+      "message" : "Datoriserad hastighetskontroll"
+   },
+   "CONSUMER_GOODS" : {
+      "description" : "",
+      "message" : "Konsumtionsvaror"
+   },
+   "CONTROLS" : {
+      "description" : "",
+      "message" : "Kontroller"
+   },
+   "CORPORATE_SYSTEM" : {
+      "description" : "",
+      "message" : "Företagskultur"
+   },
+   "COULD_NOT_OPEN_FILENAME" : {
+      "description" : "",
+      "message" : "Kunde inte öppna %path"
+   },
+   "COUNT_ON_SURFACE" : {
+      "description" : "",
+      "message" : "\" (%surfacecount på ytan)\""
+   },
+   "COUNT_STARPORTS" : {
+      "description" : "",
+      "message" : "rymdhanmnar"
+   },
+   "CO_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" Kolmonoxidatmosfär\""
+   },
+   "CTRL" : {
+      "description" : "Ctrl key on keyboard",
+      "message" : "Ctrl"
+   },
+   "CURRENT_SYSTEM" : {
+      "description" : "",
+      "message" : "Nuvarande system"
+   },
+   "DATE_DUE_N" : {
+      "description" : "",
+      "message" : "Utgångsdatum: %date"
+   },
+   "DAY_LENGTH" : {
+      "description" : "",
+      "message" : "Dagslängd"
+   },
+   "DECREASE_SCAN_RANGE" : {
+      "description" : "",
+      "message" : "Minska scanningsavstånd"
+   },
+   "DECREASE_SET_SPEED" : {
+      "description" : "",
+      "message" : "Sänk satt hastighet"
+   },
+   "DEMOGRAPHICS" : {
+      "description" : "",
+      "message" : "Demografi"
+   },
+   "DESTINATION" : {
+      "description" : "",
+      "message" : "Destination"
+   },
+   "DIRECTION" : {
+      "description" : "",
+      "message" : "\" Dir \""
+   },
+   "DISABLED_AUTOMATIC_SYSTEM_SELECTION" : {
+      "description" : "",
+      "message" : "Avaktiverat automatiskt systemval."
+   },
+   "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
+      "description" : "",
+      "message" : "Avstånd från skepp till navigationsmål"
+   },
+   "DISTANCE_LY" : {
+      "description" : "",
+      "message" : "Distans: %distance{f.2} ly"
+   },
+   "DOCKED" : {
+      "description" : "",
+      "message" : "Dockad"
+   },
+   "DOCKING" : {
+      "description" : "",
+      "message" : "Dockar"
+   },
+   "DOCKING_CLEARANCE_EXPIRED" : {
+      "description" : "",
+      "message" : "Landningstillståndet har gått ut. Om du vill landa måste du upprepa din förfrågan."
+   },
+   "DOWNGRADING_ALERT_STATUS" : {
+      "description" : "",
+      "message" : "Ingen eldgivning detekterad på 60 sekunder, nedgraderar alarmstatus."
+   },
+   "DRAW_OUT_RANGE_LABELS" : {
+      "description" : "",
+      "message" : "Markera system utanför räckhåll"
+   },
+   "DRAW_UNINHABITED_LABELS" : {
+      "description" : "",
+      "message" : "Markera obebodda system"
+   },
+   "DRAW_VERTICAL_LINES" : {
+      "description" : "",
+      "message" : "Rita vertikala linjer"
+   },
+   "DRIVE_CLASS1" : {
+      "description" : "",
+      "message" : "Klass 1 hypermotor"
+   },
+   "DRIVE_CLASS2" : {
+      "description" : "",
+      "message" : "Klass 2 hypermotor"
+   },
+   "DRIVE_CLASS3" : {
+      "description" : "",
+      "message" : "Klass 3 hypermotor"
+   },
+   "DRIVE_CLASS4" : {
+      "description" : "",
+      "message" : "Klass 4 hypermotor"
+   },
+   "DRIVE_CLASS5" : {
+      "description" : "",
+      "message" : "Klass 5 hypermotor"
+   },
+   "DRIVE_CLASS6" : {
+      "description" : "",
+      "message" : "Klass 6 hypermotor"
+   },
+   "DRIVE_CLASS7" : {
+      "description" : "",
+      "message" : "Klass 7 hypermotor"
+   },
+   "DRIVE_CLASS8" : {
+      "description" : "",
+      "message" : "Klass 8 hypermotor"
+   },
+   "DRIVE_CLASS9" : {
+      "description" : "",
+      "message" : "Klass 9 hypermotor"
+   },
+   "DRIVE_MIL1" : {
+      "description" : "",
+      "message" : "Klass 1 militär motor"
+   },
+   "DRIVE_MIL2" : {
+      "description" : "",
+      "message" : "Klass 2 militär motor"
+   },
+   "DRIVE_MIL3" : {
+      "description" : "",
+      "message" : "Klass 3 militär motor"
+   },
+   "DRIVE_MIL4" : {
+      "description" : "",
+      "message" : "Klass 4 militär motor"
+   },
+   "EARTH" : {
+      "description" : "",
+      "message" : "Jorden"
+   },
+   "EARTH_FEDERATION_COLONIAL_RULE" : {
+      "description" : "",
+      "message" : "Jordfederatiskt kolonialstyre"
+   },
+   "EARTH_FEDERATION_DEMOCRACY" : {
+      "description" : "",
+      "message" : "Jordfederationsdemokrati"
+   },
+   "ECCENTRICITY" : {
+      "description" : "",
+      "message" : "Orginalitet"
+   },
+   "ECM_ADVANCED" : {
+      "description" : "",
+      "message" : "Avancerat ECM system"
+   },
+   "ECM_ADVANCED_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Ett elektroniskt anti-missil system som klarar av att förstöra mer avancerade typer av målsökande missiler."
+   },
+   "ECM_BASIC" : {
+      "description" : "",
+      "message" : "ECM system"
+   },
+   "ECM_BASIC_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Ett elektroniskt anti-missilsystem som klarar av att förstöra vissa målsökande missiler."
+   },
+   "ECONOMIC_INFO" : {
+      "description" : "",
+      "message" : "Ekonomisk information"
+   },
+   "ECONOMY_TYPE" : {
+      "description" : "",
+      "message" : "Ekonomityp:"
+   },
+   "ENABLED_AUTOMATIC_SYSTEM_SELECTION" : {
+      "description" : "",
+      "message" : "Aktiverat automatiskt systemval."
+   },
+   "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
+      "description" : "",
+      "message" : "Ekvatorial till polarradie förhållande"
+   },
+   "EXACT_MATCH_X" : {
+      "description" : "",
+      "message" : "Exakt matchning; %system"
+   },
+   "EXTENSIVE_MINING" : {
+      "description" : "",
+      "message" : "Omfattande gruvdrift."
+   },
+   "EXTERNAL_ATMOSPHERIC_PRESSURE" : {
+      "description" : "",
+      "message" : "Externt atmosfäriskt tryck"
+   },
+   "EXTERNAL_VIEW" : {
+      "description" : "",
+      "message" : "Extern vy"
+   },
+   "FARM_MACHINERY" : {
+      "description" : "",
+      "message" : "Jordbruksmaskiner"
+   },
+   "FERTILIZER" : {
+      "description" : "",
+      "message" : "Gödsel"
+   },
+   "FINE_PAID_N" : {
+      "description" : "",
+      "message" : "Du har betalat böterna på %fine"
+   },
+   "FINE_PAID_N_BUT_N_REMAINING" : {
+      "description" : "",
+      "message" : "Du har betalat %paid men har fortfarande en obetald böter på %fine."
+   },
+   "FIRE_LASER" : {
+      "description" : "",
+      "message" : "Avfyra laser"
+   },
+   "FIRE_MISSILE" : {
+      "description" : "",
+      "message" : "Avfyra missil"
+   },
+   "FOLLOWING_SELECTION" : {
+      "description" : "",
+      "message" : "följande val"
+   },
+   "FRONT" : {
+      "description" : "",
+      "message" : "Fram"
+   },
+   "FRUIT_AND_VEG" : {
+      "description" : "",
+      "message" : "Frukt och grönsaker"
+   },
+   "FUEL" : {
+      "description" : "",
+      "message" : "Bränsle"
+   },
+   "FUEL_SCOOP" : {
+      "description" : "",
+      "message" : "Bränsleskopa"
+   },
+   "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED" : {
+      "description" : "",
+      "message" : "Bränsleskopa aktiv. Du har nu %quantity ton väte."
+   },
+   "FUEL_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Tillåter uppsamling av vätebränsle från gasjättar."
+   },
+   "GALACTIC_VIEW" : {
+      "description" : "",
+      "message" : "Galaxvy"
+   },
+   "GALAXY_SECTOR_VIEW" : {
+      "description" : "",
+      "message" : "Galaxsektorvy"
+   },
+   "GAME_LOAD_CANNOT_OPEN" : {
+      "description" : "",
+      "message" : "Denna sparade spelfil kunde inte öppnas på grund av rättigheter eller nåt..."
+   },
+   "GAME_LOAD_CORRUPT" : {
+      "description" : "",
+      "message" : "Detta sparade spel kan inte laddas för att det innehåller fel."
+   },
+   "GAME_LOAD_WRONG_VERSION" : {
+      "description" : "",
+      "message" : "Detta sparade spel kan inte laddas för att det skapades av en annan version av Pioneer."
+   },
+   "GAME_SAVED_TO" : {
+      "description" : "",
+      "message" : "\"Spel sparat till \""
+   },
+   "GAME_SAVE_CANNOT_WRITE" : {
+      "description" : "",
+      "message" : "Den sparade spelfilen kunde inte skrivas på grund av ett systemfel."
+   },
+   "GENERAL_VIEW_CONTROLS" : {
+      "description" : "",
+      "message" : "Generella vykontroller"
+   },
+   "GOVERNMENT_TYPE" : {
+      "description" : "",
+      "message" : "Regeringsform:"
+   },
+   "GRAIN" : {
+      "description" : "",
+      "message" : "Säd"
+   },
+   "HAND_WEAPONS" : {
+      "description" : "",
+      "message" : "Handvapen"
+   },
+   "HARD_CAPITALIST" : {
+      "description" : "",
+      "message" : "Helt kapitalistiskt - ingen välfärd tillhandahållen från regeringen"
+   },
+   "HAT" : {
+      "description" : "",
+      "message" : "\" Hatt\""
+   },
+   "HEADING_LOCK_BACKWARD" : {
+      "description" : "",
+      "message" : "Lås riktning (akterut)"
+   },
+   "HEADING_LOCK_FORWARD" : {
+      "description" : "",
+      "message" : "Lås riktning (framåt)"
+   },
+   "HEAVY_INDUSTRY" : {
+      "description" : "",
+      "message" : "Tung industri."
+   },
+   "HE_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" Heliumatmosfär\""
+   },
+   "HIGHLY_VOLCANIC" : {
+      "description" : "",
+      "message" : "Mycket vulkanisk"
+   },
+   "HIGH_POPULATION_OUTDOOR_WORLD" : {
+      "description" : "",
+      "message" : "Hög befolkning utomhusvärld."
+   },
+   "HULL_AUTOREPAIR" : {
+      "description" : "",
+      "message" : "Automatiskt skrovreparationssystem"
+   },
+   "HULL_AUTOREPAIR_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Reparerar automatiskt skeppets skrov om det blir skadat."
+   },
+   "HULL_INTEGRITY" : {
+      "description" : "",
+      "message" : "Skrovintegritet"
+   },
+   "HULL_TEMP" : {
+      "description" : "",
+      "message" : "Skrovtemperatur"
+   },
+   "HYDROGEN" : {
+      "description" : "",
+      "message" : "Väte"
+   },
+   "HYDROGEN_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Väte används främst som fusionsbränsle"
+   },
+   "HYPERCLOUD_ANALYZER" : {
+      "description" : "",
+      "message" : "Hypermolnanalysator"
+   },
+   "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Analyserar hyperrymdmoln för att avgöra destinationen och tid för ankomst och avfärd."
+   },
+   "HYPERSPACE" : {
+      "description" : "",
+      "message" : "Hyperrymd"
+   },
+   "HYPERSPACE_ARRIVAL_CLOUD" : {
+      "description" : "",
+      "message" : "Ankomstmoln från hyperrymd"
+   },
+   "HYPERSPACE_ARRIVAL_CLOUD_REMNANT" : {
+      "description" : "",
+      "message" : "Kvarleva av ankomstmoln från hyperrymd"
+   },
+   "HYPERSPACE_DEPARTURE_CLOUD" : {
+      "description" : "",
+      "message" : "Avgångsmoln till hyperrymd"
+   },
+   "HYPERSPACE_JUMP" : {
+      "description" : "",
+      "message" : "Hyperrymdhopp"
+   },
+   "HYPERSPACE_JUMP_ABORTED" : {
+      "description" : "",
+      "message" : "Hyerrymdshopp avbrutet."
+   },
+   "HYPERSPACE_TARGET" : {
+      "description" : "",
+      "message" : "Hyperrymdsmål"
+   },
+   "HYPERSPACING_IN_N_SECONDS" : {
+      "description" : "",
+      "message" : "Hyperrymd om %countdown{f.0} sekunder"
+   },
+   "H_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" Vätgasatmosfär\""
+   },
+   "ICE_WORLD" : {
+      "description" : "",
+      "message" : "\" isvärld\""
+   },
+   "ILLEGAL_GOODS" : {
+      "description" : "",
+      "message" : "Illegala varor:"
+   },
+   "IMPERIAL_RULE" : {
+      "description" : "",
+      "message" : "Imperialistiskt styre"
+   },
+   "INCREASE_SCAN_RANGE" : {
+      "description" : "",
+      "message" : "Öka scanningavstånd"
+   },
+   "INCREASE_SET_SPEED" : {
+      "description" : "",
+      "message" : "Öka inställd hastighet"
+   },
+   "INDUSTRIAL_COLONY" : {
+      "description" : "",
+      "message" : "industriell koloni."
+   },
+   "INDUSTRIAL_HUB_SYSTEM" : {
+      "description" : "",
+      "message" : "Industriellt navsystem"
+   },
+   "INDUSTRIAL_MACHINERY" : {
+      "description" : "",
+      "message" : "Industrimaskiner"
+   },
+   "INTERNAL_VIEW" : {
+      "description" : "",
+      "message" : "Intern vy"
+   },
+   "INT_LY" : {
+      "description" : "",
+      "message" : "%scale ly"
+   },
+   "IN_TRANSIT" : {
+      "description" : "",
+      "message" : "På väg"
+   },
+   "IN_TRANSIT_TO_N_X_X_X" : {
+      "description" : "",
+      "message" : "På väg till %system [%x,%y,%z]"
+   },
+   "JOY" : {
+      "description" : "",
+      "message" : "Joy"
+   },
+   "JOYSTICK_INPUT" : {
+      "description" : "",
+      "message" : "Joystickinmatning"
+   },
+   "JOY_AXIS" : {
+      "description" : "",
+      "message" : "%{sign}Joy%joynum %axis Axis"
+   },
+   "KM_S_RELATIVE_TO" : {
+      "description" : "",
+      "message" : "%speed{f.2} km/s rel-till %frame"
+   },
+   "LANDED" : {
+      "description" : "",
+      "message" : "Landat"
+   },
+   "LANG_NAME" : {
+      "description" : "The name that native speakers use for this language. This will be used in the language selection screen. For obscure reasons this currently must only use Latin-1 characters.",
+      "message" : "Engelska"
+   },
+   "LARGE" : {
+      "description" : "",
+      "message" : "Stor"
+   },
+   "LARGE_GAS_GIANT" : {
+      "description" : "",
+      "message" : "Stor gasjätte"
+   },
+   "LARGE_PLASMA_ACCEL" : {
+      "description" : "",
+      "message" : "Stor plasmaaccellerator"
+   },
+   "LASER_COOLING_BOOSTER" : {
+      "description" : "",
+      "message" : "Laserkylningsförstärkare"
+   },
+   "LASER_COOLING_BOOSTER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Ett förbättrat kylsystem för dina vapen"
+   },
+   "LASER_FIRE_DETECTED" : {
+      "description" : "",
+      "message" : "Lasereld upptäckt."
+   },
+   "LAUNCH_PERMISSION_DENIED_BUSY" : {
+      "description" : "",
+      "message" : "Tillstånd för uppskjutning nekat: landningsplats upptaget."
+   },
+   "LIBERAL_DEMOCRACY" : {
+      "description" : "",
+      "message" : "Liberaldemokrati"
+   },
+   "LIQUID_OXYGEN" : {
+      "description" : "",
+      "message" : "Flytande syre"
+   },
+   "LIQUID_OXYGEN_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Syre krävs för livsuppehållande system och vissa industriprocesser"
+   },
+   "LIQUOR" : {
+      "description" : "",
+      "message" : "Sprit"
+   },
+   "LIVE_ANIMALS" : {
+      "description" : "",
+      "message" : "Levande djur"
+   },
+   "LOCKED" : {
+      "description" : "",
+      "message" : "låst"
+   },
+   "MAJOR_EXPORTS" : {
+      "description" : "",
+      "message" : "Stora exporter:"
+   },
+   "MAJOR_IMPORTS" : {
+      "description" : "",
+      "message" : "Stora importer:"
+   },
+   "MANUAL_CONTROL" : {
+      "description" : "",
+      "message" : "Manuell kontroll"
+   },
+   "MANUAL_CONTROL_MODE" : {
+      "description" : "",
+      "message" : "Manuellt kontrolläge"
+   },
+   "MAP_LOCK_HYPERSPACE_TARGET" : {
+      "description" : "",
+      "message" : "Lås hyperrymdsmål"
+   },
+   "MAP_TOGGLE_INFO_PANEL" : {
+      "description" : "",
+      "message" : "Växla mellan infopanel"
+   },
+   "MAP_TOGGLE_SELECTION_FOLLOW_VIEW" : {
+      "description" : "",
+      "message" : "Växla mellan vald följande vy"
+   },
+   "MAP_VIEW_ROTATE_DOWN" : {
+      "description" : "",
+      "message" : "Rotera vy neråt"
+   },
+   "MAP_VIEW_ROTATE_LEFT" : {
+      "description" : "",
+      "message" : "Rotera vy vänster"
+   },
+   "MAP_VIEW_ROTATE_RIGHT" : {
+      "description" : "",
+      "message" : "Rotera vy höger"
+   },
+   "MAP_VIEW_ROTATE_UP" : {
+      "description" : "",
+      "message" : "Rotera vy uppåt"
+   },
+   "MAP_VIEW_SHIFT_BACKWARD" : {
+      "description" : "",
+      "message" : "Byt till vy bakåt"
+   },
+   "MAP_VIEW_SHIFT_DOWN" : {
+      "description" : "",
+      "message" : "Byt till vy neråt"
+   },
+   "MAP_VIEW_SHIFT_FORWARD" : {
+      "description" : "",
+      "message" : "Byt till vy framåt"
+   },
+   "MAP_VIEW_SHIFT_LEFT" : {
+      "description" : "",
+      "message" : "Byt till vy vänster"
+   },
+   "MAP_VIEW_SHIFT_RIGHT" : {
+      "description" : "",
+      "message" : "Byt till vy höger"
+   },
+   "MAP_VIEW_SHIFT_UP" : {
+      "description" : "",
+      "message" : "Byt till vy uppåt"
+   },
+   "MAP_WARP_TO_CURRENT_SYSTEM" : {
+      "description" : "",
+      "message" : "Warpa till nuvarande system"
+   },
+   "MAP_WARP_TO_HYPERSPACE_TARGET" : {
+      "description" : "",
+      "message" : "Warpa till hyperrymdsmål"
+   },
+   "MAP_WARP_TO_SELECTED_SYSTEM" : {
+      "description" : "",
+      "message" : "Warpa till valt system"
+   },
+   "MASS" : {
+      "description" : "",
+      "message" : "Massa"
+   },
+   "MASSIVE" : {
+      "description" : "",
+      "message" : "Massiv"
+   },
+   "MASS_N_TONNES" : {
+      "description" : "",
+      "message" : "Massa: %{mass}t"
+   },
+   "MEDICINES" : {
+      "description" : "",
+      "message" : "Mediciner"
+   },
+   "MEDIUM_GAS_GIANT" : {
+      "description" : "",
+      "message" : "Medelstor gasjätte"
+   },
+   "MESSAGE_FROM_X" : {
+      "description" : "",
+      "message" : "Meddelande från %sender:"
+   },
+   "META" : {
+      "description" : "'Meta' key on keyboard",
+      "message" : "Meta"
+   },
+   "METAL_ALLOYS" : {
+      "description" : "",
+      "message" : "Metallegeringar"
+   },
+   "METAL_ORE" : {
+      "description" : "",
+      "message" : "Metallmalm"
+   },
+   "MILITARY_DICTATORSHIP" : {
+      "description" : "",
+      "message" : "Militär diktatur"
+   },
+   "MILITARY_FUEL" : {
+      "description" : "",
+      "message" : "Militärt bränsle"
+   },
+   "MININGCANNON_17MW" : {
+      "description" : "",
+      "message" : "17MW explosiv gruvkanon"
+   },
+   "MININGCANNON_17MW_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Används för att spränga sönder mineralrika asteroider."
+   },
+   "MINING_COLONY" : {
+      "description" : "",
+      "message" : "Gruvkoloni."
+   },
+   "MINING_MACHINERY" : {
+      "description" : "",
+      "message" : "Gruvmaskiner"
+   },
+   "MINOR_EXPORTS" : {
+      "description" : "",
+      "message" : "Mindre exporter:"
+   },
+   "MINOR_IMPORTS" : {
+      "description" : "",
+      "message" : "Mindre importer:"
+   },
+   "MISCELLANEOUS" : {
+      "description" : "",
+      "message" : "Diverse"
+   },
+   "MISSILE" : {
+      "description" : "",
+      "message" : "missil"
+   },
+   "MISSILE_GUIDED" : {
+      "description" : "",
+      "message" : "Guidad missil"
+   },
+   "MISSILE_NAVAL" : {
+      "description" : "",
+      "message" : "Militär missil"
+   },
+   "MISSILE_SMART" : {
+      "description" : "",
+      "message" : "Smartmissil"
+   },
+   "MISSILE_UNGUIDED" : {
+      "description" : "",
+      "message" : "R40 ostyrd raket"
+   },
+   "MIXED_ECONOMY" : {
+      "description" : "",
+      "message" : "Mixad ekonomi"
+   },
+   "MONTH_APR" : {
+      "description" : "",
+      "message" : "Apr"
+   },
+   "MONTH_AUG" : {
+      "description" : "",
+      "message" : "Aug"
+   },
+   "MONTH_DEC" : {
+      "description" : "",
+      "message" : "Dec"
+   },
+   "MONTH_FEB" : {
+      "description" : "",
+      "message" : "Feb"
+   },
+   "MONTH_JAN" : {
+      "description" : "",
+      "message" : "Jan"
+   },
+   "MONTH_JUL" : {
+      "description" : "",
+      "message" : "Jul"
+   },
+   "MONTH_JUN" : {
+      "description" : "",
+      "message" : "Jun"
+   },
+   "MONTH_MAR" : {
+      "description" : "",
+      "message" : "Mar"
+   },
+   "MONTH_MAY" : {
+      "description" : "",
+      "message" : "Maj"
+   },
+   "MONTH_NOV" : {
+      "description" : "",
+      "message" : "Nov"
+   },
+   "MONTH_OCT" : {
+      "description" : "",
+      "message" : "Okt"
+   },
+   "MONTH_SEP" : {
+      "description" : "",
+      "message" : "Sep"
+   },
+   "MURDER" : {
+      "description" : "",
+      "message" : "Mord"
+   },
+   "M_S_RELATIVE_TO" : {
+      "description" : "",
+      "message" : "%speed{f.0} m/s rel-till %frame"
+   },
+   "NAME_OBJECT" : {
+      "description" : "For an item or object",
+      "message" : "Namn"
+   },
+   "NAME_PERSON" : {
+      "description" : "For a person",
+      "message" : "Namn"
+   },
+   "NARCOTICS" : {
+      "description" : "",
+      "message" : "Narkotika"
+   },
+   "NAVIGATION_STAR_MAPS" : {
+      "description" : "",
+      "message" : "Navigation och stjärkartor"
+   },
+   "NAVIGATION_TARGETS_IN_THIS_SYSTEM" : {
+      "description" : "",
+      "message" : "Navigationsmål i detta system"
+   },
+   "NERVE_GAS" : {
+      "description" : "",
+      "message" : "Nervgas"
+   },
+   "NONE" : {
+      "description" : "",
+      "message" : "Inget"
+   },
+   "NORMA_ARM" : {
+      "description" : "",
+      "message" : "Norma arm"
+   },
+   "NOT_FOUND" : {
+      "description" : "",
+      "message" : "Inte hittad"
+   },
+   "NOT_FOUND_BEST_MATCH_X" : {
+      "description" : "",
+      "message" : "Inte hittad, bästa matchning: %system"
+   },
+   "NO_ALERT" : {
+      "description" : "",
+      "message" : "Inget alarm"
+   },
+   "NO_CENTRAL_GOVERNANCE" : {
+      "description" : "",
+      "message" : "Ingen central ledning"
+   },
+   "NO_ESTABLISHED_ORDER" : {
+      "description" : "",
+      "message" : "Ingen etablerad ordning"
+   },
+   "NO_HYPERDRIVE" : {
+      "description" : "",
+      "message" : "Ingen hypermotor"
+   },
+   "NO_REGISTERED_INHABITANTS" : {
+      "description" : "",
+      "message" : "Inga registrerade invånare"
+   },
+   "NO_TARGET_SELECTED" : {
+      "description" : "",
+      "message" : "Skeppsdator: Inget mål valt"
+   },
+   "NUMBER_DAYS" : {
+      "description" : "",
+      "message" : "%days{f.0} dagar"
+   },
+   "NUMBER_G" : {
+      "description" : "",
+      "message" : "%acceleration{f.1} G"
+   },
+   "NUMBER_HOURS" : {
+      "description" : "",
+      "message" : "%hours{f.1} tim"
+   },
+   "NUMBER_LY" : {
+      "description" : "",
+      "message" : "%distance{f.2} ly"
+   },
+   "NUMBER_TONNES" : {
+      "description" : "",
+      "message" : "%{mass}t"
+   },
+   "N_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" Kväveatmosfär\""
+   },
+   "N_CELSIUS" : {
+      "description" : "",
+      "message" : "%temperature C"
+   },
+   "N_DAYS" : {
+      "description" : "",
+      "message" : "%days{f.1} dagar"
+   },
+   "N_DEGREES" : {
+      "description" : "",
+      "message" : "%angle{f.1} grader"
+   },
+   "N_DISTANCE_TO_TARGET" : {
+      "description" : "",
+      "message" : "%distance till mål"
+   },
+   "N_EARTH_DAYS" : {
+      "description" : "",
+      "message" : "%days{f.1} jorddagar"
+   },
+   "N_WHATEVER_MASSES" : {
+      "description" : "",
+      "message" : "%mass{f.3} %units massor"
+   },
+   "N_WHATEVER_RADII" : {
+      "description" : "",
+      "message" : "%radius{f.3} %units radie (%radkm{f.0} km)"
+   },
+   "N_YEARS" : {
+      "description" : "",
+      "message" : "%years{f.1} år"
+   },
+   "O2_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" syreatmosfär\""
+   },
+   "OCEANICWORLD" : {
+      "description" : "",
+      "message" : "\" havsvärld\""
+   },
+   "ORBITAL_PERIOD" : {
+      "description" : "",
+      "message" : "Omloppstid"
+   },
+   "ORBITAL_STARPORT" : {
+      "description" : "",
+      "message" : "Rymdhamn i omlopp"
+   },
+   "OUTDOOR_AGRICULTURAL_WORLD" : {
+      "description" : "",
+      "message" : "Utomhus jordbruksvärld."
+   },
+   "OUTER_ARM" : {
+      "description" : "",
+      "message" : "Outer arm"
+   },
+   "OVER_N_BILLION" : {
+      "description" : "",
+      "message" : "Över %population miljarder"
+   },
+   "OVER_N_MILLION" : {
+      "description" : "",
+      "message" : "Över %population miljoner"
+   },
+   "PASSENGER_CABIN" : {
+      "description" : "",
+      "message" : "Upptagen passagerarhytt"
+   },
+   "PAUSED" : {
+      "description" : "",
+      "message" : "PAUSAD"
+   },
+   "PAY_FINE_REMOTELY" : {
+      "description" : "",
+      "message" : "Betala bot via fjärröverföring (%amount)"
+   },
+   "PERIAPSIS_DISTANCE" : {
+      "description" : "",
+      "message" : "Periapsisavstånd"
+   },
+   "PERSEUS_ARM" : {
+      "description" : "",
+      "message" : "Perseus arm"
+   },
+   "PIONEER" : {
+      "description" : "",
+      "message" : "PIONEER"
+   },
+   "PIRACY" : {
+      "description" : "",
+      "message" : "Röveri"
+   },
+   "PITCH" : {
+      "description" : "",
+      "message" : "Lutning"
+   },
+   "PITCH_DOWN" : {
+      "description" : "",
+      "message" : "Luta neråt"
+   },
+   "PITCH_UP" : {
+      "description" : "",
+      "message" : "Luta uppåt"
+   },
+   "PLANETARY_INFO" : {
+      "description" : "",
+      "message" : "Planetinformation"
+   },
+   "PLANET_CONTAINING_LIQUID_WATER" : {
+      "description" : "",
+      "message" : "\" planet innehållande flytande vatten\""
+   },
+   "PLANET_WITH_SOME_ICE" : {
+      "description" : "",
+      "message" : "\" planet med en del is\""
+   },
+   "PLANNED_ECONOMY" : {
+      "description" : "",
+      "message" : "Centralt planerad ekonomi"
+   },
+   "PLASTICS" : {
+      "description" : "",
+      "message" : "Plaster"
+   },
+   "PLUTOCRATIC_DICTATORSHIP" : {
+      "description" : "",
+      "message" : "Plutokratisk diktatur"
+   },
+   "POLICE_SHIP_REGISTRATION" : {
+      "description" : "",
+      "message" : "POLIS"
+   },
+   "POPULATION" : {
+      "description" : "",
+      "message" : "Population:"
+   },
+   "PRECIOUS_METALS" : {
+      "description" : "",
+      "message" : "Värdefulla metaller"
+   },
+   "PRESSURE_N_ATMOSPHERES" : {
+      "description" : "",
+      "message" : "P: %pressure{f-2} atm"
+   },
+   "PROBABILITY_OF_ARRIVAL_X_PERCENT" : {
+      "description" : "",
+      "message" : "Sannolikhet för ankomst: %probability%%"
+   },
+   "PULSECANNON_10MW" : {
+      "description" : "",
+      "message" : "10MW pulskanon"
+   },
+   "PULSECANNON_1MW" : {
+      "description" : "",
+      "message" : "1MW pulskanon"
+   },
+   "PULSECANNON_20MW" : {
+      "description" : "",
+      "message" : "20MW pulskanon"
+   },
+   "PULSECANNON_2MW" : {
+      "description" : "",
+      "message" : "2MW pulskanon"
+   },
+   "PULSECANNON_4MW" : {
+      "description" : "",
+      "message" : "4MW pulskanon"
+   },
+   "PULSECANNON_DUAL_1MW" : {
+      "description" : "",
+      "message" : "1MW dubbel pulskanon"
+   },
+   "PULSECANNON_RAPID_2MW" : {
+      "description" : "",
+      "message" : "2MW snabbskjutande pulskanon"
+   },
+   "QUADRUPLE_SYSTEM" : {
+      "description" : "",
+      "message" : "Fyrdubbelt system"
+   },
+   "RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "Radarmapper"
+   },
+   "RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Används för att på avstånd inspektera utrustning, last och status på andra skepp."
+   },
+   "RADIOACTIVES" : {
+      "description" : "",
+      "message" : "Radioaktivt avfall"
+   },
+   "RADIUS" : {
+      "description" : "",
+      "message" : "Radie"
+   },
+   "REAR" : {
+      "description" : "",
+      "message" : "Bakre"
+   },
+   "REQUEST_DOCKING_CLEARANCE" : {
+      "description" : "",
+      "message" : "Begär landningstillstånd"
+   },
+   "RESET" : {
+      "description" : "",
+      "message" : "Återställ"
+   },
+   "RESET_ORIENTATION_AND_ZOOM" : {
+      "description" : "",
+      "message" : "Återställ orientering och zoom"
+   },
+   "ROBOTS" : {
+      "description" : "",
+      "message" : "Robotar"
+   },
+   "ROCKY_PLANET" : {
+      "description" : "",
+      "message" : "\" stenig planet\""
+   },
+   "ROCKY_PLANET_CONTAINING_COME_LIQUIDS" : {
+      "description" : "",
+      "message" : "\" stenig planet som innehåller vissa vätskor.\""
+   },
+   "ROLL" : {
+      "description" : "",
+      "message" : "Rulla"
+   },
+   "ROLL_LEFT" : {
+      "description" : "",
+      "message" : "Rulla vänster"
+   },
+   "ROLL_RIGHT" : {
+      "description" : "",
+      "message" : "Rulla höger"
+   },
+   "ROTATE_DOWN" : {
+      "description" : "",
+      "message" : "Rotera neråt"
+   },
+   "ROTATE_LEFT" : {
+      "description" : "",
+      "message" : "Rotera vänster"
+   },
+   "ROTATE_RIGHT" : {
+      "description" : "",
+      "message" : "Rotera höger"
+   },
+   "ROTATE_UP" : {
+      "description" : "",
+      "message" : "Rotera upp"
+   },
+   "ROTATIONAL_PERIOD" : {
+      "description" : "",
+      "message" : "\" (rotationsperiod)\""
+   },
+   "ROTATION_DAMPING_OFF" : {
+      "description" : "",
+      "message" : "Rotationsdämpning av"
+   },
+   "ROTATION_DAMPING_ON" : {
+      "description" : "",
+      "message" : "Rotationsdämpning på"
+   },
+   "RUBBISH" : {
+      "description" : "",
+      "message" : "Skräp"
+   },
+   "SAGITTARIUS_ARM" : {
+      "description" : "",
+      "message" : "Sagittarius arm"
+   },
+   "SCANNER" : {
+      "description" : "",
+      "message" : "Scanner"
+   },
+   "SCANNER_CONTROL" : {
+      "description" : "",
+      "message" : "Scannerkontroll"
+   },
+   "SCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Ger en 3D karta över närbelägna skepp."
+   },
+   "SCREENSHOT_FILENAME_TEMPLATE" : {
+      "description" : "",
+      "message" : "screenshot%index{d08}.png"
+   },
+   "SCUTUM_CENTAURUS_ARM" : {
+      "description" : "",
+      "message" : "Scutum-Centaurus arm"
+   },
+   "SEARCH" : {
+      "description" : "",
+      "message" : "Sök"
+   },
+   "SEARCH_MAP" : {
+      "description" : "",
+      "message" : "Sök karta"
+   },
+   "SECTOR_COORDINATES" : {
+      "description" : "",
+      "message" : "Sektorkoordinater:"
+   },
+   "SECTOR_MAP_VIEW" : {
+      "description" : "",
+      "message" : "Karta över sektor"
+   },
+   "SECTOR_X_Y_Z" : {
+      "description" : "",
+      "message" : "Sektor: %x,%y,%z"
+   },
+   "SELECTED_SYSTEM" : {
+      "description" : "",
+      "message" : "Valt system"
+   },
+   "SELECT_A_TARGET" : {
+      "description" : "",
+      "message" : "Välj ett mål"
+   },
+   "SELECT_LOW_THRUST_POWER_LEVEL" : {
+      "description" : "",
+      "message" : "Välj lägsta gaspåslagsnivå"
+   },
+   "SEMI_MAJOR_AXIS" : {
+      "description" : "",
+      "message" : "Semi-stor axel"
+   },
+   "SET_HYPERSPACE_DESTINATION_TO" : {
+      "description" : "",
+      "message" : "Sätt hyperrymdsmål till %system"
+   },
+   "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE" : {
+      "description" : "",
+      "message" : "Hyperrymdsmolnanalysator: Sätt hyperrymdsmål till att följa denna avgång"
+   },
+   "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT" : {
+      "description" : "",
+      "message" : "Sätt lägsta gaspåslagsnivå till %power%%"
+   },
+   "SET_SPEED_KM_S" : {
+      "description" : "",
+      "message" : "Sätt hastighet: %speed{f.2} km/s"
+   },
+   "SET_SPEED_M_S" : {
+      "description" : "",
+      "message" : "Sätt hastighet: %speed{f.0} m/s"
+   },
+   "SHIELD_ENERGY_BOOSTER" : {
+      "description" : "",
+      "message" : "Sköldenergiförstärkare"
+   },
+   "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Ökar sköldarnas uppladdningsnivå."
+   },
+   "SHIELD_GENERATOR" : {
+      "description" : "",
+      "message" : "Sköldgenerator"
+   },
+   "SHIELD_GENERATOR_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Ger skrovet med mer skydd för varje enhet som monteras."
+   },
+   "SHIELD_INTEGRITY" : {
+      "description" : "",
+      "message" : "Sköldintegritet"
+   },
+   "SHIELD_STRENGTH_N" : {
+      "description" : "",
+      "message" : "Sköldstyrka: %shields{f.2}"
+   },
+   "SHIFT" : {
+      "description" : "Shift key on keyboard",
+      "message" : "Shift"
+   },
+   "SHIP" : {
+      "description" : "",
+      "message" : "Skepp"
+   },
+   "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
+      "description" : "",
+      "message" : "Skeppets höjd över marken"
+   },
+   "SHIP_DETECTED_NEARBY" : {
+      "description" : "",
+      "message" : "Skepp upptäckt i närheten."
+   },
+   "SHIP_INFORMATION" : {
+      "description" : "",
+      "message" : "Skeppsinformation"
+   },
+   "SHIP_MASS_N_TONNES" : {
+      "description" : "",
+      "message" : "Skeppsmassa: %{mass}t"
+   },
+   "SHIP_NEARBY" : {
+      "description" : "",
+      "message" : "Skepp nära"
+   },
+   "SHIP_ORIENTATION" : {
+      "description" : "",
+      "message" : "Skeppsorientering"
+   },
+   "SHIP_VELOCITY_BY_REFERENCE_OBJECT" : {
+      "description" : "",
+      "message" : "Skeppshastighet mot referensobjekt"
+   },
+   "SIDEREAL_VIEW" : {
+      "description" : "",
+      "message" : "Sidovy"
+   },
+   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
+      "description" : "",
+      "message" : "Simulerar universumets evolution: %age{f.1} miljarder år ;-)"
+   },
+   "SLAVES" : {
+      "description" : "",
+      "message" : "Slavar"
+   },
+   "SMALL" : {
+      "description" : "",
+      "message" : "Liten"
+   },
+   "SMALL_GAS_GIANT" : {
+      "description" : "",
+      "message" : "Liten gasjätte"
+   },
+   "SMALL_INDUSTRIAL_OUTPOST" : {
+      "description" : "",
+      "message" : "Liten industriell utpost"
+   },
+   "SMALL_PLASMA_ACCEL" : {
+      "description" : "",
+      "message" : "Liten plasmaaccellerator"
+   },
+   "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS" : {
+      "description" : "",
+      "message" : "Småskalig prospektering. Inga registrerade bosättningar."
+   },
+   "SOCIAL_DEMOCRACY" : {
+      "description" : "",
+      "message" : "Socialdemokrati"
+   },
+   "SOLAR" : {
+      "description" : "",
+      "message" : "Sol"
+   },
+   "SOME_ESTABLISHED_MINING" : {
+      "description" : "",
+      "message" : "Viss etablerad gruvdrift."
+   },
+   "SOURCE" : {
+      "description" : "",
+      "message" : "Ursprung"
+   },
+   "SPEED_CONTROL_MODE" : {
+      "description" : "",
+      "message" : "Hastighetskontrolläge"
+   },
+   "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS" : {
+      "description" : "",
+      "message" : "Stabilt system med %bodycount stora %{body(s)} och %portcount %{starport(s)}"
+   },
+   "STARPORT" : {
+      "description" : "",
+      "message" : "Rymdhamn"
+   },
+   "STARPORTS" : {
+      "description" : "",
+      "message" : "Rymdhamnar"
+   },
+   "STAR_A" : {
+      "description" : "",
+      "message" : "Typ 'A' het vit stjärna"
+   },
+   "STAR_AF_GIANT" : {
+      "description" : "",
+      "message" : "Vit jätte"
+   },
+   "STAR_AF_HYPER_GIANT" : {
+      "description" : "",
+      "message" : "Vit hyperjätte"
+   },
+   "STAR_AF_SUPER_GIANT" : {
+      "description" : "",
+      "message" : "Vit superjätte"
+   },
+   "STAR_B" : {
+      "description" : "",
+      "message" : "Klar typ 'B' blå stjärna"
+   },
+   "STAR_B_GIANT" : {
+      "description" : "",
+      "message" : "Blå jätte"
+   },
+   "STAR_B_HYPER_GIANT" : {
+      "description" : "",
+      "message" : "Blå hyperjätte"
+   },
+   "STAR_B_SUPER_GIANT" : {
+      "description" : "",
+      "message" : "Blå superjätte"
+   },
+   "STAR_B_WF" : {
+      "description" : "",
+      "message" : "Wolf-Rayet - Riskerar kollaps"
+   },
+   "STAR_F" : {
+      "description" : "",
+      "message" : "Typ 'F' vit stjärna"
+   },
+   "STAR_G" : {
+      "description" : "",
+      "message" : "Typ 'G' gul stjärna"
+   },
+   "STAR_G_GIANT" : {
+      "description" : "",
+      "message" : "Gul jätte - Ostabil"
+   },
+   "STAR_G_HYPER_GIANT" : {
+      "description" : "",
+      "message" : "Gul hyperjätte - Ostabil"
+   },
+   "STAR_G_SUPER_GIANT" : {
+      "description" : "",
+      "message" : "Gul superjätte"
+   },
+   "STAR_IM_BH" : {
+      "description" : "",
+      "message" : "Ett medelstort svart hål"
+   },
+   "STAR_K" : {
+      "description" : "",
+      "message" : "Typ 'K' orange stjärna"
+   },
+   "STAR_K_GIANT" : {
+      "description" : "",
+      "message" : "Orange jätte - Ostabil"
+   },
+   "STAR_K_HYPER_GIANT" : {
+      "description" : "",
+      "message" : "Orange hyperjätte - Ostabil"
+   },
+   "STAR_K_SUPER_GIANT" : {
+      "description" : "",
+      "message" : "Orange superjätte"
+   },
+   "STAR_M" : {
+      "description" : "",
+      "message" : "Typ 'M' röd stjärna"
+   },
+   "STAR_M_GIANT" : {
+      "description" : "",
+      "message" : "Röd jätte"
+   },
+   "STAR_M_HYPER_GIANT" : {
+      "description" : "",
+      "message" : "Röd hyperjätte"
+   },
+   "STAR_M_SUPER_GIANT" : {
+      "description" : "",
+      "message" : "Röd superjätte"
+   },
+   "STAR_M_WF" : {
+      "description" : "",
+      "message" : "Wolf-Rayet - Ostabil"
+   },
+   "STAR_O" : {
+      "description" : "",
+      "message" : "Het, massiv typ 'O' stjärna"
+   },
+   "STAR_O_GIANT" : {
+      "description" : "",
+      "message" : "Het blå jätte"
+   },
+   "STAR_O_HYPER_GIANT" : {
+      "description" : "",
+      "message" : "Het blå hyperjätte"
+   },
+   "STAR_O_SUPER_GIANT" : {
+      "description" : "",
+      "message" : "Het blå superjätte"
+   },
+   "STAR_O_WF" : {
+      "description" : "",
+      "message" : "Wolf-Rayet - Nära förestående kollaps"
+   },
+   "STAR_SM_BH" : {
+      "description" : "",
+      "message" : "Vårt galaktiska ankare"
+   },
+   "STAR_SYSTEM_INFORMATION" : {
+      "description" : "",
+      "message" : "Solsystemsinformation"
+   },
+   "STAR_S_BH" : {
+      "description" : "",
+      "message" : "Ett svart hål"
+   },
+   "SUGGESTED_RESPONSES" : {
+      "description" : "",
+      "message" : "Föreslagna svar:"
+   },
+   "SURFACE_GRAVITY" : {
+      "description" : "",
+      "message" : "Ytgravitation"
+   },
+   "SURFACE_TEMPERATURE" : {
+      "description" : "",
+      "message" : "Yttemperatur"
+   },
+   "SYSTEM" : {
+      "description" : "",
+      "message" : "System"
+   },
+   "SYSTEM_NUMBER" : {
+      "description" : "",
+      "message" : "Systemnummer:"
+   },
+   "SYSTEM_ORBIT_VIEW" : {
+      "description" : "",
+      "message" : "System omloppsvy"
+   },
+   "SYSTEM_TYPE" : {
+      "description" : "",
+      "message" : "Systemtyp:"
+   },
+   "S_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" Svavelatmosfär\""
+   },
+   "TAKEOFF" : {
+      "description" : "",
+      "message" : "Start"
+   },
+   "TARGET_OBJECT_IN_SIGHTS" : {
+      "description" : "",
+      "message" : "Sätt objektet i hårkorset som mål"
+   },
+   "TENUOUS" : {
+      "description" : "",
+      "message" : "svagt"
+   },
+   "TEXTILES" : {
+      "description" : "",
+      "message" : "Textiler"
+   },
+   "THICK" : {
+      "description" : "",
+      "message" : "tjock"
+   },
+   "THIN" : {
+      "description" : "",
+      "message" : "smal"
+   },
+   "THRIVING_OUTDOOR_WORLD" : {
+      "description" : "",
+      "message" : "Blomstrande utomhusvärld."
+   },
+   "THRUSTER_DORSAL" : {
+      "description" : "",
+      "message" : "Gaspåslag neråt"
+   },
+   "THRUSTER_MAIN" : {
+      "description" : "",
+      "message" : "Gaspådrag framåt"
+   },
+   "THRUSTER_PORT" : {
+      "description" : "",
+      "message" : "Gaspåslag vänster"
+   },
+   "THRUSTER_RETRO" : {
+      "description" : "",
+      "message" : "Gaspåslag bakåt"
+   },
+   "THRUSTER_STARBOARD" : {
+      "description" : "",
+      "message" : "Gaspåslag höger"
+   },
+   "THRUSTER_VENTRAL" : {
+      "description" : "",
+      "message" : "Öka gaspådrag"
+   },
+   "TIME_POINT" : {
+      "description" : "",
+      "message" : "Tidpunkt:"
+   },
+   "TINY" : {
+      "description" : "",
+      "message" : "Mycket liten"
+   },
+   "TOGGLE_HUD_MODE" : {
+      "description" : "",
+      "message" : "Växla HUD läge"
+   },
+   "TOGGLE_LUA_CONSOLE" : {
+      "description" : "",
+      "message" : "Växla mellan Lua konsoll"
+   },
+   "TOGGLE_ROTATION_DAMPING" : {
+      "description" : "",
+      "message" : "Växla mellan rotationsdämpning"
+   },
+   "TOGGLE_SCAN_MODE" : {
+      "description" : "",
+      "message" : "Växla scannerläge"
+   },
+   "TOMBSTONE_EPITAPH" : {
+      "description" : "",
+      "message" : "RIP GAMLA BÖNA"
+   },
+   "TRADING_ILLEGAL_GOODS" : {
+      "description" : "",
+      "message" : "Handla med illegalt gods"
+   },
+   "TRIPLE_SYSTEM" : {
+      "description" : "",
+      "message" : "Trippelsystem"
+   },
+   "UNEXPLORED_SYSTEM_NO_DATA" : {
+      "description" : "",
+      "message" : "Outforskat system. Ingen ytterligare data finns tillgänglig."
+   },
+   "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW" : {
+      "description" : "",
+      "message" : "Outforskat system, Systemvy otillgänglig."
+   },
+   "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
+      "description" : "",
+      "message" : "Outforskat system. Information om stjärnan har blivit insamlad via teleskop men ingen planetinformation finns tillgänglig."
+   },
+   "UNKNOWN" : {
+      "description" : "",
+      "message" : "<okänd>"
+   },
+   "UNLAWFUL_WEAPONS_DISCHARGE" : {
+      "description" : "",
+      "message" : "Olaglig avfyrning av vapen"
+   },
+   "UNOCCUPIED_CABIN" : {
+      "description" : "",
+      "message" : "Extra passagerarkabin"
+   },
+   "UNOCCUPIED_CABIN_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Krävs för transport av en ensam passagerare"
+   },
+   "USE_LOW_THRUST" : {
+      "description" : "",
+      "message" : "Använd lägsta gaspåslag"
+   },
+   "VAST_STRIP_MINE" : {
+      "description" : "",
+      "message" : "Koloni med omfattande gruvdrift."
+   },
+   "VERY_DENSE" : {
+      "description" : "",
+      "message" : "mycket kompakt"
+   },
+   "VERY_LARGE_GAS_GIANT" : {
+      "description" : "",
+      "message" : "Mycket stor gasjätte"
+   },
+   "VID_CONNECTING" : {
+      "description" : "",
+      "message" : "Ansluter..."
+   },
+   "VID_LINK_ESTABLISHED" : {
+      "description" : "",
+      "message" : "Videolänk etablerad"
+   },
+   "VIEW" : {
+      "description" : "",
+      "message" : "Vy"
+   },
+   "VIOLENT_ANARCHY" : {
+      "description" : "",
+      "message" : "Oordning - Regering omtvistad av beväpnade fraktioner"
+   },
+   "WATER" : {
+      "description" : "",
+      "message" : "Vatten"
+   },
+   "WEAPONS" : {
+      "description" : "",
+      "message" : "Vapen"
+   },
+   "WEAPON_TEMP" : {
+      "description" : "",
+      "message" : "Vapentemperatur"
+   },
+   "WHEELS_ARE_DOWN" : {
+      "description" : "",
+      "message" : "Landningsställ nere"
+   },
+   "WHEELS_ARE_UP" : {
+      "description" : "",
+      "message" : "Landningsställ uppe"
+   },
+   "WHITE_DWARF" : {
+      "description" : "",
+      "message" : "Kvarleva från vit dvärgstjärna"
+   },
+   "WITH_A" : {
+      "description" : "",
+      "message" : "\" med en \""
+   },
+   "WITH_NO_SIGNIFICANT_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" utan någon nämnbar atmosfär\""
+   },
+   "X" : {
+      "description" : "",
+      "message" : "X"
+   },
+   "X_CANNOT_BE_TOLERATED_HERE" : {
+      "description" : "",
+      "message" : "%crime kan inte tolereras här."
+   },
+   "Y" : {
+      "description" : "",
+      "message" : "Y"
+   },
+   "YAW" : {
+      "description" : "",
+      "message" : "Gira"
+   },
+   "YAW_LEFT" : {
+      "description" : "",
+      "message" : "Gira vänster"
+   },
+   "YAW_RIGHT" : {
+      "description" : "",
+      "message" : "Gira höger"
+   },
+   "YOUNG_FARMING_COLONY" : {
+      "description" : "",
+      "message" : "Ung jordbrukskoloni."
+   },
+   "YOU_NO_MONEY" : {
+      "description" : "",
+      "message" : "Du har inga pengar."
+   },
+   "Z" : {
+      "description" : "",
+      "message" : "Z"
+   },
+   "ZOOM_IN" : {
+      "description" : "",
+      "message" : "Zooma in"
+   },
+   "ZOOM_OUT" : {
+      "description" : "",
+      "message" : "Zooma ut"
+   }
+}

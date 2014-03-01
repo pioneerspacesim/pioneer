@@ -13,6 +13,11 @@ newoption {
 	description = "Don't open a console window when running the game"
 }
 
+newoption {
+	trigger     = "release-symbols",
+	description = "Include debug symbols in release build. Makes debugging possible, results in a larger executable"
+}
+
 solution "Pioneer"
 	location "build"
 	configurations { "Debug", "Release" }
@@ -41,6 +46,9 @@ solution "Pioneer"
 		targetdir "build/bin/Release"
 		defines { "NDEBUG" }
 		flags { "Optimize" }
+		if _OPTIONS["release-symbols"] ~= nil then
+			flags { "Symbols" }
+		end
 
 	--first party libs
 	project "collider"
@@ -139,7 +147,7 @@ solution "Pioneer"
 			"jenkins", "json", "lua", "picodds"
 		}
 		links { "mingw32", "SDL2main", "SDL2", "SDL2_Image", "png",
-			"sigc-2.0.dll", "freetype", "assimp3.0.dll", "vorbisfile",
+			"sigc-2.0.dll", "freetype", "assimp", "vorbisfile",
 			"vorbis", "ogg", "opengl32", "shlwapi"
 		}
 		targetdir (BASEDIR)

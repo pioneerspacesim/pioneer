@@ -493,7 +493,7 @@
    },
    "FRUIT_AND_VEG" : {
       "description" : "",
-      "message" : "Frutta e Verdura"
+      "message" : "Frutta e verdura"
    },
    "FUEL" : {
       "description" : "",
@@ -613,7 +613,7 @@
    },
    "HYPERCLOUD_ANALYZER" : {
       "description" : "",
-      "message" : "Analizzatore di Nubi Iperspaziali"
+      "message" : "Analizzatore di nubi iperspaziali"
    },
    "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
       "description" : "",
@@ -761,7 +761,7 @@
    },
    "LIQUID_OXYGEN" : {
       "description" : "",
-      "message" : "Ossigeno Liquido"
+      "message" : "Ossigeno liquido"
    },
    "LIQUID_OXYGEN_DESCRIPTION" : {
       "description" : "",
@@ -1377,7 +1377,7 @@
    },
    "SCANNER_CONTROL" : {
       "description" : "",
-      "message" : "Controllo Scanner"
+      "message" : "Controllo scanner"
    },
    "SCANNER_DESCRIPTION" : {
       "description" : "",
@@ -1841,7 +1841,7 @@
    },
    "UNOCCUPIED_CABIN" : {
       "description" : "",
-      "message" : "Alloggio Passeggeri Extra"
+      "message" : "Alloggio passeggeri extra"
    },
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",

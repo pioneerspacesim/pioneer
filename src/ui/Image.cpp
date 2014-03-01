@@ -28,6 +28,15 @@ Point Image::PreferredSize()
 	return m_initialSize;
 }
 
+Image *Image::SetHeightLines(Uint32 lines)
+{
+	const Text::TextureFont *font = GetContext()->GetFont(GetFont()).Get();
+	const float height = font->GetHeight() * lines;
+	m_initialSize = UI::Point(height * float(m_initialSize.x) / float(m_initialSize.y), height);
+	GetContext()->RequestLayout();
+	return this;
+}
+
 void Image::Draw()
 {
 	const Point &offset = GetActiveOffset();

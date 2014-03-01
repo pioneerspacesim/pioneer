@@ -4,7 +4,7 @@ How to compile Pioneer
 Pioneer is known to build on the following platforms and build systems:
 
 Linux: GNU Autotools with GCC or Clang
-Windows: Microsoft Visual C++ 2008, 2010 & 2012
+Windows: Microsoft Visual C++ 2013 (Express Edition or Pro)
 Windows: GNU Autotools with MXE (MinGW GCC) (cross-compile on Linux)
 OS X: GNU Autotools or XCode 4
 
@@ -61,8 +61,7 @@ Windows - MSVC
    in a directory side by side. Don't rename pioneer-thirdparty because the
    relative path to it is included in the project files.
 
-2. Open the pioneer solution from win32/vc2008, win32/vc2010 or vc2012 as
-   appropriate for the version of Visual Studio you're using.
+2. Open the pioneer solution from win32/vc2013Express.
 
 3. Build and run the project or solution.
 

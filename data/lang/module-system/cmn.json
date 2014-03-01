@@ -1,0 +1,10 @@
+{
+   "YOUR_FUEL_TANK_IS_ALMOST_EMPTY" : {
+      "description" : "",
+      "message" : "你的油箱几乎要空了."
+   },
+   "YOUR_FUEL_TANK_IS_EMPTY" : {
+      "description" : "",
+      "message" : "你的油箱空了."
+   }
+}

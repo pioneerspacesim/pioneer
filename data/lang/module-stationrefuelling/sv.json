@@ -1,0 +1,10 @@
+{
+   "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH" : {
+      "description" : "",
+      "message" : "Detta är {station}. Du har inte tillräckligt för din dockningsavgift på {fee}. Du har inte blivit tankad."
+   },
+   "WELCOME_ABOARD_STATION_FEE_DEDUCTED" : {
+      "description" : "",
+      "message" : "Välkommen ombord på {station}. Din docknings- och bränsleavgift på {fee} har dragits av."
+   }
+}

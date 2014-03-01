@@ -67,7 +67,7 @@ void Planet::InitParams(const SystemBody *sbody)
 	// surface gravity = -G*M/planet radius^2
 	m_surfaceGravity_g = -G*sbody->GetMass()/(sbody->GetRadius()*sbody->GetRadius());
 	const double lapseRate_L = -m_surfaceGravity_g/specificHeatCp; // negative deg/m
-	const double surfaceTemperature_T0 = sbody->averageTemp; //K
+	const double surfaceTemperature_T0 = sbody->GetAverageTemp(); //K
 
 	double surfaceDensity, h; Color c;
 	sbody->GetAtmosphereFlavor(&c, &surfaceDensity);// kg / m^3
@@ -89,7 +89,7 @@ void Planet::InitParams(const SystemBody *sbody)
 
 	SetPhysRadius(std::max(m_atmosphereRadius, GetMaxFeatureRadius()+1000));
 	if (sbody->HasRings()) {
-		SetClipRadius(sbody->GetRadius() * sbody->m_rings.maxRadius.ToDouble());
+		SetClipRadius(sbody->GetRadius() * sbody->GetRings().maxRadius.ToDouble());
 	} else {
 		SetClipRadius(GetPhysRadius());
 	}
@@ -141,7 +141,7 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 	const double lapseRate_L = -m_surfaceGravity_g/specificHeatCp; // negative deg/m
 
 	const double height_h = (dist-sbody->GetRadius()); // height in m
-	const double surfaceTemperature_T0 = sbody->averageTemp; //K
+	const double surfaceTemperature_T0 = sbody->GetAverageTemp(); //K
 
 	Color c;
 	sbody->GetAtmosphereFlavor(&c, &surfaceDensity);// kg / m^3
@@ -170,8 +170,8 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 	m_ringVertices.Clear();
 
 	// generate the ring geometry
-	const float inner = sbody->m_rings.minRadius.ToFloat();
-	const float outer = sbody->m_rings.maxRadius.ToFloat();
+	const float inner = sbody->GetRings().minRadius.ToFloat();
+	const float outer = sbody->GetRings().maxRadius.ToFloat();
 	int segments = 200;
 	for (int i = 0; i <= segments; ++i) {
 		const float a = (2.0f*float(M_PI)) * (float(i) / float(segments));
@@ -192,8 +192,8 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 
 	const float ringScale = (outer-inner)*sbody->GetRadius() / 1.5e7f;
 
-	Random rng(GetSystemBody()->seed+4609837);
-	Color baseCol = sbody->m_rings.baseColor;
+	Random rng(GetSystemBody()->GetSeed()+4609837);
+	Color baseCol = sbody->GetRings().baseColor;
 	double noiseOffset = 2048.0 * rng.Double();
 	for (int i = 0; i < RING_TEXTURE_LENGTH; ++i) {
 		const float alpha = (float(i) / float(RING_TEXTURE_LENGTH)) * ringScale;

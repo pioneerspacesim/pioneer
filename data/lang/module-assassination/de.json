@@ -7,6 +7,38 @@
       "description" : "",
       "message" : "Könntest du die Frage noch einmal wiederholen?"
    },
+   "DENY_0" : {
+      "description" : "",
+      "message" : "Sorry, aber ich vertraue dir nicht."
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "Komm wieder, wenn du besser qualifiziert bis."
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "Ich glaube nicht, dass du der bist nach dem ich gesucht habe."
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "Du siehst nicht aus, als ob du in der Lage bist zu tun was getun werden muss."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "Du bist eindeutig der falsche für den Job."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "Dir fehlt es eindeutig an Erfahrung für einen so wichtigen Vertrag."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "Noch nie von dir gehört. Für den Vertrag brauche ich jemanden mit Erfahrung."
+   },
+   "DENY_7" : {
+      "description" : "",
+      "message" : "Der Vertrag ist mir als zu wichtig, als dass ich riskieren würde, dass er von einem Anfänger vermasselt wird."
+   },
    "DISTANCE" : {
       "description" : "",
       "message" : "Distanz:"

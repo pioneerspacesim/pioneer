@@ -1,7 +1,7 @@
 {
    "ABOVE_AVERAGE" : {
       "description" : "",
-      "message" : "Above Average"
+      "message" : "Ortalama Üstü"
    },
    "ACTIVE" : {
       "description" : "",
@@ -9,59 +9,59 @@
    },
    "AFTER_TRADE_IN" : {
       "description" : "",
-      "message" : "After trade-in"
+      "message" : "Takastan sonra"
    },
    "ALLEGIANCE" : {
       "description" : "",
-      "message" : "Allegiance:"
+      "message" : "Bağlılık:"
    },
    "ALL_UP_WEIGHT" : {
       "description" : "",
-      "message" : "All-up weight"
+      "message" : "Tam yüklü ağırlık"
    },
    "AMOUNT" : {
       "description" : "",
-      "message" : "Amount"
+      "message" : "Miktar"
    },
    "AN_ERROR_HAS_OCCURRED" : {
       "description" : "",
-      "message" : "An error has occurred"
+      "message" : "Bir hata oluştu"
    },
    "ATTEMPT_TO_REPAIR_HULL" : {
       "description" : "",
-      "message" : "Attempt to repair hull"
+      "message" : "Gövdeyi tamir etmeyi dene"
    },
    "AVAILABLE_FOR_PURCHASE" : {
       "description" : "",
-      "message" : "Available for purchase"
+      "message" : "Satın alınabilir"
    },
    "AVERAGE" : {
       "description" : "",
-      "message" : "Average"
+      "message" : "Ortalama"
    },
    "BACKWARD_ACCEL" : {
       "description" : "",
-      "message" : "Backward acceleration"
+      "message" : "Geri ivme"
    },
    "BULLETIN_BOARD" : {
       "description" : "",
-      "message" : "Bulletin Board"
+      "message" : "İlan tahtası"
    },
    "BUY_SHIP" : {
       "description" : "",
-      "message" : "Buy Ship"
+      "message" : "Gemi Al"
    },
    "CABINS" : {
       "description" : "",
-      "message" : "Cabins"
+      "message" : "Kabinler"
    },
    "CABIN_FREE" : {
       "description" : "",
-      "message" : "{amount} free"
+      "message" : "{amount} boş"
    },
    "CABIN_USED" : {
       "description" : "",
-      "message" : "{amount} used"
+      "message" : "{amount} kullanılan"
    },
    "CANCEL" : {
       "description" : "",
@@ -69,11 +69,11 @@
    },
    "CAPACITY" : {
       "description" : "",
-      "message" : "Capacity"
+      "message" : "Kapasite"
    },
    "CAPACITY_USED" : {
       "description" : "",
-      "message" : "Kapasite kullanımı"
+      "message" : "Kullanılan kapasite"
    },
    "CARGO" : {
       "description" : "",
@@ -81,15 +81,15 @@
    },
    "CARGO_SPACE" : {
       "description" : "",
-      "message" : "Cargo space"
+      "message" : "Kargo alanı"
    },
    "CARGO_T_FREE" : {
       "description" : "",
-      "message" : "{amount}t free"
+      "message" : "{amount}T boş"
    },
    "CARGO_T_USED" : {
       "description" : "",
-      "message" : "{amount}t used"
+      "message" : "{amount}T kullanılan"
    },
    "CASH" : {
       "description" : "",
@@ -97,19 +97,19 @@
    },
    "CASH_N" : {
       "description" : "",
-      "message" : "Cash: {money}"
+      "message" : "Nakit: {money}"
    },
    "CHANGE_BINDING" : {
       "description" : "",
-      "message" : "Change Binding"
+      "message" : "Atamayı Değiştir"
    },
    "CHIEF_MECHANIC" : {
       "description" : "",
-      "message" : "Chief Mechanic"
+      "message" : "Şef Tamirci"
    },
    "CIRCULAR_ORBIT_SPEED" : {
       "description" : "",
-      "message" : "Circular orbit speed"
+      "message" : "Dairesel yörünge hızı"
    },
    "CITY_DETAIL_LEVEL" : {
       "description" : "",
@@ -117,7 +117,7 @@
    },
    "CLEAN" : {
       "description" : "",
-      "message" : "Clean"
+      "message" : "Temiz"
    },
    "CLEAR" : {
       "description" : "",
@@ -125,35 +125,35 @@
    },
    "CLIENT" : {
       "description" : "",
-      "message" : "Client"
+      "message" : "Müşteri"
    },
    "COMBAT" : {
       "description" : "",
-      "message" : "Combat"
+      "message" : "Savaş"
    },
    "COMMANDER" : {
       "description" : "",
-      "message" : "Commander"
+      "message" : "Komutan"
    },
    "COMMODITY_MARKET" : {
       "description" : "",
-      "message" : "Commodity Market"
+      "message" : "Ticari Mal Pazarı"
    },
    "COMPETENT" : {
       "description" : "",
-      "message" : "Competent"
+      "message" : "Mücadeleci"
    },
    "COMPLETED" : {
       "description" : "",
-      "message" : "Completed"
+      "message" : "Tamamlandı"
    },
    "COMPRESS_TEXTURES" : {
       "description" : "",
-      "message" : "Compress Textures"
+      "message" : "Dokuları Sıkıştır"
    },
    "CONSTABLE" : {
       "description" : "",
-      "message" : "Constable"
+      "message" : "Güvenlik amiri"
    },
    "CONTROLS" : {
       "description" : "",
@@ -165,19 +165,23 @@
    },
    "COULD_NOT_LOAD_GAME" : {
       "description" : "",
-      "message" : "Could not load game: "
+      "message" : "Oyun yüklenemiyor:"
+   },
+   "CREDIBLE" : {
+      "description" : "For player reputation",
+      "message" : "İnanılır"
    },
    "CREW_CABINS" : {
       "description" : "",
-      "message" : "Crew cabins"
+      "message" : "Mürettebat kabinleri"
    },
    "CREW_ROSTER" : {
       "description" : "",
-      "message" : "Crew Roster"
+      "message" : "Mürettebat Listesi"
    },
    "CRIMINAL_RECORD" : {
       "description" : "",
-      "message" : "Criminal record"
+      "message" : "Suç kaydı"
    },
    "DANGEROUS" : {
       "description" : "",
@@ -193,47 +197,47 @@
    },
    "DELTA_V_EMPTY" : {
       "description" : "Delta-v capacity of a ship with no cargo or upgrades",
-      "message" : "Delta-v (empty)"
+      "message" : "Delta-v (boş)"
    },
    "DELTA_V_FULL" : {
       "description" : "Delta-v capacity of a ship with maximum cargo",
-      "message" : "Delta-v (full)"
+      "message" : "Delta-v (dolu)"
    },
    "DELTA_V_MAX" : {
       "description" : "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
-      "message" : "Delta-v (max)"
+      "message" : "Delta-v (en çok)"
    },
    "DESCENT_TO_GROUND_SPEED" : {
       "description" : "",
-      "message" : "Descent-to-ground speed:"
+      "message" : "Yere-alçalma hızı"
    },
    "DESTROY_ENEMY_SHIP" : {
       "description" : "",
-      "message" : "Destroy enemy ship"
+      "message" : "Düşman gemisini yok et"
    },
    "DISMISS" : {
       "description" : "",
-      "message" : "Dismiss"
+      "message" : "Gidebilirsin"
    },
    "DISPLAY_HUD_TRAILS" : {
       "description" : "",
-      "message" : "Display HUD trails"
+      "message" : "HUD izlerini göster"
    },
    "DISPLAY_NAV_TUNNELS" : {
       "description" : "",
-      "message" : "Tünel navigasyon ekranı"
+      "message" : "Nav tünellerini göster"
    },
    "DISPLAY_SPEED_LINES" : {
       "description" : "",
-      "message" : "Display speed lines"
+      "message" : "Hız çizgilerini göster"
    },
    "DOCK_AT_CURRENT_TARGET" : {
       "description" : "",
-      "message" : "Dock at current target"
+      "message" : "Mevcut hedefe sabitlen"
    },
    "DUE" : {
       "description" : "",
-      "message" : "Due"
+      "message" : "Süresi gelen"
    },
    "D_DAYS_LEFT" : {
       "description" : "",
@@ -241,11 +245,11 @@
    },
    "ECONOMY_TRADE" : {
       "description" : "",
-      "message" : "Economy & Trade"
+      "message" : "Ekonomi ve Ticaret"
    },
    "EFFECTS" : {
       "description" : "",
-      "message" : "Effects:"
+      "message" : "Efektler:"
    },
    "ELITE" : {
       "description" : "",
@@ -253,31 +257,31 @@
    },
    "EMPLOYMENT" : {
       "description" : "",
-      "message" : "Employment"
+      "message" : "İş"
    },
    "ENABLE_COCKPIT" : {
       "description" : "",
-      "message" : "Enable cockpit (EXPERIMENTAL)"
+      "message" : "Kokpiti etkinleştir (DENEYSEL)"
    },
    "ENABLE_JOYSTICK" : {
       "description" : "",
-      "message" : "Oyun kumandası aktif"
+      "message" : "Joystick etkin"
    },
    "ENGINEERING" : {
       "description" : "",
-      "message" : "Engineering:"
+      "message" : "Mühendislik:"
    },
    "EQUIPMENT" : {
       "description" : "",
-      "message" : "Equipment"
+      "message" : "Ekipman"
    },
    "EQUIPMENT_MARKET" : {
       "description" : "",
-      "message" : "Equipment Market"
+      "message" : "Ekipman Pazarı"
    },
    "EQUIPPED" : {
       "description" : "",
-      "message" : "Equipped"
+      "message" : "Kullanımda"
    },
    "ERROR" : {
       "description" : "",
@@ -289,11 +293,19 @@
    },
    "EXIT_THIS_GAME" : {
       "description" : "",
-      "message" : "Oyundan çık"
+      "message" : "Bu oyundan çık"
+   },
+   "EXPERIENCED" : {
+      "description" : "For player reputation",
+      "message" : "Deneyimli"
+   },
+   "EXPERT" : {
+      "description" : "For player reputation",
+      "message" : "Uzman"
    },
    "FAILED" : {
       "description" : "",
-      "message" : "Failed"
+      "message" : "Başarısız oldu"
    },
    "FEMALE" : {
       "description" : "",
@@ -301,31 +313,31 @@
    },
    "FORWARD_ACCEL" : {
       "description" : "",
-      "message" : "Forward acceleration"
+      "message" : "İleri ivme"
    },
    "FORWARD_ACCEL_EMPTY" : {
       "description" : "",
-      "message" : "Forward accel (empty)"
+      "message" : "İleri ivme (boş)"
    },
    "FORWARD_ACCEL_FULL" : {
       "description" : "",
-      "message" : "Forward accel (full)"
+      "message" : "İleri ivme (dolu)"
    },
    "FRACTAL_DETAIL" : {
       "description" : "",
-      "message" : "Fractal detail"
+      "message" : "Fraktal detay"
    },
    "FREE" : {
-      "description" : "",
-      "message" : "free"
+      "description" : "Used in Ship Information view as in Capacity: 10t (5t free)",
+      "message" : "boş"
    },
    "FRONT_WEAPON" : {
       "description" : "",
-      "message" : "Front weapon"
+      "message" : "Ön silah"
    },
    "FUEL" : {
       "description" : "",
-      "message" : "Fuel"
+      "message" : "Yakıt"
    },
    "FUEL_TANK_FULL" : {
       "description" : "",
@@ -333,7 +345,7 @@
    },
    "FUEL_WEIGHT" : {
       "description" : "",
-      "message" : "Fuel weight"
+      "message" : "Yakıt ağırlığı"
    },
    "FULL_SCREEN" : {
       "description" : "",
@@ -341,47 +353,47 @@
    },
    "GENERAL_CREW" : {
       "description" : "",
-      "message" : "General crew"
+      "message" : "Genel mürettebat"
    },
    "GIVE_ORDERS_TO_CREW" : {
       "description" : "",
-      "message" : "Give orders to crew"
+      "message" : "Mürettebata emir ver"
    },
    "GOOD_RIDDANCE_TO_YOU_TOO" : {
       "description" : "",
-      "message" : "Good riddance to you, too."
+      "message" : "Sana da iyi şanslar."
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Hang up."
+      "message" : "Bekle."
    },
    "HARMLESS" : {
       "description" : "",
-      "message" : "Harmless"
+      "message" : "Zararsız"
    },
    "HEAVY_CARGO_SHUTTLE" : {
       "description" : "",
-      "message" : "Heavy cargo shuttle"
+      "message" : "Ağır kargo gemisi"
    },
    "HEAVY_COURIER" : {
       "description" : "",
-      "message" : "Heavy courier"
+      "message" : "Ağır kurye gemisi"
    },
    "HEAVY_FIGHTER" : {
       "description" : "",
-      "message" : "Heavy fighter"
+      "message" : "Ağır savaş gemisi"
    },
    "HEAVY_FREIGHTER" : {
       "description" : "",
-      "message" : "Heavy freighter"
+      "message" : "Ağır yük gemisi"
    },
    "HEAVY_PASSENGER_SHUTTLE" : {
       "description" : "",
-      "message" : "Heavy passenger shuttle"
+      "message" : "Ağır yolcu mekiği"
    },
    "HEAVY_PASSENGER_TRANSPORT" : {
       "description" : "",
-      "message" : "Heavy passenger transport"
+      "message" : "Ağır yolcu gemisi"
    },
    "HIGH" : {
       "description" : "",
@@ -389,67 +401,75 @@
    },
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
       "description" : "",
-      "message" : "Hull does not require repair."
+      "message" : "Gövde tamir gerektirmiyor."
    },
    "HULL_INTEGRITY" : {
       "description" : "",
-      "message" : "Hull integrity"
+      "message" : "Gövde bütünlüğü"
    },
    "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT" : {
       "description" : "",
-      "message" : "Hull repaired by {name}, now at {repairPercent}%"
+      "message" : "Gövde {name} tarafından tamir edildi, şu anda %{repairPercent}"
    },
    "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE" : {
       "description" : "",
-      "message" : "Hull repair attempt failed. Hull suffered minor damage."
+      "message" : "Gövde tamir girişimi başarısız. Gövde düşük hasara uğradı."
    },
    "HYPERDRIVE" : {
       "description" : "",
-      "message" : "Hyperdrive"
+      "message" : "Hipersürücü"
    },
    "HYPERDRIVE_FITTED" : {
       "description" : "",
-      "message" : "Hyperdrive fitted:"
+      "message" : "Mevcut hipersürücü:"
    },
    "HYPERSPACE_RANGE" : {
       "description" : "",
-      "message" : "Hyperspace range"
+      "message" : "Üstuzay menzili"
    },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
-      "message" : "I'm tired of working for nothing. Don't you know what a contract is?"
+      "message" : "Bedava çalışmaktan bıktım. Sözleşmenin ne demek olduğunu bilmiyor musun?"
    },
    "INACTIVE" : {
       "description" : "",
       "message" : "Devre dışı"
    },
+   "INCOMPETENT" : {
+      "description" : "For player reputation",
+      "message" : "Yetersiz"
+   },
+   "INEXPERIENCED" : {
+      "description" : "For player reputation",
+      "message" : "Deneyimsiz"
+   },
    "INVERT_MOUSE_Y" : {
       "description" : "",
-      "message" : "Invert Mouse Y"
+      "message" : "Ters Fare Y"
    },
    "IN_CARGO_HOLD" : {
       "description" : "",
-      "message" : "In cargo hold"
+      "message" : "Kargo bölmesinde"
    },
    "IN_STOCK" : {
       "description" : "",
-      "message" : "In stock"
+      "message" : "Stok"
    },
    "ITEM_IS_OUT_OF_STOCK" : {
       "description" : "",
-      "message" : "This item is out of stock."
+      "message" : "Bu ürün stokta yok."
    },
    "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE" : {
       "description" : "",
-      "message" : "It's been great working for you. If you need me again, I'll be here a while."
+      "message" : "Sizin için çalışmak çok iyiydi. Bana tekrar ihtiyacınız olursa bir süre daha buralardayım"
    },
    "JETTISON" : {
       "description" : "",
-      "message" : "Jettison"
+      "message" : "Fırlat"
    },
    "KILLS" : {
       "description" : "",
-      "message" : "Ölenler:"
+      "message" : "Öldürülen:"
    },
    "LANGUAGE" : {
       "description" : "",
@@ -457,35 +477,35 @@
    },
    "LANGUAGE_RESTART_GAME_TO_APPLY" : {
       "description" : "",
-      "message" : "Language (restart game to apply)"
+      "message" : "Dil (uygulamak için yeniden başlatın)"
    },
    "LEGAL_STATUS" : {
       "description" : "",
-      "message" : "Legal status"
+      "message" : "Yasal durum"
    },
    "LIGHT_CARGO_SHUTTLE" : {
       "description" : "",
-      "message" : "Light cargo shuttle"
+      "message" : "Hafif kargo mekiği"
    },
    "LIGHT_COURIER" : {
       "description" : "",
-      "message" : "Light courier"
+      "message" : "Hafif kurye gemisi"
    },
    "LIGHT_FIGHTER" : {
       "description" : "",
-      "message" : "Light fighter"
+      "message" : "Hafif savaş gemisi"
    },
    "LIGHT_FREIGHTER" : {
       "description" : "",
-      "message" : "Light freighter"
+      "message" : "Hafif yük gemisi"
    },
    "LIGHT_PASSENGER_SHUTTLE" : {
       "description" : "",
-      "message" : "Light passenger shuttle"
+      "message" : "Hafif yolcu mekiği"
    },
    "LIGHT_PASSENGER_TRANSPORT" : {
       "description" : "",
-      "message" : "Light passenger transport"
+      "message" : "Hafif yolcu gemisi"
    },
    "LOAD" : {
       "description" : "",
@@ -497,11 +517,11 @@
    },
    "LOBBY" : {
       "description" : "",
-      "message" : "Lobby"
+      "message" : "Lobi"
    },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
-      "message" : "Located {distance}km from the centre of {name}:"
+      "message" : " {name} merkezinden {distance}km uzaklıkta:"
    },
    "LOCATION" : {
       "description" : "",
@@ -513,11 +533,11 @@
    },
    "LY" : {
       "description" : "",
-      "message" : "ly"
+      "message" : "Iy"
    },
    "MAKE_NEW_FACE" : {
       "description" : "",
-      "message" : "Yeni yüz yap"
+      "message" : "Yeni yüz"
    },
    "MALE" : {
       "description" : "",
@@ -525,59 +545,63 @@
    },
    "MASS" : {
       "description" : "",
-      "message" : "Mass"
+      "message" : "Kütle"
    },
    "MASTER" : {
-      "description" : "",
-      "message" : "Master:"
+      "description" : "For player reputation",
+      "message" : "Üstad"
+   },
+   "MASTER_VOL" : {
+      "description" : "Master sound in settings option",
+      "message" : "Genel:"
    },
    "MAX" : {
       "description" : "",
-      "message" : "max"
+      "message" : "en çok"
    },
    "MAXIMUM_CREW" : {
       "description" : "",
-      "message" : "Maximum crew"
+      "message" : "En fazla mürettebat"
    },
    "MEDIUM" : {
       "description" : "",
-      "message" : "Medium"
+      "message" : "Orta"
    },
    "MEDIUM_CARGO_SHUTTLE" : {
       "description" : "",
-      "message" : "Medium cargo shuttle"
+      "message" : "Orta boy kargo mekiği"
    },
    "MEDIUM_COURIER" : {
       "description" : "",
-      "message" : "Medium courier"
+      "message" : "Orta boy kurye gemisi"
    },
    "MEDIUM_FIGHTER" : {
       "description" : "",
-      "message" : "Medium fighter"
+      "message" : "Orta boy savaş gemisi"
    },
    "MEDIUM_FREIGHTER" : {
       "description" : "",
-      "message" : "Medium freighter"
+      "message" : "Orta boy yük gemisi"
    },
    "MEDIUM_PASSENGER_SHUTTLE" : {
       "description" : "",
-      "message" : "Medium passenger shuttle"
+      "message" : "Orta boy yolcu mekiği"
    },
    "MEDIUM_PASSENGER_TRANSPORT" : {
       "description" : "",
-      "message" : "Medium passenger transport"
+      "message" : "Orta boy yolcu gemisi"
    },
    "METAL_ALLOYS" : {
       "description" : "",
-      "message" : "Metal alloys"
+      "message" : "Metal alaşımları"
    },
    "MILITARY" : {
       "description" : "",
-      "message" : "Military"
+      "message" : "Askeri"
    },
    "MINIMUM_CREW" : {
       "description" : "",
-      "message" : "Minimum crew"
+      "message" : "En az mürettebat"
    },
    "MISSIONS" : {
       "description" : "",
@@ -589,11 +613,11 @@
    },
    "MORE_INFO" : {
       "description" : "",
-      "message" : "Daha fazla bilgi..."
+      "message" : "Detay..."
    },
    "MOSTLY_HARMLESS" : {
       "description" : "",
-      "message" : "Mostly Harmless"
+      "message" : "Çoğunlukla Zararsız"
    },
    "MULTISAMPLING" : {
       "description" : "",
@@ -601,7 +625,7 @@
    },
    "MURDER" : {
       "description" : "",
-      "message" : "Murder"
+      "message" : "Cinayet"
    },
    "MUSIC" : {
       "description" : "",
@@ -621,19 +645,23 @@
    },
    "NAVIGATION" : {
       "description" : "",
-      "message" : "Navigation:"
+      "message" : "Navigasyon:"
    },
    "NEGOTIATE" : {
       "description" : "",
-      "message" : "Negotiate"
+      "message" : "Uzlaş"
    },
    "NEXT_PAID" : {
       "description" : "",
-      "message" : "Next paid"
+      "message" : "Sonraki ödeme"
+   },
+   "NOBODY" : {
+      "description" : "For player reputation",
+      "message" : "Hiç kimse"
    },
    "NONE" : {
       "description" : "",
-      "message" : "None"
+      "message" : "Yok"
    },
    "NOTES" : {
       "description" : "",
@@ -641,27 +669,27 @@
    },
    "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR" : {
       "description" : "",
-      "message" : "Not enough {alloy} to attempt a repair"
+      "message" : "Tamir denemesi için yeterince {alloy} yok"
    },
    "NO_MISSIONS" : {
       "description" : "",
-      "message" : "No missions."
+      "message" : "Görev yok."
    },
    "N_LIGHT_YEARS_N_MAX" : {
       "description" : "",
-      "message" : "{range} light years ({maxRange} max)"
+      "message" : "{range} ışık yılı ({maxRange} en çok)"
    },
    "N_OCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
-      "message" : "{quantity} Occupied Passenger Cabins"
+      "message" : "{quantity} Dolu Yolcu Kabini"
    },
    "N_SHIELD_GENERATORS" : {
       "description" : "",
-      "message" : "{quantity} Shield Generators"
+      "message" : "{quantity} Kalkan Jeneratörü"
    },
    "N_UNOCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
-      "message" : "{quantity} Unoccupied Passenger Cabins"
+      "message" : "{quantity} Dolu Yolcu Kabini"
    },
    "OFF" : {
       "description" : "",
@@ -681,51 +709,51 @@
    },
    "ORBITAL_ANALYSIS" : {
       "description" : "",
-      "message" : "Orbital Analysis"
+      "message" : "Yörünge Analizi"
    },
    "ORBITAL_ANALYSIS_NOTES" : {
       "description" : "",
-      "message" : "Circular orbit speed is given for a tangential velocity. The ship should be moving in a direction at 90° to the ship/{name} axis.\n\nDescent speed is an absolute minimum, and is also tangential. A slower speed or a lower angle will result in a course which intersects with the surface of {name}.\n\nEscape speed will in theory work in any direction, as long as the ship does not collide with {name} on the way.\n\t\t"
+      "message" : "Dairesel yörünge hızı teğet hız için verilmiştir. Gemi {name} eksenine 90° yönünde hareket ediyor olmalıdır.\n\nAlçalma hızı mutlak en az ve yine teğettir. Daha düşük bir hız veya açı {name} yüzeyiyle kesişen bir rotaya neden olacaktır.\n\nKaçış hızı , gemi {name} ile yol üstünde çarpışmadığı sürece, teorik olarak her hangi bir yönde işleyecektir.\n "
    },
    "OWED" : {
       "description" : "",
-      "message" : "Owed"
+      "message" : "Borç"
    },
    "PAY_FINE_OF_N" : {
       "description" : "",
-      "message" : "Pay fine of {amount}"
+      "message" : "{amount} ceza öde"
    },
    "PERSONAL_INFORMATION" : {
       "description" : "",
-      "message" : "Kişisel bilgi"
+      "message" : "Kişisel Bilgi"
    },
    "PILOTING" : {
       "description" : "",
-      "message" : "Piloting:"
+      "message" : "Pilotluk:"
    },
    "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME" : {
       "description" : "",
-      "message" : "Pilot seat is now occupied by {name}"
+      "message" : "Pilot koltuğu şu anda  {name} tarafından kullanılıyor"
    },
    "PIRACY" : {
       "description" : "",
-      "message" : "Piracy"
+      "message" : "Korsanlık"
    },
    "PLANET_DETAIL_DISTANCE" : {
       "description" : "",
-      "message" : "Planet detail distance"
+      "message" : "Gezegen detay uzaklığı"
    },
    "PLANET_TEXTURES" : {
       "description" : "",
-      "message" : "Planet textures"
+      "message" : "Gezegen dokuları"
    },
    "POLICE" : {
       "description" : "",
-      "message" : "Police"
+      "message" : "Polis"
    },
    "POOR" : {
       "description" : "",
-      "message" : "Poor"
+      "message" : "Fakir"
    },
    "POSITION" : {
       "description" : "",
@@ -733,15 +761,23 @@
    },
    "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
       "description" : "",
-      "message" : "Press a key or controller button"
+      "message" : "Bir tuşa veya kontrolcü düğmesine basın"
    },
    "PRICE" : {
       "description" : "",
-      "message" : "Price"
+      "message" : "Fiyat"
+   },
+   "PROFESSIONAL" : {
+      "description" : "For player reputation",
+      "message" : "Profesyonel"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
-      "message" : "Qualification scores"
+      "message" : "Test sonuçları"
+   },
+   "QUICKLOAD" : {
+      "description" : "",
+      "message" : "Hızlı yükleme"
    },
    "QUIT" : {
       "description" : "",
@@ -749,27 +785,35 @@
    },
    "RANK" : {
       "description" : "",
-      "message" : "Rank:"
+      "message" : "Rütbe:"
    },
    "RATING" : {
       "description" : "",
-      "message" : "Oran:"
+      "message" : "Derece:"
    },
    "REAR_WEAPON" : {
       "description" : "",
-      "message" : "Rear weapon"
+      "message" : "Arka silah"
    },
    "REFUEL" : {
       "description" : "",
-      "message" : "Refuel"
+      "message" : "Yakıt al"
+   },
+   "RELIABLE" : {
+      "description" : "For player reputation",
+      "message" : "Güvenilir"
    },
    "REPAIR_X_HULL_DAMAGE_FOR_X" : {
       "description" : "",
-      "message" : "Repair {damage}% hull damage for {price}"
+      "message" : "%{damage} gövde hasarını {price} için tamir et"
+   },
+   "REPUTATION" : {
+      "description" : "",
+      "message" : "İtibar"
    },
    "REQUEST_LAUNCH" : {
       "description" : "",
-      "message" : "Request Launch"
+      "message" : "Kalkış Talep Et"
    },
    "RETURN_TO_MENU" : {
       "description" : "",
@@ -777,15 +821,15 @@
    },
    "REVERSE_ACCEL_EMPTY" : {
       "description" : "",
-      "message" : "Reverse accel (empty)"
+      "message" : "Geri ivme (boş)"
    },
    "REVERSE_ACCEL_FULL" : {
       "description" : "",
-      "message" : "Reverse accel (full)"
+      "message" : "Geri ivme (dolu)"
    },
    "REWARD" : {
       "description" : "",
-      "message" : "Reward"
+      "message" : "Ödül"
    },
    "SAVE" : {
       "description" : "",
@@ -797,7 +841,7 @@
    },
    "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME" : {
       "description" : "",
-      "message" : "Select a file to save to or enter a new filename"
+      "message" : "Kayıt için bir dosya seçin veya yeni bir dosya adı girin"
    },
    "SELECT_FILE" : {
       "description" : "",
@@ -805,7 +849,7 @@
    },
    "SELECT_GAME_TO_LOAD" : {
       "description" : "",
-      "message" : "Select game to load..."
+      "message" : "Yüklenecek oyunu seçin..."
    },
    "SENSORS" : {
       "description" : "",
@@ -813,7 +857,7 @@
    },
    "SHIP" : {
       "description" : "",
-      "message" : "Ship"
+      "message" : "Gemi"
    },
    "SHIP_INFORMATION" : {
       "description" : "",
@@ -821,23 +865,23 @@
    },
    "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
       "description" : "",
-      "message" : "Your ship is in perfect working condition."
+      "message" : "Geminiz mükemmel durumda."
    },
    "SHIP_IS_FULLY_LADEN" : {
       "description" : "",
-      "message" : "Your ship is fully laden."
+      "message" : "Geminiz tam dolu."
    },
    "SHIP_MARKET" : {
       "description" : "",
-      "message" : "Ship Market"
+      "message" : "Gemi Pazarı"
    },
    "SHIP_REPAIRS" : {
       "description" : "",
-      "message" : "Ship Repairs"
+      "message" : "Gemi Tamiri"
    },
    "SHIP_VIEWING_WAS_SOLD" : {
       "description" : "",
-      "message" : "The ship you were viewing has been sold"
+      "message" : "Bakmakta oldunuz gemi satıldı."
    },
    "SOUND" : {
       "description" : "",
@@ -845,19 +889,19 @@
    },
    "START_AT_BARNARDS_STAR" : {
       "description" : "",
-      "message" : "Barnard'ın Yıldızından başla"
+      "message" : "Barnard Yıldızı'nda Başla"
    },
    "START_AT_EARTH" : {
       "description" : "",
-      "message" : "Start at Earth"
+      "message" : "Dünyada Başla"
    },
    "START_AT_NEW_HOPE" : {
       "description" : "",
-      "message" : "Yeni Ümide Başla"
+      "message" : "Yeni Ümit'te Başla"
    },
    "STATION_MANAGER" : {
       "description" : "",
-      "message" : "Station manager"
+      "message" : "İstasyon yöneticisi"
    },
    "STATUS" : {
       "description" : "",
@@ -865,19 +909,19 @@
    },
    "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
       "description" : "",
-      "message" : "Thank you for your purchase. Remember to fit equipment and buy fuel before you depart."
+      "message" : "Satın aldığınız için teşekkürler. Ayrılmadan önce ekipmanlarınızı ekleyip yakıt almayı unutmayınız."
    },
    "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP" : {
       "description" : "",
-      "message" : "There is nobody else on board able to fly this ship."
+      "message" : "Güvertede gemiyi uçurabilecek başka hiç kimse yok."
    },
    "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
       "description" : "",
-      "message" : "The ship is under station control, Commander."
+      "message" : "Komutanım, gemi istasyon kontrolünde."
    },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "",
-      "message" : "Erkek/kadın geçiş yap"
+      "message" : "Erkek/kadın"
    },
    "TOTAL" : {
       "description" : "",
@@ -885,27 +929,35 @@
    },
    "TOTAL_MASS" : {
       "description" : "",
-      "message" : "Total mass"
+      "message" : "Toplam kütle"
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
-      "message" : "Trading illegal goods"
+      "message" : "Kanun dışı mal ticareti"
+   },
+   "TRUSTWORTHY" : {
+      "description" : "For player reputation",
+      "message" : "İtimat edilir"
    },
    "TYPE" : {
       "description" : "",
-      "message" : "Tip"
+      "message" : "Tür"
    },
    "UNLAWFUL_WEAPONS_DISCHARGE" : {
       "description" : "",
-      "message" : "Unlawful weapons discharge"
+      "message" : "Kanun dışı silah kullanımı"
+   },
+   "UNRELIABLE" : {
+      "description" : "",
+      "message" : "Güvenilmez"
    },
    "UP_ACCEL" : {
       "description" : "",
-      "message" : "Up acceleration"
+      "message" : "Yukarı ivme"
    },
    "USED" : {
       "description" : "",
-      "message" : "Used"
+      "message" : "Kullanılan"
    },
    "VERY_HIGH" : {
       "description" : "",
@@ -917,11 +969,11 @@
    },
    "VIDEO" : {
       "description" : "",
-      "message" : "Video"
+      "message" : "Görüntü"
    },
    "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY" : {
       "description" : "",
-      "message" : "Video configuration (restart game to apply)"
+      "message" : "Görüntü ayarları (uygulamak için yeniden başlatın)"
    },
    "VIDEO_RESOLUTION" : {
       "description" : "",
@@ -933,50 +985,50 @@
    },
    "WEIGHT_EMPTY" : {
       "description" : "",
-      "message" : "Weight empty"
+      "message" : "Boş ağırlık"
    },
    "WEIGHT_FULLY_LOADED" : {
       "description" : "",
-      "message" : "Weight fully loaded"
+      "message" : "Tam yüklü ağırlık"
    },
    "WE_ARE_IN_HYPERSPACE_COMMANDER" : {
       "description" : "",
-      "message" : "We are in hyperspace, Commander."
+      "message" : "Komutanım, üstuzaydayız."
    },
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
       "description" : "",
-      "message" : "We have no business with you at the moment."
+      "message" : "Şu anda sizinle bir işimiz yok."
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",
-      "message" : "You're going to regret sacking me!"
+      "message" : "Beni kovduğuna pişman olacaksın!"
    },
    "YOUR_HULL_IS_AT_X_INTEGRITY" : {
       "description" : "",
-      "message" : "Your hull is at {value}% integrity."
+      "message" : "Gövde %{value} bütünlükte."
    },
    "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION" : {
       "description" : "",
-      "message" : "You don't have enough money for that option."
+      "message" : "Bu seçenek için yeterince paranız yok."
    },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",
-      "message" : "You must first select a combat target, Commander."
+      "message" : "Komutanım, ilk olarak savaşmak için bir hedef seçmelisiniz."
    },
    "YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER" : {
       "description" : "",
-      "message" : "You must first select a suitable navigation target, Commander."
+      "message" : "Komutanım, ilk olarak uygun bir navigasyon hedefi seçmelisiniz."
    },
    "YOU_MUST_LAUNCH_FIRST_COMMANDER" : {
       "description" : "",
-      "message" : "You must launch first, Commander."
+      "message" : "Komutanım, önce kalkış yapmalısınız."
    },
    "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER" : {
       "description" : "",
-      "message" : "You must request launch clearance first, Commander."
+      "message" : "Komutanım, önce kalkış izni almalısınız."
    },
    "YOU_NOT_ENOUGH_MONEY" : {
       "description" : "",
-      "message" : "You do not have enough money"
+      "message" : "Yeterince paranız yok"
    }
 }

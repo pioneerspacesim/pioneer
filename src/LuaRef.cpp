@@ -25,9 +25,10 @@ const LuaRef & LuaRef::operator=(const LuaRef & ref) {
 }
 
 LuaRef::~LuaRef() {
-	if (m_id != LUA_NOREF && m_lua)
+	if (m_id != LUA_NOREF && m_lua) {
 		--(*m_copycount);
-	CheckCopyCount();
+		CheckCopyCount();
+	}
 }
 
 bool LuaRef::operator==(const LuaRef & ref) const {

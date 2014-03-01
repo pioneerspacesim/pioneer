@@ -17,26 +17,29 @@ TextEntry::TextEntry(Context *context, const std::string &text) : Container(cont
 
 Point TextEntry::PreferredSize()
 {
-	const Point labelPreferredSize(m_label->PreferredSize());
-	const Point borderSize(GetContext()->GetSkin().BackgroundNormal().borderWidth*2);
-	return SizeAdd(labelPreferredSize, borderSize);
+	const Skin::BorderedRectElement &elem(GetContext()->GetSkin().BackgroundNormal());
+	const Point borderSize(elem.borderWidth*2, elem.borderHeight*2);
+	Point preferredSize = SizeAdd(m_label->PreferredSize(), Point(elem.paddingX*2, elem.paddingY*2));
+	preferredSize.x = std::max(preferredSize.x, borderSize.x);
+	preferredSize.y = std::max(preferredSize.y, borderSize.y);
+	return preferredSize;
 }
 
 void TextEntry::Layout()
 {
-	const Uint32 borderWidth = GetContext()->GetSkin().BackgroundNormal().borderWidth;
+	const Skin::BorderedRectElement &elem(GetContext()->GetSkin().BackgroundNormal());
 
 	const Point &size = GetSize();
 
-	const Point innerPos(borderWidth, borderWidth);
-	const Point innerSize(size.x - borderWidth*2, size.y - borderWidth*2);
+	const Point innerPos(elem.paddingX, elem.paddingY);
+	const Point innerSize(size.x - elem.paddingX*2, size.y - elem.paddingY*2);
 
 	SetWidgetDimensions(m_label, innerPos, innerSize);
 
 	// XXX see ::Draw. after Container::Draw we're still translated to the
 	// label origin so we calculate the cursor from there
-	const float cursorTop    = 0.0f;
 	const float cursorBottom = m_label->GetSize().y;
+	const float cursorTop    = cursorBottom - GetContext()->GetFont(GetFont())->GetHeight();
 
 	m_cursorVertices[0] = vector3f(0.0f, cursorTop,    0.0f);
 	m_cursorVertices[1] = vector3f(0.0f, cursorBottom, 0.0f);
@@ -82,8 +85,9 @@ void TextEntry::Draw()
 
 TextEntry *TextEntry::SetText(const std::string &text)
 {
+	bool atEnd = m_label->GetText().size() == m_cursor;
 	m_label->SetText(text);
-	m_cursor = Clamp(m_cursor, Uint32(0), Uint32(text.size()));
+	m_cursor = atEnd ? Uint32(text.size()) : Clamp(m_cursor, Uint32(0), Uint32(text.size()));
 	GetContext()->RequestLayout();
 	return this;
 }
@@ -158,6 +162,17 @@ void TextEntry::HandleKeyDown(const KeyboardEvent &event)
 						m_label->SetText(text);
 						onChange.emit(text);
 						break;
+					}
+
+					case SDLK_v: { // XXX SDLK_PASTE?
+						if (SDL_HasClipboardText()) {
+							char *paste = SDL_GetClipboardText();
+							int len = strlen(paste); // XXX strlen not utf8-aware
+							text.insert(m_cursor, paste, len);
+							m_label->SetText(text);
+							m_cursor += len;
+							SDL_free(paste);
+						}
 					}
 
 					default:

@@ -15,6 +15,38 @@
       "description" : "",
       "message" : "Entrega"
    },
+   "DENY_0" : {
+      "description" : "",
+      "message" : "Lo siento, pero creo que no puedo confiar en usted para este envío."
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "Vuelva cuando disponga de cierta calificación."
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "No creo que sea el piloto que estoy buscando."
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "No parece alguien en quien pueda confiar para este envío."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "No es el tipo de piloto que estoy buscando."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "Parece que le falta experiencia para hacerse cargo de de una tarea de esta importancia."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "No he oído nunca de usted. Necesito a alguien con algo de experiencia para este envío."
+   },
+   "DENY_7" : {
+      "description" : "",
+      "message" : "No voy a poner en riesgo este envío con alguien sin ningun tipo de cualificación como usted."
+   },
    "DISTANCE" : {
       "description" : "",
       "message" : "Distancia:"

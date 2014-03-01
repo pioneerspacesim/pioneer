@@ -7,10 +7,10 @@
 #include "graphics/Light.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/Drawables.h"
-#include "graphics/Surface.h"
 #include "graphics/VertexArray.h"
 #include "scenegraph/DumpVisitor.h"
 #include "scenegraph/FindNodeVisitor.h"
+#include "scenegraph/BinaryConverter.h"
 #include "OS.h"
 #include "Pi.h"
 #include "StringF.h"
@@ -103,7 +103,7 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm)
 	m_log = m_ui->MultiLineText("");
 	m_log->SetFont(UI::Widget::FONT_SMALLEST);
 	m_logScroller.Reset(m_ui->Scroller());
-	m_logScroller->SetInnerWidget(m_log);
+	m_logScroller->SetInnerWidget(m_ui->ColorBackground(Color(0x0,0x0,0x0,0x40))->SetInnerWidget(m_log));
 
 	std::fill(m_mouseButton, m_mouseButton + COUNTOF(m_mouseButton), false);
 	std::fill(m_mouseMotion, m_mouseMotion + 2, 0);
@@ -159,6 +159,7 @@ void ModelViewer::Run(const std::string &modelName)
 	//run main loop until quit
 	viewer = new ModelViewer(renderer, Lua::manager);
 	viewer->SetModel(modelName);
+	viewer->ResetCamera();
 	viewer->MainLoop();
 
 	//uninit components
@@ -175,6 +176,7 @@ void ModelViewer::Run(const std::string &modelName)
 bool ModelViewer::OnPickModel(UI::List *list)
 {
 	SetModel(list->GetSelectedOption());
+	ResetCamera();
 	return true;
 }
 
@@ -188,7 +190,7 @@ bool ModelViewer::OnReloadModel(UI::Widget *w)
 {
 	//camera is not reset, it would be annoying when
 	//tweaking materials
-	SetModel(m_modelName, false);
+	SetModel(m_modelName);
 	return true;
 }
 
@@ -278,9 +280,17 @@ void ModelViewer::HitImpl()
 		// pick a point on the shield to serve as the point of impact.
 		SceneGraph::StaticGeometry* sg = m_shields->GetFirstShieldMesh();
 		if(sg) {
-			Graphics::VertexArray *verts = sg->GetMesh(0)->GetSurface(0)->GetVertices();
-			vector3f pos = verts->position[ m_rng.Int32() % (sg->GetMesh(0)->GetNumVerts()-1) ];
-			m_shields->AddHit(vector3d(pos.x, pos.y, pos.z));
+			SceneGraph::StaticGeometry::Mesh &mesh = sg->GetMeshAt(0);
+
+			// Please don't do this in game, no speed guarantee
+			const Uint32 posOffs = mesh.vertexBuffer->GetDesc().GetOffset(Graphics::ATTRIB_POSITION);
+			const Uint32 stride  = mesh.vertexBuffer->GetDesc().stride;
+			const Uint32 vtxIdx = m_rng.Int32() % mesh.vertexBuffer->GetVertexCount();
+
+			const Uint8 *vtxPtr = mesh.vertexBuffer->Map<Uint8>(Graphics::BUFFER_MAP_READ);
+			const vector3f pos = *reinterpret_cast<const vector3f*>(vtxPtr + vtxIdx * stride + posOffs);
+			mesh.vertexBuffer->Unmap();
+			m_shields->AddHit(vector3d(pos));
 		}
 	}
 	m_shieldHitPan = -1.48f;
@@ -384,7 +394,7 @@ void ModelViewer::CreateTestResources()
 		m = loader.LoadModel("scale");
 		m_scaleModel.reset(m);
 	} catch (SceneGraph::LoadingError &) {
-		AddLog("Could not load test_gun model");
+		AddLog("Could not load test_gun or scale model");
 	}
 }
 
@@ -651,7 +661,8 @@ void ModelViewer::PollEvents()
 	SDL_Event event;
 	while (SDL_PollEvent(&event)) {
 		//ui gets all events
-		m_ui->DispatchSDLEvent(event);
+		if (m_options.showUI && m_ui->DispatchSDLEvent(event))
+			continue;
 
 		switch (event.type)
 		{
@@ -679,6 +690,7 @@ void ModelViewer::PollEvents()
 				if (m_model) {
 					ClearModel();
 					onModelChanged.emit();
+					PopulateFilePicker();
 				} else {
 					m_done = true;
 				}
@@ -704,6 +716,9 @@ void ModelViewer::PollEvents()
 				break;
 			case SDLK_f:
 				ToggleViewControlMode();
+				break;
+			case SDLK_F6:
+				SaveModelToBinary();
 				break;
 			case SDLK_F11:
 				if (event.key.keysym.mod & KMOD_SHIFT)
@@ -742,6 +757,36 @@ void ModelViewer::PollEvents()
 	}
 }
 
+static void collect_models(std::vector<std::string> &list)
+{
+	const std::string basepath("models");
+	FileSystem::FileSource &fileSource = FileSystem::gameDataFiles;
+	for (FileSystem::FileEnumerator files(fileSource, basepath, FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next())
+	{
+		const FileSystem::FileInfo &info = files.Current();
+		const std::string &fpath = info.GetPath();
+
+		//check it's the expected type
+		if (info.IsFile()) {
+			if (ends_with_ci(fpath, ".model"))
+				list.push_back(info.GetName().substr(0, info.GetName().size()-6));
+			else if (ends_with_ci(fpath, ".sgm"))
+				list.push_back(info.GetName());
+		}
+	}
+}
+
+void ModelViewer::PopulateFilePicker()
+{
+	m_fileList->Clear();
+
+	std::vector<std::string> models;
+	collect_models(models);
+
+	for (const auto& it : models)
+		m_fileList->AddOption(it);
+}
+
 void ModelViewer::ResetCamera()
 {
 	m_baseDistance = m_model ? m_model->GetDrawClipRadius() * 1.5f : 100.f;
@@ -768,29 +813,68 @@ void ModelViewer::Screenshot()
 	AddLog(stringf("Screenshot %0 saved", buf));
 }
 
-void ModelViewer::SetModel(const std::string &filename, bool resetCamera /* true */)
+void ModelViewer::SaveModelToBinary()
+{
+	if (!m_model)
+		return AddLog("No current model to binarize");
+
+	//load the current model in a pristine state (no navlights, shields...)
+	//and then save it into binary
+
+	std::unique_ptr<SceneGraph::Model> model;
+	try {
+		SceneGraph::Loader ld(m_renderer);
+		model.reset(ld.LoadModel(m_modelName));
+	} catch (...) {
+		//minimal error handling, this is not expected to happen since we got this far.
+		AddLog("Could not load model");
+		return;
+	}
+
+	try {
+		SceneGraph::BinaryConverter bc(m_renderer);
+		bc.Save(m_modelName, model.get());
+		AddLog("Saved binary model file");
+	} catch (const CouldNotOpenFileException&) {
+		AddLog("Could not open file or directory for writing");
+	} catch (const CouldNotWriteToFileException&) {
+		AddLog("Error while writing to file");
+	}
+}
+
+void ModelViewer::SetModel(const std::string &filename)
 {
 	AddLog(stringf("Loading model %0...", filename));
 
+	//this is necessary to reload textures
 	m_renderer->RemoveAllCachedTextures();
+
 	ClearModel();
 
 	try {
-		m_modelName = filename;
-		SceneGraph::Loader loader(m_renderer, true);
-		m_model = loader.LoadModel(filename);
+		if (ends_with_ci(filename, ".sgm")) {
+			//binary loader expects extension-less name. Might want to change this.
+			m_modelName = filename.substr(0, filename.size()-4);
+			SceneGraph::BinaryConverter bc(m_renderer);
+			m_model = bc.Load(m_modelName);
+		} else {
+			m_modelName = filename;
+			SceneGraph::Loader loader(m_renderer, true);
+			m_model = loader.LoadModel(filename);
+
+			//dump warnings
+			for (std::vector<std::string>::const_iterator it = loader.GetLogMessages().begin();
+				it != loader.GetLogMessages().end(); ++it)
+			{
+				AddLog(*it);
+			}
+		}
+
 		Shields::ReparentShieldNodes(m_model);
 
 		//set decal textures, max 4 supported.
 		//Identical texture at the moment
 		OnDecalChanged(0, "pioneer");
-
-		//dump warnings
-		for (std::vector<std::string>::const_iterator it = loader.GetLogMessages().begin();
-			it != loader.GetLogMessages().end(); ++it)
-		{
-			AddLog(*it);
-		}
 
 		SceneGraph::DumpVisitor d(m_model);
 		m_model->GetRoot()->Accept(d);
@@ -816,50 +900,27 @@ void ModelViewer::SetModel(const std::string &filename, bool resetCamera /* true
 		AddLog(stringf("Could not load model %0: %1", filename, err.what()));
 	}
 
-	if (resetCamera)
-		ResetCamera();
-
 	onModelChanged.emit();
-}
-
-static void collect_models(std::vector<std::string> &list)
-{
-	const std::string basepath("models");
-	FileSystem::FileSource &fileSource = FileSystem::gameDataFiles;
-	for (FileSystem::FileEnumerator files(fileSource, basepath, FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next())
-	{
-		const FileSystem::FileInfo &info = files.Current();
-		const std::string &fpath = info.GetPath();
-
-		//check it's the expected type
-		if (info.IsFile() && ends_with_ci(fpath, ".model")) {
-			list.push_back(info.GetName().substr(0, info.GetName().size()-6));
-		}
-	}
 }
 
 void ModelViewer::SetupFilePicker()
 {
 	UI::Context *c = m_ui.Get();
 
-	UI::List *list = c->List();
+	m_fileList = c->List();
 	UI::Button *quitButton = c->Button();
 	UI::Button *loadButton = c->Button();
 	quitButton->SetInnerWidget(c->Label("Quit"));
 	loadButton->SetInnerWidget(c->Label("Load"));
 
-	std::vector<std::string> models;
-	collect_models(models);
+	PopulateFilePicker();
 
-	for (std::vector<std::string>::const_iterator it = models.begin(); it != models.end(); ++it) {
-		list->AddOption(*it);
-	}
 	UI::Widget *fp =
 	c->Grid(UI::CellSpec(1,3,1), UI::CellSpec(1,3,1))
 		->SetCell(1,1,
 			c->VBox(10)
 				->PackEnd(c->Label("Select a model"))
-				->PackEnd(c->Expand(UI::Expand::BOTH)->SetInnerWidget(c->Scroller()->SetInnerWidget(list)))
+				->PackEnd(c->Expand(UI::Expand::BOTH)->SetInnerWidget(c->Scroller()->SetInnerWidget(m_fileList)))
 				->PackEnd(c->Grid(2,1)->SetRow(0, UI::WidgetSet(
 					c->Align(UI::Align::LEFT)->SetInnerWidget(loadButton),
 					c->Align(UI::Align::RIGHT)->SetInnerWidget(quitButton)
@@ -874,7 +935,7 @@ void ModelViewer::SetupFilePicker()
 	c->Layout();
 	m_logScroller->SetScrollPosition(1.f);
 
-	loadButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnPickModel), list));
+	loadButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnPickModel), m_fileList));
 	quitButton->onClick.connect(sigc::mem_fun(*this, &ModelViewer::OnQuit));
 }
 

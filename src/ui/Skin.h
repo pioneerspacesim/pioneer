@@ -142,14 +142,20 @@ public:
 	};
 
 	struct BorderedRectElement : public RectElement {
-		BorderedRectElement() : borderWidth(0) {}
-		BorderedRectElement(unsigned int x, unsigned int y, unsigned int w, unsigned int h, unsigned int _borderWidth) : RectElement(x, y, w, h), borderWidth(_borderWidth) {}
+		BorderedRectElement() : borderWidth(0), borderHeight(0), paddingX(0), paddingY(0) {}
+		BorderedRectElement(unsigned int x, unsigned int y, unsigned int w, unsigned int h,
+				            unsigned int _borderWidth, unsigned int _borderHeight, unsigned int _paddingX, unsigned int _paddingY) :
+			RectElement(x, y, w, h), borderWidth(_borderWidth), borderHeight(_borderHeight), paddingX(_paddingX), paddingY(_paddingY) {}
 		unsigned int borderWidth;
+		unsigned int borderHeight;
+		unsigned int paddingX;
+		unsigned int paddingY;
 	};
 
 	struct EdgedRectElement : public RectElement {
 		EdgedRectElement() : edgeWidth(0) {}
-		EdgedRectElement(unsigned int x, unsigned int y, unsigned int w, unsigned int h, unsigned int _edgeWidth) : RectElement(x, y, w, h), edgeWidth(_edgeWidth) {}
+		EdgedRectElement(unsigned int x, unsigned int y, unsigned int w, unsigned int h, unsigned int _edgeWidth) :
+			RectElement(x, y, w, h), edgeWidth(_edgeWidth) {}
 		unsigned int edgeWidth;
 	};
 

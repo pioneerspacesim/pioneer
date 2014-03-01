@@ -405,7 +405,7 @@
    },
    "EARTH_FEDERATION_DEMOCRACY" : {
       "description" : "",
-      "message" : "Earth Federation Democracy"
+      "message" : "Democracia da Federação da Terra"
    },
    "ECCENTRICITY" : {
       "description" : "",
@@ -613,7 +613,7 @@
    },
    "HYPERCLOUD_ANALYZER" : {
       "description" : "",
-      "message" : "Hypercloud Analyzer"
+      "message" : "Analisador da Hipernuvem"
    },
    "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
       "description" : "",
@@ -665,7 +665,7 @@
    },
    "IMPERIAL_RULE" : {
       "description" : "",
-      "message" : "Imperial Rule"
+      "message" : "Regra Imperial"
    },
    "INCREASE_SCAN_RANGE" : {
       "description" : "",
@@ -705,7 +705,7 @@
    },
    "JOY" : {
       "description" : "",
-      "message" : "Joy"
+      "message" : "diversão"
    },
    "JOYSTICK_INPUT" : {
       "description" : "",
@@ -905,7 +905,7 @@
    },
    "MININGCANNON_17MW" : {
       "description" : "",
-      "message" : "17MW blast-mining cannon"
+      "message" : "Canhão de mineração de 17MW"
    },
    "MININGCANNON_17MW_DESCRIPTION" : {
       "description" : "",
@@ -1081,7 +1081,7 @@
    },
    "NUMBER_G" : {
       "description" : "",
-      "message" : "%acceleration{f.1} G"
+      "message" : "%aceleração{f.1} G"
    },
    "NUMBER_HOURS" : {
       "description" : "",
@@ -1365,7 +1365,7 @@
    },
    "RUBBISH" : {
       "description" : "",
-      "message" : "Rubbish"
+      "message" : "Lixo"
    },
    "SAGITTARIUS_ARM" : {
       "description" : "",
@@ -1373,7 +1373,7 @@
    },
    "SCANNER" : {
       "description" : "",
-      "message" : "Scanner"
+      "message" : "Escaneador"
    },
    "SCANNER_CONTROL" : {
       "description" : "",
@@ -1409,7 +1409,7 @@
    },
    "SECTOR_X_Y_Z" : {
       "description" : "",
-      "message" : "Sector: %x,%y,%z"
+      "message" : "Setor: %x, %y, %z"
    },
    "SELECTED_SYSTEM" : {
       "description" : "",
@@ -1785,7 +1785,7 @@
    },
    "TIME_POINT" : {
       "description" : "",
-      "message" : "Time point:"
+      "message" : "Ponto do tempo:"
    },
    "TINY" : {
       "description" : "",
@@ -1905,7 +1905,7 @@
    },
    "WITH_A" : {
       "description" : "",
-      "message" : "\" with a \""
+      "message" : "\" com um \""
    },
    "WITH_NO_SIGNIFICANT_ATMOSPHERE" : {
       "description" : "",

@@ -25,17 +25,15 @@ public:
 
 protected:
 	friend class Context;
-	Scroller(Context *context) : Container(context), m_innerWidget(0), m_slider(0) {}
+	Scroller(Context *context);
 
 	virtual void RemoveWidget(Widget *widget);
 
 private:
 	Widget *m_innerWidget;
-	VSlider *m_slider;
+	RefCountedPtr<VSlider> m_slider;
 
-	sigc::connection m_onMouseWheelConn;
-
-	void OnScroll(float value);
+	void OnSliderScroll(float value);
 	bool OnMouseWheel(const MouseWheelEvent &event);
 };
 

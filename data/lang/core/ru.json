@@ -9,7 +9,7 @@
    },
    "ALLEGIANCE" : {
       "description" : "",
-      "message" : "Принадлежность:"
+      "message" : "Подданство:"
    },
    "ALT" : {
       "description" : "Alt key on keyboard",
@@ -17,23 +17,23 @@
    },
    "ALT_IN_KM" : {
       "description" : "",
-      "message" : "Alt: %altitude{f.0}km (%vspeed{f.1}km/s)"
+      "message" : "Выс: %altitude{f.0}км (%vspeed{f.1}км/с)"
    },
    "ALT_IN_METRES" : {
       "description" : "",
-      "message" : "Выс.: %altitude{f.0} м"
+      "message" : "Выс: %altitude{f.0}м (%vspeed{f.1}м/с)"
    },
    "AND_HIGHLY_COMPLEX_ECOSYSTEM" : {
       "description" : "",
-      "message" : "\" Присутствует сложная экосистема.\""
+      "message" : "\" и с очень сложной экосистемой.\""
    },
    "AND_INDIGENOUS_MICROBIAL_LIFE" : {
       "description" : "",
-      "message" : "\" Присутствуют колонии микроорганизмов.\""
+      "message" : "\" и с местной жизнью микроорганизмов.\""
    },
    "AND_INDIGENOUS_PLANT_LIFE" : {
       "description" : "",
-      "message" : "\" Присутствует растительная жизнь.\""
+      "message" : "\" и с местной растительной жизнью.\""
    },
    "ANIMAL_MEAT" : {
       "description" : "",
@@ -41,11 +41,11 @@
    },
    "APOAPSIS_DISTANCE" : {
       "description" : "",
-      "message" : "Апогей"
+      "message" : "Расстояние апоапсиды"
    },
    "AR_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Основной элемент в атмосфере: аргон.\""
+      "message" : "\" аргоновой атмосферой\""
    },
    "ASTEROID" : {
       "description" : "",
@@ -73,15 +73,15 @@
    },
    "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND" : {
       "description" : "",
-      "message" : "Автопилот: Встать на высокую орбиту %target"
+      "message" : "Автопилот: встать на высокую орбиту %target"
    },
    "AUTOPILOT_ENTER_LOW_ORBIT_AROUND" : {
       "description" : "",
-      "message" : "Автопилот: Встать на низкую орбиту %target"
+      "message" : "Автопилот: встать на низкую орбиту %target"
    },
    "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND" : {
       "description" : "",
-      "message" : "Автопилот: Встать на среднюю орбиту %target"
+      "message" : "Автопилот: встать на среднюю орбиту %target"
    },
    "AUTOPILOT_FLY_TO_VICINITY_OF" : {
       "description" : "",
@@ -97,11 +97,11 @@
    },
    "A_FEW_THOUSAND" : {
       "description" : "",
-      "message" : "Несколько тысяч"
+      "message" : "Только несколько тысяч"
    },
    "BATTLE_WEAPONS" : {
       "description" : "",
-      "message" : "Тяжелое вооружение"
+      "message" : "Тяжёлое вооружение"
    },
    "BINARY_SYSTEM" : {
       "description" : "",
@@ -109,15 +109,15 @@
    },
    "BODIES" : {
       "description" : "",
-      "message" : "тел"
+      "message" : "объектами"
    },
    "BODY" : {
       "description" : "",
-      "message" : "тело"
+      "message" : "объектом"
    },
    "BROWN_DWARF" : {
       "description" : "",
-      "message" : "Коричневый карлик,  субзвёздный объект"
+      "message" : "Коричневый карлик - субзвёздный объект"
    },
    "BUTTON" : {
       "description" : "",
@@ -149,7 +149,7 @@
    },
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
-      "message" : "Заблокировать возможность записи в гиперкосмосе"
+      "message" : "Невозможно сохранить игру в гиперпространстве "
    },
    "CAPITALIST" : {
       "description" : "",
@@ -157,11 +157,11 @@
    },
    "CARBON_ORE" : {
       "description" : "",
-      "message" : "Углеродное топливо"
+      "message" : "Углеродная руда"
    },
    "CARBON_ORE_DESCRIPTION" : {
       "description" : "",
-      "message" : "Углеродное топливо (уголь, нефть, природный газ) необходимо для синтеза различной полезной продукции, такой как пластмассы, синтетические продукты питания, медикаменты и текстиль."
+      "message" : "Углеродные руды (уголь и нефть) необходимы для для синтеза многих полезных химических продуктов, включая пластмассы, синтетические продукты питания, медикаменты и текстильные изделия."
    },
    "CARGO" : {
       "description" : "",
@@ -169,7 +169,7 @@
    },
    "CARGO_BAY_LIFE_SUPPORT_LOST" : {
       "description" : "",
-      "message" : "Критические условия жизнеобеспечения в грузовом отсеке..."
+      "message" : "Датчики сообщают о критических условиях жизнеобеспечения грузового отсека."
    },
    "CARGO_LIFE_SUPPORT" : {
       "description" : "",
@@ -197,7 +197,7 @@
    },
    "CH4_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Основной элемент в атмосфере: метан.\""
+      "message" : "\" метановой атмосферой\""
    },
    "CLEARANCE_ALREADY_GRANTED_BAY_N" : {
       "description" : "",
@@ -205,19 +205,19 @@
    },
    "CLEARANCE_DENIED_NO_BAYS" : {
       "description" : "",
-      "message" : "Посадка запрещена. Свободных площадок нет."
+      "message" : "Посадка запрещена. Нет свободных парковочных площадок."
    },
    "CLEARANCE_GRANTED_BAY_N" : {
       "description" : "",
-      "message" : "Разрешение на посадку выдано. Ваша площадка номер %bay."
+      "message" : "Разрешение на посадку предоставлено. Парковочная площадка номер %bay."
    },
    "CO2_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Основной элемент в атмосфере: углекислый газ.\""
+      "message" : "\" углекислотной атмосферой\""
    },
    "COMMA_HIGHLY_VOLCANIC" : {
       "description" : "",
-      "message" : "Вулканическая активность."
+      "message" : ", с высокой вулканической активностью"
    },
    "COMMS" : {
       "description" : "",
@@ -241,7 +241,7 @@
    },
    "CONSUMER_GOODS" : {
       "description" : "",
-      "message" : "Потребительские товары"
+      "message" : "Бытовые товары"
    },
    "CONTROLS" : {
       "description" : "",
@@ -261,11 +261,11 @@
    },
    "COUNT_STARPORTS" : {
       "description" : "",
-      "message" : "космопорт(ов)"
+      "message" : "космопортами"
    },
    "CO_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Основной элемент в атмосфере: угарный газ.\""
+      "message" : "\" окись углеродной атмосферой\""
    },
    "CTRL" : {
       "description" : "Ctrl key on keyboard",
@@ -273,7 +273,7 @@
    },
    "CURRENT_SYSTEM" : {
       "description" : "",
-      "message" : "Система нахождения"
+      "message" : "Текущая система"
    },
    "DATE_DUE_N" : {
       "description" : "",
@@ -281,7 +281,7 @@
    },
    "DAY_LENGTH" : {
       "description" : "",
-      "message" : "Сутки"
+      "message" : "Длина дня"
    },
    "DECREASE_SCAN_RANGE" : {
       "description" : "",
@@ -293,7 +293,7 @@
    },
    "DEMOGRAPHICS" : {
       "description" : "",
-      "message" : "Население"
+      "message" : "Демография"
    },
    "DESTINATION" : {
       "description" : "",
@@ -309,19 +309,19 @@
    },
    "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
       "description" : "",
-      "message" : "Расстояние до цели"
+      "message" : "Расстояние от корабля до цели"
    },
    "DISTANCE_LY" : {
       "description" : "",
-      "message" : "Расстояние: %distance{f.2} сл"
+      "message" : "Расстояние: %distance{f.2} СвЛ"
    },
    "DOCKED" : {
       "description" : "",
-      "message" : "На станции."
+      "message" : "Парковка"
    },
    "DOCKING" : {
       "description" : "",
-      "message" : "Стыковочная зона."
+      "message" : "Парковочная зона"
    },
    "DOCKING_CLEARANCE_EXPIRED" : {
       "description" : "",
@@ -333,11 +333,11 @@
    },
    "DRAW_OUT_RANGE_LABELS" : {
       "description" : "",
-      "message" : "Названия далеких звезд"
+      "message" : "Маркеры далёких систем"
    },
    "DRAW_UNINHABITED_LABELS" : {
       "description" : "",
-      "message" : "Label uninhabited systems"
+      "message" : "Маркеры необитаемых систем"
    },
    "DRAW_VERTICAL_LINES" : {
       "description" : "",
@@ -401,15 +401,15 @@
    },
    "EARTH_FEDERATION_COLONIAL_RULE" : {
       "description" : "",
-      "message" : "Колония Земной Федерации"
+      "message" : "Земная федерация колониального правления"
    },
    "EARTH_FEDERATION_DEMOCRACY" : {
       "description" : "",
-      "message" : "Демократия Земной Федерации"
+      "message" : "Земная демократическая федерация "
    },
    "ECCENTRICITY" : {
       "description" : "",
-      "message" : "Эксцентрика"
+      "message" : "Эксцентриситет"
    },
    "ECM_ADVANCED" : {
       "description" : "",
@@ -417,7 +417,7 @@
    },
    "ECM_ADVANCED_DESCRIPTION" : {
       "description" : "",
-      "message" : "Усовершенствованная система ПРО способна противодействовать продвинутым типам самонаводящихся ракет."
+      "message" : "Электронная система ПРО способна уничтожить более продвинутые типы самонаводящихся ракет."
    },
    "ECM_BASIC" : {
       "description" : "",
@@ -429,23 +429,23 @@
    },
    "ECONOMIC_INFO" : {
       "description" : "",
-      "message" : "Экономика"
+      "message" : "Информация об экономике"
    },
    "ECONOMY_TYPE" : {
       "description" : "",
-      "message" : "Экономика:"
+      "message" : "Тип экономики:"
    },
    "ENABLED_AUTOMATIC_SYSTEM_SELECTION" : {
       "description" : "",
-      "message" : "Включен автоматический выбор системы."
+      "message" : "Включён автоматический выбор системы."
    },
    "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
       "description" : "",
-      "message" : "Equatorial to polar radius ratio"
+      "message" : "Соотн. экваториального к полярному радиусу"
    },
    "EXACT_MATCH_X" : {
       "description" : "",
-      "message" : "Обнаружено: %system"
+      "message" : "Точное соответствие: %system"
    },
    "EXTENSIVE_MINING" : {
       "description" : "",
@@ -505,7 +505,7 @@
    },
    "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED" : {
       "description" : "",
-      "message" : "Топливозаборник работает. Тонн собрано: %quantity."
+      "message" : "Топливозаборник работает. Вы собрали %quantit т водорода."
    },
    "FUEL_SCOOP_DESCRIPTION" : {
       "description" : "",
@@ -525,27 +525,27 @@
    },
    "GAME_LOAD_CORRUPT" : {
       "description" : "",
-      "message" : "Эта запись не может быть загружена, т.к. содержит ошибки"
+      "message" : "Эта сохранение игры не может быть загружено, так как содержит ошибки."
    },
    "GAME_LOAD_WRONG_VERSION" : {
       "description" : "",
-      "message" : "This saved game cannot be loaded because it was created by a different version of Pioneer."
+      "message" : "Это сохранение не может быть загружено, так как оно было создано на другой версии игры."
    },
    "GAME_SAVED_TO" : {
       "description" : "",
-      "message" : "\"Игра записана в \""
+      "message" : "\"Игра сохранена в \""
    },
    "GAME_SAVE_CANNOT_WRITE" : {
       "description" : "",
-      "message" : "Эта запись не может быть загружена из-за системной ошибки."
+      "message" : "Этот сохраненный файл игры не может быть записан из-за системной ошибки."
    },
    "GENERAL_VIEW_CONTROLS" : {
       "description" : "",
-      "message" : "General View Controls"
+      "message" : "Общий вид управления"
    },
    "GOVERNMENT_TYPE" : {
       "description" : "",
-      "message" : "Тип правления:"
+      "message" : "Политический строй:"
    },
    "GRAIN" : {
       "description" : "",
@@ -573,23 +573,23 @@
    },
    "HEAVY_INDUSTRY" : {
       "description" : "",
-      "message" : "Тяжелая индустрия."
+      "message" : "Тяжёлая промышленность."
    },
    "HE_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Основной элемент в атмосфере: гелий.\""
+      "message" : "\" гелиевой атмосферой\""
    },
    "HIGHLY_VOLCANIC" : {
       "description" : "",
-      "message" : "Вулканическая активность."
+      "message" : "Вулканическая"
    },
    "HIGH_POPULATION_OUTDOOR_WORLD" : {
       "description" : "",
-      "message" : "Сильно заселенный открытый мир."
+      "message" : "Сильно заселённый открытый мир."
    },
    "HULL_AUTOREPAIR" : {
       "description" : "",
-      "message" : "Ремонтная система"
+      "message" : "Система авторемонта корпуса"
    },
    "HULL_AUTOREPAIR_DESCRIPTION" : {
       "description" : "",
@@ -609,7 +609,7 @@
    },
    "HYDROGEN_DESCRIPTION" : {
       "description" : "",
-      "message" : "Водород является топливным элементом для двигателей кораблей."
+      "message" : "Водород прежде всего используется в качестве получения топлива "
    },
    "HYPERCLOUD_ANALYZER" : {
       "description" : "",
@@ -621,11 +621,11 @@
    },
    "HYPERSPACE" : {
       "description" : "",
-      "message" : "В гиперкосмосе."
+      "message" : "Гиперкосмос"
    },
    "HYPERSPACE_ARRIVAL_CLOUD" : {
       "description" : "",
-      "message" : "Гипероблако входа."
+      "message" : "Гипероблако входа"
    },
    "HYPERSPACE_ARRIVAL_CLOUD_REMNANT" : {
       "description" : "",
@@ -633,7 +633,7 @@
    },
    "HYPERSPACE_DEPARTURE_CLOUD" : {
       "description" : "",
-      "message" : "Гипероблако выхода."
+      "message" : "Гипероблако выхода"
    },
    "HYPERSPACE_JUMP" : {
       "description" : "",
@@ -649,23 +649,23 @@
    },
    "HYPERSPACING_IN_N_SECONDS" : {
       "description" : "",
-      "message" : "Обратный отсчёт до прыжка: %countdown{f.0} сек."
+      "message" : "Гиперпрыжок через %countdown{f.0} сек."
    },
    "H_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Основной элемент в атмосфере: водород.\""
+      "message" : "\" водородной атмосферой\""
    },
    "ICE_WORLD" : {
       "description" : "",
-      "message" : "\" Ледяной мир.\""
+      "message" : "\" с ледяным миром\""
    },
    "ILLEGAL_GOODS" : {
       "description" : "",
-      "message" : "Запрещено ввозить:"
+      "message" : "Нелегальные товары:"
    },
    "IMPERIAL_RULE" : {
       "description" : "",
-      "message" : "Имперское Правление"
+      "message" : "Имперское правление"
    },
    "INCREASE_SCAN_RANGE" : {
       "description" : "",
@@ -677,11 +677,11 @@
    },
    "INDUSTRIAL_COLONY" : {
       "description" : "",
-      "message" : "Индустриальная колония."
+      "message" : "Промышленная колония."
    },
    "INDUSTRIAL_HUB_SYSTEM" : {
       "description" : "",
-      "message" : "Промышленный центр системы."
+      "message" : "Промышленный узел системы."
    },
    "INDUSTRIAL_MACHINERY" : {
       "description" : "",
@@ -697,7 +697,7 @@
    },
    "IN_TRANSIT" : {
       "description" : "",
-      "message" : "Проход через гипертоннель."
+      "message" : "Проход через гипертоннель"
    },
    "IN_TRANSIT_TO_N_X_X_X" : {
       "description" : "",
@@ -713,15 +713,15 @@
    },
    "JOY_AXIS" : {
       "description" : "",
-      "message" : "%{sign}Joy%joynum %axis Axis"
+      "message" : "%{sign}Joy%joynum %axis Ось"
    },
    "KM_S_RELATIVE_TO" : {
       "description" : "",
-      "message" : "Скор.: %speed{f.2} км/с относительно %frame"
+      "message" : "%speed{f.2} км/с относительно %frame"
    },
    "LANDED" : {
       "description" : "",
-      "message" : "На грунте."
+      "message" : "На грунте"
    },
    "LANG_NAME" : {
       "description" : "The name that native speakers use for this language. This will be used in the language selection screen. For obscure reasons this currently must only use Latin-1 characters.",
@@ -729,11 +729,11 @@
    },
    "LARGE" : {
       "description" : "",
-      "message" : "Крупная планета."
+      "message" : "Большая"
    },
    "LARGE_GAS_GIANT" : {
       "description" : "",
-      "message" : "Крупный газовый гигант"
+      "message" : "Большой газовый гигант"
    },
    "LARGE_PLASMA_ACCEL" : {
       "description" : "",
@@ -753,7 +753,7 @@
    },
    "LAUNCH_PERMISSION_DENIED_BUSY" : {
       "description" : "",
-      "message" : "Вылет запрещен. Стыковочная зона занята."
+      "message" : "Разрешение на взлёт запрещён: парковочная зона занята."
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
@@ -765,7 +765,7 @@
    },
    "LIQUID_OXYGEN_DESCRIPTION" : {
       "description" : "",
-      "message" : "Кислород используется для жизнеобеспечения, некоторых химических и технологических процессов."
+      "message" : "Кислород необходим для систем жизнеобеспечения и некоторых производственных процессов"
    },
    "LIQUOR" : {
       "description" : "",
@@ -773,7 +773,7 @@
    },
    "LIVE_ANIMALS" : {
       "description" : "",
-      "message" : "Живые животные"
+      "message" : "Животные"
    },
    "LOCKED" : {
       "description" : "",
@@ -789,7 +789,7 @@
    },
    "MANUAL_CONTROL" : {
       "description" : "",
-      "message" : "Пилотирование."
+      "message" : "Пилотаж"
    },
    "MANUAL_CONTROL_MODE" : {
       "description" : "",
@@ -861,11 +861,11 @@
    },
    "MASS" : {
       "description" : "",
-      "message" : "Масса объекта"
+      "message" : "Масса"
    },
    "MASSIVE" : {
       "description" : "",
-      "message" : "Массивная планета."
+      "message" : "Массивная"
    },
    "MASS_N_TONNES" : {
       "description" : "",
@@ -913,11 +913,11 @@
    },
    "MINING_COLONY" : {
       "description" : "",
-      "message" : "Шахтерская колония."
+      "message" : "Шахтёрская колония."
    },
    "MINING_MACHINERY" : {
       "description" : "",
-      "message" : "Горнодоб.техника"
+      "message" : "Горная техника"
    },
    "MINOR_EXPORTS" : {
       "description" : "",
@@ -929,11 +929,11 @@
    },
    "MISCELLANEOUS" : {
       "description" : "",
-      "message" : "Разное"
+      "message" : "Смешанное"
    },
    "MISSILE" : {
       "description" : "",
-      "message" : "Ракета"
+      "message" : "ракета"
    },
    "MISSILE_GUIDED" : {
       "description" : "",
@@ -941,7 +941,7 @@
    },
    "MISSILE_NAVAL" : {
       "description" : "",
-      "message" : "Армейская ракета"
+      "message" : "Военная ракета"
    },
    "MISSILE_SMART" : {
       "description" : "",
@@ -1009,7 +1009,7 @@
    },
    "M_S_RELATIVE_TO" : {
       "description" : "",
-      "message" : "Скор.: %speed{f.0} м/с относительно %frame"
+      "message" : "%speed{f.0} м/с относительно %frame"
    },
    "NAME_OBJECT" : {
       "description" : "For an item or object",
@@ -1025,7 +1025,7 @@
    },
    "NAVIGATION_STAR_MAPS" : {
       "description" : "",
-      "message" : "Навигация"
+      "message" : "Навигация и звёздные карты"
    },
    "NAVIGATION_TARGETS_IN_THIS_SYSTEM" : {
       "description" : "",
@@ -1037,11 +1037,11 @@
    },
    "NONE" : {
       "description" : "",
-      "message" : "< отсутствует >"
+      "message" : "<отсутствует>"
    },
    "NORMA_ARM" : {
       "description" : "",
-      "message" : "Ветвь Наугольника"
+      "message" : "Рукав Лебедя"
    },
    "NOT_FOUND" : {
       "description" : "",
@@ -1049,7 +1049,7 @@
    },
    "NOT_FOUND_BEST_MATCH_X" : {
       "description" : "",
-      "message" : "Не обнаружено, макс.совпадение: %system"
+      "message" : "Не найдено, макс.совпадение: %system"
    },
    "NO_ALERT" : {
       "description" : "",
@@ -1057,7 +1057,7 @@
    },
    "NO_CENTRAL_GOVERNANCE" : {
       "description" : "",
-      "message" : "Нет центрального правительства"
+      "message" : "Нет центральной власти"
    },
    "NO_ESTABLISHED_ORDER" : {
       "description" : "",
@@ -1073,7 +1073,7 @@
    },
    "NO_TARGET_SELECTED" : {
       "description" : "",
-      "message" : "Компьютер корабля: цель не выбрана"
+      "message" : "Бортовой компьютер: цель не выбрана"
    },
    "NUMBER_DAYS" : {
       "description" : "",
@@ -1093,15 +1093,15 @@
    },
    "NUMBER_TONNES" : {
       "description" : "",
-      "message" : "%{mass}t"
+      "message" : "%{mass}т"
    },
    "N_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Основной элемент в атмосфере: азот.\""
+      "message" : "\" азотной атмосферой\""
    },
    "N_CELSIUS" : {
       "description" : "",
-      "message" : "%temperature С"
+      "message" : "%temperature °C"
    },
    "N_DAYS" : {
       "description" : "",
@@ -1117,7 +1117,7 @@
    },
    "N_EARTH_DAYS" : {
       "description" : "",
-      "message" : "%days{f.1} земн.дн."
+      "message" : "%days{f.1} земн. дн."
    },
    "N_WHATEVER_MASSES" : {
       "description" : "",
@@ -1125,7 +1125,7 @@
    },
    "N_WHATEVER_RADII" : {
       "description" : "",
-      "message" : "%radius{f.3} %units радиуса"
+      "message" : "%radius{f.3} %units радиуса (%radkm{f.0} км)"
    },
    "N_YEARS" : {
       "description" : "",
@@ -1133,11 +1133,11 @@
    },
    "O2_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Основной элемент в атмосфере: кислород.\""
+      "message" : "\" кислородной атмосферой\""
    },
    "OCEANICWORLD" : {
       "description" : "",
-      "message" : "\" Океанический мир.\""
+      "message" : "\" с океаническим миром\""
    },
    "ORBITAL_PERIOD" : {
       "description" : "",
@@ -1145,15 +1145,15 @@
    },
    "ORBITAL_STARPORT" : {
       "description" : "",
-      "message" : "Орбитальный порт"
+      "message" : "Орбитальный космопорт"
    },
    "OUTDOOR_AGRICULTURAL_WORLD" : {
       "description" : "",
-      "message" : "Натуральное хозяйство.."
+      "message" : "Открытый сельскохозяйственный мир."
    },
    "OUTER_ARM" : {
       "description" : "",
-      "message" : "Внешняя ветвь"
+      "message" : "Внешний рукав"
    },
    "OVER_N_BILLION" : {
       "description" : "",
@@ -1169,7 +1169,7 @@
    },
    "PAUSED" : {
       "description" : "",
-      "message" : "PAUSED"
+      "message" : "ПАУЗА"
    },
    "PAY_FINE_REMOTELY" : {
       "description" : "",
@@ -1177,11 +1177,11 @@
    },
    "PERIAPSIS_DISTANCE" : {
       "description" : "",
-      "message" : "Перигей"
+      "message" : "Расстояние периапсида"
    },
    "PERSEUS_ARM" : {
       "description" : "",
-      "message" : "Ветвь Персея"
+      "message" : "Рукав Персея"
    },
    "PIONEER" : {
       "description" : "",
@@ -1205,15 +1205,15 @@
    },
    "PLANETARY_INFO" : {
       "description" : "",
-      "message" : "Планета"
+      "message" : "Информация о планетах"
    },
    "PLANET_CONTAINING_LIQUID_WATER" : {
       "description" : "",
-      "message" : "\" На поверхности присутствует жидкая вода.\""
+      "message" : "\" планета, содержащая жидкую воду\""
    },
    "PLANET_WITH_SOME_ICE" : {
       "description" : "",
-      "message" : "\" На поверхности имеются ледяные поля.\""
+      "message" : "\" планета с небольшим количеством льда\""
    },
    "PLANNED_ECONOMY" : {
       "description" : "",
@@ -1229,7 +1229,7 @@
    },
    "POLICE_SHIP_REGISTRATION" : {
       "description" : "",
-      "message" : "Полиция"
+      "message" : "ПОЛИЦИЯ"
    },
    "POPULATION" : {
       "description" : "",
@@ -1237,7 +1237,7 @@
    },
    "PRECIOUS_METALS" : {
       "description" : "",
-      "message" : "Драгоценные металлы"
+      "message" : "Цветные металлы"
    },
    "PRESSURE_N_ATMOSPHERES" : {
       "description" : "",
@@ -1293,7 +1293,7 @@
    },
    "RADIUS" : {
       "description" : "",
-      "message" : "Радиус объекта"
+      "message" : "Радиус"
    },
    "REAR" : {
       "description" : "",
@@ -1317,11 +1317,11 @@
    },
    "ROCKY_PLANET" : {
       "description" : "",
-      "message" : "\" Скалистый мир.\""
+      "message" : "\" скалистая планета\""
    },
    "ROCKY_PLANET_CONTAINING_COME_LIQUIDS" : {
       "description" : "",
-      "message" : "\" Скалистый мир, присутствуют жидкие вещества.\""
+      "message" : "\" скалистая планета, содержащая кое-какие жидкости,\""
    },
    "ROLL" : {
       "description" : "",
@@ -1353,7 +1353,7 @@
    },
    "ROTATIONAL_PERIOD" : {
       "description" : "",
-      "message" : "\" (время оборота)\""
+      "message" : "\" (период вращения)\""
    },
    "ROTATION_DAMPING_OFF" : {
       "description" : "",
@@ -1369,7 +1369,7 @@
    },
    "SAGITTARIUS_ARM" : {
       "description" : "",
-      "message" : "Ветвь Стрельца"
+      "message" : "Рукав Стрельца"
    },
    "SCANNER" : {
       "description" : "",
@@ -1389,11 +1389,11 @@
    },
    "SCUTUM_CENTAURUS_ARM" : {
       "description" : "",
-      "message" : "Ветвь Щит Кентавра"
+      "message" : "Рукав Центавра"
    },
    "SEARCH" : {
       "description" : "",
-      "message" : "Найти"
+      "message" : "Поиск"
    },
    "SEARCH_MAP" : {
       "description" : "",
@@ -1441,11 +1441,11 @@
    },
    "SET_SPEED_KM_S" : {
       "description" : "",
-      "message" : "Скор.: %speed{f.2} км/с"
+      "message" : "Скорость: %speed{f.2} км/с"
    },
    "SET_SPEED_M_S" : {
       "description" : "",
-      "message" : "Скор.: %speed{f.0} м/с"
+      "message" : "Скорость: %speed{f.0} м/с"
    },
    "SHIELD_ENERGY_BOOSTER" : {
       "description" : "",
@@ -1497,7 +1497,7 @@
    },
    "SHIP_NEARBY" : {
       "description" : "",
-      "message" : "Близко корабль."
+      "message" : "Корабль поблизости"
    },
    "SHIP_ORIENTATION" : {
       "description" : "",
@@ -1513,7 +1513,7 @@
    },
    "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
       "description" : "",
-      "message" : "Внимание. Идет генерация Вселенной: %age{f.1} млрд. лет ;-)"
+      "message" : "Моделирование развития вселенной: %age{f.1} млрд. лет ;-)"
    },
    "SLAVES" : {
       "description" : "",
@@ -1521,7 +1521,7 @@
    },
    "SMALL" : {
       "description" : "",
-      "message" : "Малая планета."
+      "message" : "Малая"
    },
    "SMALL_GAS_GIANT" : {
       "description" : "",
@@ -1529,7 +1529,7 @@
    },
    "SMALL_INDUSTRIAL_OUTPOST" : {
       "description" : "",
-      "message" : "Индустриальный аванпост.."
+      "message" : "Малое промышленное представительство."
    },
    "SMALL_PLASMA_ACCEL" : {
       "description" : "",
@@ -1537,7 +1537,7 @@
    },
    "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS" : {
       "description" : "",
-      "message" : "Слабо исследованная система. Данных недостаточно.."
+      "message" : "Слабо исследована. Нет зарегистрированных  поселений."
    },
    "SOCIAL_DEMOCRACY" : {
       "description" : "",
@@ -1549,7 +1549,7 @@
    },
    "SOME_ESTABLISHED_MINING" : {
       "description" : "",
-      "message" : "Шахтерское поселение."
+      "message" : "Шахтёрское поселение."
    },
    "SOURCE" : {
       "description" : "",
@@ -1561,11 +1561,11 @@
    },
    "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS" : {
       "description" : "",
-      "message" : "Стабильная система. Главных %{body(s)} %bodycount, и %portcount %{starport(s)}"
+      "message" : "Стабильная планетная система с %bodycount космическими %{body(s)} и %portcount %{starport(s)}"
    },
    "STARPORT" : {
       "description" : "",
-      "message" : "Космопорт"
+      "message" : "космопортом"
    },
    "STARPORTS" : {
       "description" : "",
@@ -1573,7 +1573,7 @@
    },
    "STAR_A" : {
       "description" : "",
-      "message" : "Белая горячая звезда, класс 'A'"
+      "message" : "Горячая белая звезда спектрального класса \"A\""
    },
    "STAR_AF_GIANT" : {
       "description" : "",
@@ -1581,15 +1581,15 @@
    },
    "STAR_AF_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Белый гипергигант"
+      "message" : "Белый сверхгигант"
    },
    "STAR_AF_SUPER_GIANT" : {
       "description" : "",
-      "message" : "Белый супергигант"
+      "message" : "Белый сверхгигант"
    },
    "STAR_B" : {
       "description" : "",
-      "message" : "Голубая звезда, класс 'B'"
+      "message" : "Голубая звезда спектрального класса \"B\""
    },
    "STAR_B_GIANT" : {
       "description" : "",
@@ -1597,23 +1597,23 @@
    },
    "STAR_B_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Голубой гипергигант"
+      "message" : "Голубой сверхгигант"
    },
    "STAR_B_SUPER_GIANT" : {
       "description" : "",
-      "message" : "Голубой супергигант"
+      "message" : "Голубой сверхргигант"
    },
    "STAR_B_WF" : {
       "description" : "",
-      "message" : "Звезда Вольфа-Райе - Риск коллапса"
+      "message" : "Риск распада звезды Вольфа-Райе"
    },
    "STAR_F" : {
       "description" : "",
-      "message" : "Белая звезда, класс 'F'"
+      "message" : "Белая звезда спектрального класса \"F\""
    },
    "STAR_G" : {
       "description" : "",
-      "message" : "Желтый карлик, класс 'G'"
+      "message" : "Жёлтая звезда спектрального класса \"G\""
    },
    "STAR_G_GIANT" : {
       "description" : "",
@@ -1621,19 +1621,19 @@
    },
    "STAR_G_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Желтый гипергигант - Нестабильная"
+      "message" : "Нестабильный жёлтый сверхгигант"
    },
    "STAR_G_SUPER_GIANT" : {
       "description" : "",
-      "message" : "Желтый супергигант"
+      "message" : "Жёлтый сверхгигант "
    },
    "STAR_IM_BH" : {
       "description" : "",
-      "message" : "Черная дыра средней массы"
+      "message" : "Чёрная дыра средней массы"
    },
    "STAR_K" : {
       "description" : "",
-      "message" : "Оранжевый карлик, класс 'K'"
+      "message" : "Оранжевая звезда спектрального класса \"K\""
    },
    "STAR_K_GIANT" : {
       "description" : "",
@@ -1641,15 +1641,15 @@
    },
    "STAR_K_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Оранжевый гипергигант - Нестабильная"
+      "message" : "Нестабильный оранжевый сверхгигант"
    },
    "STAR_K_SUPER_GIANT" : {
       "description" : "",
-      "message" : "Оранжеый супергигант"
+      "message" : "Оранжевый сверхгигант"
    },
    "STAR_M" : {
       "description" : "",
-      "message" : "Красный карлик, класс 'M'"
+      "message" : "Красная звезда спектрального класса \"M\""
    },
    "STAR_M_GIANT" : {
       "description" : "",
@@ -1657,19 +1657,19 @@
    },
    "STAR_M_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Красный гипергигант"
+      "message" : "Красный сверхгигант"
    },
    "STAR_M_SUPER_GIANT" : {
       "description" : "",
-      "message" : "Красный супергигант"
+      "message" : "Красный сверхгигант"
    },
    "STAR_M_WF" : {
       "description" : "",
-      "message" : "Звезда Вольфа-Райе - Нестабильная"
+      "message" : "Нестабильная звезда Вольфа-Райе"
    },
    "STAR_O" : {
       "description" : "",
-      "message" : "Голубая горячая звезда гигант, класс 'O'"
+      "message" : "Горячая, массивная звезда спектрального класса \"O\""
    },
    "STAR_O_GIANT" : {
       "description" : "",
@@ -1677,15 +1677,15 @@
    },
    "STAR_O_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Горячий голубой гипергигант"
+      "message" : "Горячий голубой сверхгигант"
    },
    "STAR_O_SUPER_GIANT" : {
       "description" : "",
-      "message" : "Горячий голубой супергигант"
+      "message" : "Горячий голубой сверхгигант"
    },
    "STAR_O_WF" : {
       "description" : "",
-      "message" : "Звезда Вольфа-Райе - Неизбежный коллапс"
+      "message" : "Неизбежный распад звезды Вольфа-Райе"
    },
    "STAR_SM_BH" : {
       "description" : "",
@@ -1693,11 +1693,11 @@
    },
    "STAR_SYSTEM_INFORMATION" : {
       "description" : "",
-      "message" : "Данные системы"
+      "message" : "Информация о звёздной системе"
    },
    "STAR_S_BH" : {
       "description" : "",
-      "message" : "Черная дыра"
+      "message" : "Чёрная дыра"
    },
    "SUGGESTED_RESPONSES" : {
       "description" : "",
@@ -1705,15 +1705,15 @@
    },
    "SURFACE_GRAVITY" : {
       "description" : "",
-      "message" : "Уровень гравитации"
+      "message" : "Гравитация на поверхности"
    },
    "SURFACE_TEMPERATURE" : {
       "description" : "",
-      "message" : "Температура поверхности"
+      "message" : "Температура на поверхности"
    },
    "SYSTEM" : {
       "description" : "",
-      "message" : "системы"
+      "message" : "Система"
    },
    "SYSTEM_NUMBER" : {
       "description" : "",
@@ -1729,11 +1729,11 @@
    },
    "S_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Основной элемент в атмосфере: сера.\""
+      "message" : "\" серной атмосферой\""
    },
    "TAKEOFF" : {
       "description" : "",
-      "message" : "Взлет"
+      "message" : "Взлёт"
    },
    "TARGET_OBJECT_IN_SIGHTS" : {
       "description" : "",
@@ -1741,7 +1741,7 @@
    },
    "TENUOUS" : {
       "description" : "",
-      "message" : "Разреженная атмосфера."
+      "message" : "разрежённой"
    },
    "TEXTILES" : {
       "description" : "",
@@ -1749,11 +1749,11 @@
    },
    "THICK" : {
       "description" : "",
-      "message" : "Толстая атмосфера."
+      "message" : "толстой"
    },
    "THIN" : {
       "description" : "",
-      "message" : "Тонкая атмосфера."
+      "message" : "тонкой"
    },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",
@@ -1785,15 +1785,15 @@
    },
    "TIME_POINT" : {
       "description" : "",
-      "message" : "Уст.:"
+      "message" : "М.В.:"
    },
    "TINY" : {
       "description" : "",
-      "message" : "Средняя планета."
+      "message" : "Крохотная"
    },
    "TOGGLE_HUD_MODE" : {
       "description" : "",
-      "message" : "Включить HUD"
+      "message" : "Переключение в режим HUD"
    },
    "TOGGLE_LUA_CONSOLE" : {
       "description" : "",
@@ -1813,7 +1813,7 @@
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
-      "message" : "Торговля контрабандой"
+      "message" : "Торговая нелегальными товарами"
    },
    "TRIPLE_SYSTEM" : {
       "description" : "",
@@ -1821,19 +1821,19 @@
    },
    "UNEXPLORED_SYSTEM_NO_DATA" : {
       "description" : "",
-      "message" : "Неисследованная система. Данные отсутствую."
+      "message" : "Неизведанная система. Данные отсутствуют."
    },
    "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW" : {
       "description" : "",
-      "message" : "Не исследовано. Информация отсутствует."
+      "message" : "Неизведанная система. Просмотр системы недоступен."
    },
    "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
       "description" : "",
-      "message" : "Не исследовано, либо мало исследовано."
+      "message" : "Неизведанная система. Информация о звезде была собрана с удалённого телескопа, по этому информация о планетах не доступна."
    },
    "UNKNOWN" : {
       "description" : "",
-      "message" : "<Неизвестно>"
+      "message" : "<неизвестно>"
    },
    "UNLAWFUL_WEAPONS_DISCHARGE" : {
       "description" : "",
@@ -1853,11 +1853,11 @@
    },
    "VAST_STRIP_MINE" : {
       "description" : "",
-      "message" : "Огромная добывающая колония."
+      "message" : "Огромная колония по открытым горным разработкам."
    },
    "VERY_DENSE" : {
       "description" : "",
-      "message" : "Очень плотная атмосфера."
+      "message" : "очень плотной"
    },
    "VERY_LARGE_GAS_GIANT" : {
       "description" : "",
@@ -1869,7 +1869,7 @@
    },
    "VID_LINK_ESTABLISHED" : {
       "description" : "",
-      "message" : "Видеосвязь установлена."
+      "message" : "Видеосвязь установлена"
    },
    "VIEW" : {
       "description" : "",
@@ -1901,15 +1901,15 @@
    },
    "WHITE_DWARF" : {
       "description" : "",
-      "message" : "Белый карлик"
+      "message" : "Звёздный остаток белого карлика"
    },
    "WITH_A" : {
       "description" : "",
-      "message" : "\" with a \""
+      "message" : "\" c \""
    },
    "WITH_NO_SIGNIFICANT_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Имеется разреженная атмосфера.\""
+      "message" : "\" с разрежённой атмосферой\""
    },
    "X" : {
       "description" : "",
@@ -1937,11 +1937,11 @@
    },
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
-      "message" : "Фермерская колония."
+      "message" : "Молодая колония сельского хозяйства."
    },
    "YOU_NO_MONEY" : {
       "description" : "",
-      "message" : "У вас нет денег на счёте."
+      "message" : "На вашем счёте нет денег."
    },
    "Z" : {
       "description" : "",

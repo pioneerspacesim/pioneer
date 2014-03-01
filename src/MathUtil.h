@@ -8,13 +8,19 @@
 
 namespace MathUtil {
 
-// random point on a sphere, distributed uniformly by area
-vector3d RandomPointOnSphere(double minRadius, double maxRadius);
-inline vector3d RandomPointOnSphere(double radius) { return RandomPointOnSphere(radius, radius); }
+	// random point on a sphere, distributed uniformly by area
+	vector3d RandomPointOnSphere(double minRadius, double maxRadius);
+	inline vector3d RandomPointOnSphere(double radius) { return RandomPointOnSphere(radius, radius); }
 
-vector3d RandomPointInCircle(double minRadius, double maxRadius);
-inline vector3d RandomPointInCircle(double radius) { return RandomPointInCircle(0.0, radius); }
-inline vector3d RandomPointOnCircle(double radius) { return RandomPointInCircle(radius, radius); }
+	vector3d RandomPointInCircle(double minRadius, double maxRadius);
+	inline vector3d RandomPointInCircle(double radius) { return RandomPointInCircle(0.0, radius); }
+	inline vector3d RandomPointOnCircle(double radius) { return RandomPointInCircle(radius, radius); }
+
+	// interpolation, glsl style naming "mix"
+	template< class T, class F >
+	T mix(const T& v1, const T& v2, const F t){ 
+		return t*v2 + (F(1.0)-t)*v1;
+	}
 
 }
 

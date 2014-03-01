@@ -14,6 +14,7 @@
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
 #include "graphics/VertexArray.h"
+#include "MathUtil.h"
 #include "vcacheopt/vcacheopt.h"
 #include <deque>
 #include <algorithm>
@@ -27,9 +28,9 @@ GeoPatch::GeoPatch(const RefCountedPtr<GeoPatchContext> &ctx_, GeoSphere *gs,
 	const int depth, const GeoPatchID &ID_)
 	: ctx(ctx_), v0(v0_), v1(v1_), v2(v2_), v3(v3_),
 	heights(nullptr), normals(nullptr), colors(nullptr),
-	m_vbo(0), parent(nullptr), geosphere(gs),
+	parent(nullptr), geosphere(gs),
 	m_depth(depth), mPatchID(ID_),
-	m_job(nullptr), mHasJobRequest(false)
+	mHasJobRequest(false)
 {
 	for (int i=0; i<NUM_KIDS; ++i) {
 		edgeFriend[i]	= NULL;
@@ -43,7 +44,7 @@ GeoPatch::GeoPatch(const RefCountedPtr<GeoPatchContext> &ctx_, GeoSphere *gs,
 	clipRadius = std::max(clipRadius, (v2-clipCentroid).Length());
 	clipRadius = std::max(clipRadius, (v3-clipCentroid).Length());
 	double distMult;
-	if (geosphere->GetSystemBody()->type < SystemBody::TYPE_PLANET_ASTEROID) {
+	if (geosphere->GetSystemBody()->GetType() < SystemBody::TYPE_PLANET_ASTEROID) {
  		distMult = 10.0 / Clamp(depth, 1, 10);
  	} else {
  		distMult = 5.0 / Clamp(depth, 1, 5);
@@ -54,10 +55,6 @@ GeoPatch::GeoPatch(const RefCountedPtr<GeoPatchContext> &ctx_, GeoSphere *gs,
 
 GeoPatch::~GeoPatch() {
 	mHasJobRequest = false;
-	if (m_job) {
-		Pi::Jobs()->Cancel(m_job);
-		m_job = nullptr;
-	}
 
 	for (int i=0; i<NUM_KIDS; i++) {
 		if (edgeFriend[i]) edgeFriend[i]->NotifyEdgeFriendDeleted(this);
@@ -68,45 +65,58 @@ GeoPatch::~GeoPatch() {
 	heights.reset();
 	normals.reset();
 	colors.reset();
-	glDeleteBuffersARB(1, &m_vbo);
 }
 
-void GeoPatch::_UpdateVBOs() {
+void GeoPatch::_UpdateVBOs(Graphics::Renderer *renderer) 
+{
 	if (m_needUpdateVBOs) {
+		assert(renderer);
 		m_needUpdateVBOs = false;
-		if (!m_vbo) glGenBuffersARB(1, &m_vbo);
-		glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
-		glBufferDataARB(GL_ARRAY_BUFFER, sizeof(GeoPatchContext::VBOVertex)*ctx->NUMVERTICES(), 0, GL_DYNAMIC_DRAW);
-		double *pHts = heights.get();
+
+		//create buffer and upload data
+		Graphics::VertexBufferDesc vbd;
+		vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
+		vbd.attrib[0].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+		vbd.attrib[1].semantic = Graphics::ATTRIB_NORMAL;
+		vbd.attrib[1].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+		vbd.attrib[2].semantic = Graphics::ATTRIB_DIFFUSE;
+		vbd.attrib[2].format   = Graphics::ATTRIB_FORMAT_UBYTE4;
+		vbd.numVertices = ctx->NUMVERTICES();
+		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
+		m_vertexBuffer.reset(renderer->CreateVertexBuffer(vbd));
+
+		GeoPatchContext::VBOVertex* vtxPtr = m_vertexBuffer->Map<GeoPatchContext::VBOVertex>(Graphics::BUFFER_MAP_WRITE);
+		assert(m_vertexBuffer->GetDesc().stride == sizeof(GeoPatchContext::VBOVertex));
+
+		const Sint32 edgeLen = ctx->edgeLen;
+		const double frac = ctx->frac;
+		const double *pHts = heights.get();
 		const vector3f *pNorm = normals.get();
 		const Color3ub *pColr = colors.get();
-		GeoPatchContext::VBOVertex *pData = ctx->vbotemp;
-		for (int y=0; y<ctx->edgeLen; y++) {
-			for (int x=0; x<ctx->edgeLen; x++) {
+		for (Sint32 y=0; y<edgeLen; y++) {
+			for (Sint32 x=0; x<edgeLen; x++) {
 				const double height = *pHts;
-				const vector3d p = (GetSpherePoint(x*ctx->frac, y*ctx->frac) * (height + 1.0)) - clipCentroid;
+				const double xFrac = double(x)*frac;
+				const double yFrac = double(y)*frac;
+				const vector3d p((GetSpherePoint(xFrac, yFrac) * (height + 1.0)) - clipCentroid);
 				clipRadius = std::max(clipRadius, p.Length());
-				pData->x = float(p.x);
-				pData->y = float(p.y);
-				pData->z = float(p.z);
+				vtxPtr->pos = vector3f(p);
 				++pHts;	// next height
 
-				pData->nx = pNorm->x;
-				pData->ny = pNorm->y;
-				pData->nz = pNorm->z;
+				const vector3f norma(pNorm->Normalized());
+				vtxPtr->norm = norma;
 				++pNorm; // next normal
 
-				pData->col[0] = pColr->r;
-				pData->col[1] = pColr->g;
-				pData->col[2] = pColr->b;
-				pData->col[3] = 255;
+				vtxPtr->col[0] = pColr->r;
+				vtxPtr->col[1] = pColr->g;
+				vtxPtr->col[2] = pColr->b;
+				vtxPtr->col[3] = 255;
 				++pColr; // next colour
 
-				++pData; // next vertex
+				++vtxPtr; // next vertex
 			}
 		}
-		glBufferDataARB(GL_ARRAY_BUFFER, sizeof(GeoPatchContext::VBOVertex)*ctx->NUMVERTICES(), ctx->vbotemp, GL_DYNAMIC_DRAW);
-		glBindBufferARB(GL_ARRAY_BUFFER, 0);
+		m_vertexBuffer->Unmap();
 	}
 }
 
@@ -114,25 +124,20 @@ void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, cons
 	if (kids[0]) {
 		for (int i=0; i<NUM_KIDS; i++) kids[i]->Render(renderer, campos, modelView, frustum);
 	} else if (heights) {
-		_UpdateVBOs();
+		_UpdateVBOs(renderer);
 
 		if (!frustum.TestPoint(clipCentroid, clipRadius))
 			return;
+
+		Graphics::Material *mat = geosphere->m_surfaceMaterial.get();
+		Graphics::RenderState *rs = geosphere->m_surfRenderState;
 
 		const vector3d relpos = clipCentroid - campos;
 		renderer->SetTransform(modelView * matrix4x4d::Translation(relpos));
 
 		Pi::statSceneTris += 2*(ctx->edgeLen-1)*(ctx->edgeLen-1);
 
-		// update the indices used for rendering
-		ctx->updateIndexBufferId(determineIndexbuffer());
-
-		glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
-		glVertexPointer(3, GL_FLOAT, sizeof(GeoPatchContext::VBOVertex), 0);
-		glNormalPointer(GL_FLOAT, sizeof(GeoPatchContext::VBOVertex), reinterpret_cast<void *>(3*sizeof(float)));
-		glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(GeoPatchContext::VBOVertex), reinterpret_cast<void *>(6*sizeof(float)));
-		glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, ctx->indices_vbo);
-		glDrawElements(GL_TRIANGLES, ctx->indices_tri_count*3, GL_UNSIGNED_SHORT, 0);
+		renderer->DrawBufferIndexed(m_vertexBuffer.get(), ctx->indices_list[determineIndexbuffer()].Get(), rs, mat);
 	}
 }
 
@@ -165,13 +170,13 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 	if (canSplit) {
 		if (!kids[0]) {
             assert(!mHasJobRequest);
-            assert(!m_job);
+            assert(!m_job.HasJob());
 			mHasJobRequest = true;
 
 			SQuadSplitRequest *ssrd = new SQuadSplitRequest(v0, v1, v2, v3, centroid.Normalized(), m_depth,
-						geosphere->GetSystemBody()->path, mPatchID, ctx->edgeLen,
+						geosphere->GetSystemBody()->GetPath(), mPatchID, ctx->edgeLen,
 						ctx->frac, geosphere->m_terrain.Get());
-			Pi::Jobs()->Queue(m_job = new QuadPatchJob(this, ssrd));
+			m_job = Pi::Jobs()->Queue(new QuadPatchJob(ssrd));
 		} else {
 			for (int i=0; i<NUM_KIDS; i++) {
 				kids[i]->LODUpdate(campos);
@@ -193,11 +198,11 @@ void GeoPatch::RequestSinglePatch()
 {
 	if( !heights ) {
         assert(!mHasJobRequest);
-        assert(!m_job);
+        assert(!m_job.HasJob());
 		mHasJobRequest = true;
 		SSingleSplitRequest *ssrd = new SSingleSplitRequest(v0, v1, v2, v3, centroid.Normalized(), m_depth,
-					geosphere->GetSystemBody()->path, mPatchID, ctx->edgeLen, ctx->frac, geosphere->m_terrain.Get());
-		Pi::Jobs()->Queue(m_job = new SinglePatchJob(this, ssrd));
+					geosphere->GetSystemBody()->GetPath(), mPatchID, ctx->edgeLen, ctx->frac, geosphere->m_terrain.Get());
+		m_job = Pi::Jobs()->Queue(new SinglePatchJob(ssrd));
 	}
 }
 
@@ -206,7 +211,7 @@ void GeoPatch::ReceiveHeightmaps(SQuadSplitResult *psr)
 	assert(NULL!=psr);
 	if (m_depth<psr->depth()) {
 		// this should work because each depth should have a common history
-		const uint32_t kidIdx = psr->data(0).patchID.GetPatchIdx(m_depth+1);
+		const Uint32 kidIdx = psr->data(0).patchID.GetPatchIdx(m_depth+1);
 		if( kids[kidIdx] ) {
 			kids[kidIdx]->ReceiveHeightmaps(psr);
 		} else {

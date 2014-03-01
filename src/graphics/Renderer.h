@@ -6,32 +6,15 @@
 
 #include "WindowSDL.h"
 #include "libs.h"
+#include "graphics/Types.h"
 #include <map>
 #include <memory>
 
 namespace Graphics {
 
 /*
- * Renderer base class. A Renderer draws points, lines, triangles, changes blend modes
- * and other states. Data flows mostly one way: you tell the renderer to do things, but
- * you don't get to query the current matrix mode or number of lights
- * - store that info elsewhere.
- * Performance is not a big concern right now (it hasn't really decreased), to be optimized
- * later
- *
- * To Do:
- * Move statistics collection here: fps, number of triangles etc.
- * Screenshot function (at least read framebuffer, write to file elsewhere)
- * The 2D varieties of DrawPoints, DrawLines might have to go - it seemed
- * like a good idea to allow the possibility for optimizing these cases but
- * right now there isn't much of a difference.
- * Terrain: not necessarily tricky to convert, but let's see if it's going to be
- * rewritten first... Terrain would likely get a special DrawTerrain(GeoPatch *) function.
- * Reboot postprocessing, again (I'd like this to be a non-optional part of GL2 renderer)
- *
- * XXX 2013-Apr-21: Surface is a bit pointless, and StaticMesh could be more
- * flexible with vertex attributes. Recommendation: replace with CreateVertexBuffer, CreateIndexBuffer
- * type approach and encourage these for most drawing. This will solve the terrain issue as well.
+ * Renderer base class. A Renderer draws points, lines, triangles.
+ * It is also used to create render states, materials and vertex/index buffers.
  */
 
 class Light;
@@ -39,44 +22,14 @@ class Material;
 class MaterialDescriptor;
 class RenderState;
 class RenderTarget;
-class StaticMesh;
-class Surface;
 class Texture;
 class TextureDescriptor;
 class VertexArray;
+class VertexBuffer;
+class IndexBuffer;
+struct VertexBufferDesc;
 struct RenderStateDesc;
 struct RenderTargetDesc;
-
-// first some enums
-enum LineType {
-	LINE_SINGLE = GL_LINES, //draw one line per two vertices
-	LINE_STRIP = GL_LINE_STRIP,  //connect vertices
-	LINE_LOOP = GL_LINE_LOOP    //connect vertices,  connect start & end
-};
-
-//how to treat vertices
-enum PrimitiveType {
-	TRIANGLES = GL_TRIANGLES,
-	TRIANGLE_STRIP = GL_TRIANGLE_STRIP,
-	TRIANGLE_FAN = GL_TRIANGLE_FAN,
-	POINTS = GL_POINTS
-};
-
-enum BlendMode {
-	BLEND_SOLID,
-	BLEND_ADDITIVE,
-	BLEND_ALPHA,
-	BLEND_ALPHA_ONE, //"additive alpha"
-	BLEND_ALPHA_PREMULT,
-	BLEND_SET_ALPHA, // copy alpha channel
-	BLEND_DEST_ALPHA // XXX maybe crappy name
-};
-
-enum FaceCullMode {
-	CULL_BACK,
-	CULL_FRONT,
-	CULL_NONE
-};
 
 enum class MatrixMode {
 	MODELVIEW,
@@ -144,12 +97,11 @@ public:
 	virtual bool DrawPoints(int count, const vector3f *points, const Color *colors, RenderState*, float pointSize=1.f) { return false; }
 	//unindexed triangle draw
 	virtual bool DrawTriangles(const VertexArray *vertices, RenderState *state, Material *material, PrimitiveType type=TRIANGLES)  { return false; }
-	//indexed triangle draw
-	virtual bool DrawSurface(const Surface *surface, RenderState *rs) { return false; }
 	//high amount of textured quads for particles etc
 	virtual bool DrawPointSprites(int count, const vector3f *positions, RenderState *rs, Material *material, float size) { return false; }
 	//complex unchanging geometry that is worthwhile to store in VBOs etc.
-	virtual bool DrawStaticMesh(StaticMesh*, RenderState*) { return false; }
+	virtual bool DrawBuffer(VertexBuffer*, RenderState*, Material*, PrimitiveType type=TRIANGLES) { return false; }
+	virtual bool DrawBufferIndexed(VertexBuffer*, IndexBuffer*, RenderState*, Material*, PrimitiveType=TRIANGLES) { return false; }
 
 	//creates a unique material based on the descriptor. It will not be deleted automatically.
 	virtual Material *CreateMaterial(const MaterialDescriptor &descriptor) = 0;
@@ -157,6 +109,8 @@ public:
 	virtual RenderState *CreateRenderState(const RenderStateDesc &) = 0;
 	//returns 0 if unsupported
 	virtual RenderTarget *CreateRenderTarget(const RenderTargetDesc &) { return 0; }
+	virtual VertexBuffer *CreateVertexBuffer(const VertexBufferDesc&) = 0;
+	virtual IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage) = 0;
 
 	Texture *GetCachedTexture(const std::string &type, const std::string &name);
 	void AddCachedTexture(const std::string &type, const std::string &name, Texture *texture);
@@ -230,26 +184,6 @@ private:
 	TextureCacheMap m_textures;
 
 	std::unique_ptr<WindowSDL> m_window;
-};
-
-// subclass this to store renderer specific information
-// See top of RendererGL2.cpp
-struct RenderInfo {
-	RenderInfo() { }
-	virtual ~RenderInfo() { }
-};
-
-// baseclass for a renderable thing. so far it just means that the renderer
-// can store renderer-specific data in it (RenderInfo)
-struct Renderable : public RefCounted {
-public:
-	Renderable(): m_renderInfo(nullptr) {}
-
-	RenderInfo *GetRenderInfo() const { return m_renderInfo.get(); }
-	void SetRenderInfo(RenderInfo *renderInfo) { m_renderInfo.reset(renderInfo); }
-
-private:
-	std::unique_ptr<RenderInfo> m_renderInfo;
 };
 
 }

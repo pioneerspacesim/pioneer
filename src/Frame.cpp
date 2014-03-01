@@ -32,17 +32,17 @@ void Frame::Serialize(Serializer::Writer &wr, Frame *f, Space *space)
 	wr.Double(f->m_radius);
 	wr.String(f->m_label);
 	wr.Vector3d(f->m_pos);
-	for (int i=0; i<9; i++) wr.Double(f->m_orient[i]);
 	wr.Double(f->m_angSpeed);
+	for (int i=0; i<9; i++) wr.Double(f->m_initialOrient[i]);
 	wr.Int32(space->GetIndexForSystemBody(f->m_sbody));
 	wr.Int32(space->GetIndexForBody(f->m_astroBody));
 	wr.Int32(f->m_children.size());
-	for (ChildIterator it = f->BeginChildren(); it != f->EndChildren(); ++it)
-		Serialize(wr, *it, space);
+	for (Frame* kid : f->GetChildren())
+		Serialize(wr, kid, space);
 	Sfx::Serialize(wr, f);
 }
 
-Frame *Frame::Unserialize(Serializer::Reader &rd, Space *space, Frame *parent)
+Frame *Frame::Unserialize(Serializer::Reader &rd, Space *space, Frame *parent, double at_time)
 {
 	Frame *f = new Frame();
 	f->m_parent = parent;
@@ -50,13 +50,15 @@ Frame *Frame::Unserialize(Serializer::Reader &rd, Space *space, Frame *parent)
 	f->m_radius = rd.Double();
 	f->m_label = rd.String();
 	f->m_pos = rd.Vector3d();
-	for (int i=0; i<9; i++) f->m_orient[i] = rd.Double();
 	f->m_angSpeed = rd.Double();
+	matrix3x3d orient;
+	for (int i=0; i<9; i++) orient[i] = rd.Double();
+	f->SetInitialOrient(orient, at_time);
 	f->m_sbody = space->GetSystemBodyByIndex(rd.Int32());
 	f->m_astroBodyIndex = rd.Int32();
 	f->m_vel = vector3d(0.0);
 	for (int i=rd.Int32(); i>0; --i) {
-		f->m_children.push_back(Unserialize(rd, space, f));
+		f->m_children.push_back(Unserialize(rd, space, f, at_time));
 	}
 	Sfx::Unserialize(rd, f);
 
@@ -68,8 +70,8 @@ void Frame::PostUnserializeFixup(Frame *f, Space *space)
 {
 	f->UpdateRootRelativeVars();
 	f->m_astroBody = space->GetBodyByIndex(f->m_astroBodyIndex);
-	for (ChildIterator it = f->BeginChildren(); it != f->EndChildren(); ++it)
-		PostUnserializeFixup(*it, space);
+	for (Frame* kid : f->GetChildren())
+		PostUnserializeFixup(kid, space);
 }
 
 void Frame::Init(Frame *parent, const char *label, unsigned int flags)
@@ -95,8 +97,8 @@ Frame::~Frame()
 {
 	if (m_sfx) delete [] m_sfx;
 	delete m_collisionSpace;
-	for (ChildIterator it = m_children.begin(); it != m_children.end(); ++it)
-		delete (*it);
+	for (Frame* kid : m_children)
+		delete kid;
 }
 
 void Frame::RemoveChild(Frame *f)
@@ -190,8 +192,8 @@ void Frame::UpdateInterpTransform(double alpha)
 		m_rootInterpOrient = m_parent->m_rootInterpOrient * m_interpOrient;
 	}
 
-	for (ChildIterator it = m_children.begin(); it != m_children.end(); ++it)
-		(*it)->UpdateInterpTransform(alpha);
+	for (Frame* kid : m_children)
+		kid->UpdateInterpTransform(alpha);
 }
 
 void Frame::GetFrameTransform(const Frame *fFrom, const Frame *fTo, matrix4x4d &m)
@@ -218,8 +220,8 @@ void Frame::UpdateOrbitRails(double time, double timestep)
 
 	// update frame position and velocity
 	if (m_parent && m_sbody && !IsRotFrame()) {
-		m_pos = m_sbody->orbit.OrbitalPosAtTime(time);
-		vector3d pos2 = m_sbody->orbit.OrbitalPosAtTime(time+timestep);
+		m_pos = m_sbody->GetOrbit().OrbitalPosAtTime(time);
+		vector3d pos2 = m_sbody->GetOrbit().OrbitalPosAtTime(time+timestep);
 		m_vel = (pos2 - m_pos) / timestep;
 	}
 	// temporary test thing
@@ -233,8 +235,8 @@ void Frame::UpdateOrbitRails(double time, double timestep)
 	}
 	UpdateRootRelativeVars();			// update root-relative pos/vel/orient
 
-	for (ChildIterator it = m_children.begin(); it != m_children.end(); ++it)
-		(*it)->UpdateOrbitRails(time, timestep);
+	for (Frame* kid : m_children)
+		kid->UpdateOrbitRails(time, timestep);
 }
 
 void Frame::SetInitialOrient(const matrix3x3d &m, double time) {

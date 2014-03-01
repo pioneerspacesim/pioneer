@@ -59,6 +59,38 @@
       "description" : "",
       "message" : "Deadline:"
    },
+   "DENY_0" : {
+      "description" : "",
+      "message" : "Tut mir leid, aber ich glaube nicht, dass ich dir meine Sicherheit anvertrauen kann."
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "Komm wieder, wenn du besser qualifiziert bist."
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "Ich glaube nicht, dass du der Pilot bist nach dem ich gesucht habe."
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "Du siehst nicht danach aus, als ob du dazu fähig bist Leute zu transportieren."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "Du bist nicht die Sorte Pilot nach der ich gesucht habe."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "Du scheinst zuwenig Erfahrung zu haben für so einen wichtigen Transport."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "Von dir habe ich noch nie gehört. Für diese Reise brauche ich jemanden mit Erfahrung."
+   },
+   "DENY_7" : {
+      "description" : "",
+      "message" : "Ich habe keine Lust mein Leben durch einen Piloten gefährden zu lassen, der keinerlei Qualifikationen hat."
+   },
    "DISTANCE" : {
       "description" : "",
       "message" : "Distanz:"
@@ -109,7 +141,7 @@
    },
    "FLAVOUR_10_FAILUREMSG" : {
       "description" : "",
-      "message" : "Nutzlos! Du hast ewig gebraucht. Für diese Leistung wollen wir dich nicht zahlen."
+      "message" : "Du bist so ein unerfahrener Pilot. Dafür zahle ich nicht."
    },
    "FLAVOUR_10_HOWMANY" : {
       "description" : "",
@@ -141,7 +173,7 @@
    },
    "FLAVOUR_11_FAILUREMSG" : {
       "description" : "",
-      "message" : "Wegen deiner Inkompetenz werde ich meinen Job verlieren. Also werde ich dieses Geld dringender brauchen als du."
+      "message" : "Wegen deiner Inkompetenz werde ich meinem Job verlieren! Also brauche ich dieses Geld dringender als du."
    },
    "FLAVOUR_11_HOWMANY" : {
       "description" : "",

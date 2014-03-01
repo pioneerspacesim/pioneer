@@ -1,0 +1,110 @@
+{
+   "ASK_CANDIDATE_TO_SIT_A_TEST" : {
+      "description" : "",
+      "message" : "Fråga kandidaten att utföra ett prov"
+   },
+   "CREWDETAILSHEETBB" : {
+      "description" : "",
+      "message" : "Hyrbar besättning\n\nNamn: {name}\nErfarenhet: {experience}\nEferfrågad lön: {wage} per vecka\n\n{response}\n"
+   },
+   "CREWMEMBER_WAGE_PER_WEEK" : {
+      "description" : "",
+      "message" : "{potentialCrewMember} ({wage}/vecka)"
+   },
+   "CREWTESTRESULTSBB" : {
+      "description" : "",
+      "message" : "Undersökningsresultat:\n\nGenerell besättningskompetens: {general}%\nIngenjörskonst och reparation: {engineering}%\nPilot och rymdfart: {piloting}%\nNavigation och plottning: {navigation}%\nSensorer och försvar: {sensors}%\nÖvergripande provresultat: {overall}%"
+   },
+   "CREW_FOR_HIRE" : {
+      "description" : "",
+      "message" : "Hyrbar besättning"
+   },
+   "GO_BACK" : {
+      "description" : "",
+      "message" : "Tillbaka"
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Lägg på."
+   },
+   "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER" : {
+      "description" : "",
+      "message" : "Jag är ledsen, men jag är inte beredd att gå lägre."
+   },
+   "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME" : {
+      "description" : "",
+      "message" : "Jag är ledsen, men ditt erbjudande är inte gott nog för mig."
+   },
+   "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT" : {
+      "description" : "",
+      "message" : "Erbjud en position för angivet belopp"
+   },
+   "MINIMAL_TIME_SERVED_ABOARD_SHIP" : {
+      "description" : "",
+      "message" : "Minsta tjänstgöringstid ombord på skeppet"
+   },
+   "NAVIGATOR" : {
+      "description" : "",
+      "message" : "Navigatör"
+   },
+   "NO_EXPERIENCE" : {
+      "description" : "",
+      "message" : "Ingen erfarenhet"
+   },
+   "OK_I_SUPPOSE_THATS_ALL_RIGHT" : {
+      "description" : "",
+      "message" : "OK, jag antar att det är korrekt."
+   },
+   "PILOT" : {
+      "description" : "",
+      "message" : "Pilot"
+   },
+   "POTENTIAL_CREW_MEMBERS" : {
+      "description" : "",
+      "message" : "Potentiella bestättningsmän är registrerade som jobbsökande på {station}:"
+   },
+   "SENSORS_AND_DEFENCE" : {
+      "description" : "",
+      "message" : "Sensorer och försvar"
+   },
+   "SHIPS_ENGINEER" : {
+      "description" : "",
+      "message" : "Skeppsingenjör"
+   },
+   "SIMULATOR_TRAINING_ONLY" : {
+      "description" : "",
+      "message" : "Endast simulatorträning"
+   },
+   "SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS" : {
+      "description" : "",
+      "message" : "Viss erfarenhet i kontrollerade miljöer"
+   },
+   "SUGGEST_NEW_WEEKLY_WAGE_OF_N" : {
+      "description" : "",
+      "message" : "Erbjud ny veckolön på {newAmount}"
+   },
+   "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY" : {
+      "description" : "",
+      "message" : "Tack! Jag gör mig hemmastadd ombord direkt."
+   },
+   "THATS_EXTREMELY_GENEROUS_OF_YOU" : {
+      "description" : "",
+      "message" : "Det är mycket generöst av dig!"
+   },
+   "THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER" : {
+      "description" : "",
+      "message" : "Det får helt klart erbjudandet att se bättre ut!"
+   },
+   "THERE_DOESNT_SEEM_TO_BE_SPACE_FOR_ME_ON_BOARD" : {
+      "description" : "",
+      "message" : "Det verkar inte som det finns plats för mig ombord!"
+   },
+   "TIME_SERVED_CREW_MEMBER" : {
+      "description" : "",
+      "message" : "Tid som bestättningsman"
+   },
+   "VETERAN_TIME_SERVED_CREW_MEMBER" : {
+      "description" : "",
+      "message" : "Veteran, tid som bestättningsman"
+   }
+}
