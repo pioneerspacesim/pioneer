@@ -1,0 +1,1034 @@
+{
+   "ABOVE_AVERAGE" : {
+      "description" : "",
+      "message" : "Above Average"
+   },
+   "ACTIVE" : {
+      "description" : "",
+      "message" : "Active"
+   },
+   "AFTER_TRADE_IN" : {
+      "description" : "",
+      "message" : "After trade-in"
+   },
+   "ALLEGIANCE" : {
+      "description" : "",
+      "message" : "Odanost:"
+   },
+   "ALL_UP_WEIGHT" : {
+      "description" : "",
+      "message" : "All-up weight"
+   },
+   "AMOUNT" : {
+      "description" : "",
+      "message" : "Amount"
+   },
+   "AN_ERROR_HAS_OCCURRED" : {
+      "description" : "",
+      "message" : "An error has occurred"
+   },
+   "ATTEMPT_TO_REPAIR_HULL" : {
+      "description" : "",
+      "message" : "Attempt to repair hull"
+   },
+   "AVAILABLE_FOR_PURCHASE" : {
+      "description" : "",
+      "message" : "Available for purchase"
+   },
+   "AVERAGE" : {
+      "description" : "",
+      "message" : "Average"
+   },
+   "BACKWARD_ACCEL" : {
+      "description" : "",
+      "message" : "Backward acceleration"
+   },
+   "BULLETIN_BOARD" : {
+      "description" : "",
+      "message" : "Oglasna ploča"
+   },
+   "BUY_SHIP" : {
+      "description" : "",
+      "message" : "Buy Ship"
+   },
+   "CABINS" : {
+      "description" : "",
+      "message" : "Cabins"
+   },
+   "CABIN_FREE" : {
+      "description" : "",
+      "message" : "{amount} free"
+   },
+   "CABIN_USED" : {
+      "description" : "",
+      "message" : "{amount} used"
+   },
+   "CANCEL" : {
+      "description" : "",
+      "message" : "Cancel"
+   },
+   "CAPACITY" : {
+      "description" : "",
+      "message" : "Kapacitet"
+   },
+   "CAPACITY_USED" : {
+      "description" : "",
+      "message" : "Capacity used"
+   },
+   "CARGO" : {
+      "description" : "",
+      "message" : "Teret"
+   },
+   "CARGO_SPACE" : {
+      "description" : "",
+      "message" : "Teretni prostor"
+   },
+   "CARGO_T_FREE" : {
+      "description" : "",
+      "message" : "{amount}t free"
+   },
+   "CARGO_T_USED" : {
+      "description" : "",
+      "message" : "{amount}t used"
+   },
+   "CASH" : {
+      "description" : "",
+      "message" : "Novac"
+   },
+   "CASH_N" : {
+      "description" : "",
+      "message" : "Cash: {money}"
+   },
+   "CHANGE_BINDING" : {
+      "description" : "",
+      "message" : "Change Binding"
+   },
+   "CHIEF_MECHANIC" : {
+      "description" : "",
+      "message" : "Chief Mechanic"
+   },
+   "CIRCULAR_ORBIT_SPEED" : {
+      "description" : "",
+      "message" : "Circular orbit speed"
+   },
+   "CITY_DETAIL_LEVEL" : {
+      "description" : "",
+      "message" : "City detail level"
+   },
+   "CLEAN" : {
+      "description" : "",
+      "message" : "Čist"
+   },
+   "CLEAR" : {
+      "description" : "",
+      "message" : "Clear"
+   },
+   "CLIENT" : {
+      "description" : "",
+      "message" : "Client"
+   },
+   "COMBAT" : {
+      "description" : "",
+      "message" : "Combat"
+   },
+   "COMMANDER" : {
+      "description" : "",
+      "message" : "Commander"
+   },
+   "COMMODITY_MARKET" : {
+      "description" : "",
+      "message" : "Commodity Market"
+   },
+   "COMPETENT" : {
+      "description" : "",
+      "message" : "Competent"
+   },
+   "COMPLETED" : {
+      "description" : "",
+      "message" : "Completed"
+   },
+   "COMPRESS_TEXTURES" : {
+      "description" : "",
+      "message" : "Compress Textures"
+   },
+   "CONSTABLE" : {
+      "description" : "",
+      "message" : "Constable"
+   },
+   "CONTROLS" : {
+      "description" : "",
+      "message" : "Kontrole"
+   },
+   "CONTROL_OPTIONS" : {
+      "description" : "",
+      "message" : "Control Options"
+   },
+   "COULD_NOT_LOAD_GAME" : {
+      "description" : "",
+      "message" : "Could not load game: "
+   },
+   "CREDIBLE" : {
+      "description" : "For player reputation",
+      "message" : "Credible"
+   },
+   "CREW_CABINS" : {
+      "description" : "",
+      "message" : "Crew cabins"
+   },
+   "CREW_ROSTER" : {
+      "description" : "",
+      "message" : "Crew Roster"
+   },
+   "CRIMINAL_RECORD" : {
+      "description" : "",
+      "message" : "Criminal record"
+   },
+   "DANGEROUS" : {
+      "description" : "",
+      "message" : "Dangerous"
+   },
+   "DEADLY" : {
+      "description" : "",
+      "message" : "Deadly"
+   },
+   "DELTA_V" : {
+      "description" : "",
+      "message" : "Delta-v"
+   },
+   "DELTA_V_EMPTY" : {
+      "description" : "Delta-v capacity of a ship with no cargo or upgrades",
+      "message" : "Delta-v (empty)"
+   },
+   "DELTA_V_FULL" : {
+      "description" : "Delta-v capacity of a ship with maximum cargo",
+      "message" : "Delta-v (full)"
+   },
+   "DELTA_V_MAX" : {
+      "description" : "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
+      "message" : "Delta-v (max)"
+   },
+   "DESCENT_TO_GROUND_SPEED" : {
+      "description" : "",
+      "message" : "Descent-to-ground speed:"
+   },
+   "DESTROY_ENEMY_SHIP" : {
+      "description" : "",
+      "message" : "Destroy enemy ship"
+   },
+   "DISMISS" : {
+      "description" : "",
+      "message" : "Dismiss"
+   },
+   "DISPLAY_HUD_TRAILS" : {
+      "description" : "",
+      "message" : "Display HUD trails"
+   },
+   "DISPLAY_NAV_TUNNELS" : {
+      "description" : "",
+      "message" : "Display nav tunnels"
+   },
+   "DISPLAY_SPEED_LINES" : {
+      "description" : "",
+      "message" : "Display speed lines"
+   },
+   "DOCK_AT_CURRENT_TARGET" : {
+      "description" : "",
+      "message" : "Dock at current target"
+   },
+   "DUE" : {
+      "description" : "",
+      "message" : "Due"
+   },
+   "D_DAYS_LEFT" : {
+      "description" : "",
+      "message" : "Days left: %d"
+   },
+   "ECONOMY_TRADE" : {
+      "description" : "",
+      "message" : "Economy & Trade"
+   },
+   "EFFECTS" : {
+      "description" : "",
+      "message" : "Effects:"
+   },
+   "ELITE" : {
+      "description" : "",
+      "message" : "ELITE"
+   },
+   "EMPLOYMENT" : {
+      "description" : "",
+      "message" : "Employment"
+   },
+   "ENABLE_COCKPIT" : {
+      "description" : "",
+      "message" : "Enable cockpit (EXPERIMENTAL)"
+   },
+   "ENABLE_JOYSTICK" : {
+      "description" : "",
+      "message" : "Enable joystick"
+   },
+   "ENGINEERING" : {
+      "description" : "",
+      "message" : "Engineering:"
+   },
+   "EQUIPMENT" : {
+      "description" : "",
+      "message" : "Equipment"
+   },
+   "EQUIPMENT_MARKET" : {
+      "description" : "",
+      "message" : "Equipment Market"
+   },
+   "EQUIPPED" : {
+      "description" : "",
+      "message" : "Equipped"
+   },
+   "ERROR" : {
+      "description" : "",
+      "message" : "Error"
+   },
+   "ESCAPE_SPEED" : {
+      "description" : "",
+      "message" : "Escape speed:"
+   },
+   "EXIT_THIS_GAME" : {
+      "description" : "",
+      "message" : "Exit this game"
+   },
+   "EXPERIENCED" : {
+      "description" : "For player reputation",
+      "message" : "Experienced"
+   },
+   "EXPERT" : {
+      "description" : "For player reputation",
+      "message" : "Expert"
+   },
+   "FAILED" : {
+      "description" : "",
+      "message" : "Failed"
+   },
+   "FEMALE" : {
+      "description" : "",
+      "message" : "Female"
+   },
+   "FORWARD_ACCEL" : {
+      "description" : "",
+      "message" : "Forward acceleration"
+   },
+   "FORWARD_ACCEL_EMPTY" : {
+      "description" : "",
+      "message" : "Prednje ubrzanje (prazan)"
+   },
+   "FORWARD_ACCEL_FULL" : {
+      "description" : "",
+      "message" : "Forward accel (full)"
+   },
+   "FRACTAL_DETAIL" : {
+      "description" : "",
+      "message" : "Fractal detail"
+   },
+   "FREE" : {
+      "description" : "Used in Ship Information view as in Capacity: 10t (5t free)",
+      "message" : "free"
+   },
+   "FRONT_WEAPON" : {
+      "description" : "",
+      "message" : "Front weapon"
+   },
+   "FUEL" : {
+      "description" : "",
+      "message" : "Fuel"
+   },
+   "FUEL_TANK_FULL" : {
+      "description" : "",
+      "message" : "Fuel tank full."
+   },
+   "FUEL_WEIGHT" : {
+      "description" : "",
+      "message" : "Fuel weight"
+   },
+   "FULL_SCREEN" : {
+      "description" : "",
+      "message" : "Full screen"
+   },
+   "GENERAL_CREW" : {
+      "description" : "",
+      "message" : "General crew"
+   },
+   "GIVE_ORDERS_TO_CREW" : {
+      "description" : "",
+      "message" : "Give orders to crew"
+   },
+   "GOOD_RIDDANCE_TO_YOU_TOO" : {
+      "description" : "",
+      "message" : "Good riddance to you, too."
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Prekini."
+   },
+   "HARMLESS" : {
+      "description" : "",
+      "message" : "Harmless"
+   },
+   "HEAVY_CARGO_SHUTTLE" : {
+      "description" : "",
+      "message" : "Heavy cargo shuttle"
+   },
+   "HEAVY_COURIER" : {
+      "description" : "",
+      "message" : "Heavy courier"
+   },
+   "HEAVY_FIGHTER" : {
+      "description" : "",
+      "message" : "Heavy fighter"
+   },
+   "HEAVY_FREIGHTER" : {
+      "description" : "",
+      "message" : "Heavy freighter"
+   },
+   "HEAVY_PASSENGER_SHUTTLE" : {
+      "description" : "",
+      "message" : "Heavy passenger shuttle"
+   },
+   "HEAVY_PASSENGER_TRANSPORT" : {
+      "description" : "",
+      "message" : "Heavy passenger transport"
+   },
+   "HIGH" : {
+      "description" : "",
+      "message" : "High"
+   },
+   "HULL_DOES_NOT_REQUIRE_REPAIR" : {
+      "description" : "",
+      "message" : "Hull does not require repair."
+   },
+   "HULL_INTEGRITY" : {
+      "description" : "",
+      "message" : "Integritet trupa"
+   },
+   "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT" : {
+      "description" : "",
+      "message" : "Hull repaired by {name}, now at {repairPercent}%"
+   },
+   "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE" : {
+      "description" : "",
+      "message" : "Hull repair attempt failed. Hull suffered minor damage."
+   },
+   "HYPERDRIVE" : {
+      "description" : "",
+      "message" : "Hyperdrive"
+   },
+   "HYPERDRIVE_FITTED" : {
+      "description" : "",
+      "message" : "Montiran hiperpogon:"
+   },
+   "HYPERSPACE_RANGE" : {
+      "description" : "",
+      "message" : "Hyperspace range"
+   },
+   "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
+      "description" : "",
+      "message" : "I'm tired of working for nothing. Don't you know what a contract is?"
+   },
+   "INACTIVE" : {
+      "description" : "",
+      "message" : "Inactive"
+   },
+   "INCOMPETENT" : {
+      "description" : "For player reputation",
+      "message" : "Incompetent"
+   },
+   "INEXPERIENCED" : {
+      "description" : "For player reputation",
+      "message" : "Inexperienced"
+   },
+   "INVERT_MOUSE_Y" : {
+      "description" : "",
+      "message" : "Invert Mouse Y"
+   },
+   "IN_CARGO_HOLD" : {
+      "description" : "",
+      "message" : "In cargo hold"
+   },
+   "IN_STOCK" : {
+      "description" : "",
+      "message" : "In stock"
+   },
+   "ITEM_IS_OUT_OF_STOCK" : {
+      "description" : "",
+      "message" : "Ovaj proizvod je rasprodan."
+   },
+   "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE" : {
+      "description" : "",
+      "message" : "It's been great working for you. If you need me again, I'll be here a while."
+   },
+   "JETTISON" : {
+      "description" : "",
+      "message" : "Jettison"
+   },
+   "KILLS" : {
+      "description" : "",
+      "message" : "Kills:"
+   },
+   "LANGUAGE" : {
+      "description" : "",
+      "message" : "Language"
+   },
+   "LANGUAGE_RESTART_GAME_TO_APPLY" : {
+      "description" : "",
+      "message" : "Language (restart game to apply)"
+   },
+   "LEGAL_STATUS" : {
+      "description" : "",
+      "message" : "Pravni položaj"
+   },
+   "LIGHT_CARGO_SHUTTLE" : {
+      "description" : "",
+      "message" : "Light cargo shuttle"
+   },
+   "LIGHT_COURIER" : {
+      "description" : "",
+      "message" : "Light courier"
+   },
+   "LIGHT_FIGHTER" : {
+      "description" : "",
+      "message" : "Light fighter"
+   },
+   "LIGHT_FREIGHTER" : {
+      "description" : "",
+      "message" : "Light freighter"
+   },
+   "LIGHT_PASSENGER_SHUTTLE" : {
+      "description" : "",
+      "message" : "Light passenger shuttle"
+   },
+   "LIGHT_PASSENGER_TRANSPORT" : {
+      "description" : "",
+      "message" : "Light passenger transport"
+   },
+   "LOAD" : {
+      "description" : "",
+      "message" : "Load"
+   },
+   "LOAD_GAME" : {
+      "description" : "",
+      "message" : "Load game"
+   },
+   "LOBBY" : {
+      "description" : "",
+      "message" : "Lobby"
+   },
+   "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
+      "description" : "",
+      "message" : "Located {distance}km from the centre of {name}:"
+   },
+   "LOCATION" : {
+      "description" : "",
+      "message" : "Location"
+   },
+   "LOW" : {
+      "description" : "",
+      "message" : "Low"
+   },
+   "LY" : {
+      "description" : "",
+      "message" : "ly"
+   },
+   "MAKE_NEW_FACE" : {
+      "description" : "",
+      "message" : "Make new face"
+   },
+   "MALE" : {
+      "description" : "",
+      "message" : "Male"
+   },
+   "MASS" : {
+      "description" : "",
+      "message" : "Masa"
+   },
+   "MASTER" : {
+      "description" : "For player reputation",
+      "message" : "Master"
+   },
+   "MASTER_VOL" : {
+      "description" : "Master sound in settings option",
+      "message" : "Master:"
+   },
+   "MAX" : {
+      "description" : "",
+      "message" : "max"
+   },
+   "MAXIMUM_CREW" : {
+      "description" : "",
+      "message" : "Maximum crew"
+   },
+   "MEDIUM" : {
+      "description" : "",
+      "message" : "Medium"
+   },
+   "MEDIUM_CARGO_SHUTTLE" : {
+      "description" : "",
+      "message" : "Medium cargo shuttle"
+   },
+   "MEDIUM_COURIER" : {
+      "description" : "",
+      "message" : "Medium courier"
+   },
+   "MEDIUM_FIGHTER" : {
+      "description" : "",
+      "message" : "Medium fighter"
+   },
+   "MEDIUM_FREIGHTER" : {
+      "description" : "",
+      "message" : "Medium freighter"
+   },
+   "MEDIUM_PASSENGER_SHUTTLE" : {
+      "description" : "",
+      "message" : "Medium passenger shuttle"
+   },
+   "MEDIUM_PASSENGER_TRANSPORT" : {
+      "description" : "",
+      "message" : "Medium passenger transport"
+   },
+   "METAL_ALLOYS" : {
+      "description" : "",
+      "message" : "Metalne legure"
+   },
+   "MILITARY" : {
+      "description" : "",
+      "message" : "Military"
+   },
+   "MINIMUM_CREW" : {
+      "description" : "",
+      "message" : "Minimum crew"
+   },
+   "MISSIONS" : {
+      "description" : "",
+      "message" : "Missions"
+   },
+   "MISSION_DETAILS" : {
+      "description" : "",
+      "message" : "Mission Details"
+   },
+   "MORE_INFO" : {
+      "description" : "",
+      "message" : "More info..."
+   },
+   "MOSTLY_HARMLESS" : {
+      "description" : "",
+      "message" : "Mostly Harmless"
+   },
+   "MULTISAMPLING" : {
+      "description" : "",
+      "message" : "Multisampling"
+   },
+   "MURDER" : {
+      "description" : "",
+      "message" : "Umorstvo"
+   },
+   "MUSIC" : {
+      "description" : "",
+      "message" : "Music:"
+   },
+   "MUTE" : {
+      "description" : "",
+      "message" : "Mute"
+   },
+   "NAME_OBJECT" : {
+      "description" : "For an item or object",
+      "message" : "Ime"
+   },
+   "NAME_PERSON" : {
+      "description" : "For a person",
+      "message" : "Ime"
+   },
+   "NAVIGATION" : {
+      "description" : "",
+      "message" : "Navigation:"
+   },
+   "NEGOTIATE" : {
+      "description" : "",
+      "message" : "Negotiate"
+   },
+   "NEXT_PAID" : {
+      "description" : "",
+      "message" : "Next paid"
+   },
+   "NOBODY" : {
+      "description" : "For player reputation",
+      "message" : "Nobody"
+   },
+   "NONE" : {
+      "description" : "",
+      "message" : "Ništa"
+   },
+   "NOTES" : {
+      "description" : "",
+      "message" : "Notes:"
+   },
+   "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR" : {
+      "description" : "",
+      "message" : "Not enough {alloy} to attempt a repair"
+   },
+   "NO_MISSIONS" : {
+      "description" : "",
+      "message" : "No missions."
+   },
+   "N_LIGHT_YEARS_N_MAX" : {
+      "description" : "",
+      "message" : "{range} light years ({maxRange} max)"
+   },
+   "N_OCCUPIED_PASSENGER_CABINS" : {
+      "description" : "",
+      "message" : "{quantity} Occupied Passenger Cabins"
+   },
+   "N_SHIELD_GENERATORS" : {
+      "description" : "",
+      "message" : "{quantity} Shield Generators"
+   },
+   "N_UNOCCUPIED_PASSENGER_CABINS" : {
+      "description" : "",
+      "message" : "{quantity} Unoccupied Passenger Cabins"
+   },
+   "OFF" : {
+      "description" : "",
+      "message" : "Off"
+   },
+   "OK" : {
+      "description" : "",
+      "message" : "Ok"
+   },
+   "OPTIONS" : {
+      "description" : "",
+      "message" : "Options"
+   },
+   "ORBIT" : {
+      "description" : "",
+      "message" : "Orbit"
+   },
+   "ORBITAL_ANALYSIS" : {
+      "description" : "",
+      "message" : "Orbital Analysis"
+   },
+   "ORBITAL_ANALYSIS_NOTES" : {
+      "description" : "",
+      "message" : "Circular orbit speed is given for a tangential velocity. The ship should be moving in a direction at 90° to the ship/{name} axis.\n\nDescent speed is an absolute minimum, and is also tangential. A slower speed or a lower angle will result in a course which intersects with the surface of {name}.\n\nEscape speed will in theory work in any direction, as long as the ship does not collide with {name} on the way.\n\t\t"
+   },
+   "OWED" : {
+      "description" : "",
+      "message" : "Owed"
+   },
+   "PAY_FINE_OF_N" : {
+      "description" : "",
+      "message" : "Pay fine of {amount}"
+   },
+   "PERSONAL_INFORMATION" : {
+      "description" : "",
+      "message" : "Personal Information"
+   },
+   "PILOTING" : {
+      "description" : "",
+      "message" : "Piloting:"
+   },
+   "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME" : {
+      "description" : "",
+      "message" : "Pilot seat is now occupied by {name}"
+   },
+   "PIRACY" : {
+      "description" : "",
+      "message" : "Razbojstvo"
+   },
+   "PLANET_DETAIL_DISTANCE" : {
+      "description" : "",
+      "message" : "Planet detail distance"
+   },
+   "PLANET_TEXTURES" : {
+      "description" : "",
+      "message" : "Planet textures"
+   },
+   "POLICE" : {
+      "description" : "",
+      "message" : "Police"
+   },
+   "POOR" : {
+      "description" : "",
+      "message" : "Poor"
+   },
+   "POSITION" : {
+      "description" : "",
+      "message" : "Position"
+   },
+   "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
+      "description" : "",
+      "message" : "Press a key or controller button"
+   },
+   "PRICE" : {
+      "description" : "",
+      "message" : "Cijena"
+   },
+   "PROFESSIONAL" : {
+      "description" : "For player reputation",
+      "message" : "Professional"
+   },
+   "QUALIFICATION_SCORES" : {
+      "description" : "",
+      "message" : "Qualification scores"
+   },
+   "QUICKLOAD" : {
+      "description" : "",
+      "message" : "Quickload"
+   },
+   "QUIT" : {
+      "description" : "",
+      "message" : "Quit"
+   },
+   "RANK" : {
+      "description" : "",
+      "message" : "Rank:"
+   },
+   "RATING" : {
+      "description" : "",
+      "message" : "Rating:"
+   },
+   "REAR_WEAPON" : {
+      "description" : "",
+      "message" : "Rear weapon"
+   },
+   "REFUEL" : {
+      "description" : "",
+      "message" : "Refuel"
+   },
+   "RELIABLE" : {
+      "description" : "For player reputation",
+      "message" : "Reliable"
+   },
+   "REPAIR_X_HULL_DAMAGE_FOR_X" : {
+      "description" : "",
+      "message" : "Repair {damage}% hull damage for {price}"
+   },
+   "REPUTATION" : {
+      "description" : "",
+      "message" : "Reputation"
+   },
+   "REQUEST_LAUNCH" : {
+      "description" : "",
+      "message" : "Zahtjev za lansiranje"
+   },
+   "RETURN_TO_MENU" : {
+      "description" : "",
+      "message" : "Return to menu"
+   },
+   "REVERSE_ACCEL_EMPTY" : {
+      "description" : "",
+      "message" : "Stražnje ubrzanje (prazan)"
+   },
+   "REVERSE_ACCEL_FULL" : {
+      "description" : "",
+      "message" : "Reverse accel (full)"
+   },
+   "REWARD" : {
+      "description" : "",
+      "message" : "Reward"
+   },
+   "SAVE" : {
+      "description" : "",
+      "message" : "Save"
+   },
+   "SELECT" : {
+      "description" : "",
+      "message" : "Select"
+   },
+   "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME" : {
+      "description" : "",
+      "message" : "Select a file to save to or enter a new filename"
+   },
+   "SELECT_FILE" : {
+      "description" : "",
+      "message" : "Select file..."
+   },
+   "SELECT_GAME_TO_LOAD" : {
+      "description" : "",
+      "message" : "Select game to load..."
+   },
+   "SENSORS" : {
+      "description" : "",
+      "message" : "Sensors:"
+   },
+   "SHIP" : {
+      "description" : "",
+      "message" : "Brod"
+   },
+   "SHIP_INFORMATION" : {
+      "description" : "",
+      "message" : "Ship Information"
+   },
+   "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
+      "description" : "",
+      "message" : "Vaš brod je u savršenom stanju."
+   },
+   "SHIP_IS_FULLY_LADEN" : {
+      "description" : "",
+      "message" : "Vaš brod je pun."
+   },
+   "SHIP_MARKET" : {
+      "description" : "",
+      "message" : "Ship Market"
+   },
+   "SHIP_REPAIRS" : {
+      "description" : "",
+      "message" : "Ship Repairs"
+   },
+   "SHIP_VIEWING_WAS_SOLD" : {
+      "description" : "",
+      "message" : "The ship you were viewing has been sold"
+   },
+   "SOUND" : {
+      "description" : "",
+      "message" : "Sound"
+   },
+   "START_AT_BARNARDS_STAR" : {
+      "description" : "",
+      "message" : "Start at Barnard's Star"
+   },
+   "START_AT_EARTH" : {
+      "description" : "",
+      "message" : "Start at Earth"
+   },
+   "START_AT_NEW_HOPE" : {
+      "description" : "",
+      "message" : "Start at New Hope"
+   },
+   "STATION_MANAGER" : {
+      "description" : "",
+      "message" : "Station manager"
+   },
+   "STATUS" : {
+      "description" : "",
+      "message" : "Status"
+   },
+   "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
+      "description" : "",
+      "message" : "Hvala vam na kupovini. Sjetite se ugraditi opremu i kupiti gorivo prije odlaska."
+   },
+   "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP" : {
+      "description" : "",
+      "message" : "There is nobody else on board able to fly this ship."
+   },
+   "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
+      "description" : "",
+      "message" : "The ship is under station control, Commander."
+   },
+   "TOGGLE_MALE_FEMALE" : {
+      "description" : "",
+      "message" : "Toggle male/female"
+   },
+   "TOTAL" : {
+      "description" : "",
+      "message" : "Total: "
+   },
+   "TOTAL_MASS" : {
+      "description" : "",
+      "message" : "Total mass"
+   },
+   "TRADING_ILLEGAL_GOODS" : {
+      "description" : "",
+      "message" : "Nezakonito trgovanje dobrima"
+   },
+   "TRUSTWORTHY" : {
+      "description" : "For player reputation",
+      "message" : "Trustworthy"
+   },
+   "TYPE" : {
+      "description" : "",
+      "message" : "Type"
+   },
+   "UNLAWFUL_WEAPONS_DISCHARGE" : {
+      "description" : "",
+      "message" : "Nezakonito korištenje vatre"
+   },
+   "UNRELIABLE" : {
+      "description" : "",
+      "message" : "Unreliable"
+   },
+   "UP_ACCEL" : {
+      "description" : "",
+      "message" : "Up acceleration"
+   },
+   "USED" : {
+      "description" : "",
+      "message" : "Iskorišteno"
+   },
+   "VERY_HIGH" : {
+      "description" : "",
+      "message" : "Very high"
+   },
+   "VERY_LOW" : {
+      "description" : "",
+      "message" : "Very low"
+   },
+   "VIDEO" : {
+      "description" : "",
+      "message" : "Video"
+   },
+   "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY" : {
+      "description" : "",
+      "message" : "Video configuration (restart game to apply)"
+   },
+   "VIDEO_RESOLUTION" : {
+      "description" : "",
+      "message" : "Video resolution"
+   },
+   "WAGE" : {
+      "description" : "",
+      "message" : "Wage"
+   },
+   "WEIGHT_EMPTY" : {
+      "description" : "",
+      "message" : "Masa kad je prazan"
+   },
+   "WEIGHT_FULLY_LOADED" : {
+      "description" : "",
+      "message" : "Masa kad je potpuno pun"
+   },
+   "WE_ARE_IN_HYPERSPACE_COMMANDER" : {
+      "description" : "",
+      "message" : "We are in hyperspace, Commander."
+   },
+   "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
+      "description" : "",
+      "message" : "Nemamo posla s vama ovog trena."
+   },
+   "YOURE_GOING_TO_REGRET_SACKING_ME" : {
+      "description" : "",
+      "message" : "You're going to regret sacking me!"
+   },
+   "YOUR_HULL_IS_AT_X_INTEGRITY" : {
+      "description" : "",
+      "message" : "Your hull is at {value}% integrity."
+   },
+   "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION" : {
+      "description" : "",
+      "message" : "You don't have enough money for that option."
+   },
+   "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
+      "description" : "",
+      "message" : "You must first select a combat target, Commander."
+   },
+   "YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER" : {
+      "description" : "",
+      "message" : "You must first select a suitable navigation target, Commander."
+   },
+   "YOU_MUST_LAUNCH_FIRST_COMMANDER" : {
+      "description" : "",
+      "message" : "You must launch first, Commander."
+   },
+   "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER" : {
+      "description" : "",
+      "message" : "You must request launch clearance first, Commander."
+   },
+   "YOU_NOT_ENOUGH_MONEY" : {
+      "description" : "",
+      "message" : "Nemate dovoljno novaca"
+   }
+}
