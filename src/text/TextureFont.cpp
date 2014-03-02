@@ -32,17 +32,17 @@ const Uint32 TextureFont::CHARACTER_RANGES[] = {
 
 int TextureFont::s_glyphCount = 0;
 
-void TextureFont::AddGlyphGeometry(Graphics::VertexArray *va, const glfglyph_t &glyph, float x, float y, const Color &c)
+void TextureFont::AddGlyphGeometry(Graphics::VertexArray *va, const Glyph &glyph, float x, float y, const Color &c)
 {
-	const float offx = x + float(glyph.offx);
-	const float offy = y + GetHeight() - float(glyph.offy);
+	const float offX = x + float(glyph.offX);
+	const float offY = y + GetHeight() - float(glyph.offY);
 	const float offU = glyph.offU;
 	const float offV = glyph.offV;
 
-	const vector3f p0(offx,             offy,              0.0f);
-	const vector3f p1(offx,             offy+glyph.height, 0.0f);
-	const vector3f p2(offx+glyph.width, offy,              0.0f);
-	const vector3f p3(offx+glyph.width, offy+glyph.height, 0.0f);
+	const vector3f p0(offX,             offY,              0.0f);
+	const vector3f p1(offX,             offY+glyph.height, 0.0f);
+	const vector3f p2(offX+glyph.width, offY,              0.0f);
+	const vector3f p3(offX+glyph.width, offY+glyph.height, 0.0f);
 
 	const vector2f t0(offU,                offV                );
 	const vector2f t1(offU,                offV+glyph.texHeight);
@@ -81,9 +81,9 @@ void TextureFont::MeasureString(const char *str, float &w, float &h)
 			assert(n);
 			i += n;
 
-			const glfglyph_t &glyph = GetGlyph(chr);
+			const Glyph &glyph = GetGlyph(chr);
 
-			line_width += glyph.advx;
+			line_width += glyph.advX;
 
 			if (str[i]) {
 				Uint32 chr2;
@@ -119,8 +119,8 @@ void TextureFont::MeasureCharacterPos(const char *str, int charIndex, float &cha
 			x = 0.0f;
 			y += GetHeight();
 		} else {
-			const glfglyph_t &glyph = GetGlyph(chr);
-			float advance = glyph.advx;
+			const Glyph &glyph = GetGlyph(chr);
+			float advance = glyph.advX;
 
 			if (nextChar != '\n' && nextChar != '\0') {
 				FT_Vector kern;
@@ -169,8 +169,8 @@ int TextureFont::PickCharacter(const char *str, float mouseX, float mouseY) cons
 			right = std::numeric_limits<float>::max();
 			x = 0.0f;
 		} else {
-			const glfglyph_t &glyph = GetGlyph(chr1);
-			float advance = glyph.advx;
+			const Glyph &glyph = GetGlyph(chr1);
+			float advance = glyph.advX;
 
 			if (chr2 != '\n' && chr2 != '\0') {
 				FT_Vector kern;
@@ -217,7 +217,7 @@ void TextureFont::RenderString(const char *str, float x, float y, const Color &c
 			assert(n);
 			i += n;
 
-			const glfglyph_t &glyph = GetGlyph(chr);
+			const Glyph &glyph = GetGlyph(chr);
 			AddGlyphGeometry(&m_vertices, glyph, roundf(px), py, premult_color);
 
 			if (str[i]) {
@@ -230,7 +230,7 @@ void TextureFont::RenderString(const char *str, float x, float y, const Color &c
 				px += float(kern.x) / 64.0;
 			}
 
-			px += glyph.advx;
+			px += glyph.advX;
 		}
 	}
 
@@ -278,7 +278,7 @@ Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &
 			assert(n);
 			i += n;
 
-			const glfglyph_t &glyph = GetGlyph(chr);
+			const Glyph &glyph = GetGlyph(chr);
 			AddGlyphGeometry(&m_vertices, glyph, roundf(px), py, premult_c);
 
 			// XXX kerning doesn't skip markup
@@ -292,7 +292,7 @@ Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &
 				px += float(kern.x) / 64.0;
 			}
 
-			px += glyph.advx;
+			px += glyph.advX;
 		}
 	}
 
@@ -303,10 +303,10 @@ Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &
 int TextureFont::BakeGlyph(Uint32 chr)
 {
 	int err;
-	glfglyph_t glfglyph;
-	FT_Glyph glyph;
+	Glyph glyph;
+	FT_Glyph ftGlyph;
 
-	glfglyph.ftIndex = FT_Get_Char_Index(m_face, chr);
+	glyph.ftIndex = FT_Get_Char_Index(m_face, chr);
 
 	err = FT_Load_Char(m_face, chr, FT_LOAD_FORCE_AUTOHINT);
 	if (err) {
@@ -315,22 +315,22 @@ int TextureFont::BakeGlyph(Uint32 chr)
 	}
 
 	// get base glyph again
-	err = FT_Get_Glyph(m_face->glyph, &glyph);
+	err = FT_Get_Glyph(m_face->glyph, &ftGlyph);
 	if (err) {
 		Output("Glyph get error %d\n", err);
         return err;
 	}
 
 	// convert to bitmap
-	if (glyph->format != FT_GLYPH_FORMAT_BITMAP) {
-		err = FT_Glyph_To_Bitmap(&glyph, FT_RENDER_MODE_NORMAL, 0, 1);
+	if (ftGlyph->format != FT_GLYPH_FORMAT_BITMAP) {
+		err = FT_Glyph_To_Bitmap(&ftGlyph, FT_RENDER_MODE_NORMAL, 0, 1);
 		if (err) {
 			Output("Couldn't convert glyph to bitmap, error %d\n", err);
             return err;
 		}
 	}
 
-	const FT_BitmapGlyph bmGlyph = FT_BitmapGlyph(glyph);
+	const FT_BitmapGlyph bmGlyph = FT_BitmapGlyph(ftGlyph);
 
 	if (m_descriptor.outline) {
 		FT_Glyph strokeGlyph;
@@ -407,16 +407,16 @@ int TextureFont::BakeGlyph(Uint32 chr)
 			}
 		}
 
-		glfglyph.width = bmStrokeGlyph->bitmap.width;
-		glfglyph.height = bmStrokeGlyph->bitmap.rows;
-		glfglyph.offx = bmStrokeGlyph->left;
-		glfglyph.offy = bmStrokeGlyph->top;
-		glfglyph.offU = float(m_atlasU) / float(ATLAS_SIZE);
-		glfglyph.offV = float(m_atlasV) / float(ATLAS_SIZE);
-		glfglyph.texWidth = float(glfglyph.width) / float(ATLAS_SIZE);
-		glfglyph.texHeight = float(glfglyph.height) / float(ATLAS_SIZE);
+		glyph.width = bmStrokeGlyph->bitmap.width;
+		glyph.height = bmStrokeGlyph->bitmap.rows;
+		glyph.offX = bmStrokeGlyph->left;
+		glyph.offY = bmStrokeGlyph->top;
+		glyph.offU = float(m_atlasU) / float(ATLAS_SIZE);
+		glyph.offV = float(m_atlasV) / float(ATLAS_SIZE);
+		glyph.texWidth = float(glyph.width) / float(ATLAS_SIZE);
+		glyph.texHeight = float(glyph.height) / float(ATLAS_SIZE);
 
-		m_texture->Update(&m_buf[0], vector2f(m_atlasU, m_atlasV), vector2f(glfglyph.width, glfglyph.height), m_texFormat);
+		m_texture->Update(&m_buf[0], vector2f(m_atlasU, m_atlasV), vector2f(glyph.width, glyph.height), m_texFormat);
 
 		m_atlasU += bmStrokeGlyph->bitmap.width;
 
@@ -449,29 +449,29 @@ int TextureFont::BakeGlyph(Uint32 chr)
 		for (int y = 0; y < rows; y++)
 			memcpy(&m_buf[ALIGN(pitch,4)*y], &(bmGlyph->bitmap.buffer[pitch*y]), pitch);
 
-		glfglyph.width = bmGlyph->bitmap.width;
-		glfglyph.height = bmGlyph->bitmap.rows;
-		glfglyph.offx = bmGlyph->left;
-		glfglyph.offy = bmGlyph->top;
-		glfglyph.offU = float(m_atlasU) / float(ATLAS_SIZE);
-		glfglyph.offV = float(m_atlasV) / float(ATLAS_SIZE);
-		glfglyph.texWidth = float(glfglyph.width) / float(ATLAS_SIZE);
-		glfglyph.texHeight = float(glfglyph.height) / float(ATLAS_SIZE);
+		glyph.width = bmGlyph->bitmap.width;
+		glyph.height = bmGlyph->bitmap.rows;
+		glyph.offX = bmGlyph->left;
+		glyph.offY = bmGlyph->top;
+		glyph.offU = float(m_atlasU) / float(ATLAS_SIZE);
+		glyph.offV = float(m_atlasV) / float(ATLAS_SIZE);
+		glyph.texWidth = float(glyph.width) / float(ATLAS_SIZE);
+		glyph.texHeight = float(glyph.height) / float(ATLAS_SIZE);
 
-		m_texture->Update(&m_buf[0], vector2f(m_atlasU, m_atlasV), vector2f(glfglyph.width, glfglyph.height), m_texFormat);
+		m_texture->Update(&m_buf[0], vector2f(m_atlasU, m_atlasV), vector2f(glyph.width, glyph.height), m_texFormat);
 
-		m_atlasU += glfglyph.width;
+		m_atlasU += glyph.width;
 	}
 
-	FT_Done_Glyph(glyph);
+	FT_Done_Glyph(ftGlyph);
 
-	glfglyph.advx = float(m_face->glyph->advance.x) / 64.f + m_descriptor.advanceXAdjustment;
-	glfglyph.advy = float(m_face->glyph->advance.y) / 64.f;
+	glyph.advX = float(m_face->glyph->advance.x) / 64.f + m_descriptor.advanceXAdjustment;
+	glyph.advY = float(m_face->glyph->advance.y) / 64.f;
 
 	if (chr < MAX_FAST_GLYPHS)
-		m_glyphsFast[chr] = glfglyph;
+		m_glyphsFast[chr] = glyph;
 	else
-		m_glyphs[chr] = glfglyph;
+		m_glyphs[chr] = glyph;
 
 	return 0;
 }
@@ -488,7 +488,7 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 	, m_atlasV(0)
 	, m_atlasVIncrement(0)
 {
-	memset(&m_glyphsFast[0], 0, sizeof(glfglyph_t)*MAX_FAST_GLYPHS);
+	memset(&m_glyphsFast[0], 0, sizeof(Glyph)*MAX_FAST_GLYPHS);
 
 	FT_Error err; // used to store freetype error return codes
 

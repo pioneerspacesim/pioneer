@@ -39,15 +39,16 @@ public:
 
 	enum { MAX_FAST_GLYPHS = 256 };
 
-	struct glfglyph_t {
-		float advx, advy;
+	struct Glyph {
+		Glyph() : advX(0), advY(0), width(0), height(0), texWidth(0), texHeight(0), offX(0), offY(0), offU(0), offV(0), ftIndex(0) {}
+		float advX, advY;
 		float width, height;
 		float texWidth, texHeight;
-		int offx, offy;
+		int offX, offY;
 		float offU, offV; //atlas UV offset
 		Uint32 ftIndex;
 	};
-	const glfglyph_t &GetGlyph(Uint32 ch) const { return ch < MAX_FAST_GLYPHS ? m_glyphsFast[ch] : m_glyphs.find(ch)->second; }
+	const Glyph &GetGlyph(Uint32 ch) const { return ch < MAX_FAST_GLYPHS ? m_glyphsFast[ch] : m_glyphs.find(ch)->second; }
 
 	static int GetGlyphCount() { return s_glyphCount; }
 	static void ClearGlyphCount() { s_glyphCount = 0; }
@@ -71,7 +72,7 @@ private:
 
 	int BakeGlyph(Uint32 chr);
 
-	void AddGlyphGeometry(Graphics::VertexArray *va, const glfglyph_t &glyph, float x, float y, const Color &color);
+	void AddGlyphGeometry(Graphics::VertexArray *va, const Glyph &glyph, float x, float y, const Color &color);
 	float m_height;
 	float m_descender;
 	std::unique_ptr<Graphics::Material> m_mat;
@@ -80,8 +81,8 @@ private:
 
 	static int s_glyphCount;
 
-	std::vector<glfglyph_t> m_glyphsFast; // for fast lookup of low-index glyphs
-	std::map<Uint32,glfglyph_t> m_glyphs;
+	std::vector<Glyph> m_glyphsFast; // for fast lookup of low-index glyphs
+	std::map<Uint32,Glyph> m_glyphs;
 
 	static const Uint32 CHARACTER_RANGES[];
 
