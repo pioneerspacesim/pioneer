@@ -29,15 +29,13 @@ public:
 	void RenderString(const char *str, float x, float y, const Color &color = Color::WHITE);
 	Color RenderMarkup(const char *str, float x, float y, const Color &color = Color::WHITE);
 	void MeasureString(const char *str, float &w, float &h);
-	void MeasureCharacterPos(const char *str, int charIndex, float &x, float &y) const;
-	int PickCharacter(const char *str, float mouseX, float mouseY) const;
+	void MeasureCharacterPos(const char *str, int charIndex, float &x, float &y);
+	int PickCharacter(const char *str, float mouseX, float mouseY);
 
 	// general baseline-to-baseline height
 	float GetHeight() const { return m_height; }
 	// general descender height
 	float GetDescender() const { return m_descender; }
-
-	enum { MAX_FAST_GLYPHS = 256 };
 
 	struct Glyph {
 		Glyph() : advX(0), advY(0), width(0), height(0), texWidth(0), texHeight(0), offX(0), offY(0), offU(0), offV(0), ftIndex(0) {}
@@ -48,7 +46,7 @@ public:
 		float offU, offV; //atlas UV offset
 		Uint32 ftIndex;
 	};
-	const Glyph &GetGlyph(Uint32 ch) const { return ch < MAX_FAST_GLYPHS ? m_glyphsFast[ch] : m_glyphs.find(ch)->second; }
+	const Glyph &GetGlyph(Uint32 ch);
 
 	static int GetGlyphCount() { return s_glyphCount; }
 	static void ClearGlyphCount() { s_glyphCount = 0; }
@@ -70,7 +68,7 @@ private:
 
 	RefCountedPtr<FileSystem::FileData> m_fontFileData;
 
-	int BakeGlyph(Uint32 chr);
+	Glyph BakeGlyph(Uint32 chr);
 
 	void AddGlyphGeometry(Graphics::VertexArray *va, const Glyph &glyph, float x, float y, const Color &color);
 	float m_height;
@@ -81,10 +79,7 @@ private:
 
 	static int s_glyphCount;
 
-	std::vector<Glyph> m_glyphsFast; // for fast lookup of low-index glyphs
 	std::map<Uint32,Glyph> m_glyphs;
-
-	static const Uint32 CHARACTER_RANGES[];
 
 	// UV offsets for glyphs
 	int m_atlasU;

@@ -16,20 +16,6 @@ static const int ATLAS_SIZE = 1024;
 
 namespace Text {
 
-// range end-points are inclusive
-const Uint32 TextureFont::CHARACTER_RANGES[] = {
-	0x0020, 0x007E, // Basic Latin (excluding control characters)
-	0x00A0, 0x00FF, // Latin-1 Supplement (excluding control characters)
-	0x0100, 0x017F, // Latin Extended-A
-	0x0180, 0x024F, // Latin Extended-B
-	0x0400, 0x04FF, // Cyrillic
-	0x0500, 0x0527, // Cyrillic Supplement (excluding unused codepoints)
-	0x2DE0, 0x2DFF, // Cyrillic Extended-A
-	0xA640, 0xA697, // Cyrillic Extended-B (excluding unused codepoints)
-	0xA69F, 0xA69F, // Cyrillic Extended-B (continued)
-	0,0 // terminator
-};
-
 int TextureFont::s_glyphCount = 0;
 
 void TextureFont::AddGlyphGeometry(Graphics::VertexArray *va, const Glyph &glyph, float x, float y, const Color &c)
@@ -101,7 +87,7 @@ void TextureFont::MeasureString(const char *str, float &w, float &h)
 	h += GetHeight() + GetDescender();
 }
 
-void TextureFont::MeasureCharacterPos(const char *str, int charIndex, float &charX, float &charY) const
+void TextureFont::MeasureCharacterPos(const char *str, int charIndex, float &charX, float &charY)
 {
 	assert(str && (charIndex >= 0));
 
@@ -138,7 +124,7 @@ void TextureFont::MeasureCharacterPos(const char *str, int charIndex, float &cha
 	charY = y;
 }
 
-int TextureFont::PickCharacter(const char *str, float mouseX, float mouseY) const
+int TextureFont::PickCharacter(const char *str, float mouseX, float mouseY)
 {
 	assert(str && mouseX >= 0.0f && mouseY >= 0.0f);
 
@@ -300,7 +286,18 @@ Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &
 	return c;
 }
 
-int TextureFont::BakeGlyph(Uint32 chr)
+const TextureFont::Glyph &TextureFont::GetGlyph(Uint32 chr)
+{
+	auto i = m_glyphs.find(chr);
+	if (i != m_glyphs.end())
+		return (*i).second;
+
+	m_glyphs[chr] = BakeGlyph(chr);
+	return m_glyphs[chr];
+}
+
+
+TextureFont::Glyph TextureFont::BakeGlyph(Uint32 chr)
 {
 	int err;
 	Glyph glyph;
@@ -311,14 +308,14 @@ int TextureFont::BakeGlyph(Uint32 chr)
 	err = FT_Load_Char(m_face, chr, FT_LOAD_FORCE_AUTOHINT);
 	if (err) {
 		Output("Error %d loading glyph\n", err);
-        return err;
+		return Glyph();
 	}
 
 	// get base glyph again
 	err = FT_Get_Glyph(m_face->glyph, &ftGlyph);
 	if (err) {
 		Output("Glyph get error %d\n", err);
-        return err;
+		return Glyph();
 	}
 
 	// convert to bitmap
@@ -326,7 +323,7 @@ int TextureFont::BakeGlyph(Uint32 chr)
 		err = FT_Glyph_To_Bitmap(&ftGlyph, FT_RENDER_MODE_NORMAL, 0, 1);
 		if (err) {
 			Output("Couldn't convert glyph to bitmap, error %d\n", err);
-            return err;
+			return Glyph();
 		}
 	}
 
@@ -338,14 +335,14 @@ int TextureFont::BakeGlyph(Uint32 chr)
 		err = FT_Get_Glyph(m_face->glyph, &strokeGlyph);
 		if (err) {
 			Output("Glyph get error %d\n", err);
-            return err;
+			return Glyph();
 		}
 
 		err = FT_Glyph_Stroke(&strokeGlyph, m_stroker, 1);
 		if (err) {
 			Output("Glyph stroke error %d\n", err);
 			FT_Done_Glyph(strokeGlyph);
-            return err;
+			return Glyph();
 		}
 
 		//convert to bitmap
@@ -354,7 +351,7 @@ int TextureFont::BakeGlyph(Uint32 chr)
 			if (err) {
 				Output("Couldn't convert glyph to bitmap, error %d\n", err);
 				FT_Done_Glyph(strokeGlyph);
-				return err;
+				return Glyph();
 			}
 		}
 
@@ -374,7 +371,7 @@ int TextureFont::BakeGlyph(Uint32 chr)
 			utf8buf[len] = '\0';
 			Output("glyph doesn't fit in atlas (U+%04X; height = %d; char: %s; atlasV = %d)\n", chr, bmStrokeGlyph->bitmap.rows, utf8buf, m_atlasV);
 			FT_Done_Glyph(strokeGlyph);
-			return 0;
+			return Glyph();
 		}
 
 		const int pitch = bmGlyph->bitmap.pitch;
@@ -438,7 +435,7 @@ int TextureFont::BakeGlyph(Uint32 chr)
 			int len = utf8_encode_char(chr, utf8buf);
 			utf8buf[len] = '\0';
 			Output("glyph doesn't fit in atlas (U+%04X; height = %d; char: %s; atlasV = %d)\n", chr, bmGlyph->bitmap.rows, utf8buf, m_atlasV);
-			return 0;
+			return Glyph();
 		}
 
 		// draw the glyph into the draw buffer
@@ -468,12 +465,7 @@ int TextureFont::BakeGlyph(Uint32 chr)
 	glyph.advX = float(m_face->glyph->advance.x) / 64.f + m_descriptor.advanceXAdjustment;
 	glyph.advY = float(m_face->glyph->advance.y) / 64.f;
 
-	if (chr < MAX_FAST_GLYPHS)
-		m_glyphsFast[chr] = glyph;
-	else
-		m_glyphs[chr] = glyph;
-
-	return 0;
+	return glyph;
 }
 
 TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *renderer)
@@ -483,13 +475,10 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 	, m_face(nullptr)
 	, m_stroker(nullptr)
 	, m_vertices(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0)
-	, m_glyphsFast(MAX_FAST_GLYPHS)
 	, m_atlasU(0)
 	, m_atlasV(0)
 	, m_atlasVIncrement(0)
 {
-	memset(&m_glyphsFast[0], 0, sizeof(Glyph)*MAX_FAST_GLYPHS);
-
 	FT_Error err; // used to store freetype error return codes
 
 	err = FT_Init_FreeType(&m_freeTypeLibrary);
@@ -541,17 +530,6 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 
 		//1*64 = stroke width
 		FT_Stroker_Set(m_stroker, 1*64, FT_STROKER_LINECAP_ROUND, FT_STROKER_LINEJOIN_ROUND, 0);
-	}
-
-	// generate and store glyphs for each character in the specified ranges
-	for (int i = 0;; i += 2) {
-		Uint32 first = CHARACTER_RANGES[i];
-		Uint32 last = CHARACTER_RANGES[i+1];
-		if (first == 0 && last == 0)
-			break;
-
-		for (Uint32 chr = first; chr <= last; chr++)
-			BakeGlyph(chr);
 	}
 
 	m_height = float(m_face->height) / 64.f * float(m_face->size->metrics.y_scale) / 65536.f;
