@@ -1,0 +1,70 @@
+{
+   "APPLY_FOR_MEMBERSHIP" : {
+      "description" : "",
+      "message" : "Apply for membership"
+   },
+   "BEGIN_TRADE" : {
+      "description" : "",
+      "message" : "Begin trade"
+   },
+   "FLAVOUR_0_CLUBNAME" : {
+      "description" : "",
+      "message" : "Interstellar Pilots' Fuel Co-operative"
+   },
+   "FLAVOUR_0_MEMBER_INTRO" : {
+      "description" : "",
+      "message" : "You may purhase fuel and dispose of {radioactives} here."
+   },
+   "FLAVOUR_0_NONMEMBER_INTRO" : {
+      "description" : "",
+      "message" : "{clubname} is an independent organisation dedicated to providing discounted starship fuel to its members. Branches can be found throughout the galaxy. Benefits of membership include:\n\n\t* Our own stocks of fuel, independent of the general market\n\t* {hydrogen} at discount prices\n\t* {military_fuel} at discount prices\n\t* {water} at discount prices\n\t* {radioactives}, free disposal (conditions apply)\n\t* Fuel tank refilling, where necessary\n\nJoin now! Annual membership costs only {membership_fee}"
+   },
+   "FLAVOUR_0_WELCOME" : {
+      "description" : "",
+      "message" : "Welcome to {clubname}"
+   },
+   "GO_BACK" : {
+      "description" : "",
+      "message" : "Go back"
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Hang up."
+   },
+   "HYDROGEN" : {
+      "description" : "",
+      "message" : "Hydrogen"
+   },
+   "MILITARY_FUEL" : {
+      "description" : "",
+      "message" : "Military fuel"
+   },
+   "RADIOACTIVES" : {
+      "description" : "",
+      "message" : "Radioactive waste"
+   },
+   "WATER" : {
+      "description" : "",
+      "message" : "Water"
+   },
+   "WE_WILL_ONLY_DISPOSE_OF" : {
+      "description" : "",
+      "message" : "We will only dispose of as many tonnes of {radioactives} as you have bought tonnes of {military_fuel} from us."
+   },
+   "WHAT_CONDITIONS_APPLY" : {
+      "description" : "",
+      "message" : "What conditions apply to {radioactives} disposal?"
+   },
+   "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED" : {
+      "description" : "",
+      "message" : "Your membership application has been declined."
+   },
+   "YOU_ARE_NOW_A_MEMBER" : {
+      "description" : "",
+      "message" : "You are now a member. Your membership will expire on {expiry_date}."
+   },
+   "YOU_MUST_BUY" : {
+      "description" : "",
+      "message" : "You must buy our {military_fuel} before we will take your {radioactives}"
+   }
+}
