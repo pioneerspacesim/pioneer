@@ -19,6 +19,7 @@ noinst_HEADERS = \
 	AmbientSounds.h \
 	AnimationCurves.h \
 	Background.h \
+	BaseSphere.h \
 	Body.h \
 	ByteRange.h \
 	Camera.h \
@@ -44,6 +45,7 @@ noinst_HEADERS = \
 	Frame.h \
 	GalacticView.h \
 	Game.h \
+	GasGiant.h \
 	GeoSphere.h \
 	HudTrail.h \
 	HyperspaceCloud.h \
@@ -152,6 +154,7 @@ noinst_HEADERS = \
 pioneer_SOURCES	= \
 	AmbientSounds.cpp \
 	Background.cpp \
+	BaseSphere.cpp \
 	Body.cpp \
 	Camera.cpp \
 	CameraController.cpp \
@@ -172,6 +175,7 @@ pioneer_SOURCES	= \
 	Frame.cpp \
 	GalacticView.cpp \
 	Game.cpp \
+	GasGiant.cpp \
 	GeoPatch.cpp \
 	GeoPatchContext.cpp \
 	GeoPatchID.cpp \
