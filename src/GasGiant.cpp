@@ -16,9 +16,157 @@
 #include <deque>
 #include <algorithm>
 
-
 RefCountedPtr<GasPatchContext> GasGiant::s_patchContext;
-static std::vector<GasGiant*> s_allGasGiants;
+
+namespace
+{
+	
+	static std::vector<GasGiant*> s_allGasGiants;
+
+	// generate root face patches of the cube/sphere
+	static const vector3d p1 = (vector3d( 1, 1, 1)).Normalized();
+	static const vector3d p2 = (vector3d(-1, 1, 1)).Normalized();
+	static const vector3d p3 = (vector3d(-1,-1, 1)).Normalized();
+	static const vector3d p4 = (vector3d( 1,-1, 1)).Normalized();
+	static const vector3d p5 = (vector3d( 1, 1,-1)).Normalized();
+	static const vector3d p6 = (vector3d(-1, 1,-1)).Normalized();
+	static const vector3d p7 = (vector3d(-1,-1,-1)).Normalized();
+	static const vector3d p8 = (vector3d( 1,-1,-1)).Normalized();
+
+	class STextureFaceRequest {
+	public:
+		STextureFaceRequest(const vector3d *v_, const SystemPath &sysPath_, const Sint32 face_, const Sint32 uvDIMs_, Terrain *pTerrain_) :
+			corners(v_), sysPath(sysPath_), face(face_), uvDIMs(uvDIMs_), pTerrain(pTerrain_)
+		{
+			colors = new Color[NumTexels()];
+		}
+
+		 // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
+		// Use only data local to this object
+		void OnRun()
+		{
+			assert( corners != nullptr );
+			double fracStep = 1.0 / double(UVDims()-1);
+			for( Sint32 v=0; v<UVDims(); v++ ) {
+				for( Sint32 u=0; u<UVDims(); u++ ) {
+					// where in this row & colum are we now.
+					const double ustep = double(u) * fracStep;
+					const double vstep = double(v) * fracStep;
+
+					// get point on the surface of the sphere
+					const vector3d p = GetSpherePoint(ustep, vstep);
+					// get colour using `p`
+					const vector3d colour = pTerrain->GetColor(p, 0.0, p);
+
+					// convert to ubyte and store
+					Color* col = colors + (u + (v * UVDims()));
+					col[0].r = Uint8(colour.x * 255.0);
+					col[0].g = Uint8(colour.y * 255.0);
+					col[0].b = Uint8(colour.z * 255.0);
+					col[0].a = 255;
+				}
+			}
+		}
+
+		Sint32 Face() const { return face; }
+		inline Sint32 UVDims() const { return uvDIMs; }
+		Color* Colors() const { return colors; }
+		const SystemPath& SysPath() const { return sysPath; }
+
+	protected:
+		// deliberately prevent copy constructor access
+		STextureFaceRequest(const STextureFaceRequest &r);
+
+		inline Sint32 NumTexels() const { return uvDIMs*uvDIMs; }
+
+		// in patch surface coords, [0,1]
+		inline vector3d GetSpherePoint(const double x, const double y) const {
+			return (corners[0] + x*(1.0-y)*(corners[1]-corners[0]) + x*y*(corners[2]-corners[0]) + (1.0-x)*y*(corners[3]-corners[0])).Normalized();
+		}
+
+		// these are created with the request and are given to the resulting patches
+		Color *colors;
+
+		const vector3d *corners;
+		const SystemPath sysPath;
+		const Sint32 face;
+		const Sint32 uvDIMs;
+		RefCountedPtr<Terrain> pTerrain;
+	};
+
+	class STextureFaceResult {
+	public:
+		struct STextureFaceData {
+			STextureFaceData() {}
+			STextureFaceData(Color *c_, Sint32 uvDims_) : colors(c_), uvDims(uvDims_) {}
+			STextureFaceData(const STextureFaceData &r) : colors(r.colors), uvDims(r.uvDims) {}
+			Color *colors;
+			Sint32 uvDims;
+		};
+
+		STextureFaceResult(const int32_t face_) : mFace(face_) {}
+
+		void addResult(Color *c_, Sint32 uvDims_) {
+			mData = STextureFaceData(c_, uvDims_);
+		}
+
+		inline const STextureFaceData& data() const { return mData; }
+		inline int32_t face() const { return mFace; }
+
+		virtual void OnCancel()	{
+			if( mData.colors ) {delete [] mData.colors; mData.colors = NULL;}
+		}
+
+	protected:
+		// deliberately prevent copy constructor access
+		STextureFaceResult(const STextureFaceResult &r);
+
+		const int32_t mFace;
+		STextureFaceData mData;
+	};
+
+	// ********************************************************************************
+	// Overloaded PureJob class to handle generating the mesh for each patch
+	// ********************************************************************************
+	class SingleTextureFaceJob : public Job
+	{
+	public:
+		SingleTextureFaceJob(STextureFaceRequest *data) : mData(data), mpResults(nullptr) { /* empty */ }
+		~SingleTextureFaceJob()
+		{
+			if(mpResults) {
+				mpResults->OnCancel();
+				delete mpResults;
+				mpResults = nullptr;
+			}
+		}
+
+		virtual void OnRun() // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
+		{
+			mData->OnRun();
+
+			// add this patches data
+			STextureFaceResult *sr = new STextureFaceResult(mData->Face());
+			sr->addResult(mData->Colors(), mData->UVDims());
+
+			// store the result
+			mpResults = sr;
+		}
+		virtual void OnFinish() // runs in primary thread of the context
+		{
+			GasGiant::OnAddTextureFaceResult( mData->SysPath(), mpResults );
+			mpResults = nullptr;
+		}
+		virtual void OnCancel() {}
+
+	private:
+		// deliberately prevent copy constructor access
+		SingleTextureFaceJob(const SingleTextureFaceJob &r);
+
+		std::unique_ptr<STextureFaceRequest> mData;
+		STextureFaceResult *mpResults;
+	};
+};
 
 static void print_info(const SystemBody *sbody, const Terrain *terrain)
 {
@@ -222,140 +370,6 @@ GasGiant::~GasGiant()
 	s_allGasGiants.erase(std::find(s_allGasGiants.begin(), s_allGasGiants.end(), this));
 }
 
-class STextureFaceRequest {
-public:
-	STextureFaceRequest(const vector3d *v_, const SystemPath &sysPath_, const Sint32 face_, const Sint32 uvDIMs_, Terrain *pTerrain_) :
-		corners(v_), sysPath(sysPath_), face(face_), uvDIMs(uvDIMs_), pTerrain(pTerrain_)
-	{
-		colors = new Color[NumTexels()];
-	}
-
-	 // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
-	// Use only data local to this object
-	void OnRun()
-	{
-		assert( corners != nullptr );
-		double fracStep = 1.0 / double(UVDims()-1);
-		for( Sint32 v=0; v<UVDims(); v++ ) {
-			for( Sint32 u=0; u<UVDims(); u++ ) {
-				// where in this row & colum are we now.
-				const double ustep = double(u) * fracStep;
-				const double vstep = double(v) * fracStep;
-
-				// get point on the surface of the sphere
-				const vector3d p = GetSpherePoint(ustep, vstep);
-				// get colour using `p`
-				const vector3d colour = pTerrain->GetColor(p, 0.0, p);
-
-				// convert to ubyte and store
-				Color* col = colors + (u + (v * UVDims()));
-				col[0].r = Uint8(colour.x * 255.0);
-				col[0].g = Uint8(colour.y * 255.0);
-				col[0].b = Uint8(colour.z * 255.0);
-				col[0].a = 255;
-			}
-		}
-	}
-
-	Sint32 Face() const { return face; }
-	inline Sint32 UVDims() const { return uvDIMs; }
-	Color* Colors() const { return colors; }
-	const SystemPath& SysPath() const { return sysPath; }
-
-protected:
-	// deliberately prevent copy constructor access
-	STextureFaceRequest(const STextureFaceRequest &r);
-
-	inline Sint32 NumTexels() const { return uvDIMs*uvDIMs; }
-
-	// in patch surface coords, [0,1]
-	inline vector3d GetSpherePoint(const double x, const double y) const {
-		return (corners[0] + x*(1.0-y)*(corners[1]-corners[0]) + x*y*(corners[2]-corners[0]) + (1.0-x)*y*(corners[3]-corners[0])).Normalized();
-	}
-
-	// these are created with the request and are given to the resulting patches
-	Color *colors;
-
-	const vector3d *corners;
-	const SystemPath sysPath;
-	const Sint32 face;
-	const Sint32 uvDIMs;
-	RefCountedPtr<Terrain> pTerrain;
-};
-
-class STextureFaceResult {
-public:
-	struct STextureFaceData {
-		STextureFaceData() {}
-		STextureFaceData(Color *c_, Sint32 uvDims_) : colors(c_), uvDims(uvDims_) {}
-		STextureFaceData(const STextureFaceData &r) : colors(r.colors), uvDims(r.uvDims) {}
-		Color *colors;
-		Sint32 uvDims;
-	};
-
-	STextureFaceResult(const int32_t face_) : mFace(face_) {}
-
-	void addResult(Color *c_, Sint32 uvDims_) {
-		mData = STextureFaceData(c_, uvDims_);
-	}
-
-	inline const STextureFaceData& data() const { return mData; }
-	inline int32_t face() const { return mFace; }
-
-	virtual void OnCancel()	{
-		if( mData.colors ) {delete [] mData.colors; mData.colors = NULL;}
-	}
-
-protected:
-	// deliberately prevent copy constructor access
-	STextureFaceResult(const STextureFaceResult &r);
-
-	const int32_t mFace;
-	STextureFaceData mData;
-};
-
-// ********************************************************************************
-// Overloaded PureJob class to handle generating the mesh for each patch
-// ********************************************************************************
-class SingleTextureFaceJob : public Job
-{
-public:
-	SingleTextureFaceJob(STextureFaceRequest *data) : mData(data), mpResults(nullptr) { /* empty */ }
-	~SingleTextureFaceJob()
-	{
-		if(mpResults) {
-			mpResults->OnCancel();
-			delete mpResults;
-			mpResults = nullptr;
-		}
-	}
-
-	virtual void OnRun() // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
-	{
-		mData->OnRun();
-
-		// add this patches data
-		STextureFaceResult *sr = new STextureFaceResult(mData->Face());
-		sr->addResult(mData->Colors(), mData->UVDims());
-
-		// store the result
-		mpResults = sr;
-	}
-	virtual void OnFinish() // runs in primary thread of the context
-	{
-		GasGiant::OnAddTextureFaceResult( mData->SysPath(), mpResults );
-		mpResults = nullptr;
-	}
-	virtual void OnCancel() {}
-
-private:
-	// deliberately prevent copy constructor access
-	SingleTextureFaceJob(const SingleTextureFaceJob &r);
-
-	std::unique_ptr<STextureFaceRequest> mData;
-	STextureFaceResult *mpResults;
-};
-
 //static
 bool GasGiant::OnAddTextureFaceResult(const SystemPath &path, STextureFaceResult *res)
 {
@@ -422,16 +436,6 @@ bool GasGiant::AddTextureFaceResult(STextureFaceResult *res)
 }
 
 static const Uint32 UV_DIMS = 512;
-
-// generate root face patches of the cube/sphere
-static const vector3d p1 = (vector3d( 1, 1, 1)).Normalized();
-static const vector3d p2 = (vector3d(-1, 1, 1)).Normalized();
-static const vector3d p3 = (vector3d(-1,-1, 1)).Normalized();
-static const vector3d p4 = (vector3d( 1,-1, 1)).Normalized();
-static const vector3d p5 = (vector3d( 1, 1,-1)).Normalized();
-static const vector3d p6 = (vector3d(-1, 1,-1)).Normalized();
-static const vector3d p7 = (vector3d(-1,-1,-1)).Normalized();
-static const vector3d p8 = (vector3d( 1,-1,-1)).Normalized();
 
 static const vector3d s_patchFaces[NUM_PATCHES][4] = 
 { 
@@ -582,16 +586,6 @@ void GasGiant::BuildFirstPatches()
 	if( s_patchContext.Get() == nullptr ) {
 		s_patchContext.Reset(new GasPatchContext(127));
 	}
-
-	// generate root face patches of the cube/sphere
-	static const vector3d p1 = (vector3d( 1, 1, 1)).Normalized();
-	static const vector3d p2 = (vector3d(-1, 1, 1)).Normalized();
-	static const vector3d p3 = (vector3d(-1,-1, 1)).Normalized();
-	static const vector3d p4 = (vector3d( 1,-1, 1)).Normalized();
-	static const vector3d p5 = (vector3d( 1, 1,-1)).Normalized();
-	static const vector3d p6 = (vector3d(-1, 1,-1)).Normalized();
-	static const vector3d p7 = (vector3d(-1,-1,-1)).Normalized();
-	static const vector3d p8 = (vector3d( 1,-1,-1)).Normalized();
 
 	m_patches[0].reset(new GasPatch(s_patchContext, this, p1, p2, p3, p4));
 	m_patches[1].reset(new GasPatch(s_patchContext, this, p4, p3, p7, p8));
