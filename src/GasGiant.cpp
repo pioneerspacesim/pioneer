@@ -18,6 +18,7 @@
 
 
 RefCountedPtr<GasPatchContext> GasGiant::s_patchContext;
+static std::vector<GasGiant*> s_allGasGiants;
 
 static void print_info(const SystemBody *sbody, const Terrain *terrain)
 {
@@ -207,6 +208,8 @@ public:
 GasGiant::GasGiant(const SystemBody *body) : BaseSphere(body),
 	m_hasTempCampos(false), m_tempCampos(0.0)
 {
+	s_allGasGiants.push_back(this);
+
 	//SetUpMaterials is not called until first Render since light count is zero :)
 
 	BuildFirstPatches();
@@ -215,15 +218,211 @@ GasGiant::GasGiant(const SystemBody *body) : BaseSphere(body),
 
 GasGiant::~GasGiant()
 {
+	// update thread should not be able to access us now, so we can safely continue to delete
+	assert(std::count(s_allGasGiants.begin(), s_allGasGiants.end(), this) == 1);
+	s_allGasGiants.erase(std::find(s_allGasGiants.begin(), s_allGasGiants.end(), this));
 }
 
-/* in patch surface coords, [0,1] */
-vector3d GetSpherePoint(const double x, const double y, const vector3d *v) {
-	return (v[0] + x*(1.0-y)*(v[1]-v[0]) + x*y*(v[2]-v[0]) + (1.0-x)*y*(v[3]-v[0])).Normalized();
+class STextureFaceRequest {
+public:
+	STextureFaceRequest(const vector3d *v_, const SystemPath &sysPath_, const Sint32 face_, const Sint32 uvDIMs_, Terrain *pTerrain_) :
+		corners(v_), sysPath(sysPath_), face(face_), uvDIMs(uvDIMs_), pTerrain(pTerrain_)
+	{
+		colors = new Color[NumTexels()];
+	}
+
+	 // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
+	// Use only data local to this object
+	void OnRun()
+	{
+		assert( corners != nullptr );
+		double fracStep = 1.0 / double(UVDims()-1);
+		for( Sint32 v=0; v<UVDims(); v++ ) {
+			for( Sint32 u=0; u<UVDims(); u++ ) {
+				// where in this row & colum are we now.
+				const double ustep = double(u) * fracStep;
+				const double vstep = double(v) * fracStep;
+
+				// get point on the surface of the sphere
+				const vector3d p = GetSpherePoint(ustep, vstep);
+				// get colour using `p`
+				const vector3d colour = pTerrain->GetColor(p, 0.0, p);
+
+				// convert to ubyte and store
+				Color* col = colors + (u + (v * UVDims()));
+				col[0].r = Uint8(colour.x * 255.0);
+				col[0].g = Uint8(colour.y * 255.0);
+				col[0].b = Uint8(colour.z * 255.0);
+				col[0].a = 255;
+			}
+		}
+	}
+
+	Sint32 Face() const { return face; }
+	inline Sint32 UVDims() const { return uvDIMs; }
+	Color* Colors() const { return colors; }
+	const SystemPath& SysPath() const { return sysPath; }
+
+protected:
+	// deliberately prevent copy constructor access
+	STextureFaceRequest(const STextureFaceRequest &r);
+
+	inline Sint32 NumTexels() const { return uvDIMs*uvDIMs; }
+
+	// in patch surface coords, [0,1]
+	inline vector3d GetSpherePoint(const double x, const double y) const {
+		return (corners[0] + x*(1.0-y)*(corners[1]-corners[0]) + x*y*(corners[2]-corners[0]) + (1.0-x)*y*(corners[3]-corners[0])).Normalized();
+	}
+
+	// these are created with the request and are given to the resulting patches
+	Color *colors;
+
+	const vector3d *corners;
+	const SystemPath sysPath;
+	const Sint32 face;
+	const Sint32 uvDIMs;
+	RefCountedPtr<Terrain> pTerrain;
+};
+
+class STextureFaceResult {
+public:
+	struct STextureFaceData {
+		STextureFaceData() {}
+		STextureFaceData(Color *c_, Sint32 uvDims_) : colors(c_), uvDims(uvDims_) {}
+		STextureFaceData(const STextureFaceData &r) : colors(r.colors), uvDims(r.uvDims) {}
+		Color *colors;
+		Sint32 uvDims;
+	};
+
+	STextureFaceResult(const int32_t face_) : mFace(face_) {}
+
+	void addResult(Color *c_, Sint32 uvDims_) {
+		mData = STextureFaceData(c_, uvDims_);
+	}
+
+	inline const STextureFaceData& data() const { return mData; }
+	inline int32_t face() const { return mFace; }
+
+	virtual void OnCancel()	{
+		if( mData.colors ) {delete [] mData.colors;		mData.colors = NULL;}
+	}
+
+protected:
+	// deliberately prevent copy constructor access
+	STextureFaceResult(const STextureFaceResult &r);
+
+	const int32_t mFace;
+	STextureFaceData mData;
+};
+
+// ********************************************************************************
+// Overloaded PureJob class to handle generating the mesh for each patch
+// ********************************************************************************
+class SingleTextureFaceJob : public Job
+{
+public:
+	SingleTextureFaceJob(STextureFaceRequest *data) : mData(data), mpResults(nullptr) { /* empty */ }
+	~SingleTextureFaceJob()
+	{
+		if(mpResults) {
+			mpResults->OnCancel();
+			delete mpResults;
+			mpResults = nullptr;
+		}
+	}
+
+	virtual void OnRun() // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
+	{
+		mData->OnRun();
+
+		// add this patches data
+		STextureFaceResult *sr = new STextureFaceResult(mData->Face());
+		sr->addResult(mData->Colors(), mData->UVDims());
+
+		// store the result
+		mpResults = sr;
+	}
+	virtual void OnFinish() // runs in primary thread of the context
+	{
+		GasGiant::OnAddTextureFaceResult( mData->SysPath(), mpResults );
+		mpResults = nullptr;
+	}
+	virtual void OnCancel() {}
+
+private:
+	// deliberately prevent copy constructor access
+	SingleTextureFaceJob(const SingleTextureFaceJob &r);
+
+	std::unique_ptr<STextureFaceRequest> mData;
+	STextureFaceResult *mpResults;
+};
+
+//static
+bool GasGiant::OnAddTextureFaceResult(const SystemPath &path, STextureFaceResult *res)
+{
+	// Find the correct GeoSphere via it's system path, and give it the split result
+	for(std::vector<GasGiant*>::iterator i=s_allGasGiants.begin(), iEnd=s_allGasGiants.end(); i!=iEnd; ++i) {
+		if( path == (*i)->GetSystemBody()->GetPath() ) {
+			(*i)->AddTextureFaceResult(res);
+			return true;
+		}
+	}
+	// GeoSphere not found to return the data to, cancel and delete it instead
+	if( res ) {
+		res->OnCancel();
+		delete res;
+	}
+	return false;
+}
+
+bool GasGiant::AddTextureFaceResult(STextureFaceResult *res)
+{
+	bool result = false;
+	assert(res);
+	assert(res->face() >= 0 && res->face() < NUM_PATCHES);
+	m_jobColorBuffers[res->face()] = res->data().colors;
+	m_hasJobRequest[res->face()] = false;
+	const Sint32 uvDims = res->data().uvDims;
+	assert( uvDims > 0 && uvDims <= 4096 );
+
+	// tidyup
+	delete res;
+
+	bool bCreateTexture = true;
+	for(int i=0; i<NUM_PATCHES; i++) {
+		bCreateTexture = bCreateTexture & (!m_hasJobRequest[i]);
+	}
+
+	if( bCreateTexture ) {
+		// create texture
+		const vector2f texSize(1.0f, 1.0f);
+		const vector2f dataSize(uvDims, uvDims);
+		const Graphics::TextureDescriptor texDesc(
+			Graphics::TEXTURE_RGBA_8888, 
+			dataSize, texSize, Graphics::LINEAR_CLAMP, 
+			true, false, 0, Graphics::TEXTURE_CUBE_MAP);
+		m_surfaceTexture.Reset(Pi::renderer->CreateTexture(texDesc));
+
+		// update with buffer from above
+		Graphics::TextureCubeData tcd;
+		tcd.posX = m_jobColorBuffers[0];
+		tcd.negX = m_jobColorBuffers[1];
+		tcd.posY = m_jobColorBuffers[2];
+		tcd.negY = m_jobColorBuffers[3];
+		tcd.posZ = m_jobColorBuffers[4];
+		tcd.negZ = m_jobColorBuffers[5];
+		m_surfaceTexture->Update(tcd, dataSize, Graphics::TEXTURE_RGBA_8888);
+
+		// cleanup the temporary color buffer storage
+		for(int i=0; i<NUM_PATCHES; i++) {
+			delete [] m_jobColorBuffers[i];
+		}
+	}
+
+	return result;
 }
 
 static const Uint32 UV_DIMS = 512;
-static const double FRACSTEP = 1.0 / double(UV_DIMS-1);
 
 // generate root face patches of the cube/sphere
 static const vector3d p1 = (vector3d( 1, 1, 1)).Normalized();
@@ -249,56 +448,21 @@ static const vector3d s_patchFaces[NUM_PATCHES][4] =
 
 void GasGiant::GenerateTexture()
 {
-	std::unique_ptr<Color, FreeDeleter> buf[NUM_PATCHES];
-	for(int i=0; i<NUM_PATCHES; i++) {
-		buf[i].reset(static_cast<Color*>(malloc(UV_DIMS * UV_DIMS * 4)));
+	for(int i=0; i<NUM_PATCHES; i++) 
+	{
+		assert(!mHasJobRequest[i]);
+		assert(!m_job[i].HasJob());
+		m_hasJobRequest[i] = true;
+		STextureFaceRequest *ssrd = new STextureFaceRequest(&s_patchFaces[i][0], GetSystemBody()->GetPath(), i, UV_DIMS, GetTerrain());
+		m_job[i] = Pi::Jobs()->Queue(new SingleTextureFaceJob(ssrd));
 	}
-
-	for(int i=0; i<NUM_PATCHES; i++) {
-		Color* const pBuf = buf[i].get();
-		for( Uint32 v=0; v<UV_DIMS; v++ ) {
-			for( Uint32 u=0; u<UV_DIMS; u++ ) {
-				// where in this row & colum are we now.
-				const double ustep = double(u) * FRACSTEP;
-				const double vstep = double(v) * FRACSTEP;
-
-				// get point on the surface of the sphere
-				const vector3d p = GetSpherePoint(ustep, vstep, &s_patchFaces[i][0]);
-				// get colour using `p`
-				const vector3d colour = m_terrain->GetColor(p, 0.0, p);
-
-				// convert to ubyte and store
-				Color* col = pBuf + (u + (v * UV_DIMS));
-				col[0].r = Uint8(colour.x * 255.0);
-				col[0].g = Uint8(colour.y * 255.0);
-				col[0].b = Uint8(colour.z * 255.0);
-				col[0].a = 255;
-			}
-		}
-	}
-
-	// create texture
-	const vector2f texSize(1.0f, 1.0f);
-	const vector2f dataSize(UV_DIMS, UV_DIMS);
-	const Graphics::TextureDescriptor texDesc(
-		Graphics::TEXTURE_RGBA_8888, 
-		dataSize, texSize, Graphics::LINEAR_CLAMP, 
-		false, false, 0, Graphics::TEXTURE_CUBE_MAP);
-	m_surfaceTexture.Reset(Pi::renderer->CreateTexture(texDesc));
-
-	// update with buffer from above
-	Graphics::TextureCubeData tcd;
-	tcd.posX = buf[0].get();
-	tcd.negX = buf[1].get();
-	tcd.posY = buf[2].get();
-	tcd.negY = buf[3].get();
-	tcd.posZ = buf[4].get();
-	tcd.negZ = buf[5].get();
-	m_surfaceTexture->Update(tcd, dataSize, Graphics::TEXTURE_RGBA_8888);
 }
 
 void GasGiant::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const float scale, const std::vector<Camera::Shadow> &shadows)
 {
+	if( !m_surfaceTexture.Valid() )
+		return;
+
 	// store this for later usage in the update method.
 	m_tempCampos = campos;
 	m_hasTempCampos = true;

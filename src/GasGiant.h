@@ -21,6 +21,7 @@ class SystemBody;
 class GasGiant;
 class GasPatch;
 class GasPatchContext;
+class STextureFaceResult;
 
 #define NUM_PATCHES 6
 
@@ -39,11 +40,14 @@ public:
 
 	virtual void Reset() {};
 
+	static bool OnAddTextureFaceResult(const SystemPath &path, STextureFaceResult *res);
+
 private:
 	void BuildFirstPatches();
 	void GenerateTexture();
+	bool AddTextureFaceResult(STextureFaceResult *res);
 
-	static RefCountedPtr<GasPatchContext> GasGiant::s_patchContext;
+	static RefCountedPtr<GasPatchContext> s_patchContext;
 
 	//std::unique_ptr<Graphics::Drawables::Sphere3D> m_baseCloudSurface;
 	std::unique_ptr<GasPatch> m_patches[NUM_PATCHES];
@@ -53,6 +57,10 @@ private:
 
 	virtual void SetUpMaterials();
 	RefCountedPtr<Graphics::Texture> m_surfaceTexture;
+	
+	Color* m_jobColorBuffers[NUM_PATCHES];
+	JobHandle m_job[NUM_PATCHES];
+	bool m_hasJobRequest[NUM_PATCHES];
 };
 
 #endif /* _GASGIANT_H */
