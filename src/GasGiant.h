@@ -21,7 +21,7 @@ class SystemBody;
 class GasGiant;
 class GasPatch;
 class GasPatchContext;
-class STextureFaceResult;
+namespace { class STextureFaceResult; }
 
 #define NUM_PATCHES 6
 
