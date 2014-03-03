@@ -13,6 +13,7 @@
 #include "graphics/Material.h"
 #include "terrain/Terrain.h"
 #include "BaseSphere.h"
+#include "JobQueue.h"
 
 #include <deque>
 

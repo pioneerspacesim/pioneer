@@ -453,7 +453,7 @@ void GasGiant::GenerateTexture()
 {
 	for(int i=0; i<NUM_PATCHES; i++) 
 	{
-		assert(!mHasJobRequest[i]);
+		assert(!m_hasJobRequest[i]);
 		assert(!m_job[i].HasJob());
 		m_hasJobRequest[i] = true;
 		STextureFaceRequest *ssrd = new STextureFaceRequest(&s_patchFaces[i][0], GetSystemBody()->GetPath(), i, UV_DIMS, GetTerrain());
