@@ -34,7 +34,7 @@ public:
 	static void Uninit();
 	static void UpdateAllGasSpheres();
 	static void OnChangeDetailLevel();
-	static void BaseSphere::DrawAtmosphereSurface(Graphics::Renderer *renderer,
+	static void DrawAtmosphereSurface(Graphics::Renderer *renderer,
 		const matrix4x4d &modelView, const vector3d &campos, float rad,
 		Graphics::RenderState *rs, Graphics::Material *mat);
 
