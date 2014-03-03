@@ -22,8 +22,8 @@ class SystemBody;
 
 class BaseSphere {
 public:
-	BaseSphere(const SystemBody *body) : m_sbody(body), m_terrain(Terrain::InstanceTerrain(body)) {};
-	virtual ~BaseSphere() {};
+	BaseSphere(const SystemBody *body);
+	virtual ~BaseSphere();
 
 	virtual void Update()=0;
 	virtual void Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const float scale, const std::vector<Camera::Shadow> &shadows)=0;

@@ -4,6 +4,11 @@
 #include "libs.h"
 #include "Pi.h"
 #include "BaseSphere.h"
+#include "graphics/Material.h"
+
+BaseSphere::BaseSphere(const SystemBody *body) : m_sbody(body), m_terrain(Terrain::InstanceTerrain(body)) {}
+
+BaseSphere::~BaseSphere() {}
 
 //static 
 void BaseSphere::DrawAtmosphereSurface(Graphics::Renderer *renderer,
