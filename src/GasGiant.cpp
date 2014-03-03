@@ -303,7 +303,7 @@ public:
 	inline int32_t face() const { return mFace; }
 
 	virtual void OnCancel()	{
-		if( mData.colors ) {delete [] mData.colors;		mData.colors = NULL;}
+		if( mData.colors ) {delete [] mData.colors; mData.colors = NULL;}
 	}
 
 protected:
@@ -366,7 +366,7 @@ bool GasGiant::OnAddTextureFaceResult(const SystemPath &path, STextureFaceResult
 			return true;
 		}
 	}
-	// GeoSphere not found to return the data to, cancel and delete it instead
+	// GasGiant not found to return the data to, cancel (which deletes it) instead
 	if( res ) {
 		res->OnCancel();
 		delete res;
@@ -379,7 +379,7 @@ bool GasGiant::AddTextureFaceResult(STextureFaceResult *res)
 	bool result = false;
 	assert(res);
 	assert(res->face() >= 0 && res->face() < NUM_PATCHES);
-	m_jobColorBuffers[res->face()] = res->data().colors;
+	m_jobColorBuffers[res->face()].reset( res->data().colors );
 	m_hasJobRequest[res->face()] = false;
 	const Sint32 uvDims = res->data().uvDims;
 	assert( uvDims > 0 && uvDims <= 4096 );
@@ -404,17 +404,17 @@ bool GasGiant::AddTextureFaceResult(STextureFaceResult *res)
 
 		// update with buffer from above
 		Graphics::TextureCubeData tcd;
-		tcd.posX = m_jobColorBuffers[0];
-		tcd.negX = m_jobColorBuffers[1];
-		tcd.posY = m_jobColorBuffers[2];
-		tcd.negY = m_jobColorBuffers[3];
-		tcd.posZ = m_jobColorBuffers[4];
-		tcd.negZ = m_jobColorBuffers[5];
+		tcd.posX = m_jobColorBuffers[0].get();
+		tcd.negX = m_jobColorBuffers[1].get();
+		tcd.posY = m_jobColorBuffers[2].get();
+		tcd.negY = m_jobColorBuffers[3].get();
+		tcd.posZ = m_jobColorBuffers[4].get();
+		tcd.negZ = m_jobColorBuffers[5].get();
 		m_surfaceTexture->Update(tcd, dataSize, Graphics::TEXTURE_RGBA_8888);
 
 		// cleanup the temporary color buffer storage
 		for(int i=0; i<NUM_PATCHES; i++) {
-			delete [] m_jobColorBuffers[i];
+			m_jobColorBuffers[i].reset();
 		}
 	}
 
