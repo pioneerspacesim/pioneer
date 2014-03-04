@@ -173,7 +173,6 @@
     <ClCompile Include="..\..\src\Camera.cpp" />
     <ClCompile Include="..\..\src\CameraController.cpp" />
     <ClCompile Include="..\..\src\CargoBody.cpp" />
-    <ClCompile Include="..\..\src\ChatForm.cpp" />
     <ClCompile Include="..\..\src\CityOnPlanet.cpp" />
     <ClCompile Include="..\..\src\Color.cpp" />
     <ClCompile Include="..\..\src\CRC32.cpp" />
@@ -326,7 +325,6 @@
     <ClInclude Include="..\..\src\Camera.h" />
     <ClInclude Include="..\..\src\CameraController.h" />
     <ClInclude Include="..\..\src\CargoBody.h" />
-    <ClInclude Include="..\..\src\ChatForm.h" />
     <ClInclude Include="..\..\src\CityOnPlanet.h" />
     <ClInclude Include="..\..\src\Color.h" />
     <ClInclude Include="..\..\src\CRC32.h" />
