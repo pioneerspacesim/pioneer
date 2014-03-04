@@ -356,6 +356,9 @@ GasGiant::GasGiant(const SystemBody *body) : BaseSphere(body),
 	m_hasTempCampos(false), m_tempCampos(0.0)
 {
 	s_allGasGiants.push_back(this);
+	
+	for(int i=0; i<NUM_PATCHES; i++) 
+		m_hasJobRequest[i] = false;
 
 	//SetUpMaterials is not called until first Render since light count is zero :)
 
