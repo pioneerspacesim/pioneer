@@ -204,9 +204,6 @@
     <ClCompile Include="..\..\src\LuaSystemPath.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\ChatForm.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\FormController.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -621,9 +618,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaMusic.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\ChatForm.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\FormController.h">
