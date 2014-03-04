@@ -24,7 +24,6 @@ noinst_HEADERS = \
 	Camera.h \
 	CameraController.h \
 	CargoBody.h \
-	ChatForm.h \
 	CityOnPlanet.h \
 	Color.h \
 	Cutscene.h \
@@ -158,7 +157,6 @@ pioneer_SOURCES	= \
 	CameraController.cpp \
 	CargoBody.cpp \
 	Color.cpp \
-	ChatForm.cpp \
 	CityOnPlanet.cpp \
 	CRC32.cpp \
 	DeathView.cpp \
