@@ -1,5 +1,8 @@
 March 2014
 
+   * Fixes
+     * Support horizontally-expanding widgets in table rows
+
    * Internal changes
      * On-demand glyph caching (#2796)
 

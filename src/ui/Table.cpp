@@ -24,13 +24,12 @@ void Table::LayoutAccumulator::AddRow(const std::vector<Widget*> &widgets)
 			Widget *w = widgets[i];
 			if (w) {
 				const Point size(w->CalcLayoutContribution());
-				// XXX handle flags
 				m_columnWidth[i] = std::max(m_columnWidth[i], size.x);
 			}
 		}
-		m_preferredWidth += m_columnWidth[i] + m_columnSpacing;
+		m_preferredWidth = SizeAdd(SizeAdd(m_preferredWidth, m_columnWidth[i]), m_columnSpacing);
 	}
-	m_preferredWidth -= m_columnSpacing;
+	m_preferredWidth = SizeAdd(m_preferredWidth, -m_columnSpacing);
 }
 
 void Table::LayoutAccumulator::Clear()
@@ -43,6 +42,21 @@ void Table::LayoutAccumulator::Clear()
 void Table::LayoutAccumulator::ComputeForWidth(int availWidth) {
 	if (m_columnWidth.empty())
 		return;
+
+	if (m_preferredWidth == SIZE_EXPAND) {
+		int fixedSize = m_columnSpacing * (m_columnWidth.size()-1);
+		int numExpand = 0;
+		for (std::size_t i = 0; i < m_columnWidth.size(); i++)
+			if (m_columnWidth[i] == SIZE_EXPAND)
+				numExpand++;
+			else
+				fixedSize += m_columnWidth[i];
+		assert(numExpand > 0);
+		int expandSize = (availWidth-fixedSize) / numExpand;
+		for (std::size_t i = 0; i < m_columnWidth.size(); i++)
+			if (m_columnWidth[i] == SIZE_EXPAND)
+				m_columnWidth[i] = expandSize;
+	}
 
 	m_columnLeft.resize(m_columnWidth.size());
 
