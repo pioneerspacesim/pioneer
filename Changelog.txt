@@ -1,6 +1,7 @@
 March 2014
 
    * Fixes
+     * Fix volume control layout (#2798)
      * Support horizontally-expanding widgets in table rows
 
    * Internal changes
