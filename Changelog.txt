@@ -3,8 +3,10 @@ March 2014
    * Fixes
      * Fix volume control layout (#2798)
      * Support horizontally-expanding widgets in table rows
+     * Fix compilation with gcc 4.7 (#2799)
 
    * Internal changes
+     * Update terrain to use the new VertexBuffer (#2795)
      * On-demand glyph caching (#2796)
 
 February 2014
@@ -72,7 +74,6 @@ February 2014
      * IterationProxy for save access to embedded containers (#2783)
      * Automatically manage the cancellation of jobs with RAII (#2758)
      * Added a Profile Config to VS2013 (#2785)
-     * Update terrain to use the new VertexBuffer (#2795)
 
 January 2014
 
