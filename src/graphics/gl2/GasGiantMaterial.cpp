@@ -1,7 +1,7 @@
 // Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "GeoSphereMaterial.h"
+#include "GasGiantMaterial.h"
 #include "GeoSphere.h"
 #include "Camera.h"
 #include "StringF.h"
@@ -12,8 +12,8 @@
 namespace Graphics {
 namespace GL2 {
 
-// GeoSphereProgram -------------------------------------------
-GeoSphereProgram::GeoSphereProgram(const std::string &filename, const std::string &defines)
+// GasGiantProgram -------------------------------------------
+GasGiantProgram::GasGiantProgram(const std::string &filename, const std::string &defines)
 {
 	m_name = filename;
 	m_defines = defines;
@@ -21,7 +21,7 @@ GeoSphereProgram::GeoSphereProgram(const std::string &filename, const std::strin
 	InitUniforms();
 }
 
-void GeoSphereProgram::InitUniforms()
+void GasGiantProgram::InitUniforms()
 {
 	Program::InitUniforms();
 	atmosColor.Init("atmosColor", m_program);
@@ -42,12 +42,10 @@ void GeoSphereProgram::InitUniforms()
 	sdivlrad.Init("sdivlrad", m_program);
 }
 
-// GeoSphereSurfaceMaterial -----------------------------------
-Program *GeoSphereSurfaceMaterial::CreateProgram(const MaterialDescriptor &desc)
+// GasGiantSurfaceMaterial -----------------------------------
+Program *GasGiantSurfaceMaterial::CreateProgram(const MaterialDescriptor &desc)
 {
-	assert((desc.effect == EFFECT_GEOSPHERE_TERRAIN) || 
-		(desc.effect == EFFECT_GEOSPHERE_TERRAIN_WITH_LAVA) ||
-		(desc.effect == EFFECT_GEOSPHERE_TERRAIN_WITH_WATER));
+	assert(desc.effect == EFFECT_GASSPHERE_TERRAIN);
 	assert(desc.dirLights < 5);
 	std::stringstream ss;
 	ss << stringf("#define NUM_LIGHTS %0{u}\n", desc.dirLights);
@@ -55,25 +53,23 @@ Program *GeoSphereSurfaceMaterial::CreateProgram(const MaterialDescriptor &desc)
 		const float invNumLights = 1.0f / float(desc.dirLights);
 		ss << stringf("#define INV_NUM_LIGHTS %0{f}\n", invNumLights);
 	}
+	if (desc.textures > 0)
+		ss << "#define TEXTURE0\n";
 	if (desc.quality & HAS_ATMOSPHERE)
 		ss << "#define ATMOSPHERE\n";
-	if (desc.effect == EFFECT_GEOSPHERE_TERRAIN_WITH_LAVA)
-		ss << "#define TERRAIN_WITH_LAVA\n";
-	if (desc.effect == EFFECT_GEOSPHERE_TERRAIN_WITH_WATER)
-		ss << "#define TERRAIN_WITH_WATER\n";
 	if (desc.quality & HAS_ECLIPSES)
 		ss << "#define ECLIPSE\n";
-	return new Graphics::GL2::GeoSphereProgram("geosphere_terrain", ss.str());
+	return new Graphics::GL2::GasGiantProgram("gassphere_base", ss.str());
 }
 
-void GeoSphereSurfaceMaterial::Apply()
+void GasGiantSurfaceMaterial::Apply()
 {
 	SetGSUniforms();
 }
 
-void GeoSphereSurfaceMaterial::SetGSUniforms()
+void GasGiantSurfaceMaterial::SetGSUniforms()
 {
-	GeoSphereProgram *p = static_cast<GeoSphereProgram*>(m_program);
+	GasGiantProgram *p = static_cast<GasGiantProgram*>(m_program);
 	const GeoSphere::MaterialParameters params = *static_cast<GeoSphere::MaterialParameters*>(this->specialParameter0);
 	const SystemBody::AtmosphereParameters ap = params.atmosphere;
 
@@ -88,6 +84,9 @@ void GeoSphereSurfaceMaterial::SetGSUniforms()
 	p->geosphereCenter.Set(ap.center);
 	p->geosphereScaledRadius.Set(ap.planetRadius / ap.scale);
 	p->geosphereScale.Set(ap.scale);
+
+	p->diffuse.Set(this->diffuse);
+	p->texture0.Set(this->texture0, 0);
 
 	// we handle up to three shadows at a time
 	int occultedLight[3] = {-1,-1,-1};
@@ -118,28 +117,6 @@ void GeoSphereSurfaceMaterial::SetGSUniforms()
 	p->srad.Set(srad);
 	p->lrad.Set(lrad);
 	p->sdivlrad.Set(sdivlrad);
-}
-
-// GeoSphereSkyMaterial ---------------------------------------
-Program *GeoSphereSkyMaterial::CreateProgram(const MaterialDescriptor &desc)
-{
-	assert(desc.effect == EFFECT_GEOSPHERE_SKY);
-	assert(desc.dirLights > 0 && desc.dirLights < 5);
-	std::stringstream ss;
-	ss << stringf("#define NUM_LIGHTS %0{u}\n", desc.dirLights);
-	if(desc.dirLights>0) {
-		const float invNumLights = 1.0f / float(desc.dirLights);
-		ss << stringf("#define INV_NUM_LIGHTS %0{f}\n", invNumLights);
-	}
-	ss << "#define ATMOSPHERE\n";
-	if (desc.quality & HAS_ECLIPSES)
-		ss << "#define ECLIPSE\n";
-	return new Graphics::GL2::GeoSphereProgram("geosphere_sky", ss.str());
-}
-
-void GeoSphereSkyMaterial::Apply()
-{
-	SetGSUniforms();
 }
 
 }

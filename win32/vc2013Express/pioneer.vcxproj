@@ -169,6 +169,7 @@
     <ClCompile Include="..\..\contrib\PicoDDS\PicoDDS.cpp" />
     <ClCompile Include="..\..\src\AmbientSounds.cpp" />
     <ClCompile Include="..\..\src\Background.cpp" />
+    <ClCompile Include="..\..\src\BaseSphere.cpp" />
     <ClCompile Include="..\..\src\Body.cpp" />
     <ClCompile Include="..\..\src\Camera.cpp" />
     <ClCompile Include="..\..\src\CameraController.cpp" />
@@ -191,6 +192,7 @@
     <ClCompile Include="..\..\src\GalacticView.cpp" />
     <ClCompile Include="..\..\src\Game.cpp" />
     <ClCompile Include="..\..\src\GameConfig.cpp" />
+    <ClCompile Include="..\..\src\GasGiant.cpp" />
     <ClCompile Include="..\..\src\GeoPatch.cpp" />
     <ClCompile Include="..\..\src\GeoPatchContext.cpp" />
     <ClCompile Include="..\..\src\GeoPatchID.cpp" />
@@ -319,6 +321,7 @@
     <ClInclude Include="..\..\src\AmbientSounds.h" />
     <ClInclude Include="..\..\src\AnimationCurves.h" />
     <ClInclude Include="..\..\src\Background.h" />
+    <ClInclude Include="..\..\src\BaseSphere.h" />
     <ClInclude Include="..\..\src\Body.h" />
     <ClInclude Include="..\..\src\buildopts.h" />
     <ClInclude Include="..\..\src\ByteRange.h" />
@@ -347,6 +350,7 @@
     <ClInclude Include="..\..\src\Game.h" />
     <ClInclude Include="..\..\src\GameConfig.h" />
     <ClInclude Include="..\..\src\gameconsts.h" />
+    <ClInclude Include="..\..\src\GasGiant.h" />
     <ClInclude Include="..\..\src\GeoPatch.h" />
     <ClInclude Include="..\..\src\GeoPatchContext.h" />
     <ClInclude Include="..\..\src\GeoPatchID.h" />
