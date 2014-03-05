@@ -1,7 +1,7 @@
 {
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
-      "message" : "Could you repeat the original request?"
+      "message" : "Você pode refazer o pedido?"
    },
    "DANGER" : {
       "description" : "",
@@ -21,11 +21,11 @@
    },
    "DENY_1" : {
       "description" : "",
-      "message" : "Come back when you have some qualifications."
+      "message" : "Volte quando você tiver qualificações."
    },
    "DENY_2" : {
       "description" : "",
-      "message" : "I don't think you're the pilot I'm looking for."
+      "message" : "Eu não acho que você seja o piloto que estou procurando."
    },
    "DENY_3" : {
       "description" : "",
@@ -33,7 +33,7 @@
    },
    "DENY_4" : {
       "description" : "",
-      "message" : "You're not the kind of pilot I'm looking for."
+      "message" : "Você não é o tipo de piloto que estou procurando."
    },
    "DENY_5" : {
       "description" : "",

@@ -19,7 +19,7 @@
 static const int GEOPATCH_MAX_EDGELEN = 55;
 
 // hold the 16 possible terrain edge connections
-static const int NUM_INDEX_LISTS = 16;
+static const unsigned NUM_INDEX_LISTS = 16;
 
 namespace Graphics { class Renderer; }
 class SystemBody;

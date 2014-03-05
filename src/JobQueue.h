@@ -110,8 +110,8 @@ private:
 	JobClient* m_client;
 
 private:
-	JobHandle(const JobHandle&); // non-copyable. DO NOT DEFINE
-	JobHandle& operator=(const JobHandle&); // non-copyable. DO NOT DEFINE
+	JobHandle(const JobHandle&) = delete;
+	JobHandle& operator=(const JobHandle&) = delete;
 };
 
 // the queue management class. create one from the main thread, and feed your
@@ -174,7 +174,7 @@ public:
 	JobSet(JobSet&& other) : m_queue(other.m_queue), m_jobs(std::move(other.m_jobs)) { other.m_queue = nullptr; }
 	JobSet& operator=(JobSet&& other) { m_queue = other.m_queue; m_jobs = std::move(other.m_jobs); other.m_queue = nullptr; return *this; }
 
-	virtual void Order(Job* job) { m_jobs[job] = m_queue->Queue(job, this); }
+	virtual void Order(Job* job) { m_jobs[job] = std::move(m_queue->Queue(job, this)); }
 	virtual void RemoveJob(JobHandle* handle) { m_jobs.erase(handle->GetJob()); }
 
 private:

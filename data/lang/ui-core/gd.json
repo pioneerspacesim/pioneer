@@ -169,7 +169,7 @@
    },
    "CREDIBLE" : {
       "description" : "For player reputation",
-      "message" : "Credible"
+      "message" : "Creideasach"
    },
    "CREW_CABINS" : {
       "description" : "",
@@ -221,7 +221,7 @@
    },
    "DISPLAY_HUD_TRAILS" : {
       "description" : "",
-      "message" : "Display HUD trails"
+      "message" : "Seall staranan HUD"
    },
    "DISPLAY_NAV_TUNNELS" : {
       "description" : "",
@@ -297,11 +297,11 @@
    },
    "EXPERIENCED" : {
       "description" : "For player reputation",
-      "message" : "Experienced"
+      "message" : "Eòlach"
    },
    "EXPERT" : {
       "description" : "For player reputation",
-      "message" : "Expert"
+      "message" : "Fiosrachail"
    },
    "FAILED" : {
       "description" : "",
@@ -437,11 +437,11 @@
    },
    "INCOMPETENT" : {
       "description" : "For player reputation",
-      "message" : "Incompetent"
+      "message" : "Neo-chomasach"
    },
    "INEXPERIENCED" : {
       "description" : "For player reputation",
-      "message" : "Inexperienced"
+      "message" : "Aineolach"
    },
    "INVERT_MOUSE_Y" : {
       "description" : "",
@@ -549,7 +549,7 @@
    },
    "MASTER" : {
       "description" : "For player reputation",
-      "message" : "Master"
+      "message" : "Maighstir"
    },
    "MASTER_VOL" : {
       "description" : "Master sound in settings option",
@@ -561,7 +561,7 @@
    },
    "MAXIMUM_CREW" : {
       "description" : "",
-      "message" : "Maximum crew"
+      "message" : "An sgioba as motha"
    },
    "MEDIUM" : {
       "description" : "",
@@ -657,7 +657,7 @@
    },
    "NOBODY" : {
       "description" : "For player reputation",
-      "message" : "Nobody"
+      "message" : "Gun urram"
    },
    "NONE" : {
       "description" : "",
@@ -713,7 +713,7 @@
    },
    "ORBITAL_ANALYSIS_NOTES" : {
       "description" : "",
-      "message" : "Circular orbit speed is given for a tangential velocity. The ship should be moving in a direction at 90° to the ship/{name} axis.\n\nDescent speed is an absolute minimum, and is also tangential. A slower speed or a lower angle will result in a course which intersects with the surface of {name}.\n\nEscape speed will in theory work in any direction, as long as the ship does not collide with {name} on the way.\n\t\t"
+      "message" : "Thèid luaths cearcallach na reul-cuairte a shealltainn mar luaths beantanach. Mu chòir dhan long a bhith a' siubhal le 90° an comhair aiseal na luinge/{name}.\n\nTha an luaths teàrnaidh cho beag 's a ghabhas agus tha e beantanach cuideachd. Bheir luaths as ìsle le ceum as ìsle cùrsa dhut a dh'eadar-ghearras ris an uachdar aig {name}.\n\nBu chòir don luaths teichidh obrachadh air comhair sam bith cho fad 's nach buail an long ri {name} air an t-slighe.\n\t\t"
    },
    "OWED" : {
       "description" : "",
@@ -769,7 +769,7 @@
    },
    "PROFESSIONAL" : {
       "description" : "For player reputation",
-      "message" : "Professional"
+      "message" : "Ceàirdeach"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
@@ -777,7 +777,7 @@
    },
    "QUICKLOAD" : {
       "description" : "",
-      "message" : "Quickload"
+      "message" : "Grad-luchdadh"
    },
    "QUIT" : {
       "description" : "",
@@ -801,7 +801,7 @@
    },
    "RELIABLE" : {
       "description" : "For player reputation",
-      "message" : "Reliable"
+      "message" : "Earbsach"
    },
    "REPAIR_X_HULL_DAMAGE_FOR_X" : {
       "description" : "",
@@ -809,7 +809,7 @@
    },
    "REPUTATION" : {
       "description" : "",
-      "message" : "Reputation"
+      "message" : "Cliù"
    },
    "REQUEST_LAUNCH" : {
       "description" : "",
@@ -937,7 +937,7 @@
    },
    "TRUSTWORTHY" : {
       "description" : "For player reputation",
-      "message" : "Trustworthy"
+      "message" : "Urrasach"
    },
    "TYPE" : {
       "description" : "",
@@ -949,7 +949,7 @@
    },
    "UNRELIABLE" : {
       "description" : "",
-      "message" : "Unreliable"
+      "message" : "Neo-earbsach"
    },
    "UP_ACCEL" : {
       "description" : "",

@@ -151,13 +151,19 @@ ui.templates.Settings = function (args)
 			return optionCheckBox(getter, setter, l.MUTE)
 		end
 
-		return ui:VBox():PackEnd(ui:Grid({1,2,1}, 3)
-			:SetCell(0,0,muteBox(Engine.GetMasterMuted, Engine.SetMasterMuted))
-			:SetCell(1,0,volumeSlider(l.MASTER_VOL, Engine.GetMasterVolume, Engine.SetMasterVolume))
-			:SetCell(0,1,muteBox(Engine.GetMusicMuted, Engine.SetMusicMuted))
-			:SetCell(1,1,volumeSlider(l.MUSIC, Engine.GetMusicVolume, Engine.SetMusicVolume))
-			:SetCell(0,2,muteBox(Engine.GetEffectsMuted, Engine.SetEffectsMuted))
-			:SetCell(1,2,volumeSlider(l.EFFECTS, Engine.GetEffectsVolume, Engine.SetEffectsVolume)))
+		return ui:Table():SetColumnSpacing(10)
+			:AddRow({
+				muteBox(Engine.GetMasterMuted, Engine.SetMasterMuted),
+				volumeSlider(l.MASTER_VOL, Engine.GetMasterVolume, Engine.SetMasterVolume),
+			})
+			:AddRow({
+				muteBox(Engine.GetMusicMuted, Engine.SetMusicMuted),
+				volumeSlider(l.MUSIC, Engine.GetMusicVolume, Engine.SetMusicVolume),
+			})
+			:AddRow({
+				muteBox(Engine.GetEffectsMuted, Engine.SetEffectsMuted),
+				volumeSlider(l.EFFECTS, Engine.GetEffectsVolume, Engine.SetEffectsVolume),
+			})
 	end
 
 	local languageTemplate = function()

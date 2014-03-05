@@ -1,11 +1,11 @@
 {
    "FLAVOUR_0_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: System wide plague in the {system} system. Death toll rises."
+      "message" : "NOTIZIA {date}: Epidemia colpisce l'intero sistema {system}. Tasso di mortalità in aumento."
    },
    "FLAVOUR_0_NEWSBODY" : {
       "description" : "Imply high demand for MEDICINE commodity.",
-      "message" : "Plague harvests lives in the {system} system ({sectorx}, {sectory}, {sectorz}). Officials urge for medical aid."
+      "message" : "Epidemia miete vittime nel sistema {system} ({sectorx}, {sectory}, {sectorz}). Ufficiali sollecitano aiuti medici."
    },
    "FLAVOUR_10_HEADLINE" : {
       "description" : "",
@@ -89,11 +89,11 @@
    },
    "FLAVOUR_1_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Conflict escalates in {system} system."
+      "message" : "NOTIZIA {date}: Si aggrava il conflitto nel sistema {system}."
    },
    "FLAVOUR_1_NEWSBODY" : {
       "description" : "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",
-      "message" : "The long standing conflict in the {system} system ({sectorx}, {sectory}, {sectorz}) escalates as the armies engage in full open combat."
+      "message" : "Il conflitto di lunga data nel sistema {system} ({sectorx}, {sectory}, {sectorz}) si aggrava con gli eserciti impegnati in una lotta aperta."
    },
    "FLAVOUR_20_HEADLINE" : {
       "description" : "",
@@ -129,19 +129,19 @@
    },
    "FLAVOUR_2_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Drought in {system}. Crop ruined."
+      "message" : "NOTIZIA {date}: Siccità a {system}. Raccolti rovinati."
    },
    "FLAVOUR_2_NEWSBODY" : {
       "description" : "Hint there will be high demand of GRAIN.",
-      "message" : "Severe drought has ruined the crop in the {system} system ({sectorx}, {sectory}, {sectorz}). System wide famine is feared."
+      "message" : "Una grave siccità ha rovinato i raccolti nel sistema {system} ({sectorx}, {sectory}, {sectorz}). Si teme una carestia in tutto il sistema."
    },
    "FLAVOUR_3_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Vegan lifestyle gains followers in the {system} system."
+      "message" : "NOTIZIA {date}: Lo stile di vita Vegan guadagna seguaci nel sistema {system}."
    },
    "FLAVOUR_3_NEWSBODY" : {
       "description" : "Imply high demand of FRUIT_AND_VEG.",
-      "message" : "Administration in the {system} system ({sectorx}, {sectory}, {sectorz}) seek to increase import to meet the surging demand of all things green ."
+      "message" : "L'amministrazione nel sistema {system} ({sectorx}, {sectory}, {sectorz}) sta cercando di incrementare l'importazione per soddisfare la crescente domanda di vegetali."
    },
    "FLAVOUR_4_HEADLINE" : {
       "description" : "About mob rivals competing for selling drugs",
