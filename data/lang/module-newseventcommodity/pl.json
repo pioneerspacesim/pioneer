@@ -89,7 +89,7 @@
    },
    "FLAVOUR_1_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Conflict escalates in {system} system."
+      "message" : "WIADOMOŚCI {date}: Eskalacja konfliktu w systemie {system}."
    },
    "FLAVOUR_1_NEWSBODY" : {
       "description" : "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",
