@@ -72,7 +72,7 @@ bool EventDispatcher::Dispatch(const Event &event)
 				case KeyboardEvent::KEY_DOWN:
 
 					// all key events to the selected widget first
-					if (m_selected)
+					if (m_selected && m_selected->IsOnTopLayer())
 						return m_selected->TriggerKeyDown(keyEvent);
 
 					return m_baseContainer->TriggerKeyDown(keyEvent);
@@ -80,7 +80,7 @@ bool EventDispatcher::Dispatch(const Event &event)
 				case KeyboardEvent::KEY_UP: {
 
 					// all key events to the selected widget first
-					if (m_selected)
+					if (m_selected && m_selected->IsOnTopLayer())
 						return m_selected->TriggerKeyUp(keyEvent);
 
 					// any modifier coming in will be a specific key, eg left
@@ -117,7 +117,7 @@ bool EventDispatcher::Dispatch(const Event &event)
 			const TextInputEvent textInputEvent = static_cast<const TextInputEvent&>(event);
 
 			// selected widgets get all the text input events
-			if (m_selected)
+			if (m_selected && m_selected->IsOnTopLayer())
 				return m_selected->TriggerTextInput(textInputEvent);
 
 			return m_baseContainer->TriggerTextInput(textInputEvent);
@@ -132,6 +132,10 @@ bool EventDispatcher::Dispatch(const Event &event)
 			switch (mouseButtonEvent.action) {
 
 				case MouseButtonEvent::BUTTON_DOWN: {
+
+					if (!target->IsOnTopLayer())
+						return false;
+
 					if (target->IsDisabled())
 						return false;
 
@@ -174,6 +178,9 @@ bool EventDispatcher::Dispatch(const Event &event)
 						return ret;
 					}
 
+					if (!target->IsOnTopLayer())
+						return false;
+
 					MouseButtonEvent translatedEvent = MouseButtonEvent(mouseButtonEvent.action, mouseButtonEvent.button, m_lastMousePosition-target->GetAbsolutePosition());
 					return target->TriggerMouseUp(translatedEvent);
 				}
@@ -189,6 +196,9 @@ bool EventDispatcher::Dispatch(const Event &event)
 
 			// if there's a mouse-active widget, just send motion events directly into it
 			if (m_mouseActiveReceiver) {
+				if (!m_mouseActiveReceiver->IsOnTopLayer())
+					return false;
+
 				MouseMotionEvent translatedEvent = MouseMotionEvent(m_lastMousePosition-m_mouseActiveReceiver->GetAbsolutePosition(), mouseMotionEvent.rel);
 				return m_mouseActiveReceiver->TriggerMouseMove(translatedEvent);
 			}
@@ -197,7 +207,7 @@ bool EventDispatcher::Dispatch(const Event &event)
 			RefCountedPtr<Widget> target(m_baseContainer->GetWidgetAt(m_lastMousePosition));
 
 			bool ret = false;
-			if (!target->IsDisabled()) {
+			if (!target->IsDisabled() && target->IsOnTopLayer()) {
 				MouseMotionEvent translatedEvent = MouseMotionEvent(m_lastMousePosition-target->GetAbsolutePosition(), mouseMotionEvent.rel);
 				ret = target->TriggerMouseMove(translatedEvent);
 			}
@@ -212,6 +222,9 @@ bool EventDispatcher::Dispatch(const Event &event)
 			m_lastMousePosition = mouseWheelEvent.pos;
 
 			RefCountedPtr<Widget> target(m_baseContainer->GetWidgetAt(m_lastMousePosition));
+			if (!target->IsOnTopLayer())
+				return false;
+
 			return target->TriggerMouseWheel(mouseWheelEvent);
 		}
 
@@ -241,8 +254,10 @@ bool EventDispatcher::Dispatch(const Event &event)
 
 void EventDispatcher::DispatchMouseOverOut(Widget *target, const Point &mousePos)
 {
+	bool onTopLayer = target->IsOnTopLayer();
+
 	// do over/out handling for wherever the mouse is right now
-	if (target != m_lastMouseOverTarget.Get() || target->IsDisabled()) {
+	if (target != m_lastMouseOverTarget.Get() || target->IsDisabled() || !onTopLayer) {
 
 		if (m_lastMouseOverTarget) {
 
@@ -250,7 +265,7 @@ void EventDispatcher::DispatchMouseOverOut(Widget *target, const Point &mousePos
 			m_lastMouseOverTarget->TriggerMouseOut(mousePos-m_lastMouseOverTarget->GetAbsolutePosition());
 		}
 
-		if (target->IsDisabled())
+		if (target->IsDisabled() || !onTopLayer)
 			m_lastMouseOverTarget.Reset(0);
 		else {
 			m_lastMouseOverTarget.Reset(target);
