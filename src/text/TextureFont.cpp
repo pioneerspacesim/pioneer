@@ -328,6 +328,8 @@ TextureFont::Glyph TextureFont::BakeGlyph(Uint32 chr)
 	}
 
 	const FT_BitmapGlyph bmGlyph = FT_BitmapGlyph(ftGlyph);
+	if( 0 == bmGlyph->bitmap.rows )
+		return Glyph();
 
 	if (m_descriptor.outline) {
 		FT_Glyph strokeGlyph;
