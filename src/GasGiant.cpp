@@ -113,7 +113,7 @@ namespace
 		inline const STextureFaceData& data() const { return mData; }
 		inline int32_t face() const { return mFace; }
 
-		virtual void OnCancel()	{
+		void OnCancel()	{
 			if( mData.colors ) {delete [] mData.colors; mData.colors = NULL;}
 		}
 
@@ -132,7 +132,7 @@ namespace
 	{
 	public:
 		SingleTextureFaceJob(STextureFaceRequest *data) : mData(data), mpResults(nullptr) { /* empty */ }
-		~SingleTextureFaceJob()
+		virtual ~SingleTextureFaceJob()
 		{
 			if(mpResults) {
 				mpResults->OnCancel();
@@ -168,17 +168,6 @@ namespace
 	};
 };
 
-static void print_info(const SystemBody *sbody, const Terrain *terrain)
-{
-	printf(
-		"%s:\n"
-		"    height fractal: %s\n"
-		"    colour fractal: %s\n"
-		"    seed: %u\n",
-		sbody->GetName().c_str(), terrain->GetHeightFractalName(), terrain->GetColorFractalName(), sbody->GetSeed());
-}
-
-	
 
 class GasPatchContext : public RefCounted {
 public:
@@ -512,7 +501,6 @@ void GasGiant::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView,
 	}
 
 	Color ambient;
-	Color &emission = m_surfaceMaterial->emissive;
 
 	// save old global ambient
 	const Color oldAmbient = renderer->GetAmbientColor();
