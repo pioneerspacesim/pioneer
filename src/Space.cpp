@@ -410,7 +410,7 @@ static void RelocateStarportIfUnderwaterOrBuried(SystemBody *sbody, Frame *frame
 	matrix3x3d rotNotUnderwaterWithLeastVariation = rot;
 	vector3d posNotUnderwaterWithLeastVariation = pos;
 	const double heightVariationCheckThreshold = 0.008; // max variation to radius radius ratio to check for local slope, ganymede is around 0.01
-	const double terrainHeightVariation = planet->GetGeoSphere()->GetMaxFeatureHeight(); //in radii
+	const double terrainHeightVariation = planet->GetMaxFeatureRadius(); //in radii
 
 	//Output("%s: terrain height variation %f\n", sbody->name.c_str(), terrainHeightVariation);
 

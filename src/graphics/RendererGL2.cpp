@@ -11,6 +11,7 @@
 #include "TextureGL.h"
 #include "VertexArray.h"
 #include "GLDebug.h"
+#include "gl2/GasGiantMaterial.h"
 #include "gl2/GeoSphereMaterial.h"
 #include "gl2/GL2Material.h"
 #include "gl2/GL2RenderState.h"
@@ -622,6 +623,9 @@ Material *RendererGL2::CreateMaterial(const MaterialDescriptor &d)
 		break;
 	case EFFECT_SPHEREIMPOSTOR:
 		mat = new GL2::SphereImpostorMaterial();
+		break;
+	case EFFECT_GASSPHERE_TERRAIN:
+		mat = new GL2::GasGiantSurfaceMaterial();
 		break;
 	default:
 		if (desc.lighting)

@@ -7,7 +7,6 @@
 #include "Frame.h"
 #include "Player.h"
 #include "Space.h"
-#include "GeoSphere.h"
 #include "terrain/Terrain.h"
 #include "Planet.h"
 #include "graphics/Light.h"
@@ -190,7 +189,7 @@ void ObjectViewerView::OnChangeTerrain()
 	sbody->m_life = life;
 
 	// force reload
-	static_cast<TerrainBody*>(body)->GetGeoSphere()->OnChangeDetailLevel();
+	TerrainBody::OnChangeDetailLevel();
 }
 
 void ObjectViewerView::OnRandomSeed()
