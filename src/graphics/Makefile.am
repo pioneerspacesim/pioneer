@@ -30,6 +30,7 @@ noinst_HEADERS = \
 	gl2/GL2RenderTarget.h \
 	gl2/GL2VertexBuffer.h \
 	gl2/FresnelColourMaterial.h \
+	gl2/GasGiantMaterial.h \
 	gl2/GeoSphereMaterial.h \
 	gl2/MultiMaterial.h \
 	gl2/Program.h \
@@ -57,6 +58,7 @@ libgraphics_a_SOURCES = \
 	gl2/GL2RenderTarget.cpp \
 	gl2/GL2VertexBuffer.cpp \
 	gl2/FresnelColourMaterial.cpp \
+	gl2/GasGiantMaterial.cpp \
 	gl2/GeoSphereMaterial.cpp \
 	gl2/MultiMaterial.cpp \
 	gl2/Program.cpp \
