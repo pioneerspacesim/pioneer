@@ -329,6 +329,15 @@ TextureFont::Glyph TextureFont::BakeGlyph(Uint32 chr)
 
 	const FT_BitmapGlyph bmGlyph = FT_BitmapGlyph(ftGlyph);
 
+	glyph.advX = float(m_face->glyph->advance.x) / 64.f + m_descriptor.advanceXAdjustment;
+	glyph.advY = float(m_face->glyph->advance.y) / 64.f;
+
+	if (!bmGlyph->bitmap.rows || !bmGlyph->bitmap.width) {
+		// no bitmap, we can just return advance metrics (for eg space)
+		FT_Done_Glyph(ftGlyph);
+		return glyph;
+	}
+
 	if (m_descriptor.outline) {
 		FT_Glyph strokeGlyph;
 
@@ -461,9 +470,6 @@ TextureFont::Glyph TextureFont::BakeGlyph(Uint32 chr)
 	}
 
 	FT_Done_Glyph(ftGlyph);
-
-	glyph.advX = float(m_face->glyph->advance.x) / 64.f + m_descriptor.advanceXAdjustment;
-	glyph.advY = float(m_face->glyph->advance.y) / 64.f;
 
 	return glyph;
 }
