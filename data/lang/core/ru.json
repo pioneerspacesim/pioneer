@@ -857,7 +857,7 @@
    },
    "MAP_WARP_TO_SELECTED_SYSTEM" : {
       "description" : "",
-      "message" : "Warp to Selected System"
+      "message" : "Гиперпрыжок в выбранную систему"
    },
    "MASS" : {
       "description" : "",
@@ -1405,7 +1405,7 @@
    },
    "SECTOR_MAP_VIEW" : {
       "description" : "",
-      "message" : "Sector Map View"
+      "message" : "Просмотр карты"
    },
    "SECTOR_X_Y_Z" : {
       "description" : "",

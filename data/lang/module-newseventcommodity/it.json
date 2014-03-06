@@ -25,67 +25,67 @@
    },
    "FLAVOUR_12_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Infrastructure breakdown as computers malfunction in the {system} system."
+      "message" : "NOTIZIA {date}: Crollo delle infrastrutture informatiche nel sistema {system}."
    },
    "FLAVOUR_12_NEWSBODY" : {
       "description" : "Keep clear of the too obvious names Microsoft, or Macrosoft, etc.",
-      "message" : "A nasty virus caused all Nachosoft computers in the {system} system ({sectorx}, {sectory}, {sectorz}) to suffer a complete hard drive meltdown. The faulty units make excellent paper weights, computer scientists say."
+      "message" : "Un virus malevolo ha provocato la completa distruzione delle unità di memoria di tutti i computer Nachosoft nel sistema {system} ({sectorx}, {sectory}, {sectorz}). Le unità guaste sono ora degli ottimi fermacarte, affermano gli informatici."
    },
    "FLAVOUR_13_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Robot uprising in the {system} system."
+      "message" : "NOTIZIA {date}: Ribellione dei robot nel sistema {system}."
    },
    "FLAVOUR_13_NEWSBODY" : {
       "description" : "Imply that nobody wants to buy ROBOTS anymore.",
-      "message" : "It is now man against machine in the {system} system ({sectorx}, {sectory}, {sectorz}), as \"behavioural malfunction\" causes home consumers to loose faith in robot servants."
+      "message" : "Ora si tratta di umani contro macchine nel sistema {system} ({sectorx}, {sectory}, {sectorz}). A causa della \"malfunzione comportamentale\" i consumatori hanno perso fiducia nei robot servitori."
    },
    "FLAVOUR_14_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Solar flare causes biggest black out in a millennium in the {system} system."
+      "message" : "NOTIZIA {date}: Eruzione solare causa il più esteso blackout del millennio nel sistema {system}."
    },
    "FLAVOUR_14_NEWSBODY" : {
       "description" : "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
-      "message" : "The system wide power outage wrecks havoc to the {system} system ({sectorx}, {sectory}, {sectorz}). Consumers line up to buy the last Trapperware to replace their fridges, as producer has run out of raw material."
+      "message" : "L'interruzione di corrente in tutto il sistema ha portato il caos nel sistema {system} ({sectorx}, {sectory}, {sectorz}). I consumetori stanno facendo lunghe file per comprare gli ultimi Trappolware per rimpiazzare i propri frigoriferi, mentre i produttori hanno esaurito le materie prime."
    },
    "FLAVOUR_15_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Police raids crime syndicate in the {system} system, key leaders arrested."
+      "message" : "NOTIZIA {date}: Retata della polizia al clan della malavita nel sistema {system}, leader arrestati."
    },
    "FLAVOUR_15_NEWSBODY" : {
       "description" : "imply high demand of NARCOTICS.",
-      "message" : "The administration in the {system} system ({sectorx}, {sectory}, {sectorz}) hopes crime will diminish as drugs are no longer available, since the arrest of several mobsters."
+      "message" : "L'amministrazione del sistema {system} ({sectorx}, {sectory}, {sectorz}) spera che i crimini diminuiscano, ora che le droghe non sono più reperibili in seguito all'arresto di vari malviventi."
    },
    "FLAVOUR_16_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Serious accident during the annual {system} Great Steam Fair."
+      "message" : "NOTIZIA {data}: Grave incidente durante l'annuale Fiera del Vapore nel sistema {system}."
    },
    "FLAVOUR_16_NEWSBODY" : {
       "description" : "Imply high demand of FARM_MACHINERY.",
-      "message" : "During the Great Steam Fair in the {system} system ({sectorx}, {sectory}, {sectorz}) an attempt for the galactic record in biggest tractor pulling contest ended in mayhem as one of the contestants lost control of his contraption, destroying all other participants' machines. Administration says it could spell doom for the local farmers."
+      "message" : "Durante la grande Fiera del Vapore nel sistema {system} ({sectorx}, {sectory}, {sectorz}), un tentativo di battere il record galattico di traino con trattore è finito in un disastro quando uno dei candidati ha perso il controllo del proprio attrezzo, distruggento le macchine di tutti gli altri partecipanti. L'amministrazione afferma che questo potrebbe essere la rovina per gli agricoltori locali. "
    },
    "FLAVOUR_17_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: New found riches in the {system} system."
+      "message" : "NOTIZIA {date}: Nuove ricchezze trovate nel sistema {system}. "
    },
    "FLAVOUR_17_NEWSBODY" : {
       "description" : "Imply vast abundance of METAL_ORE.",
-      "message" : "Miners in the {system} system ({sectorx}, {sectory}, {sectorz}) discovered a vast deposit of ore of never before seen proportions."
+      "message" : "I minatori nel sistema {system} ({sectorx}, {sectory}, {sectorz}) hanno scoperto un deposito minerario  di proprorizioni mai viste."
    },
    "FLAVOUR_18_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Economic reform in the {system} system a great success."
+      "message" : "NOTIZIA {date}: Grande successo della riforma economica nel sistema {system}."
    },
    "FLAVOUR_18_NEWSBODY" : {
       "description" : "Imply vast demand of CONSUMER_GOODS.",
-      "message" : "The wheels are spinning ever faster in the {system} system ({sectorx}, {sectory}, {sectorz}) as consumers have more money to spend."
+      "message" : "Gli ingranaggi hanno iniziato a girare molto velocemente nel sistema {system} ({sectorx}, {sectory}, {sectorz}), ora che i consumatori hanno più soldi da spendere."
    },
    "FLAVOUR_19_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: It is raining gold in the {system} system."
+      "message" : "NOTIZIA {data}: Pioggia d'oro nel sistema {system}."
    },
    "FLAVOUR_19_NEWSBODY" : {
       "description" : "Imply vast abundance of PRECIOUS_METALS.",
-      "message" : "A man in the {system} system ({sectorx}, {sectory}, {sectorz}) has inherited an invention from his late uncle, allowing him to transmute any solid into gold and platinum. Economists expect a destabilization of the economy in the system, unless the machine breaks down soon."
+      "message" : "Un uomo nel sistema {system} ({sectorx}, {sectory}, {sectorz}) ha ereditato da un suo vecchio zio un'invenzione in grado di trasformare in oro e platino ogni solido. Gli economisti si aspettano una destabilizzazione dell'economia del sistema, a meno che la macchina non si rompa presto."
    },
    "FLAVOUR_1_HEADLINE" : {
       "description" : "",
@@ -97,35 +97,35 @@
    },
    "FLAVOUR_20_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: The harvest of the gas giant algae in the {system} system sets new record."
+      "message" : "NOTIZIA {date}: La mietitura delle alghe dalle giganti gassose del sistema {system} raggiunge un nuovo record."
    },
    "FLAVOUR_20_NEWSBODY" : {
       "description" : "Imply vast abundance of FERTILIZER. Soylent is a reference to the book/movie Soylent Green.",
-      "message" : "As {system} ({sectorx}, {sectory}, {sectorz}) enters a phase favourable to the yellow algae found in the atmosphere of a local gas giant, the harvest has be exceptionally good for the fertilizer company Soylent Yellow Inc."
+      "message" : "Mentre {system} ({sectorx}, {sectory}, {sectorz}) entra in una fase favorevole per via dell'alga gialla trovata nell'atmosfera di una gigante gassosa locale, le messi sono state particolarmente buone per l'azienda di fertilizzanti Soylent Yellow Inc."
    },
    "FLAVOUR_21_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Treaty signed in the {system} system for more \"humane\" warfare."
+      "message" : "NOTIZIA {date}: Fimato trattato nel sistema {system} per l'uso di armi più \"umane\"."
    },
    "FLAVOUR_21_NEWSBODY" : {
       "description" : "Imply vast abundance of NERVE_GAS.",
-      "message" : "Although the conflicting parties in the {system} system ({sectorx}, {sectory}, {sectorz}) have not signed an official cease fire, they have agreed to stop using chemical weapons."
+      "message" : "Anche se le fazioni in conflitto nel sistema {system} ({sectorx}, {sectory}, {sectorz}) non hanno ancora firmato la cessazione delle ostilità, si sono accordate sull'interrompere l'uso delle armi chimiche."
    },
    "FLAVOUR_22_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Police on strike in the {system} system. Citizens left to fend for themselves."
+      "message" : "NOTIZIA {date}: Polizia in sciopero nel sistema {system}. Cittadini abbandonati a se stessi. "
    },
    "FLAVOUR_22_NEWSBODY" : {
       "description" : "Imply high demand of HAND_WEAPONS.",
-      "message" : "In a protest against understaffing the {system} system ({sectorx}, {sectory}, {sectorz}) police refuse to work. Meanwhile, civilians form vigilante groups and arm themselves with pitchforks and firearms as they prepare for the worst."
+      "message" : "Come protesta per la carenza di personale, la polizia del sistema {system} ({sectorx}, {sectory}, {sectorz}) si rifiuta di tornare a lavoro. Nel frattempo, la popolazione civile ha formato dei gruppi di vigilanti armati di forche ed armi da fuoco, pensando di prepararsi al peggio."
    },
    "FLAVOUR_23_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Grand opening of a new factory in the {system} system."
+      "message" : "NOTIZIA {date}: Grande apertura di una nuova fabbrica nel sistema {system}."
    },
    "FLAVOUR_23_NEWSBODY" : {
       "description" : "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox.",
-      "message" : "The new Amissionox factory in the {system} system ({sectorx}, {sectory}, {sectorz}) is now up and running. It will produce high quality knifes capable of cutting through a space boot; however, due to low supply of resources needed for the blades, they have not yet reached full production potential."
+      "message" : "La nuova fabbrica della Amissionox nel sistema {system} ({sectorx}, {sectory}, {sectorz}) è ora completamente operativa. Produrrà coltelli di alta qualità capaci di tagliare anche degli stivali spaziali; tuttavia, a causa della carenza di materiali necessari per produrre le lame, non sono ancora riusciti ad arrivare a pieno regime nella produzione."
    },
    "FLAVOUR_2_HEADLINE" : {
       "description" : "",
@@ -193,27 +193,27 @@
    },
    "GRATEFUL_GREETING_0" : {
       "description" : "",
-      "message" : "Welcome trader! We will give you a good price for your {cargo}."
+      "message" : "Benvenuto commerciante! Le offriremo dei buoni prezzi per: {cargo}."
    },
    "GRATEFUL_GREETING_1" : {
       "description" : "",
-      "message" : "Your arrival is most welcome, as is your shipment of {cargo}!"
+      "message" : "Il suo arrivo è molto ben accetto, così come la sua fornitura di {cargo}!"
    },
    "GRATEFUL_GREETING_2" : {
       "description" : "",
-      "message" : "Greetings and salutations! You should have no trouble selling {cargo} here."
+      "message" : "Auguri e saluti! Non dovrebbe avere problemi a vendere {cargo} qua."
    },
    "GRATEFUL_GREETING_3" : {
       "description" : "",
-      "message" : "Welcome! Finally some {cargo}."
+      "message" : "Benvenuti! Finalmente un po' di {cargo}."
    },
    "GRATEFUL_GREETING_4" : {
       "description" : "",
-      "message" : "How we've longed for some {cargo}."
+      "message" : "Avevamo proprio bisogno di {cargo}."
    },
    "GRATEFUL_GREETING_5" : {
       "description" : "",
-      "message" : "Welcome! Your shipment of {cargo} will sell out fast here."
+      "message" : "Benvenuto! Il vostro carico di {cargo} qua si venderà molto velocemente."
    },
    "NEWSPAPER_CIS" : {
       "description" : "",

@@ -1,11 +1,11 @@
 {
    "FLAVOUR_0_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: System wide plague in the {system} system. Death toll rises."
+      "message" : "НОВОСТИ {date}: Обширное распространение чумы в системе {system}. Число погибших растет."
    },
    "FLAVOUR_0_NEWSBODY" : {
       "description" : "Imply high demand for MEDICINE commodity.",
-      "message" : "Plague harvests lives in the {system} system ({sectorx}, {sectory}, {sectorz}). Officials urge for medical aid."
+      "message" : "Чума косит жизни в системе {system} ({sectorx}, {sectory}, {sectorz}). Чиновники призывают о медицинской помощи."
    },
    "FLAVOUR_10_HEADLINE" : {
       "description" : "",
@@ -89,11 +89,11 @@
    },
    "FLAVOUR_1_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Conflict escalates in {system} system."
+      "message" : "НОВОСТИ {date}: Конфликт обостряется в системе {system}."
    },
    "FLAVOUR_1_NEWSBODY" : {
       "description" : "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",
-      "message" : "The long standing conflict in the {system} system ({sectorx}, {sectory}, {sectorz}) escalates as the armies engage in full open combat."
+      "message" : "Давний конфликт в системе {system} ({sectorx}, {sectory}, {sectorz}) обострился - армии сошлись в полностью открытом бою."
    },
    "FLAVOUR_20_HEADLINE" : {
       "description" : "",
@@ -129,11 +129,11 @@
    },
    "FLAVOUR_2_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Drought in {system}. Crop ruined."
+      "message" : "НОВОСТИ {date}: Засуха в системе {system}. Урожай погиб."
    },
    "FLAVOUR_2_NEWSBODY" : {
       "description" : "Hint there will be high demand of GRAIN.",
-      "message" : "Severe drought has ruined the crop in the {system} system ({sectorx}, {sectory}, {sectorz}). System wide famine is feared."
+      "message" : "Жестокая засуха погубила урожай в системе {system} ({sectorx}, {sectory}, {sectorz}). Жители всей системы опасаются голода."
    },
    "FLAVOUR_3_HEADLINE" : {
       "description" : "",
@@ -145,19 +145,19 @@
    },
    "FLAVOUR_4_HEADLINE" : {
       "description" : "About mob rivals competing for selling drugs",
-      "message" : "NEWS {date}: Drug war in the {system} system. Law enforcers struggle to regain control."
+      "message" : "НОВОСТИ {date}: Война за наркотики в системе {system}. Правоохранители бороться за восстановление порядка."
    },
    "FLAVOUR_4_NEWSBODY" : {
       "description" : "Imply high abundance of NARCOTICS.",
-      "message" : "The market has been flooded by cheap drugs in the {system} system ({sectorx}, {sectory}, {sectorz}), as rivalling drug lords compete to increase their power."
+      "message" : "Рынок был наводнён дешёвыми лекарствами в системе {system} ({sectorx}, {sectory}, {sectorz}), из-за соперничающих наркобаронов конкурирующие за расширение своей власти."
    },
    "FLAVOUR_5_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Slaves rebel in the {system} system. Agricultural industry comes to a halt."
+      "message" : "НОВОСТИ {date}: Рабы бунтуют в системе {system}. Агропром на грани развала."
    },
    "FLAVOUR_5_NEWSBODY" : {
       "description" : "Imply high demand of SLAVES.",
-      "message" : "Workers in the {system} system ({sectorx}, {sectory}, {sectorz}) have cast off their chains in rebellion as they refuse to work the Lotus fields. Economy comes to a stand still as no cheap workers can be found."
+      "message" : "Рабочие в системе {system} ({sectorx}, {sectory}, {sectorz}) восстали, сбросив цепи, так как отказываются работать на плантациях Lotus'а. Экономика падает, а дешевую рабочую силу невозможно найти."
    },
    "FLAVOUR_6_HEADLINE" : {
       "description" : "(Quibble as a derivative of Tribble from Star Trek TOS)",

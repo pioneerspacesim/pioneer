@@ -101,7 +101,7 @@
    },
    "CHANGE_BINDING" : {
       "description" : "",
-      "message" : "Change Binding"
+      "message" : "Назначить"
    },
    "CHIEF_MECHANIC" : {
       "description" : "",
@@ -121,7 +121,7 @@
    },
    "CLEAR" : {
       "description" : "",
-      "message" : "Clear"
+      "message" : "Очистить"
    },
    "CLIENT" : {
       "description" : "",
@@ -221,7 +221,7 @@
    },
    "DISPLAY_HUD_TRAILS" : {
       "description" : "",
-      "message" : "Display HUD trails"
+      "message" : "Отображать тонель в HUD"
    },
    "DISPLAY_NAV_TUNNELS" : {
       "description" : "",
@@ -697,7 +697,7 @@
    },
    "OK" : {
       "description" : "",
-      "message" : "Ok"
+      "message" : "Ок"
    },
    "OPTIONS" : {
       "description" : "",
