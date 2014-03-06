@@ -31,7 +31,7 @@ public:
 	GasGiant(const SystemBody *body);
 	virtual ~GasGiant();
 
-	virtual void Update() {};
+	virtual void Update();
 	virtual void Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const float scale, const std::vector<Camera::Shadow> &shadows);
 
 	virtual double GetHeight(const vector3d &p) const { return 0.0; }
@@ -42,6 +42,7 @@ public:
 	virtual void Reset() {};
 
 	static bool OnAddTextureFaceResult(const SystemPath &path, STextureFaceResult *res);
+	static void UpdateAllGasGiants();
 
 private:
 	void BuildFirstPatches();
@@ -62,6 +63,7 @@ private:
 	std::unique_ptr<Color[]> m_jobColorBuffers[NUM_PATCHES];
 	JobHandle m_job[NUM_PATCHES];
 	bool m_hasJobRequest[NUM_PATCHES];
+	float m_timeDelay;
 };
 
 #endif /* _GASGIANT_H */

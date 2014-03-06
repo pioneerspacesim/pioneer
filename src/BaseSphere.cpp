@@ -4,11 +4,41 @@
 #include "libs.h"
 #include "Pi.h"
 #include "BaseSphere.h"
+#include "GeoSphere.h"
+#include "GasGiant.h"
 #include "graphics/Material.h"
+
+int BaseSphere::s_vtxGenCount = 0;
 
 BaseSphere::BaseSphere(const SystemBody *body) : m_sbody(body), m_terrain(Terrain::InstanceTerrain(body)) {}
 
 BaseSphere::~BaseSphere() {}
+
+//static 
+void BaseSphere::Init()
+{
+	GeoSphere::Init();
+}
+
+//static 
+void BaseSphere::Uninit()
+{
+	GeoSphere::Uninit();
+}
+
+//static 
+void BaseSphere::UpdateAllBaseSphereDerivatives()
+{
+	GeoSphere::UpdateAllGeoSpheres();
+	GasGiant::UpdateAllGasGiants();
+}
+
+//static 
+void BaseSphere::OnChangeDetailLevel()
+{
+	GeoSphere::OnChangeDetailLevel();
+}
+
 
 //static 
 void BaseSphere::DrawAtmosphereSurface(Graphics::Renderer *renderer,

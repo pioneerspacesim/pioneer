@@ -60,8 +60,6 @@ public:
 	static bool OnAddSingleSplitResult(const SystemPath &path, SSingleSplitResult *res);
 	// in sbody radii
 	virtual double GetMaxFeatureHeight() const { return m_terrain->GetMaxHeight(); }
-	static int GetVtxGenCount() { return s_vtxGenCount; }
-	static void ClearVtxGenCount() { s_vtxGenCount = 0; }
 
 	bool AddQuadSplitResult(SQuadSplitResult *res);
 	bool AddSingleSplitResult(SSingleSplitResult *res);
@@ -86,8 +84,6 @@ private:
 	inline vector3d GetColor(const vector3d &p, double height, const vector3d &norm) const {
 		return m_terrain->GetColor(p, height, norm);
 	}
-
-	static int s_vtxGenCount;
 
 	static RefCountedPtr<GeoPatchContext> s_patchContext;
 

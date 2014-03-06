@@ -5,6 +5,7 @@
 #include "GasGiant.h"
 #include "perlin.h"
 #include "Pi.h"
+#include "Game.h"
 #include "RefCounted.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
@@ -20,7 +21,7 @@ RefCountedPtr<GasPatchContext> GasGiant::s_patchContext;
 
 namespace
 {
-	
+	static const float s_initialDelayTime = 5.0f; // 5 seconds seems like a reasonable default
 	static std::vector<GasGiant*> s_allGasGiants;
 
 	// generate root face patches of the cube/sphere
@@ -341,8 +342,18 @@ public:
 	}
 };
 
+// static
+void GasGiant::UpdateAllGasGiants()
+{
+	PROFILE_SCOPED()
+	for(std::vector<GasGiant*>::iterator i = s_allGasGiants.begin(); i != s_allGasGiants.end(); ++i)
+	{
+		(*i)->Update();
+	}
+}
+
 GasGiant::GasGiant(const SystemBody *body) : BaseSphere(body),
-	m_hasTempCampos(false), m_tempCampos(0.0)
+	m_hasTempCampos(false), m_tempCampos(0.0), m_timeDelay(s_initialDelayTime)
 {
 	s_allGasGiants.push_back(this);
 	
@@ -351,8 +362,7 @@ GasGiant::GasGiant(const SystemBody *body) : BaseSphere(body),
 
 	//SetUpMaterials is not called until first Render since light count is zero :)
 
-	BuildFirstPatches();
-	GenerateTexture();
+	//BuildFirstPatches and GenerateTexture are only called when we first attempt to render
 }
 
 GasGiant::~GasGiant()
@@ -453,10 +463,35 @@ void GasGiant::GenerateTexture()
 	}
 }
 
+void GasGiant::Update()
+{
+	// assuming that we haven't already generated the texture from the render call.
+	if( m_timeDelay > 0.0f )
+	{
+		m_timeDelay -= Pi::game->GetTimeStep();
+		if( m_timeDelay <= 0.0001f && !m_surfaceTexture.Valid() )
+		{
+			// Use the fact that we have a patch as a latch to prevent repeat generation requests.
+			if( m_patches[0].get() )
+				return;
+
+			BuildFirstPatches();
+			return;
+		}
+	}
+}
+
 void GasGiant::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const float scale, const std::vector<Camera::Shadow> &shadows)
 {
 	if( !m_surfaceTexture.Valid() )
+	{
+		// Use the fact that we have a patch as a latch to prevent repeat generation requests.
+		if( m_patches[0].get() )
+			return;
+
+		BuildFirstPatches();
 		return;
+	}
 
 	// store this for later usage in the update method.
 	m_tempCampos = campos;
@@ -584,4 +619,6 @@ void GasGiant::BuildFirstPatches()
 	m_patches[3].reset(new GasPatch(s_patchContext, this, p2, p1, p5, p6));
 	m_patches[4].reset(new GasPatch(s_patchContext, this, p3, p2, p6, p7));
 	m_patches[5].reset(new GasPatch(s_patchContext, this, p8, p7, p6, p5));
+
+	GenerateTexture();
 }

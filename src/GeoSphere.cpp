@@ -18,7 +18,6 @@
 #include <deque>
 #include <algorithm>
 
-int GeoSphere::s_vtxGenCount = 0;
 RefCountedPtr<GeoPatchContext> GeoSphere::s_patchContext;
 
 // must be odd numbers
