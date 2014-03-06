@@ -1,7 +1,7 @@
 {
    "FLAVOUR_0_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: System wide plague in the {system} system. Death toll rises."
+      "message" : "AKTUALNOŚCI {date}:  Ogólnosystemowa plaga w systemie {system}. Ilość ofiar rośnie."
    },
    "FLAVOUR_0_NEWSBODY" : {
       "description" : "Imply high demand for MEDICINE commodity.",
@@ -89,7 +89,7 @@
    },
    "FLAVOUR_1_HEADLINE" : {
       "description" : "",
-      "message" : "WIADOMOŚCI {date}: Eskalacja konfliktu w systemie {system}."
+      "message" : "AKTUALNOŚCI {date}: Eskalacja konfliktu w systemie {system}."
    },
    "FLAVOUR_1_NEWSBODY" : {
       "description" : "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",
@@ -129,7 +129,7 @@
    },
    "FLAVOUR_2_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Drought in {system}. Crop ruined."
+      "message" : "AKTUALNOŚCI {date}: Susza w systemie {system}. Plony zniszczone."
    },
    "FLAVOUR_2_NEWSBODY" : {
       "description" : "Hint there will be high demand of GRAIN.",
@@ -137,7 +137,7 @@
    },
    "FLAVOUR_3_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Vegan lifestyle gains followers in the {system} system."
+      "message" : "AKTUALNOŚCI {date}: Wegański styl życia zyskuje zwolenników w systemie {system}."
    },
    "FLAVOUR_3_NEWSBODY" : {
       "description" : "Imply high demand of FRUIT_AND_VEG.",
@@ -145,7 +145,7 @@
    },
    "FLAVOUR_4_HEADLINE" : {
       "description" : "About mob rivals competing for selling drugs",
-      "message" : "NEWS {date}: Drug war in the {system} system. Law enforcers struggle to regain control."
+      "message" : "AKTUALNOŚCI {date}: Wojna narkotykowa w systemie {system}. Stróże prawa walczą o odzyskanie kontroli."
    },
    "FLAVOUR_4_NEWSBODY" : {
       "description" : "Imply high abundance of NARCOTICS.",
@@ -153,7 +153,7 @@
    },
    "FLAVOUR_5_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Slaves rebel in the {system} system. Agricultural industry comes to a halt."
+      "message" : "AKTUALNOŚCI {date}: Bunt niewolników w systemie {system}. Doszło do zatrzymania przemysłu rolnego."
    },
    "FLAVOUR_5_NEWSBODY" : {
       "description" : "Imply high demand of SLAVES.",
@@ -161,15 +161,15 @@
    },
    "FLAVOUR_6_HEADLINE" : {
       "description" : "(Quibble as a derivative of Tribble from Star Trek TOS)",
-      "message" : "NEWS {date}: Joyous Festival of the Quibble in the {system} system."
+      "message" : "AKTUALNOŚCI {date}: Radosny Festiwal Quibbla w systemie {system}."
    },
    "FLAVOUR_6_NEWSBODY" : {
       "description" : "Stress drunken or intoxicated by alcohol, as this will imply high demand of LIQUOR.",
-      "message" : "The drunken celebrations in the {system} system ({sectorx}, {sectory}, {sectorz}) will be ongoing, as they honour the furry little creature."
+      "message" : "Pijackie obchody w systemie {system} ({sectorx},{sectory},{sectorz}) są odprawiane by uhonorować małe futrzane stworzonko."
    },
    "FLAVOUR_7_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Industry screeches to a halt in the {system} system."
+      "message" : "AKTUALNOŚCI {date}: Przemysł gwałtownie hamuje w systemie {system}."
    },
    "FLAVOUR_7_NEWSBODY" : {
       "description" : "Imply demand of INDUSTRIAL_MACHINERY.",

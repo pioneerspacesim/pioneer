@@ -9,19 +9,19 @@
    },
    "FLAVOUR_10_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Company threatening continual survival of {system} system."
+      "message" : "NOTIZIA {date}: Azienda minaccia la sopravvivenza del sistema {system}."
    },
    "FLAVOUR_10_NEWSBODY" : {
       "description" : "Imply high demand of AIR_PROCESSORS commodity. (Prekall as in Rekall, the fictional company from the Schwarzenegger-movie Total Recall (1990)).",
-      "message" : "Prekall Inc. are seeking to monopolize air itself throughout {system} ({sectorx}, {sectory}, {sectorz}). Take a deep breath, it might be the last one that is free of charge."
+      "message" : "La Prekall Inc. sta cercando di monopolizare l'aria stessa nel sistema {system} ({sectorx}, {sectory}, {sectorz}). Fate un profondo respiro, potrebbe essere l'ultimo gratuito."
    },
    "FLAVOUR_11_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Mysterious disappearance of cattle in the {system} system."
+      "message" : "NOTIZIA {date}: Misteriosa scomparsa di bestiame nel sistema {system}."
    },
    "FLAVOUR_11_NEWSBODY" : {
       "description" : "Imply high demand of ANIMAL_MEAT.",
-      "message" : "As if by a stroke of a higher power, the farmers in the {system} system ({sectorx}, {sectory}, {sectorz}) woke up to empty barns. \"It's the cattle theft of the century\", police reports."
+      "message" : "Come fosse l'intervento di un potere superiore, gli allevatori nel sistema {system} ({sectorx}, {sectory}, {sectorz}) si sono svegliati trovando le stalle vuote. \"È il furto di bestiame del secolo\", rifesrisce la polizia."
    },
    "FLAVOUR_12_HEADLINE" : {
       "description" : "",
@@ -145,51 +145,51 @@
    },
    "FLAVOUR_4_HEADLINE" : {
       "description" : "About mob rivals competing for selling drugs",
-      "message" : "NEWS {date}: Drug war in the {system} system. Law enforcers struggle to regain control."
+      "message" : "NOTIZIA {date}: Guerra di droga nel sistema {system}. Le forze di polizia in difficoltà nel riprendere il controllo."
    },
    "FLAVOUR_4_NEWSBODY" : {
       "description" : "Imply high abundance of NARCOTICS.",
-      "message" : "The market has been flooded by cheap drugs in the {system} system ({sectorx}, {sectory}, {sectorz}), as rivalling drug lords compete to increase their power."
+      "message" : "Nel sistema {system} ({sectorx}, {sectory}, {sectorz}), il mercato è stato innondato di droghe economiche a causa dei tentativi di incrementare il proprio potere da parte di signori della droga rivali."
    },
    "FLAVOUR_5_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Slaves rebel in the {system} system. Agricultural industry comes to a halt."
+      "message" : "NOTIZIA {date}: Ribellione di schiavi nel sistema {system}. Industria agricola in stallo."
    },
    "FLAVOUR_5_NEWSBODY" : {
       "description" : "Imply high demand of SLAVES.",
-      "message" : "Workers in the {system} system ({sectorx}, {sectory}, {sectorz}) have cast off their chains in rebellion as they refuse to work the Lotus fields. Economy comes to a stand still as no cheap workers can be found."
+      "message" : "I lavoratori del sistema {system} ({sectorx}, {sectory}, {sectorz}) hanno strappato le proprie catene ribellandosi e rifiutandosi di lavorare nei campi di Loto. L'economia è arrivata ad uno stallo a causa dell'irreperibiltà di lavoratori a basso prezzo."
    },
    "FLAVOUR_6_HEADLINE" : {
       "description" : "(Quibble as a derivative of Tribble from Star Trek TOS)",
-      "message" : "NEWS {date}: Joyous Festival of the Quibble in the {system} system."
+      "message" : "NOTIZIA {date}: Gioioso festival del Quibble nel sistema {system}."
    },
    "FLAVOUR_6_NEWSBODY" : {
       "description" : "Stress drunken or intoxicated by alcohol, as this will imply high demand of LIQUOR.",
-      "message" : "The drunken celebrations in the {system} system ({sectorx}, {sectory}, {sectorz}) will be ongoing, as they honour the furry little creature."
+      "message" : "Le ebbre celebrazioni nel sistema {system} ({sectorx}, {sectory}, {sectorz}) proseguiranno, onorando la piccola creatura pelosa."
    },
    "FLAVOUR_7_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Industry screeches to a halt in the {system} system."
+      "message" : "NOTIZIA {date}: Industrie bloccate nel sistema {system}."
    },
    "FLAVOUR_7_NEWSBODY" : {
       "description" : "Imply demand of INDUSTRIAL_MACHINERY.",
-      "message" : "Long time neglect of machine maintenance causes industrial standstill in the {system} system ({sectorx}, {sectory}, {sectorz})."
+      "message" : "Il protrarsi della mancata manutenzione dei macchinari ha causato un blocco dell'industria nel sistema {system} "
    },
    "FLAVOUR_8_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Mining accident reported from the {system} system."
+      "message" : "NOTIZIA {date}: Incidente in miniera nel sistema {system} system."
    },
    "FLAVOUR_8_NEWSBODY" : {
       "description" : "Imply high demand of MINING_MACHINERY.",
-      "message" : "A mine collapsed in the {system} system ({sectorx}, {sectory}, {sectorz}), killing hundreds of workers and destroying important machinery vital for the economy."
+      "message" : "Una miniera è collassata nel sistema {system} ({sectorx}, {sectory}, {sectorz}), uccidendo centinaia di operai e distruggendo attrezzature vitali per l'economia."
    },
    "FLAVOUR_9_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Fashion craze in the {system} system."
+      "message" : "NOTIZIA {date}: Mania della moda nel sistema {system}."
    },
    "FLAVOUR_9_NEWSBODY" : {
       "description" : "live pets is important, since it implies high demand of LIVE_ANIMALS commodity.",
-      "message" : "The latest trend in the {system} system ({sectorx}, {sectory}, {sectorz}) has it real live pets are the next big thing."
+      "message" : "L'ultima tendenza nel sistema {system} ({sectorx}, {sectory}, {sectorz}) è di utilizzare animali vivi."
    },
    "GRATEFUL_GREETING_0" : {
       "description" : "",
@@ -217,78 +217,78 @@
    },
    "NEWSPAPER_CIS" : {
       "description" : "",
-      "message" : "The Confederate Chronicle"
+      "message" : "Croncaca Confederata"
    },
    "NEWSPAPER_FED" : {
       "description" : "",
-      "message" : "The Federal Times"
+      "message" : "Tempi Federali"
    },
    "NEWSPAPER_IMP" : {
       "description" : "",
-      "message" : "The Imperial Herald"
+      "message" : "L'Araldo Imperiale"
    },
    "NEWSPAPER_IND_0" : {
       "description" : "",
-      "message" : "The Pioneer Courier"
+      "message" : "Il Corriere del Pioniere"
    },
    "NEWSPAPER_IND_1" : {
       "description" : "",
-      "message" : "The Independent Tribune"
+      "message" : "Il Tribuno Indipendente"
    },
    "NEWSPAPER_IND_10" : {
       "description" : "",
-      "message" : "The Orbital Observer"
+      "message" : "L'Osservatore Orbitale"
    },
    "NEWSPAPER_IND_2" : {
       "description" : "",
-      "message" : "The Galactic Post"
+      "message" : "L'Annuncio Galattico"
    },
    "NEWSPAPER_IND_3" : {
       "description" : "",
-      "message" : "The Universal Sun"
+      "message" : "Il Sole Universale"
    },
    "NEWSPAPER_IND_4" : {
       "description" : "",
-      "message" : "The Planetary Press"
+      "message" : "La Stampa Planetaria"
    },
    "NEWSPAPER_IND_5" : {
       "description" : "",
-      "message" : "The Royal Gazette"
+      "message" : "La Gazzetta Reale"
    },
    "NEWSPAPER_IND_6" : {
       "description" : "",
-      "message" : "The Universal Mail"
+      "message" : "La Missiva Universale"
    },
    "NEWSPAPER_IND_7" : {
       "description" : "",
-      "message" : "The Daily Express"
+      "message" : "Il Giornaliero Espresso"
    },
    "NEWSPAPER_IND_8" : {
       "description" : "",
-      "message" : "The Tellurian Telegraph"
+      "message" : "Il Telegrafo Terrestre"
    },
    "NEWSPAPER_IND_9" : {
       "description" : "",
-      "message" : "The Satellite Journal"
+      "message" : "Il Giornale Satellitare"
    },
    "TITLE_0" : {
       "description" : "",
-      "message" : "Fresh report from {newspaper}"
+      "message" : "Notizie fresche da {newspaper}"
    },
    "TITLE_1" : {
       "description" : "",
-      "message" : "News from {newspaper}"
+      "message" : "Notizie da {newspaper}"
    },
    "TITLE_2" : {
       "description" : "",
-      "message" : "Report from {newspaper}"
+      "message" : "Cronaca da {newspaper}"
    },
    "TITLE_3" : {
       "description" : "",
-      "message" : "The latest from {newspaper}"
+      "message" : "Le ultime da {newspaper}"
    },
    "TITLE_4" : {
       "description" : "",
-      "message" : "Notes from {newspaper}"
+      "message" : "Informazioni da {newspaper}"
    }
 }
