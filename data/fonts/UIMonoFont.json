@@ -1,0 +1,12 @@
+{
+    "default" : {
+        "FontFile" : "Inconsolata.otf",
+        "PixelWidth" : 18,
+        "PixelHeight" : 18
+    },
+    "ru" : {
+        "FontFile" : "DejaVuSansMono.ttf",
+        "PixelWidth" : 16,
+        "PixelHeight" : 16
+    }
+}

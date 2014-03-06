@@ -4,7 +4,8 @@
 #include "FontDescriptor.h"
 #include "FileSystem.h"
 #include "FloatComparison.h"
-#include "IniConfig.h"
+#include "utils.h"
+#include "json/json.h"
 
 namespace Text {
 
@@ -15,23 +16,36 @@ namespace Text {
 
 	FontDescriptor FontDescriptor::Load(FileSystem::FileSource &fs, const std::string &path, const std::string &lang, float scale_x, float scale_y)
 	{
-		IniConfig cfg;
+		Json::Reader reader;
+		Json::Value data;
 
-		cfg.Read(fs, path);
+		RefCountedPtr<FileSystem::FileData> fd = FileSystem::gameDataFiles.ReadFile(path);
+		if (!fd) {
+			Output("couldn't open font file '%s'\n", path.c_str());
+			abort();
+		}
 
-		std::string section;
-		if (cfg.HasEntry(lang, "FontFile")) { section = lang; }
+		if (!reader.parse(fd->GetData(), fd->GetData()+fd->GetSize(), data)) {
+			Output("couldn't read font file '%s': %s\n", path.c_str(), reader.getFormattedErrorMessages().c_str());
+			abort();
+		}
 
-		const float pointSize = cfg.Float(section, "PointSize", 0.0f);
-		if (!is_zero_general(pointSize))
-			return FontDescriptor(cfg.String(section, "FontFile", ""), pointSize);
+		fd.Reset();
+
+		Json::Value langData = data.get(lang, Json::nullValue);
+		if (langData.isNull())
+			langData = data["default"];
+		if (!langData.isObject()) {
+			Output("couldn't parse font file '%s': no lang section for '%s'\n", path.c_str(), lang.c_str());
+			abort();
+		}
 
 		return FontDescriptor(
-			cfg.String(section, "FontFile", ""),
-			cfg.Int(section, "PixelWidth", 12) / scale_x,
-			cfg.Int(section, "PixelHeight", 12) / scale_y,
-			cfg.Int(section, "Outline", 0) ? true : false,
-			cfg.Float(section, "AdvanceXAdjustment", 0.0f)
+			langData.get("FontFile", "").asString(),
+			langData.get("PixelWidth", 12).asInt() / scale_x,
+			langData.get("PixelHeight", 12).asInt() / scale_y,
+			langData.get("Outline", false).asBool(),
+			langData.get("AdvanceXAdjustment",  0.0f).asFloat()
 		);
 	}
 
