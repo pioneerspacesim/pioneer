@@ -34,6 +34,9 @@ public:
 	Job() : cancelled(false), m_handle(nullptr) {}
 	virtual ~Job();
 
+	Job(const Job&) = delete;
+	Job& operator=(const Job&) = delete;
+
 	virtual void OnRun() = 0;
 	virtual void OnFinish() = 0;
 	virtual void OnCancel() {}
@@ -50,10 +53,6 @@ private:
 
 	bool cancelled;
 	JobHandle* m_handle;
-
-private:
-	Job(const Job&); // non-copyable. DO NOT DEFINE
-	Job& operator=(const Job&); // non-copyable. DO NOT DEFINE
 };
 
 
@@ -94,6 +93,9 @@ public:
 	JobHandle& operator=(JobHandle&& other);
 	~JobHandle();
 
+	JobHandle(const JobHandle&) = delete;
+	JobHandle& operator=(const JobHandle&) = delete;
+
 	bool HasJob() const { return m_job != nullptr; }
 	Job* GetJob() const { return m_job; }
 
@@ -108,10 +110,6 @@ private:
 	Job* m_job;
 	JobQueue* m_queue;
 	JobClient* m_client;
-
-private:
-	JobHandle(const JobHandle&) = delete;
-	JobHandle& operator=(const JobHandle&) = delete;
 };
 
 // the queue management class. create one from the main thread, and feed your
@@ -173,6 +171,9 @@ public:
 	JobSet(JobQueue* queue) : m_queue(queue) { }
 	JobSet(JobSet&& other) : m_queue(other.m_queue), m_jobs(std::move(other.m_jobs)) { other.m_queue = nullptr; }
 	JobSet& operator=(JobSet&& other) { m_queue = other.m_queue; m_jobs = std::move(other.m_jobs); other.m_queue = nullptr; return *this; }
+
+	JobSet(const JobSet&) = delete;
+	JobSet& operator=(const JobSet& other) = delete;
 
 	virtual void Order(Job* job) { m_jobs[job] = std::move(m_queue->Queue(job, this)); }
 	virtual void RemoveJob(JobHandle* handle) { m_jobs.erase(handle->GetJob()); }

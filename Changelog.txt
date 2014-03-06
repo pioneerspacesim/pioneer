@@ -4,6 +4,7 @@ March 2014
      * Fix volume control layout (#2798)
      * Support horizontally-expanding widgets in table rows
      * Fix compilation with gcc 4.7 (#2799)
+     * Fix crash with gcc 4.7 compiled binary (#2802)
 
    * Internal changes
      * Update terrain to use the new VertexBuffer (#2795)

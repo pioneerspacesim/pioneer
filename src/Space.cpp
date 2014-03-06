@@ -637,8 +637,7 @@ void Space::GenSectorCache(const SystemPath* here)
 		}
 	}
 	m_sectorCache = Sector::cache.NewSlaveCache();
-	// XXX temp workaround possible GCC 4.7 bug. see #2802
-	//m_sectorCache->FillCache(paths);
+	m_sectorCache->FillCache(paths);
 }
 
 void Space::GenBody(double at_time, SystemBody *sbody, Frame *f)

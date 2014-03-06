@@ -134,8 +134,10 @@ void JobHandle::Unlink()
 
 JobHandle::JobHandle(JobHandle&& other) : m_job(other.m_job), m_queue(other.m_queue), m_client(other.m_client)
 {
-	assert(m_job->GetHandle() == &other);
-	m_job->SetHandle(this);
+	if (m_job) {
+		assert(m_job->GetHandle() == &other);
+		m_job->SetHandle(this);
+	}
 	other.m_job = nullptr;
 	other.m_queue = nullptr;
 	other.m_client = nullptr;
@@ -148,8 +150,10 @@ JobHandle& JobHandle::operator=(JobHandle&& other)
 	m_job = other.m_job;
 	m_queue = other.m_queue;
 	m_client = other.m_client;
-	assert(m_job->GetHandle() == &other);
-	m_job->SetHandle(this);
+	if (m_job) {
+		assert(m_job->GetHandle() == &other);
+		m_job->SetHandle(this);
+	}
 	other.m_job = nullptr;
 	other.m_queue = nullptr;
 	other.m_client = nullptr;
