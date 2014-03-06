@@ -7,7 +7,6 @@ local Game = import("Game")
 local Event = import("Event")
 local Format = import("Format")
 local Lang = import("Lang")
-local Comms = import("Comms")
 local ShipDef = import("ShipDef")
 
 local Model = import("SceneGraph.Model")
@@ -15,6 +14,7 @@ local ModelSkin = import("SceneGraph.ModelSkin")
 local ModelSpinner = import("UI.Game.ModelSpinner")
 
 local SmallLabeledButton = import("ui/SmallLabeledButton")
+local MessageBox = import("ui/MessageBox")
 
 local ui = Engine.ui
 
@@ -81,7 +81,7 @@ local function buyShip (sos)
 
 	local cost = def.basePrice - tradeInValue(ShipDef[Game.player.shipId])
 	if player:GetMoney() < cost then
-		Comms.Message(l.YOU_NOT_ENOUGH_MONEY)
+		MessageBox.Message(l.YOU_NOT_ENOUGH_MONEY)
 		return
 	end
 	player:AddMoney(-cost)

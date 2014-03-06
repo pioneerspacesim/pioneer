@@ -4,7 +4,6 @@
 local Engine = import("Engine")
 local Lang = import("Lang")
 local Game = import("Game")
-local Comms = import("Comms")
 
 local ui = Engine.ui
 local l = Lang.GetResource("ui-core");
