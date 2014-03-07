@@ -21,7 +21,7 @@ RefCountedPtr<GasPatchContext> GasGiant::s_patchContext;
 
 namespace
 {
-	static const float s_initialDelayTime = 5.0f; // 5 seconds seems like a reasonable default
+	static const float s_initialDelayTime = 60.0f; // (perhaps) 60 seconds seems like a reasonable default
 	static std::vector<GasGiant*> s_allGasGiants;
 
 	// generate root face patches of the cube/sphere
