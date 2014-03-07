@@ -65,11 +65,11 @@
    },
    "FLAVOUR_17_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: New found riches in the {system} system."
+      "message" : "NYHETER {date}: Nyfunna rikedomar i {system} systemet."
    },
    "FLAVOUR_17_NEWSBODY" : {
       "description" : "Imply vast abundance of METAL_ORE.",
-      "message" : "Miners in the {system} system ({sectorx}, {sectory}, {sectorz}) discovered a vast deposit of ore of never before seen proportions."
+      "message" : "Gruvarbetare i {system} systemet ({sectorx}, {sectory}, {sectorz}) har hittat väldiga malmfyndigheter av aldrig sett slag."
    },
    "FLAVOUR_18_HEADLINE" : {
       "description" : "",
