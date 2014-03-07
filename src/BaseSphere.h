@@ -34,8 +34,6 @@ public:
 	static void Uninit();
 	static void UpdateAllBaseSphereDerivatives();
 	static void OnChangeDetailLevel();
-	static int GetVtxGenCount() { return s_vtxGenCount; }
-	static void ClearVtxGenCount() { s_vtxGenCount = 0; }
 	static void DrawAtmosphereSurface(Graphics::Renderer *renderer,
 		const matrix4x4d &modelView, const vector3d &campos, float rad,
 		Graphics::RenderState *rs, Graphics::Material *mat);
@@ -71,8 +69,6 @@ protected:
 
 	//special parameters for shaders
 	MaterialParameters m_materialParameters;
-
-	static int s_vtxGenCount;
 };
 
 #endif /* _GEOSPHERE_H */

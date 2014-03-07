@@ -38,7 +38,6 @@ public:
 
 	virtual double GetHeight(const vector3d &p) const {
 		const double h = m_terrain->GetHeight(p);
-		++s_vtxGenCount;
 #ifdef DEBUG
 		// XXX don't remove this. Fix your fractals instead
 		// Fractals absolutely MUST return heights >= 0.0 (one planet radius)
@@ -77,9 +76,6 @@ private:
 
 	bool m_hasTempCampos;
 	vector3d m_tempCampos;
-
-	uint32_t mCurrentNumPatches;
-	uint64_t mCurrentMemAllocatedToPatches;
 
 	inline vector3d GetColor(const vector3d &p, double height, const vector3d &norm) const {
 		return m_terrain->GetColor(p, height, norm);

@@ -177,7 +177,7 @@ void GeoSphere::Reset()
 #define GEOSPHERE_TYPE	(GetSystemBody()->type)
 
 GeoSphere::GeoSphere(const SystemBody *body) : BaseSphere(body),
-	m_hasTempCampos(false), m_tempCampos(0.0), mCurrentNumPatches(0), mCurrentMemAllocatedToPatches(0), m_initStage(eBuildFirstPatches)
+	m_hasTempCampos(false), m_tempCampos(0.0), m_initStage(eBuildFirstPatches)
 {
 	print_info(body, m_terrain.Get());
 
