@@ -9,6 +9,7 @@ March 2014
    * Internal changes
      * Update terrain to use the new VertexBuffer (#2795)
      * On-demand glyph caching (#2796, #2804)
+     * Gas Giant rewrite (#2803)
 
    * Script and UI API changes
      * New `inherits` function in the `utils` module to quickly implement
