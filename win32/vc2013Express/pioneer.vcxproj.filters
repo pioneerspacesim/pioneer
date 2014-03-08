@@ -411,6 +411,12 @@
     <ClCompile Include="..\..\src\Sensors.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\GasGiant.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\BaseSphere.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h">
@@ -828,6 +834,12 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Sensors.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BaseSphere.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GasGiant.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

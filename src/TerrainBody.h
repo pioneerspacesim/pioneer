@@ -6,7 +6,7 @@
 
 #include "Body.h"
 #include "galaxy/StarSystem.h"
-#include "GeoSphere.h"
+#include "BaseSphere.h"
 #include "Camera.h"
 
 class Frame;
@@ -24,25 +24,27 @@ public:
 	double GetTerrainHeight(const vector3d &pos) const;
 	bool IsSuperType(SystemBody::BodySuperType t) const;
 	virtual const SystemBody *GetSystemBody() const { return m_sbody; }
-	GeoSphere *GetGeoSphere() const { return m_geosphere; }
 
 	// returns value in metres
 	double GetMaxFeatureRadius() const { return m_maxFeatureHeight; }
+
+	// implements calls to all relevant terrain management sub-systems
+	static void OnChangeDetailLevel();
 
 protected:
 	TerrainBody(SystemBody*);
 	TerrainBody();
 	virtual ~TerrainBody();
 
-	void InitTerrainBody(SystemBody *);
+	void InitTerrainBody();
 
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
 
 private:
-	SystemBody *m_sbody;
+	const SystemBody *m_sbody;
 	double m_mass;
-	GeoSphere *m_geosphere;
+	std::unique_ptr<BaseSphere> m_baseSphere;
 	double m_maxFeatureHeight;
 };
 

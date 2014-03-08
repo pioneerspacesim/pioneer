@@ -13,7 +13,7 @@
 #include "Frame.h"
 #include "GalacticView.h"
 #include "Game.h"
-#include "GeoSphere.h"
+#include "BaseSphere.h"
 #include "Intro.h"
 #include "Lang.h"
 #include "LuaComms.h"
@@ -494,7 +494,7 @@ void Pi::Init(const std::map<std::string,std::string> &options)
 
 	draw_progress(gauge, label, 0.6f);
 
-	GeoSphere::Init();
+	BaseSphere::Init();
 	draw_progress(gauge, label, 0.7f);
 
 	CityOnPlanet::Init();
@@ -652,7 +652,7 @@ void Pi::Quit()
 	Sound::Uninit();
 	SpaceStation::Uninit();
 	CityOnPlanet::Uninit();
-	GeoSphere::Uninit();
+	BaseSphere::Uninit();
 	Galaxy::Uninit();
 	Faction::Uninit();
 	FaceGenManager::Destroy();
@@ -693,7 +693,7 @@ void Pi::SetView(View *v)
 
 void Pi::OnChangeDetailLevel()
 {
-	GeoSphere::OnChangeDetailLevel();
+	BaseSphere::OnChangeDetailLevel();
 }
 
 void Pi::HandleEvents()
@@ -1148,7 +1148,7 @@ void Pi::MainLoop()
 					break;
 				}
 				game->TimeStep(step);
-				GeoSphere::UpdateAllGeoSpheres();
+				BaseSphere::UpdateAllBaseSphereDerivatives();
 
 				accumulator -= step;
 			}
@@ -1163,7 +1163,7 @@ void Pi::MainLoop()
 		} else {
 			// paused
 			PROFILE_SCOPED_RAW("paused")
-			GeoSphere::UpdateAllGeoSpheres();
+			BaseSphere::UpdateAllBaseSphereDerivatives();
 		}
 		frame_stat++;
 
@@ -1280,16 +1280,15 @@ void Pi::MainLoop()
 
 			snprintf(
 				fps_readout, sizeof(fps_readout),
-				"%d fps (%.1f ms/f), %d phys updates, %d triangles, %.3f M tris/sec, %d terrain vtx/sec, %d glyphs/sec\n"
+				"%d fps (%.1f ms/f), %d phys updates, %d triangles, %.3f M tris/sec, %d glyphs/sec\n"
 				"Lua mem usage: %d MB + %d KB + %d bytes",
 				frame_stat, (1000.0/frame_stat), phys_stat, Pi::statSceneTris, Pi::statSceneTris*frame_stat*1e-6,
-				GeoSphere::GetVtxGenCount(), Text::TextureFont::GetGlyphCount(),
+				Text::TextureFont::GetGlyphCount(),
 				lua_memMB, lua_memKB, lua_memB
 			);
 			frame_stat = 0;
 			phys_stat = 0;
 			Text::TextureFont::ClearGlyphCount();
-			GeoSphere::ClearVtxGenCount();
 			if (SDL_GetTicks() - last_stats > 1200) last_stats = SDL_GetTicks();
 			else last_stats += 1000;
 		}
