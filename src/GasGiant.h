@@ -58,6 +58,7 @@ private:
 	vector3d m_tempCampos;
 
 	virtual void SetUpMaterials();
+	RefCountedPtr<Graphics::Texture> m_surfaceTextureSmall;
 	RefCountedPtr<Graphics::Texture> m_surfaceTexture;
 	
 	std::unique_ptr<Color[]> m_jobColorBuffers[NUM_PATCHES];

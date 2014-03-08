@@ -432,11 +432,17 @@ bool GasGiant::AddTextureFaceResult(STextureFaceResult *res)
 		for(int i=0; i<NUM_PATCHES; i++) {
 			m_jobColorBuffers[i].reset();
 		}
+
+		// change the planet texture for the new higher resolution texture
+		if( m_surfaceMaterial.get() ) {
+			m_surfaceMaterial->texture0 = m_surfaceTexture.Get();
+		}
 	}
 
 	return result;
 }
 
+static const Uint32 UV_DIMS_SMALL = 16;
 static const Uint32 UV_DIMS = 512;
 
 static const vector3d s_patchFaces[NUM_PATCHES][4] = 
@@ -451,8 +457,62 @@ static const vector3d s_patchFaces[NUM_PATCHES][4] =
 	{p1, p2, p3, p4}  // -z
 };
 
+// in patch surface coords, [0,1]
+inline vector3d GetSpherePointFromCorners(const double x, const double y, const vector3d *corners) {
+	return (corners[0] + x*(1.0-y)*(corners[1]-corners[0]) + x*y*(corners[2]-corners[0]) + (1.0-x)*y*(corners[3]-corners[0])).Normalized();
+}
+
 void GasGiant::GenerateTexture()
 {
+	// create small texture
+	{
+		const vector2f texSize(1.0f, 1.0f);
+		const vector2f dataSize(UV_DIMS_SMALL, UV_DIMS_SMALL);
+		const Graphics::TextureDescriptor texDesc(
+			Graphics::TEXTURE_RGBA_8888, 
+			dataSize, texSize, Graphics::LINEAR_CLAMP, 
+			false, false, 0, Graphics::TEXTURE_CUBE_MAP);
+		m_surfaceTextureSmall.Reset(Pi::renderer->CreateTexture(texDesc));
+
+		const Terrain *pTerrain = GetTerrain();
+		const double fracStep = 1.0 / double(UV_DIMS_SMALL-1);
+
+		Graphics::TextureCubeData tcd;
+		std::unique_ptr<Color> bufs[NUM_PATCHES];
+		for(int i=0; i<NUM_PATCHES; i++) {
+			Color *colors = new Color[ (UV_DIMS_SMALL*UV_DIMS_SMALL) ];
+			for( Sint32 v=0; v<UV_DIMS_SMALL; v++ ) {
+				for( Sint32 u=0; u<UV_DIMS_SMALL; u++ ) {
+					// where in this row & colum are we now.
+					const double ustep = double(u) * fracStep;
+					const double vstep = double(v) * fracStep;
+
+					// get point on the surface of the sphere
+					const vector3d p = GetSpherePointFromCorners(ustep, vstep, &s_patchFaces[i][0]);
+					// get colour using `p`
+					const vector3d colour = pTerrain->GetColor(p, 0.0, p);
+
+					// convert to ubyte and store
+					Color* col = colors + (u + (v * UV_DIMS_SMALL));
+					col[0].r = Uint8(colour.x * 255.0);
+					col[0].g = Uint8(colour.y * 255.0);
+					col[0].b = Uint8(colour.z * 255.0);
+					col[0].a = 255;
+				}
+			}
+			bufs[i].reset(colors);
+		}
+
+		// update with buffer from above
+		tcd.posX = bufs[0].get();
+		tcd.negX = bufs[1].get();
+		tcd.posY = bufs[2].get();
+		tcd.negY = bufs[3].get();
+		tcd.posZ = bufs[4].get();
+		tcd.negZ = bufs[5].get();
+		m_surfaceTextureSmall->Update(tcd, dataSize, Graphics::TEXTURE_RGBA_8888);
+	}
+	
 	for(int i=0; i<NUM_PATCHES; i++) 
 	{
 		assert(!m_hasJobRequest[i]);
@@ -486,11 +546,10 @@ void GasGiant::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView,
 	if( !m_surfaceTexture.Valid() )
 	{
 		// Use the fact that we have a patch as a latch to prevent repeat generation requests.
-		if( m_patches[0].get() )
-			return;
-
-		BuildFirstPatches();
-		return;
+		if( !m_patches[0].get() )
+		{
+			BuildFirstPatches();
+		}
 	}
 
 	// store this for later usage in the update method.
@@ -594,7 +653,8 @@ void GasGiant::SetUpMaterials()
 	}
 	surfDesc.textures = 1;
 	m_surfaceMaterial.reset(Pi::renderer->CreateMaterial(surfDesc));
-	m_surfaceMaterial->texture0 = m_surfaceTexture.Get();
+	assert(m_surfaceTextureSmall.Valid());
+	m_surfaceMaterial->texture0 = m_surfaceTexture.Valid() ? m_surfaceTexture.Get() : m_surfaceTextureSmall.Get();
 
 	{
 		Graphics::MaterialDescriptor skyDesc;
