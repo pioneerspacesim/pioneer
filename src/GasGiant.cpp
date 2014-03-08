@@ -481,8 +481,8 @@ void GasGiant::GenerateTexture()
 		std::unique_ptr<Color> bufs[NUM_PATCHES];
 		for(int i=0; i<NUM_PATCHES; i++) {
 			Color *colors = new Color[ (UV_DIMS_SMALL*UV_DIMS_SMALL) ];
-			for( Sint32 v=0; v<UV_DIMS_SMALL; v++ ) {
-				for( Sint32 u=0; u<UV_DIMS_SMALL; u++ ) {
+			for( Uint32 v=0; v<UV_DIMS_SMALL; v++ ) {
+				for( Uint32 u=0; u<UV_DIMS_SMALL; u++ ) {
 					// where in this row & colum are we now.
 					const double ustep = double(u) * fracStep;
 					const double vstep = double(v) * fracStep;
