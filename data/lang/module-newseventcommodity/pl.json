@@ -9,7 +9,7 @@
    },
    "FLAVOUR_10_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Company threatening continual survival of {system} system."
+      "message" : "AKTUALNOŚCI {date}: Przedsiębiorstwo zagraża przetrwaniu systemu {system}."
    },
    "FLAVOUR_10_NEWSBODY" : {
       "description" : "Imply high demand of AIR_PROCESSORS commodity. (Prekall as in Rekall, the fictional company from the Schwarzenegger-movie Total Recall (1990)).",
@@ -17,7 +17,7 @@
    },
    "FLAVOUR_11_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Mysterious disappearance of cattle in the {system} system."
+      "message" : "AKTUALNOŚCI {date}: Tajemnicze zniknięcia bydła w systemie {system}."
    },
    "FLAVOUR_11_NEWSBODY" : {
       "description" : "Imply high demand of ANIMAL_MEAT.",
@@ -25,7 +25,7 @@
    },
    "FLAVOUR_12_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Infrastructure breakdown as computers malfunction in the {system} system."
+      "message" : "AKTUALNOŚCI {date}: Awaria komputerów skutkuje załamaniem się infrastruktury w systemie {system}."
    },
    "FLAVOUR_12_NEWSBODY" : {
       "description" : "Keep clear of the too obvious names Microsoft, or Macrosoft, etc.",
@@ -113,7 +113,7 @@
    },
    "FLAVOUR_22_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Police on strike in the {system} system. Citizens left to fend for themselves."
+      "message" : "AKTUALNOŚCI {date}: Strajk policji w systemie {system}. Obywatele pozostawieni samym sobie."
    },
    "FLAVOUR_22_NEWSBODY" : {
       "description" : "Imply high demand of HAND_WEAPONS.",
@@ -121,7 +121,7 @@
    },
    "FLAVOUR_23_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Grand opening of a new factory in the {system} system."
+      "message" : "AKTUALNOŚCI {date}: Wielkie otwarcie nowej fabryki w systemie {system}."
    },
    "FLAVOUR_23_NEWSBODY" : {
       "description" : "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox.",
@@ -177,7 +177,7 @@
    },
    "FLAVOUR_8_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Mining accident reported from the {system} system."
+      "message" : "AKTUALNOŚCI {date}: Zgłoszenie o wypadku górniczym w systemie {system}."
    },
    "FLAVOUR_8_NEWSBODY" : {
       "description" : "Imply high demand of MINING_MACHINERY.",
@@ -185,7 +185,7 @@
    },
    "FLAVOUR_9_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Fashion craze in the {system} system."
+      "message" : "AKTUALNOŚCI {date}: Szałowa moda w systemie {system}."
    },
    "FLAVOUR_9_NEWSBODY" : {
       "description" : "live pets is important, since it implies high demand of LIVE_ANIMALS commodity.",
@@ -273,22 +273,22 @@
    },
    "TITLE_0" : {
       "description" : "",
-      "message" : "Fresh report from {newspaper}"
+      "message" : "Najświeższe sprawozdanie z {newspaper}"
    },
    "TITLE_1" : {
       "description" : "",
-      "message" : "News from {newspaper}"
+      "message" : "Aktualności z {newspaper}"
    },
    "TITLE_2" : {
       "description" : "",
-      "message" : "Report from {newspaper}"
+      "message" : "Sprawozdanie z {newspaper}"
    },
    "TITLE_3" : {
       "description" : "",
-      "message" : "The latest from {newspaper}"
+      "message" : "Najnowsze informacje z {newspaper}"
    },
    "TITLE_4" : {
       "description" : "",
-      "message" : "Notes from {newspaper}"
+      "message" : "Informacje z {newspaper}"
    }
 }
