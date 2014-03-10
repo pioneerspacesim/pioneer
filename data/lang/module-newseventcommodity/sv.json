@@ -61,7 +61,7 @@
    },
    "FLAVOUR_16_NEWSBODY" : {
       "description" : "Imply high demand of FARM_MACHINERY.",
-      "message" : "Under den stora maknaden i {system} systemet ({sectorx}, {sectory}, {sectorz}) slutade ett galaktiskt rekordförsökt i drag med den största traktorn i förödelse när en av deltagarna förlorade kontrollen över sin skapelse och förstörde alla andra deltagares maskiner. Administrationen uppger att det kan visa sig ödesdigert för lokala jordbrukare."
+      "message" : "Under den stora maknaden i {system} systemet ({sectorx}, {sectory}, {sectorz}) slutade ett galaktiskt rekordförsökt i drag med den största traktorn i förödelse när en av deltagarna förlorade kontrollen över sin skapelse och förstörde alla andra deltagares maskiner. Administrationen uppger att det kan visa sig vara ödesdigert för lokala jordbrukare."
    },
    "FLAVOUR_17_HEADLINE" : {
       "description" : "",
@@ -69,23 +69,23 @@
    },
    "FLAVOUR_17_NEWSBODY" : {
       "description" : "Imply vast abundance of METAL_ORE.",
-      "message" : "Gruvarbetare i {system} systemet ({sectorx}, {sectory}, {sectorz}) har hittat väldiga malmfyndigheter av aldrig sett slag."
+      "message" : "Gruvarbetare i {system} systemet ({sectorx}, {sectory}, {sectorz}) har hittat väldiga malmfyndigheter av aldrig tidigare skådade proportioner."
    },
    "FLAVOUR_18_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Economic reform in the {system} system a great success."
+      "message" : "NYHETER {date}: Ekonomisk reform i {system} systemet har blivit en stor framgång."
    },
    "FLAVOUR_18_NEWSBODY" : {
       "description" : "Imply vast demand of CONSUMER_GOODS.",
-      "message" : "The wheels are spinning ever faster in the {system} system ({sectorx}, {sectory}, {sectorz}) as consumers have more money to spend."
+      "message" : "Hjulen rullar snabbare och snabbare i  {system} systemet ({sectorx}, {sectory}, {sectorz}) när konsumenterna får mer pengar att spendera."
    },
    "FLAVOUR_19_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: It is raining gold in the {system} system."
+      "message" : "NYHETER {date}: Det regnar guld i {system} systemet."
    },
    "FLAVOUR_19_NEWSBODY" : {
       "description" : "Imply vast abundance of PRECIOUS_METALS.",
-      "message" : "A man in the {system} system ({sectorx}, {sectory}, {sectorz}) has inherited an invention from his late uncle, allowing him to transmute any solid into gold and platinum. Economists expect a destabilization of the economy in the system, unless the machine breaks down soon."
+      "message" : "En man i {system} systemet ({sectorx}, {sectory}, {sectorz}) har ärvt en uppfinning från sin framlidne farbror som låter honom transmutera allting solitt till guld och platinum. Ekonomer förväntar sig en destabilisering av systemets ekonomi om inte maskinen går sönder snart."
    },
    "FLAVOUR_1_HEADLINE" : {
       "description" : "",
@@ -97,35 +97,35 @@
    },
    "FLAVOUR_20_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: The harvest of the gas giant algae in the {system} system sets new record."
+      "message" : "NYHETER {date}: Skörden av gasjättealger i {system} systemet har satt nya rekord."
    },
    "FLAVOUR_20_NEWSBODY" : {
       "description" : "Imply vast abundance of FERTILIZER. Soylent is a reference to the book/movie Soylent Green.",
-      "message" : "As {system} ({sectorx}, {sectory}, {sectorz}) enters a phase favourable to the yellow algae found in the atmosphere of a local gas giant, the harvest has be exceptionally good for the fertilizer company Soylent Yellow Inc."
+      "message" : "När {system} systemet ({sectorx}, {sectory}, {sectorz}) går in i en fas som är fördelaktig för den gula alg som kan hittas i atmosfären på en lokal gasjätte så kan skörden bli exceptionellt bra för konstgödselföretaget Soylent Yellot Inc."
    },
    "FLAVOUR_21_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Treaty signed in the {system} system for more \"humane\" warfare."
+      "message" : "NYHETER {date}: Avtal om mer \"human\" krigföring har signerats i {system} systemet."
    },
    "FLAVOUR_21_NEWSBODY" : {
       "description" : "Imply vast abundance of NERVE_GAS.",
-      "message" : "Although the conflicting parties in the {system} system ({sectorx}, {sectory}, {sectorz}) have not signed an official cease fire, they have agreed to stop using chemical weapons."
+      "message" : "Trots att de stridande parterna i {system} systemet ({sectorx}, {sectory}, {sectorz}) inte har skrivit på någon officiell eld upphör så har de kommit överens om att sluta använda kemiska vapen."
    },
    "FLAVOUR_22_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Police on strike in the {system} system. Citizens left to fend for themselves."
+      "message" : "NYHETER {date}: Polis strejkar i {system} systemet. Medborgare får klara sig själva."
    },
    "FLAVOUR_22_NEWSBODY" : {
       "description" : "Imply high demand of HAND_WEAPONS.",
-      "message" : "In a protest against understaffing the {system} system ({sectorx}, {sectory}, {sectorz}) police refuse to work. Meanwhile, civilians form vigilante groups and arm themselves with pitchforks and firearms as they prepare for the worst."
+      "message" : "Polisen i {system} systemet ({sectorx}, {sectory}, {sectorz}) vägrar arbeta som protest mot underbemanning. Under tiden formar civilister medborgargarden och beväpnar sig själva med högafflar och skjutvapen medan de förbereder sig på det värsta."
    },
    "FLAVOUR_23_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Grand opening of a new factory in the {system} system."
+      "message" : "NYHETER {date}: Stor öppningsceremoni för ny fabrik i {system} systemet. "
    },
    "FLAVOUR_23_NEWSBODY" : {
       "description" : "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox.",
-      "message" : "The new Amissionox factory in the {system} system ({sectorx}, {sectory}, {sectorz}) is now up and running. It will produce high quality knifes capable of cutting through a space boot; however, due to low supply of resources needed for the blades, they have not yet reached full production potential."
+      "message" : "Den nya Arnissionox fabriken i {system} systemet ({sectorx}, {sectory}, {sectorz}) har satts igång. Den kommer att producera högkvalitativa knivar som klarar av att skära genom en rymdstövel; men, på grund av låg tillgång på resurser som krävs för bladen så har den inte nått sin fulla produktionspotential."
    },
    "FLAVOUR_2_HEADLINE" : {
       "description" : "",
@@ -193,27 +193,27 @@
    },
    "GRATEFUL_GREETING_0" : {
       "description" : "",
-      "message" : "Welcome trader! We will give you a good price for your {cargo}."
+      "message" : "Välkommen handlare! Vi kommer att ge dig ett bra pris för din {cargo}."
    },
    "GRATEFUL_GREETING_1" : {
       "description" : "",
-      "message" : "Your arrival is most welcome, as is your shipment of {cargo}!"
+      "message" : "Din ankomst är mycket välkommen, likaså din leverans av {cargo}"
    },
    "GRATEFUL_GREETING_2" : {
       "description" : "",
-      "message" : "Greetings and salutations! You should have no trouble selling {cargo} here."
+      "message" : "Många hälsningar! Du borde inte ha några problem att sälja {cargo} här."
    },
    "GRATEFUL_GREETING_3" : {
       "description" : "",
-      "message" : "Welcome! Finally some {cargo}."
+      "message" : "Välkommen! Äntligen några {cargo}."
    },
    "GRATEFUL_GREETING_4" : {
       "description" : "",
-      "message" : "How we've longed for some {cargo}."
+      "message" : "Vad vi har längtat efter några {cargo}."
    },
    "GRATEFUL_GREETING_5" : {
       "description" : "",
-      "message" : "Welcome! Your shipment of {cargo} will sell out fast here."
+      "message" : "Välkommen! Din last med {cargo} kommer att sälja slut snabbt här."
    },
    "NEWSPAPER_CIS" : {
       "description" : "",
@@ -229,7 +229,7 @@
    },
    "NEWSPAPER_IND_0" : {
       "description" : "",
-      "message" : "The Pioneer Courier"
+      "message" : "Pionjärskuriren"
    },
    "NEWSPAPER_IND_1" : {
       "description" : "",
@@ -241,7 +241,7 @@
    },
    "NEWSPAPER_IND_2" : {
       "description" : "",
-      "message" : "The Galactic Post"
+      "message" : "Glaxposten"
    },
    "NEWSPAPER_IND_3" : {
       "description" : "",
@@ -249,7 +249,7 @@
    },
    "NEWSPAPER_IND_4" : {
       "description" : "",
-      "message" : "The Planetary Press"
+      "message" : "Planetpressen"
    },
    "NEWSPAPER_IND_5" : {
       "description" : "",
@@ -257,11 +257,11 @@
    },
    "NEWSPAPER_IND_6" : {
       "description" : "",
-      "message" : "The Universal Mail"
+      "message" : "Universalposten"
    },
    "NEWSPAPER_IND_7" : {
       "description" : "",
-      "message" : "The Daily Express"
+      "message" : "Dagsexpressen"
    },
    "NEWSPAPER_IND_8" : {
       "description" : "",
@@ -269,26 +269,26 @@
    },
    "NEWSPAPER_IND_9" : {
       "description" : "",
-      "message" : "The Satellite Journal"
+      "message" : "Satelitjournalen"
    },
    "TITLE_0" : {
       "description" : "",
-      "message" : "Fresh report from {newspaper}"
+      "message" : "Färsk rapport från {newspaper}"
    },
    "TITLE_1" : {
       "description" : "",
-      "message" : "News from {newspaper}"
+      "message" : "Nyheter från {newspaper}"
    },
    "TITLE_2" : {
       "description" : "",
-      "message" : "Report from {newspaper}"
+      "message" : "Rapport från {newspaper}"
    },
    "TITLE_3" : {
       "description" : "",
-      "message" : "The latest from {newspaper}"
+      "message" : "Det senaste från {newspaper}"
    },
    "TITLE_4" : {
       "description" : "",
-      "message" : "Notes from {newspaper}"
+      "message" : "Notiser från {newspaper}"
    }
 }
