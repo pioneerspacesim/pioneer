@@ -5,6 +5,7 @@ March 2014
      * Support horizontally-expanding widgets in table rows
      * Fix compilation with gcc 4.7 (#2799)
      * Fix crash with gcc 4.7 compiled binary (#2802)
+     * Fix crash when attacked during deliver package mission (#2806)
 
    * Internal changes
      * Update terrain to use the new VertexBuffer (#2795)
