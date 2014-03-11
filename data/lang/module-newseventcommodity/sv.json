@@ -61,7 +61,7 @@
    },
    "FLAVOUR_16_NEWSBODY" : {
       "description" : "Imply high demand of FARM_MACHINERY.",
-      "message" : "Under den stora maknaden i {system} systemet ({sectorx}, {sectory}, {sectorz}) slutade ett galaktiskt rekordförsökt i drag med den största traktorn i förödelse när en av deltagarna förlorade kontrollen över sin skapelse och förstörde alla andra deltagares maskiner. Administrationen uppger att det kan visa sig vara ödesdigert för lokala jordbrukare."
+      "message" : "Under den stora marknaden i {system} systemet ({sectorx}, {sectory}, {sectorz}) slutade ett galaktiskt rekordförsökt i drag med den största traktorn i förödelse när en av deltagarna förlorade kontrollen över sin skapelse och förstörde alla andra deltagares maskiner. Administrationen uppger att det kan visa sig vara ödesdigert för lokala jordbrukare."
    },
    "FLAVOUR_17_HEADLINE" : {
       "description" : "",

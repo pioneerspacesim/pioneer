@@ -1,7 +1,7 @@
 {
    "FLAVOUR_0_HEADLINE" : {
       "description" : "",
-      "message" : "AKTUALNOŚCI {date}:  Ogólnosystemowa plaga w systemie {system}. Ilość ofiar rośnie."
+      "message" : "AKTUALNOŚCI {date}: Ogólnosystemowa plaga w systemie {system}. Ilość ofiar rośnie."
    },
    "FLAVOUR_0_NEWSBODY" : {
       "description" : "Imply high demand for MEDICINE commodity.",
@@ -33,7 +33,7 @@
    },
    "FLAVOUR_13_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Robot uprising in the {system} system."
+      "message" : "AKTUALNOŚCI {date}: Powstanie robotów w systemie {system}."
    },
    "FLAVOUR_13_NEWSBODY" : {
       "description" : "Imply that nobody wants to buy ROBOTS anymore.",
@@ -41,7 +41,7 @@
    },
    "FLAVOUR_14_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Solar flare causes biggest black out in a millennium in the {system} system."
+      "message" : "AKTUALNOŚCI {date}: Rozbłysk słoneczny spowodował potężne, tysiącletnie zaciemnienie w systemie {system}."
    },
    "FLAVOUR_14_NEWSBODY" : {
       "description" : "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
@@ -49,7 +49,7 @@
    },
    "FLAVOUR_15_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Police raids crime syndicate in the {system} system, key leaders arrested."
+      "message" : "AKTUALNOŚCI {date}: Nalot policji na zbrodniczy syndykat w systemie {system}, aresztowano kluczowych liderów."
    },
    "FLAVOUR_15_NEWSBODY" : {
       "description" : "imply high demand of NARCOTICS.",
@@ -57,7 +57,7 @@
    },
    "FLAVOUR_16_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Serious accident during the annual {system} Great Steam Fair."
+      "message" : "AKTUALNOŚCI {date}: Poważny wypadek podczas dorocznych Wielkich Targów Pary Systemu {system}."
    },
    "FLAVOUR_16_NEWSBODY" : {
       "description" : "Imply high demand of FARM_MACHINERY.",
@@ -65,7 +65,7 @@
    },
    "FLAVOUR_17_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: New found riches in the {system} system."
+      "message" : "AKTUALNOŚCI {date}: Nowo odkryte bogactwa w systemie {system}."
    },
    "FLAVOUR_17_NEWSBODY" : {
       "description" : "Imply vast abundance of METAL_ORE.",
@@ -73,7 +73,7 @@
    },
    "FLAVOUR_18_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Economic reform in the {system} system a great success."
+      "message" : "AKTUALNOŚCI {date}: Reforma ekonomiczna w systemie {system} odniosła wielki sukces."
    },
    "FLAVOUR_18_NEWSBODY" : {
       "description" : "Imply vast demand of CONSUMER_GOODS.",
@@ -81,7 +81,7 @@
    },
    "FLAVOUR_19_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: It is raining gold in the {system} system."
+      "message" : "AKTUALNOŚCI {date}: Deszcz złota pada w systemie {system}."
    },
    "FLAVOUR_19_NEWSBODY" : {
       "description" : "Imply vast abundance of PRECIOUS_METALS.",
@@ -97,7 +97,7 @@
    },
    "FLAVOUR_20_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: The harvest of the gas giant algae in the {system} system sets new record."
+      "message" : "AKTUALNOŚCI {date}: Żniwa glonów z gazowego giganta w systemie {system} osiągnęły nowy rekord."
    },
    "FLAVOUR_20_NEWSBODY" : {
       "description" : "Imply vast abundance of FERTILIZER. Soylent is a reference to the book/movie Soylent Green.",
@@ -105,7 +105,7 @@
    },
    "FLAVOUR_21_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Treaty signed in the {system} system for more \"humane\" warfare."
+      "message" : "AKTUALNOŚCI {date}: W systemie {system} podpisano traktat gwarantujący bardziej \"humanitarne\" wojny."
    },
    "FLAVOUR_21_NEWSBODY" : {
       "description" : "Imply vast abundance of NERVE_GAS.",
@@ -193,27 +193,27 @@
    },
    "GRATEFUL_GREETING_0" : {
       "description" : "",
-      "message" : "Welcome trader! We will give you a good price for your {cargo}."
+      "message" : "Witaj handlarzu! Damy ci dobrą cenę za twój ładunek: {cargo}."
    },
    "GRATEFUL_GREETING_1" : {
       "description" : "",
-      "message" : "Your arrival is most welcome, as is your shipment of {cargo}!"
+      "message" : "Twoje przybycie jest bardzo mile widziane, tak jak i twój ładunek: {cargo}!"
    },
    "GRATEFUL_GREETING_2" : {
       "description" : "",
-      "message" : "Greetings and salutations! You should have no trouble selling {cargo} here."
+      "message" : "Witam i pozdrawiam! Nie będziesz mieć problemu ze sprzedażą tutaj tego ładunku: {cargo}."
    },
    "GRATEFUL_GREETING_3" : {
       "description" : "",
-      "message" : "Welcome! Finally some {cargo}."
+      "message" : "Witamy! W końcu przybył tak poszukiwany ładunek: {cargo}."
    },
    "GRATEFUL_GREETING_4" : {
       "description" : "",
-      "message" : "How we've longed for some {cargo}."
+      "message" : "Tak bardzo wyczekiwaliśmy takiego właśnie ładunku: {cargo}."
    },
    "GRATEFUL_GREETING_5" : {
       "description" : "",
-      "message" : "Welcome! Your shipment of {cargo} will sell out fast here."
+      "message" : "Witamy! Sprzedasz tu bardzo szybko swój ładunek: {cargo}."
    },
    "NEWSPAPER_CIS" : {
       "description" : "",
