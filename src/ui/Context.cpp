@@ -34,7 +34,7 @@ static const float FONT_SCALE[] = {
 	1.8f   // MONO_XLARGE
 };
 
-Context::Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int height, const std::string &lang) : Container(this),
+Context::Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int height) : Container(this),
 	m_renderer(renderer),
 	m_width(width),
 	m_height(height),

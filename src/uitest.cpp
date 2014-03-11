@@ -129,7 +129,7 @@ int main(int argc, char **argv)
 
 	Lua::Init();
 
-	RefCountedPtr<UI::Context> c(new UI::Context(Lua::manager, r, WIDTH, HEIGHT, "en"));
+	RefCountedPtr<UI::Context> c(new UI::Context(Lua::manager, r, WIDTH, HEIGHT));
 
 	UI::VBox *box = c->VBox();
 	for (int i = 0; i < 2; i++) {
