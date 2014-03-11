@@ -3,7 +3,7 @@
 
 #include "Context.h"
 #include "FileSystem.h"
-#include "text/FontDescriptor.h"
+#include "text/FontConfig.h"
 #include "Lua.h"
 #include "FileSystem.h"
 #include <typeinfo>
@@ -34,7 +34,7 @@ static const float FONT_SCALE[] = {
 	1.8f   // MONO_XLARGE
 };
 
-Context::Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int height, const std::string &lang) : Container(this),
+Context::Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int height) : Container(this),
 	m_renderer(renderer),
 	m_width(width),
 	m_height(height),
@@ -55,29 +55,23 @@ Context::Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int h
 
 	// XXX should do point sizes, but we need display DPI first
 	// XXX TextureFont could load multiple sizes into the same object/atlas
-	{
-		const Text::FontDescriptor baseFontDesc(Text::FontDescriptor::Load(FileSystem::gameDataFiles, "fonts/UIFont.ini", lang));
-		for (int i = FONT_SMALLEST; i <= FONT_LARGEST; i++) {
-			const Text::FontDescriptor fontDesc(baseFontDesc.filename, baseFontDesc.pixelWidth*FONT_SCALE[i]*GetScale(), baseFontDesc.pixelHeight*FONT_SCALE[i]*GetScale(), baseFontDesc.outline, baseFontDesc.advanceXAdjustment);
 
-			m_font[i] = RefCountedPtr<Text::TextureFont>(new Text::TextureFont(fontDesc, renderer));
-		}
+	{
+	const Text::FontConfig config("UIFont");
+	for (int i = FONT_SMALLEST; i <= FONT_LARGEST; i++)
+		m_font[i] = RefCountedPtr<Text::TextureFont>(new Text::TextureFont(config, renderer, FONT_SCALE[i]*GetScale()));
 	}
-	{
-		const Text::FontDescriptor baseFontDesc(Text::FontDescriptor::Load(FileSystem::gameDataFiles, "fonts/UIHeadingFont.ini", lang));
-		for (int i = FONT_HEADING_SMALLEST; i <= FONT_HEADING_LARGEST; i++) {
-			const Text::FontDescriptor fontDesc(baseFontDesc.filename, baseFontDesc.pixelWidth*FONT_SCALE[i]*GetScale(), baseFontDesc.pixelHeight*FONT_SCALE[i]*GetScale(), baseFontDesc.outline, baseFontDesc.advanceXAdjustment);
 
-			m_font[i] = RefCountedPtr<Text::TextureFont>(new Text::TextureFont(fontDesc, renderer));
-		}
+	{
+	const Text::FontConfig config("UIHeadingFont");
+	for (int i = FONT_HEADING_SMALLEST; i <= FONT_HEADING_LARGEST; i++)
+		m_font[i] = RefCountedPtr<Text::TextureFont>(new Text::TextureFont(config, renderer, FONT_SCALE[i]*GetScale()));
 	}
-	{
-		const Text::FontDescriptor baseFontDesc(Text::FontDescriptor::Load(FileSystem::gameDataFiles, "fonts/UIMonoFont.ini", lang));
-		for (int i = FONT_MONO_SMALLEST; i <= FONT_MONO_LARGEST; i++) {
-			const Text::FontDescriptor fontDesc(baseFontDesc.filename, baseFontDesc.pixelWidth*FONT_SCALE[i]*GetScale(), baseFontDesc.pixelHeight*FONT_SCALE[i]*GetScale(), baseFontDesc.outline, baseFontDesc.advanceXAdjustment);
 
-			m_font[i] = RefCountedPtr<Text::TextureFont>(new Text::TextureFont(fontDesc, renderer));
-		}
+	{
+	const Text::FontConfig config("UIMonoFont");
+	for (int i = FONT_MONO_SMALLEST; i <= FONT_MONO_LARGEST; i++)
+		m_font[i] = RefCountedPtr<Text::TextureFont>(new Text::TextureFont(config, renderer, FONT_SCALE[i]*GetScale()));
 	}
 
 	m_scissorStack.push(std::make_pair(Point(0,0), Point(m_width,m_height)));
