@@ -11,7 +11,8 @@ namespace Text {
 
 class FontConfig {
 public:
-	FontConfig(const std::string &name);
+	// XXX scale is to support to the old UI, and will be removed
+	FontConfig(const std::string &name, float scaleX = 1.0f, float scaleY = 1.0f);
 
 	struct Face {
 		Face(const std::string &fontFile_, int pixelWidth_, int pixelHeight_, float advanceXAdjustment_, Uint32 rangeMin_, Uint32 rangeMax_) :

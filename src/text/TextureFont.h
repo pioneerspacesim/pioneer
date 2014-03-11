@@ -5,7 +5,7 @@
 #define _TEXT_TEXTUREFONT_H
 
 #include "libs.h"
-#include "FontDescriptor.h"
+#include "FontConfig.h"
 #include "RefCounted.h"
 #include "graphics/Texture.h"
 #include "graphics/Material.h"
@@ -23,7 +23,7 @@ namespace Text {
 class TextureFont : public RefCounted {
 
 public:
-	TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *renderer);
+	TextureFont(const FontConfig &config, Graphics::Renderer *renderer, float scale = 1.0f);
 	~TextureFont();
 
 	void RenderString(const char *str, float x, float y, const Color &color = Color::WHITE);
@@ -44,6 +44,7 @@ public:
 		float texWidth, texHeight;
 		int offX, offY;
 		float offU, offV; //atlas UV offset
+		FT_Face ftFace;
 		Uint32 ftIndex;
 	};
 	const Glyph &GetGlyph(Uint32 ch);
@@ -59,16 +60,19 @@ private:
 	TextureFont(const TextureFont &);
 	TextureFont &operator=(const TextureFont &);
 
-	FontDescriptor m_descriptor;
+	FontConfig m_config;
 	Graphics::Renderer *m_renderer;
+	float m_scale;
 
-	FT_Library m_freeTypeLibrary;
-	FT_Face m_face;
+	FT_Library m_ftLib;
 	FT_Stroker m_stroker;
 
-	RefCountedPtr<FileSystem::FileData> m_fontFileData;
+	FT_Face GetFTFace(const FontConfig::Face &face);
+	std::map<FontConfig::Face,std::pair<FT_Face,RefCountedPtr<FileSystem::FileData>>> m_faces;
 
 	Glyph BakeGlyph(Uint32 chr);
+
+	float GetKern(const Glyph &a, const Glyph &b);
 
 	void AddGlyphGeometry(Graphics::VertexArray *va, const Glyph &glyph, float x, float y, const Color &color);
 	float m_height;

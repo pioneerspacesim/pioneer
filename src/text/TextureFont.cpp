@@ -75,10 +75,7 @@ void TextureFont::MeasureString(const char *str, float &w, float &h)
 				Uint32 chr2;
 				n = utf8_decode_char(&chr2, &str[i]);
 				assert(n);
-
-				FT_Vector kern;
-				FT_Get_Kerning(m_face, glyph.ftIndex, GetGlyph(chr2).ftIndex, FT_KERNING_UNFITTED, &kern);
-				line_width += float(kern.x) / 64.0;
+				line_width += GetKern(glyph, GetGlyph(chr2));
 			}
 		}
 	}
@@ -108,11 +105,8 @@ void TextureFont::MeasureCharacterPos(const char *str, int charIndex, float &cha
 			const Glyph &glyph = GetGlyph(chr);
 			float advance = glyph.advX;
 
-			if (nextChar != '\n' && nextChar != '\0') {
-				FT_Vector kern;
-				FT_Get_Kerning(m_face, glyph.ftIndex, GetGlyph(nextChar).ftIndex, FT_KERNING_UNFITTED, &kern);
-				advance += float(kern.x) / 64.0f;
-			}
+			if (nextChar != '\n' && nextChar != '\0')
+				advance += GetKern(glyph, GetGlyph(nextChar));
 
 			x += advance;
 		}
@@ -158,11 +152,8 @@ int TextureFont::PickCharacter(const char *str, float mouseX, float mouseY)
 			const Glyph &glyph = GetGlyph(chr1);
 			float advance = glyph.advX;
 
-			if (chr2 != '\n' && chr2 != '\0') {
-				FT_Vector kern;
-				FT_Get_Kerning(m_face, glyph.ftIndex, GetGlyph(chr2).ftIndex, FT_KERNING_UNFITTED, &kern);
-				advance += float(kern.x) / 64.0f;
-			}
+			if (chr2 != '\n' && chr2 != '\0')
+				advance += GetKern(glyph, GetGlyph(chr2));
 
 			right = x + (advance / 2.0f);
 			x += advance;
@@ -211,9 +202,7 @@ void TextureFont::RenderString(const char *str, float x, float y, const Color &c
 				n = utf8_decode_char(&chr2, &str[i]);
 				assert(n);
 
-				FT_Vector kern;
-				FT_Get_Kerning(m_face, glyph.ftIndex, GetGlyph(chr2).ftIndex, FT_KERNING_UNFITTED, &kern);
-				px += float(kern.x) / 64.0;
+				px += GetKern(glyph, GetGlyph(chr2));
 			}
 
 			px += glyph.advX;
@@ -273,9 +262,7 @@ Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &
 				n = utf8_decode_char(&chr2, &str[i]);
 				assert(n);
 
-				FT_Vector kern;
-				FT_Get_Kerning(m_face, glyph.ftIndex, GetGlyph(chr2).ftIndex, FT_KERNING_UNFITTED, &kern);
-				px += float(kern.x) / 64.0;
+				px += GetKern(glyph, GetGlyph(chr2));
 			}
 
 			px += glyph.advX;
@@ -303,16 +290,18 @@ TextureFont::Glyph TextureFont::BakeGlyph(Uint32 chr)
 	Glyph glyph;
 	FT_Glyph ftGlyph;
 
-	glyph.ftIndex = FT_Get_Char_Index(m_face, chr);
+	const FontConfig::Face &face = m_config.GetFaceForCodePoint(chr);
+	glyph.ftFace = GetFTFace(face);
+	glyph.ftIndex = FT_Get_Char_Index(glyph.ftFace, chr);
 
-	err = FT_Load_Char(m_face, chr, FT_LOAD_FORCE_AUTOHINT);
+	err = FT_Load_Char(glyph.ftFace, chr, FT_LOAD_FORCE_AUTOHINT);
 	if (err) {
 		Output("Error %d loading glyph\n", err);
 		return Glyph();
 	}
 
 	// get base glyph again
-	err = FT_Get_Glyph(m_face->glyph, &ftGlyph);
+	err = FT_Get_Glyph(glyph.ftFace->glyph, &ftGlyph);
 	if (err) {
 		Output("Glyph get error %d\n", err);
 		return Glyph();
@@ -329,8 +318,8 @@ TextureFont::Glyph TextureFont::BakeGlyph(Uint32 chr)
 
 	const FT_BitmapGlyph bmGlyph = FT_BitmapGlyph(ftGlyph);
 
-	glyph.advX = float(m_face->glyph->advance.x) / 64.f + m_descriptor.advanceXAdjustment;
-	glyph.advY = float(m_face->glyph->advance.y) / 64.f;
+	glyph.advX = float(glyph.ftFace->glyph->advance.x) / 64.f + face.advanceXAdjustment;
+	glyph.advY = float(glyph.ftFace->glyph->advance.y) / 64.f;
 
 	if (!bmGlyph->bitmap.rows || !bmGlyph->bitmap.width) {
 		// no bitmap, we can just return advance metrics (for eg space)
@@ -338,10 +327,10 @@ TextureFont::Glyph TextureFont::BakeGlyph(Uint32 chr)
 		return glyph;
 	}
 
-	if (m_descriptor.outline) {
+	if (m_config.IsOutline()) {
 		FT_Glyph strokeGlyph;
 
-		err = FT_Get_Glyph(m_face->glyph, &strokeGlyph);
+		err = FT_Get_Glyph(glyph.ftFace->glyph, &strokeGlyph);
 		if (err) {
 			Output("Glyph get error %d\n", err);
 			return Glyph();
@@ -474,11 +463,11 @@ TextureFont::Glyph TextureFont::BakeGlyph(Uint32 chr)
 	return glyph;
 }
 
-TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *renderer)
-	: m_descriptor(descriptor)
+TextureFont::TextureFont(const FontConfig &config, Graphics::Renderer *renderer, float scale)
+	: m_config(config)
 	, m_renderer(renderer)
-	, m_freeTypeLibrary(nullptr)
-	, m_face(nullptr)
+	, m_scale(scale)
+	, m_ftLib(nullptr)
 	, m_stroker(nullptr)
 	, m_vertices(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0)
 	, m_atlasU(0)
@@ -487,33 +476,24 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 {
 	FT_Error err; // used to store freetype error return codes
 
-	err = FT_Init_FreeType(&m_freeTypeLibrary);
+	err = FT_Init_FreeType(&m_ftLib);
 	if (err != 0) {
 		Output("Couldn't create FreeType library context (%d)\n", err);
 		abort();
 	}
 
-	m_fontFileData = FileSystem::gameDataFiles.ReadFile("fonts/" + m_descriptor.filename);
-	if (! m_fontFileData) {
-		Output("Terrible error! Couldn't load '%s'.\n", m_descriptor.filename.c_str());
-		abort();
+	if (m_config.IsOutline()) {
+		if (FT_Stroker_New(m_ftLib, &m_stroker)) {
+			Output("Freetype stroker init error\n");
+			abort();
+		}
+
+		//1*64 = stroke width
+		FT_Stroker_Set(m_stroker, 1*64, FT_STROKER_LINECAP_ROUND, FT_STROKER_LINEJOIN_ROUND, 0);
 	}
 
-	if (0 != (err = FT_New_Memory_Face(m_freeTypeLibrary,
-			reinterpret_cast<const FT_Byte*>(m_fontFileData->GetData()),
-			m_fontFileData->GetSize(), 0, &m_face))) {
-		Output("Terrible error! Couldn't understand '%s'; error %d.\n", m_descriptor.filename.c_str(), err);
-		abort();
-	}
-
-	const int a_width = m_descriptor.pixelWidth;
-	const int a_height = m_descriptor.pixelHeight;
-
-	FT_Set_Pixel_Sizes(m_face, a_width, a_height);
-
-	m_texFormat = m_descriptor.outline ? Graphics::TEXTURE_LUMINANCE_ALPHA_88 : Graphics::TEXTURE_INTENSITY_8;
-
-	m_bpp = m_descriptor.outline ? 2 : 1;
+	m_texFormat = m_config.IsOutline() ? Graphics::TEXTURE_LUMINANCE_ALPHA_88 : Graphics::TEXTURE_INTENSITY_8;
+	m_bpp = m_config.IsOutline() ? 2 : 1;
 
 	Graphics::RenderStateDesc rsd;
 	rsd.blendMode = Graphics::BLEND_ALPHA_PREMULT;
@@ -528,26 +508,63 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 	m_texture.Reset(m_renderer->CreateTexture(textureDescriptor));
 	m_mat->texture0 = m_texture.Get();
 
-	if (m_descriptor.outline) {
-		if (FT_Stroker_New(m_freeTypeLibrary, &m_stroker)) {
-			Output("Freetype stroker init error\n");
-			abort();
-		}
-
-		//1*64 = stroke width
-		FT_Stroker_Set(m_stroker, 1*64, FT_STROKER_LINECAP_ROUND, FT_STROKER_LINEJOIN_ROUND, 0);
-	}
-
-	m_height = float(m_face->height) / 64.f * float(m_face->size->metrics.y_scale) / 65536.f;
-	m_descender = -float(m_face->descender) / 64.f * float(m_face->size->metrics.y_scale) / 65536.f;
+	// font-wide metrics. we assume that these match for all faces
+	// XXX loop all the faces and take the min/max as appropriate
+	FT_Face ftFace = GetFTFace(m_config.GetFaceForCodePoint(0x20));
+	m_height = float(ftFace->height) / 64.f * float(ftFace->size->metrics.y_scale) / 65536.f;
+	m_descender = -float(ftFace->descender) / 64.f * float(ftFace->size->metrics.y_scale) / 65536.f;
 }
 
 TextureFont::~TextureFont()
 {
+	for (auto i = m_faces.begin(); i != m_faces.end(); ++i)
+		FT_Done_Face((*i).second.first);
 	if (m_stroker)
 		FT_Stroker_Done(m_stroker);
-	FT_Done_Face(m_face);
-	FT_Done_FreeType(m_freeTypeLibrary);
+	FT_Done_FreeType(m_ftLib);
+}
+
+FT_Face TextureFont::GetFTFace(const FontConfig::Face &face)
+{
+	{
+	auto i = m_faces.find(face);
+	if (i != m_faces.end())
+		return (*i).second.first;
+	}
+
+	RefCountedPtr<FileSystem::FileData> fd;
+	
+	fd = FileSystem::gameDataFiles.ReadFile("fonts/" + face.fontFile);
+	if (!fd) {
+		Output("Terrible error! Couldn't load '%s'.\n", face.fontFile.c_str());
+		abort();
+	}
+
+	FT_Face ftFace;
+	FT_Error err;
+
+	if (0 != (err = FT_New_Memory_Face(m_ftLib,
+			reinterpret_cast<const FT_Byte*>(fd->GetData()),
+			fd->GetSize(), 0, &ftFace))) {
+		Output("Terrible error! Couldn't understand '%s'; error %d.\n", face.fontFile.c_str(), err);
+		abort();
+	}
+
+	FT_Set_Pixel_Sizes(ftFace, m_scale*face.pixelWidth, m_scale*face.pixelHeight);
+
+	m_faces.insert(std::make_pair(face, std::make_pair(ftFace, fd)));
+
+	return ftFace;
+}
+
+float TextureFont::GetKern(const Glyph &a, const Glyph &b)
+{
+	if (a.ftFace != b.ftFace)
+		return 0.0f;
+
+	FT_Vector kern;
+	FT_Get_Kerning(a.ftFace, a.ftIndex, b.ftIndex, FT_KERNING_UNFITTED, &kern);
+	return float(kern.x) / 64.0f;
 }
 
 }

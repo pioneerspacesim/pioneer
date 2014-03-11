@@ -10,13 +10,11 @@ noinst_LIBRARIES = libtext.a
 noinst_HEADERS = \
 	DistanceFieldFont.h \
 	FontConfig.h \
-	FontDescriptor.h \
 	TextSupport.h \
 	TextureFont.h
 
 libtext_a_SOURCES = \
 	DistanceFieldFont.cpp \
 	FontConfig.cpp \
-	FontDescriptor.cpp \
 	TextSupport.cpp \
 	TextureFont.cpp

@@ -8,7 +8,7 @@
 
 namespace Text {
 
-FontConfig::FontConfig(const std::string &name)
+FontConfig::FontConfig(const std::string &name, float scaleX, float scaleY)
 {
 	const std::string path("fonts/" + name + ".json");
 
@@ -34,8 +34,8 @@ FontConfig::FontConfig(const std::string &name)
 	Json::Value faces = data.get("faces", Json::arrayValue);
 	for (Json::Value::iterator i = faces.begin(); i != faces.end(); ++i) {
 		const std::string &fontFile = (*i).get("fontFile", Json::nullValue).asString();
-		const int pixelWidth = (*i).get("pixelWidth", Json::Value(14)).asInt();
-		const int pixelHeight = (*i).get("pixelWidth", Json::Value(14)).asInt();
+		const int pixelWidth = 1.0f/scaleX * (*i).get("pixelWidth", Json::Value(14)).asInt();
+		const int pixelHeight = 1.0f/scaleY * (*i).get("pixelWidth", Json::Value(14)).asInt();
 		const float advanceXAdjustment = (*i).get("advanceXAdjustment", Json::Value(0.0f)).asFloat();
 
 		Json::Value ranges = (*i).get("ranges", Json::arrayValue);
