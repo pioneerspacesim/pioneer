@@ -1,5 +1,8 @@
 March 2014
 
+   * New features
+     * Support for CJK fonts and Simplified Chinese translation
+
    * Fixes
      * Fix volume control layout (#2798)
      * Support horizontally-expanding widgets in table rows
