@@ -439,7 +439,7 @@ void Pi::Init(const std::map<std::string,std::string> &options)
 	// templates. so now we have crap everywhere :/
 	Lua::Init();
 
-	Pi::ui.Reset(new UI::Context(Lua::manager, Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), Lang::GetCore().GetLangCode()));
+	Pi::ui.Reset(new UI::Context(Lua::manager, Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight()));
 
 	LuaInit();
 
