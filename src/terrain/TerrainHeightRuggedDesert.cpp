@@ -23,18 +23,7 @@ double TerrainHeightFractal<TerrainHeightRuggedDesert>::GetHeight(const vector3d
 	double hills = hill_distrib * GetFracDef(3).amplitude * billow_octavenoise(GetFracDef(3), 0.5, p);
 	double dunes = hill_distrib * GetFracDef(5).amplitude * dunes_octavenoise(GetFracDef(5), 0.5, p);
 	double n = continents * GetFracDef(0).amplitude * 2 ;//+ (cliff_function(GetFracDef(6), p)*0.5);
-	double m = canyon_normal_function(GetFracDef(6), p);
-	m += canyon2_normal_function(GetFracDef(6), p);
-	m += canyon3_ridged_function(GetFracDef(6), p);
-	m = (n<1 ? n : 1/n ); //sometimes creates some interesting features
-	m += canyon_billow_function(GetFracDef(7), p);
-	m += canyon2_ridged_function(GetFracDef(7), p);
-	m += canyon3_normal_function(GetFracDef(7), p);
-	m += canyon_normal_function(GetFracDef(8), p);
-	m += canyon2_ridged_function(GetFracDef(8), p);
-	m += canyon3_voronoi_function(GetFracDef(8), p);
-	m += -0.5;
-	m = n * 0.5;
+	double m = n * 0.5;
 	m = (n<0.0 ? 0.0 : n);
 	n += m;
 
