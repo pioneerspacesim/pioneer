@@ -10,12 +10,36 @@
 #include "FileSystem.h"
 #include "PngWriter.h"
 #include <sstream>
+#include <cmath>
+#include <cstdio>
 
-std::string format_money(Sint64 money)
-{
-	char buf[32];
-	snprintf(buf, sizeof(buf), "$%.2f", 0.01*double(money));
-	return std::string(buf);
+std::string format_money(Sint64 cents, bool showCents){
+	std::string decimalPoint = Lang::MONEY_DECIMAL_POINT;
+	std::string groupSeperator = Lang::MONEY_GROUP_SEP;
+	size_t groupDigits = atoi(Lang::MONEY_GROUP_NUM);
+
+	double money = showCents ? 0.01*cents : std::round(0.01*cents);
+
+	const char *format = (money < 0) ? "-$%.2f" : "$%.2f";
+	char buf[64];
+	snprintf(buf, sizeof(buf), format, std::abs(money));
+	std::string result(buf);
+
+	size_t pos;                                     // pos to decimal point
+	for(pos = 0; pos < result.length() && result[pos] != '.'; ++pos){}
+
+	result.replace(pos, 1, decimalPoint);           // replace decimal point
+
+	if(!showCents)                                  // remove fractional part
+		result.erase(result.begin() + pos, result.end());
+
+	size_t char_stepps = (money < 0) ? 2 : 1;       // compensate for "$" or "-$"
+	while(pos - char_stepps > groupDigits){         // insert thousand seperator
+		pos = pos - groupDigits;
+		result.insert(pos, groupSeperator);
+	}
+
+	return result;
 }
 
 class timedate {
