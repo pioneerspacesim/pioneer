@@ -301,11 +301,26 @@ def parse_enum(toktype, toktext, tokens, preceding_comment=None):
         tag.append(preceding_comment)
     toktype, toktext = collect_comments(tokens, tag)
 
+    if toktype == 'keyword' and toktext in ['struct', 'class']:
+        # C++11 'enum class' (strongly typed enum) declaration
+        toktype, toktext = collect_comments(tokens, tag)
+
     if toktype == 'identifier':
         identifier = toktext
         toktype, toktext = collect_comments(tokens, tag)
     else:
         identifier = ''
+
+    if toktype == 'punctuation' and toktext == ':':
+        # C++11 enum with fixed underlying type
+        # FIXME: look up correct grammar for enum underlying type
+        # currently this should match any valid underlying type, but also matches various invalid things
+        # that's ok, because exact syntactic semantic checking is the compiler's job, not the job of scan_enums
+        toktype, toktext = collect_comments(tokens, tag)
+        while toktype == 'keyword' and toktext in ['signed','unsigned','long','short','int','char']:
+            toktype, toktext = collect_comments(tokens, tag)
+        if toktype == 'identifier':
+            toktype, toktext = collect_comments(tokens, tag)
 
     if toktype == 'punctuation' and toktext == '{':
         # comments become part of the enum tag right up until
