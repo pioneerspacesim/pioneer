@@ -10,12 +10,28 @@
 #include "FileSystem.h"
 #include "PngWriter.h"
 #include <sstream>
+#include <cmath>
 
-std::string format_money(Sint64 money)
+
+std::string format_money(Sint64 money, int max)
 {
 	char buf[32];
-	snprintf(buf, sizeof(buf), "$%.2f", 0.01*double(money));
-	return std::string(buf);
+	double Money = 0.01*double(money);
+   const char *format = (Money < 0) ? "-$%.2f" : "$%.2f";
+	snprintf(buf, sizeof(buf), format, std::abs(Money));
+
+	std::string returnstring;
+
+	if(std::abs(Money) < max)           // return string with fractional part
+		returnstring = std::string(buf);
+	else{                               // remove ".00"-part only if empty
+		char *pos = buf + strlen(buf) - 1;
+		if(*pos == '0' && *(pos-1) == '0')
+			*(pos-2) = '\0';
+
+		returnstring = std::string(buf);
+	}
+	return returnstring;
 }
 
 class timedate {

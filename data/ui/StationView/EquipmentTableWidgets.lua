@@ -7,6 +7,7 @@ local Game = import("Game")
 local EquipDef = import("EquipDef")
 local Comms = import("Comms")
 local utils = import("utils")
+local Format = import("Format")
 
 local l = Lang.GetResource("ui-core")
 
@@ -107,7 +108,7 @@ local shipColumnHeading = {
 local stationColumnValue = {
 	icon  = function (e, funcs) return equipIcon[e] and ui:Image("icons/goods/"..equipIcon[e]..".png") or "" end,
 	name  = function (e, funcs) return lcore[e] end,
-	price = function (e, funcs) return string.format("%0.2f", funcs.getPrice(e)) end,
+	price = function (e, funcs) return Format.Money(funcs.getPrice(e)) end,
 	stock = function (e, funcs) return funcs.getStock(e) end,
 	mass  = function (e, funcs) return string.format("%dt", EquipDef[e].mass) end,
 }

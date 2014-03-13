@@ -51,7 +51,7 @@ std::string string_join(std::vector<std::string> &v, std::string sep);
 std::string format_date(double time);
 std::string format_date_only(double time);
 std::string format_distance(double dist, int precision = 2);
-std::string format_money(Sint64 money);
+std::string format_money(Sint64 money, int max = 10);
 
 static inline Sint64 isqrt(Sint64 a)
 {
