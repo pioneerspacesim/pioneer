@@ -16,21 +16,15 @@ const char *TerrainHeightFractal<TerrainHeightAsteroid>::GetHeightFractalName() 
 template <>
 TerrainHeightFractal<TerrainHeightAsteroid>::TerrainHeightFractal(const SystemBody *body) : Terrain(body)
 {
+	SetFracDef(0, m_maxHeightInMeters*0.05, 1e6, 10000.0*m_fracmult);
+	const double height = m_maxHeightInMeters*0.3;
+	SetFracDef(1, height, m_rand.Double(4.0, 20.0)*height);
 }
 
 template <>
 double TerrainHeightFractal<TerrainHeightAsteroid>::GetHeight(const vector3d &p) const
 {
-	//p.x = 3*(p.y-p.x);
-	//p.y = (-p.x*p.z) + (26.5*p.x) - p.y;
-	//p.z = (p.x*p.y) - p.z;
-	//float heightmap = octavenoise(64, 0.4, 1.6, 12.0*(3*(p.y-p.x), (-p.x*p.z) + (26.5*p.x) - p.y, (p.x*p.y) - p.z) );
-	//Lorenz attractor:
-	//float heightmap = octavenoise(8, 0.5, 2.0, (3*(p.y-p.x), (-p.x*p.z) + (26.5*p.x) - p.y, (p.x*p.y) - p.z) );
-	//float heightmap = octavenoise(8, 0.2*octavenoise(1, 0.3, 3.7, (p.x*2.0-p.y, p.y*2.0-p.x, p.z)), 15.0*octavenoise(1, 0.5, 4.0, (p.x*2.0-p.y, p.y*2.0-p.x, p.z)), (p.x*2.0-p.y, p.y*2.0-p.x, p.z)) -
-		//0.75*billow_octavenoise(8*octavenoise(1, 0.275, 3.2, (p.x*2.0-p.y, p.y*2.0-p.x, p.z)), 0.4*octavenoise(1, 0.4, 3.0, (p.x*2.0-p.y, p.y*2.0-p.x, p.z)), 4.0*octavenoise(1, 0.35, 3.7, (p.x*2.0-p.y, p.y*2.0-p.x, p.z)), (p.x*2.0-p.y, p.y*2.0-p.x, p.z));
+	const double n = octavenoise(GetFracDef(0), 0.4, p) * dunes_octavenoise(GetFracDef(1), 0.5, p);
 
-	double n = octavenoise(8, 0.4, 2.4, p);
-
-	return (n > 0.0? m_maxHeight*n : 0.0);
+	return (n > 0.0 ? m_maxHeight*n : 0.0);
 }
