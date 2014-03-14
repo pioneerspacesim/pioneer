@@ -123,7 +123,7 @@ start:
 					options[key] = val;
 				}
 			}
-			Pi::Init(options);
+			Pi::Init(options, mode == MODE_GALAXYDUMP);
 			if (mode == MODE_GAME)
 				for (;;) Pi::Start();
 			else if (mode == MODE_GALAXYDUMP) {

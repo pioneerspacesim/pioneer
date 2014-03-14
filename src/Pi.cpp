@@ -345,7 +345,7 @@ std::string Pi::GetSaveDir()
 	return FileSystem::JoinPath(FileSystem::GetUserDir(), Pi::SAVE_DIR_NAME);
 }
 
-void Pi::Init(const std::map<std::string,std::string> &options)
+void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 {
 #ifdef PIONEER_PROFILER
 	Profiler::reset();
@@ -361,7 +361,8 @@ void Pi::Init(const std::map<std::string,std::string> &options)
 #endif
 
 	Pi::config = new GameConfig(options);
-	KeyBindings::InitBindings();
+	if (!no_gui) // This re-saves the config file. With no GUI we want to allow multiple instances in parallel.
+		KeyBindings::InitBindings();
 
 	if (config->Int("RedirectStdio"))
 		OS::RedirectStdio();
@@ -390,6 +391,7 @@ void Pi::Init(const std::map<std::string,std::string> &options)
 	videoSettings.width = config->Int("ScrWidth");
 	videoSettings.height = config->Int("ScrHeight");
 	videoSettings.fullscreen = (config->Int("StartFullscreen") != 0);
+	videoSettings.hidden = no_gui;
 	videoSettings.requestedSamples = config->Int("AntiAliasingMode");
 	videoSettings.vsync = (config->Int("VSync") != 0);
 	videoSettings.useTextureCompression = (config->Int("UseTextureCompression") != 0);
@@ -507,7 +509,7 @@ void Pi::Init(const std::map<std::string,std::string> &options)
 	Sfx::Init(Pi::renderer);
 	draw_progress(gauge, label, 0.95f);
 
-	if (!config->Int("DisableSound")) {
+	if (!no_gui && !config->Int("DisableSound")) {
 		Sound::Init();
 		Sound::SetMasterVolume(config->Float("MasterVolume"));
 		Sound::SetSfxVolume(config->Float("SfxVolume"));
