@@ -8,6 +8,7 @@
 #include "text/TextureFont.h"
 
 #include "EventDispatcher.h"
+#include "Animation.h"
 #include "Skin.h"
 
 #include "Widget.h"
@@ -136,6 +137,8 @@ public:
 	virtual void Update();
 	virtual void Draw();
 
+	AnimationController &GetAnimationController() { return m_animationController; }
+
 	LuaRef GetTemplateStore() const { return m_templateStore; }
 	Widget *CallTemplate(const char *name, const LuaTable &args);
 	Widget *CallTemplate(const char *name);
@@ -164,6 +167,7 @@ private:
 	std::vector<Layer*> m_layers;
 
 	EventDispatcher m_eventDispatcher;
+	AnimationController m_animationController;
 	Skin m_skin;
 
 	LuaManager *m_lua;

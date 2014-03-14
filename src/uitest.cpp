@@ -132,6 +132,16 @@ int main(int argc, char **argv)
 
 	RefCountedPtr<UI::Context> c(new UI::Context(Lua::manager, r, WIDTH, HEIGHT));
 
+	UI::ColorBackground *cb = c->ColorBackground(Color4ub(0x40, 0xc0, 0x40).ToColor4f());
+	c->GetTopLayer()->SetInnerWidget(
+		c->Margin(10)->SetInnerWidget(
+			cb
+		)
+	);
+
+	c->GetAnimationController().Add(UI::Animation(cb, UI::Animation::TYPE_IN, UI::Animation::EASING_LINEAR, UI::Animation::TARGET_OPACITY, 4.0f, false));
+
+#if 0
 	UI::VBox *box = c->VBox();
 	for (int i = 0; i < 2; i++) {
 		box->PackEnd(UI::WidgetSet(
@@ -143,6 +153,7 @@ int main(int argc, char **argv)
 		);
 	}
 	c->GetTopLayer()->SetInnerWidget(box);
+#endif
 
 #if 0
 	UI::Gauge *gauge;

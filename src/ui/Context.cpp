@@ -128,6 +128,8 @@ void Context::Layout()
 
 void Context::Update()
 {
+	m_animationController.Update();
+
 	if (m_needsLayout)
 		Layout();
 
