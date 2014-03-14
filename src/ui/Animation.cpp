@@ -69,8 +69,15 @@ bool Animation::Update(float time)
 
 	float pos = m_easingFunc(completed ? m_duration : fmod(time, m_duration), 0.0f, 1.0f, m_duration);
 
-	// XXX feed to widget somehow
-	printf("time %f duration %f scaled %f pos %f\n", time, m_duration, fmod(time, m_duration), pos);
+	switch (m_target) {
+		case TARGET_POSITION:
+			assert(0);
+			break;
+
+		case TARGET_OPACITY:
+			m_widget->SetAnimatedOpacity(pos);
+			break;
+	}
 
 	return completed;
 }
