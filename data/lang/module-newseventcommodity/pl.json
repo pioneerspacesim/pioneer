@@ -5,7 +5,7 @@
    },
    "FLAVOUR_0_NEWSBODY" : {
       "description" : "Imply high demand for MEDICINE commodity.",
-      "message" : "Plague harvests lives in the {system} system ({sectorx}, {sectory}, {sectorz}). Officials urge for medical aid."
+      "message" : "Praga pochłania kolejne ofiary w systemie {system}({sectorx},{sectory},{sectorz}). Urzędnicy apelują o pomoc medyczną."
    },
    "FLAVOUR_10_HEADLINE" : {
       "description" : "",
@@ -93,7 +93,7 @@
    },
    "FLAVOUR_1_NEWSBODY" : {
       "description" : "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",
-      "message" : "The long standing conflict in the {system} system ({sectorx}, {sectory}, {sectorz}) escalates as the armies engage in full open combat."
+      "message" : "Długotrwały konflikt w systemie {system}({sectorx},{sectory},{sectorz}) przeobraził się w bezpośrednie i otwarte starcie wojsk."
    },
    "FLAVOUR_20_HEADLINE" : {
       "description" : "",
