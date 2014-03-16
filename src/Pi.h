@@ -90,6 +90,8 @@ public:
 	static void SetSpeedLinesDisplayed(bool state) { speedLinesDisplayed = state; }
 	static bool AreHudTrailsDisplayed() { return hudTrailsDisplayed; }
 	static void SetHudTrailsDisplayed(bool state) { hudTrailsDisplayed = state; }
+	static bool IsSpaceBackgroundDisplayed() { return spaceBackgroundDisplayed; }
+	static void SetSpaceBackgroundDisplayed(bool state) { spaceBackgroundDisplayed = state; }
 	static int MouseButtonState(int button) { return mouseButton[button]; }
 	/// Get the default speed modifier to apply to movement (scrolling, zooming...), depending on the "shift" keys.
 	/// This is a default value only, centralized here to promote uniform user expericience.
@@ -220,6 +222,7 @@ private:
 	static bool navTunnelDisplayed;
 	static bool speedLinesDisplayed;
 	static bool hudTrailsDisplayed;
+	static bool spaceBackgroundDisplayed;
 
 	static Gui::Fixed *menu;
 

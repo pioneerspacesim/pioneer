@@ -552,7 +552,7 @@ void Game::SwitchToNormalSpace()
 	}
 	m_hyperspaceClouds.clear();
 
-	m_space->GetBackground()->SetDrawFlags( Background::Container::DRAW_SKYBOX | Background::Container::DRAW_STARS );
+	m_space->GetBackground()->SetDrawFlags( Pi::IsSpaceBackgroundDisplayed() ? Background::Container::DRAW_SKYBOX | Background::Container::DRAW_STARS : 0 );
 
 	m_state = STATE_NORMAL;
 }
