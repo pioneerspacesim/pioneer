@@ -13,51 +13,51 @@
    },
    "FLAVOUR_10_NEWSBODY" : {
       "description" : "Imply high demand of AIR_PROCESSORS commodity. (Prekall as in Rekall, the fictional company from the Schwarzenegger-movie Total Recall (1990)).",
-      "message" : "Prekall Inc. are seeking to monopolize air itself throughout {system} ({sectorx}, {sectory}, {sectorz}). Take a deep breath, it might be the last one that is free of charge."
+      "message" : "Prekall Inc. versuchen im {system}- System ({sectorx}, {sectory}, {sectorz}), das Monopol auf Luft durchzusetzen. Nehmen Sie noch einmal einen tiefen Atemzug, es könnte der letzte kostenlose sein."
    },
    "FLAVOUR_11_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Mysterious disappearance of cattle in the {system} system."
+      "message" : "SCHLAGZEILE ({date}): Mysteriöses verschwinden von Weidevieh im {system}- System."
    },
    "FLAVOUR_11_NEWSBODY" : {
       "description" : "Imply high demand of ANIMAL_MEAT.",
-      "message" : "As if by a stroke of a higher power, the farmers in the {system} system ({sectorx}, {sectory}, {sectorz}) woke up to empty barns. \"It's the cattle theft of the century\", police reports."
+      "message" : "Als hätte eine höhere Macht zugeschlagen, sind die Bauern im {system}- System ({sectorx}, {sectory}, {sectorz}) auf leeren Höfen aufgewacht. \"Es handelt sich hier um den Viehdiebstahl des Jahrhunderts\", berichtet die Polizei."
    },
    "FLAVOUR_12_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Infrastructure breakdown as computers malfunction in the {system} system."
+      "message" : "SCHLAGZEILE ({date}): Zusammenbruch der Infrastruktur durch Computerfehler im {system}- System."
    },
    "FLAVOUR_12_NEWSBODY" : {
       "description" : "Keep clear of the too obvious names Microsoft, or Macrosoft, etc.",
-      "message" : "A nasty virus caused all Nachosoft computers in the {system} system ({sectorx}, {sectory}, {sectorz}) to suffer a complete hard drive meltdown. The faulty units make excellent paper weights, computer scientists say."
+      "message" : "Ein zerstörerischer Virus lässt die Festplatten aller Nachosoft- Computer im {system}- System ({sectorx}, {sectory}, {sectorz}) schmelzen. Die defekten Teile eignen sich hervorragend als Briefbeschwerer, wie Informatiker verlauten lassen."
    },
    "FLAVOUR_13_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Robot uprising in the {system} system."
+      "message" : "SCHLAGZEILE ({date}): Roboteraufstand im {system}- System."
    },
    "FLAVOUR_13_NEWSBODY" : {
       "description" : "Imply that nobody wants to buy ROBOTS anymore.",
-      "message" : "It is now man against machine in the {system} system ({sectorx}, {sectory}, {sectorz}), as \"behavioural malfunction\" causes home consumers to loose faith in robot servants."
+      "message" : "Nun heißt es Mensch gegen Maschine im {system}- System ({sectorx}, {sectory}, {sectorz}), weil Privatkunden wegen \"Verhaltensstörungen\" das Vertrauen in ihre Roboter verlieren."
    },
    "FLAVOUR_14_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Solar flare causes biggest black out in a millennium in the {system} system."
+      "message" : "SCHLAGZEILE ({date}): Jahrtausend- Blackout durch Sonnensturm im {system}- System."
    },
    "FLAVOUR_14_NEWSBODY" : {
       "description" : "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
-      "message" : "The system wide power outage wrecks havoc to the {system} system ({sectorx}, {sectory}, {sectorz}). Consumers line up to buy the last Trapperware to replace their fridges, as producer has run out of raw material."
+      "message" : "Der systemweite Stromausfall stürzt das {system}- System ({sectorx}, {sectory}, {sectorz}) ins Chaos. Die Menschen stehen Schlange, um die letzten Blubberware- Bestände als Kühlschrank- Ersatz zu ergattern, weil dem Hersteller die Rohstoffe ausgehen."
    },
    "FLAVOUR_15_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Police raids crime syndicate in the {system} system, key leaders arrested."
+      "message" : "SCHLAGZEILE ({date}): Schwerer Schlag der Polizei gegen Verbrecher- Syndikat im {system}- System, führende Köpfe verhaftet."
    },
    "FLAVOUR_15_NEWSBODY" : {
       "description" : "imply high demand of NARCOTICS.",
-      "message" : "The administration in the {system} system ({sectorx}, {sectory}, {sectorz}) hopes crime will diminish as drugs are no longer available, since the arrest of several mobsters."
+      "message" : "Die Regierung des {system}- Systems ({sectorx}, {sectory}, {sectorz}) hofft auf einen Rückgang der Kriminalität, weil seit der Festnahme mehrerer Dealer keine Drogen mehr am Markt sind."
    },
    "FLAVOUR_16_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Serious accident during the annual {system} Great Steam Fair."
+      "message" : "SCHLAGZEILE ({date}): Schwerer Unfall beim jährlichen Dampfmaschinentreffen im {system}- System."
    },
    "FLAVOUR_16_NEWSBODY" : {
       "description" : "Imply high demand of FARM_MACHINERY.",
@@ -145,23 +145,23 @@
    },
    "FLAVOUR_4_HEADLINE" : {
       "description" : "About mob rivals competing for selling drugs",
-      "message" : "NEWS {date}: Drug war in the {system} system. Law enforcers struggle to regain control."
+      "message" : "SCHLAGZEILE ({date}): Drogenkrieg im {system}- System. Die Ordnungskräfte bemühen sich, die Kontrolle über die Lage wiederzuerlangen."
    },
    "FLAVOUR_4_NEWSBODY" : {
       "description" : "Imply high abundance of NARCOTICS.",
-      "message" : "The market has been flooded by cheap drugs in the {system} system ({sectorx}, {sectory}, {sectorz}), as rivalling drug lords compete to increase their power."
+      "message" : "Der Markt im {system}- System ({sectorx}, {sectory}, {sectorz}) wird durch rivalisierende Drogenbarone, die ihre Vormachtsstellung ausbauen wollen, mit billigen Drogen geflutet."
    },
    "FLAVOUR_5_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Slaves rebel in the {system} system. Agricultural industry comes to a halt."
+      "message" : "SCHLAGZEILE {date}: Sklavenaufstand im {system}- System. Agrarindustrie stillgelegt."
    },
    "FLAVOUR_5_NEWSBODY" : {
       "description" : "Imply high demand of SLAVES.",
-      "message" : "Workers in the {system} system ({sectorx}, {sectory}, {sectorz}) have cast off their chains in rebellion as they refuse to work the Lotus fields. Economy comes to a stand still as no cheap workers can be found."
+      "message" : "Arbeiter im {system}- System ({sectorx}, {sectory}, {sectorz}) sprengen mit einem Aufstand ihre Ketten. Sie weigern sich, die Lotus-Feldern zu bearbeiten. Die Wirtschaft kommt zum erliegen, weil keine billigen Arbeitskräfte zur Verfügung stehen."
    },
    "FLAVOUR_6_HEADLINE" : {
       "description" : "(Quibble as a derivative of Tribble from Star Trek TOS)",
-      "message" : "NEWS {date}: Joyous Festival of the Quibble in the {system} system."
+      "message" : "SCHLAGZEILE ({date}): Fröhliches Quibble- Festival im {system}- System."
    },
    "FLAVOUR_6_NEWSBODY" : {
       "description" : "Stress drunken or intoxicated by alcohol, as this will imply high demand of LIQUOR.",
@@ -177,19 +177,19 @@
    },
    "FLAVOUR_8_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Mining accident reported from the {system} system."
+      "message" : "SCHLAGZEILE ({date}): Bergbauunglück im {system}- System gemeldet."
    },
    "FLAVOUR_8_NEWSBODY" : {
       "description" : "Imply high demand of MINING_MACHINERY.",
-      "message" : "A mine collapsed in the {system} system ({sectorx}, {sectory}, {sectorz}), killing hundreds of workers and destroying important machinery vital for the economy."
+      "message" : "Der Einsturz einer Mine im {system}- System ({sectorx}, {sectory}, {sectorz}) tötete hunderte Arbeiter und zerstörte wichtige Bergbaumaschinen, die für die Wirtschaft unabdingbar sind."
    },
    "FLAVOUR_9_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Fashion craze in the {system} system."
+      "message" : "SCHLAGZEILE ({date}): Modewahn im {system}- System."
    },
    "FLAVOUR_9_NEWSBODY" : {
       "description" : "live pets is important, since it implies high demand of LIVE_ANIMALS commodity.",
-      "message" : "The latest trend in the {system} system ({sectorx}, {sectory}, {sectorz}) has it real live pets are the next big thing."
+      "message" : "Letzter Schrei im {system}- System ({sectorx}, {sectory}, {sectorz}): Lebende Tiere sind das nächste große Ding."
    },
    "GRATEFUL_GREETING_0" : {
       "description" : "",
