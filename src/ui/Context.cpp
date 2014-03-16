@@ -199,7 +199,9 @@ void Context::DrawWidget(Widget *w)
 
 	m_renderer->SetTransform(matrix4x4f::Translation(m_drawWidgetPosition.x, m_drawWidgetPosition.y, 0));
 
+	m_skin.SetOpacity(w->GetAnimatedOpacity());
 	w->Draw();
+	m_skin.SetOpacity(1.0f);
 
 	m_scissorStack.pop();
 
