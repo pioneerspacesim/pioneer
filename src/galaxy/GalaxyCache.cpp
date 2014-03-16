@@ -25,7 +25,7 @@ template <typename T, typename CompareT>
 void GalaxyObjectCache<T,CompareT>::AddToCache(std::vector<RefCountedPtr<T> >& objects)
 {
 	for (auto it = objects.begin(), itEnd = objects.end(); it != itEnd; ++it) {
-		auto inserted = m_attic.insert( std::make_pair(it->Get()->GetSystemPath(), it->Get()) );
+		auto inserted = m_attic.insert( std::make_pair(it->Get()->GetPath(), it->Get()) );
 		if (!inserted.second) {
 			it->Reset(inserted.first->second);
 		}
@@ -157,7 +157,7 @@ void GalaxyObjectCache<T,CompareT>::Slave::AddToCache(std::vector<RefCountedPtr<
 	if (m_master) {
 		m_master->AddToCache(objects); // This modifies the vector to the sectors already in the master cache
 		for (auto it = objects.begin(), itEnd = objects.end(); it != itEnd; ++it) {
-			m_cache.insert( std::make_pair(it->Get()->GetSystemPath(), *it) );
+			m_cache.insert( std::make_pair(it->Get()->GetPath(), *it) );
 		}
 	}
 }

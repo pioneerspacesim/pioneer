@@ -33,7 +33,7 @@ public:
 	bool Contains(const SystemPath &sysPath) const;
 
 	// get the SystemPath for this sector
-	SystemPath GetSystemPath() const { return SystemPath(sx, sy, sz); }
+	SystemPath GetPath() const { return SystemPath(sx, sy, sz); }
 
 	class System {
 	public:
