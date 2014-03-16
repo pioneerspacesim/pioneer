@@ -4,6 +4,7 @@
 #ifndef SECTORCACHE_H
 #define SECTORCACHE_H
 
+#include <functional>
 #include <memory>
 #include <map>
 #include <set>
@@ -27,6 +28,7 @@ public:
 	typedef std::vector<SystemPath> PathVector;
 	typedef std::map<SystemPath,RefCountedPtr<T>,CompareT> CacheMap;
 	typedef std::map<SystemPath,T*,CompareT> AtticMap;
+	typedef std::function<void()> CacheFilledCallback;
 
 	class Slave : public RefCounted {
 		friend class GalaxyObjectCache<T,CompareT>;
@@ -36,7 +38,7 @@ public:
 		typename CacheMap::const_iterator Begin() const { return m_cache.begin(); }
 		typename CacheMap::const_iterator End() const { return m_cache.end(); }
 
-		void FillCache(const PathVector& paths);
+		void FillCache(const PathVector& paths, CacheFilledCallback callback = CacheFilledCallback());
 		void Erase(const SystemPath& path);
 		void Erase(const typename CacheMap::const_iterator& it);
 		void ClearCache();
@@ -68,7 +70,7 @@ protected:
 	class CacheJob : public Job
 	{
 	public:
-		CacheJob(std::unique_ptr<std::vector<SystemPath> > path, Slave* slaveCache);
+		CacheJob(std::unique_ptr<std::vector<SystemPath> > path, Slave* slaveCache, CacheFilledCallback callback = CacheFilledCallback());
 
 		virtual void OnRun();    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
 		virtual void OnFinish();  // runs in primary thread of the context
@@ -78,6 +80,7 @@ protected:
 		std::unique_ptr<std::vector<SystemPath> > m_paths;
 		std::vector<RefCountedPtr<T> > m_objects;
 		Slave* m_slaveCache;
+		CacheFilledCallback m_callback;
 	};
 
 	std::set<Slave*> m_slaves;

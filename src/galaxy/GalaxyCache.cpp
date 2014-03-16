@@ -163,7 +163,8 @@ void GalaxyObjectCache<T,CompareT>::Slave::AddToCache(std::vector<RefCountedPtr<
 }
 
 template <typename T, typename CompareT>
-void GalaxyObjectCache<T,CompareT>::Slave::FillCache(const typename GalaxyObjectCache<T,CompareT>::PathVector& paths)
+void GalaxyObjectCache<T,CompareT>::Slave::FillCache(const typename GalaxyObjectCache<T,CompareT>::PathVector& paths,
+	typename GalaxyObjectCache<T,CompareT>::CacheFilledCallback callback)
 {
 	// allocate some space for what we're about to chunk up
 	std::vector<std::unique_ptr<PathVector> > vec_paths;
@@ -209,13 +210,14 @@ void GalaxyObjectCache<T,CompareT>::Slave::FillCache(const typename GalaxyObject
 
 	// now add the batched jobs
 	for (auto it = vec_paths.begin(), itEnd = vec_paths.end(); it != itEnd; ++it)
-		m_jobs.Order(new GalaxyObjectCache<T,CompareT>::CacheJob(std::move(*it), this));
+		m_jobs.Order(new GalaxyObjectCache<T,CompareT>::CacheJob(std::move(*it), this, callback));
 }
 
 
 template <typename T, typename CompareT>
-GalaxyObjectCache<T,CompareT>::CacheJob::CacheJob(std::unique_ptr<std::vector<SystemPath> > path, typename GalaxyObjectCache<T,CompareT>::Slave* slaveCache)
-	: Job(), m_paths(std::move(path)), m_slaveCache(slaveCache)
+GalaxyObjectCache<T,CompareT>::CacheJob::CacheJob(std::unique_ptr<std::vector<SystemPath> > path,
+	typename GalaxyObjectCache<T,CompareT>::Slave* slaveCache, typename GalaxyObjectCache<T,CompareT>::CacheFilledCallback callback)
+	: Job(), m_paths(std::move(path)), m_slaveCache(slaveCache), m_callback(callback)
 {
 	m_objects.reserve(m_paths->size());
 }
@@ -233,6 +235,8 @@ template <typename T, typename CompareT>
 void GalaxyObjectCache<T,CompareT>::CacheJob::OnFinish()  // runs in primary thread of the context
 {
 	m_slaveCache->AddToCache(m_objects);
+	if (m_slaveCache->m_jobs.IsEmpty() && m_callback)
+		m_callback();
 }
 
 /****** SectorCache ******/
