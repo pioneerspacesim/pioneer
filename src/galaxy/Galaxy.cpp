@@ -75,7 +75,7 @@ void Dump(FILE* file, Sint32 centerX, Sint32 centerY, Sint32 centerZ, Sint32 rad
 				RefCountedPtr<Sector> sector = Sector::cache.GetCached(SystemPath(sx, sy, sz));
 				sector->Dump(file);
 			}
-			StarSystemCache::ShrinkCache(SystemPath(), true);
+			StarSystem::attic.ClearCache();
 		}
 	}
 }

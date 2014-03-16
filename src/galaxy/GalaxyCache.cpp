@@ -238,3 +238,14 @@ void GalaxyObjectCache<T,CompareT>::CacheJob::OnFinish()  // runs in primary thr
 /****** SectorCache ******/
 
 template class GalaxyObjectCache<Sector,SystemPath::LessSectorOnly>;
+
+/****** StarSystemCache ******/
+
+template <>
+GalaxyObjectCache<StarSystem,SystemPath::LessSystemOnly>::Slave::Slave(GalaxyObjectCache<StarSystem,SystemPath::LessSystemOnly>* master, JobQueue* jobQueue)
+	: m_master(master), m_jobs(Pi::GetSyncJobQueue())
+{
+	m_master->m_slaves.insert(this);
+}
+
+template class GalaxyObjectCache<StarSystem,SystemPath::LessSystemOnly>;

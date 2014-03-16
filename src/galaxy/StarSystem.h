@@ -12,6 +12,7 @@
 #include <string>
 #include "RefCounted.h"
 #include "galaxy/SystemPath.h"
+#include "galaxy/GalaxyCache.h"
 #include "Orbit.h"
 #include "IterationProxy.h"
 #include "gameconsts.h"
@@ -274,7 +275,11 @@ private:
 class StarSystem : public RefCounted {
 public:
 	friend class SystemBody;
-	friend class StarSystemCache;
+	friend class GalaxyObjectCache<StarSystem, SystemPath::LessSystemOnly>;
+
+	static StarSystemCache attic;
+	static RefCountedPtr<StarSystemCache::Slave> cache;
+	static void ShrinkCache(const SystemPath &path);
 
 	void ExportToLua(const char *filename);
 
@@ -373,17 +378,6 @@ private:
 	std::vector< RefCountedPtr<SystemBody> > m_bodies;
 	std::vector<SystemBody*> m_spaceStations;
 	std::vector<SystemBody*> m_stars;
-};
-
-class StarSystemCache
-{
-public:
-	static RefCountedPtr<StarSystem> GetCached(const SystemPath &path);
-	static void ShrinkCache(const SystemPath &path, const bool clear=false);
-
-private:
-	typedef std::map<SystemPath,StarSystem*> SystemCacheMap;
-	static SystemCacheMap s_cachedSystems;
 };
 
 #endif /* _STARSYSTEM_H */

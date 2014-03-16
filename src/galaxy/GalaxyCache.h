@@ -89,4 +89,8 @@ protected:
 class Sector;
 typedef GalaxyObjectCache<Sector, SystemPath::LessSectorOnly> SectorCache;
 
+
+class StarSystem;
+typedef GalaxyObjectCache<StarSystem, SystemPath::LessSystemOnly> StarSystemCache;
+
 #endif
