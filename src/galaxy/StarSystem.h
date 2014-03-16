@@ -279,7 +279,6 @@ public:
 
 	static StarSystemCache attic;
 	static RefCountedPtr<StarSystemCache::Slave> cache;
-	static void ShrinkCache(const SystemPath &path);
 
 	void ExportToLua(const char *filename);
 

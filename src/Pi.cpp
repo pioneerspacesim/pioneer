@@ -687,6 +687,7 @@ void Pi::Quit()
 
 void Pi::FlushCaches()
 {
+	StarSystem::cache = StarSystem::attic.NewSlaveCache();
 	StarSystem::attic.ClearCache();
 	Sector::cache.ClearCache();
 	// XXX Ideally the cache would now be empty, but we still have Faction::m_homesector :(
@@ -1278,9 +1279,6 @@ void Pi::MainLoop()
 			// XXX should this really be limited to while the player is alive?
 			// this is something we need not do every turn...
 			if (!config->Int("DisableSound")) AmbientSounds::Update();
-			if( !Pi::game->IsHyperspace() ) {
-				StarSystem::ShrinkCache( Pi::game->GetSpace()->GetStarSystem()->GetPath() );
-			}
 		}
 		cpan->Update();
 		musicPlayer.Update();
