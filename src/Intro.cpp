@@ -123,7 +123,7 @@ void Intro::Draw(float _time)
 	// rotate background by time, and a bit extra Z so it's not so flat
 	matrix4x4d brot = matrix4x4d::RotateXMatrix(-0.25*_time) * matrix4x4d::RotateZMatrix(0.6);
 	m_renderer->ClearDepthBuffer();
-	m_background->Draw(brot);
+	m_background->Draw(brot, Background::Container::DRAW_SKYBOX | Background::Container::DRAW_STARS);
 
 	m_renderer->SetViewport(m_spinnerLeft, 0, m_spinnerWidth, Graphics::GetScreenHeight());
 	m_renderer->SetPerspectiveProjection(75, m_spinnerRatio, 1.f, 10000.f);

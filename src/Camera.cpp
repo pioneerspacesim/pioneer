@@ -224,8 +224,14 @@ void Camera::Draw(const Body *excludeBody, ShipCockpit* cockpit)
 		}
 	}
 
-	Pi::game->GetSpace()->GetBackground()->SetIntensity(bgIntensity);
-	Pi::game->GetSpace()->GetBackground()->Draw(trans2bg);
+	const Uint32 backgroundFlags =
+		Pi::game->IsHyperspace()         ? Background::Container::DRAW_STARS :
+		Pi::IsSpaceBackgroundDisplayed() ? Background::Container::DRAW_SKYBOX | Background::Container::DRAW_STARS :
+		                                   0;
+	if (backgroundFlags) {
+		Pi::game->GetSpace()->GetBackground()->SetIntensity(bgIntensity);
+		Pi::game->GetSpace()->GetBackground()->Draw(trans2bg, backgroundFlags);
+	}
 
 	{
 		std::vector<Graphics::Light> rendererLights;

@@ -67,7 +67,6 @@ Space::Space(Game *game)
 #endif
 {
 	m_background.reset(new Background::Container(Pi::renderer, Pi::rng));
-	m_background->SetDrawFlags( Pi::IsSpaceBackgroundDisplayed() ? Background::Container::DRAW_SKYBOX | Background::Container::DRAW_STARS : 0 );
 
 	m_rootFrame.reset(new Frame(0, Lang::SYSTEM));
 	m_rootFrame->SetRadius(FLT_MAX);
@@ -90,7 +89,6 @@ Space::Space(Game *game, const SystemPath &path)
 	Uint32 _init[5] = { path.systemIndex, Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
 	Random rand(_init, 5);
 	m_background.reset(new Background::Container(Pi::renderer, rand));
-	m_background->SetDrawFlags( Pi::IsSpaceBackgroundDisplayed() ? Background::Container::DRAW_SKYBOX | Background::Container::DRAW_STARS : 0 );
 
 	CityOnPlanet::SetCityModelPatterns(m_starSystem->GetPath());
 
@@ -122,7 +120,6 @@ Space::Space(Game *game, Serializer::Reader &rd, double at_time)
 	Uint32 _init[5] = { path.systemIndex, Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
 	Random rand(_init, 5);
 	m_background.reset(new Background::Container(Pi::renderer, rand));
-	m_background->SetDrawFlags( Pi::IsSpaceBackgroundDisplayed() ? Background::Container::DRAW_SKYBOX | Background::Container::DRAW_STARS : 0 );
 
 	RebuildSystemBodyIndex();
 

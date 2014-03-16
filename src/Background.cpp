@@ -357,7 +357,6 @@ Container::Container(Graphics::Renderer *renderer, Random &rand)
 , m_milkyWay(renderer)
 , m_starField(renderer, rand)
 , m_universeBox(renderer)
-, m_drawFlags( DRAW_SKYBOX | DRAW_STARS )
 {
 	Graphics::RenderStateDesc rsd;
 	rsd.depthTest  = false;
@@ -373,17 +372,17 @@ void Container::Refresh(Random &rand)
 	m_universeBox.LoadCubeMap(rand);
 }
 
-void Container::Draw(const matrix4x4d &transform)
+void Container::Draw(const matrix4x4d &transform, const Uint32 drawFlags)
 {
 	PROFILE_SCOPED()
 	m_renderer->SetTransform(transform);
-	if( DRAW_SKYBOX & m_drawFlags ) {
+	if( DRAW_SKYBOX & drawFlags ) {
 		m_universeBox.Draw(m_renderState);
 	}
-	if( DRAW_MILKY & m_drawFlags ) {
+	if( DRAW_MILKY & drawFlags ) {
 		m_milkyWay.Draw(m_renderState);
 	}
-	if( DRAW_STARS & m_drawFlags ) {
+	if( DRAW_STARS & drawFlags ) {
 		// squeeze the starfield a bit to get more density near horizon
 		matrix4x4d starTrans = transform * matrix4x4d::ScaleMatrix(1.0, 0.4, 1.0);
 		m_renderer->SetTransform(starTrans);
@@ -397,11 +396,6 @@ void Container::SetIntensity(float intensity)
 	m_universeBox.SetIntensity(intensity);
 	m_starField.SetIntensity(intensity);
 	m_milkyWay.SetIntensity(intensity);
-}
-
-void Container::SetDrawFlags(const Uint32 flags)
-{
-	m_drawFlags = flags;
 }
 
 } //namespace Background

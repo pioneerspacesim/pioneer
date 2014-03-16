@@ -92,18 +92,16 @@ namespace Background
 		};
 
 		Container(Graphics::Renderer*, Random &rand);
-		void Draw(const matrix4x4d &transform);
+		void Draw(const matrix4x4d &transform, const Uint32 drawFlags);
 		void Refresh(Random &rand);
 
 		void SetIntensity(float intensity);
-		void SetDrawFlags(const Uint32 flags);
 
 	private:
 		Graphics::Renderer *m_renderer;
 		MilkyWay m_milkyWay;
 		Starfield m_starField;
 		UniverseBox m_universeBox;
-		Uint32 m_drawFlags;
 		Graphics::RenderState *m_renderState;
 	};
 
