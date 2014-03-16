@@ -184,6 +184,7 @@ private:
 	// support for DrawWidget()
 	Point m_drawWidgetPosition;
 	std::stack< std::pair<Point,Point> > m_scissorStack;
+	std::stack<float> m_opacityStack;
 };
 
 }

@@ -199,10 +199,14 @@ void Context::DrawWidget(Widget *w)
 
 	m_renderer->SetTransform(matrix4x4f::Translation(m_drawWidgetPosition.x, m_drawWidgetPosition.y, 0));
 
-	m_skin.SetOpacity(w->GetAnimatedOpacity());
-	w->Draw();
-	m_skin.SetOpacity(1.0f);
+	float oldOpacity = m_opacityStack.empty() ? 1.0f : m_opacityStack.top();
+	float opacity = oldOpacity * w->GetAnimatedOpacity();
+	m_opacityStack.push(opacity);
+	m_skin.SetOpacity(opacity);
 
+	w->Draw();
+
+	m_opacityStack.pop();
 	m_scissorStack.pop();
 
 	m_drawWidgetPosition -= pos + drawOffset;

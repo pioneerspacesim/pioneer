@@ -132,7 +132,16 @@ int main(int argc, char **argv)
 
 	RefCountedPtr<UI::Context> c(new UI::Context(Lua::manager, r, WIDTH, HEIGHT));
 
-	UI::ColorBackground *cb = c->ColorBackground(Color4ub(0x40, 0xc0, 0x40).ToColor4f());
+	UI::Background *cb = c->Background();
+	cb->SetInnerWidget(
+		c->Margin(10)->SetInnerWidget(
+			c->Background()->SetInnerWidget(
+				c->Margin(10)->SetInnerWidget(
+					c->Background()
+				)
+			)
+		)
+	);
 	c->GetTopLayer()->SetInnerWidget(
 		c->Margin(10)->SetInnerWidget(
 			cb
