@@ -152,6 +152,7 @@ public:
 	RefCountedPtr<Text::TextureFont> GetFont(Widget::Font font) const { return m_font[font]; }
 
 	const Point &GetScissor() const { return m_scissorStack.top().second; }
+	const float &GetOpacity() const { return m_opacityStack.top(); }
 
 private:
 	virtual Point PreferredSize() { return Point(); }
