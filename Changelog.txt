@@ -5,6 +5,7 @@ March 2014
 
    * Minor changes and tweaks
      * Message boxes used for warnings in station screens
+     * Textual galaxy dump (#2811)
 
    * Fixes
      * Fix volume control layout (#2798)

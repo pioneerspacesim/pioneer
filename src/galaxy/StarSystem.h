@@ -208,8 +208,9 @@ public:
 
 	AtmosphereParameters CalcAtmosphereParams() const;
 
-
 	bool IsScoopable() const;
+
+	void Dump(FILE* file, const char* indent = "") const;
 
 private:
 	friend class StarSystem;
@@ -220,7 +221,6 @@ private:
 	SystemBody *m_parent;                // these are only valid if the StarSystem
 	std::vector<SystemBody*> m_children; // that create them still exists
 
-	Uint32 m_id; // index into starsystem->m_bodies
 	SystemPath m_path;
 	Orbit m_orbit;
 	Uint32 m_seed; // Planet.cpp can use to generate terrain
@@ -276,7 +276,6 @@ public:
 	SystemBody *GetBodyByPath(const SystemPath &path) const;
 	static void Serialize(Serializer::Writer &wr, StarSystem *);
 	static RefCountedPtr<StarSystem> Unserialize(Serializer::Reader &rd);
-	void Dump();
 	const SystemPath &GetPath() const { return m_path; }
 	const char *GetShortDescription() const { return m_shortDesc.c_str(); }
 	const char *GetLongDescription() const { return m_longDesc.c_str(); }
@@ -315,6 +314,8 @@ public:
 	fixed GetAgricultural() const { return m_agricultural; }
 	fixed GetHumanProx() const { return m_humanProx; }
 	fixed GetTotalPop() const { return m_totalPop; }
+
+	void Dump(FILE* file, const char* indent = "", bool suppressSectorData = false) const;
 
 private:
 	StarSystem(const SystemPath &path);

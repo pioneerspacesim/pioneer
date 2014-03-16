@@ -18,6 +18,7 @@
 #include "Lang.h"
 #include "StringF.h"
 #include <SDL_stdinc.h>
+#include "EnumStrings.h"
 
 StarSystemCache::SystemCacheMap StarSystemCache::s_cachedSystems;
 
@@ -2331,6 +2332,48 @@ void SystemBody::PopulateAddStations(StarSystem *system)
 	}
 }
 
+void SystemBody::Dump(FILE* file, const char* indent) const
+{
+	fprintf(file, "%sSystemBody(%d,%d,%d,%u,%u) : %s/%s %s{\n", indent, m_path.sectorX, m_path.sectorY, m_path.sectorZ, m_path.systemIndex,
+		m_path.bodyIndex, EnumStrings::GetString("BodySuperType", GetSuperType()), EnumStrings::GetString("BodyType", m_type),
+		m_isCustomBody ? "CUSTOM " : "");
+	fprintf(file, "%s\t\"%s\"\n", indent, m_name.c_str());
+	fprintf(file, "%s\tmass %.6f\n", indent, m_mass.ToDouble());
+	fprintf(file, "%s\torbit a=%.6f, e=%.6f, phase=%.6f\n", indent, m_orbit.GetSemiMajorAxis(), m_orbit.GetEccentricity(),
+		m_orbit.GetOrbitalPhaseAtStart());
+	fprintf(file, "%s\torbit a=%.6f, e=%.6f, orbMin=%.6f, orbMax=%.6f\n", indent, m_semiMajorAxis.ToDouble(), m_eccentricity.ToDouble(),
+		m_orbMin.ToDouble(), m_orbMax.ToDouble());
+	fprintf(file, "%s\t\toffset=%.6f, phase=%.6f, inclination=%.6f\n", indent, m_orbitalOffset.ToDouble(), m_orbitalPhaseAtStart.ToDouble(),
+		m_inclination.ToDouble());
+	if (m_type != TYPE_GRAVPOINT) {
+		fprintf(file, "%s\tseed %u\n", indent, m_seed);
+		fprintf(file, "%s\tradius %.6f, aspect %.6f\n", indent, m_radius.ToDouble(), m_aspectRatio.ToDouble());
+		fprintf(file, "%s\taxial tilt %.6f, period %.6f, phase %.6f\n", indent, m_axialTilt.ToDouble(), m_rotationPeriod.ToDouble(),
+			m_rotationalPhaseAtStart.ToDouble());
+		fprintf(file, "%s\ttemperature %d\n", indent, m_averageTemp);
+		fprintf(file, "%s\tmetalicity %.2f, volcanicity %.2f\n", indent, m_metallicity.ToDouble() * 100.0, m_volcanicity.ToDouble() * 100.0);
+		fprintf(file, "%s\tvolatiles gas=%.2f, liquid=%.2f, ice=%.2f\n", indent, m_volatileGas.ToDouble() * 100.0,
+			m_volatileLiquid.ToDouble() * 100.0, m_volatileIces.ToDouble() * 100.0);
+		fprintf(file, "%s\tlife %.2f\n", indent, m_life.ToDouble() * 100.0);
+		fprintf(file, "%s\tatmosphere oxidizing=%.2f, color=(%hhu,%hhu,%hhu,%hhu), density=%.6f\n", indent,
+			m_atmosOxidizing.ToDouble() * 100.0, m_atmosColor.r, m_atmosColor.g, m_atmosColor.b, m_atmosColor.a, m_atmosDensity);
+		fprintf(file, "%s\trings minRadius=%.2f, maxRadius=%.2f, color=(%hhu,%hhu,%hhu,%hhu)\n", indent, m_rings.minRadius.ToDouble() * 100.0,
+			m_rings.maxRadius.ToDouble() * 100.0, m_rings.baseColor.r, m_rings.baseColor.g, m_rings.baseColor.b, m_rings.baseColor.a);
+		fprintf(file, "%s\thuman activity %.2f, population %'.0f, agricultural %.2f\n", indent, m_humanActivity.ToDouble() * 100.0,
+			m_population.ToDouble() * 1e9, m_agricultural.ToDouble() * 100.0);
+		if (!m_heightMapFilename.empty()) {
+			fprintf(file, "%s\theightmap \"%s\", fractal %d\n", indent, m_heightMapFilename.c_str(), m_heightMapFractal);
+		}
+	}
+	for (const SystemBody* kid : m_children) {
+		assert(kid->m_parent == this);
+		char buf[32];
+		snprintf(buf, sizeof(buf), "%s\t", indent);
+		kid->Dump(file, buf);
+	}
+	fprintf(file, "%s}\n", indent);
+}
+
 void SystemBody::ClearParentAndChildPointers()
 {
 	PROFILE_SCOPED()
@@ -2527,6 +2570,44 @@ void StarSystem::ExportToLua(const char *filename) {
 
 	fclose(f);
 }
+
+void StarSystem::Dump(FILE* file, const char* indent, bool suppressSectorData) const
+{
+	// percent price alteration
+	//int m_tradeLevel[Equip::TYPE_MAX];
+
+	if (suppressSectorData) {
+		fprintf(file, "%sStarSystem {%s\n", indent, m_hasCustomBodies ? " CUSTOM-ONLY" : m_isCustom ? " CUSTOM" : "");
+	} else {
+		fprintf(file, "%sStarSystem(%d,%d,%d,%u) {\n", indent, m_path.sectorX, m_path.sectorY, m_path.sectorZ, m_path.systemIndex);
+		fprintf(file, "%s\t\"%s\"\n", indent, m_name.c_str());
+		fprintf(file, "%s\t%sEXPLORED%s\n", indent, m_unexplored ? "UN" : "", m_hasCustomBodies ? ", CUSTOM-ONLY" : m_isCustom ? ", CUSTOM" : "");
+		fprintf(file, "%s\tfaction %s%s%s\n", indent, m_faction ? "\"" : "NONE", m_faction ? m_faction->name.c_str() : "", m_faction ? "\"" : "");
+		fprintf(file, "%s\tseed %u\n", indent, m_seed);
+		fprintf(file, "%s\t%d stars%s\n", indent, m_numStars, m_numStars > 0 ? " {" : "");
+		assert(unsigned(m_numStars) == m_stars.size());
+		for (int i = 0; i < m_numStars; ++i)
+			fprintf(file, "%s\t\t%s\n", indent, EnumStrings::GetString("BodyType", m_stars[i]->GetType()));
+		if (m_numStars > 0) fprintf(file, "%s\t}\n", indent);
+	}
+	fprintf(file, "%s\t%zu bodies, %zu spaceports \n", indent, m_bodies.size(), m_spaceStations.size());
+	fprintf(file, "%s\tpopulation %'.0f\n", indent, m_totalPop.ToDouble() * 1e9);
+	fprintf(file, "%s\tgovernment %s/%s, lawlessness %.2f\n", indent, m_polit.GetGovernmentDesc(), m_polit.GetEconomicDesc(),
+		m_polit.lawlessness.ToDouble() * 100.0);
+	fprintf(file, "%s\teconomy type%s%s%s\n", indent, m_econType == 0 ? " NONE" : m_econType & ECON_AGRICULTURE ? " AGRICULTURE" : "",
+		m_econType & ECON_INDUSTRY ? " INDUSTRY" : "", m_econType & ECON_MINING ? " MINING" : "");
+	fprintf(file, "%s\thumanProx %.2f\n", indent, m_humanProx.ToDouble() * 100.0);
+	fprintf(file, "%s\tmetallicity %.2f, industrial %.2f, agricultural %.2f\n", indent, m_metallicity.ToDouble() * 100.0,
+		m_industrial.ToDouble() * 100.0, m_agricultural.ToDouble() * 100.0);
+	if (m_rootBody) {
+		char buf[32];
+		snprintf(buf, sizeof(buf), "%s\t", indent);
+		assert(m_rootBody->GetPath().IsSameSystem(m_path));
+		m_rootBody->Dump(file, buf);
+	}
+	fprintf(file, "%s}\n", indent);
+}
+
 
 RefCountedPtr<StarSystem> StarSystemCache::GetCached(const SystemPath &path)
 {
