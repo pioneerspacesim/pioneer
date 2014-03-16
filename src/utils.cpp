@@ -14,31 +14,31 @@
 #include <cstdio>
 
 std::string format_money(Sint64 cents, bool showCents){
-	std::string decimalPoint = Lang::MONEY_DECIMAL_POINT;
-	std::string groupSeperator = Lang::MONEY_GROUP_SEP;
-	size_t groupDigits = atoi(Lang::MONEY_GROUP_NUM);
+	char *end;                                   // for  error checking
+	size_t groupDigits = strtol(Lang::NUMBER_GROUP_NUM, &end, 10);
+	assert(*end == 0);
 
-	double money = showCents ? 0.01*cents : std::round(0.01*cents);
+	double money = showCents ? 0.01*cents : roundf(0.01*cents);
 
 	const char *format = (money < 0) ? "-$%.2f" : "$%.2f";
 	char buf[64];
 	snprintf(buf, sizeof(buf), format, std::abs(money));
 	std::string result(buf);
 
-	size_t pos;                                     // pos to decimal point
-	for(pos = 0; pos < result.length() && result[pos] != '.'; ++pos){}
+	size_t pos = result.find_first_of('.');      // pos to decimal point
 
-	result.replace(pos, 1, decimalPoint);           // replace decimal point
-
-	if(!showCents)                                  // remove fractional part
+	if(showCents)                                // replace decimal point
+		result.replace(pos, 1, Lang::NUMBER_DECIMAL_POINT);
+	else                                         // or just remove frac. part
 		result.erase(result.begin() + pos, result.end());
 
-	size_t char_stepps = (money < 0) ? 2 : 1;       // compensate for "$" or "-$"
-	while(pos - char_stepps > groupDigits){         // insert thousand seperator
-		pos = pos - groupDigits;
-		result.insert(pos, groupSeperator);
+	if(groupDigits != 0){
+		size_t skip = (money < 0) ? 2 : 1;        // compensate for "$" or "-$"
+		while(pos - skip > groupDigits){          // insert thousand seperator
+			pos = pos - groupDigits;
+			result.insert(pos, Lang::NUMBER_GROUP_SEP);
+		}
 	}
-
 	return result;
 }
 
