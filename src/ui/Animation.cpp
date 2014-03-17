@@ -11,63 +11,88 @@ Animation::Animation(Widget *widget, Type type, Easing easing, Target target, fl
 	m_easing(easing),
 	m_target(target),
 	m_duration(duration),
-	m_continuous(continuous)
+	m_continuous(continuous),
+	m_easingFunc(nullptr),
+	m_wrapFunc(nullptr)
 {
-	m_easingFunc = SelectEasingFunction(type, easing);
+	SelectEasingFunction(type, easing);
 }
 
-::Easing::Function<float>::Type Animation::SelectEasingFunction(Type type, Easing easing)
+static float easeIn(::Easing::Function<float>::Type easingFunc, float t, float d)
+{
+	return easingFunc(t, 0.0f, 1.0f, d);
+}
+
+static float easeOut(::Easing::Function<float>::Type easingFunc, float t, float d)
+{
+	return 1.0f-easingFunc(t, 0.0f, 1.0f, d);
+}
+
+static float easeInOut(::Easing::Function<float>::Type easingFunc, float t, float d)
+{
+	return 1.0f-fabsf(easingFunc(t, -1.0, 2.0, d));
+}
+
+void Animation::SelectEasingFunction(Type type, Easing easing)
 {
 	switch (m_type) {
 		case TYPE_IN: {
+			m_wrapFunc = easeIn;
 			switch (m_easing) {
-				case EASING_LINEAR: return ::Easing::Linear::EaseIn<float>;
-				case EASING_QUAD:   return ::Easing::Quad::EaseIn<float>;
-				case EASING_CUBIC:  return ::Easing::Cubic::EaseIn<float>;
-				case EASING_QUART:  return ::Easing::Quart::EaseIn<float>;
-				case EASING_QUINT:  return ::Easing::Quint::EaseIn<float>;
-				case EASING_SINE:   return ::Easing::Sine::EaseIn<float>;
-				case EASING_EXPO:   return ::Easing::Expo::EaseIn<float>;
-				case EASING_CIRC:   return ::Easing::Circ::EaseIn<float>;
+				case EASING_LINEAR: m_easingFunc = ::Easing::Linear::EaseIn<float>; return;
+				case EASING_QUAD:   m_easingFunc = ::Easing::Quad::EaseIn<float>; return;
+				case EASING_CUBIC:  m_easingFunc = ::Easing::Cubic::EaseIn<float>; return;
+				case EASING_QUART:  m_easingFunc = ::Easing::Quart::EaseIn<float>; return;
+				case EASING_QUINT:  m_easingFunc = ::Easing::Quint::EaseIn<float>; return;
+				case EASING_SINE:   m_easingFunc = ::Easing::Sine::EaseIn<float>; return;
+				case EASING_EXPO:   m_easingFunc = ::Easing::Expo::EaseIn<float>; return;
+				case EASING_CIRC:   m_easingFunc = ::Easing::Circ::EaseIn<float>; return;
 			}
+			assert(m_easingFunc);
+			return;
 		}
 
 		case TYPE_OUT: {
+			m_wrapFunc = easeOut;
 			switch (m_easing) {
-				case EASING_LINEAR: return ::Easing::Linear::EaseOut<float>;
-				case EASING_QUAD:   return ::Easing::Quad::EaseOut<float>;
-				case EASING_CUBIC:  return ::Easing::Cubic::EaseOut<float>;
-				case EASING_QUART:  return ::Easing::Quart::EaseOut<float>;
-				case EASING_QUINT:  return ::Easing::Quint::EaseOut<float>;
-				case EASING_SINE:   return ::Easing::Sine::EaseOut<float>;
-				case EASING_EXPO:   return ::Easing::Expo::EaseOut<float>;
-				case EASING_CIRC:   return ::Easing::Circ::EaseOut<float>;
+				case EASING_LINEAR: m_easingFunc = ::Easing::Linear::EaseOut<float>; return;
+				case EASING_QUAD:   m_easingFunc = ::Easing::Quad::EaseOut<float>; return;
+				case EASING_CUBIC:  m_easingFunc = ::Easing::Cubic::EaseOut<float>; return;
+				case EASING_QUART:  m_easingFunc = ::Easing::Quart::EaseOut<float>; return;
+				case EASING_QUINT:  m_easingFunc = ::Easing::Quint::EaseOut<float>; return;
+				case EASING_SINE:   m_easingFunc = ::Easing::Sine::EaseOut<float>; return;
+				case EASING_EXPO:   m_easingFunc = ::Easing::Expo::EaseOut<float>; return;
+				case EASING_CIRC:   m_easingFunc = ::Easing::Circ::EaseOut<float>; return;
 			}
+			assert(m_easingFunc);
+			return;
 		}
 
 		case TYPE_IN_OUT: {
+			m_wrapFunc = easeInOut;
 			switch (m_easing) {
-				case EASING_LINEAR: return ::Easing::Linear::EaseInOut<float>;
-				case EASING_QUAD:   return ::Easing::Quad::EaseInOut<float>;
-				case EASING_CUBIC:  return ::Easing::Cubic::EaseInOut<float>;
-				case EASING_QUART:  return ::Easing::Quart::EaseInOut<float>;
-				case EASING_QUINT:  return ::Easing::Quint::EaseInOut<float>;
-				case EASING_SINE:   return ::Easing::Sine::EaseInOut<float>;
-				case EASING_EXPO:   return ::Easing::Expo::EaseInOut<float>;
-				case EASING_CIRC:   return ::Easing::Circ::EaseInOut<float>;
+				case EASING_LINEAR: m_easingFunc = ::Easing::Linear::EaseInOut<float>; return;
+				case EASING_QUAD:   m_easingFunc = ::Easing::Quad::EaseInOut<float>; return;
+				case EASING_CUBIC:  m_easingFunc = ::Easing::Cubic::EaseInOut<float>; return;
+				case EASING_QUART:  m_easingFunc = ::Easing::Quart::EaseInOut<float>; return;
+				case EASING_QUINT:  m_easingFunc = ::Easing::Quint::EaseInOut<float>; return;
+				case EASING_SINE:   m_easingFunc = ::Easing::Sine::EaseInOut<float>; return;
+				case EASING_EXPO:   m_easingFunc = ::Easing::Expo::EaseInOut<float>; return;
+				case EASING_CIRC:   m_easingFunc = ::Easing::Circ::EaseInOut<float>; return;
 			}
+			assert(m_easingFunc);
+			return;
 		}
 	}
 
-	assert(0);
-	return nullptr;
+	assert(m_easingFunc);
 }
 
 bool Animation::Update(float time)
 {
 	bool completed = time >= m_duration && !m_continuous;
 
-	float pos = m_easingFunc(completed ? m_duration : fmod(time, m_duration), 0.0f, 1.0f, m_duration);
+	float pos = m_wrapFunc(m_easingFunc, completed ? m_duration : fmodf(time, m_duration), m_duration);
 
 	switch (m_target) {
 		case TARGET_POSITION:

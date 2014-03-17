@@ -137,7 +137,7 @@ int main(int argc, char **argv)
 		c->Margin(10)->SetInnerWidget(
 			c->Background()->SetInnerWidget(
 				c->Margin(10)->SetInnerWidget(
-					c->Background()
+					c->Image("textures/background.jpg")
 				)
 			)
 		)
@@ -148,7 +148,7 @@ int main(int argc, char **argv)
 		)
 	);
 
-	c->GetAnimationController().Add(UI::Animation(cb, UI::Animation::TYPE_IN, UI::Animation::EASING_LINEAR, UI::Animation::TARGET_OPACITY, 4.0f, false));
+	c->GetAnimationController().Add(UI::Animation(cb, UI::Animation::TYPE_IN_OUT, UI::Animation::EASING_SINE, UI::Animation::TARGET_OPACITY, 4.0f, true));
 
 #if 0
 	UI::VBox *box = c->VBox();

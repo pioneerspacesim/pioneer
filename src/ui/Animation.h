@@ -47,8 +47,9 @@ private:
 	float m_duration;
 	bool m_continuous;
 
-	::Easing::Function<float>::Type SelectEasingFunction(Type type, Easing easing);
+	void SelectEasingFunction(Type type, Easing easing);
 	::Easing::Function<float>::Type m_easingFunc;
+	float (*m_wrapFunc)(::Easing::Function<float>::Type easingFunc, float t, float d);
 };
 
 class AnimationController {
