@@ -8,6 +8,7 @@ local Comms = import("Comms")
 local Character = import("Character")
 local Event = import("Event")
 local Serializer = import("Serializer")
+local Format = import("Format")
 
 local l = Lang.GetResource("module-donatetocranks")
 
@@ -46,12 +47,12 @@ local onChat = function (form, ref, option)
 		form:SetFace({ seed = ad.faceseed })
 		form:SetMessage(ad.message)
 
-		form:AddOption("$1", 1)
-		form:AddOption("$10", 10)
-		form:AddOption("$100", 100)
-		form:AddOption("$1000", 1000)
-		form:AddOption("$10000", 10000)
-		form:AddOption("$100000", 100000)
+		form:AddOption(Format.Money(1,false), 1)
+		form:AddOption(Format.Money(10,false), 10)
+		form:AddOption(Format.Money(100,false), 100)
+		form:AddOption(Format.Money(1000,false), 1000)
+		form:AddOption(Format.Money(10000,false), 10000)
+		form:AddOption(Format.Money(100000,false), 100000)
 
 		return
 	end
