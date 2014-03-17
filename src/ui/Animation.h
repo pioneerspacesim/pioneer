@@ -31,8 +31,11 @@ public:
 	};
 
 	enum Target {
-		TARGET_POSITION,
-		TARGET_OPACITY
+		TARGET_OPACITY,
+		TARGET_POSITION_X,
+		TARGET_POSITION_Y,
+		TARGET_POSITION_X_REV,
+		TARGET_POSITION_Y_REV
 	};
 
 	Animation(Widget *widget, Type type, Easing easing, Target target, float duration = 1.0f, bool continuous = false);

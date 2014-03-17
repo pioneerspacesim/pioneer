@@ -95,13 +95,26 @@ bool Animation::Update(float time)
 	float pos = m_wrapFunc(m_easingFunc, completed ? m_duration : fmodf(time, m_duration), m_duration);
 
 	switch (m_target) {
-		case TARGET_POSITION:
-			assert(0);
-			break;
-
 		case TARGET_OPACITY:
 			m_widget->SetAnimatedOpacity(pos);
 			break;
+
+		case TARGET_POSITION_X:
+			m_widget->SetAnimatedPositionX(pos);
+			break;
+
+		case TARGET_POSITION_Y:
+			m_widget->SetAnimatedPositionY(pos);
+			break;
+
+		case TARGET_POSITION_X_REV:
+			m_widget->SetAnimatedPositionX(-pos);
+			break;
+
+		case TARGET_POSITION_Y_REV:
+			m_widget->SetAnimatedPositionY(-pos);
+			break;
+
 	}
 
 	return completed;

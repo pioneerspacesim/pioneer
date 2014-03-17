@@ -20,7 +20,9 @@ Widget::Widget(Context *context) :
 	m_disabled(false),
 	m_mouseOver(false),
 	m_visible(false),
-	m_animatedOpacity(1.0f)
+	m_animatedOpacity(1.0f),
+	m_animatedPositionX(1.0f),
+	m_animatedPositionY(1.0f)
 {
 	assert(m_context);
 }

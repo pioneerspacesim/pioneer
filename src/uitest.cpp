@@ -132,6 +132,16 @@ int main(int argc, char **argv)
 
 	RefCountedPtr<UI::Context> c(new UI::Context(Lua::manager, r, WIDTH, HEIGHT));
 
+	UI::Grid *g = c->Grid(4,4);
+	UI::Image *img = c->Image("textures/background.jpg");
+	g->SetCell(2,1,img);
+	c->GetTopLayer()->SetInnerWidget(g);
+
+	c->GetAnimationController().Add(UI::Animation(img, UI::Animation::TYPE_IN, UI::Animation::EASING_QUINT, UI::Animation::TARGET_OPACITY, 1.0f, false));
+	c->GetAnimationController().Add(UI::Animation(img, UI::Animation::TYPE_IN, UI::Animation::EASING_LINEAR, UI::Animation::TARGET_POSITION_X, 1.0f, false));
+	c->GetAnimationController().Add(UI::Animation(img, UI::Animation::TYPE_IN, UI::Animation::EASING_QUAD, UI::Animation::TARGET_POSITION_Y_REV, 1.0f, false));
+
+#if 0
 	UI::Background *cb = c->Background();
 	cb->SetInnerWidget(
 		c->Margin(10)->SetInnerWidget(
@@ -149,6 +159,7 @@ int main(int argc, char **argv)
 	);
 
 	c->GetAnimationController().Add(UI::Animation(cb, UI::Animation::TYPE_IN_OUT, UI::Animation::EASING_SINE, UI::Animation::TARGET_OPACITY, 4.0f, true));
+#endif
 
 #if 0
 	UI::VBox *box = c->VBox();

@@ -179,7 +179,15 @@ void Context::DrawWidget(Widget *w)
 	const Point &drawOffset = w->GetDrawOffset();
 	const Point &size = w->GetSize();
 
-	m_drawWidgetPosition += pos;
+	const float &animX = w->GetAnimatedPositionX();
+	const float &animY = w->GetAnimatedPositionY();
+
+	const Point animPos(
+		animX < 0.0f ? m_width-(m_width-pos.x)*-animX    : (pos.x+size.x)*animX-size.x,
+		animY < 0.0f ?  m_height-(m_height-pos.y)*-animY : (pos.y+size.y)*animY-size.y
+	);
+
+	m_drawWidgetPosition += animPos;
 
 	const std::pair<Point,Point> &currentScissor(m_scissorStack.top());
 	const Point &currentScissorPos(currentScissor.first);
@@ -209,7 +217,7 @@ void Context::DrawWidget(Widget *w)
 	m_opacityStack.pop();
 	m_scissorStack.pop();
 
-	m_drawWidgetPosition -= pos + drawOffset;
+	m_drawWidgetPosition -= animPos + drawOffset;
 }
 
 }
