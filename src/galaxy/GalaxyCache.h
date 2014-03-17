@@ -19,11 +19,18 @@ template <typename T, typename CompareT>
 class GalaxyObjectCache {
 	friend T;
 public:
+	static const std::string CACHE_NAME;
+
+	GalaxyObjectCache() : m_cacheHits(0), m_cacheHitsSlave(0), m_cacheMisses(0) { }
 	~GalaxyObjectCache();
+
 	RefCountedPtr<T> GetCached(const SystemPath& path);
 	RefCountedPtr<T> GetIfCached(const SystemPath& path);
+
 	void ClearCache(); 	// Completely clear slave caches
 	bool IsEmpty() { return m_attic.empty(); }
+
+	void OutputCacheStatistics(bool reset = true);
 
 	typedef std::vector<SystemPath> PathVector;
 	typedef std::map<SystemPath,RefCountedPtr<T>,CompareT> CacheMap;
@@ -87,6 +94,10 @@ protected:
 	AtticMap m_attic;	// Those contains non-refcounted pointers which are kept alive by RefCountedPtrs in slave caches
 						// or elsewhere. The Sector destructor ensures that it is removed from here.
 						// This ensures, that there is only ever one object for each Sector.
+
+	unsigned long long m_cacheHits;
+	unsigned long long m_cacheHitsSlave;
+	unsigned long long m_cacheMisses;
 };
 
 class Sector;

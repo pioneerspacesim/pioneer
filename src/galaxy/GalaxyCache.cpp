@@ -53,10 +53,12 @@ RefCountedPtr<T> GalaxyObjectCache<T,CompareT>::GetCached(const SystemPath& path
 
 	RefCountedPtr<T> s = this->GetIfCached(path);
 	if (!s) {
+		++m_cacheMisses;
 		s.Reset(new T(path));
 		m_attic.insert( std::make_pair(path, s.Get()));
+	} else {
+		++m_cacheHits;
 	}
-
 	return s;
 }
 
@@ -79,6 +81,14 @@ void GalaxyObjectCache<T,CompareT>::ClearCache()
 {
 	for (auto it = m_slaves.begin(), itEnd = m_slaves.end(); it != itEnd; ++it)
 		(*it)->ClearCache();
+}
+
+template <typename T, typename CompareT>
+void GalaxyObjectCache<T,CompareT>::OutputCacheStatistics(bool reset)
+{
+	Output("%s: misses: %lld, slave hits: %lld, master hits: %lld\n", CACHE_NAME.c_str(), m_cacheMisses, m_cacheHitsSlave, m_cacheHits);
+	if (reset)
+		m_cacheMisses = m_cacheHitsSlave = m_cacheHits = 0;
 }
 
 template <typename T, typename CompareT>
@@ -117,8 +127,11 @@ RefCountedPtr<T> GalaxyObjectCache<T,CompareT>::Slave::GetCached(const SystemPat
 	PROFILE_SCOPED()
 
 	typename CacheMap::iterator i = m_cache.find(path);
-	if (i != m_cache.end())
+	if (i != m_cache.end()) {
+		if (m_master)
+			++m_master->m_cacheHitsSlave;
 		return (*i).second;
+	}
 
 	if (m_master) {
 		auto inserted = m_cache.insert( std::make_pair(path, m_master->GetCached(path)) );
@@ -145,7 +158,7 @@ GalaxyObjectCache<T,CompareT>::Slave::~Slave()
 		for (auto it = m_cache.begin(); it != m_cache.end(); ++it)
 			if (it->second->GetRefCount() == 1)
 				unique++;
-		Output("SectorCache: Discarding slave cache with %zu entries (%u to be removed)\n", m_cache.size(), unique);
+		Output("%s: Discarding slave cache with %zu entries (%u to be removed)\n", CACHE_NAME.c_str(), m_cache.size(), unique);
 #	endif
 	if (m_master)
 		m_master->m_slaves.erase(this);
@@ -205,7 +218,8 @@ void GalaxyObjectCache<T,CompareT>::Slave::FillCache(const typename GalaxyObject
 	}
 
 #	ifdef DEBUG_SECTOR_CACHE
-		Output("SectorCache: FillCache: %zu cached, %u in master cache, %u to be created, will use %zu jobs\n",  alreadyCached, masterCached, toBeCreated, vec_paths.size());
+		Output("%s: FillCache: %zu cached, %u in master cache, %u to be created, will use %zu jobs\n", CACHE_NAME.c_str(),
+			alreadyCached, masterCached, toBeCreated, vec_paths.size());
 #	endif
 
 	// now add the batched jobs
@@ -241,6 +255,8 @@ void GalaxyObjectCache<T,CompareT>::CacheJob::OnFinish()  // runs in primary thr
 
 /****** SectorCache ******/
 
+template <> const std::string GalaxyObjectCache<Sector,SystemPath::LessSectorOnly>::CACHE_NAME("SectorCache");
+
 template class GalaxyObjectCache<Sector,SystemPath::LessSectorOnly>;
 
 /****** StarSystemCache ******/
@@ -251,5 +267,7 @@ GalaxyObjectCache<StarSystem,SystemPath::LessSystemOnly>::Slave::Slave(GalaxyObj
 {
 	m_master->m_slaves.insert(this);
 }
+
+template <> const std::string GalaxyObjectCache<StarSystem,SystemPath::LessSystemOnly>::CACHE_NAME("StarSystemCache");
 
 template class GalaxyObjectCache<StarSystem,SystemPath::LessSystemOnly>;
