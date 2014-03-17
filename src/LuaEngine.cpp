@@ -368,6 +368,23 @@ static int l_engine_get_display_hud_trails(lua_State *l)
 	return 1;
 }
 
+static int l_engine_set_display_space_background(lua_State *l)
+{
+	if (lua_isnone(l, 1))
+		return luaL_error(l, "SetDisplaySpaceBackground takes one boolean argument");
+	const bool enabled = lua_toboolean(l, 1);
+	Pi::config->SetInt("SpaceBackground", (enabled ? 1 : 0));
+	Pi::config->Save();
+	Pi::SetSpaceBackgroundDisplayed(enabled);
+	return 0;
+}
+
+static int l_engine_get_display_space_background(lua_State *l)
+{
+	lua_pushboolean(l, Pi::config->Int("SpaceBackground") != 0);
+	return 1;
+}
+
 static int l_engine_set_display_hud_trails(lua_State *l)
 {
 	if (lua_isnone(l, 1))
@@ -757,6 +774,9 @@ void LuaEngine::Register()
 
 		{ "GetDisplayHudTrails", l_engine_get_display_hud_trails },
 		{ "SetDisplayHudTrails", l_engine_set_display_hud_trails },
+
+		{ "GetDisplaySpaceBackground", l_engine_get_display_space_background },
+		{ "SetDisplaySpaceBackground", l_engine_set_display_space_background },
 
 		{ "GetMasterMuted", l_engine_get_master_muted },
 		{ "SetMasterMuted", l_engine_set_master_muted },

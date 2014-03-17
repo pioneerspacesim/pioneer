@@ -103,6 +103,10 @@ ui.templates.Settings = function (args)
 			Engine.GetDisplayHudTrails, Engine.SetDisplayHudTrails,
 			l.DISPLAY_HUD_TRAILS)
 
+		local spaceBackgroundCheckBox = optionCheckBox(
+			Engine.GetDisplaySpaceBackground, Engine.SetDisplaySpaceBackground,
+			l.DISPLAY_SPACE_BACKGROUND)
+
 		local cockpitCheckBox = optionCheckBox(
 			Engine.GetCockpitEnabled, Engine.SetCockpitEnabled,
 			l.ENABLE_COCKPIT)
@@ -130,6 +134,7 @@ ui.templates.Settings = function (args)
 				navTunnelsCheckBox,
 				speedLinesCheckBox,
 				hudTrailsCheckBox,
+				spaceBackgroundCheckBox,
 				cockpitCheckBox,
 			})))
 	end
