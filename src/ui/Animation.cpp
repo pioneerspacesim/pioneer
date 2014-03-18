@@ -11,11 +11,9 @@ Animation::Animation(Widget *widget, Type type, Easing easing, Target target, fl
 	m_easing(easing),
 	m_target(target),
 	m_duration(duration),
-	m_continuous(continuous),
-	m_easingFunc(nullptr),
-	m_wrapFunc(nullptr)
+	m_continuous(continuous)
 {
-	SelectEasingFunction(type, easing);
+	SelectFunctions();
 }
 
 static float easeIn(::Easing::Function<float>::Type easingFunc, float t, float d)
@@ -33,8 +31,42 @@ static float easeInOut(::Easing::Function<float>::Type easingFunc, float t, floa
 	return 1.0f-fabsf(easingFunc(t, -1.0, 2.0, d));
 }
 
-void Animation::SelectEasingFunction(Type type, Easing easing)
+void Animation::TargetOpacity(const float &pos)
 {
+    m_widget->SetAnimatedOpacity(pos);
+}
+
+void Animation::TargetPositionX(const float &pos)
+{
+    m_widget->SetAnimatedPositionX(pos);
+}
+
+void Animation::TargetPositionY(const float &pos)
+{
+    m_widget->SetAnimatedPositionY(pos);
+}
+
+void Animation::TargetPositionXRev(const float &pos)
+{
+    m_widget->SetAnimatedPositionX(-pos);
+}
+
+void Animation::TargetPositionYRev(const float &pos)
+{
+    m_widget->SetAnimatedPositionY(-pos);
+}
+
+void Animation::SelectFunctions()
+{
+	switch (m_target) {
+		case TARGET_OPACITY:        m_targetFunc = sigc::mem_fun(this, &Animation::TargetOpacity); break;
+		case TARGET_POSITION_X:     m_targetFunc = sigc::mem_fun(this, &Animation::TargetPositionX); break;
+		case TARGET_POSITION_Y:     m_targetFunc = sigc::mem_fun(this, &Animation::TargetPositionY); break;
+		case TARGET_POSITION_X_REV: m_targetFunc = sigc::mem_fun(this, &Animation::TargetPositionXRev); break;
+		case TARGET_POSITION_Y_REV: m_targetFunc = sigc::mem_fun(this, &Animation::TargetPositionYRev); break;
+	}
+	assert(m_targetFunc);
+
 	switch (m_type) {
 		case TYPE_IN: {
 			m_wrapFunc = easeIn;
@@ -90,33 +122,8 @@ void Animation::SelectEasingFunction(Type type, Easing easing)
 
 bool Animation::Update(float time)
 {
-	bool completed = time >= m_duration && !m_continuous;
-
-	float pos = m_wrapFunc(m_easingFunc, completed ? m_duration : fmodf(time, m_duration), m_duration);
-
-	switch (m_target) {
-		case TARGET_OPACITY:
-			m_widget->SetAnimatedOpacity(pos);
-			break;
-
-		case TARGET_POSITION_X:
-			m_widget->SetAnimatedPositionX(pos);
-			break;
-
-		case TARGET_POSITION_Y:
-			m_widget->SetAnimatedPositionY(pos);
-			break;
-
-		case TARGET_POSITION_X_REV:
-			m_widget->SetAnimatedPositionX(-pos);
-			break;
-
-		case TARGET_POSITION_Y_REV:
-			m_widget->SetAnimatedPositionY(-pos);
-			break;
-
-	}
-
+	const bool completed = time >= m_duration && !m_continuous;
+	m_targetFunc(m_wrapFunc(m_easingFunc, completed ? m_duration : fmodf(time, m_duration), m_duration));
 	return completed;
 }
 

@@ -50,9 +50,16 @@ private:
 	float m_duration;
 	bool m_continuous;
 
-	void SelectEasingFunction(Type type, Easing easing);
+	void TargetOpacity(const float &pos);
+	void TargetPositionX(const float &pos);
+	void TargetPositionY(const float &pos);
+	void TargetPositionXRev(const float &pos);
+	void TargetPositionYRev(const float &pos);
+
+	void SelectFunctions();
 	::Easing::Function<float>::Type m_easingFunc;
 	float (*m_wrapFunc)(::Easing::Function<float>::Type easingFunc, float t, float d);
+	sigc::slot<void,const float &> m_targetFunc;
 };
 
 class AnimationController {
