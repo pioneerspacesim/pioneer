@@ -11,7 +11,7 @@
 
 namespace UI {
 
-class Animation {
+class Animation : public RefCounted {
 public:
 	enum Type {
 		TYPE_IN,
@@ -59,14 +59,14 @@ class AnimationController {
 public:
 	AnimationController() : m_nextId(0) {}
 
-	Uint32 Add(const Animation &animation);
+	Uint32 Add(Animation *animation);
 	void Remove(Uint32 id);
 
 	void Update();
 
 private:
 	Uint32 m_nextId;
-	std::map<Uint32,std::pair<Animation,Uint32>> m_animations;
+	std::map<Uint32,std::pair<RefCountedPtr<Animation>,Uint32>> m_animations;
 };
 
 }
