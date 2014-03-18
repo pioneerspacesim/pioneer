@@ -11,7 +11,9 @@ Animation::Animation(Widget *widget, Type type, Easing easing, Target target, fl
 	m_easing(easing),
 	m_target(target),
 	m_duration(duration),
-	m_continuous(continuous)
+	m_continuous(continuous),
+    m_running(false),
+    m_completed(false)
 {
 	SelectFunctions();
 }
@@ -127,17 +129,11 @@ bool Animation::Update(float time)
 	return completed;
 }
 
-Uint32 AnimationController::Add(Animation *animation)
+void AnimationController::Add(Animation *animation)
 {
-	Uint32 id = m_nextId++;
-	m_animations.insert(std::make_pair(id, std::make_pair(RefCountedPtr<Animation>(animation), SDL_GetTicks())));
-	return id;
-}
-
-void AnimationController::Remove(Uint32 id)
-{
-	auto i = m_animations.find(id);
-	m_animations.erase(i);
+	assert(!animation->IsRunning());
+	m_animations.push_back(std::make_pair(RefCountedPtr<Animation>(animation), SDL_GetTicks()));
+	animation->Running();
 }
 
 void AnimationController::Update()
@@ -145,12 +141,13 @@ void AnimationController::Update()
 	const Uint32 now = SDL_GetTicks();
 
 	for (auto i = m_animations.begin(); i != m_animations.end();) {
-		auto &a = (*i).second;
-		Animation *animation = a.first.Get();
-		Uint32 start = a.second;
+		Animation *animation = (*i).first.Get();
+		Uint32 start = (*i).second;
 
-		if (animation->Update(float(now-start)/1000.f))
+		if (animation->IsCompleted() || animation->Update(float(now-start)/1000.f)) {
+			animation->Completed();
 			m_animations.erase(i++);
+		}
 		else
 			++i;
 	}

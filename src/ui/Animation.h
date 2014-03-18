@@ -42,6 +42,11 @@ public:
 
 	bool Update(float time);
 
+	void Completed() { m_running = false; m_completed = true; Update(1.0f); }
+
+	bool IsRunning() const { return m_running; }
+	bool IsCompleted() const { return m_completed; }
+
 private:
 	RefCountedPtr<Widget> m_widget;
 	Type m_type;
@@ -60,20 +65,24 @@ private:
 	::Easing::Function<float>::Type m_easingFunc;
 	float (*m_wrapFunc)(::Easing::Function<float>::Type easingFunc, float t, float d);
 	sigc::slot<void,const float &> m_targetFunc;
+
+	// AnimationController needs to set running/completed flags
+	friend class AnimationController;
+	void Running() { m_running = true; m_completed = false; Update(0.0f); }
+
+	bool m_running;
+	bool m_completed;
+
 };
 
 class AnimationController {
 public:
-	AnimationController() : m_nextId(0) {}
-
-	Uint32 Add(Animation *animation);
-	void Remove(Uint32 id);
+	void Add(Animation *animation);
 
 	void Update();
 
 private:
-	Uint32 m_nextId;
-	std::map<Uint32,std::pair<RefCountedPtr<Animation>,Uint32>> m_animations;
+	std::list<std::pair<RefCountedPtr<Animation>,Uint32>> m_animations;
 };
 
 }
