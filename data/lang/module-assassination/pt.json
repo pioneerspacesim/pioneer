@@ -1,43 +1,43 @@
 {
    "ASSASSINATION" : {
       "description" : "",
-      "message" : "Assassination"
+      "message" : "Assasínio"
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
-      "message" : "Você pode refazer o pedido?"
+      "message" : "Pode repetir o pedido original?"
    },
    "DENY_0" : {
       "description" : "",
-      "message" : "I'm sorry, but I don't trust you."
+      "message" : "Desculpa-me, mas não confio em ti."
    },
    "DENY_1" : {
       "description" : "",
-      "message" : "Volte quando você tiver qualificações."
+      "message" : "Volte quando tiver algumas qualificações."
    },
    "DENY_2" : {
       "description" : "",
-      "message" : "I don't think you're the one I'm looking for."
+      "message" : "Não me parece que és quem eu procuro."
    },
    "DENY_3" : {
       "description" : "",
-      "message" : "You don't look like someone capable of doing what needs to be done."
+      "message" : "Não me pareces alguém capaz de fazer o que é preciso fazer."
    },
    "DENY_4" : {
       "description" : "",
-      "message" : "You are clearly not the one for this job."
+      "message" : "Claramente que não és o indicado para o trabalho."
    },
    "DENY_5" : {
       "description" : "",
-      "message" : "You seem much too inexperienced to handle a contract of this importance."
+      "message" : "Pareces demasiado inexperiente para lidar com um contrato desta importância."
    },
    "DENY_6" : {
       "description" : "",
-      "message" : "I have never heard of you. I need someone experienced for this contract."
+      "message" : "Nunca ouvi falar de ti. Preciso alguém experiente para este contrato."
    },
    "DENY_7" : {
       "description" : "",
-      "message" : "I'm not willing to risk this contract by giving it to someone as inexperienced as you."
+      "message" : "Não tenho intenções de arriscar este contrato ao entregá-lo a alguém inexperiente como tu."
    },
    "DISTANCE" : {
       "description" : "",
@@ -109,15 +109,15 @@
    },
    "FLAVOUR_3_ADTEXT" : {
       "description" : "",
-      "message" : "TERMINATION: Someone to eliminate {target}."
+      "message" : "TERMINAÇÃO: Alguém para eliminar {target}."
    },
    "FLAVOUR_3_FAILUREMSG" : {
       "description" : "",
-      "message" : "You will pay for not eliminating {target}!"
+      "message" : "Irás pagar por não teres eliminado o {target}!"
    },
    "FLAVOUR_3_FAILUREMSG2" : {
       "description" : "",
-      "message" : "Are you asking money for job done by someone else? Get lost."
+      "message" : "Estás a pedir dinheiro por um trabalho feito por outro? Desaparece."
    },
    "FLAVOUR_3_INTROTEXT" : {
       "description" : "",
@@ -157,7 +157,7 @@
    },
    "FLAVOUR_5_FAILUREMSG2" : {
       "description" : "",
-      "message" : "{target} was neutralized by someone else."
+      "message" : "O {target} foi neutralizado por outro."
    },
    "FLAVOUR_5_INTROTEXT" : {
       "description" : "",
@@ -173,11 +173,11 @@
    },
    "HOW_SOON_MUST_IT_BE_DONE" : {
       "description" : "",
-      "message" : "How soon must it be done?"
+      "message" : "Até quando tem de ser feito?"
    },
    "HOW_WILL_I_BE_PAID" : {
       "description" : "",
-      "message" : "How will I be paid?"
+      "message" : "Como serei pago?"
    },
    "IT_MUST_BE_DONE_AFTER" : {
       "description" : "",
@@ -197,39 +197,39 @@
    },
    "SHIP" : {
       "description" : "",
-      "message" : "Ship:"
+      "message" : "Nave:"
    },
    "SHIP_ID" : {
       "description" : "",
-      "message" : "Ship ID:"
+      "message" : "ID Nave:"
    },
    "SPACEPORT" : {
       "description" : "",
-      "message" : "Spaceport:"
+      "message" : "Porto espacial:"
    },
    "SYSTEM" : {
       "description" : "",
-      "message" : "System:"
+      "message" : "Sistema:"
    },
    "TARGET_NAME" : {
       "description" : "",
-      "message" : "Target name:"
+      "message" : "Nome do alvo:"
    },
    "TARGET_WILL_BE_LEAVING_SPACEPORT_AT" : {
       "description" : "",
-      "message" : "Target will be leaving spaceport at:"
+      "message" : "O alvo irá partir do porto espacial às:"
    },
    "TITLE_0" : {
       "description" : "",
-      "message" : "Admiral"
+      "message" : "Almirante"
    },
    "TITLE_1" : {
       "description" : "",
-      "message" : "Ambassador"
+      "message" : "Embaixador:"
    },
    "TITLE_10" : {
       "description" : "",
-      "message" : "Ensign"
+      "message" : "Estandarte"
    },
    "TITLE_11" : {
       "description" : "",
@@ -237,31 +237,31 @@
    },
    "TITLE_12" : {
       "description" : "",
-      "message" : "Judge"
+      "message" : "Juíz"
    },
    "TITLE_13" : {
       "description" : "",
-      "message" : "Lawyer"
+      "message" : "Advogado"
    },
    "TITLE_14" : {
       "description" : "",
-      "message" : "Lieutenant"
+      "message" : "Tenente"
    },
    "TITLE_15" : {
       "description" : "",
-      "message" : "Marshal"
+      "message" : "Marechal"
    },
    "TITLE_16" : {
       "description" : "",
-      "message" : "Merchant"
+      "message" : "Mercante"
    },
    "TITLE_17" : {
       "description" : "",
-      "message" : "Officer"
+      "message" : "Oficial"
    },
    "TITLE_18" : {
       "description" : "",
-      "message" : "Private"
+      "message" : "Soldado"
    },
    "TITLE_19" : {
       "description" : "",
@@ -269,55 +269,55 @@
    },
    "TITLE_2" : {
       "description" : "",
-      "message" : "Brigadier"
+      "message" : "Brigadeiro"
    },
    "TITLE_20" : {
       "description" : "",
-      "message" : "Prosecutor"
+      "message" : "Procurador"
    },
    "TITLE_21" : {
       "description" : "",
-      "message" : "Provost"
+      "message" : "Reitor"
    },
    "TITLE_22" : {
       "description" : "",
-      "message" : "Seaman"
+      "message" : "Marinheiro"
    },
    "TITLE_23" : {
       "description" : "",
-      "message" : "Senator"
+      "message" : "Senador"
    },
    "TITLE_24" : {
       "description" : "",
-      "message" : "Sergeant"
+      "message" : "Sargento"
    },
    "TITLE_3" : {
       "description" : "",
-      "message" : "Cadet"
+      "message" : "Cadete"
    },
    "TITLE_4" : {
       "description" : "",
-      "message" : "Captain"
+      "message" : "Capitão"
    },
    "TITLE_5" : {
       "description" : "",
-      "message" : "Cardinal"
+      "message" : "Cardeal"
    },
    "TITLE_6" : {
       "description" : "",
-      "message" : "Colonel"
+      "message" : "Coronel"
    },
    "TITLE_7" : {
       "description" : "",
-      "message" : "Commandant"
+      "message" : "Comandante"
    },
    "TITLE_8" : {
       "description" : "",
-      "message" : "Commodore"
+      "message" : "Comodoro"
    },
    "TITLE_9" : {
       "description" : "",
-      "message" : "Corporal"
+      "message" : "Cabo"
    },
    "WHERE_CAN_I_FIND_X" : {
       "description" : "",

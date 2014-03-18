@@ -289,7 +289,7 @@
    },
    "PIRATE_TAUNTS_0" : {
       "description" : "",
-      "message" : "You're going to regret dealing with {client}"
+      "message" : "Irás-te arrepender de negociar com {cliente}"
    },
    "PIRATE_TAUNTS_1" : {
       "description" : "",
@@ -329,11 +329,11 @@
    },
    "SPACEPORT" : {
       "description" : "",
-      "message" : "Spaceport:"
+      "message" : "Porto espacial:"
    },
    "SYSTEM" : {
       "description" : "",
-      "message" : "System:"
+      "message" : "Sistema:"
    },
    "THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN" : {
       "description" : "",

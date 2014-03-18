@@ -1,11 +1,11 @@
 {
    "FLAVOUR_0_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: System wide plague in the {system} system. Death toll rises."
+      "message" : "NOTÍCIAS {date}: Uma ampla praga foi detetada no sistema {system}. O número de mortos sobe."
    },
    "FLAVOUR_0_NEWSBODY" : {
       "description" : "Imply high demand for MEDICINE commodity.",
-      "message" : "Plague harvests lives in the {system} system ({sectorx}, {sectory}, {sectorz}). Officials urge for medical aid."
+      "message" : "Uma praga ceifou vidas no sistema {system} ({sectorx}, {sectory}, {sectorz}). Autoridades mobilizam-se com ajuda médica."
    },
    "FLAVOUR_10_HEADLINE" : {
       "description" : "",
@@ -89,11 +89,11 @@
    },
    "FLAVOUR_1_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Conflict escalates in {system} system."
+      "message" : "NOTÍCIAS {date}: O conflito no sistema {system} continua a escalar."
    },
    "FLAVOUR_1_NEWSBODY" : {
       "description" : "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",
-      "message" : "The long standing conflict in the {system} system ({sectorx}, {sectory}, {sectorz}) escalates as the armies engage in full open combat."
+      "message" : "O continuado conflito no sistema {system} ({sectorx}, {sectory}, {sectorz}) escalou para um combate total."
    },
    "FLAVOUR_20_HEADLINE" : {
       "description" : "",
@@ -129,7 +129,7 @@
    },
    "FLAVOUR_2_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Drought in {system}. Crop ruined."
+      "message" : "NOTÍCIAS {date}: O sistema {system} afetado pela seca. Colheita foi arruinada."
    },
    "FLAVOUR_2_NEWSBODY" : {
       "description" : "Hint there will be high demand of GRAIN.",
@@ -205,7 +205,7 @@
    },
    "GRATEFUL_GREETING_3" : {
       "description" : "",
-      "message" : "Welcome! Finally some {cargo}."
+      "message" : "Bem vindo! Finalmente {cargo}."
    },
    "GRATEFUL_GREETING_4" : {
       "description" : "",
@@ -273,22 +273,22 @@
    },
    "TITLE_0" : {
       "description" : "",
-      "message" : "Fresh report from {newspaper}"
+      "message" : "Notícias frescas de {newspaper}"
    },
    "TITLE_1" : {
       "description" : "",
-      "message" : "News from {newspaper}"
+      "message" : "Notícias de {newspaper}"
    },
    "TITLE_2" : {
       "description" : "",
-      "message" : "Report from {newspaper}"
+      "message" : "Relatório de {newspaper}"
    },
    "TITLE_3" : {
       "description" : "",
-      "message" : "The latest from {newspaper}"
+      "message" : "As ultimas de {newspaper}"
    },
    "TITLE_4" : {
       "description" : "",
-      "message" : "Notes from {newspaper}"
+      "message" : "Notas de {newspaper}"
    }
 }

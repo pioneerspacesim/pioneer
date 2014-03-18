@@ -37,15 +37,15 @@
    },
    "MILITARY_FUEL" : {
       "description" : "",
-      "message" : "Military fuel"
+      "message" : "Militærbrændstof"
    },
    "RADIOACTIVES" : {
       "description" : "",
-      "message" : "Radioactive waste"
+      "message" : "Radioaktivt affald"
    },
    "WATER" : {
       "description" : "",
-      "message" : "Water"
+      "message" : "Vand"
    },
    "WE_WILL_ONLY_DISPOSE_OF" : {
       "description" : "",

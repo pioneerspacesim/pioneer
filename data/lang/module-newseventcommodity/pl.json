@@ -133,7 +133,7 @@
    },
    "FLAVOUR_2_NEWSBODY" : {
       "description" : "Hint there will be high demand of GRAIN.",
-      "message" : "Severe drought has ruined the crop in the {system} system ({sectorx}, {sectory}, {sectorz}). System wide famine is feared."
+      "message" : "Susza zniszczyła uprawy w systemie {system}({sectorx},{sectory},{sectorz}). W całym systemie obawiają się głodu."
    },
    "FLAVOUR_3_HEADLINE" : {
       "description" : "",
@@ -141,7 +141,7 @@
    },
    "FLAVOUR_3_NEWSBODY" : {
       "description" : "Imply high demand of FRUIT_AND_VEG.",
-      "message" : "Administration in the {system} system ({sectorx}, {sectory}, {sectorz}) seek to increase import to meet the surging demand of all things green ."
+      "message" : "Administracja w systemie {system}({sectorx},{sectory},{sectorz}) stara się zwiększyć import by zaspokoić rosnące zapotrzebowanie na wszystko co zielone."
    },
    "FLAVOUR_4_HEADLINE" : {
       "description" : "About mob rivals competing for selling drugs",
