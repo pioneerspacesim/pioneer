@@ -1,17 +1,16 @@
 local Game = import("Game")
 local Event = import("Event")
 
-local function SaveDocked(ship)
-	if ship:IsPlayer() then
-		Game.SaveGame('_docked')
+local function Saver(savename)
+	return function (ship)
+		if ship:IsPlayer() then
+			Game.SaveGame(savename)
+		end
 	end
 end
 
-local function SaveUndocked(ship)
-	if ship:IsPlayer() then
-		Game.SaveGame('_undocked')
-	end
-end
+local SaveDocked = Saver('_docked')
+local SaveUndocked = Saver('_undocked')
 
 Event.Register('onShipDocked', SaveDocked)
 Event.Register('onShipLanded', SaveDocked)
