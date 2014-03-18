@@ -118,7 +118,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\text\DistanceFieldFont.cpp" />
-    <ClCompile Include="..\..\..\src\text\FontDescriptor.cpp" />
+    <ClCompile Include="..\..\..\src\text\FontConfig.cpp" />
     <ClCompile Include="..\..\..\src\text\TextSupport.cpp" />
     <ClCompile Include="..\..\..\src\text\TextureFont.cpp" />
     <ClCompile Include="..\..\..\src\win32\pch.cpp">
@@ -130,7 +130,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\text\DistanceFieldFont.h" />
-    <ClInclude Include="..\..\..\src\text\FontDescriptor.h" />
+    <ClInclude Include="..\..\..\src\text\FontConfig.h" />
     <ClInclude Include="..\..\..\src\text\TextSupport.h" />
     <ClInclude Include="..\..\..\src\text\TextureFont.h" />
     <ClInclude Include="..\..\..\src\win32\pch.h" />
