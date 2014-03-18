@@ -1,66 +1,66 @@
 {
    "FLAVOUR_0_MESSAGE" : {
       "description" : "",
-      "message" : "Please select an amount to donate to the Church of the Celestial Flying Spaghetti Monster."
+      "message" : "Venligst vælg hvor meget du vil donere til Kirken for Det Flyvende Spaghettimonster."
    },
    "FLAVOUR_0_TITLE" : {
       "description" : "",
-      "message" : "DONATE! The Church of The Celestial Flying Spaghetti Monster needs YOUR money to spread the word of god."
+      "message" : "DONÉR! Kirken for Det Flyvende Spaghettimonster har brug for DINE penge for at sprede guds budsskab."
    },
    "FLAVOUR_1_MESSAGE" : {
       "description" : "",
-      "message" : "Peace be with you, brother. Please select an amount to donate to the Guardians of the Free Spirit."
+      "message" : "Fred være med dig, broder. Venligst vælg en sum, du vil donere til Beskytterne af den Frie Ånd."
    },
    "FLAVOUR_1_TITLE" : {
       "description" : "",
-      "message" : "DONATE. The Guardians of the Free Spirit humbly request your charity to support our monasteries."
+      "message" : "DONÉR: Beskytterne af den Frie Ånd beder ydmygt om din velgørenhed for at støtte vores klostre."
    },
    "FLAVOUR_2_MESSAGE" : {
       "description" : "",
-      "message" : "Please select an amount to donate to War Orphan's Support, and end the suffering of children all over the galaxy."
+      "message" : "Vælg venligst hvor meget du vil donere til Forældreløse Af Krig og hjælp de lidende børn fra hele galaksen."
    },
    "FLAVOUR_2_TITLE" : {
       "description" : "",
-      "message" : "FEELING GENEROUS? War Orphan's Support needs your help to keep up its essential work."
+      "message" : "FØLER DU DIG GENERØS? Forældreløse Af Krig beder om din hjælp for at fortsætte det essentielle arbejde."
    },
    "FLAVOUR_3_MESSAGE" : {
       "description" : "",
-      "message" : "Please select an amount to donate to the GreenWatch, and end the pollution of our galaxy."
+      "message" : "Vælg venligst hvor meget du vil donere til GreenWatch og hjælp i kampen mod forurening af vores galakse."
    },
    "FLAVOUR_3_TITLE" : {
       "description" : "",
-      "message" : "CONTRIBUTE. The Friends of the Galaxy 'Ban Military Drives' campaign needs your money."
+      "message" : "BIDRAG. Venner til Galaksens 'Bandlys Militærdrev' kampagnen har brug for dine penge."
    },
    "FLAVOUR_4_MESSAGE" : {
       "description" : "",
-      "message" : "Please select an amount to donate."
+      "message" : "Vælg venligst hvor meget du vil donere."
    },
    "FLAVOUR_4_TITLE" : {
       "description" : "",
-      "message" : "DONATE! Save our species. Stop the carnage of newly settled worlds."
+      "message" : "DONÉR! Red vores arter! Stop blodbadet i nyligt bosatte verdener."
    },
    "FLAVOUR_5_MESSAGE" : {
       "description" : "",
-      "message" : "Liberate your ship! Please choose amount to donate. Happy hacking."
+      "message" : "Befri dit skib! Vælg hvor meget du vil donere. God hacking."
    },
    "FLAVOUR_5_TITLE" : {
       "description" : "",
-      "message" : "SUPPORT FREEDOM! Stop the great injustice of proprietary software controlling your ship."
+      "message" : "STØT FRIHED! Stop uretfærdigheden i proprietær software, der styrer dit skib."
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Hang up."
+      "message" : "Afbryd linjen."
    },
    "THANK_YOU_ALL_DONATIONS_ARE_WELCOME" : {
       "description" : "",
-      "message" : "Thank you. All donations are welcome."
+      "message" : "Tak. Alle donationer er velkomne."
    },
    "WOW_THAT_WAS_VERY_GENEROUS" : {
       "description" : "",
-      "message" : "Wow! That was very generous."
+      "message" : "Hold da op! Det er meget generøst."
    },
    "YOU_DO_NOT_HAVE_ENOUGH_MONEY" : {
       "description" : "",
-      "message" : "You do not have enough money."
+      "message" : "Du har ikke nok penge."
    }
 }

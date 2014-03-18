@@ -1,10 +1,10 @@
 {
    "YOUR_FUEL_TANK_IS_ALMOST_EMPTY" : {
       "description" : "",
-      "message" : "Your fuel tank is almost empty."
+      "message" : "Din brændstofstank er næsten tom."
    },
    "YOUR_FUEL_TANK_IS_EMPTY" : {
       "description" : "",
-      "message" : "Your fuel tank is empty."
+      "message" : "Din brændstofstank er tom."
    }
 }

@@ -1,10 +1,10 @@
 {
    "PIONEERING_PILOTS_GUILD" : {
       "description" : "",
-      "message" : "Pioneering Pilots' Guild"
+      "message" : "Pionerpiloternes Orden"
    },
    "WELL_DONE_COMMANDER_YOUR_COMBAT_RATING_HAS_IMPROVED" : {
       "description" : "",
-      "message" : "Well done commander! Your combat rating has improved!"
+      "message" : "Godt klaret, Kommandør! Din kampvurdering er øget!"
    }
 }

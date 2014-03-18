@@ -245,7 +245,7 @@
    },
    "CONTROLS" : {
       "description" : "",
-      "message" : "Controls"
+      "message" : "Styring"
    },
    "CORPORATE_SYSTEM" : {
       "description" : "",
@@ -337,7 +337,7 @@
    },
    "DRAW_UNINHABITED_LABELS" : {
       "description" : "",
-      "message" : "Label uninhabited systems"
+      "message" : "Markér ubeboede systemer"
    },
    "DRAW_VERTICAL_LINES" : {
       "description" : "",
@@ -441,7 +441,7 @@
    },
    "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
       "description" : "",
-      "message" : "Equatorial to polar radius ratio"
+      "message" : "Ævkatorial-til-polær radiusforhold"
    },
    "EXACT_MATCH_X" : {
       "description" : "",
@@ -465,7 +465,7 @@
    },
    "FERTILIZER" : {
       "description" : "",
-      "message" : "Fertilizer"
+      "message" : "Gødning"
    },
    "FINE_PAID_N" : {
       "description" : "",
@@ -541,7 +541,7 @@
    },
    "GENERAL_VIEW_CONTROLS" : {
       "description" : "",
-      "message" : "General View Controls"
+      "message" : "Generel synspunktsstyring"
    },
    "GOVERNMENT_TYPE" : {
       "description" : "",
@@ -625,7 +625,7 @@
    },
    "HYPERSPACE_ARRIVAL_CLOUD" : {
       "description" : "",
-      "message" : "Hyperspace ankomstsky"
+      "message" : "Hyperrum ankomstsky"
    },
    "HYPERSPACE_ARRIVAL_CLOUD_REMNANT" : {
       "description" : "",
@@ -645,7 +645,7 @@
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Hyperspace mål"
+      "message" : "Hyperrum mål"
    },
    "HYPERSPACING_IN_N_SECONDS" : {
       "description" : "",
@@ -761,7 +761,7 @@
    },
    "LIQUID_OXYGEN" : {
       "description" : "",
-      "message" : "Liquid Oxygen"
+      "message" : "Flydende oxygen"
    },
    "LIQUID_OXYGEN_DESCRIPTION" : {
       "description" : "",
@@ -797,67 +797,67 @@
    },
    "MAP_LOCK_HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Lock Hyperspace Target"
+      "message" : "Lås hyperrum mål"
    },
    "MAP_TOGGLE_INFO_PANEL" : {
       "description" : "",
-      "message" : "Toggle Info Panel"
+      "message" : "Aktivér Info-panel"
    },
    "MAP_TOGGLE_SELECTION_FOLLOW_VIEW" : {
       "description" : "",
-      "message" : "Toggle Selection Following View"
+      "message" : "Aktivér Følging af markéring"
    },
    "MAP_VIEW_ROTATE_DOWN" : {
       "description" : "",
-      "message" : "Rotate View Down"
+      "message" : "Rotér Synspunkt Ned"
    },
    "MAP_VIEW_ROTATE_LEFT" : {
       "description" : "",
-      "message" : "Rotate View Left"
+      "message" : "Rotér Synspunkt Venstre"
    },
    "MAP_VIEW_ROTATE_RIGHT" : {
       "description" : "",
-      "message" : "Rotate View Right"
+      "message" : "Rotér Synspunkt Højre"
    },
    "MAP_VIEW_ROTATE_UP" : {
       "description" : "",
-      "message" : "Rotate View Up"
+      "message" : "Rotér Synspunkt Op"
    },
    "MAP_VIEW_SHIFT_BACKWARD" : {
       "description" : "",
-      "message" : "Shift View Backwards"
+      "message" : "Flyt Synspunkt Baglæns"
    },
    "MAP_VIEW_SHIFT_DOWN" : {
       "description" : "",
-      "message" : "Shift View Down"
+      "message" : "Flyt Synspunkt Ned"
    },
    "MAP_VIEW_SHIFT_FORWARD" : {
       "description" : "",
-      "message" : "Shift View Forwards"
+      "message" : "Flyt Synspunkt Fremad"
    },
    "MAP_VIEW_SHIFT_LEFT" : {
       "description" : "",
-      "message" : "Shift View Left"
+      "message" : "Flyt Synspunkt Venstre"
    },
    "MAP_VIEW_SHIFT_RIGHT" : {
       "description" : "",
-      "message" : "Shift View Right"
+      "message" : "Flyt Synspunkt Højre"
    },
    "MAP_VIEW_SHIFT_UP" : {
       "description" : "",
-      "message" : "Shift View Up"
+      "message" : "Flyt Synspunkt Op"
    },
    "MAP_WARP_TO_CURRENT_SYSTEM" : {
       "description" : "",
-      "message" : "Warp to Current System"
+      "message" : "Hop til Nuværende System"
    },
    "MAP_WARP_TO_HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Warp to Hyperspace Target"
+      "message" : "Hop til Hyperrum mål"
    },
    "MAP_WARP_TO_SELECTED_SYSTEM" : {
       "description" : "",
-      "message" : "Warp to Selected System"
+      "message" : "Hop til det Valgte System"
    },
    "MASS" : {
       "description" : "",
@@ -1013,11 +1013,11 @@
    },
    "NAME_OBJECT" : {
       "description" : "For an item or object",
-      "message" : "Name"
+      "message" : "Navn"
    },
    "NAME_PERSON" : {
       "description" : "For a person",
-      "message" : "Name"
+      "message" : "Navn"
    },
    "NARCOTICS" : {
       "description" : "",
@@ -1073,7 +1073,7 @@
    },
    "NO_TARGET_SELECTED" : {
       "description" : "",
-      "message" : "Ship Computer: No target selected"
+      "message" : "Skibscomputer: Intet mål valgt"
    },
    "NUMBER_DAYS" : {
       "description" : "",
@@ -1081,7 +1081,7 @@
    },
    "NUMBER_DECIMAL_POINT" : {
       "description" : "Decimal delimiter used when displaying monetary values.",
-      "message" : "."
+      "message" : ","
    },
    "NUMBER_G" : {
       "description" : "",
@@ -1093,7 +1093,7 @@
    },
    "NUMBER_GROUP_SEP" : {
       "description" : "For large number, separator used when grouping digits. E.g. 1,000 or 1 000 or 1'000.",
-      "message" : ","
+      "message" : "."
    },
    "NUMBER_HOURS" : {
       "description" : "",
@@ -1149,7 +1149,7 @@
    },
    "OCEANICWORLD" : {
       "description" : "",
-      "message" : "\" oceanic world\""
+      "message" : "\" oceanisk verden\""
    },
    "ORBITAL_PERIOD" : {
       "description" : "",
@@ -1321,7 +1321,7 @@
    },
    "RESET_ORIENTATION_AND_ZOOM" : {
       "description" : "",
-      "message" : "Reset Orientation and Zoom"
+      "message" : "Nulstil Synspunkt og Zoom"
    },
    "ROBOTS" : {
       "description" : "",
@@ -1357,7 +1357,7 @@
    },
    "ROTATE_RIGHT" : {
       "description" : "",
-      "message" : "Rotate Right"
+      "message" : "Rotér Højre"
    },
    "ROTATE_UP" : {
       "description" : "",
@@ -1409,7 +1409,7 @@
    },
    "SEARCH_MAP" : {
       "description" : "",
-      "message" : "Search Map"
+      "message" : "Søg på Kort"
    },
    "SECTOR_COORDINATES" : {
       "description" : "",
@@ -1417,7 +1417,7 @@
    },
    "SECTOR_MAP_VIEW" : {
       "description" : "",
-      "message" : "Sector Map View"
+      "message" : "Sektor Kort-oversigt"
    },
    "SECTOR_X_Y_Z" : {
       "description" : "",
@@ -1673,7 +1673,7 @@
    },
    "STAR_M_SUPER_GIANT" : {
       "description" : "",
-      "message" : "Red super giant star"
+      "message" : "Rød super gigantstjerne"
    },
    "STAR_M_WF" : {
       "description" : "",
@@ -1685,7 +1685,7 @@
    },
    "STAR_O_GIANT" : {
       "description" : "",
-      "message" : "Hot Blue giant star"
+      "message" : "Varm blå gigantstjerne"
    },
    "STAR_O_HYPER_GIANT" : {
       "description" : "",

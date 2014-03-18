@@ -5,14 +5,14 @@
    },
    "CANNOT_COMPENSATE_FOR_LOCAL_GRAVITY" : {
       "description" : "",
-      "message" : "Cannot compensate for local gravity"
+      "message" : "Kan ikke kompensere for den lokale tyngdekraft"
    },
    "CANNOT_COMPUTE_ORBIT_PARAMETERS" : {
       "description" : "",
-      "message" : "Cannot compute orbit parameters"
+      "message" : "Kan ikke beregne kredsløbsparametre"
    },
    "STARPORT_REFUSED_DOCKING_PERMISSION" : {
       "description" : "",
-      "message" : "Starport refused docking permission"
+      "message" : "Rumhavn nægtede tilkoblingstilladelse"
    }
 }

@@ -1,130 +1,130 @@
 {
    "FLAVOUR_0_INTRO" : {
       "description" : "",
-      "message" : "Avoid the inconvenience of a broken-down hyperspace engine.  Get yours serviced today, by the officially endorsed {name} Engine Servicing Company.\n\nEngine: {drive}\nService: {price}\nGuarantee: 18 months\n{lasttime}"
+      "message" : "Undgå problemerne ved en nedbrudt hyperrums-motor. Få din serviceret i dag, hos officielt godkendte {name} Motorservice.\n\nEngine: {drive}\nService: {price}\nGaranti: 18 mdr\n{lasttime}"
    },
    "FLAVOUR_0_RESPONSE" : {
       "description" : "",
-      "message" : "Your engine has been serviced."
+      "message" : "Din motor er blevet serviceret."
    },
    "FLAVOUR_0_TITLE" : {
       "description" : "",
-      "message" : "{name} Engine Servicing Company"
+      "message" : "{name} Motorservice"
    },
    "FLAVOUR_0_YESPLEASE" : {
       "description" : "",
-      "message" : "Service hyperspace engine"
+      "message" : "Servicér hyperrums-motor"
    },
    "FLAVOUR_1_INTRO" : {
       "description" : "",
-      "message" : "I'm {proprietor}.  I can service your {drive}, guaranteeing at least a year of trouble-free performance.  The cost for this service will be {price}\n{lasttime}"
+      "message" : "Jeg er {proprietor}. Jeg kan servicere dit {drive} og kan garantere et helt års fejl-fri ydelse. Jeg kan gøre det for {price}\n{lasttime}"
    },
    "FLAVOUR_1_RESPONSE" : {
       "description" : "",
-      "message" : "I have serviced your hyperdrive."
+      "message" : "Jeg har serviceret dit hyperdrev."
    },
    "FLAVOUR_1_TITLE" : {
       "description" : "",
-      "message" : "{proprietor}: Hyperdrive maintenance specialist"
+      "message" : "{proprietor}: Specialist i Hyperdrev-vedligeholdelse"
    },
    "FLAVOUR_1_YESPLEASE" : {
       "description" : "",
-      "message" : "Service my drive"
+      "message" : "Servicér mit drev"
    },
    "FLAVOUR_2_INTRO" : {
       "description" : "",
-      "message" : "Hi there.  We at {proprietor} & Co stake our reputation on our work.\n\n{lasttime}\nWe can tune your ship's {drive}, ensuring 12 months of trouble-free operation, for the sum of {price}.  I'll be supervising the work myself, so you can be sure that a good job will be done."
+      "message" : "Hej. Hos {proprietor} & Co gør vi alt for vores kunder.\n\n{lasttime}\nVi kan indstille dit skibs {drive}, så du er sikret 12 måneders fejl-fri brug, for kun {price}. Jeg inspicerer selv arbejdet, så du kan være sikker på at det bliver gjort ordentligt."
    },
    "FLAVOUR_2_RESPONSE" : {
       "description" : "",
-      "message" : "Service complete.  Thanks for your custom."
+      "message" : "Servicering udført. Tak fordi du valgte os."
    },
    "FLAVOUR_2_TITLE" : {
       "description" : "",
-      "message" : "{proprietor} & Co HyperMechanics"
+      "message" : "{proprietor} & Co HyperMekanikere"
    },
    "FLAVOUR_2_YESPLEASE" : {
       "description" : "",
-      "message" : "Please tune my drive at the quoted price"
+      "message" : "Vær venlig at indstille mit drev til den reklamerede pris"
    },
    "FLAVOUR_3_INTRO" : {
       "description" : "",
-      "message" : "Welcome SuperFix Maintenance.\n\n{lasttime}\nTime for your biannual maintenance? Let us SuperFix your hyperdrive!\nWe can tune your {drive} for just {price}.  There's nobody cheaper!"
+      "message" : "Velkommen til SuperFix Vedligeholdelse.\n\n{lasttime}\nTid til din to-års vedligeholdelse? Lad os SuperFix'e dit hyperdrev!\nVi kan indstille dit {drive} for kun {price}. Vi er billigst på markedet!"
    },
    "FLAVOUR_3_RESPONSE" : {
       "description" : "",
-      "message" : "Your SuperFix service is complete, with SuperFix guarantee!"
+      "message" : "SuperFix-servicering er færdiggjort - med SuperFix-garanti!"
    },
    "FLAVOUR_3_TITLE" : {
       "description" : "",
-      "message" : "SuperFix Maintenance ({name} branch)"
+      "message" : "SuperFix Vedligeholdelse ({name} gren)"
    },
    "FLAVOUR_3_YESPLEASE" : {
       "description" : "",
-      "message" : "SuperFix me!"
+      "message" : "SuperFix mig!"
    },
    "FLAVOUR_4_INTRO" : {
       "description" : "",
-      "message" : "Welcome to Time and Space.\n\nWe specialise in interstellar engines. All maintenance work guaranteed for two years.\n{lasttime}\nServicing your {drive} will cost {price}.  Would you like to proceed?"
+      "message" : "Velkommen til Tid og Rum\n\nVi specialiserer i interstellariske motorer. Al vedligeholdelse er garanteret at holde i to år.\n{lasttime}\nService af dit {drive} vil koste {price}. Vil du fortsætte?"
    },
    "FLAVOUR_4_RESPONSE" : {
       "description" : "",
-      "message" : "We have completed the work on your hyperdrive."
+      "message" : "Arbejdet på dit hyperdrev er færdigt."
    },
    "FLAVOUR_4_TITLE" : {
       "description" : "",
-      "message" : "Time and Space Engines, Inc."
+      "message" : "Tid og Rum Motorer, Inc."
    },
    "FLAVOUR_4_YESPLEASE" : {
       "description" : "",
-      "message" : "Yes, please proceed"
+      "message" : "Ja, venligst fortsæt"
    },
    "FLAVOUR_5_INTRO" : {
       "description" : "",
-      "message" : "Avoid the inconvenience of a broken-down hyperspace engine.  Get yours serviced today.\n\nEngine: {drive}\nService: {price}\n{lasttime}"
+      "message" : "Undgå problemerne ved en ødelagt hyperrums-motor. Få din serviceret i dag.\n\nMotor: {drive}\nService: {price}\n{lasttime}"
    },
    "FLAVOUR_5_RESPONSE" : {
       "description" : "",
-      "message" : "Your engine has been serviced."
+      "message" : "Din motor er blevet serviceret."
    },
    "FLAVOUR_5_TITLE" : {
       "description" : "",
-      "message" : "{proprietor} Engine Servicing Company"
+      "message" : "{proprietor} Motorservice"
    },
    "FLAVOUR_5_YESPLEASE" : {
       "description" : "",
-      "message" : "Service hyperspace engine"
+      "message" : "Servicér hyperrums-motor"
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Hang up."
+      "message" : "Afbryd linjen."
    },
    "I_DONT_HAVE_ENOUGH_MONEY" : {
       "description" : "",
-      "message" : "I don't have enough money"
+      "message" : "Jeg har ikke nok penge"
    },
    "I_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN" : {
       "description" : "",
-      "message" : "I fixed the hyperdrive before it broke down."
+      "message" : "Jeg har repareret hyperdrevet inden det gik i stykker."
    },
    "THE_SHIPS_HYPERDRIVE_HAS_BEEN_DESTROYED_BY_A_MALFUNCTION" : {
       "description" : "",
-      "message" : "The ship's hyperdrive has been destroyed by a malfunction"
+      "message" : "Skibets hyperdrev er gået i stykker på grund af en funktionsfejl"
    },
    "YOUR_DRIVE_HAS_NOT_BEEN_SERVICED" : {
       "description" : "",
-      "message" : "Your drive has not been serviced since it was installed on {date}"
+      "message" : "Dit drev er ikke blevet serviceret siden det blev installeret d. {date}"
    },
    "YOUR_DRIVE_WAS_LAST_SERVICED_ON" : {
       "description" : "",
-      "message" : "Your drive was last serviced on {date} by {company}"
+      "message" : "Dit drev er sidst blevet serviceret d. {date} af {company}"
    },
    "YOU_DO_NOT_HAVE_A_DRIVE_TO_SERVICE" : {
       "description" : "",
-      "message" : "You do not have a drive to service!"
+      "message" : "Du har ikke noget drev at servicere."
    },
    "YOU_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN" : {
       "description" : "",
-      "message" : "You fixed the hyperdrive before it broke down."
+      "message" : "Du har repareret hyperdrevet før det gik i stykker."
    }
 }

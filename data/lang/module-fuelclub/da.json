@@ -1,35 +1,35 @@
 {
    "APPLY_FOR_MEMBERSHIP" : {
       "description" : "",
-      "message" : "Apply for membership"
+      "message" : "Ansøg om medlemsskab"
    },
    "BEGIN_TRADE" : {
       "description" : "",
-      "message" : "Begin trade"
+      "message" : "Begynd handel"
    },
    "FLAVOUR_0_CLUBNAME" : {
       "description" : "",
-      "message" : "Interstellar Pilots' Fuel Co-operative"
+      "message" : "Interstellare Piloters Brændstofsamarbejde"
    },
    "FLAVOUR_0_MEMBER_INTRO" : {
       "description" : "",
-      "message" : "You may purhase fuel and dispose of {radioactives} here."
+      "message" : "Du kan købe brændstof og afhænde {radioactives} her."
    },
    "FLAVOUR_0_NONMEMBER_INTRO" : {
       "description" : "",
-      "message" : "{clubname} is an independent organisation dedicated to providing discounted starship fuel to its members. Branches can be found throughout the galaxy. Benefits of membership include:\n\n\t* Our own stocks of fuel, independent of the general market\n\t* {hydrogen} at discount prices\n\t* {military_fuel} at discount prices\n\t* {water} at discount prices\n\t* {radioactives}, free disposal (conditions apply)\n\t* Fuel tank refilling, where necessary\n\nJoin now! Annual membership costs only {membership_fee}"
+      "message" : "{clubname} er en uafhængig organisation, dedikeret til at yde rumskibsbrændstof til gode priser, til sine medlemmer. Forskellige afdelinger kan findes igennem hele galaksen.\nFordele ved medlemsskabet inkluderer:\n\n⇥* Vores eget lager af brændstof, uafhængigt af det generelle marked\n⇥* {hydrogen} til discount-priser\n⇥* {military_fuel} til discount-priser\n⇥* {water} til discount-priser\n⇥* {radioactives}, gratis afhænding (enkelte betingelser)\n⇥* Brændstof-tank optankning, hvor nødvendigt\n\nBliv medlem nu! Årligt medlemsskab koster kun {membership_fee}"
    },
    "FLAVOUR_0_WELCOME" : {
       "description" : "",
-      "message" : "Welcome to {clubname}"
+      "message" : "Velkommen til {clubname}"
    },
    "GO_BACK" : {
       "description" : "",
-      "message" : "Go back"
+      "message" : "Gå tilbage"
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Hang up."
+      "message" : "Afbryd linjen."
    },
    "HYDROGEN" : {
       "description" : "",
@@ -49,22 +49,22 @@
    },
    "WE_WILL_ONLY_DISPOSE_OF" : {
       "description" : "",
-      "message" : "We will only dispose of as many tonnes of {radioactives} as you have bought tonnes of {military_fuel} from us."
+      "message" : "Vi vil kun modtage så mange tons {radioactives} som du har købt tons {military_fuel} fra os."
    },
    "WHAT_CONDITIONS_APPLY" : {
       "description" : "",
-      "message" : "What conditions apply to {radioactives} disposal?"
+      "message" : "Hvilke betingelser gælder for afskaffelse af {radioactives}?"
    },
    "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED" : {
       "description" : "",
-      "message" : "Your membership application has been declined."
+      "message" : "Din ansøgning om medlemsskab er blevet afslået."
    },
    "YOU_ARE_NOW_A_MEMBER" : {
       "description" : "",
-      "message" : "You are now a member. Your membership will expire on {expiry_date}."
+      "message" : "Du er nu medlem. Dit medlemsskab udløber d. {expiry_date}."
    },
    "YOU_MUST_BUY" : {
       "description" : "",
-      "message" : "You must buy our {military_fuel} before we will take your {radioactives}"
+      "message" : "Du skal købe vores {military_fuel} før vi vil tage dit {radioactives}."
    }
 }

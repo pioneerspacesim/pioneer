@@ -49,11 +49,11 @@
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
-      "message" : "Could you repeat the original request?"
+      "message" : "Vil du gentage den oprindelige anmodning?"
    },
    "DANGER" : {
       "description" : "",
-      "message" : "Danger:"
+      "message" : "Fare:"
    },
    "DEADLINE" : {
       "description" : "",
@@ -65,11 +65,11 @@
    },
    "DENY_1" : {
       "description" : "",
-      "message" : "Come back when you have some qualifications."
+      "message" : "Kom tilbage når du er kvalificeret."
    },
    "DENY_2" : {
       "description" : "",
-      "message" : "I don't think you're the pilot I'm looking for."
+      "message" : "Jeg tror ikke lige du er den rette pilot..."
    },
    "DENY_3" : {
       "description" : "",
@@ -77,7 +77,7 @@
    },
    "DENY_4" : {
       "description" : "",
-      "message" : "You're not the kind of pilot I'm looking for."
+      "message" : "Du er ikke den slags pilot jeg søger."
    },
    "DENY_5" : {
       "description" : "",
@@ -93,11 +93,11 @@
    },
    "DISTANCE" : {
       "description" : "",
-      "message" : "Distance:"
+      "message" : "Afstand:"
    },
    "EXCELLENT" : {
       "description" : "",
-      "message" : "Excellent."
+      "message" : "Fremragende."
    },
    "FLAVOUR_0_ADTEXT" : {
       "description" : "",
@@ -121,7 +121,7 @@
    },
    "FLAVOUR_0_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the nice trip. You have been paid in full."
+      "message" : "Tak for en behagelig tur. Her er din betaling."
    },
    "FLAVOUR_0_WHEREAREWE" : {
       "description" : "",
@@ -249,7 +249,7 @@
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the nice trip. You have been paid in full."
+      "message" : "Tak for en behagelig tur. Her er din betaling."
    },
    "FLAVOUR_1_WHEREAREWE" : {
       "description" : "",
@@ -313,7 +313,7 @@
    },
    "FLAVOUR_3_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the nice trip. You have been paid in full."
+      "message" : "Tak for en behagelig tur. Her er din betaling."
    },
    "FLAVOUR_3_WHEREAREWE" : {
       "description" : "",
@@ -377,7 +377,7 @@
    },
    "FLAVOUR_5_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the nice trip. You have been paid in full."
+      "message" : "Tak for en behagelig tur. Her er din betaling."
    },
    "FLAVOUR_5_WHEREAREWE" : {
       "description" : "",
@@ -385,7 +385,7 @@
    },
    "FLAVOUR_5_WHYSOMUCH" : {
       "description" : "",
-      "message" : "Didn't you know - I'm a well known dream star."
+      "message" : "Ved du ikke, at jeg er en kendt drømmestjerne?"
    },
    "FLAVOUR_6_ADTEXT" : {
       "description" : "",
@@ -409,7 +409,7 @@
    },
    "FLAVOUR_6_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the nice trip. You have been paid in full."
+      "message" : "Tak for en behagelig tur. Her er din betaling."
    },
    "FLAVOUR_6_WHEREAREWE" : {
       "description" : "",
@@ -449,7 +449,7 @@
    },
    "FLAVOUR_7_WHYSOMUCH" : {
       "description" : "",
-      "message" : "The Mafia want me dead."
+      "message" : "Mafiaen ønsker mig død."
    },
    "FLAVOUR_8_ADTEXT" : {
       "description" : "",
@@ -517,31 +517,31 @@
    },
    "FROM" : {
       "description" : "",
-      "message" : "From:"
+      "message" : "Fra:"
    },
    "GROUP_DETAILS" : {
       "description" : "",
-      "message" : "Group details:"
+      "message" : "Gruppedetaljer:"
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Hang up."
+      "message" : "Afbryd linjen."
    },
    "HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS" : {
       "description" : "",
-      "message" : "Hey!?! You are going to pay for this!!!"
+      "message" : "Hey!!! Du skal du få betalt!!!"
    },
    "HOW_MANY_OF_YOU_ARE_THERE" : {
       "description" : "",
-      "message" : "How many of you are there?"
+      "message" : "Hvor mange er I?"
    },
    "HOW_SOON_YOU_MUST_BE_THERE" : {
       "description" : "",
-      "message" : "How soon you must be there?"
+      "message" : "Hvornår skal du være der?"
    },
    "I_MUST_BE_THERE_BEFORE" : {
       "description" : "",
-      "message" : "I must be there before "
+      "message" : "Jeg skal være der før"
    },
    "LY" : {
       "description" : "",
@@ -549,23 +549,23 @@
    },
    "OK_AGREED" : {
       "description" : "",
-      "message" : "Ok, agreed."
+      "message" : "OK, det er en aftale."
    },
    "PIRATE_TAUNTS_0" : {
       "description" : "",
-      "message" : "You're going to regret dealing with {client}"
+      "message" : "Du kommer til at fortryde at du arbejdede med {client}"
    },
    "PIRATE_TAUNTS_1" : {
       "description" : "",
-      "message" : "You have {client} on board? That was a bad idea."
+      "message" : "Du har {client} om bord? Det var dumt."
    },
    "PIRATE_TAUNTS_2" : {
       "description" : "",
-      "message" : "Today isn't your lucky day! Prepare to die."
+      "message" : "Det er ikke din dag i dag! Forbered dig på at dø."
    },
    "PIRATE_TAUNTS_3" : {
       "description" : "",
-      "message" : "You're not going to dock today!"
+      "message" : "Du kommer ikke til at tilkoble i dag!"
    },
    "TAXI" : {
       "description" : "",
@@ -573,22 +573,22 @@
    },
    "TO" : {
       "description" : "",
-      "message" : "To:"
+      "message" : "Til:"
    },
    "WE_WANT_TO_BE_THERE_BEFORE" : {
       "description" : "",
-      "message" : "We want to be there before "
+      "message" : "Vi vil gerne være der før"
    },
    "WHY_SO_MUCH_MONEY" : {
       "description" : "",
-      "message" : "Why so much money?"
+      "message" : "Hvorfor så mange penge?"
    },
    "WILL_I_BE_IN_ANY_DANGER" : {
       "description" : "",
-      "message" : "Will I be in any danger?"
+      "message" : "Vil jeg komme i fare?"
    },
    "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP" : {
       "description" : "",
-      "message" : "You do not have enough cabin space on your ship."
+      "message" : "Du har ikke nok kabineplads på dit skib."
    }
 }

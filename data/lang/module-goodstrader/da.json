@@ -1,30 +1,30 @@
 {
    "GOODS_TRADER_0" : {
       "description" : "",
-      "message" : "Honest {name}'s Goods Emporium"
+      "message" : "Ærlige {name}s Varer"
    },
    "GOODS_TRADER_1" : {
       "description" : "",
-      "message" : "{name}'s Trading House"
+      "message" : "{name}s Handelshus"
    },
    "GOODS_TRADER_2" : {
       "description" : "",
-      "message" : "{name}'s Warehouse"
+      "message" : "{name}s Varehus"
    },
    "GOODS_TRADER_3" : {
       "description" : "",
-      "message" : "{name}'s Goods Exchange"
+      "message" : "{name}s Varehandel"
    },
    "GOODS_TRADER_4" : {
       "description" : "",
-      "message" : "{name} Holdings"
+      "message" : "{name} Varer"
    },
    "GOODS_TRADER_5" : {
       "description" : "",
-      "message" : "{name} & Sons"
+      "message" : "{name} & Sønner"
    },
    "WELCOME_TO" : {
       "description" : "",
-      "message" : "Welcome to "
+      "message" : "Velkommen til"
    }
 }
