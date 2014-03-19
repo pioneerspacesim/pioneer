@@ -149,7 +149,7 @@
    },
    "FLAVOUR_4_NEWSBODY" : {
       "description" : "Imply high abundance of NARCOTICS.",
-      "message" : "The market has been flooded by cheap drugs in the {system} system ({sectorx}, {sectory}, {sectorz}), as rivalling drug lords compete to increase their power."
+      "message" : "W systemie {system}({sectorx},{sectory},{sectorz}) tanie narkotyki zalały rynek. To w wyniku rywalizacji narkotykowych bosów którzy starają się zwiększyć swoje wpływy."
    },
    "FLAVOUR_5_HEADLINE" : {
       "description" : "",

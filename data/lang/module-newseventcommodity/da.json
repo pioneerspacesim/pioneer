@@ -1,23 +1,23 @@
 {
    "FLAVOUR_0_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: System wide plague in the {system} system. Death toll rises."
+      "message" : "NYHEDER {date}: Systemdækkende pest i systemet {system}. Dødstallet stiger."
    },
    "FLAVOUR_0_NEWSBODY" : {
       "description" : "Imply high demand for MEDICINE commodity.",
-      "message" : "Plague harvests lives in the {system} system ({sectorx}, {sectory}, {sectorz}). Officials urge for medical aid."
+      "message" : "Pest høster liv i systemet {system} ({sectorx}, {sectory}, {sectorz}). Overhoveder opfordrer til medicinal støtte."
    },
    "FLAVOUR_10_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Company threatening continual survival of {system} system."
+      "message" : "NYHEDER {date}: Virksomhed truer fremtidig overlevelse for systemet {system}."
    },
    "FLAVOUR_10_NEWSBODY" : {
       "description" : "Imply high demand of AIR_PROCESSORS commodity. (Prekall as in Rekall, the fictional company from the Schwarzenegger-movie Total Recall (1990)).",
-      "message" : "Prekall Inc. are seeking to monopolize air itself throughout {system} ({sectorx}, {sectory}, {sectorz}). Take a deep breath, it might be the last one that is free of charge."
+      "message" : "Prekall Inc. forsøger at tage monopol på luft igennem {system} ({sectorx}, {sectory}, {sectorz}). Tag en dyb indånding - det er måske sidste gang du gør det gratis!"
    },
    "FLAVOUR_11_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Mysterious disappearance of cattle in the {system} system."
+      "message" : "NYHEDER {date}: Mystisk forsvinden af kvæg i systemet {system}."
    },
    "FLAVOUR_11_NEWSBODY" : {
       "description" : "Imply high demand of ANIMAL_MEAT.",
@@ -89,11 +89,11 @@
    },
    "FLAVOUR_1_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Conflict escalates in {system} system."
+      "message" : "NYHEDER {date}: Konflikt eskalerer i systemet {system}."
    },
    "FLAVOUR_1_NEWSBODY" : {
       "description" : "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",
-      "message" : "The long standing conflict in the {system} system ({sectorx}, {sectory}, {sectorz}) escalates as the armies engage in full open combat."
+      "message" : "Den længerevarende konflikt i systemet {system} ({sectorx}, {sectory}, {sectorz}) eskalerer, da der engageres i åben kamp. "
    },
    "FLAVOUR_20_HEADLINE" : {
       "description" : "",
@@ -129,67 +129,67 @@
    },
    "FLAVOUR_2_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Drought in {system}. Crop ruined."
+      "message" : "NYHEDER {date}: Tørke i {system}. Afgrøder går i vasken."
    },
    "FLAVOUR_2_NEWSBODY" : {
       "description" : "Hint there will be high demand of GRAIN.",
-      "message" : "Severe drought has ruined the crop in the {system} system ({sectorx}, {sectory}, {sectorz}). System wide famine is feared."
+      "message" : "Voldsom tørke har ødelagt afgrøderne i systemet {system] ({sectorx}, {sectory}, {sectorz}). Det frygtes at ville føre til systemdækkende hungersnød."
    },
    "FLAVOUR_3_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Vegan lifestyle gains followers in the {system} system."
+      "message" : "NYHEDER {date}: Der bliver flere og flere veganere i systemet {system}."
    },
    "FLAVOUR_3_NEWSBODY" : {
       "description" : "Imply high demand of FRUIT_AND_VEG.",
-      "message" : "Administration in the {system} system ({sectorx}, {sectory}, {sectorz}) seek to increase import to meet the surging demand of all things green ."
+      "message" : "Administrationen i systemet {system}  ({sectorx}, {sectory}, {sectorz}) søger at øge importen af grøntsager og frugter, for at imødekomme den stigende efterspørgsel."
    },
    "FLAVOUR_4_HEADLINE" : {
       "description" : "About mob rivals competing for selling drugs",
-      "message" : "NEWS {date}: Drug war in the {system} system. Law enforcers struggle to regain control."
+      "message" : "NYHEDER {date}: Narko-krig i systemet {system}. Ordensmagten kæmpter for at genvinde kontrollen."
    },
    "FLAVOUR_4_NEWSBODY" : {
       "description" : "Imply high abundance of NARCOTICS.",
-      "message" : "The market has been flooded by cheap drugs in the {system} system ({sectorx}, {sectory}, {sectorz}), as rivalling drug lords compete to increase their power."
+      "message" : "Markedet er blevet oversvømmet af billigt narkotika i systemet {system} ({sectorx}, {sectory}, {sectorz}), pga. rivalerende narko-bander."
    },
    "FLAVOUR_5_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Slaves rebel in the {system} system. Agricultural industry comes to a halt."
+      "message" : "NYHEDER {date}: Slaver gør oprør i systemet {system}. Landbrugsindustrien er stoppet."
    },
    "FLAVOUR_5_NEWSBODY" : {
       "description" : "Imply high demand of SLAVES.",
-      "message" : "Workers in the {system} system ({sectorx}, {sectory}, {sectorz}) have cast off their chains in rebellion as they refuse to work the Lotus fields. Economy comes to a stand still as no cheap workers can be found."
+      "message" : "Arbejdere i systemet {system} ({sectorx}, {sectory}, {sectorz}) har kastet deres lænker i oprør og de nægter at arbejde i Lotusmarkerne. Økonomien går i stå, da der er mangel på billig arbejdskraft."
    },
    "FLAVOUR_6_HEADLINE" : {
       "description" : "(Quibble as a derivative of Tribble from Star Trek TOS)",
-      "message" : "NEWS {date}: Joyous Festival of the Quibble in the {system} system."
+      "message" : "NYHEDER {date}: Glædelig Festival for Quibble in systemet {system}."
    },
    "FLAVOUR_6_NEWSBODY" : {
       "description" : "Stress drunken or intoxicated by alcohol, as this will imply high demand of LIQUOR.",
-      "message" : "The drunken celebrations in the {system} system ({sectorx}, {sectory}, {sectorz}) will be ongoing, as they honour the furry little creature."
+      "message" : "Den berusede fejring af det lille, behårede dyr i systemet {system} ({sectorx}, {sectory}, {sectorz}) fortsætter. "
    },
    "FLAVOUR_7_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Industry screeches to a halt in the {system} system."
+      "message" : "NYHEDER {date}: Industrien standser med alle bremser i systemet {system}."
    },
    "FLAVOUR_7_NEWSBODY" : {
       "description" : "Imply demand of INDUSTRIAL_MACHINERY.",
-      "message" : "Long time neglect of machine maintenance causes industrial standstill in the {system} system ({sectorx}, {sectory}, {sectorz})."
+      "message" : "På grund af manglende vedligeholdelse af det industrielle maskineri i systemet {system} ({sectorx}, {sectory}, {sectorz}), standser industrien næsten helt."
    },
    "FLAVOUR_8_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Mining accident reported from the {system} system."
+      "message" : "NYHEDER {date}: Mine-uheld rapporteret fra systemet {system}."
    },
    "FLAVOUR_8_NEWSBODY" : {
       "description" : "Imply high demand of MINING_MACHINERY.",
-      "message" : "A mine collapsed in the {system} system ({sectorx}, {sectory}, {sectorz}), killing hundreds of workers and destroying important machinery vital for the economy."
+      "message" : "En mine kollapsede i systemet {system} ({sectorx}, {sectory}, {sectorz}), hundredevis arbejdere omkommet og nødvendigt maskineri ødelagt."
    },
    "FLAVOUR_9_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Fashion craze in the {system} system."
+      "message" : "NYHEDER {date}: Mode-vanvid i systemet {system}."
    },
    "FLAVOUR_9_NEWSBODY" : {
       "description" : "live pets is important, since it implies high demand of LIVE_ANIMALS commodity.",
-      "message" : "The latest trend in the {system} system ({sectorx}, {sectory}, {sectorz}) has it real live pets are the next big thing."
+      "message" : "Den nyeste mode i systemet {system} ({sectorx}, {sectory}, {sectorz}) er levende kæledyr."
    },
    "GRATEFUL_GREETING_0" : {
       "description" : "",
