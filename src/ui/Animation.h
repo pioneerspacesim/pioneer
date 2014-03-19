@@ -20,6 +20,8 @@ public:
 	};
 
 	enum Easing {
+		EASING_ZERO,
+		EASING_ONE,
 		EASING_LINEAR,
 		EASING_QUAD,
 		EASING_CUBIC,
@@ -31,6 +33,7 @@ public:
 	};
 
 	enum Target {
+		TARGET_PAUSE,
 		TARGET_OPACITY,
 		TARGET_POSITION_X,
 		TARGET_POSITION_Y,
@@ -56,6 +59,7 @@ private:
 	bool m_continuous;
 	RefCountedPtr<Animation> m_next;
 
+	void TargetPause(const float &pos);
 	void TargetOpacity(const float &pos);
 	void TargetPositionX(const float &pos);
 	void TargetPositionY(const float &pos);

@@ -19,6 +19,16 @@ Animation::Animation(Widget *widget, Type type, Easing easing, Target target, fl
 	SelectFunctions();
 }
 
+static float easingZero(float t, float b, float c, float d)
+{
+	return 0.0f;
+}
+
+static float easingOne(float t, float b, float c, float d)
+{
+	return 1.0f;
+}
+
 static float easeIn(::Easing::Function<float>::Type easingFunc, float t, float d)
 {
 	return easingFunc(t, 0.0f, 1.0f, d);
@@ -32,6 +42,10 @@ static float easeOut(::Easing::Function<float>::Type easingFunc, float t, float 
 static float easeInOut(::Easing::Function<float>::Type easingFunc, float t, float d)
 {
 	return 1.0f-fabsf(easingFunc(t, -1.0, 2.0, d));
+}
+
+void Animation::TargetPause(const float &pos)
+{
 }
 
 void Animation::TargetOpacity(const float &pos)
@@ -62,6 +76,7 @@ void Animation::TargetPositionYRev(const float &pos)
 void Animation::SelectFunctions()
 {
 	switch (m_target) {
+		case TARGET_PAUSE:          m_targetFunc = sigc::mem_fun(this, &Animation::TargetPause); break;
 		case TARGET_OPACITY:        m_targetFunc = sigc::mem_fun(this, &Animation::TargetOpacity); break;
 		case TARGET_POSITION_X:     m_targetFunc = sigc::mem_fun(this, &Animation::TargetPositionX); break;
 		case TARGET_POSITION_Y:     m_targetFunc = sigc::mem_fun(this, &Animation::TargetPositionY); break;
@@ -74,6 +89,8 @@ void Animation::SelectFunctions()
 		case TYPE_IN: {
 			m_wrapFunc = easeIn;
 			switch (m_easing) {
+				case EASING_ZERO:   m_easingFunc = easingZero; return;
+				case EASING_ONE:    m_easingFunc = easingOne; return;
 				case EASING_LINEAR: m_easingFunc = ::Easing::Linear::EaseIn<float>; return;
 				case EASING_QUAD:   m_easingFunc = ::Easing::Quad::EaseIn<float>; return;
 				case EASING_CUBIC:  m_easingFunc = ::Easing::Cubic::EaseIn<float>; return;
@@ -90,6 +107,8 @@ void Animation::SelectFunctions()
 		case TYPE_OUT: {
 			m_wrapFunc = easeOut;
 			switch (m_easing) {
+				case EASING_ZERO:   m_easingFunc = easingZero; return;
+				case EASING_ONE:    m_easingFunc = easingOne; return;
 				case EASING_LINEAR: m_easingFunc = ::Easing::Linear::EaseOut<float>; return;
 				case EASING_QUAD:   m_easingFunc = ::Easing::Quad::EaseOut<float>; return;
 				case EASING_CUBIC:  m_easingFunc = ::Easing::Cubic::EaseOut<float>; return;
@@ -106,6 +125,8 @@ void Animation::SelectFunctions()
 		case TYPE_IN_OUT: {
 			m_wrapFunc = easeInOut;
 			switch (m_easing) {
+				case EASING_ZERO:   m_easingFunc = easingZero; return;
+				case EASING_ONE:    m_easingFunc = easingOne; return;
 				case EASING_LINEAR: m_easingFunc = ::Easing::Linear::EaseInOut<float>; return;
 				case EASING_QUAD:   m_easingFunc = ::Easing::Quad::EaseInOut<float>; return;
 				case EASING_CUBIC:  m_easingFunc = ::Easing::Cubic::EaseInOut<float>; return;

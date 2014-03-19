@@ -132,14 +132,29 @@ int main(int argc, char **argv)
 
 	RefCountedPtr<UI::Context> c(new UI::Context(Lua::manager, r, WIDTH, HEIGHT));
 
-	UI::Grid *g = c->Grid(4,4);
-	UI::Image *img = c->Image("textures/background.jpg");
-	g->SetCell(2,1,img);
+	UI::Grid *g = c->Grid(3,3);
+	UI::Image *img[9];
+	for (int y = 0; y < 3; y++)
+		for (int x = 0; x < 3; x++) {
+			int i = y*3+x;
+			img[i] = c->Image("textures/background.jpg");
+			g->SetCell(x, y, img[i]);
+			c->GetAnimationController().Add(
+				new UI::Animation(img[i], UI::Animation::TYPE_IN, UI::Animation::EASING_ZERO, UI::Animation::TARGET_POSITION_X, 0.0f, false,
+				new UI::Animation(img[i], UI::Animation::TYPE_IN, UI::Animation::EASING_ZERO, UI::Animation::TARGET_PAUSE, float(i)*0.2, false,
+				new UI::Animation(img[i], UI::Animation::TYPE_IN, UI::Animation::EASING_LINEAR, UI::Animation::TARGET_POSITION_X, 0.2f, false))));
+			c->GetAnimationController().Add(
+				new UI::Animation(img[i], UI::Animation::TYPE_IN, UI::Animation::EASING_ZERO, UI::Animation::TARGET_POSITION_Y, 0.0f, false,
+				new UI::Animation(img[i], UI::Animation::TYPE_IN, UI::Animation::EASING_ZERO, UI::Animation::TARGET_PAUSE, float(i)*0.2, false,
+				new UI::Animation(img[i], UI::Animation::TYPE_IN, UI::Animation::EASING_LINEAR, UI::Animation::TARGET_POSITION_Y, 0.2f, false))));
+		}
 	c->GetTopLayer()->SetInnerWidget(g);
 
+	/*
 	c->GetAnimationController().Add(new UI::Animation(img, UI::Animation::TYPE_IN, UI::Animation::EASING_LINEAR, UI::Animation::TARGET_POSITION_X, 1.3f, false));
 	c->GetAnimationController().Add(new UI::Animation(img, UI::Animation::TYPE_IN, UI::Animation::EASING_QUAD, UI::Animation::TARGET_POSITION_Y_REV, 1.0f, false,
 		new UI::Animation(img, UI::Animation::TYPE_OUT, UI::Animation::EASING_QUINT, UI::Animation::TARGET_OPACITY, 1.0f, false)));
+	*/
 
 #if 0
 	UI::Background *cb = c->Background();
