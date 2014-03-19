@@ -144,11 +144,11 @@ int main(int argc, char **argv)
 			int i = y*3+x;
 			img[i] = c->Image("textures/background.jpg");
 			g->SetCell(x, y, img[i]);
-			c->GetAnimationController().Add(
+			c->Animate(
 				new UI::Animation(img[i], UI::Animation::TYPE_IN, UI::Animation::EASING_ZERO, UI::Animation::TARGET_POSITION_X, 0.0f, false,
 				new UI::Animation(img[i], UI::Animation::TYPE_IN, UI::Animation::EASING_ZERO, UI::Animation::TARGET_PAUSE, float(i)*0.2, false,
 				new UI::Animation(img[i], UI::Animation::TYPE_IN, UI::Animation::EASING_LINEAR, UI::Animation::TARGET_POSITION_X, 0.2f, false, nullptr, sigc::bind(sigc::ptr_fun(&animation_callback), i)))));
-			c->GetAnimationController().Add(
+			c->Animate(
 				new UI::Animation(img[i], UI::Animation::TYPE_IN, UI::Animation::EASING_ZERO, UI::Animation::TARGET_POSITION_Y, 0.0f, false,
 				new UI::Animation(img[i], UI::Animation::TYPE_IN, UI::Animation::EASING_ZERO, UI::Animation::TARGET_PAUSE, float(i)*0.2, false,
 				new UI::Animation(img[i], UI::Animation::TYPE_IN, UI::Animation::EASING_LINEAR, UI::Animation::TARGET_POSITION_Y, 0.2f, false))));

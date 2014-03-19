@@ -137,7 +137,7 @@ public:
 	virtual void Update();
 	virtual void Draw();
 
-	AnimationController &GetAnimationController() { return m_animationController; }
+	void Animate(Animation *animation) { m_animationController.Add(animation); }
 
 	LuaRef GetTemplateStore() const { return m_templateStore; }
 	Widget *CallTemplate(const char *name, const LuaTable &args);
