@@ -5,7 +5,7 @@
 
 namespace UI {
 
-Animation::Animation(Widget *widget, Type type, Easing easing, Target target, float duration, bool continuous, Animation *next) :
+Animation::Animation(Widget *widget, Type type, Easing easing, Target target, float duration, bool continuous, Animation *next, sigc::slot<void> callback) :
 	m_widget(widget),
 	m_type(type),
 	m_easing(easing),
@@ -13,6 +13,7 @@ Animation::Animation(Widget *widget, Type type, Easing easing, Target target, fl
 	m_duration(duration),
 	m_continuous(continuous),
 	m_next(next),
+	m_callback(callback),
 	m_running(false),
 	m_completed(false)
 {
@@ -155,6 +156,10 @@ float Animation::Update(float time)
 	m_targetFunc(m_wrapFunc(m_easingFunc, m_completed ? m_duration : fmodf(time, m_duration), m_duration));
 
 	m_running = !m_completed;
+
+	if (m_completed && m_callback)
+		m_callback();
+
 	return remaining;
 }
 

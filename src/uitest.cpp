@@ -105,6 +105,11 @@ static bool remove_floating_widget(UI::Context *c, UI::Widget *widget)
 }
 #endif
 
+static void animation_callback(int n)
+{
+	printf("%d animation completed\n", n);
+}
+
 int main(int argc, char **argv)
 {
 	FileSystem::Init();
@@ -142,7 +147,7 @@ int main(int argc, char **argv)
 			c->GetAnimationController().Add(
 				new UI::Animation(img[i], UI::Animation::TYPE_IN, UI::Animation::EASING_ZERO, UI::Animation::TARGET_POSITION_X, 0.0f, false,
 				new UI::Animation(img[i], UI::Animation::TYPE_IN, UI::Animation::EASING_ZERO, UI::Animation::TARGET_PAUSE, float(i)*0.2, false,
-				new UI::Animation(img[i], UI::Animation::TYPE_IN, UI::Animation::EASING_LINEAR, UI::Animation::TARGET_POSITION_X, 0.2f, false))));
+				new UI::Animation(img[i], UI::Animation::TYPE_IN, UI::Animation::EASING_LINEAR, UI::Animation::TARGET_POSITION_X, 0.2f, false, nullptr, sigc::bind(sigc::ptr_fun(&animation_callback), i)))));
 			c->GetAnimationController().Add(
 				new UI::Animation(img[i], UI::Animation::TYPE_IN, UI::Animation::EASING_ZERO, UI::Animation::TARGET_POSITION_Y, 0.0f, false,
 				new UI::Animation(img[i], UI::Animation::TYPE_IN, UI::Animation::EASING_ZERO, UI::Animation::TARGET_PAUSE, float(i)*0.2, false,
