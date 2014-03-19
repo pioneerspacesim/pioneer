@@ -5,15 +5,16 @@
 
 namespace UI {
 
-Animation::Animation(Widget *widget, Type type, Easing easing, Target target, float duration, bool continuous) :
+Animation::Animation(Widget *widget, Type type, Easing easing, Target target, float duration, bool continuous, Animation *next) :
 	m_widget(widget),
 	m_type(type),
 	m_easing(easing),
 	m_target(target),
 	m_duration(duration),
 	m_continuous(continuous),
-    m_running(false),
-    m_completed(false)
+	m_next(next),
+	m_running(false),
+	m_completed(false)
 {
 	SelectFunctions();
 }
@@ -122,11 +123,18 @@ void Animation::SelectFunctions()
 	assert(m_easingFunc);
 }
 
-bool Animation::Update(float time)
+float Animation::Update(float time)
 {
-	const bool completed = time >= m_duration && !m_continuous;
-	m_targetFunc(m_wrapFunc(m_easingFunc, completed ? m_duration : fmodf(time, m_duration), m_duration));
-	return completed;
+	if (m_completed)
+		return 0.0f;
+
+	const float remaining = m_continuous ? m_duration : (m_duration - time);
+	m_completed = remaining < 0.0f;
+
+	m_targetFunc(m_wrapFunc(m_easingFunc, m_completed ? m_duration : fmodf(time, m_duration), m_duration));
+
+	m_running = !m_completed;
+	return remaining;
 }
 
 void AnimationController::Add(Animation *animation)
@@ -144,8 +152,17 @@ void AnimationController::Update()
 		Animation *animation = (*i).first.Get();
 		Uint32 start = (*i).second;
 
-		if (animation->IsCompleted() || animation->Update(float(now-start)/1000.f)) {
-			animation->Completed();
+		float remaining = 0.0f;
+		if (!animation->IsCompleted())
+			remaining = animation->Update(float(now-start)/1000.f);
+
+		if (animation->IsCompleted()) {
+			Animation *nextAnimation = animation->GetNext();
+			if (nextAnimation) {
+				assert(!animation->IsRunning());
+				m_animations.push_back(std::make_pair(RefCountedPtr<Animation>(nextAnimation), now-Uint32(-remaining*1000.0f)));
+				nextAnimation->Running();
+			}
 			m_animations.erase(i++);
 		}
 		else
