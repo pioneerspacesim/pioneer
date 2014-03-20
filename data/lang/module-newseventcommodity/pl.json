@@ -157,7 +157,7 @@
    },
    "FLAVOUR_5_NEWSBODY" : {
       "description" : "Imply high demand of SLAVES.",
-      "message" : "Workers in the {system} system ({sectorx}, {sectory}, {sectorz}) have cast off their chains in rebellion as they refuse to work the Lotus fields. Economy comes to a stand still as no cheap workers can be found."
+      "message" : "Pracownicy systemu {system}({sectorx},{sectory},{sectorz}) buntują się by zrzucić łańcuchy, odmawiają pracy na plantacjach lotosu. Gospodarka wciąż wyhamowuje, aż do momentu sprowadzenia taniej siły roboczej."
    },
    "FLAVOUR_6_HEADLINE" : {
       "description" : "(Quibble as a derivative of Tribble from Star Trek TOS)",
@@ -173,7 +173,7 @@
    },
    "FLAVOUR_7_NEWSBODY" : {
       "description" : "Imply demand of INDUSTRIAL_MACHINERY.",
-      "message" : "Long time neglect of machine maintenance causes industrial standstill in the {system} system ({sectorx}, {sectory}, {sectorz})."
+      "message" : "Od dawna zaniedbywana konserwacja maszyn spowodowała zastój przemysłowy w systemie {system}({sectorx},{sectory},{sectorz})."
    },
    "FLAVOUR_8_HEADLINE" : {
       "description" : "",
