@@ -1,6 +1,9 @@
 local Game = import("Game")
 local Event = import("Event")
 
+-- We deliberately retain the next_autosave state between games.
+-- This is likely to break in the future, as the engine will probably
+-- be changed to destroy the Lua context between games.
 local next_autosave = 1
 
 local function AutoSave()
