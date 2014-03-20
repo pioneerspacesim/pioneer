@@ -29,6 +29,7 @@ March 2014
      * Gas Giant rewrite (#2803)
      * Support C++11 enum features in scan_enums.py (#2782)
      * Mouse and keyboard events now only distributed to the top UI layer
+     * Code cleanup (#2818)
 
 February 2014
 
