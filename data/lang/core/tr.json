@@ -1080,12 +1080,16 @@
       "message" : "%days{f.0} gün"
    },
    "NUMBER_DECIMAL_POINT" : {
-      "description" : "Decimal delimiter used when displaying monetary values.",
+      "description" : "Decimal delimiter used in numbers.",
       "message" : "."
    },
    "NUMBER_G" : {
       "description" : "",
       "message" : " %acceleration{f.1} g"
+   },
+   "NUMBER_GROUP_MIN" : {
+      "description" : "Smallest number to start grouping of digits for. (E.g. if \"10000\" start grouping thousands with 10,000, and not 1,000).",
+      "message" : "1000"
    },
    "NUMBER_GROUP_NUM" : {
       "description" : "For large number, group digits by this many. European languages use 3 (group thousands). 0 means no grouping.",
