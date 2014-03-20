@@ -181,7 +181,7 @@
    },
    "FLAVOUR_8_NEWSBODY" : {
       "description" : "Imply high demand of MINING_MACHINERY.",
-      "message" : "A mine collapsed in the {system} system ({sectorx}, {sectory}, {sectorz}), killing hundreds of workers and destroying important machinery vital for the economy."
+      "message" : "W systemie {system}({sectorx},{sectory},{sectorz}) nastąpiło zawalenie się kopalni. Zginęły setki robotników a istotne dla tej gospodarki maszyny zostały zniszczone."
    },
    "FLAVOUR_9_HEADLINE" : {
       "description" : "",

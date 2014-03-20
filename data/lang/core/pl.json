@@ -1093,7 +1093,7 @@
    },
    "NUMBER_GROUP_SEP" : {
       "description" : "For large number, separator used when grouping digits. E.g. 1,000 or 1 000 or 1'000.",
-      "message" : "\" \""
+      "message" : "\\u00a0"
    },
    "NUMBER_HOURS" : {
       "description" : "",
