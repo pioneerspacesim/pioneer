@@ -36,10 +36,14 @@ std::string format_money(Sint64 cents, bool showCents){
 	assert(*end == 0);
 
 	if(groupDigits != 0 && std::abs(money) >= groupMin){
+
+		std::string groupSep = std::string(Lang::NUMBER_GROUP_SEP) == " " ?
+			"\u00a0" : Lang::NUMBER_GROUP_SEP;     // space should be fixed space
+
 		size_t skip = (money < 0) ? 2 : 1;        // compensate for "$" or "-$"
 		while(pos - skip > groupDigits){          // insert thousand seperator
 			pos = pos - groupDigits;
-			result.insert(pos, Lang::NUMBER_GROUP_SEP);
+			result.insert(pos, groupSep);
 		}
 	}
 	return result;
