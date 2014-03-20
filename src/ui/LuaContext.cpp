@@ -300,6 +300,42 @@ public:
 		LuaObject<UI::Layer>::PushToLua(c->GetTopLayer());
 		return 1;
 	}
+
+	static int l_animate(lua_State *l) {
+		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
+		luaL_checktype(l, 2, LUA_TTABLE);
+
+		lua_getfield(l, 2, "widget");
+		UI::Widget *w = LuaObject<UI::Widget>::CheckFromLua(-1);
+		lua_pop(l, 1);
+
+		lua_getfield(l, 2, "type");
+		UI::Animation::Type type = static_cast<UI::Animation::Type>(LuaConstants::GetConstantFromArg(l, "UIAnimationType", -1));
+		lua_pop(l, 1);
+
+		lua_getfield(l, 2, "easing");
+		UI::Animation::Easing easing = static_cast<UI::Animation::Easing>(LuaConstants::GetConstantFromArg(l, "UIAnimationEasing", -1));
+		lua_pop(l, 1);
+
+		lua_getfield(l, 2, "target");
+		UI::Animation::Target target = static_cast<UI::Animation::Target>(LuaConstants::GetConstantFromArg(l, "UIAnimationTarget", -1));
+		lua_pop(l, 1);
+
+		lua_getfield(l, 2, "duration");
+		float duration = lua_isnil(l, -1) ? 1.0f : lua_tonumber(l, -1);
+		lua_pop(l, 1);
+
+		lua_getfield(l, 2, "continuous");
+		bool continuous = lua_isnil(l, -1) ? false : lua_toboolean(l, -1);
+		lua_pop(l, 1);
+
+		// XXX next
+		// XXX callback
+
+		c->Animate(new UI::Animation(w, type, easing, target, duration, continuous));
+
+		return 0;
+	}
 };
 
 }
@@ -341,6 +377,8 @@ template <> void LuaObject<UI::Context>::RegisterClass()
 
 		{ "NewLayer",        LuaContext::l_new_layer       },
 		{ "DropLayer",       LuaContext::l_drop_layer      },
+
+		{ "Animate",         LuaContext::l_animate         },
 		{ 0, 0 }
 	};
 

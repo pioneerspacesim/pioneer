@@ -13,13 +13,13 @@ namespace UI {
 
 class Animation : public RefCounted {
 public:
-	enum Type {
+	enum Type { // <enum scope='UI::Animation' name=UIAnimationType prefix=TYPE_ public>
 		TYPE_IN,
 		TYPE_OUT,
 		TYPE_IN_OUT,
 	};
 
-	enum Easing {
+	enum Easing { // <enum scope='UI::Animation' name=UIAnimationEasing prefix=EASING_ public>
 		EASING_ZERO,
 		EASING_ONE,
 		EASING_LINEAR,
@@ -32,7 +32,7 @@ public:
 		EASING_CIRC,
 	};
 
-	enum Target {
+	enum Target { // <enum scope='UI::Animation' name=UIAnimationTarget prefix=TARGET_ public>
 		TARGET_PAUSE,
 		TARGET_OPACITY,
 		TARGET_POSITION_X,
