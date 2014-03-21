@@ -5,11 +5,11 @@
    },
    "FLAVOUR_0_NEWSBODY" : {
       "description" : "Imply high demand for MEDICINE commodity.",
-      "message" : "Plague harvests lives in the {system} system ({sectorx}, {sectory}, {sectorz}). Officials urge for medical aid."
+      "message" : "Eine Plage sucht die Bewohner des {system}-Systems ({sectorx}, {sectory}, {sectorz}) heim. Medizinische Hilfe wird dringend benötigt."
    },
    "FLAVOUR_10_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Company threatening continual survival of {system} system."
+      "message" : "NACHRICHTEN {date}: Großunternehmen gefährdet Überleben des {system}-Systems!"
    },
    "FLAVOUR_10_NEWSBODY" : {
       "description" : "Imply high demand of AIR_PROCESSORS commodity. (Prekall as in Rekall, the fictional company from the Schwarzenegger-movie Total Recall (1990)).",
@@ -61,31 +61,31 @@
    },
    "FLAVOUR_16_NEWSBODY" : {
       "description" : "Imply high demand of FARM_MACHINERY.",
-      "message" : "During the Great Steam Fair in the {system} system ({sectorx}, {sectory}, {sectorz}) an attempt for the galactic record in biggest tractor pulling contest ended in mayhem as one of the contestants lost control of his contraption, destroying all other participants' machines. Administration says it could spell doom for the local farmers."
+      "message" : "Während des großen Dampftreffen im {system}-System ({sectorx}, {sectory}, {sectorz}) ist ein Versuch, den Galaktischen Rekord im größten Traktortauziehen zu schlagen, in einer Katastrophe geendet. Ein Teilnehmer verlor die Kontrolle über sein Fahrzeug und zerstörte alle Maschinen der anderen Teilnehmer. Die Verwaltung fürchtet Probleme für lokale Bauern."
    },
    "FLAVOUR_17_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: New found riches in the {system} system."
+      "message" : "NACHRICHTEN {date}: Neue Reichtümer im {system}-System entdeckt."
    },
    "FLAVOUR_17_NEWSBODY" : {
       "description" : "Imply vast abundance of METAL_ORE.",
-      "message" : "Miners in the {system} system ({sectorx}, {sectory}, {sectorz}) discovered a vast deposit of ore of never before seen proportions."
+      "message" : "Minenarbeiter im {system}-System ({sectorx}, {sectory}, {sectorz}) haben ein Mineralvorkommen von bisher noch nie dagewesener Größe entdeckt."
    },
    "FLAVOUR_18_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Economic reform in the {system} system a great success."
+      "message" : "SCHLAGZEILE {date}: Die Wirtschaftsreform in {system} ist ein großer Erfolg."
    },
    "FLAVOUR_18_NEWSBODY" : {
       "description" : "Imply vast demand of CONSUMER_GOODS.",
-      "message" : "The wheels are spinning ever faster in the {system} system ({sectorx}, {sectory}, {sectorz}) as consumers have more money to spend."
+      "message" : "Das {system}-System ({sectorx}, {sectory}, {sectorz})  boomt, da Verbraucher mehr Geld haben."
    },
    "FLAVOUR_19_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: It is raining gold in the {system} system."
+      "message" : "NACHRICHTEN {date}: Es regnet Gold im {system}-System."
    },
    "FLAVOUR_19_NEWSBODY" : {
       "description" : "Imply vast abundance of PRECIOUS_METALS.",
-      "message" : "A man in the {system} system ({sectorx}, {sectory}, {sectorz}) has inherited an invention from his late uncle, allowing him to transmute any solid into gold and platinum. Economists expect a destabilization of the economy in the system, unless the machine breaks down soon."
+      "message" : "Ein Mann im {system}-System ({sectorx}, {sectory}, {sectorz}) hat mit einer Erfindung seines Uronkels Gold in Platin fusionieren kännen. Wirtschaftswisssenschaftler erwarten eine destabilisation der Wirschaft im System, wenn die Maschine nicht bald einem Defekt erliegt."
    },
    "FLAVOUR_1_HEADLINE" : {
       "description" : "",
@@ -97,7 +97,7 @@
    },
    "FLAVOUR_20_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: The harvest of the gas giant algae in the {system} system sets new record."
+      "message" : "NACHRICHTEN {date}: Die Ernteerträge der Gasgigant-Algenzucht in {system} haben einen neuen Rekord erzielt."
    },
    "FLAVOUR_20_NEWSBODY" : {
       "description" : "Imply vast abundance of FERTILIZER. Soylent is a reference to the book/movie Soylent Green.",
@@ -141,7 +141,7 @@
    },
    "FLAVOUR_3_NEWSBODY" : {
       "description" : "Imply high demand of FRUIT_AND_VEG.",
-      "message" : "Administration in the {system} system ({sectorx}, {sectory}, {sectorz}) seek to increase import to meet the surging demand of all things green ."
+      "message" : "Die Verwaltung des {system}-Systems ({sectorx}, {sectory}, {sectorz}) erhöht den Import um die hohe Nachfrage an pflanzlichen Nahrungmitteln zu befriedigen."
    },
    "FLAVOUR_4_HEADLINE" : {
       "description" : "About mob rivals competing for selling drugs",
@@ -165,15 +165,15 @@
    },
    "FLAVOUR_6_NEWSBODY" : {
       "description" : "Stress drunken or intoxicated by alcohol, as this will imply high demand of LIQUOR.",
-      "message" : "The drunken celebrations in the {system} system ({sectorx}, {sectory}, {sectorz}) will be ongoing, as they honour the furry little creature."
+      "message" : "Der alkoholreiche Festakt im {system}-System ({sectorx}, {sectory}, {sectorz}), zur Huldigung der kleinen, pelzigen Kreatur, wird unvermindert fortgesetzt."
    },
    "FLAVOUR_7_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Industry screeches to a halt in the {system} system."
+      "message" : "NACHRICHTEN {date}: Die Industrie kommt zu einem Halt im {system}-System."
    },
    "FLAVOUR_7_NEWSBODY" : {
       "description" : "Imply demand of INDUSTRIAL_MACHINERY.",
-      "message" : "Long time neglect of machine maintenance causes industrial standstill in the {system} system ({sectorx}, {sectory}, {sectorz})."
+      "message" : "Maschinenschäden, ausgelöst durch schlechte Wartung, hat einen Ausfall der Industrie im {system}-System ({sectorx}, {sectory}, {sectorz}) ausgelöst."
    },
    "FLAVOUR_8_HEADLINE" : {
       "description" : "",
