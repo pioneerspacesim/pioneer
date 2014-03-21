@@ -71,7 +71,7 @@ local function manufacturerIcon (manufacturer)
 end
 
 local function tradeInValue (def)
-	return def.basePrice * 0.5
+	return math.ceil(def.basePrice * 0.5)
 end
 
 local function buyShip (sos)
@@ -80,6 +80,9 @@ local function buyShip (sos)
 	local def = sos.def
 
 	local cost = def.basePrice - tradeInValue(ShipDef[Game.player.shipId])
+	if math.floor(cost) ~= cost then
+		error("Ship price non-integer value.")
+	end
 	if player:GetMoney() < cost then
 		MessageBox.Message(l.YOU_NOT_ENOUGH_MONEY)
 		return
@@ -136,8 +139,8 @@ shipTable.onRowClicked:Connect(function (row)
 				ui:Expand("HORIZONTAL", ui:Align("RIGHT", manufacturerIcon(def.manufacturer))),
 			}),
 			ui:HBox(20):PackEnd({
-				l.PRICE..": "..Format.Money(def.basePrice),
-				l.AFTER_TRADE_IN..": "..Format.Money(def.basePrice - tradeInValue(ShipDef[Game.player.shipId])),
+				l.PRICE..": "..Format.Money(def.basePrice, false),
+				l.AFTER_TRADE_IN..": "..Format.Money(def.basePrice - tradeInValue(ShipDef[Game.player.shipId]), false),
 				ui:Expand("HORIZONTAL", ui:Align("RIGHT", buyButton)),
 			}),
 			ModelSpinner.New(ui, def.modelName, currentShipOnSale.skin, currentShipOnSale.pattern),
@@ -182,7 +185,7 @@ local function updateStation (station, shipsOnSale)
 			seen = true
 		end
 		local def = sos.def
-		shipTable:AddRow({shipClassIcon(def.shipClass), def.name, Format.Money(def.basePrice), def.capacity.."t"})
+		shipTable:AddRow({shipClassIcon(def.shipClass), def.name, Format.Money(def.basePrice,false), def.capacity.."t"})
 	end
 
 	if currentShipOnSale then
