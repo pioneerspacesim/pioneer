@@ -182,17 +182,23 @@ void Context::DrawWidget(Widget *w)
 	const float &animX = w->GetAnimatedPositionX();
 	const float &animY = w->GetAnimatedPositionY();
 
-	const bool isAnimating = animX < 1.0f || animY < 1.0f;
+	const bool isAnimating = fabs(animX) < 1.0f || fabs(animY) < 1.0f;
 
-	const Point animPos(
-		animX < 0.0f ? m_width-(m_width-pos.x)*-animX    : (pos.x+size.x)*animX-size.x,
-		animY < 0.0f ?  m_height-(m_height-pos.y)*-animY : (pos.y+size.y)*animY-size.y
-	);
+	Point finalPos;
+	if (isAnimating) {
+		const Point absPos = w->GetAbsolutePosition();
 
-	m_drawWidgetPosition += animPos;
+		finalPos = Point(
+			animX < 0.0f ? m_width-(m_width-pos.x)*-animX   : (pos.x+size.x)*animX-size.x-absPos.x*(1.0f-animX),
+			animY < 0.0f ? m_height-(m_height-pos.y)*-animY : (pos.y+size.y)*animY-size.y-absPos.y*(1.0f-animY)
+		);
+	}
+	else
+		finalPos = w->GetPosition();
+
+	m_drawWidgetPosition += finalPos;
 
 	Point newScissorPos, newScissorSize;
-
 	if (isAnimating) {
 		newScissorPos = m_drawWidgetPosition;
 		newScissorSize = size;
@@ -227,7 +233,7 @@ void Context::DrawWidget(Widget *w)
 	m_opacityStack.pop();
 	m_scissorStack.pop();
 
-	m_drawWidgetPosition -= animPos + drawOffset;
+	m_drawWidgetPosition -= finalPos + drawOffset;
 }
 
 }
