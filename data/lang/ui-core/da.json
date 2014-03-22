@@ -1,0 +1,1034 @@
+{
+   "ABOVE_AVERAGE" : {
+      "description" : "",
+      "message" : "Over Gennemsnitlig"
+   },
+   "ACTIVE" : {
+      "description" : "",
+      "message" : "Aktiv"
+   },
+   "AFTER_TRADE_IN" : {
+      "description" : "",
+      "message" : "Efter indbytning"
+   },
+   "ALLEGIANCE" : {
+      "description" : "",
+      "message" : "Troskab:"
+   },
+   "ALL_UP_WEIGHT" : {
+      "description" : "",
+      "message" : "Totalvægt"
+   },
+   "AMOUNT" : {
+      "description" : "",
+      "message" : "Mængde"
+   },
+   "AN_ERROR_HAS_OCCURRED" : {
+      "description" : "",
+      "message" : "Der er opstået en fejl"
+   },
+   "ATTEMPT_TO_REPAIR_HULL" : {
+      "description" : "",
+      "message" : "Forsøg at reparere skrog"
+   },
+   "AVAILABLE_FOR_PURCHASE" : {
+      "description" : "",
+      "message" : "Til salg"
+   },
+   "AVERAGE" : {
+      "description" : "",
+      "message" : "Gennemsnitlig"
+   },
+   "BACKWARD_ACCEL" : {
+      "description" : "",
+      "message" : "Baglæns acceleratio"
+   },
+   "BULLETIN_BOARD" : {
+      "description" : "",
+      "message" : "Opslagstavle"
+   },
+   "BUY_SHIP" : {
+      "description" : "",
+      "message" : "Køb Skib"
+   },
+   "CABINS" : {
+      "description" : "",
+      "message" : "Kabiner"
+   },
+   "CABIN_FREE" : {
+      "description" : "",
+      "message" : "{amount} ledig"
+   },
+   "CABIN_USED" : {
+      "description" : "",
+      "message" : "{amount} i brug"
+   },
+   "CANCEL" : {
+      "description" : "",
+      "message" : "Annulér"
+   },
+   "CAPACITY" : {
+      "description" : "",
+      "message" : "Kapacitet"
+   },
+   "CAPACITY_USED" : {
+      "description" : "",
+      "message" : "Kapacitet brugt"
+   },
+   "CARGO" : {
+      "description" : "",
+      "message" : "Last"
+   },
+   "CARGO_SPACE" : {
+      "description" : "",
+      "message" : "Lastrum"
+   },
+   "CARGO_T_FREE" : {
+      "description" : "",
+      "message" : "{amount}t ledig"
+   },
+   "CARGO_T_USED" : {
+      "description" : "",
+      "message" : "{amount}t brugt"
+   },
+   "CASH" : {
+      "description" : "",
+      "message" : "Kontanter"
+   },
+   "CASH_N" : {
+      "description" : "",
+      "message" : "Penge: {money}"
+   },
+   "CHANGE_BINDING" : {
+      "description" : "",
+      "message" : "Skift tast"
+   },
+   "CHIEF_MECHANIC" : {
+      "description" : "",
+      "message" : "Chefmekaniker"
+   },
+   "CIRCULAR_ORBIT_SPEED" : {
+      "description" : "",
+      "message" : "Cirkulært kredsløbshastighed"
+   },
+   "CITY_DETAIL_LEVEL" : {
+      "description" : "",
+      "message" : "Bydetaljeniveau"
+   },
+   "CLEAN" : {
+      "description" : "",
+      "message" : "Ren"
+   },
+   "CLEAR" : {
+      "description" : "",
+      "message" : "Ryd"
+   },
+   "CLIENT" : {
+      "description" : "",
+      "message" : "Klient"
+   },
+   "COMBAT" : {
+      "description" : "",
+      "message" : "Kamp"
+   },
+   "COMMANDER" : {
+      "description" : "",
+      "message" : "Kommandør"
+   },
+   "COMMODITY_MARKET" : {
+      "description" : "",
+      "message" : "Råvaremarkede"
+   },
+   "COMPETENT" : {
+      "description" : "",
+      "message" : "Kompetent"
+   },
+   "COMPLETED" : {
+      "description" : "",
+      "message" : "Færdig"
+   },
+   "COMPRESS_TEXTURES" : {
+      "description" : "",
+      "message" : "Komprimér Teksturer"
+   },
+   "CONSTABLE" : {
+      "description" : "",
+      "message" : "Betjent"
+   },
+   "CONTROLS" : {
+      "description" : "",
+      "message" : "Styring"
+   },
+   "CONTROL_OPTIONS" : {
+      "description" : "",
+      "message" : "Styringsindstillinger"
+   },
+   "COULD_NOT_LOAD_GAME" : {
+      "description" : "",
+      "message" : "Kunne ikke åbne spillet:"
+   },
+   "CREDIBLE" : {
+      "description" : "For player reputation",
+      "message" : "Troværdig"
+   },
+   "CREW_CABINS" : {
+      "description" : "",
+      "message" : "Besætningskabiner"
+   },
+   "CREW_ROSTER" : {
+      "description" : "",
+      "message" : "Besætningsliste"
+   },
+   "CRIMINAL_RECORD" : {
+      "description" : "",
+      "message" : "Straffeattest"
+   },
+   "DANGEROUS" : {
+      "description" : "",
+      "message" : "Farlig"
+   },
+   "DEADLY" : {
+      "description" : "",
+      "message" : "Dødelig"
+   },
+   "DELTA_V" : {
+      "description" : "",
+      "message" : "Delta-v"
+   },
+   "DELTA_V_EMPTY" : {
+      "description" : "Delta-v capacity of a ship with no cargo or upgrades",
+      "message" : "Delta-v (tom)"
+   },
+   "DELTA_V_FULL" : {
+      "description" : "Delta-v capacity of a ship with maximum cargo",
+      "message" : "Delta-v (fuld)"
+   },
+   "DELTA_V_MAX" : {
+      "description" : "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
+      "message" : "Delta-v (max)"
+   },
+   "DESCENT_TO_GROUND_SPEED" : {
+      "description" : "",
+      "message" : "Nedstigning-til-overflade hastighed:"
+   },
+   "DESTROY_ENEMY_SHIP" : {
+      "description" : "",
+      "message" : "Ødelæg fjendtligt skib"
+   },
+   "DISMISS" : {
+      "description" : "",
+      "message" : "Afvis"
+   },
+   "DISPLAY_HUD_TRAILS" : {
+      "description" : "",
+      "message" : "Vis HUD-spor"
+   },
+   "DISPLAY_NAV_TUNNELS" : {
+      "description" : "",
+      "message" : "Vis navigationstunneller"
+   },
+   "DISPLAY_SPEED_LINES" : {
+      "description" : "",
+      "message" : "Vis hastighedslinjer"
+   },
+   "DOCK_AT_CURRENT_TARGET" : {
+      "description" : "",
+      "message" : "Tilkobl med nuværende mål"
+   },
+   "DUE" : {
+      "description" : "",
+      "message" : "Til"
+   },
+   "D_DAYS_LEFT" : {
+      "description" : "",
+      "message" : "Dage tilbage: %d"
+   },
+   "ECONOMY_TRADE" : {
+      "description" : "",
+      "message" : "Økonomi & Handel"
+   },
+   "EFFECTS" : {
+      "description" : "",
+      "message" : "Effekter:"
+   },
+   "ELITE" : {
+      "description" : "",
+      "message" : "ELITE"
+   },
+   "EMPLOYMENT" : {
+      "description" : "",
+      "message" : "Beskæftigelse"
+   },
+   "ENABLE_COCKPIT" : {
+      "description" : "",
+      "message" : "Aktivér cockpit (EKSPERIMENTELT)"
+   },
+   "ENABLE_JOYSTICK" : {
+      "description" : "",
+      "message" : "Aktivér joystick"
+   },
+   "ENGINEERING" : {
+      "description" : "",
+      "message" : "Vedligeholdelse:"
+   },
+   "EQUIPMENT" : {
+      "description" : "",
+      "message" : "Udstyr"
+   },
+   "EQUIPMENT_MARKET" : {
+      "description" : "",
+      "message" : "Udstyrsmarked"
+   },
+   "EQUIPPED" : {
+      "description" : "",
+      "message" : "Udstyret"
+   },
+   "ERROR" : {
+      "description" : "",
+      "message" : "Fejl"
+   },
+   "ESCAPE_SPEED" : {
+      "description" : "",
+      "message" : "Flugthastighed:"
+   },
+   "EXIT_THIS_GAME" : {
+      "description" : "",
+      "message" : "Afslut dette spil"
+   },
+   "EXPERIENCED" : {
+      "description" : "For player reputation",
+      "message" : "Erfaren"
+   },
+   "EXPERT" : {
+      "description" : "For player reputation",
+      "message" : "Ekspert"
+   },
+   "FAILED" : {
+      "description" : "",
+      "message" : "Fejlet"
+   },
+   "FEMALE" : {
+      "description" : "",
+      "message" : "Kvinde"
+   },
+   "FORWARD_ACCEL" : {
+      "description" : "",
+      "message" : "Fremad acceleration"
+   },
+   "FORWARD_ACCEL_EMPTY" : {
+      "description" : "",
+      "message" : "Fremad acceleration (tom)"
+   },
+   "FORWARD_ACCEL_FULL" : {
+      "description" : "",
+      "message" : "Fremad acceleration (fuld)"
+   },
+   "FRACTAL_DETAIL" : {
+      "description" : "",
+      "message" : "Fraktaldetaljer"
+   },
+   "FREE" : {
+      "description" : "Used in Ship Information view as in Capacity: 10t (5t free)",
+      "message" : "gratis"
+   },
+   "FRONT_WEAPON" : {
+      "description" : "",
+      "message" : "Frontvåben"
+   },
+   "FUEL" : {
+      "description" : "",
+      "message" : "Brændstof"
+   },
+   "FUEL_TANK_FULL" : {
+      "description" : "",
+      "message" : "Brændstoftank fuld."
+   },
+   "FUEL_WEIGHT" : {
+      "description" : "",
+      "message" : "Brændstofsvægt"
+   },
+   "FULL_SCREEN" : {
+      "description" : "",
+      "message" : "Fuldskærm"
+   },
+   "GENERAL_CREW" : {
+      "description" : "",
+      "message" : "Generel besætning"
+   },
+   "GIVE_ORDERS_TO_CREW" : {
+      "description" : "",
+      "message" : "Giv ordrer til besætning"
+   },
+   "GOOD_RIDDANCE_TO_YOU_TOO" : {
+      "description" : "",
+      "message" : "Gudskelov."
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Afbryd linjen."
+   },
+   "HARMLESS" : {
+      "description" : "",
+      "message" : "Harmløs"
+   },
+   "HEAVY_CARGO_SHUTTLE" : {
+      "description" : "",
+      "message" : "Tung lastfærge"
+   },
+   "HEAVY_COURIER" : {
+      "description" : "",
+      "message" : "Tung kurér"
+   },
+   "HEAVY_FIGHTER" : {
+      "description" : "",
+      "message" : "Tungt kampskib"
+   },
+   "HEAVY_FREIGHTER" : {
+      "description" : "",
+      "message" : "Tungt fragtskib"
+   },
+   "HEAVY_PASSENGER_SHUTTLE" : {
+      "description" : "",
+      "message" : "Tung passagérfærge"
+   },
+   "HEAVY_PASSENGER_TRANSPORT" : {
+      "description" : "",
+      "message" : "Tung passagértransport"
+   },
+   "HIGH" : {
+      "description" : "",
+      "message" : "Høj"
+   },
+   "HULL_DOES_NOT_REQUIRE_REPAIR" : {
+      "description" : "",
+      "message" : "Skrog kræver ikke reperation."
+   },
+   "HULL_INTEGRITY" : {
+      "description" : "",
+      "message" : "Skrogintegritet"
+   },
+   "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT" : {
+      "description" : "",
+      "message" : "Skrog repareret af {name}, nu på {repairPercent}%"
+   },
+   "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE" : {
+      "description" : "",
+      "message" : "Skrogreperation mislykket. Skroget har taget en smule skade."
+   },
+   "HYPERDRIVE" : {
+      "description" : "",
+      "message" : "Hyperdrev"
+   },
+   "HYPERDRIVE_FITTED" : {
+      "description" : "",
+      "message" : "Hyperdrev monteret:"
+   },
+   "HYPERSPACE_RANGE" : {
+      "description" : "",
+      "message" : "Hyperrum rækkevidde"
+   },
+   "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
+      "description" : "",
+      "message" : "Jeg er træt af at arbejde for ingen ting. Ved du ikke hvad en kontrakt er?"
+   },
+   "INACTIVE" : {
+      "description" : "",
+      "message" : "Ikke-aktiv"
+   },
+   "INCOMPETENT" : {
+      "description" : "For player reputation",
+      "message" : "Inkompetent"
+   },
+   "INEXPERIENCED" : {
+      "description" : "For player reputation",
+      "message" : "Uerfaren"
+   },
+   "INVERT_MOUSE_Y" : {
+      "description" : "",
+      "message" : "Omvendt Mus Y"
+   },
+   "IN_CARGO_HOLD" : {
+      "description" : "",
+      "message" : "I last"
+   },
+   "IN_STOCK" : {
+      "description" : "",
+      "message" : "På lager"
+   },
+   "ITEM_IS_OUT_OF_STOCK" : {
+      "description" : "",
+      "message" : "Der er ikke flere af denne ting på lager."
+   },
+   "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE" : {
+      "description" : "",
+      "message" : "Det har været en fornøjelse at arbejde for dig. Hvis du har brug for mig, så er jeg her i lidt tid."
+   },
+   "JETTISON" : {
+      "description" : "",
+      "message" : "Udtøm"
+   },
+   "KILLS" : {
+      "description" : "",
+      "message" : "Drab:"
+   },
+   "LANGUAGE" : {
+      "description" : "",
+      "message" : "Sprog"
+   },
+   "LANGUAGE_RESTART_GAME_TO_APPLY" : {
+      "description" : "",
+      "message" : "Sprog (genstart spillet for at anvende)"
+   },
+   "LEGAL_STATUS" : {
+      "description" : "",
+      "message" : "Retsstilling"
+   },
+   "LIGHT_CARGO_SHUTTLE" : {
+      "description" : "",
+      "message" : "Let lastfærge"
+   },
+   "LIGHT_COURIER" : {
+      "description" : "",
+      "message" : "Let kurér"
+   },
+   "LIGHT_FIGHTER" : {
+      "description" : "",
+      "message" : "Let kampskib"
+   },
+   "LIGHT_FREIGHTER" : {
+      "description" : "",
+      "message" : "Let fragtskib"
+   },
+   "LIGHT_PASSENGER_SHUTTLE" : {
+      "description" : "",
+      "message" : "Let passagérfærge"
+   },
+   "LIGHT_PASSENGER_TRANSPORT" : {
+      "description" : "",
+      "message" : "Let passagértransport"
+   },
+   "LOAD" : {
+      "description" : "",
+      "message" : "Åbn"
+   },
+   "LOAD_GAME" : {
+      "description" : "",
+      "message" : "Hent spil"
+   },
+   "LOBBY" : {
+      "description" : "",
+      "message" : "Lobby"
+   },
+   "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
+      "description" : "",
+      "message" : "Placeret {distance}km fra midten af {name}:"
+   },
+   "LOCATION" : {
+      "description" : "",
+      "message" : "Placering"
+   },
+   "LOW" : {
+      "description" : "",
+      "message" : "Lav"
+   },
+   "LY" : {
+      "description" : "",
+      "message" : "ly"
+   },
+   "MAKE_NEW_FACE" : {
+      "description" : "",
+      "message" : "Lav nyt ansigt"
+   },
+   "MALE" : {
+      "description" : "",
+      "message" : "Mand"
+   },
+   "MASS" : {
+      "description" : "",
+      "message" : "Masse"
+   },
+   "MASTER" : {
+      "description" : "For player reputation",
+      "message" : "Mester"
+   },
+   "MASTER_VOL" : {
+      "description" : "Master sound in settings option",
+      "message" : "Hoved:"
+   },
+   "MAX" : {
+      "description" : "",
+      "message" : "maks"
+   },
+   "MAXIMUM_CREW" : {
+      "description" : "",
+      "message" : "Maksimum besætning"
+   },
+   "MEDIUM" : {
+      "description" : "",
+      "message" : "Mellem"
+   },
+   "MEDIUM_CARGO_SHUTTLE" : {
+      "description" : "",
+      "message" : "Mellem lastskib"
+   },
+   "MEDIUM_COURIER" : {
+      "description" : "",
+      "message" : "Mellem kurér"
+   },
+   "MEDIUM_FIGHTER" : {
+      "description" : "",
+      "message" : "Mellem kampskib"
+   },
+   "MEDIUM_FREIGHTER" : {
+      "description" : "",
+      "message" : "Mellem fragtskib"
+   },
+   "MEDIUM_PASSENGER_SHUTTLE" : {
+      "description" : "",
+      "message" : "Mellem passagérfærge"
+   },
+   "MEDIUM_PASSENGER_TRANSPORT" : {
+      "description" : "",
+      "message" : "Mellem passagértransport"
+   },
+   "METAL_ALLOYS" : {
+      "description" : "",
+      "message" : "Metallegeringer"
+   },
+   "MILITARY" : {
+      "description" : "",
+      "message" : "Militær"
+   },
+   "MINIMUM_CREW" : {
+      "description" : "",
+      "message" : "Minimumsbesætning"
+   },
+   "MISSIONS" : {
+      "description" : "",
+      "message" : "Missioner"
+   },
+   "MISSION_DETAILS" : {
+      "description" : "",
+      "message" : "Missionsdetaljer"
+   },
+   "MORE_INFO" : {
+      "description" : "",
+      "message" : "Mere info..."
+   },
+   "MOSTLY_HARMLESS" : {
+      "description" : "",
+      "message" : "Næsten harmløs"
+   },
+   "MULTISAMPLING" : {
+      "description" : "",
+      "message" : "Multisampling"
+   },
+   "MURDER" : {
+      "description" : "",
+      "message" : "Mord"
+   },
+   "MUSIC" : {
+      "description" : "",
+      "message" : "Musik:"
+   },
+   "MUTE" : {
+      "description" : "",
+      "message" : "Ingen lyd"
+   },
+   "NAME_OBJECT" : {
+      "description" : "For an item or object",
+      "message" : "Navn"
+   },
+   "NAME_PERSON" : {
+      "description" : "For a person",
+      "message" : "Navn"
+   },
+   "NAVIGATION" : {
+      "description" : "",
+      "message" : "Navigation:"
+   },
+   "NEGOTIATE" : {
+      "description" : "",
+      "message" : "Forhandl"
+   },
+   "NEXT_PAID" : {
+      "description" : "",
+      "message" : "Næste betalt"
+   },
+   "NOBODY" : {
+      "description" : "For player reputation",
+      "message" : "Ikke noget særligt"
+   },
+   "NONE" : {
+      "description" : "",
+      "message" : "Ingen"
+   },
+   "NOTES" : {
+      "description" : "",
+      "message" : "Noter:"
+   },
+   "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR" : {
+      "description" : "",
+      "message" : "Ikke nok {alloy} til at reparere"
+   },
+   "NO_MISSIONS" : {
+      "description" : "",
+      "message" : "Ingen missioner."
+   },
+   "N_LIGHT_YEARS_N_MAX" : {
+      "description" : "",
+      "message" : "{range} lysår ({maxRange} maks)"
+   },
+   "N_OCCUPIED_PASSENGER_CABINS" : {
+      "description" : "",
+      "message" : "{quantity} Optagede Passagérkabiner"
+   },
+   "N_SHIELD_GENERATORS" : {
+      "description" : "",
+      "message" : "{quantity} Skjoldgeneratorer"
+   },
+   "N_UNOCCUPIED_PASSENGER_CABINS" : {
+      "description" : "",
+      "message" : "{quantity} Ledige Passagérkabiner"
+   },
+   "OFF" : {
+      "description" : "",
+      "message" : "Fra"
+   },
+   "OK" : {
+      "description" : "",
+      "message" : "OK"
+   },
+   "OPTIONS" : {
+      "description" : "",
+      "message" : "Indstillinger"
+   },
+   "ORBIT" : {
+      "description" : "",
+      "message" : "Kredsløb"
+   },
+   "ORBITAL_ANALYSIS" : {
+      "description" : "",
+      "message" : "Kredsløbsanalyse"
+   },
+   "ORBITAL_ANALYSIS_NOTES" : {
+      "description" : "",
+      "message" : "Cirkulært kredsløb er givet for en tangential hastighed. Skibet skal bevæge sig i en retning på 90° til skibets/{navn} akse.\n\nNedstigningshastighed er et absolut minimum og også tangential. En langsommere hastighed eller en lavere vinkel vil resultere i en kurs, der krydser med overfladen af {name}.\n\nUndslipningshastigheden vil i teorien virke i alle retninger, så længe skibet ikke kolliderer med {name} på vejen."
+   },
+   "OWED" : {
+      "description" : "",
+      "message" : "Skyldte"
+   },
+   "PAY_FINE_OF_N" : {
+      "description" : "",
+      "message" : "Betal bøde på {amount}"
+   },
+   "PERSONAL_INFORMATION" : {
+      "description" : "",
+      "message" : "Personlig Information"
+   },
+   "PILOTING" : {
+      "description" : "",
+      "message" : "Flyvning:"
+   },
+   "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME" : {
+      "description" : "",
+      "message" : "Pilotsæde er nu udfyldt af {name}"
+   },
+   "PIRACY" : {
+      "description" : "",
+      "message" : "Pirateri"
+   },
+   "PLANET_DETAIL_DISTANCE" : {
+      "description" : "",
+      "message" : "Planetdetaljeafstand"
+   },
+   "PLANET_TEXTURES" : {
+      "description" : "",
+      "message" : "Planetteksturer"
+   },
+   "POLICE" : {
+      "description" : "",
+      "message" : "Politi"
+   },
+   "POOR" : {
+      "description" : "",
+      "message" : "Ringe"
+   },
+   "POSITION" : {
+      "description" : "",
+      "message" : "Position"
+   },
+   "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
+      "description" : "",
+      "message" : "Tryk på en tast eller controller-knap"
+   },
+   "PRICE" : {
+      "description" : "",
+      "message" : "Pris"
+   },
+   "PROFESSIONAL" : {
+      "description" : "For player reputation",
+      "message" : "Professionel"
+   },
+   "QUALIFICATION_SCORES" : {
+      "description" : "",
+      "message" : "Kvalificeringspoint"
+   },
+   "QUICKLOAD" : {
+      "description" : "",
+      "message" : "Hurtig-åbn"
+   },
+   "QUIT" : {
+      "description" : "",
+      "message" : "Afslut"
+   },
+   "RANK" : {
+      "description" : "",
+      "message" : "Rang:"
+   },
+   "RATING" : {
+      "description" : "",
+      "message" : "Bedømmelse:"
+   },
+   "REAR_WEAPON" : {
+      "description" : "",
+      "message" : "Bagvåben"
+   },
+   "REFUEL" : {
+      "description" : "",
+      "message" : "Tanke op"
+   },
+   "RELIABLE" : {
+      "description" : "For player reputation",
+      "message" : "Pålidelig"
+   },
+   "REPAIR_X_HULL_DAMAGE_FOR_X" : {
+      "description" : "",
+      "message" : "Reparér {damage}% skrog-skade for {price}"
+   },
+   "REPUTATION" : {
+      "description" : "",
+      "message" : "Omdømme"
+   },
+   "REQUEST_LAUNCH" : {
+      "description" : "",
+      "message" : "Anmod om at lette"
+   },
+   "RETURN_TO_MENU" : {
+      "description" : "",
+      "message" : "Tilbage til menu"
+   },
+   "REVERSE_ACCEL_EMPTY" : {
+      "description" : "",
+      "message" : "Baglæns acceleration (tom)"
+   },
+   "REVERSE_ACCEL_FULL" : {
+      "description" : "",
+      "message" : "Baglæns acceleration (fuld)"
+   },
+   "REWARD" : {
+      "description" : "",
+      "message" : "Belønning"
+   },
+   "SAVE" : {
+      "description" : "",
+      "message" : "Gem"
+   },
+   "SELECT" : {
+      "description" : "",
+      "message" : "Vælg"
+   },
+   "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME" : {
+      "description" : "",
+      "message" : "Vælg en fil at gemme til eller indtast et nyt filnavn"
+   },
+   "SELECT_FILE" : {
+      "description" : "",
+      "message" : "Vælg fil..."
+   },
+   "SELECT_GAME_TO_LOAD" : {
+      "description" : "",
+      "message" : "Vælg et spil at åbne..."
+   },
+   "SENSORS" : {
+      "description" : "",
+      "message" : "Sensorer:"
+   },
+   "SHIP" : {
+      "description" : "",
+      "message" : "Skib"
+   },
+   "SHIP_INFORMATION" : {
+      "description" : "",
+      "message" : "Skibsinformation"
+   },
+   "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
+      "description" : "",
+      "message" : "Dit skib er i perfekt tilstand."
+   },
+   "SHIP_IS_FULLY_LADEN" : {
+      "description" : "",
+      "message" : "Dit skib er fuldt lastet."
+   },
+   "SHIP_MARKET" : {
+      "description" : "",
+      "message" : "Skibsmarked"
+   },
+   "SHIP_REPAIRS" : {
+      "description" : "",
+      "message" : "Skibsreperation"
+   },
+   "SHIP_VIEWING_WAS_SOLD" : {
+      "description" : "",
+      "message" : "Det skib du kiggede på er blevet solgt"
+   },
+   "SOUND" : {
+      "description" : "",
+      "message" : "Lyd"
+   },
+   "START_AT_BARNARDS_STAR" : {
+      "description" : "",
+      "message" : "Start på Barnards Stjerne"
+   },
+   "START_AT_EARTH" : {
+      "description" : "",
+      "message" : "Start på Jorden"
+   },
+   "START_AT_NEW_HOPE" : {
+      "description" : "",
+      "message" : "Begynd ved New Hope"
+   },
+   "STATION_MANAGER" : {
+      "description" : "",
+      "message" : "Stationsbestyrer"
+   },
+   "STATUS" : {
+      "description" : "",
+      "message" : "Status"
+   },
+   "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
+      "description" : "",
+      "message" : "Tak for dit køb. Husk at montere udstyr og tank op, inden du tager herfra."
+   },
+   "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP" : {
+      "description" : "",
+      "message" : "Der er ikke andre om bord, som kan flyve dette skib."
+   },
+   "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
+      "description" : "",
+      "message" : "Skibet er under stationsmagt, Kommandør."
+   },
+   "TOGGLE_MALE_FEMALE" : {
+      "description" : "",
+      "message" : "Skift mand/kvinde"
+   },
+   "TOTAL" : {
+      "description" : "",
+      "message" : "Totalt:"
+   },
+   "TOTAL_MASS" : {
+      "description" : "",
+      "message" : "Total masse"
+   },
+   "TRADING_ILLEGAL_GOODS" : {
+      "description" : "",
+      "message" : "Handler ulovlige varer"
+   },
+   "TRUSTWORTHY" : {
+      "description" : "For player reputation",
+      "message" : "Troværdig"
+   },
+   "TYPE" : {
+      "description" : "",
+      "message" : "Type"
+   },
+   "UNLAWFUL_WEAPONS_DISCHARGE" : {
+      "description" : "",
+      "message" : "Lovstridig våbenaffyring"
+   },
+   "UNRELIABLE" : {
+      "description" : "",
+      "message" : "Upålidelig"
+   },
+   "UP_ACCEL" : {
+      "description" : "",
+      "message" : "Opacceleration"
+   },
+   "USED" : {
+      "description" : "",
+      "message" : "Brugt"
+   },
+   "VERY_HIGH" : {
+      "description" : "",
+      "message" : "Meget Høj"
+   },
+   "VERY_LOW" : {
+      "description" : "",
+      "message" : "Meget lav"
+   },
+   "VIDEO" : {
+      "description" : "",
+      "message" : "Video"
+   },
+   "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY" : {
+      "description" : "",
+      "message" : "Videokonfiguration (genstart spillet for at anvende)"
+   },
+   "VIDEO_RESOLUTION" : {
+      "description" : "",
+      "message" : "Billedopløsning"
+   },
+   "WAGE" : {
+      "description" : "",
+      "message" : "Løn"
+   },
+   "WEIGHT_EMPTY" : {
+      "description" : "",
+      "message" : "Vægt tom"
+   },
+   "WEIGHT_FULLY_LOADED" : {
+      "description" : "",
+      "message" : "Fuldt lastet vægt"
+   },
+   "WE_ARE_IN_HYPERSPACE_COMMANDER" : {
+      "description" : "",
+      "message" : "Vi er i hyperrum, Kommandør."
+   },
+   "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
+      "description" : "",
+      "message" : "Vi har intet til dig lige nu."
+   },
+   "YOURE_GOING_TO_REGRET_SACKING_ME" : {
+      "description" : "",
+      "message" : "Du kommer til at fortryde, at du fyrer mig!"
+   },
+   "YOUR_HULL_IS_AT_X_INTEGRITY" : {
+      "description" : "",
+      "message" : "Dit skrog er på {value}% integritet."
+   },
+   "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION" : {
+      "description" : "",
+      "message" : "Du har ikke nok penge til dén mulighed."
+   },
+   "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
+      "description" : "",
+      "message" : "Du skal først vælge et kamp-mål, Kommandør."
+   },
+   "YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER" : {
+      "description" : "",
+      "message" : "Du skal først vælge et egnet navigationsmål, Kommandør."
+   },
+   "YOU_MUST_LAUNCH_FIRST_COMMANDER" : {
+      "description" : "",
+      "message" : "Du skal først lette, Kommandør."
+   },
+   "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER" : {
+      "description" : "",
+      "message" : "Du skal først anmode om at lette, Kommandør."
+   },
+   "YOU_NOT_ENOUGH_MONEY" : {
+      "description" : "",
+      "message" : "Du har ikke nok penge."
+   }
+}

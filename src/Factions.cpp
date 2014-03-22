@@ -529,7 +529,7 @@ void Faction::SetBestFitHomeworld(Sint32 x, Sint32 y, Sint32 z, Sint32 si, Uint3
 		while (Uint32(candidateSi) < sec->m_systems.size()) {
 			path.systemIndex = candidateSi;
 			sys = StarSystemCache::GetCached(path);
-			if (sys->m_spaceStations.size() > 0) {
+			if (sys->HasSpaceStations()) {
 				si = candidateSi;
 				break;
 			}

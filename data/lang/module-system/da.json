@@ -1,0 +1,10 @@
+{
+   "YOUR_FUEL_TANK_IS_ALMOST_EMPTY" : {
+      "description" : "",
+      "message" : "Din brændstofstank er næsten tom."
+   },
+   "YOUR_FUEL_TANK_IS_EMPTY" : {
+      "description" : "",
+      "message" : "Din brændstofstank er tom."
+   }
+}

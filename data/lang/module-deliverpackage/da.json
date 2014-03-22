@@ -1,0 +1,354 @@
+{
+   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
+      "description" : "",
+      "message" : "Vil du gentage den oprindelige anmodning?"
+   },
+   "DANGER" : {
+      "description" : "",
+      "message" : "Fare:"
+   },
+   "DEADLINE" : {
+      "description" : "",
+      "message" : "Deadline:"
+   },
+   "DELIVERY" : {
+      "description" : "",
+      "message" : "Levering"
+   },
+   "DENY_0" : {
+      "description" : "",
+      "message" : "Beklager, men jeg tror ikke jeg kan stole på dig, til denne levering."
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "Kom tilbage når du er kvalificeret."
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "Jeg tror ikke lige du er den rette pilot..."
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "Du ligner ikke én, jeg kan stole på til denne levering."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "Du er ikke den slags pilot jeg søger."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "Du virker alt for uerfaren til at håndtere en opgave af denne vigtighed."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "Jeg har aldrig hørt om dig. Jeg har brug for én med erfaring til denne levering."
+   },
+   "DENY_7" : {
+      "description" : "",
+      "message" : "Jeg tør ikke løbe risikoen ved at lade en nybegynder som dig lave denne levering."
+   },
+   "DISTANCE" : {
+      "description" : "",
+      "message" : "Afstand:"
+   },
+   "EXCELLENT_I_WILL_LET_THE_RECIPIENT_KNOW_YOU_ARE_ON_YOUR_WAY" : {
+      "description" : "",
+      "message" : "Fremragende. Jeg vil give modtageren besked om, at du er på vej."
+   },
+   "FLAVOUR_0_ADTEXT" : {
+      "description" : "",
+      "message" : "SKAL DU TIL systemet {system}? Pengebetaling for levering af en lille pakke."
+   },
+   "FLAVOUR_0_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Uacceptabelt! Du brugte evigheder på den levering! Jeg betaler dig ikke."
+   },
+   "FLAVOUR_0_INTROTEXT" : {
+      "description" : "",
+      "message" : "Hej. Jeg hedder {name}. Jeg vil betale dig {cash} hvis du vil levere en lille pakke til {starport} i systemet {system} ({sectorx}, {sectory}, {sectorz}), med en afstand på {dist} ly."
+   },
+   "FLAVOUR_0_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Tak for leveringen. Du har modtaget fuld betaling."
+   },
+   "FLAVOUR_0_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "Da en ven besøgte mig, glemte hun noget tøj og nogle antikke papir-bøger. Jeg vil gerne have dem returneret til hende."
+   },
+   "FLAVOUR_1_ADTEXT" : {
+      "description" : "",
+      "message" : "MANGLER: Levering af en pakke til systemet {system}."
+   },
+   "FLAVOUR_1_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Jeg er frustreret over den sene levering af min pakke og nægter at betale dig."
+   },
+   "FLAVOUR_1_INTROTEXT" : {
+      "description" : "",
+      "message" : "Hej. Jeg hedder {name}. Jeg vil betale {cash} for at få leveret en pakke til {starport} i systemet {system} ({sectorx}, {sectory}, {sectorz}), en afstand på {dist} ly."
+   },
+   "FLAVOUR_1_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Pakken er blevet leveret og du har modtaget fuld betaling."
+   },
+   "FLAVOUR_1_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "Det er ikke noget specielt."
+   },
+   "FLAVOUR_2_ADTEXT" : {
+      "description" : "",
+      "message" : "HASTER: Hurtigt skib er krævet til en levering til systemet {system}."
+   },
+   "FLAVOUR_2_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Jeg var ganske tydelig omkring opgavens deadline. Jeg er meget skuffet over den sene levering og vil ikke betale dig."
+   },
+   "FLAVOUR_2_INTROTEXT" : {
+      "description" : "",
+      "message" : "Hej. Jeg hedder {name}. Jeg vil betale {cash} for at få leveret en pakke til {starport} in systemet {system} ({sectorx}, {sectory}, {sectorz}), med en afstand på {dist} ly."
+   },
+   "FLAVOUR_2_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Du har modtaget fuld betaling for afleveringen. Tak for hjælpen."
+   },
+   "FLAVOUR_2_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "Det er et forsknings-forslag og skal leveres til tiden, ellers får vi ikke nogen finansiering."
+   },
+   "FLAVOUR_3_ADTEXT" : {
+      "description" : "",
+      "message" : "LEVERING: Dokumenter til systemet {system}. {cash} til en erfaren pilot."
+   },
+   "FLAVOUR_3_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Du er uduelig! Jeg vil aldrig regne med dig igen. Du vil ikke modtage nogen betaling."
+   },
+   "FLAVOUR_3_INTROTEXT" : {
+      "description" : "",
+      "message" : "Hej. Jeg hedder {name}. Jeg vil betale {cash} for at få et skib til at transportere en pakke til {starport} i systemet {system} ({sectorx}, {sectory}, {sectorz}), en afstand på {dist} ly."
+   },
+   "FLAVOUR_3_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Din rettidige og diskrete service er værdifuld for os. Du har modtaget fuld betaling."
+   },
+   "FLAVOUR_3_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "Nogle ekstremt sensitive dokumenter er kommet i min besiddelse, og jeg er bange for at de er blevet sporet til mig."
+   },
+   "FLAVOUR_4_ADTEXT" : {
+      "description" : "",
+      "message" : "POST-SERVICE: Vi har brug for et skib til en levering til systemet {system}."
+   },
+   "FLAVOUR_4_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Dit skibsregistrerings-ID er blevet noteret. Vi vil ikke længere lade dig arbejde for os."
+   },
+   "FLAVOUR_4_INTROTEXT" : {
+      "description" : "",
+      "message" : "Vær hilset. Dette er en automatisk besked fra Bedford og {name} Kurér Service. Vi betaler {cash} for leveringen til {starport} in systemet {system}  ({sectorx}, {sectory}, {sectorz}), en afstand på {dist} ly."
+   },
+   "FLAVOUR_4_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Din rettidige og diskrete service er værdifuld for os. Du har modtaget fuld betaling."
+   },
+   "FLAVOUR_4_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "Vi vil med glæde betale dig mindre."
+   },
+   "FLAVOUR_5_ADTEXT" : {
+      "description" : "",
+      "message" : "HJEMTRANSPORT: Flytning af hardware til {starport} fra opbevaring."
+   },
+   "FLAVOUR_5_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Hvad er det her? Åh! Leveringen har taget så lang tid, at jeg har glemt at jeg har sendt det."
+   },
+   "FLAVOUR_5_INTROTEXT" : {
+      "description" : "",
+      "message" : "Godt at møde dig. Jeg hedder {name} og vil gerne betale {cash} til nogen med et skib, der vil hjælpe mig med at flytte mine ting til {starport}. Det haster ikke, det er bare lidt rester af ting og sager fra en flytning."
+   },
+   "FLAVOUR_5_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Vidunderligt! Jeg begynder at pakke ud med det samme. Tusind tak."
+   },
+   "FLAVOUR_5_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "Er det meget? Jeg vil genoverveje mit tilbud!"
+   },
+   "FLAVOUR_6_ADTEXT" : {
+      "description" : "",
+      "message" : "KORT-DISTANCE LEVERING: Levering af lille pakke til {starport}."
+   },
+   "FLAVOUR_6_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Jeg kunne have leveret det hurtigere selv. Jeg betaler dig ikke."
+   },
+   "FLAVOUR_6_INTROTEXT" : {
+      "description" : "",
+      "message" : "Hej. Jeg hedder {name} og vil betale dig {cash} for at levere denne pakke til {starport}."
+   },
+   "FLAVOUR_6_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Tak for pakken - du har modtaget fuld betaling."
+   },
+   "FLAVOUR_6_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "Jeg tror ikke det er så meget."
+   },
+   "FLAVOUR_7_ADTEXT" : {
+      "description" : "",
+      "message" : "INTER-PLANETARISK LAST: Fragt lokal last til {starport}."
+   },
+   "FLAVOUR_7_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Vores kunder vil ikke blive glade for dette. Forvent ikke betaling."
+   },
+   "FLAVOUR_7_INTROTEXT" : {
+      "description" : "",
+      "message" : "Hej. Vi har brug for at få disse kasser leveret til {starport} hurtigst muligt. Standardbetaling for denne levering er {cash}."
+   },
+   "FLAVOUR_7_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Udemærket. Vi har overført pengene til din konto."
+   },
+   "FLAVOUR_7_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "Standardpriser, vi arbejder med markedet."
+   },
+   "FLAVOUR_8_ADTEXT" : {
+      "description" : "",
+      "message" : "KORT LEVERING: Hurtig levering af en pakke til {starport}."
+   },
+   "FLAVOUR_8_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Du blev tilbudt betaling for hurtig levering! Jeg betaler ikke for det her."
+   },
+   "FLAVOUR_8_INTROTEXT" : {
+      "description" : "",
+      "message" : "Mit navn er {name} og jeg har brug for at få denne pakke leveret til en ven på {starport} hurtigt. Jeg vil betale dig {cash}, hvis du gør det hurtigt."
+   },
+   "FLAVOUR_8_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Din hurtige levering er værdsat. Du har modtaget betaling."
+   },
+   "FLAVOUR_8_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "Det haster virkelig."
+   },
+   "FLAVOUR_9_ADTEXT" : {
+      "description" : "",
+      "message" : "PAKKE-LEVERING: Tidskritisk aflevering af letfordærvelige varer til {starport}."
+   },
+   "FLAVOUR_9_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Det er helt spoleret og kan ikke bruges længere! Vi hverkan kan eller vil betale dig."
+   },
+   "FLAVOUR_9_INTROTEXT" : {
+      "description" : "",
+      "message" : "Vær hilset. Vi er bagud med vores produktlevering og har brug for at få det leveret til {starport} hurtigst muligt. Vi vil betale dig {cash} for opgaven."
+   },
+   "FLAVOUR_9_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Rigtig godt! Vi begynder at pakke den ud med det samme. Vi sætter pengene ind på din konto nu."
+   },
+   "FLAVOUR_9_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "Vores levebrød afhænger af det."
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Afbryd linjen."
+   },
+   "HOW_SOON_MUST_IT_BE_DELIVERED" : {
+      "description" : "",
+      "message" : "Hvornår skal den afleveres?"
+   },
+   "IT_COULD_BE_DANGEROUS_YOU_SHOULD_MAKE_SURE_YOURE_ADEQUATELY_PREPARED" : {
+      "description" : "",
+      "message" : "Det kan være farligt. Du bør være sikker på at du er ordentligt forberedt."
+   },
+   "IT_MUST_BE_DELIVERED_BY" : {
+      "description" : "",
+      "message" : "Det skal afleveres d."
+   },
+   "I_HIGHLY_DOUBT_IT" : {
+      "description" : "",
+      "message" : "Jeg tvivler."
+   },
+   "LY" : {
+      "description" : "",
+      "message" : "ly"
+   },
+   "NOT_ANY_MORE_THAN_USUAL" : {
+      "description" : "",
+      "message" : "Ikke mere end normalt."
+   },
+   "OK_AGREED" : {
+      "description" : "",
+      "message" : "OK, det er en aftale."
+   },
+   "PIRATE_TAUNTS_0" : {
+      "description" : "",
+      "message" : "Du kommer til at fortryde at du arbejdede med {client}"
+   },
+   "PIRATE_TAUNTS_1" : {
+      "description" : "",
+      "message" : "Det ser ud til, at min lønseddel er kommet!"
+   },
+   "PIRATE_TAUNTS_2" : {
+      "description" : "",
+      "message" : "Du arbejder for {client}? Det var dumt."
+   },
+   "PIRATE_TAUNTS_3" : {
+      "description" : "",
+      "message" : "Din last og dit liv, pilot!"
+   },
+   "PIRATE_TAUNTS_4" : {
+      "description" : "",
+      "message" : "Jeg er sikker på, at den her vil sælge godt på markedet."
+   },
+   "PIRATE_TAUNTS_5" : {
+      "description" : "",
+      "message" : "Det er ikke din dag i dag! Forbered dig på at dø."
+   },
+   "PIRATE_TAUNTS_6" : {
+      "description" : "",
+      "message" : "Sig til min gamle ven {client}, at vi ses i helvede!"
+   },
+   "PIRATE_TAUNTS_7" : {
+      "description" : "",
+      "message" : "Den pakke kommer ikke frem i dag!"
+   },
+   "PIRATE_TAUNTS_8" : {
+      "description" : "",
+      "message" : "Du kommer ikke til {location} i dag!"
+   },
+   "PIRATE_TAUNTS_9" : {
+      "description" : "",
+      "message" : "Du skal betale for den last, med dit liv."
+   },
+   "SPACEPORT" : {
+      "description" : "",
+      "message" : "Rumhavn:"
+   },
+   "SYSTEM" : {
+      "description" : "",
+      "message" : "System:"
+   },
+   "THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN" : {
+      "description" : "",
+      "message" : "Det er en værdifuld pakke. Du bør holde dine øjne åbne."
+   },
+   "THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE" : {
+      "description" : "",
+      "message" : "Det er meget risikabelt. Du vil garanteret møde modstand."
+   },
+   "WHY_SO_MUCH_MONEY" : {
+      "description" : "",
+      "message" : "Hvorfor så mange penge?"
+   },
+   "WILL_I_BE_IN_ANY_DANGER" : {
+      "description" : "",
+      "message" : "Vil jeg komme i fare?"
+   }
+}

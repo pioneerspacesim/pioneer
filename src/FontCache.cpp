@@ -16,13 +16,8 @@ RefCountedPtr<Text::TextureFont> FontCache::GetTextureFont(const std::string &na
 	float scale[2];
 	Gui::Screen::GetCoords2Pixels(scale);
 
-	// XXX reload the font on lang change
-	const std::string &lang = Lang::GetCore().GetLangCode();
-
-	const Text::FontDescriptor desc =
-		Text::FontDescriptor::Load(FileSystem::gameDataFiles, "fonts/" + name + ".ini", lang, scale[0], scale[1]);
-
-	RefCountedPtr<Text::TextureFont> font(new Text::TextureFont(desc, Gui::Screen::GetRenderer()));
+	const Text::FontConfig config(name, scale[0], scale[1]);
+	RefCountedPtr<Text::TextureFont> font(new Text::TextureFont(config, Gui::Screen::GetRenderer()));
 	m_textureFonts.insert(std::pair< std::string,RefCountedPtr<Text::TextureFont> >(name, font));
 
 	return font;

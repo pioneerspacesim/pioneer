@@ -37,8 +37,8 @@ void Frame::Serialize(Serializer::Writer &wr, Frame *f, Space *space)
 	wr.Int32(space->GetIndexForSystemBody(f->m_sbody));
 	wr.Int32(space->GetIndexForBody(f->m_astroBody));
 	wr.Int32(f->m_children.size());
-	for (ChildIterator it = f->BeginChildren(); it != f->EndChildren(); ++it)
-		Serialize(wr, *it, space);
+	for (Frame* kid : f->GetChildren())
+		Serialize(wr, kid, space);
 	Sfx::Serialize(wr, f);
 }
 
@@ -70,8 +70,8 @@ void Frame::PostUnserializeFixup(Frame *f, Space *space)
 {
 	f->UpdateRootRelativeVars();
 	f->m_astroBody = space->GetBodyByIndex(f->m_astroBodyIndex);
-	for (ChildIterator it = f->BeginChildren(); it != f->EndChildren(); ++it)
-		PostUnserializeFixup(*it, space);
+	for (Frame* kid : f->GetChildren())
+		PostUnserializeFixup(kid, space);
 }
 
 void Frame::Init(Frame *parent, const char *label, unsigned int flags)
@@ -97,8 +97,8 @@ Frame::~Frame()
 {
 	if (m_sfx) delete [] m_sfx;
 	delete m_collisionSpace;
-	for (ChildIterator it = m_children.begin(); it != m_children.end(); ++it)
-		delete (*it);
+	for (Frame* kid : m_children)
+		delete kid;
 }
 
 void Frame::RemoveChild(Frame *f)
@@ -192,8 +192,8 @@ void Frame::UpdateInterpTransform(double alpha)
 		m_rootInterpOrient = m_parent->m_rootInterpOrient * m_interpOrient;
 	}
 
-	for (ChildIterator it = m_children.begin(); it != m_children.end(); ++it)
-		(*it)->UpdateInterpTransform(alpha);
+	for (Frame* kid : m_children)
+		kid->UpdateInterpTransform(alpha);
 }
 
 void Frame::GetFrameTransform(const Frame *fFrom, const Frame *fTo, matrix4x4d &m)
@@ -220,8 +220,8 @@ void Frame::UpdateOrbitRails(double time, double timestep)
 
 	// update frame position and velocity
 	if (m_parent && m_sbody && !IsRotFrame()) {
-		m_pos = m_sbody->orbit.OrbitalPosAtTime(time);
-		vector3d pos2 = m_sbody->orbit.OrbitalPosAtTime(time+timestep);
+		m_pos = m_sbody->GetOrbit().OrbitalPosAtTime(time);
+		vector3d pos2 = m_sbody->GetOrbit().OrbitalPosAtTime(time+timestep);
 		m_vel = (pos2 - m_pos) / timestep;
 	}
 	// temporary test thing
@@ -235,8 +235,8 @@ void Frame::UpdateOrbitRails(double time, double timestep)
 	}
 	UpdateRootRelativeVars();			// update root-relative pos/vel/orient
 
-	for (ChildIterator it = m_children.begin(); it != m_children.end(); ++it)
-		(*it)->UpdateOrbitRails(time, timestep);
+	for (Frame* kid : m_children)
+		kid->UpdateOrbitRails(time, timestep);
 }
 
 void Frame::SetInitialOrient(const matrix3x3d &m, double time) {

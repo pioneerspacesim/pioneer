@@ -5,6 +5,7 @@
 #define UI_CONTAINER_H
 
 #include "Widget.h"
+#include "IterationProxy.h"
 #include <vector>
 
 // Container is the base class for all UI containers. Containers must
@@ -41,9 +42,9 @@ public:
 	virtual void Disable();
 	virtual void Enable();
 
-	typedef std::vector< RefCountedPtr<Widget> >::const_iterator WidgetIterator;
-	const WidgetIterator WidgetsBegin() const { return m_widgets.begin(); }
-	const WidgetIterator WidgetsEnd() const { return m_widgets.end(); }
+	unsigned GetNumWidgets() const { return m_widgets.size(); }
+	IterationProxy<std::vector<RefCountedPtr<Widget> > > GetWidgets() { return MakeIterationProxy(m_widgets); }
+	const IterationProxy<const std::vector<RefCountedPtr<Widget> > > GetWidgets() const { return MakeIterationProxy(m_widgets); }
 
 protected:
 	void LayoutChildren();

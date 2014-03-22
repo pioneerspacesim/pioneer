@@ -4,12 +4,13 @@
 local Engine = import("Engine")
 local Lang = import("Lang")
 local Game = import("Game")
-local Comms = import("Comms")
 local Rand = import("Rand")
 local Event = import("Event")
 local Character = import("Character")
 local Format = import("Format")
 local Serializer = import("Serializer")
+
+local MessageBox = import("ui/MessageBox")
 
 ---------------
 -- Fuel Club --
@@ -124,7 +125,7 @@ onChat = function (form, ref, option)
 			end,
 			onClickSell = function (ref, commodity)
 				if (commodity == 'RADIOACTIVES' and membership.milrads < 1) then
-					Comms.Message(l.YOU_MUST_BUY:interp({
+					MessageBox.Message(l.YOU_MUST_BUY:interp({
 						military_fuel = l.MILITARY_FUEL,
 						radioactives = l.RADIOACTIVES,
 						water = l.WATER,

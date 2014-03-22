@@ -244,10 +244,9 @@ Skin::RectElement Skin::LoadRectElement(const std::string &spec)
 
 Skin::BorderedRectElement Skin::LoadBorderedRectElement(const std::string &spec)
 {
-	std::vector<int> v(6);
-	size_t n = SplitSpec(spec, v);
-	if (n < 6) v[5] = v[4];
-	return BorderedRectElement(v[0], v[1], v[2], v[3], v[4]*m_scale, v[5]*m_scale);
+	std::vector<int> v(8);
+	SplitSpec(spec, v);
+	return BorderedRectElement(v[0], v[1], v[2], v[3], v[4]*m_scale, v[5]*m_scale, v[6]*m_scale, v[7]*m_scale);
 }
 
 Skin::EdgedRectElement Skin::LoadEdgedRectElement(const std::string &spec)

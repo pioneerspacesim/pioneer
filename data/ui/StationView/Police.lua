@@ -7,11 +7,11 @@ local Game = import("Game")
 local Rand = import("Rand")
 local Character = import("Character")
 local Format = import("Format")
-local Comms = import("Comms")
 local utils = import("utils")
 
 local InfoFace = import("ui/InfoFace")
 local SmallLabeledButton = import("ui/SmallLabeledButton")
+local MessageBox = import("ui/MessageBox")
 
 local ui = Engine.ui
 local l = Lang.GetResource("ui-core")
@@ -59,7 +59,7 @@ local police = function (tab)
 		actionBox:PackEnd(b)
 		b.button.onClick:Connect(function ()
 			if Game.player:GetMoney() < fine then
-				Comms.Message(l.YOU_NOT_ENOUGH_MONEY)
+				MessageBox.Message(l.YOU_NOT_ENOUGH_MONEY)
 				return
 			end
 

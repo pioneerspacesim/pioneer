@@ -23,15 +23,36 @@
 #define RETURN_ZERO_NONGNU_ONLY
 #endif
 
+// align x to a. taken from the Linux kernel
+#define ALIGN(x,a)              __ALIGN_MASK(x,(a-1))
+#define __ALIGN_MASK(x,mask)    (((x)+(mask))&~(mask))
+
 void Error(const char *format, ...) __attribute((format(printf,1,2))) __attribute((noreturn));
 void Warning(const char *format, ...)  __attribute((format(printf,1,2)));
 void Output(const char *format, ...)  __attribute((format(printf,1,2)));
+
+// Helper for timing functions with multiple stages
+// Used on a branch to help time loading.
+struct MsgTimer {
+	MsgTimer() { mTimer.Start(); }
+	~MsgTimer() {}
+
+	void Mark(const char *identifier) {
+		mTimer.SoftStop();
+		const double lastTiming = mTimer.millicycles();
+		mTimer.SoftReset();
+		Output("(%lf) millicycles in %s\n", lastTiming, identifier);
+	}
+protected:
+	Profiler::Timer mTimer;
+};
 
 std::string string_join(std::vector<std::string> &v, std::string sep);
 std::string format_date(double time);
 std::string format_date_only(double time);
 std::string format_distance(double dist, int precision = 2);
-std::string format_money(Sint64 money);
+std::string format_money(Sint64 cents, bool showCents=true);
+
 
 static inline Sint64 isqrt(Sint64 a)
 {

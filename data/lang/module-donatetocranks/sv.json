@@ -1,0 +1,66 @@
+{
+   "FLAVOUR_0_MESSAGE" : {
+      "description" : "",
+      "message" : "Var god välj en summa att donera till Det himmelska Flygande Spaghettimonstrets Kyrka."
+   },
+   "FLAVOUR_0_TITLE" : {
+      "description" : "",
+      "message" : "DONERA! Det himmelska Flygande Spaghettimonstrets Kyrka behöver DINA pengar för att sprida guds ord."
+   },
+   "FLAVOUR_1_MESSAGE" : {
+      "description" : "",
+      "message" : "Frid vare med dig, broder. Välj en summa att donera till De fria själarnas beskyddare."
+   },
+   "FLAVOUR_1_TITLE" : {
+      "description" : "",
+      "message" : "DONERA. De fria själarnas beskyddare ber ödmjukast om dina allmosor för att stötta våra kloster."
+   },
+   "FLAVOUR_2_MESSAGE" : {
+      "description" : "",
+      "message" : " Var god välj en summa att donera till Stöd för Krigets Föräldralösa och ge ett slut på lidande för barn över hela galaxen."
+   },
+   "FLAVOUR_2_TITLE" : {
+      "description" : "",
+      "message" : "KÄNNER DU DIG GENERÖS? Stöd för Krigets Föräldralösa behöver din hjälp för att fortsätta sitt nödvändiga arbete."
+   },
+   "FLAVOUR_3_MESSAGE" : {
+      "description" : "",
+      "message" : "Välj en summa att donera till MiljöVakt, och få slut på miljöförstöringen i vår galax."
+   },
+   "FLAVOUR_3_TITLE" : {
+      "description" : "",
+      "message" : "HJÄLP TILL. Kampanjen Vänner till Galaxen 'Förbjud Militära Motorer' behöver dina pengar."
+   },
+   "FLAVOUR_4_MESSAGE" : {
+      "description" : "",
+      "message" : "Var god välj en summa att donera."
+   },
+   "FLAVOUR_4_TITLE" : {
+      "description" : "",
+      "message" : "DONERA! Rädda vår art. Stoppa blodbadet på nyligen bosatta världar."
+   },
+   "FLAVOUR_5_MESSAGE" : {
+      "description" : "",
+      "message" : "Befria ditt skepp! Var god välj en summa att donera. Hacka lugnt."
+   },
+   "FLAVOUR_5_TITLE" : {
+      "description" : "",
+      "message" : "STÖD FRIHET! Stoppa den stora orättvisan av ägd programvara som kontrollerar ditt skepp."
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Lägg på."
+   },
+   "THANK_YOU_ALL_DONATIONS_ARE_WELCOME" : {
+      "description" : "",
+      "message" : "Tack. Alla donationer är välkomna."
+   },
+   "WOW_THAT_WAS_VERY_GENEROUS" : {
+      "description" : "",
+      "message" : "Wow! Det var mycket generöst!"
+   },
+   "YOU_DO_NOT_HAVE_ENOUGH_MONEY" : {
+      "description" : "",
+      "message" : "Du har inte tillräckligt med pengar."
+   }
+}

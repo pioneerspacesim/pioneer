@@ -5,6 +5,8 @@
 #include "Context.h"
 #include "Slider.h"
 
+#include <typeinfo>
+
 namespace UI {
 
 void Table::LayoutAccumulator::AddRow(const std::vector<Widget*> &widgets)
@@ -12,42 +14,93 @@ void Table::LayoutAccumulator::AddRow(const std::vector<Widget*> &widgets)
 	if (m_columnWidth.size() < widgets.size()) {
 		std::size_t i = m_columnWidth.size();
 		m_columnWidth.resize(widgets.size());
-		m_columnLeft.resize(widgets.size());
 		for (; i < widgets.size(); i++)
-			m_columnWidth[i] = m_columnLeft[i] = 0;
+			m_columnWidth[i] = 0;
 	}
 
-	m_columnLeft[0] = 0;
-	for (std::size_t i = 0; i < widgets.size(); i++) {
-		Widget *w = widgets[i];
-		if (!w) continue;
-		const Point size(w->CalcLayoutContribution());
-		// XXX handle flags
-		m_columnWidth[i] = std::max(m_columnWidth[i], size.x);
-		if (i > 0) m_columnLeft[i] = m_columnLeft[i-1] + m_columnWidth[i-1] + m_columnSpacing;
+	m_preferredWidth = 0;
+	for (std::size_t i = 0; i < m_columnWidth.size(); i++) {
+		if (i < widgets.size()) {
+			Widget *w = widgets[i];
+			if (w) {
+				const Point size(w->CalcLayoutContribution());
+				m_columnWidth[i] = std::max(m_columnWidth[i], size.x);
+			}
+		}
+		m_preferredWidth = SizeAdd(SizeAdd(m_preferredWidth, m_columnWidth[i]), m_columnSpacing);
 	}
+	m_preferredWidth = SizeAdd(m_preferredWidth, -m_columnSpacing);
 }
 
 void Table::LayoutAccumulator::Clear()
 {
 	m_columnWidth.clear();
 	m_columnLeft.clear();
+	m_preferredWidth = 0;
 }
 
-void Table::LayoutAccumulator::SetColumnSpacing(int spacing) {
-	m_columnSpacing = spacing;
-	m_columnLeft.resize(m_columnWidth.size());
-	if (m_columnLeft.size() > 0) {
-		m_columnLeft[0] = 0;
+void Table::LayoutAccumulator::ComputeForWidth(int availWidth) {
+	if (m_columnWidth.empty())
+		return;
+
+	if (m_preferredWidth == SIZE_EXPAND) {
+		int fixedSize = m_columnSpacing * (m_columnWidth.size()-1);
+		int numExpand = 0;
 		for (std::size_t i = 0; i < m_columnWidth.size(); i++)
-			if (i > 0) m_columnLeft[i] = m_columnLeft[i-1] + m_columnWidth[i-1] + m_columnSpacing;
+			if (m_columnWidth[i] == SIZE_EXPAND)
+				numExpand++;
+			else
+				fixedSize += m_columnWidth[i];
+		assert(numExpand > 0);
+		int expandSize = (availWidth-fixedSize) / numExpand;
+		for (std::size_t i = 0; i < m_columnWidth.size(); i++)
+			if (m_columnWidth[i] == SIZE_EXPAND)
+				m_columnWidth[i] = expandSize;
+	}
+
+	m_columnLeft.resize(m_columnWidth.size());
+
+	switch (m_columnAlignment) {
+		case COLUMN_LEFT: {
+			m_columnLeft[0] = 0;
+			if (m_columnWidth.size() > 1)
+				for (std::size_t i = 1; i < m_columnWidth.size(); i++)
+					m_columnLeft[i] = m_columnLeft[i-1] + m_columnWidth[i-1] + m_columnSpacing;
+			break;
+		}
+
+		case COLUMN_CENTER: {
+			m_columnLeft[0] = (availWidth-m_preferredWidth)/2;
+			if (m_columnWidth.size() > 1)
+				for (std::size_t i = 1; i < m_columnWidth.size(); i++)
+					m_columnLeft[i] = m_columnLeft[i-1] + m_columnWidth[i-1] + m_columnSpacing;
+			break;
+		}
+
+		case COLUMN_RIGHT: {
+			m_columnLeft.back() = availWidth - m_columnWidth.back();
+			if (m_columnWidth.size() > 1)
+				for (int i = m_columnWidth.size()-2; i >= 0; i--)
+					m_columnLeft[i] = m_columnLeft[i+1] - m_columnSpacing - m_columnWidth[i];
+			break;
+		}
+
+		case COLUMN_JUSTIFY: {
+			m_columnLeft[0] = 0;
+			if (m_columnWidth.size() > 1) {
+				int pad = availWidth > m_preferredWidth ? (availWidth-m_preferredWidth) / (m_columnWidth.size()-1) : 0;
+				for (std::size_t i = 1; i < m_columnWidth.size(); i++)
+					m_columnLeft[i] = m_columnLeft[i-1] + m_columnWidth[i-1] + m_columnSpacing + pad;
+			}
+			break;
+		}
 	}
 }
 
 Table::Inner::Inner(Context *context, LayoutAccumulator &layout) : Container(context),
 	m_layout(layout),
 	m_rowSpacing(0),
-	m_rowAlignment(TOP),
+	m_rowAlignment(ROW_TOP),
 	m_dirty(false),
 	m_mouseEnabled(false)
 {
@@ -58,14 +111,12 @@ Point Table::Inner::PreferredSize()
 	if (!m_dirty)
 		return m_preferredSize;
 
-	const std::vector<int> &colWidth = m_layout.ColumnWidth();
-	const std::vector<int> &colLeft = m_layout.ColumnLeft();
-	if (colWidth.size() == 0) {
+	if (m_layout.Empty()) {
 		m_preferredSize = Point();
 		return m_preferredSize;
 	}
 
-	m_preferredSize.x = colLeft.back() + colWidth.back();
+	m_preferredSize.x = m_layout.GetPreferredWidth();
 	m_preferredSize.y = 0;
 
 	m_rowHeight.resize(m_rows.size());
@@ -111,10 +162,10 @@ void Table::Inner::Layout()
 			int off = 0;
 			if (height != m_rowHeight[i]) {
 				switch (m_rowAlignment) {
-					case CENTER:
+					case ROW_CENTER:
 						off = (m_rowHeight[i] - height) / 2;
 						break;
-					case BOTTOM:
+					case ROW_BOTTOM:
 						off = m_rowHeight[i] - height;
 						break;
 					default:
@@ -264,10 +315,13 @@ Point Table::PreferredSize()
 
 void Table::Layout()
 {
-	if (m_dirty)
-		PreferredSize();
+	// always dirty because some widget within the table may have requested layout
+	m_dirty = true;
+
+	PreferredSize();
 
 	Point size = GetSize();
+	m_layout.ComputeForWidth(size.x);
 
 	Point preferredSize(m_header->PreferredSize());
 	SetWidgetDimensions(m_header.Get(), Point(), Point(size.x, preferredSize.y));
@@ -283,18 +337,23 @@ void Table::Layout()
 		}
 	}
 	else {
-		AddWidget(m_slider.Get());
+		if (!m_slider->GetContainer())
+			AddWidget(m_slider.Get());
+
 		if (!m_onMouseWheelConn.connected())
 			m_onMouseWheelConn = onMouseWheel.connect(sigc::mem_fun(this, &Table::OnMouseWheel));
 
 		const Point sliderSize(m_slider->PreferredSize().x, size.y);
 		const Point sliderPos(size.x-sliderSize.x, top);
 		SetWidgetDimensions(m_slider.Get(), sliderPos, sliderSize);
+		m_slider->Layout();
 
 		size.x = sliderPos.x;
 
 		const float step = float(sliderSize.y) * 0.5f / float(preferredSize.y);
 		m_slider->SetStep(step);
+
+		OnScroll(m_slider->GetValue());
 	}
 
 	SetWidgetDimensions(m_body.Get(), Point(0, top), size);
@@ -355,6 +414,14 @@ Table *Table::SetRowAlignment(RowAlignDirection dir)
 	return this;
 }
 
+Table *Table::SetColumnAlignment(ColumnAlignDirection mode)
+{
+	m_layout.SetColumnAlignment(mode);
+	m_dirty = true;
+	GetContext()->RequestLayout();
+	return this;
+}
+
 Table *Table::SetHeadingFont(Font font)
 {
 	m_header->SetFont(font);
@@ -372,7 +439,10 @@ Table *Table::SetMouseEnabled(bool enabled)
 
 void Table::OnScroll(float value)
 {
-	m_body->SetDrawOffset(Point(0, -float(m_body->PreferredSize().y-(GetSize().y-m_header->PreferredSize().y))*value));
+	if (m_slider->GetContainer())
+		m_body->SetDrawOffset(Point(0, -float(m_body->PreferredSize().y-(GetSize().y-m_header->PreferredSize().y))*value));
+	else
+		m_body->SetDrawOffset(Point());
 }
 
 bool Table::OnMouseWheel(const MouseWheelEvent &event)
@@ -384,5 +454,9 @@ bool Table::OnMouseWheel(const MouseWheelEvent &event)
 	return true;
 }
 
+void Table::SetScrollPosition(float v)
+{
+	m_slider->SetValue(v);
+}
 
 }

@@ -21,9 +21,15 @@ Point Button::PreferredSize()
 	// grow to minimum size if necessary
 	growToMinimum(preferredSize, GetContext()->GetSkin().ButtonMinInnerSize());
 
-	// add borders
+	// add padding
 	const Skin::BorderedRectElement &elem(GetContext()->GetSkin().ButtonNormal());
-	return SizeAdd(preferredSize, Point(elem.borderWidth*2, elem.borderHeight*2));
+	preferredSize = SizeAdd(preferredSize, Point(elem.paddingX*2, elem.paddingY*2));
+
+	// grow to border size if necessary
+	preferredSize.x = std::max(preferredSize.x, int(elem.borderWidth*2));
+	preferredSize.y = std::max(preferredSize.y, int(elem.borderHeight*2));
+
+	return preferredSize;
 }
 
 void Button::Layout()
@@ -33,18 +39,18 @@ void Button::Layout()
 	const Skin::BorderedRectElement &elem(GetContext()->GetSkin().ButtonNormal());
 
 	if (!innerWidget) {
-		SetActiveArea(Point(GetContext()->GetSkin().ButtonMinInnerSize()) + Point(elem.borderWidth*2, elem.borderHeight*2));
+		SetActiveArea(PreferredSize());
 		return;
 	}
 
-	const Point innerSize = GetSize() - Point(elem.borderWidth*2, elem.borderHeight*2);
-	SetWidgetDimensions(innerWidget, Point(elem.borderWidth, elem.borderHeight), innerWidget->CalcSize(innerSize));
+	const Point innerSize = GetSize() - Point(elem.paddingX*2, elem.paddingY*2);
+	SetWidgetDimensions(innerWidget, Point(elem.paddingX, elem.paddingY), innerWidget->CalcSize(innerSize));
 	innerWidget->Layout();
 
 	Point innerActiveArea(innerWidget->GetActiveArea());
 	growToMinimum(innerActiveArea, GetContext()->GetSkin().ButtonMinInnerSize());
 
-	SetActiveArea(innerActiveArea + Point(elem.borderWidth*2, elem.borderHeight*2));
+	SetActiveArea(innerActiveArea + Point(elem.paddingX*2, elem.paddingY*2));
 }
 
 void Button::Draw()

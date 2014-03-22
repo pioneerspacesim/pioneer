@@ -6,6 +6,7 @@
 
 #include <deque>
 #include <vector>
+#include <map>
 #include <string>
 #include "SDL_thread.h"
 
@@ -13,6 +14,8 @@ static const Uint32 MAX_THREADS = 64;
 
 class JobQueue;
 class JobRunner;
+class JobHandle;
+class JobClient;
 
 // represents a single unit of work that you want done
 // subclass and implement:
@@ -28,8 +31,11 @@ class JobRunner;
 //           as quickly as possible. OnFinish will not be called for the job
 class Job {
 public:
-	Job() : cancelled(false) {}
-	virtual ~Job() {}
+	Job() : cancelled(false), m_handle(nullptr) {}
+	virtual ~Job();
+
+	Job(const Job&) = delete;
+	Job& operator=(const Job&) = delete;
 
 	virtual void OnRun() = 0;
 	virtual void OnFinish() = 0;
@@ -37,7 +43,16 @@ public:
 
 private:
 	friend class JobQueue;
+	friend class JobHandle;
+	friend class JobRunner;
+
+	void UnlinkHandle();
+	const JobHandle* GetHandle() const { return m_handle; }
+	void SetHandle(JobHandle* handle) { m_handle = handle; }
+	void ClearHandle() { m_handle = nullptr; }
+
 	bool cancelled;
+	JobHandle* m_handle;
 };
 
 
@@ -67,6 +82,35 @@ private:
 	bool m_queueDestroyed;
 };
 
+// This is the RAII handle for a queued Job. A job is cancelled when the
+// JobHandle is destroyed. There is at most one JobHandle for each Job
+// (non-queued Jobs have no handle). JobHandle is not copyable only
+// moveable.
+class JobHandle {
+public:
+	JobHandle() : m_job(nullptr), m_queue(nullptr), m_client(nullptr) { }
+	JobHandle(JobHandle&& other);
+	JobHandle& operator=(JobHandle&& other);
+	~JobHandle();
+
+	JobHandle(const JobHandle&) = delete;
+	JobHandle& operator=(const JobHandle&) = delete;
+
+	bool HasJob() const { return m_job != nullptr; }
+	Job* GetJob() const { return m_job; }
+
+private:
+	friend class JobQueue;
+	friend class Job;
+	friend class JobRunner;
+
+	JobHandle(Job* job, JobQueue* queue, JobClient* client);
+	void Unlink();
+
+	Job* m_job;
+	JobQueue* m_queue;
+	JobClient* m_client;
+};
 
 // the queue management class. create one from the main thread, and feed your
 // jobs do it. it will take care of the rest
@@ -79,7 +123,7 @@ public:
 
 	// call from the main thread to add a job to the queue. the job should be
 	// allocated with new. the queue will delete it once its its completed
-	void Queue(Job *job);
+	JobHandle Queue(Job *job, JobClient *client = nullptr);
 
 	// call from the main thread to cancel a job. one of three things will happen
 	//
@@ -113,6 +157,30 @@ private:
 	std::vector<JobRunner*> m_runners;
 
 	bool m_shutdown;
+};
+
+class JobClient {
+public:
+	virtual void Order(Job* job) = 0;
+	virtual void RemoveJob(JobHandle* handle) = 0;
+	virtual ~JobClient() {}
+};
+
+class JobSet : public JobClient {
+public:
+	JobSet(JobQueue* queue) : m_queue(queue) { }
+	JobSet(JobSet&& other) : m_queue(other.m_queue), m_jobs(std::move(other.m_jobs)) { other.m_queue = nullptr; }
+	JobSet& operator=(JobSet&& other) { m_queue = other.m_queue; m_jobs = std::move(other.m_jobs); other.m_queue = nullptr; return *this; }
+
+	JobSet(const JobSet&) = delete;
+	JobSet& operator=(const JobSet& other) = delete;
+
+	virtual void Order(Job* job) { m_jobs[job] = std::move(m_queue->Queue(job, this)); }
+	virtual void RemoveJob(JobHandle* handle) { m_jobs.erase(handle->GetJob()); }
+
+private:
+	JobQueue* m_queue;
+	std::map<Job*, JobHandle> m_jobs;
 };
 
 #endif

@@ -5,18 +5,8 @@
 #include "NodeVisitor.h"
 #include "NodeCopyCache.h"
 #include "BaseLoader.h"
-#include "graphics/Surface.h"
 
 namespace SceneGraph {
-CollisionGeometry::CollisionGeometry(Graphics::Renderer *r, Graphics::Surface *s, unsigned int geomflag)
-: Node(r)
-, m_triFlag(geomflag)
-, m_dynamic(false)
-, m_geomTree(0)
-, m_geom(0)
-{
-	CopyData(s->GetVertices()->position, s->GetIndices());
-}
 
 CollisionGeometry::CollisionGeometry(Graphics::Renderer *r, const std::vector<vector3f> &vts, const std::vector<unsigned short> &idx,
 	unsigned int geomflag)

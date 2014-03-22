@@ -55,7 +55,7 @@ Point TextLayout::ComputeSize(const Point &layoutSize)
 	if (layoutSize == m_lastRequested)
 		return m_lastSize;
 
-	int spaceWidth = ceilf(m_font->GetGlyph(' ').advx);
+	int spaceWidth = ceilf(m_font->GetGlyph(' ').advX);
 	int lineHeight = ceilf(m_font->GetHeight());
 
 	Point pos;

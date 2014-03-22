@@ -19,12 +19,12 @@ noinst_HEADERS = \
 	AmbientSounds.h \
 	AnimationCurves.h \
 	Background.h \
+	BaseSphere.h \
 	Body.h \
 	ByteRange.h \
 	Camera.h \
 	CameraController.h \
 	CargoBody.h \
-	ChatForm.h \
 	CityOnPlanet.h \
 	Color.h \
 	Cutscene.h \
@@ -45,11 +45,13 @@ noinst_HEADERS = \
 	Frame.h \
 	GalacticView.h \
 	Game.h \
+	GasGiant.h \
 	GeoSphere.h \
 	HudTrail.h \
 	HyperspaceCloud.h \
 	IniConfig.h \
 	Intro.h \
+	IterationProxy.h \
 	JobQueue.h \
 	GameConfig.h \
 	KeyBindings.h \
@@ -152,12 +154,12 @@ noinst_HEADERS = \
 pioneer_SOURCES	= \
 	AmbientSounds.cpp \
 	Background.cpp \
+	BaseSphere.cpp \
 	Body.cpp \
 	Camera.cpp \
 	CameraController.cpp \
 	CargoBody.cpp \
 	Color.cpp \
-	ChatForm.cpp \
 	CityOnPlanet.cpp \
 	CRC32.cpp \
 	DeathView.cpp \
@@ -173,6 +175,7 @@ pioneer_SOURCES	= \
 	Frame.cpp \
 	GalacticView.cpp \
 	Game.cpp \
+	GasGiant.cpp \
 	GeoPatch.cpp \
 	GeoPatchContext.cpp \
 	GeoPatchID.cpp \

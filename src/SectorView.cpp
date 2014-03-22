@@ -574,20 +574,20 @@ void SectorView::OnClickSystem(const SystemPath &path)
 		if (system->GetNumStars() > 1 && m_selected.IsBodyPath()) {
 			int i;
 			for (i = 0; i < system->GetNumStars(); ++i)
-				if (system->m_stars[i]->path == m_selected) break;
+				if (system->GetStars()[i]->GetPath() == m_selected) break;
 			if (i >= system->GetNumStars() - 1)
-				SetSelected(system->m_stars[0]->path);
+				SetSelected(system->GetStars()[0]->GetPath());
 			else
-				SetSelected(system->m_stars[i+1]->path);
+				SetSelected(system->GetStars()[i+1]->GetPath());
 		} else {
-			SetSelected(system->m_stars[0]->path);
+			SetSelected(system->GetStars()[0]->GetPath());
 		}
 	} else {
 		if (m_selectionFollowsMovement) {
 			GotoSystem(path);
 		} else {
 			RefCountedPtr<StarSystem> system = StarSystemCache::GetCached(path);
-			SetSelected(system->m_stars[0]->path);
+			SetSelected(system->GetStars()[0]->GetPath());
 		}
 	}
 }
@@ -775,12 +775,12 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 	} else if (sys->GetNumStars() == 2) {
 		desc = Lang::BINARY_SYSTEM;
 	} else {
-		desc = sys->rootBody->GetAstroDescription();
+		desc = sys->GetRootBody()->GetAstroDescription();
 	}
 	labels.starType->SetText(desc);
 
 	if (path.IsBodyPath()) {
-		labels.systemName->SetText(sys->GetBodyByPath(path)->name);
+		labels.systemName->SetText(sys->GetBodyByPath(path)->GetName());
 	} else {
 		labels.systemName->SetText(sys->GetName());
 	}
@@ -1014,7 +1014,7 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 		systrans.Scale((StarSystem::starScale[(*i).starType[0]]));
 		m_renderer->SetTransform(systrans);
 
-		Uint8 *col = StarSystem::starColors[(*i).starType[0]];
+		const Uint8 *col = StarSystem::starColors[(*i).starType[0]];
 		AddStarBillboard(systrans, vector3f(0.f), Color(col[0], col[1], col[2], 255), 0.5f);
 
 		// player location indicator
@@ -1332,7 +1332,7 @@ void SectorView::Update()
 
 			if (!m_selected.IsSameSystem(new_selected)) {
 				RefCountedPtr<StarSystem> system = StarSystemCache::GetCached(new_selected);
-				SetSelected(system->m_stars[0]->path);
+				SetSelected(system->GetStars()[0]->GetPath());
 			}
 		}
 	}
@@ -1353,7 +1353,7 @@ void SectorView::Update()
 		Graphics::MaterialDescriptor matdesc;
 		matdesc.effect = EFFECT_FRESNEL_SPHERE;
 		RefCountedPtr<Graphics::Material> fresnelMat(m_renderer->CreateMaterial(matdesc));
-		m_jumpSphere.reset( new Graphics::Drawables::Sphere3D(fresnelMat, m_jumpSphereState, 3, 1.0f) );
+		m_jumpSphere.reset( new Graphics::Drawables::Sphere3D(m_renderer, fresnelMat, m_jumpSphereState, 3, 1.0f) );
 		m_jumpDisk.reset( new Graphics::Drawables::Disk(fresnelMat, m_jumpSphereState, 72, 1.0f) );
 	}
 

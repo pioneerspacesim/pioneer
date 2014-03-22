@@ -65,6 +65,8 @@ namespace Polit {
 
 class SysPolit {
 public:
+	SysPolit() : govType(Polit::GOV_INVALID) { }
+
 	const char *GetGovernmentDesc() const;
 	const char *GetEconomicDesc() const;
 

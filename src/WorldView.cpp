@@ -588,7 +588,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			ss << stringf("Pos: %0{f.2}, %1{f.2}, %2{f.2}\n", pos.x, pos.y, pos.z);
 			ss << stringf("AbsPos: %0{f.2}, %1{f.2}, %2{f.2}\n", abs_pos.x, abs_pos.y, abs_pos.z);
 
-			const SystemPath &path(Pi::player->GetFrame()->GetSystemBody()->path);
+			const SystemPath &path(Pi::player->GetFrame()->GetSystemBody()->GetPath());
 			ss << stringf("Rel-to: %0 [%1{d},%2{d},%3{d},%4{u},%5{u}] ",
 				Pi::player->GetFrame()->GetLabel(),
 				path.sectorX, path.sectorY, path.sectorZ, path.systemIndex, path.bodyIndex);
@@ -618,7 +618,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 		RefCountedPtr<StarSystem> s = StarSystemCache::GetCached(dest);
 
 		Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_TOP_LEFT, stringf(Lang::IN_TRANSIT_TO_N_X_X_X,
-			formatarg("system", dest.IsBodyPath() ? s->GetBodyByPath(dest)->name : s->GetName()),
+			formatarg("system", dest.IsBodyPath() ? s->GetBodyByPath(dest)->GetName() : s->GetName()),
 			formatarg("x", dest.sectorX),
 			formatarg("y", dest.sectorY),
 			formatarg("z", dest.sectorZ)));
@@ -1032,19 +1032,17 @@ void WorldView::BuildCommsNavOptions()
 
 	m_commsNavOptions->PackEnd(new Gui::Label(std::string("#ff0")+std::string(Lang::NAVIGATION_TARGETS_IN_THIS_SYSTEM)+std::string("\n")));
 
-	for ( std::vector<SystemBody*>::const_iterator i = Pi::game->GetSpace()->GetStarSystem()->m_spaceStations.begin();
-	      i != Pi::game->GetSpace()->GetStarSystem()->m_spaceStations.end(); ++i) {
-
-		groups[(*i)->parent->path.bodyIndex].push_back(*i);
+	for (SystemBody* station : Pi::game->GetSpace()->GetStarSystem()->GetSpaceStations()) {
+		groups[station->GetParent()->GetPath().bodyIndex].push_back(station);
 	}
 
 	for ( std::map< Uint32,std::vector<SystemBody*> >::const_iterator i = groups.begin(); i != groups.end(); ++i ) {
-		m_commsNavOptions->PackEnd(new Gui::Label("#f0f" + Pi::game->GetSpace()->GetStarSystem()->m_bodies[(*i).first]->name));
+		m_commsNavOptions->PackEnd(new Gui::Label("#f0f" + Pi::game->GetSpace()->GetStarSystem()->GetBodies()[(*i).first]->GetName()));
 
 		for ( std::vector<SystemBody*>::const_iterator j = (*i).second.begin(); j != (*i).second.end(); ++j) {
 			SystemPath path = Pi::game->GetSpace()->GetStarSystem()->GetPathOf(*j);
 			Body *body = Pi::game->GetSpace()->FindBodyForPath(&path);
-			AddCommsNavOption((*j)->name, body);
+			AddCommsNavOption((*j)->GetName(), body);
 		}
 	}
 }
@@ -1121,7 +1119,7 @@ void WorldView::OnHyperspaceTargetChanged()
 	const SystemPath path = Pi::sectorView->GetHyperspaceTarget();
 
 	RefCountedPtr<StarSystem> system = StarSystemCache::GetCached(path);
-	const std::string& name = path.IsBodyPath() ? system->GetBodyByPath(path)->name : system->GetName() ;
+	const std::string& name = path.IsBodyPath() ? system->GetBodyByPath(path)->GetName() : system->GetName() ;
 	Pi::cpan->MsgLog()->Message("", stringf(Lang::SET_HYPERSPACE_DESTINATION_TO, formatarg("system", name)));
 }
 
@@ -1169,7 +1167,7 @@ void WorldView::UpdateCommsOptions()
 
 	if (m_showTargetActionsTimeout == 0) return;
 
-	if (Pi::game->GetSpace()->GetStarSystem()->m_spaceStations.size() > 0)
+	if (Pi::game->GetSpace()->GetStarSystem()->HasSpaceStations())
 	{
 		BuildCommsNavOptions();
 	}
@@ -1328,9 +1326,7 @@ void WorldView::UpdateProjectedObjects()
 	// determine projected positions and update labels
 	m_bodyLabels->Clear();
 	m_projectedPos.clear();
-	for (Space::BodyIterator i = Pi::game->GetSpace()->BodiesBegin(); i != Pi::game->GetSpace()->BodiesEnd(); ++i) {
-		Body *b = *i;
-
+	for (Body* b : Pi::game->GetSpace()->GetBodies()) {
 		// don't show the player label on internal camera
 		if (b->IsType(Object::PLAYER) && GetCamType() == CAM_INTERNAL)
 			continue;
@@ -1340,7 +1336,7 @@ void WorldView::UpdateProjectedObjects()
 
 			// only show labels on large or nearby bodies
 			if (b->IsType(Object::PLANET) || b->IsType(Object::STAR) || b->IsType(Object::SPACESTATION) || Pi::player->GetPositionRelTo(b).LengthSqr() < 1000000.0*1000000.0)
-				m_bodyLabels->Add((*i)->GetLabel(), sigc::bind(sigc::mem_fun(this, &WorldView::SelectBody), *i, true), float(pos.x), float(pos.y));
+				m_bodyLabels->Add(b->GetLabel(), sigc::bind(sigc::mem_fun(this, &WorldView::SelectBody), b, true), float(pos.x), float(pos.y));
 
 			m_projectedPos[b] = pos;
 		}

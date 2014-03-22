@@ -34,7 +34,7 @@ void Star::InitStar()
 	// this one is much larger because stars have halo effect
 	// if star is wolf-rayet it gets a very large halo effect
 	const SystemBody *sbody = GetSystemBody();
-	const float wf = (sbody->type < SystemBody::TYPE_STAR_S_BH && sbody->type > SystemBody::TYPE_STAR_O_HYPER_GIANT) ? 100.0f : 1.0f;
+	const float wf = (sbody->GetType() < SystemBody::TYPE_STAR_S_BH && sbody->GetType() > SystemBody::TYPE_STAR_O_HYPER_GIANT) ? 100.0f : 1.0f;
 	SetClipRadius(sbody->GetRadius() * 8 * wf);
 
 	Graphics::RenderStateDesc rsd;
@@ -68,7 +68,7 @@ void Star::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 
 	renderer->SetTransform(trans * rot);
 
-	const Uint8 *col = StarSystem::starRealColors[GetSystemBody()->type];
+	const Uint8 *col = StarSystem::starRealColors[GetSystemBody()->GetType()];
 
 	Random(rand);
 

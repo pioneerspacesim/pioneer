@@ -9,14 +9,12 @@ AM_CPPFLAGS += -I$(srcdir)/.. -isystem $(top_srcdir)/contrib
 noinst_LIBRARIES = libtext.a
 noinst_HEADERS = \
 	DistanceFieldFont.h \
-	FontDescriptor.h \
-	Font.h \
+	FontConfig.h \
 	TextSupport.h \
 	TextureFont.h
 
 libtext_a_SOURCES = \
 	DistanceFieldFont.cpp \
-	FontDescriptor.cpp \
-	Font.cpp \
+	FontConfig.cpp \
 	TextSupport.cpp \
 	TextureFont.cpp

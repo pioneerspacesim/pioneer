@@ -6,7 +6,6 @@ local Lang = import("Lang")
 local Game = import("Game")
 local ShipDef = import("ShipDef")
 local EquipDef = import("EquipDef")
-local Comms = import("Comms")
 
 local EquipmentTableWidgets = import("EquipmentTableWidgets")
 

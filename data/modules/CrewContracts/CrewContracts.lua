@@ -84,8 +84,9 @@ local scheduleWages = function (crewMember)
 		else
 			contract.outstanding = contract.outstanding + contract.wage
 			crewMember.playerRelationship = crewMember.playerRelationship - 1
+			Character.persistent.player.reputation = Character.persistent.player.reputation - 0.5
 		end
-		
+
 		-- Attempt to pay off any arrears
 		local arrears = math.min(Game.player:GetMoney(),contract.outstanding)
 		Game.player:AddMoney(0 - arrears)
@@ -240,7 +241,7 @@ local onChat = function (form,ref,option)
 		form:AddOption(l.ASK_CANDIDATE_TO_SIT_A_TEST,6)
 		form:AddOption(l.GO_BACK, 0)
 	end
-	
+
 	if option > 0 then
 
 		if not candidate then

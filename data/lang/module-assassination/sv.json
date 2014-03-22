@@ -1,0 +1,330 @@
+{
+   "ASSASSINATION" : {
+      "description" : "",
+      "message" : "Lönnmord"
+   },
+   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
+      "description" : "",
+      "message" : "Kan du upprepa den ursprungliga önskan?"
+   },
+   "DENY_0" : {
+      "description" : "",
+      "message" : "Jag är ledsen, men jag litar inte på dig."
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "Kom tillbaka när du har fått lite kompetens."
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "Jag tror inte att du är den jag letar efter."
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "Du ser inte ut som en person som klarar av att utföra det som måste göras."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "Du är helt klart inte personen för det här jobbet."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "Du ser ut att vara allt för oerfaren för att hantera ett kontrakt av denna betydelse."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "Jag har aldrig hört talas om dig. Jag behöver någon med erfarenhet för det här kontraktet."
+   },
+   "DENY_7" : {
+      "description" : "",
+      "message" : "Jag är inte villig att riskera kontraktet genom att ge det till någon som är så oerfaren som dig."
+   },
+   "DISTANCE" : {
+      "description" : "",
+      "message" : "Avstånd:"
+   },
+   "EXCELLENT" : {
+      "description" : "",
+      "message" : "Utmärkt."
+   },
+   "FLAVOUR_0_ADTEXT" : {
+      "description" : "",
+      "message" : "ÖNSKAS: Avlägsnande av {target} från {system} systemet."
+   },
+   "FLAVOUR_0_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Jag är mycket missnöjd att {target} fortfarande lever. Det behöver inte ens sägas att du inte kommer att få betalt."
+   },
+   "FLAVOUR_0_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "{target}s undanröjning var inte utfört av dig. Ingen betalning den här gången."
+   },
+   "FLAVOUR_0_INTROTEXT" : {
+      "description" : "",
+      "message" : "Hej, Jag är {name}. Jag betalar dig {cash} för att bli av med {target}"
+   },
+   "FLAVOUR_0_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Nyheter om {target}s långa semester tacksamt mottaget. Bra gjort, jag har påbörjat din fulla betalning."
+   },
+   "FLAVOUR_1_ADTEXT" : {
+      "description" : "",
+      "message" : "ÖNSKAS: Någon som dödar {target} från {system} systemet."
+   },
+   "FLAVOUR_1_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Jag har hört att {target} är vid god hälsa. Det smärtar mig."
+   },
+   "FLAVOUR_1_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "{target}s bortgång var inte orsakad av dig, så fråga inte efter betalning."
+   },
+   "FLAVOUR_1_INTROTEXT" : {
+      "description" : "",
+      "message" : "Jag behöver få {target} ut ur bilden. Jag betalar dig {cash} för att göra detta."
+   },
+   "FLAVOUR_1_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Jag är mycket ledsen att höra om {target}s bortgång. Du har fått full betalning."
+   },
+   "FLAVOUR_2_ADTEXT" : {
+      "description" : "",
+      "message" : "AVLÄGSNANDE: {target} är inte längre önskvärd i {system} systemet."
+   },
+   "FLAVOUR_2_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Det är mycket synd att {target} fortfarande lever och mår bra. Du kommer inte att få någon betalning då du inte slutförde ditt kontrakt."
+   },
+   "FLAVOUR_2_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "Kontraktet blev utfört av någon annan. Var snabbare nästa gång!"
+   },
+   "FLAVOUR_2_INTROTEXT" : {
+      "description" : "",
+      "message" : "Jag är {name} och jag kommer att betala dig {cash} för att ta livet av {target}."
+   },
+   "FLAVOUR_2_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Du har fått full betalning för utförande av det viktiga kontraktet."
+   },
+   "FLAVOUR_3_ADTEXT" : {
+      "description" : "",
+      "message" : "AVSLUTNING: Någon som eliminerar {target}."
+   },
+   "FLAVOUR_3_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Du kommer att få betala för att du inte eliminerade {target}"
+   },
+   "FLAVOUR_3_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "Ber du om pengar för ett jobb som utförts av någon annan? Försvinn."
+   },
+   "FLAVOUR_3_INTROTEXT" : {
+      "description" : "",
+      "message" : "{target} måste reduceras till rymddamm. Jag kommer att belöna dig med {cash} för att göra detta."
+   },
+   "FLAVOUR_3_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "{target} är död. Här är din belöning."
+   },
+   "FLAVOUR_4_ADTEXT" : {
+      "description" : "",
+      "message" : "PENSIONERING: Någon som kan pensionera {target}."
+   },
+   "FLAVOUR_4_FAILUREMSG" : {
+      "description" : "",
+      "message" : "{target} andas fortfarande och jag kommer inte ge dig några pengar."
+   },
+   "FLAVOUR_4_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "Pensionering av {target} utfördes av någon annan."
+   },
+   "FLAVOUR_4_INTROTEXT" : {
+      "description" : "",
+      "message" : "För {cash} vill vi uppmana {target} att sluta arbeta permanent."
+   },
+   "FLAVOUR_4_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Nyheter om {target}s pensionering glatt mottagna. Här är dina pengar."
+   },
+   "FLAVOUR_5_ADTEXT" : {
+      "description" : "",
+      "message" : "BIOGRAFI: Några beundrare önskar se {target} död."
+   },
+   "FLAVOUR_5_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Vi fick reda på att {target} fortfarande är verksam. Det gör oss ledsna."
+   },
+   "FLAVOUR_5_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "{target} blev neutraliserad av någon annan."
+   },
+   "FLAVOUR_5_INTROTEXT" : {
+      "description" : "",
+      "message" : "Vi önskar att {target} får en passande avslutning på sin karriär i {system} systemet för {cash}."
+   },
+   "FLAVOUR_5_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Meddelande om {target}s avslutade karriär glatt mottaget. Här är dina {cash}"
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Lägg på."
+   },
+   "HOW_SOON_MUST_IT_BE_DONE" : {
+      "description" : "",
+      "message" : "Hur snabbt måste det göras?"
+   },
+   "HOW_WILL_I_BE_PAID" : {
+      "description" : "",
+      "message" : "Hur kommer jag få betalt?"
+   },
+   "IT_MUST_BE_DONE_AFTER" : {
+      "description" : "",
+      "message" : "Det måste göras efter {target} lämnar {spaceport}. Missa inte detta tillfälle."
+   },
+   "LY" : {
+      "description" : "",
+      "message" : "ly"
+   },
+   "OK_AGREED" : {
+      "description" : "",
+      "message" : "Ok, överenskommet."
+   },
+   "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID" : {
+      "description" : "",
+      "message" : "Kom tillbaka hit efter slutfört uppdrag för betalning."
+   },
+   "SHIP" : {
+      "description" : "",
+      "message" : "Skepp:"
+   },
+   "SHIP_ID" : {
+      "description" : "",
+      "message" : "Skepp ID:"
+   },
+   "SPACEPORT" : {
+      "description" : "",
+      "message" : "Rymdstation:"
+   },
+   "SYSTEM" : {
+      "description" : "",
+      "message" : "System:"
+   },
+   "TARGET_NAME" : {
+      "description" : "",
+      "message" : "Målets namn:"
+   },
+   "TARGET_WILL_BE_LEAVING_SPACEPORT_AT" : {
+      "description" : "",
+      "message" : "Målet kommer att lämna rymdstationen vid:"
+   },
+   "TITLE_0" : {
+      "description" : "",
+      "message" : "Admiral"
+   },
+   "TITLE_1" : {
+      "description" : "",
+      "message" : "Ambassadör"
+   },
+   "TITLE_10" : {
+      "description" : "",
+      "message" : "Fänrik"
+   },
+   "TITLE_11" : {
+      "description" : "",
+      "message" : "General"
+   },
+   "TITLE_12" : {
+      "description" : "",
+      "message" : "Domare"
+   },
+   "TITLE_13" : {
+      "description" : "",
+      "message" : "Advokat"
+   },
+   "TITLE_14" : {
+      "description" : "",
+      "message" : "Löjtnant"
+   },
+   "TITLE_15" : {
+      "description" : "",
+      "message" : "Sheriff"
+   },
+   "TITLE_16" : {
+      "description" : "",
+      "message" : "Handlare"
+   },
+   "TITLE_17" : {
+      "description" : "",
+      "message" : "Officer"
+   },
+   "TITLE_18" : {
+      "description" : "",
+      "message" : "Menig"
+   },
+   "TITLE_19" : {
+      "description" : "",
+      "message" : "Professor"
+   },
+   "TITLE_2" : {
+      "description" : "",
+      "message" : "Brigadgeneral"
+   },
+   "TITLE_20" : {
+      "description" : "",
+      "message" : "Åklagare"
+   },
+   "TITLE_21" : {
+      "description" : "",
+      "message" : "Borgmästare"
+   },
+   "TITLE_22" : {
+      "description" : "",
+      "message" : "Sjöman"
+   },
+   "TITLE_23" : {
+      "description" : "",
+      "message" : "Senator"
+   },
+   "TITLE_24" : {
+      "description" : "",
+      "message" : "Sergant"
+   },
+   "TITLE_3" : {
+      "description" : "",
+      "message" : "Kadett"
+   },
+   "TITLE_4" : {
+      "description" : "",
+      "message" : "Kapten"
+   },
+   "TITLE_5" : {
+      "description" : "",
+      "message" : "Kardinal"
+   },
+   "TITLE_6" : {
+      "description" : "",
+      "message" : "Överste"
+   },
+   "TITLE_7" : {
+      "description" : "",
+      "message" : "Kommendant"
+   },
+   "TITLE_8" : {
+      "description" : "",
+      "message" : "Kommendör"
+   },
+   "TITLE_9" : {
+      "description" : "",
+      "message" : "Korpral"
+   },
+   "WHERE_CAN_I_FIND_X" : {
+      "description" : "",
+      "message" : "Var kan jag hitta {target}?"
+   },
+   "X_WILL_BE_LEAVING" : {
+      "description" : "",
+      "message" : "{target} kommer att lämna {spaceport} i {system} systemet ({sectorX}, {sectorY}, {sectorZ}), avstånd {dist} ly, vid {date}.\nSkeppets namn är {shipname} och har regisrerings id {shipregid}."
+   }
+}

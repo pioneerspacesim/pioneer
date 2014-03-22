@@ -118,6 +118,7 @@ int main(int argc, char **argv)
 	videoSettings.width = WIDTH;
 	videoSettings.height = HEIGHT;
 	videoSettings.fullscreen = false;
+	videoSettings.hidden = false;
 	videoSettings.requestedSamples = 0;
 	videoSettings.vsync = false;
 	videoSettings.useTextureCompression = false;
@@ -129,7 +130,7 @@ int main(int argc, char **argv)
 
 	Lua::Init();
 
-	RefCountedPtr<UI::Context> c(new UI::Context(Lua::manager, r, WIDTH, HEIGHT, "en"));
+	RefCountedPtr<UI::Context> c(new UI::Context(Lua::manager, r, WIDTH, HEIGHT));
 
 	UI::VBox *box = c->VBox();
 	for (int i = 0; i < 2; i++) {

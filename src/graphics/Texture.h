@@ -86,8 +86,10 @@ class Texture : public RefCounted {
 public:
 	const TextureDescriptor &GetDescriptor() const { return m_descriptor; }
 
-	// XXX include position
-	virtual void Update(const void *data, const vector2f &dataSize, TextureFormat format, const unsigned int numMips = 0) = 0;
+	virtual void Update(const void *data, const vector2f &pos, const vector2f &dataSize, TextureFormat format, const unsigned int numMips = 0) = 0;
+	virtual void Update(const void *data, const vector2f &dataSize, TextureFormat format, const unsigned int numMips = 0) {
+        Update(data, vector2f(0,0), dataSize, format, numMips);
+    }
 	virtual void Update(const TextureCubeData &data, const vector2f &dataSize, TextureFormat format, const unsigned int numMips = 0) = 0;
 	virtual void SetSampleMode(TextureSampleMode) = 0;
 

@@ -5,8 +5,9 @@ local Engine = import("Engine")
 local Lang = import("Lang")
 local Game = import("Game")
 local EquipDef = import("EquipDef")
-local Comms = import("Comms")
 local utils = import("utils")
+
+local MessageBox = import("ui/MessageBox")
 
 local l = Lang.GetResource("ui-core")
 
@@ -198,25 +199,25 @@ function EquipmentTableWidgets.Pair (config)
 		if not funcs.onClickBuy(e) then return end
 
 		if funcs.getStock(e) <= 0 then
-			Comms.Message(l.ITEM_IS_OUT_OF_STOCK)
+			MessageBox.Message(l.ITEM_IS_OUT_OF_STOCK)
 			return
 		end
 
 		local player = Game.player
 
 		if player:GetEquipFree(EquipDef[e].slot) < 1 then
-			Comms.Message(l.SHIP_IS_FULLY_LADEN)
+			MessageBox.Message(l.SHIP_IS_FULLY_LADEN)
 			return
 		end
 
 		if player.freeCapacity < EquipDef[e].mass then
-			Comms.Message(l.SHIP_IS_FULLY_LADEN)
+			MessageBox.Message(l.SHIP_IS_FULLY_LADEN)
 			return
 		end
 
 		local price = funcs.getPrice(e)
 		if player:GetMoney() < funcs.getPrice(e) then
-			Comms.Message(l.YOU_NOT_ENOUGH_MONEY)
+			MessageBox.Message(l.YOU_NOT_ENOUGH_MONEY)
 			return
 		end
 

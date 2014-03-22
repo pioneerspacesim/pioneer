@@ -17,20 +17,22 @@ TextEntry::TextEntry(Context *context, const std::string &text) : Container(cont
 
 Point TextEntry::PreferredSize()
 {
-	const Point labelPreferredSize(m_label->PreferredSize());
 	const Skin::BorderedRectElement &elem(GetContext()->GetSkin().BackgroundNormal());
 	const Point borderSize(elem.borderWidth*2, elem.borderHeight*2);
-	return SizeAdd(labelPreferredSize, borderSize);
+	Point preferredSize = SizeAdd(m_label->PreferredSize(), Point(elem.paddingX*2, elem.paddingY*2));
+	preferredSize.x = std::max(preferredSize.x, borderSize.x);
+	preferredSize.y = std::max(preferredSize.y, borderSize.y);
+	return preferredSize;
 }
 
 void TextEntry::Layout()
 {
-	const Uint32 borderWidth = GetContext()->GetSkin().BackgroundNormal().borderWidth;
+	const Skin::BorderedRectElement &elem(GetContext()->GetSkin().BackgroundNormal());
 
 	const Point &size = GetSize();
 
-	const Point innerPos(borderWidth, borderWidth);
-	const Point innerSize(size.x - borderWidth*2, size.y - borderWidth*2);
+	const Point innerPos(elem.paddingX, elem.paddingY);
+	const Point innerSize(size.x - elem.paddingX*2, size.y - elem.paddingY*2);
 
 	SetWidgetDimensions(m_label, innerPos, innerSize);
 

@@ -204,9 +204,6 @@
     <ClCompile Include="..\..\src\LuaSystemPath.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\ChatForm.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\FormController.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -412,6 +409,12 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Sensors.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GasGiant.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\BaseSphere.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -623,9 +626,6 @@
     <ClInclude Include="..\..\src\LuaMusic.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\ChatForm.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\FormController.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -834,6 +834,12 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Sensors.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BaseSphere.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GasGiant.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

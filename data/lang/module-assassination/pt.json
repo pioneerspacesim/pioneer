@@ -1,0 +1,330 @@
+{
+   "ASSASSINATION" : {
+      "description" : "",
+      "message" : "Assasínio"
+   },
+   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
+      "description" : "",
+      "message" : "Pode repetir o pedido original?"
+   },
+   "DENY_0" : {
+      "description" : "",
+      "message" : "Desculpa-me, mas não confio em ti."
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "Volte quando tiver algumas qualificações."
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "Não me parece que és quem eu procuro."
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "Não me pareces alguém capaz de fazer o que é preciso fazer."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "Claramente que não és o indicado para o trabalho."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "Pareces demasiado inexperiente para lidar com um contrato desta importância."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "Nunca ouvi falar de ti. Preciso alguém experiente para este contrato."
+   },
+   "DENY_7" : {
+      "description" : "",
+      "message" : "Não tenho intenções de arriscar este contrato ao entregá-lo a alguém inexperiente como tu."
+   },
+   "DISTANCE" : {
+      "description" : "",
+      "message" : "Distância:"
+   },
+   "EXCELLENT" : {
+      "description" : "",
+      "message" : "Excelente."
+   },
+   "FLAVOUR_0_ADTEXT" : {
+      "description" : "",
+      "message" : "WANTED: Removal of {target} from the {system} system."
+   },
+   "FLAVOUR_0_FAILUREMSG" : {
+      "description" : "",
+      "message" : "I am most displeased to find that {target} is still alive. Needless to say you will receive no payment."
+   },
+   "FLAVOUR_0_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "{target}'s removal was not done by you. No payment this time."
+   },
+   "FLAVOUR_0_INTROTEXT" : {
+      "description" : "",
+      "message" : "Hi, I'm {name}. I'll pay you {cash} to get rid of {target}."
+   },
+   "FLAVOUR_0_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "News of {target}'s long vacation gratefully received. Well done, I have initiated your full payment."
+   },
+   "FLAVOUR_1_ADTEXT" : {
+      "description" : "",
+      "message" : "WANTED: Someone to kill {target} from the {system} system."
+   },
+   "FLAVOUR_1_FAILUREMSG" : {
+      "description" : "",
+      "message" : "I hear that {target} is in good health. This pains me."
+   },
+   "FLAVOUR_1_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "{target}'s demise was not caused by you, so do not ask for payment."
+   },
+   "FLAVOUR_1_INTROTEXT" : {
+      "description" : "",
+      "message" : "I need {target} taken out of the picture. I'll pay you {cash} to do this."
+   },
+   "FLAVOUR_1_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "I am most sad to hear of {target}'s demise. You have been paid in full."
+   },
+   "FLAVOUR_2_ADTEXT" : {
+      "description" : "",
+      "message" : "REMOVAL: {target} is no longer wanted in the {system} system."
+   },
+   "FLAVOUR_2_FAILUREMSG" : {
+      "description" : "",
+      "message" : "It is most regrettable that {target} is still live and well. You will receive no payment as you did not complete your contract."
+   },
+   "FLAVOUR_2_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "Contract was completed by someone else. Be faster next time!"
+   },
+   "FLAVOUR_2_INTROTEXT" : {
+      "description" : "",
+      "message" : "I am {name}, and I will pay you {cash} to terminate {target}."
+   },
+   "FLAVOUR_2_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "You have been paid in full for the completion of that important contract."
+   },
+   "FLAVOUR_3_ADTEXT" : {
+      "description" : "",
+      "message" : "TERMINAÇÃO: Alguém para eliminar {target}."
+   },
+   "FLAVOUR_3_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Irás pagar por não teres eliminado o {target}!"
+   },
+   "FLAVOUR_3_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "Estás a pedir dinheiro por um trabalho feito por outro? Desaparece."
+   },
+   "FLAVOUR_3_INTROTEXT" : {
+      "description" : "",
+      "message" : "The {target} must be reduced to space dust. I'll award you {cash} to do this."
+   },
+   "FLAVOUR_3_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "{target} is dead. Here is your award."
+   },
+   "FLAVOUR_4_ADTEXT" : {
+      "description" : "",
+      "message" : "RETIREMENT: Someone to retire {target}."
+   },
+   "FLAVOUR_4_FAILUREMSG" : {
+      "description" : "",
+      "message" : "{target} is still breathing and I'm not giving money to you."
+   },
+   "FLAVOUR_4_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "Retirement of {target} was done by someone else."
+   },
+   "FLAVOUR_4_INTROTEXT" : {
+      "description" : "",
+      "message" : "For {cash} we wish to encourage {target} to stop work permanently."
+   },
+   "FLAVOUR_4_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "News of {target}'s retirement delightfully obtained. Here is your money."
+   },
+   "FLAVOUR_5_ADTEXT" : {
+      "description" : "",
+      "message" : "BIOGRAPHICAL: Some admirers wish {target} dead."
+   },
+   "FLAVOUR_5_FAILUREMSG" : {
+      "description" : "",
+      "message" : "We found out that {target} is nonetheless operative. This saddens us."
+   },
+   "FLAVOUR_5_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "O {target} foi neutralizado por outro."
+   },
+   "FLAVOUR_5_INTROTEXT" : {
+      "description" : "",
+      "message" : "We wish {target} to have a fitting career end in the {system} system for {cash}."
+   },
+   "FLAVOUR_5_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Message of {target}'s ending career happily acquired. Here is your {cash}."
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Desligar."
+   },
+   "HOW_SOON_MUST_IT_BE_DONE" : {
+      "description" : "",
+      "message" : "Até quando tem de ser feito?"
+   },
+   "HOW_WILL_I_BE_PAID" : {
+      "description" : "",
+      "message" : "Como serei pago?"
+   },
+   "IT_MUST_BE_DONE_AFTER" : {
+      "description" : "",
+      "message" : "It must be done after {target} leaves {spaceport}. Do not miss this opportunity."
+   },
+   "LY" : {
+      "description" : "",
+      "message" : "ly"
+   },
+   "OK_AGREED" : {
+      "description" : "",
+      "message" : "Ok, temos acordo."
+   },
+   "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID" : {
+      "description" : "",
+      "message" : "Return here on the completion of the contract and you will be paid."
+   },
+   "SHIP" : {
+      "description" : "",
+      "message" : "Nave:"
+   },
+   "SHIP_ID" : {
+      "description" : "",
+      "message" : "ID Nave:"
+   },
+   "SPACEPORT" : {
+      "description" : "",
+      "message" : "Porto espacial:"
+   },
+   "SYSTEM" : {
+      "description" : "",
+      "message" : "Sistema:"
+   },
+   "TARGET_NAME" : {
+      "description" : "",
+      "message" : "Nome do alvo:"
+   },
+   "TARGET_WILL_BE_LEAVING_SPACEPORT_AT" : {
+      "description" : "",
+      "message" : "O alvo irá partir do porto espacial às:"
+   },
+   "TITLE_0" : {
+      "description" : "",
+      "message" : "Almirante"
+   },
+   "TITLE_1" : {
+      "description" : "",
+      "message" : "Embaixador:"
+   },
+   "TITLE_10" : {
+      "description" : "",
+      "message" : "Estandarte"
+   },
+   "TITLE_11" : {
+      "description" : "",
+      "message" : "General"
+   },
+   "TITLE_12" : {
+      "description" : "",
+      "message" : "Juíz"
+   },
+   "TITLE_13" : {
+      "description" : "",
+      "message" : "Advogado"
+   },
+   "TITLE_14" : {
+      "description" : "",
+      "message" : "Tenente"
+   },
+   "TITLE_15" : {
+      "description" : "",
+      "message" : "Marechal"
+   },
+   "TITLE_16" : {
+      "description" : "",
+      "message" : "Mercante"
+   },
+   "TITLE_17" : {
+      "description" : "",
+      "message" : "Oficial"
+   },
+   "TITLE_18" : {
+      "description" : "",
+      "message" : "Soldado"
+   },
+   "TITLE_19" : {
+      "description" : "",
+      "message" : "Professor"
+   },
+   "TITLE_2" : {
+      "description" : "",
+      "message" : "Brigadeiro"
+   },
+   "TITLE_20" : {
+      "description" : "",
+      "message" : "Procurador"
+   },
+   "TITLE_21" : {
+      "description" : "",
+      "message" : "Reitor"
+   },
+   "TITLE_22" : {
+      "description" : "",
+      "message" : "Marinheiro"
+   },
+   "TITLE_23" : {
+      "description" : "",
+      "message" : "Senador"
+   },
+   "TITLE_24" : {
+      "description" : "",
+      "message" : "Sargento"
+   },
+   "TITLE_3" : {
+      "description" : "",
+      "message" : "Cadete"
+   },
+   "TITLE_4" : {
+      "description" : "",
+      "message" : "Capitão"
+   },
+   "TITLE_5" : {
+      "description" : "",
+      "message" : "Cardeal"
+   },
+   "TITLE_6" : {
+      "description" : "",
+      "message" : "Coronel"
+   },
+   "TITLE_7" : {
+      "description" : "",
+      "message" : "Comandante"
+   },
+   "TITLE_8" : {
+      "description" : "",
+      "message" : "Comodoro"
+   },
+   "TITLE_9" : {
+      "description" : "",
+      "message" : "Cabo"
+   },
+   "WHERE_CAN_I_FIND_X" : {
+      "description" : "",
+      "message" : "Where can I find {target}?"
+   },
+   "X_WILL_BE_LEAVING" : {
+      "description" : "",
+      "message" : "{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. The ship is {shipname} and has registration id {shipregid}."
+   }
+}

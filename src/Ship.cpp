@@ -661,7 +661,7 @@ Ship::HyperjumpStatus Ship::CheckHyperspaceTo(const SystemPath &dest, int &outFu
 }
 
 Ship::HyperjumpStatus Ship::InitiateHyperjumpTo(const SystemPath &dest, int warmup_time, double duration, LuaRef checks) {
-	if (!dest.HasValidSystem() or GetFlightState() != FLYING or warmup_time < 1)
+	if (!dest.HasValidSystem() || GetFlightState() != FLYING || warmup_time < 1)
 		return HYPERJUMP_SAFETY_LOCKOUT;
 	StarSystem *s = Pi::game->GetSpace()->GetStarSystem().Get();
 	if (s && s->GetPath().IsSameSystem(dest))

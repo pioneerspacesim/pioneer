@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
+#include "utils.h"
 #include "Galaxy.h"
 #include "Sector.h"
 #include "Pi.h"
@@ -64,6 +65,19 @@ Uint8 GetSectorDensity(int sx, int sy, int sz)
 	// reduce density somewhat to match real (gliese) density
 	val /= 2;
 	return Uint8(val);
+}
+
+void Dump(FILE* file, Sint32 centerX, Sint32 centerY, Sint32 centerZ, Sint32 radius)
+{
+	for (Sint32 sx = centerX - radius; sx <= centerX + radius; ++sx) {
+		for (Sint32 sy = centerY - radius; sy <= centerY + radius; ++sy) {
+			for (Sint32 sz = centerZ - radius; sz <= centerZ + radius; ++sz) {
+				RefCountedPtr<Sector> sector = Sector::cache.GetCached(SystemPath(sx, sy, sz));
+				sector->Dump(file);
+			}
+			StarSystemCache::ShrinkCache(SystemPath(), true);
+		}
+	}
 }
 
 } /* namespace Galaxy */

@@ -10,12 +10,43 @@
 #include "FileSystem.h"
 #include "PngWriter.h"
 #include <sstream>
+#include <cmath>
+#include <cstdio>
 
-std::string format_money(Sint64 money)
-{
-	char buf[32];
-	snprintf(buf, sizeof(buf), "$%.2f", 0.01*double(money));
-	return std::string(buf);
+std::string format_money(Sint64 cents, bool showCents){
+	char *end;                                   // for  error checking
+	size_t groupDigits = strtol(Lang::NUMBER_GROUP_NUM, &end, 10);
+	assert(*end == 0);
+
+	double money = showCents ? 0.01*cents : roundf(0.01*cents);
+
+	const char *format = (money < 0) ? "-$%.2f" : "$%.2f";
+	char buf[64];
+	snprintf(buf, sizeof(buf), format, std::abs(money));
+	std::string result(buf);
+
+	size_t pos = result.find_first_of('.');      // pos to decimal point
+
+	if(showCents)                                // replace decimal point
+		result.replace(pos, 1, Lang::NUMBER_DECIMAL_POINT);
+	else                                         // or just remove frac. part
+		result.erase(result.begin() + pos, result.end());
+
+	size_t groupMin = strtol(Lang::NUMBER_GROUP_MIN, &end, 10);
+	assert(*end == 0);
+
+	if(groupDigits != 0 && std::abs(money) >= groupMin){
+
+		std::string groupSep = std::string(Lang::NUMBER_GROUP_SEP) == " " ?
+			"\u00a0" : Lang::NUMBER_GROUP_SEP;     // space should be fixed space
+
+		size_t skip = (money < 0) ? 2 : 1;        // compensate for "$" or "-$"
+		while(pos - skip > groupDigits){          // insert thousand seperator
+			pos = pos - groupDigits;
+			result.insert(pos, groupSep);
+		}
+	}
+	return result;
 }
 
 class timedate {
