@@ -32,7 +32,8 @@ void Label::Layout()
 void Label::Draw()
 {
 	static const Color disabledColor(204, 204, 204, 255);
-	GetContext()->GetFont(GetFont())->RenderString(m_text.c_str(), 0.0f, 0.0f, IsDisabled() ? disabledColor : m_color);
+	const Color color(IsDisabled() ? disabledColor : m_color);
+	GetContext()->GetFont(GetFont())->RenderString(m_text.c_str(), 0.0f, 0.0f, Color(color.r, color.g, color.b, color.a*GetContext()->GetOpacity()));
 }
 
 Label *Label::SetText(const std::string &text)

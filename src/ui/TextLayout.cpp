@@ -105,7 +105,7 @@ Point TextLayout::ComputeSize(const Point &layoutSize)
 	return bounds;
 }
 
-void TextLayout::Draw(const Point &layoutSize, const Point &drawPos, const Point &drawSize)
+void TextLayout::Draw(const Point &layoutSize, const Point &drawPos, const Point &drawSize, const Color &color)
 {
 	ComputeSize(layoutSize);
 
@@ -114,7 +114,7 @@ void TextLayout::Draw(const Point &layoutSize, const Point &drawPos, const Point
 
 	for (std::vector<Word>::iterator i = m_words.begin(); i != m_words.end(); ++i) {
 		if ((*i).pos.y >= top && (*i).pos.y < bottom)
-			m_font->RenderString((*i).text.c_str(), (*i).pos.x, (*i).pos.y, Color::WHITE);
+			m_font->RenderString((*i).text.c_str(), (*i).pos.x, (*i).pos.y, color);
 	}
 }
 
