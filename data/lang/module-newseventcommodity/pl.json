@@ -13,7 +13,7 @@
    },
    "FLAVOUR_10_NEWSBODY" : {
       "description" : "Imply high demand of AIR_PROCESSORS commodity. (Prekall as in Rekall, the fictional company from the Schwarzenegger-movie Total Recall (1990)).",
-      "message" : "Prekall Inc. are seeking to monopolize air itself throughout {system} ({sectorx}, {sectory}, {sectorz}). Take a deep breath, it might be the last one that is free of charge."
+      "message" : "Prekall Inc. stara się zdobyć monopol na tlen w systemie {system}({sectorx},{sectory},{sectorz}). Weź głęboki oddech, może on być ostatnim darmowym."
    },
    "FLAVOUR_11_HEADLINE" : {
       "description" : "",
@@ -189,7 +189,7 @@
    },
    "FLAVOUR_9_NEWSBODY" : {
       "description" : "live pets is important, since it implies high demand of LIVE_ANIMALS commodity.",
-      "message" : "The latest trend in the {system} system ({sectorx}, {sectory}, {sectorz}) has it real live pets are the next big thing."
+      "message" : "Najnowszy trend w systemie {system}({sectorx},{sectory},{sectorz}), nowym hitem są najprawdziwsze żywe zwierzęta."
    },
    "GRATEFUL_GREETING_0" : {
       "description" : "",
