@@ -98,9 +98,16 @@ for i = 1,#buttonDefs do
 	table.insert(anims, {
 		widget = button,
 		type = "IN",
-		easing = "LINEAR",
+		easing = "ZERO",
 		target = "POSITION_X_REV",
-		duration = 0.4,
+		duration = i * 0.05,
+		next = {
+			widget = button,
+			type = "IN",
+			easing = "LINEAR",
+			target = "POSITION_X_REV",
+			duration = 0.4,
+		}
 	})
 end
 

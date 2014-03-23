@@ -303,6 +303,8 @@ public:
 	}
 
 	static int l_new_animation(lua_State *l) {
+		LUA_DEBUG_START(l);
+
 		LuaObject<UI::Context>::CheckFromLua(1); // sanity
 
 		luaL_checktype(l, 2, LUA_TTABLE);
@@ -331,15 +333,31 @@ public:
 		bool continuous = lua_isnil(l, -1) ? false : lua_toboolean(l, -1);
 		lua_pop(l, 1);
 
-		// XXX next
+		lua_getfield(l, 2, "next");
+		UI::Animation *next = nullptr;
+		if (!lua_isnil(l, -1)) {
+			if (lua_istable(l, -1)) {
+				lua_pushcfunction(l, l_new_animation);
+				lua_pushvalue(l, 1);
+				lua_pushvalue(l, -3);
+				lua_call(l, 2, 1);
+				next = LuaObject<UI::Animation>::CheckFromLua(-1);
+				lua_pop(l, 1);
+			}
+			else
+				next = LuaObject<UI::Animation>::CheckFromLua(-1);
+		}
+		lua_pop(l, 1);
 
 		lua_getfield(l, 2, "callback");
 		sigc::slot<void> callback = lua_isnil(l, -1) ? sigc::slot<void>() : LuaSlot::Wrap(l, -1);
 		lua_pop(l, 1);
 
-		Animation *a = new UI::Animation(w, type, easing, target, duration, continuous, nullptr, callback);
+		Animation *a = new UI::Animation(w, type, easing, target, duration, continuous, next, callback);
 
 		LuaObject<UI::Animation>::PushToLua(a);
+
+		LUA_DEBUG_END(l, 1);
 
 		return 1;
 	}
