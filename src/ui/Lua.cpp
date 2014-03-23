@@ -40,6 +40,8 @@ void Init()
 	LuaObject<UI::HSlider>::RegisterClass();
 	LuaObject<UI::VSlider>::RegisterClass();
 	LuaObject<UI::Widget>::RegisterClass();
+
+	LuaObject<UI::Animation>::RegisterClass();
 }
 
 UI::Widget *GetWidget(UI::Context *c, lua_State *l, int idx)

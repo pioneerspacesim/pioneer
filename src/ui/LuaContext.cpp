@@ -302,8 +302,9 @@ public:
 		return 1;
 	}
 
-	static int l_animate(lua_State *l) {
-		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
+	static int l_new_animation(lua_State *l) {
+		LuaObject<UI::Context>::CheckFromLua(1); // sanity
+
 		luaL_checktype(l, 2, LUA_TTABLE);
 
 		lua_getfield(l, 2, "widget");
@@ -336,8 +337,24 @@ public:
 		sigc::slot<void> callback = lua_isnil(l, -1) ? sigc::slot<void>() : LuaSlot::Wrap(l, -1);
 		lua_pop(l, 1);
 
-		c->Animate(new UI::Animation(w, type, easing, target, duration, continuous, nullptr, callback));
+		Animation *a = new UI::Animation(w, type, easing, target, duration, continuous, nullptr, callback);
 
+		LuaObject<UI::Animation>::PushToLua(a);
+
+		return 1;
+	}
+
+	static int l_animate(lua_State *l) {
+		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
+		UI::Animation *a;
+		if (lua_istable(l, 2)) {
+			l_new_animation(l);
+			a = LuaObject<UI::Animation>::CheckFromLua(-1);
+			lua_pop(l, 1);
+		}
+		else
+			a = LuaObject<UI::Animation>::CheckFromLua(2);
+		c->Animate(a);
 		return 0;
 	}
 };
@@ -382,6 +399,7 @@ template <> void LuaObject<UI::Context>::RegisterClass()
 		{ "NewLayer",        LuaContext::l_new_layer       },
 		{ "DropLayer",       LuaContext::l_drop_layer      },
 
+		{ "NewAnimation",    LuaContext::l_new_animation   },
 		{ "Animate",         LuaContext::l_animate         },
 		{ 0, 0 }
 	};
