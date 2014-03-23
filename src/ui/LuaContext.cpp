@@ -4,6 +4,7 @@
 #include "Context.h"
 #include "LuaObject.h"
 #include "LuaConstants.h"
+#include "LuaSignal.h"
 
 namespace UI {
 
@@ -330,9 +331,12 @@ public:
 		lua_pop(l, 1);
 
 		// XXX next
-		// XXX callback
 
-		c->Animate(new UI::Animation(w, type, easing, target, duration, continuous));
+		lua_getfield(l, 2, "callback");
+		sigc::slot<void> callback = lua_isnil(l, -1) ? sigc::slot<void>() : LuaSlot::Wrap(l, -1);
+		lua_pop(l, 1);
+
+		c->Animate(new UI::Animation(w, type, easing, target, duration, continuous, nullptr, callback));
 
 		return 0;
 	}
