@@ -2,6 +2,7 @@ March 2014
 
    * New features
      * Support for CJK fonts and Simplified Chinese translation
+     * Replace WATER with HYDROGEN as the thruster fuel of choice.
 
    * Minor changes and tweaks
      * Message boxes used for warnings in station screens
