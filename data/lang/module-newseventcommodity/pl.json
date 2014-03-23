@@ -21,7 +21,7 @@
    },
    "FLAVOUR_11_NEWSBODY" : {
       "description" : "Imply high demand of ANIMAL_MEAT.",
-      "message" : "As if by a stroke of a higher power, the farmers in the {system} system ({sectorx}, {sectory}, {sectorz}) woke up to empty barns. \"It's the cattle theft of the century\", police reports."
+      "message" : "Działanie niewytłumaczalnych mocy, hodowcy w systemie {system}({sectorx},{sectory},{sectorz}) zastali puste obory. Raporty policji donoszą że \"to kradzież bydła stulecia\"."
    },
    "FLAVOUR_12_HEADLINE" : {
       "description" : "",
@@ -29,7 +29,7 @@
    },
    "FLAVOUR_12_NEWSBODY" : {
       "description" : "Keep clear of the too obvious names Microsoft, or Macrosoft, etc.",
-      "message" : "A nasty virus caused all Nachosoft computers in the {system} system ({sectorx}, {sectory}, {sectorz}) to suffer a complete hard drive meltdown. The faulty units make excellent paper weights, computer scientists say."
+      "message" : "Paskudny wirus zaraża wszystkie komputery Nachosoft w systemie {system} ({sectorx},{sectory},{sectorz}) powodując całkowite spalenie się twardych dysków. Naukowcy komputerowi stwierdzili że popsute urządzenia świetnie nadają się na przyciski do papieru."
    },
    "FLAVOUR_13_HEADLINE" : {
       "description" : "",
@@ -37,7 +37,7 @@
    },
    "FLAVOUR_13_NEWSBODY" : {
       "description" : "Imply that nobody wants to buy ROBOTS anymore.",
-      "message" : "It is now man against machine in the {system} system ({sectorx}, {sectory}, {sectorz}), as \"behavioural malfunction\" causes home consumers to loose faith in robot servants."
+      "message" : "Człowiek przeciwko maszynie w systemie {system}({sectorx},{sectory},{sectorz}), tutaj \"behawioralna usterka\" spowodowała że konsumenci utracili nadzieję w domową służbę robotów."
    },
    "FLAVOUR_14_HEADLINE" : {
       "description" : "",
@@ -45,7 +45,7 @@
    },
    "FLAVOUR_14_NEWSBODY" : {
       "description" : "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
-      "message" : "The system wide power outage wrecks havoc to the {system} system ({sectorx}, {sectory}, {sectorz}). Consumers line up to buy the last Trapperware to replace their fridges, as producer has run out of raw material."
+      "message" : "W całym systemie {system}({sectorx},{sectory},{sectorz}) awaria zasilania sieje spustoszenie. Tworzą się kolejki konsumentów wykupujących ostatnie pojemniki na żywność w zastępstwie lodówek. A producentom brakuje już na nie materiału."
    },
    "FLAVOUR_15_HEADLINE" : {
       "description" : "",
