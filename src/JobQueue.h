@@ -4,9 +4,10 @@
 #ifndef JOBQUEUE_H
 #define JOBQUEUE_H
 
+#include <cassert>
 #include <deque>
 #include <vector>
-#include <map>
+#include <set>
 #include <string>
 #include "SDL_thread.h"
 
@@ -88,7 +89,7 @@ private:
 // moveable.
 class JobHandle {
 public:
-	JobHandle() : m_job(nullptr), m_queue(nullptr), m_client(nullptr) { }
+	JobHandle() : m_id(++s_nextId), m_job(nullptr), m_queue(nullptr), m_client(nullptr) { }
 	JobHandle(JobHandle&& other);
 	JobHandle& operator=(JobHandle&& other);
 	~JobHandle();
@@ -99,6 +100,8 @@ public:
 	bool HasJob() const { return m_job != nullptr; }
 	Job* GetJob() const { return m_job; }
 
+	bool operator<(const JobHandle& other) const { return m_id < other.m_id; }
+
 private:
 	friend class JobQueue;
 	friend class Job;
@@ -107,6 +110,9 @@ private:
 	JobHandle(Job* job, JobQueue* queue, JobClient* client);
 	void Unlink();
 
+	static unsigned long long s_nextId;
+
+	unsigned long long m_id;
 	Job* m_job;
 	JobQueue* m_queue;
 	JobClient* m_client;
@@ -175,12 +181,15 @@ public:
 	JobSet(const JobSet&) = delete;
 	JobSet& operator=(const JobSet& other) = delete;
 
-	virtual void Order(Job* job) { m_jobs[job] = std::move(m_queue->Queue(job, this)); }
-	virtual void RemoveJob(JobHandle* handle) { m_jobs.erase(handle->GetJob()); }
+	virtual void Order(Job* job) {
+		auto x = m_jobs.insert(std::move(m_queue->Queue(job, this)));
+		assert(x.second);
+	}
+	virtual void RemoveJob(JobHandle* handle) { m_jobs.erase(*handle); }
 
 private:
 	JobQueue* m_queue;
-	std::map<Job*, JobHandle> m_jobs;
+	std::set<JobHandle> m_jobs;
 };
 
 #endif

@@ -31,6 +31,7 @@ March 2014
      * Support C++11 enum features in scan_enums.py (#2782)
      * Mouse and keyboard events now only distributed to the top UI layer
      * Code cleanup (#2818)
+     * Fix glitch in Job code (#2823)
 
 February 2014
 
