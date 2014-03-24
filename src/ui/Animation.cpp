@@ -163,6 +163,14 @@ float Animation::Update(float time)
 	return remaining;
 }
 
+void Animation::Finish()
+{
+	if (m_completed) return;
+	m_targetFunc(1.0f);
+	m_running = false;
+	m_completed = true;
+}
+
 void AnimationController::Add(Animation *animation)
 {
 	assert(!animation->IsRunning());

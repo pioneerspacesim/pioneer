@@ -47,6 +47,8 @@ public:
 
 	float Update(float time);
 
+	void Finish();
+
 	bool IsRunning() const { return m_running; }
 	bool IsCompleted() const { return m_completed; }
 
