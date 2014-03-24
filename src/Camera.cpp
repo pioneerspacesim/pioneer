@@ -156,11 +156,9 @@ void Camera::Update()
 					attrs.billboardColor = Color(col[0], col[1], col[2], 255);
 				}
 				else if (b->IsType(Object::PLANET)) {
-					double surfaceDensity; // unused
-					// XXX this is pretty crap because its not always right
-					// (gas giants are always white) and because it should have
-					// some star colour mixed in to simulate lighting
-					b->GetSystemBody()->GetAtmosphereFlavor(&attrs.billboardColor, &surfaceDensity);
+					// XXX this should incorporate some lighting effect
+					// (ie, colour of the illuminating star(s))
+					attrs.billboardColor = b->GetSystemBody()->GetAlbedo();
 					attrs.billboardColor.a = 255; // no alpha, these things are hard enough to see as it is
 				}
 				else
