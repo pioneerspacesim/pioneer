@@ -138,7 +138,7 @@ void Camera::Update()
 		attrs.bodyFlags = b->GetFlags();
 
 		// approximate pixel width (disc diameter) of body on screen
-		float pixSize = (Graphics::GetScreenWidth() * rad / attrs.camDist);
+		const float pixSize = Graphics::GetScreenHeight() * 2.0 * rad / (attrs.camDist * Graphics::GetFovFactor());
 		if (pixSize < OBJECT_HIDDEN_PIXEL_THRESHOLD)
 			continue;
 
