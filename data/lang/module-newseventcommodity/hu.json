@@ -9,15 +9,15 @@
    },
    "FLAVOUR_10_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Company threatening continual survival of {system} system."
+      "message" : "HÍREK {date}: Nagyvállat veszélyezteti {system} létét."
    },
    "FLAVOUR_10_NEWSBODY" : {
       "description" : "Imply high demand of AIR_PROCESSORS commodity. (Prekall as in Rekall, the fictional company from the Schwarzenegger-movie Total Recall (1990)).",
-      "message" : "Prekall Inc. are seeking to monopolize air itself throughout {system} ({sectorx}, {sectory}, {sectorz}). Take a deep breath, it might be the last one that is free of charge."
+      "message" : "A Prekall Inc. versenyelőnyével visszaélve monopolhelyzetre törekszik a levegőellátás területén {system} rendszerben ({sectorx}, {sectory}, {sectorz}). A lakosság lélegzetvisszafolytva várja a fejleményeket."
    },
    "FLAVOUR_11_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Mysterious disappearance of cattle in the {system} system."
+      "message" : "HÍREK {date}: Rejtélyes szarvasmarhaeltűnések {system} rendszerben."
    },
    "FLAVOUR_11_NEWSBODY" : {
       "description" : "Imply high demand of ANIMAL_MEAT.",
@@ -185,11 +185,11 @@
    },
    "FLAVOUR_9_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Fashion craze in the {system} system."
+      "message" : "HÍREK {date}: Új őrület {system} rendszerben."
    },
    "FLAVOUR_9_NEWSBODY" : {
       "description" : "live pets is important, since it implies high demand of LIVE_ANIMALS commodity.",
-      "message" : "The latest trend in the {system} system ({sectorx}, {sectory}, {sectorz}) has it real live pets are the next big thing."
+      "message" : "Újra divatba jöttek az élő házikedvencek {system} rendszerben  ({sectorx}, {sectory}, {sectorz}). Már a hízósertés is hiánycikk."
    },
    "GRATEFUL_GREETING_0" : {
       "description" : "",

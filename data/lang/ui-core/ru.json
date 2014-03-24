@@ -221,7 +221,7 @@
    },
    "DISPLAY_HUD_TRAILS" : {
       "description" : "",
-      "message" : "Отображать тонель в HUD"
+      "message" : "Отображать тоннель в HUD"
    },
    "DISPLAY_NAV_TUNNELS" : {
       "description" : "",
