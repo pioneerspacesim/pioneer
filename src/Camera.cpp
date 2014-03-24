@@ -149,7 +149,7 @@ void Camera::Update()
 				attrs.billboard = true;
 				vector3d pos;
 				double size = rad * 2.0 * m_context->GetFrustum().TranslatePoint(attrs.viewCoords, pos);
-				attrs.billboardPos = vector3f(&pos.x);
+				attrs.billboardPos = vector3f(pos);
 				attrs.billboardSize = float(size);
 				if (b->IsType(Object::STAR)) {
 					const Uint8 *col = StarSystem::starRealColors[b->GetSystemBody()->GetType()];
