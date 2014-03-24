@@ -24,7 +24,7 @@ using namespace Graphics;
 static const float OBJECT_HIDDEN_PIXEL_THRESHOLD = 2.0f;
 
 // if a terrain object would render smaller than this many pixels, draw a billboard instead
-static const float BILLBOARD_PIXEL_THRESHOLD = 15.0f;
+static const float BILLBOARD_PIXEL_THRESHOLD = 8.0f;
 
 CameraContext::CameraContext(float width, float height, float fovAng, float zNear, float zFar) :
 	m_width(width),
