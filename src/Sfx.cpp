@@ -267,8 +267,8 @@ void Sfx::Init(Graphics::Renderer *r)
 	explosionParticle.reset( r->CreateMaterial(desc) );
 	explosionParticle->texture0 = Graphics::TextureBuilder::Billboard("textures/smoke.png").GetOrCreateTexture(r, "billboard");
 
-	// NB: 1-64 not 0-63
-	for( Uint32 i=1 ; i<=NUM_EXPLOSION_TEXTURES ; i++ )
+	// NB: 0-31
+	for( Uint32 i=0 ; i<NUM_EXPLOSION_TEXTURES ; i++ )
 	{
 		const std::string fname="textures/explosions/image"+std::to_string(i)+".png";
 		explosionTextures[i-1] = Graphics::TextureBuilder::Billboard(fname).GetOrCreateTexture(r, "billboard");

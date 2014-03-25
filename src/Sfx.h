@@ -46,7 +46,7 @@ public:
 
 private:
 	static Sfx *AllocSfxInFrame(Frame *f);
-	static const Uint32 NUM_EXPLOSION_TEXTURES = 64;
+	static const Uint32 NUM_EXPLOSION_TEXTURES = 32;
 	static Graphics::Texture* explosionTextures[NUM_EXPLOSION_TEXTURES];
 
 	void Render(Graphics::Renderer *r, const matrix4x4d &transform);
