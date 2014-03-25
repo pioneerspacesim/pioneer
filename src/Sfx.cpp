@@ -117,7 +117,7 @@ void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
 		case TYPE_EXPLOSION: 
 		{
 			renderer->SetTransform(matrix4x4d::Translation(fpos));
-			const int spriteframe = Clamp( Uint32(m_age*20), Uint32(0), NUM_EXPLOSION_TEXTURES );
+			const int spriteframe = Clamp( Uint32(m_age*20.0f), Uint32(0), NUM_EXPLOSION_TEXTURES-1 );
 			assert(explosionTextures[spriteframe]);
 			explosionParticle->texture0 = explosionTextures[spriteframe];
 			//face camera
@@ -271,7 +271,7 @@ void Sfx::Init(Graphics::Renderer *r)
 	for( Uint32 i=0 ; i<NUM_EXPLOSION_TEXTURES ; i++ )
 	{
 		const std::string fname="textures/explosions/image"+std::to_string(i)+".png";
-		explosionTextures[i-1] = Graphics::TextureBuilder::Billboard(fname).GetOrCreateTexture(r, "billboard");
+		explosionTextures[i] = Graphics::TextureBuilder::Billboard(fname).GetOrCreateTexture(r, "billboard");
 	}
 }
 
