@@ -17,6 +17,7 @@ March 2014
      * Fix crash with gcc 4.7 compiled binary (#2802)
      * Fix crash when attacked during deliver package mission (#2806)
      * Try to fix spiky asteroids (#2809)
+     * Billboards not drawn correctly for some distant objects (#2791, #2824)
 
    * Script and UI API changes
      * New `inherits` function in the `utils` module to quickly implement
