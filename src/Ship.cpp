@@ -411,7 +411,9 @@ bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 	}
 
 	// hitting cargo scoop surface shouldn't do damage
-	if ((m_equipment.Get(Equip::SLOT_CARGOSCOOP) != Equip::NONE) && b->IsType(Object::CARGOBODY) && m_stats.free_capacity) {
+	if ((m_equipment.Get(Equip::SLOT_CARGOSCOOP) != Equip::NONE) &&
+			b->IsType(Object::CARGOBODY) &&
+			m_stats.free_capacity) {
 		Equip::Type item = dynamic_cast<CargoBody*>(b)->GetCargoType();
 		Pi::game->GetSpace()->KillBody(dynamic_cast<Body*>(b));
 		m_equipment.Add(item);
