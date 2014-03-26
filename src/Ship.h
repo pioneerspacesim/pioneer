@@ -26,6 +26,7 @@ class AICommand;
 class ShipController;
 class CargoBody;
 class Missile;
+class Turret;
 namespace Graphics { class Renderer; }
 
 struct HeatGradientParameters_t {
@@ -234,6 +235,11 @@ public:
 	float GetPercentShields() const;
 	float GetPercentHull() const;
 	void SetPercentHull(float);
+
+	int GetNumTurrets() const { return int(m_turrets.size()); }
+	//Turret *GetTurret(int idx) const { return m_turrets[idx]; }
+	const Turret *GetTurret(int idx) const { return m_turrets[idx]; }
+
 	float GetGunTemperature(int idx) const { return m_gun[idx].temperature; }
 
 	enum FuelState { // <enum scope='Ship' name=ShipFuelStatus prefix=FUEL_ public>
@@ -296,6 +302,7 @@ protected:
 		float temperature;
 	};
 	Gun m_gun[ShipType::GUNMOUNT_MAX];
+	std::vector<Turret*> m_turrets;
 
 	float m_ecmRecharge;
 
@@ -314,6 +321,7 @@ private:
 	void OnEquipmentChange(Equip::Type e);
 	void EnterHyperspace();
 	void InitGun(const char *tag, int num);
+	bool InitTurret(const char *tag);
 	void InitMaterials();
 
 	bool m_invulnerable;

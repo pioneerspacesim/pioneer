@@ -12,6 +12,7 @@
 #include "ShipController.h"
 #include "Sound.h"
 #include "Sfx.h"
+#include "Turret.h"
 #include "galaxy/Sector.h"
 #include "galaxy/SectorCache.h"
 #include "Frame.h"
@@ -198,6 +199,22 @@ void Ship::InitMaterials()
 	s_heatGradientParams.heatingNormal = vector3f(0.0f, -1.0f, 0.0f);
 }
 
+bool Ship::InitTurret(const char *tag)
+{
+	bool foundTurret = false;
+	const SceneGraph::MatrixTransform *mt = GetModel()->FindTagByName(tag);
+	if (mt) {
+		const matrix4x4f &trans = mt->GetTransform();
+		TurretData td;
+		td.pos = vector3d(trans.GetTranslate());
+		td.dir = vector3d(trans.GetOrient().VectorZ());
+		td.name = tag;
+		m_turrets.push_back( new Turret(this, td) );
+		foundTurret = true;
+	}
+	return foundTurret;
+}
+
 void Ship::Init()
 {
 	m_invulnerable = false;
@@ -225,6 +242,13 @@ void Ship::Init()
 
 	InitGun("tag_gunmount_0", 0);
 	InitGun("tag_gunmount_1", 1);
+
+	char turretName[32];
+	Sint32 turretIdx = 0;
+	snprintf(turretName, 32, "tag_turret_%d", turretIdx++);
+	while(InitTurret(turretName)) {
+		snprintf(turretName, 32, "tag_turret_%d", turretIdx++);
+	}
 
 	// If we've got the tag_landing set then use it for an offset otherwise grab the AABB
 	const SceneGraph::MatrixTransform *mt = GetModel()->FindTagByName("tag_landing");
@@ -297,6 +321,10 @@ Ship::~Ship()
 {
 	if (m_curAICmd) delete m_curAICmd;
 	delete m_controller;
+
+	for (auto t : m_turrets) {
+		delete t;
+	}
 }
 
 void Ship::SetController(ShipController *c)
@@ -1171,6 +1199,10 @@ void Ship::StaticUpdate(const float timeStep)
 		if (m_gun[i].temperature > 1.0) continue;
 
 		FireWeapon(i);
+	}
+
+	for (auto t : m_turrets) {
+		t->Update(timeStep);
 	}
 
 	if (m_ecmRecharge > 0.0f) {

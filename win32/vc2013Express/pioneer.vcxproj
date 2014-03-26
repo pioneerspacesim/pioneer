@@ -301,6 +301,7 @@
     <ClCompile Include="..\..\src\SystemView.cpp" />
     <ClCompile Include="..\..\src\TerrainBody.cpp" />
     <ClCompile Include="..\..\src\Tombstone.cpp" />
+    <ClCompile Include="..\..\src\Turret.cpp" />
     <ClCompile Include="..\..\src\UIView.cpp" />
     <ClCompile Include="..\..\src\utils.cpp" />
     <ClCompile Include="..\..\src\View.cpp" />
@@ -444,6 +445,7 @@
     <ClInclude Include="..\..\src\SystemView.h" />
     <ClInclude Include="..\..\src\TerrainBody.h" />
     <ClInclude Include="..\..\src\Tombstone.h" />
+    <ClInclude Include="..\..\src\Turret.h" />
     <ClInclude Include="..\..\src\UIView.h" />
     <ClInclude Include="..\..\src\utils.h" />
     <ClInclude Include="..\..\src\vector2.h" />
