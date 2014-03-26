@@ -21,35 +21,35 @@
    },
    "FLAVOUR_11_NEWSBODY" : {
       "description" : "Imply high demand of ANIMAL_MEAT.",
-      "message" : "As if by a stroke of a higher power, the farmers in the {system} system ({sectorx}, {sectory}, {sectorz}) woke up to empty barns. \"It's the cattle theft of the century\", police reports."
+      "message" : "A gazdák tanácstalanul állnak az üres ólaknál. A rendőrség szerint \"Az évszázad marhalopása\" történt {system} rendszerben ({sectorx}, {sectory}, {sectorz})."
    },
    "FLAVOUR_12_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Infrastructure breakdown as computers malfunction in the {system} system."
+      "message" : "HÍREK {date}: {system} informatikai hálózat meghibásodott, az infrastruktúrája összeomlott."
    },
    "FLAVOUR_12_NEWSBODY" : {
       "description" : "Keep clear of the too obvious names Microsoft, or Macrosoft, etc.",
-      "message" : "A nasty virus caused all Nachosoft computers in the {system} system ({sectorx}, {sectory}, {sectorz}) to suffer a complete hard drive meltdown. The faulty units make excellent paper weights, computer scientists say."
+      "message" : "Vírustámadás gyűrte maga alá az összes Nachosoft számítógépet {system} rendszerben ({sectorx}, {sectory}, {sectorz}). A szakemberek szerint a gépekből fel kell lendíteni a papírnehezék-ipart."
    },
    "FLAVOUR_13_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Robot uprising in the {system} system."
+      "message" : "HÍREK {date}: Robotfelkelés {system} rendszerben."
    },
    "FLAVOUR_13_NEWSBODY" : {
       "description" : "Imply that nobody wants to buy ROBOTS anymore.",
-      "message" : "It is now man against machine in the {system} system ({sectorx}, {sectory}, {sectorz}), as \"behavioural malfunction\" causes home consumers to loose faith in robot servants."
+      "message" : "\"Viselkedési rendellenességek\" csökkenti a bizalmat gépek és emberek között  {system} rendszerben. ({sectorx}, {sectory}, {sectorz}). Csökken a kereslet a háztartási robotok iránt."
    },
    "FLAVOUR_14_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Solar flare causes biggest black out in a millennium in the {system} system."
+      "message" : "HÍREK {date}: Napkitörés okozta az évszázad áramszünetét {system} rendszerben."
    },
    "FLAVOUR_14_NEWSBODY" : {
       "description" : "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
-      "message" : "The system wide power outage wrecks havoc to the {system} system ({sectorx}, {sectory}, {sectorz}). Consumers line up to buy the last Trapperware to replace their fridges, as producer has run out of raw material."
+      "message" : "Rendszerszintű áramszünet söpört végig {system rendszeren ({sectorx}, {sectory}, {sectorz}). Hosszú sorok kígyóznak a Trapperware szaküzletek előtt, melyek nem képesek tartani a lépést hűtőgépek meghibásodása miatt a tárolóedények iránt megnövekedett kereslettel. A nyersanyaghiány egyre nagyobb problémákat okoz a piacon."
    },
    "FLAVOUR_15_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Police raids crime syndicate in the {system} system, key leaders arrested."
+      "message" : "HÍREK {date}: Rendőrségi rajtaütés {system} szervezett bűnözői csoportjain. Több vezetőt letartóztattak."
    },
    "FLAVOUR_15_NEWSBODY" : {
       "description" : "imply high demand of NARCOTICS.",

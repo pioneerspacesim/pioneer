@@ -53,7 +53,7 @@
    },
    "FLAVOUR_15_NEWSBODY" : {
       "description" : "imply high demand of NARCOTICS.",
-      "message" : "The administration in the {system} system ({sectorx}, {sectory}, {sectorz}) hopes crime will diminish as drugs are no longer available, since the arrest of several mobsters."
+      "message" : "Administracja systemu {system} ({sectorx},{sectory},{sectorz}) liczy na zmniejszenie przestępczości gdy ograniczy się dostęp do narkotyków, aresztowano kilku gangsterów."
    },
    "FLAVOUR_16_HEADLINE" : {
       "description" : "",
