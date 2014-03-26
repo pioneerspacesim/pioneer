@@ -18,6 +18,7 @@ March 2014
      * Fix crash when attacked during deliver package mission (#2806)
      * Try to fix spiky asteroids (#2809)
      * Billboards not drawn correctly for some distant objects (#2791, #2824)
+     * Division by zero when using unguided missiles (#2421, #2827)
 
    * Script and UI API changes
      * New `inherits` function in the `utils` module to quickly implement
