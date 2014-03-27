@@ -57,11 +57,11 @@
    },
    "FLAVOUR_16_HEADLINE" : {
       "description" : "",
-      "message" : "AKTUALNOŚCI {date}: Poważny wypadek podczas dorocznych Wielkich Targów Pary Systemu {system}."
+      "message" : "AKTUALNOŚCI {date}: Poważny wypadek podczas dorocznych Wielkich Targów Ciągników Parowych Systemu {system}."
    },
    "FLAVOUR_16_NEWSBODY" : {
       "description" : "Imply high demand of FARM_MACHINERY.",
-      "message" : "During the Great Steam Fair in the {system} system ({sectorx}, {sectory}, {sectorz}) an attempt for the galactic record in biggest tractor pulling contest ended in mayhem as one of the contestants lost control of his contraption, destroying all other participants' machines. Administration says it could spell doom for the local farmers."
+      "message" : "W trakcie Wielkich Targów Ciągników Parowych w systemie {system}({sectorx},{sectory},{sectorz}) próba pobicia galaktycznego rekordu przeciągania wielkiego traktora zakończyła się tragicznie. Gdy jeden z zawodników utracił kontrolą nad swoją maszyną, zniszczył pozostałe maszyny swoich oponentów. Administracja donosi że może to oznaczać zagładę wśród miejscowych rolników."
    },
    "FLAVOUR_17_HEADLINE" : {
       "description" : "",
