@@ -9,6 +9,7 @@ March 2014
      * Textual galaxy dump (#2811)
      * Money format with language specific thousand separator and
        decimal delimiter (#2810)
+     * Add button to sector view to toggle auto selection mode
 
    * Fixes
      * Fix volume control layout (#2798)

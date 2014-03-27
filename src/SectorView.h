@@ -109,8 +109,7 @@ private:
 
 	SystemPath m_hyperspaceTarget;
 	bool m_matchTargetToSelection;
-
-	bool m_selectionFollowsMovement;
+	bool m_automaticSystemSelection;
 
 	Gui::Label *m_sectorLabel;
 	Gui::Label *m_distanceLabel;
@@ -122,6 +121,8 @@ private:
 	Gui::ToggleButton *m_drawOutRangeLabelButton;
 	Gui::ToggleButton *m_drawUninhabitedLabelButton;
 	Gui::ToggleButton *m_drawSystemLegButton;
+	Gui::ToggleButton *m_automaticSystemSelectionButton;
+	void OnAutomaticSystemSelectionChange(Gui::ToggleButton *b, bool pressed);
 
 	std::unique_ptr<Graphics::Drawables::Disk> m_disk;
 
