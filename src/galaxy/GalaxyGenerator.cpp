@@ -4,6 +4,7 @@
 #include "Pi.h"
 #include "galaxy/Galaxy.h"
 #include "GalaxyGenerator.h"
+#include "SectorGenerator.h"
 
 static const GalaxyGenerator::Version LAST_VERSION_LEGACY = 0;
 
@@ -14,7 +15,10 @@ RefCountedPtr<Galaxy> GalaxyGenerator::Create(const std::string& name, Version v
 		if (version == LAST_VERSION)
 			version = LAST_VERSION_LEGACY;
 		if (version == 0) {
-			return RefCountedPtr<Galaxy>(new Galaxy(RefCountedPtr<GalaxyGenerator>(new GalaxyGenerator(name, version))));
+			return RefCountedPtr<Galaxy>(new Galaxy(RefCountedPtr<GalaxyGenerator>(
+				(new GalaxyGenerator(name, version))
+				->AddSectorStage(new SectorCustomSystemsGenerator(CustomSystem::CUSTOM_ONLY_RADIUS))
+				->AddSectorStage(new SectorRandomSystemsGenerator))));
 		}
 	}
 	return RefCountedPtr<Galaxy>();
@@ -47,7 +51,7 @@ RefCountedPtr<Sector> GalaxyGenerator::GenerateSector(const SystemPath& path, Se
 	const Uint32 _init[4] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
 	Random rng(_init, 4);
 	SectorConfig config;
-	RefCountedPtr<Sector> sector(new Sector(path, cache, rng));
+	RefCountedPtr<Sector> sector(new Sector(path, cache));
 	for (SectorGeneratorStage* secgen : m_sectorStage)
 		if (!secgen->Apply(rng, sector, &config))
 			break;

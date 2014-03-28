@@ -68,6 +68,8 @@ public:
 
 	private:
 		friend class Sector;
+		friend class SectorCustomSystemsGenerator;
+		friend class SectorRandomSystemsGenerator;
 
 		void AssignFaction() const;
 
@@ -82,6 +84,7 @@ public:
 		bool m_explored;
 	};
 	std::vector<System> m_systems;
+	const int sx, sy, sz;
 
 	void Dump(FILE* file, const char* indent = "") const;
 
@@ -89,13 +92,11 @@ private:
 	Sector(const Sector&); // non-copyable
 	Sector& operator=(const Sector&); // non-assignable
 
-	int sx, sy, sz;
 	SectorCache* m_cache;
 
-	Sector(const SystemPath& path, SectorCache* cache, Random& rng); // Only SectorCache(Job) are allowed to create sectors
+	// Only SectorCache(Job) are allowed to create sectors
+	Sector(const SystemPath& path, SectorCache* cache) : sx(path.sectorX), sy(path.sectorY), sz(path.sectorZ), m_cache(cache) { }
 	void SetCache(SectorCache* cache) { assert(!m_cache); m_cache = cache; }
-	void GetCustomSystems(Random& rng);
-	const std::string GenName(System &sys, int si, Random &rand);
 	// sets appropriate factions for all systems in the sector
 };
 
