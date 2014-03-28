@@ -19,6 +19,7 @@ noinst_HEADERS = \
 	Sector.h \
 	SectorGenerator.h \
 	StarSystem.h \
+	StarSystemGenerator.h \
 	SystemPath.h
 
 libgalaxy_a_SOURCES = \
@@ -30,4 +31,5 @@ libgalaxy_a_SOURCES = \
 	Sector.cpp \
 	SectorGenerator.cpp \
 	StarSystem.cpp \
+	StarSystemGenerator.cpp \
 	SystemPath.cpp

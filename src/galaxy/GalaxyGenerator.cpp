@@ -5,6 +5,7 @@
 #include "galaxy/Galaxy.h"
 #include "GalaxyGenerator.h"
 #include "SectorGenerator.h"
+#include "galaxy/StarSystemGenerator.h"
 
 static const GalaxyGenerator::Version LAST_VERSION_LEGACY = 0;
 
@@ -18,7 +19,10 @@ RefCountedPtr<Galaxy> GalaxyGenerator::Create(const std::string& name, Version v
 			return RefCountedPtr<Galaxy>(new Galaxy(RefCountedPtr<GalaxyGenerator>(
 				(new GalaxyGenerator(name, version))
 				->AddSectorStage(new SectorCustomSystemsGenerator(CustomSystem::CUSTOM_ONLY_RADIUS))
-				->AddSectorStage(new SectorRandomSystemsGenerator))));
+				->AddSectorStage(new SectorRandomSystemsGenerator)
+				->AddStarSystemStage(new StarSystemFromSectorGenerator)
+				->AddStarSystemStage(new StarSystemCustomGenerator)
+				->AddStarSystemStage(new StarSystemRandomGenerator))));
 		}
 	}
 	return RefCountedPtr<Galaxy>();

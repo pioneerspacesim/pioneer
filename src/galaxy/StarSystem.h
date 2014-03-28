@@ -224,6 +224,8 @@ public:
 private:
 	friend class StarSystem;
 	friend class ObjectViewerView;
+	friend class StarSystemCustomGenerator;
+	friend class StarSystemRandomGenerator;
 
 	void ClearParentAndChildPointers();
 
@@ -280,6 +282,10 @@ public:
 	friend class SystemBody;
 	friend class GalaxyObjectCache<StarSystem, SystemPath::LessSystemOnly>;
 	friend class GalaxyGenerator;
+	friend class StarSystemFromSectorGenerator;
+	friend class ClassicalStarSystemGenerator;
+	friend class StarSystemCustomGenerator;
+	friend class StarSystemRandomGenerator;
 
 	void ExportToLua(const char *filename);
 
@@ -294,11 +300,18 @@ public:
 	unsigned GetNumStars() const { return m_numStars; }
 	const SysPolit &GetSysPolit() const { return m_polit; }
 
+	struct StarTypeInfo {
+		SystemBody::BodySuperType supertype;
+		int mass[2]; // min,max % sol for stars, unused for planets
+		int radius[2]; // min,max % sol radii for stars, % earth radii for planets
+		int tempMin, tempMax;
+	};
 	static const Uint8 starColors[][3];
 	static const Uint8 starRealColors[][3];
 	static const double starLuminosities[];
 	static const float starScale[];
 	static const fixed starMetallicities[];
+	static const StarTypeInfo starTypeInfo[];
 
 	RefCountedPtr<const SystemBody> GetRootBody() const { return m_rootBody; }
 	RefCountedPtr<SystemBody> GetRootBody() { return m_rootBody; }
@@ -336,15 +349,6 @@ private:
 		m_bodies.push_back(RefCountedPtr<SystemBody>(body));
 		return body;
 	}
-	void MakeShortDescription(Random &rand);
-	void MakePlanetsAround(SystemBody *primary, Random &rand);
-	void MakeRandomStar(SystemBody *sbody, Random &rand);
-	void MakeStarOfType(SystemBody *sbody, SystemBody::BodyType type, Random &rand);
-	void MakeStarOfTypeLighterThan(SystemBody *sbody, SystemBody::BodyType type, fixed maxMass, Random &rand);
-	void MakeBinaryPair(SystemBody *a, SystemBody *b, fixed minDist, Random &rand);
-	void CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSystemBody*> &children, int *outHumanInfestedness, Random &rand);
-	void GenerateFromCustom(const CustomSystem *, Random &rand);
-	void Populate(bool addSpaceStations);
 	std::string ExportBodyToLua(FILE *f, SystemBody *body);
 	std::string GetStarTypes(SystemBody *body);
 
