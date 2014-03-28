@@ -279,6 +279,7 @@ class StarSystem : public RefCounted {
 public:
 	friend class SystemBody;
 	friend class GalaxyObjectCache<StarSystem, SystemPath::LessSystemOnly>;
+	friend class GalaxyGenerator;
 
 	void ExportToLua(const char *filename);
 
@@ -325,7 +326,7 @@ public:
 	void Dump(FILE* file, const char* indent = "", bool suppressSectorData = false) const;
 
 private:
-	StarSystem(const SystemPath &path, StarSystemCache* cache);
+	StarSystem(const SystemPath &path, StarSystemCache* cache, Random& rand);
 	~StarSystem();
 
 	void SetCache(StarSystemCache* cache) { assert(!m_cache); m_cache = cache; }
@@ -361,7 +362,7 @@ private:
 	fixed m_metallicity;
 	fixed m_industrial;
 	int m_econType;
-	int m_seed;
+	Uint32 m_seed;
 
 	// percent price alteration
 	int m_tradeLevel[GalacticEconomy::COMMODITY_COUNT];

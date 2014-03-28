@@ -5,6 +5,7 @@
 #include "Sector.h"
 #include "Galaxy.h"
 #include "GalaxyCache.h"
+#include "GalaxyGenerator.h"
 #include "Factions.h"
 
 #include "Serializer.h"
@@ -1463,7 +1464,7 @@ SystemBody::AtmosphereParameters SystemBody::CalcAtmosphereParams() const
  *
  * We must be sneaky and avoid floating point in these places.
  */
-StarSystem::StarSystem(const SystemPath &path, StarSystemCache* cache) : m_path(path.SystemOnly()), m_numStars(0), m_isCustom(false), m_hasCustomBodies(false),
+StarSystem::StarSystem(const SystemPath &path, StarSystemCache* cache, Random& rand) : m_path(path.SystemOnly()), m_numStars(0), m_isCustom(false),
 	m_faction(nullptr), m_unexplored(false), m_econType(0), m_seed(0), m_cache(cache)
 {
 	PROFILE_SCOPED()
@@ -1475,10 +1476,6 @@ StarSystem::StarSystem(const SystemPath &path, StarSystemCache* cache) : m_path(
 	m_seed    = sector->m_systems[m_path.systemIndex].GetSeed();
 	m_name    = sector->m_systems[m_path.systemIndex].GetName();
 	m_faction = Pi::GetGalaxy()->GetFactions()->GetNearestFaction(&sector->m_systems[m_path.systemIndex]);
-
-	Uint32 _init[6] = { m_path.systemIndex, Uint32(m_path.sectorX), Uint32(m_path.sectorY), Uint32(m_path.sectorZ), UNIVERSE_SEED, Uint32(m_seed) };
-	Random rand(_init, 6);
-
 	m_unexplored = !sector->m_systems[m_path.systemIndex].IsExplored();
 
 	if (sector->m_systems[m_path.systemIndex].GetCustomSystem()) {

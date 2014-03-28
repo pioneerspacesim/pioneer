@@ -4,11 +4,14 @@
 #include "libs.h"
 #include "utils.h"
 #include "Galaxy.h"
+#include "GalaxyGenerator.h"
 #include "Sector.h"
 #include "Pi.h"
 #include "FileSystem.h"
 
-Galaxy::Galaxy() : GALAXY_RADIUS(50000.0), SOL_OFFSET_X(25000.0), SOL_OFFSET_Y(0.0), m_mapWidth(0), m_mapHeight(0), m_factions(this), m_customSystems(this)
+Galaxy::Galaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerator) : GALAXY_RADIUS(50000.0), SOL_OFFSET_X(25000.0), SOL_OFFSET_Y(0.0),
+	m_galaxyGenerator(galaxyGenerator), m_mapWidth(0), m_mapHeight(0), m_sectorCache(galaxyGenerator), m_starSystemAttic(galaxyGenerator),
+	m_factions(this), m_customSystems(this)
 {
 	// NB : The galaxy density image MUST be in BMP format due to OSX failing to load pngs the same as Linux/Windows
 	static const std::string filename("galaxy_dense.bmp");

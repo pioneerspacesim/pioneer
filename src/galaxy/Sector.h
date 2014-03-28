@@ -17,6 +17,7 @@ class Faction;
 
 class Sector : public RefCounted {
 	friend class GalaxyObjectCache<Sector, SystemPath::LessSectorOnly>;
+	friend class GalaxyGenerator;
 
 public:
 	// lightyears
@@ -91,7 +92,7 @@ private:
 	int sx, sy, sz;
 	SectorCache* m_cache;
 
-	Sector(const SystemPath& path, SectorCache* cache); // Only SectorCache(Job) are allowed to create sectors
+	Sector(const SystemPath& path, SectorCache* cache, Random& rng); // Only SectorCache(Job) are allowed to create sectors
 	void SetCache(SectorCache* cache) { assert(!m_cache); m_cache = cache; }
 	void GetCustomSystems(Random& rng);
 	const std::string GenName(System &sys, int si, Random &rand);
