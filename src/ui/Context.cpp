@@ -146,7 +146,7 @@ void Context::Draw()
 		r->SetTransform(matrix4x4f::Identity());
 		r->SetClearColor(Color::BLACK);
 
-		(*i)->Draw();
+		DrawWidget(*i);
 
 		r->SetScissor(false);
 	}
