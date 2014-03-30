@@ -77,7 +77,7 @@
    },
    "FLAVOUR_18_NEWSBODY" : {
       "description" : "Imply vast demand of CONSUMER_GOODS.",
-      "message" : "The wheels are spinning ever faster in the {system} system ({sectorx}, {sectory}, {sectorz}) as consumers have more money to spend."
+      "message" : "Fortuna sprzyja konsumentom w systemie {system}({sectorx},{sectory},{sectorz}), mają oni więcej pieniędzy do wydania.."
    },
    "FLAVOUR_19_HEADLINE" : {
       "description" : "",
