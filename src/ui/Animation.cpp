@@ -153,7 +153,13 @@ float Animation::Update(float time)
 	const float remaining = m_continuous ? m_duration : (m_duration - time);
 	m_completed = remaining < 0.0f;
 
-	m_targetFunc(m_wrapFunc(m_easingFunc, m_completed ? m_duration : fmodf(time, m_duration), m_duration));
+	float pos;
+	if (m_continuous)
+		pos = m_completed ? m_duration : fmodf(time, m_duration);
+	else
+		pos = m_completed ? m_duration : Clamp(time, 0.0f, m_duration);
+
+	m_targetFunc(m_wrapFunc(m_easingFunc, pos, m_duration));
 
 	m_running = !m_completed;
 
