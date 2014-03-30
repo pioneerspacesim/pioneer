@@ -6,6 +6,36 @@ local ui = Engine.ui
 
 local MessageBox = {}
 
+local function setupLayerAnim (clickWidget)
+	local layer = ui.layer
+
+	local anim = ui:NewAnimation({
+		widget = layer,
+		type = "IN",
+		easing = "LINEAR",
+		target = "OPACITY",
+		duration = 0.1,
+	})
+	ui:Animate(anim)
+
+	local clicked = false
+	clickWidget.onClick:Connect(function ()
+		if clicked then return end
+		clicked = true
+
+		anim:Finish()
+
+		ui:Animate({
+			widget = layer,
+			type = "OUT",
+			easing = "LINEAR",
+			target = "OPACITY",
+			duration = 0.1,
+			callback = function () ui:DropLayer() end,
+		})
+	end)
+end
+
 function MessageBox.Message (args)
 	if type(args) == 'string' then
 		args = { message = args }
@@ -23,8 +53,9 @@ function MessageBox.Message (args)
 		)
 	)
 
-	layer.onClick:Connect(function () ui:DropLayer() end)
 	layer:AddShortcut("enter")
+
+	setupLayerAnim(layer)
 end
 
 function MessageBox.OK (args)
@@ -35,9 +66,6 @@ function MessageBox.OK (args)
 	local text = ui:MultiLineText(args.message)
 
 	local okButton = ui:Button("OK")
-	okButton.onClick:Connect(function ()
-		ui:DropLayer()
-	end)
 	okButton:AddShortcut("enter")
 
 	ui:NewLayer(
@@ -51,6 +79,8 @@ function MessageBox.OK (args)
 			)
 		)
 	)
+
+	setupLayerAnim (okButton)
 end
 
 return MessageBox
