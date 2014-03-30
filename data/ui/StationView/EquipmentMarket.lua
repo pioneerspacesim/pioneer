@@ -6,6 +6,7 @@ local Lang = import("Lang")
 local Game = import("Game")
 local ShipDef = import("ShipDef")
 local EquipDef = import("EquipDef")
+local Format = import("Format")
 
 local EquipmentTableWidgets = import("EquipmentTableWidgets")
 
@@ -20,6 +21,7 @@ local equipmentMarket = function (args)
 		shipColumns = { "name", "amount", "mass", "massTotal" },
 
 		canTrade = function (e) return EquipDef[e].purchasable and EquipDef[e].slot ~= "CARGO" end,
+		price = function (e, funcs) return Format.Money(funcs.getPrice(e),false) end,
 	})
 
 	return
