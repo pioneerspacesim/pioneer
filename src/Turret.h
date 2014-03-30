@@ -29,27 +29,22 @@ class Turret
 
 	bool IsFiring() const { return m_firing; }
 	void SetFiring(bool firing) { m_firing = firing; }
-	virtual void Update(float timeStep);			// timestep process
+	void Update(float timeStep);			// timestep process
 
 	void SetWeapon(Equip::Type weapontype, float coolfactor);
 	Equip::Type GetWeapon() const { return m_weapontype; }
 
 	float GetTemperature() const { return m_temperature; }
-	virtual const vector3d &GetPos() const { return m_turret.pos; }
+	const vector3d& GetPos() const { return m_turret.pos; }
+	const vector3d& GetDir() const { return m_curdir; }
 	const std::string& GetName() const { return m_turret.name; }
-
-	vector3d FaceDirection(const vector3d &dir);	// returns extent-clamped direction
-	void MatchAngVel(const vector3d &av);
 
 	void SetSkill(float skill) { m_skill = skill; }
 	void SetTarget(Body *target) { m_target = target; m_leadTime = 0.0; }
 	void OnDeleted(const Body *body) { if (body == m_target) m_target = 0; }
 
-	virtual const vector3d &GetDir() const { return m_curdir; }
-	matrix3x3d GetOrient() const;
-
-	virtual void Save(Serializer::Writer &wr);
-	virtual void Load(Serializer::Reader &rd);
+	void Save(Serializer::Writer &wr);
+	void Load(Serializer::Reader &rd);
 
   private:
 	void FaceDirectionInternal(const vector3d &dir, double av);
@@ -77,8 +72,6 @@ class Turret
 	double m_leadTime;			// time to next update target heading
 	vector3d m_leadOffset;
 	vector3d m_leadDrift;
-
-	bool m_manual;
 };
 
 #endif // _GUNMOUNT_H
