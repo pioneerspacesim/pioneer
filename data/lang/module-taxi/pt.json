@@ -49,7 +49,7 @@
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
-      "message" : "Could you repeat the original request?"
+      "message" : "Você pode refazer o pedido?"
    },
    "DANGER" : {
       "description" : "",
@@ -61,35 +61,35 @@
    },
    "DENY_0" : {
       "description" : "",
-      "message" : "I'm sorry, but I don't think I could trust you with my safety."
+      "message" : "Me descuple, mas eu acho que não posso confiar minha segurança com você."
    },
    "DENY_1" : {
       "description" : "",
-      "message" : "Come back when you have some qualifications."
+      "message" : "Volte quando você tiver qualificações."
    },
    "DENY_2" : {
       "description" : "",
-      "message" : "I don't think you're the pilot I'm looking for."
+      "message" : "Eu não acho que você seja o piloto que estou procurando."
    },
    "DENY_3" : {
       "description" : "",
-      "message" : "You don't look like someone capable of transporting people."
+      "message" : "Você não parece como alguém capaz de transportar pessoas."
    },
    "DENY_4" : {
       "description" : "",
-      "message" : "You're not the kind of pilot I'm looking for."
+      "message" : "Você não é o tipo de piloto que estou procurando."
    },
    "DENY_5" : {
       "description" : "",
-      "message" : "You seem much too inexperienced to handle a transport of this importance."
+      "message" : "Você parece muito inexperiente para fazer um transporte dessa importância."
    },
    "DENY_6" : {
       "description" : "",
-      "message" : "I have never heard of you. I need someone experienced for this journey."
+      "message" : "Nunca ouvi falarem de você. Preciso de alguém com experiência para essa viagem."
    },
    "DENY_7" : {
       "description" : "",
-      "message" : "I'm not willing to risk my life on someone without any qualifications like you."
+      "message" : "Não quero arriscar minha vida com alguém sem qualificação como você."
    },
    "DISTANCE" : {
       "description" : "",
@@ -101,7 +101,7 @@
    },
    "FLAVOUR_0_ADTEXT" : {
       "description" : "",
-      "message" : "WANTED: Passage for a small group to {system} system. Will pay {cash}."
+      "message" : "PROCURA-SE: Passagem de um pequeno grupo para o sistema {system}. Irá pagar {cash}."
    },
    "FLAVOUR_0_DANGER" : {
       "description" : "",
@@ -109,15 +109,15 @@
    },
    "FLAVOUR_0_FAILUREMSG" : {
       "description" : "",
-      "message" : "Unacceptable! You took forever. We are not willing to pay you."
+      "message" : "Inaceitável! Você demorou demais. Nós não queremos pagar você."
    },
    "FLAVOUR_0_HOWMANY" : {
       "description" : "",
-      "message" : "There are {group} of us."
+      "message" : "Existem {group} como nós."
    },
    "FLAVOUR_0_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi, I'm {name} and I need passage for a small group to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}."
+      "message" : "Oi, meu nome é {name} e eu preciso de uma passagem para um pequeno grupo até o sistema {system} ({sectorx}, {sectory}, {sectorz}), a {dist} ly de distância. Eu vou pagar {cash}."
    },
    "FLAVOUR_0_SUCCESSMSG" : {
       "description" : "",
@@ -141,7 +141,7 @@
    },
    "FLAVOUR_10_FAILUREMSG" : {
       "description" : "",
-      "message" : "You are such an inexperienced pilot. I'm not going to pay for this."
+      "message" : "Você é um piloto tão inexperiente. Eu não vou te pagar por isso."
    },
    "FLAVOUR_10_HOWMANY" : {
       "description" : "",
@@ -157,11 +157,11 @@
    },
    "FLAVOUR_10_WHEREAREWE" : {
       "description" : "",
-      "message" : "Where are we? I've waited enough - take me to the nearest station NOW!"
+      "message" : "Onde estamos? Já esperei demais - me leve a estação mais próxima AGORA!"
    },
    "FLAVOUR_10_WHYSOMUCH" : {
       "description" : "",
-      "message" : "I would rather someone didn't find me."
+      "message" : "Preferiria que ninguém me encontra-se."
    },
    "FLAVOUR_11_ADTEXT" : {
       "description" : "",
@@ -173,7 +173,7 @@
    },
    "FLAVOUR_11_FAILUREMSG" : {
       "description" : "",
-      "message" : "I'm going to lose my job because of your incompetence. So I need that money more than you."
+      "message" : "Eu vou perder meu emprego graças a sua incompetência. Então preciso do dinheiro mais do que você."
    },
    "FLAVOUR_11_HOWMANY" : {
       "description" : "",
@@ -189,11 +189,11 @@
    },
    "FLAVOUR_11_WHEREAREWE" : {
       "description" : "",
-      "message" : "Where are we? I've waited enough - take me to the nearest station NOW!"
+      "message" : "Onde estamos? Já esperei demais - me leve a estação mais próxima AGORA!"
    },
    "FLAVOUR_11_WHYSOMUCH" : {
       "description" : "",
-      "message" : "I'm a factory inspector doing my rounds."
+      "message" : "Sou um inspetor da fábrica a fazer a ronda."
    },
    "FLAVOUR_12_ADTEXT" : {
       "description" : "",
@@ -221,7 +221,7 @@
    },
    "FLAVOUR_12_WHEREAREWE" : {
       "description" : "",
-      "message" : "Where are we? I've waited enough - take me to the nearest station NOW!"
+      "message" : "Onde estamos? Já esperei demais - me leve a estação mais próxima AGORA!"
    },
    "FLAVOUR_12_WHYSOMUCH" : {
       "description" : "",
@@ -229,7 +229,7 @@
    },
    "FLAVOUR_1_ADTEXT" : {
       "description" : "",
-      "message" : "WANTED: Passage for a small group to {system} system. Will pay {cash}."
+      "message" : "PROCURA-SE: Passagem de um pequeno grupo para o sistema {system}. Irá pagar {cash}."
    },
    "FLAVOUR_1_DANGER" : {
       "description" : "",
@@ -237,15 +237,15 @@
    },
    "FLAVOUR_1_FAILUREMSG" : {
       "description" : "",
-      "message" : "Unacceptable! You took forever. We are not willing to pay you."
+      "message" : "Inaceitável! Você demorou uma eternidade. Nós não queremos pagar você."
    },
    "FLAVOUR_1_HOWMANY" : {
       "description" : "",
-      "message" : "There are {group} of us."
+      "message" : "Existem {group} como nós."
    },
    "FLAVOUR_1_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi, I'm {name} and I need passage for a small group to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}."
+      "message" : "Oi, meu nome é {name} e eu preciso de uma passagem para um pequeno grupo até o sistema {system} ({sectorx}, {sectory}, {sectorz}), a {dist} ly de distância. Eu vou pagar {cash}."
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
@@ -257,11 +257,11 @@
    },
    "FLAVOUR_1_WHYSOMUCH" : {
       "description" : "",
-      "message" : "We work for {corp} corporation and they are paying."
+      "message" : "Nós trabalhamos para a corporação {corp} e eles pagam."
    },
    "FLAVOUR_2_ADTEXT" : {
       "description" : "",
-      "message" : "WANTED: Passage for a small group to {system} system. Will pay {cash}."
+      "message" : "PROCURA-SE: Passagem de um pequeno grupo para o sistema {system}. Irá pagar {cash}."
    },
    "FLAVOUR_2_DANGER" : {
       "description" : "",
@@ -269,15 +269,15 @@
    },
    "FLAVOUR_2_FAILUREMSG" : {
       "description" : "",
-      "message" : "Unacceptable! You took forever. We are not willing to pay you."
+      "message" : "Inaceitável! Você demorou demais. Nós não queremos pagar você."
    },
    "FLAVOUR_2_HOWMANY" : {
       "description" : "",
-      "message" : "There are {group} of us."
+      "message" : "Existem {group} como nós."
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi, I'm {name} and I need passage for a small group to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}."
+      "message" : "Oi, meu nome é {name} e eu preciso de uma passagem para um pequeno grupo até o sistema {system} ({sectorx}, {sectory}, {sectorz}), a {dist} ly de distância. Eu vou pagar {cash}."
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
@@ -317,15 +317,15 @@
    },
    "FLAVOUR_3_WHEREAREWE" : {
       "description" : "",
-      "message" : "Where are we? I've waited enough - take me to the nearest station NOW!"
+      "message" : "Onde estamos? Já esperei demais - me leve a estação mais próxima AGORA!"
    },
    "FLAVOUR_3_WHYSOMUCH" : {
       "description" : "",
-      "message" : "An old rival is trying to kill me."
+      "message" : "Um antigo rival está a tentar matar-me."
    },
    "FLAVOUR_4_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP WANTED: Passage to {system} system. Will pay {cash}."
+      "message" : "PRECISA-SE NAVE: Passagem para o sistema {system}. Irá pagar {cash}."
    },
    "FLAVOUR_4_DANGER" : {
       "description" : "",
@@ -333,7 +333,7 @@
    },
    "FLAVOUR_4_FAILUREMSG" : {
       "description" : "",
-      "message" : "Don't even ask for payment! I'm reporting you to the authorities."
+      "message" : "Nem sequer perguntes pelo pagamento! Irei reportar às autoridades."
    },
    "FLAVOUR_4_HOWMANY" : {
       "description" : "",
@@ -345,11 +345,11 @@
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thanks for carrying me here. I've paid in full. Good Luck!"
+      "message" : "Obrigado por me trazer até aqui. Paguei tudo. Boa Sorte!"
    },
    "FLAVOUR_4_WHEREAREWE" : {
       "description" : "",
-      "message" : "Where are we? I've waited enough - take me to the nearest station NOW!"
+      "message" : "Onde estamos? Já esperei demais - me leve a estação mais próxima AGORA!"
    },
    "FLAVOUR_4_WHYSOMUCH" : {
       "description" : "",
@@ -357,7 +357,7 @@
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
-      "message" : "WANTED: Passage to {system} system. Will pay {cash}."
+      "message" : "PROCURA-SE: Passagem para o sistema {system}. Irá pagar {cash}."
    },
    "FLAVOUR_5_DANGER" : {
       "description" : "",
@@ -365,7 +365,7 @@
    },
    "FLAVOUR_5_FAILUREMSG" : {
       "description" : "",
-      "message" : "What have you done! My tour is all spoilt and I lost half of my fans."
+      "message" : "Que fizeste! A minha tour está desfeita e perdi metade dos meus fãs."
    },
    "FLAVOUR_5_HOWMANY" : {
       "description" : "",
@@ -381,7 +381,7 @@
    },
    "FLAVOUR_5_WHEREAREWE" : {
       "description" : "",
-      "message" : "Where are we? I've waited enough - take me to the nearest station NOW!"
+      "message" : "Onde estamos? Já esperei demais - me leve a estação mais próxima AGORA!"
    },
    "FLAVOUR_5_WHYSOMUCH" : {
       "description" : "",
@@ -389,7 +389,7 @@
    },
    "FLAVOUR_6_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP WANTED: Passage to {system} system. Will pay {cash}."
+      "message" : "PRECISA-SE NAVE: Passagem para o sistema {system}. Irá pagar {cash}."
    },
    "FLAVOUR_6_DANGER" : {
       "description" : "",
@@ -413,7 +413,7 @@
    },
    "FLAVOUR_6_WHEREAREWE" : {
       "description" : "",
-      "message" : "Where are we? I've waited enough - take me to the nearest station NOW!"
+      "message" : "Onde estamos? Já esperei demais - me leve a estação mais próxima AGORA!"
    },
    "FLAVOUR_6_WHYSOMUCH" : {
       "description" : "",
@@ -425,7 +425,7 @@
    },
    "FLAVOUR_7_DANGER" : {
       "description" : "",
-      "message" : "The Mafia don't take kindly to people helping their enemies."
+      "message" : "A Máfia não aceita com agrado pessoas que ajudem os seus inimigos."
    },
    "FLAVOUR_7_FAILUREMSG" : {
       "description" : "",
@@ -441,11 +441,11 @@
    },
    "FLAVOUR_7_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thanks for carrying me safely here. I've paid in full. Good Luck!"
+      "message" : "Obrigado por me trazer em segurança até aqui. Já paguei tudo. Boa sorte!"
    },
    "FLAVOUR_7_WHEREAREWE" : {
       "description" : "",
-      "message" : "Where are we? I've waited enough - take me to the nearest station NOW!"
+      "message" : "Onde estamos? Já esperei demais - me leve a estação mais próxima AGORA!"
    },
    "FLAVOUR_7_WHYSOMUCH" : {
       "description" : "",
@@ -477,7 +477,7 @@
    },
    "FLAVOUR_8_WHEREAREWE" : {
       "description" : "",
-      "message" : "Where are we? I've waited enough - take me to the nearest station NOW!"
+      "message" : "Onde estamos? Já esperei demais - me leve a estação mais próxima AGORA!"
    },
    "FLAVOUR_8_WHYSOMUCH" : {
       "description" : "",
@@ -493,7 +493,7 @@
    },
    "FLAVOUR_9_FAILUREMSG" : {
       "description" : "",
-      "message" : "Useless! You took forever. I'm not willing to pay you."
+      "message" : "Seu inútil! Você demorou demais. Eu não vou pagar."
    },
    "FLAVOUR_9_HOWMANY" : {
       "description" : "",
@@ -509,11 +509,11 @@
    },
    "FLAVOUR_9_WHEREAREWE" : {
       "description" : "",
-      "message" : "Where are we? I've waited enough - take me to the nearest station NOW!"
+      "message" : "Onde estamos? Já esperei demais - me leve a estação mais próxima AGORA!"
    },
    "FLAVOUR_9_WHYSOMUCH" : {
       "description" : "",
-      "message" : "The Police want me to help them with their enquiries."
+      "message" : "A Polícia quer a minha ajuda nas investigações deles."
    },
    "FROM" : {
       "description" : "",
@@ -529,15 +529,15 @@
    },
    "HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS" : {
       "description" : "",
-      "message" : "Hey!?! You are going to pay for this!!!"
+      "message" : "Hey!?! Irás pagar por isto!!!"
    },
    "HOW_MANY_OF_YOU_ARE_THERE" : {
       "description" : "",
-      "message" : "How many of you are there?"
+      "message" : "Quantos de vocês estão lá?"
    },
    "HOW_SOON_YOU_MUST_BE_THERE" : {
       "description" : "",
-      "message" : "How soon you must be there?"
+      "message" : "Até quando você precisa chegar lá?"
    },
    "I_MUST_BE_THERE_BEFORE" : {
       "description" : "",
@@ -553,11 +553,11 @@
    },
    "PIRATE_TAUNTS_0" : {
       "description" : "",
-      "message" : "You're going to regret dealing with {client}"
+      "message" : "Irás-te arrepender de negociar com {cliente}"
    },
    "PIRATE_TAUNTS_1" : {
       "description" : "",
-      "message" : "You have {client} on board? That was a bad idea."
+      "message" : "Tens o {cliente} a bordo? É uma má ideia."
    },
    "PIRATE_TAUNTS_2" : {
       "description" : "",
@@ -577,7 +577,7 @@
    },
    "WE_WANT_TO_BE_THERE_BEFORE" : {
       "description" : "",
-      "message" : "Desejamos está lá antes de"
+      "message" : "Desejamos estar lá antes de"
    },
    "WHY_SO_MUCH_MONEY" : {
       "description" : "",
@@ -589,6 +589,6 @@
    },
    "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP" : {
       "description" : "",
-      "message" : "You do not have enough cabin space on your ship."
+      "message" : "Não tens espaço suficiente a bordo da tua nave."
    }
 }

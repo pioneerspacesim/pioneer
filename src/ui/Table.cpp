@@ -24,13 +24,12 @@ void Table::LayoutAccumulator::AddRow(const std::vector<Widget*> &widgets)
 			Widget *w = widgets[i];
 			if (w) {
 				const Point size(w->CalcLayoutContribution());
-				// XXX handle flags
 				m_columnWidth[i] = std::max(m_columnWidth[i], size.x);
 			}
 		}
-		m_preferredWidth += m_columnWidth[i] + m_columnSpacing;
+		m_preferredWidth = SizeAdd(SizeAdd(m_preferredWidth, m_columnWidth[i]), m_columnSpacing);
 	}
-	m_preferredWidth -= m_columnSpacing;
+	m_preferredWidth = SizeAdd(m_preferredWidth, -m_columnSpacing);
 }
 
 void Table::LayoutAccumulator::Clear()
@@ -43,6 +42,21 @@ void Table::LayoutAccumulator::Clear()
 void Table::LayoutAccumulator::ComputeForWidth(int availWidth) {
 	if (m_columnWidth.empty())
 		return;
+
+	if (m_preferredWidth == SIZE_EXPAND) {
+		int fixedSize = m_columnSpacing * (m_columnWidth.size()-1);
+		int numExpand = 0;
+		for (std::size_t i = 0; i < m_columnWidth.size(); i++)
+			if (m_columnWidth[i] == SIZE_EXPAND)
+				numExpand++;
+			else
+				fixedSize += m_columnWidth[i];
+		assert(numExpand > 0);
+		int expandSize = (availWidth-fixedSize) / numExpand;
+		for (std::size_t i = 0; i < m_columnWidth.size(); i++)
+			if (m_columnWidth[i] == SIZE_EXPAND)
+				m_columnWidth[i] = expandSize;
+	}
 
 	m_columnLeft.resize(m_columnWidth.size());
 
@@ -323,18 +337,23 @@ void Table::Layout()
 		}
 	}
 	else {
-		AddWidget(m_slider.Get());
+		if (!m_slider->GetContainer())
+			AddWidget(m_slider.Get());
+
 		if (!m_onMouseWheelConn.connected())
 			m_onMouseWheelConn = onMouseWheel.connect(sigc::mem_fun(this, &Table::OnMouseWheel));
 
 		const Point sliderSize(m_slider->PreferredSize().x, size.y);
 		const Point sliderPos(size.x-sliderSize.x, top);
 		SetWidgetDimensions(m_slider.Get(), sliderPos, sliderSize);
+		m_slider->Layout();
 
 		size.x = sliderPos.x;
 
 		const float step = float(sliderSize.y) * 0.5f / float(preferredSize.y);
 		m_slider->SetStep(step);
+
+		OnScroll(m_slider->GetValue());
 	}
 
 	SetWidgetDimensions(m_body.Get(), Point(0, top), size);
@@ -420,7 +439,10 @@ Table *Table::SetMouseEnabled(bool enabled)
 
 void Table::OnScroll(float value)
 {
-	m_body->SetDrawOffset(Point(0, -float(m_body->PreferredSize().y-(GetSize().y-m_header->PreferredSize().y))*value));
+	if (m_slider->GetContainer())
+		m_body->SetDrawOffset(Point(0, -float(m_body->PreferredSize().y-(GetSize().y-m_header->PreferredSize().y))*value));
+	else
+		m_body->SetDrawOffset(Point());
 }
 
 bool Table::OnMouseWheel(const MouseWheelEvent &event)
@@ -432,5 +454,9 @@ bool Table::OnMouseWheel(const MouseWheelEvent &event)
 	return true;
 }
 
+void Table::SetScrollPosition(float v)
+{
+	m_slider->SetValue(v);
+}
 
 }

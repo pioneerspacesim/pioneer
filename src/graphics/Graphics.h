@@ -19,6 +19,7 @@ namespace Graphics {
 	// requested video settings
 	struct Settings {
 		bool fullscreen;
+		bool hidden;
 		bool useTextureCompression;
 		bool enableDebugMessages;
 		int vsync;

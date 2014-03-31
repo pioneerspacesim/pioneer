@@ -10,6 +10,7 @@
 #include "Random.h"
 #include "galaxy/StarSystem.h"
 #include "graphics/Material.h"
+#include "graphics/VertexBuffer.h"
 #include "terrain/Terrain.h"
 #include "GeoPatchID.h"
 
@@ -18,7 +19,7 @@
 static const int GEOPATCH_MAX_EDGELEN = 55;
 
 // hold the 16 possible terrain edge connections
-static const int NUM_INDEX_LISTS = 16;
+static const unsigned NUM_INDEX_LISTS = 16;
 
 namespace Graphics { class Renderer; }
 class SystemBody;
@@ -27,15 +28,14 @@ class GeoSphere;
 
 class GeoPatchContext : public RefCounted {
 public:
-	#pragma pack(4)
+	#pragma pack(push, 4)
 	struct VBOVertex
 	{
-		float x,y,z;
-		float nx,ny,nz;
-		unsigned char col[4];
-		float padding;
+		vector3f pos;
+		vector3f norm;
+		Color4ub col;
 	};
-	#pragma pack()
+	#pragma pack(pop)
 
 	int edgeLen;
 
@@ -56,11 +56,7 @@ public:
 	std::unique_ptr<unsigned short[]> midIndices;
 	std::unique_ptr<unsigned short[]> loEdgeIndices[4];
 	std::unique_ptr<unsigned short[]> hiEdgeIndices[4];
-	GLuint indices_vbo;
-	GLuint indices_list[NUM_INDEX_LISTS];
-	GLuint indices_tri_count;
-	GLuint indices_tri_counts[NUM_INDEX_LISTS];
-	VBOVertex *vbotemp;
+	RefCountedPtr<Graphics::IndexBuffer> indices_list[NUM_INDEX_LISTS];
 
 	GeoPatchContext(int _edgeLen) : edgeLen(_edgeLen) {
 		Init();
@@ -76,8 +72,6 @@ public:
 	}
 
 	void Cleanup();
-
-	void updateIndexBufferId(const GLuint edge_hi_flags);
 
 	int getIndices(std::vector<unsigned short> &pl, const unsigned int edge_hi_flags);
 

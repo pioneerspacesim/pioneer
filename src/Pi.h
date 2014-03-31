@@ -62,7 +62,7 @@ class Game;
 
 class Pi {
 public:
-	static void Init(const std::map<std::string,std::string> &options);
+	static void Init(const std::map<std::string,std::string> &options, bool no_gui = false);
 	static void InitGame();
 	static void StarportStart(Uint32 starport);
 	static void StartGame();
@@ -123,7 +123,6 @@ public:
 	static sigc::signal<void> onPlayerChangeTarget; // navigation or combat
 	static sigc::signal<void> onPlayerChangeFlightControlState;
 	static sigc::signal<void> onPlayerChangeEquipment;
-	static sigc::signal<void, const SpaceStation*> onDockingClearanceExpired;
 
 	static LuaSerializer *luaSerializer;
 	static LuaTimer *luaTimer;

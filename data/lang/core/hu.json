@@ -59,6 +59,10 @@
       "description" : "",
       "message" : "Megvédi az űrhajót az atmoszférába lépés alatt a túlmelegedéstől."
    },
+   "AUTOMATIC_SYSTEM_SELECTION" : {
+      "description" : "",
+      "message" : "Automatic system selection"
+   },
    "AUTOPILOT" : {
       "description" : "",
       "message" : "Auto-pilóta"
@@ -137,7 +141,7 @@
    },
    "CAMERA_REAR_VIEW" : {
       "description" : "",
-      "message" : "Hátsó nézet"
+      "message" : "Hátsó kamera"
    },
    "CAMERA_RIGHT_VIEW" : {
       "description" : "",
@@ -303,10 +307,6 @@
       "description" : "",
       "message" : "\" Irány \""
    },
-   "DISABLED_AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
-      "message" : "Automata rendszerválasztás kikapcsolva."
-   },
    "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
       "description" : "",
       "message" : "Távolság a navigációs célponttól"
@@ -434,10 +434,6 @@
    "ECONOMY_TYPE" : {
       "description" : "",
       "message" : "Gazdaság:"
-   },
-   "ENABLED_AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
-      "message" : "Automata rendszerválasztás engedélyezve."
    },
    "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
       "description" : "",
@@ -724,7 +720,7 @@
       "message" : "Leszállt"
    },
    "LANG_NAME" : {
-      "description" : "The name that native speakers use for this language. This will be used in the language selection screen. For obscure reasons this currently must only use Latin-1 characters.",
+      "description" : "The name that native speakers use for this language. This will be used in the language selection screen.",
       "message" : "Magyar"
    },
    "LARGE" : {
@@ -1079,9 +1075,25 @@
       "description" : "",
       "message" : "%days{f.0} nap"
    },
+   "NUMBER_DECIMAL_POINT" : {
+      "description" : "Decimal delimiter used in numbers.",
+      "message" : ","
+   },
    "NUMBER_G" : {
       "description" : "",
       "message" : "%acceleration{f.1} G"
+   },
+   "NUMBER_GROUP_MIN" : {
+      "description" : "Smallest number to start grouping of digits for. (E.g. if \"10000\" start grouping thousands with 10,000, and not 1,000).",
+      "message" : "1000"
+   },
+   "NUMBER_GROUP_NUM" : {
+      "description" : "For large number, group digits by this many. European languages use 3 (group thousands). 0 means no grouping.",
+      "message" : "3"
+   },
+   "NUMBER_GROUP_SEP" : {
+      "description" : "For large number, separator used when grouping digits. E.g. 1,000 or 1 000 or 1'000.",
+      "message" : "."
    },
    "NUMBER_HOURS" : {
       "description" : "",

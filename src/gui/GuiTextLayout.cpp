@@ -44,8 +44,8 @@ TextLayout::TextLayout(const char *_str, RefCountedPtr<Text::TextureFont> font, 
 			assert(n);
 			i += n;
 
-			const Text::TextureFont::glfglyph_t &glyph = m_font->GetGlyph(chr);
-			wordWidth += glyph.advx;
+			const Text::TextureFont::Glyph &glyph = m_font->GetGlyph(chr);
+			wordWidth += glyph.advX;
 
 			// XXX this should do kerning
 		}
@@ -96,7 +96,7 @@ void TextLayout::_RenderRaw(float maxWidth, const Color &color) const
 	Graphics::Renderer *r = Gui::Screen::GetRenderer();
 	Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
 
-	const float spaceWidth = m_font->GetGlyph(' ').advx;
+	const float spaceWidth = m_font->GetGlyph(' ').advX;
 
 	Color c = color;
 
@@ -154,7 +154,7 @@ void TextLayout::_MeasureSizeRaw(const float layoutWidth, float outSize[2]) cons
 	outSize[0] = 0;
 	outSize[1] = 0;
 
-	const float spaceWidth = m_font->GetGlyph(' ').advx;
+	const float spaceWidth = m_font->GetGlyph(' ').advX;
 
 	// build lines of text
 	for (std::list<word_t>::const_iterator wpos = words.begin(); wpos != words.end(); ) {

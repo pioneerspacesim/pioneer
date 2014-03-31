@@ -161,6 +161,8 @@ public:
 
 	bool IsMouseOver() const { return m_mouseOver; }
 
+	bool IsOnTopLayer() const;
+
 	// register a key that, when pressed and not handled by any other widget,
 	// will cause a click event to be sent to this widget
 	void AddShortcut(const KeySym &keysym) { m_shortcuts.insert(keysym); }

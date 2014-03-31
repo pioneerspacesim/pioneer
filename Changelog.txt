@@ -1,3 +1,43 @@
+March 2014
+
+   * New features
+     * Support for CJK fonts and Simplified Chinese translation
+     * Replace WATER with HYDROGEN as the thruster fuel of choice.
+
+   * Minor changes and tweaks
+     * Message boxes used for warnings in station screens
+     * Textual galaxy dump (#2811)
+     * Money format with language specific thousand separator and
+       decimal delimiter (#2810)
+     * Add button to sector view to toggle auto selection mode
+     * Move sector view search results to a text area under the search box
+
+   * Fixes
+     * Fix volume control layout (#2798)
+     * Support horizontally-expanding widgets in table rows
+     * Fix compilation with gcc 4.7 (#2799)
+     * Fix crash with gcc 4.7 compiled binary (#2802)
+     * Fix crash when attacked during deliver package mission (#2806)
+     * Try to fix spiky asteroids (#2809)
+     * Billboards not drawn correctly for some distant objects (#2791, #2824)
+     * Division by zero when using unguided missiles (#2421, #2827)
+
+   * Script and UI API changes
+     * New `inherits` function in the `utils` module to quickly implement
+       class hierarchies in Lua (#2767)
+     * MessageBox.Message and MessageBox.OK for modal alerts
+     * Renamed TabGroup to TabView, better explains its purpose
+
+   * Internal changes
+     * Update terrain to use the new VertexBuffer (#2795)
+     * On-demand glyph caching (#2796, #2804)
+     * Select fonts by Unicode range (#2808)
+     * Gas Giant rewrite (#2803)
+     * Support C++11 enum features in scan_enums.py (#2782)
+     * Mouse and keyboard events now only distributed to the top UI layer
+     * Code cleanup (#2818)
+     * Fix glitch in Job code (#2823)
+
 February 2014
 
    * New features
@@ -5,6 +45,7 @@ February 2014
      * Now any star in a multiple system can be the hyperjump target (#2712)
      * Rewrote console on the new UI (#2726)
      * Characters have reputation, which is required by missions (#2675)
+     * New (rare) "News" event for commodities on the BBS (#2753)
 
    * Minor changes and tweaks
      * Added landing tag points to all ships (#2703)
@@ -26,6 +67,7 @@ February 2014
      * hasprop method to see if the named property exists (#2734)
      * Ship:InitiateHyperjumpTo to jump regardless of range or fuel (#2747)
      * UI.Table.SetColumnAlignment, various ways to position table columns (#2778)
+     * UI.Table.ScrollToTop and ScrollToBottom, basic scroll control
      * Empty grid cells now expand to the available size to assist with layout
 
    * Model changes
@@ -56,10 +98,11 @@ February 2014
      * Sector and star system cache improvements (#2706)
      * Generation of explored flag moved from StarSystem to Sector (#2744)
      * New Vertex buffer class (#2762)
-     * Code cleanup in StarSystem and SystemBody (#2777)
+     * Code cleanup in StarSystem and SystemBody (#2777,#2788)
      * Removed Visual Studio 2010 and 2012 support (#2772)
      * IterationProxy for save access to embedded containers (#2783)
      * Automatically manage the cancellation of jobs with RAII (#2758)
+     * Added a Profile Config to VS2013 (#2785)
 
 January 2014
 

@@ -112,7 +112,10 @@ void JobRunner::SetQueueDestroyed()
 }
 
 
-JobHandle::JobHandle(Job* job, JobQueue* queue, JobClient* client) : m_job(job), m_queue(queue), m_client(client)
+//static
+unsigned long long JobHandle::s_nextId(0);
+
+JobHandle::JobHandle(Job* job, JobQueue* queue, JobClient* client) : m_id(++s_nextId), m_job(job), m_queue(queue), m_client(client)
 {
 	assert(!m_job->GetHandle());
 	m_job->SetHandle(this);
@@ -132,10 +135,13 @@ void JobHandle::Unlink()
 		client->RemoveJob(this); // This might delete this JobHandle, so the object must be cleared before
 }
 
-JobHandle::JobHandle(JobHandle&& other) : m_job(other.m_job), m_queue(other.m_queue), m_client(other.m_client)
+JobHandle::JobHandle(JobHandle&& other) : m_id(other.m_id), m_job(other.m_job), m_queue(other.m_queue), m_client(other.m_client)
 {
-	assert(m_job->GetHandle() == &other);
-	m_job->SetHandle(this);
+	if (m_job) {
+		assert(m_job->GetHandle() == &other);
+		m_job->SetHandle(this);
+	}
+	other.m_id = 0;
 	other.m_job = nullptr;
 	other.m_queue = nullptr;
 	other.m_client = nullptr;
@@ -145,11 +151,15 @@ JobHandle& JobHandle::operator=(JobHandle&& other)
 {
 	if (m_job && m_queue)
 		m_queue->Cancel(m_job);
+	m_id = other.m_id;
 	m_job = other.m_job;
 	m_queue = other.m_queue;
 	m_client = other.m_client;
-	assert(m_job->GetHandle() == &other);
-	m_job->SetHandle(this);
+	if (m_job) {
+		assert(m_job->GetHandle() == &other);
+		m_job->SetHandle(this);
+	}
+	other.m_id = 0;
 	other.m_job = nullptr;
 	other.m_queue = nullptr;
 	other.m_client = nullptr;

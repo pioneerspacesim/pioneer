@@ -1,0 +1,70 @@
+{
+   "APPLY_FOR_MEMBERSHIP" : {
+      "description" : "",
+      "message" : "Ansøg om medlemsskab"
+   },
+   "BEGIN_TRADE" : {
+      "description" : "",
+      "message" : "Begynd handel"
+   },
+   "FLAVOUR_0_CLUBNAME" : {
+      "description" : "",
+      "message" : "Interstellare Piloters Brændstofsamarbejde"
+   },
+   "FLAVOUR_0_MEMBER_INTRO" : {
+      "description" : "",
+      "message" : "Du kan købe brændstof og afhænde {radioactives} her."
+   },
+   "FLAVOUR_0_NONMEMBER_INTRO" : {
+      "description" : "",
+      "message" : "{clubname} er en uafhængig organisation, dedikeret til at yde rumskibsbrændstof til gode priser, til sine medlemmer. Forskellige afdelinger kan findes igennem hele galaksen.\nFordele ved medlemsskabet inkluderer:\n\n⇥* Vores eget lager af brændstof, uafhængigt af det generelle marked\n⇥* {hydrogen} til discount-priser\n⇥* {military_fuel} til discount-priser\n⇥* {water} til discount-priser\n⇥* {radioactives}, gratis afhænding (enkelte betingelser)\n⇥* Brændstof-tank optankning, hvor nødvendigt\n\nBliv medlem nu! Årligt medlemsskab koster kun {membership_fee}"
+   },
+   "FLAVOUR_0_WELCOME" : {
+      "description" : "",
+      "message" : "Velkommen til {clubname}"
+   },
+   "GO_BACK" : {
+      "description" : "",
+      "message" : "Gå tilbage"
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Afbryd linjen."
+   },
+   "HYDROGEN" : {
+      "description" : "",
+      "message" : "Hydrogen"
+   },
+   "MILITARY_FUEL" : {
+      "description" : "",
+      "message" : "Militærbrændstof"
+   },
+   "RADIOACTIVES" : {
+      "description" : "",
+      "message" : "Radioaktivt affald"
+   },
+   "WATER" : {
+      "description" : "",
+      "message" : "Vand"
+   },
+   "WE_WILL_ONLY_DISPOSE_OF" : {
+      "description" : "",
+      "message" : "Vi vil kun modtage så mange tons {radioactives} som du har købt tons {military_fuel} fra os."
+   },
+   "WHAT_CONDITIONS_APPLY" : {
+      "description" : "",
+      "message" : "Hvilke betingelser gælder for afskaffelse af {radioactives}?"
+   },
+   "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED" : {
+      "description" : "",
+      "message" : "Din ansøgning om medlemsskab er blevet afslået."
+   },
+   "YOU_ARE_NOW_A_MEMBER" : {
+      "description" : "",
+      "message" : "Du er nu medlem. Dit medlemsskab udløber d. {expiry_date}."
+   },
+   "YOU_MUST_BUY" : {
+      "description" : "",
+      "message" : "Du skal købe vores {military_fuel} før vi vil tage dit {radioactives}."
+   }
+}

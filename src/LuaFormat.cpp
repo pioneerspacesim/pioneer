@@ -84,10 +84,15 @@ static int l_format_distance(lua_State *l)
  * Create a string representation of the given money value.
  *
  * > string = Format.Money(money)
+ * > string = Format.Money(money, showCents)
  *
  * Parameters:
  *
  *   money - a money value, in dollars
+ *
+ *   showCents - A boolean. If true (default), includes the fractinoal
+ *               part of the amount. If false, omitts the fractional
+ *               part.
  *
  * Return:
  *
@@ -104,7 +109,13 @@ static int l_format_distance(lua_State *l)
 static int l_format_money(lua_State *l)
 {
 	double t = luaL_checknumber(l, 1);
-	lua_pushstring(l, format_money(Sint64(t*100.0)).c_str());
+	if (lua_isboolean(l, 2)){
+		bool show_cents = lua_toboolean(l, 2);
+		lua_pushstring(l, format_money(Sint64(t*100.0), show_cents).c_str());
+	}
+	else
+		lua_pushstring(l, format_money(Sint64(t*100.0)).c_str());
+
 	return 1;
 }
 

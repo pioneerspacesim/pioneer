@@ -96,7 +96,7 @@ Space::Space(Game *game, const SystemPath &path)
 	m_rootFrame.reset(new Frame(0, Lang::SYSTEM));
 	m_rootFrame->SetRadius(FLT_MAX);
 
-	GenBody(m_game->GetTime(), m_starSystem->m_rootBody.Get(), m_rootFrame.get());
+	GenBody(m_game->GetTime(), m_starSystem->GetRootBody().Get(), m_rootFrame.get());
 	m_rootFrame->UpdateOrbitRails(m_game->GetTime(), m_game->GetTimeStep());
 
 	GenSectorCache(&path);
@@ -266,7 +266,7 @@ void Space::RebuildSystemBodyIndex()
 	m_sbodyIndex.push_back(0);
 
 	if (m_starSystem)
-		AddSystemBodyToIndex(m_starSystem->m_rootBody.Get());
+		AddSystemBodyToIndex(m_starSystem->GetRootBody().Get());
 
 	m_sbodyIndexValid = true;
 }
@@ -321,7 +321,7 @@ vector3d Space::GetHyperspaceExitPoint(const SystemPath &source, const SystemPat
 
 	Body *primary = 0;
 	if (dest.IsBodyPath()) {
-		assert(size_t(dest.bodyIndex) < m_starSystem->m_bodies.size());
+		assert(dest.bodyIndex < m_starSystem->GetNumBodies());
 		primary = FindBodyForPath(&dest);
 		while (primary && primary->GetSystemBody()->GetSuperType() != SystemBody::SUPERTYPE_STAR) {
 			SystemBody* parent = primary->GetSystemBody()->GetParent();
@@ -410,7 +410,7 @@ static void RelocateStarportIfUnderwaterOrBuried(SystemBody *sbody, Frame *frame
 	matrix3x3d rotNotUnderwaterWithLeastVariation = rot;
 	vector3d posNotUnderwaterWithLeastVariation = pos;
 	const double heightVariationCheckThreshold = 0.008; // max variation to radius radius ratio to check for local slope, ganymede is around 0.01
-	const double terrainHeightVariation = planet->GetGeoSphere()->GetMaxFeatureHeight(); //in radii
+	const double terrainHeightVariation = planet->GetMaxFeatureRadius(); //in radii
 
 	//Output("%s: terrain height variation %f\n", sbody->name.c_str(), terrainHeightVariation);
 

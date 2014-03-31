@@ -119,7 +119,7 @@ static int l_sbodypath_new(lua_State *l)
 
 			// and if it's a body path, check that the body exists
 			RefCountedPtr<StarSystem> sys = StarSystemCache::GetCached(path);
-			if (size_t(path.bodyIndex) >= sys->m_bodies.size()) {
+			if (path.bodyIndex >= sys->GetNumBodies()) {
 				luaL_error(l, "Body %d in system <%d,%d,%d : %d ('%s')> does not exist",
 					path.bodyIndex, sector_x, sector_y, sector_z, path.systemIndex, sys->GetName().c_str());
 			}
@@ -357,7 +357,7 @@ static int l_sbodypath_get_system_body(lua_State *l)
 
 	// Lua should never be able to get an invalid SystemPath
 	// (note: this may change if it becomes possible to remove systems during the game)
-	assert(size_t(path->bodyIndex) < sys->m_bodies.size());
+	assert(path->bodyIndex < sys->GetNumBodies());
 
 	SystemBody *sbody = sys->GetBodyByPath(path);
 	LuaObject<SystemBody>::PushToLua(sbody);

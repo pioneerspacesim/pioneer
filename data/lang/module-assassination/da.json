@@ -1,0 +1,330 @@
+{
+   "ASSASSINATION" : {
+      "description" : "",
+      "message" : "Snigmord"
+   },
+   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
+      "description" : "",
+      "message" : "Vil du gentage den oprindelige anmodning?"
+   },
+   "DENY_0" : {
+      "description" : "",
+      "message" : "Beklager, men jeg stoler ikke på dig."
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "Kom tilbage når du er kvalificeret."
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "Jeg tror ikke lige du er dét jeg søger..."
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "Du ligner ikke én, der kan håndtere opgaven."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "Du er helt bestemt ikke den rette for denne opgave."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "Du virker alt for uerfaren til at håndtere en kontrakt af denne vigtighed."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "Jeg har aldrig hørt om dig. Jeg har brug for én med erfaring til denne opgave."
+   },
+   "DENY_7" : {
+      "description" : "",
+      "message" : "Jeg tør ikke løbe risikoen ved at give kontrakten til en nybegynder som dig."
+   },
+   "DISTANCE" : {
+      "description" : "",
+      "message" : "Afstand:"
+   },
+   "EXCELLENT" : {
+      "description" : "",
+      "message" : "Fremragende."
+   },
+   "FLAVOUR_0_ADTEXT" : {
+      "description" : "",
+      "message" : "EFTERSØGT: Fjernelse af {target} fra systemet {system}."
+   },
+   "FLAVOUR_0_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Jeg er yderst utilfreds med at se, at {target} stadigvæk er i live. Du får naturligvis ingen betaling."
+   },
+   "FLAVOUR_0_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "{target}s fjernelse blev ikke klaret af dig. Ingen betaling modtaget."
+   },
+   "FLAVOUR_0_INTROTEXT" : {
+      "description" : "",
+      "message" : "Hej. Jeg hedder {name}. Jeg vil betale dig {cash} for at dræbe {target}."
+   },
+   "FLAVOUR_0_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Nyhederne om {target}s lange ferie og modtaget med glæde. Godt arbejde - jeg har påbegyndt din betaling."
+   },
+   "FLAVOUR_1_ADTEXT" : {
+      "description" : "",
+      "message" : "EFTERSØGT: Dræb {target} fra systemet {system}."
+   },
+   "FLAVOUR_1_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Jeg hører at {target} lever. Dette går mig på."
+   },
+   "FLAVOUR_1_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "Du var ikke {target}s endeligt, så kontakt mig ikke vedrørende betaling."
+   },
+   "FLAVOUR_1_INTROTEXT" : {
+      "description" : "",
+      "message" : "Jeg vil have {target} elimineret. Jeg er villig til at betale dig {cash} for at gøre dette."
+   },
+   "FLAVOUR_1_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Jeg er meget ked af at høre om {target}s skæbne. Du har modtaget fuld betaling."
+   },
+   "FLAVOUR_2_ADTEXT" : {
+      "description" : "",
+      "message" : "FJERNELSE: {target} er ikke længere ønsket i systemet {system}."
+   },
+   "FLAVOUR_2_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Det er yderst beklageligt at {target} stadigvæk lever i bedste velgående. Du vil ikke modtage nogen betaling, da du ikke har fuldført din kontrakt."
+   },
+   "FLAVOUR_2_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "Kontrakten blev gennemført af en anden. Vær hurtigere næste gang!"
+   },
+   "FLAVOUR_2_INTROTEXT" : {
+      "description" : "",
+      "message" : "Jeg er {name} - jeg vil betale dig {cash} for at fjerne {target}."
+   },
+   "FLAVOUR_2_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Du har modtaget fuld betaling for fuldførelsen af kontrakten."
+   },
+   "FLAVOUR_3_ADTEXT" : {
+      "description" : "",
+      "message" : "TERMINERING: Eliminér {target}."
+   },
+   "FLAVOUR_3_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Dit fjols! Du har ikke elimineret {target}!"
+   },
+   "FLAVOUR_3_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "Beder du om penge for et stykke arbejde, som en anden har fuldført? Skrid med dig."
+   },
+   "FLAVOUR_3_INTROTEXT" : {
+      "description" : "",
+      "message" : "{target} skal laves om til rumstøv. Jeg vil betale dig {cash} for at gøre dette."
+   },
+   "FLAVOUR_3_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "{target} er død. Her er din belønning."
+   },
+   "FLAVOUR_4_ADTEXT" : {
+      "description" : "",
+      "message" : "PENSIONERING: Nogen skal pensionere {target}."
+   },
+   "FLAVOUR_4_FAILUREMSG" : {
+      "description" : "",
+      "message" : "{target} trækker stadigvæk vejret og du får ingen penge fra mig."
+   },
+   "FLAVOUR_4_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "Fratræden af {target} blev klaret af en anden."
+   },
+   "FLAVOUR_4_INTROTEXT" : {
+      "description" : "",
+      "message" : "For {cash} ønsker vi at opfordre {target} til at stoppe med sit arbejde, permanent."
+   },
+   "FLAVOUR_4_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Nyhederne om {target}s pensionering glæder os. Her er din betaling."
+   },
+   "FLAVOUR_5_ADTEXT" : {
+      "description" : "",
+      "message" : "BIOGRAFISK: Nogle beundrere ønsker {target} dead."
+   },
+   "FLAVOUR_5_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Vi har fundet ud af at {target} ikke desto mindre er operativ. Dette er beklageligt."
+   },
+   "FLAVOUR_5_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "{target} var neutraliseret af nogen andre."
+   },
+   "FLAVOUR_5_INTROTEXT" : {
+      "description" : "",
+      "message" : "Vi ønsker {target} at modtage en passende karierreafslutning i systemet {system} for {cash}."
+   },
+   "FLAVOUR_5_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Besked om {target}s afsluttede karierre blev modtaget med glæde. Her er dine {cash}."
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Afbryd linjen."
+   },
+   "HOW_SOON_MUST_IT_BE_DONE" : {
+      "description" : "",
+      "message" : "Hvor hurtigt skal det gøres?"
+   },
+   "HOW_WILL_I_BE_PAID" : {
+      "description" : "",
+      "message" : "Hvordan bliver jeg betalt?"
+   },
+   "IT_MUST_BE_DONE_AFTER" : {
+      "description" : "",
+      "message" : "Det skal gøres efter {target} forlader {spaceport}. Gå ikke glip af muligheden."
+   },
+   "LY" : {
+      "description" : "",
+      "message" : "ly"
+   },
+   "OK_AGREED" : {
+      "description" : "",
+      "message" : "OK, det er en aftale."
+   },
+   "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID" : {
+      "description" : "",
+      "message" : "Kom tilbage hertil når kontrakten er gennemført, for at modtage din betaling."
+   },
+   "SHIP" : {
+      "description" : "",
+      "message" : "Skib:"
+   },
+   "SHIP_ID" : {
+      "description" : "",
+      "message" : "Skibs-ID:"
+   },
+   "SPACEPORT" : {
+      "description" : "",
+      "message" : "Rumhavn:"
+   },
+   "SYSTEM" : {
+      "description" : "",
+      "message" : "System:"
+   },
+   "TARGET_NAME" : {
+      "description" : "",
+      "message" : "Målets navn:"
+   },
+   "TARGET_WILL_BE_LEAVING_SPACEPORT_AT" : {
+      "description" : "",
+      "message" : "Målet vil forlade rumhavnen:"
+   },
+   "TITLE_0" : {
+      "description" : "",
+      "message" : "Admiral"
+   },
+   "TITLE_1" : {
+      "description" : "",
+      "message" : "Ambassadør"
+   },
+   "TITLE_10" : {
+      "description" : "",
+      "message" : "Fændrik"
+   },
+   "TITLE_11" : {
+      "description" : "",
+      "message" : "General"
+   },
+   "TITLE_12" : {
+      "description" : "",
+      "message" : "Dommer"
+   },
+   "TITLE_13" : {
+      "description" : "",
+      "message" : "Advokat"
+   },
+   "TITLE_14" : {
+      "description" : "",
+      "message" : "Løjtnant"
+   },
+   "TITLE_15" : {
+      "description" : "",
+      "message" : "Marskal"
+   },
+   "TITLE_16" : {
+      "description" : "",
+      "message" : "Handelsmand"
+   },
+   "TITLE_17" : {
+      "description" : "",
+      "message" : "Officer"
+   },
+   "TITLE_18" : {
+      "description" : "",
+      "message" : "Konstabel"
+   },
+   "TITLE_19" : {
+      "description" : "",
+      "message" : "Professor"
+   },
+   "TITLE_2" : {
+      "description" : "",
+      "message" : "Brigadegeneral"
+   },
+   "TITLE_20" : {
+      "description" : "",
+      "message" : "Anklager"
+   },
+   "TITLE_21" : {
+      "description" : "",
+      "message" : "Forstander"
+   },
+   "TITLE_22" : {
+      "description" : "",
+      "message" : "Sømand"
+   },
+   "TITLE_23" : {
+      "description" : "",
+      "message" : "Senator"
+   },
+   "TITLE_24" : {
+      "description" : "",
+      "message" : "Sergent"
+   },
+   "TITLE_3" : {
+      "description" : "",
+      "message" : "Kadet"
+   },
+   "TITLE_4" : {
+      "description" : "",
+      "message" : "Kaptajn"
+   },
+   "TITLE_5" : {
+      "description" : "",
+      "message" : "Kardinal"
+   },
+   "TITLE_6" : {
+      "description" : "",
+      "message" : "Oberst"
+   },
+   "TITLE_7" : {
+      "description" : "",
+      "message" : "Befalingsmand"
+   },
+   "TITLE_8" : {
+      "description" : "",
+      "message" : "Flotilleadmiral"
+   },
+   "TITLE_9" : {
+      "description" : "",
+      "message" : "Korporal"
+   },
+   "WHERE_CAN_I_FIND_X" : {
+      "description" : "",
+      "message" : "Hvor kan jeg finde {target}?"
+   },
+   "X_WILL_BE_LEAVING" : {
+      "description" : "",
+      "message" : "{target} forlader {spaceport} i systemet {system} ({sectorX}, {sectorY}, {sectorZ}), afstand {dist} ly, d. {date}. Skibet er et {shipname} og har registrerings-ID {shipregid}."
+   }
+}

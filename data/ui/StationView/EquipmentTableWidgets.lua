@@ -5,8 +5,10 @@ local Engine = import("Engine")
 local Lang = import("Lang")
 local Game = import("Game")
 local EquipDef = import("EquipDef")
-local Comms = import("Comms")
 local utils = import("utils")
+local Format = import("Format")
+
+local MessageBox = import("ui/MessageBox")
 
 local l = Lang.GetResource("ui-core")
 
@@ -113,21 +115,23 @@ local shipColumnHeading = {
 	massTotal = l.TOTAL_MASS,
 }
 
-local stationColumnValue = {
+local defaultStationColumnValue = {
 	icon  = function (e, funcs) return equipIcon[e] and ui:Image("icons/goods/"..equipIcon[e]..".png") or "" end,
 	name  = function (e, funcs) return lcore[e] end,
-	buy   = function (e, funcs) return string.format("%0.2f", funcs.getBuyPrice(e)) end,
-	sell  = function (e, funcs) return string.format("%0.2f", funcs.getSellPrice(e)) end,
+	buy   = function (e, funcs) return Format.Money("%0.2f", funcs.getBuyPrice(e)) end,
+	sell  = function (e, funcs) return Format.Money("%0.2f", funcs.getSellPrice(e)) end,
 	stock = function (e, funcs) return funcs.getStock(e) end,
 	mass  = function (e, funcs) return string.format("%dt", EquipDef[e].mass) end,
 }
-local shipColumnValue = {
+
+local defaultShipColumnValue = {
 	icon      = function (e, funcs) return equipIcon[e] and ui:Image("icons/goods/"..equipIcon[e]..".png") or "" end,
 	name      = function (e, funcs) return lcore[e] end,
 	amount    = function (e, funcs) return Game.player:GetEquipCount(EquipDef[e].slot, e) end,
 	mass      = function (e, funcs) return string.format("%dt", EquipDef[e].mass) end,
 	massTotal = function (e, funcs) return string.format("%dt", Game.player:GetEquipCount(EquipDef[e].slot,e)*EquipDef[e].mass) end,
 }
+
 
 local EquipmentTableWidgets = {}
 
@@ -142,6 +146,22 @@ function EquipmentTableWidgets.Pair (config)
 		onClickSell = config.onClickSell or defaultFuncs.onClickSell,
 		bought = config.bought or defaultFuncs.bought,
 		sold = config.sold or defaultFuncs.sold,
+	}
+
+	local stationColumnValue = {
+		icon  = config.icon  or defaultStationColumnValue.icon,
+		name  = config.name  or defaultStationColumnValue.name,
+		price = config.price or defaultStationColumnValue.price,
+		stock = config.stock or defaultStationColumnValue.stock,
+		mass  = config.mass  or defaultStationColumnValue.mass,
+	}
+
+	local shipColumnValue = {
+		icon      = config.icon      or defaultShipColumnValue.icon,
+		name      = config.name      or defaultShipColumnValue.name,
+		amount    = config.amount    or defaultShipColumnValue.amount,
+		mass      = config.mass      or defaultShipColumnValue.mass,
+		massTotal = config.massTotal or defaultShipColumnValue.massTotal,
 	}
 
 	local equipTypes = {}
@@ -210,25 +230,26 @@ function EquipmentTableWidgets.Pair (config)
 		if not funcs.onClickBuy(e) then return end
 
 		if funcs.getStock(e) <= 0 then
-			Comms.Message(l.ITEM_IS_OUT_OF_STOCK)
+			MessageBox.Message(l.ITEM_IS_OUT_OF_STOCK)
 			return
 		end
 
 		local player = Game.player
 
 		if player:GetEquipFree(EquipDef[e].slot) < 1 then
-			Comms.Message(l.SHIP_IS_FULLY_LADEN)
+			MessageBox.Message(l.SHIP_IS_FULLY_LADEN)
 			return
 		end
 
 		if player.freeCapacity < EquipDef[e].mass then
-			Comms.Message(l.SHIP_IS_FULLY_LADEN)
+			MessageBox.Message(l.SHIP_IS_FULLY_LADEN)
 			return
 		end
 
+
 		local price = funcs.getBuyPrice(e)
 		if player:GetMoney() < funcs.getBuyPrice(e) then
-			Comms.Message(l.YOU_NOT_ENOUGH_MONEY)
+			MessageBox.Message(l.YOU_NOT_ENOUGH_MONEY)
 			return
 		end
 

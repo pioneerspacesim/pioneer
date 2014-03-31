@@ -46,6 +46,8 @@ public:
 
 	Table *SetMouseEnabled(bool enabled);
 
+	void SetScrollPosition(float v);
+
 	sigc::signal<void,unsigned int> onRowClicked;
 
 protected:

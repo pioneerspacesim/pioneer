@@ -4,9 +4,10 @@
 #ifndef JOBQUEUE_H
 #define JOBQUEUE_H
 
+#include <cassert>
 #include <deque>
 #include <vector>
-#include <map>
+#include <set>
 #include <string>
 #include "SDL_thread.h"
 
@@ -34,6 +35,9 @@ public:
 	Job() : cancelled(false), m_handle(nullptr) {}
 	virtual ~Job();
 
+	Job(const Job&) = delete;
+	Job& operator=(const Job&) = delete;
+
 	virtual void OnRun() = 0;
 	virtual void OnFinish() = 0;
 	virtual void OnCancel() {}
@@ -50,10 +54,6 @@ private:
 
 	bool cancelled;
 	JobHandle* m_handle;
-
-private:
-	Job(const Job&); // non-copyable. DO NOT DEFINE
-	Job& operator=(const Job&); // non-copyable. DO NOT DEFINE
 };
 
 
@@ -89,13 +89,18 @@ private:
 // moveable.
 class JobHandle {
 public:
-	JobHandle() : m_job(nullptr), m_queue(nullptr), m_client(nullptr) { }
+	JobHandle() : m_id(++s_nextId), m_job(nullptr), m_queue(nullptr), m_client(nullptr) { }
 	JobHandle(JobHandle&& other);
 	JobHandle& operator=(JobHandle&& other);
 	~JobHandle();
 
+	JobHandle(const JobHandle&) = delete;
+	JobHandle& operator=(const JobHandle&) = delete;
+
 	bool HasJob() const { return m_job != nullptr; }
 	Job* GetJob() const { return m_job; }
+
+	bool operator<(const JobHandle& other) const { return m_id < other.m_id; }
 
 private:
 	friend class JobQueue;
@@ -105,13 +110,12 @@ private:
 	JobHandle(Job* job, JobQueue* queue, JobClient* client);
 	void Unlink();
 
+	static unsigned long long s_nextId;
+
+	unsigned long long m_id;
 	Job* m_job;
 	JobQueue* m_queue;
 	JobClient* m_client;
-
-private:
-	JobHandle(const JobHandle&); // non-copyable. DO NOT DEFINE
-	JobHandle& operator=(const JobHandle&); // non-copyable. DO NOT DEFINE
 };
 
 // the queue management class. create one from the main thread, and feed your
@@ -174,12 +178,18 @@ public:
 	JobSet(JobSet&& other) : m_queue(other.m_queue), m_jobs(std::move(other.m_jobs)) { other.m_queue = nullptr; }
 	JobSet& operator=(JobSet&& other) { m_queue = other.m_queue; m_jobs = std::move(other.m_jobs); other.m_queue = nullptr; return *this; }
 
-	virtual void Order(Job* job) { m_jobs[job] = m_queue->Queue(job, this); }
-	virtual void RemoveJob(JobHandle* handle) { m_jobs.erase(handle->GetJob()); }
+	JobSet(const JobSet&) = delete;
+	JobSet& operator=(const JobSet& other) = delete;
+
+	virtual void Order(Job* job) {
+		auto x = m_jobs.insert(std::move(m_queue->Queue(job, this)));
+		assert(x.second);
+	}
+	virtual void RemoveJob(JobHandle* handle) { m_jobs.erase(*handle); }
 
 private:
 	JobQueue* m_queue;
-	std::map<Job*, JobHandle> m_jobs;
+	std::set<JobHandle> m_jobs;
 };
 
 #endif

@@ -51,9 +51,9 @@ void Ship::AIAccelToModelRelativeVelocity(const vector3d v)
 	vector3d maxThrust = GetMaxThrust(difVel);
 	vector3d maxFrameAccel = maxThrust * (Pi::game->GetTimeStep() / GetMass());
 
-	SetThrusterState(0, difVel.x / maxFrameAccel.x);
-	SetThrusterState(1, difVel.y / maxFrameAccel.y);
-	SetThrusterState(2, difVel.z / maxFrameAccel.z);	// use clamping
+	SetThrusterState(0, is_zero_exact(maxFrameAccel.x) ? 0.0 : difVel.x / maxFrameAccel.x);
+	SetThrusterState(1, is_zero_exact(maxFrameAccel.y) ? 0.0 : difVel.y / maxFrameAccel.y);
+	SetThrusterState(2, is_zero_exact(maxFrameAccel.z) ? 0.0 : difVel.z / maxFrameAccel.z);	// use clamping
 }
 
 
@@ -294,9 +294,9 @@ double Ship::AIFaceDirection(const vector3d &dir, double av)
 		dav.x = head.y * head2dnorm * iangvel;
 		dav.y = -head.x * head2dnorm * iangvel;
 	}
-	vector3d cav = GetAngVelocity() * GetOrient();				// current obj-rel angvel
-	double frameAccel = maxAccel * Pi::game->GetTimeStep();
-	vector3d diff = (dav - cav) / frameAccel;	// find diff between current & desired angvel
+	const vector3d cav = GetAngVelocity() * GetOrient();				// current obj-rel angvel
+	const double frameAccel = maxAccel * Pi::game->GetTimeStep();
+	vector3d diff = is_zero_exact(frameAccel) ? vector3d(0.0) : (dav - cav) / frameAccel;	// find diff between current & desired angvel
 
 	// If the player is pressing a roll key, don't override roll.
 	// XXX this really shouldn't be here. a better way would be to have a

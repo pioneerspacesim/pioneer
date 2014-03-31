@@ -228,7 +228,7 @@ TextureGL::~TextureGL()
 	glDeleteTextures(1, &m_texture);
 }
 
-void TextureGL::Update(const void *data, const vector2f &dataSize, TextureFormat format, const unsigned int numMips)
+void TextureGL::Update(const void *data, const vector2f &pos, const vector2f &dataSize, TextureFormat format, const unsigned int numMips)
 {
 	assert(m_target == GL_TEXTURE_2D);
 	glBindTexture(m_target, m_texture);
@@ -236,7 +236,7 @@ void TextureGL::Update(const void *data, const vector2f &dataSize, TextureFormat
 	switch (m_target) {
 		case GL_TEXTURE_2D:
 			if (!IsCompressed(format)) {
-				glTexSubImage2D(m_target, 0, 0, 0, dataSize.x, dataSize.y, GLImageFormat(format), GLImageType(format), data);
+				glTexSubImage2D(m_target, 0, pos.x, pos.y, dataSize.x, dataSize.y, GLImageFormat(format), GLImageType(format), data);
 			} else {
 				const GLint oglInternalFormat = GLImageFormat(format);
 				size_t Offset = 0;
@@ -246,7 +246,7 @@ void TextureGL::Update(const void *data, const vector2f &dataSize, TextureFormat
 
 				const unsigned char *pData = static_cast<const unsigned char*>(data);
 				for( unsigned int i = 0; i < numMips; ++i ) {
-					glCompressedTexSubImage2D(m_target, i, 0, 0, Width, Height, oglInternalFormat, bufSize, &pData[Offset]);
+					glCompressedTexSubImage2D(m_target, i, pos.x, pos.y, Width, Height, oglInternalFormat, bufSize, &pData[Offset]);
 					if( Width<=MIN_COMPRESSED_TEXTURE_DIMENSION || Height<=MIN_COMPRESSED_TEXTURE_DIMENSION ) {
 						break;
 					}

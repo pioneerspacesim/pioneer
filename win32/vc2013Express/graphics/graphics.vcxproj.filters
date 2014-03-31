@@ -52,6 +52,9 @@
     <ClCompile Include="..\..\..\src\graphics\gl2\GL2VertexBuffer.cpp">
       <Filter>gl2</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\graphics\gl2\GasGiantMaterial.cpp">
+      <Filter>gl2</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\graphics\Drawables.h" />
@@ -111,6 +114,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\graphics\VertexBuffer.h" />
     <ClInclude Include="..\..\..\src\graphics\gl2\GL2VertexBuffer.h">
+      <Filter>gl2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\gl2\GasGiantMaterial.h">
       <Filter>gl2</Filter>
     </ClInclude>
   </ItemGroup>

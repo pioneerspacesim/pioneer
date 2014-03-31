@@ -8,7 +8,7 @@ local ShipDef = import("ShipDef")
 local Lang = import("Lang")
 local Event = import("Event")
 
-local TabGroup = import("ui/TabGroup")
+local TabView = import("ui/TabView")
 local InfoGauge = import("ui/InfoGauge")
 
 local l = Lang.GetResource("ui-core")
@@ -30,7 +30,7 @@ ui.templates.StationView = function (args)
 		return tabGroup.widget
 	end
 
-	tabGroup = TabGroup.New()
+	tabGroup = TabView.New()
 
 	local player = Game.player
 

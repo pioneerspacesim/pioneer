@@ -18,6 +18,7 @@
 #include "Lang.h"
 #include "StringF.h"
 #include <SDL_stdinc.h>
+#include "EnumStrings.h"
 
 StarSystemCache::SystemCacheMap StarSystemCache::s_cachedSystems;
 
@@ -42,7 +43,7 @@ static const fixed SUN_MASS_TO_EARTH_MASS = fixed(332998,1);
 static const fixed FIXED_PI = fixed(103993,33102);
 
 // indexed by enum type turd
-Uint8 StarSystem::starColors[][3] = {
+const Uint8 StarSystem::starColors[][3] = {
 	{ 0, 0, 0 }, // gravpoint
 	{ 128, 0, 0 }, // brown dwarf
 	{ 102, 102, 204 }, // white dwarf
@@ -83,7 +84,7 @@ Uint8 StarSystem::starColors[][3] = {
 };
 
 // indexed by enum type turd
-Uint8 StarSystem::starRealColors[][3] = {
+const Uint8 StarSystem::starRealColors[][3] = {
 	{ 0, 0, 0 }, // gravpoint
 	{ 128, 0, 0 }, // brown dwarf
 	{ 255, 255, 255 }, // white dwarf
@@ -123,7 +124,7 @@ Uint8 StarSystem::starRealColors[][3] = {
 	{ 10, 0, 16 }, // massive BH
 };
 
-double StarSystem::starLuminosities[] = {
+const double StarSystem::starLuminosities[] = {
 	0,
 	0.0003, // brown dwarf
 	0.1, // white dwarf
@@ -163,7 +164,7 @@ double StarSystem::starLuminosities[] = {
 	0.000003, // Supermassive Black hole
 };
 
-float StarSystem::starScale[] = {  // Used in sector view
+const float StarSystem::starScale[] = {  // Used in sector view
 	0,
 	0.6f, // brown dwarf
 	0.5f, // white dwarf
@@ -203,7 +204,7 @@ float StarSystem::starScale[] = {  // Used in sector view
 	4.0f  // Supermassive blackhole
 };
 
-fixed StarSystem::starMetallicities[] = {
+const fixed StarSystem::starMetallicities[] = {
 	fixed(1,1), // GRAVPOINT - for planets that orbit them
 	fixed(9,10), // brown dwarf
 	fixed(5,10), // white dwarf
@@ -1167,22 +1168,9 @@ void StarSystem::MakeBinaryPair(SystemBody *a, SystemBody *b, fixed minDist, Ran
 	b->m_orbMax = orbMax;
 }
 
-SystemBody::SystemBody(const SystemPath& path) : m_path(path)
-{
-	PROFILE_SCOPED()
-	m_heightMapFractal = 0;
-	m_aspectRatio = fixed(1,1);
-	m_rotationalPhaseAtStart = fixed(0);
-	m_orbitalPhaseAtStart = fixed(0);
-	m_orbMin = fixed(0);
-	m_orbMax = fixed(0);
-	m_semiMajorAxis = fixed(0);
-	m_eccentricity = fixed(0);
-	m_orbitalOffset = fixed(0);
-	m_inclination = fixed(0);
-	m_axialTilt = fixed(0);
-	m_isCustomBody = false;
-}
+SystemBody::SystemBody(const SystemPath& path) : m_parent(nullptr), m_path(path), m_seed(0), m_aspectRatio(1,1), m_orbMin(0),
+	m_orbMax(0), m_rotationalPhaseAtStart(0), m_semiMajorAxis(0), m_eccentricity(0), m_orbitalOffset(0), m_axialTilt(0),
+	m_inclination(0), m_averageTemp(0), m_type(TYPE_GRAVPOINT), m_isCustomBody(false), m_heightMapFractal(0), m_atmosDensity(0.0) { }
 
 bool SystemBody::HasAtmosphere() const
 {
@@ -1403,7 +1391,8 @@ SystemBody::AtmosphereParameters SystemBody::CalcAtmosphereParams() const
  *
  * We must be sneaky and avoid floating point in these places.
  */
-StarSystem::StarSystem(const SystemPath &path) : m_path(path)
+StarSystem::StarSystem(const SystemPath &path) : m_path(path), m_numStars(0), m_isCustom(false), m_hasCustomBodies(false),
+	m_faction(nullptr), m_unexplored(false), m_econType(0), m_seed(0)
 {
 	PROFILE_SCOPED()
 	assert(path.IsSystemPath());
@@ -1421,7 +1410,6 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path)
 
 	m_unexplored = !s->m_systems[m_path.systemIndex].explored;
 
-	m_isCustom = m_hasCustomBodies = false;
 	if (s->m_systems[m_path.systemIndex].customSys) {
 		m_isCustom = true;
 		const CustomSystem *custom = s->m_systems[m_path.systemIndex].customSys;
@@ -2230,8 +2218,8 @@ void SystemBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 static bool check_unique_station_name(const std::string & name, const StarSystem * system) {
 	PROFILE_SCOPED()
 	bool ret = true;
-	for (unsigned int i = 0 ; i < system->m_spaceStations.size() ; ++i)
-		if (system->m_spaceStations[i]->GetName() == name) {
+	for (const SystemBody *station : system->GetSpaceStations())
+		if (station->GetName() == name) {
 			ret = false;
 			break;
 		}
@@ -2342,6 +2330,48 @@ void SystemBody::PopulateAddStations(StarSystem *system)
 		m_children.insert(m_children.begin(), sp);
 		system->m_spaceStations.push_back(sp);
 	}
+}
+
+void SystemBody::Dump(FILE* file, const char* indent) const
+{
+	fprintf(file, "%sSystemBody(%d,%d,%d,%u,%u) : %s/%s %s{\n", indent, m_path.sectorX, m_path.sectorY, m_path.sectorZ, m_path.systemIndex,
+		m_path.bodyIndex, EnumStrings::GetString("BodySuperType", GetSuperType()), EnumStrings::GetString("BodyType", m_type),
+		m_isCustomBody ? "CUSTOM " : "");
+	fprintf(file, "%s\t\"%s\"\n", indent, m_name.c_str());
+	fprintf(file, "%s\tmass %.6f\n", indent, m_mass.ToDouble());
+	fprintf(file, "%s\torbit a=%.6f, e=%.6f, phase=%.6f\n", indent, m_orbit.GetSemiMajorAxis(), m_orbit.GetEccentricity(),
+		m_orbit.GetOrbitalPhaseAtStart());
+	fprintf(file, "%s\torbit a=%.6f, e=%.6f, orbMin=%.6f, orbMax=%.6f\n", indent, m_semiMajorAxis.ToDouble(), m_eccentricity.ToDouble(),
+		m_orbMin.ToDouble(), m_orbMax.ToDouble());
+	fprintf(file, "%s\t\toffset=%.6f, phase=%.6f, inclination=%.6f\n", indent, m_orbitalOffset.ToDouble(), m_orbitalPhaseAtStart.ToDouble(),
+		m_inclination.ToDouble());
+	if (m_type != TYPE_GRAVPOINT) {
+		fprintf(file, "%s\tseed %u\n", indent, m_seed);
+		fprintf(file, "%s\tradius %.6f, aspect %.6f\n", indent, m_radius.ToDouble(), m_aspectRatio.ToDouble());
+		fprintf(file, "%s\taxial tilt %.6f, period %.6f, phase %.6f\n", indent, m_axialTilt.ToDouble(), m_rotationPeriod.ToDouble(),
+			m_rotationalPhaseAtStart.ToDouble());
+		fprintf(file, "%s\ttemperature %d\n", indent, m_averageTemp);
+		fprintf(file, "%s\tmetalicity %.2f, volcanicity %.2f\n", indent, m_metallicity.ToDouble() * 100.0, m_volcanicity.ToDouble() * 100.0);
+		fprintf(file, "%s\tvolatiles gas=%.2f, liquid=%.2f, ice=%.2f\n", indent, m_volatileGas.ToDouble() * 100.0,
+			m_volatileLiquid.ToDouble() * 100.0, m_volatileIces.ToDouble() * 100.0);
+		fprintf(file, "%s\tlife %.2f\n", indent, m_life.ToDouble() * 100.0);
+		fprintf(file, "%s\tatmosphere oxidizing=%.2f, color=(%hhu,%hhu,%hhu,%hhu), density=%.6f\n", indent,
+			m_atmosOxidizing.ToDouble() * 100.0, m_atmosColor.r, m_atmosColor.g, m_atmosColor.b, m_atmosColor.a, m_atmosDensity);
+		fprintf(file, "%s\trings minRadius=%.2f, maxRadius=%.2f, color=(%hhu,%hhu,%hhu,%hhu)\n", indent, m_rings.minRadius.ToDouble() * 100.0,
+			m_rings.maxRadius.ToDouble() * 100.0, m_rings.baseColor.r, m_rings.baseColor.g, m_rings.baseColor.b, m_rings.baseColor.a);
+		fprintf(file, "%s\thuman activity %.2f, population %'.0f, agricultural %.2f\n", indent, m_humanActivity.ToDouble() * 100.0,
+			m_population.ToDouble() * 1e9, m_agricultural.ToDouble() * 100.0);
+		if (!m_heightMapFilename.empty()) {
+			fprintf(file, "%s\theightmap \"%s\", fractal %d\n", indent, m_heightMapFilename.c_str(), m_heightMapFractal);
+		}
+	}
+	for (const SystemBody* kid : m_children) {
+		assert(kid->m_parent == this);
+		char buf[32];
+		snprintf(buf, sizeof(buf), "%s\t", indent);
+		kid->Dump(file, buf);
+	}
+	fprintf(file, "%s}\n", indent);
 }
 
 void SystemBody::ClearParentAndChildPointers()
@@ -2540,6 +2570,44 @@ void StarSystem::ExportToLua(const char *filename) {
 
 	fclose(f);
 }
+
+void StarSystem::Dump(FILE* file, const char* indent, bool suppressSectorData) const
+{
+	// percent price alteration
+	//int m_tradeLevel[Equip::TYPE_MAX];
+
+	if (suppressSectorData) {
+		fprintf(file, "%sStarSystem {%s\n", indent, m_hasCustomBodies ? " CUSTOM-ONLY" : m_isCustom ? " CUSTOM" : "");
+	} else {
+		fprintf(file, "%sStarSystem(%d,%d,%d,%u) {\n", indent, m_path.sectorX, m_path.sectorY, m_path.sectorZ, m_path.systemIndex);
+		fprintf(file, "%s\t\"%s\"\n", indent, m_name.c_str());
+		fprintf(file, "%s\t%sEXPLORED%s\n", indent, m_unexplored ? "UN" : "", m_hasCustomBodies ? ", CUSTOM-ONLY" : m_isCustom ? ", CUSTOM" : "");
+		fprintf(file, "%s\tfaction %s%s%s\n", indent, m_faction ? "\"" : "NONE", m_faction ? m_faction->name.c_str() : "", m_faction ? "\"" : "");
+		fprintf(file, "%s\tseed %u\n", indent, m_seed);
+		fprintf(file, "%s\t%d stars%s\n", indent, m_numStars, m_numStars > 0 ? " {" : "");
+		assert(unsigned(m_numStars) == m_stars.size());
+		for (int i = 0; i < m_numStars; ++i)
+			fprintf(file, "%s\t\t%s\n", indent, EnumStrings::GetString("BodyType", m_stars[i]->GetType()));
+		if (m_numStars > 0) fprintf(file, "%s\t}\n", indent);
+	}
+	fprintf(file, "%s\t%zu bodies, %zu spaceports \n", indent, m_bodies.size(), m_spaceStations.size());
+	fprintf(file, "%s\tpopulation %'.0f\n", indent, m_totalPop.ToDouble() * 1e9);
+	fprintf(file, "%s\tgovernment %s/%s, lawlessness %.2f\n", indent, m_polit.GetGovernmentDesc(), m_polit.GetEconomicDesc(),
+		m_polit.lawlessness.ToDouble() * 100.0);
+	fprintf(file, "%s\teconomy type%s%s%s\n", indent, m_econType == 0 ? " NONE" : m_econType & ECON_AGRICULTURE ? " AGRICULTURE" : "",
+		m_econType & ECON_INDUSTRY ? " INDUSTRY" : "", m_econType & ECON_MINING ? " MINING" : "");
+	fprintf(file, "%s\thumanProx %.2f\n", indent, m_humanProx.ToDouble() * 100.0);
+	fprintf(file, "%s\tmetallicity %.2f, industrial %.2f, agricultural %.2f\n", indent, m_metallicity.ToDouble() * 100.0,
+		m_industrial.ToDouble() * 100.0, m_agricultural.ToDouble() * 100.0);
+	if (m_rootBody) {
+		char buf[32];
+		snprintf(buf, sizeof(buf), "%s\t", indent);
+		assert(m_rootBody->GetPath().IsSameSystem(m_path));
+		m_rootBody->Dump(file, buf);
+	}
+	fprintf(file, "%s}\n", indent);
+}
+
 
 RefCountedPtr<StarSystem> StarSystemCache::GetCached(const SystemPath &path)
 {

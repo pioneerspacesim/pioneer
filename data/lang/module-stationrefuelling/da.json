@@ -1,0 +1,10 @@
+{
+   "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH" : {
+      "description" : "",
+      "message" : "Dette er {station}. Du har ikke råd til at betale dit tilkoblingsgebyr på {fee}. Dit brændstof bliver tilbageholdt."
+   },
+   "WELCOME_ABOARD_STATION_FEE_DEDUCTED" : {
+      "description" : "",
+      "message" : "Velkommen ombord {station}. Dit tilkobslings- og optankningsgebyr er blevet trukket."
+   }
+}
