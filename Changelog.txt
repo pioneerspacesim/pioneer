@@ -10,6 +10,7 @@ March 2014
      * Money format with language specific thousand separator and
        decimal delimiter (#2810)
      * Add button to sector view to toggle auto selection mode
+     * Move sector view search results to a text area under the search box
 
    * Fixes
      * Fix volume control layout (#2798)

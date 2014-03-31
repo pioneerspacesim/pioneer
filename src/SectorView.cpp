@@ -152,10 +152,18 @@ void SectorView::InitObject()
 	m_zoomOutButton->SetRenderDimensions(30, 22);
 	Add(m_zoomOutButton, 732, 5);
 
-	Add(new Gui::Label(Lang::SEARCH), 650, 500);
+	Gui::Screen::PushFont("OverlayFont");
+
+	Add(new Gui::Label(Lang::SEARCH), 650, 470);
 	m_searchBox = new Gui::TextEntry();
 	m_searchBox->onKeyPress.connect(sigc::mem_fun(this, &SectorView::OnSearchBoxKeyPress));
-	Add(m_searchBox, 700, 500);
+	Add(m_searchBox, 700, 470);
+
+	m_statusLabel = new Gui::Label("");
+	Add(m_statusLabel, 650, 490);
+	Gui::Screen::PopFont();
+
+	Gui::Screen::PushFont("OverlayFont");
 
 	m_renderer = Pi::renderer; //XXX pass cleanly to all views constructors!
 
@@ -394,7 +402,7 @@ void SectorView::OnSearchBoxKeyPress(const SDL_Keysym *keysym)
 					// exact match, take it and go
 					SystemPath path = (*i).first;
 					path.systemIndex = systemIndex;
-					Pi::cpan->MsgLog()->Message("", stringf(Lang::EXACT_MATCH_X, formatarg("system", ss->name)));
+					m_statusLabel->SetText(stringf(Lang::EXACT_MATCH_X, formatarg("system", ss->name)));
 					GotoSystem(path);
 					return;
 				}
@@ -429,12 +437,12 @@ void SectorView::OnSearchBoxKeyPress(const SDL_Keysym *keysym)
 		}
 
 	if (gotMatch) {
-		Pi::cpan->MsgLog()->Message("", stringf(Lang::NOT_FOUND_BEST_MATCH_X, formatarg("system", *bestMatchName)));
+		m_statusLabel->SetText(stringf(Lang::NOT_FOUND_BEST_MATCH_X, formatarg("system", *bestMatchName)));
 		GotoSystem(bestMatch);
 	}
 
 	else
-		Pi::cpan->MsgLog()->Message("", Lang::NOT_FOUND);
+		m_statusLabel->SetText(Lang::NOT_FOUND);
 }
 
 #define FFRAC(_x)	((_x)-floor(_x))

@@ -118,6 +118,7 @@ private:
 	Gui::ImageButton *m_zoomOutButton;
 	Gui::ImageButton *m_galaxyButton;
 	Gui::TextEntry *m_searchBox;
+	Gui::Label *m_statusLabel;
 	Gui::ToggleButton *m_drawOutRangeLabelButton;
 	Gui::ToggleButton *m_drawUninhabitedLabelButton;
 	Gui::ToggleButton *m_drawSystemLegButton;
