@@ -25,6 +25,7 @@ March 2014
      * New `inherits` function in the `utils` module to quickly implement
        class hierarchies in Lua (#2767)
      * MessageBox.Message and MessageBox.OK for modal alerts
+     * Renamed TabGroup to TabView, better explains its purpose
 
    * Internal changes
      * Update terrain to use the new VertexBuffer (#2795)
