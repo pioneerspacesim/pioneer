@@ -13,7 +13,8 @@ static const float SKIN_SIZE = 512.0f;
 
 Skin::Skin(const std::string &filename, Graphics::Renderer *renderer, float scale) :
 	m_renderer(renderer),
-	m_scale(scale)
+	m_scale(scale),
+	m_opacity(1.0f)
 {
 	IniConfig cfg;
 	// set defaults
@@ -115,6 +116,7 @@ void Skin::DrawRectElement(const RectElement &element, const Point &pos, const P
 	va.Add(vector3f(pos.x+size.x, pos.y,        0.0f), scaled(vector2f(element.pos.x+element.size.x, element.pos.y)));
 	va.Add(vector3f(pos.x+size.x, pos.y+size.y, 0.0f), scaled(vector2f(element.pos.x+element.size.x, element.pos.y+element.size.y)));
 
+	m_textureMaterial->diffuse = Color(Color::WHITE.r, Color::WHITE.g, Color::WHITE.b, m_opacity*Color::WHITE.a);
 	m_renderer->DrawTriangles(&va, GetRenderState(blendMode), m_textureMaterial.Get(), Graphics::TRIANGLE_STRIP);
 }
 
@@ -160,6 +162,7 @@ void Skin::DrawBorderedRectElement(const BorderedRectElement &element, const Poi
 	va.Add(vector3f(pos.x+size.x,       pos.y+size.y-height, 0.0f), scaled(vector2f(element.pos.x+element.size.x,       element.pos.y+element.size.y-height)));
 	va.Add(vector3f(pos.x+size.x,       pos.y+size.y,        0.0f), scaled(vector2f(element.pos.x+element.size.x,       element.pos.y+element.size.y)));
 
+	m_textureMaterial->diffuse = Color(Color::WHITE.r, Color::WHITE.g, Color::WHITE.b, m_opacity*Color::WHITE.a);
 	m_renderer->DrawTriangles(&va, GetRenderState(blendMode), m_textureMaterial.Get(), Graphics::TRIANGLE_STRIP);
 }
 
@@ -178,6 +181,7 @@ void Skin::DrawVerticalEdgedRectElement(const EdgedRectElement &element, const P
 	va.Add(vector3f(pos.x+size.x, pos.y+size.y,        0.0f), scaled(vector2f(element.pos.x+element.size.x, element.pos.y+element.size.y)));
 	va.Add(vector3f(pos.x,        pos.y+size.y,        0.0f), scaled(vector2f(element.pos.x,                element.pos.y+element.size.y)));
 
+	m_textureMaterial->diffuse = Color(Color::WHITE.r, Color::WHITE.g, Color::WHITE.b, m_opacity*Color::WHITE.a);
 	m_renderer->DrawTriangles(&va, GetRenderState(blendMode), m_textureMaterial.Get(), Graphics::TRIANGLE_STRIP);
 }
 
@@ -196,6 +200,7 @@ void Skin::DrawHorizontalEdgedRectElement(const EdgedRectElement &element, const
 	va.Add(vector3f(pos.x+size.x,       pos.y,        0.0f), scaled(vector2f(element.pos.x+element.size.x,       element.pos.y)));
 	va.Add(vector3f(pos.x+size.x,       pos.y+size.y, 0.0f), scaled(vector2f(element.pos.x+element.size.x,       element.pos.y+element.size.y)));
 
+	m_textureMaterial->diffuse = Color(Color::WHITE.r, Color::WHITE.g, Color::WHITE.b, m_opacity*Color::WHITE.a);
 	m_renderer->DrawTriangles(&va, GetRenderState(blendMode), m_textureMaterial.Get(), Graphics::TRIANGLE_STRIP);
 }
 
@@ -208,7 +213,7 @@ void Skin::DrawRectColor(const Color &col, const Point &pos, const Point &size) 
 	va.Add(vector3f(pos.x+size.x, pos.y,        0.0f));
 	va.Add(vector3f(pos.x+size.x, pos.y+size.y, 0.0f));
 
-	m_colorMaterial->diffuse = col;
+	m_colorMaterial->diffuse = Color(col.r, col.g, col.b, m_opacity*col.a);
 	m_renderer->DrawTriangles(&va, GetAlphaBlendState(), m_colorMaterial.Get(), Graphics::TRIANGLE_STRIP);
 }
 

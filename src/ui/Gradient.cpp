@@ -35,6 +35,7 @@ void Gradient::Draw()
 
 	Graphics::Renderer *r = GetContext()->GetRenderer();
 	auto renderState = GetContext()->GetSkin().GetAlphaBlendState();
+	m_material->diffuse = Color(Color::WHITE.r, Color::WHITE.g, Color::WHITE.b, GetContext()->GetOpacity()*Color::WHITE.a);
 	r->DrawTriangles(&va, renderState, m_material.get(), Graphics::TRIANGLE_STRIP);
 
 	Container::Draw();
