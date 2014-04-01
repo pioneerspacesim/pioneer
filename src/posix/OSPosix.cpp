@@ -12,8 +12,13 @@
 #else
 #include <unistd.h>
 #endif
+#include <sys/utsname.h>
 
 namespace OS {
+
+	namespace {
+		static const std::string s_NoOSIdentified("No OS Identified\n");
+	};
 
 void NotifyLoadBegin()
 {
@@ -93,6 +98,23 @@ int GetNumCores()
 #else
 	return sysconf(_SC_NPROCESSORS_ONLN);
 #endif
+}
+
+const std::string GetOSInfoString()
+{
+	int z;
+	struct utsname uts;
+	z = uname(&uts);
+
+	if ( z == -1 ) {
+		return s_NoOSIdentified;
+	}
+
+	char infoString[2048];
+	snprintf(infoString, 2048, "System Name: %s\nHost Name: %s\nRelease(Kernel) Version: %s\nKernel Build Timestamp: %s\nMachine Arch: %s\nDomain Name: %s\n",
+		sysinfo.sysname, sysinfo.nodename, sysinfo.release, sysinfo.version, sysinfo.machine, sysinfo.domainname);
+
+	return std::string(infoString);
 }
 
 } // namespace OS
