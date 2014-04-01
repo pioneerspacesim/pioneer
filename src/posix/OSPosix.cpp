@@ -112,7 +112,7 @@ const std::string GetOSInfoString()
 
 	char infoString[2048];
 	snprintf(infoString, 2048, "System Name: %s\nHost Name: %s\nRelease(Kernel) Version: %s\nKernel Build Timestamp: %s\nMachine Arch: %s\nDomain Name: %s\n",
-		sysinfo.sysname, sysinfo.nodename, sysinfo.release, sysinfo.version, sysinfo.machine, sysinfo.domainname);
+		uts.sysname, uts.nodename, uts.release, uts.version, uts.machine, uts.domainname);
 
 	return std::string(infoString);
 }
