@@ -19,6 +19,8 @@ class Skin {
 public:
 	Skin(const std::string &filename, Graphics::Renderer *renderer, float scale);
 
+	void SetOpacity(float o) { m_opacity = o; }
+
 	void DrawBackgroundNormal(const Point &pos, const Point &size) const {
 		DrawBorderedRectElement(m_backgroundNormal, pos, size);
 	}
@@ -217,6 +219,8 @@ private:
 	RefCountedPtr<Graphics::Texture> m_texture;
 	RefCountedPtr<Graphics::Material> m_textureMaterial;
 	RefCountedPtr<Graphics::Material> m_colorMaterial;
+
+	float m_opacity;
 
 	Graphics::RenderState *m_alphaBlendState;
 	Graphics::RenderState *m_alphaSetState;

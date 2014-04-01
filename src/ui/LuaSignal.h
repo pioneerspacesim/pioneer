@@ -152,6 +152,38 @@ public:
 	}
 };
 
+
+class LuaSlot {
+public:
+	static inline sigc::slot<void> Wrap(lua_State *l, int idx) {
+		LUA_DEBUG_START(l);
+		idx = lua_absindex(l, idx);
+		lua_getfield(l, LUA_REGISTRYINDEX, "PiUISlot");
+		if (lua_isnil(l, -1)) {
+			lua_pop(l, 1);
+			lua_newtable(l);
+			lua_pushvalue(l, -1);
+			lua_setfield(l, LUA_REGISTRYINDEX, "PiUISlot");
+		}
+		lua_pushvalue(l, idx);
+		int ref = luaL_ref(l, -2);
+		lua_pop(l, 1);
+		LUA_DEBUG_END(l, 0);
+		return sigc::bind(sigc::ptr_fun(&trampoline), l, ref);
+	}
+
+private:
+	static inline void trampoline(lua_State *l, int ref) {
+		LUA_DEBUG_START(l);
+		lua_getfield(l, LUA_REGISTRYINDEX, "PiUISlot");
+		lua_rawgeti(l, -1, ref);
+		luaL_unref(l, -2, ref);
+		lua_call(l, 0, 0);
+		lua_pop(l, 1);
+		LUA_DEBUG_END(l, 0);
+	}
+};
+
 }
 
 #endif
