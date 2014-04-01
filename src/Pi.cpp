@@ -366,11 +366,13 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	if (config->Int("RedirectStdio"))
 		OS::RedirectStdio();
 
+	std::string version(PIONEER_VERSION);
+	if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
 	const char* platformName = SDL_GetPlatform();
 	if(platformName)
-		Output("Running on: %s\n\n", platformName);
+		Output("ver %s on: %s\n\n", version.c_str(), platformName);
 	else
-		Output("Could not detect platform name.\n\n");
+		Output("ver %s but could not detect platform name.\n\n", version.c_str());
 
 	Output("%s\n", OS::GetOSInfoString().c_str());
 
