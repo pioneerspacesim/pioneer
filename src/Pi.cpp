@@ -366,6 +366,14 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	if (config->Int("RedirectStdio"))
 		OS::RedirectStdio();
 
+	const char* platformName = SDL_GetPlatform();
+	if(platformName)
+		Output("Running on: %s\n\n", platformName);
+	else
+		Output("Could not detect platform name.\n\n");
+
+	Output("%s\n", OS::GetOSInfoString().c_str());
+
 	ModManager::Init();
 
 	Lang::Resource res(Lang::GetResource("core", config->String("Lang")));
