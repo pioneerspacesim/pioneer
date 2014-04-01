@@ -15,6 +15,9 @@ local num_names = 6 -- number of GOODS_TRADER_N names
 
 local ads = {}
 
+-- loose money when you sell parts back to the station.
+local sellPriceReduction = 0.8
+
 local onChat = function (form, ref, option)
 	local ad = ads[ref]
 
@@ -59,7 +62,12 @@ local onChat = function (form, ref, option)
 
 		-- what do we get for this item if we are selling
 		getSellPrice = function (ref, commodity)
-			return 0.8 * ads[ref].price[commodity]
+			basePrice = ads[ref].price[commodity]
+			if basePrice > 0 then
+				return sellPriceReduction * basePrice
+			else
+				return 1.0/sellPriceReduction * basePrice
+			end
 		end,
 
 		-- do something when a "buy" button is clicked

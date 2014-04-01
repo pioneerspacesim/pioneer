@@ -72,7 +72,12 @@ local defaultFuncs = {
 
 	-- what do we get for this item if we are selling
 	getSellPrice = function (e)
-		return sellPriceReduction * Game.player:GetDockedWith():GetEquipmentPrice(e)
+		basePrice = Game.player:GetDockedWith():GetEquipmentPrice(e)
+		if basePrice > 0 then
+			return sellPriceReduction * basePrice
+		else
+			return 1.0/sellPriceReduction * basePrice
+		end
 	end,
 
 	-- do something when a "buy" button is clicked
@@ -118,8 +123,8 @@ local shipColumnHeading = {
 local defaultStationColumnValue = {
 	icon  = function (e, funcs) return equipIcon[e] and ui:Image("icons/goods/"..equipIcon[e]..".png") or "" end,
 	name  = function (e, funcs) return lcore[e] end,
-	buy   = function (e, funcs) return Format.Money("%0.2f", funcs.getBuyPrice(e)) end,
-	sell  = function (e, funcs) return Format.Money("%0.2f", funcs.getSellPrice(e)) end,
+	buy   = function (e, funcs) return Format.Money(funcs.getBuyPrice(e)) end,
+	sell  = function (e, funcs) return Format.Money(funcs.getSellPrice(e)) end,
 	stock = function (e, funcs) return funcs.getStock(e) end,
 	mass  = function (e, funcs) return string.format("%dt", EquipDef[e].mass) end,
 }
@@ -151,7 +156,8 @@ function EquipmentTableWidgets.Pair (config)
 	local stationColumnValue = {
 		icon  = config.icon  or defaultStationColumnValue.icon,
 		name  = config.name  or defaultStationColumnValue.name,
-		price = config.price or defaultStationColumnValue.price,
+		buy   = config.buy   or defaultStationColumnValue.buy,
+		sell  = config.sell  or defaultStationColumnValue.sell,
 		stock = config.stock or defaultStationColumnValue.stock,
 		mass  = config.mass  or defaultStationColumnValue.mass,
 	}
