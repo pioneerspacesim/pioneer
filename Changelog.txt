@@ -8,6 +8,7 @@ April 2014
 
    * Internal changes
      * Emit Lua events and timers in hyperspace
+     * Output some system info for debugging purposes (#2832)
 
 March 2014
 
