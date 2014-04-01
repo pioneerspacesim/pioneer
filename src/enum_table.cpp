@@ -15,6 +15,7 @@
 #include "gameui/Face.h"
 #include "scenegraph/Model.h"
 #include "ui/Align.h"
+#include "ui/Animation.h"
 #include "ui/Event.h"
 #include "ui/Expand.h"
 #include "ui/Gradient.h"
@@ -337,6 +338,37 @@ const struct EnumItem ENUM_UIAlignDirection[] = {
 	{ 0, 0 },
 };
 
+const struct EnumItem ENUM_UIAnimationType[] = {
+	{ "IN", UI::Animation::TYPE_IN },
+	{ "OUT", UI::Animation::TYPE_OUT },
+	{ "IN_OUT", UI::Animation::TYPE_IN_OUT },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_UIAnimationEasing[] = {
+	{ "ZERO", UI::Animation::EASING_ZERO },
+	{ "ONE", UI::Animation::EASING_ONE },
+	{ "LINEAR", UI::Animation::EASING_LINEAR },
+	{ "QUAD", UI::Animation::EASING_QUAD },
+	{ "CUBIC", UI::Animation::EASING_CUBIC },
+	{ "QUART", UI::Animation::EASING_QUART },
+	{ "QUINT", UI::Animation::EASING_QUINT },
+	{ "SINE", UI::Animation::EASING_SINE },
+	{ "EXPO", UI::Animation::EASING_EXPO },
+	{ "CIRC", UI::Animation::EASING_CIRC },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_UIAnimationTarget[] = {
+	{ "PAUSE", UI::Animation::TARGET_PAUSE },
+	{ "OPACITY", UI::Animation::TARGET_OPACITY },
+	{ "POSITION_X", UI::Animation::TARGET_POSITION_X },
+	{ "POSITION_Y", UI::Animation::TARGET_POSITION_Y },
+	{ "POSITION_X_REV", UI::Animation::TARGET_POSITION_X_REV },
+	{ "POSITION_Y_REV", UI::Animation::TARGET_POSITION_Y_REV },
+	{ 0, 0 },
+};
+
 const struct EnumItem ENUM_UIEventType[] = {
 	{ "KEYBOARD", UI::Event::KEYBOARD },
 	{ "TEXT_INPUT", UI::Event::TEXT_INPUT },
@@ -494,6 +526,9 @@ const struct EnumTable ENUM_TABLES[] = {
 	{ "GameUIFaceFlags", ENUM_GameUIFaceFlags },
 	{ "ModelDebugFlags", ENUM_ModelDebugFlags },
 	{ "UIAlignDirection", ENUM_UIAlignDirection },
+	{ "UIAnimationType", ENUM_UIAnimationType },
+	{ "UIAnimationEasing", ENUM_UIAnimationEasing },
+	{ "UIAnimationTarget", ENUM_UIAnimationTarget },
 	{ "UIEventType", ENUM_UIEventType },
 	{ "UIKeyboardAction", ENUM_UIKeyboardAction },
 	{ "UIMouseButtonAction", ENUM_UIMouseButtonAction },
@@ -534,6 +569,9 @@ const struct EnumTable ENUM_TABLES_PUBLIC[] = {
 	{ "GameUIFaceFlags", ENUM_GameUIFaceFlags },
 	{ "ModelDebugFlags", ENUM_ModelDebugFlags },
 	{ "UIAlignDirection", ENUM_UIAlignDirection },
+	{ "UIAnimationType", ENUM_UIAnimationType },
+	{ "UIAnimationEasing", ENUM_UIAnimationEasing },
+	{ "UIAnimationTarget", ENUM_UIAnimationTarget },
 	{ "UIEventType", ENUM_UIEventType },
 	{ "UIKeyboardAction", ENUM_UIKeyboardAction },
 	{ "UIMouseButtonAction", ENUM_UIMouseButtonAction },

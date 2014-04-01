@@ -6,6 +6,7 @@
 
 #include "Point.h"
 #include "RefCounted.h"
+#include "Color.h"
 #include <string>
 #include <vector>
 
@@ -20,7 +21,7 @@ public:
 
 	Point ComputeSize(const Point &layoutSize);
 
-	void Draw(const Point &layoutSize, const Point &drawPos, const Point &drawSize);
+	void Draw(const Point &layoutSize, const Point &drawPos, const Point &drawSize, const Color &color = Color::WHITE);
 
 private:
 	struct Word {

@@ -8,6 +8,7 @@
 #include "text/TextureFont.h"
 
 #include "EventDispatcher.h"
+#include "Animation.h"
 #include "Skin.h"
 
 #include "Widget.h"
@@ -136,6 +137,8 @@ public:
 	virtual void Update();
 	virtual void Draw();
 
+	void Animate(Animation *animation) { m_animationController.Add(animation); }
+
 	LuaRef GetTemplateStore() const { return m_templateStore; }
 	Widget *CallTemplate(const char *name, const LuaTable &args);
 	Widget *CallTemplate(const char *name);
@@ -149,6 +152,7 @@ public:
 	RefCountedPtr<Text::TextureFont> GetFont(Widget::Font font) const { return m_font[font]; }
 
 	const Point &GetScissor() const { return m_scissorStack.top().second; }
+	const float &GetOpacity() const { return m_opacityStack.top(); }
 
 private:
 	virtual Point PreferredSize() { return Point(); }
@@ -164,6 +168,7 @@ private:
 	std::vector<Layer*> m_layers;
 
 	EventDispatcher m_eventDispatcher;
+	AnimationController m_animationController;
 	Skin m_skin;
 
 	LuaManager *m_lua;
@@ -180,6 +185,7 @@ private:
 	// support for DrawWidget()
 	Point m_drawWidgetPosition;
 	std::stack< std::pair<Point,Point> > m_scissorStack;
+	std::stack<float> m_opacityStack;
 };
 
 }

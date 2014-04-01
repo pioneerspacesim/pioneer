@@ -85,6 +85,7 @@ local buttonDefs = {
 	{ l.QUIT,                   function () Engine.Quit() end },
 }
 
+local anims = {}
 
 local buttonSet = {}
 for i = 1,#buttonDefs do
@@ -94,7 +95,39 @@ for i = 1,#buttonDefs do
 	if i < 10 then button:AddShortcut(i) end
 	if i == 10 then button:AddShortcut("0") end
 	buttonSet[i] = button
+	table.insert(anims, {
+		widget = button,
+		type = "IN",
+		easing = "ZERO",
+		target = "POSITION_X_REV",
+		duration = i * 0.05,
+		next = {
+			widget = button,
+			type = "IN",
+			easing = "LINEAR",
+			target = "POSITION_X_REV",
+			duration = 0.4,
+		}
+	})
 end
+
+local headingLabel = ui:Label("Pioneer"):SetFont("HEADING_XLARGE")
+table.insert(anims, {
+	widget = headingLabel,
+	type = "IN",
+	easing = "LINEAR",
+	target = "OPACITY",
+	duration = 0.4,
+})
+
+local versionLabel = ui:Label("(build: "..Engine.version..")"):SetFont("HEADING_XSMALL")
+table.insert(anims, {
+	widget = versionLabel,
+	type = "IN",
+	easing = "LINEAR",
+	target = "OPACITY",
+	duration = 0.4,
+})
 
 local menu = 
 	ui:Grid(1, { 0.2, 0.6, 0.2 })
@@ -102,7 +135,7 @@ local menu =
 			ui:Grid({ 0.1, 0.8, 0.1 }, 1)
 				:SetCell(1, 0,
 					ui:Align("LEFT",
-						ui:Label("Pioneer"):SetFont("HEADING_XLARGE")
+						headingLabel
 					)
 				)
 		})
@@ -118,9 +151,12 @@ local menu =
 			ui:Grid({ 0.1, 0.8, 0.1 }, 1)
 				:SetCell(1, 0,
 					ui:Align("RIGHT",
-						ui:Label("(build: "..Engine.version..")"):SetFont("HEADING_XSMALL")
+						versionLabel
 					)
 				)
 		})
 
-ui.templates.MainMenu = function (args) return menu end
+ui.templates.MainMenu = function (args)
+	for _,anim in ipairs(anims) do ui:Animate(anim) end
+	return menu
+end

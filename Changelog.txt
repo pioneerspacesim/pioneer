@@ -1,3 +1,14 @@
+April 2014
+
+   * New features
+     * UI animations (#2830)
+
+   * Script and UI API changes
+     * Animation object, UI.Context.Animate and AddAnimation methods (#2830)
+
+   * Internal changes
+     * Emit Lua events and timers in hyperspace
+
 March 2014
 
    * New features
