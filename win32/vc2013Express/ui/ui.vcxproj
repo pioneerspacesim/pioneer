@@ -118,6 +118,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ui\Align.cpp" />
+    <ClCompile Include="..\..\..\src\ui\Animation.cpp" />
     <ClCompile Include="..\..\..\src\ui\Background.cpp" />
     <ClCompile Include="..\..\..\src\ui\Box.cpp" />
     <ClCompile Include="..\..\..\src\ui\Button.cpp" />
@@ -140,6 +141,7 @@
     <ClCompile Include="..\..\..\src\ui\List.cpp" />
     <ClCompile Include="..\..\..\src\ui\Lua.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaAlign.cpp" />
+    <ClCompile Include="..\..\..\src\ui\LuaAnimation.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaBackground.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaBox.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaButton.cpp" />
@@ -188,6 +190,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\ui\Align.h" />
+    <ClInclude Include="..\..\..\src\ui\Animation.h" />
     <ClInclude Include="..\..\..\src\ui\Background.h" />
     <ClInclude Include="..\..\..\src\ui\Box.h" />
     <ClInclude Include="..\..\..\src\ui\Button.h" />
