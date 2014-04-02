@@ -85,7 +85,7 @@
    },
    "FLAVOUR_19_NEWSBODY" : {
       "description" : "Imply vast abundance of PRECIOUS_METALS.",
-      "message" : "A man in the {system} system ({sectorx}, {sectory}, {sectorz}) has inherited an invention from his late uncle, allowing him to transmute any solid into gold and platinum. Economists expect a destabilization of the economy in the system, unless the machine breaks down soon."
+      "message" : "Pewien człowiek w systemie {system}({sectorx},{sectory},{sectorz}) odziedziczył po swoim wuju wynalazek, pozwalający mu na przemianę stałych przedmiotów w złoto i platynę. Ekonomiści spodziewają się destabilizacji gospodarki systemu, chyba że maszyna szybko się zepsuje."
    },
    "FLAVOUR_1_HEADLINE" : {
       "description" : "",
