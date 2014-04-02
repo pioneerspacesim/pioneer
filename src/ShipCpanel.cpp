@@ -215,9 +215,6 @@ void ShipCpanel::InitObject()
 	Add(m_overlay[OVERLAY_TOP_RIGHT],    500.0f, 2.0f);
 	Add(m_overlay[OVERLAY_BOTTOM_LEFT],  150.0f, 62.0f);
 	Add(m_overlay[OVERLAY_BOTTOM_RIGHT], 520.0f, 62.0f);
-
-	m_connOnDockingClearanceExpired =
-		Pi::onDockingClearanceExpired.connect(sigc::mem_fun(this, &ShipCpanel::OnDockingClearanceExpired));
 }
 
 ShipCpanel::~ShipCpanel()
@@ -232,7 +229,6 @@ ShipCpanel::~ShipCpanel()
 	delete m_useEquipWidget;
 	delete m_msglog;
 	delete m_mfsel;
-	m_connOnDockingClearanceExpired.disconnect();
 	m_connOnRotationDampingChanged.disconnect();
 }
 
@@ -267,11 +263,6 @@ void ShipCpanel::OnMultiFuncGrabFocus(multifuncfunc_t f)
 void ShipCpanel::OnMultiFuncUngrabFocus(multifuncfunc_t f)
 {
 	ChangeMultiFunctionDisplay(m_userSelectedMfuncWidget);
-}
-
-void ShipCpanel::OnDockingClearanceExpired(const SpaceStation *s)
-{
-	MsgLog()->ImportantMessage(s->GetLabel(), Lang::DOCKING_CLEARANCE_EXPIRED);
 }
 
 void ShipCpanel::Update()

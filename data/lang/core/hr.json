@@ -59,6 +59,10 @@
       "description" : "",
       "message" : "Štiti vaš brod od topline pri ponovnom ulasku u atmosferu."
    },
+   "AUTOMATIC_SYSTEM_SELECTION" : {
+      "description" : "",
+      "message" : "Automatic system selection"
+   },
    "AUTOPILOT" : {
       "description" : "",
       "message" : "Automatski pilot"
@@ -303,10 +307,6 @@
       "description" : "",
       "message" : "\" Smjer \""
    },
-   "DISABLED_AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
-      "message" : "Onemogućena automatska selekcija sustava."
-   },
    "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
       "description" : "",
       "message" : "Udaljenost od broda do navigacijske mete"
@@ -434,10 +434,6 @@
    "ECONOMY_TYPE" : {
       "description" : "",
       "message" : "Tip ekonomije:"
-   },
-   "ENABLED_AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
-      "message" : "Omogućena automatska selekcija sustava."
    },
    "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
       "description" : "",

@@ -5,7 +5,7 @@ local Engine = import("Engine")
 local Lang = import("Lang")
 local Event = import("Event")
 
-local TabGroup = import("ui/TabGroup")
+local TabView = import("ui/TabView")
 
 local shipInfo        = import("InfoView/ShipInfo")
 local personalInfo    = import("InfoView/PersonalInfo")
@@ -24,7 +24,7 @@ ui.templates.InfoView = function (args)
 		return tabGroup.widget
 	end
 
-	tabGroup = TabGroup.New()
+	tabGroup = TabView.New()
 
 	tabGroup:AddTab({ id = "shipInfo",        title = l.SHIP_INFORMATION,     icon = "Satellite", template = shipInfo         })
 	tabGroup:AddTab({ id = "personalInfo",    title = l.PERSONAL_INFORMATION, icon = "User",      template = personalInfo     })

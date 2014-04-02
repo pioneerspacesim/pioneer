@@ -59,6 +59,10 @@
       "description" : "",
       "message" : "Osłaniają statek przy wejściu w atmosferę."
    },
+   "AUTOMATIC_SYSTEM_SELECTION" : {
+      "description" : "",
+      "message" : "Automatyczny wybór systemu"
+   },
    "AUTOPILOT" : {
       "description" : "",
       "message" : "Autopilot"
@@ -303,10 +307,6 @@
       "description" : "",
       "message" : "\" Dir \""
    },
-   "DISABLED_AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
-      "message" : "Centrowanie widoku na wskazywanym systemie - wyłączone."
-   },
    "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
       "description" : "",
       "message" : "Odległość statku od celu"
@@ -434,10 +434,6 @@
    "ECONOMY_TYPE" : {
       "description" : "",
       "message" : "Ekonomia:"
-   },
-   "ENABLED_AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
-      "message" : "Centrowanie widoku na wskazywanym systemie - włączone."
    },
    "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
       "description" : "",

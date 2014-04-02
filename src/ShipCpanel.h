@@ -52,7 +52,6 @@ private:
 	void OnChangeInfoView(Gui::MultiStateImageButton *b);
 	void OnClickTimeaccel(Game::TimeAccel val);
 	void OnClickComms(Gui::MultiStateImageButton *b);
-	void OnDockingClearanceExpired(const SpaceStation *);
 	void OnClickRotationDamping(Gui::MultiStateImageButton *b);
 
 	void OnUserChangeMultiFunctionDisplay(multifuncfunc_t f);
@@ -65,7 +64,6 @@ private:
 	multifuncfunc_t m_userSelectedMfuncWidget;
 	Gui::Label *m_clock;
 
-	sigc::connection m_connOnDockingClearanceExpired;
 	sigc::connection m_connOnRotationDampingChanged;
 
 	MultiFuncSelectorWidget *m_mfsel;

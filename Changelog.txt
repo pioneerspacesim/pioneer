@@ -1,3 +1,18 @@
+April 2014
+
+   * New features
+     * UI animations (#2830)
+
+   * Script and UI API changes
+     * Animation object, UI.Context.Animate and AddAnimation methods (#2830)
+
+   * Internal changes
+     * Emit Lua events and timers in hyperspace
+     * Output some system info for debugging purposes (#2832)
+
+   * Fixes
+     * Fix duplication of cargo during cargo scooping (#2644, #2828)
+
 March 2014
 
    * New features
@@ -9,6 +24,8 @@ March 2014
      * Textual galaxy dump (#2811)
      * Money format with language specific thousand separator and
        decimal delimiter (#2810)
+     * Add button to sector view to toggle auto selection mode
+     * Move sector view search results to a text area under the search box
 
    * Fixes
      * Fix volume control layout (#2798)
@@ -18,11 +35,13 @@ March 2014
      * Fix crash when attacked during deliver package mission (#2806)
      * Try to fix spiky asteroids (#2809)
      * Billboards not drawn correctly for some distant objects (#2791, #2824)
+     * Division by zero when using unguided missiles (#2421, #2827)
 
    * Script and UI API changes
      * New `inherits` function in the `utils` module to quickly implement
        class hierarchies in Lua (#2767)
      * MessageBox.Message and MessageBox.OK for modal alerts
+     * Renamed TabGroup to TabView, better explains its purpose
 
    * Internal changes
      * Update terrain to use the new VertexBuffer (#2795)

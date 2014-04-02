@@ -59,6 +59,10 @@
       "description" : "",
       "message" : "Schützt Ihr Schiff vor der Hitze beim Wiedereintritt in die Atmosphäre."
    },
+   "AUTOMATIC_SYSTEM_SELECTION" : {
+      "description" : "",
+      "message" : "Automatische Systemauswahl"
+   },
    "AUTOPILOT" : {
       "description" : "",
       "message" : "Autopilot"
@@ -303,10 +307,6 @@
       "description" : "",
       "message" : "\"-Richtung \""
    },
-   "DISABLED_AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
-      "message" : "Automatische Systemauswahl deaktiviert."
-   },
    "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
       "description" : "",
       "message" : "Entfernung zum Navigationsziel"
@@ -434,10 +434,6 @@
    "ECONOMY_TYPE" : {
       "description" : "",
       "message" : "Wirtschaftstyp:"
-   },
-   "ENABLED_AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
-      "message" : "Automatische Systemauswahl aktiviert."
    },
    "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
       "description" : "",

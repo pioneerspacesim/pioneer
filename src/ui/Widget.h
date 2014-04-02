@@ -333,6 +333,11 @@ protected:
 
 	void RegisterBindPoint(const std::string &bindName, sigc::slot<void,PropertyMap &,const std::string &> method);
 
+
+	float GetAnimatedOpacity() const { return m_animatedOpacity; }
+	float GetAnimatedPositionX() const { return m_animatedPositionX; }
+	float GetAnimatedPositionY() const { return m_animatedPositionY; }
+
 private:
 
 	// EventDispatcher needs to give us events
@@ -393,6 +398,15 @@ private:
 	friend class Context;
 	void SetSize(const Point &size) { m_size = size; SetActiveArea(size); }
 
+
+	// Animation needs to change our animation attributes
+	friend class Animation;
+
+	void SetAnimatedOpacity(float opacity) { m_animatedOpacity = opacity; }
+	void SetAnimatedPositionX(float pos) { m_animatedPositionX = pos; }
+	void SetAnimatedPositionY(float pos) { m_animatedPositionY = pos; }
+
+
 	Context *m_context;
 	Container *m_container;
 
@@ -419,6 +433,10 @@ private:
 
 	std::map< std::string,sigc::slot<void,PropertyMap &,const std::string &> > m_bindPoints;
 	std::map< std::string,sigc::connection > m_binds;
+
+	float m_animatedOpacity;
+	float m_animatedPositionX;
+	float m_animatedPositionY;
 };
 
 }

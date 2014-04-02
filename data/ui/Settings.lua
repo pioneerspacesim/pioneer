@@ -5,7 +5,7 @@ local Game = import("Game")
 local Engine = import("Engine")
 local Lang = import("Lang")
 local utils = import("utils")
-local TabGroup = import("ui/TabGroup")
+local TabView = import("ui/TabView")
 local SmallLabeledButton = import("ui/SmallLabeledButton")
 local KeyBindingCapture = import("UI.Game.KeyBindingCapture")
 local AxisBindingCapture = import("UI.Game.AxisBindingCapture")
@@ -333,7 +333,7 @@ ui.templates.Settings = function (args)
 	end
 
 	local setTabs = nil
-	setTabs = TabGroup.New()
+	setTabs = TabView.New()
 	setTabs:AddTab({ id = "Video",    title = l.VIDEO,    icon = "VideoCamera", template = wrapWithScroller(videoTemplate)    })
 	setTabs:AddTab({ id = "Sound",    title = l.SOUND,    icon = "Speaker",     template = wrapWithScroller(soundTemplate)    })
 	setTabs:AddTab({ id = "Language", title = l.LANGUAGE, icon = "Globe1",      template = wrapWithScroller(languageTemplate) })

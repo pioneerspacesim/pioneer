@@ -21,6 +21,8 @@ namespace Easing {
 // c: change over range (ie end-begin)
 // d: duration of range
 
+template <typename T> struct Function { typedef T (*Type)(T t, T b, T c, T d); };
+
 
 // p(t) = t
 namespace Linear {

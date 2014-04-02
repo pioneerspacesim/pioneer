@@ -128,6 +128,8 @@ void Context::Layout()
 
 void Context::Update()
 {
+	m_animationController.Update();
+
 	if (m_needsLayout)
 		Layout();
 
@@ -144,7 +146,7 @@ void Context::Draw()
 		r->SetTransform(matrix4x4f::Identity());
 		r->SetClearColor(Color::BLACK);
 
-		(*i)->Draw();
+		DrawWidget(*i);
 
 		r->SetScissor(false);
 	}
@@ -177,17 +179,41 @@ void Context::DrawWidget(Widget *w)
 	const Point &drawOffset = w->GetDrawOffset();
 	const Point &size = w->GetSize();
 
-	m_drawWidgetPosition += pos;
+	const float &animX = w->GetAnimatedPositionX();
+	const float &animY = w->GetAnimatedPositionY();
 
-	const std::pair<Point,Point> &currentScissor(m_scissorStack.top());
-	const Point &currentScissorPos(currentScissor.first);
-	const Point &currentScissorSize(currentScissor.second);
+	const bool isAnimating = fabs(animX) < 1.0f || fabs(animY) < 1.0f;
 
-	const Point newScissorPos(std::max(m_drawWidgetPosition.x, currentScissorPos.x), std::max(m_drawWidgetPosition.y, currentScissorPos.y));
+	Point finalPos;
+	if (isAnimating) {
+		const Point absPos = w->GetAbsolutePosition();
 
-	const Point newScissorSize(
-		Clamp(std::min(newScissorPos.x + size.x, currentScissorPos.x + currentScissorSize.x) - newScissorPos.x, 0, m_width),
-		Clamp(std::min(newScissorPos.y + size.y, currentScissorPos.y + currentScissorSize.y) - newScissorPos.y, 0, m_height));
+		finalPos = Point(
+			animX < 0.0f ? m_width-(m_width-pos.x)*-animX   : (pos.x+size.x)*animX-size.x-absPos.x*(1.0f-animX),
+			animY < 0.0f ? m_height-(m_height-pos.y)*-animY : (pos.y+size.y)*animY-size.y-absPos.y*(1.0f-animY)
+		);
+	}
+	else
+		finalPos = w->GetPosition();
+
+	m_drawWidgetPosition += finalPos;
+
+	Point newScissorPos, newScissorSize;
+	if (isAnimating) {
+		newScissorPos = m_drawWidgetPosition;
+		newScissorSize = size;
+	}
+	else {
+		const std::pair<Point,Point> &currentScissor(m_scissorStack.top());
+		const Point &currentScissorPos(currentScissor.first);
+		const Point &currentScissorSize(currentScissor.second);
+
+		newScissorPos = Point(std::max(m_drawWidgetPosition.x, currentScissorPos.x), std::max(m_drawWidgetPosition.y, currentScissorPos.y));
+
+		newScissorSize = Point(
+			Clamp(std::min(newScissorPos.x + size.x, currentScissorPos.x + currentScissorSize.x) - newScissorPos.x, 0, m_width),
+			Clamp(std::min(newScissorPos.y + size.y, currentScissorPos.y + currentScissorSize.y) - newScissorPos.y, 0, m_height));
+	}
 
 	m_scissorStack.push(std::make_pair(newScissorPos, newScissorSize));
 
@@ -197,11 +223,17 @@ void Context::DrawWidget(Widget *w)
 
 	m_renderer->SetTransform(matrix4x4f::Translation(m_drawWidgetPosition.x, m_drawWidgetPosition.y, 0));
 
+	float oldOpacity = m_opacityStack.empty() ? 1.0f : m_opacityStack.top();
+	float opacity = oldOpacity * w->GetAnimatedOpacity();
+	m_opacityStack.push(opacity);
+	m_skin.SetOpacity(opacity);
+
 	w->Draw();
 
+	m_opacityStack.pop();
 	m_scissorStack.pop();
 
-	m_drawWidgetPosition -= pos + drawOffset;
+	m_drawWidgetPosition -= finalPos + drawOffset;
 }
 
 }

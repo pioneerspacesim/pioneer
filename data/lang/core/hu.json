@@ -59,6 +59,10 @@
       "description" : "",
       "message" : "Megvédi az űrhajót az atmoszférába lépés alatt a túlmelegedéstől."
    },
+   "AUTOMATIC_SYSTEM_SELECTION" : {
+      "description" : "",
+      "message" : "Automatic system selection"
+   },
    "AUTOPILOT" : {
       "description" : "",
       "message" : "Auto-pilóta"
@@ -303,10 +307,6 @@
       "description" : "",
       "message" : "\" Irány \""
    },
-   "DISABLED_AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
-      "message" : "Automata rendszerválasztás kikapcsolva."
-   },
    "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
       "description" : "",
       "message" : "Távolság a navigációs célponttól"
@@ -434,10 +434,6 @@
    "ECONOMY_TYPE" : {
       "description" : "",
       "message" : "Gazdaság:"
-   },
-   "ENABLED_AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
-      "message" : "Automata rendszerválasztás engedélyezve."
    },
    "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
       "description" : "",

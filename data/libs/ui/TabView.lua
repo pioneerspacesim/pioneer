@@ -18,9 +18,9 @@ local _FindTabNum = function (self, id)
 	return nil
 end
 
-local TabGroup = {}
+local TabView = {}
 
-function TabGroup.New ()
+function TabView.New ()
 	local self = {
 		tabs   = {},
 	}
@@ -47,14 +47,14 @@ function TabGroup.New ()
 		})
 
 	setmetatable(self, {
-		__index = TabGroup,
-		class = "UI.TabGroup",
+		__index = TabView,
+		class = "UI.TabView",
 	})
 
 	return self
 end
 
-function TabGroup.AddTab (self, args)
+function TabView.AddTab (self, args)
 	local id       = args.id
 	local title    = args.title
 	local icon     = args.icon
@@ -97,7 +97,7 @@ function TabGroup.AddTab (self, args)
 	return tab
 end
 
-function TabGroup.RemoveTab (self, id)
+function TabView.RemoveTab (self, id)
 	local num = _FindTabNum(self, id)
 	if not num then return end
 
@@ -112,7 +112,7 @@ function TabGroup.RemoveTab (self, id)
 	end
 end
 
-function TabGroup.SwitchToNum (self, num)
+function TabView.SwitchToNum (self, num)
 	local tab = self.tabs[num]
 
 	if self.current then
@@ -128,18 +128,18 @@ function TabGroup.SwitchToNum (self, num)
 	self.body:SetInnerWidget(tab.template(tab, self))
 end
 
-function TabGroup.SwitchTo (self, id)
+function TabView.SwitchTo (self, id)
 	local num = _FindTabNum(self, id)
 	if not num then return end
 
 	self:SwitchToNum(num)
 end
 
-function TabGroup.SwitchFirst (self)
+function TabView.SwitchFirst (self)
 	self:SwitchToNum(1)
 end
 
-function TabGroup.SwitchNext (self)
+function TabView.SwitchNext (self)
 	if not self.current then
 		self:SwitchFirst()
 	else
@@ -149,7 +149,7 @@ function TabGroup.SwitchNext (self)
 	end
 end
 
-function TabGroup.SwitchPrev (self)
+function TabView.SwitchPrev (self)
 	if not self.current then
 		self:SwitchFirst()
 	else
@@ -159,7 +159,7 @@ function TabGroup.SwitchPrev (self)
 	end
 end
 
-function TabGroup.Refresh (self)
+function TabView.Refresh (self)
 	if not self.current then
 		self:SwitchFirst()
 	else
@@ -167,8 +167,8 @@ function TabGroup.Refresh (self)
 	end
 end
 
-function TabGroup.SetFooter (self, footer)
+function TabView.SetFooter (self, footer)
 	self.footer:SetInnerWidget(footer)
 end
 
-return TabGroup
+return TabView

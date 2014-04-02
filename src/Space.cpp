@@ -828,15 +828,8 @@ void Space::TimeStep(float step)
 	for (Body* b : m_bodies)
 		b->TimeStepUpdate(step);
 
-	// XXX don't emit events in hyperspace. this is mostly to maintain the
-	// status quo. in particular without this onEnterSystem will fire in the
-	// frame immediately before the player leaves hyperspace and the system is
-	// invalid when Lua goes and queries for it. we need to consider whether
-	// there's anything useful that can be done with events in hyperspace
-	if (m_starSystem) {
-		LuaEvent::Emit();
-		Pi::luaTimer->Tick();
-	}
+	LuaEvent::Emit();
+	Pi::luaTimer->Tick();
 
 	UpdateBodies();
 

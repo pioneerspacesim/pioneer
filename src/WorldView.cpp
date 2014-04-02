@@ -1109,18 +1109,13 @@ static void PlayerPayFine()
 }
 */
 
+// XXX belongs in some sort of hyperspace controller
 void WorldView::OnHyperspaceTargetChanged()
 {
 	if (Pi::player->IsHyperspaceActive()) {
 		Pi::player->ResetHyperspaceCountdown();
 		Pi::cpan->MsgLog()->Message("", Lang::HYPERSPACE_JUMP_ABORTED);
 	}
-
-	const SystemPath path = Pi::sectorView->GetHyperspaceTarget();
-
-	RefCountedPtr<StarSystem> system = StarSystemCache::GetCached(path);
-	const std::string& name = path.IsBodyPath() ? system->GetBodyByPath(path)->GetName() : system->GetName() ;
-	Pi::cpan->MsgLog()->Message("", stringf(Lang::SET_HYPERSPACE_DESTINATION_TO, formatarg("system", name)));
 }
 
 void WorldView::OnPlayerChangeTarget()
