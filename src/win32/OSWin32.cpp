@@ -10,7 +10,6 @@
 #include <stdio.h>
 #include <wchar.h>
 #include <windows.h>
-#include <VersionHelpers.h>
 
 namespace OS {
 
@@ -125,30 +124,42 @@ const std::string GetHardwareInfo()
 const std::string GetOSInfoString()
 {
 	const std::string hwInfo = GetHardwareInfo();
-	if( IsWindows8Point1OrGreater() )
-		return hwInfo + std::string("Windows 8.1 or Newer\n");
-	else if( IsWindows8OrGreater() )
-		return hwInfo + std::string("Windows 8\n");
-	else if( IsWindows7SP1OrGreater() )
-		return hwInfo + std::string("Windows 7 SP1\n");
-	else if( IsWindows7OrGreater() )
-		return hwInfo + std::string("Windows 7\n");
-	else if( IsWindowsVistaSP2OrGreater() )
-		return hwInfo + std::string("Windows Vista SP2\n");
-	else if( IsWindowsVistaSP1OrGreater() )
-		return hwInfo + std::string("Windows Vista SP1\n");
-	else if( IsWindowsVistaOrGreater() )
-		return hwInfo + std::string("Windows Vista\n");
-	else if( IsWindowsXPSP3OrGreater() )
-		return hwInfo + std::string("Windows XP SP3\n");
-	else if( IsWindowsXPSP2OrGreater() )
-		return hwInfo + std::string("Windows XP SP2\n");
-	else if( IsWindowsXPSP1OrGreater() )
-		return hwInfo + std::string("Windows XP SP1\n");
-	else if( IsWindowsXPOrGreater() )
-		return hwInfo + std::string("Windows XP\n");
 
-	return hwInfo + s_NoOSIdentified;
+	struct OSVersion {
+		DWORD major;
+		DWORD minor;
+		const char *name;
+	};
+	static const struct OSVersion osVersions[] = {
+		{ 6, 3, "Windows 8.1"   },
+		{ 6, 2, "Windows 8"     },
+		{ 6, 1, "Windows 7"     },
+		{ 6, 0, "Windows Vista" },
+		{ 5, 1, "Windows XP"    },
+		{ 5, 0, "Windows 2000"  },
+		{ 0, 0, nullptr         }
+	};
+
+	OSVERSIONINFO osv;
+	osv.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
+	GetVersionEx(&osv);
+
+	std::string name;
+	for (const OSVersion *scan = osVersions; scan->name; scan++) {
+		if (osv.dwMajorVersion == scan->major && osv.dwMinorVersion == scan->minor) {
+			name = scan->name;
+			break;
+		}
+	}
+	if (name.empty())
+		return hwInfo + s_NoOSIdentified;
+
+	std::string patchName(osv.szCSDVersion);
+
+	if (patchName.empty())
+		return hwInfo + name;
+
+	return hwInfo + name + " (" + patchName + ")";
 }
 
 } // namespace OS
