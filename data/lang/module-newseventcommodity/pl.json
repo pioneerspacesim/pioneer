@@ -101,7 +101,7 @@
    },
    "FLAVOUR_20_NEWSBODY" : {
       "description" : "Imply vast abundance of FERTILIZER. Soylent is a reference to the book/movie Soylent Green.",
-      "message" : "As {system} ({sectorx}, {sectory}, {sectorz}) enters a phase favourable to the yellow algae found in the atmosphere of a local gas giant, the harvest has be exceptionally good for the fertilizer company Soylent Yellow Inc."
+      "message" : "System {system}({sectorx},{sectory},{sectorz}) wchodzi w korzystną fazę dla poszukiwań żółtych glonów w atmosferze lokalnego gazowego giganta, żniwa są wyjątkowo dobre dla firmy nawozowej Żółta Pożywka S.A."
    },
    "FLAVOUR_21_HEADLINE" : {
       "description" : "",

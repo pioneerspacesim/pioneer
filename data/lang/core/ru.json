@@ -501,7 +501,7 @@
    },
    "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED" : {
       "description" : "",
-      "message" : "Топливозаборник работает. Вы собрали %quantit т водорода."
+      "message" : "Топливозаборник работает. Вы собрали %quantity т водорода."
    },
    "FUEL_SCOOP_DESCRIPTION" : {
       "description" : "",
@@ -517,15 +517,15 @@
    },
    "GAME_LOAD_CANNOT_OPEN" : {
       "description" : "",
-      "message" : "Эта запись не может быть загружена из-за неправильно разрешения или по другой причине..."
+      "message" : "Эта запись не может быть загружена из-за проблем с правами доступа или по другой причине..."
    },
    "GAME_LOAD_CORRUPT" : {
       "description" : "",
-      "message" : "Эта сохранение игры не может быть загружено, так как содержит ошибки."
+      "message" : "Эта сохраненная игра не может быть загружена, так как содержит ошибки."
    },
    "GAME_LOAD_WRONG_VERSION" : {
       "description" : "",
-      "message" : "Это сохранение не может быть загружено, так как оно было создано на другой версии игры."
+      "message" : "Эта сохранённая игра не может быть загружена, так как была создана другой версией игры."
    },
    "GAME_SAVED_TO" : {
       "description" : "",
@@ -605,7 +605,7 @@
    },
    "HYDROGEN_DESCRIPTION" : {
       "description" : "",
-      "message" : "Водород прежде всего используется в качестве получения топлива "
+      "message" : "Водород прежде всего используется в качестве термоядерного топлива"
    },
    "HYPERCLOUD_ANALYZER" : {
       "description" : "",
@@ -617,7 +617,7 @@
    },
    "HYPERSPACE" : {
       "description" : "",
-      "message" : "Гиперкосмос"
+      "message" : "Гиперпространство"
    },
    "HYPERSPACE_ARRIVAL_CLOUD" : {
       "description" : "",
@@ -793,15 +793,15 @@
    },
    "MAP_LOCK_HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Lock Hyperspace Target"
+      "message" : "Зафиксировать цель гиперпрыжка"
    },
    "MAP_TOGGLE_INFO_PANEL" : {
       "description" : "",
-      "message" : "Toggle Info Panel"
+      "message" : "Включение панели информации"
    },
    "MAP_TOGGLE_SELECTION_FOLLOW_VIEW" : {
       "description" : "",
-      "message" : "Toggle Selection Following View"
+      "message" : "Включить обзор следования за целью"
    },
    "MAP_VIEW_ROTATE_DOWN" : {
       "description" : "",
@@ -845,11 +845,11 @@
    },
    "MAP_WARP_TO_CURRENT_SYSTEM" : {
       "description" : "",
-      "message" : "Warp to Current System"
+      "message" : "Гиперпрыжок к текущей системе"
    },
    "MAP_WARP_TO_HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Warp to Hyperspace Target"
+      "message" : "Гиперпрыжок к цели в гиперпространстве"
    },
    "MAP_WARP_TO_SELECTED_SYSTEM" : {
       "description" : "",
@@ -1009,7 +1009,7 @@
    },
    "NAME_OBJECT" : {
       "description" : "For an item or object",
-      "message" : "Имя"
+      "message" : "Наименование"
    },
    "NAME_PERSON" : {
       "description" : "For a person",
@@ -1093,7 +1093,7 @@
    },
    "NUMBER_GROUP_SEP" : {
       "description" : "For large number, separator used when grouping digits. E.g. 1,000 or 1 000 or 1'000.",
-      "message" : "."
+      "message" : " "
    },
    "NUMBER_HOURS" : {
       "description" : "",
@@ -1121,7 +1121,7 @@
    },
    "N_DEGREES" : {
       "description" : "",
-      "message" : "%angle{f.1} степ."
+      "message" : "%angle{f.1} град."
    },
    "N_DISTANCE_TO_TARGET" : {
       "description" : "",
@@ -1409,7 +1409,7 @@
    },
    "SEARCH_MAP" : {
       "description" : "",
-      "message" : "Search Map"
+      "message" : "Поиск на карте"
    },
    "SECTOR_COORDINATES" : {
       "description" : "",
@@ -1821,7 +1821,7 @@
    },
    "TOMBSTONE_EPITAPH" : {
       "description" : "",
-      "message" : "ОДИН СРЕДИ ЗВЕЗД"
+      "message" : "ПОКОЙСЯ С МИРОМ, СТАРИНА"
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
@@ -1949,7 +1949,7 @@
    },
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
-      "message" : "Молодая колония сельского хозяйства."
+      "message" : "Молодая сельскохозяйственная колония"
    },
    "YOU_NO_MONEY" : {
       "description" : "",
