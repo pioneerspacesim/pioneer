@@ -372,10 +372,7 @@ void WorldView::OnClickBlastoff()
 {
 	Pi::BoinkNoise();
 	if (Pi::player->GetFlightState() == Ship::DOCKED) {
-		if (!Pi::player->Undock()) {
-			Pi::cpan->MsgLog()->ImportantMessage(Pi::player->GetDockedWith()->GetLabel(),
-					Lang::LAUNCH_PERMISSION_DENIED_BUSY);
-		}
+		Pi::player->Undock();
 	} else {
 		Pi::player->Blastoff();
 	}

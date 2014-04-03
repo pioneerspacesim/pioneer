@@ -479,6 +479,14 @@
       "description" : "",
       "message" : "Language (restart game to apply)"
    },
+   "LAUNCH_PERMISSION_DENIED_BUSY" : {
+      "description" : "",
+      "message" : "Permission to launch denied: docking bay busy."
+   },
+   "LAUNCH_PERMISSION_DENIED_CREW" : {
+      "description" : "",
+      "message" : "Permission to launch denied: not enough crew too handle this ship."
+   },
    "LEGAL_STATUS" : {
       "description" : "",
       "message" : "Legal status"
