@@ -205,10 +205,6 @@ public:
 	virtual Widget *SetFont(Font font);
 	Font GetFont() const;
 
-	// widget id. used for queries/searches
-	const std::string &GetId() const { return m_id; }
-	Widget *SetId(const std::string &id) { m_id = id; return this; }
-
 	// bind an object property to a widget bind point
 	void Bind(const std::string &bindName, PropertiedObject *object, const std::string &propertyName);
 
@@ -428,8 +424,6 @@ private:
 	bool m_visible;
 
 	std::set<KeySym> m_shortcuts;
-
-	std::string m_id;
 
 	std::map< std::string,sigc::slot<void,PropertyMap &,const std::string &> > m_bindPoints;
 	std::map< std::string,sigc::connection > m_binds;
