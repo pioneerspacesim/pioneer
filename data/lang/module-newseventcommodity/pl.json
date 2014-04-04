@@ -109,7 +109,7 @@
    },
    "FLAVOUR_21_NEWSBODY" : {
       "description" : "Imply vast abundance of NERVE_GAS.",
-      "message" : "Although the conflicting parties in the {system} system ({sectorx}, {sectory}, {sectorz}) have not signed an official cease fire, they have agreed to stop using chemical weapons."
+      "message" : "Pomimo tego że strony konfliktu w systemie {system}({sectorx},{sectory},{sectorz}) oficjalnie nie zawiesiły broni, to zgodziły się zaprzestać używania broni chemicznej."
    },
    "FLAVOUR_22_HEADLINE" : {
       "description" : "",

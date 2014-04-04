@@ -113,19 +113,19 @@
    },
    "FLAVOUR_22_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Police on strike in the {system} system. Citizens left to fend for themselves."
+      "message" : "НОВОСТИ {date}: Забастовка полицейских в системе {system}. Граждане брошены на произвол судьбы."
    },
    "FLAVOUR_22_NEWSBODY" : {
       "description" : "Imply high demand of HAND_WEAPONS.",
-      "message" : "In a protest against understaffing the {system} system ({sectorx}, {sectory}, {sectorz}) police refuse to work. Meanwhile, civilians form vigilante groups and arm themselves with pitchforks and firearms as they prepare for the worst."
+      "message" : "В знак протеста против нехватки персонала, полицейские, в системе {system} ({sectorx}, {sectory}, {sectorz}), отказываются работать. Граждане, в ожидание худшего, вынуждены организовывать самооборону и вооружаются вилами и огнестрельным оружием."
    },
    "FLAVOUR_23_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Grand opening of a new factory in the {system} system."
+      "message" : "НОВОСТИ {date}: Грандиозное открытие новой фабрики в системе {system}."
    },
    "FLAVOUR_23_NEWSBODY" : {
       "description" : "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox.",
-      "message" : "The new Amissionox factory in the {system} system ({sectorx}, {sectory}, {sectorz}) is now up and running. It will produce high quality knifes capable of cutting through a space boot; however, due to low supply of resources needed for the blades, they have not yet reached full production potential."
+      "message" : "Компания Amissionox запустила новую фабрику в системе {system} ({sectorx}, {sectory}, {sectorz}). Фабрика выпускает высококачественные ножи, способные прорезать скафандр. Однако, по причине нехватки материалов для изготовления лезвий, фабрика не может работать на полную мощность."
    },
    "FLAVOUR_2_HEADLINE" : {
       "description" : "",
@@ -193,27 +193,27 @@
    },
    "GRATEFUL_GREETING_0" : {
       "description" : "",
-      "message" : "Welcome trader! We will give you a good price for your {cargo}."
+      "message" : "Добро пожаловать торговец! Мы можем хорошо заплатить вам за {cargo}."
    },
    "GRATEFUL_GREETING_1" : {
       "description" : "",
-      "message" : "Your arrival is most welcome, as is your shipment of {cargo}!"
+      "message" : "Мы особенно рады вашему прибытию, потому что вы привезли {cargo}!"
    },
    "GRATEFUL_GREETING_2" : {
       "description" : "",
-      "message" : "Greetings and salutations! You should have no trouble selling {cargo} here."
+      "message" : "Приветствуем вас! У вас не возникнет проблем с продажей {cargo} здесь."
    },
    "GRATEFUL_GREETING_3" : {
       "description" : "",
-      "message" : "Welcome! Finally some {cargo}."
+      "message" : "Добро пожаловать! Наконец то хоть немного {cargo}."
    },
    "GRATEFUL_GREETING_4" : {
       "description" : "",
-      "message" : "How we've longed for some {cargo}."
+      "message" : "Мы с нетерпением ждали хоть немного {cargo}."
    },
    "GRATEFUL_GREETING_5" : {
       "description" : "",
-      "message" : "Welcome! Your shipment of {cargo} will sell out fast here."
+      "message" : "Добро пожаловать! Ваш груз {cargo} здесь быстро раскупят."
    },
    "NEWSPAPER_CIS" : {
       "description" : "",
