@@ -326,6 +326,25 @@ Ship.GenerateCrew = function (self)
 end
 
 --
+-- Method: CrewNumber
+--
+-- Returns the number of the current crew employed on the ship.
+--
+-- > ship:CrewNumber()
+--
+-- Availability:
+--
+--   20140404
+--
+-- Status:
+--
+--   experimental
+--
+Ship.CrewNumber = function (self)
+	return #CrewRoster[self]
+end
+
+--
 -- Method: EachCrewMember
 --
 -- Returns an iterator function which returns each crew member in turn
