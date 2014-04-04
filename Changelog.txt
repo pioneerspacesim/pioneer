@@ -2,6 +2,7 @@ April 2014
 
    * New features
      * UI animations (#2830)
+     * Explosions (#2831)
 
    * Script and UI API changes
      * Animation object, UI.Context.Animate and AddAnimation methods (#2830)
