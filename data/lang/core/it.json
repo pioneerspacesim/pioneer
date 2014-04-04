@@ -747,10 +747,6 @@
       "description" : "",
       "message" : "Rilevata attività ostile."
    },
-   "LAUNCH_PERMISSION_DENIED_BUSY" : {
-      "description" : "",
-      "message" : "Autorizzazione al lancio negata: attracco occupato."
-   },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
       "message" : "Liberal-Democrazia"

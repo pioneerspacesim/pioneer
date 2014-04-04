@@ -747,10 +747,6 @@
       "description" : "",
       "message" : "Foc laser detectat."
    },
-   "LAUNCH_PERMISSION_DENIED_BUSY" : {
-      "description" : "",
-      "message" : "Nu vi se acordă permisiunea de a decola: staţiile sunt aglomerate."
-   },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
       "message" : "Democraţie liberală"

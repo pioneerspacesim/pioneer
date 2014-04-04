@@ -61,7 +61,7 @@
    },
    "AUTOMATIC_SYSTEM_SELECTION" : {
       "description" : "",
-      "message" : "Automatic system selection"
+      "message" : "Automata rendszerkijelölés"
    },
    "AUTOPILOT" : {
       "description" : "",
@@ -746,10 +746,6 @@
    "LASER_FIRE_DETECTED" : {
       "description" : "",
       "message" : "Lézerlövés érzékelve."
-   },
-   "LAUNCH_PERMISSION_DENIED_BUSY" : {
-      "description" : "",
-      "message" : "Leszállási engedély megtagadva: leszállóöböl foglalt."
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",

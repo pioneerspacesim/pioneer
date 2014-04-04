@@ -2,6 +2,7 @@ April 2014
 
    * New features
      * UI animations (#2830)
+     * Explosions (#2831)
 
    * Script and UI API changes
      * Animation object, UI.Context.Animate and AddAnimation methods (#2830)
@@ -12,6 +13,9 @@ April 2014
 
    * Fixes
      * Fix duplication of cargo during cargo scooping (#2644, #2828)
+     * Fix extra crew lingering after sale of ship (#2122, #2837)
+     * Fix taking off with wrong number of crew (#2837)
+     * Fix taking off with unpaid fines (#2359)
 
 March 2014
 

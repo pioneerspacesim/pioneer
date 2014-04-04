@@ -747,10 +747,6 @@
       "description" : "",
       "message" : "Statek pod ostrzałem!"
    },
-   "LAUNCH_PERMISSION_DENIED_BUSY" : {
-      "description" : "",
-      "message" : "Brak pozwolenia na lądowanie: doki zajęte."
-   },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
       "message" : "Liberalna demokracja"

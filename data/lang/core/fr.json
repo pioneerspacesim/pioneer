@@ -747,10 +747,6 @@
       "description" : "",
       "message" : "Détection de tirs laser."
    },
-   "LAUNCH_PERMISSION_DENIED_BUSY" : {
-      "description" : "",
-      "message" : "Permission de décollage refusée: Occupé."
-   },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
       "message" : "Démocratie libérale"

@@ -479,6 +479,18 @@
       "description" : "",
       "message" : "Язык игры (требуется перезапуск игры)"
    },
+   "LAUNCH_PERMISSION_DENIED_BUSY" : {
+      "description" : "",
+      "message" : "Вылет запрещен. Стыковочная зона занята."
+   },
+   "LAUNCH_PERMISSION_DENIED_CREW" : {
+      "description" : "",
+      "message" : "Вылет запрещен: на вашем корабле не укомплектован экипаж."
+   },
+   "LAUNCH_PERMISSION_DENIED_FINED" : {
+      "description" : "",
+      "message" : "Вылет запрещен: у вас не оплачены штрафы."
+   },
    "LEGAL_STATUS" : {
       "description" : "",
       "message" : "Правовой статус"
@@ -922,6 +934,10 @@
    "TOGGLE_MALE_FEMALE" : {
       "description" : "",
       "message" : "Пол муж./жен."
+   },
+   "TOO_SMALL_FOR_CURRENT_CREW" : {
+      "description" : "",
+      "message" : "Корабль слишком мал для вашей команды."
    },
    "TOTAL" : {
       "description" : "",

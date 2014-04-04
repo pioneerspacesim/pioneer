@@ -87,6 +87,12 @@ local function buyShip (sos)
 		MessageBox.Message(l.YOU_NOT_ENOUGH_MONEY)
 		return
 	end
+
+	if player:CrewNumber() > def.maxCrew then
+		MessageBox.Message(l.TOO_SMALL_FOR_CURRENT_CREW)
+		return
+    end
+
 	player:AddMoney(-cost)
 
 	station:ReplaceShipOnSale(sos, {

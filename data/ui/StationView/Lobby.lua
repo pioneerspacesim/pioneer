@@ -12,9 +12,6 @@ local InfoFace = import("ui/InfoFace")
 
 local l = Lang.GetResource("ui-core")
 
--- XXX for LAUNCH_PERMISSION_DENIED_BUSY, still needed by WorldView
-local lcore = Lang.GetResource("core")
-
 local ui = Engine.ui
 
 local lobby = function (tab)
@@ -25,8 +22,14 @@ local lobby = function (tab)
 
 	local launchButton = ui:Button(l.REQUEST_LAUNCH):SetFont("HEADING_LARGE")
 	launchButton.onClick:Connect(function ()
-		if not Game.player:Undock() then
-			Comms.ImportantMessage(station.label, lcore.LAUNCH_PERMISSION_DENIED_BUSY)
+		local crimes, fine = Game.player:GetCrime()
+
+		if not Game.player:HasCorrectCrew() then
+			Comms.ImportantMessage(l.LAUNCH_PERMISSION_DENIED_CREW, station.label)
+		elseif fine > 0 then
+			Comms.ImportantMessage(l.LAUNCH_PERMISSION_DENIED_FINED, station.label)
+		elseif not Game.player:Undock() then
+			Comms.ImportantMessage(l.LAUNCH_PERMISSION_DENIED_BUSY, station.label)
 		else
 			Game.SwitchToWorldView()
 		end

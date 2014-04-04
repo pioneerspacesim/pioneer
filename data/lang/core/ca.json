@@ -747,10 +747,6 @@
       "description" : "",
       "message" : "S'ha detectat foc de làser."
    },
-   "LAUNCH_PERMISSION_DENIED_BUSY" : {
-      "description" : "",
-      "message" : "Permís per enlairament degegat: moll de càrrega ocupat."
-   },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
       "message" : "Democràcia liberal"
