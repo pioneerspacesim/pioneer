@@ -4,6 +4,9 @@ April 2014
      * UI animations (#2830)
      * Explosions (#2831)
 
+   * Minor changes and tweaks
+     * Add a Return to Game button in the pause/options screen (#2841)
+
    * Script and UI API changes
      * Animation object, UI.Context.Animate and AddAnimation methods (#2830)
 
