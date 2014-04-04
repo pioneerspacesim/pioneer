@@ -615,6 +615,10 @@
       "description" : "",
       "message" : "Minimum crew"
    },
+   "MISSILE_MOUNTS" : {
+      "description" : "",
+      "message" : "Missile mounts"
+   },
    "MISSIONS" : {
       "description" : "",
       "message" : "Missions"
@@ -682,6 +686,10 @@
    "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR" : {
       "description" : "",
       "message" : "Not enough {alloy} to attempt a repair"
+   },
+   "NO" : {
+      "description" : "Negative answer to a question",
+      "message" : "No"
    },
    "NO_MISSIONS" : {
       "description" : "",
@@ -1014,6 +1022,10 @@
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
       "description" : "",
       "message" : "We have no business with you at the moment."
+   },
+   "YES" : {
+      "description" : "Positive answer to a question",
+      "message" : "Yes"
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",

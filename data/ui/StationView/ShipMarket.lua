@@ -115,6 +115,15 @@ local function buyShip (sos)
 
 end
 
+local yes_no = function (binary)
+	if binary == 1 then
+		return l.YES
+	elseif binary == 0 then
+		return l.NO
+	else error("argument to yes_no not 0 or 1")
+	end
+end
+
 local currentShipOnSale
 
 shipTable.onRowClicked:Connect(function (row)
@@ -172,6 +181,10 @@ shipTable.onRowClicked:Connect(function (row)
 							:AddRow({l.MAXIMUM_CREW,        def.maxCrew})
 							:AddRow({l.WEIGHT_FULLY_LOADED, Format.MassTonnes(def.hullMass+def.capacity+def.fuelTankMass)})
 							:AddRow({l.FUEL_WEIGHT,         Format.MassTonnes(def.fuelTankMass)})
+							:AddRow({l.MISSILE_MOUNTS,      def.equipSlotCapacity["MISSILE"]})
+							:AddRow({lcore.ATMOSPHERIC_SHIELDING, yes_no(def.equipSlotCapacity["ATMOSHIELD"])})
+							:AddRow({lcore.FUEL_SCOOP,            yes_no(def.equipSlotCapacity["FUELSCOOP"])})
+							:AddRow({lcore.CARGO_SCOOP,           yes_no(def.equipSlotCapacity["CARGOSCOOP"])})
 					})
 			),
 		})
