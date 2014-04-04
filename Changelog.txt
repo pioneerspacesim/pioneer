@@ -14,6 +14,7 @@ April 2014
      * Fix duplication of cargo during cargo scooping (#2644, #2828)
      * Fix extra crew lingering after sale of ship (#2122, #2837)
      * Fix taking off with wrong number of crew (#2837)
+     * Fix taking off with unpaid fines (#2359)
 
 March 2014
 

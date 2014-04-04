@@ -22,8 +22,12 @@ local lobby = function (tab)
 
 	local launchButton = ui:Button(l.REQUEST_LAUNCH):SetFont("HEADING_LARGE")
 	launchButton.onClick:Connect(function ()
+		local crimes, fine = Game.player:GetCrime()
+
 		if not Game.player:HasCorrectCrew() then
 			Comms.ImportantMessage(l.LAUNCH_PERMISSION_DENIED_CREW, station.label)
+		elseif fine > 0 then
+			Comms.ImportantMessage(l.LAUNCH_PERMISSION_DENIED_FINED, station.label)
 		elseif not Game.player:Undock() then
 			Comms.ImportantMessage(l.LAUNCH_PERMISSION_DENIED_BUSY, station.label)
 		else
