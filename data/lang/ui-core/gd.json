@@ -481,7 +481,7 @@
    },
    "LAUNCH_PERMISSION_DENIED_BUSY" : {
       "description" : "",
-      "message" : "Permission to launch denied: docking bay busy."
+      "message" : "Chaidh an t-iarrtas losgaidh a dhiùltadh: tha an t-ionad docaidh trang."
    },
    "LAUNCH_PERMISSION_DENIED_CREW" : {
       "description" : "",

@@ -481,15 +481,15 @@
    },
    "LAUNCH_PERMISSION_DENIED_BUSY" : {
       "description" : "",
-      "message" : "Permission to launch denied: docking bay busy."
+      "message" : "Вылет запрещен. Стыковочная зона занята."
    },
    "LAUNCH_PERMISSION_DENIED_CREW" : {
       "description" : "",
-      "message" : "Permission to launch denied: not enough crew too handle this ship."
+      "message" : "Вылет запрещен: на вашем корабле не укомплектован экипаж."
    },
    "LAUNCH_PERMISSION_DENIED_FINED" : {
       "description" : "",
-      "message" : "Permission to launch denied: you have outstanding fines."
+      "message" : "Вылет запрещен: у вас не оплачены штрафы."
    },
    "LEGAL_STATUS" : {
       "description" : "",
@@ -937,7 +937,7 @@
    },
    "TOO_SMALL_FOR_CURRENT_CREW" : {
       "description" : "",
-      "message" : "Ship is too small for the current crew."
+      "message" : "Корабль слишком мал для вашей команды."
    },
    "TOTAL" : {
       "description" : "",
