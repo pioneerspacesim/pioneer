@@ -380,6 +380,7 @@ ui.templates.SettingsInGame = function ()
 					})
 				)
 			end },
+			{ text = l.RETURN_TO_GAME, onClick = Game.SwitchToWorldView },
 			{ text = l.EXIT_THIS_GAME, onClick = Game.EndGame }
 		}
 	})
