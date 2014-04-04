@@ -747,10 +747,6 @@
       "description" : "",
       "message" : "Lézerlövés érzékelve."
    },
-   "LAUNCH_PERMISSION_DENIED_BUSY" : {
-      "description" : "",
-      "message" : "Leszállási engedély megtagadva: leszállóöböl foglalt."
-   },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
       "message" : "Liberális demokrácia"

@@ -747,10 +747,6 @@
       "description" : "",
       "message" : "检测到激光攻击。"
    },
-   "LAUNCH_PERMISSION_DENIED_BUSY" : {
-      "description" : "",
-      "message" : "着陆许可被拒绝：港口繁忙。"
-   },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
       "message" : "自由民主制"

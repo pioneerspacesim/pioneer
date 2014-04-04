@@ -747,10 +747,6 @@
       "description" : "",
       "message" : "Disparo de laser detetado."
    },
-   "LAUNCH_PERMISSION_DENIED_BUSY" : {
-      "description" : "",
-      "message" : "Autorização para descolar negada: baía de docagem ocupada."
-   },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
       "message" : "Democracia liberal"

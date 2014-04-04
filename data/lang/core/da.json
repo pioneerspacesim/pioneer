@@ -747,10 +747,6 @@
       "description" : "",
       "message" : "Laserskud detekteret."
    },
-   "LAUNCH_PERMISSION_DENIED_BUSY" : {
-      "description" : "",
-      "message" : "Tilladelse til at lette nægtet: tilkoblingssted i brug."
-   },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
       "message" : "Liberalt demokrati"

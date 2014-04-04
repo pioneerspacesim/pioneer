@@ -747,10 +747,6 @@
       "description" : "",
       "message" : "Detektirana paljba."
    },
-   "LAUNCH_PERMISSION_DENIED_BUSY" : {
-      "description" : "",
-      "message" : "Dozvola za poljetanje odbijena: spojni vezovi zauzeti."
-   },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
       "message" : "Liberalna demokracija"

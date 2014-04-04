@@ -747,10 +747,6 @@
       "description" : "",
       "message" : "Lasereld upptäckt."
    },
-   "LAUNCH_PERMISSION_DENIED_BUSY" : {
-      "description" : "",
-      "message" : "Tillstånd för uppskjutning nekat: landningsplats upptaget."
-   },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
       "message" : "Liberaldemokrati"
