@@ -7,6 +7,7 @@
 #include "EnumStrings.h"
 #include "LuaEvent.h"
 #include "Missile.h"
+#include "Player.h"
 #include "Projectile.h"
 #include "ShipAICmd.h"
 #include "ShipController.h"
@@ -458,8 +459,10 @@ void Ship::Explode()
 	if (m_invulnerable) return;
 
 	Pi::game->GetSpace()->KillBody(this);
-	Sfx::Add(this, Sfx::TYPE_EXPLOSION);
-	Sound::BodyMakeNoise(this, "Explosion_1", 1.0f);
+	if (this->GetFrame() == Pi::player->GetFrame()) {
+		Sfx::AddExplosion(this, Sfx::TYPE_EXPLOSION);
+		Sound::BodyMakeNoise(this, "Explosion_1", 1.0f);
+	}
 	ClearThrusterState();
 }
 
@@ -1244,8 +1247,9 @@ void Ship::StaticUpdate(const float timeStep)
 
 	//Add smoke trails for missiles on thruster state
 	if (m_type->tag == ShipType::TAG_MISSILE && m_thrusters.z < 0.0 && 0.1*Pi::rng.Double() < timeStep) {
-		vector3d pos = GetOrient() * vector3d(0, 0 , 5);
-		Sfx::AddThrustSmoke(this, Sfx::TYPE_SMOKE, std::min(10.0*GetVelocity().Length()*abs(m_thrusters.z),100.0),pos);
+		const vector3d pos = GetOrient() * vector3d(0, 0 , 5);
+		const float speed = std::min(10.0*GetVelocity().Length()*abs(m_thrusters.z),100.0);
+		Sfx::AddThrustSmoke(this, Sfx::TYPE_SMOKE, speed, pos);
 	}
 }
 
@@ -1331,7 +1335,7 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 		}
 
 		Sfx::ecmParticle->diffuse = c;
-		renderer->DrawPointSprites(100, v, Sfx::additiveAlphaState, Sfx::ecmParticle, 50.f);
+		renderer->DrawPointSprites(100, v, Sfx::additiveAlphaState, Sfx::ecmParticle.get(), 50.f);
 	}
 }
 
