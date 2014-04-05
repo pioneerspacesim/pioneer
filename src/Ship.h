@@ -321,6 +321,7 @@ private:
 	void OnEquipmentChange(Equip::Type e);
 	void EnterHyperspace();
 	void InitGun(const char *tag, int num);
+	bool AttachTurret(const char *tag);
 	bool InitTurret(const char *tag);
 	void InitMaterials();
 
