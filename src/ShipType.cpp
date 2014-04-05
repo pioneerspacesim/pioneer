@@ -181,6 +181,30 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 		}
 	}
 	lua_pop(L, 1);
+
+	lua_pushstring(L, "turrets");
+	lua_gettable(L, -2);
+	if (lua_istable(L, -1)) {
+		for (unsigned int i=0; i<lua_rawlen(L,-1); i++) {
+			lua_pushinteger(L, i+1);
+			lua_gettable(L, -2);
+			if (lua_istable(L, -1) && lua_rawlen(L,-1) == 2)	{
+				lua_pushinteger(L, 1);
+				lua_gettable(L, -2);
+				const char *tag_name = lua_tostring(L,-1);
+				lua_pop(L, 1);
+
+				lua_pushinteger(L, 2);
+				lua_gettable(L, -2);
+				const char *turret_name = lua_tostring(L,-1);
+				lua_pop(L, 1);
+				s.turretsMap[tag_name] = turret_name;
+			}
+			lua_pop(L, 1);
+		}
+	}
+	lua_pop(L, 1);
+
 	LUA_DEBUG_END(L, 0);
 
 	//sanity check
