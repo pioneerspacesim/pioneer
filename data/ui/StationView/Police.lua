@@ -16,11 +16,15 @@ local MessageBox = import("ui/MessageBox")
 local ui = Engine.ui
 local l = Lang.GetResource("ui-core")
 
+-- XXX crimes are in both core and ui-core...
+local lcore = Lang.GetResource("core")
+
 local crimeStrings = {
 	TRADING_ILLEGAL_GOODS = l.TRADING_ILLEGAL_GOODS,
 	WEAPON_DISCHARGE      = l.UNLAWFUL_WEAPONS_DISCHARGE,
 	PIRACY                = l.PIRACY,
 	MURDER                = l.MURDER,
+	DUMPING               = lcore.DUMPING,
 }
 
 local police = function (tab)
