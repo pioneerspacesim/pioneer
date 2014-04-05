@@ -11,6 +11,10 @@
 #include <wchar.h>
 #include <windows.h>
 
+#ifdef _MSC_VER
+#pragma warning(disable: 4996)
+#endif
+
 namespace OS {
 
 	namespace {
