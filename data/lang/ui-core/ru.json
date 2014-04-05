@@ -827,6 +827,10 @@
       "description" : "",
       "message" : "Запрос на взлёт"
    },
+   "RETURN_TO_GAME" : {
+      "description" : "",
+      "message" : "Вернуться к игре"
+   },
    "RETURN_TO_MENU" : {
       "description" : "",
       "message" : "Вернуться к меню"

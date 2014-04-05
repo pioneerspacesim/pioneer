@@ -485,11 +485,11 @@
    },
    "LAUNCH_PERMISSION_DENIED_CREW" : {
       "description" : "",
-      "message" : "Permission to launch denied: not enough crew too handle this ship."
+      "message" : "Starterlaubnis verweigert: Das Schiff ist unterbesetzt."
    },
    "LAUNCH_PERMISSION_DENIED_FINED" : {
       "description" : "",
-      "message" : "Permission to launch denied: you have outstanding fines."
+      "message" : "Starterlaubnis verweigert: Sie haben noch ausstehende Strafen."
    },
    "LEGAL_STATUS" : {
       "description" : "",
@@ -827,6 +827,10 @@
       "description" : "",
       "message" : "Starterlaubnis anfordern"
    },
+   "RETURN_TO_GAME" : {
+      "description" : "",
+      "message" : "Return to game"
+   },
    "RETURN_TO_MENU" : {
       "description" : "",
       "message" : "Zurück zum Menü"
@@ -937,7 +941,7 @@
    },
    "TOO_SMALL_FOR_CURRENT_CREW" : {
       "description" : "",
-      "message" : "Ship is too small for the current crew."
+      "message" : "Das Schiff ist zu klein für die aktuelle Anzahl an Crewmitgliedern."
    },
    "TOTAL" : {
       "description" : "",

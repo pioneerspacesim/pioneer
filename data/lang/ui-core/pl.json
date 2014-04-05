@@ -485,11 +485,11 @@
    },
    "LAUNCH_PERMISSION_DENIED_CREW" : {
       "description" : "",
-      "message" : "Permission to launch denied: not enough crew too handle this ship."
+      "message" : "Brak pozwolenia na lądowanie: brak wystarczającej ilości załogi by poprowadzić ten statek."
    },
    "LAUNCH_PERMISSION_DENIED_FINED" : {
       "description" : "",
-      "message" : "Permission to launch denied: you have outstanding fines."
+      "message" : "Brak pozwolenia na lądowanie: zalegasz z opłatą grzywny."
    },
    "LEGAL_STATUS" : {
       "description" : "",
@@ -827,6 +827,10 @@
       "description" : "",
       "message" : "Pozwolenie na start"
    },
+   "RETURN_TO_GAME" : {
+      "description" : "",
+      "message" : "Powrót do gry"
+   },
    "RETURN_TO_MENU" : {
       "description" : "",
       "message" : "Powrót do menu"
@@ -937,7 +941,7 @@
    },
    "TOO_SMALL_FOR_CURRENT_CREW" : {
       "description" : "",
-      "message" : "Ship is too small for the current crew."
+      "message" : "Statek jest zbyt mały dla obecnej ilości załogi."
    },
    "TOTAL" : {
       "description" : "",

@@ -827,6 +827,10 @@
       "description" : "",
       "message" : "Verzoek om toestemming om te vertrekken"
    },
+   "RETURN_TO_GAME" : {
+      "description" : "",
+      "message" : "Return to game"
+   },
    "RETURN_TO_MENU" : {
       "description" : "",
       "message" : "Return to menu"

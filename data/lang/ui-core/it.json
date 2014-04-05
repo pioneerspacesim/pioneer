@@ -827,6 +827,10 @@
       "description" : "",
       "message" : "Richiesta autorizzazione al lancio"
    },
+   "RETURN_TO_GAME" : {
+      "description" : "",
+      "message" : "Return to game"
+   },
    "RETURN_TO_MENU" : {
       "description" : "",
       "message" : "Ritorna al menu"

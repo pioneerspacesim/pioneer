@@ -827,6 +827,10 @@
       "description" : "",
       "message" : "Request Launch"
    },
+   "RETURN_TO_GAME" : {
+      "description" : "",
+      "message" : "Return to game"
+   },
    "RETURN_TO_MENU" : {
       "description" : "",
       "message" : "回到菜单"

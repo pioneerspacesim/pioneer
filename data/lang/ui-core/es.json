@@ -827,6 +827,10 @@
       "description" : "",
       "message" : "Solicitar permiso para despegar"
    },
+   "RETURN_TO_GAME" : {
+      "description" : "",
+      "message" : "Return to game"
+   },
    "RETURN_TO_MENU" : {
       "description" : "",
       "message" : "Volver al menú"

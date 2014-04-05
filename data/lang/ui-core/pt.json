@@ -827,6 +827,10 @@
       "description" : "",
       "message" : "Requisitar Autorização de Descolagem"
    },
+   "RETURN_TO_GAME" : {
+      "description" : "",
+      "message" : "Return to game"
+   },
    "RETURN_TO_MENU" : {
       "description" : "",
       "message" : "Voltar ao menu"

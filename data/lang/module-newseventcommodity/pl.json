@@ -117,7 +117,7 @@
    },
    "FLAVOUR_22_NEWSBODY" : {
       "description" : "Imply high demand of HAND_WEAPONS.",
-      "message" : "In a protest against understaffing the {system} system ({sectorx}, {sectory}, {sectorz}) police refuse to work. Meanwhile, civilians form vigilante groups and arm themselves with pitchforks and firearms as they prepare for the worst."
+      "message" : "W ramach protestu przeciw niekorzystnym posunięciom kadrowym w systemie {system}({sectorx},{sectory},{sectorz}) policja odmówiła podjęcia pracy. Obecnie cywile tworzą oddziały straży obywatelskiej uzbrojonej w widły oraz broń palnę, przygotowując się na najgorsze."
    },
    "FLAVOUR_23_HEADLINE" : {
       "description" : "",
