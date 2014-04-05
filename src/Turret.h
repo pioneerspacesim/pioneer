@@ -9,10 +9,9 @@ class Body;
 class Ship;
 enum Equip::Type;
 
-struct TurretData {	// fixed mount, front or rear
+struct TurretData {
 	vector3d pos;
-	vector3d dir;		// not necessarily directly front or rear...
-	Sint32 size;		// maximum size of weapon to mount  
+	vector3d dir;
 	
 	double extent;		// maximum angle from dir in radians
 	double accel;

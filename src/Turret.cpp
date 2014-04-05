@@ -54,6 +54,8 @@ void Turret::SetWeapon(Equip::Type weapontype, float coolfactor)
 
 void Turret::Update(float timeStep)
 {
+	return;
+#if 0
 	if (!m_target || m_weapontype == Equip::NONE) return;
 
 	// if turret wasn't manually controlled, run the autotarget routine
@@ -93,6 +95,7 @@ void Turret::Update(float timeStep)
 
 	Polit::NotifyOfCrime(m_parent, Polit::CRIME_WEAPON_DISCHARGE);
 	Sound::BodyMakeNoise(m_parent, "Pulse_Laser", 1.0f);
+#endif
 }
 
 extern double calc_ivel(double dist, double vel, double acc);
