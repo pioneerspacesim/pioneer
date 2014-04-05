@@ -6,8 +6,8 @@ April 2014
 
    * Minor changes and tweaks
      * Add a Return to Game button in the pause/options screen (#2841)
-     * More specific warning message in ship market if trying to by
-       something the current ship model doesn't support.
+     * More specific warning message in ship market if trying to buy
+       equipment that the current ship model doesn't support.
 
    * Script and UI API changes
      * Animation object, UI.Context.Animate and AddAnimation methods (#2830)
