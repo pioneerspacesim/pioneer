@@ -188,7 +188,7 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 		for (unsigned int i=0; i<lua_rawlen(L,-1); i++) {
 			lua_pushinteger(L, i+1);
 			lua_gettable(L, -2);
-			if (lua_istable(L, -1) && lua_rawlen(L,-1) == 2)	{
+			if (lua_istable(L, -1) && lua_rawlen(L,-1) == 3)	{
 				lua_pushinteger(L, 1);
 				lua_gettable(L, -2);
 				const char *tag_name = lua_tostring(L,-1);
@@ -198,7 +198,15 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 				lua_gettable(L, -2);
 				const char *turret_name = lua_tostring(L,-1);
 				lua_pop(L, 1);
-				s.turretsMap[tag_name] = turret_name;
+
+				lua_pushinteger(L, 3);
+				lua_gettable(L, -2);
+				const Equip::Type equip = static_cast<Equip::Type>(LuaConstants::GetConstantFromArg(L, "EquipType", -1));
+				lua_pop(L, 1);
+
+				if( (equip >= Equip::PULSECANNON_1MW) && (equip <= Equip::LARGE_PLASMA_ACCEL) ) {
+					s.turretsMap[tag_name] = std::make_pair(turret_name, equip);
+				}
 			}
 			lua_pop(L, 1);
 		}

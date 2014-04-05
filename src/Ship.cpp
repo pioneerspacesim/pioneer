@@ -199,12 +199,14 @@ void Ship::InitMaterials()
 	s_heatGradientParams.heatingAmount = 0.0f;
 	s_heatGradientParams.heatingNormal = vector3f(0.0f, -1.0f, 0.0f);
 }
-#pragma optimize("",off)
-bool Ship::AttachTurret(const char *tag)
-{
-	bool success = true;
 
-	ShipType::TStrStrMapIter it = m_type->turretsMap.find(tag);
+bool Ship::InitTurret(const char *tag)
+{
+	assert(tag);
+
+	bool foundTurret = true;
+
+	ShipType::TTagTurretMapIter it = m_type->turretsMap.find(tag);
 	if( m_type->turretsMap.end() == it ) {
 		// didn't find the tag in the map, don't attach a turret
 		return false;
@@ -213,39 +215,29 @@ bool Ship::AttachTurret(const char *tag)
 	SceneGraph::Loader loader(Pi::renderer);
 	SceneGraph::Model *m = nullptr;
 	try {
-		m = loader.LoadModel( it->second );
+		m = loader.LoadModel( it->second.first );
 	} catch (SceneGraph::LoadingError &) {
-		Output("Could not load %s model\n", it->second.c_str());
-		success = false;
+		Output("Could not load %s model\n", it->second.first.c_str());
+		foundTurret = false;
 	}
 
-	if( m ) {
-		std::vector<SceneGraph::Group *> turretTags;
-		SceneGraph::Group *pTag = GetModel()->FindTagByName(tag);
-		if( pTag )
+	if( m && foundTurret ) {
+		SceneGraph::MatrixTransform *mt = GetModel()->FindTagByName(tag);
+		if( mt )
 		{
-			// There shouldn't be anything else
-			pTag->RemoveChildAt(0);
-			pTag->AddChild(new SceneGraph::ModelNode(m));
-		}
-	}
-
-	return success;
-}
-#pragma optimize("",off)
-bool Ship::InitTurret(const char *tag)
-{
-	bool foundTurret = AttachTurret(tag);
-	if( foundTurret ) {
-		const SceneGraph::MatrixTransform *mt = GetModel()->FindTagByName(tag);
-		if (mt) {
+			// There shouldn't be anything else attached
+			mt->RemoveChildAt(0);
+			mt->AddChild(new SceneGraph::ModelNode(m));
+			
+			//
 			const matrix4x4f &trans = mt->GetTransform();
 			TurretData td;
 			td.pos = vector3d(trans.GetTranslate());
 			td.dir = vector3d(trans.GetOrient().VectorZ());
 			td.name = tag;
-			m_turrets.push_back( new Turret(this, td) );
-			foundTurret = true;
+			Turret *pTurret = new Turret(this, td);
+			pTurret->SetWeapon( it->second.second, 1.0f );
+			m_turrets.push_back( pTurret );
 		}
 	}
 	return foundTurret;

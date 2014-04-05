@@ -237,8 +237,7 @@ public:
 	void SetPercentHull(float);
 
 	int GetNumTurrets() const { return int(m_turrets.size()); }
-	//Turret *GetTurret(int idx) const { return m_turrets[idx]; }
-	const Turret *GetTurret(int idx) const { return m_turrets[idx]; }
+	Turret *GetTurret(int idx) const { return m_turrets[idx]; }
 
 	float GetGunTemperature(int idx) const { return m_gun[idx].temperature; }
 
@@ -321,7 +320,6 @@ private:
 	void OnEquipmentChange(Equip::Type e);
 	void EnterHyperspace();
 	void InitGun(const char *tag, int num);
-	bool AttachTurret(const char *tag);
 	bool InitTurret(const char *tag);
 	void InitMaterials();
 
