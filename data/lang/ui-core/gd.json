@@ -683,6 +683,10 @@
       "description" : "",
       "message" : "Chan eil {alloy} gu leòr agad gus feuchainn ris a chàradh"
    },
+   "NOT_SUPPORTED_ON_THIS_SHIP" : {
+      "description" : "",
+      "message" : "{equipment} is not supported on this ship model"
+   },
    "NO_MISSIONS" : {
       "description" : "",
       "message" : "Chan eil misean agad."

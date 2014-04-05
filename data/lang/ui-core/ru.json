@@ -683,6 +683,10 @@
       "description" : "",
       "message" : "Недостаточно {alloy} для проведения ремонта"
    },
+   "NOT_SUPPORTED_ON_THIS_SHIP" : {
+      "description" : "",
+      "message" : "{equipment} is not supported on this ship model"
+   },
    "NO_MISSIONS" : {
       "description" : "",
       "message" : "Нет заданий."

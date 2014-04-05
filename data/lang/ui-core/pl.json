@@ -683,6 +683,10 @@
       "description" : "",
       "message" : "{alloy} - jest zbyt mało by rozpocząć naprawę."
    },
+   "NOT_SUPPORTED_ON_THIS_SHIP" : {
+      "description" : "",
+      "message" : "{equipment} - nie można zainstalować w tym modelu statku"
+   },
    "NO_MISSIONS" : {
       "description" : "",
       "message" : "Brak misji."

@@ -683,6 +683,10 @@
       "description" : "",
       "message" : "Insuficient cu {alloy} pentru a repara."
    },
+   "NOT_SUPPORTED_ON_THIS_SHIP" : {
+      "description" : "",
+      "message" : "{equipment} is not supported on this ship model"
+   },
    "NO_MISSIONS" : {
       "description" : "",
       "message" : "Lipsă misiuni."
