@@ -224,11 +224,20 @@ function EquipmentTableWidgets.Pair (config)
 
 		local player = Game.player
 
+		-- if this ship model doesn't support fitting of this equip:
+		if player:GetEquipSlotCapacity(EquipDef[e].slot) < 1 then
+			MessageBox.Message(string.interp(l.NOT_SUPPORTED_ON_THIS_SHIP,
+				 {equipment = EquipDef[e].name,}))
+			return
+		end
+
+		-- if ship maxed out in this slot
 		if player:GetEquipFree(EquipDef[e].slot) < 1 then
 			MessageBox.Message(l.SHIP_IS_FULLY_LADEN)
 			return
 		end
 
+		-- if ship too heavy to support more
 		if player.freeCapacity < EquipDef[e].mass then
 			MessageBox.Message(l.SHIP_IS_FULLY_LADEN)
 			return
