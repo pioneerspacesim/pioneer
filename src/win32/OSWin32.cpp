@@ -140,9 +140,9 @@ const std::string GetOSInfoString()
 		{ 0, 0, nullptr         }
 	};
 
-	OSVERSIONINFO osv;
-	osv.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-	GetVersionEx(&osv);
+	OSVERSIONINFOA osv;
+	osv.dwOSVersionInfoSize = sizeof(OSVERSIONINFOA);
+	GetVersionExA(&osv);
 
 	std::string name;
 	for (const OSVersion *scan = osVersions; scan->name; scan++) {
