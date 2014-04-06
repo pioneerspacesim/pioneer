@@ -22,7 +22,7 @@ void BaseLoader::ConvertMaterialDefinition(const MaterialDefinition &mdef)
 	const std::string &diffTex = mdef.tex_diff;
 	const std::string &specTex = mdef.tex_spec;
 	const std::string &glowTex = mdef.tex_glow;
-	const std::string &ambiTex = mdef.tex_glow;
+	const std::string &ambiTex = mdef.tex_ambi;
 
 	Graphics::MaterialDescriptor matDesc;
 	matDesc.lighting = !mdef.unlit;
