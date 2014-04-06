@@ -1,7 +1,7 @@
 {
    "FLAVOUR_0_HEADLINE" : {
       "description" : "",
-      "message" : "HÍREK: {date}: {system} rendszerben járvány szedi áldozatait. Halottak száma növekszik."
+      "message" : "HÍREK: {date}: {system} rendszerben járvány szedi áldozatait. Halottak száma nő."
    },
    "FLAVOUR_0_NEWSBODY" : {
       "description" : "Imply high demand for MEDICINE commodity.",
@@ -53,15 +53,15 @@
    },
    "FLAVOUR_15_NEWSBODY" : {
       "description" : "imply high demand of NARCOTICS.",
-      "message" : "The administration in the {system} system ({sectorx}, {sectory}, {sectorz}) hopes crime will diminish as drugs are no longer available, since the arrest of several mobsters."
+      "message" : "A hatóságok a drogkartellek vezéreinek letartóztatásától azt remélik, hogy {system} rendszerben ({sectorx}, {sectory}, {sectorz}) jelentősen csökkenni fog a bűnözés."
    },
    "FLAVOUR_16_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Serious accident during the annual {system} Great Steam Fair."
+      "message" : "HÍREK {date}: Súlyos baleset {system} Mezőgazdasági Seregszemléjén."
    },
    "FLAVOUR_16_NEWSBODY" : {
       "description" : "Imply high demand of FARM_MACHINERY.",
-      "message" : "During the Great Steam Fair in the {system} system ({sectorx}, {sectory}, {sectorz}) an attempt for the galactic record in biggest tractor pulling contest ended in mayhem as one of the contestants lost control of his contraption, destroying all other participants' machines. Administration says it could spell doom for the local farmers."
+      "message" : "Az idei {system}-i Nagy Mezőgazdasági Seregszemlén a Traktoros kötélhúzás galaktikus rekordkísérlete hatalmas rombolásba torkollott. Az egyik résztvevő elvesztette az uralmat a járműve felett és a keletkező káoszban az összes résztvevő gépe tönkrement. A hatóságok a mezőgazdaság súlyos visszaesésétől tartanak."
    },
    "FLAVOUR_17_HEADLINE" : {
       "description" : "",
