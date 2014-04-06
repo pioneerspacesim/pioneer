@@ -8,6 +8,9 @@ uniform sampler2D texture2; //glow
 uniform sampler2D texture3; //pattern
 uniform sampler2D texture4; //color
 varying vec2 texCoord0;
+#ifdef MAP_AMBIENT
+varying vec2 texCoord1;
+#endif
 #endif
 
 #ifdef VERTEXCOLOR
@@ -70,7 +73,11 @@ void main(void)
 
 //directional lighting
 #if (NUM_LIGHTS > 0)
+#ifdef MAP_AMBIENT
+	vec4 light = (scene.ambient * texture2D(texture3, texCoord1)) +
+#else
 	vec4 light = scene.ambient +
+#endif
 //ambient and emissive only make sense with lighting
 #ifdef MAP_EMISSIVE
 		texture2D(texture2, texCoord0); //glow map

@@ -3,6 +3,9 @@
 
 #ifdef TEXTURE0
 varying vec2 texCoord0;
+#ifdef MAP_AMBIENT
+varying vec2 texCoord1;
+#endif
 #endif
 #ifdef VERTEXCOLOR
 varying vec4 vertexColor;
@@ -25,12 +28,15 @@ void main(void)
 #endif
 #ifdef TEXTURE0
 	texCoord0 = gl_MultiTexCoord0.xy;
+#ifdef MAP_AMBIENT
+	texCoord1 = gl_MultiTexCoord1.xy;
+#endif
 #endif
 #if (NUM_LIGHTS > 0)
 	eyePos = vec3(gl_ModelViewMatrix * gl_Vertex);
 	normal = normalize(gl_NormalMatrix * gl_Normal);
-	#ifdef HEAT_COLOURING
-		heatingDir = normalize(heatingMatrix * heatingNormal);
-	#endif
+#ifdef HEAT_COLOURING
+	heatingDir = normalize(heatingMatrix * heatingNormal);
+#endif
 #endif
 }

@@ -54,6 +54,7 @@ public:
 	EffectType effect;
 	bool alphaTest;
 	bool glowMap;
+	bool ambientMap;
 	bool lighting;
 	bool specularMap;
 	bool usePatterns; //pattern/color system

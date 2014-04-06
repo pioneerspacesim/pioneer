@@ -35,6 +35,8 @@ MultiProgram::MultiProgram(const MaterialDescriptor &desc, int lights)
 		ss << "#define MAP_SPECULAR\n";
 	if (desc.glowMap)
 		ss << "#define MAP_EMISSIVE\n";
+	if (desc.ambientMap)
+		ss << "#define MAP_AMBIENT\n";
 	if (desc.usePatterns)
 		ss << "#define MAP_COLOR\n";
 	if (desc.quality & HAS_HEAT_GRADIENT)
