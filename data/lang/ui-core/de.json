@@ -685,7 +685,7 @@
    },
    "NOT_SUPPORTED_ON_THIS_SHIP" : {
       "description" : "",
-      "message" : "{equipment} is not supported on this ship model"
+      "message" : "{equipment} wird von diesem Schiff nicht unterstützt."
    },
    "NO_MISSIONS" : {
       "description" : "",
@@ -833,7 +833,7 @@
    },
    "RETURN_TO_GAME" : {
       "description" : "",
-      "message" : "Return to game"
+      "message" : "Zurück zum Spiel"
    },
    "RETURN_TO_MENU" : {
       "description" : "",

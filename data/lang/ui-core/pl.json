@@ -889,7 +889,7 @@
    },
    "SHIP_IS_FULLY_LADEN" : {
       "description" : "",
-      "message" : "Twój statek jest w pełni załadowany"
+      "message" : "Twój statek jest zbyt obciążony"
    },
    "SHIP_MARKET" : {
       "description" : "",
