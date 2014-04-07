@@ -138,6 +138,13 @@ void VertexBuffer::SetAttribPointers()
 			glColorPointer(get_num_components(attr.format), get_component_type(attr.format), m_desc.stride, offset);
 			break;
 		case ATTRIB_UV0:
+			glClientActiveTexture(GL_TEXTURE0);
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			glTexCoordPointer(get_num_components(attr.format), get_component_type(attr.format), m_desc.stride, offset);
+			break;
+		case ATTRIB_UV1:
+			glClientActiveTexture(GL_TEXTURE1);
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 			glTexCoordPointer(get_num_components(attr.format), get_component_type(attr.format), m_desc.stride, offset);
 			break;
 		case ATTRIB_NONE:
@@ -149,6 +156,7 @@ void VertexBuffer::SetAttribPointers()
 
 void VertexBuffer::UnsetAttribPointers()
 {
+	glClientActiveTexture(GL_TEXTURE0);
 }
 
 IndexBuffer::IndexBuffer(Uint32 size, BufferUsage hint)

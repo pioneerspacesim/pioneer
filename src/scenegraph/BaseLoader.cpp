@@ -61,8 +61,8 @@ void BaseLoader::ConvertMaterialDefinition(const MaterialDefinition &mdef)
 	if (!ambiTex.empty())
 		mat->texture3 = Graphics::TextureBuilder::Model(ambiTex).GetOrCreateTexture(m_renderer, "model");
 	
-	//texture3 is reserved for pattern
-	//texture4 is reserved for color gradient
+	//texture4 is reserved for pattern
+	//texture5 is reserved for color gradient
 
 	m_model->m_materials.push_back(std::make_pair(mdef.name, mat));
 }

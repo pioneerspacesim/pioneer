@@ -565,6 +565,9 @@ void RendererGL2::EnableClientStates(const VertexBuffer *vb)
 		case ATTRIB_UV0:
 			m_clientStates.push_back(GL_TEXTURE_COORD_ARRAY);
 			break;
+		case ATTRIB_UV1:
+			m_clientStates.push_back(GL_TEXTURE_COORD_ARRAY);
+			break;
 		default:
 			break;
 		}

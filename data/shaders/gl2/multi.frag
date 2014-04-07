@@ -5,8 +5,9 @@
 uniform sampler2D texture0; //diffuse
 uniform sampler2D texture1; //specular
 uniform sampler2D texture2; //glow
-uniform sampler2D texture3; //pattern
-uniform sampler2D texture4; //color
+uniform sampler2D texture3; //ambient
+uniform sampler2D texture4; //pattern
+uniform sampler2D texture5; //color
 varying vec2 texCoord0;
 #ifdef MAP_AMBIENT
 varying vec2 texCoord1;
@@ -60,8 +61,8 @@ void main(void)
 #endif
 //patterns - simple lookup
 #ifdef MAP_COLOR
-	vec4 pat = texture2D(texture3, texCoord0);
-	vec4 mapColor = texture2D(texture4, vec2(pat.r, 0.0));
+	vec4 pat = texture2D(texture4, texCoord0);
+	vec4 mapColor = texture2D(texture5, vec2(pat.r, 0.0));
 	vec4 tint = mix(vec4(1.0),mapColor,pat.a);
 	color *= tint;
 #endif
@@ -73,11 +74,7 @@ void main(void)
 
 //directional lighting
 #if (NUM_LIGHTS > 0)
-#ifdef MAP_AMBIENT
-	vec4 light = (scene.ambient * texture2D(texture3, texCoord1)) +
-#else
 	vec4 light = scene.ambient +
-#endif
 //ambient and emissive only make sense with lighting
 #ifdef MAP_EMISSIVE
 		texture2D(texture2, texCoord0); //glow map
@@ -88,6 +85,10 @@ void main(void)
 	for (int i=0; i<NUM_LIGHTS; ++i) {
 		ads(i, eyePos, normal, light, specular);
 	}
+	
+#ifdef MAP_AMBIENT
+	light *= texture2D(texture3, texCoord1);
+#endif
 #endif //NUM_LIGHTS
 
 #if (NUM_LIGHTS > 0)
@@ -107,6 +108,7 @@ void main(void)
 	#else
 		gl_FragColor = color * light + specular;
 	#endif // HEAT_COLOURING
+	//gl_FragColor = vec4(texCoord1, 0.0, 1.0);
 #else
 	gl_FragColor = color;
 #endif

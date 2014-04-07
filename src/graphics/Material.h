@@ -79,6 +79,7 @@ public:
 	Texture *texture2;
 	Texture *texture3;
 	Texture *texture4;
+	Texture *texture5;
 	Texture *heatGradient;
 
 	Color diffuse;
