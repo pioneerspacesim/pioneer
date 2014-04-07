@@ -60,7 +60,7 @@
 // "Deserialize" function under that namespace. that data returned will be
 // given back to the module
 
-void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *key = 0)
+void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *key)
 {
 	static char buf[256];
 
