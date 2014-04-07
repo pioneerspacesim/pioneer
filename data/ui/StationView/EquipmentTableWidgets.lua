@@ -233,7 +233,7 @@ function EquipmentTableWidgets.Pair (config)
 
 		-- if ship maxed out in this slot
 		if player:GetEquipFree(EquipDef[e].slot) < 1 then
-			MessageBox.Message(l.SHIP_IS_FULLY_LADEN)
+			MessageBox.Message(l.SHIP_IS_FULLY_EQUIPPED)
 			return
 		end
 
