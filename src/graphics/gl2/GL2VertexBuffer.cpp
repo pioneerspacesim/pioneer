@@ -156,7 +156,11 @@ void VertexBuffer::SetAttribPointers()
 
 void VertexBuffer::UnsetAttribPointers()
 {
+	glClientActiveTexture(GL_TEXTURE1);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
 	glClientActiveTexture(GL_TEXTURE0);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
 IndexBuffer::IndexBuffer(Uint32 size, BufferUsage hint)
