@@ -615,6 +615,10 @@
       "description" : "",
       "message" : "Minimumbesättning"
    },
+   "MISSILE_MOUNTS" : {
+      "description" : "",
+      "message" : "Missile mounts"
+   },
    "MISSIONS" : {
       "description" : "",
       "message" : "Uppdrag"
@@ -666,6 +670,10 @@
    "NEXT_PAID" : {
       "description" : "",
       "message" : "Nästa betalning"
+   },
+   "NO" : {
+      "description" : "Negative answer to a question",
+      "message" : "No"
    },
    "NOBODY" : {
       "description" : "For player reputation",
@@ -887,6 +895,10 @@
       "description" : "",
       "message" : "Ditt skepp fungerar utmärkt."
    },
+   "SHIP_IS_FULLY_EQUIPPED" : {
+      "description" : "",
+      "message" : "Your ship is fully equipped."
+   },
    "SHIP_IS_FULLY_LADEN" : {
       "description" : "",
       "message" : "Ditt skepp är fullastat."
@@ -1022,6 +1034,10 @@
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
       "description" : "",
       "message" : "Vi har inga affärer med dig för stunden."
+   },
+   "YES" : {
+      "description" : "Positive answer to a question",
+      "message" : "Yes"
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",
