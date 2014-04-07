@@ -15,6 +15,8 @@ class LuaSerializer : public DeleteEmitter {
 public:
 	void Serialize(Serializer::Writer &wr);
 	void Unserialize(Serializer::Reader &rd);
+	void InitTableRefs();
+	void UninitTableRefs();
 
 private:
 	static int l_register(lua_State *l);

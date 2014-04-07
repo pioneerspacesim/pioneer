@@ -129,6 +129,9 @@ Game::Game(Serializer::Reader &rd) :
 
 	Serializer::Reader section;
 
+	// Preparing the Lua stuff
+	Pi::luaSerializer->InitTableRefs();
+
 	// game state
 	section = rd.RdSection("Game");
 	m_time = section.Double();
@@ -165,7 +168,7 @@ Game::Game(Serializer::Reader &rd) :
 	section = rd.RdSection("LuaModules");
 	Pi::luaSerializer->Unserialize(section);
 
-
+	Pi::luaSerializer->UninitTableRefs();
 	// signature check
 	for (Uint32 i = 0; i < strlen(s_saveEnd)+1; i++)
 		if (rd.Byte() != s_saveEnd[i]) throw SavedGameCorruptException();
@@ -173,6 +176,8 @@ Game::Game(Serializer::Reader &rd) :
 
 void Game::Serialize(Serializer::Writer &wr)
 {
+	// preparing the lua serializer
+	Pi::luaSerializer->InitTableRefs();
 	// leading signature
 	for (Uint32 i = 0; i < strlen(s_saveStart)+1; i++)
 		wr.Byte(s_saveStart[i]);
@@ -241,6 +246,8 @@ void Game::Serialize(Serializer::Writer &wr)
 	// trailing signature
 	for (Uint32 i = 0; i < strlen(s_saveEnd)+1; i++)
 		wr.Byte(s_saveEnd[i]);
+
+	Pi::luaSerializer->UninitTableRefs();
 }
 
 void Game::TimeStep(float step)
