@@ -127,6 +127,8 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 
 	m_hyperspace.dest = SystemPath::Unserialize(rd);
 	m_hyperspace.countdown = rd.Float();
+	m_hyperspace.ignoreFuel = false; // XXX maybe should be stored in savegame, but better than not initializing anyway
+	m_hyperspace.duration = 0;
 
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
 		m_gun[i].state = rd.Int32();
