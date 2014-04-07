@@ -836,7 +836,9 @@ Output("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 	// work out which way to head 
 	vector3d head = reldir;
 	if (!m_state && sdiff < -1.2*maxdecel*timestep) m_state = 1;
-	if (m_state && sdiff < maxdecel*timestep*60) head = -head;
+	// if we're not coasting due to fuel constraints, and we're in the deceleration phase
+	// then flip the ship so we can use our main thrusters to decelerate
+	if (m_state && !is_zero_exact(sdiff) && sdiff < maxdecel*timestep*60) head = -head;
 	if (!m_state && decel) sidefactor = -sidefactor;
 	head = head*maxdecel + perpdir*sidefactor;
 
