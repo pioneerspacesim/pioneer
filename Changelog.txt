@@ -6,6 +6,7 @@ April 2014
 
    * Minor changes and tweaks
      * Add a Return to Game button in the pause/options screen (#2841)
+     * Disable the Save button when in hyperspace.
      * More specific warning message in ship market if trying to buy
        equipment that the current ship model doesn't support
      * More stat on ship in ship market and ship info view (#1733,#2838)
