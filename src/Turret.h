@@ -4,10 +4,11 @@
 #ifndef _GUNMOUNT_H
 #define _GUNMOUNT_H
 #include "vector3.h"
+#include "EquipType.h"
+#include "Serializer.h"
 
 class Body;
 class Ship;
-enum Equip::Type;
 
 struct TurretData {
 	vector3d pos;
