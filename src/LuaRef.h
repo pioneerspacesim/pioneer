@@ -7,6 +7,7 @@
 #include "lua/lua.hpp"
 #include "Serializer.h"
 #include <vector>
+#include <cassert>
 
 class LuaRef {
 public:
@@ -38,5 +39,10 @@ private:
 
 	void CheckCopyCount();
 };
+
+inline void pi_lua_generic_push(lua_State *l, const LuaRef &r) {
+	assert(r.GetLua() == l);
+	r.PushCopyToStack();
+}
 
 #endif
