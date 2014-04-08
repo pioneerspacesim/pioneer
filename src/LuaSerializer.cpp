@@ -60,7 +60,7 @@
 // "Deserialize" function under that namespace. that data returned will be
 // given back to the module
 
-void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *key = 0)
+void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *key)
 {
 	static char buf[256];
 
@@ -433,6 +433,20 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 	return pos;
 }
 
+void LuaSerializer::InitTableRefs() {
+	lua_State *l = Lua::manager->GetLuaState();
+
+	lua_newtable(l);
+	lua_setfield(l, LUA_REGISTRYINDEX, "PiSerializerTableRefs");
+}
+
+void LuaSerializer::UninitTableRefs() {
+	lua_State *l = Lua::manager->GetLuaState();
+
+	lua_pushnil(l);
+	lua_setfield(l, LUA_REGISTRYINDEX, "PiSerializerTableRefs");
+}
+
 void LuaSerializer::Serialize(Serializer::Writer &wr)
 {
 	lua_State *l = Lua::manager->GetLuaState();
@@ -463,18 +477,12 @@ void LuaSerializer::Serialize(Serializer::Writer &wr)
 
 	lua_pop(l, 1);
 
-	lua_newtable(l);
-	lua_setfield(l, LUA_REGISTRYINDEX, "PiSerializerTableRefs");
-
 	std::string pickled;
 	pickle(l, savetable, pickled);
 
 	wr.String(pickled);
 
 	lua_pop(l, 1);
-
-	lua_pushnil(l);
-	lua_setfield(l, LUA_REGISTRYINDEX, "PiSerializerTableRefs");
 
 	LUA_DEBUG_END(l, 0);
 }
@@ -485,18 +493,12 @@ void LuaSerializer::Unserialize(Serializer::Reader &rd)
 
 	LUA_DEBUG_START(l);
 
-	lua_newtable(l);
-	lua_setfield(l, LUA_REGISTRYINDEX, "PiSerializerTableRefs");
-
 	std::string pickled = rd.String();
 	const char *start = pickled.c_str();
 	const char *end = unpickle(l, start);
 	if (size_t(end - start) != pickled.length()) throw SavedGameCorruptException();
 	if (!lua_istable(l, -1)) throw SavedGameCorruptException();
 	int savetable = lua_gettop(l);
-
-	lua_pushnil(l);
-	lua_setfield(l, LUA_REGISTRYINDEX, "PiSerializerTableRefs");
 
 	lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerCallbacks");
 	if (lua_isnil(l, -1)) {
