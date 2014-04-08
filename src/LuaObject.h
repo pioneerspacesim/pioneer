@@ -180,6 +180,9 @@ public:
 	static inline void PushToLua(RefCounted *o);    // LuaSharedObject
 	static inline void PushToLua(const T &o);       // LuaCopyObject
 
+	template <typename Key, typename ...Args>
+		static inline int CallMethod(T* o, const Key &key, const Args &...args);
+
 	// pull an object off the stack, unwrap and return it
 	// if not found or doesn't match the type, throws a lua exception
 	static inline T *CheckFromLua(int idx) {
@@ -298,6 +301,21 @@ template <typename T> inline void LuaObject<T>::PushToLua(RefCounted *o) {
 template <typename T> inline void LuaObject<T>::PushToLua(const T &o) {
 	Register(new (LuaObjectBase::Allocate(sizeof(LuaCopyObject<T>))) LuaCopyObject<T>(o));
 }
+
+template <typename T>
+template <typename Key, typename ...Args>
+	inline int LuaObject<T>::CallMethod(T* o, const Key &key, const Args &...args) {
+		lua_State *l = Lua::manager->GetLuaState();
+		int height = lua_gettop(l);
+		PushToLua(o);
+		pi_lua_generic_push(l, key);
+		lua_gettable(l, -2);
+		lua_pushvalue(l, -2);
+		lua_remove(l, -3);
+		pi_lua_multiple_push(l, args...);
+		lua_call(l, sizeof...(args)+1, LUA_MULTRET);
+		return lua_gettop(l)-height;
+	}
 
 // specialise for SystemPath, which needs custom machinery to deduplicate system paths
 class SystemPath;
