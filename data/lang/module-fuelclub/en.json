@@ -17,8 +17,28 @@
    },
    "FLAVOUR_0_NONMEMBER_INTRO" : {
       "description" : "",
-      "message" : "{clubname} is an independent organisation dedicated to providing discounted starship fuel to its members. Branches can be found throughout the galaxy. Benefits of membership include:\n\n\t* Our own stocks of fuel, independent of the general market\n\t* {hydrogen} at discount prices\n\t* {military_fuel} at discount prices\n\t* {water} at discount prices\n\t* {radioactives}, free disposal (conditions apply)\n\t* Fuel tank refilling, where necessary\n\nJoin now! Annual membership costs only {membership_fee}"
+      "message" : "{clubname} is an independent organisation dedicated to providing discounted starship fuel to its members. Branches can be found throughout the galaxy. Benefits of membership include:"
    },
+   "LIST_BENEFITS_FUEL_INTRO" : {
+      "description" : "",
+      "message" : "Our own stocks of fuel, independent of the general market"
+    },
+   "LIST_BENEFITS_FUEL" : {
+      "description" : "",
+      "message" : "{fuel} at discount prices"
+    },
+   "LIST_BENEFITS_DISPOSAL" : {
+      "description" : "",
+      "message" : "{radioactives}, free disposal (conditions apply)"
+    },
+   "LIST_BENEFITS_FUEL_TANK" : {
+      "description" : "",
+      "message" : "Fuel tank refilling, where necessary"
+    },
+   "LIST_BENEFITS_JOIN" : {
+      "description" : "",
+      "message" : "Join now! Annual membership costs only {membership_fee}"
+    },
    "FLAVOUR_0_WELCOME" : {
       "description" : "",
       "message" : "Welcome to {clubname}"
@@ -30,22 +50,6 @@
    "HANG_UP" : {
       "description" : "",
       "message" : "Hang up."
-   },
-   "HYDROGEN" : {
-      "description" : "",
-      "message" : "Hydrogen"
-   },
-   "MILITARY_FUEL" : {
-      "description" : "",
-      "message" : "Military fuel"
-   },
-   "RADIOACTIVES" : {
-      "description" : "",
-      "message" : "Radioactive waste"
-   },
-   "WATER" : {
-      "description" : "",
-      "message" : "Water"
    },
    "WE_WILL_ONLY_DISPOSE_OF" : {
       "description" : "",
