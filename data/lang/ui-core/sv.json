@@ -485,11 +485,11 @@
    },
    "LAUNCH_PERMISSION_DENIED_CREW" : {
       "description" : "",
-      "message" : "Permission to launch denied: not enough crew too handle this ship."
+      "message" : "Uppskjutningstillstånd nekat: inte tillräckligt med besättning för att hantera skeppet."
    },
    "LAUNCH_PERMISSION_DENIED_FINED" : {
       "description" : "",
-      "message" : "Permission to launch denied: you have outstanding fines."
+      "message" : "Uppskjutningstillstånd nekat: du har obetalda böter."
    },
    "LEGAL_STATUS" : {
       "description" : "",
@@ -617,7 +617,7 @@
    },
    "MISSILE_MOUNTS" : {
       "description" : "",
-      "message" : "Missile mounts"
+      "message" : "Missilpyloner"
    },
    "MISSIONS" : {
       "description" : "",
@@ -673,7 +673,7 @@
    },
    "NO" : {
       "description" : "Negative answer to a question",
-      "message" : "No"
+      "message" : "Nej"
    },
    "NOBODY" : {
       "description" : "For player reputation",
@@ -693,7 +693,7 @@
    },
    "NOT_SUPPORTED_ON_THIS_SHIP" : {
       "description" : "",
-      "message" : "{equipment} is not supported on this ship model"
+      "message" : "{equipment} stöds inte av den här skeppsmodellen"
    },
    "NO_MISSIONS" : {
       "description" : "",
@@ -841,7 +841,7 @@
    },
    "RETURN_TO_GAME" : {
       "description" : "",
-      "message" : "Return to game"
+      "message" : "Återgå till spelet"
    },
    "RETURN_TO_MENU" : {
       "description" : "",
@@ -897,7 +897,7 @@
    },
    "SHIP_IS_FULLY_EQUIPPED" : {
       "description" : "",
-      "message" : "Your ship is fully equipped."
+      "message" : "Ditt skepp är fullt utrustat."
    },
    "SHIP_IS_FULLY_LADEN" : {
       "description" : "",
@@ -957,7 +957,7 @@
    },
    "TOO_SMALL_FOR_CURRENT_CREW" : {
       "description" : "",
-      "message" : "Ship is too small for the current crew."
+      "message" : "Skeppet för litet för nuvarande besättning"
    },
    "TOTAL" : {
       "description" : "",
@@ -1037,7 +1037,7 @@
    },
    "YES" : {
       "description" : "Positive answer to a question",
-      "message" : "Yes"
+      "message" : "Ja"
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",

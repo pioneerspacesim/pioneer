@@ -617,7 +617,7 @@
    },
    "MISSILE_MOUNTS" : {
       "description" : "",
-      "message" : "Missile mounts"
+      "message" : "Крепления для ракет"
    },
    "MISSIONS" : {
       "description" : "",
@@ -673,7 +673,7 @@
    },
    "NO" : {
       "description" : "Negative answer to a question",
-      "message" : "No"
+      "message" : "Нет"
    },
    "NOBODY" : {
       "description" : "For player reputation",
@@ -1037,7 +1037,7 @@
    },
    "YES" : {
       "description" : "Positive answer to a question",
-      "message" : "Yes"
+      "message" : "Да"
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",

@@ -617,7 +617,7 @@
    },
    "MISSILE_MOUNTS" : {
       "description" : "",
-      "message" : "Missile mounts"
+      "message" : "Mocowania rakiet"
    },
    "MISSIONS" : {
       "description" : "",
@@ -673,7 +673,7 @@
    },
    "NO" : {
       "description" : "Negative answer to a question",
-      "message" : "No"
+      "message" : "Nie"
    },
    "NOBODY" : {
       "description" : "For player reputation",
@@ -897,7 +897,7 @@
    },
    "SHIP_IS_FULLY_EQUIPPED" : {
       "description" : "",
-      "message" : "Your ship is fully equipped."
+      "message" : "Twój statek jest w pełni wyposażony."
    },
    "SHIP_IS_FULLY_LADEN" : {
       "description" : "",
@@ -1037,7 +1037,7 @@
    },
    "YES" : {
       "description" : "Positive answer to a question",
-      "message" : "Yes"
+      "message" : "Tak"
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",

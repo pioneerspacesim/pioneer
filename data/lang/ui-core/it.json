@@ -617,7 +617,7 @@
    },
    "MISSILE_MOUNTS" : {
       "description" : "",
-      "message" : "Missile mounts"
+      "message" : "Supporti per missili"
    },
    "MISSIONS" : {
       "description" : "",
@@ -1037,7 +1037,7 @@
    },
    "YES" : {
       "description" : "Positive answer to a question",
-      "message" : "Yes"
+      "message" : "Sì"
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",
