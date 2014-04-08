@@ -111,6 +111,11 @@ public:
 	template <class Value, class Key> Value Get(const Key & key, Value default_value) const;
 	template <class Value, class Key> LuaTable Set(const Key & key, const Value & value) const;
 
+	template <class Key, class ...Args> int Call(const Key & key, const Args &... args) const;
+	template <class Key, class ...Args> int CallMethod(const Key & key, const Args &... args) const {
+		return Call(key, *this, args...);
+	}
+
 	template <class PairIterator> LuaTable LoadMap(PairIterator beg, PairIterator end) const;
 	template <class ValueIterator> LuaTable LoadVector(ValueIterator beg, ValueIterator end) const;
 
@@ -235,6 +240,14 @@ template <class ValueIterator> LuaTable LuaTable::LoadVector(ValueIterator beg, 
 	for (ValueIterator it = beg;  it != end ; ++it, ++i)
 		Set(i, *it);
 	return *this;
+}
+
+template <class Key, class ...Args> int LuaTable::Call(const Key & key, const Args &... args) const {
+	int height = lua_gettop(m_lua);
+	PushValueToStack(key);
+	pi_lua_multiple_push(m_lua, args...);
+	lua_call(m_lua, sizeof...(args), LUA_MULTRET);
+	return lua_gettop(m_lua)-height;
 }
 
 template <> inline void LuaTable::VecIter<LuaTable>::LoadCache() {
