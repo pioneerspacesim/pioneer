@@ -17,6 +17,7 @@ April 2014
 
    * Script and UI API changes
      * Animation object, UI.Context.Animate and AddAnimation methods (#2830)
+     * Improve tradeships.lua (#2851)
 
    * Internal changes
      * Emit Lua events and timers in hyperspace
