@@ -37,11 +37,11 @@
    },
    "LIST_BENEFITS_FUEL" : {
       "description" : "",
-      "message" : "{fuel} at discount prices"
+      "message" : "{fuel} till rabatterade priser"
    },
    "LIST_BENEFITS_FUEL_INTRO" : {
       "description" : "",
-      "message" : "Our own stocks of fuel, independent of the general market"
+      "message" : "Vårt eget lager med bränsle, oberoende av den allmänna marknaden"
    },
    "LIST_BENEFITS_FUEL_TANK" : {
       "description" : "",

@@ -823,6 +823,10 @@
       "description" : "",
       "message" : "Tanka"
    },
+   "REFUEL_FULL" : {
+      "description" : "",
+      "message" : "Refuel full"
+   },
    "RELIABLE" : {
       "description" : "For player reputation",
       "message" : "Pålitlig"

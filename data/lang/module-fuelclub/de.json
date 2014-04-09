@@ -37,7 +37,7 @@
    },
    "LIST_BENEFITS_FUEL" : {
       "description" : "",
-      "message" : "{fuel} at discount prices"
+      "message" : "{fuel} zum Diskontpreis!"
    },
    "LIST_BENEFITS_FUEL_INTRO" : {
       "description" : "",
@@ -49,7 +49,7 @@
    },
    "LIST_BENEFITS_JOIN" : {
       "description" : "",
-      "message" : "Join now! Annual membership costs only {membership_fee}"
+      "message" : "Jetzt anmelden! Die jährliche Gebühr beträgt nur {membership_fee}"
    },
    "WE_WILL_ONLY_DISPOSE_OF" : {
       "description" : "",
