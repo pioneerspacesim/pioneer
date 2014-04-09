@@ -111,9 +111,9 @@ public:
 	template <class Value, class Key> Value Get(const Key & key, Value default_value) const;
 	template <class Value, class Key> LuaTable Set(const Key & key, const Value & value) const;
 
-	template <class Key, class ...Args> int Call(const Key & key, const Args &... args) const;
-	template <class Key, class ...Args> int CallMethod(const Key & key, const Args &... args) const {
-		return Call(key, *this, args...);
+	template <class Ret, class Key, class ...Args> Ret Call(const Key & key, const Args &... args) const;
+	template <class Ret, class Key, class ...Args> Ret CallMethod(const Key & key, const Args &... args) const {
+		return Call<Ret>(key, *this, args...);
 	}
 
 	template <class PairIterator> LuaTable LoadMap(PairIterator beg, PairIterator end) const;
@@ -242,12 +242,16 @@ template <class ValueIterator> LuaTable LuaTable::LoadVector(ValueIterator beg, 
 	return *this;
 }
 
-template <class Key, class ...Args> int LuaTable::Call(const Key & key, const Args &... args) const {
+template <class Ret, class Key, class ...Args> Ret LuaTable::Call(const Key & key, const Args &... args) const {
 	int height = lua_gettop(m_lua);
+	Ret return_value;
+
 	PushValueToStack(key);
 	pi_lua_multiple_push(m_lua, args...);
-	lua_call(m_lua, sizeof...(args), LUA_MULTRET);
-	return lua_gettop(m_lua)-height;
+	lua_call(m_lua, sizeof...(args), 1);
+	pi_lua_generic_pull(m_lua, -1, return_value);
+	lua_settop(m_lua, height);
+	return return_value;
 }
 
 template <> inline void LuaTable::VecIter<LuaTable>::LoadCache() {

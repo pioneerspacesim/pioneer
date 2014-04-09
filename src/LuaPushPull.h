@@ -73,12 +73,17 @@ inline bool pi_lua_strict_pull(lua_State * l, int index, std::string & out) {
 	return false;
 }
 
-template <typename Head, typename ...Tail> inline void pi_lua_multiple_push(lua_State *l, Head arg1, Tail ...rest) {
+template <typename ...Types>
+inline void pi_lua_multiple_push(lua_State *l, Types ...args);
+
+template <typename Head, typename ...Tail>
+inline void pi_lua_multiple_push(lua_State *l, Head arg1, Tail ...rest) {
 	pi_lua_generic_push(l, arg1);
 	pi_lua_multiple_push(l, rest...);
 }
 
-void inline pi_lua_multiple_push(lua_State *l) {
+template <>
+inline void pi_lua_multiple_push(lua_State *l) {
 	return;
 }
 
