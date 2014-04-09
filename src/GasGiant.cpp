@@ -225,6 +225,7 @@ public:
 	}
 	
 	void Init() {
+		PROFILE_SCOPED()
 		frac = 1.0 / double(edgeLen-1);
 
 		// also want vtx indices for tris not touching edge of patch 
@@ -281,6 +282,7 @@ public:
 	GasPatch(const RefCountedPtr<GasPatchContext> &_ctx, GasGiant *gs, vector3d v0, vector3d v1, vector3d v2, vector3d v3) 
 		: ctx(_ctx), gasSphere(gs), clipCentroid(((v0+v1+v2+v3) * 0.25).Normalized()), clipRadius(0.0)
 	{
+		PROFILE_SCOPED()
 		v[0] = v0; v[1] = v1; v[2] = v2; v[3] = v3;
 		for (int i=0; i<4; i++) {
 			clipRadius = std::max(clipRadius, (v[i]-clipCentroid).Length());
@@ -297,6 +299,7 @@ public:
 	}
 
 	void UpdateVBOs() {
+		PROFILE_SCOPED()
 		//create buffer and upload data
 		Graphics::VertexBufferDesc vbd;
 		vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
@@ -525,6 +528,7 @@ void GasGiant::GenerateTexture()
 
 void GasGiant::Update()
 {
+	PROFILE_SCOPED()
 	// assuming that we haven't already generated the texture from the render call.
 	if( m_timeDelay > 0.0f )
 	{
@@ -669,6 +673,7 @@ void GasGiant::SetUpMaterials()
 
 void GasGiant::BuildFirstPatches()
 {
+	PROFILE_SCOPED()
 	if( s_patchContext.Get() == nullptr ) {
 		s_patchContext.Reset(new GasPatchContext(127));
 	}
