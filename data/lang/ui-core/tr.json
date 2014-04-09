@@ -823,6 +823,10 @@
       "description" : "",
       "message" : "Yakıt al"
    },
+   "REFUEL_FULL" : {
+      "description" : "",
+      "message" : "Refuel full"
+   },
    "RELIABLE" : {
       "description" : "For player reputation",
       "message" : "Güvenilir"

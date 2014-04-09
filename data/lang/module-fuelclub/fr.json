@@ -17,7 +17,7 @@
    },
    "FLAVOUR_0_NONMEMBER_INTRO" : {
       "description" : "",
-      "message" : "{clubname} est une organisation indépendante créée afin de fournir a ses membres du carburant de vaisseau a prix discount. Des agences sont présentes dans toute la galaxie. Avantages inclus pour les membres:\n\n * Nos propres stocks de carburant, indépendants du marché de la bourse\n *  {hydrogen} a prix reduits\n *  {military_fuel} a prix reduits\n *  {water} a prix reduits\n *  {radioactives}, dépot gratuit (sous conditions)\n *  Remplissage des reservoirs en cas de besoin\n\nRejoignez nous! La cotisation annuelle ne coute que {membership_fee}"
+      "message" : "{clubname} is an independent organisation dedicated to providing discounted starship fuel to its members. Branches can be found throughout the galaxy. Benefits of membership include:"
    },
    "FLAVOUR_0_WELCOME" : {
       "description" : "",
@@ -31,21 +31,25 @@
       "description" : "",
       "message" : "Raccrochez."
    },
-   "HYDROGEN" : {
+   "LIST_BENEFITS_DISPOSAL" : {
       "description" : "",
-      "message" : "Hydrogène"
+      "message" : "{radioactives}, free disposal (conditions apply)"
    },
-   "MILITARY_FUEL" : {
+   "LIST_BENEFITS_FUEL" : {
       "description" : "",
-      "message" : "Carburant militaire"
+      "message" : "{fuel} at discount prices"
    },
-   "RADIOACTIVES" : {
+   "LIST_BENEFITS_FUEL_INTRO" : {
       "description" : "",
-      "message" : "Déchets radioactifs"
+      "message" : "Our own stocks of fuel, independent of the general market"
    },
-   "WATER" : {
+   "LIST_BENEFITS_FUEL_TANK" : {
       "description" : "",
-      "message" : "Eau"
+      "message" : "Fuel tank refilling, where necessary"
+   },
+   "LIST_BENEFITS_JOIN" : {
+      "description" : "",
+      "message" : "Join now! Annual membership costs only {membership_fee}"
    },
    "WE_WILL_ONLY_DISPOSE_OF" : {
       "description" : "",
