@@ -12,6 +12,7 @@ April 2014
      * More stat on ship in ship market and ship info view (#1733,#2838)
      * The autopilot now faces toward its destination during
        the coasting phase (#2846)
+     * A "Refuel full" button added next to the refuel button (#2855,#2853)
 
    * Script and UI API changes
      * Animation object, UI.Context.Animate and AddAnimation methods (#2830)
