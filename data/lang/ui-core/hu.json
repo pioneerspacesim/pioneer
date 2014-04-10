@@ -825,7 +825,7 @@
    },
    "REFUEL_FULL" : {
       "description" : "",
-      "message" : "Refuel full"
+      "message" : "Teletölt"
    },
    "RELIABLE" : {
       "description" : "For player reputation",

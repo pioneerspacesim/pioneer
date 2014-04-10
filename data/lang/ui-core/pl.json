@@ -825,7 +825,7 @@
    },
    "REFUEL_FULL" : {
       "description" : "",
-      "message" : "Refuel full"
+      "message" : "Zatankuj do pełna"
    },
    "RELIABLE" : {
       "description" : "For player reputation",
