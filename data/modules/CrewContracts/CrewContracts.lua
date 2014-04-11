@@ -228,6 +228,7 @@ local onChat = function (form,ref,option)
 		candidate:PrintStats()
 		print("Attitude: ",candidate.playerRelationship)
 		print("Aspiration: ",candidate.estimatedWage)
+		if response == "" then response = "\r" end
 		form:SetMessage(l.CREWDETAILSHEETBB:interp({
 			name = candidate.name,
 			experience = experience,
