@@ -617,7 +617,7 @@
    },
    "MISSILE_MOUNTS" : {
       "description" : "",
-      "message" : "Missile mounts"
+      "message" : "Montaje de misiles"
    },
    "MISSIONS" : {
       "description" : "",
@@ -825,7 +825,7 @@
    },
    "REFUEL_FULL" : {
       "description" : "",
-      "message" : "Refuel full"
+      "message" : "Llenar el tanque"
    },
    "RELIABLE" : {
       "description" : "For player reputation",
@@ -901,7 +901,7 @@
    },
    "SHIP_IS_FULLY_EQUIPPED" : {
       "description" : "",
-      "message" : "Your ship is fully equipped."
+      "message" : "Su nave está totalmente equipada."
    },
    "SHIP_IS_FULLY_LADEN" : {
       "description" : "",
@@ -1041,7 +1041,7 @@
    },
    "YES" : {
       "description" : "Positive answer to a question",
-      "message" : "Yes"
+      "message" : "Si"
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",

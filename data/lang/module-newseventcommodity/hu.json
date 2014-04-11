@@ -65,27 +65,27 @@
    },
    "FLAVOUR_17_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: New found riches in the {system} system."
+      "message" : "HÍREK {date}: Új lelőhelyeket tártak fel {system} rendszerben."
    },
    "FLAVOUR_17_NEWSBODY" : {
       "description" : "Imply vast abundance of METAL_ORE.",
-      "message" : "Miners in the {system} system ({sectorx}, {sectory}, {sectorz}) discovered a vast deposit of ore of never before seen proportions."
+      "message" : "Példátlan kiterjedésű érctelérre bukkantak bányászok {system} rendszerben ({sectorx}, {sectory}, {sectorz})."
    },
    "FLAVOUR_18_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Economic reform in the {system} system a great success."
+      "message" : "HÍREK {date} Sikeres gazdasági reformok {system} rendszerben."
    },
    "FLAVOUR_18_NEWSBODY" : {
       "description" : "Imply vast demand of CONSUMER_GOODS.",
-      "message" : "The wheels are spinning ever faster in the {system} system ({sectorx}, {sectory}, {sectorz}) as consumers have more money to spend."
+      "message" : "Gyorsabban forognak {system} ({sectorx}, {sectory}, {sectorz})rendszer gazdaságának kerekei, nőttek a bérek, így a vásárlási kedv is."
    },
    "FLAVOUR_19_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: It is raining gold in the {system} system."
+      "message" : "HÍREK {date} Aranyeső {system} rendszerben."
    },
    "FLAVOUR_19_NEWSBODY" : {
       "description" : "Imply vast abundance of PRECIOUS_METALS.",
-      "message" : "A man in the {system} system ({sectorx}, {sectory}, {sectorz}) has inherited an invention from his late uncle, allowing him to transmute any solid into gold and platinum. Economists expect a destabilization of the economy in the system, unless the machine breaks down soon."
+      "message" : "Feltaláló nagybátjától örökölt csodagépet egy polgár {system} rendszerben ({sectorx}, {sectory}, {sectorz}). A gépezet segítségével bármit arannyá és platinává lehet változtatni. Gazdasági szakemberek a rendszer gazdasági öszeomlásától tartanak, ha a gép nem megy tönkre hamarosan."
    },
    "FLAVOUR_1_HEADLINE" : {
       "description" : "",
@@ -97,35 +97,35 @@
    },
    "FLAVOUR_20_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: The harvest of the gas giant algae in the {system} system sets new record."
+      "message" : "HÍREK {date}: Rekord gazdagságú algatermést arattak {system} rendszer gázóriásának légköréből."
    },
    "FLAVOUR_20_NEWSBODY" : {
       "description" : "Imply vast abundance of FERTILIZER. Soylent is a reference to the book/movie Soylent Green.",
-      "message" : "As {system} ({sectorx}, {sectory}, {sectorz}) enters a phase favourable to the yellow algae found in the atmosphere of a local gas giant, the harvest has be exceptionally good for the fertilizer company Soylent Yellow Inc."
+      "message" : "A helyi gázóriás sárgaalgáknak kedvező évszakba lépésével rekord bőségű termés várhatóan fellendíti a  {system} rendszeri ({sectorx}, {sectory}, {sectorz})a Sárga Szója trágyatermelő vállalat termelési utatóit."
    },
    "FLAVOUR_21_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Treaty signed in the {system} system for more \"humane\" warfare."
+      "message" : "HÍREK {date} \"Humánusabb\" hadviselésről szóló egyezményt írtak alá {system} rendszer kormányai."
    },
    "FLAVOUR_21_NEWSBODY" : {
       "description" : "Imply vast abundance of NERVE_GAS.",
-      "message" : "Although the conflicting parties in the {system} system ({sectorx}, {sectory}, {sectorz}) have not signed an official cease fire, they have agreed to stop using chemical weapons."
+      "message" : "Bár {system} rendszer ({sectorx}, {sectory}, {sectorz}) harcoló országai továbbra sem kötnek fegyverszünetet, abban megegyeztek, hogy vegy fegyvereket ezentúl nem vetnek be."
    },
    "FLAVOUR_22_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Police on strike in the {system} system. Citizens left to fend for themselves."
+      "message" : "HÍREK {date}: Rendőrségi sztárjk {system} rendszerben. A polgárok magukra maradtak."
    },
    "FLAVOUR_22_NEWSBODY" : {
       "description" : "Imply high demand of HAND_WEAPONS.",
-      "message" : "In a protest against understaffing the {system} system ({sectorx}, {sectory}, {sectorz}) police refuse to work. Meanwhile, civilians form vigilante groups and arm themselves with pitchforks and firearms as they prepare for the worst."
+      "message" : "Az elégtelen létszám ellen munkabeszüntetéssel tiltakoznak {system} rendszer ({sectorx}, {sectory}, {sectorz}) rendőrei. Eközben a civilek polgárőrségeket alapítanak és szerszámokkal; kaszákkal és lőfegyverekkel felszerelkezve készülnek a legrosszabbra."
    },
    "FLAVOUR_23_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Grand opening of a new factory in the {system} system."
+      "message" : "HÍREK {date}: Ünnepélyes üzemavatás {system} rendszerben."
    },
    "FLAVOUR_23_NEWSBODY" : {
       "description" : "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox.",
-      "message" : "The new Amissionox factory in the {system} system ({sectorx}, {sectory}, {sectorz}) is now up and running. It will produce high quality knifes capable of cutting through a space boot; however, due to low supply of resources needed for the blades, they have not yet reached full production potential."
+      "message" : "Új Győzőinox üzemet avattak {system} rendszerben ({sectorx}, {sectory}, {sectorz}). A cég kiválló  minőségű bugylibicskáiról ismert, melyek az űrruha bakancsának a talpát is képesek átvágni. Az új üzem azonban nyersanyaghiány miatt még még nem érte el teljes gyártókapacitását."
    },
    "FLAVOUR_2_HEADLINE" : {
       "description" : "",
@@ -193,75 +193,75 @@
    },
    "GRATEFUL_GREETING_0" : {
       "description" : "",
-      "message" : "Welcome trader! We will give you a good price for your {cargo}."
+      "message" : "Üdvözöljük kereskedő! Nálunk jó áron túladhat {cargo} rakományán."
    },
    "GRATEFUL_GREETING_1" : {
       "description" : "",
-      "message" : "Your arrival is most welcome, as is your shipment of {cargo}!"
+      "message" : "Örömmel vesszük érkezését, és a rakterében lévő {cargo}-t is."
    },
    "GRATEFUL_GREETING_2" : {
       "description" : "",
-      "message" : "Greetings and salutations! You should have no trouble selling {cargo} here."
+      "message" : "Isten hozta! Nem fogja megbánni, hogy a szállítmánya {cargo}."
    },
    "GRATEFUL_GREETING_3" : {
       "description" : "",
-      "message" : "Welcome! Finally some {cargo}."
+      "message" : "Üdv! Végre {cargo} érkezett."
    },
    "GRATEFUL_GREETING_4" : {
       "description" : "",
-      "message" : "How we've longed for some {cargo}."
+      "message" : "Már vártuk, hogy valakinél {cargo} legyen."
    },
    "GRATEFUL_GREETING_5" : {
       "description" : "",
-      "message" : "Welcome! Your shipment of {cargo} will sell out fast here."
+      "message" : "Üdvözlet! {cargo} jó üzlet manapság mifelénk."
    },
    "NEWSPAPER_CIS" : {
       "description" : "",
-      "message" : "The Confederate Chronicle"
+      "message" : "A Szövetségi Kurír"
    },
    "NEWSPAPER_FED" : {
       "description" : "",
-      "message" : "The Federal Times"
+      "message" : "A Föderációs Hírlap"
    },
    "NEWSPAPER_IMP" : {
       "description" : "",
-      "message" : "The Imperial Herald"
+      "message" : "A Nemzetközösségi Hírmondó"
    },
    "NEWSPAPER_IND_0" : {
       "description" : "",
-      "message" : "The Pioneer Courier"
+      "message" : "Az Úttörő Újság"
    },
    "NEWSPAPER_IND_1" : {
       "description" : "",
-      "message" : "The Independent Tribune"
+      "message" : "A Független Harsona"
    },
    "NEWSPAPER_IND_10" : {
       "description" : "",
-      "message" : "The Orbital Observer"
+      "message" : "Az Orbitális Figyelő"
    },
    "NEWSPAPER_IND_2" : {
       "description" : "",
-      "message" : "The Galactic Post"
+      "message" : "A Galaktikus Hírlap"
    },
    "NEWSPAPER_IND_3" : {
       "description" : "",
-      "message" : "The Universal Sun"
+      "message" : "A Napi Univerzum"
    },
    "NEWSPAPER_IND_4" : {
       "description" : "",
-      "message" : "The Planetary Press"
+      "message" : "A Bolygószava"
    },
    "NEWSPAPER_IND_5" : {
       "description" : "",
-      "message" : "The Royal Gazette"
+      "message" : "A Heti Csillag Gazdaság"
    },
    "NEWSPAPER_IND_6" : {
       "description" : "",
-      "message" : "The Universal Mail"
+      "message" : "Az Univerzális lap"
    },
    "NEWSPAPER_IND_7" : {
       "description" : "",
-      "message" : "The Daily Express"
+      "message" : "A Napi friss"
    },
    "NEWSPAPER_IND_8" : {
       "description" : "",
@@ -269,26 +269,26 @@
    },
    "NEWSPAPER_IND_9" : {
       "description" : "",
-      "message" : "The Satellite Journal"
+      "message" : "A Szatelit Napló"
    },
    "TITLE_0" : {
       "description" : "",
-      "message" : "Fresh report from {newspaper}"
+      "message" : "{newspaper} jelenti"
    },
    "TITLE_1" : {
       "description" : "",
-      "message" : "News from {newspaper}"
+      "message" : "{newspaper} hírei"
    },
    "TITLE_2" : {
       "description" : "",
-      "message" : "Report from {newspaper}"
+      "message" : "{newspaper} új információi"
    },
    "TITLE_3" : {
       "description" : "",
-      "message" : "The latest from {newspaper}"
+      "message" : "{newspaper} friss hírei"
    },
    "TITLE_4" : {
       "description" : "",
-      "message" : "Notes from {newspaper}"
+      "message" : "{newspaper} cikke"
    }
 }

@@ -28,6 +28,6 @@ define_ship {
 	max_crew = 3,
 	--thruster_fuel_use = 0.0001,
 	effective_exhaust_velocity = 186e5,
-	price = 392e3,
+	price = 5096e2,
 	hyperdrive_class = 3,
 }
