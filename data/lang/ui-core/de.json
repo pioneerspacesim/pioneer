@@ -485,11 +485,11 @@
    },
    "LAUNCH_PERMISSION_DENIED_CREW" : {
       "description" : "",
-      "message" : "Permission to launch denied: not enough crew too handle this ship."
+      "message" : "Starterlaubnis verweigert: Das Schiff ist unterbesetzt."
    },
    "LAUNCH_PERMISSION_DENIED_FINED" : {
       "description" : "",
-      "message" : "Permission to launch denied: you have outstanding fines."
+      "message" : "Starterlaubnis verweigert: Sie haben noch ausstehende Strafen."
    },
    "LEGAL_STATUS" : {
       "description" : "",
@@ -615,6 +615,10 @@
       "description" : "",
       "message" : "Minimalbesatzung"
    },
+   "MISSILE_MOUNTS" : {
+      "description" : "",
+      "message" : "Raketenhalterungen"
+   },
    "MISSIONS" : {
       "description" : "",
       "message" : "Missionen"
@@ -667,6 +671,10 @@
       "description" : "",
       "message" : "Nächster Bezahlter"
    },
+   "NO" : {
+      "description" : "Negative answer to a question",
+      "message" : "Nein"
+   },
    "NOBODY" : {
       "description" : "For player reputation",
       "message" : "Niemand"
@@ -682,6 +690,10 @@
    "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR" : {
       "description" : "",
       "message" : "Nicht genig {alloy} um eine Reparatur durchzuführen"
+   },
+   "NOT_SUPPORTED_ON_THIS_SHIP" : {
+      "description" : "",
+      "message" : "{equipment} wird von diesem Schiff nicht unterstützt."
    },
    "NO_MISSIONS" : {
       "description" : "",
@@ -811,6 +823,10 @@
       "description" : "",
       "message" : "Auftanken"
    },
+   "REFUEL_FULL" : {
+      "description" : "",
+      "message" : "Treibstoff auffüllen"
+   },
    "RELIABLE" : {
       "description" : "For player reputation",
       "message" : "Zuverlässig"
@@ -826,6 +842,10 @@
    "REQUEST_LAUNCH" : {
       "description" : "",
       "message" : "Starterlaubnis anfordern"
+   },
+   "RETURN_TO_GAME" : {
+      "description" : "",
+      "message" : "Zurück zum Spiel"
    },
    "RETURN_TO_MENU" : {
       "description" : "",
@@ -878,6 +898,10 @@
    "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
       "description" : "",
       "message" : "Ihr Schiff ist in voll funktionsfähigem Zustand."
+   },
+   "SHIP_IS_FULLY_EQUIPPED" : {
+      "description" : "",
+      "message" : "Ihr Schiff ist voll ausgerüstet."
    },
    "SHIP_IS_FULLY_LADEN" : {
       "description" : "",
@@ -937,7 +961,7 @@
    },
    "TOO_SMALL_FOR_CURRENT_CREW" : {
       "description" : "",
-      "message" : "Ship is too small for the current crew."
+      "message" : "Das Schiff ist zu klein für die aktuelle Anzahl an Crewmitgliedern."
    },
    "TOTAL" : {
       "description" : "",
@@ -1014,6 +1038,10 @@
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
       "description" : "",
       "message" : "Im Moment haben wir mit Ihnen keine offenen Angelegenheiten."
+   },
+   "YES" : {
+      "description" : "Positive answer to a question",
+      "message" : "Ja"
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",

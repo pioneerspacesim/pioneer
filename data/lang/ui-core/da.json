@@ -615,6 +615,10 @@
       "description" : "",
       "message" : "Minimumsbesætning"
    },
+   "MISSILE_MOUNTS" : {
+      "description" : "",
+      "message" : "Missile mounts"
+   },
    "MISSIONS" : {
       "description" : "",
       "message" : "Missioner"
@@ -667,6 +671,10 @@
       "description" : "",
       "message" : "Næste betalt"
    },
+   "NO" : {
+      "description" : "Negative answer to a question",
+      "message" : "No"
+   },
    "NOBODY" : {
       "description" : "For player reputation",
       "message" : "Ikke noget særligt"
@@ -682,6 +690,10 @@
    "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR" : {
       "description" : "",
       "message" : "Ikke nok {alloy} til at reparere"
+   },
+   "NOT_SUPPORTED_ON_THIS_SHIP" : {
+      "description" : "",
+      "message" : "{equipment} is not supported on this ship model"
    },
    "NO_MISSIONS" : {
       "description" : "",
@@ -811,6 +823,10 @@
       "description" : "",
       "message" : "Tanke op"
    },
+   "REFUEL_FULL" : {
+      "description" : "",
+      "message" : "Refuel full"
+   },
    "RELIABLE" : {
       "description" : "For player reputation",
       "message" : "Pålidelig"
@@ -826,6 +842,10 @@
    "REQUEST_LAUNCH" : {
       "description" : "",
       "message" : "Anmod om at lette"
+   },
+   "RETURN_TO_GAME" : {
+      "description" : "",
+      "message" : "Return to game"
    },
    "RETURN_TO_MENU" : {
       "description" : "",
@@ -878,6 +898,10 @@
    "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
       "description" : "",
       "message" : "Dit skib er i perfekt tilstand."
+   },
+   "SHIP_IS_FULLY_EQUIPPED" : {
+      "description" : "",
+      "message" : "Your ship is fully equipped."
    },
    "SHIP_IS_FULLY_LADEN" : {
       "description" : "",
@@ -1014,6 +1038,10 @@
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
       "description" : "",
       "message" : "Vi har intet til dig lige nu."
+   },
+   "YES" : {
+      "description" : "Positive answer to a question",
+      "message" : "Yes"
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",

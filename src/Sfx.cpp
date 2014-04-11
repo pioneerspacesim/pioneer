@@ -8,6 +8,7 @@
 #include "Pi.h"
 #include "Ship.h"
 #include "Space.h"
+#include "StringF.h"
 #include "graphics/Drawables.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
@@ -270,7 +271,7 @@ void Sfx::Init(Graphics::Renderer *r)
 	// NB: 0-31
 	for( Uint32 i=0 ; i<NUM_EXPLOSION_TEXTURES ; i++ )
 	{
-		const std::string fname="textures/explosions/image"+std::to_string(i)+".png";
+		const std::string fname(stringf("textures/explosions/image%0.png", i));
 		explosionTextures[i] = Graphics::TextureBuilder::Billboard(fname).GetOrCreateTexture(r, "billboard");
 	}
 }

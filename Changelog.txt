@@ -4,18 +4,34 @@ April 2014
      * UI animations (#2830)
      * Explosions (#2831)
 
+   * Minor changes and tweaks
+     * Add a Return to Game button in the pause/options screen (#2841)
+     * Disable the Save button when in hyperspace.
+     * More specific warning message in ship market if trying to buy
+       equipment that the current ship model doesn't support
+     * More stat on ship in ship market and ship info view (#1733,#2838)
+     * The autopilot now faces toward its destination during
+       the coasting phase (#2846)
+     * A "Refuel full" button added next to the refuel button (#2855,#2853)
+     * Balance - Exhaust velocity increase (#2835)
+
    * Script and UI API changes
      * Animation object, UI.Context.Animate and AddAnimation methods (#2830)
+     * Improve tradeships.lua (#2851)
 
    * Internal changes
      * Emit Lua events and timers in hyperspace
      * Output some system info for debugging purposes (#2832)
+     * Add serialization support for LuaRef objects (#2849)
 
    * Fixes
      * Fix duplication of cargo during cargo scooping (#2644, #2828)
      * Fix extra crew lingering after sale of ship (#2122, #2837)
      * Fix taking off with wrong number of crew (#2837)
      * Fix taking off with unpaid fines (#2359)
+     * Fix zero duration and fuel display in sector view after load (#2847)
+     * Fix water still sold in fuel club (#2852)
+
 
 March 2014
 

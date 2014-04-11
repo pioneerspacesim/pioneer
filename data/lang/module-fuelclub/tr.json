@@ -17,7 +17,7 @@
    },
    "FLAVOUR_0_NONMEMBER_INTRO" : {
       "description" : "",
-      "message" : "{clubname} kendini üyeleri için indirimli yıldız gemisi yakıtı sağlamaya adamış bağımsız bir kuruluştur. Bayiler galaksi boyunca bulunabilir. Üyelik ayrıcalıkları ise:\n    * Galaksi marketinden bağımsız, bizim kendi yakıt stoklarımız\n    * İndirimli {hydrogen} fiyatları\n    * İndirimli {military_fuel} fiyatları\n    * İndirimli {water} fiyatları\n    * {radioactives}, bedava yok etme\n    * Yakıt tankı doldurma, gerektiğinde\n\nŞimdi katılın! Yıllık üyelik ücreti yalnızca {membership_fee} "
+      "message" : "{clubname} is an independent organisation dedicated to providing discounted starship fuel to its members. Branches can be found throughout the galaxy. Benefits of membership include:"
    },
    "FLAVOUR_0_WELCOME" : {
       "description" : "",
@@ -31,21 +31,25 @@
       "description" : "",
       "message" : "Bekle."
    },
-   "HYDROGEN" : {
+   "LIST_BENEFITS_DISPOSAL" : {
       "description" : "",
-      "message" : "Hidrojen"
+      "message" : "{radioactives}, free disposal (conditions apply)"
    },
-   "MILITARY_FUEL" : {
+   "LIST_BENEFITS_FUEL" : {
       "description" : "",
-      "message" : "Askeri yakıt"
+      "message" : "{fuel} at discount prices"
    },
-   "RADIOACTIVES" : {
+   "LIST_BENEFITS_FUEL_INTRO" : {
       "description" : "",
-      "message" : "Radyoaktif Çöp"
+      "message" : "Our own stocks of fuel, independent of the general market"
    },
-   "WATER" : {
+   "LIST_BENEFITS_FUEL_TANK" : {
       "description" : "",
-      "message" : "Su"
+      "message" : "Fuel tank refilling, where necessary"
+   },
+   "LIST_BENEFITS_JOIN" : {
+      "description" : "",
+      "message" : "Join now! Annual membership costs only {membership_fee}"
    },
    "WE_WILL_ONLY_DISPOSE_OF" : {
       "description" : "",

@@ -615,6 +615,10 @@
       "description" : "",
       "message" : "Минимум экипажа"
    },
+   "MISSILE_MOUNTS" : {
+      "description" : "",
+      "message" : "Крепления для ракет"
+   },
    "MISSIONS" : {
       "description" : "",
       "message" : "Список заданий"
@@ -667,6 +671,10 @@
       "description" : "",
       "message" : "День платежа"
    },
+   "NO" : {
+      "description" : "Negative answer to a question",
+      "message" : "Нет"
+   },
    "NOBODY" : {
       "description" : "For player reputation",
       "message" : " Пустое место"
@@ -682,6 +690,10 @@
    "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR" : {
       "description" : "",
       "message" : "Недостаточно {alloy} для проведения ремонта"
+   },
+   "NOT_SUPPORTED_ON_THIS_SHIP" : {
+      "description" : "",
+      "message" : "{equipment} невозможно установить на данной модели корабля"
    },
    "NO_MISSIONS" : {
       "description" : "",
@@ -811,6 +823,10 @@
       "description" : "",
       "message" : "Дозаправить"
    },
+   "REFUEL_FULL" : {
+      "description" : "",
+      "message" : "Полная заправка"
+   },
    "RELIABLE" : {
       "description" : "For player reputation",
       "message" : "Надёжный"
@@ -826,6 +842,10 @@
    "REQUEST_LAUNCH" : {
       "description" : "",
       "message" : "Запрос на взлёт"
+   },
+   "RETURN_TO_GAME" : {
+      "description" : "",
+      "message" : "Вернуться к игре"
    },
    "RETURN_TO_MENU" : {
       "description" : "",
@@ -878,6 +898,10 @@
    "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
       "description" : "",
       "message" : "Ваш корабль находится в отличном состоянии.\n"
+   },
+   "SHIP_IS_FULLY_EQUIPPED" : {
+      "description" : "",
+      "message" : "Ваш корабль полностью оснащён."
    },
    "SHIP_IS_FULLY_LADEN" : {
       "description" : "",
@@ -1014,6 +1038,10 @@
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
       "description" : "",
       "message" : "Ваш правовой статус чист. Всего доброго, Командир!"
+   },
+   "YES" : {
+      "description" : "Positive answer to a question",
+      "message" : "Да"
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",

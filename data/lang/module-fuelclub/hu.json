@@ -17,7 +17,7 @@
    },
    "FLAVOUR_0_NONMEMBER_INTRO" : {
       "description" : "",
-      "message" : "{clubname} egy független szervezet, amely olcsón kínál hiperhajtómű üzemanyagot tagjainak. Galaxis-szerte megtalálhatóak fiókjaink. A tagság előnyei a következők:\n\n\t* Saját üzemanyagraktárunk árai függetlenek a piactól\n\t* {hydrogen} kedvezményes áron kapható\n\t* {military_fuel} a piaci ár alatt\n\t* {radioactives} megsemmisítése ingyen (feltételekkel)\n\nCsatlakozz most! Az éves tagsági díj csak {membership_fee}"
+      "message" : "{clubname} egy független szervezet, mely tagjainak kedvezményes áron kínál üzemanyagot. Fiókjai galaxis-szerte megtalálhatóak. A tagságal jár:"
    },
    "FLAVOUR_0_WELCOME" : {
       "description" : "",
@@ -31,21 +31,25 @@
       "description" : "",
       "message" : "Kapcsolat megszakítása."
    },
-   "HYDROGEN" : {
+   "LIST_BENEFITS_DISPOSAL" : {
       "description" : "",
-      "message" : "Hidrogén"
+      "message" : "{radioactives} ingyen átvétele (feltételekkel)"
    },
-   "MILITARY_FUEL" : {
+   "LIST_BENEFITS_FUEL" : {
       "description" : "",
-      "message" : "Katonai üzemanyag"
+      "message" : "Kedvezményes {fuel} árak"
    },
-   "RADIOACTIVES" : {
+   "LIST_BENEFITS_FUEL_INTRO" : {
       "description" : "",
-      "message" : "Radioaktív hulladék"
+      "message" : "Üzemanyag a klub saját készleteiből, a piactól függetlenül"
    },
-   "WATER" : {
+   "LIST_BENEFITS_FUEL_TANK" : {
       "description" : "",
-      "message" : "Víz"
+      "message" : "Üzemanyag űjratöltése, ha szükséges"
+   },
+   "LIST_BENEFITS_JOIN" : {
+      "description" : "",
+      "message" : "Csatlakozzon még ma! Éves tagsági díj mindössze {membership_fee}"
    },
    "WE_WILL_ONLY_DISPOSE_OF" : {
       "description" : "",

@@ -346,6 +346,9 @@ ui.templates.Settings = function (args)
 			local btn = ui:Button():SetInnerWidget(ui:Label(items[i].text))
 			btn.onClick:Connect(items[i].onClick)
 			close_buttons[i] = btn
+			if (items[i].toDisable and items[i].toDisable()) then
+				btn:Disable()
+			end
 		end
 	end
 
@@ -361,25 +364,32 @@ end
 ui.templates.SettingsInGame = function ()
 	return ui.templates.Settings({
 		closeButtons = {
-			{ text = l.SAVE, onClick = function ()
-				local settings_view = ui.layer.innerWidget
-				ui:NewLayer(
-					ui.templates.FileDialog({
-						title        = l.SAVE,
-						helpText     = l.SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME,
-						path         = "savefiles",
-						allowNewFile = true,
-						selectLabel  = l.SAVE,
-						onSelect     = function (filename)
-							Game.SaveGame(filename)
-							ui:DropLayer()
-						end,
-						onCancel    = function ()
-							ui:DropLayer()
-						end
-					})
-				)
-			end },
+			{
+				text = l.SAVE,
+				onClick = function ()
+					local settings_view = ui.layer.innerWidget
+					ui:NewLayer(
+						ui.templates.FileDialog({
+							title        = l.SAVE,
+							helpText     = l.SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME,
+							path         = "savefiles",
+							allowNewFile = true,
+							selectLabel  = l.SAVE,
+							onSelect     = function (filename)
+								Game.SaveGame(filename)
+								ui:DropLayer()
+							end,
+							onCancel    = function ()
+								ui:DropLayer()
+							end
+						})
+					)
+				end,
+				toDisable = function()
+					return Game.player.flightState == "HYPERSPACE"
+				end
+			},
+			{ text = l.RETURN_TO_GAME, onClick = Game.SwitchToWorldView },
 			{ text = l.EXIT_THIS_GAME, onClick = Game.EndGame }
 		}
 	})

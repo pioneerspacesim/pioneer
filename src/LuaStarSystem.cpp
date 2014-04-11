@@ -416,7 +416,8 @@ static int l_starsystem_attr_path(lua_State *l)
 /*
  * Attribute: lawlessness
  *
- * The lawlessness value for the system
+ * The lawlessness value for the system, 0 for peaceful, 1 for raging
+ * hordes of pirates
  *
  * Availability:
  *

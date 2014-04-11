@@ -2,6 +2,8 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaRef.h"
+#include "Lua.h"
+#include "Pi.h"
 #include <cassert>
 
 LuaRef::LuaRef(const LuaRef & ref): m_lua(ref.m_lua), m_id(ref.m_id), m_copycount(ref.m_copycount) {
@@ -29,6 +31,48 @@ LuaRef::~LuaRef() {
 		--(*m_copycount);
 		CheckCopyCount();
 	}
+}
+
+void LuaRef::Save(Serializer::Writer &wr) {
+	assert(m_lua == Lua::manager->GetLuaState());
+	std::string out;
+	PushCopyToStack();
+	Pi::luaSerializer->pickle(m_lua, -1, out);
+	wr.String(out);
+}
+
+void LuaRef::Load(Serializer::Reader &rd) {
+	lua_State *l = Lua::manager->GetLuaState();
+	std::string pickled = rd.String();
+	Pi::luaSerializer->unpickle(l, pickled.c_str()); // loaded
+	lua_getfield(l, LUA_REGISTRYINDEX, "PiLuaRefLoadTable"); // loaded, reftable
+	lua_pushvalue(l, -2); // loaded, reftable, copy
+	lua_gettable(l, -2);  // loaded, reftable, luaref
+	// Check whether this table has been referenced before
+	if (lua_isnil(l, -1)) {
+		// If not, mark it as referenced
+		*this = LuaRef(l, -3);
+		lua_pushvalue(l, -3);
+		lua_pushlightuserdata(l, this);
+		lua_settable(l, -4);
+	} else {
+		LuaRef *origin = static_cast<LuaRef *>(lua_touserdata(l, -1));
+		*this = *origin;
+	}
+
+	lua_pop(l, 3);
+}
+
+void LuaRef::InitLoad() {
+	lua_State *l = Lua::manager->GetLuaState();
+	lua_newtable(l);
+	lua_setfield(l, LUA_REGISTRYINDEX, "PiLuaRefLoadTable");
+}
+
+void LuaRef::UninitLoad() {
+	lua_State *l = Lua::manager->GetLuaState();
+	lua_pushnil(l);
+	lua_setfield(l, LUA_REGISTRYINDEX, "PiLuaRefLoadTable");
 }
 
 bool LuaRef::operator==(const LuaRef & ref) const {

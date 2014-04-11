@@ -17,7 +17,7 @@
    },
    "FLAVOUR_0_NONMEMBER_INTRO" : {
       "description" : "",
-      "message" : "{clubname} è un'organizzazione indipendente che ha lo scopo di fornire ai propri membi carburante per astronavi scontato. Si possono trovare succursali in tutta la galassia. L'iscrizione porta i seguenti vantaggi:\n\n* Le nostre scorte di combustibile, indipendenti dal mercato generale\n* {hydrogen} a prezzi scontati\n* {military_fuel} a prezzi scontati\n* {water} a prezzi scontati\n* {radioactives}, smaltimento gratuito (si applicano delle condizioni)\n* Rabbocco di carburante, se necessario\n\nIscriviti ora! La quota d'iscrizione annuale è di soli {membership_fee}"
+      "message" : "{clubname} è un'organizzazione indipendente che ha lo scopo di fornire carburante per astronavi scontato ai propri membi. Si possono trovare succursali in tutta la galassia. L'iscrizione porta i seguenti vantaggi:"
    },
    "FLAVOUR_0_WELCOME" : {
       "description" : "",
@@ -31,21 +31,25 @@
       "description" : "",
       "message" : "Riaggancia."
    },
-   "HYDROGEN" : {
+   "LIST_BENEFITS_DISPOSAL" : {
       "description" : "",
-      "message" : "Idrogeno"
+      "message" : "{radioactives}, smaltimento gratuito (si applicano delle condizioni)"
    },
-   "MILITARY_FUEL" : {
+   "LIST_BENEFITS_FUEL" : {
       "description" : "",
-      "message" : "Carburante militare"
+      "message" : "{fuel} a prezzi scontati"
    },
-   "RADIOACTIVES" : {
+   "LIST_BENEFITS_FUEL_INTRO" : {
       "description" : "",
-      "message" : "Scorie Radioattive"
+      "message" : "Le nostre scorte di combustibile, indipendenti dal mercato generale"
    },
-   "WATER" : {
+   "LIST_BENEFITS_FUEL_TANK" : {
       "description" : "",
-      "message" : "Acqua"
+      "message" : "Rabbocco di carburante, se necessario"
+   },
+   "LIST_BENEFITS_JOIN" : {
+      "description" : "",
+      "message" : "Iscriviti ora! La quota d'iscrizione annuale è di soli {membership_fee}"
    },
    "WE_WILL_ONLY_DISPOSE_OF" : {
       "description" : "",

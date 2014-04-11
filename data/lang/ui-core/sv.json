@@ -485,11 +485,11 @@
    },
    "LAUNCH_PERMISSION_DENIED_CREW" : {
       "description" : "",
-      "message" : "Permission to launch denied: not enough crew too handle this ship."
+      "message" : "Uppskjutningstillstånd nekat: inte tillräckligt med besättning för att hantera skeppet."
    },
    "LAUNCH_PERMISSION_DENIED_FINED" : {
       "description" : "",
-      "message" : "Permission to launch denied: you have outstanding fines."
+      "message" : "Uppskjutningstillstånd nekat: du har obetalda böter."
    },
    "LEGAL_STATUS" : {
       "description" : "",
@@ -615,6 +615,10 @@
       "description" : "",
       "message" : "Minimumbesättning"
    },
+   "MISSILE_MOUNTS" : {
+      "description" : "",
+      "message" : "Missilpyloner"
+   },
    "MISSIONS" : {
       "description" : "",
       "message" : "Uppdrag"
@@ -667,6 +671,10 @@
       "description" : "",
       "message" : "Nästa betalning"
    },
+   "NO" : {
+      "description" : "Negative answer to a question",
+      "message" : "Nej"
+   },
    "NOBODY" : {
       "description" : "For player reputation",
       "message" : "Ingen"
@@ -682,6 +690,10 @@
    "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR" : {
       "description" : "",
       "message" : "Inte tillräckligt med {alloy} för att försöka reparera"
+   },
+   "NOT_SUPPORTED_ON_THIS_SHIP" : {
+      "description" : "",
+      "message" : "{equipment} stöds inte av den här skeppsmodellen"
    },
    "NO_MISSIONS" : {
       "description" : "",
@@ -811,6 +823,10 @@
       "description" : "",
       "message" : "Tanka"
    },
+   "REFUEL_FULL" : {
+      "description" : "",
+      "message" : "Refuel full"
+   },
    "RELIABLE" : {
       "description" : "For player reputation",
       "message" : "Pålitlig"
@@ -826,6 +842,10 @@
    "REQUEST_LAUNCH" : {
       "description" : "",
       "message" : "Begär uppskjutningstillstånd"
+   },
+   "RETURN_TO_GAME" : {
+      "description" : "",
+      "message" : "Återgå till spelet"
    },
    "RETURN_TO_MENU" : {
       "description" : "",
@@ -878,6 +898,10 @@
    "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
       "description" : "",
       "message" : "Ditt skepp fungerar utmärkt."
+   },
+   "SHIP_IS_FULLY_EQUIPPED" : {
+      "description" : "",
+      "message" : "Ditt skepp är fullt utrustat."
    },
    "SHIP_IS_FULLY_LADEN" : {
       "description" : "",
@@ -937,7 +961,7 @@
    },
    "TOO_SMALL_FOR_CURRENT_CREW" : {
       "description" : "",
-      "message" : "Ship is too small for the current crew."
+      "message" : "Skeppet för litet för nuvarande besättning"
    },
    "TOTAL" : {
       "description" : "",
@@ -1014,6 +1038,10 @@
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
       "description" : "",
       "message" : "Vi har inga affärer med dig för stunden."
+   },
+   "YES" : {
+      "description" : "Positive answer to a question",
+      "message" : "Ja"
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",

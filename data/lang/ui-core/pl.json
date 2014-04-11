@@ -485,11 +485,11 @@
    },
    "LAUNCH_PERMISSION_DENIED_CREW" : {
       "description" : "",
-      "message" : "Permission to launch denied: not enough crew too handle this ship."
+      "message" : "Brak pozwolenia na lądowanie: brak wystarczającej ilości załogi by poprowadzić ten statek."
    },
    "LAUNCH_PERMISSION_DENIED_FINED" : {
       "description" : "",
-      "message" : "Permission to launch denied: you have outstanding fines."
+      "message" : "Brak pozwolenia na lądowanie: zalegasz z opłatą grzywny."
    },
    "LEGAL_STATUS" : {
       "description" : "",
@@ -615,6 +615,10 @@
       "description" : "",
       "message" : "Minimalna ilość załogi"
    },
+   "MISSILE_MOUNTS" : {
+      "description" : "",
+      "message" : "Mocowania rakiet"
+   },
    "MISSIONS" : {
       "description" : "",
       "message" : "Misje"
@@ -667,6 +671,10 @@
       "description" : "",
       "message" : "Następna wypłata"
    },
+   "NO" : {
+      "description" : "Negative answer to a question",
+      "message" : "Nie"
+   },
    "NOBODY" : {
       "description" : "For player reputation",
       "message" : "Nikt"
@@ -682,6 +690,10 @@
    "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR" : {
       "description" : "",
       "message" : "{alloy} - jest zbyt mało by rozpocząć naprawę."
+   },
+   "NOT_SUPPORTED_ON_THIS_SHIP" : {
+      "description" : "",
+      "message" : "{equipment} - nie można zainstalować w tym modelu statku"
    },
    "NO_MISSIONS" : {
       "description" : "",
@@ -811,6 +823,10 @@
       "description" : "",
       "message" : "Zatankuj"
    },
+   "REFUEL_FULL" : {
+      "description" : "",
+      "message" : "Zatankuj do pełna"
+   },
    "RELIABLE" : {
       "description" : "For player reputation",
       "message" : "Niezawodny"
@@ -826,6 +842,10 @@
    "REQUEST_LAUNCH" : {
       "description" : "",
       "message" : "Pozwolenie na start"
+   },
+   "RETURN_TO_GAME" : {
+      "description" : "",
+      "message" : "Powrót do gry"
    },
    "RETURN_TO_MENU" : {
       "description" : "",
@@ -879,9 +899,13 @@
       "description" : "",
       "message" : "Twój statek jest w doskonałym stanie."
    },
+   "SHIP_IS_FULLY_EQUIPPED" : {
+      "description" : "",
+      "message" : "Twój statek jest w pełni wyposażony."
+   },
    "SHIP_IS_FULLY_LADEN" : {
       "description" : "",
-      "message" : "Twój statek jest w pełni załadowany"
+      "message" : "Twój statek jest zbyt obciążony"
    },
    "SHIP_MARKET" : {
       "description" : "",
@@ -937,7 +961,7 @@
    },
    "TOO_SMALL_FOR_CURRENT_CREW" : {
       "description" : "",
-      "message" : "Ship is too small for the current crew."
+      "message" : "Statek jest zbyt mały dla obecnej ilości załogi."
    },
    "TOTAL" : {
       "description" : "",
@@ -1014,6 +1038,10 @@
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
       "description" : "",
       "message" : "W tej chwili nie mamy do ciebie żadnych spraw."
+   },
+   "YES" : {
+      "description" : "Positive answer to a question",
+      "message" : "Tak"
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",
