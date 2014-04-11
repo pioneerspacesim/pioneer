@@ -99,7 +99,7 @@ function ChatForm:BuildWidget ()
 
 	return
 		ui:ColorBackground(0,0,0,0.5,
-			ui:Grid({10,40,10},{7,30,13}):SetCell(1,1,
+			ui:Grid({10,40,10},{6,30,12}):SetCell(1,1,
 				ui:Background(
 					ui:VBox(10)
 						:PackEnd({ box, hangupButton })
