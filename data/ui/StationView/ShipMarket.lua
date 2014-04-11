@@ -106,7 +106,9 @@ local function buyShip (sos)
 	player:SetSkin(sos.skin)
 	if sos.pattern then player.model:SetPattern(sos.pattern) end
 	player:SetLabel(sos.label)
-	player:AddEquip(def.defaultHyperdrive)
+	if def.hyperdriveClass > 0 then
+		player:AddEquip('DRIVE_CLASS'..tostring(def.hyperdriveClass))
+	end
 	player:SetFuelPercent(100)
 
 	shipInfo:SetInnerWidget(
@@ -159,7 +161,7 @@ shipTable.onRowClicked:Connect(function (row)
 				ui:Expand("HORIZONTAL", ui:Align("RIGHT", buyButton)),
 			}),
 			ModelSpinner.New(ui, def.modelName, currentShipOnSale.skin, currentShipOnSale.pattern),
-			ui:Label(l.HYPERDRIVE_FITTED.." "..lcore[def.defaultHyperdrive]):SetFont("SMALL"),
+			ui:Label(l.HYPERDRIVE_FITTED.." "..lcore[(def.hyperdriveClass > 0 and 'DRIVE_CLASS'..def.hyperdriveClass or 'NONE')]):SetFont("SMALL"),
 			ui:Margin(10, "TOP",
 				ui:Grid(2,1)
 					:SetFont("SMALL")
