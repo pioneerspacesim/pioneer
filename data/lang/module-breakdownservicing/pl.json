@@ -113,7 +113,7 @@
    },
    "YOUR_DRIVE_HAS_NOT_BEEN_SERVICED" : {
       "description" : "",
-      "message" : "Twój napęd nie przechodził przeglądu od momentu\ninstalacji - {date}"
+      "message" : "Twój napęd nie przechodził przeglądu od momentu instalacji - {date}"
    },
    "YOUR_DRIVE_WAS_LAST_SERVICED_ON" : {
       "description" : "",
