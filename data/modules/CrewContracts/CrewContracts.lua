@@ -277,7 +277,6 @@ local onChat = function (form,ref,option)
 			else
 				form:SetMessage(l.IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME)
 				form:AddOption(l.GO_BACK, 0)
-				form:AddOption(l.HANG_UP, -1)
 			end
 			offer = nil
 			candidate = nil
