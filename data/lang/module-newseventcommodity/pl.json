@@ -5,7 +5,7 @@
    },
    "FLAVOUR_0_NEWSBODY" : {
       "description" : "Imply high demand for MEDICINE commodity.",
-      "message" : "Praga pochłania kolejne ofiary w systemie {system}({sectorx},{sectory},{sectorz}). Urzędnicy apelują o pomoc medyczną."
+      "message" : "Plaga pochłania kolejne ofiary w systemie {system}({sectorx},{sectory},{sectorz}). Urzędnicy apelują o pomoc medyczną."
    },
    "FLAVOUR_10_HEADLINE" : {
       "description" : "",

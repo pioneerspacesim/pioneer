@@ -17,7 +17,7 @@
    },
    "FLAVOUR_0_NONMEMBER_INTRO" : {
       "description" : "",
-      "message" : "{clubname} is an independent organisation dedicated to providing discounted starship fuel to its members. Branches can be found throughout the galaxy. Benefits of membership include:"
+      "message" : "{clubname} ist eine unabhängige Organisation mit dem Ziel ihren Mitgliedern\ngünstigen Raumschifftreibstoff zur Verfügung zu stellen. Zweigstellen gibt es in der gesamten Galaxis. Die Vorteile einer Mitgliedschaft umfassen:"
    },
    "FLAVOUR_0_WELCOME" : {
       "description" : "",
@@ -33,7 +33,7 @@
    },
    "LIST_BENEFITS_DISPOSAL" : {
       "description" : "",
-      "message" : "{radioactives}, free disposal (conditions apply)"
+      "message" : "{radioactives}, kostenlose Entsorgung (siehe Konditionen)"
    },
    "LIST_BENEFITS_FUEL" : {
       "description" : "",
@@ -41,11 +41,11 @@
    },
    "LIST_BENEFITS_FUEL_INTRO" : {
       "description" : "",
-      "message" : "Our own stocks of fuel, independent of the general market"
+      "message" : "Unsere eigenen, vom Markt unabhängigen, Treibstoffvorräte"
    },
    "LIST_BENEFITS_FUEL_TANK" : {
       "description" : "",
-      "message" : "Fuel tank refilling, where necessary"
+      "message" : "Treibstoffnachfüllung, wo auch immer es notwendig sein sollte"
    },
    "LIST_BENEFITS_JOIN" : {
       "description" : "",
