@@ -73,16 +73,40 @@ inline bool pi_lua_strict_pull(lua_State * l, int index, std::string & out) {
 	return false;
 }
 
-template <typename ...Types>
-inline void pi_lua_multiple_push(lua_State *l, Types ...args);
+#if defined(_MSC_VER) // Non-variadic version for MSVC
+template <typename Arg1>
+inline void pi_lua_multiple_push(lua_State *l, Arg1 arg1) {
+	pi_lua_generic_push(l, arg1);
+}
 
+template <typename Arg1, typename Arg2>
+inline void pi_lua_multiple_push(lua_State *l, Arg1 arg1, Arg2 arg2) {
+	pi_lua_generic_push(l, arg1);
+	pi_lua_generic_push(l, arg2);
+}
+
+template <typename Arg1, typename Arg2, typename Arg3>
+inline void pi_lua_multiple_push(lua_State *l, Arg1 arg1, Arg2 arg2, Arg3 arg3) {
+	pi_lua_generic_push(l, arg1);
+	pi_lua_generic_push(l, arg2);
+	pi_lua_generic_push(l, arg3);
+}
+
+template <typename Arg1, typename Arg2, typename Arg3, typename Arg4>
+inline void pi_lua_multiple_push(lua_State *l, Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4) {
+	pi_lua_generic_push(l, arg1);
+	pi_lua_generic_push(l, arg2);
+	pi_lua_generic_push(l, arg3);
+	pi_lua_generic_push(l, arg4);
+}
+#else // Just use the normal variadic version
 template <typename Head, typename ...Tail>
 inline void pi_lua_multiple_push(lua_State *l, Head arg1, Tail ...rest) {
 	pi_lua_generic_push(l, arg1);
 	pi_lua_multiple_push(l, rest...);
 }
+#endif
 
-template <>
 inline void pi_lua_multiple_push(lua_State *l) {
 	return;
 }
