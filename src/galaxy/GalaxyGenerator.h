@@ -91,7 +91,7 @@ class StarSystemGeneratorStage : public GalaxyGeneratorStage {
 public:
 	virtual ~StarSystemGeneratorStage() { }
 
-	virtual bool Apply(Random& rng, RefCountedPtr<StarSystem> system, GalaxyGenerator::StarSystemConfig* config) = 0;
+	virtual bool Apply(Random& rng, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig* config) = 0;
 };
 
 #endif

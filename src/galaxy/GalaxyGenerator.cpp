@@ -71,7 +71,7 @@ RefCountedPtr<StarSystem> GalaxyGenerator::GenerateStarSystem(const SystemPath& 
 	Uint32 _init[6] = { path.systemIndex, Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED, Uint32(seed) };
 	Random rng(_init, 6);
 	StarSystemConfig config;
-	RefCountedPtr<StarSystem> system(new StarSystem(path, cache, rng));
+	RefCountedPtr<StarSystem::GeneratorAPI> system(new StarSystem::GeneratorAPI(path, cache, rng));
 	for (StarSystemGeneratorStage* sysgen : m_starSystemStage)
 		if (!sysgen->Apply(rng, system, &config))
 			break;

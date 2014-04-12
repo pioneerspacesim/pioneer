@@ -281,11 +281,7 @@ class StarSystem : public RefCounted {
 public:
 	friend class SystemBody;
 	friend class GalaxyObjectCache<StarSystem, SystemPath::LessSystemOnly>;
-	friend class GalaxyGenerator;
-	friend class StarSystemFromSectorGenerator;
-	friend class ClassicalStarSystemGenerator;
-	friend class StarSystemCustomGenerator;
-	friend class StarSystemRandomGenerator;
+	class GeneratorAPI; // Complete definition below
 
 	void ExportToLua(const char *filename);
 
@@ -295,8 +291,8 @@ public:
 	static void Serialize(Serializer::Writer &wr, StarSystem *);
 	static RefCountedPtr<StarSystem> Unserialize(Serializer::Reader &rd);
 	const SystemPath &GetPath() const { return m_path; }
-	const char *GetShortDescription() const { return m_shortDesc.c_str(); }
-	const char *GetLongDescription() const { return m_longDesc.c_str(); }
+	const std::string& GetShortDescription() const { return m_shortDesc; }
+	const std::string& GetLongDescription() const { return m_longDesc; }
 	unsigned GetNumStars() const { return m_numStars; }
 	const SysPolit &GetSysPolit() const { return m_polit; }
 
@@ -332,6 +328,10 @@ public:
 	Faction* GetFaction() const  { return m_faction; }
 	bool GetUnexplored() const { return m_unexplored; }
 	fixed GetMetallicity() const { return m_metallicity; }
+	fixed GetIndustrial() const { return m_industrial; }
+	fixed GetAgricultural() const { return m_agricultural; }
+	GalacticEconomy::EconType GetEconType() const { return m_econType; }
+	const int* GetTradeLevel() const { return m_tradeLevel; }
 	int GetSeed() const { return m_seed; }
 	fixed GetHumanProx() const { return m_humanProx; }
 	fixed GetTotalPop() const { return m_totalPop; }
@@ -340,7 +340,7 @@ public:
 
 private:
 	StarSystem(const SystemPath &path, StarSystemCache* cache, Random& rand);
-	~StarSystem();
+	virtual ~StarSystem();
 
 	void SetCache(StarSystemCache* cache) { assert(!m_cache); m_cache = cache; }
 
@@ -365,7 +365,7 @@ private:
 	bool m_unexplored;
 	fixed m_metallicity;
 	fixed m_industrial;
-	int m_econType;
+	GalacticEconomy::EconType m_econType;
 	Uint32 m_seed;
 
 	// percent price alteration
@@ -382,6 +382,38 @@ private:
 	std::vector<SystemBody*> m_stars;
 
 	StarSystemCache* m_cache;
+};
+
+class StarSystem::GeneratorAPI : public StarSystem {
+private:
+	friend class GalaxyGenerator;
+	GeneratorAPI(const SystemPath &path, StarSystemCache* cache, Random& rand) : StarSystem(path, cache, rand) { }
+
+public:
+	void SetCustom(bool isCustom, bool hasCustomBodies) { m_isCustom = isCustom; m_hasCustomBodies = hasCustomBodies; }
+	void SetNumStars(int numStars) { m_numStars = numStars; }
+	void SetRootBody(RefCountedPtr<SystemBody> rootBody) { m_rootBody = rootBody; }
+	void SetRootBody(SystemBody* rootBody) { m_rootBody.Reset(rootBody); }
+	void SetName(const std::string& name) { m_name = name; }
+	void SetShortDesc(const std::string& desc) { m_shortDesc = desc; }
+	void SetLongDesc(const std::string& desc) { m_longDesc = desc; }
+	void SetUnexplored(bool unexplored) { m_unexplored = unexplored; }
+	void SetSeed(Uint32 seed) { m_seed = seed; }
+	void SetFaction(Faction* faction) { m_faction = faction; }
+	void SetEconType(GalacticEconomy::EconType econType) { m_econType = econType; }
+	void SetSysPolit(SysPolit polit) { m_polit = polit; }
+	void SetMetallicity(fixed metallicity) { m_metallicity = metallicity; }
+	void SetIndustrial(fixed industrial) { m_industrial = industrial; }
+	void SetAgricultural(fixed agricultural) { m_agricultural = agricultural; }
+	void SetHumanProx(fixed humanProx) { m_humanProx = humanProx; }
+	void SetTotalPop(fixed pop) { m_totalPop = pop; }
+	void AddTotalPop(fixed pop) { m_totalPop += pop; }
+	void SetTradeLevel(GalacticEconomy::Commodity type, int level) { m_tradeLevel[int(type)] = level; }
+	void AddTradeLevel(GalacticEconomy::Commodity type, int level) { m_tradeLevel[int(type)] += level; }
+
+	void AddSpaceStation(SystemBody* station) { assert(station->GetSuperType() == SystemBody::SUPERTYPE_STARPORT); m_spaceStations.push_back(station); }
+	void AddStar(SystemBody* star) { assert(star->GetSuperType() == SystemBody::SUPERTYPE_STAR); m_stars.push_back(star);}
+	using StarSystem::NewBody;
 };
 
 #endif /* _STARSYSTEM_H */

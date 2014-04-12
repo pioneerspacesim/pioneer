@@ -9,29 +9,29 @@
 
 class StarSystemFromSectorGenerator : public StarSystemGeneratorStage {
 public:
-	virtual bool Apply(Random& rng, RefCountedPtr<StarSystem> system, GalaxyGenerator::StarSystemConfig* config);
+	virtual bool Apply(Random& rng, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig* config);
 };
 
 class ClassicalStarSystemGenerator : public StarSystemGeneratorStage {
 protected:
-	void MakeShortDescription(RefCountedPtr<StarSystem> system, Random &rand);
-	void Populate(RefCountedPtr<StarSystem> system, bool addSpaceStations);
+	void MakeShortDescription(RefCountedPtr<StarSystem::GeneratorAPI> system, Random &rand);
+	void Populate(RefCountedPtr<StarSystem::GeneratorAPI> system, bool addSpaceStations);
 };
 
 class StarSystemCustomGenerator : public ClassicalStarSystemGenerator {
 public:
-	virtual bool Apply(Random& rng, RefCountedPtr<StarSystem> system, GalaxyGenerator::StarSystemConfig* config);
+	virtual bool Apply(Random& rng, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig* config);
 
 private:
-	void CustomGetKidsOf(RefCountedPtr<StarSystem> system, SystemBody *parent, const std::vector<CustomSystemBody*> &children, int *outHumanInfestedness, Random &rand);
+	void CustomGetKidsOf(RefCountedPtr<StarSystem::GeneratorAPI> system, SystemBody *parent, const std::vector<CustomSystemBody*> &children, int *outHumanInfestedness, Random &rand);
 };
 
 class StarSystemRandomGenerator : public ClassicalStarSystemGenerator {
 public:
-	virtual bool Apply(Random& rng, RefCountedPtr<StarSystem> system, GalaxyGenerator::StarSystemConfig* config);
+	virtual bool Apply(Random& rng, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig* config);
 
 private:
-	void MakePlanetsAround(RefCountedPtr<StarSystem> system, SystemBody *primary, Random &rand);
+	void MakePlanetsAround(RefCountedPtr<StarSystem::GeneratorAPI> system, SystemBody *primary, Random &rand);
 	void MakeRandomStar(SystemBody *sbody, Random &rand);
 	void MakeStarOfType(SystemBody *sbody, SystemBody::BodyType type, Random &rand);
 	void MakeStarOfTypeLighterThan(SystemBody *sbody, SystemBody::BodyType type, fixed maxMass, Random &rand);

@@ -1193,7 +1193,7 @@ SystemBody::AtmosphereParameters SystemBody::CalcAtmosphereParams() const
  * We must be sneaky and avoid floating point in these places.
  */
 StarSystem::StarSystem(const SystemPath &path, StarSystemCache* cache, Random& rand) : m_path(path.SystemOnly()), m_numStars(0), m_isCustom(false),
-	m_faction(nullptr), m_unexplored(false), m_econType(0), m_seed(0), m_cache(cache)
+	m_faction(nullptr), m_unexplored(false), m_econType(GalacticEconomy::ECON_MINING), m_seed(0), m_cache(cache)
 {
 	PROFILE_SCOPED()
 	memset(m_tradeLevel, 0, sizeof(m_tradeLevel));
@@ -1964,7 +1964,7 @@ void StarSystem::ExportToLua(const char *filename) {
 	}
 
 	fprintf(f,"local system = CustomSystem:new('%s', { %s })\n\t:govtype('%s')\n\t:short_desc('%s')\n\t:long_desc([[%s]])\n\n",
-			GetName().c_str(), stars_in_system.c_str(), ENUM_PolitGovType[j].name, GetShortDescription(), GetLongDescription());
+			GetName().c_str(), stars_in_system.c_str(), ENUM_PolitGovType[j].name, GetShortDescription().c_str(), GetLongDescription().c_str());
 
 	fprintf(f, "system:bodies(%s)\n\n", ExportBodyToLua(f, m_rootBody.Get()).c_str());
 
