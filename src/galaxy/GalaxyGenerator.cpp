@@ -22,7 +22,8 @@ RefCountedPtr<Galaxy> GalaxyGenerator::Create(const std::string& name, Version v
 				->AddSectorStage(new SectorRandomSystemsGenerator)
 				->AddStarSystemStage(new StarSystemFromSectorGenerator)
 				->AddStarSystemStage(new StarSystemCustomGenerator)
-				->AddStarSystemStage(new StarSystemRandomGenerator))));
+				->AddStarSystemStage(new StarSystemRandomGenerator)
+				->AddStarSystemStage(new PopulateStarSystemGenerator))));
 		}
 	}
 	return RefCountedPtr<Galaxy>();
