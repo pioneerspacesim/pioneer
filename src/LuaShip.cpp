@@ -92,7 +92,6 @@ static int l_ship_set_type(lua_State *l)
 		luaL_error(l, "Unknown ship type '%s'", type);
 
 	s->SetShipType(type);
-	s->m_equipment.Set(Equip::SLOT_ENGINE, 0, ShipType::types[type].hyperdrive);
 	s->UpdateStats();
 
 	LUA_DEBUG_END(l, 0);
