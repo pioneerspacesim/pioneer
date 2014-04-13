@@ -36,7 +36,9 @@ April 2014
      * Fix zero duration and fuel display in sector view after load (#2847)
      * Fix water still sold in fuel club (#2852)
      * Fix duplicated HANG_UP button in crew bulletin boards (#2858)
-     * Fix assertion in system info view when starport on planet with same name was selected (#2848)
+     * Fix assertion in system info view when starport on planet with same
+       name was selected (#2848)
+     * Fix crash when Nerodia selected in shipyard (#2865, #2864)
 
 March 2014
 
