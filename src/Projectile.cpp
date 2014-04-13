@@ -16,6 +16,7 @@
 #include "Pi.h"
 #include "Game.h"
 #include "LuaEvent.h"
+#include "LuaUtils.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
@@ -184,19 +185,22 @@ double Projectile::GetRadius() const
 
 static void MiningLaserSpawnTastyStuff(Frame *f, const SystemBody *asteroid, const vector3d &pos)
 {
-	Equip::Type t;
+	lua_State *l = Lua::manager->GetLuaState();
+	pi_lua_import(l, "Equipment");
+	LuaTable cargo_types = LuaTable(l, -1).Sub("cargo");
 	if (20*Pi::rng.Fixed() < asteroid->GetMetallicity()) {
-		t = Equip::PRECIOUS_METALS;
+		cargo_types.Sub("precious_metals");
 	} else if (8*Pi::rng.Fixed() < asteroid->GetMetallicity()) {
-		t = Equip::METAL_ALLOYS;
+		cargo_types.Sub("metal_alloys");
 	} else if (Pi::rng.Fixed() < asteroid->GetMetallicity()) {
-		t = Equip::METAL_ORE;
+		cargo_types.Sub("metal_ore");
 	} else if (Pi::rng.Fixed() < fixed(1,2)) {
-		t = Equip::WATER;
+		cargo_types.Sub("water");
 	} else {
-		t = Equip::RUBBISH;
+		cargo_types.Sub("rubbish");
 	}
-	CargoBody *cargo = new CargoBody(t);
+	CargoBody *cargo = new CargoBody(LuaRef(l, -1));
+	lua_pop(l, 3);
 	cargo->SetFrame(f);
 	cargo->SetPosition(pos);
 	const double x = Pi::rng.Double();

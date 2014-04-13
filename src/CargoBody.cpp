@@ -8,6 +8,7 @@
 #include "Sfx.h"
 #include "Space.h"
 #include "EnumStrings.h"
+#include "LuaTable.h"
 #include "collider/collider.h"
 #include "scenegraph/SceneGraph.h"
 #include "scenegraph/ModelSkin.h"
@@ -15,14 +16,14 @@
 void CargoBody::Save(Serializer::Writer &wr, Space *space)
 {
 	DynamicBody::Save(wr, space);
-	wr.Int32(static_cast<int>(m_type));
+	m_cargo.Save(wr);
 	wr.Float(m_hitpoints);
 }
 
 void CargoBody::Load(Serializer::Reader &rd, Space *space)
 {
 	DynamicBody::Load(rd, space);
-	m_type = static_cast<Equip::Type>(rd.Int32());
+	m_cargo.Load(rd);
 	Init();
 	m_hitpoints = rd.Float();
 }
@@ -30,7 +31,7 @@ void CargoBody::Load(Serializer::Reader &rd, Space *space)
 void CargoBody::Init()
 {
 	m_hitpoints = 1.0f;
-	SetLabel(Equip::types[m_type].name);
+	SetLabel(ScopedTable(m_cargo).Get<std::string>("name"));
 	SetMassDistributionFromModel();
 
 	std::vector<Color> colors;
@@ -45,12 +46,11 @@ void CargoBody::Init()
 	skin.Apply(GetModel());
 	GetModel()->SetColors(colors);
 
-	Properties().Set("type", EnumStrings::GetString("EquipType", m_type));
+	Properties().Set("type", ScopedTable(m_cargo).Get<std::string>("name"));
 }
 
-CargoBody::CargoBody(Equip::Type t)
+CargoBody::CargoBody(const LuaRef& cargo): m_cargo(cargo)
 {
-	m_type = t;
 	SetModel("cargo");
 	Init();
 	SetMass(1.0);

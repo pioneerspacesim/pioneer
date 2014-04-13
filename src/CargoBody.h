@@ -7,15 +7,16 @@
 #include "libs.h"
 #include "DynamicBody.h"
 #include "EquipType.h"
+#include "LuaRef.h"
 
 namespace Graphics { class Renderer; }
 
 class CargoBody: public DynamicBody {
 public:
 	OBJDEF(CargoBody, DynamicBody, CARGOBODY);
-	CargoBody(Equip::Type t);
+	CargoBody(const LuaRef& cargo);
 	CargoBody() {}
-	Equip::Type GetCargoType() const { return m_type; }
+	LuaRef GetCargoType() const { return m_cargo; }
 	virtual void SetLabel(const std::string &label);
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel);
@@ -25,7 +26,7 @@ protected:
 	virtual void Load(Serializer::Reader &rd, Space *space);
 private:
 	void Init();
-	Equip::Type m_type;
+	LuaRef m_cargo;
 	float m_hitpoints;
 };
 

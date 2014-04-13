@@ -298,9 +298,13 @@ static int l_ship_set_label(lua_State *l)
  */
 static int l_ship_spawn_cargo(lua_State *l) {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	CargoBody * c_body = new CargoBody(static_cast<Equip::Type>(LuaConstants::GetConstantFromArg(l, "EquipType", 2)));
-    lua_pushboolean(l, s->SpawnCargo(c_body));
-    return 1;
+	if (!lua_istable(l, 2)) {
+		lua_pushboolean(l, false);
+	} else {
+		CargoBody * c_body = new CargoBody(LuaRef(l, 2));
+		lua_pushboolean(l, s->SpawnCargo(c_body));
+	}
+	return 1;
 }
 
 /*
