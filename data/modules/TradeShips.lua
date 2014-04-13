@@ -89,7 +89,7 @@ local addShipEquip = function (ship)
 	local ship_type = ShipDef[trader.ship_name]
 
 	-- add standard equipment
-	ship:AddEquip(ship_type.defaultHyperdrive)
+	ship:AddEquip('DRIVE_CLASS'..tostring(ship_type.hyperdriveClass))
 	if ShipDef[ship.shipId].equipSlotCapacity.ATMOSHIELD > 0 then
 		ship:AddEquip('ATMOSPHERIC_SHIELDING')
 		trader.ATMOSHIELD = true -- flag this to save function calls later
@@ -318,13 +318,13 @@ local getAcceptableShips = function ()
 		filter_function = function(k,def)
 			-- XXX should limit to ships large enough to carry significant
 			--     cargo, but we don't have enough ships yet
-			return def.tag == 'SHIP' and def.defaultHyperdrive ~= 'NONE' and def.equipSlotCapacity.ATMOSHIELD > 0
+			return def.tag == 'SHIP' and def.hyperdriveClass > 0 and def.equipSlotCapacity.ATMOSHIELD > 0
 		end
 	else
 		filter_function = function(k,def)
 			-- XXX should limit to ships large enough to carry significant
 			--     cargo, but we don't have enough ships yet
-			return def.tag == 'SHIP' and def.defaultHyperdrive ~= 'NONE'
+			return def.tag == 'SHIP' and def.hyperdriveClass > 0
 		end
 	end
 	return utils.build_array(
