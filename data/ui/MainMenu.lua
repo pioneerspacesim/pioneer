@@ -9,6 +9,8 @@ local ShipDef = import("ShipDef")
 local Player = import("Player")
 local SystemPath = import("SystemPath")
 local ErrorScreen = import("ErrorScreen")
+local equipment = import("Equipment").equipment
+local cargo_types = import("Equipment").cargo
 
 local ui = Engine.ui
 local l = Lang.GetResource("ui-core");
@@ -16,35 +18,35 @@ local l = Lang.GetResource("ui-core");
 local setupPlayerSol = function ()
 	Game.player:SetShipType("sinonatrix")
 	Game.player:SetLabel(Ship.MakeRandomLabel())
-	Game.player:AddEquip("DRIVE_CLASS"..ShipDef[Game.player.shipId].hyperdriveClass)
-	Game.player:AddEquip("PULSECANNON_1MW")
-	Game.player:AddEquip("ATMOSPHERIC_SHIELDING")
-	Game.player:AddEquip("AUTOPILOT")
-	Game.player:AddEquip("SCANNER")
-	Game.player:AddEquip("HYDROGEN", 2)
+	Game.player:AddEquip(equipment["hyperdrive_"..ShipDef[Game.player.shipId].hyperdriveClass])
+	Game.player:AddEquip(equipment.pulsecannon_1mw)
+	Game.player:AddEquip(equipment.atmospheric_shielding)
+	Game.player:AddEquip(equipment.autopilot)
+	Game.player:AddEquip(equipment.scanner)
+	Game.player:AddEquip(cargo_types.hydrogen, 2)
 	Game.player:SetMoney(100)
 end
 
 local setupPlayerEridani = function ()
 	Game.player:SetShipType("pumpkinseed")
 	Game.player:SetLabel(Ship.MakeRandomLabel())
-	Game.player:AddEquip("DRIVE_CLASS"..ShipDef[Game.player.shipId].hyperdriveClass)
-	Game.player:AddEquip("PULSECANNON_1MW")
-	Game.player:AddEquip("ATMOSPHERIC_SHIELDING")
-	Game.player:AddEquip("AUTOPILOT")
-	Game.player:AddEquip("SCANNER")
-	Game.player:AddEquip("HYDROGEN", 2)
+	Game.player:AddEquip(equipment["hyperdrive_"..ShipDef[Game.player.shipId].hyperdriveClass])
+	Game.player:AddEquip(equipment.pulsecannon_1mw)
+	Game.player:AddEquip(equipment.atmospheric_shielding)
+	Game.player:AddEquip(equipment.autopilot)
+	Game.player:AddEquip(equipment.scanner)
+	Game.player:AddEquip(cargo_types.hydrogen, 2)
 	Game.player:SetMoney(100)
 end
 
 local setupPlayerBarnard = function ()
 	Game.player:SetShipType("xylophis")
 	Game.player:SetLabel(Ship.MakeRandomLabel())
-	--Game.player:AddEquip("PULSECANNON_1MW")
-	Game.player:AddEquip("ATMOSPHERIC_SHIELDING")
-	Game.player:AddEquip("AUTOPILOT")
-	Game.player:AddEquip("SCANNER")
-	Game.player:AddEquip("HYDROGEN", 2)
+	--Game.player:AddEquip(equipment.pulsecannon_1mw)
+	Game.player:AddEquip(equipment.atmospheric_shielding)
+	Game.player:AddEquip(equipment.autopilot)
+	Game.player:AddEquip(equipment.scanner)
+	Game.player:AddEquip(cargo_types.hydrogen, 2)
 	Game.player:SetMoney(100)
 end
 
