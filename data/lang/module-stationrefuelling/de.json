@@ -1,10 +1,10 @@
 {
    "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH" : {
       "description" : "",
-      "message" : "Dies ist {station}. Du hast nicht genug Geld, um die Dockgebühren von {fee} zu Zahlen. Dein Treibstoff wurde einbehalten."
+      "message" : "Dies ist {station}. Sie haben nicht genug Geld, um die Dockgebühren von {fee} zu zahlen. Ihr Treibstoff wurde einbehalten."
    },
    "WELCOME_ABOARD_STATION_FEE_DEDUCTED" : {
       "description" : "",
-      "message" : "Wilkommen an Bord von {station}. Deine Dock- und Tankgebühren von {fee} wurden abgerechnet."
+      "message" : "Wilkommen an Bord von {station}. Ihre Dock- und Tankgebühren von {fee} wurden abgebucht."
    }
 }
