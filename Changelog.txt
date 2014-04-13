@@ -23,6 +23,7 @@ April 2014
      * Emit Lua events and timers in hyperspace
      * Output some system info for debugging purposes (#2832)
      * Add serialization support for LuaRef objects (#2849)
+     * Add facilities to easily call arbitrary Lua methods from C++ (#2854)
 
    * Fixes
      * Fix duplication of cargo during cargo scooping (#2644, #2828)

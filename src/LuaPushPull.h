@@ -5,8 +5,6 @@
 #define _LUAPUSHPULL_H
 
 #include "lua/lua.hpp"
-#include "LuaObject.h"
-#include "LuaVector.h"
 #include "Lua.h"
 #include <string>
 
@@ -18,15 +16,6 @@ inline void pi_lua_generic_push(lua_State * l, const char * value) { lua_pushstr
 inline void pi_lua_generic_push(lua_State * l, const std::string & value) {
 	lua_pushlstring(l, value.c_str(), value.size());
 }
-template <class T> void pi_lua_generic_push(lua_State * l, T* value) {
-	assert(l == Lua::manager->GetLuaState());
-	if (value)
-		LuaObject<T>::PushToLua(value);
-	else
-		lua_pushnil(l);
-}
-
-inline void pi_lua_generic_push(lua_State * l, const vector3d & value) { LuaVector::PushToLua(l, value); }
 
 inline void pi_lua_generic_pull(lua_State * l, int index, bool & out) { out = lua_toboolean(l, index); }
 inline void pi_lua_generic_pull(lua_State * l, int index, int & out) { out = luaL_checkinteger(l, index); }
@@ -39,15 +28,6 @@ inline void pi_lua_generic_pull(lua_State * l, int index, std::string & out) {
 	const char *buf = luaL_checklstring(l, index, &len);
 	std::string(buf, len).swap(out);
 }
-template <class T> void pi_lua_generic_pull(lua_State * l, int index, T* & out) {
-	assert(l == Lua::manager->GetLuaState());
-	out = LuaObject<T>::CheckFromLua(index);
-}
-
-inline void pi_lua_generic_pull(lua_State * l, int index, vector3d& out) {
-	out = *LuaVector::CheckFromLua(l, index);
-}
-
 inline bool pi_lua_strict_pull(lua_State * l, int index, bool & out) {
 	if (lua_type(l, index) == LUA_TBOOLEAN) {
 		out = lua_toboolean(l, index);
@@ -92,18 +72,43 @@ inline bool pi_lua_strict_pull(lua_State * l, int index, std::string & out) {
 	}
 	return false;
 }
-template <class T> bool pi_lua_strict_pull(lua_State * l, int index, T* & out) {
-	assert(l == Lua::manager->GetLuaState());
-	out = LuaObject<T>::GetFromLua(index);
-	return out != 0;
+
+#if defined(_MSC_VER) // Non-variadic version for MSVC
+template <typename Arg1>
+inline void pi_lua_multiple_push(lua_State *l, Arg1 arg1) {
+	pi_lua_generic_push(l, arg1);
 }
-inline bool pi_lua_strict_pull(lua_State * l, int index, vector3d & out) {
-	const vector3d* tmp = LuaVector::GetFromLua(l, index);
-	if (tmp) {
-		out = *tmp;
-		return true;
-	}
-	return false;
+
+template <typename Arg1, typename Arg2>
+inline void pi_lua_multiple_push(lua_State *l, Arg1 arg1, Arg2 arg2) {
+	pi_lua_generic_push(l, arg1);
+	pi_lua_generic_push(l, arg2);
+}
+
+template <typename Arg1, typename Arg2, typename Arg3>
+inline void pi_lua_multiple_push(lua_State *l, Arg1 arg1, Arg2 arg2, Arg3 arg3) {
+	pi_lua_generic_push(l, arg1);
+	pi_lua_generic_push(l, arg2);
+	pi_lua_generic_push(l, arg3);
+}
+
+template <typename Arg1, typename Arg2, typename Arg3, typename Arg4>
+inline void pi_lua_multiple_push(lua_State *l, Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4) {
+	pi_lua_generic_push(l, arg1);
+	pi_lua_generic_push(l, arg2);
+	pi_lua_generic_push(l, arg3);
+	pi_lua_generic_push(l, arg4);
+}
+#else // Just use the normal variadic version
+template <typename Head, typename ...Tail>
+inline void pi_lua_multiple_push(lua_State *l, Head arg1, Tail ...rest) {
+	pi_lua_generic_push(l, arg1);
+	pi_lua_multiple_push(l, rest...);
+}
+#endif
+
+inline void pi_lua_multiple_push(lua_State *l) {
+	return;
 }
 
 #endif
