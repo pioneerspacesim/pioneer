@@ -111,9 +111,26 @@ public:
 	template <class Value, class Key> Value Get(const Key & key, Value default_value) const;
 	template <class Value, class Key> LuaTable Set(const Key & key, const Value & value) const;
 
-	template <class Ret, class Key, class ...Args> Ret Call(const Key & key, const Args &... args) const;
-	template <class Ret, class Key, class ...Args> Ret CallMethod(const Key & key, const Args &... args) const {
+	template <class Ret, class Key, class ...Args>
+	Ret Call(const Key & key, const Args &... args) const;
+	template <class Key, class ...Args>
+	void Call(const Key & key, const Args &... args) const {
+		Call<bool>(key, args...);
+	}
+	template <class Ret1, class Ret2, class ...Ret, class Key, class ...Args>
+	std::tuple<Ret1, Ret2, Ret...> Call(const Key & key, const Args &... args) const;
+
+	template <class Key, class ...Args>
+	void CallMethod(const Key & key, const Args &... args) const {
+		Call<bool>(key, *this, args...);
+	}
+	template <class Ret, class Key, class ...Args>
+	Ret CallMethod(const Key & key, const Args &... args) const {
 		return Call<Ret>(key, *this, args...);
+	}
+	template <class Ret1, class Ret2, class ...Ret, class Key, class ...Args>
+	std::tuple<Ret1, Ret2, Ret...> CallMethod(const Key & key, const Args &... args) const {
+		return Call<Ret1, Ret2, Ret...>(key, *this, args...);
 	}
 
 	template <class PairIterator> LuaTable LoadMap(PairIterator beg, PairIterator end) const;
@@ -242,16 +259,26 @@ template <class ValueIterator> LuaTable LuaTable::LoadVector(ValueIterator beg, 
 	return *this;
 }
 
-template <class Ret, class Key, class ...Args> Ret LuaTable::Call(const Key & key, const Args &... args) const {
-	int height = lua_gettop(m_lua);
+template <class Ret, class Key, class ...Args>
+Ret LuaTable::Call(const Key & key, const Args &... args) const {
 	Ret return_value;
 
 	PushValueToStack(key);
 	pi_lua_multiple_push(m_lua, args...);
 	lua_call(m_lua, sizeof...(args), 1);
 	pi_lua_generic_pull(m_lua, -1, return_value);
-	lua_settop(m_lua, height);
+	lua_pop(m_lua, 1);
 	return return_value;
+}
+
+template <class Ret1, class Ret2, class ...Ret, class Key, class ...Args>
+std::tuple<Ret1, Ret2, Ret...> LuaTable::Call(const Key & key, const Args &... args) const {
+	PushValueToStack(key);
+	pi_lua_multiple_push(m_lua, args...);
+	lua_call(m_lua, sizeof...(args), sizeof...(Ret)+2);
+	auto return_values = pi_lua_multiple_pull<Ret1, Ret2, Ret...>(m_lua, -(sizeof...(Ret)+2));
+	lua_pop(m_lua, sizeof...(Ret)+2);
+	return return_values;
 }
 
 template <> inline void LuaTable::VecIter<LuaTable>::LoadCache() {
