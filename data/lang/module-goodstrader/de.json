@@ -1,19 +1,19 @@
 {
    "GOODS_TRADER_0" : {
       "description" : "",
-      "message" : "Honest {name}'s Handelsplatz"
+      "message" : "Honest {name}s Handelsplatz"
    },
    "GOODS_TRADER_1" : {
       "description" : "",
-      "message" : "{name}'s Kaufladen"
+      "message" : "{name}s Kaufladen"
    },
    "GOODS_TRADER_2" : {
       "description" : "",
-      "message" : "{name}'s Makazin"
+      "message" : "{name}s Makazin"
    },
    "GOODS_TRADER_3" : {
       "description" : "",
-      "message" : "{name}'s Warenbörse"
+      "message" : "{name}s Warenbörse"
    },
    "GOODS_TRADER_4" : {
       "description" : "",

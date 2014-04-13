@@ -1,7 +1,7 @@
 {
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
-      "message" : "Was war nochmal die anfängliche Frage??"
+      "message" : "Was war nochmal die anfängliche Frage?"
    },
    "DANGER" : {
       "description" : "",
@@ -17,35 +17,35 @@
    },
    "DENY_0" : {
       "description" : "",
-      "message" : "Sorry, aber ich glaube nicht, dass ich dir diesen Lieferauftrag anvertrauen kann."
+      "message" : "Sorry, aber ich glaube nicht, dass ich Ihnen diesen Lieferauftrag anvertrauen kann."
    },
    "DENY_1" : {
       "description" : "",
-      "message" : "Komm wieder, wenn du über ein paar Qualifikation verfügst."
+      "message" : "Kommen Sie wieder, wenn Sie über ein paar Qualifikation verfügen."
    },
    "DENY_2" : {
       "description" : "",
-      "message" : "Ich glaube nicht, dass du der Pilot bist nach dem ich gesucht habe."
+      "message" : "Ich glaube nicht, dass Sie der Pilot, nach dem ich gesucht habe, sind."
    },
    "DENY_3" : {
       "description" : "",
-      "message" : "Du siehst nicht aus wie jemand, dem ich diese Lieferung anvertrauen kann."
+      "message" : "Sie sehen nicht aus wie jemand, dem ich diese Lieferung anvertrauen kann."
    },
    "DENY_4" : {
       "description" : "",
-      "message" : "Du bist nicht die Sorte Pilot nach der ich gesucht habe."
+      "message" : "Sie sind nicht die Sorte Pilot, nach der ich gesucht habe."
    },
    "DENY_5" : {
       "description" : "",
-      "message" : "Dir fehlt es eindeutig an Erfahrung für eine so wichtige Lieferung."
+      "message" : "Ihnen fehlt es eindeutig an Erfahrung für eine so wichtige Lieferung."
    },
    "DENY_6" : {
       "description" : "",
-      "message" : "Noch nie von dir gehört. Für die Lieferung brauche ich jemanden mit Erfahrung."
+      "message" : "Noch nie von Ihnen gehört. Für die Lieferung brauche ich jemanden mit Erfahrung."
    },
    "DENY_7" : {
       "description" : "",
-      "message" : "Die Lieferung ist mir als zu wichtig, als dass ich riskieren würde, dass es von einem Anfänger vermasselt wird."
+      "message" : "Die Lieferung ist mir zu wichtig, als dass ich riskieren würde, dass sie von einem Anfänger vermasselt wird."
    },
    "DISTANCE" : {
       "description" : "",
@@ -53,23 +53,23 @@
    },
    "EXCELLENT_I_WILL_LET_THE_RECIPIENT_KNOW_YOU_ARE_ON_YOUR_WAY" : {
       "description" : "",
-      "message" : "Exzellent. Ich werde den Empfänger wissen lassen, dass du auf dem Weg bist."
+      "message" : "Ausgezeichnet! Ich werde den Empfänger wissen lassen, dass Sie auf dem Weg sind."
    },
    "FLAVOUR_0_ADTEXT" : {
       "description" : "",
-      "message" : "AUF DEM WEG zum {system} System? Geld für die Ablieferung eines kleinen Paketes."
+      "message" : "AUF DEM WEG zum »{system}«-System? Geld für die Ablieferung eines kleinen Paketes."
    },
    "FLAVOUR_0_FAILUREMSG" : {
       "description" : "",
-      "message" : "Unakzeptabel! Du hast ewig für die Lieferung gebraucht. Ich werde dich nicht bezahlen."
+      "message" : "Unakzeptabel! Sie haben ewig für die Lieferung gebraucht. Ich werde Sie nicht bezahlen."
    },
    "FLAVOUR_0_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi, ich bin {name}. Ich zahle dir {cash}, wenn du dieses kleine Paket für mich bei {starport} im {system} ({sectorx}, {sectory}, {sectorz}) System, {dist} ly enfernt, ablieferst."
+      "message" : "Hallo, ich bin {name}. Ich zahle Ihnen {cash}, wenn sie dieses kleine Paket für mich bei {starport} im System {system} ({sectorx}, {sectory}, {sectorz}), {dist} Lj enfernt, abliefern."
    },
    "FLAVOUR_0_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Danke für die Lieferung. Du wurdest voll bezahlt."
+      "message" : "Danke für die Lieferung. Sie wurden voll bezahlt."
    },
    "FLAVOUR_0_WHYSOMUCHTEXT" : {
       "description" : "",
@@ -77,19 +77,19 @@
    },
    "FLAVOUR_1_ADTEXT" : {
       "description" : "",
-      "message" : "GESUCHT. Lieferung eines Paketes zum {system} System."
+      "message" : "GESUCHT. Lieferung eines Paketes zum »{system}«-System."
    },
    "FLAVOUR_1_FAILUREMSG" : {
       "description" : "",
-      "message" : "Ich bin frustriert von der späten Lieferung und ich werde dich nicht bezahlen."
+      "message" : "Ich bin frustriert von der späten Lieferung und ich werde Sie nicht bezahlen."
    },
    "FLAVOUR_1_INTROTEXT" : {
       "description" : "",
-      "message" : "Hallo. Ich bin {name}. Ich werde demjenigen {cash} zahlen, der ein Paket für mich nach {starport} im {system} ({sectorx}, {sectory}, {sectorz}) System, in einer Entfernung von {dist} ly bringt."
+      "message" : "Hallo. Ich bin {name}. Ich werde demjenigen {cash} zahlen, der ein Paket für mich nach {starport} im »{system}«-System ({sectorx}, {sectory}, {sectorz}), in einer Entfernung von {dist} Lj, bringt."
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Das Paket wurde empfangen, du wurdest dafür entlohnt."
+      "message" : "Das Paket wurde empfangen, Sie wurden dafür entlohnt."
    },
    "FLAVOUR_1_WHYSOMUCHTEXT" : {
       "description" : "",
@@ -97,39 +97,39 @@
    },
    "FLAVOUR_2_ADTEXT" : {
       "description" : "",
-      "message" : "DRINGEND. Schnelles Schiff gesucht, das ein Paket zum {system} System bringen kann."
+      "message" : "DRINGEND. Schnelles Schiff, das ein Paket zum »{system}«-System bringen kann, gesucht."
    },
    "FLAVOUR_2_FAILUREMSG" : {
       "description" : "",
-      "message" : "Ich denke, ich war ziemlich deutlich, was die deadline angeht und bin über die späte Lieferung sehr enttäuscht. Du wirst nicht bezahlt werden."
+      "message" : "Ich denke, ich war ziemlich deutlich, was den Termin betrifft und bin über die späte Lieferung sehr enttäuscht. Sie werden nicht bezahlt werden."
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
-      "message" : "Hallo. Ich bin {name}. Ich werde demjenigen {cash} zahlen, der ein Paket für mich nach {starport} im {system} ({sectorx}, {sectory}, {sectorz}) System, in einer Entfernung von {dist} ly bringt."
+      "message" : "Hallo. Ich bin {name}. Ich werde demjenigen {cash} zahlen, der ein Paket für mich nach {starport} im »{system}«-System ({sectorx}, {sectory}, {sectorz}), in einer Entfernung von {dist} Lj, bringt."
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Du hast deinen vollen Lohn erhalten. Wir danken dir."
+      "message" : "Sie haben Ihren vollen Lohn erhalten. Wir danken Ihnen."
    },
    "FLAVOUR_2_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "Es ist ein Forschungsansatz, der schnell geliefert werden muss. Es muss bis zur deadline geliefert sein, oder wir bekommen keine Zuschüsse."
+      "message" : "Es ist ein Forschungsansatz, der schnell geliefert werden muss. Es muss bis zum vereinbarten Termin geliefert sein, sonst bekommen wir keine Zuschüsse."
    },
    "FLAVOUR_3_ADTEXT" : {
       "description" : "",
-      "message" : "LIEFERUNG. Dokumente zum {system} System. {cash} für einen erfahrenen Piloten."
+      "message" : "LIEFERUNG. Dokumente zum »{system}«-System. {cash} für einen erfahrenen Piloten."
    },
    "FLAVOUR_3_FAILUREMSG" : {
       "description" : "",
-      "message" : "Nutzlos! Ich werde mich nie mehr auf dich stützen! Natürlich werde ich dich nicht bezahlen."
+      "message" : "Nutzlos! Ich werde mich nie mehr auf Sie stützen! Natürlich werde ich Sie nicht bezahlen."
    },
    "FLAVOUR_3_INTROTEXT" : {
       "description" : "",
-      "message" : "Hallo. Ich bin {name}. Ich werde {cash} für ein Schiff zahlen, das ein Paket nach {starport} im {system} ({sectorx}, {sectory}, {sectorz}) System, {dist} ly entfernt, bringen kann."
+      "message" : "Hallo. Ich bin {name}. Ich werde {cash} für ein Schiff zahlen, das ein Paket nach {starport} im »{system}«-System ({sectorx}, {sectory}, {sectorz}), {dist} Lj entfernt, bringen kann."
    },
    "FLAVOUR_3_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Ich weiß deine püntkliche und diskrete Lieferung zu Schätzen. Du erhälst deinen vollen Lohn."
+      "message" : "Ich weiß Ihre püntkliche und diskrete Lieferung zu schätzen. Sie erhalten Ihren vollen Lohn."
    },
    "FLAVOUR_3_WHYSOMUCHTEXT" : {
       "description" : "",
@@ -137,19 +137,19 @@
    },
    "FLAVOUR_4_ADTEXT" : {
       "description" : "",
-      "message" : "POSTDIENST. Wir brauchen ein Schiff für eine Lieferung zum {system} System."
+      "message" : "POSTDIENST. Wir brauchen ein Schiff für eine Lieferung zum »{system}«-System."
    },
    "FLAVOUR_4_FAILUREMSG" : {
       "description" : "",
-      "message" : "Die Registrierungs-ID deines Schiffes wurde notiert, wir werden all deine späteren Bewerbungen ablehnen."
+      "message" : "Die Registrierungs-ID Ihres Schiffes wurde notiert, wir werden all Ihre späteren Bewerbungen ablehnen."
    },
    "FLAVOUR_4_INTROTEXT" : {
       "description" : "",
-      "message" : "Hallo. Dies ist eine automatische Nachricht vom Bedford und {name} Kurierdienst. Wir zahlen {cash} für eine Lieferung nach {starport} im {system} ({sectorx}, {sectory}, {sectorz}) System, {dist} ly entfernt."
+      "message" : "Hallo. Dies ist eine automatische Nachricht vom Kurierdienst Bedford und {name}. Wir zahlen {cash} für eine Lieferung nach {starport} im System {system} ({sectorx}, {sectory}, {sectorz}), Entfernung {dist} Lj."
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Ich weiß deine püntkliche und diskrete Lieferung zu Schätzen. Du erhälst deinen vollen Lohn."
+      "message" : "Ich weiß Ihre püntkliche und diskrete Lieferung zu schätzen. Sie erhalten Ihren vollen Lohn."
    },
    "FLAVOUR_4_WHYSOMUCHTEXT" : {
       "description" : "",
@@ -161,15 +161,15 @@
    },
    "FLAVOUR_5_FAILUREMSG" : {
       "description" : "",
-      "message" : "Was ist das? Oh, Du hast so lange gebraucht, dass ich vergessen habe, das überhaupt gesendet zu haben!"
+      "message" : "Was ist das? Oh, Sie haben so lange gebraucht, dass ich vergessen habe, das überhaupt gesendet zu haben!"
    },
    "FLAVOUR_5_INTROTEXT" : {
       "description" : "",
-      "message" : "Ich bin erfreut dich zu treffen. Ich bin {name} und ich biete {cash} für jemanden mit einem Schiff, der mir helfen kann, meine Sachen nach {starport} zu bringen. Keine Eile, das ist nur, was vom Umzug noch übrig ist."
+      "message" : "Ich bin erfreut, Sie zu treffen. Ich bin {name} und ich biete {cash} für jemanden mit einem Schiff, der mir helfen kann, meine Sachen nach {starport} zu bringen. Keine Eile, das ist nur, was vom Umzug noch übrig ist."
    },
    "FLAVOUR_5_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Oh, wunderbar. Ich werde sofort Ausladen. Danke nochmal."
+      "message" : "Oh, wunderbar. Ich werde sofort ausladen. Danke nochmal."
    },
    "FLAVOUR_5_WHYSOMUCHTEXT" : {
       "description" : "",
@@ -181,7 +181,7 @@
    },
    "FLAVOUR_6_FAILUREMSG" : {
       "description" : "",
-      "message" : "Ich hätte es selbst schneller liefern können. Ich werde dich nicht bezahlen."
+      "message" : "Ich hätte es selbst schneller liefern können. Ich werde Sie nicht bezahlen."
    },
    "FLAVOUR_6_INTROTEXT" : {
       "description" : "",
@@ -189,7 +189,7 @@
    },
    "FLAVOUR_6_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Danke für das Paket. Hier ist deine Bezahlung."
+      "message" : "Danke für das Paket. Hier ist Ihre Bezahlung."
    },
    "FLAVOUR_6_WHYSOMUCHTEXT" : {
       "description" : "",
@@ -209,7 +209,7 @@
    },
    "FLAVOUR_7_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Exzellent, wir haben dir den Lohn auf dein Konto überwiesen."
+      "message" : "Exzellent, wir haben Ihnen den Lohn auf Ihr Konto überwiesen."
    },
    "FLAVOUR_7_WHYSOMUCHTEXT" : {
       "description" : "",
@@ -221,15 +221,15 @@
    },
    "FLAVOUR_8_FAILUREMSG" : {
       "description" : "",
-      "message" : "Das Geld wurde für eine SCHNELLE Lieferung versprochen! Ich weigere mich für das hier zu Bezahlen."
+      "message" : "Das Geld wurde für eine SCHNELLE Lieferung versprochen! Ich weigere mich für das hier zu bezahlen."
    },
    "FLAVOUR_8_INTROTEXT" : {
       "description" : "",
-      "message" : "Mein Name ist {name} und dieser Gegenstand muss schnell zu einem Freund nach {starport} geliefert werden, ich werde dir  {cash}, wenn du es in einer angemessenen Zeit dort ablieferst."
+      "message" : "Mein Name ist {name} und dieser Gegenstand muss schnell zu einem Freund nach {starport} geliefert werden, ich werde Ihnen {cash} zahlen, wenn Sie es in einer angemessenen Zeit dort abliefern."
    },
    "FLAVOUR_8_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Ich schätze deine schnelle Lieferung. Ich habe dir den abgemachten Betrag überwiesen."
+      "message" : "Ich schätze Ihre schnelle Lieferung. Ich habe Ihnen den abgemachten Betrag überwiesen."
    },
    "FLAVOUR_8_WHYSOMUCHTEXT" : {
       "description" : "",
@@ -237,11 +237,11 @@
    },
    "FLAVOUR_9_ADTEXT" : {
       "description" : "",
-      "message" : "PACKET-ABWURF. Dringende Auslieferung von verderblichen Waren nach {starport}."
+      "message" : "PAKET-ABWURF. Dringende Auslieferung von verderblichen Waren nach {starport}."
    },
    "FLAVOUR_9_FAILUREMSG" : {
       "description" : "",
-      "message" : "Alles ist verdorben, alles Abfall! Wir können und wollen dich nicht entlohnen."
+      "message" : "Alles ist verdorben, alles Abfall! Wir können und wollen Sie nicht entlohnen."
    },
    "FLAVOUR_9_INTROTEXT" : {
       "description" : "",
@@ -265,7 +265,7 @@
    },
    "IT_COULD_BE_DANGEROUS_YOU_SHOULD_MAKE_SURE_YOURE_ADEQUATELY_PREPARED" : {
       "description" : "",
-      "message" : "Es könnte gefährlich sein, du solltest besser gut ausgerüstet sein."
+      "message" : "Es könnte gefährlich sein, Sie sollten besser gut ausgerüstet sein."
    },
    "IT_MUST_BE_DELIVERED_BY" : {
       "description" : "",
@@ -289,11 +289,11 @@
    },
    "PIRATE_TAUNTS_0" : {
       "description" : "",
-      "message" : "Du wirst es bedauern, dich mit {client} zusammengetan zu haben"
+      "message" : "Sie werden es bedauern, sich mit {client} zusammengetan zu haben."
    },
    "PIRATE_TAUNTS_1" : {
       "description" : "",
-      "message" : "Sieht so aus, als wäre gerade mein Lohnscheck angekommen!"
+      "message" : "Sieht so aus, als wäre gerade mein Gehaltscheck angekommen!"
    },
    "PIRATE_TAUNTS_2" : {
       "description" : "",
@@ -305,7 +305,7 @@
    },
    "PIRATE_TAUNTS_4" : {
       "description" : "",
-      "message" : "Ich bin sicher, man kann damit auf dem Markt ne Menge Kohle machen."
+      "message" : "Ich bin sicher, man kann damit auf dem Markt ’ne Menge Kohle machen."
    },
    "PIRATE_TAUNTS_5" : {
       "description" : "",
@@ -337,11 +337,11 @@
    },
    "THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN" : {
       "description" : "",
-      "message" : "Das ist ein wertvolles Paket, du solltest die Augen offenhalten."
+      "message" : "Das ist ein wertvolles Paket, Sie sollten die Augen offenhalten."
    },
    "THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE" : {
       "description" : "",
-      "message" : "Das ist sehr riskant, du wirst mit hoher Wahrscheinlichkeit auf Wiederstand treffen."
+      "message" : "Das ist sehr riskant, Sie werden mit hoher Wahrscheinlichkeit auf Wiederstand treffen."
    },
    "WHY_SO_MUCH_MONEY" : {
       "description" : "",
