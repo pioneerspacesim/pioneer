@@ -184,6 +184,13 @@ public:
 
 	template <typename Ret, typename Key, typename ...Args>
 		static inline Ret CallMethod(T* o, const Key &key, const Args &...args);
+	template <typename Key, typename ...Args>
+		static inline void CallMethod(T* o, const Key &key, const Args &...args) {
+			CallMethod<bool>(o, key, args...);
+		}
+
+	template <typename Ret1, typename Ret2, typename ...Ret, typename Key, typename ...Args>
+		static inline std::tuple<Ret1, Ret2, Ret...> CallMethod(T* o, const Key &key, const Args &...args);
 
 	// pull an object off the stack, unwrap and return it
 	// if not found or doesn't match the type, throws a lua exception
@@ -306,21 +313,38 @@ template <typename T> inline void LuaObject<T>::PushToLua(const T &o) {
 
 template <typename T>
 template <typename Ret, typename Key, typename ...Args>
-	inline Ret LuaObject<T>::CallMethod(T* o, const Key &key, const Args &...args) {
-		lua_State *l = Lua::manager->GetLuaState();
-		Ret return_value;
+inline Ret LuaObject<T>::CallMethod(T* o, const Key &key, const Args &...args) {
+	lua_State *l = Lua::manager->GetLuaState();
+	Ret return_value;
 
-		PushToLua(o);
-		pi_lua_generic_push(l, key);
-		lua_gettable(l, -2);
-		lua_pushvalue(l, -2);
-		lua_remove(l, -3);
-		pi_lua_multiple_push(l, args...);
-		lua_call(l, sizeof...(args)+1, 1);
-		pi_lua_generic_pull(l, -1, return_value);
-		lua_pop(l, 1);
-		return return_value;
-	}
+	PushToLua(o);
+	pi_lua_generic_push(l, key);
+	lua_gettable(l, -2);
+	lua_pushvalue(l, -2);
+	lua_remove(l, -3);
+	pi_lua_multiple_push(l, args...);
+	lua_call(l, sizeof...(args)+1, 1);
+	pi_lua_generic_pull(l, -1, return_value);
+	lua_pop(l, 1);
+	return return_value;
+}
+
+template <typename T>
+template <typename Ret1, typename Ret2, typename ...Ret, typename Key, typename ...Args>
+inline std::tuple<Ret1, Ret2, Ret...> LuaObject<T>::CallMethod(T* o, const Key &key, const Args &...args) {
+	lua_State *l = Lua::manager->GetLuaState();
+
+	PushToLua(o);
+	pi_lua_generic_push(l, key);
+	lua_gettable(l, -2);
+	lua_pushvalue(l, -2);
+	lua_remove(l, -3);
+	pi_lua_multiple_push(l, args...);
+	lua_call(l, sizeof...(args)+1, 2+sizeof...(Ret));
+	auto ret_values = pi_lua_multiple_pull<Ret1, Ret2, Ret...>(l, -(2+sizeof...(Ret)));
+	lua_pop(l, 2+sizeof...(Ret));
+	return ret_values;
+}
 
 // specialise for SystemPath, which needs custom machinery to deduplicate system paths
 class SystemPath;
