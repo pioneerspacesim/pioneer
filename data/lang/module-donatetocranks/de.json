@@ -1,11 +1,11 @@
 {
    "FLAVOUR_0_MESSAGE" : {
       "description" : "",
-      "message" : "Bitte wähle eine Summe um an die Kirche des Fliegenden Himmel-Spagettimonster zu spenden."
+      "message" : "Bitte wähle eine Summe, um an die Kirche des Fliegenden Himmel-Spagettimonsters zu spenden."
    },
    "FLAVOUR_0_TITLE" : {
       "description" : "",
-      "message" : "SPENDE! Die Kirche des Fliegenden Himmel-Spagettimonster braucht DEIN Geld, um das Wort von Gott zu verbreiten!"
+      "message" : "SPENDE! Die Kirche des Fliegenden Himmel-Spagettimonsters braucht DEIN Geld, um das Wort Gottes zu verbreiten!"
    },
    "FLAVOUR_1_MESSAGE" : {
       "description" : "",
@@ -13,7 +13,7 @@
    },
    "FLAVOUR_1_TITLE" : {
       "description" : "",
-      "message" : "SPENDE. Die Wächter des Freien Geistes appellieren demütig an Ihre Wohltätigkeit, um unsere Klöster zu unterstützen."
+      "message" : "SPENDE. Die Wächter des Freien Geistes appellieren demütig an deine Wohltätigkeit, um unsere Klöster zu unterstützen."
    },
    "FLAVOUR_2_MESSAGE" : {
       "description" : "",
@@ -21,23 +21,23 @@
    },
    "FLAVOUR_2_TITLE" : {
       "description" : "",
-      "message" : "IN SPENDENLAUNE? Die Kriegswaisen-Unterstützung braucht deine Hilfe um die Lebenswichtige Arbeit weiterzuführen."
+      "message" : "IN SPENDENLAUNE? Die Kriegswaisen-Unterstützung braucht Ihre Hilfe, um die lebenswichtige Arbeit weiterzuführen."
    },
    "FLAVOUR_3_MESSAGE" : {
       "description" : "",
-      "message" : "Bitte wähle eine Summe, die du GreenWatch spenden willst, um die Verschmutzung unserer Galaxie zu beenden."
+      "message" : "Bitte wählen Sie eine Summe, die Sie GreenWatch spenden wollen, um die Verschmutzung unserer Galaxie zu beenden."
    },
    "FLAVOUR_3_TITLE" : {
       "description" : "",
-      "message" : "TRAGE BEI. Die Freundde der Galaktischen 'Verbot Militärischer Antriebe' Kampagne braucht dein Geld."
+      "message" : "SPENDE! Die Freunde der Galaktischen Kampagne »Verbot Militärischer Antriebe« braucht Ihr Geld."
    },
    "FLAVOUR_4_MESSAGE" : {
       "description" : "",
-      "message" : "Bitte wähle aus, wie viel du spenden willst."
+      "message" : "Bitte wähle aus, wie viel Sie spenden wollen."
    },
    "FLAVOUR_4_TITLE" : {
       "description" : "",
-      "message" : "SPENDE! Rette unsere Spezies. Stoppe das Massensterben auf neu besiedelten Welten."
+      "message" : "SPENDE! Rette unsere Art. Stoppe das Massensterben auf neu besiedelten Welten."
    },
    "FLAVOUR_5_MESSAGE" : {
       "description" : "",
@@ -61,6 +61,6 @@
    },
    "YOU_DO_NOT_HAVE_ENOUGH_MONEY" : {
       "description" : "",
-      "message" : "Du hast nicht genug Geld."
+      "message" : "Sie haben nicht genug Geld."
    }
 }

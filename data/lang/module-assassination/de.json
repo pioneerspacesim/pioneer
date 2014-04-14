@@ -5,27 +5,27 @@
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
-      "message" : "Könntest du die Frage noch einmal wiederholen?"
+      "message" : "Könnten Sie die Frage noch einmal wiederholen?"
    },
    "DENY_0" : {
       "description" : "",
-      "message" : "Sorry, aber ich vertraue dir nicht."
+      "message" : "Sorry, aber ich vertraue Ihnen nicht."
    },
    "DENY_1" : {
       "description" : "",
-      "message" : "Komm wieder, wenn du besser qualifiziert bis."
+      "message" : "Kommen Sie wieder, wenn Sie besser qualifiziert sind."
    },
    "DENY_2" : {
       "description" : "",
-      "message" : "Ich glaube nicht, dass du der bist nach dem ich gesucht habe."
+      "message" : "Ich glaube nicht, dass Sie der, nach dem ich gesucht habe, sind."
    },
    "DENY_3" : {
       "description" : "",
-      "message" : "Du siehst nicht aus, als ob du in der Lage bist zu tun was getun werden muss."
+      "message" : "Sie sehen nicht aus, als ob Sie in der Lage sind, zu tun, was getan werden muss."
    },
    "DENY_4" : {
       "description" : "",
-      "message" : "Du bist eindeutig der falsche für den Job."
+      "message" : "Sie sind eindeutig der Falsche für den Job."
    },
    "DENY_5" : {
       "description" : "",
@@ -33,11 +33,11 @@
    },
    "DENY_6" : {
       "description" : "",
-      "message" : "Noch nie von dir gehört. Für den Vertrag brauche ich jemanden mit Erfahrung."
+      "message" : "Noch nie von Ihnen gehört. Für den Vertrag brauche ich jemanden mit Erfahrung."
    },
    "DENY_7" : {
       "description" : "",
-      "message" : "Der Vertrag ist mir als zu wichtig, als dass ich riskieren würde, dass er von einem Anfänger vermasselt wird."
+      "message" : "Der Vertrag ist mir allzu wichtig, als dass ich riskieren würde, dass er von einem Anfänger vermasselt wird."
    },
    "DISTANCE" : {
       "description" : "",
@@ -49,51 +49,51 @@
    },
    "FLAVOUR_0_ADTEXT" : {
       "description" : "",
-      "message" : "GESUCHT: Entfernung von {target} aus dem {system} System."
+      "message" : "GESUCHT: Entfernung von {target} aus dem »{system}«-System."
    },
    "FLAVOUR_0_FAILUREMSG" : {
       "description" : "",
-      "message" : "Ich bin sehr enttäuscht, dass {target} noch lebt. Den Lohn kannst du dir abschreiben."
+      "message" : "Ich bin sehr enttäuscht, dass {target} noch lebt. Den Lohn können Sie sich abschreiben."
    },
    "FLAVOUR_0_FAILUREMSG2" : {
       "description" : "",
-      "message" : "{target} wurde nicht von dir erledigt. Kein Lohn, vielleicht klappt es ja nächstes mal."
+      "message" : "{target} wurde nicht von Ihnen erledigt. Kein Lohn, vielleicht klappt es ja nächstes Mal."
    },
    "FLAVOUR_0_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi, ich bin {name}. Ich werde dich mit {cash} belohnen, wenn du {target} aus dem Weg schaffst."
+      "message" : "Hallo, ich bin {name}. Ich werde Sie mit {cash} belohnen, wenn Sie {target} aus dem Weg schaffen."
    },
    "FLAVOUR_0_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Ich habe die Neuigkeiten über {target}s langen \"Urlaub\" empfangen. Gut gemacht, du wirst deinen Lohn erhalten."
+      "message" : "Ich habe die Neuigkeiten über {target}s langen »Urlaub« empfangen. Gut gemacht, Sie werden Ihren Lohn erhalten."
    },
    "FLAVOUR_1_ADTEXT" : {
       "description" : "",
-      "message" : "GESUCHT: Jemand der {target} aus dem {system} System tötet."
+      "message" : "GESUCHT: Jemand, der {target} aus dem »{system}«-System tötet."
    },
    "FLAVOUR_1_FAILUREMSG" : {
       "description" : "",
-      "message" : "Ich höre, dass {target} in bester Verfassung ist. This pains me."
+      "message" : "Ich höre, dass {target} in bester Verfassung ist. Das kotzt mich an."
    },
    "FLAVOUR_1_FAILUREMSG2" : {
       "description" : "",
-      "message" : "{target}s Ableben entstand nicht durch deine Hand, also frage nicht nach einer Bezahlung."
+      "message" : "{target}s Ableben entstand nicht durch Ihre Hand, also fragen Sie nicht nach einer Bezahlung."
    },
    "FLAVOUR_1_INTROTEXT" : {
       "description" : "",
-      "message" : "Ich will, dass {target} von der Bildfläche verschwindet. Wenn du es schaffst, erhälst du {cash}."
+      "message" : "Ich will, dass {target} von der Bildfläche verschwindet. Wenn Sie es schaffen, erhalten Sie {cash}."
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Mit Trauer hörte ich von {target}s Ableben. Du erhälst deine volle Bezahlung."
+      "message" : "Mit Trauer hörte ich von {target}s Ableben. Sie erhalten Ihre volle Bezahlung."
    },
    "FLAVOUR_2_ADTEXT" : {
       "description" : "",
-      "message" : "ENTFERNUNG: {target} ist im {system} system nicht mehr erwünscht."
+      "message" : "ENTFERNUNG: {target} ist im »{system}«-System nicht mehr erwünscht."
    },
    "FLAVOUR_2_FAILUREMSG" : {
       "description" : "",
-      "message" : "Es ist sehr bedauerlich, dass {target} noch gesund und munter ist. Du hast deinen Auftrag nicht erfüllt, du wirst keinen Lohn erhalten."
+      "message" : "Es ist sehr bedauerlich, dass {target} noch gesund und munter ist. Sie haben Ihren Auftrag nicht erfüllt, Sie werden kein Bezahlung erhalten."
    },
    "FLAVOUR_2_FAILUREMSG2" : {
       "description" : "",
@@ -101,11 +101,11 @@
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
-      "message" : "Ich bin {name}, und ich werde dir {cash} zahlen, wenn du {target} eliminierst."
+      "message" : "Ich bin {name}, und ich werde Ihnen {cash} zahlen, wenn Sie {target} eliminieren."
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Du wurdest für den erfolgreichen Abschluss dieses wichtigen Auftrages belohnt."
+      "message" : "Sie wurden für den erfolgreichen Abschluss dieses wichtigen Auftrages belohnt."
    },
    "FLAVOUR_3_ADTEXT" : {
       "description" : "",
@@ -113,19 +113,19 @@
    },
    "FLAVOUR_3_FAILUREMSG" : {
       "description" : "",
-      "message" : "Du wirst es noch bedauern, {target} nicht eleminiert zu haben!"
+      "message" : "Sie werden es noch bedauern, {target} nicht eleminiert zu haben!"
    },
    "FLAVOUR_3_FAILUREMSG2" : {
       "description" : "",
-      "message" : "Du willst Geld für den Job, den jemand anderes gemacht hat? Zieh Leine."
+      "message" : "Sie wollen Geld für den Job, den jemand anderes gemacht hat? Verschwinden Sie!"
    },
    "FLAVOUR_3_INTROTEXT" : {
       "description" : "",
-      "message" : "{target} muss zu Sternenstaub werden. Ich wede dich mit {cash} belohnen, wenn du es tust."
+      "message" : "{target} muss zu Sternenstaub werden. Ich werde Sie mit {cash} belohnen, wenn Sie es tun."
    },
    "FLAVOUR_3_SUCCESSMSG" : {
       "description" : "",
-      "message" : "{target} ist tot. Hier ist deine Belohnung"
+      "message" : "{target} ist tot. Hier ist Ihre Belohnung"
    },
    "FLAVOUR_4_ADTEXT" : {
       "description" : "",
@@ -133,7 +133,7 @@
    },
    "FLAVOUR_4_FAILUREMSG" : {
       "description" : "",
-      "message" : "{target} atmet noch und ich werde dir kein Geld geben."
+      "message" : "{target} atmet noch und ich werde Ihnen kein Geld geben."
    },
    "FLAVOUR_4_FAILUREMSG2" : {
       "description" : "",
@@ -145,7 +145,7 @@
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Neuigkeiten von {target}s Rückzug. Hier ist dein Geld."
+      "message" : "Neuigkeiten von {target}s Rückzug. Hier ist Ihr Geld."
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
@@ -161,11 +161,11 @@
    },
    "FLAVOUR_5_INTROTEXT" : {
       "description" : "",
-      "message" : "Wir wollen einende von {target}s Karriere im {system} System. Wir sind bereit, {cash} zu zahlen."
+      "message" : "Wir wollen einende von {target}s Karriere im System »{system}«. Wir sind bereit, {cash} zu zahlen."
    },
    "FLAVOUR_5_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Die Nachricht von {target}s Karriereende hat uns erreicht. Hier sind deine {cash}."
+      "message" : "Die Nachricht von {target}s Karriereende hat uns erreicht. Hier sind Ihre {cash}."
    },
    "HANG_UP" : {
       "description" : "",
@@ -177,11 +177,11 @@
    },
    "HOW_WILL_I_BE_PAID" : {
       "description" : "",
-      "message" : "Wie werde ich Bezahlt?"
+      "message" : "Wie werde ich bezahlt?"
    },
    "IT_MUST_BE_DONE_AFTER" : {
       "description" : "",
-      "message" : "Es muss passieren, nachdem {target}  {spaceport} verlässt. Lass dir diese Chance nicht entgehen."
+      "message" : "Es muss passieren, nachdem {target} {spaceport} verlässt. Lassen Sie sich diese Chance nicht entgehen!"
    },
    "LY" : {
       "description" : "",
@@ -189,11 +189,11 @@
    },
    "OK_AGREED" : {
       "description" : "",
-      "message" : "Okay, ich mache das.."
+      "message" : "Okay, ich mache das."
    },
    "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID" : {
       "description" : "",
-      "message" : "Komme hierhin zurück, um den Vertrag abzuschließen und deine Belohnung zu bekommen."
+      "message" : "Kommen Sie hierhin zurück, um den Vertrag abzuschließen und Ihre Belohnung zu bekommen."
    },
    "SHIP" : {
       "description" : "",
@@ -201,7 +201,7 @@
    },
    "SHIP_ID" : {
       "description" : "",
-      "message" : "Schiff-ID:"
+      "message" : "Schiffs-ID:"
    },
    "SPACEPORT" : {
       "description" : "",
@@ -325,6 +325,6 @@
    },
    "X_WILL_BE_LEAVING" : {
       "description" : "",
-      "message" : "{target} wird {spaceport} im {system} system ({sectorX}, {sectorY}, {sectorZ}) am Datum {date} verlassen. Das Schiff heißt {shipname} und hat die Registrations-ID {shipregid}."
+      "message" : "{target} wird {spaceport} im »{system}«-System ({sectorX}, {sectorY}, {sectorZ}) am Datum {date} verlassen. Das Schiff heißt »{shipname}« und hat die Registrations-ID {shipregid}."
    }
 }
