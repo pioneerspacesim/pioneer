@@ -1428,6 +1428,7 @@ void WorldView::UpdateProjectedObjects()
 
 		// calculate firing solution and relative velocity along our z axis
 		int laser = -1;
+		double projspeed = 0;
 		if (GetCamType() == CAM_INTERNAL) {
 			switch (m_internalCameraController->GetMode()) {
 				case InternalCameraController::MODE_FRONT: laser = 0; break;
@@ -1437,12 +1438,9 @@ void WorldView::UpdateProjectedObjects()
 		}
 
 		if (laser >= 0) {
-			laser = Pi::player->m_equipment.Get(Equip::SLOT_LASER, laser);
-			laser = Equip::types[laser].tableIndex;
+			Pi::player->Properties().Get(laser?"laser_rear_speed":"laser_front_speed", projspeed);
 		}
-		if (laser >= 0) { // only display target lead position on views with lasers
-			double projspeed = Equip::lasers[laser].speed;
-
+		if (projspeed > 0) { // only display target lead position on views with lasers
 			const vector3d targvel = enemy->GetVelocityRelTo(Pi::player) * cam_rot;
 			vector3d leadpos = targpos + targvel*(targpos.Length()/projspeed);
 			leadpos = targpos + targvel*(leadpos.Length()/projspeed); // second order approx

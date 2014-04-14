@@ -863,6 +863,13 @@ void Ship::TimeAccelAdjust(const float timeStep)
 void Ship::FireWeapon(int num)
 {
 	if (m_flightState != FLYING) return;
+	std::string prefix(num?"laser_rear_":"laser_front_");
+	int damage = 0;
+	Properties().Get(prefix+"damage", damage);
+	if (!damage)
+		return;
+	Properties().PushLuaTable();
+	LuaTable prop(Lua::manager->GetLuaState(), -1);
 
 	const matrix3x3d &m = GetOrient();
 	const vector3d dir = m * vector3d(m_gun[num].dir);
@@ -870,27 +877,32 @@ void Ship::FireWeapon(int num)
 
 	m_gun[num].temperature += 0.01f;
 
-	Equip::Type t = m_equipment.Get(Equip::SLOT_LASER, num);
-	const LaserType &lt = Equip::lasers[Equip::types[t].tableIndex];
-	m_gun[num].recharge = lt.rechargeTime;
+	m_gun[num].recharge = prop.Get<float>(prefix+"rechargeTime");
 	vector3d baseVel = GetVelocity();
-	vector3d dirVel = lt.speed * dir.Normalized();
+	vector3d dirVel = prop.Get<float>(prefix+"speed") * dir.Normalized();
 
-	if (lt.flags & Equip::LASER_DUAL)
+	Color c(prop.Get<float>(prefix+"rgba_r"), prop.Get<float>(prefix+"rgba_g"),
+			prop.Get<float>(prefix+"rgba_b"), prop.Get<float>(prefix+"rgba_a"));
+	float lifespan = prop.Get<float>(prefix+"lifespan");
+	float width = prop.Get<float>(prefix+"width");
+	float length = prop.Get<float>(prefix+"length");
+	bool mining = prop.Get<int>(prefix+"mining");
+	if (prop.Get<int>(prefix+"dual"))
 	{
 		const ShipType::DualLaserOrientation orient = m_type->gunMount[num].orient;
 		const vector3d orient_norm =
 				(orient == ShipType::DUAL_LASERS_VERTICAL) ? m.VectorX() : m.VectorY();
 		const vector3d sep = m_type->gunMount[num].sep * dir.Cross(orient_norm).NormalizedSafe();
 
-		Projectile::Add(this, t, pos + sep, baseVel, dirVel);
-		Projectile::Add(this, t, pos - sep, baseVel, dirVel);
+		Projectile::Add(this, lifespan, damage, length, width, mining, c, pos + sep, baseVel, dirVel);
+		Projectile::Add(this, lifespan, damage, length, width, mining, c, pos - sep, baseVel, dirVel);
 	}
 	else
-		Projectile::Add(this, t, pos, baseVel, dirVel);
+		Projectile::Add(this, lifespan, damage, length, width, mining, c, pos, baseVel, dirVel);
 
 	Polit::NotifyOfCrime(this, Polit::CRIME_WEAPON_DISCHARGE);
 	Sound::BodyMakeNoise(this, "Pulse_Laser", 1.0f);
+	lua_pop(prop.GetLua(), 1);
 	LuaEvent::Queue("onShipFiring", this);
 }
 
@@ -1203,7 +1215,8 @@ void Ship::SetDockedWith(SpaceStation *s, int port)
 
 void Ship::SetGunState(int idx, int state)
 {
-	if (m_equipment.Get(Equip::SLOT_LASER, idx) != Equip::NONE) {
+	std::string slot(idx?"laser_rear":"laser_front");
+	if (ScopedTable(m_equipSet).CallMethod<int>("OccupiedSpace", slot)) {
 		m_gun[idx].state = state;
 	}
 }

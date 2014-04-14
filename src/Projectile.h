@@ -20,7 +20,7 @@ class Projectile: public Body {
 public:
 	OBJDEF(Projectile, Body, PROJECTILE);
 
-	static void Add(Body *parent, Equip::Type type, const vector3d &pos, const vector3d &baseVel, const vector3d &dirVel);
+	static void Add(Body *parent, float lifespan, float dam, float length, float width, bool mining, const Color& color, const vector3d &pos, const vector3d &baseVel, const vector3d &dirVel);
 
 	Projectile();
 	virtual ~Projectile();
@@ -43,7 +43,12 @@ private:
 	vector3d m_baseVel;
 	vector3d m_dirVel;
 	float m_age;
-	int m_type;
+	float m_lifespan;
+	float m_baseDam;
+	float m_length;
+	float m_width;
+	bool m_mining;
+	Color m_color;
 
 	int m_parentIndex; // deserialisation
 

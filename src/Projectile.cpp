@@ -111,7 +111,11 @@ Projectile::Projectile(): Body()
 {
 	if (!s_sideMat) BuildModel();
 	SetOrient(matrix3x3d::Identity());
-	m_type = 1;
+	m_lifespan = 0;
+	m_baseDam = 0;
+	m_length = 0;
+	m_width = 0;
+	m_mining = false;
 	m_age = 0;
 	m_parent = 0;
 	m_flags |= FLAG_DRAW_LAST;
@@ -127,7 +131,12 @@ void Projectile::Save(Serializer::Writer &wr, Space *space)
 	wr.Vector3d(m_baseVel);
 	wr.Vector3d(m_dirVel);
 	wr.Float(m_age);
-	wr.Int32(m_type);
+	wr.Float(m_lifespan);
+	wr.Float(m_baseDam);
+	wr.Float(m_length);
+	wr.Float(m_width);
+	wr.Bool(m_mining);
+	wr.Color4UB(m_color);
 	wr.Int32(space->GetIndexForBody(m_parent));
 }
 
@@ -137,7 +146,12 @@ void Projectile::Load(Serializer::Reader &rd, Space *space)
 	m_baseVel = rd.Vector3d();
 	m_dirVel = rd.Vector3d();
 	m_age = rd.Float();
-	m_type = rd.Int32();
+	m_lifespan = rd.Float();
+	m_baseDam = rd.Float();
+	m_length = rd.Float();
+	m_width = rd.Float();
+	m_mining = rd.Bool();
+	m_color = rd.Color4UB();
 	m_parentIndex = rd.Int32();
 }
 
@@ -163,24 +177,20 @@ void Projectile::TimeStepUpdate(const float timeStep)
 {
 	m_age += timeStep;
 	SetPosition(GetPosition() + (m_baseVel+m_dirVel) * double(timeStep));
-	if (m_age > Equip::lasers[m_type].lifespan) Pi::game->GetSpace()->KillBody(this);
+	if (m_age > m_lifespan) Pi::game->GetSpace()->KillBody(this);
 }
 
 /* In hull kg */
 float Projectile::GetDamage() const
 {
-	float dam = Equip::lasers[m_type].damage;
-	float lifespan = Equip::lasers[m_type].lifespan;
-	return dam * sqrt((lifespan - m_age)/lifespan);
+	return m_baseDam * sqrt((m_lifespan - m_age)/m_lifespan);
 	// TEST
 //	return 0.01f;
 }
 
 double Projectile::GetRadius() const
 {
-	float length = Equip::lasers[m_type].length;
-	float width = Equip::lasers[m_type].width;
-	return sqrt(length*length + width*width);
+	return sqrt(m_length*m_length + m_width*m_width);
 }
 
 static void MiningLaserSpawnTastyStuff(Frame *f, const SystemBody *asteroid, const vector3d &pos)
@@ -232,7 +242,7 @@ void Projectile::StaticUpdate(const float timeStep)
 			}
 		}
 	}
-	if (Equip::lasers[m_type].flags & Equip::LASER_MINING) {
+	if (m_mining) {
 		// need to test for terrain hit
 		if (GetFrame()->GetBody() && GetFrame()->GetBody()->IsType(Object::PLANET)) {
 			Planet *const planet = static_cast<Planet*>(GetFrame()->GetBody());
@@ -276,15 +286,15 @@ void Projectile::Render(Graphics::Renderer *renderer, const Camera *camera, cons
 	// increase visible size based on distance from camera, z is always negative
 	// allows them to be smaller while maintaining visibility for game play
 	const float dist_scale = float(viewCoords.z / -500);
-	const float length = Equip::lasers[m_type].length + dist_scale;
-	const float width = Equip::lasers[m_type].width + dist_scale;
+	const float length = m_length + dist_scale;
+	const float width = m_width + dist_scale;
 
 	renderer->SetTransform(m * matrix4x4f::ScaleMatrix(width, width, length));
 
-	Color color = Equip::lasers[m_type].color;
+	Color color = m_color;
 	// fade them out as they age so they don't suddenly disappear
 	// this matches the damage fall-off calculation
-	const float base_alpha = sqrt(1.0f - m_age/Equip::lasers[m_type].lifespan);
+	const float base_alpha = sqrt(1.0f - m_age/m_lifespan);
 	// fade out side quads when viewing nearly edge on
 	vector3f view_dir = vector3f(viewCoords).Normalized();
 	color.a = (base_alpha * (1.f - powf(fabs(dir.Dot(view_dir)), length))) * 255;
@@ -305,11 +315,16 @@ void Projectile::Render(Graphics::Renderer *renderer, const Camera *camera, cons
 	}
 }
 
-void Projectile::Add(Body *parent, Equip::Type type, const vector3d &pos, const vector3d &baseVel, const vector3d &dirVel)
+void Projectile::Add(Body *parent, float lifespan, float dam, float length, float width, bool mining, const Color &color, const vector3d &pos, const vector3d &baseVel, const vector3d &dirVel)
 {
 	Projectile *p = new Projectile();
 	p->m_parent = parent;
-	p->m_type = Equip::types[type].tableIndex;
+	p->m_lifespan = lifespan;
+	p->m_baseDam = dam;
+	p->m_length = length;
+	p->m_width = width;
+	p->m_mining = mining;
+	p->m_color = color;
 	p->SetFrame(parent->GetFrame());
 
 	p->SetOrient(parent->GetOrient());
