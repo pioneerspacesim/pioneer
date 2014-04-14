@@ -33,39 +33,6 @@ static const double KINETIC_ENERGY_MULT	= 0.01;
 HeatGradientParameters_t Ship::s_heatGradientParams;
 const float Ship::DEFAULT_SHIELD_COOLDOWN_TIME = 1.0f;
 
-void SerializableEquipSet::Save(Serializer::Writer &wr)
-{
-	wr.Int32(Equip::SLOT_MAX);
-	for (int i=0; i<Equip::SLOT_MAX; i++) {
-		wr.Int32(equip[i].size());
-		for (unsigned int j=0; j<equip[i].size(); j++) {
-			wr.Int32(static_cast<int>(equip[i][j]));
-		}
-	}
-}
-
-/*
- * Should have initialised with EquipSet(ShipType::Type) first
- */
-void SerializableEquipSet::Load(Serializer::Reader &rd)
-{
-	const int numSlots = rd.Int32();
-	assert(numSlots <= Equip::SLOT_MAX);
-	for (int i=0; i<numSlots; i++) {
-		const int numItems = rd.Int32();
-		for (int j=0; j<numItems; j++) {
-			if (j < signed(equip[i].size())) {
-				equip[i][j] = static_cast<Equip::Type>(rd.Int32());
-			} else {
-				// equipment slot sizes have changed. just
-				// dump the difference
-				rd.Int32();
-			}
-		}
-	}
-	onChange.emit(Equip::NONE);
-}
-
 void Ship::Save(Serializer::Writer &wr, Space *space)
 {
 	DynamicBody::Save(wr, space);
@@ -93,7 +60,6 @@ void Ship::Save(Serializer::Writer &wr, Space *space)
 	wr.String(m_type->id);
 	wr.Int32(m_dockedWithPort);
 	wr.Int32(space->GetIndexForBody(m_dockedWith));
-	m_equipment.Save(wr);
 	wr.Float(m_stats.hull_mass_left);
 	wr.Float(m_stats.shield_mass_left);
 	wr.Float(m_shieldCooldown);
@@ -140,8 +106,6 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 	SetShipId(rd.String()); // XXX handle missing thirdparty ship
 	m_dockedWithPort = rd.Int32();
 	m_dockedWithIndex = rd.Int32();
-	m_equipment.InitSlotSizes(m_type->id);
-	m_equipment.Load(rd);
 	Init();
 	m_stats.hull_mass_left = rd.Float(); // must be after Init()...
 	m_stats.shield_mass_left = rd.Float();
@@ -176,7 +140,6 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 
 	m_navLights->Load(rd);
 
-	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
 }
 
 void Ship::InitGun(const char *tag, int num)
@@ -277,7 +240,6 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	SetShipId(shipId);
 	m_thrusters.x = m_thrusters.y = m_thrusters.z = 0;
 	m_angThrusters.x = m_angThrusters.y = m_angThrusters.z = 0;
-	m_equipment.InitSlotSizes(shipId);
 
 	{
 		lua_State * l = Lua::manager->GetLuaState();
@@ -303,7 +265,6 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	m_curAICmd = 0;
 	m_aiMessage = AIERROR_NONE;
 	m_decelerating = false;
-	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
 
 	SetModel(m_type->modelName.c_str());
 	SetLabel("UNLABELED_SHIP");
@@ -542,13 +503,6 @@ void Ship::UpdateEquipStats()
 	p.Get("mass", m_stats.used_capacity);
 	m_stats.used_cargo = 0;
 
-	for (int i=0; i<Equip::SLOT_MAX; i++) {
-		for (int j=0; j<m_type->equipSlotCapacity[i]; j++) {
-			Equip::Type t = m_equipment.Get(Equip::Slot(i), j);
-			if (t) m_stats.used_capacity += Equip::types[t].mass;
-			if (Equip::Slot(i) == Equip::SLOT_CARGO) m_stats.used_cargo += Equip::types[t].mass;
-		}
-	}
 	m_stats.free_capacity = m_type->capacity - m_stats.used_capacity;
 	m_stats.total_mass = m_stats.used_capacity + m_type->hullMass;
 
@@ -1363,7 +1317,6 @@ void Ship::SetShipId(const ShipType::Id &shipId)
 void Ship::SetShipType(const ShipType::Id &shipId)
 {
 	SetShipId(shipId);
-	m_equipment.InitSlotSizes(shipId);
 	SetModel(m_type->modelName.c_str());
 	m_skin.SetDecal(m_type->manufacturer);
 	m_skin.Apply(GetModel());

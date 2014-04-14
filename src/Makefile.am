@@ -34,7 +34,6 @@ noinst_HEADERS = \
 	DynamicBody.h \
 	Easing.h \
 	EnumStrings.h \
-	EquipSet.h \
 	EquipType.h \
 	FaceGenManager.h \
 	Factions.h \
