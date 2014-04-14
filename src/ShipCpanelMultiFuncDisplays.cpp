@@ -537,7 +537,7 @@ void UseEquipWidget::FireMissile(int idx)
 		Pi::cpan->MsgLog()->Message("", Lang::SELECT_A_TARGET);
 		return;
 	}
-	LuaObject<Ship>::CallMethod<bool>(Pi::player, "FireMissileAt", idx+1, static_cast<Ship*>(Pi::player->GetCombatTarget()));
+	LuaObject<Ship>::CallMethod(Pi::player, "FireMissileAt", idx+1, static_cast<Ship*>(Pi::player->GetCombatTarget()));
 }
 
 void UseEquipWidget::UpdateEquip()

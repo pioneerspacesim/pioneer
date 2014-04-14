@@ -7,6 +7,7 @@
 #include "lua/lua.hpp"
 #include "Lua.h"
 #include <string>
+#include <tuple>
 
 inline void pi_lua_generic_push(lua_State * l, bool value) { lua_pushboolean(l, value); }
 inline void pi_lua_generic_push(lua_State * l, int value) { lua_pushinteger(l, value); }
@@ -72,6 +73,8 @@ inline bool pi_lua_strict_pull(lua_State * l, int index, std::string & out) {
 	}
 	return false;
 }
+template <typename ...Types>
+inline void pi_lua_multiple_push(lua_State *l, Types ...args);
 
 #if defined(_MSC_VER) // Non-variadic version for MSVC
 template <typename Arg1>
@@ -110,5 +113,51 @@ inline void pi_lua_multiple_push(lua_State *l, Head arg1, Tail ...rest) {
 inline void pi_lua_multiple_push(lua_State *l) {
 	return;
 }
+
+
+#if defined(_MSC_VER)
+template <typename Arg1, typename Arg2>
+inline std::tuple<Arg1, Arg2> pi_lua_multiple_pull(lua_State *l, int beg) {
+	beg = lua_absindex(l, beg);
+	Arg1 arg1;
+	Arg2 arg2;
+	pi_lua_generic_pull(l, beg, arg1);
+	pi_lua_generic_pull(l, beg+1, arg2);
+	return std::make_tuple(arg1, arg2);
+}
+template <typename Arg1, typename Arg2, typename Arg3>
+inline std::tuple<Arg1, Arg2, Arg3> pi_lua_multiple_pull(lua_State *l, int beg) {
+	beg = lua_absindex(l, beg);
+	Arg1 arg1;
+	Arg2 arg2;
+	Arg3 arg3;
+	pi_lua_generic_pull(l, beg, arg1);
+	pi_lua_generic_pull(l, beg+1, arg2);
+	pi_lua_generic_pull(l, beg+2, arg3);
+	return std::make_tuple(arg1, arg2, arg3);
+}
+#else
+// The _bogus parameter is used to bring the empty type list case into the template world
+// to solve name resolution problems.
+template <int _bogus, typename Head, typename ...Tail>
+inline std::tuple<Head, Tail...> __helper_pi_lua_multiple_pull(lua_State *l, int beg) {
+	beg = lua_absindex(l, beg);
+	std::tuple<Tail...> rest = __helper_pi_lua_multiple_pull<_bogus, Tail...>(l, beg+1);
+	Head hd;
+	pi_lua_generic_pull(l, beg, hd);
+	std::tuple<Head> first(hd);
+	return std::tuple_cat(first, rest);
+}
+
+template <int _bogus>
+inline std::tuple<> __helper_pi_lua_multiple_pull(lua_State *l, int beg) {
+	return std::tuple<>();
+}
+
+template <typename ...Types>
+inline std::tuple<Types...> pi_lua_multiple_pull(lua_State *l, int beg) {
+	return __helper_pi_lua_multiple_pull<0, Types...>(l, beg);
+}
+#endif
 
 #endif

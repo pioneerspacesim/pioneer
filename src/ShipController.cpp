@@ -347,7 +347,7 @@ void PlayerShipController::FireMissile()
 {
 	if (!Pi::player->GetCombatTarget())
 		return;
-	LuaObject<Ship>::CallMethod<bool>(Pi::player, "FireMissileAt", "any", static_cast<Ship*>(Pi::player->GetCombatTarget()));
+	LuaObject<Ship>::CallMethod(Pi::player, "FireMissileAt", "any", static_cast<Ship*>(Pi::player->GetCombatTarget()));
 }
 
 Body *PlayerShipController::GetCombatTarget() const
