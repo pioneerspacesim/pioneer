@@ -520,7 +520,7 @@ void ScannerWidget::Save(Serializer::Writer &wr)
 
 UseEquipWidget::UseEquipWidget(): Gui::Fixed(400,100)
 {
-	m_onPlayerEquipChangedCon = Pi::onPlayerChangeEquipment.connect(sigc::mem_fun(this, &UseEquipWidget::UpdateEquip));
+	m_onPlayerEquipChangedCon = Pi::player->onChangeEquipment.connect(sigc::mem_fun(this, &UseEquipWidget::UpdateEquip));
 	UpdateEquip();
 }
 

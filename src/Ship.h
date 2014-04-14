@@ -210,7 +210,7 @@ public:
 	virtual void PostLoadFixup(Space *space);
 
 	const ShipType *GetShipType() const { return m_type; }
-	void SetShipType(const ShipType::Id &shipId);
+	virtual void SetShipType(const ShipType::Id &shipId);
 
 	const SceneGraph::ModelSkin &GetSkin() const { return m_skin; }
 	void SetSkin(const SceneGraph::ModelSkin &skin);

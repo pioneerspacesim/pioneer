@@ -40,6 +40,17 @@ function EquipSet.New (slots)
 	return obj
 end
 
+local listeners = {}
+function EquipSet:AddListener(listener)
+    listeners[self] = listener
+end
+
+function EquipSet:CallListener()
+    if listeners[self] then
+        listeners[self]()
+    end
+end
+
 --
 -- Group: Methods
 --
@@ -239,12 +250,14 @@ function EquipSet:Add(ship, item, num, slot)
 		return 0
 	end
 	local postinst_diff = added - item:Install(ship, num, slot)
-	if postinst_diff <= 0 then
-		return added
+	if postinst_diff > 0 then
+		self:__Remove_NoCheck(item, postinst_diff, slot)
+		added = added-postinst_diff
 	end
-
-	self:__Remove_NoCheck(item, postinst_diff, slot)
-	return added - postinst_diff
+	if added > 0 then
+		self:CallListener()
+	end
+	return added
 end
 
 -- Method: Remove
@@ -272,12 +285,14 @@ function EquipSet:Remove(ship, item, num, slot)
 		return 0
 	end
 	local postuninstall_diff = removed - item:Uninstall(ship, num, slot)
-	if postuninstall_diff <= 0 then
-		return removed
+	if postuninstall_diff > 0 then
+		self:__Add_NoCheck(item, postuninstall_diff, slot)
+		removed = removed-postuninstall_diff
 	end
-
-	self:__Add_NoCheck(item, postuninstall_diff, slot)
-	return removed - postuninstall_diff
+	if removed > 0 then
+		self:CallListener()
+	end
+	return removed
 end
 
 function EquipSet:Get(slot, index)
@@ -298,6 +313,7 @@ function EquipSet:Set(ship, slot, index, item)
 	to_remove = self.slots[slot][index]
 	if not to_remove or to_remove:Uninstall(ship, 1, slot) == 1 then
 		if item:Install(ship, 1, slot) == 1 then
+			self.CallListener()
 			self.slots[slot][index] = item
 		else -- Rollback the uninstall
 			to_remove:Install(ship, 1, slot)

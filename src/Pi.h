@@ -119,7 +119,6 @@ public:
 	static sigc::signal<void, bool> onMouseWheel;
 	static sigc::signal<void> onPlayerChangeTarget; // navigation or combat
 	static sigc::signal<void> onPlayerChangeFlightControlState;
-	static sigc::signal<void> onPlayerChangeEquipment;
 
 	static LuaSerializer *luaSerializer;
 	static LuaTimer *luaTimer;

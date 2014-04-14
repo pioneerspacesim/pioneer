@@ -19,12 +19,29 @@
 static Sound::Event s_soundUndercarriage;
 static Sound::Event s_soundHyperdrive;
 
+static int onEquipChangeListener(lua_State *l) {
+	Player *p = LuaObject<Player>::GetFromLua(lua_upvalueindex(1));
+	p->onChangeEquipment.emit();
+	return 0;
+}
+
 Player::Player(ShipType::Id shipId): Ship(shipId)
 {
 	SetController(new PlayerShipController());
 	InitCockpit();
+	LuaObject<Player>::PushToLua(this);
+	lua_pushcclosure(Lua::manager->GetLuaState(), onEquipChangeListener, 1);
+	ScopedTable(m_equipSet).CallMethod("AddListener", LuaRef(Lua::manager->GetLuaState(), -1));
+	lua_pop(Lua::manager->GetLuaState(), 1);
 }
 
+void Player::SetShipType(const ShipType::Id &shipId) {
+	Ship::SetShipType(shipId);
+	LuaObject<Player>::PushToLua(this);
+	lua_pushcclosure(Lua::manager->GetLuaState(), onEquipChangeListener, 1);
+	ScopedTable(m_equipSet).CallMethod("AddListener", LuaRef(Lua::manager->GetLuaState(), -1));
+	lua_pop(Lua::manager->GetLuaState(), 1);
+}
 void Player::Save(Serializer::Writer &wr, Space *space)
 {
 	Ship::Save(wr, space);

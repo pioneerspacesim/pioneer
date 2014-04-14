@@ -26,6 +26,8 @@ public:
 	virtual void SetAlertState(Ship::AlertState as);
 	virtual void NotifyRemoved(const Body* const removedBody);
 
+	void SetShipType(const ShipType::Id &shipId);
+
 	PlayerShipController *GetPlayerController() const;
 	//XXX temporary things to avoid causing too many changes right now
 	Body *GetCombatTarget() const;
@@ -43,6 +45,7 @@ public:
 	void OnCockpitActivated();
 
 	virtual void StaticUpdate(const float timeStep);
+	sigc::signal<void> onChangeEquipment;
 
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
