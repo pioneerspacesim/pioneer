@@ -25,7 +25,7 @@
 #include "FileSystem.h"
 #include "graphics/Renderer.h"
 
-static const int  s_saveVersion   = 72;
+static const int  s_saveVersion   = 73;
 static const char s_saveStart[]   = "PIONEER";
 static const char s_saveEnd[]     = "END";
 

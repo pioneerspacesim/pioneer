@@ -38,6 +38,7 @@ Body::~Body()
 
 void Body::Save(Serializer::Writer &wr, Space *space)
 {
+	Properties().Save(wr);
 	wr.Int32(space->GetIndexForFrame(m_frame));
 	wr.String(m_label);
 	wr.Bool(m_dead);
@@ -50,6 +51,7 @@ void Body::Save(Serializer::Writer &wr, Space *space)
 
 void Body::Load(Serializer::Reader &rd, Space *space)
 {
+	Properties().Load(rd);
 	m_frame = space->GetFrameByIndex(rd.Int32());
 	m_label = rd.String();
 	Properties().Set("label", m_label);
