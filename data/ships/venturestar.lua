@@ -16,17 +16,19 @@ define_ship {
 	camera_offset = v(0,0,-18),
 	gun_mounts =
 	{
+	slots = {
 		{ v(0,-0.5,-10.7), v(0,0,-1), 5, 'HORIZONTAL' },
 	},
 	hull_mass = 200,
 	fuel_tank_mass = 200,
 	capacity = 500,
-	max_cargo = 500,	
-	max_laser = 1,
-	max_missile = 16,
-	max_cargoscoop = 1,
-	max_fuelscoop = 1,
-	min_atmoshield = 1,
+		cargo = 500,	
+		laser_front = 1,
+		missile = 16,
+		cargo_scoop = 1,
+		fuel_scoop = 1,
+		atmo_shield = 1,
+	},
 	min_crew = 3,
 	max_crew = 5,
 	
