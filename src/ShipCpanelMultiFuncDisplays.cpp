@@ -586,12 +586,12 @@ void UseEquipWidget::UpdateEquip()
 	}
 
 	{
-		const Equip::Type t = Pi::player->m_equipment.Get(Equip::SLOT_ECM);
-		if (t != Equip::NONE) {
+		int ecm_power_cap = 0;
+		Pi::player->Properties().Get("ecm_power_cap", ecm_power_cap);
+		if (ecm_power_cap > 0) {
 			Gui::ImageButton *b = 0;
-			if (t == Equip::ECM_BASIC) b = new Gui::ImageButton("icons/ecm_basic.png");
-			else if (t == Equip::ECM_ADVANCED) b = new Gui::ImageButton("icons/ecm_advanced.png");
-			assert(b);
+			if (ecm_power_cap == 3) b = new Gui::ImageButton("icons/ecm_basic.png");
+			else b = new Gui::ImageButton("icons/ecm_advanced.png");
 
 			b->onClick.connect(sigc::mem_fun(Pi::player, &Ship::UseECM));
 			b->SetRenderDimensions(32, 32);

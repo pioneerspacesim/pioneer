@@ -811,36 +811,40 @@ void WorldView::RefreshButtonStateAndVisibility()
 			}
 		}
 
-		else if (b->IsType(Object::HYPERSPACECLOUD) && Pi::player->m_equipment.Get(Equip::SLOT_HYPERCLOUD) == Equip::HYPERCLOUD_ANALYZER) {
-			HyperspaceCloud *cloud = static_cast<HyperspaceCloud*>(b);
+		else if (b->IsType(Object::HYPERSPACECLOUD)) {
+			int cap = 0;
+			Pi::player->Properties().Get("hypercloud_analyzer_cap", cap);
+			if(cap) {
+				HyperspaceCloud *cloud = static_cast<HyperspaceCloud*>(b);
 
-			m_hudTargetHullIntegrity->Hide();
-			m_hudTargetShieldIntegrity->Hide();
+				m_hudTargetHullIntegrity->Hide();
+				m_hudTargetShieldIntegrity->Hide();
 
-			std::string text;
+				std::string text;
 
-			Ship *ship = cloud->GetShip();
-			if (!ship) {
-				text += Lang::HYPERSPACE_ARRIVAL_CLOUD_REMNANT;
+				Ship *ship = cloud->GetShip();
+				if (!ship) {
+					text += Lang::HYPERSPACE_ARRIVAL_CLOUD_REMNANT;
+				}
+				else {
+					const SystemPath& dest = ship->GetHyperspaceDest();
+					RefCountedPtr<const Sector> s = Pi::GetGalaxy()->GetSector(dest);
+					text += (cloud->IsArrival() ? Lang::HYPERSPACE_ARRIVAL_CLOUD : Lang::HYPERSPACE_DEPARTURE_CLOUD);
+					text += "\n";
+					text += stringf(Lang::SHIP_MASS_N_TONNES, formatarg("mass", ship->GetStats().total_mass));
+					text += "\n";
+					text += (cloud->IsArrival() ? Lang::SOURCE : Lang::DESTINATION);
+					text += ": ";
+					text += s->m_systems[dest.systemIndex].GetName();
+					text += "\n";
+					text += stringf(Lang::DATE_DUE_N, formatarg("date", format_date(cloud->GetDueDate())));
+					text += "\n";
+				}
+
+				m_hudTargetInfo->SetText(text);
+				MoveChild(m_hudTargetInfo, Gui::Screen::GetWidth() - 180.0f, 5.0f);
+				m_hudTargetInfo->Show();
 			}
-			else {
-				const SystemPath& dest = ship->GetHyperspaceDest();
-				RefCountedPtr<const Sector> s = Pi::GetGalaxy()->GetSector(dest);
-				text += (cloud->IsArrival() ? Lang::HYPERSPACE_ARRIVAL_CLOUD : Lang::HYPERSPACE_DEPARTURE_CLOUD);
-				text += "\n";
-				text += stringf(Lang::SHIP_MASS_N_TONNES, formatarg("mass", ship->GetStats().total_mass));
-				text += "\n";
-				text += (cloud->IsArrival() ? Lang::SOURCE : Lang::DESTINATION);
-				text += ": ";
-				text += s->m_systems[dest.systemIndex].GetName();
-				text += "\n";
-				text += stringf(Lang::DATE_DUE_N, formatarg("date", format_date(cloud->GetDueDate())));
-				text += "\n";
-			}
-
-			m_hudTargetInfo->SetText(text);
-			MoveChild(m_hudTargetInfo, Gui::Screen::GetWidth() - 180.0f, 5.0f);
-			m_hudTargetInfo->Show();
 		}
 
 		else {
@@ -1195,7 +1199,9 @@ void WorldView::UpdateCommsOptions()
 		m_commsOptions->Add(new Gui::Label("#0f0"+std::string(Lang::NO_TARGET_SELECTED)), 16, float(ypos));
 	}
 
-	const bool hasAutopilot = (Pi::player->m_equipment.Get(Equip::SLOT_AUTOPILOT) == Equip::AUTOPILOT) && (Pi::player->GetFlightState() == Ship::FLYING);
+	int hasAutopilot = 0;
+	Pi::player->Properties().Get("autopilot_cap", hasAutopilot);
+	hasAutopilot = hasAutopilot && (Pi::player->GetFlightState() == Ship::FLYING);
 
 	if (navtarget) {
 		m_commsOptions->Add(new Gui::Label("#0f0"+navtarget->GetLabel()), 16, float(ypos));
@@ -1250,8 +1256,9 @@ void WorldView::UpdateCommsOptions()
 			}
 		}
 
-		const Equip::Type t = Pi::player->m_equipment.Get(Equip::SLOT_HYPERCLOUD);
-		if ((t != Equip::NONE) && navtarget->IsType(Object::HYPERSPACECLOUD)) {
+		int analyzer = 0;
+		Pi::player->Properties().Get("hypercloud_analyzer_cap", analyzer);
+		if (analyzer && navtarget->IsType(Object::HYPERSPACECLOUD)) {
 			HyperspaceCloud *cloud = static_cast<HyperspaceCloud*>(navtarget);
 			if (!cloud->IsArrival()) {
 				button = AddCommsOption(Lang::SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE, ypos, optnum++);

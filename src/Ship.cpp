@@ -557,15 +557,19 @@ void Ship::UpdateEquipStats()
 	p.Set("usedCargo", m_stats.used_cargo);
 	p.Set("totalCargo", m_stats.free_capacity+m_stats.used_cargo);
 
+	/* TODO n-e
 	const int usedCabins = m_equipment.Count(Equip::SLOT_CABIN, Equip::PASSENGER_CABIN);
 	const int unusedCabins = m_equipment.Count(Equip::SLOT_CABIN, Equip::UNOCCUPIED_CABIN);
 	p.Set("usedCabins", usedCabins);
 	p.Set("totalCabins", usedCabins+unusedCabins);
+	*/
 
 	p.Set("freeCapacity", m_stats.free_capacity);
 	p.Set("totalMass", m_stats.total_mass);
 
-	m_stats.shield_mass = TONS_HULL_PER_SHIELD * float(m_equipment.Count(Equip::SLOT_SHIELD, Equip::SHIELD_GENERATOR));
+	int shield_cap = 0;
+	Properties().Get("shield_cap", shield_cap);
+	m_stats.shield_mass = TONS_HULL_PER_SHIELD * float(shield_cap);
 	p.Set("shieldMass", m_stats.shield_mass);
 
 	UpdateFuelStats();
@@ -634,20 +638,18 @@ void Ship::AbortHyperjump() {
 
 float Ship::GetECMRechargeTime()
 {
-	const Equip::Type t = m_equipment.Get(Equip::SLOT_ECM);
-	if (t != Equip::NONE) {
-		return Equip::types[t].rechargeTime;
-	} else {
-		return 0;
-	}
+	float ecm_recharge_cap = 0.f;
+	Properties().Get("ecm_recharge_cap", ecm_recharge_cap);
+	return ecm_recharge_cap;
 }
 
 void Ship::UseECM()
 {
-	const Equip::Type t = m_equipment.Get(Equip::SLOT_ECM);
+	int ecm_power_cap = 0;
+	Properties().Get("ecm_power_cap", ecm_power_cap);
 	if (m_ecmRecharge > 0.0f) return;
 
-	if (t != Equip::NONE) {
+	if (ecm_power_cap > 0) {
 		Sound::BodyMakeNoise(this, "ECM", 1.0f);
 		m_ecmRecharge = GetECMRechargeTime();
 
@@ -664,7 +666,7 @@ void Ship::UseECM()
 			if (dist < ECM_RADIUS) {
 				// increasing chance of destroying it with proximity
 				if (Pi::rng.Double() > (dist / ECM_RADIUS)) {
-					static_cast<Missile*>(*i)->ECMAttack(Equip::types[t].pval);
+					static_cast<Missile*>(*i)->ECMAttack(ecm_power_cap);
 				}
 			}
 		}
@@ -909,10 +911,12 @@ void Ship::FireWeapon(int num)
 double Ship::GetHullTemperature() const
 {
 	double dragGs = GetAtmosForce().Length() / (GetMass() * 9.81);
-	if (m_equipment.Get(Equip::SLOT_ATMOSHIELD) == Equip::NONE) {
-		return dragGs / 5.0;
-	} else {
+	int atmo_shield_cap = 0;
+	const_cast<Ship *>(this)->Properties().Get("atmo_shield_cap", atmo_shield_cap);
+	if (atmo_shield_cap) {
 		return dragGs / 300.0;
+	} else {
+		return dragGs / 5.0;
 	}
 }
 
@@ -1042,9 +1046,9 @@ void Ship::StaticUpdate(const float timeStep)
 	UpdateAlertState();
 
 	/* FUEL SCOOPING!!!!!!!!! */
-	int fuel_scoop_cap = 0;
-	Properties().Get("fuel_scoop_cap", fuel_scoop_cap);
-	if (m_flightState == FLYING && fuel_scoop_cap > 0) {
+	int capacity = 0;
+	Properties().Get("fuel_scoop_cap", capacity);
+	if (m_flightState == FLYING && capacity > 0) {
 		Body *astro = GetFrame()->GetBody();
 		if (astro && astro->IsType(Object::PLANET)) {
 			Planet *p = static_cast<Planet*>(astro);
@@ -1060,12 +1064,16 @@ void Ship::StaticUpdate(const float timeStep)
 				if ((m_stats.free_capacity) && (dot > 0.95) && (speed > 2000.0) && (density > 1.0)) {
 					double rate = speed*density*0.00001f;
 					if (Pi::rng.Double() < rate) {
-						m_equipment.Add(Equip::HYDROGEN);
+						lua_State *l = Lua::manager->GetLuaState();
+						pi_lua_import(l, "Equipment");
+						LuaTable hydrogen = LuaTable(l, -1).Sub("cargo").Sub("hydrogen");
+						LuaObject<Ship>::CallMethod(this, "AddEquip", hydrogen);
 						UpdateEquipStats();
 						if (this->IsType(Object::PLAYER)) {
 							Pi::Message(stringf(Lang::FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED,
-									formatarg("quantity", m_equipment.Count(Equip::SLOT_CARGO, Equip::HYDROGEN))));
+									formatarg("quantity", LuaObject<Ship>::CallMethod<int>(this, "CountEquip", hydrogen))));
 						}
+						lua_pop(l, 3);
 					}
 				}
 			}
@@ -1073,20 +1081,26 @@ void Ship::StaticUpdate(const float timeStep)
 	}
 
 	// Cargo bay life support
-	if (m_equipment.Get(Equip::SLOT_CARGOLIFESUPPORT) != Equip::CARGO_LIFE_SUPPORT) {
+	capacity = 0;
+	Properties().Get("cargo_life_support_cap", capacity);
+	if (!capacity) {
 		// Hull is pressure-sealed, it just doesn't provide
 		// temperature regulation and breathable atmosphere
 
 		// kill stuff roughly every 5 seconds
 		if ((!m_dockedWith) && (5.0*Pi::rng.Double() < timeStep)) {
-			Equip::Type t = (Pi::rng.Int32(2) ? Equip::LIVE_ANIMALS : Equip::SLAVES);
+			std::string t(Pi::rng.Int32(2) ? "live_animals" : "slaves");
 
-			if (m_equipment.Remove(t, 1)) {
-				m_equipment.Add(Equip::FERTILIZER);
+			lua_State *l = Lua::manager->GetLuaState();
+			pi_lua_import(l, "Equipment");
+			LuaTable cargo = LuaTable(l, -1).Sub("cargo");
+			if (LuaObject<Ship>::CallMethod<int>(this, "RemoveEquip", cargo.Sub(t))) {
+				LuaObject<Ship>::CallMethod<int>(this, "AddEquip", cargo.Sub("fertilizer"));
 				if (this->IsType(Object::PLAYER)) {
 					Pi::Message(Lang::CARGO_BAY_LIFE_SUPPORT_LOST);
 				}
 			}
+			lua_pop(l, 4);
 		}
 	}
 
@@ -1100,9 +1114,9 @@ void Ship::StaticUpdate(const float timeStep)
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
 		m_gun[i].recharge -= timeStep;
 		float rateCooling = 0.01f;
-		if (m_equipment.Get(Equip::SLOT_LASERCOOLER) != Equip::NONE)  {
-			rateCooling *= float(Equip::types[ m_equipment.Get(Equip::SLOT_LASERCOOLER) ].pval);
-		}
+		float cooler = 1.0f;
+		Properties().Get("laser_cooler_cap", cooler);
+		rateCooling *= cooler;
 		m_gun[i].temperature -= rateCooling*timeStep;
 		if (m_gun[i].temperature < 0.0f) m_gun[i].temperature = 0;
 		if (m_gun[i].recharge < 0.0f) m_gun[i].recharge = 0;
@@ -1125,9 +1139,9 @@ void Ship::StaticUpdate(const float timeStep)
 	if (m_stats.shield_mass_left < m_stats.shield_mass) {
 		// 250 second recharge
 		float recharge_rate = 0.004f;
-		if (m_equipment.Get(Equip::SLOT_ENERGYBOOSTER) != Equip::NONE) {
-			recharge_rate *= float(Equip::types[ m_equipment.Get(Equip::SLOT_ENERGYBOOSTER) ].pval);
-		}
+		float booster = 1.0f;
+		Properties().Get("shield_energy_booster_cap", booster);
+		recharge_rate *= booster;
 		m_stats.shield_mass_left = Clamp(m_stats.shield_mass_left + m_stats.shield_mass * recharge_rate * timeStep, 0.0f, m_stats.shield_mass);
 		Properties().Set("shieldMassLeft", m_stats.shield_mass_left);
 	}
@@ -1141,7 +1155,9 @@ void Ship::StaticUpdate(const float timeStep)
 
 	if (m_testLanded) TestLanded();
 
-	if (m_equipment.Get(Equip::SLOT_HULLAUTOREPAIR) == Equip::HULL_AUTOREPAIR) {
+	capacity = 0;
+	Properties().Get("hull_autorepair_cap", capacity);
+	if (capacity) {
 		m_stats.hull_mass_left = std::min(m_stats.hull_mass_left + 0.1f*timeStep, float(m_type->hullMass));
 		Properties().Set("hullMassLeft", m_stats.hull_mass_left);
 		Properties().Set("hullPercent", 100.0f * (m_stats.hull_mass_left / float(m_type->hullMass)));
