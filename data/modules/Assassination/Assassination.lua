@@ -396,7 +396,7 @@ local onAICompleted = function (ship, ai_error)
 				local system = systems[Engine.rand:Integer(1,#systems)]
 
 				mission.shipstate = 'inbound'
-				ship:HyperspaceTo(system.path)
+				ship:HyperjumpTo(system.path)
 			-- the only other states are flying and inbound, and there is no AI to complete for inbound
 			elseif ai_error == 'NONE' then
 				Timer:CallAt(Game.time + 60 * 60 * 8, function ()

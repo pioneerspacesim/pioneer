@@ -385,12 +385,12 @@ void WorldView::OnClickHyperspace()
 {
 	if (Pi::player->IsHyperspaceActive()) {
 		// Hyperspace countdown in effect.. abort!
-		Pi::player->ResetHyperspaceCountdown();
+		Pi::player->AbortHyperjump();
 		Pi::cpan->MsgLog()->Message("", Lang::HYPERSPACE_JUMP_ABORTED);
 	} else {
 		// Initiate hyperspace drive
 		SystemPath path = Pi::sectorView->GetHyperspaceTarget();
-		Pi::player->StartHyperspaceCountdown(path);
+		LuaObject<Player>::CallMethod(Pi::player, "HyperjumpTo", &path);
 	}
 }
 
@@ -460,7 +460,8 @@ static Color get_color_for_warning_meter_bar(float v) {
 }
 
 void WorldView::RefreshHyperspaceButton() {
-	if (Pi::player->CanHyperspaceTo(Pi::sectorView->GetHyperspaceTarget()))
+	SystemPath target = Pi::sectorView->GetHyperspaceTarget();
+	if (LuaObject<Ship>::CallMethod<bool>(Pi::player, "CanHyperjumpTo", &target))
 		m_hyperspaceButton->Show();
 	else
 		m_hyperspaceButton->Hide();
@@ -1131,7 +1132,7 @@ static void PlayerPayFine()
 void WorldView::OnHyperspaceTargetChanged()
 {
 	if (Pi::player->IsHyperspaceActive()) {
-		Pi::player->ResetHyperspaceCountdown();
+		Pi::player->AbortHyperjump();
 		Pi::cpan->MsgLog()->Message("", Lang::HYPERSPACE_JUMP_ABORTED);
 	}
 }

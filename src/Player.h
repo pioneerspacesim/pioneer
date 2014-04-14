@@ -36,8 +36,6 @@ public:
 
 	virtual Ship::HyperjumpStatus InitiateHyperjumpTo(const SystemPath &dest, int warmup_time, double duration, LuaRef checks);
 	virtual void AbortHyperjump();
-	virtual Ship::HyperjumpStatus StartHyperspaceCountdown(const SystemPath &dest);
-	virtual void ResetHyperspaceCountdown();
 
 	// XXX cockpit is here for now because it has a physics component
 	void InitCockpit();

@@ -206,26 +206,10 @@ Ship::HyperjumpStatus Player::InitiateHyperjumpTo(const SystemPath &dest, int wa
 	return status;
 }
 
-Ship::HyperjumpStatus Player::StartHyperspaceCountdown(const SystemPath &dest)
-{
-	HyperjumpStatus status = Ship::StartHyperspaceCountdown(dest);
-
-	if (status == HYPERJUMP_OK)
-		s_soundHyperdrive.Play("Hyperdrive_Charge");
-
-	return status;
-}
-
 void Player::AbortHyperjump()
 {
 	s_soundHyperdrive.Play("Hyperdrive_Abort");
 	Ship::AbortHyperjump();
-}
-
-void Player::ResetHyperspaceCountdown()
-{
-	s_soundHyperdrive.Play("Hyperdrive_Abort");
-	Ship::ResetHyperspaceCountdown();
 }
 
 void Player::OnCockpitActivated()

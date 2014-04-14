@@ -150,27 +150,11 @@ public:
 		HYPERJUMP_SAFETY_LOCKOUT
 	};
 
-	HyperjumpStatus GetHyperspaceDetails(const SystemPath &src, const SystemPath &dest, int &outFuelRequired, double &outDurationSecs);
-	HyperjumpStatus GetHyperspaceDetails(const SystemPath &dest, int &outFuelRequired, double &outDurationSecs);
-	HyperjumpStatus CheckHyperspaceTo(const SystemPath &dest, int &outFuelRequired, double &outDurationSecs);
-	HyperjumpStatus CheckHyperspaceTo(const SystemPath &dest) {
-		int unusedFuel;
-		double unusedDuration;
-		return CheckHyperspaceTo(dest, unusedFuel, unusedDuration);
-	}
-	bool CanHyperspaceTo(const SystemPath &dest, HyperjumpStatus &status) {
-		status = CheckHyperspaceTo(dest);
-		return (status == HYPERJUMP_OK);
-	}
-	bool CanHyperspaceTo(const SystemPath &dest) { return (CheckHyperspaceTo(dest) == HYPERJUMP_OK); }
-
 	Ship::HyperjumpStatus CheckHyperjumpCapability() const;
 	virtual Ship::HyperjumpStatus InitiateHyperjumpTo(const SystemPath &dest, int warmup_time, double duration, LuaRef checks);
 	virtual void AbortHyperjump();
-	virtual Ship::HyperjumpStatus StartHyperspaceCountdown(const SystemPath &dest);
 	float GetHyperspaceCountdown() const { return m_hyperspace.countdown; }
 	bool IsHyperspaceActive() const { return (m_hyperspace.countdown > 0.0); }
-	virtual void ResetHyperspaceCountdown();
 
 	Equip::Type GetHyperdriveFuelType() const;
 	// 0 to 1.0 is alive, > 1.0 = death
@@ -345,7 +329,6 @@ private:
 		// > 0 means active
 		float countdown;
 		bool now;
-		bool ignoreFuel; // XXX: To remove once the fuel handling is out of the core
 		double duration;
 		LuaRef checks; // A Lua function to check all the conditions before the jump
 	} m_hyperspace;

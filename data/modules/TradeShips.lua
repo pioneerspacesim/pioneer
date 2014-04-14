@@ -292,7 +292,7 @@ end
 local jumpToSystem = function (ship, target_path)
 	if target_path == nil then return nil end
 
-	local status, fuel, duration = ship:HyperspaceTo(target_path)
+	local status, fuel, duration = ship:HyperjumpTo(target_path)
 
 	if status ~= 'OK' then
 		print(trade_ships[ship]['ship_name']..' jump status is not OK')
