@@ -341,8 +341,8 @@ inline std::tuple<Ret1, Ret2, Ret...> LuaObject<T>::CallMethod(T* o, const Key &
 	lua_remove(l, -3);
 	pi_lua_multiple_push(l, args...);
 	lua_call(l, sizeof...(args)+1, 2+sizeof...(Ret));
-	auto ret_values = pi_lua_multiple_pull<Ret1, Ret2, Ret...>(l, -(2+sizeof...(Ret)));
-	lua_pop(l, 2+sizeof...(Ret));
+	auto ret_values = pi_lua_multiple_pull<Ret1, Ret2, Ret...>(l, -2-static_cast<int>(sizeof...(Ret)));
+	lua_pop(l, 2+static_cast<int>(sizeof...(Ret)));
 	return ret_values;
 }
 

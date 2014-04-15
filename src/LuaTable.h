@@ -276,8 +276,8 @@ std::tuple<Ret1, Ret2, Ret...> LuaTable::Call(const Key & key, const Args &... a
 	PushValueToStack(key);
 	pi_lua_multiple_push(m_lua, args...);
 	lua_call(m_lua, sizeof...(args), sizeof...(Ret)+2);
-	auto return_values = pi_lua_multiple_pull<Ret1, Ret2, Ret...>(m_lua, -(sizeof...(Ret)+2));
-	lua_pop(m_lua, sizeof...(Ret)+2);
+	auto return_values = pi_lua_multiple_pull<Ret1, Ret2, Ret...>(m_lua, -static_cast<int>(sizeof...(Ret))-2);
+	lua_pop(m_lua, static_cast<int>(sizeof...(Ret))+2);
 	return return_values;
 }
 
