@@ -178,7 +178,7 @@ local makeAdvert = function (station)
 
 	-- XXX hull mass is a bad way to determine suitability for role
 	--local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'SHIP' and def.hullMass >= (danger * 17) and def.equipSlotCapacity.ATMOSHIELD > 0 end, pairs(ShipDef)))
-	local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'SHIP' and def.hyperdriveClass > 0 and def.equipSlotCapacity.ATMOSHIELD > 0 end, pairs(ShipDef)))
+	local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'SHIP' and def.hyperdriveClass > 0 and def.equipSlotCapacity.atmo_shield > 0 end, pairs(ShipDef)))
 	local shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
 	local shipid = shipdef.id
 	local shipname = shipdef.name

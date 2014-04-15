@@ -307,57 +307,57 @@ misc.hull_autorepair = EquipType.New({
 })
 
 local hyperspace = {}
-hyperspace.hyperdrive_1 = EquipType.new({
+hyperspace.hyperdrive_1 = EquipType.New({
 	name="Hyperdrive class 1", description="", fuel=cargo.hydrogen,
-	slots="engine", price=70000, capacities={mass=4, hyperclass=1},
+	slots="engine", price=70000, capabilities={mass=4, hyperclass=1},
 })
-hyperspace.hyperdrive_2 = EquipType.new({
+hyperspace.hyperdrive_2 = EquipType.New({
 	name="Hyperdrive class 2", description="", fuel=cargo.hydrogen,
-	slots="engine", price=130000, capacities={mass=10, hyperclass=2}
+	slots="engine", price=130000, capabilities={mass=10, hyperclass=2}
 })
-hyperspace.hyperdrive_3 = EquipType.new({
+hyperspace.hyperdrive_3 = EquipType.New({
 	name="Hyperdrive class 3", description="", fuel=cargo.hydrogen,
-	slots="engine", price=250000, capacities={mass=20, hyperclass=3}
+	slots="engine", price=250000, capabilities={mass=20, hyperclass=3}
 })
-hyperspace.hyperdrive_4 = EquipType.new({
+hyperspace.hyperdrive_4 = EquipType.New({
 	name="Hyperdrive class 4", description="", fuel=cargo.hydrogen,
-	slots="engine", price=500000, capacities={mass=40, hyperclass=4}
+	slots="engine", price=500000, capabilities={mass=40, hyperclass=4}
 })
-hyperspace.hyperdrive_5 = EquipType.new({
+hyperspace.hyperdrive_5 = EquipType.New({
 	name="Hyperdrive class 5", description="", fuel=cargo.hydrogen,
-	slots="engine", price=1000000, capacities={mass=120, hyperclass=5}
+	slots="engine", price=1000000, capabilities={mass=120, hyperclass=5}
 })
-hyperspace.hyperdrive_6 = EquipType.new({
+hyperspace.hyperdrive_6 = EquipType.New({
 	name="Hyperdrive class 6", description="", fuel=cargo.hydrogen,
-	slots="engine", price=2000000, capacities={mass=225, hyperclass=6}
+	slots="engine", price=2000000, capabilities={mass=225, hyperclass=6}
 })
-hyperspace.hyperdrive_7 = EquipType.new({
+hyperspace.hyperdrive_7 = EquipType.New({
 	name="Hyperdrive class 7", description="", fuel=cargo.hydrogen,
-	slots="engine", price=3000000, capacities={mass=400, hyperclass=7}
+	slots="engine", price=3000000, capabilities={mass=400, hyperclass=7}
 })
-hyperspace.hyperdrive_8 = EquipType.new({
+hyperspace.hyperdrive_8 = EquipType.New({
 	name="Hyperdrive class 8", description="", fuel=cargo.hydrogen,
-	slots="engine", price=6000000, capacities={mass=580, hyperclass=8}
+	slots="engine", price=6000000, capabilities={mass=580, hyperclass=8}
 })
-hyperspace.hyperdrive_9 = EquipType.new({
+hyperspace.hyperdrive_9 = EquipType.New({
 	name="Hyperdrive class 9", description="", fuel=cargo.hydrogen,
-	slots="engine", price=12000000, capacities={mass=740, hyperclass=9}
+	slots="engine", price=12000000, capabilities={mass=740, hyperclass=9}
 })
-hyperspace.hyperdrive_mil1 = EquipType.new({
+hyperspace.hyperdrive_mil1 = EquipType.New({
 	name="Hyperdrive military class 1", description="", fuel=cargo.military_fuel,
-	slots="engine", price=2300000, capacities={mass=3, hyperclass=1}
+	slots="engine", price=2300000, capabilities={mass=3, hyperclass=1}
 })
-hyperspace.hyperdrive_mil2 = EquipType.new({
+hyperspace.hyperdrive_mil2 = EquipType.New({
 	name="Hyperdrive military class 2", description="", fuel=cargo.military_fuel,
-	slots="engine", price=4700000, capacities={mass=8, hyperclass=2}
+	slots="engine", price=4700000, capabilities={mass=8, hyperclass=2}
 })
-hyperspace.hyperdrive_mil3 = EquipType.new({
+hyperspace.hyperdrive_mil3 = EquipType.New({
 	name="Hyperdrive military class 3", description="", fuel=cargo.military_fuel,
-	slots="engine", price=8500000, capacities={mass=16, hyperclass=3}
+	slots="engine", price=8500000, capabilities={mass=16, hyperclass=3}
 })
-hyperspace.hyperdrive_mil4 = EquipType.new({
+hyperspace.hyperdrive_mil4 = EquipType.New({
 	name="Hyperdrive military class 4", description="", fuel=cargo.military_fuel,
-	slots="engine", price=21400000, capacities={mass=30, hyperclass=4}
+	slots="engine", price=21400000, capabilities={mass=30, hyperclass=4}
 })
 
 local laser = {}

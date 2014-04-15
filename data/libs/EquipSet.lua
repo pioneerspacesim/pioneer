@@ -5,7 +5,7 @@
 local EquipSet = {class="EquipSet"}
 local equipSet_meta = { __index = EquipSet }
 
-local defaultSlots = {
+EquipSet.default = {
 	cargo=0,
 	engine=1,
 	laser_front=1,
@@ -30,7 +30,7 @@ local defaultSlots = {
 function EquipSet.New (slots)
 	obj = {}
 	obj.slots = {}
-	for k, n in pairs(defaultSlots) do
+	for k, n in pairs(EquipSet.default) do
 		obj.slots[k] = {__occupied = 0, __limit = n}
 	end
 	for k, n in pairs(slots) do
@@ -63,6 +63,14 @@ function EquipSet:FreeSpace (slot)
 		return 0
 	end
 	return s.__limit - s.__occupied
+end
+
+function EquipSet:SlotSize(slot)
+	local s = self.slots[slot]
+	if not s then
+		return 0
+	end
+	return s.__limit
 end
 
 --

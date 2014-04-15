@@ -200,7 +200,7 @@ end
 
 local isPlayerShip = function (def) return def.tag == "SHIP" and def.basePrice > 0 end
 
-local groundShips = utils.build_array(utils.filter(function (k,def) return isPlayerShip(def) and def.equipSlotCapacity.ATMOSHIELD > 0 end, pairs(ShipDef)))
+local groundShips = utils.build_array(utils.filter(function (k,def) return isPlayerShip(def) and def.equipSlotCapacity.atmo_shield > 0 end, pairs(ShipDef)))
 local spaceShips  = utils.build_array(utils.filter(function (k,def) return isPlayerShip(def) end, pairs(ShipDef)))
 
 local function updateShipsOnSale (station)
