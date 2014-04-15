@@ -46,13 +46,13 @@ end
 
 local listeners = {}
 function EquipSet:AddListener(listener)
-    listeners[self] = listener
+	listeners[self] = listener
 end
 
 function EquipSet:CallListener()
-    if listeners[self] then
-        listeners[self]()
-    end
+	if listeners[self] then
+		listeners[self]()
+	end
 end
 
 --

@@ -66,20 +66,20 @@ end
 LaserType = utils.inherits(EquipType, "LaserType")
 function LaserType:Install(ship, num, slot)
 	if __ApplyCapabilities(ship, self.capabilities, 1, 1) < 1 then return 0 end
-    local prefix = slot..'_'
-    for k,v in pairs(self.laser_stats) do
-        ship:setprop(prefix..k, v)
-    end
-    return 1
+	local prefix = slot..'_'
+	for k,v in pairs(self.laser_stats) do
+		ship:setprop(prefix..k, v)
+	end
+	return 1
 end
 
 function LaserType:Uninstall(ship, num, slot)
 	if __ApplyCapabilities(ship, self.capabilities, 1, -1) < 1 then return 0 end
-    local prefix = "front_"
-    if slot == "laser_rear" then prefix = "_rear" end
-    for k,v in pairs(self.laser_stats) do
-        ship:setprop(prefix..k, nil)
-    end
+	local prefix = "front_"
+	if slot == "laser_rear" then prefix = "_rear" end
+	for k,v in pairs(self.laser_stats) do
+		ship:setprop(prefix..k, nil)
+	end
 end
 
 -- Single drive type, no support for slave drives.
@@ -521,34 +521,34 @@ laser.large_plasma_accelerator = LaserType.New({
 	}
 })
 local equipment = {
-    cargo=cargo,
-    laser=laser,
-    hyperspace=hyperspace,
-    misc=misc,
-    LaserType=LaserType,
-    HyperdriveType=HyperdriveType,
-    EquipType=EquipType,
+	cargo=cargo,
+	laser=laser,
+	hyperspace=hyperspace,
+	misc=misc,
+	LaserType=LaserType,
+	HyperdriveType=HyperdriveType,
+	EquipType=EquipType,
 }
 
 local serialize = function()
-    local ret = {}
-    for _,k in ipairs{"cargo","laser", "hyperspace", "misc"} do
-        local tmp = {}
-        for kk, vv in pairs(equipment[k]) do
-            tmp[kk] = vv
-        end
-        ret[k] = tmp
-    end
-    return ret
+	local ret = {}
+	for _,k in ipairs{"cargo","laser", "hyperspace", "misc"} do
+		local tmp = {}
+		for kk, vv in pairs(equipment[k]) do
+			tmp[kk] = vv
+		end
+		ret[k] = tmp
+	end
+	return ret
 end
 
 local unserialize = function (data)
-    for _,k in ipairs{"cargo","laser", "hyperspace", "misc"} do
-        local tmp = equipment[k]
-        for kk, vv in pairs(data[k]) do
-            tmp[kk] = vv
-        end
-    end
+	for _,k in ipairs{"cargo","laser", "hyperspace", "misc"} do
+		local tmp = equipment[k]
+		for kk, vv in pairs(data[k]) do
+			tmp[kk] = vv
+		end
+	end
 end
 
 Serializer:Register("Equipment", serialize, unserialize)

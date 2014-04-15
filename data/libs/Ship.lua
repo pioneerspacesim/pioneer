@@ -71,10 +71,10 @@ local CrewRoster = {}
 function Ship:GetEquipSlotCapacity(slot)
 	local c = compat.slots.old2new[slot]
 	if c then
-        debug.deprecated("Ship:GetEquipSlotCapacity")
+		debug.deprecated("Ship:GetEquipSlotCapacity")
 		return self.equipSet:SlotSize(c)
 	end
-    return self.equipSet:SlotSize(slot)
+	return self.equipSet:SlotSize(slot)
 end
 
 -- Method: GetEquipCountOccupied
@@ -133,10 +133,10 @@ function Ship:CountEquip(item, slot)
 		end
 	end
 	if type(item) == "string" then
-        debug.deprecated("Ship:GetEquipCount")
+		debug.deprecated("Ship:GetEquipCount")
 		item = compat.equip.old2new[item]
 	end
-    return self.equipSet:Count(item, slot)
+	return self.equipSet:Count(item, slot)
 end
 
 --
@@ -212,7 +212,7 @@ end
 Ship.GetEquip = function (self, slot, index)
 	local c = compat.slots.old2new[slot]
 	if c then
-        debug.deprecated()
+		debug.deprecated()
 		slot = c
 	end
 	local ret = self.equipSet:Get(slot, index)
@@ -264,10 +264,10 @@ end
 Ship.GetEquipFree = function (self, slot)
 	local c = compat.slots.old2new[slot]
 	if c then
-        debug.deprecated()
+		debug.deprecated()
 		return self.equipSet:FreeSpace(c)
 	end
-    return self.equipSet:FreeSpace(slot)
+	return self.equipSet:FreeSpace(slot)
 end
 
 compat.slots = {}
@@ -363,7 +363,7 @@ Ship.HyperjumpTo = function (self, path)
 end
 
 Ship.CanHyperjumpTo = function(self, path)
-    return self:GetHyperspaceDetails(path) == 'OK'
+	return self:GetHyperspaceDetails(path) == 'OK'
 end
 
 Ship.GetHyperspaceDetails = function (self, path)
@@ -376,21 +376,21 @@ Ship.GetHyperspaceDetails = function (self, path)
 	local distance, fuel, duration = engine:CheckDestination(self, path)
 	local status = "OK"
 	if not duration then
-        duration = 0
-        fuel = 0
+		duration = 0
+		fuel = 0
 		status = "OUT_OF_RANGE"
 	elseif fuel > self:CountEquip(engine.fuel) then
-        status = "INSUFFICIENT_FUEL"
-    end
+		status = "INSUFFICIENT_FUEL"
+	end
 	return status, distance, fuel, duration
 end
 
 Ship.GetHyperspaceRange = function (self)
-    local engine = self:GetEquip("engine", 1)
-    if not engine then
-        return 0, 0
-    end
-    return engine:GetRange(self)
+	local engine = self:GetEquip("engine", 1)
+	if not engine then
+		return 0, 0
+	end
+	return engine:GetRange(self)
 end
 
 compat.slots.new2old = {}
@@ -535,16 +535,16 @@ end
 --   experimental
 --
 Ship.Refuel = function (self,amount)
-    local currentFuel = self.fuel
-    if currentFuel == 100 then
-        Comms.Message(l.FUEL_TANK_FULL) -- XXX don't translate in libs
-        return 0
-    end
-    local fuelTankMass = ShipDef[self.shipId].fuelTankMass
-    local needed = math.clamp(math.ceil(fuelTankMass - self.fuelMassLeft),0, amount)
-    local removed = self:RemoveEquip('HYDROGEN', needed)
-    self:SetFuelPercent(math.clamp(self.fuel + removed * 100 / fuelTankMass, 0, 100))
-    return removed
+	local currentFuel = self.fuel
+	if currentFuel == 100 then
+		Comms.Message(l.FUEL_TANK_FULL) -- XXX don't translate in libs
+		return 0
+	end
+	local fuelTankMass = ShipDef[self.shipId].fuelTankMass
+	local needed = math.clamp(math.ceil(fuelTankMass - self.fuelMassLeft),0, amount)
+	local removed = self:RemoveEquip('HYDROGEN', needed)
+	self:SetFuelPercent(math.clamp(self.fuel + removed * 100 / fuelTankMass, 0, 100))
+	return removed
 end
 
 
@@ -819,11 +819,11 @@ local serialize = function ()
 			CrewRoster[crewedShip] = nil
 		end
 	end
-    return CrewRoster
+	return CrewRoster
 end
 
 local unserialize = function (data)
-    loaded_data = data
+	loaded_data = data
 end
 
 -- Function to check whether ships exist after hyperspace, and if they do not,

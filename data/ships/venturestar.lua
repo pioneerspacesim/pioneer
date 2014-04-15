@@ -16,13 +16,13 @@ define_ship {
 	camera_offset = v(0,0,-18),
 	gun_mounts =
 	{
-	slots = {
 		{ v(0,-0.5,-10.7), v(0,0,-1), 5, 'HORIZONTAL' },
 	},
 	hull_mass = 200,
 	fuel_tank_mass = 200,
 	capacity = 500,
-		cargo = 500,	
+	slots = {
+		cargo = 500,
 		laser_front = 1,
 		missile = 16,
 		cargo_scoop = 1,
@@ -31,7 +31,7 @@ define_ship {
 	},
 	min_crew = 3,
 	max_crew = 5,
-	
+
 	effective_exhaust_velocity = 2548e4,
 	price = 1346e3,
 	hyperdrive_class = 4,
