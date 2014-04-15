@@ -11,8 +11,7 @@ local Serializer = import("Serializer")
 local ShipDef = import("ShipDef")
 local Ship = import("Ship")
 local utils = import("utils")
-local equipment = import ("Equipment").equipment
-local cargo_types = import ("Equipment").cargo
+local e = import ("Equipment")
 
 --[[
 	trade_ships
@@ -79,9 +78,9 @@ local addFuel = function (ship)
 	local count = drive.capabilities.hyperclass ^ 2
 
 	-- account for fuel it already has
-	count = count - ship:GetEquipCount('cargo', cargo_types.hydrogen)
+	count = count - ship:GetEquipCount('cargo', e.cargo.hydrogen)
 
-	local added = ship:AddEquip(cargo_types.hydrogen, count)
+	local added = ship:AddEquip(e.cargo.hydrogen, count)
 
 	return added
 end
@@ -91,17 +90,17 @@ local addShipEquip = function (ship)
 	local ship_type = ShipDef[trader.ship_name]
 
 	-- add standard equipment
-	ship:AddEquip(equipment['hyperdrive_'..tostring(ship_type.hyperdriveClass)])
+	ship:AddEquip(e.hyperspace['hyperdrive_'..tostring(ship_type.hyperdriveClass)])
 	if ShipDef[ship.shipId].equipSlotCapacity.atmo_shield > 0 then
-		ship:AddEquip(equipment.atmospheric_shielding)
+		ship:AddEquip(e.misc.atmospheric_shielding)
 		trader.ATMOSHIELD = true -- flag this to save function calls later
 	else
 		-- This ship cannot safely land on a planet with an atmosphere.
 		trader.ATMOSHIELD = false
 	end
-	ship:AddEquip(equipment.scanner)
-	ship:AddEquip(equipment.autopilot)
-	ship:AddEquip(equipment.cargo_life_support)
+	ship:AddEquip(e.misc.scanner)
+	ship:AddEquip(e.misc.autopilot)
+	ship:AddEquip(e.misc.cargo_life_support)
 
 	-- add defensive equipment based on lawlessness, luck and size
 	local lawlessness = Game.system.lawlessness
@@ -110,26 +109,26 @@ local addShipEquip = function (ship)
 	if Engine.rand:Number(1) - 0.1 < lawlessness then
 		local num = math.floor(math.sqrt(ship.freeCapacity / 50)) -
 					 ship:GetEquipCount('SHIELD', 'SHIELD_GENERATOR')
-		if num > 0 then ship:AddEquip(equipment.shield_generator, num) end
+		if num > 0 then ship:AddEquip(e.misc.shield_generator, num) end
 		if ship_type.equipSlotCapacity.energy_booster > 0 and
 		Engine.rand:Number(1) + 0.5 - size_factor < lawlessness then
-			ship:AddEquip(equipment.shield_energy_booster)
+			ship:AddEquip(e.misc.shield_energy_booster)
 		end
 	end
 
 	-- we can't use these yet
 	if ship_type.equipSlotCapacity.ecm > 0 then
 		if Engine.rand:Number(1) + 0.2 < lawlessness then
-			ship:AddEquip(equipment.ecm_advanced)
+			ship:AddEquip(e.misc.ecm_advanced)
 		elseif Engine.rand:Number(1) < lawlessness then
-			ship:AddEquip(equipment.ecm_basic)
+			ship:AddEquip(e.misc.ecm_basic)
 		end
 	end
 
 	-- this should be rare
 	if ship_type.equipSlotCapacity.hull_autorepair > 0 and
 	Engine.rand:Number(1) + 0.75 - size_factor < lawlessness then
-		ship:AddEquip(equipment.hull_autorepair)
+		ship:AddEquip(e.misc.hull_autorepair)
 	end
 end
 
