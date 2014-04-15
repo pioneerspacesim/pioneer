@@ -47,6 +47,27 @@ end
 function EquipType:Uninstall(ship, num, slot)
 	return __ApplyCapabilities(ship, self.capabilities, num, -1)
 end
+
+-- Base type for weapons
+LaserType = utils.inherits(EquipType, "LaserType")
+function LaserType:Install(ship, num, slot)
+	if __ApplyCapabilities(ship, self.capabilities, 1, 1) < 1 then return 0 end
+    local prefix = slot..'_'
+    for k,v in pairs(self.laser_stats) do
+        ship:setprop(prefix..k, v)
+    end
+    return 1
+end
+
+function LaserType:Uninstall(ship, num, slot)
+	if __ApplyCapabilities(ship, self.capabilities, 1, -1) < 1 then return 0 end
+    local prefix = "front_"
+    if slot == "laser_rear" then prefix = "_rear" end
+    for k,v in pairs(self.laser_stats) do
+        ship:setprop(prefix..k, nil)
+    end
+end
+
 -- Single drive type, no support for slave drives.
 HyperdriveType = utils.inherits(EquipType, "HyperdriveType")
 
@@ -441,94 +462,94 @@ hyperspace.hyperdrive_mil4 = HyperdriveType.New({
 })
 
 local laser = {}
-laser.pulsecannon_1mw = EquipType.New({
+laser.pulsecannon_1mw = LaserType.New({
 	name="Pulse cannon (1MW)", description="",
 	price=60000, capabilities={mass=1},
 	slots = {"laser_front", "laser_rear"},
 	laser_stats = {
 		lifespan=8, speed=1000, damage=1000, rechargeTime=0.25, length=30,
-		width=5, dual=false, mining=false, color={1, 0.2, 0.2, 1}
+		width=5, dual=0, mining=0, rgba_r = 255, rgba_g = 51, rgba_b = 51, rgba_a = 255
 	}
 })
-laser.pulsecannon_dual_1mw = EquipType.New({
+laser.pulsecannon_dual_1mw = LaserType.New({
 	name="Dual pulse cannon (1MW)", description="",
 	price=110000, capabilities={mass=4},
 	slots = {"laser_front", "laser_rear"},
 	laser_stats = {
 		lifespan=8, speed=1000, damage=1000, rechargeTime=0.25, length=30,
-		width=5, dual=true, mining=false, color={1, 0.2, 0.2, 1}
+		width=5, dual=1, mining=0, rgba_r = 255, rgba_g = 51, rgba_b = 51, rgba_a = 255
 	}
 })
-laser.pulsecannon_2mw = EquipType.New({
+laser.pulsecannon_2mw = LaserType.New({
 	name="Pulse cannon (2MW)", description="",
 	price=100000, capabilities={mass=3},
 	slots = {"laser_front", "laser_rear"},
 	laser_stats = {
 		lifespan=8, speed=1000, damage=2000, rechargeTime=0.25, length=30,
-		width=5, dual=false, mining=false, color={1, 0.5, 0.2, 1}
+		width=5, dual=0, mining=0, rgba_r = 255, rgba_g = 127, rgba_b = 51, rgba_a = 255
 	}
 })
-laser.pulsecannon_rapid_2mw = EquipType.New({
+laser.pulsecannon_rapid_2mw = LaserType.New({
 	name="Rapid pulse cannon (2MW)", description="",
 	price=180000, capabilities={mass=7},
 	slots = {"laser_front", "laser_rear"},
 	laser_stats = {
 		lifespan=8, speed=1000, damage=2000, rechargeTime=0.13, length=30,
-		width=5, dual=false, mining=false, color={1, 0.5, 0.2, 1}
+		width=5, dual=0, mining=0, rgba_r = 255, rgba_g = 127, rgba_b = 51, rgba_a = 255
 	}
 })
-laser.pulsecannon_4mw = EquipType.New({
+laser.pulsecannon_4mw = LaserType.New({
 	name="Pulse cannon (4MW)", description="",
 	price=220000, capabilities={mass=10},
 	slots = {"laser_front", "laser_rear"},
 	laser_stats = {
 		lifespan=8, speed=1000, damage=4000, rechargeTime=0.25, length=30,
-		width=5, dual=false, mining=false, color={1, 1, 0.2, 1}
+		width=5, dual=0, mining=0, rgba_r = 255, rgba_g = 255, rgba_b = 51, rgba_a = 255
 	}
 })
-laser.pulsecannon_10mw = EquipType.New({
+laser.pulsecannon_10mw = LaserType.New({
 	name="Pulse cannon (10MW)", description="",
 	price=490000, capabilities={mass=30},
 	slots = {"laser_front", "laser_rear"},
 	laser_stats = {
 		lifespan=8, speed=1000, damage=10000, rechargeTime=0.25, length=30,
-		width=5, dual=false, mining=false, color={0.2, 1, 0.2, 1}
+		width=5, dual=0, mining=0, rgba_r = 51, rgba_g = 255, rgba_b = 51, rgba_a = 255
 	}
 })
-laser.pulsecannon_20mw = EquipType.New({
+laser.pulsecannon_20mw = LaserType.New({
 	name="Pulse cannon (20MW)", description="",
 	price=1200000, capabilities={mass=65},
 	slots = {"laser_front", "laser_rear"},
 	laser_stats = {
 		lifespan=8, speed=1000, damage=20000, rechargeTime=0.25, length=30,
-		width=5, dual=false, mining=false, color={0.1, 0.2, 1, 1}
+		width=5, dual=0, mining=0, rgba_r = 0.1, rgba_g = 51, rgba_b = 255, rgba_a = 255
 	}
 })
-laser.miningcannon_17mw = EquipType.New({
+laser.miningcannon_17mw = LaserType.New({
 	name="Pulse cannon (20MW)", description="",
 	price=1060000, capabilities={mass=10},
 	slots = {"laser_front", "laser_rear"},
 	laser_stats = {
 		lifespan=8, speed=1000, damage=17000, rechargeTime=2, length=30,
-		width=5, dual=false, mining=true, color={0.2, 0.5, 0, 1}
+		width=5, dual=0, mining=1, rgba_r = 51, rgba_g = 127, rgba_b = 0, rgba_a = 255
 	}
 })
-laser.small_plasma_accelerator = EquipType.New({
+laser.small_plasma_accelerator = LaserType.New({
 	name="Small plasma accelerator", description="",
 	price=12000000, capabilities={mass=22},
 	slots = {"laser_front", "laser_rear"},
 	laser_stats = {
 		lifespan=8, speed=1000, damage=50000, rechargeTime=0.3, length=42,
-		width=7, dual=false, mining=false, color={0.2, 1, 1, 1}
+		width=7, dual=0, mining=0, rgba_r = 51, rgba_g = 255, rgba_b = 255, rgba_a = 255
 	}
 })
-laser.large_plasma_accelerator = EquipType.New({
+laser.large_plasma_accelerator = LaserType.New({
 	name="Large plasma accelerator", description="",
 	price=39000000, capabilities={mass=50},
 	slots = {"laser_front", "laser_rear"},
 	laser_stats = {
 		lifespan=8, speed=1000, damage=100000, rechargeTime=0.3, length=42,
-		width=7, dual=false, mining=false, color={0.5, 1, 1, 1}
+		width=7, dual=0, mining=0, rgba_r = 127, rgba_g = 255, rgba_b = 255, rgba_a = 255
 	}
 })
 local equipment = {
@@ -536,6 +557,7 @@ local equipment = {
     laser=laser,
     hyperspace=hyperspace,
     misc=misc,
+    LaserType=LaserType,
     HyperdriveType=HyperdriveType,
     EquipType=EquipType,
 }
