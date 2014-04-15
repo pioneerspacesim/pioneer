@@ -511,13 +511,6 @@ void Ship::UpdateEquipStats()
 	p.Set("usedCargo", m_stats.used_cargo);
 	p.Set("totalCargo", m_stats.free_capacity+m_stats.used_cargo);
 
-	/* TODO n-e
-	const int usedCabins = m_equipment.Count(Equip::SLOT_CABIN, Equip::PASSENGER_CABIN);
-	const int unusedCabins = m_equipment.Count(Equip::SLOT_CABIN, Equip::UNOCCUPIED_CABIN);
-	p.Set("usedCabins", usedCabins);
-	p.Set("totalCabins", usedCabins+unusedCabins);
-	*/
-
 	p.Set("freeCapacity", m_stats.free_capacity);
 	p.Set("totalMass", m_stats.total_mass);
 

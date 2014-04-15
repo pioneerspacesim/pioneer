@@ -18,8 +18,8 @@ local econTrade = function ()
 
 	local player = Game.player
 
-	local usedCabins = Game.player:GetEquipCount("CABIN", "PASSENGER_CABIN")
-	local totalCabins = Game.player:GetEquipCount("CABIN", "UNOCCUPIED_CABIN") + usedCabins
+	local totalCabins = Game.player:GetEquipCountOccupied("cabin")
+	local usedCabins = totalCabins - Game.player.cabin_cap
 
 	-- Using econTrade as an enclosure for the functions attached to the
 	-- buttons in the UI object that it returns. Seems like the most sane

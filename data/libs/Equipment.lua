@@ -366,6 +366,10 @@ misc.cabin = EquipType.New({
 	name="Cabin", description="",
 	slots="cabin", price=135000, capabilities={mass=1, cabin=1}
 })
+misc.cabin_occupied = EquipType.New({
+	name="Cabin (Occupied)", description="",
+	slots="cabin", price=0, capabilities={mass=1}
+})
 misc.shield_generator = EquipType.New({
 	name="Shield generator", description="",
 	slots="shield", price=250000, capabilities={mass=4, shield=1}
