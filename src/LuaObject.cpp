@@ -326,8 +326,8 @@ int LuaObjectBase::l_dispatch_index(lua_State *l)
 		}
 	}
 
-	luaL_error(l, "unable to resolve method or attribute '%s'", lua_tostring(l, 2));
-	return 0;
+	lua_pushnil(l);
+	return 1;
 }
 
 static void get_names_from_table(lua_State *l, std::vector<std::string> &names, const std::string &prefix, bool methodsOnly)

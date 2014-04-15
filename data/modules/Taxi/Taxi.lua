@@ -184,7 +184,7 @@ local onChat = function (form, ref, option)
 		form:SetMessage(howmany)
 
 	elseif option == 3 then
-		if Game.player.cabin_cap < ad.group then
+		if not Game.player.cabin_cap or Game.player.cabin_cap < ad.group then
 			form:SetMessage(l.YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP)
 			return
 		end
@@ -408,7 +408,7 @@ end
 
 local onShipUndocked = function (player, station)
 	if not player:IsPlayer() then return end
-	local current_passengers = Game.player:GetEquipCountOccupied("cabin")-Game.player.cabin_cap
+	local current_passengers = Game.player:GetEquipCountOccupied("cabin")-(Game.player.cabin_cap or 0)
 	if current_passengers >= passengers then return end -- nothing changed, good
 
 	for ref,mission in pairs(missions) do
