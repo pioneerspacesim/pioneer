@@ -1,3 +1,6 @@
+local utils = import("utils")
+local Game = import_core("Game")
+
 local EquipType = {class="EquipType"}
 local equipType_meta = { __index = EquipType }
 
@@ -43,6 +46,82 @@ end
 
 function EquipType:Uninstall(ship, num, slot)
 	return __ApplyCapabilities(ship, self.capabilities, num, -1)
+end
+-- Single drive type, no support for slave drives.
+HyperdriveType = utils.inherits(EquipType, "HyperdriveType")
+
+HyperdriveType.GetMaximumRange = function (self, ship)
+	return 0.625*ship.totalMass*(self.capabilities.hyperclass ^ 2)
+end
+
+-- range_max is as usual optional
+HyperdriveType.GetDuration = function (self, ship, distance, range_max)
+	local range_max = range_max or self:GetMaximumRange(ship)
+	local hyperclass = self.capabilities.hyperclass
+	return 0.45*distance^2/(range_max*hyperclass) * (3600*24*math.sqrt(ship.totalMass))
+end
+
+-- range_max is optional, distance defaults to the maximal range.
+HyperdriveType.GetFuelUse = function (self, ship, distance, range_max)
+	local range_max = range_max or self:GetMaximumRange(ship)
+	local distance = distance or range_max
+	local hyperclass_squared = self.capabilities.hyperclass^2
+	return math.clamp(math.ceil(hyperclass_squared*distance / range_max), 1, hyperclass_squared);
+end
+
+-- returns nil if the destination isn't reachable, distance, fuel and duration if it is
+HyperdriveType.CheckDestination = function (self, ship, destination)
+	if not Game.system or ship:GetEquip('engine', 1) ~= self or destination:GetStarSystem() == Game.system then
+		return nil
+	end
+	local distance = Game.system:DistanceTo(destination)
+	local max_range = self:GetMaximumRange(ship) -- takes fuel into account
+	if distance > max_range then
+		return distance
+	end
+	local fuel = self:GetFuelUse(ship, distance, range_max) -- specify range_max to avoid unnecessary recomputing.
+
+	local duration = self:GetDuration(ship, distance, range_max) -- same as above
+	return distance, fuel, duration
+end
+
+-- Give the range for the given remaining fuel
+-- If the fuel isn't specified, it takes the current value.
+HyperdriveType.GetRange = function (self, ship, remaining_fuel)
+	local range_max = self:GetMaximumRange(ship)
+	local fuel_max = fuel_max or self:GetFuelUse(ship, range_max, range_max)
+	local remaining_fuel = remaining_fuel or ship:CountEquip(self.fuel)
+
+	if fuel_max <= remaining_fuel then
+		return range_max
+	end
+	local range = range_max*remaining_fuel/fuel_max
+
+	while range > 0 and self:GetFuelUse(ship, range, range_max) > remaining_fuel do
+		range = range - 0.05
+	end
+
+	-- range is never negative
+	range = math.max(range, 0)
+	return range
+end
+
+HyperdriveType.HyperjumpTo = function (self, ship, destination)
+	-- First off, check that this is the primary engine.
+	local engines = ship:GetEquip('engine')
+	local primary_index = 0
+	for i,e in ipairs(engines) do
+		if e == self then
+			primary_index = i
+			break
+		end
+	end
+	if primary_index == 0 then
+		-- wrong ship
+		return "WRONG_SHIP"
+	end
+	local distance, fuel_use, duration = self:CheckDestination(ship, destination)
+	return ship:InitiateHyperjumpTo(destination, self.capabilities.hyperclass, duration), fuel_use, duration
 end
 
 cargo = {
@@ -202,6 +281,7 @@ cargo = {
 		economy_type="industry"
 	}),
 }
+
 cargo.liquid_oxygen.requirements = { cargo.water, cargo.industrial_machinery }
 cargo.battle_weapons.requirements = { cargo.metal_alloys, cargo.industrial_machinery }
 cargo.farm_machinery.requirements = { cargo.metal_alloys, cargo.robots }
@@ -307,55 +387,55 @@ misc.hull_autorepair = EquipType.New({
 })
 
 local hyperspace = {}
-hyperspace.hyperdrive_1 = EquipType.New({
+hyperspace.hyperdrive_1 = HyperdriveType.New({
 	name="Hyperdrive class 1", description="", fuel=cargo.hydrogen,
 	slots="engine", price=70000, capabilities={mass=4, hyperclass=1},
 })
-hyperspace.hyperdrive_2 = EquipType.New({
+hyperspace.hyperdrive_2 = HyperdriveType.New({
 	name="Hyperdrive class 2", description="", fuel=cargo.hydrogen,
 	slots="engine", price=130000, capabilities={mass=10, hyperclass=2}
 })
-hyperspace.hyperdrive_3 = EquipType.New({
+hyperspace.hyperdrive_3 = HyperdriveType.New({
 	name="Hyperdrive class 3", description="", fuel=cargo.hydrogen,
 	slots="engine", price=250000, capabilities={mass=20, hyperclass=3}
 })
-hyperspace.hyperdrive_4 = EquipType.New({
+hyperspace.hyperdrive_4 = HyperdriveType.New({
 	name="Hyperdrive class 4", description="", fuel=cargo.hydrogen,
 	slots="engine", price=500000, capabilities={mass=40, hyperclass=4}
 })
-hyperspace.hyperdrive_5 = EquipType.New({
+hyperspace.hyperdrive_5 = HyperdriveType.New({
 	name="Hyperdrive class 5", description="", fuel=cargo.hydrogen,
 	slots="engine", price=1000000, capabilities={mass=120, hyperclass=5}
 })
-hyperspace.hyperdrive_6 = EquipType.New({
+hyperspace.hyperdrive_6 = HyperdriveType.New({
 	name="Hyperdrive class 6", description="", fuel=cargo.hydrogen,
 	slots="engine", price=2000000, capabilities={mass=225, hyperclass=6}
 })
-hyperspace.hyperdrive_7 = EquipType.New({
+hyperspace.hyperdrive_7 = HyperdriveType.New({
 	name="Hyperdrive class 7", description="", fuel=cargo.hydrogen,
 	slots="engine", price=3000000, capabilities={mass=400, hyperclass=7}
 })
-hyperspace.hyperdrive_8 = EquipType.New({
+hyperspace.hyperdrive_8 = HyperdriveType.New({
 	name="Hyperdrive class 8", description="", fuel=cargo.hydrogen,
 	slots="engine", price=6000000, capabilities={mass=580, hyperclass=8}
 })
-hyperspace.hyperdrive_9 = EquipType.New({
+hyperspace.hyperdrive_9 = HyperdriveType.New({
 	name="Hyperdrive class 9", description="", fuel=cargo.hydrogen,
 	slots="engine", price=12000000, capabilities={mass=740, hyperclass=9}
 })
-hyperspace.hyperdrive_mil1 = EquipType.New({
+hyperspace.hyperdrive_mil1 = HyperdriveType.New({
 	name="Hyperdrive military class 1", description="", fuel=cargo.military_fuel,
 	slots="engine", price=2300000, capabilities={mass=3, hyperclass=1}
 })
-hyperspace.hyperdrive_mil2 = EquipType.New({
+hyperspace.hyperdrive_mil2 = HyperdriveType.New({
 	name="Hyperdrive military class 2", description="", fuel=cargo.military_fuel,
 	slots="engine", price=4700000, capabilities={mass=8, hyperclass=2}
 })
-hyperspace.hyperdrive_mil3 = EquipType.New({
+hyperspace.hyperdrive_mil3 = HyperdriveType.New({
 	name="Hyperdrive military class 3", description="", fuel=cargo.military_fuel,
 	slots="engine", price=8500000, capabilities={mass=16, hyperclass=3}
 })
-hyperspace.hyperdrive_mil4 = EquipType.New({
+hyperspace.hyperdrive_mil4 = HyperdriveType.New({
 	name="Hyperdrive military class 4", description="", fuel=cargo.military_fuel,
 	slots="engine", price=21400000, capabilities={mass=30, hyperclass=4}
 })
@@ -456,7 +536,8 @@ local equipment = {
     laser=laser,
     hyperspace=hyperspace,
     misc=misc,
-    EquipType=EquipType
+    HyperdriveType=HyperdriveType,
+    EquipType=EquipType,
 }
 
 return equipment
