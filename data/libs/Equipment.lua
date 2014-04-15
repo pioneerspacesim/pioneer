@@ -1,15 +1,15 @@
 local utils = import("utils")
 local Game = import_core("Game")
+local Serializer = import("Serializer")
 
-local EquipType = {class="EquipType"}
-local equipType_meta = { __index = EquipType }
+local EquipType = utils.inherits(nil, "EquipType")
 
 function EquipType.New (specs)
 	local obj = {}
 	for i,v in pairs(specs) do
 		obj[i] = v
 	end
-	setmetatable(obj, equipType_meta)
+	setmetatable(obj, EquipType.meta)
 	if type(obj.slots) ~= "table" then
 		obj.slots = {obj.slots}
 	end
@@ -561,5 +561,31 @@ local equipment = {
     HyperdriveType=HyperdriveType,
     EquipType=EquipType,
 }
+
+local serialize = function()
+    local ret = {}
+    for _,k in ipairs{"cargo","laser", "hyperspace", "misc"} do
+        local tmp = {}
+        for kk, vv in pairs(equipment[k]) do
+            tmp[kk] = vv
+        end
+        ret[k] = tmp
+    end
+    return ret
+end
+
+local unserialize = function (data)
+    for _,k in ipairs{"cargo","laser", "hyperspace", "misc"} do
+        local tmp = equipment[k]
+        for kk, vv in pairs(data[k]) do
+            tmp[kk] = vv
+        end
+    end
+end
+
+Serializer:Register("Equipment", serialize, unserialize)
+Serializer:RegisterClass("LaserType", LaserType)
+Serializer:RegisterClass("EquipType", EquipType)
+Serializer:RegisterClass("HyperdriveType", HyperdriveType)
 
 return equipment

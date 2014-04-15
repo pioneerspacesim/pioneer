@@ -1,9 +1,10 @@
+local utils = import("utils")
+local Serializer = import("Serializer")
 --
 -- Class: EquipSet
 --
 -- A container for a ship's equipment.
-local EquipSet = {class="EquipSet"}
-local equipSet_meta = { __index = EquipSet }
+local EquipSet = utils.inherits(nil, "EquipSet")
 
 EquipSet.default = {
 	cargo=0,
@@ -36,7 +37,7 @@ function EquipSet.New (slots)
 	for k, n in pairs(slots) do
 		obj.slots[k] = {__occupied = 0, __limit = n}
 	end
-	setmetatable(obj, equipSet_meta)
+	setmetatable(obj, EquipSet.meta)
 	return obj
 end
 
@@ -320,5 +321,5 @@ function EquipSet:Set(ship, slot, index, item)
 		end
 	end
 end
-
+Serializer:RegisterClass("EquipSet", EquipSet)
 return EquipSet

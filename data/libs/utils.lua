@@ -156,17 +156,26 @@ end
 --
 utils.inherits = function (baseClass, name)
 	local new_class = {}
-	local class_mt = { __index = new_class, class=name }
+	new_class.meta = { __index = new_class, class=name }
 
 	-- generic constructor
 	function new_class.New(args)
 		local newinst = baseClass.New(args)
-		setmetatable( newinst, class_mt )
+		setmetatable( newinst, new_class.meta )
 		return newinst
 	end
 
 	if nil ~= baseClass then
 		setmetatable( new_class, { __index = baseClass } )
+	end
+
+	function new_class:Serialize()
+		return self
+	end
+
+	function new_class.Unserialize(data)
+		setmetatable(data, new_class.meta)
+		return data
 	end
 
 	-- Return the class object of the instance
