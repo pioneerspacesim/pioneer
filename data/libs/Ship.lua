@@ -358,8 +358,11 @@ for k,v in pairs(compat.slots.old2new) do
 	compat.slots.new2old[v] = k
 end
 
-local cargo = import("Equipment").cargo
-local equipment = import("Equipment").equipment
+local equipment = import("Equipment")
+local cargo = equipment.cargo
+local hyperspace = equipment.hyperspace
+local laser = equipment.laser
+local misc = equipment.misc
 
 compat.equip.new2old = {
 	[cargo.hydrogen]="HYDROGEN", [cargo.air_processors]="AIR_PROCESSORS", [cargo.animal_meat]="ANIMAL_MEAT",
@@ -373,24 +376,24 @@ compat.equip.new2old = {
 	[cargo.precious_metals]="PRECIOUS_METALS", [cargo.radioactives]="RADIOACTIVES", [cargo.robots]="ROBOTS",
 	[cargo.rubbish]="RUBBISH", [cargo.slaves]="SLAVES", [cargo.textiles]="TEXTILES", [cargo.water]="WATER",
 
-	[equipment.missile_unguided]="MISSILE_UNGUIDED", [equipment.missile_guided]="MISSILE_GUIDED",
-	[equipment.missile_smart]="MISSILE_SMART", [equipment.missile_naval]="MISSILE_NAVAL",
-	[equipment.atmospheric_shielding]="ATMOSPHERIC_SHIELDING", [equipment.ecm_basic]="ECM_BASIC",
-	[equipment.ecm_advanced]="ECM_ADVANCED", [equipment.scanner]="SCANNER", [equipment.cabin]="CABIN",
-	[equipment.shield_generator]="SHIELD_GENERATOR", [equipment.laser_cooling_booster]="LASER_COOLING_BOOSTER",
-	[equipment.cargo_life_support]="CARGO_LIFE_SUPPORT", [equipment.autopilot]="AUTOPILOT",
-	[equipment.radar_mapper]="RADAR_MAPPER", [equipment.fuel_scoop]="FUEL_SCOOP",
-	[equipment.cargo_scoop]="CARGO_SCOOP", [equipment.hypercloud_analyzer]="HYPERCLOUD_ANALYZER",
-	[equipment.shield_energy_booster]="SHIELD_ENERGY_BOOSTER", [equipment.hull_autorepair]="HULL_AUTOREPAIR",
-	[equipment.hyperdrive_1]="DRIVE_CLASS1", [equipment.hyperdrive_2]="DRIVE_CLASS2", [equipment.hyperdrive_3]="DRIVE_CLASS3",
-	[equipment.hyperdrive_4]="DRIVE_CLASS4", [equipment.hyperdrive_5]="DRIVE_CLASS5", [equipment.hyperdrive_6]="DRIVE_CLASS6",
-	[equipment.hyperdrive_7]="DRIVE_CLASS7", [equipment.hyperdrive_8]="DRIVE_CLASS8", [equipment.hyperdrive_9]="DRIVE_CLASS9",
-	[equipment.hyperdrive_mil1]="DRIVE_MIL1", [equipment.hyperdrive_mil2]="DRIVE_MIL2", [equipment.hyperdrive_mil3]="DRIVE_MIL3",
-	[equipment.hyperdrive_mil4]="DRIVE_MIL4", [equipment.pulsecannon_1mw]="PULSECANNON_1MW", [equipment.pulsecannon_dual_1mw]="PULSECANNON_DUAL_1MW",
-	[equipment.pulsecannon_2mw]="PULSECANNON_2MW", [equipment.pulsecannon_rapid_2mw]="PULSECANNON_RAPID_2MW",
-	[equipment.pulsecannon_4mw]="PULSECANNON_4MW", [equipment.pulsecannon_10mw]="PULSECANNON_10MW",
-	[equipment.pulsecannon_20mw]="PULSECANNON_20MW", [equipment.miningcannon_17mw]="MININGCANNON_17MW",
-	[equipment.small_plasma_accelerator]="SMALL_PLASMA_ACCEL", [equipment.large_plasma_accelerator]="LARGE_PLASMA_ACCEL"
+	[misc.missile_unguided]="MISSILE_UNGUIDED", [misc.missile_guided]="MISSILE_GUIDED",
+	[misc.missile_smart]="MISSILE_SMART", [misc.missile_naval]="MISSILE_NAVAL",
+	[misc.atmospheric_shielding]="ATMOSPHERIC_SHIELDING", [misc.ecm_basic]="ECM_BASIC",
+	[misc.ecm_advanced]="ECM_ADVANCED", [misc.scanner]="SCANNER", [misc.cabin]="CABIN",
+	[misc.shield_generator]="SHIELD_GENERATOR", [misc.laser_cooling_booster]="LASER_COOLING_BOOSTER",
+	[misc.cargo_life_support]="CARGO_LIFE_SUPPORT", [misc.autopilot]="AUTOPILOT",
+	[misc.radar_mapper]="RADAR_MAPPER", [misc.fuel_scoop]="FUEL_SCOOP",
+	[misc.cargo_scoop]="CARGO_SCOOP", [misc.hypercloud_analyzer]="HYPERCLOUD_ANALYZER",
+	[misc.shield_energy_booster]="SHIELD_ENERGY_BOOSTER", [misc.hull_autorepair]="HULL_AUTOREPAIR",
+	[hyperspace.hyperdrive_1]="DRIVE_CLASS1", [hyperspace.hyperdrive_2]="DRIVE_CLASS2", [hyperspace.hyperdrive_3]="DRIVE_CLASS3",
+	[hyperspace.hyperdrive_4]="DRIVE_CLASS4", [hyperspace.hyperdrive_5]="DRIVE_CLASS5", [hyperspace.hyperdrive_6]="DRIVE_CLASS6",
+	[hyperspace.hyperdrive_7]="DRIVE_CLASS7", [hyperspace.hyperdrive_8]="DRIVE_CLASS8", [hyperspace.hyperdrive_9]="DRIVE_CLASS9",
+	[hyperspace.hyperdrive_mil1]="DRIVE_MIL1", [hyperspace.hyperdrive_mil2]="DRIVE_MIL2", [hyperspace.hyperdrive_mil3]="DRIVE_MIL3",
+	[hyperspace.hyperdrive_mil4]="DRIVE_MIL4", [laser.pulsecannon_1mw]="PULSECANNON_1MW", [laser.pulsecannon_dual_1mw]="PULSECANNON_DUAL_1MW",
+	[laser.pulsecannon_2mw]="PULSECANNON_2MW", [laser.pulsecannon_rapid_2mw]="PULSECANNON_RAPID_2MW",
+	[laser.pulsecannon_4mw]="PULSECANNON_4MW", [laser.pulsecannon_10mw]="PULSECANNON_10MW",
+	[laser.pulsecannon_20mw]="PULSECANNON_20MW", [laser.miningcannon_17mw]="MININGCANNON_17MW",
+	[laser.small_plasma_accelerator]="SMALL_PLASMA_ACCEL", [laser.large_plasma_accelerator]="LARGE_PLASMA_ACCEL"
 }
 compat.equip.old2new = {}
 for k,v in pairs(compat.equip.new2old) do
