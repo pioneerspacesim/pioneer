@@ -228,138 +228,140 @@ cargo.fertilizer.requirements = { cargo.carbon_ore }
 cargo.medicines.requirements = { cargo.computers, cargo.carbon_ore }
 cargo.consumer_goods.requirements = { cargo.plastics, cargo.textiles }
 
-local equipment = {}
-equipment.missile_unguided = EquipType.New({
+local misc = {}
+misc.missile_unguided = EquipType.New({
 	name="Unguided missile", description="",
 	slots="missile", price=3000, capabilities={mass=1, missile=1}
 })
-equipment.missile_guided = EquipType.New({
+misc.missile_guided = EquipType.New({
 	name="Guided missile", description="",
 	slots="missile", price=5000, capabilities={mass=1}
 })
-equipment.missile_smart = EquipType.New({
+misc.missile_smart = EquipType.New({
 	name="Smart missile", description="",
 	slots="missile", price=9500, capabilities={mass=1}
 })
-equipment.missile_naval = EquipType.New({
+misc.missile_naval = EquipType.New({
 	name="Naval missile", description="",
 	slots="missile", price=16000, capabilities={mass=1}
 })
-equipment.atmospheric_shielding = EquipType.New({
+misc.atmospheric_shielding = EquipType.New({
 	name="Atmospheric shielding", description="",
 	slots="atmo_shield", price=20000, capabilities={mass=1, atmo_shield=1}
 })
-equipment.ecm_basic = EquipType.New({
+misc.ecm_basic = EquipType.New({
 	name="Basic ECM", description="",
 	slots="ecm", price=600000, capabilities={mass=2, ecm_power=2, ecm_recharge=5}
 })
-equipment.ecm_advanced = EquipType.New({
+misc.ecm_advanced = EquipType.New({
 	name="Advanced ECM", description="",
 	slots="ecm", price=1520000, capabilities={mass=2, ecm_power=3, ecm_recharge=5}
 })
-equipment.scanner = EquipType.New({
+misc.scanner = EquipType.New({
 	name="Scanner", description="",
 	slots="scanner", price=68000, capabilities={mass=1, scanner=1}
 })
-equipment.cabin = EquipType.New({
+misc.cabin = EquipType.New({
 	name="Cabin", description="",
 	slots="cabin", price=135000, capabilities={mass=1, cabin=1}
 })
-equipment.shield_generator = EquipType.New({
+misc.shield_generator = EquipType.New({
 	name="Shield generator", description="",
 	slots="shield", price=250000, capabilities={mass=4, shield=1}
 })
-equipment.laser_cooling_booster = EquipType.New({
+misc.laser_cooling_booster = EquipType.New({
 	name="Laser cooling booster", description="",
 	slots="laser_cooler", price=38000, capabilities={mass=1, laser_cooler=2}
 })
-equipment.cargo_life_support = EquipType.New({
+misc.cargo_life_support = EquipType.New({
 	name="Cargo life support", description="",
 	slots="cargo_life_support", price=70000, capabilities={mass=1, cargo_life_support=1}
 })
-equipment.autopilot = EquipType.New({
+misc.autopilot = EquipType.New({
 	name="Autopilot", description="",
 	slots="autopilot", price=140000, capabilities={mass=1, set_speed=1, autopilot=1}
 })
-equipment.radar_mapper = EquipType.New({
+misc.radar_mapper = EquipType.New({
 	name="Radar mapper", description="",
 	slots="radar", price=90000, capabilities={mass=1, radar_mapper=1}
 })
-equipment.fuel_scoop = EquipType.New({
+misc.fuel_scoop = EquipType.New({
 	name="Fuel scoop", description="",
 	slots="fuel_scoop", price=350000, capabilities={mass=6, fuel_scoop=1}
 })
-equipment.cargo_scoop = EquipType.New({
+misc.cargo_scoop = EquipType.New({
 	name="Cargo scoop", description="",
 	slots="cargo_scoop", price=390000, capabilities={mass=7, cargo_scoop=1}
 })
-equipment.hypercloud_analyzer = EquipType.New({
+misc.hypercloud_analyzer = EquipType.New({
 	name="Hypercloud analyzer", description="",
 	slots="hypercloud", price=150000, capabilities={mass=1, hypercloud_analyzer=1}
 })
-equipment.shield_energy_booster = EquipType.New({
+misc.shield_energy_booster = EquipType.New({
 	name="Shield energy booster", description="",
 	slots="energy_booster", price=1000000, capabilities={mass=8, shield_energy_booster=1}
 })
-equipment.hull_autorepair = EquipType.New({
+misc.hull_autorepair = EquipType.New({
 	name="Hull autorepair", description="",
 	slots="hull_autorepair", price=1600000, capabilities={mass=40, hull_autorepair=1}
 })
 
-equipment.hyperdrive_1 = EquipType.new({
+local hyperspace = {}
+hyperspace.hyperdrive_1 = EquipType.new({
 	name="Hyperdrive class 1", description="", fuel=cargo.hydrogen,
 	slots="engine", price=70000, capacities={mass=4, hyperclass=1},
 })
-equipment.hyperdrive_2 = EquipType.new({
+hyperspace.hyperdrive_2 = EquipType.new({
 	name="Hyperdrive class 2", description="", fuel=cargo.hydrogen,
 	slots="engine", price=130000, capacities={mass=10, hyperclass=2}
 })
-equipment.hyperdrive_3 = EquipType.new({
+hyperspace.hyperdrive_3 = EquipType.new({
 	name="Hyperdrive class 3", description="", fuel=cargo.hydrogen,
 	slots="engine", price=250000, capacities={mass=20, hyperclass=3}
 })
-equipment.hyperdrive_4 = EquipType.new({
+hyperspace.hyperdrive_4 = EquipType.new({
 	name="Hyperdrive class 4", description="", fuel=cargo.hydrogen,
 	slots="engine", price=500000, capacities={mass=40, hyperclass=4}
 })
-equipment.hyperdrive_5 = EquipType.new({
+hyperspace.hyperdrive_5 = EquipType.new({
 	name="Hyperdrive class 5", description="", fuel=cargo.hydrogen,
 	slots="engine", price=1000000, capacities={mass=120, hyperclass=5}
 })
-equipment.hyperdrive_6 = EquipType.new({
+hyperspace.hyperdrive_6 = EquipType.new({
 	name="Hyperdrive class 6", description="", fuel=cargo.hydrogen,
 	slots="engine", price=2000000, capacities={mass=225, hyperclass=6}
 })
-equipment.hyperdrive_7 = EquipType.new({
+hyperspace.hyperdrive_7 = EquipType.new({
 	name="Hyperdrive class 7", description="", fuel=cargo.hydrogen,
 	slots="engine", price=3000000, capacities={mass=400, hyperclass=7}
 })
-equipment.hyperdrive_8 = EquipType.new({
+hyperspace.hyperdrive_8 = EquipType.new({
 	name="Hyperdrive class 8", description="", fuel=cargo.hydrogen,
 	slots="engine", price=6000000, capacities={mass=580, hyperclass=8}
 })
-equipment.hyperdrive_9 = EquipType.new({
+hyperspace.hyperdrive_9 = EquipType.new({
 	name="Hyperdrive class 9", description="", fuel=cargo.hydrogen,
 	slots="engine", price=12000000, capacities={mass=740, hyperclass=9}
 })
-equipment.hyperdrive_mil1 = EquipType.new({
+hyperspace.hyperdrive_mil1 = EquipType.new({
 	name="Hyperdrive military class 1", description="", fuel=cargo.military_fuel,
 	slots="engine", price=2300000, capacities={mass=3, hyperclass=1}
 })
-equipment.hyperdrive_mil2 = EquipType.new({
+hyperspace.hyperdrive_mil2 = EquipType.new({
 	name="Hyperdrive military class 2", description="", fuel=cargo.military_fuel,
 	slots="engine", price=4700000, capacities={mass=8, hyperclass=2}
 })
-equipment.hyperdrive_mil3 = EquipType.new({
+hyperspace.hyperdrive_mil3 = EquipType.new({
 	name="Hyperdrive military class 3", description="", fuel=cargo.military_fuel,
 	slots="engine", price=8500000, capacities={mass=16, hyperclass=3}
 })
-equipment.hyperdrive_mil4 = EquipType.new({
+hyperspace.hyperdrive_mil4 = EquipType.new({
 	name="Hyperdrive military class 4", description="", fuel=cargo.military_fuel,
 	slots="engine", price=21400000, capacities={mass=30, hyperclass=4}
 })
 
-equipment.pulsecannon_1mw = EquipType.New({
+local laser = {}
+laser.pulsecannon_1mw = EquipType.New({
 	name="Pulse cannon (1MW)", description="",
 	price=60000, capabilities={mass=1},
 	slots = {"laser_front", "laser_rear"},
@@ -368,7 +370,7 @@ equipment.pulsecannon_1mw = EquipType.New({
 		width=5, dual=false, mining=false, color={1, 0.2, 0.2, 1}
 	}
 })
-equipment.pulsecannon_dual_1mw = EquipType.New({
+laser.pulsecannon_dual_1mw = EquipType.New({
 	name="Dual pulse cannon (1MW)", description="",
 	price=110000, capabilities={mass=4},
 	slots = {"laser_front", "laser_rear"},
@@ -377,7 +379,7 @@ equipment.pulsecannon_dual_1mw = EquipType.New({
 		width=5, dual=true, mining=false, color={1, 0.2, 0.2, 1}
 	}
 })
-equipment.pulsecannon_2mw = EquipType.New({
+laser.pulsecannon_2mw = EquipType.New({
 	name="Pulse cannon (2MW)", description="",
 	price=100000, capabilities={mass=3},
 	slots = {"laser_front", "laser_rear"},
@@ -386,7 +388,7 @@ equipment.pulsecannon_2mw = EquipType.New({
 		width=5, dual=false, mining=false, color={1, 0.5, 0.2, 1}
 	}
 })
-equipment.pulsecannon_rapid_2mw = EquipType.New({
+laser.pulsecannon_rapid_2mw = EquipType.New({
 	name="Rapid pulse cannon (2MW)", description="",
 	price=180000, capabilities={mass=7},
 	slots = {"laser_front", "laser_rear"},
@@ -395,7 +397,7 @@ equipment.pulsecannon_rapid_2mw = EquipType.New({
 		width=5, dual=false, mining=false, color={1, 0.5, 0.2, 1}
 	}
 })
-equipment.pulsecannon_4mw = EquipType.New({
+laser.pulsecannon_4mw = EquipType.New({
 	name="Pulse cannon (4MW)", description="",
 	price=220000, capabilities={mass=10},
 	slots = {"laser_front", "laser_rear"},
@@ -404,7 +406,7 @@ equipment.pulsecannon_4mw = EquipType.New({
 		width=5, dual=false, mining=false, color={1, 1, 0.2, 1}
 	}
 })
-equipment.pulsecannon_10mw = EquipType.New({
+laser.pulsecannon_10mw = EquipType.New({
 	name="Pulse cannon (10MW)", description="",
 	price=490000, capabilities={mass=30},
 	slots = {"laser_front", "laser_rear"},
@@ -413,7 +415,7 @@ equipment.pulsecannon_10mw = EquipType.New({
 		width=5, dual=false, mining=false, color={0.2, 1, 0.2, 1}
 	}
 })
-equipment.pulsecannon_20mw = EquipType.New({
+laser.pulsecannon_20mw = EquipType.New({
 	name="Pulse cannon (20MW)", description="",
 	price=1200000, capabilities={mass=65},
 	slots = {"laser_front", "laser_rear"},
@@ -422,7 +424,7 @@ equipment.pulsecannon_20mw = EquipType.New({
 		width=5, dual=false, mining=false, color={0.1, 0.2, 1, 1}
 	}
 })
-equipment.miningcannon_17mw = EquipType.New({
+laser.miningcannon_17mw = EquipType.New({
 	name="Pulse cannon (20MW)", description="",
 	price=1060000, capabilities={mass=10},
 	slots = {"laser_front", "laser_rear"},
@@ -431,7 +433,7 @@ equipment.miningcannon_17mw = EquipType.New({
 		width=5, dual=false, mining=true, color={0.2, 0.5, 0, 1}
 	}
 })
-equipment.small_plasma_accelerator = EquipType.New({
+laser.small_plasma_accelerator = EquipType.New({
 	name="Small plasma accelerator", description="",
 	price=12000000, capabilities={mass=22},
 	slots = {"laser_front", "laser_rear"},
@@ -440,7 +442,7 @@ equipment.small_plasma_accelerator = EquipType.New({
 		width=7, dual=false, mining=false, color={0.2, 1, 1, 1}
 	}
 })
-equipment.large_plasma_accelerator = EquipType.New({
+laser.large_plasma_accelerator = EquipType.New({
 	name="Large plasma accelerator", description="",
 	price=39000000, capabilities={mass=50},
 	slots = {"laser_front", "laser_rear"},
@@ -449,9 +451,12 @@ equipment.large_plasma_accelerator = EquipType.New({
 		width=7, dual=false, mining=false, color={0.5, 1, 1, 1}
 	}
 })
-
-return {
-	EquipType = EquipType,
-	cargo = cargo,
-	equipment = equipment,
+local equipment = {
+    cargo=cargo,
+    laser=laser,
+    hyperspace=hyperspace,
+    misc=misc,
+    EquipType=EquipType
 }
+
+return equipment
