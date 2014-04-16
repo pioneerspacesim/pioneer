@@ -388,6 +388,10 @@ struct ModelVtx {
 	vector3f pos;
 	vector3f nrm;
 	vector2f uv0;
+	vector2f uv1;
+
+	vector3f padding0;
+	vector3f padding1;
 };
 #pragma pack(pop)
 
@@ -409,6 +413,9 @@ void Loader::ConvertAiMeshes(std::vector<RefCountedPtr<StaticGeometry> > &geoms,
 
 		const bool hasUVs = mesh->HasTextureCoords(0);
 		if (!hasUVs) AddLog(stringf("%0: missing UV coordinates", m_curMeshDef));
+		
+		const Uint32 NumUVChannels = mesh->GetNumUVChannels();
+		if (NumUVChannels>2) AddLog(stringf("%0: More than 2 sets of UV coordinates", m_curMeshDef));
 		//sadly, aimesh name is usually empty so no help for logging
 
 		//Material names are not consistent throughout formats.
@@ -448,6 +455,9 @@ void Loader::ConvertAiMeshes(std::vector<RefCountedPtr<StaticGeometry> > &geoms,
 		vbd.attrib[2].semantic = Graphics::ATTRIB_UV0;
 		vbd.attrib[2].format   = Graphics::ATTRIB_FORMAT_FLOAT2;
 		vbd.attrib[2].offset   = offsetof(ModelVtx, uv0);
+		vbd.attrib[3].semantic = Graphics::ATTRIB_UV1;
+		vbd.attrib[3].format   = Graphics::ATTRIB_FORMAT_FLOAT2;
+		vbd.attrib[3].offset   = offsetof(ModelVtx, uv1);
 		vbd.stride = sizeof(ModelVtx);
 		vbd.numVertices = mesh->mNumVertices;
 		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
@@ -489,9 +499,11 @@ void Loader::ConvertAiMeshes(std::vector<RefCountedPtr<StaticGeometry> > &geoms,
 			const aiVector3D &vtx = mesh->mVertices[v];
 			const aiVector3D &norm = mesh->mNormals[v];
 			const aiVector3D &uv0 = hasUVs ? mesh->mTextureCoords[0][v] : aiVector3D(0.f);
+			const aiVector3D &uv1 = (hasUVs && NumUVChannels==2) ? mesh->mTextureCoords[1][v] : aiVector3D(0.f);
 			vtxPtr[v].pos = vector3f(vtx.x, vtx.y, vtx.z);
 			vtxPtr[v].nrm = vector3f(norm.x, norm.y, norm.z);
 			vtxPtr[v].uv0 = vector2f(uv0.x, uv0.y);
+			vtxPtr[v].uv1 = vector2f(uv1.x, uv1.y);
 
 			//update bounding box
 			//untransformed points, collision visitor will transform
