@@ -842,6 +842,9 @@
     <ClInclude Include="..\..\src\GasGiant.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\matrix3x3.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\src\win32\pioneer.rc">
