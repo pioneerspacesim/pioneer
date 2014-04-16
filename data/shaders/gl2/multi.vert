@@ -29,8 +29,8 @@ void main(void)
 #if (NUM_LIGHTS > 0)
 	eyePos = vec3(gl_ModelViewMatrix * gl_Vertex);
 	normal = normalize(gl_NormalMatrix * gl_Normal);
-	#ifdef HEAT_COLOURING
-		heatingDir = normalize(heatingMatrix * heatingNormal);
-	#endif
+#ifdef HEAT_COLOURING
+	heatingDir = normalize(heatingMatrix * heatingNormal);
+#endif
 #endif
 }
