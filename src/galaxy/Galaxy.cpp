@@ -124,3 +124,13 @@ void Galaxy::Dump(FILE* file, Sint32 centerX, Sint32 centerY, Sint32 centerZ, Si
 		}
 	}
 }
+
+const std::string& Galaxy::GetGeneratorName() const
+{
+	return m_galaxyGenerator->GetName();
+}
+
+int Galaxy::GetGeneratorVersion() const
+{
+	return m_galaxyGenerator->GetVersion();
+}

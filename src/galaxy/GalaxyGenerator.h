@@ -18,6 +18,7 @@ class GalaxyGenerator : public RefCounted {
 public:
 	typedef int Version;
 	static const Version LAST_VERSION = -1;
+	static const Version LAST_VERSION_LEGACY = 0;
 
 	static RefCountedPtr<Galaxy> Create(const std::string& name, Version version = LAST_VERSION);
 	virtual ~GalaxyGenerator();

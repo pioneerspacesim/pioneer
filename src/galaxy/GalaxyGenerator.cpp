@@ -15,6 +15,7 @@ RefCountedPtr<Galaxy> GalaxyGenerator::Create(const std::string& name, Version v
 	if (name == "legacy") {
 		if (version == LAST_VERSION)
 			version = LAST_VERSION_LEGACY;
+		Output("Creating new galaxy with generator '%s' version %d\n", name.c_str(), version);
 		if (version == 0) {
 			return RefCountedPtr<Galaxy>(new Galaxy(RefCountedPtr<GalaxyGenerator>(
 				(new GalaxyGenerator(name, version))
@@ -26,6 +27,7 @@ RefCountedPtr<Galaxy> GalaxyGenerator::Create(const std::string& name, Version v
 				->AddStarSystemStage(new PopulateStarSystemGenerator))));
 		}
 	}
+	Output("Galaxy generation failed: Unknown generator '%s' version %d\n", name.c_str(), version);
 	return RefCountedPtr<Galaxy>();
 }
 

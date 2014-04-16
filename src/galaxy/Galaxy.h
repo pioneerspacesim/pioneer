@@ -43,6 +43,9 @@ public:
 	void FlushCaches();
 	void Dump(FILE* file, Sint32 centerX, Sint32 centerY, Sint32 centerZ, Sint32 radius);
 
+	const std::string& GetGeneratorName() const;
+	int GetGeneratorVersion() const;
+
 private:
 	RefCountedPtr<GalaxyGenerator> m_galaxyGenerator;
 	std::unique_ptr<float[]> m_galaxyMap;
