@@ -564,8 +564,10 @@ static int l_space_spawn_ship_landed_near(lua_State *l)
  */
 static int l_space_get_body(lua_State *l)
 {
-	if (!Pi::game)
+	if (!Pi::game) {
 		luaL_error(l, "Game is not started");
+		return 0;
+	}
 
 	int id = luaL_checkinteger(l, 1);
 
@@ -617,8 +619,10 @@ static int l_space_get_body(lua_State *l)
  */
 static int l_space_get_bodies(lua_State *l)
 {
-	if (!Pi::game)
+	if (!Pi::game) {
 		luaL_error(l, "Game is not started");
+		return 0;
+	}
 
 	LUA_DEBUG_START(l);
 

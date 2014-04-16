@@ -124,7 +124,7 @@ void DynamicBody::CalcExternalForce()
 	m_gravityForce = m_externalForce;
 
 	// atmospheric drag
-	if (GetFrame()->IsRotFrame() && body->IsType(Object::PLANET))
+	if (body && GetFrame()->IsRotFrame() && body->IsType(Object::PLANET))
 	{
 		Planet *planet = static_cast<Planet*>(body);
 		double dist = GetPosition().Length();

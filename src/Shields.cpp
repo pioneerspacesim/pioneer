@@ -55,7 +55,7 @@ typedef std::vector<Shields::Shield>::iterator ShieldIterator;
 //static
 bool Shields::s_initialised = false;
 
-Shields::Shield::Shield(Color3ub _colour, const matrix4x4f &matrix, SceneGraph::StaticGeometry *_sg)
+Shields::Shield::Shield(const Color3ub &_colour, const matrix4x4f &matrix, SceneGraph::StaticGeometry *_sg)
 	: m_colour(_colour), m_matrix(matrix), m_mesh(_sg)
 { }
 
@@ -304,7 +304,7 @@ void Shields::Update(const float coolDown, const float shieldStrength)
 	}
 }
 
-void Shields::SetColor(const Color3ub inCol)
+void Shields::SetColor(const Color3ub &inCol)
 {
 	for (ShieldIterator it = m_shields.begin(); it != m_shields.end(); ++it) {
 		it->m_colour = inCol;

@@ -345,7 +345,7 @@ float Camera::ShadowedIntensity(const int lightNum, const Body *b) const {
 	shadows.reserve(16);
 	CalcShadows(lightNum, b, shadows);
 	float product = 1.0;
-	for (std::vector<Camera::Shadow>::const_iterator it = shadows.begin(), itEnd = shadows.end(); it!=itEnd; it++)
+	for (std::vector<Camera::Shadow>::const_iterator it = shadows.begin(), itEnd = shadows.end(); it!=itEnd; ++it)
 		product *= 1.0 - discCovered(it->centre.Length() / it->lrad, it->srad / it->lrad);
 	return product;
 }

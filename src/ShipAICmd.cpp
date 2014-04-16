@@ -690,13 +690,9 @@ AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target) : AICommand(ship, CMD_FLYTO)
 
 // Specified pos, endvel should be > 0
 AICmdFlyTo::AICmdFlyTo(Ship *ship, Frame *targframe, const vector3d &posoff, double endvel, bool tangent)
-	: AICommand(ship, CMD_FLYTO)
+	: m_targframe(targframe), m_target(nullptr), m_posoff(posoff), m_endvel(endvel), m_tangent(tangent), 
+	m_frame(nullptr), m_state(-6), m_lockhead(true), AICommand(ship, CMD_FLYTO)
 {
-	m_targframe = targframe; m_target = 0;
-	m_posoff = posoff;
-	m_endvel = endvel;
-	m_tangent = tangent;
-	m_frame = 0; m_state = -6; m_lockhead = true;
 }
 
 bool AICmdFlyTo::TimeStepUpdate()
@@ -1097,10 +1093,8 @@ bool AICmdFlyAround::TimeStepUpdate()
 }
 
 AICmdFormation::AICmdFormation(Ship *ship, Ship *target, const vector3d &posoff)
-	: AICommand(ship, CMD_FORMATION)
+	: m_target(target), m_posoff(posoff), AICommand(ship, CMD_FORMATION)
 {
-	m_target = target;
-	m_posoff = posoff;
 }
 
 bool AICmdFormation::TimeStepUpdate()
