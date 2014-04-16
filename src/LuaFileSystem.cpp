@@ -60,6 +60,7 @@ static int l_filesystem_read_dir(lua_State *l)
 			break;
 
 		default:
+			assert(0); // can't happen
 			return 0;
 	}
 
