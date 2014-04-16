@@ -2583,7 +2583,7 @@ void StarSystem::Dump(FILE* file, const char* indent, bool suppressSectorData) c
 		fprintf(file, "%s\t\"%s\"\n", indent, m_name.c_str());
 		fprintf(file, "%s\t%sEXPLORED%s\n", indent, m_unexplored ? "UN" : "", m_hasCustomBodies ? ", CUSTOM-ONLY" : m_isCustom ? ", CUSTOM" : "");
 		fprintf(file, "%s\tfaction %s%s%s\n", indent, m_faction ? "\"" : "NONE", m_faction ? m_faction->name.c_str() : "", m_faction ? "\"" : "");
-		fprintf(file, "%s\tseed %u\n", indent, (Uint32)m_seed);
+		fprintf(file, "%s\tseed %u\n", indent, static_cast<Uint32>(m_seed));
 		fprintf(file, "%s\t%d stars%s\n", indent, m_numStars, m_numStars > 0 ? " {" : "");
 		assert(unsigned(m_numStars) == m_stars.size());
 		for (int i = 0; i < m_numStars; ++i)
