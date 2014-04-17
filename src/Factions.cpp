@@ -4,6 +4,7 @@
 #include "Factions.h"
 #include "galaxy/Sector.h"
 #include "galaxy/SystemPath.h"
+#include "galaxy/CustomSystem.h"
 
 #include "LuaUtils.h"
 #include "LuaVector.h"
@@ -15,6 +16,7 @@
 #include "Pi.h"
 #include <set>
 #include <algorithm>
+#include <list>
 
 const Uint32 Faction::BAD_FACTION_IDX      = UINT_MAX;
 const Color  Faction::BAD_FACTION_COLOUR   = Color(204,204,204,128);
@@ -28,6 +30,7 @@ typedef const std::vector<Faction*> ConstFactionList;
 typedef ConstFactionList::const_iterator ConstFactionIterator;
 typedef std::map<std::string, Faction*> FactionMap;
 typedef std::set<SystemPath>  HomeSystemSet;
+typedef std::map<std::string, std::list<CustomSystem*> > MissingFactionsMap;
 
 static Faction       s_no_faction;    // instead of answering null, we often want to answer a working faction object for no faction
 
@@ -35,7 +38,9 @@ static FactionList       s_factions;
 static FactionMap        s_factions_byName;
 static HomeSystemSet     s_homesystems;
 static FactionOctsapling s_spatial_index;
-static bool             s_may_assign_factions;
+static bool              s_may_assign_factions;
+static bool              s_initialized = false;
+static MissingFactionsMap s_missingFactionsMap;
 
 // ------- Lua Faction Builder --------
 
@@ -254,6 +259,14 @@ static int l_fac_add_to_factions(lua_State *L)
 		// add the faction to the various faction data structures
 		s_factions.push_back(facbld->fac);
 		s_factions_byName[facbld->fac->name] = facbld->fac;
+		auto it = s_missingFactionsMap.find(facbld->fac->name);
+		if (it != s_missingFactionsMap.end()) {
+			std::list<CustomSystem*>& csl = it->second;
+			for (CustomSystem* cs : csl) {
+				cs->faction = facbld->fac;
+			}
+			s_missingFactionsMap.erase(it);
+		}
 		s_spatial_index.Add(facbld->fac);
 
 		if (facbld->fac->hasHomeworld) s_homesystems.insert(facbld->fac->homeworld.SystemOnly());
@@ -345,6 +358,18 @@ void Faction::Init()
 	Output("Number of factions added: " SIZET_FMT "\n", s_factions.size());
 	Faction::ClearHomeSectors();
 	Pi::FlushCaches();    // clear caches of anything we used for faction generation
+	while (!s_missingFactionsMap.empty()) {
+		const std::string& factionName = s_missingFactionsMap.begin()->first;
+		std::list<CustomSystem*>& csl = s_missingFactionsMap.begin()->second;
+		while (!csl.empty()) {
+			CustomSystem* cs = csl.front();
+			// FIXME: How to signal missing faction?
+			fprintf(stderr, "Custom system %s referenced unknown faction %s\n", cs->name.c_str(), factionName.c_str());
+			csl.pop_front();
+		}
+		s_missingFactionsMap.erase(s_missingFactionsMap.begin());
+	}
+	s_initialized = true;
 	s_may_assign_factions = true;
 }
 
@@ -372,6 +397,16 @@ void Faction::Uninit()
 	}
 	s_factions.clear();
 	s_factions_byName.clear();
+}
+
+bool Faction::IsInitialized()
+{
+	return s_initialized;
+}
+
+void Faction::RegisterCustomSystem(CustomSystem *cs, const std::string& factionName)
+{
+	s_missingFactionsMap[factionName].push_back(cs);
 }
 
 // ------- Factions proper --------

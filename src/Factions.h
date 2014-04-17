@@ -14,12 +14,16 @@
 #include <vector>
 #include <utility>
 
+class CustomSystem;
+
 class Faction : public DeleteEmitter {
 public:
 	static void Init();
 	static void ClearHomeSectors();
 	static void SetHomeSectors();
 	static void Uninit();
+	static bool IsInitialized();
+	static void RegisterCustomSystem(CustomSystem *cs, const std::string& factionName);
 
 	// XXX this is not as const-safe as it should be
 	static Faction *GetFaction       (const Uint32 index);
