@@ -14,6 +14,7 @@ April 2014
        the coasting phase (#2846)
      * A "Refuel full" button added next to the refuel button (#2855,#2853)
      * Balance - Exhaust velocity increase (#2835)
+     * Slightly bigger chat forms (#2856)
 
    * Script and UI API changes
      * Animation object, UI.Context.Animate and AddAnimation methods (#2830)
