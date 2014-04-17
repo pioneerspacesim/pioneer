@@ -186,7 +186,7 @@ void GetCrime(Sint64 *crimeBitset, Sint64 *fine)
 	}
 }
 
-void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, SysPolit &outSysPolit)
+void GetSysPolitStarSystem(const StarSystem *s, const fixed &human_infestedness, SysPolit &outSysPolit)
 {
 	SystemPath path = s->GetPath();
 	const Uint32 _init[5] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), path.systemIndex, POLIT_SEED };

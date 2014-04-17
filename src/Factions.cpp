@@ -238,7 +238,7 @@ static int l_fac_add_to_factions(lua_State *L)
 {
 	FactionBuilder *facbld = l_fac_check_builder(L, 1);
 
-	const std::string factionName(luaL_checkstring(L, 2));
+	//const std::string factionName(luaL_checkstring(L, 2));
 
 	if (!facbld->registered && !facbld->skip) {
 		/* XXX maybe useful for debugging, leaving for now

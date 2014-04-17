@@ -1365,7 +1365,7 @@ void Ship::EnterHyperspace() {
 	// The second one only checks the bare minimum to insure consistency.
 	if (!m_hyperspace.ignoreFuel) {
 
-		const SystemPath dest = GetHyperspaceDest();
+		const SystemPath &dest = GetHyperspaceDest();
 		int fuel_cost;
 
 		Ship::HyperjumpStatus status = CheckHyperspaceTo(dest, fuel_cost, m_hyperspace.duration);

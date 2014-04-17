@@ -802,7 +802,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 				text += Lang::HYPERSPACE_ARRIVAL_CLOUD_REMNANT;
 			}
 			else {
-				const SystemPath dest = ship->GetHyperspaceDest();
+				const SystemPath& dest = ship->GetHyperspaceDest();
 				RefCountedPtr<const Sector> s = Sector::cache.GetCached(dest);
 				text += (cloud->IsArrival() ? Lang::HYPERSPACE_ARRIVAL_CLOUD : Lang::HYPERSPACE_DEPARTURE_CLOUD);
 				text += "\n";
@@ -986,7 +986,7 @@ void WorldView::HideTargetActions()
 	UpdateCommsOptions();
 }
 
-Gui::Button *WorldView::AddCommsOption(std::string msg, int ypos, int optnum)
+Gui::Button *WorldView::AddCommsOption(const std::string &msg, int ypos, int optnum)
 {
 	Gui::Label *l = new Gui::Label(msg);
 	m_commsOptions->Add(l, 50, float(ypos));
@@ -1008,7 +1008,7 @@ void WorldView::OnClickCommsNavOption(Body *target)
 	HideLowThrustPowerOptions();
 }
 
-void WorldView::AddCommsNavOption(std::string msg, Body *target)
+void WorldView::AddCommsNavOption(const std::string &msg, Body *target)
 {
 	Gui::HBox *hbox = new Gui::HBox();
 	hbox->SetSpacing(5);

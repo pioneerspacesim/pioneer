@@ -18,7 +18,7 @@ namespace Graphics {
 
 		class ShieldProgram : public Program {
 		public:
-			ShieldProgram(const MaterialDescriptor &, int lights=0);
+			ShieldProgram(const MaterialDescriptor &);
 			Uniform shieldStrength;
 			Uniform shieldCooldown;
 			Uniform hitPos[MAX_SHIELD_HITS];

@@ -27,7 +27,7 @@ class Shields
 public:
 	struct Shield
 	{
-		Shield(const Color3ub color, const matrix4x4f &matrix, SceneGraph::StaticGeometry *sg);
+		Shield(const Color3ub &color, const matrix4x4f &matrix, SceneGraph::StaticGeometry *sg);
 		Color3ub m_colour; // I'm English, so it's "colour" ;)
 		matrix4x4f m_matrix;
 		RefCountedPtr<SceneGraph::StaticGeometry> m_mesh;
@@ -40,7 +40,7 @@ public:
 
 	void SetEnabled(const bool on) { m_enabled = on; }
 	void Update(const float coolDown, const float shieldStrength);
-	void SetColor(const Color3ub);
+	void SetColor(const Color3ub&);
 	void AddHit(const vector3d& hitPos);
 
 	static void Init(Graphics::Renderer*);
