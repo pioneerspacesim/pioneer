@@ -89,9 +89,6 @@ protected:
 	double m_invMaxHeight;
 	double m_planetRadius;
 	double m_planetEarthRadii;
-	double m_noise1;
-	double m_noise2;
-	double m_noise3;
 
 	double m_entropy[12];
 

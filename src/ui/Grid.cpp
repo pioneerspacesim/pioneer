@@ -45,7 +45,7 @@ Point Grid::PreferredSize()
 
 void Grid::Layout()
 {
-	const Point size = GetSize();
+	const Point& size = GetSize();
 
 	Point childPos, childSize;
 	for (unsigned int rowNum = 0; rowNum < m_numRows; rowNum++) {
@@ -71,7 +71,7 @@ void Grid::Layout()
 Grid *Grid::SetRow(unsigned int rowNum, const WidgetSet &set)
 {
 	assert(set.numWidgets <= m_rowSpec.numCells);
-	assert(rowNum >= 0 && rowNum < m_numRows);
+	assert(rowNum < m_numRows);
 
 	for (unsigned int i = 0; i < set.numWidgets; i++) {
 		const unsigned int n = rowNum*m_numCols+i;
@@ -87,7 +87,7 @@ Grid *Grid::SetRow(unsigned int rowNum, const WidgetSet &set)
 Grid *Grid::SetColumn(unsigned int colNum, const WidgetSet &set)
 {
 	assert(set.numWidgets <= m_colSpec.numCells);
-	assert(colNum >= 0 && colNum < m_numCols);
+	assert(colNum < m_numCols);
 
 	for (unsigned int i = 0; i < set.numWidgets; i++) {
 		const unsigned int n = i*m_numCols+colNum;
@@ -102,8 +102,8 @@ Grid *Grid::SetColumn(unsigned int colNum, const WidgetSet &set)
 
 Grid *Grid::SetCell(unsigned int colNum, unsigned int rowNum, Widget *widget)
 {
-	assert(colNum >= 0 && colNum < m_numCols);
-	assert(rowNum >= 0 && rowNum < m_numRows);
+	assert(colNum < m_numCols);
+	assert(rowNum < m_numRows);
 
 	const unsigned int n = rowNum*m_numCols+colNum;
 	if (m_widgets[n])
@@ -116,7 +116,7 @@ Grid *Grid::SetCell(unsigned int colNum, unsigned int rowNum, Widget *widget)
 
 void Grid::ClearRow(unsigned int rowNum)
 {
-	assert(rowNum >= 0 && rowNum < m_numRows);
+	assert(rowNum < m_numRows);
 
 	for (unsigned int i = 0; i < m_numCols; i++) {
 		const unsigned int n = rowNum*m_numCols+i;
@@ -129,7 +129,7 @@ void Grid::ClearRow(unsigned int rowNum)
 
 void Grid::ClearColumn(unsigned int colNum)
 {
-	assert(colNum >= 0 && colNum < m_numRows);
+	assert(colNum < m_numRows);
 
 	for (unsigned int i = 0; i < m_numRows; i++) {
 		const unsigned int n = i*m_numCols+colNum;
@@ -142,8 +142,8 @@ void Grid::ClearColumn(unsigned int colNum)
 
 void Grid::ClearCell(unsigned int colNum, unsigned int rowNum)
 {
-	assert(colNum >= 0 && colNum < m_numCols);
-	assert(rowNum >= 0 && rowNum < m_numRows);
+	assert(colNum < m_numCols);
+	assert(rowNum < m_numRows);
 
 	const unsigned int n = rowNum*m_numCols+colNum;
 	if (m_widgets[n])

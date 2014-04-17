@@ -106,8 +106,8 @@ void GasGiantSurfaceMaterial::SetGSUniforms()
 		srad[j] = it->srad;
 		lrad[j] = it->lrad;
 		sdivlrad[j] = it->srad / it->lrad;
-		it++;
-		j++;
+		++it;
+		++j;
 	}
 	p->shadows.Set(j);
 	p->occultedLight.Set(occultedLight);

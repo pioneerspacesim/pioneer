@@ -33,7 +33,7 @@ void Margin::Layout()
 {
 	if (!GetInnerWidget()) return;
 
-	const Point size = GetSize();
+	const Point &size = GetSize();
 
 	Point innerPos, innerSize;
 	switch (m_direction) {

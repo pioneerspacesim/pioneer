@@ -397,7 +397,7 @@ void LuaConsole::ExecOrContinue(const std::string &stmt) {
 				const char *s = 0;
 				if (result == 0)
 					s = lua_tolstring(L, -1, &len);
-				ss << s ? std::string(s, len) : "<internal error when converting result to string>";
+				ss << (s ? std::string(s, len) : "<internal error when converting result to string>");
 
 				// pop the result
 				lua_pop(L, 1);
