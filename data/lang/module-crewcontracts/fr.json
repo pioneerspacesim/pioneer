@@ -5,7 +5,7 @@
    },
    "CREWDETAILSHEETBB" : {
       "description" : "",
-      "message" : "Equipage pour recrutement\n\nNom: {name}\nExpérience: {experience}\nSalaire demandé: {wage} par semaine\n\n{response}"
+      "message" : "Name: {name}\nExperience: {experience}\nAsking wage: {wage} per week\n\n{response}\n"
    },
    "CREWMEMBER_WAGE_PER_WEEK" : {
       "description" : "",

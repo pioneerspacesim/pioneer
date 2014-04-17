@@ -5,7 +5,7 @@
    },
    "CREWDETAILSHEETBB" : {
       "description" : "",
-      "message" : "Tripulação para contratação\n\nNome: {name}\nExperiência: {experience}\nSalário pedido: {wage} por semana\n\n{response}\n"
+      "message" : "Name: {name}\nExperience: {experience}\nAsking wage: {wage} per week\n\n{response}\n"
    },
    "CREWMEMBER_WAGE_PER_WEEK" : {
       "description" : "",
