@@ -340,6 +340,12 @@ static int l_csys_faction(lua_State *L)
 	CustomSystem *cs = l_csys_check(L, 1);
 
 	std::string factionName = luaL_checkstring(L, 2);
+	if (!Faction::IsInitialized()) {
+		Faction::RegisterCustomSystem(cs, factionName);
+		lua_settop(L, 1);
+		return 1;
+	}
+
 	cs->faction = Faction::GetFaction(factionName);
 	if (cs->faction->idx == Faction::BAD_FACTION_IDX) {
 		luaL_argerror(L, 2, "Faction not found");

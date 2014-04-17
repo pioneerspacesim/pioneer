@@ -486,10 +486,10 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	FaceGenManager::Init();
 	draw_progress(gauge, label, 0.25f);
 
-	Faction::Init();
+	CustomSystem::Init();
 	draw_progress(gauge, label, 0.3f);
 
-	CustomSystem::Init();
+	Faction::Init();
 	draw_progress(gauge, label, 0.4f);
 
 	// Reload home sector, they might have changed, due to custom systems
