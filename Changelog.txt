@@ -42,6 +42,7 @@ April 2014
      * Fix assertion in system info view when starport on planet with same
        name was selected (#2848)
      * Fix crash when Nerodia selected in shipyard (#2865, #2864)
+     * Fix internal bug in multi-threading queue (#2874)
 
 March 2014
 
