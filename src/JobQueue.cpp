@@ -341,7 +341,7 @@ void JobQueue::Cancel(Job *job) {
 	// check the finshed list. if its there then it can't be cancelled, because
 	// its alread finished! we remove it because the caller is saying "I don't care"
 	for( uint32_t iRunner=0; iRunner<numRunners ; ++iRunner) {
-		for (std::deque<Job*>::iterator i = m_queue.begin(); i != m_queue.end(); ++i) {
+		for (std::deque<Job*>::iterator i = m_finished[iRunner].begin(); i != m_finished[iRunner].end(); ++i) {
 			if (*i == job) {
 				i = m_finished[iRunner].erase(i);
 				delete job;
