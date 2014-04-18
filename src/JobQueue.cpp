@@ -113,29 +113,29 @@ void AsyncJobQueue::JobRunner::SetQueueDestroyed()
 
 
 //static
-unsigned long long JobHandle::s_nextId(0);
+unsigned long long Job::Handle::s_nextId(0);
 
-JobHandle::JobHandle(Job* job, JobQueue* queue, JobClient* client) : m_id(++s_nextId), m_job(job), m_queue(queue), m_client(client)
+Job::Handle::Handle(Job* job, JobQueue* queue, JobClient* client) : m_id(++s_nextId), m_job(job), m_queue(queue), m_client(client)
 {
 	assert(!m_job->GetHandle());
 	m_job->SetHandle(this);
 }
 
-void JobHandle::Unlink()
+void Job::Handle::Unlink()
 {
 	if (m_job) {
 		assert(m_job->GetHandle() == this);
 		m_job->ClearHandle();
 	}
-	JobClient* client = m_client; // This JobHandle may be deleted by the client, so clear it before
+	JobClient* client = m_client; // This Job::Handle may be deleted by the client, so clear it before
 	m_job = nullptr;
 	m_queue = nullptr;
 	m_client = nullptr;
 	if (client)
-		client->RemoveJob(this); // This might delete this JobHandle, so the object must be cleared before
+		client->RemoveJob(this); // This might delete this Job::Handle, so the object must be cleared before
 }
 
-JobHandle::JobHandle(JobHandle&& other) : m_id(other.m_id), m_job(other.m_job), m_queue(other.m_queue), m_client(other.m_client)
+Job::Handle::Handle(Handle&& other) : m_id(other.m_id), m_job(other.m_job), m_queue(other.m_queue), m_client(other.m_client)
 {
 	if (m_job) {
 		assert(m_job->GetHandle() == &other);
@@ -147,7 +147,7 @@ JobHandle::JobHandle(JobHandle&& other) : m_id(other.m_id), m_job(other.m_job), 
 	other.m_client = nullptr;
 }
 
-JobHandle& JobHandle::operator=(JobHandle&& other)
+Job::Handle& Job::Handle::operator=(Handle&& other)
 {
 	if (m_job && m_queue)
 		m_queue->Cancel(m_job);
@@ -166,7 +166,7 @@ JobHandle& JobHandle::operator=(JobHandle&& other)
 	return *this;
 }
 
-JobHandle::~JobHandle()
+Job::Handle::~Handle()
 {
 	if (m_job && m_queue) {
 		m_client = nullptr; // Must not tell client to remove the handle, if it's just being destroyed obviously
@@ -236,9 +236,9 @@ AsyncJobQueue::~AsyncJobQueue()
 	SDL_DestroyMutex(m_queueLock);
 }
 
-JobHandle AsyncJobQueue::Queue(Job *job, JobClient *client)
+Job::Handle AsyncJobQueue::Queue(Job *job, JobClient *client)
 {
-	JobHandle handle(job, this, client);
+	Job::Handle handle(job, this, client);
 
 	// push the job onto the queue
 	SDL_LockMutex(m_queueLock);
