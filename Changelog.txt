@@ -22,6 +22,7 @@ April 2014
      * ship:SetShipType doesn't equip the default hyperdrive anymore
      * shipdef.defaultHyperdrive has been removed in favour of
        shipdef.hyperdriveClass (#2859)
+     * New attribute SpaceStation.numShipsDocked to get number of occupied ports
 
    * Internal changes
      * Emit Lua events and timers in hyperspace
