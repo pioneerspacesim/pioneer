@@ -16,7 +16,7 @@ Job::~Job()
 	UnlinkHandle();
 }
 
-JobRunner::JobRunner(JobQueue *jq, const uint8_t idx) :
+AsyncJobQueue::JobRunner::JobRunner(AsyncJobQueue *jq, const uint8_t idx) :
 	m_jobQueue(jq),
 	m_job(0),
 	m_threadIdx(idx),
@@ -28,7 +28,7 @@ JobRunner::JobRunner(JobQueue *jq, const uint8_t idx) :
 	m_threadId = SDL_CreateThread(&JobRunner::Trampoline, m_threadName.c_str(), this);
 }
 
-JobRunner::~JobRunner()
+AsyncJobQueue::JobRunner::~JobRunner()
 {
 	// if we have a job running, cancel it. the worker will return it to the
 	// finish queue, where it will be deleted later, so we don't need to do that
@@ -46,14 +46,14 @@ JobRunner::~JobRunner()
 }
 
 // entry point for SDL thread. we simply get back onto a method. convenience mostly
-int JobRunner::Trampoline(void *data)
+int AsyncJobQueue::JobRunner::Trampoline(void *data)
 {
 	JobRunner *jr = static_cast<JobRunner*>(data);
 	jr->Main();
 	return 0;
 }
 
-void JobRunner::Main()
+void AsyncJobQueue::JobRunner::Main()
 {
 	Job *job;
 
@@ -101,12 +101,12 @@ void JobRunner::Main()
 	}
 }
 
-SDL_mutex *JobRunner::GetQueueDestroyingLock()
+SDL_mutex *AsyncJobQueue::JobRunner::GetQueueDestroyingLock()
 {
 	return m_queueDestroyingLock;
 }
 
-void JobRunner::SetQueueDestroyed()
+void AsyncJobQueue::JobRunner::SetQueueDestroyed()
 {
 	m_queueDestroyed = true;
 }
@@ -178,7 +178,7 @@ JobHandle::~JobHandle()
 }
 
 
-JobQueue::JobQueue(Uint32 numRunners) :
+AsyncJobQueue::AsyncJobQueue(Uint32 numRunners) :
 	m_shutdown(false)
 {
 	// Want to limit this for now to the maximum number of threads defined in the class
@@ -193,7 +193,7 @@ JobQueue::JobQueue(Uint32 numRunners) :
 	}
 }
 
-JobQueue::~JobQueue()
+AsyncJobQueue::~AsyncJobQueue()
 {
 	// flag shutdown. protected by the queue lock for convenience in GetJob
 	SDL_LockMutex(m_queueLock);
@@ -236,7 +236,7 @@ JobQueue::~JobQueue()
 	SDL_DestroyMutex(m_queueLock);
 }
 
-JobHandle JobQueue::Queue(Job *job, JobClient *client)
+JobHandle AsyncJobQueue::Queue(Job *job, JobClient *client)
 {
 	JobHandle handle(job, this, client);
 
@@ -251,7 +251,7 @@ JobHandle JobQueue::Queue(Job *job, JobClient *client)
 }
 
 // called by the runner to get a new job
-Job *JobQueue::GetJob()
+Job *AsyncJobQueue::GetJob()
 {
 	SDL_LockMutex(m_queueLock);
 
@@ -282,7 +282,7 @@ Job *JobQueue::GetJob()
 }
 
 // called by the runner when a job completes
-void JobQueue::Finish(Job *job, const uint8_t threadIdx)
+void AsyncJobQueue::Finish(Job *job, const uint8_t threadIdx)
 {
 	SDL_LockMutex(m_finishedLock[threadIdx]);
 	m_finished[threadIdx].push_back(job);
@@ -290,7 +290,7 @@ void JobQueue::Finish(Job *job, const uint8_t threadIdx)
 }
 
 // call OnFinish methods for completed jobs, and clean up
-Uint32 JobQueue::FinishJobs()
+Uint32 AsyncJobQueue::FinishJobs()
 {
 	PROFILE_SCOPED()
 	Uint32 finished = 0;
@@ -321,7 +321,7 @@ Uint32 JobQueue::FinishJobs()
 	return finished;
 }
 
-void JobQueue::Cancel(Job *job) {
+void AsyncJobQueue::Cancel(Job *job) {
 	// lock both queues, so we know that all jobs will stay put
 	SDL_LockMutex(m_queueLock);
 	const uint32_t numRunners = m_runners.size();

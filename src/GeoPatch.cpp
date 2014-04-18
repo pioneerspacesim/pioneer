@@ -176,7 +176,7 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 			SQuadSplitRequest *ssrd = new SQuadSplitRequest(v0, v1, v2, v3, centroid.Normalized(), m_depth,
 						geosphere->GetSystemBody()->GetPath(), mPatchID, ctx->edgeLen,
 						ctx->frac, geosphere->GetTerrain());
-			m_job = Pi::Jobs()->Queue(new QuadPatchJob(ssrd));
+			m_job = Pi::GetAsyncJobQueue()->Queue(new QuadPatchJob(ssrd));
 		} else {
 			for (int i=0; i<NUM_KIDS; i++) {
 				kids[i]->LODUpdate(campos);
@@ -202,7 +202,7 @@ void GeoPatch::RequestSinglePatch()
 		mHasJobRequest = true;
 		SSingleSplitRequest *ssrd = new SSingleSplitRequest(v0, v1, v2, v3, centroid.Normalized(), m_depth,
 					geosphere->GetSystemBody()->GetPath(), mPatchID, ctx->edgeLen, ctx->frac, geosphere->GetTerrain());
-		m_job = Pi::Jobs()->Queue(new SinglePatchJob(ssrd));
+		m_job = Pi::GetAsyncJobQueue()->Queue(new SinglePatchJob(ssrd));
 	}
 }
 

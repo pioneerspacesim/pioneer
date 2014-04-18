@@ -173,7 +173,7 @@ public:
 	static struct DetailLevel detail;
 	static GameConfig *config;
 
-	static JobQueue *Jobs() { return jobQueue.get();}
+	static JobQueue *GetAsyncJobQueue() { return asyncJobQueue.get();}
 
 	static bool DrawGUI;
 
@@ -181,7 +181,7 @@ private:
 	static void HandleEvents();
 	static void InitJoysticks();
 
-	static std::unique_ptr<JobQueue> jobQueue;
+	static std::unique_ptr<AsyncJobQueue> asyncJobQueue;
 
 	static bool menuDone;
 
