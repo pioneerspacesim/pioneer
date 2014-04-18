@@ -360,3 +360,84 @@ void AsyncJobQueue::JobRunner::SetQueueDestroyed()
 {
 	m_queueDestroyed = true;
 }
+
+
+SyncJobQueue::~SyncJobQueue()
+{
+	// delete any remaining jobs
+	for (Job* j : m_queue)
+		delete j;
+	for (Job* j : m_finished)
+		delete j;
+}
+
+Job::Handle SyncJobQueue::Queue(Job *job, JobClient *client)
+{
+	Job::Handle handle(job, this, client);
+	m_queue.push_back(job);
+	return handle;
+}
+
+// call OnFinish methods for completed jobs, and clean up
+Uint32 SyncJobQueue::FinishJobs()
+{
+	PROFILE_SCOPED()
+	Uint32 finished = 0;
+
+	while (Job *job = m_finished.front()) {
+		m_finished.pop_front();
+
+		// if its already been cancelled then its taken care of, so we just forget about it
+		if(!job->cancelled) {
+			job->UnlinkHandle();
+			job->OnFinish();
+			finished++;
+		}
+
+		delete job;
+	}
+	return finished;
+}
+
+void SyncJobQueue::Cancel(Job *job) {
+	// check the waiting list. if its there then it hasn't run yet. just forget about it
+	for (std::deque<Job*>::iterator i = m_queue.begin(); i != m_queue.end(); ++i) {
+		if (*i == job) {
+			i = m_queue.erase(i);
+			delete job;
+			return;
+		}
+	}
+
+	// check the finshed list. if its there then it can't be cancelled, because
+	// its alread finished! we remove it because the caller is saying "I don't care"
+	for (std::deque<Job*>::iterator i = m_finished.begin(); i != m_finished.end(); ++i) {
+		if (*i == job) {
+			i = m_finished.erase(i);
+			delete job;
+			return;
+		}
+	}
+
+	// its running, so we have to tell it to cancel
+	job->cancelled = true;
+	job->UnlinkHandle();
+	job->OnCancel();
+}
+
+Uint32 SyncJobQueue::RunJobs(Uint32 count)
+{
+	Uint32 executed = 0;
+	assert(count >= 1);
+	for (Uint32 i = 0; i < count; ++i) {
+		if (m_queue.empty())
+			break;
+
+		Job* job = m_queue.front();
+		m_queue.pop_front();
+		job->OnRun();
+		executed++;
+		m_finished.push_back(job);
+	}
+	return executed;
+}

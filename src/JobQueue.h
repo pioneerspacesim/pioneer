@@ -52,6 +52,7 @@ public:
 	private:
 		friend class Job;
 		friend class AsyncJobQueue;
+		friend class SyncJobQueue;
 
 		Handle(Job* job, JobQueue* queue, JobClient* client);
 		void Unlink();
@@ -77,6 +78,7 @@ public:
 
 private:
 	friend class AsyncJobQueue;
+	friend class SyncJobQueue;
 	friend class JobRunner;
 
 	void UnlinkHandle();
@@ -193,6 +195,39 @@ private:
 	std::vector<JobRunner*> m_runners;
 
 	bool m_shutdown;
+};
+
+class SyncJobQueue : public JobQueue {
+public:
+	SyncJobQueue() = default;
+	virtual ~SyncJobQueue();
+
+	// call from the main thread to add a job to the queue. the job should be
+	// allocated with new. the queue will delete it once its its completed
+	virtual Job::Handle Queue(Job *job, JobClient *client = nullptr) override;
+
+	// call from the main thread to cancel a job. one of three things will happen
+	//
+	// - the job hasn't run yet. it will never be run, and neither OnFinished nor
+	//   OnCancel will be called. the job will be deleted on the next call to
+	//   FinishJobs
+	//
+	// - the job has finished. neither onFinished not onCancel will be called.
+	//   the job will be deleted on the next call to FinishJobs
+	//
+	// - the job is running. OnCancel will be called
+	virtual void Cancel(Job *job) override;
+
+	// call from the main loop. this will call OnFinish for any finished jobs,
+	// and then delete all finished and cancelled jobs. returns the number of
+	// finished jobs (not cancelled)
+	virtual Uint32 FinishJobs() override;
+
+	Uint32 RunJobs(Uint32 count = 1);
+
+private:
+	std::deque<Job*> m_queue;
+	std::deque<Job*> m_finished;
 };
 
 class JobClient {
