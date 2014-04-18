@@ -16,102 +16,6 @@ Job::~Job()
 	UnlinkHandle();
 }
 
-AsyncJobQueue::JobRunner::JobRunner(AsyncJobQueue *jq, const uint8_t idx) :
-	m_jobQueue(jq),
-	m_job(0),
-	m_threadIdx(idx),
-	m_queueDestroyed(false)
-{
-	m_threadName = stringf("Thread %0{d}", m_threadIdx);
-	m_jobLock = SDL_CreateMutex();
-	m_queueDestroyingLock = SDL_CreateMutex();
-	m_threadId = SDL_CreateThread(&JobRunner::Trampoline, m_threadName.c_str(), this);
-}
-
-AsyncJobQueue::JobRunner::~JobRunner()
-{
-	// if we have a job running, cancel it. the worker will return it to the
-	// finish queue, where it will be deleted later, so we don't need to do that
-	SDL_LockMutex(m_jobLock);
-	if (m_job) {
-		m_job->UnlinkHandle();
-		m_job->OnCancel();
-	}
-	SDL_UnlockMutex(m_jobLock);
-
-	// XXX - AndyC(FluffyFreak) - I'd like to find a better answer for this but I can't see what purpose it serves.
-	//		- this is only called on shutting down the program, so there's no case now where we'd be restarting anything.
-	// kill the thread. this will block until the thread goes away
-	//SDL_KillThread(m_threadId);
-}
-
-// entry point for SDL thread. we simply get back onto a method. convenience mostly
-int AsyncJobQueue::JobRunner::Trampoline(void *data)
-{
-	JobRunner *jr = static_cast<JobRunner*>(data);
-	jr->Main();
-	return 0;
-}
-
-void AsyncJobQueue::JobRunner::Main()
-{
-	Job *job;
-
-	// Lock to prevent destruction of the queue while calling GetJob.
-	SDL_LockMutex(m_queueDestroyingLock);
-	if (m_queueDestroyed) {
-		SDL_UnlockMutex(m_queueDestroyingLock);
-		return;
-	}
-	job = m_jobQueue->GetJob();
-	SDL_UnlockMutex(m_queueDestroyingLock);
-
-	while (job) {
-		// record the job so we can cancel it in case of premature shutdown
-		SDL_LockMutex(m_jobLock);
-		m_job = job;
-		SDL_UnlockMutex(m_jobLock);
-
-		// run the thing
-		job->OnRun();
-
-		// Lock to prevent destruction of the queue while calling Finish
-		SDL_LockMutex(m_queueDestroyingLock);
-		if (m_queueDestroyed) {
-			SDL_UnlockMutex(m_queueDestroyingLock);
-			return;
-		}
-		m_jobQueue->Finish(job, m_threadIdx);
-		SDL_UnlockMutex(m_queueDestroyingLock);
-
-		SDL_LockMutex(m_jobLock);
-		m_job = 0;
-		SDL_UnlockMutex(m_jobLock);
-
-		// get a new job. this will block normally, or return null during
-		// shutdown (Lock to protect against the queue being destroyed
-		// during GetJob)
-		SDL_LockMutex(m_queueDestroyingLock);
-		if (m_queueDestroyed) {
-			SDL_UnlockMutex(m_queueDestroyingLock);
-			return;
-		}
-		job = m_jobQueue->GetJob();
-		SDL_UnlockMutex(m_queueDestroyingLock);
-	}
-}
-
-SDL_mutex *AsyncJobQueue::JobRunner::GetQueueDestroyingLock()
-{
-	return m_queueDestroyingLock;
-}
-
-void AsyncJobQueue::JobRunner::SetQueueDestroyed()
-{
-	m_queueDestroyed = true;
-}
-
-
 //static
 unsigned long long Job::Handle::s_nextId(0);
 
@@ -360,4 +264,99 @@ unlock:
 		SDL_UnlockMutex(m_finishedLock[i]);
 	}
 	SDL_UnlockMutex(m_queueLock);
+}
+
+AsyncJobQueue::JobRunner::JobRunner(AsyncJobQueue *jq, const uint8_t idx) :
+	m_jobQueue(jq),
+	m_job(0),
+	m_threadIdx(idx),
+	m_queueDestroyed(false)
+{
+	m_threadName = stringf("Thread %0{d}", m_threadIdx);
+	m_jobLock = SDL_CreateMutex();
+	m_queueDestroyingLock = SDL_CreateMutex();
+	m_threadId = SDL_CreateThread(&JobRunner::Trampoline, m_threadName.c_str(), this);
+}
+
+AsyncJobQueue::JobRunner::~JobRunner()
+{
+	// if we have a job running, cancel it. the worker will return it to the
+	// finish queue, where it will be deleted later, so we don't need to do that
+	SDL_LockMutex(m_jobLock);
+	if (m_job) {
+		m_job->UnlinkHandle();
+		m_job->OnCancel();
+	}
+	SDL_UnlockMutex(m_jobLock);
+
+	// XXX - AndyC(FluffyFreak) - I'd like to find a better answer for this but I can't see what purpose it serves.
+	//		- this is only called on shutting down the program, so there's no case now where we'd be restarting anything.
+	// kill the thread. this will block until the thread goes away
+	//SDL_KillThread(m_threadId);
+}
+
+// entry point for SDL thread. we simply get back onto a method. convenience mostly
+int AsyncJobQueue::JobRunner::Trampoline(void *data)
+{
+	JobRunner *jr = static_cast<JobRunner*>(data);
+	jr->Main();
+	return 0;
+}
+
+void AsyncJobQueue::JobRunner::Main()
+{
+	Job *job;
+
+	// Lock to prevent destruction of the queue while calling GetJob.
+	SDL_LockMutex(m_queueDestroyingLock);
+	if (m_queueDestroyed) {
+		SDL_UnlockMutex(m_queueDestroyingLock);
+		return;
+	}
+	job = m_jobQueue->GetJob();
+	SDL_UnlockMutex(m_queueDestroyingLock);
+
+	while (job) {
+		// record the job so we can cancel it in case of premature shutdown
+		SDL_LockMutex(m_jobLock);
+		m_job = job;
+		SDL_UnlockMutex(m_jobLock);
+
+		// run the thing
+		job->OnRun();
+
+		// Lock to prevent destruction of the queue while calling Finish
+		SDL_LockMutex(m_queueDestroyingLock);
+		if (m_queueDestroyed) {
+			SDL_UnlockMutex(m_queueDestroyingLock);
+			return;
+		}
+		m_jobQueue->Finish(job, m_threadIdx);
+		SDL_UnlockMutex(m_queueDestroyingLock);
+
+		SDL_LockMutex(m_jobLock);
+		m_job = 0;
+		SDL_UnlockMutex(m_jobLock);
+
+		// get a new job. this will block normally, or return null during
+		// shutdown (Lock to protect against the queue being destroyed
+		// during GetJob)
+		SDL_LockMutex(m_queueDestroyingLock);
+		if (m_queueDestroyed) {
+			SDL_UnlockMutex(m_queueDestroyingLock);
+			return;
+		}
+		job = m_jobQueue->GetJob();
+		SDL_UnlockMutex(m_queueDestroyingLock);
+	}
+}
+
+SDL_mutex *AsyncJobQueue::JobRunner::GetQueueDestroyingLock()
+{
+	return m_queueDestroyingLock;
+}
+
+void AsyncJobQueue::JobRunner::SetQueueDestroyed()
+{
+	m_queueDestroyed = true;
 }
