@@ -24,7 +24,11 @@ local onEnterSystem = function (player)
 	while max_pirates > 0 and Engine.rand:Number(1) < lawlessness do
 		max_pirates = max_pirates-1
 
-		local shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
+		local shipdef
+		-- Every pirate ship should be able to hyperjump away!
+		while not shipdef or shipdef.hyperdriveClass == 0 do
+			shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
+		end
 		local default_drive = 'DRIVE_CLASS'..tostring(shipdef.hyperdriveClass)
 
 		-- select a laser. this is naive - it simply chooses at random from
