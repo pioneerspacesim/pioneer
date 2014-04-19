@@ -363,7 +363,8 @@ local onEnterSystem = function (player)
 			if ships < 1 and risk >= 0.2 and Engine.rand:Integer(2) == 1 then ships = 1 end
 
 			-- XXX hull mass is a bad way to determine suitability for role
-			local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'SHIP' and def.hullMass <= 400 end, pairs(ShipDef)))
+			local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'SHIP'
+				and def.hyperdriveClass > 0 and def.hullMass <= 400 end, pairs(ShipDef)))
 			if #shipdefs == 0 then return end
 
 			local ship
