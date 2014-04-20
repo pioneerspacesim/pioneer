@@ -5,8 +5,9 @@
 uniform sampler2D texture0; //diffuse
 uniform sampler2D texture1; //specular
 uniform sampler2D texture2; //glow
-uniform sampler2D texture3; //pattern
-uniform sampler2D texture4; //color
+uniform sampler2D texture3; //ambient
+uniform sampler2D texture4; //pattern
+uniform sampler2D texture5; //color
 varying vec2 texCoord0;
 #endif
 
@@ -57,8 +58,8 @@ void main(void)
 #endif
 //patterns - simple lookup
 #ifdef MAP_COLOR
-	vec4 pat = texture2D(texture3, texCoord0);
-	vec4 mapColor = texture2D(texture4, vec2(pat.r, 0.0));
+	vec4 pat = texture2D(texture4, texCoord0);
+	vec4 mapColor = texture2D(texture5, vec2(pat.r, 0.0));
 	vec4 tint = mix(vec4(1.0),mapColor,pat.a);
 	color *= tint;
 #endif
@@ -70,17 +71,25 @@ void main(void)
 
 //directional lighting
 #if (NUM_LIGHTS > 0)
-	vec4 light = scene.ambient +
-//ambient and emissive only make sense with lighting
-#ifdef MAP_EMISSIVE
-		texture2D(texture2, texCoord0); //glow map
-#else
-		material.emission; //just emissive parameter
-#endif
+	//ambient only make sense with lighting
+	vec4 light = scene.ambient;
 	vec4 specular = vec4(0.0);
 	for (int i=0; i<NUM_LIGHTS; ++i) {
 		ads(i, eyePos, normal, light, specular);
 	}
+
+#ifdef MAP_AMBIENT
+	// this is crude "baked ambient occulsion" - basically multiply everything by the ambient texture
+	// scaling whatever we've decided the lighting contribution is by 0.0 to 1.0 to account for sheltered/hidden surfaces
+	light *= texture2D(texture3, texCoord0);
+#endif
+
+	//emissive only make sense with lighting
+#ifdef MAP_EMISSIVE
+	light += texture2D(texture2, texCoord0); //glow map
+#else
+	light += material.emission; //just emissive parameter
+#endif
 #endif //NUM_LIGHTS
 
 #if (NUM_LIGHTS > 0)
