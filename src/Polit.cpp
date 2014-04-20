@@ -36,7 +36,8 @@ const char *crimeNames[64] = {
 	Lang::TRADING_ILLEGAL_GOODS,
 	Lang::UNLAWFUL_WEAPONS_DISCHARGE,
 	Lang::PIRACY,
-	Lang::MURDER
+	Lang::MURDER,
+	Lang::DUMPING
 };
 // in 1/100th credits, as all money is
 static const Sint64 crimeBaseFine[64] = {

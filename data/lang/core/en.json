@@ -395,6 +395,10 @@
       "description" : "",
       "message" : "Class 4 Military drive"
    },
+   "DUMPING" : {
+      "description" : "The illegal act of dumping waste",
+      "message" : "Dumping"
+   },
    "EARTH" : {
       "description" : "",
       "message" : "Earth"

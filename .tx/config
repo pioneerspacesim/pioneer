@@ -41,6 +41,11 @@ file_filter = data/lang/module-crewcontracts/<lang>.json
 source_file = data/lang/module-crewcontracts/en.json
 source_lang = en
 
+[pioneer.module-crimetracking]
+file_filter = data/lang/module-crimetracking/<lang>.json
+source_file = data/lang/module-crimetracking/en.json
+source_lang = en
+
 [pioneer.module-fuelclub]
 file_filter = data/lang/module-fuelclub/<lang>.json
 source_file = data/lang/module-fuelclub/en.json

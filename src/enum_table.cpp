@@ -145,6 +145,7 @@ const struct EnumItem ENUM_PolitCrime[] = {
 	{ "WEAPON_DISCHARGE", Polit::CRIME_WEAPON_DISCHARGE },
 	{ "PIRACY", Polit::CRIME_PIRACY },
 	{ "MURDER", Polit::CRIME_MURDER },
+	{ "DUMPING", Polit::CRIME_DUMPING },
 	{ 0, 0 },
 };
 

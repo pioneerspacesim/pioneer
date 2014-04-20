@@ -189,6 +189,7 @@ void LuaConstants::Register(lua_State *l)
 	 * WEAPON_DISCHARGE - .
 	 * PIRACY - .
 	 * MURDER - .
+	 * DUMPING - .
 	 *
 	 * Availability:
 	 *

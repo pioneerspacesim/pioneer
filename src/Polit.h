@@ -17,6 +17,7 @@ namespace Polit {
 		CRIME_WEAPON_DISCHARGE = (1<<1),
 		CRIME_PIRACY = (1<<2),
 		CRIME_MURDER = (1<<3),
+		CRIME_DUMPING = (1<<4),
 	};
 
 	enum PolitEcon { // <enum scope='Polit' name=PolitEcon prefix=ECON_ public>

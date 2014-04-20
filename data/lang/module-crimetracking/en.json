@@ -1,0 +1,6 @@
+{
+   "CRIME_JETTISON" : {
+      "description" : "",
+      "message" : "Dumping of {cargo} is not allowed! Your crime has been added your record."
+   }
+}
