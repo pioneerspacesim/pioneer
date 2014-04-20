@@ -81,7 +81,7 @@ void main(void)
 #ifdef MAP_AMBIENT
 	// this is crude "baked ambient occulsion" - basically multiply everything by the ambient texture
 	// scaling whatever we've decided the lighting contribution is by 0.0 to 1.0 to account for sheltered/hidden surfaces
-	light *= texture2D(texture3, texCoord1);
+	light *= texture2D(texture3, texCoord0);
 #endif
 
 	//emissive only make sense with lighting
