@@ -8,8 +8,25 @@
 #include "libs.h"
 
 class Object : public DeleteEmitter {
-	public:
-	enum Type { OBJECT, BODY, MODELBODY, DYNAMICBODY, SHIP, PLAYER, SPACESTATION, TERRAINBODY, PLANET, STAR, CARGOBODY, CITYONPLANET, PROJECTILE, MISSILE, HYPERSPACECLOUD };
+public:
+	// only creating enum strings for types that are exposed to Lua
+	enum Type { // <enum scope='Object' name=PhysicsObjectType public>
+		OBJECT,         // <enum skip>
+		BODY,
+		MODELBODY,
+		DYNAMICBODY,    // <enum skip>
+		SHIP,
+		PLAYER,
+		SPACESTATION,
+		TERRAINBODY,    // <enum skip>
+		PLANET,
+		STAR,
+		CARGOBODY,
+		CITYONPLANET,   // <enum skip>
+		PROJECTILE,     // <enum skip>
+		MISSILE,
+		HYPERSPACECLOUD // <enum skip>
+	};
 	virtual Type GetType() const { return OBJECT; }
 	virtual bool IsType(Type c) const { return GetType() == c; }
 };
