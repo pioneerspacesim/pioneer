@@ -344,6 +344,36 @@ static int l_body_get_ground_position(lua_State *l)
 	return 3;
 }
 
+/*
+ * Method: FindNearestTo
+ *
+ * Find the nearest object of a <Constants.PhysicsObjectType> type
+ *
+ * > closestObject = body:FindNearestTo(physicsObjectType)
+ *
+ * Parameters:
+ *
+ *   physicsObjectType - The closest object of <Constants.PhysicsObjectType> type
+ *
+ * Returns:
+ *
+ *   closestObject - The object closest to the body of specified type
+ *
+ * Examples:
+ *
+ * > -- Get closest object to player of type:
+ * > closestStar = Game.player:FindNearestTo("STAR")
+ * > closestStation = Game.player:FindNearestTo("SPACESTATION")
+ * > closestPlanet = Game.player:FindNearestTo("PLANET")
+ *
+ * Availability:
+ *
+ *   2014 April
+ *
+ * Status:
+ *
+ *   experimental
+ */
 static int l_body_find_nearest_to(lua_State *l)
 {
 	Body *b = LuaObject<Body>::CheckFromLua(1);
