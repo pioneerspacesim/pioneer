@@ -24,6 +24,7 @@ April 2014
      * shipdef.defaultHyperdrive has been removed in favour of
        shipdef.hyperdriveClass (#2859)
      * New attribute SpaceStation.numShipsDocked to get number of occupied ports
+     * Body.GetNearestTo() to find bodies near this body
 
    * Internal changes
      * Emit Lua events and timers in hyperspace

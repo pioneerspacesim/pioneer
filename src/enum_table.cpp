@@ -8,6 +8,7 @@
 #include "EquipType.h"
 #include "LuaEngine.h"
 #include "LuaFileSystem.h"
+#include "Object.h"
 #include "Polit.h"
 #include "Ship.h"
 #include "ShipType.h"
@@ -137,6 +138,19 @@ const struct EnumItem ENUM_DetailLevel[] = {
 const struct EnumItem ENUM_FileSystemRoot[] = {
 	{ "USER", LuaFileSystem::ROOT_USER },
 	{ "DATA", LuaFileSystem::ROOT_DATA },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_PhysicsObjectType[] = {
+	{ "BODY", Object::BODY },
+	{ "MODELBODY", Object::MODELBODY },
+	{ "SHIP", Object::SHIP },
+	{ "PLAYER", Object::PLAYER },
+	{ "SPACESTATION", Object::SPACESTATION },
+	{ "PLANET", Object::PLANET },
+	{ "STAR", Object::STAR },
+	{ "CARGOBODY", Object::CARGOBODY },
+	{ "MISSILE", Object::MISSILE },
 	{ 0, 0 },
 };
 
@@ -509,6 +523,7 @@ const struct EnumTable ENUM_TABLES[] = {
 	{ "EquipType", ENUM_EquipType },
 	{ "DetailLevel", ENUM_DetailLevel },
 	{ "FileSystemRoot", ENUM_FileSystemRoot },
+	{ "PhysicsObjectType", ENUM_PhysicsObjectType },
 	{ "PolitCrime", ENUM_PolitCrime },
 	{ "PolitEcon", ENUM_PolitEcon },
 	{ "PolitGovType", ENUM_PolitGovType },
@@ -552,6 +567,7 @@ const struct EnumTable ENUM_TABLES_PUBLIC[] = {
 	{ "EquipType", ENUM_EquipType },
 	{ "DetailLevel", ENUM_DetailLevel },
 	{ "FileSystemRoot", ENUM_FileSystemRoot },
+	{ "PhysicsObjectType", ENUM_PhysicsObjectType },
 	{ "PolitCrime", ENUM_PolitCrime },
 	{ "PolitEcon", ENUM_PolitEcon },
 	{ "PolitGovType", ENUM_PolitGovType },
