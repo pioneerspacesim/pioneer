@@ -19,12 +19,12 @@ April 2014
 
    * Script and UI API changes
      * Animation object, UI.Context.Animate and AddAnimation methods (#2830)
-     * Improve tradeships.lua (#2851)
-     * ship:SetShipType doesn't equip the default hyperdrive anymore
-     * shipdef.defaultHyperdrive has been removed in favour of
-       shipdef.hyperdriveClass (#2859)
+     * Improve TradeShips.lua (#2851)
+     * Ship.SetShipType doesn't equip the default hyperdrive anymore
+     * ShipDef.defaultHyperdrive has been removed in favour of
+       ShipDef.hyperdriveClass (#2859)
      * New attribute SpaceStation.numShipsDocked to get number of occupied ports
-     * Body.GetNearestTo() to find bodies near this body
+     * Body.GetNearestTo to find bodies near this body
 
    * Internal changes
      * Emit Lua events and timers in hyperspace
