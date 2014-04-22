@@ -138,15 +138,15 @@ private:
 	Gui::Label *m_hyperspaceLockLabel;
 
 	Gui::VBox *m_factionBox;
-	std::set<Faction*>              m_visibleFactions;
-	std::set<Faction*>              m_hiddenFactions;
+	std::set<const Faction*>        m_visibleFactions;
+	std::set<const Faction*>        m_hiddenFactions;
 	std::vector<Gui::Label*>        m_visibleFactionLabels;
 	std::vector<Gui::HBox*>         m_visibleFactionRows;
 	std::vector<Gui::ToggleButton*> m_visibleFactionToggles;
 
 	Uint8 m_detailBoxVisible;
 
-	void OnToggleFaction(Gui::ToggleButton* button, bool pressed, Faction* faction);
+	void OnToggleFaction(Gui::ToggleButton* button, bool pressed, const Faction* faction);
 
 	sigc::connection m_onMouseWheelCon;
 	sigc::connection m_onKeyPressConnection;

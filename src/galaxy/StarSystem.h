@@ -286,7 +286,7 @@ public:
 	const SystemPath &GetPath() const { return m_path; }
 	const char *GetShortDescription() const { return m_shortDesc.c_str(); }
 	const char *GetLongDescription() const { return m_longDesc.c_str(); }
-	int GetNumStars() const { return m_numStars; }
+	unsigned GetNumStars() const { return m_numStars; }
 	const SysPolit &GetSysPolit() const { return m_polit; }
 
 	static const Uint8 starColors[][3];
@@ -346,7 +346,7 @@ private:
 	std::string GetStarTypes(SystemBody *body);
 
 	SystemPath m_path;
-	int m_numStars;
+	unsigned m_numStars;
 	std::string m_name;
 	std::string m_shortDesc, m_longDesc;
 	SysPolit m_polit;

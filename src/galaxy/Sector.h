@@ -37,30 +37,43 @@ public:
 
 	class System {
 	public:
-		System(int x, int y, int z, Uint32 si): numStars(0), seed(0), customSys(nullptr), faction(nullptr), population(-1),
-			explored(false), sx(x), sy(y), sz(z), idx(si) {};
+		System(int x, int y, int z, Uint32 si): sx(x), sy(y), sz(z), idx(si), m_numStars(0), m_seed(0), m_customSys(nullptr), m_faction(nullptr), m_population(-1),
+			m_explored(false) {};
 		~System() {};
 
 		// Check that we've had our habitation status set
 
-		// public members
-		std::string name;
-		vector3f p;
-		int numStars;
-		SystemBody::BodyType starType[4];
-		Uint32 seed;
-		const CustomSystem *customSys;
-		Faction *faction;
-		fixed population;
-		bool explored;
+		const std::string& GetName() const { return m_name; }
+		const vector3f& GetPosition() const { return m_pos; }
+		vector3f GetFullPosition() const { return Sector::SIZE*vector3f(float(sx), float(sy), float(sz)) + m_pos; };
+		unsigned GetNumStars() const { return m_numStars; }
+		SystemBody::BodyType GetStarType(unsigned i) const { assert(i < m_numStars); return m_starType[i]; }
+		Uint32 GetSeed() const { return m_seed; }
+		const CustomSystem* GetCustomSystem() const { return m_customSys; }
+		const Faction* GetFaction() const { return m_faction; }
+		fixed GetPopulation() const { return m_population; }
+		void SetPopulation(fixed pop) { m_population = pop; }
+		bool IsExplored() const { return m_explored; }
 
-		vector3f FullPosition() { return Sector::SIZE*vector3f(float(sx), float(sy), float(sz)) + p; };
 		bool IsSameSystem(const SystemPath &b) const {
 			return sx == b.sectorX && sy == b.sectorY && sz == b.sectorZ && idx == b.systemIndex;
 		}
 
 		const int sx, sy, sz;
 		const Uint32 idx;
+
+	private:
+		friend class Sector;
+
+		std::string m_name;
+		vector3f m_pos;
+		unsigned m_numStars;
+		SystemBody::BodyType m_starType[4];
+		Uint32 m_seed;
+		const CustomSystem* m_customSys;
+		Faction* m_faction;
+		fixed m_population;
+		bool m_explored;
 	};
 	std::vector<System> m_systems;
 

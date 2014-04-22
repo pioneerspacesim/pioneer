@@ -1037,7 +1037,7 @@ void StarSystem::GenerateFromCustom(const CustomSystem *customSys, Random &rand)
 
 	int humanInfestedness = 0;
 	CustomGetKidsOf(m_rootBody.Get(), csbody->children, &humanInfestedness, rand);
-	int i = 0;
+	unsigned i = 0;
 	m_stars.resize(m_numStars);
 	for (RefCountedPtr<SystemBody> b : m_bodies) {
 		if (b->GetSuperType() == SystemBody::SUPERTYPE_STAR)
@@ -1401,24 +1401,24 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path), m_numStars(0), m_
 	RefCountedPtr<const Sector> s = Sector::cache.GetCached(m_path);
 	assert(m_path.systemIndex >= 0 && m_path.systemIndex < s->m_systems.size());
 
-	m_seed    = s->m_systems[m_path.systemIndex].seed;
-	m_name    = s->m_systems[m_path.systemIndex].name;
+	m_seed    = s->m_systems[m_path.systemIndex].GetSeed();
+	m_name    = s->m_systems[m_path.systemIndex].GetName();
 	m_faction = Faction::GetNearestFaction(s, m_path.systemIndex);
 
 	Uint32 _init[6] = { m_path.systemIndex, Uint32(m_path.sectorX), Uint32(m_path.sectorY), Uint32(m_path.sectorZ), UNIVERSE_SEED, Uint32(m_seed) };
 	Random rand(_init, 6);
 
-	m_unexplored = !s->m_systems[m_path.systemIndex].explored;
+	m_unexplored = !s->m_systems[m_path.systemIndex].IsExplored();
 
-	if (s->m_systems[m_path.systemIndex].customSys) {
+	if (s->m_systems[m_path.systemIndex].GetCustomSystem()) {
 		m_isCustom = true;
-		const CustomSystem *custom = s->m_systems[m_path.systemIndex].customSys;
+		const CustomSystem *custom = s->m_systems[m_path.systemIndex].GetCustomSystem();
 		m_numStars = custom->numStars;
 		if (custom->shortDesc.length() > 0) m_shortDesc = custom->shortDesc;
 		if (custom->longDesc.length() > 0) m_longDesc = custom->longDesc;
 		if (!custom->IsRandom()) {
 			m_hasCustomBodies = true;
-			GenerateFromCustom(s->m_systems[m_path.systemIndex].customSys, rand);
+			GenerateFromCustom(s->m_systems[m_path.systemIndex].GetCustomSystem(), rand);
 			return;
 		}
 	}
@@ -1426,13 +1426,13 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path), m_numStars(0), m_
 	SystemBody *star[4];
 	SystemBody *centGrav1(0), *centGrav2(0);
 
-	const int numStars = s->m_systems[m_path.systemIndex].numStars;
+	const int numStars = s->m_systems[m_path.systemIndex].GetNumStars();
 	assert((numStars >= 1) && (numStars <= 4));
 	if (numStars == 1) {
-		SystemBody::BodyType type = s->m_systems[m_path.systemIndex].starType[0];
+		SystemBody::BodyType type = s->m_systems[m_path.systemIndex].GetStarType(0);
 		star[0] = NewBody();
 		star[0]->m_parent = 0;
-		star[0]->m_name = s->m_systems[m_path.systemIndex].name;
+		star[0]->m_name = s->m_systems[m_path.systemIndex].GetName();
 		star[0]->m_orbMin = fixed(0);
 		star[0]->m_orbMax = fixed(0);
 
@@ -1443,19 +1443,19 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path), m_numStars(0), m_
 		centGrav1 = NewBody();
 		centGrav1->m_type = SystemBody::TYPE_GRAVPOINT;
 		centGrav1->m_parent = 0;
-		centGrav1->m_name = s->m_systems[m_path.systemIndex].name+" A,B";
+		centGrav1->m_name = s->m_systems[m_path.systemIndex].GetName()+" A,B";
 		m_rootBody.Reset(centGrav1);
 
-		SystemBody::BodyType type = s->m_systems[m_path.systemIndex].starType[0];
+		SystemBody::BodyType type = s->m_systems[m_path.systemIndex].GetStarType(0);
 		star[0] = NewBody();
-		star[0]->m_name = s->m_systems[m_path.systemIndex].name+" A";
+		star[0]->m_name = s->m_systems[m_path.systemIndex].GetName()+" A";
 		star[0]->m_parent = centGrav1;
 		MakeStarOfType(star[0], type, rand);
 
 		star[1] = NewBody();
-		star[1]->m_name = s->m_systems[m_path.systemIndex].name+" B";
+		star[1]->m_name = s->m_systems[m_path.systemIndex].GetName()+" B";
 		star[1]->m_parent = centGrav1;
-		MakeStarOfTypeLighterThan(star[1], s->m_systems[m_path.systemIndex].starType[1],
+		MakeStarOfTypeLighterThan(star[1], s->m_systems[m_path.systemIndex].GetStarType(1),
 				star[0]->GetMassAsFixed(), rand);
 
 		centGrav1->m_mass = star[0]->GetMassAsFixed() + star[1]->GetMassAsFixed();
@@ -1476,29 +1476,29 @@ try_that_again_guvnah:
 			// 3rd and maybe 4th star
 			if (numStars == 3) {
 				star[2] = NewBody();
-				star[2]->m_name = s->m_systems[m_path.systemIndex].name+" C";
+				star[2]->m_name = s->m_systems[m_path.systemIndex].GetName()+" C";
 				star[2]->m_orbMin = 0;
 				star[2]->m_orbMax = 0;
-				MakeStarOfTypeLighterThan(star[2], s->m_systems[m_path.systemIndex].starType[2],
+				MakeStarOfTypeLighterThan(star[2], s->m_systems[m_path.systemIndex].GetStarType(2),
 					star[0]->GetMassAsFixed(), rand);
 				centGrav2 = star[2];
 				m_numStars = 3;
 			} else {
 				centGrav2 = NewBody();
 				centGrav2->m_type = SystemBody::TYPE_GRAVPOINT;
-				centGrav2->m_name = s->m_systems[m_path.systemIndex].name+" C,D";
+				centGrav2->m_name = s->m_systems[m_path.systemIndex].GetName()+" C,D";
 				centGrav2->m_orbMax = 0;
 
 				star[2] = NewBody();
-				star[2]->m_name = s->m_systems[m_path.systemIndex].name+" C";
+				star[2]->m_name = s->m_systems[m_path.systemIndex].GetName()+" C";
 				star[2]->m_parent = centGrav2;
-				MakeStarOfTypeLighterThan(star[2], s->m_systems[m_path.systemIndex].starType[2],
+				MakeStarOfTypeLighterThan(star[2], s->m_systems[m_path.systemIndex].GetStarType(2),
 					star[0]->GetMassAsFixed(), rand);
 
 				star[3] = NewBody();
-				star[3]->m_name = s->m_systems[m_path.systemIndex].name+" D";
+				star[3]->m_name = s->m_systems[m_path.systemIndex].GetName()+" D";
 				star[3]->m_parent = centGrav2;
-				MakeStarOfTypeLighterThan(star[3], s->m_systems[m_path.systemIndex].starType[3],
+				MakeStarOfTypeLighterThan(star[3], s->m_systems[m_path.systemIndex].GetStarType(3),
 					star[2]->GetMassAsFixed(), rand);
 
 				// Separate stars by 0.2 radii for each, so that their planets don't bump into the other star
@@ -1512,7 +1512,7 @@ try_that_again_guvnah:
 			SystemBody *superCentGrav = NewBody();
 			superCentGrav->m_type = SystemBody::TYPE_GRAVPOINT;
 			superCentGrav->m_parent = 0;
-			superCentGrav->m_name = s->m_systems[m_path.systemIndex].name;
+			superCentGrav->m_name = s->m_systems[m_path.systemIndex].GetName();
 			centGrav1->m_parent = superCentGrav;
 			centGrav2->m_parent = superCentGrav;
 			m_rootBody.Reset(superCentGrav);
@@ -1529,7 +1529,7 @@ try_that_again_guvnah:
 	m_metallicity = starMetallicities[m_rootBody->GetType()];
 
 	m_stars.resize(m_numStars);
-	for (int i=0; i<m_numStars; i++) {
+	for (unsigned i=0; i<m_numStars; i++) {
 		m_stars[i] = star[i];
 		MakePlanetsAround(star[i], rand);
 	}
@@ -2564,9 +2564,9 @@ void StarSystem::ExportToLua(const char *filename) {
 
 	fprintf(f, "system:add_to_sector(%d,%d,%d,v(%.4f,%.4f,%.4f))\n",
 			pa.sectorX, pa.sectorY, pa.sectorZ,
-			sec->m_systems[pa.systemIndex].p.x/Sector::SIZE,
-			sec->m_systems[pa.systemIndex].p.y/Sector::SIZE,
-			sec->m_systems[pa.systemIndex].p.z/Sector::SIZE);
+			sec->m_systems[pa.systemIndex].GetPosition().x/Sector::SIZE,
+			sec->m_systems[pa.systemIndex].GetPosition().y/Sector::SIZE,
+			sec->m_systems[pa.systemIndex].GetPosition().z/Sector::SIZE);
 
 	fclose(f);
 }
@@ -2584,9 +2584,9 @@ void StarSystem::Dump(FILE* file, const char* indent, bool suppressSectorData) c
 		fprintf(file, "%s\t%sEXPLORED%s\n", indent, m_unexplored ? "UN" : "", m_hasCustomBodies ? ", CUSTOM-ONLY" : m_isCustom ? ", CUSTOM" : "");
 		fprintf(file, "%s\tfaction %s%s%s\n", indent, m_faction ? "\"" : "NONE", m_faction ? m_faction->name.c_str() : "", m_faction ? "\"" : "");
 		fprintf(file, "%s\tseed %u\n", indent, static_cast<Uint32>(m_seed));
-		fprintf(file, "%s\t%d stars%s\n", indent, m_numStars, m_numStars > 0 ? " {" : "");
-		assert(unsigned(m_numStars) == m_stars.size());
-		for (int i = 0; i < m_numStars; ++i)
+		fprintf(file, "%s\t%u stars%s\n", indent, m_numStars, m_numStars > 0 ? " {" : "");
+		assert(m_numStars == m_stars.size());
+		for (unsigned i = 0; i < m_numStars; ++i)
 			fprintf(file, "%s\t\t%s\n", indent, EnumStrings::GetString("BodyType", m_stars[i]->GetType()));
 		if (m_numStars > 0) fprintf(file, "%s\t}\n", indent);
 	}

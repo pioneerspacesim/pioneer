@@ -453,8 +453,8 @@ Faction* Faction::GetNearestFaction(RefCountedPtr<const Sector> sec, Uint32 sysI
 {
 	PROFILE_SCOPED()
 	// firstly if this a custom StarSystem it may already have a faction assigned
-	if (sec->m_systems[sysIndex].customSys && sec->m_systems[sysIndex].customSys->faction) {
-		return sec->m_systems[sysIndex].customSys->faction;
+	if (sec->m_systems[sysIndex].GetCustomSystem() && sec->m_systems[sysIndex].GetCustomSystem()->faction) {
+		return sec->m_systems[sysIndex].GetCustomSystem()->faction;
 	}
 
 	// if it didn't, or it wasn't a custom StarStystem, then we go ahead and assign it a faction allegiance like normal below...
@@ -474,7 +474,7 @@ bool Faction::IsHomeSystem(const SystemPath& sysPath)
 	return s_homesystems.find(sysPath.SystemOnly()) != s_homesystems.end();
 }
 
-const Color Faction::AdjustedColour(fixed population, bool inRange)
+const Color Faction::AdjustedColour(fixed population, bool inRange) const
 {
 	PROFILE_SCOPED()
 	Color result;
@@ -594,12 +594,12 @@ void FactionOctsapling::Add(Faction* faction)
 		*/
 		Sector::System sys = sec->m_systems[faction->homeworld.systemIndex];
 
-		int xmin = BoxIndex(Sint32(sys.FullPosition().x - float((faction->Radius()))));
-		int xmax = BoxIndex(Sint32(sys.FullPosition().x + float((faction->Radius()))));
-		int ymin = BoxIndex(Sint32(sys.FullPosition().y - float((faction->Radius()))));
-		int ymax = BoxIndex(Sint32(sys.FullPosition().y + float((faction->Radius()))));
-		int zmin = BoxIndex(Sint32(sys.FullPosition().z - float((faction->Radius()))));
-		int zmax = BoxIndex(Sint32(sys.FullPosition().z + float((faction->Radius()))));
+		int xmin = BoxIndex(Sint32(sys.GetFullPosition().x - float((faction->Radius()))));
+		int xmax = BoxIndex(Sint32(sys.GetFullPosition().x + float((faction->Radius()))));
+		int ymin = BoxIndex(Sint32(sys.GetFullPosition().y - float((faction->Radius()))));
+		int ymax = BoxIndex(Sint32(sys.GetFullPosition().y + float((faction->Radius()))));
+		int zmin = BoxIndex(Sint32(sys.GetFullPosition().z - float((faction->Radius()))));
+		int zmax = BoxIndex(Sint32(sys.GetFullPosition().z + float((faction->Radius()))));
 
 		/* put the faction in all the octbox cells needed in a hideously inexact way that
 		   will generate duplicates in each cell in many cases

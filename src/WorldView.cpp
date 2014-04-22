@@ -810,7 +810,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 				text += "\n";
 				text += (cloud->IsArrival() ? Lang::SOURCE : Lang::DESTINATION);
 				text += ": ";
-				text += s->m_systems[dest.systemIndex].name;
+				text += s->m_systems[dest.systemIndex].GetName();
 				text += "\n";
 				text += stringf(Lang::DATE_DUE_N, formatarg("date", format_date(cloud->GetDueDate())));
 				text += "\n";

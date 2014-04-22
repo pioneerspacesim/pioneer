@@ -253,12 +253,12 @@ static CustomSystem **l_csys_check_ptr(lua_State *L, int idx) {
 static CustomSystem *l_csys_check(lua_State *L, int idx)
 { return *l_csys_check_ptr(L, idx); }
 
-static int interpret_star_types(int *starTypes, lua_State *L, int idx)
+static unsigned interpret_star_types(int *starTypes, lua_State *L, int idx)
 {
 	LUA_DEBUG_START(L);
 	luaL_checktype(L, idx, LUA_TTABLE);
 	lua_pushvalue(L, idx);
-	int i;
+	unsigned i;
 	for (i = 0; i < 4; ++i) {
 		int ty = SystemBody::TYPE_GRAVPOINT;
 		lua_rawgeti(L, -1, i + 1);
@@ -287,7 +287,7 @@ static int l_csys_new(lua_State *L)
 {
 	const char *name = luaL_checkstring(L, 2);
 	int starTypes[4];
-	int numStars = interpret_star_types(starTypes, L, 3);
+	unsigned numStars = interpret_star_types(starTypes, L, 3);
 
 	CustomSystem **csptr = static_cast<CustomSystem**>(
 			lua_newuserdata(L, sizeof(CustomSystem*)));
@@ -297,7 +297,7 @@ static int l_csys_new(lua_State *L)
 	(*csptr)->name = name;
 	(*csptr)->numStars = numStars;
 	assert(numStars <= 4);
-	for (int i = 0; i < numStars; ++i)
+	for (unsigned i = 0; i < numStars; ++i)
 		(*csptr)->primaryType[i] = static_cast<SystemBody::BodyType>(starTypes[i]);
 	return 1;
 }
@@ -397,11 +397,11 @@ static void _add_children_to_sbody(lua_State *L, CustomSystemBody *sbody)
 	LUA_DEBUG_END(L, 0);
 }
 
-static int count_stars(CustomSystemBody* csb)
+static unsigned count_stars(CustomSystemBody* csb)
 {
 	if (!csb)
 		return 0;
-	int count = 0;
+	unsigned count = 0;
 	if (csb->type >= SystemBody::TYPE_STAR_MIN && csb->type <= SystemBody::TYPE_STAR_MAX)
 		++count;
 	for (CustomSystemBody* child : csb->children)
@@ -429,9 +429,9 @@ static int l_csys_bodies(lua_State *L)
 	cs->sBody = *primary_ptr;
 	*primary_ptr = 0;
 	if (cs->sBody) {
-		int star_count = count_stars(cs->sBody);
+		unsigned star_count = count_stars(cs->sBody);
 		if (star_count != cs->numStars)
-			return luaL_error(L, "expected %d star(s) in system %s, but found %d (did you forget star types in CustomSystem:new?)",
+			return luaL_error(L, "expected %u star(s) in system %s, but found %u (did you forget star types in CustomSystem:new?)",
 				cs->numStars, cs->name.c_str(), star_count);
 		// XXX Someday, we should check the other star types as well, but we do not use them anyway now.
 	}
