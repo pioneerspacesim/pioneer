@@ -75,6 +75,26 @@ static int l_spacestation_attr_num_docks(lua_State *l)
 }
 
 /*
+ * Attribute: numShipsDocked
+ *
+ * The number of ships docked at spacestation
+ *
+ * Availability:
+ *
+ *   201404
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_spacestation_attr_num_ships_docked(lua_State *l)
+{
+	SpaceStation *s = LuaObject<SpaceStation>::CheckFromLua(1);
+	lua_pushinteger(l, s->NumShipsDocked());
+	return 1;
+}
+
+/*
  * Attribute: isGroundStation
  *
  * true if station is on the ground, false if its an orbital
@@ -109,6 +129,7 @@ template <> void LuaObject<SpaceStation>::RegisterClass()
 	static luaL_Reg l_attrs[] = {
 		{ "numDocks",        l_spacestation_attr_num_docks         },
 		{ "isGroundStation", l_spacestation_attr_is_ground_station },
+		{ "numShipsDocked",  l_spacestation_attr_num_ships_docked  },
 
 		{ 0, 0 }
 	};

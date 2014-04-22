@@ -17,7 +17,7 @@
 #include "EnumStrings.h"
 
 
-void Ship::AIModelCoordsMatchAngVel(vector3d desiredAngVel, double softness)
+void Ship::AIModelCoordsMatchAngVel(const vector3d &desiredAngVel, double softness)
 {
 	double angAccel = m_type->angThrust / GetAngularInertia();
 	const double softTimeStep = Pi::game->GetTimeStep() * softness;
@@ -35,7 +35,7 @@ void Ship::AIModelCoordsMatchAngVel(vector3d desiredAngVel, double softness)
 }
 
 
-void Ship::AIModelCoordsMatchSpeedRelTo(const vector3d v, const Ship *other)
+void Ship::AIModelCoordsMatchSpeedRelTo(const vector3d &v, const Ship *other)
 {
 	vector3d relToVel = other->GetVelocity() * GetOrient() + v;
 	AIAccelToModelRelativeVelocity(relToVel);
@@ -45,7 +45,7 @@ void Ship::AIModelCoordsMatchSpeedRelTo(const vector3d v, const Ship *other)
 // Try to reach this model-relative velocity.
 // (0,0,-100) would mean going 100m/s forward.
 
-void Ship::AIAccelToModelRelativeVelocity(const vector3d v)
+void Ship::AIAccelToModelRelativeVelocity(const vector3d &v)
 {
 	vector3d difVel = v - GetVelocity() * GetOrient();		// required change in velocity
 	vector3d maxThrust = GetMaxThrust(difVel);

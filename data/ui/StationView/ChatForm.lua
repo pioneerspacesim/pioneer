@@ -34,24 +34,21 @@ function ChatForm.New (chatFunc, removeFunc, ref, tabGroup)
 end
 
 function ChatForm:BuildWidget ()
-	local box = ui:VBox(10)
+	local box = ui:VBox()
+	local hbox = ui:HBox(5)
 
 	if self.title then
-		box:PackEnd(ui:Label(self.title):SetFont("LARGE"))
+		hbox:PackEnd(ui:Expand("HORIZONTAL", ui:MultiLineText(self.title):SetFont("LARGE")))
 	end
 
-	if self.message or self.face then
-		local hbox = ui:HBox(5)
+	if self.face then
+		hbox:PackEnd(ui:Align("RIGHT", self.face))
+	end
 
-		if self.message then
-			hbox:PackEnd(ui:Expand("HORIZONTAL", ui:MultiLineText(self.message)))
-		end
+	box:PackEnd(hbox)
 
-		if self.face then
-			hbox:PackEnd(ui:Align("RIGHT", self.face))
-		end
-
-		box:PackEnd(hbox)
+	if self.message then
+		box:PackEnd(ui:Scroller(ui:MultiLineText(self.message)))
 	end
 
 	if self.options or self.equipWidgetConfig then
@@ -102,7 +99,7 @@ function ChatForm:BuildWidget ()
 
 	return
 		ui:ColorBackground(0,0,0,0.5,
-			ui:Grid({1,2,1},{1,2,1}):SetCell(1,1,
+			ui:Grid({10,40,10},{6,30,12}):SetCell(1,1,
 				ui:Background(
 					ui:VBox(10)
 						:PackEnd({ box, hangupButton })

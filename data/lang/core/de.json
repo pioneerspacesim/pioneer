@@ -53,7 +53,7 @@
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
-      "message" : "Atmosphären Hitzeschild"
+      "message" : "Atmosphären-Hitzeschild"
    },
    "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
       "description" : "",
@@ -69,7 +69,7 @@
    },
    "AUTOPILOT_DESCRIPTION" : {
       "description" : "",
-      "message" : "Ein on-board Flugcomputer."
+      "message" : "Ein on-board-Flugcomputer."
    },
    "AUTOPILOT_DOCK_WITH_STATION" : {
       "description" : "",
@@ -113,7 +113,7 @@
    },
    "BODIES" : {
       "description" : "",
-      "message" : "Körper"
+      "message" : "Körpern"
    },
    "BODY" : {
       "description" : "",
@@ -161,11 +161,11 @@
    },
    "CARBON_ORE" : {
       "description" : "",
-      "message" : "Kohlenstoff Erz"
+      "message" : "Kohlenstofferz"
    },
    "CARBON_ORE_DESCRIPTION" : {
       "description" : "",
-      "message" : "Kohlenstoff Erze (Kohle und Öl) sind für die Synthese von vielen nützlichen Chemikalien, darunter Kunststoffe, synthetische Lebensmittel, Pharmazeutika und Textilien erforderlich."
+      "message" : "Kohlenstofferze (Kohle und Öl) sind für die Synthese von vielen nützlichen Chemikalien, darunter Kunststoffe, synthetische Lebensmittel, Pharmazeutika und Textilien erforderlich."
    },
    "CARGO" : {
       "description" : "",
@@ -177,7 +177,7 @@
    },
    "CARGO_LIFE_SUPPORT" : {
       "description" : "",
-      "message" : "Frachtraum Lebensterhaltung"
+      "message" : "Frachtraum-Lebenserhaltung"
    },
    "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
       "description" : "",
@@ -265,7 +265,7 @@
    },
    "COUNT_STARPORTS" : {
       "description" : "",
-      "message" : "raumhäfen"
+      "message" : "Raumhäfen"
    },
    "CO_ATMOSPHERE" : {
       "description" : "",
@@ -293,7 +293,7 @@
    },
    "DECREASE_SET_SPEED" : {
       "description" : "",
-      "message" : "Gesetzten Geschwindigkeit verringern"
+      "message" : "Gesetzte Geschwindigkeit verringern"
    },
    "DEMOGRAPHICS" : {
       "description" : "",
@@ -333,11 +333,11 @@
    },
    "DRAW_OUT_RANGE_LABELS" : {
       "description" : "",
-      "message" : "Out-of-range System"
+      "message" : "Systeme außerhalb der Reichweite beschriften"
    },
    "DRAW_UNINHABITED_LABELS" : {
       "description" : "",
-      "message" : "Unbewohntes System"
+      "message" : "Unbewohnte Systeme beschriften"
    },
    "DRAW_VERTICAL_LINES" : {
       "description" : "",
@@ -345,55 +345,55 @@
    },
    "DRIVE_CLASS1" : {
       "description" : "",
-      "message" : "Klasse 1 Sprungtriebwerk"
+      "message" : "Klasse-1-Sprungtriebwerk"
    },
    "DRIVE_CLASS2" : {
       "description" : "",
-      "message" : "Klasse 2 Sprungtriebwerk"
+      "message" : "Klasse-2-Sprungtriebwerk"
    },
    "DRIVE_CLASS3" : {
       "description" : "",
-      "message" : "Klasse 3 Sprungtriebwerk"
+      "message" : "Klasse-3-Sprungtriebwerk"
    },
    "DRIVE_CLASS4" : {
       "description" : "",
-      "message" : "Klasse 4 Sprungtriebwerk"
+      "message" : "Klasse-4-Sprungtriebwerk"
    },
    "DRIVE_CLASS5" : {
       "description" : "",
-      "message" : "Klasse 5 Sprungtriebwerk"
+      "message" : "Klasse-5-Sprungtriebwerk"
    },
    "DRIVE_CLASS6" : {
       "description" : "",
-      "message" : "Klasse 6 Sprungtriebwerk"
+      "message" : "Klasse-6-Sprungtriebwerk"
    },
    "DRIVE_CLASS7" : {
       "description" : "",
-      "message" : "Klasse 7 Sprungtriebwerk"
+      "message" : "Klasse-7-Sprungtriebwerk"
    },
    "DRIVE_CLASS8" : {
       "description" : "",
-      "message" : "Klasse 8 Sprungtriebwerk"
+      "message" : "Klasse-8-Sprungtriebwerk"
    },
    "DRIVE_CLASS9" : {
       "description" : "",
-      "message" : "Klasse 9 Sprungtriebwerk"
+      "message" : "Klasse-9-Sprungtriebwerk"
    },
    "DRIVE_MIL1" : {
       "description" : "",
-      "message" : "Klasse 1 Militär-Hyperraumantrieb"
+      "message" : "Klasse-1-Militär-Hyperraumantrieb"
    },
    "DRIVE_MIL2" : {
       "description" : "",
-      "message" : "Klasse 2 Militär-Hyperraumantrieb"
+      "message" : "Klasse-2-Militär-Hyperraumantrieb"
    },
    "DRIVE_MIL3" : {
       "description" : "",
-      "message" : "Klasse 3 Militär-Hyperraumantrieb"
+      "message" : "Klasse-3-Militär-Hyperraumantrieb"
    },
    "DRIVE_MIL4" : {
       "description" : "",
-      "message" : "Klasse 4 Militär-Hyperraumantrieb"
+      "message" : "Klasse-4-Militär-Hyperraumantrieb"
    },
    "EARTH" : {
       "description" : "",
@@ -405,7 +405,7 @@
    },
    "EARTH_FEDERATION_DEMOCRACY" : {
       "description" : "",
-      "message" : "Erd-Föderation Demokratie"
+      "message" : "Erd-Föderations-Demokratie"
    },
    "ECCENTRICITY" : {
       "description" : "",
@@ -413,7 +413,7 @@
    },
    "ECM_ADVANCED" : {
       "description" : "",
-      "message" : "Erweitertes EGM System"
+      "message" : "Erweitertes EGM-System"
    },
    "ECM_ADVANCED_DESCRIPTION" : {
       "description" : "",
@@ -421,7 +421,7 @@
    },
    "ECM_BASIC" : {
       "description" : "",
-      "message" : "EGM System"
+      "message" : "EGM-System"
    },
    "ECM_BASIC_DESCRIPTION" : {
       "description" : "",
@@ -453,7 +453,7 @@
    },
    "EXTERNAL_VIEW" : {
       "description" : "",
-      "message" : "Aussenansicht"
+      "message" : "Außenansicht"
    },
    "FARM_MACHINERY" : {
       "description" : "",
@@ -509,11 +509,11 @@
    },
    "GALACTIC_VIEW" : {
       "description" : "",
-      "message" : "Galaxie Ansicht"
+      "message" : "Galaxienansicht"
    },
    "GALAXY_SECTOR_VIEW" : {
       "description" : "",
-      "message" : "Sektoren Ansicht"
+      "message" : "Sektorenansicht"
    },
    "GAME_LOAD_CANNOT_OPEN" : {
       "description" : "",
@@ -537,11 +537,11 @@
    },
    "GENERAL_VIEW_CONTROLS" : {
       "description" : "",
-      "message" : "Allgemeine Viewsteuerung"
+      "message" : "Allgemeine Ansichtssteuerung"
    },
    "GOVERNMENT_TYPE" : {
       "description" : "",
-      "message" : "Regierungstyp:"
+      "message" : "Regierungsform:"
    },
    "GRAIN" : {
       "description" : "",
@@ -553,7 +553,7 @@
    },
    "HARD_CAPITALIST" : {
       "description" : "",
-      "message" : "Völlig Kapitalistisch - kein staatliches Sozialsystem"
+      "message" : "Rein kapitalistisch – kein staatliches Sozialsystem"
    },
    "HAT" : {
       "description" : "",
@@ -585,7 +585,7 @@
    },
    "HULL_AUTOREPAIR" : {
       "description" : "",
-      "message" : "Rumpf Auto-Reparatur"
+      "message" : "Rumpf-Auto-Reparatur"
    },
    "HULL_AUTOREPAIR_DESCRIPTION" : {
       "description" : "",
@@ -609,11 +609,11 @@
    },
    "HYPERCLOUD_ANALYZER" : {
       "description" : "",
-      "message" : "Hyperraumwolken Analysator"
+      "message" : "Hyperraumwolkenanalysator"
    },
    "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Analysiert Hyperraumwolken um den Zeitpunkt der Ankunft oder des Abfluges zu bestimmen."
+      "message" : "Analysiert Hyperraumwolken, um den Zeitpunkt der Ankunft oder des Abfluges zu bestimmen."
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -621,15 +621,15 @@
    },
    "HYPERSPACE_ARRIVAL_CLOUD" : {
       "description" : "",
-      "message" : "Hyperraum Ankuft Wolke"
+      "message" : "Hyperraumankuftswolke"
    },
    "HYPERSPACE_ARRIVAL_CLOUD_REMNANT" : {
       "description" : "",
-      "message" : "Hyperraum Anflugwolkenrest"
+      "message" : "Hyperraumanflugswolkenrest"
    },
    "HYPERSPACE_DEPARTURE_CLOUD" : {
       "description" : "",
-      "message" : "Hyperraum Abflug Wolke"
+      "message" : "Hyperraumabflugswolke"
    },
    "HYPERSPACE_JUMP" : {
       "description" : "",
@@ -641,11 +641,11 @@
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Hyperraumsprung Ziel"
+      "message" : "Hyperraumsprungsziel"
    },
    "HYPERSPACING_IN_N_SECONDS" : {
       "description" : "",
-      "message" : "Hyperraumsprung in %countdown{f.0} Sekunden"
+      "message" : "Hyperraumsprung in %countdown{f.0} Sekunde(n)"
    },
    "H_ATMOSPHERE" : {
       "description" : "",
@@ -669,11 +669,11 @@
    },
    "INCREASE_SET_SPEED" : {
       "description" : "",
-      "message" : "Gesetzten Geschwindigkeit steigern"
+      "message" : "Gesetzte Geschwindigkeit steigern"
    },
    "INDUSTRIAL_COLONY" : {
       "description" : "",
-      "message" : "Industrielle Kolonie."
+      "message" : "Industriekolonie."
    },
    "INDUSTRIAL_HUB_SYSTEM" : {
       "description" : "",
@@ -737,7 +737,7 @@
    },
    "LASER_COOLING_BOOSTER" : {
       "description" : "",
-      "message" : "Laserkühlung Booster"
+      "message" : "Laserkühlungsbooster"
    },
    "LASER_COOLING_BOOSTER_DESCRIPTION" : {
       "description" : "",
@@ -765,7 +765,7 @@
    },
    "LIVE_ANIMALS" : {
       "description" : "",
-      "message" : "Lebende Tiere"
+      "message" : "Lebendige Tiere"
    },
    "LOCKED" : {
       "description" : "",
@@ -793,27 +793,27 @@
    },
    "MAP_TOGGLE_INFO_PANEL" : {
       "description" : "",
-      "message" : "Umschalten Infoansicht"
+      "message" : "Infoansicht umschalten"
    },
    "MAP_TOGGLE_SELECTION_FOLLOW_VIEW" : {
       "description" : "",
-      "message" : "Umschalten Verfolgungsansicht"
+      "message" : "Verfolgungsansicht umschalten"
    },
    "MAP_VIEW_ROTATE_DOWN" : {
       "description" : "",
-      "message" : "Rotierende Ansicht nach unten"
+      "message" : "Ansicht nach unten rotieren"
    },
    "MAP_VIEW_ROTATE_LEFT" : {
       "description" : "",
-      "message" : "Rotierende Ansicht nach Links"
+      "message" : "Ansicht nach links rotieren"
    },
    "MAP_VIEW_ROTATE_RIGHT" : {
       "description" : "",
-      "message" : "Rotierende Ansicht nach Rechts"
+      "message" : "Ansicht nach rechts rotieren"
    },
    "MAP_VIEW_ROTATE_UP" : {
       "description" : "",
-      "message" : "Rotierende Ansicht nach Oben"
+      "message" : "Ansicht nach oben rotieren"
    },
    "MAP_VIEW_SHIFT_BACKWARD" : {
       "description" : "",
@@ -841,15 +841,15 @@
    },
    "MAP_WARP_TO_CURRENT_SYSTEM" : {
       "description" : "",
-      "message" : "Springe ins aktuelle System"
+      "message" : "Ins aktuelle System springen"
    },
    "MAP_WARP_TO_HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Springe zum Hyperraumziel"
+      "message" : "Zum Hyperraumziel springen"
    },
    "MAP_WARP_TO_SELECTED_SYSTEM" : {
       "description" : "",
-      "message" : "Springe zum ausgewählten System"
+      "message" : "Zum ausgewählten System springen"
    },
    "MASS" : {
       "description" : "",
@@ -885,7 +885,7 @@
    },
    "METAL_ORE" : {
       "description" : "",
-      "message" : "Metall Erz"
+      "message" : "Metallerz"
    },
    "MILITARY_DICTATORSHIP" : {
       "description" : "",
@@ -897,7 +897,7 @@
    },
    "MININGCANNON_17MW" : {
       "description" : "",
-      "message" : "17MW Bergbaulaser"
+      "message" : "17MW-Bergbaulaser"
    },
    "MININGCANNON_17MW_DESCRIPTION" : {
       "description" : "",
@@ -905,7 +905,7 @@
    },
    "MINING_COLONY" : {
       "description" : "",
-      "message" : "Bergbaue Kolonie."
+      "message" : "Bergbaukolonie."
    },
    "MINING_MACHINERY" : {
       "description" : "",
@@ -929,19 +929,19 @@
    },
    "MISSILE_GUIDED" : {
       "description" : "",
-      "message" : "Gelenkte Rakete"
+      "message" : "Lenkrakete"
    },
    "MISSILE_NAVAL" : {
       "description" : "",
-      "message" : "Marine Rakete"
+      "message" : "Marinerakete"
    },
    "MISSILE_SMART" : {
       "description" : "",
-      "message" : "Smart Rakete"
+      "message" : "Intelligente Rakete"
    },
    "MISSILE_UNGUIDED" : {
       "description" : "",
-      "message" : "R40 Ungelenkte Rakete"
+      "message" : "Ungelenkte R40-Rakete"
    },
    "MIXED_ECONOMY" : {
       "description" : "",
@@ -1049,7 +1049,7 @@
    },
    "NO_CENTRAL_GOVERNANCE" : {
       "description" : "",
-      "message" : "Ohne zentrale Regierung"
+      "message" : "Ohne Zentralregierung"
    },
    "NO_ESTABLISHED_ORDER" : {
       "description" : "",
@@ -1073,7 +1073,7 @@
    },
    "NUMBER_DECIMAL_POINT" : {
       "description" : "Decimal delimiter used in numbers.",
-      "message" : "."
+      "message" : ","
    },
    "NUMBER_G" : {
       "description" : "",
@@ -1089,11 +1089,11 @@
    },
    "NUMBER_GROUP_SEP" : {
       "description" : "For large number, separator used when grouping digits. E.g. 1,000 or 1 000 or 1'000.",
-      "message" : ","
+      "message" : " "
    },
    "NUMBER_HOURS" : {
       "description" : "",
-      "message" : "%hours{f.1} Std."
+      "message" : "%hours{f.1} h"
    },
    "NUMBER_LY" : {
       "description" : "",
@@ -1101,7 +1101,7 @@
    },
    "NUMBER_TONNES" : {
       "description" : "",
-      "message" : "%{mass}t"
+      "message" : "%{mass} t"
    },
    "N_ATMOSPHERE" : {
       "description" : "",
@@ -1117,7 +1117,7 @@
    },
    "N_DEGREES" : {
       "description" : "",
-      "message" : "%angle{f.1} Grad"
+      "message" : "%angle{f.1}°"
    },
    "N_DISTANCE_TO_TARGET" : {
       "description" : "",
@@ -1129,7 +1129,7 @@
    },
    "N_WHATEVER_MASSES" : {
       "description" : "",
-      "message" : "%mass{f.3} %{units}Massen"
+      "message" : "%mass{f.3} %{units}massen"
    },
    "N_WHATEVER_RADII" : {
       "description" : "",
@@ -1205,11 +1205,11 @@
    },
    "PITCH_DOWN" : {
       "description" : "",
-      "message" : "Nicken nach unten"
+      "message" : "Nach unten nicken"
    },
    "PITCH_UP" : {
       "description" : "",
-      "message" : "Nicken nach oben"
+      "message" : "Nach oben nicken"
    },
    "PLANETARY_INFO" : {
       "description" : "",
@@ -1257,31 +1257,31 @@
    },
    "PULSECANNON_10MW" : {
       "description" : "",
-      "message" : "10MW Pulslaser"
+      "message" : "10MW-Pulslaser"
    },
    "PULSECANNON_1MW" : {
       "description" : "",
-      "message" : "1MW Pulslaser"
+      "message" : "1MW-Pulslaser"
    },
    "PULSECANNON_20MW" : {
       "description" : "",
-      "message" : "20MW Pulslaser"
+      "message" : "20MW-Pulslaser"
    },
    "PULSECANNON_2MW" : {
       "description" : "",
-      "message" : "2MW Pulslaser"
+      "message" : "2MW-Pulslaser"
    },
    "PULSECANNON_4MW" : {
       "description" : "",
-      "message" : "4MW Pulslaser"
+      "message" : "4MW-Pulslaser"
    },
    "PULSECANNON_DUAL_1MW" : {
       "description" : "",
-      "message" : "1MW Doppel-Pulslaser"
+      "message" : "1MW-Doppel-Pulslaser"
    },
    "PULSECANNON_RAPID_2MW" : {
       "description" : "",
-      "message" : "2MW Doppel-Pulslaser"
+      "message" : "2MW-Doppel-Pulslaser"
    },
    "QUADRUPLE_SYSTEM" : {
       "description" : "",
@@ -1289,7 +1289,7 @@
    },
    "RADAR_MAPPER" : {
       "description" : "",
-      "message" : "Radar Scanner"
+      "message" : "Radar-Scanner"
    },
    "RADAR_MAPPER_DESCRIPTION" : {
       "description" : "",
@@ -1337,11 +1337,11 @@
    },
    "ROLL_LEFT" : {
       "description" : "",
-      "message" : "Rollen nach links"
+      "message" : "Nach links rollen"
    },
    "ROLL_RIGHT" : {
       "description" : "",
-      "message" : "Rollen nach rechts"
+      "message" : "Nach rechts rollen"
    },
    "ROTATE_DOWN" : {
       "description" : "",
@@ -1393,7 +1393,7 @@
    },
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
-      "message" : "Pioneer Screenshot%index{d08}.png"
+      "message" : "Pioneer-Screenshot%index{d08}.png"
    },
    "SCUTUM_CENTAURUS_ARM" : {
       "description" : "",
@@ -1441,11 +1441,11 @@
    },
    "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE" : {
       "description" : "",
-      "message" : "Hyperraumwolken Analysator: Setzen Sie das Hyperraumsprungziel, um diesem Abflug zu folgen."
+      "message" : "Hyperraumwolkenanalysator: Setzen Sie das Hyperraumsprungziel, um diesem Abflug zu folgen."
    },
    "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT" : {
       "description" : "",
-      "message" : "Setze Niedrigschub-Energielevel auf %power%%"
+      "message" : "Niedrigschub-Energielevel auf %power%% setzen"
    },
    "SET_SPEED_KM_S" : {
       "description" : "",
@@ -1457,7 +1457,7 @@
    },
    "SHIELD_ENERGY_BOOSTER" : {
       "description" : "",
-      "message" : "Schildenergie Booster"
+      "message" : "Schildenergie-Booster"
    },
    "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
       "description" : "",
@@ -1481,7 +1481,7 @@
    },
    "SHIFT" : {
       "description" : "Shift key on keyboard",
-      "message" : "Shift"
+      "message" : "Umschalt"
    },
    "SHIP" : {
       "description" : "",
@@ -1497,11 +1497,11 @@
    },
    "SHIP_INFORMATION" : {
       "description" : "",
-      "message" : "Raumschiff Information"
+      "message" : "Raumschiffsinformation"
    },
    "SHIP_MASS_N_TONNES" : {
       "description" : "",
-      "message" : "Schiff Masse: %{mass}t"
+      "message" : "Schiffsmasse: %{mass}t"
    },
    "SHIP_NEARBY" : {
       "description" : "",
@@ -1521,7 +1521,7 @@
    },
    "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
       "description" : "",
-      "message" : "Simulierte Evolution des Universums: %age{f.1} Milliarde(n) Jahre ;-)"
+      "message" : "Simulierte Evolution des Universums: %age{f.1} Mrd. Jahre ;-)"
    },
    "SLAVES" : {
       "description" : "",
@@ -1545,7 +1545,7 @@
    },
    "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS" : {
       "description" : "",
-      "message" : "Einzelne Schürfaktivitäten. Keine registrierten Siedlungen."
+      "message" : "Vereinzelte Schürfaktivitäten. Keine registrierten Siedlungen."
    },
    "SOCIAL_DEMOCRACY" : {
       "description" : "",
@@ -1581,7 +1581,7 @@
    },
    "STAR_A" : {
       "description" : "",
-      "message" : "Heißer, weißer Klasse 'A' Stern"
+      "message" : "Heißer, weißer Klasse-A-Stern"
    },
    "STAR_AF_GIANT" : {
       "description" : "",
@@ -1597,7 +1597,7 @@
    },
    "STAR_B" : {
       "description" : "",
-      "message" : "Heller, blauer Klasse 'B' Stern"
+      "message" : "Heller, blauer Klasse-B-Stern"
    },
    "STAR_B_GIANT" : {
       "description" : "",
@@ -1613,23 +1613,23 @@
    },
    "STAR_B_WF" : {
       "description" : "",
-      "message" : "Wolf-Rayet-Stern - Kollapsrisiko"
+      "message" : "Wolf-Rayet-Stern – Kollapsrisiko"
    },
    "STAR_F" : {
       "description" : "",
-      "message" : "Weißer Klasse 'F' Stern"
+      "message" : "Weißer Klasse-F-Stern"
    },
    "STAR_G" : {
       "description" : "",
-      "message" : "Gelber Klasse 'G' Stern"
+      "message" : "Gelber Klasse-G-Stern"
    },
    "STAR_G_GIANT" : {
       "description" : "",
-      "message" : "Gelber Riesenstern - Instabil"
+      "message" : "Gelber Riesenstern – Instabil"
    },
    "STAR_G_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Gelber Hyperriese - Instabil"
+      "message" : "Gelber Hyperriese – Instabil"
    },
    "STAR_G_SUPER_GIANT" : {
       "description" : "",
@@ -1641,15 +1641,15 @@
    },
    "STAR_K" : {
       "description" : "",
-      "message" : "Orangfarbener Klasse 'K' Stern"
+      "message" : "Orange Klasse-K-Stern"
    },
    "STAR_K_GIANT" : {
       "description" : "",
-      "message" : "Orangfarbener Riesenstern - Instabil"
+      "message" : "Orange Riesenstern – Instabil"
    },
    "STAR_K_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Orangfarbener Hyperriese - Instabil"
+      "message" : "Orange Hyperriese – Instabil"
    },
    "STAR_K_SUPER_GIANT" : {
       "description" : "",
@@ -1657,7 +1657,7 @@
    },
    "STAR_M" : {
       "description" : "",
-      "message" : "Roter Klasse 'M' Stern"
+      "message" : "Roter Klasse-M-Stern"
    },
    "STAR_M_GIANT" : {
       "description" : "",
@@ -1673,11 +1673,11 @@
    },
    "STAR_M_WF" : {
       "description" : "",
-      "message" : "Wolf-Rayet-Stern - Instabil"
+      "message" : "Wolf-Rayet-Stern – Instabil"
    },
    "STAR_O" : {
       "description" : "",
-      "message" : "Heißer, großer Klasse 'O' Stern"
+      "message" : "Heißer großer Klasse-O-Stern"
    },
    "STAR_O_GIANT" : {
       "description" : "",
@@ -1693,15 +1693,15 @@
    },
    "STAR_O_WF" : {
       "description" : "",
-      "message" : "Wolf-Rayet-Stern - Kollaps steht unmittelbar bevor"
+      "message" : "Wolf-Rayet-Stern – Kollaps steht unmittelbar bevor"
    },
    "STAR_SM_BH" : {
       "description" : "",
-      "message" : "Supermassereiches Schwarzes Loch"
+      "message" : "Supermassereiches schwarzes Loch"
    },
    "STAR_SYSTEM_INFORMATION" : {
       "description" : "",
-      "message" : "System Informationen"
+      "message" : "Systeminformationen"
    },
    "STAR_S_BH" : {
       "description" : "",
@@ -1713,7 +1713,7 @@
    },
    "SURFACE_GRAVITY" : {
       "description" : "",
-      "message" : "Oberfläche die Schwerkraft"
+      "message" : "Oberfläche der Schwerkraft"
    },
    "SURFACE_TEMPERATURE" : {
       "description" : "",
@@ -1729,7 +1729,7 @@
    },
    "SYSTEM_ORBIT_VIEW" : {
       "description" : "",
-      "message" : "Orbital Ansicht"
+      "message" : "Orbitalansicht"
    },
    "SYSTEM_TYPE" : {
       "description" : "",
@@ -1765,7 +1765,7 @@
    },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",
-      "message" : "Floriende Kolonie unter freien Himmel."
+      "message" : "Florierende Kolonie unter freien Himmel."
    },
    "THRUSTER_DORSAL" : {
       "description" : "",
@@ -1773,7 +1773,7 @@
    },
    "THRUSTER_MAIN" : {
       "description" : "",
-      "message" : "Schub Haupttriebwerk"
+      "message" : "Schub-Haupttriebwerk"
    },
    "THRUSTER_PORT" : {
       "description" : "",
@@ -1781,7 +1781,7 @@
    },
    "THRUSTER_RETRO" : {
       "description" : "",
-      "message" : "Schub Bremsraketen"
+      "message" : "Schub-Bremsraketen"
    },
    "THRUSTER_STARBOARD" : {
       "description" : "",
@@ -1793,7 +1793,7 @@
    },
    "TIME_POINT" : {
       "description" : "",
-      "message" : "Zeitpunkt:"
+      "message" : "Zeitpunkt: "
    },
    "TINY" : {
       "description" : "",
@@ -1805,7 +1805,7 @@
    },
    "TOGGLE_LUA_CONSOLE" : {
       "description" : "",
-      "message" : "Lua-console schalten"
+      "message" : "Lua-Konsole umschalten"
    },
    "TOGGLE_ROTATION_DAMPING" : {
       "description" : "",
@@ -1849,7 +1849,7 @@
    },
    "UNOCCUPIED_CABIN" : {
       "description" : "",
-      "message" : "Extra Passagier-Kabinen"
+      "message" : "Zusätzliche Passagier-Kabinen"
    },
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",
@@ -1861,7 +1861,7 @@
    },
    "VAST_STRIP_MINE" : {
       "description" : "",
-      "message" : "Riesige Tagebau Kolonie."
+      "message" : "Riesige Tagebaukolonie."
    },
    "VERY_DENSE" : {
       "description" : "",
@@ -1885,7 +1885,7 @@
    },
    "VIOLENT_ANARCHY" : {
       "description" : "",
-      "message" : "Anarchie - Verschiedene bewaffnete Gruppierungen kämpfen um die hoheitliche Kontrolle."
+      "message" : "Anarchie – Verschiedene bewaffnete Gruppierungen kämpfen um die hoheitliche Kontrolle."
    },
    "WATER" : {
       "description" : "",
@@ -1937,11 +1937,11 @@
    },
    "YAW_LEFT" : {
       "description" : "",
-      "message" : "Gieren nach links"
+      "message" : "Nach links gieren"
    },
    "YAW_RIGHT" : {
       "description" : "",
-      "message" : "Gieren nach rechts"
+      "message" : "Nach rechts gieren"
    },
    "YOUNG_FARMING_COLONY" : {
       "description" : "",

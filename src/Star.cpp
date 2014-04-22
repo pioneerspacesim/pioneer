@@ -70,7 +70,7 @@ void Star::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 
 	const Uint8 *col = StarSystem::starRealColors[GetSystemBody()->GetType()];
 
-	Random(rand);
+	Random rand;
 
 	//render star halo
 	VertexArray va(ATTRIB_POSITION | ATTRIB_DIFFUSE);

@@ -3,6 +3,7 @@ April 2014
    * New features
      * UI animations (#2830)
      * Explosions (#2831)
+     * Support Fake Baked Ambient Occlusion texture (#2872)
 
    * Minor changes and tweaks
      * Add a Return to Game button in the pause/options screen (#2841)
@@ -14,15 +15,23 @@ April 2014
        the coasting phase (#2846)
      * A "Refuel full" button added next to the refuel button (#2855,#2853)
      * Balance - Exhaust velocity increase (#2835)
+     * Slightly bigger chat forms (#2856)
 
    * Script and UI API changes
      * Animation object, UI.Context.Animate and AddAnimation methods (#2830)
-     * Improve tradeships.lua (#2851)
+     * Improve TradeShips.lua (#2851)
+     * Ship.SetShipType doesn't equip the default hyperdrive anymore
+     * ShipDef.defaultHyperdrive has been removed in favour of
+       ShipDef.hyperdriveClass (#2859)
+     * New attribute SpaceStation.numShipsDocked to get number of occupied ports
+     * Body.FindNearestTo to find bodies near this body
 
    * Internal changes
      * Emit Lua events and timers in hyperspace
      * Output some system info for debugging purposes (#2832)
      * Add serialization support for LuaRef objects (#2849)
+     * Add facilities to easily call arbitrary Lua methods from C++ (#2854, #2869)
+     * Address some warnings from cppcheck and GCC (#2871)
 
    * Fixes
      * Fix duplication of cargo during cargo scooping (#2644, #2828)
@@ -31,7 +40,12 @@ April 2014
      * Fix taking off with unpaid fines (#2359)
      * Fix zero duration and fuel display in sector view after load (#2847)
      * Fix water still sold in fuel club (#2852)
-
+     * Fix duplicated HANG_UP button in crew bulletin boards (#2858)
+     * Fix assertion in system info view when starport on planet with same
+       name was selected (#2848)
+     * Fix crash when Nerodia selected in shipyard (#2865, #2864)
+     * Fix internal bug in multi-threading queue (#2874)
+     * Fix crash due to ships spawning with default hyperdrive 0 (#2875,2877)
 
 March 2014
 

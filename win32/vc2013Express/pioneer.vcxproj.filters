@@ -845,6 +845,9 @@
     <ClInclude Include="..\..\src\GasGiant.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\matrix3x3.h">
+      <Filter>src</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\Turret.h">
       <Filter>src</Filter>
     </ClInclude>

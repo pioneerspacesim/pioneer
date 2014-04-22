@@ -5,7 +5,7 @@
    },
    "CREWDETAILSHEETBB" : {
       "description" : "",
-      "message" : "Boşta mürettebat\n\nİsim: {name}\nDeneyim: {experience}\nİstediği maaş: haftada {wage}\n\n(yanıtla)\n"
+      "message" : "Name: {name}\nExperience: {experience}\nAsking wage: {wage} per week\n\n{response}\n"
    },
    "CREWMEMBER_WAGE_PER_WEEK" : {
       "description" : "",

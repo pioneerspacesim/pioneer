@@ -20,7 +20,7 @@ static inline void GetComponentsForOrient(bool horiz, Point::Component &variable
 
 Point Box::PreferredSize()
 {
-	if (m_children.size() == 0) return Point();
+	if (m_children.empty()) return Point();
 
 	Point::Component vc, fc;
 	GetComponentsForOrient(m_orient == BOX_HORIZONTAL, vc, fc);
@@ -97,11 +97,11 @@ Point Box::PreferredSize()
 
 void Box::Layout()
 {
-	if (m_children.size() == 0) return;
+	if (m_children.empty()) return;
 
 	PreferredSize();
 
-	const Point boxSize = GetSize();
+	const Point& boxSize = GetSize();
 
 	Point::Component vc, fc;
 	GetComponentsForOrient(m_orient == BOX_HORIZONTAL, vc, fc);

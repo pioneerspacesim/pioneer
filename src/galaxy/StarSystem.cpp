@@ -1592,7 +1592,7 @@ void StarSystem::Dump()
 	}
 
 	FILE *f = fopen("starsystem.dump", "w");
-	fprintf(f, "%d bodies\n", output.size());
+	fprintf(f, "%lu bodies\n", output.size());
 	fprintf(f, "0 steps\n");
 	for (std::vector<thing_t>::iterator i = output.begin();
 			i != output.end(); ++i) {
@@ -2362,7 +2362,7 @@ void SystemBody::Dump(FILE* file, const char* indent) const
 		fprintf(file, "%s\thuman activity %.2f, population %'.0f, agricultural %.2f\n", indent, m_humanActivity.ToDouble() * 100.0,
 			m_population.ToDouble() * 1e9, m_agricultural.ToDouble() * 100.0);
 		if (!m_heightMapFilename.empty()) {
-			fprintf(file, "%s\theightmap \"%s\", fractal %d\n", indent, m_heightMapFilename.c_str(), m_heightMapFractal);
+			fprintf(file, "%s\theightmap \"%s\", fractal %u\n", indent, m_heightMapFilename.c_str(), m_heightMapFractal);
 		}
 	}
 	for (const SystemBody* kid : m_children) {
@@ -2583,7 +2583,7 @@ void StarSystem::Dump(FILE* file, const char* indent, bool suppressSectorData) c
 		fprintf(file, "%s\t\"%s\"\n", indent, m_name.c_str());
 		fprintf(file, "%s\t%sEXPLORED%s\n", indent, m_unexplored ? "UN" : "", m_hasCustomBodies ? ", CUSTOM-ONLY" : m_isCustom ? ", CUSTOM" : "");
 		fprintf(file, "%s\tfaction %s%s%s\n", indent, m_faction ? "\"" : "NONE", m_faction ? m_faction->name.c_str() : "", m_faction ? "\"" : "");
-		fprintf(file, "%s\tseed %u\n", indent, m_seed);
+		fprintf(file, "%s\tseed %u\n", indent, static_cast<Uint32>(m_seed));
 		fprintf(file, "%s\t%d stars%s\n", indent, m_numStars, m_numStars > 0 ? " {" : "");
 		assert(unsigned(m_numStars) == m_stars.size());
 		for (int i = 0; i < m_numStars; ++i)
@@ -2665,7 +2665,7 @@ void StarSystemCache::ShrinkCache(const SystemPath &here, const bool clear/*=fal
 			delete s;
 			s_cachedSystems.erase(i++);
 		} else {
-			i++;
+			++i;
 		}
 	}
 }

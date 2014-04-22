@@ -42,7 +42,7 @@ namespace
 		SDL_BlitSurface(is.Get(), 0, s.Get(), &destrec);
 	}
 
-	Sint32 GetNumMatching(const std::string match, const std::vector<FileSystem::FileInfo>& fileList) {
+	Sint32 GetNumMatching(const std::string &match, const std::vector<FileSystem::FileInfo>& fileList) {
 		Sint32 num_matching = 0;
 		for (std::vector<FileSystem::FileInfo>::const_iterator it = fileList.begin(), itEnd = fileList.end(); it!=itEnd; ++it) {
 			if (starts_with((*it).GetName(), match)) {

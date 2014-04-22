@@ -29,11 +29,11 @@
    },
    "AND_INDIGENOUS_MICROBIAL_LIFE" : {
       "description" : "",
-      "message" : "\" i lokalne mikroorganizmy.\""
+      "message" : "\" i lokalne mikroorganizmy.\""
    },
    "AND_INDIGENOUS_PLANT_LIFE" : {
       "description" : "",
-      "message" : "\" i lokalna roślinność.\""
+      "message" : "\" i lokalna roślinność.\""
    },
    "ANIMAL_MEAT" : {
       "description" : "",
@@ -57,7 +57,7 @@
    },
    "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
       "description" : "",
-      "message" : "Osłaniają statek przy wejściu w atmosferę."
+      "message" : "Osłaniają statek przy wejściu w atmosferę."
    },
    "AUTOMATIC_SYSTEM_SELECTION" : {
       "description" : "",
@@ -153,7 +153,7 @@
    },
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
-      "message" : "Nie można zapisać gry będąc w nadprzestrzeni"
+      "message" : "Nie można zapisać gry będąc w nadprzestrzeni"
    },
    "CAPITALIST" : {
       "description" : "",
@@ -173,7 +173,7 @@
    },
    "CARGO_BAY_LIFE_SUPPORT_LOST" : {
       "description" : "",
-      "message" : "Czujniki wykryły krytyczny poziom podtrzymywania życia w ładowni."
+      "message" : "Czujniki wykryły krytyczny poziom podtrzymywania życia w ładowni."
    },
    "CARGO_LIFE_SUPPORT" : {
       "description" : "",
@@ -181,7 +181,7 @@
    },
    "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
       "description" : "",
-      "message" : "Umożliwia transport ludzi i zwierząt."
+      "message" : "Umożliwia transport ludzi i zwierząt."
    },
    "CARGO_N" : {
       "description" : "",
@@ -209,7 +209,7 @@
    },
    "CLEARANCE_DENIED_NO_BAYS" : {
       "description" : "",
-      "message" : "Brak zgody. Brak wolnych miejsc w dokach."
+      "message" : "Brak zgody. Brak wolnych miejsc w dokach."
    },
    "CLEARANCE_GRANTED_BAY_N" : {
       "description" : "",
@@ -505,7 +505,7 @@
    },
    "FUEL_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Pozwala czerpać paliwo wodorowe z gazowych olbrzymów."
+      "message" : "Pozwala czerpać paliwo wodorowe z gazowych olbrzymów."
    },
    "GALACTIC_VIEW" : {
       "description" : "",
@@ -517,7 +517,7 @@
    },
    "GAME_LOAD_CANNOT_OPEN" : {
       "description" : "",
-      "message" : "Ten zapis nie może być wczytany z powodu braku uprawnień bądź z innej przyczyny..."
+      "message" : "Ten zapis nie może być wczytany z powodu braku uprawnień bądź z innej przyczyny..."
    },
    "GAME_LOAD_CORRUPT" : {
       "description" : "",
@@ -525,7 +525,7 @@
    },
    "GAME_LOAD_WRONG_VERSION" : {
       "description" : "",
-      "message" : "Ten zapis gry nie może zostać załadowany, ponieważ pochodzi z innej wersji gry Pioneer."
+      "message" : "Ten zapis gry nie może zostać załadowany, ponieważ pochodzi z innej wersji gry Pioneer."
    },
    "GAME_SAVED_TO" : {
       "description" : "",
@@ -533,7 +533,7 @@
    },
    "GAME_SAVE_CANNOT_WRITE" : {
       "description" : "",
-      "message" : "Nie można zapisać gry z powodu błędu systemu."
+      "message" : "Nie można zapisać gry z powodu błędu systemowego."
    },
    "GENERAL_VIEW_CONTROLS" : {
       "description" : "",
@@ -581,7 +581,7 @@
    },
    "HIGH_POPULATION_OUTDOOR_WORLD" : {
       "description" : "",
-      "message" : "Zewnętrzny świat o wysokim zaludnieniu."
+      "message" : "Zewnętrzny świat o wysokim zaludnieniu."
    },
    "HULL_AUTOREPAIR" : {
       "description" : "",
@@ -589,7 +589,7 @@
    },
    "HULL_AUTOREPAIR_DESCRIPTION" : {
       "description" : "",
-      "message" : "Automatycznie naprawia kadłub statku w przypadku uszkodzenia."
+      "message" : "Automatycznie naprawia kadłub statku w przypadku uszkodzenia."
    },
    "HULL_INTEGRITY" : {
       "description" : "",
@@ -757,7 +757,7 @@
    },
    "LIQUID_OXYGEN_DESCRIPTION" : {
       "description" : "",
-      "message" : "Tlen jest wymagany dla systemów podtrzymywania życia i niektórych procesów przemysłowych"
+      "message" : "Tlen jest wymagany dla systemów podtrzymywania życia i niektórych procesów przemysłowych"
    },
    "LIQUOR" : {
       "description" : "",
@@ -901,7 +901,7 @@
    },
    "MININGCANNON_17MW_DESCRIPTION" : {
       "description" : "",
-      "message" : "Służy do kruszenia planetoid bogatych w minerały."
+      "message" : "Służy do kruszenia planetoid bogatych w minerały."
    },
    "MINING_COLONY" : {
       "description" : "",
@@ -1089,7 +1089,7 @@
    },
    "NUMBER_GROUP_SEP" : {
       "description" : "For large number, separator used when grouping digits. E.g. 1,000 or 1 000 or 1'000.",
-      "message" : "\" \""
+      "message" : "\" \""
    },
    "NUMBER_HOURS" : {
       "description" : "",
@@ -1293,7 +1293,7 @@
    },
    "RADAR_MAPPER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Przydatne do zdalnego podglądu wyposażenia, ładunku i stanu innych statków."
+      "message" : "Przydatne do zdalnego podglądu wyposażenia, ładunku i stanu innych statków."
    },
    "RADIOACTIVES" : {
       "description" : "",
@@ -1569,7 +1569,7 @@
    },
    "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS" : {
       "description" : "",
-      "message" : "Stabilny system z %bodycount %{body(s)} i %portcount %{starport(s)}."
+      "message" : "Stabilny system z %bodycount %{body(s)} i %portcount %{starport(s)}."
    },
    "STARPORT" : {
       "description" : "",
@@ -1837,7 +1837,7 @@
    },
    "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
       "description" : "",
-      "message" : "System niezbadany. Informacje o gwieździe uzyskano przez teleskop, brak danych o planetach."
+      "message" : "System niezbadany. Informacje o gwieździe uzyskano przez teleskop, brak danych o planetach."
    },
    "UNKNOWN" : {
       "description" : "",

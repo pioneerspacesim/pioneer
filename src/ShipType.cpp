@@ -134,15 +134,7 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 
 	s.equipSlotCapacity[Equip::SLOT_ENGINE] = Clamp(s.equipSlotCapacity[Equip::SLOT_ENGINE], 0, 1);
 
-	{
-		int hyperclass;
-		hyperclass = t.Get("hyperdrive_class", 1);
-		if (!hyperclass) {
-			s.hyperdrive = Equip::NONE;
-		} else {
-			s.hyperdrive = Equip::Type(Equip::DRIVE_CLASS1+hyperclass-1);
-		}
-	}
+	s.hyperdriveClass = t.Get("hyperdrive_class", 1);
 
 	for (int i = 0; i < ShipType::GUNMOUNT_MAX; i++) {
 		s.gunMount[i].pos = vector3f(0,0,0);

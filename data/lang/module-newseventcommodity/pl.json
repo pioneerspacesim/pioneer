@@ -45,7 +45,7 @@
    },
    "FLAVOUR_14_NEWSBODY" : {
       "description" : "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
-      "message" : "W całym systemie {system}({sectorx},{sectory},{sectorz}) awaria zasilania sieje spustoszenie. Tworzą się kolejki konsumentów wykupujących ostatnie pojemniki na żywność w zastępstwie lodówek. A producentom brakuje już na nie materiału."
+      "message" : "W całym systemie {system}({sectorx},{sectory},{sectorz}) awaria zasilania sieje spustoszenie. Tworzą się kolejki konsumentów wykupujących ostatnie pojemniki na żywność w zastępstwie lodówek. A producentom brakuje już na nie materiału."
    },
    "FLAVOUR_15_HEADLINE" : {
       "description" : "",
@@ -61,7 +61,7 @@
    },
    "FLAVOUR_16_NEWSBODY" : {
       "description" : "Imply high demand of FARM_MACHINERY.",
-      "message" : "W trakcie Wielkich Targów Ciągników Parowych w systemie {system}({sectorx},{sectory},{sectorz}) próba pobicia galaktycznego rekordu przeciągania wielkiego traktora zakończyła się tragicznie. Gdy jeden z zawodników utracił kontrolą nad swoją maszyną, zniszczył pozostałe maszyny swoich oponentów. Administracja donosi że może to oznaczać zagładę wśród miejscowych rolników."
+      "message" : "W trakcie Wielkich Targów Ciągników Parowych w systemie {system}({sectorx},{sectory},{sectorz}) próba pobicia galaktycznego rekordu przeciągania wielkiego traktora zakończyła się tragicznie. Gdy jeden z zawodników utracił kontrolą nad swoją maszyną, zniszczył pozostałe maszyny swoich oponentów. Administracja donosi że może to oznaczać zagładę wśród miejscowych rolników."
    },
    "FLAVOUR_17_HEADLINE" : {
       "description" : "",
@@ -77,7 +77,7 @@
    },
    "FLAVOUR_18_NEWSBODY" : {
       "description" : "Imply vast demand of CONSUMER_GOODS.",
-      "message" : "Fortuna sprzyja konsumentom w systemie {system}({sectorx},{sectory},{sectorz}), mają oni więcej pieniędzy do wydania.."
+      "message" : "Fortuna sprzyja konsumentom w systemie {system}({sectorx},{sectory},{sectorz}), mają oni więcej pieniędzy do wydania."
    },
    "FLAVOUR_19_HEADLINE" : {
       "description" : "",
@@ -101,7 +101,7 @@
    },
    "FLAVOUR_20_NEWSBODY" : {
       "description" : "Imply vast abundance of FERTILIZER. Soylent is a reference to the book/movie Soylent Green.",
-      "message" : "System {system}({sectorx},{sectory},{sectorz}) wchodzi w korzystną fazę dla poszukiwań żółtych glonów w atmosferze lokalnego gazowego giganta, żniwa są wyjątkowo dobre dla firmy nawozowej Żółta Pożywka S.A."
+      "message" : "System {system}({sectorx},{sectory},{sectorz}) wchodzi w korzystną fazę dla poszukiwań żółtych glonów w atmosferze lokalnego gazowego giganta, żniwa są wyjątkowo dobre dla firmy nawozowej Żółta Pożywka S.A."
    },
    "FLAVOUR_21_HEADLINE" : {
       "description" : "",
@@ -125,7 +125,7 @@
    },
    "FLAVOUR_23_NEWSBODY" : {
       "description" : "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox.",
-      "message" : "Nowa fabryka koncernu Amissionox w systemie {system}({sectorx},{sectory},{sectorz}) została uruchomiona i pracuje. Będzie produkować wysokiej jakości noże, zdolne do przecięcia buta od skafandra kosmicznego. Jednak nie rozwinęła jeszcze pełnego potencjału produkcyjnego z powodu słabego zaopatrzenie w surowce potrzebne do produkcji ostrzy."
+      "message" : "Nowa fabryka koncernu Amissionox w systemie {system}({sectorx},{sectory},{sectorz}) została uruchomiona i pracuje. Będzie produkować wysokiej jakości noże, zdolne do przecięcia buta od skafandra kosmicznego. Jednak nie rozwinęła jeszcze pełnego potencjału produkcyjnego z powodu słabego zaopatrzenia w surowce potrzebne do produkcji ostrzy."
    },
    "FLAVOUR_2_HEADLINE" : {
       "description" : "",
@@ -165,7 +165,7 @@
    },
    "FLAVOUR_6_NEWSBODY" : {
       "description" : "Stress drunken or intoxicated by alcohol, as this will imply high demand of LIQUOR.",
-      "message" : "Pijackie obchody w systemie {system} ({sectorx},{sectory},{sectorz}) są odprawiane by uhonorować małe futrzane stworzonko."
+      "message" : "Pijackie obchody w systemie {system}({sectorx},{sectory},{sectorz}) są odprawiane by uhonorować małe futrzane stworzonko."
    },
    "FLAVOUR_7_HEADLINE" : {
       "description" : "",
@@ -181,7 +181,7 @@
    },
    "FLAVOUR_8_NEWSBODY" : {
       "description" : "Imply high demand of MINING_MACHINERY.",
-      "message" : "W systemie {system}({sectorx},{sectory},{sectorz}) nastąpiło zawalenie się kopalni. Zginęły setki robotników a istotne dla tej gospodarki maszyny zostały zniszczone."
+      "message" : "W systemie {system}({sectorx},{sectory},{sectorz}) nastąpiło zawalenie się kopalni. Zginęły setki robotników a istotne dla tej gospodarki maszyny zostały zniszczone."
    },
    "FLAVOUR_9_HEADLINE" : {
       "description" : "",

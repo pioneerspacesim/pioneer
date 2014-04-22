@@ -35,7 +35,7 @@ FlightLog = {
 -- by the player, backwards in turn, starting with the most recent. If count
 -- is specified, returns no more than that many systems.
 --
--- iterator = FlightLog.GetSystemPaths(count)
+-- > iterator = FlightLog.GetSystemPaths(count)
 --
 -- Parameters:
 --
@@ -80,7 +80,7 @@ FlightLog = {
 -- by the player, backwards in turn, starting with the most recent. If count
 -- is specified, returns no more than that many stations.
 --
--- iterator = FlightLog.GetStationPaths(count)
+-- > iterator = FlightLog.GetStationPaths(count)
 --
 -- Parameters:
 --
@@ -124,7 +124,7 @@ FlightLog = {
 -- player was before jumping to this one. If none is on record (such as
 -- before any hyperjumps have been made) it returns nil.
 --
--- path = FlightLog.GetPreviousSystemPath()
+-- > path = FlightLog.GetPreviousSystemPath()
 --
 -- Return:
 --
@@ -154,7 +154,7 @@ FlightLog = {
 -- and lands in the same port). If none is on record (such as before the
 -- player has ever launched) it returns nil.
 --
--- path = FlightLog.GetPreviousStationPath()
+-- > path = FlightLog.GetPreviousStationPath()
 --
 -- Return:
 --

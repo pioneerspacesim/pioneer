@@ -363,7 +363,8 @@ local onEnterSystem = function (player)
 			if ships < 1 and risk >= 0.2 and Engine.rand:Integer(2) == 1 then ships = 1 end
 
 			-- XXX hull mass is a bad way to determine suitability for role
-			local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'SHIP' and def.hullMass <= 400 end, pairs(ShipDef)))
+			local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'SHIP'
+				and def.hyperdriveClass > 0 and def.hullMass <= 400 end, pairs(ShipDef)))
 			if #shipdefs == 0 then return end
 
 			local ship
@@ -373,7 +374,7 @@ local onEnterSystem = function (player)
 
 				if Engine.rand:Number(1) <= risk then
 					local shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
-					local default_drive = shipdef.defaultHyperdrive
+					local default_drive = 'DRIVE_CLASS'..tostring(shipdef.hyperdriveClass)
 
 					local max_laser_size = shipdef.capacity - EquipDef[default_drive].mass
                     local laserdefs = utils.build_array(utils.filter(

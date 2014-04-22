@@ -235,7 +235,7 @@ static int l_starsystem_get_nearby_systems(lua_State *l)
 
 	lua_newtable(l);
 
-	const SystemPath here = s->GetPath();
+	const SystemPath &here = s->GetPath();
 
 	const int here_x = here.sectorX;
 	const int here_y = here.sectorY;

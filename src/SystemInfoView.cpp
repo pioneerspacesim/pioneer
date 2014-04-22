@@ -233,7 +233,7 @@ void SystemInfoView::PutBodies(SystemBody *body, Gui::Fixed *container, int dir,
 				}
 			}
 		}
-		m_bodyIcons.push_back(std::pair<std::string, BodyIcon*>(body->GetName(), ib));
+		m_bodyIcons.push_back(std::pair<Uint32, BodyIcon*>(body->GetPath().bodyIndex, ib));
 		ib->GetSize(size);
 		if (prevSize < 0) prevSize = size[!dir];
 		ib->onSelect.connect(sigc::bind(sigc::mem_fun(this, &SystemInfoView::OnBodySelected), body));
@@ -505,27 +505,27 @@ void SystemInfoView::UpdateIconSelections()
 {
 	m_selectedBodyPath = SystemPath();
 
-	for (std::vector<std::pair<std::string, BodyIcon*> >::iterator it = m_bodyIcons.begin();
-		 it != m_bodyIcons.end(); ++it) {
+	for (auto& bodyIcon : m_bodyIcons) {
 
-		(*it).second->SetSelected(false);
+		bodyIcon.second->SetSelected(false);
 
 		RefCountedPtr<StarSystem> currentSys = Pi::game->GetSpace()->GetStarSystem();
 		if (currentSys && currentSys->GetPath() == m_system->GetPath()) {
 			//navtarget can be only set in current system
-			Body *navtarget = Pi::player->GetNavTarget();
-			if (navtarget && (*it).first == navtarget->GetLabel()) {
-			    (*it).second->SetSelectColor(Color(0, 255, 0, 255));
-				(*it).second->SetSelected(true);
-				m_selectedBodyPath = navtarget->GetSystemBody()->GetPath();
+			if (Body* navtarget = Pi::player->GetNavTarget()) {
+				const SystemPath& navpath = navtarget->GetSystemBody()->GetPath();
+				if (bodyIcon.first == navpath.bodyIndex) {
+					bodyIcon.second->SetSelectColor(Color(0, 255, 0, 255));
+					bodyIcon.second->SetSelected(true);
+					m_selectedBodyPath = navpath;
+				}
 			}
 		} else {
 			SystemPath selected = Pi::sectorView->GetSelected();
 			if (selected.IsSameSystem(m_system->GetPath()) && !selected.IsSystemPath()) {
-				SystemBody *sbody = m_system->GetBodyByPath(selected);
-				if ((*it).first == sbody->GetName()) {
-					(*it).second->SetSelectColor(Color(64, 96, 255, 255));
-					(*it).second->SetSelected(true);
+				if (bodyIcon.first == selected.bodyIndex) {
+					bodyIcon.second->SetSelectColor(Color(64, 96, 255, 255));
+					bodyIcon.second->SetSelected(true);
 					m_selectedBodyPath = selected;
 				}
 			}

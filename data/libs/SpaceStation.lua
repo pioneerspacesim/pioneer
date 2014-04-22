@@ -113,7 +113,7 @@ end
 --
 --   equip - the <Constants.EquipType> string for the equipment or cargo item
 --
---   amount - the amount of the item to add (or substract) from the station stock
+--   amount - the amount of the item to add (or subtract) from the station stock
 --
 -- Availability:
 --

@@ -117,16 +117,15 @@
  */
 
 /*
- * Attribute: defaultHyperdrive
+ * Attribute: hyperdriveClass
  *
- * The default hyperdrive this ship receives. This is a <Constants.EquipType>
- * string corresponding to the appropriate drive. Not that this value is only
- * used when the player purchases a ship. Scripts using <Space.SpawnShip> etc
- * must manually add a hyperdrive to the ship; it does not get one by default.
+ * An integer representing the power of the hyperdrive usually installed on
+ * those ships. If null, it means the ship usually isn't equipped with one,
+ * although this does not necessarily mean one cannot be installed.
  *
  * Availability:
  *
- *   alpha 10
+ *   April 2014
  *
  * Status:
  *
@@ -219,7 +218,7 @@ void LuaShipDef::Register()
 		pi_lua_settable(l, "basePrice",         double(st.baseprice)*0.01);
 		pi_lua_settable(l, "minCrew",           st.minCrew);
 		pi_lua_settable(l, "maxCrew",           st.maxCrew);
-		pi_lua_settable(l, "defaultHyperdrive", EnumStrings::GetString("EquipType", st.hyperdrive));
+		pi_lua_settable(l, "hyperdriveClass",   st.hyperdriveClass);
 		pi_lua_settable(l, "effectiveExhaustVelocity", st.effectiveExhaustVelocity);
 		pi_lua_settable(l, "thrusterFuelUse",   st.GetFuelUseRate());
 

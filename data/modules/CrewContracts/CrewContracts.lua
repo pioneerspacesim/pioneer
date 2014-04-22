@@ -205,10 +205,10 @@ local onChat = function (form,ref,option)
 			c.estimatedWage = c.estimatedWage or wageFromScore(c.experience)
 		end
 
-		form:SetTitle(l.CREW_FOR_HIRE)
 		form:ClearFace()
 		form:Clear()
-		form:SetMessage(l.POTENTIAL_CREW_MEMBERS:interp({station=station.label}))
+		form:SetTitle(l.CREW_FOR_HIRE)
+		form:SetMessage("\n"..l.POTENTIAL_CREW_MEMBERS:interp({station=station.label}))
 		for k,c in ipairs(crewInThisStation) do
 			form:AddOption(l.CREWMEMBER_WAGE_PER_WEEK:interp({potentialCrewMember = c.name,wage = c.estimatedWage}),k)
 		end
@@ -224,9 +224,11 @@ local onChat = function (form,ref,option)
 			l.NO_EXPERIENCE
 		form:SetFace(candidate)
 		form:Clear()
+		form:SetTitle(candidate.name)
 		candidate:PrintStats()
 		print("Attitude: ",candidate.playerRelationship)
 		print("Aspiration: ",candidate.estimatedWage)
+		if response == "" then response = "\r" end
 		form:SetMessage(l.CREWDETAILSHEETBB:interp({
 			name = candidate.name,
 			experience = experience,
@@ -256,6 +258,7 @@ local onChat = function (form,ref,option)
 		if option == 1 then
 			-- Offer of employment
 			form:Clear()
+			form:SetTitle(candidate.name)
 			if candidate:TestRoll('playerRelationship',15) then
 				-- Boosting roll by 15, because they want to work
 				if Game.player:Enroll(candidate) then
@@ -277,7 +280,6 @@ local onChat = function (form,ref,option)
 			else
 				form:SetMessage(l.IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME)
 				form:AddOption(l.GO_BACK, 0)
-				form:AddOption(l.HANG_UP, -1)
 			end
 			offer = nil
 			candidate = nil
@@ -324,6 +326,7 @@ local onChat = function (form,ref,option)
 		if option == 6 then
 			-- Player asks candidate to perform a test
 			form:Clear()
+			form:SetTitle(candidate.name)
 			local general,engineering,piloting,navigation,sensors = 0,0,0,0,0
 			for i = 1,10 do
 				if candidate:TestRoll('intelligence') then general = general + 10 end

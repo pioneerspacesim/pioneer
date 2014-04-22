@@ -30,7 +30,7 @@ public:
 
 	// Sector is within a bounding rectangle - used for SectorView m_sectorCache pruning.
 	bool WithinBox(const int Xmin, const int Xmax, const int Ymin, const int Ymax, const int Zmin, const int Zmax) const;
-	bool Contains(const SystemPath sysPath) const;
+	bool Contains(const SystemPath &sysPath) const;
 
 	// get the SystemPath for this sector
 	SystemPath GetSystemPath() const { return SystemPath(sx, sy, sz); }

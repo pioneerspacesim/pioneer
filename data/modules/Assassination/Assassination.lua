@@ -178,7 +178,7 @@ local makeAdvert = function (station)
 
 	-- XXX hull mass is a bad way to determine suitability for role
 	--local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'SHIP' and def.hullMass >= (danger * 17) and def.equipSlotCapacity.ATMOSHIELD > 0 end, pairs(ShipDef)))
-	local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'SHIP' and def.defaultHyperdrive ~= 'NONE' and def.equipSlotCapacity.ATMOSHIELD > 0 end, pairs(ShipDef)))
+	local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'SHIP' and def.hyperdriveClass > 0 and def.equipSlotCapacity.ATMOSHIELD > 0 end, pairs(ShipDef)))
 	local shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
 	local shipid = shipdef.id
 	local shipname = shipdef.name
@@ -276,10 +276,10 @@ local onEnterSystem = function (ship)
 					if mission.location:IsSameSystem(syspath) then -- spawn our target ship
 						local station = Space.GetBody(mission.location.bodyIndex)
 						local shiptype = ShipDef[mission.shipid]
-						local default_drive = shiptype.defaultHyperdrive
+						local default_drive = shiptype.hyperdriveClass
 						local laserdefs = utils.build_array(utils.filter(function (k,def) return def.slot == 'LASER' end, pairs(EquipDef)))
 						local laserdef = laserdefs[mission.danger]
-						local count = tonumber(string.sub(default_drive, -1)) ^ 2
+						local count = default_drive ^ 2
 
 						mission.ship = Space.SpawnShipDocked(mission.shipid, station)
 						if mission.ship == nil then
@@ -287,7 +287,7 @@ local onEnterSystem = function (ship)
 						end
 						mission.ship:SetLabel(mission.shipregid)
 						mission.ship:AddEquip('ATMOSPHERIC_SHIELDING')
-						mission.ship:AddEquip(default_drive)
+						mission.ship:AddEquip('DRIVE_CLASS'..tostring(default_drive))
 						mission.ship:AddEquip(laserdef.id)
 						mission.ship:AddEquip('SHIELD_GENERATOR', mission.danger)
 						mission.ship:AddEquip('HYDROGEN', count)
