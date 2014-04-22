@@ -41,6 +41,8 @@ public:
 			m_explored(false) {};
 		~System() {};
 
+		static float DistanceBetween(const System* a, const System* b);
+
 		// Check that we've had our habitation status set
 
 		const std::string& GetName() const { return m_name; }
@@ -50,13 +52,16 @@ public:
 		SystemBody::BodyType GetStarType(unsigned i) const { assert(i < m_numStars); return m_starType[i]; }
 		Uint32 GetSeed() const { return m_seed; }
 		const CustomSystem* GetCustomSystem() const { return m_customSys; }
-		const Faction* GetFaction() const { return m_faction; }
+		const Faction* GetFaction() const { if (!m_faction) AssignFaction(); return m_faction; }
 		fixed GetPopulation() const { return m_population; }
 		void SetPopulation(fixed pop) { m_population = pop; }
 		bool IsExplored() const { return m_explored; }
 
 		bool IsSameSystem(const SystemPath &b) const {
 			return sx == b.sectorX && sy == b.sectorY && sz == b.sectorZ && idx == b.systemIndex;
+		}
+		bool InSameSector(const SystemPath &b) const {
+			return sx == b.sectorX && sy == b.sectorY && sz == b.sectorZ;
 		}
 
 		const int sx, sy, sz;
@@ -65,13 +70,15 @@ public:
 	private:
 		friend class Sector;
 
+		void AssignFaction() const;
+
 		std::string m_name;
 		vector3f m_pos;
 		unsigned m_numStars;
 		SystemBody::BodyType m_starType[4];
 		Uint32 m_seed;
 		const CustomSystem* m_customSys;
-		Faction* m_faction;
+		mutable Faction* m_faction; // mutable because we only calculate on demand
 		fixed m_population;
 		bool m_explored;
 	};
@@ -84,13 +91,11 @@ private:
 	Sector& operator=(const Sector&); // non-assignable
 
 	int sx, sy, sz;
-	bool m_factionsAssigned;
 
 	Sector(const SystemPath& path); // Only SectorCache(Job) are allowed to create sectors
 	void GetCustomSystems(Random& rng);
 	const std::string GenName(System &sys, int si, Random &rand);
 	// sets appropriate factions for all systems in the sector
-	void AssignFactions();
 };
 
 #endif /* _SECTOR_H */

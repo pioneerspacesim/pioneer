@@ -56,7 +56,7 @@ void Sector::GetCustomSystems(Random& rng)
 static const int CUSTOM_ONLY_RADIUS	= 4;
 
 //////////////////////// Sector
-Sector::Sector(const SystemPath& path) : sx(path.sectorX), sy(path.sectorY), sz(path.sectorZ), m_factionsAssigned(false)
+Sector::Sector(const SystemPath& path) : sx(path.sectorX), sy(path.sectorY), sz(path.sectorZ)
 {
 	PROFILE_SCOPED()
 	Uint32 _init[4] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
@@ -339,19 +339,6 @@ bool Sector::WithinBox(const int Xmin, const int Xmax, const int Ymin, const int
 	return false;
 }
 
-void Sector::AssignFactions()
-{
-	PROFILE_SCOPED()
-
-	assert(!m_factionsAssigned);
-
-	Uint32 index = 0;
-	for (std::vector<Sector::System>::iterator system = m_systems.begin(); system != m_systems.end(); ++system, ++index ) {
-		(*system).m_faction = Faction::GetNearestFaction(RefCountedPtr<const Sector>(this), index);
-	}
-	m_factionsAssigned = true;
-}
-
 /*	answer whether the system path is in this sector
 */
 bool Sector::Contains(const SystemPath &sysPath) const
@@ -395,4 +382,18 @@ void Sector::Dump(FILE* file, const char* indent) const
 		fprintf(file, "\t}\n");
 	}
 	fprintf(file, "}\n\n");
+}
+
+float Sector::System::DistanceBetween(const System* a, const System* b)
+{
+	PROFILE_SCOPED()
+	vector3f dv = a->GetPosition() - b->GetPosition();
+	dv += Sector::SIZE*vector3f(float(a->sx - b->sx), float(a->sy - b->sy), float(a->sz - b->sz));
+	return dv.Length();
+}
+
+void Sector::System::AssignFaction() const
+{
+	assert(Faction::MayAssignFactions());
+	m_faction = Faction::GetNearestFaction(this);
 }

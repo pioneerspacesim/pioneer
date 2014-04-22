@@ -1403,7 +1403,7 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path), m_numStars(0), m_
 
 	m_seed    = s->m_systems[m_path.systemIndex].GetSeed();
 	m_name    = s->m_systems[m_path.systemIndex].GetName();
-	m_faction = Faction::GetNearestFaction(s, m_path.systemIndex);
+	m_faction = Faction::GetNearestFaction(&s->m_systems[m_path.systemIndex]);
 
 	Uint32 _init[6] = { m_path.systemIndex, Uint32(m_path.sectorX), Uint32(m_path.sectorY), Uint32(m_path.sectorZ), UNIVERSE_SEED, Uint32(m_seed) };
 	Random rand(_init, 6);

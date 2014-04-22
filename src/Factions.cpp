@@ -363,7 +363,6 @@ void Faction::SetHomeSectors()
 		if ((*it)->hasHomeworld)
 			(*it)->m_homesector = Sector::cache.GetCached((*it)->homeworld);
 	s_may_assign_factions = true;
-	Sector::cache.AssignFactions();
 }
 
 void Faction::Uninit()
@@ -412,7 +411,7 @@ bool Faction::MayAssignFactions()
 	if it is, then the passed distance will also be updated to be the distance
 	from the factions homeworld to the sysPath.
 */
-const bool Faction::IsCloserAndContains(double& closestFactionDist, RefCountedPtr<const Sector> sec, Uint32 sysIndex)
+const bool Faction::IsCloserAndContains(double& closestFactionDist, const Sector::System* sys)
 {
 	PROFILE_SCOPED()
 	/*	Treat factions without homeworlds as if they are of effectively infinite radius,
@@ -427,12 +426,14 @@ const bool Faction::IsCloserAndContains(double& closestFactionDist, RefCountedPt
 	if (hasHomeworld)
 	{
 		/* ...automatically gain the allegiance of worlds within the same sector... */
-		if (sec->Contains(homeworld)) { distance = 0; }
+		if (sys->InSameSector(homeworld)) { distance = 0; }
 
 		/* ...otherwise we need to calculate whether the world is inside the
 		   the faction border, and how far away it is. */
 		else {
-			distance = Sector::DistanceBetween(GetHomeSector(), homeworld.systemIndex, sec, sysIndex);
+			RefCountedPtr<const Sector> homeSec = GetHomeSector();
+			const Sector::System* homeSys = &homeSec->m_systems[homeworld.systemIndex];
+			distance = Sector::System::DistanceBetween(homeSys, sys);
 			inside   = distance < Radius();
 		}
 	}
@@ -449,21 +450,21 @@ const bool Faction::IsCloserAndContains(double& closestFactionDist, RefCountedPt
 	}
 }
 
-Faction* Faction::GetNearestFaction(RefCountedPtr<const Sector> sec, Uint32 sysIndex)
+Faction* Faction::GetNearestFaction(const Sector::System* sys)
 {
 	PROFILE_SCOPED()
 	// firstly if this a custom StarSystem it may already have a faction assigned
-	if (sec->m_systems[sysIndex].GetCustomSystem() && sec->m_systems[sysIndex].GetCustomSystem()->faction) {
-		return sec->m_systems[sysIndex].GetCustomSystem()->faction;
+	if (sys->GetCustomSystem() && sys->GetCustomSystem()->faction) {
+		return sys->GetCustomSystem()->faction;
 	}
 
 	// if it didn't, or it wasn't a custom StarStystem, then we go ahead and assign it a faction allegiance like normal below...
 	Faction*    result             = &s_no_faction;
 	double      closestFactionDist = HUGE_VAL;
-	ConstFactionList& candidates   = s_spatial_index.CandidateFactions(sec, sysIndex);
+	ConstFactionList& candidates   = s_spatial_index.CandidateFactions(sys);
 
 	for (ConstFactionIterator it = candidates.begin(); it != candidates.end(); ++it) {
-		if ((*it)->IsCloserAndContains(closestFactionDist, sec, sysIndex)) result = *it;
+		if ((*it)->IsCloserAndContains(closestFactionDist, sys)) result = *it;
 	}
 	return result;
 }
@@ -650,13 +651,12 @@ void FactionOctsapling::PruneDuplicates(const int bx, const int by, const int bz
 	octbox[bx][by][bz].erase(std::unique( octbox[bx][by][bz].begin(), octbox[bx][by][bz].end() ), octbox[bx][by][bz].end() );
 }
 
-const std::vector<Faction*>& FactionOctsapling::CandidateFactions(RefCountedPtr<const Sector> sec, Uint32 sysIndex)
+const std::vector<Faction*>& FactionOctsapling::CandidateFactions(const Sector::System* sys)
 {
 	PROFILE_SCOPED()
 	/* answer the factions that we've put in the same octobox cell as the one the
 	   system would go in. This part happens every time we do GetNearest faction
 	   so *is* performance criticale.e
 	*/
-	Sector::System sys = sec->m_systems[sysIndex];
-	return octbox[BoxIndex(sys.sx)][BoxIndex(sys.sy)][BoxIndex(sys.sz)];
+	return octbox[BoxIndex(sys->sx)][BoxIndex(sys->sy)][BoxIndex(sys->sz)];
 }
