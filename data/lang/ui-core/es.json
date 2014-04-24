@@ -429,7 +429,7 @@
    },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
-      "message" : "Estoy harto de trabajar por nada. Conoce la palabra contrato?"
+      "message" : "Estoy harto de trabajar por nada. ¿Conoce la palabra contrato?"
    },
    "INACTIVE" : {
       "description" : "",
@@ -1045,7 +1045,7 @@
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",
-      "message" : "Va a lamentar haberme explotado!"
+      "message" : "¡Va a lamentar haberme explotado!"
    },
    "YOUR_HULL_IS_AT_X_INTEGRITY" : {
       "description" : "",
