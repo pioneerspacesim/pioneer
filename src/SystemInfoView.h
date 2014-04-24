@@ -62,8 +62,8 @@ private:
 	RefCountedPtr<StarSystem> m_system;
 	SystemPath m_selectedBodyPath;
 	RefreshType m_refresh;
-	//map is not enough to associate icons as each tab has their own
-	std::vector<std::pair<std::string, BodyIcon*> > m_bodyIcons;
+	//map is not enough to associate icons as each tab has their own. First element is the body index of SystemPath (names are not unique)
+	std::vector<std::pair<Uint32, BodyIcon*> > m_bodyIcons;
 	Graphics::RenderState *m_solidState;
 };
 

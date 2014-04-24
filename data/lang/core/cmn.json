@@ -59,6 +59,10 @@
       "description" : "",
       "message" : "Shields your spaceship from the heat of atmospheric re-entry."
    },
+   "AUTOMATIC_SYSTEM_SELECTION" : {
+      "description" : "",
+      "message" : "Automatic system selection"
+   },
    "AUTOPILOT" : {
       "description" : "",
       "message" : "自动导航"
@@ -303,10 +307,6 @@
       "description" : "",
       "message" : "\" Dir \""
    },
-   "DISABLED_AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
-      "message" : "Disabled automatic system selection."
-   },
    "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
       "description" : "",
       "message" : "飞船到航行目标的距离"
@@ -434,10 +434,6 @@
    "ECONOMY_TYPE" : {
       "description" : "",
       "message" : "经济类型:"
-   },
-   "ENABLED_AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
-      "message" : "Enabled automatic system selection."
    },
    "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
       "description" : "",
@@ -750,10 +746,6 @@
    "LASER_FIRE_DETECTED" : {
       "description" : "",
       "message" : "检测到激光攻击。"
-   },
-   "LAUNCH_PERMISSION_DENIED_BUSY" : {
-      "description" : "",
-      "message" : "着陆许可被拒绝：港口繁忙。"
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",

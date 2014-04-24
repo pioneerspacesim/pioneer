@@ -5,10 +5,9 @@
 #define _LUAPUSHPULL_H
 
 #include "lua/lua.hpp"
-#include "LuaObject.h"
-#include "LuaVector.h"
 #include "Lua.h"
 #include <string>
+#include <tuple>
 
 inline void pi_lua_generic_push(lua_State * l, bool value) { lua_pushboolean(l, value); }
 inline void pi_lua_generic_push(lua_State * l, int value) { lua_pushinteger(l, value); }
@@ -18,15 +17,6 @@ inline void pi_lua_generic_push(lua_State * l, const char * value) { lua_pushstr
 inline void pi_lua_generic_push(lua_State * l, const std::string & value) {
 	lua_pushlstring(l, value.c_str(), value.size());
 }
-template <class T> void pi_lua_generic_push(lua_State * l, T* value) {
-	assert(l == Lua::manager->GetLuaState());
-	if (value)
-		LuaObject<T>::PushToLua(value);
-	else
-		lua_pushnil(l);
-}
-
-inline void pi_lua_generic_push(lua_State * l, const vector3d & value) { LuaVector::PushToLua(l, value); }
 
 inline void pi_lua_generic_pull(lua_State * l, int index, bool & out) { out = lua_toboolean(l, index); }
 inline void pi_lua_generic_pull(lua_State * l, int index, int & out) { out = luaL_checkinteger(l, index); }
@@ -39,15 +29,6 @@ inline void pi_lua_generic_pull(lua_State * l, int index, std::string & out) {
 	const char *buf = luaL_checklstring(l, index, &len);
 	std::string(buf, len).swap(out);
 }
-template <class T> void pi_lua_generic_pull(lua_State * l, int index, T* & out) {
-	assert(l == Lua::manager->GetLuaState());
-	out = LuaObject<T>::CheckFromLua(index);
-}
-
-inline void pi_lua_generic_pull(lua_State * l, int index, vector3d& out) {
-	out = *LuaVector::CheckFromLua(l, index);
-}
-
 inline bool pi_lua_strict_pull(lua_State * l, int index, bool & out) {
 	if (lua_type(l, index) == LUA_TBOOLEAN) {
 		out = lua_toboolean(l, index);
@@ -92,18 +73,91 @@ inline bool pi_lua_strict_pull(lua_State * l, int index, std::string & out) {
 	}
 	return false;
 }
-template <class T> bool pi_lua_strict_pull(lua_State * l, int index, T* & out) {
-	assert(l == Lua::manager->GetLuaState());
-	out = LuaObject<T>::GetFromLua(index);
-	return out != 0;
+template <typename ...Types>
+inline void pi_lua_multiple_push(lua_State *l, Types ...args);
+
+#if defined(_MSC_VER) // Non-variadic version for MSVC
+template <typename Arg1>
+inline void pi_lua_multiple_push(lua_State *l, Arg1 arg1) {
+	pi_lua_generic_push(l, arg1);
 }
-inline bool pi_lua_strict_pull(lua_State * l, int index, vector3d & out) {
-	const vector3d* tmp = LuaVector::GetFromLua(l, index);
-	if (tmp) {
-		out = *tmp;
-		return true;
-	}
-	return false;
+
+template <typename Arg1, typename Arg2>
+inline void pi_lua_multiple_push(lua_State *l, Arg1 arg1, Arg2 arg2) {
+	pi_lua_generic_push(l, arg1);
+	pi_lua_generic_push(l, arg2);
 }
+
+template <typename Arg1, typename Arg2, typename Arg3>
+inline void pi_lua_multiple_push(lua_State *l, Arg1 arg1, Arg2 arg2, Arg3 arg3) {
+	pi_lua_generic_push(l, arg1);
+	pi_lua_generic_push(l, arg2);
+	pi_lua_generic_push(l, arg3);
+}
+
+template <typename Arg1, typename Arg2, typename Arg3, typename Arg4>
+inline void pi_lua_multiple_push(lua_State *l, Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4) {
+	pi_lua_generic_push(l, arg1);
+	pi_lua_generic_push(l, arg2);
+	pi_lua_generic_push(l, arg3);
+	pi_lua_generic_push(l, arg4);
+}
+#else // Just use the normal variadic version
+template <typename Head, typename ...Tail>
+inline void pi_lua_multiple_push(lua_State *l, Head arg1, Tail ...rest) {
+	pi_lua_generic_push(l, arg1);
+	pi_lua_multiple_push(l, rest...);
+}
+#endif
+
+inline void pi_lua_multiple_push(lua_State *l) {
+	return;
+}
+
+
+#if defined(_MSC_VER)
+template <typename Arg1, typename Arg2>
+inline std::tuple<Arg1, Arg2> pi_lua_multiple_pull(lua_State *l, int beg) {
+	beg = lua_absindex(l, beg);
+	Arg1 arg1;
+	Arg2 arg2;
+	pi_lua_generic_pull(l, beg, arg1);
+	pi_lua_generic_pull(l, beg+1, arg2);
+	return std::make_tuple(arg1, arg2);
+}
+template <typename Arg1, typename Arg2, typename Arg3>
+inline std::tuple<Arg1, Arg2, Arg3> pi_lua_multiple_pull(lua_State *l, int beg) {
+	beg = lua_absindex(l, beg);
+	Arg1 arg1;
+	Arg2 arg2;
+	Arg3 arg3;
+	pi_lua_generic_pull(l, beg, arg1);
+	pi_lua_generic_pull(l, beg+1, arg2);
+	pi_lua_generic_pull(l, beg+2, arg3);
+	return std::make_tuple(arg1, arg2, arg3);
+}
+#else
+// The _bogus parameter is used to bring the empty type list case into the template world
+// to solve name resolution problems.
+template <int _bogus, typename Head, typename ...Tail>
+inline std::tuple<Head, Tail...> __helper_pi_lua_multiple_pull(lua_State *l, int beg) {
+	beg = lua_absindex(l, beg);
+	std::tuple<Tail...> rest = __helper_pi_lua_multiple_pull<_bogus, Tail...>(l, beg+1);
+	Head hd;
+	pi_lua_generic_pull(l, beg, hd);
+	std::tuple<Head> first(hd);
+	return std::tuple_cat(first, rest);
+}
+
+template <int _bogus>
+inline std::tuple<> __helper_pi_lua_multiple_pull(lua_State *l, int beg) {
+	return std::tuple<>();
+}
+
+template <typename ...Types>
+inline std::tuple<Types...> pi_lua_multiple_pull(lua_State *l, int beg) {
+	return __helper_pi_lua_multiple_pull<0, Types...>(l, beg);
+}
+#endif
 
 #endif

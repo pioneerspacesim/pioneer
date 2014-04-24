@@ -5,7 +5,7 @@
    },
    "BEGIN_TRADE" : {
       "description" : "",
-      "message" : "Beginne Handel"
+      "message" : "Handel beginnen"
    },
    "FLAVOUR_0_CLUBNAME" : {
       "description" : "",
@@ -13,11 +13,11 @@
    },
    "FLAVOUR_0_MEMBER_INTRO" : {
       "description" : "",
-      "message" : "Du kannst hier Kraftstoffe kaufen und {radioactives} entsorgen."
+      "message" : "Sie können hier Treibstoffe kaufen und {radioactives} entsorgen."
    },
    "FLAVOUR_0_NONMEMBER_INTRO" : {
       "description" : "",
-      "message" : "{clubname} ist eine unabhängige Organisation, deren Ziel es ist, günstigen Raumschifftreibstoff an seine Mitglieder zu Verkaufen. Ableger können überall in der Galaxie gefunden werden. Die Vorteile einer Mitgliedschaft umfassen:\n\n\t* Unsere eigenen, vom Markt unabhängigen, Treibstoffvorräte\n\t* {hydrogen} zu Discount-Preisen\n\t* {military_fuel} zu Discount-Preisen\n\t* {water} zu Discount-Preisen\n\t* {radioactives}, kostenlose Entsorgung (siehe Konditionen)\n\t* Kraftstoff-Nachfüllung wo es nötig ist\n\nTrete uns noch heute bei! Jährliche Mitgliedschaft nur {membership_fee}"
+      "message" : "{clubname} ist eine unabhängige Organisation mit dem Ziel, ihren Mitgliedern\ngünstigen Raumschifftreibstoff zur Verfügung zu stellen. Zweigstellen gibt es in der gesamten Galaxis. Die Vorteile einer Mitgliedschaft umfassen:"
    },
    "FLAVOUR_0_WELCOME" : {
       "description" : "",
@@ -31,25 +31,29 @@
       "description" : "",
       "message" : "Auflegen."
    },
-   "HYDROGEN" : {
+   "LIST_BENEFITS_DISPOSAL" : {
       "description" : "",
-      "message" : "Wasserstoff"
+      "message" : "{radioactives}, kostenlose Entsorgung (siehe Konditionen)"
    },
-   "MILITARY_FUEL" : {
+   "LIST_BENEFITS_FUEL" : {
       "description" : "",
-      "message" : "Militär-Treibstoff"
+      "message" : "{fuel} zum Diskontpreis!"
    },
-   "RADIOACTIVES" : {
+   "LIST_BENEFITS_FUEL_INTRO" : {
       "description" : "",
-      "message" : "Radioaktive Abfälle"
+      "message" : "Unsere eigenen, vom Markt unabhängigen, Treibstoffvorräte"
    },
-   "WATER" : {
+   "LIST_BENEFITS_FUEL_TANK" : {
       "description" : "",
-      "message" : "Wasser"
+      "message" : "Treibstoffnachfüllung, wo auch immer es notwendig sein sollte"
+   },
+   "LIST_BENEFITS_JOIN" : {
+      "description" : "",
+      "message" : "Jetzt anmelden! Die jährliche Gebühr beträgt nur {membership_fee}"
    },
    "WE_WILL_ONLY_DISPOSE_OF" : {
       "description" : "",
-      "message" : "Wir werden die gleiche Menge {radioactives} entsorgen, wie du {military_fuel} von uns gekauft hast."
+      "message" : "Wir werden maximal nur so viel {radioactives} entsorgen, wie Sie {military_fuel} von uns gekauft haben."
    },
    "WHAT_CONDITIONS_APPLY" : {
       "description" : "",
@@ -57,14 +61,14 @@
    },
    "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED" : {
       "description" : "",
-      "message" : "Deine Bewerbung wurde abgelehnt."
+      "message" : "Ihre Bewerbung wurde abgelehnt."
    },
    "YOU_ARE_NOW_A_MEMBER" : {
       "description" : "",
-      "message" : "Du bist nun Mitglied. Die Mitgliedschaft verfällt am {expiry_date}."
+      "message" : "Sie sind nun Mitglied. Die Mitgliedschaft verfällt am {expiry_date}."
    },
    "YOU_MUST_BUY" : {
       "description" : "",
-      "message" : "Du musst unseren {military_fuel} kaufen, bevor wir deine {radioactives} annehmen"
+      "message" : "Sie müssen unseren {military_fuel} kaufen, bevor wir Ihre {radioactives} annehmen"
    }
 }

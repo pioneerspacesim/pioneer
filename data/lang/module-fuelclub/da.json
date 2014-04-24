@@ -17,7 +17,7 @@
    },
    "FLAVOUR_0_NONMEMBER_INTRO" : {
       "description" : "",
-      "message" : "{clubname} er en uafhængig organisation, dedikeret til at yde rumskibsbrændstof til gode priser, til sine medlemmer. Forskellige afdelinger kan findes igennem hele galaksen.\nFordele ved medlemsskabet inkluderer:\n\n⇥* Vores eget lager af brændstof, uafhængigt af det generelle marked\n⇥* {hydrogen} til discount-priser\n⇥* {military_fuel} til discount-priser\n⇥* {water} til discount-priser\n⇥* {radioactives}, gratis afhænding (enkelte betingelser)\n⇥* Brændstof-tank optankning, hvor nødvendigt\n\nBliv medlem nu! Årligt medlemsskab koster kun {membership_fee}"
+      "message" : "{clubname} is an independent organisation dedicated to providing discounted starship fuel to its members. Branches can be found throughout the galaxy. Benefits of membership include:"
    },
    "FLAVOUR_0_WELCOME" : {
       "description" : "",
@@ -31,21 +31,25 @@
       "description" : "",
       "message" : "Afbryd linjen."
    },
-   "HYDROGEN" : {
+   "LIST_BENEFITS_DISPOSAL" : {
       "description" : "",
-      "message" : "Hydrogen"
+      "message" : "{radioactives}, free disposal (conditions apply)"
    },
-   "MILITARY_FUEL" : {
+   "LIST_BENEFITS_FUEL" : {
       "description" : "",
-      "message" : "Militærbrændstof"
+      "message" : "{fuel} at discount prices"
    },
-   "RADIOACTIVES" : {
+   "LIST_BENEFITS_FUEL_INTRO" : {
       "description" : "",
-      "message" : "Radioaktivt affald"
+      "message" : "Our own stocks of fuel, independent of the general market"
    },
-   "WATER" : {
+   "LIST_BENEFITS_FUEL_TANK" : {
       "description" : "",
-      "message" : "Vand"
+      "message" : "Fuel tank refilling, where necessary"
+   },
+   "LIST_BENEFITS_JOIN" : {
+      "description" : "",
+      "message" : "Join now! Annual membership costs only {membership_fee}"
    },
    "WE_WILL_ONLY_DISPOSE_OF" : {
       "description" : "",

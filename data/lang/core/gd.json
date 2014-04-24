@@ -59,6 +59,10 @@
       "description" : "",
       "message" : "Shields your spaceship from the heat of atmospheric re-entry."
    },
+   "AUTOMATIC_SYSTEM_SELECTION" : {
+      "description" : "",
+      "message" : "Automatic system selection"
+   },
    "AUTOPILOT" : {
       "description" : "",
       "message" : "Fèin-stiùireadh"
@@ -303,10 +307,6 @@
       "description" : "",
       "message" : "\"Comhair\""
    },
-   "DISABLED_AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
-      "message" : "Chaidh taghadh fèin-obrachail an t-siostaim a chur à comas."
-   },
    "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
       "description" : "",
       "message" : "Astar eadar an long agus an ceann-uidhe"
@@ -434,10 +434,6 @@
    "ECONOMY_TYPE" : {
       "description" : "",
       "message" : "Seòrsa an eaconamaidh:"
-   },
-   "ENABLED_AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
-      "message" : "Taghadh siostaim fèin-obrachail an comas."
    },
    "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
       "description" : "",
@@ -750,10 +746,6 @@
    "LASER_FIRE_DETECTED" : {
       "description" : "",
       "message" : "Laser fire detected."
-   },
-   "LAUNCH_PERMISSION_DENIED_BUSY" : {
-      "description" : "",
-      "message" : "Chaidh an t-iarrtas losgaidh a dhiùltadh: tha an t-ionad docaidh trang."
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",

@@ -13,10 +13,8 @@
 namespace Graphics {
 namespace GL2 {
 
-ShieldProgram::ShieldProgram(const MaterialDescriptor &desc, int lights)
+ShieldProgram::ShieldProgram(const MaterialDescriptor &desc)
 {
-	lights = Clamp(lights, 1, 4);
-
 	//build some defines
 	std::stringstream ss;
 

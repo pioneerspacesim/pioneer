@@ -11,6 +11,16 @@ local ModelSpinner = import("UI.Game.ModelSpinner")
 
 local ui = Engine.ui
 local l = Lang.GetResource("ui-core");
+local lcore = Lang.GetResource("core");
+
+local yes_no = function (binary)
+	if binary == 1 then
+		return l.YES
+	elseif binary == 0 then
+		return l.NO
+	else error("argument to yes_no not 0 or 1")
+	end
+end
 
 local shipInfo = function (args)
 	local shipDef = ShipDef[Game.player.shipId]
@@ -81,7 +91,7 @@ local shipInfo = function (args)
 						"",
 						{ l.WEIGHT_EMPTY..":",  string.format("%dt", player.totalMass - player.usedCapacity) },
 						{ l.CAPACITY_USED..":", string.format("%dt (%dt "..l.FREE..")", player.usedCapacity,  player.freeCapacity) },
-						{ l.FUEL_WEIGHT..":",   string.format("%dt (%dt "..l.MAX..")", player.fuelMassLeft, ShipDef[Game.player.shipId].fuelTankMass ) },
+						{ l.FUEL_WEIGHT..":",   string.format("%dt (%dt "..l.MAX..")", player.fuelMassLeft, shipDef.fuelTankMass ) },
 						{ l.ALL_UP_WEIGHT..":", string.format("%dt", mass_with_fuel ) },
 						"",
 						{ l.FRONT_WEAPON..":", EquipDef[frontWeapon].name },
@@ -93,8 +103,13 @@ local shipInfo = function (args)
 						{ l.BACKWARD_ACCEL..":", string.format("%.2f m/s² (%.1f G)", bwd_acc, bwd_acc / 9.81) },
 						{ l.UP_ACCEL..":",       string.format("%.2f m/s² (%.1f G)", up_acc, up_acc / 9.81) },
 						"",
-						{ l.MINIMUM_CREW..":", ShipDef[Game.player.shipId].minCrew },
-						{ l.CREW_CABINS..":",  ShipDef[Game.player.shipId].maxCrew },
+						{ l.MINIMUM_CREW..":", shipDef.minCrew },
+						{ l.CREW_CABINS..":",  shipDef.maxCrew },
+						"",
+						{ l.MISSILE_MOUNTS..":",            shipDef.equipSlotCapacity["MISSILE"]},
+						{ lcore.ATMOSPHERIC_SHIELDING..":", yes_no(shipDef.equipSlotCapacity["ATMOSHIELD"])},
+						{ lcore.FUEL_SCOOP..":",            yes_no(shipDef.equipSlotCapacity["FUELSCOOP"])},
+						{ lcore.CARGO_SCOOP..":",           yes_no(shipDef.equipSlotCapacity["CARGOSCOOP"])},
 					}),
 					"",
 					ui:Label(l.EQUIPMENT):SetFont("HEADING_LARGE"),

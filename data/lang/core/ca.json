@@ -59,6 +59,10 @@
       "description" : "",
       "message" : "Protegeix la vostra nau de les atmosferes al re-entrar als planetes."
    },
+   "AUTOMATIC_SYSTEM_SELECTION" : {
+      "description" : "",
+      "message" : "Automatic system selection"
+   },
    "AUTOPILOT" : {
       "description" : "",
       "message" : "Pilot automàtic"
@@ -303,10 +307,6 @@
       "description" : "",
       "message" : "\" Dir \""
    },
-   "DISABLED_AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
-      "message" : "S'ha desactivat la sellecció automàtica del sistema."
-   },
    "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
       "description" : "",
       "message" : "Distància de la nau a l'objectiu de navegació"
@@ -434,10 +434,6 @@
    "ECONOMY_TYPE" : {
       "description" : "",
       "message" : "Tipus d'economia:"
-   },
-   "ENABLED_AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
-      "message" : "S'ha activat la sellecció automàtica del sistema."
    },
    "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
       "description" : "",
@@ -750,10 +746,6 @@
    "LASER_FIRE_DETECTED" : {
       "description" : "",
       "message" : "S'ha detectat foc de làser."
-   },
-   "LAUNCH_PERMISSION_DENIED_BUSY" : {
-      "description" : "",
-      "message" : "Permís per enlairament degegat: moll de càrrega ocupat."
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",

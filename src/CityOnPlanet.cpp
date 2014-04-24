@@ -178,8 +178,7 @@ static void lookupBuildingListModels(citybuildinglist_t *list)
 	{
 		std::vector<std::string> filenames;
 		enumerateNewBuildings(filenames);
-		for (std::vector<std::string>::const_iterator it = filenames.begin();
-			it != filenames.end(); ++it)
+		for(auto it = filenames.begin(), itEnd = filenames.end(); it != itEnd; ++it)
 		{
 			Model *model = Pi::modelCache->FindModel(*it);
 			models.push_back(model);
@@ -191,7 +190,7 @@ static void lookupBuildingListModels(citybuildinglist_t *list)
 	list->numBuildings = models.size();
 
 	int i = 0;
-	for (std::vector<Model*>::iterator m = models.begin(); m != models.end(); ++m, i++) {
+	for (auto m = models.begin(), itEnd = models.end(); m != itEnd; ++m, i++) {
 		list->buildings[i].resolvedModel = *m;
 		list->buildings[i].collMesh = (*m)->CreateCollisionMesh();
 		const Aabb &aabb = list->buildings[i].collMesh->GetAabb();

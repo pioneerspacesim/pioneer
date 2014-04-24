@@ -59,6 +59,10 @@
       "description" : "",
       "message" : "Skyddar ditt rymdskepp från hettan vid återinträde i atmosfär."
    },
+   "AUTOMATIC_SYSTEM_SELECTION" : {
+      "description" : "",
+      "message" : "Automatiskt systemval"
+   },
    "AUTOPILOT" : {
       "description" : "",
       "message" : "Autopilot"
@@ -303,10 +307,6 @@
       "description" : "",
       "message" : "\" Dir \""
    },
-   "DISABLED_AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
-      "message" : "Avaktiverat automatiskt systemval."
-   },
    "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
       "description" : "",
       "message" : "Avstånd från skepp till navigationsmål"
@@ -434,10 +434,6 @@
    "ECONOMY_TYPE" : {
       "description" : "",
       "message" : "Ekonomityp:"
-   },
-   "ENABLED_AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
-      "message" : "Aktiverat automatiskt systemval."
    },
    "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
       "description" : "",
@@ -750,10 +746,6 @@
    "LASER_FIRE_DETECTED" : {
       "description" : "",
       "message" : "Lasereld upptäckt."
-   },
-   "LAUNCH_PERMISSION_DENIED_BUSY" : {
-      "description" : "",
-      "message" : "Tillstånd för uppskjutning nekat: landningsplats upptaget."
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",

@@ -479,6 +479,18 @@
       "description" : "",
       "message" : "Language (restart game to apply)"
    },
+   "LAUNCH_PERMISSION_DENIED_BUSY" : {
+      "description" : "",
+      "message" : "Permís per enlairament degegat: moll de càrrega ocupat."
+   },
+   "LAUNCH_PERMISSION_DENIED_CREW" : {
+      "description" : "",
+      "message" : "Permission to launch denied: not enough crew too handle this ship."
+   },
+   "LAUNCH_PERMISSION_DENIED_FINED" : {
+      "description" : "",
+      "message" : "Permission to launch denied: you have outstanding fines."
+   },
    "LEGAL_STATUS" : {
       "description" : "",
       "message" : "Estatus legal"
@@ -603,6 +615,10 @@
       "description" : "",
       "message" : "Minimum crew"
    },
+   "MISSILE_MOUNTS" : {
+      "description" : "",
+      "message" : "Missile mounts"
+   },
    "MISSIONS" : {
       "description" : "",
       "message" : "Missions"
@@ -655,6 +671,10 @@
       "description" : "",
       "message" : "Next paid"
    },
+   "NO" : {
+      "description" : "Negative answer to a question",
+      "message" : "No"
+   },
    "NOBODY" : {
       "description" : "For player reputation",
       "message" : "Nobody"
@@ -670,6 +690,10 @@
    "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR" : {
       "description" : "",
       "message" : "No hi ha suficient {alloy} per intentar una reparació"
+   },
+   "NOT_SUPPORTED_ON_THIS_SHIP" : {
+      "description" : "",
+      "message" : "{equipment} is not supported on this ship model"
    },
    "NO_MISSIONS" : {
       "description" : "",
@@ -799,6 +823,10 @@
       "description" : "",
       "message" : "Reomplir Combustible"
    },
+   "REFUEL_FULL" : {
+      "description" : "",
+      "message" : "Refuel full"
+   },
    "RELIABLE" : {
       "description" : "For player reputation",
       "message" : "Reliable"
@@ -814,6 +842,10 @@
    "REQUEST_LAUNCH" : {
       "description" : "",
       "message" : "Sol·licitar llançament"
+   },
+   "RETURN_TO_GAME" : {
+      "description" : "",
+      "message" : "Return to game"
    },
    "RETURN_TO_MENU" : {
       "description" : "",
@@ -866,6 +898,10 @@
    "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
       "description" : "",
       "message" : "La vostra nau està en perfecte estat."
+   },
+   "SHIP_IS_FULLY_EQUIPPED" : {
+      "description" : "",
+      "message" : "Your ship is fully equipped."
    },
    "SHIP_IS_FULLY_LADEN" : {
       "description" : "",
@@ -922,6 +958,10 @@
    "TOGGLE_MALE_FEMALE" : {
       "description" : "",
       "message" : "Toggle male/female"
+   },
+   "TOO_SMALL_FOR_CURRENT_CREW" : {
+      "description" : "",
+      "message" : "Ship is too small for the current crew."
    },
    "TOTAL" : {
       "description" : "",
@@ -998,6 +1038,10 @@
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
       "description" : "",
       "message" : "De moment no tenim negocis per fer amb tu."
+   },
+   "YES" : {
+      "description" : "Positive answer to a question",
+      "message" : "Yes"
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",

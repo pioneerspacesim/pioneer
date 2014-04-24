@@ -67,7 +67,7 @@ SectorView::SectorView() : UIView()
 	m_pos = m_posMovingTo;
 
 	m_matchTargetToSelection   = true;
-	m_selectionFollowsMovement = true;
+	m_automaticSystemSelection = true;
 	m_detailBoxVisible         = DETAILBOX_INFO;
 	m_toggledFaction           = false;
 
@@ -92,7 +92,7 @@ SectorView::SectorView(Serializer::Reader &rd) : UIView()
 	m_selected = SystemPath::Unserialize(rd);
 	m_hyperspaceTarget = SystemPath::Unserialize(rd);
 	m_matchTargetToSelection = rd.Bool();
-	m_selectionFollowsMovement = rd.Bool();
+	m_automaticSystemSelection = rd.Bool();
 	m_detailBoxVisible = rd.Byte();
 
 	InitObject();
@@ -152,10 +152,18 @@ void SectorView::InitObject()
 	m_zoomOutButton->SetRenderDimensions(30, 22);
 	Add(m_zoomOutButton, 732, 5);
 
-	Add(new Gui::Label(Lang::SEARCH), 650, 500);
+	Gui::Screen::PushFont("OverlayFont");
+
+	Add(new Gui::Label(Lang::SEARCH), 650, 470);
 	m_searchBox = new Gui::TextEntry();
 	m_searchBox->onKeyPress.connect(sigc::mem_fun(this, &SectorView::OnSearchBoxKeyPress));
-	Add(m_searchBox, 700, 500);
+	Add(m_searchBox, 700, 470);
+
+	m_statusLabel = new Gui::Label("");
+	Add(m_statusLabel, 650, 490);
+	Gui::Screen::PopFont();
+
+	Gui::Screen::PushFont("OverlayFont");
 
 	m_renderer = Pi::renderer; //XXX pass cleanly to all views constructors!
 
@@ -301,6 +309,16 @@ void SectorView::InitObject()
 	label = (new Gui::Label(Lang::DRAW_UNINHABITED_LABELS))->Color(255, 255, 255);
 	hbox->PackEnd(label);
 	filterBox->PackEnd(hbox);
+	// 2.4 Selection follows movement
+	hbox = new Gui::HBox();
+	hbox->SetSpacing(5.0f);
+	m_automaticSystemSelectionButton = (new Gui::ToggleButton());
+	m_automaticSystemSelectionButton->SetPressed(m_automaticSystemSelection);
+    m_automaticSystemSelectionButton->onChange.connect(sigc::mem_fun(this, &SectorView::OnAutomaticSystemSelectionChange));
+	hbox->PackEnd(m_automaticSystemSelectionButton);
+	label = (new Gui::Label(Lang::AUTOMATIC_SYSTEM_SELECTION))->Color(255, 255, 255);
+	hbox->PackEnd(label);
+	filterBox->PackEnd(hbox);
 
 	m_infoBox->PackEnd(filterBox);
 
@@ -340,7 +358,7 @@ void SectorView::Save(Serializer::Writer &wr)
 	m_selected.Serialize(wr);
 	m_hyperspaceTarget.Serialize(wr);
 	wr.Bool(m_matchTargetToSelection);
-	wr.Bool(m_selectionFollowsMovement);
+	wr.Bool(m_automaticSystemSelection);
 	wr.Byte(m_detailBoxVisible);
 }
 
@@ -384,7 +402,7 @@ void SectorView::OnSearchBoxKeyPress(const SDL_Keysym *keysym)
 					// exact match, take it and go
 					SystemPath path = (*i).first;
 					path.systemIndex = systemIndex;
-					Pi::cpan->MsgLog()->Message("", stringf(Lang::EXACT_MATCH_X, formatarg("system", ss->name)));
+					m_statusLabel->SetText(stringf(Lang::EXACT_MATCH_X, formatarg("system", ss->name)));
 					GotoSystem(path);
 					return;
 				}
@@ -419,12 +437,12 @@ void SectorView::OnSearchBoxKeyPress(const SDL_Keysym *keysym)
 		}
 
 	if (gotMatch) {
-		Pi::cpan->MsgLog()->Message("", stringf(Lang::NOT_FOUND_BEST_MATCH_X, formatarg("system", *bestMatchName)));
+		m_statusLabel->SetText(stringf(Lang::NOT_FOUND_BEST_MATCH_X, formatarg("system", *bestMatchName)));
 		GotoSystem(bestMatch);
 	}
 
 	else
-		Pi::cpan->MsgLog()->Message("", Lang::NOT_FOUND);
+		m_statusLabel->SetText(Lang::NOT_FOUND);
 }
 
 #define FFRAC(_x)	((_x)-floor(_x))
@@ -583,7 +601,7 @@ void SectorView::OnClickSystem(const SystemPath &path)
 			SetSelected(system->GetStars()[0]->GetPath());
 		}
 	} else {
-		if (m_selectionFollowsMovement) {
+		if (m_automaticSystemSelection) {
 			GotoSystem(path);
 		} else {
 			RefCountedPtr<StarSystem> system = StarSystemCache::GetCached(path);
@@ -800,6 +818,10 @@ void SectorView::OnToggleFaction(Gui::ToggleButton* button, bool pressed, Factio
 	else         m_hiddenFactions.insert(faction);
 
 	m_toggledFaction = true;
+}
+
+void SectorView::OnAutomaticSystemSelectionChange(Gui::ToggleButton *b, bool pressed) {
+    m_automaticSystemSelection = pressed;
 }
 
 void SectorView::UpdateFactionToggles()
@@ -1175,13 +1197,9 @@ void SectorView::OnKeyPressed(SDL_Keysym *keysym)
 		return;
 	}
 
-	// toggle selection mode
 	if (KeyBindings::mapToggleSelectionFollowView.Matches(keysym)) {
-		m_selectionFollowsMovement = !m_selectionFollowsMovement;
-		if (m_selectionFollowsMovement)
-			Pi::cpan->MsgLog()->Message("", Lang::ENABLED_AUTOMATIC_SYSTEM_SELECTION);
-		else
-			Pi::cpan->MsgLog()->Message("", Lang::DISABLED_AUTOMATIC_SYSTEM_SELECTION);
+		m_automaticSystemSelection = !m_automaticSystemSelection;
+        m_automaticSystemSelectionButton->SetPressed(m_automaticSystemSelection);
 		return;
 	}
 
@@ -1308,7 +1326,7 @@ void SectorView::Update()
 		}
 	}
 
-	if (m_selectionFollowsMovement) {
+	if (m_automaticSystemSelection) {
 		SystemPath new_selected = SystemPath(int(floor(m_pos.x)), int(floor(m_pos.y)), int(floor(m_pos.z)), 0);
 
 		RefCountedPtr<Sector> ps = GetCached(new_selected);

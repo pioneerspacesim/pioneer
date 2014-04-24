@@ -17,7 +17,7 @@
    },
    "FLAVOUR_0_NONMEMBER_INTRO" : {
       "description" : "",
-      "message" : "{clubname} är en oberoende organisation dedikerad till att förse rabatterat bränsle till sina medlemmar. Avdelningar kan hittas genom hela galaxen. Fördelar med medlemskapet inkluderar:\n\n\t* Våra egna lager av bränsle som inte är beroende på den generella marknaded\n\t* {hydrogen} till rabattpriser\n\t* {military_fuel} till rabattpriser\n\t* {water} till rabattpriser\n\t* {radioactives}, gratis avyttring (villkor gäller)\n\t* Påfyllning av bränsletank där det är nödvändigt\n\nGå med nu! Årligt medlemskap kostar bara {membership_fee}"
+      "message" : "{clubname} är en oberoende organisation vars mål är att förse sina medlemars rymdskepp med rabatterad bränsle. Avdelningar kan hittas genom galaxen. Fördelar av medlemskap inkluderar:"
    },
    "FLAVOUR_0_WELCOME" : {
       "description" : "",
@@ -31,21 +31,25 @@
       "description" : "",
       "message" : "Lägg på."
    },
-   "HYDROGEN" : {
+   "LIST_BENEFITS_DISPOSAL" : {
       "description" : "",
-      "message" : "Väte"
+      "message" : "{radioactives}, gratis undanröjning (villkor gäller)"
    },
-   "MILITARY_FUEL" : {
+   "LIST_BENEFITS_FUEL" : {
       "description" : "",
-      "message" : "Militärt bränsle"
+      "message" : "{fuel} till rabatterade priser"
    },
-   "RADIOACTIVES" : {
+   "LIST_BENEFITS_FUEL_INTRO" : {
       "description" : "",
-      "message" : "Radioaktivt avfall"
+      "message" : "Vårt eget lager med bränsle, oberoende av den allmänna marknaden"
    },
-   "WATER" : {
+   "LIST_BENEFITS_FUEL_TANK" : {
       "description" : "",
-      "message" : "Vatten"
+      "message" : "Påfyllning av bränsle vid behov"
+   },
+   "LIST_BENEFITS_JOIN" : {
+      "description" : "",
+      "message" : "Gå med nu! Årligt medlemskap kostar endast {membership_fee}"
    },
    "WE_WILL_ONLY_DISPOSE_OF" : {
       "description" : "",

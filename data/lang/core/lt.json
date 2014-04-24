@@ -59,6 +59,10 @@
       "description" : "",
       "message" : "Apsaugo jūsų laivą nuo atmosferinės trinties šilumos besileidžiant."
    },
+   "AUTOMATIC_SYSTEM_SELECTION" : {
+      "description" : "",
+      "message" : "Automatic system selection"
+   },
    "AUTOPILOT" : {
       "description" : "",
       "message" : "Autopilotas"
@@ -303,10 +307,6 @@
       "description" : "",
       "message" : "\" Katalogas \""
    },
-   "DISABLED_AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
-      "message" : "Išjungtas automatinis sistemos parinkimas."
-   },
    "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
       "description" : "",
       "message" : "Atstumas nuo laivo iki navigacinio taikinio"
@@ -434,10 +434,6 @@
    "ECONOMY_TYPE" : {
       "description" : "",
       "message" : "Ekonomikos tipas:"
-   },
-   "ENABLED_AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
-      "message" : "Įjungtas automatinis sistemos parinkimas."
    },
    "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
       "description" : "",
@@ -750,10 +746,6 @@
    "LASER_FIRE_DETECTED" : {
       "description" : "",
       "message" : "Aptiktas Lazerių panaudojimas."
-   },
-   "LAUNCH_PERMISSION_DENIED_BUSY" : {
-      "description" : "",
-      "message" : "Leidimas kilimui neduotas: dokas užimtas."
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",

@@ -5,7 +5,7 @@
    },
    "CREWDETAILSHEETBB" : {
       "description" : "",
-      "message" : "Candidati per l'equipaggio\n\nNome: {name}\nEsperienza: {experience}\nStipendio richiesto: {wage} la settimana\n\n{response}\n"
+      "message" : "Nome: {name}\nEsperienza: {experience}\nStipendio richiesto: {wage} la settimana\n\n{response}\n"
    },
    "CREWMEMBER_WAGE_PER_WEEK" : {
       "description" : "",

@@ -27,7 +27,7 @@ void Sector::GetCustomSystems(Random& rng)
 	if (systems.size() == 0) return;
 
 	Uint32 sysIdx = 0;
-	for (std::vector<CustomSystem*>::const_iterator it = systems.begin(); it != systems.end(); it++, sysIdx++) {
+	for (std::vector<CustomSystem*>::const_iterator it = systems.begin(); it != systems.end(); ++it, ++sysIdx) {
 		const CustomSystem *cs = *it;
 		System s(sx, sy, sz, sysIdx);
 		s.p = SIZE*cs->pos;
@@ -354,7 +354,7 @@ void Sector::AssignFactions()
 
 /*	answer whether the system path is in this sector
 */
-bool Sector::Contains(const SystemPath sysPath) const
+bool Sector::Contains(const SystemPath &sysPath) const
 {
 	PROFILE_SCOPED()
 	if (sx != sysPath.sectorX) return false;

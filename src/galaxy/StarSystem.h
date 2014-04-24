@@ -190,6 +190,13 @@ public:
 	// XXX merge all this atmosphere stuff
 	bool HasAtmosphere() const;
 
+	Color GetAlbedo() const {
+		// XXX suggestions about how to determine a sensible albedo colour would be welcome
+		// Currently (2014-03-24) this is just used as the colour for the body billboard
+		// which is rendered when the body has a small screen size
+		return Color(200,200,200,255);
+	}
+
 	void PickAtmosphere();
 	void GetAtmosphereFlavor(Color *outColor, double *outDensity) const {
 		*outColor = m_atmosColor;

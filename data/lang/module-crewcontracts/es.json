@@ -5,7 +5,7 @@
    },
    "CREWDETAILSHEETBB" : {
       "description" : "",
-      "message" : "Se ofrece tripulante\n\nNombre: {name}\nExperiencia: {experience}\nSueldo solicitado: {wage} por semana\n\n{response}\n"
+      "message" : "Nombre: {name}\nExperiencia: {experience}\nSalario solicitado: {wage} por semana\n\n{response}\n"
    },
    "CREWMEMBER_WAGE_PER_WEEK" : {
       "description" : "",
@@ -29,7 +29,7 @@
    },
    "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER" : {
       "description" : "",
-      "message" : "Lo siento, no estoy preparado para bajar más."
+      "message" : "Lo siento, no estoy preparado para rebajar más."
    },
    "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME" : {
       "description" : "",
@@ -73,7 +73,7 @@
    },
    "SIMULATOR_TRAINING_ONLY" : {
       "description" : "",
-      "message" : "Entrenamiento en simulador solamente"
+      "message" : "Solo entrenamiento en simulador"
    },
    "SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS" : {
       "description" : "",
@@ -93,11 +93,11 @@
    },
    "THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER" : {
       "description" : "",
-      "message" : "¡Eso hace que esta oferta parezca mejor!"
+      "message" : "¡Esta oferta está mucho mejor!"
    },
    "THERE_DOESNT_SEEM_TO_BE_SPACE_FOR_ME_ON_BOARD" : {
       "description" : "",
-      "message" : "¡No parece haber espacio para mí!"
+      "message" : "¡Parece que no hay espacio para mí!"
    },
    "TIME_SERVED_CREW_MEMBER" : {
       "description" : "",

@@ -29,15 +29,15 @@
    },
    "DENY_5" : {
       "description" : "",
-      "message" : "Wydajesz się być zbyt niedoświadczoną osobą aby podołać umowie o takim znaczeniu."
+      "message" : "Wydajesz się być zbyt niedoświadczoną osobą aby podołać umowie o takim znaczeniu."
    },
    "DENY_6" : {
       "description" : "",
-      "message" : "Nikt o tobie nigdy nie słyszał. Do tego kontraktu potrzebuję kogoś doświadczonego."
+      "message" : "Nikt o tobie nigdy nie słyszał. Do tego kontraktu potrzebuję kogoś doświadczonego."
    },
    "DENY_7" : {
       "description" : "",
-      "message" : "Nie mogę zaryzykować tego kontraktu u kogoś tak niewykwalifikowanego jak ty."
+      "message" : "Nie mogę zaryzykować tego kontraktu u kogoś tak niewykwalifikowanego jak ty."
    },
    "DISTANCE" : {
       "description" : "",
@@ -49,7 +49,7 @@
    },
    "FLAVOUR_0_ADTEXT" : {
       "description" : "",
-      "message" : "POSZUKIWANY: Do usunięcia {target} z systemu {system}."
+      "message" : "POSZUKIWANY: Do usunięcia {target} z systemu {system}."
    },
    "FLAVOUR_0_FAILUREMSG" : {
       "description" : "",
@@ -57,7 +57,7 @@
    },
    "FLAVOUR_0_FAILUREMSG2" : {
       "description" : "",
-      "message" : "Nie ty pozbyłeś się {target}'s. Tym razem bez zapłaty."
+      "message" : "Nie ty pozbyłeś się {target}. Tym razem bez zapłaty."
    },
    "FLAVOUR_0_INTROTEXT" : {
       "description" : "",
@@ -65,7 +65,7 @@
    },
    "FLAVOUR_0_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Cieszą mnie wieści o wysłaniu {target}'s na długie wakacje. Dobra robota, rozpoczynam przelew pieniędzy."
+      "message" : "Cieszą mnie wieści o wysłaniu {target}'s na długie wakacje. Dobra robota, rozpoczynam przelew pieniędzy."
    },
    "FLAVOUR_1_ADTEXT" : {
       "description" : "",
@@ -77,7 +77,7 @@
    },
    "FLAVOUR_1_FAILUREMSG2" : {
       "description" : "",
-      "message" : "Śmierć {target}'s nie była twoją zasługą, więc nie pytaj o zapłatę."
+      "message" : "Śmierć {target}'s nie była twoją zasługą, więc nie pytaj o zapłatę."
    },
    "FLAVOUR_1_INTROTEXT" : {
       "description" : "",
@@ -85,7 +85,7 @@
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Zasmuciły mnie wieści o zgonie {target}'s. Płacę całość umówionej sumy."
+      "message" : "Zasmuciły mnie wieści o zgonie {target}'s. Płacę całość umówionej sumy."
    },
    "FLAVOUR_2_ADTEXT" : {
       "description" : "",
@@ -93,7 +93,7 @@
    },
    "FLAVOUR_2_FAILUREMSG" : {
       "description" : "",
-      "message" : "Jest godne ubolewania że {target} wciąż żyje i ma się dobrze. Nie otrzymasz żadnej zapłaty za złamanie umowy."
+      "message" : "Jest godne ubolewania że {target} wciąż żyje i ma się dobrze. Nie otrzymasz żadnej zapłaty za złamanie umowy."
    },
    "FLAVOUR_2_FAILUREMSG2" : {
       "description" : "",
@@ -101,7 +101,7 @@
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
-      "message" : "Jestem {name}, i zapłacę {cash} za zlikwidowanie {target}."
+      "message" : "Jestem {name}, i zapłacę {cash} za zlikwidowanie {target}."
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
@@ -113,15 +113,15 @@
    },
    "FLAVOUR_3_FAILUREMSG" : {
       "description" : "",
-      "message" : "{target} żyje, zapłacisz za niewywiązanie się z umowy!"
+      "message" : "{target} żyje, zapłacisz za niewywiązanie się z umowy!"
    },
    "FLAVOUR_3_FAILUREMSG2" : {
       "description" : "",
-      "message" : "Pytasz o pieniądze za prace wykonaną przez kogoś innego? Spadaj."
+      "message" : "Pytasz o pieniądze za prace wykonaną przez kogoś innego? Spadaj."
    },
    "FLAVOUR_3_INTROTEXT" : {
       "description" : "",
-      "message" : "{target} powinien zamienić się w gwiezdny pył. {cash} nagrody za wykonanie zlecenia."
+      "message" : "{target} powinien zamienić się w gwiezdny pył. {cash} nagrody za wykonanie zlecenia."
    },
    "FLAVOUR_3_SUCCESSMSG" : {
       "description" : "",
@@ -133,7 +133,7 @@
    },
    "FLAVOUR_4_FAILUREMSG" : {
       "description" : "",
-      "message" : "{target} wciąż oddycha i na pewno za to nie zapłacę."
+      "message" : "{target} wciąż oddycha i na pewno za to nie zapłacę."
    },
    "FLAVOUR_4_FAILUREMSG2" : {
       "description" : "",
@@ -141,11 +141,11 @@
    },
    "FLAVOUR_4_INTROTEXT" : {
       "description" : "",
-      "message" : "{cash} za przekonanie {target} do odejścia z pracy."
+      "message" : "{cash} za przekonanie {target} do odejścia z pracy."
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Miło słyszeć o odejściu {target}. Oto twoje pieniądze."
+      "message" : "Miło słyszeć o odejściu {target}. Oto twoje pieniądze."
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
@@ -165,7 +165,7 @@
    },
    "FLAVOUR_5_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Wspaniałe wieści o zakończeniu kariery {target}. Przelewamy obiecane {cash}."
+      "message" : "Wspaniałe wieści o zakończeniu kariery {target}. Przelewamy obiecane {cash}."
    },
    "HANG_UP" : {
       "description" : "",
@@ -325,6 +325,6 @@
    },
    "X_WILL_BE_LEAVING" : {
       "description" : "",
-      "message" : "{target} będzie opuszczał {spaceport} w systemie {system} ({sectorX},{sectorY},{sectorZ}), oddalonym o {dist}lś, punktualnie o {date}. Na statku {shipname} o identyfikatorze {shipregid}."
+      "message" : "{target} będzie opuszczał {spaceport} w systemie {system} ({sectorX},{sectorY},{sectorZ}), oddalonym o {dist}lś, punktualnie o {date}. Na statku {shipname} o identyfikatorze {shipregid}."
    }
 }

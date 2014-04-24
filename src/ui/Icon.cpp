@@ -90,6 +90,7 @@ void Icon::Draw()
 
 	Graphics::Renderer *r = GetContext()->GetRenderer();
 	s_material->diffuse = m_color;
+	s_material->diffuse = Color(m_color.r, m_color.g, m_color.b, GetContext()->GetOpacity()*m_color.a);
 	auto renderState = GetContext()->GetSkin().GetAlphaBlendState();
 	r->DrawTriangles(&va, renderState, s_material.Get(), Graphics::TRIANGLE_STRIP);
 }

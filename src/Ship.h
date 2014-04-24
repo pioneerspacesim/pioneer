@@ -193,9 +193,9 @@ public:
 	double AITravelTime(const vector3d &reldir, double targdist, const vector3d &relvel, double endspeed, double maxdecel);
 
 	// old stuff, deprecated
-	void AIAccelToModelRelativeVelocity(const vector3d v);
-	void AIModelCoordsMatchAngVel(vector3d desiredAngVel, double softness);
-	void AIModelCoordsMatchSpeedRelTo(const vector3d v, const Ship *);
+	void AIAccelToModelRelativeVelocity(const vector3d &v);
+	void AIModelCoordsMatchAngVel(const vector3d &desiredAngVel, double softness);
+	void AIModelCoordsMatchSpeedRelTo(const vector3d &v, const Ship *);
 
 	void AIClearInstructions();
 	bool AIIsActive() { return m_curAICmd ? true : false; }

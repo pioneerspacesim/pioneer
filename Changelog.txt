@@ -1,13 +1,65 @@
+April 2014
+
+   * New features
+     * UI animations (#2830)
+     * Explosions (#2831)
+     * Support Fake Baked Ambient Occlusion texture (#2872)
+
+   * Minor changes and tweaks
+     * Add a Return to Game button in the pause/options screen (#2841)
+     * Disable the Save button when in hyperspace.
+     * More specific warning message in ship market if trying to buy
+       equipment that the current ship model doesn't support
+     * More stat on ship in ship market and ship info view (#1733,#2838)
+     * The autopilot now faces toward its destination during
+       the coasting phase (#2846)
+     * A "Refuel full" button added next to the refuel button (#2855,#2853)
+     * Balance - Exhaust velocity increase (#2835)
+     * Slightly bigger chat forms (#2856)
+
+   * Script and UI API changes
+     * Animation object, UI.Context.Animate and AddAnimation methods (#2830)
+     * Improve TradeShips.lua (#2851)
+     * Ship.SetShipType doesn't equip the default hyperdrive anymore
+     * ShipDef.defaultHyperdrive has been removed in favour of
+       ShipDef.hyperdriveClass (#2859)
+     * New attribute SpaceStation.numShipsDocked to get number of occupied ports
+     * Body.FindNearestTo to find bodies near this body
+
+   * Internal changes
+     * Emit Lua events and timers in hyperspace
+     * Output some system info for debugging purposes (#2832)
+     * Add serialization support for LuaRef objects (#2849)
+     * Add facilities to easily call arbitrary Lua methods from C++ (#2854, #2869)
+     * Address some warnings from cppcheck and GCC (#2871)
+
+   * Fixes
+     * Fix duplication of cargo during cargo scooping (#2644, #2828)
+     * Fix extra crew lingering after sale of ship (#2122, #2837)
+     * Fix taking off with wrong number of crew (#2837)
+     * Fix taking off with unpaid fines (#2359)
+     * Fix zero duration and fuel display in sector view after load (#2847)
+     * Fix water still sold in fuel club (#2852)
+     * Fix duplicated HANG_UP button in crew bulletin boards (#2858)
+     * Fix assertion in system info view when starport on planet with same
+       name was selected (#2848)
+     * Fix crash when Nerodia selected in shipyard (#2865, #2864)
+     * Fix internal bug in multi-threading queue (#2874)
+     * Fix crash due to ships spawning with default hyperdrive 0 (#2875,2877)
+
 March 2014
 
    * New features
      * Support for CJK fonts and Simplified Chinese translation
+     * Replace WATER with HYDROGEN as the thruster fuel of choice.
 
    * Minor changes and tweaks
      * Message boxes used for warnings in station screens
      * Textual galaxy dump (#2811)
      * Money format with language specific thousand separator and
        decimal delimiter (#2810)
+     * Add button to sector view to toggle auto selection mode
+     * Move sector view search results to a text area under the search box
 
    * Fixes
      * Fix volume control layout (#2798)
@@ -16,11 +68,14 @@ March 2014
      * Fix crash with gcc 4.7 compiled binary (#2802)
      * Fix crash when attacked during deliver package mission (#2806)
      * Try to fix spiky asteroids (#2809)
+     * Billboards not drawn correctly for some distant objects (#2791, #2824)
+     * Division by zero when using unguided missiles (#2421, #2827)
 
    * Script and UI API changes
      * New `inherits` function in the `utils` module to quickly implement
        class hierarchies in Lua (#2767)
      * MessageBox.Message and MessageBox.OK for modal alerts
+     * Renamed TabGroup to TabView, better explains its purpose
 
    * Internal changes
      * Update terrain to use the new VertexBuffer (#2795)
@@ -30,6 +85,7 @@ March 2014
      * Support C++11 enum features in scan_enums.py (#2782)
      * Mouse and keyboard events now only distributed to the top UI layer
      * Code cleanup (#2818)
+     * Fix glitch in Job code (#2823)
 
 February 2014
 

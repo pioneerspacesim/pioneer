@@ -13,7 +13,8 @@ local utils = import("utils")
 local onEnterSystem = function (player)
 	if not player:IsPlayer() then return end
 
-	local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'SHIP' and def.hullMass <= 150 end, pairs(ShipDef)))
+	local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'SHIP'
+		and def.hyperdriveClass > 0 and def.hullMass <= 150 end, pairs(ShipDef)))
 	if #shipdefs == 0 then return end
 
 	local lawlessness = Game.system.lawlessness
@@ -25,7 +26,7 @@ local onEnterSystem = function (player)
 		max_pirates = max_pirates-1
 
 		local shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
-		local default_drive = shipdef.defaultHyperdrive
+		local default_drive = 'DRIVE_CLASS'..tostring(shipdef.hyperdriveClass)
 
 		-- select a laser. this is naive - it simply chooses at random from
 		-- the set of lasers that will fit, but never more than one above the

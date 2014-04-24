@@ -59,6 +59,10 @@
       "description" : "",
       "message" : "Megvédi az űrhajót az atmoszférába lépés alatt a túlmelegedéstől."
    },
+   "AUTOMATIC_SYSTEM_SELECTION" : {
+      "description" : "",
+      "message" : "Automata rendszerkijelölés"
+   },
    "AUTOPILOT" : {
       "description" : "",
       "message" : "Auto-pilóta"
@@ -137,7 +141,7 @@
    },
    "CAMERA_REAR_VIEW" : {
       "description" : "",
-      "message" : "Hátsó nézet"
+      "message" : "Hátsó kamera"
    },
    "CAMERA_RIGHT_VIEW" : {
       "description" : "",
@@ -303,10 +307,6 @@
       "description" : "",
       "message" : "\" Irány \""
    },
-   "DISABLED_AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
-      "message" : "Automata rendszerválasztás kikapcsolva."
-   },
    "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
       "description" : "",
       "message" : "Távolság a navigációs célponttól"
@@ -434,10 +434,6 @@
    "ECONOMY_TYPE" : {
       "description" : "",
       "message" : "Gazdaság:"
-   },
-   "ENABLED_AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
-      "message" : "Automata rendszerválasztás engedélyezve."
    },
    "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
       "description" : "",
@@ -750,10 +746,6 @@
    "LASER_FIRE_DETECTED" : {
       "description" : "",
       "message" : "Lézerlövés érzékelve."
-   },
-   "LAUNCH_PERMISSION_DENIED_BUSY" : {
-      "description" : "",
-      "message" : "Leszállási engedély megtagadva: leszállóöböl foglalt."
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
@@ -1081,7 +1073,7 @@
    },
    "NUMBER_DECIMAL_POINT" : {
       "description" : "Decimal delimiter used in numbers.",
-      "message" : "."
+      "message" : ","
    },
    "NUMBER_G" : {
       "description" : "",
@@ -1097,7 +1089,7 @@
    },
    "NUMBER_GROUP_SEP" : {
       "description" : "For large number, separator used when grouping digits. E.g. 1,000 or 1 000 or 1'000.",
-      "message" : ","
+      "message" : "."
    },
    "NUMBER_HOURS" : {
       "description" : "",

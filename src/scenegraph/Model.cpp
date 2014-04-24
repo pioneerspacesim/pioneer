@@ -96,8 +96,8 @@ void Model::Render(const matrix4x4f &trans, const RenderData *rd)
 	if (m_curPattern) {
 		for (MaterialContainer::const_iterator it = m_materials.begin(); it != m_materials.end(); ++it) {
 			if ((*it).second->GetDescriptor().usePatterns) {
-				(*it).second->texture4 = m_colorMap.GetTexture();
-				(*it).second->texture3 = m_curPattern;
+				(*it).second->texture5 = m_colorMap.GetTexture();
+				(*it).second->texture4 = m_curPattern;
 			}
 		}
 	}

@@ -9,15 +9,15 @@
 
 static const unsigned int MAX_CONTACTS = 8;
 
-Geom::Geom(const GeomTree *geomtree)
+Geom::Geom(const GeomTree *geomtree) :
+	m_mailboxIndex(0),
+	m_orient(matrix4x4d::Identity()),
+	m_invOrient(matrix4x4d::Identity()),
+	m_active(true),
+	m_geomtree(geomtree),
+	m_data(nullptr),
+	m_group(0)
 {
-	m_geomtree = geomtree;
-	m_orient = matrix4x4d::Identity();
-	m_invOrient = matrix4x4d::Identity();
-	m_active = true;
-	m_data = 0;
-	m_mailboxIndex = 0;
-	m_group = 0;
 }
 
 matrix4x4d Geom::GetRotation() const

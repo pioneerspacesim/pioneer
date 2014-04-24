@@ -689,14 +689,17 @@ AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target) : AICommand(ship, CMD_FLYTO)
 }
 
 // Specified pos, endvel should be > 0
-AICmdFlyTo::AICmdFlyTo(Ship *ship, Frame *targframe, const vector3d &posoff, double endvel, bool tangent)
-	: AICommand(ship, CMD_FLYTO)
+AICmdFlyTo::AICmdFlyTo(Ship *ship, Frame *targframe, const vector3d &posoff, double endvel, bool tangent) :
+	AICommand(ship, CMD_FLYTO),
+	m_target(nullptr),
+	m_targframe(targframe),
+	m_posoff(posoff),
+	m_endvel(endvel),
+	m_tangent(tangent),
+	m_state(-6),
+	m_lockhead(true),
+	m_frame(nullptr)
 {
-	m_targframe = targframe; m_target = 0;
-	m_posoff = posoff;
-	m_endvel = endvel;
-	m_tangent = tangent;
-	m_frame = 0; m_state = -6; m_lockhead = true;
 }
 
 bool AICmdFlyTo::TimeStepUpdate()
@@ -836,7 +839,9 @@ Output("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 	// work out which way to head 
 	vector3d head = reldir;
 	if (!m_state && sdiff < -1.2*maxdecel*timestep) m_state = 1;
-	if (m_state && sdiff < maxdecel*timestep*60) head = -head;
+	// if we're not coasting due to fuel constraints, and we're in the deceleration phase
+	// then flip the ship so we can use our main thrusters to decelerate
+	if (m_state && !is_zero_exact(sdiff) && sdiff < maxdecel*timestep*60) head = -head;
 	if (!m_state && decel) sidefactor = -sidefactor;
 	head = head*maxdecel + perpdir*sidefactor;
 
@@ -1094,11 +1099,11 @@ bool AICmdFlyAround::TimeStepUpdate()
 	return false;
 }
 
-AICmdFormation::AICmdFormation(Ship *ship, Ship *target, const vector3d &posoff)
-	: AICommand(ship, CMD_FORMATION)
+AICmdFormation::AICmdFormation(Ship *ship, Ship *target, const vector3d &posoff) :
+	AICommand(ship, CMD_FORMATION),
+	m_target(target),
+	m_posoff(posoff)
 {
-	m_target = target;
-	m_posoff = posoff;
 }
 
 bool AICmdFormation::TimeStepUpdate()

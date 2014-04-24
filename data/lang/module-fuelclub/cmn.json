@@ -17,7 +17,7 @@
    },
    "FLAVOUR_0_NONMEMBER_INTRO" : {
       "description" : "",
-      "message" : "{clubname} 是一个独立的组织并且它致力于提供打折的星舰燃料给会员. 在银河系中办事处随处可见. 会员权益主要包括:\n\n* 我们拥有自己的燃料库存并且独立于燃料市场\n* {hydrogen} 是打折的\n* {military_fuel} 是打折的\n* {water} 是打折的\n* {radioactives}, 免费处理 (视情况而定)\n* 在必要的地方提供加油服务\n\n现在加入吧! 会员年费只要 {membership_fee}"
+      "message" : "{clubname} is an independent organisation dedicated to providing discounted starship fuel to its members. Branches can be found throughout the galaxy. Benefits of membership include:"
    },
    "FLAVOUR_0_WELCOME" : {
       "description" : "",
@@ -31,21 +31,25 @@
       "description" : "",
       "message" : "先等一等."
    },
-   "HYDROGEN" : {
+   "LIST_BENEFITS_DISPOSAL" : {
       "description" : "",
-      "message" : "氢"
+      "message" : "{radioactives}, free disposal (conditions apply)"
    },
-   "MILITARY_FUEL" : {
+   "LIST_BENEFITS_FUEL" : {
       "description" : "",
-      "message" : "军用燃料"
+      "message" : "{fuel} at discount prices"
    },
-   "RADIOACTIVES" : {
+   "LIST_BENEFITS_FUEL_INTRO" : {
       "description" : "",
-      "message" : "放射性废料"
+      "message" : "Our own stocks of fuel, independent of the general market"
    },
-   "WATER" : {
+   "LIST_BENEFITS_FUEL_TANK" : {
       "description" : "",
-      "message" : "水"
+      "message" : "Fuel tank refilling, where necessary"
+   },
+   "LIST_BENEFITS_JOIN" : {
+      "description" : "",
+      "message" : "Join now! Annual membership costs only {membership_fee}"
    },
    "WE_WILL_ONLY_DISPOSE_OF" : {
       "description" : "",

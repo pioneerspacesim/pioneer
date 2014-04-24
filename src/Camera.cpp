@@ -24,7 +24,7 @@ using namespace Graphics;
 static const float OBJECT_HIDDEN_PIXEL_THRESHOLD = 2.0f;
 
 // if a terrain object would render smaller than this many pixels, draw a billboard instead
-static const float BILLBOARD_PIXEL_THRESHOLD = 15.0f;
+static const float BILLBOARD_PIXEL_THRESHOLD = 8.0f;
 
 CameraContext::CameraContext(float width, float height, float fovAng, float zNear, float zFar) :
 	m_width(width),
@@ -138,7 +138,7 @@ void Camera::Update()
 		attrs.bodyFlags = b->GetFlags();
 
 		// approximate pixel width (disc diameter) of body on screen
-		float pixSize = (Graphics::GetScreenWidth() * rad / attrs.camDist);
+		const float pixSize = Graphics::GetScreenHeight() * 2.0 * rad / (attrs.camDist * Graphics::GetFovFactor());
 		if (pixSize < OBJECT_HIDDEN_PIXEL_THRESHOLD)
 			continue;
 
@@ -149,18 +149,16 @@ void Camera::Update()
 				attrs.billboard = true;
 				vector3d pos;
 				double size = rad * 2.0 * m_context->GetFrustum().TranslatePoint(attrs.viewCoords, pos);
-				attrs.billboardPos = vector3f(&pos.x);
+				attrs.billboardPos = vector3f(pos);
 				attrs.billboardSize = float(size);
 				if (b->IsType(Object::STAR)) {
 					const Uint8 *col = StarSystem::starRealColors[b->GetSystemBody()->GetType()];
 					attrs.billboardColor = Color(col[0], col[1], col[2], 255);
 				}
 				else if (b->IsType(Object::PLANET)) {
-					double surfaceDensity; // unused
-					// XXX this is pretty crap because its not always right
-					// (gas giants are always white) and because it should have
-					// some star colour mixed in to simulate lighting
-					b->GetSystemBody()->GetAtmosphereFlavor(&attrs.billboardColor, &surfaceDensity);
+					// XXX this should incorporate some lighting effect
+					// (ie, colour of the illuminating star(s))
+					attrs.billboardColor = b->GetSystemBody()->GetAlbedo();
 					attrs.billboardColor.a = 255; // no alpha, these things are hard enough to see as it is
 				}
 				else
@@ -347,7 +345,7 @@ float Camera::ShadowedIntensity(const int lightNum, const Body *b) const {
 	shadows.reserve(16);
 	CalcShadows(lightNum, b, shadows);
 	float product = 1.0;
-	for (std::vector<Camera::Shadow>::const_iterator it = shadows.begin(), itEnd = shadows.end(); it!=itEnd; it++)
+	for (std::vector<Camera::Shadow>::const_iterator it = shadows.begin(), itEnd = shadows.end(); it!=itEnd; ++it)
 		product *= 1.0 - discCovered(it->centre.Length() / it->lrad, it->srad / it->lrad);
 	return product;
 }

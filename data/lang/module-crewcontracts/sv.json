@@ -5,7 +5,7 @@
    },
    "CREWDETAILSHEETBB" : {
       "description" : "",
-      "message" : "Hyrbar besättning\n\nNamn: {name}\nErfarenhet: {experience}\nEferfrågad lön: {wage} per vecka\n\n{response}\n"
+      "message" : "Namn: {name}\nErfarenhet: {experience}\nEfterfrågad lön: {wage} per vecka\n\n{response}\n"
    },
    "CREWMEMBER_WAGE_PER_WEEK" : {
       "description" : "",

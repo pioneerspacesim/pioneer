@@ -11,7 +11,15 @@
 #include <wchar.h>
 #include <windows.h>
 
+#ifdef _MSC_VER
+#pragma warning(disable: 4996)
+#endif
+
 namespace OS {
+
+	namespace {
+		static const std::string s_NoOSIdentified("No OS Identified\n");
+	};
 
 // Notify Windows that the window may become unresponsive
 void NotifyLoadBegin()
@@ -85,6 +93,77 @@ int GetNumCores()
 	SYSTEM_INFO sysinfo;
 	GetSystemInfo(&sysinfo);
 	return sysinfo.dwNumberOfProcessors;
+}
+
+// get hardware information
+const std::string GetHardwareInfo()
+{
+	SYSTEM_INFO siSysInfo;
+ 
+	// Copy the hardware information to the SYSTEM_INFO structure. 
+	GetSystemInfo(&siSysInfo); 
+
+	// Display the contents of the SYSTEM_INFO structure. 
+	char infoString[2048];
+	snprintf(infoString, 2048, 
+		"Hardware information: \n  \
+		OEM ID: %u\n  \
+		Number of processors: %u\n  \
+		Page size: %u\n  \
+		Processor type: %u\n  \
+		Minimum application address: %lx\n  \
+		Maximum application address: %lx\n  \
+		Active processor mask: %u\n\n", 
+		siSysInfo.dwOemId, 
+		siSysInfo.dwNumberOfProcessors, 
+		siSysInfo.dwPageSize, 
+		siSysInfo.dwProcessorType, 
+		siSysInfo.lpMinimumApplicationAddress, 
+		siSysInfo.lpMaximumApplicationAddress, 
+		siSysInfo.dwActiveProcessorMask); 
+
+	return std::string(infoString);
+}
+
+const std::string GetOSInfoString()
+{
+	const std::string hwInfo = GetHardwareInfo();
+
+	struct OSVersion {
+		DWORD major;
+		DWORD minor;
+		const char *name;
+	};
+	static const struct OSVersion osVersions[] = {
+		{ 6, 3, "Windows 8.1"   },
+		{ 6, 2, "Windows 8"     },
+		{ 6, 1, "Windows 7"     },
+		{ 6, 0, "Windows Vista" },
+		{ 5, 1, "Windows XP"    },
+		{ 5, 0, "Windows 2000"  },
+		{ 0, 0, nullptr         }
+	};
+
+	OSVERSIONINFOA osv;
+	osv.dwOSVersionInfoSize = sizeof(OSVERSIONINFOA);
+	GetVersionExA(&osv);
+
+	std::string name;
+	for (const OSVersion *scan = osVersions; scan->name; scan++) {
+		if (osv.dwMajorVersion == scan->major && osv.dwMinorVersion == scan->minor) {
+			name = scan->name;
+			break;
+		}
+	}
+	if (name.empty())
+		return hwInfo + s_NoOSIdentified;
+
+	std::string patchName(osv.szCSDVersion);
+
+	if (patchName.empty())
+		return hwInfo + name;
+
+	return hwInfo + name + " (" + patchName + ")";
 }
 
 } // namespace OS

@@ -59,6 +59,10 @@
       "description" : "",
       "message" : "Protejează nava de căldura intrării în atmosferă."
    },
+   "AUTOMATIC_SYSTEM_SELECTION" : {
+      "description" : "",
+      "message" : "Automatic system selection"
+   },
    "AUTOPILOT" : {
       "description" : "",
       "message" : "Autopilot"
@@ -303,10 +307,6 @@
       "description" : "",
       "message" : "\" Dir \""
    },
-   "DISABLED_AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
-      "message" : "S-a dezactivat selecţia automată a sistemelor."
-   },
    "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
       "description" : "",
       "message" : "Distanţa de la navă la ţinta navigaţiei"
@@ -434,10 +434,6 @@
    "ECONOMY_TYPE" : {
       "description" : "",
       "message" : "Tipul economiei:"
-   },
-   "ENABLED_AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
-      "message" : "S-a activat selecţia automată a sistemelor."
    },
    "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
       "description" : "",
@@ -750,10 +746,6 @@
    "LASER_FIRE_DETECTED" : {
       "description" : "",
       "message" : "Foc laser detectat."
-   },
-   "LAUNCH_PERMISSION_DENIED_BUSY" : {
-      "description" : "",
-      "message" : "Nu vi se acordă permisiunea de a decola: staţiile sunt aglomerate."
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",

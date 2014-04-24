@@ -609,6 +609,23 @@ static Frame *MakeFrameFor(double at_time, SystemBody *sbody, Body *b, Frame *f)
 	return 0;
 }
 
+// sort using a custom function object
+class SectorDistanceSort {
+public:
+	bool operator()(const SystemPath &a, const SystemPath &b)
+	{
+		const float dist_a = vector3f(here.sectorX - a.sectorX, here.sectorY - a.sectorY, here.sectorZ - a.sectorZ).LengthSqr();
+		const float dist_b = vector3f(here.sectorX - b.sectorX, here.sectorY - b.sectorY, here.sectorZ - b.sectorZ).LengthSqr();
+		return dist_a < dist_b;
+	}
+	SectorDistanceSort( const SystemPath* centre )
+		: here(centre)
+	{}
+private:
+	SectorDistanceSort() {}
+	SystemPath here;
+};
+
 void Space::GenSectorCache(const SystemPath* here)
 {
 	PROFILE_SCOPED()
@@ -624,7 +641,7 @@ void Space::GenSectorCache(const SystemPath* here)
 	const int here_z = here->sectorZ;
 
 	// used to define a cube centred on your current location
-	const int diff_sec = 10;
+	const int diff_sec = 5;
 
 	SectorCache::PathVector paths;
 	// build all of the possible paths we'll need to build sectors for
@@ -636,6 +653,9 @@ void Space::GenSectorCache(const SystemPath* here)
 			}
 		}
 	}
+	// sort them so that those closest to the "here" path are processed first
+	SectorDistanceSort SDS(here);
+	std::sort(paths.begin(), paths.end(), SDS);
 	m_sectorCache = Sector::cache.NewSlaveCache();
 	m_sectorCache->FillCache(paths);
 }
@@ -828,15 +848,8 @@ void Space::TimeStep(float step)
 	for (Body* b : m_bodies)
 		b->TimeStepUpdate(step);
 
-	// XXX don't emit events in hyperspace. this is mostly to maintain the
-	// status quo. in particular without this onEnterSystem will fire in the
-	// frame immediately before the player leaves hyperspace and the system is
-	// invalid when Lua goes and queries for it. we need to consider whether
-	// there's anything useful that can be done with events in hyperspace
-	if (m_starSystem) {
-		LuaEvent::Emit();
-		Pi::luaTimer->Tick();
-	}
+	LuaEvent::Emit();
+	Pi::luaTimer->Tick();
 
 	UpdateBodies();
 

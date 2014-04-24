@@ -59,9 +59,13 @@
       "description" : "",
       "message" : "Shields your spaceship from the heat of atmospheric re-entry."
    },
+   "AUTOMATIC_SYSTEM_SELECTION" : {
+      "description" : "",
+      "message" : "Automatic system selection"
+   },
    "AUTOPILOT" : {
       "description" : "",
-      "message" : "Autopilot"
+      "message" : "Αυτόματος Πιλότος"
    },
    "AUTOPILOT_DESCRIPTION" : {
       "description" : "",
@@ -113,7 +117,7 @@
    },
    "BODY" : {
       "description" : "",
-      "message" : "body"
+      "message" : "σώμα"
    },
    "BROWN_DWARF" : {
       "description" : "",
@@ -145,7 +149,7 @@
    },
    "CAMERA_TOP_VIEW" : {
       "description" : "",
-      "message" : "Top camera"
+      "message" : "Άνω κάμερα"
    },
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
@@ -241,7 +245,7 @@
    },
    "CONSUMER_GOODS" : {
       "description" : "",
-      "message" : "Consumer goods"
+      "message" : "Καταναλωτικά αγαθά"
    },
    "CONTROLS" : {
       "description" : "",
@@ -302,10 +306,6 @@
    "DIRECTION" : {
       "description" : "",
       "message" : "\" Dir \""
-   },
-   "DISABLED_AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
-      "message" : "Disabled automatic system selection."
    },
    "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
       "description" : "",
@@ -435,10 +435,6 @@
       "description" : "",
       "message" : "Economy type:"
    },
-   "ENABLED_AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
-      "message" : "Enabled automatic system selection."
-   },
    "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
       "description" : "",
       "message" : "Equatorial to polar radius ratio"
@@ -449,7 +445,7 @@
    },
    "EXTENSIVE_MINING" : {
       "description" : "",
-      "message" : "Extensive mining operations."
+      "message" : "Εκτενείς εξορυκτικές δραστηριότητες."
    },
    "EXTERNAL_ATMOSPHERIC_PRESSURE" : {
       "description" : "",
@@ -605,7 +601,7 @@
    },
    "HYDROGEN" : {
       "description" : "",
-      "message" : "Hydrogen"
+      "message" : "Υδρογόνο"
    },
    "HYDROGEN_DESCRIPTION" : {
       "description" : "",
@@ -645,7 +641,7 @@
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Hyperspace target"
+      "message" : "Στόχος υπερδιαστήματος"
    },
    "HYPERSPACING_IN_N_SECONDS" : {
       "description" : "",
@@ -721,7 +717,7 @@
    },
    "LANDED" : {
       "description" : "",
-      "message" : "Landed"
+      "message" : "Προσεδάφιση"
    },
    "LANG_NAME" : {
       "description" : "The name that native speakers use for this language. This will be used in the language selection screen.",
@@ -750,10 +746,6 @@
    "LASER_FIRE_DETECTED" : {
       "description" : "",
       "message" : "Laser fire detected."
-   },
-   "LAUNCH_PERMISSION_DENIED_BUSY" : {
-      "description" : "",
-      "message" : "Permission to launch denied: docking bay busy."
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
@@ -1805,7 +1797,7 @@
    },
    "TINY" : {
       "description" : "",
-      "message" : "Tiny"
+      "message" : "Μικροσκοπικό"
    },
    "TOGGLE_HUD_MODE" : {
       "description" : "",
@@ -1881,7 +1873,7 @@
    },
    "VID_CONNECTING" : {
       "description" : "",
-      "message" : "Connecting..."
+      "message" : "Σύνδεση..."
    },
    "VID_LINK_ESTABLISHED" : {
       "description" : "",
@@ -1889,7 +1881,7 @@
    },
    "VIEW" : {
       "description" : "",
-      "message" : "View"
+      "message" : "Προβολή"
    },
    "VIOLENT_ANARCHY" : {
       "description" : "",

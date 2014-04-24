@@ -347,17 +347,7 @@ void PlayerShipController::FireMissile()
 {
 	if (!Pi::player->GetCombatTarget())
 		return;
-
-	lua_State *l = Lua::manager->GetLuaState();
-	int pristine_stack = lua_gettop(l);
-	LuaObject<Ship>::PushToLua(Pi::player);
-	lua_pushstring(l, "FireMissileAt");
-	lua_gettable(l, -2);
-	lua_pushvalue(l, -2);
-	lua_pushstring(l, "any");
-	LuaObject<Ship>::PushToLua(static_cast<Ship*>(Pi::player->GetCombatTarget()));
-	lua_call(l, 3, 1);
-	lua_settop(l, pristine_stack);
+	LuaObject<Ship>::CallMethod(Pi::player, "FireMissileAt", "any", static_cast<Ship*>(Pi::player->GetCombatTarget()));
 }
 
 Body *PlayerShipController::GetCombatTarget() const

@@ -479,6 +479,18 @@
       "description" : "",
       "message" : "Nyelv (újraindítás szükséges)"
    },
+   "LAUNCH_PERMISSION_DENIED_BUSY" : {
+      "description" : "",
+      "message" : "Leszállási engedély megtagadva: leszállóöböl foglalt."
+   },
+   "LAUNCH_PERMISSION_DENIED_CREW" : {
+      "description" : "",
+      "message" : "Nem teljes a létszám a hajón, a felszállási engedélyt nem adom meg."
+   },
+   "LAUNCH_PERMISSION_DENIED_FINED" : {
+      "description" : "",
+      "message" : "Kifizetetlen bírságai vannak, a felszállási engedélyt nem adom meg."
+   },
    "LEGAL_STATUS" : {
       "description" : "",
       "message" : "Törvényesség"
@@ -603,6 +615,10 @@
       "description" : "",
       "message" : "Minimális legénység"
    },
+   "MISSILE_MOUNTS" : {
+      "description" : "",
+      "message" : "Rakéta kapacitás"
+   },
    "MISSIONS" : {
       "description" : "",
       "message" : "Küldetések"
@@ -655,6 +671,10 @@
       "description" : "",
       "message" : "Következő kifizetés"
    },
+   "NO" : {
+      "description" : "Negative answer to a question",
+      "message" : "Nincs"
+   },
    "NOBODY" : {
       "description" : "For player reputation",
       "message" : "Senki"
@@ -670,6 +690,10 @@
    "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR" : {
       "description" : "",
       "message" : "Nincs elegendő {alloy} a javításhoz."
+   },
+   "NOT_SUPPORTED_ON_THIS_SHIP" : {
+      "description" : "",
+      "message" : "Ezen a típuson nincs {equipment} foglalat."
    },
    "NO_MISSIONS" : {
       "description" : "",
@@ -799,6 +823,10 @@
       "description" : "",
       "message" : "Újratölt"
    },
+   "REFUEL_FULL" : {
+      "description" : "",
+      "message" : "Teletölt"
+   },
    "RELIABLE" : {
       "description" : "For player reputation",
       "message" : "Megbízható"
@@ -814,6 +842,10 @@
    "REQUEST_LAUNCH" : {
       "description" : "",
       "message" : "Felszállási engedély kérése"
+   },
+   "RETURN_TO_GAME" : {
+      "description" : "",
+      "message" : "Vissza"
    },
    "RETURN_TO_MENU" : {
       "description" : "",
@@ -866,6 +898,10 @@
    "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
       "description" : "",
       "message" : "A hajó tökéletes állapotban van."
+   },
+   "SHIP_IS_FULLY_EQUIPPED" : {
+      "description" : "",
+      "message" : "A hajód teljesen fel van szerelve"
    },
    "SHIP_IS_FULLY_LADEN" : {
       "description" : "",
@@ -922,6 +958,10 @@
    "TOGGLE_MALE_FEMALE" : {
       "description" : "",
       "message" : "Férfi/Nő"
+   },
+   "TOO_SMALL_FOR_CURRENT_CREW" : {
+      "description" : "",
+      "message" : "Túl kicsi a hajó a legénységnek."
    },
    "TOTAL" : {
       "description" : "",
@@ -998,6 +1038,10 @@
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
       "description" : "",
       "message" : "Jelenleg nincs veled semmi dolgunk."
+   },
+   "YES" : {
+      "description" : "Positive answer to a question",
+      "message" : "Van"
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",

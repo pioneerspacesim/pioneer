@@ -9,6 +9,7 @@ local Event = import("Event")
 local Character = import("Character")
 local Format = import("Format")
 local Serializer = import("Serializer")
+local EquipDef = import("EquipDef")
 
 local MessageBox = import("ui/MessageBox")
 
@@ -68,16 +69,6 @@ local onChat
 onChat = function (form, ref, option)
 	local ad = ads[ref]
 
-	local setMessage = function (message)
-		form:SetMessage(message:interp({
-			hydrogen = l.HYDROGEN,
-			military_fuel = l.MILITARY_FUEL,
-			radioactives = l.RADIOACTIVES,
-			water = l.WATER,
-			clubname = ad.flavour.clubname,
-		}))
-	end
-
 	form:Clear()
 	form:SetFace(ad.character)
 	form:SetTitle(ad.flavour.welcome:interp({clubname = ad.flavour.clubname}))
@@ -87,14 +78,14 @@ onChat = function (form, ref, option)
 		-- members get refuelled, whether or not the station managed to do it
 		Game.player:SetFuelPercent()
 		-- members get the trader interface
-		setMessage(ad.flavour.member_intro)
+		form:SetMessage(string.interp(ad.flavour.member_intro, {radioactives=EquipDef["RADIOACTIVES"].name}))
 		form:AddGoodsTrader({
 			canTrade = function (ref, commodity)
 				return ({
 					['HYDROGEN'] = true,
 					['MILITARY_FUEL'] = true,
 					['RADIOACTIVES'] = true,
-					['WATER'] = true,
+--					['WATER'] = true,
 				})[commodity]
 			end,
 			getStock = function (ref, commodity)
@@ -103,7 +94,7 @@ onChat = function (form, ref, option)
 					['HYDROGEN'] = ad.stock.HYDROGEN or (Engine.rand:Integer(2,50) + Engine.rand:Integer(3,25)),
 					-- Milfuel: Between 5 and 50 units, tending to median values
 					['MILITARY_FUEL'] = ad.stock.MILITARY_FUEL or (Engine.rand:Integer(2,25) + Engine.rand:Integer(3,25)),
-					['WATER'] = ad.stock.WATER or (Engine.rand:Integer(2,25) + Engine.rand:Integer(3,25)),
+--					['WATER'] = ad.stock.WATER or (Engine.rand:Integer(2,25) + Engine.rand:Integer(3,25)),
 					-- Always taken away
 					['RADIOACTIVES'] = 0,
 				})[commodity]
@@ -113,7 +104,7 @@ onChat = function (form, ref, option)
 				return ad.station:GetEquipmentPrice(commodity) * ({
 					['HYDROGEN'] = 0.5, -- half price Hydrogen
 					['MILITARY_FUEL'] = 0.80, -- 20% off Milfuel
-					['WATER'] = 0.60, -- 40% off Water
+--					['WATER'] = 0.60, -- 40% off Water
 					['RADIOACTIVES'] = 0, -- Radioactives go free
 				})[commodity]
 			end,
@@ -125,10 +116,10 @@ onChat = function (form, ref, option)
 			end,
 			onClickSell = function (ref, commodity)
 				if (commodity == 'RADIOACTIVES' and membership.milrads < 1) then
-					MessageBox.Message(l.YOU_MUST_BUY:interp({
-						military_fuel = l.MILITARY_FUEL,
-						radioactives = l.RADIOACTIVES,
-						water = l.WATER,
+					MessageBox.Message(string.interp(l.YOU_MUST_BUY, {
+						military_fuel = EquipDef["MILITARY_FUEL"].name,
+						radioactives = EquipDef["RADIOACTIVES"].name,
+--						water = EquipDef["WATER"].name,
 					}))
 					return false
 				end
@@ -154,7 +145,9 @@ onChat = function (form, ref, option)
 
 	elseif option == 1 then
 		-- Player asked the question about radioactives
-		setMessage(l.WE_WILL_ONLY_DISPOSE_OF)
+		form:SetMessage(string.interp(l.WE_WILL_ONLY_DISPOSE_OF, {
+						radioactives = EquipDef["RADIOACTIVES"].name,
+						military_fuel = EquipDef["MILITARY_FUEL"].name}))
 		form:AddOption(l.APPLY_FOR_MEMBERSHIP,2)
 		form:AddOption(l.GO_BACK,0)
 
@@ -168,21 +161,28 @@ onChat = function (form, ref, option)
 				milrads = 0,
 			}
 			Game.player:AddMoney(0 - ad.flavour.annual_fee)
-			setMessage(l.YOU_ARE_NOW_A_MEMBER:interp({
+			form:SetMessage(l.YOU_ARE_NOW_A_MEMBER:interp({
 				expiry_date = Format.Date(memberships[ad.flavour.clubname].joined + memberships[ad.flavour.clubname].expiry)
 			}))
 			form:AddOption(l.BEGIN_TRADE,0)
 		else
 			-- Membership application unsuccessful
-			setMessage(l.YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED)
+			form:SetMessage(l.YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED)
 		end
 
 	else
 		-- non-members get offered membership
-		setMessage(ad.flavour.nonmember_intro:interp({
-			membership_fee = Format.Money(ad.flavour.annual_fee)
-		}))
-		form:AddOption(l.WHAT_CONDITIONS_APPLY:interp({radioactives = l.RADIOACTIVES}),1)
+		message = ad.flavour.nonmember_intro:interp({clubname=ad.flavour.clubname}).."\n"..
+			"\n\t* " ..l.LIST_BENEFITS_FUEL_INTRO..
+			"\n\t* "..string.interp(l.LIST_BENEFITS_FUEL, {fuel=EquipDef["HYDROGEN"].name})..
+			"\n\t* "..string.interp(l.LIST_BENEFITS_FUEL, {fuel=EquipDef["MILITARY_FUEL"].name})..
+--			"\n\t* "..string.interp(l.LIST_BENEFITS_FUEL, {fuel=EquipDef["WATER"].name})..
+			"\n\t* "..string.interp(l.LIST_BENEFITS_DISPOSAL, {radioactives=EquipDef["RADIOACTIVES"].name})..
+			"\n\t* "..l.LIST_BENEFITS_FUEL_TANK..
+			"\n\n"  ..string.interp(l.LIST_BENEFITS_JOIN, {membership_fee=Format.Money(ad.flavour.annual_fee)})
+
+		form:SetMessage(message)
+		form:AddOption(l.WHAT_CONDITIONS_APPLY:interp({radioactives = EquipDef["RADIOACTIVES"].name}),1)
 		form:AddOption(l.APPLY_FOR_MEMBERSHIP,2)
 	end
 end

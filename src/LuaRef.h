@@ -5,7 +5,9 @@
 #define _LUAREF_H
 
 #include "lua/lua.hpp"
+#include "Serializer.h"
 #include <vector>
+#include <cassert>
 
 class LuaRef {
 public:
@@ -20,6 +22,12 @@ public:
 
 	lua_State * GetLua() const { return m_lua; }
 
+	void Save(Serializer::Writer &wr);
+	void Load(Serializer::Reader &rd);
+
+	static void InitLoad();
+	static void UninitLoad();
+
 private:
 	lua_State * m_lua;
 	int m_id;
@@ -31,5 +39,19 @@ private:
 
 	void CheckCopyCount();
 };
+
+inline void pi_lua_generic_push(lua_State *l, const LuaRef &r) {
+	assert(r.GetLua() == l);
+	r.PushCopyToStack();
+}
+
+inline void pi_lua_generic_pull(lua_State *l, int index, LuaRef &r) {
+    r = LuaRef(l, index);
+}
+
+inline bool pi_lua_strict_pull(lua_State *l, int index, LuaRef &r) {
+    r = LuaRef(l, index);
+    return true;
+}
 
 #endif

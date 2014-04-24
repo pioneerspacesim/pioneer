@@ -181,6 +181,30 @@ void LuaConstants::Register(lua_State *l)
 	 */
 
 	/*
+	 * Constants: PhysicsObjectType
+	 *
+	 * General physical objects
+	 *
+	 *   BODY - .
+	 *	  MODELBODY - .
+	 *	  SHIP - .
+	 *	  PLAYER - .
+	 *	  SPACESTATION - .
+	 *	  PLANET - .
+	 *	  STAR - .
+	 *	  CARGOBODY - .
+	 *	  MISSILE - .
+	 *
+	 * Availability:
+	 *
+	 *   2014 April
+	 *
+	 * Status:
+	 *
+	 *   experimental
+	 */
+
+	/*
 	 * Constants: PolitCrime
 	 *
 	 * Crimes

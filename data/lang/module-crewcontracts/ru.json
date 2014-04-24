@@ -5,7 +5,7 @@
    },
    "CREWDETAILSHEETBB" : {
       "description" : "",
-      "message" : "Найм экипажа\n\nИмя: {name}\nОпыт: {experience}\nЖелаемая з/п: {wage} в неделю\n\n{response}\n"
+      "message" : "Имя: {name}\nОпыт: {experience}\nПросит оплату: {wage} в неделю\n\n{response}\n"
    },
    "CREWMEMBER_WAGE_PER_WEEK" : {
       "description" : "",

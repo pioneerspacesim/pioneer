@@ -59,6 +59,10 @@
       "description" : "",
       "message" : "Beschermt schip tegen de hitte bij terugkeer in atmosfeer."
    },
+   "AUTOMATIC_SYSTEM_SELECTION" : {
+      "description" : "",
+      "message" : "Automatic system selection"
+   },
    "AUTOPILOT" : {
       "description" : "",
       "message" : "Automatische piloot"
@@ -303,10 +307,6 @@
       "description" : "",
       "message" : "\" Richting \""
    },
-   "DISABLED_AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
-      "message" : "Automatische systeem selectie uitgeschakeld."
-   },
    "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
       "description" : "",
       "message" : "Afstand van schip t.o.v. navigatie-doelwit"
@@ -434,10 +434,6 @@
    "ECONOMY_TYPE" : {
       "description" : "",
       "message" : "Type economie:"
-   },
-   "ENABLED_AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
-      "message" : "Automatische systeem selectie ingeschakeld."
    },
    "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
       "description" : "",
@@ -750,10 +746,6 @@
    "LASER_FIRE_DETECTED" : {
       "description" : "",
       "message" : "Laser-schoten gedetecteerd."
-   },
-   "LAUNCH_PERMISSION_DENIED_BUSY" : {
-      "description" : "",
-      "message" : "Permissie om op te stijgen geweigerd: drukte in baai."
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",

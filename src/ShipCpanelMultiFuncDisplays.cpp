@@ -537,33 +537,18 @@ void UseEquipWidget::FireMissile(int idx)
 		Pi::cpan->MsgLog()->Message("", Lang::SELECT_A_TARGET);
 		return;
 	}
-
-	lua_State *l = Lua::manager->GetLuaState();
-	int pristine_stack = lua_gettop(l);
-	LuaObject<Ship>::PushToLua(Pi::player);
-	lua_pushstring(l, "FireMissileAt");
-	lua_gettable(l, -2);
-	lua_pushvalue(l, -2);
-	lua_pushinteger(l, idx+1);
-	LuaObject<Ship>::PushToLua(static_cast<Ship*>(Pi::player->GetCombatTarget()));
-	lua_call(l, 3, 1);
-	lua_settop(l, pristine_stack);
+	LuaObject<Ship>::CallMethod(Pi::player, "FireMissileAt", idx+1, static_cast<Ship*>(Pi::player->GetCombatTarget()));
 }
 
 void UseEquipWidget::UpdateEquip()
 {
 	DeleteAllChildren();
+	std::vector<std::string> missiles;
 	lua_State *l = Lua::manager->GetLuaState();
-	int pristine_stack = lua_gettop(l);
-	LuaObject<Ship>::PushToLua(Pi::player);
-	lua_pushstring(l, "GetEquip");
-	lua_gettable(l, -2);
-	lua_pushvalue(l, -2);
-	lua_pushstring(l, "MISSILE");
-	lua_call(l, 2, 1);
-	LuaTable table(l, -1);
-	std::vector<std::string> missiles(table.Begin<std::string>(), table.End<std::string>());
-	lua_settop(l, pristine_stack);
+	{ // new scope to destroy the ScopedTable early on.
+		ScopedTable missiles_ref(LuaObject<Ship>::CallMethod<LuaRef>(Pi::player, "GetEquip", "MISSILE"));
+		missiles.assign(missiles_ref.Begin<std::string>(), missiles_ref.End<std::string>());
+	}
 	int numSlots = missiles.size();
 
 	if (numSlots) {

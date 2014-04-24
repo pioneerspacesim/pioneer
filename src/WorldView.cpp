@@ -372,10 +372,7 @@ void WorldView::OnClickBlastoff()
 {
 	Pi::BoinkNoise();
 	if (Pi::player->GetFlightState() == Ship::DOCKED) {
-		if (!Pi::player->Undock()) {
-			Pi::cpan->MsgLog()->ImportantMessage(Pi::player->GetDockedWith()->GetLabel(),
-					Lang::LAUNCH_PERMISSION_DENIED_BUSY);
-		}
+		Pi::player->Undock();
 	} else {
 		Pi::player->Blastoff();
 	}
@@ -805,7 +802,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 				text += Lang::HYPERSPACE_ARRIVAL_CLOUD_REMNANT;
 			}
 			else {
-				const SystemPath dest = ship->GetHyperspaceDest();
+				const SystemPath& dest = ship->GetHyperspaceDest();
 				RefCountedPtr<const Sector> s = Sector::cache.GetCached(dest);
 				text += (cloud->IsArrival() ? Lang::HYPERSPACE_ARRIVAL_CLOUD : Lang::HYPERSPACE_DEPARTURE_CLOUD);
 				text += "\n";
@@ -989,7 +986,7 @@ void WorldView::HideTargetActions()
 	UpdateCommsOptions();
 }
 
-Gui::Button *WorldView::AddCommsOption(std::string msg, int ypos, int optnum)
+Gui::Button *WorldView::AddCommsOption(const std::string &msg, int ypos, int optnum)
 {
 	Gui::Label *l = new Gui::Label(msg);
 	m_commsOptions->Add(l, 50, float(ypos));
@@ -1011,7 +1008,7 @@ void WorldView::OnClickCommsNavOption(Body *target)
 	HideLowThrustPowerOptions();
 }
 
-void WorldView::AddCommsNavOption(std::string msg, Body *target)
+void WorldView::AddCommsNavOption(const std::string &msg, Body *target)
 {
 	Gui::HBox *hbox = new Gui::HBox();
 	hbox->SetSpacing(5);
@@ -1109,18 +1106,13 @@ static void PlayerPayFine()
 }
 */
 
+// XXX belongs in some sort of hyperspace controller
 void WorldView::OnHyperspaceTargetChanged()
 {
 	if (Pi::player->IsHyperspaceActive()) {
 		Pi::player->ResetHyperspaceCountdown();
 		Pi::cpan->MsgLog()->Message("", Lang::HYPERSPACE_JUMP_ABORTED);
 	}
-
-	const SystemPath path = Pi::sectorView->GetHyperspaceTarget();
-
-	RefCountedPtr<StarSystem> system = StarSystemCache::GetCached(path);
-	const std::string& name = path.IsBodyPath() ? system->GetBodyByPath(path)->GetName() : system->GetName() ;
-	Pi::cpan->MsgLog()->Message("", stringf(Lang::SET_HYPERSPACE_DESTINATION_TO, formatarg("system", name)));
 }
 
 void WorldView::OnPlayerChangeTarget()

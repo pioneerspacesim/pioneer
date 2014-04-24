@@ -35,6 +35,8 @@ MultiProgram::MultiProgram(const MaterialDescriptor &desc, int lights)
 		ss << "#define MAP_SPECULAR\n";
 	if (desc.glowMap)
 		ss << "#define MAP_EMISSIVE\n";
+	if (desc.ambientMap)
+		ss << "#define MAP_AMBIENT\n";
 	if (desc.usePatterns)
 		ss << "#define MAP_COLOR\n";
 	if (desc.quality & HAS_HEAT_GRADIENT)
@@ -83,8 +85,9 @@ void MultiMaterial::Apply()
 	p->texture2.Set(this->texture2, 2);
 	p->texture3.Set(this->texture3, 3);
 	p->texture4.Set(this->texture4, 4);
+	p->texture5.Set(this->texture5, 5);
 
-	p->heatGradient.Set(this->heatGradient, 5);
+	p->heatGradient.Set(this->heatGradient, 6);
 	if(nullptr!=specialParameter0) {
 		HeatGradientParameters_t *pMGP = static_cast<HeatGradientParameters_t*>(specialParameter0);
 		p->heatingMatrix.Set(pMGP->heatingMatrix);
@@ -123,6 +126,10 @@ void MultiMaterial::Unapply()
 	// Might not be necessary to unbind textures, but let's not old graphics code (eg, old-UI)
 	if (heatGradient) {
 		static_cast<TextureGL*>(heatGradient)->Unbind();
+		glActiveTexture(GL_TEXTURE5);
+	}
+	if (texture5) {
+		static_cast<TextureGL*>(texture5)->Unbind();
 		glActiveTexture(GL_TEXTURE4);
 	}
 	if (texture4) {

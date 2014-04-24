@@ -479,6 +479,18 @@
       "description" : "",
       "message" : "Lingua (riavvia il gioco per applicare)"
    },
+   "LAUNCH_PERMISSION_DENIED_BUSY" : {
+      "description" : "",
+      "message" : "Autorizzazione al lancio negata: attracco occupato."
+   },
+   "LAUNCH_PERMISSION_DENIED_CREW" : {
+      "description" : "",
+      "message" : "Permesso di lancio negato: equipaggio insufficiente per poter pilotare questa astronave."
+   },
+   "LAUNCH_PERMISSION_DENIED_FINED" : {
+      "description" : "",
+      "message" : "Permesso di lancio negato: lei ha delle multe pendenti."
+   },
    "LEGAL_STATUS" : {
       "description" : "",
       "message" : "Stato giuridico"
@@ -603,6 +615,10 @@
       "description" : "",
       "message" : "Equipaggio minimo"
    },
+   "MISSILE_MOUNTS" : {
+      "description" : "",
+      "message" : "Supporti per missili"
+   },
    "MISSIONS" : {
       "description" : "",
       "message" : "Missioni"
@@ -655,6 +671,10 @@
       "description" : "",
       "message" : "Prossima paga"
    },
+   "NO" : {
+      "description" : "Negative answer to a question",
+      "message" : "No"
+   },
    "NOBODY" : {
       "description" : "For player reputation",
       "message" : "Nessuno"
@@ -670,6 +690,10 @@
    "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR" : {
       "description" : "",
       "message" : "Non ci sono abbastanza {alloy} per tentare la riparazione"
+   },
+   "NOT_SUPPORTED_ON_THIS_SHIP" : {
+      "description" : "",
+      "message" : "{equipment} non è supportato da questo modello di astronave."
    },
    "NO_MISSIONS" : {
       "description" : "",
@@ -799,6 +823,10 @@
       "description" : "",
       "message" : "Rifornimento"
    },
+   "REFUEL_FULL" : {
+      "description" : "",
+      "message" : "Rifornimento completo"
+   },
    "RELIABLE" : {
       "description" : "For player reputation",
       "message" : "Affidabile"
@@ -814,6 +842,10 @@
    "REQUEST_LAUNCH" : {
       "description" : "",
       "message" : "Richiesta autorizzazione al lancio"
+   },
+   "RETURN_TO_GAME" : {
+      "description" : "",
+      "message" : "Torna la gioco"
    },
    "RETURN_TO_MENU" : {
       "description" : "",
@@ -866,6 +898,10 @@
    "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
       "description" : "",
       "message" : "Al momento la Sua nave non necessita di manutenzione."
+   },
+   "SHIP_IS_FULLY_EQUIPPED" : {
+      "description" : "",
+      "message" : "La tua astronave completamente equipaggiata."
    },
    "SHIP_IS_FULLY_LADEN" : {
       "description" : "",
@@ -922,6 +958,10 @@
    "TOGGLE_MALE_FEMALE" : {
       "description" : "",
       "message" : "Cambia maschio/femmina"
+   },
+   "TOO_SMALL_FOR_CURRENT_CREW" : {
+      "description" : "",
+      "message" : "L'astronave è troppo piccola per questo equipaggio."
    },
    "TOTAL" : {
       "description" : "",
@@ -998,6 +1038,10 @@
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
       "description" : "",
       "message" : "Al momento non ha pendenze con la Polizia."
+   },
+   "YES" : {
+      "description" : "Positive answer to a question",
+      "message" : "Sì"
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",

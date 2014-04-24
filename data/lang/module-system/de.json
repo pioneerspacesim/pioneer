@@ -1,10 +1,10 @@
 {
    "YOUR_FUEL_TANK_IS_ALMOST_EMPTY" : {
       "description" : "",
-      "message" : "Dein Treibstofftank ist fast leer."
+      "message" : "Ihr Treibstofftank ist fast leer."
    },
    "YOUR_FUEL_TANK_IS_EMPTY" : {
       "description" : "",
-      "message" : "Dein Treibstofftank ist leer."
+      "message" : "Ihr Treibstofftank ist leer."
    }
 }

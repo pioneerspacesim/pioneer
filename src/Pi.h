@@ -123,7 +123,6 @@ public:
 	static sigc::signal<void> onPlayerChangeTarget; // navigation or combat
 	static sigc::signal<void> onPlayerChangeFlightControlState;
 	static sigc::signal<void> onPlayerChangeEquipment;
-	static sigc::signal<void, const SpaceStation*> onDockingClearanceExpired;
 
 	static LuaSerializer *luaSerializer;
 	static LuaTimer *luaTimer;
