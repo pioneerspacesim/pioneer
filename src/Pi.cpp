@@ -1032,7 +1032,7 @@ void Pi::Start()
 	ui->DropAllLayers();
 	ui->GetTopLayer()->SetInnerWidget(ui->CallTemplate("MainMenu"));
 
-	Pi::ui->SetMousePointer("icons/indicator_mousedir.png", UI::Point(25, 20));
+	Pi::ui->SetMousePointer("icons/cursors/mouse_cursor_2.png", UI::Point(15, 8));
 
 	//XXX global ambient colour hack to make explicit the old default ambient colour dependency
 	// for some models
