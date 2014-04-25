@@ -91,7 +91,7 @@ RefCountedPtr<SectorCache::Slave> SectorCache::NewSlaveCache()
 	return RefCountedPtr<Slave>(new Slave);
 }
 
-SectorCache::Slave::Slave() : m_jobs(Pi::Jobs())
+SectorCache::Slave::Slave() : m_jobs(Pi::GetAsyncJobQueue())
 {
 	Sector::cache.m_slaves.insert(this);
 }

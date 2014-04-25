@@ -522,7 +522,7 @@ void GasGiant::GenerateTexture()
 		assert(!m_job[i].HasJob());
 		m_hasJobRequest[i] = true;
 		STextureFaceRequest *ssrd = new STextureFaceRequest(&s_patchFaces[i][0], GetSystemBody()->GetPath(), i, UV_DIMS, GetTerrain());
-		m_job[i] = Pi::Jobs()->Queue(new SingleTextureFaceJob(ssrd));
+		m_job[i] = Pi::GetAsyncJobQueue()->Queue(new SingleTextureFaceJob(ssrd));
 	}
 }
 

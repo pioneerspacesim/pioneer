@@ -46,7 +46,7 @@ public:
 	bool m_needUpdateVBOs;
 
 	const GeoPatchID mPatchID;
-	JobHandle m_job;
+	Job::Handle m_job;
 	bool mHasJobRequest;
 
 	GeoPatch(const RefCountedPtr<GeoPatchContext> &_ctx, GeoSphere *gs,
