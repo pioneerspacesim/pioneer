@@ -881,7 +881,7 @@ double Ship::GetHullTemperature() const
 	double dragGs = GetAtmosForce().Length() / (GetMass() * 9.81);
 	int atmo_shield_cap = 0;
 	const_cast<Ship *>(this)->Properties().Get("atmo_shield_cap", atmo_shield_cap);
-	if (atmo_shield_cap) {
+	if (atmo_shield_cap && GetWheelState() < 1.0) {
 		return dragGs / 300.0;
 	} else {
 		return dragGs / 5.0;
