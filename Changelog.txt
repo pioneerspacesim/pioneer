@@ -37,7 +37,7 @@ April 2014
      * Address some warnings from cppcheck and GCC (#2871)
      * Add possibility for synchronous jobs (#2879)
 
-* Fixes
+   * Fixes
      * Fix duplication of cargo during cargo scooping (#2644, #2828)
      * Fix extra crew lingering after sale of ship (#2122, #2837)
      * Fix taking off with wrong number of crew (#2837)
