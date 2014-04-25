@@ -1032,6 +1032,8 @@ void Pi::Start()
 	ui->DropAllLayers();
 	ui->GetTopLayer()->SetInnerWidget(ui->CallTemplate("MainMenu"));
 
+	Pi::ui->SetMousePointer("icons/cursors/mouse_cursor_2.png", UI::Point(15, 8));
+
 	//XXX global ambient colour hack to make explicit the old default ambient colour dependency
 	// for some models
 	Pi::renderer->SetAmbientColor(Color(51, 51, 51, 255));
@@ -1435,13 +1437,13 @@ float Pi::JoystickAxisState(int joystick, int axis) {
 void Pi::SetMouseGrab(bool on)
 {
 	if (!doingMouseGrab && on) {
-		SDL_ShowCursor(0);
 		Pi::renderer->GetWindow()->SetGrab(true);
+		Pi::ui->SetMousePointerEnabled(false);
 		doingMouseGrab = true;
 	}
 	else if(doingMouseGrab && !on) {
-		SDL_ShowCursor(1);
 		Pi::renderer->GetWindow()->SetGrab(false);
+		Pi::ui->SetMousePointerEnabled(true);
 		doingMouseGrab = false;
 	}
 }
