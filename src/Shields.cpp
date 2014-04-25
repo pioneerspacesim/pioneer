@@ -20,7 +20,7 @@ namespace {
 	{
 		return s_matShield;
 	}
-};
+}
 
 //used to find the accumulated transform of a MatrixTransform
 class MatrixAccumVisitor : public SceneGraph::NodeVisitor {

@@ -26,6 +26,6 @@ namespace TerrainFeature {
 	double megavolcano_function(const fracdef_t &def, const vector3d &p);
 	double river_function(const fracdef_t &def, const vector3d &p, int style = 0);
 
-};
+}
 
 #endif

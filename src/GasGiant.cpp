@@ -167,7 +167,7 @@ namespace
 		std::unique_ptr<STextureFaceRequest> mData;
 		STextureFaceResult *mpResults;
 	};
-};
+}
 
 
 class GasPatchContext : public RefCounted {

@@ -227,7 +227,7 @@ Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &
 	int i = 0;
 	while (str[i]) {
 		if (str[i] == '#') {
-			int hexcol;
+			unsigned hexcol;
 			if (sscanf(str+i, "#%3x", &hexcol)==1) {
 				c.r = float((hexcol&0xf00)>>4);
 				c.g = float((hexcol&0xf0));
