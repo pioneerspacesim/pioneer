@@ -53,6 +53,10 @@ public:
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
+
+	static const double DEFAULT_DRAG_COEFF;
+	double m_dragCoeff;
+
 private:
 	vector3d m_oldPos;
 	vector3d m_oldAngDisplacement;

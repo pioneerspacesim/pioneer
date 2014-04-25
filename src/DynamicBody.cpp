@@ -10,9 +10,11 @@
 #include "Pi.h"
 
 static const float KINETIC_ENERGY_MULT = 0.00001f;
+const double DynamicBody::DEFAULT_DRAG_COEFF = 0.1; // 'smooth sphere'
 
 DynamicBody::DynamicBody(): ModelBody()
 {
+	m_dragCoeff = DEFAULT_DRAG_COEFF;
 	m_flags = Body::FLAG_CAN_MOVE_FRAME;
 	m_oldPos = GetPosition();
 	m_oldAngDisplacement = vector3d(0.0);
@@ -134,9 +136,8 @@ void DynamicBody::CalcExternalForce()
 		const double radius = GetClipRadius();		// bogus, preserving behaviour
 		const double AREA = radius;
 		// ^^^ yes that is as stupid as it looks
-		const double DRAG_COEFF = 0.1; // 'smooth sphere'
 		vector3d dragDir = -m_vel.NormalizedSafe();
-		vector3d fDrag = 0.5*density*speed*speed*AREA*DRAG_COEFF*dragDir;
+		vector3d fDrag = 0.5*density*speed*speed*AREA*m_dragCoeff*dragDir;
 
 		// make this a bit less daft at high time accel
 		// only allow atmosForce to increase by .1g per frame
