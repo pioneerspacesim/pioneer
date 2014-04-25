@@ -384,7 +384,8 @@ Uint32 SyncJobQueue::FinishJobs()
 	PROFILE_SCOPED()
 	Uint32 finished = 0;
 
-	while (Job *job = m_finished.front()) {
+	while (!m_finished.empty()) {
+		Job *job = m_finished.front();
 		m_finished.pop_front();
 
 		// if its already been cancelled then its taken care of, so we just forget about it
