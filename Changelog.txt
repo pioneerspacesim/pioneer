@@ -4,6 +4,7 @@ April 2014
      * UI animations (#2830)
      * Explosions (#2831)
      * Support Fake Baked Ambient Occlusion texture (#2872)
+     * New Wave Skins (#2822)
 
    * Minor changes and tweaks
      * Add a Return to Game button in the pause/options screen (#2841)
