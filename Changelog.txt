@@ -6,6 +6,7 @@ April 2014
      * Support Fake Baked Ambient Occlusion texture (#2872)
      * New Wave Skins (#2822)
      * Soft mouse (#2883)
+     * Autosave when docking/undocking/landing/takeoff and on game exit (#2814)
 
    * Minor changes and tweaks
      * Add a Return to Game button in the pause/options screen (#2841)
