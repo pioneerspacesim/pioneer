@@ -7,6 +7,7 @@
 #include "Galaxy.h"
 
 #include "Factions.h"
+#include "Pi.h"
 #include "utils.h"
 #include "EnumStrings.h"
 
@@ -45,7 +46,7 @@ void Sector::GetCustomSystems(Random& rng)
 			 * ~700ly+: unexplored
 			 */
 			int dist = isqrt(1 + sx*sx + sy*sy + sz*sz);
-			s.m_explored = ((dist <= 90) && ( dist <= 65 || rng.Int32(dist) <= 40)) || Faction::IsHomeSystem(SystemPath(sx, sy, sz, sysIdx));
+			s.m_explored = ((dist <= 90) && ( dist <= 65 || rng.Int32(dist) <= 40)) || Pi::GetGalaxy()->GetFactions()->IsHomeSystem(SystemPath(sx, sy, sz, sysIdx));
 		} else {
 			s.m_explored = cs->explored;
 		}
@@ -98,7 +99,7 @@ Sector::Sector(const SystemPath& path, SectorCache* cache) : sx(path.sectorX), s
 			 * ~700ly+: unexplored
 			 */
 			int dist = isqrt(1 + sx*sx + sy*sy + sz*sz);
-			s.m_explored = ((dist <= 90) && ( dist <= 65 || rng.Int32(dist) <= 40)) || Faction::IsHomeSystem(SystemPath(sx, sy, sz, customCount + i));
+			s.m_explored = ((dist <= 90) && ( dist <= 65 || rng.Int32(dist) <= 40)) || Pi::GetGalaxy()->GetFactions()->IsHomeSystem(SystemPath(sx, sy, sz, customCount + i));
 
 			Uint32 weight = rng.Int32(1000000);
 
@@ -305,7 +306,7 @@ const std::string Sector::GenName(System &sys, int si, Random &rng)
 	}
 
 	Uint32 weight = rng.Int32(chance);
-	if (weight < 500 || Faction::IsHomeSystem(SystemPath(sx, sy, sz, si))) {
+	if (weight < 500 || Pi::GetGalaxy()->GetFactions()->IsHomeSystem(SystemPath(sx, sy, sz, si))) {
 		/* well done. you get a real name  */
 		int len = rng.Int32(2,3);
 		for (int i=0; i<len; i++) {
@@ -395,6 +396,6 @@ float Sector::System::DistanceBetween(const System* a, const System* b)
 
 void Sector::System::AssignFaction() const
 {
-	assert(Faction::MayAssignFactions());
-	m_faction = Faction::GetNearestFaction(this);
+	assert(Pi::GetGalaxy()->GetFactions()->MayAssignFactions());
+	m_faction = Pi::GetGalaxy()->GetFactions()->GetNearestFaction(this);
 }

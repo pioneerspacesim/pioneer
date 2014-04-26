@@ -3,6 +3,7 @@
 
 #include "StarSystem.h"
 #include "Sector.h"
+#include "Galaxy.h"
 #include "GalaxyCache.h"
 #include "Factions.h"
 
@@ -1403,7 +1404,7 @@ StarSystem::StarSystem(const SystemPath &path, StarSystemCache* cache) : m_path(
 
 	m_seed    = s->m_systems[m_path.systemIndex].GetSeed();
 	m_name    = s->m_systems[m_path.systemIndex].GetName();
-	m_faction = Faction::GetNearestFaction(&s->m_systems[m_path.systemIndex]);
+	m_faction = Pi::GetGalaxy()->GetFactions()->GetNearestFaction(&s->m_systems[m_path.systemIndex]);
 
 	Uint32 _init[6] = { m_path.systemIndex, Uint32(m_path.sectorX), Uint32(m_path.sectorY), Uint32(m_path.sectorZ), UNIVERSE_SEED, Uint32(m_seed) };
 	Random rand(_init, 6);
@@ -2041,7 +2042,7 @@ void StarSystem::Populate(bool addSpaceStations)
 	/* Various system-wide characteristics */
 	// This is 1 in sector (0,0,0) and approaches 0 farther out
 	// (1,0,0) ~ .688, (1,1,0) ~ .557, (1,1,1) ~ .48
-	m_humanProx = Faction::IsHomeSystem(m_path) ? fixed(2,3): fixed(3,1) / isqrt(9 + 10*(m_path.sectorX*m_path.sectorX + m_path.sectorY*m_path.sectorY + m_path.sectorZ*m_path.sectorZ));
+	m_humanProx = Pi::GetGalaxy()->GetFactions()->IsHomeSystem(m_path) ? fixed(2,3): fixed(3,1) / isqrt(9 + 10*(m_path.sectorX*m_path.sectorX + m_path.sectorY*m_path.sectorY + m_path.sectorZ*m_path.sectorZ));
 	m_econType = ECON_INDUSTRY;
 	m_industrial = rand.Fixed();
 	m_agricultural = 0;
