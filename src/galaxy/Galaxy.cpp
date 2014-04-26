@@ -8,7 +8,7 @@
 #include "Pi.h"
 #include "FileSystem.h"
 
-Galaxy::Galaxy() : GALAXY_RADIUS(50000.0), SOL_OFFSET_X(25000.0), SOL_OFFSET_Y(0.0), m_galaxybmp(nullptr)
+Galaxy::Galaxy() : GALAXY_RADIUS(50000.0), SOL_OFFSET_X(25000.0), SOL_OFFSET_Y(0.0), m_galaxybmp(nullptr), m_factions(this)
 {
 	static const std::string filename("galaxy.bmp");
 
