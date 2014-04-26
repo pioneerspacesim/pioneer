@@ -23,7 +23,6 @@ public:
 	RefCountedPtr<Sector> GetCached(const SystemPath& loc);
 	RefCountedPtr<Sector> GetIfCached(const SystemPath& loc);
 	void ClearCache(); 	// Completely clear slave caches
-	void AssignFactions(); // Assign factions to the cached sectors that do not have one, yet
 	bool IsEmpty() { return m_sectorAttic.empty(); }
 
 	typedef std::vector<SystemPath> PathVector;
@@ -84,7 +83,6 @@ private:
 	SectorAtticMap m_sectorAttic;	// Those contains non-refcounted pointers which are kept alive by RefCountedPtrs in slave caches
 									// or elsewhere. The Sector destructor ensures that it is removed from here.
 									// This ensures, that there is only ever one object for each Sector.
-	std::set<Sector*> m_unassignedFactionsSet;
 };
 
 #endif

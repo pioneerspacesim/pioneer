@@ -24,7 +24,7 @@ public:
 	// XXX this is not as const-safe as it should be
 	static Faction *GetFaction       (const Uint32 index);
 	static Faction *GetFaction       (const std::string& factionName);
-	static Faction *GetNearestFaction(RefCountedPtr<const Sector> sec, Uint32 sysIndex);
+	static Faction *GetNearestFaction(const Sector::System* sys);
 	static bool     IsHomeSystem     (const SystemPath& sysPath);
 
 	static const Uint32 GetNumFactions();
@@ -70,7 +70,7 @@ public:
 
 	const double         Radius()  const { return (FACTION_CURRENT_YEAR - foundingDate) * expansionRate; };
 	const bool           IsValid() const { return idx != BAD_FACTION_IDX; };
-	const Color          AdjustedColour(fixed population, bool inRange);
+	const Color          AdjustedColour(fixed population, bool inRange) const;
 	const Polit::GovType PickGovType(Random &rand) const;
 
 	// set the homeworld to one near the supplied co-ordinates
@@ -81,7 +81,7 @@ private:
 	static const double FACTION_CURRENT_YEAR;	// used to calculate faction radius
 
 	RefCountedPtr<const Sector> m_homesector;	// cache of home sector to use in distance calculations
-	const bool IsCloserAndContains(double& closestFactionDist, RefCountedPtr<const Sector> sec, Uint32 sysIndex);
+	const bool IsCloserAndContains(double& closestFactionDist, const Sector::System* sys);
 };
 
 /* One day it might grow up to become a full tree, on the  other hand it might be
@@ -92,7 +92,7 @@ private:
 class FactionOctsapling {
 public:
 	void Add(Faction* faction);
-	const std::vector<Faction*>& CandidateFactions(RefCountedPtr<const Sector> sec, Uint32 sysIndex);
+	const std::vector<Faction*>& CandidateFactions(const Sector::System* sys);
 
 private:
 	std::vector<Faction*> octbox[2][2][2];

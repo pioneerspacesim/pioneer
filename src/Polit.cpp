@@ -197,8 +197,8 @@ void GetSysPolitStarSystem(const StarSystem *s, const fixed &human_infestedness,
 	GovType a = GOV_INVALID;
 
 	/* from custom system definition */
-	if (sec->m_systems[path.systemIndex].customSys) {
-		Polit::GovType t = sec->m_systems[path.systemIndex].customSys->govType;
+	if (sec->m_systems[path.systemIndex].GetCustomSystem()) {
+		Polit::GovType t = sec->m_systems[path.systemIndex].GetCustomSystem()->govType;
 		a = t;
 	}
 	if (a == GOV_INVALID) {
