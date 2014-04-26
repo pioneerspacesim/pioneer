@@ -285,8 +285,14 @@ static luaL_Reg LuaFaction_meta[] = {
 
 FactionsDatabase::~FactionsDatabase()
 {
-	if (m_initialized)
-		Uninit();
+	if (m_initialized) {
+		m_initialized = false;
+		for (FactionIterator it = m_factions.begin(); it != m_factions.end(); ++it) {
+			delete *it;
+		}
+		m_factions.clear();
+		m_factions_byName.clear();
+	}
 }
 
 
@@ -345,7 +351,7 @@ void FactionsDatabase::Init()
 		m_missingFactionsMap.erase(m_missingFactionsMap.begin());
 	}
 	m_initialized = true;
-	m_may_assign_factions = true;
+	SetHomeSectors();
 }
 
 void FactionsDatabase::ClearHomeSectors()
@@ -361,16 +367,6 @@ void FactionsDatabase::SetHomeSectors()
 		if ((*it)->hasHomeworld)
 			(*it)->m_homesector = Sector::cache.GetCached((*it)->homeworld);
 	m_may_assign_factions = true;
-}
-
-void FactionsDatabase::Uninit()
-{
-	m_initialized = false;
-	for (FactionIterator it = m_factions.begin(); it != m_factions.end(); ++it) {
-		delete *it;
-	}
-	m_factions.clear();
-	m_factions_byName.clear();
 }
 
 bool FactionsDatabase::IsInitialized()

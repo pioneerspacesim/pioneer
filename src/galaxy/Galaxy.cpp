@@ -8,7 +8,7 @@
 #include "Pi.h"
 #include "FileSystem.h"
 
-Galaxy::Galaxy() : GALAXY_RADIUS(50000.0), SOL_OFFSET_X(25000.0), SOL_OFFSET_Y(0.0), m_galaxybmp(nullptr), m_factions(this)
+Galaxy::Galaxy() : GALAXY_RADIUS(50000.0), SOL_OFFSET_X(25000.0), SOL_OFFSET_Y(0.0), m_galaxybmp(nullptr), m_factions(this), m_customSystems(this)
 {
 	static const std::string filename("galaxy.bmp");
 
@@ -29,6 +29,12 @@ Galaxy::Galaxy() : GALAXY_RADIUS(50000.0), SOL_OFFSET_X(25000.0), SOL_OFFSET_Y(0
 Galaxy::~Galaxy()
 {
 	if(m_galaxybmp) SDL_FreeSurface(m_galaxybmp);
+}
+
+void Galaxy::Init()
+{
+	m_customSystems.Init();
+	m_factions.Init();
 }
 
 SDL_Surface* Galaxy::GetGalaxyBitmap()

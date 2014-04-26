@@ -24,7 +24,7 @@ SectorCache Sector::cache;
 void Sector::GetCustomSystems(Random& rng)
 {
 	PROFILE_SCOPED()
-	const std::vector<CustomSystem*> &systems = CustomSystem::GetCustomSystemsForSector(sx, sy, sz);
+	const std::vector<CustomSystem*> &systems = Pi::GetGalaxy()->GetCustomSystems()->GetCustomSystemsForSector(sx, sy, sz);
 	if (systems.size() == 0) return;
 
 	Uint32 sysIdx = 0;
