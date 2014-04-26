@@ -36,6 +36,7 @@ April 2014
      * Add facilities to easily call arbitrary Lua methods from C++ (#2854, #2869)
      * Address some warnings from cppcheck and GCC (#2871)
      * Add possibility for synchronous jobs (#2879)
+     * Assign factions to systems when first needing it (#2887)
 
    * Fixes
      * Fix duplication of cargo during cargo scooping (#2644, #2828)
