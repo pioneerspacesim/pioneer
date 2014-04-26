@@ -252,6 +252,8 @@ public:
 	}
 	virtual void RemoveJob(Job::Handle* handle) { m_jobs.erase(*handle); }
 
+	bool IsEmpty() const { return m_jobs.empty(); }
+
 private:
 	JobQueue* m_queue;
 	std::set<Job::Handle> m_jobs;

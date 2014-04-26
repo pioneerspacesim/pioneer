@@ -6,7 +6,7 @@
 #include "galaxy/SystemPath.h"
 #include "galaxy/StarSystem.h"
 #include "galaxy/Sector.h"
-#include "galaxy/SectorCache.h"
+#include "galaxy/GalaxyCache.h"
 
 /*
  * Class: SystemPath
@@ -118,7 +118,7 @@ static int l_sbodypath_new(lua_State *l)
 			path.bodyIndex = luaL_checkinteger(l, 5);
 
 			// and if it's a body path, check that the body exists
-			RefCountedPtr<StarSystem> sys = StarSystemCache::GetCached(path);
+			RefCountedPtr<StarSystem> sys = StarSystem::cache->GetCached(path);
 			if (path.bodyIndex >= sys->GetNumBodies()) {
 				luaL_error(l, "Body %d in system <%d,%d,%d : %d ('%s')> does not exist",
 					path.bodyIndex, sector_x, sector_y, sector_z, path.systemIndex, sys->GetName().c_str());
@@ -314,7 +314,7 @@ static int l_sbodypath_distance_to(lua_State *l)
 static int l_sbodypath_get_star_system(lua_State *l)
 {
 	SystemPath *path = LuaObject<SystemPath>::CheckFromLua(1);
-	RefCountedPtr<StarSystem> s = StarSystemCache::GetCached(path);
+	RefCountedPtr<StarSystem> s = StarSystem::cache->GetCached(path);
 	// LuaObject<StarSystem> shares ownership of the StarSystem,
 	// because LuaAcquirer<LuaObject<StarSystem>> uses IncRefCount and DecRefCount
 	LuaObject<StarSystem>::PushToLua(s.Get());
@@ -349,7 +349,7 @@ static int l_sbodypath_get_system_body(lua_State *l)
 		return 0;
 	}
 
-	RefCountedPtr<StarSystem> sys = StarSystemCache::GetCached(path);
+	RefCountedPtr<StarSystem> sys = StarSystem::cache->GetCached(path);
 	if (path->IsSystemPath()) {
 		luaL_error(l, "Path <%d,%d,%d : %d ('%s')> does not name a body", path->sectorX, path->sectorY, path->sectorZ, path->systemIndex, sys->GetName().c_str());
 		return 0;
