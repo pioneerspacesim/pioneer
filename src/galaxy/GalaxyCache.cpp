@@ -28,6 +28,8 @@ void GalaxyObjectCache<T,CompareT>::AddToCache(std::vector<RefCountedPtr<T> >& o
 		auto inserted = m_attic.insert( std::make_pair(it->Get()->GetPath(), it->Get()) );
 		if (!inserted.second) {
 			it->Reset(inserted.first->second);
+		} else {
+			(*it)->SetCache(this);
 		}
 	}
 }
@@ -54,7 +56,7 @@ RefCountedPtr<T> GalaxyObjectCache<T,CompareT>::GetCached(const SystemPath& path
 	RefCountedPtr<T> s = this->GetIfCached(path);
 	if (!s) {
 		++m_cacheMisses;
-		s.Reset(new T(path));
+		s.Reset(new T(path, this));
 		m_attic.insert( std::make_pair(path, s.Get()));
 	} else {
 		++m_cacheHits;
@@ -241,7 +243,7 @@ template <typename T, typename CompareT>
 void GalaxyObjectCache<T,CompareT>::CacheJob::OnRun()    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
 {
 	for (auto it = m_paths->begin(), itEnd = m_paths->end(); it != itEnd; ++it)
-		m_objects.push_back(RefCountedPtr<T>(new T(*it)));
+		m_objects.push_back(RefCountedPtr<T>(new T(*it, nullptr)));
 }
 
 //virtual

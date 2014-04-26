@@ -91,8 +91,10 @@ private:
 	Sector& operator=(const Sector&); // non-assignable
 
 	int sx, sy, sz;
+	SectorCache* m_cache;
 
-	Sector(const SystemPath& path); // Only SectorCache(Job) are allowed to create sectors
+	Sector(const SystemPath& path, SectorCache* cache); // Only SectorCache(Job) are allowed to create sectors
+	void SetCache(SectorCache* cache) { assert(!m_cache); m_cache = cache; }
 	void GetCustomSystems(Random& rng);
 	const std::string GenName(System &sys, int si, Random &rand);
 	// sets appropriate factions for all systems in the sector

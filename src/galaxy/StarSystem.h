@@ -329,8 +329,10 @@ public:
 	void Dump(FILE* file, const char* indent = "", bool suppressSectorData = false) const;
 
 private:
-	StarSystem(const SystemPath &path);
+	StarSystem(const SystemPath &path, StarSystemCache* cache);
 	~StarSystem();
+
+	void SetCache(StarSystemCache* cache) { assert(!m_cache); m_cache = cache; }
 
 	SystemBody *NewBody() {
 		SystemBody *body = new SystemBody(SystemPath(m_path.sectorX, m_path.sectorY, m_path.sectorZ, m_path.systemIndex, m_bodies.size()));
@@ -377,6 +379,8 @@ private:
 	std::vector< RefCountedPtr<SystemBody> > m_bodies;
 	std::vector<SystemBody*> m_spaceStations;
 	std::vector<SystemBody*> m_stars;
+
+	StarSystemCache* m_cache;
 };
 
 #endif /* _STARSYSTEM_H */

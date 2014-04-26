@@ -56,7 +56,7 @@ void Sector::GetCustomSystems(Random& rng)
 static const int CUSTOM_ONLY_RADIUS	= 4;
 
 //////////////////////// Sector
-Sector::Sector(const SystemPath& path) : sx(path.sectorX), sy(path.sectorY), sz(path.sectorZ)
+Sector::Sector(const SystemPath& path, SectorCache* cache) : sx(path.sectorX), sy(path.sectorY), sz(path.sectorZ), m_cache(cache)
 {
 	PROFILE_SCOPED()
 	Uint32 _init[4] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
@@ -254,7 +254,8 @@ Sector::Sector(const SystemPath& path) : sx(path.sectorX), sy(path.sectorY), sz(
 
 Sector::~Sector()
 {
-	cache.RemoveFromAttic(SystemPath(sx, sy, sz));
+	if (m_cache)
+		m_cache->RemoveFromAttic(SystemPath(sx, sy, sz));
 }
 
 float Sector::DistanceBetween(RefCountedPtr<const Sector> a, int sysIdxA, RefCountedPtr<const Sector> b, int sysIdxB)

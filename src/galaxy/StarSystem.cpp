@@ -1392,8 +1392,8 @@ SystemBody::AtmosphereParameters SystemBody::CalcAtmosphereParams() const
  *
  * We must be sneaky and avoid floating point in these places.
  */
-StarSystem::StarSystem(const SystemPath &path) : m_path(path.SystemOnly()), m_numStars(0), m_isCustom(false), m_hasCustomBodies(false),
-	m_faction(nullptr), m_unexplored(false), m_econType(0), m_seed(0)
+StarSystem::StarSystem(const SystemPath &path, StarSystemCache* cache) : m_path(path.SystemOnly()), m_numStars(0), m_isCustom(false), m_hasCustomBodies(false),
+	m_faction(nullptr), m_unexplored(false), m_econType(0), m_seed(0), m_cache(cache)
 {
 	PROFILE_SCOPED()
 	memset(m_tradeLevel, 0, sizeof(m_tradeLevel));
@@ -2389,7 +2389,8 @@ StarSystem::~StarSystem()
 	// clear parent and children pointers. someone (Lua) might still have a
 	// reference to things that are about to be deleted
 	m_rootBody->ClearParentAndChildPointers();
-	attic.RemoveFromAttic(m_path);
+	if (m_cache)
+		m_cache->RemoveFromAttic(m_path);
 }
 
 void StarSystem::Serialize(Serializer::Writer &wr, StarSystem *s)
