@@ -155,6 +155,10 @@
       "description" : "",
       "message" : "Guardia"
    },
+   "CONTINUE_GAME" : {
+      "description" : "",
+      "message" : "Continue game"
+   },
    "CONTROLS" : {
       "description" : "",
       "message" : "Controles"
@@ -798,10 +802,6 @@
    "QUALIFICATION_SCORES" : {
       "description" : "",
       "message" : "Calificación"
-   },
-   "QUICKLOAD" : {
-      "description" : "",
-      "message" : "Carga rápida"
    },
    "QUIT" : {
       "description" : "",

@@ -155,6 +155,10 @@
       "description" : "",
       "message" : "Konstapel"
    },
+   "CONTINUE_GAME" : {
+      "description" : "",
+      "message" : "Continue game"
+   },
    "CONTROLS" : {
       "description" : "",
       "message" : "Kontroller"
@@ -798,10 +802,6 @@
    "QUALIFICATION_SCORES" : {
       "description" : "",
       "message" : "Kvalificeringspoäng"
-   },
-   "QUICKLOAD" : {
-      "description" : "",
-      "message" : "Snabbladdning"
    },
    "QUIT" : {
       "description" : "",

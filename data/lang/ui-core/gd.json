@@ -155,6 +155,10 @@
       "description" : "",
       "message" : "Constabal"
    },
+   "CONTINUE_GAME" : {
+      "description" : "",
+      "message" : "Continue game"
+   },
    "CONTROLS" : {
       "description" : "",
       "message" : "Uidheaman-smachd"
@@ -798,10 +802,6 @@
    "QUALIFICATION_SCORES" : {
       "description" : "",
       "message" : "Sgòran teisteanais"
-   },
-   "QUICKLOAD" : {
-      "description" : "",
-      "message" : "Grad-luchdadh"
    },
    "QUIT" : {
       "description" : "",

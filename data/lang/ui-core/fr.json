@@ -155,6 +155,10 @@
       "description" : "",
       "message" : "Agent de police"
    },
+   "CONTINUE_GAME" : {
+      "description" : "",
+      "message" : "Continue game"
+   },
    "CONTROLS" : {
       "description" : "",
       "message" : "Controles"
@@ -798,10 +802,6 @@
    "QUALIFICATION_SCORES" : {
       "description" : "",
       "message" : "Qualification"
-   },
-   "QUICKLOAD" : {
-      "description" : "",
-      "message" : "Chargement rapide"
    },
    "QUIT" : {
       "description" : "",

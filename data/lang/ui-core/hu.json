@@ -155,6 +155,10 @@
       "description" : "",
       "message" : "Főtörzs"
    },
+   "CONTINUE_GAME" : {
+      "description" : "",
+      "message" : "Continue game"
+   },
    "CONTROLS" : {
       "description" : "",
       "message" : "Irányítás"
@@ -798,10 +802,6 @@
    "QUALIFICATION_SCORES" : {
       "description" : "",
       "message" : "Képzettség pont:"
-   },
-   "QUICKLOAD" : {
-      "description" : "",
-      "message" : "Gyorsmentés betöltése"
    },
    "QUIT" : {
       "description" : "",

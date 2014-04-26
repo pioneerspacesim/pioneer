@@ -155,6 +155,10 @@
       "description" : "",
       "message" : "Betjent"
    },
+   "CONTINUE_GAME" : {
+      "description" : "",
+      "message" : "Continue game"
+   },
    "CONTROLS" : {
       "description" : "",
       "message" : "Styring"
@@ -798,10 +802,6 @@
    "QUALIFICATION_SCORES" : {
       "description" : "",
       "message" : "Kvalificeringspoint"
-   },
-   "QUICKLOAD" : {
-      "description" : "",
-      "message" : "Hurtig-åbn"
    },
    "QUIT" : {
       "description" : "",
