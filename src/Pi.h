@@ -19,7 +19,6 @@
 #include <vector>
 
 class DeathView;
-class FactionsDatabase;
 class GalacticView;
 class Galaxy;
 class Intro;

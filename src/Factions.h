@@ -84,9 +84,6 @@ public:
 	~FactionsDatabase();
 
 	void Init();
-	void ClearHomeSectors();
-	void SetHomeSectors();
-	void Uninit();
 	bool IsInitialized();
 	Galaxy* GetGalaxy() const { return m_galaxy; }
 	void RegisterCustomSystem(CustomSystem *cs, const std::string& factionName);
@@ -121,6 +118,9 @@ private:
 	typedef std::map<std::string, Faction*> FactionMap;
 	typedef std::set<SystemPath>  HomeSystemSet;
 	typedef std::map<std::string, std::list<CustomSystem*> > MissingFactionsMap;
+
+	void ClearHomeSectors();
+	void SetHomeSectors();
 
 	Galaxy* const     m_galaxy;
 	Faction           m_no_faction;    // instead of answering null, we often want to answer a working faction object for no faction

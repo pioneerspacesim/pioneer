@@ -482,20 +482,19 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	draw_progress(gauge, label, 0.1f);
 
 	s_galaxy = new Galaxy;
+
 	draw_progress(gauge, label, 0.2f);
 
-	FaceGenManager::Init();
-	draw_progress(gauge, label, 0.25f);
+	s_galaxy->Init();
 
-	CustomSystem::Init();
 	draw_progress(gauge, label, 0.3f);
 
-	s_galaxy->GetFactions()->Init();
+	FaceGenManager::Init();
+
 	draw_progress(gauge, label, 0.4f);
 
 	// Reload home sector, they might have changed, due to custom systems
 	// Sectors might be changed in game, so have to re-create them again once we have a Game.
-	s_galaxy->GetFactions()->SetHomeSectors();
 	draw_progress(gauge, label, 0.45f);
 
 	modelCache = new ModelCache(Pi::renderer);
@@ -668,9 +667,7 @@ void Pi::Quit()
 	SpaceStation::Uninit();
 	CityOnPlanet::Uninit();
 	BaseSphere::Uninit();
-	s_galaxy->GetFactions()->Uninit();
 	FaceGenManager::Destroy();
-	CustomSystem::Uninit();
 	Graphics::Uninit();
 	Pi::ui.Reset(0);
 	LuaUninit();

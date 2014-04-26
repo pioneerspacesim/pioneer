@@ -15,10 +15,7 @@
 #include "FileSystem.h"
 #include <map>
 
-typedef std::map<SystemPath, CustomSystem::SystemList> SectorMap;
-
-static SectorMap s_sectorMap;
-static const CustomSystem::SystemList s_emptySystemList; // see: Null Object pattern
+const CustomSystemsDatabase::SystemList CustomSystemsDatabase::s_emptySystemList; // see: Null Object pattern
 
 // ------- CustomSystemBody --------
 
@@ -464,7 +461,7 @@ static int l_csys_add_to_sector(lua_State *L)
 
 	//Output("l_csys_add_to_sector: %s added to %d, %d, %d\n", (*csptr)->name.c_str(), x, y, z);
 
-	s_sectorMap[SystemPath(x, y, z)].push_back(*csptr);
+	Pi::GetGalaxy()->GetCustomSystems()->AddCustomSystem(SystemPath(x, y, z), *csptr);
 	*csptr = 0;
 	return 0;
 }
@@ -516,7 +513,7 @@ static void RegisterCustomSystemsAPI(lua_State *L)
 	register_class(L, LuaCustomSystemBody_TypeName, LuaCustomSystemBody_meta);
 }
 
-void CustomSystem::Init()
+void CustomSystemsDatabase::Init()
 {
 	PROFILE_SCOPED()
 	lua_State *L = luaL_newstate();
@@ -553,24 +550,30 @@ void CustomSystem::Init()
 	lua_close(L);
 }
 
-void CustomSystem::Uninit()
+CustomSystemsDatabase::~CustomSystemsDatabase()
 {
 	PROFILE_SCOPED()
-	for (SectorMap::iterator secIt = s_sectorMap.begin(); secIt != s_sectorMap.end(); ++secIt) {
-		for (CustomSystem::SystemList::iterator
+	for (SectorMap::iterator secIt = m_sectorMap.begin(); secIt != m_sectorMap.end(); ++secIt) {
+		for (CustomSystemsDatabase::SystemList::iterator
 				sysIt = secIt->second.begin(); sysIt != secIt->second.end(); ++sysIt) {
 			delete *sysIt;
 		}
 	}
-	s_sectorMap.clear();
+	m_sectorMap.clear();
 }
 
-const CustomSystem::SystemList &CustomSystem::GetCustomSystemsForSector(int x, int y, int z)
+const CustomSystemsDatabase::SystemList &CustomSystemsDatabase::GetCustomSystemsForSector(int x, int y, int z) const
 {
 	PROFILE_SCOPED()
 	SystemPath path(x,y,z);
-	SectorMap::const_iterator it = s_sectorMap.find(path);
-	return (it != s_sectorMap.end()) ? it->second : s_emptySystemList;
+	SectorMap::const_iterator it = m_sectorMap.find(path);
+	return (it != m_sectorMap.end()) ? it->second : s_emptySystemList;
+}
+
+void CustomSystemsDatabase::AddCustomSystem(const SystemPath& path, CustomSystem* csys)
+{
+	m_sectorMap[path].push_back(csys);
+
 }
 
 CustomSystem::CustomSystem():

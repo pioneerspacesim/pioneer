@@ -6,6 +6,7 @@
 
 #include <cstdio>
 #include "Factions.h"
+#include "CustomSystem.h"
 
 class SDL_Surface;
 
@@ -19,15 +20,20 @@ public:
 	Galaxy();
 	~Galaxy();
 
+	void Init();
+
 	SDL_Surface *GetGalaxyBitmap();
 	/* 0 - 255 */
 	Uint8 GetSectorDensity(int sx, int sy, int sz);
 	FactionsDatabase* GetFactions() { return &m_factions; } // XXX const correctness
+	CustomSystemsDatabase* GetCustomSystems() { return &m_customSystems; } // XXX const correctness
+
 	void Dump(FILE* file, Sint32 centerX, Sint32 centerY, Sint32 centerZ, Sint32 radius);
 
 private:
 	SDL_Surface *m_galaxybmp;
 	FactionsDatabase m_factions;
+	CustomSystemsDatabase m_customSystems;
 };
 
 #endif /* _GALAXY_H */
