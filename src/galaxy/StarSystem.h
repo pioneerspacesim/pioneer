@@ -277,8 +277,6 @@ public:
 	friend class SystemBody;
 	friend class GalaxyObjectCache<StarSystem, SystemPath::LessSystemOnly>;
 
-	static RefCountedPtr<StarSystemCache::Slave> cache;
-
 	void ExportToLua(const char *filename);
 
 	const std::string &GetName() const { return m_name; }
