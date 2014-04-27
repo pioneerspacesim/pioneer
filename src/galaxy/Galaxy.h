@@ -32,12 +32,18 @@ public:
 	RefCountedPtr<const Sector> GetSector(const SystemPath& path) { return m_sectorCache.GetCached(path); }
 	RefCountedPtr<SectorCache::Slave> NewSectorSlaveCache() { return m_sectorCache.NewSlaveCache(); }
 
+	RefCountedPtr<StarSystem> GetStarSystem(const SystemPath& path) { return m_starSystemCache->GetCached(path); }
+	RefCountedPtr<StarSystemCache::Slave> GetStarSystemCache() { return m_starSystemCache; }
+	RefCountedPtr<StarSystemCache::Slave> NewStarSystemSlaveCache() { return m_starSystemAttic.NewSlaveCache(); }
+
 	void FlushCaches();
 	void Dump(FILE* file, Sint32 centerX, Sint32 centerY, Sint32 centerZ, Sint32 radius);
 
 private:
 	SDL_Surface *m_galaxybmp;
 	SectorCache m_sectorCache;
+	StarSystemCache m_starSystemAttic;
+	RefCountedPtr<StarSystemCache::Slave> m_starSystemCache;
 	FactionsDatabase m_factions;
 	CustomSystemsDatabase m_customSystems;
 };

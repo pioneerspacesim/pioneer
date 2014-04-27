@@ -277,7 +277,6 @@ public:
 	friend class SystemBody;
 	friend class GalaxyObjectCache<StarSystem, SystemPath::LessSystemOnly>;
 
-	static StarSystemCache attic;
 	static RefCountedPtr<StarSystemCache::Slave> cache;
 
 	void ExportToLua(const char *filename);

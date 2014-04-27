@@ -258,7 +258,7 @@ static int l_starsystem_get_nearby_systems(lua_State *l)
 					if (Sector::DistanceBetween(here_sec, here_idx, sec, idx) > dist_ly)
 						continue;
 
-					RefCountedPtr<StarSystem> sys = StarSystem::cache->GetCached(SystemPath(x, y, z, idx));
+					RefCountedPtr<StarSystem> sys = Pi::GetGalaxy()->GetStarSystem(SystemPath(x, y, z, idx));
 					if (filter) {
 						lua_pushvalue(l, 3);
 						LuaObject<StarSystem>::PushToLua(sys.Get());

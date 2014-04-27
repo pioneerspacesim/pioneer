@@ -21,9 +21,6 @@
 #include <SDL_stdinc.h>
 #include "EnumStrings.h"
 
-StarSystemCache StarSystem::attic;
-RefCountedPtr<StarSystemCache::Slave> StarSystem::cache = attic.NewSlaveCache();
-
 static const double CELSIUS	= 273.15;
 //#define DEBUG_DUMP
 
@@ -2414,7 +2411,7 @@ RefCountedPtr<StarSystem> StarSystem::Unserialize(Serializer::Reader &rd)
 		int sec_y = rd.Int32();
 		int sec_z = rd.Int32();
 		int sys_idx = rd.Int32();
-		return StarSystem::cache->GetCached(SystemPath(sec_x, sec_y, sec_z, sys_idx));
+		return Pi::GetGalaxy()->GetStarSystem(SystemPath(sec_x, sec_y, sec_z, sys_idx));
 	} else {
 		return RefCountedPtr<StarSystem>(0);
 	}

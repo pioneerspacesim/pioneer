@@ -24,6 +24,8 @@ Galaxy::Galaxy() : GALAXY_RADIUS(50000.0), SOL_OFFSET_X(25000.0), SOL_OFFSET_Y(0
 		Output("Galaxy: couldn't load: %s (%s)\n", filename.c_str(), SDL_GetError());
 		Pi::Quit();
 	}
+
+	m_starSystemCache = m_starSystemAttic.NewSlaveCache();
 }
 
 Galaxy::~Galaxy()
@@ -66,6 +68,9 @@ Uint8 Galaxy::GetSectorDensity(int sx, int sy, int sz)
 
 void Galaxy::FlushCaches()
 {
+	m_starSystemAttic.OutputCacheStatistics();
+	m_starSystemCache = m_starSystemAttic.NewSlaveCache();
+	m_starSystemAttic.ClearCache();
 	m_sectorCache.OutputCacheStatistics();
 	m_sectorCache.ClearCache();
 	// XXX Ideally the cache would now be empty, but we still have Faction::m_homesector :(
@@ -80,7 +85,7 @@ void Galaxy::Dump(FILE* file, Sint32 centerX, Sint32 centerY, Sint32 centerZ, Si
 				RefCountedPtr<const Sector> sector = Pi::GetGalaxy()->GetSector(SystemPath(sx, sy, sz));
 				sector->Dump(file);
 			}
-			StarSystem::attic.ClearCache();
+			m_starSystemAttic.ClearCache();
 		}
 	}
 }

@@ -675,7 +675,6 @@ void Pi::Quit()
 	delete Pi::modelCache;
 	delete Pi::renderer;
 	delete Pi::config;
-	StarSystem::attic.ClearCache();
 	delete Pi::s_galaxy;
 	SDL_Quit();
 	FileSystem::Uninit();
@@ -686,9 +685,6 @@ void Pi::Quit()
 
 void Pi::FlushCaches()
 {
-	StarSystem::attic.OutputCacheStatistics();
-	StarSystem::cache = StarSystem::attic.NewSlaveCache();
-	StarSystem::attic.ClearCache();
 	s_galaxy->FlushCaches();
 }
 

@@ -27,7 +27,7 @@
 //   LuaObject<Ship>::PushToLua(s);
 //
 //   // RefCounted, Lua will take a reference
-//   StarSystem *s = StarSystem::cache->GetCached(SystemPath(0,0,0,0));
+//   StarSystem *s = Pi::GetGalaxy()->GetStarSystem(SystemPath(0,0,0,0));
 //   LuaObject<StarSystem>::PushToLua(s);
 //
 //   // Heap-allocated, Lua will get a copy
