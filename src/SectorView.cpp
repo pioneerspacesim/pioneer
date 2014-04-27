@@ -13,6 +13,7 @@
 #include "ShipCpanel.h"
 #include "StringF.h"
 #include "SystemInfoView.h"
+#include "galaxy/Galaxy.h"
 #include "galaxy/Sector.h"
 #include "galaxy/GalaxyCache.h"
 #include "galaxy/StarSystem.h"
@@ -116,7 +117,7 @@ void SectorView::InitDefaults()
 	m_cacheYMin = 0;
 	m_cacheYMax = 0;
 
-	m_sectorCache = Sector::cache.NewSlaveCache();
+	m_sectorCache = Pi::GetGalaxy()->NewSectorSlaveCache();
 }
 
 void SectorView::InitObject()

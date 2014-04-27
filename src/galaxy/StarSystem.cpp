@@ -1399,7 +1399,7 @@ StarSystem::StarSystem(const SystemPath &path, StarSystemCache* cache) : m_path(
 	PROFILE_SCOPED()
 	memset(m_tradeLevel, 0, sizeof(m_tradeLevel));
 
-	RefCountedPtr<const Sector> s = Sector::cache.GetCached(m_path);
+	RefCountedPtr<const Sector> s = Pi::GetGalaxy()->GetSector(m_path);
 	assert(m_path.systemIndex >= 0 && m_path.systemIndex < s->m_systems.size());
 
 	m_seed    = s->m_systems[m_path.systemIndex].GetSeed();
@@ -2562,7 +2562,7 @@ void StarSystem::ExportToLua(const char *filename) {
 
 	fprintf(f, "system:bodies(%s)\n\n", ExportBodyToLua(f, m_rootBody.Get()).c_str());
 
-	RefCountedPtr<const Sector> sec = Sector::cache.GetCached(GetPath());
+	RefCountedPtr<const Sector> sec = Pi::GetGalaxy()->GetSector(GetPath());
 	SystemPath pa = GetPath();
 
 	fprintf(f, "system:add_to_sector(%d,%d,%d,v(%.4f,%.4f,%.4f))\n",

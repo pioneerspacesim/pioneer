@@ -3,6 +3,8 @@
 
 #include "LuaObject.h"
 #include "LuaUtils.h"
+#include "Pi.h"
+#include "galaxy/Galaxy.h"
 #include "galaxy/SystemPath.h"
 #include "galaxy/StarSystem.h"
 #include "galaxy/Sector.h"
@@ -110,7 +112,7 @@ static int l_sbodypath_new(lua_State *l)
 		path.systemIndex = luaL_checkinteger(l, 4);
 
 		// if this is a system path, then check that the system exists
-		RefCountedPtr<const Sector> s = Sector::cache.GetCached(path);
+		RefCountedPtr<const Sector> s = Pi::GetGalaxy()->GetSector(path);
 		if (size_t(path.systemIndex) >= s->m_systems.size())
 			luaL_error(l, "System %d in sector <%d,%d,%d> does not exist", path.systemIndex, sector_x, sector_y, sector_z);
 
@@ -281,8 +283,8 @@ static int l_sbodypath_distance_to(lua_State *l)
 		loc2 = &(s2->GetPath());
 	}
 
-	RefCountedPtr<const Sector> sec1 = Sector::cache.GetCached(*loc1);
-	RefCountedPtr<const Sector> sec2 = Sector::cache.GetCached(*loc2);
+	RefCountedPtr<const Sector> sec1 = Pi::GetGalaxy()->GetSector(*loc1);
+	RefCountedPtr<const Sector> sec2 = Pi::GetGalaxy()->GetSector(*loc2);
 
 	double dist = Sector::DistanceBetween(sec1, loc1->systemIndex, sec2, loc2->systemIndex);
 

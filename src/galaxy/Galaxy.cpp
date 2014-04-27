@@ -64,12 +64,20 @@ Uint8 Galaxy::GetSectorDensity(int sx, int sy, int sz)
 	return Uint8(val);
 }
 
+void Galaxy::FlushCaches()
+{
+	m_sectorCache.OutputCacheStatistics();
+	m_sectorCache.ClearCache();
+	// XXX Ideally the cache would now be empty, but we still have Faction::m_homesector :(
+	// assert(m_sectorCache.IsEmpty());
+}
+
 void Galaxy::Dump(FILE* file, Sint32 centerX, Sint32 centerY, Sint32 centerZ, Sint32 radius)
 {
 	for (Sint32 sx = centerX - radius; sx <= centerX + radius; ++sx) {
 		for (Sint32 sy = centerY - radius; sy <= centerY + radius; ++sy) {
 			for (Sint32 sz = centerZ - radius; sz <= centerZ + radius; ++sz) {
-				RefCountedPtr<Sector> sector = Sector::cache.GetCached(SystemPath(sx, sy, sz));
+				RefCountedPtr<const Sector> sector = Pi::GetGalaxy()->GetSector(SystemPath(sx, sy, sz));
 				sector->Dump(file);
 			}
 			StarSystem::attic.ClearCache();

@@ -689,10 +689,7 @@ void Pi::FlushCaches()
 	StarSystem::attic.OutputCacheStatistics();
 	StarSystem::cache = StarSystem::attic.NewSlaveCache();
 	StarSystem::attic.ClearCache();
-	Sector::cache.OutputCacheStatistics();
-	Sector::cache.ClearCache();
-	// XXX Ideally the cache would now be empty, but we still have Faction::m_homesector :(
-	// assert(Sector::cache.IsEmpty());
+	s_galaxy->FlushCaches();
 }
 
 void Pi::BoinkNoise()

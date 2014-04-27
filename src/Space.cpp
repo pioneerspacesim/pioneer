@@ -12,6 +12,7 @@
 #include <functional>
 #include "Pi.h"
 #include "Player.h"
+#include "galaxy/Galaxy.h"
 #include "galaxy/StarSystem.h"
 #include "SpaceStation.h"
 #include "Serializer.h"
@@ -656,7 +657,7 @@ void Space::GenSectorCache(const SystemPath* here)
 	// sort them so that those closest to the "here" path are processed first
 	SectorDistanceSort SDS(here);
 	std::sort(paths.begin(), paths.end(), SDS);
-	m_sectorCache = Sector::cache.NewSlaveCache();
+	m_sectorCache = Pi::GetGalaxy()->NewSectorSlaveCache();
 	const SystemPath& center(*here);
 	m_sectorCache->FillCache(paths, [this,center]() { UpdateStarSystemCache(&center); });
 }

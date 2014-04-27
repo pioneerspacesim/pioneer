@@ -7,6 +7,7 @@
 #include <cstdio>
 #include "Factions.h"
 #include "CustomSystem.h"
+#include "GalaxyCache.h"
 
 class SDL_Surface;
 
@@ -28,10 +29,15 @@ public:
 	FactionsDatabase* GetFactions() { return &m_factions; } // XXX const correctness
 	CustomSystemsDatabase* GetCustomSystems() { return &m_customSystems; } // XXX const correctness
 
+	RefCountedPtr<const Sector> GetSector(const SystemPath& path) { return m_sectorCache.GetCached(path); }
+	RefCountedPtr<SectorCache::Slave> NewSectorSlaveCache() { return m_sectorCache.NewSlaveCache(); }
+
+	void FlushCaches();
 	void Dump(FILE* file, Sint32 centerX, Sint32 centerY, Sint32 centerZ, Sint32 radius);
 
 private:
 	SDL_Surface *m_galaxybmp;
+	SectorCache m_sectorCache;
 	FactionsDatabase m_factions;
 	CustomSystemsDatabase m_customSystems;
 };

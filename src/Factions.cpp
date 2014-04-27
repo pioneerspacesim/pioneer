@@ -365,7 +365,7 @@ void FactionsDatabase::SetHomeSectors()
 	m_may_assign_factions = false;
 	for (auto it = m_factions.begin(); it != m_factions.end(); ++it)
 		if ((*it)->hasHomeworld)
-			(*it)->m_homesector = Sector::cache.GetCached((*it)->homeworld);
+			(*it)->m_homesector = Pi::GetGalaxy()->GetSector((*it)->homeworld);
 	m_may_assign_factions = true;
 }
 
@@ -548,7 +548,7 @@ void Faction::SetBestFitHomeworld(Sint32 x, Sint32 y, Sint32 z, Sint32 si, Uint3
 
 		SystemPath path(x, y, z);
 		// search for a suitable homeworld in the current sector
-		RefCountedPtr<const Sector> sec = Sector::cache.GetCached(path);
+		RefCountedPtr<const Sector> sec = Pi::GetGalaxy()->GetSector(path);
 		Sint32 candidateSi = 0;
 		while (Uint32(candidateSi) < sec->m_systems.size()) {
 			path.systemIndex = candidateSi;
@@ -571,7 +571,7 @@ void Faction::SetBestFitHomeworld(Sint32 x, Sint32 y, Sint32 z, Sint32 si, Uint3
 
 RefCountedPtr<const Sector> Faction::GetHomeSector() {
 	if (!m_homesector) // This will later be replaced by a Sector from the cache
-		m_homesector = Sector::cache.GetCached(homeworld);
+		m_homesector = Pi::GetGalaxy()->GetSector(homeworld);
 	return m_homesector;
 }
 
