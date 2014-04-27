@@ -14,7 +14,7 @@
 #include "Sound.h"
 #include "Sfx.h"
 #include "galaxy/Sector.h"
-#include "galaxy/SectorCache.h"
+#include "galaxy/GalaxyCache.h"
 #include "Frame.h"
 #include "WorldView.h"
 #include "HyperspaceCloud.h"

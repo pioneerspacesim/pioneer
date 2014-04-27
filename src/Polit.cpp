@@ -6,7 +6,6 @@
 #include "Polit.h"
 #include "galaxy/StarSystem.h"
 #include "galaxy/Sector.h"
-#include "galaxy/SectorCache.h"
 #include "Factions.h"
 #include "Space.h"
 #include "Ship.h"

@@ -57,6 +57,25 @@ public:
 		return (a.bodyIndex < b.bodyIndex);
 	}
 
+	class LessSectorOnly {
+	public:
+		bool operator()(const SystemPath& a, const SystemPath& b) const {
+			if (a.sectorX != b.sectorX) return (a.sectorX < b.sectorX);
+			if (a.sectorY != b.sectorY) return (a.sectorY < b.sectorY);
+			return (a.sectorZ < b.sectorZ);
+		}
+	};
+
+	class LessSystemOnly {
+	public:
+		bool operator()(const SystemPath& a, const SystemPath& b) const {
+			if (a.sectorX != b.sectorX) return (a.sectorX < b.sectorX);
+			if (a.sectorY != b.sectorY) return (a.sectorY < b.sectorY);
+			if (a.sectorZ != b.sectorZ) return (a.sectorZ < b.sectorZ);
+			return (a.systemIndex < b.systemIndex);
+		}
+	};
+
 	bool IsSectorPath() const {
 		return (systemIndex == Uint32(-1) && bodyIndex == Uint32(-1));
 	}

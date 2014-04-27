@@ -277,7 +277,7 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 	if (!path.HasValidSystem())
 		return;
 
-	m_system = StarSystemCache::GetCached(path);
+	m_system = StarSystem::cache->GetCached(path);
 
 	m_sbodyInfoTab = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()-100));
 
