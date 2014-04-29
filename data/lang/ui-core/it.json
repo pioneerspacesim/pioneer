@@ -845,7 +845,7 @@
    },
    "RETURN_TO_GAME" : {
       "description" : "",
-      "message" : "Torna la gioco"
+      "message" : "Torna al gioco"
    },
    "RETURN_TO_MENU" : {
       "description" : "",
