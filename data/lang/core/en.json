@@ -1147,10 +1147,6 @@
       "description" : "",
       "message" : "Plutocratic dictatorship"
    },
-   "POLICE_SHIP_REGISTRATION" : {
-      "description" : "",
-      "message" : "POLICE"
-   },
    "POPULATION" : {
       "description" : "",
       "message" : "Population:"
