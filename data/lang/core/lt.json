@@ -61,7 +61,7 @@
    },
    "AUTOMATIC_SYSTEM_SELECTION" : {
       "description" : "",
-      "message" : "Automatic system selection"
+      "message" : "Automatinis sistemos parinkimas"
    },
    "AUTOPILOT" : {
       "description" : "",
@@ -557,7 +557,7 @@
    },
    "HAT" : {
       "description" : "",
-      "message" : "\" Hat\""
+      "message" : "\" Kepurė \""
    },
    "HEADING_LOCK_BACKWARD" : {
       "description" : "",

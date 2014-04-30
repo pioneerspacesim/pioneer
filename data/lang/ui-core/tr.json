@@ -157,7 +157,7 @@
    },
    "CONTINUE_GAME" : {
       "description" : "",
-      "message" : "Continue game"
+      "message" : "Oyuna devam et"
    },
    "CONTROLS" : {
       "description" : "",
@@ -489,11 +489,11 @@
    },
    "LAUNCH_PERMISSION_DENIED_CREW" : {
       "description" : "",
-      "message" : "Permission to launch denied: not enough crew too handle this ship."
+      "message" : "Denize iniş izni reddedildi: bu gemiyi idare edecek yeterli ekip sayısına sahip değil."
    },
    "LAUNCH_PERMISSION_DENIED_FINED" : {
       "description" : "",
-      "message" : "Permission to launch denied: you have outstanding fines."
+      "message" : "Denize iniş izni reddedildi: borcunuz var."
    },
    "LEGAL_STATUS" : {
       "description" : "",
@@ -621,7 +621,7 @@
    },
    "MISSILE_MOUNTS" : {
       "description" : "",
-      "message" : "Missile mounts"
+      "message" : "Füze tepeleri"
    },
    "MISSIONS" : {
       "description" : "",
@@ -677,7 +677,7 @@
    },
    "NO" : {
       "description" : "Negative answer to a question",
-      "message" : "No"
+      "message" : "Hayır"
    },
    "NOBODY" : {
       "description" : "For player reputation",
@@ -697,7 +697,7 @@
    },
    "NOT_SUPPORTED_ON_THIS_SHIP" : {
       "description" : "",
-      "message" : "{equipment} is not supported on this ship model"
+      "message" : "{ekipman}, bu gemi modelini desteklenmiyor"
    },
    "NO_MISSIONS" : {
       "description" : "",
@@ -825,7 +825,7 @@
    },
    "REFUEL_FULL" : {
       "description" : "",
-      "message" : "Refuel full"
+      "message" : "Yakıt dolumu dolu"
    },
    "RELIABLE" : {
       "description" : "For player reputation",
@@ -845,7 +845,7 @@
    },
    "RETURN_TO_GAME" : {
       "description" : "",
-      "message" : "Return to game"
+      "message" : "Oyuna dön"
    },
    "RETURN_TO_MENU" : {
       "description" : "",
@@ -901,7 +901,7 @@
    },
    "SHIP_IS_FULLY_EQUIPPED" : {
       "description" : "",
-      "message" : "Your ship is fully equipped."
+      "message" : "Geminiz tam donanımlı."
    },
    "SHIP_IS_FULLY_LADEN" : {
       "description" : "",
@@ -961,7 +961,7 @@
    },
    "TOO_SMALL_FOR_CURRENT_CREW" : {
       "description" : "",
-      "message" : "Ship is too small for the current crew."
+      "message" : "Gemi mevcut mürettebat için çok küçük."
    },
    "TOTAL" : {
       "description" : "",
@@ -1041,7 +1041,7 @@
    },
    "YES" : {
       "description" : "Positive answer to a question",
-      "message" : "Yes"
+      "message" : "Evet"
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",

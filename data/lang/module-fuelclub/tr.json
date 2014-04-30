@@ -17,7 +17,7 @@
    },
    "FLAVOUR_0_NONMEMBER_INTRO" : {
       "description" : "",
-      "message" : "{clubname} is an independent organisation dedicated to providing discounted starship fuel to its members. Branches can be found throughout the galaxy. Benefits of membership include:"
+      "message" : "{clubname}, üyelerine indirimli yıldız gemisi yakıtı sağlamaya adamıştır bağımsız bir kuruluştur. Şubeleri galaksi boyunca bulunabilir. Üyelik avantajları şunlardır:"
    },
    "FLAVOUR_0_WELCOME" : {
       "description" : "",
@@ -33,23 +33,23 @@
    },
    "LIST_BENEFITS_DISPOSAL" : {
       "description" : "",
-      "message" : "{radioactives}, free disposal (conditions apply)"
+      "message" : "{radioactives}, ücretsiz elden çıkarma (koşullar geçerlidir)"
    },
    "LIST_BENEFITS_FUEL" : {
       "description" : "",
-      "message" : "{fuel} at discount prices"
+      "message" : "İndirimli fiyatlarla {fuel}"
    },
    "LIST_BENEFITS_FUEL_INTRO" : {
       "description" : "",
-      "message" : "Our own stocks of fuel, independent of the general market"
+      "message" : "Genel piyasadan bağımsız, yakıt stoklarımız"
    },
    "LIST_BENEFITS_FUEL_TANK" : {
       "description" : "",
-      "message" : "Fuel tank refilling, where necessary"
+      "message" : "Gerekli durumlarda, yakıt tankı ikmali"
    },
    "LIST_BENEFITS_JOIN" : {
       "description" : "",
-      "message" : "Join now! Annual membership costs only {membership_fee}"
+      "message" : "Hemen katıl! Yıllık üyelik ücreti sadece {membership_fee}"
    },
    "WE_WILL_ONLY_DISPOSE_OF" : {
       "description" : "",
