@@ -24,7 +24,7 @@ TerrainColorFractal<TerrainColorGGSaturn>::TerrainColorFractal(const SystemBody 
 }
 
 template <>
-vector3d TerrainColorFractal<TerrainColorGGSaturn>::GetColor(const vector3d &p, double height, const vector3d &norm) const
+void TerrainColorFractal<TerrainColorGGSaturn>::GetColor(const vector3d &p, const double height, const vector3d &norm, Color3ub &out) const
 {
 	double n = 0.4*ridged_octavenoise(GetFracDef(0), 0.7, vector3d(3.142*p.y*p.y));
 	n += 0.4*octavenoise(GetFracDef(1), 0.6, vector3d(3.142*p.y*p.y));
@@ -35,6 +35,6 @@ vector3d TerrainColorFractal<TerrainColorGGSaturn>::GetColor(const vector3d &p, 
 	n *= n*n;
 	n += billow_octavenoise(GetFracDef(0), 0.8, vector3d(noise(p*3.142)*p))*
 		 megavolcano_function(GetFracDef(3), p);
-	return interpolate_color(n, vector3d(.69, .53, .43), vector3d(.99, .76, .62));
+	SetColour(out, interpolate_color(n, vector3d(.69, .53, .43), vector3d(.99, .76, .62)));
 }
 

@@ -21,7 +21,7 @@ TerrainColorFractal<TerrainColorGGNeptune2>::TerrainColorFractal(const SystemBod
 }
 
 template <>
-vector3d TerrainColorFractal<TerrainColorGGNeptune2>::GetColor(const vector3d &p, double height, const vector3d &norm) const
+void TerrainColorFractal<TerrainColorGGNeptune2>::GetColor(const vector3d &p, const double height, const vector3d &norm, Color3ub &out) const
 {
 	double n;
 	const double h = billow_octavenoise(GetFracDef(0), 0.5*m_entropy[0] + 0.25f,
@@ -47,23 +47,28 @@ vector3d TerrainColorFractal<TerrainColorGGNeptune2>::GetColor(const vector3d &p
 				if (n >0.8) {
 					n -= 0.8; n *= 5.0;
 					col = interpolate_color(n, col, m_ggdarkColor[2] );
-					return col;
+					SetColour(out, col);
+					return;
 				} else if (n>0.6) {
 					n -= 0.6; n*= 5.0;
 					col = interpolate_color(n, vector3d(.03, .03, .15), col );
-					return col;
+					SetColour(out, col);
+					return;
 				} else if (n>0.4) {
 					n -= 0.4; n*= 5.0;
 					col = interpolate_color(n, vector3d(.0, .0, .05), vector3d(.03, .03, .15) );
-					return col;
+					SetColour(out, col);
+					return;
 				} else if (n>0.2) {
 					n -= 0.2; n*= 5.0;
 					col = interpolate_color(n, m_ggdarkColor[2], vector3d(.0, .0, .05) );
-					return col;
+					SetColour(out, col);
+					return;
 				} else {
 					n *= 5.0;
 					col = interpolate_color(n, col, m_ggdarkColor[2] );
-					return col;
+					SetColour(out, col);
+					return;
 				}
 			}
 		}
@@ -80,11 +85,13 @@ vector3d TerrainColorFractal<TerrainColorGGNeptune2>::GetColor(const vector3d &p
 	if (n>0.5) {
 		n -= 0.5; n*= 2.0;
 		col = interpolate_color(n, col, m_ggdarkColor[2] );
-		return col;
+		SetColour(out, col);
+		return;
 	} else {
 		n *= 2.0;
 		col = interpolate_color(n, vector3d(.0, .0, .0), col );
-		return col;
+		SetColour(out, col);
+		return;
 	}
 }
 

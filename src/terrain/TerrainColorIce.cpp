@@ -15,11 +15,12 @@ TerrainColorFractal<TerrainColorIce>::TerrainColorFractal(const SystemBody *body
 }
 
 template <>
-vector3d TerrainColorFractal<TerrainColorIce>::GetColor(const vector3d &p, double height, const vector3d &norm) const
+void TerrainColorFractal<TerrainColorIce>::GetColor(const vector3d &p, const double height, const vector3d &norm, Color3ub &out) const
 {
 	double n = m_invMaxHeight*height;
-
-	if (n <= 0.0) return vector3d(0.96,0.96,0.96);
+	if (n <= 0) {
+		SetColour(out, vector3d(0.96,0.96,0.96)); return;
+	}
 
 	const double flatness = pow(p.Dot(norm), 24.0);
 	double equatorial_desert = (2.0-m_icyness)*(-1.0+2.0*octavenoise(12, 0.5, 2.0, (n*2.0)*p)) *
@@ -42,19 +43,22 @@ vector3d TerrainColorFractal<TerrainColorIce>::GetColor(const vector3d &p, doubl
 		n -= 0.666; n*= 3.0;
 		col = interpolate_color(n, vector3d(.96, .95, .94), col);
 		col = interpolate_color(flatness, color_cliffs, col);
-		return col;
+		SetColour(out, col);
+		return;
 	}
 	else if (n > 0.333) {
 		n -= 0.333; n*= 3.0;
 		col = interpolate_color(n, col, vector3d(.96, .95, .94));
 		col = interpolate_color(flatness, color_cliffs, col);
-		return col;
+		SetColour(out, col);
+		return;
 	}
 	else {
 		n *= 3.0;
 		col = interpolate_color(n, vector3d(.96, .95, .94), col);
 		col = interpolate_color(flatness, color_cliffs, col);
-		return col;
+		SetColour(out, col);
+		return;
 	}
 }
 

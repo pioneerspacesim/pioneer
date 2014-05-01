@@ -24,7 +24,7 @@ TerrainColorFractal<TerrainColorGGSaturn2>::TerrainColorFractal(const SystemBody
 }
 
 template <>
-vector3d TerrainColorFractal<TerrainColorGGSaturn2>::GetColor(const vector3d &p, double height, const vector3d &norm) const
+void TerrainColorFractal<TerrainColorGGSaturn2>::GetColor(const vector3d &p, const double height, const vector3d &norm, Color3ub &out) const
 {
 	double n = 0.2*billow_octavenoise(GetFracDef(0), 0.8, p*p.y*p.y);
 	n += 0.5*ridged_octavenoise(GetFracDef(1), 0.7, p*p.y*p.y);
@@ -41,25 +41,30 @@ vector3d TerrainColorFractal<TerrainColorGGSaturn2>::GetColor(const vector3d &p,
 	} else if (n >0.8) {
 		n -= 0.8; n *= 5.0;
 		col = interpolate_color(n, vector3d(.0, .0, .15), vector3d(.25, .3, .4) );
-		return col;
+		SetColour(out, col);
+		return;
 	} else if (n>0.6) {
 		n -= 0.6; n*= 5.0;
 		col = interpolate_color(n, vector3d(.0, .0, .1), vector3d(.0, .0, .15) );
-		return col;
+		SetColour(out, col);
+		return;
 	} else if (n>0.4) {
 		n -= 0.4; n*= 5.0;
 		col = interpolate_color(n, vector3d(.05, .0, .05), vector3d(.0, .0, .1) );
-		return col;
+		SetColour(out, col);
+		return;
 	} else if (n>0.2) {
 		n -= 0.2; n*= 5.0;
 		col = interpolate_color(n, vector3d(.0, .0, .1), vector3d(.05, .0, .05) );
-		return col;
+		SetColour(out, col);
+		return;
 	} else {
 		n *= 5.0;
 		col = interpolate_color(n, vector3d(.0, .0, .0), vector3d(.0, .0, .1) );
-		return col;
+		SetColour(out, col);
+		return;
 	}
 	// never happens, just silencing a warning
-	return col;
+	SetColour(out, col);
 }
 
