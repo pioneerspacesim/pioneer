@@ -130,7 +130,7 @@ void NavLights::Save(Serializer::Writer &wr)
 	wr.Float(m_time);
 	wr.Bool(m_enabled);
 
-	for (LightIterator it = m_lights.begin(); it != m_lights.end(); ++it)
+	for (LightIterator it = m_lights.begin(), itEnd = m_lights.end(); it != itEnd; ++it)
 		wr.Byte(it->color);
 }
 
@@ -140,16 +140,16 @@ void NavLights::Load(Serializer::Reader &rd)
 	m_enabled = rd.Bool();
 
 	RefCountedPtr<Graphics::Material> mat;
-	for (LightIterator it = m_lights.begin(); it != m_lights.end(); ++it) {
+	for (LightIterator it = m_lights.begin(), itEnd = m_lights.end(); it != itEnd; ++it) {
 		Uint8 c = rd.Byte();
 		it->billboard->SetMaterial(get_material(c));
 	}
 }
 
-void NavLights::Update(float time)
+void NavLights::Update(const float time)
 {
 	if (!m_enabled) {
-		for (LightIterator it = m_lights.begin(); it != m_lights.end(); ++it)
+		for (LightIterator it = m_lights.begin(), itEnd = m_lights.end(); it != itEnd; ++it)
 			it->billboard->SetNodeMask(0x0);
 		return;
 	}
@@ -159,7 +159,7 @@ void NavLights::Update(float time)
 	int phase((fmod(m_time, m_period) / m_period) * 8);
 	Uint8 mask = 1 << phase;
 
-	for (LightIterator it = m_lights.begin(); it != m_lights.end(); ++it) {
+	for (LightIterator it = m_lights.begin(), itEnd = m_lights.end(); it != itEnd; ++it) {
 		if (it->mask & mask)
 			it->billboard->SetNodeMask(SceneGraph::NODE_TRANSPARENT);
 		else
@@ -167,11 +167,12 @@ void NavLights::Update(float time)
 	}
 }
 
-void NavLights::SetColor(unsigned int group, LightColor c)
+void NavLights::SetColor(const unsigned int group, const LightColor color)
 {
-	for (LightIterator it = m_lights.begin(); it != m_lights.end(); ++it) {
-		if (it->group != group || it->color == c) continue;
-		it->billboard->SetMaterial(get_material(c));
-		it->color = c;
+	for (LightIterator it = m_lights.begin(), itEnd = m_lights.end(); it != itEnd; ++it) {
+		if (it->group != group || it->color == color) 
+			continue;
+		it->billboard->SetMaterial(get_material(color));
+		it->color = color;
 	}
 }
