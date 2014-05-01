@@ -38,6 +38,7 @@ April 2014
      * Add possibility for synchronous jobs (#2879)
      * Assign factions to systems when first needing it (#2887)
      * Merge Sector and StarSystem caches in a common template class (#2880)
+     * Update the 3rd party libraries to ones built with vs2013 (#2899)
 
    * Fixes
      * Fix duplication of cargo during cargo scooping (#2644, #2828)
