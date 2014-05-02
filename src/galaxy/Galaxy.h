@@ -9,7 +9,7 @@
 #include "CustomSystem.h"
 #include "GalaxyCache.h"
 
-class SDL_Surface;
+struct SDL_Surface;
 
 class Galaxy {
 public:
