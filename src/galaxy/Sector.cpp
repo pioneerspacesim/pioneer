@@ -69,7 +69,7 @@ Sector::Sector(const SystemPath& path, SectorCache* cache) : sx(path.sectorX), s
 	if ((path.sectorX < -CUSTOM_ONLY_RADIUS) || (path.sectorX > CUSTOM_ONLY_RADIUS-1) ||
 	    (path.sectorY < -CUSTOM_ONLY_RADIUS) || (path.sectorY > CUSTOM_ONLY_RADIUS-1) ||
 	    (path.sectorZ < -CUSTOM_ONLY_RADIUS) || (path.sectorZ > CUSTOM_ONLY_RADIUS-1)) {
-		int numSystems = (rng.Int32(4,20) * Galaxy::GetSectorDensity(path.sectorX, path.sectorY, path.sectorZ)) >> 8;
+		int numSystems = (rng.Int32(4,20) * Pi::GetGalaxy()->GetSectorDensity(path.sectorX, path.sectorY, path.sectorZ)) >> 8;
 
 		for (int i=0; i<numSystems; i++) {
 			System s(sx, sy, sz, customCount + i);

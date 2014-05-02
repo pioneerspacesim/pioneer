@@ -151,6 +151,7 @@ Sound::MusicPlayer Pi::musicPlayer;
 std::unique_ptr<AsyncJobQueue> Pi::asyncJobQueue;
 std::unique_ptr<SyncJobQueue> Pi::syncJobQueue;
 
+Galaxy* Pi::s_galaxy = nullptr;
 // XXX enabling this breaks UI gauge rendering. see #2627
 #define USE_RTT 0
 
@@ -479,7 +480,7 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 
 	draw_progress(gauge, label, 0.1f);
 
-	Galaxy::Init();
+	s_galaxy = new Galaxy;
 	draw_progress(gauge, label, 0.2f);
 
 	FaceGenManager::Init();
@@ -666,7 +667,6 @@ void Pi::Quit()
 	SpaceStation::Uninit();
 	CityOnPlanet::Uninit();
 	BaseSphere::Uninit();
-	Galaxy::Uninit();
 	Faction::Uninit();
 	FaceGenManager::Destroy();
 	CustomSystem::Uninit();
@@ -678,6 +678,7 @@ void Pi::Quit()
 	delete Pi::renderer;
 	delete Pi::config;
 	StarSystem::attic.ClearCache();
+	delete Pi::s_galaxy;
 	SDL_Quit();
 	FileSystem::Uninit();
 	asyncJobQueue.reset();
