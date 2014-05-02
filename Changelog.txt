@@ -19,6 +19,8 @@ April 2014
      * A "Refuel full" button added next to the refuel button (#2855,#2853)
      * Balance - Exhaust velocity increase (#2835)
      * Slightly bigger chat forms (#2856)
+     * In ship repair, since printing reported hull damage with precision
+       "%.1f", cap it at 99.9% instead of 100% (#2901)
 
    * Script and UI API changes
      * Animation object, UI.Context.Animate and AddAnimation methods (#2830)
