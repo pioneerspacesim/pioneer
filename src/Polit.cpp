@@ -4,6 +4,7 @@
 #include "libs.h"
 #include "Pi.h"
 #include "Polit.h"
+#include "galaxy/Galaxy.h"
 #include "galaxy/StarSystem.h"
 #include "galaxy/Sector.h"
 #include "Factions.h"
@@ -84,7 +85,7 @@ void Init()
 	s_outstandingFine.Clear();
 
 	// setup the per faction criminal records
-	const Uint32 numFactions = Faction::GetNumFactions();
+	const Uint32 numFactions = Pi::GetGalaxy()->GetFactions()->GetNumFactions();
 	s_playerPerBlocCrimeRecord.clear();
 	s_playerPerBlocCrimeRecord.resize( numFactions );
 }
