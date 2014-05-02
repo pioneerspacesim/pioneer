@@ -47,7 +47,7 @@ local shipRepairs = function (args)
 		local shipDef = ShipDef[Game.player.shipId]
 		local hullPercent = Game.player.hullPercent
 
-		if hullPercent >= 100 then
+		if hullPercent > 99.9 then
 			messageLabel:SetText(l.SHIP_IS_ALREADY_FULLY_REPAIRED)
 			feedbackLabel:SetText(feedbackText)
 			repairButtons:Clear()
