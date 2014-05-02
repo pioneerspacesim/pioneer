@@ -106,8 +106,8 @@ void GalacticView::Draw3D()
 {
 	PROFILE_SCOPED()
 	vector3f pos = Pi::sectorView->GetPosition();
-	float offset_x = (pos.x*Sector::SIZE + Galaxy::SOL_OFFSET_X)/Galaxy::GALAXY_RADIUS;
-	float offset_y = (-pos.y*Sector::SIZE + Galaxy::SOL_OFFSET_Y)/Galaxy::GALAXY_RADIUS;
+	float offset_x = (pos.x*Sector::SIZE + Pi::GetGalaxy()->SOL_OFFSET_X)/Pi::GetGalaxy()->GALAXY_RADIUS;
+	float offset_y = (-pos.y*Sector::SIZE + Pi::GetGalaxy()->SOL_OFFSET_Y)/Pi::GetGalaxy()->GALAXY_RADIUS;
 
 	const float aspect = m_renderer->GetDisplayAspect();
 	m_renderer->SetOrthographicProjection(-aspect, aspect, 1.f, -1.f, -1.f, 1.f);
@@ -159,7 +159,7 @@ void GalacticView::Update()
 	m_zoom = Clamp(m_zoom, 0.5f, 100.0f);
 	AnimationCurves::Approach(m_zoom, m_zoomTo, frameTime);
 
-	m_scaleReadout->SetText(stringf(Lang::INT_LY, formatarg("scale", int(0.5*Galaxy::GALAXY_RADIUS/m_zoom))));
+	m_scaleReadout->SetText(stringf(Lang::INT_LY, formatarg("scale", int(0.5*Pi::GetGalaxy()->GALAXY_RADIUS/m_zoom))));
 
 	UIView::Update();
 }

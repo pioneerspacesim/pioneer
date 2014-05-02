@@ -2,12 +2,14 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CustomSystem.h"
+#include "Galaxy.h"
 #include "SystemPath.h"
 
 #include "LuaUtils.h"
 #include "LuaVector.h"
 #include "LuaFixed.h"
 #include "LuaConstants.h"
+#include "Pi.h"
 #include "Polit.h"
 #include "Factions.h"
 #include "FileSystem.h"
@@ -340,7 +342,13 @@ static int l_csys_faction(lua_State *L)
 	CustomSystem *cs = l_csys_check(L, 1);
 
 	std::string factionName = luaL_checkstring(L, 2);
-	cs->faction = Faction::GetFaction(factionName);
+	if (!Pi::GetGalaxy()->GetFactions()->IsInitialized()) {
+		Pi::GetGalaxy()->GetFactions()->RegisterCustomSystem(cs, factionName);
+		lua_settop(L, 1);
+		return 1;
+	}
+
+	cs->faction = Pi::GetGalaxy()->GetFactions()->GetFaction(factionName);
 	if (cs->faction->idx == Faction::BAD_FACTION_IDX) {
 		luaL_argerror(L, 2, "Faction not found");
 	}

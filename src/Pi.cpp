@@ -151,6 +151,8 @@ Sound::MusicPlayer Pi::musicPlayer;
 std::unique_ptr<AsyncJobQueue> Pi::asyncJobQueue;
 std::unique_ptr<SyncJobQueue> Pi::syncJobQueue;
 
+Galaxy* Pi::s_galaxy = nullptr;
+
 // XXX enabling this breaks UI gauge rendering. see #2627
 #define USE_RTT 0
 
@@ -479,21 +481,21 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 
 	draw_progress(gauge, label, 0.1f);
 
-	Galaxy::Init();
+	s_galaxy = new Galaxy;
 	draw_progress(gauge, label, 0.2f);
 
 	FaceGenManager::Init();
 	draw_progress(gauge, label, 0.25f);
 
-	Faction::Init();
+	CustomSystem::Init();
 	draw_progress(gauge, label, 0.3f);
 
-	CustomSystem::Init();
+	s_galaxy->GetFactions()->Init();
 	draw_progress(gauge, label, 0.4f);
 
 	// Reload home sector, they might have changed, due to custom systems
 	// Sectors might be changed in game, so have to re-create them again once we have a Game.
-	Faction::SetHomeSectors();
+	s_galaxy->GetFactions()->SetHomeSectors();
 	draw_progress(gauge, label, 0.45f);
 
 	modelCache = new ModelCache(Pi::renderer);
@@ -666,8 +668,7 @@ void Pi::Quit()
 	SpaceStation::Uninit();
 	CityOnPlanet::Uninit();
 	BaseSphere::Uninit();
-	Galaxy::Uninit();
-	Faction::Uninit();
+	s_galaxy->GetFactions()->Uninit();
 	FaceGenManager::Destroy();
 	CustomSystem::Uninit();
 	Graphics::Uninit();
@@ -678,6 +679,7 @@ void Pi::Quit()
 	delete Pi::renderer;
 	delete Pi::config;
 	StarSystem::attic.ClearCache();
+	delete Pi::s_galaxy;
 	SDL_Quit();
 	FileSystem::Uninit();
 	asyncJobQueue.reset();
