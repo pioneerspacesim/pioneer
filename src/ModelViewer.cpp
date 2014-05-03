@@ -99,9 +99,11 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm)
 , m_modelName("")
 {
 	m_ui.Reset(new UI::Context(lm, r, Graphics::GetScreenWidth(), Graphics::GetScreenHeight()));
+	m_ui->SetMousePointer("icons/cursors/mouse_cursor_2.png", UI::Point(15, 8));
 
 	m_log = m_ui->MultiLineText("");
 	m_log->SetFont(UI::Widget::FONT_SMALLEST);
+	
 	m_logScroller.Reset(m_ui->Scroller());
 	m_logScroller->SetInnerWidget(m_ui->ColorBackground(Color(0x0,0x0,0x0,0x40))->SetInnerWidget(m_log));
 
@@ -129,14 +131,12 @@ void ModelViewer::Run(const std::string &modelName)
 {
 	std::unique_ptr<GameConfig> config(new GameConfig);
 
-	Graphics::Renderer *renderer;
-	ModelViewer *viewer;
-
 	//init components
 	FileSystem::Init();
 	FileSystem::userFiles.MakeDirectory(""); // ensure the config directory exists
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		Error("SDL initialization failed: %s\n", SDL_GetError());
+
 	Lua::Init();
 
 	ModManager::Init();
@@ -152,13 +152,13 @@ void ModelViewer::Run(const std::string &modelName)
 	videoSettings.useTextureCompression = (config->Int("UseTextureCompression") != 0);
 	videoSettings.iconFile = OS::GetIconFilename();
 	videoSettings.title = "Model viewer";
-	renderer = Graphics::Init(videoSettings);
+	Graphics::Renderer *renderer = Graphics::Init(videoSettings);
 
 	NavLights::Init(renderer);
 	Shields::Init(renderer);
 
 	//run main loop until quit
-	viewer = new ModelViewer(renderer, Lua::manager);
+	ModelViewer *viewer = new ModelViewer(renderer, Lua::manager);
 	viewer->SetModel(modelName);
 	viewer->ResetCamera();
 	viewer->MainLoop();
