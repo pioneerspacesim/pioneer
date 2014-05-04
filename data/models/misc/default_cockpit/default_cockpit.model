@@ -8,9 +8,9 @@ tex_glow default_cockpit_diff.png
 
 material glass-material
 diffuse 1.0 1.0 1.0
-specular 0.3 0.3 0.3
-shininess 21
-opacity 30
+specular 0.6 0.6 0.6
+shininess 69
+opacity 4
 tex_diff bigscreen.png
 tex_glow bigscreen.png
 
