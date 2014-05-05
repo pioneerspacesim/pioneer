@@ -1106,7 +1106,8 @@ void Ship::StaticUpdate(const float timeStep)
 	if (m_controller) m_controller->StaticUpdate(timeStep);
 
 	// growing hull damage when temperature increase (quadratic function)
-	SetPercentHull(GetPercentHull() - (GetHullTemperature() * GetHullTemperature()));
+	if (GetHullTemperature() >= 0.01)
+		SetPercentHull(GetPercentHull() - (GetHullTemperature() * GetHullTemperature()));
 
 	if (GetPercentHull() == 0)
 		Explode();
