@@ -151,6 +151,8 @@ Sound::MusicPlayer Pi::musicPlayer;
 std::unique_ptr<AsyncJobQueue> Pi::asyncJobQueue;
 std::unique_ptr<SyncJobQueue> Pi::syncJobQueue;
 
+Galaxy* Pi::s_galaxy = nullptr;
+
 // XXX enabling this breaks UI gauge rendering. see #2627
 #define USE_RTT 0
 
@@ -479,21 +481,20 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 
 	draw_progress(gauge, label, 0.1f);
 
-	Galaxy::Init();
+	s_galaxy = new Galaxy;
+
 	draw_progress(gauge, label, 0.2f);
 
-	FaceGenManager::Init();
-	draw_progress(gauge, label, 0.25f);
+	s_galaxy->Init();
 
-	Faction::Init();
 	draw_progress(gauge, label, 0.3f);
 
-	CustomSystem::Init();
+	FaceGenManager::Init();
+
 	draw_progress(gauge, label, 0.4f);
 
 	// Reload home sector, they might have changed, due to custom systems
 	// Sectors might be changed in game, so have to re-create them again once we have a Game.
-	Faction::SetHomeSectors();
 	draw_progress(gauge, label, 0.45f);
 
 	modelCache = new ModelCache(Pi::renderer);
@@ -666,10 +667,7 @@ void Pi::Quit()
 	SpaceStation::Uninit();
 	CityOnPlanet::Uninit();
 	BaseSphere::Uninit();
-	Galaxy::Uninit();
-	Faction::Uninit();
 	FaceGenManager::Destroy();
-	CustomSystem::Uninit();
 	Graphics::Uninit();
 	Pi::ui.Reset(0);
 	LuaUninit();
@@ -677,7 +675,7 @@ void Pi::Quit()
 	delete Pi::modelCache;
 	delete Pi::renderer;
 	delete Pi::config;
-	StarSystem::attic.ClearCache();
+	delete Pi::s_galaxy;
 	SDL_Quit();
 	FileSystem::Uninit();
 	asyncJobQueue.reset();
@@ -687,13 +685,7 @@ void Pi::Quit()
 
 void Pi::FlushCaches()
 {
-	StarSystem::attic.OutputCacheStatistics();
-	StarSystem::cache = StarSystem::attic.NewSlaveCache();
-	StarSystem::attic.ClearCache();
-	Sector::cache.OutputCacheStatistics();
-	Sector::cache.ClearCache();
-	// XXX Ideally the cache would now be empty, but we still have Faction::m_homesector :(
-	// assert(Sector::cache.IsEmpty());
+	s_galaxy->FlushCaches();
 }
 
 void Pi::BoinkNoise()

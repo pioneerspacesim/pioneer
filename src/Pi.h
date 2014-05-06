@@ -20,6 +20,7 @@
 
 class DeathView;
 class GalacticView;
+class Galaxy;
 class Intro;
 class LuaConsole;
 class LuaNameGen;
@@ -176,6 +177,8 @@ public:
 	static JobQueue *GetAsyncJobQueue() { return asyncJobQueue.get();}
 	static JobQueue *GetSyncJobQueue() { return syncJobQueue.get();}
 
+	static Galaxy* GetGalaxy() { return s_galaxy; }
+
 	static bool DrawGUI;
 
 private:
@@ -186,6 +189,7 @@ private:
 	static std::unique_ptr<AsyncJobQueue> asyncJobQueue;
 	static std::unique_ptr<SyncJobQueue> syncJobQueue;
 
+	static Galaxy* s_galaxy;
 	static bool menuDone;
 
 	static View *currentView;

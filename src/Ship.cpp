@@ -13,6 +13,7 @@
 #include "ShipController.h"
 #include "Sound.h"
 #include "Sfx.h"
+#include "galaxy/Galaxy.h"
 #include "galaxy/Sector.h"
 #include "galaxy/GalaxyCache.h"
 #include "Frame.h"
@@ -587,8 +588,8 @@ static float distance_to_system(const SystemPath &src, const SystemPath &dest)
 	assert(src.HasValidSystem());
 	assert(dest.HasValidSystem());
 
-	RefCountedPtr<const Sector> sec1 = Sector::cache.GetCached(src);
-	RefCountedPtr<const Sector> sec2 = Sector::cache.GetCached(dest);
+	RefCountedPtr<const Sector> sec1 = Pi::GetGalaxy()->GetSector(src);
+	RefCountedPtr<const Sector> sec2 = Pi::GetGalaxy()->GetSector(dest);
 
 	return Sector::DistanceBetween(sec1, src.systemIndex, sec2, dest.systemIndex);
 }

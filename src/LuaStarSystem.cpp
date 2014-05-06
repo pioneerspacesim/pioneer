@@ -12,6 +12,7 @@
 #include "Star.h"
 #include "Planet.h"
 #include "SpaceStation.h"
+#include "galaxy/Galaxy.h"
 #include "galaxy/Sector.h"
 #include "galaxy/GalaxyCache.h"
 #include "Factions.h"
@@ -241,14 +242,14 @@ static int l_starsystem_get_nearby_systems(lua_State *l)
 	const int here_y = here.sectorY;
 	const int here_z = here.sectorZ;
 	const Uint32 here_idx = here.systemIndex;
-	RefCountedPtr<const Sector> here_sec = Sector::cache.GetCached(here);
+	RefCountedPtr<const Sector> here_sec = Pi::GetGalaxy()->GetSector(here);
 
 	const int diff_sec = int(ceil(dist_ly/Sector::SIZE));
 
 	for (int x = here_x-diff_sec; x <= here_x+diff_sec; x++) {
 		for (int y = here_y-diff_sec; y <= here_y+diff_sec; y++) {
 			for (int z = here_z-diff_sec; z <= here_z+diff_sec; z++) {
-				RefCountedPtr<const Sector> sec = Sector::cache.GetCached(SystemPath(x, y, z));
+				RefCountedPtr<const Sector> sec = Pi::GetGalaxy()->GetSector(SystemPath(x, y, z));
 
 				for (unsigned int idx = 0; idx < sec->m_systems.size(); idx++) {
 					if (x == here_x && y == here_y && z == here_z && idx == here_idx)
@@ -257,7 +258,7 @@ static int l_starsystem_get_nearby_systems(lua_State *l)
 					if (Sector::DistanceBetween(here_sec, here_idx, sec, idx) > dist_ly)
 						continue;
 
-					RefCountedPtr<StarSystem> sys = StarSystem::cache->GetCached(SystemPath(x, y, z, idx));
+					RefCountedPtr<StarSystem> sys = Pi::GetGalaxy()->GetStarSystem(SystemPath(x, y, z, idx));
 					if (filter) {
 						lua_pushvalue(l, 3);
 						LuaObject<StarSystem>::PushToLua(sys.Get());
@@ -319,8 +320,8 @@ static int l_starsystem_distance_to(lua_State *l)
 		loc2 = &(s2->GetPath());
 	}
 
-	RefCountedPtr<const Sector> sec1 = Sector::cache.GetCached(*loc1);
-	RefCountedPtr<const Sector> sec2 = Sector::cache.GetCached(*loc2);
+	RefCountedPtr<const Sector> sec1 = Pi::GetGalaxy()->GetSector(*loc1);
+	RefCountedPtr<const Sector> sec2 = Pi::GetGalaxy()->GetSector(*loc2);
 
 	double dist = Sector::DistanceBetween(sec1, loc1->systemIndex, sec2, loc2->systemIndex);
 

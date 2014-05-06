@@ -14,23 +14,12 @@
 #include <vector>
 #include <utility>
 
+class Galaxy;
+class CustomSystem;
+
 class Faction : public DeleteEmitter {
+	friend class FactionsDatabase;
 public:
-	static void Init();
-	static void ClearHomeSectors();
-	static void SetHomeSectors();
-	static void Uninit();
-
-	// XXX this is not as const-safe as it should be
-	static Faction *GetFaction       (const Uint32 index);
-	static Faction *GetFaction       (const std::string& factionName);
-	static Faction *GetNearestFaction(const Sector::System* sys);
-	static bool     IsHomeSystem     (const SystemPath& sysPath);
-
-	static const Uint32 GetNumFactions();
-
-	static bool MayAssignFactions();
-
 	static const Uint32 BAD_FACTION_IDX;        // used by the no faction object to denote it's not a proper faction
 	static const Color  BAD_FACTION_COLOUR;     // factionColour to use on failing to find an appropriate faction
 	static const float  FACTION_BASE_ALPHA;     // Alpha to use on factionColour of systems with unknown population
@@ -89,16 +78,60 @@ private:
    a proper spatial data structure.
 */
 
-class FactionOctsapling {
+class FactionsDatabase {
 public:
-	void Add(Faction* faction);
-	const std::vector<Faction*>& CandidateFactions(const Sector::System* sys);
+	FactionsDatabase(Galaxy* galaxy) : m_galaxy(galaxy), m_may_assign_factions(false), m_initialized(false) { }
+	~FactionsDatabase();
+
+	void Init();
+	bool IsInitialized();
+	Galaxy* GetGalaxy() const { return m_galaxy; }
+	void RegisterCustomSystem(CustomSystem *cs, const std::string& factionName);
+	void AddFaction(Faction* faction);
+
+	// XXX this is not as const-safe as it should be
+	Faction *GetFaction       (const Uint32 index);
+	Faction *GetFaction       (const std::string& factionName);
+	Faction *GetNearestFaction(const Sector::System* sys);
+	bool     IsHomeSystem     (const SystemPath& sysPath);
+
+	const Uint32 GetNumFactions();
+
+	bool MayAssignFactions();
 
 private:
-	std::vector<Faction*> octbox[2][2][2];
-	const int BoxIndex(Sint32 sectorIndex) { return sectorIndex < 0 ? 0: 1; };
-	void PruneDuplicates(const int bx, const int by, const int bz);
-};
+	class Octsapling {
+	public:
+		void Add(Faction* faction);
+		const std::vector<Faction*>& CandidateFactions(const Sector::System* sys);
 
+	private:
+		std::vector<Faction*> octbox[2][2][2];
+		const int BoxIndex(Sint32 sectorIndex) { return sectorIndex < 0 ? 0: 1; };
+		void PruneDuplicates(const int bx, const int by, const int bz);
+	};
+
+	typedef std::vector<Faction*> FactionList;
+	typedef FactionList::iterator FactionIterator;
+	typedef const std::vector<Faction*> ConstFactionList;
+	typedef ConstFactionList::const_iterator ConstFactionIterator;
+	typedef std::map<std::string, Faction*> FactionMap;
+	typedef std::set<SystemPath>  HomeSystemSet;
+	typedef std::map<std::string, std::list<CustomSystem*> > MissingFactionsMap;
+
+	void ClearHomeSectors();
+	void SetHomeSectors();
+
+	Galaxy* const     m_galaxy;
+	Faction           m_no_faction;    // instead of answering null, we often want to answer a working faction object for no faction
+	FactionList       m_factions;
+	FactionMap        m_factions_byName;
+	HomeSystemSet     m_homesystems;
+	Octsapling        m_spatial_index;
+	bool              m_may_assign_factions;
+	bool              m_initialized = false;
+	MissingFactionsMap m_missingFactionsMap;
+
+};
 
 #endif /* _FACTIONS_H */
