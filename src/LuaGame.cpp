@@ -11,6 +11,7 @@
 #include "Lang.h"
 #include "StringF.h"
 #include "WorldView.h"
+#include "galaxy/Galaxy.h"
 
 /*
  * Interface: Game
@@ -54,7 +55,7 @@ static int l_game_start_game(lua_State *l)
 	SystemPath *path = LuaObject<SystemPath>::CheckFromLua(1);
 	const double start_time = luaL_optnumber(l, 2, 0.0);
 
-	RefCountedPtr<StarSystem> system(StarSystem::cache->GetCached(*path));
+	RefCountedPtr<StarSystem> system(Pi::GetGalaxy()->GetStarSystem(*path));
 	SystemBody *sbody = system->GetBodyByPath(path);
 	if (sbody->GetSuperType() == SystemBody::SUPERTYPE_STARPORT)
 		Pi::game = new Game(*path, start_time);

@@ -4,6 +4,8 @@
 #include "Factions.h"
 #include "galaxy/Sector.h"
 #include "galaxy/SystemPath.h"
+#include "galaxy/CustomSystem.h"
+#include "galaxy/Galaxy.h"
 
 #include "LuaUtils.h"
 #include "LuaVector.h"
@@ -15,27 +17,12 @@
 #include "Pi.h"
 #include <set>
 #include <algorithm>
+#include <list>
 
 const Uint32 Faction::BAD_FACTION_IDX      = UINT_MAX;
 const Color  Faction::BAD_FACTION_COLOUR   = Color(204,204,204,128);
 const float  Faction::FACTION_BASE_ALPHA   = 0.40f;
 const double Faction::FACTION_CURRENT_YEAR = 3200;
-
-
-typedef std::vector<Faction*> FactionList;
-typedef FactionList::iterator FactionIterator;
-typedef const std::vector<Faction*> ConstFactionList;
-typedef ConstFactionList::const_iterator ConstFactionIterator;
-typedef std::map<std::string, Faction*> FactionMap;
-typedef std::set<SystemPath>  HomeSystemSet;
-
-static Faction       s_no_faction;    // instead of answering null, we often want to answer a working faction object for no faction
-
-static FactionList       s_factions;
-static FactionMap        s_factions_byName;
-static HomeSystemSet     s_homesystems;
-static FactionOctsapling s_spatial_index;
-static bool             s_may_assign_factions;
 
 // ------- Lua Faction Builder --------
 
@@ -252,12 +239,7 @@ static int l_fac_add_to_factions(lua_State *L)
 		*/
 
 		// add the faction to the various faction data structures
-		s_factions.push_back(facbld->fac);
-		s_factions_byName[facbld->fac->name] = facbld->fac;
-		s_spatial_index.Add(facbld->fac);
-
-		if (facbld->fac->hasHomeworld) s_homesystems.insert(facbld->fac->homeworld.SystemOnly());
-		facbld->fac->idx = s_factions.size()-1;
+		Pi::GetGalaxy()->GetFactions()->AddFaction(facbld->fac);
 		facbld->registered = true;
 
 		return 0;
@@ -299,7 +281,20 @@ static luaL_Reg LuaFaction_meta[] = {
 	{ 0, 0 }
 };
 
-// ------ Factions initialisation ------
+// ------ FactionsDatabase ------
+
+FactionsDatabase::~FactionsDatabase()
+{
+	if (m_initialized) {
+		m_initialized = false;
+		for (FactionIterator it = m_factions.begin(); it != m_factions.end(); ++it) {
+			delete *it;
+		}
+		m_factions.clear();
+		m_factions_byName.clear();
+	}
+}
+
 
 static void register_class(lua_State *L, const char *tname, luaL_Reg *meta)
 {
@@ -322,8 +317,7 @@ static void RegisterFactionsAPI(lua_State *L)
 	register_class(L, LuaFaction_TypeName, LuaFaction_meta);
 }
 
-//static
-void Faction::Init()
+void FactionsDatabase::Init()
 {
 	lua_State *L = luaL_newstate();
 	LUA_DEBUG_START(L);
@@ -342,68 +336,123 @@ void Faction::Init()
 	LUA_DEBUG_END(L, 0);
 	lua_close(L);
 
-	Output("Number of factions added: " SIZET_FMT "\n", s_factions.size());
-	Faction::ClearHomeSectors();
+	Output("Number of factions added: " SIZET_FMT "\n", m_factions.size());
+	ClearHomeSectors();
 	Pi::FlushCaches();    // clear caches of anything we used for faction generation
-	s_may_assign_factions = true;
+	while (!m_missingFactionsMap.empty()) {
+		const std::string& factionName = m_missingFactionsMap.begin()->first;
+		std::list<CustomSystem*>& csl = m_missingFactionsMap.begin()->second;
+		while (!csl.empty()) {
+			CustomSystem* cs = csl.front();
+			// FIXME: How to signal missing faction?
+			fprintf(stderr, "Custom system %s referenced unknown faction %s\n", cs->name.c_str(), factionName.c_str());
+			csl.pop_front();
+		}
+		m_missingFactionsMap.erase(m_missingFactionsMap.begin());
+	}
+	m_initialized = true;
+	SetHomeSectors();
 }
 
-//static
-void Faction::ClearHomeSectors()
+void FactionsDatabase::ClearHomeSectors()
 {
-	for (auto it = s_factions.begin(); it != s_factions.end(); ++it)
+	for (auto it = m_factions.begin(); it != m_factions.end(); ++it)
 		(*it)->m_homesector.Reset();
 }
 
-//static
-void Faction::SetHomeSectors()
+void FactionsDatabase::SetHomeSectors()
 {
-	s_may_assign_factions = false;
-	for (auto it = s_factions.begin(); it != s_factions.end(); ++it)
+	m_may_assign_factions = false;
+	for (auto it = m_factions.begin(); it != m_factions.end(); ++it)
 		if ((*it)->hasHomeworld)
-			(*it)->m_homesector = Sector::cache.GetCached((*it)->homeworld);
-	s_may_assign_factions = true;
+			(*it)->m_homesector = Pi::GetGalaxy()->GetSector((*it)->homeworld);
+	m_may_assign_factions = true;
 }
 
-void Faction::Uninit()
+bool FactionsDatabase::IsInitialized()
 {
-	for (FactionIterator it = s_factions.begin(); it != s_factions.end(); ++it) {
-		delete *it;
+	return m_initialized;
+}
+
+void FactionsDatabase::RegisterCustomSystem(CustomSystem *cs, const std::string& factionName)
+{
+	m_missingFactionsMap[factionName].push_back(cs);
+}
+
+void FactionsDatabase::AddFaction(Faction* faction)
+{
+	// add the faction to the various faction data structures
+	m_factions.push_back(faction);
+	m_factions_byName[faction->name] = faction;
+	auto it = m_missingFactionsMap.find(faction->name);
+	if (it != m_missingFactionsMap.end()) {
+		std::list<CustomSystem*>& csl = it->second;
+		for (CustomSystem* cs : csl) {
+			cs->faction = faction;
+		}
+		m_missingFactionsMap.erase(it);
 	}
-	s_factions.clear();
-	s_factions_byName.clear();
+	m_spatial_index.Add(faction);
+
+	if (faction->hasHomeworld) m_homesystems.insert(faction->homeworld.SystemOnly());
+	faction->idx = m_factions.size()-1;
+}
+
+Faction *FactionsDatabase::GetFaction(const Uint32 index)
+{
+	PROFILE_SCOPED()
+	assert( index < m_factions.size() );
+	return m_factions[index];
+}
+
+Faction* FactionsDatabase::GetFaction(const std::string& factionName)
+{
+	PROFILE_SCOPED()
+	if (m_factions_byName.find(factionName) != m_factions_byName.end()) {
+		return m_factions_byName[factionName];
+	} else {
+		return &m_no_faction;
+	}
+}
+
+const Uint32 FactionsDatabase::GetNumFactions()
+{
+	PROFILE_SCOPED()
+	return m_factions.size();
+}
+
+bool FactionsDatabase::MayAssignFactions()
+{
+	PROFILE_SCOPED()
+	return m_may_assign_factions;
+}
+
+Faction* FactionsDatabase::GetNearestFaction(const Sector::System* sys)
+{
+	PROFILE_SCOPED()
+	// firstly if this a custom StarSystem it may already have a faction assigned
+	if (sys->GetCustomSystem() && sys->GetCustomSystem()->faction) {
+		return sys->GetCustomSystem()->faction;
+	}
+
+	// if it didn't, or it wasn't a custom StarStystem, then we go ahead and assign it a faction allegiance like normal below...
+	Faction*    result             = &m_no_faction;
+	double      closestFactionDist = HUGE_VAL;
+	ConstFactionList& candidates   = m_spatial_index.CandidateFactions(sys);
+
+	for (ConstFactionIterator it = candidates.begin(); it != candidates.end(); ++it) {
+		if ((*it)->IsCloserAndContains(closestFactionDist, sys)) result = *it;
+	}
+	return result;
+}
+
+bool FactionsDatabase::IsHomeSystem(const SystemPath& sysPath)
+{
+	PROFILE_SCOPED()
+	return m_homesystems.find(sysPath.SystemOnly()) != m_homesystems.end();
 }
 
 // ------- Factions proper --------
-
-Faction *Faction::GetFaction(const Uint32 index)
-{
-	PROFILE_SCOPED()
-	assert( index < s_factions.size() );
-	return s_factions[index];
-}
-
-Faction* Faction::GetFaction(const std::string& factionName)
-{
-	PROFILE_SCOPED()
-	if (s_factions_byName.find(factionName) != s_factions_byName.end()) {
-		return s_factions_byName[factionName];
-	} else {
-		return &s_no_faction;
-	}
-}
-
-const Uint32 Faction::GetNumFactions()
-{
-	PROFILE_SCOPED()
-	return s_factions.size();
-}
-
-bool Faction::MayAssignFactions()
-{
-	PROFILE_SCOPED()
-	return s_may_assign_factions;
-}
 
 /*	Answer whether the faction both contains the sysPath, and has a homeworld
 	closer than the passed distance.
@@ -448,31 +497,6 @@ const bool Faction::IsCloserAndContains(double& closestFactionDist, const Sector
 	} else {
 		return false;
 	}
-}
-
-Faction* Faction::GetNearestFaction(const Sector::System* sys)
-{
-	PROFILE_SCOPED()
-	// firstly if this a custom StarSystem it may already have a faction assigned
-	if (sys->GetCustomSystem() && sys->GetCustomSystem()->faction) {
-		return sys->GetCustomSystem()->faction;
-	}
-
-	// if it didn't, or it wasn't a custom StarStystem, then we go ahead and assign it a faction allegiance like normal below...
-	Faction*    result             = &s_no_faction;
-	double      closestFactionDist = HUGE_VAL;
-	ConstFactionList& candidates   = s_spatial_index.CandidateFactions(sys);
-
-	for (ConstFactionIterator it = candidates.begin(); it != candidates.end(); ++it) {
-		if ((*it)->IsCloserAndContains(closestFactionDist, sys)) result = *it;
-	}
-	return result;
-}
-
-bool Faction::IsHomeSystem(const SystemPath& sysPath)
-{
-	PROFILE_SCOPED()
-	return s_homesystems.find(sysPath.SystemOnly()) != s_homesystems.end();
 }
 
 const Color Faction::AdjustedColour(fixed population, bool inRange) const
@@ -524,12 +548,11 @@ void Faction::SetBestFitHomeworld(Sint32 x, Sint32 y, Sint32 z, Sint32 si, Uint3
 
 		SystemPath path(x, y, z);
 		// search for a suitable homeworld in the current sector
-		assert(!s_may_assign_factions);
-		RefCountedPtr<const Sector> sec = Sector::cache.GetCached(path);
+		RefCountedPtr<const Sector> sec = Pi::GetGalaxy()->GetSector(path);
 		Sint32 candidateSi = 0;
 		while (Uint32(candidateSi) < sec->m_systems.size()) {
 			path.systemIndex = candidateSi;
-			sys = StarSystem::cache->GetCached(path);
+			sys = Pi::GetGalaxy()->GetStarSystem(path);
 			if (sys->HasSpaceStations()) {
 				si = candidateSi;
 				break;
@@ -548,7 +571,7 @@ void Faction::SetBestFitHomeworld(Sint32 x, Sint32 y, Sint32 z, Sint32 si, Uint3
 
 RefCountedPtr<const Sector> Faction::GetHomeSector() {
 	if (!m_homesector) // This will later be replaced by a Sector from the cache
-		m_homesector = Sector::cache.GetCached(homeworld);
+		m_homesector = Pi::GetGalaxy()->GetSector(homeworld);
 	return m_homesector;
 }
 
@@ -567,7 +590,7 @@ Faction::Faction() :
 
 // ------ Factions Spatial Indexing ------
 
-void FactionOctsapling::Add(Faction* faction)
+void FactionsDatabase::Octsapling::Add(Faction* faction)
 {
 	PROFILE_SCOPED()
 	/*  The general principle here is to put the faction in every octbox cell that a system
@@ -644,14 +667,14 @@ void FactionOctsapling::Add(Faction* faction)
 	}
 }
 
-void FactionOctsapling::PruneDuplicates(const int bx, const int by, const int bz)
+void FactionsDatabase::Octsapling::PruneDuplicates(const int bx, const int by, const int bz)
 {
 	PROFILE_SCOPED()
 	FactionList vec = octbox[bx][by][bz];
 	octbox[bx][by][bz].erase(std::unique( octbox[bx][by][bz].begin(), octbox[bx][by][bz].end() ), octbox[bx][by][bz].end() );
 }
 
-const std::vector<Faction*>& FactionOctsapling::CandidateFactions(const Sector::System* sys)
+const std::vector<Faction*>& FactionsDatabase::Octsapling::CandidateFactions(const Sector::System* sys)
 {
 	PROFILE_SCOPED()
 	/* answer the factions that we've put in the same octobox cell as the one the

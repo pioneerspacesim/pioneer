@@ -4,6 +4,7 @@
 #include "libs.h"
 #include "Pi.h"
 #include "Polit.h"
+#include "galaxy/Galaxy.h"
 #include "galaxy/StarSystem.h"
 #include "galaxy/Sector.h"
 #include "Factions.h"
@@ -84,7 +85,7 @@ void Init()
 	s_outstandingFine.Clear();
 
 	// setup the per faction criminal records
-	const Uint32 numFactions = Faction::GetNumFactions();
+	const Uint32 numFactions = Pi::GetGalaxy()->GetFactions()->GetNumFactions();
 	s_playerPerBlocCrimeRecord.clear();
 	s_playerPerBlocCrimeRecord.resize( numFactions );
 }
@@ -191,7 +192,7 @@ void GetSysPolitStarSystem(const StarSystem *s, const fixed &human_infestedness,
 	const Uint32 _init[5] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), path.systemIndex, POLIT_SEED };
 	Random rand(_init, 5);
 
-	RefCountedPtr<const Sector> sec = Sector::cache.GetCached(path);
+	RefCountedPtr<const Sector> sec = Pi::GetGalaxy()->GetSector(path);
 
 	GovType a = GOV_INVALID;
 

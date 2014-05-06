@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Pi.h"
+#include "galaxy/Galaxy.h"
 #include "galaxy/Sector.h"
 #include "SectorView.h"
 #include "SystemInfoView.h"
@@ -277,7 +278,7 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 	if (!path.HasValidSystem())
 		return;
 
-	m_system = StarSystem::cache->GetCached(path);
+	m_system = Pi::GetGalaxy()->GetStarSystem(path);
 
 	m_sbodyInfoTab = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()-100));
 

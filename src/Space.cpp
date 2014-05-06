@@ -12,6 +12,7 @@
 #include <functional>
 #include "Pi.h"
 #include "Player.h"
+#include "galaxy/Galaxy.h"
 #include "galaxy/StarSystem.h"
 #include "SpaceStation.h"
 #include "Serializer.h"
@@ -84,7 +85,7 @@ Space::Space(Game *game, const SystemPath &path)
 	, m_processingFinalizationQueue(false)
 #endif
 {
-	m_starSystem = StarSystem::cache->GetCached(path);
+	m_starSystem = Pi::GetGalaxy()->GetStarSystem(path);
 
 	Uint32 _init[5] = { path.systemIndex, Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
 	Random rand(_init, 5);
@@ -656,7 +657,7 @@ void Space::GenSectorCache(const SystemPath* here)
 	// sort them so that those closest to the "here" path are processed first
 	SectorDistanceSort SDS(here);
 	std::sort(paths.begin(), paths.end(), SDS);
-	m_sectorCache = Sector::cache.NewSlaveCache();
+	m_sectorCache = Pi::GetGalaxy()->NewSectorSlaveCache();
 	const SystemPath& center(*here);
 	m_sectorCache->FillCache(paths, [this,center]() { UpdateStarSystemCache(&center); });
 }
@@ -698,10 +699,11 @@ void Space::UpdateStarSystemCache(const SystemPath* here)
 	const int zmin = here->sectorZ-survivorRadius;
 	const int zmax = here->sectorZ+survivorRadius;
 
-	StarSystemCache::CacheMap::const_iterator i = StarSystem::cache->Begin();
-	while (i != StarSystem::cache->End()) {
+	RefCountedPtr<StarSystemCache::Slave> cache = Pi::GetGalaxy()->GetStarSystemCache();
+	StarSystemCache::CacheMap::const_iterator i = cache->Begin();
+	while (i != cache->End()) {
 		if (!WithinBox(i->second->GetPath(), xmin, xmax, ymin, ymax, zmin, zmax))
-			StarSystem::cache->Erase(i++);
+			cache->Erase(i++);
 		else
 			++i;
 	}
@@ -720,7 +722,7 @@ void Space::UpdateStarSystemCache(const SystemPath* here)
 		}
 	}
 
-	StarSystem::cache->FillCache(paths);
+	cache->FillCache(paths);
 }
 
 void Space::GenBody(double at_time, SystemBody *sbody, Frame *f)

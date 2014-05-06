@@ -7,6 +7,7 @@
 #include "Galaxy.h"
 
 #include "Factions.h"
+#include "Pi.h"
 #include "utils.h"
 #include "EnumStrings.h"
 
@@ -18,12 +19,10 @@ static const char *sys_names[SYS_NAME_FRAGS] =
 
 const float Sector::SIZE = 8.f;
 
-SectorCache Sector::cache;
-
 void Sector::GetCustomSystems(Random& rng)
 {
 	PROFILE_SCOPED()
-	const std::vector<CustomSystem*> &systems = CustomSystem::GetCustomSystemsForSector(sx, sy, sz);
+	const std::vector<CustomSystem*> &systems = Pi::GetGalaxy()->GetCustomSystems()->GetCustomSystemsForSector(sx, sy, sz);
 	if (systems.size() == 0) return;
 
 	Uint32 sysIdx = 0;
@@ -45,7 +44,7 @@ void Sector::GetCustomSystems(Random& rng)
 			 * ~700ly+: unexplored
 			 */
 			int dist = isqrt(1 + sx*sx + sy*sy + sz*sz);
-			s.m_explored = ((dist <= 90) && ( dist <= 65 || rng.Int32(dist) <= 40)) || Faction::IsHomeSystem(SystemPath(sx, sy, sz, sysIdx));
+			s.m_explored = ((dist <= 90) && ( dist <= 65 || rng.Int32(dist) <= 40)) || Pi::GetGalaxy()->GetFactions()->IsHomeSystem(SystemPath(sx, sy, sz, sysIdx));
 		} else {
 			s.m_explored = cs->explored;
 		}
@@ -69,7 +68,7 @@ Sector::Sector(const SystemPath& path, SectorCache* cache) : sx(path.sectorX), s
 	if ((path.sectorX < -CUSTOM_ONLY_RADIUS) || (path.sectorX > CUSTOM_ONLY_RADIUS-1) ||
 	    (path.sectorY < -CUSTOM_ONLY_RADIUS) || (path.sectorY > CUSTOM_ONLY_RADIUS-1) ||
 	    (path.sectorZ < -CUSTOM_ONLY_RADIUS) || (path.sectorZ > CUSTOM_ONLY_RADIUS-1)) {
-		int numSystems = (rng.Int32(4,20) * Galaxy::GetSectorDensity(path.sectorX, path.sectorY, path.sectorZ)) >> 8;
+		int numSystems = (rng.Int32(4,20) * Pi::GetGalaxy()->GetSectorDensity(path.sectorX, path.sectorY, path.sectorZ)) >> 8;
 
 		for (int i=0; i<numSystems; i++) {
 			System s(sx, sy, sz, customCount + i);
@@ -98,7 +97,7 @@ Sector::Sector(const SystemPath& path, SectorCache* cache) : sx(path.sectorX), s
 			 * ~700ly+: unexplored
 			 */
 			int dist = isqrt(1 + sx*sx + sy*sy + sz*sz);
-			s.m_explored = ((dist <= 90) && ( dist <= 65 || rng.Int32(dist) <= 40)) || Faction::IsHomeSystem(SystemPath(sx, sy, sz, customCount + i));
+			s.m_explored = ((dist <= 90) && ( dist <= 65 || rng.Int32(dist) <= 40)) || Pi::GetGalaxy()->GetFactions()->IsHomeSystem(SystemPath(sx, sy, sz, customCount + i));
 
 			Uint32 weight = rng.Int32(1000000);
 
@@ -305,7 +304,7 @@ const std::string Sector::GenName(System &sys, int si, Random &rng)
 	}
 
 	Uint32 weight = rng.Int32(chance);
-	if (weight < 500 || Faction::IsHomeSystem(SystemPath(sx, sy, sz, si))) {
+	if (weight < 500 || Pi::GetGalaxy()->GetFactions()->IsHomeSystem(SystemPath(sx, sy, sz, si))) {
 		/* well done. you get a real name  */
 		int len = rng.Int32(2,3);
 		for (int i=0; i<len; i++) {
@@ -369,7 +368,7 @@ void Sector::Dump(FILE* file, const char* indent) const
 		for (unsigned i = 0; i < sys.GetNumStars(); ++i)
 			fprintf(file, "\t\t\t%s\n", EnumStrings::GetString("BodyType", sys.GetStarType(i)));
 		if (sys.GetNumStars() > 0) fprintf(file, "\t\t}\n");
-		RefCountedPtr<StarSystem> ssys = StarSystem::cache->GetCached(SystemPath(sys.sx, sys.sy, sys.sz, sys.idx));
+		RefCountedPtr<const StarSystem> ssys = Pi::GetGalaxy()->GetStarSystem(SystemPath(sys.sx, sys.sy, sys.sz, sys.idx));
 		assert(ssys->GetPath().IsSameSystem(SystemPath(sys.sx, sys.sy, sys.sz, sys.idx)));
 		assert(ssys->GetNumStars() == sys.GetNumStars());
 		assert(ssys->GetName() == sys.GetName());
@@ -395,6 +394,6 @@ float Sector::System::DistanceBetween(const System* a, const System* b)
 
 void Sector::System::AssignFaction() const
 {
-	assert(Faction::MayAssignFactions());
-	m_faction = Faction::GetNearestFaction(this);
+	assert(Pi::GetGalaxy()->GetFactions()->MayAssignFactions());
+	m_faction = Pi::GetGalaxy()->GetFactions()->GetNearestFaction(this);
 }
