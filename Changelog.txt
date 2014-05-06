@@ -1,7 +1,16 @@
 May 2014
 
+   * Minor changes and tweaks
+     * In ship repair, since printing reported hull damage with precision
+       "%.1f", cap it at 99.9% instead of 100% (#2901)
+     * Fix Wave texture problems & missing ModelViewer pointer (#2903)
+
    * Internal changes
+     * Update the 3rd party libraries to ones built with vs2013 (#2899)
      * Encapsulate custom systems, factions, caches in a Galaxy class (#2893)
+
+   * Fixes
+     * Fix cockpit glass opacity (#2907)
 
 April 2014
 
@@ -24,9 +33,6 @@ April 2014
      * A "Refuel full" button added next to the refuel button (#2855,#2853)
      * Balance - Exhaust velocity increase (#2835)
      * Slightly bigger chat forms (#2856)
-     * In ship repair, since printing reported hull damage with precision
-       "%.1f", cap it at 99.9% instead of 100% (#2901)
-     * Fix Wave texture problems & missing ModelViewer pointer (#2903)
 
    * Script and UI API changes
      * Animation object, UI.Context.Animate and AddAnimation methods (#2830)
@@ -46,7 +52,6 @@ April 2014
      * Add possibility for synchronous jobs (#2879)
      * Assign factions to systems when first needing it (#2887)
      * Merge Sector and StarSystem caches in a common template class (#2880)
-     * Update the 3rd party libraries to ones built with vs2013 (#2899)
 
    * Fixes
      * Fix duplication of cargo during cargo scooping (#2644, #2828)
@@ -61,7 +66,6 @@ April 2014
      * Fix crash when Nerodia selected in shipyard (#2865, #2864)
      * Fix internal bug in multi-threading queue (#2874)
      * Fix crash due to ships spawning with default hyperdrive 0 (#2875,2877)
-     * Fix cockpit glass opacity (#2907)
 
 March 2014
 
