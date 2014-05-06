@@ -1,7 +1,7 @@
 {
    "AUTOPILOT" : {
       "description" : "",
-      "message" : "Autopilot"
+      "message" : "Piloto Automático"
    },
    "CANNOT_COMPENSATE_FOR_LOCAL_GRAVITY" : {
       "description" : "",
