@@ -85,7 +85,7 @@
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
-      "message" : "I am most sad to hear of {target}'s demise. You have been paid in full."
+      "message" : "Estou muito triste por ouvir sobre o falecimento de {alvo}. Você foi integralmente pago."
    },
    "FLAVOUR_2_ADTEXT" : {
       "description" : "",
@@ -105,7 +105,7 @@
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
-      "message" : "You have been paid in full for the completion of that important contract."
+      "message" : "Você foi integralmente pago por completar um contrato de tamanha importância."
    },
    "FLAVOUR_3_ADTEXT" : {
       "description" : "",
@@ -185,7 +185,7 @@
    },
    "LY" : {
       "description" : "",
-      "message" : "ly"
+      "message" : "Ano-luz"
    },
    "OK_AGREED" : {
       "description" : "",
