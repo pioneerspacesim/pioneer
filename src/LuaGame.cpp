@@ -11,6 +11,7 @@
 #include "Lang.h"
 #include "StringF.h"
 #include "WorldView.h"
+#include "DeathView.h"
 #include "galaxy/Galaxy.h"
 
 /*
@@ -253,11 +254,14 @@ static int l_game_attr_time(lua_State *l)
 
 // XXX temporary to support StationView "Launch" button
 // remove once WorldView has been converted to the new UI
-static int l_game_switch_to_world_view(lua_State *l)
+static int l_game_switch_view(lua_State *l)
 {
 	if (!Pi::game)
 		return luaL_error(l, "can't switch view when no game is running");
-	Pi::SetView(Pi::worldView);
+	if (Pi::player->IsDead())
+		Pi::SetView(Pi::deathView);
+	else
+		Pi::SetView(Pi::worldView);
 	return 0;
 }
 
@@ -273,7 +277,7 @@ void LuaGame::Register()
 		{ "SaveGame",  l_game_save_game  },
 		{ "EndGame",   l_game_end_game   },
 
-		{ "SwitchToWorldView", l_game_switch_to_world_view },
+		{ "SwitchView", l_game_switch_view },
 
 		{ 0, 0 }
 	};

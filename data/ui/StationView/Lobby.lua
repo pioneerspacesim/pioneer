@@ -31,7 +31,7 @@ local lobby = function (tab)
 		elseif not Game.player:Undock() then
 			Comms.ImportantMessage(l.LAUNCH_PERMISSION_DENIED_BUSY, station.label)
 		else
-			Game.SwitchToWorldView()
+			Game.SwitchView()
 		end
 	end)
 

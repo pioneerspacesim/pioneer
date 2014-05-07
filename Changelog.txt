@@ -66,6 +66,7 @@ April 2014
      * Fix crash when Nerodia selected in shipyard (#2865, #2864)
      * Fix internal bug in multi-threading queue (#2874)
      * Fix crash due to ships spawning with default hyperdrive 0 (#2875,2877)
+     * Fix "return to game" crash if player is dead (#2909)
 
 March 2014
 

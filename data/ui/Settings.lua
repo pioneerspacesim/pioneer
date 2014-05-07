@@ -389,7 +389,7 @@ ui.templates.SettingsInGame = function ()
 					return Game.player.flightState == "HYPERSPACE"
 				end
 			},
-			{ text = l.RETURN_TO_GAME, onClick = Game.SwitchToWorldView },
+			{ text = l.RETURN_TO_GAME, onClick = Game.SwitchView },
 			{ text = l.EXIT_THIS_GAME, onClick = Game.EndGame }
 		}
 	})
