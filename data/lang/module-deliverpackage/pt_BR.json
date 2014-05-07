@@ -257,7 +257,7 @@
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Hang up."
+      "message" : "Desligamento."
    },
    "HOW_SOON_MUST_IT_BE_DELIVERED" : {
       "description" : "",
@@ -329,11 +329,11 @@
    },
    "SPACEPORT" : {
       "description" : "",
-      "message" : "Spaceport:"
+      "message" : "Base de Lançamento:"
    },
    "SYSTEM" : {
       "description" : "",
-      "message" : "System:"
+      "message" : "Sistema:"
    },
    "THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN" : {
       "description" : "",

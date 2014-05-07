@@ -369,7 +369,7 @@
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Hang up."
+      "message" : "Desligamento."
    },
    "HARMLESS" : {
       "description" : "",

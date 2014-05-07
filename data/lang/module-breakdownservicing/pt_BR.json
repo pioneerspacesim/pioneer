@@ -97,11 +97,11 @@
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Hang up."
+      "message" : "Desligamento."
    },
    "I_DONT_HAVE_ENOUGH_MONEY" : {
       "description" : "",
-      "message" : "I don't have enough money"
+      "message" : "Não tenho dinheiro suficiente"
    },
    "I_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN" : {
       "description" : "",
