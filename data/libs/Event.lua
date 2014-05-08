@@ -727,6 +727,4 @@ Event = {
 --   experimental
 --
 
--- XXX document SongFinished
-
 return Event
