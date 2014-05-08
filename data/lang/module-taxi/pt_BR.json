@@ -9,11 +9,11 @@
    },
    "CORPORATIONS_10" : {
       "description" : "",
-      "message" : "Bulk Ships"
+      "message" : "Navio de Carga"
    },
    "CORPORATIONS_11" : {
       "description" : "",
-      "message" : "Arment Aerodynamics"
+      "message" : "Aerodinâmica Arment"
    },
    "CORPORATIONS_2" : {
       "description" : "",
@@ -121,7 +121,7 @@
    },
    "FLAVOUR_0_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the nice trip. You have been paid in full."
+      "message" : "Obrigado pela ótima viagem. Você foi integralmente pago."
    },
    "FLAVOUR_0_WHEREAREWE" : {
       "description" : "",
@@ -153,7 +153,7 @@
    },
    "FLAVOUR_10_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the fast ride. You have been paid in full."
+      "message" : "Obrigado pela carona rápida. Você foi integralmente pago."
    },
    "FLAVOUR_10_WHEREAREWE" : {
       "description" : "",
@@ -185,7 +185,7 @@
    },
    "FLAVOUR_11_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the fast ride. You have been paid in full."
+      "message" : "Obrigado pela carona rápida. Você foi integralmente pago."
    },
    "FLAVOUR_11_WHEREAREWE" : {
       "description" : "",
@@ -213,11 +213,11 @@
    },
    "FLAVOUR_12_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name}. I need passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. Will pay {cash}."
+      "message" : "Meu nome é {nome}. Preciso de passagem para {sistema}  ({setorx}, {setory}, {setorz}), a uma distância de {distância} anos-luz. Pagarei {dinheiro}."
    },
    "FLAVOUR_12_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the ride. You have been paid in full."
+      "message" : "Obrigado pela carona. Você foi integralmente pago."
    },
    "FLAVOUR_12_WHEREAREWE" : {
       "description" : "",
@@ -249,7 +249,7 @@
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the nice trip. You have been paid in full."
+      "message" : "Obrigado pela ótima viagem. Você foi integralmente pago."
    },
    "FLAVOUR_1_WHEREAREWE" : {
       "description" : "",
@@ -281,7 +281,7 @@
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thanks for bringing us here. We've now paid in full. Good Luck!"
+      "message" : "Obrigado por nos trazer aqui. Agora pagamos integralmente. Boa Sorte!"
    },
    "FLAVOUR_2_WHEREAREWE" : {
       "description" : "",
@@ -313,7 +313,7 @@
    },
    "FLAVOUR_3_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the nice trip. You have been paid in full."
+      "message" : "Obrigado pela ótima viagem. Você foi integralmente pago."
    },
    "FLAVOUR_3_WHEREAREWE" : {
       "description" : "",
@@ -345,7 +345,7 @@
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thanks for carrying me here. I've paid in full. Good Luck!"
+      "message" : "Obrigado por me trazer aqui. Paguei integralmente. Boa Sorte!"
    },
    "FLAVOUR_4_WHEREAREWE" : {
       "description" : "",
@@ -377,7 +377,7 @@
    },
    "FLAVOUR_5_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the nice trip. You have been paid in full."
+      "message" : "Obrigado pela ótima viagem. Você foi integralmente pago."
    },
    "FLAVOUR_5_WHEREAREWE" : {
       "description" : "",
@@ -409,7 +409,7 @@
    },
    "FLAVOUR_6_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the nice trip. You have been paid in full."
+      "message" : "Obrigado pela ótima viagem. Você foi integralmente pago."
    },
    "FLAVOUR_6_WHEREAREWE" : {
       "description" : "",
@@ -441,7 +441,7 @@
    },
    "FLAVOUR_7_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thanks for carrying me safely here. I've paid in full. Good Luck!"
+      "message" : "Obrigado por me trazer aqui em segurança. Paguei integralmente. Boa Sorte!"
    },
    "FLAVOUR_7_WHEREAREWE" : {
       "description" : "",
@@ -473,7 +473,7 @@
    },
    "FLAVOUR_8_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the fast ride. You have been paid in full."
+      "message" : "Obrigado pela carona rápida. Você foi integralmente pago."
    },
    "FLAVOUR_8_WHEREAREWE" : {
       "description" : "",
@@ -505,7 +505,7 @@
    },
    "FLAVOUR_9_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the fast ride. You have been paid in full."
+      "message" : "Obrigado pela carona rápida. Você foi integralmente pago."
    },
    "FLAVOUR_9_WHEREAREWE" : {
       "description" : "",

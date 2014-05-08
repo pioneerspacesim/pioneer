@@ -37,7 +37,7 @@
    },
    "FLAVOUR_2_RESPONSE" : {
       "description" : "",
-      "message" : "Service complete.  Thanks for your custom."
+      "message" : "Serviço completo. Obrigado pela preferência."
    },
    "FLAVOUR_2_TITLE" : {
       "description" : "",
@@ -61,7 +61,7 @@
    },
    "FLAVOUR_3_YESPLEASE" : {
       "description" : "",
-      "message" : "SuperFix me!"
+      "message" : "Me super conserte!"
    },
    "FLAVOUR_4_INTRO" : {
       "description" : "",
@@ -77,7 +77,7 @@
    },
    "FLAVOUR_4_YESPLEASE" : {
       "description" : "",
-      "message" : "Yes, please proceed"
+      "message" : "Sim, por favor proceda"
    },
    "FLAVOUR_5_INTRO" : {
       "description" : "",

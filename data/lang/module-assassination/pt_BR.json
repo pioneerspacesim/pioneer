@@ -161,7 +161,7 @@
    },
    "FLAVOUR_5_INTROTEXT" : {
       "description" : "",
-      "message" : "We wish {target} to have a fitting career end in the {system} system for {cash}."
+      "message" : "Desejamos que {alvo} tenha um fim de carreira adequado no sistema {sistema} por {dinheiro}."
    },
    "FLAVOUR_5_SUCCESSMSG" : {
       "description" : "",
@@ -325,6 +325,6 @@
    },
    "X_WILL_BE_LEAVING" : {
       "description" : "",
-      "message" : "{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. The ship is {shipname} and has registration id {shipregid}."
+      "message" : "{alvo} deixará {base de lançamento} no sistema {sistema} ({setorx}, {setory}, {setorz}), a uma distância de {distância} anos-luz em {data}. A nave é a {nome da nave} e tem o número de registro  {registro da nave}."
    }
 }
