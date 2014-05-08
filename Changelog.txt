@@ -5,6 +5,9 @@ May 2014
        "%.1f", cap it at 99.9% instead of 100% (#2901)
      * Fix Wave texture problems & missing ModelViewer pointer (#2903)
 
+   * Script and UI API changes
+     * Added onShipFiring
+
    * Internal changes
      * Update the 3rd party libraries to ones built with vs2013 (#2899)
      * Encapsulate custom systems, factions, caches in a Galaxy class (#2893)
