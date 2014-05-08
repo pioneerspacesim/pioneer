@@ -976,6 +976,7 @@ void Ship::FireWeapon(int num)
 
 	Polit::NotifyOfCrime(this, Polit::CRIME_WEAPON_DISCHARGE);
 	Sound::BodyMakeNoise(this, "Pulse_Laser", 1.0f);
+	LuaEvent::Queue("onShipFiring", this);
 }
 
 double Ship::GetHullTemperature() const
