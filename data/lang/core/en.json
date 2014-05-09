@@ -1739,10 +1739,6 @@
       "description" : "keybinding: x axis",
       "message" : "X"
    },
-   "X_CANNOT_BE_TOLERATED_HERE" : {
-      "description" : "",
-      "message" : "%crime cannot be tolerated here."
-   },
    "Y" : {
       "description" : "keybinding: y axis",
       "message" : "Y"
