@@ -9,7 +9,6 @@
 #include "DynamicBody.h"
 #include "EquipSet.h"
 #include "galaxy/SystemPath.h"
-#include "HudTrail.h"
 #include "NavLights.h"
 #include "Planet.h"
 #include "Sensors.h"
