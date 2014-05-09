@@ -4,6 +4,7 @@
 #include "WorldView.h"
 #include "Pi.h"
 #include "Frame.h"
+#include "HudTrail.h"
 #include "Player.h"
 #include "Planet.h"
 #include "galaxy/Galaxy.h"
