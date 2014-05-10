@@ -321,11 +321,11 @@
    },
    "FORWARD_ACCEL_EMPTY" : {
       "description" : "",
-      "message" : "Forward accel (empty)"
+      "message" : "Aceleração frontal (vazia)"
    },
    "FORWARD_ACCEL_FULL" : {
       "description" : "",
-      "message" : "Forward accel (full)"
+      "message" : "Aceleração frontal (cheia)"
    },
    "FRACTAL_DETAIL" : {
       "description" : "",
@@ -741,7 +741,7 @@
    },
    "ORBITAL_ANALYSIS_NOTES" : {
       "description" : "",
-      "message" : "Circular orbit speed is given for a tangential velocity. The ship should be moving in a direction at 90° to the ship/{name} axis.\n\nDescent speed is an absolute minimum, and is also tangential. A slower speed or a lower angle will result in a course which intersects with the surface of {name}.\n\nEscape speed will in theory work in any direction, as long as the ship does not collide with {name} on the way.\n\t\t"
+      "message" : "Velocidade da órbita circular é dada pela velocidade tangencial. A nave deveria estar se movendo em em uma direção a 90° para a nave/{nome} eixo.%s\n%s\nVelocidade descentee é um mínimo absoluto, e é também tangencial. Uma velocidade mais baixa ou um ângulo mais baixo resultará em um caminho que cruza a superfície de {nome}.%s\n%s\nVelocidade de escape teoricamente trabalhará em qualquer direção, enquanto a nave não colidir com {nome} no caminho.%s\n⇥⇥"
    },
    "OWED" : {
       "description" : "",
@@ -853,11 +853,11 @@
    },
    "REVERSE_ACCEL_EMPTY" : {
       "description" : "",
-      "message" : "Reverse accel (empty)"
+      "message" : "Aceleração traseira (vazia)"
    },
    "REVERSE_ACCEL_FULL" : {
       "description" : "",
-      "message" : "Reverse accel (full)"
+      "message" : "Aceleração traseira (cheia)"
    },
    "REWARD" : {
       "description" : "",
