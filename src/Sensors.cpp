@@ -127,7 +127,8 @@ void Sensors::Update(float time)
 		if (!it->fresh) {
 			m_radarContacts.erase(it++);
 		} else {
-			if (Ship::FLYING==m_owner->GetFlightState()) {
+			const Ship* ship =dynamic_cast<Ship*>(it->body);
+			if (ship && Ship::FLYING==ship->GetFlightState()) {
 				it->distance = m_owner->GetPositionRelTo(it->body).Length();
 				it->trail->Update(time);
 			} else {
