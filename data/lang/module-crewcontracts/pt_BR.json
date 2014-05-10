@@ -5,7 +5,7 @@
    },
    "CREWDETAILSHEETBB" : {
       "description" : "",
-      "message" : "Name: {name}\nExperience: {experience}\nAsking wage: {wage} per week\n\n{response}\n"
+      "message" : "Nome: {nome}%s\nExperiência: {experiência}%s\nPretensão Salarial: {salário} semanal%s\n%s\n{resposta}%s\n"
    },
    "CREWMEMBER_WAGE_PER_WEEK" : {
       "description" : "",
@@ -13,7 +13,7 @@
    },
    "CREWTESTRESULTSBB" : {
       "description" : "",
-      "message" : "Examination results:\n\nGeneral crew competence: {general}%\nEngineering and repair: {engineering}%\nPiloting and spaceflight: {piloting}%\nNavigation and plotting: {navigation}%\nSensors and defence: {sensors}%\nOverall exam score: {overall}%"
+      "message" : "Resultados do exame:%s\n%s\nCompetência geral da tripulação: {geral}%s\nEngenharia e reparo: {engenharia}%s\nPilotagem e voo no espaço: {pilotagem}%s\nNavegação e mapeamento: {navegação}%s\nSensores e defesa: {sensores}%s\nPontuação global do exame: {global}%"
    },
    "CREW_FOR_HIRE" : {
       "description" : "",

@@ -13,7 +13,7 @@
    },
    "FLAVOUR_0_YESPLEASE" : {
       "description" : "",
-      "message" : "Service hyperspace engine"
+      "message" : "Máquina de manutenção do hiperespaço"
    },
    "FLAVOUR_1_INTRO" : {
       "description" : "",
@@ -29,7 +29,7 @@
    },
    "FLAVOUR_1_YESPLEASE" : {
       "description" : "",
-      "message" : "Service my drive"
+      "message" : "Manutenção no meu drive"
    },
    "FLAVOUR_2_INTRO" : {
       "description" : "",
@@ -69,11 +69,11 @@
    },
    "FLAVOUR_4_RESPONSE" : {
       "description" : "",
-      "message" : "We have completed the work on your hyperdrive."
+      "message" : "Terminamos o trabalho no seu hiperdrive."
    },
    "FLAVOUR_4_TITLE" : {
       "description" : "",
-      "message" : "Time and Space Engines, Inc."
+      "message" : "Máquinas Tempo e Espaço S/A."
    },
    "FLAVOUR_4_YESPLEASE" : {
       "description" : "",
@@ -93,7 +93,7 @@
    },
    "FLAVOUR_5_YESPLEASE" : {
       "description" : "",
-      "message" : "Service hyperspace engine"
+      "message" : "Máquina de manutenção do hiperespaço"
    },
    "HANG_UP" : {
       "description" : "",
