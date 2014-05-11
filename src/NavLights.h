@@ -37,8 +37,8 @@ public:
 	virtual void Load(Serializer::Reader &rd);
 
 	void SetEnabled(bool on) { m_enabled = on; }
-	void Update(float time);
-	void SetColor(unsigned int group, LightColor);
+	void Update(const float time);
+	void SetColor(const unsigned int group, const LightColor color);
 
 	static void Init(Graphics::Renderer*);
 	static void Uninit();

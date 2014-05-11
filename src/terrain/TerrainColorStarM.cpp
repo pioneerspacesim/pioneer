@@ -22,7 +22,7 @@ TerrainColorFractal<TerrainColorStarM>::TerrainColorFractal(const SystemBody *bo
 using namespace TerrainFeature;
 
 template <>
-vector3d TerrainColorFractal<TerrainColorStarM>::GetColor(const vector3d &p, double height, const vector3d &norm) const
+void TerrainColorFractal<TerrainColorStarM>::GetColor(const vector3d &p, const double height, const vector3d &norm, Color3ub &out) const
 {
 	double n;
 	vector3d col;
@@ -39,15 +39,18 @@ vector3d TerrainColorFractal<TerrainColorStarM>::GetColor(const vector3d &p, dou
 	if (n > 0.666) {
 		n -= 0.666; n *= 3.0;
 		col = interpolate_color(n, vector3d(.65, .5, .25), vector3d(1.0, 1.0, 1.0) );
-		return col;
+		SetColour(out, col);
+		return;
 	} else if (n > 0.333) {
 		n -= 0.333; n *= 3.0;
 		col = interpolate_color(n, vector3d(.3, .1, .0), vector3d(.65, .5, .25) );
-		return col;
+		SetColour(out, col);
+		return;
 	} else {
 		n *= 3.0;
 		col = interpolate_color(n, vector3d(.03, .0, .0), vector3d(.3, .1, .0) );
-		return col;
+		SetColour(out, col);
+		return;
 	}
 }
 

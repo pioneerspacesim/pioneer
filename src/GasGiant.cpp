@@ -57,13 +57,14 @@ namespace
 					// get point on the surface of the sphere
 					const vector3d p = GetSpherePoint(ustep, vstep);
 					// get colour using `p`
-					const vector3d colour = pTerrain->GetColor(p, 0.0, p);
+					Color3ub colOut;
+					pTerrain->GetColor(p, 0.0, p, colOut);
 
 					// convert to ubyte and store
 					Color* col = colors + (u + (v * UVDims()));
-					col[0].r = Uint8(colour.x * 255.0);
-					col[0].g = Uint8(colour.y * 255.0);
-					col[0].b = Uint8(colour.z * 255.0);
+					col[0].r = colOut.r;
+					col[0].g = colOut.g;
+					col[0].b = colOut.b;
 					col[0].a = 255;
 				}
 			}
@@ -493,13 +494,14 @@ void GasGiant::GenerateTexture()
 					// get point on the surface of the sphere
 					const vector3d p = GetSpherePointFromCorners(ustep, vstep, &s_patchFaces[i][0]);
 					// get colour using `p`
-					const vector3d colour = pTerrain->GetColor(p, 0.0, p);
+					Color3ub colOut;
+					pTerrain->GetColor(p, 0.0, p, colOut);
 
 					// convert to ubyte and store
 					Color* col = colors + (u + (v * UV_DIMS_SMALL));
-					col[0].r = Uint8(colour.x * 255.0);
-					col[0].g = Uint8(colour.y * 255.0);
-					col[0].b = Uint8(colour.z * 255.0);
+					col[0].r = colOut.r;
+					col[0].g = colOut.g;
+					col[0].b = colOut.b;
 					col[0].a = 255;
 				}
 			}

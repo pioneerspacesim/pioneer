@@ -41,7 +41,7 @@ public:
 	inline const fracdef_t &GetFracDef(const unsigned int index) const { assert(index>=0 && index<MAX_FRACDEFS); return m_fracdef[index]; }
 
 	virtual double GetHeight(const vector3d &p) const = 0;
-	virtual vector3d GetColor(const vector3d &p, double height, const vector3d &norm) const = 0;
+	virtual void GetColor(const vector3d &p, const double height, const vector3d &norm, Color3ub &out) const = 0;
 
 	virtual const char *GetHeightFractalName() const = 0;
 	virtual const char *GetColorFractalName() const = 0;
@@ -61,6 +61,12 @@ private:
 
 protected:
 	Terrain(const SystemBody *body);
+
+	inline void SetColour(Color3ub &r, const vector3d &v) const { 
+		r.r=static_cast<unsigned char>(Clamp(v.x*255.0, 0.0, 255.0)); 
+		r.g=static_cast<unsigned char>(Clamp(v.y*255.0, 0.0, 255.0)); 
+		r.b=static_cast<unsigned char>(Clamp(v.z*255.0, 0.0, 255.0));
+	}
 
 	bool textures;
 	int m_fracnum;
@@ -139,7 +145,7 @@ private:
 template <typename ColorFractal>
 class TerrainColorFractal : virtual public Terrain {
 public:
-	virtual vector3d GetColor(const vector3d &p, double height, const vector3d &norm) const;
+	virtual void GetColor(const vector3d &p, const double height, const vector3d &norm, Color3ub &out) const;
 	virtual const char *GetColorFractalName() const;
 protected:
 	TerrainColorFractal(const SystemBody *body);

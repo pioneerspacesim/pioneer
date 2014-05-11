@@ -18,11 +18,11 @@ TerrainColorFractal<TerrainColorVolcanic>::TerrainColorFractal(const SystemBody 
 }
 
 template <>
-vector3d TerrainColorFractal<TerrainColorVolcanic>::GetColor(const vector3d &p, double height, const vector3d &norm) const
+void TerrainColorFractal<TerrainColorVolcanic>::GetColor(const vector3d &p, const double height, const vector3d &norm, Color3ub &out) const
 {
 	double n = m_invMaxHeight*height;
 	const double flatness = pow(p.Dot(norm), 6.0);
-	const vector3d color_cliffs = m_rockColor[2];
+	const vector3d &color_cliffs = m_rockColor[2];
 	double equatorial_desert = (-1.0+2.0*octavenoise(12, 0.5, 2.0, (n*2.0)*p)) *
 			1.0*(1.0-p.y*p.y);
 
@@ -45,6 +45,6 @@ vector3d TerrainColorFractal<TerrainColorVolcanic>::GetColor(const vector3d &p, 
 		col = interpolate_color(n, col, vector3d(-2, -2.2, .0));
 		col = interpolate_color(flatness, color_cliffs, col);
 	}
-	return col;
+	SetColour(out, col);
 }
 

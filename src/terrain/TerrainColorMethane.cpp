@@ -15,10 +15,12 @@ TerrainColorFractal<TerrainColorMethane>::TerrainColorFractal(const SystemBody *
 }
 
 template <>
-vector3d TerrainColorFractal<TerrainColorMethane>::GetColor(const vector3d &p, double height, const vector3d &norm) const
+void TerrainColorFractal<TerrainColorMethane>::GetColor(const vector3d &p, const double height, const vector3d &norm, Color3ub &out) const
 {
 	double n = m_invMaxHeight*height;
-	if (n <= 0) return vector3d(.3,.0,.0);
-	else return interpolate_color(n, vector3d(.3,.2,.0), vector3d(.6,.3,.0));
+	if (n <= 0) 
+		SetColour(out, vector3d(.3,.0,.0));
+	else 
+		SetColour(out, interpolate_color(n, vector3d(.3,.2,.0), vector3d(.6,.3,.0)));
 }
 

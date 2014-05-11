@@ -9,12 +9,6 @@
 #include "Pi.h"
 #include "RefCounted.h"
 
-inline void setColour(Color3ub &r, const vector3d &v) { 
-	r.r=static_cast<unsigned char>(Clamp(v.x*255.0, 0.0, 255.0)); 
-	r.g=static_cast<unsigned char>(Clamp(v.y*255.0, 0.0, 255.0)); 
-	r.b=static_cast<unsigned char>(Clamp(v.z*255.0, 0.0, 255.0));
-}
-
 // ********************************************************************************
 // Overloaded PureJob class to handle generating the mesh for each patch
 // ********************************************************************************
@@ -72,7 +66,7 @@ void BasePatchJob::GenerateMesh(double *heights, vector3f *normals, Color3ub *co
 
 			// color
 			const vector3d p = GetSpherePoint(v0, v1, v2, v3, (x-1)*fracStep, (y-1)*fracStep);
-			setColour(*col, pTerrain->GetColor(p, height, n));
+			pTerrain->GetColor(p, height, n, (*col));
 			assert(col!=&colors[edgeLen*edgeLen]);
 			++col;
 		}

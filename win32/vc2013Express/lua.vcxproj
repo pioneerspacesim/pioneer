@@ -154,7 +154,7 @@
       <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>
       </ForcedIncludeFiles>
-      <PreprocessorDefinitions>_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_SECURE_SCL=0;_ITERATOR_DEBUG_LEVEL=0;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4146</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -170,6 +170,7 @@
       <ForcedIncludeFiles>
       </ForcedIncludeFiles>
       <DisableSpecificWarnings>4146</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_SECURE_SCL=0;_ITERATOR_DEBUG_LEVEL=0;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -181,7 +182,7 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_SECURE_SCL=0;_ITERATOR_DEBUG_LEVEL=0;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ForcedIncludeFiles>
       </ForcedIncludeFiles>
       <DisableSpecificWarnings>4146</DisableSpecificWarnings>
@@ -198,7 +199,7 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_SECURE_SCL=0;_ITERATOR_DEBUG_LEVEL=0;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ForcedIncludeFiles>
       </ForcedIncludeFiles>
       <DisableSpecificWarnings>4146</DisableSpecificWarnings>
