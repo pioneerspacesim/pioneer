@@ -11,6 +11,7 @@ May 2014
    * Internal changes
      * Update the 3rd party libraries to ones built with vs2013 (#2899)
      * Encapsulate custom systems, factions, caches in a Galaxy class (#2893)
+     * Fix ill-formed API documentation for Engine (#2757)
 
    * Fixes
      * Fix cockpit glass opacity (#2907)
