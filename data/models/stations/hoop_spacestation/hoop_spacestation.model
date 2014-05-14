@@ -27,6 +27,6 @@ mesh hoop_docking.dae
 mesh dockingbay.dae
 mesh dockingpads.dae
 
-collision collision.obj
+collision collision.dae
 
 anim doors 1 121
