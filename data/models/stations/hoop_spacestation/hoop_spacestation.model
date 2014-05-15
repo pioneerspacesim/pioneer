@@ -26,6 +26,7 @@ mesh doors.dae
 mesh hoop_docking.dae
 mesh dockingbay.dae
 mesh dockingpads.dae
+mesh doors_collision.dae
 
 collision collision.dae
 
