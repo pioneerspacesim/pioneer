@@ -4,6 +4,7 @@ May 2014
      * In ship repair, since printing reported hull damage with precision
        "%.1f", cap it at 99.9% instead of 100% (#2901)
      * Fix Wave texture problems & missing ModelViewer pointer (#2903)
+     * Hoop station door collision (#2916)
 
    * Script and UI API changes
      * Added onShipFiring
