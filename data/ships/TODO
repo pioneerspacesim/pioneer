@@ -1,0 +1,12 @@
+- all ships table
+- find a good place for this script
+- wiki: all ships table
+- wiki: update ships
+- wiki: remove gun_mounts from ship template
+- pull request shipToWiki
+
+- remove gun_mounts from ships
+- correct max_engine in lunar shuttle
+- test build/play
+
+- discuss max_engine/hyperdrive_mount and hyperdrive_class
