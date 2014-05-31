@@ -1,7 +1,4 @@
-- all ships table
-	- add attributes
 - find a good place for the scripts
-- wiki: all ships table
 - wiki: update ships
 - wiki: remove gun_mounts from ship template
 - pull request shipToWiki
