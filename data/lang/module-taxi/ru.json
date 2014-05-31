@@ -1,7 +1,7 @@
 {
    "CORPORATIONS_0" : {
       "description" : "",
-      "message" : "Sirius"
+      "message" : "Сириус"
    },
    "CORPORATIONS_1" : {
       "description" : "",
@@ -21,7 +21,7 @@
    },
    "CORPORATIONS_3" : {
       "description" : "",
-      "message" : "Taranis"
+      "message" : "Таранис"
    },
    "CORPORATIONS_4" : {
       "description" : "",
@@ -45,7 +45,7 @@
    },
    "CORPORATIONS_9" : {
       "description" : "",
-      "message" : "Digital"
+      "message" : "Цифровой"
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
