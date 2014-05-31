@@ -1,3 +1,4 @@
+#!/usr/bin/lua
 -- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
 
@@ -32,6 +33,7 @@ print("! Angular Thrust")
 print("! Price")
 
 -- for each print stats
+package.path = package.path..";../data/ships/?.lua"
 for i = 1, #ships, 1 do
 	require(ships[i])
 end

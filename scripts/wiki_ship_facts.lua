@@ -1,3 +1,4 @@
+#!/usr/bin/lua
 -- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
 
@@ -89,9 +90,9 @@ if file_exists(arg[1]) == false then
 end
 	
 -- remove extension
-extPos = string.find(arg[1], ".lua")
-shipNameEnd = extPos - 1
-shipModule = string.sub(arg[1], 1, shipNameEnd)
+-- extPos = string.find(arg[1], ".lua")
+-- shipNameEnd = extPos - 1
+-- shipModule = string.sub(arg[1], 1, shipNameEnd)
 
 -- load ship module
-require(shipModule)
+dofile(arg[1])
