@@ -17,7 +17,7 @@
    },
    "FLAVOUR_0_NONMEMBER_INTRO" : {
       "description" : "",
-      "message" : "{clubname} is an independent organisation dedicated to providing discounted starship fuel to its members. Branches can be found throughout the galaxy. Benefits of membership include:"
+      "message" : "{clubname} je nezávislá organizace určená k poskytování slevněného paliva jejím členům. Pobočky lze najít po celé galaxii. Výhody pro členy zahrnují:"
    },
    "FLAVOUR_0_WELCOME" : {
       "description" : "",
@@ -33,23 +33,23 @@
    },
    "LIST_BENEFITS_DISPOSAL" : {
       "description" : "",
-      "message" : "{radioactives}, free disposal (conditions apply)"
+      "message" : "{radioactives}, likvidace zdarma (za určitých podmínek)"
    },
    "LIST_BENEFITS_FUEL" : {
       "description" : "",
-      "message" : "{fuel} at discount prices"
+      "message" : "{fuel} za slevněné ceny"
    },
    "LIST_BENEFITS_FUEL_INTRO" : {
       "description" : "",
-      "message" : "Our own stocks of fuel, independent of the general market"
+      "message" : "Naše vlastní zásoby paliva, nezávislé na obecném trhu"
    },
    "LIST_BENEFITS_FUEL_TANK" : {
       "description" : "",
-      "message" : "Fuel tank refilling, where necessary"
+      "message" : "Doplnění paliva, v případě potřeby"
    },
    "LIST_BENEFITS_JOIN" : {
       "description" : "",
-      "message" : "Join now! Annual membership costs only {membership_fee}"
+      "message" : "Vstupte ihned! Roční náklady na členství pouze {membership_fee}"
    },
    "WE_WILL_ONLY_DISPOSE_OF" : {
       "description" : "",
