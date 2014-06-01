@@ -17,35 +17,35 @@
    },
    "DENY_0" : {
       "description" : "",
-      "message" : "I'm sorry, but I don't think I can trust you with this delivery."
+      "message" : "Promiň, ale nemyslím že ti můžu věřit ohledně této dodávky."
    },
    "DENY_1" : {
       "description" : "",
-      "message" : "Come back when you have some qualifications."
+      "message" : "Vrať se, až budeš mít nějakou kvalifikaci."
    },
    "DENY_2" : {
       "description" : "",
-      "message" : "I don't think you're the pilot I'm looking for."
+      "message" : "Nemyslím, že jsi pilot kterého hledám."
    },
    "DENY_3" : {
       "description" : "",
-      "message" : "You don't look like someone I can trust with this delivery."
+      "message" : "Nevypadáš jako někdo komu můžu věřit ohledně této dodávky."
    },
    "DENY_4" : {
       "description" : "",
-      "message" : "You're not the kind of pilot I'm looking for."
+      "message" : "Ty nejsi druh pilota kterého hledám."
    },
    "DENY_5" : {
       "description" : "",
-      "message" : "You seem much too inexperienced to handle a task of this importance."
+      "message" : "Vypadáš příliš nezkušeně než abys zvládl úkol takové důležitosti."
    },
    "DENY_6" : {
       "description" : "",
-      "message" : "I have never heard of you. I need someone experienced for this delivery."
+      "message" : "Nikdy jsem o tobě neslyšel(a). Potřebuju pro tuhle dodávku někoho zkušeného."
    },
    "DENY_7" : {
       "description" : "",
-      "message" : "I'm not willing to risk this delivery on someone without any qualifications like you."
+      "message" : "Nechci riskovat tuhle dodávku s někým tak nezkušeným jako jsi ty."
    },
    "DISTANCE" : {
       "description" : "",

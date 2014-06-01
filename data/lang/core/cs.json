@@ -61,7 +61,7 @@
    },
    "AUTOMATIC_SYSTEM_SELECTION" : {
       "description" : "",
-      "message" : "Automatic system selection"
+      "message" : "Automatický výběr systému"
    },
    "AUTOPILOT" : {
       "description" : "",
@@ -337,7 +337,7 @@
    },
    "DRAW_UNINHABITED_LABELS" : {
       "description" : "",
-      "message" : "Label uninhabited systems"
+      "message" : "Zobrazit neobydlené systémy"
    },
    "DRAW_VERTICAL_LINES" : {
       "description" : "",
@@ -537,7 +537,7 @@
    },
    "GENERAL_VIEW_CONTROLS" : {
       "description" : "",
-      "message" : "General View Controls"
+      "message" : "Ovládací prvky celkového pohledu"
    },
    "GOVERNMENT_TYPE" : {
       "description" : "",
@@ -789,67 +789,67 @@
    },
    "MAP_LOCK_HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Lock Hyperspace Target"
+      "message" : "Zaměřit hyperprostorový cíl"
    },
    "MAP_TOGGLE_INFO_PANEL" : {
       "description" : "",
-      "message" : "Toggle Info Panel"
+      "message" : "Info panel"
    },
    "MAP_TOGGLE_SELECTION_FOLLOW_VIEW" : {
       "description" : "",
-      "message" : "Toggle Selection Following View"
+      "message" : "Výběr následuje pohled"
    },
    "MAP_VIEW_ROTATE_DOWN" : {
       "description" : "",
-      "message" : "Rotate View Down"
+      "message" : "Otáčet pohled dolů"
    },
    "MAP_VIEW_ROTATE_LEFT" : {
       "description" : "",
-      "message" : "Rotate View Left"
+      "message" : "Otáčet pohled doleva"
    },
    "MAP_VIEW_ROTATE_RIGHT" : {
       "description" : "",
-      "message" : "Rotate View Right"
+      "message" : "Otáčet pohled doprava"
    },
    "MAP_VIEW_ROTATE_UP" : {
       "description" : "",
-      "message" : "Rotate View Up"
+      "message" : "Otáčet pohled nahoru"
    },
    "MAP_VIEW_SHIFT_BACKWARD" : {
       "description" : "",
-      "message" : "Shift View Backwards"
+      "message" : "Posouvat pohled vzad"
    },
    "MAP_VIEW_SHIFT_DOWN" : {
       "description" : "",
-      "message" : "Shift View Down"
+      "message" : "Posouvat pohled dolů"
    },
    "MAP_VIEW_SHIFT_FORWARD" : {
       "description" : "",
-      "message" : "Shift View Forwards"
+      "message" : "Posouvat pohled vpřed"
    },
    "MAP_VIEW_SHIFT_LEFT" : {
       "description" : "",
-      "message" : "Shift View Left"
+      "message" : "Posouvat pohled doleva"
    },
    "MAP_VIEW_SHIFT_RIGHT" : {
       "description" : "",
-      "message" : "Shift View Right"
+      "message" : "Posouvat pohled doprava"
    },
    "MAP_VIEW_SHIFT_UP" : {
       "description" : "",
-      "message" : "Shift View Up"
+      "message" : "Posouvat pohled nahoru"
    },
    "MAP_WARP_TO_CURRENT_SYSTEM" : {
       "description" : "",
-      "message" : "Warp to Current System"
+      "message" : "Warp do aktuálního systému"
    },
    "MAP_WARP_TO_HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Warp to Hyperspace Target"
+      "message" : "Warp do hyperprostorového cíle"
    },
    "MAP_WARP_TO_SELECTED_SYSTEM" : {
       "description" : "",
-      "message" : "Warp to Selected System"
+      "message" : "Warp do zvoleného systému"
    },
    "MASS" : {
       "description" : "",
@@ -1317,7 +1317,7 @@
    },
    "RESET_ORIENTATION_AND_ZOOM" : {
       "description" : "",
-      "message" : "Reset Orientation and Zoom"
+      "message" : "Reset orientace a zoomu"
    },
    "ROBOTS" : {
       "description" : "",
@@ -1405,7 +1405,7 @@
    },
    "SEARCH_MAP" : {
       "description" : "",
-      "message" : "Search Map"
+      "message" : "Prohledat mapu"
    },
    "SECTOR_COORDINATES" : {
       "description" : "",
@@ -1413,7 +1413,7 @@
    },
    "SECTOR_MAP_VIEW" : {
       "description" : "",
-      "message" : "Sector Map View"
+      "message" : "Mapa sektorů"
    },
    "SECTOR_X_Y_Z" : {
       "description" : "",

@@ -57,11 +57,11 @@
    },
    "CABIN_FREE" : {
       "description" : "",
-      "message" : "{amount} free"
+      "message" : "{amount} volných"
    },
    "CABIN_USED" : {
       "description" : "",
-      "message" : "{amount} used"
+      "message" : "{amount} použito"
    },
    "CANCEL" : {
       "description" : "",
@@ -85,11 +85,11 @@
    },
    "CARGO_T_FREE" : {
       "description" : "",
-      "message" : "{amount}t free"
+      "message" : "{amount}t volných"
    },
    "CARGO_T_USED" : {
       "description" : "",
-      "message" : "{amount}t used"
+      "message" : "{amount}t použito"
    },
    "CASH" : {
       "description" : "",
@@ -157,7 +157,7 @@
    },
    "CONTINUE_GAME" : {
       "description" : "",
-      "message" : "Continue game"
+      "message" : "Pokračovat ve hře"
    },
    "CONTROLS" : {
       "description" : "",
@@ -173,7 +173,7 @@
    },
    "CREDIBLE" : {
       "description" : "For player reputation",
-      "message" : "Credible"
+      "message" : "Důvěryhodný"
    },
    "CREW_CABINS" : {
       "description" : "",
@@ -201,11 +201,11 @@
    },
    "DELTA_V_EMPTY" : {
       "description" : "Delta-v capacity of a ship with no cargo or upgrades",
-      "message" : "Delta-v (empty)"
+      "message" : "Delta-v (prázdná)"
    },
    "DELTA_V_FULL" : {
       "description" : "Delta-v capacity of a ship with maximum cargo",
-      "message" : "Delta-v (full)"
+      "message" : "Delta-v (plná)"
    },
    "DELTA_V_MAX" : {
       "description" : "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
@@ -225,7 +225,7 @@
    },
    "DISPLAY_HUD_TRAILS" : {
       "description" : "",
-      "message" : "Display HUD trails"
+      "message" : "Zobraz HUD trails"
    },
    "DISPLAY_NAV_TUNNELS" : {
       "description" : "",
@@ -273,7 +273,7 @@
    },
    "ENGINEERING" : {
       "description" : "",
-      "message" : "Engineering:"
+      "message" : "Údržba:"
    },
    "EQUIPMENT" : {
       "description" : "",
@@ -301,7 +301,7 @@
    },
    "EXPERIENCED" : {
       "description" : "For player reputation",
-      "message" : "Experienced"
+      "message" : "Zkušený"
    },
    "EXPERT" : {
       "description" : "For player reputation",
@@ -441,11 +441,11 @@
    },
    "INCOMPETENT" : {
       "description" : "For player reputation",
-      "message" : "Incompetent"
+      "message" : "Neschopný"
    },
    "INEXPERIENCED" : {
       "description" : "For player reputation",
-      "message" : "Inexperienced"
+      "message" : "Nezkušený"
    },
    "INVERT_MOUSE_Y" : {
       "description" : "",
@@ -489,11 +489,11 @@
    },
    "LAUNCH_PERMISSION_DENIED_CREW" : {
       "description" : "",
-      "message" : "Permission to launch denied: not enough crew too handle this ship."
+      "message" : "Povolení ke startu zamítnuto: nedostatek posádky k ovládání této lodi."
    },
    "LAUNCH_PERMISSION_DENIED_FINED" : {
       "description" : "",
-      "message" : "Permission to launch denied: you have outstanding fines."
+      "message" : "Povolení ke startu zamítnuto: máte nezaplacené pokuty."
    },
    "LEGAL_STATUS" : {
       "description" : "",
@@ -565,7 +565,7 @@
    },
    "MASTER" : {
       "description" : "For player reputation",
-      "message" : "Master"
+      "message" : "Hlavní"
    },
    "MASTER_VOL" : {
       "description" : "Master sound in settings option",
@@ -577,7 +577,7 @@
    },
    "MAXIMUM_CREW" : {
       "description" : "",
-      "message" : "Maximum crew"
+      "message" : "Maximální posádka"
    },
    "MEDIUM" : {
       "description" : "",
@@ -621,7 +621,7 @@
    },
    "MISSILE_MOUNTS" : {
       "description" : "",
-      "message" : "Missile mounts"
+      "message" : "Držáky raket"
    },
    "MISSIONS" : {
       "description" : "",
@@ -677,11 +677,11 @@
    },
    "NO" : {
       "description" : "Negative answer to a question",
-      "message" : "No"
+      "message" : "Ne"
    },
    "NOBODY" : {
       "description" : "For player reputation",
-      "message" : "Nobody"
+      "message" : "Nikdo"
    },
    "NONE" : {
       "description" : "",
@@ -697,7 +697,7 @@
    },
    "NOT_SUPPORTED_ON_THIS_SHIP" : {
       "description" : "",
-      "message" : "{equipment} is not supported on this ship model"
+      "message" : "{equipment} nelze na tuto loď přidat"
    },
    "NO_MISSIONS" : {
       "description" : "",
@@ -797,7 +797,7 @@
    },
    "PROFESSIONAL" : {
       "description" : "For player reputation",
-      "message" : "Professional"
+      "message" : "Profesionál"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
@@ -825,11 +825,11 @@
    },
    "REFUEL_FULL" : {
       "description" : "",
-      "message" : "Refuel full"
+      "message" : "Natankovat palivo"
    },
    "RELIABLE" : {
       "description" : "For player reputation",
-      "message" : "Reliable"
+      "message" : "Spolehlivý"
    },
    "REPAIR_X_HULL_DAMAGE_FOR_X" : {
       "description" : "",
@@ -837,7 +837,7 @@
    },
    "REPUTATION" : {
       "description" : "",
-      "message" : "Reputation"
+      "message" : "Pověst"
    },
    "REQUEST_LAUNCH" : {
       "description" : "",
@@ -845,7 +845,7 @@
    },
    "RETURN_TO_GAME" : {
       "description" : "",
-      "message" : "Return to game"
+      "message" : "Návrat do hry"
    },
    "RETURN_TO_MENU" : {
       "description" : "",
@@ -901,7 +901,7 @@
    },
    "SHIP_IS_FULLY_EQUIPPED" : {
       "description" : "",
-      "message" : "Your ship is fully equipped."
+      "message" : "Vaše loď je plně vybavena."
    },
    "SHIP_IS_FULLY_LADEN" : {
       "description" : "",
@@ -961,7 +961,7 @@
    },
    "TOO_SMALL_FOR_CURRENT_CREW" : {
       "description" : "",
-      "message" : "Ship is too small for the current crew."
+      "message" : "Loď je příliš malá pro současnou posádku."
    },
    "TOTAL" : {
       "description" : "",
@@ -977,7 +977,7 @@
    },
    "TRUSTWORTHY" : {
       "description" : "For player reputation",
-      "message" : "Trustworthy"
+      "message" : "Věrný"
    },
    "TYPE" : {
       "description" : "",
@@ -989,7 +989,7 @@
    },
    "UNRELIABLE" : {
       "description" : "",
-      "message" : "Unreliable"
+      "message" : "Nespolehlivý"
    },
    "UP_ACCEL" : {
       "description" : "",
@@ -1041,7 +1041,7 @@
    },
    "YES" : {
       "description" : "Positive answer to a question",
-      "message" : "Yes"
+      "message" : "Ano"
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",

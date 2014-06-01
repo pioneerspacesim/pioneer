@@ -9,35 +9,35 @@
    },
    "DENY_0" : {
       "description" : "",
-      "message" : "I'm sorry, but I don't trust you."
+      "message" : "Promiň, ale nevěřím ti."
    },
    "DENY_1" : {
       "description" : "",
-      "message" : "Come back when you have some qualifications."
+      "message" : "Vrať se, až budeš mít nějakou kvalifikaci."
    },
    "DENY_2" : {
       "description" : "",
-      "message" : "I don't think you're the one I'm looking for."
+      "message" : "Nemyslím, že jsi ten koho hledám."
    },
    "DENY_3" : {
       "description" : "",
-      "message" : "You don't look like someone capable of doing what needs to be done."
+      "message" : "Nevypadáš jako někdo schopný zvládnout co je potřeba."
    },
    "DENY_4" : {
       "description" : "",
-      "message" : "You are clearly not the one for this job."
+      "message" : "Ty jasně nejsi ten pravý pro tuhle práci."
    },
    "DENY_5" : {
       "description" : "",
-      "message" : "You seem much too inexperienced to handle a contract of this importance."
+      "message" : "Vypadáš příliš nezkušeně než abys zvládl smlouvu takové důležitosti."
    },
    "DENY_6" : {
       "description" : "",
-      "message" : "I have never heard of you. I need someone experienced for this contract."
+      "message" : "Nikdy jsem o tobě neslyšel(a). Potřebuju pro tuhle smlouvu někoho zkušeného."
    },
    "DENY_7" : {
       "description" : "",
-      "message" : "I'm not willing to risk this contract by giving it to someone as inexperienced as you."
+      "message" : "Nechci riskovat tuhle smlouvu a dát ji někomu tak nezkušenému jako jsi ty."
    },
    "DISTANCE" : {
       "description" : "",
