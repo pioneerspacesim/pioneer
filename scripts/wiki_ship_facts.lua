@@ -64,7 +64,9 @@ define_ship = function(shipTable)
 end
 
 usage_error = function()
-	print('usage: lua shipToWiki.lua <ship_script_name>')
+	print("usage:")
+	print("start from scripts directory")
+	print("./shipToWiki.lua ../data/ships/<ship_script_name>")
 	os.exit(1)
 end
 

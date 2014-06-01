@@ -1,3 +1,6 @@
+-- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
+
 round = function(number, significand)
 	last_number = number * 10^(significand+1)
 	last_number = math.floor(last_number)
@@ -12,6 +15,12 @@ round = function(number, significand)
 	end
 	number = number / 10^significand
 	return tonumber(number)
+end
+
+-- just to have something to manage the calls from ship definitions with deprecated
+-- values for gun_mounts and camera_offset
+v = function(a, b, c)
+	return nil
 end
 
 thrust_empty = function(thrust, hull_mass, fuel_tank_mass)
