@@ -13,13 +13,6 @@ define_ship {
 	left_thrust = 6e5,
 	right_thrust = 6e5,
 	angular_thrust = 86e5,
-	camera_offset = v(0,4,-22),
-	gun_mounts =
-	{
-		{ v(0,0,-26), v(0,0,-1), 5, 'HORIZONTAL' },
-		{ v(0,-2,9), v(0,0,1), 5, 'HORIZONTAL' },
-	},
-	
 	hull_mass = 30,
 	fuel_tank_mass = 25,
 	capacity = 30,
