@@ -3,6 +3,9 @@ June 2014
    * Script and UI API changes
      * Added scripts to parse ship stats to wiki
 
+   * Fixes
+     * Fix bug/typo that let player fit hyperdrive on lunarshuttle
+
 May 2014
 
    * Minor changes and tweaks
