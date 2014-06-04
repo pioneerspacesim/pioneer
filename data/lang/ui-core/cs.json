@@ -225,7 +225,7 @@
    },
    "DISPLAY_HUD_TRAILS" : {
       "description" : "",
-      "message" : "Zobraz HUD trails"
+      "message" : "Zobrazovat HUD trails"
    },
    "DISPLAY_NAV_TUNNELS" : {
       "description" : "",
@@ -233,7 +233,7 @@
    },
    "DISPLAY_SPEED_LINES" : {
       "description" : "",
-      "message" : "Zobrazit rychlostní linky"
+      "message" : "Zobrazovat rychlostní linky"
    },
    "DOCK_AT_CURRENT_TARGET" : {
       "description" : "",
