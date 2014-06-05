@@ -345,7 +345,7 @@
    },
    "FUEL_TANK_FULL" : {
       "description" : "",
-      "message" : "Palivová nádrž plná."
+      "message" : "Palivová nádrž je plná."
    },
    "FUEL_WEIGHT" : {
       "description" : "",
@@ -657,7 +657,7 @@
    },
    "NAME_OBJECT" : {
       "description" : "For an item or object",
-      "message" : "Jméno"
+      "message" : "Název"
    },
    "NAME_PERSON" : {
       "description" : "For a person",
@@ -729,7 +729,7 @@
    },
    "OPTIONS" : {
       "description" : "",
-      "message" : "Možnosti"
+      "message" : "Nastavení"
    },
    "ORBIT" : {
       "description" : "",
@@ -741,7 +741,7 @@
    },
    "ORBITAL_ANALYSIS_NOTES" : {
       "description" : "",
-      "message" : "Úhlová orbitální rychlost je vztažena k tangenciální rychlosti. Loď by se měla pohybovat kolmo k ose lodi/{name}.\n\nDescent speed is an absolute minimum, and is also tangential. A slower speed or a lower angle will result in a course which intersects with the surface of {name}.\n\nÚniková rychlost může být (teoreticky) libovolná ve všech směrech, pokud se trajektorie lodi nenáchází na kolizním kurzu s {name}.\n\t\t"
+      "message" : "Úhlová orbitální rychlost je vztažena k tangenciální rychlosti. Loď by se měla pohybovat v úhlu 90° k ose lodi/{name}.\n\nRychlost sestupu je absolutní minimum a je taktéž tangenciální. Menší rychlost nebo menší úhel bude mít za následek trajektorii, která se protíná s povrchem {name}.\n\nÚniková rychlost může být teoreticky libovolná ve všech směrech, dokud se trajektorie lodi nenáchází na kolizním kurzu s {name}.\n\t\t"
    },
    "OWED" : {
       "description" : "",
@@ -877,7 +877,7 @@
    },
    "SELECT_FILE" : {
       "description" : "",
-      "message" : "Otevřít soubor..."
+      "message" : "Vyber soubor..."
    },
    "SELECT_GAME_TO_LOAD" : {
       "description" : "",
@@ -949,7 +949,7 @@
    },
    "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP" : {
       "description" : "",
-      "message" : "Na palube není nikdo jiný schopen pilotovat loď."
+      "message" : "Na palubě není nikdo jiný kdo je schopný pilotovat tuto loď."
    },
    "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
       "description" : "",
@@ -961,7 +961,7 @@
    },
    "TOO_SMALL_FOR_CURRENT_CREW" : {
       "description" : "",
-      "message" : "Loď je příliš malá pro současnou posádku."
+      "message" : "Loď je pro současnou posádku příliš malá."
    },
    "TOTAL" : {
       "description" : "",

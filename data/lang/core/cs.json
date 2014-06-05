@@ -1,7 +1,7 @@
 {
    "AIR_PROCESSORS" : {
       "description" : "",
-      "message" : "Klimatizace"
+      "message" : "Výrobník vzduchu"
    },
    "ALERT_CANCELLED" : {
       "description" : "",
@@ -129,7 +129,7 @@
    },
    "CAMERA_BOTTOM_VIEW" : {
       "description" : "",
-      "message" : "Pohled dolů"
+      "message" : "Pohled zdola"
    },
    "CAMERA_FRONT_VIEW" : {
       "description" : "",
@@ -149,7 +149,7 @@
    },
    "CAMERA_TOP_VIEW" : {
       "description" : "",
-      "message" : "Pohled nahoru"
+      "message" : "Pohled shora"
    },
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
@@ -585,7 +585,7 @@
    },
    "HULL_AUTOREPAIR" : {
       "description" : "",
-      "message" : "Systém auto-opravy trupu"
+      "message" : "Automatická oprava trupu"
    },
    "HULL_AUTOREPAIR_DESCRIPTION" : {
       "description" : "",
@@ -1389,7 +1389,7 @@
    },
    "SCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Zobrazuje 3D mapu lodí/objektů ve vaší blízkosti"
+      "message" : "Zobrazuje 3D mapu lodí ve vaší blízkosti."
    },
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
@@ -1461,7 +1461,7 @@
    },
    "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Zrychluje regeneraci štítů"
+      "message" : "Zrychluje regeneraci štítů."
    },
    "SHIELD_GENERATOR" : {
       "description" : "",
@@ -1813,7 +1813,7 @@
    },
    "TOGGLE_SCAN_MODE" : {
       "description" : "",
-      "message" : "Změnit mód"
+      "message" : "Mód radaru"
    },
    "TOMBSTONE_EPITAPH" : {
       "description" : "",
