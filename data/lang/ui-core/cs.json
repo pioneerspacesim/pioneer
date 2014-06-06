@@ -9,7 +9,7 @@
    },
    "AFTER_TRADE_IN" : {
       "description" : "",
-      "message" : "Po koupi na protiúčet"
+      "message" : "Na protiúčet"
    },
    "ALLEGIANCE" : {
       "description" : "",
@@ -233,7 +233,7 @@
    },
    "DISPLAY_SPEED_LINES" : {
       "description" : "",
-      "message" : "Zobrazovat rychlostní linky"
+      "message" : "Zobrazovat rychlostní čáry"
    },
    "DOCK_AT_CURRENT_TARGET" : {
       "description" : "",
@@ -285,7 +285,7 @@
    },
    "EQUIPPED" : {
       "description" : "",
-      "message" : "Vybaveno"
+      "message" : "Vybavení lodi"
    },
    "ERROR" : {
       "description" : "",
@@ -433,7 +433,7 @@
    },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
-      "message" : "Už mě unavuje pracovat pro nic za nic. Víš vůbec co to je smlouva?"
+      "message" : "Už mě unavuje pracovat pro nic za nic. Víš vůbec co je to smlouva?"
    },
    "INACTIVE" : {
       "description" : "",
@@ -465,7 +465,7 @@
    },
    "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE" : {
       "description" : "",
-      "message" : "Dobře se mi s tebou pracovalo. Pokud mě budeš zase potřebovat, jsem tu v cukuletu."
+      "message" : "Dobře se mi s tebou pracovalo. Pokud bys mě potřeboval(a), ještě tu chvíli zůstanu."
    },
    "JETTISON" : {
       "description" : "",
@@ -621,7 +621,7 @@
    },
    "MISSILE_MOUNTS" : {
       "description" : "",
-      "message" : "Držáky raket"
+      "message" : "Podvěsy střel"
    },
    "MISSIONS" : {
       "description" : "",
@@ -789,7 +789,7 @@
    },
    "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
       "description" : "",
-      "message" : "Stiskni klávesu nebo tlačítko"
+      "message" : "Stiskni klávesu nebo tlačítko na ovladači"
    },
    "PRICE" : {
       "description" : "",
@@ -897,7 +897,7 @@
    },
    "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
       "description" : "",
-      "message" : "Vaše loď je již zcela opravena."
+      "message" : "Vaše loď je v perfektním stavu."
    },
    "SHIP_IS_FULLY_EQUIPPED" : {
       "description" : "",
@@ -913,7 +913,7 @@
    },
    "SHIP_REPAIRS" : {
       "description" : "",
-      "message" : "Opravy lodí"
+      "message" : "Opravna lodí"
    },
    "SHIP_VIEWING_WAS_SOLD" : {
       "description" : "",
@@ -1045,7 +1045,7 @@
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",
-      "message" : "Toho budeš litovat, naštvat mě!"
+      "message" : "Budeš litovat žes mě naštval!"
    },
    "YOUR_HULL_IS_AT_X_INTEGRITY" : {
       "description" : "",
@@ -1069,7 +1069,7 @@
    },
    "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER" : {
       "description" : "",
-      "message" : "Nejdříve je nutné vyžádat povolení k odletu, veliteli."
+      "message" : "Nejdřív je nutné vyžádat si povolení k odletu, veliteli."
    },
    "YOU_NOT_ENOUGH_MONEY" : {
       "description" : "",
