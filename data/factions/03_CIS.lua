@@ -1,7 +1,7 @@
 -- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local f = Faction:new('Confederation of Independent Systems')
+local f = Faction:new('Commonwealth of Independent Worlds')
 	:description_short('Socially democratic grouping of independent Star Systems')
 	:description('Socially democratic grouping of independent Star Systems, I dunno, added them because they seem hard coded into the politics.')
 	:homeworld(1,-1,-1,0,3)
@@ -22,4 +22,4 @@ f:illegal_goods_probability('NERVE_GAS',100)--fed/cis
 f:illegal_goods_probability('NARCOTICS',86)--cis
 f:illegal_goods_probability('SLAVES',100)--fed/cis
 
-f:add_to_factions('CIS')
+f:add_to_factions('CIW')
