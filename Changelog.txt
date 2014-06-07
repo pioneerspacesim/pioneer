@@ -1,5 +1,8 @@
 June 2014
 
+   * Minor changes and tweaks
+     * Don't allow fuel scoop on Kanara civ (#2929)
+
    * Script and UI API changes
      * Added scripts to parse ship stats to wiki
 
