@@ -8,6 +8,9 @@ June 2014
 
    * Fixes
      * Fix bug/typo that let player fit hyperdrive on lunarshuttle
+  
+   * Internal Changes
+     * Compress default (#2940)
 
 May 2014
 
