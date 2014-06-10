@@ -1,3 +1,14 @@
+June 2014
+
+   * Minor changes and tweaks
+     * Don't allow fuel scoop on Kanara civ (#2929)
+
+   * Script and UI API changes
+     * Added scripts to parse ship stats to wiki
+
+   * Fixes
+     * Fix bug/typo that let player fit hyperdrive on lunarshuttle
+
 May 2014
 
    * Minor changes and tweaks
@@ -5,6 +16,7 @@ May 2014
        "%.1f", cap it at 99.9% instead of 100% (#2901)
      * Fix Wave texture problems & missing ModelViewer pointer (#2903)
      * Hoop station door collision (#2916)
+     * New cursor and mouse flight indicator (#2922)
 
    * Script and UI API changes
      * Added onShipFiring

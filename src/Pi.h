@@ -199,9 +199,6 @@ private:
 	  * factor between one physics tick and another [0.0-1.0]
 	  */
 	static float gameTickAlpha;
-	static int timeAccelIdx;
-	static int requestedTimeAccelIdx;
-	static bool forceTimeAccel;
 	static float frameTime;
 	static std::map<SDL_Keycode,bool> keyState;
 	static int keyModState;
@@ -210,7 +207,6 @@ private:
 	static bool doingMouseGrab;
 	static bool warpAfterMouseGrab;
 	static int mouseGrabWarpPos[2];
-	static const float timeAccelRates[];
 
 	static bool joystickEnabled;
 	static bool mouseYInvert;

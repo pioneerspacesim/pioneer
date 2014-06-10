@@ -1,7 +1,7 @@
 {
    "AIR_PROCESSORS" : {
       "description" : "",
-      "message" : "Klimatizace"
+      "message" : "Výrobník vzduchu"
    },
    "ALERT_CANCELLED" : {
       "description" : "",
@@ -61,7 +61,7 @@
    },
    "AUTOMATIC_SYSTEM_SELECTION" : {
       "description" : "",
-      "message" : "Automatic system selection"
+      "message" : "Automatický výběr systému"
    },
    "AUTOPILOT" : {
       "description" : "",
@@ -129,7 +129,7 @@
    },
    "CAMERA_BOTTOM_VIEW" : {
       "description" : "",
-      "message" : "Pohled dolů"
+      "message" : "Pohled zdola"
    },
    "CAMERA_FRONT_VIEW" : {
       "description" : "",
@@ -149,7 +149,7 @@
    },
    "CAMERA_TOP_VIEW" : {
       "description" : "",
-      "message" : "Pohled nahoru"
+      "message" : "Pohled shora"
    },
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
@@ -337,7 +337,7 @@
    },
    "DRAW_UNINHABITED_LABELS" : {
       "description" : "",
-      "message" : "Label uninhabited systems"
+      "message" : "Zobrazit neobydlené systémy"
    },
    "DRAW_VERTICAL_LINES" : {
       "description" : "",
@@ -453,7 +453,7 @@
    },
    "EXTERNAL_VIEW" : {
       "description" : "",
-      "message" : "Pohled zvenku (kamera)"
+      "message" : "Pohled zvenku"
    },
    "FARM_MACHINERY" : {
       "description" : "",
@@ -537,7 +537,7 @@
    },
    "GENERAL_VIEW_CONTROLS" : {
       "description" : "",
-      "message" : "General View Controls"
+      "message" : "Ovládací prvky celkového pohledu"
    },
    "GOVERNMENT_TYPE" : {
       "description" : "",
@@ -585,7 +585,7 @@
    },
    "HULL_AUTOREPAIR" : {
       "description" : "",
-      "message" : "Systém auto-opravy trupu"
+      "message" : "Automatická oprava trupu"
    },
    "HULL_AUTOREPAIR_DESCRIPTION" : {
       "description" : "",
@@ -721,7 +721,7 @@
    },
    "LANG_NAME" : {
       "description" : "The name that native speakers use for this language. This will be used in the language selection screen.",
-      "message" : "Čeština"
+      "message" : "Česky"
    },
    "LARGE" : {
       "description" : "",
@@ -789,67 +789,67 @@
    },
    "MAP_LOCK_HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Lock Hyperspace Target"
+      "message" : "Zaměřit hyperprostorový cíl"
    },
    "MAP_TOGGLE_INFO_PANEL" : {
       "description" : "",
-      "message" : "Toggle Info Panel"
+      "message" : "Info panel"
    },
    "MAP_TOGGLE_SELECTION_FOLLOW_VIEW" : {
       "description" : "",
-      "message" : "Toggle Selection Following View"
+      "message" : "Výběr následuje pohled"
    },
    "MAP_VIEW_ROTATE_DOWN" : {
       "description" : "",
-      "message" : "Rotate View Down"
+      "message" : "Otáčet pohled dolů"
    },
    "MAP_VIEW_ROTATE_LEFT" : {
       "description" : "",
-      "message" : "Rotate View Left"
+      "message" : "Otáčet pohled doleva"
    },
    "MAP_VIEW_ROTATE_RIGHT" : {
       "description" : "",
-      "message" : "Rotate View Right"
+      "message" : "Otáčet pohled doprava"
    },
    "MAP_VIEW_ROTATE_UP" : {
       "description" : "",
-      "message" : "Rotate View Up"
+      "message" : "Otáčet pohled nahoru"
    },
    "MAP_VIEW_SHIFT_BACKWARD" : {
       "description" : "",
-      "message" : "Shift View Backwards"
+      "message" : "Posouvat pohled vzad"
    },
    "MAP_VIEW_SHIFT_DOWN" : {
       "description" : "",
-      "message" : "Shift View Down"
+      "message" : "Posouvat pohled dolů"
    },
    "MAP_VIEW_SHIFT_FORWARD" : {
       "description" : "",
-      "message" : "Shift View Forwards"
+      "message" : "Posouvat pohled vpřed"
    },
    "MAP_VIEW_SHIFT_LEFT" : {
       "description" : "",
-      "message" : "Shift View Left"
+      "message" : "Posouvat pohled doleva"
    },
    "MAP_VIEW_SHIFT_RIGHT" : {
       "description" : "",
-      "message" : "Shift View Right"
+      "message" : "Posouvat pohled doprava"
    },
    "MAP_VIEW_SHIFT_UP" : {
       "description" : "",
-      "message" : "Shift View Up"
+      "message" : "Posouvat pohled nahoru"
    },
    "MAP_WARP_TO_CURRENT_SYSTEM" : {
       "description" : "",
-      "message" : "Warp to Current System"
+      "message" : "Warp do aktuálního systému"
    },
    "MAP_WARP_TO_HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Warp to Hyperspace Target"
+      "message" : "Warp do hyperprostorového cíle"
    },
    "MAP_WARP_TO_SELECTED_SYSTEM" : {
       "description" : "",
-      "message" : "Warp to Selected System"
+      "message" : "Warp do zvoleného systému"
    },
    "MASS" : {
       "description" : "",
@@ -1065,7 +1065,7 @@
    },
    "NO_TARGET_SELECTED" : {
       "description" : "",
-      "message" : "Počítač: Cíl není zvolen"
+      "message" : "Počítač: Není označen cíl"
    },
    "NUMBER_DAYS" : {
       "description" : "",
@@ -1177,7 +1177,7 @@
    },
    "PAUSED" : {
       "description" : "",
-      "message" : "Pauza"
+      "message" : "PAUZA"
    },
    "PAY_FINE_REMOTELY" : {
       "description" : "",
@@ -1317,7 +1317,7 @@
    },
    "RESET_ORIENTATION_AND_ZOOM" : {
       "description" : "",
-      "message" : "Reset Orientation and Zoom"
+      "message" : "Reset orientace a zoomu"
    },
    "ROBOTS" : {
       "description" : "",
@@ -1333,19 +1333,19 @@
    },
    "ROLL" : {
       "description" : "",
-      "message" : "Otáčení (kolem osy)"
+      "message" : "Klonění"
    },
    "ROLL_LEFT" : {
       "description" : "",
-      "message" : "Otočit po směru h."
+      "message" : "Klonit doleva"
    },
    "ROLL_RIGHT" : {
       "description" : "",
-      "message" : "Otočit proti směru h."
+      "message" : "Klonit doprava"
    },
    "ROTATE_DOWN" : {
       "description" : "",
-      "message" : "Otáčet dolů"
+      "message" : "Klopit dolů"
    },
    "ROTATE_LEFT" : {
       "description" : "",
@@ -1357,7 +1357,7 @@
    },
    "ROTATE_UP" : {
       "description" : "",
-      "message" : "Otáčet nahoru"
+      "message" : "Klopit nahoru"
    },
    "ROTATIONAL_PERIOD" : {
       "description" : "",
@@ -1389,7 +1389,7 @@
    },
    "SCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Zobrazuje 3D mapu lodí/objektů ve vaší blízkosti"
+      "message" : "Zobrazuje 3D mapu lodí ve vaší blízkosti."
    },
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
@@ -1405,7 +1405,7 @@
    },
    "SEARCH_MAP" : {
       "description" : "",
-      "message" : "Search Map"
+      "message" : "Prohledat mapu"
    },
    "SECTOR_COORDINATES" : {
       "description" : "",
@@ -1413,7 +1413,7 @@
    },
    "SECTOR_MAP_VIEW" : {
       "description" : "",
-      "message" : "Sector Map View"
+      "message" : "Mapa sektorů"
    },
    "SECTOR_X_Y_Z" : {
       "description" : "",
@@ -1461,7 +1461,7 @@
    },
    "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Zrychluje regeneraci štítů"
+      "message" : "Zrychluje regeneraci štítů."
    },
    "SHIELD_GENERATOR" : {
       "description" : "",
@@ -1517,7 +1517,7 @@
    },
    "SIDEREAL_VIEW" : {
       "description" : "",
-      "message" : "Pohled (hvězdný)"
+      "message" : "Pohled hvězdný"
    },
    "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
       "description" : "",
@@ -1745,7 +1745,7 @@
    },
    "TARGET_OBJECT_IN_SIGHTS" : {
       "description" : "",
-      "message" : "Zaměřit objekt v zaměřovači"
+      "message" : "Označit cíl v zaměřovači"
    },
    "TENUOUS" : {
       "description" : "",
@@ -1813,7 +1813,7 @@
    },
    "TOGGLE_SCAN_MODE" : {
       "description" : "",
-      "message" : "Změnit mód"
+      "message" : "Mód radaru"
    },
    "TOMBSTONE_EPITAPH" : {
       "description" : "",
@@ -1937,11 +1937,11 @@
    },
    "YAW_LEFT" : {
       "description" : "",
-      "message" : "Doleva"
+      "message" : "Zatočit doleva"
    },
    "YAW_RIGHT" : {
       "description" : "",
-      "message" : "Doprava"
+      "message" : "Zatočit doprava"
    },
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
