@@ -28,6 +28,10 @@ local function updateEquipmentStock (station)
 	for e,def in pairs(EquipDef) do
 		if def.slot == "CARGO" then
 			equipmentStock[station][e] = Engine.rand:Integer(0,100) * Engine.rand:Integer(1,100)
+			if def.id == "HYDROGEN" then
+				-- never be sold out on H:
+				equipmentStock[station][e] = equipmentStock[station][e] + Engine.rand:Integer(1,15)
+			end
         else
 			equipmentStock[station][e] = Engine.rand:Integer(0,100)
 		end
