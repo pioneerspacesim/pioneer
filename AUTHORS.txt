@@ -79,6 +79,7 @@ The Pioneer Developers are:
 * Ulf Pettersson
 * Uncle Bob
 * Vincent Teerling
+* Wayne Ashworth
 
 Licensing
 =========
