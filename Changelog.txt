@@ -3,6 +3,7 @@ June 2014
    * Minor changes and tweaks
      * Don't allow fuel scoop on Kanara civ (#2929)
      * Faction update to match wiki (#2930)
+     * Proper rocketship icon by Evarchart (#2942)
 
    * Script and UI API changes
      * Added scripts to parse ship stats to wiki
