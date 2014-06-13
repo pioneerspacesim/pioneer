@@ -1,10 +1,10 @@
 {
    "YOUR_FUEL_TANK_IS_ALMOST_EMPTY" : {
       "description" : "",
-      "message" : "Your fuel tank is almost empty."
+      "message" : "Jūsų kuro bakas yra beveik tuščias."
    },
    "YOUR_FUEL_TANK_IS_EMPTY" : {
       "description" : "",
-      "message" : "Your fuel tank is empty."
+      "message" : "Jūsų kuro bakas yra tuščias."
    }
 }

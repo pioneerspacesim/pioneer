@@ -21,7 +21,7 @@
    },
    "AMOUNT" : {
       "description" : "",
-      "message" : "Amount"
+      "message" : "Kiekis"
    },
    "AN_ERROR_HAS_OCCURRED" : {
       "description" : "",
@@ -37,7 +37,7 @@
    },
    "AVERAGE" : {
       "description" : "",
-      "message" : "Average"
+      "message" : "Vidutinis"
    },
    "BACKWARD_ACCEL" : {
       "description" : "",
@@ -49,7 +49,7 @@
    },
    "BUY_SHIP" : {
       "description" : "",
-      "message" : "Buy Ship"
+      "message" : "Pirkti laivą"
    },
    "CABINS" : {
       "description" : "",
@@ -57,19 +57,19 @@
    },
    "CABIN_FREE" : {
       "description" : "",
-      "message" : "{amount} free"
+      "message" : "{amount} laisva(s)"
    },
    "CABIN_USED" : {
       "description" : "",
-      "message" : "{amount} used"
+      "message" : "{amount} naudojama(s)"
    },
    "CANCEL" : {
       "description" : "",
-      "message" : "Cancel"
+      "message" : "Atsisakyti"
    },
    "CAPACITY" : {
       "description" : "",
-      "message" : "Capacity"
+      "message" : "Talpa"
    },
    "CAPACITY_USED" : {
       "description" : "",
@@ -145,7 +145,7 @@
    },
    "COMPLETED" : {
       "description" : "",
-      "message" : "Completed"
+      "message" : "Baigta"
    },
    "COMPRESS_TEXTURES" : {
       "description" : "",
@@ -157,7 +157,7 @@
    },
    "CONTINUE_GAME" : {
       "description" : "",
-      "message" : "Continue game"
+      "message" : "Tęsti žaidimą"
    },
    "CONTROLS" : {
       "description" : "",
@@ -165,11 +165,11 @@
    },
    "CONTROL_OPTIONS" : {
       "description" : "",
-      "message" : "Control Options"
+      "message" : "Valdymo parametrai"
    },
    "COULD_NOT_LOAD_GAME" : {
       "description" : "",
-      "message" : "Could not load game: "
+      "message" : "Nepavyko įkelti žaidimo:"
    },
    "CREDIBLE" : {
       "description" : "For player reputation",
@@ -181,7 +181,7 @@
    },
    "CREW_ROSTER" : {
       "description" : "",
-      "message" : "Crew Roster"
+      "message" : "Įgulos sąrašas"
    },
    "CRIMINAL_RECORD" : {
       "description" : "",
@@ -189,7 +189,7 @@
    },
    "DANGEROUS" : {
       "description" : "",
-      "message" : "Dangerous"
+      "message" : "Pavojingas"
    },
    "DEADLY" : {
       "description" : "",
@@ -217,7 +217,7 @@
    },
    "DESTROY_ENEMY_SHIP" : {
       "description" : "",
-      "message" : "Destroy enemy ship"
+      "message" : "Sunaikinti priešo laivą"
    },
    "DISMISS" : {
       "description" : "",
@@ -233,7 +233,7 @@
    },
    "DISPLAY_SPEED_LINES" : {
       "description" : "",
-      "message" : "Display speed lines"
+      "message" : "Rodyti greičio linijas"
    },
    "DOCK_AT_CURRENT_TARGET" : {
       "description" : "",
@@ -245,15 +245,15 @@
    },
    "D_DAYS_LEFT" : {
       "description" : "",
-      "message" : "Days left: %d"
+      "message" : "Liko dienų: %d"
    },
    "ECONOMY_TRADE" : {
       "description" : "",
-      "message" : "Economy & Trade"
+      "message" : "Ekonomika ir Prekyba"
    },
    "EFFECTS" : {
       "description" : "",
-      "message" : "Effects:"
+      "message" : "Efektai:"
    },
    "ELITE" : {
       "description" : "",
@@ -269,7 +269,7 @@
    },
    "ENABLE_JOYSTICK" : {
       "description" : "",
-      "message" : "Enable joystick"
+      "message" : "Įjungti vairalazdę"
    },
    "ENGINEERING" : {
       "description" : "",
@@ -277,19 +277,19 @@
    },
    "EQUIPMENT" : {
       "description" : "",
-      "message" : "Equipment"
+      "message" : "Įranga"
    },
    "EQUIPMENT_MARKET" : {
       "description" : "",
-      "message" : "Equipment Market"
+      "message" : "Įrangos turgus"
    },
    "EQUIPPED" : {
       "description" : "",
-      "message" : "Equipped"
+      "message" : "Įrengtas"
    },
    "ERROR" : {
       "description" : "",
-      "message" : "Error"
+      "message" : "Klaida"
    },
    "ESCAPE_SPEED" : {
       "description" : "",
@@ -297,11 +297,11 @@
    },
    "EXIT_THIS_GAME" : {
       "description" : "",
-      "message" : "Exit this game"
+      "message" : "Išeiti iš šio žaidimo"
    },
    "EXPERIENCED" : {
       "description" : "For player reputation",
-      "message" : "Experienced"
+      "message" : "Patyręs"
    },
    "EXPERT" : {
       "description" : "For player reputation",
@@ -309,11 +309,11 @@
    },
    "FAILED" : {
       "description" : "",
-      "message" : "Failed"
+      "message" : "Nepavyko"
    },
    "FEMALE" : {
       "description" : "",
-      "message" : "Female"
+      "message" : "Moteris"
    },
    "FORWARD_ACCEL" : {
       "description" : "",
@@ -337,7 +337,7 @@
    },
    "FRONT_WEAPON" : {
       "description" : "",
-      "message" : "Front weapon"
+      "message" : "Priekinis ginklas"
    },
    "FUEL" : {
       "description" : "",
@@ -345,23 +345,23 @@
    },
    "FUEL_TANK_FULL" : {
       "description" : "",
-      "message" : "Fuel tank full."
+      "message" : "Kuro bakas pilnas."
    },
    "FUEL_WEIGHT" : {
       "description" : "",
-      "message" : "Fuel weight"
+      "message" : "Kuro svoris"
    },
    "FULL_SCREEN" : {
       "description" : "",
-      "message" : "Full screen"
+      "message" : "Visame ekrane"
    },
    "GENERAL_CREW" : {
       "description" : "",
-      "message" : "General crew"
+      "message" : "Pagrindinė įgula"
    },
    "GIVE_ORDERS_TO_CREW" : {
       "description" : "",
-      "message" : "Give orders to crew"
+      "message" : "Duokite įsakymus įgulai"
    },
    "GOOD_RIDDANCE_TO_YOU_TOO" : {
       "description" : "",
@@ -385,7 +385,7 @@
    },
    "HEAVY_FIGHTER" : {
       "description" : "",
-      "message" : "Heavy fighter"
+      "message" : "Sunkusis naikintuvas"
    },
    "HEAVY_FREIGHTER" : {
       "description" : "",
@@ -445,7 +445,7 @@
    },
    "INEXPERIENCED" : {
       "description" : "For player reputation",
-      "message" : "Inexperienced"
+      "message" : "Nepatyręs"
    },
    "INVERT_MOUSE_Y" : {
       "description" : "",
@@ -457,11 +457,11 @@
    },
    "IN_STOCK" : {
       "description" : "",
-      "message" : "In stock"
+      "message" : "Yra sandėlyje"
    },
    "ITEM_IS_OUT_OF_STOCK" : {
       "description" : "",
-      "message" : "This item is out of stock."
+      "message" : "Šio daikto nėra sandėlyje."
    },
    "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE" : {
       "description" : "",
@@ -477,23 +477,23 @@
    },
    "LANGUAGE" : {
       "description" : "",
-      "message" : "Language"
+      "message" : "Kalba"
    },
    "LANGUAGE_RESTART_GAME_TO_APPLY" : {
       "description" : "",
-      "message" : "Language (restart game to apply)"
+      "message" : "Kalba (pasikeis paleidus žaidimą iš naujo)"
    },
    "LAUNCH_PERMISSION_DENIED_BUSY" : {
       "description" : "",
-      "message" : "Leidimas kilimui neduotas: dokas užimtas."
+      "message" : "Kilti neleidžiama: dokas užimtas."
    },
    "LAUNCH_PERMISSION_DENIED_CREW" : {
       "description" : "",
-      "message" : "Permission to launch denied: not enough crew too handle this ship."
+      "message" : "Kilti neleidžiama: per mažai įgulos valdyti šiam laivui."
    },
    "LAUNCH_PERMISSION_DENIED_FINED" : {
       "description" : "",
-      "message" : "Permission to launch denied: you have outstanding fines."
+      "message" : "Kilti neleidžiama: turite nesumokėtų baudų."
    },
    "LEGAL_STATUS" : {
       "description" : "",
@@ -509,7 +509,7 @@
    },
    "LIGHT_FIGHTER" : {
       "description" : "",
-      "message" : "Light fighter"
+      "message" : "Lengvasis naikintuvas"
    },
    "LIGHT_FREIGHTER" : {
       "description" : "",
@@ -525,11 +525,11 @@
    },
    "LOAD" : {
       "description" : "",
-      "message" : "Load"
+      "message" : "Įkelti"
    },
    "LOAD_GAME" : {
       "description" : "",
-      "message" : "Load game"
+      "message" : "Įkelti žaidimą"
    },
    "LOBBY" : {
       "description" : "",
@@ -541,7 +541,7 @@
    },
    "LOCATION" : {
       "description" : "",
-      "message" : "Location"
+      "message" : "Vieta"
    },
    "LOW" : {
       "description" : "",
@@ -557,7 +557,7 @@
    },
    "MALE" : {
       "description" : "",
-      "message" : "Male"
+      "message" : "Vyras"
    },
    "MASS" : {
       "description" : "",
@@ -577,11 +577,11 @@
    },
    "MAXIMUM_CREW" : {
       "description" : "",
-      "message" : "Maximum crew"
+      "message" : "Maksimali įgula"
    },
    "MEDIUM" : {
       "description" : "",
-      "message" : "Medium"
+      "message" : "Vidutiniai"
    },
    "MEDIUM_CARGO_SHUTTLE" : {
       "description" : "",
@@ -593,7 +593,7 @@
    },
    "MEDIUM_FIGHTER" : {
       "description" : "",
-      "message" : "Medium fighter"
+      "message" : "Vidutinis naikintuvas"
    },
    "MEDIUM_FREIGHTER" : {
       "description" : "",
@@ -617,15 +617,15 @@
    },
    "MINIMUM_CREW" : {
       "description" : "",
-      "message" : "Minimum crew"
+      "message" : "Minimali įgula"
    },
    "MISSILE_MOUNTS" : {
       "description" : "",
-      "message" : "Missile mounts"
+      "message" : "Raketų stovai"
    },
    "MISSIONS" : {
       "description" : "",
-      "message" : "Missions"
+      "message" : "Misijos"
    },
    "MISSION_DETAILS" : {
       "description" : "",
@@ -633,7 +633,7 @@
    },
    "MORE_INFO" : {
       "description" : "",
-      "message" : "More info..."
+      "message" : "Daugiau informacijos..."
    },
    "MOSTLY_HARMLESS" : {
       "description" : "",
@@ -649,11 +649,11 @@
    },
    "MUSIC" : {
       "description" : "",
-      "message" : "Music:"
+      "message" : "Muzika:"
    },
    "MUTE" : {
       "description" : "",
-      "message" : "Mute"
+      "message" : "Užtildyti"
    },
    "NAME_OBJECT" : {
       "description" : "For an item or object",
@@ -677,7 +677,7 @@
    },
    "NO" : {
       "description" : "Negative answer to a question",
-      "message" : "No"
+      "message" : "Ne"
    },
    "NOBODY" : {
       "description" : "For player reputation",
@@ -689,7 +689,7 @@
    },
    "NOTES" : {
       "description" : "",
-      "message" : "Notes:"
+      "message" : "Pastabos:"
    },
    "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR" : {
       "description" : "",
@@ -725,15 +725,15 @@
    },
    "OK" : {
       "description" : "",
-      "message" : "Ok"
+      "message" : "Gerai"
    },
    "OPTIONS" : {
       "description" : "",
-      "message" : "Options"
+      "message" : "Parametrai"
    },
    "ORBIT" : {
       "description" : "",
-      "message" : "Orbit"
+      "message" : "Orbita"
    },
    "ORBITAL_ANALYSIS" : {
       "description" : "",
@@ -753,7 +753,7 @@
    },
    "PERSONAL_INFORMATION" : {
       "description" : "",
-      "message" : "Personal Information"
+      "message" : "Asmeninė informacija"
    },
    "PILOTING" : {
       "description" : "",
@@ -785,7 +785,7 @@
    },
    "POSITION" : {
       "description" : "",
-      "message" : "Position"
+      "message" : "Padėtis"
    },
    "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
       "description" : "",
@@ -793,7 +793,7 @@
    },
    "PRICE" : {
       "description" : "",
-      "message" : "Price"
+      "message" : "Kaina"
    },
    "PROFESSIONAL" : {
       "description" : "For player reputation",
@@ -805,7 +805,7 @@
    },
    "QUIT" : {
       "description" : "",
-      "message" : "Quit"
+      "message" : "Baigti"
    },
    "RANK" : {
       "description" : "",
@@ -817,11 +817,11 @@
    },
    "REAR_WEAPON" : {
       "description" : "",
-      "message" : "Rear weapon"
+      "message" : "Galinis ginklas"
    },
    "REFUEL" : {
       "description" : "",
-      "message" : "Refuel"
+      "message" : "Papildyti kuro"
    },
    "REFUEL_FULL" : {
       "description" : "",
@@ -845,11 +845,11 @@
    },
    "RETURN_TO_GAME" : {
       "description" : "",
-      "message" : "Return to game"
+      "message" : "Grįžti į žaidimą"
    },
    "RETURN_TO_MENU" : {
       "description" : "",
-      "message" : "Return to menu"
+      "message" : "Grįžti į meniu"
    },
    "REVERSE_ACCEL_EMPTY" : {
       "description" : "",
@@ -865,11 +865,11 @@
    },
    "SAVE" : {
       "description" : "",
-      "message" : "Save"
+      "message" : "Įrašyti"
    },
    "SELECT" : {
       "description" : "",
-      "message" : "Select"
+      "message" : "Pasirinkti"
    },
    "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME" : {
       "description" : "",
@@ -877,11 +877,11 @@
    },
    "SELECT_FILE" : {
       "description" : "",
-      "message" : "Select file..."
+      "message" : "Pasirinkite failą..."
    },
    "SELECT_GAME_TO_LOAD" : {
       "description" : "",
-      "message" : "Select game to load..."
+      "message" : "Pasirinkite žaidimą įkėlimui..."
    },
    "SENSORS" : {
       "description" : "",
@@ -893,15 +893,15 @@
    },
    "SHIP_INFORMATION" : {
       "description" : "",
-      "message" : "Ship Information"
+      "message" : "Laivo informacija"
    },
    "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
       "description" : "",
-      "message" : "Your ship is in perfect working condition."
+      "message" : "Jūsų laivas yra puikiai parengtas darbui."
    },
    "SHIP_IS_FULLY_EQUIPPED" : {
       "description" : "",
-      "message" : "Your ship is fully equipped."
+      "message" : "Jūsų laivas visiškai įrengtas."
    },
    "SHIP_IS_FULLY_LADEN" : {
       "description" : "",
@@ -909,19 +909,19 @@
    },
    "SHIP_MARKET" : {
       "description" : "",
-      "message" : "Ship Market"
+      "message" : "Laivų turgus"
    },
    "SHIP_REPAIRS" : {
       "description" : "",
-      "message" : "Ship Repairs"
+      "message" : "Laivo remontai"
    },
    "SHIP_VIEWING_WAS_SOLD" : {
       "description" : "",
-      "message" : "The ship you were viewing has been sold"
+      "message" : "Laivas, kurį žiūrite, yra jau parduotas"
    },
    "SOUND" : {
       "description" : "",
-      "message" : "Sound"
+      "message" : "Garsas"
    },
    "START_AT_BARNARDS_STAR" : {
       "description" : "",
@@ -929,11 +929,11 @@
    },
    "START_AT_EARTH" : {
       "description" : "",
-      "message" : "Start at Earth"
+      "message" : "Pradėti iš Žemės"
    },
    "START_AT_NEW_HOPE" : {
       "description" : "",
-      "message" : "Start at New Hope"
+      "message" : "Pradėti iš „Naujosios Vilties“"
    },
    "STATION_MANAGER" : {
       "description" : "",
@@ -941,7 +941,7 @@
    },
    "STATUS" : {
       "description" : "",
-      "message" : "Status"
+      "message" : "Būsena"
    },
    "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
       "description" : "",
@@ -949,7 +949,7 @@
    },
    "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP" : {
       "description" : "",
-      "message" : "There is nobody else on board able to fly this ship."
+      "message" : "Laive nėra tinkamo piloto, galinčio skristi šiuo laivu."
    },
    "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
       "description" : "",
@@ -961,15 +961,15 @@
    },
    "TOO_SMALL_FOR_CURRENT_CREW" : {
       "description" : "",
-      "message" : "Ship is too small for the current crew."
+      "message" : "Laivas yra per mažas pasirinktai įgulai."
    },
    "TOTAL" : {
       "description" : "",
-      "message" : "Total: "
+      "message" : "Viso:"
    },
    "TOTAL_MASS" : {
       "description" : "",
-      "message" : "Total mass"
+      "message" : "Bendra masė"
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
@@ -977,11 +977,11 @@
    },
    "TRUSTWORTHY" : {
       "description" : "For player reputation",
-      "message" : "Trustworthy"
+      "message" : "Patikimas"
    },
    "TYPE" : {
       "description" : "",
-      "message" : "Type"
+      "message" : "Tipas"
    },
    "UNLAWFUL_WEAPONS_DISCHARGE" : {
       "description" : "",
@@ -997,7 +997,7 @@
    },
    "USED" : {
       "description" : "",
-      "message" : "Used"
+      "message" : "Naudojama(s)"
    },
    "VERY_HIGH" : {
       "description" : "",
@@ -1009,7 +1009,7 @@
    },
    "VIDEO" : {
       "description" : "",
-      "message" : "Video"
+      "message" : "Vaizdas"
    },
    "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY" : {
       "description" : "",
@@ -1017,7 +1017,7 @@
    },
    "VIDEO_RESOLUTION" : {
       "description" : "",
-      "message" : "Video resolution"
+      "message" : "Vaizdo raiška"
    },
    "WAGE" : {
       "description" : "",
@@ -1041,7 +1041,7 @@
    },
    "YES" : {
       "description" : "Positive answer to a question",
-      "message" : "Yes"
+      "message" : "Taip"
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",
@@ -1073,6 +1073,6 @@
    },
    "YOU_NOT_ENOUGH_MONEY" : {
       "description" : "",
-      "message" : "You do not have enough money"
+      "message" : "Jūs neturite pakankamai pinigų"
    }
 }

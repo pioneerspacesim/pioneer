@@ -9,7 +9,7 @@
    },
    "CANNOT_COMPUTE_ORBIT_PARAMETERS" : {
       "description" : "",
-      "message" : "Cannot compute orbit parameters"
+      "message" : "Negaliu apskaičiuoti orbitos parametrų"
    },
    "STARPORT_REFUSED_DOCKING_PERMISSION" : {
       "description" : "",
