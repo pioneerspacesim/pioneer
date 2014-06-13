@@ -13,7 +13,7 @@
 #include <cmath>
 #include <cstdio>
 
-std::string format_money(Sint64 cents, bool showCents){
+std::string format_money(double cents, bool showCents){
 	char *end;                                   // for  error checking
 	size_t groupDigits = strtol(Lang::NUMBER_GROUP_NUM, &end, 10);
 	assert(*end == 0);

@@ -7,6 +7,7 @@
 #include "Lang.h"
 #include "StringF.h"
 #include "utils.h"
+#include <math.h>
 
 /*
  * Interface: Format
@@ -109,12 +110,14 @@ static int l_format_distance(lua_State *l)
 static int l_format_money(lua_State *l)
 {
 	double t = luaL_checknumber(l, 1);
+	double intpart;
+	modf(t*100.0, &intpart);
 	if (lua_isboolean(l, 2)){
 		bool show_cents = lua_toboolean(l, 2);
-		lua_pushstring(l, format_money(Sint64(t*100.0), show_cents).c_str());
+		lua_pushstring(l, format_money(intpart, show_cents).c_str());
 	}
 	else
-		lua_pushstring(l, format_money(Sint64(t*100.0)).c_str());
+		lua_pushstring(l, format_money(intpart).c_str());
 
 	return 1;
 }
