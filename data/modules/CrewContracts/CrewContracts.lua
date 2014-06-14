@@ -210,7 +210,7 @@ local onChat = function (form,ref,option)
 		form:SetTitle(l.CREW_FOR_HIRE)
 		form:SetMessage("\n"..l.POTENTIAL_CREW_MEMBERS:interp({station=station.label}))
 		for k,c in ipairs(crewInThisStation) do
-			form:AddOption(l.CREWMEMBER_WAGE_PER_WEEK:interp({potentialCrewMember = c.name,wage = c.estimatedWage}),k)
+			form:AddOption(l.CREWMEMBER_WAGE_PER_WEEK:interp({potentialCrewMember = c.name,wage = Format.Money(c.estimatedWage)}),k)
 		end
 	end
 
