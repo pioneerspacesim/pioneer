@@ -1,13 +1,13 @@
 material Hull-material
-tex_diff hull_diff.png
-tex_spec hull_spec.png
-tex_glow emit.png
+tex_diff hull_diff.dds
+tex_spec hull_spec.dds
+tex_glow emit.dds
 diffuse 1.0 1.0 1.0
 specular 1.0 1.0 1.0
 use_patterns
 
 material Gear-material
-tex_diff gear_diff.png
+tex_diff gear_diff.dds
 diffuse 0.8 0.8 0.8
 specular 1.0 1.0 1.0
 

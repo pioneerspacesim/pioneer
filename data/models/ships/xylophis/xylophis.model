@@ -3,17 +3,17 @@ diffuse 1.0 1.0 1.0
 specular 0.7 0.7 0.7
 shininess 69
 use_patterns
-tex_diff xylophis_diff.png
-tex_spec xylophis_spec.png
-tex_glow xylophis_glow.png
+tex_diff xylophis_diff.dds
+tex_spec xylophis_spec.dds
+tex_glow xylophis_glow.dds
 
 material Exaust-material
 diffuse 1.0 1.0 1.0
 specular 0.1 0.1 0.1
 shininess 40
-tex_diff xylophis_diff.png
-tex_spec xylophis_spec.png
-tex_glow xylophis_glow.png
+tex_diff xylophis_diff.dds
+tex_spec xylophis_spec.dds
+tex_glow xylophis_glow.dds
 
 lod 300
 mesh xylophis.dae

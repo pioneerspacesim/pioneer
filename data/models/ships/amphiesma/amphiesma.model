@@ -3,9 +3,9 @@ diffuse 1.0 1.0 1.0
 specular 0.9 0.9 0.9
 shininess 69
 use_patterns
-tex_diff amphiesma_diff.png
-tex_glow amphiesma_glow.png
-tex_spec amphiesma_spec.png
+tex_diff amphiesma_diff.dds
+tex_glow amphiesma_glow.dds
+tex_spec amphiesma_spec.dds
 
 
 lod 300
