@@ -11,7 +11,8 @@ June 2014
    * Fixes
      * Fix bug/typo that let player fit hyperdrive on lunarshuttle
      * Fixing (#2656) landing meshes (#2943)
-  
+     * Fix money format overflow (#2939)
+
    * Internal Changes
      * Compress default (#2940)
 
