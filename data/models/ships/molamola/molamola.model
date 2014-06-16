@@ -3,9 +3,9 @@ diffuse 1.0 1.0 1.0
 specular 0.9 0.9 0.9
 shininess 69
 use_patterns
-tex_diff molamola_diff.png
-tex_glow molamola_glow.png
-tex_spec molamola_spec.png
+tex_diff molamola_diff.dds
+tex_glow molamola_glow.dds
+tex_spec molamola_spec.dds
 
 
 lod 300

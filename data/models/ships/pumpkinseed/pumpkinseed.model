@@ -3,9 +3,9 @@ diffuse 1.0 1.0 1.0
 specular 0.9 0.9 0.9
 shininess 70
 use_patterns
-tex_diff pumpkinseed_diff.png
-tex_glow pumpkinseed_glow.png
-tex_spec pumpkinseed_spec.png
+tex_diff pumpkinseed_diff.dds
+tex_glow pumpkinseed_glow.dds
+tex_spec pumpkinseed_spec.dds
 
 lod 50
 mesh pumpkinseed_3low.dae

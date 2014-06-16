@@ -3,9 +3,9 @@ diffuse 1.0 1.0 1.0
 specular 0.9 0.9 0.9
 shininess 69
 use_patterns
-tex_diff kanara_civ_diff.png
-tex_glow kanara_glow.png
-tex_spec kanara_spec.png
+tex_diff kanara_civ_diff.dds
+tex_glow kanara_glow.dds
+tex_spec kanara_spec.dds
 
 
 lod 300
