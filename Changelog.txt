@@ -14,6 +14,8 @@ June 2014
      * Fixing (#2656) landing meshes (#2943)
      * Fix money format overflow (#2939)
      * New ground cleanup (#2950)
+     * Fix problem with multiple assassination missions not being cleared
+       properly (#2952)
 
    * Internal Changes
      * Compress default (#2940)

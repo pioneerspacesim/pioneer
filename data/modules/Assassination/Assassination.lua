@@ -360,7 +360,6 @@ local onShipDocked = function (ship, station)
 				mission.status = 'FAILED'
 			end
 		end
-		return
 	end
 end
 
