@@ -78,7 +78,7 @@ local addFuel = function (ship)
 	local count = drive.capabilities.hyperclass ^ 2
 
 	-- account for fuel it already has
-	count = count - ship:GetEquipCount('cargo', e.cargo.hydrogen)
+	count = count - ship:CountEquip(e.cargo.hydrogen)
 
 	local added = ship:AddEquip(e.cargo.hydrogen, count)
 
@@ -108,7 +108,7 @@ local addShipEquip = function (ship)
 
 	if Engine.rand:Number(1) - 0.1 < lawlessness then
 		local num = math.floor(math.sqrt(ship.freeCapacity / 50)) -
-					 ship:GetEquipCount('SHIELD', 'SHIELD_GENERATOR')
+					 ship:CountEquip(e.misc.shield_generator)
 		if num > 0 then ship:AddEquip(e.misc.shield_generator, num) end
 		if ship_type.equipSlotCapacity.energy_booster > 0 and
 		Engine.rand:Number(1) + 0.5 - size_factor < lawlessness then
@@ -140,10 +140,10 @@ local addShipCargo = function (ship, direction)
 	local ship_cargo = {}
 
 	if direction == 'import' and #imports == 1 then
-		total = ship:AddEquip(Ship.equipCompat.equip.old2new[imports[1]], empty_space)
+		total = ship:AddEquip(imports[1], empty_space)
 		ship_cargo[imports[1]] = total
 	elseif direction == 'export' and #exports == 1 then
-		total = ship:AddEquip(Ship.equipCompat.equip.old2new[exports[1]], empty_space)
+		total = ship:AddEquip(exports[1], empty_space)
 		ship_cargo[exports[1]] = total
 	elseif (direction == 'import' and #imports > 1) or
 			(direction == 'export' and #exports > 1) then
@@ -484,7 +484,7 @@ local spawnInitialShips = function (game_start)
 			addShipCargo(ship, 'import')
 			-- remove fuel used to get here
 			if fuel_added and fuel_added > 0 then
-				ship:RemoveEquip('HYDROGEN', Engine.rand:Integer(1, fuel_added))
+				ship:RemoveEquip(e.cargo.hydrogen, Engine.rand:Integer(1, fuel_added))
 			end
 			if trader.status == 'inbound' then 
 				ship:AIDockWith(trader.starport) 
