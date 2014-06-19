@@ -3,6 +3,7 @@
 
 #include "LuaObject.h"
 #include "LuaConstants.h"
+#include "LuaTable.h"
 #include "EnumStrings.h"
 #include "LuaUtils.h"
 #include "galaxy/StarSystem.h"
@@ -167,7 +168,7 @@ static int l_starsystem_get_commodity_base_price_alterations(lua_State *l)
  *
  * Parameters:
  *
- *   cargo - a <Constants.EquipType> string for the wanted commodity
+ *   cargo - the wanted commodity (for instance, Equipment.cargo.hydrogen)
  *
  * Return:
  *
@@ -185,7 +186,10 @@ static int l_starsystem_is_commodity_legal(lua_State *l)
 {
 	PROFILE_SCOPED()
 	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
-	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstantFromArg(l, "EquipType", 2));
+	// XXX: Don't use the l10n_key hack, this is just UGLY!!
+	luaL_checktype(l, 2, LUA_TTABLE);
+	LuaTable(l, 2).PushValueToStack("l10n_key");
+	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstantFromArg(l, "EquipType", 3));
 	lua_pushboolean(l, Polit::IsCommodityLegal(s, e));
 	return 1;
 }

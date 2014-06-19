@@ -10,10 +10,10 @@ local Engine = import("Engine")
 local Timer = import("Timer")
 local Game = import("Game")
 local Ship = import("Ship")
-local EquipDef = import("EquipDef")
 local Model = import("SceneGraph.Model")
 local ModelSkin = import("SceneGraph.ModelSkin")
 local Serializer = import("Serializer")
+local Equipment = import("Equipment")
 
 --
 -- Class: SpaceStation
@@ -25,9 +25,10 @@ local function updateEquipmentStock (station)
 	if equipmentStock[station] then return end
 	equipmentStock[station] = {}
 
-	for e,def in pairs(EquipDef) do
-		if def.slot == "CARGO" then
-			local min = def.id == "HYDROGEN" and 1 or 0 -- always stock hydrogen
+	local hydrogen = Equipment.cargo.hydrogen
+	for _,e in pairs(Equipment.cargo) do
+		if e:IsValidSlot("cargo") then
+			local min = e == hydrogen and 1 or 0 -- always stock hydrogen
 			equipmentStock[station][e] = Engine.rand:Integer(min,100) * Engine.rand:Integer(1,100)
         else
 			equipmentStock[station][e] = Engine.rand:Integer(0,100)
@@ -66,9 +67,8 @@ function SpaceStation:GetEquipmentPrice (e)
 	if equipmentPrice[self][e] then
 		return equipmentPrice[self][e]
 	end
-	local def = EquipDef[e]
-	local mul = def.slot == "CARGO" and ((100 + Game.system:GetCommodityBasePriceAlterations()[e]) / 100) or 1
-	return mul * EquipDef[e].basePrice
+	local mul = e:IsValidSlot("cargo") and ((100 + Game.system:GetCommodityBasePriceAlterations()[e]) / 100) or 1
+	return mul * e.price
 end
 
 function SpaceStation:SetEquipmentPrice (e, v)

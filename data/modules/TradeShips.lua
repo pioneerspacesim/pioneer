@@ -167,7 +167,7 @@ local addShipCargo = function (ship, direction)
 			end
 
 			-- amount based on price and size of ship
-			local num = math.abs(prices[cargo_type]) * size_factor
+			local num = math.abs(prices[cargo_type.l10n_key]) * size_factor
 			num = Engine.rand:Integer(num, num * 2)
 
 			local added = ship:AddEquip(cargo_type, num)
@@ -354,18 +354,19 @@ local spawnInitialShips = function (game_start)
 	local import_score, export_score = 0, 0
 	imports, exports = {}, {}
 	for k,v in pairs(prices) do
-		if k ~= 'RUBBISH' and k ~= 'RADIOACTIVES' and Game.system:IsCommodityLegal(k) then
+		local equip = Ship.equipCompat.equip.old2new[k] -- XXX: Change the whole stack to n-e.
+		if k ~= 'RUBBISH' and k ~= 'RADIOACTIVES' and Game.system:IsCommodityLegal(equip) then
 			-- values from SystemInfoView::UpdateEconomyTab
 			if		v > 10	then
 				import_score = import_score + 2
 			elseif	v > 2	then
 				import_score = import_score + 1
-				table.insert(imports, k)
+				table.insert(imports, equip)
 			elseif	v < -10	then
 				export_score = export_score + 2
 			elseif	v < -2	then
 				export_score = export_score + 1
-				table.insert(exports, k)
+				table.insert(exports, equip)
 			end
 		end
 	end
