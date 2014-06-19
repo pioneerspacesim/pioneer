@@ -288,7 +288,7 @@ local onChat = function (form,ref,option)
 		if option == 2 then
 			-- Player suggested doubling the offer
 			candidate.playerRelationship = candidate.playerRelationship + 5
-			offer = checkOffer(offer * 2)
+			offer = checkOffer(offer + 10)
 			candidate.estimatedWage = offer -- They'll now re-evaluate themself
 			showCandidateDetails(l.THATS_EXTREMELY_GENEROUS_OF_YOU)
 		end
@@ -316,7 +316,7 @@ local onChat = function (form,ref,option)
 			-- Player suggested halving the offer
 			candidate.playerRelationship = candidate.playerRelationship - 5
 			if candidate:TestRoll('playerRelationship') then
-				offer = checkOffer(math.floor(offer / 2))
+				offer = checkOffer(offer - 10)
 				showCandidateDetails(l.OK_I_SUPPOSE_THATS_ALL_RIGHT)
 			else
 				showCandidateDetails(l.IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER)
