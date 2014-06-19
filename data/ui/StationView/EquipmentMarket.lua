@@ -5,7 +5,6 @@ local Engine = import("Engine")
 local Lang = import("Lang")
 local Game = import("Game")
 local ShipDef = import("ShipDef")
-local EquipDef = import("EquipDef")
 local Format = import("Format")
 
 local EquipmentTableWidgets = import("EquipmentTableWidgets")
@@ -20,7 +19,7 @@ local equipmentMarket = function (args)
 		stationColumns = { "name", "buy", "sell", "mass", "stock" },
 		shipColumns = { "name", "amount", "mass", "massTotal" },
 
-		canTrade = function (e) return EquipDef[e].purchasable and EquipDef[e].slot ~= "CARGO" end,
+		canTrade = function (e) print(e:GetName()); return e.purchasable and not e:IsValidSlot(Game.player, "cargo") end,
 		buy = function (e, funcs) return Format.Money(funcs.getBuyPrice(e),false) end,
 		sell = function (e, funcs) return Format.Money(funcs.getSellPrice(e),false) end,
 	})

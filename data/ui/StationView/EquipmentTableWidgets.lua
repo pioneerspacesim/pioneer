@@ -140,9 +140,11 @@ function EquipmentTableWidgets.Pair (config)
 	}
 
 	local equipTypes = {}
-	for k,e in pairs(Equipment.cargo) do
-		if funcs.canTrade(e) then
-			table.insert(equipTypes, e)
+	for _,t in pairs({Equipment.cargo, Equipment.misc, Equipment.laser, Equipment.hyperspace}) do
+		for k,e in pairs(t) do
+			if funcs.canTrade(e) then
+				table.insert(equipTypes, e)
+			end
 		end
 	end
 	-- table.sort(equipTypes)
