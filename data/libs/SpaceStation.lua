@@ -125,7 +125,7 @@ end
 --   experimental
 --
 function SpaceStation:AddEquipmentStock (e, stock)
-	equipmentStock[self][e] = equipmentStock[self][e] + stock
+	equipmentStock[self][e] = (equipmentStock[self][e] or 0) + stock
 end
 
 
