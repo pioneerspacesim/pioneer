@@ -518,7 +518,7 @@ local spawnReplacement = function ()
 		local fuel_added = addFuel(ship)
 		addShipCargo(ship, 'import')
 		if fuel_added and fuel_added > 0 then
-			ship:RemoveEquip('HYDROGEN', Engine.rand:Integer(1, fuel_added))
+			ship:RemoveEquip(e.cargo.hydrogen, Engine.rand:Integer(1, fuel_added))
 		end
 	end
 end
