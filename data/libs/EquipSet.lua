@@ -148,7 +148,7 @@ function EquipSet:Count(item, slots)
 
 	local count = 0
 	for _, slot in pairs(to_check) do
-		for _, e in ipairs(slot) do
+		for _, e in pairs(slot) do
 			if e == item then
 				count = count + 1
 			end
