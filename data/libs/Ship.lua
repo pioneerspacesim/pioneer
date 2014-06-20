@@ -128,7 +128,7 @@ function Ship:CountEquip(item, slot)
 	if slot then
 		local c = compat.slots.old2new[slot]
 		if c then
-			debug.deprecated()
+			debug.deprecated("Ship:CountEquip")
 			slot = c
 		end
 	end
@@ -171,7 +171,7 @@ end
 --
 function Ship:AddEquip(item, count)
 	if type(item) == "string" then
-		debug.deprecated()
+		debug.deprecated("Ship:AddEquip")
 		item = compat.equip.old2new[item]
 	end
 	return self.equipSet:Add(self, item, count)
@@ -212,7 +212,7 @@ end
 Ship.GetEquip = function (self, slot, index)
 	local c = compat.slots.old2new[slot]
 	if c then
-		debug.deprecated()
+		debug.deprecated("Ship:GetEquip")
 		slot = c
 	end
 	local ret = self.equipSet:Get(slot, index)
@@ -264,7 +264,7 @@ end
 Ship.GetEquipFree = function (self, slot)
 	local c = compat.slots.old2new[slot]
 	if c then
-		debug.deprecated()
+		debug.deprecated("Ship:GetEquipFree")
 		return self.equipSet:FreeSpace(c)
 	end
 	return self.equipSet:FreeSpace(slot)
@@ -311,7 +311,7 @@ compat.slots.old2new={
 --
 Ship.SetEquip = function (self, slot, index, equip)
 	if type(item) == "string" then
-		debug.deprecated()
+		debug.deprecated("Ship:SetEquip")
 		item = compat.equip.old2new[item]
 	end
 	return self.equipSet:Set(self, slot, index, item)
@@ -348,7 +348,7 @@ end
 
 Ship.RemoveEquip = function (self, item, count)
 	if type(item) == "string" then
-		debug.deprecated()
+		debug.deprecated("Ship:RemoveEquip")
 		item = compat.equip.old2new[item]
 	end
 	return self.equipSet:Remove(self, item, count)

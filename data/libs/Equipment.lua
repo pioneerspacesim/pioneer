@@ -346,19 +346,23 @@ cargo.consumer_goods.requirements = { cargo.plastics, cargo.textiles }
 local misc = {}
 misc.missile_unguided = EquipType.New({
 	l10n_key="MISSILE_UNGUIDED", slots="missile", price=3000,
-	capabilities={mass=1, missile=1}, purchasable=true
+	capabilities={mass=1, missile=1}, purchasable=true,
+	icon_name="missile_unguided"
 })
 misc.missile_guided = EquipType.New({
 	l10n_key="MISSILE_GUIDED", slots="missile", price=5000,
-	capabilities={mass=1}, purchasable=true
+	capabilities={mass=1}, purchasable=true,
+	icon_name="missile_guided"
 })
 misc.missile_smart = EquipType.New({
 	l10n_key="MISSILE_SMART", slots="missile", price=9500,
-	capabilities={mass=1}, purchasable=true
+	capabilities={mass=1}, purchasable=true,
+	icon_name="missile_smart"
 })
 misc.missile_naval = EquipType.New({
 	l10n_key="MISSILE_NAVAL", slots="missile", price=16000,
-	capabilities={mass=1}, purchasable=true
+	capabilities={mass=1}, purchasable=true,
+	icon_name="missile_naval"
 })
 misc.atmospheric_shielding = EquipType.New({
 	l10n_key="ATMOSPHERIC_SHIELDING", slots="atmo_shield", price=20000,
