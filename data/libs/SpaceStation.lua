@@ -100,7 +100,7 @@ end
 --   experimental
 --
 function SpaceStation:GetEquipmentStock (e)
-	return equipmentStock[self][e]
+	return equipmentStock[self][e] or 0
 end
 
 --

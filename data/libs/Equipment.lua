@@ -75,11 +75,11 @@ end
 
 function LaserType:Uninstall(ship, num, slot)
 	if __ApplyCapabilities(ship, self.capabilities, 1, -1) < 1 then return 0 end
-	local prefix = "front_"
-	if slot == "laser_rear" then prefix = "_rear" end
+	local prefix = (slot or "laser_front").."_"
 	for k,v in pairs(self.laser_stats) do
-		ship:setprop(prefix..k, nil)
+		ship:unsetprop(prefix..k)
 	end
+	return 1
 end
 
 -- Single drive type, no support for slave drives.
