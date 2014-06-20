@@ -282,7 +282,7 @@ end
 function EquipSet:Remove(ship, item, num, slot)
 	local num = num or 1
 	if not slot then
-		local slot = item:GetDefaultSlot(ship)
+		slot = item:GetDefaultSlot(ship)
 	end
 	local removed = self:__Remove_NoCheck(item, num, slot)
 	if removed == 0 then
