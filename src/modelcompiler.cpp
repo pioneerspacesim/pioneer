@@ -157,6 +157,14 @@ start:
 		}
 
 		case MODE_MODELBATCHEXPORT: {
+			// determine if we're meant to be writing these in the source directory
+			bool isInPlace = false;
+			if (argc > 2) {
+				std::string arg2 = argv[2];
+				isInPlace = (arg2 == "inplace" || arg2 == "true");
+			}
+
+			// find all of the models
 			std::vector<std::pair<std::string, std::string>> list_model;
 			FileSystem::FileSource &fileSource = FileSystem::gameDataFiles;
 			for (FileSystem::FileEnumerator files(fileSource, "models", FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next())
@@ -174,7 +182,11 @@ start:
 
 			SetupRenderer();
 			for (auto &modelName : list_model) {
-				RunCompiler(modelName.first, modelName.second);
+				if(isInPlace) {
+					RunCompiler(modelName.first, modelName.second);
+				} else {
+					RunCompiler(modelName.first, s_dummyPath);
+				}
 			}
 			break;
 		}
@@ -194,10 +206,11 @@ start:
 			Output(
 				"usage: modelcompiler [mode] [options...]\n"
 				"available modes:\n"
-				"    -compile     [-c]     model compiler\n"
-				"    -batch       [-b]     model compiler batch mode\n"
-				"    -version     [-v]     show version\n"
-				"    -help        [-h,-?]  this help\n"
+				"    -compile          [-c]          model compiler\n"
+				"    -batch            [-b]          batch mode output into users home/Pioneer directory\n"
+				"    -batch inplace    [-b inplace]  batch mode output into the source folder\n"
+				"    -version          [-v]          show version\n"
+				"    -help             [-h,-?]       this help\n"
 			);
 			break;
 	}
