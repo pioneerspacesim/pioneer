@@ -2251,13 +2251,12 @@ void SystemBody::PopulateAddStations(StarSystem *system)
 
 	if (m_population < fixed(1,1000)) return;
 
-	fixed pop = m_population + rand.Fixed();
-
 	fixed orbMaxS = fixed(1,4)*this->CalcHillRadius();
 	fixed orbMinS = 4 * this->m_radius * AU_EARTH_RADIUS;
 	if (m_children.size()) orbMaxS = std::min(orbMaxS, fixed(1,2) * m_children[0]->m_orbMin);
 
 	// starports - orbital
+	fixed pop = m_population + rand.Fixed();
 	pop -= rand.Fixed();
 	if ((orbMinS < orbMaxS) && (pop >= 0)) {
 
@@ -2316,6 +2315,22 @@ void SystemBody::PopulateAddStations(StarSystem *system)
 		pop -= rand.Fixed();
 		if (pop < 0) break;
 
+		SystemBody *sp = system->NewBody();
+		sp->m_type = SystemBody::TYPE_STARPORT_SURFACE;
+		sp->m_seed = rand.Int32();
+		sp->m_parent = this;
+		sp->m_averageTemp = this->m_averageTemp;
+		sp->m_mass = 0;
+		sp->m_name = gen_unique_station_name(sp, system, namerand);
+		memset(&sp->m_orbit, 0, sizeof(Orbit));
+		sp->PositionSettlementOnPlanet();
+		m_children.insert(m_children.begin(), sp);
+		system->m_spaceStations.push_back(sp);
+	}
+
+	// garuantee that there is always a star port on a populated world
+	if( system->m_spaceStations.empty() )
+	{
 		SystemBody *sp = system->NewBody();
 		sp->m_type = SystemBody::TYPE_STARPORT_SURFACE;
 		sp->m_seed = rand.Int32();
