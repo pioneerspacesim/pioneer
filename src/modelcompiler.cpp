@@ -34,6 +34,8 @@ void SetupRenderer()
 {
 	s_config.reset(new GameConfig);
 
+	OS::RedirectStdio();
+
 	//init components
 	FileSystem::userFiles.MakeDirectory(""); // ensure the config directory exists
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -102,8 +104,6 @@ int main(int argc, char** argv)
 #ifdef PIONEER_PROFILER
 	Profiler::detect( argc, argv );
 #endif
-
-	OS::RedirectStdio();
 
 	RunMode mode = MODE_MODELCOMPILER;
 
