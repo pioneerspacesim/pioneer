@@ -44,9 +44,9 @@ struct RingStyle {
 
 class SystemBody : public RefCounted {
 public:
-	SystemBody(const SystemPath& path);
+	SystemBody(const SystemPath& path, StarSystem *system);
 	void PickPlanetType(Random &rand);
-	const SystemBody *FindStarAndTrueOrbitalRange(fixed &orbMin, fixed &orbMax);
+	const SystemBody* FindStarAndTrueOrbitalRange(fixed &orbMin, fixed &orbMax) const;
 
 	enum BodyType { // <enum scope='SystemBody' prefix=TYPE_ public>
 		TYPE_GRAVPOINT = 0,
@@ -220,6 +220,8 @@ public:
 
 	void Dump(FILE* file, const char* indent = "") const;
 
+	StarSystem* GetStarSystem() const { return m_system; }
+
 private:
 	friend class StarSystem;
 	friend class ObjectViewerView;
@@ -270,6 +272,8 @@ private:
 
 	Color m_atmosColor;
 	double m_atmosDensity;
+
+	StarSystem *m_system;
 };
 
 class StarSystem : public RefCounted {
@@ -332,7 +336,7 @@ private:
 	void SetCache(StarSystemCache* cache) { assert(!m_cache); m_cache = cache; }
 
 	SystemBody *NewBody() {
-		SystemBody *body = new SystemBody(SystemPath(m_path.sectorX, m_path.sectorY, m_path.sectorZ, m_path.systemIndex, m_bodies.size()));
+		SystemBody *body = new SystemBody(SystemPath(m_path.sectorX, m_path.sectorY, m_path.sectorZ, m_path.systemIndex, m_bodies.size()), this);
 		m_bodies.push_back(RefCountedPtr<SystemBody>(body));
 		return body;
 	}
