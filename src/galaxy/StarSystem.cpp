@@ -1827,7 +1827,7 @@ const SystemBody* SystemBody::FindStarAndTrueOrbitalRange(fixed &orbMin_, fixed 
 	orbMax_ = planet->m_orbMax;
 	return star;
 }
-#pragma optimize("",off)
+
 void SystemBody::PickPlanetType(Random &rand)
 {
 	PROFILE_SCOPED()
