@@ -47,6 +47,10 @@
       "description" : "",
       "message" : "Hirdetőtábla"
    },
+   "BUY" : {
+      "description" : "Commodities and equipment prices",
+      "message" : "Buy"
+   },
    "BUY_SHIP" : {
       "description" : "",
       "message" : "Megvesz"
@@ -882,6 +886,10 @@
    "SELECT_GAME_TO_LOAD" : {
       "description" : "",
       "message" : "Válassz betöltendö mentést..."
+   },
+   "SELL" : {
+      "description" : "Commodities and equipment prices",
+      "message" : "Sell"
    },
    "SENSORS" : {
       "description" : "",

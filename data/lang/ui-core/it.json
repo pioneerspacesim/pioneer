@@ -47,6 +47,10 @@
       "description" : "",
       "message" : "Bacheca Annunci"
    },
+   "BUY" : {
+      "description" : "Commodities and equipment prices",
+      "message" : "Buy"
+   },
    "BUY_SHIP" : {
       "description" : "",
       "message" : "Compra Astronave"
@@ -882,6 +886,10 @@
    "SELECT_GAME_TO_LOAD" : {
       "description" : "",
       "message" : "Seleziona la partita da caricare..."
+   },
+   "SELL" : {
+      "description" : "Commodities and equipment prices",
+      "message" : "Sell"
    },
    "SENSORS" : {
       "description" : "",

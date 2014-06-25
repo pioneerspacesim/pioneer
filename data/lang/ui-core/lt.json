@@ -47,6 +47,10 @@
       "description" : "",
       "message" : "Bulletin Board"
    },
+   "BUY" : {
+      "description" : "Commodities and equipment prices",
+      "message" : "Buy"
+   },
    "BUY_SHIP" : {
       "description" : "",
       "message" : "Pirkti laivą"
@@ -882,6 +886,10 @@
    "SELECT_GAME_TO_LOAD" : {
       "description" : "",
       "message" : "Pasirinkite žaidimą įkėlimui..."
+   },
+   "SELL" : {
+      "description" : "Commodities and equipment prices",
+      "message" : "Sell"
    },
    "SENSORS" : {
       "description" : "",
