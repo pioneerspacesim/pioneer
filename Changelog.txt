@@ -5,6 +5,7 @@ June 2014
      * Faction update to match wiki (#2930)
      * Proper rocketship icon by Evarchart (#2942)
      * DDS for all models (#2945)
+     * Support SGM files, disable texture options, new modelcompiler tool (#2962)
 
    * Script and UI API changes
      * Added scripts to parse ship stats to wiki
