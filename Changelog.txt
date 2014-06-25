@@ -22,6 +22,7 @@ June 2014
 
    * Internal Changes
      * Compress default (#2940)
+     * Added lua attribute to get faction->idx as an faction id (#2949)
 
 May 2014
 
