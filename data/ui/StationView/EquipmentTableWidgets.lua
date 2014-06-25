@@ -147,7 +147,7 @@ function EquipmentTableWidgets.Pair (config)
 			end
 		end
 	end
-	-- table.sort(equipTypes)
+	table.sort(equipTypes, function (e1, e2) return e1:GetName() < e2:GetName() end)
 
 	local stationTable =
 		ui:Table()
