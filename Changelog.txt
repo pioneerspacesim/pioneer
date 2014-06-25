@@ -18,6 +18,7 @@ June 2014
      * Fix problem with multiple assassination missions not being cleared
        properly (#2952)
      * Always at least ONE starport (#2968)
+     * Enable different sell/buy for ship equipment (#2955)
 
    * Internal Changes
      * Compress default (#2940)
