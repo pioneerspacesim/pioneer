@@ -386,7 +386,7 @@ misc.cabin = EquipType.New({
 })
 misc.cabin_occupied = EquipType.New({
 	l10n_key="PASSENGER_CABIN", slots="cabin", price=0,
-	capabilities={mass=1}, purchasable=true
+	capabilities={mass=1}, purchasable=false
 })
 misc.shield_generator = EquipType.New({
 	l10n_key="SHIELD_GENERATOR", slots="shield", price=250000,
