@@ -155,6 +155,10 @@
       "description" : "",
       "message" : "Polizist"
    },
+   "CONTINUE_GAME" : {
+      "description" : "",
+      "message" : "Spiel fortsetzen"
+   },
    "CONTROLS" : {
       "description" : "",
       "message" : "Steuerung"
@@ -798,10 +802,6 @@
    "QUALIFICATION_SCORES" : {
       "description" : "",
       "message" : "Qualifizierungspunkte"
-   },
-   "QUICKLOAD" : {
-      "description" : "",
-      "message" : "Schnelladen"
    },
    "QUIT" : {
       "description" : "",

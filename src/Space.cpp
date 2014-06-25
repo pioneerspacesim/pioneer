@@ -12,6 +12,7 @@
 #include <functional>
 #include "Pi.h"
 #include "Player.h"
+#include "galaxy/Galaxy.h"
 #include "galaxy/StarSystem.h"
 #include "SpaceStation.h"
 #include "Serializer.h"
@@ -84,7 +85,7 @@ Space::Space(Game *game, const SystemPath &path)
 	, m_processingFinalizationQueue(false)
 #endif
 {
-	m_starSystem = StarSystemCache::GetCached(path);
+	m_starSystem = Pi::GetGalaxy()->GetStarSystem(path);
 
 	Uint32 _init[5] = { path.systemIndex, Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
 	Random rand(_init, 5);
@@ -316,8 +317,8 @@ vector3d Space::GetHyperspaceExitPoint(const SystemPath &source, const SystemPat
 	Sector::System source_sys = source_sec->m_systems[source.systemIndex];
 	Sector::System dest_sys = dest_sec->m_systems[dest.systemIndex];
 
-	const vector3d sourcePos = vector3d(source_sys.p) + vector3d(source.sectorX, source.sectorY, source.sectorZ);
-	const vector3d destPos = vector3d(dest_sys.p) + vector3d(dest.sectorX, dest.sectorY, dest.sectorZ);
+	const vector3d sourcePos = vector3d(source_sys.GetPosition()) + vector3d(source.sectorX, source.sectorY, source.sectorZ);
+	const vector3d destPos = vector3d(dest_sys.GetPosition()) + vector3d(dest.sectorX, dest.sectorY, dest.sectorZ);
 
 	Body *primary = 0;
 	if (dest.IsBodyPath()) {
@@ -609,6 +610,9 @@ static Frame *MakeFrameFor(double at_time, SystemBody *sbody, Body *b, Frame *f)
 	return 0;
 }
 
+// used to define a cube centred on your current location
+static const int sectorRadius = 5;
+
 // sort using a custom function object
 class SectorDistanceSort {
 public:
@@ -640,14 +644,11 @@ void Space::GenSectorCache(const SystemPath* here)
 	const int here_y = here->sectorY;
 	const int here_z = here->sectorZ;
 
-	// used to define a cube centred on your current location
-	const int diff_sec = 5;
-
 	SectorCache::PathVector paths;
 	// build all of the possible paths we'll need to build sectors for
-	for (int x = here_x-diff_sec; x <= here_x+diff_sec; x++) {
-		for (int y = here_y-diff_sec; y <= here_y+diff_sec; y++) {
-			for (int z = here_z-diff_sec; z <= here_z+diff_sec; z++) {
+	for (int x = here_x-sectorRadius; x <= here_x+sectorRadius; x++) {
+		for (int y = here_y-sectorRadius; y <= here_y+sectorRadius; y++) {
+			for (int z = here_z-sectorRadius; z <= here_z+sectorRadius; z++) {
 				SystemPath path(x, y, z);
 				paths.push_back(path);
 			}
@@ -656,8 +657,72 @@ void Space::GenSectorCache(const SystemPath* here)
 	// sort them so that those closest to the "here" path are processed first
 	SectorDistanceSort SDS(here);
 	std::sort(paths.begin(), paths.end(), SDS);
-	m_sectorCache = Sector::cache.NewSlaveCache();
-	m_sectorCache->FillCache(paths);
+	m_sectorCache = Pi::GetGalaxy()->NewSectorSlaveCache();
+	const SystemPath& center(*here);
+	m_sectorCache->FillCache(paths, [this,center]() { UpdateStarSystemCache(&center); });
+}
+
+static bool WithinBox(const SystemPath &here, const int Xmin, const int Xmax, const int Ymin, const int Ymax, const int Zmin, const int Zmax) {
+	PROFILE_SCOPED()
+	if(here.sectorX >= Xmin && here.sectorX <= Xmax) {
+		if(here.sectorY >= Ymin && here.sectorY <= Ymax) {
+			if(here.sectorZ >= Zmin && here.sectorZ <= Zmax) {
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+void Space::UpdateStarSystemCache(const SystemPath* here)
+{
+	PROFILE_SCOPED()
+
+	// current location
+	if (!here) {
+		if (!m_starSystem.Valid())
+			return;
+		here = &m_starSystem->GetPath();
+	}
+	const int here_x = here->sectorX;
+	const int here_y = here->sectorY;
+	const int here_z = here->sectorZ;
+
+	// we're going to use these to determine if our StarSystems are within a range that we'll keep for later use
+	static const int survivorRadius = sectorRadius*3;
+
+	// min/max box limits
+	const int xmin = here->sectorX-survivorRadius;
+	const int xmax = here->sectorX+survivorRadius;
+	const int ymin = here->sectorY-survivorRadius;
+	const int ymax = here->sectorY+survivorRadius;
+	const int zmin = here->sectorZ-survivorRadius;
+	const int zmax = here->sectorZ+survivorRadius;
+
+	RefCountedPtr<StarSystemCache::Slave> cache = Pi::GetGalaxy()->GetStarSystemCache();
+	StarSystemCache::CacheMap::const_iterator i = cache->Begin();
+	while (i != cache->End()) {
+		if (!WithinBox(i->second->GetPath(), xmin, xmax, ymin, ymax, zmin, zmax))
+			cache->Erase(i++);
+		else
+			++i;
+	}
+
+	SectorCache::PathVector paths;
+	// build all of the possible paths we'll need to build star systems for
+	for (int x = here_x-sectorRadius; x <= here_x+sectorRadius; x++) {
+		for (int y = here_y-sectorRadius; y <= here_y+sectorRadius; y++) {
+			for (int z = here_z-sectorRadius; z <= here_z+sectorRadius; z++) {
+				SystemPath path(x, y, z);
+				RefCountedPtr<Sector> sec(m_sectorCache->GetIfCached(path));
+				assert(sec);
+				for (const Sector::System& ss : sec->m_systems)
+					paths.push_back(SystemPath(ss.sx, ss.sy, ss.sz, ss.idx));
+			}
+		}
+	}
+
+	cache->FillCache(paths);
 }
 
 void Space::GenBody(double at_time, SystemBody *sbody, Frame *f)
@@ -887,13 +952,13 @@ static char space[256];
 
 static void DebugDumpFrame(Frame *f, unsigned int indent)
 {
-	Output("%.*s%p (%s)", indent, space, f, f->GetLabel().c_str());
+	Output("%.*s%p (%s)", indent, space, static_cast<void*>(f), f->GetLabel().c_str());
 	if (f->GetParent())
-		Output(" parent %p (%s)", f->GetParent(), f->GetParent()->GetLabel().c_str());
+		Output(" parent %p (%s)", static_cast<void*>(f->GetParent()), f->GetParent()->GetLabel().c_str());
 	if (f->GetBody())
-		Output(" body %p (%s)", f->GetBody(), f->GetBody()->GetLabel().c_str());
+		Output(" body %p (%s)", static_cast<void*>(f->GetBody()), f->GetBody()->GetLabel().c_str());
 	if (Body *b = f->GetBody())
-		Output(" bodyFor %p (%s)", b, b->GetLabel().c_str());
+		Output(" bodyFor %p (%s)", static_cast<void*>(b), b->GetLabel().c_str());
 	Output(" distance %f radius %f", f->GetPosition().Length(), f->GetRadius());
 	Output("%s\n", f->IsRotFrame() ? " [rotating]" : "");
 

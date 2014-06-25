@@ -51,6 +51,10 @@
       "description" : "",
       "message" : "Buy Ship"
    },
+   "BUY" : {
+      "description" : "Commodities and equipment prices",
+      "message" : "Buy"
+   },
    "CABINS" : {
       "description" : "",
       "message" : "Cabins"
@@ -154,6 +158,10 @@
    "CONSTABLE" : {
       "description" : "",
       "message" : "Constable"
+   },
+   "CONTINUE_GAME" : {
+      "description" : "",
+      "message" : "Continue game"
    },
    "CONTROLS" : {
       "description" : "",
@@ -799,10 +807,6 @@
       "description" : "",
       "message" : "Qualification scores"
    },
-   "QUICKLOAD" : {
-      "description" : "",
-      "message" : "Quickload"
-   },
    "QUIT" : {
       "description" : "",
       "message" : "Quit"
@@ -882,6 +886,10 @@
    "SELECT_GAME_TO_LOAD" : {
       "description" : "",
       "message" : "Select game to load..."
+   },
+   "SELL" : {
+      "description" : "Commodities and equipment prices",
+      "message" : "Sell"
    },
    "SENSORS" : {
       "description" : "",

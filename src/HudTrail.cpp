@@ -28,6 +28,12 @@ void HudTrail::Update(float time)
 	if (m_updateTime > UPDATE_INTERVAL) {
 		m_updateTime = 0.f;
 		const Frame *bodyFrame = m_body->GetFrame();
+		
+		if( !m_currentFrame ) {
+			m_currentFrame = bodyFrame;
+			m_trailPoints.clear();
+		}
+		
 		if( bodyFrame==m_currentFrame )
 			m_trailPoints.push_back(m_body->GetInterpPosition());
 	}

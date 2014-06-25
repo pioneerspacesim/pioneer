@@ -20,6 +20,7 @@
 
 class DeathView;
 class GalacticView;
+class Galaxy;
 class Intro;
 class LuaConsole;
 class LuaNameGen;
@@ -173,7 +174,10 @@ public:
 	static struct DetailLevel detail;
 	static GameConfig *config;
 
-	static JobQueue *Jobs() { return jobQueue.get();}
+	static JobQueue *GetAsyncJobQueue() { return asyncJobQueue.get();}
+	static JobQueue *GetSyncJobQueue() { return syncJobQueue.get();}
+
+	static Galaxy* GetGalaxy() { return s_galaxy; }
 
 	static bool DrawGUI;
 
@@ -181,8 +185,11 @@ private:
 	static void HandleEvents();
 	static void InitJoysticks();
 
-	static std::unique_ptr<JobQueue> jobQueue;
+	static const Uint32 SYNC_JOBS_PER_LOOP = 1;
+	static std::unique_ptr<AsyncJobQueue> asyncJobQueue;
+	static std::unique_ptr<SyncJobQueue> syncJobQueue;
 
+	static Galaxy* s_galaxy;
 	static bool menuDone;
 
 	static View *currentView;
@@ -192,9 +199,6 @@ private:
 	  * factor between one physics tick and another [0.0-1.0]
 	  */
 	static float gameTickAlpha;
-	static int timeAccelIdx;
-	static int requestedTimeAccelIdx;
-	static bool forceTimeAccel;
 	static float frameTime;
 	static std::map<SDL_Keycode,bool> keyState;
 	static int keyModState;
@@ -203,7 +207,6 @@ private:
 	static bool doingMouseGrab;
 	static bool warpAfterMouseGrab;
 	static int mouseGrabWarpPos[2];
-	static const float timeAccelRates[];
 
 	static bool joystickEnabled;
 	static bool mouseYInvert;

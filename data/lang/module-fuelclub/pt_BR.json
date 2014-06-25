@@ -1,74 +1,74 @@
 {
    "APPLY_FOR_MEMBERSHIP" : {
       "description" : "",
-      "message" : "Apply for membership"
+      "message" : "Aplique para tornar-se membro."
    },
    "BEGIN_TRADE" : {
       "description" : "",
-      "message" : "Begin trade"
+      "message" : "Comece a comercializar."
    },
    "FLAVOUR_0_CLUBNAME" : {
       "description" : "",
-      "message" : "Interstellar Pilots' Fuel Co-operative"
+      "message" : "Cooperativa de Combustível de Pilotos Interestelares"
    },
    "FLAVOUR_0_MEMBER_INTRO" : {
       "description" : "",
-      "message" : "You may purhase fuel and dispose of {radioactives} here."
+      "message" : "Você pode comprar combustível e descartes de {radioativos} aqui."
    },
    "FLAVOUR_0_NONMEMBER_INTRO" : {
       "description" : "",
-      "message" : "{clubname} is an independent organisation dedicated to providing discounted starship fuel to its members. Branches can be found throughout the galaxy. Benefits of membership include:"
+      "message" : "{nome do clube} é uma organização independente dedicada a proporcionar descontos no combustível de naves estelares para seus membros. Divisões podem ser encontradas pela galáxia. Os benefícios de ser membro incluem:"
    },
    "FLAVOUR_0_WELCOME" : {
       "description" : "",
-      "message" : "Welcome to {clubname}"
+      "message" : "Benvindo a {nome do clube}"
    },
    "GO_BACK" : {
       "description" : "",
-      "message" : "Go back"
+      "message" : "Volte"
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Hang up."
+      "message" : "Desligamento."
    },
    "LIST_BENEFITS_DISPOSAL" : {
       "description" : "",
-      "message" : "{radioactives}, free disposal (conditions apply)"
+      "message" : "{radioativos}, descarte gratuito (as condições de aplicam)"
    },
    "LIST_BENEFITS_FUEL" : {
       "description" : "",
-      "message" : "{fuel} at discount prices"
+      "message" : "{combustível} com desconto."
    },
    "LIST_BENEFITS_FUEL_INTRO" : {
       "description" : "",
-      "message" : "Our own stocks of fuel, independent of the general market"
+      "message" : "Nossos próprios estoques de combustível, independente do mercado geral."
    },
    "LIST_BENEFITS_FUEL_TANK" : {
       "description" : "",
-      "message" : "Fuel tank refilling, where necessary"
+      "message" : "Preenchimento do tanque de combustível, onde for necessário"
    },
    "LIST_BENEFITS_JOIN" : {
       "description" : "",
-      "message" : "Join now! Annual membership costs only {membership_fee}"
+      "message" : "Junte-se agora! Anuidade custa somente {taxa_anuidade}"
    },
    "WE_WILL_ONLY_DISPOSE_OF" : {
       "description" : "",
-      "message" : "We will only dispose of as many tonnes of {radioactives} as you have bought tonnes of {military_fuel} from us."
+      "message" : "Vamos descartar as mesmas toneladas de {radioativos} quanto as toneladas que você comprou de {combustível_militar} de nós."
    },
    "WHAT_CONDITIONS_APPLY" : {
       "description" : "",
-      "message" : "What conditions apply to {radioactives} disposal?"
+      "message" : "Que condições se aplicam a descarte de {radioativos}?"
    },
    "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED" : {
       "description" : "",
-      "message" : "Your membership application has been declined."
+      "message" : "Sua aplicação para membro foi recusada."
    },
    "YOU_ARE_NOW_A_MEMBER" : {
       "description" : "",
-      "message" : "You are now a member. Your membership will expire on {expiry_date}."
+      "message" : "Agora você é um membro. Seu cadastro vai expirar em {data_vencimento}."
    },
    "YOU_MUST_BUY" : {
       "description" : "",
-      "message" : "You must buy our {military_fuel} before we will take your {radioactives}"
+      "message" : "Você deve comprar nosso {combustível_militar} antes que peguemos seus {radioativos}"
    }
 }

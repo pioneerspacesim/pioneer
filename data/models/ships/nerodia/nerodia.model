@@ -2,9 +2,9 @@ material Material-material
 diffuse 1.0 1.0 1.0
 specular 0.8 0.8 0.8
 use_patterns
-tex_diff nerodia_tex.png
-tex_spec nerodia_spec.png
-tex_glow nerodia_glow.png
+tex_diff nerodia_tex.dds
+tex_spec nerodia_spec.dds
+tex_glow nerodia_glow.dds
 mesh nerodia.dae
 
 anim gear_down 1 80

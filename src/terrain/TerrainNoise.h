@@ -164,7 +164,7 @@ namespace TerrainNoise {
 		return start*(1.0-nClamped) + end*nClamped;
 	}
 
-};
+}
 
 // common colours for earthlike worlds
 // XXX better way to do this?

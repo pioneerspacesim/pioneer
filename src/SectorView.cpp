@@ -13,8 +13,9 @@
 #include "ShipCpanel.h"
 #include "StringF.h"
 #include "SystemInfoView.h"
+#include "galaxy/Galaxy.h"
 #include "galaxy/Sector.h"
-#include "galaxy/SectorCache.h"
+#include "galaxy/GalaxyCache.h"
 #include "galaxy/StarSystem.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
@@ -116,7 +117,7 @@ void SectorView::InitDefaults()
 	m_cacheYMin = 0;
 	m_cacheYMax = 0;
 
-	m_sectorCache = Sector::cache.NewSlaveCache();
+	m_sectorCache = Pi::GetGalaxy()->NewSectorSlaveCache();
 }
 
 void SectorView::InitObject()
@@ -394,27 +395,27 @@ void SectorView::OnSearchBoxKeyPress(const SDL_Keysym *keysym)
 			const Sector::System *ss = &((*i).second->m_systems[systemIndex]);
 
 			// compare with the start of the current system
-			if (strncasecmp(search.c_str(), ss->name.c_str(), search.size()) == 0) {
+			if (strncasecmp(search.c_str(), ss->GetName().c_str(), search.size()) == 0) {
 
 				// matched, see if they're the same size
-				if (search.size() == ss->name.size()) {
+				if (search.size() == ss->GetName().size()) {
 
 					// exact match, take it and go
 					SystemPath path = (*i).first;
 					path.systemIndex = systemIndex;
-					m_statusLabel->SetText(stringf(Lang::EXACT_MATCH_X, formatarg("system", ss->name)));
+					m_statusLabel->SetText(stringf(Lang::EXACT_MATCH_X, formatarg("system", ss->GetName())));
 					GotoSystem(path);
 					return;
 				}
 
 				// partial match at start of name
-				if (!gotMatch || !gotStartMatch || bestMatchName->size() > ss->name.size()) {
+				if (!gotMatch || !gotStartMatch || bestMatchName->size() > ss->GetName().size()) {
 
 					// don't already have one or its shorter than the previous
 					// one, take it
 					bestMatch = (*i).first;
 					bestMatch.systemIndex = systemIndex;
-					bestMatchName = &(ss->name);
+					bestMatchName = &(ss->GetName());
 					gotMatch = gotStartMatch = true;
 				}
 
@@ -422,15 +423,15 @@ void SectorView::OnSearchBoxKeyPress(const SDL_Keysym *keysym)
 			}
 
 			// look for the search term somewhere within the current system
-			if (pi_strcasestr(ss->name.c_str(), search.c_str())) {
+			if (pi_strcasestr(ss->GetName().c_str(), search.c_str())) {
 
 				// found it
-				if (!gotMatch || !gotStartMatch || bestMatchName->size() > ss->name.size()) {
+				if (!gotMatch || !gotStartMatch || bestMatchName->size() > ss->GetName().size()) {
 
 					// best we've found so far, take it
 					bestMatch = (*i).first;
 					bestMatch.systemIndex = systemIndex;
-					bestMatchName = &(ss->name);
+					bestMatchName = &(ss->GetName());
 					gotMatch = true;
 				}
 			}
@@ -560,7 +561,7 @@ void SectorView::GotoSector(const SystemPath &path)
 void SectorView::GotoSystem(const SystemPath &path)
 {
 	RefCountedPtr<Sector> ps = GetCached(path);
-	const vector3f &p = ps->m_systems[path.systemIndex].p;
+	const vector3f &p = ps->m_systems[path.systemIndex].GetPosition();
 	m_posMovingTo.x = path.sectorX + p.x/Sector::SIZE;
 	m_posMovingTo.y = path.sectorY + p.y/Sector::SIZE;
 	m_posMovingTo.z = path.sectorZ + p.z/Sector::SIZE;
@@ -588,9 +589,9 @@ void SectorView::SetSelected(const SystemPath &path)
 void SectorView::OnClickSystem(const SystemPath &path)
 {
 	if (path.IsSameSystem(m_selected)) {
-		RefCountedPtr<StarSystem> system = StarSystemCache::GetCached(path);
+		RefCountedPtr<StarSystem> system = Pi::GetGalaxy()->GetStarSystem(path);
 		if (system->GetNumStars() > 1 && m_selected.IsBodyPath()) {
-			int i;
+			unsigned i;
 			for (i = 0; i < system->GetNumStars(); ++i)
 				if (system->GetStars()[i]->GetPath() == m_selected) break;
 			if (i >= system->GetNumStars() - 1)
@@ -604,7 +605,7 @@ void SectorView::OnClickSystem(const SystemPath &path)
 		if (m_automaticSystemSelection) {
 			GotoSystem(path);
 		} else {
-			RefCountedPtr<StarSystem> system = StarSystemCache::GetCached(path);
+			RefCountedPtr<StarSystem> system = Pi::GetGalaxy()->GetStarSystem(path);
 			SetSelected(system->GetStars()[0]->GetPath());
 		}
 	}
@@ -616,7 +617,7 @@ void SectorView::PutSystemLabels(RefCountedPtr<Sector> sec, const vector3f &orig
 	Uint32 sysIdx = 0;
 	for (std::vector<Sector::System>::iterator sys = sec->m_systems.begin(); sys !=sec->m_systems.end(); ++sys, ++sysIdx) {
 		// skip the system if it doesn't fall within the sphere we're viewing.
-		if ((m_pos*Sector::SIZE - (*sys).FullPosition()).Length() > drawRadius) continue;
+		if ((m_pos*Sector::SIZE - (*sys).GetFullPosition()).Length() > drawRadius) continue;
 
 		// if the system is the current system or target we can't skip it
 		bool can_skip = !sys->IsSameSystem(m_selected)
@@ -624,7 +625,7 @@ void SectorView::PutSystemLabels(RefCountedPtr<Sector> sec, const vector3f &orig
 						&& !sys->IsSameSystem(m_current);
 
 		// skip the system if it belongs to a Faction we've toggled off and we can skip it
-		if (m_hiddenFactions.find((*sys).faction) != m_hiddenFactions.end() && can_skip) continue;
+		if (m_hiddenFactions.find(sys->GetFaction()) != m_hiddenFactions.end() && can_skip) continue;
 
 		// determine if system in hyperjump range or not
 		RefCountedPtr<const Sector> playerSec = GetCached(m_current);
@@ -632,7 +633,7 @@ void SectorView::PutSystemLabels(RefCountedPtr<Sector> sec, const vector3f &orig
 		bool inRange = dist <= m_playerHyperspaceRange;
 
 		// place the label
-		vector3d systemPos = vector3d((*sys).FullPosition() - origin);
+		vector3d systemPos = vector3d((*sys).GetFullPosition() - origin);
 		vector3d screenPos;
 		if (Gui::Screen::Project(systemPos, screenPos)) {
 			// reject back-projected labels
@@ -640,15 +641,15 @@ void SectorView::PutSystemLabels(RefCountedPtr<Sector> sec, const vector3f &orig
 				continue;
 
 			// work out the colour
-			Color labelColor = (*sys).faction->AdjustedColour((*sys).population, inRange);
+			Color labelColor = sys->GetFaction()->AdjustedColour(sys->GetPopulation(), inRange);
 
 			// get a system path to pass to the event handler when the label is licked
 			SystemPath sysPath = SystemPath((*sys).sx, (*sys).sy, (*sys).sz, sysIdx);
 
 			// label text
 			std::string text = "";
-			if(((inRange || m_drawOutRangeLabelButton->GetPressed()) && ((*sys).population > 0 || m_drawUninhabitedLabelButton->GetPressed())) || !can_skip)
-				text = (*sys).name;
+			if(((inRange || m_drawOutRangeLabelButton->GetPressed()) && (sys->GetPopulation() > 0 || m_drawUninhabitedLabelButton->GetPressed())) || !can_skip)
+				text = sys->GetName();
 
 			// setup the label;
 			m_clickableLabels->Add(text, sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), sysPath), screenPos.x, screenPos.y, labelColor);
@@ -661,16 +662,16 @@ void SectorView::PutFactionLabels(const vector3f &origin)
 	PROFILE_SCOPED()
 	glDepthRange(0,1);
 	Gui::Screen::EnterOrtho();
-	for (std::set<Faction*>::iterator it = m_visibleFactions.begin(); it != m_visibleFactions.end(); ++it) {
+	for (auto it = m_visibleFactions.begin(); it != m_visibleFactions.end(); ++it) {
 		if ((*it)->hasHomeworld && m_hiddenFactions.find((*it)) == m_hiddenFactions.end()) {
 
 			Sector::System sys = GetCached((*it)->homeworld)->m_systems[(*it)->homeworld.systemIndex];
-			if ((m_pos*Sector::SIZE - sys.FullPosition()).Length() > (m_zoomClamped/FAR_THRESHOLD )*OUTER_RADIUS) continue;
+			if ((m_pos*Sector::SIZE - sys.GetFullPosition()).Length() > (m_zoomClamped/FAR_THRESHOLD )*OUTER_RADIUS) continue;
 
 			vector3d pos;
-			if (Gui::Screen::Project(vector3d(sys.FullPosition() - origin), pos)) {
+			if (Gui::Screen::Project(vector3d(sys.GetFullPosition() - origin), pos)) {
 
-				std::string labelText    = sys.name + "\n" + (*it)->name;
+				std::string labelText    = sys.GetName() + "\n" + (*it)->name;
 				Color       labelColor  = (*it)->colour;
 				float       labelHeight = 0;
 				float       labelWidth  = 0;
@@ -783,7 +784,7 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 {
 	UpdateDistanceLabelAndLine(labels.distance, m_current, path);
 
-	RefCountedPtr<StarSystem> sys = StarSystemCache::GetCached(path);
+	RefCountedPtr<StarSystem> sys = Pi::GetGalaxy()->GetStarSystem(path);
 
 	std::string desc;
 	if (sys->GetNumStars() == 4) {
@@ -811,7 +812,7 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 	if (m_detailBoxVisible == DETAILBOX_INFO) m_infoBox->ShowAll();
 }
 
-void SectorView::OnToggleFaction(Gui::ToggleButton* button, bool pressed, Faction* faction)
+void SectorView::OnToggleFaction(Gui::ToggleButton* button, bool pressed, const Faction* faction)
 {
 	// hide or show the faction's systems depending on whether the button is pressed
 	if (pressed) m_hiddenFactions.erase(faction);
@@ -848,7 +849,7 @@ void SectorView::UpdateFactionToggles()
 
 	// set up the faction labels, and the toggle buttons
 	Uint32 rowIdx = 0;
-	for (std::set<Faction*>::iterator it = m_visibleFactions.begin(); it != m_visibleFactions.end(); ++it, ++rowIdx) {
+	for (auto it = m_visibleFactions.begin(); it != m_visibleFactions.end(); ++it, ++rowIdx) {
 		m_visibleFactionLabels [rowIdx]->SetText((*it)->name);
 		m_visibleFactionLabels [rowIdx]->Color((*it)->colour);
 		m_visibleFactionToggles[rowIdx]->onChange.clear();
@@ -873,7 +874,7 @@ void SectorView::DrawNearSectors(const matrix4x4f& modelview)
 	m_visibleFactions.clear();
 
 	RefCountedPtr<const Sector> playerSec = GetCached(m_current);
-	const vector3f playerPos = Sector::SIZE * vector3f(float(m_current.sectorX), float(m_current.sectorY), float(m_current.sectorZ)) + playerSec->m_systems[m_current.systemIndex].p;
+	const vector3f playerPos = Sector::SIZE * vector3f(float(m_current.sectorX), float(m_current.sectorY), float(m_current.sectorZ)) + playerSec->m_systems[m_current.systemIndex].GetPosition();
 
 	for (int sx = -DRAW_RAD; sx <= DRAW_RAD; sx++) {
 		for (int sy = -DRAW_RAD; sy <= DRAW_RAD; sy++) {
@@ -930,7 +931,7 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 	Uint32 sysIdx = 0;
 	for (std::vector<Sector::System>::iterator i = ps->m_systems.begin(); i != ps->m_systems.end(); ++i, ++sysIdx) {
 		// calculate where the system is in relation the centre of the view...
-		const vector3f sysAbsPos = Sector::SIZE*vector3f(float(sx), float(sy), float(sz)) + (*i).p;
+		const vector3f sysAbsPos = Sector::SIZE*vector3f(float(sx), float(sy), float(sz)) + i->GetPosition();
 		const vector3f toCentreOfView = m_pos*Sector::SIZE - sysAbsPos;
 
 		// ...and skip the system if it doesn't fall within the sphere we're viewing.
@@ -945,8 +946,8 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 
 		// if the system belongs to a faction we've chosen to temporarily hide
 		// then skip it if we can
-		m_visibleFactions.insert(i->faction);
-		if (m_hiddenFactions.find(i->faction) != m_hiddenFactions.end() && can_skip) continue;
+		m_visibleFactions.insert(i->GetFaction());
+		if (m_hiddenFactions.find(i->GetFaction()) != m_hiddenFactions.end() && can_skip) continue;
 
 		// determine if system in hyperjump range or not
 		RefCountedPtr<const Sector> playerSec = GetCached(m_current);
@@ -956,7 +957,7 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 		// don't worry about looking for inhabited systems if they're
 		// unexplored (same calculation as in StarSystem.cpp) or we've
 		// already retrieved their population.
-		if ((*i).population < 0 && isqrt(1 + sx*sx + sy*sy + sz*sz) <= 90) {
+		if (i->GetPopulation() < 0 && isqrt(1 + sx*sx + sy*sy + sz*sz) <= 90) {
 
 			// only do this once we've pretty much stopped moving.
 			vector3f diff = vector3f(
@@ -967,23 +968,23 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 			// Ideally, since this takes so f'ing long, it wants to be done as a threaded job but haven't written that yet.
 			if( (diff.x < 0.001f && diff.y < 0.001f && diff.z < 0.001f) ) {
 				SystemPath current = SystemPath(sx, sy, sz, sysIdx);
-				RefCountedPtr<StarSystem> pSS = StarSystemCache::GetCached(current);
-				(*i).population = pSS->GetTotalPop();
+				RefCountedPtr<StarSystem> pSS = Pi::GetGalaxy()->GetStarSystem(current);
+				i->SetPopulation(pSS->GetTotalPop());
 			}
 
 		}
 
-		matrix4x4f systrans = trans * matrix4x4f::Translation((*i).p.x, (*i).p.y, (*i).p.z);
+		matrix4x4f systrans = trans * matrix4x4f::Translation(i->GetPosition().x, i->GetPosition().y, i->GetPosition().z);
 		m_renderer->SetTransform(systrans);
 
 		// for out-of-range systems draw leg only if we draw label
-		if ((m_drawSystemLegButton->GetPressed() && (inRange || m_drawOutRangeLabelButton->GetPressed()) && ((*i).population > 0 || m_drawUninhabitedLabelButton->GetPressed())) || !can_skip) {
+		if ((m_drawSystemLegButton->GetPressed() && (inRange || m_drawOutRangeLabelButton->GetPressed()) && (i->GetPopulation() > 0 || m_drawUninhabitedLabelButton->GetPressed())) || !can_skip) {
 
 			const Color light(128);
 			const Color dark(51);
 
 			// draw system "leg"
-			float z = -(*i).p.z;
+			float z = -i->GetPosition().z;
 			if (sz <= cz)
 				z = z+abs(cz-sz)*Sector::SIZE;
 			else
@@ -1012,7 +1013,7 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 				RefCountedPtr<Sector> hyperSec = GetCached(m_hyperspaceTarget);
 				const vector3f hyperAbsPos =
 					Sector::SIZE*vector3f(m_hyperspaceTarget.sectorX, m_hyperspaceTarget.sectorY, m_hyperspaceTarget.sectorZ)
-					+ hyperSec->m_systems[m_hyperspaceTarget.systemIndex].p;
+					+ hyperSec->m_systems[m_hyperspaceTarget.systemIndex].GetPosition();
 				if (m_selected != m_current) {
 				    m_secondLine.SetStart(vector3f(0.f, 0.f, 0.f));
 				    m_secondLine.SetEnd(hyperAbsPos - sysAbsPos);
@@ -1033,10 +1034,10 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 		// draw star blob itself
 		systrans.Rotate(DEG2RAD(-m_rotZ), 0, 0, 1);
 		systrans.Rotate(DEG2RAD(-m_rotX), 1, 0, 0);
-		systrans.Scale((StarSystem::starScale[(*i).starType[0]]));
+		systrans.Scale((StarSystem::starScale[(*i).GetStarType(0)]));
 		m_renderer->SetTransform(systrans);
 
-		const Uint8 *col = StarSystem::starColors[(*i).starType[0]];
+		const Uint8 *col = StarSystem::starColors[(*i).GetStarType(0)];
 		AddStarBillboard(systrans, vector3f(0.f), Color(col[0], col[1], col[2], 255), 0.5f);
 
 		// player location indicator
@@ -1061,7 +1062,7 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 			m_disk->Draw(m_renderer);
 		}
 		if(bIsCurrentSystem && m_jumpSphere && m_playerHyperspaceRange>0.0f) {
-			const matrix4x4f sphTrans = trans * matrix4x4f::Translation((*i).p.x, (*i).p.y, (*i).p.z);
+			const matrix4x4f sphTrans = trans * matrix4x4f::Translation(i->GetPosition().x, i->GetPosition().y, i->GetPosition().z);
 			m_renderer->SetTransform(sphTrans * matrix4x4f::ScaleMatrix(m_playerHyperspaceRange));
 			m_jumpSphere->Draw(m_renderer);
 			m_jumpDisk->Draw(m_renderer);
@@ -1114,19 +1115,19 @@ void SectorView::BuildFarSector(RefCountedPtr<Sector> sec, const vector3f &origi
 	Color starColor;
 	for (std::vector<Sector::System>::iterator i = sec->m_systems.begin(); i != sec->m_systems.end(); ++i) {
 		// skip the system if it doesn't fall within the sphere we're viewing.
-		if ((m_pos*Sector::SIZE - (*i).FullPosition()).Length() > (m_zoomClamped/FAR_THRESHOLD )*OUTER_RADIUS) continue;
+		if ((m_pos*Sector::SIZE - (*i).GetFullPosition()).Length() > (m_zoomClamped/FAR_THRESHOLD )*OUTER_RADIUS) continue;
 
 		// if the system belongs to a faction we've chosen to hide also skip it, if it's not selectd in some way
-		m_visibleFactions.insert(i->faction);
-		if (m_hiddenFactions.find(i->faction) != m_hiddenFactions.end()
+		m_visibleFactions.insert(i->GetFaction());
+		if (m_hiddenFactions.find(i->GetFaction()) != m_hiddenFactions.end()
 			&& !i->IsSameSystem(m_selected) && !i->IsSameSystem(m_hyperspaceTarget) && !i->IsSameSystem(m_current)) continue;
 
 		// otherwise add the system's position (origin must be m_pos's *sector* or we get judder)
 		// and faction color to the list to draw
-		starColor = (*i).faction->colour;
+		starColor = i->GetFaction()->colour;
 		starColor.a = 191;
 
-		points.push_back((*i).FullPosition() - origin);
+		points.push_back((*i).GetFullPosition() - origin);
 		colors.push_back(starColor);
 	}
 }
@@ -1338,9 +1339,9 @@ void SectorView::Update()
 			float min_dist = FLT_MAX;
 			for (unsigned int i=0; i<ps->m_systems.size(); i++) {
 				Sector::System *ss = &ps->m_systems[i];
-				float dx = px - ss->p.x;
-				float dy = py - ss->p.y;
-				float dz = pz - ss->p.z;
+				float dx = px - ss->GetPosition().x;
+				float dy = py - ss->GetPosition().y;
+				float dz = pz - ss->GetPosition().z;
 				float dist = sqrtf(dx*dx + dy*dy + dz*dz);
 				if (dist < min_dist) {
 					min_dist = dist;
@@ -1349,7 +1350,7 @@ void SectorView::Update()
 			}
 
 			if (!m_selected.IsSameSystem(new_selected)) {
-				RefCountedPtr<StarSystem> system = StarSystemCache::GetCached(new_selected);
+				RefCountedPtr<StarSystem> system = Pi::GetGalaxy()->GetStarSystem(new_selected);
 				SetSelected(system->GetStars()[0]->GetPath());
 			}
 		}

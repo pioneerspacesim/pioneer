@@ -155,6 +155,10 @@
       "description" : "",
       "message" : "Constable"
    },
+   "CONTINUE_GAME" : {
+      "description" : "",
+      "message" : "Continue game"
+   },
    "CONTROLS" : {
       "description" : "",
       "message" : "Controles"
@@ -798,10 +802,6 @@
    "QUALIFICATION_SCORES" : {
       "description" : "",
       "message" : "Pontuações de qualificação"
-   },
-   "QUICKLOAD" : {
-      "description" : "",
-      "message" : "Quickload"
    },
    "QUIT" : {
       "description" : "",

@@ -205,17 +205,17 @@
    },
    "GRATEFUL_GREETING_3" : {
       "description" : "",
-      "message" : "Welcome! Finally some {cargo}."
+      "message" : "Hoşgeldin! Sonunda {cargo} geldi."
    },
    "GRATEFUL_GREETING_4" : {
       "description" : "",
-      "message" : "How we've longed for some {cargo}."
+      "message" : "Hasret sona erdi, {cargo} geldi."
    },
    "GRATEFUL_GREETING_5" : {
       "description" : "",
-      "message" : "Welcome! Your shipment of {cargo} will sell out fast here."
+      "message" : "Hoşgeldin! {cargo} sevkiyatın burada hızlı bir şekilde satılacak."
    },
-   "NEWSPAPER_CIS" : {
+   "NEWSPAPER_CIW" : {
       "description" : "",
       "message" : "The Confederate Chronicle"
    },
@@ -269,7 +269,7 @@
    },
    "NEWSPAPER_IND_9" : {
       "description" : "",
-      "message" : "The Satellite Journal"
+      "message" : "Uydu Gazetesi"
    },
    "TITLE_0" : {
       "description" : "",
@@ -289,6 +289,6 @@
    },
    "TITLE_4" : {
       "description" : "",
-      "message" : "Notes from {newspaper}"
+      "message" : "{newspaper} Notları"
    }
 }

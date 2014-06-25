@@ -51,6 +51,9 @@ local equipIcon = {
 	RADIOACTIVES =          "Radioactive_waste",
 }
 
+-- loose money when you sell parts back to the station.
+local sellPriceReduction = 0.8
+
 local defaultFuncs = {
 	-- can we trade in this item
 	canTrade = function (e)
@@ -62,9 +65,19 @@ local defaultFuncs = {
 		return Game.player:GetDockedWith():GetEquipmentStock(e)
 	end,
 
-	-- what do we charge for this item?
-	getPrice = function (e)
+	-- what do we charge for this item if we are buying
+	getBuyPrice = function (e)
 		return Game.player:GetDockedWith():GetEquipmentPrice(e)
+	end,
+
+	-- what do we get for this item if we are selling
+	getSellPrice = function (e)
+		basePrice = Game.player:GetDockedWith():GetEquipmentPrice(e)
+		if basePrice > 0 then
+			return sellPriceReduction * basePrice
+		else
+			return 1.0/sellPriceReduction * basePrice
+		end
 	end,
 
 	-- do something when a "buy" button is clicked
@@ -94,6 +107,8 @@ local defaultFuncs = {
 local stationColumnHeading = {
 	icon  = "",
 	name  = l.NAME_OBJECT,
+	buy   = l.BUY,
+	sell  = l.SELL,
 	price = l.PRICE,
 	stock = l.IN_STOCK,
 	mass  = l.MASS,
@@ -109,7 +124,9 @@ local shipColumnHeading = {
 local defaultStationColumnValue = {
 	icon  = function (e, funcs) return equipIcon[e] and ui:Image("icons/goods/"..equipIcon[e]..".png") or "" end,
 	name  = function (e, funcs) return lcore[e] end,
-	price = function (e, funcs) return Format.Money(funcs.getPrice(e)) end,
+	price = function (e, funcs) return Format.Money(funcs.getBuyPrice(e)) end,
+	buy   = function (e, funcs) return Format.Money(funcs.getBuyPrice(e)) end,
+	sell  = function (e, funcs) return Format.Money(funcs.getSellPrice(e)) end,
 	stock = function (e, funcs) return funcs.getStock(e) end,
 	mass  = function (e, funcs) return string.format("%dt", EquipDef[e].mass) end,
 }
@@ -129,7 +146,9 @@ function EquipmentTableWidgets.Pair (config)
 	local funcs = {
 		canTrade = config.canTrade or defaultFuncs.canTrade,
 		getStock = config.getStock or defaultFuncs.getStock,
-		getPrice = config.getPrice or defaultFuncs.getPrice,
+--		getPrice = config.getPrice or defaultFuncs.getPrice,
+		getBuyPrice = config.getBuyPrice or defaultFuncs.getBuyPrice,
+		getSellPrice = config.getSellPrice or defaultFuncs.getSellPrice,
 		onClickBuy = config.onClickBuy or defaultFuncs.onClickBuy,
 		onClickSell = config.onClickSell or defaultFuncs.onClickSell,
 		bought = config.bought or defaultFuncs.bought,
@@ -140,6 +159,8 @@ function EquipmentTableWidgets.Pair (config)
 		icon  = config.icon  or defaultStationColumnValue.icon,
 		name  = config.name  or defaultStationColumnValue.name,
 		price = config.price or defaultStationColumnValue.price,
+		buy   = config.buy   or defaultStationColumnValue.buy,
+		sell  = config.sell  or defaultStationColumnValue.sell,
 		stock = config.stock or defaultStationColumnValue.stock,
 		mass  = config.mass  or defaultStationColumnValue.mass,
 	}
@@ -243,8 +264,9 @@ function EquipmentTableWidgets.Pair (config)
 			return
 		end
 
-		local price = funcs.getPrice(e)
-		if player:GetMoney() < funcs.getPrice(e) then
+
+		local price = funcs.getBuyPrice(e)
+		if player:GetMoney() < funcs.getBuyPrice(e) then
 			MessageBox.Message(l.YOU_NOT_ENOUGH_MONEY)
 			return
 		end
@@ -261,7 +283,7 @@ function EquipmentTableWidgets.Pair (config)
 		local player = Game.player
 
 		player:RemoveEquip(e)
-		player:AddMoney(funcs.getPrice(e))
+		player:AddMoney(funcs.getSellPrice(e))
 
 		funcs.bought(e)
 	end

@@ -74,7 +74,7 @@ Event = {
 	--
 	-- Status:
 	--
-	--   stable  
+	--   stable
 	--
 	Register = function (name, cb)
 		if not callbacks[name] then callbacks[name] = {} end
@@ -112,7 +112,7 @@ Event = {
 		callbacks[name][cb] = nil
 	end,
 
-    --
+	--
 	-- Function: Queue
 	--
 	-- Add an event to the queue of pending events. The event will be
@@ -358,6 +358,27 @@ Event = {
 -- Status:
 --
 --   stable
+--
+
+--
+-- Event: onShipFiring
+--
+-- Triggered when a ship is firing its weapons.
+--
+-- > local onShipFiring = function (ship) ... end
+-- > Event.Register("onShipFiring", onShipFiring)
+--
+-- Parameters:
+--
+--   ship - the <Ship> that is firing its weapons
+--
+-- Availability:
+--
+--   2014 May
+--
+-- Status:
+--
+--   experimental
 --
 
 --
@@ -705,7 +726,5 @@ Event = {
 --
 --   experimental
 --
-
--- XXX document SongFinished
 
 return Event

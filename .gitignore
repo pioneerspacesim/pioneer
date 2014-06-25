@@ -13,6 +13,8 @@ debian/*.debhelper.log
 debian/*.substvars
 debian/pioneer*/
 autom4te.cache/
+codedoc/
+nd/Data/
 *.vcxproj.user
 *.user
 *.ncb

@@ -1,7 +1,7 @@
 material cargo-material
-tex_diff cargopod.png
-tex_glow glow.png
-tex_spec specular.png
+tex_diff cargopod.dds
+tex_glow glow.dds
+tex_spec specular.dds
 specular 0.7 0.7 0.7
 shininess 40
 use_patterns

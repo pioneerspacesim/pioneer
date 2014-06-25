@@ -149,8 +149,13 @@ bool RendererGL2::SwapBuffers()
 		std::stringstream ss;
 		ss << "OpenGL error(s) during frame:\n";
 		while (err != GL_NO_ERROR) {
-			ss << glerr_to_string(err) << '\n';
+			ss << glerr_to_string(err) << std::endl;
 			err = glGetError();
+			if( err == GL_OUT_OF_MEMORY ) {
+				ss << "Out-of-memory on graphics card." << std::endl
+					<< "Recommend enabling \"Compress Textures\" in game options." << std::endl
+					<< "Also try reducing City and Planet detail settings." << std::endl;
+			}
 		}
 		Error("%s", ss.str().c_str());
 	}

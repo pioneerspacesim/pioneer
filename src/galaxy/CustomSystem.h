@@ -11,6 +11,7 @@
 #include "Color.h"
 
 class Faction;
+class Galaxy;
 
 class CustomSystemBody {
 public:
@@ -64,19 +65,13 @@ public:
 
 class CustomSystem {
 public:
-	typedef std::vector<CustomSystem*> SystemList;
-	static void Init();
-	static void Uninit();
-	// XXX this is not as const-safe as it should be
-	static const SystemList &GetCustomSystemsForSector(int sectorX, int sectorY, int sectorZ);
-
 	CustomSystem();
 	~CustomSystem();
 
 	std::string            name;
     CustomSystemBody*      sBody;
 	SystemBody::BodyType   primaryType[4];
-	int                    numStars;
+	unsigned               numStars;
 	int                    sectorX, sectorY, sectorZ;
 	vector3f               pos;
 	Uint32                 seed;
@@ -88,6 +83,27 @@ public:
 	std::string            longDesc;
 
 	bool IsRandom() const { return !sBody; }
+};
+
+class CustomSystemsDatabase {
+public:
+	CustomSystemsDatabase(Galaxy* galaxy) : m_galaxy(galaxy) { }
+	~CustomSystemsDatabase();
+
+	void Init();
+
+	typedef std::vector<CustomSystem*> SystemList;
+	// XXX this is not as const-safe as it should be
+	const SystemList &GetCustomSystemsForSector(int sectorX, int sectorY, int sectorZ) const;
+	void AddCustomSystem(const SystemPath& path, CustomSystem* csys);
+	Galaxy* GetGalaxy() const { return m_galaxy; }
+
+private:
+	typedef std::map<SystemPath, CustomSystemsDatabase::SystemList> SectorMap;
+
+	Galaxy* const m_galaxy;
+	SectorMap m_sectorMap;
+	static const CustomSystemsDatabase::SystemList s_emptySystemList; // see: Null Object pattern
 };
 
 #endif /* _CUSTOMSYSTEM_H */

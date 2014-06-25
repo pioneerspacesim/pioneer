@@ -77,6 +77,7 @@ WindowSDL::WindowSDL(const Graphics::Settings &vs, const std::string &name)
 		SDL_SetWindowIcon(m_window, surface.Get());
 
 	SDL_SetWindowTitle(m_window, vs.title);
+	SDL_ShowCursor(0);
 }
 
 WindowSDL::~WindowSDL()

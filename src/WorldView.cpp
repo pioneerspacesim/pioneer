@@ -4,10 +4,12 @@
 #include "WorldView.h"
 #include "Pi.h"
 #include "Frame.h"
+#include "HudTrail.h"
 #include "Player.h"
 #include "Planet.h"
+#include "galaxy/Galaxy.h"
 #include "galaxy/Sector.h"
-#include "galaxy/SectorCache.h"
+#include "galaxy/GalaxyCache.h"
 #include "SectorView.h"
 #include "Serializer.h"
 #include "ShipCpanel.h"
@@ -612,7 +614,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 #endif
 	if (Pi::player->GetFlightState() == Ship::HYPERSPACE) {
 		const SystemPath dest = Pi::player->GetHyperspaceDest();
-		RefCountedPtr<StarSystem> s = StarSystemCache::GetCached(dest);
+		RefCountedPtr<StarSystem> s = Pi::GetGalaxy()->GetStarSystem(dest);
 
 		Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_TOP_LEFT, stringf(Lang::IN_TRANSIT_TO_N_X_X_X,
 			formatarg("system", dest.IsBodyPath() ? s->GetBodyByPath(dest)->GetName() : s->GetName()),
@@ -726,7 +728,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 	}
 
 	float hull = Pi::player->GetPercentHull();
-	if (hull < 100.0f) {
+	if (hull <= 99.9f) { //visible when hull integrity <= 99.9%
 		m_hudHullIntegrity->SetColor(get_color_for_warning_meter_bar(hull));
 		m_hudHullIntegrity->SetValue(hull*0.01f);
 		m_hudHullIntegrity->Show();
@@ -803,14 +805,14 @@ void WorldView::RefreshButtonStateAndVisibility()
 			}
 			else {
 				const SystemPath& dest = ship->GetHyperspaceDest();
-				RefCountedPtr<const Sector> s = Sector::cache.GetCached(dest);
+				RefCountedPtr<const Sector> s = Pi::GetGalaxy()->GetSector(dest);
 				text += (cloud->IsArrival() ? Lang::HYPERSPACE_ARRIVAL_CLOUD : Lang::HYPERSPACE_DEPARTURE_CLOUD);
 				text += "\n";
 				text += stringf(Lang::SHIP_MASS_N_TONNES, formatarg("mass", ship->GetStats().total_mass));
 				text += "\n";
 				text += (cloud->IsArrival() ? Lang::SOURCE : Lang::DESTINATION);
 				text += ": ";
-				text += s->m_systems[dest.systemIndex].name;
+				text += s->m_systems[dest.systemIndex].GetName();
 				text += "\n";
 				text += stringf(Lang::DATE_DUE_N, formatarg("date", format_date(cloud->GetDueDate())));
 				text += "\n";

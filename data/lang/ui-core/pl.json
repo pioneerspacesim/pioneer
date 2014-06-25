@@ -155,6 +155,10 @@
       "description" : "",
       "message" : "Posterunkowy"
    },
+   "CONTINUE_GAME" : {
+      "description" : "",
+      "message" : "Kontynuacja gry"
+   },
    "CONTROLS" : {
       "description" : "",
       "message" : "Sterowanie"
@@ -798,10 +802,6 @@
    "QUALIFICATION_SCORES" : {
       "description" : "",
       "message" : "Posiadane kwalifikacje"
-   },
-   "QUICKLOAD" : {
-      "description" : "",
-      "message" : "Wczytanie szybkiego zapisu"
    },
    "QUIT" : {
       "description" : "",

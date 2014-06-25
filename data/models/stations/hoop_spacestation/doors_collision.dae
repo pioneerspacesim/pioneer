@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+  <asset>
+    <contributor>
+      <author>Blender User</author>
+      <authoring_tool>Blender 2.70.0 commit date:2014-04-10, commit time:11:49, hash:f93bc76</authoring_tool>
+    </contributor>
+    <created>2014-05-14T14:43:43</created>
+    <modified>2014-05-14T14:43:43</modified>
+    <unit name="meter" meter="1"/>
+    <up_axis>Z_UP</up_axis>
+  </asset>
+  <library_images/>
+  <library_geometries>
+    <geometry id="Cube_001-mesh" name="Cube.001">
+      <mesh>
+        <source id="Cube_001-mesh-positions">
+          <float_array id="Cube_001-mesh-positions-array" count="24">-102.5 0 -52.50001 -102.5 5 -52.50001 102.5 5 -52.50001 102.5 0 -52.50001 -102.5 0 0 -102.5 5 0 102.5 5 0 102.5 0 0</float_array>
+          <technique_common>
+            <accessor source="#Cube_001-mesh-positions-array" count="8" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Cube_001-mesh-normals">
+          <float_array id="Cube_001-mesh-normals-array" count="18">-1 0 0 0 1 0 1 0 0 0 -1 0 0 0 -1 0 0 1</float_array>
+          <technique_common>
+            <accessor source="#Cube_001-mesh-normals-array" count="6" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="Cube_001-mesh-vertices">
+          <input semantic="POSITION" source="#Cube_001-mesh-positions"/>
+        </vertices>
+        <polylist count="6">
+          <input semantic="VERTEX" source="#Cube_001-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#Cube_001-mesh-normals" offset="1"/>
+          <vcount>4 4 4 4 4 4 </vcount>
+          <p>4 0 5 0 1 0 0 0 5 1 6 1 2 1 1 1 6 2 7 2 3 2 2 2 7 3 4 3 0 3 3 3 0 4 1 4 2 4 3 4 7 5 6 5 5 5 4 5</p>
+        </polylist>
+      </mesh>
+    </geometry>
+    <geometry id="Cube_002-mesh" name="Cube.002">
+      <mesh>
+        <source id="Cube_002-mesh-positions">
+          <float_array id="Cube_002-mesh-positions-array" count="24">102.4999 -1.42772e-5 52.50016 102.4999 4.999986 52.50016 -102.5001 4.999986 52.49985 -102.5001 -1.42772e-5 52.49985 102.5 0 1.55588e-4 102.5 5 1.56948e-4 -102.5 5 -1.54229e-4 -102.5 0 -1.55588e-4</float_array>
+          <technique_common>
+            <accessor source="#Cube_002-mesh-positions-array" count="8" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Cube_002-mesh-normals">
+          <float_array id="Cube_002-mesh-normals-array" count="18">1 0 1.45322e-6 0 1 2.72478e-7 -1 0 -1.45322e-6 0 -1 -2.71946e-7 -1.51657e-6 -3.8147e-7 1 1.51793e-6 2.71946e-7 -1</float_array>
+          <technique_common>
+            <accessor source="#Cube_002-mesh-normals-array" count="6" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="Cube_002-mesh-vertices">
+          <input semantic="POSITION" source="#Cube_002-mesh-positions"/>
+        </vertices>
+        <polylist count="6">
+          <input semantic="VERTEX" source="#Cube_002-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#Cube_002-mesh-normals" offset="1"/>
+          <vcount>4 4 4 4 4 4 </vcount>
+          <p>4 0 5 0 1 0 0 0 5 1 6 1 2 1 1 1 6 2 7 2 3 2 2 2 7 3 4 3 0 3 3 3 0 4 1 4 2 4 3 4 7 5 6 5 5 5 4 5</p>
+        </polylist>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_animations>
+    <animation id="collision_door_bottom_location_X">
+      <source id="collision_door_bottom_location_X-input">
+        <float_array id="collision_door_bottom_location_X-input-array" count="2">0.04166662 5.041666</float_array>
+        <technique_common>
+          <accessor source="#collision_door_bottom_location_X-input-array" count="2" stride="1">
+            <param name="TIME" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="collision_door_bottom_location_X-output">
+        <float_array id="collision_door_bottom_location_X-output-array" count="2">0 0</float_array>
+        <technique_common>
+          <accessor source="#collision_door_bottom_location_X-output-array" count="2" stride="1">
+            <param name="X" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="collision_door_bottom_location_X-interpolation">
+        <Name_array id="collision_door_bottom_location_X-interpolation-array" count="2">BEZIER BEZIER</Name_array>
+        <technique_common>
+          <accessor source="#collision_door_bottom_location_X-interpolation-array" count="2" stride="1">
+            <param name="INTERPOLATION" type="name"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="collision_door_bottom_location_X-intangent">
+        <float_array id="collision_door_bottom_location_X-intangent-array" count="4">-1.910391 0 3.089609 0</float_array>
+        <technique_common>
+          <accessor source="#collision_door_bottom_location_X-intangent-array" count="2" stride="2">
+            <param name="X" type="float"/>
+            <param name="Y" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="collision_door_bottom_location_X-outtangent">
+        <float_array id="collision_door_bottom_location_X-outtangent-array" count="4">1.993724 0 6.993724 0</float_array>
+        <technique_common>
+          <accessor source="#collision_door_bottom_location_X-outtangent-array" count="2" stride="2">
+            <param name="X" type="float"/>
+            <param name="Y" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <sampler id="collision_door_bottom_location_X-sampler">
+        <input semantic="INPUT" source="#collision_door_bottom_location_X-input"/>
+        <input semantic="OUTPUT" source="#collision_door_bottom_location_X-output"/>
+        <input semantic="INTERPOLATION" source="#collision_door_bottom_location_X-interpolation"/>
+        <input semantic="IN_TANGENT" source="#collision_door_bottom_location_X-intangent"/>
+        <input semantic="OUT_TANGENT" source="#collision_door_bottom_location_X-outtangent"/>
+      </sampler>
+      <channel source="#collision_door_bottom_location_X-sampler" target="collision_door_bottom/location.X"/>
+    </animation>
+    <animation id="collision_door_bottom_location_Y">
+      <source id="collision_door_bottom_location_Y-input">
+        <float_array id="collision_door_bottom_location_Y-input-array" count="121">0.04166662 0.08333331 0.125 0.1666666 0.2083333 0.25 0.2916666 0.3333333 0.375 0.4166666 0.4583333 0.5 0.5416667 0.5833333 0.625 0.6666667 0.7083333 0.75 0.7916667 0.8333333 0.875 0.9166667 0.9583333 1 1.041667 1.083333 1.125 1.166667 1.208333 1.25 1.291667 1.333333 1.375 1.416667 1.458333 1.5 1.541667 1.583333 1.625 1.666667 1.708333 1.75 1.791667 1.833333 1.875 1.916667 1.958333 2 2.041667 2.083333 2.125 2.166667 2.208333 2.25 2.291667 2.333333 2.375 2.416667 2.458333 2.5 2.541667 2.583333 2.625 2.666667 2.708333 2.75 2.791667 2.833333 2.875 2.916667 2.958333 3 3.041667 3.083333 3.125 3.166667 3.208333 3.25 3.291667 3.333333 3.375 3.416667 3.458333 3.5 3.541667 3.583333 3.625 3.666667 3.708333 3.75 3.791667 3.833333 3.875 3.916667 3.958333 4 4.041666 4.083333 4.125 4.166666 4.208333 4.25 4.291666 4.333333 4.375 4.416666 4.458333 4.5 4.541666 4.583333 4.625 4.666666 4.708333 4.75 4.791666 4.833333 4.875 4.916666 4.958333 5 5.041666</float_array>
+        <technique_common>
+          <accessor source="#collision_door_bottom_location_Y-input-array" count="121" stride="1">
+            <param name="TIME" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="collision_door_bottom_location_Y-output">
+        <float_array id="collision_door_bottom_location_Y-output-array" count="121">-0.5651784 -0.5547872 -0.5238483 -0.4727108 -0.4017207 -0.3112325 -0.2015922 -0.0731461 0.07375055 0.2387503 0.4215123 0.6216746 0.838896 1.072831 1.323123 1.589424 1.871396 2.168676 2.480921 2.80779 3.148921 3.503972 3.872606 4.254451 4.64917 5.056429 5.475856 5.907108 6.349857 6.80373 7.268386 7.743488 8.228673 8.723599 9.227926 9.741285 10.26334 10.79376 11.33216 11.87822 12.4316 12.99192 13.55885 14.13205 14.71115 15.29582 15.88572 16.48047 17.07975 17.68321 18.29048 18.90123 19.51513 20.13179 20.75089 21.37209 21.99502 22.61933 23.24471 23.87076 24.49715 25.12358 25.74962 26.37499 26.99932 27.62224 28.24343 28.86254 29.4792 30.09309 30.70385 31.31112 31.91458 32.51386 33.10861 33.6985 34.28318 34.86228 35.43547 36.0024 36.56273 37.1161 37.66216 38.20058 38.73097 39.25305 39.76641 40.27072 40.76566 41.25084 41.72593 42.1906 42.64448 43.0872 43.51847 43.9379 44.34515 44.73987 45.12172 45.49034 45.8454 46.18653 46.5134 46.82566 47.12294 47.40489 47.67121 47.9215 48.15542 48.37265 48.57281 48.75557 48.92057 49.06746 49.19591 49.30555 49.39604 49.46703 49.51817 49.54911 49.5595</float_array>
+        <technique_common>
+          <accessor source="#collision_door_bottom_location_Y-output-array" count="121" stride="1">
+            <param name="Y" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="collision_door_bottom_location_Y-interpolation">
+        <Name_array id="collision_door_bottom_location_Y-interpolation-array" count="121">BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER</Name_array>
+        <technique_common>
+          <accessor source="#collision_door_bottom_location_Y-interpolation-array" count="121" stride="1">
+            <param name="INTERPOLATION" type="name"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="collision_door_bottom_location_Y-intangent">
+        <float_array id="collision_door_bottom_location_Y-intangent-array" count="242">0.0253995 -0.5651784 0.06706619 -0.562855 0.1087328 -0.5398701 0.1503995 -0.4965508 0.1920661 -0.4332422 0.2337328 -0.3502987 0.2753995 -0.248068 0.3170662 -0.1268946 0.3587328 0.01286655 0.4003995 0.1708653 0.4420662 0.3467633 0.4837328 0.5401989 0.5253995 0.7508276 0.5670662 0.9783077 0.6087329 1.222281 0.6503995 1.482398 0.6920662 1.758323 0.7337329 2.049693 0.7753995 2.356162 0.8170662 2.677393 0.8587329 3.013023 0.9003995 3.362704 0.9420662 3.726109 0.9837329 4.102861 1.0254 4.492619 1.067066 4.895056 1.108733 5.309798 1.1504 5.736498 1.192066 6.174831 1.233733 6.624428 1.2754 7.08494 1.317066 7.556035 1.358733 8.03735 1.4004 8.528539 1.442066 9.029268 1.483733 9.539165 1.5254 10.05789 1.567066 10.58512 1.608733 11.12047 1.6504 11.66361 1.692066 12.2142 1.733733 12.77187 1.7754 13.33629 1.817066 13.90711 1.858733 14.48398 1.9004 15.06654 1.942066 15.65447 1.983733 16.24739 2.025399 16.84496 2.067066 17.44687 2.108733 18.05271 2.150399 18.66217 2.192066 19.27492 2.233733 19.89057 2.275399 20.50878 2.317066 21.12923 2.358733 21.75155 2.400399 22.37538 2.442066 23.00042 2.483733 23.62627 2.525399 24.2526 2.567066 24.87909 2.608733 25.50534 2.650399 26.13104 2.692066 26.75585 2.733733 27.37938 2.775399 28.00131 2.817066 28.62131 2.858733 29.23899 2.900399 29.85403 2.942066 30.46608 2.983733 31.07478 3.025399 31.6798 3.067066 32.28078 3.108733 32.87736 3.150399 33.46922 3.192066 34.056 3.233733 34.63735 3.275399 35.21291 3.317066 35.78236 3.358733 36.34533 3.400399 36.90148 3.442066 37.45046 3.483733 37.99194 3.525399 38.52553 3.567066 39.05093 3.608733 39.56775 3.650399 40.07566 3.692066 40.57434 3.733733 41.06339 3.775399 41.54248 3.817066 42.01129 3.858733 42.46945 3.900399 42.91659 3.942066 43.35241 3.983733 43.77653 4.0254 44.1886 4.067066 44.58828 4.108733 44.97523 4.1504 45.34908 4.192066 45.70951 4.233733 46.05614 4.2754 46.38864 4.317066 46.70668 4.358733 47.00986 4.4004 47.29787 4.442066 47.57036 4.483733 47.82698 4.5254 48.06735 4.567066 48.29117 4.608733 48.49806 4.6504 48.68768 4.692066 48.85969 4.733733 49.01371 4.7754 49.14943 4.817066 49.26649 4.858733 49.36452 4.9004 49.44319 4.942066 49.50215 4.983733 49.54104 5.0254 49.5595</float_array>
+        <technique_common>
+          <accessor source="#collision_door_bottom_location_Y-intangent-array" count="121" stride="2">
+            <param name="X" type="float"/>
+            <param name="Y" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="collision_door_bottom_location_Y-outtangent">
+        <float_array id="collision_door_bottom_location_Y-outtangent-array" count="242">0.0579338 -0.5651784 0.09960043 -0.5467193 0.1412671 -0.5078265 0.1829338 -0.4488708 0.2246004 -0.3701992 0.2662671 -0.2721662 0.3079338 -0.1551163 0.3496004 -0.01939761 0.3912671 0.1346346 0.4329338 0.3066354 0.4746004 0.4962612 0.5162671 0.7031503 0.5579338 0.9269644 0.5996005 1.167355 0.6412671 1.423964 0.6829338 1.696451 0.7246005 1.984469 0.7662671 2.287658 0.8079338 2.60568 0.8496005 2.938188 0.8912671 3.28482 0.9329338 3.645239 0.9746005 4.019104 1.016267 4.406041 1.057934 4.805721 1.0996 5.217803 1.141267 5.641913 1.182934 6.077718 1.2246 6.524883 1.266267 6.983033 1.307934 7.451832 1.3496 7.930941 1.391267 8.419997 1.432934 8.918659 1.4746 9.426584 1.516267 9.943405 1.557934 10.46879 1.5996 11.0024 1.641267 11.54386 1.682934 12.09284 1.7246 12.649 1.766267 13.21196 1.807934 13.78141 1.8496 14.35699 1.891267 14.93833 1.932934 15.5251 1.9746 16.11697 2.016267 16.71355 2.057934 17.31453 2.099601 17.91955 2.141267 18.52824 2.182934 19.14029 2.224601 19.75535 2.266267 20.37302 2.307934 20.99301 2.349601 21.61495 2.391267 22.23849 2.432934 22.86328 2.474601 23.48899 2.516267 24.11524 2.557934 24.74171 2.599601 25.36807 2.641267 25.99391 2.682934 26.61893 2.724601 27.24279 2.766267 27.8651 2.807934 28.48554 2.849601 29.10377 2.891267 29.71941 2.932934 30.33214 2.974601 30.94161 3.016267 31.54747 3.057934 32.14936 3.099601 32.74694 3.141267 33.33987 3.182934 33.92778 3.224601 34.51036 3.266267 35.08721 3.307934 35.65803 3.349601 36.22245 3.391267 36.78013 3.432934 37.33071 3.474601 37.87386 3.516267 38.40921 3.557934 38.93642 3.599601 39.45517 3.641267 39.96506 3.682934 40.46578 3.724601 40.95698 3.766267 41.43829 3.807934 41.90938 3.849601 42.36991 3.891267 42.8195 3.932934 43.25781 3.974601 43.68453 4.016267 44.09927 4.057934 44.5017 4.0996 44.89147 4.141267 45.26822 4.182934 45.63161 4.2246 45.9813 4.266267 46.31693 4.307934 46.63816 4.3496 46.94464 4.391267 47.23601 4.432934 47.51192 4.4746 47.77205 4.516267 48.01602 4.557934 48.24349 4.5996 48.45413 4.641267 48.64756 4.682934 48.82345 4.7246 48.98146 4.766267 49.1212 4.807934 49.24238 4.8496 49.34462 4.891267 49.42756 4.932934 49.49087 4.9746 49.53419 5.016267 49.55718 5.057934 49.5595</float_array>
+        <technique_common>
+          <accessor source="#collision_door_bottom_location_Y-outtangent-array" count="121" stride="2">
+            <param name="X" type="float"/>
+            <param name="Y" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <sampler id="collision_door_bottom_location_Y-sampler">
+        <input semantic="INPUT" source="#collision_door_bottom_location_Y-input"/>
+        <input semantic="OUTPUT" source="#collision_door_bottom_location_Y-output"/>
+        <input semantic="INTERPOLATION" source="#collision_door_bottom_location_Y-interpolation"/>
+        <input semantic="IN_TANGENT" source="#collision_door_bottom_location_Y-intangent"/>
+        <input semantic="OUT_TANGENT" source="#collision_door_bottom_location_Y-outtangent"/>
+      </sampler>
+      <channel source="#collision_door_bottom_location_Y-sampler" target="collision_door_bottom/location.Y"/>
+    </animation>
+    <animation id="collision_door_bottom_location_Z">
+      <source id="collision_door_bottom_location_Z-input">
+        <float_array id="collision_door_bottom_location_Z-input-array" count="2">0.04166662 5.041666</float_array>
+        <technique_common>
+          <accessor source="#collision_door_bottom_location_Z-input-array" count="2" stride="1">
+            <param name="TIME" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="collision_door_bottom_location_Z-output">
+        <float_array id="collision_door_bottom_location_Z-output-array" count="2">391.0389 391.0389</float_array>
+        <technique_common>
+          <accessor source="#collision_door_bottom_location_Z-output-array" count="2" stride="1">
+            <param name="Z" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="collision_door_bottom_location_Z-interpolation">
+        <Name_array id="collision_door_bottom_location_Z-interpolation-array" count="2">BEZIER BEZIER</Name_array>
+        <technique_common>
+          <accessor source="#collision_door_bottom_location_Z-interpolation-array" count="2" stride="1">
+            <param name="INTERPOLATION" type="name"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="collision_door_bottom_location_Z-intangent">
+        <float_array id="collision_door_bottom_location_Z-intangent-array" count="4">-1.910391 391.0389 3.089609 391.0389</float_array>
+        <technique_common>
+          <accessor source="#collision_door_bottom_location_Z-intangent-array" count="2" stride="2">
+            <param name="X" type="float"/>
+            <param name="Y" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="collision_door_bottom_location_Z-outtangent">
+        <float_array id="collision_door_bottom_location_Z-outtangent-array" count="4">1.993724 391.0389 6.993724 391.0389</float_array>
+        <technique_common>
+          <accessor source="#collision_door_bottom_location_Z-outtangent-array" count="2" stride="2">
+            <param name="X" type="float"/>
+            <param name="Y" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <sampler id="collision_door_bottom_location_Z-sampler">
+        <input semantic="INPUT" source="#collision_door_bottom_location_Z-input"/>
+        <input semantic="OUTPUT" source="#collision_door_bottom_location_Z-output"/>
+        <input semantic="INTERPOLATION" source="#collision_door_bottom_location_Z-interpolation"/>
+        <input semantic="IN_TANGENT" source="#collision_door_bottom_location_Z-intangent"/>
+        <input semantic="OUT_TANGENT" source="#collision_door_bottom_location_Z-outtangent"/>
+      </sampler>
+      <channel source="#collision_door_bottom_location_Z-sampler" target="collision_door_bottom/location.Z"/>
+    </animation>
+    <animation id="collision_door_top_location_X">
+      <source id="collision_door_top_location_X-input">
+        <float_array id="collision_door_top_location_X-input-array" count="2">0.04166662 5.041666</float_array>
+        <technique_common>
+          <accessor source="#collision_door_top_location_X-input-array" count="2" stride="1">
+            <param name="TIME" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="collision_door_top_location_X-output">
+        <float_array id="collision_door_top_location_X-output-array" count="2">0 0</float_array>
+        <technique_common>
+          <accessor source="#collision_door_top_location_X-output-array" count="2" stride="1">
+            <param name="X" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="collision_door_top_location_X-interpolation">
+        <Name_array id="collision_door_top_location_X-interpolation-array" count="2">BEZIER BEZIER</Name_array>
+        <technique_common>
+          <accessor source="#collision_door_top_location_X-interpolation-array" count="2" stride="1">
+            <param name="INTERPOLATION" type="name"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="collision_door_top_location_X-intangent">
+        <float_array id="collision_door_top_location_X-intangent-array" count="4">-1.910391 0 3.089609 0</float_array>
+        <technique_common>
+          <accessor source="#collision_door_top_location_X-intangent-array" count="2" stride="2">
+            <param name="X" type="float"/>
+            <param name="Y" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="collision_door_top_location_X-outtangent">
+        <float_array id="collision_door_top_location_X-outtangent-array" count="4">1.993724 0 6.993724 0</float_array>
+        <technique_common>
+          <accessor source="#collision_door_top_location_X-outtangent-array" count="2" stride="2">
+            <param name="X" type="float"/>
+            <param name="Y" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <sampler id="collision_door_top_location_X-sampler">
+        <input semantic="INPUT" source="#collision_door_top_location_X-input"/>
+        <input semantic="OUTPUT" source="#collision_door_top_location_X-output"/>
+        <input semantic="INTERPOLATION" source="#collision_door_top_location_X-interpolation"/>
+        <input semantic="IN_TANGENT" source="#collision_door_top_location_X-intangent"/>
+        <input semantic="OUT_TANGENT" source="#collision_door_top_location_X-outtangent"/>
+      </sampler>
+      <channel source="#collision_door_top_location_X-sampler" target="collision_door_top/location.X"/>
+    </animation>
+    <animation id="collision_door_top_location_Y">
+      <source id="collision_door_top_location_Y-input">
+        <float_array id="collision_door_top_location_Y-input-array" count="121">0.04166662 0.08333331 0.125 0.1666666 0.2083333 0.25 0.2916666 0.3333333 0.375 0.4166666 0.4583333 0.5 0.5416667 0.5833333 0.625 0.6666667 0.7083333 0.75 0.7916667 0.8333333 0.875 0.9166667 0.9583333 1 1.041667 1.083333 1.125 1.166667 1.208333 1.25 1.291667 1.333333 1.375 1.416667 1.458333 1.5 1.541667 1.583333 1.625 1.666667 1.708333 1.75 1.791667 1.833333 1.875 1.916667 1.958333 2 2.041667 2.083333 2.125 2.166667 2.208333 2.25 2.291667 2.333333 2.375 2.416667 2.458333 2.5 2.541667 2.583333 2.625 2.666667 2.708333 2.75 2.791667 2.833333 2.875 2.916667 2.958333 3 3.041667 3.083333 3.125 3.166667 3.208333 3.25 3.291667 3.333333 3.375 3.416667 3.458333 3.5 3.541667 3.583333 3.625 3.666667 3.708333 3.75 3.791667 3.833333 3.875 3.916667 3.958333 4 4.041666 4.083333 4.125 4.166666 4.208333 4.25 4.291666 4.333333 4.375 4.416666 4.458333 4.5 4.541666 4.583333 4.625 4.666666 4.708333 4.75 4.791666 4.833333 4.875 4.916666 4.958333 5 5.041666</float_array>
+        <technique_common>
+          <accessor source="#collision_door_top_location_Y-input-array" count="121" stride="1">
+            <param name="TIME" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="collision_door_top_location_Y-output">
+        <float_array id="collision_door_top_location_Y-output-array" count="121">-0.5651784 -0.5772367 -0.6131384 -0.6724809 -0.7548581 -0.8598634 -0.9870924 -1.136145 -1.306607 -1.498078 -1.710158 -1.942432 -2.1945 -2.465965 -2.756409 -3.065432 -3.392639 -3.737609 -4.099946 -4.479254 -4.875112 -5.287119 -5.714892 -6.157993 -6.616035 -7.08863 -7.575341 -8.075779 -8.589554 -9.11624 -9.655439 -10.20676 -10.76978 -11.3441 -11.92933 -12.52505 -13.13086 -13.74636 -14.37114 -15.0048 -15.64695 -16.29717 -16.95504 -17.6202 -18.2922 -18.97067 -19.6552 -20.34536 -21.04078 -21.74105 -22.44574 -23.15448 -23.86686 -24.58245 -25.30086 -26.02172 -26.74458 -27.46904 -28.19474 -28.92123 -29.64812 -30.37503 -31.10152 -31.8272 -32.55169 -33.27455 -33.99539 -34.71381 -35.42941 -36.14177 -36.85052 -37.55521 -38.25548 -38.9509 -39.64107 -40.32559 -41.00406 -41.67607 -42.34122 -42.9991 -43.64931 -44.29145 -44.92512 -45.5499 -46.1654 -46.77121 -47.36693 -47.95215 -48.52649 -49.0895 -49.64081 -50.18002 -50.7067 -51.22046 -51.72092 -52.20763 -52.68021 -53.13826 -53.58137 -54.00913 -54.42115 -54.81701 -55.1963 -55.55865 -55.90362 -56.23081 -56.53985 -56.83029 -57.10176 -57.35383 -57.5861 -57.79818 -57.98965 -58.16011 -58.30916 -58.43638 -58.5414 -58.62377 -58.68312 -58.71902 -58.73108</float_array>
+        <technique_common>
+          <accessor source="#collision_door_top_location_Y-output-array" count="121" stride="1">
+            <param name="Y" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="collision_door_top_location_Y-interpolation">
+        <Name_array id="collision_door_top_location_Y-interpolation-array" count="121">BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER</Name_array>
+        <technique_common>
+          <accessor source="#collision_door_top_location_Y-interpolation-array" count="121" stride="1">
+            <param name="INTERPOLATION" type="name"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="collision_door_top_location_Y-intangent">
+        <float_array id="collision_door_top_location_Y-intangent-array" count="242">0.0253995 -0.5651784 0.06706619 -0.5678746 0.1087328 -0.5945461 0.1503995 -0.6448164 0.1920661 -0.71828 0.2337328 -0.8145299 0.2753995 -0.9331607 0.3170662 -1.073774 0.3587328 -1.235956 0.4003995 -1.419303 0.4420662 -1.623418 0.4837328 -1.847886 0.5253995 -2.092304 0.5670662 -2.356278 0.6087329 -2.63939 0.6503995 -2.941236 0.6920662 -3.261426 0.7337329 -3.599539 0.7753995 -3.955173 0.8170662 -4.327938 0.8587329 -4.717411 0.9003995 -5.123189 0.9420662 -5.544892 0.9837329 -5.982085 1.0254 -6.43437 1.067066 -6.901368 1.108733 -7.382644 1.1504 -7.877799 1.192066 -8.38645 1.233733 -8.908173 1.2754 -9.442564 1.317066 -9.989234 1.358733 -10.54776 1.4004 -11.11775 1.442066 -11.69881 1.483733 -12.2905 1.5254 -12.89245 1.567066 -13.50425 1.608733 -14.12549 1.6504 -14.75576 1.692066 -15.39468 1.733733 -16.04182 1.7754 -16.69678 1.817066 -17.35918 1.858733 -18.02858 1.9004 -18.7046 1.942066 -19.38685 1.983733 -20.07489 2.025399 -20.76833 2.067066 -21.4668 2.108733 -22.16983 2.150399 -22.87707 2.192066 -23.58811 2.233733 -24.30252 2.275399 -25.01991 2.317066 -25.7399 2.358733 -26.46205 2.400399 -27.18596 2.442066 -27.91127 2.483733 -28.63752 2.525399 -29.36433 2.567066 -30.09132 2.608733 -30.81805 2.650399 -31.54411 2.692066 -32.26916 2.733733 -32.99273 2.775399 -33.71443 2.817066 -34.43388 2.858733 -35.15066 2.900399 -35.86436 2.942066 -36.5746 2.983733 -37.28096 3.025399 -37.98303 3.067066 -38.68042 3.108733 -39.37272 3.150399 -40.05953 3.192066 -40.74044 3.233733 -41.41505 3.275399 -42.08295 3.317066 -42.74375 3.358733 -43.39704 3.400399 -44.04241 3.442066 -44.67946 3.483733 -45.30779 3.525399 -45.92699 3.567066 -46.53667 3.608733 -47.1364 3.650399 -47.7258 3.692066 -48.30447 3.733733 -48.87198 3.775399 -49.42794 3.817066 -49.97195 3.858733 -50.5036 3.900399 -51.02248 3.942066 -51.52822 3.983733 -52.02037 4.0254 -52.49855 4.067066 -52.96235 4.108733 -53.41137 4.1504 -53.8452 4.192066 -54.26344 4.233733 -54.66569 4.2754 -55.05153 4.317066 -55.42058 4.358733 -55.77241 4.4004 -56.10662 4.442066 -56.42283 4.483733 -56.7206 4.5254 -56.99956 4.567066 -57.25928 4.608733 -57.49936 4.6504 -57.7194 4.692066 -57.91899 4.733733 -58.09774 4.7754 -58.25523 4.817066 -58.39105 4.858733 -58.50482 4.9004 -58.59611 4.942066 -58.66453 4.983733 -58.70966 5.0254 -58.73108</float_array>
+        <technique_common>
+          <accessor source="#collision_door_top_location_Y-intangent-array" count="121" stride="2">
+            <param name="X" type="float"/>
+            <param name="Y" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="collision_door_top_location_Y-outtangent">
+        <float_array id="collision_door_top_location_Y-outtangent-array" count="242">0.0579338 -0.5651784 0.09960043 -0.5865987 0.1412671 -0.6317306 0.1829338 -0.7001454 0.2246004 -0.7914363 0.2662671 -0.9051968 0.3079338 -1.041024 0.3496004 -1.198516 0.3912671 -1.377259 0.4329338 -1.576853 0.4746004 -1.796899 0.5162671 -2.036979 0.5579338 -2.296697 0.5996005 -2.575653 0.6412671 -2.873429 0.6829338 -3.189627 0.7246005 -3.523852 0.7662671 -3.87568 0.8079338 -4.24472 0.8496005 -4.630571 0.8912671 -5.032812 0.9329338 -5.451049 0.9746005 -5.884891 1.016267 -6.333902 1.057934 -6.797701 1.0996 -7.275892 1.141267 -7.768038 1.182934 -8.273759 1.2246 -8.792658 1.266267 -9.324307 1.307934 -9.868314 1.3496 -10.42428 1.391267 -10.99179 1.432934 -11.57045 1.4746 -12.15986 1.516267 -12.75959 1.557934 -13.36926 1.5996 -13.98847 1.641267 -14.6168 1.682934 -15.25385 1.7246 -15.89923 1.766267 -16.55251 1.807934 -17.21331 1.8496 -17.88122 1.891267 -18.55582 1.932934 -19.23673 1.9746 -19.92355 2.016267 -20.61584 2.057934 -21.31322 2.099601 -22.01531 2.141267 -22.72165 2.182934 -23.43189 2.224601 -24.14561 2.266267 -24.86237 2.307934 -25.58182 2.349601 -26.30354 2.391267 -27.0271 2.432934 -27.75212 2.474601 -28.47822 2.516267 -29.20493 2.557934 -29.93191 2.599601 -30.65874 2.641267 -31.38499 2.682934 -32.11028 2.724601 -32.83422 2.766267 -33.55636 2.807934 -34.27634 2.849601 -34.99374 2.891267 -35.70816 2.932934 -36.41918 2.974601 -37.12643 3.016267 -37.82947 3.057934 -38.52792 3.099601 -39.22138 3.141267 -39.90942 3.182934 -40.59165 3.224601 -41.26768 3.266267 -41.93709 3.307934 -42.59948 3.349601 -43.25445 3.391267 -43.90159 3.432934 -44.5405 3.474601 -45.17077 3.516267 -45.79201 3.557934 -46.4038 3.599601 -47.00576 3.641267 -47.59746 3.682934 -48.17851 3.724601 -48.7485 3.766267 -49.30702 3.807934 -49.85369 3.849601 -50.38809 3.891267 -50.9098 3.932934 -51.41844 3.974601 -51.91362 4.016267 -52.39489 4.057934 -52.86187 4.0996 -53.31417 4.141267 -53.75136 4.182934 -54.17306 4.2246 -54.57885 4.266267 -54.96832 4.307934 -55.34107 4.3496 -55.69672 4.391267 -56.03483 4.432934 -56.35501 4.4746 -56.65687 4.516267 -56.93998 4.557934 -57.20395 4.5996 -57.44837 4.641267 -57.67284 4.682934 -57.87695 4.7246 -58.0603 4.766267 -58.22248 4.807934 -58.36309 4.8496 -58.48172 4.891267 -58.57798 4.932934 -58.65144 4.9746 -58.70171 5.016267 -58.72838 5.057934 -58.73108</float_array>
+        <technique_common>
+          <accessor source="#collision_door_top_location_Y-outtangent-array" count="121" stride="2">
+            <param name="X" type="float"/>
+            <param name="Y" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <sampler id="collision_door_top_location_Y-sampler">
+        <input semantic="INPUT" source="#collision_door_top_location_Y-input"/>
+        <input semantic="OUTPUT" source="#collision_door_top_location_Y-output"/>
+        <input semantic="INTERPOLATION" source="#collision_door_top_location_Y-interpolation"/>
+        <input semantic="IN_TANGENT" source="#collision_door_top_location_Y-intangent"/>
+        <input semantic="OUT_TANGENT" source="#collision_door_top_location_Y-outtangent"/>
+      </sampler>
+      <channel source="#collision_door_top_location_Y-sampler" target="collision_door_top/location.Y"/>
+    </animation>
+    <animation id="collision_door_top_location_Z">
+      <source id="collision_door_top_location_Z-input">
+        <float_array id="collision_door_top_location_Z-input-array" count="2">0.04166662 5.041666</float_array>
+        <technique_common>
+          <accessor source="#collision_door_top_location_Z-input-array" count="2" stride="1">
+            <param name="TIME" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="collision_door_top_location_Z-output">
+        <float_array id="collision_door_top_location_Z-output-array" count="2">391.0389 391.0388</float_array>
+        <technique_common>
+          <accessor source="#collision_door_top_location_Z-output-array" count="2" stride="1">
+            <param name="Z" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="collision_door_top_location_Z-interpolation">
+        <Name_array id="collision_door_top_location_Z-interpolation-array" count="2">BEZIER BEZIER</Name_array>
+        <technique_common>
+          <accessor source="#collision_door_top_location_Z-interpolation-array" count="2" stride="1">
+            <param name="INTERPOLATION" type="name"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="collision_door_top_location_Z-intangent">
+        <float_array id="collision_door_top_location_Z-intangent-array" count="4">-1.910391 391.0389 3.089609 391.0388</float_array>
+        <technique_common>
+          <accessor source="#collision_door_top_location_Z-intangent-array" count="2" stride="2">
+            <param name="X" type="float"/>
+            <param name="Y" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="collision_door_top_location_Z-outtangent">
+        <float_array id="collision_door_top_location_Z-outtangent-array" count="4">1.993724 391.0389 6.993724 391.0388</float_array>
+        <technique_common>
+          <accessor source="#collision_door_top_location_Z-outtangent-array" count="2" stride="2">
+            <param name="X" type="float"/>
+            <param name="Y" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <sampler id="collision_door_top_location_Z-sampler">
+        <input semantic="INPUT" source="#collision_door_top_location_Z-input"/>
+        <input semantic="OUTPUT" source="#collision_door_top_location_Z-output"/>
+        <input semantic="INTERPOLATION" source="#collision_door_top_location_Z-interpolation"/>
+        <input semantic="IN_TANGENT" source="#collision_door_top_location_Z-intangent"/>
+        <input semantic="OUT_TANGENT" source="#collision_door_top_location_Z-outtangent"/>
+      </sampler>
+      <channel source="#collision_door_top_location_Z-sampler" target="collision_door_top/location.Z"/>
+    </animation>
+  </library_animations>
+  <library_visual_scenes>
+    <visual_scene id="Scene" name="Scene">
+      <node id="collision_door_bottom" name="collision_door_bottom" type="NODE">
+        <translate sid="location">0 -0.5651784 391.0388</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 90.00005</rotate>
+        <scale sid="scale">1 1 1</scale>
+        <instance_geometry url="#Cube_001-mesh"/>
+      </node>
+      <node id="collision_door_top" name="collision_door_top" type="NODE">
+        <translate sid="location">0 -0.5651784 391.0388</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 90.00005</rotate>
+        <scale sid="scale">1 1 1</scale>
+        <instance_geometry url="#Cube_002-mesh"/>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#Scene"/>
+  </scene>
+</COLLADA>

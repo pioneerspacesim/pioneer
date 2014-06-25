@@ -1,6 +1,6 @@
 material kbuilding
-tex_diff diffuse.png
-tex_glow glow.png
+tex_diff diffuse.dds
+tex_glow glow.dds
 diffuse 1.0 1.0 1.0
 specular 0.6 0.6 0.8
 shininess 40

@@ -155,6 +155,10 @@
       "description" : "",
       "message" : "Guardia"
    },
+   "CONTINUE_GAME" : {
+      "description" : "",
+      "message" : "Continuar juego"
+   },
    "CONTROLS" : {
       "description" : "",
       "message" : "Controles"
@@ -429,7 +433,7 @@
    },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
-      "message" : "Estoy harto de trabajar por nada. Conoce la palabra contrato?"
+      "message" : "Estoy harto de trabajar por nada. ¿Conoce la palabra contrato?"
    },
    "INACTIVE" : {
       "description" : "",
@@ -799,10 +803,6 @@
       "description" : "",
       "message" : "Calificación"
    },
-   "QUICKLOAD" : {
-      "description" : "",
-      "message" : "Carga rápida"
-   },
    "QUIT" : {
       "description" : "",
       "message" : "Salir"
@@ -1045,7 +1045,7 @@
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",
-      "message" : "Va a lamentar haberme explotado!"
+      "message" : "¡Va a lamentar haberme explotado!"
    },
    "YOUR_HULL_IS_AT_X_INTEGRITY" : {
       "description" : "",

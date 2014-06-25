@@ -2,9 +2,9 @@ material Material-material
 diffuse 1.0 1.0 1.0
 specular 0.8 0.8 0.8
 use_patterns
-tex_diff sinonatrix_tex.png
-tex_spec sinonatrix_spec.png
-tex_glow sinonatrix_glow.png
+tex_diff sinonatrix_tex.dds
+tex_spec sinonatrix_spec.dds
+tex_glow sinonatrix_glow.dds
 mesh sinonatrix.dae
 
 anim gear_down 1 100

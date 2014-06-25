@@ -35,6 +35,27 @@ static int l_faction_attr_name(lua_State *l)
 }
 
 /*
+ * Attribute: id
+ *
+ * A unique identification number of the faction
+ *
+ * Availability:
+ *
+ *  2014-06
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_faction_attr_id(lua_State *l)
+{
+	const Faction *faction = LuaObject<Faction>::CheckFromLua(1);
+	lua_pushnumber(l, faction->idx);
+
+	return 1;
+}
+
+/*
  * Attribute: descriptionShort
  *
  * The short description of the faction
@@ -252,6 +273,7 @@ template <> void LuaObject<Faction>::RegisterClass()
 {
 	static const luaL_Reg l_attrs[] = {
 		{ "name",               l_faction_attr_name               },
+		{ "id",                 l_faction_attr_id                 },
 		{ "descriptionShort",   l_faction_attr_description_short  },
 		{ "description",        l_faction_attr_description        },
 		{ "hasHomeworld",       l_faction_attr_has_homeworld      },

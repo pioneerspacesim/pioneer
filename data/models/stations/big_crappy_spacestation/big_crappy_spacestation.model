@@ -1,18 +1,18 @@
 material Outer-material
-tex_diff craphull.png
-tex_spec specu.png
+tex_diff craphull.dds
+tex_spec specu.dds
 specular 1.0 1.0 1.0
 diffuse 1.0 1.0 1.0
 
 material Inner-material
-tex_diff tex12.png
+tex_diff tex12.dds
 diffuse 0.5 0.8 0.5
 unlit
 
 material Details-material
 diffuse 0.9 0.9 0.9
-tex_diff details.png
-tex_glow details_glow.png
+tex_diff details.dds
+tex_glow details_glow.dds
 
 mesh bcstation.dae
 mesh bccollpad.dae

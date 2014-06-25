@@ -7,6 +7,7 @@
 #include "LOD.h"
 #include "Parser.h"
 #include "SceneGraph.h"
+#include "BinaryConverter.h"
 #include "StringF.h"
 #include "utils.h"
 #include "graphics/Renderer.h"
@@ -113,9 +114,10 @@ namespace {
 } // anonymous namespace
 
 namespace SceneGraph {
-Loader::Loader(Graphics::Renderer *r, bool logWarnings)
+Loader::Loader(Graphics::Renderer *r, bool logWarnings, bool loadSGMfiles)
 : BaseLoader(r)
 , m_doLog(logWarnings)
+, m_loadSGMs(loadSGMfiles)
 , m_mostDetailedLod(false)
 {
 }
@@ -130,6 +132,8 @@ Model *Loader::LoadModel(const std::string &shortname, const std::string &basepa
 {
 	m_logMessages.clear();
 
+	std::vector<std::string> list_model;
+	std::vector<std::string> list_sgm;
 	FileSystem::FileSource &fileSource = FileSystem::gameDataFiles;
 	for (FileSystem::FileEnumerator files(fileSource, basepath, FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next())
 	{
@@ -137,30 +141,55 @@ Model *Loader::LoadModel(const std::string &shortname, const std::string &basepa
 		const std::string &fpath = info.GetPath();
 
 		//check it's the expected type
-		if (info.IsFile() && ends_with_ci(fpath, ".model")) {
-			//check it's the wanted name & load it
-			const std::string name = info.GetName();
-
-			if (shortname == name.substr(0, name.length()-6)) {
-				ModelDefinition modelDefinition;
-				try {
-					//curPath is used to find textures, patterns,
-					//possibly other data files for this model.
-					//Strip trailing slash
-					m_curPath = info.GetDir();
-					assert(!m_curPath.empty());
-					if (m_curPath[m_curPath.length()-1] == '/')
-						m_curPath = m_curPath.substr(0, m_curPath.length()-1);
-
-					Parser p(fileSource, fpath, m_curPath);
-					p.Parse(&modelDefinition);
-				} catch (ParseError &err) {
-					Output("%s\n", err.what());
-					throw LoadingError(err.what());
-				}
-				modelDefinition.name = shortname;
-				return CreateModel(modelDefinition);
+		if (info.IsFile()) {
+			if (ends_with_ci(fpath, ".model")) {	// store the path for ".model" files
+				list_model.push_back(fpath);
+			} else if (m_loadSGMs & ends_with_ci(fpath, ".sgm")) {// store only the shortname for ".sgm" files.
+				list_sgm.push_back(info.GetName().substr(0, info.GetName().size()-4));
 			}
+		}
+	}
+
+	if (m_loadSGMs) {
+		for (auto &sgmname : list_sgm) {
+			if (sgmname == shortname) {
+				//binary loader expects extension-less name. Might want to change this.
+				SceneGraph::BinaryConverter bc(m_renderer);
+				m_model = bc.Load(shortname);
+				return m_model;
+			}
+		}
+	}
+
+	for (auto &fpath : list_model) {
+		RefCountedPtr<FileSystem::FileData> filedata = FileSystem::gameDataFiles.ReadFile(fpath);
+		if (!filedata) {
+			Output("LoadModel: %s: could not read file\n", fpath.c_str());
+			return nullptr;
+		}
+
+		//check it's the wanted name & load it
+		const FileSystem::FileInfo& info = filedata->GetInfo();
+		const std::string name = info.GetName();
+		if (name.substr(0, name.length()-6) == shortname) {
+			ModelDefinition modelDefinition;
+			try {
+				//curPath is used to find textures, patterns,
+				//possibly other data files for this model.
+				//Strip trailing slash
+				m_curPath = info.GetDir();
+				assert(!m_curPath.empty());
+				if (m_curPath[m_curPath.length()-1] == '/')
+					m_curPath = m_curPath.substr(0, m_curPath.length()-1);
+
+				Parser p(fileSource, fpath, m_curPath);
+				p.Parse(&modelDefinition);
+			} catch (ParseError &err) {
+				Output("%s\n", err.what());
+				throw LoadingError(err.what());
+			}
+			modelDefinition.name = shortname;
+			return CreateModel(modelDefinition);
 		}
 	}
 	throw (LoadingError("File not found"));

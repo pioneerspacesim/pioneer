@@ -5,7 +5,7 @@
    },
    "CREWDETAILSHEETBB" : {
       "description" : "",
-      "message" : "Name: {name}\nExperience: {experience}\nAsking wage: {wage} per week\n\n{response}\n"
+      "message" : "Vardas: {name}\nPatirtis: {experience}\nNorimas atlyginimas: {wage} per savaitę\n\n{response}\n"
    },
    "CREWMEMBER_WAGE_PER_WEEK" : {
       "description" : "",
@@ -17,11 +17,11 @@
    },
    "CREW_FOR_HIRE" : {
       "description" : "",
-      "message" : "Crew for hire"
+      "message" : "Samdoma įgula"
    },
    "GO_BACK" : {
       "description" : "",
-      "message" : "Go back"
+      "message" : "Grįžti atgal"
    },
    "HANG_UP" : {
       "description" : "",
@@ -33,7 +33,7 @@
    },
    "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME" : {
       "description" : "",
-      "message" : "I'm sorry, your offer isn't attractive to me."
+      "message" : "Atsiprašau, bet jūsų pasiūlymas manęs nesuviliojo."
    },
    "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT" : {
       "description" : "",
@@ -49,7 +49,7 @@
    },
    "NO_EXPERIENCE" : {
       "description" : "",
-      "message" : "No experience"
+      "message" : "Be patirties"
    },
    "OK_I_SUPPOSE_THATS_ALL_RIGHT" : {
       "description" : "",
@@ -81,7 +81,7 @@
    },
    "SUGGEST_NEW_WEEKLY_WAGE_OF_N" : {
       "description" : "",
-      "message" : "Suggest new weekly wage of {newAmount}"
+      "message" : "Pasiūlyti naują atlyginimą: {newAmount} per savaitę"
    },
    "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY" : {
       "description" : "",

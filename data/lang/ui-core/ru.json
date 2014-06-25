@@ -155,6 +155,10 @@
       "description" : "",
       "message" : "Начальник охраны"
    },
+   "CONTINUE_GAME" : {
+      "description" : "",
+      "message" : "Продолжить игру"
+   },
    "CONTROLS" : {
       "description" : "",
       "message" : "Управление"
@@ -798,10 +802,6 @@
    "QUALIFICATION_SCORES" : {
       "description" : "",
       "message" : "Оценка квалификации"
-   },
-   "QUICKLOAD" : {
-      "description" : "",
-      "message" : "Быстрая загрузка"
    },
    "QUIT" : {
       "description" : "",

@@ -61,15 +61,21 @@ Renderer* Init(Settings vs)
 
 	glewInit();
 
+	if (!glewIsSupported("GL_VERSION_2_0") )
+		Error("OpenGL Version 2.0 is not supported. Pioneer cannot run on your graphics card.");
+
 	if (!glewIsSupported("GL_ARB_vertex_buffer_object"))
 		Error("OpenGL extension ARB_vertex_buffer_object not supported. Pioneer can not run on your graphics card.");
 
-	Renderer *renderer = 0;
+	if (!glewIsSupported("GL_EXT_texture_compression_s3tc"))
+		Error("OpenGL extension GL_EXT_texture_compression_s3tc not supported.\nPioneer can not run on your graphics card as it does not support compressed (DXTn/S3TC) format textures.");
 
-	if (!glewIsSupported("GL_VERSION_2_0") )
-		Error("OpenGL Version 2.0 is not supported. Pioneer cannot run on your graphics card.");
-	
-	renderer = new RendererGL2(window, vs);
+	GLint intv[4];
+	glGetIntegerv(GL_NUM_COMPRESSED_TEXTURE_FORMATS, &intv[0]);
+	if( intv[0] == 0 )
+		Error("GL_NUM_COMPRESSED_TEXTURE_FORMATS is zero.\nPioneer can not run on your graphics card as it does not support compressed (DXTn/S3TC) format textures.");
+
+	Renderer *renderer = new RendererGL2(window, vs);
 
 	Output("Initialized %s\n", renderer->GetName());
 

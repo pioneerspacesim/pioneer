@@ -8,16 +8,7 @@
 #include "Pi.h"
 #include "FileSystem.h"
 
-namespace Galaxy {
-
-// lightyears
-const float GALAXY_RADIUS = 50000.0;
-const float SOL_OFFSET_X = 25000.0;
-const float SOL_OFFSET_Y = 0.0;
-
-static SDL_Surface *s_galaxybmp;
-
-void Init()
+Galaxy::Galaxy() : GALAXY_RADIUS(50000.0), SOL_OFFSET_X(25000.0), SOL_OFFSET_Y(0.0), m_galaxybmp(nullptr), m_factions(this), m_customSystems(this)
 {
 	static const std::string filename("galaxy.bmp");
 
@@ -28,24 +19,32 @@ void Init()
 	}
 
 	SDL_RWops *datastream = SDL_RWFromConstMem(filedata->GetData(), filedata->GetSize());
-	s_galaxybmp = SDL_LoadBMP_RW(datastream, 1);
-	if (!s_galaxybmp) {
+	m_galaxybmp = SDL_LoadBMP_RW(datastream, 1);
+	if (!m_galaxybmp) {
 		Output("Galaxy: couldn't load: %s (%s)\n", filename.c_str(), SDL_GetError());
 		Pi::Quit();
 	}
+
+	m_starSystemCache = m_starSystemAttic.NewSlaveCache();
 }
 
-void Uninit()
+Galaxy::~Galaxy()
 {
-	if(s_galaxybmp) SDL_FreeSurface(s_galaxybmp);
+	if(m_galaxybmp) SDL_FreeSurface(m_galaxybmp);
 }
 
-SDL_Surface *GetGalaxyBitmap()
+void Galaxy::Init()
 {
-	return s_galaxybmp;
+	m_customSystems.Init();
+	m_factions.Init();
 }
 
-Uint8 GetSectorDensity(int sx, int sy, int sz)
+SDL_Surface* Galaxy::GetGalaxyBitmap()
+{
+	return m_galaxybmp;
+}
+
+Uint8 Galaxy::GetSectorDensity(int sx, int sy, int sz)
 {
 	// -1.0 to 1.0
 	float offset_x = (sx*Sector::SIZE + SOL_OFFSET_X)/GALAXY_RADIUS;
@@ -54,12 +53,12 @@ Uint8 GetSectorDensity(int sx, int sy, int sz)
 	offset_x = Clamp((offset_x + 1.0)*0.5, 0.0, 1.0);
 	offset_y = Clamp((offset_y + 1.0)*0.5, 0.0, 1.0);
 
-	int x = int(floor(offset_x * (s_galaxybmp->w - 1)));
-	int y = int(floor(offset_y * (s_galaxybmp->h - 1)));
+	int x = int(floor(offset_x * (m_galaxybmp->w - 1)));
+	int y = int(floor(offset_y * (m_galaxybmp->h - 1)));
 
-	SDL_LockSurface(s_galaxybmp);
-	int val = static_cast<unsigned char*>(s_galaxybmp->pixels)[x + y*s_galaxybmp->pitch];
-	SDL_UnlockSurface(s_galaxybmp);
+	SDL_LockSurface(m_galaxybmp);
+	int val = static_cast<unsigned char*>(m_galaxybmp->pixels)[x + y*m_galaxybmp->pitch];
+	SDL_UnlockSurface(m_galaxybmp);
 	// crappy unrealistic but currently adequate density dropoff with sector z
 	val = val * (256 - std::min(abs(sz),256)) / 256;
 	// reduce density somewhat to match real (gliese) density
@@ -67,17 +66,26 @@ Uint8 GetSectorDensity(int sx, int sy, int sz)
 	return Uint8(val);
 }
 
-void Dump(FILE* file, Sint32 centerX, Sint32 centerY, Sint32 centerZ, Sint32 radius)
+void Galaxy::FlushCaches()
+{
+	m_starSystemAttic.OutputCacheStatistics();
+	m_starSystemCache = m_starSystemAttic.NewSlaveCache();
+	m_starSystemAttic.ClearCache();
+	m_sectorCache.OutputCacheStatistics();
+	m_sectorCache.ClearCache();
+	// XXX Ideally the cache would now be empty, but we still have Faction::m_homesector :(
+	// assert(m_sectorCache.IsEmpty());
+}
+
+void Galaxy::Dump(FILE* file, Sint32 centerX, Sint32 centerY, Sint32 centerZ, Sint32 radius)
 {
 	for (Sint32 sx = centerX - radius; sx <= centerX + radius; ++sx) {
 		for (Sint32 sy = centerY - radius; sy <= centerY + radius; ++sy) {
 			for (Sint32 sz = centerZ - radius; sz <= centerZ + radius; ++sz) {
-				RefCountedPtr<Sector> sector = Sector::cache.GetCached(SystemPath(sx, sy, sz));
+				RefCountedPtr<const Sector> sector = Pi::GetGalaxy()->GetSector(SystemPath(sx, sy, sz));
 				sector->Dump(file);
 			}
-			StarSystemCache::ShrinkCache(SystemPath(), true);
+			m_starSystemAttic.ClearCache();
 		}
 	}
 }
-
-} /* namespace Galaxy */

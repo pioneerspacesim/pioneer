@@ -9,7 +9,7 @@
     <ClCompile Include="..\..\..\src\win32\pch.cpp">
       <Filter>win32</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\galaxy\SectorCache.cpp" />
+    <ClCompile Include="..\..\..\src\galaxy\GalaxyCache.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\galaxy\CustomSystem.h" />
@@ -20,7 +20,7 @@
     <ClInclude Include="..\..\..\src\win32\pch.h">
       <Filter>win32</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\galaxy\SectorCache.h" />
+    <ClInclude Include="..\..\..\src\galaxy\GalaxyCache.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="win32">

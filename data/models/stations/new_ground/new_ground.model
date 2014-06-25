@@ -8,38 +8,38 @@
 #
 # New textures and materials were made by me and new geometry for the 4 lifts.
 
-material m0c_b_metall1
+material rim-material
 diffuse 1.0 1.0 1.0
 specular 0.5 0.5 0.5
-tex_diff Steelplt.PNG
+tex_diff Steelplt.dds
 
-material m1c_b_metall1a
+material column-material
 diffuse 1.0 1.0 1.0
 specular 0.5 0.5 0.5
-tex_diff LiftColumn.PNG
-tex_glow LiftColumn_illum.PNG
+tex_diff LiftColumn.dds
+tex_glow LiftColumn_illum.dds
 
-material m2palt_glow
+material lamp_glow-material
 diffuse 1.0 1.0 1.0
 specular 0.5 0.5 0.5
-tex_diff LiftColumn.PNG
-tex_glow LiftColumn_illum.PNG
+tex_diff LiftColumn.dds
+tex_glow LiftColumn_illum.dds
 
-material m3plat_ground_meta
+material pad-material
 diffuse 1.0 1.0 1.0
 specular 0.5 0.5 0.5
-tex_diff c_metall.PNG
+tex_diff c_metall.dds
 
 material m4plat_lift_column
 diffuse 1.0 1.0 1.0
 specular 0.5 0.5 0.5
-tex_diff LiftColumn.PNG
-tex_glow LiftColumn_illum.PNG
+tex_diff LiftColumn.dds
+tex_glow LiftColumn_illum.dds
 
 lod 300
 mesh landPad6_mesh_lores.DAE
 
-lod 1000
+lod 2000
 mesh landPad6_docking.DAE
 mesh landPad6_mesh.DAE
 

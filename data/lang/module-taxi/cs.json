@@ -61,35 +61,35 @@
    },
    "DENY_0" : {
       "description" : "",
-      "message" : "I'm sorry, but I don't think I could trust you with my safety."
+      "message" : "Promiň, ale nemyslím že ti můžu věřit ohledně mé bezpečnosti."
    },
    "DENY_1" : {
       "description" : "",
-      "message" : "Come back when you have some qualifications."
+      "message" : "Vrať se, až budeš mít nějakou kvalifikaci."
    },
    "DENY_2" : {
       "description" : "",
-      "message" : "I don't think you're the pilot I'm looking for."
+      "message" : "Nemyslím, že jsi pilot kterého hledám."
    },
    "DENY_3" : {
       "description" : "",
-      "message" : "You don't look like someone capable of transporting people."
+      "message" : "Nevypadáš jako někdo kdo je schopný přepravovat lidi."
    },
    "DENY_4" : {
       "description" : "",
-      "message" : "You're not the kind of pilot I'm looking for."
+      "message" : "Nejsi druh pilota kterého hledám."
    },
    "DENY_5" : {
       "description" : "",
-      "message" : "You seem much too inexperienced to handle a transport of this importance."
+      "message" : "Vypadáš příliš nezkušeně než abys zvládl transport takové důležitosti."
    },
    "DENY_6" : {
       "description" : "",
-      "message" : "I have never heard of you. I need someone experienced for this journey."
+      "message" : "Nikdy jsem o tobě neslyšel(a). Potřebuju na tuhle výpravu někoho zkušeného."
    },
    "DENY_7" : {
       "description" : "",
-      "message" : "I'm not willing to risk my life on someone without any qualifications like you."
+      "message" : "Nechci riskovat svůj život s někým tak nezkušeným jako jsi ty."
    },
    "DISTANCE" : {
       "description" : "",
@@ -141,7 +141,7 @@
    },
    "FLAVOUR_10_FAILUREMSG" : {
       "description" : "",
-      "message" : "You are such an inexperienced pilot. I'm not going to pay for this."
+      "message" : "Jsi tak nezkušený pilot. Za tohle nezaplatím!"
    },
    "FLAVOUR_10_HOWMANY" : {
       "description" : "",
@@ -173,7 +173,7 @@
    },
    "FLAVOUR_11_FAILUREMSG" : {
       "description" : "",
-      "message" : "I'm going to lose my job because of your incompetence. So I need that money more than you."
+      "message" : "Příjdu o práci kvůli tvé neschopnosti. Takže ty peníze potřebuju víc než ty."
    },
    "FLAVOUR_11_HOWMANY" : {
       "description" : "",

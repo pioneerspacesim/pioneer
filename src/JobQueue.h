@@ -13,10 +13,8 @@
 
 static const Uint32 MAX_THREADS = 64;
 
-class JobQueue;
-class JobRunner;
-class JobHandle;
 class JobClient;
+class JobQueue;
 
 // represents a single unit of work that you want done
 // subclass and implement:
@@ -32,6 +30,42 @@ class JobClient;
 //           as quickly as possible. OnFinish will not be called for the job
 class Job {
 public:
+	// This is the RAII handle for a queued Job. A job is cancelled when the
+	// Job::Handle is destroyed. There is at most one Job::Handle for each Job
+	// (non-queued Jobs have no handle). Job::Handle is not copyable only
+	// moveable.
+	class Handle {
+	public:
+		Handle() : m_id(++s_nextId), m_job(nullptr), m_queue(nullptr), m_client(nullptr) { }
+		Handle(Handle&& other);
+		Handle& operator=(Handle&& other);
+		~Handle();
+
+		Handle(const Handle&) = delete;
+		Handle& operator=(const Handle&) = delete;
+
+		bool HasJob() const { return m_job != nullptr; }
+		Job* GetJob() const { return m_job; }
+
+		bool operator<(const Handle& other) const { return m_id < other.m_id; }
+
+	private:
+		friend class Job;
+		friend class AsyncJobQueue;
+		friend class SyncJobQueue;
+
+		Handle(Job* job, JobQueue* queue, JobClient* client);
+		void Unlink();
+
+		static unsigned long long s_nextId;
+
+		unsigned long long m_id;
+		Job* m_job;
+		JobQueue* m_queue;
+		JobClient* m_client;
+	};
+
+public:
 	Job() : cancelled(false), m_handle(nullptr) {}
 	virtual ~Job();
 
@@ -43,93 +77,35 @@ public:
 	virtual void OnCancel() {}
 
 private:
-	friend class JobQueue;
-	friend class JobHandle;
+	friend class AsyncJobQueue;
+	friend class SyncJobQueue;
 	friend class JobRunner;
 
 	void UnlinkHandle();
-	const JobHandle* GetHandle() const { return m_handle; }
-	void SetHandle(JobHandle* handle) { m_handle = handle; }
+	const Handle* GetHandle() const { return m_handle; }
+	void SetHandle(Handle* handle) { m_handle = handle; }
 	void ClearHandle() { m_handle = nullptr; }
 
 	bool cancelled;
-	JobHandle* m_handle;
+	Handle* m_handle;
 };
 
-
-// a runner wraps a single thread, and calls into the queue when its ready for
-// a new job. no user-servicable parts inside!
-class JobRunner {
-public:
-	JobRunner(JobQueue *jq, const uint8_t idx);
-	~JobRunner();
-	SDL_mutex *GetQueueDestroyingLock();
-	void SetQueueDestroyed();
-
-private:
-	static int Trampoline(void *);
-	void Main();
-
-	JobQueue *m_jobQueue;
-
-	Job *m_job;
-	SDL_mutex *m_jobLock;
-	SDL_mutex *m_queueDestroyingLock;
-
-	SDL_Thread *m_threadId;
-
-	uint8_t m_threadIdx;
-	std::string m_threadName;
-	bool m_queueDestroyed;
-};
-
-// This is the RAII handle for a queued Job. A job is cancelled when the
-// JobHandle is destroyed. There is at most one JobHandle for each Job
-// (non-queued Jobs have no handle). JobHandle is not copyable only
-// moveable.
-class JobHandle {
-public:
-	JobHandle() : m_id(++s_nextId), m_job(nullptr), m_queue(nullptr), m_client(nullptr) { }
-	JobHandle(JobHandle&& other);
-	JobHandle& operator=(JobHandle&& other);
-	~JobHandle();
-
-	JobHandle(const JobHandle&) = delete;
-	JobHandle& operator=(const JobHandle&) = delete;
-
-	bool HasJob() const { return m_job != nullptr; }
-	Job* GetJob() const { return m_job; }
-
-	bool operator<(const JobHandle& other) const { return m_id < other.m_id; }
-
-private:
-	friend class JobQueue;
-	friend class Job;
-	friend class JobRunner;
-
-	JobHandle(Job* job, JobQueue* queue, JobClient* client);
-	void Unlink();
-
-	static unsigned long long s_nextId;
-
-	unsigned long long m_id;
-	Job* m_job;
-	JobQueue* m_queue;
-	JobClient* m_client;
-};
 
 // the queue management class. create one from the main thread, and feed your
 // jobs do it. it will take care of the rest
 class JobQueue {
 public:
+	JobQueue() = default;
+	JobQueue(const JobQueue&) = delete;
+	JobQueue& operator=(const JobQueue&) = delete;
+
 	// numRunners is the number of jobs to run in parallel. right now its the
 	// same as the number of threads, but there's no reason that it has to be
-	JobQueue(Uint32 numRunners);
-	~JobQueue();
+	virtual ~JobQueue() { }
 
 	// call from the main thread to add a job to the queue. the job should be
 	// allocated with new. the queue will delete it once its its completed
-	JobHandle Queue(Job *job, JobClient *client = nullptr);
+	virtual Job::Handle Queue(Job *job, JobClient *client = nullptr) = 0;
 
 	// call from the main thread to cancel a job. one of three things will happen
 	//
@@ -141,15 +117,71 @@ public:
 	//   the job will be deleted on the next call to FinishJobs
 	//
 	// - the job is running. OnCancel will be called
-	void Cancel(Job *job);
+	virtual void Cancel(Job *job) = 0;
 
 	// call from the main loop. this will call OnFinish for any finished jobs,
 	// and then delete all finished and cancelled jobs. returns the number of
 	// finished jobs (not cancelled)
-	Uint32 FinishJobs();
+	virtual Uint32 FinishJobs() = 0;
+};
+
+// the queue management class. create one from the main thread, and feed your
+// jobs do it. it will take care of the rest
+class AsyncJobQueue : public JobQueue {
+public:
+	// numRunners is the number of jobs to run in parallel. right now its the
+	// same as the number of threads, but there's no reason that it has to be
+	AsyncJobQueue(Uint32 numRunners);
+	virtual ~AsyncJobQueue();
+
+	// call from the main thread to add a job to the queue. the job should be
+	// allocated with new. the queue will delete it once its its completed
+	virtual Job::Handle Queue(Job *job, JobClient *client = nullptr) override;
+
+	// call from the main thread to cancel a job. one of three things will happen
+	//
+	// - the job hasn't run yet. it will never be run, and neither OnFinished nor
+	//   OnCancel will be called. the job will be deleted on the next call to
+	//   FinishJobs
+	//
+	// - the job has finished. neither onFinished not onCancel will be called.
+	//   the job will be deleted on the next call to FinishJobs
+	//
+	// - the job is running. OnCancel will be called
+	virtual void Cancel(Job *job) override;
+
+	// call from the main loop. this will call OnFinish for any finished jobs,
+	// and then delete all finished and cancelled jobs. returns the number of
+	// finished jobs (not cancelled)
+	virtual Uint32 FinishJobs() override;
 
 private:
-	friend class JobRunner;
+	// a runner wraps a single thread, and calls into the queue when its ready for
+	// a new job. no user-servicable parts inside!
+	class JobRunner {
+	public:
+		JobRunner(AsyncJobQueue *jq, const uint8_t idx);
+		~JobRunner();
+		SDL_mutex *GetQueueDestroyingLock();
+		void SetQueueDestroyed();
+
+	private:
+		static int Trampoline(void *);
+		void Main();
+
+		AsyncJobQueue *m_jobQueue;
+
+		Job *m_job;
+		SDL_mutex *m_jobLock;
+		SDL_mutex *m_queueDestroyingLock;
+
+		SDL_Thread *m_threadId;
+
+		uint8_t m_threadIdx;
+		std::string m_threadName;
+		bool m_queueDestroyed;
+	};
+
 	Job *GetJob();
 	void Finish(Job *job, const uint8_t threadIdx);
 
@@ -165,10 +197,43 @@ private:
 	bool m_shutdown;
 };
 
+class SyncJobQueue : public JobQueue {
+public:
+	SyncJobQueue() = default;
+	virtual ~SyncJobQueue();
+
+	// call from the main thread to add a job to the queue. the job should be
+	// allocated with new. the queue will delete it once its its completed
+	virtual Job::Handle Queue(Job *job, JobClient *client = nullptr) override;
+
+	// call from the main thread to cancel a job. one of three things will happen
+	//
+	// - the job hasn't run yet. it will never be run, and neither OnFinished nor
+	//   OnCancel will be called. the job will be deleted on the next call to
+	//   FinishJobs
+	//
+	// - the job has finished. neither onFinished not onCancel will be called.
+	//   the job will be deleted on the next call to FinishJobs
+	//
+	// - the job is running. OnCancel will be called
+	virtual void Cancel(Job *job) override;
+
+	// call from the main loop. this will call OnFinish for any finished jobs,
+	// and then delete all finished and cancelled jobs. returns the number of
+	// finished jobs (not cancelled)
+	virtual Uint32 FinishJobs() override;
+
+	Uint32 RunJobs(Uint32 count = 1);
+
+private:
+	std::deque<Job*> m_queue;
+	std::deque<Job*> m_finished;
+};
+
 class JobClient {
 public:
 	virtual void Order(Job* job) = 0;
-	virtual void RemoveJob(JobHandle* handle) = 0;
+	virtual void RemoveJob(Job::Handle* handle) = 0;
 	virtual ~JobClient() {}
 };
 
@@ -185,11 +250,13 @@ public:
 		auto x = m_jobs.insert(std::move(m_queue->Queue(job, this)));
 		assert(x.second);
 	}
-	virtual void RemoveJob(JobHandle* handle) { m_jobs.erase(*handle); }
+	virtual void RemoveJob(Job::Handle* handle) { m_jobs.erase(*handle); }
+
+	bool IsEmpty() const { return m_jobs.empty(); }
 
 private:
 	JobQueue* m_queue;
-	std::set<JobHandle> m_jobs;
+	std::set<Job::Handle> m_jobs;
 };
 
 #endif

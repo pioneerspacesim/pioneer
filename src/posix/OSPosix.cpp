@@ -18,7 +18,7 @@ namespace OS {
 
 	namespace {
 		static const std::string s_NoOSIdentified("No OS Identified\n");
-	};
+	}
 
 void NotifyLoadBegin()
 {

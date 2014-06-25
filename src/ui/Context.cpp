@@ -40,6 +40,8 @@ Context::Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int h
 	m_height(height),
 	m_scale(std::min(float(m_height)/SCALE_CUTOFF_HEIGHT, 1.0f)),
 	m_needsLayout(false),
+	m_mousePointer(nullptr),
+	m_mousePointerEnabled(true),
 	m_eventDispatcher(this),
 	m_skin("ui/Skin.ini", renderer, GetScale()),
 	m_lua(lua)
@@ -133,6 +135,9 @@ void Context::Update()
 	if (m_needsLayout)
 		Layout();
 
+	if (m_mousePointer && m_mousePointerEnabled)
+		SetWidgetDimensions(m_mousePointer, m_eventDispatcher.GetMousePos()-m_mousePointer->GetHotspot(), m_mousePointer->PreferredSize());
+
 	Container::Update();
 }
 
@@ -148,6 +153,14 @@ void Context::Draw()
 
 		DrawWidget(*i);
 
+		r->SetScissor(false);
+	}
+
+	if (m_mousePointer && m_mousePointerEnabled) {
+		r->SetOrthographicProjection(0, m_width, m_height, 0, -1, 1);
+		r->SetTransform(matrix4x4f::Identity());
+		r->SetClearColor(Color::BLACK);
+		DrawWidget(m_mousePointer);
 		r->SetScissor(false);
 	}
 }
@@ -234,6 +247,21 @@ void Context::DrawWidget(Widget *w)
 	m_scissorStack.pop();
 
 	m_drawWidgetPosition -= finalPos + drawOffset;
+}
+
+void Context::SetMousePointer(const std::string &filename, const Point &hotspot)
+{
+	Point pos(0);
+
+	if (m_mousePointer) {
+		pos = m_mousePointer->GetPosition() + m_mousePointer->GetHotspot();
+		RemoveWidget(m_mousePointer);
+	}
+
+	m_mousePointer = new MousePointer(this, filename, hotspot);
+
+	AddWidget(m_mousePointer);
+	SetWidgetDimensions(m_mousePointer, pos - m_mousePointer->GetHotspot(), m_mousePointer->PreferredSize());
 }
 
 }

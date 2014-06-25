@@ -12,6 +12,7 @@
 #include <string>
 #include "RefCounted.h"
 #include "galaxy/SystemPath.h"
+#include "galaxy/GalaxyCache.h"
 #include "Orbit.h"
 #include "IterationProxy.h"
 #include "gameconsts.h"
@@ -274,7 +275,7 @@ private:
 class StarSystem : public RefCounted {
 public:
 	friend class SystemBody;
-	friend class StarSystemCache;
+	friend class GalaxyObjectCache<StarSystem, SystemPath::LessSystemOnly>;
 
 	void ExportToLua(const char *filename);
 
@@ -286,7 +287,7 @@ public:
 	const SystemPath &GetPath() const { return m_path; }
 	const char *GetShortDescription() const { return m_shortDesc.c_str(); }
 	const char *GetLongDescription() const { return m_longDesc.c_str(); }
-	int GetNumStars() const { return m_numStars; }
+	unsigned GetNumStars() const { return m_numStars; }
 	const SysPolit &GetSysPolit() const { return m_polit; }
 
 	static const Uint8 starColors[][3];
@@ -325,8 +326,10 @@ public:
 	void Dump(FILE* file, const char* indent = "", bool suppressSectorData = false) const;
 
 private:
-	StarSystem(const SystemPath &path);
+	StarSystem(const SystemPath &path, StarSystemCache* cache);
 	~StarSystem();
+
+	void SetCache(StarSystemCache* cache) { assert(!m_cache); m_cache = cache; }
 
 	SystemBody *NewBody() {
 		SystemBody *body = new SystemBody(SystemPath(m_path.sectorX, m_path.sectorY, m_path.sectorZ, m_path.systemIndex, m_bodies.size()));
@@ -346,7 +349,7 @@ private:
 	std::string GetStarTypes(SystemBody *body);
 
 	SystemPath m_path;
-	int m_numStars;
+	unsigned m_numStars;
 	std::string m_name;
 	std::string m_shortDesc, m_longDesc;
 	SysPolit m_polit;
@@ -373,17 +376,8 @@ private:
 	std::vector< RefCountedPtr<SystemBody> > m_bodies;
 	std::vector<SystemBody*> m_spaceStations;
 	std::vector<SystemBody*> m_stars;
-};
 
-class StarSystemCache
-{
-public:
-	static RefCountedPtr<StarSystem> GetCached(const SystemPath &path);
-	static void ShrinkCache(const SystemPath &path, const bool clear=false);
-
-private:
-	typedef std::map<SystemPath,StarSystem*> SystemCacheMap;
-	static SystemCacheMap s_cachedSystems;
+	StarSystemCache* m_cache;
 };
 
 #endif /* _STARSYSTEM_H */

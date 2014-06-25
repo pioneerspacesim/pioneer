@@ -148,7 +148,10 @@ ObjectViewerView *Pi::objectViewerView;
 #endif
 
 Sound::MusicPlayer Pi::musicPlayer;
-std::unique_ptr<JobQueue> Pi::jobQueue;
+std::unique_ptr<AsyncJobQueue> Pi::asyncJobQueue;
+std::unique_ptr<SyncJobQueue> Pi::syncJobQueue;
+
+Galaxy* Pi::s_galaxy = nullptr;
 
 // XXX enabling this breaks UI gauge rendering. see #2627
 #define USE_RTT 0
@@ -350,6 +353,9 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	Profiler::reset();
 #endif
 
+	Profiler::Timer timer;
+	timer.Start();
+
 	OS::NotifyLoadBegin();
 
 	FileSystem::Init();
@@ -440,8 +446,9 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	const int numCores = OS::GetNumCores();
 	assert(numCores > 0);
 	if (numThreads == 0) numThreads = std::max(Uint32(numCores) - 1, 1U);
-	jobQueue.reset(new JobQueue(numThreads));
+	asyncJobQueue.reset(new AsyncJobQueue(numThreads));
 	Output("started %d worker threads\n", numThreads);
+	syncJobQueue.reset(new SyncJobQueue);
 
 	// XXX early, Lua init needs it
 	ShipType::Init();
@@ -477,21 +484,20 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 
 	draw_progress(gauge, label, 0.1f);
 
-	Galaxy::Init();
+	s_galaxy = new Galaxy;
+
 	draw_progress(gauge, label, 0.2f);
 
-	FaceGenManager::Init();
-	draw_progress(gauge, label, 0.25f);
+	s_galaxy->Init();
 
-	Faction::Init();
 	draw_progress(gauge, label, 0.3f);
 
-	CustomSystem::Init();
+	FaceGenManager::Init();
+
 	draw_progress(gauge, label, 0.4f);
 
 	// Reload home sector, they might have changed, due to custom systems
 	// Sectors might be changed in game, so have to re-create them again once we have a Game.
-	Faction::SetHomeSectors();
 	draw_progress(gauge, label, 0.45f);
 
 	modelCache = new ModelCache(Pi::renderer);
@@ -645,6 +651,9 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 
 	luaConsole = new LuaConsole();
 	KeyBindings::toggleLuaConsole.onPress.connect(sigc::mem_fun(Pi::luaConsole, &LuaConsole::Toggle));
+
+	timer.Stop();
+	Output("\n\nLoading took: %lf milliseconds\n", timer.millicycles());
 }
 
 bool Pi::IsConsoleActive()
@@ -664,10 +673,7 @@ void Pi::Quit()
 	SpaceStation::Uninit();
 	CityOnPlanet::Uninit();
 	BaseSphere::Uninit();
-	Galaxy::Uninit();
-	Faction::Uninit();
 	FaceGenManager::Destroy();
-	CustomSystem::Uninit();
 	Graphics::Uninit();
 	Pi::ui.Reset(0);
 	LuaUninit();
@@ -675,19 +681,17 @@ void Pi::Quit()
 	delete Pi::modelCache;
 	delete Pi::renderer;
 	delete Pi::config;
-	StarSystemCache::ShrinkCache(SystemPath(), true);
+	delete Pi::s_galaxy;
 	SDL_Quit();
 	FileSystem::Uninit();
-	jobQueue.reset();
+	asyncJobQueue.reset();
+	syncJobQueue.reset();
 	exit(0);
 }
 
 void Pi::FlushCaches()
 {
-	StarSystemCache::ShrinkCache(SystemPath(), true);
-	Sector::cache.ClearCache();
-	// XXX Ideally the cache would now be empty, but we still have Faction::m_homesector :(
-	// assert(Sector::cache.IsEmpty());
+	s_galaxy->FlushCaches();
 }
 
 void Pi::BoinkNoise()
@@ -1032,6 +1036,8 @@ void Pi::Start()
 	ui->DropAllLayers();
 	ui->GetTopLayer()->SetInnerWidget(ui->CallTemplate("MainMenu"));
 
+	Pi::ui->SetMousePointer("icons/cursors/mouse_cursor_2.png", UI::Point(15, 8));
+
 	//XXX global ambient colour hack to make explicit the old default ambient colour dependency
 	// for some models
 	Pi::renderer->SetAmbientColor(Color(51, 51, 51, 255));
@@ -1273,14 +1279,13 @@ void Pi::MainLoop()
 			// XXX should this really be limited to while the player is alive?
 			// this is something we need not do every turn...
 			if (!config->Int("DisableSound")) AmbientSounds::Update();
-			if( !Pi::game->IsHyperspace() ) {
-				StarSystemCache::ShrinkCache( Pi::game->GetSpace()->GetStarSystem()->GetPath() );
-			}
 		}
 		cpan->Update();
 		musicPlayer.Update();
 
-		jobQueue->FinishJobs();
+		syncJobQueue->RunJobs(SYNC_JOBS_PER_LOOP);
+		asyncJobQueue->FinishJobs();
+		syncJobQueue->FinishJobs();
 
 #if WITH_DEVKEYS
 		if (Pi::showDebugInfo && SDL_GetTicks() - last_stats > 1000) {
@@ -1435,13 +1440,13 @@ float Pi::JoystickAxisState(int joystick, int axis) {
 void Pi::SetMouseGrab(bool on)
 {
 	if (!doingMouseGrab && on) {
-		SDL_ShowCursor(0);
 		Pi::renderer->GetWindow()->SetGrab(true);
+		Pi::ui->SetMousePointerEnabled(false);
 		doingMouseGrab = true;
 	}
 	else if(doingMouseGrab && !on) {
-		SDL_ShowCursor(1);
 		Pi::renderer->GetWindow()->SetGrab(false);
+		Pi::ui->SetMousePointerEnabled(true);
 		doingMouseGrab = false;
 	}
 }

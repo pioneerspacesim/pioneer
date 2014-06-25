@@ -89,8 +89,10 @@ void BaseLoader::FindPatterns(PatternContainer &output)
 		const FileSystem::FileInfo &info = files.Current();
 		if (info.IsFile()) {
 			const std::string &name = info.GetName();
-			if (ends_with_ci(name, ".png") && starts_with(name, "pattern"))
-				output.push_back(Pattern(name, m_curPath, m_renderer));
+			if (starts_with(name, "pattern")) {
+				if (ends_with_ci(name, ".png") || ends_with_ci(name, ".dds"))
+					output.push_back(Pattern(name, m_curPath, m_renderer));
+			}
 		}
 	}
 }

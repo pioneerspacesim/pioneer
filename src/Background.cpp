@@ -44,7 +44,7 @@ namespace
 		}
 		return num_matching;
 	}
-};
+}
 
 namespace Background
 {
@@ -364,7 +364,7 @@ Container::Container(Graphics::Renderer *renderer, Random &rand)
 	rsd.depthWrite = false;
 	m_renderState = renderer->CreateRenderState(rsd);
 	Refresh(rand);
-};
+}
 
 void Container::Refresh(Random &rand)
 {
