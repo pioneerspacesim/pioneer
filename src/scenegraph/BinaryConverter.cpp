@@ -61,12 +61,25 @@ void BinaryConverter::RegisterLoader(const std::string &typeName, std::function<
 
 void BinaryConverter::Save(const std::string& filename, Model* m)
 {
-	if (!FileSystem::userFiles.MakeDirectory(SAVE_TARGET_DIR))
-		throw CouldNotOpenFileException();
+	static const std::string s_EmptyString;
+	Save(filename, s_EmptyString, m);
+}
 
-	FILE *f = FileSystem::userFiles.OpenWriteStream(
-		FileSystem::JoinPathBelow(SAVE_TARGET_DIR, filename + SGM_EXTENSION));
-	if (!f) throw CouldNotOpenFileException();
+void BinaryConverter::Save(const std::string& filename, const std::string& savepath, Model* m)
+{
+	FILE *f = nullptr;
+	FileSystem::FileSourceFS newFS(FileSystem::GetDataDir());
+	if (savepath.empty()) {
+		if (!FileSystem::userFiles.MakeDirectory(SAVE_TARGET_DIR))
+			throw CouldNotOpenFileException();
+
+		f = FileSystem::userFiles.OpenWriteStream(
+			FileSystem::JoinPathBelow(SAVE_TARGET_DIR, filename + SGM_EXTENSION));
+		if (!f) throw CouldNotOpenFileException();
+	} else {
+		f = newFS.OpenWriteStream(savepath + SGM_EXTENSION);
+		if (!f) throw CouldNotOpenFileException();
+	}
 
 	Serializer::Writer wr;
 

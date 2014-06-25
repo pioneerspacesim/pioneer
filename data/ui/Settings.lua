@@ -110,9 +110,6 @@ ui.templates.Settings = function (args)
 		local fullScreenCheckBox = optionCheckBox(
 			Engine.GetFullscreen, Engine.SetFullscreen,
 			l.FULL_SCREEN)
-		local compressionCheckBox = optionCheckBox(
-			Engine.GetTextureCompressionEnabled, Engine.SetTextureCompressionEnabled,
-			l.COMPRESS_TEXTURES)
 
 		return ui:Grid({1,1}, 1)
 			:SetCell(0,0, ui:Margin(5, 'ALL', ui:VBox(5):PackEnd({
@@ -120,7 +117,6 @@ ui.templates.Settings = function (args)
 				modeDropDown,
 				aaDropDown,
 				fullScreenCheckBox,
-				compressionCheckBox,
 			})))
 			:SetCell(1,0, ui:Margin(5, 'ALL', ui:VBox(5):PackEnd({
 				planetDetailDropDown,

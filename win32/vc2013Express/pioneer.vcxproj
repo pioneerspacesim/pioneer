@@ -159,6 +159,7 @@
     <ClCompile>
       <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>PIONEER_PROFILER;GLEW_NO_GLU;GLEW_STATIC;WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>/Qpar-report:2 /Qvec-report:2 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <PostBuildEvent>
       <Command>xcopy "..\..\..\pioneer-thirdparty\win32\bin\*.dll" "$(TargetDir)\*.dll" /Y /C</Command>

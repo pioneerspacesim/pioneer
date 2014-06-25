@@ -353,6 +353,9 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	Profiler::reset();
 #endif
 
+	Profiler::Timer timer;
+	timer.Start();
+
 	OS::NotifyLoadBegin();
 
 	FileSystem::Init();
@@ -648,6 +651,9 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 
 	luaConsole = new LuaConsole();
 	KeyBindings::toggleLuaConsole.onPress.connect(sigc::mem_fun(Pi::luaConsole, &LuaConsole::Toggle));
+
+	timer.Stop();
+	Output("\n\nLoading took: %lf milliseconds\n", timer.millicycles());
 }
 
 bool Pi::IsConsoleActive()
