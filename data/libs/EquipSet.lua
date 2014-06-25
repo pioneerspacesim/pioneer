@@ -258,6 +258,10 @@ function EquipSet:Add(ship, item, num, slot)
 		self:__Remove_NoCheck(item, postinst_diff, slot)
 		added = added-postinst_diff
 	end
+	if slot == "cargo" then -- TODO: build a proper property system for the slots
+		ship:setprop("usedCargo", self.slots.cargo.__occupied)
+		ship:setprop("totalCargo", self.slots.cargo.__limit)
+	end
 	if added > 0 then
 		self:CallListener()
 	end
