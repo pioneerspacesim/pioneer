@@ -69,7 +69,7 @@ end
 --  slot - The slot name.
 --
 -- Return:
--- 
+--
 --  free_space - The available space (integer)
 --
 function EquipSet:FreeSpace (slot)
@@ -131,7 +131,7 @@ end
 --          will be searched.
 --
 -- Return:
--- 
+--
 --  free_space - The available space (integer)
 --
 function EquipSet:Count(item, slots)
@@ -296,6 +296,10 @@ function EquipSet:Remove(ship, item, num, slot)
 	if postuninstall_diff > 0 then
 		self:__Add_NoCheck(item, postuninstall_diff, slot)
 		removed = removed-postuninstall_diff
+	end
+	if slot == "cargo" then -- TODO: build a proper property system for the slots
+		ship:setprop("usedCargo", self.slots.cargo.__occupied)
+		ship:setprop("totalCargo", self.slots.cargo.__limit)
 	end
 	if removed > 0 then
 		self:CallListener()
