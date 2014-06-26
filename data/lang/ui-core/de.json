@@ -49,7 +49,7 @@
    },
    "BUY" : {
       "description" : "Commodities and equipment prices",
-      "message" : "Buy"
+      "message" : "Kaufen"
    },
    "BUY_SHIP" : {
       "description" : "",
@@ -889,7 +889,7 @@
    },
    "SELL" : {
       "description" : "Commodities and equipment prices",
-      "message" : "Sell"
+      "message" : "Verkaufen"
    },
    "SENSORS" : {
       "description" : "",
