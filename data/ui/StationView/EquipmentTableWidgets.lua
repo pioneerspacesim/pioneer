@@ -23,7 +23,7 @@ local sellPriceReduction = 0.8
 local defaultFuncs = {
 	-- can we trade in this item
 	canTrade = function (e)
-		return e.purchasable and e:IsValidSlot(nil, "cargo") and Game.system:IsCommodityLegal(e)
+		return e.purchasable and e:IsValidSlot("cargo") and Game.system:IsCommodityLegal(e)
 	end,
 
 	-- how much of this item do we have in stock?

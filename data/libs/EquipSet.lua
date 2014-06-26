@@ -245,7 +245,7 @@ function EquipSet:Add(ship, item, num, slot)
 	num = num or 1
 	if not slot then
 		slot = item:GetDefaultSlot(ship)
-	elseif not item:IsValidSlot(ship, slot) then
+	elseif not item:IsValidSlot(slot, ship) then
 		return -1
 	end
 

@@ -26,7 +26,7 @@ function EquipType:GetDefaultSlot(ship)
 	return self.slots[1]
 end
 
-function EquipType:IsValidSlot(ship, slot)
+function EquipType:IsValidSlot(slot, ship)
 	for _, s in ipairs(self.slots) do
 		if s == slot then
 			return true
