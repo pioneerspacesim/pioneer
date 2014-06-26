@@ -20,12 +20,8 @@ specular 0.7 0.7 0.7
 diffuse 1.0 1.0 1.0
 shininess 5
 
-mesh connections.dae
-mesh mainhoop.dae
-mesh doors.dae
+mesh hoop_mesh.dae
 mesh hoop_docking.dae
-mesh dockingbay.dae
-mesh dockingpads.dae
 mesh doors_collision.dae
 
 collision collision.dae
