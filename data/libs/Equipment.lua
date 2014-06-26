@@ -8,6 +8,10 @@ local Lang = import("Lang")
 
 local l = Lang.GetResource("core")
 
+--
+-- Class: EquipType
+--
+-- A container for a ship's equipment.
 local EquipType = utils.inherits(nil, "EquipType")
 
 function EquipType.New (specs)
@@ -22,10 +26,42 @@ function EquipType.New (specs)
 	return obj
 end
 
+--
+-- Group: Methods
+--
+
+--
+-- Method: GetDefaultSlot
+--
+--  returns the default slot for this equipment
+--
+-- Parameters:
+--
+--  ship (optional) - if provided, tailors the answer for this specific ship
+--
+-- Return:
+--
+--  slot_name - A string identifying the slot.
+--
 function EquipType:GetDefaultSlot(ship)
 	return self.slots[1]
 end
 
+--
+-- Method: IsValidSlot
+--
+--  tells whether the given slot is valid for this equipment
+--
+-- Parameters:
+--
+--  slot - a string identifying the slot in question
+--
+--  ship (optional) - if provided, tailors the answer for this specific ship
+--
+-- Return:
+--
+--  valid - a boolean qualifying the validity of the slot.
+--
 function EquipType:IsValidSlot(slot, ship)
 	for _, s in ipairs(self.slots) do
 		if s == slot then
