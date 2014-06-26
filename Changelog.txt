@@ -19,6 +19,7 @@ June 2014
        properly (#2952)
      * Always at least ONE starport (#2968)
      * Enable different sell/buy for ship equipment (#2955)
+     * Fix bad scaling of space stations (exposed since assimp 3.1.1) (#2923)
 
    * Internal Changes
      * Compress default (#2940)
