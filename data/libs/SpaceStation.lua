@@ -24,14 +24,15 @@ local equipmentStock = {}
 local function updateEquipmentStock (station)
 	if equipmentStock[station] then return end
 	equipmentStock[station] = {}
-
 	local hydrogen = Equipment.cargo.hydrogen
-	for _,e in pairs(Equipment.cargo) do
-		if e:IsValidSlot("cargo") then
-			local min = e == hydrogen and 1 or 0 -- always stock hydrogen
-			equipmentStock[station][e] = Engine.rand:Integer(min,100) * Engine.rand:Integer(1,100)
-        else
-			equipmentStock[station][e] = Engine.rand:Integer(0,100)
+	for _,slot in pairs{"cargo","laser", "hyperspace", "misc"} do
+		for key, e in pairs(Equipment[slot]) do
+			if e:IsValidSlot(nil, "cargo") then      -- is cargo
+				local min = e == hydrogen and 1 or 0 -- always stock hydrogen
+				equipmentStock[station][e] = Engine.rand:Integer(min,100) * Engine.rand:Integer(1,100)
+			else                                     -- is ship equipment
+				equipmentStock[station][e] = Engine.rand:Integer(0,100)
+			end
 		end
 	end
 end
