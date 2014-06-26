@@ -43,7 +43,7 @@ function EquipType:GetDescription()
 	return l[self.l10n_key.."_DESCRIPTION"] or ""
 end
 
-function __ApplyCapabilities(ship, capabilities, num, factor)
+local function __ApplyCapabilities(ship, capabilities, num, factor)
 	if num <= 0 then return 0 end
 	local factor = factor or 1
 	for k,v in pairs(capabilities) do
@@ -63,7 +63,7 @@ function EquipType:Uninstall(ship, num, slot)
 end
 
 -- Base type for weapons
-LaserType = utils.inherits(EquipType, "LaserType")
+local LaserType = utils.inherits(EquipType, "LaserType")
 function LaserType:Install(ship, num, slot)
 	if __ApplyCapabilities(ship, self.capabilities, 1, 1) < 1 then return 0 end
 	local prefix = slot..'_'
@@ -83,7 +83,7 @@ function LaserType:Uninstall(ship, num, slot)
 end
 
 -- Single drive type, no support for slave drives.
-HyperdriveType = utils.inherits(EquipType, "HyperdriveType")
+local HyperdriveType = utils.inherits(EquipType, "HyperdriveType")
 
 HyperdriveType.GetMaximumRange = function (self, ship)
 	return 0.625*ship.totalMass*(self.capabilities.hyperclass ^ 2)
@@ -159,7 +159,7 @@ HyperdriveType.HyperjumpTo = function (self, ship, destination)
 	return ship:InitiateHyperjumpTo(destination, self.capabilities.hyperclass, duration), fuel_use, duration
 end
 
-cargo = {
+local cargo = {
 	hydrogen = EquipType.New({
 		l10n_key = 'HYDROGEN', slots="cargo", price=1,
 		capabilities={mass=1}, economy_type="mining",
