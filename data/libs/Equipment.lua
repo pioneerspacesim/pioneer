@@ -474,7 +474,7 @@ misc.hull_autorepair = EquipType.New({
 local hyperspace = {}
 hyperspace.hyperdrive_1 = HyperdriveType.New({
 	l10n_key="DRIVE_CLASS1", fuel=cargo.hydrogen, slots="engine",
-	price=700, capabilities={mass=4, hyperclass=1},
+	price=700, capabilities={mass=4, hyperclass=1}, purchasable=true
 })
 hyperspace.hyperdrive_2 = HyperdriveType.New({
 	l10n_key="DRIVE_CLASS2", fuel=cargo.hydrogen, slots="engine",
