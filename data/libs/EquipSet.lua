@@ -250,9 +250,11 @@ function EquipSet:Add(ship, item, num, slot)
 		self:__Remove_NoCheck(item, postinst_diff, slot)
 		added = added-postinst_diff
 	end
+	ship:UpdateEquipStats()
 	if slot == "cargo" then -- TODO: build a proper property system for the slots
 		ship:setprop("usedCargo", self.slots.cargo.__occupied)
-		ship:setprop("totalCargo", self.slots.cargo.__limit)
+	else
+		ship:setprop("totalCargo", math.min(self.slots.cargo.__limit, self.slots.cargo.__occupied+ship.freeCapacity))
 	end
 	if added > 0 then
 		self:CallListener()
@@ -289,9 +291,11 @@ function EquipSet:Remove(ship, item, num, slot)
 		self:__Add_NoCheck(item, postuninstall_diff, slot)
 		removed = removed-postuninstall_diff
 	end
+	ship:UpdateEquipStats()
 	if slot == "cargo" then -- TODO: build a proper property system for the slots
 		ship:setprop("usedCargo", self.slots.cargo.__occupied)
-		ship:setprop("totalCargo", self.slots.cargo.__limit)
+	else
+		ship:setprop("totalCargo", math.min(self.slots.cargo.__limit, self.slots.cargo.__occupied+ship.freeCapacity))
 	end
 	if removed > 0 then
 		self:CallListener()

@@ -28,6 +28,8 @@
 #include "collider/collider.h"
 #include "StringF.h"
 
+#include <algorithm>
+
 static const float TONS_HULL_PER_SHIELD = 10.f;
 static const double KINETIC_ENERGY_MULT	= 0.01;
 HeatGradientParameters_t Ship::s_heatGradientParams;
@@ -144,12 +146,21 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 
 void Ship::InitEquipSet() {
 	lua_State * l = Lua::manager->GetLuaState();
+	PropertyMap & p = Properties();
 	LUA_DEBUG_START(l);
 	pi_lua_import(l, "EquipSet");
 	LuaTable es_class(l, -1);
 	LuaTable slots = LuaTable(l).LoadMap(GetShipType()->slots.begin(), GetShipType()->slots.end());
 	m_equipSet =  es_class.Call<LuaRef>("New", slots);
-	Properties().Set("equipSet", ScopedTable(m_equipSet));
+	p.Set("equipSet", ScopedTable(m_equipSet));
+	UpdateEquipStats();
+	{
+		ScopedTable es(m_equipSet);
+		int usedCargo = es.CallMethod<int>("OccupiedSpace", "cargo");
+		int totalCargo = std::min(m_stats.free_capacity + usedCargo, es.CallMethod<int>("SlotSize", "cargo"));
+		p.Set("usedCargo", usedCargo);
+		p.Set("totalCargo", totalCargo);
+	}
 	lua_pop(l, 2);
 	LUA_DEBUG_END(l, 0);
 }
@@ -509,9 +520,6 @@ void Ship::UpdateEquipStats()
 	m_stats.total_mass = m_stats.used_capacity + m_type->hullMass;
 
 	p.Set("usedCapacity", m_stats.used_capacity);
-
-	p.Set("usedCargo", m_stats.used_cargo);
-	p.Set("totalCargo", m_stats.free_capacity+m_stats.used_cargo);
 
 	p.Set("freeCapacity", m_stats.free_capacity);
 	p.Set("totalMass", m_stats.total_mass);
