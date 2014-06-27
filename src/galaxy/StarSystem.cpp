@@ -2292,7 +2292,8 @@ void SystemBody::PopulateAddStations(StarSystem *system)
 		}
 	}
 	// starports - surface
-	pop = m_population + rand.Fixed();
+	// give it a fighting chance of having a decent number of starports (*3)
+	pop = m_population + (rand.Fixed() * 3);
 	int max = 6;
 	while (max-- > 0) {
 		pop -= rand.Fixed();
