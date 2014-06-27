@@ -2,7 +2,7 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local s = CustomSystem:new('Barnard\'s star',{ 'STAR_M' })
-    :faction('Federation')
+    :faction('Solar Federation')
     :govtype('EARTHCOLONIAL')
     :short_desc('Earth Federation prison colony')
     :long_desc([[Barnard's Star is a very low-mass red dwarf star.  Somewhere between 7 and 12 billion years old, it is probably one of the most ancient stars in the galaxy.  Despite that, it is still fairly active.  Pilots entering the system are warned that there might be consideral stellar activity, including flares and massive coronal ejections.
