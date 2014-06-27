@@ -795,6 +795,28 @@ static int l_ship_cancel_ai(lua_State *l)
 	return 0;
 }
 
+/*
+ * Method: UpdateEquipStats
+ *
+ * Update the ship's statistics with regards to equipment changes
+ *
+ * > ship:UpdateEquipStats()
+ *
+ * Availability:
+ *
+ *  June 2014
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_ship_update_equip_stats(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	s->UpdateEquipStats();
+	return 0;
+}
+
 template <> const char *LuaObject<Ship>::s_type = "Ship";
 
 template <> void LuaObject<Ship>::RegisterClass()
@@ -835,6 +857,8 @@ template <> void LuaObject<Ship>::RegisterClass()
 
 		{ "GetInvulnerable", l_ship_get_invulnerable },
 		{ "SetInvulnerable", l_ship_set_invulnerable },
+
+		{ "UpdateEquipStats", l_ship_update_equip_stats },
 
 		{ 0, 0 }
 	};
