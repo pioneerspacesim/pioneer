@@ -290,7 +290,6 @@ private:
 	void UpdateAlertState();
 	void UpdateFuel(float timeStep, const vector3d &thrust);
 	void SetShipId(const ShipType::Id &shipId);
-	void OnEquipmentChange(Equip::Type e);
 	void EnterHyperspace();
 	void InitGun(const char *tag, int num);
 	void InitMaterials();

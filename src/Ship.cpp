@@ -1259,11 +1259,6 @@ bool Ship::SpawnCargo(CargoBody * c_body) const
 	return true;
 }
 
-void Ship::OnEquipmentChange(Equip::Type e)
-{
-	LuaEvent::Queue("onShipEquipmentChanged", this, EnumStrings::GetString("EquipType", e));
-}
-
 void Ship::EnterHyperspace() {
 	assert(GetFlightState() != Ship::HYPERSPACE);
 

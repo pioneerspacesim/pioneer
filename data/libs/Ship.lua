@@ -174,8 +174,13 @@ function Ship:AddEquip(item, count)
 		debug.deprecated("Ship:AddEquip")
 		item = compat.equip.old2new[item]
 	end
-	return self.equipSet:Add(self, item, count)
+	local ret = self.equipSet:Add(self, item, count)
+	if ret > 0 then
+		Event.Queue("onShipEquipmentChange", self, item)
+	end
+	return ret
 end
+
 --
 -- Method: GetEquip
 --
@@ -314,8 +319,10 @@ Ship.SetEquip = function (self, slot, index, equip)
 		debug.deprecated("Ship:SetEquip")
 		item = compat.equip.old2new[item]
 	end
-	return self.equipSet:Set(self, slot, index, item)
+	self.equipSet:Set(self, slot, index, item)
+	Event.Queue("onShipEquipmentChange", self)
 end
+
 --
 -- Method: RemoveEquip
 --
@@ -351,7 +358,11 @@ Ship.RemoveEquip = function (self, item, count)
 		debug.deprecated("Ship:RemoveEquip")
 		item = compat.equip.old2new[item]
 	end
-	return self.equipSet:Remove(self, item, count)
+	local ret = self.equipSet:Remove(self, item, count)
+	if ret > 0 then
+		Event.Queue("onShipEquipmentChange", self, item)
+	end
+	return ret
 end
 
 Ship.HyperjumpTo = function (self, path)
