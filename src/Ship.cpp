@@ -142,6 +142,18 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 
 }
 
+void Ship::InitEquipSet() {
+	lua_State * l = Lua::manager->GetLuaState();
+	LUA_DEBUG_START(l);
+	pi_lua_import(l, "EquipSet");
+	LuaTable es_class(l, -1);
+	LuaTable slots = LuaTable(l).LoadMap(GetShipType()->slots.begin(), GetShipType()->slots.end());
+	m_equipSet =  es_class.Call<LuaRef>("New", slots);
+	Properties().Set("equipSet", ScopedTable(m_equipSet));
+	lua_pop(l, 2);
+	LUA_DEBUG_END(l, 0);
+}
+
 void Ship::InitGun(const char *tag, int num)
 {
 	const SceneGraph::MatrixTransform *mt = GetModel()->FindTagByName(tag);
@@ -241,17 +253,7 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	m_thrusters.x = m_thrusters.y = m_thrusters.z = 0;
 	m_angThrusters.x = m_angThrusters.y = m_angThrusters.z = 0;
 
-	{
-		lua_State * l = Lua::manager->GetLuaState();
-		LUA_DEBUG_START(l);
-		pi_lua_import(l, "EquipSet");
-		LuaTable es_class(l, -1);
-		LuaTable slots = LuaTable(l).LoadMap(GetShipType()->slots.begin(), GetShipType()->slots.end());
-		m_equipSet =  es_class.Call<LuaRef>("New", slots);
-		Properties().Set("equipSet", ScopedTable(m_equipSet));
-		lua_pop(l, 2);
-		LUA_DEBUG_END(l, 0);
-	}
+	InitEquipSet();
 
 	m_hyperspace.countdown = 0;
 	m_hyperspace.now = false;
@@ -1318,15 +1320,7 @@ void Ship::SetShipType(const ShipType::Id &shipId)
 	if (IsType(Object::PLAYER))
 		Pi::worldView->SetCamType(Pi::worldView->GetCamType());
 	// We cannot export it to Init() since it gets reloaded on its own
-	lua_State * l = Lua::manager->GetLuaState();
-	pi_lua_import(l, "EquipSet");
-	lua_pushstring(l, "New");
-	lua_gettable(l, -2);
-	LuaTable(l).LoadMap(GetShipType()->slots.begin(), GetShipType()->slots.end());
-	lua_call(l, 1, 1);
-	Properties().Set("equipSet", LuaTable(l, -1));
-	m_equipSet = LuaRef(l, -1);
-	lua_pop(l, 2);
+	InitEquipSet();
 
 	LuaEvent::Queue("onShipTypeChanged", this);
 }

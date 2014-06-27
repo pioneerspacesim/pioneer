@@ -294,6 +294,7 @@ private:
 	void EnterHyperspace();
 	void InitGun(const char *tag, int num);
 	void InitMaterials();
+	void InitEquipSet();
 
 	bool m_invulnerable;
 
