@@ -123,7 +123,7 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 	p.Set("hullPercent", 100.0f * (m_stats.hull_mass_left / float(m_type->hullMass)));
 	p.Set("shieldMassLeft", m_stats.shield_mass_left);
 	p.Set("fuelMassLeft", m_stats.fuel_tank_mass_left);
-	p.Set("mass", 0);
+	p.Set("mass_cap", 0);
 	p.PushLuaTable();
 	lua_State *l = Lua::manager->GetLuaState();
 	lua_getfield(l, -1, "equipSet");
@@ -202,7 +202,7 @@ void Ship::Init()
 	p.Set("hullPercent", 100.0f * (m_stats.hull_mass_left / float(m_type->hullMass)));
 	p.Set("shieldMassLeft", m_stats.shield_mass_left);
 	p.Set("fuelMassLeft", m_stats.fuel_tank_mass_left);
-	p.Set("mass", 0);
+	p.Set("mass_cap", 0);
 
 	m_hyperspace.now = false;			// TODO: move this on next savegame change, maybe
 	m_hyperspaceCloud = 0;
@@ -502,7 +502,7 @@ void Ship::UpdateEquipStats()
 	PropertyMap &p = Properties();
 
 	m_stats.used_capacity = 0;
-	p.Get("mass", m_stats.used_capacity);
+	p.Get("mass_cap", m_stats.used_capacity);
 	m_stats.used_cargo = 0;
 
 	m_stats.free_capacity = m_type->capacity - m_stats.used_capacity;
