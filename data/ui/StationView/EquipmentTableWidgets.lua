@@ -209,7 +209,7 @@ function EquipmentTableWidgets.Pair (config)
 		-- if this ship model doesn't support fitting of this equip:
 		if player:GetEquipSlotCapacity(e:GetDefaultSlot(player)) < 1 then
 			MessageBox.Message(string.interp(l.NOT_SUPPORTED_ON_THIS_SHIP,
-				 {equipment = EquipDef[e].name,}))
+				 {equipment = e:GetName(),}))
 			return
 		end
 
