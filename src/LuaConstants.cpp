@@ -181,6 +181,28 @@ void LuaConstants::Register(lua_State *l)
 	 */
 
 	/*
+	 * Constants: ShipManufacturer
+	 *
+	 * List ship manufacturers
+	 *
+	 * ALBR - Albr Corp
+	 * AURONOX - Auronox Corporation
+	 * HABER - Haber Corporation
+	 * KALURI - OKB Kaluri
+	 * MANDARAVA - Mandarava-Csepel
+	 * OPLI - OPLI-Barnard Inc
+	 *
+	 * Availability:
+	 *
+	 *   2014 June
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	*/
+
+	/*
 	 * Constants: PhysicsObjectType
 	 *
 	 * General physical objects

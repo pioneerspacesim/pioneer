@@ -19,6 +19,16 @@ namespace Polit {
 		CRIME_MURDER = (1<<3),
 	};
 
+	enum ShipManufacturer { // <enum scope='Polit' name=ShipManufacturer prefix=MAN_ public>
+		MAN_ALBR,
+		MAN_AURONOX,
+		MAN_HABER,
+		MAN_KALURI,
+		MAN_MANDARAVA,
+		MAN_OPLI,
+		MAN_MAX // <enum skip>
+	};
+
 	enum PolitEcon { // <enum scope='Polit' name=PolitEcon prefix=ECON_ public>
 		ECON_NONE,
 		ECON_VERY_CAPITALIST,
