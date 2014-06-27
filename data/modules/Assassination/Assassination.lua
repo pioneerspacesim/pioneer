@@ -14,7 +14,7 @@ local NameGen = import("NameGen")
 local Character = import("Character")
 local Format = import("Format")
 local Serializer = import("Serializer")
-local EquipDef = import("EquipDef")
+local Equipment = import("Equipment")
 local ShipDef = import("ShipDef")
 local Ship = import("Ship")
 local utils = import("utils")
@@ -277,7 +277,8 @@ local onEnterSystem = function (ship)
 						local station = Space.GetBody(mission.location.bodyIndex)
 						local shiptype = ShipDef[mission.shipid]
 						local default_drive = shiptype.hyperdriveClass
-						local laserdefs = utils.build_array(utils.filter(function (k,def) return def.slot == 'LASER' end, pairs(EquipDef)))
+						local laserdefs = utils.build_array(Equipment.laser)
+						table.sort(laserdefs, function (l1, l2) return l1.price < l2.price end)
 						local laserdef = laserdefs[mission.danger]
 						local count = default_drive ^ 2
 
