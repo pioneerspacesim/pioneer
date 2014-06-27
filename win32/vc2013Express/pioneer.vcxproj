@@ -214,7 +214,6 @@
     <ClCompile Include="..\..\src\LuaConstants.cpp" />
     <ClCompile Include="..\..\src\LuaDev.cpp" />
     <ClCompile Include="..\..\src\LuaEngine.cpp" />
-    <ClCompile Include="..\..\src\LuaEquipDef.cpp" />
     <ClCompile Include="..\..\src\LuaEvent.cpp" />
     <ClCompile Include="..\..\src\LuaFaction.cpp" />
     <ClCompile Include="..\..\src\LuaFileSystem.cpp" />
@@ -365,7 +364,6 @@
     <ClInclude Include="..\..\src\KeyBindings.h" />
     <ClInclude Include="..\..\src\libs.h" />
     <ClInclude Include="..\..\src\Lua.h" />
-    <ClInclude Include="..\..\src\LuaEquipDef.h" />
     <ClInclude Include="..\..\src\LuaComms.h" />
     <ClInclude Include="..\..\src\LuaConsole.h" />
     <ClInclude Include="..\..\src\LuaConstants.h" />
