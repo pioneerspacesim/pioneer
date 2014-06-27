@@ -192,6 +192,12 @@ HyperdriveType.HyperjumpTo = function (self, ship, destination)
 		return "WRONG_SHIP"
 	end
 	local distance, fuel_use, duration = self:CheckDestination(ship, destination)
+	if not distance then
+		return "OUT_OF_RANGE"
+	end
+	if not fuel_use then
+		return "INSUFFICIENT_FUEL"
+	end
 	return ship:InitiateHyperjumpTo(destination, self.capabilities.hyperclass, duration), fuel_use, duration
 end
 
