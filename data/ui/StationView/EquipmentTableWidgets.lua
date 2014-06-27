@@ -90,7 +90,7 @@ local shipColumnHeading = {
 local defaultStationColumnValue = {
 	icon  = function (e, funcs) return e.icon_name and ui:Image("icons/goods/"..e.icon_name..".png") or "" end,
 	name  = function (e, funcs) return e:GetName() end,
-	price = function (e, funcs) return Format.Money(funcs.getPrice(e)) end,
+	price = function (e, funcs) return Format.Money(funcs.getBuyPrice(e)) end,
 	buy   = function (e, funcs) return Format.Money(funcs.getBuyPrice(e)) end,
 	sell  = function (e, funcs) return Format.Money(funcs.getSellPrice(e)) end,
 	stock = function (e, funcs) return funcs.getStock(e) end,
@@ -112,7 +112,6 @@ function EquipmentTableWidgets.Pair (config)
 	local funcs = {
 		canTrade = config.canTrade or defaultFuncs.canTrade,
 		getStock = config.getStock or defaultFuncs.getStock,
---		getPrice = config.getPrice or defaultFuncs.getPrice,
 		getBuyPrice = config.getBuyPrice or defaultFuncs.getBuyPrice,
 		getSellPrice = config.getSellPrice or defaultFuncs.getSellPrice,
 		onClickBuy = config.onClickBuy or defaultFuncs.onClickBuy,
