@@ -145,6 +145,8 @@ public:
 	float ToFloat() const { return v/float(Sint64(1)<<FRAC); }
 	double ToDouble() const { return v/double(Sint64(1)<<FRAC); }
 
+	static fixedf FromDouble(const double val) { return fixedf(Sint64(((val) * double(Sint64(1)<<FRAC)))); }
+
 	template <int NEW_FRAC_BITS>
 	operator fixedf<NEW_FRAC_BITS>() const {
 		int shift = NEW_FRAC_BITS - FRAC_BITS;
