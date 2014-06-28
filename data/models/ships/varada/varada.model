@@ -1,0 +1,23 @@
+material keszeg_fuselage-material
+diffuse 1.0 1.0 1.0
+specular 0.9 0.9 0.9
+shininess 69
+use_patterns
+tex_diff varada_diff.dds
+tex_glow varada_glow.dds
+tex_spec varada_spec.dds
+
+
+lod 300
+mesh varada_hi.dae
+mesh varada_shield.dae
+
+lod 50
+mesh varada_med.dae
+
+#lod 10
+#mesh kanara_low.dae
+
+collision varada_col.dae
+
+anim gear_down 0 76
