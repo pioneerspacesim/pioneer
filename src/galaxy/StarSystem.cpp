@@ -2278,59 +2278,43 @@ void SystemBody::PopulateAddStations(StarSystem *system)
 
 	// starports - orbital
 	fixed pop = m_population + rand.Fixed();
-	pop -= rand.Fixed();
-	if ((orbMinS < orbMaxS) && (pop >= 0)) {
-
-		SystemBody *sp = system->NewBody();
-		sp->m_type = SystemBody::TYPE_STARPORT_ORBITAL;
-		sp->m_seed = rand.Int32();
-		sp->m_parent = this;
-		sp->m_rotationPeriod = fixed(1,3600);
-		sp->m_averageTemp = this->m_averageTemp;
-		sp->m_mass = 0;
-		/* just always plonk starports in near orbit */
-		sp->m_semiMajorAxis = orbMinS;
-		sp->m_eccentricity = fixed();
-		sp->m_axialTilt = fixed();
-
-		sp->m_orbit.SetShapeAroundPrimary(sp->m_semiMajorAxis.ToDouble()*AU, this->GetMassAsFixed().ToDouble() * EARTH_MASS, 0.0);
-		sp->m_orbit.SetPlane(matrix3x3d::Identity());
-
-		sp->m_inclination = fixed();
-		m_children.insert(m_children.begin(), sp);
-		system->m_spaceStations.push_back(sp);
-		sp->m_orbMin = sp->m_semiMajorAxis;
-		sp->m_orbMax = sp->m_semiMajorAxis;
-
-		sp->m_name = gen_unique_station_name(sp, system, namerand);
-
+	if( orbMinS < orbMaxS )
+	{
 		pop -= rand.Fixed();
-		if (pop > 0) {
-			SystemBody *sp2 = system->NewBody();
-			sp2->m_type = sp->m_type;
-			sp2->m_seed = sp->m_seed;
-			sp2->m_parent = sp->m_parent;
-			sp2->m_rotationPeriod = sp->m_rotationPeriod;
-			sp2->m_averageTemp = sp->m_averageTemp;
-			sp2->m_mass = sp->m_mass;
-			sp2->m_semiMajorAxis = sp->m_semiMajorAxis;
-			sp2->m_eccentricity = sp->m_eccentricity;
-			sp2->m_axialTilt = sp->m_axialTilt;
+		Uint32 NumToMake = 0;
+		while(pop >= 0) {
+			++NumToMake;
+			pop -= rand.Fixed();
+		}
+		for( Uint32 i=0; i<NumToMake; i++ ) {
+			SystemBody *sp = system->NewBody();
+			sp->m_type = SystemBody::TYPE_STARPORT_ORBITAL;
+			sp->m_seed = rand.Int32();
+			sp->m_parent = this;
+			sp->m_rotationPeriod = fixed(1,3600);
+			sp->m_averageTemp = this->m_averageTemp;
+			sp->m_mass = 0;
 
-			sp2->m_orbit = sp->m_orbit;
-			sp2->m_orbit.SetPlane(matrix3x3d::RotateZ(M_PI));
+			// place stations between min and max orbits to reduce the number of extremely close/fast orbits
+			sp->m_semiMajorAxis = orbMinS + ((orbMaxS - orbMinS) / 4);
+			sp->m_eccentricity = fixed();
+			sp->m_axialTilt = fixed();
 
-			sp2->m_inclination = sp->m_inclination;
-			sp2->m_orbMin = sp->m_orbMin;
-			sp2->m_orbMax = sp->m_orbMax;
+			sp->m_orbit.SetShapeAroundPrimary(sp->m_semiMajorAxis.ToDouble()*AU, this->GetMassAsFixed().ToDouble() * EARTH_MASS, 0.0);
+			sp->m_orbit.SetPlane(matrix3x3d::RotateZ( double(i) * (M_PI / double(NumToMake-1)) ));
 
-			sp2->m_name = gen_unique_station_name(sp, system, namerand);
-			m_children.insert(m_children.begin(), sp2);
-			system->m_spaceStations.push_back(sp2);
+			sp->m_inclination = fixed();
+			m_children.insert(m_children.begin(), sp);
+			system->m_spaceStations.push_back(sp);
+			sp->m_orbMin = sp->m_semiMajorAxis;
+			sp->m_orbMax = sp->m_semiMajorAxis;
+
+			sp->m_name = gen_unique_station_name(sp, system, namerand);
 		}
 	}
 	// starports - surface
-	pop = m_population + rand.Fixed();
+	// give it a fighting chance of having a decent number of starports (*3)
+	pop = m_population + (rand.Fixed() * 3);
 	int max = 6;
 	while (max-- > 0) {
 		pop -= rand.Fixed();

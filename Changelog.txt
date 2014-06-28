@@ -6,6 +6,8 @@ June 2014
      * Proper rocketship icon by Evarchart (#2942)
      * DDS for all models (#2945)
      * Support SGM files, disable texture options, new modelcompiler tool (#2962)
+     * Change the default orbit of space station, allowing for more around a
+       single planet (#2973)
 
    * Script and UI API changes
      * Added scripts to parse ship stats to wiki
@@ -19,6 +21,7 @@ June 2014
        properly (#2952)
      * Always at least ONE starport (#2968)
      * Enable different sell/buy for ship equipment (#2955)
+     * Fix bad scaling of space stations (exposed since assimp 3.1.1) (#2923)
 
    * Internal Changes
      * Compress default (#2940)
