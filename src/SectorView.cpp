@@ -6,6 +6,7 @@
 #include "GalacticView.h"
 #include "Game.h"
 #include "Lang.h"
+#include "LuaConstants.h"
 #include "Pi.h"
 #include "Player.h"
 #include "SectorView.h"
@@ -737,18 +738,19 @@ void SectorView::UpdateDistanceLabelAndLine(DistanceIndicator &distance, const S
 	} else {
 		RefCountedPtr<const Sector> sec = GetCached(dest);
 		RefCountedPtr<const Sector> srcSec = GetCached(src);
+		SystemPath dest_cpy = dest;
 
 		char format[256];
 
-		const float dist = Sector::DistanceBetween(sec, dest.systemIndex, srcSec, src.systemIndex);
-
+		std::string jumpStatus;
+		float dist;
 		int fuelRequired;
 		double dur;
-		enum Ship::HyperjumpStatus jumpStatus = Pi::player->GetHyperspaceDetails(src, dest, fuelRequired, dur);
+		std::tie(jumpStatus, dist, fuelRequired, dur) = LuaObject<Ship>::CallMethod<std::string, float, int, double>(Pi::player, "GetHyperspaceDetails", &dest_cpy);
 		const double DaysNeeded = dur*(1.0 / (24*60*60));
 		const double HoursNeeded = (DaysNeeded - floor(DaysNeeded))*24;
 
-		switch (jumpStatus) {
+		switch (LuaConstants::GetConstant(Lua::manager->GetLuaState(), "ShipJumpStatus", jumpStatus.c_str())) {
 			case Ship::HYPERJUMP_OK:
 				snprintf(format, sizeof(format), "[ %s | %s | %s, %s ]", Lang::NUMBER_LY, Lang::NUMBER_TONNES, Lang::NUMBER_DAYS, Lang::NUMBER_HOURS);
 				distance.label->SetText(stringf(format,
@@ -1358,7 +1360,7 @@ void SectorView::Update()
 
 	ShrinkCache();
 
-	m_playerHyperspaceRange = Pi::player->GetStats().hyperspace_range;
+	m_playerHyperspaceRange = LuaObject<Player>::CallMethod<float>(Pi::player, "GetHyperspaceRange");
 
 	if(!m_jumpSphere)
 	{

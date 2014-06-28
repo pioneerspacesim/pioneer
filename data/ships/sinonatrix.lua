@@ -16,12 +16,14 @@ define_ship {
 	
 	hull_mass = 20,
 	fuel_tank_mass = 30,
-	max_cargo = 35,
 	capacity = 35,
-	max_laser = 1,
-	max_missile = 2,
-	max_cargoscoop = 1,
-	max_fuelscoop = 1,
+	slots = {
+		cargo = 35,
+		laser_front = 1,
+		missile = 2,
+		cargoscoop = 1,
+		fuelscoop = 1,
+	},
 	min_crew = 1,
 	max_crew = 1,
 	-- Exhaust velocity Vc [m/s] is equivalent of engine efficiency and depend on used technology. Higher Vc means lower fuel consumption.

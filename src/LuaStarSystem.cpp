@@ -3,6 +3,8 @@
 
 #include "LuaObject.h"
 #include "LuaConstants.h"
+#include "LuaTable.h"
+#include "LuaUtils.h"
 #include "EnumStrings.h"
 #include "LuaUtils.h"
 #include "galaxy/StarSystem.h"
@@ -145,13 +147,24 @@ static int l_starsystem_get_commodity_base_price_alterations(lua_State *l)
 
 	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
 
-	lua_newtable(l);
+	lua_newtable(l); // ret, s
+	// TODO: replace this ugly hack
+	pi_lua_import(l, "Ship"); // Ship, ret, s
+	LuaTable(l, -1).Sub("equipCompat").Sub("equip").Sub("old2new");
+	lua_pushnil(l); // nil, o2n, "equip", equipCompat, Ship, ret, s
 
-	for (int e = Equip::FIRST_COMMODITY; e <= Equip::LAST_COMMODITY; e++) {
-		lua_pushstring(l, EnumStrings::GetString("EquipType", e));
-		lua_pushnumber(l, s->GetCommodityBasePriceModPercent(e));
-		lua_rawset(l, -3);
+	while (lua_next(l, -2) != 0) { // n-e equipment, old-style key, o2n, "equip", equipCompat, Ship, ret, s
+		LuaTable equip(l, -1);
+		if (!equip.CallMethod<bool>("IsValidSlot", "cargo")) {
+			lua_pop(l, 1);
+			continue;
+		}
+		Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstantFromArg(l, "EquipType", -2));
+		lua_pushnumber(l, s->GetCommodityBasePriceModPercent(e));// mod, n-e equipment, old-style key, o2n, "equip", equipCompat, Ship, ret, s
+		lua_rawset(l, -8); // old-style key, o2n, "equip", equipCompat, Ship, ret, s
 	}
+	// o2n, "equip", equipCompat, Ship, ret, s
+	lua_pop(l, 4);
 
 	LUA_DEBUG_END(l, 1);
 
@@ -167,7 +180,7 @@ static int l_starsystem_get_commodity_base_price_alterations(lua_State *l)
  *
  * Parameters:
  *
- *   cargo - a <Constants.EquipType> string for the wanted commodity
+ *   cargo - the wanted commodity (for instance, Equipment.cargo.hydrogen)
  *
  * Return:
  *
@@ -185,7 +198,10 @@ static int l_starsystem_is_commodity_legal(lua_State *l)
 {
 	PROFILE_SCOPED()
 	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
-	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstantFromArg(l, "EquipType", 2));
+	// XXX: Don't use the l10n_key hack, this is just UGLY!!
+	luaL_checktype(l, 2, LUA_TTABLE);
+	LuaTable(l, 2).PushValueToStack("l10n_key");
+	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstantFromArg(l, "EquipType", 3));
 	lua_pushboolean(l, Polit::IsCommodityLegal(s, e));
 	return 1;
 }

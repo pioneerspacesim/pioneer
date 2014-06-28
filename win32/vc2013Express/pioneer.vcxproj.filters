@@ -348,9 +348,6 @@
     <ClCompile Include="..\..\src\LuaMissile.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\LuaEquipDef.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\LuaShipDef.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -480,9 +477,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\libs.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\LuaEquipDef.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaConstants.h">

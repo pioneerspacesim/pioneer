@@ -147,6 +147,9 @@ private:
 	// lua method to set a property on a propertied object
 	static int l_setprop(lua_State *l);
 
+	// lua method to unset a property on a propertied object
+	static int l_unsetprop(lua_State *l);
+
 	// lua method to check the existence of a specific property on an object
 	static int l_hasprop(lua_State *l);
 

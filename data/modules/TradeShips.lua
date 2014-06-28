@@ -11,6 +11,7 @@ local Serializer = import("Serializer")
 local ShipDef = import("ShipDef")
 local Ship = import("Ship")
 local utils = import("utils")
+local e = import ("Equipment")
 
 --[[
 	trade_ships
@@ -64,22 +65,22 @@ local utils = import("utils")
 local trade_ships, system_updated, from_paths, starports, vacuum_starports, imports, exports
 
 local addFuel = function (ship)
-	local drive = ship:GetEquip('ENGINE', 1)
+	local drive = ship:GetEquip('engine', 1)
 
 	-- a drive must be installed
-	if drive == 'NONE' then
+	if not drive then
 		print(trade_ships[ship]['ship_name']..' has no drive!')
 		return nil
 	end
 
 	-- the last character of the fitted drive is the class
 	-- the fuel needed for max range is the square of the drive class
-	local count = tonumber(string.sub(drive, -1)) ^ 2
+	local count = drive.capabilities.hyperclass ^ 2
 
 	-- account for fuel it already has
-	count = count - ship:GetEquipCount('CARGO', 'HYDROGEN')
+	count = count - ship:CountEquip(e.cargo.hydrogen)
 
-	local added = ship:AddEquip('HYDROGEN', count)
+	local added = ship:AddEquip(e.cargo.hydrogen, count)
 
 	return added
 end
@@ -89,17 +90,17 @@ local addShipEquip = function (ship)
 	local ship_type = ShipDef[trader.ship_name]
 
 	-- add standard equipment
-	ship:AddEquip('DRIVE_CLASS'..tostring(ship_type.hyperdriveClass))
-	if ShipDef[ship.shipId].equipSlotCapacity.ATMOSHIELD > 0 then
-		ship:AddEquip('ATMOSPHERIC_SHIELDING')
+	ship:AddEquip(e.hyperspace['hyperdrive_'..tostring(ship_type.hyperdriveClass)])
+	if ShipDef[ship.shipId].equipSlotCapacity.atmo_shield > 0 then
+		ship:AddEquip(e.misc.atmospheric_shielding)
 		trader.ATMOSHIELD = true -- flag this to save function calls later
 	else
 		-- This ship cannot safely land on a planet with an atmosphere.
 		trader.ATMOSHIELD = false
 	end
-	ship:AddEquip('SCANNER')
-	ship:AddEquip('AUTOPILOT')
-	ship:AddEquip('CARGO_LIFE_SUPPORT')
+	ship:AddEquip(e.misc.scanner)
+	ship:AddEquip(e.misc.autopilot)
+	ship:AddEquip(e.misc.cargo_life_support)
 
 	-- add defensive equipment based on lawlessness, luck and size
 	local lawlessness = Game.system.lawlessness
@@ -107,43 +108,43 @@ local addShipEquip = function (ship)
 
 	if Engine.rand:Number(1) - 0.1 < lawlessness then
 		local num = math.floor(math.sqrt(ship.freeCapacity / 50)) -
-					 ship:GetEquipCount('SHIELD', 'SHIELD_GENERATOR')
-		if num > 0 then ship:AddEquip('SHIELD_GENERATOR', num) end
-		if ship_type.equipSlotCapacity.ENERGYBOOSTER > 0 and
+					 ship:CountEquip(e.misc.shield_generator)
+		if num > 0 then ship:AddEquip(e.misc.shield_generator, num) end
+		if ship_type.equipSlotCapacity.energy_booster > 0 and
 		Engine.rand:Number(1) + 0.5 - size_factor < lawlessness then
-			ship:AddEquip('SHIELD_ENERGY_BOOSTER')
+			ship:AddEquip(e.misc.shield_energy_booster)
 		end
 	end
 
 	-- we can't use these yet
-	if ship_type.equipSlotCapacity.ECM > 0 then
+	if ship_type.equipSlotCapacity.ecm > 0 then
 		if Engine.rand:Number(1) + 0.2 < lawlessness then
-			ship:AddEquip('ECM_ADVANCED')
+			ship:AddEquip(e.misc.ecm_advanced)
 		elseif Engine.rand:Number(1) < lawlessness then
-			ship:AddEquip('ECM_BASIC')
+			ship:AddEquip(e.misc.ecm_basic)
 		end
 	end
 
 	-- this should be rare
-	if ship_type.equipSlotCapacity.HULLAUTOREPAIR > 0 and
+	if ship_type.equipSlotCapacity.hull_autorepair > 0 and
 	Engine.rand:Number(1) + 0.75 - size_factor < lawlessness then
-		ship:AddEquip('HULL_AUTOREPAIR')
+		ship:AddEquip(e.misc.hull_autorepair)
 	end
 end
 
 local addShipCargo = function (ship, direction)
 	local prices = Game.system:GetCommodityBasePriceAlterations()
 	local total = 0
-	local empty_space = ship.freeCapacity
+	local empty_space = math.min(ship.freeCapacity, ship:GetEquipFree("cargo"))
 	local size_factor = empty_space / 20
-	local cargo = {}
+	local ship_cargo = {}
 
 	if direction == 'import' and #imports == 1 then
 		total = ship:AddEquip(imports[1], empty_space)
-		cargo[imports[1]] = total
+		ship_cargo[imports[1]] = total
 	elseif direction == 'export' and #exports == 1 then
 		total = ship:AddEquip(exports[1], empty_space)
-		cargo[exports[1]] = total
+		ship_cargo[exports[1]] = total
 	elseif (direction == 'import' and #imports > 1) or
 			(direction == 'export' and #exports > 1) then
 
@@ -151,7 +152,7 @@ local addShipCargo = function (ship, direction)
 		-- ship with lots of equipment). if we let it through then we end up
 		-- trying to add 0 cargo forever
 		if size_factor < 1 then
-			trade_ships[ship]['cargo'] = cargo
+			trade_ships[ship]['cargo'] = ship_cargo
 			return 0
 		end
 
@@ -170,17 +171,17 @@ local addShipCargo = function (ship, direction)
 			num = Engine.rand:Integer(num, num * 2)
 
 			local added = ship:AddEquip(cargo_type, num)
-			if cargo[cargo_type] == nil then
-				cargo[cargo_type] = added
+			if ship_cargo[cargo_type] == nil then
+				ship_cargo[cargo_type] = added
 			else
-				cargo[cargo_type] = cargo[cargo_type] + added
+				ship_cargo[cargo_type] = ship_cargo[cargo_type] + added
 			end
 			total = total + added
 		end
 	end
 	-- if the table for direction was empty then cargo is empty and total is 0
 
-	trade_ships[ship]['cargo'] = cargo
+	trade_ships[ship]['cargo'] = ship_cargo
 	return total
 end
 
@@ -291,7 +292,7 @@ end
 local jumpToSystem = function (ship, target_path)
 	if target_path == nil then return nil end
 
-	local status, fuel, duration = ship:HyperspaceTo(target_path)
+	local status, fuel, duration = ship:HyperjumpTo(target_path)
 
 	if status ~= 'OK' then
 		print(trade_ships[ship]['ship_name']..' jump status is not OK')
@@ -318,7 +319,7 @@ local getAcceptableShips = function ()
 		filter_function = function(k,def)
 			-- XXX should limit to ships large enough to carry significant
 			--     cargo, but we don't have enough ships yet
-			return def.tag == 'SHIP' and def.hyperdriveClass > 0 and def.equipSlotCapacity.ATMOSHIELD > 0
+			return def.tag == 'SHIP' and def.hyperdriveClass > 0 and def.equipSlotCapacity.atmo_shield > 0
 		end
 	else
 		filter_function = function(k,def)
@@ -352,19 +353,19 @@ local spawnInitialShips = function (game_start)
 	local prices = Game.system:GetCommodityBasePriceAlterations()
 	local import_score, export_score = 0, 0
 	imports, exports = {}, {}
-	for k,v in pairs(prices) do
-		if k ~= 'RUBBISH' and k ~= 'RADIOACTIVES' and Game.system:IsCommodityLegal(k) then
+	for equip,v in pairs(prices) do
+		if equip ~= e.cargo.rubbish and equip ~= e.cargo.radioactives and Game.system:IsCommodityLegal(equip) then
 			-- values from SystemInfoView::UpdateEconomyTab
 			if		v > 10	then
 				import_score = import_score + 2
 			elseif	v > 2	then
 				import_score = import_score + 1
-				table.insert(imports, k)
+				table.insert(imports, equip)
 			elseif	v < -10	then
 				export_score = export_score + 2
 			elseif	v < -2	then
 				export_score = export_score + 1
-				table.insert(exports, k)
+				table.insert(exports, equip)
 			end
 		end
 	end
@@ -482,7 +483,7 @@ local spawnInitialShips = function (game_start)
 			addShipCargo(ship, 'import')
 			-- remove fuel used to get here
 			if fuel_added and fuel_added > 0 then
-				ship:RemoveEquip('HYDROGEN', Engine.rand:Integer(1, fuel_added))
+				ship:RemoveEquip(e.cargo.hydrogen, Engine.rand:Integer(1, fuel_added))
 			end
 			if trader.status == 'inbound' then 
 				ship:AIDockWith(trader.starport) 
@@ -516,7 +517,7 @@ local spawnReplacement = function ()
 		local fuel_added = addFuel(ship)
 		addShipCargo(ship, 'import')
 		if fuel_added and fuel_added > 0 then
-			ship:RemoveEquip('HYDROGEN', Engine.rand:Integer(1, fuel_added))
+			ship:RemoveEquip(e.cargo.hydrogen, Engine.rand:Integer(1, fuel_added))
 		end
 	end
 end

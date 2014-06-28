@@ -692,8 +692,8 @@ Event = {
 --
 --   ship - the <Ship> whose equipment just changed
 --
---   equipType - the string ID of the <EquipType> that was added or removed,
---   or 'NONE' if the change involved multiple types of equipment
+--   equipType - The <EquipType> item that was added or removed,
+--   or nil if the change involved multiple types of equipment
 --
 -- Availability:
 --

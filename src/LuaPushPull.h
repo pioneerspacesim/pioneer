@@ -136,6 +136,19 @@ inline std::tuple<Arg1, Arg2, Arg3> pi_lua_multiple_pull(lua_State *l, int beg) 
 	pi_lua_generic_pull(l, beg+2, arg3);
 	return std::make_tuple(arg1, arg2, arg3);
 }
+template <typename Arg1, typename Arg2, typename Arg3, typename Arg4>
+inline std::tuple<Arg1, Arg2, Arg3, Arg4> pi_lua_multiple_pull(lua_State *l, int beg) {
+	beg = lua_absindex(l, beg);
+	Arg1 arg1;
+	Arg2 arg2;
+	Arg3 arg3;
+	Arg4 arg4;
+	pi_lua_generic_pull(l, beg, arg1);
+	pi_lua_generic_pull(l, beg+1, arg2);
+	pi_lua_generic_pull(l, beg+2, arg3);
+	pi_lua_generic_pull(l, beg+3, arg4);
+	return std::make_tuple(arg1, arg2, arg3, arg4);
+}
 #else
 // The _bogus parameter is used to bring the empty type list case into the template world
 // to solve name resolution problems.

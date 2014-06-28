@@ -136,6 +136,8 @@ public:
 	template <class PairIterator> LuaTable LoadMap(PairIterator beg, PairIterator end) const;
 	template <class ValueIterator> LuaTable LoadVector(ValueIterator beg, ValueIterator end) const;
 
+	template <class Key, class Value> std::map<Key, Value> GetMap() const;
+
 	lua_State * GetLua() const { return m_lua; }
 	int GetIndex() const { return m_index; }
 	int Size() const {return lua_rawlen(m_lua, m_index);}
@@ -244,6 +246,21 @@ template <class Value, class Key> LuaTable LuaTable::Set(const Key & key, const 
 	return *this;
 }
 
+template <class Key, class Value> std::map<Key, Value> LuaTable::GetMap() const {
+	std::map<Key, Value> ret;
+	lua_pushnil(m_lua);
+	while(lua_next(m_lua, m_index)) {
+		Key k;
+		Value v;
+		if (pi_lua_strict_pull(m_lua, -2, k)) {
+			pi_lua_strict_pull(m_lua, -1, v);
+			ret[k] = v;
+		}
+		lua_pop(m_lua, 1);
+	}
+	return ret;
+}
+
 template <class PairIterator> LuaTable LuaTable::LoadMap(PairIterator beg, PairIterator end) const {
 	for (PairIterator it = beg; it != end ; ++it)
 		Set(it->first, it->second);
@@ -292,5 +309,9 @@ template <> inline void LuaTable::VecIter<LuaTable>::CleanCache() {
 		lua_remove(m_cache.GetLua(), m_cache.GetIndex());
 	}
 	m_dirtyCache = true;
+}
+
+inline void pi_lua_generic_push(lua_State* l, const LuaTable & value) {
+    lua_pushvalue(l, value.GetIndex());
 }
 #endif

@@ -111,6 +111,12 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 	s.hullMass = t.Get("hull_mass", 100);
 	s.fuelTankMass = t.Get("fuel_tank_mass", 5);
 
+	LuaTable slot_table = t.Sub("slots");
+	if (slot_table.GetLua()) {
+		s.slots = slot_table.GetMap<std::string, int>();
+	}
+	lua_pop(L, 1);
+
 	// fuel_use_rate can be given in two ways
 	float thruster_fuel_use = 0;
 	s.effectiveExhaustVelocity = t.Get("effective_exhaust_velocity", -1.0f);

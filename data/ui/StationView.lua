@@ -54,13 +54,14 @@ ui.templates.StationView = function (args)
 	local cabinUsedLabel = ui:Label("")
 	local cabinFreeLabel = ui:Label("")
 	local function cabinUpdate ()
-		cabinGauge:SetUpperValue(player.totalCabins)
-		cabinGauge:SetValue(player.usedCabins)
-		cabinUsedLabel:SetText(string.interp(l.CABIN_USED, { amount = player.usedCabins }))
-		cabinFreeLabel:SetText(string.interp(l.CABIN_FREE, { amount = player.totalCabins-player.usedCabins }))
+        local cap = player.cabin_cap or 0
+        local count = player:GetEquipCountOccupied("cabin")
+		cabinGauge:SetUpperValue(count)
+		cabinGauge:SetValue(count-cap)
+		cabinUsedLabel:SetText(string.interp(l.CABIN_USED, { amount = count-cap }))
+		cabinFreeLabel:SetText(string.interp(l.CABIN_FREE, { amount = cap}))
 	end
-	player:Connect("usedCabins", cabinUpdate)
-	player:Connect("totalCabins", cabinUpdate)
+	player:Connect("cabin_cap", cabinUpdate)
 	cabinUpdate()
 
 	local footer =

@@ -6,9 +6,13 @@ June 2014
      * Proper rocketship icon by Evarchart (#2942)
      * DDS for all models (#2945)
      * Support SGM files, disable texture options, new modelcompiler tool (#2962)
+     * Change the default orbit of space station, allowing for more around a
+       single planet (#2973)
+     * Savefile version bump (#1719, #2969, #2973)
 
    * Script and UI API changes
      * Added scripts to parse ship stats to wiki
+     * Rewrite the equipment handling in Lua. See the PR for details. (#1719)
 
    * Fixes
      * Fix bug/typo that let player fit hyperdrive on lunarshuttle

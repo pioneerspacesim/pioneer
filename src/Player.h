@@ -26,6 +26,8 @@ public:
 	virtual void SetAlertState(Ship::AlertState as);
 	virtual void NotifyRemoved(const Body* const removedBody);
 
+	void SetShipType(const ShipType::Id &shipId);
+
 	PlayerShipController *GetPlayerController() const;
 	//XXX temporary things to avoid causing too many changes right now
 	Body *GetCombatTarget() const;
@@ -36,8 +38,6 @@ public:
 
 	virtual Ship::HyperjumpStatus InitiateHyperjumpTo(const SystemPath &dest, int warmup_time, double duration, LuaRef checks);
 	virtual void AbortHyperjump();
-	virtual Ship::HyperjumpStatus StartHyperspaceCountdown(const SystemPath &dest);
-	virtual void ResetHyperspaceCountdown();
 
 	// XXX cockpit is here for now because it has a physics component
 	void InitCockpit();
@@ -45,6 +45,7 @@ public:
 	void OnCockpitActivated();
 
 	virtual void StaticUpdate(const float timeStep);
+	sigc::signal<void> onChangeEquipment;
 
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);

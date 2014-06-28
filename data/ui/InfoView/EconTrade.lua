@@ -4,7 +4,7 @@
 local Engine = import("Engine")
 local Lang = import("Lang")
 local Game = import("Game")
-local EquipDef = import("EquipDef")
+local Equipment = import("Equipment")
 
 local SmallLabeledButton = import("ui/SmallLabeledButton")
 local InfoGauge = import("ui/InfoGauge")
@@ -18,8 +18,8 @@ local econTrade = function ()
 
 	local player = Game.player
 
-	local usedCabins = Game.player:GetEquipCount("CABIN", "PASSENGER_CABIN")
-	local totalCabins = Game.player:GetEquipCount("CABIN", "UNOCCUPIED_CABIN") + usedCabins
+	local totalCabins = Game.player:GetEquipCountOccupied("cabin")
+	local usedCabins = totalCabins - (Game.player.cabin_cap or 0)
 
 	-- Using econTrade as an enclosure for the functions attached to the
 	-- buttons in the UI object that it returns. Seems like the most sane
@@ -35,30 +35,25 @@ local econTrade = function ()
 		local cargoQuantityColumn = {}
 		local cargoJettisonColumn = {}
 
-		for i = 1,#Constants.EquipType do
-			local type = Constants.EquipType[i]
-			if type ~= "NONE" then
-				local et = EquipDef[type]
-				local slot = et.slot
-				if slot == "CARGO" then
-					local count = Game.player:GetEquipCount(slot, type)
-					if count > 0 then
-						table.insert(cargoNameColumn, ui:Label(et.name))
-						table.insert(cargoQuantityColumn, ui:Label(count.."t"))
+		local count = {}
+		for k,et in pairs(Game.player:GetEquip("cargo")) do
+			if not count[et] then count[et] = 0 end
+			count[et] = count[et]+1
+		end
+		for et,nb in pairs(count) do
+			table.insert(cargoNameColumn, ui:Label(et:GetName()))
+			table.insert(cargoQuantityColumn, ui:Label(nb.."t"))
 
-						local jettisonButton = SmallLabeledButton.New(l.JETTISON)
-						jettisonButton.button.onClick:Connect(function ()
-							Game.player:Jettison(type)
-							updateCargoListWidget()
-							cargoListWidget:SetInnerWidget(updateCargoListWidget())
-						end)
-						if Game.player.flightState ~= "FLYING" then
-							jettisonButton.widget:Disable()
-						end
-						table.insert(cargoJettisonColumn, jettisonButton.widget)
-					end
-				end
+			local jettisonButton = SmallLabeledButton.New(l.JETTISON)
+			jettisonButton.button.onClick:Connect(function ()
+				Game.player:Jettison(et)
+				updateCargoListWidget()
+				cargoListWidget:SetInnerWidget(updateCargoListWidget())
+			end)
+			if Game.player.flightState ~= "FLYING" then
+				jettisonButton.widget:Disable()
 			end
+			table.insert(cargoJettisonColumn, jettisonButton.widget)
 		end
 
 		-- Function returns a UI with which to populate the cargo list widget
@@ -103,7 +98,7 @@ local econTrade = function ()
 	local refuelMaxButton = SmallLabeledButton.New(l.REFUEL_FULL)
 
 	local refuelButtonRefresh = function ()
-		if Game.player.fuel == 100 or Game.player:GetEquipCount('CARGO', 'HYDROGEN') == 0 then
+		if Game.player.fuel == 100 or Game.player:CountEquip(Equipment.cargo.hydrogen) == 0 then
 			refuelButton.widget:Disable()
 			refuelMaxButton.widget:Disable()
 		end
@@ -124,7 +119,7 @@ local econTrade = function ()
 	local refuelMax = function ()
 		repeat
 			Game.player:Refuel(1)
-		until Game.player.fuel == 100 or Game.player:GetEquipCount('CARGO', 'HYDROGEN') == 0
+		until Game.player.fuel == 100 or Game.player:CountEquip(Equipment.cargo.hydrogen) == 0
 		cargoListWidget:SetInnerWidget(updateCargoListWidget())
 
 		refuelButtonRefresh()

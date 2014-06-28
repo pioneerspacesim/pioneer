@@ -169,7 +169,9 @@ void ScannerWidget::ToggleMode()
 
 void ScannerWidget::Draw()
 {
-	if (Pi::player->m_equipment.Get(Equip::SLOT_SCANNER) != Equip::SCANNER) return;
+	int scanner_cap = 0;
+	Pi::player->Properties().Get("scanner_cap", scanner_cap);
+	if (scanner_cap <= 0) return;
 
 	float size[2];
 	GetSize(size);
@@ -217,7 +219,9 @@ void ScannerWidget::Update()
 {
 	m_contacts.clear();
 
-	if (Pi::player->m_equipment.Get(Equip::SLOT_SCANNER) != Equip::SCANNER) {
+	int scanner_cap = 0;
+	Pi::player->Properties().Get("scanner_cap", scanner_cap);
+	if (scanner_cap <= 0) {
 		m_mode = SCANNER_MODE_AUTO;
 		m_currentRange = m_manualRange = m_targetRange = SCANNER_RANGE_MIN;
 		return;
@@ -516,7 +520,7 @@ void ScannerWidget::Save(Serializer::Writer &wr)
 
 UseEquipWidget::UseEquipWidget(): Gui::Fixed(400,100)
 {
-	m_onPlayerEquipChangedCon = Pi::onPlayerChangeEquipment.connect(sigc::mem_fun(this, &UseEquipWidget::UpdateEquip));
+	m_onPlayerEquipChangedCon = Pi::player->onChangeEquipment.connect(sigc::mem_fun(this, &UseEquipWidget::UpdateEquip));
 	UpdateEquip();
 }
 
@@ -543,51 +547,34 @@ void UseEquipWidget::FireMissile(int idx)
 void UseEquipWidget::UpdateEquip()
 {
 	DeleteAllChildren();
-	std::vector<std::string> missiles;
 	lua_State *l = Lua::manager->GetLuaState();
-	{ // new scope to destroy the ScopedTable early on.
-		ScopedTable missiles_ref(LuaObject<Ship>::CallMethod<LuaRef>(Pi::player, "GetEquip", "MISSILE"));
-		missiles.assign(missiles_ref.Begin<std::string>(), missiles_ref.End<std::string>());
-	}
-	int numSlots = missiles.size();
+	LuaObject<Ship>::CallMethod<LuaRef>(Pi::player, "GetEquip", "missile").PushCopyToStack();
+	int numSlots = LuaObject<Ship>::CallMethod<int>(Pi::player, "GetEquipSlotCapacity", "missile");
 
 	if (numSlots) {
 		float spacing = 380.0f / numSlots;
-
-		for (int i = 0; i < numSlots; ++i) {
-			const Equip::Type t = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", missiles[i].c_str()));
-			if (t == Equip::NONE) continue;
-
-			Gui::ImageButton *b;
-			switch (t) {
-				case Equip::MISSILE_UNGUIDED:
-					b = new Gui::ImageButton("icons/missile_unguided.png");
-					break;
-				case Equip::MISSILE_GUIDED:
-					b = new Gui::ImageButton("icons/missile_guided.png");
-					break;
-				case Equip::MISSILE_SMART:
-					b = new Gui::ImageButton("icons/missile_smart.png");
-					break;
-				default:
-				case Equip::MISSILE_NAVAL:
-					b = new Gui::ImageButton("icons/missile_naval.png");
-					break;
+		lua_pushnil(l);
+		while(lua_next(l, -2)) {
+			if (lua_type(l, -2) == LUA_TNUMBER) {
+				int i = lua_tointeger(l, -2);
+				LuaTable missile(l, -1);
+				Gui::ImageButton *b = new Gui::ImageButton((std::string("icons/")+missile.Get<std::string>("icon_name", "")+".png").c_str());
+				Add(b, spacing*i, 40);
+				b->onClick.connect(sigc::bind(sigc::mem_fun(this, &UseEquipWidget::FireMissile), i-1));
+				b->SetToolTip(missile.CallMethod<std::string>("GetName"));
+				b->SetRenderDimensions(16, 16);
 			}
-			Add(b, spacing * i, 40);
-			b->onClick.connect(sigc::bind(sigc::mem_fun(this, &UseEquipWidget::FireMissile), i));
-			b->SetToolTip(Equip::types[t].name);
-			b->SetRenderDimensions(16, 16);
+			lua_pop(l, 1);
 		}
 	}
 
 	{
-		const Equip::Type t = Pi::player->m_equipment.Get(Equip::SLOT_ECM);
-		if (t != Equip::NONE) {
+		int ecm_power_cap = 0;
+		Pi::player->Properties().Get("ecm_power_cap", ecm_power_cap);
+		if (ecm_power_cap > 0) {
 			Gui::ImageButton *b = 0;
-			if (t == Equip::ECM_BASIC) b = new Gui::ImageButton("icons/ecm_basic.png");
-			else if (t == Equip::ECM_ADVANCED) b = new Gui::ImageButton("icons/ecm_advanced.png");
-			assert(b);
+			if (ecm_power_cap == 3) b = new Gui::ImageButton("icons/ecm_basic.png");
+			else b = new Gui::ImageButton("icons/ecm_advanced.png");
 
 			b->onClick.connect(sigc::mem_fun(Pi::player, &Ship::UseECM));
 			b->SetRenderDimensions(32, 32);

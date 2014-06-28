@@ -135,6 +135,32 @@ int LuaObjectBase::l_hasprop(lua_State *l)
 	return 1;
 }
 
+int LuaObjectBase::l_unsetprop(lua_State *l)
+{
+	luaL_checktype(l, 1, LUA_TUSERDATA);
+	const std::string key(luaL_checkstring(l, 2));
+
+	// quick check to make sure this object actually has properties
+	// before we go diving through the stack etc
+	lua_getuservalue(l, 1);
+	if (lua_isnil(l, -1))
+		return luaL_error(l, "Object has no property map");
+
+	LuaObjectBase *lo = static_cast<LuaObjectBase*>(lua_touserdata(l, 1));
+	LuaWrappable *o = lo->GetObject();
+	if (!o)
+		return luaL_error(l, "Object is no longer valid");
+
+	PropertiedObject *po = dynamic_cast<PropertiedObject*>(o);
+	assert(po);
+
+	po->Properties().PushLuaTable();
+	lua_pushvalue(l, 2);
+	lua_pushnil(l);
+	lua_settable(l, -3);
+
+	return 0;
+}
 int LuaObjectBase::l_setprop(lua_State *l)
 {
 	luaL_checktype(l, 1, LUA_TUSERDATA);
@@ -326,8 +352,8 @@ int LuaObjectBase::l_dispatch_index(lua_State *l)
 		}
 	}
 
-	luaL_error(l, "unable to resolve method or attribute '%s'", lua_tostring(l, 2));
-	return 0;
+	lua_pushnil(l);
+	return 1;
 }
 
 static void get_names_from_table(lua_State *l, std::vector<std::string> &names, const std::string &prefix, bool methodsOnly)
@@ -581,9 +607,12 @@ void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL
 	lua_pushcfunction(l, LuaObjectBase::l_isa);
 	lua_rawset(l, -3);
 
-	// add the setprop and hasprop methods
+	// add the setprop, unsetprop and hasprop methods
 	lua_pushstring(l, "setprop");
 	lua_pushcfunction(l, LuaObjectBase::l_setprop);
+	lua_rawset(l, -3);
+	lua_pushstring(l, "unsetprop");
+	lua_pushcfunction(l, LuaObjectBase::l_unsetprop);
 	lua_rawset(l, -3);
 	lua_pushstring(l, "hasprop");
 	lua_pushcfunction(l, LuaObjectBase::l_hasprop);

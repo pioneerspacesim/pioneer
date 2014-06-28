@@ -30,6 +30,7 @@
 #include "graphics/Drawables.h"
 #include "matrix4x4.h"
 #include "Quaternion.h"
+#include "LuaObject.h"
 #include <algorithm>
 #include <sstream>
 #include <SDL_stdinc.h>
@@ -384,12 +385,12 @@ void WorldView::OnClickHyperspace()
 {
 	if (Pi::player->IsHyperspaceActive()) {
 		// Hyperspace countdown in effect.. abort!
-		Pi::player->ResetHyperspaceCountdown();
+		Pi::player->AbortHyperjump();
 		Pi::cpan->MsgLog()->Message("", Lang::HYPERSPACE_JUMP_ABORTED);
 	} else {
 		// Initiate hyperspace drive
 		SystemPath path = Pi::sectorView->GetHyperspaceTarget();
-		Pi::player->StartHyperspaceCountdown(path);
+		LuaObject<Player>::CallMethod(Pi::player, "HyperjumpTo", &path);
 	}
 }
 
@@ -459,7 +460,8 @@ static Color get_color_for_warning_meter_bar(float v) {
 }
 
 void WorldView::RefreshHyperspaceButton() {
-	if (Pi::player->CanHyperspaceTo(Pi::sectorView->GetHyperspaceTarget()))
+	SystemPath target = Pi::sectorView->GetHyperspaceTarget();
+	if (LuaObject<Ship>::CallMethod<bool>(Pi::player, "CanHyperjumpTo", &target))
 		m_hyperspaceButton->Show();
 	else
 		m_hyperspaceButton->Hide();
@@ -746,81 +748,103 @@ void WorldView::RefreshButtonStateAndVisibility()
 
 	Body *b = Pi::player->GetCombatTarget() ? Pi::player->GetCombatTarget() : Pi::player->GetNavTarget();
 	if (b) {
-		if (b->IsType(Object::SHIP) && Pi::player->m_equipment.Get(Equip::SLOT_RADARMAPPER) == Equip::RADAR_MAPPER) {
-			assert(b->IsType(Object::SHIP));
-			Ship *s = static_cast<Ship*>(b);
+		if (b->IsType(Object::SHIP)) {
+			int prop_var = 0;
+			Pi::player->Properties().Get("radar_mapper_cap", prop_var);
+			if (prop_var > 0) {
+				assert(b->IsType(Object::SHIP));
+				Ship *s = static_cast<Ship*>(b);
 
-			const shipstats_t &stats = s->GetStats();
+				const shipstats_t &stats = s->GetStats();
 
-			float sHull = s->GetPercentHull();
-			m_hudTargetHullIntegrity->SetColor(get_color_for_warning_meter_bar(sHull));
-			m_hudTargetHullIntegrity->SetValue(sHull*0.01f);
-			m_hudTargetHullIntegrity->Show();
+				float sHull = s->GetPercentHull();
+				m_hudTargetHullIntegrity->SetColor(get_color_for_warning_meter_bar(sHull));
+				m_hudTargetHullIntegrity->SetValue(sHull*0.01f);
+				m_hudTargetHullIntegrity->Show();
 
-			float sShields = 0;
-			if (s->m_equipment.Count(Equip::SLOT_SHIELD, Equip::SHIELD_GENERATOR) > 0) {
-				sShields = s->GetPercentShields();
+				float sShields = 0;
+				prop_var = 0;
+				s->Properties().Get("shield_cap", prop_var);
+				if (prop_var > 0) {
+					sShields = s->GetPercentShields();
+				}
+				m_hudTargetShieldIntegrity->SetColor(get_color_for_warning_meter_bar(sShields));
+				m_hudTargetShieldIntegrity->SetValue(sShields*0.01f);
+				m_hudTargetShieldIntegrity->Show();
+
+				std::string text;
+				text += s->GetShipType()->name;
+				text += "\n";
+				text += s->GetLabel();
+				text += "\n";
+
+				lua_State * l = Lua::manager->GetLuaState();
+				int clean_stack = lua_gettop(l);
+				LuaObject<Ship>::PushToLua(s);
+				lua_pushstring(l, "GetEquip");
+				lua_gettable(l, -2);
+				lua_pushvalue(l, -2);
+				lua_pushstring(l, "engine");
+				lua_call(l, 2, 1);
+				lua_rawgeti(l, -1, 1);
+				if (lua_isnil(l, -1)) {
+					text += Lang::NO_HYPERDRIVE;
+				} else {
+					lua_pushstring(l, "name");
+					lua_gettable(l, -2);
+					text += lua_tostring(l, -1);
+				}
+				lua_settop(l, clean_stack);
+
+				text += "\n";
+				text += stringf(Lang::MASS_N_TONNES, formatarg("mass", stats.total_mass));
+				text += "\n";
+				text += stringf(Lang::SHIELD_STRENGTH_N, formatarg("shields",
+					(sShields*0.01f) * float(prop_var))); // At that point, it still holds the property for the shields
+				text += "\n";
+				text += stringf(Lang::CARGO_N, formatarg("mass", stats.used_cargo));
+				text += "\n";
+
+				m_hudTargetInfo->SetText(text);
+				MoveChild(m_hudTargetInfo, Gui::Screen::GetWidth() - 150.0f, 85.0f);
+				m_hudTargetInfo->Show();
 			}
-			m_hudTargetShieldIntegrity->SetColor(get_color_for_warning_meter_bar(sShields));
-			m_hudTargetShieldIntegrity->SetValue(sShields*0.01f);
-			m_hudTargetShieldIntegrity->Show();
-
-			std::string text;
-			text += s->GetShipType()->name;
-			text += "\n";
-			text += s->GetLabel();
-			text += "\n";
-
-			if (s->m_equipment.Get(Equip::SLOT_ENGINE) == Equip::NONE) {
-				text += Lang::NO_HYPERDRIVE;
-			} else {
-				text += Equip::types[s->m_equipment.Get(Equip::SLOT_ENGINE)].name;
-			}
-
-			text += "\n";
-			text += stringf(Lang::MASS_N_TONNES, formatarg("mass", stats.total_mass));
-			text += "\n";
-			text += stringf(Lang::SHIELD_STRENGTH_N, formatarg("shields",
-				(sShields*0.01f) * float(s->m_equipment.Count(Equip::SLOT_SHIELD, Equip::SHIELD_GENERATOR))));
-			text += "\n";
-			text += stringf(Lang::CARGO_N, formatarg("mass", stats.used_cargo));
-			text += "\n";
-
-			m_hudTargetInfo->SetText(text);
-			MoveChild(m_hudTargetInfo, Gui::Screen::GetWidth() - 150.0f, 85.0f);
-			m_hudTargetInfo->Show();
 		}
 
-		else if (b->IsType(Object::HYPERSPACECLOUD) && Pi::player->m_equipment.Get(Equip::SLOT_HYPERCLOUD) == Equip::HYPERCLOUD_ANALYZER) {
-			HyperspaceCloud *cloud = static_cast<HyperspaceCloud*>(b);
+		else if (b->IsType(Object::HYPERSPACECLOUD)) {
+			int cap = 0;
+			Pi::player->Properties().Get("hypercloud_analyzer_cap", cap);
+			if(cap) {
+				HyperspaceCloud *cloud = static_cast<HyperspaceCloud*>(b);
 
-			m_hudTargetHullIntegrity->Hide();
-			m_hudTargetShieldIntegrity->Hide();
+				m_hudTargetHullIntegrity->Hide();
+				m_hudTargetShieldIntegrity->Hide();
 
-			std::string text;
+				std::string text;
 
-			Ship *ship = cloud->GetShip();
-			if (!ship) {
-				text += Lang::HYPERSPACE_ARRIVAL_CLOUD_REMNANT;
+				Ship *ship = cloud->GetShip();
+				if (!ship) {
+					text += Lang::HYPERSPACE_ARRIVAL_CLOUD_REMNANT;
+				}
+				else {
+					const SystemPath& dest = ship->GetHyperspaceDest();
+					RefCountedPtr<const Sector> s = Pi::GetGalaxy()->GetSector(dest);
+					text += (cloud->IsArrival() ? Lang::HYPERSPACE_ARRIVAL_CLOUD : Lang::HYPERSPACE_DEPARTURE_CLOUD);
+					text += "\n";
+					text += stringf(Lang::SHIP_MASS_N_TONNES, formatarg("mass", ship->GetStats().total_mass));
+					text += "\n";
+					text += (cloud->IsArrival() ? Lang::SOURCE : Lang::DESTINATION);
+					text += ": ";
+					text += s->m_systems[dest.systemIndex].GetName();
+					text += "\n";
+					text += stringf(Lang::DATE_DUE_N, formatarg("date", format_date(cloud->GetDueDate())));
+					text += "\n";
+				}
+
+				m_hudTargetInfo->SetText(text);
+				MoveChild(m_hudTargetInfo, Gui::Screen::GetWidth() - 180.0f, 5.0f);
+				m_hudTargetInfo->Show();
 			}
-			else {
-				const SystemPath& dest = ship->GetHyperspaceDest();
-				RefCountedPtr<const Sector> s = Pi::GetGalaxy()->GetSector(dest);
-				text += (cloud->IsArrival() ? Lang::HYPERSPACE_ARRIVAL_CLOUD : Lang::HYPERSPACE_DEPARTURE_CLOUD);
-				text += "\n";
-				text += stringf(Lang::SHIP_MASS_N_TONNES, formatarg("mass", ship->GetStats().total_mass));
-				text += "\n";
-				text += (cloud->IsArrival() ? Lang::SOURCE : Lang::DESTINATION);
-				text += ": ";
-				text += s->m_systems[dest.systemIndex].GetName();
-				text += "\n";
-				text += stringf(Lang::DATE_DUE_N, formatarg("date", format_date(cloud->GetDueDate())));
-				text += "\n";
-			}
-
-			m_hudTargetInfo->SetText(text);
-			MoveChild(m_hudTargetInfo, Gui::Screen::GetWidth() - 180.0f, 5.0f);
-			m_hudTargetInfo->Show();
 		}
 
 		else {
@@ -1112,7 +1136,7 @@ static void PlayerPayFine()
 void WorldView::OnHyperspaceTargetChanged()
 {
 	if (Pi::player->IsHyperspaceActive()) {
-		Pi::player->ResetHyperspaceCountdown();
+		Pi::player->AbortHyperjump();
 		Pi::cpan->MsgLog()->Message("", Lang::HYPERSPACE_JUMP_ABORTED);
 	}
 }
@@ -1175,7 +1199,9 @@ void WorldView::UpdateCommsOptions()
 		m_commsOptions->Add(new Gui::Label("#0f0"+std::string(Lang::NO_TARGET_SELECTED)), 16, float(ypos));
 	}
 
-	const bool hasAutopilot = (Pi::player->m_equipment.Get(Equip::SLOT_AUTOPILOT) == Equip::AUTOPILOT) && (Pi::player->GetFlightState() == Ship::FLYING);
+	int hasAutopilot = 0;
+	Pi::player->Properties().Get("autopilot_cap", hasAutopilot);
+	hasAutopilot = hasAutopilot && (Pi::player->GetFlightState() == Ship::FLYING);
 
 	if (navtarget) {
 		m_commsOptions->Add(new Gui::Label("#0f0"+navtarget->GetLabel()), 16, float(ypos));
@@ -1230,8 +1256,9 @@ void WorldView::UpdateCommsOptions()
 			}
 		}
 
-		const Equip::Type t = Pi::player->m_equipment.Get(Equip::SLOT_HYPERCLOUD);
-		if ((t != Equip::NONE) && navtarget->IsType(Object::HYPERSPACECLOUD)) {
+		int analyzer = 0;
+		Pi::player->Properties().Get("hypercloud_analyzer_cap", analyzer);
+		if (analyzer && navtarget->IsType(Object::HYPERSPACECLOUD)) {
 			HyperspaceCloud *cloud = static_cast<HyperspaceCloud*>(navtarget);
 			if (!cloud->IsArrival()) {
 				button = AddCommsOption(Lang::SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE, ypos, optnum++);
@@ -1408,6 +1435,7 @@ void WorldView::UpdateProjectedObjects()
 
 		// calculate firing solution and relative velocity along our z axis
 		int laser = -1;
+		double projspeed = 0;
 		if (GetCamType() == CAM_INTERNAL) {
 			switch (m_internalCameraController->GetMode()) {
 				case InternalCameraController::MODE_FRONT: laser = 0; break;
@@ -1417,12 +1445,9 @@ void WorldView::UpdateProjectedObjects()
 		}
 
 		if (laser >= 0) {
-			laser = Pi::player->m_equipment.Get(Equip::SLOT_LASER, laser);
-			laser = Equip::types[laser].tableIndex;
+			Pi::player->Properties().Get(laser?"laser_rear_speed":"laser_front_speed", projspeed);
 		}
-		if (laser >= 0) { // only display target lead position on views with lasers
-			double projspeed = Equip::lasers[laser].speed;
-
+		if (projspeed > 0) { // only display target lead position on views with lasers
 			const vector3d targvel = enemy->GetVelocityRelTo(Pi::player) * cam_rot;
 			vector3d leadpos = targpos + targvel*(targpos.Length()/projspeed);
 			leadpos = targpos + targvel*(leadpos.Length()/projspeed); // second order approx

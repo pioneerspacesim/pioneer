@@ -21,7 +21,6 @@
 #include "LuaConstants.h"
 #include "LuaDev.h"
 #include "LuaEngine.h"
-#include "LuaEquipDef.h"
 #include "LuaEvent.h"
 #include "LuaFileSystem.h"
 #include "LuaFormat.h"
@@ -87,7 +86,6 @@ sigc::signal<void, int, int, int> Pi::onMouseButtonDown;
 sigc::signal<void, bool> Pi::onMouseWheel;
 sigc::signal<void> Pi::onPlayerChangeTarget;
 sigc::signal<void> Pi::onPlayerChangeFlightControlState;
-sigc::signal<void> Pi::onPlayerChangeEquipment;
 LuaSerializer *Pi::luaSerializer;
 LuaTimer *Pi::luaTimer;
 LuaNameGen *Pi::luaNameGen;
@@ -283,7 +281,6 @@ static void LuaInit()
 	LuaConstants::Register(Lua::manager->GetLuaState());
 	LuaLang::Register();
 	LuaEngine::Register();
-	LuaEquipDef::Register();
 	LuaFileSystem::Register();
 	LuaGame::Register();
 	LuaComms::Register();
@@ -849,9 +846,13 @@ void Pi::HandleEvents()
 										ship->AIFlyTo(Pi::player);	// a less lethal option
 									else
 										ship->AIKill(Pi::player);	// a really lethal option!
-									ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_DUAL_1MW);
-									ship->m_equipment.Add(Equip::LASER_COOLING_BOOSTER);
-									ship->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
+									lua_State *l = Lua::manager->GetLuaState();
+									pi_lua_import(l, "Equipment");
+									LuaTable equip = LuaTable(l, -1).Sub("equipment");
+									LuaObject<Ship>::CallMethod<>(ship, "AddEquip", equip.Sub("pulsecannon_dual_1mw"));
+									LuaObject<Ship>::CallMethod<>(ship, "AddEquip", equip.Sub("laser_cooling_booster"));
+									LuaObject<Ship>::CallMethod<>(ship, "AddEquip", equip.Sub("atmospheric_shielding"));
+									lua_pop(l, 5);
 									ship->SetFrame(Pi::player->GetFrame());
 									ship->SetPosition(Pi::player->GetPosition()+100.0*dir);
 									ship->SetVelocity(Pi::player->GetVelocity());
@@ -1008,20 +1009,13 @@ static void OnPlayerDockOrUndock()
 	Pi::game->SetTimeAccel(Game::TIMEACCEL_1X);
 }
 
-static void OnPlayerChangeEquipment(Equip::Type e)
-{
-	Pi::onPlayerChangeEquipment.emit();
-}
-
 void Pi::StartGame()
 {
 	Pi::player->onDock.connect(sigc::ptr_fun(&OnPlayerDockOrUndock));
 	Pi::player->onUndock.connect(sigc::ptr_fun(&OnPlayerDockOrUndock));
-	Pi::player->m_equipment.onChange.connect(sigc::ptr_fun(&OnPlayerChangeEquipment));
 	cpan->ShowAll();
 	DrawGUI = true;
 	cpan->SetAlertState(Ship::ALERT_NONE);
-	OnPlayerChangeEquipment(Equip::NONE);
 	SetView(worldView);
 
 	// fire event before the first frame
@@ -1329,51 +1323,6 @@ void Pi::MainLoop()
 		}
 #endif /* MAKING_VIDEO */
 	}
-}
-
-float Pi::CalcHyperspaceRangeMax(int hyperclass, int total_mass_in_tonnes)
-{
-	// 625.0f is balancing parameter
-	return 625.0f * hyperclass * hyperclass / (total_mass_in_tonnes);
-}
-
-float Pi::CalcHyperspaceRange(int hyperclass, float total_mass_in_tonnes, int fuel)
-{
-	const float range_max = CalcHyperspaceRangeMax(hyperclass, total_mass_in_tonnes);
-	int fuel_required_max = CalcHyperspaceFuelOut(hyperclass, range_max, range_max);
-
-	if(fuel_required_max <= fuel)
-		return range_max;
-	else {
-		// range is proportional to fuel - use this as first guess
-		float range = range_max*fuel/fuel_required_max;
-
-		// if the range is too big due to rounding error, lower it until is is OK.
-		while(range > 0 && CalcHyperspaceFuelOut(hyperclass, range, range_max) > fuel)
-			range -= 0.05;
-
-		// range is never negative
-		range = std::max(range, 0.0f);
-		return range;
-	}
-}
-
-float Pi::CalcHyperspaceDuration(int hyperclass, int total_mass_in_tonnes, float dist)
-{
-	float hyperspace_range_max = CalcHyperspaceRangeMax(hyperclass, total_mass_in_tonnes);
-
-	// 0.36 is balancing parameter
-	return ((dist * dist * 0.36) / (hyperspace_range_max * hyperclass)) *
-			(60.0 * 60.0 * 24.0 * sqrtf(total_mass_in_tonnes));
-}
-
-float Pi::CalcHyperspaceFuelOut(int hyperclass, float dist, float hyperspace_range_max)
-{
-	int outFuelRequired = int(ceil(hyperclass*hyperclass*dist / hyperspace_range_max));
-	if (outFuelRequired > hyperclass*hyperclass) outFuelRequired = hyperclass*hyperclass;
-	if (outFuelRequired < 1) outFuelRequired = 1;
-
-	return outFuelRequired;
 }
 
 void Pi::Message(const std::string &message, const std::string &from, enum MsgLevel level)

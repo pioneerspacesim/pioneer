@@ -14,7 +14,7 @@ local NameGen = import("NameGen")
 local Character = import("Character")
 local Format = import("Format")
 local Serializer = import("Serializer")
-local EquipDef = import("EquipDef")
+local Equipment = import("Equipment")
 local ShipDef = import("ShipDef")
 local Ship = import("Ship")
 local utils = import("utils")
@@ -178,7 +178,7 @@ local makeAdvert = function (station)
 
 	-- XXX hull mass is a bad way to determine suitability for role
 	--local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'SHIP' and def.hullMass >= (danger * 17) and def.equipSlotCapacity.ATMOSHIELD > 0 end, pairs(ShipDef)))
-	local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'SHIP' and def.hyperdriveClass > 0 and def.equipSlotCapacity.ATMOSHIELD > 0 end, pairs(ShipDef)))
+	local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'SHIP' and def.hyperdriveClass > 0 and def.equipSlotCapacity.atmo_shield > 0 end, pairs(ShipDef)))
 	local shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
 	local shipid = shipdef.id
 	local shipname = shipdef.name
@@ -277,7 +277,8 @@ local onEnterSystem = function (ship)
 						local station = Space.GetBody(mission.location.bodyIndex)
 						local shiptype = ShipDef[mission.shipid]
 						local default_drive = shiptype.hyperdriveClass
-						local laserdefs = utils.build_array(utils.filter(function (k,def) return def.slot == 'LASER' end, pairs(EquipDef)))
+						local laserdefs = utils.build_array(Equipment.laser)
+						table.sort(laserdefs, function (l1, l2) return l1.price < l2.price end)
 						local laserdef = laserdefs[mission.danger]
 						local count = default_drive ^ 2
 
@@ -396,7 +397,7 @@ local onAICompleted = function (ship, ai_error)
 				local system = systems[Engine.rand:Integer(1,#systems)]
 
 				mission.shipstate = 'inbound'
-				ship:HyperspaceTo(system.path)
+				ship:HyperjumpTo(system.path)
 			-- the only other states are flying and inbound, and there is no AI to complete for inbound
 			elseif ai_error == 'NONE' then
 				Timer:CallAt(Game.time + 60 * 60 * 8, function ()
