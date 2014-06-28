@@ -4,7 +4,7 @@
 define_ship {
 	name = 'Deep Space Miner',
 	ship_class='medium_freighter',
-	manufacturer='haber',
+	manufacturer='HABER',
 	model = 'dsminer',
 	forward_thrust = 70e6,
 	reverse_thrust = 28e6,

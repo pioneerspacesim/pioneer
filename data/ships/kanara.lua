@@ -4,7 +4,7 @@
 define_ship {
 	name='Kanara Police Interceptor',
 	ship_class='light_fighter',
-	manufacturer='mandarava_csepel',
+	manufacturer='MANDARAVA_CSEPEL',
 	model='kanara',
 	forward_thrust = 6e6,
 	reverse_thrust = 2e6,
@@ -32,4 +32,3 @@ define_ship {
 	price = 0,
 	hyperdrive_class = 0,
 }
-

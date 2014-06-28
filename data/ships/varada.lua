@@ -4,7 +4,7 @@
 define_ship {
 	name='Varada',
 	ship_class='light_courier',
-	manufacturer='mandarava_csepel',
+	manufacturer='MANDARAVA_CSEPEL',
 	model='varada',
 	forward_thrust = 600e3,
 	reverse_thrust = 200e3,
@@ -13,7 +13,7 @@ define_ship {
 	left_thrust = 240e3,
 	right_thrust = 240e3,
 	angular_thrust = 45e5,
-	
+
 	hull_mass = 2,
 	fuel_tank_mass = 3,
 	capacity = 5,

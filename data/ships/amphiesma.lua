@@ -4,7 +4,7 @@
 define_ship {
 	name='Amphiesma',
 	ship_class='medium_courier',
-	manufacturer='opli',
+	manufacturer='OPLI',
 	model='amphiesma',
 	forward_thrust = 4e6,
 	reverse_thrust = 1e6,
@@ -13,7 +13,7 @@ define_ship {
 	left_thrust = 5e5,
 	right_thrust = 5e5,
 	angular_thrust = 4e6,
-	
+
 	hull_mass = 18,
 	fuel_tank_mass = 24,
 	capacity = 38,
@@ -32,4 +32,3 @@ define_ship {
 	price = 168e3,
 	hyperdrive_class = 1,
 }
-

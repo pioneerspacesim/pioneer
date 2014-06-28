@@ -4,7 +4,7 @@
 define_ship {
 	name='Lunar Shuttle',
 	ship_class='light_passenger_shuttle',
-	manufacturer='haber',
+	manufacturer='HABER',
 	model='lunarshuttle',
 	forward_thrust = 25e5,
 	reverse_thrust = 11e5,
@@ -19,7 +19,7 @@ define_ship {
 		{ v(0,0,-26), v(0,0,-1), 5, 'HORIZONTAL' },
 		{ v(0,-2,9), v(0,0,1), 5, 'HORIZONTAL' },
 	},
-	
+
 	hull_mass = 30,
 	fuel_tank_mass = 25,
 	capacity = 30,

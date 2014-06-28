@@ -4,7 +4,7 @@
 define_ship {
 	name='Xylophis',
 	ship_class='light_cargo_shuttle',
-	manufacturer='opli',
+	manufacturer='OPLI',
 	model='xylophis',
 	forward_thrust = 405e3,
 	reverse_thrust = 245e3,
@@ -13,7 +13,7 @@ define_ship {
 	left_thrust = 144e3,
 	right_thrust = 144e3,
 	angular_thrust = 45e5,
-	
+
 	hull_mass = 5,
 	fuel_tank_mass = 4,
 	capacity = 10,

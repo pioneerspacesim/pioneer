@@ -4,7 +4,7 @@
 define_ship {
 	name='Mola Mola',
 	ship_class='light_freighter',
-	manufacturer='kaluri',
+	manufacturer='KALURI',
 	model='molamola',
 	forward_thrust = 5e6,
 	reverse_thrust = 22e5,
@@ -13,7 +13,7 @@ define_ship {
 	left_thrust = 6e5,
 	right_thrust = 6e5,
 	angular_thrust = 20e5,
-	
+
 	hull_mass = 27,
 	fuel_tank_mass = 40,
 	capacity = 80,

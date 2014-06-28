@@ -4,7 +4,7 @@
 define_ship {
 	name='Nerodia',
 	ship_class='medium_freighter',
-	manufacturer='opli',
+	manufacturer='OPLI',
 	model='nerodia',
 	forward_thrust = 125e6,
 	reverse_thrust = 7e7,
@@ -13,7 +13,7 @@ define_ship {
 	left_thrust = 4e7,
 	right_thrust = 4e7,
 	angular_thrust = 8e7,
-	
+
 	hull_mass = 380,
 	fuel_tank_mass = 1000,
 	capacity = 2900,
@@ -32,5 +32,4 @@ define_ship {
 	effective_exhaust_velocity = 20e6,
 	price = 4827e3,
 	hyperdrive_class = 7,
-} 
-
+}

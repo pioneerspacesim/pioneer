@@ -4,7 +4,7 @@
 define_ship {
 	name='Natrix',
 	ship_class='light_freighter',
-	manufacturer='opli',
+	manufacturer='OPLI',
 	model='natrix',
 	forward_thrust = 61e5,
 	reverse_thrust = 38e5,
@@ -13,7 +13,7 @@ define_ship {
 	left_thrust = 18e5,
 	right_thrust = 18e5,
 	angular_thrust = 195e5,
-	
+
 	hull_mass = 50,
 	fuel_tank_mass = 60,
 	capacity = 80,

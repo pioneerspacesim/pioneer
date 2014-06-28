@@ -4,7 +4,7 @@
 define_ship {
 	name='Wave',
 	ship_class='medium_fighter',
-	manufacturer='auronox',
+	manufacturer='AURONOX',
 	model='wave',
 	forward_thrust = 68e5,
 	reverse_thrust = 14e5,
@@ -13,7 +13,7 @@ define_ship {
 	left_thrust = 8e5,
 	right_thrust = 8e5,
 	angular_thrust = 70e5,
-	
+
 	hull_mass = 13,
 	fuel_tank_mass = 22,
 	capacity = 30,
