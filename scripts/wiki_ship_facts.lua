@@ -66,7 +66,7 @@ end
 usage_error = function()
 	print("usage:")
 	print("start from scripts directory")
-	print("./shipToWiki.lua ../data/ships/<ship_script_name>")
+	print(arg[0], "../data/ships/<ship_script_name>")
 	os.exit(1)
 end
 
@@ -90,7 +90,7 @@ if file_exists(arg[1]) == false then
 	print("file \""..arg[1].."\"does not exist")
 	usage_error()
 end
-	
+
 -- remove extension
 -- extPos = string.find(arg[1], ".lua")
 -- shipNameEnd = extPos - 1
