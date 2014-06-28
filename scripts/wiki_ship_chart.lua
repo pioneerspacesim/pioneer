@@ -19,7 +19,7 @@ define_ship = function(ship_table)
 end
 
 -- ship files
-ships = {"amphiesma", "deneb", "dsminer", "kanara_civ", "kanara", "lunarshuttle", "malabar", "molamola", "natrix", "nerodia", "pumpkinseed", "sinonatrix", "Varada" , "vatakara", "venturestar", "wave", "xylophis"}
+ships = {"amphiesma", "deneb", "dsminer", "kanara_civ", "kanara", "lunarshuttle", "malabar", "molamola", "natrix", "nerodia", "pumpkinseed", "sinonatrix", "varada" , "vatakara", "venturestar", "wave", "xylophis"}
 table.sort(ships)
 
 -- print wiki intro/heading
