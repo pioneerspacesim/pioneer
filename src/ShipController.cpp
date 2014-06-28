@@ -274,6 +274,15 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 
 		if (m_mouseActive) m_ship->AIFaceDirection(m_mouseDir);
 
+		// external camera mouselook
+		if (Pi::MouseButtonState(SDL_BUTTON_MIDDLE)) {
+			if(Pi::worldView->GetCamType() != Pi::worldView->CAM_INTERNAL) {
+				MoveableCameraController *ecc = static_cast<MoveableCameraController*>(Pi::worldView->GetCameraController());
+				const double accel = 0.01; // XXX configurable?
+				ecc->RotateUp(  mouseMotion[1] * accel);
+				ecc->RotateLeft(mouseMotion[0] * accel);
+			}
+		}
 	}
 }
 
