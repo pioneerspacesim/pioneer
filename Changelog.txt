@@ -31,6 +31,7 @@ June 2014
      * Fix bad scaling of space stations (exposed since assimp 3.1.1) (#2923)
      * Fix a Lua stack leak when saving a LuaRef (#2977, 2978)
      * Fix crash (#2979)
+     * Fix pirate ships with default drive 0 causing crash
 
    * Internal Changes
      * Compress default (#2940)
