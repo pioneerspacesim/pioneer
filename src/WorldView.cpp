@@ -1365,10 +1365,13 @@ void WorldView::UpdateProjectedObjects()
 
 	// velocity relative to current frame (white)
 	const vector3d camSpaceVel = Pi::player->GetVelocity() * cam_rot;
-	if (camSpaceVel.LengthSqr() >= 1e-4)
+	if (camSpaceVel.LengthSqr() >= 1e-4) {
 		UpdateIndicator(m_velIndicator, camSpaceVel);
-	else
+		UpdateIndicator(m_retroVelIndicator, -camSpaceVel);
+	} else {
 		HideIndicator(m_velIndicator);
+		HideIndicator(m_retroVelIndicator);
+	}
 
 	// orientation according to mouse
 	if (Pi::player->GetPlayerController()->IsMouseActive()) {
@@ -1406,6 +1409,7 @@ void WorldView::UpdateProjectedObjects()
 				snprintf(buf, sizeof(buf), "%.0f m/s", navspeed);
 			m_navVelIndicator.label->SetText(buf);
 			UpdateIndicator(m_navVelIndicator, camSpaceNavVel);
+			UpdateIndicator(m_retroVelIndicator, -camSpaceNavVel);
 
 			assert(m_navTargetIndicator.side != INDICATOR_HIDDEN);
 			assert(m_navVelIndicator.side != INDICATOR_HIDDEN);
@@ -1693,6 +1697,7 @@ void WorldView::Draw()
 
 	// velocity indicators
 	DrawVelocityIndicator(m_velIndicator, white);
+	DrawVelocityIndicator(m_retroVelIndicator, yellow);
 	DrawVelocityIndicator(m_navVelIndicator, green);
 
 	glLineWidth(2.0f);
