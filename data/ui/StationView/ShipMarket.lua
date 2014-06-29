@@ -66,7 +66,7 @@ end
 
 local function manufacturerIcon (manufacturer)
 	return manufacturer ~= "unknown"
-		and ui:Image("icons/manufacturer/"..manufacturer..".png", { "PRESERVE_ASPECT" })
+		and ui:Image("icons/manufacturer/"..string.lower(manufacturer)..".png", { "PRESERVE_ASPECT" })
 		or ui:Margin(32)
 end
 
