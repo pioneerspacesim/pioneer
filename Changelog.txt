@@ -14,6 +14,7 @@ June 2014
      * Savefile version bump (#1719, #2969, #2973)
      * Grow the Lua stack as needed when saving to avoid stack overflows (#2978)
      * Add retro velocity indicator to worldview (#2974)
+     * Mouselook for external cameras (#2976)
 
    * Script and UI API changes
      * Added scripts to parse ship stats to wiki
