@@ -1056,8 +1056,10 @@ void Ship::StaticUpdate(const float timeStep)
 				if (this->IsType(Object::PLAYER)) {
 					Pi::Message(Lang::CARGO_BAY_LIFE_SUPPORT_LOST);
 				}
+				lua_pop(l, 4);
 			}
-			lua_pop(l, 4);
+			else
+				lua_pop(l, 3);
 		}
 	}
 
