@@ -12,6 +12,7 @@ June 2014
      * Change the default orbit of space station, allowing for more around a
        single planet (#2973)
      * Savefile version bump (#1719, #2969, #2973)
+     * Grow the Lua stack as needed when saving to avoid stack overflows (#2978)
 
    * Script and UI API changes
      * Added scripts to parse ship stats to wiki
@@ -27,6 +28,7 @@ June 2014
      * Always at least ONE starport (#2968)
      * Enable different sell/buy for ship equipment (#2955)
      * Fix bad scaling of space stations (exposed since assimp 3.1.1) (#2923)
+     * Fix a Lua stack leak when saving a LuaRef (#2977, 2978)
 
    * Internal Changes
      * Compress default (#2940)

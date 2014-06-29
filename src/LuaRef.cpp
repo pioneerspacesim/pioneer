@@ -36,9 +36,12 @@ LuaRef::~LuaRef() {
 void LuaRef::Save(Serializer::Writer &wr) {
 	assert(m_lua == Lua::manager->GetLuaState());
 	std::string out;
+	LUA_DEBUG_START(m_lua);
 	PushCopyToStack();
 	Pi::luaSerializer->pickle(m_lua, -1, out);
+	lua_pop(m_lua, 1);
 	wr.String(out);
+	LUA_DEBUG_END(m_lua, 0);
 }
 
 void LuaRef::Load(Serializer::Reader &rd) {

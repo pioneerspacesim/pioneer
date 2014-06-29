@@ -315,7 +315,7 @@ case "$host" in
   i686-pc-mingw32|x86_64-pc-mingw64)
 	;;
   *)
-	LUA_CFLAGS="$LUA_CFLAGS -DLUA_USE_POSIX"
+	LUA_CFLAGS="$LUA_CFLAGS -DLUA_USE_POSIX -DLUA_USE_APICHECK"
 esac
 
 dnl Check for OpenGL libs
