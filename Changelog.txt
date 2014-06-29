@@ -13,6 +13,7 @@ June 2014
        single planet (#2973)
      * Savefile version bump (#1719, #2969, #2973)
      * Grow the Lua stack as needed when saving to avoid stack overflows (#2978)
+     * Add retro velocity indicator to worldview (#2974)
 
    * Script and UI API changes
      * Added scripts to parse ship stats to wiki
