@@ -69,6 +69,8 @@ public:
 	void SetRotationDamping(bool enabled);
 	void ToggleRotationDamping();
 	void FireMissile();
+	void FlightMouseFollowing();
+	void IncreaseSetSpeed(bool up);
 
 	//targeting
 	//XXX AI should utilize one or more of these
@@ -106,6 +108,8 @@ private:
 
 	sigc::connection m_connRotationDampingToggleKey;
 	sigc::connection m_fireMissileKey;
+	sigc::connection m_FlightMouseFollowing;
+	sigc::connection m_IncreaseSetSpeed;
 };
 
 #endif

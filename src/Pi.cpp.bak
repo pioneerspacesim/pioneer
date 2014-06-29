@@ -13,7 +13,7 @@
 #include "Frame.h"
 #include "GalacticView.h"
 #include "Game.h"
-#include "BaseSphere.h"
+#include "GeoSphere.h"
 #include "Intro.h"
 #include "Lang.h"
 #include "LuaComms.h"
@@ -21,6 +21,7 @@
 #include "LuaConstants.h"
 #include "LuaDev.h"
 #include "LuaEngine.h"
+#include "LuaEquipDef.h"
 #include "LuaEvent.h"
 #include "LuaFileSystem.h"
 #include "LuaFormat.h"
@@ -86,6 +87,8 @@ sigc::signal<void, int, int, int> Pi::onMouseButtonDown;
 sigc::signal<void, bool> Pi::onMouseWheel;
 sigc::signal<void> Pi::onPlayerChangeTarget;
 sigc::signal<void> Pi::onPlayerChangeFlightControlState;
+sigc::signal<void> Pi::onPlayerChangeEquipment;
+sigc::signal<void, const SpaceStation*> Pi::onDockingClearanceExpired;
 LuaSerializer *Pi::luaSerializer;
 LuaTimer *Pi::luaTimer;
 LuaNameGen *Pi::luaNameGen;
@@ -131,8 +134,6 @@ bool Pi::speedLinesDisplayed = false;
 bool Pi::hudTrailsDisplayed = false;
 Gui::Fixed *Pi::menu;
 bool Pi::DrawGUI = true;
-int Pi::FlightModel=0;
-int Pi::MouseWheel = 0;
 Graphics::Renderer *Pi::renderer;
 RefCountedPtr<UI::Context> Pi::ui;
 ModelCache *Pi::modelCache;
@@ -148,10 +149,7 @@ ObjectViewerView *Pi::objectViewerView;
 #endif
 
 Sound::MusicPlayer Pi::musicPlayer;
-std::unique_ptr<AsyncJobQueue> Pi::asyncJobQueue;
-std::unique_ptr<SyncJobQueue> Pi::syncJobQueue;
-
-Galaxy* Pi::s_galaxy = nullptr;
+std::unique_ptr<JobQueue> Pi::jobQueue;
 
 // XXX enabling this breaks UI gauge rendering. see #2627
 #define USE_RTT 0
@@ -283,6 +281,7 @@ static void LuaInit()
 	LuaConstants::Register(Lua::manager->GetLuaState());
 	LuaLang::Register();
 	LuaEngine::Register();
+	LuaEquipDef::Register();
 	LuaFileSystem::Register();
 	LuaGame::Register();
 	LuaComms::Register();
@@ -346,14 +345,11 @@ std::string Pi::GetSaveDir()
 	return FileSystem::JoinPath(FileSystem::GetUserDir(), Pi::SAVE_DIR_NAME);
 }
 
-void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
+void Pi::Init(const std::map<std::string,std::string> &options)
 {
 #ifdef PIONEER_PROFILER
 	Profiler::reset();
 #endif
-
-	Profiler::Timer timer;
-	timer.Start();
 
 	OS::NotifyLoadBegin();
 
@@ -365,21 +361,10 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 #endif
 
 	Pi::config = new GameConfig(options);
-	if (!no_gui) // This re-saves the config file. With no GUI we want to allow multiple instances in parallel.
-		KeyBindings::InitBindings();
+	KeyBindings::InitBindings();
 
 	if (config->Int("RedirectStdio"))
 		OS::RedirectStdio();
-
-	std::string version(PIONEER_VERSION);
-	if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
-	const char* platformName = SDL_GetPlatform();
-	if(platformName)
-		Output("ver %s on: %s\n\n", version.c_str(), platformName);
-	else
-		Output("ver %s but could not detect platform name.\n\n", version.c_str());
-
-	Output("%s\n", OS::GetOSInfoString().c_str());
 
 	ModManager::Init();
 
@@ -405,7 +390,6 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	videoSettings.width = config->Int("ScrWidth");
 	videoSettings.height = config->Int("ScrHeight");
 	videoSettings.fullscreen = (config->Int("StartFullscreen") != 0);
-	videoSettings.hidden = no_gui;
 	videoSettings.requestedSamples = config->Int("AntiAliasingMode");
 	videoSettings.vsync = (config->Int("VSync") != 0);
 	videoSettings.useTextureCompression = (config->Int("UseTextureCompression") != 0);
@@ -445,9 +429,8 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	const int numCores = OS::GetNumCores();
 	assert(numCores > 0);
 	if (numThreads == 0) numThreads = std::max(Uint32(numCores) - 1, 1U);
-	asyncJobQueue.reset(new AsyncJobQueue(numThreads));
+	jobQueue.reset(new JobQueue(numThreads));
 	Output("started %d worker threads\n", numThreads);
-	syncJobQueue.reset(new SyncJobQueue);
 
 	// XXX early, Lua init needs it
 	ShipType::Init();
@@ -456,7 +439,7 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	// templates. so now we have crap everywhere :/
 	Lua::Init();
 
-	Pi::ui.Reset(new UI::Context(Lua::manager, Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight()));
+	Pi::ui.Reset(new UI::Context(Lua::manager, Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), Lang::GetCore().GetLangCode()));
 
 	LuaInit();
 
@@ -483,20 +466,21 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 
 	draw_progress(gauge, label, 0.1f);
 
-	s_galaxy = new Galaxy;
-
+	Galaxy::Init();
 	draw_progress(gauge, label, 0.2f);
 
-	s_galaxy->Init();
+	FaceGenManager::Init();
+	draw_progress(gauge, label, 0.25f);
 
+	Faction::Init();
 	draw_progress(gauge, label, 0.3f);
 
-	FaceGenManager::Init();
-
+	CustomSystem::Init();
 	draw_progress(gauge, label, 0.4f);
 
 	// Reload home sector, they might have changed, due to custom systems
 	// Sectors might be changed in game, so have to re-create them again once we have a Game.
+	Faction::SetHomeSectors();
 	draw_progress(gauge, label, 0.45f);
 
 	modelCache = new ModelCache(Pi::renderer);
@@ -510,7 +494,7 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 
 	draw_progress(gauge, label, 0.6f);
 
-	BaseSphere::Init();
+	GeoSphere::Init();
 	draw_progress(gauge, label, 0.7f);
 
 	CityOnPlanet::Init();
@@ -523,7 +507,7 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	Sfx::Init(Pi::renderer);
 	draw_progress(gauge, label, 0.95f);
 
-	if (!no_gui && !config->Int("DisableSound")) {
+	if (!config->Int("DisableSound")) {
 		Sound::Init();
 		Sound::SetMasterVolume(config->Float("MasterVolume"));
 		Sound::SetSfxVolume(config->Float("SfxVolume"));
@@ -650,9 +634,6 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 
 	luaConsole = new LuaConsole();
 	KeyBindings::toggleLuaConsole.onPress.connect(sigc::mem_fun(Pi::luaConsole, &LuaConsole::Toggle));
-
-	timer.Stop();
-	Output("\n\nLoading took: %lf milliseconds\n", timer.millicycles());
 }
 
 bool Pi::IsConsoleActive()
@@ -671,8 +652,11 @@ void Pi::Quit()
 	Sound::Uninit();
 	SpaceStation::Uninit();
 	CityOnPlanet::Uninit();
-	BaseSphere::Uninit();
+	GeoSphere::Uninit();
+	Galaxy::Uninit();
+	Faction::Uninit();
 	FaceGenManager::Destroy();
+	CustomSystem::Uninit();
 	Graphics::Uninit();
 	Pi::ui.Reset(0);
 	LuaUninit();
@@ -680,17 +664,19 @@ void Pi::Quit()
 	delete Pi::modelCache;
 	delete Pi::renderer;
 	delete Pi::config;
-	delete Pi::s_galaxy;
+	StarSystemCache::ShrinkCache(SystemPath(), true);
 	SDL_Quit();
 	FileSystem::Uninit();
-	asyncJobQueue.reset();
-	syncJobQueue.reset();
+	jobQueue.reset();
 	exit(0);
 }
 
 void Pi::FlushCaches()
 {
-	s_galaxy->FlushCaches();
+	StarSystemCache::ShrinkCache(SystemPath(), true);
+	Sector::cache.ClearCache();
+	// XXX Ideally the cache would now be empty, but we still have Faction::m_homesector :(
+	// assert(Sector::cache.IsEmpty());
 }
 
 void Pi::BoinkNoise()
@@ -707,7 +693,7 @@ void Pi::SetView(View *v)
 
 void Pi::OnChangeDetailLevel()
 {
-	BaseSphere::OnChangeDetailLevel();
+	GeoSphere::OnChangeDetailLevel();
 }
 
 void Pi::HandleEvents()
@@ -848,13 +834,9 @@ void Pi::HandleEvents()
 										ship->AIFlyTo(Pi::player);	// a less lethal option
 									else
 										ship->AIKill(Pi::player);	// a really lethal option!
-									lua_State *l = Lua::manager->GetLuaState();
-									pi_lua_import(l, "Equipment");
-									LuaTable equip = LuaTable(l, -1).Sub("equipment");
-									LuaObject<Ship>::CallMethod<>(ship, "AddEquip", equip.Sub("pulsecannon_dual_1mw"));
-									LuaObject<Ship>::CallMethod<>(ship, "AddEquip", equip.Sub("laser_cooling_booster"));
-									LuaObject<Ship>::CallMethod<>(ship, "AddEquip", equip.Sub("atmospheric_shielding"));
-									lua_pop(l, 5);
+									ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_DUAL_1MW);
+									ship->m_equipment.Add(Equip::LASER_COOLING_BOOSTER);
+									ship->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
 									ship->SetFrame(Pi::player->GetFrame());
 									ship->SetPosition(Pi::player->GetPosition()+100.0*dir);
 									ship->SetVelocity(Pi::player->GetVelocity());
@@ -1011,13 +993,20 @@ static void OnPlayerDockOrUndock()
 	Pi::game->SetTimeAccel(Game::TIMEACCEL_1X);
 }
 
+static void OnPlayerChangeEquipment(Equip::Type e)
+{
+	Pi::onPlayerChangeEquipment.emit();
+}
+
 void Pi::StartGame()
 {
 	Pi::player->onDock.connect(sigc::ptr_fun(&OnPlayerDockOrUndock));
 	Pi::player->onUndock.connect(sigc::ptr_fun(&OnPlayerDockOrUndock));
+	Pi::player->m_equipment.onChange.connect(sigc::ptr_fun(&OnPlayerChangeEquipment));
 	cpan->ShowAll();
 	DrawGUI = true;
 	cpan->SetAlertState(Ship::ALERT_NONE);
+	OnPlayerChangeEquipment(Equip::NONE);
 	SetView(worldView);
 
 	// fire event before the first frame
@@ -1031,8 +1020,6 @@ void Pi::Start()
 
 	ui->DropAllLayers();
 	ui->GetTopLayer()->SetInnerWidget(ui->CallTemplate("MainMenu"));
-
-	Pi::ui->SetMousePointer("icons/cursors/mouse_cursor_2.png", UI::Point(15, 8));
 
 	//XXX global ambient colour hack to make explicit the old default ambient colour dependency
 	// for some models
@@ -1161,7 +1148,7 @@ void Pi::MainLoop()
 					break;
 				}
 				game->TimeStep(step);
-				BaseSphere::UpdateAllBaseSphereDerivatives();
+				GeoSphere::UpdateAllGeoSpheres();
 
 				accumulator -= step;
 			}
@@ -1176,7 +1163,7 @@ void Pi::MainLoop()
 		} else {
 			// paused
 			PROFILE_SCOPED_RAW("paused")
-			BaseSphere::UpdateAllBaseSphereDerivatives();
+			GeoSphere::UpdateAllGeoSpheres();
 		}
 		frame_stat++;
 
@@ -1275,13 +1262,14 @@ void Pi::MainLoop()
 			// XXX should this really be limited to while the player is alive?
 			// this is something we need not do every turn...
 			if (!config->Int("DisableSound")) AmbientSounds::Update();
+			if( !Pi::game->IsHyperspace() ) {
+				StarSystemCache::ShrinkCache( Pi::game->GetSpace()->GetStarSystem()->GetPath() );
+			}
 		}
 		cpan->Update();
 		musicPlayer.Update();
 
-		syncJobQueue->RunJobs(SYNC_JOBS_PER_LOOP);
-		asyncJobQueue->FinishJobs();
-		syncJobQueue->FinishJobs();
+		jobQueue->FinishJobs();
 
 #if WITH_DEVKEYS
 		if (Pi::showDebugInfo && SDL_GetTicks() - last_stats > 1000) {
@@ -1292,15 +1280,16 @@ void Pi::MainLoop()
 
 			snprintf(
 				fps_readout, sizeof(fps_readout),
-				"%d fps (%.1f ms/f), %d phys updates, %d triangles, %.3f M tris/sec, %d glyphs/sec\n"
+				"%d fps (%.1f ms/f), %d phys updates, %d triangles, %.3f M tris/sec, %d terrain vtx/sec, %d glyphs/sec\n"
 				"Lua mem usage: %d MB + %d KB + %d bytes",
 				frame_stat, (1000.0/frame_stat), phys_stat, Pi::statSceneTris, Pi::statSceneTris*frame_stat*1e-6,
-				Text::TextureFont::GetGlyphCount(),
+				GeoSphere::GetVtxGenCount(), Text::TextureFont::GetGlyphCount(),
 				lua_memMB, lua_memKB, lua_memB
 			);
 			frame_stat = 0;
 			phys_stat = 0;
 			Text::TextureFont::ClearGlyphCount();
+			GeoSphere::ClearVtxGenCount();
 			if (SDL_GetTicks() - last_stats > 1200) last_stats = SDL_GetTicks();
 			else last_stats += 1000;
 		}
@@ -1325,6 +1314,51 @@ void Pi::MainLoop()
 		}
 #endif /* MAKING_VIDEO */
 	}
+}
+
+float Pi::CalcHyperspaceRangeMax(int hyperclass, int total_mass_in_tonnes)
+{
+	// 625.0f is balancing parameter
+	return 625.0f * hyperclass * hyperclass / (total_mass_in_tonnes);
+}
+
+float Pi::CalcHyperspaceRange(int hyperclass, float total_mass_in_tonnes, int fuel)
+{
+	const float range_max = CalcHyperspaceRangeMax(hyperclass, total_mass_in_tonnes);
+	int fuel_required_max = CalcHyperspaceFuelOut(hyperclass, range_max, range_max);
+
+	if(fuel_required_max <= fuel)
+		return range_max;
+	else {
+		// range is proportional to fuel - use this as first guess
+		float range = range_max*fuel/fuel_required_max;
+
+		// if the range is too big due to rounding error, lower it until is is OK.
+		while(range > 0 && CalcHyperspaceFuelOut(hyperclass, range, range_max) > fuel)
+			range -= 0.05;
+
+		// range is never negative
+		range = std::max(range, 0.0f);
+		return range;
+	}
+}
+
+float Pi::CalcHyperspaceDuration(int hyperclass, int total_mass_in_tonnes, float dist)
+{
+	float hyperspace_range_max = CalcHyperspaceRangeMax(hyperclass, total_mass_in_tonnes);
+
+	// 0.36 is balancing parameter
+	return ((dist * dist * 0.36) / (hyperspace_range_max * hyperclass)) *
+			(60.0 * 60.0 * 24.0 * sqrtf(total_mass_in_tonnes));
+}
+
+float Pi::CalcHyperspaceFuelOut(int hyperclass, float dist, float hyperspace_range_max)
+{
+	int outFuelRequired = int(ceil(hyperclass*hyperclass*dist / hyperspace_range_max));
+	if (outFuelRequired > hyperclass*hyperclass) outFuelRequired = hyperclass*hyperclass;
+	if (outFuelRequired < 1) outFuelRequired = 1;
+
+	return outFuelRequired;
 }
 
 void Pi::Message(const std::string &message, const std::string &from, enum MsgLevel level)
@@ -1391,13 +1425,13 @@ float Pi::JoystickAxisState(int joystick, int axis) {
 void Pi::SetMouseGrab(bool on)
 {
 	if (!doingMouseGrab && on) {
+		SDL_ShowCursor(0);
 		Pi::renderer->GetWindow()->SetGrab(true);
-		Pi::ui->SetMousePointerEnabled(false);
 		doingMouseGrab = true;
 	}
 	else if(doingMouseGrab && !on) {
+		SDL_ShowCursor(1);
 		Pi::renderer->GetWindow()->SetGrab(false);
-		Pi::ui->SetMousePointerEnabled(true);
 		doingMouseGrab = false;
 	}
 }

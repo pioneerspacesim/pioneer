@@ -300,6 +300,8 @@ void ShipCpanel::Draw()
 
 void ShipCpanel::OnChangeCamView(Gui::MultiStateImageButton *b)
 {
+	Pi::FlightModel = 0;
+	Pi::MouseWheel = 0;
 	Pi::BoinkNoise();
 	const int newState = b->GetState();
 	b->SetActiveState(newState);
@@ -309,6 +311,8 @@ void ShipCpanel::OnChangeCamView(Gui::MultiStateImageButton *b)
 
 void ShipCpanel::OnChangeInfoView(Gui::MultiStateImageButton *b)
 {
+	Pi::FlightModel = 2;
+	Pi::MouseWheel = 2;
 	Pi::BoinkNoise();
 	if (Pi::GetView() != Pi::infoView)
 		Pi::SetView(Pi::infoView);
@@ -316,12 +320,16 @@ void ShipCpanel::OnChangeInfoView(Gui::MultiStateImageButton *b)
 
 void ShipCpanel::OnChangeToMapView(Gui::MultiStateImageButton *b)
 {
+	Pi::FlightModel = 2;
+	Pi::MouseWheel = 2;
 	Pi::BoinkNoise();
 	OnChangeMapView(m_currentMapView);
 }
 
 void ShipCpanel::OnChangeMapView(enum MapView view)
 {
+	Pi::FlightModel = 2;
+	Pi::MouseWheel = 2;
 	m_currentMapView = view;
 	switch (m_currentMapView) {
 		case MAP_SECTOR: Pi::SetView(Pi::sectorView); break;

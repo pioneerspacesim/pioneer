@@ -21,7 +21,7 @@ BINDING_PAGE(CONTROLS)
 
 BINDING_GROUP(Lang::WEAPONS)
 KEY_BINDING(targetObject, "BindTargetObject", Lang::TARGET_OBJECT_IN_SIGHTS, SDLK_t, 0)
-KEY_BINDING(fireLaser, "BindFireLaser", Lang::FIRE_LASER, 0, 0)
+KEY_BINDING(fireLaser, "BindFireLaser", Lang::FIRE_LASER, SDLK_SPACE, 0)
 KEY_BINDING(fireMissile, "BindFireMissile", Lang::FIRE_MISSILE, SDLK_m, 0)
 
 BINDING_GROUP(Lang::SHIP_ORIENTATION)
@@ -40,7 +40,6 @@ KEY_BINDING(thrustDown, "BindThrustDown", Lang::THRUSTER_DORSAL, SDLK_o, 0)
 KEY_BINDING(thrustLeft, "BindThrustLeft", Lang::THRUSTER_PORT, SDLK_j, 0)
 KEY_BINDING(thrustRight, "BindThrustRight", Lang::THRUSTER_STARBOARD, SDLK_l, 0)
 KEY_BINDING(thrustLowPower, "BindThrustLowPower", Lang::USE_LOW_THRUST, SDLK_LSHIFT, 0)
-KEY_BINDING(FlightFollowMouse, "BindFlightFollowMouse", Lang::FLIGHT_FOLLOW_MOUSE, SDLK_SPACE, 0)
 
 BINDING_GROUP(Lang::SPEED_CONTROL_MODE)
 KEY_BINDING(increaseSpeed, "BindIncreaseSpeed", Lang::INCREASE_SET_SPEED, SDLK_RETURN, 0)
