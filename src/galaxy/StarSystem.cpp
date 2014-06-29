@@ -857,28 +857,73 @@ static fixed calcEnergyPerUnitAreaAtDist(fixed star_radius, int star_temp, fixed
 	return fixed(1744665451,100000)*(total_solar_emission / (object_dist*object_dist));
 }
 
+//helper function, get branch of system tree from body all the way to the system's root and write it to path
+static void getPathToRoot(const SystemBody* body, std::vector<const SystemBody*>& path)
+{
+	while(body)
+	{
+		path.push_back(body);
+		body = body->GetParent();
+	}
+}
+//helper function, find the lowest common ancestor of two bodies in system tree, could probably be optimized
+static const SystemBody* findLowestCommonAncestor(const SystemBody* first, const SystemBody* second)
+{
+	const SystemBody* lca = NULL;
+	std::vector<const SystemBody*> first_to_root;
+	std::vector<const SystemBody*> second_to_root;
+	getPathToRoot(first, first_to_root);
+	getPathToRoot(second, second_to_root);
+	std::vector<const SystemBody*>::reverse_iterator fit = first_to_root.rbegin();
+	std::vector<const SystemBody*>::reverse_iterator sit = second_to_root.rbegin();
+	while((*sit)==(*fit) && sit!=second_to_root.rend() && fit!=first_to_root.rend())	//lca is where branches diverge
+	{
+		lca = (*fit);
+		sit++;
+		fit++;
+	}
+	return lca;
+}
+//approximate average distance between body and its ancestor, ancestor *must* be an actual ancestor
+static fixed avgDistToAncestor(const SystemBody* body, const SystemBody* ancestor)
+{
+	fixed max_dist;
+	fixed min_dist;
+	while(body && body!=ancestor)
+	{
+		max_dist = 	body->GetOrbMaxAsFixed();
+		min_dist = 	body->GetOrbMinAsFixed();
+		body = body->GetParent();
+	}
+	return(max_dist + min_dist)>>1;	//arithmetic mean, may be not the correct average for the job
+}
+
 //static
 int SystemBody::CalcSurfaceTemp(const SystemBody *primary, fixed distToPrimary, fixed albedo, fixed greenhouse)
 {
 	PROFILE_SCOPED()
-	
-	// accumulator seeded with current primary
-	fixed energy_per_meter2 = calcEnergyPerUnitAreaAtDist(primary->m_radius, primary->m_averageTemp, distToPrimary);
 
+	// accumulator
+	fixed energy_per_meter2;
+
+	const SystemBody* lca = NULL;
+	fixed dist_this_lca;
+	fixed dist_star_lca;
+	fixed max_dist;
+	fixed min_dist;
+	fixed dist;
 	// find the other stars which aren't our parent star
-	IterationProxy<std::vector<SystemBody*>> proxy = primary->GetStarSystem()->GetStars();
-	for( auto s : proxy ) {
-		if( s != primary ) {
-			// calculate new distance - this is a total guess
-			SystemBody* priPar = primary->GetParent();
-			fixed averageDistToStar = distToPrimary; // if we don't find another star then...
-			if( priPar ) {
-				averageDistToStar = (priPar->m_orbMin+priPar->m_orbMax)>>1;
-			}
-			energy_per_meter2 += calcEnergyPerUnitAreaAtDist(s->m_radius, s->m_averageTemp, averageDistToStar + distToPrimary);
-		}
+	IterationProxy<std::vector<SystemBody*> > proxy = primary->GetStarSystem()->GetStars();
+	for( auto s : proxy )
+	{
+		lca = findLowestCommonAncestor(primary, &(*s));					//ugly hack, should be (this, &(*s)), but it's static despite concerning particular planet
+		dist_this_lca = avgDistToAncestor(primary, lca)+distToPrimary;	//ugly hack, should be (this, lca)
+		dist_star_lca = avgDistToAncestor(&(*s), lca);
+		max_dist = dist_this_lca + dist_star_lca;	//relative to lca the distance between two bodies varies between sum and delta of orbital distances
+		min_dist = (dist_this_lca > dist_star_lca) ? dist_this_lca-dist_star_lca : dist_star_lca - dist_this_lca;
+		dist = (max_dist+min_dist) >> 1;	//arithmetic mean, may be not the correct tool for the job
+		energy_per_meter2 += calcEnergyPerUnitAreaAtDist(s->m_radius, s->m_averageTemp, dist);
 	}
-
 	const fixed surface_temp_pow4 = energy_per_meter2*(1-albedo)/(1-greenhouse);
 	return int(isqrt(isqrt((surface_temp_pow4.v>>fixed::FRAC)*4409673)));
 }
@@ -1174,8 +1219,8 @@ void StarSystem::MakeBinaryPair(SystemBody *a, SystemBody *b, fixed minDist, Ran
 
 SystemBody::SystemBody(const SystemPath& path, StarSystem *system) : m_parent(nullptr), m_path(path), m_seed(0), m_aspectRatio(1,1), m_orbMin(0),
 	m_orbMax(0), m_rotationalPhaseAtStart(0), m_semiMajorAxis(0), m_eccentricity(0), m_orbitalOffset(0), m_axialTilt(0),
-	m_inclination(0), m_averageTemp(0), m_type(TYPE_GRAVPOINT), m_isCustomBody(false), m_heightMapFractal(0), m_atmosDensity(0.0), m_system(system) 
-{ 
+	m_inclination(0), m_averageTemp(0), m_type(TYPE_GRAVPOINT), m_isCustomBody(false), m_heightMapFractal(0), m_atmosDensity(0.0), m_system(system)
+{
 }
 
 bool SystemBody::HasAtmosphere() const
@@ -1538,9 +1583,9 @@ try_that_again_guvnah:
 		MakePlanetsAround(s, rand);
 	}
 
-	if (m_numStars > 1) 
+	if (m_numStars > 1)
 		MakePlanetsAround(centGrav1, rand);
-	if (m_numStars == 4) 
+	if (m_numStars == 4)
 		MakePlanetsAround(centGrav2, rand);
 
 	Populate(true);
@@ -1846,7 +1891,7 @@ void SystemBody::PickPlanetType(Random &rand)
 	static const fixed ONEEUMASS = fixed::FromDouble(1);
 	static const fixed TWOHUNDREDEUMASSES = fixed::FromDouble(200.0);
 	// We get some more fractional bits for small bodies otherwise we can easily end up with 0 radius which breaks stuff elsewhere
-	// 
+	//
 	// AndyC - Updated to use the empirically gathered data from this site:
 	// http://phl.upr.edu/library/notes/standardmass-radiusrelationforexoplanets
 	// but we still limit at the lowest end

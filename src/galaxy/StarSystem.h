@@ -155,6 +155,8 @@ public:
 	double GetEccentricity() const { return m_eccentricity.ToDouble(); }
 	double GetOrbMin() const { return m_orbMin.ToDouble(); }
 	double GetOrbMax() const { return m_orbMax.ToDouble(); }
+	fixed GetOrbMinAsFixed() const { return m_orbMin; }
+	fixed GetOrbMaxAsFixed() const { return m_orbMax; }
 	double GetSemiMajorAxis() const { return m_semiMajorAxis.ToDouble(); }
 	void SetOrbitPlane(const matrix3x3d &orient) { m_orbit.SetPlane(orient); }
 
