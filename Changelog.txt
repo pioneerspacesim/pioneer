@@ -30,6 +30,7 @@ June 2014
      * Enable different sell/buy for ship equipment (#2955)
      * Fix bad scaling of space stations (exposed since assimp 3.1.1) (#2923)
      * Fix a Lua stack leak when saving a LuaRef (#2977, 2978)
+     * Fix crash (#2979)
 
    * Internal Changes
      * Compress default (#2940)
