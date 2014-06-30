@@ -106,7 +106,7 @@ local onChat = function (form, ref, option)
 
 	-- Replace those tokens into ad's intro text that can change during play
 	message = string.interp(ad.intro, {
-		drive = hyperdrive and hyperdrive.GetName() or "None",
+		drive = hyperdrive and hyperdrive:GetName() or "None",
 		price = Format.Money(price),
 	})
 
