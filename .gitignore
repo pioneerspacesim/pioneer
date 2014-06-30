@@ -37,6 +37,8 @@ pioneer
 pioneer.exe
 modelviewer
 modelviewer.exe
+modelcompiler
+modelcompiler.exe
 aclocal.m4
 config.guess
 config.log
