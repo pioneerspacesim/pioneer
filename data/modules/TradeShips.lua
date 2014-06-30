@@ -133,7 +133,6 @@ local addShipEquip = function (ship)
 end
 
 local addShipCargo = function (ship, direction)
-	local prices = Game.system:GetCommodityBasePriceAlterations()
 	local total = 0
 	local empty_space = math.min(ship.freeCapacity, ship:GetEquipFree("cargo"))
 	local size_factor = empty_space / 20
@@ -167,7 +166,7 @@ local addShipCargo = function (ship, direction)
 			end
 
 			-- amount based on price and size of ship
-			local num = math.abs(prices[cargo_type]) * size_factor
+			local num = math.abs(Game.system:GetCommodityBasePriceAlterations(cargo_type)) * size_factor
 			num = Engine.rand:Integer(num, num * 2)
 
 			local added = ship:AddEquip(cargo_type, num)
@@ -256,10 +255,9 @@ local getSystem = function (ship)
 	-- find best system for cargo
 	for _, next_system in ipairs(systems_in_range) do
 		if #next_system:GetStationPaths() > 0 then
-			local prices = next_system:GetCommodityBasePriceAlterations()
 			local next_prices = 0
 			for cargo, count in pairs(trade_ships[ship]['cargo']) do
-				next_prices = next_prices + (prices[cargo] * count)
+				next_prices = next_prices + (next_system:GetCommodityBasePriceAlterations(cargo) * count)
 			end
 			if next_prices > best_prices then
 				target_system, best_prices = next_system, next_prices
@@ -350,11 +348,11 @@ local spawnInitialShips = function (game_start)
 	if #ship_names == 0 then return nil end
 
 	-- get a measure of the market size and build lists of imports and exports
-	local prices = Game.system:GetCommodityBasePriceAlterations()
 	local import_score, export_score = 0, 0
 	imports, exports = {}, {}
-	for equip,v in pairs(prices) do
-		if equip ~= e.cargo.rubbish and equip ~= e.cargo.radioactives and Game.system:IsCommodityLegal(equip) then
+	for key, equip in pairs(e.cargo) do
+		local v = Game.system:GetCommodityBasePriceAlterations(equip)
+		if key ~= "rubbish" and key ~= "radioactives" and Game.system:IsCommodityLegal(equip) then
 			-- values from SystemInfoView::UpdateEconomyTab
 			if		v > 10	then
 				import_score = import_score + 2
@@ -891,9 +889,9 @@ local onGameStart = function ()
 			-- there are no starports so don't bother looking for goods
 			return
 		else
-			local prices = Game.system:GetCommodityBasePriceAlterations()
-			for k,v in pairs(prices) do
-				if k ~= 'RUBBISH' and k ~= 'RADIOACTIVES' and Game.system:IsCommodityLegal(k) then
+			for key,equip in pairs(e.cargo) do
+				local v = Game.system:GetCommodityBasePriceAlterations(equip)
+				if key ~= 'rubbish' and key ~= 'radioactives' and Game.system:IsCommodityLegal(equip) then
 					if v > 2 then
 						table.insert(imports, k)
 					elseif v < -2 then
