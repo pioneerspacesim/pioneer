@@ -649,11 +649,15 @@ void SpaceStation::DoLawAndOrder(const double timeStep)
 			Pi::game->GetSpace()->AddBody(ship);
 			ship->SetLabel(Lang::POLICE_SHIP_REGISTRATION);
 			lua_State *l = Lua::manager->GetLuaState();
+			LUA_DEBUG_START(l);
 			pi_lua_import(l, "Equipment");
 			LuaTable equip(l, -1);
+			LuaTable misc = equip.Sub("misc");
 			LuaObject<Ship>::CallMethod(ship, "AddEquip", equip.Sub("laser").Sub("pulsecannon_dual_1mw"));
-			LuaObject<Ship>::CallMethod(ship, "AddEquip", equip.Sub("laser_cooling_booster"));
-			LuaObject<Ship>::CallMethod(ship, "AddEquip", equip.Sub("atmospheric_shielding"));
+			LuaObject<Ship>::CallMethod(ship, "AddEquip", misc.Sub("laser_cooling_booster"));
+			LuaObject<Ship>::CallMethod(ship, "AddEquip", misc.Sub("atmospheric_shielding"));
+			lua_pop(l, 6);
+			LUA_DEBUG_END(l, 0);
 			ship->UpdateStats();
 		} else {
 			delete ship;
