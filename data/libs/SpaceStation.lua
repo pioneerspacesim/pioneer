@@ -68,7 +68,7 @@ function SpaceStation:GetEquipmentPrice (e)
 	if equipmentPrice[self][e] then
 		return equipmentPrice[self][e]
 	end
-	local mul = e:IsValidSlot("cargo") and ((100 + Game.system:GetCommodityBasePriceAlterations()[e]) / 100) or 1
+	local mul = e:IsValidSlot("cargo") and ((100 + Game.system:GetCommodityBasePriceAlterations(e)) / 100) or 1
 	return mul * e.price
 end
 

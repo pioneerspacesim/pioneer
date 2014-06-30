@@ -121,20 +121,21 @@ static int l_starsystem_get_body_paths(lua_State *l)
  *
  * Get the price alterations for cargo items bought and sold in this system
  *
- * > alterations = system:GetCommodityBasePriceAlterations()
+ * > alteration = system:GetCommodityBasePriceAlterations(cargo_item)
  *
+ * Parameters:
+ *
+ *   cargo_item - The cargo item for which one wants to know the alteration
  * Return:
  *
- *   alterations - a table. The keys are <Constants.EquipType> strings for
- *                 each cargo. The values are numbers that indicate the
- *                 percentage change to each cargo base price. Loosely,
+ *   percentage -  percentage change to the cargo base price. Loosely,
  *                 positive values make the commodity more expensive,
  *                 indicating it is in demand, while negative values make the
  *                 commodity cheaper, indicating a surplus.
  *
  * Availability:
  *
- *   alpha 10
+ *   June 2014
  *
  * Status:
  *
@@ -146,28 +147,18 @@ static int l_starsystem_get_commodity_base_price_alterations(lua_State *l)
 	LUA_DEBUG_START(l);
 
 	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+	LuaTable equip(l, 2);
 
-	lua_newtable(l); // ret, s
-	// TODO: replace this ugly hack
-	pi_lua_import(l, "Ship"); // Ship, ret, s
-	LuaTable(l, -1).Sub("equipCompat").Sub("equip").Sub("old2new");
-	lua_pushnil(l); // nil, o2n, "equip", equipCompat, Ship, ret, s
-
-	while (lua_next(l, -2) != 0) { // n-e equipment, old-style key, o2n, "equip", equipCompat, Ship, ret, s
-		LuaTable equip(l, -1);
-		if (!equip.CallMethod<bool>("IsValidSlot", "cargo")) {
-			lua_pop(l, 1);
-			continue;
-		}
-		Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstantFromArg(l, "EquipType", -2));
-		lua_pushnumber(l, s->GetCommodityBasePriceModPercent(e));// mod, n-e equipment, old-style key, o2n, "equip", equipCompat, Ship, ret, s
-		lua_rawset(l, -8); // old-style key, o2n, "equip", equipCompat, Ship, ret, s
+	if (!equip.CallMethod<bool>("IsValidSlot", "cargo")) {
+		luaL_error(l, "GetCommodityBasePriceAlterations takes a valid cargo item as argument.");
+		return 0;
 	}
-	// o2n, "equip", equipCompat, Ship, ret, s
-	lua_pop(l, 4);
+	equip.PushValueToStack("l10n_key"); // For now let's just use this poor man's hack.
+	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstantFromArg(l, "EquipType", -1));
+	lua_pop(l, 1);
+	lua_pushnumber(l, s->GetCommodityBasePriceModPercent(e));
 
 	LUA_DEBUG_END(l, 1);
-
 	return 1;
 }
 
