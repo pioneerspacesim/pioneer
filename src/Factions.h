@@ -38,6 +38,11 @@ public:
 	GovWeightVec       govtype_weights;
 	Sint32             govtype_weights_total;
 
+	// ship manufacturers with weighting
+	typedef std::pair<Polit::ShipManufacturer, Sint32>    ManufacturerWeight;
+	typedef std::vector<ManufacturerWeight>   ManufacturerWeightVec;
+	ManufacturerWeightVec manufacturer_weights;
+
 	bool               hasHomeworld;
 	SystemPath         homeworld;           // sector(x,y,x) + system index + body index = location in a (custom?) system of homeworld
 	double             foundingDate;        // date faction came into existence
