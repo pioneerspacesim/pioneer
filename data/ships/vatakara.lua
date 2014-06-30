@@ -4,7 +4,7 @@
 define_ship {
 	name='Vatakara',
 	ship_class='medium_freighter',
-	manufacturer='MANDARAVA_CSEPEL',
+	manufacturer='MANDARAVA',
 	model='vatakara',
 	forward_thrust = 160e6,
 	reverse_thrust = 80e6,

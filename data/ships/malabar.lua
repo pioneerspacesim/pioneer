@@ -4,7 +4,7 @@
 define_ship {
 	name='Malabar',
 	ship_class='medium_passenger_transport',
-	manufacturer='MANDARAVA_CSEPEL',
+	manufacturer='MANDARAVA',
 	model='malabar',
 	forward_thrust = 160e6,
 	reverse_thrust = 80e6,
