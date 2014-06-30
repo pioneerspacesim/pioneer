@@ -33,6 +33,7 @@ June 2014
      * Fix a Lua stack leak when saving a LuaRef (#2977, 2978)
      * Fix crash (#2979)
      * Fix pirate ships with default drive 0 causing crash
+     * Extend the stack when unpickling (#2989)
 
    * Internal Changes
      * Compress default (#2940)

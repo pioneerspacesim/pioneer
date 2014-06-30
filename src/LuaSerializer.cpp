@@ -69,7 +69,8 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 	// tables are pickled recursively, so we can run out of Lua stack space if we're not careful
 	// start by ensuring we have enough (this grows the stack if necessary)
 	// (20 is somewhat arbitrary)
-	lua_checkstack(l, 20);
+	if (!lua_checkstack(l, 20))
+		luaL_error(l, "The Lua stack couldn't be extended (out of memory?)");
 
 	idx = lua_absindex(l, idx);
 
@@ -232,6 +233,12 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 {
 	LUA_DEBUG_START(l);
+
+	// tables are also unpickled recursively, so we can run out of Lua stack space if we're not careful
+	// start by ensuring we have enough (this grows the stack if necessary)
+	// (20 is somewhat arbitrary)
+	if (!lua_checkstack(l, 20))
+		luaL_error(l, "The Lua stack couldn't be extended (not enough memory?)");
 
 	char type = *pos++;
 
