@@ -31,7 +31,7 @@ void CargoBody::Load(Serializer::Reader &rd, Space *space)
 void CargoBody::Init()
 {
 	m_hitpoints = 1.0f;
-	SetLabel(ScopedTable(m_cargo).Get<std::string>("name"));
+	SetLabel(ScopedTable(m_cargo).CallMethod<std::string>("GetName"));
 	SetMassDistributionFromModel();
 
 	std::vector<Color> colors;
@@ -46,7 +46,7 @@ void CargoBody::Init()
 	skin.Apply(GetModel());
 	GetModel()->SetColors(colors);
 
-	Properties().Set("type", ScopedTable(m_cargo).Get<std::string>("name"));
+	Properties().Set("type", ScopedTable(m_cargo).CallMethod<std::string>("GetName"));
 }
 
 CargoBody::CargoBody(const LuaRef& cargo): m_cargo(cargo)
