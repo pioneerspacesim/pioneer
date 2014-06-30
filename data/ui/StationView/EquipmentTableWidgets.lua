@@ -146,7 +146,28 @@ function EquipmentTableWidgets.Pair (config)
 			end
 		end
 	end
-	table.sort(equipTypes, function (e1, e2) return e1:GetName() < e2:GetName() end)
+
+	local sortingFunction = function(e1,e2)
+		if e1:GetDefaultSlot() == e2:GetDefaultSlot() then
+			if e1:GetDefaultSlot() == "cargo" then
+				return e1:GetName() < e2:GetName()        -- cargo sorted on translated name
+			else
+				if e1:GetDefaultSlot():find("laser") then -- can be laser_front or _back
+					if e1.l10n_key:find("PULSE") and e2.l10n_key:find("PULSE") or
+					e1.l10n_key:find("PLASMA") and e2.l10n_key:find("PLASMA") then
+						return e1.price < e2.price
+					else
+						return e1.l10n_key < e2.l10n_key
+					end
+				else
+					return e1.l10n_key < e2.l10n_key
+				end
+			end
+		else
+			return e1:GetDefaultSlot() < e2:GetDefaultSlot()
+		end
+	end
+	table.sort(equipTypes, sortingFunction)
 
 	local stationTable =
 		ui:Table()
