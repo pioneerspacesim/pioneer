@@ -16,6 +16,7 @@ June 2014
      * Add retro velocity indicator to worldview (#2974)
      * Mouselook for external cameras (#2976)
      * Remove domainname printout when under Mac OS
+     * Add the modelcompiler exec to the gitignore file (#2994)
 
    * Script and UI API changes
      * Added scripts to parse ship stats to wiki
