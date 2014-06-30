@@ -32,6 +32,7 @@ local Event = import("Event")
 local Format = import("Format")
 local Serializer = import("Serializer")
 local utils = import("utils")
+local Equipment = import ("Equipment")
 
 local l = Lang.GetResource("module-newseventcommodity")
 
@@ -50,77 +51,77 @@ local maxIndexOfTitles = 4
 local maxIndexOfGreetings = 5
 
 local flavours = {
-	{                                   -- flavour 0 in en.json
-		cargo = "MEDICINES",            -- which commodity is affected
-		demand = 4,                     -- change in price (and stock)
+	{                                      -- flavour 0 in en.json
+		cargo = Equipment.cargo.medicines, -- which commodity is affected
+		demand = 4,                        -- change in price (and stock)
 	}, {
-		cargo = "BATTLE_WEAPONS",       --1
+		cargo = Equipment.cargo.battle_weapons,       --1
 		demand = 4,
 	}, {
-		cargo = "GRAIN",                --2
+		cargo = Equipment.cargo.grain,                --2
 		demand = 10,
 	}, {
-		cargo = "FRUIT_AND_VEG",        --3
+		cargo = Equipment.cargo.fruit_and_veg,        --3
 		demand = 6,
 	}, {
-		cargo = "NARCOTICS",            --4
+		cargo = Equipment.cargo.narcotics,            --4
 		demand = -4,
 	}, {
-		cargo = "SLAVES",               --5
+		cargo = Equipment.cargo.slaves,               --5
 		demand = 7,
 	}, {
-		cargo = "LIQUOR",               --6
+		cargo = Equipment.cargo.liquor,               --6
 		demand = 3,
 	}, {
-		cargo = "INDUSTRIAL_MACHINERY", --7
+		cargo = Equipment.cargo.industrial_machinery, --7
 		demand = 6,
 	}, {
-		cargo = "MINING_MACHINERY",     --8
+		cargo = Equipment.cargo.mining_machinery,     --8
 		demand = 6,
 	}, {
-		cargo = "LIVE_ANIMALS",         --9
+		cargo = Equipment.cargo.live_animals,         --9
 		demand = 3,
 	}, {
-		cargo = "AIR_PROCESSORS",       --10
+		cargo = Equipment.cargo.air_processors,       --10
 		demand = 5,
 	}, {
-		cargo = "ANIMAL_MEAT",          --11
+		cargo = Equipment.cargo.animal_meat,          --11
 		demand = 3,
 	}, {
-		cargo = "COMPUTERS",            --12
+		cargo = Equipment.cargo.computers,            --12
 		demand = 3,
 	}, {
-		cargo = "ROBOTS",               --13
+		cargo = Equipment.cargo.robots,               --13
 		demand = -4,
 	}, {
-		cargo = "PLASTICS",             --14
+		cargo = Equipment.cargo.plastics,             --14
 		demand = 3,
 	}, {
-		cargo = "NARCOTICS",            --15
+		cargo = Equipment.cargo.narcotics,            --15
 		demand = 4,
 	}, {
-		cargo = "FARM_MACHINERY",       --16
+		cargo = Equipment.cargo.farm_machinery,       --16
 		demand = 5,
 	}, {
-		cargo = "METAL_ORE",            --17
+		cargo = Equipment.cargo.metal_ore,            --17
 		demand = -10,
 	}, {
-		cargo = "CONSUMER_GOODS",       --18
+		cargo = Equipment.cargo.consumer_goods,       --18
 		demand = 3,
 	}, {
-		cargo = "PRECIOUS_METALS",      --19
+		cargo = Equipment.cargo.precious_metals,      --19
 		demand = -3,
 	}, {
-		cargo = "FERTILIZER",           --20
+		cargo = Equipment.cargo.fertilizer,           --20
 		demand = -3,
 	}, {
-		cargo = "NERVE_GAS",            --21
+		cargo = Equipment.cargo.nerve_gas,            --21
 		demand = -4,
 	}, {
-		cargo = "HAND_WEAPONS",         --22
+		cargo = Equipment.cargo.hand_weapons,         --22
 		demand = 3,
 	}, {
-		cargo = "METAL_ALLOYS",         --23
+		cargo = Equipment.cargo.metal_alloys,         --23
 		demand = 3,
 	}
 }
@@ -212,8 +213,11 @@ local createNewsEvent = function (timeInHyper)
 		repeat
 			local index = Engine.rand:Integer(1, #candidateSystems)
 			system = candidateSystems[index]
+
 			if system:IsCommodityLegal(cargo) then
+				--print("cargo,", cargo:GetName(), "is legal in:", system.name)
 			else
+				--print("cargo,", cargo:GetName(), "is legal in:", system.name)
 				system = nil
 			end
 			table.remove(candidateSystems, index)
@@ -242,7 +246,7 @@ local createNewsEvent = function (timeInHyper)
 	-- add headline from flavour, and more info to be displayed
 	newsEvent.description = string.interp(flavours[flavour].headline, {
 		system = system.name,
-		cargo = cargo,
+		cargo = cargo:GetName(),
 		-- Turn string "23:09:27 3 Jan 3200" into "3 Jan 3200:"
 		date  = string.match(Format.Date(date), "%d+ %w+ %d+$")
 	})
@@ -300,6 +304,7 @@ local onCreateBB = function (station)
 
 	-- create ads
 	checkAdvertsAdd(station)
+
 end
 
 
@@ -346,17 +351,12 @@ local onShipDocked = function (ship, station)
 
 	-- if there are any news,
 	for i,n in pairs(news) do
-
 		-- if this is the system of the news
 		if currentSystem:IsSameSystem(n.syspath) then
-
 			-- send a grateful greeting from the station if the player cargo is right
-			if ship:GetEquipCount('CARGO', n.cargo) > 0 and n.demand > 0 then
-
-				local greeting = string.interp(l["GRATEFUL_GREETING_"..Engine.rand:Integer(0,maxIndexOfGreetings)], {
-												   cargo = n.cargo:lower():gsub("_"," ") -- lower case & replace "_", " "
-				})
-
+			if ship:CountEquip(n.cargo, cargo) > 0 and n.demand > 0 then
+				local greeting = string.interp(l["GRATEFUL_GREETING_"..Engine.rand:Integer(0,maxIndexOfGreetings)],
+					{cargo = n.cargo:GetName()})
 				Comms.Message(greeting, ship.label)
 			end
 
@@ -373,6 +373,7 @@ local onShipDocked = function (ship, station)
 			else
 				error("demand should probably not be 0.")
 			end
+			-- print("cargo:", n.cargo:GetName(), "price:", newPrice, newStockChange)
 			station:SetEquipmentPrice(n.cargo, newPrice)
 			station:AddEquipmentStock(n.cargo, newStockChange)
 		end
