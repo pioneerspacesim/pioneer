@@ -22,4 +22,13 @@ f:illegal_goods_probability('NERVE_GAS',100)--fed/cis
 f:illegal_goods_probability('NARCOTICS',100)--fed
 f:illegal_goods_probability('SLAVES',100)--fed/cis
 
+
+f:shipmanufacturer_weight('ALBR', 0.1)    --test
+f:shipmanufacturer_weight('AURONOX', 0.1) --test
+f:shipmanufacturer_weight('HABER', 0.1)   --test
+f:shipmanufacturer_weight('MANDARAVA', 1) --test
+f:shipmanufacturer_weight('KALURI', 1.1)  --test
+f:shipmanufacturer_weight('OPLI', 0)      --test
+
+
 f:add_to_factions('Federation')
