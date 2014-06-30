@@ -133,6 +133,7 @@ const struct EnumItem ENUM_ShipManufacturer[] = {
 	{ "KALURI", Polit::MAN_KALURI },
 	{ "MANDARAVA", Polit::MAN_MANDARAVA },
 	{ "OPLI",Polit::MAN_OPLI },
+	{ "unknown",Polit::MAN_UNKNOWN },
 	{ 0, 0 },
 };
 

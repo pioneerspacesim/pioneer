@@ -26,6 +26,7 @@ namespace Polit {
 		MAN_KALURI,
 		MAN_MANDARAVA,
 		MAN_OPLI,
+		MAN_UNKNOWN,  // <enum skip>
 		MAN_MAX // <enum skip>
 	};
 
