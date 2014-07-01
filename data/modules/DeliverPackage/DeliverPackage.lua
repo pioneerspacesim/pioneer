@@ -374,11 +374,11 @@ local onEnterSystem = function (player)
 
 				if Engine.rand:Number(1) <= risk then
 					local shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
-					local default_drive = Equipment.hyperspace['drive_class'..tostring(shipdef.hyperdriveClass)]
+					local default_drive = Equipment.hyperspace['hyperdrive_'..tostring(shipdef.hyperdriveClass)]
 
 					local max_laser_size = shipdef.capacity - default_drive.capabilities.mass
 					local laserdefs = utils.build_array(utils.filter(
-						function (k,l) return l:IsValidSlot('laser_front') and l.capabilities.mass <= max_laser_size and string.sub(k.id,0,11) == 'pulsecannon' end,
+						function (k,l) return l:IsValidSlot('laser_front') and l.capabilities.mass <= max_laser_size and l.l10n_key:find("PULSECANNON") end,
 						pairs(Equipment.laser)
 					))
 					local laserdef = laserdefs[Engine.rand:Integer(1,#laserdefs)]

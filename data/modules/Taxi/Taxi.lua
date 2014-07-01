@@ -337,11 +337,11 @@ local onEnterSystem = function (player)
 
 				if Engine.rand:Number(1) <= risk then
 					local shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
-					local default_drive = eq.hyperspace['drive_class'..tostring(shipdef.hyperdriveClass)]
+					local default_drive = eq.hyperspace['hyperdrive_'..tostring(shipdef.hyperdriveClass)]
 
 					local max_laser_size = shipdef.capacity - default_drive.capabilities.mass
 					local laserdefs = utils.build_array(utils.filter(
-						function (k,l) return l:IsValidSlot('laser_front') and l.capabilities.mass <= max_laser_size and string.sub(k.id,0,11) == 'pulsecannon' end,
+						function (k,l) return l:IsValidSlot('laser_front') and l.capabilities.mass <= max_laser_size and l.l10n_key:find("PULSECANNON") end,
 						pairs(eq.laser)
 					))
 					local laserdef = laserdefs[Engine.rand:Integer(1,#laserdefs)]
@@ -350,12 +350,12 @@ local onEnterSystem = function (player)
 					ship:SetLabel(Ship.MakeRandomLabel())
 					ship:AddEquip(default_drive)
 					ship:AddEquip(laserdef)
-					ship:AddEquip('SHIELD_GENERATOR', math.ceil(risk * 3))
+					ship:AddEquip(eq.misc.shield_generator, math.ceil(risk * 3))
 					if Engine.rand:Number(2) <= risk then
-						ship:AddEquip('LASER_COOLING_BOOSTER')
+						ship:AddEquip(eq.misc.laser_cooling_booster)
 					end
 					if Engine.rand:Number(3) <= risk then
-						ship:AddEquip('SHIELD_ENERGY_BOOSTER')
+						ship:AddEquip(eq.misc.shield_energy_booster)
 					end
 					ship:AIKill(Game.player)
 				end
