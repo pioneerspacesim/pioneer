@@ -3,6 +3,9 @@ July 2014
    * Minor changes and tweaks
      * Include the Lua stack top in the debug overlay.
 
+   * Fixes
+     * Fix potential Lua stack overflows when calling Lua methods (#3003)
+
 June 2014
 
    * New features
