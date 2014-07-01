@@ -36,6 +36,7 @@ June 2014
      * Fix crash (#2979)
      * Fix pirate ships with default drive 0 causing crash
      * Extend the stack when unpickling (#2989)
+     * Fix crash from spawned enemy ships Pirates, Taxi, Delivery (#2998)
 
    * Internal Changes
      * Compress default (#2940)
