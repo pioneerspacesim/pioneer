@@ -5,6 +5,8 @@ July 2014
 
    * Fixes
      * Fix potential Lua stack overflows when calling Lua methods (#3003)
+     * Fix Lua stack leaks when triggering Lua UI templates from C++
+       (#3004,#2996,#2997,#2999,#3000,#3001)
 
 June 2014
 
