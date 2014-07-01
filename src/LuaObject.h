@@ -320,6 +320,7 @@ inline Ret LuaObject<T>::CallMethod(T* o, const Key &key, const Args &...args) {
 	lua_State *l = Lua::manager->GetLuaState();
 	Ret return_value;
 
+	lua_checkstack(l, sizeof...(args)+5);
 	PushToLua(o);
 	pi_lua_generic_push(l, key);
 	lua_gettable(l, -2);
@@ -337,6 +338,7 @@ template <typename Ret1, typename Ret2, typename ...Ret, typename Key, typename 
 inline std::tuple<Ret1, Ret2, Ret...> LuaObject<T>::CallMethod(T* o, const Key &key, const Args &...args) {
 	lua_State *l = Lua::manager->GetLuaState();
 
+	lua_checkstack(l, sizeof...(args)+5);
 	PushToLua(o);
 	pi_lua_generic_push(l, key);
 	lua_gettable(l, -2);

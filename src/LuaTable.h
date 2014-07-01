@@ -280,6 +280,7 @@ template <class Ret, class Key, class ...Args>
 Ret LuaTable::Call(const Key & key, const Args &... args) const {
 	Ret return_value;
 
+	lua_checkstack(m_lua, sizeof...(args)+3);
 	PushValueToStack(key);
 	pi_lua_multiple_push(m_lua, args...);
 	lua_call(m_lua, sizeof...(args), 1);
@@ -290,6 +291,7 @@ Ret LuaTable::Call(const Key & key, const Args &... args) const {
 
 template <class Ret1, class Ret2, class ...Ret, class Key, class ...Args>
 std::tuple<Ret1, Ret2, Ret...> LuaTable::Call(const Key & key, const Args &... args) const {
+	lua_checkstack(m_lua, sizeof...(args)+3);
 	PushValueToStack(key);
 	pi_lua_multiple_push(m_lua, args...);
 	lua_call(m_lua, sizeof...(args), sizeof...(Ret)+2);
