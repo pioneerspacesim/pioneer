@@ -318,6 +318,7 @@ template <typename T>
 template <typename Ret, typename Key, typename ...Args>
 inline Ret LuaObject<T>::CallMethod(T* o, const Key &key, const Args &...args) {
 	lua_State *l = Lua::manager->GetLuaState();
+	LUA_DEBUG_START(l);
 	Ret return_value;
 
 	lua_checkstack(l, sizeof...(args)+5);
@@ -330,6 +331,7 @@ inline Ret LuaObject<T>::CallMethod(T* o, const Key &key, const Args &...args) {
 	lua_call(l, sizeof...(args)+1, 1);
 	pi_lua_generic_pull(l, -1, return_value);
 	lua_pop(l, 1);
+	LUA_DEBUG_END(l, 0);
 	return return_value;
 }
 
@@ -338,6 +340,7 @@ template <typename Ret1, typename Ret2, typename ...Ret, typename Key, typename 
 inline std::tuple<Ret1, Ret2, Ret...> LuaObject<T>::CallMethod(T* o, const Key &key, const Args &...args) {
 	lua_State *l = Lua::manager->GetLuaState();
 
+	LUA_DEBUG_START(l);
 	lua_checkstack(l, sizeof...(args)+5);
 	PushToLua(o);
 	pi_lua_generic_push(l, key);
@@ -348,6 +351,7 @@ inline std::tuple<Ret1, Ret2, Ret...> LuaObject<T>::CallMethod(T* o, const Key &
 	lua_call(l, sizeof...(args)+1, 2+sizeof...(Ret));
 	auto ret_values = pi_lua_multiple_pull<Ret1, Ret2, Ret...>(l, -2-static_cast<int>(sizeof...(Ret)));
 	lua_pop(l, 2+static_cast<int>(sizeof...(Ret)));
+	LUA_DEBUG_END(l, 0);
 	return ret_values;
 }
 

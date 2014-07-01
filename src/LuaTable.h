@@ -247,6 +247,7 @@ template <class Value, class Key> LuaTable LuaTable::Set(const Key & key, const 
 }
 
 template <class Key, class Value> std::map<Key, Value> LuaTable::GetMap() const {
+	LUA_DEBUG_START(m_lua);
 	std::map<Key, Value> ret;
 	lua_pushnil(m_lua);
 	while(lua_next(m_lua, m_index)) {
@@ -258,6 +259,7 @@ template <class Key, class Value> std::map<Key, Value> LuaTable::GetMap() const 
 		}
 		lua_pop(m_lua, 1);
 	}
+	LUA_DEBUG_END(m_lua, 0);
 	return ret;
 }
 
@@ -278,6 +280,7 @@ template <class ValueIterator> LuaTable LuaTable::LoadVector(ValueIterator beg, 
 
 template <class Ret, class Key, class ...Args>
 Ret LuaTable::Call(const Key & key, const Args &... args) const {
+	LUA_DEBUG_START(m_lua);
 	Ret return_value;
 
 	lua_checkstack(m_lua, sizeof...(args)+3);
@@ -286,17 +289,20 @@ Ret LuaTable::Call(const Key & key, const Args &... args) const {
 	lua_call(m_lua, sizeof...(args), 1);
 	pi_lua_generic_pull(m_lua, -1, return_value);
 	lua_pop(m_lua, 1);
+	LUA_DEBUG_END(m_lua, 0);
 	return return_value;
 }
 
 template <class Ret1, class Ret2, class ...Ret, class Key, class ...Args>
 std::tuple<Ret1, Ret2, Ret...> LuaTable::Call(const Key & key, const Args &... args) const {
+	LUA_DEBUG_START(m_lua);
 	lua_checkstack(m_lua, sizeof...(args)+3);
 	PushValueToStack(key);
 	pi_lua_multiple_push(m_lua, args...);
 	lua_call(m_lua, sizeof...(args), sizeof...(Ret)+2);
 	auto return_values = pi_lua_multiple_pull<Ret1, Ret2, Ret...>(m_lua, -static_cast<int>(sizeof...(Ret))-2);
 	lua_pop(m_lua, static_cast<int>(sizeof...(Ret))+2);
+	LUA_DEBUG_END(m_lua, 0);
 	return return_values;
 }
 
