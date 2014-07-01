@@ -277,7 +277,7 @@ local onEnterSystem = function (ship)
 						local station = Space.GetBody(mission.location.bodyIndex)
 						local shiptype = ShipDef[mission.shipid]
 						local default_drive = shiptype.hyperdriveClass
-						local laserdefs = utils.build_array(Equipment.laser)
+						local laserdefs = utils.build_array(pairs(Equipment.laser))
 						table.sort(laserdefs, function (l1, l2) return l1.price < l2.price end)
 						local laserdef = laserdefs[mission.danger]
 						local count = default_drive ^ 2
@@ -287,16 +287,17 @@ local onEnterSystem = function (ship)
 							return -- TODO
 						end
 						mission.ship:SetLabel(mission.shipregid)
-						mission.ship:AddEquip('ATMOSPHERIC_SHIELDING')
-						mission.ship:AddEquip('DRIVE_CLASS'..tostring(default_drive))
-						mission.ship:AddEquip(laserdef.id)
-						mission.ship:AddEquip('SHIELD_GENERATOR', mission.danger)
-						mission.ship:AddEquip('HYDROGEN', count)
+						mission.ship:AddEquip(Equipment.misc.atmospheric_shielding)
+						local engine = Equipment.hyperspace['hyperdrive_'..tostring(default_drive)]
+						mission.ship:AddEquip(engine)
+						mission.ship:AddEquip(laserdef)
+						mission.ship:AddEquip(Equipment.misc.shield_generator, mission.danger)
+						mission.ship:AddEquip(Equipment.cargo.hydrogen, count)
 						if mission.danger > 2 then
-							mission.ship:AddEquip('SHIELD_ENERGY_BOOSTER')
+							mission.ship:AddEquip(Equipment.misc.shield_energy_booster)
 						end
 						if mission.danger > 3 then
-							mission.ship:AddEquip('LASER_COOLING_BOOSTER')
+							mission.ship:AddEquip(Equipment.misc.laser_cooling_booster)
 						end
 						_setupHooksForMission(mission)
 						mission.shipstate = 'docked'
