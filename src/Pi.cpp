@@ -1291,10 +1291,10 @@ void Pi::MainLoop()
 			snprintf(
 				fps_readout, sizeof(fps_readout),
 				"%d fps (%.1f ms/f), %d phys updates, %d triangles, %.3f M tris/sec, %d glyphs/sec\n"
-				"Lua mem usage: %d MB + %d KB + %d bytes",
+				"Lua mem usage: %d MB + %d KB + %d bytes (stack top: %d)",
 				frame_stat, (1000.0/frame_stat), phys_stat, Pi::statSceneTris, Pi::statSceneTris*frame_stat*1e-6,
 				Text::TextureFont::GetGlyphCount(),
-				lua_memMB, lua_memKB, lua_memB
+				lua_memMB, lua_memKB, lua_memB, lua_gettop(Lua::manager->GetLuaState())
 			);
 			frame_stat = 0;
 			phys_stat = 0;
