@@ -29,18 +29,32 @@ Player::Player(ShipType::Id shipId): Ship(shipId)
 {
 	SetController(new PlayerShipController());
 	InitCockpit();
+
+	lua_State *l = Lua::manager->GetLuaState();
+	LUA_DEBUG_START(l);
+
 	LuaObject<Player>::PushToLua(this);
-	lua_pushcclosure(Lua::manager->GetLuaState(), onEquipChangeListener, 1);
-	ScopedTable(m_equipSet).CallMethod("AddListener", LuaRef(Lua::manager->GetLuaState(), -1));
-	lua_pop(Lua::manager->GetLuaState(), 1);
+	lua_pushcclosure(l, onEquipChangeListener, 1);
+	LuaRef lr(Lua::manager->GetLuaState(), -1);
+	ScopedTable(m_equipSet).CallMethod("AddListener", lr);
+	lua_pop(l, 1);
+
+	LUA_DEBUG_END(l, 0);
 }
 
 void Player::SetShipType(const ShipType::Id &shipId) {
 	Ship::SetShipType(shipId);
+
+	lua_State *l = Lua::manager->GetLuaState();
+	LUA_DEBUG_START(l);
+
 	LuaObject<Player>::PushToLua(this);
-	lua_pushcclosure(Lua::manager->GetLuaState(), onEquipChangeListener, 1);
-	ScopedTable(m_equipSet).CallMethod("AddListener", LuaRef(Lua::manager->GetLuaState(), -1));
-	lua_pop(Lua::manager->GetLuaState(), 1);
+	lua_pushcclosure(l, onEquipChangeListener, 1);
+	LuaRef lr(Lua::manager->GetLuaState(), -1);
+	ScopedTable(m_equipSet).CallMethod("AddListener", lr);
+	lua_pop(l, 1);
+
+	LUA_DEBUG_END(l, 0);
 }
 void Player::Save(Serializer::Writer &wr, Space *space)
 {
