@@ -10,6 +10,7 @@
 #include "lua/lua.hpp"
 #include "LuaRef.h"
 #include "LuaPushPull.h"
+#include "LuaUtils.h"
 
 /*
  * The LuaTable class is a wrapper around a table present on the stack. There
@@ -286,7 +287,7 @@ Ret LuaTable::Call(const Key & key, const Args &... args) const {
 	lua_checkstack(m_lua, sizeof...(args)+3);
 	PushValueToStack(key);
 	pi_lua_multiple_push(m_lua, args...);
-	lua_call(m_lua, sizeof...(args), 1);
+	pi_lua_protected_call(m_lua, sizeof...(args), 1);
 	pi_lua_generic_pull(m_lua, -1, return_value);
 	lua_pop(m_lua, 1);
 	LUA_DEBUG_END(m_lua, 0);
@@ -299,7 +300,7 @@ std::tuple<Ret1, Ret2, Ret...> LuaTable::Call(const Key & key, const Args &... a
 	lua_checkstack(m_lua, sizeof...(args)+3);
 	PushValueToStack(key);
 	pi_lua_multiple_push(m_lua, args...);
-	lua_call(m_lua, sizeof...(args), sizeof...(Ret)+2);
+	pi_lua_protected_call(m_lua, sizeof...(args), sizeof...(Ret)+2);
 	auto return_values = pi_lua_multiple_pull<Ret1, Ret2, Ret...>(m_lua, -static_cast<int>(sizeof...(Ret))-2);
 	lua_pop(m_lua, static_cast<int>(sizeof...(Ret))+2);
 	LUA_DEBUG_END(m_lua, 0);
@@ -320,6 +321,6 @@ template <> inline void LuaTable::VecIter<LuaTable>::CleanCache() {
 }
 
 inline void pi_lua_generic_push(lua_State* l, const LuaTable & value) {
-    lua_pushvalue(l, value.GetIndex());
+	lua_pushvalue(l, value.GetIndex());
 }
 #endif
