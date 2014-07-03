@@ -51,7 +51,7 @@ local shipInfo = function (args)
 	for _,t in pairs(equips) do
 		for k,et in pairs(t) do
 			local slot = et:GetDefaultSlot(Game.player)
-			if (slot ~= "cargo" and slot ~= "missile" and slot ~= "engine" and slot ~= "laser") then
+			if (slot ~= "cargo" and slot ~= "missile" and slot ~= "engine" and slot ~= "laser_front" and slot ~= "laser_rear") then
 				local count = Game.player:CountEquip(et)
 				if count > 0 then
 					if count > 1 then

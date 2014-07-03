@@ -2,6 +2,8 @@ July 2014
 
    * Minor changes and tweaks
      * Include the Lua stack top in the debug overlay.
+     * Don't list lasers under "Equipment" in InfoView, since already listed
+       under forward/read mounts (#3010)
 
    * Fixes
      * Fix potential Lua stack overflows when calling Lua methods (#3003)
