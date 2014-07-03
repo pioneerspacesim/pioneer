@@ -87,6 +87,7 @@ public:
 	double GetAccelUp() const { return m_type->linThrust[ShipType::THRUSTER_UP] / GetMass(); }
 	double GetAccelMin() const;
 
+	void UpdateLuaStats();
 	void UpdateEquipStats();
 	void UpdateFuelStats();
 	void UpdateStats();

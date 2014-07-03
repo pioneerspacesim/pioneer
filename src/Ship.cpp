@@ -532,21 +532,29 @@ void Ship::UpdateEquipStats()
 	UpdateFuelStats();
 
 	m_stats.hyperspace_range = m_stats.hyperspace_range_max = 0;
-	auto engine_slot = m_type->slots.find("engine");
-	if (engine_slot != m_type->slots.cend() && engine_slot->second > 0) {
-		int hyperclass;
-		Properties().Get<int>("hyperclass_cap", hyperclass);
-		if (hyperclass) {
-			auto ranges = LuaObject<Ship>::CallMethod<double, double>(this, "GetHyperspaceRange");
-			m_stats.hyperspace_range_max = std::get<1>(ranges);
-			m_stats.hyperspace_range = std::get<0>(ranges);
-		}
+	p.Set("hyperspaceRange", m_stats.hyperspace_range);
+	p.Set("maxHyperspaceRange", m_stats.hyperspace_range_max);
+}
+
+void Ship::UpdateLuaStats() {
+	// This code cannot be in UpdateEquipStats itself because *Equip* needs to be
+	// called in Init(), which is itself called in the constructor, but we absolutely
+	// cannot use LuaObject<Ship>::* in a constructor, or else we'd fix the type of the
+	// object to Ship forever, even though it could very well be a Player.
+	UpdateEquipStats();
+	PropertyMap& p = Properties();
+	m_stats.hyperspace_range = m_stats.hyperspace_range_max = 0;
+	int hyperclass;
+	p.Get<int>("hyperclass_cap", hyperclass);
+	if (hyperclass) {
+		auto ranges = LuaObject<Ship>::CallMethod<double, double>(this, "GetHyperspaceRange");
+		m_stats.hyperspace_range_max = std::get<1>(ranges);
+		m_stats.hyperspace_range = std::get<0>(ranges);
 	}
 
 	p.Set("hyperspaceRange", m_stats.hyperspace_range);
 	p.Set("maxHyperspaceRange", m_stats.hyperspace_range_max);
 }
-
 void Ship::UpdateFuelStats()
 {
 	m_stats.fuel_tank_mass_left = m_type->fuelTankMass * GetFuel();
