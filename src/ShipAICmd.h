@@ -13,7 +13,8 @@
 class AICommand {
 public:
 	// This enum is solely to make the serialization work
-	enum CmdName { CMD_NONE, CMD_DOCK, CMD_FLYTO, CMD_FLYAROUND, CMD_KILL, CMD_KAMIKAZE, CMD_HOLDPOSITION, CMD_FORMATION };
+	enum CmdName { CMD_NONE, CMD_DOCK, CMD_FLYTO, CMD_FLYAROUND, CMD_KILL,
+		       CMD_KAMIKAZE, CMD_HOLDPOSITION, CMD_FORMATION, CMD_HOLDATTITUDE };
 
 	AICommand(Ship *ship, CmdName name) {
 	   	m_ship = ship; m_cmdName = name;
@@ -279,6 +280,21 @@ public:
 	virtual bool TimeStepUpdate();
 	AICmdHoldPosition(Ship *ship) : AICommand(ship, CMD_HOLDPOSITION) { }
 	AICmdHoldPosition(Serializer::Reader &rd) : AICommand(rd, CMD_HOLDPOSITION) { }
+};
+
+class AICmdHoldAttitude : public AICommand {
+public:
+	virtual bool TimeStepUpdate();
+	AICmdHoldAttitude(Ship *ship, Ship::AutopilotHoldDirection d);
+        AICmdHoldAttitude(Serializer::Reader &rd) : AICommand(rd, CMD_HOLDATTITUDE) {
+	        m_dir = static_cast<Ship::AutopilotHoldDirection>(rd.Int32());
+	}
+	virtual void Save(Serializer::Writer &wr) {
+		AICommand::Save(wr);
+		wr.Int32(static_cast<int>(m_dir));
+	}
+private:
+	Ship::AutopilotHoldDirection m_dir;
 };
 
 class AICmdFormation : public AICommand {

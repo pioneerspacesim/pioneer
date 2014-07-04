@@ -91,6 +91,30 @@
       "description" : "",
       "message" : "Autopilot: Fly to vicinity of %target"
    },
+   "AUTOPILOT_TURN_PROGRADE" : {
+      "description": "",
+      "message" : "Autopilot: Turn prograde"
+   },
+   "AUTOPILOT_TURN_RETROGRADE" : {
+      "description": "",
+      "message" : "Autopilot: Turn retrograde"
+   },
+   "AUTOPILOT_TURN_NORMAL" : {
+      "description": "",
+      "message" : "Autopilot: Turn normal"
+   },
+   "AUTOPILOT_TURN_ANTI_NORMAL" : {
+      "description": "",
+      "message" : "Autopilot: Turn anti-normal"
+   },
+   "AUTOPILOT_TURN_RADIALLY_INWARD" : {
+      "description": "",
+      "message" : "Autopilot: Turn radially inward"
+   },
+   "AUTOPILOT_TURN_RADIALLY_OUTWARD" : {
+      "description": "",
+      "message" : "Autopilot: Turn radially outward"
+   },
    "AUTOPILOT_ON" : {
       "description" : "",
       "message" : "Autopilot on"

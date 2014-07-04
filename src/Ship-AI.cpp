@@ -148,6 +148,13 @@ void Ship::AIOrbit(Body *target, double alt)
 	m_curAICmd = new AICmdFlyAround(this, target, alt);
 }
 
+void Ship::AIHoldAttitude(AutopilotHoldDirection d) {
+	AIClearInstructions();
+	SetFuelReserve((GetFuel() < 0.5) ? GetFuel() / 2 : 0.25);
+
+	m_curAICmd = new AICmdHoldAttitude(this, d);
+}
+
 void Ship::AIHoldPosition()
 {
 	AIClearInstructions();

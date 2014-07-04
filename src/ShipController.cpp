@@ -130,6 +130,11 @@ void PlayerShipController::StaticUpdate(const float timeStep)
 			PollControls(timeStep, false, mouseMotion);
 			break;
 		case CONTROL_AUTOPILOT:
+			// allow translation when autopilot is active
+			// fixme: only when attitude hold is active?
+			if(!IsAnyAngularThrusterKeyDown())
+				PollControls(timeStep, true, mouseMotion);
+
 			if (m_ship->AIIsActive()) break;
 			Pi::game->RequestTimeAccel(Game::TIMEACCEL_1X);
 //			AIMatchVel(vector3d(0.0));			// just in case autopilot doesn't...
