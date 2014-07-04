@@ -330,8 +330,7 @@ function SpaceStation:LaunchPolice(targetShip)
 		local lawlessness = Game.system.lawlessness
 		local maxPolice = math.min(9, self.numDocks)
 		local numberPolice = math.ceil(Engine.rand:Integer(1,maxPolice)*lawlessness)
-
-		local shiptype = ShipDef["kanara"]   -- todo: should be faction specific
+		local shiptype = ShipDef[Game.system.faction.policeShip]
 
 		-- create and equip them
 		while numberPolice > 0 do
