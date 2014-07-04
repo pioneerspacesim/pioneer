@@ -14,7 +14,6 @@
 #include "Planet.h"
 #include "Player.h"
 #include "Polit.h"
-#include "Polit.h"
 #include "Serializer.h"
 #include "Ship.h"
 #include "Space.h"
@@ -207,7 +206,7 @@ int SpaceStation::NumShipsDocked() const
 {
 	Sint32 numShipsDocked = 0;
 	for (Uint32 i=0; i<m_shipDocking.size(); i++) {
-		if (NULL != m_shipDocking[i].ship) 
+		if (NULL != m_shipDocking[i].ship)
 			++numShipsDocked;
 	}
 	return numShipsDocked;
