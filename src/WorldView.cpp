@@ -82,7 +82,7 @@ void WorldView::InitObject()
 
 	m_commsOptions = new Fixed(size[0], size[1]/2);
 	m_commsOptions->SetTransparency(true);
-	Add(m_commsOptions, 10, 200);
+	Add(m_commsOptions, 10, 120);
 
 	m_commsNavOptionsContainer = new Gui::HBox();
 	m_commsNavOptionsContainer->SetSpacing(5);
@@ -1167,6 +1167,15 @@ static void autopilot_dock(Body *b)
 	Pi::player->GetPlayerController()->SetFlightControlState(CONTROL_AUTOPILOT);
 	Pi::player->AIDock(static_cast<SpaceStation*>(b));
 }
+
+static void autopilot_hold_attitude(Ship::AutopilotHoldDirection d) {
+	if(Pi::player->GetFlightState() != Ship::FLYING)
+		return;
+
+	Pi::player->GetPlayerController()->SetFlightControlState(CONTROL_AUTOPILOT);
+	Pi::player->AIHoldAttitude(d);
+}
+
 static void autopilot_orbit(Body *b, double alt)
 {
 	Pi::player->GetPlayerController()->SetFlightControlState(CONTROL_AUTOPILOT);
@@ -1253,6 +1262,29 @@ void WorldView::UpdateCommsOptions()
 				button = AddCommsOption(stringf(Lang::AUTOPILOT_ENTER_HIGH_ORBIT_AROUND, formatarg("target", navtarget->GetLabel())), ypos, optnum++);
 				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 3.2));
 				ypos += 32;
+			}
+			// fixme: should probably be its own menu instead of in the comms
+			if(navtarget == Pi::player->GetFrame()->GetBody()) {
+				button = AddCommsOption(Lang::AUTOPILOT_TURN_PROGRADE, ypos, optnum++);
+				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_hold_attitude), Ship::DIR_PROGRADE));
+				ypos += 32;
+				button = AddCommsOption(Lang::AUTOPILOT_TURN_RETROGRADE, ypos, optnum++);
+				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_hold_attitude), Ship::DIR_RETROGRADE));
+				ypos += 32;
+				button = AddCommsOption(Lang::AUTOPILOT_TURN_NORMAL, ypos, optnum++);
+				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_hold_attitude), Ship::DIR_NORMAL));
+				ypos += 32;
+				button = AddCommsOption(Lang::AUTOPILOT_TURN_ANTI_NORMAL, ypos, optnum++);
+				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_hold_attitude), Ship::DIR_ANTINORMAL));
+				ypos += 32;
+				/* left out to not clutter the ui, pending better formatting
+				   button = AddCommsOption("Autopilot: Turn radially inward", ypos, optnum++);
+				   button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_hold_attitude), Ship::DIR_RADIALLY_INWARD));
+				   ypos += 32;
+				   button = AddCommsOption("Autopilot: Turn radially outward", ypos, optnum++);
+				   button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_hold_attitude), Ship::DIR_RADIALLY_OUTWARD));
+				   ypos += 32;
+				*/
 			}
 		}
 

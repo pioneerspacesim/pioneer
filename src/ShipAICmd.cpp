@@ -28,6 +28,7 @@ AICommand *AICommand::Load(Serializer::Reader &rd)
 		case CMD_KAMIKAZE: return new AICmdKamikaze(rd);
 		case CMD_HOLDPOSITION: return new AICmdHoldPosition(rd);
 		case CMD_FORMATION: return new AICmdFormation(rd);
+	        case CMD_HOLDATTITUDE: return new AICmdHoldAttitude(rd);
 	}
 }
 
@@ -988,6 +989,25 @@ bool AICmdHoldPosition::TimeStepUpdate()
 	return false;
 }
 
+AICmdHoldAttitude::AICmdHoldAttitude(Ship *ship, Ship::AutopilotHoldDirection d) : AICommand(ship, CMD_HOLDATTITUDE) {
+	m_dir = d;
+}
+
+bool AICmdHoldAttitude::TimeStepUpdate()
+{
+	vector3d d;
+	switch(m_dir) {
+	case Ship::DIR_NONE:             d = vector3d(0,0,0);
+	case Ship::DIR_RADIALLY_INWARD:  d = -Pi::player->GetPosition(); break;
+	case Ship::DIR_RADIALLY_OUTWARD: d =  Pi::player->GetPosition(); break;
+	case Ship::DIR_RETROGRADE:       d = -Pi::player->GetVelocity(); break;
+	case Ship::DIR_PROGRADE:         d =  Pi::player->GetVelocity(); break;
+	case Ship::DIR_ANTINORMAL:       d = -Pi::player->GetVelocity().Cross(Pi::player->GetPosition()); break;
+	case Ship::DIR_NORMAL:           d =  Pi::player->GetVelocity().Cross(Pi::player->GetPosition()); break;
+	}
+	m_ship->AIFaceDirection(d);
+	return false;
+}
 
 void AICmdFlyAround::Setup(Body *obstructor, double alt, double vel, int mode)
 {

@@ -118,6 +118,9 @@ public:
 		HYPERSPACE, // in hyperspace
 	};
 
+	enum AutopilotHoldDirection { DIR_NONE, DIR_PROGRADE, DIR_RETROGRADE, DIR_NORMAL,
+				      DIR_ANTINORMAL, DIR_RADIALLY_INWARD, DIR_RADIALLY_OUTWARD };
+
 	FlightState GetFlightState() const { return m_flightState; }
 	void SetFlightState(FlightState s);
 	float GetWheelState() const { return m_wheelState; }
@@ -194,6 +197,8 @@ public:
 	void AIDock(SpaceStation *target);
 	void AIFlyTo(Body *target);
 	void AIOrbit(Body *target, double alt);
+	void AIHoldAttitude(AutopilotHoldDirection dir);
+
 	void AIHoldPosition();
 
 	void AIBodyDeleted(const Body* const body) {};		// todo: signals
