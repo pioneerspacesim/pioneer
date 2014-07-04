@@ -222,7 +222,7 @@ static int l_faction_attr_military_name(lua_State *l)
 /*
  * Attribute: policeName
  *
- * The military name used by the faction
+ * The name of the law enforcing agency in the faction
  *
  * Availability:
  *
