@@ -80,9 +80,9 @@ void WorldView::InitObject()
 	m_navTunnel = new NavTunnelWidget(this, m_blendState);
 	Add(m_navTunnel, 0, 0);
 
-	m_commsOptions = new Fixed(size[0], size[1]/2);
+	m_commsOptions = new Fixed(size[0], size[1]/1.8);
 	m_commsOptions->SetTransparency(true);
-	Add(m_commsOptions, 10, 200);
+	Add(m_commsOptions, 10, 150);
 
 	m_commsNavOptionsContainer = new Gui::HBox();
 	m_commsNavOptionsContainer->SetSpacing(5);
@@ -542,8 +542,23 @@ void WorldView::RefreshButtonStateAndVisibility()
 				case CONTROL_FIXHEADING_BACKWARD:
 					m_flightStatus->SetText(Lang::HEADING_LOCK_BACKWARD);
 					break;
+			        case CONTROL_FIXHEADING_NORMAL:
+				        m_flightStatus->SetText(Lang::HEADING_LOCK_NORMAL);
+					break;
+			        case CONTROL_FIXHEADING_ANTINORMAL:
+					m_flightStatus->SetText(Lang::HEADING_LOCK_ANTINORMAL);
+					break;
+			        case CONTROL_FIXHEADING_RADIALLY_INWARD:
+				        m_flightStatus->SetText(Lang::HEADING_LOCK_RADIALLY_INWARD);
+					break;
+			        case CONTROL_FIXHEADING_RADIALLY_OUTWARD:
+					m_flightStatus->SetText(Lang::HEADING_LOCK_RADIALLY_OUTWARD);
+					break;
+			        case CONTROL_FIXHEADING_KILLROT:
+					m_flightStatus->SetText(Lang::HEADING_LOCK_KILLROT);
+					break;
 
-				case CONTROL_AUTOPILOT:
+			        case CONTROL_AUTOPILOT:
 					m_flightStatus->SetText(Lang::AUTOPILOT);
 					break;
 
@@ -1178,6 +1193,10 @@ static void player_target_hypercloud(HyperspaceCloud *cloud)
 	Pi::sectorView->SetHyperspaceTarget(cloud->GetShip()->GetHyperspaceDest());
 }
 
+static void OnCommsSelectAttitude(FlightControlState s) {
+	Pi::player->GetPlayerController()->SetFlightControlState(s);
+}
+
 void WorldView::UpdateCommsOptions()
 {
 	m_commsOptions->DeleteAllChildren();
@@ -1197,6 +1216,7 @@ void WorldView::UpdateCommsOptions()
 	int optnum = 1;
 	if (!(navtarget || comtarget)) {
 		m_commsOptions->Add(new Gui::Label("#0f0"+std::string(Lang::NO_TARGET_SELECTED)), 16, float(ypos));
+		ypos += 32;
 	}
 
 	int hasAutopilot = 0;
@@ -1273,7 +1293,31 @@ void WorldView::UpdateCommsOptions()
 		button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_flyto), comtarget));
 		ypos += 32;
 	}
+
+	if (Pi::player->GetFlightState() == Ship::FLYING) {
+		button = AddCommsOption(Lang::HEADING_LOCK_FORWARD, ypos, optnum++);
+		button->onClick.connect(sigc::bind(sigc::ptr_fun(OnCommsSelectAttitude), CONTROL_FIXHEADING_FORWARD));
+		ypos += 32;
+		button = AddCommsOption(Lang::HEADING_LOCK_BACKWARD, ypos, optnum++);
+		button->onClick.connect(sigc::bind(sigc::ptr_fun(OnCommsSelectAttitude), CONTROL_FIXHEADING_BACKWARD));
+		ypos += 32;
+		button = AddCommsOption(Lang::HEADING_LOCK_NORMAL, ypos, optnum++);
+		button->onClick.connect(sigc::bind(sigc::ptr_fun(OnCommsSelectAttitude), CONTROL_FIXHEADING_NORMAL));
+		ypos += 32;
+		button = AddCommsOption(Lang::HEADING_LOCK_ANTINORMAL, ypos, optnum++);
+		button->onClick.connect(sigc::bind(sigc::ptr_fun(OnCommsSelectAttitude), CONTROL_FIXHEADING_ANTINORMAL));
+		ypos += 32;
+		/*
+		  button = AddCommsOption(Lang::HEADING_LOCK_RADIALLY_INWARD, ypos, optnum++);
+		  button->onClick.connect(sigc::bind(sigc::ptr_fun(OnCommsSelectAttitude), CONTROL_FIXHEADING_RADIALLY_INWARD));
+		  ypos += 32;
+		  button = AddCommsOption(Lang::HEADING_LOCK_RADIALLY_OUTWARD, ypos, optnum++);
+		  button->onClick.connect(sigc::bind(sigc::ptr_fun(OnCommsSelectAttitude), CONTROL_FIXHEADING_RADIALLY_OUTWARD));
+		  ypos += 32;
+		*/
+	}
 }
+
 
 void WorldView::SelectBody(Body *target, bool reselectIsDeselect)
 {
