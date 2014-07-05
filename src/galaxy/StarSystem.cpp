@@ -817,6 +817,22 @@ double SystemBody::GetMaxChildOrbitalDistance() const
 	return AU * max;
 }
 
+bool SystemBody::IsCoOrbitalWith(const SystemBody* other) const
+{
+	if(m_parent
+	&& ((m_parent->m_children[0] == this && m_parent->m_children[1] == other)
+	|| (m_parent->m_children[1] == this && m_parent->m_children[0] == other)))
+		return true;
+	return false;
+}
+
+bool SystemBody::IsCoOrbital() const
+{
+	if(m_parent	&& (m_parent->m_children[0] == this || m_parent->m_children[1] == this))
+		return true;
+	return false;
+}
+
 /*
  * These are the nice floating point surface temp calculating turds.
  *
@@ -866,65 +882,70 @@ static void getPathToRoot(const SystemBody* body, std::vector<const SystemBody*>
 		body = body->GetParent();
 	}
 }
-//helper function, find the lowest common ancestor of two bodies in system tree, could probably be optimized
-static const SystemBody* findLowestCommonAncestor(const SystemBody* first, const SystemBody* second)
-{
-	const SystemBody* lca = NULL;
-	std::vector<const SystemBody*> first_to_root;
-	std::vector<const SystemBody*> second_to_root;
-	getPathToRoot(first, first_to_root);
-	getPathToRoot(second, second_to_root);
-	std::vector<const SystemBody*>::reverse_iterator fit = first_to_root.rbegin();
-	std::vector<const SystemBody*>::reverse_iterator sit = second_to_root.rbegin();
-	while((*sit)==(*fit) && sit!=second_to_root.rend() && fit!=first_to_root.rend())	//lca is where branches diverge
-	{
-		lca = (*fit);
-		sit++;
-		fit++;
-	}
-	return lca;
-}
-//approximate average distance between body and its ancestor, ancestor *must* be an actual ancestor
-static fixed avgDistToAncestor(const SystemBody* body, const SystemBody* ancestor)
-{
-	fixed max_dist;
-	fixed min_dist;
-	while(body && body!=ancestor)
-	{
-		max_dist = 	body->GetOrbMaxAsFixed();
-		min_dist = 	body->GetOrbMinAsFixed();
-		body = body->GetParent();
-	}
-	return(max_dist + min_dist)>>1;	//arithmetic mean, may be not the correct average for the job
-}
 
 //static
 int SystemBody::CalcSurfaceTemp(const SystemBody *primary, fixed distToPrimary, fixed albedo, fixed greenhouse)
 {
 	PROFILE_SCOPED()
 
-	// accumulator
-	fixed energy_per_meter2;
-
-	const SystemBody* lca = NULL;
-	fixed dist_this_lca;
-	fixed dist_star_lca;
-	fixed max_dist;
-	fixed min_dist;
+	// accumulator seeded with current primary
+	fixed energy_per_meter2 = calcEnergyPerUnitAreaAtDist(primary->m_radius, primary->m_averageTemp, distToPrimary);
 	fixed dist;
 	// find the other stars which aren't our parent star
 	IterationProxy<std::vector<SystemBody*> > proxy = primary->GetStarSystem()->GetStars();
 	for( auto s : proxy )
 	{
-		lca = findLowestCommonAncestor(primary, &(*s));					//ugly hack, should be (this, &(*s)), but it's static despite concerning particular planet
-		dist_this_lca = avgDistToAncestor(primary, lca)+distToPrimary;	//ugly hack, should be (this, lca)
-		dist_star_lca = avgDistToAncestor(&(*s), lca);
-		max_dist = dist_this_lca + dist_star_lca;	//relative to lca the distance between two bodies varies between sum and delta of orbital distances
-		min_dist = (dist_this_lca > dist_star_lca) ? dist_this_lca-dist_star_lca : dist_star_lca - dist_this_lca;
-		dist = (max_dist+min_dist) >> 1;	//arithmetic mean, may be not the correct tool for the job
+		if(s != primary)
+		{
+			//get branches from body and star to system root
+			std::vector<const SystemBody*> first_to_root;
+			std::vector<const SystemBody*> second_to_root;
+			getPathToRoot(primary, first_to_root);
+			getPathToRoot(&(*s), second_to_root);
+			std::vector<const SystemBody*>::reverse_iterator fit = first_to_root.rbegin();
+			std::vector<const SystemBody*>::reverse_iterator sit = second_to_root.rbegin();
+			while(sit!=second_to_root.rend() && fit!=first_to_root.rend() && (*sit)==(*fit))	//keep tracing both branches from system's root
+			{																					//until they diverge
+				sit++;
+				fit++;
+			}
+			if (sit == second_to_root.rend()) sit--;
+			if (fit == first_to_root.rend()) fit--;	//oops! one of the branches ends at lca, backtrack
+
+			if((*fit)->IsCoOrbitalWith(*sit))	//planet is around one part of coorbiting pair, star is another.
+			{
+				dist = ((*fit)->GetOrbMaxAsFixed()+(*fit)->GetOrbMinAsFixed()) >> 1;	//binaries don't have fully initialized smaxes
+			}
+			else if((*fit)->IsCoOrbital())	//planet is around one part of coorbiting pair, star isn't coorbiting with it
+			{
+				dist = ((*sit)->GetOrbMaxAsFixed()+(*sit)->GetOrbMinAsFixed()) >> 1;	//simplified to star orbiting stationary planet
+			}
+			else if((*sit)->IsCoOrbital())	//star is part of binary around which planet is (possibly indirectly) orbiting
+			{
+				bool inverted_ancestry = false;
+				for(const SystemBody* body = (*sit); body; body = body->GetParent()) if(body == (*fit))
+				{
+					inverted_ancestry = true;	//ugly hack due to function being static taking planet's primary rather than being called from actual planet
+					break;
+				}
+				if(inverted_ancestry) //primary is star's ancestor! Don't try to take its orbit (could probably be a gravpoint check at this point, but paranoia)
+				{
+					dist = distToPrimary;
+				}
+				else
+				{
+					dist = ((*fit)->GetOrbMaxAsFixed()+(*fit)->GetOrbMinAsFixed()) >> 1;	//simplified to planet orbiting stationary star
+				}
+			}
+			else		//neither is part of any binaries - hooray!
+			{
+				dist = (((*sit)->GetSemiMajorAxisAsFixed() - (*fit)->GetSemiMajorAxisAsFixed()).Abs() //avg of conjunction and opposition dist
+					 + ((*sit)->GetSemiMajorAxisAsFixed() + (*fit)->GetSemiMajorAxisAsFixed())) >> 1;
+			}
+		}
 		energy_per_meter2 += calcEnergyPerUnitAreaAtDist(s->m_radius, s->m_averageTemp, dist);
 	}
-	const fixed surface_temp_pow4 = energy_per_meter2*(1-albedo)/(1-greenhouse);
+	const fixed surface_temp_pow4 = energy_per_meter2 * (1-albedo)/(1-greenhouse);
 	return int(isqrt(isqrt((surface_temp_pow4.v>>fixed::FRAC)*4409673)));
 }
 
