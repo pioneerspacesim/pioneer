@@ -2,7 +2,7 @@
 -- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
 
 define_ship {
-	name='AC33 (Dropstar)',
+	name='AC33 Dropstar',
 	model='ac33',
 	ship_class='medium_freighter',
 	manufacturer='albr',
@@ -31,5 +31,6 @@ define_ship {
 	effective_exhaust_velocity = 91784e3,
 	price = 4500e3,
 	--hyperdrive_mil = 4,
+	hyperdrive_class = 0,
 }
 
