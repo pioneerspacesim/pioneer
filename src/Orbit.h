@@ -4,6 +4,7 @@
 #ifndef ORBIT_H
 #define ORBIT_H
 
+#include "libs.h"
 #include "vector3.h"
 #include "matrix3x3.h"
 
@@ -22,7 +23,12 @@ public:
 
 	void SetShapeAroundBarycentre(double semiMajorAxis, double totalMass, double bodyMass, double eccentricity);
 	void SetShapeAroundPrimary(double semiMajorAxis, double totalMass, double eccentricity);
-	void SetPlane(const matrix3x3d &orient) { m_orient = orient; }
+	void SetPlane(const matrix3x3d &orient) {
+		m_orient = orient;
+		assert(!isnan(m_orient[0]) && !isnan(m_orient[1]) && !isnan(m_orient[2]));
+		assert(!isnan(m_orient[3]) && !isnan(m_orient[4]) && !isnan(m_orient[5]));
+		assert(!isnan(m_orient[6]) && !isnan(m_orient[7]) && !isnan(m_orient[8]));
+	}
 	void SetPhase(double orbitalPhaseAtStart) { m_orbitalPhaseAtStart = orbitalPhaseAtStart; }
 
 	vector3d OrbitalPosAtTime(double t) const;
