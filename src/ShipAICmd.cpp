@@ -638,6 +638,10 @@ static bool ParentSafetyAdjust(Ship *ship, Frame *targframe, vector3d &targpos, 
 		double sdist = ship->GetPositionRelTo(frame).Length();
 		if (sdist < frame->GetRadius()) break;					// ship inside frame, stop
 
+		// we should always be inside the root frame, so if we're not inside 'frame'
+		// then it must not be the root frame (ie, it must have a parent)
+		assert(frame->GetParent());
+
 		frame = frame->GetParent()->GetNonRotFrame();			// check next frame down
 	}
 	if (!body) return false;
