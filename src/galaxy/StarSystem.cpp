@@ -2301,7 +2301,11 @@ void SystemBody::PopulateAddStations(StarSystem *system)
 			sp->m_axialTilt = fixed();
 
 			sp->m_orbit.SetShapeAroundPrimary(sp->m_semiMajorAxis.ToDouble()*AU, this->GetMassAsFixed().ToDouble() * EARTH_MASS, 0.0);
-			sp->m_orbit.SetPlane(matrix3x3d::RotateZ( double(i) * (M_PI / double(NumToMake-1)) ));
+			if (NumToMake > 1) {
+				sp->m_orbit.SetPlane(matrix3x3d::RotateZ(double(i) * (M_PI / double(NumToMake-1))));
+			} else {
+				sp->m_orbit.SetPlane(matrix3x3d::Identity());
+			}
 
 			sp->m_inclination = fixed();
 			m_children.insert(m_children.begin(), sp);
