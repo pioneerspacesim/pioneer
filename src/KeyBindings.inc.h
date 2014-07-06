@@ -31,6 +31,7 @@ KEY_BINDING(yawLeft, "BindYawLeft", Lang::YAW_LEFT, SDLK_a, 0)
 KEY_BINDING(yawRight, "BindYawRight", Lang::YAW_RIGHT, SDLK_d, 0)
 KEY_BINDING(rollLeft, "BindRollLeft", Lang::ROLL_LEFT, SDLK_q, 0)
 KEY_BINDING(rollRight, "BindRollRight", Lang::ROLL_RIGHT, SDLK_e, 0)
+KEY_BINDING(killRot, "BindKillRot", Lang::HEADING_LOCK_KILLROT, SDLK_p, 0)
 
 BINDING_GROUP(Lang::MANUAL_CONTROL_MODE)
 KEY_BINDING(thrustForward, "BindThrustForward", Lang::THRUSTER_MAIN, SDLK_i, 0)
@@ -88,7 +89,6 @@ KEY_BINDING(cameraRotateDown, "BindCameraRotateDown", Lang::ROTATE_DOWN, SDLK_KP
 KEY_BINDING(cameraRotateUp, "BindCameraRotateUp", Lang::ROTATE_UP, SDLK_KP_8, SDLK_UP)
 KEY_BINDING(cameraRotateLeft, "BindCameraRotateLeft", Lang::ROTATE_LEFT, SDLK_KP_4, SDLK_LEFT)
 KEY_BINDING(cameraRotateRight, "BindCameraRotateRight", Lang::ROTATE_RIGHT, SDLK_KP_6, SDLK_RIGHT)
-KEY_BINDING(killRot, "BindKillRot", Lang::HEADING_LOCK_KILLROT, SDLK_KP_5, 0)
 KEY_BINDING(resetCamera, "BindResetCamera", Lang::RESET, SDLK_HOME, 0)
 
 BINDING_GROUP(Lang::SECTOR_MAP_VIEW)
