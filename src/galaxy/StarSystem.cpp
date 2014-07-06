@@ -861,16 +861,16 @@ static double CalcSurfaceTemp(double star_radius, double star_temp, double objec
  * star_radius in sol radii
  * star_temp in kelvin,
  * object_dist in AU
- * return Watts/m^2
+ * return energy per unit area in solar constants (1362 W/m^2 )
  */
 static fixed calcEnergyPerUnitAreaAtDist(fixed star_radius, int star_temp, fixed object_dist)
 {
 	PROFILE_SCOPED()
-	fixed temp = star_temp * fixed(1,10000);
+	fixed temp = star_temp * fixed(1,5778);	//normalize to Sun's temperature
 	const fixed total_solar_emission =
 		temp*temp*temp*temp*star_radius*star_radius;
 
-	return fixed(1744665451,100000)*(total_solar_emission / (object_dist*object_dist));
+	return total_solar_emission / (object_dist*object_dist);	//return value in solar consts (overflow prevention)
 }
 
 //helper function, get branch of system tree from body all the way to the system's root and write it to path
@@ -946,7 +946,7 @@ int SystemBody::CalcSurfaceTemp(const SystemBody *primary, fixed distToPrimary, 
 		energy_per_meter2 += calcEnergyPerUnitAreaAtDist(s->m_radius, s->m_averageTemp, dist);
 	}
 	const fixed surface_temp_pow4 = energy_per_meter2 * (1-albedo)/(1-greenhouse);
-	return int(isqrt(isqrt((surface_temp_pow4.v>>fixed::FRAC)*4409673)));
+	return (279*int(isqrt(isqrt((surface_temp_pow4.v)))))>>(fixed::FRAC/4); //multiplied by 279 to convert from Earth's temps to Kelvin
 }
 
 double SystemBody::CalcSurfaceGravity() const
