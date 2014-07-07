@@ -916,10 +916,6 @@ int SystemBody::CalcSurfaceTemp(const SystemBody *primary, fixed distToPrimary, 
 			{
 				dist = ((*fit)->GetOrbMaxAsFixed()+(*fit)->GetOrbMinAsFixed()) >> 1;	//binaries don't have fully initialized smaxes
 			}
-			else if((*fit)->IsCoOrbital())	//planet is around one part of coorbiting pair, star isn't coorbiting with it
-			{
-				dist = ((*sit)->GetOrbMaxAsFixed()+(*sit)->GetOrbMinAsFixed()) >> 1;	//simplified to star orbiting stationary planet
-			}
 			else if((*sit)->IsCoOrbital())	//star is part of binary around which planet is (possibly indirectly) orbiting
 			{
 				bool inverted_ancestry = false;
@@ -936,6 +932,10 @@ int SystemBody::CalcSurfaceTemp(const SystemBody *primary, fixed distToPrimary, 
 				{
 					dist = ((*fit)->GetOrbMaxAsFixed()+(*fit)->GetOrbMinAsFixed()) >> 1;	//simplified to planet orbiting stationary star
 				}
+			}
+			else if((*fit)->IsCoOrbital())	//planet is around one part of coorbiting pair, star isn't coorbiting with it
+			{
+				dist = ((*sit)->GetOrbMaxAsFixed()+(*sit)->GetOrbMinAsFixed()) >> 1;	//simplified to star orbiting stationary planet
 			}
 			else		//neither is part of any binaries - hooray!
 			{
