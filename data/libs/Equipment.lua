@@ -198,7 +198,19 @@ HyperdriveType.HyperjumpTo = function (self, ship, destination)
 	if not fuel_use then
 		return "INSUFFICIENT_FUEL"
 	end
+	ship:setprop('nextJumpFuelUse', fuel_use)
 	return ship:InitiateHyperjumpTo(destination, self.capabilities.hyperclass, duration), fuel_use, duration
+end
+
+HyperdriveType.OnEnterHyperspace = function (self, ship)
+	if ship:hasprop('nextJumpFuelUse') then
+		local amount = ship.nextJumpFuelUse
+		ship:RemoveEquip(self.fuel, amount)
+		if self.byproduct then
+			ship:AddEquip(self.byproduct, amount)
+		end
+		ship:unsetprop('nextJumpFuelUse')
+	end
 end
 
 local cargo = {
@@ -509,19 +521,19 @@ hyperspace.hyperdrive_9 = HyperdriveType.New({
 	price=120000, capabilities={mass=740, hyperclass=9}, purchasable=true
 })
 hyperspace.hyperdrive_mil1 = HyperdriveType.New({
-	l10n_key="DRIVE_MIL1", fuel=cargo.military_fuel, slots="engine",
+	l10n_key="DRIVE_MIL1", fuel=cargo.military_fuel, byproduct=cargo.radioactives, slots="engine",
 	price=23000, capabilities={mass=3, hyperclass=1}, purchasable=true
 })
 hyperspace.hyperdrive_mil2 = HyperdriveType.New({
-	l10n_key="DRIVE_MIL2", fuel=cargo.military_fuel, slots="engine",
+	l10n_key="DRIVE_MIL2", fuel=cargo.military_fuel, byproduct=cargo.radioactives, slots="engine",
 	price=47000, capabilities={mass=8, hyperclass=2}, purchasable=true
 })
 hyperspace.hyperdrive_mil3 = HyperdriveType.New({
-	l10n_key="DRIVE_MIL3", fuel=cargo.military_fuel, slots="engine",
+	l10n_key="DRIVE_MIL3", fuel=cargo.military_fuel, byproduct=cargo.radioactives, slots="engine",
 	price=85000, capabilities={mass=16, hyperclass=3}, purchasable=true
 })
 hyperspace.hyperdrive_mil4 = HyperdriveType.New({
-	l10n_key="DRIVE_MIL4", fuel=cargo.military_fuel, slots="engine",
+	l10n_key="DRIVE_MIL4", fuel=cargo.military_fuel, byproduct=cargo.radioactives, slots="engine",
 	price=214000, capabilities={mass=30, hyperclass=4}, purchasable=true
 })
 
