@@ -14,6 +14,7 @@ July 2014
      * Fix Lua stack leaks when triggering Lua UI templates from C++
        (#3004, #2996, #2997, #2999, #3000, #3001)
      * Fix crash on game start on Mac OS X builds (#2995, #2993)
+     * Fix hyperrange bug (#3007, #3017)
 
 June 2014
 
