@@ -1,51 +1,51 @@
 {
    "ASSASSINATION" : {
       "description" : "",
-      "message" : "Assassination"
+      "message" : "Moord"
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
-      "message" : "Could you repeat the original request?"
+      "message" : "Kan je het orginele aanvraag herhalen?"
    },
    "DENY_0" : {
       "description" : "",
-      "message" : "I'm sorry, but I don't trust you."
+      "message" : "Het spijt me, maar ik vertrouw je niet."
    },
    "DENY_1" : {
       "description" : "",
-      "message" : "Come back when you have some qualifications."
+      "message" : "Kom maar terug als je wat kwalificaties hebt."
    },
    "DENY_2" : {
       "description" : "",
-      "message" : "I don't think you're the one I'm looking for."
+      "message" : "Ik denk niet dat jij diegene bent waar ik naar op zoek ben."
    },
    "DENY_3" : {
       "description" : "",
-      "message" : "You don't look like someone capable of doing what needs to be done."
+      "message" : "Je ziet er niet uit als iemand die in staat is om te doen wat moet gebeuren."
    },
    "DENY_4" : {
       "description" : "",
-      "message" : "You are clearly not the one for this job."
+      "message" : "Je bent duidelijk niet de juiste persoon voor deze klus."
    },
    "DENY_5" : {
       "description" : "",
-      "message" : "You seem much too inexperienced to handle a contract of this importance."
+      "message" : "Je bent veel te onervaren om zo'n belangrijke contract aan te kunnen."
    },
    "DENY_6" : {
       "description" : "",
-      "message" : "I have never heard of you. I need someone experienced for this contract."
+      "message" : "Ik heb nog nooit van jouw gehoord. Ik heb iemand nodig met ervaring voor dit contract."
    },
    "DENY_7" : {
       "description" : "",
-      "message" : "I'm not willing to risk this contract by giving it to someone as inexperienced as you."
+      "message" : "Ik ben niet bereid om dit contract te riskeren door het aan iemand als onervaren zoals jij te geven."
    },
    "DISTANCE" : {
       "description" : "",
-      "message" : "Distance:"
+      "message" : "Afstand:"
    },
    "EXCELLENT" : {
       "description" : "",
-      "message" : "Excellent."
+      "message" : "Uitmuntend."
    },
    "FLAVOUR_0_ADTEXT" : {
       "description" : "",
@@ -173,15 +173,15 @@
    },
    "HOW_SOON_MUST_IT_BE_DONE" : {
       "description" : "",
-      "message" : "How soon must it be done?"
+      "message" : "Hoe snel moet het gebeuren?"
    },
    "HOW_WILL_I_BE_PAID" : {
       "description" : "",
-      "message" : "How will I be paid?"
+      "message" : "Hoe wordt ik betaald?"
    },
    "IT_MUST_BE_DONE_AFTER" : {
       "description" : "",
-      "message" : "It must be done after {target} leaves {spaceport}. Do not miss this opportunity."
+      "message" : "Het moet gebeurd zijn wanneer {target} de {spaceport} verlaat. Mis deze kans niet."
    },
    "LY" : {
       "description" : "",
@@ -189,43 +189,43 @@
    },
    "OK_AGREED" : {
       "description" : "",
-      "message" : "Ok, agreed."
+      "message" : "Ok, akkoord."
    },
    "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID" : {
       "description" : "",
-      "message" : "Return here on the completion of the contract and you will be paid."
+      "message" : "Kom hier terug wanneer het contract is voldaan en je krijgt je geld."
    },
    "SHIP" : {
       "description" : "",
-      "message" : "Ship:"
+      "message" : "Schip:"
    },
    "SHIP_ID" : {
       "description" : "",
-      "message" : "Ship ID:"
+      "message" : "Schip ID:"
    },
    "SPACEPORT" : {
       "description" : "",
-      "message" : "Spaceport:"
+      "message" : "Ruimtepoort:"
    },
    "SYSTEM" : {
       "description" : "",
-      "message" : "System:"
+      "message" : "Systeem:"
    },
    "TARGET_NAME" : {
       "description" : "",
-      "message" : "Target name:"
+      "message" : "Naam doel:"
    },
    "TARGET_WILL_BE_LEAVING_SPACEPORT_AT" : {
       "description" : "",
-      "message" : "Target will be leaving spaceport at:"
+      "message" : "Doel verlaat het ruimtepoort om:"
    },
    "TITLE_0" : {
       "description" : "",
-      "message" : "Admiral"
+      "message" : "Admiraal"
    },
    "TITLE_1" : {
       "description" : "",
-      "message" : "Ambassador"
+      "message" : "Ambassadeur"
    },
    "TITLE_10" : {
       "description" : "",
@@ -233,19 +233,19 @@
    },
    "TITLE_11" : {
       "description" : "",
-      "message" : "General"
+      "message" : "Generaal"
    },
    "TITLE_12" : {
       "description" : "",
-      "message" : "Judge"
+      "message" : "Rechter"
    },
    "TITLE_13" : {
       "description" : "",
-      "message" : "Lawyer"
+      "message" : "Advocaat."
    },
    "TITLE_14" : {
       "description" : "",
-      "message" : "Lieutenant"
+      "message" : "Luitenant"
    },
    "TITLE_15" : {
       "description" : "",
@@ -253,11 +253,11 @@
    },
    "TITLE_16" : {
       "description" : "",
-      "message" : "Merchant"
+      "message" : "Koopman"
    },
    "TITLE_17" : {
       "description" : "",
-      "message" : "Officer"
+      "message" : "Officier"
    },
    "TITLE_18" : {
       "description" : "",
@@ -273,7 +273,7 @@
    },
    "TITLE_20" : {
       "description" : "",
-      "message" : "Prosecutor"
+      "message" : "Aanklager"
    },
    "TITLE_21" : {
       "description" : "",
@@ -281,7 +281,7 @@
    },
    "TITLE_22" : {
       "description" : "",
-      "message" : "Seaman"
+      "message" : "Zeeman"
    },
    "TITLE_23" : {
       "description" : "",
@@ -293,11 +293,11 @@
    },
    "TITLE_3" : {
       "description" : "",
-      "message" : "Cadet"
+      "message" : "Kadet"
    },
    "TITLE_4" : {
       "description" : "",
-      "message" : "Captain"
+      "message" : "Capitein"
    },
    "TITLE_5" : {
       "description" : "",
@@ -305,7 +305,7 @@
    },
    "TITLE_6" : {
       "description" : "",
-      "message" : "Colonel"
+      "message" : "Kolonel"
    },
    "TITLE_7" : {
       "description" : "",
@@ -313,18 +313,18 @@
    },
    "TITLE_8" : {
       "description" : "",
-      "message" : "Commodore"
+      "message" : "Bevelhebber"
    },
    "TITLE_9" : {
       "description" : "",
-      "message" : "Corporal"
+      "message" : "Korporaal"
    },
    "WHERE_CAN_I_FIND_X" : {
       "description" : "",
-      "message" : "Where can I find {target}?"
+      "message" : "Waar kan ik {target} vinden?"
    },
    "X_WILL_BE_LEAVING" : {
       "description" : "",
-      "message" : "{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. The ship is {shipname} and has registration id {shipregid}."
+      "message" : "{target} zal vertrekken uit {spaceport} in het {system} systeem ({sectorX}, {sectorY}, {sectorZ}), afstand {dist} ly, datum {date}. Het schip is genaamd {shipname} en heeft het registratie id {shipregid}."
    }
 }

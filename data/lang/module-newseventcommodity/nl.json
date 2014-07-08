@@ -193,7 +193,7 @@
    },
    "GRATEFUL_GREETING_0" : {
       "description" : "",
-      "message" : "Welcome trader! We will give you a good price for your {cargo}."
+      "message" : "Welkom handelaar! Wij zullen je een goede prijs geven voor jouw {cargo}."
    },
    "GRATEFUL_GREETING_1" : {
       "description" : "",
@@ -205,15 +205,15 @@
    },
    "GRATEFUL_GREETING_3" : {
       "description" : "",
-      "message" : "Welcome! Finally some {cargo}."
+      "message" : "Welkom! Eindelijk wat {cargo}."
    },
    "GRATEFUL_GREETING_4" : {
       "description" : "",
-      "message" : "How we've longed for some {cargo}."
+      "message" : "Wij verlangen al een hele tijd naar {cargo}."
    },
    "GRATEFUL_GREETING_5" : {
       "description" : "",
-      "message" : "Welcome! Your shipment of {cargo} will sell out fast here."
+      "message" : "Welkom! You lading {cargo} zal hier snel uitverkocht zijn."
    },
    "NEWSPAPER_CIW" : {
       "description" : "",
@@ -273,22 +273,22 @@
    },
    "TITLE_0" : {
       "description" : "",
-      "message" : "Fresh report from {newspaper}"
+      "message" : "Nieuw verslag van {newpaper}"
    },
    "TITLE_1" : {
       "description" : "",
-      "message" : "News from {newspaper}"
+      "message" : "Nieuws van {newspaper}"
    },
    "TITLE_2" : {
       "description" : "",
-      "message" : "Report from {newspaper}"
+      "message" : "Verslag van {newspaper}"
    },
    "TITLE_3" : {
       "description" : "",
-      "message" : "The latest from {newspaper}"
+      "message" : "Het nieuwste van {newspaper}"
    },
    "TITLE_4" : {
       "description" : "",
-      "message" : "Notes from {newspaper}"
+      "message" : "Aantekeningen van {newspaper}"
    }
 }

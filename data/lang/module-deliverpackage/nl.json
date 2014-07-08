@@ -1,7 +1,7 @@
 {
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
-      "message" : "Could you repeat the original request?"
+      "message" : "Kan je het orginele aanvraag herhalen?"
    },
    "DANGER" : {
       "description" : "",
@@ -21,7 +21,7 @@
    },
    "DENY_1" : {
       "description" : "",
-      "message" : "Come back when you have some qualifications."
+      "message" : "Kom maar terug als je wat kwalificaties hebt."
    },
    "DENY_2" : {
       "description" : "",
@@ -49,7 +49,7 @@
    },
    "DISTANCE" : {
       "description" : "",
-      "message" : "Distance:"
+      "message" : "Afstand:"
    },
    "EXCELLENT_I_WILL_LET_THE_RECIPIENT_KNOW_YOU_ARE_ON_YOUR_WAY" : {
       "description" : "",
@@ -285,11 +285,11 @@
    },
    "OK_AGREED" : {
       "description" : "",
-      "message" : "Ok, agreed."
+      "message" : "Ok, akkoord."
    },
    "PIRATE_TAUNTS_0" : {
       "description" : "",
-      "message" : "You're going to regret dealing with {client}"
+      "message" : "Je zal spijt hebben dat je bent omgegaan met {client}"
    },
    "PIRATE_TAUNTS_1" : {
       "description" : "",
@@ -309,7 +309,7 @@
    },
    "PIRATE_TAUNTS_5" : {
       "description" : "",
-      "message" : "Today isn't your lucky day! Prepare to die."
+      "message" : "Vandaag is niet jouw geluksdag! Bereid je voor om te sterven."
    },
    "PIRATE_TAUNTS_6" : {
       "description" : "",
@@ -329,11 +329,11 @@
    },
    "SPACEPORT" : {
       "description" : "",
-      "message" : "Spaceport:"
+      "message" : "Ruimtepoort:"
    },
    "SYSTEM" : {
       "description" : "",
-      "message" : "System:"
+      "message" : "Systeem:"
    },
    "THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN" : {
       "description" : "",
@@ -345,7 +345,7 @@
    },
    "WHY_SO_MUCH_MONEY" : {
       "description" : "",
-      "message" : "Why so much money?"
+      "message" : "Waarom zo veel geld?"
    },
    "WILL_I_BE_IN_ANY_DANGER" : {
       "description" : "",

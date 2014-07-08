@@ -45,11 +45,11 @@
    },
    "CORPORATIONS_9" : {
       "description" : "",
-      "message" : "Digital"
+      "message" : "Digitaal"
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
-      "message" : "Could you repeat the original request?"
+      "message" : "Kan je het orginele aanvraag herhalen?"
    },
    "DANGER" : {
       "description" : "",
@@ -65,7 +65,7 @@
    },
    "DENY_1" : {
       "description" : "",
-      "message" : "Come back when you have some qualifications."
+      "message" : "Kom maar terug als je wat kwalificaties hebt."
    },
    "DENY_2" : {
       "description" : "",
@@ -93,11 +93,11 @@
    },
    "DISTANCE" : {
       "description" : "",
-      "message" : "Distance:"
+      "message" : "Afstand:"
    },
    "EXCELLENT" : {
       "description" : "",
-      "message" : "Excellent."
+      "message" : "Uitmuntend."
    },
    "FLAVOUR_0_ADTEXT" : {
       "description" : "",
@@ -105,7 +105,7 @@
    },
    "FLAVOUR_0_DANGER" : {
       "description" : "",
-      "message" : "No."
+      "message" : "Nee."
    },
    "FLAVOUR_0_FAILUREMSG" : {
       "description" : "",
@@ -145,7 +145,7 @@
    },
    "FLAVOUR_10_HOWMANY" : {
       "description" : "",
-      "message" : "Just one."
+      "message" : "Alleen deze keer."
    },
    "FLAVOUR_10_INTROTEXT" : {
       "description" : "",
@@ -177,7 +177,7 @@
    },
    "FLAVOUR_11_HOWMANY" : {
       "description" : "",
-      "message" : "Just one."
+      "message" : "Alleen deze keer."
    },
    "FLAVOUR_11_INTROTEXT" : {
       "description" : "",
@@ -209,7 +209,7 @@
    },
    "FLAVOUR_12_HOWMANY" : {
       "description" : "",
-      "message" : "Just one."
+      "message" : "Alleen deze keer."
    },
    "FLAVOUR_12_INTROTEXT" : {
       "description" : "",
@@ -233,7 +233,7 @@
    },
    "FLAVOUR_1_DANGER" : {
       "description" : "",
-      "message" : "No."
+      "message" : "Nee."
    },
    "FLAVOUR_1_FAILUREMSG" : {
       "description" : "",
@@ -265,7 +265,7 @@
    },
    "FLAVOUR_2_DANGER" : {
       "description" : "",
-      "message" : "No."
+      "message" : "Nee."
    },
    "FLAVOUR_2_FAILUREMSG" : {
       "description" : "",
@@ -305,7 +305,7 @@
    },
    "FLAVOUR_3_HOWMANY" : {
       "description" : "",
-      "message" : "It's only me."
+      "message" : "Ik ben het maar."
    },
    "FLAVOUR_3_INTROTEXT" : {
       "description" : "",
@@ -329,7 +329,7 @@
    },
    "FLAVOUR_4_DANGER" : {
       "description" : "",
-      "message" : "No."
+      "message" : "Nee."
    },
    "FLAVOUR_4_FAILUREMSG" : {
       "description" : "",
@@ -369,7 +369,7 @@
    },
    "FLAVOUR_5_HOWMANY" : {
       "description" : "",
-      "message" : "It's only me."
+      "message" : "Ik ben het maar."
    },
    "FLAVOUR_5_INTROTEXT" : {
       "description" : "",
@@ -393,7 +393,7 @@
    },
    "FLAVOUR_6_DANGER" : {
       "description" : "",
-      "message" : "No."
+      "message" : "Nee."
    },
    "FLAVOUR_6_FAILUREMSG" : {
       "description" : "",
@@ -401,7 +401,7 @@
    },
    "FLAVOUR_6_HOWMANY" : {
       "description" : "",
-      "message" : "It's only me."
+      "message" : "Ik ben het maar."
    },
    "FLAVOUR_6_INTROTEXT" : {
       "description" : "",
@@ -457,7 +457,7 @@
    },
    "FLAVOUR_8_DANGER" : {
       "description" : "",
-      "message" : "No."
+      "message" : "Nee."
    },
    "FLAVOUR_8_FAILUREMSG" : {
       "description" : "",
@@ -521,7 +521,7 @@
    },
    "GROUP_DETAILS" : {
       "description" : "",
-      "message" : "Group details:"
+      "message" : "Groep details:"
    },
    "HANG_UP" : {
       "description" : "",
@@ -529,7 +529,7 @@
    },
    "HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS" : {
       "description" : "",
-      "message" : "Hey!?! You are going to pay for this!!!"
+      "message" : "Hey!?! Ik zet het je betaald!!!"
    },
    "HOW_MANY_OF_YOU_ARE_THERE" : {
       "description" : "",
@@ -541,7 +541,7 @@
    },
    "I_MUST_BE_THERE_BEFORE" : {
       "description" : "",
-      "message" : "I must be there before "
+      "message" : "Ik moet daar zijn voordat"
    },
    "LY" : {
       "description" : "",
@@ -549,23 +549,23 @@
    },
    "OK_AGREED" : {
       "description" : "",
-      "message" : "Ok, agreed."
+      "message" : "Ok, akkoord."
    },
    "PIRATE_TAUNTS_0" : {
       "description" : "",
-      "message" : "You're going to regret dealing with {client}"
+      "message" : "Je zal spijt hebben dat je bent omgegaan met {client}"
    },
    "PIRATE_TAUNTS_1" : {
       "description" : "",
-      "message" : "You have {client} on board? That was a bad idea."
+      "message" : "Heb jij {client} aan boord? Dat was een slecht idee."
    },
    "PIRATE_TAUNTS_2" : {
       "description" : "",
-      "message" : "Today isn't your lucky day! Prepare to die."
+      "message" : "Vandaag is niet jouw geluksdag! Bereid je voor om te sterven."
    },
    "PIRATE_TAUNTS_3" : {
       "description" : "",
-      "message" : "You're not going to dock today!"
+      "message" : "Je gaat vandaag niet vastleggen!"
    },
    "TAXI" : {
       "description" : "",
@@ -573,15 +573,15 @@
    },
    "TO" : {
       "description" : "",
-      "message" : "To:"
+      "message" : "Naar:"
    },
    "WE_WANT_TO_BE_THERE_BEFORE" : {
       "description" : "",
-      "message" : "We want to be there before "
+      "message" : "We willen er zijn voordat"
    },
    "WHY_SO_MUCH_MONEY" : {
       "description" : "",
-      "message" : "Why so much money?"
+      "message" : "Waarom zo veel geld?"
    },
    "WILL_I_BE_IN_ANY_DANGER" : {
       "description" : "",
@@ -589,6 +589,6 @@
    },
    "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP" : {
       "description" : "",
-      "message" : "You do not have enough cabin space on your ship."
+      "message" : "Je hebt niet genoeg cabine ruimte aanboord jouw schip."
    }
 }

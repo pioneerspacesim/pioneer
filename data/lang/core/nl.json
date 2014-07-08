@@ -137,7 +137,7 @@
    },
    "CAMERA_LEFT_VIEW" : {
       "description" : "",
-      "message" : "Left camera"
+      "message" : "Linker camera"
    },
    "CAMERA_REAR_VIEW" : {
       "description" : "",
@@ -145,7 +145,7 @@
    },
    "CAMERA_RIGHT_VIEW" : {
       "description" : "",
-      "message" : "Right camera"
+      "message" : "Rechter camera"
    },
    "CAMERA_TOP_VIEW" : {
       "description" : "",
@@ -153,7 +153,7 @@
    },
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
-      "message" : "Can't save game while in hyperspace"
+      "message" : "Kan niet opslaan tijdens hyperspace"
    },
    "CAPITALIST" : {
       "description" : "",
@@ -289,7 +289,7 @@
    },
    "DECREASE_SCAN_RANGE" : {
       "description" : "",
-      "message" : "Decrease scanner range"
+      "message" : "Verklein scanner bereik"
    },
    "DECREASE_SET_SPEED" : {
       "description" : "",
@@ -337,11 +337,11 @@
    },
    "DRAW_UNINHABITED_LABELS" : {
       "description" : "",
-      "message" : "Label uninhabited systems"
+      "message" : "Markeer onbewoonde systemen"
    },
    "DRAW_VERTICAL_LINES" : {
       "description" : "",
-      "message" : "Draw vertical lines"
+      "message" : "Teken verticale lijnen"
    },
    "DRIVE_CLASS1" : {
       "description" : "",
@@ -665,7 +665,7 @@
    },
    "INCREASE_SCAN_RANGE" : {
       "description" : "",
-      "message" : "Increase scanner range"
+      "message" : "Vergroot scanner bereik"
    },
    "INCREASE_SET_SPEED" : {
       "description" : "",
@@ -693,7 +693,7 @@
    },
    "IN_TRANSIT" : {
       "description" : "",
-      "message" : "In transit"
+      "message" : "Onderweg"
    },
    "IN_TRANSIT_TO_N_X_X_X" : {
       "description" : "",
@@ -841,7 +841,7 @@
    },
    "MAP_WARP_TO_CURRENT_SYSTEM" : {
       "description" : "",
-      "message" : "Warp to Current System"
+      "message" : "Warp naar huidig systeem"
    },
    "MAP_WARP_TO_HYPERSPACE_TARGET" : {
       "description" : "",
@@ -921,7 +921,7 @@
    },
    "MISCELLANEOUS" : {
       "description" : "",
-      "message" : "Miscellaneous"
+      "message" : "Diversen"
    },
    "MISSILE" : {
       "description" : "",
@@ -1073,7 +1073,7 @@
    },
    "NUMBER_DECIMAL_POINT" : {
       "description" : "Decimal delimiter used in numbers.",
-      "message" : "."
+      "message" : ","
    },
    "NUMBER_G" : {
       "description" : "",
@@ -1089,7 +1089,7 @@
    },
    "NUMBER_GROUP_SEP" : {
       "description" : "For large number, separator used when grouping digits. E.g. 1,000 or 1 000 or 1'000.",
-      "message" : ","
+      "message" : "."
    },
    "NUMBER_HOURS" : {
       "description" : "",
@@ -1109,7 +1109,7 @@
    },
    "N_CELSIUS" : {
       "description" : "",
-      "message" : "%temperature C"
+      "message" : "Temperatuur graden Celcius"
    },
    "N_DAYS" : {
       "description" : "",
@@ -1177,7 +1177,7 @@
    },
    "PAUSED" : {
       "description" : "",
-      "message" : "PAUSED"
+      "message" : "GEPAUSEERD"
    },
    "PAY_FINE_REMOTELY" : {
       "description" : "",
@@ -1345,7 +1345,7 @@
    },
    "ROTATE_DOWN" : {
       "description" : "",
-      "message" : "Rotate Down"
+      "message" : "Roteer neerwaards"
    },
    "ROTATE_LEFT" : {
       "description" : "",
@@ -1405,7 +1405,7 @@
    },
    "SEARCH_MAP" : {
       "description" : "",
-      "message" : "Search Map"
+      "message" : "Zoek op kaart"
    },
    "SECTOR_COORDINATES" : {
       "description" : "",
@@ -1801,7 +1801,7 @@
    },
    "TOGGLE_HUD_MODE" : {
       "description" : "",
-      "message" : "Toggle HUD mode"
+      "message" : "Schakel tussen HUD modes"
    },
    "TOGGLE_LUA_CONSOLE" : {
       "description" : "",
@@ -1813,7 +1813,7 @@
    },
    "TOGGLE_SCAN_MODE" : {
       "description" : "",
-      "message" : "Toggle scanner mode"
+      "message" : "Schakel tussen scanner modus"
    },
    "TOMBSTONE_EPITAPH" : {
       "description" : "",
@@ -1857,7 +1857,7 @@
    },
    "USE_LOW_THRUST" : {
       "description" : "",
-      "message" : "Use low thrust"
+      "message" : "Gebruik kleine stoten"
    },
    "VAST_STRIP_MINE" : {
       "description" : "",
