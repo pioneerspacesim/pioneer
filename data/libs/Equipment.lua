@@ -164,7 +164,7 @@ HyperdriveType.GetRange = function (self, ship, remaining_fuel)
 	local remaining_fuel = remaining_fuel or ship:CountEquip(self.fuel)
 
 	if fuel_max <= remaining_fuel then
-		return range_max
+		return range_max, range_max
 	end
 	local range = range_max*remaining_fuel/fuel_max
 
@@ -174,7 +174,7 @@ HyperdriveType.GetRange = function (self, ship, remaining_fuel)
 
 	-- range is never negative
 	range = math.max(range, 0)
-	return range
+	return range, range_max
 end
 
 HyperdriveType.HyperjumpTo = function (self, ship, destination)

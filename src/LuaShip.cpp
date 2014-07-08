@@ -813,7 +813,7 @@ static int l_ship_cancel_ai(lua_State *l)
 static int l_ship_update_equip_stats(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	s->UpdateEquipStats();
+	s->UpdateLuaStats();
 	return 0;
 }
 
