@@ -120,7 +120,7 @@
  * Attribute: hyperdriveClass
  *
  * An integer representing the power of the hyperdrive usually installed on
- * those ships. If null, it means the ship usually isn't equipped with one,
+ * those ships. If zero, it means the ship usually isn't equipped with one,
  * although this does not necessarily mean one cannot be installed.
  *
  * Availability:
