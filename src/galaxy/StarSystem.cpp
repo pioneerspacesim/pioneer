@@ -819,7 +819,7 @@ double SystemBody::GetMaxChildOrbitalDistance() const
 
 bool SystemBody::IsCoOrbitalWith(const SystemBody* other) const
 {
-	if(m_parent
+	if(m_parent && m_parent->GetType()==SystemBody::TYPE_GRAVPOINT
 	&& ((m_parent->m_children[0] == this && m_parent->m_children[1] == other)
 	|| (m_parent->m_children[1] == this && m_parent->m_children[0] == other)))
 		return true;
@@ -828,7 +828,7 @@ bool SystemBody::IsCoOrbitalWith(const SystemBody* other) const
 
 bool SystemBody::IsCoOrbital() const
 {
-	if(m_parent	&& (m_parent->m_children[0] == this || m_parent->m_children[1] == this))
+	if(m_parent	&& m_parent->GetType()==SystemBody::TYPE_GRAVPOINT && (m_parent->m_children[0] == this || m_parent->m_children[1] == this))
 		return true;
 	return false;
 }
