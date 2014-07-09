@@ -150,9 +150,9 @@ HyperdriveType.CheckDestination = function (self, ship, destination)
 	if distance > max_range then
 		return distance
 	end
-	local fuel = self:GetFuelUse(ship, distance, range_max) -- specify range_max to avoid unnecessary recomputing.
+	local fuel = self:GetFuelUse(ship, distance, max_range) -- specify range_max to avoid unnecessary recomputing.
 
-	local duration = self:GetDuration(ship, distance, range_max) -- same as above
+	local duration = self:GetDuration(ship, distance, max_range) -- same as above
 	return distance, fuel, duration
 end
 
