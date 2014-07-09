@@ -129,7 +129,7 @@ end
 HyperdriveType.GetDuration = function (self, ship, distance, range_max)
 	local range_max = range_max or self:GetMaximumRange(ship)
 	local hyperclass = self.capabilities.hyperclass
-	return 0.45*distance^2/(range_max*hyperclass) * (3600*24*math.sqrt(ship.totalMass))
+	return 0.36*distance^2/(range_max*hyperclass) * (3600*24*math.sqrt(ship.totalMass))
 end
 
 -- range_max is optional, distance defaults to the maximal range.
