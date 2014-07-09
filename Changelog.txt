@@ -16,6 +16,7 @@ July 2014
      * Fix crash on game start on Mac OS X builds (#2995, #2993)
      * Fix hyperrange bug (#3007, #3017)
      * Fix invalid orbital plane for lone orbital stations (#3022, #3018, #3026)
+     * Fix use of fuel when hyperjumping (#3024, #3019, #3028)
 
 June 2014
 

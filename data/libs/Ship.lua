@@ -849,6 +849,13 @@ local onEnterSystem = function (ship)
 	end
 end
 
+local onLeaveSystem = function (ship)
+	local engine = ship:GetEquip("engine", 1)
+	if engine then
+		engine:OnEnterHyperspace(ship)
+	end
+end
+
 local onShipDestroyed = function (ship, attacker)
 	-- When a ship is destroyed, mark is crew as dead
 	-- and remove the ship's crew from CrewRoster
@@ -861,6 +868,7 @@ local onShipDestroyed = function (ship, attacker)
 end
 
 Event.Register("onEnterSystem", onEnterSystem)
+Event.Register("onLeaveSystem", onLeaveSystem)
 Event.Register("onShipDestroyed", onShipDestroyed)
 Event.Register("onGameStart", onGameStart)
 Serializer:Register("ShipClass", serialize, unserialize)
