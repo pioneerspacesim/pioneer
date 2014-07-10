@@ -17,6 +17,8 @@ July 2014
      * Fix hyperrange bug (#3007, #3017)
      * Fix invalid orbital plane for lone orbital stations (#3022, #3018, #3026)
      * Fix use of fuel when hyperjumping (#3024, #3019, #3028)
+     * Fix directory enumeration on POSIX systems when built with a
+       PIONEER_DATA_DIR value that contains a trailing slash (#3031, #2545)
 
 June 2014
 

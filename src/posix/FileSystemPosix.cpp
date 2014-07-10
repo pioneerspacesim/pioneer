@@ -187,7 +187,7 @@ namespace FileSystem {
 				default: ty = FileInfo::FT_SPECIAL; break;
 			}
 
-			output.push_back(MakeFileInfo(fullpath.substr(GetRoot().size() + 1), ty));
+			output.push_back(MakeFileInfo(JoinPath(dirpath, entry->d_name), ty));
 		}
 
 		closedir(dir);
