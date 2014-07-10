@@ -738,6 +738,7 @@ void SectorView::UpdateDistanceLabelAndLine(DistanceIndicator &distance, const S
 	} else {
 		RefCountedPtr<const Sector> sec = GetCached(dest);
 		RefCountedPtr<const Sector> srcSec = GetCached(src);
+		SystemPath src_cpy = src;
 		SystemPath dest_cpy = dest;
 
 		char format[256];
@@ -746,7 +747,7 @@ void SectorView::UpdateDistanceLabelAndLine(DistanceIndicator &distance, const S
 		float dist;
 		int fuelRequired;
 		double dur;
-		std::tie(jumpStatus, dist, fuelRequired, dur) = LuaObject<Ship>::CallMethod<std::string, float, int, double>(Pi::player, "GetHyperspaceDetails", &dest_cpy);
+		std::tie(jumpStatus, dist, fuelRequired, dur) = LuaObject<Ship>::CallMethod<std::string, float, int, double>(Pi::player, "GetHyperspaceDetails", &src_cpy, &dest_cpy);
 		const double DaysNeeded = dur*(1.0 / (24*60*60));
 		const double HoursNeeded = (DaysNeeded - floor(DaysNeeded))*24;
 
