@@ -381,6 +381,9 @@ end
 -- ship:GetHyperspaceDetails(source, destination) -- get details of jump from 'source' to 'destination'
 Ship.GetHyperspaceDetails = function (self, source, destination)
 	if destination == nil then
+		if not Game.system then
+			return "DRIVE_ACTIVE", 0, 0, 0
+		end
 		destination = source
 		source = Game.system.path
 	end
