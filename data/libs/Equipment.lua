@@ -140,12 +140,12 @@ HyperdriveType.GetFuelUse = function (self, ship, distance, range_max)
 	return math.clamp(math.ceil(hyperclass_squared*distance / range_max), 1, hyperclass_squared);
 end
 
--- returns nil if the destination isn't reachable, distance, fuel and duration if it is
-HyperdriveType.CheckDestination = function (self, ship, destination)
-	if not Game.system or ship:GetEquip('engine', 1) ~= self or destination:GetStarSystem() == Game.system then
+-- returns nil if the destination isn't reachable from source, distance, fuel and duration if it is
+HyperdriveType.CheckJump = function (self, ship, source, destination)
+	if ship:GetEquip('engine', 1) ~= self or source:IsSameSystem(destination) then
 		return nil
 	end
-	local distance = Game.system:DistanceTo(destination)
+	local distance = source:DistanceTo(destination)
 	local max_range = self:GetMaximumRange(ship) -- takes fuel into account
 	if distance > max_range then
 		return distance
@@ -154,6 +154,14 @@ HyperdriveType.CheckDestination = function (self, ship, destination)
 
 	local duration = self:GetDuration(ship, distance, max_range) -- same as above
 	return distance, fuel, duration
+end
+
+-- returns nil if the destination isn't reachable from the current system, distance, fuel and duration if it is
+HyperdriveType.CheckDestination = function (self, ship, destination)
+	if not Game.system then
+		return nil
+	end
+	return self:CheckJump(ship, Game.system.path, destination)
 end
 
 -- Give the range for the given remaining fuel
