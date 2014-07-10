@@ -217,6 +217,7 @@ static int l_sbodypath_is_same_sector(lua_State *l)
 static int l_sbodypath_system_only(lua_State *l)
 {
 	SystemPath *path = LuaObject<SystemPath>::CheckFromLua(1);
+	if (path->IsSystemPath()) { return 1; }
 	const SystemPath sysOnly(path->SystemOnly());
 	LuaObject<SystemPath>::PushToLua(sysOnly);
 	return 1;
@@ -244,6 +245,7 @@ static int l_sbodypath_system_only(lua_State *l)
 static int l_sbodypath_sector_only(lua_State *l)
 {
 	SystemPath *path = LuaObject<SystemPath>::CheckFromLua(1);
+	if (path->IsSectorPath()) { return 1; }
 	LuaObject<SystemPath>::PushToLua(path->SectorOnly());
 	return 1;
 }
