@@ -85,7 +85,7 @@ local function __ApplyCapabilities(ship, capabilities, num, factor)
 	for k,v in pairs(capabilities) do
 		local full_name = k.."_cap"
 		local prev = (ship:hasprop(full_name) and ship[full_name]) or 0
-		ship:setprop(full_name, (factor*v)+prev)
+		ship:setprop(full_name, (factor*v*num)+prev)
 	end
 	return num
 end
