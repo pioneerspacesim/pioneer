@@ -140,7 +140,9 @@ HyperdriveType.GetFuelUse = function (self, ship, distance, range_max)
 	return math.clamp(math.ceil(hyperclass_squared*distance / range_max), 1, hyperclass_squared);
 end
 
--- returns nil if the destination isn't reachable from source, distance, fuel and duration if it is
+-- if the destination is reachable, returns: distance, fuel, duration
+-- if the destination is out of range, returns: distance
+-- if the specified jump is invalid, returns nil
 HyperdriveType.CheckJump = function (self, ship, source, destination)
 	if ship:GetEquip('engine', 1) ~= self or source:IsSameSystem(destination) then
 		return nil
@@ -156,7 +158,10 @@ HyperdriveType.CheckJump = function (self, ship, source, destination)
 	return distance, fuel, duration
 end
 
--- returns nil if the destination isn't reachable from the current system, distance, fuel and duration if it is
+-- like HyperdriveType.CheckJump, but uses Game.system as the source system
+-- if the destination is reachable, returns: distance, fuel, duration
+-- if the destination is out of range, returns: distance
+-- if the specified jump is invalid, returns nil
 HyperdriveType.CheckDestination = function (self, ship, destination)
 	if not Game.system then
 		return nil
