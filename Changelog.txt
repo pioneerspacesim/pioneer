@@ -19,6 +19,7 @@ July 2014
      * Fix use of fuel when hyperjumping (#3024, #3019, #3028)
      * Fix directory enumeration on POSIX systems when built with a
        PIONEER_DATA_DIR value that contains a trailing slash (#3031, #2545)
+     * Fix hyperspace details shown in the Sector View (#3037, #3033)
 
 June 2014
 

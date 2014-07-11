@@ -377,14 +377,24 @@ Ship.CanHyperjumpTo = function(self, path)
 	return self:GetHyperspaceDetails(path) == 'OK'
 end
 
-Ship.GetHyperspaceDetails = function (self, path)
+-- ship:GetHyperspaceDetails(destination)      --  get details of jump from current system to 'destination'
+-- ship:GetHyperspaceDetails(source, destination) -- get details of jump from 'source' to 'destination'
+Ship.GetHyperspaceDetails = function (self, source, destination)
+	if destination == nil then
+		if not Game.system then
+			return "DRIVE_ACTIVE", 0, 0, 0
+		end
+		destination = source
+		source = Game.system.path
+	end
+
 	local engine = self:GetEquip("engine", 1)
 	if not engine then
 		return "NO_DRIVE", 0, 0, 0
-	elseif path:GetStarSystem() == Game.system then
+	elseif source:IsSameSystem(destination) then
 		return "CURRENT_SYSTEM", 0, 0, 0
 	end
-	local distance, fuel, duration = engine:CheckDestination(self, path)
+	local distance, fuel, duration = engine:CheckJump(self, source, destination)
 	local status = "OK"
 	if not duration then
 		duration = 0
