@@ -848,10 +848,10 @@ void Pi::HandleEvents()
 										ship->AIKill(Pi::player);	// a really lethal option!
 									lua_State *l = Lua::manager->GetLuaState();
 									pi_lua_import(l, "Equipment");
-									LuaTable equip = LuaTable(l, -1).Sub("equipment");
-									LuaObject<Ship>::CallMethod<>(ship, "AddEquip", equip.Sub("pulsecannon_dual_1mw"));
-									LuaObject<Ship>::CallMethod<>(ship, "AddEquip", equip.Sub("laser_cooling_booster"));
-									LuaObject<Ship>::CallMethod<>(ship, "AddEquip", equip.Sub("atmospheric_shielding"));
+									LuaTable equip(l, -1);
+									LuaObject<Ship>::CallMethod<>(ship, "AddEquip", equip.Sub("laser").Sub("pulsecannon_dual_1mw"));
+									LuaObject<Ship>::CallMethod<>(ship, "AddEquip", equip.Sub("misc").Sub("laser_cooling_booster"));
+									LuaObject<Ship>::CallMethod<>(ship, "AddEquip", equip.Sub("misc").Sub("atmospheric_shielding"));
 									lua_pop(l, 5);
 									ship->SetFrame(Pi::player->GetFrame());
 									ship->SetPosition(Pi::player->GetPosition()+100.0*dir);
