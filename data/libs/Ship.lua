@@ -12,14 +12,6 @@ local Lang = import("Lang")
 
 local l = Lang.GetResource("ui-core")
 
--- Temporary mapping while waiting for new-equipment to embed this information.
-local missile_names = {
-	MISSILE_UNGUIDED="missile_unguided",
-	MISSILE_GUIDED="missile_guided",
-	MISSILE_SMART="missile_smart",
-	MISSILE_NAVAL="missile_naval"
-}
-
 local compat = {}
 
 --
@@ -489,22 +481,22 @@ end
 --
 --   experimental
 --
-function Ship:FireMissileAt(missile, target)
+function Ship:FireMissileAt(which_missile, target)
 	local missile_object = false
-	if type(missile) == "number" then
-		missile_type = self:GetEquip("MISSILE", missile)
-		if missile_type ~= "NONE" then
-			missile_object = self:SpawnMissile(missile_names[missile_type])
+	if type(which_missile) == "number" then
+		local missile_equip = self:GetEquip("missile", which_missile)
+		if missile_equip then
+			missile_object = self:SpawnMissile(missile_equip.missile_type)
 			if missile_object ~= nil then
-				self:SetEquip("MISSILE", missile, "NONE")
+				self:SetEquip("missile", which_missile)
 			end
 		end
 	else
-		for i,m in ipairs(self:GetEquip("MISSILE")) do
-			if m == missile or (missile == "any" and m ~= "NONE") then
-				missile_object = self:SpawnMissile(missile_names[m])
+		for i,m in pairs(self:GetEquip("missile")) do
+			if (which_missile == m) or (which_missile == "any") then
+				missile_object = self:SpawnMissile(m.missile_type)
 				if missile_object ~= nil then
-					self:SetEquip("MISSILE", i, "NONE")
+					self:SetEquip("missile", i)
 					break
 				end
 			end
