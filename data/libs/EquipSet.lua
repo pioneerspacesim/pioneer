@@ -246,7 +246,7 @@ function EquipSet:Add(ship, item, num, slot)
 	if added == 0 then
 		return 0
 	end
-	local postinst_diff = added - item:Install(ship, num, slot)
+	local postinst_diff = added - item:Install(ship, added, slot)
 	if postinst_diff > 0 then
 		self:__Remove_NoCheck(item, postinst_diff, slot)
 		added = added-postinst_diff
@@ -287,7 +287,7 @@ function EquipSet:Remove(ship, item, num, slot)
 	if removed == 0 then
 		return 0
 	end
-	local postuninstall_diff = removed - item:Uninstall(ship, num, slot)
+	local postuninstall_diff = removed - item:Uninstall(ship, removed, slot)
 	if postuninstall_diff > 0 then
 		self:__Add_NoCheck(item, postuninstall_diff, slot)
 		removed = removed-postuninstall_diff
