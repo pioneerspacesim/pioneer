@@ -7,6 +7,7 @@ local Engine = import("Engine")
 local Event = import("Event")
 local Serializer = import("Serializer")
 local ShipDef = import("ShipDef")
+local Equipment = import("Equipment")
 local Timer = import("Timer")
 local Lang = import("Lang")
 
@@ -411,18 +412,17 @@ for k,v in pairs(compat.slots.old2new) do
 	compat.slots.new2old[v] = k
 end
 
-local equipment = import("Equipment")
-local cargo = equipment.cargo
-local hyperspace = equipment.hyperspace
-local laser = equipment.laser
-local misc = equipment.misc
+local cargo = Equipment.cargo
+local hyperspace = Equipment.hyperspace
+local laser = Equipment.laser
+local misc = Equipment.misc
 
 compat.equip.new2old = {
 	[cargo.hydrogen]="HYDROGEN", [cargo.air_processors]="AIR_PROCESSORS", [cargo.animal_meat]="ANIMAL_MEAT",
 	[cargo.battle_weapons]="BATTLE_WEAPONS", [cargo.carbon_ore]="CARBON_ORE", [cargo.computers]="COMPUTERS",
 	[cargo.consumer_goods]="CONSUMER_GOODS", [cargo.farm_machinery]="FARM_MACHINERY", [cargo.fertilizer]="FERTILIZER",
 	[cargo.fruit_and_veg]="FRUIT_AND_VEG", [cargo.grain]="GRAIN", [cargo.hand_weapons]="HAND_WEAPONS",
-	[cargo.hydrogen]="HYDROGEN", [cargo.industrial_machinery]="INDUSTRIAL_MACHINERY", [cargo.liquid_oxygen]="LIQUID_OXYGEN",
+	[cargo.industrial_machinery]="INDUSTRIAL_MACHINERY", [cargo.liquid_oxygen]="LIQUID_OXYGEN",
 	[cargo.liquor]="LIQUOR", [cargo.live_animals]="LIVE_ANIMALS", [cargo.medicines]="MEDICINES", [cargo.metal_alloys]="METAL_ALLOYS",
 	[cargo.metal_ore]="METAL_ORE", [cargo.military_fuel]="MILITARY_FUEL", [cargo.mining_machinery]="MINING_MACHINERY",
 	[cargo.narcotics]="NARCOTICS", [cargo.nerve_gas]="NERVE_GAS", [cargo.plastics]="PLASTICS",
@@ -554,8 +554,8 @@ Ship.Refuel = function (self,amount)
 		return 0
 	end
 	local fuelTankMass = ShipDef[self.shipId].fuelTankMass
-	local needed = math.clamp(math.ceil(fuelTankMass - self.fuelMassLeft),0, amount)
-	local removed = self:RemoveEquip('HYDROGEN', needed)
+	local needed = math.clamp(math.ceil(fuelTankMass - self.fuelMassLeft), 0, amount)
+	local removed = self:RemoveEquip(Equipment.cargo.hydrogen, needed)
 	self:SetFuelPercent(math.clamp(self.fuel + removed * 100 / fuelTankMass, 0, 100))
 	return removed
 end
