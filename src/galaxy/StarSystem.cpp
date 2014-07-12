@@ -817,6 +817,22 @@ double SystemBody::GetMaxChildOrbitalDistance() const
 	return AU * max;
 }
 
+bool SystemBody::IsCoOrbitalWith(const SystemBody* other) const
+{
+	if(m_parent
+	&& ((m_parent->m_children[0] == this && m_parent->m_children[1] == other)
+	|| (m_parent->m_children[1] == this && m_parent->m_children[0] == other)))
+		return true;
+	return false;
+}
+
+bool SystemBody::IsCoOrbital() const
+{
+	if(m_parent	&& (m_parent->m_children[0] == this || m_parent->m_children[1] == this))
+		return true;
+	return false;
+}
+
 /*
  * These are the nice floating point surface temp calculating turds.
  *
@@ -845,42 +861,92 @@ static double CalcSurfaceTemp(double star_radius, double star_temp, double objec
  * star_radius in sol radii
  * star_temp in kelvin,
  * object_dist in AU
- * return Watts/m^2
+ * return energy per unit area in solar constants (1362 W/m^2 )
  */
 static fixed calcEnergyPerUnitAreaAtDist(fixed star_radius, int star_temp, fixed object_dist)
 {
 	PROFILE_SCOPED()
-	fixed temp = star_temp * fixed(1,10000);
+	fixed temp = star_temp * fixed(1,5778);	//normalize to Sun's temperature
 	const fixed total_solar_emission =
 		temp*temp*temp*temp*star_radius*star_radius;
 
-	return fixed(1744665451,100000)*(total_solar_emission / (object_dist*object_dist));
+	return total_solar_emission / (object_dist*object_dist);	//return value in solar consts (overflow prevention)
+}
+
+//helper function, get branch of system tree from body all the way to the system's root and write it to path
+static void getPathToRoot(const SystemBody* body, std::vector<const SystemBody*>& path)
+{
+	while(body)
+	{
+		path.push_back(body);
+		body = body->GetParent();
+	}
 }
 
 //static
 int SystemBody::CalcSurfaceTemp(const SystemBody *primary, fixed distToPrimary, fixed albedo, fixed greenhouse)
 {
 	PROFILE_SCOPED()
-	
+
 	// accumulator seeded with current primary
 	fixed energy_per_meter2 = calcEnergyPerUnitAreaAtDist(primary->m_radius, primary->m_averageTemp, distToPrimary);
-
+	fixed dist;
 	// find the other stars which aren't our parent star
-	IterationProxy<std::vector<SystemBody*>> proxy = primary->GetStarSystem()->GetStars();
-	for( auto s : proxy ) {
-		if( s != primary ) {
-			// calculate new distance - this is a total guess
-			SystemBody* priPar = primary->GetParent();
-			fixed averageDistToStar = distToPrimary; // if we don't find another star then...
-			if( priPar ) {
-				averageDistToStar = (priPar->m_orbMin+priPar->m_orbMax)>>1;
+	IterationProxy<std::vector<SystemBody*> > proxy = primary->GetStarSystem()->GetStars();
+	for( auto s : proxy )
+	{
+		if(s != primary)
+		{
+			//get branches from body and star to system root
+			std::vector<const SystemBody*> first_to_root;
+			std::vector<const SystemBody*> second_to_root;
+			getPathToRoot(primary, first_to_root);
+			getPathToRoot(&(*s), second_to_root);
+			std::vector<const SystemBody*>::reverse_iterator fit = first_to_root.rbegin();
+			std::vector<const SystemBody*>::reverse_iterator sit = second_to_root.rbegin();
+			while(sit!=second_to_root.rend() && fit!=first_to_root.rend() && (*sit)==(*fit))	//keep tracing both branches from system's root
+			{																					//until they diverge
+				sit++;
+				fit++;
 			}
-			energy_per_meter2 += calcEnergyPerUnitAreaAtDist(s->m_radius, s->m_averageTemp, averageDistToStar + distToPrimary);
-		}
-	}
+			if (sit == second_to_root.rend()) sit--;
+			if (fit == first_to_root.rend()) fit--;	//oops! one of the branches ends at lca, backtrack
 
-	const fixed surface_temp_pow4 = energy_per_meter2*(1-albedo)/(1-greenhouse);
-	return int(isqrt(isqrt((surface_temp_pow4.v>>fixed::FRAC)*4409673)));
+			if((*fit)->IsCoOrbitalWith(*sit))	//planet is around one part of coorbiting pair, star is another.
+			{
+				dist = ((*fit)->GetOrbMaxAsFixed()+(*fit)->GetOrbMinAsFixed()) >> 1;	//binaries don't have fully initialized smaxes
+			}
+			else if((*fit)->IsCoOrbital())	//planet is around one part of coorbiting pair, star isn't coorbiting with it
+			{
+				dist = ((*sit)->GetOrbMaxAsFixed()+(*sit)->GetOrbMinAsFixed()) >> 1;	//simplified to star orbiting stationary planet
+			}
+			else if((*sit)->IsCoOrbital())	//star is part of binary around which planet is (possibly indirectly) orbiting
+			{
+				bool inverted_ancestry = false;
+				for(const SystemBody* body = (*sit); body; body = body->GetParent()) if(body == (*fit))
+				{
+					inverted_ancestry = true;	//ugly hack due to function being static taking planet's primary rather than being called from actual planet
+					break;
+				}
+				if(inverted_ancestry) //primary is star's ancestor! Don't try to take its orbit (could probably be a gravpoint check at this point, but paranoia)
+				{
+					dist = distToPrimary;
+				}
+				else
+				{
+					dist = ((*fit)->GetOrbMaxAsFixed()+(*fit)->GetOrbMinAsFixed()) >> 1;	//simplified to planet orbiting stationary star
+				}
+			}
+			else		//neither is part of any binaries - hooray!
+			{
+				dist = (((*sit)->GetSemiMajorAxisAsFixed() - (*fit)->GetSemiMajorAxisAsFixed()).Abs() //avg of conjunction and opposition dist
+					 + ((*sit)->GetSemiMajorAxisAsFixed() + (*fit)->GetSemiMajorAxisAsFixed())) >> 1;
+			}
+		}
+		energy_per_meter2 += calcEnergyPerUnitAreaAtDist(s->m_radius, s->m_averageTemp, dist);
+	}
+	const fixed surface_temp_pow4 = energy_per_meter2 * (1-albedo)/(1-greenhouse);
+	return (279*int(isqrt(isqrt((surface_temp_pow4.v)))))>>(fixed::FRAC/4); //multiplied by 279 to convert from Earth's temps to Kelvin
 }
 
 double SystemBody::CalcSurfaceGravity() const
@@ -1174,8 +1240,8 @@ void StarSystem::MakeBinaryPair(SystemBody *a, SystemBody *b, fixed minDist, Ran
 
 SystemBody::SystemBody(const SystemPath& path, StarSystem *system) : m_parent(nullptr), m_path(path), m_seed(0), m_aspectRatio(1,1), m_orbMin(0),
 	m_orbMax(0), m_rotationalPhaseAtStart(0), m_semiMajorAxis(0), m_eccentricity(0), m_orbitalOffset(0), m_axialTilt(0),
-	m_inclination(0), m_averageTemp(0), m_type(TYPE_GRAVPOINT), m_isCustomBody(false), m_heightMapFractal(0), m_atmosDensity(0.0), m_system(system) 
-{ 
+	m_inclination(0), m_averageTemp(0), m_type(TYPE_GRAVPOINT), m_isCustomBody(false), m_heightMapFractal(0), m_atmosDensity(0.0), m_system(system)
+{
 }
 
 bool SystemBody::HasAtmosphere() const
@@ -1538,9 +1604,9 @@ try_that_again_guvnah:
 		MakePlanetsAround(s, rand);
 	}
 
-	if (m_numStars > 1) 
+	if (m_numStars > 1)
 		MakePlanetsAround(centGrav1, rand);
-	if (m_numStars == 4) 
+	if (m_numStars == 4)
 		MakePlanetsAround(centGrav2, rand);
 
 	Populate(true);
@@ -1846,7 +1912,7 @@ void SystemBody::PickPlanetType(Random &rand)
 	static const fixed ONEEUMASS = fixed::FromDouble(1);
 	static const fixed TWOHUNDREDEUMASSES = fixed::FromDouble(200.0);
 	// We get some more fractional bits for small bodies otherwise we can easily end up with 0 radius which breaks stuff elsewhere
-	// 
+	//
 	// AndyC - Updated to use the empirically gathered data from this site:
 	// http://phl.upr.edu/library/notes/standardmass-radiusrelationforexoplanets
 	// but we still limit at the lowest end
