@@ -314,7 +314,7 @@ compat.slots.old2new={
 --
 --  experimental
 --
-Ship.SetEquip = function (self, slot, index, equip)
+Ship.SetEquip = function (self, slot, index, item)
 	if type(item) == "string" then
 		debug.deprecated("Ship:SetEquip")
 		item = compat.equip.old2new[item]
