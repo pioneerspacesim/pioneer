@@ -309,8 +309,10 @@ function EquipSet:Get(slot, index)
 		return self.slots[slot][index]
 	end
 	ret = {}
-	for i,v in ipairs(self.slots[slot]) do
-		table.insert(ret, i, v)
+	for i,v in pairs(self.slots[slot]) do
+		if type(i) == 'number' then
+			ret[i] = v
+		end
 	end
 	return ret
 end
