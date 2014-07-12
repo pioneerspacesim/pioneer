@@ -127,15 +127,16 @@ end
 --  free_space - The available space (integer)
 --
 function EquipSet:Count(item, slots)
+	local to_check
 	if type(slots) == "table" then
-		local to_check = {}
+		to_check = {}
 		for _, s in ipairs(slots) do
-			table.insert(to_check, s)
+			table.insert(to_check, self.slots[s])
 		end
 	elseif slots == nil then
 		to_check = self.slots
 	else
-		to_check = {self.slots[slot]}
+		to_check = {self.slots[slots]}
 	end
 
 	local count = 0
