@@ -317,17 +317,27 @@ function EquipSet:Get(slot, index)
 	return ret
 end
 
-function EquipSet:Set(ship, slot, index, item)
-	if index < 1 or index > # (self.slots[slot]) then
+function EquipSet:Set(ship, slot_name, index, item)
+	slot = self.slots[slot_name]
+
+	if index < 1 or index > slot.__limit then
 		error("EquipSet:Set(): argument 'index' out of range")
 	end
-	to_remove = self.slots[slot][index]
-	if not to_remove or to_remove:Uninstall(ship, 1, slot) == 1 then
-		if item:Install(ship, 1, slot) == 1 then
-			self.CallListener()
-			self.slots[slot][index] = item
+
+	to_remove = slot[index]
+	if item == to_remove then return end
+
+	if not to_remove or to_remove:Uninstall(ship, 1, slot_name) == 1 then
+		if not item or item:Install(ship, 1, slot_name) == 1 then
+			if not item then
+				slot.__occupied = slot.__occupied - 1
+			elseif not to_remove then
+				slot.__occupied = slot.__occupied + 1
+			end
+			slot[index] = item
+			self:CallListener()
 		else -- Rollback the uninstall
-			to_remove:Install(ship, 1, slot)
+			to_remove:Install(ship, 1, slot_name)
 		end
 	end
 end
