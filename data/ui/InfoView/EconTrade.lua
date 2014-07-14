@@ -117,9 +117,12 @@ local econTrade = function ()
 		refuelButtonRefresh()
 	end
 	local refuelMax = function ()
-		repeat
-			Game.player:Refuel(1)
-		until Game.player.fuel == 100 or Game.player:CountEquip(Equipment.cargo.hydrogen) == 0
+		while Game.player.fuel < 100 do
+			local removed = Game.player:Refuel(1)
+			if removed == 0 then
+				break
+			end
+		end
 		cargoListWidget:SetInnerWidget(updateCargoListWidget())
 
 		refuelButtonRefresh()

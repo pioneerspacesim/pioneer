@@ -21,6 +21,10 @@ July 2014
        PIONEER_DATA_DIR value that contains a trailing slash (#3031, #2545)
      * Fix hyperspace details shown in the Sector View (#3037, #3033)
      * Fix crash when the player collides with floating cargo (#3043, #3041)
+     * Fix incorrect usedCargo values (#3036, #3035, #3020, #3044)
+     * Fix empty cargo lists (#3044, #3039, #3040)
+     * Fix crash and skipped updates when firing missiles (#3044, #3038)
+     * Fix internal tank refuelling from cargo (#3044, #3046)
 
 June 2014
 

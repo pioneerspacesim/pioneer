@@ -127,15 +127,16 @@ end
 --  free_space - The available space (integer)
 --
 function EquipSet:Count(item, slots)
+	local to_check
 	if type(slots) == "table" then
-		local to_check = {}
+		to_check = {}
 		for _, s in ipairs(slots) do
-			table.insert(to_check, s)
+			table.insert(to_check, self.slots[s])
 		end
 	elseif slots == nil then
 		to_check = self.slots
 	else
-		to_check = {self.slots[slot]}
+		to_check = {self.slots[slots]}
 	end
 
 	local count = 0
@@ -147,6 +148,16 @@ function EquipSet:Count(item, slots)
 		end
 	end
 	return count
+end
+
+function EquipSet:__TriggerCallbacks(ship, slot)
+	ship:UpdateEquipStats()
+	if slot == "cargo" then -- TODO: build a proper property system for the slots
+		ship:setprop("usedCargo", self.slots.cargo.__occupied)
+	else
+		ship:setprop("totalCargo", math.min(self.slots.cargo.__limit, self.slots.cargo.__occupied+ship.freeCapacity))
+	end
+	self:CallListener()
 end
 
 -- Method: __Remove_NoCheck (PRIVATE)
@@ -245,19 +256,13 @@ function EquipSet:Add(ship, item, num, slot)
 	if added == 0 then
 		return 0
 	end
-	local postinst_diff = added - item:Install(ship, num, slot)
+	local postinst_diff = added - item:Install(ship, added, slot)
 	if postinst_diff > 0 then
 		self:__Remove_NoCheck(item, postinst_diff, slot)
 		added = added-postinst_diff
 	end
-	ship:UpdateEquipStats()
-	if slot == "cargo" then -- TODO: build a proper property system for the slots
-		ship:setprop("usedCargo", self.slots.cargo.__occupied)
-	else
-		ship:setprop("totalCargo", math.min(self.slots.cargo.__limit, self.slots.cargo.__occupied+ship.freeCapacity))
-	end
 	if added > 0 then
-		self:CallListener()
+		self:__TriggerCallbacks(ship, slot)
 	end
 	return added
 end
@@ -286,19 +291,13 @@ function EquipSet:Remove(ship, item, num, slot)
 	if removed == 0 then
 		return 0
 	end
-	local postuninstall_diff = removed - item:Uninstall(ship, num, slot)
+	local postuninstall_diff = removed - item:Uninstall(ship, removed, slot)
 	if postuninstall_diff > 0 then
 		self:__Add_NoCheck(item, postuninstall_diff, slot)
 		removed = removed-postuninstall_diff
 	end
-	ship:UpdateEquipStats()
-	if slot == "cargo" then -- TODO: build a proper property system for the slots
-		ship:setprop("usedCargo", self.slots.cargo.__occupied)
-	else
-		ship:setprop("totalCargo", math.min(self.slots.cargo.__limit, self.slots.cargo.__occupied+ship.freeCapacity))
-	end
 	if removed > 0 then
-		self:CallListener()
+		self:__TriggerCallbacks(ship, slot)
 	end
 	return removed
 end
@@ -308,23 +307,35 @@ function EquipSet:Get(slot, index)
 		return self.slots[slot][index]
 	end
 	ret = {}
-	for i,v in ipairs(self.slots[slot]) do
-		table.insert(ret, i, v)
+	for i,v in pairs(self.slots[slot]) do
+		if type(i) == 'number' then
+			ret[i] = v
+		end
 	end
 	return ret
 end
 
-function EquipSet:Set(ship, slot, index, item)
-	if index < 1 or index > # (self.slots[slot]) then
+function EquipSet:Set(ship, slot_name, index, item)
+	slot = self.slots[slot_name]
+
+	if index < 1 or index > slot.__limit then
 		error("EquipSet:Set(): argument 'index' out of range")
 	end
-	to_remove = self.slots[slot][index]
-	if not to_remove or to_remove:Uninstall(ship, 1, slot) == 1 then
-		if item:Install(ship, 1, slot) == 1 then
-			self.CallListener()
-			self.slots[slot][index] = item
+
+	to_remove = slot[index]
+	if item == to_remove then return end
+
+	if not to_remove or to_remove:Uninstall(ship, 1, slot_name) == 1 then
+		if not item or item:Install(ship, 1, slot_name) == 1 then
+			if not item then
+				slot.__occupied = slot.__occupied - 1
+			elseif not to_remove then
+				slot.__occupied = slot.__occupied + 1
+			end
+			slot[index] = item
+			self:__TriggerCallbacks(ship, slot_name)
 		else -- Rollback the uninstall
-			to_remove:Install(ship, 1, slot)
+			to_remove:Install(ship, 1, slot_name)
 		end
 	end
 end

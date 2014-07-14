@@ -85,7 +85,7 @@ local function __ApplyCapabilities(ship, capabilities, num, factor)
 	for k,v in pairs(capabilities) do
 		local full_name = k.."_cap"
 		local prev = (ship:hasprop(full_name) and ship[full_name]) or 0
-		ship:setprop(full_name, (factor*v)+prev)
+		ship:setprop(full_name, (factor*v*num)+prev)
 	end
 	return num
 end
@@ -413,21 +413,25 @@ cargo.consumer_goods.requirements = { cargo.plastics, cargo.textiles }
 local misc = {}
 misc.missile_unguided = EquipType.New({
 	l10n_key="MISSILE_UNGUIDED", slots="missile", price=30,
+	missile_type="missile_unguided",
 	capabilities={mass=1, missile=1}, purchasable=true,
 	icon_name="missile_unguided"
 })
 misc.missile_guided = EquipType.New({
 	l10n_key="MISSILE_GUIDED", slots="missile", price=50,
+	missile_type="missile_guided",
 	capabilities={mass=1}, purchasable=true,
 	icon_name="missile_guided"
 })
 misc.missile_smart = EquipType.New({
 	l10n_key="MISSILE_SMART", slots="missile", price=95,
+	missile_type="missile_smart",
 	capabilities={mass=1}, purchasable=true,
 	icon_name="missile_smart"
 })
 misc.missile_naval = EquipType.New({
 	l10n_key="MISSILE_NAVAL", slots="missile", price=160,
+	missile_type="missile_naval",
 	capabilities={mass=1}, purchasable=true,
 	icon_name="missile_naval"
 })

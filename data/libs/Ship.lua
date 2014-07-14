@@ -7,18 +7,11 @@ local Engine = import("Engine")
 local Event = import("Event")
 local Serializer = import("Serializer")
 local ShipDef = import("ShipDef")
+local Equipment = import("Equipment")
 local Timer = import("Timer")
 local Lang = import("Lang")
 
 local l = Lang.GetResource("ui-core")
-
--- Temporary mapping while waiting for new-equipment to embed this information.
-local missile_names = {
-	MISSILE_UNGUIDED="missile_unguided",
-	MISSILE_GUIDED="missile_guided",
-	MISSILE_SMART="missile_smart",
-	MISSILE_NAVAL="missile_naval"
-}
 
 local compat = {}
 
@@ -314,7 +307,7 @@ compat.slots.old2new={
 --
 --  experimental
 --
-Ship.SetEquip = function (self, slot, index, equip)
+Ship.SetEquip = function (self, slot, index, item)
 	if type(item) == "string" then
 		debug.deprecated("Ship:SetEquip")
 		item = compat.equip.old2new[item]
@@ -419,18 +412,17 @@ for k,v in pairs(compat.slots.old2new) do
 	compat.slots.new2old[v] = k
 end
 
-local equipment = import("Equipment")
-local cargo = equipment.cargo
-local hyperspace = equipment.hyperspace
-local laser = equipment.laser
-local misc = equipment.misc
+local cargo = Equipment.cargo
+local hyperspace = Equipment.hyperspace
+local laser = Equipment.laser
+local misc = Equipment.misc
 
 compat.equip.new2old = {
 	[cargo.hydrogen]="HYDROGEN", [cargo.air_processors]="AIR_PROCESSORS", [cargo.animal_meat]="ANIMAL_MEAT",
 	[cargo.battle_weapons]="BATTLE_WEAPONS", [cargo.carbon_ore]="CARBON_ORE", [cargo.computers]="COMPUTERS",
 	[cargo.consumer_goods]="CONSUMER_GOODS", [cargo.farm_machinery]="FARM_MACHINERY", [cargo.fertilizer]="FERTILIZER",
 	[cargo.fruit_and_veg]="FRUIT_AND_VEG", [cargo.grain]="GRAIN", [cargo.hand_weapons]="HAND_WEAPONS",
-	[cargo.hydrogen]="HYDROGEN", [cargo.industrial_machinery]="INDUSTRIAL_MACHINERY", [cargo.liquid_oxygen]="LIQUID_OXYGEN",
+	[cargo.industrial_machinery]="INDUSTRIAL_MACHINERY", [cargo.liquid_oxygen]="LIQUID_OXYGEN",
 	[cargo.liquor]="LIQUOR", [cargo.live_animals]="LIVE_ANIMALS", [cargo.medicines]="MEDICINES", [cargo.metal_alloys]="METAL_ALLOYS",
 	[cargo.metal_ore]="METAL_ORE", [cargo.military_fuel]="MILITARY_FUEL", [cargo.mining_machinery]="MINING_MACHINERY",
 	[cargo.narcotics]="NARCOTICS", [cargo.nerve_gas]="NERVE_GAS", [cargo.plastics]="PLASTICS",
@@ -489,22 +481,22 @@ end
 --
 --   experimental
 --
-function Ship:FireMissileAt(missile, target)
+function Ship:FireMissileAt(which_missile, target)
 	local missile_object = false
-	if type(missile) == "number" then
-		missile_type = self:GetEquip("MISSILE", missile)
-		if missile_type ~= "NONE" then
-			missile_object = self:SpawnMissile(missile_names[missile_type])
+	if type(which_missile) == "number" then
+		local missile_equip = self:GetEquip("missile", which_missile)
+		if missile_equip then
+			missile_object = self:SpawnMissile(missile_equip.missile_type)
 			if missile_object ~= nil then
-				self:SetEquip("MISSILE", missile, "NONE")
+				self:SetEquip("missile", which_missile)
 			end
 		end
 	else
-		for i,m in ipairs(self:GetEquip("MISSILE")) do
-			if m == missile or (missile == "any" and m ~= "NONE") then
-				missile_object = self:SpawnMissile(missile_names[m])
+		for i,m in pairs(self:GetEquip("missile")) do
+			if (which_missile == m) or (which_missile == "any") then
+				missile_object = self:SpawnMissile(m.missile_type)
 				if missile_object ~= nil then
-					self:SetEquip("MISSILE", i, "NONE")
+					self:SetEquip("missile", i)
 					break
 				end
 			end
@@ -562,8 +554,8 @@ Ship.Refuel = function (self,amount)
 		return 0
 	end
 	local fuelTankMass = ShipDef[self.shipId].fuelTankMass
-	local needed = math.clamp(math.ceil(fuelTankMass - self.fuelMassLeft),0, amount)
-	local removed = self:RemoveEquip('HYDROGEN', needed)
+	local needed = math.clamp(math.ceil(fuelTankMass - self.fuelMassLeft), 0, amount)
+	local removed = self:RemoveEquip(Equipment.cargo.hydrogen, needed)
 	self:SetFuelPercent(math.clamp(self.fuel + removed * 100 / fuelTankMass, 0, 100))
 	return removed
 end
