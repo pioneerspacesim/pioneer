@@ -118,19 +118,19 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 	SetFuel(rd.Double());
 	m_stats.fuel_tank_mass_left = GetShipType()->fuelTankMass * GetFuel();
 	m_reserveFuel = rd.Double();
-	UpdateEquipStats(); // this is necessary, UpdateStats() in Ship::Init has wrong values of m_thrusterFuel after Load
 
 	PropertyMap &p = Properties();
 	p.Set("hullMassLeft", m_stats.hull_mass_left);
 	p.Set("hullPercent", 100.0f * (m_stats.hull_mass_left / float(m_type->hullMass)));
 	p.Set("shieldMassLeft", m_stats.shield_mass_left);
 	p.Set("fuelMassLeft", m_stats.fuel_tank_mass_left);
-	p.Set("mass_cap", 0);
 	p.PushLuaTable();
 	lua_State *l = Lua::manager->GetLuaState();
 	lua_getfield(l, -1, "equipSet");
 	m_equipSet = LuaRef(l, -1);
 	lua_pop(l, 2);
+
+	UpdateLuaStats();
 
 	m_controller = 0;
 	const ShipController::Type ctype = static_cast<ShipController::Type>(rd.Int32());
@@ -213,7 +213,6 @@ void Ship::Init()
 	p.Set("hullPercent", 100.0f * (m_stats.hull_mass_left / float(m_type->hullMass)));
 	p.Set("shieldMassLeft", m_stats.shield_mass_left);
 	p.Set("fuelMassLeft", m_stats.fuel_tank_mass_left);
-	p.Set("mass_cap", 0);
 
 	m_hyperspace.now = false;			// TODO: move this on next savegame change, maybe
 	m_hyperspaceCloud = 0;
