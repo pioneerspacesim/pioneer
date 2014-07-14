@@ -856,7 +856,7 @@ void Pi::HandleEvents()
 									ship->SetFrame(Pi::player->GetFrame());
 									ship->SetPosition(Pi::player->GetPosition()+100.0*dir);
 									ship->SetVelocity(Pi::player->GetVelocity());
-									ship->UpdateStats();
+									ship->UpdateEquipStats();
 									game->GetSpace()->AddBody(ship);
 								}
 							}

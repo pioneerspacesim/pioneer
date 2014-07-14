@@ -118,7 +118,7 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 	SetFuel(rd.Double());
 	m_stats.fuel_tank_mass_left = GetShipType()->fuelTankMass * GetFuel();
 	m_reserveFuel = rd.Double();
-	UpdateStats(); // this is necessary, UpdateStats() in Ship::Init has wrong values of m_thrusterFuel after Load
+	UpdateEquipStats(); // this is necessary, UpdateStats() in Ship::Init has wrong values of m_thrusterFuel after Load
 
 	PropertyMap &p = Properties();
 	p.Set("hullMassLeft", m_stats.hull_mass_left);
@@ -204,7 +204,7 @@ void Ship::Init()
 	m_navLights->SetEnabled(true);
 
 	SetMassDistributionFromModel();
-	UpdateStats();
+	UpdateEquipStats();
 	m_stats.hull_mass_left = float(m_type->hullMass);
 	m_stats.shield_mass_left = 0;
 
@@ -561,11 +561,6 @@ void Ship::UpdateFuelStats()
 	Properties().Set("fuelMassLeft", m_stats.fuel_tank_mass_left);
 
 	UpdateMass();
-}
-
-void Ship::UpdateStats()
-{
-	UpdateEquipStats();
 }
 
 Ship::HyperjumpStatus Ship::CheckHyperjumpCapability() const {

@@ -90,7 +90,6 @@ public:
 	void UpdateLuaStats();
 	void UpdateEquipStats();
 	void UpdateFuelStats();
-	void UpdateStats();
 	const shipstats_t &GetStats() const { return m_stats; }
 
 	void Explode();
