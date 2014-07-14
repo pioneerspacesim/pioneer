@@ -302,6 +302,41 @@ function EquipSet:Remove(ship, item, num, slot)
 	return removed
 end
 
+local EquipSet__ClearSlot = function (self, ship, slot)
+	local s = self.slots[slot]
+	local item_counts = {}
+	for k,v in pairs(s) do
+		if type(k) == 'number' then
+			item_counts[v] = (item_counts[v] or 0) + 1
+		end
+	end
+	for item, count in pairs(item_counts) do
+		local uninstalled = item:Uninstall(ship, count, slot)
+		-- FIXME support failed uninstalls??
+		-- note that failed uninstalls are almost incompatible with Ship::SetShipType
+		assert(uninstalled == count)
+	end
+	self.slots[slot] = {__occupied = 0, __limit = s.__limit}
+	self:__TriggerCallbacks(ship, slot)
+
+end
+
+function EquipSet:Clear(ship, slot_names)
+	if slot_names == nil then
+		for k,_ in pairs(self.slots) do
+			EquipSet__ClearSlot(self, ship, k)
+		end
+
+	elseif type(slot_names) == 'string' then
+		EquipSet__ClearSlot(self, ship, slot_names)
+
+	elseif type(slot_names) == 'table' then
+		for _, s in ipairs(slot_names) do
+			EquipSet__ClearSlot(self, ship, s)
+		end
+	end
+end
+
 function EquipSet:Get(slot, index)
 	if type(index) == "number" then
 		return self.slots[slot][index]

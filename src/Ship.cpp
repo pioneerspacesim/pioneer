@@ -1318,6 +1318,9 @@ void Ship::SetShipId(const ShipType::Id &shipId)
 
 void Ship::SetShipType(const ShipType::Id &shipId)
 {
+	// clear all equipment so that any relevant capability properties (or other data) is wiped
+	ScopedTable(m_equipSet).CallMethod("Clear", this);
+
 	SetShipId(shipId);
 	SetModel(m_type->modelName.c_str());
 	m_skin.SetDecal(m_type->manufacturer);
@@ -1326,7 +1329,6 @@ void Ship::SetShipType(const ShipType::Id &shipId)
 	onFlavourChanged.emit();
 	if (IsType(Object::PLAYER))
 		Pi::worldView->SetCamType(Pi::worldView->GetCamType());
-	// We cannot export it to Init() since it gets reloaded on its own
 	InitEquipSet();
 
 	LuaEvent::Queue("onShipTypeChanged", this);
