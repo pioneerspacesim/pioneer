@@ -420,8 +420,8 @@ bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 			UpdateEquipStats();
 			return true;
 		}
-        if (this->IsType(Object::PLAYER))
-            Pi::Message("Cargo scoop attempted !\n");
+		if (this->IsType(Object::PLAYER))
+			Pi::Message(Lang::CARGO_SCOOP_ATTEMPTED);
 	}
 
 	if (b->IsType(Object::PLANET)) {
