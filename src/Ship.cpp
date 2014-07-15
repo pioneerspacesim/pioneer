@@ -408,9 +408,9 @@ bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 	}
 
 	// hitting cargo scoop surface shouldn't do damage
-	int cargoscoop_cap;
+	int cargoscoop_cap = 0;
 	Properties().Get("cargo_scoop_cap", cargoscoop_cap);
-	if (b->IsType(Object::CARGOBODY) && !dynamic_cast<Body*>(b)->IsDead()) {
+	if (cargoscoop_cap > 0 && b->IsType(Object::CARGOBODY) && !dynamic_cast<Body*>(b)->IsDead()) {
 		LuaRef item = dynamic_cast<CargoBody*>(b)->GetCargoType();
 		if (LuaObject<Ship>::CallMethod<int>(this, "AddEquip", item) > 0) { // try to add it to the ship cargo.
 			Pi::game->GetSpace()->KillBody(dynamic_cast<Body*>(b));
@@ -420,8 +420,8 @@ bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 			UpdateEquipStats();
 			return true;
 		}
-        if (this->IsType(Object::PLAYER))
-            Pi::Message("Cargo scoop attempted !\n");
+		if (this->IsType(Object::PLAYER))
+			Pi::Message(Lang::CARGO_SCOOP_ATTEMPTED);
 	}
 
 	if (b->IsType(Object::PLANET)) {
