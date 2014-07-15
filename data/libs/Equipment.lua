@@ -5,6 +5,7 @@ local utils = import("utils")
 local Game = import_core("Game")
 local Serializer = import("Serializer")
 local Lang = import("Lang")
+local ShipDef = import("ShipDef")
 
 local l = Lang.GetResource("core")
 
@@ -79,6 +80,19 @@ function EquipType:GetDescription()
 	return l[self.l10n_key.."_DESCRIPTION"] or ""
 end
 
+local function __ApplyMassLimit(ship, capabilities, num)
+	if num <= 0 then return 0 end
+	-- we need to use mass_cap directly (not, eg, ship.freeCapacity),
+	-- because ship.freeCapacity may not have been updated when Install is called
+	-- (see implementation of EquipSet:Set)
+	local avail_mass = ShipDef[ship.shipId].capacity - (ship.mass_cap or 0)
+	local item_mass = capabilities.mass or 0
+	if item_mass > 0 then
+		num = math.min(num, math.floor(avail_mass / item_mass))
+	end
+	return num
+end
+
 local function __ApplyCapabilities(ship, capabilities, num, factor)
 	if num <= 0 then return 0 end
 	local factor = factor or 1
@@ -91,7 +105,9 @@ local function __ApplyCapabilities(ship, capabilities, num, factor)
 end
 
 function EquipType:Install(ship, num, slot)
-	return __ApplyCapabilities(ship, self.capabilities, num, 1)
+	local caps = self.capabilities
+	num = __ApplyMassLimit(ship, caps, num)
+	return __ApplyCapabilities(ship, caps, num, 1)
 end
 
 function EquipType:Uninstall(ship, num, slot)
@@ -101,7 +117,8 @@ end
 -- Base type for weapons
 local LaserType = utils.inherits(EquipType, "LaserType")
 function LaserType:Install(ship, num, slot)
-	if __ApplyCapabilities(ship, self.capabilities, 1, 1) < 1 then return 0 end
+	if num > 1 then num = 1 end -- FIXME: support installing multiple lasers (e.g., in the "cargo" slot?)
+	if self:Super().Install(self, ship, 1, slot) < 1 then return 0 end
 	local prefix = slot..'_'
 	for k,v in pairs(self.laser_stats) do
 		ship:setprop(prefix..k, v)
@@ -110,7 +127,8 @@ function LaserType:Install(ship, num, slot)
 end
 
 function LaserType:Uninstall(ship, num, slot)
-	if __ApplyCapabilities(ship, self.capabilities, 1, -1) < 1 then return 0 end
+	if num > 1 then num = 1 end -- FIXME: support uninstalling multiple lasers (e.g., in the "cargo" slot?)
+	if self:Super().Uninstall(self, ship, 1) < 1 then return 0 end
 	local prefix = (slot or "laser_front").."_"
 	for k,v in pairs(self.laser_stats) do
 		ship:unsetprop(prefix..k)
