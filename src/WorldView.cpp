@@ -780,19 +780,13 @@ void WorldView::RefreshButtonStateAndVisibility()
 
 				lua_State * l = Lua::manager->GetLuaState();
 				int clean_stack = lua_gettop(l);
-				LuaObject<Ship>::PushToLua(s);
-				lua_pushstring(l, "GetEquip");
-				lua_gettable(l, -2);
-				lua_pushvalue(l, -2);
-				lua_pushstring(l, "engine");
-				lua_call(l, 2, 1);
+
+				LuaObject<Ship>::CallMethod<LuaRef>(s, "GetEquip", "engine").PushCopyToStack();
 				lua_rawgeti(l, -1, 1);
 				if (lua_isnil(l, -1)) {
 					text += Lang::NO_HYPERDRIVE;
 				} else {
-					lua_pushstring(l, "name");
-					lua_gettable(l, -2);
-					text += lua_tostring(l, -1);
+					text += LuaTable(l, -1).CallMethod<std::string>("GetName");
 				}
 				lua_settop(l, clean_stack);
 
