@@ -96,9 +96,9 @@ end
 --
 -- Parameters:
 --
---   slot - a <Constants.EquipSlot> string for the slot
+--   item - an Equipment type object (e.g., import("Equipment").cargo.hydrogen)
 --
---   item - a <Constants.EquipType> string for the item
+--   slot - the slot name (e.g., "cargo")
 --
 -- Return:
 --
@@ -141,7 +141,7 @@ end
 --
 -- Parameters:
 --
---   item - a <Constants.EquipType> string for the item
+--   item  - an Equipment type object (e.g., import("Equipment").cargo.hydrogen)
 --
 --   count - optional. The number of this item to add. Defaults to 1.
 --
@@ -152,7 +152,7 @@ end
 --
 -- Example:
 --
--- > ship:AddEquip("ANIMAL_MEAT", 10)
+-- > ship:AddEquip(Equipment.cargo.animal_meat, 10)
 --
 -- Availability:
 --
@@ -184,7 +184,7 @@ end
 --
 -- Parameters:
 --
---   slot - a <Constants.EquipSlot> string for the wanted equipment type
+--   slot  - a slot name string (e.g., "cargo")
 --
 --   index - optional. The equipment position in the slot to fetch. If
 --           specified the item at that position in the slot will be returned,
@@ -193,11 +193,14 @@ end
 --
 -- Return:
 --
---   equip - when index is specified, a <Constants.EquipType> string for the
---           item
+--   equip - when index is specified, an equipment type object for the
+--           item, or nil
 --
---   equiplist - when index is not specified, a table of zero or more
---               <Constants.EquipType> strings for all the items in the slot
+--   equiplist - when index is not specified, a table which has slot indexes
+--               as keys and equipment type objects as values.
+--               WARNING: although slot indexes are integers, this table is
+--               not guaranteed to contain a contiguous set of entries, so you
+--               should iterate over it with pairs(), not ipairs().
 --
 -- Availability:
 --
@@ -245,7 +248,7 @@ end
 --
 -- Parameters:
 --
---   slot - a <Constants.EquipSlot> string for the slot to check
+--   slot - a slot name (e.g., "cargo")
 --
 -- Return:
 --
@@ -288,16 +291,16 @@ compat.slots.old2new={
 --
 -- Parameters:
 --
---   slot - a <Constants.EquipSlot> string for the equipment slot
+--   slot - a slot name (e.g., "laser_front")
 --
 --   index - the position to store the item in
 --
---   item - a <Constants.EquipType> string for the item
+--   item - an equipment type object (e.g., Equipment.laser.large_plasma_accelerator)
 --
 -- Example:
 --
 -- > -- add a laser to the rear laser mount
--- > ship:SetEquip("LASER", 1, "PULSECANNON_1MW")
+-- > ship:SetEquip("laser_rear", 1, Equipment.laser.pulsecannon_4mw)
 --
 -- Availability:
 --
@@ -325,7 +328,7 @@ end
 --
 -- Parameters:
 --
---   item - a <Constants.EquipType> string for the item
+--   item - an equipment type object (e.g., Equipment.cargo.hydrogen)
 --
 --   count - optional. The number of this item to remove. Defaults to 1.
 --
@@ -335,7 +338,7 @@ end
 --
 -- Example:
 --
--- > ship:RemoveEquip("DRIVE_CLASS1")
+-- > ship:RemoveEquip(Equipment.hyperspace.hyperdrive_2)
 --
 -- Availability:
 --
@@ -457,21 +460,22 @@ end
 --
 -- Fire a missile at the given target
 --
--- > fired = ship:FireMissileAt(type, target)
+-- > missile_object = ship:FireMissileAt(type, target)
 --
 -- Parameters:
 --
---   missile - a <Constants.EquipType> string for the missile type. specifying an
---          equipment that is not a missile will result in a Lua error.
+--   missile - an equipment type object for the missile type.
 --          Specifying "any" will launch the first available missile.
---          You can also provide a number matching the slot of the missile you wish
---          to launch.
+--          You can also provide a number matching the index
+--          (within the 'missile' equipment slot) of the missile
+--          you want to launch.
 --
 --   target - the <Ship> to fire the missile at
 --
 -- Return:
 --
---   fired - the fired missile
+--   missile_object - the fired missile (a <Missile> object),
+--                    or nil if no missile was fired
 --
 -- Availability:
 --
@@ -564,7 +568,8 @@ end
 --
 -- Method: Jettison
 --
--- Jettison one unit of the given cargo type
+-- Jettison one unit of the given cargo type.  The item must be present in
+-- the ship's equipment/cargo set, and will be removed by this call.
 --
 -- > success = ship:Jettison(item)
 --
@@ -572,7 +577,8 @@ end
 --
 -- Parameters:
 --
---   item - the item to jettison
+--   item - an equipment type object (e.g., Equipment.cargo.radioactives)
+--          specifying the type of item to jettison.
 --
 -- Result:
 --
