@@ -55,7 +55,6 @@ struct ShipType {
 		double sep;
 		DualLaserOrientation orient;
 	} gunMount[GUNMOUNT_MAX];
-	int equipSlotCapacity[Equip::SLOT_MAX];
 	std::map<std::string, int> slots;
 	int capacity; // tonnes
 	int hullMass;

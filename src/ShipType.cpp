@@ -85,26 +85,6 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 	lua_pop(L, 1);
 	s.cameraOffset = t.Get("camera_offset", vector3d(0.0));
 
-	for (int i=0; i<Equip::SLOT_MAX; i++) s.equipSlotCapacity[i] = 0;
-	s.equipSlotCapacity[Equip::SLOT_CARGO] = t.Get("max_cargo", 0);
-	s.equipSlotCapacity[Equip::SLOT_ENGINE] = t.Get("max_engine", 1);
-	s.equipSlotCapacity[Equip::SLOT_LASER] = t.Get("max_laser", 1);
-	s.equipSlotCapacity[Equip::SLOT_MISSILE] = t.Get("max_missile", 0);
-	s.equipSlotCapacity[Equip::SLOT_ECM] = t.Get("max_ecm", 1);
-	s.equipSlotCapacity[Equip::SLOT_SCANNER] = t.Get("max_scanner", 1);
-	s.equipSlotCapacity[Equip::SLOT_RADARMAPPER] = t.Get("max_radarmapper", 1);
-	s.equipSlotCapacity[Equip::SLOT_HYPERCLOUD] = t.Get("max_hypercloud", 1);
-	s.equipSlotCapacity[Equip::SLOT_HULLAUTOREPAIR] = t.Get("max_hullautorepair", 1);
-	s.equipSlotCapacity[Equip::SLOT_ENERGYBOOSTER] = t.Get("max_energybooster", 1);
-	s.equipSlotCapacity[Equip::SLOT_ATMOSHIELD] = t.Get("max_atmoshield", 1);
-	s.equipSlotCapacity[Equip::SLOT_CABIN] = t.Get("max_cabin", 50);
-	s.equipSlotCapacity[Equip::SLOT_SHIELD] = t.Get("max_shield", 9999);
-	s.equipSlotCapacity[Equip::SLOT_FUELSCOOP] = t.Get("max_fuelscoop", 1);
-	s.equipSlotCapacity[Equip::SLOT_CARGOSCOOP] = t.Get("max_cargoscoop", 1);
-	s.equipSlotCapacity[Equip::SLOT_LASERCOOLER] = t.Get("max_lasercooler", 1);
-	s.equipSlotCapacity[Equip::SLOT_CARGOLIFESUPPORT] = t.Get("max_cargolifesupport", 1);
-	s.equipSlotCapacity[Equip::SLOT_AUTOPILOT] = t.Get("max_autopilot", 1);
-
 	s.capacity = t.Get("capacity", 0);
 	s.hullMass = t.Get("hull_mass", 100);
 	s.fuelTankMass = t.Get("fuel_tank_mass", 5);
@@ -114,6 +94,11 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 		s.slots = slot_table.GetMap<std::string, int>();
 	}
 	lua_pop(L, 1);
+
+	{
+		const auto it = s.slots.find("engine");
+		if (it != s.slots.end()) { it->second = Clamp(it->second, 0, 1); }
+	}
 
 	// fuel_use_rate can be given in two ways
 	float thruster_fuel_use = 0;
@@ -135,8 +120,6 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 
 	s.minCrew = t.Get("min_crew", 1);
 	s.maxCrew = t.Get("max_crew", 1);
-
-	s.equipSlotCapacity[Equip::SLOT_ENGINE] = Clamp(s.equipSlotCapacity[Equip::SLOT_ENGINE], 0, 1);
 
 	s.hyperdriveClass = t.Get("hyperdrive_class", 1);
 
