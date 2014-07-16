@@ -210,7 +210,7 @@ static int l_timer_call_at(lua_State *l)
  *
  * > -- dump fuel every two seconds until none left
  * > Timer:CallEvery(2, function ()
- * >     local did_dump = Game.player:Jettison(Equip.Type.HYDROGEN)
+ * >     local did_dump = Game.player:Jettison(Equipment.cargo.hydrogen)
  * >     return not did_dump
  * > end)
  *
