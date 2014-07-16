@@ -193,11 +193,11 @@
    },
    "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED" : {
       "description" : "",
-      "message" : "Wystrzelono harpun towarowy. Pozyskano 1 tonę: %item."
+      "message" : "Aktywowano harpun towarowy. Pozyskano 1 tonę: %item."
    },
    "CARGO_SCOOP_ATTEMPTED" : {
       "description" : "",
-      "message" : "Cargo scoop attempted. Not enough room in cargo hold."
+      "message" : "Próba przechwycenia ładunku. Brak miejsca w ładowni."
    },
    "CARGO_SCOOP_DESCRIPTION" : {
       "description" : "",

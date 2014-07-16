@@ -197,7 +197,7 @@
    },
    "CARGO_SCOOP_ATTEMPTED" : {
       "description" : "",
-      "message" : "Cargo scoop attempted. Not enough room in cargo hold."
+      "message" : "Raccolta di cargo non riuscita. La stiva è piena."
    },
    "CARGO_SCOOP_DESCRIPTION" : {
       "description" : "",
