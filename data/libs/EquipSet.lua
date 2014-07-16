@@ -32,7 +32,7 @@ EquipSet.default = {
 }
 
 function EquipSet.New (slots)
-	obj = {}
+	local obj = {}
 	obj.slots = {}
 	for k, n in pairs(EquipSet.default) do
 		obj.slots[k] = {__occupied = 0, __limit = n}
@@ -341,7 +341,7 @@ function EquipSet:Get(slot, index)
 	if type(index) == "number" then
 		return self.slots[slot][index]
 	end
-	ret = {}
+	local ret = {}
 	for i,v in pairs(self.slots[slot]) do
 		if type(i) == 'number' then
 			ret[i] = v
@@ -351,13 +351,13 @@ function EquipSet:Get(slot, index)
 end
 
 function EquipSet:Set(ship, slot_name, index, item)
-	slot = self.slots[slot_name]
+	local slot = self.slots[slot_name]
 
 	if index < 1 or index > slot.__limit then
 		error("EquipSet:Set(): argument 'index' out of range")
 	end
 
-	to_remove = slot[index]
+	local to_remove = slot[index]
 	if item == to_remove then return end
 
 	if not to_remove or to_remove:Uninstall(ship, 1, slot_name) == 1 then
