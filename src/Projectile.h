@@ -6,7 +6,6 @@
 
 #include "libs.h"
 #include "Body.h"
-#include "EquipType.h"
 #include "graphics/Material.h"
 #include "graphics/RenderState.h"
 

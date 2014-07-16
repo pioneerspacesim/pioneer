@@ -6,7 +6,6 @@
 
 #include "libs.h"
 #include "vector3.h"
-#include "EquipType.h"
 #include <vector>
 #include <map>
 #include <string>
