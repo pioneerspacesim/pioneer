@@ -542,23 +542,23 @@ void WorldView::RefreshButtonStateAndVisibility()
 				case CONTROL_FIXHEADING_BACKWARD:
 					m_flightStatus->SetText(Lang::HEADING_LOCK_BACKWARD);
 					break;
-			        case CONTROL_FIXHEADING_NORMAL:
-				        m_flightStatus->SetText(Lang::HEADING_LOCK_NORMAL);
+				case CONTROL_FIXHEADING_NORMAL:
+					m_flightStatus->SetText(Lang::HEADING_LOCK_NORMAL);
 					break;
-			        case CONTROL_FIXHEADING_ANTINORMAL:
+				case CONTROL_FIXHEADING_ANTINORMAL:
 					m_flightStatus->SetText(Lang::HEADING_LOCK_ANTINORMAL);
 					break;
-			        case CONTROL_FIXHEADING_RADIALLY_INWARD:
-				        m_flightStatus->SetText(Lang::HEADING_LOCK_RADIALLY_INWARD);
+				case CONTROL_FIXHEADING_RADIALLY_INWARD:
+					m_flightStatus->SetText(Lang::HEADING_LOCK_RADIALLY_INWARD);
 					break;
-			        case CONTROL_FIXHEADING_RADIALLY_OUTWARD:
+				case CONTROL_FIXHEADING_RADIALLY_OUTWARD:
 					m_flightStatus->SetText(Lang::HEADING_LOCK_RADIALLY_OUTWARD);
 					break;
-			        case CONTROL_FIXHEADING_KILLROT:
+				case CONTROL_FIXHEADING_KILLROT:
 					m_flightStatus->SetText(Lang::HEADING_LOCK_KILLROT);
 					break;
 
-			        case CONTROL_AUTOPILOT:
+				case CONTROL_AUTOPILOT:
 					m_flightStatus->SetText(Lang::AUTOPILOT);
 					break;
 
