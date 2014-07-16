@@ -94,7 +94,7 @@ private:
 	void DrawImageIndicator(const Indicator &marker, Gui::TexturedQuad *quad, const Color &c);
 	void DrawEdgeMarker(const Indicator &marker, const Color &c);
 
-	Gui::Button *AddCommsOption(const std::string &msg, int ypos, int optnum);
+	Gui::Button *AddCommsOption(const std::string &msg, int ypos, int xoffset, int optnum);
 	void AddCommsNavOption(const std::string &msg, Body *target);
 	void OnClickCommsNavOption(Body *target);
 	void BuildCommsNavOptions();

@@ -31,6 +31,7 @@ KEY_BINDING(yawLeft, "BindYawLeft", Lang::YAW_LEFT, SDLK_a, 0)
 KEY_BINDING(yawRight, "BindYawRight", Lang::YAW_RIGHT, SDLK_d, 0)
 KEY_BINDING(rollLeft, "BindRollLeft", Lang::ROLL_LEFT, SDLK_q, 0)
 KEY_BINDING(rollRight, "BindRollRight", Lang::ROLL_RIGHT, SDLK_e, 0)
+KEY_BINDING(killRot, "BindKillRot", Lang::HEADING_LOCK_KILLROT, SDLK_p, 0)
 
 BINDING_GROUP(Lang::MANUAL_CONTROL_MODE)
 KEY_BINDING(thrustForward, "BindThrustForward", Lang::THRUSTER_MAIN, SDLK_i, 0)

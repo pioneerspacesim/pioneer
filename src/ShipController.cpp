@@ -119,11 +119,30 @@ void PlayerShipController::StaticUpdate(const float timeStep)
 			break;
 		case CONTROL_FIXHEADING_FORWARD:
 		case CONTROL_FIXHEADING_BACKWARD:
+		case CONTROL_FIXHEADING_NORMAL:
+		case CONTROL_FIXHEADING_ANTINORMAL:
+		case CONTROL_FIXHEADING_RADIALLY_INWARD:
+		case CONTROL_FIXHEADING_RADIALLY_OUTWARD:
+		case CONTROL_FIXHEADING_KILLROT:
 			PollControls(timeStep, true, mouseMotion);
 			if (IsAnyAngularThrusterKeyDown()) break;
 			v = m_ship->GetVelocity().NormalizedSafe();
-			if (m_flightControlState == CONTROL_FIXHEADING_BACKWARD)
+			if (m_flightControlState == CONTROL_FIXHEADING_BACKWARD ||
+			    m_flightControlState == CONTROL_FIXHEADING_ANTINORMAL)
 				v = -v;
+			if (m_flightControlState == CONTROL_FIXHEADING_NORMAL ||
+			    m_flightControlState == CONTROL_FIXHEADING_ANTINORMAL)
+				v = v.Cross(m_ship->GetPosition().NormalizedSafe());
+			if (m_flightControlState == CONTROL_FIXHEADING_RADIALLY_INWARD)
+				v = -m_ship->GetPosition().NormalizedSafe();
+			if (m_flightControlState == CONTROL_FIXHEADING_RADIALLY_OUTWARD)
+				v = m_ship->GetPosition().NormalizedSafe();
+			if (m_flightControlState == CONTROL_FIXHEADING_KILLROT) {
+				v = -m_ship->GetOrient().VectorZ();
+				if (m_ship->GetAngVelocity().Length() < 0.0001) // fixme magic number
+					SetFlightControlState(CONTROL_MANUAL);
+			}
+
 			m_ship->AIFaceDirection(v);
 			break;
 		case CONTROL_MANUAL:
@@ -258,6 +277,7 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 		if (KeyBindings::pitchUp.IsActive()) wantAngVel.x += 1.0;
 		if (KeyBindings::rollLeft.IsActive()) wantAngVel.z += 1.0;
 		if (KeyBindings::rollRight.IsActive()) wantAngVel.z -= 1.0;
+		if (KeyBindings::killRot.IsActive()) SetFlightControlState(CONTROL_FIXHEADING_KILLROT);
 
 		if (KeyBindings::thrustLowPower.IsActive())
 			angThrustSoftness = 50.0;
