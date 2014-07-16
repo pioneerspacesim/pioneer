@@ -7,6 +7,7 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <SDL_stdinc.h>
 #include "IterationProxy.h"
 
 namespace Lang {
