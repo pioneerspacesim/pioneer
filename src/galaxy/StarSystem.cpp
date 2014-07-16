@@ -1403,27 +1403,27 @@ StarSystem::StarSystem(const SystemPath &path, StarSystemCache* cache) : m_path(
 	PROFILE_SCOPED()
 	memset(m_tradeLevel, 0, sizeof(m_tradeLevel));
 
-	RefCountedPtr<const Sector> s = Pi::GetGalaxy()->GetSector(m_path);
-	assert(m_path.systemIndex >= 0 && m_path.systemIndex < s->m_systems.size());
+	RefCountedPtr<const Sector> sector = Pi::GetGalaxy()->GetSector(m_path);
+	assert(m_path.systemIndex >= 0 && m_path.systemIndex < sector->m_systems.size());
 
-	m_seed    = s->m_systems[m_path.systemIndex].GetSeed();
-	m_name    = s->m_systems[m_path.systemIndex].GetName();
-	m_faction = Pi::GetGalaxy()->GetFactions()->GetNearestFaction(&s->m_systems[m_path.systemIndex]);
+	m_seed    = sector->m_systems[m_path.systemIndex].GetSeed();
+	m_name    = sector->m_systems[m_path.systemIndex].GetName();
+	m_faction = Pi::GetGalaxy()->GetFactions()->GetNearestFaction(&sector->m_systems[m_path.systemIndex]);
 
 	Uint32 _init[6] = { m_path.systemIndex, Uint32(m_path.sectorX), Uint32(m_path.sectorY), Uint32(m_path.sectorZ), UNIVERSE_SEED, Uint32(m_seed) };
 	Random rand(_init, 6);
 
-	m_unexplored = !s->m_systems[m_path.systemIndex].IsExplored();
+	m_unexplored = !sector->m_systems[m_path.systemIndex].IsExplored();
 
-	if (s->m_systems[m_path.systemIndex].GetCustomSystem()) {
+	if (sector->m_systems[m_path.systemIndex].GetCustomSystem()) {
 		m_isCustom = true;
-		const CustomSystem *custom = s->m_systems[m_path.systemIndex].GetCustomSystem();
+		const CustomSystem *custom = sector->m_systems[m_path.systemIndex].GetCustomSystem();
 		m_numStars = custom->numStars;
 		if (custom->shortDesc.length() > 0) m_shortDesc = custom->shortDesc;
 		if (custom->longDesc.length() > 0) m_longDesc = custom->longDesc;
 		if (!custom->IsRandom()) {
 			m_hasCustomBodies = true;
-			GenerateFromCustom(s->m_systems[m_path.systemIndex].GetCustomSystem(), rand);
+			GenerateFromCustom(sector->m_systems[m_path.systemIndex].GetCustomSystem(), rand);
 			return;
 		}
 	}
@@ -1431,13 +1431,13 @@ StarSystem::StarSystem(const SystemPath &path, StarSystemCache* cache) : m_path(
 	SystemBody *star[4];
 	SystemBody *centGrav1(0), *centGrav2(0);
 
-	const int numStars = s->m_systems[m_path.systemIndex].GetNumStars();
+	const int numStars = sector->m_systems[m_path.systemIndex].GetNumStars();
 	assert((numStars >= 1) && (numStars <= 4));
 	if (numStars == 1) {
-		SystemBody::BodyType type = s->m_systems[m_path.systemIndex].GetStarType(0);
+		SystemBody::BodyType type = sector->m_systems[m_path.systemIndex].GetStarType(0);
 		star[0] = NewBody();
 		star[0]->m_parent = 0;
-		star[0]->m_name = s->m_systems[m_path.systemIndex].GetName();
+		star[0]->m_name = sector->m_systems[m_path.systemIndex].GetName();
 		star[0]->m_orbMin = fixed();
 		star[0]->m_orbMax = fixed();
 
@@ -1448,19 +1448,19 @@ StarSystem::StarSystem(const SystemPath &path, StarSystemCache* cache) : m_path(
 		centGrav1 = NewBody();
 		centGrav1->m_type = SystemBody::TYPE_GRAVPOINT;
 		centGrav1->m_parent = 0;
-		centGrav1->m_name = s->m_systems[m_path.systemIndex].GetName()+" A,B";
+		centGrav1->m_name = sector->m_systems[m_path.systemIndex].GetName()+" A,B";
 		m_rootBody.Reset(centGrav1);
 
-		SystemBody::BodyType type = s->m_systems[m_path.systemIndex].GetStarType(0);
+		SystemBody::BodyType type = sector->m_systems[m_path.systemIndex].GetStarType(0);
 		star[0] = NewBody();
-		star[0]->m_name = s->m_systems[m_path.systemIndex].GetName()+" A";
+		star[0]->m_name = sector->m_systems[m_path.systemIndex].GetName()+" A";
 		star[0]->m_parent = centGrav1;
 		MakeStarOfType(star[0], type, rand);
 
 		star[1] = NewBody();
-		star[1]->m_name = s->m_systems[m_path.systemIndex].GetName()+" B";
+		star[1]->m_name = sector->m_systems[m_path.systemIndex].GetName()+" B";
 		star[1]->m_parent = centGrav1;
-		MakeStarOfTypeLighterThan(star[1], s->m_systems[m_path.systemIndex].GetStarType(1),	star[0]->GetMassAsFixed(), rand);
+		MakeStarOfTypeLighterThan(star[1], sector->m_systems[m_path.systemIndex].GetStarType(1),	star[0]->GetMassAsFixed(), rand);
 
 		centGrav1->m_mass = star[0]->GetMassAsFixed() + star[1]->GetMassAsFixed();
 		centGrav1->m_children.push_back(star[0]);
@@ -1480,27 +1480,27 @@ try_that_again_guvnah:
 			// 3rd and maybe 4th star
 			if (numStars == 3) {
 				star[2] = NewBody();
-				star[2]->m_name = s->m_systems[m_path.systemIndex].GetName()+" C";
+				star[2]->m_name = sector->m_systems[m_path.systemIndex].GetName()+" C";
 				star[2]->m_orbMin = 0;
 				star[2]->m_orbMax = 0;
-				MakeStarOfTypeLighterThan(star[2], s->m_systems[m_path.systemIndex].GetStarType(2), star[0]->GetMassAsFixed(), rand);
+				MakeStarOfTypeLighterThan(star[2], sector->m_systems[m_path.systemIndex].GetStarType(2), star[0]->GetMassAsFixed(), rand);
 				centGrav2 = star[2];
 				m_numStars = 3;
 			} else {
 				centGrav2 = NewBody();
 				centGrav2->m_type = SystemBody::TYPE_GRAVPOINT;
-				centGrav2->m_name = s->m_systems[m_path.systemIndex].GetName()+" C,D";
+				centGrav2->m_name = sector->m_systems[m_path.systemIndex].GetName()+" C,D";
 				centGrav2->m_orbMax = 0;
 
 				star[2] = NewBody();
-				star[2]->m_name = s->m_systems[m_path.systemIndex].GetName()+" C";
+				star[2]->m_name = sector->m_systems[m_path.systemIndex].GetName()+" C";
 				star[2]->m_parent = centGrav2;
-				MakeStarOfTypeLighterThan(star[2], s->m_systems[m_path.systemIndex].GetStarType(2), star[0]->GetMassAsFixed(), rand);
+				MakeStarOfTypeLighterThan(star[2], sector->m_systems[m_path.systemIndex].GetStarType(2), star[0]->GetMassAsFixed(), rand);
 
 				star[3] = NewBody();
-				star[3]->m_name = s->m_systems[m_path.systemIndex].GetName()+" D";
+				star[3]->m_name = sector->m_systems[m_path.systemIndex].GetName()+" D";
 				star[3]->m_parent = centGrav2;
-				MakeStarOfTypeLighterThan(star[3], s->m_systems[m_path.systemIndex].GetStarType(3),	star[2]->GetMassAsFixed(), rand);
+				MakeStarOfTypeLighterThan(star[3], sector->m_systems[m_path.systemIndex].GetStarType(3),	star[2]->GetMassAsFixed(), rand);
 
 				// Separate stars by 0.2 radii for each, so that their planets don't bump into the other star
 				const fixed minDist2 = (fixed(12,10) * star[2]->GetRadiusAsFixed() + fixed(12,10) * star[3]->GetRadiusAsFixed()) * AU_SOL_RADIUS;
@@ -1513,7 +1513,7 @@ try_that_again_guvnah:
 			SystemBody *superCentGrav = NewBody();
 			superCentGrav->m_type = SystemBody::TYPE_GRAVPOINT;
 			superCentGrav->m_parent = 0;
-			superCentGrav->m_name = s->m_systems[m_path.systemIndex].GetName();
+			superCentGrav->m_name = sector->m_systems[m_path.systemIndex].GetName();
 			centGrav1->m_parent = superCentGrav;
 			centGrav2->m_parent = superCentGrav;
 			m_rootBody.Reset(superCentGrav);
