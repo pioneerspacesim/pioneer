@@ -155,6 +155,10 @@
       "description" : "",
       "message" : "Can't save game while in hyperspace"
    },
+   "CANT_SAVE_DEAD_PLAYER" : {
+      "description" : "",
+      "message" : "Can't save game after the player has died"
+   },
    "CAPITALIST" : {
       "description" : "",
       "message" : "Capitalist"
