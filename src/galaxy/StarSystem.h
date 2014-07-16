@@ -319,11 +319,7 @@ public:
 	Faction* GetFaction() const  { return m_faction; }
 	bool GetUnexplored() const { return m_unexplored; }
 	fixed GetMetallicity() const { return m_metallicity; }
-	fixed GetIndustrial() const { return m_industrial; }
-	int GetEconType() const { return m_econType; }
 	int GetSeed() const { return m_seed; }
-	const int* GetTradeLevel() const { return m_tradeLevel; }
-	fixed GetAgricultural() const { return m_agricultural; }
 	fixed GetHumanProx() const { return m_humanProx; }
 	fixed GetTotalPop() const { return m_totalPop; }
 

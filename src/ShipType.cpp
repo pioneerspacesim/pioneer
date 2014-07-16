@@ -20,8 +20,6 @@ std::vector<ShipType::Id> ShipType::player_ships;
 std::vector<ShipType::Id> ShipType::static_ships;
 std::vector<ShipType::Id> ShipType::missile_ships;
 
-std::vector<ShipType::Id> ShipType::playable_atmospheric_ships;
-
 std::string ShipType::POLICE				= "kanara";
 std::string ShipType::MISSILE_GUIDED		= "missile_guided";
 std::string ShipType::MISSILE_NAVAL			= "missile_naval";
@@ -277,16 +275,5 @@ void ShipType::Init()
 
 	if (ShipType::player_ships.empty())
 		Error("No playable ships have been defined! The game cannot run.");
-
-	//collect ships that can fit atmospheric shields
-	for (std::vector<ShipType::Id>::const_iterator it = ShipType::player_ships.begin();
-		it != ShipType::player_ships.end(); ++it) {
-		const ShipType &ship = ShipType::types[*it];
-		if (ship.equipSlotCapacity[Equip::SLOT_ATMOSHIELD] != 0)
-			ShipType::playable_atmospheric_ships.push_back(*it);
-	}
-
-	if (ShipType::playable_atmospheric_ships.empty())
-		Error("No ships can fit atmospheric shields! The game cannot run.");
 }
 

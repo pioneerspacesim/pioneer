@@ -81,8 +81,6 @@ struct ShipType {
 	static std::vector<Id> static_ships;
 	static std::vector<Id> missile_ships;
 
-	static std::vector<Id> playable_atmospheric_ships;
-
 	static const char *gunmountNames[GUNMOUNT_MAX];
 	static void Init();
 	static const ShipType *Get(const char *name) {
