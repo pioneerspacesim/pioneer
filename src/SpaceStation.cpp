@@ -657,7 +657,7 @@ void SpaceStation::DoLawAndOrder(const double timeStep)
 			LuaObject<Ship>::CallMethod(ship, "AddEquip", misc.Sub("atmospheric_shielding"));
 			lua_pop(l, 6);
 			LUA_DEBUG_END(l, 0);
-			ship->UpdateStats();
+			ship->UpdateEquipStats();
 		} else {
 			delete ship;
 		}

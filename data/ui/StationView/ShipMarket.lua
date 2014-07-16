@@ -8,6 +8,7 @@ local Event = import("Event")
 local Format = import("Format")
 local Lang = import("Lang")
 local ShipDef = import("ShipDef")
+local Equipment = import("Equipment")
 
 local Model = import("SceneGraph.Model")
 local ModelSkin = import("SceneGraph.ModelSkin")
@@ -107,7 +108,7 @@ local function buyShip (sos)
 	if sos.pattern then player.model:SetPattern(sos.pattern) end
 	player:SetLabel(sos.label)
 	if def.hyperdriveClass > 0 then
-		player:AddEquip('DRIVE_CLASS'..tostring(def.hyperdriveClass))
+		player:AddEquip(Equipment.hyperspace["hyperdrive_" .. def.hyperdriveClass])
 	end
 	player:SetFuelPercent(100)
 

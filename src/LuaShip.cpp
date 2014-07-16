@@ -92,7 +92,7 @@ static int l_ship_set_type(lua_State *l)
 		luaL_error(l, "Unknown ship type '%s'", type);
 
 	s->SetShipType(type);
-	s->UpdateStats();
+	s->UpdateEquipStats();
 
 	LUA_DEBUG_END(l, 0);
 

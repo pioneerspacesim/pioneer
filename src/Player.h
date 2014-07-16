@@ -26,7 +26,7 @@ public:
 	virtual void SetAlertState(Ship::AlertState as);
 	virtual void NotifyRemoved(const Body* const removedBody);
 
-	void SetShipType(const ShipType::Id &shipId);
+	virtual void SetShipType(const ShipType::Id &shipId) override;
 
 	PlayerShipController *GetPlayerController() const;
 	//XXX temporary things to avoid causing too many changes right now

@@ -32,7 +32,7 @@ EquipSet.default = {
 }
 
 function EquipSet.New (slots)
-	obj = {}
+	local obj = {}
 	obj.slots = {}
 	for k, n in pairs(EquipSet.default) do
 		obj.slots[k] = {__occupied = 0, __limit = n}
@@ -302,11 +302,46 @@ function EquipSet:Remove(ship, item, num, slot)
 	return removed
 end
 
+local EquipSet__ClearSlot = function (self, ship, slot)
+	local s = self.slots[slot]
+	local item_counts = {}
+	for k,v in pairs(s) do
+		if type(k) == 'number' then
+			item_counts[v] = (item_counts[v] or 0) + 1
+		end
+	end
+	for item, count in pairs(item_counts) do
+		local uninstalled = item:Uninstall(ship, count, slot)
+		-- FIXME support failed uninstalls??
+		-- note that failed uninstalls are almost incompatible with Ship::SetShipType
+		assert(uninstalled == count)
+	end
+	self.slots[slot] = {__occupied = 0, __limit = s.__limit}
+	self:__TriggerCallbacks(ship, slot)
+
+end
+
+function EquipSet:Clear(ship, slot_names)
+	if slot_names == nil then
+		for k,_ in pairs(self.slots) do
+			EquipSet__ClearSlot(self, ship, k)
+		end
+
+	elseif type(slot_names) == 'string' then
+		EquipSet__ClearSlot(self, ship, slot_names)
+
+	elseif type(slot_names) == 'table' then
+		for _, s in ipairs(slot_names) do
+			EquipSet__ClearSlot(self, ship, s)
+		end
+	end
+end
+
 function EquipSet:Get(slot, index)
 	if type(index) == "number" then
 		return self.slots[slot][index]
 	end
-	ret = {}
+	local ret = {}
 	for i,v in pairs(self.slots[slot]) do
 		if type(i) == 'number' then
 			ret[i] = v
@@ -316,13 +351,13 @@ function EquipSet:Get(slot, index)
 end
 
 function EquipSet:Set(ship, slot_name, index, item)
-	slot = self.slots[slot_name]
+	local slot = self.slots[slot_name]
 
 	if index < 1 or index > slot.__limit then
 		error("EquipSet:Set(): argument 'index' out of range")
 	end
 
-	to_remove = slot[index]
+	local to_remove = slot[index]
 	if item == to_remove then return end
 
 	if not to_remove or to_remove:Uninstall(ship, 1, slot_name) == 1 then
@@ -335,7 +370,7 @@ function EquipSet:Set(ship, slot_name, index, item)
 			slot[index] = item
 			self:__TriggerCallbacks(ship, slot_name)
 		else -- Rollback the uninstall
-			to_remove:Install(ship, 1, slot_name)
+			if to_remove then to_remove:Install(ship, 1, slot_name) end
 		end
 	end
 end

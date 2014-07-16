@@ -76,7 +76,7 @@ local crewRoster = function ()
 							math.ceil(hullDamage/(64 - result)), -- 65 > result > 3
 							Game.player:CountEquip(Equipment.cargo.metal_alloys, cargo)
 						)
-						Game.player:RemoveEquip('METAL_ALLOYS',repair) -- These will now be part of the hull.
+						Game.player:RemoveEquip(Equipment.cargo.metal_alloys, repair) -- These will now be part of the hull.
 						repairPercent = math.min(math.ceil(100 * (repair + hullMassLeft) / hullMass), 100) -- Get new hull percentage...
 						Game.player:SetHullPercent(repairPercent)   -- ...and set it.
 						feedback:SetText(l.HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT:interp({name = crewMember.name,repairPercent = repairPercent}))
