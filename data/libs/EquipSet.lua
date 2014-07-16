@@ -370,7 +370,7 @@ function EquipSet:Set(ship, slot_name, index, item)
 			slot[index] = item
 			self:__TriggerCallbacks(ship, slot_name)
 		else -- Rollback the uninstall
-			to_remove:Install(ship, 1, slot_name)
+			if to_remove then to_remove:Install(ship, 1, slot_name) end
 		end
 	end
 end
