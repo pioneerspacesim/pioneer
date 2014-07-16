@@ -6,8 +6,16 @@ local Event = import("Event")
 -- be changed to destroy the Lua context between games.
 local next_autosave = 1
 
+local function CheckedSave(filename)
+	local ok, err = pcall(Game.SaveGame, filename)
+	if not ok then
+		print('Error making autosave:')
+		print(err)
+	end
+end
+
 local function AutoSave()
-	Game.SaveGame('_autosave' .. next_autosave)
+	CheckedSave('_autosave' .. next_autosave)
 	next_autosave = next_autosave + 1
 	if next_autosave > 9 then
 		next_autosave = 1
@@ -19,4 +27,4 @@ Event.Register('onShipDocked', f)
 Event.Register('onShipLanded', f)
 Event.Register('onShipUndocked', f)
 Event.Register('onShipTakeOff', f)
-Event.Register('onGameEnd', function() Game.SaveGame('_exit'); end)
+Event.Register('onGameEnd', function() CheckedSave('_exit'); end)
