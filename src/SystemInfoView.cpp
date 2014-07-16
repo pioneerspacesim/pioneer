@@ -147,24 +147,13 @@ void SystemInfoView::UpdateEconomyTab()
 	StarSystem *s = m_system.Get();
 	std::string data;
 
-/*	if (s->m_econType) {
-		data = "Economy: ";
-
-		std::vector<std::string> v;
-		if (s->m_econType & ECON_AGRICULTURE) v.push_back("Agricultural");
-		if (s->m_econType & ECON_MINING) v.push_back("Mining");
-		if (s->m_econType & ECON_INDUSTRY) v.push_back("Industrial");
-		data += string_join(v, ", ");
-		data += "\n";
-	}
-	m_econInfo->SetText(data);
-*/
 	/* imports and exports */
 	std::vector<std::string> crud;
 	data = std::string("#ff0")+std::string(Lang::MAJOR_IMPORTS)+std::string("\n");
-	for (int i=1; i<Equip::TYPE_MAX; i++) {
-		if (s->GetCommodityBasePriceModPercent(i) > 10)
-			crud.push_back(std::string("#fff")+Equip::types[i].name);
+	for (int i = 1; i < GalacticEconomy::COMMODITY_COUNT; ++i) {
+		const int mod = s->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i));
+		if (mod > 10)
+			crud.push_back(std::string("#fff")+GalacticEconomy::COMMODITY_DATA[i].name);
 	}
 	if (crud.size()) data += string_join(crud, "\n")+"\n";
 	else data += std::string("#777")+std::string(Lang::NONE)+std::string("\n");
@@ -172,9 +161,10 @@ void SystemInfoView::UpdateEconomyTab()
 
 	crud.clear();
 	data = std::string("#ff0")+std::string(Lang::MINOR_IMPORTS)+std::string("\n");
-	for (int i=1; i<Equip::TYPE_MAX; i++) {
-		if ((s->GetCommodityBasePriceModPercent(i) > 2) && (s->GetCommodityBasePriceModPercent(i) <= 10))
-			crud.push_back(std::string("#777")+Equip::types[i].name);
+	for (int i = 1; i < GalacticEconomy::COMMODITY_COUNT; ++i) {
+		const int mod = s->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i));
+		if ((mod > 2) && (mod <= 10))
+			crud.push_back(std::string("#777")+GalacticEconomy::COMMODITY_DATA[i].name);
 	}
 	if (crud.size()) data += string_join(crud, "\n")+"\n";
 	else data += std::string("#777")+std::string(Lang::NONE)+std::string("\n");
@@ -182,9 +172,10 @@ void SystemInfoView::UpdateEconomyTab()
 
 	crud.clear();
 	data = std::string("#ff0")+std::string(Lang::MAJOR_EXPORTS)+std::string("\n");
-	for (int i=1; i<Equip::TYPE_MAX; i++) {
-		if (s->GetCommodityBasePriceModPercent(i) < -10)
-			crud.push_back(std::string("#fff")+Equip::types[i].name);
+	for (int i = 1; i < GalacticEconomy::COMMODITY_COUNT; ++i) {
+		const int mod = s->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i));
+		if (mod < -10)
+			crud.push_back(std::string("#fff")+GalacticEconomy::COMMODITY_DATA[i].name);
 	}
 	if (crud.size()) data += string_join(crud, "\n")+"\n";
 	else data += std::string("#777")+std::string(Lang::NONE)+std::string("\n");
@@ -192,9 +183,10 @@ void SystemInfoView::UpdateEconomyTab()
 
 	crud.clear();
 	data = std::string("#ff0")+std::string(Lang::MINOR_EXPORTS)+std::string("\n");
-	for (int i=1; i<Equip::TYPE_MAX; i++) {
-		if ((s->GetCommodityBasePriceModPercent(i) < -2) && (s->GetCommodityBasePriceModPercent(i) >= -10))
-			crud.push_back(std::string("#777")+Equip::types[i].name);
+	for (int i = 1; i < GalacticEconomy::COMMODITY_COUNT; ++i) {
+		const int mod = s->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i));
+		if ((mod < -2) && (mod >= -10))
+			crud.push_back(std::string("#777")+GalacticEconomy::COMMODITY_DATA[i].name);
 	}
 	if (crud.size()) data += string_join(crud, "\n")+"\n";
 	else data += std::string("#777")+std::string(Lang::NONE)+std::string("\n");
@@ -202,9 +194,9 @@ void SystemInfoView::UpdateEconomyTab()
 
 	crud.clear();
 	data = std::string("#ff0")+std::string(Lang::ILLEGAL_GOODS)+std::string("\n");
-	for (int i=1; i<Equip::TYPE_MAX; i++) {
-		if (!Polit::IsCommodityLegal(s, Equip::Type(i)))
-			crud.push_back(std::string("#777")+Equip::types[i].name);
+	for (int i = 1; i < GalacticEconomy::COMMODITY_COUNT; ++i) {
+		if (!Polit::IsCommodityLegal(s, GalacticEconomy::Commodity(i)))
+			crud.push_back(std::string("#777")+GalacticEconomy::COMMODITY_DATA[i].name);
 	}
 	if (crud.size()) data += string_join(crud, "\n")+"\n";
 	else data += std::string("#777")+std::string(Lang::NONE)+std::string("\n");

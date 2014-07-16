@@ -2006,11 +2006,11 @@ void StarSystem::MakeShortDescription(Random &rand)
 	PROFILE_SCOPED()
 	m_econType = 0;
 	if ((m_industrial > m_metallicity) && (m_industrial > m_agricultural)) {
-		m_econType = ECON_INDUSTRY;
+		m_econType = GalacticEconomy::ECON_INDUSTRY;
 	} else if (m_metallicity > m_agricultural) {
-		m_econType = ECON_MINING;
+		m_econType = GalacticEconomy::ECON_MINING;
 	} else {
-		m_econType = ECON_AGRICULTURE;
+		m_econType = GalacticEconomy::ECON_AGRICULTURE;
 	}
 
 	if (m_unexplored) {
@@ -2022,27 +2022,27 @@ void StarSystem::MakeShortDescription(Random &rand)
 		m_shortDesc = Lang::SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS;
 	} else if (m_totalPop < fixed(1,10)) {
 		switch (m_econType) {
-			case ECON_INDUSTRY: m_shortDesc = Lang::SMALL_INDUSTRIAL_OUTPOST; break;
-			case ECON_MINING: m_shortDesc = Lang::SOME_ESTABLISHED_MINING; break;
-			case ECON_AGRICULTURE: m_shortDesc = Lang::YOUNG_FARMING_COLONY; break;
+			case GalacticEconomy::ECON_INDUSTRY: m_shortDesc = Lang::SMALL_INDUSTRIAL_OUTPOST; break;
+			case GalacticEconomy::ECON_MINING: m_shortDesc = Lang::SOME_ESTABLISHED_MINING; break;
+			case GalacticEconomy::ECON_AGRICULTURE: m_shortDesc = Lang::YOUNG_FARMING_COLONY; break;
 		}
 	} else if (m_totalPop < fixed(1,2)) {
 		switch (m_econType) {
-			case ECON_INDUSTRY: m_shortDesc = Lang::INDUSTRIAL_COLONY; break;
-			case ECON_MINING: m_shortDesc = Lang::MINING_COLONY; break;
-			case ECON_AGRICULTURE: m_shortDesc = Lang::OUTDOOR_AGRICULTURAL_WORLD; break;
+			case GalacticEconomy::ECON_INDUSTRY: m_shortDesc = Lang::INDUSTRIAL_COLONY; break;
+			case GalacticEconomy::ECON_MINING: m_shortDesc = Lang::MINING_COLONY; break;
+			case GalacticEconomy::ECON_AGRICULTURE: m_shortDesc = Lang::OUTDOOR_AGRICULTURAL_WORLD; break;
 		}
 	} else if (m_totalPop < fixed(5,1)) {
 		switch (m_econType) {
-			case ECON_INDUSTRY: m_shortDesc = Lang::HEAVY_INDUSTRY; break;
-			case ECON_MINING: m_shortDesc = Lang::EXTENSIVE_MINING; break;
-			case ECON_AGRICULTURE: m_shortDesc = Lang::THRIVING_OUTDOOR_WORLD; break;
+			case GalacticEconomy::ECON_INDUSTRY: m_shortDesc = Lang::HEAVY_INDUSTRY; break;
+			case GalacticEconomy::ECON_MINING: m_shortDesc = Lang::EXTENSIVE_MINING; break;
+			case GalacticEconomy::ECON_AGRICULTURE: m_shortDesc = Lang::THRIVING_OUTDOOR_WORLD; break;
 		}
 	} else {
 		switch (m_econType) {
-			case ECON_INDUSTRY: m_shortDesc = Lang::INDUSTRIAL_HUB_SYSTEM; break;
-			case ECON_MINING: m_shortDesc = Lang::VAST_STRIP_MINE; break;
-			case ECON_AGRICULTURE: m_shortDesc = Lang::HIGH_POPULATION_OUTDOOR_WORLD; break;
+			case GalacticEconomy::ECON_INDUSTRY: m_shortDesc = Lang::INDUSTRIAL_HUB_SYSTEM; break;
+			case GalacticEconomy::ECON_MINING: m_shortDesc = Lang::VAST_STRIP_MINE; break;
+			case GalacticEconomy::ECON_AGRICULTURE: m_shortDesc = Lang::HIGH_POPULATION_OUTDOOR_WORLD; break;
 		}
 	}
 }
@@ -2061,7 +2061,7 @@ void StarSystem::Populate(bool addSpaceStations)
 	// This is 1 in sector (0,0,0) and approaches 0 farther out
 	// (1,0,0) ~ .688, (1,1,0) ~ .557, (1,1,1) ~ .48
 	m_humanProx = Pi::GetGalaxy()->GetFactions()->IsHomeSystem(m_path) ? fixed(2,3): fixed(3,1) / isqrt(9 + 10*(m_path.sectorX*m_path.sectorX + m_path.sectorY*m_path.sectorY + m_path.sectorZ*m_path.sectorZ));
-	m_econType = ECON_INDUSTRY;
+	m_econType = GalacticEconomy::ECON_INDUSTRY;
 	m_industrial = rand.Fixed();
 	m_agricultural = 0;
 
@@ -2074,10 +2074,10 @@ void StarSystem::Populate(bool addSpaceStations)
 	// Lets use black magic to turn these into percentage base price
 	// alterations
 	int maximum = 0;
-	for (int i=Equip::FIRST_COMMODITY; i<=Equip::LAST_COMMODITY; i++) {
+	for (int i = 1; i < GalacticEconomy::COMMODITY_COUNT; i++) {
 		maximum = std::max(abs(m_tradeLevel[i]), maximum);
 	}
-	if (maximum) for (int i=Equip::FIRST_COMMODITY; i<=Equip::LAST_COMMODITY; i++) {
+	if (maximum) for (int i = 1; i < GalacticEconomy::COMMODITY_COUNT; i++) {
 		m_tradeLevel[i] = (m_tradeLevel[i] * MAX_COMMODITY_BASE_PRICE_ADJUSTMENT) / maximum;
 		m_tradeLevel[i] += rand.Int32(-5, 5);
 	}
@@ -2160,37 +2160,36 @@ void SystemBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 	}
 
 	const int NUM_CONSUMABLES = 10;
-	const Equip::Type consumables[NUM_CONSUMABLES] = {
-		Equip::AIR_PROCESSORS,
-		Equip::GRAIN,
-		Equip::FRUIT_AND_VEG,
-		Equip::ANIMAL_MEAT,
-		Equip::LIQUOR,
-		Equip::CONSUMER_GOODS,
-		Equip::MEDICINES,
-		Equip::HAND_WEAPONS,
-		Equip::NARCOTICS,
-		Equip::LIQUID_OXYGEN
+	const GalacticEconomy::Commodity consumables[NUM_CONSUMABLES] = {
+		GalacticEconomy::Commodity::AIR_PROCESSORS,
+		GalacticEconomy::Commodity::GRAIN,
+		GalacticEconomy::Commodity::FRUIT_AND_VEG,
+		GalacticEconomy::Commodity::ANIMAL_MEAT,
+		GalacticEconomy::Commodity::LIQUOR,
+		GalacticEconomy::Commodity::CONSUMER_GOODS,
+		GalacticEconomy::Commodity::MEDICINES,
+		GalacticEconomy::Commodity::HAND_WEAPONS,
+		GalacticEconomy::Commodity::NARCOTICS,
+		GalacticEconomy::Commodity::LIQUID_OXYGEN
 	};
 
 	/* Commodities we produce (mining and agriculture) */
-	for (int i=Equip::FIRST_COMMODITY; i<Equip::LAST_COMMODITY; i++) {
-		Equip::Type t = Equip::Type(i);
-		const EquipType &itype = Equip::types[t];
+	for (int i = 1; i < GalacticEconomy::COMMODITY_COUNT; i++) {
+		const GalacticEconomy::CommodityInfo &info = GalacticEconomy::COMMODITY_DATA[i];
 
 		fixed affinity = fixed(1,1);
-		if (itype.econType & ECON_AGRICULTURE) {
+		if (info.econType & GalacticEconomy::ECON_AGRICULTURE) {
 			affinity *= 2*m_agricultural;
 		}
-		if (itype.econType & ECON_INDUSTRY) affinity *= system->m_industrial;
+		if (info.econType & GalacticEconomy::ECON_INDUSTRY) affinity *= system->m_industrial;
 		// make industry after we see if agriculture and mining are viable
-		if (itype.econType & ECON_MINING) {
+		if (info.econType & GalacticEconomy::ECON_MINING) {
 			affinity *= m_metallicity;
 		}
 		affinity *= rand.Fixed();
 		// producing consumables is wise
 		for (int j=0; j<NUM_CONSUMABLES; j++) {
-			if (i == consumables[j]) {
+			if (GalacticEconomy::Commodity(i) == consumables[j]) {
 				affinity *= 2;
 				break;
 			}
@@ -2201,10 +2200,10 @@ void SystemBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 
 		int howmuch = (affinity * 256).ToInt32();
 
-		system->m_tradeLevel[t] += -2*howmuch;
-		for (int j=0; j<EQUIP_INPUTS; j++) {
-			if (!itype.inputs[j]) continue;
-			system->m_tradeLevel[itype.inputs[j]] += howmuch;
+		system->m_tradeLevel[i] += -2*howmuch;
+		for (int j=0; j < GalacticEconomy::CommodityInfo::MAX_ECON_INPUTS; ++j) {
+			if (info.inputs[j] == GalacticEconomy::Commodity::NONE) continue;
+			system->m_tradeLevel[int(info.inputs[j])] += howmuch;
 		}
 	}
 
@@ -2213,18 +2212,18 @@ void SystemBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 
 	// Add a bunch of things people consume
 	for (int i=0; i<NUM_CONSUMABLES; i++) {
-		Equip::Type t = consumables[i];
+		GalacticEconomy::Commodity t = consumables[i];
 		if (m_life > fixed(1,2)) {
 			// life planets can make this jizz probably
-			if ((t == Equip::AIR_PROCESSORS) ||
-			    (t == Equip::LIQUID_OXYGEN) ||
-			    (t == Equip::GRAIN) ||
-			    (t == Equip::FRUIT_AND_VEG) ||
-			    (t == Equip::ANIMAL_MEAT)) {
+			if ((t == GalacticEconomy::Commodity::AIR_PROCESSORS) ||
+			    (t == GalacticEconomy::Commodity::LIQUID_OXYGEN) ||
+			    (t == GalacticEconomy::Commodity::GRAIN) ||
+			    (t == GalacticEconomy::Commodity::FRUIT_AND_VEG) ||
+			    (t == GalacticEconomy::Commodity::ANIMAL_MEAT)) {
 				continue;
 			}
 		}
-		system->m_tradeLevel[t] += rand.Int32(32,128);
+		system->m_tradeLevel[int(t)] += rand.Int32(32,128);
 	}
 	// well, outdoor worlds should have way more people
 	m_population = fixed(1,10)*m_population + m_population*m_agricultural;
@@ -2618,8 +2617,8 @@ void StarSystem::Dump(FILE* file, const char* indent, bool suppressSectorData) c
 	fprintf(file, "%s\tpopulation %.0f\n", indent, m_totalPop.ToDouble() * 1e9);
 	fprintf(file, "%s\tgovernment %s/%s, lawlessness %.2f\n", indent, m_polit.GetGovernmentDesc(), m_polit.GetEconomicDesc(),
 		m_polit.lawlessness.ToDouble() * 100.0);
-	fprintf(file, "%s\teconomy type%s%s%s\n", indent, m_econType == 0 ? " NONE" : m_econType & ECON_AGRICULTURE ? " AGRICULTURE" : "",
-		m_econType & ECON_INDUSTRY ? " INDUSTRY" : "", m_econType & ECON_MINING ? " MINING" : "");
+	fprintf(file, "%s\teconomy type%s%s%s\n", indent, m_econType == 0 ? " NONE" : m_econType & GalacticEconomy::ECON_AGRICULTURE ? " AGRICULTURE" : "",
+		m_econType & GalacticEconomy::ECON_INDUSTRY ? " INDUSTRY" : "", m_econType & GalacticEconomy::ECON_MINING ? " MINING" : "");
 	fprintf(file, "%s\thumanProx %.2f\n", indent, m_humanProx.ToDouble() * 100.0);
 	fprintf(file, "%s\tmetallicity %.2f, industrial %.2f, agricultural %.2f\n", indent, m_metallicity.ToDouble() * 100.0,
 		m_industrial.ToDouble() * 100.0, m_agricultural.ToDouble() * 100.0);

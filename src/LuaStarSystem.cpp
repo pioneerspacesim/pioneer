@@ -8,7 +8,7 @@
 #include "EnumStrings.h"
 #include "LuaUtils.h"
 #include "galaxy/StarSystem.h"
-#include "EquipType.h"
+#include "galaxy/Economy.h"
 #include "Pi.h"
 #include "Space.h"
 #include "Star.h"
@@ -154,7 +154,8 @@ static int l_starsystem_get_commodity_base_price_alterations(lua_State *l)
 		return 0;
 	}
 	equip.PushValueToStack("l10n_key"); // For now let's just use this poor man's hack.
-	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstantFromArg(l, "EquipType", -1));
+	GalacticEconomy::Commodity e = static_cast<GalacticEconomy::Commodity>(
+			LuaConstants::GetConstantFromArg(l, "CommodityType", -1));
 	lua_pop(l, 1);
 	lua_pushnumber(l, s->GetCommodityBasePriceModPercent(e));
 
@@ -192,7 +193,8 @@ static int l_starsystem_is_commodity_legal(lua_State *l)
 	// XXX: Don't use the l10n_key hack, this is just UGLY!!
 	luaL_checktype(l, 2, LUA_TTABLE);
 	LuaTable(l, 2).PushValueToStack("l10n_key");
-	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstantFromArg(l, "EquipType", 3));
+	GalacticEconomy::Commodity e = static_cast<GalacticEconomy::Commodity>(
+			LuaConstants::GetConstantFromArg(l, "CommodityType", -1));
 	lua_pushboolean(l, Polit::IsCommodityLegal(s, e));
 	return 1;
 }
