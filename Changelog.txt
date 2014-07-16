@@ -27,7 +27,7 @@ July 2014
      * Fix crash and skipped updates when firing missiles (#3044, #3038)
      * Fix internal tank refuelling from cargo (#3044, #3046)
      * Fix cargo scooping so it only works if you have the equipment (#3053, #3045)
-     * Fix equipment remaining available after buying a new ship (#3042, #3027)
+     * Fix equipment remaining available after buying a new ship (#3052, #3027)
      * Fix missing ship total mass limit when adding equipment/cargo (#3052)
      * Fix Lua error in some circumstances when using Ship:SetEquip (#3052)
 
