@@ -195,6 +195,10 @@
       "description" : "",
       "message" : "Despejo de carga ativado. Coletada 1 tonelada de %item."
    },
+   "CARGO_SCOOP_ATTEMPTED" : {
+      "description" : "",
+      "message" : "Cargo scoop attempted. Not enough room in cargo hold."
+   },
    "CARGO_SCOOP_DESCRIPTION" : {
       "description" : "",
       "message" : "Permite despejar carga do espaço."

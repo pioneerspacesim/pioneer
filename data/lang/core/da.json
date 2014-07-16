@@ -195,6 +195,10 @@
       "description" : "",
       "message" : "Last-opsamler aktiv. Indsamlet 1 ton af %item."
    },
+   "CARGO_SCOOP_ATTEMPTED" : {
+      "description" : "",
+      "message" : "Cargo scoop attempted. Not enough room in cargo hold."
+   },
    "CARGO_SCOOP_DESCRIPTION" : {
       "description" : "",
       "message" : "Gør det muligt at indsamle lastkapsler fra rummet."

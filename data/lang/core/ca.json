@@ -195,6 +195,10 @@
       "description" : "",
       "message" : "S'ha activat la succionadora de càrrega. S'ha succionat una tona de %item."
    },
+   "CARGO_SCOOP_ATTEMPTED" : {
+      "description" : "",
+      "message" : "Cargo scoop attempted. Not enough room in cargo hold."
+   },
    "CARGO_SCOOP_DESCRIPTION" : {
       "description" : "",
       "message" : "Permet succionar càpsules de càrrega de l'espai."

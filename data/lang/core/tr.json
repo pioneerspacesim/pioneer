@@ -195,6 +195,10 @@
       "description" : "",
       "message" : "Kargo toplama etkin. 1 ton %item toplandı."
    },
+   "CARGO_SCOOP_ATTEMPTED" : {
+      "description" : "",
+      "message" : "Cargo scoop attempted. Not enough room in cargo hold."
+   },
    "CARGO_SCOOP_DESCRIPTION" : {
       "description" : "",
       "message" : "Kargo kutularını uzaydan toplamaya izin verir."

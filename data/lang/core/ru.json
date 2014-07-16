@@ -195,6 +195,10 @@
       "description" : "",
       "message" : "Грузосборник сработал. Поймана 1 тонна %item."
    },
+   "CARGO_SCOOP_ATTEMPTED" : {
+      "description" : "",
+      "message" : "Cargo scoop attempted. Not enough room in cargo hold."
+   },
    "CARGO_SCOOP_DESCRIPTION" : {
       "description" : "",
       "message" : "Предназначен для сбора грузовых контейнеров в космическом пространстве."

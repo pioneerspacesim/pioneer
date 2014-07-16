@@ -195,6 +195,10 @@
       "description" : "",
       "message" : "货物收集开启. 得到了1吨 %item."
    },
+   "CARGO_SCOOP_ATTEMPTED" : {
+      "description" : "",
+      "message" : "Cargo scoop attempted. Not enough room in cargo hold."
+   },
    "CARGO_SCOOP_DESCRIPTION" : {
       "description" : "",
       "message" : "Permits scooping cargo pods from space."

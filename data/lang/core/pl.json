@@ -195,6 +195,10 @@
       "description" : "",
       "message" : "Wystrzelono harpun towarowy. Pozyskano 1 tonę: %item."
    },
+   "CARGO_SCOOP_ATTEMPTED" : {
+      "description" : "",
+      "message" : "Cargo scoop attempted. Not enough room in cargo hold."
+   },
    "CARGO_SCOOP_DESCRIPTION" : {
       "description" : "",
       "message" : "Umożliwia przejęcie kontenerów towarowych dryfujących w przestrzeni."

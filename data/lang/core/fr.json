@@ -195,6 +195,10 @@
       "description" : "",
       "message" : "Récupérateur de cargaison actif: 1t de %item récupérée"
    },
+   "CARGO_SCOOP_ATTEMPTED" : {
+      "description" : "",
+      "message" : "Cargo scoop attempted. Not enough room in cargo hold."
+   },
    "CARGO_SCOOP_DESCRIPTION" : {
       "description" : "",
       "message" : "Permet de récupérer des conteneurs dans l'espace."
