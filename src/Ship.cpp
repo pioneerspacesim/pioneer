@@ -14,6 +14,7 @@
 #include "ShipController.h"
 #include "Sound.h"
 #include "Sfx.h"
+#include "Turret.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/Sector.h"
 #include "galaxy/GalaxyCache.h"
@@ -194,6 +195,49 @@ void Ship::InitMaterials()
 	s_heatGradientParams.heatingNormal = vector3f(0.0f, -1.0f, 0.0f);
 }
 
+bool Ship::InitTurret(const char *tag)
+{
+	assert(tag);
+
+	bool foundTurret = true;
+
+	ShipType::TTagTurretMapIter it = m_type->turretsMap.find(tag);
+	if( m_type->turretsMap.end() == it ) {
+		// didn't find the tag in the map, don't attach a turret
+		return false;
+	}
+
+	SceneGraph::Loader loader(Pi::renderer);
+	SceneGraph::Model *m = nullptr;
+	try {
+		m = loader.LoadModel( it->second.first );
+	} catch (SceneGraph::LoadingError &) {
+		Output("Could not load %s model\n", it->second.first.c_str());
+		foundTurret = false;
+	}
+
+	if( m && foundTurret ) {
+		SceneGraph::MatrixTransform *mt = GetModel()->FindTagByName(tag);
+		if( mt )
+		{
+			// There shouldn't be anything else attached
+			mt->RemoveChildAt(0);
+			mt->AddChild(new SceneGraph::ModelNode(m));
+			
+			//
+			const matrix4x4f &trans = mt->GetTransform();
+			TurretData td;
+			td.pos = vector3d(trans.GetTranslate());
+			td.dir = vector3d(trans.GetOrient().VectorZ());
+			td.name = tag;
+			Turret *pTurret = new Turret(this, td);
+			pTurret->SetWeapon( it->second.second, 1.0f );
+			m_turrets.push_back( pTurret );
+		}
+	}
+	return foundTurret;
+}
+
 void Ship::Init()
 {
 	m_invulnerable = false;
@@ -221,6 +265,13 @@ void Ship::Init()
 
 	InitGun("tag_gunmount_0", 0);
 	InitGun("tag_gunmount_1", 1);
+
+	char turretName[32];
+	Sint32 turretIdx = 0;
+	snprintf(turretName, 32, "tag_turret_%d", turretIdx++);
+	while(InitTurret(turretName)) {
+		snprintf(turretName, 32, "tag_turret_%d", turretIdx++);
+	}
 
 	// If we've got the tag_landing set then use it for an offset otherwise grab the AABB
 	const SceneGraph::MatrixTransform *mt = GetModel()->FindTagByName("tag_landing");
@@ -293,6 +344,10 @@ Ship::~Ship()
 {
 	if (m_curAICmd) delete m_curAICmd;
 	delete m_controller;
+
+	for (auto t : m_turrets) {
+		delete t;
+	}
 }
 
 void Ship::SetController(ShipController *c)
@@ -1087,6 +1142,10 @@ void Ship::StaticUpdate(const float timeStep)
 		if (m_gun[i].temperature > 1.0) continue;
 
 		FireWeapon(i);
+	}
+
+	for (auto t : m_turrets) {
+		t->Update(timeStep);
 	}
 
 	if (m_ecmRecharge > 0.0f) {

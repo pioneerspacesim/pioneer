@@ -28,6 +28,7 @@ private:
 	bool OnToggleShowShields(UI::CheckBox*);
 	bool OnToggleGrid(UI::Widget*);
 	bool OnToggleGuns(UI::CheckBox*);
+	bool OnToggleTurrets(UI::CheckBox*);
 	void UpdateShield();
 	bool OnHitIt(UI::Widget*);
 	void HitImpl();
@@ -67,6 +68,7 @@ private:
 	//toggleable options
 	struct Options {
 		bool attachGuns;
+		bool attachTurrets;
 		bool showTags;
 		bool showDockingLocators;
 		bool showCollMesh;
@@ -101,6 +103,7 @@ private:
 	std::unique_ptr<NavLights> m_navLights;
 	std::unique_ptr<Shields> m_shields;
 	std::unique_ptr<SceneGraph::Model> m_gunModel;
+	std::unique_ptr<SceneGraph::Model> m_turretModel;
 	std::unique_ptr<SceneGraph::Model> m_scaleModel;
 	std::string m_modelName;
 	RefCountedPtr<UI::Context> m_ui;

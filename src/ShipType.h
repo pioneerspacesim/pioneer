@@ -55,6 +55,9 @@ struct ShipType {
 		double sep;
 		DualLaserOrientation orient;
 	} gunMount[GUNMOUNT_MAX];
+	typedef std::map<std::string,std::pair<std::string, Equip::Type>> TTagTurretMap;
+	typedef TTagTurretMap::const_iterator TTagTurretMapIter;
+	TTagTurretMap turretsMap;
 	int equipSlotCapacity[Equip::SLOT_MAX];
 	std::map<std::string, int> slots;
 	int capacity; // tonnes

@@ -20,6 +20,7 @@
 //default options
 ModelViewer::Options::Options()
 : attachGuns(false)
+, attachTurrets(false)
 , showTags(false)
 , showDockingLocators(false)
 , showCollMesh(false)
@@ -298,6 +299,47 @@ void ModelViewer::HitImpl()
 	m_shieldIsHit = true;
 }
 
+bool ModelViewer::OnToggleTurrets(UI::CheckBox*)
+{
+	if (!m_turretModel) {
+		CreateTestResources();
+	}
+
+	if (!m_turretModel) {
+		AddLog("test_gun.model not available");
+		return false;
+	}
+
+	m_options.attachTurrets = !m_options.attachTurrets;
+	std::vector<SceneGraph::Group *> turretTags;
+	char wtf[32];
+	Sint32 count=0;
+	snprintf(wtf, 32, "tag_turret_%d", count++);
+	SceneGraph::Group *pTag = m_model->FindTagByName(wtf);
+	if( pTag )
+	{
+		turretTags.push_back( pTag );
+		snprintf(wtf, 32, "tag_turret_%d", count++);
+		while(pTag = m_model->FindTagByName(wtf))
+		{
+			turretTags.push_back( pTag );
+			snprintf(wtf, 32, "tag_turret_%d", count++);
+		}
+	}
+	
+	if (m_options.attachTurrets) {
+		for(auto& item: turretTags) {
+			(*item).AddChild(new SceneGraph::ModelNode(m_turretModel.get()));
+		}
+	} else { //detach
+		//we know there's nothing else
+		for(auto& item: turretTags) {
+			(*item).RemoveChildAt(0);
+		}
+	}
+	return true;
+}
+
 void ModelViewer::AddLog(const std::string &line)
 {
 	m_log->AppendText(line+"\n");
@@ -391,6 +433,9 @@ void ModelViewer::CreateTestResources()
 	try {
 		SceneGraph::Model *m = loader.LoadModel("test_gun");
 		m_gunModel.reset(m);
+
+		m = loader.LoadModel("simple_turret");
+		m_turretModel.reset(m);
 
 		m = loader.LoadModel("scale");
 		m_scaleModel.reset(m);
@@ -964,6 +1009,7 @@ void ModelViewer::SetupUI()
 	UI::CheckBox *collMeshCheck = nullptr;
 	UI::CheckBox *showShieldsCheck = nullptr;
 	UI::CheckBox *gunsCheck = nullptr;
+	UI::CheckBox *turretsCheck = nullptr;
 
 	UI::VBox* outerBox = c->VBox();
 
@@ -1079,6 +1125,7 @@ void ModelViewer::SetupUI()
 	m_options.lightPreset = 0;
 
 	add_pair(c, mainBox, gunsCheck = c->CheckBox(), "Attach guns");
+	add_pair(c, mainBox, turretsCheck = c->CheckBox(), "Attach Turrets");
 
 	//Animation controls
 	if (!m_model->GetAnimations().empty()) {
@@ -1144,6 +1191,7 @@ void ModelViewer::SetupUI()
 	collMeshCheck->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnToggleCollMesh), collMeshCheck));
 	if( m_shields.get() && showShieldsCheck ) { showShieldsCheck->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnToggleShowShields), showShieldsCheck)); }
 	gunsCheck->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnToggleGuns), gunsCheck));
+	turretsCheck->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnToggleTurrets), turretsCheck));
 	lightSelector->onOptionSelected.connect(sigc::mem_fun(*this, &ModelViewer::OnLightPresetChanged));
 	toggleGridButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnToggleGrid), toggleGridButton));
 }
