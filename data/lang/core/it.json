@@ -565,31 +565,31 @@
    },
    "HEADING_LOCK_ANTINORMAL" : {
       "description" : "",
-      "message" : "Hold anti-normal"
+      "message" : "Mantieni direzione anti-normale"
    },
    "HEADING_LOCK_BACKWARD" : {
       "description" : "",
-      "message" : "Hold retrograde"
+      "message" : "Mantieni direzione retrograda"
    },
    "HEADING_LOCK_FORWARD" : {
       "description" : "",
-      "message" : "Hold prograde"
+      "message" : "Mantieni direzione prograda"
    },
    "HEADING_LOCK_KILLROT" : {
       "description" : "",
-      "message" : "Kill rotation"
+      "message" : "Interrompi rotazione"
    },
    "HEADING_LOCK_NORMAL" : {
       "description" : "",
-      "message" : "Hold normal"
+      "message" : "Mantieni direzione normale"
    },
    "HEADING_LOCK_RADIALLY_INWARD" : {
       "description" : "",
-      "message" : "Hold radially in"
+      "message" : "Mantieni direzione radiale interna"
    },
    "HEADING_LOCK_RADIALLY_OUTWARD" : {
       "description" : "",
-      "message" : "Hold radially out"
+      "message" : "Mantieni direzione radiale esterna"
    },
    "HEAVY_INDUSTRY" : {
       "description" : "",
