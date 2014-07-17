@@ -563,13 +563,33 @@
       "description" : "",
       "message" : "\" Hat\""
    },
+   "HEADING_LOCK_ANTINORMAL" : {
+      "description" : "",
+      "message" : "Hold anti-normal"
+   },
    "HEADING_LOCK_BACKWARD" : {
       "description" : "",
-      "message" : "Bloqueig direcc. (darr.)"
+      "message" : "Hold retrograde"
    },
    "HEADING_LOCK_FORWARD" : {
       "description" : "",
-      "message" : "Bloqueig direcc. (dav.)"
+      "message" : "Hold prograde"
+   },
+   "HEADING_LOCK_KILLROT" : {
+      "description" : "",
+      "message" : "Kill rotation"
+   },
+   "HEADING_LOCK_NORMAL" : {
+      "description" : "",
+      "message" : "Hold normal"
+   },
+   "HEADING_LOCK_RADIALLY_INWARD" : {
+      "description" : "",
+      "message" : "Hold radially in"
+   },
+   "HEADING_LOCK_RADIALLY_OUTWARD" : {
+      "description" : "",
+      "message" : "Hold radially out"
    },
    "HEAVY_INDUSTRY" : {
       "description" : "",
