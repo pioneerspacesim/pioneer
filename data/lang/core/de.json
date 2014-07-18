@@ -577,7 +577,7 @@
    },
    "HEADING_LOCK_KILLROT" : {
       "description" : "",
-      "message" : "Kill rotation"
+      "message" : "Rotation stoppen"
    },
    "HEADING_LOCK_NORMAL" : {
       "description" : "",
