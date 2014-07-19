@@ -4,7 +4,7 @@
 define_ship {
 	name='Sinonatrix',
 	ship_class='light_courier',
-	manufacturer='opli',
+	manufacturer='OPLI',
 	model='sinonatrix',
 	forward_thrust = 55e5,
 	reverse_thrust = 12e5,
@@ -13,7 +13,7 @@ define_ship {
 	left_thrust = 1e6,
 	right_thrust = 1e6,
 	angular_thrust = 25e6,
-	
+
 	hull_mass = 20,
 	fuel_tank_mass = 30,
 	capacity = 35,
@@ -31,4 +31,4 @@ define_ship {
 	effective_exhaust_velocity = 195e5,
 	price = 219e3,
 	hyperdrive_class = 3,
-} 
+}

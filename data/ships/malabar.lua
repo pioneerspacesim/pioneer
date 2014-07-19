@@ -4,7 +4,7 @@
 define_ship {
 	name='Malabar',
 	ship_class='medium_passenger_transport',
-	manufacturer='mandarava_csepel',
+	manufacturer='MANDARAVA',
 	model='malabar',
 	forward_thrust = 160e6,
 	reverse_thrust = 80e6,
@@ -28,11 +28,10 @@ define_ship {
 	},
 	min_crew = 1,
 	max_crew = 8,
-	
+
 	-- Exhaust velocity Vc [m/s] is equivalent of engine efficiency and depend on used technology. Higher Vc means lower fuel consumption.
 	-- Smaller ships built for speed often mount engines with higher Vc. Another way to make faster ship is to increase fuel_tank_mass.
 	effective_exhaust_velocity = 1794e4,
 	price = 6128e3,
 	hyperdrive_class = 0,
 }
-

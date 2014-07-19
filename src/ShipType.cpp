@@ -10,6 +10,8 @@
 #include "utils.h"
 #include "Lang.h"
 #include <algorithm>
+#include "Polit.h"
+
 
 const char *ShipType::gunmountNames[GUNMOUNT_MAX] = {
 	Lang::FRONT, Lang::REAR };
@@ -64,6 +66,21 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 	s.shipClass = t.Get("ship_class", "unknown");
 	s.manufacturer = t.Get("manufacturer", "unknown");
 	s.modelName = t.Get("model", "");
+
+	if(s.manufacturer == "unknown" && s.name.substr(0,7) != "MISSILE")
+		pi_lua_warn(L, "no manufacturer specified for ship '%s', defaulting to: %s",
+						s.modelName.c_str(), s.manufacturer.c_str());
+
+	const Polit::ShipManufacturer m = static_cast<Polit::ShipManufacturer>
+		(LuaConstants::GetConstant(L, "ShipManufacturer", s.manufacturer.c_str()));
+
+	// check that the manufacturer specified in ship file exists:
+	if (m >= Polit::MAN_MAX) {
+		pi_lua_warn(L,
+			"ship manufacturer specified in ship '%s' is invalid: %s",
+			s.modelName.c_str(), s.manufacturer.c_str());
+		return 0;
+	}
 
 	s.cockpitName = t.Get("cockpit", "");
 	s.linThrust[ShipType::THRUSTER_REVERSE] = t.Get("reverse_thrust", 0.0f);
@@ -289,4 +306,3 @@ void ShipType::Init()
 	if (ShipType::playable_atmospheric_ships.empty())
 		Error("No ships can fit atmospheric shields! The game cannot run.");
 }
-

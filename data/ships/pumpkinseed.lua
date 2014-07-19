@@ -4,7 +4,7 @@
 define_ship {
 	name='Pumpkinseed',
 	ship_class='light_courier',
-	manufacturer='kaluri',
+	manufacturer='KALURI',
 	model='pumpkinseed',
 	forward_thrust = 3e6,
 	reverse_thrust = 1e6,
@@ -13,7 +13,7 @@ define_ship {
 	left_thrust = 34e4,
 	right_thrust = 34e4,
 	angular_thrust = 160e5,
-	
+
 	hull_mass = 10,
 	fuel_tank_mass = 7,
 	capacity = 17,

@@ -126,6 +126,17 @@ const struct EnumItem ENUM_EquipType[] = {
 	{ 0, 0 },
 };
 
+const struct EnumItem ENUM_ShipManufacturer[] = {
+	{ "ALBR", Polit::MAN_ALBR },
+	{ "AURONOX", Polit::MAN_AURONOX },
+	{ "HABER", Polit::MAN_HABER },
+	{ "KALURI", Polit::MAN_KALURI },
+	{ "MANDARAVA", Polit::MAN_MANDARAVA },
+	{ "OPLI",Polit::MAN_OPLI },
+	{ "unknown",Polit::MAN_UNKNOWN },
+	{ 0, 0 },
+};
+
 const struct EnumItem ENUM_DetailLevel[] = {
 	{ "VERY_LOW", LuaEngine::DETAIL_VERY_LOW },
 	{ "LOW", LuaEngine::DETAIL_LOW },
@@ -521,6 +532,7 @@ const struct EnumItem ENUM_UIFont[] = {
 const struct EnumTable ENUM_TABLES[] = {
 	{ "EquipSlot", ENUM_EquipSlot },
 	{ "EquipType", ENUM_EquipType },
+	{ "ShipManufacturer", ENUM_ShipManufacturer},
 	{ "DetailLevel", ENUM_DetailLevel },
 	{ "FileSystemRoot", ENUM_FileSystemRoot },
 	{ "PhysicsObjectType", ENUM_PhysicsObjectType },
@@ -565,6 +577,7 @@ const struct EnumTable ENUM_TABLES[] = {
 const struct EnumTable ENUM_TABLES_PUBLIC[] = {
 	{ "EquipSlot", ENUM_EquipSlot },
 	{ "EquipType", ENUM_EquipType },
+	{ "ShipManufacturer", ENUM_ShipManufacturer},
 	{ "DetailLevel", ENUM_DetailLevel },
 	{ "FileSystemRoot", ENUM_FileSystemRoot },
 	{ "PhysicsObjectType", ENUM_PhysicsObjectType },

@@ -4,7 +4,7 @@
 define_ship {
 	name='Kanara Interceptor',
 	ship_class='light_fighter',
-	manufacturer='mandarava_csepel',
+	manufacturer='MANDARAVA',
 	model='kanara_civ',
 	forward_thrust = 6e6,
 	reverse_thrust = 2e6,
@@ -33,4 +33,3 @@ define_ship {
 	price = 234e3,
 	hyperdrive_class = 0,
 }
-

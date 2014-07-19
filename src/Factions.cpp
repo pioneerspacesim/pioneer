@@ -130,6 +130,36 @@ static int l_fac_govtype_weight(lua_State *L)
 	return 1;
 }
 
+// weightings to use how common a ship manufacturer is on the commodity market.
+static int l_fac_ship_manufacturer_weight(lua_State *L)
+{
+	Faction *fac = l_fac_check(L, 1);
+	const char *typeName = luaL_checkstring(L, 2);
+	const Polit::ShipManufacturer m = static_cast<Polit::ShipManufacturer>
+		(LuaConstants::GetConstant(L, "ShipManufacturer", typeName));
+	const float weight = luaL_checknumber(L, 3);
+
+	if (m >= Polit::MAN_MAX) {
+		pi_lua_warn(L,
+			"ship manufacturer '%s' (weight: %f) is an invalid ShipManufacturer constant; for faction %s.",
+			typeName, weight, fac->name.c_str());
+		return 0;
+	}
+
+	if (weight < 0 || weight > 1) {
+		pi_lua_warn(L,
+			"weight must a postive number between 0,1: Faction: %s, ShipManufacturer('%s', %f)",
+			fac->name.c_str(), typeName, weight);
+		return 0;
+	}
+
+	fac->manufacturer_weights.push_back(std::make_pair(m, weight));
+	lua_settop(L, 1);
+
+	return 1;
+}
+
+
 // sector(x,y,x) + system index + body index = location in a (custom?) system of homeworld
 static int l_fac_homeworld (lua_State *L)
 {
@@ -269,6 +299,7 @@ static luaL_Reg LuaFaction_meta[] = {
 	{ "description_short",         &l_fac_description_short },
 	{ "description",               &l_fac_description },
 	{ "govtype_weight",            &l_fac_govtype_weight },
+	{ "shipmanufacturer_weight",   &l_fac_ship_manufacturer_weight },
 	{ "homeworld",                 &l_fac_homeworld },
 	{ "foundingDate",              &l_fac_foundingDate },
 	{ "expansionRate",             &l_fac_expansionRate },

@@ -281,7 +281,12 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	SetModel(m_type->modelName.c_str());
 	SetLabel("UNLABELED_SHIP");
 	m_skin.SetRandomColors(Pi::rng);
-	m_skin.SetDecal(m_type->manufacturer);
+
+	// Manufacturer string uppercase (constant) to lowercase (icon names)
+	std::string manufacturer = m_type->manufacturer;
+	std::transform(manufacturer.begin(), manufacturer.end(), manufacturer.begin(), ::tolower);
+	m_skin.SetDecal(manufacturer);
+
 	m_skin.Apply(GetModel());
 	GetModel()->SetPattern(Pi::rng.Int32(0, GetModel()->GetNumPatterns()));
 
@@ -1323,7 +1328,12 @@ void Ship::SetShipType(const ShipType::Id &shipId)
 
 	SetShipId(shipId);
 	SetModel(m_type->modelName.c_str());
-	m_skin.SetDecal(m_type->manufacturer);
+
+	// Manufacturer string uppercase (constant) to lowercase (icon names)
+	std::string manufacturer = m_type->manufacturer;
+	std::transform(manufacturer.begin(), manufacturer.end(), manufacturer.begin(), ::tolower);
+	m_skin.SetDecal(manufacturer);
+
 	m_skin.Apply(GetModel());
 	Init();
 	onFlavourChanged.emit();

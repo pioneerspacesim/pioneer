@@ -4,7 +4,7 @@
 define_ship {
 	name='Deneb',
 	ship_class='medium_freighter',
-	manufacturer='albr',
+	manufacturer='ALBR',
 	model='deneb',
 	forward_thrust = 5e7,
 	reverse_thrust = 3e7,
