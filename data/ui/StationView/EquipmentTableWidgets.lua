@@ -207,7 +207,6 @@ function EquipmentTableWidgets.Pair (config)
 		for i,e in ipairs(equipTypes) do
 			local n = Game.player:CountEquip(e)
 			if n > 0 then
-				local icon = e.icon_name and ui:Image("icons/goods/"..e.icon_name..".png") or ""
 				shipTable:AddRow(utils.build_table(utils.map(function (k,v) return k,shipColumnValue[v](e, funcs) end, ipairs(config.shipColumns))))
 				table.insert(rowEquip, e)
 			end

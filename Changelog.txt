@@ -31,6 +31,7 @@ July 2014
      * Fix equipment remaining available after buying a new ship (#3052, #3027)
      * Fix missing ship total mass limit when adding equipment/cargo (#3052)
      * Fix Lua error in some circumstances when using Ship:SetEquip (#3052)
+     * Fix warning about missing icons/goods/missile_*.png (#3059, #3057)
 
 June 2014
 
