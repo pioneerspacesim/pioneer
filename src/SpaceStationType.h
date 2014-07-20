@@ -22,10 +22,12 @@ struct SpaceStationType {
 	PortMap m_ports;
 
 	struct SBayGroup {
-		SBayGroup() : minShipSize(-1), maxShipSize(-1), inUse(false) {}
+		SBayGroup() : port(-1), minShipSize(5000), maxShipSize(-1), inUse(false) {}
+		int port;
 		int minShipSize, maxShipSize;
 		bool inUse;
-		std::vector<int> bayIDs;
+		std::vector<std::pair<int,std::string> > bayIDs;
+		std::string name;
 		TMapBayIDMat m_approach;
 	};
 	typedef std::vector<SBayGroup> TBayGroups;
@@ -39,11 +41,10 @@ struct SpaceStationType {
 	int numDockingStages;
 	int numUndockStages;
 	int shipLaunchStage;
-	double *dockAnimStageDuration;
-	double *undockAnimStageDuration;
 	float parkingDistance;
 	float parkingGapSize;
 	TBayGroups bayGroups;
+	float padOffset;
 
 	struct positionOrient_t {
 		vector3d pos;

@@ -54,7 +54,8 @@ void SpaceStation::Save(Serializer::Writer &wr, Space *space)
 		wr.Bool(mBayGroups[i].inUse);
 		wr.Int32(mBayGroups[i].bayIDs.size());
 		for (Uint32 j=0; j<mBayGroups[i].bayIDs.size(); j++) {
-			wr.Int32(mBayGroups[i].bayIDs[j]);
+			wr.Int32(mBayGroups[i].bayIDs[j].first);
+			wr.String(mBayGroups[i].bayIDs[j].second);
 		}
 	}
 
@@ -99,7 +100,8 @@ void SpaceStation::Load(Serializer::Reader &rd, Space *space)
 		bay.bayIDs.reserve(numBayIds);
 		for (Uint32 j=0; j<numBayIds; j++) {
 			const Uint32 ID = rd.Int32();
-			bay.bayIDs.push_back(ID);
+			const std::string name = rd.String();
+			bay.bayIDs.push_back( std::make_pair(ID,name) );
 		}
 	}
 
@@ -177,7 +179,15 @@ void SpaceStation::InitStation()
 
 	SceneGraph::ModelSkin skin;
 	skin.SetDecal("pioneer");
-	skin.Apply(model);
+
+	if (model->SupportsPatterns()) {
+		Random rand(m_sbody->GetSeed());
+		skin.SetRandomColors(rand);
+		skin.Apply(model);
+		model->SetPattern(rand.Int32(0, model->GetNumPatterns()));
+	} else {
+		skin.Apply(model);
+	}
 }
 
 SpaceStation::~SpaceStation()
@@ -236,8 +246,9 @@ int SpaceStation::GetFreeDockingPort(const Ship *s) const
 	return -1;
 }
 
-void SpaceStation::SetDocked(Ship *ship, int port)
+void SpaceStation::SetDocked(Ship *ship, const int port)
 {
+	assert(m_shipDocking.size() > Uint32(port));
 	m_shipDocking[port].ship = ship;
 	m_shipDocking[port].stage = m_type->numDockingStages+1;
 
@@ -263,7 +274,7 @@ void SpaceStation::SwapDockedShipsPort(const int oldPort, const int newPort)
 	m_shipDocking[oldPort].stage = 0;
 }
 
-bool SpaceStation::LaunchShip(Ship *ship, int port)
+bool SpaceStation::LaunchShip(Ship *ship, const int port)
 {
 	shipDocking_t &sd = m_shipDocking[port];
 	if (sd.stage < 0) return true;			// already launching
@@ -666,12 +677,10 @@ void SpaceStation::DoLawAndOrder(const double timeStep)
 
 bool SpaceStation::IsPortLocked(const int bay) const
 {
-	SpaceStationType::TBayGroups::const_iterator bayIter = mBayGroups.begin();
-	for ( ; bayIter!=mBayGroups.end() ; ++bayIter ) {
-		std::vector<int>::const_iterator idIter = (*bayIter).bayIDs.begin();
-		for ( ; idIter!=(*bayIter).bayIDs.end() ; ++idIter ) {
-			if ((*idIter)==bay) {
-				return (*bayIter).inUse;
+	for (auto &bayIter : mBayGroups ) {
+		for ( auto &idIter : bayIter.bayIDs ) {
+			if (idIter.first==bay) {
+				return bayIter.inUse;
 			}
 		}
 	}
@@ -681,12 +690,10 @@ bool SpaceStation::IsPortLocked(const int bay) const
 
 void SpaceStation::LockPort(const int bay, const bool lockIt)
 {
-	SpaceStationType::TBayGroups::iterator bayIter = mBayGroups.begin();
-	for ( ; bayIter!=mBayGroups.end() ; ++bayIter ) {
-		std::vector<int>::iterator idIter = (*bayIter).bayIDs.begin();
-		for ( ; idIter!=(*bayIter).bayIDs.end() ; ++idIter ) {
-			if ((*idIter)==bay) {
-				(*bayIter).inUse = lockIt;
+	for (auto &bayIter : mBayGroups ) {
+		for ( auto &idIter : bayIter.bayIDs ) {
+			if (idIter.first==bay) {
+				bayIter.inUse = lockIt;
 				return;
 			}
 		}

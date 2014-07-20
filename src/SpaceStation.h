@@ -48,8 +48,8 @@ public:
 
 	// should call Ship::Undock and Ship::SetDockedWith instead
 	// Returns true on success, false if permission denied
-	bool LaunchShip(Ship *ship, int port);
-	void SetDocked(Ship *ship, int port);
+	bool LaunchShip(Ship *ship, const int port);
+	void SetDocked(Ship *ship, const int port);
 	void SwapDockedShipsPort(const int oldPort, const int newPort);
 
 	bool GetDockingClearance(Ship *s, std::string &outMsg);
