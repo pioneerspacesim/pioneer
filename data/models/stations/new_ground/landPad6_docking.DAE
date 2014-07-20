@@ -173,59 +173,41 @@
           </bind_material>
         </instance_geometry>
       </node>
-      <node id="docking_stage1_bay1" name="docking_stage1_bay1" type="NODE">
+      <node id="loc_A001_p01_s0_500_b01" name="loc_A001_p01_s0_500_b01" type="NODE">
         <matrix sid="transform">0.254 0 0 150 0 0.254 1.81675e-7 72.99976 0 -1.81675e-7 0.254 -300.0001 0 0 0 1</matrix>
       </node>
-      <node id="approach_stage2_bay1" name="approach_stage2_bay1" type="NODE">
+      <node id="entrance_port01" name="entrance_port01" type="NODE">
         <matrix sid="transform">1 -2.22045e-16 -2.22045e-16 150 2.22045e-16 1 7.15256e-7 72.99976 2.22045e-16 -7.15256e-7 1 -300.0001 0 0 0 1</matrix>
       </node>
-      <node id="approach_stage1_bay1" name="approach_stage1_bay1" type="NODE">
-        <matrix sid="transform">1 -2.22045e-16 -2.22045e-16 150 2.22045e-16 1 7.15256e-7 499.9998 2.22045e-16 -7.15256e-7 1 -300.0004 0 0 0 1</matrix>
-      </node>
-      <node id="docking_stage1_bay02" name="docking_stage1_bay02" type="NODE">
+      <node id="loc_B001_p02_s0_500_b02" name="loc_B001_p02_s0_500_b02" type="NODE">
         <matrix sid="transform">0.254 0 0 -150 0 0.254 1.81675e-7 72.99976 0 -1.81675e-7 0.254 -300.0001 0 0 0 1</matrix>
       </node>
-      <node id="approach_stage2_bay02" name="approach_stage2_bay02" type="NODE">
+      <node id="entrance_port02" name="entrance_port02" type="NODE">
         <matrix sid="transform">1 -2.22045e-16 -2.22045e-16 -150 2.22045e-16 1 7.15256e-7 72.99976 2.22045e-16 -7.15256e-7 1 -300.0001 0 0 0 1</matrix>
       </node>
-      <node id="approach_stage1_bay02" name="approach_stage1_bay02" type="NODE">
-        <matrix sid="transform">1 -2.22045e-16 -2.22045e-16 -150 2.22045e-16 1 7.15256e-7 499.9998 2.22045e-16 -7.15256e-7 1 -300.0004 0 0 0 1</matrix>
-      </node>
-      <node id="docking_stage1_bay03" name="docking_stage1_bay03" type="NODE">
+      <node id="loc_C001_p03_s0_500_b03" name="loc_C001_p03_s0_500_b03" type="NODE">
         <matrix sid="transform">0.254 0 0 150 0 0.254 1.81675e-7 73 0 -1.81675e-7 0.254 -6.86646e-5 0 0 0 1</matrix>
       </node>
-      <node id="approach_stage2_bay03" name="approach_stage2_bay03" type="NODE">
+      <node id="entrance_port03" name="entrance_port03" type="NODE">
         <matrix sid="transform">1 -2.22045e-16 -2.22045e-16 150 2.22045e-16 1 7.15256e-7 73 2.22045e-16 -7.15256e-7 1 -6.86646e-5 0 0 0 1</matrix>
       </node>
-      <node id="approach_stage1_bay03" name="approach_stage1_bay03" type="NODE">
-        <matrix sid="transform">1 -2.22045e-16 -2.22045e-16 150 2.22045e-16 1 7.15256e-7 500 2.22045e-16 -7.15256e-7 1 -4.27246e-4 0 0 0 1</matrix>
-      </node>
-      <node id="docking_stage1_bay04" name="docking_stage1_bay04" type="NODE">
+      <node id="loc_D001_p04_s0_500_b04" name="loc_D001_p04_s0_500_b04" type="NODE">
         <matrix sid="transform">0.254 0 0 -150 0 0.254 1.81675e-7 73 0 -1.81675e-7 0.254 -6.86646e-5 0 0 0 1</matrix>
       </node>
-      <node id="approach_stage2_bay04" name="approach_stage2_bay04" type="NODE">
+      <node id="entrance_port04" name="entrance_port04" type="NODE">
         <matrix sid="transform">1 -2.22045e-16 -2.22045e-16 -150 2.22045e-16 1 7.15256e-7 73 2.22045e-16 -7.15256e-7 1 -6.86646e-5 0 0 0 1</matrix>
       </node>
-      <node id="approach_stage1_bay04" name="approach_stage1_bay04" type="NODE">
-        <matrix sid="transform">1 -2.22045e-16 -2.22045e-16 -150 2.22045e-16 1 7.15256e-7 500 2.22045e-16 -7.15256e-7 1 -4.27246e-4 0 0 0 1</matrix>
-      </node>
-      <node id="docking_stage1_bay05" name="docking_stage1_bay05" type="NODE">
+      <node id="loc_E001_p05_s0_500_b05" name="loc_E001_p05_s0_500_b05" type="NODE">
         <matrix sid="transform">0.254 0 0 150 0 0.254 1.81675e-7 73.00024 0 -1.81675e-7 0.254 299.9999 0 0 0 1</matrix>
       </node>
-      <node id="approach_stage2_bay05" name="approach_stage2_bay05" type="NODE">
+      <node id="entrance_port05" name="entrance_port05" type="NODE">
         <matrix sid="transform">1 -2.22045e-16 -2.22045e-16 150 2.22045e-16 1 7.15256e-7 73.00024 2.22045e-16 -7.15256e-7 1 299.9999 0 0 0 1</matrix>
       </node>
-      <node id="approach_stage1_bay05" name="approach_stage1_bay05" type="NODE">
-        <matrix sid="transform">1 -2.22045e-16 -2.22045e-16 150 2.22045e-16 1 7.15256e-7 500.0003 2.22045e-16 -7.15256e-7 1 299.9996 0 0 0 1</matrix>
-      </node>
-      <node id="docking_stage1_bay06" name="docking_stage1_bay06" type="NODE">
+      <node id="loc_F001_p06_s0_500_b06" name="loc_F001_p06_s0_500_b06" type="NODE">
         <matrix sid="transform">0.254 0 0 -150 0 0.254 1.81675e-7 73.00024 0 -1.81675e-7 0.254 299.9999 0 0 0 1</matrix>
       </node>
-      <node id="approach_stage2_bay06" name="approach_stage2_bay06" type="NODE">
+      <node id="entrance_port06" name="entrance_port06" type="NODE">
         <matrix sid="transform">1 -2.22045e-16 -2.22045e-16 -150 2.22045e-16 1 7.15256e-7 73.00024 2.22045e-16 -7.15256e-7 1 299.9999 0 0 0 1</matrix>
-      </node>
-      <node id="approach_stage1_bay06" name="approach_stage1_bay06" type="NODE">
-        <matrix sid="transform">1 -2.22045e-16 -2.22045e-16 -150 2.22045e-16 1 7.15256e-7 500.0003 2.22045e-16 -7.15256e-7 1 299.9996 0 0 0 1</matrix>
       </node>
       <node id="collision_pad1" name="collision_pad1" type="NODE">
         <matrix sid="transform">1 0 0 150 0 1 0 300 0 0 1 72.83775 0 0 0 1</matrix>
