@@ -1,0 +1,16 @@
+This file contains a list of minor fixes or changes which should be
+applied when the save version is bumped.  These are things like
+removing save fields which have stopped being used but are still
+written to the file to preserve format compatibility.
+
+Please update this list if you want to make a change that should
+be deferred till the next save bump, and please go through this
+list if you are bumping the save format version.
+
+ALSO please grep for 'SAVEBUMP' to find relevant todo notes in the source.
+
+* SpaceStation::Save/Load has an unused field which used to store the
+  Equip::TYPE_MAX value.  This should be removed. (#3058)
+
+* SystemBody::PopulateStage1 has a bug that it skips the last commodity
+  when it's determining the planet's population and trade levels. (#3058)

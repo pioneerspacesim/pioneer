@@ -2175,6 +2175,7 @@ void SystemBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 
 	/* Commodities we produce (mining and agriculture) */
 
+	// SAVEBUMP  fix this bug when we next bump the save format version
 	// BUG! We skip the last commodity (radioactives), because that preserves
 	// the behaviour of previous versions of the code
 	for (int i = 1; i < GalacticEconomy::COMMODITY_COUNT - 1; i++) {
