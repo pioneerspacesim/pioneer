@@ -2174,7 +2174,10 @@ void SystemBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 	};
 
 	/* Commodities we produce (mining and agriculture) */
-	for (int i = 1; i < GalacticEconomy::COMMODITY_COUNT; i++) {
+
+	// BUG! We skip the last commodity (radioactives), because that preserves
+	// the behaviour of previous versions of the code
+	for (int i = 1; i < GalacticEconomy::COMMODITY_COUNT - 1; i++) {
 		const GalacticEconomy::CommodityInfo &info = GalacticEconomy::COMMODITY_DATA[i];
 
 		fixed affinity = fixed(1,1);
