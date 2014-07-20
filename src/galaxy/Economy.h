@@ -55,11 +55,9 @@ namespace GalacticEconomy {
 		static const int MAX_ECON_INPUTS = 2;
 
 		const char *name;
-		const char *description;
 		// production requirement. eg metal alloys input would be metal ore
 		// (used in trade balance calculations)
 		Commodity inputs[MAX_ECON_INPUTS];
-		int basePrice;
 		int econType;
 	};
 
