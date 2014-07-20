@@ -2596,9 +2596,6 @@ void StarSystem::ExportToLua(const char *filename) {
 
 void StarSystem::Dump(FILE* file, const char* indent, bool suppressSectorData) const
 {
-	// percent price alteration
-	//int m_tradeLevel[Equip::TYPE_MAX];
-
 	if (suppressSectorData) {
 		fprintf(file, "%sStarSystem {%s\n", indent, m_hasCustomBodies ? " CUSTOM-ONLY" : m_isCustom ? " CUSTOM" : "");
 	} else {
@@ -2622,6 +2619,11 @@ void StarSystem::Dump(FILE* file, const char* indent, bool suppressSectorData) c
 	fprintf(file, "%s\thumanProx %.2f\n", indent, m_humanProx.ToDouble() * 100.0);
 	fprintf(file, "%s\tmetallicity %.2f, industrial %.2f, agricultural %.2f\n", indent, m_metallicity.ToDouble() * 100.0,
 		m_industrial.ToDouble() * 100.0, m_agricultural.ToDouble() * 100.0);
+	fprintf(file, "%s\ttrade levels {\n", indent);
+	for (int i = 1; i < GalacticEconomy::COMMODITY_COUNT; ++i) {
+		fprintf(file, "%s\t\t%s = %d\n", indent, EnumStrings::GetString("CommodityType", i), m_tradeLevel[i]);
+	}
+	fprintf(file, "%s\t}\n", indent);
 	if (m_rootBody) {
 		char buf[32];
 		snprintf(buf, sizeof(buf), "%s\t", indent);
