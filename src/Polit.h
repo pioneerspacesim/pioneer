@@ -4,7 +4,7 @@
 #ifndef _POLIT_H
 #define _POLIT_H
 
-#include "EquipType.h"
+#include "galaxy/Economy.h"
 #include "Serializer.h"
 
 class StarSystem;
@@ -53,7 +53,7 @@ namespace Polit {
 
 	void NotifyOfCrime(Ship *s, enum Crime c);
 	void GetSysPolitStarSystem(const StarSystem *s, const fixed &human_infestedness, SysPolit &outSysPolit);
-	bool IsCommodityLegal(const StarSystem *s, const Equip::Type t);
+	bool IsCommodityLegal(const StarSystem *s, const GalacticEconomy::Commodity t);
 	void Init();
 	void Serialize(Serializer::Writer &wr);
 	void Unserialize(Serializer::Reader &rd);

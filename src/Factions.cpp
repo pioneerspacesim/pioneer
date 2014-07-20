@@ -172,22 +172,14 @@ static int l_fac_police_name(lua_State *L)
 	return 1;
 }
 
-//police logo
-//goods/equipment availability (1-per-economy-type: aka agricultural, industrial, tourist, etc)
-//goods/equipment legality
+//commodity legality
 static int l_fac_illegal_goods_probability(lua_State *L)
 {
 	Faction *fac = l_fac_check(L, 1);
 	const char *typeName = luaL_checkstring(L, 2);
-	const Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(L, "EquipType", typeName));
+	const GalacticEconomy::Commodity e = static_cast<GalacticEconomy::Commodity>(
+			LuaConstants::GetConstant(L, "CommodityType", typeName));
 	const Uint32 probability = luaL_checkunsigned(L, 3);
-
-	if (e < Equip::FIRST_COMMODITY || e > Equip::LAST_COMMODITY) {
-		pi_lua_warn(L,
-			"argument out of range: Faction{%s}:IllegalGoodsProbability('%s', %d)",
-			fac->name.c_str(), typeName, probability);
-		return 0;
-	}
 
 	if (probability > 100) {
 		pi_lua_warn(L,
@@ -196,7 +188,7 @@ static int l_fac_illegal_goods_probability(lua_State *L)
 		return 0;
 	}
 
-	fac->equip_legality[e] = probability;
+	fac->commodity_legality[e] = probability;
 	lua_settop(L, 1);
 
 	return 1;

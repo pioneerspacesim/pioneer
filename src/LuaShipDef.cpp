@@ -6,7 +6,6 @@
 #include "LuaUtils.h"
 #include "EnumStrings.h"
 #include "ShipType.h"
-#include "EquipType.h"
 
 /*
  * Class: ShipDef

@@ -72,9 +72,6 @@ public:
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
-	/* MarketAgent stuff */
-	void Bought(Equip::Type t);
-	void Sold(Equip::Type t);
 
 private:
 	void DockingUpdate(const double timeStep);
