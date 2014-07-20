@@ -141,10 +141,6 @@ static int l_game_save_game(lua_State *l)
 		return luaL_error(l, "can't save when no game is running");
 	}
 
-	if (Pi::game->IsHyperspace()) {
-		return luaL_error(l, "%s", Lang::CANT_SAVE_IN_HYPERSPACE);
-	}
-
 	const std::string filename(luaL_checkstring(l, 1));
 	const std::string path = FileSystem::JoinPathBelow(Pi::GetSaveDir(), filename);
 
@@ -152,6 +148,12 @@ static int l_game_save_game(lua_State *l)
 		Game::SaveGame(filename, Pi::game);
 		lua_pushlstring(l, path.c_str(), path.size());
 		return 1;
+	}
+	catch (CannotSaveInHyperspace) {
+		return luaL_error(l, "%s", Lang::CANT_SAVE_IN_HYPERSPACE);
+	}
+	catch (CannotSaveDeadPlayer) {
+		return luaL_error(l, "%s", Lang::CANT_SAVE_DEAD_PLAYER);
 	}
 	catch (CouldNotOpenFileException) {
 		const std::string message = stringf(Lang::COULD_NOT_OPEN_FILENAME, formatarg("path", path));

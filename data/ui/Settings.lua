@@ -372,7 +372,10 @@ ui.templates.SettingsInGame = function ()
 							allowNewFile = true,
 							selectLabel  = l.SAVE,
 							onSelect     = function (filename)
-								Game.SaveGame(filename)
+								local ok, err = pcall(Game.SaveGame, filename)
+								if not ok then
+									ErrorScreen.ShowError(err)
+								end
 								ui:DropLayer()
 							end,
 							onCancel    = function ()
