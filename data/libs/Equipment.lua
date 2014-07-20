@@ -244,6 +244,31 @@ HyperdriveType.OnEnterHyperspace = function (self, ship)
 	end
 end
 
+-- Constants: EquipSlot
+--
+-- Equipment slots. Every equipment or cargo type has a corresponding
+-- "slot" that it fits in to. Each slot has an independent capacity.
+--
+-- cargo - any cargo (commodity) item
+-- engine - hyperdrives and military drives
+-- laser_front - front attachment point for lasers and plasma accelerators
+-- laser_rear - rear attachment point for lasers and plasma accelerators
+-- missile - missile
+-- ecm - ecm system
+-- scanner - scanner
+-- radarmapper - radar mapper
+-- hypercloud - hyperspace cloud analyser
+-- hull_autorepair - hull auto-repair system
+-- energy_booster - shield energy booster unit
+-- atmo_shield - atmospheric shielding
+-- cabin - cabin
+-- shield - shield
+-- fuel_scoop - fuel scoop
+-- cargo_scoop - cargo scoop
+-- laser_cooler - laser cooling booster
+-- cargo_life_support - cargo bay life support
+-- autopilot - autopilot
+
 local cargo = {
 	hydrogen = EquipType.New({
 		l10n_key = 'HYDROGEN', slots="cargo", price=1,
