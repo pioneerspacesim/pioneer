@@ -277,8 +277,8 @@ void WorldView::SetCamType(enum CamType c)
 
 	// don't allow external cameras when docked inside space stations.
 	// they would clip through the station model
-	if (Pi::player->GetFlightState() == Ship::DOCKED && !Pi::player->GetDockedWith()->IsGroundStation())
-		c = CAM_INTERNAL;
+	//if (Pi::player->GetFlightState() == Ship::DOCKED && !Pi::player->GetDockedWith()->IsGroundStation())
+	//	c = CAM_INTERNAL;
 
 	m_camType = c;
 
