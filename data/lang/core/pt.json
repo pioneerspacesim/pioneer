@@ -151,6 +151,10 @@
       "description" : "",
       "message" : "Câmara de topo"
    },
+   "CANT_SAVE_DEAD_PLAYER" : {
+      "description" : "",
+      "message" : "Can't save game after the player has died"
+   },
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
       "message" : "Não é possível guardar o jogo no hiperespaço"

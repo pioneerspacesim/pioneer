@@ -151,6 +151,10 @@
       "description" : "",
       "message" : "Vogelperspektive"
    },
+   "CANT_SAVE_DEAD_PLAYER" : {
+      "description" : "",
+      "message" : "Can't save game after the player has died"
+   },
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
       "message" : "Spiel kann nicht im Hyperraum gespeichert werden"
