@@ -273,7 +273,16 @@ function EquipmentTableWidgets.Pair (config)
 
 		local player = Game.player
 
-		player:RemoveEquip(e)
+		-- remove from last free slot (reverse table)
+		local slot
+		for i=#e.slots,1,-1 do
+			if player:CountEquip(e, e.slots[i]) > 0 then
+				slot = e.slots[i]
+				break
+			end
+		end
+
+		player:RemoveEquip(e, 1, slot)
 		player:AddMoney(funcs.getSellPrice(e))
 
 		funcs.bought(e)
