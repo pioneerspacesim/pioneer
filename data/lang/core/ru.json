@@ -153,7 +153,7 @@
    },
    "CANT_SAVE_DEAD_PLAYER" : {
       "description" : "",
-      "message" : "Can't save game after the player has died"
+      "message" : "Нельзя сохранить игру после того, как игрок умер"
    },
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
