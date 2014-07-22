@@ -33,6 +33,7 @@ July 2014
      * Fix Lua error in some circumstances when using Ship:SetEquip (#3052)
      * Fix warning about missing icons/goods/missile_*.png (#3059, #3057)
      * Don't attempt to autosave after the player has died (#3060, #3056, #2895)
+     * Bring back the facility to install a rear laser (#3067, #3064)
 
    * Internal Changes
      * Internal clean-up to remove unnecessary equipment code (#3058)
