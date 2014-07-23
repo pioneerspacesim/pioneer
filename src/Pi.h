@@ -33,6 +33,7 @@ class SpaceStation;
 class StarSystem;
 class SystemInfoView;
 class SystemView;
+class TransferPlanner;
 class UIView;
 class View;
 class WorldView;
@@ -148,6 +149,7 @@ public:
 	static UIView *settingsView;
 	static SystemInfoView *systemInfoView;
 	static SystemView *systemView;
+	static TransferPlanner *planner;
 	static WorldView *worldView;
 	static DeathView *deathView;
 	static UIView *spaceStationView;

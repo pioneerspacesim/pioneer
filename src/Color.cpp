@@ -12,6 +12,7 @@ const Color4f Color4f::GREEN  = Color4f(0.0f,1.0f,0.0f,1.0f);
 const Color4f Color4f::BLUE   = Color4f(0.0f,0.0f,1.0f,1.0f);
 const Color4f Color4f::YELLOW = Color4f(1.0f,1.0f,0.0f,1.0f);
 const Color4f Color4f::GRAY   = Color4f(0.5f,0.5f,0.5f,1.f);
+const Color4f Color4f::STEELBLUE = Color4f(0.27f, 0.51f, 0.71f, 1.f);
 
 const Color4ub Color::BLACK   = Color(0, 0, 0, 255);
 const Color4ub Color::WHITE   = Color(255, 255, 255, 255);
@@ -20,6 +21,7 @@ const Color4ub Color::GREEN   = Color(0, 255, 0, 255);
 const Color4ub Color::BLUE    = Color(0, 0, 255, 255);
 const Color4ub Color::YELLOW  = Color(255, 255, 0, 255);
 const Color4ub Color::GRAY    = Color(128,128,128,255);
+const Color4ub Color::STEELBLUE = Color(68, 130, 181, 255);
 
 const Color3ub Color3ub::BLACK   = Color3ub(0, 0, 0);
 const Color3ub Color3ub::WHITE   = Color3ub(255, 255, 255);

@@ -27,6 +27,52 @@ static const float WHEEL_SENSITIVITY = .1f;		// Should be a variable in user set
 // i don't know how to name it
 static const double ROUGH_SIZE_OF_TURD = 10.0;
 
+
+TransferPlanner::TransferPlanner() {
+	m_dvPrograde = 0.0;
+	m_dvNormal = 0.0;
+	m_dvRadial = 0.0;
+	m_factor = 0.1;
+}
+
+vector3d TransferPlanner::GetVel() { return Pi::player->GetVelocity() + GetOffsetVel(); }
+vector3d TransferPlanner::GetOffsetVel() {
+	const vector3d pPos    = Pi::player->GetPosition();
+	const vector3d pVel    = Pi::player->GetVelocity();
+	const vector3d pNormal = pPos.Cross(pVel);
+
+	return m_dvPrograde * pVel.Normalized()    +
+	       m_dvNormal   * pNormal.Normalized() +
+	       m_dvRadial   * pPos.Normalized();
+}
+
+void TransferPlanner::AddProgradeDv(double dv) { m_dvPrograde += m_factor * dv; }
+void TransferPlanner::AddNormalDv(double dv) { m_dvNormal += m_factor * dv; }
+void TransferPlanner::AddRadialDv(double dv) { m_dvRadial += m_factor * dv; }
+void TransferPlanner::ResetProgradeDv(void) { m_dvPrograde = 0; }
+void TransferPlanner::ResetNormalDv(void) { m_dvNormal = 0; }
+void TransferPlanner::ResetRadialDv(void) { m_dvRadial = 0; }
+
+// XXX idk ok?
+std::string TransferPlanner::printProgradeDv(void) {
+	char buf[10];
+	snprintf(buf, sizeof(buf), "%6.0fm/s", m_dvPrograde);
+	std::string r = buf;
+	return r;
+}
+std::string TransferPlanner::printNormalDv(void) {
+	char buf[10];
+	snprintf(buf, sizeof(buf), "%6.0fm/s", m_dvNormal);
+	std::string r = buf;
+	return r;
+}
+std::string TransferPlanner::printRadialDv(void) {
+	char buf[10];
+	snprintf(buf, sizeof(buf), "%6.0fm/s", m_dvRadial);
+	std::string r = buf;
+	return r;
+}
+
 SystemView::SystemView() : UIView()
 {
 	SetTransparency(true);
@@ -59,6 +105,54 @@ SystemView::SystemView() : UIView()
 	m_zoomOutButton->SetToolTip(Lang::ZOOM_OUT);
 	m_zoomOutButton->SetRenderDimensions(30, 22);
 	Add(m_zoomOutButton, 732, 5);
+
+        int dx = 670;
+	int dy = 40;
+
+	m_plannerAddProgradeVelButton = new Gui::ImageButton("icons/orbit_increase_big.png");
+	m_plannerAddProgradeVelButton->SetRenderDimensions(18, 18);
+	Add(m_plannerAddProgradeVelButton, dx + 40, dy);
+
+	m_plannerZeroProgradeVelButton = new Gui::ImageButton("icons/orbit_proretro_big.png");
+	m_plannerZeroProgradeVelButton->SetRenderDimensions(18, 18);
+	Add(m_plannerZeroProgradeVelButton, dx + 20, dy);
+
+	m_plannerAddRetrogradeVelButton = new Gui::ImageButton("icons/orbit_reduce_big.png");
+	m_plannerAddRetrogradeVelButton->SetRenderDimensions(18, 18);
+	Add(m_plannerAddRetrogradeVelButton, dx, dy);
+
+	m_plannerProgradeDvText = (new Gui::Label(""))->Color(178, 178, 178);
+	Add(m_plannerProgradeDvText, dx + 60, dy);
+
+	m_plannerAddNormalVelButton = new Gui::ImageButton("icons/orbit_increase_big.png");
+	m_plannerAddNormalVelButton->SetRenderDimensions(18, 18);
+	Add(m_plannerAddNormalVelButton, dx + 40, dy + 20);
+
+	m_plannerZeroNormalVelButton = new Gui::ImageButton("icons/orbit_normal_big.png");
+	m_plannerZeroNormalVelButton->SetRenderDimensions(18, 18);
+	Add(m_plannerZeroNormalVelButton, dx + 20, dy + 20);
+
+	m_plannerAddAntiNormalVelButton = new Gui::ImageButton("icons/orbit_reduce_big.png");
+	m_plannerAddAntiNormalVelButton->SetRenderDimensions(18, 18);
+	Add(m_plannerAddAntiNormalVelButton, dx, dy + 20);
+
+	m_plannerNormalDvText = (new Gui::Label(""))->Color(178, 178, 178);
+	Add(m_plannerNormalDvText, dx + 60, dy + 20);
+
+	m_plannerAddRadiallyInVelButton = new Gui::ImageButton("icons/orbit_increase_big.png");
+	m_plannerAddRadiallyInVelButton->SetRenderDimensions(18, 18);
+	Add(m_plannerAddRadiallyInVelButton, dx + 40, dy + 40);
+
+	m_plannerZeroRadialVelButton = new Gui::ImageButton("icons/orbit_radial_big.png");
+	m_plannerZeroRadialVelButton->SetRenderDimensions(18, 18);
+	Add(m_plannerZeroRadialVelButton, dx + 20, dy + 40);
+
+	m_plannerAddRadiallyOutVelButton = new Gui::ImageButton("icons/orbit_reduce_big.png");
+	m_plannerAddRadiallyOutVelButton->SetRenderDimensions(18, 18);
+	Add(m_plannerAddRadiallyOutVelButton, dx, dy + 40);
+
+	m_plannerRadialDvText = (new Gui::Label(""))->Color(178, 178, 178);
+	Add(m_plannerRadialDvText, dx + 60, dy + 40);
 
 	const int time_controls_left = Gui::Screen::GetWidth() - 150;
 	const int time_controls_top = Gui::Screen::GetHeight() - 86;
@@ -108,6 +202,8 @@ SystemView::SystemView() : UIView()
 		Pi::onMouseWheel.connect(sigc::mem_fun(this, &SystemView::MouseWheel));
 
 	ResetViewpoint();
+
+	m_planner = Pi::planner;
 }
 
 SystemView::~SystemView()
@@ -246,7 +342,14 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 	if(frame->GetSystemBody() == b && frame->GetSystemBody()->GetMass() > 0) {
 		const double t0 = Pi::game->GetTime();
 		Orbit playerOrbit = Pi::player->ComputeOrbit();
+
+		Orbit plannedOrbit = Orbit::FromBodyState(Pi::player->GetPosition(),
+		//Orbit plannedOrbit = Orbit::FromBodyState(playerOrbit.OrbitalPosAtTime(m_time - t0),
+							  m_planner->GetVel(),
+							  frame->GetSystemBody()->GetMass());
+
 		PutOrbit(&playerOrbit, offset, Color::RED, b->GetRadius());
+		PutOrbit(&plannedOrbit, offset, Color::STEELBLUE, b->GetRadius());
 		PutSelectionBox(offset + playerOrbit.OrbitalPosAtTime(m_time - t0)* double(m_zoom), Color::RED);
 	}
 
@@ -380,6 +483,21 @@ void SystemView::Update()
 		if (Pi::KeyState(SDLK_MINUS) ||
 			m_zoomOutButton->IsPressed())
 				m_zoomTo *= pow(ZOOM_OUT_SPEED / Pi::GetMoveSpeedShiftModifier(), ft);
+
+		// transfer planner buttons
+		if (m_plannerAddProgradeVelButton->IsPressed())    { m_planner->AddProgradeDv(10.0);  }
+		if (m_plannerAddRetrogradeVelButton->IsPressed())  { m_planner->AddProgradeDv(-10.0); }
+		if (m_plannerAddNormalVelButton->IsPressed())      { m_planner->AddNormalDv(10.0);    }
+		if (m_plannerAddAntiNormalVelButton->IsPressed())  { m_planner->AddNormalDv(-10.0);   }
+		if (m_plannerAddRadiallyInVelButton->IsPressed())  { m_planner->AddRadialDv(10.0);    }
+		if (m_plannerAddRadiallyOutVelButton->IsPressed()) { m_planner->AddRadialDv(-10.0);   }
+		if (m_plannerZeroProgradeVelButton->IsPressed())   { m_planner->ResetProgradeDv(); }
+		if (m_plannerZeroNormalVelButton->IsPressed())     { m_planner->ResetNormalDv(); }
+		if (m_plannerZeroRadialVelButton->IsPressed())     { m_planner->ResetRadialDv(); }
+
+		m_plannerProgradeDvText->SetText(m_planner->printProgradeDv());
+		m_plannerNormalDvText->SetText(m_planner->printNormalDv());
+		m_plannerRadialDvText->SetText(m_planner->printRadialDv());
 	}
 	// TODO: add "true" lower/upper bounds to m_zoomTo / m_zoom
 	m_zoomTo = Clamp(m_zoomTo, MIN_ZOOM, MAX_ZOOM);

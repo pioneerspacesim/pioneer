@@ -31,6 +31,7 @@ struct Color4f {
 	static const Color4f BLUE;
 	static const Color4f YELLOW;
 	static const Color4f GRAY;
+	static const Color4f STEELBLUE;
 };
 
 struct Color4ub {
@@ -62,6 +63,7 @@ struct Color4ub {
 	static const Color4ub BLUE;
 	static const Color4ub YELLOW;
 	static const Color4ub GRAY;
+	static const Color4ub STEELBLUE;
 };
 
 struct Color3ub {

@@ -13,6 +13,27 @@ class StarSystem;
 class SystemBody;
 class Orbit;
 
+class TransferPlanner {
+public:
+	TransferPlanner();
+	vector3d GetVel();
+	vector3d GetOffsetVel();
+	void AddProgradeDv(double dv);
+	void AddNormalDv(double dv);
+	void AddRadialDv(double dv);
+	void ResetProgradeDv(void);
+	void ResetNormalDv(void);
+	void ResetRadialDv(void);
+	std::string printProgradeDv(void);
+	std::string printNormalDv(void);
+	std::string printRadialDv(void);
+private:
+	double m_dvPrograde;
+	double m_dvNormal;
+	double m_dvRadial;
+	double m_factor;
+};
+
 class SystemView: public UIView {
 public:
 	SystemView();
@@ -35,6 +56,7 @@ private:
 
 	RefCountedPtr<StarSystem> m_system;
 	const SystemBody *m_selectedObject;
+	TransferPlanner *m_planner;
 	float m_rot_x, m_rot_z;
 	float m_zoom, m_zoomTo;
 	double m_time;
@@ -42,9 +64,17 @@ private:
 	double m_timeStep;
 	Gui::ImageButton *m_zoomInButton;
 	Gui::ImageButton *m_zoomOutButton;
+	Gui::ImageButton *m_plannerAddProgradeVelButton;
+	Gui::ImageButton *m_plannerAddRetrogradeVelButton;
+	Gui::ImageButton *m_plannerAddNormalVelButton;
+	Gui::ImageButton *m_plannerAddAntiNormalVelButton;
+	Gui::ImageButton *m_plannerAddRadiallyInVelButton;
+	Gui::ImageButton *m_plannerAddRadiallyOutVelButton;
+	Gui::ImageButton *m_plannerZeroProgradeVelButton, *m_plannerZeroNormalVelButton, *m_plannerZeroRadialVelButton;
 	Gui::Label *m_timePoint;
 	Gui::Label *m_infoLabel;
 	Gui::Label *m_infoText;
+	Gui::Label *m_plannerProgradeDvText, *m_plannerNormalDvText, *m_plannerRadialDvText;
 	Gui::LabelSet *m_objectLabels;
 	sigc::connection m_onMouseWheelCon;
 
