@@ -202,7 +202,7 @@ void SystemInfoView::UpdateEconomyTab()
 	m_econMajImport->SetSize(500, num * rowsep);
 	m_econMajImport->ShowAll();
 	if (num < 2) {
-		m_econMajImport->Add(new Gui::Label(meh + "None"), 5, num++ * rowsep);
+		m_econMajImport->Add(new Gui::Label(meh + Lang::COMMODITY_NONE), 5, num++ * rowsep);
 	}
 
 	num = 0;
@@ -235,7 +235,7 @@ void SystemInfoView::UpdateEconomyTab()
 		}
 	}
 	if (num < 2) {
-		m_econMinImport->Add(new Gui::Label(meh + "None"), 5, num++ * rowsep);
+		m_econMinImport->Add(new Gui::Label(meh + Lang::COMMODITY_NONE), 5, num++ * rowsep);
 	}
 	m_econMinImport->SetSize(500, num * rowsep);
 	m_econMinImport->ShowAll();
@@ -269,7 +269,7 @@ void SystemInfoView::UpdateEconomyTab()
 		}
 	}
 	if (num < 2) {
-		m_econMajExport->Add(new Gui::Label(meh + "None"), 5, num++ * rowsep);
+		m_econMajExport->Add(new Gui::Label(meh + Lang::COMMODITY_NONE), 5, num++ * rowsep);
 	}
 	m_econMajExport->SetSize(500, num * rowsep);
 	m_econMajExport->ShowAll();
@@ -304,7 +304,7 @@ void SystemInfoView::UpdateEconomyTab()
 		}
 	}
 	if (num < 2) {
-		m_econMinExport->Add(new Gui::Label(meh + "None"), 5, num++ * rowsep);
+		m_econMinExport->Add(new Gui::Label(meh + Lang::COMMODITY_NONE), 5, num++ * rowsep);
 	}
 	m_econMinExport->SetSize(500, num * rowsep);
 	m_econMinExport->ShowAll();
@@ -324,7 +324,7 @@ void SystemInfoView::UpdateEconomyTab()
 		}
 	}
 	if (num < 2) {
-		m_econIllegal->Add(new Gui::Label(illegal + "None"), 5, num++ * rowsep);
+		m_econIllegal->Add(new Gui::Label(illegal + Lang::COMMODITY_NONE), 5, num++ * rowsep);
 	}
 	m_econIllegal->SetSize(500, num * rowsep);
 	m_econIllegal->ShowAll();

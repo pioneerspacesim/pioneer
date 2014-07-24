@@ -239,6 +239,10 @@
       "description" : "",
       "message" : "Communist"
    },
+   "COMMODITY_NONE" : {
+      "description" : "When no commodities exist",
+      "message" : "None"
+   },
    "COMMODITY_TRADE_ANALYSIS_SELF" : {
       "description" : "",
       "message" : "Commodity trade analysis of #fff%system#fff"
@@ -1080,7 +1084,7 @@
       "message" : "Nerve Gas"
    },
    "NONE" : {
-      "description" : "",
+      "description" : "used for no allegiance, and no rank, and no missions",
       "message" : "None"
    },
    "NORMA_ARM" : {
