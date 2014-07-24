@@ -157,13 +157,13 @@ void SystemInfoView::UpdateEconomyTab()
 	const std::string awesome   = "#7f7";
 	const std::string illegal   = "#744";
 
-	char buf[100];
+	char buf[200];
 	if (hs && (!m_system->GetPath().IsSameSystem(hspath))) {
 		// different system selected
-		snprintf(buf, 100, COMM_COMP, m_system->GetName().c_str(), hs->GetName().c_str());
+		snprintf(buf, 200, COMM_COMP, m_system->GetName().c_str(), hs->GetName().c_str());
 	} else {
 		// same system as current selected
-		snprintf(buf, 100, COMM_SELF, m_system->GetName().c_str());
+		snprintf(buf, 200, COMM_SELF, m_system->GetName().c_str());
 	}
 
 	m_commodityTradeLabel->SetText(buf);
@@ -326,19 +326,6 @@ void SystemInfoView::UpdateEconomyTab()
 	}
 	m_econIllegal->SetSize(500, num * sep);
 	m_econIllegal->ShowAll();
-
-	/*
-	crud.clear();
-	data = std::string("#ff0")+std::string(Lang::ILLEGAL_GOODS)+std::string("\n");
-	for (int i = 1; i < GalacticEconomy::COMMODITY_COUNT; ++i) {
-		if (!Polit::IsCommodityLegal(s, GalacticEconomy::Commodity(i)))
-			crud.push_back(std::string("#777")+GalacticEconomy::COMMODITY_DATA[i].name);
-	}
-	if (crud.size()) data += string_join(crud, "\n")+"\n";
-	else data += std::string("#777")+std::string(Lang::NONE)+std::string("\n");
-	m_econIllegal->SetText(data);
-
- */
 
 	m_econInfoTab->ResizeRequest();
 }
