@@ -239,6 +239,14 @@
       "description" : "",
       "message" : "Communist"
    },
+   "COMMODITY_TRADE_ANALYSIS_SELF" : {
+      "description" : "",
+      "message" : "Commodity trade analysis of #fff%system#fff"
+   },
+   "COMMODITY_TRADE_ANALYSIS_COMPARE" : {
+      "description" : "",
+      "message" : "Commodity trade analysis of #ff0%selected_system#fff (selected) against #ff0%current_system#fff (current):"
+   },
    "COMPUTERS" : {
       "description" : "",
       "message" : "Computers"
@@ -803,9 +811,17 @@
       "description" : "",
       "message" : "Major Exports:"
    },
+   "MAJOR_EXPORT_CURRENT_SYSTEM" : {
+      "description" : "Short (tool tip) description of how much one commodity trades in the system the player is currently in",
+      "message" : "Major export (current system)"
+   },
    "MAJOR_IMPORTS" : {
       "description" : "",
       "message" : "Major Imports:"
+   },
+   "MAJOR_IMPORT_CURRENT_SYSTEM" : {
+      "description" : "Short (tool tip) description of how much one commodity trades in the system the player is currently in",
+      "message" : "Major import (current system)"
    },
    "MANUAL_CONTROL" : {
       "description" : "",
@@ -943,9 +959,17 @@
       "description" : "",
       "message" : "Minor Exports:"
    },
+   "MINOR_EXPORT_CURRENT_SYSTEM" : {
+      "description" : "Short (tool tip) description of how much one commodity trades in the system the player is currently in",
+      "message" : "Minor export (current system)"
+   },
    "MINOR_IMPORTS" : {
       "description" : "",
       "message" : "Minor Imports:"
+   },
+   "MINOR_IMPORT_CURRENT_SYSTEM" : {
+      "description" : "Short (tool tip) description of how much one commodity trades in the system the player is currently in",
+      "message" : "Minor import (current system)"
    },
    "MISCELLANEOUS" : {
       "description" : "",

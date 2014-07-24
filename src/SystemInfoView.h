@@ -9,9 +9,6 @@
 #include "UIView.h"
 #include <vector>
 
-#define COMM_SELF "#fffCommodity trade analysis of #ff0%s#fff:"
-#define COMM_COMP "#fffCommodity trade analysis of #ff0%s#fff against #ff0%s#fff (current system):"
-
 class StarSystem;
 class SystemBody;
 namespace Graphics { class Renderer; }

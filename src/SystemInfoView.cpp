@@ -157,16 +157,19 @@ void SystemInfoView::UpdateEconomyTab()
 	const std::string awesome   = "#7f7";
 	const std::string illegal   = "#744";
 
-	char buf[200];
+	const std::string COMM_SELF = stringf(Lang::COMMODITY_TRADE_ANALYSIS_SELF,
+													  formatarg("system", m_system->GetName().c_str()));
+	const std::string COMM_COMP = stringf(Lang::COMMODITY_TRADE_ANALYSIS_COMPARE,
+													  formatarg("selected_system", m_system->GetName().c_str()),
+													  formatarg("current_system", hs->GetName().c_str()));
+
 	if (hs && (!m_system->GetPath().IsSameSystem(hspath))) {
 		// different system selected
-		snprintf(buf, 200, COMM_COMP, m_system->GetName().c_str(), hs->GetName().c_str());
+		m_commodityTradeLabel->SetText(COMM_COMP.c_str());
 	} else {
 		// same system as current selected
-		snprintf(buf, 200, COMM_SELF, m_system->GetName().c_str());
+		m_commodityTradeLabel->SetText(COMM_SELF.c_str());
 	}
-
-	m_commodityTradeLabel->SetText(buf);
 
 	const int rowsep = 18;
 	int num = 0;
@@ -184,10 +187,10 @@ void SystemInfoView::UpdateEconomyTab()
 					if ((hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) < -2) &&
 						 (hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) >= -10)) {
 						extra = good;
-						tooltip = "Minor export (current system)";
+						tooltip = std::string(Lang::MINOR_EXPORT_CURRENT_SYSTEM);
 					} else if (hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) < -10) {
 						extra = awesome;
-						tooltip = "Major export (current system)";
+						tooltip = std::string(Lang::MAJOR_EXPORT_CURRENT_SYSTEM);
 					}
 				}
 			}
@@ -218,10 +221,10 @@ void SystemInfoView::UpdateEconomyTab()
 				if (!m_system->GetPath().IsSameSystem(hspath)) {
 					if ((hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) < -2) &&
 						 (hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) >= -10)) {
-						tooltip = "Minor export (current system)";
+						tooltip = std::string(Lang::MINOR_EXPORT_CURRENT_SYSTEM);
 						extra = ok;
 					} else if (hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) < -10) {
-						tooltip = "Major export (current system)";
+						tooltip = std::string(Lang::MAJOR_EXPORT_CURRENT_SYSTEM);
 						extra = good;
 					}
 				}
@@ -253,10 +256,10 @@ void SystemInfoView::UpdateEconomyTab()
 					if ((hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) > 2) &&
 						 (hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) <= 10)) {
 						extra = good;
-						tooltip = "Minor import (current system)";
+						tooltip = std::string(Lang::MINOR_IMPORT_CURRENT_SYSTEM);
 					} else if (hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) > 10) {
 						extra = awesome;
-						tooltip = "Major import (current system)";
+						tooltip = std::string(Lang::MAJOR_IMPORT_CURRENT_SYSTEM);
 					}
 				}
 			}
@@ -287,10 +290,10 @@ void SystemInfoView::UpdateEconomyTab()
 				if (!m_system->GetPath().IsSameSystem(hspath)) {
 					if ((hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) > 2) &&
 						 (hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) <= 10)) {
-						tooltip = "Minor import (current system)";
+						tooltip = std::string(Lang::MINOR_IMPORT_CURRENT_SYSTEM);
 						extra = ok;
 					} else if (hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) > 10) {
-						tooltip = "Major import (current system)";
+						tooltip = std::string(Lang::MAJOR_IMPORT_CURRENT_SYSTEM);
 						extra = good;
 					}
 				}
@@ -485,7 +488,7 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 		scrollBox2->PackStart(scroll2);
 		scrollBox2->PackStart(portal2);
 
-		m_commodityTradeLabel = new Gui::Label("Commodity trade analysis of selected system:"); //XXX, not used?
+		m_commodityTradeLabel = new Gui::Label("");
 		econbox->PackEnd(m_commodityTradeLabel);
 		econbox->PackEnd(scrollBox2);
 
