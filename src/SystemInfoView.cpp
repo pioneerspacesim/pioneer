@@ -179,7 +179,8 @@ void SystemInfoView::UpdateEconomyTab()
 		0, num++ * rowsep
 	);
 	for (int i=1; i< GalacticEconomy::COMMODITY_COUNT; i++) {
-		if (s->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) > 10) {
+		if (Polit::IsCommodityLegal(s, GalacticEconomy::Commodity(i)) &&
+			 s->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) > 10) {
 			std::string extra = meh;
 			std::string tooltip = "";
 			if (hs) {
@@ -213,7 +214,8 @@ void SystemInfoView::UpdateEconomyTab()
 		0, num++ * rowsep
 	);
 	for (int i=1; i<GalacticEconomy::COMMODITY_COUNT; i++) {
-		if ((s->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) > 2) &&
+		if (Polit::IsCommodityLegal(s, GalacticEconomy::Commodity(i)) &&
+			 (s->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) > 2) &&
 			 (s->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) <= 10)) {
 			std::string extra = meh;
 			std::string tooltip = "";
@@ -248,7 +250,8 @@ void SystemInfoView::UpdateEconomyTab()
 		0, num++ * rowsep
 	);
 	for (int i=1; i<GalacticEconomy::COMMODITY_COUNT; i++) {
-		if (s->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) < -10) {
+		if (Polit::IsCommodityLegal(s, GalacticEconomy::Commodity(i)) &&
+			 s->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) < -10) {
 			std::string extra = meh;
 			std::string tooltip = "";
 			if (hs) {
@@ -282,7 +285,8 @@ void SystemInfoView::UpdateEconomyTab()
 		0, num++ * rowsep
 	);
 	for (int i=1; i< GalacticEconomy::COMMODITY_COUNT; i++) {
-		if ((s->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) < -2) &&
+		if (Polit::IsCommodityLegal(s, GalacticEconomy::Commodity(i)) &&
+			 (s->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) < -2) &&
 			 (s->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) >= -10)) {
 			std::string extra = meh;
 			std::string tooltip = "";
@@ -318,8 +322,10 @@ void SystemInfoView::UpdateEconomyTab()
 	);
 	for (int i=1; i<GalacticEconomy::COMMODITY_COUNT; i++) {
 		if (!Polit::IsCommodityLegal(s, GalacticEconomy::Commodity(i))) {
-			std::string extra = meh;
-			Gui::Label *label = new Gui::Label(illegal+GalacticEconomy::COMMODITY_DATA[i].name);
+			std::string extra = illegal;
+			if (hs && Polit::IsCommodityLegal(hs.Get(), GalacticEconomy::Commodity(i)))
+				extra = meh;
+			Gui::Label *label = new Gui::Label(extra+GalacticEconomy::COMMODITY_DATA[i].name);
 			m_econIllegal->Add(label, 5, num++ * rowsep);
 		}
 	}
