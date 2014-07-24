@@ -144,12 +144,12 @@ void SystemInfoView::OnBodyViewed(SystemBody *b)
 void SystemInfoView::UpdateEconomyTab()
 {
 	/* Economy info page */
-	StarSystem *s = m_system.Get();
+	StarSystem *s = m_system.Get();             // selected system
 	std::string data;
 
 	/* imports and exports */
 	const RefCountedPtr<StarSystem> hs = Pi::game->GetSpace()->GetStarSystem();
-	const SystemPath &hspath = hs->GetPath();
+	const SystemPath &hspath = hs->GetPath();   // current system (path)
 
 	const std::string meh       = "#999";
 	const std::string ok        = "#fff";
@@ -168,12 +168,12 @@ void SystemInfoView::UpdateEconomyTab()
 
 	m_commodityTradeLabel->SetText(buf);
 
-	const int sep = 18;
+	const int rowsep = 18;
 	int num = 0;
 	m_econMajImport->DeleteAllChildren();
 	m_econMajImport->Add(new Gui::Label(
 		std::string("#ff0")+std::string(Lang::MAJOR_IMPORTS)),
-		0, num++ * sep
+		0, num++ * rowsep
 	);
 	for (int i=1; i< GalacticEconomy::COMMODITY_COUNT; i++) {
 		if (s->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) > 10) {
@@ -193,13 +193,13 @@ void SystemInfoView::UpdateEconomyTab()
 			}
 			Gui::Label *label = new Gui::Label(extra+GalacticEconomy::COMMODITY_DATA[i].name);
 			label->SetToolTip(tooltip);
-			m_econMajImport->Add(label, 5, num++ * sep);
+			m_econMajImport->Add(label, 5, num++ * rowsep);
 		}
 	}
-	m_econMajImport->SetSize(500, num * sep);
+	m_econMajImport->SetSize(500, num * rowsep);
 	m_econMajImport->ShowAll();
 	if (num < 2) {
-		m_econMajImport->Add(new Gui::Label(meh + "None"), 5, num++ * sep);
+		m_econMajImport->Add(new Gui::Label(meh + "None"), 5, num++ * rowsep);
 	}
 
 	num = 0;
@@ -207,7 +207,7 @@ void SystemInfoView::UpdateEconomyTab()
 	m_econMinImport->DeleteAllChildren();
 	m_econMinImport->Add(new Gui::Label(
 		std::string("#ff0")+std::string(Lang::MINOR_IMPORTS)),
-		0, num++ * sep
+		0, num++ * rowsep
 	);
 	for (int i=1; i<GalacticEconomy::COMMODITY_COUNT; i++) {
 		if ((s->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) > 2) &&
@@ -228,13 +228,13 @@ void SystemInfoView::UpdateEconomyTab()
 			}
 			Gui::Label *label = new Gui::Label(extra+GalacticEconomy::COMMODITY_DATA[i].name);
 			label->SetToolTip(tooltip);
-			m_econMinImport->Add(label, 5, num++ * sep);
+			m_econMinImport->Add(label, 5, num++ * rowsep);
 		}
 	}
 	if (num < 2) {
-		m_econMinImport->Add(new Gui::Label(meh + "None"), 5, num++ * sep);
+		m_econMinImport->Add(new Gui::Label(meh + "None"), 5, num++ * rowsep);
 	}
-	m_econMinImport->SetSize(500, num * sep);
+	m_econMinImport->SetSize(500, num * rowsep);
 	m_econMinImport->ShowAll();
 
 	num = 0;
@@ -242,7 +242,7 @@ void SystemInfoView::UpdateEconomyTab()
 	m_econMajExport->DeleteAllChildren();
 	m_econMajExport->Add(new Gui::Label(
 		std::string("#ff0")+std::string(Lang::MAJOR_EXPORTS)),
-		0, num++ * sep
+		0, num++ * rowsep
 	);
 	for (int i=1; i<GalacticEconomy::COMMODITY_COUNT; i++) {
 		if (s->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) < -10) {
@@ -262,13 +262,13 @@ void SystemInfoView::UpdateEconomyTab()
 			}
 			Gui::Label *label = new Gui::Label(extra+GalacticEconomy::COMMODITY_DATA[i].name);
 			label->SetToolTip(tooltip);
-			m_econMajExport->Add(label, 5, num++ * sep);
+			m_econMajExport->Add(label, 5, num++ * rowsep);
 		}
 	}
 	if (num < 2) {
-		m_econMajExport->Add(new Gui::Label(meh + "None"), 5, num++ * sep);
+		m_econMajExport->Add(new Gui::Label(meh + "None"), 5, num++ * rowsep);
 	}
-	m_econMajExport->SetSize(500, num * sep);
+	m_econMajExport->SetSize(500, num * rowsep);
 	m_econMajExport->ShowAll();
 
 	num = 0;
@@ -276,7 +276,7 @@ void SystemInfoView::UpdateEconomyTab()
 	m_econMinExport->DeleteAllChildren();
 	m_econMinExport->Add(new Gui::Label(
 		std::string("#ff0")+std::string(Lang::MINOR_EXPORTS)),
-		0, num++ * sep
+		0, num++ * rowsep
 	);
 	for (int i=1; i< GalacticEconomy::COMMODITY_COUNT; i++) {
 		if ((s->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) < -2) &&
@@ -297,13 +297,13 @@ void SystemInfoView::UpdateEconomyTab()
 			}
 			Gui::Label *label = new Gui::Label(extra+GalacticEconomy::COMMODITY_DATA[i].name);
 			label->SetToolTip(tooltip);
-			m_econMinExport->Add(label, 5, num++ * sep);
+			m_econMinExport->Add(label, 5, num++ * rowsep);
 		}
 	}
 	if (num < 2) {
-		m_econMinExport->Add(new Gui::Label(meh + "None"), 5, num++ * sep);
+		m_econMinExport->Add(new Gui::Label(meh + "None"), 5, num++ * rowsep);
 	}
-	m_econMinExport->SetSize(500, num * sep);
+	m_econMinExport->SetSize(500, num * rowsep);
 	m_econMinExport->ShowAll();
 
 	num = 0;
@@ -311,20 +311,19 @@ void SystemInfoView::UpdateEconomyTab()
 	m_econIllegal->DeleteAllChildren();
 	m_econIllegal->Add(new Gui::Label(
 		std::string("#f55")+std::string(Lang::ILLEGAL_GOODS)),
-		0, num++ * sep
+		0, num++ * rowsep
 	);
 	for (int i=1; i<GalacticEconomy::COMMODITY_COUNT; i++) {
 		if (!Polit::IsCommodityLegal(s, GalacticEconomy::Commodity(i))) {
 			std::string extra = meh;
 			Gui::Label *label = new Gui::Label(illegal+GalacticEconomy::COMMODITY_DATA[i].name);
-			m_econIllegal->Add(label, 5, num++ * sep);
+			m_econIllegal->Add(label, 5, num++ * rowsep);
 		}
-//>>>>>>> 24a9ad8d044ac9099cf541e918cbaa82e1580381
 	}
 	if (num < 2) {
-		m_econIllegal->Add(new Gui::Label(illegal + "None"), 5, num++ * sep);
+		m_econIllegal->Add(new Gui::Label(illegal + "None"), 5, num++ * rowsep);
 	}
-	m_econIllegal->SetSize(500, num * sep);
+	m_econIllegal->SetSize(500, num * rowsep);
 	m_econIllegal->ShowAll();
 
 	m_econInfoTab->ResizeRequest();
@@ -486,7 +485,7 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 		scrollBox2->PackStart(scroll2);
 		scrollBox2->PackStart(portal2);
 
-		m_commodityTradeLabel = new Gui::Label("Commodity trade analysis of selected system:");
+		m_commodityTradeLabel = new Gui::Label("Commodity trade analysis of selected system:"); //XXX, not used?
 		econbox->PackEnd(m_commodityTradeLabel);
 		econbox->PackEnd(scrollBox2);
 
