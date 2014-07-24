@@ -32,7 +32,7 @@ TransferPlanner::TransferPlanner() {
 	m_dvPrograde = 0.0;
 	m_dvNormal = 0.0;
 	m_dvRadial = 0.0;
-	m_factor = 0.1;
+	m_factor = 1;
 }
 
 vector3d TransferPlanner::GetVel() { return Pi::player->GetVelocity() + GetOffsetVel(); }
@@ -52,8 +52,23 @@ void TransferPlanner::AddRadialDv(double dv) { m_dvRadial += m_factor * dv; }
 void TransferPlanner::ResetProgradeDv(void) { m_dvPrograde = 0; }
 void TransferPlanner::ResetNormalDv(void) { m_dvNormal = 0; }
 void TransferPlanner::ResetRadialDv(void) { m_dvRadial = 0; }
+void TransferPlanner::IncreaseFactor(void) {
+	if(m_factor > 1000) return;
+	m_factor *= m_factorFactor;
+}
+void TransferPlanner::ResetFactor(void) { m_factor = 1; }
+void TransferPlanner::DecreaseFactor(void) {
+	if(m_factor < 0.0002) return;
+	m_factor /= m_factorFactor;
+}
 
 // XXX idk ok?
+std::string TransferPlanner::printFactor(void) {
+	char buf[10];
+	snprintf(buf, sizeof(buf), "%6gx", 10 * m_factor);
+	std::string r = buf;
+	return r;
+}
 std::string TransferPlanner::printProgradeDv(void) {
 	char buf[10];
 	snprintf(buf, sizeof(buf), "%6.0fm/s", m_dvPrograde);
@@ -106,53 +121,76 @@ SystemView::SystemView() : UIView()
 	m_zoomOutButton->SetRenderDimensions(30, 22);
 	Add(m_zoomOutButton, 732, 5);
 
+	// orbital transfer planner UI
         int dx = 670;
 	int dy = 40;
 
+	m_plannerIncreaseFactorButton = new Gui::ImageButton("icons/orbit_increase_big.png");
+	m_plannerIncreaseFactorButton->SetRenderDimensions(18, 18);
+	m_plannerIncreaseFactorButton->onClick.connect(sigc::mem_fun(this, &SystemView::OnIncreaseFactorButtonClick));
+	Add(m_plannerIncreaseFactorButton, dx + 40, dy);
+
+	m_plannerResetFactorButton = new Gui::ImageButton("icons/orbit_factor_big.png");
+	m_plannerResetFactorButton->SetRenderDimensions(18, 18);
+	m_plannerResetFactorButton->SetToolTip(Lang::PLANNER_RESET_FACTOR);
+	m_plannerResetFactorButton->onClick.connect(sigc::mem_fun(this, &SystemView::OnResetFactorButtonClick));
+	Add(m_plannerResetFactorButton, dx + 20, dy);
+
+	m_plannerDecreaseFactorButton = new Gui::ImageButton("icons/orbit_reduce_big.png");
+	m_plannerDecreaseFactorButton->SetRenderDimensions(18, 18);
+	m_plannerDecreaseFactorButton->onClick.connect(sigc::mem_fun(this, &SystemView::OnDecreaseFactorButtonClick));
+	Add(m_plannerDecreaseFactorButton, dx, dy);
+
+	m_plannerFactorText = (new Gui::Label(""))->Color(178, 178, 178);
+	Add(m_plannerFactorText, dx + 60 + 7, dy);
+
 	m_plannerAddProgradeVelButton = new Gui::ImageButton("icons/orbit_increase_big.png");
 	m_plannerAddProgradeVelButton->SetRenderDimensions(18, 18);
-	Add(m_plannerAddProgradeVelButton, dx + 40, dy);
+	Add(m_plannerAddProgradeVelButton, dx + 40, dy + 20);
 
 	m_plannerZeroProgradeVelButton = new Gui::ImageButton("icons/orbit_proretro_big.png");
 	m_plannerZeroProgradeVelButton->SetRenderDimensions(18, 18);
-	Add(m_plannerZeroProgradeVelButton, dx + 20, dy);
+	m_plannerZeroProgradeVelButton->SetToolTip(Lang::PLANNER_RESET_PROGRADE);
+	Add(m_plannerZeroProgradeVelButton, dx + 20, dy + 20);
 
 	m_plannerAddRetrogradeVelButton = new Gui::ImageButton("icons/orbit_reduce_big.png");
 	m_plannerAddRetrogradeVelButton->SetRenderDimensions(18, 18);
-	Add(m_plannerAddRetrogradeVelButton, dx, dy);
+	Add(m_plannerAddRetrogradeVelButton, dx, dy + 20);
 
 	m_plannerProgradeDvText = (new Gui::Label(""))->Color(178, 178, 178);
-	Add(m_plannerProgradeDvText, dx + 60, dy);
+	Add(m_plannerProgradeDvText, dx + 60, dy + 20);
 
 	m_plannerAddNormalVelButton = new Gui::ImageButton("icons/orbit_increase_big.png");
 	m_plannerAddNormalVelButton->SetRenderDimensions(18, 18);
-	Add(m_plannerAddNormalVelButton, dx + 40, dy + 20);
+	Add(m_plannerAddNormalVelButton, dx + 40, dy + 40);
 
 	m_plannerZeroNormalVelButton = new Gui::ImageButton("icons/orbit_normal_big.png");
 	m_plannerZeroNormalVelButton->SetRenderDimensions(18, 18);
-	Add(m_plannerZeroNormalVelButton, dx + 20, dy + 20);
+	m_plannerZeroNormalVelButton->SetToolTip(Lang::PLANNER_RESET_NORMAL);
+	Add(m_plannerZeroNormalVelButton, dx + 20, dy + 40);
 
 	m_plannerAddAntiNormalVelButton = new Gui::ImageButton("icons/orbit_reduce_big.png");
 	m_plannerAddAntiNormalVelButton->SetRenderDimensions(18, 18);
-	Add(m_plannerAddAntiNormalVelButton, dx, dy + 20);
+	Add(m_plannerAddAntiNormalVelButton, dx, dy + 40);
 
 	m_plannerNormalDvText = (new Gui::Label(""))->Color(178, 178, 178);
-	Add(m_plannerNormalDvText, dx + 60, dy + 20);
+	Add(m_plannerNormalDvText, dx + 60, dy + 40);
 
 	m_plannerAddRadiallyInVelButton = new Gui::ImageButton("icons/orbit_increase_big.png");
 	m_plannerAddRadiallyInVelButton->SetRenderDimensions(18, 18);
-	Add(m_plannerAddRadiallyInVelButton, dx + 40, dy + 40);
+	Add(m_plannerAddRadiallyInVelButton, dx + 40, dy + 60);
 
 	m_plannerZeroRadialVelButton = new Gui::ImageButton("icons/orbit_radial_big.png");
 	m_plannerZeroRadialVelButton->SetRenderDimensions(18, 18);
-	Add(m_plannerZeroRadialVelButton, dx + 20, dy + 40);
+	m_plannerZeroRadialVelButton->SetToolTip(Lang::PLANNER_RESET_RADIAL);
+	Add(m_plannerZeroRadialVelButton, dx + 20, dy + 60);
 
 	m_plannerAddRadiallyOutVelButton = new Gui::ImageButton("icons/orbit_reduce_big.png");
 	m_plannerAddRadiallyOutVelButton->SetRenderDimensions(18, 18);
-	Add(m_plannerAddRadiallyOutVelButton, dx, dy + 40);
+	Add(m_plannerAddRadiallyOutVelButton, dx, dy + 60);
 
 	m_plannerRadialDvText = (new Gui::Label(""))->Color(178, 178, 178);
-	Add(m_plannerRadialDvText, dx + 60, dy + 40);
+	Add(m_plannerRadialDvText, dx + 60, dy + 60);
 
 	const int time_controls_left = Gui::Screen::GetWidth() - 150;
 	const int time_controls_top = Gui::Screen::GetHeight() - 86;
@@ -216,6 +254,10 @@ void SystemView::OnClickAccel(float step)
 	m_realtime = false;
 	m_timeStep = step;
 }
+
+void SystemView::OnIncreaseFactorButtonClick(void) { m_planner->IncreaseFactor(); }
+void SystemView::OnResetFactorButtonClick(void)    { m_planner->ResetFactor(); }
+void SystemView::OnDecreaseFactorButtonClick(void) { m_planner->DecreaseFactor(); }
 
 void SystemView::OnClickRealt()
 {
@@ -495,6 +537,7 @@ void SystemView::Update()
 		if (m_plannerZeroNormalVelButton->IsPressed())     { m_planner->ResetNormalDv(); }
 		if (m_plannerZeroRadialVelButton->IsPressed())     { m_planner->ResetRadialDv(); }
 
+		m_plannerFactorText->SetText(m_planner->printFactor());
 		m_plannerProgradeDvText->SetText(m_planner->printProgradeDv());
 		m_plannerNormalDvText->SetText(m_planner->printNormalDv());
 		m_plannerRadialDvText->SetText(m_planner->printRadialDv());

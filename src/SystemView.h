@@ -18,12 +18,14 @@ public:
 	TransferPlanner();
 	vector3d GetVel();
 	vector3d GetOffsetVel();
+	void IncreaseFactor(), ResetFactor(), DecreaseFactor();
 	void AddProgradeDv(double dv);
 	void AddNormalDv(double dv);
 	void AddRadialDv(double dv);
 	void ResetProgradeDv(void);
 	void ResetNormalDv(void);
 	void ResetRadialDv(void);
+	std::string printFactor(void);
 	std::string printProgradeDv(void);
 	std::string printNormalDv(void);
 	std::string printRadialDv(void);
@@ -31,7 +33,8 @@ private:
 	double m_dvPrograde;
 	double m_dvNormal;
 	double m_dvRadial;
-	double m_factor;
+	double m_factor;       // dv multiplier
+	const double m_factorFactor = 5.0; // m_factor multiplier
 };
 
 class SystemView: public UIView {
@@ -51,6 +54,7 @@ private:
 	void OnClickObject(const SystemBody *b);
 	void OnClickAccel(float step);
 	void OnClickRealt();
+	void OnIncreaseFactorButtonClick(void), OnResetFactorButtonClick(void), OnDecreaseFactorButtonClick(void);
 	void ResetViewpoint();
 	void MouseWheel(bool up);
 
@@ -64,6 +68,7 @@ private:
 	double m_timeStep;
 	Gui::ImageButton *m_zoomInButton;
 	Gui::ImageButton *m_zoomOutButton;
+	Gui::ImageButton *m_plannerIncreaseFactorButton, *m_plannerResetFactorButton, *m_plannerDecreaseFactorButton;
 	Gui::ImageButton *m_plannerAddProgradeVelButton;
 	Gui::ImageButton *m_plannerAddRetrogradeVelButton;
 	Gui::ImageButton *m_plannerAddNormalVelButton;
@@ -74,7 +79,7 @@ private:
 	Gui::Label *m_timePoint;
 	Gui::Label *m_infoLabel;
 	Gui::Label *m_infoText;
-	Gui::Label *m_plannerProgradeDvText, *m_plannerNormalDvText, *m_plannerRadialDvText;
+	Gui::Label *m_plannerFactorText, *m_plannerProgradeDvText, *m_plannerNormalDvText, *m_plannerRadialDvText;
 	Gui::LabelSet *m_objectLabels;
 	sigc::connection m_onMouseWheelCon;
 
