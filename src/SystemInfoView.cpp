@@ -146,7 +146,6 @@ void SystemInfoView::UpdateEconomyTab()
 {
 	/* Economy info page */
 	StarSystem *s = m_system.Get();             // selected system
-	std::string data;
 
 	/* imports and exports */
 	const RefCountedPtr<StarSystem> hs = Pi::game->GetSpace()->GetStarSystem();
@@ -530,6 +529,7 @@ void SystemInfoView::Update()
 			break;
 		case REFRESH_SELECTED:
 			UpdateIconSelections();
+			UpdateEconomyTab();     //update price analysis after hyper jump
 			m_refresh = REFRESH_NONE;
 			assert(NeedsRefresh() == REFRESH_NONE);
 			break;
