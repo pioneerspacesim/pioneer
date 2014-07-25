@@ -17,6 +17,7 @@
 #include "graphics/Renderer.h"
 #include "graphics/Drawables.h"
 #include "Factions.h"
+#include <functional>
 
 SystemInfoView::SystemInfoView() : UIView()
 {
@@ -163,169 +164,94 @@ void SystemInfoView::UpdateEconomyTab()
 													  formatarg("selected_system", m_system->GetName().c_str()),
 													  formatarg("current_system", hs->GetName().c_str()));
 
-	if (hs && (!m_system->GetPath().IsSameSystem(hspath))) {
-		// different system selected
+	if (hs && (!m_system->GetPath().IsSameSystem(hspath)))
+		//different system selected
 		m_commodityTradeLabel->SetText(COMM_COMP.c_str());
-	} else {
+	else
 		// same system as current selected
 		m_commodityTradeLabel->SetText(COMM_SELF.c_str());
-	}
 
 	const int rowsep = 18;
+
+	// lambda function to build each colum for MAJOR/MINOR IMPORT/EXPORT
+	auto f = [&](std::function<bool (int)> isInList,
+					 std::function<bool (int)> isInInterval, std::string colorInInterval, std::string toolTipInInterval,
+					 std::function<bool (int)> isOther,      std::string colorOther,      std::string toolTipOther,
+					 Gui::Fixed *m_econMType, std::string tradeType){
+		int num = 0;
+		m_econMType->DeleteAllChildren();
+		m_econMType->Add(new Gui::Label(std::string("#ff0")+tradeType),
+			0, num++ * rowsep);
+
+		for (int i=1; i< GalacticEconomy::COMMODITY_COUNT; i++){
+			if (isInList(s->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)))
+				 && Polit::IsCommodityLegal(s, GalacticEconomy::Commodity(i))) {
+				std::string extra = meh;              // default color
+				std::string tooltip = "";             // no tooltip for default
+				if (hs){
+					if (!m_system->GetPath().IsSameSystem(hspath)){
+						if (isInInterval(hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)))) {
+							extra = colorInInterval;     // change color
+							tooltip = toolTipInInterval; // describe trade status in current system
+						} else if (isOther(hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)))) {
+							extra = colorOther;
+							tooltip = toolTipOther;
+						}
+						if (!Polit::IsCommodityLegal(hs.Get(), GalacticEconomy::Commodity(i))) {
+							extra = illegal;
+							tooltip = std::string(Lang::ILLEGAL_CURRENT_SYSTEM);
+						}
+					}
+				}
+				Gui::Label *label = new Gui::Label(extra+GalacticEconomy::COMMODITY_DATA[i].name);
+				label->SetToolTip(tooltip);
+				m_econMType->Add(label, 5, num++ * rowsep);
+			}
+		}
+		m_econMType->SetSize(500, num * rowsep);
+		m_econMType->ShowAll();
+		if (num < 2)
+			m_econMType->Add(new Gui::Label(meh + Lang::COMMODITY_NONE), 5, num++ * rowsep);
+	};
+
+	// sm = selected system price modifier, csp = current system price modifier
+	f([](int sm) {return sm > 10;},
+	  [](int cm) {return -10 <= cm && cm < -2;}, good, Lang::MINOR_EXPORT_CURRENT_SYSTEM,
+	  [](int cm) {return cm < -10;}, awesome, Lang::MAJOR_EXPORT_CURRENT_SYSTEM,
+	  m_econMajImport, Lang::MAJOR_IMPORTS);
+
+	f([](int sm) {return 2 < sm && sm <= 10;},
+	  [](int cm) {return -10 <= cm && cm < -2;}, ok, Lang::MINOR_EXPORT_CURRENT_SYSTEM,
+	  [](int cm) {return cm < -10;}, good, Lang::MAJOR_EXPORT_CURRENT_SYSTEM,
+	  m_econMinImport, Lang::MINOR_IMPORTS);
+
+	f([](int sm) {return sm < -10;},
+	  [](int cm) {return 2 < cm && cm <= 10;}, good, Lang::MINOR_IMPORT_CURRENT_SYSTEM,
+	  [](int cm) {return 10 < cm;}, awesome, Lang::MAJOR_IMPORT_CURRENT_SYSTEM,
+	  m_econMajExport, Lang::MAJOR_EXPORTS);
+
+	f([](int sm) {return -10 <= sm && sm < -2;},
+	  [](int cm) {return 2 < cm && cm <= 10;}, ok, Lang::MINOR_IMPORT_CURRENT_SYSTEM,
+	  [](int cm) {return 10 < cm;}, good, Lang::MAJOR_IMPORT_CURRENT_SYSTEM,
+	  m_econMinExport, Lang::MINOR_EXPORTS);
+
+	// ILLEGAL GOODS
 	int num = 0;
-	m_econMajImport->DeleteAllChildren();
-	m_econMajImport->Add(new Gui::Label(
-		std::string("#ff0")+std::string(Lang::MAJOR_IMPORTS)),
-		0, num++ * rowsep
-	);
-	for (int i=1; i< GalacticEconomy::COMMODITY_COUNT; i++) {
-		if (Polit::IsCommodityLegal(s, GalacticEconomy::Commodity(i)) &&
-			 s->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) > 10) {
-			std::string extra = meh;
-			std::string tooltip = "";
-			if (hs) {
-				if (!m_system->GetPath().IsSameSystem(hspath)) {
-					if ((hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) < -2) &&
-						 (hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) >= -10)) {
-						extra = good;
-						tooltip = std::string(Lang::MINOR_EXPORT_CURRENT_SYSTEM);
-					} else if (hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) < -10) {
-						extra = awesome;
-						tooltip = std::string(Lang::MAJOR_EXPORT_CURRENT_SYSTEM);
-					}
-				}
-			}
-			Gui::Label *label = new Gui::Label(extra+GalacticEconomy::COMMODITY_DATA[i].name);
-			label->SetToolTip(tooltip);
-			m_econMajImport->Add(label, 5, num++ * rowsep);
-		}
-	}
-	m_econMajImport->SetSize(500, num * rowsep);
-	m_econMajImport->ShowAll();
-	if (num < 2) {
-		m_econMajImport->Add(new Gui::Label(meh + Lang::COMMODITY_NONE), 5, num++ * rowsep);
-	}
-
-	num = 0;
-
-	m_econMinImport->DeleteAllChildren();
-	m_econMinImport->Add(new Gui::Label(
-		std::string("#ff0")+std::string(Lang::MINOR_IMPORTS)),
-		0, num++ * rowsep
-	);
-	for (int i=1; i<GalacticEconomy::COMMODITY_COUNT; i++) {
-		if (Polit::IsCommodityLegal(s, GalacticEconomy::Commodity(i)) &&
-			 (s->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) > 2) &&
-			 (s->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) <= 10)) {
-			std::string extra = meh;
-			std::string tooltip = "";
-			if (hs) {
-				if (!m_system->GetPath().IsSameSystem(hspath)) {
-					if ((hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) < -2) &&
-						 (hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) >= -10)) {
-						tooltip = std::string(Lang::MINOR_EXPORT_CURRENT_SYSTEM);
-						extra = ok;
-					} else if (hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) < -10) {
-						tooltip = std::string(Lang::MAJOR_EXPORT_CURRENT_SYSTEM);
-						extra = good;
-					}
-				}
-			}
-			Gui::Label *label = new Gui::Label(extra+GalacticEconomy::COMMODITY_DATA[i].name);
-			label->SetToolTip(tooltip);
-			m_econMinImport->Add(label, 5, num++ * rowsep);
-		}
-	}
-	if (num < 2) {
-		m_econMinImport->Add(new Gui::Label(meh + Lang::COMMODITY_NONE), 5, num++ * rowsep);
-	}
-	m_econMinImport->SetSize(500, num * rowsep);
-	m_econMinImport->ShowAll();
-
-	num = 0;
-
-	m_econMajExport->DeleteAllChildren();
-	m_econMajExport->Add(new Gui::Label(
-		std::string("#ff0")+std::string(Lang::MAJOR_EXPORTS)),
-		0, num++ * rowsep
-	);
-	for (int i=1; i<GalacticEconomy::COMMODITY_COUNT; i++) {
-		if (Polit::IsCommodityLegal(s, GalacticEconomy::Commodity(i)) &&
-			 s->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) < -10) {
-			std::string extra = meh;
-			std::string tooltip = "";
-			if (hs) {
-				if (!m_system->GetPath().IsSameSystem(hspath)) {
-					if ((hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) > 2) &&
-						 (hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) <= 10)) {
-						extra = good;
-						tooltip = std::string(Lang::MINOR_IMPORT_CURRENT_SYSTEM);
-					} else if (hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) > 10) {
-						extra = awesome;
-						tooltip = std::string(Lang::MAJOR_IMPORT_CURRENT_SYSTEM);
-					}
-				}
-			}
-			Gui::Label *label = new Gui::Label(extra+GalacticEconomy::COMMODITY_DATA[i].name);
-			label->SetToolTip(tooltip);
-			m_econMajExport->Add(label, 5, num++ * rowsep);
-		}
-	}
-	if (num < 2) {
-		m_econMajExport->Add(new Gui::Label(meh + Lang::COMMODITY_NONE), 5, num++ * rowsep);
-	}
-	m_econMajExport->SetSize(500, num * rowsep);
-	m_econMajExport->ShowAll();
-
-	num = 0;
-
-	m_econMinExport->DeleteAllChildren();
-	m_econMinExport->Add(new Gui::Label(
-		std::string("#ff0")+std::string(Lang::MINOR_EXPORTS)),
-		0, num++ * rowsep
-	);
-	for (int i=1; i< GalacticEconomy::COMMODITY_COUNT; i++) {
-		if (Polit::IsCommodityLegal(s, GalacticEconomy::Commodity(i)) &&
-			 (s->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) < -2) &&
-			 (s->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) >= -10)) {
-			std::string extra = meh;
-			std::string tooltip = "";
-			if (hs) {
-				if (!m_system->GetPath().IsSameSystem(hspath)) {
-					if ((hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) > 2) &&
-						 (hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) <= 10)) {
-						tooltip = std::string(Lang::MINOR_IMPORT_CURRENT_SYSTEM);
-						extra = ok;
-					} else if (hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)) > 10) {
-						tooltip = std::string(Lang::MAJOR_IMPORT_CURRENT_SYSTEM);
-						extra = good;
-					}
-				}
-			}
-			Gui::Label *label = new Gui::Label(extra+GalacticEconomy::COMMODITY_DATA[i].name);
-			label->SetToolTip(tooltip);
-			m_econMinExport->Add(label, 5, num++ * rowsep);
-		}
-	}
-	if (num < 2) {
-		m_econMinExport->Add(new Gui::Label(meh + Lang::COMMODITY_NONE), 5, num++ * rowsep);
-	}
-	m_econMinExport->SetSize(500, num * rowsep);
-	m_econMinExport->ShowAll();
-
-	num = 0;
-
 	m_econIllegal->DeleteAllChildren();
 	m_econIllegal->Add(new Gui::Label(
 		std::string("#f55")+std::string(Lang::ILLEGAL_GOODS)),
-		0, num++ * rowsep
-	);
+		0, num++ * rowsep);
 	for (int i=1; i<GalacticEconomy::COMMODITY_COUNT; i++) {
 		if (!Polit::IsCommodityLegal(s, GalacticEconomy::Commodity(i))) {
 			std::string extra = illegal;
-			if (hs && Polit::IsCommodityLegal(hs.Get(), GalacticEconomy::Commodity(i)))
-				extra = meh;
+			std::string tooltip = "";
+			if (!m_system->GetPath().IsSameSystem(hspath))
+				if (hs && Polit::IsCommodityLegal(hs.Get(), GalacticEconomy::Commodity(i))) {
+					extra = meh;
+					tooltip = std::string(Lang::LEGAL_CURRENT_SYSTEM);
+				}
 			Gui::Label *label = new Gui::Label(extra+GalacticEconomy::COMMODITY_DATA[i].name);
+			label->SetToolTip(tooltip);
 			m_econIllegal->Add(label, 5, num++ * rowsep);
 		}
 	}
