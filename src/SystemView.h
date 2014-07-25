@@ -13,22 +13,22 @@ class StarSystem;
 class SystemBody;
 class Orbit;
 
+enum BurnDirection {
+	PROGRADE,
+	NORMAL,
+	RADIAL,
+};
+
 class TransferPlanner {
 public:
 	TransferPlanner();
 	vector3d GetVel();
 	vector3d GetOffsetVel();
 	void IncreaseFactor(), ResetFactor(), DecreaseFactor();
-	void AddProgradeDv(double dv);
-	void AddNormalDv(double dv);
-	void AddRadialDv(double dv);
-	void ResetProgradeDv(void);
-	void ResetNormalDv(void);
-	void ResetRadialDv(void);
-	std::string printFactor(void);
-	std::string printProgradeDv(void);
-	std::string printNormalDv(void);
-	std::string printRadialDv(void);
+	void AddDv(BurnDirection d, double dv);
+	void ResetDv(BurnDirection d);
+	std::string printDv(BurnDirection d);
+	std::string printFactor();
 private:
 	double m_dvPrograde;
 	double m_dvNormal;

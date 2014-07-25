@@ -36,6 +36,7 @@ TransferPlanner::TransferPlanner() {
 }
 
 vector3d TransferPlanner::GetVel() { return Pi::player->GetVelocity() + GetOffsetVel(); }
+
 vector3d TransferPlanner::GetOffsetVel() {
 	const vector3d pPos    = Pi::player->GetPosition();
 	const vector3d pVel    = Pi::player->GetVelocity();
@@ -46,46 +47,51 @@ vector3d TransferPlanner::GetOffsetVel() {
 	       m_dvRadial   * pPos.Normalized();
 }
 
-void TransferPlanner::AddProgradeDv(double dv) { m_dvPrograde += m_factor * dv; }
-void TransferPlanner::AddNormalDv(double dv) { m_dvNormal += m_factor * dv; }
-void TransferPlanner::AddRadialDv(double dv) { m_dvRadial += m_factor * dv; }
-void TransferPlanner::ResetProgradeDv(void) { m_dvPrograde = 0; }
-void TransferPlanner::ResetNormalDv(void) { m_dvNormal = 0; }
-void TransferPlanner::ResetRadialDv(void) { m_dvRadial = 0; }
+void TransferPlanner::AddDv(BurnDirection d, double dv) {
+	switch (d) {
+	case PROGRADE: m_dvPrograde += m_factor * dv; break;
+	case NORMAL:   m_dvNormal   += m_factor * dv; break;
+	case RADIAL:   m_dvRadial   += m_factor * dv; break;
+	}
+}
+
+void TransferPlanner::ResetDv(BurnDirection d) {
+	switch (d) {
+	case PROGRADE: m_dvPrograde = 0; break;
+	case NORMAL:   m_dvNormal   = 0; break;
+	case RADIAL:   m_dvRadial   = 0; break;
+	}
+}
+
+std::string TransferPlanner::printDv(BurnDirection d) {
+	double dv;
+	char buf[10];
+
+	switch(d) {
+	case PROGRADE: dv = m_dvPrograde; break;
+	case NORMAL:   dv = m_dvNormal;   break;
+	case RADIAL:   dv = m_dvRadial;   break;
+	}
+
+	snprintf(buf, sizeof(buf), "%6.0fm/s", dv);
+	return std::string(buf);
+}
+
 void TransferPlanner::IncreaseFactor(void) {
 	if(m_factor > 1000) return;
 	m_factor *= m_factorFactor;
 }
 void TransferPlanner::ResetFactor(void) { m_factor = 1; }
+
 void TransferPlanner::DecreaseFactor(void) {
 	if(m_factor < 0.0002) return;
 	m_factor /= m_factorFactor;
 }
 
-// XXX idk ok?
 std::string TransferPlanner::printFactor(void) {
 	char buf[10];
 	snprintf(buf, sizeof(buf), "%6gx", 10 * m_factor);
-	std::string r = buf;
-	return r;
-}
-std::string TransferPlanner::printProgradeDv(void) {
-	char buf[10];
-	snprintf(buf, sizeof(buf), "%6.0fm/s", m_dvPrograde);
-	std::string r = buf;
-	return r;
-}
-std::string TransferPlanner::printNormalDv(void) {
-	char buf[10];
-	snprintf(buf, sizeof(buf), "%6.0fm/s", m_dvNormal);
-	std::string r = buf;
-	return r;
-}
-std::string TransferPlanner::printRadialDv(void) {
-	char buf[10];
-	snprintf(buf, sizeof(buf), "%6.0fm/s", m_dvRadial);
-	std::string r = buf;
-	return r;
+	return std::string(buf);
 }
 
 SystemView::SystemView() : UIView()
@@ -527,20 +533,21 @@ void SystemView::Update()
 				m_zoomTo *= pow(ZOOM_OUT_SPEED / Pi::GetMoveSpeedShiftModifier(), ft);
 
 		// transfer planner buttons
-		if (m_plannerAddProgradeVelButton->IsPressed())    { m_planner->AddProgradeDv(10.0);  }
-		if (m_plannerAddRetrogradeVelButton->IsPressed())  { m_planner->AddProgradeDv(-10.0); }
-		if (m_plannerAddNormalVelButton->IsPressed())      { m_planner->AddNormalDv(10.0);    }
-		if (m_plannerAddAntiNormalVelButton->IsPressed())  { m_planner->AddNormalDv(-10.0);   }
-		if (m_plannerAddRadiallyInVelButton->IsPressed())  { m_planner->AddRadialDv(10.0);    }
-		if (m_plannerAddRadiallyOutVelButton->IsPressed()) { m_planner->AddRadialDv(-10.0);   }
-		if (m_plannerZeroProgradeVelButton->IsPressed())   { m_planner->ResetProgradeDv(); }
-		if (m_plannerZeroNormalVelButton->IsPressed())     { m_planner->ResetNormalDv(); }
-		if (m_plannerZeroRadialVelButton->IsPressed())     { m_planner->ResetRadialDv(); }
+		if (m_plannerAddProgradeVelButton->IsPressed())    { m_planner->AddDv(PROGRADE,  10.0); }
+		if (m_plannerAddRetrogradeVelButton->IsPressed())  { m_planner->AddDv(PROGRADE, -10.0); }
+		if (m_plannerAddNormalVelButton->IsPressed())      { m_planner->AddDv(NORMAL,    10.0); }
+		if (m_plannerAddAntiNormalVelButton->IsPressed())  { m_planner->AddDv(NORMAL,   -10.0); }
+		if (m_plannerAddRadiallyInVelButton->IsPressed())  { m_planner->AddDv(RADIAL,    10.0); }
+		if (m_plannerAddRadiallyOutVelButton->IsPressed()) { m_planner->AddDv(RADIAL,   -10.0); }
+		if (m_plannerZeroProgradeVelButton->IsPressed())   { m_planner->ResetDv(PROGRADE); }
+		if (m_plannerZeroNormalVelButton->IsPressed())     { m_planner->ResetDv(NORMAL);   }
+		if (m_plannerZeroRadialVelButton->IsPressed())     { m_planner->ResetDv(RADIAL);   }
 
 		m_plannerFactorText->SetText(m_planner->printFactor());
-		m_plannerProgradeDvText->SetText(m_planner->printProgradeDv());
-		m_plannerNormalDvText->SetText(m_planner->printNormalDv());
-		m_plannerRadialDvText->SetText(m_planner->printRadialDv());
+		m_plannerProgradeDvText->SetText(m_planner->printDv(PROGRADE));
+		m_plannerNormalDvText->SetText(m_planner->printDv(NORMAL));
+		m_plannerRadialDvText->SetText(m_planner->printDv(RADIAL));
+
 	}
 	// TODO: add "true" lower/upper bounds to m_zoomTo / m_zoom
 	m_zoomTo = Clamp(m_zoomTo, MIN_ZOOM, MAX_ZOOM);
