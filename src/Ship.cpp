@@ -543,7 +543,7 @@ void Ship::UpdateLuaStats() {
 	UpdateEquipStats();
 	PropertyMap& p = Properties();
 	m_stats.hyperspace_range = m_stats.hyperspace_range_max = 0;
-	int hyperclass;
+	int hyperclass = 0;
 	p.Get<int>("hyperclass_cap", hyperclass);
 	if (hyperclass) {
 		auto ranges = LuaObject<Ship>::CallMethod<double, double>(this, "GetHyperspaceRange");
