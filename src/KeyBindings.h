@@ -93,14 +93,18 @@ namespace KeyBindings {
 			std::string Description() const;
 
 			void Clear() {
-				memset(this, 0, sizeof(*this));
+				joystick = JOYSTICK_DISABLED;
+				axis = 0;
+				direction = POSITIVE;
 			}
 
+			bool Enabled() const { return (joystick != JOYSTICK_DISABLED); }
 
 			static bool FromString(const char *str, AxisBinding &binding);
 			static AxisBinding FromString(const char *str);
 			std::string ToString() const;
 		private:
+			enum { JOYSTICK_DISABLED = UINT8_MAX };
 			Uint8 joystick;
 			Uint8 axis;
 			AxisDirection direction;
