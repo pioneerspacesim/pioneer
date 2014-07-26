@@ -448,7 +448,7 @@ static int l_sbodypath_attr_sector_z(lua_State *l)
 static int l_sbodypath_attr_system_index(lua_State *l)
 {
 	SystemPath *path = LuaObject<SystemPath>::CheckFromLua(1);
-	if (!path->IsSectorPath())
+	if (path->HasValidSystem())
 		lua_pushinteger(l, path->systemIndex);
 	else
 		lua_pushnil(l);
@@ -472,7 +472,7 @@ static int l_sbodypath_attr_system_index(lua_State *l)
 static int l_sbodypath_attr_body_index(lua_State *l)
 {
 	SystemPath *path = LuaObject<SystemPath>::CheckFromLua(1);
-	if (path->IsBodyPath())
+	if (path->HasValidBody())
 		lua_pushinteger(l, path->bodyIndex);
 	else
 		lua_pushnil(l);
