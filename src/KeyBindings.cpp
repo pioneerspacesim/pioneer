@@ -120,8 +120,9 @@ bool KeyBinding::FromString(const char *str, KeyBinding &kb)
 {
 	const char *digits = "1234567890";
 	const char *p = str;
-
-	if (strncmp(p, "Key", 3) == 0) {
+	if (strcmp(p, "disabled") == 0) {
+		kb.Clear();
+	} else if (strncmp(p, "Key", 3) == 0) {
 		kb.type = KEYBOARD_KEY;
 		p += 3;
 
@@ -174,7 +175,7 @@ KeyBinding KeyBinding::FromString(const char *str) {
 std::ostream &operator<<(std::ostream &oss, const KeyBinding &kb)
 {
 	if (kb.type == BINDING_DISABLED) {
-		// blank
+		oss << "disabled";
 	} else if (kb.type == KEYBOARD_KEY) {
 		oss << "Key" << int(kb.u.keyboard.key);
 		if (kb.u.keyboard.mod != 0) {
@@ -270,7 +271,7 @@ std::string KeyAction::ToString() const
 	} else if (binding2.Enabled()) {
 		oss << binding2;
 	} else {
-		// blank
+		oss << "disabled";
 	}
 	return oss.str();
 }
