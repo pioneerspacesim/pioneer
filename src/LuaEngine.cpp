@@ -650,11 +650,13 @@ static int set_key_binding(lua_State *l, const char *config_id, KeyBindings::Key
 }
 
 static int set_axis_binding(lua_State *l, const char *config_id, KeyBindings::AxisBinding *binding) {
-	const char *binding_config = luaL_checkstring(l, 2);
+	const char *binding_config = lua_tostring(l, 2);
 	KeyBindings::AxisBinding ab;
-	if (!KeyBindings::AxisBinding::FromString(binding_config, ab))
-		return luaL_error(l, "invalid axis binding given to Engine.SetKeyBinding");
-	Pi::config->SetString(config_id, ab.ToString());
+	if (binding_config) {
+		if (!KeyBindings::AxisBinding::FromString(binding_config, ab))
+			return luaL_error(l, "invalid axis binding given to Engine.SetKeyBinding");
+	} else
+		ab.Clear();
 	Pi::config->Save();
 	*binding = ab;
 	return 0;
