@@ -68,9 +68,7 @@ bool KeyBindingCapture::OnJoystickButtonDown(const UI::JoystickButtonEvent &even
 
 AxisBindingCapture::AxisBindingCapture(UI::Context *context): Single(context)
 {
-	m_binding.joystick = 0;
-	m_binding.axis = 0;
-	m_binding.direction = KeyBindings::POSITIVE;
+	m_binding.Clear();
 }
 
 AxisBindingCapture::~AxisBindingCapture()
@@ -103,9 +101,8 @@ bool AxisBindingCapture::OnJoystickAxisMove(const UI::JoystickAxisMotionEvent &e
 {
 	const float threshold = 0.4f; // joystick axis value is in range -1 to 1
 	if (event.value < -threshold || event.value > threshold) {
-		m_binding.joystick = event.joystick;
-		m_binding.axis = event.axis;
-		m_binding.direction = (event.value > 0 ? KeyBindings::POSITIVE : KeyBindings::NEGATIVE);
+		const auto dir = (event.value > 0 ? KeyBindings::POSITIVE : KeyBindings::NEGATIVE);
+		m_binding = KeyBindings::AxisBinding(event.joystick, event.axis, dir);
 		onCapture.emit(m_binding);
 		return true;
 	}

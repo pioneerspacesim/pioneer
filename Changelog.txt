@@ -38,6 +38,7 @@ July 2014
      * Bring back the facility to install a rear laser (#3067, #3064)
      * Fix misplaced ECM blast effect (#3087, #3082)
      * Fix misplaced text on HUD gauges for fuel, hull temp, etc (#3090, #3088)
+     * Fix bugs when you completely clear a key binding (#3085, #3083)
 
    * Internal Changes
      * Internal clean-up to remove unnecessary equipment code (#3058)
