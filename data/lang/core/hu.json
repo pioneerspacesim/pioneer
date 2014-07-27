@@ -151,6 +151,10 @@
       "description" : "",
       "message" : "Felső kamera"
    },
+   "CANT_SAVE_DEAD_PLAYER" : {
+      "description" : "",
+      "message" : "Nem lehet menteni, mert a játékos halott"
+   },
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
       "message" : "Nem lehet hiperűrugrás alatt menteni"

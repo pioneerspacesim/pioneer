@@ -53,11 +53,13 @@ private:
 	void PutBodies(SystemBody *body, Gui::Fixed *container, int dir, float pos[2], int &majorBodies, int &starports, int &onSurface, float &prevSize);
 	void UpdateIconSelections();
 	Gui::VBox *m_infoBox;
-	Gui::Label *m_econInfo;
-	Gui::Label *m_econMajImport, *m_econMinImport;
-	Gui::Label *m_econMajExport, *m_econMinExport;
-	Gui::Label *m_econIllegal;
+	Gui::Fixed *m_econInfo;
+	Gui::Fixed *m_econMajImport, *m_econMinImport;
+	Gui::Fixed *m_econMajExport, *m_econMinExport;
+	Gui::Fixed *m_econIllegal;
 	Gui::Fixed *m_sbodyInfoTab, *m_econInfoTab;
+
+	Gui::Label *m_commodityTradeLabel;
 	Gui::Tabbed *m_tabs;
 	RefCountedPtr<StarSystem> m_system;
 	SystemPath m_selectedBodyPath;

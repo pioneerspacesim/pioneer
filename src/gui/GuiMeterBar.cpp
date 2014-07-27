@@ -27,14 +27,13 @@ void MeterBar::Draw()
 	Graphics::Renderer *r = Gui::Screen::GetRenderer();
 
 	Gui::Theme::DrawRoundEdgedRect(size, 5.0, Color(255,255,255,32), Screen::alphaBlendState);
-
-	Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
-
-	r->Translate(METERBAR_PADDING, METERBAR_PADDING, 0.0f);
-	size[0] = m_barValue * (size[0] - 2.0f*METERBAR_PADDING);
-	size[1] = METERBAR_BAR_HEIGHT;
-	Gui::Theme::DrawRoundEdgedRect(size, 3.0f, m_barColor, Screen::alphaBlendState);
-
+	{
+		Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
+		r->Translate(METERBAR_PADDING, METERBAR_PADDING, 0.0f);
+		size[0] = m_barValue * (size[0] - 2.0f*METERBAR_PADDING);
+		size[1] = METERBAR_BAR_HEIGHT;
+		Gui::Theme::DrawRoundEdgedRect(size, 3.0f, m_barColor, Screen::alphaBlendState);
+	}
 	Gui::Fixed::Draw();
 }
 

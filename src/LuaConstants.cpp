@@ -275,121 +275,41 @@ void LuaConstants::Register(lua_State *l)
 	 */
 
 	/*
-	 * Constants: EquipSlot
+	 * Constants: CommodityType
 	 *
-	 * Equipment slots. Every equipment or cargo type has a corresponding
-	 * "slot" that it fits in to. Each slot has an independent capacity.
+	 * Cargo/commodity types.
 	 *
-	 * CARGO - any cargo (commodity) item
-	 * ENGINE - hyperdrives and military drives
-	 * LASER - lasers and plasma accelerators
-	 * MISSILE - missile
-	 * ECM - ECM system
-	 * SCANNER - scanner
-	 * RADARMAPPER - radar mapper
-	 * HYPERCLOUD - hyperspace cloud analyser
-	 * HULLAUTOREPAIR - hull auto-repair system
-	 * ENERGYBOOSTER - shield energy booster unit
-	 * ATMOSHIELD - atmospheric shielding
-	 * CABIN - cabin
-	 * SHIELD - shield
-	 * FUELSCOOP - fuel scoop
-	 * CARGOSCOOP - cargo scoop
-	 * LASERCOOLER - laser cooling booster
-	 * CARGOLIFESUPPORT - cargo bay life support
-	 * AUTOPILOT - autopilot
-	 *
-	 * Availability:
-	 *
-	 *   alpha 10
-	 *
-	 * Status:
-	 *
-	 *   experimental
-	 */
-
-	/*
-	 * Constants: EquipType
-	 *
-	 * Equipment and cargo types. Because of the slot arrangement described
-	 * under <EquipType> means that cargo is treated as a special type of
-	 * equipment.
-	 *
-	 * NONE - no equipment. Usually used to indicate the absence of equipment
-	 * HYDROGEN - hydrogen (CARGO)
-	 * LIQUID_OXYGEN - liquid oxygen (CARGO)
-	 * METAL_ORE - metal ore (CARGO)
-	 * CARBON_ORE - carbon ore (CARGO)
-	 * METAL_ALLOYS - metal alloys (CARGO)
-	 * PLASTICS - plastics (CARGO)
-	 * FRUIT_AND_VEG - fruit and vegetables (CARGO)
-	 * ANIMAL_MEAT - animal meat (CARGO)
-	 * LIVE_ANIMALS - live animals (CARGO)
-	 * LIQUOR - liquor (CARGO)
-	 * GRAIN - grain (CARGO)
-	 * TEXTILES - textiles (CARGO)
-	 * FERTILIZER - fertilizer (CARGO)
-	 * WATER - water (CARGO)
-	 * MEDICINES - medicines (CARGO)
-	 * CONSUMER_GOODS - consumer goods (CARGO)
-	 * COMPUTERS - computers (CARGO)
-	 * ROBOTS - robots (CARGO)
-	 * PRECIOUS_METALS - precious metals (CARGO)
-	 * INDUSTRIAL_MACHINERY - industrial machinery (CARGO)
-	 * FARM_MACHINERY - farm machinery (CARGO)
+	 * HYDROGEN - hydrogen
+	 * LIQUID_OXYGEN - liquid oxygen
+	 * METAL_ORE - metal ore
+	 * CARBON_ORE - carbon ore
+	 * METAL_ALLOYS - metal alloys
+	 * PLASTICS - plastics
+	 * FRUIT_AND_VEG - fruit and vegetables
+	 * ANIMAL_MEAT - animal meat
+	 * LIVE_ANIMALS - live animals
+	 * LIQUOR - liquor
+	 * GRAIN - grain
+	 * TEXTILES - textiles
+	 * FERTILIZER - fertilizer
+	 * WATER - water
+	 * MEDICINES - medicines
+	 * CONSUMER_GOODS - consumer goods
+	 * COMPUTERS - computers
+	 * ROBOTS - robots
+	 * PRECIOUS_METALS - precious metals
+	 * INDUSTRIAL_MACHINERY - industrial machinery
+	 * FARM_MACHINERY - farm machinery
 	 * MINING_MACHINERY - mining machinery (CARGO
-	 * AIR_PROCESSORS - air processors (CARGO)
-	 * SLAVES - slaves (CARGO)
-	 * HAND_WEAPONS - hand weapons (CARGO)
-	 * BATTLE_WEAPONS - battle weapons (CARGO)
-	 * NERVE_GAS - nerve gas (CARGO)
-	 * NARCOTICS - narcotics (CARGO)
-	 * MILITARY_FUEL - military fuel (CARGO)
-	 * RUBBISH - rubbish (CARGO)
-	 * RADIOACTIVES - radioactives (CARGO)
-	 * MISSILE_UNGUIDED - unguided rocket (MISSILE)
-	 * MISSILE_GUIDED - guided missile (MISSILE)
-	 * MISSILE_SMART - smart missile (MISSILE)
-	 * MISSILE_NAVAL - naval missile (MISSILE)
-	 * ATMOSPHERIC_SHIELDING - atmospheric shielding (ATMOSHIELD)
-	 * ECM_BASIC - basic ECM system (ECM)
-	 * SCANNER - scanner (SCANNER)
-	 * ECM_ADVANCED - advanced ECM system (ECM)
-	 * UNOCCUPIED_CABIN - unoccupied passenger cabin (CABIN)
-	 * PASSENGER_CABIN - occupied passenger cabin (CABIN)
-	 * SHIELD_GENERATOR - shield generator (SHIELD)
-	 * LASER_COOLING_BOOSTER - laser cooling booster (LASERCOOLER)
-	 * CARGO_LIFE_SUPPORT - cargo bay life support (CARGOLIFESUPPORT)
-	 * AUTOPILOT - autopilot (AUTOPILOT)
-	 * RADAR_MAPPER - radar mapper (RADARMAPPER)
-	 * FUEL_SCOOP - fuel scoop (FUELSCOOP)
-	 * CARGO_SCOOP - cargo scoop (CARGOSCOOP)
-	 * HYPERCLOUD_ANALYZER - hyperspace cloud analyser (HYPERCLOUD)
-	 * HULL_AUTOREPAIR - hull auto-repair system (HULLAUTOREPAIR)
-	 * SHIELD_ENERGY_BOOSTER - shield energy booster unit (ENERGYBOOSTER)
-	 * DRIVE_CLASS1 - class 1 hyperdrive (ENGINE)
-	 * DRIVE_CLASS2 - class 2 hyperdrive (ENGINE)
-	 * DRIVE_CLASS3 - class 3 hyperdrive (ENGINE)
-	 * DRIVE_CLASS4 - class 4 hyperdrive (ENGINE)
-	 * DRIVE_CLASS5 - class 5 hyperdrive (ENGINE)
-	 * DRIVE_CLASS6 - class 6 hyperdrive (ENGINE)
-	 * DRIVE_CLASS7 - class 7 hyperdrive (ENGINE)
-	 * DRIVE_CLASS8 - class 8 hyperdrive (ENGINE)
-	 * DRIVE_CLASS9 - class 9 hyperdrive (ENGINE)
-	 * DRIVE_MIL1 - class 1 military drive (ENGINE)
-	 * DRIVE_MIL2 - class 2 military drive (ENGINE)
-	 * DRIVE_MIL3 - class 3 military drive (ENGINE)
-	 * DRIVE_MIL4 - class 4 military drive (ENGINE)
-	 * PULSECANNON_1MW - 1MW pulse cannon (LASER)
-	 * PULSECANNON_DUAL_1MW - 1MW dual-fire pulse cannon (LASER)
-	 * PULSECANNON_2MW - 2MW pulse cannon (LASER)
-	 * PULSECANNON_RAPID_2MW - 2MW rapid-fire pulse cannon (LASER)
-	 * PULSECANNON_4MW - 4MW pulse cannon (LASER)
-	 * PULSECANNON_10MW - 10MW pulse cannon (LASER)
-	 * PULSECANNON_20MW - 20MW pulse cannon (LASER)
-	 * MININGCANNON_17MW - 17MW blast-mining cannon (LASER)
-	 * SMALL_PLASMA_ACCEL - small plasma accelerator (LASER)
-	 * LARGE_PLASMA_ACCEL - large plasma accelerator (LASER)
+	 * AIR_PROCESSORS - air processors
+	 * SLAVES - slaves
+	 * HAND_WEAPONS - hand weapons
+	 * BATTLE_WEAPONS - battle weapons
+	 * NERVE_GAS - nerve gas
+	 * NARCOTICS - narcotics
+	 * MILITARY_FUEL - military fuel
+	 * RUBBISH - rubbish
+	 * RADIOACTIVES - radioactives
 	 *
 	 * Availability:
 	 *
@@ -429,8 +349,7 @@ void LuaConstants::Register(lua_State *l)
 	 * STATIC_SHIP - static ships. These are not available to the player and
 	 *               are used for mission specific functions (large supply
 	 *               ships, warships, etc)
-	 * MISSILE - missiles. Correspond directly to the <EquipType> constants of
-	 *           the same name.
+	 * MISSILE - missiles.
 	 *
 	 * Availability:
 	 *

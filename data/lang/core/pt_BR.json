@@ -151,6 +151,10 @@
       "description" : "",
       "message" : "Câmera superior"
    },
+   "CANT_SAVE_DEAD_PLAYER" : {
+      "description" : "",
+      "message" : "Can't save game after the player has died"
+   },
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
       "message" : "Não é possível salvar o jogo enquanto estiver no espaço sideral"

@@ -13,7 +13,7 @@
    },
    "FLAVOUR_10_NEWSBODY" : {
       "description" : "Imply high demand of AIR_PROCESSORS commodity. (Prekall as in Rekall, the fictional company from the Schwarzenegger-movie Total Recall (1990)).",
-      "message" : "Корпорация Prekall собирается прибрать к рукам продажу воздуха в системе {system} ({sectorx}, {sectory}, {sectorz}). Скоро жителей заставят платить за каждый вздох."
+      "message" : "Корпорация Prekall собирается прибрать к рукам продажу воздуха в системе {system} ({sectorx}, {sectory}, {sectorz}). Сделайте глубокий вдох - возможно это последняя, для вас, бесплатная порция воздуха."
    },
    "FLAVOUR_11_HEADLINE" : {
       "description" : "",
@@ -25,7 +25,7 @@
    },
    "FLAVOUR_12_HEADLINE" : {
       "description" : "",
-      "message" : "НОВОСТИ {date}: Нарушение инфраструктуры, по причине сбоя компьютеров в системе {system}."
+      "message" : "НОВОСТИ {date}: В системе {system} нарушена инфраструктура, по причине сбоя компьютеров."
    },
    "FLAVOUR_12_NEWSBODY" : {
       "description" : "Keep clear of the too obvious names Microsoft, or Macrosoft, etc.",
@@ -41,7 +41,7 @@
    },
    "FLAVOUR_14_HEADLINE" : {
       "description" : "",
-      "message" : "НОВОСТИ {date}: Вспышка на солнце привела к крупнейшей в тысячелетии аварии в энергосистеме и коммуникациях в системе {system}."
+      "message" : "НОВОСТИ {date}: В системе {system} вспышка на солнце привела к крупнейшей в тысячелетии аварии в энергосистеме и коммуникациях."
    },
    "FLAVOUR_14_NEWSBODY" : {
       "description" : "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
@@ -61,7 +61,7 @@
    },
    "FLAVOUR_16_NEWSBODY" : {
       "description" : "Imply high demand of FARM_MACHINERY.",
-      "message" : "На \"Большой Паровой Ярмарке\", попытка побить галактический рекорд по силе тракторной тяги закончилась плачевно, когда один из конкурсантов потерял управление своей машиной, разрушив машины всех остальных конкурсантов. Администрация заявила, что это может привести к гибели местных фермеров."
+      "message" : "На \"Большой Паровой Ярмарке\" в системе {system} ({sectorx}, {sectory}, {sectorz}) , попытка побить галактический рекорд по силе тракторной тяги закончилась плачевно, когда один из конкурсантов потерял управление своей машиной, разрушив машины всех остальных конкурсантов. Администрация заявила, что это может привести к гибели местных фермеров."
    },
    "FLAVOUR_17_HEADLINE" : {
       "description" : "",
@@ -121,7 +121,7 @@
    },
    "FLAVOUR_23_HEADLINE" : {
       "description" : "",
-      "message" : "НОВОСТИ {date}: Грандиозное открытие новой фабрики в системе {system}."
+      "message" : "НОВОСТИ {date}: Торжественное открытие новой фабрики в системе {system}."
    },
    "FLAVOUR_23_NEWSBODY" : {
       "description" : "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox.",
@@ -133,7 +133,7 @@
    },
    "FLAVOUR_2_NEWSBODY" : {
       "description" : "Hint there will be high demand of GRAIN.",
-      "message" : "Жестокая засуха погубила урожай в системе {system} ({sectorx}, {sectory}, {sectorz}). Жители всей системы опасаются голода."
+      "message" : "Сильная засуха в системе {system} ({sectorx}, {sectory}, {sectorz}) погубила урожай. Жители всей системы опасаются голода."
    },
    "FLAVOUR_3_HEADLINE" : {
       "description" : "",
@@ -145,11 +145,11 @@
    },
    "FLAVOUR_4_HEADLINE" : {
       "description" : "About mob rivals competing for selling drugs",
-      "message" : "НОВОСТИ {date}: Война за наркотики в системе {system}. Правоохранители бороться за восстановление порядка."
+      "message" : "НОВОСТИ {date}: Война с наркотиками в системе {system}. Правоохранители бороться за восстановление порядка."
    },
    "FLAVOUR_4_NEWSBODY" : {
       "description" : "Imply high abundance of NARCOTICS.",
-      "message" : "Рынок был наводнён дешёвыми лекарствами в системе {system} ({sectorx}, {sectory}, {sectorz}), из-за соперничающих наркобаронов конкурирующие за расширение своей власти."
+      "message" : "Рынок в системе {system} ({sectorx}, {sectory}, {sectorz}) наводнён дешёвыми лекарствами, из-за соперничающих наркобаронов конкурирующие за расширение своей власти."
    },
    "FLAVOUR_5_HEADLINE" : {
       "description" : "",
@@ -177,7 +177,7 @@
    },
    "FLAVOUR_8_HEADLINE" : {
       "description" : "",
-      "message" : "НОВОСТИ {date}: Произошел несчатный случай на шахтных работах в системе {system}."
+      "message" : "НОВОСТИ {date}: В системе {system} произошёл несчастный случай при работе в шахтах."
    },
    "FLAVOUR_8_NEWSBODY" : {
       "description" : "Imply high demand of MINING_MACHINERY.",
@@ -197,15 +197,15 @@
    },
    "GRATEFUL_GREETING_1" : {
       "description" : "",
-      "message" : "Мы особенно рады вашему прибытию, потому что вы привезли {cargo}!"
+      "message" : "Мы особенно рады вашему прибытию, как и вашему грузу {cargo}!"
    },
    "GRATEFUL_GREETING_2" : {
       "description" : "",
-      "message" : "Приветствуем вас! У вас не возникнет проблем с продажей {cargo} здесь."
+      "message" : "Приветствуем вас! Здесь у вас не возникнет проблем при продаже {cargo}."
    },
    "GRATEFUL_GREETING_3" : {
       "description" : "",
-      "message" : "Добро пожаловать! Наконец то хоть немного {cargo}."
+      "message" : "Добро пожаловать! Наконец-то немного {cargo}."
    },
    "GRATEFUL_GREETING_4" : {
       "description" : "",
@@ -213,19 +213,19 @@
    },
    "GRATEFUL_GREETING_5" : {
       "description" : "",
-      "message" : "Добро пожаловать! Ваш груз {cargo} здесь быстро раскупят."
+      "message" : "Добро пожаловать! Здесь ваш груз {cargo} раскупят быстро!"
    },
    "NEWSPAPER_CIW" : {
       "description" : "",
-      "message" : "The Confederate Chronicle"
+      "message" : "Хроники конфедерации"
    },
    "NEWSPAPER_FED" : {
       "description" : "",
-      "message" : "The Federal Times"
+      "message" : "Федеральные времена"
    },
    "NEWSPAPER_IMP" : {
       "description" : "",
-      "message" : "The Imperial Herald"
+      "message" : "Имперский вестник"
    },
    "NEWSPAPER_IND_0" : {
       "description" : "",
@@ -233,31 +233,31 @@
    },
    "NEWSPAPER_IND_1" : {
       "description" : "",
-      "message" : "The Independent Tribune"
+      "message" : "Независимая трибуна"
    },
    "NEWSPAPER_IND_10" : {
       "description" : "",
-      "message" : "The Orbital Observer"
+      "message" : "Орбитальный обозреватель"
    },
    "NEWSPAPER_IND_2" : {
       "description" : "",
-      "message" : "Галактическая почта."
+      "message" : "Галактическая почта"
    },
    "NEWSPAPER_IND_3" : {
       "description" : "",
-      "message" : "The Universal Sun"
+      "message" : "Всемирное солнце"
    },
    "NEWSPAPER_IND_4" : {
       "description" : "",
-      "message" : "The Planetary Press"
+      "message" : "Планетарная пресса"
    },
    "NEWSPAPER_IND_5" : {
       "description" : "",
-      "message" : "The Royal Gazette"
+      "message" : "Королевский вестник"
    },
    "NEWSPAPER_IND_6" : {
       "description" : "",
-      "message" : "The Universal Mail"
+      "message" : "Всемирная почта"
    },
    "NEWSPAPER_IND_7" : {
       "description" : "",

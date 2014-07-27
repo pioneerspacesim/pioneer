@@ -5,7 +5,6 @@
 #define _SHIPCPANELMULTIFUNCDISPLAYS_H
 
 #include "gui/Gui.h"
-#include "EquipType.h"
 #include "Serializer.h"
 #include "Object.h"
 

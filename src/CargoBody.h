@@ -6,7 +6,6 @@
 
 #include "libs.h"
 #include "DynamicBody.h"
-#include "EquipType.h"
 #include "LuaRef.h"
 
 namespace Graphics { class Renderer; }

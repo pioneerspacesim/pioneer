@@ -137,13 +137,15 @@ end
 --
 -- Add an equipment or cargo item to its appropriate equipment slot
 --
--- > num_added = ship:AddEquip(item, count)
+-- > num_added = ship:AddEquip(item, count, slot)
 --
 -- Parameters:
 --
 --   item  - an Equipment type object (e.g., import("Equipment").cargo.hydrogen)
 --
 --   count - optional. The number of this item to add. Defaults to 1.
+--
+--   slot - optional. The slot to mount the Equipment in, if other than default.
 --
 -- Return:
 --
@@ -153,6 +155,7 @@ end
 -- Example:
 --
 -- > ship:AddEquip(Equipment.cargo.animal_meat, 10)
+-- > ship:AddEquip(Equipment.laser.pulsecannon_dual_1mw, 1, "laser_rear")
 --
 -- Availability:
 --
@@ -162,12 +165,12 @@ end
 --
 --   experimental
 --
-function Ship:AddEquip(item, count)
+function Ship:AddEquip(item, count, slot)
 	if type(item) == "string" then
 		debug.deprecated("Ship:AddEquip")
 		item = compat.equip.old2new[item]
 	end
-	local ret = self.equipSet:Add(self, item, count)
+	local ret = self.equipSet:Add(self, item, count, slot)
 	if ret > 0 then
 		Event.Queue("onShipEquipmentChange", self, item)
 	end
@@ -332,6 +335,8 @@ end
 --
 --   count - optional. The number of this item to remove. Defaults to 1.
 --
+--   slot - optional. The slot to remove the Equipment in, if other than default.
+--
 -- Return:
 --
 --   num_removed - the number of items removed
@@ -349,12 +354,12 @@ end
 --  experimental
 --
 
-Ship.RemoveEquip = function (self, item, count)
+Ship.RemoveEquip = function (self, item, count, slot)
 	if type(item) == "string" then
 		debug.deprecated("Ship:RemoveEquip")
 		item = compat.equip.old2new[item]
 	end
-	local ret = self.equipSet:Remove(self, item, count)
+	local ret = self.equipSet:Remove(self, item, count, slot)
 	if ret > 0 then
 		Event.Queue("onShipEquipmentChange", self, item)
 	end

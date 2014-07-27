@@ -14,6 +14,10 @@ class Player;
 class ShipController;
 class Space;
 
+struct CannotSaveCurrentGameState {};
+struct CannotSaveInHyperspace : public CannotSaveCurrentGameState {};
+struct CannotSaveDeadPlayer : public CannotSaveCurrentGameState {};
+
 class Game {
 public:
 	// LoadGame and SaveGame throw exceptions on failure

@@ -151,6 +151,10 @@
       "description" : "",
       "message" : "Верхний экран"
    },
+   "CANT_SAVE_DEAD_PLAYER" : {
+      "description" : "",
+      "message" : "Нельзя сохранить игру после того, как игрок умер"
+   },
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
       "message" : "Невозможно сохранить игру в гиперпространстве "

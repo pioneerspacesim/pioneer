@@ -11,7 +11,6 @@
 #include "Serializer.h"
 #include "SpeedLines.h"
 #include "Background.h"
-#include "EquipType.h"
 #include "Camera.h"
 #include "CameraController.h"
 

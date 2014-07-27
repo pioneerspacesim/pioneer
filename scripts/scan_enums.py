@@ -264,7 +264,7 @@ class EnumData:
             if item.skip:
                 continue
             id = item.name if item.name is not None else item.identifier
-            fl.write('\t{ "' + id + '", ' + scope_prefix + item.identifier + ' },\n')
+            fl.write('\t{ "' + id + '", int(' + scope_prefix + item.identifier + ') },\n')
         fl.write('\t{ 0, 0 },\n')
         fl.write('};\n')
 

@@ -233,8 +233,17 @@ function EquipmentTableWidgets.Pair (config)
 			return
 		end
 
-		-- if ship maxed out in this slot
-		if player:GetEquipFree(e:GetDefaultSlot(player)) < 1 then
+		-- add to first free slot
+		local slot
+		for i=1,#e.slots do
+			if player:GetEquipFree(e.slots[i]) > 0 then
+				slot = e.slots[i]
+				break
+			end
+		end
+
+		-- if ship maxed out in any valid slot for e
+		if not slot then
 			MessageBox.Message(l.SHIP_IS_FULLY_EQUIPPED)
 			return
 		end
@@ -252,7 +261,7 @@ function EquipmentTableWidgets.Pair (config)
 			return
 		end
 
-		assert(player:AddEquip(e) == 1)
+		assert(player:AddEquip(e, 1, slot) == 1)
 		player:AddMoney(-price)
 
 		funcs.sold(e)
@@ -263,7 +272,16 @@ function EquipmentTableWidgets.Pair (config)
 
 		local player = Game.player
 
-		player:RemoveEquip(e)
+		-- remove from last free slot (reverse table)
+		local slot
+		for i=#e.slots,1,-1 do
+			if player:CountEquip(e, e.slots[i]) > 0 then
+				slot = e.slots[i]
+				break
+			end
+		end
+
+		player:RemoveEquip(e, 1, slot)
 		player:AddMoney(funcs.getSellPrice(e))
 
 		funcs.bought(e)

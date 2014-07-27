@@ -5,6 +5,7 @@
 #define _FACTIONS_H
 
 #include "galaxy/Sector.h"
+#include "galaxy/Economy.h"
 #include "galaxy/StarSystem.h"
 #include "Polit.h"
 #include "vector3.h"
@@ -48,12 +49,10 @@ public:
 
 	//police logo
 	//goods/equipment availability (1-per-economy-type: aka agricultural, industrial, tourist, etc)
-	//static const int		SC_NUM_ECONOMY_TYPES = 3;
-	//EquipType				types[SC_NUM_ECONOMY_TYPES][Equip::TYPE_MAX];
 
-	//goods/equipment legality
-	typedef std::map<Equip::Type, Uint32> EquipProbMap;
-	EquipProbMap       equip_legality;
+	// commodity legality
+	typedef std::map<GalacticEconomy::Commodity, Uint32> CommodityProbMap;
+	CommodityProbMap       commodity_legality;
 
 	Color              colour;
 
