@@ -49,7 +49,7 @@ namespace GalacticEconomy {
 		COMMODITY_COUNT // <enum skip>
 	};
 
-	static constexpr int COMMODITY_COUNT = int(Commodity::COMMODITY_COUNT);
+	static const int COMMODITY_COUNT = int(Commodity::COMMODITY_COUNT);
 
 	struct CommodityInfo {
 		static const int MAX_ECON_INPUTS = 2;

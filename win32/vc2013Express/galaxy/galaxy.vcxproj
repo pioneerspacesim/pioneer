@@ -120,6 +120,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\galaxy\CustomSystem.cpp" />
+    <ClCompile Include="..\..\..\src\galaxy\Economy.cpp" />
     <ClCompile Include="..\..\..\src\galaxy\Galaxy.cpp" />
     <ClCompile Include="..\..\..\src\galaxy\GalaxyCache.cpp" />
     <ClCompile Include="..\..\..\src\galaxy\Sector.cpp" />
@@ -134,6 +135,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\galaxy\CustomSystem.h" />
+    <ClInclude Include="..\..\..\src\galaxy\Economy.h" />
     <ClInclude Include="..\..\..\src\galaxy\Galaxy.h" />
     <ClInclude Include="..\..\..\src\galaxy\GalaxyCache.h" />
     <ClInclude Include="..\..\..\src\galaxy\Sector.h" />
