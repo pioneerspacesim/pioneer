@@ -10,6 +10,7 @@
       <Filter>win32</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\galaxy\GalaxyCache.cpp" />
+    <ClCompile Include="..\..\..\src\galaxy\Economy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\galaxy\CustomSystem.h" />
@@ -21,6 +22,7 @@
       <Filter>win32</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\galaxy\GalaxyCache.h" />
+    <ClInclude Include="..\..\..\src\galaxy\Economy.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="win32">
