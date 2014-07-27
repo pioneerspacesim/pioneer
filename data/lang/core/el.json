@@ -231,6 +231,18 @@
       "description" : "",
       "message" : ", highly volcanic"
    },
+   "COMMODITY_NONE" : {
+      "description" : "When no commodities exist",
+      "message" : "None"
+   },
+   "COMMODITY_TRADE_ANALYSIS_COMPARE" : {
+      "description" : "",
+      "message" : "Commodity trade analysis of #ff0%selected_system#fff (selected) against #ff0%current_system#fff (current):"
+   },
+   "COMMODITY_TRADE_ANALYSIS_SELF" : {
+      "description" : "",
+      "message" : "Commodity trade analysis of #fff%system#fff"
+   },
    "COMMS" : {
       "description" : "",
       "message" : "Comms"
@@ -683,6 +695,10 @@
       "description" : "",
       "message" : "\" ice world\""
    },
+   "ILLEGAL_CURRENT_SYSTEM" : {
+      "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
+      "message" : "Illegal (current system):"
+   },
    "ILLEGAL_GOODS" : {
       "description" : "",
       "message" : "Illegal Goods:"
@@ -775,6 +791,10 @@
       "description" : "",
       "message" : "Laser fire detected."
    },
+   "LEGAL_CURRENT_SYSTEM" : {
+      "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
+      "message" : "Legal (current system):"
+   },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
       "message" : "Liberal democracy"
@@ -803,9 +823,17 @@
       "description" : "",
       "message" : "Major Exports:"
    },
+   "MAJOR_EXPORT_CURRENT_SYSTEM" : {
+      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+      "message" : "Major export (current system)"
+   },
    "MAJOR_IMPORTS" : {
       "description" : "",
       "message" : "Major Imports:"
+   },
+   "MAJOR_IMPORT_CURRENT_SYSTEM" : {
+      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+      "message" : "Major import (current system)"
    },
    "MANUAL_CONTROL" : {
       "description" : "",
@@ -943,9 +971,17 @@
       "description" : "",
       "message" : "Minor Exports:"
    },
+   "MINOR_EXPORT_CURRENT_SYSTEM" : {
+      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+      "message" : "Minor export (current system)"
+   },
    "MINOR_IMPORTS" : {
       "description" : "",
       "message" : "Minor Imports:"
+   },
+   "MINOR_IMPORT_CURRENT_SYSTEM" : {
+      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+      "message" : "Minor import (current system)"
    },
    "MISCELLANEOUS" : {
       "description" : "",
@@ -1056,7 +1092,7 @@
       "message" : "Nerve Gas"
    },
    "NONE" : {
-      "description" : "",
+      "description" : "used for no allegiance, and no rank, and no missions",
       "message" : "None"
    },
    "NORMA_ARM" : {
