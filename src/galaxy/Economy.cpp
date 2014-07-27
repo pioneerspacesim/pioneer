@@ -8,7 +8,7 @@ namespace GalacticEconomy {
 
 const CommodityInfo COMMODITY_DATA[COMMODITY_COUNT] = {
 	{
-	  Lang::NONE,
+	  Lang::COMMODITY_NONE,
 	  {},
 	  0
 	},{
