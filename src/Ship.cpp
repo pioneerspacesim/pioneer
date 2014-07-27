@@ -1236,10 +1236,7 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 			const double r1 = Pi::rng.Double()-0.5;
 			const double r2 = Pi::rng.Double()-0.5;
 			const double r3 = Pi::rng.Double()-0.5;
-			v[i] = vector3f(viewTransform * (
-				GetPosition() + GetPhysRadius() *
-				vector3d(r1, r2, r3).Normalized()
-			));
+			v[i] = vector3f(GetPhysRadius()*vector3d(r1, r2, r3).NormalizedSafe());
 		}
 		Color c(128,128,255,255);
 		float totalRechargeTime = GetECMRechargeTime();
@@ -1248,6 +1245,15 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 		}
 
 		Sfx::ecmParticle->diffuse = c;
+
+		matrix4x4f t;
+		for (int i=0; i<12; i++) t[i] = float(viewTransform[i]);
+		t[12] = viewCoords.x;
+		t[13] = viewCoords.y;
+		t[14] = viewCoords.z;
+		t[15] = 1.0f;
+
+		renderer->SetTransform(t);
 		renderer->DrawPointSprites(100, v, Sfx::additiveAlphaState, Sfx::ecmParticle.get(), 50.f);
 	}
 }
