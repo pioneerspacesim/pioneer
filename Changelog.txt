@@ -4,6 +4,7 @@ July 2014
      * New ship AC33 (Military version of venturestar), and updated meshes for
        other ALBR ships, Deneb and Venturestar, and updated textures (#3008)
      * Attitude-hold flight modes, accessed from the in-flight F4 menu (#3014)
+     * NewUI graphics for the cpanel (#3084)
 
    * Minor changes and tweaks
      * Include the Lua stack top in the debug overlay.
