@@ -153,7 +153,7 @@
    },
    "CANT_SAVE_DEAD_PLAYER" : {
       "description" : "",
-      "message" : "Can't save game after the player has died"
+      "message" : "No es posible salvar el juego tras la muerte del jugador"
    },
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
@@ -201,7 +201,7 @@
    },
    "CARGO_SCOOP_ATTEMPTED" : {
       "description" : "",
-      "message" : "Cargo scoop attempted. Not enough room in cargo hold."
+      "message" : "Intento de recogida de carga. No hay espacio suficiente en la bahía de carga."
    },
    "CARGO_SCOOP_DESCRIPTION" : {
       "description" : "",
@@ -569,31 +569,31 @@
    },
    "HEADING_LOCK_ANTINORMAL" : {
       "description" : "",
-      "message" : "Hold anti-normal"
+      "message" : "Mantener antinormal"
    },
    "HEADING_LOCK_BACKWARD" : {
       "description" : "",
-      "message" : "Hold retrograde"
+      "message" : "Mantener retrogrado"
    },
    "HEADING_LOCK_FORWARD" : {
       "description" : "",
-      "message" : "Hold prograde"
+      "message" : "Mantener progrado"
    },
    "HEADING_LOCK_KILLROT" : {
       "description" : "",
-      "message" : "Kill rotation"
+      "message" : "Neutralizar rotación"
    },
    "HEADING_LOCK_NORMAL" : {
       "description" : "",
-      "message" : "Hold normal"
+      "message" : "Mantener normal"
    },
    "HEADING_LOCK_RADIALLY_INWARD" : {
       "description" : "",
-      "message" : "Hold radially in"
+      "message" : "Mantener radialmente"
    },
    "HEADING_LOCK_RADIALLY_OUTWARD" : {
       "description" : "",
-      "message" : "Hold radially out"
+      "message" : "Mantener radialmente hacia fuera"
    },
    "HEAVY_INDUSTRY" : {
       "description" : "",
