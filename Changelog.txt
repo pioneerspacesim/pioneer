@@ -35,6 +35,7 @@ July 2014
      * Don't attempt to autosave after the player has died (#3060, #3056, #2895)
      * Bring back the facility to install a rear laser (#3067, #3064)
      * Fix misplaced ECM blast effect (#3087, #3082)
+     * Fix misplaced text on HUD gauges for fuel, hull temp, etc (#3090, #3088)
 
    * Internal Changes
      * Internal clean-up to remove unnecessary equipment code (#3058)
