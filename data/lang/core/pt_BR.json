@@ -233,7 +233,7 @@
    },
    "COMMODITY_NONE" : {
       "description" : "When no commodities exist",
-      "message" : "None"
+      "message" : "Nenhum"
    },
    "COMMODITY_TRADE_ANALYSIS_COMPARE" : {
       "description" : "",
