@@ -657,8 +657,9 @@ static int set_axis_binding(lua_State *l, const char *config_id, KeyBindings::Ax
 			return luaL_error(l, "invalid axis binding given to Engine.SetKeyBinding");
 	} else
 		ab.Clear();
-	Pi::config->Save();
 	*binding = ab;
+	Pi::config->SetString(config_id, ab.ToString());
+	Pi::config->Save();
 	return 0;
 }
 
