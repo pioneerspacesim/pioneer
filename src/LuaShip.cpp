@@ -372,7 +372,7 @@ static int l_ship_undock(lua_State *l)
  * Spawn a missile near the ship.
  *
  * > missile = ship:SpawnMissile(type, target, power)
- * 
+ *
  * Parameters:
  *
  *   shiptype - a string for the missile type. specifying an
@@ -414,6 +414,30 @@ static int l_ship_spawn_missile(lua_State *l)
 	else
 		lua_pushnil(l);
 	return 1;
+}
+
+/* Method: UseECM
+ *
+ * Activates ECM of ship, destroying nearby missile with probability
+ * proportional to proximity.
+ *
+ * > ship:UseECM()
+ *
+ * Availability:
+ *
+ *   2014 July
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_ship_use_ecm(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	if (s->GetFlightState() == Ship::HYPERSPACE)
+		return luaL_error(l, "Ship:UseECM() cannot be called on a ship in hyperspace");
+	s->UseECM();
+	return 0;
 }
 
 /*
@@ -837,6 +861,8 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "SpawnCargo", l_ship_spawn_cargo },
 
 		{ "SpawnMissile", l_ship_spawn_missile },
+
+		{ "UseECM", l_ship_use_ecm },
 
 		{ "GetDockedWith", l_ship_get_docked_with },
 		{ "Undock",        l_ship_undock          },
