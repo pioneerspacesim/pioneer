@@ -104,7 +104,7 @@ namespace KeyBindings {
 			static AxisBinding FromString(const char *str);
 			std::string ToString() const;
 		private:
-			enum { JOYSTICK_DISABLED = UINT8_MAX };
+			enum { JOYSTICK_DISABLED = Uint8(-1) };
 			Uint8 joystick;
 			Uint8 axis;
 			AxisDirection direction;
