@@ -103,6 +103,8 @@ public:
 	}
 
 	bool IsSameSystem(const SystemPath &b) const {
+		assert(HasValidSystem());
+		assert(b.HasValidSystem());
 		if (sectorX != b.sectorX) return false;
 		if (sectorY != b.sectorY) return false;
 		if (sectorZ != b.sectorZ) return false;
