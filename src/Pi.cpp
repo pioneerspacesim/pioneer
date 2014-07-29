@@ -106,6 +106,7 @@ SectorView *Pi::sectorView;
 GalacticView *Pi::galacticView;
 UIView *Pi::settingsView;
 SystemView *Pi::systemView;
+TransferPlanner *Pi::planner;
 SystemInfoView *Pi::systemInfoView;
 ShipCpanel *Pi::cpan;
 LuaConsole *Pi::luaConsole;
@@ -649,6 +650,8 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	luaConsole = new LuaConsole();
 	KeyBindings::toggleLuaConsole.onPress.connect(sigc::mem_fun(Pi::luaConsole, &LuaConsole::Toggle));
 
+	planner = new TransferPlanner();
+
 	timer.Stop();
 	Output("\n\nLoading took: %lf milliseconds\n", timer.millicycles());
 }
@@ -679,6 +682,7 @@ void Pi::Quit()
 	delete Pi::renderer;
 	delete Pi::config;
 	delete Pi::s_galaxy;
+	delete Pi::planner;
 	SDL_Quit();
 	FileSystem::Uninit();
 	asyncJobQueue.reset();

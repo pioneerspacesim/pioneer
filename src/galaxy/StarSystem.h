@@ -114,6 +114,8 @@ public:
 	BodyType GetType() const { return m_type; }
 	BodySuperType GetSuperType() const;
 	bool IsCustomBody() const { return m_isCustomBody; }
+	bool IsCoOrbitalWith(const SystemBody* other) const;	//this and other form a binary pair
+	bool IsCoOrbital() const;								//is part of any binary pair
 	fixed GetRadiusAsFixed() const { return m_radius; }
 	double GetRadius() const { // polar radius
 		if (GetSuperType() <= SUPERTYPE_STAR)
@@ -149,7 +151,10 @@ public:
 	double GetEccentricity() const { return m_eccentricity.ToDouble(); }
 	double GetOrbMin() const { return m_orbMin.ToDouble(); }
 	double GetOrbMax() const { return m_orbMax.ToDouble(); }
+	fixed GetOrbMinAsFixed() const { return m_orbMin; }
+	fixed GetOrbMaxAsFixed() const { return m_orbMax; }
 	double GetSemiMajorAxis() const { return m_semiMajorAxis.ToDouble(); }
+	fixed GetSemiMajorAxisAsFixed() const { return m_semiMajorAxis; }
 	void SetOrbitPlane(const matrix3x3d &orient) { m_orbit.SetPlane(orient); }
 
 	int GetAverageTemp() const { return m_averageTemp; }

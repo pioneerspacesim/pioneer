@@ -254,9 +254,10 @@ template <class Key, class Value> std::map<Key, Value> LuaTable::GetMap() const 
 	while(lua_next(m_lua, m_index)) {
 		Key k;
 		Value v;
-		if (pi_lua_strict_pull(m_lua, -2, k)) {
-			pi_lua_strict_pull(m_lua, -1, v);
+		if (pi_lua_strict_pull(m_lua, -2, k) && pi_lua_strict_pull(m_lua, -1, v)) {
 			ret[k] = v;
+		} else {
+			// XXX we should probably emit some kind of warning here somehow
 		}
 		lua_pop(m_lua, 1);
 	}

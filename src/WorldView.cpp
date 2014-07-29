@@ -11,6 +11,7 @@
 #include "galaxy/Sector.h"
 #include "galaxy/GalaxyCache.h"
 #include "SectorView.h"
+#include "SystemView.h"
 #include "Serializer.h"
 #include "ShipCpanel.h"
 #include "Sound.h"
@@ -1403,9 +1404,17 @@ void WorldView::UpdateProjectedObjects()
 
 	// velocity relative to current frame (white)
 	const vector3d camSpaceVel = Pi::player->GetVelocity() * cam_rot;
+	const vector3d camSpaceBurnVel = Pi::planner->GetOffsetVel() * cam_rot;
 	if (camSpaceVel.LengthSqr() >= 1e-4) {
 		UpdateIndicator(m_velIndicator, camSpaceVel);
 		UpdateIndicator(m_retroVelIndicator, -camSpaceVel);
+
+		if(camSpaceBurnVel.ExactlyEqual(vector3d(0,0,0))) {
+			HideIndicator(m_burnIndicator);
+		} else {
+			UpdateIndicator(m_burnIndicator, camSpaceBurnVel);
+		}
+
 	} else {
 		HideIndicator(m_velIndicator);
 		HideIndicator(m_retroVelIndicator);
@@ -1737,6 +1746,7 @@ void WorldView::Draw()
 	DrawVelocityIndicator(m_velIndicator, white);
 	DrawVelocityIndicator(m_retroVelIndicator, yellow);
 	DrawVelocityIndicator(m_navVelIndicator, green);
+	DrawVelocityIndicator(m_burnIndicator, Color::STEELBLUE);
 
 	glLineWidth(2.0f);
 

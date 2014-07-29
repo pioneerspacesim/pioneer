@@ -86,22 +86,28 @@ namespace KeyBindings {
 	};
 
 	struct AxisBinding {
-		Uint8 joystick;
-		Uint8 axis;
-		AxisDirection direction;
+		public:
+			AxisBinding();
+			AxisBinding(Uint8 joystick, Uint8 axis, AxisDirection direction);
+			float GetValue();
+			std::string Description() const;
 
-		AxisBinding();
-		AxisBinding(Uint8 joystick, Uint8 axis, AxisDirection direction);
-		float GetValue();
-		std::string Description() const;
+			void Clear() {
+				joystick = JOYSTICK_DISABLED;
+				axis = 0;
+				direction = POSITIVE;
+			}
 
-		void Clear() {
-			memset(this, 0, sizeof(*this));
-		}
+			bool Enabled() const { return (joystick != JOYSTICK_DISABLED); }
 
-		static bool FromString(const char *str, AxisBinding &binding);
-		static AxisBinding FromString(const char *str);
-		std::string ToString() const;
+			static bool FromString(const char *str, AxisBinding &binding);
+			static AxisBinding FromString(const char *str);
+			std::string ToString() const;
+		private:
+			enum { JOYSTICK_DISABLED = Uint8(-1) };
+			Uint8 joystick;
+			Uint8 axis;
+			AxisDirection direction;
 	};
 
 	struct BindingPrototype {

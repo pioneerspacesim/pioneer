@@ -6,11 +6,14 @@ July 2014
      * Attitude-hold flight modes, accessed from the in-flight F4 menu (#3014)
      * NewUI graphics for the cpanel (#3084)
      * Economy screen improvements (#3081)
+     * Add orbital transfer planner to system view (#3079)
 
    * Minor changes and tweaks
      * Include the Lua stack top in the debug overlay.
      * Don't list lasers under "Equipment" in InfoView, since already listed
        under forward/read mounts (#3010)
+     * Minor cpanel widget spacing adjustment (#3094)
+     * General cleanup (#3086)
 
    * Fixes
      * Fix potential Lua stack overflows when calling Lua methods (#3003)
@@ -38,6 +41,8 @@ July 2014
      * Bring back the facility to install a rear laser (#3067, #3064)
      * Fix misplaced ECM blast effect (#3087, #3082)
      * Fix misplaced text on HUD gauges for fuel, hull temp, etc (#3090, #3088)
+     * Fix bugs when you completely clear a key binding (#3085, #3083)
+     * Fix for faulty temperature calculation for multiple systems (#2984)
 
    * Internal Changes
      * Internal clean-up to remove unnecessary equipment code (#3058)

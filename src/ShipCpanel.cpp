@@ -68,7 +68,7 @@ void ShipCpanel::InitObject()
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), Game::TIMEACCEL_PAUSED));
 	b->SetShortcut(SDLK_ESCAPE, KMOD_LSHIFT);
 	b->SetRenderDimensions(22, 18);
-	Add(b, 0, 36);
+	Add(b, 0, 34);
 	m_timeAccelButtons[0] = b;
 
 	b = new Gui::ImageRadioButton(0, "icons/timeaccel1.png", "icons/timeaccel1_on.png");
@@ -76,35 +76,35 @@ void ShipCpanel::InitObject()
 	b->SetShortcut(SDLK_F1, KMOD_LSHIFT);
 	b->SetSelected(true);
 	b->SetRenderDimensions(22, 18);
-	Add(b, 22, 36);
+	Add(b, 22, 34);
 	m_timeAccelButtons[1] = b;
 
 	b = new Gui::ImageRadioButton(0, "icons/timeaccel2.png", "icons/timeaccel2_on.png");
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), Game::TIMEACCEL_10X));
 	b->SetShortcut(SDLK_F2, KMOD_LSHIFT);
 	b->SetRenderDimensions(22, 18);
-	Add(b, 44, 36);
+	Add(b, 44, 34);
 	m_timeAccelButtons[2] = b;
 
 	b = new Gui::ImageRadioButton(0, "icons/timeaccel3.png", "icons/timeaccel3_on.png");
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), Game::TIMEACCEL_100X));
 	b->SetShortcut(SDLK_F3, KMOD_LSHIFT);
 	b->SetRenderDimensions(22, 18);
-	Add(b, 66, 36);
+	Add(b, 66, 34);
 	m_timeAccelButtons[3] = b;
 
 	b = new Gui::ImageRadioButton(0, "icons/timeaccel4.png", "icons/timeaccel4_on.png");
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), Game::TIMEACCEL_1000X));
 	b->SetShortcut(SDLK_F4, KMOD_LSHIFT);
 	b->SetRenderDimensions(22, 18);
-	Add(b, 88, 36);
+	Add(b, 88, 34);
 	m_timeAccelButtons[4] = b;
 
 	b = new Gui::ImageRadioButton(0, "icons/timeaccel5.png", "icons/timeaccel5_on.png");
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), Game::TIMEACCEL_10000X));
 	b->SetShortcut(SDLK_F5, KMOD_LSHIFT);
 	b->SetRenderDimensions(22, 18);
-	Add(b, 110, 36);
+	Add(b, 110, 34);
 	m_timeAccelButtons[5] = b;
 
 	m_leftButtonGroup = new Gui::RadioGroup();
@@ -147,7 +147,7 @@ void ShipCpanel::InitObject()
 	Add(comms_button, 98, 56);
 
 	m_clock = (new Gui::Label(""))->Color(255,178,0);
-	Add(m_clock, 4, 18);
+	Add(m_clock, 3, 15);
 
 	m_rightButtonGroup = new Gui::RadioGroup();
 	b = new Gui::ImageRadioButton(m_rightButtonGroup, "icons/map_sector_view.png", "icons/map_sector_view_on.png");
@@ -187,24 +187,24 @@ void ShipCpanel::InitObject()
 	m_rotationDampingButton->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnClickRotationDamping));
 	m_rotationDampingButton->SetRenderDimensions(20, 13);
 	m_rotationDampingButton->SetActiveState(Pi::player->GetPlayerController()->GetRotationDamping());
-	Add(m_rotationDampingButton, 760, 37);
+	Add(m_rotationDampingButton, 760, 39);
 	m_connOnRotationDampingChanged = Pi::player->GetPlayerController()->onRotationDampingChanged.connect(
 			sigc::mem_fun(this, &ShipCpanel::OnRotationDampingChanged));
 
 	img = new Gui::Image("icons/alert_green.png");
 	img->SetToolTip(Lang::NO_ALERT);
 	img->SetRenderDimensions(20, 13);
-	Add(img, 780, 37);
+	Add(img, 780, 39);
 	m_alertLights[0] = img;
 	img = new Gui::Image("icons/alert_yellow.png");
 	img->SetToolTip(Lang::SHIP_NEARBY);
 	img->SetRenderDimensions(20, 13);
-	Add(img, 780, 37);
+	Add(img, 780, 39);
 	m_alertLights[1] = img;
 	img = new Gui::Image("icons/alert_red.png");
 	img->SetToolTip(Lang::LASER_FIRE_DETECTED);
 	img->SetRenderDimensions(20, 13);
-	Add(img, 780, 37);
+	Add(img, 780, 39);
 	m_alertLights[2] = img;
 
 	m_overlay[OVERLAY_TOP_LEFT]     = (new Gui::Label(""))->Color(s_hudTextColor);

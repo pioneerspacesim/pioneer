@@ -120,8 +120,9 @@ bool KeyBinding::FromString(const char *str, KeyBinding &kb)
 {
 	const char *digits = "1234567890";
 	const char *p = str;
-
-	if (strncmp(p, "Key", 3) == 0) {
+	if (strcmp(p, "disabled") == 0) {
+		kb.Clear();
+	} else if (strncmp(p, "Key", 3) == 0) {
 		kb.type = KEYBOARD_KEY;
 		p += 3;
 
@@ -174,7 +175,7 @@ KeyBinding KeyBinding::FromString(const char *str) {
 std::ostream &operator<<(std::ostream &oss, const KeyBinding &kb)
 {
 	if (kb.type == BINDING_DISABLED) {
-		// blank
+		oss << "disabled";
 	} else if (kb.type == KEYBOARD_KEY) {
 		oss << "Key" << int(kb.u.keyboard.key);
 		if (kb.u.keyboard.mod != 0) {
@@ -270,7 +271,7 @@ std::string KeyAction::ToString() const
 	} else if (binding2.Enabled()) {
 		oss << binding2;
 	} else {
-		// blank
+		oss << "disabled";
 	}
 	return oss.str();
 }
@@ -321,7 +322,7 @@ void KeyAction::CheckSDLEventAndDispatch(const SDL_Event *event) {
 }
 
 AxisBinding::AxisBinding() {
-	this->joystick = 0;
+	this->joystick = JOYSTICK_DISABLED;
 	this->axis = 0;
 	this->direction = POSITIVE;
 }
@@ -333,6 +334,8 @@ AxisBinding::AxisBinding(Uint8 joystick_, Uint8 axis_, AxisDirection direction_)
 }
 
 float AxisBinding::GetValue() {
+	if (!Enabled()) return 0.0f;
+
 	float value = Pi::JoystickAxisState(joystick, axis);
 
 	if (direction == POSITIVE)
@@ -342,6 +345,8 @@ float AxisBinding::GetValue() {
 }
 
 std::string AxisBinding::Description() const {
+	if (!Enabled()) return std::string();
+
 	const char *axis_names[] = {Lang::X, Lang::Y, Lang::Z};
 	std::ostringstream ossaxisnum;
 	ossaxisnum << int(axis);
@@ -355,6 +360,11 @@ std::string AxisBinding::Description() const {
 }
 
 bool AxisBinding::FromString(const char *str, AxisBinding &ab) {
+	if (strcmp(str, "disabled") == 0) {
+		ab.Clear();
+		return true;
+	}
+
 	const char *digits = "1234567890";
 	const char *p = str;
 
@@ -390,15 +400,17 @@ AxisBinding AxisBinding::FromString(const char *str) {
 
 std::string AxisBinding::ToString() const {
 	std::ostringstream oss;
+	if (Enabled()) {
+		if (direction == NEGATIVE)
+			oss << '-';
 
-	if (direction == NEGATIVE)
-		oss << '-';
-
-	oss << "Joy";
-	oss << int(joystick);
-	oss << "Axis";
-	oss << int(axis);
-
+		oss << "Joy";
+		oss << int(joystick);
+		oss << "Axis";
+		oss << int(axis);
+	} else {
+		oss << "disabled";
+	}
 	return oss.str();
 }
 

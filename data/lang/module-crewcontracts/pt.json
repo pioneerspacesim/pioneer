@@ -5,7 +5,7 @@
    },
    "CREWDETAILSHEETBB" : {
       "description" : "",
-      "message" : "Name: {name}\nExperience: {experience}\nAsking wage: {wage} per week\n\n{response}\n"
+      "message" : "Nome: {nome}\nExperiênçia: {experiênçia}\nPerguntar o peso: {peso} por semana\n\n{resposta}\n"
    },
    "CREWMEMBER_WAGE_PER_WEEK" : {
       "description" : "",
