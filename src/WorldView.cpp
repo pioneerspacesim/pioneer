@@ -40,8 +40,7 @@ const double WorldView::PICK_OBJECT_RECT_SIZE = 20.0;
 static const Color s_hudTextColor(0,255,0,230);
 static const float ZOOM_SPEED = 1.f;
 static const float WHEEL_SENSITIVITY = .05f;	// Should be a variable in user settings.
-
-static const float HUD_CROSSHAIR_SIZE = 24.0f;
+static const float HUD_CROSSHAIR_SIZE = 8.0f;
 static const Uint8 HUD_ALPHA          = 87;
 
 WorldView::WorldView(): UIView()
@@ -219,13 +218,37 @@ void WorldView::InitObject()
 	Add(m_targetLeadIndicator.label, 0, 0);
 
 	// XXX m_renderer not set yet
-	Graphics::TextureBuilder b = Graphics::TextureBuilder::UI("icons/indicator_mousedir.png");
-	m_indicatorMousedir.reset(new Gui::TexturedQuad(b.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
+	Graphics::TextureBuilder b1 = Graphics::TextureBuilder::UI("icons/indicator_mousedir.png");
+	m_indicatorMousedir.reset(new Gui::TexturedQuad(b1.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
 
-	const Graphics::TextureDescriptor &descriptor = b.GetDescriptor();
+	const Graphics::TextureDescriptor &descriptor = b1.GetDescriptor();
 	m_indicatorMousedirSize = vector2f(descriptor.dataSize.x*descriptor.texSize.x,descriptor.dataSize.y*descriptor.texSize.y);
 
-    m_speedLines.reset(new SpeedLines(Pi::player));
+	// front crosshair
+	Graphics::TextureBuilder b2 = Graphics::TextureBuilder::UI("icons/front_crosshair.png");
+	m_frontCrosshair.reset(new Gui::TexturedQuad(b2.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
+
+	// rear crosshair
+	Graphics::TextureBuilder b3 = Graphics::TextureBuilder::UI("icons/rear_crosshair.png");
+	m_rearCrosshair.reset(new Gui::TexturedQuad(b3.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
+
+	// prograde icon
+	Graphics::TextureBuilder b4 = Graphics::TextureBuilder::UI("icons/prograde_icon.png");
+	m_progradeIcon.reset(new Gui::TexturedQuad(b4.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
+
+	// retrograde icon
+	Graphics::TextureBuilder b5 = Graphics::TextureBuilder::UI("icons/retrograde_icon.png");
+	m_retrogradeIcon.reset(new Gui::TexturedQuad(b5.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
+
+	// burn icon
+	Graphics::TextureBuilder b6 = Graphics::TextureBuilder::UI("icons/burn_icon.png");
+	m_burnIcon.reset(new Gui::TexturedQuad(b6.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
+
+	// target icon
+	Graphics::TextureBuilder b7 = Graphics::TextureBuilder::UI("icons/target_icon.png");
+	m_targetIcon.reset(new Gui::TexturedQuad(b7.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
+
+	m_speedLines.reset(new SpeedLines(Pi::player));
 
 	//get near & far clipping distances
 	//XXX m_renderer not set yet
@@ -1395,9 +1418,20 @@ void WorldView::UpdateProjectedObjects()
 		if ((pos.z < -1.0) && project_to_screen(pos, pos, frustum, guiSize)) {
 
 			// only show labels on large or nearby bodies
-			if (b->IsType(Object::PLANET) || b->IsType(Object::STAR) || b->IsType(Object::SPACESTATION) || Pi::player->GetPositionRelTo(b).LengthSqr() < 1000000.0*1000000.0)
-				m_bodyLabels->Add(b->GetLabel(), sigc::bind(sigc::mem_fun(this, &WorldView::SelectBody), b, true), float(pos.x), float(pos.y));
-
+			if (b->IsType(Object::PLANET) ||
+			    b->IsType(Object::STAR) ||
+			    b->IsType(Object::SPACESTATION) ||
+			    Pi::player->GetPositionRelTo(b).LengthSqr() < 1000000.0*1000000.0)
+			{
+				std::string bodyName = b->GetLabel();
+				// offset the label so it doesn't intersect with the icon drawn around the
+				// navtarget. XXX this probably isn't the most elegant solution
+				if(b == Pi::player->GetNavTarget()) { bodyName = "    " + bodyName; }
+				m_bodyLabels->Add(bodyName,
+						  sigc::bind(sigc::mem_fun(this, &WorldView::SelectBody), b, true),
+						  float(pos.x),
+						  float(pos.y));
+			}
 			m_projectedPos[b] = pos;
 		}
 	}
@@ -1737,16 +1771,19 @@ void WorldView::Draw()
 	Color yellow(230, 230, 77, 255);
 	Color red(255, 0, 0, 128);
 
+	Color retroIconColor;
+	if(Pi::player->GetNavTarget()) { retroIconColor = green; } else { retroIconColor = white; }
+
 	// nav target square
 	DrawTargetSquare(m_navTargetIndicator, green);
 
 	glLineWidth(1.0f);
 
 	// velocity indicators
-	DrawVelocityIndicator(m_velIndicator, white);
-	DrawVelocityIndicator(m_retroVelIndicator, yellow);
-	DrawVelocityIndicator(m_navVelIndicator, green);
-	DrawVelocityIndicator(m_burnIndicator, Color::STEELBLUE);
+	DrawVelocityIndicator(m_velIndicator, V_PROGRADE, white);
+	DrawVelocityIndicator(m_retroVelIndicator, V_RETROGRADE, retroIconColor);
+	DrawVelocityIndicator(m_navVelIndicator, V_PROGRADE, green);
+	DrawVelocityIndicator(m_burnIndicator, V_BURN, Color::STEELBLUE);
 
 	glLineWidth(2.0f);
 
@@ -1759,12 +1796,16 @@ void WorldView::Draw()
 
 	// normal crosshairs
 	if (GetCamType() == CAM_INTERNAL) {
+		const vector2f center        = vector2f(Gui::Screen::GetWidth(), Gui::Screen::GetHeight()) / 2.0f;
+		const vector2f crosshairSize = vector2f(HUD_CROSSHAIR_SIZE, HUD_CROSSHAIR_SIZE) * 2.0f;
+		const vector2f crosshairPos  = center - crosshairSize / 2.0f;
+
 		switch (m_internalCameraController->GetMode()) {
 			case InternalCameraController::MODE_FRONT:
-				DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE, white);
+				m_frontCrosshair->Draw(Pi::renderer, crosshairPos, crosshairSize, white);
 				break;
 			case InternalCameraController::MODE_REAR:
-				DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE/2.0f, white);
+				m_rearCrosshair->Draw(Pi::renderer,  crosshairPos, crosshairSize, white);
 				break;
 			default:
 				break;
@@ -1846,43 +1887,32 @@ void WorldView::DrawTargetSquare(const Indicator &marker, const Color &c)
 	if (marker.side != INDICATOR_ONSCREEN)
 		DrawEdgeMarker(marker, c);
 
-	// if the square is off-screen, draw a little square at the edge
-	const float sz = (marker.side == INDICATOR_ONSCREEN)
-		? float(WorldView::PICK_OBJECT_RECT_SIZE * 0.5) : 3.0f;
-
-	const float x1 = float(marker.pos.x - sz);
-	const float x2 = float(marker.pos.x + sz);
-	const float y1 = float(marker.pos.y - sz);
-	const float y2 = float(marker.pos.y + sz);
-
-	const vector2f vts[] = {
-		vector2f(x1, y1),
-		vector2f(x2, y1),
-		vector2f(x2, y2),
-		vector2f(x1, y2)
-	};
-	m_renderer->DrawLines2D(COUNTOF(vts), vts, c, m_blendState, Graphics::LINE_LOOP);
+	m_targetIcon->Draw(Pi::renderer,
+			   vector2f(marker.pos.x - HUD_CROSSHAIR_SIZE,
+				    marker.pos.y - HUD_CROSSHAIR_SIZE),
+			   vector2f(HUD_CROSSHAIR_SIZE, HUD_CROSSHAIR_SIZE) * 2.0f, c);
 }
 
-void WorldView::DrawVelocityIndicator(const Indicator &marker, const Color &c)
+void WorldView::DrawVelocityIndicator(const Indicator &marker, VelIconType d, const Color &c)
 {
 	if (marker.side == INDICATOR_HIDDEN) return;
-
-	const float sz = HUD_CROSSHAIR_SIZE;
 	if (marker.side == INDICATOR_ONSCREEN) {
 		const float posx = marker.pos.x;
 		const float posy = marker.pos.y;
-		const vector2f vts[] = {
-			vector2f(posx-sz, posy-sz),
-			vector2f(posx-0.5f*sz, posy-0.5f*sz),
-			vector2f(posx+sz, posy-sz),
-			vector2f(posx+0.5f*sz, posy-0.5f*sz),
-			vector2f(posx+sz, posy+sz),
-			vector2f(posx+0.5f*sz, posy+0.5f*sz),
-			vector2f(posx-sz, posy+sz),
-			vector2f(posx-0.5f*sz, posy+0.5f*sz)
-		};
-		m_renderer->DrawLines2D(COUNTOF(vts), vts, c, m_blendState);
+		const vector2f crosshairSize = vector2f(HUD_CROSSHAIR_SIZE, HUD_CROSSHAIR_SIZE) * 2;
+		const vector2f crosshairPos  = vector2f(posx - HUD_CROSSHAIR_SIZE, posy - HUD_CROSSHAIR_SIZE);
+
+		switch(d) {
+		case V_PROGRADE:
+			m_progradeIcon->Draw(Pi::renderer, crosshairPos, crosshairSize, c);
+			break;
+		case V_RETROGRADE:
+			m_retrogradeIcon->Draw(Pi::renderer, crosshairPos, crosshairSize, c);
+			break;
+		case V_BURN:
+			m_burnIcon->Draw(Pi::renderer, crosshairPos, crosshairSize, c);
+			break;
+		}
 	} else
 		DrawEdgeMarker(marker, c);
 
