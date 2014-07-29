@@ -26,8 +26,8 @@ using namespace Graphics;
 static const float SCANNER_RANGE_MAX = 100000.0f;
 static const float SCANNER_RANGE_MIN = 1000.0f;
 static const float SCANNER_SCALE     = 0.00001f;
-static const float SCANNER_YSHRINK   = 0.95f;
-static const float SCANNER_XSHRINK   = 4.0f;
+//static const float SCANNER_YSHRINK   = 0.95f;
+//static const float SCANNER_XSHRINK   = 4.0f;
 static const float A_BIT             = 1.1f;
 static const unsigned int SCANNER_STEPS = 100;
 
@@ -138,8 +138,11 @@ ScannerWidget::ScannerWidget(Graphics::Renderer *r, Serializer::Reader &rd) :
 
 void ScannerWidget::InitObject()
 {
+	InitScaling();
+
 	m_toggleScanModeConnection = KeyBindings::toggleScanMode.onPress.connect(sigc::mem_fun(this, &ScannerWidget::ToggleMode));
 	m_lastRange = SCANNER_RANGE_MAX * 100.0f;		// force regen
+
 	GenerateBaseGeometry();
 
 	Graphics::RenderStateDesc rsd;
@@ -216,8 +219,26 @@ void ScannerWidget::Draw()
 	SetScissor(false);
 }
 
+void ScannerWidget::InitScaling(void) {
+	isCompact = Pi::IsScannerCompact();
+	if(isCompact) {
+		SCANNER_XSHRINK = 4.0f;
+		SCANNER_YSHRINK = 0.95f;
+	} else {
+		// original values
+		SCANNER_XSHRINK = 1.0f;
+		SCANNER_YSHRINK = 0.75f;
+	}
+}
+
 void ScannerWidget::Update()
 {
+	if(Pi::IsScannerCompact() != isCompact) {
+		InitScaling();
+		GenerateBaseGeometry();
+		GenerateRingsAndSpokes();
+	}
+
 	m_contacts.clear();
 
 	int scanner_cap = 0;
