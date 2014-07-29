@@ -161,6 +161,7 @@ private:
 
 	Indicator m_velIndicator;
 	Indicator m_navVelIndicator;
+	Indicator m_burnIndicator;
 	Indicator m_retroVelIndicator;
 	Indicator m_navTargetIndicator;
 	Indicator m_combatTargetIndicator;
