@@ -13,6 +13,7 @@ July 2014
      * Don't list lasers under "Equipment" in InfoView, since already listed
        under forward/read mounts (#3010)
      * Minor cpanel widget spacing adjustment (#3094)
+     * General cleanup (#3086)
 
    * Fixes
      * Fix potential Lua stack overflows when calling Lua methods (#3003)
