@@ -12,6 +12,7 @@ July 2014
      * Include the Lua stack top in the debug overlay.
      * Don't list lasers under "Equipment" in InfoView, since already listed
        under forward/read mounts (#3010)
+     * Minor cpanel widget spacing adjustment (#3094)
 
    * Fixes
      * Fix potential Lua stack overflows when calling Lua methods (#3003)
