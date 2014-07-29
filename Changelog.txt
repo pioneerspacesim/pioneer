@@ -6,6 +6,7 @@ July 2014
      * Attitude-hold flight modes, accessed from the in-flight F4 menu (#3014)
      * NewUI graphics for the cpanel (#3084)
      * Economy screen improvements (#3081)
+     * Add orbital transfer planner to system view (#3079)
 
    * Minor changes and tweaks
      * Include the Lua stack top in the debug overlay.
