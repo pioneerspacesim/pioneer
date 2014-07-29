@@ -39,6 +39,7 @@ July 2014
      * Fix misplaced ECM blast effect (#3087, #3082)
      * Fix misplaced text on HUD gauges for fuel, hull temp, etc (#3090, #3088)
      * Fix bugs when you completely clear a key binding (#3085, #3083)
+     * Fix for faulty temperature calculation for multiple systems (#2984)
 
    * Internal Changes
      * Internal clean-up to remove unnecessary equipment code (#3058)
