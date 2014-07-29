@@ -153,7 +153,7 @@
    },
    "CANT_SAVE_DEAD_PLAYER" : {
       "description" : "",
-      "message" : "Can't save game after the player has died"
+      "message" : "Não é possível salvar o jogo depois do jogador ter morrido"
    },
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
@@ -593,7 +593,7 @@
    },
    "HEADING_LOCK_KILLROT" : {
       "description" : "",
-      "message" : "Kill rotation"
+      "message" : "Parar rotação"
    },
    "HEADING_LOCK_NORMAL" : {
       "description" : "",
@@ -697,7 +697,7 @@
    },
    "ILLEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-      "message" : "Illegal (current system):"
+      "message" : "Ilegal (sistema actual)"
    },
    "ILLEGAL_GOODS" : {
       "description" : "",
@@ -793,7 +793,7 @@
    },
    "LEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-      "message" : "Legal (current system):"
+      "message" : "Legal (sistema actual)"
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
@@ -825,7 +825,7 @@
    },
    "MAJOR_EXPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Major export (current system)"
+      "message" : "\nExportação Maior (sistema atual)"
    },
    "MAJOR_IMPORTS" : {
       "description" : "",
@@ -833,7 +833,7 @@
    },
    "MAJOR_IMPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Major import (current system)"
+      "message" : "\nImportação Maior (sistema atual)"
    },
    "MANUAL_CONTROL" : {
       "description" : "",
@@ -973,7 +973,7 @@
    },
    "MINOR_EXPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Minor export (current system)"
+      "message" : "\nExportação Menor (sistema atual)"
    },
    "MINOR_IMPORTS" : {
       "description" : "",
@@ -981,7 +981,7 @@
    },
    "MINOR_IMPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Minor import (current system)"
+      "message" : "\nImportação Menor (sistema atual)"
    },
    "MISCELLANEOUS" : {
       "description" : "",
