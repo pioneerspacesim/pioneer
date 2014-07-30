@@ -15,6 +15,7 @@ July 2014
      * Minor cpanel widget spacing adjustment (#3094)
      * General cleanup (#3086)
      * added ship:UseECM() (#3092)
+     * Life Emergence Respects Stellar Lifespans (#3015)
 
    * Fixes
      * Fix potential Lua stack overflows when calling Lua methods (#3003)
