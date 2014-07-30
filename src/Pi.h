@@ -84,8 +84,10 @@ public:
 	static float JoystickAxisState(int joystick, int axis);
 	static bool IsJoystickEnabled() { return joystickEnabled; }
 	static void SetJoystickEnabled(bool state) { joystickEnabled = state; }
-    static void SetMouseYInvert(bool state) { mouseYInvert = state; }
-    static bool IsMouseYInvert() { return mouseYInvert; }
+	static void SetMouseYInvert(bool state) { mouseYInvert = state; }
+	static bool IsMouseYInvert() { return mouseYInvert; }
+	static void SetCompactScanner(bool state) { compactScanner = state; }
+	static bool IsScannerCompact() { return compactScanner; }
 	static bool IsNavTunnelDisplayed() { return navTunnelDisplayed; }
 	static void SetNavTunnelDisplayed(bool state) { navTunnelDisplayed = state; }
 	static bool AreSpeedLinesDisplayed() { return speedLinesDisplayed; }
@@ -207,6 +209,7 @@ private:
 
 	static bool joystickEnabled;
 	static bool mouseYInvert;
+	static bool compactScanner;
 	struct JoystickState {
 		SDL_Joystick *joystick;
 		std::vector<bool> buttons;

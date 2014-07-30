@@ -16,6 +16,8 @@ July 2014
      * General cleanup (#3086)
      * added ship:UseECM() (#3092)
      * Life Emergence Respects Stellar Lifespans (#3015)
+     * Resize scanner (#3093)
+     * Add hud icons (#3096)
 
    * Fixes
      * Fix potential Lua stack overflows when calling Lua methods (#3003)
