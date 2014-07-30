@@ -64,7 +64,7 @@ void TransferPlanner::ResetDv(BurnDirection d) {
 }
 
 std::string TransferPlanner::printDv(BurnDirection d) {
-	double dv;
+	double dv = 0;
 	char buf[10];
 
 	switch(d) {
