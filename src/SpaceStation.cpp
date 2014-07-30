@@ -37,7 +37,6 @@ void SpaceStation::Uninit()
 void SpaceStation::Save(Serializer::Writer &wr, Space *space)
 {
 	ModelBody::Save(wr, space);
-	wr.Int32(0); // SAVEBUMP used to write Equip::TYPE_MAX here so we could detect newly added equipment/commodities on load
 	wr.Int32(m_shipDocking.size());
 	for (Uint32 i=0; i<m_shipDocking.size(); i++) {
 		wr.Int32(space->GetIndexForBody(m_shipDocking[i].ship));
@@ -72,8 +71,6 @@ void SpaceStation::Load(Serializer::Reader &rd, Space *space)
 	ModelBody::Load(rd, space);
 
 	m_oldAngDisplacement = 0.0;
-
-	rd.Int32(); // SAVEBUMP used to read this and compare it against Equip::TYPE_MAX to detect changes to the equipment enum
 
 	const Uint32 numShipDocking = rd.Int32();
 	m_shipDocking.reserve(numShipDocking);
