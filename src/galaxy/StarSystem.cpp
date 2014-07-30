@@ -2006,26 +2006,25 @@ void SystemBody::PickPlanetType(Random &rand)
 
 		if ((m_volatileLiquid > fixed()) &&
 		    (m_averageTemp > CELSIUS-60) &&
-		    (m_averageTemp < CELSIUS+200)) {
+		    (m_averageTemp < CELSIUS+200)) 
+		{
 			// try for life
 			int minTemp = CalcSurfaceTemp(star, maxDistToStar, albedo, greenhouse);
 			int maxTemp = CalcSurfaceTemp(star, minDistToStar, albedo, greenhouse);
 
 			if ((minTemp > CELSIUS-10) && (minTemp < CELSIUS+90) &&	//removed explicit checks for star type (also BD and WD seem to have slight chance of having life around them)
-			    (maxTemp > CELSIUS-10) && (maxTemp < CELSIUS+90)){	//TODO: ceiling based on actual boiling point on the planet, not in 1atm
-
-			    	fixed maxMass;
-			    	fixed allowedMass(1,2);
-			    	allowedMass += 2;
-			    	fixed lifeMult;
-					IterationProxy<std::vector<SystemBody*> > proxy = this->GetStarSystem()->GetStars();	//instead see if the system could have existed long enough for life to form
-					for( auto s : proxy ){	//find the most massive star, mass is tied to lifespan
-							maxMass = maxMass < s->GetMassAsFixed() ? s->GetMassAsFixed() : maxMass;	//this automagically eliminates O, B and so on from consideration
-					}	//handy calculator: http://www.asc-csa.gc.ca/eng/educators/resources/astronomy/module2/calculator.asp
-					if(maxMass < allowedMass) {	//system could have existed long enough for life to form (based on Sol)
-						lifeMult = allowedMass - maxMass;
-					}
-					m_life = lifeMult * rand.Fixed();
+			    (maxTemp > CELSIUS-10) && (maxTemp < CELSIUS+90))	//TODO: ceiling based on actual boiling point on the planet, not in 1atm
+			{
+			    fixed maxMass, lifeMult, allowedMass(1,2);
+			    allowedMass += 2;
+				IterationProxy<std::vector<SystemBody*> > proxy = this->GetStarSystem()->GetStars();	//instead see if the system could have existed long enough for life to form
+				for( auto s : proxy ) {	//find the most massive star, mass is tied to lifespan
+					maxMass = maxMass < s->GetMassAsFixed() ? s->GetMassAsFixed() : maxMass;	//this automagically eliminates O, B and so on from consideration
+				}	//handy calculator: http://www.asc-csa.gc.ca/eng/educators/resources/astronomy/module2/calculator.asp
+				if(maxMass < allowedMass) {	//system could have existed long enough for life to form (based on Sol)
+					lifeMult = allowedMass - maxMass;
+				}
+				m_life = lifeMult * rand.Fixed();
 			}
 		}
 	} else {
